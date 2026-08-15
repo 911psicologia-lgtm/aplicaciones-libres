@@ -1,0 +1,38 @@
+[
+  {
+    "id": "geometric_bat_boss",
+    "name": "Geometric Bat Boss",
+    "sourceLabel": "GEOMETRIC BAT",
+    "world": "world_5",
+    "category": "boss",
+    "family": "toxic_atmosphere",
+    "role": "boss_variant",
+    "image": "assets/world_5/bosses/geometric_bat_boss/boss.png",
+    "preview": "assets/world_5/bosses/geometric_bat_boss/boss_preview.png",
+    "recommendedWidth": 160,
+    "recommendedHeight": 64,
+    "canvasSize": 768,
+    "movementSuggestion": "patron de jefe alterno",
+    "powerSuggestion": "ataque especial",
+    "difficultySuggestion": "very_high",
+    "notes": "Geometric Bat Boss: rol boss_variant. Conservar silueta completa y efectos propios."
+  },
+  {
+    "id": "multi_winged_thunder_eagle_boss",
+    "name": "Multi Winged Thunder Eagle Boss",
+    "sourceLabel": "MULTI-WINGED THUNDER EAGLE BOSS",
+    "world": "world_5",
+    "category": "boss",
+    "family": "toxic_atmosphere",
+    "role": "boss_main",
+    "image": "assets/world_5/bosses/multi_winged_thunder_eagle_boss/boss.png",
+    "preview": "assets/world_5/bosses/multi_winged_thunder_eagle_boss/boss_preview.png",
+    "recommendedWidth": 160,
+    "recommendedHeight": 98,
+    "canvasSize": 768,
+    "movementSuggestion": "patron de jefe multifase",
+    "powerSuggestion": "ataques combinados",
+    "difficultySuggestion": "very_high",
+    "notes": "Multi Winged Thunder Eagle Boss: rol boss_main. Conservar silueta completa y efectos propios."
+  }
+]

@@ -1,0 +1,295 @@
+<!DOCTYPE html>
+<html lang="es" translate="no">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
+  <meta name="theme-color" content="#071b17" />
+  <meta name="apple-mobile-web-app-capable" content="yes" />
+  <meta name="apple-mobile-web-app-title" content="Niebla Verde" />
+  <link rel="manifest" href="manifest.json" />
+  <link rel="icon" href="assets/icon.svg" type="image/svg+xml" />
+  <title>Rizoma Zombie Strike — Niebla Verde v0.7.15</title>
+  <link rel="stylesheet" href="css/styles.css?v=0.7.14" />
+</head>
+<body>
+  <div id="app" class="app-shell">
+    <div class="ambient ambient-a"></div>
+    <div class="ambient ambient-b"></div>
+
+    <header class="topbar">
+      <button id="btnHome" class="icon-btn" title="Inicio" aria-label="Inicio">⌂</button>
+      <div class="brand">
+        <span class="brand-mark">⬢</span>
+        <div>
+          <strong>Rizoma Zombie Strike</strong>
+          <small>Niebla Verde · v0.7.15</small>
+        </div>
+      </div>
+      <button id="btnSettings" class="icon-btn" title="Ajustes" aria-label="Ajustes">⚙</button>
+    </header>
+
+    <main>
+      <section id="screenPortal" class="screen active portal-screen simple-start-screen">
+        <div class="start-card glass start-card-minimal">
+          <div class="start-mark" aria-hidden="true">⬢</div>
+          <p class="eyebrow">Niebla Verde</p>
+          <h1>Rizoma Zombie Strike</h1>
+          <p id="startGreeting" class="subcopy">Escribe tu nombre para entrar.</p>
+
+          <div class="start-name-box">
+            <label for="playerNameInput">Nombre de jugador</label>
+            <div class="compact-form start-name-form">
+              <input id="playerNameInput" maxlength="18" placeholder="Tu nombre" autocomplete="off" />
+              <button id="btnSaveProfileName" class="primary-btn small">Entrar</button>
+            </div>
+          </div>
+
+          <div class="start-actions-main minimal">
+            <button id="btnContinue" class="soft-btn wide">▾ Cargar partida</button>
+            <button class="soft-btn wide" data-screen="screenRanking">🏆 Ranking</button>
+          </div>
+          <div id="savedGamesList" class="saved-games-list hidden"></div>
+
+          <div class="start-mini-actions compact" aria-label="Opciones secundarias">
+            <button data-screen="screenShop">🛒 Tienda</button>
+            <button data-screen="screenHangar">🛠️ Hangar</button>
+            <button data-screen="screenAvatar">🚀 Naves</button>
+            <button data-screen="screenMap">🗺️ Niveles</button>
+          </div>
+
+          <small id="simpleStartHint" class="start-hint">Progreso local guardado en este dispositivo.</small>
+        </div>
+      </section>
+
+      <section id="screenProfiles" class="screen">
+        <div class="panel glass narrow">
+          <div class="section-head">
+            <div>
+              <p class="eyebrow">Usuarios locales</p>
+              <h2>Perfiles</h2>
+            </div>
+            <button class="soft-btn" data-screen="screenPortal">Volver</button>
+          </div>
+          <div id="profileList" class="list-stack"></div>
+          <div class="compact-form mt">
+            <input id="newProfileName" maxlength="18" placeholder="Nuevo jugador" />
+            <button id="btnCreateProfile" class="primary-btn small">Crear</button>
+          </div>
+        </div>
+      </section>
+
+      <section id="screenAvatar" class="screen">
+        <div class="panel glass">
+          <div class="section-head">
+            <div>
+              <p class="eyebrow">Identidad jugable</p>
+              <h2>Elige avatar</h2>
+            </div>
+            <button class="soft-btn" data-screen="screenPortal">Volver</button>
+          </div>
+          <div id="avatarGrid" class="card-grid avatars"></div>
+        </div>
+      </section>
+
+      <section id="screenHangar" class="screen">
+        <div class="panel glass">
+          <div class="section-head">
+            <div>
+              <p class="eyebrow">Evolución persistente</p>
+              <h2>Hangar evolutivo</h2>
+            </div>
+            <button class="soft-btn" data-screen="screenPortal">Volver</button>
+          </div>
+          <div class="hangar-grid">
+            <article class="hangar-stage glass">
+              <div id="hangarShipPreview" class="hangar-ship-preview"></div>
+              <div class="hangar-copy">
+                <p class="eyebrow" id="hangarTierLabel">Tier 1</p>
+                <h3 id="hangarShipName">Nave base</h3>
+                <p class="muted" id="hangarShipSummary">Sin módulos persistentes todavía.</p>
+              </div>
+            </article>
+            <article class="hangar-panel">
+              <div id="hangarPartsGrid" class="hangar-parts-grid"></div>
+              <div id="hangarDetail" class="hangar-detail"></div>
+              <div id="hangarHistory" class="hangar-history mt"></div>
+            </article>
+          </div>
+        </div>
+      </section>
+
+      <section id="screenMap" class="screen">
+        <div class="panel glass">
+          <div class="section-head">
+            <div>
+              <p class="eyebrow">Ruta principal</p>
+              <h2>30 territorios de la Niebla Verde</h2>
+            </div>
+            <button class="soft-btn" data-screen="screenPortal">Volver</button>
+          </div>
+          <div id="mapRoad" class="map-road"></div>
+        </div>
+      </section>
+
+      <section id="screenShop" class="screen">
+        <div class="panel glass">
+          <div class="section-head">
+            <div>
+              <p class="eyebrow">Meta-progresión</p>
+              <h2>Tienda de mejoras</h2>
+              <small id="shopCoinsLabel">Fragmentos: 0</small>
+            </div>
+            <button class="soft-btn" data-screen="screenPortal">Volver</button>
+          </div>
+          <div id="shopGrid" class="card-grid shop"></div>
+        </div>
+      </section>
+
+      <section id="screenRanking" class="screen">
+        <div class="panel glass">
+          <div class="section-head">
+            <div>
+              <p class="eyebrow">Tablero local</p>
+              <h2>Ranking multinivel</h2>
+            </div>
+            <div class="section-actions">
+              <button id="btnExportRanking" class="soft-btn small">Exportar ranking</button>
+              <button class="soft-btn small" data-screen="screenPortal">Volver</button>
+            </div>
+          </div>
+          <div id="rankingList" class="ranking-list"></div>
+        </div>
+      </section>
+
+      <section id="screenAchievements" class="screen">
+        <div class="panel glass">
+          <div class="section-head">
+            <div>
+              <p class="eyebrow">Premios animados</p>
+              <h2>Logros</h2>
+            </div>
+            <button class="soft-btn" data-screen="screenPortal">Volver</button>
+          </div>
+          <div id="achievementGrid" class="card-grid achievements"></div>
+        </div>
+      </section>
+
+      <section id="screenCollection" class="screen">
+        <div class="panel glass">
+          <div class="section-head">
+            <div>
+              <p class="eyebrow">Memoria de progreso</p>
+              <h2>Colección</h2>
+            </div>
+            <button class="soft-btn" data-screen="screenPortal">Volver</button>
+          </div>
+          <div id="collectionGrid" class="collection-grid"></div>
+        </div>
+      </section>
+
+
+    <div id="bossIntroOverlay" class="boss-intro-overlay hidden" aria-live="polite">
+      <div class="boss-intro-card glass">
+        <p class="eyebrow" id="bossIntroFamily">Familia</p>
+        <div class="boss-intro-icon" id="bossIntroIcon">👹</div>
+        <h2 id="bossIntroName">Jefe</h2>
+        <p class="muted" id="bossIntroText">Entrada cinemática</p>
+      </div>
+    </div>
+
+      <section id="screenGame" class="screen game-screen">
+        <canvas id="gameCanvas" width="1280" height="720" aria-label="Zona de juego"></canvas>
+        <div class="game-vignette"></div>
+        <div id="orientationHint" class="orientation-hint hidden">↔️ Gira el celular para más espacio de combate</div>
+        <div id="hud" class="hud">
+          <div class="hud-pill danger"><span>❤️</span><strong id="hudHp">0</strong></div>
+          <div class="hud-pill shield"><span>🛡️</span><strong id="hudShield">0</strong></div>
+          <div class="hud-pill"><span>🌊</span><strong id="hudWave">1</strong></div>
+          <div class="hud-pill"><span>🗺️</span><strong id="hudMap">1</strong></div>
+          <div class="hud-pill"><span>⭐</span><strong id="hudScore">0</strong></div>
+          <div class="hud-pill"><span>🪙</span><strong id="hudCoins">0</strong></div>
+          <div class="hud-pill"><span>❤️‍🩹</span><strong id="hudLives">0</strong></div>
+          <button id="btnPause" class="pause-btn" title="Pausa">⏸</button>
+        </div>
+        <div id="bossBar" class="boss-bar hidden">
+          <span id="bossName">Jefe</span>
+          <div class="boss-meter hp"><i id="bossHpFill"></i></div>
+          <div class="boss-meter shield"><i id="bossShieldFill"></i></div>
+          <div class="boss-meta">
+            <small id="bossPhaseLabel">Fase 1</small>
+            <small id="bossShieldLabel">Escudo 0</small>
+            <small id="bossAddsLabel">Séquito 0</small>
+            <small id="bossVulnLabel">Estable</small>
+          </div>
+        </div>
+        <div id="xpWrap" class="xp-wrap"><i id="xpFill"></i><span id="xpLabel">Nivel 1</span></div>
+        <div id="powerDock" class="power-dock"></div>
+        <div id="toastStack" class="toast-stack"></div>
+        <button id="pendingBadge" class="pending-badge hidden" title="Mejoras pendientes">
+          <span class="pending-icon">✦</span>
+          <strong id="pendingBadgeCount">0</strong>
+        </button>
+        <div id="cardOverlay" class="power-offer-layer hidden" aria-live="polite">
+          <div class="power-offer-head glass">
+            <span class="offer-chip-title">Subiste de nivel</span>
+            <small id="offerHint">Elige una mejora sin pausar la misión</small>
+          </div>
+          <div id="cardChoices" class="card-offer-row"></div>
+        </div>
+        <div id="pauseOverlay" class="modal-layer hidden">
+          <div class="modal-card glass pause-menu">
+            <p class="eyebrow">Pausa táctica</p>
+            <h2>Partida en curso</h2>
+            <div id="pauseStats" class="pause-stats"></div>
+            <div class="modal-actions">
+              <button id="btnResume" class="primary-btn">Continuar</button>
+              <button id="btnSaveRun" class="soft-btn">Guardar</button>
+              <button id="btnPauseShop" class="soft-btn">Tienda</button>
+              <button id="btnRestartMap" class="soft-btn">Reiniciar mapa</button>
+              <button id="btnExitRun" class="danger-btn">Salir al inicio</button>
+            </div>
+          </div>
+        </div>
+        <div id="resultOverlay" class="modal-layer hidden">
+          <div class="modal-card glass result-card compact-result">
+            <p class="eyebrow" id="resultEyebrow">Resultado</p>
+            <h2 id="resultTitle">Misión terminada</h2>
+            <p id="resultText"></p>
+            <div id="resultRewards" class="reward-row"></div>
+            <div class="modal-actions">
+              <button id="btnResultContinue" class="primary-btn">Continuar</button>
+              <button id="btnResultHangar" class="soft-btn">🛠️ Hangar</button>
+              <button id="btnResultHome" class="soft-btn">Inicio</button>
+            </div>
+          </div>
+        </div>
+      </section>
+    </main>
+
+    <div id="settingsDrawer" class="drawer hidden">
+      <div class="drawer-card glass">
+        <div class="section-head">
+          <div>
+            <p class="eyebrow">Ajustes</p>
+            <h2>Preferencias</h2>
+          </div>
+          <button id="btnCloseSettings" class="icon-btn">×</button>
+        </div>
+        <label class="switch-row"><span>Sonido</span><input id="toggleSound" type="checkbox" /></label>
+        <label class="switch-row"><span>Música procedural</span><input id="toggleMusic" type="checkbox" /></label>
+        <label class="switch-row"><span>Vibración visual</span><input id="toggleShake" type="checkbox" /></label>
+        <label class="switch-row"><span>Reducir animaciones</span><input id="toggleReduced" type="checkbox" /></label>
+        <label class="switch-row"><span>Modo bajo rendimiento</span><input id="toggleLowPerformance" type="checkbox" /></label>
+        <button id="btnExportBackup" class="soft-btn wide">Exportar backup JSON</button>
+        <button id="btnExportRankingSettings" class="soft-btn wide">Exportar ranking JSON</button>
+        <button id="btnCopyAIPrompt" class="soft-btn wide">Copiar prompt para analizar partida con IA</button>
+        <button id="btnInstallPWA" class="soft-btn wide hidden">Instalar app</button>
+        <label class="soft-btn wide file-label">Importar backup JSON<input id="backupInput" type="file" accept="application/json" hidden /></label>
+        <button id="btnResetData" class="danger-btn wide">Borrar datos locales</button>
+      </div>
+    </div>
+  </div>
+
+  <script src="js/game.js?v=0.7.14"></script>
+</body>
+</html>

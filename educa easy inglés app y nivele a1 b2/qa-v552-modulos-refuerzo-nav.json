@@ -1,0 +1,17 @@
+{
+  "version": "5.0.52-modulos-refuerzo-nav",
+  "date": "2026-06-20",
+  "changes": [
+    "Se agregó navegación transversal a módulos abiertos desde Centro de refuerzo: X, Centro de refuerzo, Parada seleccionada y Carretera principal.",
+    "Traducción progresiva elimina Volver a la ruta y usa navegación contextual; Ayuda de traducción incorpora X y retorno contextual.",
+    "Diálogo animado compacta controles a icono + tooltip: Play, Pausa, Inglés, EN-ES, Sin voz, Normal/Lento, Repetir, Anterior y Siguiente.",
+    "Escucha real mantiene el tooltip solicitado, elimina el texto de acierto y usa microfeedback flotante para respuestas correctas.",
+    "Juegos rápidos reemplaza los botones Cierre/Ruta por Volver a refuerzo, Volver a Parada seleccionada y Volver a Carretera principal.",
+    "Video de apoyo y Canción subtitulada incorporan navegación contextual y X mediante el encabezado transversal."
+  ],
+  "checks": [
+    "node --check app.js ejecutado sin errores",
+    "content.v1.json válido",
+    "manifest y service worker actualizados a la nueva versión"
+  ]
+}

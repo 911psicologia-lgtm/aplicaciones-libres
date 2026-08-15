@@ -1,0 +1,282 @@
+{
+  "application": "Puentes · Escuela y familia",
+  "version": "1.11.0",
+  "validation_date": "2026-07-26",
+  "source_archive": "Puentes_Prototipo_v1.10_Cloudflare(2).zip",
+  "environment": {
+    "browser": "Chromium 144.0.7559.96",
+    "mobile_profile": "390 × 844, Android user agent, touch enabled",
+    "desktop_profile": "1280 × 900, Windows desktop user agent",
+    "server": "HTTP local en 127.0.0.1",
+    "speech_synthesis": "API controlada para finalizar fragmentos de forma determinista y registrar voz/velocidad/cancelación",
+    "web_share": "API controlada para inspeccionar exactamente las claves del payload y simular cancelación/reintento"
+  },
+  "summary": {
+    "automated_checks": 48,
+    "passed": 48,
+    "failed": 0,
+    "console_errors": 0,
+    "physical_android_whatsapp_test": "NOT_EXECUTED"
+  },
+  "mandatory_tests": [
+    {
+      "id": 1,
+      "requirement": "Compartir en Android: imagen sin texto duplicado",
+      "status": "PASS",
+      "test_reference": "Android comparte únicamente PNG",
+      "method": "emulación controlada del Web Share API en perfil Android 390 × 844",
+      "details": "{'keys': ['files'], 'files': 1, 'fileType': 'image/png', 'text': None, 'title': None, 'url': None}",
+      "evidence": null
+    },
+    {
+      "id": 2,
+      "requirement": "Cancelar el panel de compartir y volver a intentarlo",
+      "status": "PASS",
+      "test_reference": "Cancelar panel y quedar listo para reintentar",
+      "method": "emulación controlada del Web Share API",
+      "details": "{'calls': 2, 'busy': False, 'dialog': False}",
+      "evidence": null
+    },
+    {
+      "id": 3,
+      "requirement": "Reproducir las tres tarjetas de resultados",
+      "status": "PASS",
+      "test_reference": "Fin de cola se detiene sin volver al inicio",
+      "method": "Speech Synthesis controlada; se completaron los fragmentos de las tres tarjetas",
+      "details": "{'index': 2, 'playing': False, 'paused': False, 'progress': '3/3'}",
+      "evidence": null
+    },
+    {
+      "id": 4,
+      "requirement": "Reproducir al menos cinco tarjetas de una categoría",
+      "status": "PASS",
+      "test_reference": "Reproducción completa de cinco tarjetas de categoría",
+      "method": "Speech Synthesis controlada; cinco tarjetas completas y avance a 6/20",
+      "details": "completadas=['PUE-C01-E1-01', 'PUE-C01-E1-02', 'PUE-C01-E1-03', 'PUE-C01-E1-04', 'PUE-C01-E1-05']; estado={'index': 5, 'playing': True, 'progress': '6/20', 'total': 20}",
+      "evidence": "06_reproduccion_categoria_6_de_20.png"
+    },
+    {
+      "id": 5,
+      "requirement": "Reproducir favoritas",
+      "status": "PASS",
+      "test_reference": "Reproducción de favoritas avanza automáticamente",
+      "method": "Speech Synthesis controlada",
+      "details": "{'index': 1, 'playing': True, 'origin': 'favorites', 'progress': '2/3'}",
+      "evidence": "07_reproduccion_favoritas_2_de_3.png"
+    },
+    {
+      "id": 6,
+      "requirement": "Reproducir tarjetas IA",
+      "status": "PASS",
+      "test_reference": "Reproducción de tarjetas IA avanza",
+      "method": "Speech Synthesis controlada",
+      "details": "{'index': 1, 'playing': True, 'origin': 'ai', 'progress': '2/2'}",
+      "evidence": "08_reproduccion_ia_2_de_2.png"
+    },
+    {
+      "id": 7,
+      "requirement": "Pausar y continuar",
+      "status": "PASS",
+      "test_reference": "Continuar tras pausa",
+      "method": "Speech Synthesis controlada",
+      "details": "Reinició fragmento a 1,5×",
+      "evidence": null
+    },
+    {
+      "id": 8,
+      "requirement": "Cambiar velocidad durante la reproducción",
+      "status": "PASS",
+      "test_reference": "Velocidades 1×, 1,5×, 1,8× y 2×",
+      "method": "Speech Synthesis controlada",
+      "details": "[1, 1.5, 1.8, 2]",
+      "evidence": null
+    },
+    {
+      "id": 9,
+      "requirement": "Cambiar voz durante la reproducción",
+      "status": "PASS",
+      "test_reference": "Cambiar voz durante reproducción",
+      "method": "dos voces simuladas disponibles en el dispositivo",
+      "details": "{'voice': 'mock-es-MX', 'playing': True, 'last': {'text': 'Reparar después del conflicto con presencia adulta', 'rate': 1.5, 'voiceURI': 'mock-es-MX', 'lang': 'es-MX'}}",
+      "evidence": null
+    },
+    {
+      "id": 10,
+      "requirement": "Pulsar siguiente mientras reproduce",
+      "status": "PASS",
+      "test_reference": "Siguiente mientras reproduce",
+      "method": "Speech Synthesis controlada",
+      "details": "{'index': 1, 'fragment': 0, 'playing': True, 'title': 'Sin etiquetas personales con pasos sencillos', 'last': 'Sin etiquetas personales con pasos sencillos'}",
+      "evidence": null
+    },
+    {
+      "id": 11,
+      "requirement": "Pulsar anterior mientras reproduce",
+      "status": "PASS",
+      "test_reference": "Anterior mientras reproduce",
+      "method": "Speech Synthesis controlada",
+      "details": "{'index': 0, 'fragment': 0, 'playing': True}",
+      "evidence": null
+    },
+    {
+      "id": 12,
+      "requirement": "Llegar al final y comprobar que se detiene",
+      "status": "PASS",
+      "test_reference": "Fin de cola se detiene sin volver al inicio",
+      "method": "Speech Synthesis controlada",
+      "details": "{'index': 2, 'playing': False, 'paused': False, 'progress': '3/3'}",
+      "evidence": null
+    },
+    {
+      "id": 13,
+      "requirement": "Salir de la pantalla y comprobar que la voz se cancela",
+      "status": "PASS",
+      "test_reference": "Salir de pantalla cancela audio",
+      "method": "contador real de llamadas al mock de speechSynthesis.cancel",
+      "details": "{'playing': False, 'paused': False, 'fragment': 0, 'cancels': 28, 'queue': 3}",
+      "evidence": null
+    },
+    {
+      "id": 14,
+      "requirement": "Verificar que no hay errores en consola",
+      "status": "PASS",
+      "test_reference": "Sin errores JavaScript en consola",
+      "method": "consola y pageerror observados en móvil, escritorio y PWA",
+      "details": "[{\"context\": \"mobile\", \"errors\": []}, {\"context\": \"desktop\", \"errors\": []}, {\"context\": \"pwa\", \"errors\": []}]",
+      "evidence": null
+    },
+    {
+      "id": 15,
+      "requirement": "Verificar que no existe desbordamiento horizontal en 390 × 844",
+      "status": "PASS",
+      "test_reference": "Sin desbordamiento horizontal 390×844",
+      "method": "medición de scrollWidth en Chromium",
+      "details": "{'doc': 390, 'body': 390, 'inner': 390}",
+      "evidence": "01_resultados_reproductor_390x844.png"
+    },
+    {
+      "id": 16,
+      "requirement": "Verificar actualización e instalación PWA",
+      "status": "PASS",
+      "test_reference": "Flujo Actualizar conservado",
+      "method": "Service Worker y caché reales en localhost; prompt de instalación y actualización ejecutados de forma controlada",
+      "details": "{'busy': False, 'toast': 'Versión comprobada. Recargando…', 'button': True}",
+      "evidence": null
+    }
+  ],
+  "additional_resilience_tests": [
+    {
+      "test": "Reproducción de compartidas avanza",
+      "status": "PASS",
+      "details": "{'index': 1, 'playing': True, 'origin': 'shared'}",
+      "evidence": null
+    },
+    {
+      "test": "Sin voces iniciales no bloquea lectura",
+      "status": "PASS",
+      "details": "{'playing': True, 'disabled': True, 'last': {'text': 'Transiciones anticipadas', 'rate': 2, 'voiceURI': None, 'lang': 'es-CO'}}",
+      "evidence": null
+    },
+    {
+      "test": "Error de utterance continúa en siguiente fragmento",
+      "status": "PASS",
+      "details": "{'playing': True, 'fragment': 1, 'current': True}",
+      "evidence": null
+    },
+    {
+      "test": "Tarjeta sin cierre termina correctamente",
+      "status": "PASS",
+      "details": "fragmentos=4; estado={'playing': False, 'paused': False, 'index': 0}",
+      "evidence": null
+    },
+    {
+      "test": "Lista vacía no produce bloqueo",
+      "status": "PASS",
+      "details": "{'queue': 0, 'results': 0, 'playing': False, 'card': None}",
+      "evidence": null
+    },
+    {
+      "test": "Cambios rápidos de tarjeta mantienen consistencia",
+      "status": "PASS",
+      "details": "{'index': 1, 'len': 6, 'playing': True, 'fragment': 0, 'current': True}",
+      "evidence": null
+    },
+    {
+      "test": "Pruebas de resiliencia sin errores de consola",
+      "status": "PASS",
+      "details": "[]",
+      "evidence": null
+    }
+  ],
+  "static_verification": {
+    "app_version_1_11_0": true,
+    "native_file_share_exact_payload": true,
+    "native_file_share_does_not_spread_text_payload": true,
+    "desktop_whatsapp_without_prefill": true,
+    "no_automatic_desktop_copy": true,
+    "fragment_function_present": true,
+    "cache_1_11": true,
+    "index_root_exists": true
+  },
+  "acceptance_assessment": {
+    "technical_payload_image_only": "PASS",
+    "continuous_playback": "PASS",
+    "fragmented_reading": "PASS",
+    "progress_indicator": "PASS",
+    "control_stability": "PASS",
+    "pwa_assets_and_cache": "PASS",
+    "physical_whatsapp_receipt": "PENDING_REAL_DEVICE_CONFIRMATION",
+    "overall": "PASS_WITH_PHYSICAL_DEVICE_CONFIRMATION_PENDING"
+  },
+  "limitations": [
+    "No se ejecutó una prueba en un teléfono Android físico ni dentro de la aplicación WhatsApp instalada. La prueba móvil inspeccionó el payload exacto entregado a navigator.share y confirmó que contiene únicamente files con un PNG.",
+    "La instalación PWA en el sistema operativo no se completó físicamente; se verificaron manifest, Service Worker, caché, presencia de botones y ejecución controlada de beforeinstallprompt.",
+    "La apertura de plataformas en escritorio se interceptó para verificar la URL sin texto prellenado; la descarga PNG sí fue generada y capturada por Chromium."
+  ],
+  "evidence_files": [
+    {
+      "file": "01_resultados_reproductor_390x844.png",
+      "sha256": "db4552676a1282d1f937d5710c1a14126a261eb137651bf3f7637c554696b731",
+      "bytes": 103296
+    },
+    {
+      "file": "02_biblioteca_categoria_390x844.png",
+      "sha256": "cb640d042a1e7561697c89c5d4b7f40fce897f6439453dfc294f946de09d66c3",
+      "bytes": 236945
+    },
+    {
+      "file": "03_fallback_compartir_movil.png",
+      "sha256": "0ad7c85a39e84c451034df2a5e96e8f3040dbcb4fb6022a9e3cf6c2959cac293",
+      "bytes": 84792
+    },
+    {
+      "file": "04_compartir_pc_plataformas.png",
+      "sha256": "1f9de60e11b91904242a2dc7e3cac799079a33322fd3bcf21fe8171be96dd1e2",
+      "bytes": 174169
+    },
+    {
+      "file": "05_configuracion_version_pwa.png",
+      "sha256": "f5bbb27f307c2d6d07834f0a6781d8ac284ab0cc3a428d8ea8031c3b5af5209b",
+      "bytes": 131665
+    },
+    {
+      "file": "06_reproduccion_categoria_6_de_20.png",
+      "sha256": "affa24758e5b4098500045e6752c7eb6fe3ab100034000213ff12fb868100c9b",
+      "bytes": 96658
+    },
+    {
+      "file": "07_reproduccion_favoritas_2_de_3.png",
+      "sha256": "a0ffcd372d5c011b02393393a8a01beff36422a16752f48609cdf47ee3d79d91",
+      "bytes": 88908
+    },
+    {
+      "file": "08_reproduccion_ia_2_de_2.png",
+      "sha256": "1d9afd3230fee6d6da210d3b23fd0e3fba8d6115a07ece20d53509506f7e8de1",
+      "bytes": 87580
+    }
+  ],
+  "raw_result_files": [
+    "test_results.json",
+    "resilience_results.json"
+  ]
+}

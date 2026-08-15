@@ -1,0 +1,84 @@
+{
+  "version": "v4.27.3",
+  "renamedCount": 450,
+  "toolbarRemovedFor": "listen_choice",
+  "bigAudioButtonKept": true,
+  "sampleTitles": [
+    [
+      "lesson_151",
+      "Mañana y hábitos 1",
+      "Mañana hábitos Rutina"
+    ],
+    [
+      "lesson_152",
+      "Mañana y hábitos 2",
+      "Mañana hábitos Uso"
+    ],
+    [
+      "lesson_153",
+      "Mañana y hábitos 3",
+      "Mañana hábitos Contexto"
+    ],
+    [
+      "lesson_154",
+      "Mañana y hábitos 4",
+      "Mañana hábitos Razón"
+    ],
+    [
+      "lesson_155",
+      "Mañana y hábitos 5",
+      "Mañana hábitos Secuencia"
+    ],
+    [
+      "lesson_156",
+      "Responsabilidades diarias 1",
+      "Responsabilidades diarias Rutina"
+    ],
+    [
+      "lesson_157",
+      "Responsabilidades diarias 2",
+      "Responsabilidades diarias Uso"
+    ],
+    [
+      "lesson_158",
+      "Responsabilidades diarias 3",
+      "Responsabilidades diarias Contexto"
+    ],
+    [
+      "lesson_159",
+      "Responsabilidades diarias 4",
+      "Responsabilidades diarias Razón"
+    ],
+    [
+      "lesson_160",
+      "Responsabilidades diarias 5",
+      "Responsabilidades diarias Secuencia"
+    ],
+    [
+      "lesson_161",
+      "Horarios y frecuencia 1",
+      "Horarios frecuencia Rutina"
+    ],
+    [
+      "lesson_162",
+      "Horarios y frecuencia 2",
+      "Horarios frecuencia Uso"
+    ],
+    [
+      "lesson_163",
+      "Horarios y frecuencia 3",
+      "Horarios frecuencia Contexto"
+    ],
+    [
+      "lesson_164",
+      "Horarios y frecuencia 4",
+      "Horarios frecuencia Razón"
+    ],
+    [
+      "lesson_165",
+      "Horarios y frecuencia 5",
+      "Horarios frecuencia Secuencia"
+    ]
+  ],
+  "violations": []
+}

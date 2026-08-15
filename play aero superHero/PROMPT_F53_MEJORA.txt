@@ -1,0 +1,13 @@
+Objetivo de mejora F53:
+Expandir la campaña para que la experiencia dure más y se sienta más sólida en progresión gamer.
+
+Lineamientos aplicados:
+- Hacer los mundos más largos.
+- Aumentar enemigos, oleadas, pickups y pequeños picos de dificultad.
+- Mantener el poder triple como pickup de trayecto, no como disparo inicial.
+- Reemplazar el disparo de inicio por uno base simple.
+- Hacer que derrotar a jefes otorgue premios de poder acumulables para el siguiente mundo.
+- Permitir elegir la carga inicial antes de iniciar un mundo.
+- Ampliar especialmente el mundo de nave/vuelo con más longitud, enemigos y recompensas.
+- Reforzar la vida de jefes y minibosses.
+- Mantener compatibilidad con la estructura existente sin romper controles, selector ni rescates.

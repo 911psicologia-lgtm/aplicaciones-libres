@@ -1,0 +1,414 @@
+{
+  "phase": "v4.22.0 · Curaduría A2 situada",
+  "audit": {
+    "version": "2.12.1 / v4.22.0",
+    "a2_lessons": 150,
+    "a2_exercise_refs": 750,
+    "a2_missing_scenario_choice_scenario": 0,
+    "a2_missing_mc_scenario": 0,
+    "a2_complete_without_audio": 0,
+    "a2_short_ligero": 0,
+    "a2_bad_spanish_patterns": 0,
+    "a2_conversations": 30
+  },
+  "sample_lesson_151": {
+    "id": "lesson_151",
+    "routeId": "ruta_2",
+    "emoji": "🌅",
+    "title": "Mañana y hábitos 1",
+    "subtitle": "Hablar de rutinas con más detalle.",
+    "goal": "Usar frases de A2 situadas para hablar de la rutina de la mañana en una situación cotidiana.",
+    "duration": "4–6 min",
+    "blocks": [
+      {
+        "type": "phrase",
+        "emoji": "🌅",
+        "en": "I usually wake up early before work.",
+        "es": "Normalmente me levanto temprano antes del trabajo."
+      },
+      {
+        "type": "phrase",
+        "emoji": "💬",
+        "en": "I have to wake up early today.",
+        "es": "Tengo que levantarme temprano hoy."
+      },
+      {
+        "type": "phrase",
+        "emoji": "❓",
+        "en": "How often do you wake up early?",
+        "es": "¿Con qué frecuencia te levantas temprano?"
+      },
+      {
+        "type": "phrase",
+        "emoji": "⭐",
+        "en": "I prefer to wake up early because it helps me organise my day.",
+        "es": "Prefiero levantarme temprano porque me ayuda a organizar mi día."
+      },
+      {
+        "type": "phrase",
+        "emoji": "🔁",
+        "en": "First, I wake up early; then, I get ready.",
+        "es": "Primero me levanto temprano; luego me preparo."
+      },
+      {
+        "type": "tip",
+        "emoji": "💡",
+        "text": "Piensa en la situación antes de elegir: ¿te preguntan por una acción, una razón, una frecuencia o una secuencia?"
+      },
+      {
+        "type": "example",
+        "emoji": "🧩",
+        "text": "Si alguien pregunta “What do you usually do before work?”, una respuesta útil es “I usually wake up early before work.”"
+      },
+      {
+        "type": "note",
+        "emoji": "🧭",
+        "text": "La respuesta correcta debe servir en la escena, no solo sonar bien gramaticalmente."
+      }
+    ],
+    "exerciseIds": [
+      "lesson_151_mc",
+      "lesson_151_tf",
+      "lesson_151_sc",
+      "lesson_151_ord",
+      "lesson_151_ct2"
+    ],
+    "exerciseSets": {
+      "ligero": [
+        "lesson_151_mc",
+        "lesson_151_tf",
+        "lesson_151_sc",
+        "lesson_151_ord",
+        "lesson_151_ct2"
+      ],
+      "constante": [
+        "lesson_151_mc",
+        "lesson_151_tf",
+        "lesson_151_sc",
+        "lesson_151_ord",
+        "lesson_151_ct2"
+      ],
+      "intensivo": [
+        "lesson_151_mc",
+        "lesson_151_tf",
+        "lesson_151_sc",
+        "lesson_151_ord",
+        "lesson_151_ct2"
+      ]
+    },
+    "layer": "a2",
+    "layerLabel": "🛣️ A2"
+  },
+  "sample_exercises_lesson_151": [
+    {
+      "id": "lesson_151_mc",
+      "lessonId": "lesson_151",
+      "type": "multiple_choice",
+      "prompt": "Lee la situación y elige la respuesta más natural.",
+      "options": [
+        "I do not know what to say.",
+        "That answer does not match the situation.",
+        "I usually wake up early before work.",
+        "I usually get ready after dinner."
+      ],
+      "correctIndex": 2,
+      "feedback": "Correcto: la frase responde directamente a la situación.",
+      "emoji": "🎯",
+      "supportLabel": "situado",
+      "promptEs": "Elige la frase que responde mejor a la situación.",
+      "scenario": "What do you usually do before work?",
+      "scenarioEs": "¿Qué sueles hacer antes del trabajo?",
+      "optionTranslations": [
+        "No sé qué decir.",
+        "Esa respuesta no corresponde a la situación.",
+        "Normalmente me levanto temprano antes del trabajo.",
+        "Normalmente me preparo después de la cena."
+      ],
+      "feedbackCorrect": "Correcto: la frase responde directamente a la situación.",
+      "feedbackWrong": "Revisa la situación: la mejor opción debe responder exactamente a lo que preguntan."
+    },
+    {
+      "id": "lesson_151_tf",
+      "lessonId": "lesson_151",
+      "type": "true_false",
+      "prompt": "“I have to wake up early today” significa “Tengo que levantarme temprano hoy”.",
+      "correct": true,
+      "feedback": "La equivalencia es correcta y mantiene el sentido de la frase.",
+      "emoji": "⚖️",
+      "supportLabel": "situado",
+      "promptEs": ""
+    },
+    {
+      "id": "lesson_151_sc",
+      "lessonId": "lesson_151",
+      "type": "scenario_choice",
+      "prompt": "Elige la frase que agrega el detalle más útil.",
+      "options": [
+        "I can say one word, but not a complete idea.",
+        "I prefer to wake up early because it helps me organise my day.",
+        "This answer changes the topic.",
+        "I usually wake up early before work."
+      ],
+      "correctIndex": 1,
+      "feedback": "Correcto: añade información útil para completar la situación.",
+      "emoji": "🧭",
+      "supportLabel": "situado",
+      "promptEs": "Lee la escena y elige la frase que añade razón, frecuencia o secuencia.",
+      "scenario": "Ya respondiste: “I usually wake up early before work”. La otra persona quiere saber por qué haces eso.",
+      "scenarioEs": "Ya respondiste: “Normalmente me levanto temprano antes del trabajo”. La otra persona quiere saber la razón.",
+      "optionTranslations": [
+        "Puedo decir una palabra, pero no una idea completa.",
+        "Prefiero levantarme temprano porque me ayuda a organizar mi día.",
+        "Esta respuesta cambia el tema.",
+        "Normalmente me levanto temprano antes del trabajo."
+      ],
+      "feedbackCorrect": "Correcto: añade información útil para completar la situación.",
+      "feedbackWrong": "Busca la opción que añade razón, frecuencia o secuencia sin cambiar el tema."
+    },
+    {
+      "id": "lesson_151_ord",
+      "lessonId": "lesson_151",
+      "type": "order_words",
+      "prompt": "Ordena la frase para responder: “What do you usually do before work?”",
+      "words": [
+        "I",
+        "usually",
+        "wake",
+        "up",
+        "early",
+        "before",
+        "work"
+      ],
+      "translation": "Normalmente me levanto temprano antes del trabajo",
+      "feedback": "Correcto: la frase queda en orden y responde a la escena.",
+      "emoji": "🧩",
+      "supportLabel": "situado",
+      "promptEs": "Ordena la frase para responder: “¿Qué sueles hacer antes del trabajo?”",
+      "answer": "I usually wake up early before work",
+      "feedbackCorrect": "Correcto: la frase queda en orden y responde a la escena.",
+      "feedbackWrong": "Revisa el orden: sujeto, frecuencia, acción y contexto."
+    },
+    {
+      "id": "lesson_151_ct2",
+      "lessonId": "lesson_151",
+      "type": "complete_text",
+      "prompt": "Completa la frase: I usually wake up early before ____.",
+      "answer": "work",
+      "acceptedAnswers": [
+        "Work",
+        "work"
+      ],
+      "feedback": "Correcto: la frase completa es “I usually wake up early before work.”",
+      "emoji": "✍️",
+      "supportLabel": "situado",
+      "promptEs": "Normalmente me levanto temprano antes del trabajo.",
+      "audioText": "I usually wake up early before work.",
+      "audioTextEs": "Normalmente me levanto temprano antes del trabajo.",
+      "placeholder": "Escribe la palabra que falta",
+      "feedbackCorrect": "Correcto: la frase completa es “I usually wake up early before work.”",
+      "feedbackWrong": "La palabra esperada completa la frase: “I usually wake up early before work.”"
+    }
+  ],
+  "sample_lesson_295": {
+    "id": "lesson_295",
+    "routeId": "ruta_2",
+    "emoji": "🧠",
+    "title": "Comprensión breve 5",
+    "subtitle": "Entender textos y avisos simples.",
+    "goal": "Usar frases de A2 situadas para hablar de comprensión breve en una situación cotidiana.",
+    "duration": "4–6 min",
+    "blocks": [
+      {
+        "type": "phrase",
+        "emoji": "🌅",
+        "en": "First, I read the notice; then, I write down the time.",
+        "es": "Primero leo el aviso; luego anoto la hora."
+      },
+      {
+        "type": "phrase",
+        "emoji": "💬",
+        "en": "I can read the notice step by step.",
+        "es": "Puedo leer el aviso paso a paso."
+      },
+      {
+        "type": "phrase",
+        "emoji": "❓",
+        "en": "That helps me continue my day.",
+        "es": "Eso me ayuda a continuar mi día."
+      },
+      {
+        "type": "phrase",
+        "emoji": "⭐",
+        "en": "I usually read the notice before work.",
+        "es": "Normalmente leo el aviso antes del trabajo."
+      },
+      {
+        "type": "phrase",
+        "emoji": "🔁",
+        "en": "I have to read the notice today.",
+        "es": "Tengo que leer el aviso hoy."
+      },
+      {
+        "type": "tip",
+        "emoji": "💡",
+        "text": "Piensa en la situación antes de elegir: ¿te preguntan por una acción, una razón, una frecuencia o una secuencia?"
+      },
+      {
+        "type": "example",
+        "emoji": "🧩",
+        "text": "Si alguien pregunta “What do you do when you see an important notice?”, una respuesta útil es “First, I read the notice; then, I write down the time.”"
+      },
+      {
+        "type": "note",
+        "emoji": "🧭",
+        "text": "La respuesta correcta debe servir en la escena, no solo sonar bien gramaticalmente."
+      }
+    ],
+    "exerciseIds": [
+      "lesson_295_mc",
+      "lesson_295_tf",
+      "lesson_295_sc",
+      "lesson_295_ord",
+      "lesson_295_ct2"
+    ],
+    "exerciseSets": {
+      "ligero": [
+        "lesson_295_mc",
+        "lesson_295_tf",
+        "lesson_295_sc",
+        "lesson_295_ord",
+        "lesson_295_ct2"
+      ],
+      "constante": [
+        "lesson_295_mc",
+        "lesson_295_tf",
+        "lesson_295_sc",
+        "lesson_295_ord",
+        "lesson_295_ct2"
+      ],
+      "intensivo": [
+        "lesson_295_mc",
+        "lesson_295_tf",
+        "lesson_295_sc",
+        "lesson_295_ord",
+        "lesson_295_ct2"
+      ]
+    },
+    "layer": "a2",
+    "layerLabel": "🛣️ A2"
+  },
+  "sample_exercises_lesson_295": [
+    {
+      "id": "lesson_295_mc",
+      "lessonId": "lesson_295",
+      "type": "multiple_choice",
+      "prompt": "Lee la situación y elige la respuesta más natural.",
+      "options": [
+        "That answer does not match the situation.",
+        "First, I read the notice; then, I write down the time.",
+        "I do not know what to say.",
+        "I usually write down the time after dinner."
+      ],
+      "correctIndex": 1,
+      "feedback": "Correcto: la frase responde directamente a la situación.",
+      "emoji": "🎯",
+      "supportLabel": "situado",
+      "promptEs": "Elige la frase que responde mejor a la situación.",
+      "scenario": "What do you do when you see an important notice?",
+      "scenarioEs": "¿Qué haces cuando ves un aviso importante?",
+      "optionTranslations": [
+        "Esa respuesta no corresponde a la situación.",
+        "Primero leo el aviso; luego anoto la hora.",
+        "No sé qué decir.",
+        "Normalmente anoto la hora después de la cena."
+      ],
+      "feedbackCorrect": "Correcto: la frase responde directamente a la situación.",
+      "feedbackWrong": "Revisa la situación: la mejor opción debe responder exactamente a lo que preguntan."
+    },
+    {
+      "id": "lesson_295_tf",
+      "lessonId": "lesson_295",
+      "type": "true_false",
+      "prompt": "“I can read the notice step by step” significa “Puedo leer el aviso paso a paso”.",
+      "correct": true,
+      "feedback": "La equivalencia es correcta y mantiene el sentido de la frase.",
+      "emoji": "⚖️",
+      "supportLabel": "situado",
+      "promptEs": ""
+    },
+    {
+      "id": "lesson_295_sc",
+      "lessonId": "lesson_295",
+      "type": "scenario_choice",
+      "prompt": "Elige la frase que agrega el detalle más útil.",
+      "options": [
+        "This answer changes the topic.",
+        "First, I read the notice; then, I write down the time.",
+        "I have to read the notice today.",
+        "I can say one word, but not a complete idea."
+      ],
+      "correctIndex": 2,
+      "feedback": "Correcto: añade información útil para completar la situación.",
+      "emoji": "🧭",
+      "supportLabel": "situado",
+      "promptEs": "Lee la escena y elige la frase que añade razón, frecuencia o secuencia.",
+      "scenario": "Quieres explicar la acción paso a paso.",
+      "scenarioEs": "Quieres explicar la acción en una secuencia breve.",
+      "optionTranslations": [
+        "Esta respuesta cambia el tema.",
+        "Primero leo el aviso; luego anoto la hora.",
+        "Tengo que leer el aviso hoy.",
+        "Puedo decir una palabra, pero no una idea completa."
+      ],
+      "feedbackCorrect": "Correcto: añade información útil para completar la situación.",
+      "feedbackWrong": "Busca la opción que añade razón, frecuencia o secuencia sin cambiar el tema."
+    },
+    {
+      "id": "lesson_295_ord",
+      "lessonId": "lesson_295",
+      "type": "order_words",
+      "prompt": "Ordena la frase para responder: “What do you do when you see an important notice?”",
+      "words": [
+        "First,",
+        "I",
+        "read",
+        "the",
+        "notice;",
+        "then,",
+        "I",
+        "write",
+        "down",
+        "the",
+        "time"
+      ],
+      "translation": "Primero leo el aviso; luego anoto la hora",
+      "feedback": "Correcto: la frase queda en orden y responde a la escena.",
+      "emoji": "🧩",
+      "supportLabel": "situado",
+      "promptEs": "Ordena la frase para responder: “¿Qué haces cuando ves un aviso importante?”",
+      "answer": "First, I read the notice; then, I write down the time",
+      "feedbackCorrect": "Correcto: la frase queda en orden y responde a la escena.",
+      "feedbackWrong": "Revisa el orden: sujeto, frecuencia, acción y contexto."
+    },
+    {
+      "id": "lesson_295_ct2",
+      "lessonId": "lesson_295",
+      "type": "complete_text",
+      "prompt": "Completa la frase: I have to read the notice ____.",
+      "answer": "today",
+      "acceptedAnswers": [
+        "Today",
+        "today"
+      ],
+      "feedback": "Correcto: la frase completa es “I have to read the notice today.”",
+      "emoji": "✍️",
+      "supportLabel": "situado",
+      "promptEs": "Tengo que leer el aviso hoy.",
+      "audioText": "I have to read the notice today.",
+      "audioTextEs": "Tengo que leer el aviso hoy.",
+      "placeholder": "Escribe la palabra que falta",
+      "feedbackCorrect": "Correcto: la frase completa es “I have to read the notice today.”",
+      "feedbackWrong": "La palabra esperada completa la frase: “I have to read the notice today.”"
+    }
+  ]
+}

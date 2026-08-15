@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
+  <meta name="description" content="NeuroExplora: Evolución del cerebro humano — de los primeros vertebrados al Homo sapiens.">
+  <title>NeuroExplora — Evolución del Cerebro</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800&family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,500;1,9..40,300&display=swap" rel="stylesheet">
+  <link rel="icon" type="image/svg+xml" href="assets/favicon.svg">
+  <link rel="manifest" href="manifest.json">
+  <meta name="theme-color" content="#4f8ef7">
+  <link rel="stylesheet" href="css/styles.css">
+  <link rel="stylesheet" href="css/evolution.css">
+  <link rel="stylesheet" href="css/cortex.css">
+</head>
+<body>
+
+  <canvas id="stars-canvas"></canvas>
+
+  <!-- ══ HEADER ════════════════════════════════════════════════ -->
+  <header id="main-header">
+    <div class="header-brand">
+      <div class="logo">🧠 Neuro<span class="logo-accent">Explora</span></div>
+      <div class="logo-tagline">EXPLORADOR INTERACTIVO DEL CEREBRO HUMANO</div>
+    </div>
+    <nav class="header-nav">
+      <a class="nav-btn" href="index.html"><span class="btn-icon">🧩</span><span class="btn-text">Cerebro</span></a>
+      <a class="nav-btn nav-btn-active" href="evolucion.html"><span class="btn-icon">🦎</span><span class="btn-text">Evolución</span></a>
+      <a class="nav-btn" href="neurona.html"><span class="btn-icon">⚡</span><span class="btn-text">Neurona</span></a>
+      <a class="nav-btn" href="corteza.html"><span class="btn-icon">🌐</span><span class="btn-text">Corteza</span></a>
+      <a class="nav-btn" href="juego.html"><span class="btn-icon">🎮</span><span class="btn-text">Juego</span></a>
+      <a class="nav-btn" href="referencias.html"><span class="btn-icon">📚</span><span class="btn-text">Referencias</span></a>
+    </nav>
+  </header>
+
+  <!-- ══ HERO ══════════════════════════════════════════════════ -->
+  <section class="evo-hero">
+    <div class="evo-hero-content">
+      <div class="evo-hero-badge">🐟 → 🦎 → 🐭 → 🐒 → 🧑</div>
+      <h1 class="evo-hero-title">520 Millones de Años<br>de Cerebro</h1>
+      <p class="evo-hero-desc">
+        Del primer tubo neural de un pez primitivo a la corteza prefrontal humana.
+        7 etapas, una rama Neanderthal y el debate sobre el cerebro triúnico.
+      </p>
+    </div>
+    <div class="time-scale-wrap">
+      <div class="time-scale-label">Escala geológica (selecciona una etapa)</div>
+      <div class="time-scale-bar">
+        <div class="ts-progress" id="progress-bar"></div>
+        <div class="time-scale" id="time-scale"></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ══ LÍNEA DE TIEMPO ════════════════════════════════════════ -->
+  <section class="evo-timeline-section">
+    <div class="timeline-wrap">
+      <div class="timeline-track" id="timeline-track" role="tablist" aria-label="Etapas de la evolución cerebral">
+      </div>
+    </div>
+  </section>
+
+  <!-- Rama Neanderthal / Homo (se muestra al hacer clic) -->
+  <section class="branch-section hidden" id="branch-panel" style="max-width:1000px;margin:0 auto;padding:0 20px 8px;position:relative;z-index:1"></section>
+
+  <!-- ══ CONTROLES ══════════════════════════════════════════════ -->
+  <div class="stage-nav">
+    <button class="stage-nav-btn" id="btn-stage-prev" disabled>← Anterior</button>
+    <span class="stage-counter" id="stage-counter">1 / 7</span>
+    <button class="stage-nav-btn" id="btn-stage-next">Siguiente →</button>
+  </div>
+
+  <!-- ══ PANEL DE DETALLE ═══════════════════════════════════════ -->
+  <section class="stage-panel-section">
+    <div class="stage-panel" id="stage-panel" role="tabpanel"></div>
+  </section>
+
+  <!-- ══ DEBATE CEREBRO TRIÚNICO ════════════════════════════════ -->
+  <section class="triune-section" id="triune-section" style="max-width:1000px;margin:0 auto;padding:0 20px 16px;position:relative;z-index:1"></section>
+
+  <!-- ══ DATOS CURIOSOS GLOBALES ════════════════════════════════ -->
+  <section class="global-facts-section" id="global-facts" style="max-width:1000px;margin:0 auto;padding:0 20px 16px;position:relative;z-index:1"></section>
+
+  <!-- ══ FOOTER ════════════════════════════════════════════════ -->
+  <footer class="evo-footer">
+    <a href="index.html" class="footer-link">← Cerebro Interactivo</a>
+    <span class="footer-sep">·</span>
+    <a href="neurona.html" class="footer-link">Neurona ⚡</a>
+    <span class="footer-sep">·</span>
+    <span class="footer-hint">Próximo: <strong>Gamificación 🎮</strong></span>
+  </footer>
+
+  <script src="js/evolution-data.js"></script>
+  <script src="js/evo-images.js"></script>
+  <script src="js/evolution.js"></script>
+</div>
+
+  <script>
+    if ("serviceWorker" in navigator) {
+      navigator.serviceWorker.register("/sw.js").catch(()=>{});
+    }
+  </script>
+</body>
+</html>

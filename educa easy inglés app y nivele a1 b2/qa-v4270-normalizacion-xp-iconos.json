@@ -1,0 +1,30 @@
+{
+  "version": "v4.27.0",
+  "focus": "Normalización XP, iconos funcionales, medallas, etiquetas de audio y retirada de monedas visibles.",
+  "checks": {
+    "version": "2.12.1 / v4.27.0",
+    "xp_config_gamePlay": true,
+    "gameCoins_zero": true,
+    "visible_coin_text_removed": true,
+    "xp_star_chip_removed": true,
+    "xp_sparkle_chip_present": true,
+    "pronunciation_xp_sparkle": true,
+    "route_medal_graduation_zero": true,
+    "route_medals_distinct": true,
+    "bad_audio_variants_zero": true,
+    "audio_label_unified_count": 15,
+    "audit_function": true
+  },
+  "changes": [
+    "XP de juegos centralizado en XP_CONFIG.gamePlay.",
+    "Monedas desactivadas como economía visible; XP queda como única recompensa visible.",
+    "Tarjetas de monedas retiradas de los tres módulos de juego.",
+    "Icono de XP unificado a ✨ en chip y feedback de pronunciación.",
+    "Medallas de ruta diferenciadas: A1 🥉, A2 🥈, B1 🥇, B2 🏅.",
+    "Master conserva 🏆; 🎓 queda disponible para certificados/tour.",
+    "Etiquetas de audio unificadas a Escuchar en inglés; typo Escuche y repasa corregido.",
+    "No se tocaron 📖/📚 porque representan Diccionario/Biblioteca, funciones distintas."
+  ],
+  "nodeCheck": 0,
+  "createdAt": "2026-06-17T02:14:30.205901+00:00"
+}

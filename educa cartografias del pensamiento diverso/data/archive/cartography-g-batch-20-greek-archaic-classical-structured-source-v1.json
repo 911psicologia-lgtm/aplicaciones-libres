@@ -1,0 +1,967 @@
+{
+  "schemaVersion": "1.0",
+  "packId": "pack_cartography_g_greek_archaic_classical_20_v1",
+  "title": "Cartografía G · Series 1–2 · Mundos griegos: arcaicos, presocráticos y clásicos",
+  "status": "research_consolidated_pending_app_integration",
+  "createdAt": "2026-07-25",
+  "recordCount": 20,
+  "editorialRule": "Lotes de 20 unidades. Audio breve, entidad al inicio, idea central, aporte y cautela; pluralidad mediterránea y distinción entre testimonios, interpretación y recepción.",
+  "records": [
+    {
+      "id": "card_greek_worlds_plural_001",
+      "series": "cartography-g-series-1-2",
+      "order": 1,
+      "entity": "Mundos griegos antiguos",
+      "title": "Grecia no pensó desde una sola ciudad",
+      "period": "Siglos VIII–IV a. C.",
+      "territory": "Egeo, Jonia, Magna Grecia, Sicilia y Mediterráneo oriental",
+      "cardType": "portal_metodologica",
+      "question": "¿Qué cambia cuando dejamos de identificar el pensamiento griego únicamente con Atenas?",
+      "visibleText": "Las investigaciones griegas surgieron en puertos, colonias, santuarios y ciudades distintas, conectadas con saberes mediterráneos anteriores y contemporáneos.",
+      "coreIdea": "La filosofía griega se configuró en redes regionales y debates plurales; Atenas fue decisiva, pero no fue su único lugar de producción.",
+      "distinctiveKey": "pluralidad + circulación + ciudades",
+      "audio": "Comenzamos por los mundos griegos antiguos, en plural. Muchas preguntas filosóficas se formularon en Jonia, Sicilia, el sur de Italia y otras regiones antes de concentrarse en Atenas. Viajes, comercio, guerra y contacto con saberes egipcios, mesopotámicos y fenicios formaron ese horizonte. Reconocer conexiones no elimina la originalidad griega; evita convertirla en un nacimiento aislado y sin antecedentes.",
+      "caution": "No presentar a Grecia como origen absoluto y autosuficiente de la racionalidad, ni reducir tradiciones diversas a una línea exclusivamente ateniense.",
+      "tags": [
+        "Grecia antigua",
+        "Mediterráneo",
+        "pluralidad",
+        "circulación"
+      ],
+      "connections": [
+        "card_mythos_logos_transition_001",
+        "card_milesian_natural_inquiry_001"
+      ],
+      "quiz": {
+        "question": "¿Cuál es la interpretación histórica más adecuada?",
+        "options": [
+          "La filosofía nació completa y aislada en Atenas",
+          "Hubo múltiples centros y contactos mediterráneos",
+          "Todas las ciudades defendían una sola doctrina",
+          "Los intercambios impidieron cualquier innovación"
+        ],
+        "correctIndex": 1,
+        "explanation": "Los centros y contactos fueron múltiples, aunque las propuestas conservaron diferencias y desarrollos propios."
+      },
+      "evidenceLevel": "A",
+      "sources": [
+        {
+          "title": "Presocratic Philosophy",
+          "url": "https://plato.stanford.edu/entries/presocratics/"
+        },
+        {
+          "title": "Ancient Political Philosophy",
+          "url": "https://plato.stanford.edu/entries/ancient-political/"
+        }
+      ]
+    },
+    {
+      "id": "card_mythos_logos_transition_001",
+      "series": "cartography-g-series-1-2",
+      "order": 2,
+      "entity": "Mito, relato y argumentación",
+      "title": "Del mito al logos no fue un corte instantáneo",
+      "period": "Siglos VIII–V a. C.",
+      "territory": "Mundo griego antiguo",
+      "cardType": "metodologica",
+      "question": "¿La argumentación racional reemplazó de una vez a los relatos míticos?",
+      "visibleText": "Poemas, genealogías divinas, observación y razonamiento coexistieron; las nuevas explicaciones transformaron lenguajes heredados sin hacerlos desaparecer.",
+      "coreIdea": "El paso del mythos al logos describe una reorganización gradual de formas de explicación, no una ruptura absoluta entre irracionalidad y razón.",
+      "distinctiveKey": "continuidad + transformación + cautela",
+      "audio": "Entramos en la conocida fórmula del mito al logos. Es útil para señalar que algunos pensadores buscaron causas impersonales y argumentos discutibles, pero puede engañar si supone una ruptura súbita. Hesíodo ya ordenaba genealogías y problemas de justicia, mientras filósofos posteriores conservaron imágenes, poemas y relatos. La diferencia estuvo en cómo se justificaban y discutían las explicaciones, no en eliminar toda narración.",
+      "caution": "No equiparar mito con error o irracionalidad ni afirmar que la filosofía sustituyó inmediatamente la poesía y la religión.",
+      "tags": [
+        "mythos",
+        "logos",
+        "explicación",
+        "historiografía"
+      ],
+      "connections": [
+        "card_greek_worlds_plural_001",
+        "card_milesian_natural_inquiry_001"
+      ],
+      "quiz": {
+        "question": "¿Qué expresa mejor la relación entre mythos y logos?",
+        "options": [
+          "Una sustitución total e inmediata",
+          "Una transformación con continuidades y nuevas exigencias argumentativas",
+          "La desaparición de los relatos",
+          "La identidad completa entre poesía y demostración"
+        ],
+        "correctIndex": 1,
+        "explanation": "Las formas antiguas continuaron, pero cambiaron los criterios de explicación y discusión."
+      },
+      "evidenceLevel": "B",
+      "sources": [
+        {
+          "title": "Presocratic Philosophy",
+          "url": "https://plato.stanford.edu/entries/presocratics/"
+        },
+        {
+          "title": "Ancient Greek Philosophy",
+          "url": "https://iep.utm.edu/ancient-greek-philosophy/"
+        }
+      ]
+    },
+    {
+      "id": "card_milesian_natural_inquiry_001",
+      "series": "cartography-g-series-1-2",
+      "order": 3,
+      "entity": "Tales, Anaximandro y Anaxímenes",
+      "title": "La naturaleza puede explicarse desde sus propios procesos",
+      "period": "Siglo VI a. C.",
+      "territory": "Mileto y Jonia",
+      "cardType": "tradicion_concepto",
+      "question": "¿Qué novedad aparece cuando los fenómenos se explican mediante regularidades del cosmos?",
+      "visibleText": "Los milesios buscaron principios y transformaciones internas a la naturaleza, aunque sus propuestas nos llegan fragmentadas y reconstruidas por autores posteriores.",
+      "coreIdea": "La investigación milesia abrió explicaciones cosmológicas que apelaban a procesos naturales y a una unidad subyacente, sin constituir todavía ciencia moderna.",
+      "distinctiveKey": "physis + principio + transformación",
+      "audio": "Seguimos con los milesios. Tales vinculó el origen con el agua; Anaximandro habló de lo indeterminado; Anaxímenes describió cambios del aire mediante condensación y rarefacción. Más importante que elegir una sustancia fue intentar explicar diversidad, movimiento y orden desde el propio cosmos. Casi todo lo sabemos por testimonios posteriores, por lo que ninguna fórmula debe presentarse como sistema completo y seguro.",
+      "caution": "No convertir a los milesios en científicos modernos ni atribuirles doctrinas más precisas de lo que permiten los testimonios conservados.",
+      "tags": [
+        "Mileto",
+        "physis",
+        "cosmología",
+        "principio"
+      ],
+      "connections": [
+        "card_mythos_logos_transition_001",
+        "card_anaximander_apeiron_001"
+      ],
+      "quiz": {
+        "question": "¿Qué rasgo comparten las investigaciones milesias?",
+        "options": [
+          "Apelar solo a decisiones divinas imprevisibles",
+          "Buscar procesos y principios internos de la naturaleza",
+          "Negar todo cambio",
+          "Usar experimentos modernos controlados"
+        ],
+        "correctIndex": 1,
+        "explanation": "Intentaron comprender el cosmos mediante regularidades y transformaciones naturales."
+      },
+      "evidenceLevel": "B",
+      "sources": [
+        {
+          "title": "Presocratic Philosophy",
+          "url": "https://plato.stanford.edu/entries/presocratics/"
+        }
+      ]
+    },
+    {
+      "id": "card_anaximander_apeiron_001",
+      "series": "cartography-g-series-1-2",
+      "order": 4,
+      "entity": "Anaximandro",
+      "title": "Lo indeterminado como fuente de mundos",
+      "period": "Ca. 610–546 a. C.",
+      "territory": "Mileto, Jonia",
+      "cardType": "autor_concepto",
+      "question": "¿Por qué el origen de las cosas no tendría que parecerse a ninguna cosa determinada?",
+      "visibleText": "Anaximandro vinculó el surgimiento y desaparición de los contrarios con un principio indeterminado, el ápeiron, dentro de un orden temporal.",
+      "coreIdea": "El ápeiron permite pensar una fuente no reducible a un elemento conocido y un cosmos regulado por transformaciones recíprocas.",
+      "distinctiveKey": "ápeiron + contrarios + orden",
+      "audio": "Nos detenemos en Anaximandro y el ápeiron, aquello sin límite o sin determinación precisa. Los contrarios, como caliente y frío, emergen y regresan dentro de un orden que su fragmento expresa con lenguaje de justicia y reparación. No sabemos si el ápeiron era materia, espacio, divinidad o una categoría distinta; esa ambigüedad forma parte del problema histórico.",
+      "caution": "No traducir ápeiron automáticamente como infinito matemático, vacío físico o materia moderna; su sentido permanece discutido.",
+      "tags": [
+        "Anaximandro",
+        "ápeiron",
+        "contrarios",
+        "cosmología"
+      ],
+      "connections": [
+        "card_milesian_natural_inquiry_001",
+        "card_parmenides_inquiry_being_001"
+      ],
+      "quiz": {
+        "question": "¿Qué función cumple el ápeiron?",
+        "options": [
+          "Ser un objeto concreto ya formado",
+          "Nombrar una fuente indeterminada de la que emergen los contrarios",
+          "Negar el orden temporal",
+          "Representar una cifra exacta"
+        ],
+        "correctIndex": 1,
+        "explanation": "El principio no se identifica sin más con una cosa determinada del mundo."
+      },
+      "evidenceLevel": "B",
+      "sources": [
+        {
+          "title": "Presocratic Philosophy",
+          "url": "https://plato.stanford.edu/entries/presocratics/"
+        },
+        {
+          "title": "Anaximander",
+          "url": "https://iep.utm.edu/anaximander/"
+        }
+      ]
+    },
+    {
+      "id": "card_xenophanes_gods_knowledge_001",
+      "series": "cartography-g-series-1-2",
+      "order": 5,
+      "entity": "Jenófanes",
+      "title": "Criticar dioses humanos y reconocer límites del saber",
+      "period": "Ca. 570–478 a. C.",
+      "territory": "Colofón y mundo griego occidental",
+      "cardType": "autor_concepto",
+      "question": "¿Qué revela que cada pueblo imagine a los dioses con sus propios rasgos?",
+      "visibleText": "Jenófanes cuestionó las representaciones antropomórficas y afirmó que incluso una opinión verdadera puede no reconocerse como conocimiento seguro.",
+      "coreIdea": "La crítica religiosa y la modestia epistémica se articulan: las imágenes heredadas deben examinarse y el saber humano permanece falible.",
+      "distinctiveKey": "crítica + antropomorfismo + falibilidad",
+      "audio": "Llegamos a Jenófanes. Observó que los pueblos representan a sus dioses según su propia apariencia y criticó atribuirles engaños, robos y conflictos. También sostuvo que los seres humanos pueden encontrar mejores explicaciones sin poseer certeza absoluta sobre todas las cosas. No es sencillo decidir si defendía monoteísmo, panteísmo o una reforma de la teología tradicional.",
+      "caution": "No convertir sus fragmentos en una doctrina monoteísta moderna cerrada ni omitir la incertidumbre de su reconstrucción.",
+      "tags": [
+        "Jenófanes",
+        "dioses",
+        "falibilidad",
+        "crítica"
+      ],
+      "connections": [
+        "card_mythos_logos_transition_001",
+        "card_parmenides_inquiry_being_001"
+      ],
+      "quiz": {
+        "question": "¿Qué combina Jenófanes?",
+        "options": [
+          "Antropomorfismo y certeza absoluta",
+          "Crítica de imágenes divinas y reconocimiento de límites humanos",
+          "Rechazo de toda investigación",
+          "Una teología uniforme para toda Grecia"
+        ],
+        "correctIndex": 1,
+        "explanation": "Cuestiona representaciones heredadas y mantiene cautela sobre el conocimiento humano."
+      },
+      "evidenceLevel": "B",
+      "sources": [
+        {
+          "title": "Xenophanes",
+          "url": "https://plato.stanford.edu/entries/xenophanes/"
+        },
+        {
+          "title": "Presocratic Philosophy",
+          "url": "https://plato.stanford.edu/entries/presocratics/"
+        }
+      ]
+    },
+    {
+      "id": "card_pythagoras_way_number_001",
+      "series": "cartography-g-series-1-2",
+      "order": 6,
+      "entity": "Pitágoras y primeras comunidades pitagóricas",
+      "title": "Número, armonía y forma de vida",
+      "period": "Siglos VI–V a. C.",
+      "territory": "Samos, Crotona y Magna Grecia",
+      "cardType": "tradicion_concepto",
+      "question": "¿El pitagorismo comenzó como teoría matemática o como comunidad de vida?",
+      "visibleText": "Las fuentes tempranas asocian a Pitágoras con disciplina, transmigración y autoridad carismática; la centralidad matemática se desarrolló y sistematizó con el tiempo.",
+      "coreIdea": "El pitagorismo articuló prácticas de vida, cosmología, música y número, pero no todo puede atribuirse al fundador histórico.",
+      "distinctiveKey": "forma de vida + armonía + número",
+      "audio": "Pasamos a Pitágoras y a comunidades que llevaron su nombre. La tradición vinculó purificación, reglas de vida, destino del alma, música y relaciones numéricas. Sin embargo, las fuentes son tardías y muchas doctrinas matemáticas probablemente pertenecen a generaciones posteriores. Más que buscar una frase única de Pitágoras, conviene estudiar cómo una autoridad fundadora organizó una tradición cambiante.",
+      "caution": "No atribuir a Pitágoras todos los teoremas, descubrimientos o doctrinas desarrollados por el pitagorismo posterior.",
+      "tags": [
+        "Pitágoras",
+        "número",
+        "armonía",
+        "forma de vida"
+      ],
+      "connections": [
+        "card_milesian_natural_inquiry_001",
+        "card_plato_dialogue_forms_001"
+      ],
+      "quiz": {
+        "question": "¿Qué cautela exige el estudio de Pitágoras?",
+        "options": [
+          "Todo el pitagorismo fue escrito por él",
+          "Las doctrinas posteriores no deben atribuirse automáticamente al fundador",
+          "La matemática fue irrelevante",
+          "No existieron comunidades pitagóricas"
+        ],
+        "correctIndex": 1,
+        "explanation": "La tradición acumuló desarrollos difíciles de separar del personaje histórico."
+      },
+      "evidenceLevel": "B",
+      "sources": [
+        {
+          "title": "Pythagoras",
+          "url": "https://plato.stanford.edu/entries/pythagoras/"
+        },
+        {
+          "title": "Presocratic Philosophy",
+          "url": "https://plato.stanford.edu/entries/presocratics/"
+        }
+      ]
+    },
+    {
+      "id": "card_heraclitus_logos_tension_001",
+      "series": "cartography-g-series-1-2",
+      "order": 7,
+      "entity": "Heráclito",
+      "title": "El orden aparece en tensiones y transformaciones",
+      "period": "Finales del siglo VI–inicios del V a. C.",
+      "territory": "Éfeso, Jonia",
+      "cardType": "autor_concepto",
+      "question": "¿Cómo puede existir orden en un mundo atravesado por cambios y oposiciones?",
+      "visibleText": "Heráclito relacionó logos, medida, fuego y tensión de contrarios; sus fragmentos no sostienen simplemente que todo cambia sin estructura.",
+      "coreIdea": "El cambio posee patrones y relaciones: la oposición puede formar unidad sin desaparecer como diferencia.",
+      "distinctiveKey": "logos + tensión + medida",
+      "audio": "Seguimos con Heráclito. Sus frases breves invitan a reconocer un logos común que muchas personas no comprenden. El río, el fuego, la guerra y el arco muestran transformaciones y tensiones reguladas. La lectura popular de que todo fluye resume solo una parte y puede ocultar su insistencia en medida, estructura y unidad de contrarios.",
+      "caution": "No reducir su pensamiento a cambio caótico, contradicción ilimitada o una anticipación directa de dialécticas modernas.",
+      "tags": [
+        "Heráclito",
+        "logos",
+        "contrarios",
+        "cambio"
+      ],
+      "connections": [
+        "card_parmenides_inquiry_being_001",
+        "card_empedocles_roots_forces_001"
+      ],
+      "quiz": {
+        "question": "¿Qué añade el logos a la idea de cambio?",
+        "options": [
+          "Elimina toda regularidad",
+          "Señala una estructura común de las transformaciones",
+          "Niega los contrarios",
+          "Convierte el fuego en símbolo exclusivamente religioso"
+        ],
+        "correctIndex": 1,
+        "explanation": "El cambio no es puro desorden: posee relaciones y medidas."
+      },
+      "evidenceLevel": "B",
+      "sources": [
+        {
+          "title": "Heraclitus",
+          "url": "https://plato.stanford.edu/entries/heraclitus/"
+        },
+        {
+          "title": "Presocratic Philosophy",
+          "url": "https://plato.stanford.edu/entries/presocratics/"
+        }
+      ]
+    },
+    {
+      "id": "card_parmenides_inquiry_being_001",
+      "series": "cartography-g-series-1-2",
+      "order": 8,
+      "entity": "Parménides",
+      "title": "Pensar qué exige afirmar que algo es",
+      "period": "Comienzos del siglo V a. C.",
+      "territory": "Elea, Magna Grecia",
+      "cardType": "autor_obra",
+      "question": "¿Qué condiciones debe cumplir una vía de investigación para no pensar lo que no es?",
+      "visibleText": "El poema de Parménides distingue una vía de verdad y discursos sobre apariencia, obligando a examinar ser, negación, cambio y pensamiento.",
+      "coreIdea": "La investigación filosófica debe atender a las condiciones lógicas de lo que puede afirmarse y conocerse, aunque el alcance de su monismo sea debatido.",
+      "distinctiveKey": "ser + negación + investigación",
+      "audio": "Entramos en el poema de Parménides. Una diosa presenta rutas de investigación y advierte que no puede pensarse ni decirse coherentemente lo que no es. Esta exigencia transforma las preguntas sobre cambio, pluralidad y conocimiento. Los intérpretes discuten si Parménides negó todo mundo cambiante o si delimitó tipos de explicación con distintos grados de validez.",
+      "caution": "No presentar como acuerdo cerrado que Parménides negó toda experiencia o defendió exactamente la noción moderna de identidad lógica.",
+      "tags": [
+        "Parménides",
+        "ser",
+        "negación",
+        "poema"
+      ],
+      "connections": [
+        "card_heraclitus_logos_tension_001",
+        "card_zeno_paradoxes_001"
+      ],
+      "quiz": {
+        "question": "¿Qué problema vuelve central Parménides?",
+        "options": [
+          "Cómo describir lo que no es sin dificultad",
+          "Las condiciones para pensar y afirmar el ser",
+          "La superioridad de una ciudad",
+          "La medición experimental del vacío"
+        ],
+        "correctIndex": 1,
+        "explanation": "Su poema examina las vías posibles e imposibles de investigación."
+      },
+      "evidenceLevel": "B",
+      "sources": [
+        {
+          "title": "Parmenides",
+          "url": "https://plato.stanford.edu/entries/parmenides/"
+        },
+        {
+          "title": "Presocratic Philosophy",
+          "url": "https://plato.stanford.edu/entries/presocratics/"
+        }
+      ]
+    },
+    {
+      "id": "card_zeno_paradoxes_001",
+      "series": "cartography-g-series-1-2",
+      "order": 9,
+      "entity": "Zenón de Elea",
+      "title": "Paradojas que obligan a revisar movimiento y divisibilidad",
+      "period": "Siglo V a. C.",
+      "territory": "Elea, Magna Grecia",
+      "cardType": "autor_metodo",
+      "question": "¿Por qué una carrera aparentemente sencilla puede generar una dificultad lógica?",
+      "visibleText": "Zenón construyó argumentos paradójicos sobre pluralidad, espacio y movimiento para mostrar problemas en supuestos considerados evidentes.",
+      "coreIdea": "La paradoja funciona como prueba crítica: acepta premisas del adversario y muestra consecuencias difíciles, sin ser un simple juego verbal.",
+      "distinctiveKey": "paradoja + reducción + divisibilidad",
+      "audio": "Continuamos con Zenón. Aquiles, la dicotomía y la flecha convierten el movimiento cotidiano en un problema sobre infinito, partes y tiempo. Sus argumentos suelen entenderse como defensa de Parménides mediante reducción al absurdo, aunque sus formulaciones exactas proceden de testimonios posteriores. Las matemáticas modernas ofrecen herramientas poderosas, pero no eliminan automáticamente todas las preguntas filosóficas implicadas.",
+      "caution": "No tratar las paradojas como errores infantiles ya anulados ni atribuir a Zenón el cálculo infinitesimal moderno.",
+      "tags": [
+        "Zenón",
+        "paradojas",
+        "movimiento",
+        "infinito"
+      ],
+      "connections": [
+        "card_parmenides_inquiry_being_001",
+        "card_aristotle_causes_logic_001"
+      ],
+      "quiz": {
+        "question": "¿Qué función tiene una paradoja zenoniana?",
+        "options": [
+          "Confirmar sin examen la experiencia común",
+          "Revelar consecuencias problemáticas de ciertos supuestos",
+          "Negar la argumentación",
+          "Probar una fórmula física moderna"
+        ],
+        "correctIndex": 1,
+        "explanation": "El argumento tensiona las premisas sobre movimiento, pluralidad y divisibilidad."
+      },
+      "evidenceLevel": "A",
+      "sources": [
+        {
+          "title": "Zeno’s Paradoxes",
+          "url": "https://plato.stanford.edu/entries/paradox-zeno/"
+        },
+        {
+          "title": "Presocratic Philosophy",
+          "url": "https://plato.stanford.edu/entries/presocratics/"
+        }
+      ]
+    },
+    {
+      "id": "card_empedocles_roots_forces_001",
+      "series": "cartography-g-series-1-2",
+      "order": 10,
+      "entity": "Empédocles",
+      "title": "Cuatro raíces y dos fuerzas para explicar el cambio",
+      "period": "Siglo V a. C.",
+      "territory": "Acragas, Sicilia",
+      "cardType": "autor_concepto",
+      "question": "¿Cómo explicar transformaciones sin hacer que algo surja de la nada?",
+      "visibleText": "Empédocles propuso cuatro raíces permanentes combinadas y separadas por Amor y Discordia, dentro de ciclos cósmicos.",
+      "coreIdea": "El cambio puede entenderse como recomposición de elementos persistentes, articulando cosmología, vida, percepción y purificación.",
+      "distinctiveKey": "raíces + mezcla + fuerzas",
+      "audio": "Llegamos a Empédocles. Tierra, agua, aire y fuego no nacen ni desaparecen: se mezclan en proporciones distintas bajo Amor y Discordia. Esta física convive con poemas sobre purificación y destino del alma, cuya relación exacta sigue discutida. Sus fuerzas no equivalen sin más a atracción y repulsión físicas modernas, aunque organizan procesos de combinación y separación.",
+      "caution": "No separar automáticamente sus poemas físicos y religiosos ni traducir Amor y Discordia como fuerzas científicas contemporáneas.",
+      "tags": [
+        "Empédocles",
+        "cuatro raíces",
+        "Amor",
+        "Discordia"
+      ],
+      "connections": [
+        "card_heraclitus_logos_tension_001",
+        "card_anaxagoras_nous_mixture_001"
+      ],
+      "quiz": {
+        "question": "¿Cómo explica Empédocles el nacimiento de cosas?",
+        "options": [
+          "Como creación desde la nada",
+          "Como mezcla y separación de raíces persistentes",
+          "Como ilusión sin elementos",
+          "Como decisión exclusiva de una ciudad"
+        ],
+        "correctIndex": 1,
+        "explanation": "Los compuestos cambian mientras las raíces permanecen."
+      },
+      "evidenceLevel": "B",
+      "sources": [
+        {
+          "title": "Empedocles",
+          "url": "https://plato.stanford.edu/entries/empedocles/"
+        },
+        {
+          "title": "Presocratic Philosophy",
+          "url": "https://plato.stanford.edu/entries/presocratics/"
+        }
+      ]
+    },
+    {
+      "id": "card_anaxagoras_nous_mixture_001",
+      "series": "cartography-g-series-1-2",
+      "order": 11,
+      "entity": "Anaxágoras",
+      "title": "Todo contiene de todo, pero el nous inicia el giro",
+      "period": "Siglo V a. C.",
+      "territory": "Clazómenas y Atenas",
+      "cardType": "autor_concepto",
+      "question": "¿Cómo emerge un cosmos diferenciado si sus ingredientes estaban mezclados?",
+      "visibleText": "Anaxágoras sostuvo que todos los ingredientes estaban presentes en la mezcla y que el nous inició y ordenó el movimiento cósmico.",
+      "coreIdea": "La diferencia surge por predominio y separación relativa dentro de una mezcla ilimitada, no mediante creación de cualidades desde la nada.",
+      "distinctiveKey": "mezcla + predominio + nous",
+      "audio": "Seguimos con Anaxágoras. En la mezcla original hay porciones de todo; una cosa recibe su nombre por aquello que predomina en ella. El nous, distinto de la mezcla y no mezclado, inicia la rotación que organiza el cosmos. Platón y Aristóteles discutieron si Anaxágoras utilizó suficientemente esa inteligencia como causa explicativa o solo como impulso inicial.",
+      "caution": "No traducir nous simplemente como mente humana, dios creador personal o inteligencia de diseño moderna.",
+      "tags": [
+        "Anaxágoras",
+        "nous",
+        "mezcla",
+        "predominio"
+      ],
+      "connections": [
+        "card_empedocles_roots_forces_001",
+        "card_democritus_atom_void_001"
+      ],
+      "quiz": {
+        "question": "¿Qué papel cumple el nous?",
+        "options": [
+          "Crear ingredientes desde la nada",
+          "Iniciar y ordenar el movimiento de la mezcla",
+          "Eliminar toda diferencia",
+          "Ser una parte mezclada como cualquier otra"
+        ],
+        "correctIndex": 1,
+        "explanation": "El nous se presenta como principio motor y ordenador distinto de la mezcla."
+      },
+      "evidenceLevel": "A",
+      "sources": [
+        {
+          "title": "Anaxagoras",
+          "url": "https://plato.stanford.edu/entries/anaxagoras/"
+        },
+        {
+          "title": "Presocratic Philosophy",
+          "url": "https://plato.stanford.edu/entries/presocratics/"
+        }
+      ]
+    },
+    {
+      "id": "card_democritus_atom_void_001",
+      "series": "cartography-g-series-1-2",
+      "order": 12,
+      "entity": "Leucipo y Demócrito",
+      "title": "Átomos y vacío: cambiar sin alterar los principios",
+      "period": "Siglos V–IV a. C.",
+      "territory": "Abdera y mundo griego",
+      "cardType": "tradicion_concepto",
+      "question": "¿Cómo explicar diversidad y movimiento mediante componentes que no cambian internamente?",
+      "visibleText": "El atomismo sostuvo que cuerpos indivisibles se desplazan en el vacío y producen diferencias por figura, orden y posición.",
+      "coreIdea": "Las cualidades y compuestos emergen de configuraciones atómicas, aunque la relación entre apariencia sensible y realidad genera problemas epistémicos.",
+      "distinctiveKey": "átomos + vacío + configuración",
+      "audio": "Pasamos a Leucipo y Demócrito. Los átomos no poseen color, sabor o temperatura como los objetos cotidianos; difieren por forma, disposición y posición, y se mueven en el vacío. Los compuestos nacen y desaparecen al reorganizarse. Sin embargo, si los sentidos ofrecen solo apariencias, el pensamiento atomista debe explicar de dónde obtiene evidencia para su propia teoría.",
+      "caution": "No identificar los átomos antiguos con partículas subatómicas actuales ni presentar su teoría como física experimental moderna.",
+      "tags": [
+        "Demócrito",
+        "atomismo",
+        "vacío",
+        "emergencia"
+      ],
+      "connections": [
+        "card_anaxagoras_nous_mixture_001",
+        "card_epicurus_pleasure_freedom_001"
+      ],
+      "quiz": {
+        "question": "¿Cómo se producen las diferencias entre compuestos?",
+        "options": [
+          "Porque los átomos cambian de esencia",
+          "Por configuraciones, posiciones y movimientos diferentes",
+          "Porque el vacío desaparece",
+          "Mediante formas platónicas"
+        ],
+        "correctIndex": 1,
+        "explanation": "Los componentes persisten y cambian sus relaciones."
+      },
+      "evidenceLevel": "B",
+      "sources": [
+        {
+          "title": "Ancient Atomism",
+          "url": "https://plato.stanford.edu/entries/atomism-ancient/"
+        },
+        {
+          "title": "Presocratic Philosophy",
+          "url": "https://plato.stanford.edu/entries/presocratics/"
+        }
+      ]
+    },
+    {
+      "id": "card_sophists_education_citizenship_001",
+      "series": "cartography-g-series-1-2",
+      "order": 13,
+      "entity": "Sofistas",
+      "title": "Enseñar a argumentar dentro de ciudades en disputa",
+      "period": "Siglo V a. C.",
+      "territory": "Atenas y mundo griego",
+      "cardType": "portal_tradicion",
+      "question": "¿Por qué la educación retórica se volvió central en la democracia ateniense?",
+      "visibleText": "Los sofistas enseñaron lenguaje, argumentación y competencia cívica, pero no formaron una escuela con doctrina única.",
+      "coreIdea": "La actividad sofística convirtió normas, lenguaje, educación y poder político en problemas discutibles, aunque sus obras sobreviven fragmentariamente.",
+      "distinctiveKey": "educación + retórica + polis",
+      "audio": "Entramos en los sofistas. Maestros itinerantes como Protágoras, Gorgias, Pródico e Hipias enseñaron habilidades útiles para asambleas, tribunales y vida pública. Platón fijó una imagen crítica que influyó durante siglos, pero el grupo fue heterogéneo y produjo aportes a lenguaje, ética, política y argumentación. Cobrar por enseñar no demuestra por sí mismo falta de rigor.",
+      "caution": "No usar sofista como sinónimo automático de engañador ni atribuir una doctrina común a autores muy diferentes.",
+      "tags": [
+        "sofistas",
+        "retórica",
+        "educación",
+        "ciudadanía"
+      ],
+      "connections": [
+        "card_protagoras_measure_antilogic_001",
+        "card_gorgias_language_persuasion_001"
+      ],
+      "quiz": {
+        "question": "¿Qué caracterizó a los sofistas?",
+        "options": [
+          "Una doctrina metafísica única",
+          "Prácticas diversas de enseñanza, retórica y discusión cívica",
+          "Rechazo total del lenguaje",
+          "Una institución estatal uniforme"
+        ],
+        "correctIndex": 1,
+        "explanation": "Fueron autores y maestros heterogéneos vinculados con problemas públicos y discursivos."
+      },
+      "evidenceLevel": "A",
+      "sources": [
+        {
+          "title": "The Sophists",
+          "url": "https://plato.stanford.edu/entries/sophists/"
+        },
+        {
+          "title": "Ancient Political Philosophy",
+          "url": "https://plato.stanford.edu/entries/ancient-political/"
+        }
+      ]
+    },
+    {
+      "id": "card_protagoras_measure_antilogic_001",
+      "series": "cartography-g-series-1-2",
+      "order": 14,
+      "entity": "Protágoras",
+      "title": "Toda cuestión humana puede mirarse desde posiciones enfrentadas",
+      "period": "Ca. 490–420 a. C.",
+      "territory": "Abdera, Atenas y mundo griego",
+      "cardType": "autor_concepto",
+      "question": "¿La afirmación de que el ser humano es medida elimina toda posibilidad de discusión razonada?",
+      "visibleText": "Protágoras vinculó perspectiva humana, discursos opuestos y educación política; el alcance exacto de su relativismo sigue debatido.",
+      "coreIdea": "La antilogía permite examinar razones contrapuestas y mostrar que las normas humanas requieren deliberación y formación.",
+      "distinctiveKey": "medida + antilogía + educación",
+      "audio": "Seguimos con Protágoras. La frase el ser humano es medida puede referirse a percepción individual, juicio colectivo o límites humanos del conocimiento; las fuentes no permiten una lectura única. Su práctica de enfrentar dos discursos sobre un asunto no buscaba necesariamente declarar equivalentes todas las opiniones, sino entrenar deliberación, crítica y capacidad de defender posiciones.",
+      "caution": "No reducir a Protágoras a la fórmula todo vale ni atribuirle un relativismo moderno completamente definido.",
+      "tags": [
+        "Protágoras",
+        "medida",
+        "antilogía",
+        "ciudadanía"
+      ],
+      "connections": [
+        "card_sophists_education_citizenship_001",
+        "card_socrates_elenchus_care_001"
+      ],
+      "quiz": {
+        "question": "¿Qué exige una lectura rigurosa de la frase del ser humano como medida?",
+        "options": [
+          "Asumir que significa exactamente todo vale",
+          "Reconocer interpretaciones y límites documentales",
+          "Negar toda educación política",
+          "Afirmar certeza divina"
+        ],
+        "correctIndex": 1,
+        "explanation": "Su alcance epistemológico y político continúa siendo discutido."
+      },
+      "evidenceLevel": "C",
+      "sources": [
+        {
+          "title": "The Sophists",
+          "url": "https://plato.stanford.edu/entries/sophists/"
+        },
+        {
+          "title": "Plato’s Shorter Ethical Works",
+          "url": "https://plato.stanford.edu/entries/plato-ethics-shorter/"
+        }
+      ]
+    },
+    {
+      "id": "card_gorgias_language_persuasion_001",
+      "series": "cartography-g-series-1-2",
+      "order": 15,
+      "entity": "Gorgias",
+      "title": "La palabra puede reorganizar emociones y decisiones",
+      "period": "Ca. 485–380 a. C.",
+      "territory": "Leontinos, Sicilia, y Atenas",
+      "cardType": "autor_concepto",
+      "question": "¿Qué poder tiene el discurso cuando no transmite simplemente hechos?",
+      "visibleText": "Gorgias exploró cómo ritmo, figura y persuasión afectan el ánimo, y llevó al límite las dificultades de ser, conocer y comunicar.",
+      "coreIdea": "El lenguaje actúa sobre quienes escuchan; analizar su poder exige distinguir demostración, probabilidad, emoción y contexto.",
+      "distinctiveKey": "lenguaje + persuasión + efecto",
+      "audio": "Llegamos a Gorgias. En el Elogio de Helena, la palabra aparece como una fuerza pequeña capaz de producir miedo, alegría, compasión o decisión. En el tratado Sobre lo que no es, argumentos extremos examinan las brechas entre realidad, conocimiento y comunicación. No sabemos hasta qué punto son doctrinas propias, ejercicios críticos o parodias filosóficas.",
+      "caution": "No confundir persuasión con manipulación inevitable ni tratar sus textos paradójicos como una metafísica indiscutida.",
+      "tags": [
+        "Gorgias",
+        "retórica",
+        "persuasión",
+        "lenguaje"
+      ],
+      "connections": [
+        "card_sophists_education_citizenship_001",
+        "card_plato_education_cave_polis_001"
+      ],
+      "quiz": {
+        "question": "¿Qué muestra Gorgias sobre el lenguaje?",
+        "options": [
+          "Que solo copia objetos sin efectos",
+          "Que puede producir efectos emocionales y políticos",
+          "Que elimina toda responsabilidad",
+          "Que garantiza verdad"
+        ],
+        "correctIndex": 1,
+        "explanation": "El discurso influye en quienes escuchan y debe evaluarse críticamente."
+      },
+      "evidenceLevel": "B",
+      "sources": [
+        {
+          "title": "The Sophists",
+          "url": "https://plato.stanford.edu/entries/sophists/"
+        },
+        {
+          "title": "Gorgias",
+          "url": "https://iep.utm.edu/gorgias/"
+        }
+      ]
+    },
+    {
+      "id": "card_socrates_elenchus_care_001",
+      "series": "cartography-g-series-1-2",
+      "order": 16,
+      "entity": "Sócrates",
+      "title": "Examinar la vida sin fingir un saber que no se posee",
+      "period": "469–399 a. C.",
+      "territory": "Atenas",
+      "cardType": "autor_metodo",
+      "question": "¿Cómo puede una conversación revelar contradicciones en lo que una persona cree saber?",
+      "visibleText": "El elenchos socrático pregunta, solicita definiciones y prueba sus consecuencias, orientando la filosofía al cuidado del alma y la responsabilidad pública.",
+      "coreIdea": "La conciencia de ignorancia no cierra la investigación: inicia un examen compartido sobre virtud, justicia y forma de vida.",
+      "distinctiveKey": "elenchos + ignorancia + cuidado",
+      "audio": "Nos encontramos con Sócrates, quien no dejó obras escritas y aparece de maneras diferentes en Aristófanes, Jenofonte y Platón. Sus conversaciones exigen definir conceptos y seguir sus consecuencias hasta descubrir tensiones. La confesión de no saber funciona como disciplina crítica, no como indiferencia. Su juicio muestra también el conflicto entre examen filosófico, religión cívica y democracia ateniense.",
+      "caution": "No identificar sin reserva al Sócrates histórico con cada doctrina expresada por el personaje de los diálogos platónicos.",
+      "tags": [
+        "Sócrates",
+        "elenchos",
+        "cuidado del alma",
+        "diálogo"
+      ],
+      "connections": [
+        "card_protagoras_measure_antilogic_001",
+        "card_plato_dialogue_forms_001"
+      ],
+      "quiz": {
+        "question": "¿Qué logra el elenchos?",
+        "options": [
+          "Transmitir una doctrina sin preguntas",
+          "Poner a prueba definiciones y compromisos",
+          "Evitar toda conclusión por diversión",
+          "Sustituir la ética por retórica"
+        ],
+        "correctIndex": 1,
+        "explanation": "Las preguntas revelan incoherencias y abren una revisión de la vida."
+      },
+      "evidenceLevel": "A",
+      "sources": [
+        {
+          "title": "Socrates",
+          "url": "https://plato.stanford.edu/entries/socrates/"
+        },
+        {
+          "title": "Ancient Ethical Theory",
+          "url": "https://plato.stanford.edu/entries/ethics-ancient/"
+        }
+      ]
+    },
+    {
+      "id": "card_plato_dialogue_forms_001",
+      "series": "cartography-g-series-1-2",
+      "order": 17,
+      "entity": "Platón",
+      "title": "El diálogo piensa sin borrar sus propias tensiones",
+      "period": "Ca. 428–348 a. C.",
+      "territory": "Atenas",
+      "cardType": "autor_metodo",
+      "question": "¿Por qué Platón escribió diálogos en lugar de un tratado único con sus conclusiones?",
+      "visibleText": "Los diálogos distribuyen argumentos entre personajes, escenas y preguntas, de modo que la filosofía ocurre como investigación dramática.",
+      "coreIdea": "Las formas, el conocimiento y el alma deben leerse dentro de obras que presentan avances, objeciones y revisiones, no como un catecismo uniforme.",
+      "distinctiveKey": "diálogo + formas + investigación",
+      "audio": "Pasamos a Platón. Sus obras no hablan con una sola voz autoral: Sócrates, extranjeros, jóvenes y adversarios sostienen argumentos que el lector debe evaluar. Las Formas ofrecen estabilidad para conocimiento y valoración, pero los diálogos también examinan dificultades sobre participación, lenguaje y método. La diversidad entre obras impide reducir a Platón a una lista inmóvil de doctrinas.",
+      "caution": "No atribuir automáticamente a Platón toda afirmación de sus personajes ni convertir las Formas en objetos ubicados en otro espacio físico.",
+      "tags": [
+        "Platón",
+        "diálogo",
+        "Formas",
+        "dialéctica"
+      ],
+      "connections": [
+        "card_socrates_elenchus_care_001",
+        "card_plato_education_cave_polis_001"
+      ],
+      "quiz": {
+        "question": "¿Qué exige la forma dialogada?",
+        "options": [
+          "Ignorar quién habla y en qué contexto",
+          "Evaluar argumentos, personajes y desarrollo dramático",
+          "Buscar una doctrina idéntica en cada obra",
+          "Leer solo los mitos"
+        ],
+        "correctIndex": 1,
+        "explanation": "La estructura del diálogo participa en la producción filosófica de sentido."
+      },
+      "evidenceLevel": "A",
+      "sources": [
+        {
+          "title": "Plato",
+          "url": "https://plato.stanford.edu/entries/plato/"
+        },
+        {
+          "title": "Plato’s Middle Period Metaphysics and Epistemology",
+          "url": "https://plato.stanford.edu/entries/plato-metaphysics/"
+        }
+      ]
+    },
+    {
+      "id": "card_plato_education_cave_polis_001",
+      "series": "cartography-g-series-1-2",
+      "order": 18,
+      "entity": "Platón",
+      "title": "Educar es reorientar la mirada y el deseo",
+      "period": "Siglo IV a. C.",
+      "territory": "Atenas",
+      "cardType": "autor_obra",
+      "question": "¿La alegoría de la caverna describe una huida privada o una responsabilidad de regreso?",
+      "visibleText": "La caverna vincula apariencia, aprendizaje, resistencia al cambio y obligación política de quienes alcanzan una comprensión más amplia.",
+      "coreIdea": "La educación no introduce visión en una mente vacía: reorganiza hábitos, deseos y orientación hacia lo verdadero y lo justo.",
+      "distinctiveKey": "educación + conversión + responsabilidad",
+      "audio": "Escuchamos ahora la caverna de la República. Las sombras no son simplemente información falsa; forman un mundo compartido, sostenido por hábitos y reconocimientos. Salir exige dolor, aprendizaje y cambio de orientación. Quien comprende debe regresar, lo que conecta conocimiento con responsabilidad política. La alegoría no autoriza dividir fácilmente a la humanidad entre iluminados y masas incapaces.",
+      "caution": "No usar la caverna para legitimar superioridad intelectual, adoctrinamiento o desprecio por la experiencia sensible.",
+      "tags": [
+        "Platón",
+        "caverna",
+        "educación",
+        "política"
+      ],
+      "connections": [
+        "card_gorgias_language_persuasion_001",
+        "card_aristotle_virtue_practical_wisdom_001"
+      ],
+      "quiz": {
+        "question": "¿Qué representa centralmente la educación en la caverna?",
+        "options": [
+          "Introducir datos en una mente vacía",
+          "Reorientar percepción, deseo y responsabilidad",
+          "Eliminar toda vida política",
+          "Confirmar las sombras existentes"
+        ],
+        "correctIndex": 1,
+        "explanation": "La transformación educativa afecta la manera completa de relacionarse con realidad y ciudad."
+      },
+      "evidenceLevel": "B",
+      "sources": [
+        {
+          "title": "Plato’s Ethics and Politics in The Republic",
+          "url": "https://plato.stanford.edu/entries/plato-ethics-politics/"
+        },
+        {
+          "title": "Ancient Political Philosophy",
+          "url": "https://plato.stanford.edu/entries/ancient-political/"
+        }
+      ]
+    },
+    {
+      "id": "card_aristotle_causes_logic_001",
+      "series": "cartography-g-series-1-2",
+      "order": 19,
+      "entity": "Aristóteles",
+      "title": "Conocer exige preguntar de varias maneras por qué",
+      "period": "384–322 a. C.",
+      "territory": "Estagira, Atenas y mundo macedonio",
+      "cardType": "autor_metodo",
+      "question": "¿Por qué una sola causa puede ser insuficiente para explicar una cosa?",
+      "visibleText": "Aristóteles distinguió causas material, formal, eficiente y final, y sistematizó formas de inferencia para organizar investigación y demostración.",
+      "coreIdea": "La explicación adecuada es plural y depende del objeto estudiado; la lógica funciona como herramienta del conocimiento, no como sustituto de la observación.",
+      "distinctiveKey": "causas + lógica + explicación",
+      "audio": "Llegamos a Aristóteles. Una estatua puede explicarse por su material, su forma, quien la produce y el fin para el que se hizo. Estas cuatro causas son tipos de respuesta a preguntas por qué, no cuatro sucesos mecánicos idénticos. Su silogística estudia inferencias válidas y sirve a ciencias que también requieren principios, observación y conocimiento del dominio.",
+      "caution": "No reducir las cuatro causas a causalidad física moderna ni afirmar que la lógica aristotélica agotó todas las formas posibles de razonamiento.",
+      "tags": [
+        "Aristóteles",
+        "cuatro causas",
+        "lógica",
+        "explicación"
+      ],
+      "connections": [
+        "card_zeno_paradoxes_001",
+        "card_aristotle_virtue_practical_wisdom_001"
+      ],
+      "quiz": {
+        "question": "¿Qué expresa la doctrina de las cuatro causas?",
+        "options": [
+          "Cuatro fuerzas físicas universales",
+          "Cuatro funciones explicativas diferentes",
+          "Cuatro etapas cronológicas obligatorias",
+          "Cuatro opiniones equivalentes"
+        ],
+        "correctIndex": 1,
+        "explanation": "Material, forma, agente y fin responden a preguntas explicativas distintas."
+      },
+      "evidenceLevel": "A",
+      "sources": [
+        {
+          "title": "Aristotle on Causality",
+          "url": "https://plato.stanford.edu/entries/aristotle-causality/"
+        },
+        {
+          "title": "Aristotle’s Logic",
+          "url": "https://plato.stanford.edu/entries/aristotle-logic/"
+        }
+      ]
+    },
+    {
+      "id": "card_aristotle_virtue_practical_wisdom_001",
+      "series": "cartography-g-series-1-2",
+      "order": 20,
+      "entity": "Aristóteles",
+      "title": "La virtud se aprende actuando y discerniendo situaciones",
+      "period": "Siglo IV a. C.",
+      "territory": "Atenas y mundo griego",
+      "cardType": "autor_concepto",
+      "question": "¿Por qué conocer una regla no basta para actuar bien?",
+      "visibleText": "La ética aristotélica entiende las virtudes como disposiciones formadas por hábito y guiadas por prudencia para percibir lo relevante en cada situación.",
+      "coreIdea": "La vida lograda integra razón, emoción, relaciones, práctica y condiciones políticas; no se reduce a obedecer fórmulas universales.",
+      "distinctiveKey": "hábito + prudencia + florecimiento",
+      "audio": "Cerramos este primer recorrido con la ética de Aristóteles. Nos hacemos justos realizando acciones justas, pero la repetición mecánica no basta: la prudencia reconoce qué requiere una situación concreta. La virtud organiza emociones y deseos, y la felicidad es una actividad de vida completa dentro de relaciones y comunidades. Su marco histórico incluye exclusiones que también deben ser examinadas críticamente.",
+      "caution": "No traducir el justo medio como mediocridad, punto matemático fijo o neutralidad ante toda injusticia; tampoco idealizar la polis aristotélica.",
+      "tags": [
+        "Aristóteles",
+        "virtud",
+        "phronesis",
+        "eudaimonia"
+      ],
+      "connections": [
+        "card_plato_education_cave_polis_001",
+        "card_hellenistic_roman_worlds_001"
+      ],
+      "quiz": {
+        "question": "¿Qué añade la prudencia a la virtud?",
+        "options": [
+          "Una regla idéntica para toda situación",
+          "Discernimiento práctico de lo relevante en circunstancias concretas",
+          "El rechazo de emociones",
+          "La búsqueda exclusiva de riqueza"
+        ],
+        "correctIndex": 1,
+        "explanation": "La acción buena requiere juicio situado, hábitos y fines apropiados."
+      },
+      "evidenceLevel": "A",
+      "sources": [
+        {
+          "title": "Aristotle’s Ethics",
+          "url": "https://plato.stanford.edu/entries/aristotle-ethics/"
+        },
+        {
+          "title": "Aristotle",
+          "url": "https://plato.stanford.edu/entries/aristotle/"
+        }
+      ]
+    }
+  ]
+}

@@ -1,0 +1,15 @@
+AUDITORÍA FASE 51
+
+Cambios verificados:
+- main.js pasa node --check.
+- Mundo 2: se filtran torres antiguas demasiado altas entre x 5400 y 7400.
+- Mundo 2: nueva cámara Laberinto Mecánico con plataformas abiertas.
+- Mundo 2: jefe Goliath reposicionado en altura visible, con bombardeo.
+- Mundo 3: nueva zona flightZones crystal_ship_run.
+- Mundo 3: Modo Nave funcional entre x 3180 y x 6750.
+- Modo Nave: control con teclado y pads táctiles.
+- Modo Nave: ignora colisiones de bloques para evitar encierros.
+- Modo Nave: conserva pickups, enemigos y disparos.
+- Visual: overlay de laberinto mecánico en mundo 2.
+- Visual: overlay de corredor 3D/shoot'em up en mundo 3.
+- Se conserva F50: UI compacta, avatar icono, doble abajo para bajar, Mundo 1 corregido.

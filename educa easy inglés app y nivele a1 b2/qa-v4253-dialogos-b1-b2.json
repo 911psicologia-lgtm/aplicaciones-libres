@@ -1,0 +1,38 @@
+{
+  "version": "v4.25.3",
+  "focus": "Iteración 2 del informe: diferenciar diálogos B1/B2 y diálogos profundos B2.",
+  "changes": [
+    "Regenerados 30 diálogos normales B1 con 90 turnos-pregunta únicos.",
+    "Regenerados 30 diálogos normales B2 con 90 turnos-pregunta únicos.",
+    "Regenerados 30 diálogos profundos B2 con 120 prompts únicos.",
+    "Opciones correctas y distractores anclados al mundo/lección.",
+    "Añadida auditoría runtime window.IPD_QA.dialogueVarietyB1B2()."
+  ],
+  "metrics": {
+    "ruta_3": {
+      "conversations": 30,
+      "turnPrompts": 90,
+      "uniqueTurnPrompts": 90,
+      "options": 360,
+      "uniqueOptions": 360,
+      "uniqueCorrectOptions": 90
+    },
+    "ruta_4": {
+      "conversations": 30,
+      "turnPrompts": 90,
+      "uniqueTurnPrompts": 90,
+      "options": 360,
+      "uniqueOptions": 360,
+      "uniqueCorrectOptions": 90
+    },
+    "b2Deep": {
+      "dialogues": 30,
+      "prompts": 120,
+      "uniquePrompts": 120,
+      "options": 480,
+      "uniqueOptions": 480
+    }
+  },
+  "nodeCheck": 0,
+  "createdAt": "2026-06-17T01:18:34.954917+00:00"
+}

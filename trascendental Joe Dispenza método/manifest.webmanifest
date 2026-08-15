@@ -1,0 +1,19 @@
+{
+  "name": "Presencia · Cambio y guía corporal",
+  "short_name": "Presencia",
+  "description": "Cuatro preguntas esenciales y ocho pasos de atención adaptables a un proceso corporal.",
+  "lang": "es",
+  "start_url": "./",
+  "scope": "./",
+  "display": "standalone",
+  "background_color": "#081426",
+  "theme_color": "#081426",
+  "icons": [
+    {
+      "src": "icons/icon.svg",
+      "sizes": "any",
+      "type": "image/svg+xml",
+      "purpose": "any"
+    }
+  ]
+}

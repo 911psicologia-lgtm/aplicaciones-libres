@@ -1,0 +1,43 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 200" font-family="'Outfit','DM Sans',sans-serif">
+  <defs>
+    <radialGradient id="bg3" cx="50%" cy="50%" r="60%">
+      <stop offset="0%" stop-color="#1a2e4a"/>
+      <stop offset="100%" stop-color="#060d1a"/>
+    </radialGradient>
+    <radialGradient id="neocortex" cx="40%" cy="30%" r="70%">
+      <stop offset="0%" stop-color="#a78bfa"/>
+      <stop offset="100%" stop-color="#6d28d9"/>
+    </radialGradient>
+    <radialGradient id="limbic3" cx="40%" cy="35%" r="65%">
+      <stop offset="0%" stop-color="#fbbf24" stop-opacity="0.5"/>
+      <stop offset="100%" stop-color="#b45309" stop-opacity="0.4"/>
+    </radialGradient>
+  </defs>
+  <rect width="200" height="200" rx="16" fill="url(#bg3)"/>
+
+  <!-- Tronco (fondo) -->
+  <ellipse cx="100" cy="120" rx="18" ry="30" fill="rgba(251,113,128,0.35)"/>
+  <!-- Límbico (fondo) -->
+  <ellipse cx="100" cy="110" rx="38" ry="44" fill="url(#limbic3)" opacity="0.5"/>
+
+  <!-- Neocórtex — capa externa rugosa -->
+  <path d="M 100,55 C 68,55 46,68 38,88 C 30,108 35,132 48,148 C 60,162 78,168 100,168 C 122,168 140,162 152,148 C 165,132 170,108 162,88 C 154,68 132,55 100,55 Z"
+        fill="url(#neocortex)" opacity="0.8"/>
+  <!-- Circunvoluciones (gyri) -->
+  <path d="M 48,88 C 55,82 65,80 75,85 C 85,90 90,100 88,112" stroke="rgba(255,255,255,0.22)" stroke-width="1.8" fill="none" stroke-linecap="round"/>
+  <path d="M 100,58 C 100,68 100,80 100,92" stroke="rgba(255,255,255,0.2)" stroke-width="1.8" fill="none" stroke-linecap="round"/>
+  <path d="M 152,88 C 145,82 135,80 125,85 C 115,90 110,100 112,112" stroke="rgba(255,255,255,0.22)" stroke-width="1.8" fill="none" stroke-linecap="round"/>
+  <path d="M 44,118 C 50,112 60,110 68,115" stroke="rgba(255,255,255,0.16)" stroke-width="1.4" fill="none" stroke-linecap="round"/>
+  <path d="M 156,118 C 150,112 140,110 132,115" stroke="rgba(255,255,255,0.16)" stroke-width="1.4" fill="none" stroke-linecap="round"/>
+  <!-- Borde neocórtex -->
+  <path d="M 100,55 C 68,55 46,68 38,88 C 30,108 35,132 48,148 C 60,162 78,168 100,168 C 122,168 140,162 152,148 C 165,132 170,108 162,88 C 154,68 132,55 100,55 Z"
+        fill="none" stroke="#c4b5fd" stroke-width="1.5" opacity="0.4"/>
+
+  <!-- Médula -->
+  <rect x="92" y="166" width="14" height="18" rx="7" fill="#f472b6" opacity="0.35"/>
+
+  <text x="100" y="24" text-anchor="middle" fill="rgba(221,238,255,0.9)" font-size="12" font-weight="700">Etapa 3</text>
+  <text x="100" y="40" text-anchor="middle" fill="#a78bfa" font-size="11" font-weight="600">Neocórtex</text>
+  <text x="100" y="185" text-anchor="middle" fill="rgba(107,138,184,0.7)" font-size="9">~65 mill. años</text>
+  <circle cx="100" cy="193" r="3" fill="#a78bfa" opacity="0.7"/>
+</svg>

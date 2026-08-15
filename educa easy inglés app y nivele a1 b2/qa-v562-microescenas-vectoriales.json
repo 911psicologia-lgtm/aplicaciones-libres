@@ -1,0 +1,10 @@
+{
+  "version": "5.0.62-microescenas-vectoriales",
+  "changes": [
+    "Botón contextual izquierdo: M1 solo flecha a carretera; M2+ vuelve a mundo anterior",
+    "Botones de navegación integrados sin fondo azul",
+    "Se retiran emojis decorativos del tapiz",
+    "Se agregan microescenas vectoriales: edificios, árboles, personas y objetos contextuales",
+    "Distribución a lo largo de ruta/parada con variación por tema"
+  ]
+}

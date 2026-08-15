@@ -1,0 +1,634 @@
+{
+  "version": "2.9",
+  "collectionId": "classical_china",
+  "collection": "Filosofías chinas: cambio, cultivo, traducción y orden",
+  "generatedAt": "2026-07-25",
+  "records": [
+    {
+      "id": "card_guo_xiang_self_transformation_001",
+      "author": "Guo Xiang",
+      "title": "Cada ser surge y se transforma sin un creador exterior",
+      "territory": "Luoyang y China de la dinastía Jin",
+      "period": "Aproximadamente 252–312",
+      "family": "Guo Xiang: autotransformación e inmanencia",
+      "symbol": "化",
+      "statement": "Guo Xiang explicó que los seres llegan a ser desde su propia configuración y sus relaciones, sin depender de una causa creadora separada del mundo.",
+      "tags": [
+        "Guo Xiang",
+        "Autotransformación",
+        "Ziran",
+        "Zhuangzi",
+        "Inmanencia"
+      ],
+      "question": "¿Cómo pensar el origen de los seres sin recurrir a una causa exterior que los produzca desde fuera?",
+      "caution": "La edición y comentario del Zhuangzi asociados con Guo Xiang pudieron incorporar materiales de Xiang Xiu. “Autotransformación” no describe un mecanismo físico moderno ni elimina la interdependencia.",
+      "connections": [
+        "Zhuangzi",
+        "Xiang Xiu",
+        "Wang Bi",
+        "Ziran",
+        "Qi"
+      ],
+      "audio": "Comenzamos con Guo Xiang y la autotransformación. Sostuvo que los seres no necesitan un creador exterior para llegar a ser: cada uno surge desde su propia configuración dentro de una realidad compartida. Esto no significa aislamiento, porque toda existencia depende de relaciones. Además, su comentario al Zhuangzi pudo incorporar materiales anteriores de Xiang Xiu.",
+      "why": "Ofrece una ontología de inmanencia y obliga a pensar cómo algo puede depender de relaciones sin haber sido fabricado por una causa separada.",
+      "histContext": "Guo Xiang fue funcionario y comentarista durante la dinastía Jin occidental. La forma transmitida del Zhuangzi, reducida a treinta y tres capítulos, está asociada con su edición y comentario.",
+      "histDevelopment": "Su lectura rechaza tanto un creador externo como una nada productora. Los seres son ziran, “así por sí mismos”, y se transforman dentro del conjunto de relaciones que constituye el mundo. La doctrina no elimina causas cercanas; niega que una causa última separada explique el ser de cada cosa.",
+      "milestones": [
+        "Vida de Guo Xiang entre finales del siglo III e inicios del IV.",
+        "Edición del Zhuangzi en treinta y tres capítulos.",
+        "Recepción posterior de la doctrina de autotransformación."
+      ],
+      "sections": [
+        [
+          "Autotransformación",
+          "Los seres llegan a ser sin una causa creadora exterior."
+        ],
+        [
+          "Ziran",
+          "Cada existencia es “así por sí misma” dentro de su configuración."
+        ],
+        [
+          "Inmanencia",
+          "El dao no se sitúa fuera del mundo como agente separado."
+        ]
+      ],
+      "legacy": [
+        "Influyó en interpretaciones posteriores del Zhuangzi, el pensamiento xuanxue y debates sobre espontaneidad e inmanencia."
+      ],
+      "works": [
+        "Comentario de Guo Xiang al Zhuangzi"
+      ],
+      "sources": [
+        "https://plato.stanford.edu/entries/neo-daoism/",
+        "https://plato.stanford.edu/archives/win2025/entries/neo-daoism/"
+      ],
+      "evidence": "A–B",
+      "pronunciation": "Guo Xiang → guó shiang; ziran → dz-ran",
+      "guide": ""
+    },
+    {
+      "id": "card_guo_xiang_freedom_relations_001",
+      "author": "Guo Xiang",
+      "title": "La libertad no exige escapar de toda dependencia",
+      "territory": "China de la dinastía Jin",
+      "period": "Aproximadamente 252–312",
+      "family": "Guo Xiang: libertad situada y diferencias",
+      "symbol": "遊",
+      "statement": "La libertad consiste en realizar las propias capacidades dentro de relaciones inevitables, no en eliminar toda diferencia, función o dependencia.",
+      "tags": [
+        "Guo Xiang",
+        "Libertad",
+        "Fen",
+        "Interdependencia",
+        "Zhuangzi"
+      ],
+      "question": "¿Puede alguien ser libre dentro de una red de necesidades, funciones y relaciones que nunca eligió por completo?",
+      "caution": "La idea de una capacidad o “asignación” propia puede describir diferencias sin condenarlas, pero también puede utilizarse para naturalizar jerarquías sociales; esa tensión debe permanecer visible.",
+      "connections": [
+        "Zhuangzi",
+        "Autotransformación",
+        "Fen",
+        "Orden social",
+        "Espontaneidad"
+      ],
+      "audio": "Seguimos con Guo Xiang y una libertad situada. Cada ser posee capacidades diferentes y depende de otros para vivir; por eso la libertad no consiste en borrar límites, sino en actuar sin violentar la propia configuración ni la de los demás. La propuesta reconoce diferencias reales, aunque también puede usarse para justificar jerarquías como si fueran naturales.",
+      "why": "Permite discutir una libertad relacional que no se define como independencia absoluta, pero exige vigilar cuándo la aceptación de diferencias se convierte en obediencia.",
+      "histContext": "En su comentario al Zhuangzi, Guo Xiang interpreta la “libre errancia” no como evasión del mundo, sino como adecuación entre capacidades, situación y relaciones. Cada ser posee un fen, una parte o capacidad propia.",
+      "histDevelopment": "La armonía aparece cuando cada ser realiza su posibilidad sin medirla mediante un patrón ajeno. Sin embargo, Guo Xiang también proyectó esta estructura sobre funciones políticas y sociales, lo que abre una tensión entre pluralidad y legitimación jerárquica.",
+      "milestones": [
+        "Comentario a los capítulos sobre libre errancia e igualdad de las cosas.",
+        "Articulación entre capacidad propia, espontaneidad y orden.",
+        "Debates modernos sobre la dimensión política de su filosofía."
+      ],
+      "sections": [
+        [
+          "Fen",
+          "Capacidad, parte o lugar propio dentro de una configuración."
+        ],
+        [
+          "Libertad situada",
+          "Realización posible dentro de relaciones y límites."
+        ],
+        [
+          "Tensión política",
+          "La diferencia puede reconocerse o convertirse en jerarquía naturalizada."
+        ]
+      ],
+      "legacy": [
+        "Su lectura alimentó debates sobre libertad, diferencia, espontaneidad y organización social en la filosofía china."
+      ],
+      "works": [
+        "Comentario de Guo Xiang al Zhuangzi"
+      ],
+      "sources": [
+        "https://plato.stanford.edu/entries/neo-daoism/"
+      ],
+      "evidence": "A–B",
+      "pronunciation": "Guo Xiang → guó shiang; fen → fen",
+      "guide": ""
+    },
+    {
+      "id": "card_huiyuan_monastic_autonomy_001",
+      "author": "Huiyuan de Lushan",
+      "title": "La comunidad religiosa no se reduce al poder del gobernante",
+      "territory": "Monte Lu y China de los Jin orientales",
+      "period": "334–416",
+      "family": "Huiyuan: monacato y autoridad política",
+      "symbol": "僧",
+      "statement": "Huiyuan defendió que los monjes no debían realizar la reverencia cortesana ante el gobernante porque su compromiso religioso pertenecía a un orden distinto.",
+      "tags": [
+        "Huiyuan",
+        "Monacato",
+        "Autoridad",
+        "Estado",
+        "Lushan"
+      ],
+      "question": "¿Puede una comunidad conservar autonomía frente al Estado sin convertirse en una amenaza para la vida común?",
+      "caution": "La defensa de Huiyuan no equivale a una separación moderna entre religión y Estado. Buscó proteger al monacato y, al mismo tiempo, demostrar que beneficiaba al orden político y social.",
+      "connections": [
+        "Dao’an",
+        "Huan Xuan",
+        "Monacato",
+        "Kumārajīva",
+        "Donglin"
+      ],
+      "audio": "Pasamos a Huiyuan de Lushan y la autonomía monástica. En su tratado sobre por qué los monjes no se inclinan ante los reyes, defendió que la vida religiosa obedecía a compromisos distintos de la corte. No propuso una separación moderna entre Iglesia y Estado: intentó proteger al monacato demostrando también su utilidad para la comunidad política.",
+      "why": "Muestra una negociación temprana entre autoridad estatal y comunidad religiosa, donde la autonomía se defiende mediante argumentos comprensibles para el poder.",
+      "histContext": "Huiyuan fue discípulo de Dao’an y estableció una influyente comunidad en el monasterio Donglin, en el monte Lu. En 404 respondió a las exigencias de Huan Xuan sobre la reverencia de los monjes ante el gobernante.",
+      "histDevelopment": "El tratado sostiene que el monje, al abandonar la vida familiar y orientarse a la liberación, no participa de la etiqueta cortesana ordinaria. Huiyuan evita presentar esta excepción como rebelión: afirma que la práctica religiosa puede contribuir indirectamente al bienestar del imperio.",
+      "milestones": [
+        "Formación con Dao’an.",
+        "Establecimiento en el monte Lu.",
+        "Redacción de “Los monjes no se inclinan ante los reyes” hacia 404."
+      ],
+      "sections": [
+        [
+          "Autonomía",
+          "La comunidad monástica reclama normas internas propias."
+        ],
+        [
+          "Lealtad política",
+          "La diferencia ritual no se presenta como insurrección."
+        ],
+        [
+          "Negociación",
+          "La independencia se argumenta dentro del lenguaje político disponible."
+        ]
+      ],
+      "legacy": [
+        "El texto se convirtió en referencia para debates posteriores sobre monacato, soberanía y autoridad religiosa en China."
+      ],
+      "works": [
+        "Shamen bujing wangzhe lun",
+        "Correspondencia con Kumārajīva"
+      ],
+      "sources": [
+        "https://www.encyclopedia.com/environment/encyclopedias-almanacs-transcripts-and-maps/huiyuan",
+        "https://encyclopediaofbuddhism.org/wiki/Lushan_Huiyuan"
+      ],
+      "evidence": "A–B",
+      "pronunciation": "Huiyuan → juei-yuán; Lushan → lu-shan",
+      "guide": ""
+    },
+    {
+      "id": "card_huiyuan_amitabha_lushan_001",
+      "author": "Huiyuan y la comunidad del monte Lu",
+      "title": "Recordar a Amitābha orienta la vida hacia una posibilidad compartida",
+      "territory": "Monte Lu, China",
+      "period": "Finales del siglo IV e inicios del V",
+      "family": "Huiyuan: contemplación y Tierra Pura",
+      "symbol": "蓮",
+      "statement": "Huiyuan reunió practicantes que contemplaban a Amitābha y aspiraban a renacer juntos en Sukhāvatī, vinculando meditación, voto y comunidad.",
+      "tags": [
+        "Huiyuan",
+        "Amitābha",
+        "Tierra Pura",
+        "Lushan",
+        "Voto"
+      ],
+      "question": "¿Cómo transforma una práctica compartida la esperanza individual de continuidad después de la muerte?",
+      "caution": "La “Sociedad del Loto Blanco” es un nombre posterior y la comunidad de Huiyuan no constituyó todavía una escuela de Tierra Pura continua en el sentido institucional tardío.",
+      "connections": [
+        "Amitābha",
+        "Pratyutpanna samādhi",
+        "Donglin",
+        "Kumārajīva",
+        "Tierra Pura"
+      ],
+      "audio": "Continuamos con Huiyuan y la comunidad del monte Lu. En 402, monjes y laicos formularon un voto relacionado con Amitābha y Sukhāvatī, y practicaron contemplación para orientar la vida futura. La tradición posterior lo convirtió en patriarca de Tierra Pura, aunque el nombre Sociedad del Loto Blanco y una escuela continua pertenecen a reconstrucciones más tardías.",
+      "why": "Permite estudiar cómo contemplación, esperanza y compromiso colectivo crean una forma religiosa que después puede ser reinterpretada como origen de una escuela.",
+      "histContext": "En el monasterio Donglin, Huiyuan reunió una comunidad de monjes y laicos. Las fuentes relacionan una ceremonia de 402 con el voto de renacer ante Amitābha y con prácticas basadas en el Pratyutpanna Samādhi Sūtra.",
+      "histDevelopment": "La práctica buscaba concentración y visión de Amitābha, no únicamente recitación devocional en el sentido posterior. La historiografía de Tierra Pura convirtió a Huiyuan en primer patriarca, pero la etiqueta “Sociedad del Loto Blanco” aparece en relatos tardíos y contiene elementos anacrónicos.",
+      "milestones": [
+        "Fundación de Donglin en el monte Lu.",
+        "Voto colectivo asociado con Amitābha en 402.",
+        "Recepción posterior de Huiyuan como patriarca de Tierra Pura."
+      ],
+      "sections": [
+        [
+          "Voto",
+          "Compromiso compartido que orienta práctica y destino."
+        ],
+        [
+          "Contemplación",
+          "Atención meditativa dirigida a Amitābha."
+        ],
+        [
+          "Memoria posterior",
+          "Una comunidad temprana es reinterpretada como origen institucional."
+        ]
+      ],
+      "legacy": [
+        "Su figura influyó en sociedades devocionales y genealogías de Tierra Pura en China y Japón."
+      ],
+      "works": [
+        "Pratyutpanna Samādhi Sūtra",
+        "Biografías de Huiyuan"
+      ],
+      "sources": [
+        "https://www.encyclopedia.com/environment/encyclopedias-almanacs-transcripts-and-maps/huiyuan",
+        "https://www.encyclopedia.com/environment/encyclopedias-almanacs-transcripts-and-maps/buddhism-schools-chinese-buddhism"
+      ],
+      "evidence": "A–B",
+      "pronunciation": "Amitābha → a-mi-TÁ-ba; Sukhāvatī → su-JA-va-ti",
+      "guide": ""
+    },
+    {
+      "id": "card_daosheng_sudden_enlightenment_001",
+      "author": "Daosheng",
+      "title": "La comprensión decisiva puede ser súbita después de una preparación gradual",
+      "territory": "Jiankang, Chang’an y monte Lu, China",
+      "period": "Aproximadamente 360–434",
+      "family": "Daosheng: despertar súbito y cultivo",
+      "symbol": "悟",
+      "statement": "Daosheng sostuvo que la realización de la verdad no puede alcanzarse por fragmentos: la preparación puede ser gradual, pero el reconocimiento decisivo ocurre íntegramente.",
+      "tags": [
+        "Daosheng",
+        "Despertar súbito",
+        "Cultivo gradual",
+        "Buddha-nature",
+        "Chan"
+      ],
+      "question": "¿Puede una transformación culminar de manera súbita sin que por ello sea innecesaria la preparación anterior?",
+      "caution": "El despertar súbito de Daosheng no elimina estudio, disciplina ni práctica. Gran parte de su pensamiento se reconstruye mediante citas y relatos posteriores porque casi todas sus obras se perdieron.",
+      "connections": [
+        "Huiyuan",
+        "Kumārajīva",
+        "Nirvana Sutra",
+        "Huineng",
+        "Tiantai"
+      ],
+      "audio": "Entramos en Daosheng y el despertar súbito. Sostuvo que la verdad última no se adquiere como una suma de fragmentos: puede haber estudio y cultivo prolongados, pero la comprensión decisiva ocurre completa. Esto no convierte la práctica en inútil. Además, casi todas sus obras se perdieron, de modo que parte de su filosofía debe reconstruirse mediante testimonios posteriores.",
+      "why": "Aclara que “súbito” puede describir la estructura de una comprensión sin negar el proceso que prepara a la persona para reconocerla.",
+      "histContext": "Daosheng estudió con Huiyuan y participó en el ambiente de traducción de Kumārajīva. Fue conocido como expositor del Sutra del Loto y del Mahāparinirvāṇa Sūtra.",
+      "histDevelopment": "Vinculó la indivisibilidad de la naturaleza búdica con la idea de una realización súbita: si la verdad última no tiene partes, no puede poseerse por porcentajes. Sin embargo, la disciplina previa transforma obstáculos y prepara el momento de comprensión.",
+      "milestones": [
+        "Formación en Lushan.",
+        "Participación en el círculo de Kumārajīva.",
+        "Debates sobre despertar súbito durante el siglo V."
+      ],
+      "sections": [
+        [
+          "Preparación gradual",
+          "Estudio y práctica modifican hábitos y condiciones."
+        ],
+        [
+          "Realización súbita",
+          "La comprensión última no se divide en porciones."
+        ],
+        [
+          "Fuente fragmentaria",
+          "La reconstrucción depende de citas y biografías posteriores."
+        ]
+      ],
+      "legacy": [
+        "Anticipó debates centrales de Tiantai y Chan sobre despertar súbito y cultivo gradual."
+      ],
+      "works": [
+        "Comentario al Sutra del Loto",
+        "Escritos perdidos citados en fuentes posteriores"
+      ],
+      "sources": [
+        "https://www.encyclopedia.com/environment/encyclopedias-almanacs-transcripts-and-maps/daosheng",
+        "https://encyclopediaofbuddhism.org/wiki/Daosheng",
+        "https://plato.stanford.edu/entries/buddhism-chan/"
+      ],
+      "evidence": "A–B",
+      "pronunciation": "Daosheng → dao-sheng",
+      "guide": ""
+    },
+    {
+      "id": "card_daosheng_universal_buddha_nature_001",
+      "author": "Daosheng",
+      "title": "Ningún ser queda excluido definitivamente del despertar",
+      "territory": "China de los Jin orientales",
+      "period": "Aproximadamente 360–434",
+      "family": "Daosheng: naturaleza búdica universal",
+      "symbol": "性",
+      "statement": "Daosheng defendió que incluso los icchantikas, descritos en una traducción temprana como incapaces de despertar, debían poseer naturaleza búdica.",
+      "tags": [
+        "Daosheng",
+        "Naturaleza búdica",
+        "Icchantika",
+        "Universalidad",
+        "Nirvana Sutra"
+      ],
+      "question": "¿Qué ocurre con una doctrina de liberación cuando declara que ciertas personas nunca podrán transformarse?",
+      "caution": "La famosa historia según la cual una traducción posterior confirmó exactamente la intuición de Daosheng contiene elementos hagiográficos. Debe distinguirse su posición filosófica de la forma legendaria de su reivindicación.",
+      "connections": [
+        "Mahāparinirvāṇa Sūtra",
+        "Icchantika",
+        "Buddha-nature",
+        "Huiyuan",
+        "Chan"
+      ],
+      "audio": "Seguimos con Daosheng y la naturaleza búdica universal. Rechazó que los icchantikas, presentados en una traducción temprana como definitivamente excluidos, carecieran para siempre de posibilidad de despertar. Una versión más extensa del sutra apoyó después esa lectura, aunque la historia de su vindicación fue adornada por la tradición. La pregunta permanece: ¿puede una liberación ser universal si excluye casos irreversibles?",
+      "why": "Convierte la universalidad de la liberación en criterio crítico para evaluar interpretaciones textuales que condenan a ciertos seres de manera definitiva.",
+      "histContext": "Una traducción parcial del Mahāparinirvāṇa Sūtra parecía excluir a los icchantikas de la naturaleza búdica. Daosheng sostuvo que esa exclusión era incompatible con la enseñanza profunda del Mahāyāna.",
+      "histDevelopment": "Fuentes posteriores relatan que fue censurado y que una traducción ampliada confirmó su posición. Aunque los detalles narrativos pueden ser hagiográficos, su defensa de una posibilidad universal de despertar tuvo influencia duradera.",
+      "milestones": [
+        "Lectura de la traducción parcial del Nirvana Sutra.",
+        "Defensa de la naturaleza búdica incluso en los icchantikas.",
+        "Recepción posterior como precursor de posiciones universalistas."
+      ],
+      "sections": [
+        [
+          "Icchantika",
+          "Figura descrita en algunos textos como radicalmente cerrada al despertar."
+        ],
+        [
+          "Naturaleza búdica",
+          "Capacidad o dimensión que hace posible la realización."
+        ],
+        [
+          "Hermenéutica crítica",
+          "Una traducción puede cuestionarse desde la coherencia de la doctrina."
+        ]
+      ],
+      "legacy": [
+        "Influyó en debates de Tiantai, Huayan y Chan sobre universalidad del despertar y naturaleza búdica."
+      ],
+      "works": [
+        "Mahāparinirvāṇa Sūtra",
+        "Biografías y citas de Daosheng"
+      ],
+      "sources": [
+        "https://www.encyclopedia.com/environment/encyclopedias-almanacs-transcripts-and-maps/daosheng",
+        "https://encyclopediaofbuddhism.org/wiki/Icchantika"
+      ],
+      "evidence": "A–B",
+      "pronunciation": "Icchantika → ich-CHAN-ti-ka",
+      "guide": ""
+    },
+    {
+      "id": "card_zhiyi_three_truths_001",
+      "author": "Zhiyi y la tradición Tiantai",
+      "title": "Vacuidad, existencia provisional y centro se implican mutuamente",
+      "territory": "Montes Tiantai y China de las dinastías Chen y Sui",
+      "period": "538–597",
+      "family": "Tiantai: las tres verdades",
+      "symbol": "三",
+      "statement": "Zhiyi explicó que cada fenómeno es vacío de esencia independiente, existe provisionalmente mediante condiciones y expresa el centro que integra ambas perspectivas.",
+      "tags": [
+        "Zhiyi",
+        "Tiantai",
+        "Tres verdades",
+        "Vacuidad",
+        "Provisionalidad"
+      ],
+      "question": "¿Cómo puede algo carecer de esencia propia y, al mismo tiempo, existir de manera efectiva en la experiencia?",
+      "caution": "Las tres verdades no son tres mundos ni etapas que se abandonan sucesivamente. En Tiantai se implican simultáneamente en cada fenómeno y en cada perspectiva.",
+      "connections": [
+        "Nāgārjuna",
+        "Sengzhao",
+        "Lotus Sutra",
+        "Vacuidad",
+        "Centro"
+      ],
+      "audio": "Pasamos a Zhiyi y las tres verdades de Tiantai. Cada fenómeno es vacío porque depende de condiciones; es provisional porque aparece y funciona; y es centro porque ambas dimensiones se implican en una misma realidad. No son tres mundos ni pasos sucesivos. La innovación consiste en contemplarlas simultáneamente, sin convertir la vacuidad en negación de la experiencia.",
+      "why": "Ofrece una forma rigurosa de evitar dos extremos: tratar las cosas como sustancias independientes o negar su funcionamiento concreto.",
+      "histContext": "Zhiyi fue una figura decisiva en la formación de Tiantai durante los siglos VI y VII. Organizó prácticas meditativas, clasificación doctrinal y una interpretación filosófica del Sutra del Loto.",
+      "histDevelopment": "Tiantai transforma el modelo de dos verdades mediante una formulación triple: vacío, provisional y centro. Cada determinación depende de otras, aparece de modo concreto y expresa la totalidad relacional sin dejar de ser esta forma particular.",
+      "milestones": [
+        "Vida de Zhiyi entre 538 y 597.",
+        "Composición de obras fundamentales de meditación y clasificación doctrinal.",
+        "Consolidación de la identidad Tiantai en generaciones posteriores."
+      ],
+      "sections": [
+        [
+          "Vacuidad",
+          "Nada posee naturaleza independiente."
+        ],
+        [
+          "Provisionalidad",
+          "Los fenómenos aparecen y funcionan mediante condiciones."
+        ],
+        [
+          "Centro",
+          "Vacuidad y provisionalidad se implican sin anularse."
+        ]
+      ],
+      "legacy": [
+        "Las tres verdades influyeron en Tiantai chino, Tendai japonés y debates budistas sobre totalidad, práctica y naturaleza búdica."
+      ],
+      "works": [
+        "Mohe zhiguan",
+        "Fahua xuanyi",
+        "Fahua wenju"
+      ],
+      "sources": [
+        "https://plato.stanford.edu/entries/buddhism-tiantai/"
+      ],
+      "evidence": "A–B",
+      "pronunciation": "Zhiyi → chr-i; Tiantai → tien-tai",
+      "guide": ""
+    },
+    {
+      "id": "card_fazang_rafter_interpenetration_001",
+      "author": "Fazang",
+      "title": "La parte existe por la red de relaciones que la hace posible",
+      "territory": "Chang’an y China de la dinastía Tang",
+      "period": "643–712",
+      "family": "Huayan: interdependencia e interpenetración",
+      "symbol": "網",
+      "statement": "Fazang mostró que una viga es tal por su función dentro del edificio: la parte depende del conjunto y el conjunto solo existe mediante sus partes relacionadas.",
+      "tags": [
+        "Fazang",
+        "Huayan",
+        "Interpenetración",
+        "Rafter Dialogue",
+        "Dependencia"
+      ],
+      "question": "¿Puede una parte conservar identidad propia cuando todo lo que es depende de la totalidad de relaciones en la que participa?",
+      "caution": "La interpenetración Huayan no significa que cada objeto contenga físicamente todos los demás. Es una tesis sobre dependencia, determinación y totalidad, desarrollada mediante argumentos y metáforas.",
+      "connections": [
+        "Avataṃsaka Sūtra",
+        "Zhiyan",
+        "Dushun",
+        "Zongmi",
+        "Red de Indra"
+      ],
+      "audio": "Continuamos con Fazang y el diálogo de la viga. Una viga no es parte del edificio por su madera aislada, sino por la función que cumple entre otras partes; a la vez, el edificio no existe sin esas relaciones. Huayan llama la atención sobre esta interpenetración. No significa que cada objeto contenga físicamente el universo, sino que su identidad depende de una red completa.",
+      "why": "Permite pensar entidades y sistemas sin separar las partes de las relaciones que les dan función, identidad y efectos.",
+      "histContext": "Fazang fue uno de los principales sistematizadores de Huayan durante la dinastía Tang. Trabajó con el Avataṃsaka Sūtra y desarrolló argumentos sobre interdependencia, mente y clasificación de enseñanzas.",
+      "histDevelopment": "En el llamado diálogo de la viga, la parte y el edificio se explican mutuamente. La identidad de cada elemento depende de una totalidad relacional, mientras la totalidad no es una sustancia adicional separada de sus componentes.",
+      "milestones": [
+        "Vida de Fazang entre 643 y 712.",
+        "Elaboración de tratados Huayan y actividad en la corte Tang.",
+        "Influencia posterior en China, Corea y Japón."
+      ],
+      "sections": [
+        [
+          "Parte",
+          "Existe como parte mediante una función relacional."
+        ],
+        [
+          "Totalidad",
+          "No se separa de los elementos y relaciones que la realizan."
+        ],
+        [
+          "Interpenetración",
+          "Cada determinación remite a condiciones más amplias."
+        ]
+      ],
+      "legacy": [
+        "Huayan influyó en Chan, neoconfucianismo y filosofías contemporáneas de interdependencia, aunque estas recepciones deben distinguirse del contexto Tang."
+      ],
+      "works": [
+        "Tratado del León de Oro",
+        "Diálogo de la viga",
+        "Comentarios al Avataṃsaka Sūtra"
+      ],
+      "sources": [
+        "https://plato.stanford.edu/entries/buddhism-huayan/"
+      ],
+      "evidence": "A–B",
+      "pronunciation": "Fazang → fa-dzang; Huayan → jua-yen",
+      "guide": ""
+    },
+    {
+      "id": "card_bodhidharma_lineage_history_001",
+      "author": "Bodhidharma y las tradiciones tempranas de Chan",
+      "title": "Una figura histórica se convirtió en origen de un linaje",
+      "territory": "Norte de China",
+      "period": "Actividad probable durante los siglos V–VI",
+      "family": "Bodhidharma: historia, práctica y memoria de linaje",
+      "symbol": "壁",
+      "statement": "Bodhidharma fue recordado como maestro de meditación procedente de regiones occidentales, pero las biografías posteriores ampliaron enormemente su vida y su papel fundacional.",
+      "tags": [
+        "Bodhidharma",
+        "Chan",
+        "Meditación",
+        "Linaje",
+        "Hagiografía"
+      ],
+      "question": "¿Cómo distinguir a una persona histórica de la figura que una tradición necesita construir como fundador?",
+      "caution": "La fecha, procedencia y enseñanzas exactas de Bodhidharma son inciertas. Fórmulas como “transmisión especial fuera de las escrituras” pertenecen a desarrollos Chan posteriores y no deben citarse como palabras demostradas suyas.",
+      "connections": [
+        "Huike",
+        "Meditación de la pared",
+        "Chan",
+        "Linaje patriarcal",
+        "Huineng"
+      ],
+      "audio": "Entramos en Bodhidharma, maestro asociado con los comienzos de Chan en China. Las fuentes tempranas lo describen como practicante de meditación procedente de Occidente, pero las biografías posteriores añadieron viajes, encuentros y un linaje completo. Su importancia histórica es real, aunque no conocemos una biografía segura ni podemos atribuirle automáticamente los lemas formulados siglos después.",
+      "why": "Enseña a separar historia y memoria institucional: una tradición puede construir un fundador para organizar autoridad, continuidad y práctica.",
+      "histContext": "Las primeras referencias sitúan a Bodhidharma en el norte de China durante los siglos V o VI y lo asocian con una práctica contemplativa. Los detalles sobre su origen indio o centroasiático continúan discutidos.",
+      "histDevelopment": "Las genealogías Chan posteriores lo convirtieron en primer patriarca chino y vigésimo octavo indio. Relatos sobre el encuentro con el emperador Wu, nueve años frente a una pared y transmisión directa reflejan la elaboración de identidad Chan a lo largo del tiempo.",
+      "milestones": [
+        "Actividad probable en el norte de China.",
+        "Formación de biografías y genealogías durante los siglos VII–VIII.",
+        "Consolidación de Bodhidharma como fundador de Chan."
+      ],
+      "sections": [
+        [
+          "Figura histórica",
+          "Maestro extranjero asociado con práctica meditativa."
+        ],
+        [
+          "Fundador de linaje",
+          "Identidad desarrollada por comunidades posteriores."
+        ],
+        [
+          "Hagiografía",
+          "Relatos que expresan valores de una tradición sin funcionar siempre como biografía verificable."
+        ]
+      ],
+      "legacy": [
+        "Bodhidharma se convirtió en figura fundacional de Chan, Zen, Seon y Thiền, además de protagonista de numerosas leyendas."
+      ],
+      "works": [
+        "Tratado de las dos entradas y cuatro prácticas, atribución discutida",
+        "Biografías monásticas tempranas"
+      ],
+      "sources": [
+        "https://plato.stanford.edu/entries/buddhism-chan/"
+      ],
+      "evidence": "A–B",
+      "pronunciation": "Bodhidharma → bo-di-DAR-ma; Chan → chan",
+      "guide": ""
+    },
+    {
+      "id": "card_huineng_platform_sutra_001",
+      "author": "Huineng y la tradición textual del Sutra de la Plataforma",
+      "title": "Meditación y sabiduría no son dos etapas separadas",
+      "territory": "Sur de China y comunidades Chan de la dinastía Tang",
+      "period": "Huineng: 638–713; texto desarrollado desde el siglo VIII",
+      "family": "Huineng: despertar súbito y Sutra de la Plataforma",
+      "symbol": "壇",
+      "statement": "El Sutra de la Plataforma presenta meditación y sabiduría como estructura y función inseparables de una práctica que reconoce la naturaleza búdica en la experiencia presente.",
+      "tags": [
+        "Huineng",
+        "Sutra de la Plataforma",
+        "Chan",
+        "Despertar súbito",
+        "Meditación"
+      ],
+      "question": "¿Qué cambia cuando la sabiduría no se considera recompensa posterior de la práctica, sino modo de practicar desde el comienzo?",
+      "caution": "El Huineng histórico debe distinguirse del personaje literario. El Sutra de la Plataforma tuvo varias versiones y capas; su crítica del apego a textos no equivale a despreciar el estudio o abandonar la disciplina.",
+      "connections": [
+        "Shenxiu",
+        "Buddha-nature",
+        "Meditación",
+        "Sabiduría",
+        "Chan del Sur"
+      ],
+      "audio": "Cerramos con Huineng y el Sutra de la Plataforma. El texto afirma que meditación y sabiduría son inseparables: una no prepara simplemente el camino para la otra. También presenta el despertar como reconocimiento súbito de la naturaleza propia. Sin embargo, la obra tuvo varias capas y convirtió a Huineng en figura literaria; criticar el apego a textos no significa rechazar estudio y práctica.",
+      "why": "Introduce una concepción performativa del despertar y muestra cómo una obra puede construir simultáneamente enseñanza, autoridad y memoria de linaje.",
+      "histContext": "Huineng fue recordado como sexto patriarca de Chan. El Sutra de la Plataforma, atestiguado en manuscritos de Dunhuang y versiones posteriores, es el único texto chino titulado “sutra” alrededor de las enseñanzas de un maestro local.",
+      "histDevelopment": "La obra vincula despertar súbito, naturaleza propia, no-pensamiento y unidad de meditación y sabiduría. También narra una competencia de versos con Shenxiu que la investigación entiende como parte de disputas de linaje y construcción de la llamada Escuela del Sur.",
+      "milestones": [
+        "Vida tradicional de Huineng entre 638 y 713.",
+        "Composición y circulación de versiones del Sutra de la Plataforma desde el siglo VIII.",
+        "Consolidación de Huineng como sexto patriarca de Chan."
+      ],
+      "sections": [
+        [
+          "Despertar súbito",
+          "Reconocimiento no dividido de la naturaleza propia."
+        ],
+        [
+          "Meditación y sabiduría",
+          "Dos dimensiones inseparables de una misma práctica."
+        ],
+        [
+          "Construcción de linaje",
+          "El relato legitima una forma de autoridad Chan."
+        ]
+      ],
+      "legacy": [
+        "El Sutra de la Plataforma influyó decisivamente en Chan, Zen, Seon y Thiền, así como en debates sobre práctica, lenguaje y autoridad."
+      ],
+      "works": [
+        "Sutra de la Plataforma"
+      ],
+      "sources": [
+        "https://plato.stanford.edu/entries/buddhism-chan/"
+      ],
+      "evidence": "A–B",
+      "pronunciation": "Huineng → juei-neng; Shenxiu → shen-shiou",
+      "guide": ""
+    }
+  ],
+  "editorialNote": "Fuente estructurada de la cuarta serie de la Cartografía D. Conserva núcleos, cautelas, conexiones, audios concisos, desarrollos históricos y anclajes bibliográficos."
+}

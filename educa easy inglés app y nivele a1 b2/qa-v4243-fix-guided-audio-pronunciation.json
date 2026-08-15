@@ -1,0 +1,17 @@
+{
+  "version": "v4.24.3",
+  "fixes": [
+    "Práctica guiada/reading_choice vuelve a mostrar texto guía, pregunta y opciones seleccionables.",
+    "listen_choice vuelve a usar su vista guiada y opciones seleccionables.",
+    "complete_text usa audioText limpio; si hay guiones bajos, se reemplazan por la respuesta.",
+    "Se sanearon audioText de complete_text en content y fallback.",
+    "Pronunciación se limita a 4 frases y muestra spotlight/puño con XP al completar."
+  ],
+  "checks": {
+    "reading_branch_reachable": true,
+    "handler_includes_reading_listen": true,
+    "complete_audio_has_no_underscore": 0,
+    "pronunciation_four": true,
+    "puno_arriba": true
+  }
+}

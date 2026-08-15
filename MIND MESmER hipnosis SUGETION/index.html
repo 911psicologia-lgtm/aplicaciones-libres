@@ -1,0 +1,1143 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>MESMER | Hypnotic Suggestion Engine</title>
+    <style>
+        :root {
+            --bg-deep: #000000; 
+            --text-color: #aaddff; 
+            --accent: #5588cc;
+            --mode-vortex: #88ccff;
+            --mode-waves: #ff88cc;
+            --mode-kaleidoscope: #88ff88;
+            --mode-fluid: #ffcc88;
+            --mode-fractal: #cc88ff;
+            --mode-particle: #88ffcc;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            background-color: var(--bg-deep);
+            color: var(--text-color);
+            font-family: 'Courier New', monospace;
+            overflow: hidden;
+            height: 100vh;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            user-select: none;
+            -webkit-user-select: none;
+            -webkit-tap-highlight-color: transparent;
+        }
+
+        .screen {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            transition: opacity 1s ease;
+            z-index: 100;
+            background: var(--bg-deep);
+        }
+
+        /* ==================== SETUP UI ==================== */
+        #setup-ui {
+            padding: 40px;
+            background: linear-gradient(135deg, #0a0e14 0%, #0f1419 100%);
+            border-radius: 12px;
+            max-width: 600px;
+            box-shadow: 0 20px 60px rgba(0, 100, 255, 0.1);
+            border: 1px solid rgba(136, 204, 255, 0.1);
+        }
+
+        h1 {
+            font-weight: 100;
+            letter-spacing: 12px;
+            font-size: 3rem;
+            opacity: 0.95;
+            margin-bottom: 10px;
+            color: var(--text-color);
+            text-shadow: 0 0 30px rgba(136, 204, 255, 0.4);
+            text-align: center;
+        }
+
+        .subtitle {
+            text-align: center;
+            color: #6699bb;
+            font-size: 0.9rem;
+            letter-spacing: 2px;
+            margin-bottom: 30px;
+            font-style: italic;
+        }
+
+        #message-box {
+            border: 1px solid #112233;
+            padding: 20px;
+            width: 100%;
+            text-align: center;
+            margin-bottom: 30px;
+            font-size: 0.9rem;
+            color: #446688;
+            font-style: italic;
+            opacity: 0.85;
+            border-radius: 6px;
+            background: rgba(0, 20, 40, 0.5);
+        }
+
+        #info-btn {
+            font-size: 0.8rem;
+            color: #557799;
+            cursor: pointer;
+            margin-bottom: 25px;
+            border-bottom: 1px dotted #335577;
+            padding: 8px 12px;
+            z-index: 1001;
+            transition: all 0.3s;
+            display: inline-block;
+        }
+
+        #info-btn:hover {
+            color: #88ccff;
+            border-color: #88ccff;
+        }
+
+        .mode-selector {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(100px, 1fr));
+            gap: 12px;
+            margin-bottom: 30px;
+            width: 100%;
+        }
+
+        .mode-btn {
+            background: #050a10;
+            border: 2px solid #224466;
+            color: #557799;
+            padding: 12px 15px;
+            border-radius: 6px;
+            cursor: pointer;
+            font-size: 0.75rem;
+            transition: all 0.3s ease;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            font-weight: 600;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .mode-btn::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255,255,255,0.1), transparent);
+            transition: left 0.5s;
+        }
+
+        .mode-btn:hover::before {
+            left: 100%;
+        }
+
+        .mode-btn:hover {
+            border-color: var(--text-color);
+            color: var(--text-color);
+            box-shadow: 0 0 15px rgba(136, 204, 255, 0.2);
+            transform: translateY(-2px);
+        }
+
+        .mode-btn.active {
+            border-color: var(--text-color);
+            color: var(--text-color);
+            box-shadow: 0 0 20px rgba(136, 204, 255, 0.5);
+            background: rgba(136, 204, 255, 0.05);
+        }
+
+        .mode-indicator {
+            display: inline-block;
+            width: 8px;
+            height: 8px;
+            border-radius: 50%;
+            margin-right: 6px;
+            background: currentColor;
+            opacity: 0.6;
+        }
+
+        .mode-btn.active .mode-indicator {
+            opacity: 1;
+            animation: pulse 2s infinite;
+        }
+
+        @keyframes pulse {
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0.5; }
+        }
+
+        /* ==================== CONSOLE ==================== */
+        #subliminal-console {
+            width: 100%;
+            height: 80px;
+            background: #080808;
+            border: 1px dashed #334455;
+            color: #ccffaa;
+            font-family: 'Courier New', monospace;
+            font-size: 0.85rem;
+            padding: 12px;
+            margin-bottom: 25px;
+            outline: none;
+            resize: none;
+            border-radius: 6px;
+            text-align: center;
+            opacity: 0.85;
+            transition: all 0.3s;
+        }
+
+        #subliminal-console::placeholder {
+            color: #334455;
+            font-style: italic;
+            font-size: 0.8rem;
+        }
+
+        #subliminal-console:focus {
+            border-color: var(--accent);
+            opacity: 1;
+            background: #0a0a0a;
+            box-shadow: 0 0 15px rgba(85, 136, 204, 0.2);
+        }
+
+        /* ==================== SELECT ==================== */
+        select {
+            background: #050a10;
+            border: 1px solid #224466;
+            color: #88ccff;
+            padding: 12px 15px;
+            margin-bottom: 25px;
+            font-size: 0.95rem;
+            outline: none;
+            text-align: center;
+            width: 100%;
+            letter-spacing: 1px;
+            border-radius: 6px;
+            transition: all 0.3s;
+            cursor: pointer;
+        }
+
+        select:hover {
+            border-color: #88ccff;
+            box-shadow: 0 0 10px rgba(136, 204, 255, 0.2);
+        }
+
+        select:focus {
+            border-color: #88ccff;
+            box-shadow: 0 0 15px rgba(136, 204, 255, 0.3);
+        }
+
+        /* ==================== BUTTON ==================== */
+        .btn {
+            background: transparent;
+            border: 2px solid #336699;
+            color: #88ccff;
+            padding: 16px 40px;
+            font-size: 1rem;
+            border-radius: 6px;
+            margin: 15px auto;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            min-width: 240px;
+            box-shadow: 0 0 15px rgba(0, 100, 255, 0.1);
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            font-weight: 600;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .btn::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(136, 204, 255, 0.2), transparent);
+            transition: left 0.6s;
+        }
+
+        .btn:hover::before {
+            left: 100%;
+        }
+
+        .btn:hover {
+            border-color: #88ccff;
+            color: #88ccff;
+            box-shadow: 0 0 25px rgba(0, 100, 255, 0.3);
+            transform: translateY(-2px);
+        }
+
+        .btn:active {
+            transform: scale(0.98);
+            background: #001122;
+            box-shadow: 0 0 10px rgba(0, 100, 255, 0.2);
+        }
+
+        /* ==================== INSTRUCTION OVERLAY ==================== */
+        #instr-overlay {
+            z-index: 200;
+            background: rgba(0, 0, 0, 0.95);
+            opacity: 0;
+            pointer-events: none;
+            cursor: pointer;
+            backdrop-filter: blur(4px);
+        }
+
+        .instr-text {
+            font-size: 1.3rem;
+            color: #fff;
+            letter-spacing: 4px;
+            margin: 30px;
+            text-align: center;
+            opacity: 0;
+            transform: translateY(20px);
+            transition: all 1.5s ease;
+            font-weight: lighter;
+            text-shadow: 0 0 20px rgba(136, 204, 255, 0.3);
+        }
+
+        .pulse-text {
+            animation: pulse-text 4s infinite ease-in-out;
+            color: #5588cc;
+            font-size: 0.9rem;
+            margin-top: 60px;
+        }
+
+        @keyframes pulse-text {
+            0% { opacity: 0.3; }
+            50% { opacity: 0.8; }
+            100% { opacity: 0.3; }
+        }
+
+        /* ==================== TRANCE ZONE ==================== */
+        #trance-zone {
+            z-index: 50;
+            opacity: 0;
+            pointer-events: none;
+            background: #000000;
+            cursor: pointer;
+            touch-action: none;
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+        }
+
+        canvas {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            opacity: 1;
+        }
+
+        /* ==================== SUBLIMINAL WORD ==================== */
+        #subliminal-word {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            font-size: 5rem;
+            letter-spacing: 20px;
+            color: rgba(100, 100, 100, 0.1);
+            font-weight: 900;
+            text-shadow: none;
+            opacity: 0;
+            transition: opacity 0.5s ease-in-out;
+            pointer-events: none;
+            text-align: center;
+            width: 100%;
+            filter: blur(8px);
+            mix-blend-mode: screen;
+        }
+
+        #exit-hint {
+            position: absolute;
+            bottom: 10%;
+            width: 100%;
+            text-align: center;
+            opacity: 0;
+            color: #88ccff;
+            font-size: 1rem;
+            font-weight: lighter;
+            letter-spacing: 4px;
+            transition: opacity 0.5s;
+            pointer-events: none;
+            text-shadow: 0 0 15px rgba(136, 204, 255, 0.4);
+        }
+
+        /* ==================== MODAL ==================== */
+        #science-modal {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.98);
+            z-index: 2000;
+            display: none;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            padding: 30px;
+            text-align: left;
+            backdrop-filter: blur(8px);
+        }
+
+        .science-content {
+            max-width: 500px;
+            font-size: 0.95rem;
+            line-height: 1.8;
+            color: #99aabb;
+            background: rgba(10, 20, 40, 0.6);
+            padding: 30px;
+            border-radius: 8px;
+            border: 1px solid rgba(136, 204, 255, 0.1);
+            max-height: 70vh;
+            overflow-y: auto;
+        }
+
+        .science-title {
+            color: #88ccff;
+            margin-bottom: 20px;
+            font-weight: bold;
+            border-bottom: 2px solid #335577;
+            padding-bottom: 15px;
+            font-size: 1.3rem;
+            letter-spacing: 2px;
+        }
+
+        .science-content p {
+            margin-bottom: 15px;
+        }
+
+        .science-content b {
+            color: #aaddff;
+        }
+
+        .close-btn {
+            background: none;
+            border: 1px solid #557799;
+            color: #88ccff;
+            text-decoration: none;
+            margin-top: 30px;
+            cursor: pointer;
+            font-size: 1rem;
+            padding: 10px 20px;
+            border-radius: 4px;
+            transition: all 0.3s;
+        }
+
+        .close-btn:hover {
+            border-color: #88ccff;
+            box-shadow: 0 0 10px rgba(136, 204, 255, 0.2);
+        }
+
+        .hidden {
+            display: none !important;
+        }
+
+        /* ==================== RESPONSIVE ==================== */
+        @media (max-width: 768px) {
+            h1 {
+                font-size: 2rem;
+            }
+
+            #setup-ui {
+                max-width: 90%;
+                padding: 30px 20px;
+            }
+
+            .mode-selector {
+                grid-template-columns: repeat(2, 1fr);
+                gap: 8px;
+            }
+
+            .mode-btn {
+                font-size: 0.65rem;
+                padding: 10px 8px;
+            }
+
+            .instr-text {
+                font-size: 1rem;
+            }
+
+            #subliminal-word {
+                font-size: 3rem;
+                letter-spacing: 10px;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <div id="setup-ui" class="screen">
+        <h1>MESMER</h1>
+        <div class="subtitle">Hypnotic Suggestion Engine v2</div>
+        <div id="message-box">"El vórtice visual agota la resistencia crítica."</div>
+        <div id="info-btn">? Protocolo Vortex</div>
+
+        <div class="mode-selector">
+            <div class="mode-btn active" data-mode="vortex" onclick="setMode('vortex')">
+                <span class="mode-indicator"></span>VORTEX
+            </div>
+            <div class="mode-btn" data-mode="waves" onclick="setMode('waves')">
+                <span class="mode-indicator"></span>WAVES
+            </div>
+            <div class="mode-btn" data-mode="kaleidoscope" onclick="setMode('kaleidoscope')">
+                <span class="mode-indicator"></span>KALEIDO
+            </div>
+            <div class="mode-btn" data-mode="fluid" onclick="setMode('fluid')">
+                <span class="mode-indicator"></span>FLUID
+            </div>
+            <div class="mode-btn" data-mode="fractal" onclick="setMode('fractal')">
+                <span class="mode-indicator"></span>FRACTAL
+            </div>
+            <div class="mode-btn" data-mode="particle" onclick="setMode('particle')">
+                <span class="mode-indicator"></span>PARTICLE
+            </div>
+        </div>
+
+        <textarea id="subliminal-console" placeholder="> INPUT SUBLIMINAL (EJ: ESTOY SANO, SOY FUERTE)"></textarea>
+
+        <select id="timer-select">
+            <option value="15">15 Min (Suave)</option>
+            <option value="30" selected>30 Min (Profundo)</option>
+            <option value="60">60 Min (Eterno)</option>
+        </select>
+
+        <button id="btn-prepare" class="btn">PREPARAR MENTE</button>
+    </div>
+
+    <div id="instr-overlay" class="screen">
+        <div class="instr-text" id="ins-1">SUELTA EL CUERPO</div>
+        <div class="instr-text" id="ins-2">MIRA DENTRO</div>
+        <div class="instr-text" id="ins-3">DEJA QUE SUCEDA</div>
+        <div class="instr-text pulse-text" id="ins-action">[ TOCA PARA CAER ]</div>
+    </div>
+
+    <div id="trance-zone">
+        <canvas id="spiral-canvas"></canvas>
+        <div id="subliminal-word">...</div>
+        <div id="exit-hint">MANTÉN PARA DESPERTAR</div>
+    </div>
+
+    <div id="science-modal">
+        <div class="science-content">
+            <div class="science-title">TECNOLOGÍA MESMER V2</div>
+            
+            <p><b>1. Modo VORTEX (Original):</b><br>Tres corrientes geométricas entrelazadas giran simultáneamente. Espirales multi-brazo con anillos de interferencia que crean una ilusión de profundidad infinita.</p>
+            
+            <p><b>2. Modo WAVES:</b><br>Líneas sinusoidales ondulantes que fluyen desde los bordes hacia el centro. Cada onda tiene amplitud y frecuencia variables, creando un efecto hipnótico de flujo constante.</p>
+            
+            <p><b>3. Modo KALEIDOSCOPE:</b><br>Simetría radial perfecta con 6 segmentos que se transforman simultáneamente. Los patrones se multiplican creando un efecto de espejo infinito.</p>
+            
+            <p><b>4. Modo FLUID:</b><br>Líneas fluidas que se deforman orgánicamente, como agua fluyendo. Movimiento suave y continuo sin puntos fijos, creando una sensación de fluidez hipnótica.</p>
+            
+            <p><b>5. Modo FRACTAL:</b><br>Patrones autosimilares que se repiten en diferentes escalas. Cada nivel contiene versiones más pequeñas del patrón anterior, creando profundidad infinita.</p>
+            
+            <p><b>6. Modo PARTICLE:</b><br>Campo de partículas que convergen y divergen desde el centro. Crea un efecto de túnel de energía con movimiento constante.</p>
+            
+            <p><b>Inyección Subliminal:</b><br>Mensajes imperceptibles al ojo consciente (6% opacidad) pero legibles para el subconsciente, mostrados cada 2-4 segundos.</p>
+            
+            <br>
+            <center><button id="close-science" class="close-btn">Cerrar</button></center>
+        </div>
+    </div>
+
+    <script>
+        const MODES = {
+            vortex: { 
+                color: [100, 200, 255], 
+                words: ["FLOTAR", "VACÍO", "ETERNO", "LUZ", "CERO", "AIRE"],
+                name: "VORTEX"
+            },
+            waves: { 
+                color: [255, 100, 200], 
+                words: ["FLUIR", "ONDA", "SUAVE", "FLUIDEZ", "MOVIMIENTO", "AGUA"],
+                name: "WAVES"
+            },
+            kaleidoscope: { 
+                color: [100, 255, 100], 
+                words: ["SIMETRÍA", "REFLEJO", "INFINITO", "ESPEJO", "PATRÓN", "ARMONÍA"],
+                name: "KALEIDOSCOPE"
+            },
+            fluid: { 
+                color: [255, 200, 100], 
+                words: ["FLUIDEZ", "ORGÁNICO", "NATURAL", "SUAVE", "TRANSFORMACIÓN", "EVOLUCIÓN"],
+                name: "FLUID"
+            },
+            fractal: { 
+                color: [200, 100, 255], 
+                words: ["INFINITO", "RECURSIÓN", "ESCALA", "PROFUNDIDAD", "AUTOSIMILAR", "ETERNIDAD"],
+                name: "FRACTAL"
+            },
+            particle: { 
+                color: [100, 255, 200], 
+                words: ["ENERGÍA", "CONVERGENCIA", "TÚNEL", "PODER", "CENTRO", "UNIDAD"],
+                name: "PARTICLE"
+            }
+        };
+
+        let currentMode = 'vortex';
+        let activeWords = [];
+
+        function setMode(mode) {
+            currentMode = mode;
+            document.querySelectorAll('.mode-btn').forEach(b => b.classList.remove('active'));
+            document.querySelector(`.mode-btn[data-mode="${mode}"]`).classList.add('active');
+            
+            const c = MODES[mode].color;
+            const color = `rgb(${c[0]}, ${c[1]}, ${c[2]})`;
+            document.querySelector('h1').style.color = color;
+            document.querySelector('.btn').style.borderColor = color;
+            document.querySelector('.btn').style.color = color;
+            document.getElementById('subliminal-console').style.borderColor = color;
+            document.getElementById('subliminal-console').style.color = `rgb(${c[0]+50}, ${c[1]+50}, ${c[2]+50})`;
+        }
+
+        // ==================== VISUAL ENGINES ====================
+        class VisualEngine {
+            constructor(canvasId) {
+                this.cvs = document.getElementById(canvasId);
+                this.ctx = this.cvs.getContext('2d');
+                this.particles = [];
+                this.resize();
+                window.addEventListener('resize', () => this.resize());
+                this.angle = 0;
+                this.running = false;
+                this.frame = 0;
+                this.initParticles();
+            }
+
+            resize() {
+                this.cvs.width = window.innerWidth;
+                this.cvs.height = window.innerHeight;
+                this.cx = this.cvs.width / 2;
+                this.cy = this.cvs.height / 2;
+            }
+
+            initParticles() {
+                for (let i = 0; i < 150; i++) {
+                    this.particles.push({
+                        x: Math.random() * this.cvs.width,
+                        y: Math.random() * this.cvs.height,
+                        z: Math.random() * 2,
+                        vx: (Math.random() - 0.5) * 2,
+                        vy: (Math.random() - 0.5) * 2,
+                        angle: Math.random() * Math.PI * 2
+                    });
+                }
+            }
+
+            start() { this.running = true; this.animate(); }
+            stop() { this.running = false; }
+
+            drawVortex() {
+                if (!this.running) return;
+                
+                this.ctx.fillStyle = 'rgba(0, 0, 0, 0.1)';
+                this.ctx.fillRect(0, 0, this.cvs.width, this.cvs.height);
+
+                const rgb = MODES[currentMode].color;
+                
+                // Partículas
+                this.ctx.fillStyle = `rgba(${rgb[0]}, ${rgb[1]}, ${rgb[2]}, 0.5)`;
+                this.particles.forEach(p => {
+                    const dx = this.cx - p.x;
+                    const dy = this.cy - p.y;
+                    const dist = Math.sqrt(dx*dx + dy*dy);
+                    
+                    p.x += dx * 0.02 * p.z;
+                    p.y += dy * 0.02 * p.z;
+                    
+                    if (dist < 5) {
+                        p.x = Math.random() * this.cvs.width;
+                        p.y = Math.random() < 0.5 ? 0 : this.cvs.height;
+                        p.z = Math.random() * 2 + 0.5;
+                    }
+                    
+                    this.ctx.beginPath();
+                    this.ctx.arc(p.x, p.y, p.z, 0, Math.PI*2);
+                    this.ctx.fill();
+                });
+
+                this.ctx.save();
+                this.ctx.translate(this.cx, this.cy);
+                const breath = 1 + Math.sin(this.frame * 0.02) * 0.1;
+                this.ctx.scale(breath, breath);
+                this.ctx.rotate(this.angle);
+
+                const arms = 3;
+                const alpha = 0.3 + Math.sin(this.frame * 0.05) * 0.2;
+                this.ctx.strokeStyle = `rgba(${rgb[0]}, ${rgb[1]}, ${rgb[2]}, ${alpha})`;
+                this.ctx.lineWidth = 2;
+
+                for (let a = 0; a < arms; a++) {
+                    this.ctx.rotate((Math.PI * 2) / arms);
+                    this.ctx.beginPath();
+                    for (let i = 0; i < 120; i++) {
+                        const angle = 0.15 * i;
+                        const x = (1 + angle) * Math.cos(angle) * (i * 0.8);
+                        const y = (1 + angle) * Math.sin(angle) * (i * 0.8);
+                        this.ctx.lineTo(x, y);
+                    }
+                    this.ctx.stroke();
+                }
+
+                for (let j = 0; j < 5; j++) {
+                    const radius = ((this.frame * 1.5 + j * 100) % 600);
+                    if (radius > 10) {
+                        this.ctx.beginPath();
+                        this.ctx.arc(0, 0, radius, 0, Math.PI * 2);
+                        this.ctx.strokeStyle = `rgba(${rgb[0]}, ${rgb[1]}, ${rgb[2]}, ${(1 - radius/600) * 0.15})`;
+                        this.ctx.lineWidth = 1;
+                        this.ctx.stroke();
+                    }
+                }
+
+                this.ctx.restore();
+                this.angle -= 0.02;
+                this.frame++;
+            }
+
+            drawWaves() {
+                if (!this.running) return;
+
+                this.ctx.fillStyle = 'rgba(0, 0, 0, 0.08)';
+                this.ctx.fillRect(0, 0, this.cvs.width, this.cvs.height);
+
+                const rgb = MODES[currentMode].color;
+                this.ctx.strokeStyle = `rgba(${rgb[0]}, ${rgb[1]}, ${rgb[2]}, 0.4)`;
+                this.ctx.lineWidth = 2;
+
+                for (let waveIdx = 0; waveIdx < 5; waveIdx++) {
+                    this.ctx.beginPath();
+                    const waveOffset = waveIdx * 60;
+                    const amplitude = 80 + Math.sin(this.frame * 0.01 + waveIdx) * 40;
+                    const frequency = 0.01 + waveIdx * 0.002;
+                    
+                    for (let x = 0; x < this.cvs.width; x += 5) {
+                        const y = this.cy + Math.sin(x * frequency + this.frame * 0.02) * amplitude + waveOffset;
+                        if (x === 0) this.ctx.moveTo(x, y);
+                        else this.ctx.lineTo(x, y);
+                    }
+                    this.ctx.stroke();
+                }
+
+                this.frame++;
+            }
+
+            drawKaleidoscope() {
+                if (!this.running) return;
+
+                this.ctx.fillStyle = 'rgba(0, 0, 0, 0.1)';
+                this.ctx.fillRect(0, 0, this.cvs.width, this.cvs.height);
+
+                const rgb = MODES[currentMode].color;
+                this.ctx.save();
+                this.ctx.translate(this.cx, this.cy);
+
+                const segments = 6;
+                const angleStep = (Math.PI * 2) / segments;
+
+                for (let seg = 0; seg < segments; seg++) {
+                    this.ctx.save();
+                    this.ctx.rotate(angleStep * seg);
+
+                    this.ctx.strokeStyle = `rgba(${rgb[0]}, ${rgb[1]}, ${rgb[2]}, 0.4)`;
+                    this.ctx.lineWidth = 2;
+
+                    for (let i = 0; i < 8; i++) {
+                        const radius = 50 + i * 40 + Math.sin(this.frame * 0.03 + i) * 20;
+                        this.ctx.beginPath();
+                        this.ctx.arc(0, 0, radius, 0, Math.PI * 2);
+                        this.ctx.stroke();
+                    }
+
+                    for (let i = 0; i < 12; i++) {
+                        const angle = (i / 12) * Math.PI * 2;
+                        const length = 300 + Math.sin(this.frame * 0.02 + i) * 100;
+                        this.ctx.beginPath();
+                        this.ctx.moveTo(0, 0);
+                        this.ctx.lineTo(Math.cos(angle) * length, Math.sin(angle) * length);
+                        this.ctx.stroke();
+                    }
+
+                    this.ctx.restore();
+                }
+
+                this.ctx.restore();
+                this.frame++;
+            }
+
+            drawFluid() {
+                if (!this.running) return;
+
+                this.ctx.fillStyle = 'rgba(0, 0, 0, 0.05)';
+                this.ctx.fillRect(0, 0, this.cvs.width, this.cvs.height);
+
+                const rgb = MODES[currentMode].color;
+                this.ctx.strokeStyle = `rgba(${rgb[0]}, ${rgb[1]}, ${rgb[2]}, 0.3)`;
+                this.ctx.lineWidth = 3;
+
+                for (let lineIdx = 0; lineIdx < 8; lineIdx++) {
+                    this.ctx.beginPath();
+                    const offset = (this.frame * 2 + lineIdx * 40) % this.cvs.width;
+                    
+                    for (let x = 0; x < this.cvs.width; x += 10) {
+                        const y = this.cy + 
+                            Math.sin((x + offset) * 0.01) * 100 +
+                            Math.cos((x + offset) * 0.005 + this.frame * 0.01) * 80;
+                        
+                        if (x === 0) this.ctx.moveTo(x, y);
+                        else this.ctx.lineTo(x, y);
+                    }
+                    this.ctx.stroke();
+                }
+
+                this.frame++;
+            }
+
+            drawFractal() {
+                if (!this.running) return;
+
+                this.ctx.fillStyle = 'rgba(0, 0, 0, 0.08)';
+                this.ctx.fillRect(0, 0, this.cvs.width, this.cvs.height);
+
+                const rgb = MODES[currentMode].color;
+                this.ctx.strokeStyle = `rgba(${rgb[0]}, ${rgb[1]}, ${rgb[2]}, 0.4)`;
+
+                this.ctx.save();
+                this.ctx.translate(this.cx, this.cy);
+                this.ctx.rotate(this.frame * 0.005);
+
+                const drawFractalTree = (x, y, angle, depth, length) => {
+                    if (depth === 0) return;
+
+                    const endX = x + Math.cos(angle) * length;
+                    const endY = y + Math.sin(angle) * length;
+
+                    this.ctx.lineWidth = depth * 0.5;
+                    this.ctx.beginPath();
+                    this.ctx.moveTo(x, y);
+                    this.ctx.lineTo(endX, endY);
+                    this.ctx.stroke();
+
+                    const newLength = length * 0.7;
+                    drawFractalTree(endX, endY, angle - 0.5, depth - 1, newLength);
+                    drawFractalTree(endX, endY, angle + 0.5, depth - 1, newLength);
+                };
+
+                drawFractalTree(0, 0, -Math.PI / 2, 10, 100);
+
+                this.ctx.restore();
+                this.frame++;
+            }
+
+            drawParticle() {
+                if (!this.running) return;
+
+                this.ctx.fillStyle = 'rgba(0, 0, 0, 0.1)';
+                this.ctx.fillRect(0, 0, this.cvs.width, this.cvs.height);
+
+                const rgb = MODES[currentMode].color;
+
+                this.particles.forEach(p => {
+                    const dx = this.cx - p.x;
+                    const dy = this.cy - p.y;
+                    const dist = Math.sqrt(dx*dx + dy*dy);
+                    const maxDist = 400;
+
+                    if (dist < maxDist) {
+                        const force = 1 - (dist / maxDist);
+                        p.x += dx * force * 0.03;
+                        p.y += dy * force * 0.03;
+                    }
+
+                    if (dist < 10) {
+                        p.x = Math.random() * this.cvs.width;
+                        p.y = Math.random() * this.cvs.height;
+                    }
+
+                    const opacity = 0.3 + (1 - dist / maxDist) * 0.5;
+                    this.ctx.fillStyle = `rgba(${rgb[0]}, ${rgb[1]}, ${rgb[2]}, ${opacity})`;
+                    this.ctx.beginPath();
+                    this.ctx.arc(p.x, p.y, 2, 0, Math.PI * 2);
+                    this.ctx.fill();
+
+                    // Líneas de conexión
+                    this.particles.forEach(p2 => {
+                        const d = Math.hypot(p.x - p2.x, p.y - p2.y);
+                        if (d < 150) {
+                            this.ctx.strokeStyle = `rgba(${rgb[0]}, ${rgb[1]}, ${rgb[2]}, ${0.1 * (1 - d/150)})`;
+                            this.ctx.lineWidth = 0.5;
+                            this.ctx.beginPath();
+                            this.ctx.moveTo(p.x, p.y);
+                            this.ctx.lineTo(p2.x, p2.y);
+                            this.ctx.stroke();
+                        }
+                    });
+                });
+
+                this.frame++;
+            }
+
+            animate() {
+                if (!this.running) return;
+
+                switch(currentMode) {
+                    case 'vortex': this.drawVortex(); break;
+                    case 'waves': this.drawWaves(); break;
+                    case 'kaleidoscope': this.drawKaleidoscope(); break;
+                    case 'fluid': this.drawFluid(); break;
+                    case 'fractal': this.drawFractal(); break;
+                    case 'particle': this.drawParticle(); break;
+                }
+
+                requestAnimationFrame(() => this.animate());
+            }
+        }
+
+        // ==================== AUDIO ENGINE ====================
+        class AudioEngine {
+            constructor() { this.ctx = null; this.master = null; }
+            init() { if (!this.ctx) this.ctx = new (window.AudioContext || window.webkitAudioContext)(); }
+            
+            resumeAndStart() {
+                if (this.ctx.state === 'suspended') this.ctx.resume();
+                this.master = this.ctx.createGain();
+                this.master.connect(this.ctx.destination);
+                this.master.gain.value = 0;
+                this.master.gain.linearRampToValueAtTime(1.0, this.ctx.currentTime + 5);
+
+                // Ruido blanco
+                const bSize = this.ctx.sampleRate * 2;
+                const bBuf = this.ctx.createBuffer(1, bSize, this.ctx.sampleRate);
+                const data = bBuf.getChannelData(0);
+                let lastOut = 0;
+                for (let i = 0; i < bSize; i++) {
+                    const white = Math.random() * 2 - 1;
+                    data[i] = (lastOut + (0.02 * white)) / 1.02;
+                    lastOut = data[i];
+                    data[i] *= 3.5;
+                }
+                
+                const noise = this.ctx.createBufferSource();
+                noise.buffer = bBuf;
+                noise.loop = true;
+                const nGain = this.ctx.createGain();
+                nGain.gain.value = 0.05;
+                const nPan = this.ctx.createStereoPanner();
+                nPan.pan.value = 0;
+                noise.connect(nGain);
+                nGain.connect(nPan);
+                nPan.connect(this.master);
+                noise.start();
+
+                // Osciladores
+                const osc1 = this.ctx.createOscillator();
+                osc1.type = 'sine';
+                osc1.frequency.value = 110;
+                const g1 = this.ctx.createGain();
+                g1.gain.value = 0.25;
+                
+                const osc2 = this.ctx.createOscillator();
+                osc2.type = 'sine';
+                osc2.frequency.value = 164.81;
+                const g2 = this.ctx.createGain();
+                g2.gain.value = 0.15;
+                
+                const filter = this.ctx.createBiquadFilter();
+                filter.type = 'lowpass';
+                filter.frequency.value = 220;
+                
+                osc1.connect(g1);
+                g1.connect(filter);
+                osc2.connect(g2);
+                g2.connect(filter);
+                filter.connect(this.master);
+                osc1.start();
+                osc2.start();
+
+                // LFO
+                const lfo = this.ctx.createOscillator();
+                lfo.frequency.value = 6;
+                lfo.type = 'sine';
+                const lfoGain = this.ctx.createGain();
+                lfoGain.gain.value = 0.08;
+                lfo.connect(this.master.gain);
+                lfo.start();
+
+                const panner = this.ctx.createStereoPanner();
+                const panLFO = this.ctx.createOscillator();
+                panLFO.frequency.value = 0.1;
+                panLFO.connect(panner.pan);
+                panLFO.start();
+                filter.disconnect();
+                filter.connect(panner);
+                panner.connect(this.master);
+            }
+
+            stop() {
+                if (this.ctx) {
+                    const t = this.ctx.currentTime;
+                    this.master.gain.cancelScheduledValues(t);
+                    this.master.gain.setValueAtTime(this.master.gain.value, t);
+                    this.master.gain.exponentialRampToValueAtTime(0.001, t + 3);
+                    setTimeout(() => this.ctx.suspend(), 3100);
+                }
+            }
+        }
+
+        // ==================== INITIALIZATION ====================
+        const visual = new VisualEngine('spiral-canvas');
+        const audio = new AudioEngine();
+        let wordTimer;
+        let isRunning = false;
+        let wakeLock = null;
+
+        const modal = document.getElementById('science-modal');
+        document.getElementById('info-btn').addEventListener('click', (e) => {
+            e.stopPropagation();
+            modal.style.display = 'flex';
+        });
+        document.getElementById('close-science').addEventListener('click', (e) => {
+            e.stopPropagation();
+            modal.style.display = 'none';
+        });
+
+        document.getElementById('btn-prepare').onclick = () => {
+            audio.init();
+            const customInput = document.getElementById('subliminal-console').value.toUpperCase().trim();
+            if (customInput.length > 0) {
+                activeWords = customInput.split(/[,\n]+/).map(w => w.trim()).filter(w => w.length > 0);
+            } else {
+                activeWords = MODES[currentMode].words;
+            }
+            document.getElementById('setup-ui').style.opacity = 0;
+            setTimeout(() => {
+                document.getElementById('setup-ui').style.display = 'none';
+                showInstructions();
+            }, 1000);
+        };
+
+        function showInstructions() {
+            const overlay = document.getElementById('instr-overlay');
+            overlay.style.opacity = 1;
+            overlay.style.pointerEvents = 'auto';
+            setTimeout(() => {
+                document.getElementById('ins-1').style.opacity = 1;
+                document.getElementById('ins-1').style.transform = 'translateY(0)';
+            }, 500);
+            setTimeout(() => {
+                document.getElementById('ins-2').style.opacity = 1;
+                document.getElementById('ins-2').style.transform = 'translateY(0)';
+            }, 1500);
+            setTimeout(() => {
+                document.getElementById('ins-3').style.opacity = 1;
+                document.getElementById('ins-3').style.transform = 'translateY(0)';
+            }, 2500);
+            setTimeout(() => {
+                document.getElementById('ins-action').style.opacity = 1;
+            }, 3500);
+            overlay.onclick = startTrance;
+        }
+
+        async function startTrance() {
+            document.getElementById('instr-overlay').onclick = null;
+            try {
+                if ('wakeLock' in navigator) wakeLock = await navigator.wakeLock.request('screen');
+            } catch (e) {}
+            
+            audio.resumeAndStart();
+            document.getElementById('instr-overlay').style.opacity = 0;
+            document.getElementById('instr-overlay').style.pointerEvents = 'none';
+            const zone = document.getElementById('trance-zone');
+            zone.style.opacity = 1;
+            zone.style.pointerEvents = 'auto';
+            isRunning = true;
+            visual.start();
+            startWordCycle();
+            startTimer();
+        }
+
+        function startWordCycle() {
+            const el = document.getElementById('subliminal-word');
+            let idx = 0;
+            const cycle = () => {
+                if (!isRunning) return;
+                el.innerText = activeWords[idx % activeWords.length];
+                el.style.opacity = 0.06;
+                setTimeout(() => { el.style.opacity = 0; }, 600);
+                idx++;
+                const nextCycle = 2000 + Math.random() * 2000;
+                wordTimer = setTimeout(cycle, nextCycle);
+            };
+            cycle();
+        }
+
+        function startTimer() {
+            const min = parseInt(document.getElementById('timer-select').value);
+            setTimeout(stopSession, min * 60 * 1000);
+        }
+
+        function stopSession() {
+            isRunning = false;
+            clearTimeout(wordTimer);
+            document.getElementById('exit-hint').innerText = "REGRESANDO...";
+            document.getElementById('exit-hint').style.opacity = 1;
+            visual.stop();
+            audio.stop();
+            if (wakeLock) wakeLock.release();
+            setTimeout(() => location.reload(), 3500);
+        }
+
+        const zone = document.getElementById('trance-zone');
+        const hint = document.getElementById('exit-hint');
+        let holdTimer;
+        
+        const holdStart = (e) => {
+            if (!isRunning) return;
+            if (e.cancelable) e.preventDefault();
+            hint.style.opacity = 0.8;
+            holdTimer = setTimeout(stopSession, 2500);
+        };
+        
+        const holdEnd = (e) => {
+            if (e && e.cancelable) e.preventDefault();
+            clearTimeout(holdTimer);
+            if (isRunning) hint.style.opacity = 0;
+        };
+        
+        zone.addEventListener('mousedown', holdStart);
+        zone.addEventListener('touchstart', holdStart);
+        zone.addEventListener('mouseup', holdEnd);
+        zone.addEventListener('touchend', holdEnd);
+        zone.addEventListener('mouseleave', holdEnd);
+        zone.addEventListener('touchcancel', holdEnd);
+        zone.oncontextmenu = (e) => { e.preventDefault(); return false; };
+    </script>
+</body>
+</html>

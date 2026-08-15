@@ -1,0 +1,90 @@
+{
+  "version": "3.1.0",
+  "validatedAt": "2026-07-26",
+  "status": "passed",
+  "counts": {
+    "cards": 820,
+    "dossiers": 820,
+    "historicalLayers": 820,
+    "collections": 20,
+    "newPreferredAuthorCards": 40,
+    "disciplines": 15,
+    "relationTypes": 6,
+    "disciplinaryRelations": 7849,
+    "publishableRelations": 5380,
+    "manualReviewCards": 792,
+    "provisionalRelations": 2469
+  },
+  "newCardsByAuthor": {
+    "Edgar Morin": 8,
+    "Basarab Nicolescu": 8,
+    "Ilya Prigogine": 8,
+    "Gilles Deleuze y Félix Guattari": 8,
+    "Denise Najmanovich": 8
+  },
+  "checks": {
+    "uniqueCardIds": true,
+    "dossierParity": true,
+    "historicalLayerParity": true,
+    "brokenConnections": 0,
+    "invalidQuizzes": 0,
+    "schemaErrorCards": 0,
+    "disciplineIndexParity": true,
+    "disciplineRelationsMatchCards": true,
+    "newCardsHaveExplicitUrls": true,
+    "serviceWorkerVersioned": true,
+    "httpResources200": true,
+    "disciplineCrossesHaveResults": true
+  },
+  "errors": [],
+  "warnings": [],
+  "sha256": {
+    "data/cards.json": "965dafce0d116e4c9670d385828f217f8d1cdf1b323805b5db7a1d0aab040942",
+    "data/dossiers.json": "9f7847ca8671c505e47fdbf6d0157e09d763aea99de943a5a33d64e54fd1e77d",
+    "data/historical-layer.json": "dff2d6a13b663031c63c8340cf84cd694d3826167e22d730a6fa575ad53f4a61",
+    "data/discipline-index.json": "f1f5e1be95936883bf1884550886177943ee99e474f5dffb2d433cd00a0c46a0",
+    "app.js": "81f124c21e826f0b81ed05b9db4866103f4302de0b300cd8168f2845464b1b6a",
+    "styles.css": "e589a3aad7f9de54208751f2c696719674f8c95915cb659e05dc11a6bafc061d",
+    "index.html": "5303eb86e5ce162cea242b4f83c693d0c8bbb9289bcf259a5be2260564716e73",
+    "service-worker.js": "8a3edc8a30503f1b8f3387f5d7f473e952e40e7ddeec160e95f830f2da8da244"
+  },
+  "functionalChecks": {
+    "intersectionMode": "AND",
+    "minimumDisciplines": 2,
+    "maximumDisciplines": 4,
+    "exampleIntersections": {
+      "psychology_subjectivity+philosophy": 544,
+      "anthropology_cultures+religions_theologies": 151,
+      "education_pedagogy+politics_government": 208,
+      "natural_sciences+technology_knowledge": 192,
+      "law_justice+philosophy": 333,
+      "technology_knowledge+sociology_collective": 177
+    },
+    "filters": [
+      "period",
+      "territory",
+      "author",
+      "tradition",
+      "relationType"
+    ],
+    "routeActions": [
+      "listen_discipline",
+      "listen_intersection",
+      "listen_selection",
+      "open_card",
+      "open_rhizome"
+    ],
+    "portraitsIncluded": false,
+    "httpStatus": {
+      "index.html": 200,
+      "app.js": 200,
+      "styles.css": 200,
+      "service-worker.js": 200,
+      "manifest.webmanifest": 200,
+      "data/cards.json": 200,
+      "data/discipline-index.json": 200
+    },
+    "javascriptSyntax": "passed",
+    "visualBrowserAutomation": "blocked_by_environment_policy"
+  }
+}

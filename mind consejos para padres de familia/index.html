@@ -1,0 +1,200 @@
+<!doctype html>
+<html lang="es">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+  <meta name="theme-color" content="#1f6b68">
+  <meta name="description" content="Tarjetas breves para fortalecer el diálogo entre escuela y familia.">
+  <meta name="mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="default">
+  <meta name="apple-mobile-web-app-title" content="Puentes">
+  <title>Puentes · Escuela y familia</title>
+  <link rel="manifest" href="manifest.webmanifest?v=1.11.0">
+  <link rel="icon" href="assets/icon-192.png" sizes="192x192">
+  <link rel="apple-touch-icon" href="assets/icon-192.png">
+  <link rel="stylesheet" href="styles.css?v=1.11.0">
+</head>
+<body>
+  <div id="splash" class="splash" aria-label="Puentes · Escuela y familia">
+    <div class="splash-mark" aria-hidden="true">
+      <span></span><span></span><span></span>
+    </div>
+    <h1>Puentes</h1>
+    <p>Escuela y familia</p>
+  </div>
+
+  <div id="app" class="app-shell" hidden>
+    <header class="topbar">
+      <button id="backBtn" class="icon-button is-hidden" aria-label="Volver">
+        <svg viewBox="0 0 24 24" aria-hidden="true"><path d="m15 18-6-6 6-6"/></svg>
+      </button>
+      <button id="brandBtn" class="brand-button" aria-label="Ir al inicio">
+        <span class="brand-symbol" aria-hidden="true"><i></i><i></i><i></i></span>
+        <span><strong id="topTitle">Puentes</strong><small id="topSubtitle">Escuela y familia</small></span>
+      </button>
+      <div class="topbar-actions">
+        <button id="installAppBtn" class="install-app-button" type="button" aria-label="Instalar Puentes como aplicación" title="Instalar app" hidden>
+          <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 3v11"/><path d="m8 10 4 4 4-4"/><path d="M5 17v3h14v-3"/></svg>
+          <span>Instalar app</span>
+        </button>
+        <button id="updateAppBtn" class="update-app-button" type="button" aria-label="Buscar y aplicar una actualización" title="Actualizar versión">
+          <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M20 11a8 8 0 1 0-2.3 5.7"/><path d="M20 4v7h-7"/></svg>
+          <span>Actualizar</span>
+          <b id="updateAvailableDot" class="update-available-dot" hidden aria-hidden="true"></b>
+        </button>
+        <button id="settingsBtn" class="icon-button" aria-label="Configuración e información">
+          <svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.8 1.8 0 0 0 .35 2l.05.05-2.75 2.75-.05-.05a1.8 1.8 0 0 0-2-.35 1.8 1.8 0 0 0-1.1 1.65V21h-3.9v-.05A1.8 1.8 0 0 0 8.9 19.3a1.8 1.8 0 0 0-2 .35l-.05.05-2.75-2.75.05-.05a1.8 1.8 0 0 0 .35-2A1.8 1.8 0 0 0 2.85 13.8H2.8V10h.05A1.8 1.8 0 0 0 4.5 8.9a1.8 1.8 0 0 0-.35-2l-.05-.05L6.85 4.1l.05.05a1.8 1.8 0 0 0 2 .35A1.8 1.8 0 0 0 10 2.85V2.8h3.9v.05A1.8 1.8 0 0 0 15 4.5a1.8 1.8 0 0 0 2-.35l.05-.05 2.75 2.75-.05.05a1.8 1.8 0 0 0-.35 2A1.8 1.8 0 0 0 21.05 10H21.1v3.8h-.05A1.8 1.8 0 0 0 19.4 15Z"/></svg>
+        </button>
+      </div>
+    </header>
+
+    <main id="mainContent" class="main-content" tabindex="-1">
+      <section id="view-home" class="view"></section>
+      <section id="view-stage" class="view" hidden></section>
+      <section id="view-category" class="view" hidden></section>
+      <section id="view-purpose" class="view" hidden></section>
+      <section id="view-results" class="view" hidden></section>
+      <section id="view-library" class="view" hidden></section>
+      <section id="view-shared" class="view" hidden></section>
+      <section id="view-ai" class="view" hidden></section>
+      <section id="view-settings" class="view" hidden></section>
+    </main>
+
+
+    <section id="cardPlayer" class="card-player" hidden aria-label="Escuchar y gestionar la tarjeta actual">
+      <div class="card-player-head">
+        <span class="player-listen-mark" aria-hidden="true">
+          <svg viewBox="0 0 24 24"><path d="M4 10v4h4l5 4V6L8 10H4Z"></path><path d="M16 9.2a4 4 0 0 1 0 5.6"></path><path d="M18.5 6.8a7.2 7.2 0 0 1 0 10.4"></path></svg>
+        </span>
+        <span class="player-copy"><strong id="playerStatus">Escuchar tarjeta</strong><small id="playerCardTitle">Tarjeta actual</small></span>
+      </div>
+      <div class="card-player-controls" role="toolbar" aria-label="Controles de la tarjeta">
+        <button id="playerPrevBtn" class="player-control" type="button" aria-label="Tarjeta anterior" title="Tarjeta anterior">
+          <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M19 5 9 12l10 7V5Z"></path><path d="M5 5v14"></path></svg><small>Anterior</small>
+        </button>
+        <button id="playerRateBtn" class="player-control selector-control" type="button" aria-label="Velocidad 1×. Toca para cambiar" title="Velocidad 1×">
+          <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M5 17a8 8 0 1 1 14 0"></path><path d="m12 13 4-4"></path><path d="M8 17h8"></path></svg>
+          <span id="playerRateBadge" class="player-badge rate-badge">1×</span>
+        </button>
+        <button id="playerVoiceBtn" class="player-control selector-control" type="button" aria-label="Cambiar voz" title="Cambiar voz">
+          <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M9 5v14"></path><path d="M5 9v6"></path><path d="M13 8v8"></path><path d="M17 6v12"></path><path d="M21 10v4"></path></svg>
+          <span id="playerVoiceBadge" class="player-badge voice-badge">•</span>
+        </button>
+        <button id="playerPlayBtn" class="player-control primary" type="button" aria-label="Escuchar tarjeta" aria-pressed="false" title="Escuchar tarjeta">
+          <svg viewBox="0 0 24 24" aria-hidden="true"><path d="m8 5 11 7-11 7V5Z"></path></svg><span id="playerProgressBadge" class="player-progress-badge" aria-hidden="true">1/1</span>
+        </button>
+        <button id="playerNextBtn" class="player-control" type="button" aria-label="Tarjeta siguiente" title="Tarjeta siguiente">
+          <svg viewBox="0 0 24 24" aria-hidden="true"><path d="m5 5 10 7-10 7V5Z"></path><path d="M19 5v14"></path></svg><small>Siguiente</small>
+        </button>
+        <button id="playerShareBtn" class="player-control" type="button" aria-label="Compartir tarjeta" title="Compartir tarjeta">
+          <svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="18" cy="5" r="2.5"></circle><circle cx="6" cy="12" r="2.5"></circle><circle cx="18" cy="19" r="2.5"></circle><path d="M8.2 10.9 15.7 6.2M8.2 13.1l7.5 4.7"></path></svg><small>Compartir</small>
+        </button>
+        <button id="playerFavoriteBtn" class="player-control favorite" type="button" aria-label="Guardar en favoritas" aria-pressed="false" title="Guardar en favoritas">
+          <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 20.5S4.5 16 4.5 9.7A4.2 4.2 0 0 1 12 7.1a4.2 4.2 0 0 1 7.5 2.6C19.5 16 12 20.5 12 20.5Z"></path></svg><small>Favorita</small>
+        </button>
+      </div>
+    </section>
+
+    <nav class="bottom-nav" aria-label="Navegación principal">
+      <button data-nav="home" class="active"><span>⌂</span><small>Inicio</small></button>
+      <button data-nav="stage"><span>＋</span><small>Crear</small></button>
+      <button data-nav="library"><span>▦</span><small>Tarjetas</small></button>
+      <button data-nav="shared"><span>✓</span><small>Compartidas</small></button>
+    </nav>
+  </div>
+
+  <div id="toast" class="toast" role="status" aria-live="polite"></div>
+
+  <dialog id="confirmDialog" class="dialog share-fallback-dialog">
+    <form method="dialog">
+      <div class="dialog-icon share-dialog-icon" aria-hidden="true">
+        <svg viewBox="0 0 24 24"><circle cx="18" cy="5" r="3"></circle><circle cx="6" cy="12" r="3"></circle><circle cx="18" cy="19" r="3"></circle><path d="m8.6 10.5 6.8-4M8.6 13.5l6.8 4"></path></svg>
+      </div>
+      <h2>Compartir tarjeta</h2>
+      <p id="shareFallbackMessage">La tarjeta visual está preparada. Elige cómo deseas continuar.</p>
+      <div class="manual-share-options">
+        <button id="openNativeTextShareBtn" type="button" class="manual-share-option featured">
+          <span class="manual-share-icon">↗</span>
+          <span><strong>Compartir solo texto</strong><small>Alternativa explícita cuando no se pueda enviar la imagen.</small></span>
+        </button>
+        <button id="downloadCardBtn" type="button" class="manual-share-option">
+          <span class="manual-share-icon">↓</span>
+          <span><strong>Guardar imagen</strong><small>Queda disponible en Descargas.</small></span>
+        </button>
+        <button id="copyCardTextBtn" type="button" class="manual-share-option">
+          <span class="manual-share-icon">▣</span>
+          <span><strong>Copiar mensaje</strong><small>Pégalo donde prefieras.</small></span>
+        </button>
+      </div>
+      <div class="share-quick-area">
+        <div class="share-quick-title">Abrir con…</div>
+        <div class="share-quick-grid">
+          <button id="quickShareWhatsAppBtn" type="button" class="quick-share-chip wa"><span>W</span><small>WhatsApp</small></button>
+          <button id="quickShareTelegramBtn" type="button" class="quick-share-chip tg"><span>T</span><small>Telegram</small></button>
+          <button id="quickShareEmailBtn" type="button" class="quick-share-chip mail"><span>@</span><small>Correo</small></button>
+          <button id="quickShareXBtn" type="button" class="quick-share-chip x"><span>X</span><small>X</small></button>
+          <button id="quickShareInstagramBtn" type="button" class="quick-share-chip instagram"><span>IG</span><small>Instagram</small></button>
+          <button id="quickShareFacebookBtn" type="button" class="quick-share-chip facebook"><span>f</span><small>Facebook</small></button>
+          <button id="quickShareTikTokBtn" type="button" class="quick-share-chip tiktok"><span>♪</span><small>TikTok</small></button>
+        </div>
+      </div>
+      <p class="share-help">En computador, Puentes descarga primero la imagen y abre la red elegida. Algunas plataformas no permiten adjuntar una imagen automáticamente desde una página web; en esos casos solo debes seleccionarla desde Descargas.</p>
+      <div class="dialog-actions">
+        <button value="cancel" class="button secondary">Cerrar</button>
+        <button id="manualSharedBtn" type="button" class="button primary">Ya la compartí</button>
+      </div>
+    </form>
+  </dialog>
+
+  <dialog id="installDialog" class="dialog install-dialog">
+    <form method="dialog">
+      <div class="dialog-icon install-dialog-icon" aria-hidden="true">
+        <svg viewBox="0 0 24 24"><path d="M12 3v11"/><path d="m8 10 4 4 4-4"/><path d="M5 17v3h14v-3"/></svg>
+      </div>
+      <h2>Instalar Puentes</h2>
+      <p id="installDialogMessage">Instala Puentes para abrirla como una aplicación y usarla con mayor rapidez.</p>
+      <div id="installInstructions" class="install-instructions"></div>
+      <div class="dialog-actions install-dialog-actions">
+        <button value="cancel" class="button secondary">Cerrar</button>
+        <button id="retryInstallBtn" type="button" class="button primary">Intentar instalar</button>
+      </div>
+    </form>
+  </dialog>
+
+  <dialog id="aiHubDialog" class="dialog ai-hub-dialog">
+    <div class="ai-hub-panel">
+      <div class="dialog-icon ai-dialog-icon" aria-hidden="true">AI</div>
+      <div class="ai-hub-heading">
+        <h2>Encargo copiado</h2>
+        <p>Generará <strong id="aiHubCount">30</strong> tarjetas nuevas para <strong>complementar</strong> la biblioteca actual.</p>
+      </div>
+      <div class="ai-steps-visual" aria-label="Pasos para ampliar con IA">
+        <div class="ai-step-card"><span class="step-icon">⚙️</span><strong>Configura</strong><small>Etapa, tema, intención y cantidad.</small></div>
+        <div class="ai-step-card"><span class="step-icon">📋</span><strong>Copia</strong><small>Puentes ya guardó el encargo.</small></div>
+        <div class="ai-step-card"><span class="step-icon">✨</span><strong>Genera</strong><small>Abre una IA y pega el encargo.</small></div>
+        <div class="ai-step-card"><span class="step-icon">📥</span><strong>Pega</strong><small>Trae la respuesta JSON de vuelta.</small></div>
+        <div class="ai-step-card"><span class="step-icon">🗂️</span><strong>Amplía</strong><small>Las nuevas tarjetas se suman al repertorio.</small></div>
+      </div>
+      <div class="ai-provider-grid" aria-label="Herramientas de inteligencia artificial">
+        <button type="button" class="ai-provider chatgpt" data-ai-url="https://chatgpt.com/"><span class="ai-provider-mark">C</span><span><strong>ChatGPT</strong><small>OpenAI</small></span><b>↗</b></button>
+        <button type="button" class="ai-provider gemini" data-ai-url="https://gemini.google.com/app?hl=es-419"><span class="ai-provider-mark">G</span><span><strong>Gemini</strong><small>Google</small></span><b>↗</b></button>
+        <button type="button" class="ai-provider claude" data-ai-url="https://claude.ai/"><span class="ai-provider-mark">Cl</span><span><strong>Claude</strong><small>Anthropic</small></span><b>↗</b></button>
+        <button type="button" class="ai-provider copilot" data-ai-url="https://copilot.microsoft.com/"><span class="ai-provider-mark">Co</span><span><strong>Copilot</strong><small>Microsoft</small></span><b>↗</b></button>
+        <button type="button" class="ai-provider perplexity" data-ai-url="https://www.perplexity.ai/"><span class="ai-provider-mark">P</span><span><strong>Perplexity</strong><small>Búsqueda + IA</small></span><b>↗</b></button>
+        <button type="button" class="ai-provider mistral" data-ai-url="https://chat.mistral.ai/"><span class="ai-provider-mark">M</span><span><strong>Mistral</strong><small>Mistral AI</small></span><b>↗</b></button>
+        <button type="button" class="ai-provider deepseek" data-ai-url="https://chat.deepseek.com/"><span class="ai-provider-mark">D</span><span><strong>DeepSeek</strong><small>DeepSeek</small></span><b>↗</b></button>
+        <button type="button" class="ai-provider qwen" data-ai-url="https://chat.qwen.ai/"><span class="ai-provider-mark">Q</span><span><strong>Qwen</strong><small>Alibaba</small></span><b>↗</b></button>
+      </div>
+      <button id="aiHubCopyAgainBtn" type="button" class="button secondary full ai-copy-again">Copiar el encargo otra vez</button>
+      <div class="dialog-actions ai-dialog-actions">
+        <button type="button" class="button secondary" onclick="document.getElementById('aiHubDialog').close()">Cerrar</button>
+        <button id="aiHubReadyBtn" type="button" class="button primary">Ya tengo la respuesta</button>
+      </div>
+    </div>
+  </dialog>
+
+  <script src="data/cards.js?v=1.0.0"></script>
+  <script src="app.js?v=1.11.0" defer></script>
+</body>
+</html>

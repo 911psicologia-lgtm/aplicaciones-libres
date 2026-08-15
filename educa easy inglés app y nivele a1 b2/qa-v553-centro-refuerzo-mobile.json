@@ -1,0 +1,18 @@
+{
+  "version": "5.0.53-centro-refuerzo-mobile",
+  "changes": [
+    "Centro de refuerzo en móvil muestra recursos antes de la lista de mundos.",
+    "Lista de 30 mundos se oculta por defecto y se abre con botón Cambiar mundo.",
+    "Al seleccionar un mundo, worldPickerOpen vuelve a false y la lista se recoge automáticamente.",
+    "En PC se conserva diseño en dos columnas."
+  ],
+  "checks": [
+    {
+      "node_check_app_js": 0,
+      "stderr": ""
+    },
+    {
+      "content_json": "ok"
+    }
+  ]
+}

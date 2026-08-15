@@ -1,0 +1,17 @@
+{
+  "name": "Aero · Fase 28",
+  "short_name": "Aero F28",
+  "start_url": "./index.html",
+  "display": "standalone",
+  "background_color": "#dfe6f2",
+  "theme_color": "#6d58d8",
+  "description": "Aero persigue al Doctor Sombra para rescatar a la princesa Aurora.",
+  "icons": [
+    {
+      "src": "assets/favicon.svg",
+      "sizes": "any",
+      "type": "image/svg+xml"
+    }
+  ],
+  "orientation": "landscape"
+}

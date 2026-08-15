@@ -1,0 +1,30 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64">
+  <defs>
+    <radialGradient id="bg" cx="50%" cy="40%" r="60%">
+      <stop offset="0%" stop-color="#1a2e4a"/>
+      <stop offset="100%" stop-color="#060d1a"/>
+    </radialGradient>
+    <radialGradient id="brain-glow" cx="40%" cy="35%" r="65%">
+      <stop offset="0%" stop-color="#7ec8f7" stop-opacity="0.9"/>
+      <stop offset="100%" stop-color="#4f8ef7" stop-opacity="0.7"/>
+    </radialGradient>
+  </defs>
+  <rect width="64" height="64" rx="14" fill="url(#bg)"/>
+  <!-- Hemisferio cerebral estilizado -->
+  <path d="M 10,36 C 8,30 8,22 12,17 C 16,12 22,9 30,8 C 38,7 46,10 51,16 C 56,22 57,30 55,37 C 53,43 49,47 44,49 L 40,51 C 36,49 33,46 31,43 C 29,40 28,36 27,34 L 22,34 C 18,34 14,35 10,36 Z"
+        fill="url(#brain-glow)" opacity="0.88"/>
+  <!-- Cerebelo -->
+  <path d="M 40,51 C 44,48 49,48 53,51 C 56,54 56,58 53,60 C 50,62 46,62 43,60 C 40,58 38,55 40,51 Z"
+        fill="#4f8ef7" opacity="0.7"/>
+  <!-- Tronco -->
+  <path d="M 32,43 C 34,42 36,42 38,43 C 39,45 39,49 38,52 C 37,54 35,55 33,54 C 31,53 31,50 31,47 C 31,45 31,44 32,43 Z"
+        fill="#a78bfa" opacity="0.72"/>
+  <!-- Surco central -->
+  <path d="M 31,9 C 31,18 31,27 31,36" stroke="rgba(255,255,255,0.22)" stroke-width="1.2" fill="none" stroke-linecap="round"/>
+  <!-- Surcos decorativos -->
+  <path d="M 20,12 C 19,20 19,28 20,34" stroke="rgba(255,255,255,0.1)" stroke-width="0.8" fill="none" stroke-linecap="round"/>
+  <path d="M 42,10 C 41,18 41,26 42,34" stroke="rgba(255,255,255,0.1)" stroke-width="0.8" fill="none" stroke-linecap="round"/>
+  <!-- Punto de acento -->
+  <circle cx="48" cy="14" r="3.5" fill="#4f8ef7" opacity="0.9"/>
+  <circle cx="48" cy="14" r="1.8" fill="#7ec8f7"/>
+</svg>

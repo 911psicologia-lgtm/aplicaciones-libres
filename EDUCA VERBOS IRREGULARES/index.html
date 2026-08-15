@@ -1,0 +1,1739 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="theme-color" content="#0d0b1e">
+<title>⚡ VerbQuest — Martín</title>
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Nunito:wght@400;700;800;900;1000&family=Fredoka+One&display=swap');
+:root{
+  --bg:#0d0b1e;--surface:#1a1535;--card:#231d4a;--card2:#2a2255;
+  --gold:#FFD700;--gold2:#FFA500;--green:#2ecc71;--red:#e74c3c;
+  --blue:#3498db;--purple:#9b59b6;--pink:#e91e8c;--cyan:#00bcd4;
+  --pp:#c084fc;--ppc:#34d399;
+  --fut:#f59e0b;--cond:#ef4444;--pass:#06b6d4;
+  --rep:#8b5cf6;--rel:#ec4899;--mod:#14b8a6;--ger:#f97316;
+  --pastperf:#b45309;--usedto:#7c3aed;
+  --text:#f0eeff;--muted:#8b7fc7;--r:18px;--r2:12px;
+}
+*{margin:0;padding:0;box-sizing:border-box;-webkit-tap-highlight-color:transparent}
+html,body{height:100%;overflow:hidden;background:var(--bg);color:var(--text);font-family:'Nunito',sans-serif;user-select:none}
+button,.btn,.lang-tile,.mis-card,.opt,.token{touch-action:manipulation}
+.screen{touch-action:pan-y;-webkit-overflow-scrolling:touch}
+.screen{position:absolute;inset:0;display:flex;flex-direction:column;align-items:center;overflow-y:auto;padding:16px 14px 90px;opacity:0;pointer-events:none;transition:opacity .35s;scroll-behavior:smooth}
+.screen.on{opacity:1;pointer-events:all}
+#stars{position:fixed;inset:0;overflow:hidden;pointer-events:none;z-index:0}
+.st{position:absolute;border-radius:50%;background:#fff;animation:twink var(--d) var(--dl) infinite alternate}
+@keyframes twink{from{opacity:.05;transform:scale(.7)}to{opacity:.9;transform:scale(1.1)}}
+
+/* TOPBAR */
+#topbar{position:fixed;top:0;left:0;right:0;height:58px;background:rgba(13,11,30,.95);backdrop-filter:blur(16px);-webkit-backdrop-filter:blur(16px);display:none;align-items:center;justify-content:space-between;padding:0 14px;z-index:200;border-bottom:1px solid rgba(255,215,0,.18)}
+.tb-logo{font-family:'Fredoka One',cursive;font-size:1.25em;color:var(--gold);letter-spacing:.5px}
+.tb-right{display:flex;gap:6px;align-items:center;flex-wrap:nowrap}
+.chip{display:flex;align-items:center;gap:4px;background:rgba(255,255,255,.08);border-radius:20px;padding:4px 9px;font-size:.78em;font-weight:800;color:var(--text);white-space:nowrap}
+
+/* BOTTOM NAV */
+#botnav{position:fixed;bottom:0;left:0;right:0;height:64px;background:rgba(13,11,30,.97);backdrop-filter:blur(16px);display:none;align-items:center;justify-content:space-around;border-top:1px solid rgba(255,215,0,.12);z-index:200}
+.bnb{display:flex;flex-direction:column;align-items:center;gap:2px;padding:6px 12px;border-radius:14px;cursor:pointer;color:var(--muted);font-size:.67em;font-weight:800;background:none;border:none;transition:all .2s}
+.bnb .bi{font-size:1.5em;transition:transform .2s}
+.bnb.act{color:var(--gold)}
+.bnb:active .bi{transform:scale(1.25)}
+
+/* BUTTONS */
+.btn{display:inline-flex;align-items:center;justify-content:center;gap:7px;padding:13px 24px;border-radius:50px;border:none;cursor:pointer;font-family:'Nunito',sans-serif;font-size:1em;font-weight:900;transition:all .18s;position:relative;overflow:hidden}
+.btn::after{content:'';position:absolute;inset:0;background:rgba(255,255,255,.12);opacity:0;transition:opacity .15s}
+.btn:active::after{opacity:1}
+.btn:active{transform:scale(.93)}
+.btn-gold{background:linear-gradient(135deg,var(--gold),var(--gold2));color:#1a0f3c;box-shadow:0 4px 20px rgba(255,215,0,.35)}
+.btn-green{background:linear-gradient(135deg,#2ecc71,#27ae60);color:#fff;box-shadow:0 4px 18px rgba(46,204,113,.35)}
+.btn-blue{background:linear-gradient(135deg,var(--blue),#2980b9);color:#fff}
+.btn-purple{background:linear-gradient(135deg,#c084fc,#9b59b6);color:#fff;box-shadow:0 4px 18px rgba(192,132,252,.35)}
+.btn-teal{background:linear-gradient(135deg,#34d399,#10b981);color:#fff;box-shadow:0 4px 18px rgba(52,211,153,.35)}
+.btn-ghost{background:rgba(255,255,255,.08);color:var(--text);border:2px solid rgba(255,255,255,.15)}
+.btn-dark{background:rgba(255,255,255,.08);color:#fff;border:1px solid rgba(255,255,255,.14)}
+.btn-red{background:linear-gradient(180deg,#ff4d4d,#c0392b);color:#fff;border:none}
+.btn-xs{padding:8px 14px;font-size:.83em}
+.btn-sm{padding:10px 20px;font-size:.9em}
+.btn-w{width:100%;max-width:340px}
+.btn-mini{padding:8px 10px;border-radius:12px;font-weight:900}
+.card{background:var(--card);border-radius:var(--r);padding:20px;border:1.5px solid rgba(255,255,255,.06);box-shadow:0 8px 32px rgba(0,0,0,.4)}
+.section-title{font-family:'Fredoka One',cursive;font-size:1.45em;color:var(--gold);margin-bottom:14px;text-align:center}
+
+/* LOGIN */
+#loginScreen{justify-content:center;gap:0;padding-bottom:20px}
+.login-planet{font-size:5em;animation:bob 2.8s ease-in-out infinite;display:block;text-align:center;margin-bottom:4px}
+@keyframes bob{0%,100%{transform:translateY(0) rotate(-3deg)}50%{transform:translateY(-14px) rotate(3deg)}}
+.login-title{font-family:'Fredoka One',cursive;font-size:2.5em;color:var(--gold);text-align:center;line-height:1.1}
+.login-sub{color:var(--muted);font-size:.9em;text-align:center;margin:6px 0 18px;line-height:1.5}
+.input-block{width:100%;max-width:340px;margin:8px 0}
+.input-block label{display:block;font-size:.78em;font-weight:800;color:var(--gold);text-transform:uppercase;letter-spacing:.6px;margin-bottom:5px}
+.input-block input{width:100%;padding:13px 16px;background:rgba(255,255,255,.08);border:2px solid rgba(255,255,255,.12);border-radius:var(--r2);color:var(--text);font-family:'Nunito',sans-serif;font-size:1em;font-weight:700;transition:border-color .2s}
+.input-block input:focus{outline:none;border-color:var(--gold);background:rgba(255,255,255,.12)}
+.lang-row{display:flex;gap:8px;width:100%;max-width:340px;margin:8px 0;flex-wrap:wrap}
+.lang-tile{flex:1;min-width:70px;padding:10px 6px;border-radius:var(--r2);border:2.5px solid rgba(255,255,255,.12);background:rgba(255,255,255,.06);cursor:pointer;text-align:center;font-family:'Nunito',sans-serif;font-weight:800;font-size:.84em;color:var(--muted);transition:all .2s;line-height:1.3}
+.lang-tile .lf{font-size:1.5em;display:block;margin-bottom:2px}
+.lang-tile.sel{border-color:var(--gold);background:rgba(255,215,0,.15);color:var(--gold)}
+.lang-tile.sel-pp{border-color:var(--pp);background:rgba(192,132,252,.15);color:var(--pp)}
+.lang-tile.sel-ppc{border-color:var(--ppc);background:rgba(52,211,153,.15);color:var(--ppc)}
+
+/* HOME */
+#homeScreen{padding-top:70px;gap:0;align-items:stretch}
+.hero-banner{background:linear-gradient(135deg,rgba(155,89,182,.2),rgba(52,152,219,.2));border:1.5px solid rgba(255,215,0,.25);border-radius:var(--r);padding:14px 16px;display:flex;align-items:center;gap:14px;margin-bottom:12px}
+.hero-avatar{font-size:2.6em;flex-shrink:0}
+.hero-name{font-family:'Fredoka One',cursive;font-size:1.35em;color:var(--gold)}
+.hero-sub{font-size:.8em;color:var(--muted)}
+.xp-wrap{margin-bottom:12px}
+.xp-label{display:flex;justify-content:space-between;font-size:.75em;font-weight:800;color:var(--muted);margin-bottom:5px}
+.xp-bar{height:12px;background:rgba(255,255,255,.08);border-radius:20px;overflow:hidden}
+.xp-fill{height:100%;background:linear-gradient(90deg,var(--purple),var(--gold));border-radius:20px;transition:width .9s cubic-bezier(.34,1.56,.64,1)}
+.stats-row{display:flex;gap:8px;margin-bottom:16px;flex-wrap:wrap}
+.stat-pill{flex:1;min-width:65px;background:var(--card);border-radius:var(--r2);padding:9px 7px;text-align:center;border:1.5px solid rgba(255,255,255,.06)}
+.stat-pill .sv{font-family:'Fredoka One',cursive;font-size:1.4em;color:var(--gold)}
+.stat-pill .sl{font-size:.66em;color:var(--muted);font-weight:800;text-transform:uppercase}
+.missions-title{font-family:'Fredoka One',cursive;font-size:1.1em;color:var(--text);margin-bottom:10px}
+.missions-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:10px}
+@media(min-width:500px){.missions-grid{grid-template-columns:repeat(3,1fr)}}
+.mis-card{background:var(--card);border-radius:var(--r);padding:14px 10px;text-align:center;cursor:pointer;border:2.5px solid transparent;transition:all .22s;position:relative;overflow:hidden}
+.mis-card.unlocked{border-color:rgba(255,255,255,.1)}
+.mis-card.unlocked:hover{border-color:var(--gold);transform:translateY(-3px);box-shadow:0 8px 22px rgba(255,215,0,.22)}
+.mis-card.done{border-color:var(--green);box-shadow:0 0 0 2px rgba(46,204,113,.2)}
+.mis-card.locked{opacity:.4;cursor:not-allowed}
+.mis-card .mc-icon{font-size:2em;margin-bottom:5px;display:block}
+.mis-card .mc-name{font-weight:800;font-size:.82em;line-height:1.2}
+.mis-card .mc-sub{font-size:.7em;color:var(--muted);margin-top:3px}
+.mis-card .mc-stars{font-size:.85em;margin-top:4px;letter-spacing:1px}
+.mis-card.pp-card{background:linear-gradient(135deg,rgba(192,132,252,.12),rgba(139,92,246,.08));border-color:rgba(192,132,252,.3)}
+.mis-card.pp-card:hover{border-color:var(--pp);box-shadow:0 8px 22px rgba(192,132,252,.25)}
+.mis-card.ppc-card{background:linear-gradient(135deg,rgba(52,211,153,.12),rgba(16,185,129,.08));border-color:rgba(52,211,153,.3)}
+.mis-card.ppc-card:hover{border-color:var(--ppc);box-shadow:0 8px 22px rgba(52,211,153,.25)}
+.mis-card.fut-card{background:linear-gradient(135deg,rgba(245,158,11,.12),rgba(251,191,36,.08));border-color:rgba(245,158,11,.3)}
+.mis-card.fut-card:hover{border-color:var(--fut);box-shadow:0 8px 22px rgba(245,158,11,.25)}
+.mis-card.cond-card{background:linear-gradient(135deg,rgba(239,68,68,.12),rgba(248,113,113,.08));border-color:rgba(239,68,68,.3)}
+.mis-card.cond-card:hover{border-color:var(--cond);box-shadow:0 8px 22px rgba(239,68,68,.25)}
+.mis-card.pass-card{background:linear-gradient(135deg,rgba(6,182,212,.12),rgba(34,211,238,.08));border-color:rgba(6,182,212,.3)}
+.mis-card.pass-card:hover{border-color:var(--pass);box-shadow:0 8px 22px rgba(6,182,212,.25)}
+.mis-card.rep-card{background:linear-gradient(135deg,rgba(139,92,246,.12),rgba(167,139,250,.08));border-color:rgba(139,92,246,.3)}
+.mis-card.rep-card:hover{border-color:var(--rep);box-shadow:0 8px 22px rgba(139,92,246,.25)}
+.mis-card.rel-card{background:linear-gradient(135deg,rgba(236,72,153,.12),rgba(244,114,182,.08));border-color:rgba(236,72,153,.3)}
+.mis-card.rel-card:hover{border-color:var(--rel);box-shadow:0 8px 22px rgba(236,72,153,.25)}
+.mis-card.mod-card{background:linear-gradient(135deg,rgba(20,184,166,.12),rgba(45,212,191,.08));border-color:rgba(20,184,166,.3)}
+.mis-card.mod-card:hover{border-color:var(--mod);box-shadow:0 8px 22px rgba(20,184,166,.25)}
+.mis-card.ger-card{background:linear-gradient(135deg,rgba(249,115,22,.12),rgba(251,146,60,.08));border-color:rgba(249,115,22,.3)}
+.mis-card.ger-card:hover{border-color:var(--ger);box-shadow:0 8px 22px rgba(249,115,22,.25)}
+.mis-card.pastperf-card{background:linear-gradient(135deg,rgba(180,83,9,.14),rgba(251,191,36,.08));border-color:rgba(180,83,9,.35)}
+.mis-card.pastperf-card:hover{border-color:var(--pastperf);box-shadow:0 8px 22px rgba(180,83,9,.28)}
+.mis-card.usedto-card{background:linear-gradient(135deg,rgba(124,58,237,.14),rgba(167,139,250,.08));border-color:rgba(124,58,237,.35)}
+.mis-card.usedto-card:hover{border-color:var(--usedto);box-shadow:0 8px 22px rgba(124,58,237,.28)}
+.lock-badge{position:absolute;top:8px;right:8px;font-size:.75em;opacity:.8}
+
+/* GAME SCREEN */
+#gameScreen{padding-top:66px;align-items:stretch}
+.game-hdr{display:flex;align-items:center;gap:8px;margin-bottom:12px}
+.prog-wrap{flex:1}
+.prog-bar{height:8px;background:rgba(255,255,255,.1);border-radius:20px;overflow:hidden}
+.prog-fill{height:100%;background:linear-gradient(90deg,var(--cyan),var(--purple));border-radius:20px;transition:width .4s ease}
+.q-cnt{font-size:.78em;font-weight:800;color:var(--muted);white-space:nowrap}
+.timer-wrap{position:relative;width:44px;height:44px;flex-shrink:0}
+.timer-wrap svg{transform:rotate(-90deg)}
+.timer-num{position:absolute;inset:0;display:flex;align-items:center;justify-content:center;font-size:.82em;font-weight:900;color:var(--gold)}
+.quiz-card{background:var(--card);border-radius:var(--r);padding:20px 16px;border:2px solid rgba(255,255,255,.07);text-align:center;margin-bottom:10px;box-shadow:0 10px 36px rgba(0,0,0,.45)}
+.q-modebadge{display:inline-flex;align-items:center;gap:5px;border-radius:20px;padding:4px 12px;font-size:.74em;font-weight:900;margin-bottom:10px;letter-spacing:.4px}
+.badge-verb{background:rgba(52,152,219,.15);color:var(--cyan);border:1px solid rgba(52,152,219,.3)}
+.badge-pp{background:rgba(192,132,252,.15);color:var(--pp);border:1px solid rgba(192,132,252,.3)}
+.badge-ppc{background:rgba(52,211,153,.15);color:var(--ppc);border:1px solid rgba(52,211,153,.3)}
+.badge-fut{background:rgba(245,158,11,.15);color:var(--fut);border:1px solid rgba(245,158,11,.3)}
+.badge-cond{background:rgba(239,68,68,.15);color:var(--cond);border:1px solid rgba(239,68,68,.3)}
+.badge-pass{background:rgba(6,182,212,.15);color:var(--pass);border:1px solid rgba(6,182,212,.3)}
+.badge-rep{background:rgba(139,92,246,.15);color:var(--rep);border:1px solid rgba(139,92,246,.3)}
+.badge-rel{background:rgba(236,72,153,.15);color:var(--rel);border:1px solid rgba(236,72,153,.3)}
+.badge-mod{background:rgba(20,184,166,.15);color:var(--mod);border:1px solid rgba(20,184,166,.3)}
+.badge-ger{background:rgba(249,115,22,.15);color:var(--ger);border:1px solid rgba(249,115,22,.3)}
+.badge-pastperf{background:rgba(180,83,9,.15);color:#f59e0b;border:1px solid rgba(180,83,9,.35)}
+.badge-usedto{background:rgba(124,58,237,.15);color:#a78bfa;border:1px solid rgba(124,58,237,.35)}
+.q-emoji{font-size:3.5em;display:block;margin-bottom:6px;animation:popIn .35s cubic-bezier(.34,1.56,.64,1)}
+@keyframes popIn{from{transform:scale(0);opacity:0}to{transform:scale(1);opacity:1}}
+.q-prompt{font-size:.79em;font-weight:800;color:var(--gold);text-transform:uppercase;letter-spacing:.7px;margin-bottom:6px}
+.q-word{font-family:'Fredoka One',cursive;font-size:1.9em;color:var(--text);line-height:1.1;margin-bottom:4px}
+.q-hint{font-size:.8em;color:var(--muted);font-style:italic;margin-bottom:8px;min-height:18px;line-height:1.35}
+.q-tip{background:rgba(255,255,255,.05);border:1px solid rgba(255,255,255,.1);border-radius:10px;padding:8px 12px;font-size:.78em;color:var(--muted);margin-bottom:10px;text-align:left;line-height:1.4}
+.q-tip strong{color:var(--gold)}
+.opts{display:grid;grid-template-columns:1fr 1fr;gap:9px}
+.opt{padding:13px 8px;border-radius:var(--r2);border:2.5px solid rgba(255,255,255,.1);background:rgba(255,255,255,.06);cursor:pointer;font-family:'Nunito',sans-serif;font-size:.9em;font-weight:800;color:var(--text);transition:all .2s;text-align:center;line-height:1.3}
+.opt:hover{background:rgba(255,255,255,.13);border-color:rgba(255,255,255,.25)}
+.opt.ok{background:rgba(46,204,113,.18);border-color:var(--green);color:var(--green);animation:optOk .3s ease}
+.opt.bad{background:rgba(231,76,60,.18);border-color:var(--red);color:var(--red);animation:optBad .3s ease}
+.opt-full{grid-column: 1 / -1}
+@keyframes optOk{0%,100%{transform:scale(1)}50%{transform:scale(1.05)}}
+@keyframes optBad{0%,100%{transform:translateX(0)}25%{transform:translateX(-5px)}75%{transform:translateX(5px)}}
+.feedback{display:none;padding:12px 14px;border-radius:var(--r2);margin-top:8px;align-items:flex-start;gap:10px;animation:slideUp .25s ease}
+.feedback.on{display:flex}
+.feedback.ok{background:rgba(46,204,113,.1);border:2px solid rgba(46,204,113,.35)}
+.feedback.bad{background:rgba(231,76,60,.08);border:2px solid rgba(231,76,60,.28)}
+.fb-icon{font-size:1.5em;flex-shrink:0}
+.fb-body strong{font-size:.93em;font-weight:900}
+.fb-body p{font-size:.78em;color:var(--muted);margin-top:2px;line-height:1.35}
+.fb-next{margin-left:auto;flex-shrink:0}
+@keyframes slideUp{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:translateY(0)}}
+
+/* RESULT */
+#resultScreen{justify-content:center;padding-top:74px}
+.res-trophy{font-size:5em;text-align:center;animation:bounceIn .6s cubic-bezier(.34,1.56,.64,1);display:block}
+@keyframes bounceIn{from{transform:scale(0) rotate(-15deg);opacity:0}to{transform:scale(1) rotate(0);opacity:1}}
+.res-title{font-family:'Fredoka One',cursive;font-size:1.9em;text-align:center;margin:8px 0}
+.stars-row{display:flex;justify-content:center;gap:6px;font-size:2em;margin:8px 0}
+.s1{animation:sp .4s .1s cubic-bezier(.34,1.56,.64,1) both}
+.s2{animation:sp .4s .28s cubic-bezier(.34,1.56,.64,1) both}
+.s3{animation:sp .4s .46s cubic-bezier(.34,1.56,.64,1) both}
+@keyframes sp{from{transform:scale(0) rotate(-25deg);opacity:0}to{transform:scale(1) rotate(0);opacity:1}}
+.res-stats{display:flex;gap:9px;flex-wrap:wrap;justify-content:center;margin:12px 0}
+.res-stat{background:var(--card);border-radius:var(--r2);padding:11px 14px;text-align:center;min-width:80px;border:1.5px solid rgba(255,255,255,.06)}
+.res-stat .rv{font-family:'Fredoka One',cursive;font-size:1.7em;color:var(--gold)}
+.res-stat .rl{font-size:.63em;color:var(--muted);font-weight:800;text-transform:uppercase}
+.badge-pop{display:flex;align-items:center;gap:12px;background:linear-gradient(135deg,rgba(255,215,0,.12),rgba(155,89,182,.12));border:2px solid rgba(255,215,0,.4);border-radius:var(--r2);padding:12px 14px;margin:6px 0;width:100%;max-width:380px;animation:badgePop .5s .5s cubic-bezier(.34,1.56,.64,1) both}
+@keyframes badgePop{from{transform:translateX(50px);opacity:0}to{transform:translateX(0);opacity:1}}
+.bp-icon{font-size:2.2em;flex-shrink:0}
+.bp-text strong{color:var(--gold);font-size:.92em}
+.bp-text p{font-size:.78em;color:var(--muted)}
+.res-btns{display:flex;gap:10px;flex-wrap:wrap;justify-content:center;margin-top:10px}
+
+/* BADGES */
+#badgesScreen{padding-top:70px;align-items:stretch}
+.badges-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin-bottom:20px}
+@media(min-width:420px){.badges-grid{grid-template-columns:repeat(4,1fr)}}
+.b-tile{background:var(--card);border-radius:var(--r2);padding:12px 7px;text-align:center;border:2px solid rgba(255,255,255,.06);transition:all .25s}
+.b-tile.earned{border-color:var(--gold);box-shadow:0 0 14px rgba(255,215,0,.22)}
+.b-tile.locked{filter:grayscale(1);opacity:.35}
+.b-tile .bi2{font-size:1.8em}
+.b-tile .bn{font-size:.68em;font-weight:800;margin-top:4px;color:var(--text)}
+.b-tile .bd{font-size:.6em;color:var(--muted);margin-top:2px}
+.rank-list{display:flex;flex-direction:column;gap:8px}
+.rank-row{display:flex;align-items:center;gap:10px;background:var(--card);border-radius:var(--r2);padding:11px 13px;border:1.5px solid rgba(255,255,255,.06)}
+.rank-row.me{border-color:var(--gold);background:rgba(255,215,0,.07)}
+.rank-pos{font-family:'Fredoka One',cursive;font-size:1.4em;width:28px;text-align:center}
+.rank-name{flex:1;font-weight:800}
+.rank-xp{font-weight:900;color:var(--gold);font-size:.88em}
+.tab-row{display:flex;gap:6px;margin-bottom:14px}
+.tab{flex:1;padding:9px;border-radius:var(--r2);border:2px solid rgba(255,255,255,.1);background:rgba(255,255,255,.05);cursor:pointer;font-weight:800;font-size:.83em;color:var(--muted);transition:all .2s;text-align:center}
+.tab.on{border-color:var(--gold);background:rgba(255,215,0,.15);color:var(--gold)}
+
+/* CONFETTI & FLOATS */
+.conf{position:fixed;width:9px;height:9px;pointer-events:none;z-index:9999;animation:confFall var(--d) ease-in forwards}
+@keyframes confFall{0%{transform:translateY(-10px) rotate(0deg);opacity:1}100%{transform:translateY(102vh) rotate(600deg) translateX(var(--tx));opacity:0}}
+.floatxp{position:fixed;font-family:'Fredoka One',cursive;font-size:1.6em;color:var(--gold);pointer-events:none;z-index:9999;animation:fxp .8s ease forwards}
+@keyframes fxp{0%{opacity:1;transform:translateY(0) scale(1)}100%{opacity:0;transform:translateY(-70px) scale(1.4)}}
+.notif{position:fixed;top:66px;left:50%;transform:translateX(-50%) translateY(-20px);background:var(--card2);border-radius:50px;padding:9px 18px;font-weight:800;font-size:.88em;z-index:9999;border:2px solid;animation:notifIn .3s ease forwards;white-space:nowrap;pointer-events:none}
+@keyframes notifIn{from{opacity:0;transform:translateX(-50%) translateY(-30px)}to{opacity:1;transform:translateX(-50%) translateY(0)}}
+
+/* MODALS */
+.modal-overlay{position:fixed;inset:0;display:none;align-items:center;justify-content:center;background:rgba(0,0,0,.65);z-index:5000;padding:12px;overflow:hidden}
+.modal-overlay.on{display:flex}
+.modal{width:100%;max-width:500px;background:linear-gradient(180deg,rgba(35,29,74,.98),rgba(26,21,53,.98));border:1px solid rgba(255,255,255,.12);border-radius:18px;box-shadow:0 18px 70px rgba(0,0,0,.45);overflow:hidden;display:flex;flex-direction:column;max-height:calc(100dvh - 24px);margin:auto}
+.modal-h{flex:0 0 auto;display:flex;align-items:center;justify-content:space-between;padding:13px 15px;border-bottom:1px solid rgba(255,255,255,.08)}
+.modal-h strong{font-size:1em}
+.modal-b{padding:14px 15px;flex:1;overflow:auto;min-height:0;-webkit-overflow-scrolling:touch}
+.modal-f{flex:0 0 auto;display:flex;gap:10px;justify-content:flex-end;padding:11px 15px;border-top:1px solid rgba(255,255,255,.08)}
+body.modal-open{overflow:hidden}
+.small{opacity:.86;font-size:.9em;line-height:1.35}
+.hr{height:1px;background:rgba(255,255,255,.08);margin:11px 0}
+.pillrow{display:flex;gap:10px;flex-wrap:wrap;margin-top:10px}
+.pill{padding:8px 10px;border-radius:999px;background:rgba(255,255,255,.08);border:1px solid rgba(255,255,255,.12);font-weight:900;font-size:.9em}
+.hbtns{display:flex;gap:9px;flex-wrap:wrap;margin:9px 0 3px}
+.hbtns .btn{flex:1;min-width:110px;font-size:.85em}
+.locknote{margin-top:10px;padding:9px 12px;border-radius:14px;background:rgba(231,76,60,.12);border:1px solid rgba(231,76,60,.25);display:none}
+.locknote.on{display:block}
+/* shake */
+@keyframes shakeAnim{10%,90%{transform:translate(-1px,0)}20%,80%{transform:translate(2px,0)}30%,50%,70%{transform:translate(-4px,0)}40%,60%{transform:translate(4px,0)}}
+.shake{animation:shakeAnim .45s cubic-bezier(.36,.07,.19,.97) both}
+/* lives */
+.lives-row{display:flex;gap:4px;justify-content:center;margin:6px 0;font-size:1.1em}
+/* streak fire */
+.streak-fire{display:inline-block;animation:fireAnim .5s infinite alternate}
+@keyframes fireAnim{from{transform:scale(1)}to{transform:scale(1.15)}}
+/* timer warn pulse */
+.timer-warn .timer-num{color:var(--red);animation:timerPulse .5s infinite alternate}
+@keyframes timerPulse{from{transform:scale(1)}to{transform:scale(1.2)}}
+
+/* Verb card decoration */
+.verb-forms-strip{display:flex;gap:6px;justify-content:center;flex-wrap:wrap;margin-top:8px}
+.vform-pill{background:rgba(255,255,255,.07);border:1px solid rgba(255,255,255,.12);border-radius:20px;padding:4px 10px;font-size:.72em;font-weight:800;color:var(--muted)}
+.vform-pill span{color:var(--text)}
+/* Kid sentence display */
+.q-word.kid-sentence{font-size:1.15em;font-family:'Nunito',sans-serif;font-weight:900;line-height:1.5;letter-spacing:.2px}
+.q-word .blank{display:inline-block;background:rgba(255,215,0,.18);border-bottom:3px solid var(--gold);border-radius:4px;min-width:56px;padding:0 6px;color:var(--gold);font-style:italic}
+.rule-chip{display:inline-flex;align-items:center;gap:5px;border-radius:20px;padding:5px 13px;font-size:.78em;font-weight:900;margin-bottom:8px;letter-spacing:.3px;border:1.5px solid;animation:popIn .3s cubic-bezier(.34,1.56,.64,1)}
+.rule-chip.ok-rule{background:rgba(46,204,113,.12);border-color:rgba(46,204,113,.4);color:#2ecc71}
+.rule-chip.no-rule{background:rgba(231,76,60,.1);border-color:rgba(231,76,60,.35);color:#e74c3c}
+.rule-chip.q-rule{background:rgba(52,152,219,.12);border-color:rgba(52,152,219,.35);color:#3498db}
+
+</style>
+</head>
+<body>
+<div id="stars"></div>
+
+<!-- TOPBAR -->
+<div id="topbar">
+  <div class="tb-logo">⚡ VerbQuest</div>
+  <div class="tb-right">
+    <div class="chip">⭐<span id="tbXP">0</span></div>
+    <div class="chip">🔥<span id="tbStreak">0</span></div>
+    <div class="chip">💰<span id="tbCoins">0</span></div>
+    <div class="chip">❤️<span id="tbLives">5</span></div>
+  </div>
+</div>
+
+<!-- BOTTOM NAV -->
+<div id="botnav">
+  <button class="bnb act" id="nb0" onclick="nav(0)"><span class="bi">🏠</span>Inicio</button>
+  <button class="bnb" id="nb1" onclick="nav(1)"><span class="bi">⚔️</span>Misiones</button>
+  <button class="bnb" id="nb2" onclick="nav(2)"><span class="bi">🏅</span>Insignias</button>
+  <button class="bnb" id="nb3" onclick="nav(3)"><span class="bi">🏆</span>Ranking</button>
+</div>
+
+<!-- ══ LOGIN ══ -->
+<div id="loginScreen" class="screen on">
+  <span class="login-planet">⚡</span>
+  <div class="login-title">VerbQuest</div>
+  <div class="login-sub">Domina los verbos en inglés con superpoderes 🚀<br>¡Irregulares, regulares, tiempos perfectos y más!</div>
+  <div class="input-block">
+    <label>¿Cómo te llamas, Piloto?</label>
+    <input id="iName" type="text" placeholder="Ej: Martín" maxlength="18" autocomplete="off">
+  </div>
+  <div style="width:100%;max-width:340px;margin:8px 0">
+    <label style="display:block;font-size:.78em;font-weight:800;color:var(--gold);text-transform:uppercase;letter-spacing:.6px;margin-bottom:6px">Tipo de verbos</label>
+    <div class="lang-row">
+      <div class="lang-tile sel" data-vs="IRREGULAR" onclick="selVS('IRREGULAR')"><span class="lf">🌀</span>Irregulares</div>
+      <div class="lang-tile" data-vs="REGULAR" onclick="selVS('REGULAR')"><span class="lf">📋</span>Regulares</div>
+      <div class="lang-tile" data-vs="BOTH" onclick="selVS('BOTH')"><span class="lf">⚡</span>Ambos</div>
+    </div>
+  </div>
+  <div style="width:100%;max-width:340px;margin:6px 0 16px">
+    <label style="display:block;font-size:.78em;font-weight:800;color:var(--gold);text-transform:uppercase;letter-spacing:.6px;margin-bottom:6px">Dificultad</label>
+    <div class="lang-row">
+      <div class="lang-tile sel" data-d="easy" onclick="selD('easy')"><span class="lf">🐣</span>Fácil</div>
+      <div class="lang-tile" data-d="medium" onclick="selD('medium')"><span class="lf">🦊</span>Medio</div>
+      <div class="lang-tile" data-d="hard" onclick="selD('hard')"><span class="lf">🦁</span>Difícil</div>
+    </div>
+  </div>
+  <button class="btn btn-gold btn-w" onclick="doLogin()">🚀 ¡Comenzar Aventura!</button>
+  <p style="font-size:.74em;color:var(--muted);margin-top:10px;text-align:center">Progreso guardado automáticamente ✨</p>
+</div>
+
+<!-- ══ HOME ══ -->
+<div id="homeScreen" class="screen">
+  <div class="hero-banner">
+    <div class="hero-avatar" id="hAvatar">🚀</div>
+    <div>
+      <div class="hero-name">¡Hola, <span id="hName">Piloto</span>! 👋</div>
+      <div class="hero-sub" id="hSub">Nivel 1 · Recluta</div>
+    </div>
+  </div>
+  <div class="xp-wrap">
+    <div class="xp-label"><span>⭐ <span id="hXP">0</span> XP</span><span>Prox nivel: <span id="hXPN">200</span></span></div>
+    <div class="xp-bar"><div class="xp-fill" id="hXPbar" style="width:0%"></div></div>
+  </div>
+  <div class="stats-row">
+    <div class="stat-pill"><div class="sv" id="hStreak">0</div><div class="sl">🔥 racha</div></div>
+    <div class="stat-pill"><div class="sv" id="hBadges">0</div><div class="sl">🏅 insignias</div></div>
+    <div class="stat-pill"><div class="sv" id="hCoins">0</div><div class="sl">💰 monedas</div></div>
+    <div class="stat-pill"><div class="sv" id="hVerbs">0</div><div class="sl">📝 verbos</div></div>
+  </div>
+  <div class="hbtns">
+    <button class="btn btn-dark" onclick="openHelp()">❓ Cómo jugar</button>
+    <button class="btn btn-dark" onclick="logout()">🚪 Cambiar</button>
+  </div>
+  <div class="locknote" id="lockNote"></div>
+  <div class="missions-title" style="margin-top:12px">⚔️ Elige tu misión:</div>
+  <div class="missions-grid" id="mgrid"></div>
+  <div style="height:10px"></div>
+</div>
+
+<!-- ══ GAME ══ -->
+<div id="gameScreen" class="screen">
+  <div class="game-hdr">
+    <button class="btn btn-ghost btn-xs" onclick="exitMission()" style="padding:7px 11px">✖</button>
+    <button class="btn btn-ghost btn-xs" onclick="goHomeSafe()" style="padding:7px 11px">🏠</button>
+    <div class="prog-wrap">
+      <div class="prog-bar"><div class="prog-fill" id="pgFill" style="width:0%"></div></div>
+    </div>
+    <div class="q-cnt" id="qCnt">1/8</div>
+    <div class="timer-wrap" id="timerWrap">
+      <svg width="44" height="44" viewBox="0 0 44 44">
+        <circle cx="22" cy="22" r="18" fill="none" stroke="rgba(255,255,255,.1)" stroke-width="4"/>
+        <circle id="timerC" cx="22" cy="22" r="18" fill="none" stroke="#FFD700" stroke-width="4" stroke-linecap="round" stroke-dasharray="113" stroke-dashoffset="0" style="transition:stroke-dashoffset .4s linear"/>
+      </svg>
+      <div class="timer-num" id="timerN">15</div>
+    </div>
+  </div>
+  <div class="quiz-card" id="quizCard">
+    <div class="q-modebadge badge-verb" id="qBadge">⚡ VERBOS</div>
+    <span class="q-emoji" id="qEmoji">⚡</span>
+    <div class="q-prompt" id="qPrompt">Encuentra el pasado</div>
+    <div class="q-word" id="qWord">GO</div>
+    <div class="q-hint" id="qHint"></div>
+    <div class="q-tip" id="qTip"></div>
+  </div>
+  <div class="opts" id="opts"></div>
+  <div class="feedback" id="fbBox">
+    <span class="fb-icon" id="fbIcon">✅</span>
+    <div class="fb-body"><strong id="fbTitle">¡Correcto!</strong><p id="fbMsg">+20 XP</p></div>
+    <button class="btn btn-gold btn-xs fb-next" onclick="nextQ()">Siguiente →</button>
+  </div>
+</div>
+
+<!-- ══ RESULT ══ -->
+<div id="resultScreen" class="screen">
+  <span class="res-trophy" id="rTrophy">🏆</span>
+  <div class="res-title" id="rTitle">¡Increíble!</div>
+  <div class="stars-row"><span class="s1" id="rS1">☆</span><span class="s2" id="rS2">☆</span><span class="s3" id="rS3">☆</span></div>
+  <div class="res-stats">
+    <div class="res-stat"><div class="rv" id="rOk">0</div><div class="rl">Correctas</div></div>
+    <div class="res-stat"><div class="rv" id="rXP">+0</div><div class="rl">XP</div></div>
+    <div class="res-stat"><div class="rv" id="rTime">0s</div><div class="rl">Tiempo</div></div>
+    <div class="res-stat"><div class="rv" id="rCoins">+0</div><div class="rl">Monedas</div></div>
+  </div>
+  <div id="rBadges" style="width:100%;max-width:380px"></div>
+  <div class="res-btns">
+    <button class="btn btn-gold btn-sm" onclick="retry()">🔄 Repetir</button>
+    <button class="btn btn-green btn-sm" onclick="nav(0)">🏠 Inicio</button>
+  </div>
+</div>
+
+<!-- ══ BADGES / RANKING ══ -->
+<div id="badgesScreen" class="screen">
+  <div class="tab-row">
+    <div class="tab on" id="tabB" onclick="switchTab('b')">🏅 Insignias</div>
+    <div class="tab" id="tabR" onclick="switchTab('r')">🏆 Ranking</div>
+  </div>
+  <div id="badgesContent"></div>
+  <div id="rankingContent" style="display:none"></div>
+</div>
+
+<!-- MODALS -->
+<div class="modal-overlay" id="modalExit">
+  <div class="modal">
+    <div class="modal-h"><strong>Salir de la misión</strong><button class="btn btn-dark btn-mini" onclick="closeModal('modalExit')">✖</button></div>
+    <div class="modal-b"><div class="small">¿Salir ahora? <strong>Esta misión no contará</strong>. Puedes volver luego cuando quieras.</div></div>
+    <div class="modal-f">
+      <button class="btn btn-dark" onclick="closeModal('modalExit')">Cancelar</button>
+      <button class="btn btn-red" onclick="confirmExitMission()">Salir</button>
+    </div>
+  </div>
+</div>
+
+<div class="modal-overlay" id="modalHelp">
+  <div class="modal">
+    <div class="modal-h"><strong>📖 Manual de Vuelo</strong><button class="btn btn-dark btn-mini" onclick="closeModal('modalHelp')">✖</button></div>
+    <div class="modal-b" id="helpBody">
+      <div style="margin-bottom:10px"><strong style="color:var(--gold)">⚡ Verbos (Base)</strong><br><span class="small">Pasado Simple, Participio, Infinitivo, Traducción de verbos irregulares y regulares.</span></div>
+      <div class="hr"></div>
+      <div style="margin-bottom:10px"><strong style="color:#f59e0b">⏪ Past Perfect</strong><br><span class="small"><strong>HAD + Past Participle</strong> · Para acciones ANTERIORES a otra acción pasada. Ej: She <em>had left</em> before I arrived. · Negativo: hadn't · Pregunta: Had she...?</span></div>
+      <div class="hr"></div>
+      <div style="margin-bottom:10px"><strong style="color:#a78bfa">🕰️ Used To</strong><br><span class="small"><strong>Afirmativa:</strong> <em>used to</em> + verbo base · <strong>Negativa:</strong> <em>didn't use to</em> · <strong>Pregunta:</strong> <em>Did... use to</em>? · Regla: con did/didn't se escribe <em>use to</em> (sin -d)</span></div>
+      <div class="hr"></div>
+      <div style="margin-bottom:10px"><strong style="color:var(--pp)">⭐ Presente Perfecto</strong><br><span class="small"><strong>HAVE/HAS + Participio</strong> · already, just, yet, ever, never, since, for</span></div>
+      <div class="hr"></div>
+      <div style="margin-bottom:10px"><strong style="color:var(--ppc)">🔄 Perfecto Continuo</strong><br><span class="small"><strong>HAVE/HAS + BEEN + -ING</strong> · for, since, all day, lately, recently</span></div>
+      <div class="hr"></div>
+      <div style="margin-bottom:10px"><strong style="color:var(--fut)">🚀 Formas de Futuro</strong><br><span class="small"><strong>will</strong> (predicción) · <strong>be going to</strong> (plan) · <strong>present continuous</strong> (arreglos) · <strong>will be/will have</strong> (futuro perfecto)</span></div>
+      <div class="hr"></div>
+      <div style="margin-bottom:10px"><strong style="color:var(--cond)">🎲 Condicionales 0-3</strong><br><span class="small"><strong>0:</strong> If + present, present · <strong>1:</strong> If + present, will · <strong>2:</strong> If + past, would · <strong>3:</strong> If + had, would have</span></div>
+      <div class="hr"></div>
+      <div style="margin-bottom:10px"><strong style="color:var(--pass)">🔵 Voz Pasiva</strong><br><span class="small"><strong>be + past participle</strong> · presente, pasado, perfecto. Ej: The book <em>was written</em> by her.</span></div>
+      <div class="hr"></div>
+      <div style="margin-bottom:10px"><strong style="color:var(--rep)">💬 Reported Speech</strong><br><span class="small"><strong>said that / told me to</strong> · cambios de tiempo verbal y pronombres.</span></div>
+      <div class="hr"></div>
+      <div style="margin-bottom:10px"><strong style="color:var(--rel)">🔗 Relative Clauses</strong><br><span class="small"><strong>who</strong> (personas) · <strong>which/that</strong> (cosas) · <strong>where</strong> (lugares) · <strong>whose</strong> (posesión)</span></div>
+      <div class="hr"></div>
+      <div style="margin-bottom:10px"><strong style="color:var(--mod)">🎩 Modales Avanzados</strong><br><span class="small"><strong>must/might/can't</strong> + infinitivo · <strong>must/might/can't have</strong> + participio (deducción pasada)</span></div>
+      <div class="hr"></div>
+      <div style="margin-bottom:10px"><strong style="color:var(--ger)">🔀 Gerundios & Infinitivos</strong><br><span class="small"><strong>enjoy/avoid/finish</strong> + -ING · <strong>want/decide/hope</strong> + to · ¡sin confundirlos!</span></div>
+      <div class="hr"></div>
+      <div><strong style="color:var(--cyan)">🎯 Sistema de Vidas</strong><br><span class="small">• Cada error = -1 vida · 10 aciertos seguidos = +1 vida<br>🔒 Módulos avanzados se desbloquean por nivel</span></div>
+    </div>
+    <div class="modal-f"><button class="btn btn-gold btn-w" onclick="closeModal('modalHelp')">¡Entendido!</button></div>
+  </div>
+</div>
+
+<div class="modal-overlay" id="modalMission">
+  <div class="modal">
+    <div class="modal-h"><strong id="mmTitle">Elige el tipo</strong><button class="btn btn-dark btn-mini" onclick="closeModal('modalMission')">✖</button></div>
+    <div class="modal-b" id="mmBody"></div>
+  </div>
+</div>
+
+<script>
+// ════════════════════════════════════════════════════════════════
+//  VerbQuest — Martín Edition
+//  Design: WordQuest (Martín) | Content: Educa Practice v2
+//  — Irregulares + Regulares + Presente Perfecto + Perfecto Continuo
+//  — Insignias, XP, Monedas, Racha, Vidas, Confetti, TTS
+// ════════════════════════════════════════════════════════════════
+
+/* ── UTILS ── */
+const $=id=>document.getElementById(id);
+function shuffle(a){const b=[...a];for(let i=b.length-1;i>0;i--){const j=Math.floor(Math.random()*(i+1));[b[i],b[j]]=[b[j],b[i]];}return b;}
+function clamp(v,a,b){return Math.max(a,Math.min(b,v));}
+function now(){return Date.now();}
+
+/* ── VERB DATA ── */
+const VERBS_IRREGULAR=[
+  {inf:"arise",past:"arose",part:"arisen",es:"surgir",e:"⬆️"},
+  {inf:"awake",past:"awoke",part:"awoken",es:"despertar",e:"⏰"},
+  {inf:"be",past:"was/were",part:"been",es:"ser/estar",e:"✨"},
+  {inf:"bear",past:"bore",part:"borne",es:"soportar",e:"💪"},
+  {inf:"beat",past:"beat",part:"beaten",es:"golpear",e:"👊"},
+  {inf:"become",past:"became",part:"become",es:"convertirse",e:"🦋"},
+  {inf:"begin",past:"began",part:"begun",es:"empezar",e:"🚀"},
+  {inf:"bend",past:"bent",part:"bent",es:"doblar",e:"🌀"},
+  {inf:"bite",past:"bit",part:"bitten",es:"morder",e:"🦷"},
+  {inf:"blow",past:"blew",part:"blown",es:"soplar",e:"💨"},
+  {inf:"break",past:"broke",part:"broken",es:"romper",e:"💥"},
+  {inf:"bring",past:"brought",part:"brought",es:"traer",e:"🎁"},
+  {inf:"build",past:"built",part:"built",es:"construir",e:"🏗️"},
+  {inf:"buy",past:"bought",part:"bought",es:"comprar",e:"🛒"},
+  {inf:"catch",past:"caught",part:"caught",es:"atrapar",e:"🤲"},
+  {inf:"choose",past:"chose",part:"chosen",es:"elegir",e:"🎯"},
+  {inf:"come",past:"came",part:"come",es:"venir",e:"🏃"},
+  {inf:"cost",past:"cost",part:"cost",es:"costar",e:"💰"},
+  {inf:"cut",past:"cut",part:"cut",es:"cortar",e:"✂️"},
+  {inf:"do",past:"did",part:"done",es:"hacer",e:"⚙️"},
+  {inf:"draw",past:"drew",part:"drawn",es:"dibujar",e:"🎨"},
+  {inf:"dream",past:"dreamt",part:"dreamt",es:"soñar",e:"💭"},
+  {inf:"drink",past:"drank",part:"drunk",es:"beber",e:"🥤"},
+  {inf:"drive",past:"drove",part:"driven",es:"conducir",e:"🚗"},
+  {inf:"eat",past:"ate",part:"eaten",es:"comer",e:"🍎"},
+  {inf:"fall",past:"fell",part:"fallen",es:"caer",e:"🍂"},
+  {inf:"feed",past:"fed",part:"fed",es:"alimentar",e:"🍼"},
+  {inf:"feel",past:"felt",part:"felt",es:"sentir",e:"❤️"},
+  {inf:"fight",past:"fought",part:"fought",es:"luchar",e:"⚔️"},
+  {inf:"find",past:"found",part:"found",es:"encontrar",e:"🔍"},
+  {inf:"fly",past:"flew",part:"flown",es:"volar",e:"✈️"},
+  {inf:"forget",past:"forgot",part:"forgotten",es:"olvidar",e:"🧠"},
+  {inf:"freeze",past:"froze",part:"frozen",es:"congelar",e:"❄️"},
+  {inf:"get",past:"got",part:"gotten",es:"conseguir",e:"🎯"},
+  {inf:"give",past:"gave",part:"given",es:"dar",e:"🎁"},
+  {inf:"go",past:"went",part:"gone",es:"ir",e:"🏃"},
+  {inf:"grow",past:"grew",part:"grown",es:"crecer",e:"🌱"},
+  {inf:"hang",past:"hung",part:"hung",es:"colgar",e:"🪝"},
+  {inf:"have",past:"had",part:"had",es:"tener",e:"✋"},
+  {inf:"hear",past:"heard",part:"heard",es:"oir",e:"👂"},
+  {inf:"hide",past:"hid",part:"hidden",es:"esconder",e:"🙈"},
+  {inf:"hit",past:"hit",part:"hit",es:"golpear",e:"💥"},
+  {inf:"hold",past:"held",part:"held",es:"agarrar",e:"🤝"},
+  {inf:"hurt",past:"hurt",part:"hurt",es:"herir",e:"🩹"},
+  {inf:"keep",past:"kept",part:"kept",es:"guardar",e:"🔐"},
+  {inf:"know",past:"knew",part:"known",es:"saber",e:"🧠"},
+  {inf:"lead",past:"led",part:"led",es:"liderar",e:"👑"},
+  {inf:"leave",past:"left",part:"left",es:"irse",e:"🚪"},
+  {inf:"lend",past:"lent",part:"lent",es:"prestar",e:"🤲"},
+  {inf:"let",past:"let",part:"let",es:"permitir",e:"🔑"},
+  {inf:"lie",past:"lay",part:"lain",es:"yacer",e:"😴"},
+  {inf:"lose",past:"lost",part:"lost",es:"perder",e:"😢"},
+  {inf:"make",past:"made",part:"made",es:"hacer",e:"🔨"},
+  {inf:"mean",past:"meant",part:"meant",es:"significar",e:"💬"},
+  {inf:"meet",past:"met",part:"met",es:"conocer",e:"👋"},
+  {inf:"pay",past:"paid",part:"paid",es:"pagar",e:"💳"},
+  {inf:"put",past:"put",part:"put",es:"poner",e:"📌"},
+  {inf:"read",past:"read",part:"read",es:"leer",e:"📖"},
+  {inf:"ride",past:"rode",part:"ridden",es:"montar",e:"🐴"},
+  {inf:"ring",past:"rang",part:"rung",es:"sonar",e:"🔔"},
+  {inf:"rise",past:"rose",part:"risen",es:"levantarse",e:"🌅"},
+  {inf:"run",past:"ran",part:"run",es:"correr",e:"🏃"},
+  {inf:"say",past:"said",part:"said",es:"decir",e:"💬"},
+  {inf:"see",past:"saw",part:"seen",es:"ver",e:"👁️"},
+  {inf:"sell",past:"sold",part:"sold",es:"vender",e:"🏷️"},
+  {inf:"send",past:"sent",part:"sent",es:"enviar",e:"📨"},
+  {inf:"set",past:"set",part:"set",es:"establecer",e:"⚙️"},
+  {inf:"show",past:"showed",part:"shown",es:"mostrar",e:"📺"},
+  {inf:"sing",past:"sang",part:"sung",es:"cantar",e:"🎵"},
+  {inf:"sit",past:"sat",part:"sat",es:"sentarse",e:"🪑"},
+  {inf:"sleep",past:"slept",part:"slept",es:"dormir",e:"😴"},
+  {inf:"speak",past:"spoke",part:"spoken",es:"hablar",e:"🗣️"},
+  {inf:"spend",past:"spent",part:"spent",es:"gastar",e:"💸"},
+  {inf:"stand",past:"stood",part:"stood",es:"pararse",e:"🧍"},
+  {inf:"steal",past:"stole",part:"stolen",es:"robar",e:"🤫"},
+  {inf:"swim",past:"swam",part:"swum",es:"nadar",e:"🏊"},
+  {inf:"take",past:"took",part:"taken",es:"tomar",e:"🤏"},
+  {inf:"teach",past:"taught",part:"taught",es:"enseñar",e:"👩‍🏫"},
+  {inf:"tell",past:"told",part:"told",es:"contar",e:"📢"},
+  {inf:"think",past:"thought",part:"thought",es:"pensar",e:"🤔"},
+  {inf:"throw",past:"threw",part:"thrown",es:"lanzar",e:"🎯"},
+  {inf:"understand",past:"understood",part:"understood",es:"entender",e:"💡"},
+  {inf:"wake",past:"woke",part:"woken",es:"despertar",e:"☀️"},
+  {inf:"wear",past:"wore",part:"worn",es:"llevar puesto",e:"👕"},
+  {inf:"win",past:"won",part:"won",es:"ganar",e:"🏆"},
+  {inf:"write",past:"wrote",part:"written",es:"escribir",e:"✍️"},
+];
+
+const VERBS_REGULAR=[
+  {inf:"ask",past:"asked",part:"asked",es:"preguntar",e:"❓"},
+  {inf:"answer",past:"answered",part:"answered",es:"responder",e:"💬"},
+  {inf:"call",past:"called",part:"called",es:"llamar",e:"📞"},
+  {inf:"change",past:"changed",part:"changed",es:"cambiar",e:"🔄"},
+  {inf:"clean",past:"cleaned",part:"cleaned",es:"limpiar",e:"🧹"},
+  {inf:"climb",past:"climbed",part:"climbed",es:"escalar",e:"🧗"},
+  {inf:"close",past:"closed",part:"closed",es:"cerrar",e:"🚪"},
+  {inf:"cook",past:"cooked",part:"cooked",es:"cocinar",e:"👨‍🍳"},
+  {inf:"dance",past:"danced",part:"danced",es:"bailar",e:"💃"},
+  {inf:"enjoy",past:"enjoyed",part:"enjoyed",es:"disfrutar",e:"😊"},
+  {inf:"finish",past:"finished",part:"finished",es:"terminar",e:"🏁"},
+  {inf:"help",past:"helped",part:"helped",es:"ayudar",e:"🤝"},
+  {inf:"jump",past:"jumped",part:"jumped",es:"saltar",e:"🦘"},
+  {inf:"learn",past:"learned",part:"learned",es:"aprender",e:"📚"},
+  {inf:"like",past:"liked",part:"liked",es:"gustar",e:"❤️"},
+  {inf:"listen",past:"listened",part:"listened",es:"escuchar",e:"👂"},
+  {inf:"live",past:"lived",part:"lived",es:"vivir",e:"🏠"},
+  {inf:"look",past:"looked",part:"looked",es:"mirar",e:"👀"},
+  {inf:"love",past:"loved",part:"loved",es:"amar",e:"💕"},
+  {inf:"open",past:"opened",part:"opened",es:"abrir",e:"🔓"},
+  {inf:"play",past:"played",part:"played",es:"jugar",e:"🎮"},
+  {inf:"practice",past:"practiced",part:"practiced",es:"practicar",e:"⚡"},
+  {inf:"push",past:"pushed",part:"pushed",es:"empujar",e:"🤜"},
+  {inf:"rain",past:"rained",part:"rained",es:"llover",e:"🌧️"},
+  {inf:"remember",past:"remembered",part:"remembered",es:"recordar",e:"🧠"},
+  {inf:"start",past:"started",part:"started",es:"empezar",e:"🚀"},
+  {inf:"stop",past:"stopped",part:"stopped",es:"detener",e:"🛑"},
+  {inf:"study",past:"studied",part:"studied",es:"estudiar",e:"📖"},
+  {inf:"talk",past:"talked",part:"talked",es:"hablar",e:"🗣️"},
+  {inf:"travel",past:"traveled",part:"traveled",es:"viajar",e:"✈️"},
+  {inf:"try",past:"tried",part:"tried",es:"intentar",e:"💪"},
+  {inf:"use",past:"used",part:"used",es:"usar",e:"🔧"},
+  {inf:"visit",past:"visited",part:"visited",es:"visitar",e:"🗺️"},
+  {inf:"wait",past:"waited",part:"waited",es:"esperar",e:"⏳"},
+  {inf:"walk",past:"walked",part:"walked",es:"caminar",e:"🚶"},
+  {inf:"want",past:"wanted",part:"wanted",es:"querer",e:"💫"},
+  {inf:"wash",past:"washed",part:"washed",es:"lavar",e:"🫧"},
+  {inf:"work",past:"worked",part:"worked",es:"trabajar",e:"💼"},
+];
+
+/* ── MISSION TYPES ── */
+const MISSION_DEFS=[
+  // ── VERBOS BASE (siempre disponibles) ──
+  {id:'past',       name:'Pasado Simple',      icon:'⏮️', sub:'¿Cuál es el pasado?',         badge:'badge-verb', xpBase:30, lvReq:0, cardCls:''},
+  {id:'participle', name:'Participio',          icon:'🎯', sub:'¿Cuál es el participio?',      badge:'badge-verb', xpBase:35, lvReq:0, cardCls:''},
+  {id:'infinitive', name:'Infinitivo',          icon:'🔁', sub:'¿Cuál es el infinitivo?',      badge:'badge-verb', xpBase:30, lvReq:0, cardCls:''},
+  {id:'translate',  name:'Traducción',          icon:'🌍', sub:'Identifica el significado',    badge:'badge-verb', xpBase:25, lvReq:0, cardCls:''},
+  // ── TIEMPOS PERFECTOS (Nivel 2) ──
+  {id:'present_perfect', name:'Presente Perfecto', icon:'⭐', sub:'HAVE/HAS + Participio',    badge:'badge-pp',   xpBase:40, lvReq:2, cardCls:'pp-card'},
+  {id:'pp_continuous',   name:'Perfecto Continuo', icon:'🔄', sub:'HAVE/HAS + BEEN + -ING',  badge:'badge-ppc',  xpBase:45, lvReq:2, cardCls:'ppc-card'},
+  // ── PAST PERFECT & USED TO (Nivel 1 — examen Martín) ──
+  {id:'past_perfect',    name:'Past Perfect',       icon:'⏪', sub:'HAD + Participio pasado',  badge:'badge-pastperf', xpBase:45, lvReq:1, cardCls:'pastperf-card'},
+  {id:'used_to',         name:'Used To',            icon:'🕰️', sub:'Hábitos del pasado',       badge:'badge-usedto',   xpBase:40, lvReq:1, cardCls:'usedto-card'},
+  // ── FUTURO (Nivel 3) ──
+  {id:'future_forms', name:'Formas de Futuro',   icon:'🚀', sub:'will · going to · continuo', badge:'badge-fut', xpBase:45, lvReq:3, cardCls:'fut-card'},
+  // ── CONDICIONALES (Nivel 3) ──
+  {id:'conditionals', name:'Condicionales 0-3',  icon:'🎲', sub:'If… then… (0,1,2,3)',        badge:'badge-cond', xpBase:55, lvReq:3, cardCls:'cond-card'},
+  // ── VOZ PASIVA (Nivel 4) ──
+  {id:'passive_voice', name:'Voz Pasiva',        icon:'🔵', sub:'be + past participle',        badge:'badge-pass', xpBase:50, lvReq:4, cardCls:'pass-card'},
+  // ── REPORTED SPEECH (Nivel 4) ──
+  {id:'reported_speech', name:'Reported Speech', icon:'💬', sub:'said that · told me to',     badge:'badge-rep',  xpBase:55, lvReq:4, cardCls:'rep-card'},
+  // ── RELATIVE CLAUSES (Nivel 5) ──
+  {id:'relative_clauses', name:'Relative Clauses', icon:'🔗', sub:'who · which · where',      badge:'badge-rel',  xpBase:55, lvReq:5, cardCls:'rel-card'},
+  // ── MODALES AVANZADOS (Nivel 5) ──
+  {id:'advanced_modals', name:'Modales Avanzados', icon:'🎩', sub:'must/might/can\'t have…',  badge:'badge-mod',  xpBase:60, lvReq:5, cardCls:'mod-card'},
+  // ── GERUNDIOS & INFINITIVOS (Nivel 6) ──
+  {id:'gerunds_infinitives', name:'Gerundios & Inf.', icon:'🔀', sub:'enjoy doing · want to', badge:'badge-ger',  xpBase:60, lvReq:6, cardCls:'ger-card'},
+];
+
+/* ── ADVERB DATA ── */
+const PP_ADVERBS=[
+  {word:"already",es:"ya",hint:"Algo que pasó antes de lo esperado"},
+  {word:"just",es:"justo/recién",hint:"Algo que acaba de pasar"},
+  {word:"yet",es:"todavía/aún",hint:"En preguntas y negativos"},
+  {word:"ever",es:"alguna vez",hint:"Experiencias de vida"},
+  {word:"never",es:"nunca",hint:"Algo que no ha pasado"},
+  {word:"since",es:"desde",hint:"Desde un punto en el tiempo"},
+  {word:"for",es:"por/durante",hint:"Duración de tiempo"},
+  {word:"recently",es:"recientemente",hint:"Hace poco tiempo"},
+];
+const PPC_ADVERBS=[
+  {word:"for",es:"por/durante",hint:"Duración: 'for 3 hours'"},
+  {word:"since",es:"desde",hint:"Desde cuándo: 'since 2020'"},
+  {word:"all day",es:"todo el día",hint:"Durante todo el día"},
+  {word:"lately",es:"últimamente",hint:"En el tiempo reciente"},
+  {word:"recently",es:"recientemente",hint:"Hace poco tiempo"},
+];
+
+/* ── BADGES — 35 total ── */
+const BADGES=[
+  // ── PRIMEROS PASOS ──
+  {id:'first_blood',   icon:'⚡', name:'Primera Misión',    desc:'Completaste tu primera misión',                   c:p=>(p.stats.missions||0)>=1},
+  {id:'century',       icon:'💯', name:'100 XP',            desc:'Acumulaste 100 XP',                               c:p=>(p.xp||0)>=100},
+  {id:'collector',     icon:'💰', name:'Coleccionista',     desc:'50 monedas acumuladas',                           c:p=>(p.coins||0)>=50},
+  // ── VELOCIDAD ──
+  {id:'speed',         icon:'⚡', name:'Rayo Veloz',        desc:'3 preguntas respondidas en menos de 4s',          c:p=>(p.stats.fast||0)>=3},
+  {id:'speed_10',      icon:'🌩️', name:'Relámpago',         desc:'10 respuestas rápidas (menos de 4s)',             c:p=>(p.stats.fast||0)>=10},
+  {id:'speed_25',      icon:'☄️', name:'Meteorito',         desc:'25 respuestas ultrarrápidas',                    c:p=>(p.stats.fast||0)>=25},
+  // ── PERFECCIÓN ──
+  {id:'perfect',       icon:'💎', name:'Perfecto',          desc:'10/10 en una sola misión',                        c:p=>(p.stats.perfect||0)>=1},
+  {id:'perfect_3',     icon:'👑', name:'Triple Perfecto',   desc:'3 misiones perfectas',                            c:p=>(p.stats.perfect||0)>=3},
+  {id:'perfect_10',    icon:'🌈', name:'Maestro Perfecto',  desc:'10 misiones sin un solo error',                   c:p=>(p.stats.perfect||0)>=10},
+  // ── RACHAS ──
+  {id:'streak5',       icon:'🔥', name:'Racha x5',          desc:'5 respuestas correctas seguidas',                 c:p=>(p.stats.maxStreak||0)>=5},
+  {id:'streak10',      icon:'💥', name:'Racha x10',         desc:'10 correctas seguidas sin fallar',                c:p=>(p.stats.maxStreak||0)>=10},
+  {id:'streak20',      icon:'🌋', name:'Racha x20',         desc:'20 correctas seguidas ¡imparable!',               c:p=>(p.stats.maxStreak||0)>=20},
+  // ── XP ──
+  {id:'big_xp',        icon:'🌟', name:'500 XP',            desc:'Acumulaste 500 XP',                               c:p=>(p.xp||0)>=500},
+  {id:'xp_1000',       icon:'💫', name:'1000 XP',           desc:'Acumulaste 1000 XP',                              c:p=>(p.xp||0)>=1000},
+  {id:'xp_3000',       icon:'🚀', name:'3000 XP',           desc:'3000 XP — eres una leyenda',                      c:p=>(p.xp||0)>=3000},
+  // ── VERBOS ──
+  {id:'irregular_hero',icon:'🌀', name:'Héroe Irregular',   desc:'5 misiones con verbos irregulares',               c:p=>(p.stats.missionsIrr||0)>=5},
+  {id:'regular_hero',  icon:'📋', name:'Héroe Regular',     desc:'5 misiones con verbos regulares',                 c:p=>(p.stats.missionsReg||0)>=5},
+  {id:'both_hero',     icon:'⚡', name:'Héroe Ambos',       desc:'5 misiones en modo Ambos (IRR+REG)',               c:p=>(p.stats.missionsBoth||0)>=5},
+  // ── TIEMPOS PERFECTOS ──
+  {id:'pp_explorer',   icon:'⭐', name:'Explorador PP',     desc:'Primera misión de Presente Perfecto',             c:p=>(p.stats.missionsPP||0)>=1},
+  {id:'ppc_explorer',  icon:'🔄', name:'Explorador PPC',    desc:'Primera misión de Perfecto Continuo',             c:p=>(p.stats.missionsPPC||0)>=1},
+  {id:'adverb_hunter', icon:'🎯', name:'Cazador Adverbios', desc:'5 adverbios temporales correctos en PP',          c:p=>(p.stats.adverbsCorrect||0)>=5},
+  {id:'pp_master',     icon:'💜', name:'Maestro PP',        desc:'10 seguidas en Presente Perfecto',                c:p=>(p.stats.ppStreak||0)>=10},
+  // ── MÓDULOS NUEVOS ──
+  {id:'future_pilot',  icon:'🚀', name:'Piloto del Futuro', desc:'Primera misión de Formas de Futuro',              c:p=>(p.stats.missionsFut||0)>=1},
+  {id:'future_master', icon:'🌠', name:'Maestro Futuro',    desc:'3 misiones de Futuro completadas',                c:p=>(p.stats.missionsFut||0)>=3},
+  {id:'cond_rookie',   icon:'🎲', name:'Condicional Novato',desc:'Primera misión de Condicionales',                 c:p=>(p.stats.missionsCond||0)>=1},
+  {id:'cond_master',   icon:'♟️', name:'Maestro Cond.',     desc:'3 misiones de Condicionales completadas',         c:p=>(p.stats.missionsCond||0)>=3},
+  {id:'passive_agent', icon:'🔵', name:'Agente Pasivo',     desc:'Primera misión de Voz Pasiva',                    c:p=>(p.stats.missionsPass||0)>=1},
+  {id:'reporter',      icon:'💬', name:'Reportero',         desc:'Primera misión de Reported Speech',               c:p=>(p.stats.missionsRep||0)>=1},
+  {id:'connector',     icon:'🔗', name:'Conector',          desc:'Primera misión de Relative Clauses',              c:p=>(p.stats.missionsRel||0)>=1},
+  {id:'deductor',      icon:'🎩', name:'Detective Verbal',  desc:'Primera misión de Modales Avanzados',             c:p=>(p.stats.missionsMod||0)>=1},
+  {id:'ger_guru',      icon:'🔀', name:'Gurú Gerundio',     desc:'Primera misión de Gerundios & Infinitivos',       c:p=>(p.stats.missionsGer||0)>=1},
+  {id:'pastperf_start',icon:'⏪', name:'Al Pasado Perfecto', desc:'Primera misión de Past Perfect',                  c:p=>(p.stats.missionsPastPerf||0)>=1},
+  {id:'pastperf_ace',  icon:'🎖️', name:'Maestro HAD',        desc:'3 misiones de Past Perfect completadas',          c:p=>(p.stats.missionsPastPerf||0)>=3},
+  {id:'usedto_start',  icon:'🕰️', name:'Hábitos del Pasado', desc:'Primera misión de Used To',                       c:p=>(p.stats.missionsUsedTo||0)>=1},
+  {id:'usedto_ace',    icon:'🔮', name:'Tiempo que Fue',     desc:'3 misiones de Used To completadas',               c:p=>(p.stats.missionsUsedTo||0)>=3},
+  // ── HITOS GLOBALES ──
+  {id:'veteran',       icon:'🏆', name:'Veterano',          desc:'20 misiones completadas',                         c:p=>(p.stats.missions||0)>=20},
+  {id:'commander',     icon:'🎖️', name:'Comandante',        desc:'50 misiones completadas',                         c:p=>(p.stats.missions||0)>=50},
+  {id:'grand_master',  icon:'🦄', name:'Gran Maestro',      desc:'Completa al menos 1 misión de cada módulo',       c:p=>['missionsPP','missionsPPC','missionsFut','missionsCond','missionsPass','missionsRep','missionsRel','missionsMod','missionsGer','missionsPastPerf','missionsUsedTo'].every(k=>(p.stats[k]||0)>=1)},
+  {id:'coin_king',     icon:'👸', name:'Rey de Monedas',    desc:'300 monedas acumuladas',                          c:p=>(p.coins||0)>=300},
+];
+
+/* ── LEVEL SYSTEM ── */
+const LVLXP=[0,120,300,600,950,1400,1900,2500,3200,4000,5000];
+const LVLNAMES=['Recluta','Cadete','Teniente','Capitán','Mayor','General','Guerrero','Maestro','Leyenda','Supernova','Dios'];
+const LVLAVATARS=['🚀','⚡','🌟','🏆','💎','👑','🔥','🌀','💥','🌈','🦄'];
+function getLevel(xp){
+  let lv=0;
+  for(let i=LVLXP.length-1;i>=0;i--){ if((xp||0)>=LVLXP[i]){lv=i;break;} }
+  return lv;
+}
+
+/* ── STATE ── */
+const LS='vq_martin_v1';
+let P=null, selVerbSet='IRREGULAR', selDiffMode='easy';
+let G={active:false,cat:'',mtype:'',qs:[],qi:0,ok:0,t0:0,iv:null,tl:15,paused:false,fast:0,lives:5,streak:0,newB:[]};
+let _AC=null;
+
+function defaultProfile(name){
+  return {
+    name,avatar:'🚀',verbSet:'IRREGULAR',diff:'easy',
+    xp:0,coins:0,lives:5,
+    streak:0,maxStreak:0,lastDate:'',
+    badges:[],best:{},
+    stats:{missions:0,perfect:0,fast:0,maxStreak:0,
+      missionsIrr:0,missionsReg:0,missionsBoth:0,
+      missionsPP:0,missionsPPC:0,
+      missionsFut:0,missionsCond:0,missionsPass:0,
+      missionsRep:0,missionsRel:0,missionsMod:0,missionsGer:0,
+      missionsPastPerf:0,missionsUsedTo:0,
+      adverbsCorrect:0,ppStreak:0,ppStreakCur:0}
+  };
+}
+
+function loadP(){
+  try{const r=localStorage.getItem(LS);if(r){P=JSON.parse(r);ensureStats();return;}}catch(e){}
+  P=null;
+}
+function saveP(){if(P) try{localStorage.setItem(LS,JSON.stringify(P));}catch(e){}}
+function ensureStats(){
+  if(!P) return;
+  if(!P.stats) P.stats={};
+  if(!P.best) P.best={};
+  const def={missions:0,perfect:0,fast:0,maxStreak:0,
+    missionsIrr:0,missionsReg:0,missionsBoth:0,
+    missionsPP:0,missionsPPC:0,
+    missionsFut:0,missionsCond:0,missionsPass:0,
+    missionsRep:0,missionsRel:0,missionsMod:0,missionsGer:0,
+    missionsPastPerf:0,missionsUsedTo:0,
+    adverbsCorrect:0,ppStreak:0,ppStreakCur:0};
+  Object.keys(def).forEach(k=>{ if(P.stats[k]==null) P.stats[k]=def[k]; });
+  if(!P.badges) P.badges=[];
+}
+
+/* ── AUDIO ── */
+function getAC(){try{if(!_AC)_AC=new(window.AudioContext||window.webkitAudioContext)();if(_AC.state==='suspended')_AC.resume?.();return _AC;}catch(e){return null;}}
+function snd(type){
+  try{
+    const ac=getAC();if(!ac)return;
+    const t=ac.currentTime;
+    const o=ac.createOscillator(),g=ac.createGain();
+    o.connect(g);g.connect(ac.destination);
+    if(type==='ok'){
+      o.type='sine';o.frequency.setValueAtTime(440,t);o.frequency.exponentialRampToValueAtTime(880,t+.14);
+      g.gain.setValueAtTime(.18,t);g.gain.exponentialRampToValueAtTime(.001,t+.35);
+      o.start(t);o.stop(t+.36);
+    }else if(type==='bad'){
+      o.type='sawtooth';o.frequency.setValueAtTime(280,t);o.frequency.exponentialRampToValueAtTime(120,t+.25);
+      g.gain.setValueAtTime(.14,t);g.gain.exponentialRampToValueAtTime(.001,t+.28);
+      o.start(t);o.stop(t+.3);
+    }else if(type==='click'){
+      o.type='triangle';o.frequency.setValueAtTime(520,t);
+      g.gain.setValueAtTime(.08,t);g.gain.exponentialRampToValueAtTime(.001,t+.1);
+      o.start(t);o.stop(t+.1);
+    }else if(type==='win'){
+      const seq=[523,659,784,1047];
+      seq.forEach((f,i)=>{
+        const oc=ac.createOscillator(),gc=ac.createGain();
+        oc.connect(gc);gc.connect(ac.destination);
+        oc.type='sine';oc.frequency.setValueAtTime(f,t+i*.1);
+        gc.gain.setValueAtTime(.14,t+i*.1);gc.gain.exponentialRampToValueAtTime(.001,t+i*.1+.22);
+        oc.start(t+i*.1);oc.stop(t+i*.1+.22);
+      });
+    }else if(type==='lifeup'){
+      [400,600,800].forEach((f,i)=>{
+        const oc=ac.createOscillator(),gc=ac.createGain();
+        oc.connect(gc);gc.connect(ac.destination);
+        oc.type='square';oc.frequency.setValueAtTime(f,t+i*.1);
+        gc.gain.setValueAtTime(.1,t+i*.1);gc.gain.exponentialRampToValueAtTime(.001,t+i*.1+.15);
+        oc.start(t+i*.1);oc.stop(t+i*.1+.15);
+      });
+    }
+  }catch(e){}
+}
+
+/* ── CONFETTI ── */
+function confetti(){
+  try{
+    for(let i=0;i<28;i++){
+      const p=document.createElement('div');
+      p.style.cssText=`position:fixed;left:${Math.random()*100}vw;top:-10px;width:9px;height:9px;border-radius:2px;background:hsl(${Math.random()*360},90%,60%);opacity:.95;z-index:9999;transform:rotate(${Math.random()*180}deg)`;
+      document.body.appendChild(p);
+      const dur=900+Math.random()*900;
+      p.animate([{top:'-10px',opacity:1},{top:`${110+Math.random()*20}vh`,opacity:0,transform:`rotate(${Math.random()*720}deg) translateX(${(Math.random()-.5)*200}px)`}],{duration:dur,easing:'cubic-bezier(.2,.7,.2,1)'}).onfinish=()=>p.remove();
+    }
+  }catch(e){}
+}
+
+/* ── FLOAT XP ── */
+function floatXP(txt,x,y){
+  const d=document.createElement('div');
+  d.className='floatxp';
+  d.textContent=txt;
+  d.style.left=`${x-20}px`;d.style.top=`${y}px`;
+  document.body.appendChild(d);
+  setTimeout(()=>d.remove(),900);
+}
+
+/* ── NOTIF ── */
+function notif(msg,col){
+  const old=document.querySelector('.notif');if(old)old.remove();
+  const d=document.createElement('div');
+  d.className='notif';
+  d.textContent=msg;
+  d.style.borderColor=col||'rgba(255,215,0,.5)';
+  document.body.appendChild(d);
+  setTimeout(()=>d.remove(),3200);
+}
+
+/* ── SHAKE ── */
+function shakeCard(){
+  const c=$('quizCard');
+  c.classList.remove('shake');
+  void c.offsetWidth;
+  c.classList.add('shake');
+}
+
+/* ── SCREEN NAV ── */
+function show(id){
+  document.querySelectorAll('.screen').forEach(s=>s.classList.remove('on'));
+  $(id).classList.add('on');
+}
+function showUI(on){
+  $('topbar').style.display=on?'flex':'none';
+  $('botnav').style.display=on?'flex':'none';
+}
+function setNav(i){
+  document.querySelectorAll('.bnb').forEach((b,j)=>b.classList.toggle('act',j===i));
+}
+function nav(i){
+  snd('click');
+  setNav(i);
+  if(i===2||i===3){renderBadgesScreen(i===2?'b':'r');show('badgesScreen');return;}
+  if(G.active){exitMission();return;}
+  renderHome();show('homeScreen');
+}
+function goHomeSafe(){if(G.active){exitMission();return;}nav(0);}
+
+/* ── MODAL ── */
+function openModal(id){const el=$(id);if(!el)return;el.classList.add('on');document.body.classList.add('modal-open');}
+function closeModal(id){const el=$(id);if(!el)return;el.classList.remove('on');if(!document.querySelector('.modal-overlay.on'))document.body.classList.remove('modal-open');}
+function closeTopModal(){const m=document.querySelector('.modal-overlay.on');if(m&&m.id!=='modalExit')m.classList.remove('on');}
+document.querySelectorAll('.modal-overlay').forEach(ov=>{
+  ov.addEventListener('click',e=>{if(e.target===ov)closeModal(ov.id);});
+});
+document.addEventListener('keydown',e=>{if(e.key==='Escape')closeTopModal();});
+
+/* ── SELECTORS ── */
+function selVS(v){
+  selVerbSet=v;
+  document.querySelectorAll('[data-vs]').forEach(t=>{
+    t.classList.toggle('sel',t.getAttribute('data-vs')===v);
+    t.classList.remove('sel-pp','sel-ppc');
+  });
+}
+function selD(d){
+  selDiffMode=d;
+  document.querySelectorAll('[data-d]').forEach(t=>t.classList.toggle('sel',t.getAttribute('data-d')===d));
+}
+
+/* ── LOGIN / LOGOUT ── */
+function doLogin(){
+  snd('click');
+  const n=($('iName').value||'').trim().slice(0,18)||'Piloto';
+  loadP();
+  if(!P||P.name!==n){P=defaultProfile(n);}
+  P.verbSet=selVerbSet;P.diff=selDiffMode;
+  // streak
+  const today=new Date().toDateString();
+  if(P.lastDate!==today){
+    const y=new Date(now()-86400000).toDateString();
+    P.streak=(P.lastDate===y)?(P.streak+1):1;
+    P.lastDate=today;
+    if(P.streak>(P.stats.maxStreak||0)) P.stats.maxStreak=P.streak;
+  }
+  saveP();
+  showUI(true);renderHome();show('homeScreen');setNav(0);
+}
+function logout(){if(G.active){exitMission();return;}showUI(false);show('loginScreen');setNav(0);snd('click');}
+
+/* ── TOPBAR ── */
+function updateTopbar(){
+  if(!P)return;
+  $('tbXP').textContent=P.xp||0;
+  $('tbStreak').textContent=P.streak||0;
+  $('tbCoins').textContent=P.coins||0;
+  $('tbLives').textContent=G.active?G.lives:(P.lives||5);
+}
+
+/* ── HOME ── */
+function renderHome(){
+  if(!P)return;
+  const lv=getLevel(P.xp);
+  P.avatar=LVLAVATARS[lv]||'🚀';
+  $('hAvatar').textContent=P.avatar;
+  $('hName').textContent=P.name;
+  $('hSub').textContent=`Nivel ${lv} · ${LVLNAMES[lv]||'Recluta'}`;
+  $('hXP').textContent=P.xp||0;
+  const next=LVLXP[lv+1]||(LVLXP[LVLXP.length-1]+1000);
+  $('hXPN').textContent=next;
+  const frac=(P.xp-(LVLXP[lv]||0))/((next-(LVLXP[lv]||0))||1);
+  $('hXPbar').style.width=(clamp(frac,0,1)*100)+'%';
+  $('hStreak').textContent=P.streak||0;
+  $('hBadges').textContent=(P.badges||[]).length;
+  $('hCoins').textContent=P.coins||0;
+  $('hVerbs').textContent=(P.stats.missions||0)*8;
+  updateTopbar();
+  renderMissions();
+}
+
+function renderMissions(){
+  const g=$('mgrid');g.innerHTML='';
+  const lv=getLevel(P.xp);
+  const vsLabel=P.verbSet==='BOTH'?'⚡ IRR+REG':P.verbSet==='REGULAR'?'📋 REG':'🌀 IRR';
+
+  // Section labels
+  const sections=[
+    {label:'⚡ Verbos Base',ids:['past','participle','infinitive','translate']},
+    {label:'✨ Tiempos Perfectos',ids:['present_perfect','pp_continuous']},
+    {label:'📖 Past Perfect & Used To',ids:['past_perfect','used_to']},
+    {label:'🔮 Gramática Avanzada',ids:['future_forms','conditionals','passive_voice','reported_speech','relative_clauses','advanced_modals','gerunds_infinitives']},
+  ];
+
+  sections.forEach(sec=>{
+    const secMissions=MISSION_DEFS.filter(m=>sec.ids.includes(m.id));
+    // Section header
+    const hdr=document.createElement('div');
+    hdr.style.cssText='grid-column:1/-1;font-family:Fredoka One,cursive;font-size:.9em;color:var(--muted);padding:8px 2px 2px;margin-top:4px';
+    hdr.textContent=sec.label;
+    g.appendChild(hdr);
+
+    secMissions.forEach(m=>{
+      const locked=lv<(m.lvReq||0);
+      const card=document.createElement('div');
+      const bestKey=`${m.id}|${P.verbSet}`;
+      const best=P.best?.[bestKey]||0;
+      const stars=best>=90?3:best>=60?2:best>=30?1:0;
+      const done=best>=60;
+      const isVerb=['past','participle','infinitive','translate'].includes(m.id);
+      card.className=`mis-card ${locked?'locked':done?'done':'unlocked'} ${m.cardCls}`;
+      card.innerHTML=`
+        ${locked?`<span class="lock-badge">🔒 Nv.${m.lvReq}</span>`:''}
+        <span class="mc-icon">${m.icon}</span>
+        <div class="mc-name">${m.name}</div>
+        <div class="mc-sub">${isVerb?vsLabel:m.sub}</div>
+        <div class="mc-stars">${'⭐'.repeat(stars)}${'☆'.repeat(3-stars)}</div>
+      `;
+      card.onclick=()=>{
+        if(locked){snd('bad');notif(`🔒 Necesitas Nivel ${m.lvReq} para desbloquear.`);return;}
+        snd('click');startMission(m.id);
+      };
+      g.appendChild(card);
+    });
+  });
+}
+
+/* ── GET VERB LIST ── */
+function getVerbList(){
+  if(P.verbSet==='IRREGULAR') return VERBS_IRREGULAR;
+  if(P.verbSet==='REGULAR') return VERBS_REGULAR;
+  return [...VERBS_IRREGULAR,...VERBS_REGULAR];
+}
+
+/* ── BUILD QUESTIONS ── */
+const DIFF_TIME={easy:20,medium:14,hard:9};
+
+function buildVerbQ(verb,mtype,pool){
+  const v=verb;
+  const wrongs=shuffle(pool.filter(x=>x!==v)).slice(0,3);
+  let ans,opts,prompt,word,hint,tip,emoji=v.e||'⚡';
+
+  if(mtype==='past'){
+    ans=v.past; prompt='¿Cuál es el PASADO SIMPLE?';
+    word=`${v.inf.toUpperCase()} — ${v.es.toUpperCase()}`;
+    hint=`(Participio: ${v.part})`;
+    tip=`<strong>Past Simple</strong>: acción terminada. Ej: Yesterday I <strong>${v.past}</strong>.`;
+    opts=shuffle([ans,...wrongs.map(x=>x.past)]);
+  }else if(mtype==='participle'){
+    ans=v.part; prompt='¿Cuál es el PARTICIPIO PASADO?';
+    word=`${v.inf.toUpperCase()} — ${v.es.toUpperCase()}`;
+    hint=`(Pasado: ${v.past})`;
+    tip=`<strong>Past Participle</strong>: con have/has. Ej: I have <strong>${v.part}</strong>.`;
+    opts=shuffle([ans,...wrongs.map(x=>x.part)]);
+  }else if(mtype==='infinitive'){
+    ans=v.inf; prompt='¿Cuál es el INFINITIVO?';
+    word=v.past.toUpperCase();
+    hint=`(Significa: ${v.es})`;
+    tip=`<strong>Infinitive</strong>: forma base del verbo (diccionario).`;
+    opts=shuffle([ans,...wrongs.map(x=>x.inf)]);
+  }else{ // translate
+    ans=v.es; prompt='¿Qué significa en español?';
+    const formIdx=Math.floor(Math.random()*3);
+    const form=['inf','past','part'][formIdx];
+    const shown=v[form];
+    word=shown.toUpperCase();
+    hint=`INF: ${v.inf} | PAST: ${v.past} | PART: ${v.part}`;
+    tip=`<strong>Traducción</strong>: identifica el significado de <strong>${shown}</strong>.`;
+    opts=shuffle([ans,...wrongs.map(x=>x.es)]);
+  }
+  return {type:'verb',mtype,verb:v,ans,opts,prompt,word,hint,tip,emoji};
+}
+
+function makeIngForm(inf){
+  // remove trailing e, double last consonant if needed
+  if(inf.endsWith('ie')) return inf.slice(0,-2)+'ying';
+  if(inf.endsWith('e') && inf.length>2) return inf.slice(0,-1)+'ing';
+  if(/[^aeiou][aeiou][^aeiousw]$/.test(inf) && !['eat','read','feel','hear','beat','meet','seat','deal'].includes(inf)){
+    return inf+inf.slice(-1)+'ing';
+  }
+  return inf+'ing';
+}
+
+function buildPPQuestions(pool,mtype){
+  const qs=[];
+  const isPPC=mtype==='pp_continuous';
+  const adverbs=isPPC?PPC_ADVERBS:PP_ADVERBS;
+  const subTypes=isPPC
+    ?['ing_form','sentence','adverb']
+    :['participle','aux','sentence','adverb'];
+
+  for(let i=0;i<8;i++){
+    const v=pool[i%pool.length];
+    const st=subTypes[i%subTypes.length];
+    const wrongs=shuffle(pool.filter(x=>x!==v)).slice(0,3);
+
+    if(!isPPC && st==='participle'){
+      const ans=v.part;
+      const opts=shuffle([ans,...wrongs.map(x=>x.part)]);
+      const form=shuffle(['have','has'])[0];
+      qs.push({
+        type:'pp',mtype,verb:v,subtype:st,ans,opts,
+        emoji:v.e||'⭐',
+        prompt:'⭐ PRESENTE PERFECTO — Participio',
+        word:`${v.inf.toUpperCase()} (${v.es})`,
+        hint:`Completa: She ${form} ____`,
+        tip:`<strong>Present Perfect</strong>: HAVE/HAS + <strong>Past Participle</strong>. El participio de <em>${v.inf}</em> es <em>${v.part}</em>.`
+      });
+    }else if(!isPPC && st==='aux'){
+      const subjects=[{s:'I',a:'have'},{s:'She',a:'has'},{s:'He',a:'has'},{s:'We',a:'have'},{s:'They',a:'have'},{s:'You',a:'have'}];
+      const ch=subjects[Math.floor(Math.random()*subjects.length)];
+      const ans=ch.a;
+      const opts=shuffle([ch.a,ch.a==='have'?'has':'have']);
+      qs.push({
+        type:'pp',mtype,verb:v,subtype:st,ans,opts,
+        emoji:'⭐',
+        prompt:'⭐ ELIGE HAVE O HAS',
+        word:`${ch.s.toUpperCase()} ___ ${v.part.toUpperCase()}`,
+        hint:'Completa con HAVE o HAS',
+        tip:`<strong>HAVE</strong>: I, You, We, They &nbsp; <strong>HAS</strong>: He, She, It`
+      });
+    }else if(st==='sentence'){
+      const subjects=['I','She','He','We','They'];
+      const subj=subjects[Math.floor(Math.random()*subjects.length)];
+      const aux=(subj==='She'||subj==='He')?'has':'have';
+      let ans,opts,tip2;
+      if(!isPPC){
+        ans=`${subj} ${aux} ${v.part}`;
+        const w1=`${subj} ${aux} ${v.inf}`;
+        const w2=`${subj} ${aux} ${v.past}`;
+        const w3=`${subj} ${aux==='have'?'has':'have'} ${v.part}`;
+        opts=shuffle([ans,w1,w2,w3]);
+        tip2=`Estructura: <strong>${subj} ${aux} + PARTICIPIO</strong>. El participio de <em>${v.inf}</em> es <em>${v.part}</em>.`;
+      }else{
+        const ing=makeIngForm(v.inf);
+        ans=`${subj} ${aux} been ${ing}`;
+        const w1=`${subj} ${aux} been ${v.inf}`;
+        const w2=`${subj} ${aux} been ${v.past}`;
+        const w3=`${subj} ${aux==='have'?'has':'have'} been ${ing}`;
+        opts=shuffle([ans,w1,w2,w3]);
+        tip2=`Estructura: <strong>${subj} ${aux} + BEEN + ${v.inf.toUpperCase()}-ING</strong>. Forma -ING: <em>${ing}</em>.`;
+      }
+      qs.push({
+        type:'pp',mtype,verb:v,subtype:st,ans,opts,
+        emoji:v.e||'⭐',
+        prompt:(isPPC?'🔄':'⭐')+' ¿Cuál oración es correcta?',
+        word:`${v.inf.toUpperCase()} — ${v.es.toUpperCase()}`,
+        hint:'Elige la oración bien formada',
+        tip:tip2,
+        longOpts:true
+      });
+    }else if(st==='adverb'){
+      const adv=adverbs[Math.floor(Math.random()*adverbs.length)];
+      const isWordToEs=Math.random()<0.5;
+      const ans=isWordToEs?adv.es:adv.word;
+      const pool2=(isWordToEs?adverbs.map(a=>a.es):adverbs.map(a=>a.word)).filter(x=>x!==ans);
+      const opts=shuffle([ans,...shuffle(pool2).slice(0,3)]);
+      qs.push({
+        type:'pp',mtype,verb:v,subtype:st,ans,opts,
+        emoji:isWordToEs?'📌':'🔤',
+        prompt:(isPPC?'🔄 ADVERBIO PPC':'⭐ ADVERBIO PP'),
+        word:isWordToEs?adv.word.toUpperCase():`"${adv.es.toUpperCase()}"`,
+        hint:adv.hint,
+        tip:isPPC
+          ?`Adverbios del Perfecto Continuo: <strong>for, since, all day, lately, recently</strong>`
+          :`Adverbios del Presente Perfecto: <strong>already, just, yet, ever, never, since, for</strong>`,
+        isAdverb:true
+      });
+    }else if(isPPC && st==='ing_form'){
+      const ing=makeIngForm(v.inf);
+      const ingOpts=shuffle(pool.filter(x=>x!==v)).slice(0,3).map(x=>makeIngForm(x.inf));
+      const opts=shuffle([ing,...ingOpts]);
+      qs.push({
+        type:'pp',mtype,verb:v,subtype:st,ans:ing,opts,
+        emoji:v.e||'🔄',
+        prompt:'🔄 FORMA -ING',
+        word:`${v.inf.toUpperCase()} — ${v.es.toUpperCase()}`,
+        hint:'¿Cuál es la forma -ING de este verbo?',
+        tip:`<strong>Perfecto Continuo</strong>: HAVE/HAS + BEEN + <strong>VERBO-ING</strong>. Para <em>${v.inf}</em> → <em>${ing}</em>`
+      });
+    }
+  }
+  return qs;
+}
+
+/* ══════════════════════════════════════════════════
+   NEW GRAMMAR MODULE DATA
+   ══════════════════════════════════════════════════ */
+
+/* ── FUTURE FORMS DATA ── */
+const FUTURE_QS=[
+  // will — prediction/spontaneous
+  {q:'It\'s very hot today.',correct:'It will be sunny tomorrow.',wrongs:['It is going to be sunny yesterday.','It has been sunny all week.','It was being sunny then.'],tip:'<strong>will</strong> = predicción / decisión espontánea',icon:'☀️'},
+  {q:'The phone is ringing.',correct:'I\'ll answer it!',wrongs:['I\'m going to answer it yesterday.','I have answered it.','I was answered it.'],tip:'<strong>will</strong> = decisión en el momento',icon:'📞'},
+  {q:'She\'s very talented.',correct:'She will be a great singer.',wrongs:['She is going to singing.','She will being a singer.','She have been a singer.'],tip:'<strong>will</strong> + infinitivo = predicción',icon:'🎤'},
+  // be going to — plans/intentions
+  {q:'He bought tickets last week.',correct:'He is going to travel to Spain.',wrongs:['He will traveling to Spain.','He goes to Spain tomorrow.','He has going to travel.'],tip:'<strong>be going to</strong> = plan decidido de antemano',icon:'✈️'},
+  {q:'Look at those clouds!',correct:'It is going to rain.',wrongs:['It will raining soon.','It is raining yesterday.','It has rained now.'],tip:'<strong>be going to</strong> = evidencia visible de algo inminente',icon:'🌧️'},
+  {q:'She studied all night.',correct:'She is going to pass the test.',wrongs:['She will be pass.','She is passing the test yesterday.','She go to pass.'],tip:'<strong>be going to</strong> + evidencia previa',icon:'📚'},
+  // Present continuous for arrangements
+  {q:'I have a reservation.',correct:'I am meeting my friend at 7pm.',wrongs:['I will meeting my friend.','I meet my friend at 7pm yesterday.','I am going to meeting.'],tip:'<strong>Present continuous</strong> = cita/arreglo ya organizado',icon:'🤝'},
+  {q:'We confirmed the flight.',correct:'We are flying to Paris next Monday.',wrongs:['We will flying to Paris.','We fly Paris next Monday.','We are going to flying.'],tip:'<strong>Present continuous</strong> para planes concretos con hora/fecha',icon:'🗼'},
+  // Future continuous / perfect (advanced)
+  {q:'At 10am tomorrow I will be in a meeting.',correct:'I will be studying when you call.',wrongs:['I will studied when you call.','I am studying when you call tomorrow.','I have studied when you call.'],tip:'<strong>will be + -ing</strong> = acción en progreso en un momento futuro',icon:'⏰'},
+  {q:'The deadline is Friday. I start today.',correct:'By Friday I will have finished the project.',wrongs:['By Friday I will finish the project.','By Friday I have finished.','By Friday I will be finish.'],tip:'<strong>will have + participio</strong> = acción completada antes de un punto futuro',icon:'🏁'},
+];
+
+/* ── CONDITIONALS DATA ── */
+const COND_QS=[
+  // Type 0
+  {type:'0',q:'¿Qué condicional usa "If it rains, we stay home"?',correct:'Type 0 — realidad/hecho general',wrongs:['Type 1 — futuro posible','Type 2 — hipotético presente','Type 3 — hipotético pasado'],tip:'<strong>Condicional 0</strong>: If + presente, presente. Hechos/verdades generales.',icon:'🔄'},
+  {type:'0',q:'Elige la oración Tipo 0 correcta:',correct:'If you heat water, it boils.',wrongs:['If you heat water, it would boil.','If you heated water, it boils.','If you had heated water, it boiled.'],tip:'<strong>If + present simple, present simple</strong> — ley científica o hecho.',icon:'💧'},
+  // Type 1
+  {type:'1',q:'Elige la oración Tipo 1 correcta:',correct:'If I study hard, I will pass the exam.',wrongs:['If I studied hard, I would pass.','If I had studied, I would have passed.','If I study, I would passed.'],tip:'<strong>Condicional 1</strong>: If + present, WILL + infinitivo. Futuro posible/real.',icon:'📝'},
+  {type:'1',q:'If it ____ tomorrow, we will cancel the trip.',correct:'rains',wrongs:['will rain','rained','had rained'],tip:'Condicional 1: después de <strong>if</strong> usamos presente simple (no will).',icon:'☔'},
+  {type:'1',q:'She will go to university if she ____ her exams.',correct:'passes',wrongs:['will pass','passed','had passed'],tip:'<strong>If + present simple, will</strong>: condición real y posible.',icon:'🎓'},
+  // Type 2
+  {type:'2',q:'Elige la oración Tipo 2 correcta:',correct:'If I won the lottery, I would travel the world.',wrongs:['If I win the lottery, I will travel.','If I had won, I would have traveled.','If I won, I will travel.'],tip:'<strong>Condicional 2</strong>: If + past simple, WOULD + infinitivo. Hipotético/imaginario.',icon:'🎰'},
+  {type:'2',q:'If she ____ a teacher, she would help students every day.',correct:'were',wrongs:['is','was being','had been'],tip:'Condicional 2: usamos <strong>were</strong> (no was) para todas las personas.',icon:'👩‍🏫'},
+  // Type 3
+  {type:'3',q:'Elige la oración Tipo 3 correcta:',correct:'If I had studied, I would have passed.',wrongs:['If I studied, I would pass.','If I study, I will pass.','If I had study, I would have pass.'],tip:'<strong>Condicional 3</strong>: If + past perfect, WOULD HAVE + participio. Pasado irreal.',icon:'⏮️'},
+  {type:'3',q:'She ____ the job if she had been on time.',correct:'would have got',wrongs:['would get','will have got','had got'],tip:'<strong>would have + participio</strong> = resultado hipotético del pasado.',icon:'💼'},
+  // Mixed
+  {type:'mixed',q:'If I had slept enough, I ____ tired now. (mixed)',correct:'wouldn\'t be',wrongs:['wouldn\'t have been','won\'t be','hadn\'t been'],tip:'<strong>Condicional mixto</strong>: If + past perfect (condición pasada), would + inf (resultado presente).',icon:'😴'},
+];
+
+/* ── PASSIVE VOICE DATA ── */
+const PASSIVE_QS=[
+  {q:'Active: "She writes the report." → Passive:',correct:'The report is written by her.',wrongs:['The report written by her.','She is written the report.','The report are wrote by her.'],tense:'present',tip:'<strong>Presente Pasivo</strong>: is/am/are + past participle',icon:'📄'},
+  {q:'Active: "They built this bridge in 1990." → Passive:',correct:'This bridge was built in 1990.',wrongs:['This bridge were built in 1990.','This bridge was build in 1990.','This bridge is built in 1990.'],tense:'past',tip:'<strong>Pasado Pasivo</strong>: was/were + past participle',icon:'🌉'},
+  {q:'Elige la voz pasiva correcta en presente:',correct:'The rules are explained by the teacher.',wrongs:['The rules is explain by teacher.','The teacher explains the rules.','The rules were explained now.'],tense:'present',tip:'Sujeto plural → <strong>are</strong> + past participle.',icon:'📏'},
+  {q:'Active: "Scientists have discovered a new planet." → Passive:',correct:'A new planet has been discovered.',wrongs:['A new planet was discovered by scientists now.','A new planet have been discover.','A new planet is discovered.'],tense:'perfect',tip:'<strong>Perfecto Pasivo</strong>: has/have + been + past participle',icon:'🪐'},
+  {q:'Active: "They will publish the results." → Passive:',correct:'The results will be published.',wrongs:['The results will published.','The results are going to published.','The results will be publishing.'],tense:'future',tip:'<strong>Futuro Pasivo</strong>: will + be + past participle',icon:'📰'},
+  {q:'"The homework ____ by all students." (deber actualidad)',correct:'is done',wrongs:['are done','was done','is doing'],tense:'present',tip:'Homework (singular) → <strong>is</strong> done.',icon:'📓'},
+  {q:'"English ____ spoken in many countries."',correct:'is',wrongs:['are','was','were'],tense:'present',tip:'Presente pasivo singular: <strong>is</strong> + participio.',icon:'🌍'},
+  {q:'Active: "The teacher corrected our mistakes." → Passive:',correct:'Our mistakes were corrected by the teacher.',wrongs:['Our mistakes are corrected.','Our mistakes was corrected.','The teacher corrected by our mistakes.'],tense:'past',tip:'Sujeto plural → <strong>were</strong> + past participle.',icon:'✏️'},
+];
+
+/* ── REPORTED SPEECH DATA ── */
+const REPORTED_QS=[
+  {direct:'"I am happy," she said.',correct:'She said that she was happy.',wrongs:['She said that I am happy.','She told that she is happy.','She said she were happy.'],tip:'<strong>am/is → was</strong> en reported speech. "said that" no necesita objeto.',icon:'😊'},
+  {direct:'"I will help you," he said.',correct:'He said that he would help me.',wrongs:['He said that he will help me.','He told he would help you.','He said he would help you.'],tip:'<strong>will → would</strong>. Pronombres también cambian: you → me.',icon:'🤝'},
+  {direct:'"We have finished," they said.',correct:'They said that they had finished.',wrongs:['They said that they have finished.','They told that they had finish.','They said they has finished.'],tip:'<strong>have/has + PP → had + PP</strong>',icon:'✅'},
+  {direct:'"Clean your room!" Mom told me.',correct:'Mom told me to clean my room.',wrongs:['Mom said to clean my room.','Mom told me clean your room.','Mom said that clean my room.'],tip:'<strong>told + object + to + infinitive</strong> para órdenes.',icon:'🧹'},
+  {direct:'"I can swim," she said.',correct:'She said that she could swim.',wrongs:['She said that she can swim.','She told that could swim.','She said she could swam.'],tip:'<strong>can → could</strong> en reported speech.',icon:'🏊'},
+  {direct:'"Don\'t run in the hallway," the teacher said.',correct:'The teacher told us not to run in the hallway.',wrongs:['The teacher said not run.','The teacher told not running.','The teacher said us to not run.'],tip:'Orden negativa: <strong>told + us + not to + infinitivo</strong>',icon:'🚫'},
+  {direct:'"I went to the park yesterday," he said.',correct:'He said that he had gone to the park the day before.',wrongs:['He said that he went yesterday.','He told he has gone yesterday.','He said he would go to park.'],tip:'<strong>went → had gone</strong>; "yesterday" → "the day before"',icon:'🌳'},
+  {direct:'"Are you tired?" she asked me.',correct:'She asked me if I was tired.',wrongs:['She asked me that I was tired.','She asked me if I am tired.','She said to me if was tired.'],tip:'Pregunta indirecta: <strong>asked + if/whether + afirmativa</strong>',icon:'🤔'},
+];
+
+/* ── RELATIVE CLAUSES DATA ── */
+const RELATIVE_QS=[
+  {q:'The boy ___ won the prize is my friend.',correct:'who',wrongs:['which','where','whose'],tip:'<strong>who</strong> = personas',icon:'👦'},
+  {q:'The book ___ you recommended was excellent.',correct:'that / which',wrongs:['who','where','whom'],tip:'<strong>that / which</strong> = cosas o animales',icon:'📖'},
+  {q:'This is the city ___ I was born.',correct:'where',wrongs:['which','who','that'],tip:'<strong>where</strong> = lugares',icon:'🏙️'},
+  {q:'The student ___ backpack I found is in Class 3B.',correct:'whose',wrongs:['who','which','that'],tip:'<strong>whose</strong> = posesión (cuyo/cuya)',icon:'🎒'},
+  {q:'The day ___ we met was rainy.',correct:'when',wrongs:['where','who','which'],tip:'<strong>when</strong> = tiempo / momento específico',icon:'🌧️'},
+  {q:'She is the scientist ___ discovered the vaccine.',correct:'who',wrongs:['which','where','whose'],tip:'Para personas que hacen algo → <strong>who</strong>',icon:'🔬'},
+  {q:'That\'s the restaurant ___ they serve amazing pasta.',correct:'where',wrongs:['that','who','whose'],tip:'Lugar donde ocurre algo → <strong>where</strong>',icon:'🍝'},
+  {q:'I love the song ___ she sang last night.',correct:'that / which',wrongs:['who','where','whose'],tip:'Cosa (canción) → <strong>that o which</strong>',icon:'🎵'},
+  {q:'The man ___ car was stolen called the police.',correct:'whose',wrongs:['who','which','that'],tip:'<strong>whose + sustantivo</strong> = posesión',icon:'🚗'},
+  {q:'The moment ___ she heard the news, she cried.',correct:'when',wrongs:['where','which','who'],tip:'Momento temporal → <strong>when</strong>',icon:'📰'},
+];
+
+/* ── ADVANCED MODALS DATA ── */
+const MODAL_QS=[
+  // Present deduction
+  {context:'He knows every street in the city.',q:'He ___ live here for a long time. (deducción lógica)',correct:'must',wrongs:['can\'t','might not','shouldn\'t'],tip:'<strong>must</strong> = deducción lógica segura (presente)',icon:'🗺️'},
+  {context:'She looks pale and is holding her head.',q:'She ___ be feeling well. (negación lógica)',correct:'can\'t',wrongs:['must','might','should'],tip:'<strong>can\'t</strong> = imposibilidad lógica (estamos seguros que NO)',icon:'🤒'},
+  {context:'The lights are off but his car is in the driveway.',q:'He ___ be home. (posibilidad 50/50)',correct:'might',wrongs:['must','can\'t','will'],tip:'<strong>might</strong> = posibilidad (no estamos seguros)',icon:'🚗'},
+  // Past deduction
+  {context:'He arrived knowing everyone\'s name.',q:'He ___ studied the list beforehand. (past deduction)',correct:'must have',wrongs:['can\'t have','might not have','should have'],tip:'<strong>must have + participio</strong> = deducción lógica pasada (casi seguro)',icon:'📋'},
+  {context:'She failed the test but she never misses class.',q:'She ___ prepared well. (past impossibility)',correct:'can\'t have',wrongs:['must have','might have','should have'],tip:'<strong>can\'t have + participio</strong> = imposibilidad en el pasado',icon:'❌'},
+  {context:'Nobody answered the door.',q:'They ___ gone out. (past possibility)',correct:'might have',wrongs:['must have','can\'t have','will have'],tip:'<strong>might have + participio</strong> = posibilidad pasada incierta',icon:'🚪'},
+  {context:'The bag is torn and dirty.',q:'It ___ fallen off the truck. (past near certainty)',correct:'must have',wrongs:['can\'t have','might not have','could not have'],tip:'Evidencia física → <strong>must have</strong> + participio',icon:'🎒'},
+  {context:'She speaks perfectly without an accent.',q:'She ___ studied here. She\'s local. (impossibility)',correct:'can\'t have',wrongs:['must have','might have','should have'],tip:'<strong>can\'t have</strong> descarta una posibilidad pasada',icon:'🗣️'},
+];
+
+/* ── GERUNDS & INFINITIVES DATA ── */
+const GERINF_QS=[
+  {q:'I enjoy ___ to music every morning.',correct:'listening',wrongs:['to listen','listen','listened'],verb:'enjoy',tip:'<strong>enjoy</strong> + gerundio (-ING). No acepta infinitivo.',icon:'🎵'},
+  {q:'She decided ___ a new language.',correct:'to learn',wrongs:['learning','learn','learned'],verb:'decide',tip:'<strong>decide</strong> + infinitivo (to + verbo). No acepta gerundio.',icon:'📚'},
+  {q:'He avoids ___ in crowds.',correct:'walking',wrongs:['to walk','walk','walked'],verb:'avoid',tip:'<strong>avoid</strong> + gerundio. También: mind, miss, finish, practice.',icon:'🚶'},
+  {q:'They want ___ the new movie.',correct:'to see',wrongs:['seeing','see','saw'],verb:'want',tip:'<strong>want</strong> + infinitivo. También: hope, need, plan, wish.',icon:'🎬'},
+  {q:'I can\'t stand ___ late.',correct:'being',wrongs:['to be','be','been'],verb:'can\'t stand',tip:'<strong>can\'t stand</strong> + gerundio. Igual que: hate (puede ser ambos).',icon:'⏰'},
+  {q:'She promised ___ on time.',correct:'to arrive',wrongs:['arriving','arrive','arrived'],verb:'promise',tip:'<strong>promise</strong> + infinitivo. También: agree, refuse, offer.',icon:'🤝'},
+  {q:'We finished ___ the project at midnight.',correct:'working on',wrongs:['to work on','work on','worked on'],verb:'finish',tip:'<strong>finish</strong> + gerundio. Igual que: stop, keep, give up.',icon:'🏁'},
+  {q:'He suggested ___ a new approach.',correct:'trying',wrongs:['to try','try','tried'],verb:'suggest',tip:'<strong>suggest</strong> + gerundio. También: recommend, admit, deny.',icon:'💡'},
+  {q:'She loves ___ in the rain.',correct:'dancing / to dance',wrongs:['danced','dance','had danced'],verb:'love',tip:'<strong>love/like/hate/prefer</strong>: aceptan AMBOS con ligero cambio de matiz.',icon:'💃'},
+  {q:'I forgot ___ the door. (ya ocurrió)',correct:'locking',wrongs:['to lock','lock','locked'],verb:'forget',tip:'<strong>forget + -ING</strong> = olvidé que ya lo hice. <strong>forget + to</strong> = olvidé hacerlo.',icon:'🚪'},
+];
+
+/* ── PAST PERFECT — formato niños (completar el espacio) ── */
+const PAST_PERFECT_QS=[
+  // Bloque 1: HAD vs HAS/HAVE/DID — lo más básico primero
+  {sentence:"She ___ eaten before he arrived.",es:"(Ella ya había comido antes de que él llegara)",correct:'had',wrongs:['has','have','did'],tip:'¡Siempre <strong>HAD</strong>! Con todos: I had, she had, they had…',rule:'⏪ Regla: HAD + participio',ruleType:'ok-rule',icon:'🍽️'},
+  {sentence:"I arrived late. They ___ already left.",es:"(Llegué tarde. Ellos ya se habían ido)",correct:'had',wrongs:['have','has','did'],tip:'<strong>HAD</strong> muestra que algo pasó ANTES que otra cosa.',rule:'⏪ Regla: HAD + participio',ruleType:'ok-rule',icon:'🚪'},
+  {sentence:"He ___ never seen snow before that day.",es:"(Él nunca había visto nieve antes de ese día)",correct:'had',wrongs:['has','have','was'],tip:'Con <strong>never</strong>: HAD + never + participio.',rule:'⏪ Regla: HAD + participio',ruleType:'ok-rule',icon:'❄️'},
+  {sentence:"We ___ finished dinner when she called.",es:"(Ya habíamos terminado la cena cuando ella llamó)",correct:'had',wrongs:['have','has','did'],tip:'<strong>HAD</strong> con todos los sujetos: I/she/he/we/they…',rule:'⏪ Regla: HAD + participio',ruleType:'ok-rule',icon:'📞'},
+  // Bloque 2: ¿qué participio? (verbos conocidos del juego)
+  {sentence:"They had ___ soccer all afternoon.",es:"(Ellos habían jugado fútbol toda la tarde)",correct:'played',wrongs:['play','playing','plays'],tip:'HAD + <strong>participio</strong>. "Play" regular → participio: <strong>played</strong>',rule:'⏪ Regla: had + PARTICIPIO',ruleType:'ok-rule',icon:'⚽'},
+  {sentence:"She had ___ breakfast before school.",es:"(Ella había comido antes del colegio)",correct:'eaten',wrongs:['eat','eating','ate'],tip:'HAD + <strong>participio</strong>. "Eat" irregular → participio: <strong>eaten</strong>',rule:'⏪ Regla: had + PARTICIPIO',ruleType:'ok-rule',icon:'🥞'},
+  // Bloque 3: negativo — hadn't
+  {sentence:"He ___ seen that movie before.",es:"(Él NO había visto esa película antes)",correct:"hadn't",wrongs:["didn't","hasn't","wasn't"],tip:'Negativo: <strong>HADN\'T</strong> + participio = HAD NOT + participio',rule:"❌ Negativo: HADN'T + participio",ruleType:'no-rule',icon:'🎬'},
+  // Bloque 4: pregunta — Had...?
+  {sentence:"___ you finished your homework before dinner?",es:"(¿Habías terminado la tarea antes de cenar?)",correct:'Had',wrongs:['Did','Have','Was'],tip:'Pregunta: <strong>HAD</strong> + sujeto + participio. ¡Empieza con HAD!',rule:'❓ Pregunta: Had + sujeto + participio?',ruleType:'q-rule',icon:'📝'},
+];
+
+/* ── USED TO — formato niños (completar el espacio) ── */
+const USEDTO_QS=[
+  // Bloque 1: AFIRMATIVAS — used to (con -d)
+  {sentence:"I ___ to play soccer every day.",es:"(Antes yo jugaba fútbol todos los días)",correct:'used to',wrongs:['use to','uses to','used'],tip:'✅ AFIRMATIVA: <strong>USED TO</strong> (con -d) + verbo base',rule:'✅ Afirmativa → USED TO',ruleType:'ok-rule',icon:'⚽'},
+  {sentence:"She ___ to wake up very early.",es:"(Antes ella se levantaba muy temprano)",correct:'used to',wrongs:['use to','uses to','used'],tip:'✅ Afirmativa: siempre <strong>USED TO</strong> (con -d)',rule:'✅ Afirmativa → USED TO',ruleType:'ok-rule',icon:'☀️'},
+  {sentence:"They ___ to live near the school.",es:"(Antes ellos vivían cerca del colegio)",correct:'used to',wrongs:['use to','did use to','uses to'],tip:'✅ <strong>USED TO</strong>: hábito del pasado que ya NO ocurre hoy',rule:'✅ Afirmativa → USED TO',ruleType:'ok-rule',icon:'🏫'},
+  // Bloque 2: NEGATIVAS — didn't + USE to (sin -d)
+  {sentence:"She didn't ___ to eat vegetables.",es:"(Antes a ella no le gustaba comer verduras)",correct:'use to',wrongs:['used to','uses to','use'],tip:"❌ Con <strong>didn't</strong> → USE TO (sin -d). El -d ya está en didn't",rule:"❌ Negativa → didn't + USE TO",ruleType:'no-rule',icon:'🥦'},
+  {sentence:"I didn't ___ to like milk.",es:"(Antes no me gustaba la leche)",correct:'use to',wrongs:['used to','uses to','using'],tip:"❌ <strong>didn't + USE TO</strong> (sin -d). ¡La -d la aporta didn't!",rule:"❌ Negativa → didn't + USE TO",ruleType:'no-rule',icon:'🥛'},
+  // Bloque 3: PREGUNTAS — Did + USE to (sin -d)
+  {sentence:"___ you use to play video games?",es:"(¿Antes jugabas videojuegos?)",correct:'Did',wrongs:['Used','Were','Do'],tip:'❓ PREGUNTA: <strong>DID</strong> + sujeto + use to + verbo base',rule:'❓ Pregunta → DID + use to',ruleType:'q-rule',icon:'🎮'},
+  {sentence:"Did she ___ to live in Cali?",es:"(¿Antes vivía ella en Cali?)",correct:'use to',wrongs:['used to','uses to','used'],tip:'❓ Con <strong>Did</strong> → USE TO (sin -d). Igual que con didn\'t',rule:'❓ Pregunta → Did + USE TO',ruleType:'q-rule',icon:'🏙️'},
+  // Bloque 4: verbo base después de used to
+  {sentence:"He used to ___ basketball after school.",es:"(Él solía jugar baloncesto después del colegio)",correct:'play',wrongs:['played','playing','plays'],tip:'✅ Después de "used to" siempre el <strong>verbo base</strong> (sin -d, -ing, -s)',rule:'✅ used to + VERBO BASE',ruleType:'ok-rule',icon:'🏀'},
+];
+
+function buildGrammarQ(dataArr, moduleId, badgeClass, icon){
+  const pool=shuffle([...dataArr]);
+  return pool.slice(0,Math.min(8,pool.length)).map(item=>{
+    const opts=shuffle([item.correct,...item.wrongs.slice(0,3)]);
+    return {
+      type:'grammar', mtype:moduleId,
+      ans:item.correct, opts,
+      emoji:item.icon||icon,
+      prompt:item.q||(item.direct?`Reported: ${item.direct}`:''),
+      word:item.context||item.direct||item.q||'',
+      hint:item.tip||'',
+      tip:item.tip||'',
+      longOpts:true
+    };
+  });
+}
+
+/* ── KID-FRIENDLY QUESTION BUILDER ── */
+// Para módulos de Martín (8 años): oración con espacio + opciones cortas
+function buildKidQ(dataArr, moduleId, icon){
+  const pool=shuffle([...dataArr]);
+  return pool.slice(0,Math.min(8,pool.length)).map(item=>{
+    const opts=shuffle([item.correct,...item.wrongs.slice(0,3)]);
+    // Highlight blank in sentence for display
+    const displayWord=item.sentence||'';
+    return {
+      type:'kid', mtype:moduleId,
+      ans:item.correct, opts,
+      emoji:item.icon||icon,
+      prompt:'¿Qué va en el espacio? 👇',
+      word:displayWord,
+      hint:item.es||'',
+      tip:item.tip||'',
+      rule:item.rule||'',
+      ruleType:item.ruleType||'ok-rule',
+      longOpts:false
+    };
+  });
+}
+
+/* ── START MISSION (expanded) ── */
+function startMission(mtype){
+  closeModal('modalMission');
+  const isPP=mtype==='present_perfect';
+  const isPPC=mtype==='pp_continuous';
+  const isFut=mtype==='future_forms';
+  const isCond=mtype==='conditionals';
+  const isPass=mtype==='passive_voice';
+  const isRep=mtype==='reported_speech';
+  const isRel=mtype==='relative_clauses';
+  const isMod=mtype==='advanced_modals';
+  const isGer=mtype==='gerunds_infinitives';
+  const isPastPerf=mtype==='past_perfect';
+  const isUsedTo=mtype==='used_to';
+  const isNewGrammar=isFut||isCond||isPass||isRep||isRel||isMod||isGer||isPastPerf||isUsedTo;
+
+  const list=getVerbList();
+  const pool=shuffle([...list]);
+  let qs=[];
+
+  if(isPP||isPPC){
+    qs=buildPPQuestions(pool,mtype);
+  }else if(isFut){
+    qs=buildGrammarQ(FUTURE_QS,'future_forms','badge-fut','🚀');
+  }else if(isCond){
+    qs=buildGrammarQ(COND_QS,'conditionals','badge-cond','🎲');
+  }else if(isPass){
+    qs=buildGrammarQ(PASSIVE_QS,'passive_voice','badge-pass','🔵');
+  }else if(isRep){
+    qs=buildGrammarQ(REPORTED_QS,'reported_speech','badge-rep','💬');
+  }else if(isRel){
+    qs=buildGrammarQ(RELATIVE_QS,'relative_clauses','badge-rel','🔗');
+  }else if(isMod){
+    qs=buildGrammarQ(MODAL_QS,'advanced_modals','badge-mod','🎩');
+  }else if(isGer){
+    qs=buildGrammarQ(GERINF_QS,'gerunds_infinitives','badge-ger','🔀');
+  }else if(isPastPerf){
+    qs=buildKidQ(PAST_PERFECT_QS,'past_perfect','⏪');
+  }else if(isUsedTo){
+    qs=buildKidQ(USEDTO_QS,'used_to','🕰️');
+  }else{
+    const picks=pool.slice(0,8);
+    picks.forEach(v=>qs.push(buildVerbQ(v,mtype,pool)));
+  }
+
+  const tl=DIFF_TIME[P.diff]||15;
+  G={active:true,cat:P.verbSet,mtype,qs,qi:0,ok:0,t0:now(),iv:null,tl,paused:false,fast:0,lives:5,streak:0,newB:[],isPP,isPPC,isFut,isCond,isPass,isRep,isRel,isMod,isGer,isPastPerf,isUsedTo,isNewGrammar};
+  saveP();
+  show('gameScreen');setNav(1);
+  renderQ();
+  snd('click');
+}
+
+/* ── RENDER QUESTION ── */
+function renderQ(keepTime=false){
+  const q=G.qs[G.qi];
+  const tot=G.qs.length;
+  $('pgFill').style.width=(G.qi/tot*100)+'%';
+  $('qCnt').textContent=`${G.qi+1}/${tot}`;
+  $('qEmoji').textContent=q.emoji||'⚡';
+
+  // mode badge
+  const badge=$('qBadge');
+  const badgeMap={
+    present_perfect:'⭐ PRESENTE PERFECTO',
+    pp_continuous:'🔄 PERFECTO CONTINUO',
+    future_forms:'🚀 FUTURO',
+    conditionals:'🎲 CONDICIONALES',
+    passive_voice:'🔵 VOZ PASIVA',
+    reported_speech:'💬 REPORTED SPEECH',
+    relative_clauses:'🔗 RELATIVE CLAUSES',
+    advanced_modals:'🎩 MODALES AVANZADOS',
+    gerunds_infinitives:'🔀 GERUNDIOS & INF.',
+    past_perfect:'⏪ PAST PERFECT',
+    used_to:'🕰️ USED TO',
+  };
+  const badgeClassMap={
+    present_perfect:'badge-pp',pp_continuous:'badge-ppc',
+    future_forms:'badge-fut',conditionals:'badge-cond',
+    passive_voice:'badge-pass',reported_speech:'badge-rep',
+    relative_clauses:'badge-rel',advanced_modals:'badge-mod',
+    gerunds_infinitives:'badge-ger',
+    past_perfect:'badge-pastperf',used_to:'badge-usedto',
+  };
+  badge.textContent=badgeMap[G.mtype]||'⚡ VERBOS';
+  badge.className='q-modebadge '+(badgeClassMap[G.mtype]||'badge-verb');
+
+  $('qPrompt').textContent=q.prompt;
+  // For grammar questions: word field = context sentence, hint = tip
+  if(q.type==='grammar'){
+    $('qWord').textContent=q.word||'';
+    $('qWord').className='q-word';
+    $('qHint').textContent='';
+    $('qTip').innerHTML=q.tip||'';
+  }else if(q.type==='kid'){
+    // Kid mode: show gapped sentence clearly, Spanish below, rule chip above tip
+    $('qWord').className='q-word kid-sentence';
+    $('qWord').textContent=q.word||'';
+    $('qHint').textContent=q.hint||'';
+    const ruleType=q.ruleType||'ok-rule';
+    $('qTip').innerHTML=q.rule
+      ?`<span class="rule-chip ${ruleType}">${q.rule}</span>`
+      :(q.tip||'');
+  }else{
+    $('qWord').className='q-word';
+    $('qWord').textContent=q.word;
+    $('qHint').textContent=q.hint||'';
+    $('qTip').innerHTML=q.tip||'';
+  }
+
+  // lives display via topbar
+  $('tbLives').textContent='❤️'.repeat(clamp(G.lives,0,5));
+  updateTopbar();
+
+  // opts
+  const ob=$('opts');ob.innerHTML='';
+  $('fbBox').className='feedback';
+
+  q.opts.forEach(o=>{
+    const b=document.createElement('button');
+    b.className='opt'+(q.longOpts?' opt-full':'');
+    b.textContent=String(o).toUpperCase();
+    b.onclick=(e)=>checkOpt(o,q,b,e);
+    ob.appendChild(b);
+  });
+
+  startTimer(keepTime);
+}
+
+/* ── TIMER ── */
+function startTimer(keepTime){
+  clearInterval(G.iv);
+  if(!keepTime){G.tl=DIFF_TIME[P.diff]||15;}
+  updateTimer();
+  if(G.paused)return;
+  G.iv=setInterval(()=>{
+    G.tl--;
+    updateTimer();
+    if(G.tl<=0){clearInterval(G.iv);timeout();}
+  },1000);
+}
+function updateTimer(){
+  const max=DIFF_TIME[P.diff]||15;
+  const frac=clamp(G.tl/max,0,1);
+  $('timerC').style.strokeDashoffset=113*(1-frac);
+  const col=G.tl>5?'#FFD700':'#e74c3c';
+  $('timerC').style.stroke=col;
+  $('timerN').textContent=G.tl;
+  $('timerN').style.color=col;
+  const tw=$('timerWrap');
+  if(G.tl<=5) tw.classList.add('timer-warn'); else tw.classList.remove('timer-warn');
+}
+function timeout(){
+  const q=G.qs[G.qi];
+  document.querySelectorAll('.opt').forEach(b=>{b.disabled=true;b.style.opacity='.45';});
+  showFB(false,'⏰ ¡Tiempo!',`Era: "${String(q.ans).toUpperCase()}"`);
+  G.lives--;
+  G.streak=0;
+  if(G.lives<=0){
+    setTimeout(()=>endMission(true),1800);
+  }else{
+    snd('bad');shakeCard();
+  }
+  updateTopbar();
+}
+
+/* ── CHECK ANSWER ── */
+function checkOpt(chosen,q,btn,evt){
+  clearInterval(G.iv);
+  const max=DIFF_TIME[P.diff]||15;
+  const t=max-G.tl;
+  const ok=q.type==='grammar'||q.type==='kid'
+    ? String(chosen).toLowerCase()===String(q.ans).toLowerCase()
+    : String(chosen)===String(q.ans);
+
+  document.querySelectorAll('.opt').forEach(b=>{
+    b.disabled=true;
+    const bTxt=b.textContent.toLowerCase();
+    const ansTxt=String(q.ans).toLowerCase();
+    if(bTxt===ansTxt||b.textContent===String(q.ans).toUpperCase()){b.classList.add('ok');b.style.opacity='1';}
+    else b.style.opacity='.5';
+  });
+
+  if(ok){
+    btn.style.opacity='1';
+    G.ok++;G.streak++;
+    if(G.streak>(P.stats.maxStreak||0)){P.stats.maxStreak=G.streak;}
+    if(t<=4){G.fast++;P.stats.fast=(P.stats.fast||0)+1;}
+
+    // PP streak tracking
+    if(q.type==='pp'){
+      P.stats.ppStreakCur=(P.stats.ppStreakCur||0)+1;
+      if(P.stats.ppStreakCur>(P.stats.ppStreak||0)) P.stats.ppStreak=P.stats.ppStreakCur;
+      if(q.isAdverb) P.stats.adverbsCorrect=(P.stats.adverbsCorrect||0)+1;
+    }
+
+    // lives bonus
+    let bonusMsg='';
+    if(G.streak>0&&G.streak%10===0){G.lives=Math.min(G.lives+1,5);bonusMsg=' +❤️ VIDA EXTRA!';snd('lifeup');}
+
+    const xp=t<=4?20:14;
+    const coins=t<=4?4:2;
+    showFB(true,'¡Correcto! 🎉',buildCorrectMsg(q)+bonusMsg);
+    snd('ok');
+    if(evt) floatXP(`+${xp} XP`,evt.clientX,evt.clientY);
+    // store tentative
+    G._lastXP=xp;G._lastCoins=coins;
+  }else{
+    if(q.type==='pp') P.stats.ppStreakCur=0;
+    G.streak=0;G.lives--;
+    if(G.lives<=0){
+      showFB(false,'💥 Sin vidas',`Era: "${String(q.ans).toUpperCase()}"`);
+      snd('bad');shakeCard();
+      setTimeout(()=>endMission(true),1800);
+      updateTopbar();
+      return;
+    }
+    showFB(false,'Casi…',`Era: "${String(q.ans).toUpperCase()}" · ${buildWrongHint(q)}`);
+    snd('bad');shakeCard();
+  }
+  updateTopbar();
+}
+
+function buildCorrectMsg(q){
+  if(q.type==='kid') return `✓ "${String(q.ans)}" — ${q.tip?q.tip.replace(/<[^>]+>/g,''):'¡Correcto!'}`;
+  if(q.type==='grammar') return `✓ ${String(q.ans)}`;
+  if(q.mtype==='past') return `${q.verb.inf.toUpperCase()} → PAST: ${q.verb.past.toUpperCase()}`;
+  if(q.mtype==='participle') return `${q.verb.inf.toUpperCase()} → PART: ${q.verb.part.toUpperCase()}`;
+  if(q.mtype==='infinitive') return `${q.verb.past.toUpperCase()} → INF: ${q.verb.inf.toUpperCase()}`;
+  if(q.mtype==='translate') return `${q.ans.toUpperCase()} ✓`;
+  if(q.subtype==='aux') return `${String(q.word).split(' ')[0]} → ${q.ans.toUpperCase()} + participio`;
+  if(q.subtype==='ing_form') return `${q.verb.inf} → -ING: ${q.ans}`;
+  return String(q.ans)+' ✓';
+}
+function buildWrongHint(q){
+  if(q.type==='kid') return q.tip?q.tip.replace(/<[^>]+>/g,''):'Revisa la regla arriba';
+  if(q.type==='grammar') return q.tip?q.tip.replace(/<[^>]+>/g,''):'Revisa la regla';
+  if(q.mtype==='past') return `PAST de ${q.verb.inf} = ${q.verb.past}`;
+  if(q.mtype==='participle') return `PART de ${q.verb.inf} = ${q.verb.part}`;
+  if(q.subtype==='aux') return 'HAVE: I/You/We/They · HAS: He/She/It';
+  return '';
+}
+
+function showFB(good,title,msg){
+  const b=$('fbBox');
+  b.className='feedback on '+(good?'ok':'bad');
+  $('fbIcon').textContent=good?'✅':'❌';
+  $('fbTitle').textContent=title;
+  $('fbMsg').textContent=msg;
+  // In kid mode: after answering show the full tip explanation
+  const q=G.qs[G.qi];
+  if(q&&q.type==='kid'&&q.tip){
+    $('qTip').innerHTML=q.tip;
+  }
+}
+
+function nextQ(){
+  snd('click');
+  G.qi++;
+  if(G.qi>=G.qs.length) endMission(false);
+  else renderQ();
+}
+
+/* ── END MISSION ── */
+function endMission(gameover){
+  clearInterval(G.iv);
+  const tot=G.qs.length;
+  const pct=Math.round((G.ok/tot)*100);
+  const elapsed=Math.round((now()-G.t0)/1000);
+
+  const modeDef=MISSION_DEFS.find(m=>m.id===G.mtype);
+  const baseXp=modeDef?modeDef.xpBase:35;
+  const diffMul={easy:1,medium:1.3,hard:1.7}[P.diff]||1;
+  const xpE=Math.round(baseXp*(G.ok/tot)*diffMul);
+  const coinsE=Math.round(20*(G.ok/tot)*diffMul);
+  const stars=pct>=90?3:pct>=60?2:pct>=30?1:0;
+
+  P.xp=(P.xp||0)+xpE;
+  P.coins=(P.coins||0)+coinsE;
+  if(pct===100) P.stats.perfect=(P.stats.perfect||0)+1;
+  P.stats.missions=(P.stats.missions||0)+1;
+
+  // Module-specific counters
+  if(G.isPP)              P.stats.missionsPP=(P.stats.missionsPP||0)+1;
+  else if(G.isPPC)        P.stats.missionsPPC=(P.stats.missionsPPC||0)+1;
+  else if(G.isFut)        P.stats.missionsFut=(P.stats.missionsFut||0)+1;
+  else if(G.isCond)       P.stats.missionsCond=(P.stats.missionsCond||0)+1;
+  else if(G.isPass)       P.stats.missionsPass=(P.stats.missionsPass||0)+1;
+  else if(G.isRep)        P.stats.missionsRep=(P.stats.missionsRep||0)+1;
+  else if(G.isRel)        P.stats.missionsRel=(P.stats.missionsRel||0)+1;
+  else if(G.isMod)        P.stats.missionsMod=(P.stats.missionsMod||0)+1;
+  else if(G.isGer)        P.stats.missionsGer=(P.stats.missionsGer||0)+1;
+  else if(G.isPastPerf)   P.stats.missionsPastPerf=(P.stats.missionsPastPerf||0)+1;
+  else if(G.isUsedTo)     P.stats.missionsUsedTo=(P.stats.missionsUsedTo||0)+1;
+  else {
+    if(G.cat==='IRREGULAR'||G.cat==='BOTH') P.stats.missionsIrr=(P.stats.missionsIrr||0)+1;
+    if(G.cat==='REGULAR'||G.cat==='BOTH')   P.stats.missionsReg=(P.stats.missionsReg||0)+1;
+    if(G.cat==='BOTH')                       P.stats.missionsBoth=(P.stats.missionsBoth||0)+1;
+  }
+
+  // best record
+  if(!P.best) P.best={};
+  const bk=`${G.mtype}|${G.cat}`;
+  P.best[bk]=Math.max(P.best[bk]||0,pct);
+
+  // badges
+  G.newB=[];
+  BADGES.forEach(b=>{
+    if(!P.badges.includes(b.id)&&b.c(P)){P.badges.push(b.id);G.newB.push(b);}
+  });
+
+  saveP();updateTopbar();
+
+  const title=gameover?`¡Fin! ${P.name} sin vidas 💀`:pct===100?`¡Perfecto, ${P.name}! 🏆`:pct>=70?'¡Muy bien! 🌟':pct>=40?'¡Buen intento! 💪':'¡Sigue practicando! 📚';
+  $('rTitle').textContent=title;
+  $('rTrophy').textContent=gameover?'💀':pct===100?'🏆':pct>=70?'🥇':pct>=40?'🥈':'🎯';
+  $('rS1').textContent=stars>=1?'⭐':'☆';
+  $('rS2').textContent=stars>=2?'⭐':'☆';
+  $('rS3').textContent=stars>=3?'⭐':'☆';
+  $('rOk').textContent=`${G.ok}/${tot}`;
+  $('rXP').textContent=`+${xpE}`;
+  $('rTime').textContent=`${elapsed}s`;
+  $('rCoins').textContent=`+${coinsE}`;
+
+  const rb=$('rBadges');rb.innerHTML='';
+  G.newB.forEach(b=>{
+    rb.innerHTML+=`<div class="badge-pop"><span class="bp-icon">${b.icon}</span><div class="bp-text"><strong>¡Insignia: ${b.name}!</strong><p>${b.desc}</p></div></div>`;
+  });
+
+  if(pct>=60&&!gameover){confetti();snd('win');}else snd('click');
+  G.active=false;
+  show('resultScreen');setNav(0);
+}
+
+function retry(){
+  if(!G.mtype){nav(0);return;}
+  startMission(G.mtype);
+}
+
+/* ── EXIT MISSION ── */
+function exitMission(){if(!G.active)return;openModal('modalExit');}
+function confirmExitMission(){
+  closeModal('modalExit');
+  clearInterval(G.iv);
+  try{window.speechSynthesis?.cancel();}catch(e){}
+  G.active=false;
+  renderHome();show('homeScreen');setNav(0);snd('click');
+}
+
+/* ── BADGES / RANKING ── */
+let _activeTab='b';
+function switchTab(t){
+  _activeTab=t;
+  $('tabB').classList.toggle('on',t==='b');
+  $('tabR').classList.toggle('on',t==='r');
+  $('badgesContent').style.display=t==='b'?'block':'none';
+  $('rankingContent').style.display=t==='r'?'block':'none';
+}
+function renderBadgesScreen(tab='b'){
+  if(!P)return;
+  _activeTab=tab;
+  const bg=document.createElement('div');
+  bg.className='badges-grid';
+  BADGES.forEach(b=>{
+    const earned=(P.badges||[]).includes(b.id);
+    const t=document.createElement('div');
+    t.className=`b-tile ${earned?'earned':'locked'}`;
+    t.innerHTML=`<div class="bi2">${b.icon}</div><div class="bn">${b.name}</div><div class="bd">${earned?b.desc:'???'}</div>`;
+    bg.appendChild(t);
+  });
+  $('badgesContent').innerHTML='<div class="section-title">🏅 Mis Insignias</div>';
+  $('badgesContent').appendChild(bg);
+
+  // ranking simulated
+  const others=[
+    {name:'Sofía IA',xp:P.xp+140},{name:'Carlos IA',xp:Math.max(0,P.xp-90)},
+    {name:'Valentina IA',xp:Math.max(0,P.xp-180)},{name:'Diego IA',xp:Math.max(0,P.xp-250)},
+  ];
+  const all=[...others,{name:P.name,xp:P.xp,me:true}].sort((a,b)=>b.xp-a.xp);
+  const medals=['🥇','🥈','🥉'];
+  let rh='<div class="section-title">🏆 Ranking</div><div class="rank-list">';
+  all.forEach((r,i)=>{
+    rh+=`<div class="rank-row${r.me?' me':''}"><div class="rank-pos">${medals[i]||i+1}</div><div class="rank-name">${r.me?'⭐ '+r.name:r.name}</div><div class="rank-xp">${r.xp} XP</div></div>`;
+  });
+  rh+='</div>';
+  $('rankingContent').innerHTML=rh;
+  switchTab(_activeTab);
+}
+
+/* ── HELP ── */
+function openHelp(){openModal('modalHelp');}
+
+/* ── STARS ── */
+function initStars(){
+  const c=$('stars');if(!c)return;
+  for(let i=0;i<60;i++){
+    const s=document.createElement('div');s.className='st';
+    const sz=1+Math.random()*2.5;
+    s.style.cssText=`width:${sz}px;height:${sz}px;left:${Math.random()*100}%;top:${Math.random()*100}%;--d:${2+Math.random()*4}s;--dl:${Math.random()*6}s`;
+    c.appendChild(s);
+  }
+}
+
+/* ── INIT ── */
+function init(){
+  initStars();
+  loadP();
+  if(P){
+    $('iName').value=P.name;
+    selVS(P.verbSet||'IRREGULAR');
+    selD(P.diff||'easy');
+  }
+}
+
+init();
+</script>
+</body>
+</html>

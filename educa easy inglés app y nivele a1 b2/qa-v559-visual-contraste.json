@@ -1,0 +1,28 @@
+{
+  "version": "5.0.59-visual-premium-contraste",
+  "summary": "Ajuste visual de contraste: menos pastel, paletas más sólidas y heterogéneas, tarjetas y carretera más funcionales, inspiradas en mensajería/sistema clásico.",
+  "route_palettes": {
+    "A1": {
+      "primary": "#128c7e",
+      "secondary": "#25d366"
+    },
+    "A2": {
+      "primary": "#0078d4",
+      "secondary": "#00a4ef"
+    },
+    "B1": {
+      "primary": "#d83b01",
+      "secondary": "#ffb900"
+    },
+    "B2": {
+      "primary": "#5c2d91",
+      "secondary": "#2563eb"
+    }
+  },
+  "changes": [
+    "override de variables premium por ruta",
+    "menos glass/blur",
+    "más contraste en tarjetas y carretera",
+    "fondos más sobrios y tecnológicos"
+  ]
+}

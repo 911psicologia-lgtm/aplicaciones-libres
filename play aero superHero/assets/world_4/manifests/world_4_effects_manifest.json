@@ -1,0 +1,20 @@
+[
+  {
+    "id": "venom_spit_effect",
+    "name": "Venom Spit Effect",
+    "sourceLabel": "VENOM SPITTER",
+    "world": "world_4",
+    "category": "projectile",
+    "family": "swamp_amphibians",
+    "role": "projectile",
+    "image": "assets/world_4/effects/venom_spit_effect/effect.png",
+    "preview": "assets/world_4/effects/venom_spit_effect/effect_preview.png",
+    "recommendedWidth": 64,
+    "recommendedHeight": 35,
+    "canvasSize": 256,
+    "movementSuggestion": "trayectoria/expansion",
+    "powerSuggestion": "efecto de ataque",
+    "difficultySuggestion": "none",
+    "notes": "Efecto separable extraido del sprite origen."
+  }
+]

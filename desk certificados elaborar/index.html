@@ -1,0 +1,4393 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="theme-color" content="#0f172a">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="description" content="Generador profesional de certificados institucionales. Masivo, personalizable y exportable en PDF.">
+<title>CertiFlow — Generador Profesional de Certificados</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="preload" href="https://fonts.gstatic.com/s/crimsontext/v19/wlp2gwHKFkZgtmSR3NB0oRJvaAJSA.woff2" as="font" type="font/woff2" crossorigin>
+
+<link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@300;400;500;600&family=DM+Serif+Display:ital@0;1&family=Playfair+Display:ital,wght@0,400;0,600;0,700;1,400;1,600&family=Cinzel:wght@400;500;600&family=Crimson+Text:ital,wght@0,400;0,600;1,400&family=Lato:wght@300;400;700&display=block" rel="stylesheet">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.10.1/jszip.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/PapaParse/5.4.1/papaparse.min.js"></script>
+<style>
+/* ═══════════════════════════════════════════════
+   CERTIFLOW — APP SHELL STYLES
+═══════════════════════════════════════════════ */
+:root {
+  --bg:        #0f172a;
+  --surface:   #1e293b;
+  --surface-2: #273449;
+  --surface-3: #334155;
+  --border:    #2d3f56;
+  --border-hi: #3d5068;
+  --text-1:    #f1f5f9;
+  --text-2:    #94a3b8;
+  --text-3:    #64748b;
+  --accent:    #c8a951;
+  --accent-2:  #e8c96b;
+  --blue:      #3b82f6;
+  --green:     #10b981;
+  --red:       #ef4444;
+  --amber:     #f59e0b;
+  --sidebar-w: 220px;
+  --preview-w: 400px;
+  --header-h:  56px;
+}
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+html { font-size: 14px; }
+body {
+  font-family: 'DM Sans', sans-serif;
+  background: var(--bg);
+  color: var(--text-1);
+  height: 100vh;
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+}
+
+/* ─── TOPBAR ─────────────────────────────── */
+#topbar {
+  height: var(--header-h);
+  background: var(--surface);
+  border-bottom: 1px solid var(--border);
+  display: flex;
+  align-items: center;
+  padding: 0 20px;
+  gap: 16px;
+  flex-shrink: 0;
+  z-index: 100;
+}
+#topbar .logo {
+  font-family: 'DM Serif Display', serif;
+  font-size: 1.25rem;
+  color: var(--accent);
+  letter-spacing: 0.5px;
+  white-space: nowrap;
+}
+#topbar .logo span { color: var(--text-2); font-size: 0.75rem; letter-spacing: 1px; font-family: 'DM Sans', sans-serif; }
+.topbar-sep { flex: 1; }
+.topbar-btn {
+  font-family: 'DM Sans', sans-serif;
+  font-size: 0.78rem;
+  letter-spacing: 0.5px;
+  padding: 7px 14px;
+  border-radius: 8px;
+  border: 1px solid var(--border-hi);
+  background: transparent;
+  color: var(--text-2);
+  cursor: pointer;
+  transition: all 0.2s;
+  white-space: nowrap;
+}
+.topbar-btn:hover { background: var(--surface-3); color: var(--text-1); border-color: var(--border-hi); }
+.topbar-btn.primary { background: var(--accent); color: #0f172a; border-color: var(--accent); font-weight: 600; }
+.topbar-btn.primary:hover { background: var(--accent-2); }
+.topbar-btn.success { background: rgba(16,185,129,0.15); border-color: #10b981; color: #10b981; }
+.topbar-btn.success:hover { background: rgba(16,185,129,0.25); }
+
+/* ─── MAIN LAYOUT ────────────────────────── */
+#app-body {
+  display: flex;
+  flex: 1;
+  overflow: hidden;
+}
+
+/* ─── SIDEBAR ────────────────────────────── */
+#sidebar {
+  width: var(--sidebar-w);
+  background: var(--surface);
+  border-right: 1px solid var(--border);
+  flex-shrink: 0;
+  display: flex;
+  flex-direction: column;
+  overflow-y: auto;
+  padding: 12px 0;
+}
+.nav-section-label {
+  font-size: 0.65rem;
+  letter-spacing: 2px;
+  color: var(--text-3);
+  padding: 16px 16px 6px;
+  text-transform: uppercase;
+}
+.nav-item {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 10px 16px;
+  cursor: pointer;
+  border-left: 2px solid transparent;
+  transition: all 0.18s;
+  color: var(--text-2);
+  font-size: 0.85rem;
+}
+.nav-item:hover { background: var(--surface-2); color: var(--text-1); }
+.nav-item.active { border-left-color: var(--accent); background: rgba(200,169,81,0.08); color: var(--accent); }
+.nav-item .nav-num {
+  width: 22px; height: 22px;
+  border-radius: 50%;
+  background: var(--surface-3);
+  display: flex; align-items: center; justify-content: center;
+  font-size: 0.7rem; font-weight: 600; flex-shrink: 0;
+  transition: all 0.18s;
+}
+.nav-item.active .nav-num { background: var(--accent); color: #0f172a; }
+.nav-item.done .nav-num { background: var(--green); color: #fff; }
+.nav-item .nav-label { flex: 1; line-height: 1.2; }
+.nav-check { font-size: 0.7rem; opacity: 0; }
+.nav-item.done .nav-check { opacity: 1; color: var(--green); }
+.sidebar-bottom {
+  margin-top: auto;
+  padding: 12px;
+  border-top: 1px solid var(--border);
+}
+.install-btn-side {
+  width: 100%;
+  padding: 8px 12px;
+  font-size: 0.75rem;
+  letter-spacing: 1px;
+  border: 1px solid var(--accent);
+  background: rgba(200,169,81,0.08);
+  color: var(--accent);
+  border-radius: 8px;
+  cursor: pointer;
+  transition: all 0.2s;
+  font-family: 'DM Sans', sans-serif;
+}
+.install-btn-side:hover { background: rgba(200,169,81,0.15); }
+
+/* ─── CONTENT AREA ───────────────────────── */
+#content-area {
+  flex: 1;
+  overflow-y: auto;
+  padding: 24px;
+  min-width: 0;
+}
+.step-panel { display: none; }
+.step-panel.active { display: block; }
+.step-header {
+  margin-bottom: 24px;
+  padding-bottom: 16px;
+  border-bottom: 1px solid var(--border);
+}
+.step-header h2 {
+  font-family: 'DM Serif Display', serif;
+  font-size: 1.4rem;
+  color: var(--text-1);
+  margin-bottom: 4px;
+}
+.step-header p { color: var(--text-2); font-size: 0.85rem; line-height: 1.5; }
+
+/* ─── FORM ELEMENTS ──────────────────────── */
+.form-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
+.form-grid-3 { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 16px; }
+.form-group { display: flex; flex-direction: column; gap: 6px; }
+.form-group.span-2 { grid-column: span 2; }
+.form-group.span-3 { grid-column: span 3; }
+label {
+  font-size: 0.75rem;
+  font-weight: 500;
+  color: var(--text-2);
+  letter-spacing: 0.3px;
+  text-transform: uppercase;
+}
+input[type="text"], input[type="email"], input[type="number"],
+input[type="date"], select, textarea {
+  background: var(--surface-2);
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  color: var(--text-1);
+  padding: 9px 12px;
+  font-family: 'DM Sans', sans-serif;
+  font-size: 0.875rem;
+  transition: border-color 0.2s;
+  width: 100%;
+}
+input:focus, select:focus, textarea:focus {
+  outline: none;
+  border-color: var(--accent);
+}
+select { cursor: pointer; appearance: none;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='8' viewBox='0 0 12 8'%3E%3Cpath d='M1 1l5 5 5-5' stroke='%2364748b' stroke-width='1.5' fill='none' stroke-linecap='round'/%3E%3C/svg%3E");
+  background-repeat: no-repeat;
+  background-position: right 12px center;
+  padding-right: 32px;
+}
+select option { background: var(--surface-2); }
+textarea { resize: vertical; min-height: 90px; line-height: 1.6; }
+.hint { font-size: 0.72rem; color: var(--text-3); margin-top: 2px; }
+
+/* ─── CARDS ──────────────────────────────── */
+.card {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  padding: 20px;
+  margin-bottom: 20px;
+}
+.card-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 16px;
+}
+.card-title {
+  font-size: 0.85rem;
+  font-weight: 600;
+  color: var(--text-1);
+  letter-spacing: 0.3px;
+}
+.card-sub { font-size: 0.75rem; color: var(--text-3); margin-top: 2px; }
+
+/* ─── BUTTONS ────────────────────────────── */
+.btn {
+  font-family: 'DM Sans', sans-serif;
+  font-size: 0.82rem;
+  font-weight: 500;
+  padding: 8px 16px;
+  border-radius: 8px;
+  border: 1px solid var(--border-hi);
+  background: transparent;
+  color: var(--text-1);
+  cursor: pointer;
+  transition: all 0.18s;
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  white-space: nowrap;
+}
+.btn:hover { background: var(--surface-3); }
+.btn:disabled { opacity: 0.4; cursor: not-allowed; }
+.btn.primary { background: var(--accent); color: #0f172a; border-color: var(--accent); font-weight: 600; }
+.btn.primary:hover { background: var(--accent-2); }
+.btn.outlined { border-color: var(--accent); color: var(--accent); background: rgba(200,169,81,0.06); }
+.btn.outlined:hover { background: rgba(200,169,81,0.14); }
+.btn.danger { border-color: var(--red); color: var(--red); }
+.btn.danger:hover { background: rgba(239,68,68,0.1); }
+.btn.success { background: rgba(16,185,129,0.15); border-color: #10b981; color: #10b981; }
+.btn.success:hover { background: rgba(16,185,129,0.25); }
+.btn.sm { padding: 5px 10px; font-size: 0.75rem; }
+.btn-group { display: flex; gap: 10px; flex-wrap: wrap; margin-top: 6px; }
+
+/* ─── PAGE SIZE SELECTOR ─────────────────── */
+.size-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 12px; }
+.size-option {
+  background: var(--surface-2);
+  border: 2px solid var(--border);
+  border-radius: 10px;
+  padding: 16px 12px;
+  cursor: pointer;
+  text-align: center;
+  transition: all 0.2s;
+}
+.size-option:hover { border-color: var(--border-hi); background: var(--surface-3); }
+.size-option.selected { border-color: var(--accent); background: rgba(200,169,81,0.08); }
+.size-icon {
+  margin: 0 auto 8px;
+  border: 2px solid currentColor;
+  opacity: 0.6;
+}
+.size-label { font-size: 0.8rem; font-weight: 600; }
+.size-dim { font-size: 0.68rem; color: var(--text-3); margin-top: 2px; }
+
+/* ─── TEMPLATE GRID ──────────────────────── */
+.template-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(200px, 1fr)); gap: 16px; }
+.tmpl-card {
+  background: var(--surface-2);
+  border: 2px solid var(--border);
+  border-radius: 10px;
+  overflow: hidden;
+  cursor: pointer;
+  transition: all 0.2s;
+}
+.tmpl-card:hover { border-color: var(--border-hi); transform: translateY(-2px); box-shadow: 0 8px 24px rgba(0,0,0,0.3); }
+.tmpl-card.selected { border-color: var(--accent); box-shadow: 0 0 0 1px var(--accent); }
+.tmpl-thumb {
+  width: 100%;
+  aspect-ratio: 1.4 / 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+  position: relative;
+  font-size: 0.55rem;
+}
+.tmpl-info { padding: 10px 12px; }
+.tmpl-name { font-size: 0.8rem; font-weight: 600; color: var(--text-1); }
+.tmpl-desc { font-size: 0.7rem; color: var(--text-3); margin-top: 2px; line-height: 1.4; }
+.tmpl-badge {
+  display: inline-block;
+  font-size: 0.62rem;
+  padding: 2px 7px;
+  border-radius: 20px;
+  margin-top: 6px;
+  font-weight: 500;
+  letter-spacing: 0.3px;
+}
+
+/* ─── LOGO/SIGNATURE UPLOAD ──────────────── */
+.upload-zone {
+  border: 2px dashed var(--border);
+  border-radius: 10px;
+  padding: 24px 16px;
+  text-align: center;
+  cursor: pointer;
+  transition: all 0.2s;
+  background: var(--surface-2);
+}
+.upload-zone:hover { border-color: var(--accent); background: rgba(200,169,81,0.04); }
+.upload-zone .upload-icon { font-size: 1.8rem; margin-bottom: 8px; opacity: 0.5; }
+.upload-zone .upload-label { font-size: 0.8rem; color: var(--text-2); }
+.upload-zone .upload-hint { font-size: 0.7rem; color: var(--text-3); margin-top: 4px; }
+.upload-preview {
+  width: 100%;
+  max-height: 100px;
+  object-fit: contain;
+  border-radius: 6px;
+  margin-top: 8px;
+}
+.sig-card {
+  background: var(--surface-2);
+  border: 1px solid var(--border);
+  border-radius: 10px;
+  padding: 16px;
+}
+.sig-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 12px;
+}
+.sig-title { font-size: 0.8rem; font-weight: 600; color: var(--text-1); }
+.toggle-switch {
+  position: relative;
+  width: 36px; height: 20px;
+  flex-shrink: 0;
+}
+.toggle-switch input { display: none; }
+.toggle-track {
+  position: absolute; inset: 0;
+  background: var(--surface-3);
+  border-radius: 20px;
+  cursor: pointer;
+  transition: background 0.2s;
+}
+.toggle-track::after {
+  content: '';
+  position: absolute;
+  top: 3px; left: 3px;
+  width: 14px; height: 14px;
+  background: #fff;
+  border-radius: 50%;
+  transition: transform 0.2s;
+}
+.toggle-switch input:checked + .toggle-track { background: var(--accent); }
+.toggle-switch input:checked + .toggle-track::after { transform: translateX(16px); }
+
+/* ─── PARTICIPANT TABLE ───────────────────── */
+.participants-toolbar {
+  display: flex;
+  gap: 10px;
+  align-items: center;
+  margin-bottom: 16px;
+  flex-wrap: wrap;
+}
+.participant-count {
+  font-size: 0.8rem;
+  color: var(--text-2);
+  padding: 6px 12px;
+  background: var(--surface-2);
+  border-radius: 20px;
+  border: 1px solid var(--border);
+}
+.table-wrapper {
+  border: 1px solid var(--border);
+  border-radius: 10px;
+  overflow: hidden;
+  overflow-x: auto;
+}
+table { width: 100%; border-collapse: collapse; font-size: 0.82rem; }
+th {
+  background: var(--surface-2);
+  padding: 10px 14px;
+  text-align: left;
+  font-size: 0.72rem;
+  font-weight: 600;
+  letter-spacing: 0.5px;
+  color: var(--text-2);
+  text-transform: uppercase;
+  border-bottom: 1px solid var(--border);
+  white-space: nowrap;
+}
+td {
+  padding: 9px 14px;
+  border-bottom: 1px solid var(--border);
+  color: var(--text-1);
+}
+tr:last-child td { border-bottom: none; }
+tr.selected-row { background: rgba(200,169,81,0.08); }
+tr:hover td { background: rgba(255,255,255,0.02); }
+.tag {
+  display: inline-block;
+  font-size: 0.68rem;
+  padding: 2px 8px;
+  border-radius: 12px;
+  font-weight: 500;
+}
+.tag.blue { background: rgba(59,130,246,0.15); color: #93c5fd; }
+.tag.green { background: rgba(16,185,129,0.15); color: #6ee7b7; }
+.tag.amber { background: rgba(245,158,11,0.15); color: #fcd34d; }
+
+/* ─── TEXT EDITOR ────────────────────────── */
+#cert-text-editor {
+  width: 100%;
+  min-height: 160px;
+  font-family: 'Crimson Text', serif;
+  font-size: 0.95rem;
+  line-height: 1.8;
+  background: var(--surface-2);
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  color: var(--text-1);
+  padding: 14px;
+  resize: vertical;
+}
+.placeholder-chips {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+  margin-top: 8px;
+}
+.chip {
+  font-size: 0.7rem;
+  padding: 3px 9px;
+  background: rgba(200,169,81,0.1);
+  border: 1px solid rgba(200,169,81,0.3);
+  color: var(--accent);
+  border-radius: 20px;
+  cursor: pointer;
+  transition: all 0.15s;
+  font-family: monospace;
+}
+.chip:hover { background: rgba(200,169,81,0.2); }
+
+/* ─── PREVIEW PANEL ──────────────────────── */
+#preview-panel {
+  width: var(--preview-w);
+  flex-shrink: 0;
+  background: var(--surface);
+  border-left: 1px solid var(--border);
+  display: flex;
+  flex-direction: column;
+}
+#preview-toolbar {
+  padding: 10px 14px;
+  border-bottom: 1px solid var(--border);
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  flex-shrink: 0;
+}
+#preview-toolbar .ptool-label { font-size: 0.7rem; color: var(--text-3); letter-spacing: 1px; text-transform: uppercase; flex: 1; }
+.ptool-btn {
+  font-size: 0.72rem;
+  padding: 4px 9px;
+  border-radius: 6px;
+  border: 1px solid var(--border);
+  background: transparent;
+  color: var(--text-2);
+  cursor: pointer;
+  transition: all 0.15s;
+  font-family: 'DM Sans', sans-serif;
+}
+.ptool-btn:hover { background: var(--surface-3); color: var(--text-1); }
+.ptool-btn.active { background: rgba(200,169,81,0.1); border-color: var(--accent); color: var(--accent); }
+#preview-participant-nav {
+  padding: 8px 14px;
+  border-bottom: 1px solid var(--border);
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  flex-shrink: 0;
+}
+#preview-participant-nav select {
+  flex: 1;
+  font-size: 0.78rem;
+  padding: 5px 28px 5px 8px;
+}
+#preview-viewport {
+  flex: 1;
+  overflow: auto;
+  padding: 16px;
+  display: flex;
+  align-items: flex-start;
+  justify-content: center;
+  background: #0a1020;
+}
+#cert-preview-wrapper {
+  position: relative;
+  transform-origin: top center;
+}
+#cert-preview-wrapper .cert-shadow {
+  box-shadow: 0 20px 60px rgba(0,0,0,0.5), 0 8px 24px rgba(0,0,0,0.4);
+}
+#preview-actions {
+  padding: 12px;
+  border-top: 1px solid var(--border);
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  flex-shrink: 0;
+}
+#progress-bar-wrap {
+  display: none;
+  flex-direction: column;
+  gap: 6px;
+}
+#progress-bar-wrap .progress-label {
+  font-size: 0.72rem;
+  color: var(--text-2);
+  display: flex;
+  justify-content: space-between;
+}
+#progress-track {
+  height: 4px;
+  background: var(--border);
+  border-radius: 2px;
+  overflow: hidden;
+}
+#progress-fill {
+  height: 100%;
+  background: var(--accent);
+  border-radius: 2px;
+  width: 0%;
+  transition: width 0.2s;
+}
+
+/* ─── NOTIFICATION TOAST ─────────────────── */
+#toast-container {
+  position: fixed;
+  bottom: 24px;
+  right: 24px;
+  z-index: 9999;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+.toast {
+  padding: 12px 18px;
+  border-radius: 10px;
+  font-size: 0.82rem;
+  color: #fff;
+  min-width: 240px;
+  animation: toastIn 0.25s ease;
+  border: 1px solid rgba(255,255,255,0.1);
+  backdrop-filter: blur(8px);
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+@keyframes toastIn { from { opacity: 0; transform: translateY(8px); } to { opacity: 1; transform: none; } }
+.toast.success { background: rgba(16,185,129,0.85); }
+.toast.error   { background: rgba(239,68,68,0.85); }
+.toast.info    { background: rgba(59,130,246,0.85); }
+.toast.warn    { background: rgba(245,158,11,0.85); }
+
+/* ─── MODAL ──────────────────────────────── */
+.modal-overlay,
+#modal-overlay {
+  position: fixed; inset: 0;
+  background: rgba(0,0,0,0.6);
+  z-index: 800;
+  display: none;
+  align-items: center;
+  justify-content: center;
+  backdrop-filter: blur(4px);
+}
+.modal-overlay.open,
+#modal-overlay.open { display: flex; }
+.modal-box {
+  background: var(--surface);
+  border: 1px solid var(--border-hi);
+  border-radius: 16px;
+  padding: 32px;
+  max-width: 500px;
+  width: 90%;
+  max-height: 80vh;
+  overflow-y: auto;
+}
+.modal-title { font-family: 'DM Serif Display', serif; font-size: 1.2rem; margin-bottom: 8px; }
+.modal-body { color: var(--text-2); font-size: 0.85rem; line-height: 1.6; margin-bottom: 24px; }
+.modal-actions { display: flex; gap: 10px; justify-content: flex-end; }
+
+/* ─── COLOR CONTROLS ─────────────────────── */
+.color-row { display: flex; gap: 10px; align-items: center; flex-wrap: wrap; }
+.color-swatch {
+  width: 32px; height: 32px;
+  border-radius: 6px;
+  border: 2px solid var(--border);
+  cursor: pointer;
+  overflow: hidden;
+  flex-shrink: 0;
+}
+.color-swatch input[type="color"] {
+  width: 200%;
+  height: 200%;
+  transform: translate(-25%, -25%);
+  padding: 0;
+  border: none;
+  cursor: pointer;
+  background: none;
+}
+.color-palette {
+  display: flex;
+  gap: 6px;
+  flex-wrap: wrap;
+}
+.palette-dot {
+  width: 24px; height: 24px;
+  border-radius: 50%;
+  cursor: pointer;
+  border: 2px solid transparent;
+  transition: all 0.15s;
+  flex-shrink: 0;
+}
+.palette-dot:hover, .palette-dot.active { border-color: #fff; transform: scale(1.15); }
+
+/* ─── HIDDEN RENDER AREA ─────────────────── */
+#cert-render-area {
+  position: fixed;
+  top: -9999px;
+  left: -9999px;
+  overflow: hidden;
+  pointer-events: none;
+}
+
+/* ─── EXPORT SECTION ─────────────────────── */
+.export-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
+.export-card {
+  background: var(--surface-2);
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  padding: 20px;
+  text-align: center;
+}
+.export-icon { font-size: 2.5rem; margin-bottom: 12px; }
+.export-title { font-size: 0.9rem; font-weight: 600; margin-bottom: 6px; }
+.export-desc { font-size: 0.75rem; color: var(--text-3); line-height: 1.5; margin-bottom: 16px; }
+
+
+/* ─── EMAIL MODULE ──────────────────────────── */
+.gas-setup-box {
+  background: rgba(59,130,246,0.07);
+  border: 1px solid rgba(59,130,246,0.3);
+  border-radius: 10px;
+  padding: 16px 18px;
+  margin-bottom: 18px;
+}
+.gas-setup-box .gas-title {
+  font-size: 0.8rem; font-weight: 700;
+  color: #93c5fd; letter-spacing: 0.5px;
+  margin-bottom: 6px;
+  display: flex; align-items: center; gap: 8px;
+}
+.gas-setup-box p {
+  font-size: 0.78rem; color: var(--text-2);
+  line-height: 1.65; text-align:left; margin:0;
+}
+.gas-url-row {
+  display: flex; gap: 8px; align-items: center; margin-top: 12px;
+}
+.gas-url-row input {
+  flex: 1; font-size: 0.8rem;
+  border-color: rgba(59,130,246,0.4) !important;
+}
+.gas-status {
+  display: flex; align-items: center; gap: 8px;
+  font-size: 0.78rem; padding: 8px 12px;
+  border-radius: 8px; margin-top: 10px;
+}
+.gas-status.ok  { background:rgba(16,185,129,0.1); color:#6ee7b7; }
+.gas-status.err { background:rgba(239,68,68,0.1);  color:#fca5a5; }
+.gas-status.idle{ background:rgba(100,116,139,0.1); color:var(--text-3); }
+
+.email-preview-box {
+  background: var(--surface-2);
+  border: 1px solid var(--border);
+  border-radius: 10px;
+  overflow: hidden;
+  margin-top: 12px;
+}
+.email-preview-header {
+  background: var(--surface-3);
+  padding: 10px 14px;
+  font-size: 0.72rem;
+  color: var(--text-3);
+  letter-spacing: 1px;
+  text-transform: uppercase;
+  border-bottom: 1px solid var(--border);
+  display: flex; justify-content: space-between; align-items: center;
+}
+.email-preview-frame {
+  width: 100%;
+  height: 260px;
+  border: none;
+  display: block;
+  background: #fff;
+}
+.send-progress-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr;
+  gap: 10px;
+  margin-top: 12px;
+}
+.send-stat {
+  background: var(--surface-2);
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  padding: 12px;
+  text-align: center;
+}
+.send-stat-num {
+  font-size: 1.4rem;
+  font-weight: 700;
+  color: var(--text-1);
+  line-height: 1;
+  margin-bottom: 4px;
+}
+.send-stat-num.green { color: var(--green); }
+.send-stat-num.red   { color: var(--red); }
+.send-stat-num.amber { color: var(--amber); }
+.send-stat-label { font-size: 0.68rem; color: var(--text-3); letter-spacing: 0.5px; }
+#gas-script-modal { display:none; }
+#gas-script-modal.open { display:flex; }
+.code-block {
+  background: #0d1117;
+  border: 1px solid #30363d;
+  border-radius: 8px;
+  padding: 14px 16px;
+  font-family: 'Courier New', monospace;
+  font-size: 0.72rem;
+  color: #e6edf3;
+  overflow-x: auto;
+  white-space: pre;
+  max-height: 260px;
+  overflow-y: auto;
+  line-height: 1.6;
+  margin: 10px 0;
+}
+.step-pill {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 22px; height: 22px;
+  background: var(--accent);
+  color: #0f172a;
+  border-radius: 50%;
+  font-size: 0.7rem;
+  font-weight: 700;
+  flex-shrink: 0;
+}
+.setup-step {
+  display: flex;
+  gap: 12px;
+  align-items: flex-start;
+  padding: 10px 0;
+  border-bottom: 1px solid var(--border);
+  font-size: 0.82rem;
+  color: var(--text-2);
+  line-height: 1.6;
+}
+.setup-step:last-child { border-bottom: none; }
+.setup-step b { color: var(--text-1); font-weight: 600; }
+.setup-step a { color: var(--accent); }
+
+
+
+/* ─── INLINE EDIT ────────────────────────── */
+.inline-edit-input {
+  background: var(--surface-3);
+  border: 1px solid var(--accent);
+  border-radius: 6px;
+  color: var(--text-1);
+  padding: 5px 8px;
+  font-family: 'DM Sans', sans-serif;
+  font-size: 0.82rem;
+  width: 100%;
+  box-sizing: border-box;
+  transition: border-color 0.15s, box-shadow 0.15s;
+}
+.inline-edit-input:focus {
+  outline: none;
+  box-shadow: 0 0 0 2px rgba(200,169,81,0.25);
+}
+
+/* ─── PROJECT MANAGER ────────────────────── */
+.proj-list-item {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 10px 14px;
+  background: var(--surface-2);
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  margin-bottom: 8px;
+  transition: border-color 0.15s;
+}
+.proj-list-item:hover { border-color: var(--border-hi); }
+.proj-list-item .proj-name {
+  flex: 1;
+  font-size: 0.84rem;
+  font-weight: 500;
+  color: var(--text-1);
+}
+.proj-list-item .proj-meta {
+  font-size: 0.7rem;
+  color: var(--text-3);
+  text-align: right;
+  line-height: 1.4;
+}
+#proj-name-input {
+  background: var(--surface-2);
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  color: var(--text-1);
+  padding: 9px 12px;
+  font-family: 'DM Sans', sans-serif;
+  font-size: 0.875rem;
+  width: 100%;
+  margin-bottom: 10px;
+}
+#proj-name-input:focus { outline: none; border-color: var(--accent); }
+.empty-proj-msg {
+  text-align: center;
+  padding: 24px;
+  color: var(--text-3);
+  font-size: 0.82rem;
+}
+
+/* ─── GUIDED TOUR ────────────────────────── */
+#tour-overlay {
+  position: fixed; inset: 0;
+  z-index: 9000;
+  pointer-events: none;
+  transition: opacity 0.3s;
+  display: none;
+  opacity: 0;
+}
+#tour-overlay.active {
+  display: block;
+  opacity: 1;
+  pointer-events: all;
+}
+#tour-backdrop {
+  position: absolute; inset: 0;
+  background: rgba(5,10,20,0.78);
+  transition: opacity 0.3s;
+  backdrop-filter: blur(1px);
+}
+#tour-spotlight {
+  position: absolute;
+  border-radius: 10px;
+  box-shadow: 0 0 0 9999px rgba(5,10,20,0.78);
+  border: 2px solid var(--accent);
+  transition: all 0.35s cubic-bezier(.4,0,.2,1);
+  pointer-events: none;
+  z-index: 9001;
+}
+#tour-card {
+  position: absolute;
+  background: var(--surface);
+  border: 1px solid var(--border-hi);
+  border-radius: 14px;
+  padding: 20px 22px;
+  width: 320px;
+  box-shadow: 0 20px 60px rgba(0,0,0,0.5);
+  z-index: 9002;
+  transition: all 0.3s cubic-bezier(.4,0,.2,1);
+}
+#tour-card .tour-step-label {
+  font-size: 0.65rem;
+  letter-spacing: 2px;
+  color: var(--accent);
+  text-transform: uppercase;
+  margin-bottom: 8px;
+  font-weight: 600;
+}
+#tour-card .tour-title {
+  font-family: 'DM Serif Display', serif;
+  font-size: 1.05rem;
+  color: var(--text-1);
+  margin-bottom: 8px;
+  line-height: 1.3;
+}
+#tour-card .tour-body {
+  font-size: 0.82rem;
+  color: var(--text-2);
+  line-height: 1.65;
+  margin-bottom: 16px;
+}
+#tour-card .tour-body b { color: var(--text-1); font-weight: 600; }
+#tour-card .tour-footer {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 10px;
+}
+#tour-card .tour-dots {
+  display: flex;
+  gap: 5px;
+  flex: 1;
+}
+.tour-dot {
+  width: 6px; height: 6px;
+  border-radius: 50%;
+  background: var(--border-hi);
+  transition: all 0.2s;
+  flex-shrink: 0;
+}
+.tour-dot.active { background: var(--accent); width: 16px; border-radius: 3px; }
+.tour-dot.done   { background: var(--green); }
+#tour-skip-btn {
+  font-size: 0.72rem;
+  color: var(--text-3);
+  background: transparent;
+  border: none;
+  cursor: pointer;
+  padding: 4px 6px;
+  transition: color 0.15s;
+  font-family: 'DM Sans', sans-serif;
+}
+#tour-skip-btn:hover { color: var(--text-2); }
+.tour-nav-btn {
+  font-family: 'DM Sans', sans-serif;
+  font-size: 0.78rem;
+  font-weight: 600;
+  padding: 7px 16px;
+  border-radius: 8px;
+  border: 1px solid var(--border-hi);
+  background: transparent;
+  color: var(--text-2);
+  cursor: pointer;
+  transition: all 0.15s;
+}
+.tour-nav-btn:hover { background: var(--surface-3); color: var(--text-1); }
+.tour-nav-btn.primary {
+  background: var(--accent);
+  color: #0f172a;
+  border-color: var(--accent);
+}
+.tour-nav-btn.primary:hover { background: var(--accent-2); }
+#tour-trigger-btn {
+  font-size: 0.72rem;
+  letter-spacing: 1px;
+  padding: 5px 10px;
+  border-radius: 6px;
+  border: 1px solid var(--border);
+  background: transparent;
+  color: var(--text-3);
+  cursor: pointer;
+  transition: all 0.15s;
+  font-family: 'DM Sans', sans-serif;
+}
+#tour-trigger-btn:hover {
+  background: rgba(200,169,81,0.08);
+  border-color: var(--accent);
+  color: var(--accent);
+}
+
+/* ─── HIGHLIGHT PULSE ────────────────────── */
+@keyframes highlightPulse {
+  0%   { box-shadow: 0 0 0 0 rgba(200,169,81,0.5); }
+  70%  { box-shadow: 0 0 0 10px rgba(200,169,81,0); }
+  100% { box-shadow: 0 0 0 0 rgba(200,169,81,0); }
+}
+.highlight-pulse {
+  animation: highlightPulse 0.7s ease-out 2;
+  border-color: var(--accent) !important;
+}
+@keyframes scrollHighlight {
+  0%,100% { outline-offset: 2px; }
+  50%      { outline-offset: 6px; }
+}
+.scroll-highlight {
+  outline: 2px solid var(--accent);
+  outline-offset: 4px;
+  border-radius: 10px;
+  animation: scrollHighlight 0.4s ease 3;
+}
+
+/* ─── MANUAL STYLES ──────────────────────── */
+#step-7 .manual-section {
+  margin-bottom: 28px;
+}
+#step-7 .manual-section-title {
+  font-family: 'DM Serif Display', serif;
+  font-size: 1.1rem;
+  color: var(--accent);
+  margin-bottom: 12px;
+  padding-bottom: 8px;
+  border-bottom: 1px solid var(--border);
+  display: flex; align-items: center; gap: 10px;
+}
+#step-7 .manual-step {
+  display: flex;
+  gap: 14px;
+  margin-bottom: 12px;
+  align-items: flex-start;
+}
+#step-7 .manual-step-num {
+  width: 26px; height: 26px;
+  background: rgba(200,169,81,0.12);
+  border: 1px solid rgba(200,169,81,0.3);
+  border-radius: 50%;
+  color: var(--accent);
+  font-size: 0.72rem;
+  font-weight: 700;
+  display: flex; align-items: center; justify-content: center;
+  flex-shrink: 0;
+}
+#step-7 .manual-step-body {
+  font-size: 0.83rem;
+  color: var(--text-2);
+  line-height: 1.65;
+  flex: 1;
+}
+#step-7 .manual-step-body b { color: var(--text-1); }
+#step-7 .manual-tip {
+  background: rgba(59,130,246,0.07);
+  border-left: 3px solid #3b82f6;
+  border-radius: 0 8px 8px 0;
+  padding: 10px 14px;
+  font-size: 0.8rem;
+  color: var(--text-2);
+  line-height: 1.6;
+  margin: 10px 0;
+}
+#step-7 .manual-tip b { color: #93c5fd; }
+#step-7 .manual-warn {
+  background: rgba(245,158,11,0.07);
+  border-left: 3px solid var(--amber);
+  border-radius: 0 8px 8px 0;
+  padding: 10px 14px;
+  font-size: 0.8rem;
+  color: var(--text-2);
+  line-height: 1.6;
+  margin: 10px 0;
+}
+#step-7 .manual-warn b { color: var(--amber); }
+.credits-card {
+  background: linear-gradient(135deg, rgba(200,169,81,0.08) 0%, rgba(26,58,108,0.15) 100%);
+  border: 1px solid rgba(200,169,81,0.3);
+  border-radius: 14px;
+  padding: 28px 32px;
+  text-align: center;
+  margin-top: 24px;
+}
+.credits-card .credits-logo {
+  font-family: 'DM Serif Display', serif;
+  font-size: 1.6rem;
+  color: var(--accent);
+  margin-bottom: 4px;
+}
+.credits-card .credits-version {
+  font-size: 0.7rem;
+  letter-spacing: 2px;
+  color: var(--text-3);
+  text-transform: uppercase;
+  margin-bottom: 20px;
+}
+.credits-card .credits-author {
+  font-size: 0.88rem;
+  color: var(--text-2);
+  line-height: 1.8;
+}
+.credits-card .credits-author strong {
+  color: var(--text-1);
+  font-size: 1rem;
+  display: block;
+  margin-bottom: 4px;
+}
+.credits-card .credits-author a {
+  color: var(--accent);
+  text-decoration: none;
+}
+.credits-card .credits-author a:hover { text-decoration: underline; }
+.credits-divider {
+  height: 1px;
+  background: linear-gradient(to right, transparent, var(--border-hi), transparent);
+  margin: 16px 0;
+}
+.shortcut-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 8px;
+}
+.shortcut-item {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  font-size: 0.8rem;
+  color: var(--text-2);
+}
+kbd {
+  background: var(--surface-3);
+  border: 1px solid var(--border-hi);
+  border-radius: 4px;
+  padding: 2px 7px;
+  font-size: 0.7rem;
+  font-family: monospace;
+  color: var(--text-1);
+  flex-shrink: 0;
+}
+
+/* ─── SCROLLBAR ──────────────────────────── */
+::-webkit-scrollbar { width: 6px; height: 6px; }
+::-webkit-scrollbar-track { background: transparent; }
+::-webkit-scrollbar-thumb { background: var(--border-hi); border-radius: 3px; }
+::-webkit-scrollbar-thumb:hover { background: var(--text-3); }
+
+/* ─── RESPONSIVE ─────────────────────────── */
+@media (max-width: 1100px) {
+  :root { --preview-w: 300px; }
+}
+
+/* ── TABLET (≤900px): sidebar icon-only, hide preview ── */
+@media (max-width: 900px) {
+  :root { --sidebar-w: 48px; }
+  .nav-item .nav-label, .nav-item .nav-check,
+  .nav-section-label, .sidebar-bottom .install-btn-side { display: none; }
+  .nav-item { justify-content: center; padding: 12px 0; }
+  #preview-panel { display: none; }
+  :root { --preview-w: 0px; }
+}
+
+/* ── MOBILE (≤600px): full layout overhaul ── */
+@media (max-width: 600px) {
+  :root {
+    --header-h: 52px;
+    --sidebar-w: 0px;
+    --preview-w: 0px;
+  }
+
+  /* Topbar: logo + 2 botones esenciales, resto overflow scroll */
+  #topbar {
+    padding: 0 10px;
+    gap: 6px;
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
+  }
+  #topbar .logo { font-size: 1rem; }
+  .topbar-btn {
+    font-size: 0.7rem;
+    padding: 5px 8px;
+    white-space: nowrap;
+    flex-shrink: 0;
+  }
+
+  /* Ocultar sidebar por completo en móvil — navegación via bottom bar */
+  #sidebar { display: none; }
+
+  /* Content ocupa todo el ancho */
+  #content-area {
+    padding: 14px 12px 80px; /* padding bottom para bottom nav */
+  }
+
+  /* Bottom navigation bar */
+  #mobile-bottom-nav {
+    display: flex !important;
+    position: fixed;
+    bottom: 0; left: 0; right: 0;
+    height: 60px;
+    background: var(--surface);
+    border-top: 1px solid var(--border);
+    z-index: 200;
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
+  }
+  .mob-nav-item {
+    flex: 1;
+    min-width: 52px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 2px;
+    cursor: pointer;
+    color: var(--text-3);
+    font-size: 0.6rem;
+    border-top: 2px solid transparent;
+    transition: all 0.15s;
+    padding: 4px 2px;
+  }
+  .mob-nav-item.active { color: var(--accent); border-top-color: var(--accent); }
+  .mob-nav-item .mob-icon { font-size: 1.1rem; line-height: 1; }
+
+  /* Step headers more compact */
+  .step-header h2 { font-size: 1.1rem; }
+  .step-header p  { font-size: 0.78rem; }
+
+  /* Grids → single column */
+  .form-grid, .form-grid-3, .size-grid, .export-grid,
+  .template-grid { grid-template-columns: 1fr !important; }
+  .form-group.span-2, .form-group.span-3 { grid-column: span 1; }
+
+  /* Tables scrollable */
+  .table-wrapper { overflow-x: auto; -webkit-overflow-scrolling: touch; }
+  table { min-width: 480px; }
+
+  /* Size option cards smaller */
+  .size-option { padding: 12px 8px; font-size: 0.75rem; }
+  .size-option .size-dim { font-size: 0.65rem; }
+
+  /* Template cards */
+  .template-card { padding: 10px; }
+
+  /* Btn groups stack */
+  .btn-group { flex-wrap: wrap; gap: 8px; }
+  .btn-group .btn { flex: 1; min-width: 120px; text-align: center; }
+
+  /* Email preview frame shorter */
+  .email-preview-frame { height: 320px !important; }
+
+  /* Tour cards adapt */
+  #tour-card { max-width: 90vw; font-size: 0.85rem; }
+
+  /* Modals full-screen on mobile */
+  .modal-overlay .modal-box,
+  #modal-overlay .modal-box { 
+    width: 95vw; 
+    max-height: 85vh;
+    overflow-y: auto;
+    margin: 20px auto;
+  }
+}
+</style>
+</head>
+<body>
+
+<!-- ═══ TOPBAR ══════════════════════════════════ -->
+<header id="topbar">
+  <div class="logo">CertiFlow <span>PRO</span></div>
+  <div class="topbar-sep"></div>
+  <button class="topbar-btn primary" onclick="newProject()">🆕 Nuevo</button>
+  <button class="topbar-btn" onclick="openProjectManager()">📁 Proyectos</button>
+  <button class="topbar-btn" onclick="saveCurrentProject()">💾 Guardar</button>
+  <button class="topbar-btn" onclick="loadSampleData()">📋 Ejemplo</button>
+  <button class="topbar-btn danger" onclick="clearAll()">🗑 Limpiar</button>
+  <button id="tour-trigger-btn" onclick="startTour()" title="Tour guiado de la aplicación">❓ Tour</button>
+  <button id="install-btn" class="topbar-btn primary" style="display:none">⬇ Instalar app</button>
+</header>
+
+<!-- ═══ APP BODY ═════════════════════════════════ -->
+<div id="app-body">
+
+  <!-- SIDEBAR -->
+  <nav id="sidebar">
+    <div class="nav-section-label">Configuración</div>
+    <div class="nav-item active" data-step="1" onclick="goStep(1)">
+      <div class="nav-num">1</div>
+      <div class="nav-label">General</div>
+      <span class="nav-check">✓</span>
+    </div>
+    <div class="nav-item" data-step="2" onclick="goStep(2)">
+      <div class="nav-num">2</div>
+      <div class="nav-label">Tamaño y Plantilla</div>
+      <span class="nav-check">✓</span>
+    </div>
+    <div class="nav-item" data-step="3" onclick="goStep(3)">
+      <div class="nav-num">3</div>
+      <div class="nav-label">Logos y Firmas</div>
+      <span class="nav-check">✓</span>
+    </div>
+    <div class="nav-section-label">Contenido</div>
+    <div class="nav-item" data-step="4" onclick="goStep(4)">
+      <div class="nav-num">4</div>
+      <div class="nav-label">Participantes</div>
+      <span class="nav-check">✓</span>
+    </div>
+    <div class="nav-item" data-step="5" onclick="goStep(5)">
+      <div class="nav-num">5</div>
+      <div class="nav-label">Texto del Certificado</div>
+      <span class="nav-check">✓</span>
+    </div>
+    <div class="nav-section-label">Salida</div>
+    <div class="nav-item" data-step="6" onclick="goStep(6)">
+      <div class="nav-num">6</div>
+      <div class="nav-label">Vista Previa y Exportar</div>
+      <span class="nav-check">✓</span>
+    </div>
+    <div class="nav-section-label">Ayuda</div>
+    <div class="nav-item" data-step="7" onclick="goStep(7)">
+      <div class="nav-num">?</div>
+      <div class="nav-label">Manual y Créditos</div>
+      <span class="nav-check">✓</span>
+    </div>
+    <div class="sidebar-bottom">
+      <button class="install-btn-side" id="install-btn-side" style="display:none" onclick="triggerInstall()">⬇ Instalar app</button>
+    </div>
+  </nav>
+
+  <!-- CONTENT AREA -->
+  <div id="content-area">
+
+    <!-- STEP 1: General -->
+    <div class="step-panel active" id="step-1">
+      <div class="step-header">
+        <h2>Configuración General</h2>
+        <p>Define los datos del evento y la institución que aparecerán en el certificado.</p>
+      </div>
+      <div class="card">
+        <div class="card-header"><div><div class="card-title">Institución y Proyecto</div></div></div>
+        <div class="form-grid">
+          <div class="form-group span-2">
+            <label>Nombre de la Institución / Organización</label>
+            <input type="text" id="f-institucion" placeholder="Ej: Universidad Nacional de Colombia" oninput="updateState()">
+          </div>
+          <div class="form-group">
+            <label>Nombre del Proyecto / Lote</label>
+            <input type="text" id="f-proyecto" placeholder="Ej: Diplomado 2025-1" oninput="updateState()">
+          </div>
+          <div class="form-group">
+            <label>Código interno del evento</label>
+            <input type="text" id="f-codigo" placeholder="Ej: CF-2025-001" oninput="updateState()">
+          </div>
+        </div>
+      </div>
+      <div class="card">
+        <div class="card-header"><div><div class="card-title">Evento</div></div></div>
+        <div class="form-grid">
+          <div class="form-group span-2">
+            <label>Nombre del Evento</label>
+            <input type="text" id="f-evento" placeholder="Ej: Seminario Internacional de Educación" oninput="updateState()">
+          </div>
+          <div class="form-group span-2">
+            <label>Subtítulo o Eje Temático (opcional)</label>
+            <input type="text" id="f-subtitulo" placeholder="Ej: Nuevas tendencias en pedagogía universitaria" oninput="updateState()">
+          </div>
+          <div class="form-group">
+            <label>Tipo de Certificado</label>
+            <select id="f-tipo" onchange="updateState(); updateTextModel()">
+              <option value="asistencia">Asistencia</option>
+              <option value="participacion">Participación</option>
+              <option value="aprobacion">Aprobación</option>
+              <option value="ponencia">Ponencia</option>
+              <option value="jurado">Jurado</option>
+              <option value="conferencista">Conferencista</option>
+              <option value="tallerista">Tallerista</option>
+            </select>
+          </div>
+          <div class="form-group">
+            <label>Modalidad</label>
+            <select id="f-modalidad" onchange="updateState()">
+              <option value="presencial">Presencial</option>
+              <option value="virtual">Virtual</option>
+              <option value="híbrida">Híbrida</option>
+            </select>
+          </div>
+          <div class="form-group">
+            <label>Intensidad Horaria</label>
+            <input type="text" id="f-horas" placeholder="Ej: 40" oninput="updateState()">
+          </div>
+          <div class="form-group">
+            <label>Ciudad</label>
+            <input type="text" id="f-ciudad" placeholder="Ej: Bogotá" oninput="updateState()">
+          </div>
+          <div class="form-group">
+            <label>País</label>
+            <input type="text" id="f-pais" placeholder="Ej: Colombia" oninput="updateState()">
+          </div>
+          <div class="form-group">
+            <label>Fecha del Evento</label>
+            <input type="text" id="f-fecha-evento" placeholder="Ej: 10 al 14 de marzo de 2025" oninput="updateState()">
+          </div>
+          <div class="form-group">
+            <label>Fecha de Expedición</label>
+            <input type="date" id="f-fecha-exp" oninput="updateState()">
+          </div>
+          <div class="form-group span-2">
+            <label>Texto Complementario (opcional)</label>
+            <textarea id="f-texto-comp" placeholder="Texto adicional que desee incluir..." oninput="updateState()" style="min-height:60px"></textarea>
+          </div>
+        </div>
+      </div>
+      <div class="btn-group">
+        <button class="btn outlined" onclick="loadSampleData()">📋 Cargar datos de ejemplo</button>
+        <button class="btn" onclick="goStep(2)">Siguiente →</button>
+      </div>
+    </div>
+
+    <!-- STEP 2: Tamaño y Plantilla -->
+    <div class="step-panel" id="step-2">
+      <div class="step-header">
+        <h2>Tamaño y Plantilla</h2>
+        <p>Elige el formato de página y la plantilla visual del certificado.</p>
+      </div>
+      <div class="card">
+        <div class="card-header"><div class="card-title">Formato de Página</div></div>
+        <div class="size-grid" id="size-grid"></div>
+      </div>
+      <div class="card">
+        <div class="card-header">
+          <div>
+            <div class="card-title">Plantilla Visual</div>
+            <div class="card-sub">10 plantillas disponibles — clic para seleccionar</div>
+          </div>
+        </div>
+        <div class="template-grid" id="template-grid"></div>
+      </div>
+      <div class="card">
+        <div class="card-header"><div class="card-title">Color Principal</div></div>
+        <div class="color-row">
+          <div class="color-swatch"><input type="color" id="color-primary" value="#1a3a6c" onchange="updateState()"></div>
+          <div class="color-palette" id="palette-primary"></div>
+        </div>
+        <div class="hint" style="margin-top:8px">Color de encabezado y elementos principales del certificado</div>
+      </div>
+      <div class="card">
+        <div class="card-header"><div class="card-title">Color de Acento</div></div>
+        <div class="color-row">
+          <div class="color-swatch"><input type="color" id="color-accent" value="#c8a951" onchange="updateState()"></div>
+          <div class="color-palette" id="palette-accent"></div>
+        </div>
+        <div class="hint" style="margin-top:8px">Color de líneas decorativas, marcos y detalles</div>
+      </div>
+      <div class="btn-group">
+        <button class="btn" onclick="goStep(1)">← Anterior</button>
+        <button class="btn" onclick="goStep(3)">Siguiente →</button>
+      </div>
+    </div>
+
+    <!-- STEP 3: Logos y Firmas -->
+    <div class="step-panel" id="step-3">
+      <div class="step-header">
+        <h2>Logos y Firmas</h2>
+        <p>Carga los logos institucionales y configura las firmas del certificado.</p>
+      </div>
+      <div class="card">
+        <div class="card-header">
+          <div class="card-title">Logos Institucionales</div>
+          <div style="display:flex;gap:8px;align-items:center">
+            <button class="btn sm outlined" id="btn-less-logo" onclick="changeLogoCount(-1)" title="Quitar slot de logo">− Slot</button>
+            <span id="logo-count-label" style="font-size:0.75rem;color:var(--text-3);min-width:40px;text-align:center">3 logos</span>
+            <button class="btn sm outlined" id="btn-more-logo" onclick="changeLogoCount(1)" title="Agregar slot de logo">+ Slot</button>
+          </div>
+        </div>
+        <div class="form-grid-3" id="logos-grid">
+          <!-- Slot 1 -->
+          <div class="form-group" id="logo-slot-1">
+            <label>Logo 1 — Principal</label>
+            <div class="upload-zone" onclick="triggerUpload('logo1')">
+              <div class="upload-icon">🏛️</div>
+              <div class="upload-label">Clic para cargar</div>
+              <div class="upload-hint">PNG, JPG — máx 2MB</div>
+              <img id="logo1-preview" class="upload-preview" style="display:none">
+            </div>
+            <input type="file" id="logo1-input" accept="image/*" style="display:none" onchange="handleLogoUpload(this,'logo1')">
+            <button class="btn sm danger" onclick="clearLogo('logo1')" style="margin-top:6px">✕ Quitar</button>
+          </div>
+          <!-- Slot 2 -->
+          <div class="form-group" id="logo-slot-2">
+            <label>Logo 2 — Secundario</label>
+            <div class="upload-zone" onclick="triggerUpload('logo2')">
+              <div class="upload-icon">🏢</div>
+              <div class="upload-label">Clic para cargar</div>
+              <div class="upload-hint">Opcional</div>
+              <img id="logo2-preview" class="upload-preview" style="display:none">
+            </div>
+            <input type="file" id="logo2-input" accept="image/*" style="display:none" onchange="handleLogoUpload(this,'logo2')">
+            <button class="btn sm danger" onclick="clearLogo('logo2')" style="margin-top:6px">✕ Quitar</button>
+          </div>
+          <!-- Slot 3 -->
+          <div class="form-group" id="logo-slot-3">
+            <label>Logo 3 — Patrocinador</label>
+            <div class="upload-zone" onclick="triggerUpload('logo3')">
+              <div class="upload-icon">🤝</div>
+              <div class="upload-label">Clic para cargar</div>
+              <div class="upload-hint">Opcional</div>
+              <img id="logo3-preview" class="upload-preview" style="display:none">
+            </div>
+            <input type="file" id="logo3-input" accept="image/*" style="display:none" onchange="handleLogoUpload(this,'logo3')">
+            <button class="btn sm danger" onclick="clearLogo('logo3')" style="margin-top:6px">✕ Quitar</button>
+          </div>
+          <!-- Slot 4 -->
+          <div class="form-group" id="logo-slot-4" style="display:none">
+            <label>Logo 4 — Patrocinador</label>
+            <div class="upload-zone" onclick="triggerUpload('logo4')">
+              <div class="upload-icon">🤝</div>
+              <div class="upload-label">Clic para cargar</div>
+              <div class="upload-hint">Opcional</div>
+              <img id="logo4-preview" class="upload-preview" style="display:none">
+            </div>
+            <input type="file" id="logo4-input" accept="image/*" style="display:none" onchange="handleLogoUpload(this,'logo4')">
+            <button class="btn sm danger" onclick="clearLogo('logo4')" style="margin-top:6px">✕ Quitar</button>
+          </div>
+          <!-- Slot 5 -->
+          <div class="form-group" id="logo-slot-5" style="display:none">
+            <label>Logo 5 — Patrocinador</label>
+            <div class="upload-zone" onclick="triggerUpload('logo5')">
+              <div class="upload-icon">🤝</div>
+              <div class="upload-label">Clic para cargar</div>
+              <div class="upload-hint">Opcional</div>
+              <img id="logo5-preview" class="upload-preview" style="display:none">
+            </div>
+            <input type="file" id="logo5-input" accept="image/*" style="display:none" onchange="handleLogoUpload(this,'logo5')">
+            <button class="btn sm danger" onclick="clearLogo('logo5')" style="margin-top:6px">✕ Quitar</button>
+          </div>
+          <!-- Slot 6 -->
+          <div class="form-group" id="logo-slot-6" style="display:none">
+            <label>Logo 6 — Patrocinador</label>
+            <div class="upload-zone" onclick="triggerUpload('logo6')">
+              <div class="upload-icon">🤝</div>
+              <div class="upload-label">Clic para cargar</div>
+              <div class="upload-hint">Opcional</div>
+              <img id="logo6-preview" class="upload-preview" style="display:none">
+            </div>
+            <input type="file" id="logo6-input" accept="image/*" style="display:none" onchange="handleLogoUpload(this,'logo6')">
+            <button class="btn sm danger" onclick="clearLogo('logo6')" style="margin-top:6px">✕ Quitar</button>
+          </div>
+        </div>
+        <div class="form-group" style="margin-top:16px;padding-top:14px;border-top:1px solid var(--border)">
+          <label style="display:flex;justify-content:space-between;align-items:center">
+            <span>Tamaño del logo</span>
+            <span id="logo-size-val" style="font-weight:600;color:var(--accent)">80 px</span>
+          </label>
+          <input type="range" id="logo-size-slider" min="40" max="160" step="4" value="80"
+            style="width:100%;margin-top:6px;accent-color:var(--accent)"
+            oninput="STATE.logoSize=+this.value;document.getElementById('logo-size-val').textContent=this.value+' px';updatePreview()">
+          <div style="display:flex;justify-content:space-between;font-size:0.68rem;color:var(--text-3);margin-top:2px">
+            <span>Pequeño (40px)</span><span>Mediano (80px)</span><span>Grande (160px)</span>
+          </div>
+        </div>
+      </div>
+      <div class="card">
+        <div class="card-header">
+          <div>
+            <div class="card-title">Firmas</div>
+            <div class="card-sub" id="sig-count-label">1 firma activa</div>
+          </div>
+          <button class="btn outlined" onclick="addSignature()" id="btn-add-sig">+ Agregar firma</button>
+        </div>
+        <div id="sigs-container"></div>
+      </div>
+      <div class="btn-group">
+        <button class="btn" onclick="goStep(2)">← Anterior</button>
+        <button class="btn" onclick="goStep(4)">Siguiente →</button>
+      </div>
+    </div>
+
+    <!-- STEP 4: Participantes -->
+    <div class="step-panel" id="step-4">
+      <div class="step-header">
+        <h2>Participantes</h2>
+        <p>Agrega participantes manualmente o carga un archivo CSV.</p>
+      </div>
+      <div class="card">
+        <div class="card-header"><div class="card-title">Agregar Participante</div></div>
+        <div class="form-grid">
+          <div class="form-group span-2">
+            <label>Nombre Completo *</label>
+            <input type="text" id="p-nombre" placeholder="Ej: María Fernanda Rodríguez Gómez">
+          </div>
+          <div class="form-group">
+            <label>Correo Electrónico</label>
+            <input type="email" id="p-email" placeholder="correo@ejemplo.com">
+          </div>
+          <div class="form-group">
+            <label>Documento</label>
+            <input type="text" id="p-doc" placeholder="Cédula o pasaporte">
+          </div>
+          <div class="form-group">
+            <label>Rol específico (opcional)</label>
+            <input type="text" id="p-rol" placeholder="Ej: Ponente, Jurado...">
+          </div>
+          <div class="form-group">
+            <label>Código (opcional)</label>
+            <input type="text" id="p-codigo" placeholder="Ej: EST-001">
+          </div>
+        </div>
+        <div class="btn-group" style="margin-top:12px">
+          <button class="btn primary" onclick="addParticipant()">+ Agregar</button>
+        </div>
+      </div>
+      <div class="card">
+        <div class="card-header"><div class="card-title">Carga Masiva CSV</div></div>
+        <div style="background:rgba(200,169,81,0.08);border:1px solid rgba(200,169,81,0.25);border-radius:8px;padding:12px 14px;margin-bottom:14px;display:flex;align-items:flex-start;gap:12px">
+          <span style="font-size:1.2rem;flex-shrink:0">📄</span>
+          <div>
+            <div style="font-size:0.8rem;font-weight:600;color:var(--accent);margin-bottom:4px">Formato requerido del CSV</div>
+            <div style="font-size:0.78rem;color:var(--text-2);line-height:1.6">
+              Columnas: <code style="background:var(--surface-3);padding:1px 5px;border-radius:4px;font-size:0.72rem">nombre, email, documento, rol, codigo</code><br>
+              La primera fila debe ser el encabezado. Compatible con Excel, Google Sheets y cualquier editor de hojas de cálculo.<br>
+              <span style="color:var(--text-3)">Descarga la plantilla de ejemplo para ver el formato exacto esperado.</span>
+            </div>
+          </div>
+        </div>
+        <div class="upload-zone" onclick="document.getElementById('csv-input').click()" style="padding:16px">
+          <div class="upload-icon">📊</div>
+          <div class="upload-label">Clic para cargar archivo CSV</div>
+          <div class="upload-hint">También puedes arrastrar el archivo aquí</div>
+        </div>
+        <input type="file" id="csv-input" accept=".csv,.txt" style="display:none" onchange="handleCSV(this)">
+        <div class="btn-group" style="margin-top:8px">
+          <button class="btn sm outlined" onclick="downloadCSVTemplate()">⬇ Descargar plantilla CSV</button>
+        </div>
+      </div>
+      <div class="card">
+        <div class="card-header">
+          <div><div class="card-title">Lista de Participantes</div></div>
+          <div class="participant-count" id="participant-count">0 participantes</div>
+        </div>
+        <div class="participants-toolbar">
+          <button class="btn sm" onclick="selectAllParticipants()">Seleccionar todos</button>
+          <button class="btn sm danger" onclick="clearParticipants()">Limpiar lista</button>
+          <button class="btn sm" onclick="exportParticipantsCSV()">⬇ Exportar CSV</button>
+        </div>
+        <div class="table-wrapper">
+          <table>
+            <thead><tr>
+              <th style="width:36px"><input type="checkbox" id="check-all" onchange="toggleAllChecks(this)"></th>
+              <th>Nombre</th><th>Email</th><th>Documento</th><th>Rol</th><th>Acciones</th>
+            </tr></thead>
+            <tbody id="participants-tbody"></tbody>
+          </table>
+        </div>
+      </div>
+      <div class="btn-group">
+        <button class="btn" onclick="goStep(3)">← Anterior</button>
+        <button class="btn" onclick="goStep(5)">Siguiente →</button>
+      </div>
+    </div>
+
+    <!-- STEP 5: Texto -->
+    <div class="step-panel" id="step-5">
+      <div class="step-header">
+        <h2>Texto del Certificado</h2>
+        <p>Personaliza el texto base. Los marcadores {{placeholder}} se reemplazan automáticamente con los datos de cada participante.</p>
+      </div>
+      <div class="card">
+        <div class="card-header">
+          <div class="card-title">Modelo de texto</div>
+        </div>
+        <div class="form-grid-3" style="margin-bottom:16px">
+          <button class="btn outlined" onclick="loadTextModel('asistencia')">Asistencia</button>
+          <button class="btn outlined" onclick="loadTextModel('participacion')">Participación</button>
+          <button class="btn outlined" onclick="loadTextModel('aprobacion')">Aprobación</button>
+        </div>
+        <label>Texto del certificado</label>
+        <textarea id="cert-text-editor" oninput="updateState()" placeholder="Escribe o selecciona un modelo base arriba..."></textarea>
+        <div style="margin-top:6px;padding:8px 12px;background:var(--surface-3);border-radius:8px;font-size:0.72rem;color:var(--text-3);line-height:1.6">
+          💡 <b style="color:var(--text-2)">Enter simple</b> = nueva línea dentro del párrafo &nbsp;·&nbsp;
+          <b style="color:var(--text-2)">Enter doble</b> = nuevo párrafo con separación visual
+        </div>
+        <div style="margin-top:14px;padding-top:14px;border-top:1px solid var(--border)">
+          <label style="display:flex;justify-content:space-between;align-items:center">
+            <span>Tamaño del texto interno</span>
+            <span id="text-size-val" style="font-weight:600;color:var(--accent)">100%</span>
+          </label>
+          <input type="range" id="text-size-slider" min="70" max="150" step="5" value="100"
+            style="width:100%;margin-top:6px;accent-color:var(--accent)"
+            oninput="STATE.textSize=+this.value/100;document.getElementById('text-size-val').textContent=this.value+'%';updatePreview()">
+          <div style="display:flex;justify-content:space-between;font-size:0.68rem;color:var(--text-3);margin-top:2px">
+            <span>Pequeño (70%)</span><span>Normal (100%)</span><span>Grande (150%)</span>
+          </div>
+        </div>
+        <div style="margin-top:10px">
+          <div style="font-size:0.75rem;color:var(--text-2);margin-bottom:6px;font-weight:600">Insertar marcador:</div>
+          <div class="placeholder-chips" id="placeholder-chips"></div>
+        </div>
+      </div>
+      <div class="btn-group">
+        <button class="btn" onclick="goStep(4)">← Anterior</button>
+        <button class="btn primary" onclick="goStep(6)">Ver vista previa →</button>
+      </div>
+    </div>
+
+    <!-- STEP 6: Exportar -->
+    <div class="step-panel" id="step-6">
+      <div class="step-header">
+        <h2>Vista Previa y Exportación</h2>
+        <p>Exporta certificados en PDF, genera el ZIP masivo o envíalos directamente por correo desde tu Gmail.</p>
+      </div>
+      <div class="export-grid" style="margin-bottom:20px">
+        <div class="export-card">
+          <div class="export-icon">📄</div>
+          <div class="export-title">PDF Individual</div>
+          <div class="export-desc">Genera el certificado del participante visible en la vista previa</div>
+          <button class="btn primary" style="width:100%" onclick="exportSinglePDF()">Generar PDF</button>
+        </div>
+        <div class="export-card">
+          <div class="export-icon">📦</div>
+          <div class="export-title">Exportación Masiva ZIP</div>
+          <div class="export-desc">Genera un PDF por cada participante y los descarga en un archivo .zip</div>
+          <button class="btn success" style="width:100%" onclick="exportAllZIP()">Generar ZIP</button>
+        </div>
+      </div>
+      <!-- EMAIL MODULE -->
+      <div class="card" id="email-card">
+        <div class="card-header">
+          <div>
+            <div class="card-title">📧 Envío Masivo por Correo</div>
+            <div class="card-sub">Vía Google Apps Script · Sin cuentas externas · Usa tu Gmail</div>
+          </div>
+          <button class="btn outlined" onclick="scrollToGASSetup()" style="font-size:0.75rem">⚙ Configurar</button>
+        </div>
+
+        <!-- GAS connection status -->
+        <div class="gas-setup-box" id="gas-setup-box">
+          <div class="gas-title">🔗 Conexión con Google Apps Script</div>
+          <p>Esta función envía los certificados directamente desde tu Gmail usando un script gratuito de Google. Requiere <b>configuración inicial de 3 minutos</b> (solo una vez). Sin cuentas externas, sin costos.</p>
+          <div class="gas-url-row">
+            <input type="text" id="gas-url-input"
+              placeholder="https://script.google.com/macros/s/TU_ID/exec"
+              oninput="saveGASUrl(this.value)">
+            <button class="btn outlined" onclick="testGASConnection()">Probar conexión</button>
+            <button class="btn" onclick="openGASModal()">📖 Ver instrucciones</button>
+          </div>
+          <div class="gas-status idle" id="gas-status-box">
+            <span>●</span><span id="gas-status-text">Sin configurar — haz clic en "¿Cómo configurar?"</span>
+          </div>
+        </div>
+
+        <!-- Email composition -->
+        <div class="form-grid" style="margin-bottom:16px">
+          <div class="form-group span-2">
+            <label>Asunto del correo</label>
+            <input type="text" id="email-subject"
+              value="Tu certificado de participación — {{evento}}"
+              oninput="refreshEmailPreview()">
+            <div class="hint">Usa {{participante}}, {{evento}}, {{tipo_certificado}} como marcadores</div>
+          </div>
+          <div class="form-group span-2">
+            <label>Mensaje de introducción</label>
+            <textarea id="email-intro" rows="3" oninput="refreshEmailPreview()"
+              style="min-height:70px">Estimado/a {{participante}},
+
+Nos complace enviarte el certificado de {{tipo_certificado}} correspondiente a tu participación en {{evento}}.
+
+Puedes descargarlo e imprimirlo directamente desde este correo.</textarea>
+          </div>
+          <div class="form-group">
+            <label>Remitente visible (nombre)</label>
+            <input type="text" id="email-sender-name" placeholder="Ej: Universidad Nacional" oninput="refreshEmailPreview()">
+          </div>
+          <div class="form-group">
+            <label>Correo de respuesta (reply-to)</label>
+            <input type="email" id="email-reply-to" placeholder="secretaria@universidad.edu.co">
+          </div>
+        </div>
+
+        <!-- Email preview -->
+        <div class="email-preview-box">
+          <div class="email-preview-header">
+            <span>Vista previa del correo</span>
+            <button class="ptool-btn" onclick="refreshEmailPreview()">↻ Actualizar</button>
+          </div>
+          <iframe id="email-preview-frame" class="email-preview-frame" title="Vista previa del email"></iframe>
+        </div>
+
+        <!-- Recipient filter -->
+        <div class="card" style="margin-top:16px;background:var(--surface-2)">
+          <div class="card-header">
+            <div class="card-title" style="font-size:0.8rem">Destinatarios</div>
+          </div>
+          <div id="recipients-summary" style="font-size:0.82rem;color:var(--text-2);margin-bottom:10px">
+            Cargando resumen de destinatarios...
+          </div>
+          <div style="display:flex;gap:8px;flex-wrap:wrap">
+            <label style="display:flex;align-items:center;gap:6px;font-size:0.8rem;cursor:pointer;text-transform:none;font-weight:400">
+              <input type="radio" name="send-filter" value="all" checked onchange="updateRecipientsSummary()"> Todos los participantes
+            </label>
+            <label style="display:flex;align-items:center;gap:6px;font-size:0.8rem;cursor:pointer;text-transform:none;font-weight:400">
+              <input type="radio" name="send-filter" value="email-only" onchange="updateRecipientsSummary()"> Solo los que tienen email
+            </label>
+            <label style="display:flex;align-items:center;gap:6px;font-size:0.8rem;cursor:pointer;text-transform:none;font-weight:400">
+              <input type="radio" name="send-filter" value="selected" onchange="updateRecipientsSummary()"> Solo los seleccionados en la tabla
+            </label>
+          </div>
+        </div>
+
+        <!-- Send stats -->
+        <div class="send-progress-grid" id="send-stats" style="display:none">
+          <div class="send-stat"><div class="send-stat-num" id="stat-total">0</div><div class="send-stat-label">Total</div></div>
+          <div class="send-stat"><div class="send-stat-num green" id="stat-ok">0</div><div class="send-stat-label">Enviados ✓</div></div>
+          <div class="send-stat"><div class="send-stat-num red" id="stat-err">0</div><div class="send-stat-label">Errores ✗</div></div>
+        </div>
+
+        <!-- Send buttons -->
+        <div class="btn-group" style="margin-top:16px">
+          <button class="btn primary" onclick="sendCurrentEmail()" id="btn-send-one">
+            📧 Enviar al participante visible
+          </button>
+          <button class="btn success" onclick="sendAllEmails()" id="btn-send-all">
+            📨 Enviar a todos los destinatarios
+          </button>
+        </div>
+        <div style="font-size:0.72rem;color:var(--text-3);margin-top:8px;line-height:1.5">
+          Límite Gmail gratuito: 500 correos/día. Para eventos grandes, usa Google Workspace (1500/día).
+          Se envía un correo cada 600ms para respetar los límites de Gmail.
+        </div>
+      </div>
+
+      <!-- GAS SETUP MODAL -->
+      <div id="gas-script-modal" class="modal-overlay" onclick="if(event.target.id==='gas-script-modal')closeGASModal()"
+           style="z-index:950">
+        <div class="modal-box" style="max-width:620px">
+          <div class="modal-title">⚙ Configurar Google Apps Script</div>
+          <div class="modal-body" style="margin-bottom:14px">Configuración única de 3 minutos. Usa tu cuenta Google existente — sin costos ni cuentas nuevas.</div>
+
+          <div class="setup-step">
+            <div class="step-pill">1</div>
+            <div>Ve a <a href="https://script.google.com" target="_blank" rel="noopener"><b>script.google.com</b></a> e inicia sesión con tu cuenta Google. Haz clic en <b>Nuevo proyecto</b>.</div>
+          </div>
+          <div class="setup-step">
+            <div class="step-pill">2</div>
+            <div>Borra todo el código que aparece y <b>pega el siguiente script</b> completo:</div>
+          </div>
+
+          <div class="code-block" id="gas-code-block">function doPost(e) {
+  try {
+    var payload = JSON.parse(e.postData.contents);
+    var to      = payload.to;
+    // Subject viaja en base64 para preservar tildes, ñ y caracteres especiales
+    var subject = payload.subjectB64
+      ? decodeURIComponent(escape(Utilities.newBlob(Utilities.base64Decode(payload.subject)).getDataAsString()))
+      : payload.subject;
+    var html    = payload.htmlBody;
+    var replyTo = payload.replyTo || '';
+    var name    = payload.senderName || 'CertiFlow';
+
+    if (!to || !subject || !html) {
+      return resp({status:'error', msg:'Faltan campos requeridos'});
+    }
+
+    var opts = { htmlBody: html, name: name };
+    if (replyTo) opts.replyTo = replyTo;
+
+    GmailApp.sendEmail(to, subject, '', opts);
+    return resp({status:'ok', to: to});
+
+  } catch(err) {
+    return resp({status:'error', msg: err.toString()});
+  }
+}
+
+function doGet(e) {
+  return resp({status:'ok', msg:'CertiFlow GAS activo'});
+}
+
+function resp(obj) {
+  return ContentService
+    .createTextOutput(JSON.stringify(obj))
+    .setMimeType(ContentService.MimeType.JSON);
+}</div>
+
+          <div class="setup-step" style="margin-top:4px">
+            <div class="step-pill">3</div>
+            <div>Haz clic en <b>Implementar → Nueva implementación</b>. En "Tipo" selecciona <b>Aplicación web</b>. En "Ejecutar como" elige <b>Yo (tu email)</b>. En "Quién tiene acceso" elige <b>Cualquier usuario</b>. Haz clic en <b>Implementar</b>.</div>
+          </div>
+          <div class="setup-step">
+            <div class="step-pill">4</div>
+            <div>
+              Google mostrará la pantalla <b>"Autorizar acceso"</b>. Haz clic en <b>"Revisar permisos"</b> y selecciona tu cuenta Gmail.<br><br>
+              <div style="background:rgba(239,68,68,0.08);border:1px solid rgba(239,68,68,0.3);border-radius:8px;padding:12px;margin:8px 0;font-size:0.78rem;line-height:1.65">
+                <b style="color:#fca5a5">⚠ Pantalla "Google no ha verificado esta aplicación"</b><br>
+                <span style="color:var(--text-2)">Es <b style="color:var(--text-1)">completamente normal</b> para scripts personales. Google la muestra porque el script accede a Gmail, pero al ser <b style="color:var(--text-1)">tu propio script en tu propia cuenta</b>, es 100% seguro.<br><br>
+                Para continuar: haz clic en <b style="color:var(--text-1)">"Avanzado"</b> (enlace pequeño abajo a la izquierda) → luego en <b style="color:var(--text-1)">"Ir a [nombre de tu proyecto] (no seguro)"</b> → y finalmente en <b style="color:var(--text-1)">"Permitir"</b>.</span>
+              </div>
+            </div>
+          </div>
+          <div class="setup-step">
+            <div class="step-pill">5</div>
+            <div>Copia la <b>URL de la aplicación web</b> que aparece (empieza con <code style="background:var(--surface-3);padding:1px 5px;border-radius:3px">https://script.google.com/macros/s/</code>) y pégala en el campo de CertiFlow.</div>
+          </div>
+          <div class="setup-step">
+            <div class="step-pill">6</div>
+            <div>Haz clic en <b>"Probar conexión"</b> para verificar que todo funciona correctamente. Deberías ver el indicador en verde.</div>
+          </div>
+
+          <div style="background:rgba(16,185,129,0.07);border:1px solid rgba(16,185,129,0.25);border-radius:8px;padding:12px;margin-top:14px;font-size:0.78rem;color:var(--text-2);line-height:1.6;margin-bottom:10px">
+            <b style="color:#6ee7b7">📎 Adjunto PDF incluido:</b> El script incluye soporte para adjuntar el PDF del certificado a cada correo. El PDF se genera en el navegador y se envía codificado — no se almacena en ningún servidor externo.
+          </div>
+          <div style="background:rgba(245,158,11,0.08);border:1px solid rgba(245,158,11,0.25);border-radius:8px;padding:12px;font-size:0.78rem;color:var(--text-2);line-height:1.6">
+            <b style="color:var(--amber)">⚠ Privacidad:</b> El script vive en <b>tu</b> cuenta Google y envía desde <b>tu</b> Gmail. CertiFlow nunca ve ni guarda tus credenciales. La URL del script es el único dato necesario. Esta autorización es permanente — no necesitas repetirla.
+          </div>
+
+          <div class="modal-actions" style="margin-top:20px">
+            <button class="btn outlined" onclick="copyGASCode()">📋 Copiar código</button>
+            <a href="https://script.google.com" target="_blank" rel="noopener">
+              <button class="btn primary">Ir a script.google.com →</button>
+            </a>
+            <button class="btn" onclick="closeGASModal()">Cerrar</button>
+          </div>
+        </div>
+      </div>
+      <div class="btn-group">
+        <button class="btn" onclick="goStep(5)">← Anterior</button>
+      </div>
+    </div>
+
+
+    <!-- STEP 7: Manual y Créditos -->
+    <div class="step-panel" id="step-7">
+      <div class="step-header">
+        <h2>Manual de Usuario</h2>
+        <p>Guía completa de uso de CertiFlow Pro — Generador de certificados institucionales.</p>
+      </div>
+
+      <div class="manual-section">
+        <div class="manual-section-title">🚀 Primeros pasos</div>
+        <div class="manual-step">
+          <div class="manual-step-num">1</div>
+          <div class="manual-step-body">
+            <b>Configura el evento (Paso 1 — General)</b><br>
+            Ingresa el nombre de la institución, el tipo de certificado, el evento, fechas, ciudad y modalidad. Todos los datos que aparezcan aquí se autocompletarán en el certificado. Puedes usar el botón <b>📋 Datos de ejemplo</b> para ver cómo funciona.
+          </div>
+        </div>
+        <div class="manual-step">
+          <div class="manual-step-num">2</div>
+          <div class="manual-step-body">
+            <b>Elige tamaño y plantilla (Paso 2)</b><br>
+            Selecciona el formato de página (Carta horizontal es el más común para certificados) y una de las <b>11 plantillas visuales</b> disponibles. La plantilla <b>"Con Patrocinadores"</b> incluye una franja inferior donde se muestran los logos de aliados o patrocinadores. Puedes personalizar los colores principal y de acento para adaptar la plantilla a tu identidad institucional.
+          </div>
+        </div>
+        <div class="manual-step">
+          <div class="manual-step-num">3</div>
+          <div class="manual-step-body">
+            <b>Carga logos y configura firmas (Paso 3)</b><br>
+            Puedes cargar entre <b>1 y 6 logos</b> — usa los botones <b>+ Slot</b> y <b>− Slot</b> en la cabecera de la sección para agregar o quitar espacios de logo. El slider <b>"Tamaño del logo"</b> ajusta el tamaño en todos los logos a la vez. Para las firmas, puedes agregar tantas como necesites con el botón <b>+ Agregar firma</b>. Cada firma puede tener imagen escaneada, nombre, cargo y dependencia.
+          </div>
+        </div>
+        <div class="manual-tip">
+          <b>💡 Consejo:</b> Las imágenes de firma funcionan mejor con fondo blanco o transparente, escaneadas a 300 DPI y recortadas ajustadamente.
+        </div>
+      </div>
+
+      <div class="manual-section">
+        <div class="manual-section-title">👥 Gestión de participantes</div>
+        <div class="manual-step">
+          <div class="manual-step-num">4</div>
+          <div class="manual-step-body">
+            <b>Agregar participantes manualmente</b><br>
+            En el Paso 4, usa el formulario superior para agregar uno a uno. Solo el nombre es obligatorio; el email es necesario si deseas enviar certificados por correo.
+          </div>
+        </div>
+        <div class="manual-step">
+          <div class="manual-step-num">5</div>
+          <div class="manual-step-body">
+            <b>Carga masiva por CSV</b><br>
+            Descarga la <b>Plantilla CSV</b> incluida, ábrela en Excel o Google Sheets, completa los datos y guárdala como CSV. Luego arrástrala a la zona de carga o haz clic en ella. La app validará el archivo y mostrará cuántos registros se cargaron.
+          </div>
+        </div>
+        <div class="manual-tip">
+          <b>💡 Columnas del CSV:</b> <code style="background:var(--surface-3);padding:1px 5px;border-radius:4px;font-size:0.75rem">nombre, email, documento, rol, codigo</code><br>
+          Solo <b>nombre</b> es obligatorio. Los demás son opcionales.
+        </div>
+      </div>
+
+      <div class="manual-section">
+        <div class="manual-section-title">📝 Texto del certificado</div>
+        <div class="manual-step">
+          <div class="manual-step-num">6</div>
+          <div class="manual-step-body">
+            <b>Usar un modelo base (Paso 5)</b><br>
+            Selecciona uno de los 7 modelos de texto prediseñados (asistencia, participación, aprobación, ponencia, jurado, conferencista, tallerista). El texto se carga automáticamente y puede editarse libremente.
+          </div>
+        </div>
+        <div class="manual-step">
+          <div class="manual-step-num">7</div>
+          <div class="manual-step-body">
+            <b>Usar marcadores dinámicos</b><br>
+            Haz clic en cualquiera de los marcadores como <code style="background:var(--surface-3);padding:1px 4px;border-radius:3px;font-size:0.75rem">{{participante}}</code> para insertarlo en el cursor. Al generar el certificado, cada marcador se reemplaza automáticamente con los datos del participante correspondiente.
+          </div>
+        </div>
+        <div class="manual-step">
+          <div class="manual-step-num">8</div>
+          <div class="manual-step-body">
+            <b>Saltos de línea y párrafos en el texto</b><br>
+            <b>Enter simple</b> crea una nueva línea dentro del mismo párrafo (útil para listas o separaciones leves). <b>Enter doble</b> crea un párrafo nuevo con separación visual entre bloques de texto. Usa el slider <b>"Tamaño del texto interno"</b> (70%–150%) para escalar el cuerpo completo del certificado sin afectar los títulos ni el nombre del participante.
+          </div>
+        </div>
+        <div class="manual-warn">
+          <b>⚠ Importante:</b> No incluyas el nombre de la institución ni el nombre del participante en el texto del editor — las plantillas ya los muestran visualmente de forma destacada. El texto del editor es el cuerpo descriptivo del certificado.
+        </div>
+      </div>
+
+      <div class="manual-section">
+        <div class="manual-section-title">📄 Exportación de certificados</div>
+        <div class="manual-step">
+          <div class="manual-step-num">9</div>
+          <div class="manual-step-body">
+            <b>Vista previa en tiempo real</b><br>
+            El panel derecho muestra el certificado actualizado en tiempo real. Selecciona un participante del menú desplegable para ver su certificado personalizado. Usa los controles de zoom para acercar o alejar la vista.
+          </div>
+        </div>
+        <div class="manual-step">
+          <div class="manual-step-num">10</div>
+          <div class="manual-step-body">
+            <b>PDF individual</b><br>
+            En el Paso 6, haz clic en <b>Generar PDF</b> para descargar el certificado del participante actualmente visible. El archivo se nombra automáticamente: <code style="background:var(--surface-3);padding:1px 4px;border-radius:3px;font-size:0.75rem">Certificado_NombreParticipante.pdf</code>
+          </div>
+        </div>
+        <div class="manual-step">
+          <div class="manual-step-num">11</div>
+          <div class="manual-step-body">
+            <b>Exportación masiva en ZIP</b><br>
+            El botón <b>Generar ZIP</b> genera un PDF por cada participante de la lista y los empaqueta en un archivo <code style="background:var(--surface-3);padding:1px 4px;border-radius:3px;font-size:0.75rem">.zip</code> listo para descargar. Una barra de progreso muestra el avance en tiempo real. Para lotes grandes (100+ participantes) el proceso puede tardar varios minutos.
+          </div>
+        </div>
+        <div class="manual-tip">
+          <b>💡 Rendimiento:</b> Para lotes mayores a 50 participantes, se recomienda usar un computador de escritorio con buena conexión. La generación de PDFs es intensiva en procesamiento del navegador.
+        </div>
+      </div>
+
+      <div class="manual-section">
+        <div class="manual-section-title">📧 Envío por correo (Google Apps Script)</div>
+        <div class="manual-step">
+          <div class="manual-step-num">12</div>
+          <div class="manual-step-body">
+            <b>Configuración inicial (una sola vez)</b><br>
+            En el Paso 6, sección "Envío Masivo por Correo", haz clic en <b>⚙ Configurar</b>. Sigue los 5 pasos que aparecen: crea un script en <a href="https://script.google.com" target="_blank" style="color:var(--accent)">script.google.com</a>, pega el código, impleméntalo como aplicación web y pega la URL generada en CertiFlow. Esta configuración es permanente — no necesitas repetirla.
+          </div>
+        </div>
+        <div class="manual-step">
+          <div class="manual-step-num">13</div>
+          <div class="manual-step-body">
+            <b>Enviar certificados por correo</b><br>
+            Configura el asunto y mensaje del correo con marcadores dinámicos. Usa el filtro de destinatarios para enviar a todos, solo los que tienen email, o solo los seleccionados. Haz clic en <b>Enviar a todos</b> y confirma. Los correos se envían con una pausa de 600ms entre cada uno para respetar los límites de Gmail.
+          </div>
+        </div>
+        <div class="manual-warn">
+          <b>⚠ Límites de Gmail:</b> Cuenta gratuita: 500 correos/día. Google Workspace: 1500/día. Para eventos de más de 500 personas, distribuye el envío en dos días o usa múltiples cuentas de Google.
+        </div>
+      </div>
+
+      <div class="manual-section">
+        <div class="manual-section-title">💾 Guardado y persistencia</div>
+        <div class="manual-step">
+          <div class="manual-step-num">14</div>
+          <div class="manual-step-body">
+            <b>Guardar proyecto</b><br>
+            Haz clic en <b>💾 Guardar</b> en la barra superior para guardar todos los datos (configuración, participantes, texto, plantilla, logos y firmas) en el almacenamiento local del navegador. El proyecto se restaura automáticamente la próxima vez que abras la app en el mismo navegador.
+          </div>
+        </div>
+        <div class="manual-step">
+          <div class="manual-step-num">15</div>
+          <div class="manual-step-body">
+            <b>Limpiar proyecto</b><br>
+            El botón <b>🗑 Limpiar</b> elimina todos los datos y reinicia la aplicación. Se pedirá confirmación antes de proceder. Esta acción es irreversible.
+          </div>
+        </div>
+        <div class="manual-tip">
+          <b>💡 Nota:</b> Los datos se guardan en el navegador (<em>localStorage</em>). Si borras el caché del navegador o usas un dispositivo diferente, necesitarás reconfigurar el proyecto. Para respaldo permanente, exporta el ZIP y conserva el archivo CSV de participantes.
+        </div>
+      </div>
+
+      <div class="manual-section">
+        <div class="manual-section-title">⌨ Atajos y consejos rápidos</div>
+        <div class="shortcut-grid">
+          <div class="shortcut-item"><kbd>📋 Datos de ejemplo</kbd> <span>Cargar un evento de prueba completo</span></div>
+          <div class="shortcut-item"><kbd>👁 en tabla</kbd> <span>Ver certificado de ese participante</span></div>
+          <div class="shortcut-item"><kbd>↔ en preview</kbd> <span>Ajustar zoom automáticamente</span></div>
+          <div class="shortcut-item"><kbd>Chip de marcador</kbd> <span>Insertar {{placeholder}} en el texto</span></div>
+          <div class="shortcut-item"><kbd>Arrastrar CSV</kbd> <span>Cargar archivo de participantes</span></div>
+          <div class="shortcut-item"><kbd>❓ Tour</kbd> <span>Relanzar el tour guiado</span></div>
+        </div>
+      </div>
+
+      <!-- CREDITS -->
+      <div class="credits-card">
+        <div class="credits-logo">CertiFlow Pro</div>
+        <div class="credits-version">Versión 1.0 — 2025</div>
+        <div class="credits-divider"></div>
+        <div class="credits-author">
+          <strong>Desarrollado por PhD. José Alonso Andrade Salazar</strong>
+          Psicólogo · Desarrollador de herramientas digitales para la salud y la educación<br>
+          <a href="/cdn-cgi/l/email-protection#c5fcf4f4b5b6aca6aaa9aaa2aca485a2a8a4aca9eba6aaa8"><span class="__cf_email__" data-cfemail="6e575f5f1e1d070d01020109070f2e09030f0702400d0103">[email&#160;protected]</span></a>
+        </div>
+        <div class="credits-divider"></div>
+        <p style="font-size:0.75rem;color:var(--text-3);line-height:1.6;margin:0">
+          Aplicación web HTML5 de archivo único · Sin dependencias de servidor · Exportación PDF y ZIP en navegador<br>
+          Tecnologías: jsPDF · html2canvas · JSZip · PapaParse · Google Apps Script
+        </p>
+      </div>
+    </div>
+
+  </div><!-- /#content-area -->
+
+  <!-- PREVIEW PANEL -->
+  <div id="preview-panel">
+    <div id="preview-toolbar">
+      <span class="ptool-label">Vista Previa</span>
+      <button class="ptool-btn" onclick="adjustPreviewZoom(-0.1)">−</button>
+      <button class="ptool-btn" id="zoom-label">100%</button>
+      <button class="ptool-btn" onclick="adjustPreviewZoom(0.1)">+</button>
+      <button class="ptool-btn" onclick="fitPreview()">↔</button>
+    </div>
+    <div id="preview-participant-nav">
+      <select id="preview-participant-select" onchange="previewParticipant(this.value)">
+        <option value="">— Vista general —</option>
+      </select>
+    </div>
+    <div id="preview-viewport">
+      <div id="cert-preview-wrapper">
+        <div id="cert-preview" class="cert-shadow"></div>
+      </div>
+    </div>
+    <div id="preview-actions">
+      <div id="progress-bar-wrap">
+        <div class="progress-label">
+          <span id="progress-text">Generando...</span>
+          <span id="progress-pct">0%</span>
+        </div>
+        <div id="progress-track"><div id="progress-fill"></div></div>
+      </div>
+      <button class="btn primary" onclick="exportSinglePDF()" style="width:100%">📄 Exportar PDF</button>
+      <button class="btn success" onclick="exportAllZIP()" style="width:100%">📦 Generar ZIP</button>
+    </div>
+  </div>
+
+</div><!-- /#app-body -->
+
+<!-- Hidden full-size render area for PDF -->
+<div id="cert-render-area">
+  <div id="cert-render"></div>
+</div>
+
+
+
+<!-- ═══ PROJECT MANAGER MODAL ══════════════════════ -->
+<div id="proj-modal" class="modal-overlay" onclick="if(event.target.id==='proj-modal')closeProjModal()"
+     style="z-index:900">
+  <div class="modal-box" style="max-width:520px">
+    <div class="modal-title">📁 Mis Proyectos</div>
+    <div class="modal-body" style="margin-bottom:14px">Guarda y recupera proyectos con nombre. Cada proyecto almacena configuración, plantilla, participantes, texto y firmas.</div>
+
+    <div style="margin-bottom:16px">
+      <div style="font-size:0.75rem;font-weight:600;color:var(--text-2);letter-spacing:0.5px;text-transform:uppercase;margin-bottom:6px">Guardar proyecto actual como:</div>
+      <input type="text" id="proj-name-input" placeholder="Ej: Diplomado Marzo 2025 — Universidad Nacional">
+      <button class="btn primary" style="width:100%" onclick="saveNamedProject()">💾 Guardar proyecto</button>
+    </div>
+
+    <div style="font-size:0.75rem;font-weight:600;color:var(--text-2);letter-spacing:0.5px;text-transform:uppercase;margin-bottom:8px">Proyectos guardados:</div>
+    <div id="proj-list-container" style="max-height:320px;overflow-y:auto">
+      <div class="empty-proj-msg">No hay proyectos guardados aún</div>
+    </div>
+
+    <div class="modal-actions" style="margin-top:16px">
+      <button class="btn" onclick="closeProjModal()">Cerrar</button>
+    </div>
+  </div>
+</div>
+
+<!-- ═══ GUIDED TOUR OVERLAY ═══════════════════════ -->
+<div id="tour-overlay">
+  <div id="tour-spotlight"></div>
+  <div id="tour-card">
+    <div class="tour-step-label" id="tour-step-label">Paso 1 de 9</div>
+    <div class="tour-title" id="tour-title">Bienvenido a CertiFlow Pro</div>
+    <div class="tour-body" id="tour-body">Descripción del paso actual</div>
+    <div class="tour-footer">
+      <div class="tour-dots" id="tour-dots"></div>
+      <button id="tour-skip-btn" onclick="endTour()">Omitir tour</button>
+      <button class="tour-nav-btn" id="tour-prev-btn" onclick="tourPrev()">← Anterior</button>
+      <button class="tour-nav-btn primary" id="tour-next-btn" onclick="tourNext()">Siguiente →</button>
+    </div>
+  </div>
+</div>
+
+<!-- Toast container -->
+<div id="toast-container"></div>
+
+<!-- Modal -->
+<div id="modal-overlay">
+  <div class="modal-box">
+    <div class="modal-title" id="modal-title">Confirmar</div>
+    <div class="modal-body" id="modal-body">¿Estás seguro?</div>
+    <div class="modal-actions" id="modal-actions"></div>
+  </div>
+</div>
+
+<script data-cfasync="false" src="/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script><script>
+/* ═══════════════════════════════════════════════
+   CERTIFLOW — MAIN APPLICATION
+═══════════════════════════════════════════════ */
+
+// ── PAGE SIZES ────────────────────────────────
+const PAGE_SIZES = {
+  'carta-h':  { w: 1100, h: 849,  label: 'Carta', dim: '27.9 × 21.6 cm', orient: 'Horizontal', jsfmt: 'letter', jsort: 'l' },
+  'carta-v':  { w: 850,  h: 1100, label: 'Carta', dim: '21.6 × 27.9 cm', orient: 'Vertical',   jsfmt: 'letter', jsort: 'p' },
+  'a4-h':     { w: 1123, h: 794,  label: 'A4',    dim: '29.7 × 21.0 cm', orient: 'Horizontal', jsfmt: 'a4',     jsort: 'l' },
+  'a4-v':     { w: 794,  h: 1123, label: 'A4',    dim: '21.0 × 29.7 cm', orient: 'Vertical',   jsfmt: 'a4',     jsort: 'p' },
+  'oficio-h': { w: 1350, h: 849,  label: 'Oficio','dim': '35.6 × 21.6 cm', orient: 'Horizontal',jsfmt: 'legal',  jsort: 'l' },
+  'oficio-v': { w: 850,  h: 1350, label: 'Oficio','dim': '21.6 × 35.6 cm', orient: 'Vertical',  jsfmt: 'legal',  jsort: 'p' },
+};
+
+// ── PALETTES ──────────────────────────────────
+const PALETTE_PRIMARY = ['#1a3a6c','#6b1a2e','#1a5c3a','#0f2040','#2c1a0e','#1a2c4e','#1e3a5f','#4a1a4a','#1a3a3a','#2d2d2d'];
+const PALETTE_ACCENT  = ['#c8a951','#e8b84b','#8ba5c8','#7ab08a','#c88a51','#e8c96b','#a8c8a8','#d4a4a4','#a8b8c8','#d4c4a4'];
+
+// ── TEMPLATES ─────────────────────────────────
+const TEMPLATES = [
+  {
+    id: 't1', name: 'Institucional Clásica',
+    desc: 'Encabezado en azul institucional con franja y fondo blanco',
+    badge: 'Asistencia · Aprobación', badgeColor: '#3b82f6',
+    defaults: { primary: '#1a3a6c', accent: '#c8a951' },
+    thumb: (p,a) => `background:linear-gradient(180deg,${p} 30%,#fff 30%);`,
+    render: renderT1
+  },
+  {
+    id: 't2', name: 'Institucional Verde',
+    desc: 'Franja superior en verde profundo, sobria y confiable',
+    badge: 'Cursos · Formación', badgeColor: '#10b981',
+    defaults: { primary: '#1a5c3a', accent: '#c8a951' },
+    thumb: (p,a) => `background:linear-gradient(180deg,${p} 30%,#f8fff8 30%);`,
+    render: renderT2
+  },
+  {
+    id: 't3', name: 'Académica Protocolaria',
+    desc: 'Marco doble ceremonial para actos académicos formales',
+    badge: 'Jurados · Congresos', badgeColor: '#ef4444',
+    defaults: { primary: '#6b1a2e', accent: '#c8a951' },
+    thumb: (p,a) => `background:#fdf8f2;border:3px solid ${p};`,
+    render: renderT3
+  },
+  {
+    id: 't4', name: 'Académica Azul Noche',
+    desc: 'Fondo oscuro con encabezado luminoso y detalles dorados',
+    badge: 'Ponencias · Evaluadores', badgeColor: '#6366f1',
+    defaults: { primary: '#0f2040', accent: '#e8b84b' },
+    thumb: (p,a) => `background:${p};`,
+    render: renderT4
+  },
+  {
+    id: 't5', name: 'Diploma de Honor',
+    desc: 'Fondo crema con marcos dorados y tipografía ceremonial',
+    badge: 'Distinciones · Honor', badgeColor: '#f59e0b',
+    defaults: { primary: '#2c1a0e', accent: '#c8a951' },
+    thumb: (p,a) => `background:#fdf5e0;border:2px solid ${a};`,
+    render: renderT5
+  },
+  {
+    id: 't6', name: 'Diploma Verde Noche',
+    desc: 'Fondo verde oscuro con texto dorado para reconocimientos',
+    badge: 'Reconocimientos', badgeColor: '#10b981',
+    defaults: { primary: '#0f2818', accent: '#7ab08a' },
+    thumb: (p,a) => `background:${p};`,
+    render: renderT6
+  },
+  {
+    id: 't7', name: 'Minimalista Moderna',
+    desc: 'Diseño limpio con línea de acento. Máximo espacio en blanco',
+    badge: 'Webinars · Online', badgeColor: '#94a3b8',
+    defaults: { primary: '#2d3748', accent: '#4299e1' },
+    thumb: (p,a) => `background:#fff;border-top:6px solid ${a};`,
+    render: renderT7
+  },
+  {
+    id: 't8', name: 'Minimalista Oscura',
+    desc: 'Dark mode elegante con tipografía blanca sobre carbón',
+    badge: 'Digital · Moderno', badgeColor: '#64748b',
+    defaults: { primary: '#1a1a2e', accent: '#e94560' },
+    thumb: (p,a) => `background:${p};border-left:4px solid ${a};`,
+    render: renderT8
+  },
+  {
+    id: 't9', name: 'Congreso Premium',
+    desc: 'Composición central poderosa para seminarios y simposios',
+    badge: 'Congresos · Simposios', badgeColor: '#f59e0b',
+    defaults: { primary: '#1a2c4e', accent: '#e8b84b' },
+    thumb: (p,a) => `background:${p};border-bottom:4px solid ${a};`,
+    render: renderT9
+  },
+  {
+    id: 't10', name: 'Corporativa Empresarial',
+    desc: 'Estilo ejecutivo con barra lateral y diseño funcional',
+    badge: 'Empresas · Capacitación', badgeColor: '#3b82f6',
+    defaults: { primary: '#1e3a5f', accent: '#2ecc71' },
+    thumb: (p,a) => `background:#f8fafc;border-left:8px solid ${p};`,
+    render: renderT10
+  },
+  {
+    id: 't11', name: 'Con Patrocinadores',
+    desc: 'Logos de patrocinadores en franja inferior, ideal para congresos',
+    badge: 'Congresos · Patrocinios', badgeColor: '#f59e0b',
+    defaults: { primary: '#1a3a6c', accent: '#c8a951' },
+    thumb: (p,a) => `background:linear-gradient(180deg,${p} 25%,#fff 25%,#fff 80%,${a}22 80%);`,
+    render: renderT11
+  },
+];
+
+// ── TEXT MODELS ───────────────────────────────
+const TEXT_MODELS = {
+  asistencia: `Asistió al {{evento}}, realizado en {{ciudad}}, {{pais}}, el/los día(s) {{fecha_evento}}, en modalidad {{modalidad}}, con una intensidad de {{horas}} horas.\n\nEn constancia, se expide el presente certificado en {{ciudad}}, a los {{fecha_expedicion}}.`,
+  participacion: `Por su valiosa participación en {{evento}}, desarrollado en {{ciudad}}, {{pais}}, el/los día(s) {{fecha_evento}}, en modalidad {{modalidad}}, con una intensidad de {{horas}} horas.\n\nEste reconocimiento se expide en mérito a su disposición, interés y compromiso con los procesos de formación y diálogo académico promovidos por este espacio.\n\nDado en {{ciudad}}, a los {{fecha_expedicion}}.`,
+  aprobacion: `Aprobó satisfactoriamente el {{evento}}, realizado en modalidad {{modalidad}}, durante el periodo {{fecha_evento}}, con una intensidad total de {{horas}} horas.\n\nEl presente certificado se expide en reconocimiento al cumplimiento de los requisitos académicos y formativos establecidos para dicha actividad.\n\nFirmado en {{ciudad}}, a los {{fecha_expedicion}}.`,
+  ponencia: `Presentó la ponencia «{{subtitulo_evento}}» en el marco del {{evento}}, realizado en {{ciudad}}, {{pais}}, el/los día(s) {{fecha_evento}}, en modalidad {{modalidad}}.\n\nSe expide el presente certificado en reconocimiento a su contribución académica y científica.\n\nDado en {{ciudad}}, a los {{fecha_expedicion}}.`,
+  jurado: `Participó como Jurado Evaluador en el {{evento}}, realizado en {{ciudad}}, {{pais}}, el/los día(s) {{fecha_evento}}, en modalidad {{modalidad}}.\n\nSu labor evaluativa contribuyó al rigor académico y a la calidad del proceso de selección.\n\nDado en {{ciudad}}, a los {{fecha_expedicion}}.`,
+  conferencista: `Participó como Conferencista en el {{evento}}, realizado en {{ciudad}}, {{pais}}, el/los día(s) {{fecha_evento}}, en modalidad {{modalidad}}, con una intensidad de {{horas}} horas.\n\nSu aporte fue fundamental para el enriquecimiento académico y profesional del espacio.\n\nDado en {{ciudad}}, a los {{fecha_expedicion}}.`,
+  tallerista: `Lideró el taller «{{subtitulo_evento}}» en el marco del {{evento}}, celebrado en {{ciudad}}, {{pais}}, el/los día(s) {{fecha_evento}}, en modalidad {{modalidad}}, con una intensidad de {{horas}} horas.\n\nSe reconoce su dedicación y aporte a los procesos de formación práctica.\n\nDado en {{ciudad}}, a los {{fecha_expedicion}}.`,
+};
+
+const PLACEHOLDERS = ['{{participante}}','{{institucion}}','{{evento}}','{{subtitulo_evento}}','{{tipo_certificado}}','{{ciudad}}','{{pais}}','{{fecha_evento}}','{{fecha_expedicion}}','{{modalidad}}','{{horas}}','{{rol}}','{{codigo}}','{{documento}}','{{email}}'];
+
+// ── APP STATE ─────────────────────────────────
+let STATE = {
+  currentStep: 1,
+  pageSize: 'carta-h',
+  templateId: 't1',
+  colorPrimary: '#1a3a6c',
+  colorAccent: '#c8a951',
+  config: {
+    institucion: '', proyecto: '', codigo: '', evento: '', subtitulo: '',
+    tipo: 'asistencia', modalidad: 'presencial', horas: '', ciudad: '',
+    pais: '', fechaEvento: '', fechaExp: '', textoComp: ''
+  },
+  logos: { logo1: null, logo2: null, logo3: null, logo4: null, logo5: null, logo6: null },
+  logoCount: 3,
+  logoSize: 80,
+  textSize: 1.0,
+  signatures: [
+    { active: true, img: null, nombre: '', cargo: '', dependencia: '' },
+  ],
+  participants: [],
+  certText: '',
+  previewZoom: 1,
+  currentPreviewIdx: 0,
+};
+
+// ── INIT ──────────────────────────────────────
+window.addEventListener('DOMContentLoaded', () => {
+  buildSizeGrid();
+  buildTemplateGrid();
+  buildPalettes();
+  buildSignatureForms();
+  buildPlaceholderChips();
+  loadTextModel('participacion');
+  renderParticipantsTable();
+  updatePreview();
+  loadFromStorage();
+  setupInstallPWA();
+  setupCSVDragDrop();
+  // Restore GAS URL from storage
+  GAS_URL = localStorage.getItem('certiflow_gas_url') || '';
+});
+
+// ── NAVIGATION ────────────────────────────────
+function goStep(n) {
+  STATE.currentStep = n;
+  document.querySelectorAll('.step-panel').forEach(p => p.classList.remove('active'));
+  document.getElementById(`step-${n}`).classList.add('active');
+  // Sync sidebar nav
+  document.querySelectorAll('.nav-item').forEach(i => {
+    i.classList.remove('active');
+    if (parseInt(i.dataset.step) === n) i.classList.add('active');
+  });
+  // Sync mobile bottom nav
+  document.querySelectorAll('.mob-nav-item').forEach(i => {
+    i.classList.remove('active');
+    if (parseInt(i.dataset.step) === n) i.classList.add('active');
+  });
+  // Scroll to top on mobile
+  const ca = document.getElementById('content-area');
+  if (ca) ca.scrollTop = 0;
+  updatePreview();
+  if (n === 6) setTimeout(initEmailModule, 80);
+}
+
+// ── STATE SYNC ────────────────────────────────
+function updateState() {
+  STATE.config.institucion  = v('f-institucion');
+  STATE.config.proyecto     = v('f-proyecto');
+  STATE.config.codigo       = v('f-codigo');
+  STATE.config.evento       = v('f-evento');
+  STATE.config.subtitulo    = v('f-subtitulo');
+  STATE.config.tipo         = v('f-tipo');
+  STATE.config.modalidad    = v('f-modalidad');
+  STATE.config.horas        = v('f-horas');
+  STATE.config.ciudad       = v('f-ciudad');
+  STATE.config.pais         = v('f-pais');
+  STATE.config.fechaEvento  = v('f-fecha-evento');
+  STATE.config.fechaExp     = formatDate(v('f-fecha-exp'));
+  STATE.config.textoComp    = v('f-texto-comp');
+  STATE.certText            = v('cert-text-editor');
+  STATE.colorPrimary        = document.getElementById('color-primary').value;
+  STATE.colorAccent         = document.getElementById('color-accent').value;
+  updatePreview();
+}
+
+function v(id) { const el = document.getElementById(id); return el ? el.value : ''; }
+function formatDate(d) {
+  if (!d) return '';
+  const [y, m, mo] = d.split('-');
+  const months = ['enero','febrero','marzo','abril','mayo','junio','julio','agosto','septiembre','octubre','noviembre','diciembre'];
+  return `${parseInt(mo)} días del mes de ${months[parseInt(m)-1]} de ${y}`;
+}
+
+// ── BUILD UI ──────────────────────────────────
+function buildSizeGrid() {
+  const grid = document.getElementById('size-grid');
+  grid.innerHTML = '';
+  Object.entries(PAGE_SIZES).forEach(([key, ps]) => {
+    const isH = ps.orient === 'Horizontal';
+    const w = isH ? 40 : 28, h = isH ? 28 : 40;
+    const el = document.createElement('div');
+    el.className = 'size-option' + (key === STATE.pageSize ? ' selected' : '');
+    el.onclick = () => { STATE.pageSize = key; buildSizeGrid(); fitPreview(); updatePreview(); };
+    el.innerHTML = `<div class="size-icon" style="width:${w}px;height:${h}px;color:var(--text-2)"></div>
+      <div class="size-label">${ps.label}</div>
+      <div class="size-dim">${ps.dim}</div>
+      <div class="size-dim">${ps.orient}</div>`;
+    grid.appendChild(el);
+  });
+}
+
+function buildTemplateGrid() {
+  const grid = document.getElementById('template-grid');
+  grid.innerHTML = '';
+  TEMPLATES.forEach(tmpl => {
+    const el = document.createElement('div');
+    el.className = 'tmpl-card' + (tmpl.id === STATE.templateId ? ' selected' : '');
+    el.onclick = () => {
+      STATE.templateId = tmpl.id;
+      document.getElementById('color-primary').value = tmpl.defaults.primary;
+      document.getElementById('color-accent').value = tmpl.defaults.accent;
+      STATE.colorPrimary = tmpl.defaults.primary;
+      STATE.colorAccent = tmpl.defaults.accent;
+      buildTemplateGrid();
+      updatePreview();
+    };
+    const thumbStyle = tmpl.thumb(tmpl.defaults.primary, tmpl.defaults.accent);
+    el.innerHTML = `<div class="tmpl-thumb" style="${thumbStyle}">
+        <div style="text-align:center;color:#888;font-size:0.55rem;padding:4px">${tmpl.name}</div>
+      </div>
+      <div class="tmpl-info">
+        <div class="tmpl-name">${tmpl.name}</div>
+        <div class="tmpl-desc">${tmpl.desc}</div>
+        <span class="tmpl-badge" style="background:${tmpl.badgeColor}22;color:${tmpl.badgeColor}">${tmpl.badge}</span>
+      </div>`;
+    grid.appendChild(el);
+  });
+}
+
+function buildPalettes() {
+  const pp = document.getElementById('palette-primary');
+  pp.innerHTML = PALETTE_PRIMARY.map(c =>
+    `<div class="palette-dot" style="background:${c}" title="${c}"
+      onclick="document.getElementById('color-primary').value='${c}';STATE.colorPrimary='${c}';updatePreview()"></div>`
+  ).join('');
+  const pa = document.getElementById('palette-accent');
+  pa.innerHTML = PALETTE_ACCENT.map(c =>
+    `<div class="palette-dot" style="background:${c}" title="${c}"
+      onclick="document.getElementById('color-accent').value='${c}';STATE.colorAccent='${c}';updatePreview()"></div>`
+  ).join('');
+}
+
+function buildSignatureForms() {
+  const cont = document.getElementById('sigs-container');
+  cont.innerHTML = '';
+  STATE.signatures.forEach((sig, i) => {
+    const div = document.createElement('div');
+    div.className = 'sig-card';
+    div.style.marginBottom = '14px';
+    div.innerHTML = `
+      <div class="sig-header">
+        <div style="display:flex;align-items:center;gap:10px">
+          <div class="sig-title">Firma ${i+1}</div>
+          ${STATE.signatures.length > 1 ? `<button class="btn sm danger" onclick="removeSignature(${i})" title="Eliminar firma ${i+1}" style="padding:3px 8px;font-size:0.7rem">✕</button>` : ''}
+        </div>
+        <label class="toggle-switch">
+          <input type="checkbox" ${sig.active?'checked':''} onchange="toggleSig(${i},this.checked)">
+          <div class="toggle-track"></div>
+        </label>
+      </div>
+      <div id="sig-fields-${i}" style="${sig.active?'':'opacity:0.4;pointer-events:none'}">
+        <div class="form-grid" style="margin-bottom:10px">
+          <div class="form-group">
+            <label>Nombre</label>
+            <input type="text" value="${sig.nombre}" placeholder="Dr. Juan Pérez" oninput="STATE.signatures[${i}].nombre=this.value;updatePreview()">
+          </div>
+          <div class="form-group">
+            <label>Cargo</label>
+            <input type="text" value="${sig.cargo}" placeholder="Director Académico" oninput="STATE.signatures[${i}].cargo=this.value;updatePreview()">
+          </div>
+          <div class="form-group span-2">
+            <label>Dependencia (opcional)</label>
+            <input type="text" value="${sig.dependencia}" placeholder="Facultad de Educación" oninput="STATE.signatures[${i}].dependencia=this.value;updatePreview()">
+          </div>
+        </div>
+        <div class="upload-zone" style="padding:12px" onclick="triggerUpload('sig${i}')">
+          <div class="upload-icon" style="font-size:1.2rem">✍️</div>
+          <div class="upload-label" style="font-size:0.75rem">Cargar imagen de firma</div>
+          ${sig.img ? `<img src="${sig.img}" style="max-height:60px;margin-top:6px;object-fit:contain">` : ''}
+        </div>
+        <input type="file" id="sig${i}-input" accept="image/*" style="display:none" onchange="handleSigUpload(this,${i})">
+        ${sig.img ? `<button class="btn sm danger" onclick="STATE.signatures[${i}].img=null;buildSignatureForms();updatePreview()" style="margin-top:6px">✕ Quitar imagen</button>` : ''}
+      </div>`;
+    cont.appendChild(div);
+  });
+  // Update counter label
+  const label = document.getElementById('sig-count-label');
+  if (label) {
+    const active = STATE.signatures.filter(s=>s.active).length;
+    label.textContent = `${STATE.signatures.length} firma${STATE.signatures.length!==1?'s':''} · ${active} activa${active!==1?'s':''}`;
+  }
+}
+
+function addSignature() {
+  STATE.signatures.push({ active: true, img: null, nombre: '', cargo: '', dependencia: '' });
+  buildSignatureForms();
+  updatePreview();
+  // Scroll to new signature
+  const cont = document.getElementById('sigs-container');
+  if (cont) cont.lastElementChild.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+}
+
+function removeSignature(i) {
+  if (STATE.signatures.length <= 1) { showToast('Debe haber al menos una firma', 'warn'); return; }
+  STATE.signatures.splice(i, 1);
+  buildSignatureForms();
+  updatePreview();
+}
+
+function toggleSig(i, val) {
+  STATE.signatures[i].active = val;
+  const fields = document.getElementById(`sig-fields-${i}`);
+  if (fields) { fields.style.opacity = val ? '1' : '0.4'; fields.style.pointerEvents = val ? '' : 'none'; }
+  updatePreview();
+}
+
+function buildPlaceholderChips() {
+  document.getElementById('placeholder-chips').innerHTML = PLACEHOLDERS.map(p =>
+    `<span class="chip" onclick="insertPlaceholder('${p}')" title="Insertar">${p}</span>`
+  ).join('');
+}
+
+function insertPlaceholder(ph) {
+  const ta = document.getElementById('cert-text-editor');
+  const start = ta.selectionStart, end = ta.selectionEnd;
+  ta.value = ta.value.substring(0, start) + ph + ta.value.substring(end);
+  ta.selectionStart = ta.selectionEnd = start + ph.length;
+  ta.focus();
+  STATE.certText = ta.value;
+  updatePreview();
+}
+
+// ── LOGO / SIGNATURE UPLOAD ───────────────────
+function triggerUpload(id) { document.getElementById(id + '-input').click(); }
+
+function handleLogoUpload(input, key) {
+  const file = input.files[0];
+  if (!file) return;
+  if (file.size > 3*1024*1024) { showToast('Imagen demasiado grande (máx 3MB)', 'error'); return; }
+  const reader = new FileReader();
+  reader.onload = e => {
+    STATE.logos[key] = e.target.result;
+    const prev = document.getElementById(`${key}-preview`);
+    if (prev) { prev.src = e.target.result; prev.style.display = 'block'; }
+    updatePreview();
+  };
+  reader.readAsDataURL(file);
+}
+
+function clearLogo(key) {
+  STATE.logos[key] = null;
+  const prev = document.getElementById(`${key}-preview`);
+  if (prev) { prev.src = ''; prev.style.display = 'none'; }
+  updatePreview();
+}
+
+function changeLogoCount(delta) {
+  const newCount = Math.min(6, Math.max(1, (STATE.logoCount || 3) + delta));
+  STATE.logoCount = newCount;
+  for (let i = 1; i <= 6; i++) {
+    const slot = document.getElementById(`logo-slot-${i}`);
+    if (slot) slot.style.display = i <= newCount ? '' : 'none';
+  }
+  updateLogoCountBtns();
+  updatePreview();
+}
+
+function updateLogoCountBtns() {
+  const n = STATE.logoCount || 3;
+  const label = document.getElementById('logo-count-label');
+  const btnLess = document.getElementById('btn-less-logo');
+  const btnMore = document.getElementById('btn-more-logo');
+  if (label) label.textContent = n + (n === 1 ? ' logo' : ' logos');
+  if (btnLess) btnLess.disabled = n <= 1;
+  if (btnMore) btnMore.disabled = n >= 6;
+}
+
+function handleSigUpload(input, i) {
+  const file = input.files[0];
+  if (!file) return;
+  const reader = new FileReader();
+  reader.onload = e => {
+    STATE.signatures[i].img = e.target.result;
+    buildSignatureForms();
+    updatePreview();
+  };
+  reader.readAsDataURL(file);
+}
+
+// ── PARTICIPANTS ──────────────────────────────
+function addParticipant() {
+  const nombre = v('p-nombre').trim();
+  if (!nombre) { showToast('El nombre es obligatorio', 'warn'); return; }
+  STATE.participants.push({
+    nombre, email: v('p-email'), doc: v('p-doc'),
+    rol: v('p-rol'), codigo: v('p-codigo')
+  });
+  ['p-nombre','p-email','p-doc','p-rol','p-codigo'].forEach(id => { const el=document.getElementById(id); if(el) el.value=''; });
+  renderParticipantsTable();
+  updateParticipantSelect();
+  showToast(`Participante "${nombre}" agregado`, 'success');
+}
+
+let editingParticipantIdx = -1;
+
+function renderParticipantsTable() {
+  const tbody = document.getElementById('participants-tbody');
+  const count = document.getElementById('participant-count');
+  if (!tbody) return;
+  tbody.innerHTML = '';
+  count.textContent = `${STATE.participants.length} participante${STATE.participants.length!==1?'s':''}`;
+  STATE.participants.forEach((p, i) => {
+    const tr = document.createElement('tr');
+    if (i === STATE.currentPreviewIdx) tr.classList.add('selected-row');
+    if (i === editingParticipantIdx) {
+      // ── EDIT MODE ROW ──
+      tr.style.background = 'rgba(200,169,81,0.06)';
+      tr.innerHTML = `
+        <td><input type="checkbox" class="row-check" data-i="${i}"></td>
+        <td><input type="text"  class="inline-edit-input" id="ie-nombre-${i}" value="${esc(p.nombre)}" placeholder="Nombre completo" style="min-width:160px"></td>
+        <td><input type="email" class="inline-edit-input" id="ie-email-${i}"  value="${esc(p.email||'')}"  placeholder="correo@ejemplo.com" style="min-width:130px"></td>
+        <td><input type="text"  class="inline-edit-input" id="ie-doc-${i}"    value="${esc(p.doc||'')}"   placeholder="Documento" style="min-width:90px"></td>
+        <td><input type="text"  class="inline-edit-input" id="ie-rol-${i}"    value="${esc(p.rol||'')}"   placeholder="Rol" style="min-width:90px"></td>
+        <td style="white-space:nowrap">
+          <button class="btn sm success" title="Guardar" onclick="saveParticipantEdit(${i})">✓</button>
+          <button class="btn sm outlined" title="Cancelar" onclick="cancelParticipantEdit()">✕</button>
+        </td>`;
+    } else {
+      // ── VIEW MODE ROW ──
+      tr.innerHTML = `
+        <td><input type="checkbox" class="row-check" data-i="${i}"></td>
+        <td><strong>${esc(p.nombre)}</strong></td>
+        <td style="color:var(--text-2)">${esc(p.email||'—')}</td>
+        <td style="color:var(--text-2)">${esc(p.doc||'—')}</td>
+        <td>${p.rol ? `<span class="tag blue">${esc(p.rol)}</span>` : '—'}</td>
+        <td style="white-space:nowrap">
+          <button class="btn sm" title="Vista previa" onclick="previewIdx(${i})">👁</button>
+          <button class="btn sm outlined" title="Editar" onclick="startParticipantEdit(${i})" style="color:var(--accent);border-color:var(--accent)">✏</button>
+          <button class="btn sm danger" title="Eliminar" onclick="removeParticipant(${i})">✕</button>
+        </td>`;
+    }
+    tbody.appendChild(tr);
+  });
+  // Focus first field if in edit mode
+  if (editingParticipantIdx >= 0) {
+    const inp = document.getElementById(`ie-nombre-${editingParticipantIdx}`);
+    if (inp) inp.focus();
+  }
+}
+
+function esc(s) {
+  return String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');
+}
+
+function startParticipantEdit(i) {
+  editingParticipantIdx = i;
+  renderParticipantsTable();
+}
+
+function cancelParticipantEdit() {
+  editingParticipantIdx = -1;
+  renderParticipantsTable();
+}
+
+function saveParticipantEdit(i) {
+  const get = id => { const el = document.getElementById(id); return el ? el.value.trim() : ''; };
+  const nombre = get(`ie-nombre-${i}`);
+  if (!nombre) { showToast('El nombre no puede estar vacío', 'warn'); return; }
+  STATE.participants[i] = {
+    nombre,
+    email: get(`ie-email-${i}`),
+    doc:   get(`ie-doc-${i}`),
+    rol:   get(`ie-rol-${i}`),
+    codigo: STATE.participants[i].codigo || '',
+  };
+  editingParticipantIdx = -1;
+  renderParticipantsTable();
+  updateParticipantSelect();
+  if (STATE.currentPreviewIdx === i) updatePreview();
+  showToast(`Participante actualizado`, 'success');
+}
+
+// Keyboard: Enter = save, Escape = cancel while editing a participant row
+document.addEventListener('keydown', e => {
+  if (editingParticipantIdx < 0) return;
+  if (e.key === 'Enter')  { e.preventDefault(); saveParticipantEdit(editingParticipantIdx); }
+  if (e.key === 'Escape') { e.preventDefault(); cancelParticipantEdit(); }
+});
+
+function previewIdx(i) {
+  STATE.currentPreviewIdx = i;
+  const sel = document.getElementById('preview-participant-select');
+  if (sel) sel.value = i;
+  updatePreview();
+  renderParticipantsTable();
+}
+
+function previewParticipant(val) {
+  STATE.currentPreviewIdx = val === '' ? 0 : parseInt(val);
+  updatePreview();
+  renderParticipantsTable();
+}
+
+function removeParticipant(i) {
+  STATE.participants.splice(i, 1);
+  if (STATE.currentPreviewIdx >= STATE.participants.length) STATE.currentPreviewIdx = Math.max(0, STATE.participants.length-1);
+  renderParticipantsTable();
+  updateParticipantSelect();
+  updatePreview();
+}
+
+function clearParticipants() {
+  showModal('Limpiar participantes', '¿Eliminar todos los participantes de la lista?', [
+    { label: 'Cancelar', cls: 'btn' },
+    { label: 'Eliminar todos', cls: 'btn danger', action: () => {
+      STATE.participants = [];
+      STATE.currentPreviewIdx = 0;
+      renderParticipantsTable();
+      updateParticipantSelect();
+      updatePreview();
+      showToast('Lista de participantes limpiada', 'info');
+    }}
+  ]);
+}
+
+function selectAllParticipants() {
+  document.querySelectorAll('.row-check').forEach(c => c.checked = true);
+}
+
+function toggleAllChecks(master) {
+  document.querySelectorAll('.row-check').forEach(c => c.checked = master.checked);
+}
+
+function updateParticipantSelect() {
+  const sel = document.getElementById('preview-participant-select');
+  if (!sel) return;
+  sel.innerHTML = '<option value="">— Vista general —</option>' +
+    STATE.participants.map((p,i) => `<option value="${i}" ${i===STATE.currentPreviewIdx?'selected':''}>${p.nombre}</option>`).join('');
+}
+
+// ── CSV IMPORT ────────────────────────────────
+function handleCSV(input) {
+  const file = input.files[0];
+  if (!file) return;
+  Papa.parse(file, {
+    header: true, skipEmptyLines: true,
+    complete: results => {
+      if (!results.data.length) { showToast('El CSV está vacío', 'error'); return; }
+      const fields = ['nombre','name','Nombre','Name'];
+      const nameField = Object.keys(results.data[0]).find(k => fields.includes(k));
+      if (!nameField) { showToast('El CSV debe tener una columna "nombre" o "name"', 'error'); return; }
+      let added = 0;
+      results.data.forEach(row => {
+        const nombre = (row[nameField] || row['Nombre'] || row['NOMBRE'] || '').trim();
+        if (!nombre) return;
+        STATE.participants.push({
+          nombre,
+          email: row.email || row.Email || row.correo || '',
+          doc: row.documento || row.doc || row.Documento || '',
+          rol: row.rol || row.Rol || row.ROL || '',
+          codigo: row.codigo || row.Codigo || row.CODIGO || '',
+        });
+        added++;
+      });
+      renderParticipantsTable();
+      updateParticipantSelect();
+      updatePreview();
+      showToast(`${added} participantes importados desde CSV`, 'success');
+      input.value = '';
+    },
+    error: err => showToast('Error leyendo CSV: ' + err.message, 'error')
+  });
+}
+
+function setupCSVDragDrop() {
+  const zone = document.querySelector('#step-4 .upload-zone');
+  if (!zone) return;
+  zone.addEventListener('dragover', e => { e.preventDefault(); zone.style.borderColor='var(--accent)'; });
+  zone.addEventListener('dragleave', () => { zone.style.borderColor=''; });
+  zone.addEventListener('drop', e => {
+    e.preventDefault();
+    zone.style.borderColor='';
+    const file = e.dataTransfer.files[0];
+    if (!file) return;
+    const fakeInput = { files: [file], value: '' };
+    handleCSV(fakeInput);
+  });
+}
+
+function downloadCSVTemplate() {
+  const rows = [
+    ['nombre','email','documento','rol','codigo'],
+    ['María Fernanda Rodríguez Gómez','mrodriguez@universidad.edu.co','52456789','Participante','EST-001'],
+    ['Carlos Alberto González Pérez','cagonzalez@empresa.com','80123456','Ponente','EST-002'],
+    ['Ana Lucía Martínez Vargas','almartinez@instituto.edu.co','43567890','Tallerista','EST-003'],
+    ['Prof. Juan David Herrera López','jdherrera@universidad.edu.co','71234567','Conferencista','EST-004'],
+    ['Sandra Milena Ospina Castro','smospina@empresa.com','52678901','Jurado','EST-005'],
+    ['Dr. Andrés Felipe Ríos Morales','afrios@universidad.edu.co','80345678','Moderador','EST-006'],
+    ['Luisa Camila Peña Díaz','lcpena@instituto.edu.co','43789012','Asistente','EST-007'],
+    ['Mg. Ricardo Augusto Vargas','ravargas@empresa.com','71890123','Evaluador','EST-008'],
+    ['Paola Andrea Gómez Ruiz','pagomez@universidad.edu.co','52901234','Participante','EST-009'],
+    ['Fabio Ernesto Castro Niño','fecastro@empresa.com','80456789','Ponente','EST-010'],
+  ];
+  // BOM for Excel compatibility with UTF-8
+  const bom = '\uFEFF';
+  const csv = bom + rows.map(r => r.map(cell => `"${(cell||'').replace(/"/g,'""')}"`).join(',')).join('\n');
+  const blob = new Blob([csv], {type:'text/csv;charset=utf-8'});
+  const a = document.createElement('a');
+  a.href = URL.createObjectURL(blob);
+  a.download = 'plantilla_CertiFlow_participantes.csv';
+  a.click();
+  showToast('Plantilla CSV descargada (10 ejemplos reales)', 'success');
+}
+
+function exportParticipantsCSV() {
+  if (!STATE.participants.length) { showToast('No hay participantes', 'warn'); return; }
+  const rows = [['nombre','email','documento','rol','codigo'],
+    ...STATE.participants.map(p => [p.nombre, p.email, p.doc, p.rol, p.codigo])];
+  const csv = rows.map(r => r.join(',')).join('\n');
+  const blob = new Blob([csv], {type:'text/csv'});
+  const a = document.createElement('a');
+  a.href = URL.createObjectURL(blob);
+  a.download = 'participantes.csv';
+  a.click();
+}
+
+// ── TEXT MODEL ────────────────────────────────
+function loadTextModel(type) {
+  STATE.certText = TEXT_MODELS[type] || TEXT_MODELS.participacion;
+  const ta = document.getElementById('cert-text-editor');
+  if (ta) ta.value = STATE.certText;
+  updatePreview();
+}
+
+function updateTextModel() {
+  const tipo = v('f-tipo');
+  if (TEXT_MODELS[tipo]) loadTextModel(tipo);
+}
+
+// ── PLACEHOLDER RESOLUTION ────────────────────
+function resolvePlaceholders(text, participant) {
+  const c = STATE.config;
+  const tipoLabels = {
+    asistencia:'asistencia',participacion:'participación',aprobacion:'aprobación',
+    ponencia:'ponencia',jurado:'jurado evaluador',conferencista:'conferencista',tallerista:'tallerista'
+  };
+  const map = {
+    '{{participante}}':  participant ? participant.nombre : '[Nombre del Participante]',
+    '{{email}}':         participant ? participant.email : '',
+    '{{documento}}':     participant ? participant.doc : '',
+    '{{rol}}':           participant ? (participant.rol || tipoLabels[c.tipo] || '') : (tipoLabels[c.tipo] || ''),
+    '{{codigo}}':        participant ? participant.codigo : '',
+    '{{institucion}}':   c.institucion || '[Institución]',
+    '{{evento}}':        c.evento || '[Nombre del Evento]',
+    '{{subtitulo_evento}}': c.subtitulo || '',
+    '{{tipo_certificado}}': tipoLabels[c.tipo] || c.tipo,
+    '{{ciudad}}':        c.ciudad || '[Ciudad]',
+    '{{pais}}':          c.pais || '[País]',
+    '{{fecha_evento}}':  c.fechaEvento || '[Fecha del evento]',
+    '{{fecha_inicio}}':  c.fechaEvento || '',
+    '{{fecha_fin}}':     c.fechaEvento || '',
+    '{{fecha_expedicion}}': c.fechaExp || new Date().toLocaleDateString('es-CO',{year:'numeric',month:'long',day:'numeric'}),
+    '{{modalidad}}':     c.modalidad || '',
+    '{{horas}}':         c.horas || '',
+  };
+  return Object.entries(map).reduce((t,[k,val]) => t.split(k).join(val), text);
+}
+
+// ── PREVIEW ───────────────────────────────────
+let previewDebounce = null;
+function updatePreview() {
+  clearTimeout(previewDebounce);
+  previewDebounce = setTimeout(_renderPreview, 60);
+  updateParticipantSelect();
+}
+
+async function _renderPreview() {
+  const container = document.getElementById('cert-preview');
+  if (!container) return;
+  // Wait for fonts to be fully loaded before rendering to prevent FOUT spacing issues
+  try { await document.fonts.ready; } catch(e) {}
+  const tmpl = TEMPLATES.find(t => t.id === STATE.templateId) || TEMPLATES[0];
+  const ps = PAGE_SIZES[STATE.pageSize];
+  const participant = STATE.participants[STATE.currentPreviewIdx] || null;
+
+  container.style.width  = ps.w + 'px';
+  container.style.height = ps.h + 'px';
+  container.innerHTML = tmpl.render(buildCertData(participant));
+
+  const wrapper = document.getElementById('cert-preview-wrapper');
+  const viewport = document.getElementById('preview-viewport');
+  if (!wrapper || !viewport) return;
+  const vw = viewport.clientWidth - 32;
+  const vh = viewport.clientHeight - 32;
+  const scaleW = vw / ps.w;
+  const scaleH = vh / ps.h;
+  STATE.previewZoom = Math.min(scaleW, scaleH, 1);
+  _applyZoom();
+}
+
+function _applyZoom() {
+  const wrapper = document.getElementById('cert-preview-wrapper');
+  const ps = PAGE_SIZES[STATE.pageSize];
+  if (!wrapper || !ps) return;
+  wrapper.style.transform = `scale(${STATE.previewZoom})`;
+  wrapper.style.width  = ps.w + 'px';
+  wrapper.style.height = ps.h + 'px';
+  wrapper.style.marginBottom = (ps.h * STATE.previewZoom - ps.h) + 'px';
+  document.getElementById('zoom-label').textContent = Math.round(STATE.previewZoom*100) + '%';
+}
+
+function adjustPreviewZoom(delta) {
+  STATE.previewZoom = Math.max(0.1, Math.min(2, STATE.previewZoom + delta));
+  _applyZoom();
+}
+
+function fitPreview() { _renderPreview(); }
+
+function buildCertData(participant) {
+  return {
+    config: STATE.config,
+    participant,
+    logos: STATE.logos,
+    logoSize: STATE.logoSize || 80,
+    textSize: STATE.textSize || 1.0,
+    logoCount: STATE.logoCount || 3,
+    signatures: STATE.signatures,
+    certText: resolvePlaceholders(STATE.certText || '', participant),
+    colorPrimary: STATE.colorPrimary,
+    colorAccent: STATE.colorAccent,
+    pageSize: PAGE_SIZES[STATE.pageSize],
+  };
+}
+
+// ── PDF EXPORT ────────────────────────────────
+async function renderCertToCanvas(participant) {
+  const container = document.getElementById('cert-render');
+  const tmpl = TEMPLATES.find(t => t.id === STATE.templateId) || TEMPLATES[0];
+  const ps = PAGE_SIZES[STATE.pageSize];
+  container.style.width  = ps.w + 'px';
+  container.style.height = ps.h + 'px';
+  container.style.overflow = 'hidden';
+  container.innerHTML = tmpl.render(buildCertData(participant));
+  await document.fonts.ready;
+  await new Promise(r => setTimeout(r, 80));
+  return await html2canvas(container, {
+    scale: 2, useCORS: true, allowTaint: true,
+    width: ps.w, height: ps.h,
+    backgroundColor: null,
+    logging: false
+  });
+}
+
+// Versión de resolución media para email — legible y con buen peso
+// scale 1.5 → resolución suficiente para pantalla y guardado
+// JPEG 0.82 → calidad visual clara sin artefactos
+async function renderCertForEmail(participant) {
+  const container = document.getElementById('cert-render');
+  const tmpl = TEMPLATES.find(t => t.id === STATE.templateId) || TEMPLATES[0];
+  const ps = PAGE_SIZES[STATE.pageSize];
+  container.style.width  = ps.w + 'px';
+  container.style.height = ps.h + 'px';
+  container.style.overflow = 'hidden';
+  container.innerHTML = tmpl.render(buildCertData(participant));
+  await document.fonts.ready;
+  await new Promise(r => setTimeout(r, 120));
+  const canvas = await html2canvas(container, {
+    scale: 1.5, useCORS: true, allowTaint: true,
+    width: ps.w, height: ps.h,
+    backgroundColor: '#ffffff',
+    logging: false
+  });
+  return canvas.toDataURL('image/jpeg', 0.82);
+}
+
+async function exportSinglePDF() {
+  const participant = STATE.participants[STATE.currentPreviewIdx] || null;
+  const name = participant ? participant.nombre : 'certificado';
+  showToast('Generando PDF...', 'info');
+  try {
+    const canvas = await renderCertToCanvas(participant);
+    const ps = PAGE_SIZES[STATE.pageSize];
+    const { jsPDF } = window.jspdf;
+    const pdf = new jsPDF({ orientation: ps.jsort, unit: 'pt', format: ps.jsfmt });
+    const pw = pdf.internal.pageSize.getWidth();
+    const ph = pdf.internal.pageSize.getHeight();
+    pdf.addImage(canvas.toDataURL('image/jpeg', 0.98), 'JPEG', 0, 0, pw, ph);
+    const fname = `Certificado_${sanitizeName(name)}.pdf`;
+    pdf.save(fname);
+    showToast(`PDF generado: ${fname}`, 'success');
+  } catch(e) {
+    showToast('Error generando PDF: ' + e.message, 'error');
+    console.error(e);
+  }
+}
+
+async function exportAllZIP() {
+  if (!STATE.participants.length) { showToast('No hay participantes. Agrega al menos uno.', 'warn'); return; }
+  const total = STATE.participants.length;
+  showProgress(true);
+  try {
+    const zip = new JSZip();
+    const { jsPDF } = window.jspdf;
+    const ps = PAGE_SIZES[STATE.pageSize];
+    for (let i = 0; i < total; i++) {
+      const p = STATE.participants[i];
+      updateProgress(i, total, `Generando: ${p.nombre}`);
+      const canvas = await renderCertToCanvas(p);
+      const pdf = new jsPDF({ orientation: ps.jsort, unit: 'pt', format: ps.jsfmt });
+      const pw = pdf.internal.pageSize.getWidth();
+      const ph = pdf.internal.pageSize.getHeight();
+      pdf.addImage(canvas.toDataURL('image/jpeg', 0.98), 'JPEG', 0, 0, pw, ph);
+      const pdfData = pdf.output('arraybuffer');
+      const tipo = STATE.config.tipo || 'certificado';
+      zip.file(`Certificado_${sanitizeName(tipo)}_${sanitizeName(p.nombre)}.pdf`, pdfData);
+    }
+    updateProgress(total, total, 'Empaquetando ZIP...');
+    const blob = await zip.generateAsync({ type: 'blob', compression: 'DEFLATE', compressionOptions: { level: 6 } });
+    const a = document.createElement('a');
+    a.href = URL.createObjectURL(blob);
+    const proyecto = STATE.config.proyecto || 'lote';
+    a.download = `certificados_${sanitizeName(proyecto)}.zip`;
+    a.click();
+    showToast(`ZIP generado con ${total} certificado${total!==1?'s':''}`, 'success');
+  } catch(e) {
+    showToast('Error generando ZIP: ' + e.message, 'error');
+    console.error(e);
+  } finally {
+    showProgress(false);
+  }
+}
+
+function sanitizeName(s) {
+  return (s||'').replace(/[^a-zA-Z0-9áéíóúÁÉÍÓÚñÑüÜ\-_. ]/g,'').replace(/\s+/g,'_').substring(0,60);
+}
+
+function showProgress(show) {
+  const el = document.getElementById('progress-bar-wrap');
+  if (el) el.style.display = show ? 'flex' : 'none';
+}
+
+function updateProgress(done, total, msg) {
+  const pct = Math.round(done/total*100);
+  const fill = document.getElementById('progress-fill');
+  const label = document.getElementById('progress-text');
+  const pctel = document.getElementById('progress-pct');
+  if (fill) fill.style.width = pct + '%';
+  if (label) label.textContent = msg || 'Procesando...';
+  if (pctel) pctel.textContent = pct + '%';
+}
+
+// ── STORAGE ───────────────────────────────────
+const PROJ_STORE = 'certiflow_projects_v1';
+const AUTOSAVE_KEY = 'certiflow_autosave_v1';
+let currentProjectName = '';
+
+function getProjectsMap() {
+  try { return JSON.parse(localStorage.getItem(PROJ_STORE) || '{}'); } catch(e) { return {}; }
+}
+
+function captureStateData() {
+  updateState();
+  return {
+    pageSize: STATE.pageSize, templateId: STATE.templateId,
+    colorPrimary: STATE.colorPrimary, colorAccent: STATE.colorAccent,
+    config: STATE.config, logos: STATE.logos, signatures: STATE.signatures,
+    participants: STATE.participants, certText: STATE.certText,
+    logoSize: STATE.logoSize || 80,
+    textSize: STATE.textSize || 1.0,
+    logoCount: STATE.logoCount || 3,
+    savedAt: new Date().toISOString(),
+  };
+}
+
+function applyLoadedData(data) {
+  STATE.pageSize     = data.pageSize     || STATE.pageSize;
+  STATE.templateId   = data.templateId   || STATE.templateId;
+  STATE.colorPrimary = data.colorPrimary || STATE.colorPrimary;
+  STATE.colorAccent  = data.colorAccent  || STATE.colorAccent;
+  STATE.config       = { ...STATE.config, ...(data.config||{}) };
+  STATE.logos        = { ...STATE.logos, ...(data.logos||{}) };
+  STATE.signatures   = data.signatures   || STATE.signatures;
+  STATE.participants = data.participants  || STATE.participants;
+  STATE.certText     = data.certText     || STATE.certText;
+  STATE.logoSize     = data.logoSize     || 80;
+  STATE.textSize     = data.textSize     || 1.0;
+  STATE.logoCount    = data.logoCount    || 3;
+  applyStateToForm();
+}
+
+// Auto-save (legacy key compatibility)
+function saveProject() { saveCurrentProject(); }
+function saveCurrentProject() {
+  const data = captureStateData();
+  localStorage.setItem(AUTOSAVE_KEY, JSON.stringify(data));
+  // Also update named project if one is active
+  if (currentProjectName) {
+    const projects = getProjectsMap();
+    projects[currentProjectName] = data;
+    localStorage.setItem(PROJ_STORE, JSON.stringify(projects));
+    showToast(`Proyecto "${currentProjectName}" guardado`, 'success');
+  } else {
+    showToast('Guardado automático ✓  (usa "📁 Proyectos" para guardar con nombre)', 'info');
+  }
+}
+
+function loadProject() {
+  const raw = localStorage.getItem(AUTOSAVE_KEY) || localStorage.getItem('certiflow_v1');
+  if (!raw) { showToast('No hay guardado automático', 'warn'); return; }
+  try {
+    applyLoadedData(JSON.parse(raw));
+    showToast('Guardado automático restaurado', 'success');
+  } catch(e) { showToast('Error restaurando proyecto', 'error'); }
+}
+
+function loadFromStorage() {
+  const raw = localStorage.getItem(AUTOSAVE_KEY) || localStorage.getItem('certiflow_v1');
+  if (raw) {
+    try { applyLoadedData(JSON.parse(raw)); } catch(e) {}
+  }
+}
+
+// ── PROJECT MANAGER ───────────────────────────
+function openProjectManager() {
+  renderProjectList();
+  const modal = document.getElementById('proj-modal');
+  if (modal) { modal.style.display = 'flex'; modal.classList.add('open'); }
+  // Pre-fill project name input with current
+  const inp = document.getElementById('proj-name-input');
+  if (inp && currentProjectName) inp.value = currentProjectName;
+}
+
+function closeProjModal() {
+  const modal = document.getElementById('proj-modal');
+  if (modal) { modal.style.display = 'none'; modal.classList.remove('open'); }
+}
+
+function saveNamedProject() {
+  const inp = document.getElementById('proj-name-input');
+  const name = (inp ? inp.value.trim() : '') || ('Proyecto ' + new Date().toLocaleDateString('es-CO'));
+  if (!name) { showToast('Ingresa un nombre para el proyecto', 'warn'); return; }
+
+  const projects = getProjectsMap();
+  const data = captureStateData();
+  projects[name] = data;
+  localStorage.setItem(PROJ_STORE, JSON.stringify(projects));
+  localStorage.setItem(AUTOSAVE_KEY, JSON.stringify(data));
+  currentProjectName = name;
+
+  renderProjectList();
+  showToast(`✓ Proyecto "${name}" guardado`, 'success');
+}
+
+function loadNamedProject(name) {
+  const projects = getProjectsMap();
+  if (!projects[name]) { showToast('Proyecto no encontrado', 'error'); return; }
+  applyLoadedData(projects[name]);
+  currentProjectName = name;
+  closeProjModal();
+  showToast(`Proyecto "${name}" cargado`, 'success');
+}
+
+function deleteNamedProject(name) {
+  showModal('Eliminar proyecto', `¿Eliminar el proyecto "${name}"? Esta acción no se puede deshacer.`, [
+    { label: 'Cancelar', cls: 'btn' },
+    { label: 'Eliminar', cls: 'btn danger', action: () => {
+      const projects = getProjectsMap();
+      delete projects[name];
+      localStorage.setItem(PROJ_STORE, JSON.stringify(projects));
+      if (currentProjectName === name) currentProjectName = '';
+      renderProjectList();
+      showToast(`Proyecto "${name}" eliminado`, 'info');
+    }}
+  ]);
+}
+
+function renderProjectList() {
+  const cont = document.getElementById('proj-list-container');
+  if (!cont) return;
+  const projects = getProjectsMap();
+  const names = Object.keys(projects);
+
+  if (!names.length) {
+    cont.innerHTML = '<div class="empty-proj-msg">No hay proyectos guardados aún.<br>Guarda el proyecto actual con un nombre descriptivo.</div>';
+    return;
+  }
+
+  cont.innerHTML = names.reverse().map(name => {
+    const d = projects[name];
+    const date = d.savedAt ? new Date(d.savedAt).toLocaleDateString('es-CO',{day:'2-digit',month:'short',year:'numeric',hour:'2-digit',minute:'2-digit'}) : '';
+    const pts = (d.participants||[]).length;
+    const active = name === currentProjectName;
+    return `<div class="proj-list-item" style="${active?'border-color:var(--accent);background:rgba(200,169,81,0.06)':''}">
+      <div>
+        <div class="proj-name">${name} ${active?'<span style="font-size:0.65rem;color:var(--accent);letter-spacing:1px;text-transform:uppercase">ACTIVO</span>':''}</div>
+        <div style="font-size:0.7rem;color:var(--text-3);margin-top:2px">${d.config&&d.config.evento?d.config.evento+' · ':''} ${pts} participante${pts!==1?'s':''}</div>
+      </div>
+      <div class="proj-meta">${date}</div>
+      <button class="btn sm outlined" onclick="loadNamedProject('${name.replace(/'/g,"\\'")}')">Abrir</button>
+      <button class="btn sm danger" onclick="deleteNamedProject('${name.replace(/'/g,"\\'")}')">✕</button>
+    </div>`;
+  }).join('');
+}
+
+// ── NEW PROJECT ────────────────────────────────
+function newProject() {
+  showModal('Nuevo proyecto', '¿Crear un nuevo proyecto? El proyecto actual se guardará automáticamente antes de limpiar.', [
+    { label: 'Cancelar', cls: 'btn' },
+    { label: 'Nuevo proyecto', cls: 'btn primary', action: () => {
+      // Auto-save current before clearing
+      localStorage.setItem(AUTOSAVE_KEY, JSON.stringify(captureStateData()));
+      // Reset STATE
+      STATE.config = { institucion:'',proyecto:'',codigo:'',evento:'',subtitulo:'',tipo:'participacion',modalidad:'presencial',horas:'',ciudad:'',pais:'',fechaEvento:'',fechaExp:'',textoComp:'' };
+      STATE.logos = { logo1:null,logo2:null,logo3:null,logo4:null,logo5:null,logo6:null };
+      STATE.logoCount = 3;
+      STATE.signatures = [{ active:true,img:null,nombre:'',cargo:'',dependencia:'' }];
+      STATE.participants = [];
+      STATE.certText = TEXT_MODELS.participacion;
+      STATE.colorPrimary = '#1a3a6c';
+      STATE.colorAccent = '#c8a951';
+      STATE.pageSize = 'carta-h';
+      STATE.templateId = 't1';
+      STATE.currentPreviewIdx = 0;
+      currentProjectName = '';
+      applyStateToForm();
+      goStep(1);
+      showToast('Nuevo proyecto iniciado', 'success');
+    }}
+  ]);
+}
+
+function applyStateToForm() {
+  const setVal = (id, val) => { const el = document.getElementById(id); if(el) el.value = val||''; };
+  setVal('f-institucion', STATE.config.institucion);
+  setVal('f-proyecto',    STATE.config.proyecto);
+  setVal('f-codigo',      STATE.config.codigo);
+  setVal('f-evento',      STATE.config.evento);
+  setVal('f-subtitulo',   STATE.config.subtitulo);
+  setVal('f-tipo',        STATE.config.tipo);
+  setVal('f-modalidad',   STATE.config.modalidad);
+  setVal('f-horas',       STATE.config.horas);
+  setVal('f-ciudad',      STATE.config.ciudad);
+  setVal('f-pais',        STATE.config.pais);
+  setVal('f-fecha-evento',STATE.config.fechaEvento);
+  setVal('f-texto-comp',  STATE.config.textoComp);
+  setVal('cert-text-editor', STATE.certText);
+  const cp = document.getElementById('color-primary');
+  const ca = document.getElementById('color-accent');
+  if (cp) cp.value = STATE.colorPrimary;
+  if (ca) ca.value = STATE.colorAccent;
+  STATE.logoCount = STATE.logoCount || 3;
+  for (let i = 1; i <= 6; i++) {
+    const slot = document.getElementById(`logo-slot-${i}`);
+    if (slot) slot.style.display = i <= STATE.logoCount ? '' : 'none';
+    const prev = document.getElementById(`logo${i}-preview`);
+    if (prev && STATE.logos[`logo${i}`]) { prev.src = STATE.logos[`logo${i}`]; prev.style.display = 'block'; }
+  }
+  updateLogoCountBtns();
+  const lsSlider = document.getElementById('logo-size-slider');
+  const lsVal = document.getElementById('logo-size-val');
+  if (lsSlider) { lsSlider.value = STATE.logoSize || 80; }
+  if (lsVal) { lsVal.textContent = (STATE.logoSize || 80) + ' px'; }
+  const tsSlider = document.getElementById('text-size-slider');
+  const tsVal = document.getElementById('text-size-val');
+  if (tsSlider) { tsSlider.value = Math.round((STATE.textSize || 1.0) * 100); }
+  if (tsVal) { tsVal.textContent = Math.round((STATE.textSize || 1.0) * 100) + '%'; }
+  buildSizeGrid();
+  buildTemplateGrid();
+  buildSignatureForms();
+  renderParticipantsTable();
+  updateParticipantSelect();
+  updatePreview();
+}
+
+function clearAll() {
+  showModal('Limpiar todo', '¿Eliminar todos los datos del proyecto actual? Esta acción no se puede deshacer.', [
+    { label: 'Cancelar', cls: 'btn' },
+    { label: 'Limpiar todo', cls: 'btn danger', action: () => {
+      localStorage.removeItem('certiflow_v1');
+      localStorage.removeItem('certiflow_autosave_v1');
+      location.reload();
+    }}
+  ]);
+}
+
+function loadSampleData() {
+  document.getElementById('f-institucion').value = 'Universidad Nacional de Colombia';
+  document.getElementById('f-proyecto').value = 'Diplomado en Innovación Educativa 2025';
+  document.getElementById('f-evento').value = 'Seminario Internacional de Innovación Pedagógica';
+  document.getElementById('f-subtitulo').value = 'Nuevas tendencias en educación del siglo XXI';
+  document.getElementById('f-ciudad').value = 'Bogotá';
+  document.getElementById('f-pais').value = 'Colombia';
+  document.getElementById('f-horas').value = '40';
+  document.getElementById('f-fecha-evento').value = '10 al 14 de marzo de 2025';
+  document.getElementById('f-fecha-exp').value = '2025-03-14';
+  STATE.participants = [
+    { nombre: 'Dra. María Fernanda Rodríguez', email: 'mrodriguez@unal.edu.co', doc: '52456789', rol: 'Ponente', codigo: 'CF-001' },
+    { nombre: 'Carlos Alberto González Pérez', email: 'cagonzalez@unal.edu.co', doc: '80123456', rol: 'Participante', codigo: 'CF-002' },
+    { nombre: 'Ana Lucía Martínez Vargas', email: 'almartinez@ejemplo.com', doc: '43567890', rol: 'Tallerista', codigo: 'CF-003' },
+    { nombre: 'Prof. Juan David Herrera', email: 'jdherrera@ejemplo.com', doc: '71234567', rol: 'Conferencista', codigo: 'CF-004' },
+  ];
+  STATE.signatures = [
+    { active: true, img: null, nombre: 'Dr. Roberto Suárez Londoño', cargo: 'Decano Facultad de Educación', dependencia: 'Universidad Nacional de Colombia' },
+    { active: true, img: null, nombre: 'Mg. Laura Patiño Torres', cargo: 'Directora del Programa', dependencia: 'Centro de Innovación Educativa' },
+  ];
+  updateState();
+  buildSignatureForms();
+  renderParticipantsTable();
+  updateParticipantSelect();
+  updatePreview();
+  showToast('Datos de ejemplo cargados', 'success');
+}
+
+// ── MODAL / TOAST ─────────────────────────────
+function showToast(msg, type='info') {
+  const cont = document.getElementById('toast-container');
+  const div = document.createElement('div');
+  const icons = { success:'✓', error:'✕', warn:'⚠', info:'ℹ' };
+  div.className = `toast ${type}`;
+  div.innerHTML = `<span>${icons[type]||'ℹ'}</span><span>${msg}</span>`;
+  cont.appendChild(div);
+  setTimeout(() => div.style.opacity='0', 3000);
+  setTimeout(() => div.remove(), 3400);
+}
+
+function showModal(title, body, actions) {
+  document.getElementById('modal-title').textContent = title;
+  document.getElementById('modal-body').textContent = body;
+  const actEl = document.getElementById('modal-actions');
+  actEl.innerHTML = '';
+  actions.forEach(a => {
+    const btn = document.createElement('button');
+    btn.className = a.cls || 'btn';
+    btn.textContent = a.label;
+    btn.onclick = () => {
+      document.getElementById('modal-overlay').classList.remove('open');
+      if (a.action) a.action();
+    };
+    actEl.appendChild(btn);
+  });
+  document.getElementById('modal-overlay').classList.add('open');
+}
+document.getElementById('modal-overlay').onclick = e => {
+  if (e.target.id === 'modal-overlay') document.getElementById('modal-overlay').classList.remove('open');
+};
+
+// ── PWA ───────────────────────────────────────
+let deferredInstall = null;
+function setupInstallPWA() {
+  (function() {
+    const svgIcon = `<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 512 512'><rect width='512' height='512' rx='60' fill='%230f172a'/><text x='256' y='310' text-anchor='middle' font-size='240' font-family='serif' fill='%23c8a951'>C</text></svg>`;
+    const manifest = { name:'CertiFlow Pro',short_name:'CertiFlow',description:'Generador profesional de certificados institucionales',start_url:'./',display:'standalone',background_color:'#0f172a',theme_color:'#0f172a',orientation:'any',categories:['business','productivity'],icons:[{src:'data:image/svg+xml,'+svgIcon,sizes:'512x512',type:'image/svg+xml',purpose:'any maskable'}] };
+    try { const b=new Blob([JSON.stringify(manifest)],{type:'application/manifest+json'}); const l=document.createElement('link');l.rel='manifest';l.href=URL.createObjectURL(b);document.head.appendChild(l); } catch(e){}
+  })();
+  if ('serviceWorker' in navigator) {
+    const sw = `self.addEventListener('install',()=>self.skipWaiting());self.addEventListener('activate',e=>e.waitUntil(clients.claim()));self.addEventListener('fetch',e=>{if(e.request.method!=='GET')return;e.respondWith(fetch(e.request).catch(()=>new Response('Offline',{status:503})));});`;
+    try { const b=new Blob([sw],{type:'application/javascript'}); navigator.serviceWorker.register(URL.createObjectURL(b),{scope:'/'}).catch(()=>{}); } catch(e){}
+  }
+  window.addEventListener('beforeinstallprompt', e => {
+    e.preventDefault(); deferredInstall = e;
+    document.getElementById('install-btn').style.display = 'inline-flex';
+    document.getElementById('install-btn-side').style.display = 'block';
+  });
+  window.addEventListener('appinstalled', () => {
+    deferredInstall = null;
+    document.getElementById('install-btn').style.display = 'none';
+    showToast('CertiFlow instalada correctamente', 'success');
+  });
+}
+function triggerInstall() {
+  if (!deferredInstall) return;
+  deferredInstall.prompt();
+  deferredInstall.userChoice.then(r => { if(r.outcome==='accepted') deferredInstall=null; });
+}
+document.getElementById('install-btn').onclick = triggerInstall;
+
+// ══════════════════════════════════════════════
+// TEMPLATE RENDERERS
+// ══════════════════════════════════════════════
+
+
+// ── CERT TEXT RENDERER ───────────────────────
+// Converts \n\n → <p> paragraphs, \n → <br>
+// Avoids white-space:pre-line rendering bugs at small scales
+function cText(t) {
+  if (!t) return '';
+  // Normalize all line endings (Windows \r\n, old Mac \r, Unix \n)
+  const normalized = (t + '').replace(/\r\n/g, '\n').replace(/\r/g, '\n');
+  // Split on double (or more) newlines = paragraph break
+  const paras = normalized.split(/\n{2,}/).filter(p => p.trim());
+  if (!paras.length) return '';
+  // Each paragraph: single \n → <br> (line break within paragraph)
+  // Between paragraphs: <br><br> gives one blank line of visual space
+  return paras
+    .map(p => `<span style="display:block;overflow-wrap:anywhere;word-spacing:0.25em;font-family:inherit">${p.replace(/\n/g, '<br>').trim()}</span>`)
+    .join('<br>');
+}
+
+function signaturesHTML(sigs, textColor='#333', borderColor='#999') {
+  const active = sigs.filter(s => s.active);
+  if (!active.length) return '';
+  const flex = active.length===1 ? 'center' : 'space-evenly';
+  return `<div style="display:flex;justify-content:${flex};align-items:flex-end;gap:20px;width:100%;margin-top:auto">` +
+    active.map(s => `<div style="text-align:center;min-width:140px;max-width:200px">
+      ${s.img ? `<img src="${s.img}" style="max-height:55px;max-width:160px;object-fit:contain;display:block;margin:0 auto 4px">` : `<div style="height:35px;border-bottom:1px solid ${borderColor};width:140px;margin:0 auto 4px"></div>`}
+      <div style="font-size:0.72rem;font-weight:700;color:${textColor};letter-spacing:0.3px">${s.nombre}</div>
+      <div style="font-size:0.65rem;color:${textColor};opacity:0.75;margin-top:2px">${s.cargo}</div>
+      ${s.dependencia?`<div style="font-size:0.6rem;color:${textColor};opacity:0.55;margin-top:1px">${s.dependencia}</div>`:''}
+    </div>`).join('') + '</div>';
+}
+
+function logosHTML(logos, ls) {
+  const height = (ls && ls > 0) ? ls : 80;
+  const imgs = Object.values(logos).filter(Boolean);
+  if (!imgs.length) return '';
+  return `<div style="display:flex;align-items:center;justify-content:center;gap:20px;flex-wrap:wrap">` +
+    imgs.map(src => `<img src="${src}" style="height:${height}px;max-width:${height*2}px;object-fit:contain">`).join('') +
+    `</div>`;
+}
+
+// Sponsor strip for T11: logos at bottom at reduced size
+function sponsorsHTML(logos, ls) {
+  const height = Math.round(((ls && ls > 0) ? ls : 80) * 0.65);
+  const imgs = Object.values(logos).filter(Boolean);
+  if (!imgs.length) return '';
+  return `<div style="display:flex;align-items:center;justify-content:center;gap:24px;flex-wrap:wrap;opacity:0.85">` +
+    imgs.map(src => `<img src="${src}" style="height:${height}px;max-width:${height*2.5}px;object-fit:contain">`).join('') +
+    `</div>`;
+}
+
+// T1: Institucional Clásica Azul
+function renderT1(d) {
+  const { config: c, participant: p, logos, logoSize: ls, textSize: ts, signatures, certText, colorPrimary: cp, colorAccent: ca, pageSize: ps } = d;
+  const isH = ps.w > ps.h;
+  const bodyH = isH ? '58%' : '62%';
+  return `<div style="width:100%;height:100%;display:flex;flex-direction:column;font-family:'Crimson Text',Georgia,serif;background:#ffffff;position:relative;overflow:hidden">
+    <div style="background:${cp};padding:${isH?'18px 50px':'22px 50px'};display:flex;align-items:center;justify-content:space-between;min-height:${isH?'120px':'130px'}">
+      <div>${logosHTML(logos, ls)}</div>
+      <div style="text-align:right;color:rgba(255,255,255,0.85)">
+        <div style="font-family:'Cinzel',serif;font-size:${isH?'1.05rem':'0.95rem'};letter-spacing:3px;text-transform:uppercase">${c.institucion||'Institución'}</div>
+        ${c.subtitulo?`<div style="font-size:0.75rem;margin-top:4px;opacity:0.7">${c.subtitulo}</div>`:''}
+      </div>
+    </div>
+    <div style="height:5px;background:${ca}"></div>
+    <div style="flex:1;display:flex;flex-direction:column;align-items:center;justify-content:center;padding:${isH?'20px 60px':'28px 60px'};text-align:center">
+      <div style="font-family:'Cinzel',serif;font-size:${isH?'1.5rem':'1.3rem'};letter-spacing:6px;color:${cp};text-transform:uppercase;margin-bottom:${isH?'8px':'10px'}">Certificado</div>
+      <div style="font-family:'Cinzel',serif;font-size:${isH?'1.05rem':'0.9rem'};letter-spacing:4px;color:${ca};text-transform:uppercase;margin-bottom:${isH?'18px':'22px'}">de ${c.tipo||'participación'}</div>
+      <div style="font-size:${isH?'0.85rem':'0.8rem'};color:#666;margin-bottom:${isH?'10px':'12px'};letter-spacing:0.5px">${c.institucion||'La institución'} certifica que:</div>
+      <div style="font-family:'Playfair Display',serif;font-size:${isH?'1.8rem':'1.5rem'};font-weight:700;color:${cp};letter-spacing:1px;margin-bottom:${isH?'18px':'20px'};line-height:1.2;max-width:${isH?'70%':'80%'}">${p?p.nombre:'[Nombre del Participante]'}</div>
+      <div style="font-size:${(isH?0.82:0.78)*(ts||1)}rem;color:#444;line-height:1.85;max-width:${isH?'75%':'85%'};text-align:center;overflow-wrap:anywhere;word-spacing:0.25em">${cText(certText)}</div>
+    </div>
+    <div style="height:4px;background:linear-gradient(to right,${cp},${ca},${cp})"></div>
+    <div style="padding:${isH?'14px 50px':'18px 50px'};background:#fafafa;border-top:1px solid #eee">
+      ${signaturesHTML(signatures, cp, ca)}
+      ${c.codigo?`<div style="text-align:right;font-size:0.6rem;color:#aaa;margin-top:8px">Código: ${c.codigo}</div>`:''}
+    </div>
+  </div>`;
+}
+
+// T2: Institucional Verde
+function renderT2(d) {
+  const { config: c, participant: p, logos, logoSize: ls, textSize: ts, signatures, certText, colorPrimary: cp, colorAccent: ca, pageSize: ps } = d;
+  const isH = ps.w > ps.h;
+  return `<div style="width:100%;height:100%;display:flex;flex-direction:column;font-family:'Crimson Text',Georgia,serif;background:#f8fff8;position:relative">
+    <div style="background:${cp};padding:${isH?'20px 50px':'24px 50px'};display:flex;align-items:center;justify-content:space-between;min-height:${isH?'110px':'120px'}">
+      <div style="color:rgba(255,255,255,0.9)">
+        <div style="font-family:'Cinzel',serif;font-size:${isH?'1.1rem':'1rem'};letter-spacing:3px;text-transform:uppercase">${c.institucion||'Institución'}</div>
+        ${c.evento?`<div style="font-size:0.75rem;margin-top:4px;opacity:0.7">${c.evento}</div>`:''}
+      </div>
+      <div>${logosHTML(logos, ls)}</div>
+    </div>
+    <div style="display:flex;height:8px">
+      <div style="flex:1;background:${cp}"></div>
+      <div style="flex:0.3;background:${ca}"></div>
+      <div style="flex:0.1;background:${cp}"></div>
+    </div>
+    <div style="flex:1;display:flex;flex-direction:column;align-items:center;justify-content:center;padding:${isH?'18px 60px':'24px 60px'};text-align:center">
+      <div style="font-family:'Cinzel',serif;font-size:${isH?'1.4rem':'1.2rem'};letter-spacing:5px;color:${cp};text-transform:uppercase;margin-bottom:6px">Certificado de ${c.tipo||'participación'}</div>
+      <div style="width:80px;height:2px;background:${ca};margin:8px auto"></div>
+      <div style="font-size:0.82rem;color:#555;margin:10px 0 6px">Otorgado a:</div>
+      <div style="font-family:'Playfair Display',serif;font-size:${isH?'1.75rem':'1.5rem'};font-weight:700;color:${cp};margin-bottom:${isH?'16px':'20px'};line-height:1.2">${p?p.nombre:'[Nombre del Participante]'}</div>
+      <div style="font-size:${(isH?0.82:0.78)*(ts||1)}rem;color:#444;line-height:1.85;max-width:${isH?'78%':'88%'};text-align:center;overflow-wrap:anywhere;word-spacing:0.25em">${cText(certText)}</div>
+    </div>
+    <div style="padding:${isH?'14px 50px':'18px 50px'};border-top:2px solid ${ca}">
+      ${signaturesHTML(signatures, cp, ca)}
+    </div>
+  </div>`;
+}
+
+// T3: Académica Protocolaria (marco doble)
+function renderT3(d) {
+  const { config: c, participant: p, logos, logoSize: ls, textSize: ts, signatures, certText, colorPrimary: cp, colorAccent: ca, pageSize: ps } = d;
+  const isH = ps.w > ps.h;
+  const m = isH ? 18 : 16;
+  return `<div style="width:100%;height:100%;font-family:'Crimson Text',Georgia,serif;background:#fdf8f2;padding:${m}px;box-sizing:border-box">
+    <div style="width:100%;height:100%;border:3px solid ${cp};padding:${isH?'10px':'8px'};box-sizing:border-box">
+      <div style="width:100%;height:100%;border:1px solid ${ca};padding:${isH?'20px 40px':'16px 32px'};box-sizing:border-box;display:flex;flex-direction:column;align-items:center">
+        <div style="display:flex;align-items:center;justify-content:space-between;width:100%;margin-bottom:${isH?'14px':'10px'}">
+          ${logosHTML(logos, ls) || '<div></div>'}
+          <div style="text-align:center;flex:1">
+            <div style="font-family:'Cinzel',serif;font-size:${isH?'0.75rem':'0.65rem'};letter-spacing:4px;color:${cp};text-transform:uppercase">${c.institucion||'Institución'}</div>
+          </div>
+          <div style="min-width:80px"></div>
+        </div>
+        <div style="width:60px;height:1px;background:${ca};margin-bottom:${isH?'12px':'8px'}"></div>
+        <div style="font-family:'Cinzel',serif;font-size:${isH?'1.5rem':'1.25rem'};letter-spacing:6px;color:${cp};text-transform:uppercase;text-align:center;margin-bottom:6px">Certificado</div>
+        <div style="font-family:'Cinzel',serif;font-size:${isH?'0.95rem':'0.85rem'};letter-spacing:4px;color:${ca};text-transform:uppercase;margin-bottom:${isH?'14px':'10px'}">de ${c.tipo||'participación'}</div>
+        <div style="font-size:0.82rem;color:#666;font-style:italic;margin-bottom:8px">Certifica que:</div>
+        <div style="font-family:'Playfair Display',serif;font-size:${isH?'1.9rem':'1.55rem'};font-weight:700;color:${cp};text-align:center;margin-bottom:${isH?'14px':'10px'};line-height:1.2">${p?p.nombre:'[Nombre del Participante]'}</div>
+        <div style="width:40px;height:1px;background:${ca};margin-bottom:${isH?'12px':'8px'}"></div>
+        <div style="font-size:${(isH?0.8:0.74)*(ts||1)}rem;color:#444;line-height:1.85;text-align:center;max-width:85%;flex:1;overflow-wrap:anywhere;word-spacing:0.25em">${cText(certText)}</div>
+        <div style="width:100%;margin-top:auto">
+          ${signaturesHTML(signatures, cp, ca)}
+        </div>
+      </div>
+    </div>
+  </div>`;
+}
+
+// T4: Académica Azul Noche (dark)
+function renderT4(d) {
+  const { config: c, participant: p, logos, logoSize: ls, textSize: ts, signatures, certText, colorPrimary: cp, colorAccent: ca, pageSize: ps } = d;
+  const isH = ps.w > ps.h;
+  return `<div style="width:100%;height:100%;font-family:'Crimson Text',Georgia,serif;background:${cp};display:flex;flex-direction:column;padding:${isH?'36px 50px':'40px 50px'};box-sizing:border-box">
+    <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:${isH?'20px':'24px'}">
+      <div style="height:1px;flex:1;background:rgba(255,255,255,0.15)"></div>
+      <div style="padding:0 20px;font-family:'Cinzel',serif;font-size:0.65rem;letter-spacing:4px;color:${ca};text-transform:uppercase">${c.institucion||'Institución'}</div>
+      <div style="height:1px;flex:1;background:rgba(255,255,255,0.15)"></div>
+    </div>
+    <div style="text-align:center;flex:1;display:flex;flex-direction:column;justify-content:center;align-items:center">
+      ${logosHTML(logos, ls) || ''}
+      ${logos.logo1||logos.logo2||logos.logo3?`<div style="margin:12px 0;width:40px;height:1px;background:${ca}"></div>`:''}
+      <div style="font-family:'Cinzel',serif;font-size:${isH?'1.4rem':'1.2rem'};letter-spacing:6px;color:#fff;text-transform:uppercase;margin-bottom:6px">Certificado de ${c.tipo||'participación'}</div>
+      <div style="width:60px;height:2px;background:${ca};margin:10px auto ${isH?'18px':'14px'}"></div>
+      <div style="font-size:0.82rem;color:rgba(255,255,255,0.6);font-style:italic;margin-bottom:10px">Otorgado a:</div>
+      <div style="font-family:'Playfair Display',serif;font-size:${isH?'1.9rem':'1.6rem'};font-weight:400;color:${ca};letter-spacing:2px;margin-bottom:${isH?'20px':'16px'};line-height:1.2">${p?p.nombre:'[Nombre del Participante]'}</div>
+      <div style="font-size:${(isH?0.8:0.75)*(ts||1)}rem;color:rgba(255,255,255,0.7);line-height:1.9;text-align:center;max-width:80%;overflow-wrap:anywhere;word-spacing:0.25em">${cText(certText)}</div>
+    </div>
+    <div style="margin-top:auto;padding-top:16px;border-top:1px solid rgba(255,255,255,0.15)">
+      ${signaturesHTML(signatures, '#fff', ca)}
+    </div>
+  </div>`;
+}
+
+// T5: Diploma de Honor (cream & gold)
+function renderT5(d) {
+  const { config: c, participant: p, logos, logoSize: ls, textSize: ts, signatures, certText, colorPrimary: cp, colorAccent: ca, pageSize: ps } = d;
+  const isH = ps.w > ps.h;
+  const inner = isH ? 24 : 20;
+  return `<div style="width:100%;height:100%;font-family:'Crimson Text',Georgia,serif;background:#fdf5e0;box-sizing:border-box;padding:${inner}px;position:relative">
+    <div style="position:absolute;inset:${inner}px;border:1px solid ${ca};pointer-events:none;z-index:0"></div>
+    <div style="position:absolute;inset:${inner+8}px;border:2px solid ${cp};pointer-events:none;z-index:0"></div>
+    <div style="position:relative;z-index:1;width:100%;height:100%;display:flex;flex-direction:column;align-items:center;padding:${isH?'28px 60px 20px':'32px 52px 22px'};box-sizing:border-box">
+      <div style="font-family:'Cinzel',serif;font-size:${isH?'0.7rem':'0.62rem'};letter-spacing:6px;color:${cp};text-transform:uppercase;margin-bottom:${isH?'8px':'6px'}">${c.institucion||'Institución'}</div>
+      ${logosHTML(logos, ls)}
+      <div style="margin:${isH?'12px':'8px'} 0;display:flex;align-items:center;gap:12px">
+        <div style="width:40px;height:1px;background:${ca}"></div>
+        <div style="font-size:0.7rem;color:${ca}">✦</div>
+        <div style="width:40px;height:1px;background:${ca}"></div>
+      </div>
+      <div style="font-family:'Cinzel',serif;font-size:${isH?'1.6rem':'1.3rem'};letter-spacing:6px;color:${cp};text-transform:uppercase;text-align:center;margin-bottom:4px">Diploma de Honor</div>
+      <div style="font-family:'Cinzel',serif;font-size:${isH?'0.9rem':'0.8rem'};letter-spacing:4px;color:${ca};text-transform:uppercase;margin-bottom:${isH?'14px':'10px'}">Certificado de ${c.tipo||'participación'}</div>
+      <div style="font-size:0.8rem;color:#7a6a4a;font-style:italic;margin-bottom:8px">${c.institucion||'La institución'} reconoce con honor a:</div>
+      <div style="font-family:'Playfair Display',serif;font-style:italic;font-size:${isH?'2rem':'1.65rem'};font-weight:400;color:${cp};text-align:center;margin-bottom:${isH?'14px':'10px'};line-height:1.2">${p?p.nombre:'[Nombre del Participante]'}</div>
+      <div style="display:flex;align-items:center;gap:12px;margin-bottom:${isH?'14px':'10px'}">
+        <div style="width:30px;height:1px;background:${ca}"></div>
+        <div style="font-size:0.65rem;color:${ca}">✦</div>
+        <div style="width:30px;height:1px;background:${ca}"></div>
+      </div>
+      <div style="font-size:${(isH?0.8:0.74)*(ts||1)}rem;color:#4a3a2a;line-height:1.85;text-align:center;max-width:85%;flex:1;overflow-wrap:anywhere;word-spacing:0.25em">${cText(certText)}</div>
+      <div style="width:100%;margin-top:auto">
+        ${signaturesHTML(signatures, cp, ca)}
+      </div>
+    </div>
+  </div>`;
+}
+
+// T6: Diploma Verde Noche
+function renderT6(d) {
+  const { config: c, participant: p, logos, logoSize: ls, textSize: ts, signatures, certText, colorPrimary: cp, colorAccent: ca, pageSize: ps } = d;
+  const isH = ps.w > ps.h;
+  return `<div style="width:100%;height:100%;font-family:'Crimson Text',Georgia,serif;background:${cp};display:flex;flex-direction:column;box-sizing:border-box;padding:${isH?'28px 50px':'32px 44px'}">
+    <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:${isH?'16px':'20px'}">
+      ${logosHTML(logos, ls) || '<div></div>'}
+      <div style="text-align:right">
+        <div style="font-family:'Cinzel',serif;font-size:0.68rem;letter-spacing:3px;color:${ca};text-transform:uppercase">${c.institucion||'Institución'}</div>
+        <div style="font-size:0.65rem;color:rgba(255,255,255,0.5);margin-top:3px">${c.evento||''}</div>
+      </div>
+    </div>
+    <div style="height:1px;background:linear-gradient(to right,transparent,${ca},transparent);margin-bottom:${isH?'20px':'16px'}"></div>
+    <div style="flex:1;display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center">
+      <div style="font-family:'Cinzel',serif;font-size:${isH?'1.45rem':'1.2rem'};letter-spacing:6px;color:#fff;text-transform:uppercase;margin-bottom:6px">Diploma de Reconocimiento</div>
+      <div style="font-size:0.82rem;color:${ca};letter-spacing:2px;margin-bottom:${isH?'16px':'12px'};text-transform:uppercase">${c.tipo||'participación'}</div>
+      <div style="font-size:0.8rem;color:rgba(255,255,255,0.55);font-style:italic;margin-bottom:8px">Otorgado a:</div>
+      <div style="font-family:'Playfair Display',serif;font-style:italic;font-size:${isH?'1.95rem':'1.6rem'};color:${ca};margin-bottom:${isH?'16px':'12px'};line-height:1.2">${p?p.nombre:'[Nombre del Participante]'}</div>
+      <div style="width:50px;height:1px;background:${ca};margin-bottom:${isH?'14px':'10px'}"></div>
+      <div style="font-size:${(isH?0.8:0.74)*(ts||1)}rem;color:rgba(255,255,255,0.7);line-height:1.9;text-align:center;max-width:80%;overflow-wrap:anywhere;word-spacing:0.25em">${cText(certText)}</div>
+    </div>
+    <div style="height:1px;background:linear-gradient(to right,transparent,${ca},transparent);margin-top:${isH?'16px':'12px'}"></div>
+    <div style="padding-top:12px">
+      ${signaturesHTML(signatures, '#fff', ca)}
+    </div>
+  </div>`;
+}
+
+// T7: Minimalista Moderna
+function renderT7(d) {
+  const { config: c, participant: p, logos, logoSize: ls, textSize: ts, signatures, certText, colorPrimary: cp, colorAccent: ca, pageSize: ps } = d;
+  const isH = ps.w > ps.h;
+  return `<div style="width:100%;height:100%;font-family:'Lato',Arial,sans-serif;background:#ffffff;display:flex;flex-direction:column;box-sizing:border-box">
+    <div style="height:6px;background:${ca}"></div>
+    <div style="padding:${isH?'30px 60px':'36px 52px'};flex:1;display:flex;flex-direction:column">
+      <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:${isH?'32px':'36px'}">
+        ${logosHTML(logos, ls) || '<div></div>'}
+        <div style="text-align:right">
+          <div style="font-size:0.72rem;letter-spacing:2px;color:#666;text-transform:uppercase">${c.institucion||''}</div>
+          <div style="font-size:0.65rem;color:#999;margin-top:3px">${c.evento||''}</div>
+        </div>
+      </div>
+      <div style="margin-bottom:${isH?'6px':'8px'}">
+        <span style="font-size:0.68rem;letter-spacing:4px;color:${ca};text-transform:uppercase;font-weight:700">Certificado de ${c.tipo||'participación'}</span>
+      </div>
+      <div style="font-size:${isH?'0.75rem':'0.7rem'};color:#999;margin-bottom:${isH?'10px':'12px'};letter-spacing:0.5px">Otorgado a:</div>
+      <div style="font-family:'Playfair Display',serif;font-size:${isH?'2.1rem':'1.75rem'};font-weight:600;color:${cp};margin-bottom:6px;line-height:1.1">${p?p.nombre:'[Nombre del Participante]'}</div>
+      <div style="width:50px;height:2px;background:${ca};margin-bottom:${isH?'20px':'16px'}"></div>
+      <div style="font-size:${(isH?0.82:0.78)*(ts||1)}rem;color:#444;line-height:1.85;max-width:75%;flex:1;overflow-wrap:anywhere;word-spacing:0.25em">${cText(certText)}</div>
+      <div style="margin-top:auto;padding-top:16px">
+        ${signaturesHTML(signatures, cp, ca)}
+      </div>
+    </div>
+  </div>`;
+}
+
+// T8: Minimalista Oscura
+function renderT8(d) {
+  const { config: c, participant: p, logos, logoSize: ls, textSize: ts, signatures, certText, colorPrimary: cp, colorAccent: ca, pageSize: ps } = d;
+  const isH = ps.w > ps.h;
+  return `<div style="width:100%;height:100%;font-family:'Lato',Arial,sans-serif;background:${cp};display:flex;flex-direction:column;box-sizing:border-box;padding:${isH?'32px 60px':'38px 52px'}">
+    <div style="display:flex;align-items:flex-start;justify-content:space-between;margin-bottom:${isH?'28px':'32px'}">
+      <div>
+        ${logosHTML(logos, ls)}
+        <div style="margin-top:${logos.logo1||logos.logo2?'12px':'0'}">
+          <div style="font-size:0.68rem;letter-spacing:3px;color:${ca};text-transform:uppercase;font-weight:700">${c.institucion||''}</div>
+        </div>
+      </div>
+      <div style="text-align:right;font-size:0.65rem;color:rgba(255,255,255,0.3);line-height:1.7">
+        ${c.ciudad?`<div>${c.ciudad}, ${c.pais||''}</div>`:''}
+        ${c.fechaEvento?`<div>${c.fechaEvento}</div>`:''}
+        ${c.codigo?`<div style="margin-top:4px;color:${ca};opacity:0.7">${c.codigo}</div>`:''}
+      </div>
+    </div>
+    <div style="width:30px;height:3px;background:${ca};margin-bottom:${isH?'20px':'16px'}"></div>
+    <div style="font-size:0.68rem;letter-spacing:4px;color:${ca};text-transform:uppercase;margin-bottom:${isH?'8px':'10px'}">Certificado · ${c.tipo||'participación'}</div>
+    <div style="font-family:'Playfair Display',serif;font-size:${isH?'2.1rem':'1.75rem'};font-weight:400;color:#fff;margin-bottom:${isH?'20px':'16px'};line-height:1.1;max-width:80%">${p?p.nombre:'[Nombre del Participante]'}</div>
+    <div style="font-size:${(isH?0.8:0.75)*(ts||1)}rem;color:rgba(255,255,255,0.6);line-height:1.9;max-width:78%;flex:1;overflow-wrap:anywhere;word-spacing:0.25em">${cText(certText)}</div>
+    <div style="margin-top:auto;padding-top:16px;border-top:1px solid rgba(255,255,255,0.12)">
+      ${signaturesHTML(signatures, '#fff', ca)}
+    </div>
+  </div>`;
+}
+
+// T9: Congreso Premium
+function renderT9(d) {
+  const { config: c, participant: p, logos, logoSize: ls, textSize: ts, signatures, certText, colorPrimary: cp, colorAccent: ca, pageSize: ps } = d;
+  const isH = ps.w > ps.h;
+  return `<div style="width:100%;height:100%;font-family:'Crimson Text',Georgia,serif;background:${cp};display:flex;flex-direction:column;box-sizing:border-box;position:relative">
+    <div style="background:rgba(255,255,255,0.05);padding:${isH?'20px 50px':'24px 44px'};display:flex;align-items:center;justify-content:space-between;border-bottom:2px solid ${ca}">
+      <div style="font-family:'Cinzel',serif;font-size:${isH?'0.78rem':'0.7rem'};letter-spacing:3px;color:${ca};text-transform:uppercase">${c.institucion||'Institución'}</div>
+      ${logosHTML(logos, ls) || '<div></div>'}
+    </div>
+    <div style="flex:1;display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;padding:${isH?'20px 60px':'24px 52px'}">
+      <div style="font-family:'Cinzel',serif;font-size:${isH?'0.75rem':'0.68rem'};letter-spacing:5px;color:${ca};text-transform:uppercase;margin-bottom:6px">${c.evento||'Evento'}</div>
+      ${c.subtitulo?`<div style="font-size:0.7rem;color:rgba(255,255,255,0.5);margin-bottom:10px;letter-spacing:1px">${c.subtitulo}</div>`:''}
+      <div style="width:60px;height:1px;background:${ca};margin:${isH?'10px':'8px'} auto"></div>
+      <div style="font-family:'Cinzel',serif;font-size:${isH?'1.4rem':'1.2rem'};letter-spacing:5px;color:#fff;text-transform:uppercase;margin-bottom:${isH?'14px':'10px'}">Certificado de ${c.tipo||'participación'}</div>
+      <div style="font-size:0.78rem;color:rgba(255,255,255,0.6);font-style:italic;margin-bottom:8px">Otorgado a:</div>
+      <div style="font-family:'Playfair Display',serif;font-size:${isH?'2rem':'1.65rem'};font-weight:400;color:${ca};margin-bottom:${isH?'16px':'12px'};line-height:1.2">${p?p.nombre:'[Nombre del Participante]'}</div>
+      ${p&&p.rol?`<div style="font-size:0.75rem;letter-spacing:2px;color:rgba(255,255,255,0.6);margin-bottom:${isH?'14px':'10px'};text-transform:uppercase">En calidad de: ${p.rol}</div>`:''}
+      <div style="font-size:${(isH?0.78:0.72)*(ts||1)}rem;color:rgba(255,255,255,0.7);line-height:1.9;text-align:center;max-width:80%;flex:1;overflow-wrap:anywhere;word-spacing:0.25em">${cText(certText)}</div>
+    </div>
+    <div style="padding:${isH?'14px 50px':'18px 44px'};border-top:2px solid ${ca};background:rgba(0,0,0,0.2)">
+      ${signaturesHTML(signatures, '#fff', ca)}
+    </div>
+  </div>`;
+}
+
+// T10: Corporativa Empresarial
+function renderT10(d) {
+  const { config: c, participant: p, logos, logoSize: ls, textSize: ts, signatures, certText, colorPrimary: cp, colorAccent: ca, pageSize: ps } = d;
+  const isH = ps.w > ps.h;
+  return `<div style="width:100%;height:100%;font-family:'Lato',Arial,sans-serif;background:#f8fafc;display:flex;flex-direction:row;box-sizing:border-box">
+    <div style="width:${isH?'10px':'8px'};background:${cp};flex-shrink:0"></div>
+    <div style="width:${isH?'6px':'4px'};background:${ca};flex-shrink:0"></div>
+    <div style="flex:1;display:flex;flex-direction:column;padding:${isH?'32px 50px 28px':'36px 42px 28px'};box-sizing:border-box">
+      <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:${isH?'28px':'32px'}">
+        <div>
+          ${logosHTML(logos, ls)}
+          <div style="margin-top:8px;font-size:0.72rem;letter-spacing:2px;color:#64748b;text-transform:uppercase">${c.institucion||''}</div>
+        </div>
+        <div style="text-align:right">
+          <div style="font-size:0.68rem;color:#94a3b8;">${c.ciudad||''} ${c.pais?'· '+c.pais:''}</div>
+          <div style="font-size:0.65rem;color:#94a3b8;margin-top:3px">${c.fechaEvento||''}</div>
+          ${c.codigo?`<div style="font-size:0.65rem;color:${ca};margin-top:4px;font-weight:700">${c.codigo}</div>`:''}
+        </div>
+      </div>
+      <div style="font-size:0.68rem;font-weight:700;letter-spacing:4px;color:${ca};text-transform:uppercase;margin-bottom:6px">Certificado de ${c.tipo||'participación'}</div>
+      <div style="width:${isH?'280px':'220px'};height:1px;background:#e2e8f0;margin-bottom:${isH?'16px':'12px'}"></div>
+      <div style="font-size:0.75rem;color:#64748b;margin-bottom:8px">Este documento certifica que:</div>
+      <div style="font-family:'Playfair Display',serif;font-size:${isH?'2rem':'1.65rem'};font-weight:700;color:${cp};margin-bottom:${isH?'8px':'6px'};line-height:1.1">${p?p.nombre:'[Nombre del Participante]'}</div>
+      ${p&&p.doc?`<div style="font-size:0.68rem;color:#94a3b8;margin-bottom:${isH?'16px':'12px'}">Doc: ${p.doc}</div>`:`<div style="margin-bottom:${isH?'16px':'12px'}"></div>`}
+      <div style="font-size:${(isH?0.82:0.78)*(ts||1)}rem;color:#334155;line-height:1.85;max-width:${isH?'78%':'90%'};flex:1;overflow-wrap:anywhere;word-spacing:0.25em">${cText(certText)}</div>
+      <div style="margin-top:auto;padding-top:16px;border-top:1px solid #e2e8f0">
+        ${signaturesHTML(signatures, cp, ca)}
+      </div>
+    </div>
+  </div>`;
+}
+
+// T11: Con Patrocinadores — logos de patrocinadores en franja inferior
+function renderT11(d) {
+  const { config: c, participant: p, logos, logoSize: ls, textSize: ts, signatures, certText, colorPrimary: cp, colorAccent: ca, pageSize: ps } = d;
+  const isH = ps.w > ps.h;
+  const hasLogos = Object.values(logos).some(Boolean);
+  return `<div style="width:100%;height:100%;display:flex;flex-direction:column;font-family:'Crimson Text',Georgia,serif;background:#ffffff;position:relative;overflow:hidden">
+    <!-- Header -->
+    <div style="background:${cp};padding:${isH?'16px 50px':'20px 50px'};display:flex;align-items:center;justify-content:space-between;min-height:${isH?'100px':'110px'}">
+      <div>${logosHTML(logos, ls)}</div>
+      <div style="text-align:right;color:rgba(255,255,255,0.9)">
+        <div style="font-family:'Cinzel',serif;font-size:${isH?'1rem':'0.9rem'};letter-spacing:3px;text-transform:uppercase">${c.institucion||'Institución'}</div>
+        ${c.subtitulo?`<div style="font-size:0.72rem;margin-top:4px;opacity:0.7">${c.subtitulo}</div>`:''}
+      </div>
+    </div>
+    <div style="height:5px;background:${ca}"></div>
+    <!-- Body -->
+    <div style="flex:1;display:flex;flex-direction:column;align-items:center;justify-content:center;padding:${isH?'18px 60px 12px':'22px 60px 12px'};text-align:center">
+      <div style="font-family:'Cinzel',serif;font-size:${isH?'1.4rem':'1.2rem'};letter-spacing:6px;color:${cp};text-transform:uppercase;margin-bottom:${isH?'6px':'8px'}">Certificado</div>
+      <div style="font-family:'Cinzel',serif;font-size:${isH?'1rem':'0.88rem'};letter-spacing:4px;color:${ca};text-transform:uppercase;margin-bottom:${isH?'14px':'16px'}">de ${c.tipo||'participación'}</div>
+      <div style="font-size:${isH?'0.83rem':'0.78rem'};color:#666;margin-bottom:${isH?'8px':'10px'};letter-spacing:0.5px">${c.institucion||'La institución'} certifica que:</div>
+      <div style="font-family:'Playfair Display',serif;font-size:${isH?'1.75rem':'1.45rem'};font-weight:700;color:${cp};letter-spacing:1px;margin-bottom:${isH?'14px':'16px'};line-height:1.2;max-width:${isH?'70%':'82%'}">${p?p.nombre:'[Nombre del Participante]'}</div>
+      <div style="font-size:${(isH?0.8:0.76)*(ts||1)}rem;color:#444;line-height:1.85;max-width:${isH?'76%':'88%'};text-align:center;overflow-wrap:anywhere;word-spacing:0.25em;flex:1">${cText(certText)}</div>
+    </div>
+    <!-- Signatures -->
+    <div style="height:3px;background:linear-gradient(to right,${cp},${ca},${cp})"></div>
+    <div style="padding:${isH?'12px 50px':'14px 50px'};background:#fafafa;border-top:1px solid #eee">
+      ${signaturesHTML(signatures, cp, ca)}
+    </div>
+    <!-- Sponsors strip -->
+    ${hasLogos ? `
+    <div style="border-top:1px solid #e8e8e8;background:#f5f5f5;padding:${isH?'10px 50px':'12px 40px'}">
+      <div style="font-size:0.58rem;letter-spacing:2px;color:#aaa;text-transform:uppercase;text-align:center;margin-bottom:6px">Patrocinadores y aliados</div>
+      ${sponsorsHTML(logos, ls)}
+    </div>` : ''}
+  </div>`;
+}
+
+// ════════════════════════════════════════════════════════
+// EMAIL MODULE — Google Apps Script bridge
+// ════════════════════════════════════════════════════════
+
+// ── GAS CONFIG ───────────────────────────────
+let GAS_URL = localStorage.getItem('certiflow_gas_url') || '';
+let emailSendStats = { total: 0, ok: 0, err: 0 };
+
+function saveGASUrl(url) {
+  GAS_URL = url.trim();
+  localStorage.setItem('certiflow_gas_url', GAS_URL);
+  setGASStatus('idle', 'URL guardada — haz clic en "Probar conexión" para verificar');
+}
+
+function setGASStatus(type, msg) {
+  const box = document.getElementById('gas-status-box');
+  const txt = document.getElementById('gas-status-text');
+  if (!box || !txt) return;
+  box.className = 'gas-status ' + type;
+  txt.textContent = msg;
+}
+
+async function testGASConnection() {
+  const url = (document.getElementById('gas-url-input') || {}).value || GAS_URL;
+  if (!url || !url.startsWith('https://script.google.com')) {
+    setGASStatus('err', 'URL no válida. Debe comenzar con https://script.google.com');
+    return;
+  }
+  GAS_URL = url.trim();
+  localStorage.setItem('certiflow_gas_url', GAS_URL);
+  setGASStatus('idle', 'Probando conexión...');
+  try {
+    // GET test (no-cors so we can't read response, but no error = URL valid)
+    await fetch(GAS_URL, { method: 'GET', mode: 'no-cors' });
+    setGASStatus('ok', '✓ Conexión establecida — listo para enviar certificados');
+    showToast('Conexión con Google Apps Script verificada', 'success');
+  } catch(e) {
+    setGASStatus('err', 'Error de conexión: ' + e.message + '. Verifica la URL y los permisos del script.');
+  }
+}
+
+// ── GAS MODAL ────────────────────────────────
+function openGASModal() {
+  const m = document.getElementById('gas-script-modal');
+  if (m) { m.classList.add('open'); m.style.display = 'flex'; }
+}
+function closeGASModal() {
+  const m = document.getElementById('gas-script-modal');
+  if (m) { m.classList.remove('open'); m.style.display = 'none'; }
+}
+function copyGASCode() {
+  const code = document.getElementById('gas-code-block');
+  if (!code) return;
+  navigator.clipboard.writeText(code.innerText)
+    .then(() => showToast('Código copiado al portapapeles', 'success'))
+    .catch(() => {
+      const ta = document.createElement('textarea');
+      ta.value = code.innerText;
+      document.body.appendChild(ta); ta.select();
+      document.execCommand('copy'); document.body.removeChild(ta);
+      showToast('Código copiado', 'success');
+    });
+}
+
+// ── EMAIL HTML BODY GENERATOR ─────────────────
+function buildEmailHTML(participant, certImageBase64) {
+  const c = STATE.config;
+  const nombre = participant ? (participant.nombre || 'participante') : 'participante';
+  const intro = resolvePlaceholders(
+    (document.getElementById('email-intro') || {value:''}).value, participant
+  ).replace(/\n/g, '<br>');
+  const senderName = (document.getElementById('email-sender-name') || {value: c.institucion || 'CertiFlow'}).value || c.institucion || 'CertiFlow';
+  const cp = STATE.colorPrimary;
+  const ca = STATE.colorAccent;
+
+  // Imagen del certificado incrustada (base64) o placeholder si no está disponible
+  const certBlock = certImageBase64
+    ? `<img src="${certImageBase64}"
+           alt="Certificado de ${esc(nombre)}"
+           width="560"
+           style="width:100%;max-width:560px;height:auto;display:block;border-radius:6px;border:2px solid ${ca}">`
+    : `<div style="background:#f8fafc;border:2px dashed #e2e8f0;border-radius:6px;padding:40px;text-align:center;color:#94a3b8;font-size:13px">
+         Vista del certificado no disponible
+       </div>`;
+
+  return `<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <title>Certificado — ${esc(c.evento || '')}</title>
+</head>
+<body style="margin:0;padding:0;background:#f1f5f9;font-family:Georgia,serif">
+<table width="100%" cellpadding="0" cellspacing="0" style="background:#f1f5f9;padding:32px 16px">
+  <tr><td align="center">
+    <table width="600" cellpadding="0" cellspacing="0"
+           style="max-width:600px;width:100%;background:#ffffff;border-radius:12px;
+                  overflow:hidden;box-shadow:0 4px 24px rgba(0,0,0,0.10)">
+
+      <!-- Encabezado -->
+      <tr><td style="background:${cp};padding:22px 36px;text-align:center">
+        <p style="margin:0;color:rgba(255,255,255,0.85);font-size:11px;letter-spacing:3px;text-transform:uppercase">${esc(c.institucion || '')}</p>
+        <p style="margin:6px 0 0;color:${ca};font-size:12px;letter-spacing:2px;text-transform:uppercase">Certificado de ${esc(c.tipo || 'participación')}</p>
+      </td></tr>
+
+      <!-- Saludo e intro -->
+      <tr><td style="padding:28px 36px 20px">
+        <p style="margin:0;font-size:15px;line-height:1.8;color:#374151">${intro}</p>
+      </td></tr>
+
+      <!-- Imagen del certificado incrustada -->
+      <tr><td style="padding:0 20px 24px;text-align:center">
+        ${certBlock}
+      </td></tr>
+
+      <!-- Instrucción para guardar -->
+      <tr><td style="padding:0 36px 28px;text-align:center">
+        <table cellpadding="0" cellspacing="0" style="margin:0 auto;max-width:460px">
+          <tr><td style="background:#f8fafc;border:1px solid #e2e8f0;border-radius:10px;padding:16px 20px;text-align:center">
+            <p style="margin:0 0 6px;font-size:13px;font-weight:bold;color:#374151">💾 ¿Cómo guardar tu certificado?</p>
+            <p style="margin:0;font-size:12px;color:#64748b;line-height:1.7">
+              <b>En computador:</b> clic derecho sobre la imagen → <em>"Guardar imagen como..."</em><br>
+              <b>En celular:</b> mantén presionada la imagen → <em>"Guardar imagen"</em><br>
+              <b>Para imprimir:</b> abre la imagen y usa Ctrl+P / Cmd+P
+            </p>
+          </td></tr>
+        </table>
+      </td></tr>
+
+      <!-- Pie de página -->
+      <tr><td style="background:#f8fafc;border-top:1px solid #e2e8f0;padding:16px 36px;text-align:center">
+        <p style="margin:0;font-size:11px;color:#94a3b8;line-height:1.7">
+          ${esc(c.evento || '')}${c.ciudad ? ' · ' + esc(c.ciudad) : ''}${c.pais ? ', ' + esc(c.pais) : ''}<br>
+          Generado con CertiFlow Pro · ${esc(senderName)}
+        </p>
+      </td></tr>
+
+    </table>
+  </td></tr>
+</table>
+</body></html>`;
+}
+
+// ── PREVIEW ───────────────────────────────────
+async function refreshEmailPreview() {
+  const frame = document.getElementById('email-preview-frame');
+  if (!frame) return;
+  const participant = STATE.participants[STATE.currentPreviewIdx] || null;
+
+  // Mostrar versión provisional sin imagen mientras carga
+  try {
+    const docPrev = frame.contentDocument || frame.contentWindow.document;
+    docPrev.open();
+    docPrev.write(buildEmailHTML(participant, null));
+    docPrev.close();
+  } catch(e) {}
+
+  // Generar imagen real del certificado para el preview
+  try {
+    const certImageBase64 = await renderCertForEmail(participant);
+    const html = buildEmailHTML(participant, certImageBase64);
+    const doc = frame.contentDocument || frame.contentWindow.document;
+    doc.open(); doc.write(html); doc.close();
+  } catch(e) {
+    console.warn('Email preview error:', e);
+  }
+  updateRecipientsSummary();
+}
+
+function updateRecipientsSummary() {
+  const el = document.getElementById('recipients-summary');
+  if (!el) return;
+  const filter = document.querySelector('input[name="send-filter"]:checked');
+  const val = filter ? filter.value : 'all';
+  const recipients = getRecipients(val);
+  const withEmail = recipients.filter(p => p.email && p.email.includes('@')).length;
+  const withoutEmail = recipients.length - withEmail;
+  el.innerHTML = `<span style="color:var(--text-1);font-weight:600">${recipients.length}</span> participante${recipients.length!==1?'s':''} seleccionados
+    · <span style="color:var(--green)">${withEmail}</span> con email válido
+    ${withoutEmail > 0 ? `· <span style="color:var(--amber)">${withoutEmail}</span> sin email (se omitirán)` : ''}`;
+}
+
+function getRecipients(filter) {
+  if (filter === 'email-only') return STATE.participants.filter(p => p.email && p.email.includes('@'));
+  if (filter === 'selected') {
+    const checked = [...document.querySelectorAll('.row-check:checked')].map(c => parseInt(c.dataset.i));
+    return STATE.participants.filter((_, i) => checked.includes(i));
+  }
+  return STATE.participants;
+}
+
+// ── SEND SINGLE ───────────────────────────────
+async function sendCurrentEmail() {
+  if (!GAS_URL) { openGASModal(); showToast('Configura primero el script de Google', 'warn'); return; }
+  const participant = STATE.participants[STATE.currentPreviewIdx] || null;
+  if (!participant) { showToast('Selecciona un participante primero', 'warn'); return; }
+  if (!participant.email || !participant.email.includes('@')) {
+    showToast(`${participant.nombre} no tiene email válido`, 'warn'); return;
+  }
+  const btn = document.getElementById('btn-send-one');
+  if (btn) { btn.disabled = true; btn.textContent = '⏳ Generando y enviando…'; }
+  showToast(`Generando imagen del certificado…`, 'info');
+  const result = await sendOneEmail(participant);
+  if (btn) { btn.disabled = false; btn.textContent = '📧 Enviar al participante visible'; }
+  if (result.ok) {
+    showToast(`✓ Correo enviado a ${participant.nombre}`, 'success');
+  } else {
+    showToast(`Error al enviar: ${result.error}`, 'error');
+  }
+}
+
+// ── SEND ALL ──────────────────────────────────
+async function sendAllEmails() {
+  if (!GAS_URL) { openGASModal(); showToast('Configura primero el script de Google', 'warn'); return; }
+  const filter = (document.querySelector('input[name="send-filter"]:checked') || {value:'all'}).value;
+  const recipients = getRecipients(filter).filter(p => p.email && p.email.includes('@'));
+  if (!recipients.length) { showToast('No hay destinatarios con email válido', 'warn'); return; }
+
+  const confirmMsg = `¿Enviar ${recipients.length} certificado${recipients.length!==1?'s':''} ahora?
+
+Se enviarán desde tu Gmail con una pausa de 600ms entre cada envío.`;
+  showModal('Confirmar envío masivo', confirmMsg, [
+    { label: 'Cancelar', cls: 'btn' },
+    { label: `Enviar ${recipients.length} correos`, cls: 'btn success', action: () => _doSendAll(recipients) }
+  ]);
+}
+
+async function _doSendAll(recipients) {
+  const statsEl = document.getElementById('send-stats');
+  if (statsEl) statsEl.style.display = 'grid';
+
+  emailSendStats = { total: recipients.length, ok: 0, err: 0 };
+  updateSendStats();
+  showProgress(true);
+
+  const btnAll = document.getElementById('btn-send-all');
+  const btnOne = document.getElementById('btn-send-one');
+  if (btnAll) { btnAll.disabled = true; btnAll.textContent = 'Enviando...'; }
+  if (btnOne) btnOne.disabled = true;
+
+  for (let i = 0; i < recipients.length; i++) {
+    const p = recipients[i];
+    updateProgress(i, recipients.length, `Enviando a: ${p.nombre}`);
+    const result = await sendOneEmail(p);
+    if (result.ok) emailSendStats.ok++;
+    else           emailSendStats.err++;
+    updateSendStats();
+    // 600ms delay — respects Gmail's rate limit (~100/min)
+    if (i < recipients.length - 1) await delay(600);
+  }
+
+  updateProgress(recipients.length, recipients.length, 'Envío completado');
+  showProgress(false);
+  if (btnAll) { btnAll.disabled = false; btnAll.textContent = '📨 Enviar a todos los destinatarios'; }
+  if (btnOne) btnOne.disabled = false;
+
+  const msg = `Envío completado: ${emailSendStats.ok} enviados, ${emailSendStats.err} errores`;
+  showToast(msg, emailSendStats.err === 0 ? 'success' : 'warn');
+}
+
+async function sendOneEmail(participant) {
+  const subject = resolvePlaceholders(
+    (document.getElementById('email-subject') || {value:'Tu certificado'}).value,
+    participant
+  );
+  // Codificar subject en base64 para evitar corrupción de tildes/ñ en GAS
+  const subjectB64 = btoa(unescape(encodeURIComponent(subject)));
+  const replyTo    = (document.getElementById('email-reply-to')    || {value:''}).value;
+  const senderName = (document.getElementById('email-sender-name') || {value:''}).value
+                     || STATE.config.institucion || 'CertiFlow';
+  const nombre     = participant ? (participant.nombre || 'participante') : 'participante';
+
+  // ── Generar imagen JPEG del certificado ──────
+  let certImageBase64 = null;
+  try {
+    certImageBase64 = await renderCertForEmail(participant);
+    // Log tamaño para diagnóstico
+    const kb = Math.round(certImageBase64.length * 0.75 / 1024);
+    console.log(`Cert image: ${kb}KB base64`);
+  } catch (imgErr) {
+    showToast(`⚠ No se pudo generar la imagen: ${imgErr.message}`, 'warn');
+    console.error('Cert image error:', imgErr);
+  }
+
+  // ── Construir email con imagen incrustada ────
+  const htmlBody = buildEmailHTML(participant, certImageBase64);
+
+  const payload = {
+    to:          participant.email,
+    subject:     subjectB64,
+    subjectB64:  true,
+    htmlBody,
+    replyTo,
+    senderName,
+  };
+
+  // ── Enviar vía GAS ───────────────────────────
+  try {
+    await fetch(GAS_URL, {
+      method:  'POST',
+      mode:    'no-cors',
+      headers: { 'Content-Type': 'text/plain' },
+      body:    JSON.stringify(payload),
+    });
+    return { ok: true };
+  } catch (e) {
+    console.error('Fetch error:', e);
+    return { ok: false, error: e.message };
+  }
+}
+
+function updateSendStats() {
+  const n = (id, val) => { const el = document.getElementById(id); if(el) el.textContent = val; };
+  n('stat-total', emailSendStats.total);
+  n('stat-ok',    emailSendStats.ok);
+  n('stat-err',   emailSendStats.err);
+}
+
+function delay(ms) { return new Promise(r => setTimeout(r, ms)); }
+
+// ── INIT EMAIL MODULE ────────────────────────
+function initEmailModule() {
+  // Restore GAS URL
+  const inp = document.getElementById('gas-url-input');
+  if (inp && GAS_URL) {
+    inp.value = GAS_URL;
+    setGASStatus('idle', 'URL cargada — haz clic en "Probar conexión" para verificar');
+  }
+  refreshEmailPreview();
+  updateRecipientsSummary();
+}
+
+// ════════════════════════════════════════════════════════
+// GUIDED TOUR
+// ════════════════════════════════════════════════════════
+const TOUR_STEPS = [
+  {
+    title: '👋 Bienvenido a CertiFlow Pro',
+    body: 'Esta es una guía rápida para que conozcas todas las funciones de la aplicación. Puedes <b>omitirla</b> en cualquier momento o relanzarla desde el botón <b>❓ Tour</b> en la barra superior.',
+    target: '#topbar',
+    position: 'bottom',
+    step: 0,
+  },
+  {
+    title: '1️⃣ Configuración General',
+    body: 'Comienza aquí. Ingresa el <b>nombre de la institución</b>, el <b>tipo de certificado</b>, el evento, las fechas y la ciudad. Todos estos datos se autocompletarán en el certificado.',
+    target: '[data-step="1"]',
+    position: 'right',
+    nav: 1,
+  },
+  {
+    title: '2️⃣ Tamaño y Plantilla',
+    body: 'Elige el <b>formato de página</b> (Carta, A4, Oficio) y una de las <b>11 plantillas visuales</b>. La plantilla <b>Con Patrocinadores</b> incluye una franja inferior de logos aliados. Personaliza colores para adaptar el certificado a tu identidad institucional.',
+    target: '[data-step="2"]',
+    position: 'right',
+    nav: 2,
+  },
+  {
+    title: '3️⃣ Logos y Firmas',
+    body: 'Carga entre <b>1 y 6 logos</b> usando los botones <b>+ Slot / − Slot</b> para agregar o quitar espacios. Ajusta el <b>tamaño del logo</b> con el slider. Para las firmas, puedes agregar tantas como necesites con el botón "+ Agregar firma". La plantilla <b>Con Patrocinadores</b> muestra los logos también en la franja inferior.',
+    target: '[data-step="3"]',
+    position: 'right',
+    nav: 3,
+  },
+  {
+    title: '4️⃣ Participantes',
+    body: 'Agrega participantes <b>manualmente</b> o carga un <b>archivo CSV masivo</b>. Descarga la plantilla incluida para ver el formato exacto. El email es necesario si quieres enviar los certificados por correo.',
+    target: '[data-step="4"]',
+    position: 'right',
+    nav: 4,
+  },
+  {
+    title: '5️⃣ Texto del Certificado',
+    body: 'Selecciona un <b>modelo de texto base</b> y personalízalo. Usa los <b>marcadores dinámicos</b> como <code style="background:rgba(200,169,81,0.15);padding:1px 5px;border-radius:3px">{{participante}}</code> para personalizar cada certificado. <b>Enter simple</b> = nueva línea · <b>Enter doble</b> = nuevo párrafo con separación. El slider <b>Tamaño del texto</b> ajusta el cuerpo del certificado en tiempo real.',
+    target: '[data-step="5"]',
+    position: 'right',
+    nav: 5,
+  },
+  {
+    title: '🖥 Vista Previa en Tiempo Real',
+    body: 'Este panel muestra el certificado <b>actualizado en tiempo real</b>. Selecciona un participante del menú para ver su certificado personalizado. Usa los controles de zoom para acercar la vista.',
+    target: '#preview-panel',
+    position: 'left',
+  },
+  {
+    title: '6️⃣ Exportar y Enviar',
+    body: 'Desde aquí puedes: <b>📄 PDF individual</b>, <b>📦 ZIP masivo</b> con un PDF por participante, y <b>📧 envío por correo</b> directamente desde tu Gmail usando Google Apps Script (gratuito, sin cuentas externas).',
+    target: '[data-step="6"]',
+    position: 'right',
+    nav: 6,
+  },
+  {
+    title: '✅ ¡Listo para empezar!',
+    body: 'Ya conoces CertiFlow Pro. Puedes relanzar este tour desde el botón <b>❓ Tour</b>. Para una guía detallada, ve al <b>Paso 7 — Manual y Créditos</b> en el menú lateral.<br><br>¡Genera certificados profesionales en minutos!',
+    target: '#tour-trigger-btn',
+    position: 'bottom',
+    isLast: true,
+  },
+];
+
+let tourIdx = 0;
+let tourActive = false;
+
+function startTour() {
+  tourIdx = 0;
+  tourActive = true;
+  const overlay = document.getElementById('tour-overlay');
+  overlay.classList.add('active');
+  buildTourDots();
+  showTourStep(0);
+}
+
+function endTour() {
+  tourActive = false;
+  const overlay = document.getElementById('tour-overlay');
+  overlay.style.opacity = '0';
+  setTimeout(() => {
+    overlay.classList.remove('active');
+    overlay.style.opacity = '';
+  }, 300);
+}
+
+function tourNext() {
+  if (tourIdx >= TOUR_STEPS.length - 1) { endTour(); return; }
+  tourIdx++;
+  showTourStep(tourIdx);
+}
+
+function tourPrev() {
+  if (tourIdx <= 0) return;
+  tourIdx--;
+  showTourStep(tourIdx);
+}
+
+function buildTourDots() {
+  const dots = document.getElementById('tour-dots');
+  dots.innerHTML = TOUR_STEPS.map((_, i) => `<div class="tour-dot" id="tdot-${i}"></div>`).join('');
+}
+
+function showTourStep(idx) {
+  const step = TOUR_STEPS[idx];
+  if (!step) return;
+
+  // Navigate to the right step if needed
+  if (step.nav !== undefined) goStep(step.nav);
+
+  // Update card content
+  document.getElementById('tour-step-label').textContent = `Paso ${idx + 1} de ${TOUR_STEPS.length}`;
+  document.getElementById('tour-title').textContent = step.title;
+  document.getElementById('tour-body').innerHTML = step.body;
+
+  // Update dots
+  document.querySelectorAll('.tour-dot').forEach((d, i) => {
+    d.className = 'tour-dot' + (i === idx ? ' active' : i < idx ? ' done' : '');
+  });
+
+  // Update buttons
+  const prev = document.getElementById('tour-prev-btn');
+  const next = document.getElementById('tour-next-btn');
+  const skip = document.getElementById('tour-skip-btn');
+  prev.style.visibility = idx === 0 ? 'hidden' : 'visible';
+  next.textContent = step.isLast ? '¡Comenzar! 🚀' : 'Siguiente →';
+  skip.textContent = step.isLast ? '' : 'Omitir tour';
+  skip.style.visibility = step.isLast ? 'hidden' : 'visible';
+
+  // Position spotlight and card
+  setTimeout(() => positionTourStep(step), step.nav !== undefined ? 120 : 20);
+}
+
+function positionTourStep(step) {
+  const target = document.querySelector(step.target);
+  const spotlight = document.getElementById('tour-spotlight');
+  const card = document.getElementById('tour-card');
+  if (!target || !spotlight || !card) return;
+
+  const rect = target.getBoundingClientRect();
+  const pad = 8;
+
+  spotlight.style.opacity = '1';
+  spotlight.style.left   = (rect.left - pad) + 'px';
+  spotlight.style.top    = (rect.top - pad) + 'px';
+  spotlight.style.width  = (rect.width + pad * 2) + 'px';
+  spotlight.style.height = (rect.height + pad * 2) + 'px';
+
+  // Position card
+  const cw = 320, ch = 220;
+  const vw = window.innerWidth, vh = window.innerHeight;
+  let cx, cy;
+
+  if (step.position === 'right') {
+    cx = rect.right + 16;
+    cy = rect.top + rect.height / 2 - ch / 2;
+  } else if (step.position === 'left') {
+    cx = rect.left - cw - 16;
+    cy = rect.top + rect.height / 2 - ch / 2;
+  } else if (step.position === 'bottom') {
+    cx = rect.left + rect.width / 2 - cw / 2;
+    cy = rect.bottom + 16;
+  } else {
+    cx = rect.left;
+    cy = rect.bottom + 16;
+  }
+
+  // Clamp to viewport
+  cx = Math.max(12, Math.min(cx, vw - cw - 12));
+  cy = Math.max(12, Math.min(cy, vh - ch - 12));
+
+  card.style.left = cx + 'px';
+  card.style.top  = cy + 'px';
+}
+
+// Reposition on resize
+window.addEventListener('resize', () => {
+  if (!tourActive) return;
+  const step = TOUR_STEPS[tourIdx];
+  if (step) positionTourStep(step);
+});
+
+// ════════════════════════════════════════════════════════
+// SCROLL TO GAS SETUP with highlight
+// ════════════════════════════════════════════════════════
+function scrollToGASSetup() {
+  // First navigate to step 6 if not already there
+  if (STATE.currentStep !== 6) goStep(6);
+
+  setTimeout(() => {
+    const box = document.getElementById('gas-setup-box');
+    const contentArea = document.getElementById('content-area');
+    if (!box || !contentArea) return;
+
+    // Smooth scroll within content area
+    box.scrollIntoView({ behavior: 'smooth', block: 'center' });
+
+    // Add pulse highlight
+    box.classList.add('scroll-highlight');
+    setTimeout(() => box.classList.remove('scroll-highlight'), 2400);
+
+    // Also focus the URL input
+    setTimeout(() => {
+      const inp = document.getElementById('gas-url-input');
+      if (inp) inp.focus();
+    }, 600);
+  }, STATE.currentStep !== 6 ? 180 : 60);
+}
+
+// ── SAMPLE INIT ───────────────────────────────
+// Auto-trigger initial render after fonts load
+window.addEventListener('load', () => {
+  document.fonts.ready.then(() => { updatePreview(); });
+  // Restore GAS URL
+  GAS_URL = localStorage.getItem('certiflow_gas_url') || '';
+  // Load from storage
+  loadFromStorage();
+  // If still no project, load default text model
+  const hasSaved = localStorage.getItem('certiflow_autosave_v1') || localStorage.getItem('certiflow_v1');
+  if (!hasSaved) {
+    loadTextModel('participacion');
+  }
+});
+</script>
+<!-- ═══ MOBILE BOTTOM NAV (visible solo en ≤600px) ═══ -->
+<nav id="mobile-bottom-nav" style="display:none">
+  <div class="mob-nav-item active" data-step="1" onclick="goStep(1)">
+    <span class="mob-icon">⚙️</span><span>General</span>
+  </div>
+  <div class="mob-nav-item" data-step="2" onclick="goStep(2)">
+    <span class="mob-icon">🎨</span><span>Plantilla</span>
+  </div>
+  <div class="mob-nav-item" data-step="3" onclick="goStep(3)">
+    <span class="mob-icon">🖼</span><span>Logos</span>
+  </div>
+  <div class="mob-nav-item" data-step="4" onclick="goStep(4)">
+    <span class="mob-icon">👥</span><span>Personas</span>
+  </div>
+  <div class="mob-nav-item" data-step="5" onclick="goStep(5)">
+    <span class="mob-icon">📝</span><span>Texto</span>
+  </div>
+  <div class="mob-nav-item" data-step="6" onclick="goStep(6)">
+    <span class="mob-icon">📤</span><span>Exportar</span>
+  </div>
+  <div class="mob-nav-item" data-step="7" onclick="goStep(7)">
+    <span class="mob-icon">❓</span><span>Ayuda</span>
+  </div>
+</nav>
+
+</body>
+</html>

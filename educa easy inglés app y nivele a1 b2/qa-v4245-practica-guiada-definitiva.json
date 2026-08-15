@@ -1,0 +1,19 @@
+{
+  "version": "v4.24.5",
+  "problem": "Práctica guiada mostraba opciones sin instrucción/estímulo visible y reading/listen no siempre eran seleccionables.",
+  "fixes": [
+    "reading_choice ahora muestra obligatoriamente: Qué debes hacer, Situación, Texto guía para leer, Pregunta que debes responder, Opciones.",
+    "listen_choice ahora muestra obligatoriamente: Qué debes hacer, Situación, Reto de escucha, Audio visible, Opciones.",
+    "El handler de respuestas incluye reading_choice y listen_choice.",
+    "El contenido A1-A2-B1-B2 queda auditado para que reading/listen tengan scenario/prompt/question/audio según corresponda.",
+    "CSS fuerza visibilidad de los bloques de práctica guiada."
+  ],
+  "checks": {
+    "handler_reading_listen": true,
+    "reading_required_card": true,
+    "listen_required_card": true,
+    "css_force_visible": true,
+    "missing_read_listen_context": 0
+  },
+  "contentRepairs": {}
+}

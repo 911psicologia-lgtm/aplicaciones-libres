@@ -1,0 +1,793 @@
+/* ════════════════════════════════════════════════
+   NeuroExplora — neuron.css
+   Módulo: Neurona Interactiva
+   ════════════════════════════════════════════════ */
+
+/* ── HERO ─────────────────────────────────────── */
+.neuron-hero {
+  position: relative; z-index: 1;
+  padding: 28px 28px 16px;
+  text-align: center;
+  max-width: 760px;
+  margin: 0 auto;
+}
+
+.neuron-hero-badge {
+  display: inline-flex; align-items: center; gap: 8px;
+  padding: 5px 18px; border-radius: 30px; margin-bottom: 12px;
+  background: rgba(79,142,247,0.1);
+  border: 1px solid rgba(79,142,247,0.25);
+  font-size: 13px; font-weight: 600; color: var(--accent);
+  letter-spacing: 0.5px;
+}
+
+.neuron-hero-title {
+  font-family: var(--ff-head);
+  font-size: clamp(26px, 4.5vw, 40px);
+  font-weight: 800; letter-spacing: -0.8px;
+  color: var(--text); margin-bottom: 8px; line-height: 1.1;
+}
+
+.neuron-hero-desc {
+  font-size: 14.5px; line-height: 1.75;
+  color: var(--text2); max-width: 540px; margin: 0 auto;
+}
+
+/* ── LAYOUT PRINCIPAL ─────────────────────────── */
+.neuron-layout {
+  position: relative; z-index: 1;
+  display: flex; flex-direction: column;
+  gap: 16px; padding: 10px 18px 16px;
+  max-width: 1100px; margin: 0 auto;
+}
+
+/* ── SVG INTERACTIVO ──────────────────────────── */
+.neuron-svg-section {
+  background: var(--surface);
+  border: 1px solid var(--border2);
+  border-radius: var(--radius3);
+  overflow: hidden;
+  box-shadow: var(--shadow-md);
+}
+
+#neuron-svg-container {
+  position: relative;
+  padding: 8px 0;
+}
+
+#neuron-svg {
+  width: 100%;
+  max-height: 360px;
+  display: block;
+  overflow: visible;
+}
+
+/* Etiquetas del SVG */
+.nlabel {
+  font-family: var(--ff-head);
+  font-size: 11px; font-weight: 600;
+  pointer-events: none;
+}
+
+.nlabel-sm {
+  font-family: var(--ff-head);
+  font-size: 9.5px; font-weight: 500;
+  pointer-events: none;
+}
+
+.nlabel-line {
+  stroke-width: 1; opacity: 0.4;
+  stroke-dasharray: 3 3;
+}
+
+/* Partes interactivas */
+.neuron-part {
+  transition: filter 0.25s var(--ease), opacity 0.22s var(--ease);
+}
+
+.neuron-part.part-dim {
+  opacity: 0.9;
+}
+
+/* Spines y paths dendríticos */
+.dendrite-spine { opacity: 0.72; transition: all 0.2s; }
+.dendrite-path  { opacity: 0.82; transition: all 0.2s; }
+
+/* Tooltip */
+.brain-tooltip {
+  position: absolute;
+  padding: 5px 12px; border-radius: 8px;
+  background: var(--surface3);
+  border: 1px solid var(--border3);
+  font-size: 12px; font-weight: 600;
+  font-family: var(--ff-head);
+  color: var(--text);
+  pointer-events: none; opacity: 0;
+  transform: translateY(3px);
+  transition: opacity 0.15s, transform 0.15s;
+  white-space: nowrap; z-index: 10;
+  box-shadow: var(--shadow-sm);
+}
+
+.brain-tooltip.visible { opacity: 1; transform: translateY(0); }
+
+/* ── BARRA DE CONTROLES ───────────────────────── */
+.neuron-controls {
+  display: flex; align-items: center; justify-content: center;
+  flex-wrap: wrap; gap: 12px;
+  padding: 14px 20px;
+  background: var(--bg2);
+  border-top: 1px solid var(--border);
+}
+
+.btn-play-impulse {
+  padding: 10px 22px; border-radius: var(--radius);
+  background: linear-gradient(135deg, #4f8ef7, #34d399);
+  color: #fff; font-family: var(--ff-head);
+  font-size: 14px; font-weight: 600;
+  border: none; cursor: pointer;
+  transition: all 0.2s; letter-spacing: 0.2px;
+  box-shadow: 0 2px 12px rgba(79,142,247,0.35);
+}
+
+.btn-play-impulse:hover {
+  transform: translateY(-1px);
+  box-shadow: 0 4px 20px rgba(79,142,247,0.45);
+  filter: brightness(1.08);
+}
+
+.btn-play-impulse:disabled { opacity: 0.5; cursor: wait; }
+
+.speed-group {
+  display: flex; align-items: center; gap: 6px;
+}
+
+.speed-label {
+  font-size: 11px; color: var(--text3);
+  font-weight: 500; text-transform: uppercase; letter-spacing: 0.8px;
+}
+
+.speed-btn {
+  padding: 5px 12px; border-radius: 8px;
+  background: var(--surface2); border: 1px solid var(--border2);
+  color: var(--text2); font-size: 12px; font-weight: 600;
+  font-family: var(--ff-head);
+  transition: all 0.15s;
+}
+
+.speed-btn:hover { border-color: var(--accent); color: var(--text); }
+
+.speed-btn.active {
+  background: var(--accent);
+  border-color: var(--accent);
+  color: #fff;
+}
+
+/* ── FASE DEL IMPULSO (info dinámica) ─────────── */
+.impulse-phase-wrap {
+  padding: 10px 20px 14px;
+  background: var(--bg2);
+  border-top: 1px solid var(--border);
+  min-height: 72px;
+}
+
+#impulse-phase-info {
+  opacity: 0;
+  transition: opacity 0.25s, transform 0.25s;
+}
+
+.phase-badge {
+  display: inline-flex; align-items: center; gap: 6px;
+  padding: 3px 11px; border-radius: 16px;
+  font-size: 11px; font-weight: 600; border: 1px solid;
+  margin-bottom: 5px;
+}
+
+.phase-desc {
+  font-size: 13px; line-height: 1.65; color: var(--text2);
+}
+
+/* ── LEYENDA DE PARTES ────────────────────────── */
+.part-legend-wrap {
+  overflow-x: auto; scrollbar-width: none;
+}
+.part-legend-wrap::-webkit-scrollbar { display: none; }
+
+#part-legend {
+  display: flex; gap: 5px; flex-wrap: wrap;
+  justify-content: center; padding: 4px 8px 2px;
+}
+
+.pl-item {
+  display: flex; align-items: center; gap: 5px;
+  padding: 4px 10px; border-radius: 10px;
+  border: 1px solid transparent;
+  background: transparent; color: var(--text2);
+  font-size: 11.5px; font-weight: 500;
+  transition: all 0.18s; white-space: nowrap;
+}
+
+.pl-item:hover {
+  background: var(--surface2);
+  border-color: var(--border2);
+  color: var(--text);
+}
+
+.pl-item.pl-active {
+  background: var(--surface2);
+  border-color: var(--accent);
+  color: var(--text);
+}
+
+.pl-dot {
+  width: 8px; height: 8px;
+  border-radius: 50%; flex-shrink: 0;
+}
+
+/* ── PANEL DE INFORMACIÓN ─────────────────────── */
+.neuron-panel-area {
+  display: flex; gap: 16px; align-items: flex-start;
+}
+
+/* Estado vacío */
+.part-empty {
+  flex: 0 0 300px; min-width: 260px;
+  background: var(--surface); border: 1px solid var(--border2);
+  border-radius: var(--radius3); padding: 32px 24px;
+  display: flex; flex-direction: column;
+  align-items: center; text-align: center; gap: 12px;
+  min-height: 320px; justify-content: center;
+  position: sticky; top: 22px;
+}
+
+.pe-icon { font-size: 48px; opacity: 0.45; }
+.pe-text { font-size: 13.5px; line-height: 1.7; color: var(--text2); }
+
+/* Panel activo */
+#part-panel {
+  flex: 0 0 300px; min-width: 260px;
+  background: var(--surface); border: 1px solid var(--border2);
+  border-radius: var(--radius3); overflow: hidden;
+  position: sticky; top: 22px;
+  max-height: calc(100vh - 90px);
+  overflow-y: auto;
+  scrollbar-width: thin;
+  scrollbar-color: var(--surface3) transparent;
+  box-shadow: var(--shadow-md);
+}
+
+#part-panel::-webkit-scrollbar { width: 3px; }
+#part-panel::-webkit-scrollbar-thumb { background: var(--surface3); border-radius: 2px; }
+
+/* Header del panel */
+.pp-header {
+  padding: 20px 20px 14px;
+  border-bottom: 1px solid var(--border);
+  background: color-mix(in srgb, var(--pc, var(--accent)) 7%, transparent);
+}
+
+.pp-badge {
+  display: inline-flex; align-items: center; gap: 6px;
+  padding: 3px 10px; border-radius: 16px; margin-bottom: 8px;
+  background: color-mix(in srgb, var(--pc, var(--accent)) 14%, transparent);
+  border: 1px solid color-mix(in srgb, var(--pc, var(--accent)) 30%, transparent);
+  font-size: 11px; font-weight: 500;
+  color: var(--pc, var(--accent));
+}
+
+.pp-title {
+  font-family: var(--ff-head); font-size: 21px;
+  font-weight: 700; color: var(--text);
+  line-height: 1.2; letter-spacing: -0.3px;
+}
+
+.pp-bar { height: 2px; border-radius: 2px; margin-top: 12px; opacity: 0.6; }
+
+/* Tabs del panel */
+.pp-tabs {
+  display: flex; gap: 2px;
+  padding: 8px 12px;
+  background: var(--bg2);
+  border-bottom: 1px solid var(--border);
+}
+
+.pp-tab {
+  flex: 1; padding: 6px 4px;
+  border-radius: var(--radius); font-size: 11.5px; font-weight: 500;
+  color: var(--text2); transition: all 0.15s; text-align: center;
+}
+
+.pp-tab:hover { color: var(--text); background: var(--surface2); }
+
+.pp-tab.active {
+  background: var(--surface2);
+  color: var(--text);
+  border: 1px solid var(--border2);
+}
+
+/* Body del panel */
+.pp-body { padding: 16px 18px 20px; }
+
+.pp-desc {
+  font-size: 13px; line-height: 1.78; color: var(--text);
+}
+
+.pp-kids {
+  background: var(--surface2); border: 1px solid var(--border2);
+  border-radius: var(--radius2); padding: 15px 16px;
+  font-size: 14px; line-height: 1.72; color: var(--text);
+  font-style: italic;
+}
+
+/* Carrusel de facts en el panel */
+.fc-header {
+  display: flex; align-items: center;
+  justify-content: space-between; margin-bottom: 8px;
+}
+
+.fc-label {
+  font-size: 10px; font-weight: 700; text-transform: uppercase;
+  letter-spacing: 1px; color: var(--text3);
+}
+
+.fc-nav { display: flex; align-items: center; gap: 6px; }
+
+.fc-arrow {
+  width: 24px; height: 24px; border-radius: 7px;
+  background: var(--surface2); border: 1px solid var(--border2);
+  color: var(--text2); font-size: 14px;
+  display: flex; align-items: center; justify-content: center;
+  transition: all 0.15s;
+}
+
+.fc-arrow:hover:not(:disabled) { background: var(--surface3); border-color: var(--accent); color: var(--text); }
+.fc-arrow:disabled { opacity: 0.3; cursor: not-allowed; }
+
+.fc-counter { font-size: 11px; color: var(--text3); font-weight: 500; min-width: 28px; text-align: center; }
+
+.fc-dots { display: flex; gap: 5px; margin-bottom: 10px; }
+
+.fc-dot {
+  width: 7px; height: 7px; border-radius: 50%;
+  background: var(--surface3); border: 1px solid var(--border2);
+  transition: all 0.15s; padding: 0;
+}
+
+.fc-dot.active { transform: scale(1.25); }
+.fc-dot:hover:not(.active) { border-color: var(--accent); }
+
+.fc-slide {
+  display: flex; gap: 10px; align-items: flex-start;
+  background: var(--surface2); border: 1px solid var(--border);
+  border-radius: var(--radius2); padding: 13px 14px;
+  animation: fcSlide 0.22s ease;
+}
+
+@keyframes fcSlide {
+  from { opacity: 0; transform: translateX(6px); }
+  to   { opacity: 1; transform: none; }
+}
+
+.fc-icon { font-size: 22px; flex-shrink: 0; margin-top: 1px; }
+.fc-text { font-size: 12.5px; line-height: 1.7; color: var(--text); }
+
+.fc-see-all {
+  font-size: 11px; color: var(--accent); font-weight: 500;
+  padding: 4px 10px; border-radius: 8px;
+  border: 1px solid rgba(79,142,247,0.25);
+  background: rgba(79,142,247,0.07);
+  transition: all 0.15s;
+}
+.fc-see-all:hover { background: rgba(79,142,247,0.13); border-color: var(--accent); }
+
+.fc-all { display: flex; flex-direction: column; gap: 8px; margin-top: 10px; }
+
+.fc-item {
+  display: flex; gap: 9px; align-items: flex-start;
+  padding: 10px 12px; border-radius: var(--radius);
+  background: var(--bg2); border-left: 3px solid;
+  border-top: 1px solid var(--border);
+  border-right: 1px solid var(--border);
+  border-bottom: 1px solid var(--border);
+}
+
+.fc-item-icon { font-size: 16px; flex-shrink: 0; margin-top: 1px; }
+.fc-item-text { font-size: 12px; line-height: 1.68; color: var(--text); }
+
+/* ── FOOTER ───────────────────────────────────── */
+.neuron-footer {
+  position: relative; z-index: 1;
+  display: flex; align-items: center; justify-content: center;
+  gap: 10px; padding: 12px 20px 32px; flex-wrap: wrap; text-align: center;
+}
+
+.footer-link {
+  font-size: 13px; font-weight: 500; color: var(--text2);
+  padding: 7px 16px; border-radius: 30px;
+  border: 1px solid var(--border2); background: var(--surface);
+  transition: all 0.18s; text-decoration: none;
+}
+
+.footer-link:hover { color: var(--text); border-color: var(--accent); background: var(--surface2); }
+.footer-sep { color: var(--text3); }
+.footer-hint { font-size: 13px; color: var(--text3); }
+.footer-hint strong { color: var(--accent); }
+
+/* ── RESPONSIVE ───────────────────────────────── */
+@media (max-width: 860px) {
+  .neuron-panel-area { flex-direction: column; }
+  .part-empty, #part-panel { flex: none; width: 100%; position: static; min-height: auto; }
+  #part-panel { max-height: 60vh; }
+  #neuron-svg { max-height: 220px; }
+  .nlabel, .nlabel-sm { font-size: 9px; }
+}
+
+@media (max-width: 580px) {
+  .neuron-layout { padding: 8px 10px 14px; }
+  .neuron-hero   { padding: 18px 14px 12px; }
+  .neuron-controls { gap: 8px; padding: 10px 14px; }
+  .btn-play-impulse { font-size: 13px; padding: 9px 16px; }
+  #neuron-svg { max-height: 180px; }
+}
+
+/* ══ TIPOS DE NEURONAS ════════════════════════════════════════ */
+
+.neuron-types-section {
+  position: relative; z-index: 1;
+  max-width: 1100px; margin: 0 auto;
+  padding: 0 18px 16px;
+}
+
+.nt-header {
+  margin-bottom: 16px;
+}
+
+.nt-title {
+  font-family: var(--ff-head);
+  font-size: clamp(18px, 3vw, 24px);
+  font-weight: 700; color: var(--text);
+  letter-spacing: -0.3px; margin-bottom: 4px;
+}
+
+.nt-subtitle {
+  font-size: 13.5px; color: var(--text2); line-height: 1.6;
+}
+
+/* Tabs de categoría */
+.nt-tabs {
+  display: flex; gap: 6px; flex-wrap: wrap; margin-bottom: 16px;
+}
+
+.nt-tab {
+  padding: 7px 16px; border-radius: 20px;
+  background: var(--surface); border: 1px solid var(--border2);
+  color: var(--text2); font-size: 12.5px; font-weight: 500;
+  transition: all 0.18s;
+}
+
+.nt-tab:hover { border-color: var(--accent); color: var(--text); }
+
+.nt-tab.active {
+  background: var(--accent);
+  border-color: var(--accent);
+  color: #fff;
+}
+
+/* Contenido de la categoría */
+.nt-category { display: none; }
+.nt-category.visible { display: block; }
+
+/* Grid de tipos */
+.nt-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  gap: 12px;
+}
+
+.nt-card {
+  background: var(--surface);
+  border: 1px solid var(--border2);
+  border-radius: var(--radius2);
+  padding: 18px;
+  transition: all 0.2s;
+  display: flex; flex-direction: column; gap: 10px;
+}
+
+.nt-card:hover {
+  border-color: var(--border3);
+  background: var(--surface2);
+  transform: translateY(-2px);
+  box-shadow: var(--shadow-sm);
+}
+
+.nt-card-head {
+  display: flex; align-items: flex-start; gap: 12px;
+}
+
+.nt-emoji {
+  font-size: 30px; flex-shrink: 0; margin-top: 2px;
+}
+
+.nt-card-meta { flex: 1; }
+
+.nt-card-name {
+  font-family: var(--ff-head);
+  font-size: 15px; font-weight: 700;
+  color: var(--text); margin-bottom: 4px;
+}
+
+.nt-card-badge {
+  display: inline-block;
+  font-size: 10px; font-weight: 600;
+  text-transform: uppercase; letter-spacing: 0.7px;
+  padding: 2px 8px; border-radius: 8px;
+  border: 1px solid;
+}
+
+.nt-card-desc {
+  font-size: 12.5px; line-height: 1.72;
+  color: var(--text2);
+}
+
+.nt-card-where, .nt-card-example {
+  font-size: 11.5px; color: var(--text3); line-height: 1.55;
+}
+
+.nt-card-where strong, .nt-card-example strong {
+  color: var(--text2); font-weight: 600;
+}
+
+.nt-card-fact {
+  background: var(--surface2);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  padding: 10px 12px;
+  font-size: 12px; line-height: 1.68;
+  color: var(--text);
+  font-style: italic;
+}
+
+.nt-card-fact::before {
+  content: '💡 ';
+}
+
+/* Divider entre tipos */
+.nt-divider {
+  height: 1px; background: var(--border);
+  margin: 4px 0 14px;
+}
+
+@media (max-width: 600px) {
+  .nt-grid { grid-template-columns: 1fr; }
+  .neuron-types-section { padding: 0 10px 14px; }
+}
+
+/* ════════════════════════════════════════════════
+   SINAPSIS
+   ════════════════════════════════════════════════ */
+.synapse-section {
+  position: relative; z-index: 1;
+  max-width: 1100px; margin: 0 auto;
+  padding: 0 18px 16px;
+}
+
+.synapse-header {
+  display: flex; align-items: flex-start; gap: 14px;
+  flex-wrap: wrap; margin-bottom: 14px;
+}
+
+.synapse-title {
+  font-family: var(--ff-head);
+  font-size: clamp(17px, 2.5vw, 22px);
+  font-weight: 700; color: var(--text);
+  letter-spacing: -0.3px;
+  flex: 1; min-width: 200px;
+}
+
+.synapse-desc {
+  font-size: 13px; line-height: 1.7; color: var(--text2);
+  flex: 2; min-width: 260px;
+}
+
+.synapse-play-btn {
+  padding: 9px 20px; border-radius: var(--radius);
+  background: linear-gradient(135deg, #38bdf8, #a78bfa);
+  color: #fff; font-family: var(--ff-head);
+  font-size: 13px; font-weight: 600; border: none;
+  cursor: pointer; transition: all 0.2s; flex-shrink: 0;
+  box-shadow: 0 2px 12px rgba(56,189,248,0.3);
+}
+
+.synapse-play-btn:hover   { filter: brightness(1.1); transform: translateY(-1px); }
+.synapse-play-btn.playing { background: var(--surface2); color: var(--text2); border: 1px solid var(--border2); box-shadow: none; }
+
+.synapse-canvas-wrap {
+  background: var(--surface);
+  border: 1px solid var(--border2);
+  border-radius: var(--radius3);
+  overflow: hidden;
+  box-shadow: var(--shadow-md);
+}
+
+#synapse-svg {
+  width: 100%; display: block;
+  max-height: 280px;
+}
+
+.synapse-phase-label {
+  padding: 10px 20px 14px;
+  font-size: 13px; line-height: 1.6;
+  color: var(--text2); text-align: center;
+  background: var(--bg2); border-top: 1px solid var(--border);
+  min-height: 46px;
+  transition: opacity 0.3s;
+}
+
+@media (max-width: 580px) {
+  .synapse-header { flex-direction: column; }
+  #synapse-svg { max-height: 200px; }
+}
+
+/* ════════════════════════════════════════════════
+   BOTÓN DE PAUSA — neurona y sinapsis
+   ════════════════════════════════════════════════ */
+.impulse-btn-group {
+  display: flex; gap: 6px; align-items: center;
+}
+
+.btn-pause-impulse {
+  padding: 9px 16px; border-radius: var(--radius);
+  background: var(--surface2); border: 1px solid var(--border2);
+  color: var(--text2); font-family: var(--ff-head);
+  font-size: 13px; font-weight: 600;
+  cursor: pointer; transition: all 0.18s;
+}
+.btn-pause-impulse:hover:not(:disabled) {
+  border-color: var(--accent); color: var(--text);
+  background: var(--surface3);
+}
+.btn-pause-impulse:disabled { opacity: 0.35; cursor: not-allowed; }
+.btn-pause-impulse.paused {
+  background: rgba(52,211,153,0.1);
+  border-color: #34d399; color: #34d399;
+}
+
+/* ════════════════════════════════════════════════
+   ANIMACIONES POR TIPO DE NEURONA
+   Cada tarjeta tiene su micro-animación SVG
+   ════════════════════════════════════════════════ */
+.nt-card {
+  position: relative; overflow: hidden;
+}
+
+.nt-anim {
+  display: block; width: 100%; height: 52px;
+  margin-bottom: 8px; flex-shrink: 0;
+}
+
+/* Multipolar — estrella pulsante con 6 ramas */
+@keyframes nt-multipolar-pulse {
+  0%, 100% { opacity: 0.55; transform: scale(1); }
+  50%       { opacity: 1;    transform: scale(1.12); }
+}
+@keyframes nt-multipolar-branch {
+  0%   { stroke-dashoffset: 30; opacity: 0.3; }
+  50%  { stroke-dashoffset: 0;  opacity: 0.9; }
+  100% { stroke-dashoffset: 30; opacity: 0.3; }
+}
+.nt-anim-multipolar .nt-soma-dot {
+  animation: nt-multipolar-pulse 1.8s ease-in-out infinite;
+  transform-origin: center;
+}
+.nt-anim-multipolar .nt-branch {
+  stroke-dasharray: 30;
+  animation: nt-multipolar-branch 1.8s ease-in-out infinite;
+}
+.nt-anim-multipolar .nt-branch:nth-child(2) { animation-delay: 0.2s; }
+.nt-anim-multipolar .nt-branch:nth-child(3) { animation-delay: 0.4s; }
+.nt-anim-multipolar .nt-branch:nth-child(4) { animation-delay: 0.6s; }
+.nt-anim-multipolar .nt-branch:nth-child(5) { animation-delay: 0.8s; }
+.nt-anim-multipolar .nt-branch:nth-child(6) { animation-delay: 1.0s; }
+
+/* Bipolar — señal que pasa de un extremo al otro */
+@keyframes nt-bipolar-signal {
+  0%   { cx: 8;  opacity: 0.9; }
+  45%  { cx: 50; opacity: 1;   }
+  55%  { cx: 50; opacity: 1;   }
+  100% { cx: 92; opacity: 0.9; }
+}
+@keyframes nt-bipolar-glow {
+  0%, 100% { opacity: 0.4; }
+  50%       { opacity: 0.9; }
+}
+.nt-anim-bipolar .nt-signal { animation: nt-bipolar-signal 2s ease-in-out infinite; }
+.nt-anim-bipolar .nt-body   { animation: nt-bipolar-glow   2s ease-in-out infinite; }
+
+/* Pseudounipolar — impulso radial desde una T */
+@keyframes nt-pseudo-travel {
+  0%   { r: 2;  opacity: 0.9; }
+  100% { r: 0;  opacity: 0;   }
+}
+@keyframes nt-pseudo-wave {
+  0%   { stroke-dashoffset: 24; opacity: 0.8; }
+  100% { stroke-dashoffset: 0;  opacity: 0.2; }
+}
+.nt-anim-pseudo .nt-wave {
+  stroke-dasharray: 24;
+  animation: nt-pseudo-wave 1.4s linear infinite;
+}
+
+/* Sensorial — ondas entrantes */
+@keyframes nt-sensory-in {
+  0%   { stroke-dashoffset: 0;  opacity: 0.8; }
+  100% { stroke-dashoffset: 32; opacity: 0.2; }
+}
+.nt-anim-sensory .nt-wave1 { stroke-dasharray: 32; animation: nt-sensory-in 1.2s linear infinite; }
+.nt-anim-sensory .nt-wave2 { stroke-dasharray: 32; animation: nt-sensory-in 1.2s linear infinite 0.3s; }
+.nt-anim-sensory .nt-wave3 { stroke-dasharray: 32; animation: nt-sensory-in 1.2s linear infinite 0.6s; }
+
+/* Motora — pulso que baja hacia músculo */
+@keyframes nt-motor-down {
+  0%   { transform: translateY(0)  scaleY(1);    opacity: 1; }
+  100% { transform: translateY(28px) scaleY(0.3); opacity: 0; }
+}
+.nt-anim-motor .nt-bolt { animation: nt-motor-down 1.1s ease-in infinite; transform-origin: top center; }
+
+/* Interneurona — rebota entre dos nodos */
+@keyframes nt-inter-bounce {
+  0%, 100% { cx: 18; fill: #a78bfa; }
+  50%       { cx: 82; fill: #4f8ef7; }
+}
+.nt-anim-inter .nt-ball { animation: nt-inter-bounce 1.4s ease-in-out infinite; }
+
+/* Purkinje — árbol que se ilumina de abajo arriba */
+@keyframes nt-purkinje-light {
+  0%   { stroke-opacity: 0.15; }
+  50%  { stroke-opacity: 0.9;  }
+  100% { stroke-opacity: 0.15; }
+}
+.nt-anim-purkinje .nt-trunk   { animation: nt-purkinje-light 2s ease-in-out infinite; }
+.nt-anim-purkinje .nt-brnch   { animation: nt-purkinje-light 2s ease-in-out infinite 0.3s; }
+.nt-anim-purkinje .nt-brnch2  { animation: nt-purkinje-light 2s ease-in-out infinite 0.6s; }
+.nt-anim-purkinje .nt-leaf    { animation: nt-purkinje-light 2s ease-in-out infinite 0.9s; }
+
+/* Piramidal — señal que sube */
+@keyframes nt-pyramidal-up {
+  0%   { transform: translateY(20px); opacity: 0; }
+  40%  { opacity: 1; }
+  100% { transform: translateY(0);    opacity: 0; }
+}
+.nt-anim-pyramidal .nt-signal-up { animation: nt-pyramidal-up 1.3s ease-out infinite; transform-origin: bottom center; }
+
+/* Espejo — reflejo bilateral */
+@keyframes nt-mirror-left  { 0%, 100% { opacity: 0.3; } 30%       { opacity: 1;   } }
+@keyframes nt-mirror-right { 0%, 100% { opacity: 0.3; } 30%       { opacity: 1;   } }
+.nt-anim-mirror .nt-left  { animation: nt-mirror-left  1.6s ease-in-out infinite; }
+.nt-anim-mirror .nt-right { animation: nt-mirror-right 1.6s ease-in-out infinite 0.5s; }
+
+/* ── Galería real de tipos de neuronas ─────── */
+.nt-real-gallery {
+  margin-top: 20px;
+  padding-top: 16px;
+  border-top: 1px solid var(--border);
+}
+
+.nt-gallery-label {
+  font-size: 11px; font-weight: 700;
+  text-transform: uppercase; letter-spacing: 1px;
+  color: var(--text3); margin-bottom: 10px;
+}
+
+.nt-gallery-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 10px;
+}
+
+.nt-gallery-grid .real-img-wrap { height: 140px; }
+.nt-gallery-grid .real-img-wrap img { height: 100%; object-fit: cover; }
+
+@media (max-width: 640px) {
+  .nt-gallery-grid { grid-template-columns: 1fr; }
+  .nt-gallery-grid .real-img-wrap { height: 160px; }
+}

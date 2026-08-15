@@ -1,0 +1,11 @@
+Nombre: Serpentine Variant 1
+ID: serpentine_variant_1
+Tipo: enemy
+Mundo: world_1
+Archivo principal: enemy.png
+Archivo preview: enemy_preview.png
+Tamano del lienzo: 512 x 512 px
+Tamano recomendado en Canvas: 90 x 110
+Rol visual: large_ground_enemy
+Notas visuales: Serpiente multicabeza; conservar todas las cabezas y el cuerpo.
+Fondo: PNG transparente, sin rotulos/cuadricula/fondo; personaje centrado y completo.

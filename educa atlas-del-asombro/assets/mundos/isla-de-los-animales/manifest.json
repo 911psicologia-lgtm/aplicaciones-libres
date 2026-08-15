@@ -1,0 +1,53 @@
+{
+  "mundo": "isla-de-los-animales",
+  "estructura": {
+    "portada": "mundo_isla_de_los_animales.png",
+    "regalo": "regalo_isla_de_los_animales.png",
+    "capsulas": [
+      "capsula_01_isla_de_los_animales",
+      "capsula_02_isla_de_los_animales",
+      "capsula_03_isla_de_los_animales",
+      "capsula_04_isla_de_los_animales",
+      "capsula_05_isla_de_los_animales",
+      "capsula_06_isla_de_los_animales",
+      "capsula_07_isla_de_los_animales",
+      "capsula_08_isla_de_los_animales",
+      "capsula_09_isla_de_los_animales",
+      "capsula_10_isla_de_los_animales",
+      "capsula_11_isla_de_los_animales",
+      "capsula_12_isla_de_los_animales",
+      "capsula_13_isla_de_los_animales",
+      "capsula_14_isla_de_los_animales",
+      "capsula_15_isla_de_los_animales",
+      "capsula_16_isla_de_los_animales",
+      "capsula_17_isla_de_los_animales",
+      "capsula_18_isla_de_los_animales",
+      "capsula_19_isla_de_los_animales",
+      "capsula_20_isla_de_los_animales"
+    ]
+  },
+  "archivos": [
+    "mundo_isla_de_los_animales.png",
+    "regalo_isla_de_los_animales.png",
+    "capsula_01_isla_de_los_animales.png",
+    "capsula_02_isla_de_los_animales.png",
+    "capsula_03_isla_de_los_animales.png",
+    "capsula_04_isla_de_los_animales.png",
+    "capsula_05_isla_de_los_animales.png",
+    "capsula_06_isla_de_los_animales.png",
+    "capsula_07_isla_de_los_animales.png",
+    "capsula_08_isla_de_los_animales.png",
+    "capsula_09_isla_de_los_animales.png",
+    "capsula_10_isla_de_los_animales.png",
+    "capsula_11_isla_de_los_animales.png",
+    "capsula_12_isla_de_los_animales.png",
+    "capsula_13_isla_de_los_animales.png",
+    "capsula_14_isla_de_los_animales.png",
+    "capsula_15_isla_de_los_animales.png",
+    "capsula_16_isla_de_los_animales.png",
+    "capsula_17_isla_de_los_animales.png",
+    "capsula_18_isla_de_los_animales.png",
+    "capsula_19_isla_de_los_animales.png",
+    "capsula_20_isla_de_los_animales.png"
+  ]
+}

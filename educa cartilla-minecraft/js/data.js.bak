@@ -1,0 +1,600 @@
+// ═══════════════════════════════════════════
+//   SAI QUEST — Datos, Preguntas e Ilustraciones
+// ═══════════════════════════════════════════
+
+// ── PREGUNTAS BÁSICAS (QD — NO MODIFICAR) ──
+const QD={
+ingles:[
+  {q:"📸 Imagen: niño con cabello muy oscuro y rizado. ¿Qué tipo de cabello tiene?",o:["curly","straight","blonde"],a:0,tip:"Curly = rizado. Cabello en espiral y ondulado.",img:"curly_hair"},
+  {q:"📸 Imagen: niña con cabello liso, lacio y de color amarillo dorado. ¿Qué tipo de cabello tiene?",o:["curly","straight","blonde"],a:2,tip:"Blonde = rubio. Color dorado/amarillo claro.",img:"blonde_hair"},
+  {q:"📸 Imagen: niña con cabello marrón liso, sin ondas ni rizos. ¿Qué tipo de cabello tiene?",o:["curly","straight","blonde"],a:1,tip:"Straight = lacio. Sin ondas ni rizos.",img:"straight_brown"},
+  {q:"📸 Señal: círculo rojo con una taza tachada. Texto: NO FOOD OR DRINK. ¿Dónde encontrarías este aviso?",o:["in a hospital","in a library","in a park"],a:1,tip:"En una biblioteca (library) no se permite comer ni beber.",img:"no_food_sign"},
+  {q:"📸 Señal: cruz verde con la palabra EMERGENCY. ¿Dónde encontrarías este aviso?",o:["in a hospital","in a library","in a park"],a:0,tip:"Emergency (emergencia) es señal de hospitales o clínicas.",img:"emergency_sign"},
+  {q:"📸 Señal: límite de estatura 'YOU MUST BE THIS TALL'. ¿Dónde encontrarías este aviso?",o:["in a hospital","in a library","in a park"],a:2,tip:"Esta señal se usa en parques con juegos o de diversiones.",img:"height_sign"},
+  {q:"Alguien dice: 'Can you lend me a pen, please?' ¿Cuál es la respuesta correcta?",o:["Here you are!","Thank you!","You shouldn't eat fast food."],a:0,tip:"'Here you are' se dice cuando le das algo a alguien.",img:"dialogue_lend"},
+  {q:"Alguien dice: 'I am too fat.' ¿Cuál es la respuesta más adecuada?",o:["Here you are!","Thank you!","You shouldn't eat fast food."],a:2,tip:"Cuando alguien dice que está gordo, el consejo es no comer comida rápida.",img:"dialogue_fat"},
+  {q:"Alguien dice: 'You are so nice!' ¿Cuál es la respuesta correcta?",o:["Here you are!","Thank you!","You shouldn't eat fast food."],a:1,tip:"Cuando alguien te hace un cumplido, respondes 'Thank you!'",img:"dialogue_nice"},
+  {q:"Harry ___ his grades very important. (Elige el verbo correcto)",o:["think","thinks","thinking"],a:1,tip:"Con 'he/she/it' el verbo lleva -S: thinks (tercera persona singular).",img:"grammar_harry"},
+  {q:"Harry thinks his grades ___ very important.",o:["am","is","are"],a:1,tip:"'Grades' en concepto singular → usa IS.",img:"grammar_harry2"},
+  {q:"He studies ___ the library.",o:["at","on","of"],a:0,tip:"Se dice 'at the library'. AT se usa para lugares específicos.",img:"library"},
+  {q:"He studies when he goes ___ to eat.",o:["in","out","under"],a:1,tip:"'Goes out to eat' = sale a comer. OUT es la preposición correcta.",img:"eat_out"},
+  {q:"His friends ___ fun of him.",o:["make","makes","making"],a:0,tip:"'Friends' es plural → el verbo no lleva -s: MAKE.",img:"friends_mock"},
+  {q:"Harry ___ not care. He gets As all the time.",o:["can","do","does"],a:2,tip:"Con 'he/she/it' la negación usa DOES: Harry does not care.",img:"grammar_does"},
+  {q:"📖 'SHE BRINGS LUNCH FROM HOME'. In the picture, the girl in yellow dress is:",o:["fat","thin","heavy"],a:1,tip:"La imagen muestra una niña delgada. Thin = delgado/a.",img:"lunch_girl"},
+  {q:"📖 What fruit can you see in the picture of the lunch story?",o:["an apple","a banana","a watermelon"],a:0,tip:"En la imagen del almuerzo se ve una manzana (apple).",img:"apple_fruit"},
+  {q:"📖 'Her mom is a good chef.' What does Melany's mother do?",o:["She is a teacher.","She is a doctor.","She is a chef."],a:2,tip:"El texto dice 'her mom is a good chef' = su mamá es chef.",img:"chef"},
+  {q:"📖 What does Melanie sometimes prepare for school lunch?",o:["sandwiches","cooked meals","scrambled eggs"],a:0,tip:"El texto dice: 'Sometimes she makes a sandwich.'",img:"sandwich"},
+  {q:"📖 Melanie's friends are jealous because:",o:["school lunch is free.","her lunch is delicious.","they fight a lot."],a:1,tip:"El texto dice 'It smells so good'. Son celosos de su almuerzo rico.",img:"jealous_friends"},
+  {q:"Fill in the blank: 'She ___ to school every day.'",o:["go","goes","going"],a:1,tip:"Con 'she' (3ª persona singular) el verbo lleva -s: goes.",img:"school_go"},
+  {q:"What does the word 'PUSH' mean in Spanish?",o:["Empujar","Jalar","Parar"],a:0,tip:"PUSH = empujar. PULL = jalar.",img:"push_pull"},
+  {q:"'The book is ___ the table.' Choose the correct preposition.",o:["in","on","under"],a:1,tip:"ON = encima de. El libro está SOBRE la mesa = ON the table.",img:"book_on_table"},
+  {q:"What is the plural of 'child'?",o:["childs","children","childrens"],a:1,tip:"'Children' es el plural irregular de 'child'. Es una excepción.",img:"children"},
+  {q:"Which of these words describes a type of WEATHER?",o:["happy","rainy","hungry"],a:1,tip:"Rainy = lluvioso. Happy = feliz. Hungry = hambriento.",img:"weather"}
+],
+lenguaje:[
+  {q:"Las noticias son textos informativos porque:",o:["narran historias de personajes fantásticos.","solo comparten información poética.","presentan hechos reales de manera objetiva.","indican los pasos para alcanzar un objetivo."],a:2,tip:"Los textos informativos presentan hechos reales y verificables.",img:"news"},
+  {q:"El texto sobre textos informativos pretende principalmente:",o:["indicar por qué son importantes.","explicar cómo escribir uno.","contar una historia.","definir qué es un texto informativo y dar ejemplos."],a:3,tip:"El texto define y ejemplifica (noticias, cartas, afiches). Propósito explicativo.",img:"informative"},
+  {q:"¿Cuál de estos textos pertenece al tipo INFORMATIVO?",o:["Un cuento sobre un perro que salva a su dueño","Una descripción de un paisaje tropical","Un cartel que explica la importancia de lavarse las manos","Una columna de opinión sobre el calentamiento global"],a:2,tip:"El cartel informativo da información verdadera y objetiva.",img:"text_types"},
+  {q:"📸 Afiche: '¡LAVARTE LAS MANOS es tu superpoder!' ¿Qué acción promueve este afiche?",o:["Usar superpoderes para combatir el crimen.","Lavarse las manos para combatir los microbios.","Lavar la ropa para mantenerla limpia.","Visitar un sitio web."],a:1,tip:"El afiche anima a lavarse las manos para eliminar microbios.",img:"wash_hands_poster"},
+  {q:"El afiche '¡Lávate las manos!' ¿Para quién está dirigido?",o:["Para las personas","Para los gérmenes y bacterias","Para los dibujos animados","Para los superhéroes"],a:0,tip:"El mensaje es para las personas: les aconseja lavarse las manos.",img:"audience"},
+  {q:"Para escribir sobre 'El parque principal será renovado', ¿qué harías PRIMERO?",o:["Dibujar cómo te gustaría el parque.","Buscar información sobre los planes de renovación.","Escribir todo lo que recuerdas.","Leer otras noticias sobre parques."],a:1,tip:"Para texto informativo, primero se busca información real y verificable.",img:"research"},
+  {q:"María necesita estudiar animales. ¿Cuál estrategia organiza mejor la información?",o:["Hacer un esquema con las características de los animales.","Contar una historia sobre un animal fantástico.","Dibujar un paisaje con animales.","Escribir un poema sobre los animales."],a:0,tip:"Un esquema organiza información visualmente y facilita la memoria.",img:"outline"},
+  {q:"Al leer 'El Zorro y la Cigüeña', ¿a qué género pertenece?",o:["periodístico, porque informa hechos reales.","poético, porque usa rima y ritmo.","narrativo, porque cuenta una historia con personajes.","instructivo, porque explica cómo hacer algo."],a:2,tip:"Es narrativo: tiene personajes, acciones y desenlace.",img:"fox_crane_genre"},
+  {q:"¿Qué tipo de texto literario es 'El Zorro y la Cigüeña'?",o:["Relato mitológico (dioses y héroes)","Leyenda (hechos reales y ficticios)","Cuento (narración breve de ficción)","Fábula (historia corta con animales y enseñanza)"],a:3,tip:"La fábula tiene animales como personajes y termina con una moraleja.",img:"fabula"},
+  {q:"¿Cuál es la moraleja de la fábula 'El Zorro y la Cigüeña'?",o:["No debemos confiar en los demás.","Es importante compartir con los amigos.","No hagas a los demás lo que no quisieras que te hicieran.","La honestidad es la mejor política."],a:2,tip:"La moraleja dice: 'No hagas a los demás lo que no quieres que te hagan a ti.'",img:"moraleja"},
+  {q:"📸 ¿Cuál imagen representa mejor la historia del Zorro y la Cigüeña?",o:["Zorro y cigüeña con platos planos y botellones altos","Cigüeña en árbol y zorro abajo","Animales corriendo en el bosque","Zorro y cigüeña nadando en río"],a:0,tip:"La historia: cena 1 en platos planos (del zorro), cena 2 en botellones altos (de la cigüeña).",img:"fox_crane_visual"},
+  {q:"¿Dónde sucedió la historia de 'El Zorro y la Cigüeña'?",o:["En un río.","En la casa del zorro y en la casa de la cigüeña.","En una montaña.","En el polo norte."],a:1,tip:"La 1ª cena es en casa del zorro; la 2ª, en casa de la cigüeña.",img:"houses"},
+  {q:"María quiere contarle a su clase sobre su visita al zoológico. ¿Primer paso?",o:["Dibujar un mapa del zoológico.","Buscar información en internet sobre zoológicos.","Escribir una historia ficticia sobre animales.","Hacer una lista de los animales que vio y lo que le gustó."],a:3,tip:"Antes de hablar o escribir, organiza la información: qué viste, qué te gustó.",img:"zoo_list"},
+  {q:"📸 Aviso: 'SE VENDEN huevos frescos — LA DOCENA POR ___'. La imagen nos presenta una:",o:["fábula","publicidad","instrucción","orden"],a:1,tip:"Es un aviso publicitario (publicidad) que quiere vender huevos.",img:"eggs_ad"},
+  {q:"En el aviso 'SE VENDEN huevos frescos', ¿qué dato va en el espacio en blanco?",o:["La cantidad de huevos que se venden.","Los tamaños de los huevos.","El precio de los huevos.","La ubicación del negocio."],a:2,tip:"El espacio está después de 'LA DOCENA POR', así que falta el PRECIO.",img:"price_blank"},
+  {q:"'SE VENDEN huevos frescos' puede ser reemplazado por:",o:["Compre huevos frescos en este lugar","Los huevos frescos son baratos","¿Te gustan los huevos frescos?","Los huevos frescos se regalan aquí"],a:0,tip:"'Se venden' = están disponibles para comprar. La opción A lo expresa igual.",img:"rewrite"},
+  {q:"En una exposición, ¿cuál es el comportamiento correcto para respetar turnos?",o:["Hablar más fuerte para que te escuchen.","Decir que tu idea es más importante.","Ignorar a los demás y seguir con tu idea.","Esperar tu turno para expresar tu opinión."],a:3,tip:"Respetar turnos = escuchar a los demás antes de hablar.",img:"turns"},
+  {q:"📖 'Dulce es una gata encantadora y traviesa, de pelaje blanco...' El párrafo es de tipo:",o:["descriptivo","poético","dialógico","narrativo"],a:0,tip:"Describe características físicas y de comportamiento = texto descriptivo.",img:"cat_dulce"},
+  {q:"¿Cuál opción reescribe mejor 'Dulce es una gata encantadora y traviesa'?",o:["Dulce es una gata tranquila y perezosa.","Dulce es una gata adorable y juguetona.","Dulce es una gata ruidosa y molesta.","Dulce es una gata silenciosa y tímida."],a:1,tip:"Encantadora ≈ adorable. Traviesa ≈ juguetona. Mismo significado.",img:"synonyms"},
+  {q:"📸 Dulce: 'pelaje blanco como la nieve, orejas y cola grises'. ¿Cuál imagen la representa?",o:["Gato completamente negro","Gato gris oscuro tumbado","Gato blanco con puntos claros","Gato negro/siamés con ojos azules"],a:2,tip:"Blanco como la nieve con orejas grises = gato blanco (opción C).",img:"white_cat"},
+  {q:"Un texto INSTRUCTIVO tiene como propósito principal:",o:["entretener al lector","informar sobre hechos reales","indicar los pasos para hacer algo","expresar sentimientos del autor"],a:2,tip:"Los textos instructivos (recetas, manuales) explican cómo hacer algo paso a paso.",img:"instructivo"},
+  {q:"¿Qué es una MORALEJA?",o:["El título de la fábula","La enseñanza o lección al final de la historia","El nombre del personaje principal","El lugar donde ocurre la historia"],a:1,tip:"La moraleja es la enseñanza que deja la fábula al terminar.",img:"moraleja_def"},
+  {q:"Un afiche publicitario debe tener principalmente:",o:["muchas páginas con detalles","rima y ritmo como un poema","un mensaje claro y breve","capítulos numerados"],a:2,tip:"Los afiches comunican en pocas palabras. Mensaje claro y visible.",img:"afiche"},
+  {q:"En un texto DESCRIPTIVO, el autor principalmente:",o:["da instrucciones paso a paso","describe características de algo o alguien","narra una historia con inicio y final","da su opinión personal"],a:1,tip:"Describir = mencionar cómo es algo: forma, color, tamaño, comportamiento.",img:"descriptivo"},
+  {q:"Los conectores 'porque', 'pero', 'y' sirven para:",o:["terminar una oración","unir y relacionar ideas en un texto","separar párrafos","iniciar un diálogo"],a:1,tip:"Los conectores unen ideas. 'Y' suma, 'pero' contrasta, 'porque' explica causa.",img:"conectores"}
+],
+matematicas:[
+  {q:"📸 Sara ayuda a su mamá y recorre en bicicleta: 20m, luego 500cm, luego 650cm, luego 60m y finalmente 40m para volver a casa. ¿Cuántos metros recorrió en total?",o:["130 m","125 m","131,5 m","145,4 m"],a:2,tip:"Primero convierte a metros: 500cm=5m y 650cm=6,5m. Luego suma todo: 20+5+6,5+60+40 = 131,5m.",img:"distance"},
+  {q:"📸 Observa la secuencia de cuadrados de colores en 4 posiciones. Cuenta los cuadrados en cada posición: ¿cuántos cuadrados nuevos se agregan de una posición a la siguiente?",o:["Se suman 6 cuadrados en cada posición.","Se restan 8 cuadrados en cada posición.","Se restan 6 cuadrados en cada posición.","Se suman 12 cuadrados en cada posición."],a:0,tip:"Pos 1=6, Pos 2=12, Pos 3=18, Pos 4=24. La diferencia siempre es +6 cuadrados.",img:"block_pattern"},
+  {q:"Si la secuencia sigue el mismo patrón (suma 6 cada vez), ¿cuántos cuadrados habrá en la posición 7?",o:["36","42","48","54"],a:1,tip:"Pos 1=6, Pos 2=12... cada posición suma 6. Posición 7 = 6×7 = 42 cuadrados.",img:"pattern_calc"},
+  {q:"📸 Luisa pone 20 bombones en la mesa: 7 de fresa, 3 de mango, 6 de mora y 4 de menta. ¿Qué fracción de los bombones NO son de mora?",o:["3/10","7/20","1/5","7/10"],a:3,tip:"Los que NO son mora: 20−6=14. Fracción = 14/20 = 7/10.",img:"candies"},
+  {q:"📸 Observa la puerta abierta en la imagen. El profesor dibujó los ángulos en el tablero: recto=90°, agudo<90°, obtuso>90°. Ana dice que la puerta forma un ángulo menor a 90°. ¿Es correcta Ana?",o:["Sí, es un ángulo agudo.","No, es un ángulo obtuso.","Sí, es un ángulo llano.","No, es un ángulo recto."],a:1,tip:"La puerta está abierta más de 90°, por lo tanto es un ángulo OBTUSO. Ana se equivoca.",img:"door_angle"},
+  {q:"📊 Camilo hizo una encuesta sobre el helado preferido de sus compañeros. Mira la tabla: Chocolate=11, Vainilla=5, Mora=7, Fresa=4, Maracuyá=2. ¿Cuál es el sabor más preferido?",o:["Mora","Fresa","Vainilla","Chocolate"],a:3,tip:"Chocolate tiene 11 votos, es el número más alto de la tabla.",img:"flavor_table"},
+  {q:"📊 ¿Cuál gráfica de barras representa CORRECTAMENTE los datos de la tabla? (Chocolate=11, Vainilla=5, Mora=7, Fresa=4, Maracuyá=2)",o:["Gráfica A: Choc≈11, Vain≈8, Mora≈6","Gráfica B: Choc≈10, Vain≈4, Mora≈8","Gráfica C: Choc=11, Vain=5, Mora=7, Fresa=4, Maracuyá=2","Gráfica D: Choc≈5, Vain≈11, Mora=7"],a:2,tip:"Solo la Gráfica C tiene TODOS los valores correctos: Choc=11, Vain=5, Mora=7, Fresa=4, Maracuyá=2.",img:"bar_chart"},
+  {q:"📸 Andrés y Camilo tienen un juego con figuras geométricas que tienen un valor cada una: octágono=4, cuadrado=5, triángulo=7, círculo=1. Camilo planta esta operación: (triángulo + círculo) − (cuadrado − octágono). ¿Qué figura obtiene?",o:["Cuadrado (valor 5)","Triángulo (valor 7)","Círculo (valor 1)","Octágono (valor 4)"],a:1,tip:"Paso 1: (7+1)=8. Paso 2: (5−4)=1. Paso 3: 8−1=7. El triángulo vale 7.",img:"shape_game"},
+  {q:"📸 Observa la secuencia de años: 2003, 2006, 2009, 2012, 2015, ___, 2021, 2024. El Parque Chiribiquete fue declarado Patrimonio de la Humanidad en el año que falta. ¿Cuál es ese año?",o:["2018","2020","2009","2021"],a:0,tip:"Cada año suma 3: 2003→2006→2009→2012→2015→2018. La respuesta es 2018.",img:"year_sequence"},
+  {q:"📸 Carlos pintó sobre una hoja con forma de pentágono y marcó con bolitas los VÉRTICES (las esquinas) de la hoja. ¿Cuál imagen muestra correctamente un pentágono con sus vértices marcados?",o:["Figura con 4 puntos (rombo)","Figura con 4 ángulos (rectángulo)","Pentágono de 5 lados SIN puntos","Pentágono de 5 lados con 5 puntos en las esquinas"],a:3,tip:"Un pentágono tiene 5 lados y 5 vértices. Solo la opción D muestra los 5 puntos.",img:"pentagon"},
+  {q:"📸 Observa el bosque con animales. Hay 10 animales en total: 2 leones, 3 tigres, 3 ardillas, 1 ciervo y 1 conejo. ¿Qué fracción representan los leones del total?",o:["1/10","1/5","7/10","3/10"],a:1,tip:"2 leones de 10 animales = 2/10. Simplificando: 2÷2/10÷2 = 1/5.",img:"forest_animals"},
+  {q:"Alguien dice: 'La fracción de leones y la fracción de tigres son iguales'. Observando la imagen del bosque (2 leones y 3 tigres de 10 animales), ¿es correcta esa afirmación?",o:["Sí, porque la cantidad de leones y tigres es la misma.","No, porque hay 2 leones (2/10) y 3 tigres (3/10), son diferentes.","Sí, porque hay dos leones y dos tigres.","No, porque hay más ardillas que leones y tigres."],a:1,tip:"Leones = 2/10 = 1/5. Tigres = 3/10. Como 1/5 ≠ 3/10, las fracciones NO son iguales.",img:"fractions_compare"},
+  {q:"📊 Luisa observa aves cada día y registra los datos en un pictograma donde CADA DIBUJO de pájaro equivale a 3 aves. Lunes=3 dibujos, Martes=2, Miércoles=1, Jueves=4, Viernes=1. ¿Qué días observó la MISMA cantidad de aves?",o:["Lunes y miércoles","Martes y jueves","Viernes y lunes","Miércoles y viernes"],a:3,tip:"Miércoles: 1×3=3 aves. Viernes: 1×3=3 aves. Ambos días vio 3 aves.",img:"pictogram",birdRef:true},
+  {q:"📊 Usando el mismo pictograma (cada dibujo = 3 aves), ¿cuántas aves observó Luisa EN TOTAL durante la semana?",o:["16","33","30","11"],a:1,tip:"Lunes: 3×3=9, Martes: 2×3=6, Miércoles: 1×3=3, Jueves: 4×3=12, Viernes: 1×3=3. Total: 9+6+3+12+3=33.",img:"pictogram_total",birdRef:true},
+  {q:"📊 El pictograma muestra aves observadas por día (cada dibujo = 3 aves). ¿Cuál tabla tiene los valores CORRECTOS de aves reales?",o:["L=9, M=6, Mi=3, J=12, V=3","L=3, M=2, Mi=1, J=4, V=1","L=3, M=6, Mi=3, J=12, V=1","L=12, M=6, Mi=3, J=4, V=1"],a:0,tip:"Multiplica cada dibujo por 3: L(3×3=9), M(2×3=6), Mi(1×3=3), J(4×3=12), V(1×3=3).",img:"bird_table",birdRef:true},
+  {q:"📸 Sara medía 93 cm hace 2 años. Este año el médico le dijo que creció 17 cm. ¿Cuánto mide Sara ahora?",o:["100 cm","120 cm","110 cm","130 cm"],a:2,tip:"Estatura actual = lo que medía + lo que creció = 93 + 17 = 110 cm.",img:"height_calc"},
+  {q:"📸 Laura creó un logo dentro de un rectángulo de 9 cm de ancho por 7 cm de alto. Dentro hay un triángulo blanco recortado (base 3 cm, altura 6 cm) y un triángulo azul agregado (base 2 cm, altura 5 cm). ¿Cuál es el área de la región azul del logo?",o:["70 cm²","60 cm²","59 cm²","40 cm²"],a:2,tip:"Rectángulo: 9×7=63. Triángulo blanco (se resta): (3×6)/2=9. Triángulo azul (se suma): (2×5)/2=5. Azul = 63−9+5 = 59 cm².",img:"logo_area"},
+  {q:"📸 Danna quiere cubrir una pared con cuadros de arte. La pared tiene una cuadrícula de 5 columnas por 8 filas. ¿Cuántos cuadros puede poner sin sobreponerlos?",o:["40","36","45","50"],a:0,tip:"5 columnas × 8 filas = 40 cuadros en total.",img:"wall_grid"},
+  {q:"Martín, Carlos y Sara siembran café en tres terrenos iguales: Martín siembra 3/5, Carlos 9/20 y Sara 6/10 de su terreno. ¿Quién o quiénes sembraron MÁS café?",o:["Martín","Sara y Carlos","Carlos","Martín y Sara"],a:3,tip:"Convierte todas a vigésimos: Martín=12/20, Carlos=9/20, Sara=12/20. Martín y Sara empatan con más café.",img:"fractions_coffee"},
+  {q:"📊 Según el pictograma de aves (cada dibujo = 3 aves), ¿cuál es el MEJOR día para salir a observar aves?",o:["Lunes","Jueves","Miércoles","Viernes"],a:1,tip:"Jueves tiene 4 dibujos × 3 = 12 aves. Es el día con más aves observadas.",img:"best_day",birdRef:true},
+  {q:"¿Cuánto es 3/4 + 1/4?",o:["1 entero","2/4","4/8","1/2"],a:0,tip:"3/4 + 1/4 = 4/4 = 1 entero.",img:"fraction_add"},
+  {q:"Un rectángulo tiene 6 cm de largo y 4 cm de ancho. ¿Cuál es su área?",o:["10 cm²","20 cm²","24 cm²","48 cm²"],a:2,tip:"Área = largo × ancho = 6 × 4 = 24 cm².",img:"rectangle_area"},
+  {q:"¿Qué número sigue en la secuencia? 2, 5, 8, 11, ___",o:["12","14","13","15"],a:1,tip:"El patrón suma 3 cada vez: 11 + 3 = 14.",img:"sequence"},
+  {q:"En una clase de 30 estudiantes, 1/3 usa gafas. ¿Cuántos estudiantes usan gafas?",o:["3","10","15","20"],a:1,tip:"1/3 de 30 = 30 ÷ 3 = 10 estudiantes.",img:"glasses"},
+  {q:"¿Cuál ángulo es MAYOR que 90°?",o:["Ángulo agudo","Ángulo recto (90°)","Ángulo obtuso","Ninguno"],a:2,tip:"Obtuso > 90°. Agudo < 90°. Recto = exactamente 90°.",img:"angles"}
+],
+ciencias:[
+  {q:"📸 Grupo 3: Helecho, Pino, Rosal, Musgo, Musgo. ¿A qué reino pertenece el Grupo 3?",o:["Reino Animalia (Animales)","Reino Fungi (Hongos)","Reino Plantae (Plantas)","Reino Protista (Protozoos)"],a:2,tip:"Helechos, pinos, rosales y musgos son plantas → Reino Plantae.",img:"plantae"},
+  {q:"📸 Imagen 1=selva, 2=laguna, 3=desierto frío, 4=tiburón en mar. ¿Cuál clasificación es correcta?",o:["1:Selva · 2:Agua dulce · 3:Desierto frío · 4:Agua salada","1:Bosque · 2:Agua salada · 3:Desierto cálido · 4:Agua dulce","1:Selva · 2:Agua dulce · 3:Bosque · 4:Agua salada","1:Selva · 2:Agua salada · 3:Desierto frío · 4:Bosque"],a:0,tip:"Selva=terrestre húmedo, laguna=agua dulce, desierto frío=terrestre, mar=agua salada.",img:"ecosystems"},
+  {q:"Calentaste hielo → se derritió → continuaste calentando → se evaporó. ¿Qué describe el efecto de la energía térmica?",o:["Hace que las moléculas se enfríen y compacten.","Permite que las moléculas se muevan más rápido, se fundan y se evaporen.","No afecta el estado del agua.","Solo afecta el estado sólido del agua."],a:1,tip:"La energía térmica aumenta el movimiento molecular: sólido → líquido → gas.",img:"water_states"},
+  {q:"Fernanda dice: 'La energía térmica enfría las cosas'. ¿Es correcto?",o:["Sí, siempre enfría.","No, la energía térmica transfiere calor.","Sí, solo en invierno.","No, la energía térmica no existe."],a:1,tip:"La energía térmica se transfiere de un cuerpo caliente a uno frío.",img:"thermal"},
+  {q:"¿Cuál es la función principal del pelo en los mamíferos?",o:["Producir alimento.","Proteger el cuerpo y regular la temperatura.","Ayudar a digerir.","Producir oxígeno."],a:1,tip:"El pelo protege la piel y ayuda a mantener la temperatura corporal.",img:"mammal_hair"},
+  {q:"¿Qué efecto tiene una dieta rica en azúcares y grasas sobre la salud?",o:["Mejora la concentración.","Aumenta el riesgo de enfermedades como obesidad y diabetes.","Fortalece los músculos.","Mejora la vista."],a:1,tip:"El exceso de azúcar y grasa causa sobrepeso, diabetes y problemas cardíacos.",img:"diet"},
+  {q:"Juan empuja una caja con fuerza pero no se mueve. ¿Qué fuerza se opone al movimiento?",o:["Gravedad","Fricción","Magnética","Elástica"],a:1,tip:"La fricción es la fuerza que se opone al movimiento entre dos superficies.",img:"friction"},
+  {q:"¿Cuál es la unidad de medida de la fuerza en el Sistema Internacional?",o:["Kilogramo (kg)","Newton (N)","Metro (m)","Segundo (s)"],a:1,tip:"La fuerza se mide en Newtons (N) en honor a Isaac Newton.",img:"newton"},
+  {q:"Un imán atrae objetos de qué material:",o:["Solo plástico","Solo madera","Metales como hierro y acero","Solo papel"],a:2,tip:"Los imanes atraen metales ferromagnéticos como hierro, cobalto y níquel.",img:"magnet"},
+  {q:"Martín empuja la puerta y esta se abre. ¿Qué tipo de fuerza es?",o:["Fuerza de contacto","Fuerza a distancia","Fuerza gravitacional","Fuerza magnética"],a:0,tip:"Empujar requiere contacto físico → fuerza de contacto.",img:"push_door"},
+  {q:"¿Qué tipo de movimiento describe una pelota que rueda por una rampa?",o:["Movimiento rectilíneo","Movimiento circular","Movimiento rectilíneo uniforme","Movimiento oscilatorio"],a:1,tip:"Al rodar, la pelota gira sobre su propio eje → movimiento circular.",img:"rolling_ball"},
+  {q:"Un niño se balancea en un columpio. ¿Qué tipo de movimiento hace?",o:["Rectilíneo","Circular","Oscilatorio","Rectilíneo uniforme"],a:2,tip:"El columpio va y viene repetidamente → movimiento oscilatorio.",img:"swing"},
+  {q:"¿Cuál objeto tiene movimiento rectilíneo?",o:["Una rueda girando","Un auto en carretera recta","Un péndulo","Una noria"],a:1,tip:"El auto avanza en línea recta → movimiento rectilíneo.",img:"rectilinear"},
+  {q:"La Tierra gira sobre su propio eje. ¿Qué tipo de movimiento es?",o:["Rectilíneo","Oscilatorio","Circular (rotación)","Ondulatorio"],a:2,tip:"Girar sobre un eje es un movimiento circular de rotación.",img:"earth_rotation"},
+  {q:"Un satellite orbita la Tierra. ¿Qué movimiento describe?",o:["Rectilíneo","Oscilatorio","Circular (traslación)","Parabólico"],a:2,tip:"Orbitar en círculo/óvala alrededor de un cuerpo es traslación circular.",img:"satellite"},
+  {q:"¿Cuál es una máquina simple?",o:["Un automóvil","Una computadora","Una palanca","Un televisor"],a:2,tip:"Las máquinas simples son herramientas básicas: palanca, polea, plano inclinado, etc.",img:"lever"},
+  {q:"¿Para qué sirve una polea?",o:["Medir la temperatura","Levantar objetos con menos esfuerzo","Mezclar sustancias","Contar el tiempo"],a:1,tip:"La polea cambia la dirección de la fuerza y facilita levantar cargas.",img:"pulley"},
+  {q:"Un plano inclinado sirve para:",o:["Detener objetos","Subir o bajar objetos con menos fuerza","Medir distancias","Crear electricidad"],a:1,tip:"El plano inclinado reduce la fuerza necesaria para mover objetos.",img:"inclined_plane"},
+  {q:"La rueda es una máquina simple porque:",o:["Es redonda","Reduce la fricción y facilita el movimiento","Produce energía","Mide la velocidad"],a:1,tip:"La rueda transforma el movimiento de deslizamiento en rodadura, reduciendo fricción.",img:"wheel"},
+  {q:"¿Qué máquina simple usas cuando abres una botella con un abridor?",o:["Polea","Plano inclinado","Palanca","Tornillo"],a:2,tip:"El abridor es una palanca: punto de apoyo, fuerza y resistencia.",img:"bottle_opener"},
+  {q:"¿Cuál es la principal fuente de energía del Sistema Solar?",o:["La Luna","El Sol","Los planetas","Las estrellas lejanas"],a:1,tip:"El Sol es la estrella central que proporciona luz y calor.",img:"sun"},
+  {q:"Los seres vivos necesitan agua para:",o:["Solo beber cuando tienen sed.","Todas las funciones vitales: digestión, circulación, regulación.","Solo lavarse.","Solo las plantas la necesitan."],a:1,tip:"El agua es esencial para todos los procesos del cuerpo humano.",img:"water_life"},
+  {q:"¿Qué gas necesitamos las personas para respirar?",o:["Nitrógeno","Oxígeno","Dióxido de carbono","Hidrógeno"],a:1,tip:"Respiramos oxígeno (O2) del aire y expulsamos dióxido de carbono (CO2).",img:"oxygen"},
+  {q:"Un ecosistema está formado por:",o:["Solo animales","Solo plantas","Seres vivos y su entorno físico","Solo el clima"],a:2,tip:"Un ecosistema = biotopo (medio físico) + biocenosis (seres vivos).",img:"ecosystem_def"},
+  {q:"¿Cuál es la cadena alimentaria correcta?",o:["Plantas → Conejo → Zorro","Zorro → Conejo → Plantas","Plantas → Zorro → Conejo","Conejo → Plantas → Zorro"],a:0,tip:"Las plantas son productores, el conejo las come, y el zorro come al conejo.",img:"food_chain"}
+],
+sociales:[
+  {q:"¿En qué periodo aparecieron los primeros seres humanos?",o:["En la Edad Media","En la Prehistoria","En la Edad Moderna","En el siglo XX"],a:1,tip:"Los primeros humanos aparecieron en la Prehistoria, hace millones de años.",img:"prehistoria"},
+  {q:"La pintura rupestre se realizaba sobre:",o:["Papel","Lienzo","Paredes de cuevas","Computadoras"],a:2,tip:"Las pinturas rupestres se hacían en las paredes y techos de las cuevas.",img:"cave_painting"},
+  {q:"¿Cuál fue la principal invención de la Edad de Piedra?",o:["El teléfono","El fuego y las herramientas de piedra","El automóvil","Internet"],a:1,tip:"La piedra, el fuego y las herramientas de piedra fueron claves para sobrevivir.",img:"stone_tools"},
+  {q:"Los primeros humanos eran:",o:["Agricultores y comerciantes","Nómadas: cazaban y recolectaban","Constructores de ciudades","Científicos"],a:1,tip:"Eran nómadas: se movían para buscar alimento y refugio.",img:"nomads"},
+  {q:"¿Qué es un fósil?",o:["Una piedra decorativa","Resto o huella de un ser vivo del pasado","Un mineral raro","Un tipo de planta actual"],a:1,tip:"Los fósiles son restos conservados de seres vivos de épocas antiguas.",img:"fossil"},
+  {q:"¿Qué pueblo indígena habitaba en el territorio de Colombia antes de la llegada de los españoles?",o:["Los incas","Los aztecas","Diversos pueblos como los muiscas, taironas y quimbayas","Los vikingos"],a:2,tip:"Colombia estaba habitada por muchos pueblos indígenas, cada uno con su cultura.",img:"indigenous"},
+  {q:"¿Quiénes llegaron a América en 1492?",o:["Los portugueses","Cristóbal Colón y los españoles","Los ingleses","Los franceses"],a:1,tip:"Cristóbal Colón llegó a América el 12 de octubre de 1492.",img:"columbus"},
+  {q:"La Conquista de América trajo consigo:",o:["Solo beneficios","Encuentro de dos mundos con cambios culturales, sociales y demográficos","Ningún cambio","Solo intercambio de alimentos"],a:1,tip:"La Conquista fue un encuentro complejo que transformó ambas civilizaciones.",img:"conquest"},
+  {q:"¿Cuál es la capital de Colombia?",o:["Medellín","Bogotá","Cali","Cartagena"],a:1,tip:"Bogotá es la capital de Colombia, ubicada en la Cordillera Oriental.",img:"bogota"},
+  {q:"Colombia se independizó en:",o:["1492","1810","1900","2000"],a:1,tip:"El 20 de julio de 1810 se firmó el Acta de Independencia en Bogotá.",img:"independence"},
+  {q:"¿Quién es el jefe de Estado en Colombia?",o:["El alcalde","El presidente de la República","El gobernador","El rey"],a:1,tip:"El presidente es el jefe de Estado y de Gobierno de Colombia.",img:"president"},
+  {q:"Las Ramas del Poder Público en Colombia son:",o:["Dos: Ejecutivo y Legislativo","Tres: Ejecutivo, Legislativo y Judicial","Cuatro: Ejecutivo, Legislativo, Judicial y Electoral","Solo una: el Gobierno"],a:1,tip:"Son 3 ramas: Ejecutivo (presidente), Legislativo (congreso) y Judicial (jueces).",img:"branches"},
+  {q:"¿Qué hace la Rama Legislativa?",o:["Aplicar las leyes","Crear y aprobar las leyes","Elegir al presidente","Dirigir el ejército"],a:1,tip:"El Congreso (Legislativo) crea, debate y aprueba las leyes del país.",img:"legislative"},
+  {q:"¿Qué es la Constitución de un país?",o:["Un partido político","La ley máxima que organiza el Estado y protege los derechos","Un edificio público","Un documento económico"],a:1,tip:"La Constitución es la ley fundamental que define la organización del Estado.",img:"constitution"},
+  {q:"El sufragio significa:",o:["No poder votar","Votar en secreto y libremente","Ir a la escuela","Trabajar en el gobierno"],a:1,tip:"El sufragio es el derecho y deber de los ciudadanos a votar.",img:"vote"},
+  {q:"¿Qué es la democracia?",o:["Gobierno de una sola persona","Sistema donde el pueblo participa en las decisiones","Gobierno militar","Sistema sin leyes"],a:1,tip:"La democracia es un sistema de gobierno donde el poder pertenece al pueblo.",img:"democracy"},
+  {q:"En una democracia, los ciudadanos pueden:",o:["Hacer lo que quieran sin límites","Participar, votar, opinar y exigir sus derechos","No participar en nada","Solo obedecer órdenes"],a:1,tip:"Los ciudadanos pueden votar, opinar, protestar pacíficamente y exigir derechos.",img:"citizen_rights"},
+  {q:"¿Qué es un debate democrático?",o:["Discutir a gritos","Intercambio respetuoso de ideas para tomar decisiones","Ganar siempre","No escuchar a otros"],a:1,tip:"Un debate democrático escucha todas las opiniones con respeto para decidir juntos.",img:"debate"},
+  {q:"La participación ciudadana es importante porque:",o:["No tiene importancia","Permite mejorar la comunidad y defender derechos","Solo sirve para políticos","Es obligatoria siempre"],a:1,tip:"Participar ayuda a construir una sociedad más justa y mejora la convivencia.",img:"participation"},
+  {q:"¿Qué valores son fundamentales en una democracia?",o:["Egoísmo y mentira","Respeto, tolerancia, responsabilidad y solidaridad","Violencia y fuerza","Indiferencia y silencio"],a:1,tip:"Los valores democráticos incluyen respeto, tolerancia, responsabilidad y solidaridad.",img:"values"},
+  {q:"¿Cuántos departamentos tiene Colombia?",o:["20","32","50","15"],a:1,tip:"Colombia tiene 32 departamentos y Bogotá como capital distrito.",img:"departments"},
+  {q:"Los Derechos de los Niños incluyen:",o:["Solo el derecho a jugar","Educación, salud, protección y juego","Solo educación","Ningún derecho especial"],a:1,tip:"La Convención sobre los Derechos del Niño protege educación, salud, juego y más.",img:"children_rights"},
+  {q:"¿Qué es una norma?",o:["Un consejo cualquiera","Una regla que organiza la convivencia en sociedad","Una canción","Un deporte"],a:1,tip:"Las normas son reglas que ayudan a convivir en paz y respeto.",img:"norms"},
+  {q:"¿Qué significa 'diversidad cultural'?",o:["Todos somos iguales en todo","Convivencia de diferentes culturas, tradiciones y costumbres","Solo existe una cultura válida","Separar a las personas por cultura"],a:1,tip:"La diversidad cultural reconoce y valora las diferentes formas de vida.",img:"diversity"},
+  {q:"¿Qué es la paz?",o:["Ausencia total de problemas","Convivencia justa, en respeto y sin violencia","No hablar con nadie","Tener mucho dinero"],a:1,tip:"La paz es vivir juntos con justicia, respeto y sin violencia.",img:"peace"}
+]
+};
+
+// ═══════════════════════════════════════════
+//   BIOMAS (5 originales + 1 para COMPLEJO)
+// ═══════════════════════════════════════════
+const BIOMES=[
+  {id:'ingles',   n:'Océano del\nSaber',   ico:'🌊',cls:'bc-i',mns:['Vocabulario Visual','Diálogos','Fill in Blank','Reading Comprehension']},
+  {id:'lenguaje', n:'Bosque de\nLetras',   ico:'🌲',cls:'bc-l',mns:['Textos Informativos','Escritura','Comprensión','Lenguaje Contextual']},
+  {id:'matematicas',n:'Mina de\nDiamantes',ico:'⛏️',cls:'bc-m',mns:['Problemas y Medidas','Estadística','Fracciones','Geometría']},
+  {id:'ciencias', n:'Selva\nViva',         ico:'🌿',cls:'bc-c',mns:['Reinos y Ecosistemas','Salud y Fuerzas','Movimientos','Máquinas Simples']},
+  {id:'sociales', n:'Aldea del\nTiempo',   ico:'🏔️',cls:'bc-s',mns:['Prehistoria','Conquista y Colombia','Gobierno','Democracia']},
+  {id:'inteligencia_emocional',n:'Valle de las\nEmociones',ico:'🌈',cls:'bc-e',mns:['Reconocer Emociones','Empatía y Comunicación','Resolución de Conflictos','Auto-regulación']}
+];
+
+// ── INSIGNIAS ──
+const BADGES=[
+  {id:'first', ico:'🥇',n:'Primer Bloque',d:'Completaste tu primera misión',c:p=>p.tm>=1},
+  {id:'diam',  ico:'💎',n:'Diamante',d:'3 estrellas en cualquier misión',c:p=>(p.pm||0)>=1},
+  {id:'fire',  ico:'🔥',n:'En Llamas',d:'3 días seguidos practicando',c:p=>(p.streak||0)>=3},
+  {id:'mine',  ico:'⛏️',n:'Minero',d:'Ganaste 50 XP',c:p=>p.xp>=50},
+  {id:'champ', ico:'🏆',n:'Campeón',d:'Ganaste 200 XP',c:p=>p.xp>=200},
+  {id:'aim',   ico:'🎯',n:'Puntería',d:'10 correctas seguidas',c:p=>(p.mc||0)>=10},
+  {id:'extra', ico:'⚡',n:'Extra Power',d:'Completaste un MODO EXTRA',c:p=>(p.ed||0)>=1},
+  {id:'adv',   ico:'🌍',n:'Aventurero',d:'Completaste 10 misiones',c:p=>p.tm>=10},
+  {id:'king',  ico:'👑',n:'Rey del SAI',d:'Completaste todos los 5 mundos',c:p=>(p.bc||0)>=5},
+  {id:'mago',  ico:'🧙',n:'Mago del Saber',d:'Alcanzaste el nivel 3',c:p=>(p.level||1)>=3},
+  {id:'sabio', ico:'📚',n:'Erudito',d:'3 estrellas en todas las misiones de un mundo',c:p=>{let ok=false;BIOMES.slice(0,5).forEach(b=>{let all3=true;for(let i=0;i<4;i++){if((p.prog[b.id+'_'+i]?.stars||0)<3)all3=false}if(all3)ok=true});return ok}},
+  {id:'survivor',ico:'💀',n:'Sobreviviente',d:'Completa una misión con solo 1 vida',c:p=>(p.surv||0)>=1},
+  {id:'medio_star',ico:'🌟',n:'Explorador Medio',d:'Completa todas las misiones de un mundo en nivel MEDIO',c:p=>{let ok=false;for(let b=0;b<5;b++){const bid=['ingles','lenguaje','matematicas','ciencias','sociales'][b];let all4=true;for(let i=0;i<4;i++){if(!P.prog[bid+'_medio_'+i]?.done)all4=false}if(all4)ok=true}return ok}},
+  {id:'complejo_star',ico:'💎',n:'Maestro Complejo',d:'Completa todas las misiones de un mundo en nivel COMPLEJO',c:p=>{let ok=false;for(let b=0;b<5;b++){const bid=['ingles','lenguaje','matematicas','ciencias','sociales'][b];let all4=true;for(let i=0;i<4;i++){if(!P.prog[bid+'_complejo_'+i]?.done)all4=false}if(all4)ok=true}return ok}},
+  {id:'refuerzo',ico:'🔄',n:'Refuerzo Maestro',d:'Completa un mundo de refuerzo sin errores',c:p=>(p.refM||0)>=1},
+  {id:'ie_master',ico:'🌈',n:'Arcoíris Interior',d:'Completa el Valle de las Emociones',c:p=>{let ok=true;for(let i=0;i<4;i++){if(!P.prog['inteligencia_emocional_complejo_'+i]?.done)ok=false}return ok}},
+  {id:'tri_level',ico:'🏆',n:'Tri-Campeón',d:'Completa un mundo en los 3 niveles de dificultad',c:p=>{let ok=false;for(let b=0;b<5;b++){const bid=['ingles','lenguaje','matematicas','ciencias','sociales'][b];let hasBas=true,hasMed=true,hasCom=true;for(let i=0;i<4;i++){if(!P.prog[bid+'_'+i]?.done)hasBas=false;if(!P.prog[bid+'_medio_'+i]?.done)hasMed=false;if(!P.prog[bid+'_complejo_'+i]?.done)hasCom=false}if(hasBas&&hasMed&&hasCom)ok=true}return ok}}
+];
+
+// ── NIVELES (expandidos a 8) ──
+const LVS=[
+  {n:1,name:'Aldeano',xp:0},{n:2,name:'Minero',xp:80},
+  {n:3,name:'Explorador',xp:200},{n:4,name:'Aventurero',xp:400},
+  {n:5,name:'Guerrero',xp:650},{n:6,name:'Héroe',xp:1000},
+  {n:7,name:'Leyenda',xp:1500},{n:8,name:'Leyenda SAI',xp:2200}
+];
+
+// ── ICONOS DE MISIÓN POR TEMA ──
+const MISSION_ICONS = {
+  ingles: ['🗣️','💬','✏️','📖','⚡'],
+  lenguaje: ['📰','📝','🦊','✍️','⚡'],
+  matematicas: ['📏','📊','🧮','📐','⚡'],
+  ciencias: ['🌱','💪','🔄','⚙️','⚡'],
+  sociales: ['🦣','⛵','🏛️','🗳️','⚡'],
+  inteligencia_emocional: ['😊','🤝','🕊️','🧘','⚡']
+};
+
+// ── MULTIPLICADORES DE DIFICULTAD ──
+const DIFF_MULT = {
+  basico: {xp:1, coins:1, starBonus:1},
+  medio:  {xp:1.5, coins:1.5, starBonus:1.5},
+  complejo:{xp:2, coins:2, starBonus:2}
+};
+
+// ═══════════════════════════════════════════
+//   QD_MEDIO — Nivel Medio (25 preguntas por biome)
+// ═══════════════════════════════════════════
+const QD_MEDIO={
+ingles:[
+  // MISIÓN 1 — Past tense verbs, comparatives
+  {q:"What is the PAST TENSE of 'go'?",o:["goed","went","gone","going"],a:1,tip:"'Go' es irregular en pasado: went. No se le agrega -ed.",img:"past_go"},
+  {q:"She ___ to school yesterday. (past tense of 'walk')",o:["walks","walked","walking","walk"],a:1,tip:"Verbos regulares en pasado llevan -ed: walked.",img:"past_walk"},
+  {q:"Which is BIGGER: an elephant or a mouse?",o:["The mouse","The elephant","They are the same","Neither"],a:1,tip:"Bigger = más grande. Un elefante es más grande que un ratón.",img:"elephant_mouse"},
+  {q:"He ___ his homework last night. (past tense of 'do')",o:["do","does","did","done"],a:2,tip:"'Do' es irregular: did en pasado simple.",img:"past_do"},
+  {q:"My house is SMALLER than the school. 'Smaller' means:",o:["más grande","más pequeña","igual","más rápida"],a:1,tip:"Smaller = más pequeña/pequeño.",img:"smaller"},
+  // MISIÓN 2 — Adverbs of frequency, prepositions
+  {q:"I ___ wake up at 7 AM. (always/sometimes/never)",o:["always","never","yesterday","tomorrow"],a:0,tip:"'Always' = siempre. Significa que hago algo todos los días.",img:"always"},
+  {q:"The cat is ___ the box. It is inside.",o:["next to","under","in","behind"],a:2,tip:"'In' = dentro de. El gato está dentro de la caja.",img:"cat_in_box"},
+  {q:"The ball is ___ the table and the chair. It is between them.",o:["under","next to","between","on"],a:2,tip:"'Between' = entre dos cosas.",img:"between"},
+  {q:"She ___ eats vegetables. She doesn't like them.",o:["always","sometimes","never","often"],a:2,tip:"'Never' = nunca. Ella no come vegetales.",img:"never_veg"},
+  {q:"The park is ___ my house. You can walk there.",o:["behind","next to","under","between"],a:1,tip:"'Next to' = al lado de / cerca de.",img:"next_to"},
+  // MISIÓN 3 — Simple past questions, time expressions
+  {q:"___ you go to the park yesterday?",o:["Do","Did","Does","Are"],a:1,tip:"En preguntas de pasado simple se usa DID: Did you go...?",img:"did_you"},
+  {q:"We played soccer ___ week.",o:["this","next","in","a"],a:0,tip:"'This week' = esta semana. 'Last week' = la semana pasada.",img:"this_week"},
+  {q:"___ she watch TV last night?",o:["Do","Did","Does","Is"],a:1,tip:"'Did' se usa para preguntas en pasado simple con cualquier persona.",img:"did_she"},
+  {q:"I visited my grandma ___ Saturday.",o:["in","on","at","next"],a:1,tip:"Se usa 'on' con días de la semana: on Monday, on Saturday.",img:"on_saturday"},
+  {q:"Did they ___ to the beach? Yes, they did.",o:["went","go","goes","going"],a:1,tip:"Después de 'did' el verbo regresa a su forma base (infinitivo sin to).",img:"did_base"},
+  // MISIÓN 4 — Short paragraph comprehension
+  {q:"📖 'Last weekend, Maria went to the zoo. She saw lions, monkeys and elephants. Her favorite animal was the elephant because it was very big.' What did Maria see at the zoo?",o:["Dogs and cats","Lions, monkeys and elephants","Only birds","Fish"],a:1,tip:"El texto dice que vio leones (lions), monos (monkeys) y elefantes (elephants).",img:"zoo_read"},
+  {q:"📖 'Last weekend, Maria went to the zoo. She saw lions, monkeys and elephants. Her favorite animal was the elephant because it was very big.' Why was the elephant her favorite?",o:["Because it was small","Because it was very big","Because it was funny","Because it was fast"],a:1,tip:"El texto dice 'because it was very big' = porque era muy grande.",img:"zoo_fav"},
+  {q:"📖 'Tom gets up at 6 AM, eats breakfast at 7, and goes to school at 8. He comes home at 3 PM.' What time does Tom go to school?",o:["At 6 AM","At 7 AM","At 8 AM","At 3 PM"],a:2,tip:"El texto dice 'goes to school at 8'.",img:"tom_schedule"},
+  {q:"📖 'Tom gets up at 6 AM, eats breakfast at 7, and goes to school at 8. He comes home at 3 PM.' What does Tom do at 7 AM?",o:["He gets up","He eats breakfast","He goes to school","He comes home"],a:1,tip:"A las 7 AM, Tom come el desayuno (eats breakfast).",img:"tom_breakfast"},
+  {q:"📖 'Lucy likes to read books. She reads every day after school. Her favorite book is about animals.' When does Lucy read?",o:["Before school","During school","After school","On weekends"],a:2,tip:"El texto dice 'after school' = después de la escuela.",img:"lucy_reads"},
+  // MODO EXTRA — Mixed review
+  {q:"Choose the CORRECT sentence:",o:["She goed to the store.","She went to the store.","She gone to the store.","She go to the store."],a:1,tip:"'Go' en pasado es 'went'. She went = Ella fue.",img:"correct_past"},
+  {q:"'I played soccer ___.' Which word fills the blank? (yesterday / tomorrow / now)",o:["tomorrow","now","yesterday","every day"],a:2,tip:"'Played' es pasado, entonces usamos 'yesterday' = ayer.",img:"yesterday"},
+  {q:"The dog is ___ the door. It cannot go inside.",o:["in","on","outside","under"],a:2,tip:"El perro está AFUERA de la puerta = outside.",img:"dog_outside"},
+  {q:"Which sentence is in the PRESENT?",o:["She played yesterday.","She plays every day.","She will play tomorrow.","She went to school."],a:1,tip:"'Plays every day' = juega todos los días. Es presente (present tense).",img:"present_tense"},
+  {q:"What is the opposite of 'big'?",o:["tall","small","fast","happy"],a:1,tip:"Big = grande. Su opuesto es small = pequeño.",img:"opposite_big"}
+],
+lenguaje:[
+  // MISIÓN 1 — Propósito del texto
+  {q:"Un cuento que narra la vida de un personaje se llama texto:",o:["informativo","narrativo","instructivo","publicitario"],a:1,tip:"Los textos narrativos cuentan historias con personajes y secuencias de eventos.",img:"narrativo_tipo"},
+  {q:"Un texto que explica paso a paso cómo hacer una receta es:",o:["narrativo","poético","instructivo","descriptivo"],a:2,tip:"Los textos instructivos dan instrucciones ordenadas para hacer algo.",img:"instructivo_tipo"},
+  {q:"¿Cuál es el propósito de un texto argumentativo?",o:["Contar una historia bonita","Dar información objetiva","Convencer al lector de una idea","Explicar cómo hacer algo"],a:2,tip:"El texto argumentativo defiende una opinión y quiere convencer al lector.",img:"argumentativo"},
+  {q:"Una carta que envía una tienda para ofrecer productos es un texto:",o:["narrativo","instructivo","epistolar / publicitario","poético"],a:2,tip:"Las cartas comerciales son textos publicitarios que quieren vender algo.",img:"carta_tienda"},
+  {q:"¿Qué tipo de texto es un poema con rima y ritmo?",o:["Informativo","Poético","Instructivo","Epistolar"],a:1,tip:"El texto poético usa rima, ritmo, versos y lenguaje creativo.",img:"poema_tipo"},
+  // MISIÓN 2 — Sinónimos y antónimos
+  {q:"¿Cuál es un SINÓNIMO de 'grande'?",o:["pequeño","enorme","rápido","triste"],a:1,tip:"Sinónimo = palabra con significado similar. Grande ≈ enorme.",img:"grande_sin"},
+  {q:"¿Cuál es un ANTÓNIMO de 'feliz'?",o:["contento","alegre","triste","bonito"],a:2,tip:"Antónimo = palabra con significado opuesto. Feliz ↔ triste.",img:"feliz_anton"},
+  {q:"¿Cuál es sinónimo de 'caminar'?",o:["correr","andar","saltar","dormir"],a:1,tip:"Caminar y andar significan lo mismo = sinónimos.",img:"caminar_sin"},
+  {q:"'Rápido' es antónimo de:",o:["veloz","lento","fuerte","alto"],a:1,tip:"Rápido ↔ lento. Son opuestos en velocidad.",img:"rapido_anton"},
+  {q:"¿Cuál es sinónimo de 'hermoso'?",o:["feo","bonito","grande","oscuro"],a:1,tip:"Hermoso ≈ bonito. Ambos describen algo bello.",img:"hermoso_sin"},
+  // MISIÓN 3 — Poesía
+  {q:"¿Qué es la RIMA en un poema?",o:["El tamaño de las letras","La repetición de sonidos al final de los versos","La cantidad de estrofas","El título del poema"],a:1,tip:"La rima es cuando los versos terminan con sonidos similares.",img:"rima"},
+  {q:"Un VERSO es:",o:["Un libro completo","Una línea de un poema","Una carta","Un dibujo"],a:1,tip:"Un verso es cada línea de un poema.",img:"verso"},
+  {q:"¿Qué es una ESTROFA?",o:["Un verso solo","Un grupo de versos","El título del poema","Un dibujo"],a:1,tip:"Una estrofa es un conjunto de versos que forman un párrafo del poema.",img:"estrofa"},
+  {q:"¿Cuántas sílabas tiene la palabra 'mariposa'?",o:["2","3","4","5"],a:2,tip:"ma-ri-po-sa = 4 sílabas.",img:"mariposa_sil"},
+  {q:"Las palabras que tienen el mismo sonido final en un poema:",o:["no tienen relación","están en prosa","riman entre sí","son sinónimas"],a:2,tip:"Cuando los versos terminan con sonido similar, se dice que riman.",img:"rima_sonido"},
+  // MISIÓN 4 — Ortografía y puntuación
+  {q:"¿En cuál oración se usa MAYÚSCULA correctamente?",o:["mi perro se llama rex","Mi perro se llama Rex","mi Perro se llama rex","mi perro Se llama rex"],a:1,tip:"Las mayúsculas van al inicio de la oración y en nombres propios (Rex).",img:"mayuscula"},
+  {q:"¿Cuál es el signo de puntuación que se usa al final de una pregunta?",o:[".","?",",","!"],a:1,tip:"Las preguntas terminan con signo de interrogación (?).",img:"interrogacion"},
+  {q:"La COMA (,) se usa para:",o:["terminar una oración","separar elementos en una lista","iniciar una pregunta","dar énfasis"],a:1,tip:"La coma separa elementos en una enumeración: perros, gatos, pájaros.",img:"coma_uso"},
+  {q:"¿Cuál oración tiene los signos de exclamación correctos?",o:["¡Qué bonito día","¡Qué bonito día!","Qué bonito día¡","Qué¡ bonito día!"],a:1,tip:"Los signos de exclamación van al inicio y al final: ¡...!",img:"exclamacion"},
+  {q:"¿Dónde va el punto final (.)?",o:["Al inicio de la oración","Al final de la oración","En medio de la oración","No se usa más"],a:1,tip:"El punto (.) se coloca al final de una oración declarativa.",img:"punto_final"},
+  // MODO EXTRA — Mixed review
+  {q:"Un texto que describe un lugar usando los 5 sentidos es:",o:["narrativo","descriptivo","instructivo","argumentativo"],a:1,tip:"El texto descriptivo usa detalles sensoriales para pintar una imagen mental.",img:"descriptivo_5sentidos"},
+  {q:"El conector 'además' sirve para:",o:["contrastar ideas","agregar más información","iniciar una pregunta","terminar un texto"],a:1,tip:"'Además' = también / agregando más información.",img:"ademas"},
+  {q:"¿Cuál es el antónimo de 'oscuro'?",o:["claro","grande","triste","lento"],a:0,tip:"Oscuro ↔ claro. Son opuestos.",img:"oscuro_anton"},
+  {q:"Un texto que cuenta la vida de una persona real es una:",o:["ficción","biografía","fábula","receta"],a:1,tip:"La biografía narra la vida real de una persona.",img:"biografia"},
+  {q:"¿Qué tipo de texto es una noticia?",o:["Narrativo","Informativo","Poético","Instructivo"],a:1,tip:"Las noticias informan sobre hechos reales de interés público.",img:"noticia_tipo"}
+],
+matematicas:[
+  // MISIÓN 1 — Problemas de 2 pasos
+  {q:"Ana compra 3 cuadernos a $2.000 cada uno. Paga con $10.000. ¿Cuánto recibe de vuelto?",o:["$4.000","$6.000","$3.000","$5.000"],a:0,tip:"3×$2.000=$6.000. Vuelto: $10.000-$6.000=$4.000.",img:"buy_change"},
+  {q:"Pedro tiene 15 caramelos. Da 5 a su hermano y compra 3 más. ¿Cuántos tiene ahora?",o:["12","13","8","17"],a:1,tip:"15-5=10, 10+3=13 caramelos.",img:"candies_2step"},
+  {q:"Una caja tiene 24 manzanas. Se reparten en partes iguales entre 4 niños. ¿Cuántas le tocan a cada uno?",o:["6","8","5","7"],a:0,tip:"24÷4=6 manzanas a cada niño.",img:"divide_apples"},
+  {q:"María leyó 12 páginas el lunes y el doble el martes. ¿Cuántas páginas leyó en total?",o:["24","36","18","48"],a:1,tip:"Martes: 12×2=24. Total: 12+24=36 páginas.",img:"pages_read"},
+  {q:"Un bus tiene 30 asientos. En la primera parada suben 18 personas, en la segunda bajan 5. ¿Cuántos pasajeros van ahora?",o:["13","18","23","25"],a:0,tip:"18-5=13 pasajeros viajando.",img:"bus_passengers"},
+  // MISIÓN 2 — Perímetro
+  {q:"Un rectángulo mide 8 cm de largo y 5 cm de ancho. ¿Cuál es su perímetro?",o:["13 cm","26 cm","40 cm","20 cm"],a:1,tip:"Perímetro = 2×(largo+ancho) = 2×(8+5) = 2×13 = 26 cm.",img:"rect_perimeter"},
+  {q:"Un triángulo tiene lados de 4 cm, 5 cm y 6 cm. ¿Cuál es su perímetro?",o:["15 cm","14 cm","16 cm","13 cm"],a:0,tip:"Perímetro = suma de todos los lados: 4+5+6 = 15 cm.",img:"tri_perimeter"},
+  {q:"Un cuadrado tiene 7 cm de lado. ¿Cuál es su perímetro?",o:["14 cm","21 cm","28 cm","49 cm"],a:2,tip:"Perímetro del cuadrado = 4×lado = 4×7 = 28 cm.",img:"sq_perimeter"},
+  {q:"Laura camina alrededor de un parque rectangular de 10 m por 6 m. ¿Cuántos metros camina?",o:["16 m","60 m","32 m","20 m"],a:2,tip:"Camina el perímetro: 2×(10+6) = 32 m.",img:"park_walk"},
+  {q:"Un triángulo equilátero tiene 9 cm por lado. ¿Cuál es su perímetro?",o:["18 cm","27 cm","36 cm","81 cm"],a:1,tip:"Equilátero = 3 lados iguales: 9+9+9 = 27 cm.",img:"eq_tri_perimeter"},
+  // MISIÓN 3 — Fracciones equivalentes
+  {q:"¿Cuál fracción es EQUIVALENTE a 2/4?",o:["1/2","3/4","2/3","1/3"],a:0,tip:"2/4 = 1/2 (divide numerador y denominador por 2).",img:"equiv_frac"},
+  {q:"¿Cuál fracción es equivalente a 3/6?",o:["1/2","2/3","1/3","3/4"],a:0,tip:"3/6 = 1/2 (divide por 3: 3÷3=1, 6÷3=2).",img:"equiv_36"},
+  {q:"¿Cuál es mayor: 1/2 o 1/4?",o:["1/2","1/4","Son iguales","No se puede saber"],a:0,tip:"Con mismo denominador, mayor numerador = mayor fracción. 1/2 > 1/4.",img:"compare_half"},
+  {q:"¿Cuánto es 1/2 de 20?",o:["5","8","10","15"],a:2,tip:"La mitad de 20 = 20÷2 = 10.",img:"half_of_20"},
+  {q:"¿Cuánto es 1/4 de 16?",o:["2","4","8","6"],a:1,tip:"Un cuarto de 16 = 16÷4 = 4.",img:"quarter_of_16"},
+  // MISIÓN 4 — Tiempo
+  {q:"Si el reloj marca las 3:00, ¿qué hora será en 2 horas más?",o:["5:00","4:00","1:00","6:00"],a:0,tip:"3:00 + 2 horas = 5:00.",img:"clock_add"},
+  {q:"La película empezó a las 4:30 y terminó a las 6:00. ¿Cuánto duró?",o:["1 hora","1 hora y media","2 horas","2 horas y media"],a:1,tip:"De 4:30 a 6:00 = 1 hora y 30 minutos.",img:"movie_time"},
+  {q:"¿Qué hora marca el reloj si la manecilla grande está en el 6 y la pequeña en el 12?",o:["6:00","12:30","12:00","3:00"],a:0,tip:"Manecilla grande en 6 = 30 minutos. Pequeña en 12 = 12 horas. Son las 12:30.",img:"clock_read"},
+  {q:"Tomás sale de casa a las 7:15 AM y llega a la escuela a las 7:45 AM. ¿Cuánto tarda?",o:["15 minutos","30 minutos","45 minutos","20 minutos"],a:1,tip:"7:45 - 7:15 = 30 minutos de camino.",img:"school_time"},
+  {q:"¿Cuántos minutos hay en media hora?",o:["15","60","30","45"],a:2,tip:"Una hora = 60 minutos. Media hora = 30 minutos.",img:"half_hour"},
+  // MODO EXTRA — Mixed con pictograma
+  {q:"📊 Usando el pictograma de aves (1 dibujo = 3 aves), si el sábado Luisa observó 6 dibujos, ¿cuántas aves vio?",o:["6","18","9","3"],a:1,tip:"6 dibujos × 3 = 18 aves.",img:"bird_sat",birdRef:true},
+  {q:"📊 Si el promedio de aves por día es 6,6 (33÷5), ¿cuántas aves faltarían para llegar a 40 en la semana?",o:["5","7","8","10"],a:1,tip:"40 - 33 = 7 aves más.",img:"bird_average",birdRef:true},
+  {q:"Un rectángulo tiene perímetro 20 cm. Si el largo es 6 cm, ¿cuánto mide el ancho?",o:["5 cm","4 cm","6 cm","8 cm"],a:1,tip:"2×(6+ancho)=20 → 6+ancho=10 → ancho=4 cm.",img:"perimeter_sides"},
+  {q:"¿Cuántas horas y minutos hay en 90 minutos?",o:["1 hora 20 min","1 hora 30 min","2 horas","1 hora 40 min"],a:1,tip:"60 minutos = 1 hora. 90-60=30. Son 1 hora y 30 minutos.",img:"convert_time"},
+  {q:"📊 ¿En qué día observó Luisa exactamente la mitad de las aves que observó el jueves (12 aves)?",o:["Lunes (9 aves)","Martes (6 aves)","Miércoles (3 aves)","Viernes (3 aves)"],a:1,tip:"La mitad de 12 = 6. Martes tiene 6 aves (2 dibujos × 3).",img:"bird_half",birdRef:true}
+],
+ciencias:[
+  // MISIÓN 1 — Ciclos de vida
+  {q:"¿En qué orden se transforma una mariposa?",o:["Huevo → oruga → crisálida → mariposa","Mariposa → oruga → huevo","Oruga → huevo → crisálida","Crisálida → huevo → mariposa"],a:0,tip:"El ciclo es: huevo → oruga → crisálida → mariposa adulta.",img:"butterfly_cycle"},
+  {q:"¿Cómo nace una rana?",o:["De un huevo que pone la mamá en el agua","De una semilla","De una crisálida","De un cachorro"],a:0,tip:"Las ranas ponen huevos en el agua. De allí nacen los renacuajos.",img:"frog_birth"},
+  {q:"¿Cuál es la primera etapa del ciclo de vida de una planta con flor?",o:["La semilla","La flor","La raíz","El fruto"],a:0,tip:"Las plantas con flor empiezan como semillas que germinan.",img:"plant_seed"},
+  {q:"El renacuajo se transforma en rana. ¿Cómo se llama este proceso?",o:["Fotosíntesis","Metamorfosis","Evaporación","Germinación"],a:1,tip:"La metamorfosis es el cambio de forma: renacuajo → rana.",img:"metamorfosis"},
+  {q:"¿Qué necesita una semilla para germinar?",o:["Sol, agua y tierra adecuada","Solo luz","Solo agua","Solo aire"],a:0,tip:"Las semillas necesitan agua, temperatura adecuada y oxígeno para germinar.",img:"seed_grow"},
+  // MISIÓN 2 — Energía
+  {q:"La energía CINÉTICA es la energía del:",o:["reposo","movimiento","calor","luz"],a:1,tip:"Cinética = movimiento. Un carro en movimiento tiene energía cinética.",img:"kinetic"},
+  {q:"La energía POTENCIAL es la energía que tiene un objeto por:",o:["su movimiento","su velocidad","su posición o altura","su color"],a:2,tip:"Un objeto alto tiene energía potencial por su posición (gravedad).",img:"potential"},
+  {q:"¿Qué tipo de energía produce una pilas o batería?",o:["Energía solar","Energía eléctrica","Energía eólica","Energía nuclear"],a:1,tip:"Las pilas almacenan y producen energía eléctrica.",img:"battery"},
+  {q:"La energía que llega del Sol se llama energía:",o:["eléctrica","nuclear","solar","eólica"],a:2,tip:"Solar = del Sol. El Sol nos da luz y calor.",img:"solar_energy"},
+  {q:"¿Qué aparato transforma energía eléctrica en luz?",o:["Un estufa","Un televisor","Una nevera","Un ventilador"],a:1,tip:"El televisor usa electricidad para producir imagen y luz.",img:"electric_light"},
+  // MISIÓN 3 — Mezclas
+  {q:"Una mezcla HOMOGÉNEA es aquella donde:",o:["se ven los componentes","no se distinguen los componentes","solo tiene un componente","es sólida siempre"],a:1,tip:"Homogénea = los componentes no se ven por separado (ej: jugo de naranja).",img:"homogenea"},
+  {q:"¿Cuál es una mezcla HETEROGÉNEA?",o:["Agua con sal disuelta","Jugo de limón","Ensalada con tomate y lechuga","Café con azúcar"],a:2,tip:"En la ensalada se ven los ingredientes por separado = heterogénea.",img:"heterogenea"},
+  {q:"Cuando mezclas agua y arena y luego la dejas reposar, la arena se va al fondo. Esto se llama:",o:["evaporación","decantación","fusión","sublimación"],a:1,tip:"La decantación separa componentes por su peso (arena es más pesada).",img:"decantacion"},
+  {q:"¿Cuál es un ejemplo de mezcla homogénea?",o:["Cereal con leche","Agua con aceite","Limonada","Ensalada"],a:2,tip:"La limonada parece un líquido uniforme = mezcla homogénea.",img:"limonada"},
+  {q:"Para separar el agua de la sal en agua de mar, se puede usar:",o:["un imán","evaporación","un colador","decantación"],a:1,tip:"Al evaporar el agua, la sal queda como sólido = evaporación.",img:"evaporacion"},
+  // MISIÓN 4 — Cuerpo humano
+  {q:"¿Por dónde entra el oxígeno a nuestro cuerpo?",o:["Por la boca y la nariz","Por los oídos","Por la piel","Por los ojos"],a:0,tip:"Respiramos por la nariz y la boca. El oxígeno llega a los pulmones.",img:"breathe_in"},
+  {q:"¿Cuál es la función principal del sistema digestivo?",o:["Mover el cuerpo","Transformar los alimentos en nutrientes","Pensar","Ver"],a:1,tip:"El sistema digestivo descompone la comida para que el cuerpo la use.",img:"digestive"},
+  {q:"El corazón es parte del sistema:",o:["digestivo","respiratorio","circulatorio","óseo"],a:2,tip:"El corazón bombea sangre por todo el cuerpo = sistema circulatorio.",img:"heart_system"},
+  {q:"¿Cuál es el órgano principal del sistema respiratorio?",o:["El estómago","El cerebro","Los pulmones","El corazón"],a:2,tip:"Los pulmones son los órganos donde se realiza el intercambio de gases.",img:"lungs"},
+  {q:"Los huesos forman parte del sistema:",o:["muscular","digestivo","nervioso","óseo"],a:3,tip:"Los huesos = sistema óseo. Dan forma y protección al cuerpo.",img:"skeletal"},
+  // MODO EXTRA — Mixed review
+  {q:"¿Qué proceso usan las plantas para hacer su alimento usando la luz del sol?",o:["Respiración","Fotosíntesis","Digestión","Evaporación"],a:1,tip:"Las plantas usan luz solar, agua y CO₂ para hacer alimento = fotosíntesis.",img:"photosynthesis"},
+  {q:"Un imán tiene dos polos:",o:["positivo y negativo","norte y sur","grande y pequeño","caliente y frío"],a:1,tip:"Los polos del imán se llaman norte (N) y sur (S).",img:"magnet_poles"},
+  {q:"¿Qué pasa si acercas dos imanes por el polo norte?",o:["Se atraen","Se repelen","No pasa nada","Se funden"],a:1,tip:"Polos iguales se repelen. Polos diferentes se atraen.",img:"poles_repel"},
+  {q:"La fuerza de gravedad nos mantiene:",o:["flotando","pegados al suelo","volando","corriendo rápido"],a:1,tip:"La gravedad es la fuerza que nos atrae hacia la Tierra.",img:"gravity"},
+  {q:"¿Cuál es la fuente principal de energía de la Tierra?",o:["La Luna","El viento","El Sol","Las estrellas"],a:2,tip:"El Sol es la principal fuente de calor y luz de la Tierra.",img:"sun_source"}
+],
+sociales:[
+  // MISIÓN 1 — Regiones de Colombia
+  {q:"La Región Andina de Colombia se caracteriza por tener:",o:["Playas y mar","Montañas y cordilleras","Selvas tropicales","Desiertos"],a:1,tip:"La Región Andina tiene las 3 cordilleras de los Andes.",img:"andina"},
+  {q:"¿En qué región de Colombia están las ciudades de Cartagena y Barranquilla?",o:["Región Andina","Región Caribe","Región Pacífica","Región Orinoquía"],a:1,tip:"Cartagena y Barranquilla están en la Región Caribe, cerca del mar Caribe.",img:"caribe"},
+  {q:"La selva amazónica en Colombia pertenece a la región:",o:["Andina","Caribe","Amazónica","Insular"],a:2,tip:"La selva amazónica está en la Región Amazónica (sur del país).",img:"amazonica"},
+  {q:"¿Cuántas regiones naturales tiene Colombia?",o:["4","5","6","8"],a:2,tip:"Colombia tiene 6 regiones: Andina, Caribe, Pacífica, Orinoquía, Amazónica e Insular.",img:"6_regiones"},
+  {q:"La Región Pacífica de Colombia bañada por el océano:",o:["Atlántico","Índico","Pacífico","Ártico"],a:2,tip:"La Región Pacífica está bañada por el Océano Pacífico.",img:"pacifico"},
+  // MISIÓN 2 — Economía
+  {q:"La AGRICULTURA es una actividad económica que consiste en:",o:["fabricar carros","cultivar la tierra","vender ropa","construir casas"],a:1,tip:"La agricultura es sembrar y cultivar alimentos en la tierra.",img:"agricultura"},
+  {q:"¿Cuál es una actividad MINERA en Colombia?",o:["Pescar en ríos","Extraer carbón y esmeraldas","Cultivar café","Tejer telas"],a:1,tip:"Colombia extrae minerales como carbón, esmeraldas y oro = minería.",img:"mineria_col"},
+  {q:"¿Qué es el TURISMO como actividad económica?",o:["Fabricar alimentos","Viajar por placer y conocer lugares","Construir puentes","Enseñar en escuelas"],a:1,tip:"El turismo es viajar para conocer lugares y generar ingresos.",img:"turismo"},
+  {q:"El café es uno de los principales productos de exportación de Colombia. ¿Qué actividad representa?",o:["Minería","Agricultura","Industria","Turismo"],a:1,tip:"Cultivar café es una actividad agrícola.",img:"cafe_colombia"},
+  {q:"Cuando alguien compra algo en una tienda, está participando como:",o:["productor","vendedor","consumidor","transportador"],a:2,tip:"El consumidor es quien compra y usa los productos o servicios.",img:"consumidor"},
+  // MISIÓN 3 — Medios de comunicación
+  {q:"¿Cuál medio de comunicación usa imágenes y texto en papel?",o:["La radio","El periódico","La televisión","Internet"],a:1,tip:"El periódico = newspaper. Usa fotos y texto impreso en papel.",img:"periodico"},
+  {q:"¿Cuál medio de comunicación permite escuchar noticias sin ver imágenes?",o:["La televisión","El cine","La radio","El periódico"],a:2,tip:"La radio transmite sonidos. Se escucha sin ver.",img:"radio"},
+  {q:"Internet permite:",o:["Solo ver videos","Comunicarse, buscar información y aprender","Solo enviar mensajes","Solo escuchar música"],a:1,tip:"Internet sirve para muchas cosas: comunicarse, aprender, investigar, etc.",img:"internet"},
+  {q:"¿Qué medio de comunicación muestra noticias con video y sonido?",o:["La radio","El periódico","La televisión","Una carta"],a:2,tip:"La televisión combina video y sonido para mostrar noticias.",img:"television"},
+  {q:"Una CARTA es un medio de comunicación que:",o:["se envía por televisión","es un mensaje escrito de persona a persona","se escucha en la radio","es una foto"],a:1,tip:"Una carta es un mensaje escrito que una persona envía a otra.",img:"carta_medio"},
+  // MISIÓN 4 — Derechos de los niños (detalle)
+  {q:"Según los Derechos de los Niños, todos tienen derecho a:",o:["trabajar desde pequeños","la educación","no tener familia","comprar lo que quieran"],a:1,tip:"El derecho a la educación está en la Convención sobre los Derechos del Niño.",img:"derecho_edu"},
+  {q:"El derecho a la PROTECCIÓN significa que los niños deben estar:",o:["solos en casa","seguros y cuidados","trabajando","sin jugar"],a:1,tip:"Protección = estar seguros, cuidados y libres de daño.",img:"proteccion"},
+  {q:"¿Cuál de estos es un DEBER de los niños?",o:["No ir a la escuela","Respetar a los demás","Comprar todo lo que quieren","No obedecer reglas"],a:1,tip:"Los deberes incluyen respetar a los demás y obedecer normas.",img:"deber_ninos"},
+  {q:"Los niños tienen derecho al JUEGO y la recreación porque:",o:["es obligatorio","ayuda a su desarrollo sano","no sirve para nada","es solo para adultos"],a:1,tip:"El juego es fundamental para el desarrollo físico y mental.",img:"derecho_juego"},
+  {q:"Si un niño es maltratado, ¿qué debe hacer?",o:["No decir nada","Contarlo a un adulto de confianza","Pelear","Hacerse el fuerte"],a:1,tip:"Siempre se debe contar a un adulto de confianza (padres, maestros).",img:"maltrato_denunciar"},
+  // MODO EXTRA
+  {q:"¿Cuál es la capital de la Región Caribe?",o:["Bogotá","Cartagena","Medellín","Cali"],a:1,tip:"Cartagena es una de las principales ciudades de la Región Caribe.",img:"caribe_capital"},
+  {q:"¿Qué producto agrícola es famoso de Colombia en todo el mundo?",o:["El arroz","El trigo","El café","La papa"],a:2,tip:"El café colombiano es reconocido mundialmente.",img:"cafe_famoso"},
+  {q:"Un NOTICIERO en televisión es un medio de comunicación que:",o:["cuenta cuentos","informa sobre hechos actuales","enseña a cocinar","muestra películas"],a:1,tip:"Los noticieros informan sobre lo que pasa en el país y el mundo.",img:"noticiero"},
+  {q:"Los DERECHOS HUMANOS son:",o:["reglas del juego","derechos que tiene toda persona","solo para adultos","solo para niños"],a:1,tip:"Los derechos humanos son para TODAS las personas sin excepción.",img:"derechos_humanos"},
+  {q:"¿Por qué es importante la libertad de expresión?",o:["Para decir cualquier cosa sin pensar","Para poder opinar y comunicar ideas respetuosamente","Para gritar siempre","No es importante"],a:1,tip:"La libertad de expresión permite opinar con respeto en una democracia.",img:"libertad_expresion"}
+]
+};
+
+// ═══════════════════════════════════════════
+//   QD_COMPLEJO — Nivel Complejo (25 preguntas por biome + IE)
+// ═══════════════════════════════════════════
+const QD_COMPLEJO={
+ingles:[
+  // MISIÓN 1 — Present perfect, irregular past
+  {q:"Choose the correct form: 'I ___ to Paris last year.'",o:["have gone","went","have went","go"],a:1,tip:"Last year = pasado simple. 'Went' es pasado de 'go'.",img:"pp_gone"},
+  {q:"Which is the correct PAST PARTICIPLE of 'eat'?",o:["eated","eating","ate","eaten"],a:3,tip:"Eat → ate → eaten. 'Eaten' es el participio pasado.",img:"pp_eaten"},
+  {q:"'She has ___ the homework.' (write → past participle)",o:["writed","wrote","writing","written"],a:3,tip:"Write → wrote → written. Participio = written.",img:"pp_written"},
+  {q:"Choose the correct sentence:",o:["He has went home.","He has go home.","He has gone home.","He have gone home."],a:2,tip:"Present perfect: has + gone. 'Has gone' = se ha ido.",img:"has_gone"},
+  {q:"'I have never ___ sushi.' Which word is correct?",o:["eat","ate","eaten","eating"],a:2,tip:"Después de 'have' se usa el participio pasado: eaten.",img:"never_eaten"},
+  // MISIÓN 2 — Conditionals
+  {q:"Complete: 'If it rains tomorrow, I ___ an umbrella.'",o:["will take","take","took","taking"],a:0,tip:"First conditional: If + present, will + base verb.",img:"conditional_rain"},
+  {q:"'If you study hard, you ___ good grades.'",o:["will get","gets","got","getting"],a:0,tip:"First conditional: If you study (present), you will get (future).",img:"conditional_study"},
+  {q:"Choose the correct conditional: 'If she ___ early, she will catch the bus.'",o:["wake up","wakes up","woke up","waking up"],a:1,tip:"En la condición (If clause) usamos presente simple, no futuro.",img:"conditional_wake"},
+  {q:"'If I am hungry, I ___ food.'",o:["will eat","eat","ate","eating"],a:0,tip:"First conditional: If + present → will + base verb.",img:"conditional_hungry"},
+  {q:"What does 'If it snows, we will make a snowman' mean?",o:["Hace sol ahora","Si nieva en el futuro, haremos muñeco","Estamos haciendo un muñeco","Nunca nieva"],a:1,tip:"Es una condición futura: si nieva → haremos muñeco de nieve.",img:"conditional_snow"},
+  // MISIÓN 3 — Reading comprehension with moral
+  {q:"📖 'A boy found a wallet with money. Instead of keeping it, he returned it to the owner. The owner was very grateful.' What is the MORAL of this story?",o:["Money is not important","Being honest is rewarding","Never pick up wallets","Lose your wallet"],a:1,tip:"La moraleja: ser honesto (devolver lo que no es tuyo) tiene recompensa.",img:"honest_moral"},
+  {q:"📖 'The tortoise and the hare had a race. The hare ran fast but stopped to sleep. The tortoise walked slowly but never stopped. The tortoise won.' What lesson does this teach?",o:["Running fast is bad","Slow and steady wins the race","Sleeping is important","Races are fun"],a:1,tip:"La tortuga ganó por ser constante: 'Slow and steady wins the race'.",img:"tortoise_lesson"},
+  {q:"📖 'Lisa shared her lunch with a friend who forgot theirs. The next day, the friend brought cookies for Lisa.' What happened because Lisa was kind?",o:["Nothing","Her friend shared too","She lost her lunch","The teacher got angry"],a:1,tip:"La amabilidad de Lisa hizo que su amiga también compartiera.",img:"kindness_return"},
+  {q:"📖 'A small bird had a broken wing. Other birds helped it find food until it healed. When it flew again, it helped another injured bird.' This story is about:",o:["competition","teamwork and helping others","being the strongest","flying fast"],a:1,tip:"El mensaje es sobre la solidaridad y ayudar a los demás.",img:"birds_help"},
+  {q:"📖 'Every morning, the farmer woke up early to feed the animals. He never complained because he loved his farm.' The farmer shows:",o:["laziness","responsibility and love for his work","anger","fear"],a:1,tip:"El granjero muestra responsabilidad y amor por su trabajo.",img:"farmer_dedication"},
+  // MISIÓN 4 — Writing skills
+  {q:"Which sentence is CORRECT?",o:["She don't like pizza.","She doesn't likes pizza.","She doesn't like pizza.","She not like pizza."],a:2,tip:"Tercera persona negativa: doesn't + base verb (sin -s).",img:"correct_neg"},
+  {q:"Which sentence is grammatically correct?",o:["They is happy.","They are happy.","They am happy.","They be happy."],a:1,tip:"'They' = plural → usa 'are' (no is, am, o be).",img:"they_are"},
+  {q:"Choose the COMPLETE sentence:",o:["Because it was raining.","We stayed home because it was raining.","We stayed home because.","Raining we stayed home."],a:1,tip:"Una oración completa necesita sujeto + verbo + idea completa.",img:"complete_sentence"},
+  {q:"Which word correctly completes: 'The children ___ playing in the park.'?",o:["is","are","am","be"],a:1,tip:"'Children' es plural → 'are playing'.",img:"children_playing"},
+  {q:"'My sister ___ a beautiful painting yesterday.' Choose the correct verb.",o:["makes","make","made","making"],a:2,tip:"Yesterday = pasado simple. 'Make' → 'made' (irregular).",img:"made_painting"},
+  // MODO EXTRA — Mixed advanced
+  {q:"Rewrite: 'He is taller than his brother.' This means:",o:["His brother is taller","He is the shortest","His brother is shorter","They are the same height"],a:2,tip:"Si él es 'more tall' que su hermano, su hermano es más bajo.",img:"taller_rewrite"},
+  {q:"'I have ___ this movie twice.' (see)",o:["see","saw","seen","seeing"],a:2,tip:"Present perfect: have + past participle. See → saw → seen.",img:"seen_movie"},
+  {q:"Which question is formed correctly?",o:["Where you live?","Where do you live?","Where does lives you?","Where living you?"],a:1,tip:"Pregunta: Wh-word + do/does + sujeto + base verb.",img:"correct_question"},
+  {q:"'If I ___ a superhero, I would fly.' (past subjunctive)",o:["am","was","were","be"],a:2,tip:"Segundo condicional (irreal): If I were... es correcto aunque suene raro.",img:"if_were"},
+  {q:"The OPPOSITE of 'brave' is:",o:["strong","happy","cowardly / timid","fast"],a:2,tip:"Brave = valiente. Opposite = cobarde/tímido.",img:"opposite_brave"}
+],
+lenguaje:[
+  // MISIÓN 1 — Figuras literarias
+  {q:"'Sus ojos brillaban como estrellas.' Esta figura literaria es:",o:["una metáfora","una comparación o símil","una personificación","una hipérbole"],a:1,tip:"Usa 'como' para comparar = símil/comparación.",img:"simil_estrellas"},
+  {q:"'El sol sonrió en el cielo.' El sol sonriendo es una:",o:["comparación","metáfora","personificación","hipérbole"],a:2,tip:"Dar cualidades humanas a objetos = personificación. El sol no sonríe realmente.",img:"personif_sol"},
+  {q:"'Tengo tanta hambre que me comería un caballo.' Es una:",o:["comparación","metáfora","personificación","hipérbole (exageración)"],a:3,tip:"Exagerar mucho = hipérbole. Nadie se come un caballo de verdad.",img:"hiperbola"},
+  {q:"'El tiempo vuela cuando estoy contigo.' El tiempo no vuela realmente, es una:",o:["comparación","metáfora","personificación","hipérbole"],a:2,tip:"Dar acción humana al tiempo = personificación.",img:"meta_tiempo"},
+  {q:"'Mi abuela es un ángel.' Esta figura literaria compara sin usar 'como':",o:["símil","metáfora","hipérbole","onomatopeya"],a:1,tip:"Comparar sin 'como' = metáfora. Mi abuela = un ángel (bondadosa).",img:"meta_abuela"},
+  // MISIÓN 2 — Estructura del párrafo
+  {q:"La ORACIÓN PRINCIPAL de un párrafo contiene:",o:["el tema o idea principal","los detalles","la conclusión","el título"],a:0,tip:"La oración principal dice de qué trata el párrafo.",img:"oracion_principal"},
+  {q:"Las oraciones de APOYO en un párrafo sirven para:",o:["cambiar el tema","dar detalles y ejemplos","terminar el párrafo","preguntar algo"],a:1,tip:"Las oraciones de apoyo explican, ejemplifican o detallan la idea principal.",img:"oracion_apoyo"},
+  {q:"¿Cuál es la CONCLUSIÓN de un párrafo?",o:["La primera oración","Las oraciones del medio","La última oración que resume la idea","El título"],a:2,tip:"La conclusión cierra el párrafo resumiendo la idea principal.",img:"conclusion_parrafo"},
+  {q:"Un párrafo debe tratar sobre:",o:["varios temas diferentes","un solo tema","ningún tema","solo preguntas"],a:1,tip:"Un buen párrafo se enfoca en UNA sola idea o tema.",img:"un_tema"},
+  {q:"¿Cuál es el orden correcto de un párrafo descriptivo?",o:["Detalles → Tema → Conclusión","Tema → Detalles → Conclusión","Conclusión → Tema → Detalles","Detalles → Conclusión → Tema"],a:1,tip:"Orden: Idea principal → detalles que la apoyan → conclusión.",img:"orden_parrafo"},
+  // MISIÓN 3 — Coherencia textual
+  {q:"¿Cuál oración NO pertenece al párrafo sobre 'Los perros'? (Tema: perros como mascotas)",o:["Los perros son animales leales.","Me gusta el color rojo.","Los perros necesitan agua y comida.","Jugar con tu perro es divertido."],a:1,tip:"'Me gusta el color rojo' no habla de perros = no es coherente.",img:"incoherente"},
+  {q:"¿Qué es la COHERENCIA en un texto?",o:["Usar muchas palabras","Que las ideas estén conectadas y tengan sentido","Tener muchas páginas","Usar sinónimos"],a:1,tip:"Coherencia = las ideas se conectan lógicamente y tienen sentido juntas.",img:"coherencia"},
+  {q:"Para que un texto sea COHERENTE, las oraciones deben:",o:["ser muy largas","estar relacionadas con el tema","usar palabras en inglés","ser preguntas"],a:1,tip:"Todas las oraciones deben relacionarse con el tema principal.",img:"oraciones_relacionadas"},
+  {q:"¿Cuál es un buen conector para agregar información?",o:["pero","porque","además","entonces"],a:2,tip:"'Además' agrega información nueva sobre el mismo tema.",img:"conector_ademas"},
+  {q:"El conector 'por lo tanto' sirve para:",o:["agregar info","contrastar ideas","concluir o dar una consecuencia","iniciar una pregunta"],a:2,tip:"'Por lo tanto' = en conclusión / como consecuencia.",img:"por_lo_tanto"},
+  // MISIÓN 4 — Punto de vista
+  {q:"Un texto escrito en PRIMERA PERSONA usa:",o:["él/ella","yo, mí, me","usted","nosotros y ellos"],a:1,tip:"Primera persona: yo, mí, me. El narrador es quien cuenta la historia.",img:"primera_persona"},
+  {q:"'Él caminó por el bosque y encontró una cueva misteriosa.' Está escrito en:",o:["primera persona","segunda persona","tercera persona","ninguna persona"],a:2,tip:"Usa 'él' = tercera persona. El narrador cuenta la historia de otro.",img:"tercera_persona"},
+  {q:"¿Cuál narrador PARTICIPA en la historia?",o:["Tercera persona","Primera persona","Ninguno","Segunda persona"],a:1,tip:"En primera persona (yo), el narrador es parte de la historia.",img:"narrador_participa"},
+  {q:"Un cuento que dice 'Yo vi algo increíble...' está contado en:",o:["segunda persona","tercera persona","primera persona","cuarta persona"],a:2,tip:"'Yo' = primera persona. Quien cuenta es parte de la historia.",img:"yo_vi"},
+  {q:"¿Cuál NO es un tipo de narrador?",o:["Protagonista (1ra persona)","Omnisciente (sabe todo)","Deletreo","Observador (3ra persona)"],a:2,tip:"'Deletreo' no existe como tipo de narrador. Los otros sí.",img:"tipo_narrador"},
+  // MODO EXTRA
+  {q:"'El río cantaba entre las rocas.' ¿Qué figura literaria hay?",o:["comparación","hipérbole","personificación","metáfora"],a:2,tip:"Un río no puede cantar = personificación.",img:"rio_canta"},
+  {q:"Para conectar dos ideas opuestas, se usa el conector:",o:["y","porque","pero","además"],a:2,tip:"'Pero' conecta ideas opuestas o contrarias.",img:"conector_pero"},
+  {q:"¿Cuántas oraciones debe tener como mínimo un párrafo?",o:["una","dos","tres","diez"],a:0,tip:"Un párrafo necesita al menos una oración (la principal).",img:"min_oracion"},
+  {q:"'La luna es un espejo plateado.' Es una:",o:["personificación","símil","hipérbole","metáfora"],a:3,tip:"Compara sin 'como' la luna con un espejo = metáfora.",img:"luna_espejo"},
+  {q:"¿Qué tipo de narrador sabe los pensamientos de todos los personajes?",o:["Protagonista","Observador","Omnisciente","No existe"],a:2,tip:"El narrador omnisciente lo sabe todo, incluso los pensamientos de cada personaje.",img:"omnisciente"}
+],
+matematicas:[
+  // MISIÓN 1 — Operaciones combinadas
+  {q:"Calcula: (8 + 4) × 2 − 3 = ?",o:["21","27","25","23"],a:1,tip:"Primero paréntesis: 8+4=12. Luego multiplicar: 12×2=24. Restar: 24−3=21. Espera: es 21.",img:"combined_ops"},
+  {q:"María tiene 3 cajas con 8 chocolates cada una. Regala 5 chocolates. ¿Cuántos le quedan?",o:["29","19","24","13"],a:1,tip:"3×8=24 chocolates. 24−5=19 chocolates.",img:"choc_boxes"},
+  {q:"Un edificio tiene 4 pisos con 6 ventanas cada uno. Pintaron 8 ventanas. ¿Cuántas faltan por pintar?",o:["24","16","8","32"],a:1,tip:"Total: 4×6=24. Faltan: 24−8=16 ventanas.",img:"windows_building"},
+  {q:"Santiago tiene $50. Compra 2 libros a $18 cada uno. ¿Cuánto le sobra?",o:["$14","$16","$32","$34"],a:0,tip:"2×$18=$36. Sobran: $50−$36=$14.",img:"book_money"},
+  {q:"En un estacionamiento hay 3 filas de 10 carros cada una. Llegan 15 más y se van 7. ¿Cuántos carros hay ahora?",o:["30","38","45","23"],a:1,tip:"3×10=30. 30+15=45. 45−7=38 carros.",img:"parking_cars"},
+  // MISIÓN 2 — División con resto
+  {q:"¿Cuánto es 17 ÷ 5?",o:["Cociente 3, resto 2","Cociente 3, resto 1","Cociente 4, resto 0","Cociente 2, resto 7"],a:0,tip:"17÷5 = 3 con resto 2. Porque 5×3=15 y 17−15=2.",img:"div_17_5"},
+  {q:"Repartimos 23 lápices entre 4 niños. ¿Cuántos le tocan a cada uno y cuántos sobran?",o:["5 y sobran 3","6 y sobran 1","5 y sobran 2","4 y sobran 7"],a:0,tip:"23÷4 = 5 con resto 3. 4×5=20, 23−20=3 sobran.",img:"lapices_div"},
+  {q:"Si 28 niños forman grupos de 6, ¿cuántos grupos se hacen y cuántos quedan sin grupo?",o:["4 grupos, sobran 4","5 grupos, sobran 2","4 grupos, sobran 5","3 grupos, sobran 10"],a:0,tip:"28÷6 = 4 con resto 4. Hay 4 grupos completos y 4 niños sobran.",img:"grupos_div"},
+  {q:"Un pastor tiene 35 ovejas y las reparte en 8 corrales iguales. ¿Cuántas ovejas hay en cada corral?",o:["4 con resto 3","5 con resto 0","3 con resto 11","4 con resto 2"],a:0,tip:"35÷8 = 4 con resto 3. Cada corral tiene 4 ovejas, 3 sobran.",img:"ovejas_div"},
+  {q:"¿Cuánto es 50 ÷ 8?",o:["Cociente 6, resto 2","Cociente 5, resto 10","Cociente 7, resto 0","Cociente 6, resto 0"],a:0,tip:"50÷8 = 6 con resto 2. Porque 8×6=48 y 50−48=2.",img:"div_50_8"},
+  // MISIÓN 3 — Gráficas
+  {q:"📊 Una gráfica de línea muestra la temperatura: Lunes=20°, Martes=22°, Miércoles=18°, Jueves=25°, Viernes=23°. ¿Qué día hizo más frío?",o:["Lunes","Martes","Miércoles","Jueves"],a:2,tip:"18° es la temperatura más baja = Miércoles fue el día más frío.",img:"line_graph_cold"},
+  {q:"📊 Si sumas todas las temperaturas (20+22+18+25+23), ¿cuánto da?",o:["100°","108°","98°","110°"],a:1,tip:"20+22+18+25+23 = 108 grados.",img:"temp_sum"},
+  {q:"📊 ¿Cuál fue la temperatura MÁXIMA de la semana?",o:["18°","20°","23°","25°"],a:3,tip:"25° es el número más alto = Jueves fue el día más caluroso.",img:"temp_max"},
+  {q:"📊 Un pastel circular se divide en partes: 1/2 para fresa, 1/4 para chocolate y 1/4 para vainilla. ¿Qué porcentaje es fresa?",o:["25%","50%","75%","100%"],a:1,tip:"1/2 = 50%. La mitad del pastel es fresa.",img:"pie_chart"},
+  {q:"📊 Si el pastel tiene 8 porciones y fresa es la mitad, ¿cuántas porciones son de fresa?",o:["2","3","4","6"],a:2,tip:"La mitad de 8 = 8÷2 = 4 porciones de fresa.",img:"pie_portions"},
+  // MISIÓN 4 — Razonamiento lógico
+  {q:"Si el patrón es: 2, 6, 18, 54, ___. ¿Qué número sigue?",o:["72","108","162","90"],a:2,tip:"Cada número se multiplica por 3: 54×3=162.",img:"pattern_x3"},
+  {q:"Ana es más alta que Bea. Clara es más alta que Ana. ¿Quién es la más baja?",o:["Ana","Bea","Clara","No se puede saber"],a:1,tip:"Clara > Ana > Bea. Bea es la más baja.",img:"height_logic"},
+  {q:"Si un número multiplicado por sí mismo da 49, ¿cuál es el número?",o:["6","7","8","9"],a:1,tip:"7×7=49. El número es 7.",img:"square_49"},
+  {q:"¿Cuántos triángulos equiláteros hay en la secuencia: 1, 3, 6, 10, __?",o:["13","14","15","16"],a:2,tip:"La diferencia entre números: +2, +3, +4, +5. 10+5=15.",img:"triangle_seq"},
+  {q:"Un reloj marca las 9:00. ¿Cuántos grados forma la manecilla grande con las 12:00?",o:["90°","180°","270°","360°"],a:2,tip:"De 12 a 9 = 3/4 de vuelta = 270°.",img:"clock_degrees"},
+  // MODO EXTRA — Mixed con pictograma
+  {q:"📊 Si al pictograma de aves se le suma un día (sábado con 2 dibujos), ¿cuál es el NUEVO total?",o:["35","36","39","33"],a:2,tip:"33 (original) + 2×3=6 (sábado) = 39 aves en total.",img:"bird_plus",birdRef:true},
+  {q:"📊 ¿Qué porcentaje del total de aves (39) se observó el Jueves (12)?",o:["12%","25%","30%","33%"],a:2,tip:"12÷39 ≈ 0.307 = 30.7% ≈ 30%.",img:"bird_percent",birdRef:true},
+  {q:"Calcula: 15 × 4 − 30 ÷ 6 =",o:["50","55","60","45"],a:1,tip:"Primero multiplicar y dividir: 15×4=60, 30÷6=5. Luego: 60−5=55.",img:"mixed_ops2"},
+  {q:"¿Cuántos minutos hay en 2 horas?",o:["60","100","120","200"],a:2,tip:"1 hora = 60 minutos. 2 horas = 60×2 = 120 minutos.",img:"2_hours"},
+  {q:"Un número misterioso: es par, mayor que 20 y menor que 25. ¿Cuál es?",o:["22","24","21","26"],a:0,tip:"Los números pares entre 20 y 25 son 22 y 24. El primero es 22. Puede ser 22 o 24.",img:"mystery_num"}
+],
+ciencias:[
+  // MISIÓN 1 — Método científico
+  {q:"El primer paso del método científico es:",o:["Hacer un experimento","Observar y hacer una pregunta","Escribir una conclusión","Comprar materiales"],a:1,tip:"El método científico empieza observando y preguntándose algo.",img:"sci_method1"},
+  {q:"Una HIPÓTESIS es:",o:["una respuesta definitiva","una posible explicación que se debe comprobar","un experimento","un dibujo"],a:1,tip:"La hipótesis es una posible respuesta que se prueba con un experimento.",img:"hipotesis"},
+  {q:"Después de hacer un experimento, el científico debe:",o:["olvidar los resultados","escribir una conclusión","hacer otra pregunta diferente","comprar más materiales"],a:1,tip:"La conclusión resume lo que se aprendió del experimento.",img:"conclusion"},
+  {q:"¿Para qué sirve un EXPERIMENTO en el método científico?",o:["Para dibujar","Para comprobar si la hipótesis es correcta","Para ganar dinero","Para jugar"],a:1,tip:"El experimento prueba si la hipótesis es verdadera o falsa.",img:"experimento"},
+  {q:"¿En qué orden va el método científico?",o:["Conclusión → Pregunta → Experimento","Pregunta → Hipótesis → Experimento → Conclusión","Experimento → Pregunta → Conclusión","Hipótesis → Conclusión → Pregunta"],a:1,tip:"Orden: Pregunta → Hipótesis → Experimento → Análisis → Conclusión.",img:"sci_order"},
+  // MISIÓN 2 — Magnetismo
+  {q:"¿Qué sucede si acercas el polo NORTE de un imán al polo SUR de otro?",o:["Se repelen","Se atraen","No pasa nada","Se rompen"],a:1,tip:"Polos diferentes (Norte y Sur) se ATRAEN.",img:"attract_poles"},
+  {q:"¿Qué materiales puede atraer un imán?",o:["Madera, plástico y papel","Hierro, acero y níquel","Agua y aire","Vidrio y cemento"],a:1,tip:"Los imanes atraen metales ferromagnéticos: hierro, acero, níquel, cobalto.",img:"magnet_materials"},
+  {q:"Si cortas un imán por la mitad, cada pieza:",o:["pierde su magnetismo","tiene polo norte y polo sur","solo tiene polo norte","se vuelve plástico"],a:1,tip:"Cada pieza tiene su propio polo norte y sur. Siempre tienen ambos polos.",img:"cut_magnet"},
+  {q:"Una brújula funciona porque:",o:["tiene un imán adentro que apunta al norte","usa pilas grandes","tiene una luz","es de plástico"],a:0,tip:"La brújula tiene una aguja magnética que siempre apunta al norte magnético.",img:"brujula"},
+  {q:"¿Qué es el CAMPO MAGNÉTICO?",o:["Un juego","El área alrededor de un imán donde ejerce fuerza","Un tipo de música","Un deporte"],a:1,tip:"El campo magnético es la zona donde el imán puede atraer metales.",img:"campo_mag"},
+  // MISIÓN 3 — Cadenas alimenticias
+  {q:"En una cadena alimentaria, los PRODUCTORES son:",o:["los animales carnívoros","las plantas","los humanos","los hongos"],a:1,tip:"Las plantas producen su propio alimento usando la luz del sol = productores.",img:"productores"},
+  {q:"Un CONSUMIDOR que come plantas Y otros animales es:",o:["herbívoro","carnívoro","omnívoro","descomponedor"],a:2,tip:"Omnívoro = come de todo (plantas y animales), como el oso o el ser humano.",img:"omnivoro"},
+  {q:"Si los ratones desaparecen de un ecosistema, ¿qué podría pasar con las serpientes que se alimentan de ellos?",o:["Nada","Podrían disminuir","Aumentarían","No se afectan"],a:1,tip:"Sin alimento, las serpientes podrían disminuir o irse a otro lugar.",img:"cadena_efecto"},
+  {q:"Los DESCOMPONEDORES (como hongos y bacterias) cumplen la función de:",o:["producir oxígeno","reciclar nutrientes al descomponer materia muerta","cazar otros animales","hacer fotosíntesis"],a:1,tip:"Los descomponedores reciclan la materia orgánica muerta en nutrientes para el suelo.",img:"descomponedores"},
+  {q:"¿Cuál es el DEPREDADOR en la cadena: pasto → conejo → zorro → águila?",o:["el conejo","el zorro","el águila","el pasto"],a:1,tip:"El depredador del conejo es el zorro (el que lo caza).",img:"depredador"},
+  // MISIÓN 4 — Cuidado ambiental
+  {q:"¿Cuál de las 3 R es la más importante?",o:["Reducir","Reutilizar","Reciclar","Restaurar"],a:0,tip:"Reducir es la mejor R: si no creamos basura, no hay que reciclar.",img:"tres_r"},
+  {q:"El RECICLAJE ayuda a:",o:["crear más basura","contaminar más","ahorrar recursos naturales","quemar cosas"],a:2,tip:"Reciclar reduce la necesidad de extraer nuevos materiales de la naturaleza.",img:"recicla_ayuda"},
+  {q:"¿Qué es la CONTAMINACIÓN DEL AGUA?",o:["El agua está muy limpia","Cuando el agua se ensucia con químicos o basura","Cuando llueve mucho","Cuando hay sequía"],a:1,tip:"La contaminación del agua es cuando se ensucia con sustancias tóxicas.",img:"contaminacion"},
+  {q:"¿Qué podemos hacer para cuidar el medio ambiente?",o:["Quemar basura","Usar menos plástico y reciclar","Tirar basura en el río","No hacer nada"],a:1,tip:"Reducir plástico, reciclar y ahorrar energía cuida el planeta.",img:"cuidar_planeta"},
+  {q:"¿Por qué no debemos quemar basura?",o:["Porque huele rico","Porque contamina el aire y es peligroso","Porque no pasa nada","Porque es rápido"],a:1,tip:"Quemar basura libera gases tóxicos que contaminan el aire.",img:"no_quemar"},
+  // MODO EXTRA
+  {q:"¿Cuál es la fuente de energía RENOVABLE?",o:["Petróleo","Gas natural","Energía solar","Carbón"],a:2,tip:"La energía solar es renovable porque el Sol siempre estará disponible.",img:"renovable"},
+  {q:"El efecto INVERNADERO es:",o:["cuando hace mucho frío","cuando los gases atrapan el calor del Sol y la Tierra se calienta","cuando nieva en verano","cuando el mar se congela"],a:1,tip:"El efecto invernadero atrapa calor y calienta la Tierra.",img:"invernadero"},
+  {q:"¿Qué pasa si talamos muchos árboles?",o:["Mejora el aire","Disminuye el oxígeno y aumenta el CO₂","No pasa nada","Llueve más"],a:1,tip:"Los árboles producen oxígeno. Sin ellos, hay más CO₂ y menos oxígeno.",img:"deforestacion"},
+  {q:"La CONSERVACIÓN de especies es importante porque:",o:["no es importante","cada especie tiene un rol en el ecosistema","los animales son bonitos","es solo para científicos"],a:1,tip:"Cada especie es importante para mantener el equilibrio del ecosistema.",img:"conservacion"},
+  {q:"¿Qué es el DESARROLLO SOSTENIBLE?",o:["usar todos los recursos sin pensar","usar recursos sin agotarlos para el futuro","no usar nada","solo reciclar papel"],a:1,tip:"Desarrollo sostenible = usar recursos de forma responsable para las futuras generaciones.",img:"sostenible"}
+],
+sociales:[
+  // MISIÓN 1 — Organizaciones internacionales
+  {q:"La ONU (Organización de las Naciones Unidas) trabaja por:",o:["vender comida","la paz y cooperación entre países","fabricar juguetes","hacer guerras"],a:1,tip:"La ONU busca la paz, los derechos humanos y la cooperación mundial.",img:"onu"},
+  {q:"UNICEF es una organización que trabaja por:",o:["los ancianos","los derechos de los niños","los animales","las plantas"],a:1,tip:"UNICEF protege los derechos de los niños en todo el mundo.",img:"unicef"},
+  {q:"La Organización Mundial de la Salud (OMS/WHO) se dedica a:",o:["la educación","la salud mundial","el transporte","los deportes"],a:1,tip:"La OMS coordina la salud pública a nivel mundial.",img:"oms"},
+  {q:"¿Qué país NO es miembro de la ONU?",o:["Colombia","Brasil","La Antártida","México"],a:2,tip:"La Antártida no tiene país ni gobierno, así que no es miembro de la ONU.",img:"onu_miembros"},
+  {q:"Los Derechos Humanos fueron proclamados en:",o:["1789","1948","2000","1810"],a:1,tip:"La Declaración Universal de los Derechos Humanos fue firmada en 1948.",img:"ddhh_1948"},
+  // MISIÓN 2 — Derechos humanos en detalle
+  {q:"Todos los seres humanos nacen:",o:["libres e iguales","ricos","con los mismos gustos","fuertes"],a:0,tip:"Artículo 1: Todos nacen libres e iguales en dignidad y derechos.",img:"art1_ddhh"},
+  {q:"El derecho a la EDUCACIÓN significa que:",o:["solo algunos van a la escuela","todas las personas pueden estudiar","la escuela es obligatoria","no hay escuelas"],a:1,tip:"Todos tienen derecho a la educación, sin discriminación.",img:"derecho_educacion"},
+  {q:"¿Qué prohíbe la Declaración de Derechos Humanos?",o:["El derecho a hablar","La tortura y los tratos crueles","Ir a la escuela","Jugar"],a:1,tip:"La Declaración prohíbe la tortura y tratos crueles o degradantes.",img:"no_tortura"},
+  {q:"Los derechos humanos son:",o:["solo para adultos","solo para hombres","para TODAS las personas","solo para niños"],a:2,tip:"Los derechos humanos son universales: para todos sin distinción.",img:"universales"},
+  {q:"¿Quién defiende los derechos humanos en Colombia?",o:["Solo el presidente","Las instituciones del Estado","Los jueces y tribunales","Solo la policía"],a:1,tip:"Todas las instituciones del Estado deben defender los derechos humanos.",img:"defensa_ddhh"},
+  // MISIÓN 3 — Constitución
+  {q:"La Constitución de Colombia de 1991 es:",o:["un libro de historia","la ley máxima del país","un poema","una canción"],a:1,tip:"La Constitución es la ley más importante que organiza el país y protege derechos.",img:"const_1991"},
+  {q:"La Constitución protege derechos como:",o:["comprar sin pagar","la vida, la libertad y la igualdad","no ir a la escuela","no tener leyes"],a:1,tip:"La Constitución protege la vida, libertad, igualdad y muchos más derechos.",img:"const_protege"},
+  {q:"¿Qué pasa si una ley va EN CONTRA de la Constitución?",o:["No pasa nada","La ley no es válida","Se aplica igual","Solo aplica a niños"],a:1,tip:"Las leyes que van contra la Constitución se pueden declarar inválidas.",img:"ley_inconstitucional"},
+  {q:"Los DERECHOS FUNDAMENTALES en la Constitución son:",o:["solo para el gobierno","derechos básicos de todas las personas","solo para extranjeros","no son importantes"],a:1,tip:"Los derechos fundamentales son derechos básicos para TODOS los colombianos.",img:"derechos_fund"},
+  {q:"La Constitución se puede modificar mediante un proceso llamado:",o:["eliminación","reforma constitucional","borrado","copia"],a:1,tip:"La reforma constitucional es el proceso para cambiar la Constitución.",img:"reforma"},
+  // MISIÓN 4 — Resolución de conflictos
+  {q:"Cuando hay un conflicto, la mejor forma de resolverlo es:",o:["gritar más fuerte","pelear","hablar y buscar un acuerdo","ignorar al otro"],a:2,tip:"Dialogar y buscar un acuerdo es la forma pacífica de resolver conflictos.",img:"resolver_conflicto"},
+  {q:"¿Qué es la NEGOCIACIÓN?",o:["imponer tu voluntad","buscar un acuerdo donde ambos cedan un poco","no hablar","pelear"],a:1,tip:"Negociar = dialogar para llegar a un acuerdo donde ambos ganen algo.",img:"negociacion"},
+  {q:"El COMPROMISO en un conflicto significa:",o:["uno gana todo","ambos ceden algo para llegar a un acuerdo","nadie gana","pelean"],a:1,tip:"Comprometerse = ambas partes dan un poco para llegar a un acuerdo justo.",img:"compromiso"},
+  {q:"¿Cuál es la función de un MEDIADOR en un conflicto?",o:["pelear por un lado","ayudar a las partes a llegar a un acuerdo","decidir quién gana","ignorar el problema"],a:1,tip:"El mediador escucha ambas partes y ayuda a encontrar solución.",img:"mediador"},
+  {q:"La JUSTICIA es importante en la resolución de conflictos porque:",o:["no tiene importancia","asegura que todos sean tratados con equidad","solo beneficia a los ricos","es opcional"],a:1,tip:"La justicia busca que todos sean tratados de manera equitativa y justa.",img:"justicia"},
+  // MODO EXTRA
+  {q:"¿Qué organización internacional ayuda a los refugiados de guerra?",o:["UNICEF","ACNUR (Alto Comisionado de las Naciones Unidas)","OMS","UNESCO"],a:1,tip:"El ACNUR ayuda a los refugiados y desplazados por conflictos.",img:"acnur"},
+  {q:"¿Qué es la PAZ POSITIVA según la Constitución colombiana?",o:["no tener problemas","vivir en democracia con derechos para todos","no hablar","hacer guerra"],a:1,tip:"La paz positiva incluye vivir en democracia con justicia y derechos para todos.",img:"paz_positiva"},
+  {q:"¿Qué significa 'Estado Social de Derecho'?",o:["no hay leyes","el Estado protege los derechos de todas las personas","solo hay un gobernante","el Estado hace lo que quiere"],a:1,tip:"Estado de Derecho = las leyes se aplican por igual a todos.",img:"estado_derecho"},
+  {q:"La CARTA DE LAS NACIONES UNIDAS fue firmada por Colombia en:",o:["1810","1945","1948","2000"],a:1,tip:"La Carta de la ONU fue firmada en 1945 después de la Segunda Guerra Mundial.",img:"carta_onu"},
+  {q:"Cuando alguien viola tus derechos humanos, puedes:",o:["no hacer nada","pedir ayuda a las autoridades competentes","pelear","ignorar"],a:1,tip:"Debes denunciar y pedir ayuda a las autoridades: defensoría del pueblo, policía, jueces.",img:"denunciar"}
+],
+inteligencia_emocional:[
+  // MISIÓN 1 — Reconocer Emociones
+  {q:"Sofía no pudo ir al cumpleaños de su amiga. ¿Qué emoción principal siente?",o:["alegría","tristeza","enojo","sorpresa"],a:1,tip:"No poder ir a una fiesta que querías asistir causa tristeza.",img:"tristeza_sofia"},
+  {q:"Juan encontró un juguete nuevo en su mochila. ¿Qué emoción sintió?",o:["miedo","enojo","sorpresa y alegría","tristeza"],a:2,tip:"Encontrar algo inesperado causa sorpresa y alegría.",img:"sorpresa_juan"},
+  {q:"Cuando alguien te empuja sin razón, es normal sentir:",o:["sueño","enojo","hambre","sueño"],a:1,tip:"El enojo es una emoción natural cuando alguien nos hace daño.",img:"enojo_empujon"},
+  {q:"La sensación de que algo malo puede pasar se llama:",o:["alegría","sueño","miedo","hambre"],a:2,tip:"El miedo es la emoción que sentimos ante posibles peligros.",img:"miedo_sensacion"},
+  {q:"¿Cuál de estas NO es una emoción?",o:["alegría","tristeza","correr","sorpresa"],a:2,tip:"Correr es una ACCIÓN, no una emoción. Las emociones son sentimientos.",img:"no_emocion"},
+  // MISIÓN 2 — Empatía y Comunicación
+  {q:"La EMPATÍA es la capacidad de:",o:["enojarse rápido","comprender los sentimientos de los demás","correr muy rápido","dormir mucho"],a:1,tip:"Empatía = ponerse en el lugar del otro y entender cómo se siente.",img:"empatia_def"},
+  {q:"Si tu amigo está triste, la mejor forma de mostrar empatía es:",o:["reírte de él","decirle que no llore","escucharlo y apoyarlo","ignorarlo"],a:2,tip:"Escuchar y apoyar es la mejor forma de ayudar a alguien triste.",img:"apoyo_amigo"},
+  {q:"¿Qué es la ESCUCHA ACTIVA?",o:["Escuchar música alto","Prestar atención a lo que dice la otra persona","No escuchar nada","Hablar mucho"],a:1,tip:"Escucha activa = prestar toda tu atención al que habla.",img:"escucha_activa"},
+  {q:"Un MENSAJE YO es cuando dices:",o:["Tú siempre haces todo mal","Me siento triste cuando me excluyes","No me importa","Eres el mejor"],a:1,tip:"Mensaje Yo: expresa TUS sentimientos sin culpar al otro. 'Yo siento...' ",img:"mensaje_yo"},
+  {q:"¿Por qué es importante respetar cuando alguien habla?",o:["No es importante","Para que se sienta valorado y escuchado","Para interrumpirlo","Para aburrirse"],a:1,tip:"Respetar cuando alguien habla es básico para una buena comunicación.",img:"respeto_hablar"},
+  // MISIÓN 3 — Resolución de Conflictos
+  {q:"Cuando tienes un conflicto con un compañero, el primer paso debe ser:",o:["gritar","respirar profundo y calmarse","pelear","correr"],a:1,tip:"Respirar profundo ayuda a calmarse antes de reaccionar.",img:"respirar_conflicto"},
+  {q:"¿Cuál es una buena forma de resolver un conflicto en el recreo?",o:["pelear","buscar un acuerdo donde ambos jueguen","decirle a la profesora sin intentar resolverlo","llorar"],a:1,tip:"Negociar un acuerdo donde ambos puedan jugar es la mejor solución.",img:"conflicto_recreo"},
+  {q:"La NEGOCIACIÓN significa:",o:["que uno gana y el otro pierde","que ambos ceden algo para llegar a un acuerdo","que nadie habla","que se pelean"],a:1,tip:"Negociar = buscar un punto medio donde ambos cedan un poco.",img:"negociacion_ie"},
+  {q:"Si después de intentar resolver un conflicto no puedes, lo mejor es:",o:["pelear","pedir ayuda a un adulto (profesor, padres)","ignorar el problema","correr"],a:1,tip:"Pedir ayuda a un adulto de confianza es una decisión inteligente y valiente.",img:"pedir_ayuda"},
+  {q:"Después de resolver un conflicto, es importante:",o:["no volver a hablar","perdonar y seguir siendo amigos","guardar rencor","contarle a todos el problema"],a:1,tip:"Perdonar y seguir adelante fortalece la amistad.",img:"perdonar_conflicto"},
+  // MISIÓN 4 — Auto-regulación
+  {q:"Cuando sientes mucho ENOJO, una técnica útil es:",o:["gritar más fuerte","contar hasta 10 lentamente antes de reaccionar","correr muy rápido","llorar muy fuerte"],a:1,tip:"Contar hasta 10 lentamente da tiempo al cerebro para calmarse.",img:"contar_10"},
+  {q:"¿Qué es la AUTO-REGULACIÓN emocional?",o:["hacer siempre lo que quiero","manejar mis emociones de forma positiva","no sentir nada","gritar cuando estoy triste"],a:1,tip:"Auto-regulación = controlar mis emociones de forma sana y positiva.",img:"autoregulacion"},
+  {q:"Si estás muy nervioso antes de un examen, puedes:",o:["no presentar el examen","respirar profundo y pensar positivo","llorar en clase","salir corriendo"],a:1,tip:"Respirar hondo y pensar positivo ayuda a calmar los nervios.",img:"nervios_examen"},
+  {q:"Pedir AYUDA cuando la necesitas es una señal de:",o:["debilidad","valentía e inteligencia","falta de confianza","cobardía"],a:1,tip:"Pedir ayuda es de valientes. Todos necesitamos ayuda a veces.",img:"pedir_ayuda_ie"},
+  {q:"La GRATITUD significa:",o:["quejarse de todo","agradecer las cosas buenas que tenemos","querer más cosas","no importarle nada"],a:1,tip:"La gratitud es apreciar lo que tenemos y las personas que nos ayudan.",img:"gratitud"}
+]
+};
+
+// ═══════════════════════════════════════════
+//   ILUSTRACIONES SVG PARA PREGUNTAS
+// ═══════════════════════════════════════════
+function getVisualSVG(key) {
+  const V = {
+    default_reading: `<svg viewBox="0 0 140 140"><rect x="10" y="20" width="120" height="100" rx="8" fill="#1e3a5f" stroke="#3498db" stroke-width="2"/><text x="70" y="65" text-anchor="middle" fill="#ecf0f1" font-size="10" font-weight="bold" font-family="Arial">📖</text><text x="70" y="90" text-anchor="middle" fill="#3498db" font-size="9" font-family="Arial">Lee el texto</text></svg>`
+  };
+  return V[key] || V.default_reading || '';
+}
+
+// ═══════════════════════════════════════════
+//   SVG REFERENCIA DEL PICTOGRAMA DE AVES
+// ═════════════════════════════════════════════
+function getBirdRefSVG() {
+  const days = [
+    {d:'Lun', n:3, v:9},
+    {d:'Mar', n:2, v:6},
+    {d:'Mié', n:1, v:3},
+    {d:'Jue', n:4, v:12},
+    {d:'Vie', n:1, v:3}
+  ];
+  let rows = '';
+  days.forEach((day, i) => {
+    const bx = 10;
+    const by = 28 + i * 22;
+    let birds = '';
+    for (let b = 0; b < day.n; b++) {
+      birds += `<path d="M${bx+b*18+2},${by+4} Q${bx+b*18+5},${by} Q${bx+b*18+8},${by} Q${bx+b*18+11},${by+4} Z" fill="#5DADE2" stroke="#2E86C1" stroke-width="0.5"/>`;
+      birds += `<path d="M${bx+b*18+6},${by+3} L${bx+b*18+7},${by-1}" stroke="#E67E22" stroke-width="1"/>`;
+    }
+    rows += `<g>${birds}<text x="4" y="${by+4}" fill="#ecf0f1" font-size="7.5" font-family="Arial" font-weight="bold">${day.d}</text><text x="95" y="${by+4}" fill="#F1C40F" font-size="7.5" font-family="Arial" font-weight="900">${day.v}</text></g>`;
+  });
+  return `<svg viewBox="0 0 110 140" xmlns="http://www.w3.org/2000/svg">
+    <rect width="110" height="140" rx="8" fill="rgba(30,58,95,0.85)" stroke="rgba(93,158,53,0.5)" stroke-width="1.5"/>
+    <text x="55" y="14" text-anchor="middle" fill="#F1C40F" font-size="7" font-weight="900" font-family="Arial">📊 Datos del pictograma de aves</text>
+    <text x="55" y="22" text-anchor="middle" fill="#7f8c8d" font-size="5.5" font-family="Arial">(1 dibujo = 3 aves)</text>
+    <line x1="5" y1="26" x2="105" y2="26" stroke="rgba(255,255,255,0.15)" stroke-width="0.5"/>
+    ${rows}
+    <line x1="5" y1="138" x2="105" y2="138" stroke="rgba(255,255,255,0.15)" stroke-width="0.5"/>
+  </svg>`;
+}

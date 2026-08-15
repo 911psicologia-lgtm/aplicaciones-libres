@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+<title>Emilia Princesa Guerrera · Reinos Celestiales v2.0</title>
+<meta name="theme-color" content="#130022">
+<link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+<div id="gc">
+  <canvas id="c"></canvas>
+  <div id="hud">
+    <div class="panel"><div id="level-txt">NIVEL 1</div><div id="score-txt">0</div></div>
+    <div class="panel" style="text-align:right"><div id="name-txt" style="font-size:0.68rem;color:#aaa;margin-bottom:2px">EMILIA</div><div id="lives-txt">❤️❤️❤️❤️❤️</div></div>
+  </div>
+  <div id="combo-box"><div id="combo-txt">×1</div></div>
+  <div id="prog-wrap"><div id="prog-bg"><div id="prog-fill"></div></div></div>
+  <div id="power-shelf"></div>
+  <div id="msg"></div>
+  <div id="boss-wrap"><div id="boss-lbl">JEFE</div><div id="boss-bg"><div id="boss-bar"></div></div></div>
+  <div id="award">
+    <span id="ach-ico">🏆</span>
+    <div>
+      <div id="ach-ttl">LOGRO</div>
+      <div id="ach-dsc">desc</div>
+    </div>
+    <div id="award-progress"></div>
+  </div>
+  <div id="prize-pop" aria-hidden="true" style="display:none"></div>
+  <div id="lvlup" role="button" aria-label="Pantalla de nivel y premios">
+    <div class="lvlcard">
+      <div id="lvlup-txt">¡PASASTE DE NIVEL!</div>
+      <div id="lvlup-sub">REINO</div>
+      <div class="lvlfx">✨✨✨</div>
+      <div class="lvlwins">GANASTE:</div>
+      <div id="lvlwins-row" class="lvlwins-row">
+        <span class="winico" id="prize-ico">👑</span>
+        <span class="winico" id="prize-ico2" style="display:none">🎁</span>
+        <span class="winico" id="prize-ico3" style="display:none">✨</span>
+      </div>
+      <div id="prize-nm" class="lvlprz">Premio</div>
+      <div id="prize-pts" class="lvlpts">+1000</div>
+      <div class="lvltap">TOCA PARA CONTINUAR</div>
+      <div id="lvlup-countdown-wrap"><div id="lvlup-countdown-bar"></div></div>
+    </div>
+  </div>
+  <div id="btns"><button class="btn-r" id="btn-mus">🎵</button><button class="btn-r" id="btn-pau">⏸️</button></div>
+  <div id="btn-nova">💥</div>
+  <!-- SCREENS -->
+  <div id="s-start" class="screen">
+    <div class="stitle">La Princesa Emilia</div>
+    <div class="ssub">Y LOS 30 REINOS ✨</div>
+    <input class="pname" id="p-name" value="EMILIA" maxlength="12">
+    <div style="font-size:0.6rem;color:rgba(255,255,255,0.35);letter-spacing:3px;margin-bottom:7px">ELIGE TU HEROÍNA</div>
+    <div class="ship-row">
+      <div class="sopt sel princess-opt" id="h0" title="Emilia princesa guerrera"><img id="princess-prev" class="hero-thumb" alt="Emilia princesa guerrera" /></div>
+      <div class="sopt" id="h1">🧙‍♀️</div>
+      <div class="sopt" id="h2">🧚‍♀️</div>
+      <div class="sopt" id="h3">⚔️</div>
+      <div class="sopt" id="h4">🧜‍♀️</div>
+      <div class="sopt" id="h5">🐉</div>
+      <div class="sopt" id="h6">🐱</div>
+      <div class="sopt" id="h7">🐈</div>
+      <div class="sopt" id="h8" style="position:relative;overflow:hidden;padding:0;background:rgba(255,255,255,0.06)"><img id="custom-cat-prev" alt="Gatita personalizada" style="display:block;width:48px;height:48px;object-fit:contain" /></div>
+    </div>
+    <button class="btn" id="btn-new">✨ NUEVA AVENTURA</button>
+    <button class="btn btn-b" id="btn-load" style="display:none">📂 CARGAR</button>
+    <div class="rank-box" id="rank-start"></div>
+  </div>
+  <div id="s-pause" class="screen hidden">
+    <div class="stitle">PAUSA</div>
+    <button class="btn" id="btn-cont">▶️ CONTINUAR</button>
+    <button class="btn btn-b" id="btn-save">💾 GUARDAR</button>
+    <button class="btn btn-r2" id="btn-exit">🚪 SALIR</button>
+  </div>
+  <div id="s-over" class="screen hidden">
+    <div class="stitle" style="color:#ff3366;text-shadow:none">FIN DEL JUEGO</div>
+    <div id="over-score" style="color:#FFD700;font-size:1.6rem;font-weight:bold;margin:10px 0"></div>
+    <div id="over-info" style="color:#aaa;font-size:0.7rem;letter-spacing:2px;margin-bottom:5px"></div>
+    <div id="over-achs" style="font-size:1.2rem;margin-bottom:12px"></div>
+    <div class="rank-box" id="rank-end"></div>
+    <button class="btn" id="btn-retry">🔄 REINTENTAR</button>
+  </div>
+</div>
+<script src="js/game.js"></script>
+</body>
+</html>

@@ -1,0 +1,776 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Configuración | Historia Clínica Psicológica Integral</title>
+    
+    <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🧠</text></svg>">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="assets/css/main.css">
+    <link rel="manifest" href="manifest.json">
+    
+    <style>
+        .settings-tabs {
+            display: flex;
+            gap: 0.5rem;
+            margin-bottom: 1.5rem;
+            border-bottom: 2px solid #e2e8f0;
+            padding-bottom: 0.5rem;
+        }
+        
+        .settings-tab {
+            padding: 0.75rem 1.25rem;
+            border: none;
+            background: none;
+            cursor: pointer;
+            font-size: 0.9375rem;
+            color: #4a5568;
+            border-radius: 8px;
+            transition: all 0.2s;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+        
+        .settings-tab:hover {
+            background: #f7fafc;
+        }
+        
+        .settings-tab.active {
+            background: #2c5282;
+            color: white;
+        }
+        
+        .settings-panel {
+            display: none;
+        }
+        
+        .settings-panel.active {
+            display: block;
+        }
+        
+        .signature-preview {
+            max-width: 300px;
+            border: 2px dashed #e2e8f0;
+            border-radius: 10px;
+            padding: 1rem;
+            text-align: center;
+            margin-top: 0.5rem;
+        }
+        
+        .signature-preview.has-image {
+            border-style: solid;
+            border-color: #38a169;
+        }
+        
+        .signature-preview img {
+            max-width: 100%;
+            max-height: 100px;
+        }
+        
+        .logo-preview {
+            max-width: 200px;
+            border: 2px dashed #e2e8f0;
+            border-radius: 10px;
+            padding: 1rem;
+            text-align: center;
+            margin-top: 0.5rem;
+        }
+        
+        .logo-preview.has-image {
+            border-style: solid;
+            border-color: #38a169;
+        }
+        
+        .logo-preview img {
+            max-width: 100%;
+            max-height: 80px;
+        }
+        
+        .backup-section {
+            background: #f0fff4;
+            border: 1px solid #9ae6b4;
+            border-radius: 10px;
+            padding: 1.5rem;
+        }
+        
+        .backup-section h4 {
+            color: #276749;
+            margin-bottom: 1rem;
+        }
+        
+        .backup-section p {
+            color: #38a169;
+            font-size: 0.875rem;
+            margin-bottom: 1rem;
+        }
+        
+        .danger-zone {
+            background: #fff5f5;
+            border: 1px solid #feb2b2;
+            border-radius: 10px;
+            padding: 1.5rem;
+            margin-top: 1.5rem;
+        }
+        
+        .danger-zone h4 {
+            color: #c53030;
+            margin-bottom: 1rem;
+        }
+        
+        .danger-zone p {
+            color: #e53e3e;
+            font-size: 0.875rem;
+            margin-bottom: 1rem;
+        }
+        
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 1rem;
+            margin-bottom: 1.5rem;
+        }
+        
+        .stat-item {
+            background: #f7fafc;
+            border-radius: 10px;
+            padding: 1rem;
+            text-align: center;
+        }
+        
+        .stat-item .value {
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: #2c5282;
+        }
+        
+        .stat-item .label {
+            font-size: 0.875rem;
+            color: #718096;
+        }
+        
+        .file-upload-box {
+            border: 2px dashed #e2e8f0;
+            border-radius: 10px;
+            padding: 2rem;
+            text-align: center;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+        
+        .file-upload-box:hover {
+            border-color: #4299e1;
+            background: #f7fafc;
+        }
+        
+        .file-upload-box i {
+            font-size: 2rem;
+            color: #a0aec0;
+            margin-bottom: 0.5rem;
+        }
+    </style>
+</head>
+<body>
+    <!-- Header -->
+    <header class="app-header">
+        <div class="header-content">
+            <div class="header-brand">
+                <i class="fas fa-brain"></i>
+                <span>Historia Clínica Psicológica</span>
+            </div>
+            
+            <nav class="header-nav">
+                <a href="dashboard.html" class="nav-link">
+                    <i class="fas fa-home"></i> Inicio
+                </a>
+                <a href="patient.html" class="nav-link">
+                    <i class="fas fa-user"></i> Paciente
+                </a>
+                <a href="settings.html" class="nav-link active">
+                    <i class="fas fa-cog"></i> Configuración
+                </a>
+            </nav>
+            
+            <div class="header-actions">
+                <div class="user-menu">
+                    <i class="fas fa-user-md"></i>
+                    <span id="userName">Profesional</span>
+                </div>
+                <button class="logout-btn" onclick="Auth.logout()">
+                    <i class="fas fa-sign-out-alt"></i>
+                </button>
+            </div>
+        </div>
+    </header>
+
+    <!-- Main Content -->
+    <main class="main-content">
+        <!-- Page Header -->
+        <div class="page-header">
+            <div>
+                <h1 class="page-title">Configuración</h1>
+                <p class="page-subtitle">Personalización y administración del sistema</p>
+            </div>
+        </div>
+
+        <!-- Tabs -->
+        <div class="settings-tabs">
+            <button type="button" class="settings-tab active" onclick="showPanel('professional', this)">
+                <i class="fas fa-user-md"></i> Profesional
+            </button>
+            <button type="button" class="settings-tab" onclick="showPanel('database', this)">
+                <i class="fas fa-database"></i> Base de Datos
+            </button>
+            <button type="button" class="settings-tab" onclick="showPanel('security', this)">
+                <i class="fas fa-shield-alt"></i> Seguridad
+            </button>
+            <button type="button" class="settings-tab" onclick="showPanel('about', this)">
+                <i class="fas fa-info-circle"></i> Acerca de
+            </button>
+        </div>
+
+        <!-- Panel: Profesional -->
+        <div class="settings-panel active" id="professionalPanel">
+            <div class="card">
+                <div class="card-header">
+                    <div class="card-title">
+                        <i class="fas fa-user-md"></i>
+                        Datos del Profesional
+                    </div>
+                </div>
+                <div class="card-body">
+                    <div class="form-grid">
+                        <div class="form-group">
+                            <label>Nombre Completo</label>
+                            <input type="text" class="form-control" id="profName" placeholder="Su nombre completo">
+                        </div>
+
+                <div class="form-grid">
+                    <div class="form-group">
+                        <label>Profesión / Perfil</label>
+                        <select class="form-control" id="profProfession">
+                            <option value="psicologia">Psicología</option>
+                            <option value="psicoterapia">Psicoterapia</option>
+                            <option value="psiquiatria">Psiquiatría</option>
+                            <option value="neuropsicologia">Neuropsicología</option>
+                            <option value="otro">Otro</option>
+                        </select>
+                        <small class="help-text">Si selecciona Psiquiatría, se habilita el módulo psiquiátrico.</small>
+                    </div>
+                    <div class="form-group">
+                        <label>Activar módulo Psiquiatría</label>
+                        <label class="switch">
+                            <input type="checkbox" id="togglePsychiatry">
+                            <span class="slider"></span>
+                        </label>
+                        <small class="help-text">Puede activarlo/desactivarlo manualmente.</small>
+                    </div>
+                </div>
+                        <div class="form-group">
+                            <label>Registro Profesional</label>
+                            <input type="text" class="form-control" id="profLicense" placeholder="Ej: Psicólogo - RP N° 12345">
+                        </div>
+                        <div class="form-group">
+                            <label>Institución</label>
+                            <input type="text" class="form-control" id="profInstitution" placeholder="Nombre de la institución donde labora">
+                        </div>
+                        <div class="form-group">
+                            <label>Dirección Institucional</label>
+                            <input type="text" class="form-control" id="profAddress" placeholder="Dirección de consultorio o institución">
+                        </div>
+                        <div class="form-group">
+                            <label>Teléfono Profesional</label>
+                            <input type="tel" class="form-control" id="profPhone" placeholder="Teléfono de contacto profesional">
+                        </div>
+                        <div class="form-group">
+                            <label>Correo Profesional</label>
+                            <input type="email" class="form-control" id="profEmail" placeholder="Email profesional">
+                        </div>
+                    </div>
+                    
+                    <div class="form-group" style="margin-top: 1rem;">
+                        <label>Pie de Firma Automático</label>
+                        <textarea class="form-control" id="profSignature" rows="2" placeholder="Texto que aparecerá automáticamente en documentos firmados"></textarea>
+                        <p class="form-hint">Este texto se incluirá automáticamente en todas las cartas y documentos exportados.</p>
+                    </div>
+                    
+                    <div class="grid grid-cols-2" style="gap: 1rem; margin-top: 1rem;">
+                        <div>
+                            <label>Firma Digital</label>
+                            <div class="signature-preview" id="signaturePreview" onclick="document.getElementById('signatureInput').click()">
+                                <i class="fas fa-signature"></i>
+                                <p>Haga clic para cargar firma</p>
+                                <small>PNG o JPG, máx. 2MB</small>
+                            </div>
+                            <input type="file" id="signatureInput" style="display: none;" accept="image/png,image/jpeg" onchange="handleSignatureUpload(this)">
+                        </div>
+                        <div>
+                            <label>Logo Institucional</label>
+                            <div class="logo-preview" id="logoPreview" onclick="document.getElementById('logoInput').click()">
+                                <i class="fas fa-image"></i>
+                                <p>Haga clic para cargar logo</p>
+                                <small>PNG o JPG, máx. 2MB</small>
+                            </div>
+                            <input type="file" id="logoInput" style="display: none;" accept="image/png,image/jpeg" onchange="handleLogoUpload(this)">
+                        </div>
+                    </div>
+                    
+                    <button type="button" class="btn btn-primary" style="margin-top: 1.5rem;" onclick="saveProfessionalSettings()">
+                        <i class="fas fa-save"></i> Guardar Configuración
+                    </button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Panel: Base de Datos -->
+        <div class="settings-panel" id="databasePanel">
+            <div class="stats-grid">
+                <div class="stat-item">
+                    <div class="value" id="statPatients">0</div>
+                    <div class="label">Pacientes</div>
+                </div>
+                <div class="stat-item">
+                    <div class="value" id="statSessions">0</div>
+                    <div class="label">Sesiones</div>
+                </div>
+                <div class="stat-item">
+                    <div class="value" id="statAssessments">0</div>
+                    <div class="label">Evaluaciones</div>
+                </div>
+                <div class="stat-item">
+                    <div class="value" id="statDiagnoses">0</div>
+                    <div class="label">Diagnósticos</div>
+                </div>
+            </div>
+            
+            <div class="backup-section">
+                <h4><i class="fas fa-download"></i> Respaldo de Datos</h4>
+                <p>Genere un archivo de respaldo con toda la información de la aplicación. Guárdelo en un lugar seguro.</p>
+                <button type="button" class="btn btn-success" onclick="exportBackup()">
+                    <i class="fas fa-download"></i> Exportar Respaldo (JSON)
+                </button>
+            </div>
+            
+            <div class="card" style="margin-top: 1.5rem;">
+                <div class="card-header">
+                    <div class="card-title">
+                        <i class="fas fa-upload"></i>
+                        Restaurar Respaldo
+                    </div>
+                </div>
+                <div class="card-body">
+                    <div class="file-upload-box" onclick="document.getElementById('backupInput').click()">
+                        <i class="fas fa-cloud-upload-alt"></i>
+                        <p>Haga clic para seleccionar archivo de respaldo</p>
+                        <small>Archivo JSON generado previamente</small>
+                    </div>
+                    <input type="file" id="backupInput" style="display: none;" accept=".json" onchange="importBackup(this)">
+                    <p class="form-hint" style="margin-top: 0.75rem;">
+                        <i class="fas fa-exclamation-triangle"></i> 
+                        Advertencia: La restauración reemplazará todos los datos actuales.
+                    </p>
+                </div>
+            </div>
+            
+            <div class="danger-zone">
+                <h4><i class="fas fa-exclamation-triangle"></i> Zona de Peligro</h4>
+                <p>Estas acciones son irreversibles. Use con precaución.</p>
+                <button type="button" class="btn btn-danger" onclick="clearAllData()">
+                    <i class="fas fa-trash-alt"></i> Eliminar Todos los Datos
+                </button>
+            </div>
+        </div>
+
+        <!-- Panel: Seguridad -->
+        <div class="settings-panel" id="securityPanel">
+            <div class="card">
+                <div class="card-header">
+                    <div class="card-title">
+                        <i class="fas fa-key"></i>
+                        Cambiar Contraseña
+                    </div>
+                </div>
+                <div class="card-body">
+                    <div class="form-group">
+                        <label>Contraseña Actual</label>
+                        <input type="password" class="form-control" id="currentPassword">
+                    </div>
+                    <div class="form-group">
+                        <label>Nueva Contraseña</label>
+                        <input type="password" class="form-control" id="newPassword">
+                    </div>
+                    <div class="form-group">
+                        <label>Confirmar Nueva Contraseña</label>
+                        <input type="password" class="form-control" id="confirmPassword">
+                    </div>
+                    <button type="button" class="btn btn-primary" onclick="changePassword()">
+                        <i class="fas fa-key"></i> Cambiar Contraseña
+                    </button>
+                </div>
+            </div>
+            
+            <div class="card" style="margin-top: 1.5rem;">
+                <div class="card-header">
+                    <div class="card-title">
+                        <i class="fas fa-shield-alt"></i>
+                        Configuración de Seguridad
+                    </div>
+                </div>
+                <div class="card-body">
+                    <div class="form-group">
+                        <label>
+                            <input type="checkbox" id="autoLock" checked>
+                            Bloqueo automático por inactividad (30 minutos)
+                        </label>
+                    </div>
+                    <div class="form-group">
+                        <label>
+                            <input type="checkbox" id="autoSave" checked>
+                            Autoguardado automático
+                        </label>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Panel: Acerca de -->
+        <div class="settings-panel" id="aboutPanel">
+            <div class="card">
+                <div class="card-body" style="text-align: center; padding: 3rem;">
+                    <i class="fas fa-brain" style="font-size: 4rem; color: #2c5282; margin-bottom: 1rem;"></i>
+                    <h2>Historia Clínica Psicológica Integral</h2>
+                    <p style="color: #718096; margin-bottom: 2rem;">Versión 1.0.0</p>
+                    
+                    <div style="max-width: 500px; margin: 0 auto; text-align: left;">
+                        <p style="margin-bottom: 1rem;">
+                            <strong>Descripción:</strong> Sistema profesional para la gestión integral de historias clínicas psicológicas, diseñado para profesionales de la salud mental.
+                        </p>
+                        
+                        <p style="margin-bottom: 1rem;">
+                            <strong>Características principales:</strong>
+                        </p>
+                        <ul style="margin-left: 1.5rem; color: #4a5568;">
+                            <li>Gestión completa de pacientes</li>
+                            <li>Registro de sesiones (formato DAP y SOAP)</li>
+                            <li>Evaluaciones e instrumentos</li>
+                            <li>Diagnóstico con DSM-5-TR y CIE-11</li>
+                            <li>Generación de remisiones</li>
+                            <li>Exportación a múltiples formatos</li>
+                            <li>Funcionamiento offline (PWA)</li>
+                            <li>Almacenamiento local seguro</li>
+                        </ul>
+                        
+                        <p style="margin-top: 2rem; padding-top: 2rem; border-top: 1px solid #e2e8f0; font-size: 0.875rem; color: #718096;">
+                            <i class="fas fa-info-circle"></i> Esta aplicación almacena todos los datos localmente en su dispositivo. 
+                            No se transmite información a servidores externos.
+                        </p>
+                        
+                        <p style="margin-top: 1rem; font-size: 0.875rem; color: #718096;">
+                            <i class="fas fa-shield-alt"></i> Cumplimiento ético y legal: Esta herramienta está diseñada para apoyar 
+                            la práctica profesional ética y responsable. El profesional es responsable del uso adecuado de la información.
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <!-- Scripts -->
+    <script src="assets/js/db.js"></script>
+    <script src="assets/js/utils.js"></script>
+    
+    <script>
+        let signatureData = null;
+        let logoData = null;
+        
+        document.addEventListener('DOMContentLoaded', async function() {
+            // Auth + DB
+            const session = Auth.requireAuth();
+            await db.init();
+            if (session) {
+                document.getElementById('userName').textContent = session.fullName || session.username;
+            }
+            
+            // Cargar configuración
+            await loadProfessionalSettings();
+            
+            // Cargar estadísticas
+            await loadStats();
+        });
+        
+        function showPanel(panelId, el = null) {
+            // Actualizar tabs
+            document.querySelectorAll('.settings-tab').forEach(tab => tab.classList.remove('active'));
+            const btn = el || document.querySelector(`.settings-tab[onclick*="'${panelId}'"]`) || document.querySelectorAll('.settings-tab')[0];
+            if (btn) btn.classList.add('active');
+            
+            // Mostrar panel
+            document.querySelectorAll('.settings-panel').forEach(panel => panel.classList.remove('active'));
+            document.getElementById(panelId + 'Panel').classList.add('active');
+        }
+        
+        async function loadProfessionalSettings() {
+            const settings = await db.getSetting('professional', {});
+            
+            document.getElementById('profName').value = settings.fullName || '';
+            document.getElementById('profLicense').value = settings.license || '';
+            document.getElementById('profInstitution').value = settings.institution || '';
+            document.getElementById('profAddress').value = settings.address || '';
+            document.getElementById('profPhone').value = settings.phone || '';
+            document.getElementById('profEmail').value = settings.email || '';
+            document.getElementById('profSignature').value = settings.signatureText || '';
+            if (document.getElementById('profProfession')) {
+                document.getElementById('profProfession').value = settings.profession || HCConfig.get('profession','psicologia') || 'psicologia';
+            }
+            if (document.getElementById('togglePsychiatry')) {
+                const auto = (settings.profession || '').toLowerCase().includes('psiquiatr');
+                const manual = HCConfig.get('psychiatryEnabled', null);
+                document.getElementById('togglePsychiatry').checked = (manual !== null) ? !!manual : auto;
+            }
+            
+            if (settings.signatureImage) {
+                signatureData = settings.signatureImage;
+                showSignaturePreview(settings.signatureImage);
+            }
+            
+            if (settings.logoImage) {
+                logoData = settings.logoImage;
+                showLogoPreview(settings.logoImage);
+            }
+        }
+        
+        async function loadStats() {
+            const patients = await db.getAll(STORES.PATIENTS);
+            const sessions = await db.getAll(STORES.SESSIONS);
+            const assessments = await db.getAll(STORES.ASSESSMENTS);
+            const diagnoses = await db.getAll(STORES.DIAGNOSES);
+            
+            document.getElementById('statPatients').textContent = patients.length;
+            document.getElementById('statSessions').textContent = sessions.length;
+            document.getElementById('statAssessments').textContent = assessments.length;
+            document.getElementById('statDiagnoses').textContent = diagnoses.length;
+        }
+        
+        function handleSignatureUpload(input) {
+            const file = input.files[0];
+            if (!file) return;
+            
+            if (file.size > 2 * 1024 * 1024) {
+                UI.toast('La imagen no debe superar 2MB', 'error');
+                return;
+            }
+            
+            const reader = new FileReader();
+            reader.onload = function(e) {
+                signatureData = e.target.result;
+                showSignaturePreview(signatureData);
+            };
+            reader.readAsDataURL(file);
+        }
+        
+        function showSignaturePreview(dataUrl) {
+            const preview = document.getElementById('signaturePreview');
+            preview.classList.add('has-image');
+            preview.innerHTML = `<img src="${dataUrl}" alt="Firma">`;
+        }
+        
+        function handleLogoUpload(input) {
+            const file = input.files[0];
+            if (!file) return;
+            
+            if (file.size > 2 * 1024 * 1024) {
+                UI.toast('La imagen no debe superar 2MB', 'error');
+                return;
+            }
+            
+            const reader = new FileReader();
+            reader.onload = function(e) {
+                logoData = e.target.result;
+                showLogoPreview(logoData);
+            };
+            reader.readAsDataURL(file);
+        }
+        
+        function showLogoPreview(dataUrl) {
+            const preview = document.getElementById('logoPreview');
+            preview.classList.add('has-image');
+            preview.innerHTML = `<img src="${dataUrl}" alt="Logo">`;
+        }
+        
+        async function saveProfessionalSettings() {
+            const settings = {
+                fullName: document.getElementById('profName').value.trim(),
+                license: document.getElementById('profLicense').value.trim(),
+                institution: document.getElementById('profInstitution').value.trim(),
+                address: document.getElementById('profAddress').value.trim(),
+                phone: document.getElementById('profPhone').value.trim(),
+                email: document.getElementById('profEmail').value.trim(),
+                signatureText: document.getElementById('profSignature').value.trim(),
+                signatureImage: signatureData,
+                logoImage: logoData,
+                profession: document.getElementById('profProfession') ? document.getElementById('profProfession').value : ''
+            };
+            
+            try {
+                await db.setSetting('professional', settings);
+                try{
+                    if(window.HCConfig){
+                        HCConfig.set('profession', (settings.profession || ''));
+                        const manual = document.getElementById('togglePsychiatry') ? document.getElementById('togglePsychiatry').checked : null;
+                        HCConfig.set('psychiatryEnabled', manual);
+                    }
+                }catch(e){}
+                UI.toast('Configuración guardada correctamente', 'success');
+            } catch (error) {
+                console.error('Error guardando configuración:', error);
+                UI.toast('Error al guardar la configuración', 'error');
+            }
+        }
+        
+        async function exportBackup() {
+            try {
+                const data = await db.exportAllData();
+                const filename = `hcp_backup_${DateUtils.getToday()}.json`;
+                ExportUtils.exportJSON(JSON.parse(data), filename);
+                UI.toast('Respaldo exportado correctamente', 'success');
+            } catch (error) {
+                console.error('Error exportando respaldo:', error);
+                UI.toast('Error al exportar el respaldo', 'error');
+            }
+        }
+        
+        async function importBackup(input) {
+            const file = input.files && input.files[0];
+            if (!file) return;
+
+            try {
+                const text = await file.text();
+                let preview;
+                try {
+                    preview = JSON.parse(text);
+                } catch (parseError) {
+                    UI.toast('El archivo seleccionado no es un JSON válido.', 'error', 6000);
+                    input.value = '';
+                    return;
+                }
+
+                const isSingleCase = !!preview.patient;
+                const isFullBackup = Array.isArray(preview.patients) || Array.isArray(preview.sessions) || Array.isArray(preview.assessments) || Array.isArray(preview.diagnoses);
+
+                if (!isSingleCase && !isFullBackup) {
+                    UI.toast('Formato no reconocido. Use un caso individual o un respaldo JSON de la app.', 'error', 7000);
+                    input.value = '';
+                    return;
+                }
+
+                if (isFullBackup && !isSingleCase) {
+                    const ok = window.confirm('Este archivo parece un respaldo completo. Se reemplazarán los datos actuales. ¿Desea continuar?');
+                    if (!ok) {
+                        UI.toast('Importación cancelada.', 'info');
+                        input.value = '';
+                        return;
+                    }
+                }
+
+                try { window.AutoBackup && await AutoBackup.snapshot('pre-import'); } catch(e) {}
+                UI.toast('Importando JSON...', 'info', 2500);
+                const result = await db.importData(text);
+
+                try { await loadStats(); } catch(e) { console.warn('No se pudieron refrescar estadísticas en configuración:', e); }
+
+                const detail = result && result.counts
+                    ? `Sesiones: ${result.counts.sessions || 0} · Evaluaciones: ${result.counts.assessments || 0} · Diagnósticos: ${result.counts.diagnoses || 0}`
+                    : '';
+
+                UI.toast(`JSON cargado correctamente. ${detail}`, 'success', 6000);
+                input.value = '';
+
+                // La app debe regresar al inicio, donde está el listado de casos.
+                // Se pasa el patientId para que el dashboard pueda resaltar el caso importado.
+                setTimeout(() => {
+                    if (result && result.patientId) {
+                        window.location.href = `dashboard.html?imported=${encodeURIComponent(result.patientId)}`;
+                    } else {
+                        window.location.href = 'dashboard.html?imported=1';
+                    }
+                }, 900);
+            } catch (error) {
+                console.error('Error importando JSON:', error);
+                UI.toast(`Error al importar JSON: ${error && error.message ? error.message : 'revise el archivo'}`, 'error', 9000);
+                input.value = '';
+            }
+        }
+        
+        async function clearAllData() {
+            UI.confirm('¿ESTÁ COMPLETAMENTE SEGURO? Esta acción eliminará TODOS los datos permanentemente.', async () => {
+                const confirmText = prompt('Escriba "ELIMINAR" para confirmar:');
+                if (confirmText !== 'ELIMINAR') {
+                    UI.toast('Operación cancelada', 'info');
+                    return;
+                }
+                
+                try {
+                    // Eliminar todos los datos de cada store
+                    const stores = [STORES.PATIENTS, STORES.SESSIONS, STORES.ASSESSMENTS, STORES.DIAGNOSES];
+                    for (const store of stores) {
+                        const items = await db.getAll(store);
+                        for (const item of items) {
+                            await db.delete(store, item.id);
+                        }
+                    }
+                    
+                    UI.toast('Todos los datos han sido eliminados', 'success');
+                    await loadStats();
+                } catch (error) {
+                    console.error('Error eliminando datos:', error);
+                    UI.toast('Error al eliminar los datos', 'error');
+                }
+            });
+        }
+        
+        async function changePassword() {
+            const currentPassword = document.getElementById('currentPassword').value;
+            const newPassword = document.getElementById('newPassword').value;
+            const confirmPassword = document.getElementById('confirmPassword').value;
+            
+            if (!currentPassword || !newPassword || !confirmPassword) {
+                UI.toast('Complete todos los campos', 'error');
+                return;
+            }
+            
+            if (newPassword !== confirmPassword) {
+                UI.toast('Las contraseñas no coinciden', 'error');
+                return;
+            }
+            
+            if (newPassword.length < 6) {
+                UI.toast('La contraseña debe tener al menos 6 caracteres', 'error');
+                return;
+            }
+            
+            try {
+                const users = await db.getAll(STORES.USERS);
+                const user = users[0]; // Asumimos el primer usuario
+                
+                if (user.password !== currentPassword) {
+                    UI.toast('Contraseña actual incorrecta', 'error');
+                    return;
+                }
+                
+                user.password = newPassword;
+                await db.put(STORES.USERS, user);
+                
+                UI.toast('Contraseña cambiada correctamente', 'success');
+                document.getElementById('currentPassword').value = '';
+                document.getElementById('newPassword').value = '';
+                document.getElementById('confirmPassword').value = '';
+                
+            } catch (error) {
+                console.error('Error cambiando contraseña:', error);
+                UI.toast('Error al cambiar la contraseña', 'error');
+            }
+        }
+    </script>
+</body>
+</html>

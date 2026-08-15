@@ -1,0 +1,17 @@
+{
+  "version": "5.0.58-visual-premium-piloto",
+  "checks": [
+    "Paletas premium por ruta A1/A2/B1/B2",
+    "Fondos ambientales CSS sin imágenes pesadas",
+    "Carretera principal con profundidad y glow ligero",
+    "Parada seleccionada con escena suave y glassmorphism",
+    "Soporte mobile-first y prefers-reduced-motion"
+  ],
+  "files": [
+    "app.css",
+    "app.js",
+    "content/content.v1.json",
+    "manifest.json",
+    "sw.js"
+  ]
+}

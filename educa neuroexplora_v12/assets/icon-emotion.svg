@@ -1,0 +1,15 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 80 80">
+  <defs>
+    <radialGradient id="eg" cx="40%" cy="35%" r="65%">
+      <stop offset="0%" stop-color="#fbbf24"/>
+      <stop offset="100%" stop-color="#d97706"/>
+    </radialGradient>
+  </defs>
+  <!-- Amígdala (forma de almendra) -->
+  <ellipse cx="40" cy="40" rx="24" ry="16" fill="url(#eg)" opacity="0.82" transform="rotate(-15 40 40)"/>
+  <!-- Ondas emocionales -->
+  <path d="M 20,28 C 26,22 34,20 40,24 C 46,28 50,36 48,44" stroke="#fde68a" stroke-width="2" fill="none" stroke-linecap="round" opacity="0.7"/>
+  <path d="M 14,22 C 22,14 34,12 42,18" stroke="#fde68a" stroke-width="1.5" fill="none" stroke-linecap="round" opacity="0.45"/>
+  <!-- Pulso interno -->
+  <path d="M 28,40 L 33,40 L 36,32 L 40,48 L 44,36 L 47,40 L 52,40" stroke="rgba(255,255,255,0.7)" stroke-width="2" fill="none" stroke-linecap="round" stroke-linejoin="round"/>
+</svg>

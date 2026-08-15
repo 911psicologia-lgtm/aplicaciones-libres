@@ -1,0 +1,1945 @@
+{
+  "note": "Materialización estructurada de la serie 2.3. Conserva núcleos, cautelas, conexiones, fuentes, capas históricas y guiones abreviados.",
+  "cards": [
+    {
+      "id": "card_nyaya_pramanas_inquiry_001",
+      "author": "Gautama y la tradición Nyāya",
+      "title": "Investigar mediante fuentes de conocimiento",
+      "territory": "Subcontinente indio",
+      "period": "Nyāya-sūtra y tradición comentarista; datación discutida",
+      "family": "Epistemología, investigación y realismo",
+      "statement": "Nyāya organiza la investigación alrededor de fuentes de conocimiento capaces de producir cogniciones verdaderas: percepción, inferencia, comparación y testimonio confiable.",
+      "tags": [
+        "Nyāya",
+        "pramāṇa",
+        "percepción",
+        "inferencia",
+        "testimonio"
+      ],
+      "question": "¿Cómo distinguir una vía genuina de conocimiento de una apariencia convincente?",
+      "caution": "Pramāṇa no significa cualquier método subjetivamente persuasivo: designa un proceso que, funcionando adecuadamente, produce conocimiento verdadero.",
+      "connections": [
+        "Argumento de cinco miembros",
+        "Testimonio confiable",
+        "Vaiśeṣika",
+        "Debate filosófico"
+      ],
+      "order": 131,
+      "status": "nucleo_editorial_preservado",
+      "evidence": "B",
+      "audio": "Comenzamos con Gautama y la tradición Nyāya. Investigar significa acudir a fuentes capaces de producir conocimiento verdadero: percepción, inferencia, comparación y testimonio confiable. Nyāya estudia también duda, debate y error porque conocer bien orienta la acción. Un pramāṇa no es cualquier procedimiento persuasivo; debe conectar adecuadamente al sujeto con aquello que pretende conocer.",
+      "quiz": {
+        "prompt": "¿Cómo distinguir una vía genuina de conocimiento de una apariencia convincente?",
+        "options": [
+          "Nyāya organiza la investigación alrededor de fuentes de conocimiento capaces de producir cogniciones verdaderas: percepción, inferencia, comparación y testimonio confiable.",
+          "La tradición ofrece una respuesta única y sin controversias.",
+          "El concepto puede traducirse sin atender a su contexto histórico.",
+          "La evidencia permite eliminar toda incertidumbre."
+        ],
+        "answer": 0,
+        "feedback": "Nyāya organiza la investigación alrededor de fuentes de conocimiento capaces de producir cogniciones verdaderas: percepción, inferencia, comparación y testimonio confiable."
+      },
+      "whyItMatters": "Introduce una tradición que convierte la pregunta por la evidencia en el punto de partida del debate filosófico.",
+      "symbol": "⌕",
+      "visual": {
+        "palette": [
+          "#273d4b",
+          "#55778a",
+          "#d4ab55"
+        ],
+        "allegory": "epistemología, investigación y realismo"
+      },
+      "seriesVersion": "2.3",
+      "materializationLevel": "dossier_structurado_v2_audio_conciso",
+      "shareFooter": "Pregunta guía: ¿Cómo distinguir una vía genuina de conocimiento de una apariencia convincente?",
+      "audioVersion": "concise-listening-3.5",
+      "guideTransition": "",
+      "audioLead": "Comenzamos con Gautama y la tradición Nyāya.",
+      "audioContext": "",
+      "audioBody": "Investigar significa acudir a fuentes capaces de producir conocimiento verdadero: percepción, inferencia, comparación y testimonio confiable. Nyāya estudia también duda, debate y error porque conocer bien orienta la acción. Un pramāṇa no es cualquier procedimiento persuasivo; debe conectar adecuadamente al sujeto con aquello que pretende conocer.",
+      "listeningMode": "entity_concept_limit_compact",
+      "collectionId": "south_asia_vedic_upanishadic",
+      "collection": "Sur de Asia: fundamentos, renuncias y escuelas clásicas",
+      "collectionOrder": 4
+    },
+    {
+      "id": "card_nyaya_five_member_argument_001",
+      "author": "Tradición lógica de Nyāya",
+      "title": "Hacer visible cada paso de una inferencia",
+      "territory": "Subcontinente indio",
+      "period": "Periodo clásico y tradiciones posteriores",
+      "family": "Inferencia, demostración y debate",
+      "statement": "El argumento público de Nyāya puede desplegar tesis, razón, ejemplo de relación regular, aplicación al caso y conclusión para que cada paso pueda ser examinado.",
+      "tags": [
+        "Nyāya",
+        "anumāna",
+        "argumento",
+        "debate",
+        "falacia"
+      ],
+      "question": "¿Por qué una conclusión mejora cuando muestra explícitamente la regla y su aplicación?",
+      "caution": "El esquema de cinco miembros no debe equipararse sin más al silogismo aristotélico: responde a otra historia del debate y del conocimiento inferencial.",
+      "connections": [
+        "Fuentes de conocimiento",
+        "Debate filosófico",
+        "Falacias",
+        "Testimonio confiable"
+      ],
+      "order": 132,
+      "status": "nucleo_editorial_preservado",
+      "evidence": "A–B",
+      "audio": "Seguimos con el argumento de cinco miembros de Nyāya. Primero se formula la tesis; luego la razón, un ejemplo que muestra la relación regular, la aplicación al caso y la conclusión. El formato permite revisar dónde falla una inferencia. No es una copia del silogismo aristotélico: nació dentro de prácticas indias de enseñanza, discusión y evaluación pública de razones.",
+      "quiz": {
+        "prompt": "¿Por qué una conclusión mejora cuando muestra explícitamente la regla y su aplicación?",
+        "options": [
+          "El argumento público de Nyāya puede desplegar tesis, razón, ejemplo de relación regular, aplicación al caso y conclusión para que cada paso pueda ser examinado.",
+          "La tradición ofrece una respuesta única y sin controversias.",
+          "El concepto puede traducirse sin atender a su contexto histórico.",
+          "La evidencia permite eliminar toda incertidumbre."
+        ],
+        "answer": 0,
+        "feedback": "El argumento público de Nyāya puede desplegar tesis, razón, ejemplo de relación regular, aplicación al caso y conclusión para que cada paso pueda ser examinado."
+      },
+      "whyItMatters": "Muestra que la lógica no solo comprime conclusiones, sino que organiza una explicación examinable por otros.",
+      "symbol": "➜",
+      "visual": {
+        "palette": [
+          "#273d4b",
+          "#55778a",
+          "#d4ab55"
+        ],
+        "allegory": "inferencia, demostración y debate"
+      },
+      "seriesVersion": "2.3",
+      "materializationLevel": "dossier_structurado_v2_audio_conciso",
+      "shareFooter": "Pregunta guía: ¿Por qué una conclusión mejora cuando muestra explícitamente la regla y su aplicación?",
+      "audioVersion": "concise-listening-3.5",
+      "guideTransition": "",
+      "audioLead": "Seguimos con el argumento de cinco miembros de Nyāya.",
+      "audioContext": "",
+      "audioBody": "Primero se formula la tesis; luego la razón, un ejemplo que muestra la relación regular, la aplicación al caso y la conclusión. El formato permite revisar dónde falla una inferencia. No es una copia del silogismo aristotélico: nació dentro de prácticas indias de enseñanza, discusión y evaluación pública de razones.",
+      "listeningMode": "entity_concept_limit_compact",
+      "collectionId": "south_asia_vedic_upanishadic",
+      "collection": "Sur de Asia: fundamentos, renuncias y escuelas clásicas",
+      "collectionOrder": 4
+    },
+    {
+      "id": "card_vaisesika_categories_001",
+      "author": "Kaṇāda y la tradición Vaiśeṣika",
+      "title": "Clasificar aquello que existe",
+      "territory": "Subcontinente indio",
+      "period": "Vaiśeṣika-sūtra y comentaristas; cronología discutida",
+      "family": "Ontología y categorías",
+      "statement": "Vaiśeṣika construye una ontología mediante categorías como sustancia, cualidad, movimiento, universal, particularidad e inherencia, ampliadas después con la ausencia.",
+      "tags": [
+        "Vaiśeṣika",
+        "padārtha",
+        "sustancia",
+        "cualidad",
+        "inherencia"
+      ],
+      "question": "¿Qué debe distinguirse para explicar cómo una cosa posee propiedades y forma parte de un conjunto?",
+      "caution": "Las listas cambiaron históricamente y las traducciones modernas no reproducen exactamente el alcance de cada término sánscrito.",
+      "connections": [
+        "Atomismo Vaiśeṣika",
+        "Nyāya",
+        "Universales",
+        "Ausencia"
+      ],
+      "order": 133,
+      "status": "nucleo_editorial_preservado",
+      "evidence": "B",
+      "audio": "Pasamos a Kaṇāda y la tradición Vaiśeṣika. Su proyecto clasifica lo que existe mediante categorías: sustancias, cualidades, movimientos, universales, particularidades e inherencia; más tarde se añadió la ausencia. La lista busca explicar cómo una propiedad pertenece a algo y cómo un todo se relaciona con sus partes. No es una tabla inmóvil: cambió con los comentarios y debates posteriores.",
+      "quiz": {
+        "prompt": "¿Qué debe distinguirse para explicar cómo una cosa posee propiedades y forma parte de un conjunto?",
+        "options": [
+          "Vaiśeṣika construye una ontología mediante categorías como sustancia, cualidad, movimiento, universal, particularidad e inherencia, ampliadas después con la ausencia.",
+          "La tradición ofrece una respuesta única y sin controversias.",
+          "El concepto puede traducirse sin atender a su contexto histórico.",
+          "La evidencia permite eliminar toda incertidumbre."
+        ],
+        "answer": 0,
+        "feedback": "Vaiśeṣika construye una ontología mediante categorías como sustancia, cualidad, movimiento, universal, particularidad e inherencia, ampliadas después con la ausencia."
+      },
+      "whyItMatters": "Ofrece una arquitectura ontológica capaz de distinguir objetos, propiedades, relaciones y formas de individuación.",
+      "symbol": "▦",
+      "visual": {
+        "palette": [
+          "#473a31",
+          "#846a52",
+          "#d2a85c"
+        ],
+        "allegory": "ontología y categorías"
+      },
+      "seriesVersion": "2.3",
+      "materializationLevel": "dossier_structurado_v2_audio_conciso",
+      "shareFooter": "Pregunta guía: ¿Qué debe distinguirse para explicar cómo una cosa posee propiedades y forma parte de un conjunto?",
+      "audioVersion": "concise-listening-3.5",
+      "guideTransition": "",
+      "audioLead": "Pasamos a Kaṇāda y la tradición Vaiśeṣika.",
+      "audioContext": "",
+      "audioBody": "Su proyecto clasifica lo que existe mediante categorías: sustancias, cualidades, movimientos, universales, particularidades e inherencia; más tarde se añadió la ausencia. La lista busca explicar cómo una propiedad pertenece a algo y cómo un todo se relaciona con sus partes. No es una tabla inmóvil: cambió con los comentarios y debates posteriores.",
+      "listeningMode": "entity_concept_limit_compact",
+      "collectionId": "south_asia_vedic_upanishadic",
+      "collection": "Sur de Asia: fundamentos, renuncias y escuelas clásicas",
+      "collectionOrder": 4
+    },
+    {
+      "id": "card_vaisesika_atomism_001",
+      "author": "Tradición Nyāya-Vaiśeṣika",
+      "title": "Átomos, compuestos y propiedades emergentes",
+      "territory": "Subcontinente indio",
+      "period": "Periodo clásico y medieval",
+      "family": "Atomismo y composición",
+      "statement": "Nyāya-Vaiśeṣika sostiene que ciertos elementos materiales están formados por átomos eternos e imperceptibles, mientras los compuestos surgen, cambian y desaparecen.",
+      "tags": [
+        "átomo",
+        "paramāṇu",
+        "composición",
+        "elementos",
+        "causalidad"
+      ],
+      "question": "¿Cómo explicar objetos visibles si sus componentes últimos no pueden percibirse?",
+      "caution": "El atomismo indio no es una anticipación directa de la física moderna y coexistió con supuestos metafísicos propios de su tradición.",
+      "connections": [
+        "Categorías Vaiśeṣika",
+        "Sāṃkhya",
+        "Causalidad",
+        "Mundo natural"
+      ],
+      "order": 134,
+      "status": "nucleo_editorial_preservado",
+      "evidence": "B",
+      "audio": "Continuamos con el atomismo Nyāya-Vaiśeṣika. Ciertos elementos poseen átomos eternos, indivisibles e imperceptibles; los objetos visibles aparecen cuando esos componentes se combinan en órdenes determinados. Los compuestos son entidades nuevas y perecederas, no simples montones. Esta teoría no anticipa la física moderna: responde a preguntas antiguas sobre división, causalidad, cualidades y formación de los cuerpos.",
+      "quiz": {
+        "prompt": "¿Cómo explicar objetos visibles si sus componentes últimos no pueden percibirse?",
+        "options": [
+          "Nyāya-Vaiśeṣika sostiene que ciertos elementos materiales están formados por átomos eternos e imperceptibles, mientras los compuestos surgen, cambian y desaparecen.",
+          "La tradición ofrece una respuesta única y sin controversias.",
+          "El concepto puede traducirse sin atender a su contexto histórico.",
+          "La evidencia permite eliminar toda incertidumbre."
+        ],
+        "answer": 0,
+        "feedback": "Nyāya-Vaiśeṣika sostiene que ciertos elementos materiales están formados por átomos eternos e imperceptibles, mientras los compuestos surgen, cambian y desaparecen."
+      },
+      "whyItMatters": "Permite comparar una explicación atomista india con otras teorías antiguas sin imponer categorías científicas contemporáneas.",
+      "symbol": "⬡",
+      "visual": {
+        "palette": [
+          "#473a31",
+          "#846a52",
+          "#d2a85c"
+        ],
+        "allegory": "atomismo y composición"
+      },
+      "seriesVersion": "2.3",
+      "materializationLevel": "dossier_structurado_v2_audio_conciso",
+      "shareFooter": "Pregunta guía: ¿Cómo explicar objetos visibles si sus componentes últimos no pueden percibirse?",
+      "audioVersion": "concise-listening-3.5",
+      "guideTransition": "",
+      "audioLead": "Continuamos con el atomismo Nyāya-Vaiśeṣika.",
+      "audioContext": "",
+      "audioBody": "Ciertos elementos poseen átomos eternos, indivisibles e imperceptibles; los objetos visibles aparecen cuando esos componentes se combinan en órdenes determinados. Los compuestos son entidades nuevas y perecederas, no simples montones. Esta teoría no anticipa la física moderna: responde a preguntas antiguas sobre división, causalidad, cualidades y formación de los cuerpos.",
+      "listeningMode": "entity_concept_limit_compact",
+      "collectionId": "south_asia_vedic_upanishadic",
+      "collection": "Sur de Asia: fundamentos, renuncias y escuelas clásicas",
+      "collectionOrder": 4
+    },
+    {
+      "id": "card_samkhya_purusha_prakriti_001",
+      "author": "Īśvarakṛṣṇa y la tradición Sāṃkhya",
+      "title": "Conciencia y naturaleza no son lo mismo",
+      "territory": "Subcontinente indio",
+      "period": "Sāṃkhya-kārikā, aproximadamente siglos IV–V e.c.; raíces anteriores",
+      "family": "Dualismo, experiencia y liberación",
+      "statement": "Sāṃkhya distingue la conciencia inactiva de múltiples puruṣas y la naturaleza productiva, prakṛti, que comprende cuerpo, mente y mundo.",
+      "tags": [
+        "Sāṃkhya",
+        "puruṣa",
+        "prakṛti",
+        "conciencia",
+        "liberación"
+      ],
+      "question": "¿Qué cambia cuando incluso la mente es considerada parte de la naturaleza y no la conciencia misma?",
+      "caution": "El dualismo Sāṃkhya no coincide exactamente con divisiones occidentales entre mente y cuerpo: la mente pertenece a prakṛti.",
+      "connections": [
+        "Tres guṇas",
+        "Yoga de Patañjali",
+        "Ātman",
+        "Mokṣa"
+      ],
+      "order": 135,
+      "status": "nucleo_editorial_preservado",
+      "evidence": "A–B",
+      "audio": "Escuchamos ahora a Īśvarakṛṣṇa y la tradición Sāṃkhya. Puruṣa es conciencia inactiva y plural; prakṛti es naturaleza productiva e incluye cuerpo, sentidos y mente. El sufrimiento nace al confundir ambos órdenes. La liberación requiere discernirlos. No es el dualismo moderno de mente y cuerpo, porque para Sāṃkhya la mente también pertenece a la naturaleza.",
+      "quiz": {
+        "prompt": "¿Qué cambia cuando incluso la mente es considerada parte de la naturaleza y no la conciencia misma?",
+        "options": [
+          "Sāṃkhya distingue la conciencia inactiva de múltiples puruṣas y la naturaleza productiva, prakṛti, que comprende cuerpo, mente y mundo.",
+          "La tradición ofrece una respuesta única y sin controversias.",
+          "El concepto puede traducirse sin atender a su contexto histórico.",
+          "La evidencia permite eliminar toda incertidumbre."
+        ],
+        "answer": 0,
+        "feedback": "Sāṃkhya distingue la conciencia inactiva de múltiples puruṣas y la naturaleza productiva, prakṛti, que comprende cuerpo, mente y mundo."
+      },
+      "whyItMatters": "Presenta una teoría de la persona donde conciencia y procesos mentales ocupan categorías distintas.",
+      "symbol": "◐",
+      "visual": {
+        "palette": [
+          "#3b354a",
+          "#76658b",
+          "#d0ae63"
+        ],
+        "allegory": "dualismo, experiencia y liberación"
+      },
+      "seriesVersion": "2.3",
+      "materializationLevel": "dossier_structurado_v2_audio_conciso",
+      "shareFooter": "Pregunta guía: ¿Qué cambia cuando incluso la mente es considerada parte de la naturaleza y no la conciencia misma?",
+      "audioVersion": "concise-listening-3.5",
+      "guideTransition": "",
+      "audioLead": "Escuchamos ahora a Īśvarakṛṣṇa y la tradición Sāṃkhya.",
+      "audioContext": "",
+      "audioBody": "Puruṣa es conciencia inactiva y plural; prakṛti es naturaleza productiva e incluye cuerpo, sentidos y mente. El sufrimiento nace al confundir ambos órdenes. La liberación requiere discernirlos. No es el dualismo moderno de mente y cuerpo, porque para Sāṃkhya la mente también pertenece a la naturaleza.",
+      "listeningMode": "entity_concept_limit_compact",
+      "collectionId": "south_asia_vedic_upanishadic",
+      "collection": "Sur de Asia: fundamentos, renuncias y escuelas clásicas",
+      "collectionOrder": 4
+    },
+    {
+      "id": "card_samkhya_three_gunas_001",
+      "author": "Tradición Sāṃkhya",
+      "title": "Tres guṇas para explicar la variación",
+      "territory": "Subcontinente indio",
+      "period": "Sāṃkhya clásico y desarrollos posteriores",
+      "family": "Naturaleza, cambio y psicología",
+      "statement": "Prakṛti se manifiesta mediante la interacción de sattva, rajas y tamas: tendencias de lucidez, actividad y resistencia presentes en combinaciones variables.",
+      "tags": [
+        "guṇa",
+        "sattva",
+        "rajas",
+        "tamas",
+        "transformación"
+      ],
+      "question": "¿Cómo puede una misma naturaleza producir formas físicas y estados mentales tan diferentes?",
+      "caution": "Los guṇas no son tres tipos fijos de personalidad ni equivalen literalmente a bondad, energía y maldad.",
+      "connections": [
+        "Puruṣa y prakṛti",
+        "Yoga",
+        "Evolución de los tattvas",
+        "Psicología india"
+      ],
+      "order": 136,
+      "status": "nucleo_editorial_preservado",
+      "evidence": "B",
+      "audio": "Seguimos con los tres guṇas de Sāṃkhya: sattva, rajas y tamas. Son tendencias de lucidez, actividad y resistencia cuya mezcla variable forma procesos físicos y mentales. Cuando su equilibrio cambia, prakṛti se manifiesta y evoluciona. No son etiquetas fijas de personalidad ni una escala simple entre bien y mal; siempre actúan juntos en proporciones cambiantes.",
+      "quiz": {
+        "prompt": "¿Cómo puede una misma naturaleza producir formas físicas y estados mentales tan diferentes?",
+        "options": [
+          "Prakṛti se manifiesta mediante la interacción de sattva, rajas y tamas: tendencias de lucidez, actividad y resistencia presentes en combinaciones variables.",
+          "La tradición ofrece una respuesta única y sin controversias.",
+          "El concepto puede traducirse sin atender a su contexto histórico.",
+          "La evidencia permite eliminar toda incertidumbre."
+        ],
+        "answer": 0,
+        "feedback": "Prakṛti se manifiesta mediante la interacción de sattva, rajas y tamas: tendencias de lucidez, actividad y resistencia presentes en combinaciones variables."
+      },
+      "whyItMatters": "Explica la diversidad mediante relaciones dinámicas, evitando pensar la naturaleza como materia homogénea e inmóvil.",
+      "symbol": "≋",
+      "visual": {
+        "palette": [
+          "#3b354a",
+          "#76658b",
+          "#d0ae63"
+        ],
+        "allegory": "naturaleza, cambio y psicología"
+      },
+      "seriesVersion": "2.3",
+      "materializationLevel": "dossier_structurado_v2_audio_conciso",
+      "shareFooter": "Pregunta guía: ¿Cómo puede una misma naturaleza producir formas físicas y estados mentales tan diferentes?",
+      "audioVersion": "concise-listening-3.5",
+      "guideTransition": "",
+      "audioLead": "Seguimos con los tres guṇas de Sāṃkhya: sattva, rajas y tamas.",
+      "audioContext": "",
+      "audioBody": "Son tendencias de lucidez, actividad y resistencia cuya mezcla variable forma procesos físicos y mentales. Cuando su equilibrio cambia, prakṛti se manifiesta y evoluciona. No son etiquetas fijas de personalidad ni una escala simple entre bien y mal; siempre actúan juntos en proporciones cambiantes.",
+      "listeningMode": "entity_concept_limit_compact",
+      "collectionId": "south_asia_vedic_upanishadic",
+      "collection": "Sur de Asia: fundamentos, renuncias y escuelas clásicas",
+      "collectionOrder": 4
+    },
+    {
+      "id": "card_patanjali_citta_vritti_nirodha_001",
+      "author": "Patañjali y la tradición del Yoga-sūtra",
+      "title": "Aquiete de las fluctuaciones de la mente",
+      "territory": "Subcontinente indio",
+      "period": "Yoga-sūtra, primeros siglos e.c.; datación discutida",
+      "family": "Mente, atención y liberación",
+      "statement": "Patañjali define Yoga como nirodha de las vṛttis del citta: una disciplina que aquieta las actividades mentales para distinguir conciencia y naturaleza.",
+      "tags": [
+        "Patañjali",
+        "Yoga",
+        "citta",
+        "vṛtti",
+        "nirodha"
+      ],
+      "question": "¿Qué aparece cuando la conciencia deja de identificarse automáticamente con cada pensamiento?",
+      "caution": "Nirodha no debe traducirse como destrucción violenta de la mente, y Patañjali sistematizó prácticas anteriores en lugar de inventar el Yoga.",
+      "connections": [
+        "Sāṃkhya",
+        "Ocho miembros del Yoga",
+        "Meditación",
+        "Puruṣa"
+      ],
+      "order": 137,
+      "status": "nucleo_editorial_preservado",
+      "evidence": "A–B",
+      "audio": "Llegamos a Patañjali y la definición clásica del Yoga: aquietar las fluctuaciones del citta. Pensamientos, recuerdos, percepciones y errores son actividades mentales que suelen confundirse con la conciencia misma. La práctica busca detener esa identificación para que puruṣa se reconozca. Nirodha no significa destruir violentamente la mente, y Patañjali sistematizó tradiciones de Yoga mucho más antiguas.",
+      "quiz": {
+        "prompt": "¿Qué aparece cuando la conciencia deja de identificarse automáticamente con cada pensamiento?",
+        "options": [
+          "Patañjali define Yoga como nirodha de las vṛttis del citta: una disciplina que aquieta las actividades mentales para distinguir conciencia y naturaleza.",
+          "La tradición ofrece una respuesta única y sin controversias.",
+          "El concepto puede traducirse sin atender a su contexto histórico.",
+          "La evidencia permite eliminar toda incertidumbre."
+        ],
+        "answer": 0,
+        "feedback": "Patañjali define Yoga como nirodha de las vṛttis del citta: una disciplina que aquieta las actividades mentales para distinguir conciencia y naturaleza."
+      },
+      "whyItMatters": "Distingue la atención contemplativa de la simple relajación y sitúa el Yoga dentro de una filosofía de la mente.",
+      "symbol": "◉",
+      "visual": {
+        "palette": [
+          "#29453e",
+          "#5e7f72",
+          "#d2b060"
+        ],
+        "allegory": "mente, atención y liberación"
+      },
+      "seriesVersion": "2.3",
+      "materializationLevel": "dossier_structurado_v2_audio_conciso",
+      "shareFooter": "Pregunta guía: ¿Qué aparece cuando la conciencia deja de identificarse automáticamente con cada pensamiento?",
+      "audioVersion": "concise-listening-3.5",
+      "guideTransition": "",
+      "audioLead": "Llegamos a Patañjali y la definición clásica del Yoga: aquietar las fluctuaciones del citta.",
+      "audioContext": "",
+      "audioBody": "Pensamientos, recuerdos, percepciones y errores son actividades mentales que suelen confundirse con la conciencia misma. La práctica busca detener esa identificación para que puruṣa se reconozca. Nirodha no significa destruir violentamente la mente, y Patañjali sistematizó tradiciones de Yoga mucho más antiguas.",
+      "listeningMode": "entity_concept_limit_compact",
+      "collectionId": "south_asia_vedic_upanishadic",
+      "collection": "Sur de Asia: fundamentos, renuncias y escuelas clásicas",
+      "collectionOrder": 4
+    },
+    {
+      "id": "card_patanjali_eight_limbs_001",
+      "author": "Patañjali y la tradición yóguica",
+      "title": "Ocho miembros de una práctica integrada",
+      "territory": "Subcontinente indio",
+      "period": "Yoga clásico",
+      "family": "Ética, cuerpo y meditación",
+      "statement": "Los ocho miembros del Yoga articulan compromisos éticos, disciplina personal, postura, respiración, retiro sensorial, concentración, meditación y samādhi.",
+      "tags": [
+        "aṣṭāṅga",
+        "yama",
+        "niyama",
+        "dhyāna",
+        "samādhi"
+      ],
+      "question": "¿Por qué la concentración profunda comienza mucho antes de sentarse a meditar?",
+      "caution": "El Yoga clásico no puede reducirse a posturas físicas: āsana ocupa un lugar dentro de una disciplina ética y contemplativa más amplia.",
+      "connections": [
+        "Aquietamiento mental",
+        "Ahiṃsā",
+        "Meditación",
+        "Sāṃkhya"
+      ],
+      "order": 138,
+      "status": "nucleo_editorial_preservado",
+      "evidence": "A–B",
+      "audio": "Continuamos con los ocho miembros del Yoga de Patañjali. Yama y niyama orientan la conducta; āsana y respiración estabilizan cuerpo y energía; el retiro sensorial prepara concentración, meditación y samādhi. El recorrido muestra que la atención depende también de hábitos y vínculos. Reducir el Yoga clásico a posturas elimina la mayor parte de su arquitectura ética y contemplativa.",
+      "quiz": {
+        "prompt": "¿Por qué la concentración profunda comienza mucho antes de sentarse a meditar?",
+        "options": [
+          "Los ocho miembros del Yoga articulan compromisos éticos, disciplina personal, postura, respiración, retiro sensorial, concentración, meditación y samādhi.",
+          "La tradición ofrece una respuesta única y sin controversias.",
+          "El concepto puede traducirse sin atender a su contexto histórico.",
+          "La evidencia permite eliminar toda incertidumbre."
+        ],
+        "answer": 0,
+        "feedback": "Los ocho miembros del Yoga articulan compromisos éticos, disciplina personal, postura, respiración, retiro sensorial, concentración, meditación y samādhi."
+      },
+      "whyItMatters": "Recupera la unidad entre conducta, cuerpo, respiración y atención que suele perderse en versiones exclusivamente gimnásticas.",
+      "symbol": "✺",
+      "visual": {
+        "palette": [
+          "#29453e",
+          "#5e7f72",
+          "#d2b060"
+        ],
+        "allegory": "ética, cuerpo y meditación"
+      },
+      "seriesVersion": "2.3",
+      "materializationLevel": "dossier_structurado_v2_audio_conciso",
+      "shareFooter": "Pregunta guía: ¿Por qué la concentración profunda comienza mucho antes de sentarse a meditar?",
+      "audioVersion": "concise-listening-3.5",
+      "guideTransition": "",
+      "audioLead": "Continuamos con los ocho miembros del Yoga de Patañjali.",
+      "audioContext": "",
+      "audioBody": "Yama y niyama orientan la conducta; āsana y respiración estabilizan cuerpo y energía; el retiro sensorial prepara concentración, meditación y samādhi. El recorrido muestra que la atención depende también de hábitos y vínculos. Reducir el Yoga clásico a posturas elimina la mayor parte de su arquitectura ética y contemplativa.",
+      "listeningMode": "entity_concept_limit_compact",
+      "collectionId": "south_asia_vedic_upanishadic",
+      "collection": "Sur de Asia: fundamentos, renuncias y escuelas clásicas",
+      "collectionOrder": 4
+    },
+    {
+      "id": "card_mimamsa_dharma_authorless_veda_001",
+      "author": "Jaimini y la tradición Mīmāṃsā",
+      "title": "Conocer el deber mediante una palabra sin autor",
+      "territory": "Subcontinente indio",
+      "period": "Mīmāṃsā-sūtra y comentarios desde primeros siglos e.c.",
+      "family": "Hermenéutica, lenguaje y dharma",
+      "statement": "Mīmāṃsā investiga dharma interpretando mandatos védicos y defiende que el Veda es eterno y no compuesto por una persona, por lo que su autoridad no depende de un autor humano o divino.",
+      "tags": [
+        "Mīmāṃsā",
+        "dharma",
+        "Veda",
+        "apauruṣeya",
+        "interpretación"
+      ],
+      "question": "¿Cómo puede una expresión ser autoritativa si no procede de la intención de un hablante?",
+      "caution": "La defensa Mīmāṃsā del Veda no equivale a una teoría general de que cualquier texto tradicional sea infalible.",
+      "connections": [
+        "Testimonio",
+        "Sacrificio védico",
+        "Vedānta temprano",
+        "Karma"
+      ],
+      "order": 139,
+      "status": "nucleo_editorial_preservado",
+      "evidence": "B",
+      "audio": "Pasamos a Jaimini y la tradición Mīmāṃsā. Su pregunta central es cómo conocer dharma, especialmente cuando no puede observarse directamente. La respuesta se busca en los mandatos del Veda, considerado eterno y sin autor. Así se evita atribuirle error humano o voluntad divina. Esta defensa no vuelve infalible cualquier tradición: depende de una teoría específica del lenguaje védico.",
+      "quiz": {
+        "prompt": "¿Cómo puede una expresión ser autoritativa si no procede de la intención de un hablante?",
+        "options": [
+          "Mīmāṃsā investiga dharma interpretando mandatos védicos y defiende que el Veda es eterno y no compuesto por una persona, por lo que su autoridad no depende de un autor humano o divino.",
+          "La tradición ofrece una respuesta única y sin controversias.",
+          "El concepto puede traducirse sin atender a su contexto histórico.",
+          "La evidencia permite eliminar toda incertidumbre."
+        ],
+        "answer": 0,
+        "feedback": "Mīmāṃsā investiga dharma interpretando mandatos védicos y defiende que el Veda es eterno y no compuesto por una persona, por lo que su autoridad no depende de un autor humano o divino."
+      },
+      "whyItMatters": "Muestra una filosofía donde interpretar correctamente una oración es una tarea epistemológica y práctica.",
+      "symbol": "⌘",
+      "visual": {
+        "palette": [
+          "#4a3829",
+          "#8b6a43",
+          "#d5a858"
+        ],
+        "allegory": "hermenéutica, lenguaje y dharma"
+      },
+      "seriesVersion": "2.3",
+      "materializationLevel": "dossier_structurado_v2_audio_conciso",
+      "shareFooter": "Pregunta guía: ¿Cómo puede una expresión ser autoritativa si no procede de la intención de un hablante?",
+      "audioVersion": "concise-listening-3.5",
+      "guideTransition": "",
+      "audioLead": "Pasamos a Jaimini y la tradición Mīmāṃsā.",
+      "audioContext": "",
+      "audioBody": "Su pregunta central es cómo conocer dharma, especialmente cuando no puede observarse directamente. La respuesta se busca en los mandatos del Veda, considerado eterno y sin autor. Así se evita atribuirle error humano o voluntad divina. Esta defensa no vuelve infalible cualquier tradición: depende de una teoría específica del lenguaje védico.",
+      "listeningMode": "entity_concept_limit_compact",
+      "collectionId": "south_asia_vedic_upanishadic",
+      "collection": "Sur de Asia: fundamentos, renuncias y escuelas clásicas",
+      "collectionOrder": 4
+    },
+    {
+      "id": "card_early_vedanta_brahma_sutra_001",
+      "author": "Bādarāyaṇa y las primeras tradiciones de Vedānta",
+      "title": "Un texto breve, muchas interpretaciones de Brahman",
+      "territory": "Subcontinente indio",
+      "period": "Brahma-sūtra, primeros siglos e.c.; datación discutida",
+      "family": "Hermenéutica de las Upaniṣads",
+      "statement": "El Brahma-sūtra atribuido a Bādarāyaṇa organiza la investigación sobre Brahman, pero su brevedad permitió comentarios no dualistas, teístas, dualistas y de diferencia-no diferencia.",
+      "tags": [
+        "Vedānta",
+        "Bādarāyaṇa",
+        "Brahma-sūtra",
+        "Brahman",
+        "comentario"
+      ],
+      "question": "¿Cómo puede un mismo texto convertirse en fundamento de filosofías profundamente diferentes?",
+      "caution": "Vedānta no designa una doctrina única, y no debe identificarse automáticamente con Advaita o con Śaṅkara.",
+      "connections": [
+        "Upaniṣads",
+        "Ātman y brahman",
+        "Mīmāṃsā",
+        "Advaita"
+      ],
+      "order": 140,
+      "status": "nucleo_editorial_preservado",
+      "evidence": "B",
+      "audio": "Cerramos con Bādarāyaṇa y el Brahma-sūtra, texto que organiza la investigación vedántica sobre Brahman y las Upaniṣads. Sus aforismos son tan concisos que necesitan comentario. De allí surgieron lecturas no dualistas, teístas, dualistas y de diferencia-no diferencia. Vedānta no es una doctrina única ni puede identificarse automáticamente con Advaita o con Śaṅkara.",
+      "quiz": {
+        "prompt": "¿Cómo puede un mismo texto convertirse en fundamento de filosofías profundamente diferentes?",
+        "options": [
+          "El Brahma-sūtra atribuido a Bādarāyaṇa organiza la investigación sobre Brahman, pero su brevedad permitió comentarios no dualistas, teístas, dualistas y de diferencia-no diferencia.",
+          "La tradición ofrece una respuesta única y sin controversias.",
+          "El concepto puede traducirse sin atender a su contexto histórico.",
+          "La evidencia permite eliminar toda incertidumbre."
+        ],
+        "answer": 0,
+        "feedback": "El Brahma-sūtra atribuido a Bādarāyaṇa organiza la investigación sobre Brahman, pero su brevedad permitió comentarios no dualistas, teístas, dualistas y de diferencia-no diferencia."
+      },
+      "whyItMatters": "Prepara el ingreso a las grandes controversias medievales sin presentar una interpretación como resultado inevitable de las Upaniṣads.",
+      "symbol": "∞",
+      "visual": {
+        "palette": [
+          "#362f49",
+          "#685b88",
+          "#d2ab5b"
+        ],
+        "allegory": "hermenéutica de las upaniṣads"
+      },
+      "seriesVersion": "2.3",
+      "materializationLevel": "dossier_structurado_v2_audio_conciso",
+      "shareFooter": "Pregunta guía: ¿Cómo puede un mismo texto convertirse en fundamento de filosofías profundamente diferentes?",
+      "audioVersion": "concise-listening-3.5",
+      "guideTransition": "",
+      "audioLead": "Cerramos con Bādarāyaṇa y el Brahma-sūtra, texto que organiza la investigación vedántica sobre Brahman y las Upaniṣads.",
+      "audioContext": "",
+      "audioBody": "Sus aforismos son tan concisos que necesitan comentario. De allí surgieron lecturas no dualistas, teístas, dualistas y de diferencia-no diferencia. Vedānta no es una doctrina única ni puede identificarse automáticamente con Advaita o con Śaṅkara.",
+      "listeningMode": "entity_concept_limit_compact",
+      "collectionId": "south_asia_vedic_upanishadic",
+      "collection": "Sur de Asia: fundamentos, renuncias y escuelas clásicas",
+      "collectionOrder": 4
+    }
+  ],
+  "dossiers": [
+    {
+      "id": "card_nyaya_pramanas_inquiry_001",
+      "seriesVersion": "2.3",
+      "author": "Gautama y la tradición Nyāya",
+      "title": "Investigar mediante fuentes de conocimiento",
+      "territory": "Subcontinente indio",
+      "period": "Nyāya-sūtra y tradición comentarista; datación discutida",
+      "family": "Epistemología, investigación y realismo",
+      "symbol": "⌕",
+      "guidingQuestion": "¿Cómo distinguir una vía genuina de conocimiento de una apariencia convincente?",
+      "documentedCore": "Nyāya organiza la investigación alrededor de fuentes de conocimiento capaces de producir cogniciones verdaderas: percepción, inferencia, comparación y testimonio confiable.",
+      "distinctiveKey": "Nyāya organiza la investigación alrededor de fuentes de conocimiento capaces de producir cogniciones verdaderas: percepción, inferencia, comparación y testimonio confiable.",
+      "whyItMatters": "Introduce una tradición que convierte la pregunta por la evidencia en el punto de partida del debate filosófico.",
+      "editorialCaution": "Pramāṇa no significa cualquier método subjetivamente persuasivo: designa un proceso que, funcionando adecuadamente, produce conocimiento verdadero.",
+      "tags": [
+        "Nyāya",
+        "pramāṇa",
+        "percepción",
+        "inferencia",
+        "testimonio"
+      ],
+      "connections": [
+        "Argumento de cinco miembros",
+        "Testimonio confiable",
+        "Vaiśeṣika",
+        "Debate filosófico"
+      ],
+      "audioScript": "Comenzamos con Gautama y la tradición Nyāya. Investigar significa acudir a fuentes capaces de producir conocimiento verdadero: percepción, inferencia, comparación y testimonio confiable. Nyāya estudia también duda, debate y error porque conocer bien orienta la acción. Un pramāṇa no es cualquier procedimiento persuasivo; debe conectar adecuadamente al sujeto con aquello que pretende conocer.",
+      "evidence": "B",
+      "visual": {
+        "palette": [
+          "#273d4b",
+          "#55778a",
+          "#d4ab55"
+        ],
+        "allegory": "epistemología, investigación y realismo"
+      },
+      "derivedCardSeeds": [
+        "Nyāya: desarrollo conceptual",
+        "pramāṇa: desarrollo conceptual",
+        "percepción: desarrollo conceptual",
+        "Límites y debates de Investigar mediante fuentes de conocimiento"
+      ],
+      "materialization": {
+        "level": "dossier_estructurado_mas_capa_historica_v2_audio_conciso",
+        "allCoreFieldsPreserved": true,
+        "extendedProseExactArchive": "síntesis estructurada de la serie 2.3; no es transcripción literal del chat",
+        "source": "serie editorial 2.3"
+      },
+      "audioVersion": "concise-listening-3.5",
+      "audioLead": "Comenzamos con Gautama y la tradición Nyāya.",
+      "audioContext": "",
+      "audioBody": "Investigar significa acudir a fuentes capaces de producir conocimiento verdadero: percepción, inferencia, comparación y testimonio confiable. Nyāya estudia también duda, debate y error porque conocer bien orienta la acción. Un pramāṇa no es cualquier procedimiento persuasivo; debe conectar adecuadamente al sujeto con aquello que pretende conocer.",
+      "collectionId": "south_asia_vedic_upanishadic",
+      "collection": "Sur de Asia: fundamentos, renuncias y escuelas clásicas",
+      "collectionOrder": 4,
+      "historicalLayer": {
+        "version": "historical-2.4",
+        "status": "materializada",
+        "sha256": "e946f0b2916875837eecdcc075fe3c9c910749d3718294ab9c655bd3f1495479"
+      },
+      "sourceAnchors": [
+        "https://iep.utm.edu/nyaya/",
+        "https://plato.stanford.edu/archives/fall2022/entries/epistemology-india/"
+      ],
+      "sha256": "348837f13f2983390f0ca80ca88a85d1da7f6654d1487946537c86de21f65b02"
+    },
+    {
+      "id": "card_nyaya_five_member_argument_001",
+      "seriesVersion": "2.3",
+      "author": "Tradición lógica de Nyāya",
+      "title": "Hacer visible cada paso de una inferencia",
+      "territory": "Subcontinente indio",
+      "period": "Periodo clásico y tradiciones posteriores",
+      "family": "Inferencia, demostración y debate",
+      "symbol": "➜",
+      "guidingQuestion": "¿Por qué una conclusión mejora cuando muestra explícitamente la regla y su aplicación?",
+      "documentedCore": "El argumento público de Nyāya puede desplegar tesis, razón, ejemplo de relación regular, aplicación al caso y conclusión para que cada paso pueda ser examinado.",
+      "distinctiveKey": "El argumento público de Nyāya puede desplegar tesis, razón, ejemplo de relación regular, aplicación al caso y conclusión para que cada paso pueda ser examinado.",
+      "whyItMatters": "Muestra que la lógica no solo comprime conclusiones, sino que organiza una explicación examinable por otros.",
+      "editorialCaution": "El esquema de cinco miembros no debe equipararse sin más al silogismo aristotélico: responde a otra historia del debate y del conocimiento inferencial.",
+      "tags": [
+        "Nyāya",
+        "anumāna",
+        "argumento",
+        "debate",
+        "falacia"
+      ],
+      "connections": [
+        "Fuentes de conocimiento",
+        "Debate filosófico",
+        "Falacias",
+        "Testimonio confiable"
+      ],
+      "audioScript": "Seguimos con el argumento de cinco miembros de Nyāya. Primero se formula la tesis; luego la razón, un ejemplo que muestra la relación regular, la aplicación al caso y la conclusión. El formato permite revisar dónde falla una inferencia. No es una copia del silogismo aristotélico: nació dentro de prácticas indias de enseñanza, discusión y evaluación pública de razones.",
+      "evidence": "A–B",
+      "visual": {
+        "palette": [
+          "#273d4b",
+          "#55778a",
+          "#d4ab55"
+        ],
+        "allegory": "inferencia, demostración y debate"
+      },
+      "derivedCardSeeds": [
+        "Nyāya: desarrollo conceptual",
+        "anumāna: desarrollo conceptual",
+        "argumento: desarrollo conceptual",
+        "Límites y debates de Hacer visible cada paso de una inferencia"
+      ],
+      "materialization": {
+        "level": "dossier_estructurado_mas_capa_historica_v2_audio_conciso",
+        "allCoreFieldsPreserved": true,
+        "extendedProseExactArchive": "síntesis estructurada de la serie 2.3; no es transcripción literal del chat",
+        "source": "serie editorial 2.3"
+      },
+      "audioVersion": "concise-listening-3.5",
+      "audioLead": "Seguimos con el argumento de cinco miembros de Nyāya.",
+      "audioContext": "",
+      "audioBody": "Primero se formula la tesis; luego la razón, un ejemplo que muestra la relación regular, la aplicación al caso y la conclusión. El formato permite revisar dónde falla una inferencia. No es una copia del silogismo aristotélico: nació dentro de prácticas indias de enseñanza, discusión y evaluación pública de razones.",
+      "collectionId": "south_asia_vedic_upanishadic",
+      "collection": "Sur de Asia: fundamentos, renuncias y escuelas clásicas",
+      "collectionOrder": 4,
+      "historicalLayer": {
+        "version": "historical-2.4",
+        "status": "materializada",
+        "sha256": "a960fe3a266f1a3d083e9070b8be2dcb2919db2536ce800f9fccb915deb917d4"
+      },
+      "sourceAnchors": [
+        "https://iep.utm.edu/nyaya/",
+        "https://plato.stanford.edu/archives/fall2013/entries/logic-india/"
+      ],
+      "sha256": "54a847beae2f669631dc0d0430381ba5d47ec0b1fbc0c92e105764fb6e4ea81d"
+    },
+    {
+      "id": "card_vaisesika_categories_001",
+      "seriesVersion": "2.3",
+      "author": "Kaṇāda y la tradición Vaiśeṣika",
+      "title": "Clasificar aquello que existe",
+      "territory": "Subcontinente indio",
+      "period": "Vaiśeṣika-sūtra y comentaristas; cronología discutida",
+      "family": "Ontología y categorías",
+      "symbol": "▦",
+      "guidingQuestion": "¿Qué debe distinguirse para explicar cómo una cosa posee propiedades y forma parte de un conjunto?",
+      "documentedCore": "Vaiśeṣika construye una ontología mediante categorías como sustancia, cualidad, movimiento, universal, particularidad e inherencia, ampliadas después con la ausencia.",
+      "distinctiveKey": "Vaiśeṣika construye una ontología mediante categorías como sustancia, cualidad, movimiento, universal, particularidad e inherencia, ampliadas después con la ausencia.",
+      "whyItMatters": "Ofrece una arquitectura ontológica capaz de distinguir objetos, propiedades, relaciones y formas de individuación.",
+      "editorialCaution": "Las listas cambiaron históricamente y las traducciones modernas no reproducen exactamente el alcance de cada término sánscrito.",
+      "tags": [
+        "Vaiśeṣika",
+        "padārtha",
+        "sustancia",
+        "cualidad",
+        "inherencia"
+      ],
+      "connections": [
+        "Atomismo Vaiśeṣika",
+        "Nyāya",
+        "Universales",
+        "Ausencia"
+      ],
+      "audioScript": "Pasamos a Kaṇāda y la tradición Vaiśeṣika. Su proyecto clasifica lo que existe mediante categorías: sustancias, cualidades, movimientos, universales, particularidades e inherencia; más tarde se añadió la ausencia. La lista busca explicar cómo una propiedad pertenece a algo y cómo un todo se relaciona con sus partes. No es una tabla inmóvil: cambió con los comentarios y debates posteriores.",
+      "evidence": "B",
+      "visual": {
+        "palette": [
+          "#473a31",
+          "#846a52",
+          "#d2a85c"
+        ],
+        "allegory": "ontología y categorías"
+      },
+      "derivedCardSeeds": [
+        "Vaiśeṣika: desarrollo conceptual",
+        "padārtha: desarrollo conceptual",
+        "sustancia: desarrollo conceptual",
+        "Límites y debates de Clasificar aquello que existe"
+      ],
+      "materialization": {
+        "level": "dossier_estructurado_mas_capa_historica_v2_audio_conciso",
+        "allCoreFieldsPreserved": true,
+        "extendedProseExactArchive": "síntesis estructurada de la serie 2.3; no es transcripción literal del chat",
+        "source": "serie editorial 2.3"
+      },
+      "audioVersion": "concise-listening-3.5",
+      "audioLead": "Pasamos a Kaṇāda y la tradición Vaiśeṣika.",
+      "audioContext": "",
+      "audioBody": "Su proyecto clasifica lo que existe mediante categorías: sustancias, cualidades, movimientos, universales, particularidades e inherencia; más tarde se añadió la ausencia. La lista busca explicar cómo una propiedad pertenece a algo y cómo un todo se relaciona con sus partes. No es una tabla inmóvil: cambió con los comentarios y debates posteriores.",
+      "collectionId": "south_asia_vedic_upanishadic",
+      "collection": "Sur de Asia: fundamentos, renuncias y escuelas clásicas",
+      "collectionOrder": 4,
+      "historicalLayer": {
+        "version": "historical-2.4",
+        "status": "materializada",
+        "sha256": "9626943bca28ee81368e9837be24b86d25352c1d023e220aedf6e4bbcb78ebc5"
+      },
+      "sourceAnchors": [
+        "https://plato.stanford.edu/archives/fall2022/entries/early-modern-india/",
+        "https://iep.utm.edu/hindu-ph/"
+      ],
+      "sha256": "ceb2938e320c14f517ba751320e485ebe1fdb389ad5e7f26a69a56d910b3d348"
+    },
+    {
+      "id": "card_vaisesika_atomism_001",
+      "seriesVersion": "2.3",
+      "author": "Tradición Nyāya-Vaiśeṣika",
+      "title": "Átomos, compuestos y propiedades emergentes",
+      "territory": "Subcontinente indio",
+      "period": "Periodo clásico y medieval",
+      "family": "Atomismo y composición",
+      "symbol": "⬡",
+      "guidingQuestion": "¿Cómo explicar objetos visibles si sus componentes últimos no pueden percibirse?",
+      "documentedCore": "Nyāya-Vaiśeṣika sostiene que ciertos elementos materiales están formados por átomos eternos e imperceptibles, mientras los compuestos surgen, cambian y desaparecen.",
+      "distinctiveKey": "Nyāya-Vaiśeṣika sostiene que ciertos elementos materiales están formados por átomos eternos e imperceptibles, mientras los compuestos surgen, cambian y desaparecen.",
+      "whyItMatters": "Permite comparar una explicación atomista india con otras teorías antiguas sin imponer categorías científicas contemporáneas.",
+      "editorialCaution": "El atomismo indio no es una anticipación directa de la física moderna y coexistió con supuestos metafísicos propios de su tradición.",
+      "tags": [
+        "átomo",
+        "paramāṇu",
+        "composición",
+        "elementos",
+        "causalidad"
+      ],
+      "connections": [
+        "Categorías Vaiśeṣika",
+        "Sāṃkhya",
+        "Causalidad",
+        "Mundo natural"
+      ],
+      "audioScript": "Continuamos con el atomismo Nyāya-Vaiśeṣika. Ciertos elementos poseen átomos eternos, indivisibles e imperceptibles; los objetos visibles aparecen cuando esos componentes se combinan en órdenes determinados. Los compuestos son entidades nuevas y perecederas, no simples montones. Esta teoría no anticipa la física moderna: responde a preguntas antiguas sobre división, causalidad, cualidades y formación de los cuerpos.",
+      "evidence": "B",
+      "visual": {
+        "palette": [
+          "#473a31",
+          "#846a52",
+          "#d2a85c"
+        ],
+        "allegory": "atomismo y composición"
+      },
+      "derivedCardSeeds": [
+        "átomo: desarrollo conceptual",
+        "paramāṇu: desarrollo conceptual",
+        "composición: desarrollo conceptual",
+        "Límites y debates de Átomos, compuestos y propiedades emergentes"
+      ],
+      "materialization": {
+        "level": "dossier_estructurado_mas_capa_historica_v2_audio_conciso",
+        "allCoreFieldsPreserved": true,
+        "extendedProseExactArchive": "síntesis estructurada de la serie 2.3; no es transcripción literal del chat",
+        "source": "serie editorial 2.3"
+      },
+      "audioVersion": "concise-listening-3.5",
+      "audioLead": "Continuamos con el atomismo Nyāya-Vaiśeṣika.",
+      "audioContext": "",
+      "audioBody": "Ciertos elementos poseen átomos eternos, indivisibles e imperceptibles; los objetos visibles aparecen cuando esos componentes se combinan en órdenes determinados. Los compuestos son entidades nuevas y perecederas, no simples montones. Esta teoría no anticipa la física moderna: responde a preguntas antiguas sobre división, causalidad, cualidades y formación de los cuerpos.",
+      "collectionId": "south_asia_vedic_upanishadic",
+      "collection": "Sur de Asia: fundamentos, renuncias y escuelas clásicas",
+      "collectionOrder": 4,
+      "historicalLayer": {
+        "version": "historical-2.4",
+        "status": "materializada",
+        "sha256": "213075b5a426719ac702437d1b9395da5b3e9583851c4e1bb7731d409afe2589"
+      },
+      "sourceAnchors": [
+        "https://plato.stanford.edu/entries/naturalism-india/",
+        "https://plato.stanford.edu/archives/fall2023/entries/atomism-ancient/"
+      ],
+      "sha256": "6f6f4c25e8a35740d27e5a290cbf2bfdcd946a33582bdcf171a01c31cdbdf36d"
+    },
+    {
+      "id": "card_samkhya_purusha_prakriti_001",
+      "seriesVersion": "2.3",
+      "author": "Īśvarakṛṣṇa y la tradición Sāṃkhya",
+      "title": "Conciencia y naturaleza no son lo mismo",
+      "territory": "Subcontinente indio",
+      "period": "Sāṃkhya-kārikā, aproximadamente siglos IV–V e.c.; raíces anteriores",
+      "family": "Dualismo, experiencia y liberación",
+      "symbol": "◐",
+      "guidingQuestion": "¿Qué cambia cuando incluso la mente es considerada parte de la naturaleza y no la conciencia misma?",
+      "documentedCore": "Sāṃkhya distingue la conciencia inactiva de múltiples puruṣas y la naturaleza productiva, prakṛti, que comprende cuerpo, mente y mundo.",
+      "distinctiveKey": "Sāṃkhya distingue la conciencia inactiva de múltiples puruṣas y la naturaleza productiva, prakṛti, que comprende cuerpo, mente y mundo.",
+      "whyItMatters": "Presenta una teoría de la persona donde conciencia y procesos mentales ocupan categorías distintas.",
+      "editorialCaution": "El dualismo Sāṃkhya no coincide exactamente con divisiones occidentales entre mente y cuerpo: la mente pertenece a prakṛti.",
+      "tags": [
+        "Sāṃkhya",
+        "puruṣa",
+        "prakṛti",
+        "conciencia",
+        "liberación"
+      ],
+      "connections": [
+        "Tres guṇas",
+        "Yoga de Patañjali",
+        "Ātman",
+        "Mokṣa"
+      ],
+      "audioScript": "Escuchamos ahora a Īśvarakṛṣṇa y la tradición Sāṃkhya. Puruṣa es conciencia inactiva y plural; prakṛti es naturaleza productiva e incluye cuerpo, sentidos y mente. El sufrimiento nace al confundir ambos órdenes. La liberación requiere discernirlos. No es el dualismo moderno de mente y cuerpo, porque para Sāṃkhya la mente también pertenece a la naturaleza.",
+      "evidence": "A–B",
+      "visual": {
+        "palette": [
+          "#3b354a",
+          "#76658b",
+          "#d0ae63"
+        ],
+        "allegory": "dualismo, experiencia y liberación"
+      },
+      "derivedCardSeeds": [
+        "Sāṃkhya: desarrollo conceptual",
+        "puruṣa: desarrollo conceptual",
+        "prakṛti: desarrollo conceptual",
+        "Límites y debates de Conciencia y naturaleza no son lo mismo"
+      ],
+      "materialization": {
+        "level": "dossier_estructurado_mas_capa_historica_v2_audio_conciso",
+        "allCoreFieldsPreserved": true,
+        "extendedProseExactArchive": "síntesis estructurada de la serie 2.3; no es transcripción literal del chat",
+        "source": "serie editorial 2.3"
+      },
+      "audioVersion": "concise-listening-3.5",
+      "audioLead": "Escuchamos ahora a Īśvarakṛṣṇa y la tradición Sāṃkhya.",
+      "audioContext": "",
+      "audioBody": "Puruṣa es conciencia inactiva y plural; prakṛti es naturaleza productiva e incluye cuerpo, sentidos y mente. El sufrimiento nace al confundir ambos órdenes. La liberación requiere discernirlos. No es el dualismo moderno de mente y cuerpo, porque para Sāṃkhya la mente también pertenece a la naturaleza.",
+      "collectionId": "south_asia_vedic_upanishadic",
+      "collection": "Sur de Asia: fundamentos, renuncias y escuelas clásicas",
+      "collectionOrder": 4,
+      "historicalLayer": {
+        "version": "historical-2.4",
+        "status": "materializada",
+        "sha256": "dc98e9fa3b5ec7f6540e831444b63d6fe65c5d1bdfe5996283467d87caeefa20"
+      },
+      "sourceAnchors": [
+        "https://iep.utm.edu/sankhya/",
+        "https://plato.stanford.edu/archives/sum2026/entries/personhood-india/"
+      ],
+      "sha256": "d6b89d2b22f4e4b83c064cffd9252b0b7e9431de55715769a504a26102b84bc1"
+    },
+    {
+      "id": "card_samkhya_three_gunas_001",
+      "seriesVersion": "2.3",
+      "author": "Tradición Sāṃkhya",
+      "title": "Tres guṇas para explicar la variación",
+      "territory": "Subcontinente indio",
+      "period": "Sāṃkhya clásico y desarrollos posteriores",
+      "family": "Naturaleza, cambio y psicología",
+      "symbol": "≋",
+      "guidingQuestion": "¿Cómo puede una misma naturaleza producir formas físicas y estados mentales tan diferentes?",
+      "documentedCore": "Prakṛti se manifiesta mediante la interacción de sattva, rajas y tamas: tendencias de lucidez, actividad y resistencia presentes en combinaciones variables.",
+      "distinctiveKey": "Prakṛti se manifiesta mediante la interacción de sattva, rajas y tamas: tendencias de lucidez, actividad y resistencia presentes en combinaciones variables.",
+      "whyItMatters": "Explica la diversidad mediante relaciones dinámicas, evitando pensar la naturaleza como materia homogénea e inmóvil.",
+      "editorialCaution": "Los guṇas no son tres tipos fijos de personalidad ni equivalen literalmente a bondad, energía y maldad.",
+      "tags": [
+        "guṇa",
+        "sattva",
+        "rajas",
+        "tamas",
+        "transformación"
+      ],
+      "connections": [
+        "Puruṣa y prakṛti",
+        "Yoga",
+        "Evolución de los tattvas",
+        "Psicología india"
+      ],
+      "audioScript": "Seguimos con los tres guṇas de Sāṃkhya: sattva, rajas y tamas. Son tendencias de lucidez, actividad y resistencia cuya mezcla variable forma procesos físicos y mentales. Cuando su equilibrio cambia, prakṛti se manifiesta y evoluciona. No son etiquetas fijas de personalidad ni una escala simple entre bien y mal; siempre actúan juntos en proporciones cambiantes.",
+      "evidence": "B",
+      "visual": {
+        "palette": [
+          "#3b354a",
+          "#76658b",
+          "#d0ae63"
+        ],
+        "allegory": "naturaleza, cambio y psicología"
+      },
+      "derivedCardSeeds": [
+        "guṇa: desarrollo conceptual",
+        "sattva: desarrollo conceptual",
+        "rajas: desarrollo conceptual",
+        "Límites y debates de Tres guṇas para explicar la variación"
+      ],
+      "materialization": {
+        "level": "dossier_estructurado_mas_capa_historica_v2_audio_conciso",
+        "allCoreFieldsPreserved": true,
+        "extendedProseExactArchive": "síntesis estructurada de la serie 2.3; no es transcripción literal del chat",
+        "source": "serie editorial 2.3"
+      },
+      "audioVersion": "concise-listening-3.5",
+      "audioLead": "Seguimos con los tres guṇas de Sāṃkhya: sattva, rajas y tamas.",
+      "audioContext": "",
+      "audioBody": "Son tendencias de lucidez, actividad y resistencia cuya mezcla variable forma procesos físicos y mentales. Cuando su equilibrio cambia, prakṛti se manifiesta y evoluciona. No son etiquetas fijas de personalidad ni una escala simple entre bien y mal; siempre actúan juntos en proporciones cambiantes.",
+      "collectionId": "south_asia_vedic_upanishadic",
+      "collection": "Sur de Asia: fundamentos, renuncias y escuelas clásicas",
+      "collectionOrder": 4,
+      "historicalLayer": {
+        "version": "historical-2.4",
+        "status": "materializada",
+        "sha256": "db15248860396f3db7d814c5937c245d9fd44f748189db0388ad6abfd2ad0d95"
+      },
+      "sourceAnchors": [
+        "https://iep.utm.edu/sankhya/",
+        "https://plato.stanford.edu/entries/naturalism-india/"
+      ],
+      "sha256": "6040d901f7f4cfcbb9ba2fc904e821a45a9c655090847e1d52faa71705da6d38"
+    },
+    {
+      "id": "card_patanjali_citta_vritti_nirodha_001",
+      "seriesVersion": "2.3",
+      "author": "Patañjali y la tradición del Yoga-sūtra",
+      "title": "Aquiete de las fluctuaciones de la mente",
+      "territory": "Subcontinente indio",
+      "period": "Yoga-sūtra, primeros siglos e.c.; datación discutida",
+      "family": "Mente, atención y liberación",
+      "symbol": "◉",
+      "guidingQuestion": "¿Qué aparece cuando la conciencia deja de identificarse automáticamente con cada pensamiento?",
+      "documentedCore": "Patañjali define Yoga como nirodha de las vṛttis del citta: una disciplina que aquieta las actividades mentales para distinguir conciencia y naturaleza.",
+      "distinctiveKey": "Patañjali define Yoga como nirodha de las vṛttis del citta: una disciplina que aquieta las actividades mentales para distinguir conciencia y naturaleza.",
+      "whyItMatters": "Distingue la atención contemplativa de la simple relajación y sitúa el Yoga dentro de una filosofía de la mente.",
+      "editorialCaution": "Nirodha no debe traducirse como destrucción violenta de la mente, y Patañjali sistematizó prácticas anteriores en lugar de inventar el Yoga.",
+      "tags": [
+        "Patañjali",
+        "Yoga",
+        "citta",
+        "vṛtti",
+        "nirodha"
+      ],
+      "connections": [
+        "Sāṃkhya",
+        "Ocho miembros del Yoga",
+        "Meditación",
+        "Puruṣa"
+      ],
+      "audioScript": "Llegamos a Patañjali y la definición clásica del Yoga: aquietar las fluctuaciones del citta. Pensamientos, recuerdos, percepciones y errores son actividades mentales que suelen confundirse con la conciencia misma. La práctica busca detener esa identificación para que puruṣa se reconozca. Nirodha no significa destruir violentamente la mente, y Patañjali sistematizó tradiciones de Yoga mucho más antiguas.",
+      "evidence": "A–B",
+      "visual": {
+        "palette": [
+          "#29453e",
+          "#5e7f72",
+          "#d2b060"
+        ],
+        "allegory": "mente, atención y liberación"
+      },
+      "derivedCardSeeds": [
+        "Patañjali: desarrollo conceptual",
+        "Yoga: desarrollo conceptual",
+        "citta: desarrollo conceptual",
+        "Límites y debates de Aquiete de las fluctuaciones de la mente"
+      ],
+      "materialization": {
+        "level": "dossier_estructurado_mas_capa_historica_v2_audio_conciso",
+        "allCoreFieldsPreserved": true,
+        "extendedProseExactArchive": "síntesis estructurada de la serie 2.3; no es transcripción literal del chat",
+        "source": "serie editorial 2.3"
+      },
+      "audioVersion": "concise-listening-3.5",
+      "audioLead": "Llegamos a Patañjali y la definición clásica del Yoga: aquietar las fluctuaciones del citta.",
+      "audioContext": "",
+      "audioBody": "Pensamientos, recuerdos, percepciones y errores son actividades mentales que suelen confundirse con la conciencia misma. La práctica busca detener esa identificación para que puruṣa se reconozca. Nirodha no significa destruir violentamente la mente, y Patañjali sistematizó tradiciones de Yoga mucho más antiguas.",
+      "collectionId": "south_asia_vedic_upanishadic",
+      "collection": "Sur de Asia: fundamentos, renuncias y escuelas clásicas",
+      "collectionOrder": 4,
+      "historicalLayer": {
+        "version": "historical-2.4",
+        "status": "materializada",
+        "sha256": "c6c9d6fc12ccd55cc6176a620e80537c8527f24517bb994190947229041bca02"
+      },
+      "sourceAnchors": [
+        "https://iep.utm.edu/yoga/"
+      ],
+      "sha256": "7550717d61e782e6463fba8743f16bdca233650d3c36fef38a288c61183d069b"
+    },
+    {
+      "id": "card_patanjali_eight_limbs_001",
+      "seriesVersion": "2.3",
+      "author": "Patañjali y la tradición yóguica",
+      "title": "Ocho miembros de una práctica integrada",
+      "territory": "Subcontinente indio",
+      "period": "Yoga clásico",
+      "family": "Ética, cuerpo y meditación",
+      "symbol": "✺",
+      "guidingQuestion": "¿Por qué la concentración profunda comienza mucho antes de sentarse a meditar?",
+      "documentedCore": "Los ocho miembros del Yoga articulan compromisos éticos, disciplina personal, postura, respiración, retiro sensorial, concentración, meditación y samādhi.",
+      "distinctiveKey": "Los ocho miembros del Yoga articulan compromisos éticos, disciplina personal, postura, respiración, retiro sensorial, concentración, meditación y samādhi.",
+      "whyItMatters": "Recupera la unidad entre conducta, cuerpo, respiración y atención que suele perderse en versiones exclusivamente gimnásticas.",
+      "editorialCaution": "El Yoga clásico no puede reducirse a posturas físicas: āsana ocupa un lugar dentro de una disciplina ética y contemplativa más amplia.",
+      "tags": [
+        "aṣṭāṅga",
+        "yama",
+        "niyama",
+        "dhyāna",
+        "samādhi"
+      ],
+      "connections": [
+        "Aquietamiento mental",
+        "Ahiṃsā",
+        "Meditación",
+        "Sāṃkhya"
+      ],
+      "audioScript": "Continuamos con los ocho miembros del Yoga de Patañjali. Yama y niyama orientan la conducta; āsana y respiración estabilizan cuerpo y energía; el retiro sensorial prepara concentración, meditación y samādhi. El recorrido muestra que la atención depende también de hábitos y vínculos. Reducir el Yoga clásico a posturas elimina la mayor parte de su arquitectura ética y contemplativa.",
+      "evidence": "A–B",
+      "visual": {
+        "palette": [
+          "#29453e",
+          "#5e7f72",
+          "#d2b060"
+        ],
+        "allegory": "ética, cuerpo y meditación"
+      },
+      "derivedCardSeeds": [
+        "aṣṭāṅga: desarrollo conceptual",
+        "yama: desarrollo conceptual",
+        "niyama: desarrollo conceptual",
+        "Límites y debates de Ocho miembros de una práctica integrada"
+      ],
+      "materialization": {
+        "level": "dossier_estructurado_mas_capa_historica_v2_audio_conciso",
+        "allCoreFieldsPreserved": true,
+        "extendedProseExactArchive": "síntesis estructurada de la serie 2.3; no es transcripción literal del chat",
+        "source": "serie editorial 2.3"
+      },
+      "audioVersion": "concise-listening-3.5",
+      "audioLead": "Continuamos con los ocho miembros del Yoga de Patañjali.",
+      "audioContext": "",
+      "audioBody": "Yama y niyama orientan la conducta; āsana y respiración estabilizan cuerpo y energía; el retiro sensorial prepara concentración, meditación y samādhi. El recorrido muestra que la atención depende también de hábitos y vínculos. Reducir el Yoga clásico a posturas elimina la mayor parte de su arquitectura ética y contemplativa.",
+      "collectionId": "south_asia_vedic_upanishadic",
+      "collection": "Sur de Asia: fundamentos, renuncias y escuelas clásicas",
+      "collectionOrder": 4,
+      "historicalLayer": {
+        "version": "historical-2.4",
+        "status": "materializada",
+        "sha256": "c28752bb4d81d97d69952b44958aaa93d6a198adbc453d0ae57b6070463e3207"
+      },
+      "sourceAnchors": [
+        "https://iep.utm.edu/yoga/"
+      ],
+      "sha256": "3b61e69a942dbc0fd5610949cb97f731d5fefe921e39d755cbae15cfb8c2a12f"
+    },
+    {
+      "id": "card_mimamsa_dharma_authorless_veda_001",
+      "seriesVersion": "2.3",
+      "author": "Jaimini y la tradición Mīmāṃsā",
+      "title": "Conocer el deber mediante una palabra sin autor",
+      "territory": "Subcontinente indio",
+      "period": "Mīmāṃsā-sūtra y comentarios desde primeros siglos e.c.",
+      "family": "Hermenéutica, lenguaje y dharma",
+      "symbol": "⌘",
+      "guidingQuestion": "¿Cómo puede una expresión ser autoritativa si no procede de la intención de un hablante?",
+      "documentedCore": "Mīmāṃsā investiga dharma interpretando mandatos védicos y defiende que el Veda es eterno y no compuesto por una persona, por lo que su autoridad no depende de un autor humano o divino.",
+      "distinctiveKey": "Mīmāṃsā investiga dharma interpretando mandatos védicos y defiende que el Veda es eterno y no compuesto por una persona, por lo que su autoridad no depende de un autor humano o divino.",
+      "whyItMatters": "Muestra una filosofía donde interpretar correctamente una oración es una tarea epistemológica y práctica.",
+      "editorialCaution": "La defensa Mīmāṃsā del Veda no equivale a una teoría general de que cualquier texto tradicional sea infalible.",
+      "tags": [
+        "Mīmāṃsā",
+        "dharma",
+        "Veda",
+        "apauruṣeya",
+        "interpretación"
+      ],
+      "connections": [
+        "Testimonio",
+        "Sacrificio védico",
+        "Vedānta temprano",
+        "Karma"
+      ],
+      "audioScript": "Pasamos a Jaimini y la tradición Mīmāṃsā. Su pregunta central es cómo conocer dharma, especialmente cuando no puede observarse directamente. La respuesta se busca en los mandatos del Veda, considerado eterno y sin autor. Así se evita atribuirle error humano o voluntad divina. Esta defensa no vuelve infalible cualquier tradición: depende de una teoría específica del lenguaje védico.",
+      "evidence": "B",
+      "visual": {
+        "palette": [
+          "#4a3829",
+          "#8b6a43",
+          "#d5a858"
+        ],
+        "allegory": "hermenéutica, lenguaje y dharma"
+      },
+      "derivedCardSeeds": [
+        "Mīmāṃsā: desarrollo conceptual",
+        "dharma: desarrollo conceptual",
+        "Veda: desarrollo conceptual",
+        "Límites y debates de Conocer el deber mediante una palabra sin autor"
+      ],
+      "materialization": {
+        "level": "dossier_estructurado_mas_capa_historica_v2_audio_conciso",
+        "allCoreFieldsPreserved": true,
+        "extendedProseExactArchive": "síntesis estructurada de la serie 2.3; no es transcripción literal del chat",
+        "source": "serie editorial 2.3"
+      },
+      "audioVersion": "concise-listening-3.5",
+      "audioLead": "Pasamos a Jaimini y la tradición Mīmāṃsā.",
+      "audioContext": "",
+      "audioBody": "Su pregunta central es cómo conocer dharma, especialmente cuando no puede observarse directamente. La respuesta se busca en los mandatos del Veda, considerado eterno y sin autor. Así se evita atribuirle error humano o voluntad divina. Esta defensa no vuelve infalible cualquier tradición: depende de una teoría específica del lenguaje védico.",
+      "collectionId": "south_asia_vedic_upanishadic",
+      "collection": "Sur de Asia: fundamentos, renuncias y escuelas clásicas",
+      "collectionOrder": 4,
+      "historicalLayer": {
+        "version": "historical-2.4",
+        "status": "materializada",
+        "sha256": "4ea20d41a7fd225712a1929da866163f887a602afbbe8729c0aa5c463a035f39"
+      },
+      "sourceAnchors": [
+        "https://plato.stanford.edu/archives/fall2023/entries/language-india/",
+        "https://plato.stanford.edu/archives/spr2014/entries/kumaarila/"
+      ],
+      "sha256": "52b270b0435db433a462456d3b5f04116296ddcf81e4c23936476735c5513542"
+    },
+    {
+      "id": "card_early_vedanta_brahma_sutra_001",
+      "seriesVersion": "2.3",
+      "author": "Bādarāyaṇa y las primeras tradiciones de Vedānta",
+      "title": "Un texto breve, muchas interpretaciones de Brahman",
+      "territory": "Subcontinente indio",
+      "period": "Brahma-sūtra, primeros siglos e.c.; datación discutida",
+      "family": "Hermenéutica de las Upaniṣads",
+      "symbol": "∞",
+      "guidingQuestion": "¿Cómo puede un mismo texto convertirse en fundamento de filosofías profundamente diferentes?",
+      "documentedCore": "El Brahma-sūtra atribuido a Bādarāyaṇa organiza la investigación sobre Brahman, pero su brevedad permitió comentarios no dualistas, teístas, dualistas y de diferencia-no diferencia.",
+      "distinctiveKey": "El Brahma-sūtra atribuido a Bādarāyaṇa organiza la investigación sobre Brahman, pero su brevedad permitió comentarios no dualistas, teístas, dualistas y de diferencia-no diferencia.",
+      "whyItMatters": "Prepara el ingreso a las grandes controversias medievales sin presentar una interpretación como resultado inevitable de las Upaniṣads.",
+      "editorialCaution": "Vedānta no designa una doctrina única, y no debe identificarse automáticamente con Advaita o con Śaṅkara.",
+      "tags": [
+        "Vedānta",
+        "Bādarāyaṇa",
+        "Brahma-sūtra",
+        "Brahman",
+        "comentario"
+      ],
+      "connections": [
+        "Upaniṣads",
+        "Ātman y brahman",
+        "Mīmāṃsā",
+        "Advaita"
+      ],
+      "audioScript": "Cerramos con Bādarāyaṇa y el Brahma-sūtra, texto que organiza la investigación vedántica sobre Brahman y las Upaniṣads. Sus aforismos son tan concisos que necesitan comentario. De allí surgieron lecturas no dualistas, teístas, dualistas y de diferencia-no diferencia. Vedānta no es una doctrina única ni puede identificarse automáticamente con Advaita o con Śaṅkara.",
+      "evidence": "B",
+      "visual": {
+        "palette": [
+          "#362f49",
+          "#685b88",
+          "#d2ab5b"
+        ],
+        "allegory": "hermenéutica de las upaniṣads"
+      },
+      "derivedCardSeeds": [
+        "Vedānta: desarrollo conceptual",
+        "Bādarāyaṇa: desarrollo conceptual",
+        "Brahma-sūtra: desarrollo conceptual",
+        "Límites y debates de Un texto breve, muchas interpretaciones de Brahman"
+      ],
+      "materialization": {
+        "level": "dossier_estructurado_mas_capa_historica_v2_audio_conciso",
+        "allCoreFieldsPreserved": true,
+        "extendedProseExactArchive": "síntesis estructurada de la serie 2.3; no es transcripción literal del chat",
+        "source": "serie editorial 2.3"
+      },
+      "audioVersion": "concise-listening-3.5",
+      "audioLead": "Cerramos con Bādarāyaṇa y el Brahma-sūtra, texto que organiza la investigación vedántica sobre Brahman y las Upaniṣads.",
+      "audioContext": "",
+      "audioBody": "Sus aforismos son tan concisos que necesitan comentario. De allí surgieron lecturas no dualistas, teístas, dualistas y de diferencia-no diferencia. Vedānta no es una doctrina única ni puede identificarse automáticamente con Advaita o con Śaṅkara.",
+      "collectionId": "south_asia_vedic_upanishadic",
+      "collection": "Sur de Asia: fundamentos, renuncias y escuelas clásicas",
+      "collectionOrder": 4,
+      "historicalLayer": {
+        "version": "historical-2.4",
+        "status": "materializada",
+        "sha256": "411b31f21a20ca477b9e09bba5e6b9cc7ba7e31c21d55bab2a5895cc446b3de8"
+      },
+      "sourceAnchors": [
+        "https://iep.utm.edu/advaita-vedanta/",
+        "https://iep.utm.edu/bhedabheda-vedanta/",
+        "https://plato.stanford.edu/archives/sum2024/entries/shankara/"
+      ],
+      "sha256": "4780ada58b009798a7eab36e19669f7292527d514df64b1fdf8880937ff92461"
+    }
+  ],
+  "historicalLayers": [
+    {
+      "id": "card_nyaya_pramanas_inquiry_001",
+      "layerVersion": "historical-2.4",
+      "seriesVersion": "2.3",
+      "author": "Gautama y la tradición Nyāya",
+      "title": "Investigar mediante fuentes de conocimiento",
+      "historicalContext": "El Nyāya-sūtra abre con una clasificación de problemas que incluye fuentes de conocimiento, objetos conocidos, duda, razonamiento, debate y falacias. Su datación y formación textual son discutidas.",
+      "historicalDevelopment": "Los comentaristas desarrollaron una epistemología causal: una cognición verdadera surge cuando una fuente opera en condiciones adecuadas. Nyāya defendió un realismo pluralista frente a corrientes budistas y otras escuelas.",
+      "milestones": [
+        "Composición y transmisión del Nyāya-sūtra.",
+        "Comentario de Vātsyāyana.",
+        "Debates con budistas, Mīmāṃsā y Vedānta.",
+        "Desarrollo posterior de Navya-Nyāya."
+      ],
+      "conceptualSections": [
+        {
+          "title": "Pramāṇa",
+          "text": "Fuente o proceso que produce una cognición verdadera."
+        },
+        {
+          "title": "Duda",
+          "text": "Estado que justifica investigar cuando existen alternativas relevantes."
+        },
+        {
+          "title": "Realismo",
+          "text": "Tesis según la cual los objetos y propiedades no dependen solo de ser pensados."
+        }
+      ],
+      "legacy": [
+        "Influyó en lógica, epistemología, debate, jurisprudencia y análisis del lenguaje en numerosas tradiciones de India."
+      ],
+      "anchorWorks": [
+        "Nyāya-sūtra; Nyāya-bhāṣya de Vātsyāyana"
+      ],
+      "guidingQuestion": "¿Cómo distinguir una vía genuina de conocimiento de una apariencia convincente?",
+      "distinctiveKey": "Nyāya organiza la investigación alrededor de fuentes de conocimiento capaces de producir cogniciones verdaderas: percepción, inferencia, comparación y testimonio confiable.",
+      "editorialCautions": [
+        "Pramāṇa no significa cualquier método subjetivamente persuasivo: designa un proceso que, funcionando adecuadamente, produce conocimiento verdadero."
+      ],
+      "connections": [
+        "Argumento de cinco miembros",
+        "Testimonio confiable",
+        "Vaiśeṣika",
+        "Debate filosófico"
+      ],
+      "evidence": "B",
+      "longAudioScript": "Profundizamos en Gautama y la tradición Nyāya: Investigar mediante fuentes de conocimiento. El Nyāya-sūtra abre con una clasificación de problemas que incluye fuentes de conocimiento, objetos conocidos, duda, razonamiento, debate y falacias. Su datación y formación textual son discutidas. Los comentaristas desarrollaron una epistemología causal: una cognición verdadera surge cuando una fuente opera en condiciones adecuadas. Nyāya defendió un realismo pluralista frente a corrientes budistas y otras escuelas. Pramāṇa: Fuente o proceso que produce una cognición verdadera. Duda: Estado que justifica investigar cuando existen alternativas relevantes. Realismo: Tesis según la cual los objetos y propiedades no dependen solo de ser pensados. Precisión editorial: Pramāṇa no significa cualquier método subjetivamente persuasivo: designa un proceso que, funcionando adecuadamente, produce conocimiento verdadero.",
+      "provenance": {
+        "source": "Consolidación editorial de la serie 2.3",
+        "preservationMode": "capa adicional; no sobrescribe tarjeta ni expediente",
+        "coverage": "contexto, desarrollo, hitos, conceptos, legado y cautela",
+        "materializedAt": "2026-07-24"
+      },
+      "audioVersion": "historical-entity-first-2.5",
+      "historicalAudioLead": "Profundizamos en Gautama y la tradición Nyāya: Investigar mediante fuentes de conocimiento.",
+      "historicalAudioBody": "El Nyāya-sūtra abre con una clasificación de problemas que incluye fuentes de conocimiento, objetos conocidos, duda, razonamiento, debate y falacias. Su datación y formación textual son discutidas. Los comentaristas desarrollaron una epistemología causal: una cognición verdadera surge cuando una fuente opera en condiciones adecuadas. Nyāya defendió un realismo pluralista frente a corrientes budistas y otras escuelas.",
+      "collectionId": "south_asia_vedic_upanishadic",
+      "collection": "Sur de Asia: fundamentos, renuncias y escuelas clásicas",
+      "collectionOrder": 4,
+      "sourceAnchors": [
+        "https://iep.utm.edu/nyaya/",
+        "https://plato.stanford.edu/archives/fall2022/entries/epistemology-india/"
+      ],
+      "sha256": "e946f0b2916875837eecdcc075fe3c9c910749d3718294ab9c655bd3f1495479"
+    },
+    {
+      "id": "card_nyaya_five_member_argument_001",
+      "layerVersion": "historical-2.4",
+      "seriesVersion": "2.3",
+      "author": "Tradición lógica de Nyāya",
+      "title": "Hacer visible cada paso de una inferencia",
+      "historicalContext": "Nyāya analizó la inferencia tanto como proceso cognitivo como forma pública de argumentación. El ejemplo clásico vincula humo y fuego en una colina.",
+      "historicalDevelopment": "La tradición estudió relaciones de concomitancia, condiciones de aplicación, contraejemplos y razones aparentes. En la práctica, muchos argumentos podían abreviarse, pero la forma extensa hacía visibles sus componentes.",
+      "milestones": [
+        "Formulación temprana en el Nyāya-sūtra.",
+        "Desarrollo de la teoría de inferencia.",
+        "Catálogos de falacias y derrotas en debate.",
+        "Refinamientos de Navya-Nyāya."
+      ],
+      "conceptualSections": [
+        {
+          "title": "Tesis",
+          "text": "Proposición que debe establecerse."
+        },
+        {
+          "title": "Razón",
+          "text": "Propiedad ofrecida como fundamento inferencial."
+        },
+        {
+          "title": "Ejemplo",
+          "text": "Caso que hace visible la relación invocada."
+        },
+        {
+          "title": "Aplicación",
+          "text": "Vinculación de la regla con el caso discutido."
+        }
+      ],
+      "legacy": [
+        "Contribución central a la historia comparada de la lógica y de la argumentación."
+      ],
+      "anchorWorks": [
+        "Nyāya-sūtra 1.1.32 y comentarios"
+      ],
+      "guidingQuestion": "¿Por qué una conclusión mejora cuando muestra explícitamente la regla y su aplicación?",
+      "distinctiveKey": "El argumento público de Nyāya puede desplegar tesis, razón, ejemplo de relación regular, aplicación al caso y conclusión para que cada paso pueda ser examinado.",
+      "editorialCautions": [
+        "El esquema de cinco miembros no debe equipararse sin más al silogismo aristotélico: responde a otra historia del debate y del conocimiento inferencial."
+      ],
+      "connections": [
+        "Fuentes de conocimiento",
+        "Debate filosófico",
+        "Falacias",
+        "Testimonio confiable"
+      ],
+      "evidence": "A–B",
+      "longAudioScript": "Profundizamos en Tradición lógica de Nyāya: Hacer visible cada paso de una inferencia. Nyāya analizó la inferencia tanto como proceso cognitivo como forma pública de argumentación. El ejemplo clásico vincula humo y fuego en una colina. La tradición estudió relaciones de concomitancia, condiciones de aplicación, contraejemplos y razones aparentes. En la práctica, muchos argumentos podían abreviarse, pero la forma extensa hacía visibles sus componentes. Tesis: Proposición que debe establecerse. Razón: Propiedad ofrecida como fundamento inferencial. Ejemplo: Caso que hace visible la relación invocada. Aplicación: Vinculación de la regla con el caso discutido. Precisión editorial: El esquema de cinco miembros no debe equipararse sin más al silogismo aristotélico: responde a otra historia del debate y del conocimiento inferencial.",
+      "provenance": {
+        "source": "Consolidación editorial de la serie 2.3",
+        "preservationMode": "capa adicional; no sobrescribe tarjeta ni expediente",
+        "coverage": "contexto, desarrollo, hitos, conceptos, legado y cautela",
+        "materializedAt": "2026-07-24"
+      },
+      "audioVersion": "historical-entity-first-2.5",
+      "historicalAudioLead": "Profundizamos en Tradición lógica de Nyāya: Hacer visible cada paso de una inferencia.",
+      "historicalAudioBody": "Nyāya analizó la inferencia tanto como proceso cognitivo como forma pública de argumentación. El ejemplo clásico vincula humo y fuego en una colina. La tradición estudió relaciones de concomitancia, condiciones de aplicación, contraejemplos y razones aparentes. En la práctica, muchos argumentos podían abreviarse, pero la forma extensa hacía visibles sus componentes.",
+      "collectionId": "south_asia_vedic_upanishadic",
+      "collection": "Sur de Asia: fundamentos, renuncias y escuelas clásicas",
+      "collectionOrder": 4,
+      "sourceAnchors": [
+        "https://iep.utm.edu/nyaya/",
+        "https://plato.stanford.edu/archives/fall2013/entries/logic-india/"
+      ],
+      "sha256": "a960fe3a266f1a3d083e9070b8be2dcb2919db2536ce800f9fccb915deb917d4"
+    },
+    {
+      "id": "card_vaisesika_categories_001",
+      "layerVersion": "historical-2.4",
+      "seriesVersion": "2.3",
+      "author": "Kaṇāda y la tradición Vaiśeṣika",
+      "title": "Clasificar aquello que existe",
+      "historicalContext": "El Vaiśeṣika-sūtra atribuido a Kaṇāda inició una tradición centrada en categorías y explicación del mundo natural. Sus vínculos con Nyāya se estrecharon gradualmente.",
+      "historicalDevelopment": "Los filósofos discutieron qué cuenta como sustancia, cómo existen universales, qué relación une una cualidad con su soporte y cómo pensar la ausencia sin reducirla a una simple palabra negativa.",
+      "milestones": [
+        "Formación del Vaiśeṣika-sūtra.",
+        "Desarrollo de seis categorías principales.",
+        "Incorporación posterior de la ausencia.",
+        "Síntesis Nyāya-Vaiśeṣika."
+      ],
+      "conceptualSections": [
+        {
+          "title": "Padārtha",
+          "text": "Categoría de aquello que puede ser nombrado y conocido."
+        },
+        {
+          "title": "Inherencia",
+          "text": "Relación irreductible propuesta para unir entidades inseparables, como una cualidad y su soporte."
+        },
+        {
+          "title": "Particularidad",
+          "text": "Principio que diferencia entidades últimas del mismo tipo."
+        }
+      ],
+      "legacy": [
+        "Influyó en metafísica, filosofía natural, teorías de la percepción y debates sobre universales y relaciones."
+      ],
+      "anchorWorks": [
+        "Vaiśeṣika-sūtra; Praśastapādabhāṣya"
+      ],
+      "guidingQuestion": "¿Qué debe distinguirse para explicar cómo una cosa posee propiedades y forma parte de un conjunto?",
+      "distinctiveKey": "Vaiśeṣika construye una ontología mediante categorías como sustancia, cualidad, movimiento, universal, particularidad e inherencia, ampliadas después con la ausencia.",
+      "editorialCautions": [
+        "Las listas cambiaron históricamente y las traducciones modernas no reproducen exactamente el alcance de cada término sánscrito."
+      ],
+      "connections": [
+        "Atomismo Vaiśeṣika",
+        "Nyāya",
+        "Universales",
+        "Ausencia"
+      ],
+      "evidence": "B",
+      "longAudioScript": "Profundizamos en Kaṇāda y la tradición Vaiśeṣika: Clasificar aquello que existe. El Vaiśeṣika-sūtra atribuido a Kaṇāda inició una tradición centrada en categorías y explicación del mundo natural. Sus vínculos con Nyāya se estrecharon gradualmente. Los filósofos discutieron qué cuenta como sustancia, cómo existen universales, qué relación une una cualidad con su soporte y cómo pensar la ausencia sin reducirla a una simple palabra negativa. Padārtha: Categoría de aquello que puede ser nombrado y conocido. Inherencia: Relación irreductible propuesta para unir entidades inseparables, como una cualidad y su soporte. Particularidad: Principio que diferencia entidades últimas del mismo tipo. Precisión editorial: Las listas cambiaron históricamente y las traducciones modernas no reproducen exactamente el alcance de cada término sánscrito.",
+      "provenance": {
+        "source": "Consolidación editorial de la serie 2.3",
+        "preservationMode": "capa adicional; no sobrescribe tarjeta ni expediente",
+        "coverage": "contexto, desarrollo, hitos, conceptos, legado y cautela",
+        "materializedAt": "2026-07-24"
+      },
+      "audioVersion": "historical-entity-first-2.5",
+      "historicalAudioLead": "Profundizamos en Kaṇāda y la tradición Vaiśeṣika: Clasificar aquello que existe.",
+      "historicalAudioBody": "El Vaiśeṣika-sūtra atribuido a Kaṇāda inició una tradición centrada en categorías y explicación del mundo natural. Sus vínculos con Nyāya se estrecharon gradualmente. Los filósofos discutieron qué cuenta como sustancia, cómo existen universales, qué relación une una cualidad con su soporte y cómo pensar la ausencia sin reducirla a una simple palabra negativa.",
+      "collectionId": "south_asia_vedic_upanishadic",
+      "collection": "Sur de Asia: fundamentos, renuncias y escuelas clásicas",
+      "collectionOrder": 4,
+      "sourceAnchors": [
+        "https://plato.stanford.edu/archives/fall2022/entries/early-modern-india/",
+        "https://iep.utm.edu/hindu-ph/"
+      ],
+      "sha256": "9626943bca28ee81368e9837be24b86d25352c1d023e220aedf6e4bbcb78ebc5"
+    },
+    {
+      "id": "card_vaisesika_atomism_001",
+      "layerVersion": "historical-2.4",
+      "seriesVersion": "2.3",
+      "author": "Tradición Nyāya-Vaiśeṣika",
+      "title": "Átomos, compuestos y propiedades emergentes",
+      "historicalContext": "La tradición defendió átomos de tierra, agua, fuego y aire con cualidades específicas. El espacio, el tiempo, el alma y la mente fueron tratados dentro de una ontología más amplia.",
+      "historicalDevelopment": "Los argumentos buscaban evitar una división infinita de los cuerpos y explicar cómo surge magnitud perceptible. La teoría de composición estuvo ligada a una concepción según la cual el efecto es una producción nueva.",
+      "milestones": [
+        "Argumentos contra la división infinita.",
+        "Teoría de díadas y compuestos.",
+        "Debates con Sāṃkhya, budistas y Vedānta.",
+        "Reformulaciones en la síntesis Nyāya-Vaiśeṣika."
+      ],
+      "conceptualSections": [
+        {
+          "title": "Paramāṇu",
+          "text": "Componente material último e imperceptible."
+        },
+        {
+          "title": "Compuesto",
+          "text": "Todo producido que posee propiedades y existencia propias."
+        },
+        {
+          "title": "Ārambhavāda",
+          "text": "Teoría según la cual un efecto comienza a existir como producción nueva."
+        }
+      ],
+      "legacy": [
+        "Caso decisivo para estudiar pluralidad de filosofías naturales y atomismos fuera del Mediterráneo."
+      ],
+      "anchorWorks": [
+        "Vaiśeṣika-sūtra; textos Nyāya-Vaiśeṣika posteriores"
+      ],
+      "guidingQuestion": "¿Cómo explicar objetos visibles si sus componentes últimos no pueden percibirse?",
+      "distinctiveKey": "Nyāya-Vaiśeṣika sostiene que ciertos elementos materiales están formados por átomos eternos e imperceptibles, mientras los compuestos surgen, cambian y desaparecen.",
+      "editorialCautions": [
+        "El atomismo indio no es una anticipación directa de la física moderna y coexistió con supuestos metafísicos propios de su tradición."
+      ],
+      "connections": [
+        "Categorías Vaiśeṣika",
+        "Sāṃkhya",
+        "Causalidad",
+        "Mundo natural"
+      ],
+      "evidence": "B",
+      "longAudioScript": "Profundizamos en Tradición Nyāya-Vaiśeṣika: Átomos, compuestos y propiedades emergentes. La tradición defendió átomos de tierra, agua, fuego y aire con cualidades específicas. El espacio, el tiempo, el alma y la mente fueron tratados dentro de una ontología más amplia. Los argumentos buscaban evitar una división infinita de los cuerpos y explicar cómo surge magnitud perceptible. La teoría de composición estuvo ligada a una concepción según la cual el efecto es una producción nueva. Paramāṇu: Componente material último e imperceptible. Compuesto: Todo producido que posee propiedades y existencia propias. Ārambhavāda: Teoría según la cual un efecto comienza a existir como producción nueva. Precisión editorial: El atomismo indio no es una anticipación directa de la física moderna y coexistió con supuestos metafísicos propios de su tradición.",
+      "provenance": {
+        "source": "Consolidación editorial de la serie 2.3",
+        "preservationMode": "capa adicional; no sobrescribe tarjeta ni expediente",
+        "coverage": "contexto, desarrollo, hitos, conceptos, legado y cautela",
+        "materializedAt": "2026-07-24"
+      },
+      "audioVersion": "historical-entity-first-2.5",
+      "historicalAudioLead": "Profundizamos en Tradición Nyāya-Vaiśeṣika: Átomos, compuestos y propiedades emergentes.",
+      "historicalAudioBody": "La tradición defendió átomos de tierra, agua, fuego y aire con cualidades específicas. El espacio, el tiempo, el alma y la mente fueron tratados dentro de una ontología más amplia. Los argumentos buscaban evitar una división infinita de los cuerpos y explicar cómo surge magnitud perceptible. La teoría de composición estuvo ligada a una concepción según la cual el efecto es una producción nueva.",
+      "collectionId": "south_asia_vedic_upanishadic",
+      "collection": "Sur de Asia: fundamentos, renuncias y escuelas clásicas",
+      "collectionOrder": 4,
+      "sourceAnchors": [
+        "https://plato.stanford.edu/entries/naturalism-india/",
+        "https://plato.stanford.edu/archives/fall2023/entries/atomism-ancient/"
+      ],
+      "sha256": "213075b5a426719ac702437d1b9395da5b3e9583851c4e1bb7731d409afe2589"
+    },
+    {
+      "id": "card_samkhya_purusha_prakriti_001",
+      "layerVersion": "historical-2.4",
+      "seriesVersion": "2.3",
+      "author": "Īśvarakṛṣṇa y la tradición Sāṃkhya",
+      "title": "Conciencia y naturaleza no son lo mismo",
+      "historicalContext": "La Sāṃkhya-kārikā de Īśvarakṛṣṇa es la formulación clásica conservada de una tradición con antecedentes más antiguos y múltiples variantes perdidas.",
+      "historicalDevelopment": "Prakṛti produce el mundo manifestado; los puruṣas son numerosos, conscientes y no productores. La experiencia surge por su proximidad, mientras la liberación se alcanza mediante conocimiento discriminativo.",
+      "milestones": [
+        "Antecedentes en textos épicos y upaniṣádicos.",
+        "Sistematización en la Sāṃkhya-kārikā.",
+        "Interacción estrecha con Yoga.",
+        "Críticas budistas y vedánticas."
+      ],
+      "conceptualSections": [
+        {
+          "title": "Puruṣa",
+          "text": "Conciencia testigo, plural e inactiva."
+        },
+        {
+          "title": "Prakṛti",
+          "text": "Naturaleza productiva que comprende tanto lo físico como lo mental."
+        },
+        {
+          "title": "Discernimiento",
+          "text": "Conocimiento de la diferencia entre conciencia y naturaleza."
+        }
+      ],
+      "legacy": [
+        "Modelo influyente en Yoga, medicina, épica, teología y debates posteriores sobre conciencia."
+      ],
+      "anchorWorks": [
+        "Sāṃkhya-kārikā de Īśvarakṛṣṇa"
+      ],
+      "guidingQuestion": "¿Qué cambia cuando incluso la mente es considerada parte de la naturaleza y no la conciencia misma?",
+      "distinctiveKey": "Sāṃkhya distingue la conciencia inactiva de múltiples puruṣas y la naturaleza productiva, prakṛti, que comprende cuerpo, mente y mundo.",
+      "editorialCautions": [
+        "El dualismo Sāṃkhya no coincide exactamente con divisiones occidentales entre mente y cuerpo: la mente pertenece a prakṛti."
+      ],
+      "connections": [
+        "Tres guṇas",
+        "Yoga de Patañjali",
+        "Ātman",
+        "Mokṣa"
+      ],
+      "evidence": "A–B",
+      "longAudioScript": "Profundizamos en Īśvarakṛṣṇa y la tradición Sāṃkhya: Conciencia y naturaleza no son lo mismo. La Sāṃkhya-kārikā de Īśvarakṛṣṇa es la formulación clásica conservada de una tradición con antecedentes más antiguos y múltiples variantes perdidas. Prakṛti produce el mundo manifestado; los puruṣas son numerosos, conscientes y no productores. La experiencia surge por su proximidad, mientras la liberación se alcanza mediante conocimiento discriminativo. Puruṣa: Conciencia testigo, plural e inactiva. Prakṛti: Naturaleza productiva que comprende tanto lo físico como lo mental. Discernimiento: Conocimiento de la diferencia entre conciencia y naturaleza. Precisión editorial: El dualismo Sāṃkhya no coincide exactamente con divisiones occidentales entre mente y cuerpo: la mente pertenece a prakṛti.",
+      "provenance": {
+        "source": "Consolidación editorial de la serie 2.3",
+        "preservationMode": "capa adicional; no sobrescribe tarjeta ni expediente",
+        "coverage": "contexto, desarrollo, hitos, conceptos, legado y cautela",
+        "materializedAt": "2026-07-24"
+      },
+      "audioVersion": "historical-entity-first-2.5",
+      "historicalAudioLead": "Profundizamos en Īśvarakṛṣṇa y la tradición Sāṃkhya: Conciencia y naturaleza no son lo mismo.",
+      "historicalAudioBody": "La Sāṃkhya-kārikā de Īśvarakṛṣṇa es la formulación clásica conservada de una tradición con antecedentes más antiguos y múltiples variantes perdidas. Prakṛti produce el mundo manifestado; los puruṣas son numerosos, conscientes y no productores. La experiencia surge por su proximidad, mientras la liberación se alcanza mediante conocimiento discriminativo.",
+      "collectionId": "south_asia_vedic_upanishadic",
+      "collection": "Sur de Asia: fundamentos, renuncias y escuelas clásicas",
+      "collectionOrder": 4,
+      "sourceAnchors": [
+        "https://iep.utm.edu/sankhya/",
+        "https://plato.stanford.edu/archives/sum2026/entries/personhood-india/"
+      ],
+      "sha256": "dc98e9fa3b5ec7f6540e831444b63d6fe65c5d1bdfe5996283467d87caeefa20"
+    },
+    {
+      "id": "card_samkhya_three_gunas_001",
+      "layerVersion": "historical-2.4",
+      "seriesVersion": "2.3",
+      "author": "Tradición Sāṃkhya",
+      "title": "Tres guṇas para explicar la variación",
+      "historicalContext": "Los guṇas son constituyentes inseparables de prakṛti. La tradición utiliza analogías como hilos de una cuerda o elementos de una lámpara para expresar su cooperación y tensión.",
+      "historicalDevelopment": "De la transformación de prakṛti surgen intelecto, sentido de yo, mente, capacidades sensoriales, cualidades sutiles y elementos. Diferentes escuelas interpretaron los guṇas en planos cosmológicos, psicológicos y éticos.",
+      "milestones": [
+        "Equilibrio de los guṇas en prakṛti no manifestada.",
+        "Despliegue de los tattvas.",
+        "Integración en Yoga y Bhagavadgītā.",
+        "Relecturas religiosas y psicológicas posteriores."
+      ],
+      "conceptualSections": [
+        {
+          "title": "Sattva",
+          "text": "Tendencia hacia lucidez, ligereza y manifestación."
+        },
+        {
+          "title": "Rajas",
+          "text": "Tendencia hacia actividad, impulso y transformación."
+        },
+        {
+          "title": "Tamas",
+          "text": "Tendencia hacia peso, resistencia y ocultamiento."
+        }
+      ],
+      "legacy": [
+        "Una de las teorías más influyentes del cambio y la psicología en tradiciones del sur de Asia."
+      ],
+      "anchorWorks": [
+        "Sāṃkhya-kārikā y comentarios"
+      ],
+      "guidingQuestion": "¿Cómo puede una misma naturaleza producir formas físicas y estados mentales tan diferentes?",
+      "distinctiveKey": "Prakṛti se manifiesta mediante la interacción de sattva, rajas y tamas: tendencias de lucidez, actividad y resistencia presentes en combinaciones variables.",
+      "editorialCautions": [
+        "Los guṇas no son tres tipos fijos de personalidad ni equivalen literalmente a bondad, energía y maldad."
+      ],
+      "connections": [
+        "Puruṣa y prakṛti",
+        "Yoga",
+        "Evolución de los tattvas",
+        "Psicología india"
+      ],
+      "evidence": "B",
+      "longAudioScript": "Profundizamos en Tradición Sāṃkhya: Tres guṇas para explicar la variación. Los guṇas son constituyentes inseparables de prakṛti. La tradición utiliza analogías como hilos de una cuerda o elementos de una lámpara para expresar su cooperación y tensión. De la transformación de prakṛti surgen intelecto, sentido de yo, mente, capacidades sensoriales, cualidades sutiles y elementos. Diferentes escuelas interpretaron los guṇas en planos cosmológicos, psicológicos y éticos. Sattva: Tendencia hacia lucidez, ligereza y manifestación. Rajas: Tendencia hacia actividad, impulso y transformación. Tamas: Tendencia hacia peso, resistencia y ocultamiento. Precisión editorial: Los guṇas no son tres tipos fijos de personalidad ni equivalen literalmente a bondad, energía y maldad.",
+      "provenance": {
+        "source": "Consolidación editorial de la serie 2.3",
+        "preservationMode": "capa adicional; no sobrescribe tarjeta ni expediente",
+        "coverage": "contexto, desarrollo, hitos, conceptos, legado y cautela",
+        "materializedAt": "2026-07-24"
+      },
+      "audioVersion": "historical-entity-first-2.5",
+      "historicalAudioLead": "Profundizamos en Tradición Sāṃkhya: Tres guṇas para explicar la variación.",
+      "historicalAudioBody": "Los guṇas son constituyentes inseparables de prakṛti. La tradición utiliza analogías como hilos de una cuerda o elementos de una lámpara para expresar su cooperación y tensión. De la transformación de prakṛti surgen intelecto, sentido de yo, mente, capacidades sensoriales, cualidades sutiles y elementos. Diferentes escuelas interpretaron los guṇas en planos cosmológicos, psicológicos y éticos.",
+      "collectionId": "south_asia_vedic_upanishadic",
+      "collection": "Sur de Asia: fundamentos, renuncias y escuelas clásicas",
+      "collectionOrder": 4,
+      "sourceAnchors": [
+        "https://iep.utm.edu/sankhya/",
+        "https://plato.stanford.edu/entries/naturalism-india/"
+      ],
+      "sha256": "db15248860396f3db7d814c5937c245d9fd44f748189db0388ad6abfd2ad0d95"
+    },
+    {
+      "id": "card_patanjali_citta_vritti_nirodha_001",
+      "layerVersion": "historical-2.4",
+      "seriesVersion": "2.3",
+      "author": "Patañjali y la tradición del Yoga-sūtra",
+      "title": "Aquiete de las fluctuaciones de la mente",
+      "historicalContext": "El Yoga-sūtra es un texto breve, diseñado para memorización y enseñanza con comentario. Su interpretación histórica está profundamente ligada al Yoga-bhāṣya atribuido a Vyāsa.",
+      "historicalDevelopment": "Yoga comparte gran parte de la metafísica Sāṃkhya, pero enfatiza métodos disciplinados de concentración, meditación y transformación de hábitos mentales. También admite una figura especial de īśvara.",
+      "milestones": [
+        "Prácticas yóguicas anteriores a Patañjali.",
+        "Sistematización del Yoga-sūtra.",
+        "Comentario de Vyāsa.",
+        "Recepciones medievales y modernas muy diversas."
+      ],
+      "conceptualSections": [
+        {
+          "title": "Citta",
+          "text": "Conjunto funcional de mente, intelecto y sentido de yo."
+        },
+        {
+          "title": "Vṛtti",
+          "text": "Actividad, modificación o estado mental."
+        },
+        {
+          "title": "Nirodha",
+          "text": "Aquietamiento o restricción disciplinada de las fluctuaciones."
+        }
+      ],
+      "legacy": [
+        "Texto fundamental para filosofías de atención, conciencia, hábito y liberación."
+      ],
+      "anchorWorks": [
+        "Yoga-sūtra 1.2 y Yoga-bhāṣya"
+      ],
+      "guidingQuestion": "¿Qué aparece cuando la conciencia deja de identificarse automáticamente con cada pensamiento?",
+      "distinctiveKey": "Patañjali define Yoga como nirodha de las vṛttis del citta: una disciplina que aquieta las actividades mentales para distinguir conciencia y naturaleza.",
+      "editorialCautions": [
+        "Nirodha no debe traducirse como destrucción violenta de la mente, y Patañjali sistematizó prácticas anteriores en lugar de inventar el Yoga."
+      ],
+      "connections": [
+        "Sāṃkhya",
+        "Ocho miembros del Yoga",
+        "Meditación",
+        "Puruṣa"
+      ],
+      "evidence": "A–B",
+      "longAudioScript": "Profundizamos en Patañjali y la tradición del Yoga-sūtra: Aquiete de las fluctuaciones de la mente. El Yoga-sūtra es un texto breve, diseñado para memorización y enseñanza con comentario. Su interpretación histórica está profundamente ligada al Yoga-bhāṣya atribuido a Vyāsa. Yoga comparte gran parte de la metafísica Sāṃkhya, pero enfatiza métodos disciplinados de concentración, meditación y transformación de hábitos mentales. También admite una figura especial de īśvara. Citta: Conjunto funcional de mente, intelecto y sentido de yo. Vṛtti: Actividad, modificación o estado mental. Nirodha: Aquietamiento o restricción disciplinada de las fluctuaciones. Precisión editorial: Nirodha no debe traducirse como destrucción violenta de la mente, y Patañjali sistematizó prácticas anteriores en lugar de inventar el Yoga.",
+      "provenance": {
+        "source": "Consolidación editorial de la serie 2.3",
+        "preservationMode": "capa adicional; no sobrescribe tarjeta ni expediente",
+        "coverage": "contexto, desarrollo, hitos, conceptos, legado y cautela",
+        "materializedAt": "2026-07-24"
+      },
+      "audioVersion": "historical-entity-first-2.5",
+      "historicalAudioLead": "Profundizamos en Patañjali y la tradición del Yoga-sūtra: Aquiete de las fluctuaciones de la mente.",
+      "historicalAudioBody": "El Yoga-sūtra es un texto breve, diseñado para memorización y enseñanza con comentario. Su interpretación histórica está profundamente ligada al Yoga-bhāṣya atribuido a Vyāsa. Yoga comparte gran parte de la metafísica Sāṃkhya, pero enfatiza métodos disciplinados de concentración, meditación y transformación de hábitos mentales. También admite una figura especial de īśvara.",
+      "collectionId": "south_asia_vedic_upanishadic",
+      "collection": "Sur de Asia: fundamentos, renuncias y escuelas clásicas",
+      "collectionOrder": 4,
+      "sourceAnchors": [
+        "https://iep.utm.edu/yoga/"
+      ],
+      "sha256": "c6c9d6fc12ccd55cc6176a620e80537c8527f24517bb994190947229041bca02"
+    },
+    {
+      "id": "card_patanjali_eight_limbs_001",
+      "layerVersion": "historical-2.4",
+      "seriesVersion": "2.3",
+      "author": "Patañjali y la tradición yóguica",
+      "title": "Ocho miembros de una práctica integrada",
+      "historicalContext": "Patañjali organiza una versión de ocho miembros, aunque otras tradiciones antiguas describieron listas distintas. La sistematización no agotó la diversidad del Yoga en India.",
+      "historicalDevelopment": "Los primeros miembros crean condiciones para prácticas internas cada vez más estables. Ahiṃsā, veracidad, no apropiación, continencia y no posesividad aparecen entre los compromisos éticos.",
+      "milestones": [
+        "Formas tempranas de práctica yóguica.",
+        "Sistema de ocho miembros.",
+        "Comentarios de Vyāsa y autores posteriores.",
+        "Transformaciones corporales y globales en la modernidad."
+      ],
+      "conceptualSections": [
+        {
+          "title": "Yama",
+          "text": "Compromisos que regulan la relación con otros."
+        },
+        {
+          "title": "Niyama",
+          "text": "Disciplinas personales."
+        },
+        {
+          "title": "Dhyāna",
+          "text": "Continuidad de la atención meditativa."
+        },
+        {
+          "title": "Samādhi",
+          "text": "Absorción contemplativa en la que cambia la relación sujeto-objeto."
+        }
+      ],
+      "legacy": [
+        "Marco decisivo para estudiar Yoga como práctica filosófica integral y no únicamente corporal."
+      ],
+      "anchorWorks": [
+        "Yoga-sūtra 2.29–3.3 y comentarios"
+      ],
+      "guidingQuestion": "¿Por qué la concentración profunda comienza mucho antes de sentarse a meditar?",
+      "distinctiveKey": "Los ocho miembros del Yoga articulan compromisos éticos, disciplina personal, postura, respiración, retiro sensorial, concentración, meditación y samādhi.",
+      "editorialCautions": [
+        "El Yoga clásico no puede reducirse a posturas físicas: āsana ocupa un lugar dentro de una disciplina ética y contemplativa más amplia."
+      ],
+      "connections": [
+        "Aquietamiento mental",
+        "Ahiṃsā",
+        "Meditación",
+        "Sāṃkhya"
+      ],
+      "evidence": "A–B",
+      "longAudioScript": "Profundizamos en Patañjali y la tradición yóguica: Ocho miembros de una práctica integrada. Patañjali organiza una versión de ocho miembros, aunque otras tradiciones antiguas describieron listas distintas. La sistematización no agotó la diversidad del Yoga en India. Los primeros miembros crean condiciones para prácticas internas cada vez más estables. Ahiṃsā, veracidad, no apropiación, continencia y no posesividad aparecen entre los compromisos éticos. Yama: Compromisos que regulan la relación con otros. Niyama: Disciplinas personales. Dhyāna: Continuidad de la atención meditativa. Samādhi: Absorción contemplativa en la que cambia la relación sujeto-objeto. Precisión editorial: El Yoga clásico no puede reducirse a posturas físicas: āsana ocupa un lugar dentro de una disciplina ética y contemplativa más amplia.",
+      "provenance": {
+        "source": "Consolidación editorial de la serie 2.3",
+        "preservationMode": "capa adicional; no sobrescribe tarjeta ni expediente",
+        "coverage": "contexto, desarrollo, hitos, conceptos, legado y cautela",
+        "materializedAt": "2026-07-24"
+      },
+      "audioVersion": "historical-entity-first-2.5",
+      "historicalAudioLead": "Profundizamos en Patañjali y la tradición yóguica: Ocho miembros de una práctica integrada.",
+      "historicalAudioBody": "Patañjali organiza una versión de ocho miembros, aunque otras tradiciones antiguas describieron listas distintas. La sistematización no agotó la diversidad del Yoga en India. Los primeros miembros crean condiciones para prácticas internas cada vez más estables. Ahiṃsā, veracidad, no apropiación, continencia y no posesividad aparecen entre los compromisos éticos.",
+      "collectionId": "south_asia_vedic_upanishadic",
+      "collection": "Sur de Asia: fundamentos, renuncias y escuelas clásicas",
+      "collectionOrder": 4,
+      "sourceAnchors": [
+        "https://iep.utm.edu/yoga/"
+      ],
+      "sha256": "c28752bb4d81d97d69952b44958aaa93d6a198adbc453d0ae57b6070463e3207"
+    },
+    {
+      "id": "card_mimamsa_dharma_authorless_veda_001",
+      "layerVersion": "historical-2.4",
+      "seriesVersion": "2.3",
+      "author": "Jaimini y la tradición Mīmāṃsā",
+      "title": "Conocer el deber mediante una palabra sin autor",
+      "historicalContext": "El Mīmāṃsā-sūtra atribuido a Jaimini organiza reglas para resolver tensiones entre pasajes védicos y determinar deberes rituales. Śabara, Kumārila y Prabhākara desarrollaron líneas distintas.",
+      "historicalDevelopment": "La escuela defendió la autoridad del Veda, teorías de significado oracional y validez intrínseca del conocimiento. También sostuvo que karma puede producir resultados sin requerir un dios creador o distribuidor.",
+      "milestones": [
+        "Formación del Mīmāṃsā-sūtra.",
+        "Comentario de Śabara.",
+        "Escuelas de Kumārila y Prabhākara.",
+        "Influencia sobre Vedānta, derecho y hermenéutica."
+      ],
+      "conceptualSections": [
+        {
+          "title": "Dharma",
+          "text": "Acción o deber que conduce al bien y se conoce especialmente mediante prescripción védica."
+        },
+        {
+          "title": "Apauruṣeya",
+          "text": "No producido por una persona."
+        },
+        {
+          "title": "Mandato",
+          "text": "Enunciado cuya función principal es orientar una acción."
+        }
+      ],
+      "legacy": [
+        "Contribución mayor a filosofía del lenguaje, hermenéutica, epistemología y teoría de la acción."
+      ],
+      "anchorWorks": [
+        "Mīmāṃsā-sūtra de Jaimini; Śabara-bhāṣya; obras de Kumārila y Prabhākara"
+      ],
+      "guidingQuestion": "¿Cómo puede una expresión ser autoritativa si no procede de la intención de un hablante?",
+      "distinctiveKey": "Mīmāṃsā investiga dharma interpretando mandatos védicos y defiende que el Veda es eterno y no compuesto por una persona, por lo que su autoridad no depende de un autor humano o divino.",
+      "editorialCautions": [
+        "La defensa Mīmāṃsā del Veda no equivale a una teoría general de que cualquier texto tradicional sea infalible."
+      ],
+      "connections": [
+        "Testimonio",
+        "Sacrificio védico",
+        "Vedānta temprano",
+        "Karma"
+      ],
+      "evidence": "B",
+      "longAudioScript": "Profundizamos en Jaimini y la tradición Mīmāṃsā: Conocer el deber mediante una palabra sin autor. El Mīmāṃsā-sūtra atribuido a Jaimini organiza reglas para resolver tensiones entre pasajes védicos y determinar deberes rituales. Śabara, Kumārila y Prabhākara desarrollaron líneas distintas. La escuela defendió la autoridad del Veda, teorías de significado oracional y validez intrínseca del conocimiento. También sostuvo que karma puede producir resultados sin requerir un dios creador o distribuidor. Dharma: Acción o deber que conduce al bien y se conoce especialmente mediante prescripción védica. Apauruṣeya: No producido por una persona. Mandato: Enunciado cuya función principal es orientar una acción. Precisión editorial: La defensa Mīmāṃsā del Veda no equivale a una teoría general de que cualquier texto tradicional sea infalible.",
+      "provenance": {
+        "source": "Consolidación editorial de la serie 2.3",
+        "preservationMode": "capa adicional; no sobrescribe tarjeta ni expediente",
+        "coverage": "contexto, desarrollo, hitos, conceptos, legado y cautela",
+        "materializedAt": "2026-07-24"
+      },
+      "audioVersion": "historical-entity-first-2.5",
+      "historicalAudioLead": "Profundizamos en Jaimini y la tradición Mīmāṃsā: Conocer el deber mediante una palabra sin autor.",
+      "historicalAudioBody": "El Mīmāṃsā-sūtra atribuido a Jaimini organiza reglas para resolver tensiones entre pasajes védicos y determinar deberes rituales. Śabara, Kumārila y Prabhākara desarrollaron líneas distintas. La escuela defendió la autoridad del Veda, teorías de significado oracional y validez intrínseca del conocimiento. También sostuvo que karma puede producir resultados sin requerir un dios creador o distribuidor.",
+      "collectionId": "south_asia_vedic_upanishadic",
+      "collection": "Sur de Asia: fundamentos, renuncias y escuelas clásicas",
+      "collectionOrder": 4,
+      "sourceAnchors": [
+        "https://plato.stanford.edu/archives/fall2023/entries/language-india/",
+        "https://plato.stanford.edu/archives/spr2014/entries/kumaarila/"
+      ],
+      "sha256": "4ea20d41a7fd225712a1929da866163f887a602afbbe8729c0aa5c463a035f39"
+    },
+    {
+      "id": "card_early_vedanta_brahma_sutra_001",
+      "layerVersion": "historical-2.4",
+      "seriesVersion": "2.3",
+      "author": "Bādarāyaṇa y las primeras tradiciones de Vedānta",
+      "title": "Un texto breve, muchas interpretaciones de Brahman",
+      "historicalContext": "Vedānta significa literalmente final o culminación del Veda y llegó a nombrar tradiciones que interpretan las Upaniṣads, el Brahma-sūtra y, con frecuencia, la Bhagavadgītā.",
+      "historicalDevelopment": "El texto atribuido a Bādarāyaṇa resume problemas sobre Brahman, mundo, acción, conocimiento y liberación. Comentarios posteriores construyeron sistemas incompatibles apelando al mismo corpus.",
+      "milestones": [
+        "Composición del Brahma-sūtra.",
+        "Primeros comentaristas, muchos perdidos.",
+        "Gauḍapāda y Śaṅkara.",
+        "Rāmānuja, Madhva y otras tradiciones vedánticas."
+      ],
+      "conceptualSections": [
+        {
+          "title": "Vedānta",
+          "text": "Familia de interpretaciones filosóficas de las Upaniṣads y textos relacionados."
+        },
+        {
+          "title": "Sūtra",
+          "text": "Aforismo condensado que requiere explicación."
+        },
+        {
+          "title": "Comentario",
+          "text": "Práctica mediante la cual un texto breve se convierte en sistema filosófico."
+        }
+      ],
+      "legacy": [
+        "Punto de partida de algunas de las controversias metafísicas y teológicas más influyentes del sur de Asia."
+      ],
+      "anchorWorks": [
+        "Brahma-sūtra atribuido a Bādarāyaṇa; Upaniṣads; comentarios vedánticos"
+      ],
+      "guidingQuestion": "¿Cómo puede un mismo texto convertirse en fundamento de filosofías profundamente diferentes?",
+      "distinctiveKey": "El Brahma-sūtra atribuido a Bādarāyaṇa organiza la investigación sobre Brahman, pero su brevedad permitió comentarios no dualistas, teístas, dualistas y de diferencia-no diferencia.",
+      "editorialCautions": [
+        "Vedānta no designa una doctrina única, y no debe identificarse automáticamente con Advaita o con Śaṅkara."
+      ],
+      "connections": [
+        "Upaniṣads",
+        "Ātman y brahman",
+        "Mīmāṃsā",
+        "Advaita"
+      ],
+      "evidence": "B",
+      "longAudioScript": "Profundizamos en Bādarāyaṇa y las primeras tradiciones de Vedānta: Un texto breve, muchas interpretaciones de Brahman. Vedānta significa literalmente final o culminación del Veda y llegó a nombrar tradiciones que interpretan las Upaniṣads, el Brahma-sūtra y, con frecuencia, la Bhagavadgītā. El texto atribuido a Bādarāyaṇa resume problemas sobre Brahman, mundo, acción, conocimiento y liberación. Comentarios posteriores construyeron sistemas incompatibles apelando al mismo corpus. Vedānta: Familia de interpretaciones filosóficas de las Upaniṣads y textos relacionados. Sūtra: Aforismo condensado que requiere explicación. Comentario: Práctica mediante la cual un texto breve se convierte en sistema filosófico. Precisión editorial: Vedānta no designa una doctrina única, y no debe identificarse automáticamente con Advaita o con Śaṅkara.",
+      "provenance": {
+        "source": "Consolidación editorial de la serie 2.3",
+        "preservationMode": "capa adicional; no sobrescribe tarjeta ni expediente",
+        "coverage": "contexto, desarrollo, hitos, conceptos, legado y cautela",
+        "materializedAt": "2026-07-24"
+      },
+      "audioVersion": "historical-entity-first-2.5",
+      "historicalAudioLead": "Profundizamos en Bādarāyaṇa y las primeras tradiciones de Vedānta: Un texto breve, muchas interpretaciones de Brahman.",
+      "historicalAudioBody": "Vedānta significa literalmente final o culminación del Veda y llegó a nombrar tradiciones que interpretan las Upaniṣads, el Brahma-sūtra y, con frecuencia, la Bhagavadgītā. El texto atribuido a Bādarāyaṇa resume problemas sobre Brahman, mundo, acción, conocimiento y liberación. Comentarios posteriores construyeron sistemas incompatibles apelando al mismo corpus.",
+      "collectionId": "south_asia_vedic_upanishadic",
+      "collection": "Sur de Asia: fundamentos, renuncias y escuelas clásicas",
+      "collectionOrder": 4,
+      "sourceAnchors": [
+        "https://iep.utm.edu/advaita-vedanta/",
+        "https://iep.utm.edu/bhedabheda-vedanta/",
+        "https://plato.stanford.edu/archives/sum2024/entries/shankara/"
+      ],
+      "sha256": "411b31f21a20ca477b9e09bba5e6b9cc7ba7e31c21d55bab2a5895cc446b3de8"
+    }
+  ]
+}

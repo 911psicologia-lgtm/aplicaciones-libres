@@ -1,0 +1,811 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="utf-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1"/>
+<title>TRAS · Aplicacion de evaluacion psicologica</title>
+<link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 64 64%22><rect width=%2264%22 height=%2264%22 rx=%2214%22 fill=%22%231a3a5c%22/><text x=%2232%22 y=%2241%22 text-anchor=%22middle%22 font-size=%2232%22 fill=%22white%22>T</text></svg>">
+<meta name="theme-color" content="#1a3a5c"/>
+<link rel="manifest" href="manifest.webmanifest"/>
+<link rel="stylesheet" href="assets/css/styles.css"/>
+</head>
+<body>
+<a href="#mainContent" class="skip-link">Saltar al contenido</a>
+
+<!-- Splash de entrada -->
+<div id="splashScreen" class="splash-screen" role="dialog" aria-modal="true" aria-label="Bienvenida a TRAS">
+  <div class="splash-panel">
+    <img src="assets/img/logo.png" alt="Logotipo TRAS" class="splash-logo"/>
+
+    <p class="splash-tagline">Entrevista guiada para la evaluación narrativa infanto-juvenil</p>
+    <p class="splash-cta-hint">Al entrar, elige <strong>Nuevo caso</strong> para comenzar una evaluación o abre un caso guardado desde el menú.</p>
+    <div class="splash-entry-row">
+      <button class="btn ai-primary-wide splash-enter" onclick="dismissSplash()" autofocus>Entrar</button>
+      <button class="btn ai-primary-wide splash-update-btn" id="appUpdateButtonSplash" title="Nueva versión disponible" aria-label="Nueva versión disponible">
+        <svg viewBox="0 0 24 24" width="18" height="18" aria-hidden="true" style="vertical-align:-3px;margin-right:6px"><path d="M4 4v6h6M20 20v-6h-6M5.1 15a7 7 0 0012.7 2.5M18.9 9A7 7 0 006.2 6.5" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>Nueva versión
+      </button>
+    </div>
+    <div class="splash-fab-row" id="splashFabRow" aria-live="polite">
+      <div class="top-fab-item">
+        <button class="top-fab" id="appInstallButton" title="Instalar la app" aria-label="Instalar la app" onclick="triggerAppInstall()">
+          <svg viewBox="0 0 24 24" width="18" height="18" aria-hidden="true"><path d="M12 3v12m0 0l-4.5-4.5M12 15l4.5-4.5M5 19h14" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+        </button>
+        <span class="top-fab-label">Instalar</span>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Modal IA manual -->
+<div class="modal" id="promptModal" role="dialog" aria-modal="true" aria-label="Modo IA manual">
+  <div class="modal-panel">
+    <div class="inline" style="justify-content:space-between">
+      <h2>Modo IA manual</h2>
+      <button class="btn secondary" onclick="toggleModal('promptModal', false)">Cerrar</button>
+    </div>
+    <p>Este flujo genera un prompt listo para copiar y permite pegar un JSON de respuesta para insertar interpretaciones, patrones y recomendaciones.</p>
+    <div class="ai-notice">Los datos del caso deben revisarse antes de enviarlos a una IA externa. La respuesta es un apoyo para el juicio clinico y no se inserta sin validacion.</div>
+    <div class="card" style="box-shadow:none">
+      <h3>1) Prompt listo para copiar</h3>
+      <label for="manualPrompt" class="small">Prompt generado a partir del caso</label>
+      <textarea id="manualPrompt" style="min-height:220px"></textarea>
+      <div class="actions">
+        <button class="btn" onclick="copyPrompt()">Copiar prompt</button>
+      </div>
+      <div class="ai-copy-guide hidden" id="manualAiGuide">
+        <div class="ai-route"><strong>Que hacer ahora:</strong> 1. Abre una IA. 2. Pega el prompt. 3. Solicita que devuelva solamente JSON valido, sin explicaciones ni bloques de codigo. 4. Copia la respuesta completa. 5. Regresa a esta app, pegala, valida e inserta. 6. Revisa clinicamente antes de guardar.</div>
+        <div class="ai-hubs" id="manualAiHubs"></div>
+      </div>
+    </div>
+    <div class="card" style="box-shadow:none">
+      <h3>2) Pega aqui el JSON devuelto</h3>
+      <label for="manualJson" class="small">Respuesta JSON de la IA</label>
+      <textarea id="manualJson" style="min-height:220px" placeholder='{"version_schema":"1.0","areas":[...]}'></textarea>
+      <div class="two-col" style="margin-top:10px;align-items:end">
+        <div>
+          <label for="manualJsonFile">Cargar archivo JSON</label>
+          <input id="manualJsonFile" type="file" accept="application/json,.json" onchange="loadJsonFile(event)"/>
+        </div>
+        <div class="help">Puedes pegar el JSON directamente o cargar un archivo .json exportado desde otra IA.</div>
+      </div>
+      <div class="actions">
+        <button class="btn secondary" onclick="pasteManualJson()">Pegar del portapapeles</button>
+        <button class="btn secondary danger-outline" onclick="clearManualJson()">Vaciar respuesta</button>
+        <button class="btn secondary" onclick="validateJson()">Validar JSON</button>
+        <button class="btn gold" onclick="importJson()">Insertar interpretaciones</button>
+      </div>
+      <div id="jsonStatus" class="help" style="margin-top:10px">Aun no has validado ningun JSON.</div>
+    </div>
+  </div>
+</div>
+
+<!-- Modal IA manual · Goldstein -->
+<div class="modal" id="goldPromptModal" role="dialog" aria-modal="true" aria-label="Modo IA manual de habilidades sociales">
+  <div class="modal-panel">
+    <div class="inline" style="justify-content:space-between">
+      <h2>Modo IA manual · habilidades sociales</h2>
+      <button class="btn secondary" onclick="toggleModal('goldPromptModal', false)">Cerrar</button>
+    </div>
+    <p>Genera una interpretación de habilidades sociales contextualizada con la historia clínica y, cuando se aplicó, con las áreas del TRAS. Incluye porcentajes y respuestas individuales sin convertirlas en una lista mecánica.</p>
+    <div class="ai-notice">La IA debe devolver un unico objeto JSON valido. Si agrega explicaciones, comillas defectuosas o texto fuera del objeto, la app lo rechazara para proteger la integridad del caso.</div>
+    <div class="card" style="box-shadow:none">
+      <h3>Contexto clínico despersonalizado (base del prompt)</h3>
+      <p class="small">Esta vista resume el contexto. El prompt también recibe las áreas relevantes del TRAS y las respuestas individuales de Goldstein. Si falta información, complétala antes de generar la interpretación.</p>
+      <pre id="goldSummaryPreview" class="help" style="white-space:pre-wrap;max-height:220px;overflow:auto;font-size:12px"></pre>
+    </div>
+    <div class="card" style="box-shadow:none">
+      <h3>1) Prompt listo para copiar</h3>
+      <label for="goldPrompt" class="small">Prompt generado a partir del caso y de la bateria</label>
+      <textarea id="goldPrompt" style="min-height:220px"></textarea>
+      <div class="actions">
+        <button class="btn" onclick="copyGoldPrompt()">Copiar prompt</button>
+      </div>
+      <div class="ai-copy-guide hidden" id="goldAiGuide">
+        <div class="ai-route"><strong>Que hacer ahora:</strong> 1. Abre una IA. 2. Pega el prompt. 3. Exige solamente JSON valido, sin encabezados, comentarios ni backticks. 4. Copia toda la respuesta. 5. Regresa, pegala, valida e inserta. Si aparece un error de sintaxis, vacia el cajon y vuelve a pedir el JSON corregido.</div>
+        <div class="ai-hubs" id="goldAiHubs"></div>
+      </div>
+    </div>
+    <div class="card" style="box-shadow:none">
+      <h3>2) Pega aqui el JSON devuelto</h3>
+      <label for="goldJson" class="small">Respuesta JSON de la IA</label>
+      <textarea id="goldJson" style="min-height:200px" placeholder='{"version_schema":"3.0","que_sale":"...","lectura_contextual":"...","sugerencias":["...","..."],"conclusion":"..."}'></textarea>
+      <div class="two-col" style="margin-top:10px;align-items:end">
+        <div>
+          <label for="goldJsonFile">Cargar archivo JSON</label>
+          <input id="goldJsonFile" type="file" accept="application/json,.json" onchange="loadGoldJsonFile(event)"/>
+        </div>
+        <div class="help">Puedes pegar el JSON directamente o cargar un archivo .json exportado desde otra IA.</div>
+      </div>
+      <div class="actions">
+        <button class="btn secondary" onclick="pasteGoldJson()">Pegar del portapapeles</button>
+        <button class="btn secondary danger-outline" onclick="clearGoldJson()">Vaciar respuesta</button>
+        <button class="btn secondary" onclick="validateGoldJson()">Validar JSON</button>
+        <button class="btn gold" onclick="importGoldJson()">Insertar interpretacion</button>
+      </div>
+      <div id="goldJsonStatus" class="help" style="margin-top:10px">Aun no has validado ningun JSON.</div>
+    </div>
+  </div>
+</div>
+
+<!-- Puente universal de IA -->
+<div class="modal ai-wizard-modal" id="aiFlowModal" role="dialog" aria-modal="true" aria-label="Puente de inteligencia artificial">
+  <div class="modal-panel ai-wizard-panel">
+    <input type="hidden" id="aiFlowPrompt" value=""/>
+
+    <section id="aiFlowStagePrompt" class="ai-wizard-stage">
+      <div class="ai-kicker">PASO SIGUIENTE</div>
+      <div class="inline ai-wizard-heading" style="justify-content:space-between;align-items:flex-start">
+        <div>
+          <h2 id="aiFlowTitle">Tu prompt está listo</h2>
+          <p id="aiFlowHint">Copia el prompt, abre tu IA preferida y vuelve con la respuesta.</p>
+        </div>
+        <button class="btn secondary icon-close" onclick="closeAiWizard()" aria-label="Cerrar">×</button>
+      </div>
+
+      <div class="ai-bridge-steps" aria-label="Ruta de trabajo">
+        <div class="ai-bridge-step"><span>1</span><strong>Copiar</strong><small>El prompt completo</small></div>
+        <div class="ai-bridge-step"><span>2</span><strong>Abrir IA</strong><small>ChatGPT, Claude u otra</small></div>
+        <div class="ai-bridge-step"><span>3</span><strong>Pegar respuesta</strong><small>Traer el JSON aquí</small></div>
+      </div>
+
+      <div class="ai-prompt-ready">
+        <div class="ai-prompt-label">PROMPT PREPARADO</div>
+        <p>La app no muestra el prompt completo para evitar saturación. Puedes copiarlo o abrir directamente la IA elegida.</p>
+        <button class="btn ai-primary-wide" onclick="copyAiPrompt()">Copiar prompt</button>
+      </div>
+
+      <div class="ai-key-rule" id="aiFlowNotice">Responde directamente en el chat y devuelve únicamente el JSON solicitado, sin crear archivos descargables.</div>
+
+      <div class="ai-hub-card">
+        <div class="ai-prompt-label">ABRIR IA PARA GENERAR LA RESPUESTA</div>
+        <p>Al elegir un servicio, la app copia primero el prompt y abre la IA en una pestaña nueva.</p>
+        <div class="ai-privacy"><strong>Privacidad:</strong> al pegar o enviar el prompt, su contenido pasa a las condiciones del servicio externo elegido.</div>
+        <div class="ai-provider-grid" id="aiFlowHubs"></div>
+      </div>
+
+      <div class="ai-wizard-bottom">
+        <button class="btn ai-primary-wide" onclick="showAiResponseStage()">Ya tengo la respuesta, continuar</button>
+        <button class="btn secondary ai-back-wide" onclick="closeAiWizard()">Atrás</button>
+      </div>
+    </section>
+
+    <section id="aiFlowStageResponse" class="ai-wizard-stage hidden">
+      <div class="ai-kicker">TRAE LA RESPUESTA</div>
+      <div class="inline ai-wizard-heading" style="justify-content:space-between;align-items:flex-start">
+        <div>
+          <h2>Pega aquí la respuesta de la IA</h2>
+          <p>Pega el JSON completo tal como lo entregó la IA. La aplicación lo validará antes de incorporarlo al caso.</p>
+        </div>
+        <button class="btn secondary icon-close" onclick="closeAiWizard()" aria-label="Cerrar">×</button>
+      </div>
+
+      <label for="aiFlowJson" class="small">Respuesta JSON</label>
+      <textarea id="aiFlowJson" class="ai-response-box" placeholder="Pega aquí..." onpaste="setTimeout(validateAiJson,0)"></textarea>
+      <input id="aiFlowJsonFile" type="file" accept="application/json,.json" class="hidden" onchange="loadAiJsonFile(event)"/>
+
+      <div class="actions ai-response-actions">
+        <button class="btn secondary icon-only" onclick="pasteAiJson()" title="Pegar del portapapeles" aria-label="Pegar del portapapeles">
+          <svg viewBox="0 0 24 24" width="18" height="18" aria-hidden="true"><path d="M9 4h6a1 1 0 011 1v1h1a2 2 0 012 2v11a2 2 0 01-2 2H7a2 2 0 01-2-2V8a2 2 0 012-2h1V5a1 1 0 011-1z" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round"/><path d="M9 4h6v2H9z" fill="currentColor"/></svg>
+        </button>
+        <button class="btn secondary icon-only" onclick="document.getElementById('aiFlowJsonFile').click()" title="Cargar archivo JSON" aria-label="Cargar archivo JSON">
+          <svg viewBox="0 0 24 24" width="18" height="18" aria-hidden="true"><path d="M12 3v12m0 0l-4-4m4 4l4-4M5 19h14" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg>
+        </button>
+        <button class="btn secondary danger-outline" onclick="clearAiJson()">Vaciar cajón</button>
+      </div>
+      <div id="aiFlowStatus" class="help" style="margin-top:12px">Aún no has pegado la respuesta.</div>
+
+      <div class="ai-wizard-bottom">
+        <button class="btn ai-primary-wide" onclick="importAiJson()">Validar e insertar en el caso</button>
+        <button class="btn secondary ai-back-wide" onclick="showAiPromptStage()">Atrás</button>
+      </div>
+    </section>
+  </div>
+</div>
+
+<!-- Modal de historial del caso -->
+<div class="modal" id="historyModal" role="dialog" aria-modal="true" aria-label="Historial del caso">
+  <div class="modal-panel">
+    <div class="inline" style="justify-content:space-between">
+      <h2 id="historyTitle">Historial</h2>
+      <button class="btn secondary" onclick="toggleModal('historyModal', false)">Cerrar</button>
+    </div>
+    <div id="historyBody"></div>
+  </div>
+</div>
+
+
+<!-- Elección inicial del alcance -->
+<div class="modal" id="newCaseModal" role="dialog" aria-modal="true" aria-label="Crear un caso nuevo">
+  <div class="modal-panel scope-wizard-panel">
+    <div class="inline" style="justify-content:space-between;align-items:flex-start">
+      <div>
+        <div class="ai-kicker">NUEVO EXPEDIENTE</div>
+        <h2>¿Qué quiere hacer en este caso?</h2>
+        <p>La elección organiza el recorrido. Después podrá ampliar el alcance sin crear otro expediente.</p>
+      </div>
+      <button class="btn secondary icon-close" onclick="toggleModal('newCaseModal', false)" aria-label="Cerrar">×</button>
+    </div>
+    <div class="scope-wizard-grid">
+      <button class="scope-wizard-option" onclick="createCaseWithScope('tras')"><strong>Aplicar TRAS</strong><span>HC → módulos → entrevista → interpretación → informes</span></button>
+      <button class="scope-wizard-option" onclick="createCaseWithScope('habilidades')"><strong>Aplicar habilidades sociales</strong><span>HC → Goldstein → informes</span></button>
+      <button class="scope-wizard-option featured" onclick="createCaseWithScope('ambos')"><strong>Aplicar TRAS + habilidades sociales</strong><span>HC → TRAS completo → Goldstein → informes</span></button>
+      <button class="scope-wizard-option" onclick="createCaseWithScope('hc')"><strong>Organizar solamente la historia clínica</strong><span>HC con ingreso de textos/documentos y apoyo de IA → informe HC</span></button>
+    </div>
+    <label class="scope-wizard-extra"><input type="checkbox" id="scopeWizardMatrizCA"/> Incluir también la <strong>Matriz Cognitivo-Atencional</strong> (cognitivo, atención/impulsividad, fortalezas), como paso adicional después de habilidades sociales</label>
+    <div class="scope-wizard-extra" style="flex-direction:column;align-items:stretch;gap:8px">
+      <div><strong>Aplicación del TRAS</strong> <span class="small">— ambas son igual de válidas; el resumido es para tiempos cortos con varias baterías</span></div>
+      <label style="display:flex;align-items:flex-start;gap:8px;margin:0"><input type="radio" name="trasModeWizard" value="extenso" checked/> <span><strong>Extensa</strong> — 59 ítems en total (3 por área en 17 de las 19 áreas; se conservan las 4 en "compañeros de colegio" y "agresión/acoso escolar", donde no se encontró redundancia). Recorta lo repetitivo sin perder profundidad.</span></label>
+      <label style="display:flex;align-items:flex-start;gap:8px;margin:0"><input type="radio" name="trasModeWizard" value="resumido"/> <span><strong>Resumida</strong> — 38 ítems (2 por área; ciclos "lo que menos agrada" y "lo que más agrada"). Para tiempos muy cortos con varias baterías.</span></label>
+    </div>
+  </div>
+</div>
+<div class="drawer-overlay" id="drawerOverlay" onclick="toggleMenuDrawer(false)" aria-hidden="true"></div>
+
+<div class="app" id="appRoot">
+  <aside class="sidebar menu-drawer" id="menuDrawer" aria-label="Menú general">
+    <div class="drawer-head"><strong>Menú general</strong><button class="drawer-close" onclick="toggleMenuDrawer(false)" aria-label="Cerrar menú">×</button></div>
+    <div class="brand">
+      <h1>TRAS</h1>
+      <small>Aplicacion local para aplicar, registrar, revisar e interpretar el Test de Representaciones de la Vida Afectiva y Social.</small>
+      <div class="version" id="appVersion"></div>
+    </div>
+
+    <div class="side-actions">
+      <button class="demo" onclick="loadDemoCase();toggleMenuDrawer(false)">&#9654; Abrir / restablecer demo</button>
+      <button onclick="newCase();toggleMenuDrawer(false)">+ Nuevo caso</button>
+      <button class="secondary" onclick="goStep(1);toggleMenuDrawer(false)">Perfil del evaluador</button>
+    </div>
+
+    <div class="scope-block">
+      <div class="scope-title">Alcance de la evaluacion</div>
+      <div class="scope-selector" id="scopeSelector" role="group" aria-label="Alcance de la evaluacion"></div>
+      <div class="scope-hint">Define que se aplica e influye en los pasos visibles y en el informe.</div>
+    </div>
+<details class="config-panel" id="configPanelCase" open>
+      <summary>Caso actual</summary>
+      <div class="config-group">
+        <button class="secondary" onclick="saveState();toast('Guardado.','ok')">Guardar cambios</button>
+        <button class="secondary" onclick="document.getElementById('caseImportFile').click()">Importar / actualizar caso</button>
+        <input id="caseImportFile" type="file" accept="application/json,.json" class="hidden" onchange="importCaseJson(event)"/>
+        <button class="secondary" onclick="exportCaseJson()">Exportar caso actual (JSON)</button>
+        <button class="secondary" onclick="exportCasePdf()">Exportar informe (PDF)</button>
+      </div>
+      <div class="config-group">
+        <div class="config-label">Ayuda</div>
+        <button class="secondary" onclick="togglePrivacy()">Modo privado</button>
+        <button class="secondary" onclick="goStep(11);toggleMenuDrawer(false)">Manual técnico</button>
+      </div>
+    </details>
+
+    <details class="config-panel config-panel-danger" id="configPanelApp">
+      <summary>Aplicación completa y datos <span class="danger-hint">— acciones poco frecuentes</span></summary>
+      <div class="config-group">
+        <div class="config-label">Aplicación completa</div>
+        <button class="secondary" onclick="exportAppBackup()">Exportar app completa</button>
+        <button class="secondary" onclick="prepareAppImport('merge')">Importar app y combinar</button>
+        <button class="secondary danger-outline" onclick="prepareAppImport('replace')">Restaurar app y reemplazar</button>
+        <input id="appImportFile" type="file" accept="application/json,.json" class="hidden" onchange="importAppBackup(event)"/>
+      </div>
+      <div class="config-group">
+        <div class="config-label">Cifrado local</div>
+        <div class="help" style="margin-bottom:8px">Protege los casos guardados en este navegador con una frase clave. Si la olvidas, los datos no se pueden recuperar: exporta un respaldo antes de activarlo.</div>
+        <button class="secondary" id="encryptionToggleBtn" onclick="toggleLocalEncryption()">Activar cifrado local</button>
+      </div>
+      <div class="config-group">
+        <div class="config-label">Datos locales</div>
+        <button class="secondary" onclick="dedupeCases()">Revisar casos repetidos</button>
+        <button class="secondary danger-outline" onclick="wipeAllData()">Borrar todos los datos</button>
+      </div>
+    </details>
+
+
+    <details class="case-list case-list-details" open>
+      <summary>Casos guardados</summary>
+      <div id="caseList"></div>
+    </details>
+  </aside>
+
+  <main class="main sensitive" id="mainContent">
+    <div id="privacyBanner" class="privacy-banner">
+      <div><strong>Datos sensibles.</strong> Esta app guarda la informacion solo en este navegador y dispositivo (almacenamiento local), sin cifrar y sin enviarla a ningun servidor. Usa el modo privado en pantalla compartida y exporta o elimina los casos cuando corresponda, conforme al resguardo etico de datos de ninos, ninas y adolescentes.</div>
+      <button onclick="dismissPrivacyNotice()" aria-label="Entendido, ocultar aviso">Entendido</button>
+    </div>
+
+    <div class="topbar">
+      <nav class="topnav" id="topNav" aria-label="Recorrido (pasos)"></nav>
+      <div class="progress">
+        <div><strong id="progressLabel">Paso 1 de 10</strong></div>
+        <div class="progress-bar"><div id="progressFill"></div></div>
+      </div>
+      <button class="topbar-save-btn" id="appSaveButton" title="Guardar ahora" aria-label="Guardar ahora" onclick="manualSaveNow()">
+        <svg viewBox="0 0 24 24" width="19" height="19" aria-hidden="true"><path d="M5 4h11l3 3v13a1 1 0 01-1 1H5a1 1 0 01-1-1V5a1 1 0 011-1z" fill="none" stroke="currentColor" stroke-width="2" stroke-linejoin="round"/><path d="M8 4v5h7V4M7 14h10v6H7z" fill="none" stroke="currentColor" stroke-width="2" stroke-linejoin="round"/></svg>
+        <span>Guardar</span>
+      </button>
+      <button class="topbar-save-btn topbar-update-btn" id="appUpdateButton" title="Nueva versión disponible" aria-label="Nueva versión disponible">
+        <svg viewBox="0 0 24 24" width="19" height="19" aria-hidden="true"><path d="M4 4v6h6M20 20v-6h-6M5.1 15a7 7 0 0012.7 2.5M18.9 9A7 7 0 006.2 6.5" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+        <span>Nueva versión</span>
+      </button>
+      <button class="hamburger-btn" onclick="toggleMenuDrawer()" title="Menú general" aria-label="Abrir menú general"><span></span><span></span><span></span></button>
+    </div>
+
+    <!-- Paso 1: Perfil -->
+    <section id="step-1" class="step-pane active" aria-label="Perfil del evaluador">
+      <div class="card">
+        <h2>Perfil del evaluador</h2>
+        <p>Estos datos se insertan automaticamente en el informe y quedan guardados en el navegador.</p>
+        <div class="two-col">
+          <div><label for="ev_nombre">Nombre completo</label><input id="ev_nombre" type="text"/></div>
+          <div><label for="ev_profesion">Profesion</label><input id="ev_profesion" type="text" value="Psicologo clinico"/></div>
+          <div><label for="ev_registro">Registro profesional</label><input id="ev_registro" type="text"/></div>
+          <div><label for="ev_institucion">Institucion</label><input id="ev_institucion" type="text"/></div>
+          <div style="grid-column:1/-1"><label for="ev_direccion">Direccion</label><input id="ev_direccion" type="text" placeholder="Ciudad, institucion, direccion"/></div>
+          <div><label for="ev_telefono">Telefono</label><input id="ev_telefono" type="tel"/></div>
+          <div><label for="ev_email">Email</label><input id="ev_email" type="email"/></div>
+        </div>
+        <div class="card" style="margin-top:16px;box-shadow:none">
+          <h3>Firma del evaluador</h3>
+          <p class="small">Carga una imagen PNG, JPG o WEBP para incorporarla al informe exportable.</p>
+          <div class="two-col">
+            <div>
+              <label for="ev_firma_file">Archivo de firma</label>
+              <input id="ev_firma_file" type="file" accept="image/png,image/jpeg,image/webp" onchange="loadSignatureFile(event)"/>
+              <div class="actions" style="margin-top:10px">
+                <button class="btn secondary" type="button" onclick="useSampleSignature()">Usar firma de muestra</button>
+                <button class="btn secondary" type="button" onclick="clearSignature()">Quitar firma</button>
+              </div>
+            </div>
+            <div>
+              <label>Vista previa</label>
+              <div id="firmaPreviewBox" class="help" style="min-height:110px;display:flex;align-items:center;justify-content:center">Sin firma cargada.</div>
+            </div>
+          </div>
+        </div>
+        <div class="actions">
+          <button class="btn" onclick="saveProfile()">Guardar perfil</button>
+          <button class="btn secondary" onclick="continueClinical(1)">Continuar</button>
+        </div>
+      </div>
+    </section>
+
+    <!-- Paso 2: Caso -->
+    <section id="step-2" class="step-pane" aria-label="Identificacion del caso">
+      <div class="card">
+        <h2>Identificacion del caso</h2>
+        <p>El caso se guarda como registro local. Puedes trabajar por nombre o por codigo.</p>
+        <div class="three-col">
+          <div><label for="caso_numero">Numero de caso</label><input id="caso_numero" type="text"/></div>
+          <div><label for="caso_fecha">Fecha</label><input id="caso_fecha" type="date"/></div>
+          <div><label for="caso_edad">Edad</label><input id="caso_edad" type="number" min="0"/></div>
+          <div><label for="caso_nombre">Nombre o codigo del evaluado</label><input id="caso_nombre" type="text"/></div>
+          <div><label for="caso_sexo">Sexo / genero</label><input id="caso_sexo" type="text" placeholder="M / F / T / otro"/></div>
+          <div><label for="caso_consentimiento">Consentimiento / observacion</label><input id="caso_consentimiento" type="text"/></div>
+        </div>
+        <div class="actions">
+          <button class="btn" onclick="saveCaseMeta()">Guardar caso</button>
+          <button class="btn secondary" onclick="continueClinical(2)">Continuar</button>
+        </div>
+      </div>
+    </section>
+
+    <!-- Paso 3: HC -->
+    <section id="step-3" class="step-pane" aria-label="Historia clinica">
+      <div class="card">
+        <div class="inline" style="justify-content:space-between;align-items:flex-start">
+          <div>
+            <h2>HC Snapshot</h2>
+            <p>Este bloque nutre el analisis consolidado y las recomendaciones contextualizadas.</p>
+          </div>
+          <button class="btn gold" onclick="openAiFlow('hc')">HC con apoyo de IA</button>
+        </div>
+
+
+        <div class="card hc-source-card" style="box-shadow:none;margin-top:14px">
+          <div class="inline" style="justify-content:space-between;align-items:flex-start">
+            <div>
+              <h3>Incorporar información dispersa a la historia clínica</h3>
+              <p class="small">Pegue notas, transcripciones o fragmentos de otros documentos. También puede cargar varios archivos. El contenido se procesa localmente para preparar el prompt; ninguna información se incorpora a los campos hasta validar el JSON devuelto.</p>
+            </div>
+            <span class="badge info">Entrada múltiple</span>
+          </div>
+          <label for="hc_source_text">Texto, notas o transcripciones</label>
+          <textarea id="hc_source_text" rows="8" placeholder="Pegue aquí notas de sesiones, antecedentes, entrevistas familiares, observaciones escolares, informes previos u otros fragmentos..."></textarea>
+          <div class="two-col" style="margin-top:10px;align-items:end">
+            <div>
+              <label for="hc_source_files">Cargar documentos o fotos/escaneos</label>
+              <input id="hc_source_files" type="file" multiple accept=".txt,.md,.csv,.json,.html,.htm,.docx,.pdf,.jpg,.jpeg,.png,.webp,text/plain,application/json,application/pdf,application/vnd.openxmlformats-officedocument.wordprocessingml.document,image/*" onchange="handleHcSourceFiles(event)"/>
+              <div class="help" style="margin-top:6px">Las imágenes (foto o escaneo de una HC en papel) se procesan con OCR local bajo demanda; la primera vez requiere conexión para descargar el motor de reconocimiento.</div>
+            </div>
+            <div>
+              <label for="hc_merge_mode">Cómo aplicar el JSON</label>
+              <select id="hc_merge_mode"><option value="merge">Combinar con la HC actual</option><option value="replace">Reemplazar los campos presentes en el JSON</option></select>
+            </div>
+          </div>
+          <div id="hcSourceStatus" class="help" style="margin-top:10px">No se han cargado documentos. Puede trabajar solo con el texto pegado.</div>
+          <div class="actions">
+            <button class="btn gold" onclick="openHcAiFromSources()">Organizar o ampliar HC con IA</button>
+            <button class="btn secondary danger-outline" onclick="clearHcSources()">Vaciar materiales</button>
+          </div>
+        </div>
+
+        <div class="resumen-block">
+          <div class="inline" style="justify-content:space-between">
+            <label for="hc_resumen">Resumen clínico contextual</label>
+            <span id="resumenCounter" class="word-counter">0 palabras</span>
+          </div>
+          <textarea id="hc_resumen" rows="5" oninput="updateResumenCounter()" placeholder="Síntesis comprensible y suficiente del contexto: motivo, trayectoria reciente, familia, escuela, manifestaciones, impacto, recursos y propósito de la evaluación. Puede ocupar uno o dos párrafos."></textarea>
+          <p class="small" style="color:#5e7186;margin:6px 0 0">Este resumen abre el informe y debe permitir que padres, docentes y profesionales comprendan el contexto global sin consultar toda la historia clínica. No debe recortar hechos, relaciones, cambios o recursos necesarios para entender el caso; el análisis completo por áreas se conserva por separado.</p>
+        </div>
+
+        <div class="two-col">
+          <div><label for="hc_motivo">Motivo de consulta</label><textarea id="hc_motivo"></textarea></div>
+          <div><label for="hc_evento">Evento detonante</label><textarea id="hc_evento"></textarea></div>
+          <div><label for="hc_familia">Contexto familiar</label><textarea id="hc_familia"></textarea></div>
+          <div><label for="hc_escolar">Contexto escolar</label><textarea id="hc_escolar"></textarea></div>
+          <div><label for="hc_sintomas">Sintomas / manifestaciones</label><textarea id="hc_sintomas"></textarea></div>
+          <div><label for="hc_recursos">Recursos y apoyos</label><textarea id="hc_recursos"></textarea></div>
+          <div class="two-col" style="grid-column:span 2">
+            <div><label for="hc_objetivo">Objetivo terapeutico inicial</label><textarea id="hc_objetivo"></textarea></div>
+            <div>
+              <label>Alertas clinicas</label>
+              <div class="help">
+                <label><input type="checkbox" class="hc-alert" value="Ideacion"/> Ideacion</label><br/>
+                <label><input type="checkbox" class="hc-alert" value="Agresion"/> Agresion</label><br/>
+                <label><input type="checkbox" class="hc-alert" value="Negligencia"/> Negligencia</label><br/>
+                <label><input type="checkbox" class="hc-alert" value="Abuso reportado"/> Abuso reportado</label><br/>
+                <label><input type="checkbox" class="hc-alert" value="Conducta de riesgo"/> Conducta de riesgo</label>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="actions">
+          <button class="btn" onclick="saveHC()">Guardar HC</button>
+          <button class="btn secondary" onclick="exportHcHtml()">Exportar HC (HTML)</button>
+          <button class="btn secondary" onclick="exportHcWord()">Exportar HC (.doc)</button>
+          <button class="btn secondary" onclick="continueClinical(3)">Guardar y continuar</button>
+        </div>
+      </div>
+    </section>
+
+    <!-- Paso 4: Modulos -->
+    <section id="step-4" class="step-pane" aria-label="Modulos">
+      <div class="card">
+        <h2>Modulos complementarios y areas sensibles</h2>
+        <p>El nucleo de 19 areas siempre se aplica. Aqui puedes activar las 4 subescalas y decidir como tratar las areas sensibles 17 y 18.</p>
+        <div id="moduleContainer"></div>
+        <div class="actions">
+          <button class="btn" onclick="saveModules()">Guardar modulos</button>
+          <button class="btn secondary" onclick="continueClinical(4)">Continuar a la entrevista</button>
+        </div>
+      </div>
+    </section>
+
+    <!-- Paso 5: Entrevista -->
+    <section id="step-5" class="step-pane" aria-label="Entrevista guiada">
+      <div class="card">
+        <div class="sticky-tools">
+          <div class="inline" style="justify-content:space-between">
+            <div>
+              <h2>Entrevista guiada</h2>
+              <p>Los items se presentan en orden lineal. Puedes trabajar en vista individual o continua; en ambas, cada item tiene su propio microfono para respuesta y nota clinica.</p>
+            </div>
+            <div class="badge info" id="interviewCounter">0 / 0</div>
+          </div>
+          <div class="segmented">
+            <button class="seg-btn" id="mode_single" onclick="setInterviewMode('single')">Vista individual</button>
+            <button class="seg-btn" id="mode_all" onclick="setInterviewMode('all')">Vista continua</button>
+          </div>
+          <div class="inline" style="margin-left:auto">
+            <button class="btn gold" onclick="openAiFlow('entrevista')">Entrevista con IA</button>
+          </div>
+        </div>
+        <div id="interviewContainer"></div>
+        <div class="actions">
+          <button class="btn secondary" onclick="prevItem()">Anterior</button>
+          <button class="btn" onclick="nextItem()">Siguiente</button>
+          <button class="btn secondary" onclick="continueClinical(5)">Terminar TRAS y revisar</button>
+        </div>
+      </div>
+    </section>
+
+    <!-- Paso 6: Revision -->
+    <section id="step-6" class="step-pane" aria-label="Revision por area">
+      <div class="card">
+        <h2>Revision consolidada por area</h2>
+        <p>Revisa las respuestas agrupadas, observa pistas clinicas y ajusta antes de interpretar.</p>
+        <div id="reviewContainer"></div>
+        <div class="actions">
+          <button class="btn secondary" onclick="continueClinical(6)">Continuar a interpretación</button>
+        </div>
+      </div>
+    </section>
+
+    <!-- Paso 7: Interpretacion -->
+    <section id="step-7" class="step-pane" aria-label="Interpretacion">
+      <div class="card">
+        <div class="inline" style="justify-content:space-between">
+          <div>
+            <h2>Interpretacion, patrones y recomendaciones</h2>
+            <p>Redacta manualmente aquí, o usa "Generar todo con un solo prompt" en el Centro de informes (paso 8) para interpretar el TRAS junto con el resto de la evaluación.</p>
+          </div>
+        </div>
+        <div id="interpretationContainer"></div>
+        <div class="three-col" style="margin-top:16px">
+          <div class="kpi"><span class="small">Items respondidos</span><strong id="kpiRespuestas">0</strong></div>
+          <div class="kpi"><span class="small">Areas con interpretacion</span><strong id="kpiInterpretadas">0</strong></div>
+          <div class="kpi"><span class="small">Senales (lexicas + HC)</span><strong id="kpiAlertas">0</strong></div>
+        </div>
+        <div class="card" style="margin-top:16px;box-shadow:none">
+          <h3>Patrones globales</h3>
+          <textarea id="patrones_globales" style="min-height:120px"></textarea>
+          <h3 style="margin-top:12px">Analisis consolidado</h3>
+          <textarea id="analisis_consolidado" style="min-height:120px"></textarea>
+          <h3 style="margin-top:12px">Recomendaciones contextualizadas</h3>
+          <textarea id="recomendaciones" style="min-height:120px" placeholder="Escribe una recomendacion por linea"></textarea>
+        </div>
+        <div class="actions">
+          <button class="btn" onclick="saveInterpretations()">Guardar interpretacion</button>
+          <button class="btn secondary" onclick="continueClinical(7)">Continuar</button>
+        </div>
+      </div>
+    </section>
+
+    <!-- Paso 8: Centro de informes -->
+    <section id="step-8" class="step-pane" aria-label="Centro de informes y exportación">
+      <div class="card reports-center">
+        <div class="inline" style="justify-content:space-between;align-items:flex-start">
+          <div>
+            <h2>Centro de informes</h2>
+            <p>Genere el paquete clínico con un solo impulso de IA (recomendado). La devolución terapéutica para el adolescente queda siempre visible aquí abajo porque es un producto aparte. La edición manual de cada informe individual y el perfil descriptivo quedan disponibles, pero colapsados, para no saturar la pantalla.</p>
+          </div>
+          <span class="badge info" id="reportScopeBadge">alcance del caso</span>
+        </div>
+
+        <div class="master-report-card">
+          <div>
+            <div class="ai-kicker">ÚNICO PROMPT · TODO EL PAQUETE</div>
+            <h3>Generar paquete completo de informes con IA</h3>
+            <p>Un solo prompt integra la HC, las respuestas e interpretaciones del TRAS, Goldstein, la Matriz Cognitivo-Atencional (cuando está aplicada), el perfil descriptivo, evaluaciones complementarias y anexos, y redacta el informe integrativo. La app distribuye después cada bloque en su lugar. La devolución adolescente tiene su propio impulso y plantilla, por su destinatario y tono distintos.</p>
+          </div>
+          <button class="btn gold" onclick="openAiFlow('paquete_informes')">Generar todo con un solo prompt</button>
+        </div>
+
+        <div id="reportChecklist" class="report-checklist" aria-live="polite"></div>
+
+        <div class="report-product-grid" style="grid-template-columns:1fr">
+          <article class="report-product-card adolescent-return-card" data-product="adolescente">
+            <div class="report-product-head"><span class="report-product-icon">TÚ</span><div><h3>Devolución terapéutica para adolescente</h3><p>Convierte toda la evaluación en una lectura interactiva, cercana y no diagnóstica, lista para revisar y subir a Cloudflare.</p></div></div>
+            <div class="adolescent-config-grid">
+              <div><label for="adolescentTemplateSelect">Tratamiento y plantilla</label><select id="adolescentTemplateSelect" onchange="markAdolescentTemplateManualV0166()"><option value="masculina">Masculina · sobria</option><option value="femenina">Femenina · cálida</option><option value="trans">Trans / diversa · afirmativa</option><option value="neutra">Neutra · sin inferir género</option></select></div>
+              <div><label for="adolescentAlias">Nombre o alias visible</label><input id="adolescentAlias" type="text" placeholder="Ej.: Camila" oninput="markAdolescentAliasManualV0166();syncAdolescentConfigV0166()"></div>
+              <div><label for="adolescentPronouns">Pronombres indicados</label><input id="adolescentPronouns" type="text" placeholder="ella / él / elle / usar el nombre" oninput="syncAdolescentConfigV0166()"></div>
+              <div><label for="adolescentPaletteSelect">Paleta visual</label><select id="adolescentPaletteSelect" onchange="syncAdolescentConfigV0166()"><option value="auto">Automática según plantilla</option><option value="bosque">Bosque</option><option value="oceano">Océano</option><option value="violeta">Violeta</option><option value="neutra">Neutra</option></select></div>
+              <div><label for="adolescentDepthSelect">Profundidad</label><select id="adolescentDepthSelect" onchange="syncAdolescentConfigV0166()"><option value="breve">Breve</option><option value="equilibrada">Equilibrada</option><option value="profunda">Profunda</option></select></div>
+              <label class="adolescent-sensitive-check"><input id="adolescentSensitiveToggle" type="checkbox" checked onchange="syncAdolescentConfigV0166()"> Permitir temas sensibles con formulación cuidadosa y revisión profesional</label>
+            </div>
+            <div class="identity-note"><strong>Identidad:</strong> la app solo sugiere una plantilla desde el campo explícito sexo/género. Nunca infiere que una persona es trans por su nombre, apariencia o respuestas.</div>
+            <div id="adolescentProductStatus" class="help adolescent-status"></div>
+            <div class="actions"><button class="btn gold" onclick="openAiFlow('devolucion_adolescente')">Generar con IA</button><button class="btn" onclick="previewAdolescentReturnV0166()">Vista previa</button><button class="btn" onclick="exportAdolescentReturnV0166()">Exportar HTML</button><button class="btn secondary" onclick="saveAdolescentConfigV0166()">Guardar configuración</button></div>
+            <details class="adolescent-editor-details"><summary><strong>Revisar o editar el contenido estructurado</strong></summary><p class="small">Puede modificar el JSON generado. Las alertas de revisión son solo para el terapeuta y no aparecen en la página exportada.</p><textarea id="adolescentJsonEditor" rows="14" placeholder='{"meta":{},"recursos":[],"secciones":[],"ruta":[],"cierre":{},"alertas_revision":[]}'></textarea><div class="actions"><button class="btn" onclick="applyAdolescentEditorV0166()">Aplicar cambios</button><button class="btn secondary danger-outline" onclick="clearAdolescentReturnV0166()">Vaciar devolución</button></div></details>
+          </article>
+        </div>
+
+        <details class="card report-secondary" style="box-shadow:none;margin-top:16px">
+          <summary><strong>Edición manual detallada</strong> <span class="small">— HC, TRAS, Goldstein e informe integrativo (opcional: el prompt único ya los redacta)</span></summary>
+          <div class="report-product-grid" style="margin-top:14px">
+            <article class="report-product-card" data-product="hc">
+              <div class="report-product-head"><span class="report-product-icon">HC</span><div><h3>Informe de historia clínica</h3><p>Contexto, cronología, manifestaciones, impacto, recursos y propósito de la evaluación.</p></div></div>
+              <textarea id="reportHcTexto" rows="7" placeholder="El informe de HC puede generarse con IA o revisarse manualmente."></textarea>
+              <div class="actions"><button class="btn secondary" onclick="saveReportProducts()">Guardar</button></div>
+            </article>
+
+            <article class="report-product-card" data-product="tras">
+              <div class="report-product-head"><span class="report-product-icon">T</span><div><h3>Resultado del TRAS</h3><p>Conserva obligatoriamente todas las áreas y añade patrones, análisis consolidado y orientaciones.</p></div></div>
+              <textarea id="reportTrasTexto" rows="7" placeholder="Síntesis transversal del TRAS; el análisis completo por áreas permanece en el informe."></textarea>
+              <div class="actions"><button class="btn secondary" onclick="saveReportProducts()">Guardar</button></div>
+            </article>
+
+            <article class="report-product-card" data-product="goldstein">
+              <div class="report-product-head"><span class="report-product-icon">G</span><div><h3>Resultado de habilidades sociales</h3><p>Integra porcentajes, grupos, habilidades específicas, lectura contextual y acciones de mejora.</p></div></div>
+              <textarea id="reportGoldTexto" rows="7" placeholder="Síntesis del perfil de habilidades sociales."></textarea>
+              <div class="actions"><button class="btn secondary" onclick="saveReportProducts()">Guardar</button></div>
+            </article>
+
+            <article class="report-product-card integrative-card" data-product="integrativo">
+              <div class="report-product-head"><span class="report-product-icon">∑</span><div><h3>Informe integrativo para entrega</h3><p>Reúne todo lo aplicado y explica qué sucede en el caso sin repetir mecánicamente los apartados anteriores.</p></div></div>
+              <textarea id="informeConsolidado" rows="12" placeholder="Comprensión integrada de toda la evaluación."></textarea>
+              <div class="two-col" style="margin-top:10px">
+                <div><label for="informeHallazgos">Hallazgos convergentes</label><textarea id="informeHallazgos" rows="6"></textarea></div>
+                <div><label for="informeRecursos">Recursos protectores</label><textarea id="informeRecursos" rows="6"></textarea></div>
+                <div><label for="informeVulnerabilidades">Vulnerabilidades contextuales</label><textarea id="informeVulnerabilidades" rows="6"></textarea></div>
+              </div>
+              <label for="informeSintesis" style="margin-top:10px">Síntesis para padres o cuidadores</label><textarea id="informeSintesis" rows="6"></textarea>
+              <label for="informeAproxDx" style="margin-top:10px">Aproximación diagnóstica provisional <span class="small">(hipótesis en formación, no un diagnóstico confirmado; visible solo en las versiones para colegio y profesionales)</span></label><textarea id="informeAproxDx" rows="8"></textarea>
+              <label for="informeRecomendaciones" style="margin-top:10px">Orientaciones prioritarias</label><textarea id="informeRecomendaciones" rows="7"></textarea>
+              <label for="informeCierre" style="margin-top:10px">Conclusión integrada</label><textarea id="informeCierre" rows="5"></textarea>
+              <div class="actions"><button class="btn" onclick="saveInformeEditorial();saveReportProducts()">Guardar integración</button><button class="btn secondary danger-outline" onclick="clearInformeEditorial()">Vaciar integración</button></div>
+            </article>
+          </div>
+        </details>
+
+        <details class="card report-secondary" style="box-shadow:none;margin-top:16px">
+          <summary><strong>Perfil descriptivo y evaluaciones complementarias</strong></summary>
+          <div id="personalidadBody" style="margin-top:14px"></div>
+          <hr style="border:none;border-top:1px solid var(--line);margin:18px 0">
+          <h3>Anexos y evaluaciones adicionales</h3>
+          <p class="small">Incluya informes escolares, entrevistas familiares, observaciones, pruebas complementarias u otras fuentes. Los anexos marcados alimentan el informe integrativo.</p>
+          <div class="two-col">
+            <div><label for="anexoTitulo">Título</label><input id="anexoTitulo" type="text" placeholder="Ej.: Observación escolar"/><label for="anexoContenido" style="margin-top:8px">Contenido</label><textarea id="anexoContenido" rows="8" oninput="previewAnexo()"></textarea><div class="actions"><button class="btn" onclick="addAnexo()">Agregar</button></div></div>
+            <div><label>Vista previa</label><div id="anexoPreview" class="anexo-preview"><span style="color:#8295a8">La vista previa aparecerá aquí.</span></div></div>
+          </div>
+          <div id="anexosList" style="margin-top:14px"></div>
+        </details>
+
+        <div class="export-center-card">
+          <div>
+            <h3>Exportar documento</h3>
+            <p>Seleccione el producto y el formato. El informe integrativo es el recomendado para la entrega a clientes.</p>
+          </div>
+          <div class="export-controls">
+            <div><label for="reportTypeSelect">Tipo de informe</label><select id="reportTypeSelect" onchange="renderSelectedReportPreview()"><option value="integrativo">Informe integrativo</option><option value="resumen">Lectura rápida (resumen)</option><option value="hc">Historia clínica</option><option value="tras">Resultado TRAS</option><option value="goldstein">Habilidades sociales</option><option value="matriz_ca">Matriz Cognitivo-Atencional</option><option value="adolescente">Devolución terapéutica adolescente</option></select></div>
+            <div><label for="reportAudienceSelect">Destinatario</label><select id="reportAudienceSelect"><option value="familias">Padres y cuidadores</option><option value="docentes">Colegio (docentes y psicología escolar)</option><option value="profesionales">Profesionales (interconsulta)</option></select></div>
+            <div><label for="reportFormatSelect">Formato</label><select id="reportFormatSelect"><option value="html">HTML interactivo</option><option value="doc">Word (.doc)</option><option value="pdf">PDF (imprimir)</option><option value="json">JSON</option><option value="xlsx">XLSX del expediente</option></select></div>
+          </div>
+          <div class="actions"><button class="btn" onclick="exportSelectedReport()">Exportar selección</button><button class="btn secondary" onclick="renderSelectedReportPreview()">Actualizar vista previa</button></div>
+        </div>
+
+        <div id="reportPreview" class="report-card" style="margin-top:16px"></div>
+      </div>
+    </section>
+
+    <!-- Paso 9: Bateria Goldstein (anexa) -->
+    <section id="step-9" class="step-pane" aria-label="Bateria de habilidades sociales (Goldstein)">
+      <div class="card">
+        <div class="inline" style="justify-content:space-between">
+          <div>
+            <h2>Bateria anexa · Habilidades sociales (Goldstein)</h2>
+            <p>Lista de chequeo de 50 habilidades en 6 grupos, con escala de tres niveles. Es opcional y se anexa al caso; puede usarse junto con el TRAS o de forma autonoma.</p>
+          </div>
+          <div class="badge info">Tamizaje descriptivo · no diagnostico</div>
+        </div>
+        <div id="goldsteinContainer"></div>
+        <div class="actions">
+          <button class="btn" onclick="continueClinical(9)">Finalizar habilidades y continuar</button>
+          <button class="btn secondary" onclick="goStep(11)">Manual tecnico</button>
+        </div>
+      </div>
+    </section>
+
+    <!-- Paso 12: Matriz Cognitivo-Atencional (anexa, despues de Goldstein) -->
+    <section id="step-12" class="step-pane" aria-label="Matriz Cognitivo-Atencional">
+      <div class="card">
+        <div class="inline" style="justify-content:space-between">
+          <div>
+            <h2>Matriz Cognitivo-Atencional</h2>
+            <p>Bateria anexa opcional: habilidades cognitivas, atencion/impulsividad/regulacion emocional y fortalezas/inteligencias multiples. Instrumento de exploracion y organizacion de hallazgos, no una prueba estandarizada.</p>
+          </div>
+          <div class="badge info">Exploratorio · no diagnostico</div>
+        </div>
+        <div id="matrizCABody"></div>
+        <div class="actions">
+          <button class="btn" onclick="continueClinical(12)">Finalizar matriz e ir a informes</button>
+          <button class="btn secondary" onclick="goStep(11)">Manual tecnico</button>
+        </div>
+      </div>
+    </section>
+
+    <!-- Paso 11: Manual -->
+    <section id="step-11" class="step-pane" aria-label="Manual tecnico">
+      <div class="card">
+        <div class="inline" style="justify-content:space-between">
+          <div>
+            <h2>Manual tecnico e informativo</h2>
+            <p>Resumen operativo del instrumento, alcance clinico, tiempos estimados y bibliografia base sobre tecnicas proyectivas y de completamiento.</p>
+          </div>
+          <div class="badge info">Consulta rapida para aplicacion y formacion</div>
+        </div>
+
+        <div class="manual-grid">
+          <div class="manual-card">
+            <h3>Que es el TRAS?</h3>
+            <p>El TRAS es un instrumento de completamiento de frases aplicado como entrevista guiada. El evaluador lee cada enunciado y registra la respuesta literal del nino, nina o adolescente, evitando corregir o conducir el contenido. Su lectura es narrativa, relacional y contextual; no produce por si sola diagnosticos categoriales.</p>
+          </div>
+          <div class="manual-card">
+            <h3>Objetivos centrales</h3>
+            <ul>
+              <li>Explorar vinculos afectivos, tensiones, recursos y demandas de cambio.</li>
+              <li>Identificar patrones relacionales en familia, escuela y pares.</li>
+              <li>Apoyar la formulacion clinica situada junto con la historia clinica.</li>
+              <li>Orientar preguntas de profundizacion, devoluciones y recomendaciones contextualizadas.</li>
+            </ul>
+          </div>
+          <div class="manual-card">
+            <h3>Poblacion a evaluar</h3>
+            <p>Ninos, ninas y adolescentes. La aplicacion exige comprension verbal suficiente para completar frases breves, sostener una entrevista y ofrecer respuestas espontaneas. Puede usarse en contexto clinico, psicoeducativo o de orientacion, siempre con criterio profesional, consentimiento y resguardo etico de la informacion.</p>
+          </div>
+          <div class="manual-card">
+            <h3>Tiempo estimado de aplicacion</h3>
+            <p><strong>Nucleo:</strong> 25-40 minutos, segun edad, fluidez verbal y necesidad de profundizacion. <strong>Nucleo + complementarios:</strong> 35-55 minutos. El tiempo aumenta cuando se incluyen notas clinicas, pausas emocionales o revision ampliada por areas sensibles.</p>
+          </div>
+          <div class="manual-card">
+            <h3>Proceso sugerido</h3>
+            <ul>
+              <li>Preparar perfil del evaluador y datos del caso.</li>
+              <li>Completar HC Snapshot y decidir modulos complementarios.</li>
+              <li>Aplicar los items en orden, registrando literalidad.</li>
+              <li>Revisar por areas antes de interpretar.</li>
+              <li>Redactar interpretaciones por area, patrones globales y analisis consolidado.</li>
+              <li>Exportar informe y respaldo del caso.</li>
+            </ul>
+          </div>
+          <div class="manual-card">
+            <h3>Ingreso por voz</h3>
+            <p>La app incorpora dictado campo a campo. Funciona cuando el navegador dispone de reconocimiento de voz compatible. Puede ejecutarse en local, Cloudflare o Netlify; la app sigue siendo utilizable sin conexion para escritura manual, mientras que el dictado dependera del soporte del navegador y del sistema operativo en cada dispositivo.</p>
+          </div>
+          <div class="manual-card" style="grid-column:1/-1">
+            <h3>Lectura clinica responsable</h3>
+            <p>Las respuestas deben interpretarse como producciones narrativas situadas. El sentido de una frase nunca se decide aisladamente: se contrasta con el area completa, con patrones transversales y con datos de contexto. El instrumento orienta comprension, hipotesis y toma de decisiones clinicas o educativas, pero no reemplaza entrevista, observacion ni juicio profesional.</p>
+          </div>
+          <div class="manual-card" style="grid-column:1/-1">
+            <h3>Bibliografia base real sobre tecnicas proyectivas y de completamiento</h3>
+            <ol class="refs">
+              <li>Frank, L. K. (1939). Projective methods for the study of personality. <em>Journal of Psychology, 8</em>, 389-413.</li>
+              <li>Goldberg, P. A. (1965). A review of sentence completion methods in personality assessment. <em>Journal of Projective Techniques and Personality Assessment, 29</em>(1), 12-45.</li>
+              <li>Lilienfeld, S. O., Wood, J. M., &amp; Garb, H. N. (2000). The scientific status of projective techniques. <em>Psychological Science in the Public Interest, 1</em>(2), 27-66. https://doi.org/10.1111/1529-1006.002</li>
+              <li>Murstein, B. I. (Ed.). (1965). <em>Handbook of projective techniques</em>. Basic Books.</li>
+              <li>Rotter, J. B., Lah, M. I., &amp; Rafferty, J. E. (1992). <em>Rotter Incomplete Sentences Blank manual</em> (2nd ed.). Psychological Corporation.</li>
+              <li>Weiner, I. B. (2003). <em>Principles of Rorschach interpretation</em> (2nd ed.). Lawrence Erlbaum Associates.</li>
+              <li>Weiner, I. B., &amp; Greene, R. L. (2017). <em>Handbook of personality assessment</em> (2nd ed.). Wiley.</li>
+              <li>Groth-Marnat, G., &amp; Wright, A. J. (2016). <em>Handbook of psychological assessment</em> (6th ed.). Wiley.</li>
+              <li>Mihura, J. L., Meyer, G. J., Dumitrascu, N., &amp; Bombel, G. (2013). The validity of individual Rorschach variables. <em>Psychological Bulletin, 139</em>(3), 548-605. https://doi.org/10.1037/a0029406</li>
+              <li>Piotrowski, C. (2015). Projective techniques usage worldwide. <em>Journal of the Indian Academy of Applied Psychology, 41</em>(3), 9-19.</li>
+            </ol>
+          </div>
+          <div class="manual-card" style="grid-column:1/-1">
+            <h3>Bateria anexa: habilidades sociales (Goldstein)</h3>
+            <p>Como complemento opcional, la app incluye la Lista de Chequeo de Habilidades Sociales de Goldstein en una version de tres niveles (Nunca / A veces / Siempre) con redaccion adaptada para adolescentes. Es un <strong>tamizaje descriptivo de frecuencias</strong>: trabaja con conteos y porcentajes por grupo, no con puntajes ni percentiles normativos. La app conserva una lectura complementaria de cuatro condiciones de disponibilidad —inconscientemente inhábil, conscientemente inhábil, conscientemente hábil e inconscientemente hábil— para orientar el entrenamiento. No corresponde a un baremo normativo de Goldstein y la automatización de una habilidad requiere contraste con observación y desempeño reiterado. Su lectura se integra con la HC y, cuando se aplica, con el TRAS.</p>
+            <ol class="refs">
+              <li>Goldstein, A. P., Sprafkin, R. P., Gershaw, N. J., &amp; Klein, P. (1980). <em>Skillstreaming the adolescent: A structured learning approach to teaching prosocial skills</em>. Research Press.</li>
+              <li>Goldstein, A. P., &amp; McGinnis, E. (1997). <em>Skillstreaming the adolescent: New strategies and perspectives for teaching prosocial skills</em> (Rev. ed.). Research Press.</li>
+              <li>Tomas Rojas, A. (1995). <em>Lista de chequeo de habilidades sociales de Goldstein</em> (adaptacion). Universidad Nacional Mayor de San Marcos, Lima.</li>
+              <li>Caballo, V. E. (2007). <em>Manual de evaluacion y entrenamiento de las habilidades sociales</em> (7.ª ed.). Siglo XXI.</li>
+            </ol>
+          </div>
+
+        </div>
+
+        <div class="actions">
+          <button class="btn secondary" onclick="goStep(5);renderInterview()">Ir a entrevista</button>
+          <button class="btn" onclick="goStep(8);renderReport()">Ir a informe</button>
+        </div>
+      </div>
+    </section>
+
+    <div class="footer" id="appFooter">TRAS</div>
+  </main>
+</div>
+
+<!-- Lectores opcionales de documentos: procesan localmente en el navegador -->
+<script src="https://unpkg.com/mammoth@1.8.0/mammoth.browser.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.min.js"></script>
+<!-- Modulos JS (scripts clasicos: funcionan abriendo el archivo localmente) -->
+<script src="js/dataset.js"></script>
+<script src="js/signature-sample.js"></script>
+<script src="js/ui.js"></script>
+<script src="js/state.js"></script>
+<script src="js/encryption.js"></script>
+<script src="js/voice.js"></script>
+<script src="js/interview.js"></script>
+<script src="js/interpret.js"></script>
+<script src="js/export.js"></script>
+<script src="js/goldstein.js"></script>
+<script src="js/aiflow.js"></script>
+<script src="js/anexos.js"></script>
+<script src="js/personalidad.js"></script>
+<script src="js/matrizca.js"></script>
+<script src="js/demo.js"></script>
+<script src="js/v0164.js"></script>
+<script src="js/v0165.js"></script>
+<script src="js/v0166.js"></script>
+<script src="js/app.js"></script>
+</body>
+</html>

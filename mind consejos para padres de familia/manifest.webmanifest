@@ -1,0 +1,62 @@
+{
+  "id": "./",
+  "name": "Puentes · Escuela y familia",
+  "short_name": "Puentes",
+  "description": "Tarjetas breves para fortalecer el diálogo entre escuela y familia.",
+  "start_url": "./index.html",
+  "scope": "./",
+  "display": "standalone",
+  "orientation": "any",
+  "background_color": "#edf5f1",
+  "theme_color": "#1f6b68",
+  "categories": [
+    "education",
+    "family",
+    "productivity"
+  ],
+  "icons": [
+    {
+      "src": "assets/icon-192.png",
+      "sizes": "192x192",
+      "type": "image/png",
+      "purpose": "any"
+    },
+    {
+      "src": "assets/icon-512.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "any"
+    },
+    {
+      "src": "assets/icon-maskable-512.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "maskable"
+    }
+  ],
+  "shortcuts": [
+    {
+      "name": "Crear una tarjeta",
+      "short_name": "Crear",
+      "url": "./index.html?action=create",
+      "icons": [
+        {
+          "src": "assets/icon-192.png",
+          "sizes": "192x192"
+        }
+      ]
+    },
+    {
+      "name": "Ver compartidas",
+      "short_name": "Compartidas",
+      "url": "./index.html?action=shared",
+      "icons": [
+        {
+          "src": "assets/icon-192.png",
+          "sizes": "192x192"
+        }
+      ]
+    }
+  ],
+  "version": "1.11.0"
+}

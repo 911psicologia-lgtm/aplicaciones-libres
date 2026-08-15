@@ -1,0 +1,24 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 80 80">
+  <defs>
+    <linearGradient id="mvg" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#fb923c"/>
+      <stop offset="100%" stop-color="#c2410c"/>
+    </linearGradient>
+  </defs>
+  <!-- Figura en movimiento — homúnculo simplificado -->
+  <!-- Cabeza -->
+  <circle cx="40" cy="18" r="9" fill="url(#mvg)" opacity="0.85"/>
+  <!-- Cuerpo -->
+  <path d="M 40,27 L 40,48" stroke="#fb923c" stroke-width="4" stroke-linecap="round"/>
+  <!-- Brazo izquierdo (levantado) -->
+  <path d="M 40,33 C 30,28 22,22 16,18" stroke="#fb923c" stroke-width="3.5" fill="none" stroke-linecap="round"/>
+  <!-- Brazo derecho -->
+  <path d="M 40,33 C 50,38 58,44 62,48" stroke="#fb923c" stroke-width="3.5" fill="none" stroke-linecap="round"/>
+  <!-- Pierna izquierda -->
+  <path d="M 40,48 C 34,55 28,60 24,65" stroke="#fb923c" stroke-width="3.5" fill="none" stroke-linecap="round"/>
+  <!-- Pierna derecha -->
+  <path d="M 40,48 C 46,55 50,62 52,68" stroke="#fb923c" stroke-width="3.5" fill="none" stroke-linecap="round"/>
+  <!-- Estelas de movimiento -->
+  <path d="M 14,20 C 12,18 10,16 10,14" stroke="#fdba74" stroke-width="1.5" fill="none" stroke-linecap="round" opacity="0.5"/>
+  <path d="M 60,50 C 64,54 66,58 66,62" stroke="#fdba74" stroke-width="1.5" fill="none" stroke-linecap="round" opacity="0.5"/>
+</svg>

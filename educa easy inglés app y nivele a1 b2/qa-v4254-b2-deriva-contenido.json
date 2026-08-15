@@ -1,0 +1,40 @@
+{
+  "version": "v4.25.4",
+  "focus": "Iteración 3 del informe: reparar deriva título≠objetivo/contenido en B2 lecciones 506–525.",
+  "changes": [
+    "Lecciones 506–510 realineadas a Explicar problemas laborales.",
+    "Lecciones 511–515 realineadas a Proponer soluciones.",
+    "Lecciones 516–520 realineadas a Negociar tiempos.",
+    "Lecciones 521–525 realineadas a Defender una propuesta.",
+    "Regenerados objetivos, bloques, escenarios, lectura, escucha, ordenar, conectores y selección para esas 20 lecciones.",
+    "Añadida auditoría runtime window.IPD_QA.b2ContentDrift506525()."
+  ],
+  "metrics": {
+    "506-510": {
+      "expectedFocus": "problemas laborales",
+      "lessons": 5,
+      "exercises": 25,
+      "driftIssues": 0
+    },
+    "511-515": {
+      "expectedFocus": "proponer soluciones",
+      "lessons": 5,
+      "exercises": 25,
+      "driftIssues": 0
+    },
+    "516-520": {
+      "expectedFocus": "negociar tiempos",
+      "lessons": 5,
+      "exercises": 25,
+      "driftIssues": 0
+    },
+    "521-525": {
+      "expectedFocus": "defender una propuesta",
+      "lessons": 5,
+      "exercises": 25,
+      "driftIssues": 0
+    }
+  },
+  "nodeCheck": 0,
+  "createdAt": "2026-06-17T01:32:17.594344+00:00"
+}

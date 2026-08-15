@@ -1,0 +1,3004 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Lectura de Tarot Místico</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Georgia', serif;
+            background: linear-gradient(135deg, #1a0033 0%, #330066 50%, #1a0033 100%);
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 10px;
+            overflow-x: hidden;
+            color: #fff;
+            position: relative;
+        }
+
+        /* Partículas místicas de fondo */
+        .mystic-particles {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            z-index: 1;
+            overflow: hidden;
+        }
+
+        .particle {
+            position: absolute;
+            width: 3px;
+            height: 3px;
+            background: radial-gradient(circle, rgba(212, 175, 55, 0.8) 0%, transparent 70%);
+            border-radius: 50%;
+            animation: float linear infinite;
+        }
+
+        @keyframes float {
+            0% {
+                transform: translateY(100vh) translateX(0) scale(0);
+                opacity: 0;
+            }
+            10% {
+                opacity: 1;
+            }
+            90% {
+                opacity: 1;
+            }
+            100% {
+                transform: translateY(-10vh) translateX(var(--drift)) scale(1);
+                opacity: 0;
+            }
+        }
+
+        .container {
+            background: rgba(0, 0, 0, 0.8);
+            border-radius: 20px;
+            padding: 20px;
+            max-width: 900px;
+            width: 100%;
+            box-shadow: 0 20px 60px rgba(138, 43, 226, 0.5);
+            border: 2px solid rgba(138, 43, 226, 0.3);
+            overflow-x: hidden;
+            position: relative;
+            z-index: 10;
+        }
+
+        @media (min-width: 768px) {
+            .container {
+                padding: 40px;
+                border-radius: 30px;
+            }
+        }
+
+        h1 {
+            text-align: center;
+            color: #d4af37;
+            margin-bottom: 20px;
+            font-size: 2em;
+            text-shadow: 2px 2px 8px rgba(212, 175, 55, 0.5);
+            font-family: 'Georgia', serif;
+            position: relative;
+        }
+
+        .settings-button {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            width: 50px;
+            height: 50px;
+            background: rgba(138, 43, 226, 0.3);
+            border: 2px solid #d4af37;
+            border-radius: 50%;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.5em;
+            transition: all 0.3s;
+            z-index: 1000;
+        }
+
+        .settings-button:hover {
+            transform: rotate(90deg) scale(1.1);
+            background: rgba(138, 43, 226, 0.5);
+            box-shadow: 0 5px 20px rgba(212, 175, 55, 0.5);
+        }
+
+        .settings-panel {
+            position: fixed;
+            top: 80px;
+            right: 20px;
+            background: rgba(26, 0, 51, 0.98);
+            border: 2px solid #d4af37;
+            border-radius: 15px;
+            padding: 20px;
+            display: none;
+            z-index: 999;
+            min-width: 200px;
+            box-shadow: 0 10px 40px rgba(0,0,0,0.5);
+        }
+
+        .settings-panel.active {
+            display: block;
+            animation: slideDown 0.3s;
+        }
+
+        @keyframes slideDown {
+            from { opacity: 0; transform: translateY(-20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .settings-option {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin: 15px 0;
+            color: #e0c9ff;
+        }
+
+        .toggle-switch {
+            position: relative;
+            width: 50px;
+            height: 24px;
+            background: rgba(138, 43, 226, 0.3);
+            border-radius: 12px;
+            cursor: pointer;
+            transition: background 0.3s;
+        }
+
+        .toggle-switch.active {
+            background: rgba(76, 175, 80, 0.5);
+        }
+
+        .toggle-slider {
+            position: absolute;
+            top: 2px;
+            left: 2px;
+            width: 20px;
+            height: 20px;
+            background: #d4af37;
+            border-radius: 50%;
+            transition: transform 0.3s;
+        }
+
+        .toggle-switch.active .toggle-slider {
+            transform: translateX(26px);
+        }
+
+        @media (min-width: 768px) {
+            h1 {
+                font-size: 2.8em;
+                margin-bottom: 30px;
+            }
+        }
+
+        .screen {
+            display: none;
+            animation: fadeIn 0.5s;
+        }
+
+        .screen.active {
+            display: block;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: scale(0.95); }
+            to { opacity: 1; transform: scale(1); }
+        }
+
+        .mystical-text {
+            text-align: center;
+            font-size: 1.1em;
+            line-height: 1.8;
+            margin: 20px 0;
+            color: #e0c9ff;
+            text-shadow: 1px 1px 3px rgba(0,0,0,0.5);
+        }
+
+        @media (min-width: 768px) {
+            .mystical-text {
+                font-size: 1.3em;
+                margin: 30px 0;
+            }
+        }
+
+        .coin-counter {
+            text-align: center;
+            font-size: 1.5em;
+            color: #d4af37;
+            margin: 20px 0;
+            padding: 15px;
+            background: rgba(212, 175, 55, 0.1);
+            border-radius: 15px;
+            border: 2px solid rgba(212, 175, 55, 0.3);
+        }
+
+        @media (min-width: 768px) {
+            .coin-counter {
+                font-size: 1.8em;
+                padding: 20px;
+            }
+        }
+
+        .button-primary {
+            background: linear-gradient(135deg, #8a2be2 0%, #9370db 100%);
+            color: white;
+            border: none;
+            padding: 15px 40px;
+            border-radius: 25px;
+            font-size: 1.2em;
+            cursor: pointer;
+            width: 100%;
+            margin: 15px 0;
+            transition: all 0.3s;
+            font-family: 'Georgia', serif;
+            box-shadow: 0 5px 20px rgba(138, 43, 226, 0.4);
+        }
+
+        @media (min-width: 768px) {
+            .button-primary {
+                padding: 20px 50px;
+                font-size: 1.4em;
+            }
+        }
+
+        .button-primary:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 8px 25px rgba(138, 43, 226, 0.6);
+        }
+
+        .button-primary:disabled {
+            opacity: 0.5;
+            cursor: not-allowed;
+            transform: none;
+        }
+
+        .reading-methods {
+            display: grid;
+            grid-template-columns: 1fr;
+            gap: 15px;
+            margin: 20px 0;
+        }
+
+        @media (min-width: 768px) {
+            .reading-methods {
+                grid-template-columns: repeat(2, 1fr);
+                gap: 20px;
+            }
+        }
+
+        .method-card {
+            background: rgba(138, 43, 226, 0.2);
+            border: 2px solid rgba(138, 43, 226, 0.4);
+            border-radius: 15px;
+            padding: 20px;
+            cursor: pointer;
+            transition: all 0.3s;
+            text-align: center;
+        }
+
+        .method-card:hover {
+            transform: translateY(-5px);
+            border-color: #d4af37;
+            box-shadow: 0 10px 30px rgba(212, 175, 55, 0.3);
+        }
+
+        .method-card h3 {
+            color: #d4af37;
+            margin-bottom: 10px;
+            font-size: 1.3em;
+        }
+
+        .method-card p {
+            color: #e0c9ff;
+            font-size: 0.95em;
+            line-height: 1.6;
+        }
+
+        .card-back {
+            width: 100px;
+            height: 160px;
+            background: linear-gradient(135deg, #1a0033 0%, #4b0082 100%);
+            border: 3px solid #d4af37;
+            border-radius: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 2.5em;
+            cursor: pointer;
+            transition: all 0.3s;
+            margin: 8px;
+            box-shadow: 0 5px 20px rgba(0,0,0,0.5);
+            position: relative;
+            overflow: hidden;
+            flex-shrink: 0;
+        }
+
+        @media (min-width: 768px) {
+            .card-back {
+                width: 130px;
+                height: 210px;
+                font-size: 3.5em;
+                margin: 10px;
+            }
+        }
+
+        .card-back::before {
+            content: '✦';
+            position: absolute;
+            color: #d4af37;
+            animation: pulse 2s ease-in-out infinite;
+        }
+
+        @keyframes pulse {
+            0%, 100% { opacity: 0.5; transform: scale(1); }
+            50% { opacity: 1; transform: scale(1.2); }
+        }
+
+        .card-back:hover {
+            transform: translateY(-10px) scale(1.05);
+            box-shadow: 0 10px 30px rgba(212, 175, 55, 0.5);
+            filter: brightness(1.2);
+        }
+
+        .card-back::after {
+            content: '';
+            position: absolute;
+            top: -50%;
+            left: -50%;
+            width: 200%;
+            height: 200%;
+            background: linear-gradient(
+                45deg,
+                transparent 30%,
+                rgba(212, 175, 55, 0.1) 50%,
+                transparent 70%
+            );
+            transform: rotate(45deg);
+            pointer-events: none;
+        }
+
+        .card-back:hover::after {
+            animation: shine 1.5s ease-in-out;
+        }
+
+        @keyframes shine {
+            0% { transform: translateX(-100%) translateY(-100%) rotate(45deg); }
+            100% { transform: translateX(100%) translateY(100%) rotate(45deg); }
+        }
+
+        .card-back.flipped {
+            animation: flip 0.6s;
+        }
+
+        @keyframes flip {
+            0% { transform: rotateY(0deg); }
+            50% { transform: rotateY(90deg); }
+            100% { transform: rotateY(0deg); }
+        }
+
+        .card-revealed {
+            width: 100px;
+            min-height: 160px;
+            background: rgba(255, 255, 255, 0.95);
+            border: 3px solid #d4af37;
+            border-radius: 10px;
+            padding: 8px;
+            margin: 8px;
+            box-shadow: 0 5px 20px rgba(212, 175, 55, 0.5);
+            color: #1a0033;
+            animation: reveal 0.8s;
+            flex-shrink: 0;
+        }
+
+        @media (min-width: 768px) {
+            .card-revealed {
+                width: 130px;
+                min-height: 210px;
+                padding: 12px;
+                margin: 10px;
+            }
+        }
+
+        @keyframes reveal {
+            from { opacity: 0; transform: scale(0.8); }
+            to { opacity: 1; transform: scale(1); }
+        }
+
+        .card-revealed .card-number {
+            font-size: 0.7em;
+            color: #8a2be2;
+            font-weight: bold;
+            margin-bottom: 3px;
+        }
+
+        .card-revealed .card-name {
+            font-size: 0.85em;
+            font-weight: bold;
+            color: #1a0033;
+            margin-bottom: 5px;
+            text-align: center;
+            line-height: 1.2;
+        }
+
+        @media (min-width: 768px) {
+            .card-revealed .card-name {
+                font-size: 0.95em;
+            }
+        }
+
+        .card-revealed .card-icon {
+            font-size: 2.2em;
+            text-align: center;
+            margin: 8px 0;
+        }
+
+        @media (min-width: 768px) {
+            .card-revealed .card-icon {
+                font-size: 3em;
+            }
+        }
+
+        .cards-container {
+            display: flex;
+            justify-content: center;
+            flex-wrap: wrap;
+            margin: 30px 0;
+            gap: 5px;
+            max-width: 100%;
+            align-items: flex-start;
+        }
+
+        @media (min-width: 768px) {
+            .cards-container {
+                gap: 10px;
+            }
+        }
+
+        .interpretation {
+            background: rgba(138, 43, 226, 0.2);
+            border: 2px solid rgba(212, 175, 55, 0.5);
+            border-radius: 15px;
+            padding: 20px;
+            margin: 20px 0;
+            animation: fadeIn 1s;
+        }
+
+        .interpretation h3 {
+            color: #d4af37;
+            margin-bottom: 15px;
+            font-size: 1.3em;
+        }
+
+        @media (min-width: 768px) {
+            .interpretation h3 {
+                font-size: 1.6em;
+            }
+        }
+
+        .interpretation p {
+            color: #e0c9ff;
+            line-height: 1.8;
+            margin: 10px 0;
+            font-size: 1em;
+        }
+
+        @media (min-width: 768px) {
+            .interpretation p {
+                font-size: 1.1em;
+            }
+        }
+
+        .position-label {
+            color: #d4af37;
+            font-size: 0.7em;
+            text-align: center;
+            margin-top: 3px;
+            font-weight: bold;
+            line-height: 1.1;
+        }
+
+        @media (min-width: 768px) {
+            .position-label {
+                font-size: 0.85em;
+            }
+        }
+
+        .instructions {
+            background: rgba(138, 43, 226, 0.15);
+            border: 2px solid rgba(212, 175, 55, 0.3);
+            border-radius: 15px;
+            padding: 15px;
+            margin: 20px 0;
+            color: #e0c9ff;
+            font-size: 0.95em;
+            line-height: 1.6;
+            white-space: pre-line;
+        }
+
+        @media (min-width: 768px) {
+            .instructions {
+                font-size: 1.05em;
+                padding: 20px;
+            }
+        }
+
+        .copy-button {
+            background: rgba(212, 175, 55, 0.2);
+            border: 2px solid #d4af37;
+            color: #d4af37;
+            padding: 10px 20px;
+            border-radius: 15px;
+            cursor: pointer;
+            font-size: 1em;
+            margin: 10px 0;
+            transition: all 0.3s;
+        }
+
+        @media (min-width: 768px) {
+            .copy-button {
+                padding: 12px 30px;
+                font-size: 1.1em;
+            }
+        }
+
+        .copy-button:hover {
+            background: rgba(212, 175, 55, 0.4);
+            transform: translateY(-2px);
+        }
+
+        .ia-modal-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.85);
+            z-index: 9998;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            animation: fadeIn 0.3s;
+        }
+
+        .ia-modal {
+            background: rgba(26, 0, 51, 0.98);
+            border: 3px solid #d4af37;
+            border-radius: 20px;
+            padding: 30px;
+            max-width: 500px;
+            width: 90%;
+            z-index: 9999;
+            box-shadow: 0 20px 60px rgba(212, 175, 55, 0.4);
+            animation: slideUp 0.4s;
+        }
+
+        @keyframes slideUp {
+            from { opacity: 0; transform: translateY(50px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .ia-modal h3 {
+            color: #d4af37;
+            text-align: center;
+            margin-bottom: 15px;
+            font-size: 1.5em;
+        }
+
+        .ia-modal p {
+            color: #e0c9ff;
+            text-align: center;
+            margin-bottom: 25px;
+            line-height: 1.6;
+        }
+
+        .ia-buttons {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 15px;
+            margin-bottom: 20px;
+        }
+
+        .ia-button {
+            background: linear-gradient(135deg, #8a2be2 0%, #9370db 100%);
+            border: 2px solid #d4af37;
+            color: white;
+            padding: 15px;
+            border-radius: 15px;
+            cursor: pointer;
+            font-size: 1em;
+            font-family: 'Georgia', serif;
+            transition: all 0.3s;
+            text-align: center;
+        }
+
+        .ia-button:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 8px 20px rgba(138, 43, 226, 0.5);
+        }
+
+        .ia-close-button {
+            background: rgba(255, 107, 107, 0.3);
+            border: 2px solid #ff6b6b;
+            color: #ff6b6b;
+            padding: 10px;
+            border-radius: 10px;
+            cursor: pointer;
+            width: 100%;
+            font-size: 1em;
+            font-family: 'Georgia', serif;
+            transition: all 0.3s;
+        }
+
+        .ia-close-button:hover {
+            background: rgba(255, 107, 107, 0.5);
+        }
+
+        .ia-message {
+            text-align: center;
+            color: #4CAF50;
+            font-size: 0.95em;
+            margin-top: 15px;
+            padding: 10px;
+            background: rgba(76, 175, 80, 0.2);
+            border-radius: 10px;
+            display: none;
+        }
+
+        .button-container {
+            display: flex;
+            gap: 10px;
+            justify-content: center;
+            flex-wrap: wrap;
+        }
+
+        @media (max-width: 480px) {
+            .button-container {
+                flex-direction: column;
+            }
+            
+            .copy-button {
+                width: 100%;
+            }
+        }
+
+        .global-interpretation {
+            background: linear-gradient(135deg, rgba(138, 43, 226, 0.3) 0%, rgba(75, 0, 130, 0.3) 100%);
+            border: 3px solid #d4af37;
+            border-radius: 20px;
+            padding: 25px;
+            margin: 30px 0;
+            box-shadow: 0 10px 40px rgba(212, 175, 55, 0.3);
+        }
+
+        @media (min-width: 768px) {
+            .global-interpretation {
+                padding: 35px;
+            }
+        }
+
+        .global-interpretation h2 {
+            color: #d4af37;
+            text-align: center;
+            font-size: 1.8em;
+            margin-bottom: 20px;
+            text-shadow: 2px 2px 8px rgba(212, 175, 55, 0.5);
+        }
+
+        @media (min-width: 768px) {
+            .global-interpretation h2 {
+                font-size: 2.3em;
+                margin-bottom: 30px;
+            }
+        }
+
+        .global-interpretation .reading-summary {
+            background: rgba(0, 0, 0, 0.3);
+            padding: 20px;
+            border-radius: 15px;
+            margin: 20px 0;
+        }
+
+        .time-warning {
+            text-align: center;
+            color: #ff6b6b;
+            font-size: 1.1em;
+            margin: 20px 0;
+            padding: 15px;
+            background: rgba(255, 107, 107, 0.1);
+            border-radius: 10px;
+            border: 2px solid rgba(255, 107, 107, 0.3);
+        }
+
+        .loading {
+            text-align: center;
+            font-size: 2em;
+            color: #d4af37;
+            animation: spin 2s linear infinite;
+        }
+
+        @keyframes spin {
+            from { transform: rotate(0deg); }
+            to { transform: rotate(360deg); }
+        }
+
+        .question-input {
+            width: 100%;
+            padding: 15px;
+            border: 2px solid rgba(212, 175, 55, 0.5);
+            border-radius: 15px;
+            background: rgba(138, 43, 226, 0.1);
+            color: #e0c9ff;
+            font-size: 1.1em;
+            font-family: 'Georgia', serif;
+            margin: 20px 0;
+            resize: vertical;
+            min-height: 80px;
+        }
+
+        @media (min-width: 768px) {
+            .question-input {
+                font-size: 1.2em;
+                min-height: 100px;
+            }
+        }
+
+        .question-input::placeholder {
+            color: rgba(224, 201, 255, 0.5);
+        }
+
+        .question-input:focus {
+            outline: none;
+            border-color: #d4af37;
+            box-shadow: 0 0 15px rgba(212, 175, 55, 0.3);
+        }
+
+        /* ===== ESTILOS NUEVOS: LOGIN, PERFIL, TOUR ===== */
+        .input-group { margin: 16px 0; }
+        .input-group label { display:block; color:#d4af37; margin-bottom:7px; font-weight:bold; font-size:.95em; }
+        .input-group input, .input-group textarea {
+            width:100%; padding:12px; background:rgba(255,255,255,.1);
+            border:2px solid rgba(212,175,55,.35); border-radius:10px;
+            color:#e0c9ff; font-family:'Georgia',serif; font-size:1em; transition:border-color .3s;
+        }
+        .input-group input:focus, .input-group textarea:focus {
+            outline:none; border-color:#d4af37; background:rgba(255,255,255,.15);
+        }
+        .login-note { text-align:center; color:rgba(224,201,255,.7); font-size:.85em; margin-top:18px; line-height:1.6; }
+        .login-error { color:#ff6b6b; text-align:center; margin:10px 0; padding:10px;
+            background:rgba(255,107,107,.1); border-radius:10px; display:none; font-size:.95em; }
+        .user-greeting { text-align:center; padding:14px; background:rgba(212,175,55,.1);
+            border-radius:15px; margin-bottom:18px; border:2px solid rgba(212,175,55,.3); }
+        .user-greeting .greet-nick { font-size:1.25em; color:#d4af37; font-weight:bold; }
+        .user-greeting .greet-email { font-size:.88em; color:#e0c9ff; margin-top:4px; }
+        .user-greeting .greet-motivos { font-size:.82em; color:rgba(212,175,55,.75); margin-top:4px; }
+        .section-hdr { color:#d4af37; font-size:1.05em; font-weight:bold;
+            margin:22px 0 10px; padding-bottom:8px; border-bottom:2px solid rgba(212,175,55,.3); }
+        .checkbox-grid { display:grid; grid-template-columns:repeat(auto-fill,minmax(175px,1fr));
+            gap:9px; margin:12px 0; }
+        .chk-item { display:flex; align-items:center; gap:9px; padding:10px;
+            background:rgba(138,43,226,.2); border-radius:10px; cursor:pointer;
+            transition:background .2s; border:1px solid rgba(212,175,55,.18); }
+        .chk-item:hover { background:rgba(138,43,226,.4); }
+        .chk-item input[type=checkbox] { width:18px; height:18px; cursor:pointer; accent-color:#d4af37; flex-shrink:0; }
+        .chk-item label { cursor:pointer; color:#e0c9ff; font-size:.9em; flex:1; }
+        /* Settings: logout y editar perfil */
+        .btn-logout { background:rgba(255,107,107,.2); border:2px solid #ff6b6b; color:#ff6b6b;
+            padding:7px 14px; border-radius:10px; cursor:pointer; font-size:.88em;
+            font-family:'Georgia',serif; transition:all .3s; margin:0; }
+        .btn-logout:hover { background:rgba(255,107,107,.4); }
+        .btn-settings-sm { background:rgba(212,175,55,.15); border:2px solid rgba(212,175,55,.6);
+            color:#d4af37; padding:7px 14px; border-radius:10px; cursor:pointer;
+            font-size:.88em; font-family:'Georgia',serif; transition:all .3s; margin:0; }
+        .btn-settings-sm:hover { background:rgba(212,175,55,.3); }
+        /* Tour */
+        #tourOverlay { position:fixed; inset:0; background:rgba(0,0,0,.82); z-index:9990;
+            display:none; pointer-events:none; }
+        #tourOverlay.on { display:block; }
+        .tour-box { position:fixed; background:linear-gradient(135deg,rgba(26,0,51,.99),rgba(75,0,130,.99));
+            border:3px solid #d4af37; border-radius:20px; padding:26px; max-width:380px;
+            width:calc(100% - 40px); z-index:9999; box-shadow:0 15px 50px rgba(212,175,55,.4);
+            left:50%; top:50%; transform:translate(-50%,-50%); pointer-events:all;
+            animation:fadeIn .4s ease; }
+        .tour-box h3 { color:#d4af37; margin-bottom:10px; font-size:1.2em; }
+        .tour-box p  { color:#e0c9ff; line-height:1.6; margin-bottom:18px; font-size:.95em; }
+        .tour-counter { color:rgba(212,175,55,.7); font-size:.82em; margin-bottom:12px; }
+        .tour-btns { display:flex; gap:10px; justify-content:space-between; flex-wrap:wrap; }
+        .btn-tour-help { position:fixed; bottom:20px; left:20px; width:50px; height:50px;
+            background:rgba(138,43,226,.35); border:2px solid #d4af37; border-radius:50%;
+            cursor:pointer; display:flex; align-items:center; justify-content:center;
+            font-size:1.4em; font-weight:bold; color:#d4af37; z-index:1000;
+            transition:all .3s; box-shadow:0 4px 15px rgba(212,175,55,.3); }
+        .btn-tour-help:hover { transform:scale(1.12); background:rgba(138,43,226,.55); }
+        /* History mejorado */
+        .hist-item { background:rgba(138,43,226,.2); border:1px solid rgba(212,175,55,.3);
+            border-radius:12px; padding:14px; margin:9px 0; }
+        .hist-item.del { opacity:.5; border-style:dashed; border-color:rgba(255,107,107,.45); }
+        .hist-actions { display:flex; gap:8px; margin-top:10px; flex-wrap:wrap; }
+        .hbtn { padding:6px 13px; border-radius:9px; cursor:pointer; font-size:.83em;
+            font-family:'Georgia',serif; transition:all .2s; border:2px solid; }
+        .hbtn-v { background:rgba(100,160,255,.18); border-color:#64a0ff; color:#64a0ff; }
+        .hbtn-d { background:rgba(255,107,107,.18); border-color:#ff6b6b; color:#ff6b6b; }
+        .hbtn-r { background:rgba(76,175,80,.18);  border-color:#4CAF50; color:#4CAF50; }
+        .hbtn-x { background:rgba(180,0,0,.18);    border-color:#cc0000; color:#ff4444; }
+    </style>
+</head>
+<body>
+    <!-- v1.3 Premium — monedas a 50 + recarga; interpretaciones por carta extendidas y con variedad; IA: advertencia + oportunidad -->
+    <!-- Partículas místicas de fondo -->
+    <div class="mystic-particles" id="particles"></div>
+
+    <!-- Tour overlay y botón ayuda -->
+    <div id="tourOverlay"></div>
+    <div class="btn-tour-help" onclick="tourStart()" title="Tour guiado">?</div>
+
+    <!-- Botón de configuración -->
+    <div class="settings-button" onclick="toggleSettings()">⚙️</div>
+    <div class="settings-panel" id="settingsPanel">
+        <div class="settings-option">
+            <span>🔊 Sonidos</span>
+            <div class="toggle-switch active" id="soundToggle" onclick="toggleSound()">
+                <div class="toggle-slider"></div>
+            </div>
+        </div>
+        <div class="settings-option">
+            <span>✨ Partículas</span>
+            <div class="toggle-switch active" id="particlesToggle" onclick="toggleParticles()">
+                <div class="toggle-slider"></div>
+            </div>
+        </div>
+        <div class="settings-option">
+            <span>📜 Historial</span>
+            <button class="btn-settings-sm" onclick="showHistory()">Ver</button>
+        </div>
+        <div class="settings-option" id="opt_editProfile" style="display:none;">
+            <span>👤 Mi Perfil</span>
+            <button class="btn-settings-sm" onclick="abrirEditarPerfil()">Editar</button>
+        </div>
+        <div class="settings-option" id="opt_logout" style="display:none;">
+            <span>🚪 Sesión</span>
+            <button class="btn-logout" onclick="doLogout()">Salir</button>
+        </div>
+    </div>
+
+    <div class="container">
+        <h1>🔮 Tarot Místico 🔮</h1>
+
+        <!-- ===== PANTALLA LOGIN ===== -->
+        <div id="loginScreen" class="screen active">
+            <div class="mystical-text">
+                <p style="font-size:1.35em;">✨ Portal del Tarot Místico ✨</p>
+                <p style="font-size:.92em; margin-top:10px; opacity:.85;">Inicia sesión o regístrate para comenzar tu viaje</p>
+            </div>
+
+            <datalist id="dlistUsers"></datalist>
+
+            <div class="input-group">
+                <label for="lNick">👤 Nombre de Usuario <span style="color:#ffd700; font-size:.85em;">(mín. 3 caracteres)</span></label>
+                <input type="text" id="lNick" list="dlistUsers" placeholder="Tu nickname..." autocomplete="off" oninput="autoFillEmail(this.value)">
+            </div>
+            <div class="input-group">
+                <label for="lEmail">📧 Email <span style="color:rgba(255,255,255,.5); font-size:.85em;">(opcional)</span></label>
+                <input type="email" id="lEmail" placeholder="tu@email.com">
+            </div>
+            <div class="input-group">
+                <label for="lPin">🔒 Clave / PIN <span style="color:#ffd700; font-size:.85em;">(mín. 4 caracteres)</span></label>
+                <input type="password" id="lPin" placeholder="Tu clave secreta..." onkeydown="if(event.key==='Enter') doLogin()">
+            </div>
+
+            <div class="login-error" id="loginErr"></div>
+
+            <button class="button-primary" onclick="doLogin()">🌟 Ingresar</button>
+
+            <p class="login-note">
+                ¿Primera vez? Elige tu nickname y crea tu clave — se registra automáticamente.<br>
+                ¿Ya tienes cuenta? Escribe el mismo nickname y clave para retomar tu historial.
+            </p>
+        </div>
+
+        <!-- ===== PANTALLA PERFIL ===== -->
+        <div id="profileScreen" class="screen">
+            <div class="mystical-text">
+                <p style="font-size:1.25em;">👤 Tu Perfil Místico</p>
+                <p style="font-size:.9em; margin-top:8px; opacity:.85;">Personaliza tus lecturas y el contexto para la IA</p>
+            </div>
+
+            <div class="section-hdr">🎯 ¿Qué te trae aquí? <span style="font-weight:normal; font-size:.85em; color:#e0c9ff;">(selecciona todo lo que aplique)</span></div>
+            <div class="checkbox-grid">
+                <div class="chk-item"><input type="checkbox" id="cm_amor"      value="Amor y pareja"><label for="cm_amor">💖 Amor y pareja</label></div>
+                <div class="chk-item"><input type="checkbox" id="cm_decision"  value="Toma de decisiones"><label for="cm_decision">🤔 Decisiones</label></div>
+                <div class="chk-item"><input type="checkbox" id="cm_trabajo"   value="Trabajo y carrera"><label for="cm_trabajo">💼 Trabajo/carrera</label></div>
+                <div class="chk-item"><input type="checkbox" id="cm_dinero"    value="Dinero y finanzas"><label for="cm_dinero">💰 Finanzas</label></div>
+                <div class="chk-item"><input type="checkbox" id="cm_familia"   value="Familia"><label for="cm_familia">👨‍👩‍👧 Familia</label></div>
+                <div class="chk-item"><input type="checkbox" id="cm_salud"     value="Salud y bienestar"><label for="cm_salud">🌿 Salud/bienestar</label></div>
+                <div class="chk-item"><input type="checkbox" id="cm_duelo"     value="Duelo y cierres"><label for="cm_duelo">🕊️ Duelo/cierres</label></div>
+                <div class="chk-item"><input type="checkbox" id="cm_proposito" value="Propósito de vida"><label for="cm_proposito">🎯 Propósito</label></div>
+                <div class="chk-item"><input type="checkbox" id="cm_estudios"  value="Estudios"><label for="cm_estudios">📚 Estudios</label></div>
+                <div class="chk-item"><input type="checkbox" id="cm_conflicto" value="Conflictos"><label for="cm_conflicto">⚡ Conflictos</label></div>
+                <div class="chk-item"><input type="checkbox" id="cm_cambios"   value="Cambios de vida"><label for="cm_cambios">🔄 Cambios</label></div>
+                <div class="chk-item"><input type="checkbox" id="cm_proyectos" value="Nuevos proyectos"><label for="cm_proyectos">🚀 Proyectos</label></div>
+                <div class="chk-item"><input type="checkbox" id="cm_mudanza"   value="Mudanza o viaje"><label for="cm_mudanza">🏡 Mudanza/viaje</label></div>
+                <div class="chk-item"><input type="checkbox" id="cm_otro"      value="otro" onchange="toggleOtroInput()"><label for="cm_otro">✨ Otro</label></div>
+            </div>
+            <div class="input-group" id="otroInputDiv" style="display:none;">
+                <label for="otroTexto">Especifica tu motivo:</label>
+                <input type="text" id="otroTexto" placeholder="Describe brevemente...">
+            </div>
+
+            <div class="section-hdr">🔍 Preguntas Clave de Contexto</div>
+            <div class="input-group">
+                <label for="perfQ1">¿Qué decisión concreta estás postergando y qué te cuesta asumir de ella?</label>
+                <textarea id="perfQ1" rows="4" placeholder="Sé específico/a. Cuanto más concreto, más útil para la lectura..."></textarea>
+            </div>
+            <div class="input-group">
+                <label for="perfQ2">¿Qué patrón reconoces que se repite y qué límite necesitas sostener?</label>
+                <textarea id="perfQ2" rows="4" placeholder="Reflexiona y responde con honestidad..."></textarea>
+            </div>
+
+            <div style="display:flex; gap:12px; flex-wrap:wrap; margin-top:8px;">
+                <button class="button-primary" style="flex:1;" onclick="guardarPerfil()">💾 Guardar Perfil</button>
+                <button class="button-primary" style="flex:1; background:rgba(100,100,100,.5);" onclick="saltarPerfil()">⏭ Completar después</button>
+            </div>
+        </div>
+
+        <!-- ===== PANTALLA BIENVENIDA ===== -->
+        <div id="welcomeScreen" class="screen">
+            <div id="divGreeting" class="user-greeting" style="display:none;">
+                <div class="greet-nick">Bienvenido/a, <span id="spNick"></span> ✨</div>
+                <div class="greet-email" id="spEmail" style="display:none;"></div>
+                <div class="greet-motivos" id="spMotivos" style="display:none;"></div>
+            </div>
+            <div class="mystical-text">
+                <p>Bienvenido, buscador de verdades ocultas.</p>
+                <p style="margin-top: 20px;">El Tarot es un antiguo sistema de sabiduría que utiliza 78 cartas arquetípicas para revelar insights sobre tu vida, tus desafíos y tu camino.</p>
+                <p style="margin-top: 20px;">Cada carta es un espejo del alma, un portal a tu subconsciente. A través de los símbolos sagrados de los Arcanos Mayores y Menores, el Tarot te guía hacia el autoconocimiento y la claridad.</p>
+            </div>
+            
+            <div class="coin-counter">
+                💰 Monedas: <span id="coinDisplay">50</span>
+            </div>
+            
+            <button class="button-primary" onclick="goToReadingSelection()">Comenzar Lectura</button>
+        </div>
+
+        <!-- Pantalla de Selección de Lectura -->
+        <div id="readingSelectionScreen" class="screen">
+            <div class="mystical-text">
+                <p>Elige el método de lectura que resuene con tu consulta.</p>
+                <p style="font-size: 0.9em; margin-top: 15px;">Cada lectura cuesta 2 monedas 💰</p>
+            </div>
+            
+            <div class="coin-counter">
+                💰 Monedas: <span id="coinDisplay2">50</span>
+            </div>
+            
+            <div class="reading-methods">
+                <div class="method-card" onclick="selectMethod('etteilla')">
+                    <h3>🎴 Etteilla</h3>
+                    <p><strong>7 cartas en línea</strong></p>
+                    <p>Lectura secuencial clásica de cartomancia. Haz clic en cada carta para revelarla de izquierda a derecha.</p>
+                </div>
+                
+                <div class="method-card" onclick="selectMethod('celtic')">
+                    <h3>✝️ Cruz Celta</h3>
+                    <p><strong>10 cartas posicionales</strong></p>
+                    <p>El método más completo. Haz clic en cada carta para descubrir su posición y significado.</p>
+                </div>
+                
+                <div class="method-card" onclick="selectMethod('threeCard')">
+                    <h3>🔺 Tres Cartas</h3>
+                    <p><strong>Pasado-Presente-Futuro</strong></p>
+                    <p>Lectura rápida y directa. Revela las tres cartas haciendo clic en cada una.</p>
+                </div>
+                
+                <div class="method-card" onclick="selectMethod('fiveCard')">
+                    <h3>🌟 Cinco Cartas</h3>
+                    <p><strong>Lectura profunda personalizada</strong></p>
+                    <p>Escribe tu pregunta y revela cada carta progresivamente para obtener tu respuesta.</p>
+                </div>
+            </div>
+            
+            <button class="button-primary" style="background: #666;" onclick="returnToWelcome()">← Volver</button>
+        </div>
+
+        <!-- Pantalla de Pregunta (para método de 5 cartas) -->
+        <div id="questionScreen" class="screen">
+            <div class="mystical-text">
+                <p>Enfoca tu mente en aquello que buscas comprender.</p>
+                <p style="margin-top: 20px;">Escribe tu pregunta en el espacio sagrado a continuación. No es necesario incluir nombres propios, enfócate en la esencia de tu consulta.</p>
+            </div>
+            
+            <textarea class="question-input" id="userQuestion" placeholder="Escribe tu pregunta aquí... ej: ¿Cuál es el camino que debo tomar en este momento de mi vida?"></textarea>
+            
+            <button class="button-primary" onclick="startReading()">Revelar las Cartas</button>
+            <button class="button-primary" style="background: #666;" onclick="returnToMethods()">← Volver</button>
+        </div>
+
+        <!-- Pantalla de Lectura -->
+        <div id="readingScreen" class="screen">
+            <div id="timeWarning" class="time-warning" style="display: none;"></div>
+            
+            <div class="coin-counter">
+                💰 Monedas restantes: <span id="coinDisplay3">50</span>
+            </div>
+            
+            <div class="mystical-text" id="readingTitle"></div>
+            
+            <div class="instructions" id="readingInstructions" style="display: none;"></div>
+            
+            <div id="cardsArea" class="cards-container"></div>
+            
+            <div id="interpretationArea"></div>
+            
+            <div id="globalInterpretationArea"></div>
+            
+            <button class="button-primary" id="actionButton" style="display: none;">Continuar</button>
+            <button class="button-primary" id="returnButton" style="display: none;" onclick="returnToWelcome()">🏠 Volver al Inicio</button>
+            <button class="button-primary" id="exitButton" style="display: none;" onclick="exitReading()">Salir</button>
+        </div>
+    </div>
+
+    <script>
+        // Sistema de Audio Místico (generación procedural de sonidos)
+        const AudioSystem = {
+            context: null,
+            
+            init() {
+                if (!this.context) {
+                    this.context = new (window.AudioContext || window.webkitAudioContext)();
+                }
+            },
+            
+            // Sonido de carta revelándose
+            playCardReveal() {
+                this.init();
+                const now = this.context.currentTime;
+                
+                // Oscilador principal (campana mística)
+                const osc1 = this.context.createOscillator();
+                const gain1 = this.context.createGain();
+                osc1.connect(gain1);
+                gain1.connect(this.context.destination);
+                
+                osc1.frequency.setValueAtTime(528, now); // Frecuencia de "amor" 528Hz
+                osc1.frequency.exponentialRampToValueAtTime(396, now + 0.3);
+                
+                gain1.gain.setValueAtTime(0.15, now);
+                gain1.gain.exponentialRampToValueAtTime(0.01, now + 0.5);
+                
+                osc1.start(now);
+                osc1.stop(now + 0.5);
+                
+                // Segundo armónico
+                const osc2 = this.context.createOscillator();
+                const gain2 = this.context.createGain();
+                osc2.connect(gain2);
+                gain2.connect(this.context.destination);
+                
+                osc2.frequency.setValueAtTime(792, now);
+                osc2.frequency.exponentialRampToValueAtTime(594, now + 0.3);
+                
+                gain2.gain.setValueAtTime(0.08, now);
+                gain2.gain.exponentialRampToValueAtTime(0.01, now + 0.5);
+                
+                osc2.start(now);
+                osc2.stop(now + 0.5);
+            },
+            
+            // Sonido de clic místico en botones
+            playButtonClick() {
+                this.init();
+                const now = this.context.currentTime;
+                
+                const osc = this.context.createOscillator();
+                const gain = this.context.createGain();
+                osc.connect(gain);
+                gain.connect(this.context.destination);
+                
+                osc.frequency.setValueAtTime(800, now);
+                osc.frequency.exponentialRampToValueAtTime(400, now + 0.1);
+                
+                gain.gain.setValueAtTime(0.1, now);
+                gain.gain.exponentialRampToValueAtTime(0.01, now + 0.1);
+                
+                osc.start(now);
+                osc.stop(now + 0.1);
+            },
+            
+            // Sonido de interpretación completada
+            playComplete() {
+                this.init();
+                const now = this.context.currentTime;
+                
+                // Acorde místico ascendente
+                const frequencies = [396, 417, 528, 639, 741];
+                
+                frequencies.forEach((freq, i) => {
+                    const osc = this.context.createOscillator();
+                    const gain = this.context.createGain();
+                    osc.connect(gain);
+                    gain.connect(this.context.destination);
+                    
+                    osc.frequency.setValueAtTime(freq, now + i * 0.1);
+                    
+                    gain.gain.setValueAtTime(0.08, now + i * 0.1);
+                    gain.gain.exponentialRampToValueAtTime(0.01, now + i * 0.1 + 0.4);
+                    
+                    osc.start(now + i * 0.1);
+                    osc.stop(now + i * 0.1 + 0.4);
+                });
+            },
+            
+            // Ambiente místico de fondo (opcional)
+            playAmbient() {
+                this.init();
+                const now = this.context.currentTime;
+                
+                const osc = this.context.createOscillator();
+                const gain = this.context.createGain();
+                const filter = this.context.createBiquadFilter();
+                
+                osc.connect(filter);
+                filter.connect(gain);
+                gain.connect(this.context.destination);
+                
+                osc.type = 'sine';
+                osc.frequency.setValueAtTime(110, now);
+                
+                filter.type = 'lowpass';
+                filter.frequency.setValueAtTime(800, now);
+                filter.Q.setValueAtTime(5, now);
+                
+                gain.gain.setValueAtTime(0, now);
+                gain.gain.linearRampToValueAtTime(0.03, now + 1);
+                gain.gain.setValueAtTime(0.03, now + 8);
+                gain.gain.linearRampToValueAtTime(0, now + 10);
+                
+                osc.start(now);
+                osc.stop(now + 10);
+            }
+        };
+
+        // Estado de la aplicación
+        let appState = {
+            coins: 50,
+            lastRechargeTime: Date.now(),
+            currentMethod: null,
+            revealedCards: [],
+            allCards: [],
+            cardStates: [], // Para guardar si están invertidas
+            currentCardIndex: 0,
+            soundEnabled: true,
+            particlesEnabled: true,
+            readingHistory: []
+        };
+
+        // Cargar estado del localStorage
+        function loadState() {
+            const saved = localStorage.getItem('tarotAppState');
+            if (saved) {
+                const parsed = JSON.parse(saved);
+                appState.coins = (parsed.coins !== undefined && parsed.coins !== null) ? parsed.coins : 50;
+                appState.lastRechargeTime = parsed.lastRechargeTime || Date.now();
+                appState.soundEnabled = parsed.soundEnabled !== undefined ? parsed.soundEnabled : true;
+                appState.particlesEnabled = parsed.particlesEnabled !== undefined ? parsed.particlesEnabled : true;
+                appState.readingHistory = parsed.readingHistory || [];
+                checkCoinsRecharge();
+                
+                // Aplicar configuraciones
+                if (!appState.soundEnabled) {
+                    document.getElementById('soundToggle')?.classList.remove('active');
+                }
+                if (!appState.particlesEnabled) {
+                    document.getElementById('particlesToggle')?.classList.remove('active');
+                    document.getElementById('particles').style.display = 'none';
+                }
+            }
+            updateCoinDisplays();
+        }
+
+        // Guardar estado
+        function saveState() {
+            localStorage.setItem('tarotAppState', JSON.stringify({
+                coins: appState.coins,
+                lastRechargeTime: appState.lastRechargeTime,
+                soundEnabled: appState.soundEnabled,
+                particlesEnabled: appState.particlesEnabled,
+                readingHistory: appState.readingHistory.slice(-10) // Solo últimas 10
+            }));
+        }
+
+        // Verificar recarga de monedas (cada 2 horas)
+        function checkCoinsRecharge() {
+            const now = Date.now();
+            const twoHours = 2 * 60 * 60 * 1000;
+            const timePassed = now - appState.lastRechargeTime;
+            
+            if (timePassed >= twoHours && appState.coins < 50) {
+                appState.coins = 50;
+                appState.lastRechargeTime = now;
+                saveState();
+            }
+        }
+
+        // Actualizar displays de monedas
+        function updateCoinDisplays() {
+            document.getElementById('coinDisplay').textContent = appState.coins;
+            document.getElementById('coinDisplay2').textContent = appState.coins;
+            document.getElementById('coinDisplay3').textContent = appState.coins;
+        }
+
+        // Navegación entre pantallas
+        function showScreen(screenId) {
+            document.querySelectorAll('.screen').forEach(s => s.classList.remove('active'));
+            document.getElementById(screenId).classList.add('active');
+        }
+
+        function goToReadingSelection() {
+            AudioSystem.playButtonClick();
+            checkCoinsRecharge();
+            updateCoinDisplays();
+            showScreen('readingSelectionScreen');
+        }
+
+        function returnToWelcome() {
+            showScreen('welcomeScreen');
+        }
+
+        function returnToMethods() {
+            showScreen('readingSelectionScreen');
+        }
+
+        // Selección de método
+        function selectMethod(method) {
+            AudioSystem.playButtonClick();
+            
+            if (appState.coins < 2) {
+                showTimeWarning();
+                return;
+            }
+            
+            appState.currentMethod = method;
+            
+            if (method === 'fiveCard') {
+                showScreen('questionScreen');
+            } else {
+                startReading();
+            }
+        }
+
+        // Mostrar advertencia de tiempo
+        function showTimeWarning() {
+            const warning = document.getElementById('timeWarning');
+            const now = Date.now();
+            const twoHours = 2 * 60 * 60 * 1000;
+            const timeUntilRecharge = twoHours - (now - appState.lastRechargeTime);
+            const hoursLeft = Math.floor(timeUntilRecharge / (60 * 60 * 1000));
+            const minutesLeft = Math.floor((timeUntilRecharge % (60 * 60 * 1000)) / (60 * 1000));
+            
+            warning.textContent = `⏳ No tienes suficientes monedas. Recibirás 50 monedas nuevas en ${hoursLeft}h ${minutesLeft}m`;
+            warning.style.display = 'block';
+            showScreen('readingScreen');
+            
+            document.getElementById('actionButton').style.display = 'none';
+            document.getElementById('exitButton').style.display = 'block';
+        }
+
+        // Iniciar lectura
+        function startReading() {
+            // Cobrar monedas
+            appState.coins -= 2;
+            saveState();
+            updateCoinDisplays();
+            
+            showScreen('readingScreen');
+            document.getElementById('timeWarning').style.display = 'none';
+            
+            // Preparar cartas según el método
+            prepareReading();
+        }
+
+        // Preparar lectura según método
+        function prepareReading() {
+            appState.revealedCards = [];
+            appState.currentCardIndex = 0;
+            appState.cardStates = []; // Reset estados de cartas
+            
+            const methods = {
+                'etteilla': { 
+                    cards: 7, 
+                    title: '🎴 Lectura Etteilla',
+                    instructions: '🧘‍♀️ Concéntrate en tu pregunta, situación o problema. Mantenlo en tu mente durante toda la lectura.\n\nHaz clic en cada carta para revelarla de izquierda a derecha. Al revelar todas las cartas, recibirás la interpretación completa.'
+                },
+                'celtic': { 
+                    cards: 10, 
+                    title: '✝️ Cruz Celta',
+                    instructions: '🧘‍♀️ Enfoca tu mente en aquello que buscas comprender. Mantén tu intención clara durante toda la lectura.\n\nHaz clic en cada carta para descubrir su significado. Cada posición tiene un propósito específico. Revela todas las cartas para obtener la interpretación completa.'
+                },
+                'threeCard': { 
+                    cards: 3, 
+                    title: '🔺 Pasado - Presente - Futuro',
+                    instructions: '🧘‍♀️ Piensa en tu situación actual o pregunta específica. Mantén esa intención presente en tu mente.\n\nHaz clic en cada carta para revelarla. La primera representa tu pasado, la segunda tu presente, y la tercera tu futuro probable.'
+                },
+                'fiveCard': { 
+                    cards: 5, 
+                    title: '🌟 Tu Pregunta Revelada',
+                    instructions: '🧘‍♀️ Tu pregunta ha sido recibida. Mantén tu intención enfocada en ella durante toda la lectura.\n\nHaz clic en cada carta progresivamente. Cada una revelará una capa más profunda de tu pregunta hasta llegar a la respuesta final.'
+                }
+            };
+            
+            const method = methods[appState.currentMethod];
+            document.getElementById('readingTitle').innerHTML = `<p>${method.title}</p>`;
+            
+            // Mostrar instrucciones
+            const instructionsEl = document.getElementById('readingInstructions');
+            instructionsEl.textContent = method.instructions;
+            instructionsEl.style.display = 'block';
+            
+            // Generar cartas aleatorias
+            appState.allCards = generateRandomCards(method.cards);
+            
+            // Generar estados de invertidas (30% probabilidad)
+            for (let i = 0; i < method.cards; i++) {
+                appState.cardStates.push(Math.random() < 0.3);
+            }
+            
+            // Mostrar cartas boca abajo
+            displayCardBacks();
+        }
+
+        // Generar cartas aleatorias
+        function generateRandomCards(count) {
+            const deck = createDeck();
+            const selected = [];
+            
+            for (let i = 0; i < count; i++) {
+                const randomIndex = Math.floor(Math.random() * deck.length);
+                selected.push(deck.splice(randomIndex, 1)[0]);
+            }
+            
+            return selected;
+        }
+
+        // Crear baraja completa
+        function createDeck() {
+            const majorArcana = [
+                { name: 'El Loco', number: 0, icon: '🃏', upright: 'Nuevos comienzos, espontaneidad, fe en el universo. Un salto hacia lo desconocido con inocencia y confianza.', reversed: 'Imprudencia, falta de dirección, decisiones apresuradas sin considerar consecuencias.' },
+                { name: 'El Mago', number: 1, icon: '🎩', upright: 'Manifestación, poder personal, recursos disponibles. Tienes todas las herramientas para crear tu realidad.', reversed: 'Manipulación, potencial desperdiciado, falta de claridad en objetivos.' },
+                { name: 'La Sacerdotisa', number: 2, icon: '🌙', upright: 'Intuición, misterio, conocimiento interno. Confía en tu voz interior y en lo que aún no se revela.', reversed: 'Secretos ocultos, desconexión de la intuición, información reprimida.' },
+                { name: 'La Emperatriz', number: 3, icon: '👑', upright: 'Abundancia, fertilidad, naturaleza nutricia. Creatividad floreciendo y cuidado amoroso.', reversed: 'Dependencia, creatividad bloqueada, descuido personal.' },
+                { name: 'El Emperador', number: 4, icon: '⚔️', upright: 'Autoridad, estructura, control. Establecer orden y límites saludables.', reversed: 'Dominio excesivo, rigidez, abuso de poder.' },
+                { name: 'El Hierofante', number: 5, icon: '🏛️', upright: 'Tradición, educación espiritual, conformidad. Buscar guía en instituciones o maestros.', reversed: 'Rebelión contra convenciones, dogma restrictivo, búsqueda personal de verdad.' },
+                { name: 'Los Enamorados', number: 6, icon: '💕', upright: 'Amor, armonía, elecciones importantes. Decisiones del corazón y unión significativa.', reversed: 'Desbalance en relaciones, decisiones conflictivas, falta de alineación de valores.' },
+                { name: 'El Carro', number: 7, icon: '🚗', upright: 'Determinación, éxito a través de control. Avanzar con fuerza de voluntad y dirección clara.', reversed: 'Falta de control, dirección perdida, agresión o pasividad extrema.' },
+                { name: 'La Fuerza', number: 8, icon: '🦁', upright: 'Coraje interior, compasión, control suave. Dominar situaciones con amor y paciencia.', reversed: 'Inseguridad, duda de uno mismo, falta de coraje o abuso de poder.' },
+                { name: 'El Ermitaño', number: 9, icon: '🕯️', upright: 'Introspección, búsqueda de verdad, soledad necesaria. Retiro para encontrar sabiduría interna.', reversed: 'Aislamiento excesivo, soledad no deseada, rechazo a la guía interna.' },
+                { name: 'La Rueda de la Fortuna', number: 10, icon: '☸️', upright: 'Ciclos, destino, cambios inevitables. La vida gira, adaptarse al flujo del universo.', reversed: 'Mala suerte temporal, resistencia al cambio, ciclo negativo.' },
+                { name: 'La Justicia', number: 11, icon: '⚖️', upright: 'Equidad, verdad, ley de causa y efecto. Las acciones tienen consecuencias justas.', reversed: 'Injusticia, deshonestidad, evitar responsabilidad, juicio sesgado.' },
+                { name: 'El Colgado', number: 12, icon: '🙃', upright: 'Sacrificio, nueva perspectiva, pausa necesaria. Soltar el control para ganar sabiduría.', reversed: 'Estancamiento innecesario, resistencia al cambio, martirio.' },
+                { name: 'La Muerte', number: 13, icon: '💀', upright: 'Transformación, finales necesarios, renacimiento. Un ciclo termina para que otro comience.', reversed: 'Resistencia al cambio, estancamiento, miedo a lo desconocido.' },
+                { name: 'La Templanza', number: 14, icon: '🧘', upright: 'Balance, moderación, paciencia. Encontrar el punto medio y fluir con la vida.', reversed: 'Desbalance, exceso, falta de armonía, impaciencia.' },
+                { name: 'El Diablo', number: 15, icon: '😈', upright: 'Ataduras, adicciones, materialismo. Reconocer las cadenas que tú mismo has creado.', reversed: 'Liberación de ataduras, romper patrones negativos, recuperar poder.' },
+                { name: 'La Torre', number: 16, icon: '🗼', upright: 'Cambio repentino, revelación, destrucción necesaria. Estructuras falsas se derrumban.', reversed: 'Evitar el desastre, miedo al cambio, caída retrasada pero inevitable.' },
+                { name: 'La Estrella', number: 17, icon: '⭐', upright: 'Esperanza, inspiración, renovación. Fe en el futuro y sanación espiritual.', reversed: 'Pérdida de fe, desánimo, desconexión de propósito.' },
+                { name: 'La Luna', number: 18, icon: '🌜', upright: 'Ilusión, miedo, subconsciente. Navegar en la incertidumbre y confiar en la intuición.', reversed: 'Claridad emergente, liberación de miedos, verdad revelada.' },
+                { name: 'El Sol', number: 19, icon: '☀️', upright: 'Éxito, vitalidad, claridad. Alegría radiante y energía positiva abundante.', reversed: 'Optimismo excesivo temporal, éxito retrasado, falta de claridad momentánea.' },
+                { name: 'El Juicio', number: 20, icon: '📯', upright: 'Renacimiento, llamado superior, absolución. Despertar a una nueva fase de vida.', reversed: 'Juicio propio severo, dudas, resistencia al llamado del destino.' },
+                { name: 'El Mundo', number: 21, icon: '🌍', upright: 'Culminación, logro, integración. Has completado un ciclo importante con éxito.', reversed: 'Falta de cierre, metas incompletas, resistencia a seguir adelante.' }
+            ];
+            
+            const suits = [
+                { name: 'Copas', icon: '🍷', element: 'agua', theme: 'emociones' },
+                { name: 'Espadas', icon: '⚔️', element: 'aire', theme: 'pensamientos' },
+                { name: 'Bastos', icon: '🔥', element: 'fuego', theme: 'acción' },
+                { name: 'Oros', icon: '💰', element: 'tierra', theme: 'material' }
+            ];
+            
+            const minorArcana = [];
+            
+            // Cartas numeradas (As a 10)
+            for (let suit of suits) {
+                for (let i = 1; i <= 10; i++) {
+                    let cardName = i === 1 ? 'As' : i;
+                    minorArcana.push({
+                        name: `${cardName} de ${suit.name}`,
+                        number: i,
+                        icon: suit.icon,
+                        upright: getMinorCardMeaning(i, suit.name, suit.theme, false),
+                        reversed: getMinorCardMeaning(i, suit.name, suit.theme, true)
+                    });
+                }
+                
+                // Cartas de corte
+                const court = [
+                    { name: 'Sota', icon: '🧑', upright: `Mensajero de ${suit.theme}, nueva energía, entusiasmo juvenil relacionado con ${suit.theme}.`, reversed: `Inmadurez en ${suit.theme}, mensajes retrasados, falta de compromiso.` },
+                    { name: 'Caballero', icon: '🤴', upright: `Acción decidida en ${suit.theme}, movimiento rápido, búsqueda activa.`, reversed: `Impulsividad en ${suit.theme}, falta de dirección, exceso de pasión.` },
+                    { name: 'Reina', icon: '👸', upright: `Maestría emocional en ${suit.theme}, nutrición, comprensión profunda.`, reversed: `Aspectos negativos de ${suit.theme}, codependencia, manipulación emocional.` },
+                    { name: 'Rey', icon: '🤴', upright: `Dominio de ${suit.theme}, liderazgo maduro, control equilibrado.`, reversed: `Abuso de poder en ${suit.theme}, frialdad, control excesivo.` }
+                ];
+                
+                for (let c of court) {
+                    minorArcana.push({
+                        name: `${c.name} de ${suit.name}`,
+                        number: c.name,
+                        icon: c.icon,
+                        upright: c.upright,
+                        reversed: c.reversed
+                    });
+                }
+            }
+            
+            return [...majorArcana, ...minorArcana];
+        }
+
+        // Significados de arcanos menores
+        function getMinorCardMeaning(number, suit, theme, reversed) {
+            const meanings = {
+                'Copas': {
+                    1: { up: 'Nuevo amor, intuición, creatividad emocional. Abundancia de sentimientos.', rev: 'Bloqueo emocional, amor reprimido, creatividad sofocada.' },
+                    2: { up: 'Unión, asociación, atracción mutua. Conexión profunda con otro.', rev: 'Desbalance en relaciones, ruptura, falta de comunicación.' },
+                    3: { up: 'Celebración, amistad, creatividad compartida. Alegría en comunidad.', rev: 'Exceso de indulgencia, relaciones superficiales, aislamiento en grupo.' },
+                    4: { up: 'Contemplación, reevaluación emocional, apatía temporal.', rev: 'Descontento, aburrimiento, oportunidades perdidas por apatía.' },
+                    5: { up: 'Pérdida, duelo, decepción. Enfocarse en lo negativo.', rev: 'Aceptación, recuperación de pérdidas, nueva perspectiva positiva.' },
+                    6: { up: 'Nostalgia, recuerdos, inocencia. Conexión con el pasado.', rev: 'Vivir en el pasado, idealización no realista, estancamiento.' },
+                    7: { up: 'Opciones, ilusiones, fantasía. Muchas posibilidades pero falta claridad.', rev: 'Claridad emergente, decisiones tomadas, ilusiones disipadas.' },
+                    8: { up: 'Dejar ir, búsqueda de algo más profundo, desilusión con lo material.', rev: 'Miedo al abandono, aferrarse a situaciones insatisfactorias.' },
+                    9: { up: 'Satisfacción, deseo cumplido, contentamiento emocional.', rev: 'Insatisfacción, deseos superficiales, arrepentimiento.' },
+                    10: { up: 'Felicidad familiar, armonía emocional, realización plena.', rev: 'Conflictos familiares, valores desalineados, desarmonía.' }
+                },
+                'Espadas': {
+                    1: { up: 'Claridad mental, verdad, decisión. Cortar a través de la confusión.', rev: 'Confusión mental, verdad dolorosa evitada, indecisión.' },
+                    2: { up: 'Elección difícil, estancamiento mental, equilibrio precario.', rev: 'Decisión tomada, fin del estancamiento, claridad alcanzada.' },
+                    3: { up: 'Dolor cardíaco, separación, tristeza profunda.', rev: 'Recuperación de dolor, perdón, sanación gradual.' },
+                    4: { up: 'Descanso necesario, recuperación mental, contemplación.', rev: 'Agotamiento, evitar problemas, descanso forzado.' },
+                    5: { up: 'Conflicto, derrota, deshonra. Situación difícil con ganancia cuestionable.', rev: 'Reconciliación, admitir derrota, aprender de errores.' },
+                    6: { up: 'Transición, dejar atrás problemas, aguas más calmas.', rev: 'Resistencia al cambio, estancamiento en situación difícil.' },
+                    7: { up: 'Engaño, estrategia, actuar solo. Evadir confrontación directa.', rev: 'Revelación de engaños, estrategia fallida, confrontación necesaria.' },
+                    8: { up: 'Atadura mental, victimización, sentirse atrapado.', rev: 'Liberación mental, reconocer poder personal, romper ataduras.' },
+                    9: { up: 'Ansiedad, preocupación, insomnio. Tortura mental auto-impuesta.', rev: 'Recuperación de ansiedad, aceptación, soltar preocupaciones.' },
+                    10: { up: 'Final doloroso, traición, tocando fondo. Peor momento antes del amanecer.', rev: 'Recuperación de crisis, nuevo comienzo, resiliencia.' }
+                },
+                'Bastos': {
+                    1: { up: 'Nuevo proyecto, inspiración, potencial creativo. Chispa inicial.', rev: 'Falta de dirección, proyectos retrasados, inspiración bloqueada.' },
+                    2: { up: 'Planificación, decisiones futuras, esperar el momento correcto.', rev: 'Miedo a lo desconocido, falta de planificación, impaciencia.' },
+                    3: { up: 'Expansión, previsión, oportunidades en el horizonte.', rev: 'Obstáculos en expansión, falta de previsión, planes frustrados.' },
+                    4: { up: 'Celebración, armonía, estabilidad temporal. Logro alcanzado.', rev: 'Falta de armonía, celebración cancelada, inestabilidad doméstica.' },
+                    5: { up: 'Competencia, conflicto, lucha por posición. Desafío necesario.', rev: 'Evitar conflicto, resolución de disputas, cooperación.' },
+                    6: { up: 'Victoria, reconocimiento público, progreso exitoso.', rev: 'Retrasos en éxito, falta de reconocimiento, victoria privada.' },
+                    7: { up: 'Defensa, perseverancia, mantener posición. Estar a la defensiva.', rev: 'Agobio, rendición, necesidad de retirarse.' },
+                    8: { up: 'Movimiento rápido, noticias, viaje. Acelerar hacia meta.', rev: 'Retrasos, impaciencia, precipitación que causa errores.' },
+                    9: { up: 'Resiliencia, persistencia, último esfuerzo antes del éxito.', rev: 'Agotamiento, paranoia, rendirse demasiado pronto.' },
+                    10: { up: 'Carga pesada, responsabilidad, delegación necesaria.', rev: 'Soltar cargas, delegación exitosa, liberación de responsabilidad.' }
+                },
+                'Oros': {
+                    1: { up: 'Nueva oportunidad financiera, manifestación, prosperidad inicial.', rev: 'Oportunidad perdida, inestabilidad financiera, falta de planificación.' },
+                    2: { up: 'Balance de recursos, adaptabilidad, malabarismo de prioridades.', rev: 'Desbalance financiero, demasiadas responsabilidades, estrés.' },
+                    3: { up: 'Trabajo en equipo, colaboración, maestría en desarrollo.', rev: 'Falta de trabajo en equipo, desorganización, baja calidad.' },
+                    4: { up: 'Seguridad material, control excesivo de recursos, avaricia.', rev: 'Generosidad, soltar control, riesgo financiero calculado.' },
+                    5: { up: 'Dificultad financiera, pobreza temporal, preocupación material.', rev: 'Recuperación financiera, recibir ayuda, fin de dificultades.' },
+                    6: { up: 'Generosidad, caridad, equilibrio en dar y recibir.', rev: 'Deuda, desequilibrio en dar/recibir, condiciones en generosidad.' },
+                    7: { up: 'Paciencia, inversión a largo plazo, evaluar progreso.', rev: 'Impaciencia con resultados, inversión fallida, falta de perseverancia.' },
+                    8: { up: 'Trabajo duro, maestría, dedicación al oficio.', rev: 'Perfeccionismo excesivo, falta de dedicación, trabajo de baja calidad.' },
+                    9: { up: 'Abundancia, lujo, independencia financiera. Disfrutar el éxito.', rev: 'Exceso material, soledad en abundancia, valores superficiales.' },
+                    10: { up: 'Legado, seguridad familiar, riqueza generacional.', rev: 'Conflictos familiares por dinero, pérdida de legado, valores distorsionados.' }
+                }
+            };
+            
+            if (meanings[suit] && meanings[suit][number]) {
+                return reversed ? meanings[suit][number].rev : meanings[suit][number].up;
+            }
+            
+            return `Energía de ${number} en ${theme}`;
+        }
+
+        // Mostrar cartas boca abajo
+        function displayCardBacks() {
+            const area = document.getElementById('cardsArea');
+            area.innerHTML = '';
+            area.className = 'cards-container';
+            
+            for (let i = 0; i < appState.allCards.length; i++) {
+                const cardDiv = document.createElement('div');
+                cardDiv.className = 'card-back';
+                cardDiv.id = `card-back-${i}`;
+                cardDiv.setAttribute('data-index', i);
+                cardDiv.onclick = () => revealCard(i);
+                area.appendChild(cardDiv);
+            }
+            
+            document.getElementById('interpretationArea').innerHTML = '';
+            document.getElementById('globalInterpretationArea').innerHTML = '';
+            document.getElementById('actionButton').style.display = 'none';
+            document.getElementById('returnButton').style.display = 'none';
+            document.getElementById('exitButton').style.display = 'none';
+        }
+
+        // Revelar carta
+        function revealCard(index) {
+            if (appState.revealedCards.includes(index)) return;
+            
+            appState.revealedCards.push(index);
+            const card = appState.allCards[index];
+            const isReversed = appState.cardStates[index];
+            
+            const cardBack = document.getElementById(`card-back-${index}`);
+            
+            if (!cardBack) {
+                console.error('No se encontró la carta con id:', `card-back-${index}`);
+                return;
+            }
+            
+            // Animar flip
+            cardBack.classList.add('flipped');
+            
+            // Reproducir sonido místico
+            AudioSystem.playCardReveal();
+            
+            setTimeout(() => {
+                const cardDiv = document.createElement('div');
+                cardDiv.className = 'card-revealed';
+                cardDiv.id = `card-revealed-${index}`;
+                
+                cardDiv.innerHTML = `
+                    <div class="card-number">${typeof card.number === 'number' ? `Arcano ${card.number}` : card.number}</div>
+                    <div class="card-name">${card.name}${isReversed ? ' (Invertida)' : ''}</div>
+                    <div class="card-icon">${card.icon}</div>
+                    <div class="position-label">${getPositionLabel(index)}</div>
+                `;
+                
+                cardBack.replaceWith(cardDiv);
+                
+                // Mostrar interpretación individual
+                showCardInterpretation(card, isReversed, index);
+                
+                // Si es la última carta, mostrar interpretación global
+                if (appState.revealedCards.length === appState.allCards.length) {
+                    // Sonido de completado
+                    AudioSystem.playComplete();
+                    
+                    // Guardar en historial
+                    saveReadingToHistory();
+                    
+                    setTimeout(() => {
+                        showGlobalInterpretation();
+                        document.getElementById('returnButton').style.display = 'block';
+                    }, 1000);
+                }
+            }, 300);
+        }
+
+        // Obtener etiqueta de posición
+        function getPositionLabel(index) {
+            const labels = {
+                'etteilla': ['7ª', '6ª', '5ª', '4ª', '3ª', '2ª', '1ª'],
+                'celtic': ['Situación Actual', 'Obstáculo', 'Base/Pasado Lejano', 'Pasado Reciente', 
+                          'Mejor Resultado', 'Futuro Cercano', 'Tu Actitud', 'Factores Externos', 
+                          'Esperanzas/Miedos', 'Resultado Final'],
+                'threeCard': ['Pasado', 'Presente', 'Futuro'],
+                'fiveCard': ['Carta 1', 'Carta 2', 'Carta 3', 'Carta 4', 'Carta 5']
+            };
+            
+            return labels[appState.currentMethod][index] || '';
+        }
+
+        // Mostrar interpretación de carta individual
+        // ── MOTOR PREMIUM: VARIEDAD + INTERPRETACIÓN EXTENDIDA ─────────────
+        const VARIETY_KEY = 'tarot_variety_v1_3';
+        function _loadVariety() {
+            try {
+                const raw = localStorage.getItem(VARIETY_KEY);
+                if (!raw) return { buckets: {} };
+                const parsed = JSON.parse(raw);
+                return (parsed && typeof parsed === 'object') ? parsed : { buckets: {} };
+            } catch (e) {
+                return { buckets: {} };
+            }
+        }
+        function _saveVariety(v) {
+            try { localStorage.setItem(VARIETY_KEY, JSON.stringify(v)); } catch (e) {}
+        }
+        function chooseVariant(bucket, options, lastN = 6) {
+            if (!Array.isArray(options) || !options.length) return '';
+            const store = _loadVariety();
+            if (!store.buckets) store.buckets = {};
+            if (!store.buckets[bucket]) store.buckets[bucket] = { counts: {}, last: [] };
+
+            const b = store.buckets[bucket];
+            const counts = b.counts || {};
+            const last = Array.isArray(b.last) ? b.last : [];
+
+            // pesos: penaliza lo repetido y lo reciente
+            const ids = options.map((_, i) => `${bucket}::${i}`);
+            const weights = ids.map(id => {
+                const count = counts[id] || 0;
+                let w = 1 / (1 + count);
+                if (last.includes(id)) w *= 0.15;
+                return w;
+            });
+            const total = weights.reduce((a, c) => a + c, 0);
+            let pickIndex = 0;
+            if (total > 0) {
+                let r = Math.random() * total;
+                for (let i = 0; i < weights.length; i++) {
+                    r -= weights[i];
+                    if (r <= 0) { pickIndex = i; break; }
+                }
+            } else {
+                pickIndex = Math.floor(Math.random() * options.length);
+            }
+
+            const pickedId = ids[pickIndex];
+            counts[pickedId] = (counts[pickedId] || 0) + 1;
+            // lastN
+            const nextLast = [pickedId, ...last.filter(x => x !== pickedId)].slice(0, lastN);
+            store.buckets[bucket] = { counts, last: nextLast };
+            _saveVariety(store);
+
+            return options[pickIndex];
+        }
+
+        function _trimOneLine(s) {
+            return (s || '').toString().replace(/\s+/g, ' ').trim();
+        }
+
+        function getUserContextLite() {
+            const nick = appState.currentNick;
+            if (!nick) return { motivos: [], decision: '', pattern: '' };
+            const ud = getUserD(nick) || {};
+            return {
+                motivos: Array.isArray(ud.motivos) ? ud.motivos : [],
+                decision: _trimOneLine(ud.pregunta1 || ''),
+                pattern: _trimOneLine(ud.pregunta2 || '')
+            };
+        }
+
+        function getCardMeta(card) {
+            const suits = ['Copas', 'Espadas', 'Bastos', 'Oros'];
+            const suitThemes = {
+                'Copas': 'emociones, vínculos y necesidades afectivas',
+                'Espadas': 'pensamiento, decisiones y conversación interna',
+                'Bastos': 'energía, deseo, iniciativa y movimiento',
+                'Oros': 'recursos, cuerpo, trabajo y seguridad material'
+            };
+            const numberDyn = {
+                1: 'un inicio que abre posibilidades',
+                2: 'una elección y la tensión entre dos fuerzas',
+                3: 'crecimiento y expansión',
+                4: 'estructura, límites y estabilidad',
+                5: 'tensión, cambio y reacomodo',
+                6: 'ajuste, armonización y aprendizajes prácticos',
+                7: 'prueba, criterio y maduración',
+                8: 'movimiento, empuje y continuidad',
+                9: 'profundización y cierre interno',
+                10:'cosecha, cierre y transición'
+            };
+
+            const name = card?.name || '';
+            const isMajor = (typeof card?.number === 'number' && card.number <= 21 && !name.includes(' de '));
+            const suit = suits.find(s => name.includes(` de ${s}`)) || null;
+            const rank = suit ? name.split(' de ')[0] : null;
+
+            let dyn = '';
+            if (!isMajor && suit) {
+                if (typeof card.number === 'number' && numberDyn[card.number]) dyn = numberDyn[card.number];
+                else if (rank) {
+                    const courtDyn = {
+                        'As': 'un inicio emocional o material que pide forma',
+                        'Sota': 'un mensaje o impulso inicial que mueve la escena',
+                        'Caballero': 'acción, prisa o búsqueda activa en esta área',
+                        'Reina': 'contención, lectura emocional y madurez interna',
+                        'Rey': 'dirección, liderazgo y toma de responsabilidad'
+                    };
+                    dyn = courtDyn[rank] || '';
+                }
+            }
+
+            return { isMajor, suit, suitTheme: suit ? suitThemes[suit] : '', dyn };
+        }
+
+        function buildCardInterpretation(card, isReversed, index) {
+            const base = _trimOneLine(isReversed ? card.reversed : card.upright);
+            const ctx  = getUserContextLite();
+            const meta = getCardMeta(card);
+
+            const openers = [
+                'Esta carta suele aparecer cuando el camino pide honestidad con lo que ya se sabe por dentro.',
+                'Aquí el tarot señala un punto de definición: lo que era “ruido” empieza a volverse mensaje.',
+                'Lo primero que se siente en esta carta es un clima que insiste: algo quiere ser visto con claridad.',
+                'En tu tirada, esta carta funciona como un foco: ilumina una parte de la historia que no conviene minimizar.',
+                'El símbolo central de esta carta apunta a una dinámica que viene ganando peso y pide atención.'
+            ];
+            const transitions = [
+                'En lo cotidiano, esto suele notarse en decisiones pequeñas que terminan marcando el tono.',
+                'Llevado a la vida real, se traduce en la forma en que eliges, te sostienes o te retraes.',
+                'En conversaciones, límites y prioridades, la carta describe una pauta que se repite con facilidad.',
+                'Si lo miras con lupa, el patrón aparece cuando intentas resolver rápido algo que en realidad pide profundidad.',
+                'A nivel práctico, se ve en cómo te relacionas con la incertidumbre y con lo que no controlas.'
+            ];
+            const majorLines = [
+                'Como Arcano Mayor, habla de una lección de fondo: no es un detalle del día, es un umbral de sentido.',
+                'Al ser un Arcano Mayor, el mensaje va al núcleo: marca aprendizaje, dirección y coherencia interna.',
+                'En clave de Arcano Mayor, esta carta pide una lectura profunda: toca identidad, propósito y elección.',
+                'Los Arcanos Mayores no “pasAN”; atraviesan. Esta carta sugiere un cambio de comprensión más que de superficie.'
+            ];
+            const minorLines = [
+                `En la tradición del tarot, el palo de ${meta.suit} se asocia con ${meta.suitTheme}.`,
+                `El palo de ${meta.suit} coloca el tema en ${meta.suitTheme}; ahí es donde se juega la escena.`,
+                `Cuando aparece ${meta.suit}, el tarot suele hablar de ${meta.suitTheme} en modo muy concreto.`,
+                `Aquí ${meta.suit} enfoca la lectura en ${meta.suitTheme}: lo que sientes, piensas o sostienes ahí importa.`
+            ];
+            const dynLines = meta.dyn ? [
+                `Además, la dinámica del número/figura sugiere ${meta.dyn}.`,
+                `El número/rol añade ${meta.dyn}, como si la carta marcara una fase del proceso.`,
+                `En términos de ciclo, se percibe ${meta.dyn}: no es “todo”, es una etapa que empuja.`,
+                `La carta, por su número/figura, se mueve hacia ${meta.dyn}.`
+            ] : [];
+
+            const revLines = isReversed ? [
+                'Invertida, la energía se internaliza: lo que no se dice pesa, y lo que se evita se acumula.',
+                'En inversión, el tema no desaparece; se enreda. Puede haber bloqueo, exceso o una lectura distorsionada.',
+                'Invertida, la carta habla de fricción interna: hay algo que sabe, pero aún no se concede.',
+                'En reversa, pide revisar dónde la mente o el impulso están empujando en contra de lo que conviene.'
+            ] : [
+                'Al derecho, la carta empuja a reconocer lo que ya está disponible y a usarlo con criterio.',
+                'En posición directa, sugiere que hay margen real para ordenar el tema sin forzarlo.',
+                'Al derecho, la energía fluye mejor: lo importante es no sabotear la claridad con prisa o miedo.',
+                'En directo, se siente como un “sí, pero con conciencia”: avanzar sin perder el centro.'
+            ];
+
+            const ctxLines = [];
+            if (ctx.decision) {
+                ctxLines.push(chooseVariant('card_ctx_decision', [
+                    'Conecta especialmente con esa decisión que vienes postergando: la carta muestra qué parte te cuesta asumir sin maquillaje.',
+                    'Respecto a la decisión aplazada, esta carta señala el punto exacto donde la ambivalencia se vuelve desgaste.',
+                    'En relación con tu decisión pendiente, la carta invita a mirar el costo de seguir en pausa más que el miedo a elegir.',
+                    'Tocando tu decisión postergada, el tarot sugiere que la claridad no llega “perfecta”: se construye sosteniendo un criterio.'
+                ]));
+            }
+            if (ctx.pattern) {
+                ctxLines.push(chooseVariant('card_ctx_pattern', [
+                    'También roza el patrón que se repite: lo que vuelve no pide culpa, pide lectura y límite.',
+                    'Esta carta dialoga con tu patrón recurrente: muestra dónde cedes por costumbre y luego te duele.',
+                    'Sobre el patrón que vuelve, la carta apunta a un ajuste fino: no es dramatizar, es nombrar y sostener.',
+                    'En tu repetición habitual, el mensaje es simple: donde no hay límite, la energía se desordena.'
+                ]));
+            }
+
+            const closers = [
+                'Clave de lectura: más verdad interna, menos explicación hacia afuera.',
+                'Señal útil: cuando algo te acelera o te enfría de golpe, ahí está el tema.',
+                'Punto de equilibrio: sostenerte sin endurecerte, moverte sin dispersarte.',
+                'Enfoque: mirar el asunto con una claridad sobria, sin adornos ni castigos.',
+                'Nota final: lo que hoy parece pequeño puede ser el inicio de un cambio de tono.'
+            ];
+
+            let parts = [];
+            parts.push(chooseVariant('card_openers', openers));
+            parts.push(base);
+
+            parts.push(chooseVariant('card_transitions', transitions));
+
+            if (meta.isMajor) parts.push(chooseVariant('card_major_lines', majorLines));
+            else if (meta.suit) parts.push(chooseVariant(`card_minor_${meta.suit}`, minorLines));
+
+            if (dynLines.length) parts.push(chooseVariant('card_dyn_lines', dynLines));
+
+            parts.push(chooseVariant('card_rev_lines', revLines));
+
+            if (ctxLines.length) parts.push(ctxLines.join(' '));
+
+            parts.push(chooseVariant('card_closers', closers));
+
+            const full = parts.map(_trimOneLine).filter(Boolean).join(' ');
+            // For readability: split into 2 bloques
+            const sentences = (full.match(/[^.!?]+[.!?]+(?:\s+|$)/g) || [full])
+                .map(s => (s || '').trim()).filter(Boolean);
+            if (sentences.length <= 3) return full;
+            const cut = Math.max(2, Math.floor(sentences.length / 2));
+            return `${sentences.slice(0, cut).join(' ')}<br><br>${sentences.slice(cut).join(' ')}`;
+        }
+
+        function showCardInterpretation(card, isReversed, index) {
+            const area = document.getElementById('interpretationArea');
+
+            const interpDiv = document.createElement('div');
+            interpDiv.className = 'interpretation';
+
+            const extended = buildCardInterpretation(card, isReversed, index);
+
+            interpDiv.innerHTML = `
+                <h3>${getPositionLabel(index)}: ${card.name}${isReversed ? ' (Invertida)' : ''}</h3>
+                <p><strong>Interpretación:</strong> ${extended}</p>
+            `;
+
+            area.appendChild(interpDiv);
+        }
+
+        // Mostrar interpretación global
+        function showGlobalInterpretation() {
+            const area = document.getElementById('globalInterpretationArea');
+            const globalDiv = document.createElement('div');
+            globalDiv.className = 'global-interpretation';
+            globalDiv.id = 'finalInterpretation';
+            
+            let globalMessage = generateGlobalInterpretation();
+            
+            // Crear resumen de cartas
+            let cardsSummary = '<div class="reading-summary"><h3 style="color: #d4af37; margin-bottom: 15px;">📋 Resumen de tu Lectura</h3>';
+            
+            appState.allCards.forEach((card, index) => {
+                const isReversed = appState.cardStates[index];
+                cardsSummary += `
+                    <p style="margin: 10px 0; padding: 10px; background: rgba(138, 43, 226, 0.2); border-radius: 10px;">
+                        <strong>${getPositionLabel(index)}:</strong> ${card.name}${isReversed ? ' (Invertida)' : ''} ${card.icon}
+                    </p>
+                `;
+            });
+            
+            cardsSummary += '</div>';
+            
+            globalDiv.innerHTML = `
+                <h2>🔮 Tarot Místico 🔮</h2>
+                <h3 style="color: #e0c9ff; text-align: center; margin-bottom: 30px; font-size: 1.4em;">Interpretación Global</h3>
+                ${cardsSummary}
+                <div style="background: rgba(0, 0, 0, 0.3); padding: 25px; border-radius: 15px; margin: 25px 0;">
+                    <p style="font-size: 1.15em; line-height: 1.9; color: #e0c9ff; white-space: pre-line;">${globalMessage}</p>
+                </div>
+                <div class="button-container" style="text-align: center; margin-top: 20px;">
+                    <button class="copy-button" onclick="copyInterpretation()">📋 Copiar Interpretación</button>
+                    <button class="copy-button" onclick="openIAModal()">🔮 Interpretar por IA Mística</button>
+                </div>
+            `;
+            
+            area.appendChild(globalDiv);
+            
+            // Scroll suave hasta la interpretación global
+            setTimeout(() => {
+                globalDiv.scrollIntoView({ behavior: 'smooth', block: 'start' });
+            }, 300);
+        }
+        
+        // Construir prompt para IA
+        function buildIAPrompt() {
+            // Obtener el método de lectura actual
+            const methodTitles = {
+                'etteilla': 'Etteilla (7 cartas)',
+                'celtic': 'Cruz Celta (10 cartas)',
+                'threeCard': 'Tres Cartas (Pasado-Presente-Futuro)',
+                'fiveCard': 'Cinco Cartas (Pregunta Profunda)'
+            };
+            
+            const currentMethodTitle = methodTitles[appState.currentMethod] || 'Tarot';
+            
+            // Construir texto de cartas
+            let cardsText = '';
+            appState.allCards.forEach((card, index) => {
+                const isReversed = appState.cardStates[index];
+                cardsText += `${getPositionLabel(index)}: ${card.name}${isReversed ? ' (Invertida)' : ''} ${card.icon}\n`;
+            });
+            
+            // Construir texto de interpretaciones
+            let interpretationsText = '';
+            const interpretations = document.querySelectorAll('#interpretationArea .interpretation');
+            interpretations.forEach((interp) => {
+                const title = interp.querySelector('h3')?.textContent || '';
+                const text = interp.querySelector('p')?.textContent || '';
+                interpretationsText += `${title}\n${text}\n\n`;
+            });
+            
+            // Obtener la pregunta del usuario si existe (método de 5 cartas)
+            let questionText = '';
+            if (appState.currentMethod === 'fiveCard') {
+                const userQuestion = document.getElementById('userQuestion')?.value;
+                if (userQuestion && userQuestion.trim() !== '') {
+                    questionText = `\nPregunta del consultante:\n"${userQuestion}"\n`;
+                }
+            }
+            
+            // Construir prompt dinámico
+            const prompt = `Actúa como una tarotista profesional con enfoque práctico-místico.
+
+Con base en los siguientes resultados de una tirada de ${currentMethodTitle}, redacta UN SOLO PÁRRAFO de interpretación global consolidada.
+${questionText}
+Requisitos estrictos:
+- UN SOLO PÁRRAFO fluido y coherente
+- Enfoque 70% práctico y aterrizado, 30% místico
+- Integra las cartas en una narrativa unificada (no repitas carta por carta)
+- Ofrece perspectiva clara y accionable
+- Conecta el mensaje con la vida real del consultante
+- Usa lenguaje directo pero sensible
+- Sin preguntas retóricas
+- Sin listas numeradas o con viñetas
+- Sin títulos ni subtítulos
+- Sin emojis
+- Sin consejos genéricos tipo "confía en ti mismo"
+- Sin texto adicional fuera del párrafo
+
+El párrafo debe ser cohesivo, insightful y útil para tomar decisiones.
+
+═══════════════════════════════
+
+CARTAS REVELADAS:
+
+${cardsText}
+
+═══════════════════════════════
+
+INTERPRETACIONES INDIVIDUALES:
+
+${interpretationsText}═══════════════════════════════
+
+Genera SOLO el párrafo de interpretación global consolidada:`;
+            
+            return prompt;
+        }
+        
+        // Copiar al portapapeles (versión mejorada)
+        function copyToClipboardText(text) {
+            const textArea = document.createElement('textarea');
+            textArea.value = text;
+            textArea.style.position = 'fixed';
+            textArea.style.left = '-999999px';
+            textArea.style.top = '-999999px';
+            document.body.appendChild(textArea);
+            textArea.focus();
+            textArea.select();
+            
+            try {
+                document.execCommand('copy');
+                document.body.removeChild(textArea);
+                return true;
+            } catch (err) {
+                document.body.removeChild(textArea);
+                return false;
+            }
+        }
+        
+        // Abrir modal de selección de IA
+        function openIAModal() {
+            const overlay = document.createElement('div');
+            overlay.className = 'ia-modal-overlay';
+            overlay.id = 'iaModalOverlay';
+            
+            const modal = document.createElement('div');
+            modal.className = 'ia-modal';
+            modal.innerHTML = `
+                <h3>🔮 Impulsar Interpretación con IA</h3>
+                <p>Selecciona la IA para generar tu interpretación mística consolidada.</p>
+                <div style="background: rgba(138, 43, 226, 0.3); padding: 15px; border-radius: 10px; margin: 15px 0; border: 2px solid rgba(212, 175, 55, 0.4);">
+                    <p style="margin: 0; font-size: 0.95em; color: #d4af37; font-weight: bold;">
+                        💡 Al hacer clic en una IA, el prompt se copiará automáticamente y se abrirá la plataforma. Solo pega (Ctrl+V o Cmd+V) y presiona enviar.
+                    </p>
+                </div>
+                <div class="ia-buttons">
+                    <button class="ia-button" onclick="openAIPlatform('chatgpt')">ChatGPT</button>
+                    <button class="ia-button" onclick="openAIPlatform('gemini')">Gemini</button>
+                    <button class="ia-button" onclick="openAIPlatform('perplexity')">Perplexity</button>
+                    <button class="ia-button" onclick="openAIPlatform('copilot')">Copilot</button>
+                </div>
+                <div class="ia-message" id="iaMessage">✅ El prompt ha sido copiado. Pégalo en la IA y presiona enviar.</div>
+                <button class="ia-close-button" onclick="closeIAModal()">Cerrar</button>
+            `;
+            
+            overlay.appendChild(modal);
+            document.body.appendChild(overlay);
+            
+            // Cerrar al hacer clic en el overlay
+            overlay.addEventListener('click', (e) => {
+                if (e.target === overlay) {
+                    closeIAModal();
+                }
+            });
+        }
+        
+        // Cerrar modal de IA
+        function closeIAModal() {
+            const overlay = document.getElementById('iaModalOverlay');
+            if (overlay) {
+                overlay.remove();
+            }
+        }
+        
+        // Abrir plataforma de IA
+        function openAIPlatform(platform) {
+            const prompt = buildIAPrompt();
+            const success = copyToClipboardText(prompt);
+            
+            const urls = {
+                'chatgpt': 'https://chat.openai.com',
+                'gemini': 'https://gemini.google.com',
+                'perplexity': 'https://www.perplexity.ai',
+                'copilot': 'https://copilot.microsoft.com'
+            };
+            
+            if (success) {
+                const message = document.getElementById('iaMessage');
+                if (message) {
+                    message.style.display = 'block';
+                }
+                
+                // Abrir la plataforma en nueva pestaña
+                window.open(urls[platform], '_blank');
+                
+                // Cerrar el modal después de 3 segundos
+                setTimeout(() => {
+                    closeIAModal();
+                }, 3000);
+            } else {
+                alert('No se pudo copiar el prompt. Intenta de nuevo.');
+            }
+        }
+
+        // Copiar interpretación al portapapeles
+        function copyInterpretation() {
+            const readingTitle = document.getElementById('readingTitle').textContent;
+            const interpretations = document.querySelectorAll('#interpretationArea .interpretation');
+            const globalText = document.querySelector('#finalInterpretation div[style*="line-height"] p')?.textContent || '';
+            
+            let fullText = `🔮 ${readingTitle} 🔮\n\n`;
+            fullText += `📅 Fecha: ${new Date().toLocaleDateString('es-ES', { 
+                weekday: 'long', 
+                year: 'numeric', 
+                month: 'long', 
+                day: 'numeric' 
+            })}\n\n`;
+            fullText += `═══════════════════════════════\n\n`;
+            
+            // Agregar cartas
+            fullText += `📋 CARTAS REVELADAS:\n\n`;
+            appState.allCards.forEach((card, index) => {
+                const isReversed = appState.cardStates[index];
+                fullText += `${getPositionLabel(index)}: ${card.name}${isReversed ? ' (Invertida)' : ''} ${card.icon}\n`;
+            });
+            
+            fullText += `\n═══════════════════════════════\n\n`;
+            
+            // Agregar interpretaciones individuales
+            fullText += `📖 INTERPRETACIONES POR CARTA:\n\n`;
+            interpretations.forEach((interp, i) => {
+                const title = interp.querySelector('h3')?.textContent || '';
+                const text = interp.querySelector('p')?.textContent || '';
+                fullText += `${title}\n${text}\n\n`;
+            });
+            
+            fullText += `═══════════════════════════════\n\n`;
+            
+            // Agregar interpretación global
+            fullText += `🔮 INTERPRETACIÓN GLOBAL:\n\n${globalText}\n\n`;
+            fullText += `═══════════════════════════════\n`;
+            fullText += `\nGenerado por Tarot Místico 🌙✨`;
+            
+            // Método alternativo que funciona en todos los navegadores
+            const textArea = document.createElement('textarea');
+            textArea.value = fullText;
+            textArea.style.position = 'fixed';
+            textArea.style.left = '-999999px';
+            textArea.style.top = '-999999px';
+            document.body.appendChild(textArea);
+            textArea.focus();
+            textArea.select();
+            
+            try {
+                const successful = document.execCommand('copy');
+                document.body.removeChild(textArea);
+                
+                if (successful) {
+                    const btn = event.target;
+                    const originalText = btn.textContent;
+                    btn.textContent = '✅ ¡Copiado!';
+                    btn.style.background = 'rgba(76, 175, 80, 0.3)';
+                    btn.style.borderColor = '#4CAF50';
+                    btn.style.color = '#4CAF50';
+                    
+                    setTimeout(() => {
+                        btn.textContent = originalText;
+                        btn.style.background = '';
+                        btn.style.borderColor = '';
+                        btn.style.color = '';
+                    }, 2000);
+                } else {
+                    throw new Error('execCommand falló');
+                }
+            } catch (err) {
+                document.body.removeChild(textArea);
+                
+                // Si todo falla, mostrar el texto en un modal para copiar manualmente
+                const modal = document.createElement('div');
+                modal.style.cssText = `
+                    position: fixed;
+                    top: 50%;
+                    left: 50%;
+                    transform: translate(-50%, -50%);
+                    background: rgba(26, 0, 51, 0.98);
+                    border: 3px solid #d4af37;
+                    border-radius: 20px;
+                    padding: 30px;
+                    max-width: 90%;
+                    max-height: 80%;
+                    overflow-y: auto;
+                    z-index: 10000;
+                    box-shadow: 0 20px 60px rgba(0,0,0,0.8);
+                `;
+                
+                const overlay = document.createElement('div');
+                overlay.style.cssText = `
+                    position: fixed;
+                    top: 0;
+                    left: 0;
+                    width: 100%;
+                    height: 100%;
+                    background: rgba(0,0,0,0.7);
+                    z-index: 9999;
+                `;
+                
+                modal.innerHTML = `
+                    <h3 style="color: #d4af37; margin-bottom: 20px; text-align: center;">
+                        Selecciona el texto y cópialo (Ctrl+C o Cmd+C)
+                    </h3>
+                    <textarea readonly style="
+                        width: 100%;
+                        height: 400px;
+                        background: rgba(255,255,255,0.1);
+                        border: 2px solid #d4af37;
+                        border-radius: 10px;
+                        color: #e0c9ff;
+                        padding: 15px;
+                        font-family: monospace;
+                        font-size: 0.9em;
+                        resize: none;
+                    ">${fullText}</textarea>
+                    <button onclick="this.parentElement.parentElement.remove(); this.parentElement.previousSibling.remove();" 
+                            style="
+                        width: 100%;
+                        margin-top: 20px;
+                        padding: 15px;
+                        background: linear-gradient(135deg, #8a2be2 0%, #9370db 100%);
+                        border: none;
+                        border-radius: 15px;
+                        color: white;
+                        font-size: 1.1em;
+                        cursor: pointer;
+                        font-family: Georgia, serif;
+                    ">Cerrar</button>
+                `;
+                
+                document.body.appendChild(overlay);
+                document.body.appendChild(modal);
+                
+                // Seleccionar automáticamente el texto
+                const textAreaInModal = modal.querySelector('textarea');
+                textAreaInModal.select();
+                textAreaInModal.focus();
+                
+                // Cerrar al hacer clic en el overlay
+                overlay.onclick = () => {
+                    overlay.remove();
+                    modal.remove();
+                };
+            }
+        }
+
+        // Generar interpretación global
+        function generateGlobalInterpretation() {
+            const method = appState.currentMethod;
+            const cards = appState.allCards;
+            
+            // Contar arcanos mayores vs menores
+            const majorCount = cards.filter(c => typeof c.number === 'number' && c.number <= 21).length;
+            const minorCount = cards.length - majorCount;
+            
+            // Analizar palos dominantes
+            const suits = { 'Copas': 0, 'Espadas': 0, 'Bastos': 0, 'Oros': 0 };
+            cards.forEach(card => {
+                for (let suit in suits) {
+                    if (card.name.includes(suit)) {
+                        suits[suit]++;
+                    }
+                }
+            });
+            
+            const dominantSuit = Object.keys(suits).reduce((a, b) => suits[a] > suits[b] ? a : b);
+            const dominantCount = suits[dominantSuit];
+            
+            // Analizar cartas específicas de poder
+            const powerCards = ['El Mago', 'La Emperatriz', 'El Emperador', 'La Fuerza', 'El Sol', 'El Mundo'];
+            const transformCards = ['La Muerte', 'La Torre', 'El Juicio', 'La Rueda de la Fortuna'];
+            const spiritualCards = ['La Sacerdotisa', 'El Hierofante', 'El Ermitaño', 'La Estrella', 'La Luna'];
+            
+            const hasPower = cards.some(c => powerCards.includes(c.name));
+            const hasTransform = cards.some(c => transformCards.includes(c.name));
+            const hasSpiritual = cards.some(c => spiritualCards.includes(c.name));
+            
+            // Contar cartas invertidas
+            const reversedCount = appState.cardStates.filter(state => state).length;
+            const reversedRatio = reversedCount / cards.length;
+            
+            let message = '';
+            
+            // VARIANTES PARA ARCANOS MAYORES DOMINANTES
+            if (majorCount > minorCount) {
+                const variants = [
+                    `Los Arcanos Mayores dominan tu lectura (${majorCount} de ${cards.length} cartas), revelando que las fuerzas arquetípicas del universo están activas en tu vida. Este no es tiempo de eventos menores o cotidianos: estás siendo llamado a evolucionar en niveles profundos de tu ser. Las lecciones que enfrentas ahora tienen raíces en tu karma y propósito de vida. Los acontecimientos actuales no son casuales, sino sincrónicos, orquestados por tu alma para tu máximo crecimiento.\n\n`,
+                    
+                    `Tu lectura está impregnada de Arcanos Mayores (${majorCount} de ${cards.length}), señalando un período de intenso significado espiritual. El alma humana reconoce estos momentos: cuando el destino se vuelve tangible, cuando sientes que "esto debía suceder". Estás en una encrucijada evolutiva donde tus decisiones no solo afectan tu presente, sino que tejen el tapiz de tu futuro. Los maestros antiguos llamaban a esto "momentos de elección del alma".\n\n`,
+                    
+                    `La preponderancia de Arcanos Mayores (${majorCount} de ${cards.length} cartas) indica que has entrado en un ciclo de iniciación espiritual. Ya sea que lo reconozcas conscientemente o no, estás siendo transformado desde dentro. Las circunstancias externas son meramente el teatro donde tu drama interno se representa. Estos son los momentos que, mirando hacia atrás en años futuros, identificarás como puntos de inflexión que cambiaron el curso de tu vida.\n\n`,
+                    
+                    `${majorCount} Arcanos Mayores de ${cards.length} cartas totales: el universo tiene un mensaje claro para ti. Estás experimentando lo que los místicos llaman "el tiempo de las grandes aguas" - cuando las corrientes profundas de la existencia te mueven. No estás simplemente viviendo tu vida; estás siendo vivido por fuerzas más grandes. Tu tarea no es resistir, sino comprender el propósito oculto en estos eventos y alinearte con él.\n\n`
+                ];
+                message += chooseVariant('global_major_dom', variants);
+            }
+            
+            // VARIANTES PARA ARCANOS MENORES DOMINANTES
+            else if (minorCount > majorCount + 1) {
+                const variants = [
+                    `Los Arcanos Menores predominan (${minorCount} de ${cards.length} cartas), colocando el poder firmemente en tus manos. Este es un período donde tu libre albedrío brilla con mayor intensidad. No hay fuerzas invisibles dictando tu camino; hay tú, tus elecciones, y las consecuencias directas de tus acciones. El tarot te dice: "eres el arquitecto de tu realidad presente". Cada decisión cotidiana, cada palabra, cada gesto, está construyendo activamente tu futuro.\n\n`,
+                    
+                    `Tu lectura muestra ${minorCount} Arcanos Menores de ${cards.length} cartas, revelando que estás en un ciclo de manifestación práctica. Este es tiempo de acción, no de contemplación pasiva. Los resultados que buscas no llegarán por intervención divina, sino por tu dedicación, ingenio y esfuerzo consistente. El universo te ha dado las herramientas; ahora debes usarlas. Tu poder personal está en su apogeo.\n\n`,
+                    
+                    `La predominancia de Arcanos Menores (${minorCount} cartas) señala que estás navegando las aguas del mundo material y emocional directo. No hay misterios profundos que resolver en este momento, sino situaciones concretas que manejar. Y aquí está la buena noticia: tienes la habilidad, la inteligencia y los recursos para hacerlo. Este es tu momento de demostrar maestría en el arte de vivir.\n\n`,
+                    
+                    `${minorCount} de ${cards.length} cartas son Arcanos Menores, indicando que estás en un período de construcción activa de tu vida. Piensa en un escultor frente a su piedra: la obra maestra no aparece por magia, sino por miles de golpes conscientes y precisos. Así es tu vida ahora. Cada acción cuenta, cada elección importa. El destino te ha dado el cincel; tú decides qué crear.\n\n`
+                ];
+                message += chooseVariant('global_minor_dom', variants);
+            }
+            
+            // VARIANTES PARA BALANCE
+            else {
+                const variants = [
+                    `Tu lectura presenta un equilibrio fascinante entre Arcanos Mayores y Menores, creando un diálogo entre destino y libre albedrío. Algunos hilos de tu vida están siendo tejidos por manos invisibles - sincronicidades, "casualidades", eventos que parecen predestinados. Otros hilos están firmemente en tu control. La sabiduría está en reconocer cuál es cuál: aceptar con gracia lo que no puedes cambiar y actuar decididamente donde tienes poder.\n\n`,
+                    
+                    `Arcanos Mayores y Menores danzan juntos en tu lectura, una proporción balanceada que sugiere un momento de co-creación con el universo. Ni estás completamente a merced del destino, ni tienes control absoluto. Es como navegar un velero: no controlas el viento (las fuerzas mayores), pero sí diriges las velas (tus elecciones). El arte está en trabajar con lo que viene, no contra ello.\n\n`,
+                    
+                    `El balance entre tipos de arcanos en tu lectura habla de madurez espiritual. Has alcanzado un punto donde comprendes que la vida es tanto misterio como acción, tanto recepción como creación. Algunas puertas se abrirán solas; otras requieren que las empujes. Tu tarea es cultivar la sensibilidad para saber cuándo rendirte al flujo y cuándo tomar las riendas.\n\n`
+                ];
+                message += chooseVariant('global_balance', variants);
+            }
+            
+            // ANÁLISIS DE CARTAS INVERTIDAS
+            if (reversedRatio > 0.5) {
+                const invertedVariants = [
+                    `Más de la mitad de tus cartas aparecen invertidas, lo cual es significativo. Las cartas invertidas no son "malas" - son llamadas de atención. Representan energías bloqueadas, lecciones aún no aprendidas, o aspectos de ti mismo que requieren integración. Este patrón sugiere que hay resistencia interna, quizás miedo o negación, que está impidiendo el flujo natural de tu vida. La pregunta clave es: ¿qué estás evitando ver?\n\n`,
+                    
+                    `La abundancia de cartas invertidas (${reversedCount} de ${cards.length}) indica que estás en un período de trabajo interno intenso. Es como si el universo te dijera: "antes de avanzar, debes resolver lo que está detrás". Las inversiones señalan aspectos shadow, partes de ti mismo o de tu situación que permanecen en la sombra. Iluminarlas es tu tarea actual.\n\n`
+                ];
+                message += chooseVariant('global_inverted', invertedVariants);
+            } else if (reversedRatio === 0) {
+                message += `Todas tus cartas aparecen en posición derecha, indicando claridad de flujo energético. No hay bloqueos mayores, no hay resistencias significativas. Estás en un estado de alineación, donde las energías se mueven libremente a través de tu vida. Este es un tiempo favorable para la acción y la manifestación.\n\n`;
+            }
+            
+            // ANÁLISIS DEL PALO DOMINANTE CON VARIANTES
+            if (dominantCount >= 2 && minorCount > 0) {
+                const suitVariants = {
+                    'Copas': [
+                        `El elemento Agua domina tu lectura a través de ${dominantCount} carta(s) de Copas. Tu mundo emocional está en primer plano: relaciones, sentimientos, intuiciones, sueños. Este es tiempo de navegar las profundidades del corazón. Las Copas te piden que honres tus emociones sin ahogarte en ellas, que ames sin perderte, que sientas sin ser esclavo del sentimiento. El agua puede ser un océano tranquilo o una tormenta salvaje - tú eliges cómo surfear sus olas.`,
+                        
+                        `Las Copas reinan en tu lectura (${dominantCount} cartas), sumergiendo todo en las aguas de la emoción y la conexión. Tu corazón está hablando más fuerte que tu cabeza ahora, y quizás deba ser así. Este es momento de explorar qué te hace sentir vivo, qué conexiones nutren tu alma, qué creatividad emerge de tus profundidades. Pero recuerda: el agua debe fluir para mantenerse pura. Las emociones estancadas se vuelven tóxicas.`,
+                        
+                        `${dominantCount} Copas señalan que estás en un ciclo lunar, receptivo, emocional. La luna gobierna las aguas y las mareas del corazón. Así como la luna crece y mengua, tus emociones fluyen y refluyen. No juzgues este proceso; simplemente obsérva lo con compasión. En las Copas encontramos el amor más profundo y el dolor más intenso, porque abrir el corazón es el acto más valiente.`
+                    ],
+                    'Espadas': [
+                        `Las Espadas cortan a través de tu lectura (${dominantCount} cartas), llevando el elemento Aire - pensamiento, comunicación, verdad. Tu mente está hiperactivada. Hay decisiones que tomar, verdades que enfrentar, quizás conflictos que resolver. Las Espadas exigen claridad mental y honestidad brutal. No puedes navegar este período con negación o pensamiento mágico. Debes mirar la realidad cara a cara y tomar decisiones basadas en verdad, no en lo que desearías que fuera verdad.`,
+                        
+                        `El Aire sopla fuerte con ${dominantCount} Espadas en tu lectura. Esto habla de asuntos de la mente: comunicación crucial, decisiones difíciles, conflictos de ideas o valores. Las Espadas son las cartas más dolorosas del tarot porque cortan ilusiones, y las ilusiones son cómodas. Pero en su filo también hay liberación. Una vez que ves la verdad, aunque duela, puedes actuar desde integridad. El conocimiento es poder, pero primero es dolor.`,
+                        
+                        `${dominantCount} cartas de Espadas indican que tu intelecto es tu aliado y quizás también tu enemigo ahora. La mente puede ser una herramienta brillante de discernimiento o una prisión de overthinking y ansiedad. El desafío de las Espadas es usar tu mente sin ser usado por ella. Piensa con claridad, comunica con verdad, decide con sabiduría, pero no permitas que el análisis paralice la acción.`
+                    ],
+                    'Bastos': [
+                        `El Fuego arde intensamente en tu lectura con ${dominantCount} carta(s) de Bastos. Esto es energía pura: pasión, acción, creatividad, voluntad. Sientes el impulso de moverte, crear, manifestar, actuar. Los Bastos no conocen la paciencia pasiva; son urgencia encarnada. Tu desafío es canalizar este fuego constructivamente. El fuego puede iluminar o destruir, cocinar alimento o quemar la casa. La diferencia está en el control consciente.`,
+                        
+                        `${dominantCount} Bastos prenden fuego a tu situación. Este es el elemento de la iniciativa, la ambición, el coraje creativo. No es tiempo de esperar que las cosas sucedan; es tiempo de hacer que sucedan. Los Bastos favorecen a los valientes, a quienes están dispuestos a arriesgarse por lo que desean. Pero cuidado: el fuego sin dirección se convierte en caos. Asegúrate de que tu pasión tenga propósito.`,
+                        
+                        `Con ${dominantCount} cartas de Bastos, el universo te dice: "actúa ahora". La energía está disponible, la inspiración fluye, las oportunidades se presentan. Este no es momento para contemplación excesiva o análisis paralizante. Es momento para probar, experimentar, lanzarte. Los Bastos recompensan la acción audaz. Incluso los errores en movimiento son más valiosos que la perfección estática.`
+                    ],
+                    'Oros': [
+                        `La Tierra se manifiesta sólidamente con ${dominantCount} carta(s) de Oros. Tu atención debe estar en el mundo material: salud física, recursos financieros, trabajo tangible, construcción de seguridad. Los Oros no tratan de sueños etéreos sino de realidades concretas. ¿Tu cuerpo está sano? ¿Tus finanzas ordenadas? ¿Tu trabajo alineado con tus valores? Este es tiempo de ser práctico, disciplinado y paciente. Las cosechas requieren siembra, cuidado y tiempo.`,
+                        
+                        `${dominantCount} Oros anclan tu lectura en el reino material. Esto puede parecer menos "espiritual" que otros elementos, pero los místicos sabían que la espiritualidad sin arraigo terrestre es mera fantasía. Debes atender tu jardín físico: tu cuerpo, tu dinero, tu hogar, tu trabajo. La abundancia de Oros dice: sé responsable, sé diligente, construye fundaciones sólidas. El árbol más alto necesita las raíces más profundas.`,
+                        
+                        `Con ${dominantCount} cartas de Oros, el mensaje es claro: aterriza tus sueños en realidad. Los Oros son manifestación, la alquimia de convertir visión en forma tangible. Este proceso no es rápido ni glamoroso. Requiere trabajo sostenido, atención a detalles, y paciencia con los tiempos naturales de crecimiento. Pero al final, tienes algo real, duradero, que puedes tocar y compartir.`
+                    ]
+                };
+                const suitMessages = suitVariants[dominantSuit];
+                message += chooseVariant('global_suit_msg_' + dominantSuit, suitMessages) + '\n\n';
+            }
+            
+            // ANÁLISIS DE CARTAS ESPECIALES PRESENTES
+            if (hasPower) {
+                message += `Tu lectura contiene cartas de poder personal - arquetipos de maestría y autoridad. Esto sugiere que estás siendo llamado a reconocer y reclamar tu propia fuerza. No eres víctima de las circunstancias; eres co-creador con capacidad de influir significativamente en tu realidad.\n\n`;
+            }
+            
+            if (hasTransform) {
+                message += `Cartas de transformación profunda aparecen en tu lectura. Algo en tu vida está muriendo para que algo nuevo nazca. Esta metamorfosis puede ser incómoda, incluso dolorosa, pero es necesaria y, en última instancia, liberadora. No te resistas al cambio; permítete ser reorganizado por las fuerzas de evolución.\n\n`;
+            }
+            
+            if (hasSpiritual) {
+                message += `Tu lectura incluye cartas de búsqueda espiritual y sabiduría interior. Hay dimensiones más profundas de tu situación que no son inmediatamente visibles. Este es tiempo de meditación, reflexión, y escuchar tu voz interior. Las respuestas que buscas no vendrán del mundo externo sino de tu propia conexión con lo sagrado.\n\n`;
+            }
+            
+            // INTERPRETACIÓN ESPECÍFICA POR MÉTODO (mejorada)
+            if (method === 'etteilla') {
+                message += `**Lectura Etteilla - El Flujo Narrativo:** Esta disposición clásica de siete cartas te cuenta una historia, tu historia. No leas cada carta aisladamente; obsérvalas como fotogramas de una película. Las primeras cartas establecen el escenario y los personajes (incluido tú). Las cartas centrales desarrollan el drama, muestran el conflicto o el desarrollo. Las últimas cartas revelan hacia dónde se dirige la narrativa si mantienes tu curso actual. Presta especial atención a las cartas que están lado a lado - se influencian mutuamente, creando significados matizados que van más allá de sus definiciones individuales.`;
+            }
+            
+            else if (method === 'celtic') {
+                message += `**Cruz Celta - El Mapa Completo:** Esta es la lectura más profunda del tarot, un diagrama de tu situación completa. El cruce central (posiciones 1 y 2) es el nudo del asunto: lo que ES versus lo que CRUZA o desafía esa realidad. La carta 3 (base) revela las raíces, quizás incluso patrones de vidas pasadas o infancia. Las posiciones 4 y 6 (pasado y futuro inmediato) muestran el flujo temporal. El eje vertical derecho (7-10) es profundamente revelador: tu propia postura interna (7), cómo te ven otros o qué factores externos influyen (8), tus miedos secretos o esperanzas más profundas (9), y finalmente, el resultado probable (10). La posición 10 NO es destino fijo - es proyección basada en tu trayectoria actual. Cambia tu curso interno y cambiarás el resultado.`;
+            }
+            
+            else if (method === 'threeCard') {
+                message += `**Pasado-Presente-Futuro - La Línea del Tiempo:** Esta lectura simple es engañosamente profunda. Tu Pasado (carta 1) no es solo historia; es la fundación sobre la cual te paras ahora. Mírala sin juicio - aún las experiencias dolorosas te han dado dones (quizás fortaleza, sabiduría, compasión). Tu Presente (carta 2) es tu punto de poder. AQUÍ, AHORA, es donde tienes elección. El presente no está determinado por el pasado; está influenciado por él, pero tú decides qué hacer con esa influencia. Tu Futuro (carta 3) es probabilidad, no profecía. Muestra el río hacia el cual fluyes si no cambias de dirección. Pero siempre, SIEMPRE, tienes el poder de remar hacia diferentes costas.\n\n`;
+                
+                const pastCard = cards[0];
+                const presentCard = cards[1];
+                const futureCard = cards[2];
+                
+                message += `La progresión de ${pastCard.name} → ${presentCard.name} → ${futureCard.name} revela una trayectoria específica de evolución. Cada carta es un portal que lleva al siguiente. Estudia las transiciones: ¿cómo te llevó el pasado a este presente? ¿Cómo este presente está gestando ese futuro particular? Y la pregunta crucial: ¿quieres ese futuro? Si no, cambia tu presente.`;
+            }
+            
+            else if (method === 'fiveCard') {
+                const question = document.getElementById('userQuestion')?.value || 'tu pregunta';
+                message += `**Tu Pregunta en Cinco Capas:** Has preguntado sobre ${question === 'tu pregunta' ? 'lo que ocupa tu mente y corazón' : '"' + question + '"'}. El tarot responde no con una sola respuesta simplista, sino con cinco niveles de comprensión, como pelar una cebolla o descender por capas de conciencia:\n\n`;
+                message += `**Carta 1 - La Superficie:** Lo que es obvio, lo que ya sabes o sospechas. Esta carta valida tu percepción consciente.\n\n`;
+                message += `**Carta 2 - Las Corrientes Ocultas:** Lo que está debajo de lo obvio. Factores que quizás no habías considerado, dinámicas invisibles que influyen en la situación.\n\n`;
+                message += `**Carta 3 - El Corazón del Asunto:** Aquí está la verdad central, el núcleo de la cuestión. Esta carta suele ser la más importante.\n\n`;
+                message += `**Carta 4 - El Desafío o Lección:** Lo que debes enfrentar, superar o aprender. No es obstáculo sino oportunidad de crecimiento.\n\n`;
+                message += `**Carta 5 - La Respuesta/Consejo:** La sabiduría final del tarot. Esta carta sintetiza todo lo anterior y ofrece guía clara.\n\n`;
+                
+                const finalCard = cards[4];
+                message += `Tu quinta carta, ${finalCard.name}, es tu respuesta condensada. Pero no la leas aisladamente - su significado completo solo emerge cuando la ves como culminación de las cuatro cartas anteriores. Juntas, estas cinco cartas forman un mapa que te guía de la confusión a la claridad.`;
+            }
+            
+            // CONSEJO FINAL CON VARIANTES
+            const finalAdviceVariants = [
+                `\n\n**Tu Poder Personal:** El tarot no predice; ilumina. No dicta; sugiere. Las cartas son espejos que reflejan tanto la realidad actual como las posibilidades latentes. Tu libre albedrío es la fuerza más poderosa en tu vida. Ninguna carta, ninguna predicción puede superarlo. Usa esta lectura como farola en el camino, no como cadenas que limitan tu movimiento. El futuro no está escrito - está siendo escrito por ti, ahora mismo, con cada pensamiento, cada decisión, cada acción.`,
+                
+                `\n\n**Sabiduría Ancestral:** Durante milenios, los seres humanos han buscado comprensión del misterio de la existencia. El tarot es una de las herramientas que han sobrevivido porque funciona - no como magia externa, sino como espejo de tu sabiduría interna. Los símbolos de las cartas activan arquetipos en tu psique, despertando conocimiento que ya poseías pero que estaba dormido. Confía en tu respuesta interna a estas cartas tanto como en su significado tradicional. Tu intuición es válida.`,
+                
+                `\n\n**El Camino Adelante:** Ahora que has visto lo que el tarot revela, ¿qué harás con este conocimiento? La información sin acción es mera curiosidad. Pero la información combinada con decisión consciente es poder transformador. Identifica una cosa - una sola cosa - que puedas hacer diferente basándote en lo que has aprendido aquí. Comienza pequeño si es necesario, pero comienza. El viaje más largo empieza con un solo paso, y ese paso es siempre ahora.`,
+                
+                `\n\n**Integración y Acción:** Una lectura de tarot es como una semilla plantada en tu conciencia. Necesita tiempo para germinar, raíces para profundizar. No esperes comprenderlo todo inmediatamente. Permite que estas imágenes y palabras trabajen en tu subconsciente. Vuelve a esta lectura en días o semanas - encontrarás nuevos niveles de significado. Mientras tanto, vive con presencia. Observa cómo lo que el tarot sugirió se manifiesta o no. El tarot es conversación entre lo cósmico y lo personal; tu vida es tu parte del diálogo.`
+            ];
+            
+            message += finalAdviceVariants[Math.floor(Math.random() * finalAdviceVariants.length)];
+            
+            return message;
+        }
+
+        // Salir de la lectura
+        function exitReading() {
+            const farewell = document.createElement('div');
+            farewell.className = 'mystical-text';
+            farewell.innerHTML = `
+                <p style="font-size: 1.4em; color: #d4af37;">Las cartas han hablado.</p>
+                <p style="margin-top: 20px;">Que la sabiduría revelada ilumine tu camino. Recuerda que el Tarot es un espejo, no un mandato. Tú eres quien crea tu destino.</p>
+                <p style="margin-top: 20px; font-style: italic;">Hasta la próxima consulta, buscador...</p>
+            `;
+            
+            document.getElementById('readingScreen').innerHTML = '';
+            document.getElementById('readingScreen').appendChild(farewell);
+            
+            const exitBtn = document.createElement('button');
+            exitBtn.className = 'button-primary';
+            exitBtn.textContent = 'Volver al Inicio';
+            exitBtn.onclick = () => {
+                location.reload();
+            };
+            
+            document.getElementById('readingScreen').appendChild(exitBtn);
+        }
+
+        // Toggle de configuración
+        function toggleSettings() {
+            const panel = document.getElementById('settingsPanel');
+            panel.classList.toggle('active');
+        }
+
+        function toggleSound() {
+            appState.soundEnabled = !appState.soundEnabled;
+            document.getElementById('soundToggle').classList.toggle('active');
+            saveState();
+            
+            if (appState.soundEnabled) {
+                AudioSystem.playButtonClick();
+            }
+        }
+
+        function toggleParticles() {
+            appState.particlesEnabled = !appState.particlesEnabled;
+            document.getElementById('particlesToggle').classList.toggle('active');
+            document.getElementById('particles').style.display = appState.particlesEnabled ? 'block' : 'none';
+            saveState();
+            
+            if (appState.soundEnabled) {
+                AudioSystem.playButtonClick();
+            }
+        }
+
+        function showHistory() {
+            if (appState.soundEnabled) AudioSystem.playButtonClick();
+            
+            const overlay = document.createElement('div');
+            overlay.className = 'ia-modal-overlay';
+            
+            const modal = document.createElement('div');
+            modal.className = 'ia-modal';
+            modal.style.maxWidth = '600px';
+            
+            let historyHTML = '<h3>📜 Historial de Lecturas</h3>';
+            
+            if (appState.readingHistory.length === 0) {
+                historyHTML += '<p style="text-align: center; color: #e0c9ff; padding: 20px;">Aún no tienes lecturas guardadas</p>';
+            } else {
+                historyHTML += '<div style="max-height: 400px; overflow-y: auto;">';
+                appState.readingHistory.reverse().forEach((reading, i) => {
+                    historyHTML += `
+                        <div style="background: rgba(138, 43, 226, 0.2); padding: 15px; border-radius: 10px; margin: 10px 0; border: 1px solid rgba(212, 175, 55, 0.3);">
+                            <strong style="color: #d4af37;">${reading.method}</strong>
+                            <div style="font-size: 0.85em; color: #e0c9ff; margin-top: 5px;">${reading.date}</div>
+                            <div style="font-size: 0.9em; color: #e0c9ff; margin-top: 8px;">${reading.cards.join(', ')}</div>
+                        </div>
+                    `;
+                });
+                historyHTML += '</div>';
+            }
+            
+            historyHTML += '<button class="ia-close-button" onclick="this.closest(\'.ia-modal-overlay\').remove()" style="margin-top: 15px;">Cerrar</button>';
+            
+            modal.innerHTML = historyHTML;
+            overlay.appendChild(modal);
+            document.body.appendChild(overlay);
+            
+            overlay.addEventListener('click', (e) => {
+                if (e.target === overlay) {
+                    overlay.remove();
+                }
+            });
+        }
+
+        function saveReadingToHistory() {
+            const methodNames = {
+                'etteilla': '🎴 Etteilla',
+                'celtic': '✝️ Cruz Celta',
+                'threeCard': '🔺 Tres Cartas',
+                'fiveCard': '🌟 Cinco Cartas'
+            };
+            
+            const reading = {
+                method: methodNames[appState.currentMethod],
+                date: new Date().toLocaleString('es-ES'),
+                cards: appState.allCards.map((card, i) => 
+                    `${card.name}${appState.cardStates[i] ? ' (Inv)' : ''}`
+                )
+            };
+            
+            appState.readingHistory.push(reading);
+            saveState();
+        }
+
+        // Modificar playCardReveal para verificar si el sonido está habilitado
+        const originalPlayCardReveal = AudioSystem.playCardReveal;
+        AudioSystem.playCardReveal = function() {
+            if (appState.soundEnabled) {
+                originalPlayCardReveal.call(this);
+            }
+        };
+
+        const originalPlayButtonClick = AudioSystem.playButtonClick;
+        AudioSystem.playButtonClick = function() {
+            if (appState.soundEnabled) {
+                originalPlayButtonClick.call(this);
+            }
+        };
+
+        const originalPlayComplete = AudioSystem.playComplete;
+        AudioSystem.playComplete = function() {
+            if (appState.soundEnabled) {
+                originalPlayComplete.call(this);
+            }
+        };
+
+        // Inicializar app (REEMPLAZADA por sistema con login)
+        // loadState() ya no se llama directamente aquí
+
+        /* ================================================================
+           SISTEMA DE AUTENTICACIÓN, PERFIL, TOUR, HISTORIAL Y PROMPT IA
+           ================================================================ */
+
+        // ── CLAVES localStorage ──────────────────────────────────────
+        const LS_USERS   = 'tm_users_v1';
+        const LS_SESSION = 'tm_session_v1';
+
+        const getUsers   = () => { try { return JSON.parse(localStorage.getItem(LS_USERS))||[]; } catch{ return []; } };
+        const saveUsers  = arr => localStorage.setItem(LS_USERS, JSON.stringify(arr));
+        const getSession = ()  => { try { return JSON.parse(localStorage.getItem(LS_SESSION)); } catch{ return null; } };
+        const setSession = nick => localStorage.setItem(LS_SESSION, JSON.stringify({nick, at: Date.now()}));
+        const clearSess  = ()  => localStorage.removeItem(LS_SESSION);
+        const getUserD   = nick => { try { return JSON.parse(localStorage.getItem('tm_ud_'+nick))||{}; } catch{ return {}; } };
+        const saveUserD  = (nick,d) => localStorage.setItem('tm_ud_'+nick, JSON.stringify(d));
+
+        // ── DATALIST usuarios previos ────────────────────────────────
+        function fillDatalist() {
+            const dl = document.getElementById('dlistUsers');
+            dl.innerHTML = '';
+            getUsers().forEach(u => {
+                const o = document.createElement('option');
+                o.value = u.nick;
+                dl.appendChild(o);
+            });
+        }
+
+        function autoFillEmail(nick) {
+            const u = getUsers().find(x => x.nick.toLowerCase() === nick.toLowerCase());
+            if (u && u.email) document.getElementById('lEmail').value = u.email;
+        }
+
+        // ── LOGIN ────────────────────────────────────────────────────
+        function doLogin() {
+            const nick  = document.getElementById('lNick').value.trim();
+            const email = document.getElementById('lEmail').value.trim();
+            const pin   = document.getElementById('lPin').value;
+            const errEl = document.getElementById('loginErr');
+            errEl.style.display = 'none';
+
+            if (nick.length < 3) return showErr('El nombre debe tener al menos 3 caracteres.');
+            if (pin.length  < 4) return showErr('La clave debe tener al menos 4 caracteres.');
+
+            AudioSystem.playButtonClick();
+
+            let users = getUsers();
+            const found = users.find(x => x.nick.toLowerCase() === nick.toLowerCase());
+
+            if (found) {
+                if (found.pin !== pin) return showErr('Clave incorrecta. Inténtalo de nuevo.');
+                if (email && email !== found.email) { found.email = email; saveUsers(users); }
+            } else {
+                users.unshift({ nick, email, pin, created: Date.now() });
+                saveUsers(users.slice(0, 10));
+            }
+
+            setSession(nick);
+            loadUserState(nick);
+
+            document.getElementById('opt_editProfile').style.display = 'flex';
+            document.getElementById('opt_logout').style.display = 'flex';
+
+            const ud = getUserD(nick);
+            if (!ud.profileDone) {
+                showScreen('profileScreen');
+            } else {
+                showWelcome(nick);
+            }
+
+            function showErr(msg) {
+                errEl.textContent = '❌ ' + msg;
+                errEl.style.display = 'block';
+            }
+        }
+
+        // ── LOGOUT ───────────────────────────────────────────────────
+        function doLogout() {
+            if (!confirm('¿Cerrar sesión?')) return;
+            AudioSystem.playButtonClick();
+            persistUserState();
+            clearSess();
+            appState.currentNick = null;
+            document.getElementById('opt_editProfile').style.display = 'none';
+            document.getElementById('opt_logout').style.display = 'none';
+            document.getElementById('divGreeting').style.display = 'none';
+            document.getElementById('settingsPanel').classList.remove('active');
+            document.getElementById('lNick').value = '';
+            document.getElementById('lEmail').value = '';
+            document.getElementById('lPin').value = '';
+            document.getElementById('loginErr').style.display = 'none';
+            fillDatalist();
+            showScreen('loginScreen');
+        }
+
+        // ── CARGAR ESTADO DEL USUARIO ────────────────────────────────
+        function loadUserState(nick) {
+            appState.currentNick = nick;
+            const ud = getUserD(nick);
+            if (ud.coins !== undefined)             appState.coins            = ud.coins;
+            if (ud.lastRechargeTime)                appState.lastRechargeTime = ud.lastRechargeTime;
+            if (ud.soundEnabled !== undefined)      appState.soundEnabled     = ud.soundEnabled;
+            if (ud.particlesEnabled !== undefined)  appState.particlesEnabled = ud.particlesEnabled;
+            appState.readingHistory = ud.readingHistory || [];
+
+            if (!appState.soundEnabled)    document.getElementById('soundToggle')?.classList.remove('active');
+            if (!appState.particlesEnabled){ document.getElementById('particlesToggle')?.classList.remove('active'); document.getElementById('particles').style.display='none'; }
+
+            checkCoinsRecharge();
+            updateCoinDisplays();
+        }
+
+        // ── PERSISTIR ESTADO DEL USUARIO ────────────────────────────
+        function persistUserState() {
+            const nick = appState.currentNick;
+            if (!nick) return;
+            const ud = getUserD(nick);
+            ud.coins            = appState.coins;
+            ud.lastRechargeTime = appState.lastRechargeTime;
+            ud.soundEnabled     = appState.soundEnabled;
+            ud.particlesEnabled = appState.particlesEnabled;
+            ud.readingHistory   = appState.readingHistory || [];
+            saveUserD(nick, ud);
+        }
+
+        // Pisar saveState para que siempre persista por usuario
+        const _origSaveState = saveState;
+        saveState = function() { _origSaveState(); persistUserState(); };
+
+        // ── MOSTRAR BIENVENIDA ───────────────────────────────────────
+        function showWelcome(nick) {
+            const ud    = getUserD(nick);
+            const users = getUsers();
+            const uf    = users.find(x => x.nick.toLowerCase() === nick.toLowerCase());
+            const email = uf?.email || '';
+
+            document.getElementById('divGreeting').style.display = 'block';
+            document.getElementById('spNick').textContent = nick;
+
+            const spE = document.getElementById('spEmail');
+            if (email) { spE.textContent = '📧 ' + email; spE.style.display = 'block'; }
+            else spE.style.display = 'none';
+
+            const spM = document.getElementById('spMotivos');
+            if (ud.motivos?.length) {
+                spM.textContent = 'Áreas: ' + ud.motivos.slice(0,3).join(' · ') + (ud.motivos.length > 3 ? ' …' : '');
+                spM.style.display = 'block';
+            } else spM.style.display = 'none';
+
+            updateCoinDisplays();
+            showScreen('welcomeScreen');
+
+            if (!ud.tourDone) setTimeout(() => tourStart(), 900);
+        }
+
+        // ── PERFIL ───────────────────────────────────────────────────
+        function toggleOtroInput() {
+            document.getElementById('otroInputDiv').style.display =
+                document.getElementById('cm_otro').checked ? 'block' : 'none';
+        }
+
+        function guardarPerfil() {
+            const nick = appState.currentNick;
+            if (!nick) return;
+
+            const motivos = [];
+            document.querySelectorAll('.checkbox-grid input[type=checkbox]:checked').forEach(cb => {
+                if (cb.value !== 'otro') motivos.push(cb.value);
+            });
+            if (document.getElementById('cm_otro').checked) {
+                const txt = document.getElementById('otroTexto').value.trim();
+                if (txt) motivos.push(txt);
+            }
+
+            if (!motivos.length) { alert('Selecciona al menos un motivo de consulta.'); return; }
+
+            const ud = getUserD(nick);
+            ud.motivos      = motivos;
+            ud.pregunta1    = document.getElementById('perfQ1').value.trim();
+            ud.pregunta2    = document.getElementById('perfQ2').value.trim();
+            ud.profileDone  = true;
+            ud.profileDate  = Date.now();
+            saveUserD(nick, ud);
+
+            AudioSystem.playButtonClick();
+            showWelcome(nick);
+        }
+
+        function saltarPerfil() {
+            showWelcome(appState.currentNick);
+        }
+
+        function abrirEditarPerfil() {
+            const nick = appState.currentNick;
+            if (!nick) return;
+            const ud = getUserD(nick);
+
+            // Reset checkboxes
+            document.querySelectorAll('.checkbox-grid input[type=checkbox]').forEach(cb => cb.checked = false);
+            document.getElementById('otroInputDiv').style.display = 'none';
+            document.getElementById('otroTexto').value = '';
+
+            if (ud.motivos) {
+                ud.motivos.forEach(m => {
+                    const cb = document.querySelector(`.checkbox-grid input[value="${m}"]`);
+                    if (cb) cb.checked = true;
+                    else { // es "otro" personalizado
+                        document.getElementById('cm_otro').checked = true;
+                        document.getElementById('otroTexto').value = m;
+                        document.getElementById('otroInputDiv').style.display = 'block';
+                    }
+                });
+            }
+            document.getElementById('perfQ1').value = ud.pregunta1 || '';
+            document.getElementById('perfQ2').value = ud.pregunta2 || '';
+
+            document.getElementById('settingsPanel').classList.remove('active');
+            showScreen('profileScreen');
+        }
+
+        // ── TOUR GUIADO ──────────────────────────────────────────────
+        const TOUR = [
+            { t:'🔮 Bienvenido al Tarot Místico',
+              p:'Esta app te guía en lecturas de tarot con múltiples métodos, interpretaciones profundas e IA integrada. Hagamos un recorrido rápido.' },
+            { t:'💰 Sistema de Monedas',
+              p:'Cada lectura cuesta 2 monedas. Empiezas con 10 y se recargan automáticamente cada 2 horas. Son exclusivas de tu cuenta personal.' },
+            { t:'🎴 4 Métodos de Lectura',
+              p:'Etteilla (7 cartas), Cruz Celta (10 cartas), Tres Cartas (Pasado/Presente/Futuro) y Cinco Cartas con tu pregunta personalizada.' },
+            { t:'🤖 IA Mística Integrada',
+              p:'Al finalizar cada lectura puedes generar una interpretación avanzada usando ChatGPT, Gemini, Perplexity o Copilot. El prompt incluye tu perfil personal.' },
+            { t:'⚙️ Tu Configuración',
+              p:'Desde el engranaje (arriba derecha): sonidos, partículas, historial, editar perfil y cerrar sesión. Todo personalizado para ti.' },
+            { t:'📜 Historial Privado',
+              p:'Cada lectura se guarda en tu historial personal con papelera y recuperación. Solo tú puedes verlo. Hasta 50 lecturas guardadas.' },
+            { t:'✅ ¡Todo listo!',
+              p:'Cuando quieras repetir este tour haz clic en el botón "?" (abajo izquierda). ¡Que las cartas iluminen tu camino!' }
+        ];
+        let _tStep = 0;
+
+        function tourStart() {
+            AudioSystem.playButtonClick();
+            _tStep = 0;
+            _renderTour();
+        }
+
+        function _renderTour() {
+            document.querySelectorAll('.tour-box').forEach(e => e.remove());
+            const ov = document.getElementById('tourOverlay');
+            if (_tStep >= TOUR.length) { ov.classList.remove('on'); _markTourDone(); return; }
+            ov.classList.add('on');
+            const s = TOUR[_tStep];
+            const box = document.createElement('div');
+            box.className = 'tour-box';
+            box.innerHTML = `<div class="tour-counter">Paso ${_tStep+1} de ${TOUR.length}</div>
+                <h3>${s.t}</h3><p>${s.p}</p>
+                <div class="tour-btns">
+                    <button class="button-secondary" style="padding:9px 16px; font-size:.88em;" onclick="_skipTour()">✕ Saltar</button>
+                    <button class="button-primary"   style="width:auto; padding:9px 20px; font-size:.88em;" onclick="_nextTour()">${_tStep===TOUR.length-1?'🎉 Finalizar':'Siguiente →'}</button>
+                </div>`;
+            document.body.appendChild(box);
+        }
+
+        function _nextTour() { AudioSystem.playButtonClick(); _tStep++; _renderTour(); }
+        function _skipTour()  { document.querySelectorAll('.tour-box').forEach(e=>e.remove()); document.getElementById('tourOverlay').classList.remove('on'); _markTourDone(); }
+        function _markTourDone() { const n=appState.currentNick; if(!n) return; const ud=getUserD(n); ud.tourDone=true; saveUserD(n,ud); }
+
+        // ── HISTORIAL MEJORADO ───────────────────────────────────────
+        const _origShowHistory = showHistory;
+        showHistory = function() {
+            if (!appState.currentNick) { alert('Inicia sesión para ver tu historial.'); return; }
+            AudioSystem.playButtonClick();
+
+            const hist   = appState.readingHistory || [];
+            const active = hist.filter(r => !r.deleted);
+            const trash  = hist.filter(r =>  r.deleted);
+
+            const ov = document.createElement('div');
+            ov.className = 'ia-modal-overlay';
+            const md = document.createElement('div');
+            md.className = 'ia-modal';
+            md.style.maxWidth = '680px';
+
+            let h = `<h3 style="color:#d4af37; text-align:center; margin-bottom:5px;">📜 Mi Historial</h3>
+                     <p style="color:#e0c9ff; text-align:center; font-size:.88em; margin-bottom:18px;">
+                        <strong>${appState.currentNick}</strong> · ${active.length} lectura(s) guardada(s)</p>`;
+
+            if (!active.length && !trash.length) {
+                h += '<p style="text-align:center;color:#e0c9ff;padding:30px;">Sin lecturas aún. ¡Realiza tu primera lectura!</p>';
+            } else {
+                h += '<div style="max-height:440px; overflow-y:auto;">';
+                if (active.length) {
+                    h += '<p style="color:#d4af37; font-weight:bold; margin:8px 0 4px;">Lecturas Recientes</p>';
+                    active.forEach(r => {
+                        const cards3 = r.cards ? r.cards.slice(0,3).map(c=>c.name+(c.reversed?' ↓':'')).join(' · ')+(r.cards.length>3?' +más':'') : '';
+                        h += `<div class="hist-item">
+                            <strong style="color:#d4af37;">${r.method}</strong>
+                            <span style="color:#a0a0d0; font-size:.84em; margin-left:10px;">${r.dateDisplay||r.date}</span>
+                            ${r.question?`<div style="color:#e0c9ff; font-size:.88em; font-style:italic; margin-top:4px;">"${r.question.substring(0,70)}${r.question.length>70?'…':''}"</div>`:''}
+                            <div style="color:#e0c9ff; font-size:.84em; margin-top:4px;">${cards3}</div>
+                            <div class="hist-actions">
+                                <button class="hbtn hbtn-v" onclick="histVer('${r.id}',this)">👁 Ver</button>
+                                <button class="hbtn hbtn-d" onclick="histBorrar('${r.id}',this)">🗑 Borrar</button>
+                            </div></div>`;
+                    });
+                }
+                if (trash.length) {
+                    h += '<p style="color:#ff6b6b; font-weight:bold; margin:14px 0 4px;">🗑 Papelera</p>';
+                    trash.forEach(r => {
+                        h += `<div class="hist-item del">
+                            <strong style="color:#d4af37;">${r.method}</strong>
+                            <span style="color:#a0a0d0; font-size:.84em; margin-left:10px;">${r.dateDisplay||r.date}</span>
+                            <div class="hist-actions">
+                                <button class="hbtn hbtn-r" onclick="histRestaurar('${r.id}',this)">♻ Recuperar</button>
+                                <button class="hbtn hbtn-x" onclick="histEliminar('${r.id}',this)">💀 Eliminar</button>
+                            </div></div>`;
+                    });
+                }
+                h += '</div>';
+                if (hist.length) h += `<div style="margin-top:16px; padding-top:14px; border-top:1px solid rgba(212,175,55,.3);">
+                    <button class="ia-close-button" onclick="histBorrarTodo(this)">🚨 Borrar TODO el historial</button></div>`;
+            }
+            h += `<button class="button-primary" style="margin-top:14px;" onclick="this.closest('.ia-modal-overlay').remove()">Cerrar</button>`;
+            md.innerHTML = h;
+            ov.appendChild(md);
+            document.body.appendChild(ov);
+            ov.addEventListener('click', e => { if (e.target===ov) ov.remove(); });
+        };
+
+        function histBorrar(id, btn)     { const r=appState.readingHistory.find(x=>x.id===id); if(r){r.deleted=true; saveState();} btn.closest('.ia-modal-overlay').remove(); showHistory(); }
+        function histRestaurar(id, btn)  { const r=appState.readingHistory.find(x=>x.id===id); if(r){r.deleted=false; saveState();} btn.closest('.ia-modal-overlay').remove(); showHistory(); }
+        function histEliminar(id, btn)   { if(!confirm('¿Eliminar permanentemente?')) return; appState.readingHistory=appState.readingHistory.filter(x=>x.id!==id); saveState(); btn.closest('.ia-modal-overlay').remove(); showHistory(); }
+        function histBorrarTodo(btn)     { if(!confirm('¿Borrar TODO tu historial?')) return; if(!confirm('⚠️ CONFIRMA: acción irreversible.')) return; appState.readingHistory=[]; saveState(); btn.closest('.ia-modal-overlay').remove(); }
+
+        function histVer(id, btn) {
+            const r = appState.readingHistory.find(x => x.id === id);
+            if (!r) return;
+            const ov = document.createElement('div');
+            ov.className = 'ia-modal-overlay';
+            const md = document.createElement('div');
+            md.className = 'ia-modal';
+            md.style.maxWidth = '640px';
+            let h = `<h3 style="color:#d4af37;">${r.method}</h3>
+                     <p style="color:#a0a0d0; font-size:.84em; margin-bottom:14px;">${r.dateDisplay||r.date}</p>`;
+            if (r.question) h += `<div style="background:rgba(138,43,226,.2); padding:12px; border-radius:10px; margin-bottom:14px;"><em style="color:#e0c9ff;">"${r.question}"</em></div>`;
+            if (r.cards?.length) {
+                h += '<div style="margin-bottom:14px;"><strong style="color:#d4af37;">Cartas:</strong><div style="margin-top:8px;">';
+                r.cards.forEach(c => h += `<span style="display:inline-block; background:rgba(138,43,226,.3); padding:4px 9px; border-radius:8px; margin:3px; font-size:.88em; color:#e0c9ff;">${c.position?c.position+': ':''}${c.name}${c.reversed?' ↓':''}</span>`);
+                h += '</div></div>';
+            }
+            if (r.interpretation) h += `<div style="background:rgba(0,0,0,.3); padding:14px; border-radius:10px; max-height:180px; overflow-y:auto;"><strong style="color:#d4af37;">Interpretación:</strong><p style="color:#e0c9ff; margin-top:8px; line-height:1.6; font-size:.88em; white-space:pre-line;">${r.interpretation.substring(0,900)}${r.interpretation.length>900?'…':''}</p></div>`;
+            h += `<button class="button-primary" style="margin-top:14px;" onclick="this.closest('.ia-modal-overlay').remove()">Cerrar</button>`;
+            md.innerHTML = h;
+            ov.appendChild(md);
+            document.body.appendChild(ov);
+            ov.addEventListener('click', e => { if(e.target===ov) ov.remove(); });
+        }
+
+        // ── GUARDAR LECTURA (MEJORADA) ───────────────────────────────
+        const _origSaveReading = saveReadingToHistory;
+        saveReadingToHistory = function() {
+            const methodNames = { etteilla:'🎴 Etteilla', celtic:'✝️ Cruz Celta', threeCard:'🔺 Tres Cartas', fiveCard:'🌟 Cinco Cartas' };
+            const reading = {
+                id:             Date.now()+'_'+Math.random().toString(36).substr(2,6),
+                date:           new Date().toISOString(),
+                dateDisplay:    new Date().toLocaleString('es-ES'),
+                method:         methodNames[appState.currentMethod] || appState.currentMethod,
+                question:       appState.currentMethod==='fiveCard' ? (document.getElementById('userQuestion')?.value||'') : null,
+                cards:          appState.allCards.map((c,i) => ({ name:c.name, reversed:appState.cardStates[i], position:getPositionLabel(i) })),
+                interpretation: document.querySelector('#globalInterpretationArea')?.innerText?.substring(0,1500)||'',
+                deleted:        false
+            };
+            if (!appState.readingHistory) appState.readingHistory = [];
+            appState.readingHistory.unshift(reading);
+            appState.readingHistory = appState.readingHistory.slice(0,50);
+            saveState();
+        };
+
+        // ── PROMPT IA MEJORADO (2 PÁRRAFOS + PERFIL) ────────────────
+        const _origBuildPrompt = buildIAPrompt;
+        buildIAPrompt = function() {
+            const nick  = appState.currentNick || 'Consultante';
+            const ud    = appState.currentNick ? getUserD(appState.currentNick) : {};
+            const users = getUsers();
+            const uf    = users.find(x => x.nick.toLowerCase()===(appState.currentNick||'').toLowerCase());
+            const email = uf?.email || '';
+
+            const methodT = { etteilla:'Etteilla (7 cartas)', celtic:'Cruz Celta (10 cartas)',
+                              threeCard:'Tres Cartas (Pasado·Presente·Futuro)', fiveCard:'Cinco Cartas (Pregunta profunda)' };
+
+            let cardsText = '';
+            appState.allCards.forEach((c,i) => {
+                cardsText += `${getPositionLabel(i)}: ${c.name}${appState.cardStates[i]?' (Invertida)':''} ${c.icon}\n`;
+            });
+
+            let interpsText = '';
+            document.querySelectorAll('#interpretationArea .interpretation').forEach(el => {
+                interpsText += `${el.querySelector('h3')?.textContent||''}\n${el.querySelector('p')?.textContent||''}\n\n`;
+            });
+
+            const q5 = appState.currentMethod==='fiveCard' ? (document.getElementById('userQuestion')?.value||'').trim() : '';
+            const motivos  = ud.motivos?.join(', ')  || 'No especificado';
+            const pregunta1 = ud.pregunta1 || 'No respondida';
+            const pregunta2 = ud.pregunta2 || 'No respondida';
+
+            return `Actúa como una tarotista profesional con enfoque práctico-místico.
+
+CONTEXTO DEL CONSULTANTE:
+Nombre: ${nick}${email?' ('+email+')':''}
+Áreas de consulta: ${motivos}
+Decisión postergada: ${pregunta1}
+Patrón recurrente: ${pregunta2}${q5?'\nPregunta específica de la tirada: "'+q5+'"':''}
+
+TIRADA: ${methodT[appState.currentMethod]||'Tarot'}
+
+CARTAS REVELADAS:
+${cardsText}
+INTERPRETACIONES INDIVIDUALES:
+${interpsText}
+══════════════════════════════════════════
+
+INSTRUCCIONES ESTRICTAS:
+Redacta exactamente DOS PÁRRAFOS separados por un salto de línea. Sin listas, sin viñetas, sin títulos, sin emojis, sin preguntas retóricas. Sin frases cliché como "confía en ti mismo", "el universo conspira" o "sigue tu corazón".
+
+PÁRRAFO 1 — Lectura global: Interpretación unificada de la tirada, 70% práctica y aterrizada, 30% mística. Integra las cartas en una narrativa coherente que dialogue con el contexto real del consultante (áreas de vida, decisión postergada, patrón recurrente). Nombra tensiones concretas y oportunidades reales.
+
+PÁRRAFO 2 — Advertencia y oportunidad: Redacta una advertencia concreta (un riesgo específico que podría repetirse si no se mira de frente) y una oportunidad clara (una dirección, un criterio o un límite que conviene sostener) derivadas directamente de las cartas y el contexto personal. Sin listas, sin tono de manual, sin tiempos y sin sugerir actividades.
+
+GENERA SOLO LOS DOS PÁRRAFOS:`;
+        };
+
+        // ── INICIALIZACIÓN ───────────────────────────────────────────
+        function initApp() {
+            fillDatalist();
+            createMysticParticles();
+
+            const sess = getSession();
+            if (sess?.nick) {
+                const u = getUsers().find(x => x.nick.toLowerCase() === sess.nick.toLowerCase());
+                if (u) {
+                    loadUserState(u.nick);
+                    document.getElementById('opt_editProfile').style.display = 'flex';
+                    document.getElementById('opt_logout').style.display = 'flex';
+                    const ud = getUserD(u.nick);
+                    if (!ud.profileDone) showScreen('profileScreen');
+                    else showWelcome(u.nick);
+                    return;
+                }
+            }
+            showScreen('loginScreen');
+        }
+
+        setInterval(() => { checkCoinsRecharge(); updateCoinDisplays(); persistUserState(); }, 60000);
+        initApp();
+        
+        // Generar partículas místicas
+        function createMysticParticles() {
+            const container = document.getElementById('particles');
+            const particleCount = 50;
+            
+            for (let i = 0; i < particleCount; i++) {
+                const particle = document.createElement('div');
+                particle.className = 'particle';
+                
+                // Posición aleatoria
+                particle.style.left = Math.random() * 100 + '%';
+                
+                // Duración aleatoria
+                const duration = 15 + Math.random() * 20;
+                particle.style.animationDuration = duration + 's';
+                
+                // Retraso aleatorio
+                const delay = Math.random() * 10;
+                particle.style.animationDelay = delay + 's';
+                
+                // Deriva horizontal aleatoria
+                const drift = (Math.random() - 0.5) * 200;
+                particle.style.setProperty('--drift', drift + 'px');
+                
+                // Tamaño aleatorio
+                const size = 2 + Math.random() * 4;
+                particle.style.width = size + 'px';
+                particle.style.height = size + 'px';
+                
+                container.appendChild(particle);
+            }
+        }
+        
+        // (createMysticParticles se llama desde initApp)
+    </script>
+</body>
+</html>

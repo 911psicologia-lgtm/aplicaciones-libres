@@ -1,0 +1,22 @@
+{
+  "version": "v4.25.1",
+  "fixes": [
+    "La rama genérica ya no captura reading_choice/listen_choice; ahora entran a sus ramas específicas.",
+    "Escucha guiada muestra un botón visible '🔊 Escuchar audio'.",
+    "El botón visible dispara el audio real del ejercicio.",
+    "Se eliminó la frase 'Pulsa la bocina'.",
+    "La transcripción queda colapsada en 'Ver transcripción después de escuchar'.",
+    "Se variaron situaciones repetidas para reducir plantilla repetida."
+  ],
+  "checks": {
+    "version": "2.12.1 / v4.25.1",
+    "generic_branch_excludes_read_listen": true,
+    "listen_explicit_branch_exists": true,
+    "guided_audio_button_exists": true,
+    "guided_audio_listener_exists": true,
+    "old_bocina_phrase_removed": true,
+    "scenario_varied_count": 450
+  },
+  "repeatedScenarioOver3": {},
+  "nodeCheck": 0
+}

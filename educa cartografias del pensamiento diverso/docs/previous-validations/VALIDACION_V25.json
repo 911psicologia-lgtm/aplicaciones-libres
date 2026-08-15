@@ -1,0 +1,79 @@
+{
+  "version": "2.5",
+  "generatedAt": "2026-07-25T22:39:31.291651+00:00",
+  "corpus": {
+    "cards": 460,
+    "dossiers": 460,
+    "historicalLayers": 460,
+    "uniqueIds": 460,
+    "brokenConnections": 0
+  },
+  "interface": {
+    "views": [
+      "home",
+      "duration",
+      "modes",
+      "explore",
+      "favorites",
+      "routes",
+      "card",
+      "rhizome",
+      "quiz"
+    ],
+    "duplicateHtmlIds": [],
+    "resourceVersions": [
+      "2.5"
+    ]
+  },
+  "routes": [
+    {
+      "type": "chronological",
+      "len": 460,
+      "label": "Recorrido cronológico"
+    },
+    {
+      "type": "mixed",
+      "len": 460,
+      "label": "De todo un poco"
+    },
+    {
+      "type": "personalized",
+      "len": 100,
+      "label": "Para ti"
+    },
+    {
+      "type": "surprise",
+      "len": 24,
+      "label": "Sorpresa · primera ruta personal"
+    }
+  ],
+  "continuousPlaybackSimulation": {
+    "active": false,
+    "position": 2,
+    "current": "card_blombos_engravings_001",
+    "spoken": 3,
+    "seen": 2
+  },
+  "rhizomeSimulation": {
+    "nodes": 9,
+    "lines": 8,
+    "play": true,
+    "listen": 9,
+    "center": 8
+  },
+  "pwa": {
+    "cacheName": "cartografias-v2.5-flow-player-rhizome-460",
+    "sameOriginGuard": true,
+    "supportedProtocols": [
+      "http:",
+      "https:"
+    ],
+    "chromeExtensionRequestsCached": false,
+    "skipWaitingOnInstall": true
+  },
+  "automatedBrowserVisualCheck": {
+    "status": "not_executed",
+    "reason": "El navegador gestionado del entorno aplica una URLBlocklist a cualquier dirección local. La sintaxis, estructura, rutas y reproducción fueron verificadas mediante análisis estático y ejecución del JavaScript con síntesis de voz simulada."
+  },
+  "result": "pass"
+}

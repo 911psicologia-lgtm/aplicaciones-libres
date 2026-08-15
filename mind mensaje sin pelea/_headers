@@ -1,0 +1,12 @@
+# Cloudflare Pages — control de caché
+
+# sw.js NUNCA en caché
+/tareas_sin_pelea_v3_5/sw.js
+  Cache-Control: no-cache, no-store, must-revalidate
+  Pragma: no-cache
+
+/tareas_sin_pelea_v3_5/manifest.json
+  Cache-Control: no-cache
+
+/tareas_sin_pelea_v3_5/index.html
+  Cache-Control: no-cache

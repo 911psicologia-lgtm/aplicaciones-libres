@@ -1,0 +1,159 @@
+{
+  "version": "2.1 sprites",
+  "boss_sprites": [
+    "assets/sprites/bosses/boss_01_reina_celestial_de_nubes.png",
+    "assets/sprites/bosses/boss_02_duquesa_espina_rosa.png",
+    "assets/sprites/bosses/boss_03_reina_del_trueno_y_hielo.png",
+    "assets/sprites/bosses/boss_04_reina_magica_del_viento.png",
+    "assets/sprites/bosses/boss_05_hechicera_de_hielo_celestial.png",
+    "assets/sprites/bosses/boss_06_principe_querubin_de_azucar.png",
+    "assets/sprites/bosses/boss_07_matriarca_mantis_rosa.png",
+    "assets/sprites/bosses/boss_08_emperatriz_polilla_espejo.png",
+    "assets/sprites/bosses/boss_09_rey_gato_lunar.png",
+    "assets/sprites/bosses/boss_10_dama_de_las_munecas_sombra.png",
+    "assets/sprites/bosses/boss_11_gran_duende_nube.png",
+    "assets/sprites/bosses/boss_12_cuervo_soberano_del_rayo.png",
+    "assets/sprites/bosses/boss_13_reina_slime_del_cielo.png",
+    "assets/sprites/bosses/boss_14_murcielaga_matriz_de_cristal.png",
+    "assets/sprites/bosses/boss_15_senor_goblin_del_viento.png",
+    "assets/sprites/bosses/boss_16_alfa_lobo_de_trueno.png",
+    "assets/sprites/bosses/boss_17_arcangel_mecanico_del_corazon.png",
+    "assets/sprites/bosses/boss_18_escarabajo_cometa_supremo.png",
+    "assets/sprites/bosses/boss_19_grimoire_arcano_mayor.png",
+    "assets/sprites/bosses/boss_20_reina_escarabajo_solar.png",
+    "assets/sprites/bosses/boss_21_medusa_nube_oracular.png",
+    "assets/sprites/bosses/boss_22_serpiente_matriarca_del_viento.png",
+    "assets/sprites/bosses/boss_23_reina_astrologica.png",
+    "assets/sprites/bosses/boss_24_sultana_del_eclipse_solar.png",
+    "assets/sprites/bosses/boss_25_alquimista_de_cometas.png",
+    "assets/sprites/bosses/boss_26_dama_del_laberinto_de_hielo.png",
+    "assets/sprites/bosses/boss_27_reina_colmena_de_rayos.png",
+    "assets/sprites/bosses/boss_28_condesa_niebla_sombria.png",
+    "assets/sprites/bosses/boss_29_emperatriz_aurora_helada.png",
+    "assets/sprites/bosses/boss_30_sombra_del_trono_celeste.png"
+  ],
+  "minion_families": {
+    "Duendes Nube": [
+      "assets/sprites/minions/minion_01_duendes_nube_1.png",
+      "assets/sprites/minions/minion_01_duendes_nube_2.png",
+      "assets/sprites/minions/minion_01_duendes_nube_3.png"
+    ],
+    "Cuervos de Rayo": [
+      "assets/sprites/minions/minion_02_cuervos_de_rayo_1.png",
+      "assets/sprites/minions/minion_02_cuervos_de_rayo_2.png",
+      "assets/sprites/minions/minion_02_cuervos_de_rayo_3.png"
+    ],
+    "Slimes de Cielo": [
+      "assets/sprites/minions/minion_03_slimes_de_cielo_1.png",
+      "assets/sprites/minions/minion_03_slimes_de_cielo_2.png",
+      "assets/sprites/minions/minion_03_slimes_de_cielo_3.png"
+    ],
+    "Murciélagos de Cristal": [
+      "assets/sprites/minions/minion_04_murcielagos_de_cristal_1.png",
+      "assets/sprites/minions/minion_04_murcielagos_de_cristal_2.png",
+      "assets/sprites/minions/minion_04_murcielagos_de_cristal_3.png"
+    ],
+    "Goblins del Viento": [
+      "assets/sprites/minions/minion_05_goblins_del_viento_1.png",
+      "assets/sprites/minions/minion_05_goblins_del_viento_2.png",
+      "assets/sprites/minions/minion_05_goblins_del_viento_3.png"
+    ],
+    "Lobos de Trueno": [
+      "assets/sprites/minions/minion_06_lobos_de_trueno_1.png",
+      "assets/sprites/minions/minion_06_lobos_de_trueno_2.png",
+      "assets/sprites/minions/minion_06_lobos_de_trueno_3.png"
+    ],
+    "Hadas Espina": [
+      "assets/sprites/minions/minion_07_hadas_espina_1.png",
+      "assets/sprites/minions/minion_07_hadas_espina_2.png",
+      "assets/sprites/minions/minion_07_hadas_espina_3.png"
+    ],
+    "Mantis Rosa": [
+      "assets/sprites/minions/minion_08_mantis_rosa_1.png",
+      "assets/sprites/minions/minion_08_mantis_rosa_2.png",
+      "assets/sprites/minions/minion_08_mantis_rosa_3.png"
+    ],
+    "Polillas Espejo": [
+      "assets/sprites/minions/minion_09_polillas_espejo_1.png",
+      "assets/sprites/minions/minion_09_polillas_espejo_2.png",
+      "assets/sprites/minions/minion_09_polillas_espejo_3.png"
+    ],
+    "Gatos Lunares": [
+      "assets/sprites/minions/minion_10_gatos_lunares_1.png",
+      "assets/sprites/minions/minion_10_gatos_lunares_2.png",
+      "assets/sprites/minions/minion_10_gatos_lunares_3.png"
+    ],
+    "Querubines Dulces": [
+      "assets/sprites/minions/minion_11_querubines_dulces_1.png",
+      "assets/sprites/minions/minion_11_querubines_dulces_2.png",
+      "assets/sprites/minions/minion_11_querubines_dulces_3.png"
+    ],
+    "Muñecas Sombra": [
+      "assets/sprites/minions/minion_12_munecas_sombra_1.png",
+      "assets/sprites/minions/minion_12_munecas_sombra_2.png",
+      "assets/sprites/minions/minion_12_munecas_sombra_3.png"
+    ],
+    "Querubines Mecánicos": [
+      "assets/sprites/minions/minion_13_querubines_mecanicos_1.png",
+      "assets/sprites/minions/minion_13_querubines_mecanicos_2.png",
+      "assets/sprites/minions/minion_13_querubines_mecanicos_3.png"
+    ],
+    "Escarabajos Cometa": [
+      "assets/sprites/minions/minion_14_escarabajos_cometa_1.png",
+      "assets/sprites/minions/minion_14_escarabajos_cometa_2.png",
+      "assets/sprites/minions/minion_14_escarabajos_cometa_3.png"
+    ],
+    "Libros Arcanos": [
+      "assets/sprites/minions/minion_15_libros_arcanos_1.png",
+      "assets/sprites/minions/minion_15_libros_arcanos_2.png",
+      "assets/sprites/minions/minion_15_libros_arcanos_3.png"
+    ],
+    "Escarabajos Solares": [
+      "assets/sprites/minions/minion_16_escarabajos_solares_1.png",
+      "assets/sprites/minions/minion_16_escarabajos_solares_2.png",
+      "assets/sprites/minions/minion_16_escarabajos_solares_3.png"
+    ],
+    "Medusas Nube": [
+      "assets/sprites/minions/minion_17_medusas_nube_1.png",
+      "assets/sprites/minions/minion_17_medusas_nube_2.png",
+      "assets/sprites/minions/minion_17_medusas_nube_3.png"
+    ],
+    "Serpientes de Viento": [
+      "assets/sprites/minions/minion_18_serpientes_de_viento_1.png",
+      "assets/sprites/minions/minion_18_serpientes_de_viento_2.png",
+      "assets/sprites/minions/minion_18_serpientes_de_viento_3.png"
+    ]
+  },
+  "powerup_sprites": {
+    "corazon_vida": "assets/sprites/powerups/power_01_corazon_vida.png",
+    "corona_escudo": "assets/sprites/powerups/power_02_corona_escudo.png",
+    "gema_relampago": "assets/sprites/powerups/power_03_gema_relampago.png",
+    "estrella_megablast": "assets/sprites/powerups/power_04_estrella_megablast.png",
+    "ala_invocadora": "assets/sprites/powerups/power_05_ala_invocadora.png",
+    "pluma_velocidad": "assets/sprites/powerups/power_06_pluma_velocidad.png",
+    "orbe_combo": "assets/sprites/powerups/power_07_orbe_combo.png",
+    "llave_cristal": "assets/sprites/powerups/power_08_llave_cristal.png",
+    "flor_curacion": "assets/sprites/powerups/power_09_flor_curacion.png",
+    "reloj_tiempo": "assets/sprites/powerups/power_10_reloj_tiempo.png",
+    "nube_energia": "assets/sprites/powerups/power_11_nube_energia.png",
+    "cofre_real": "assets/sprites/powerups/power_12_cofre_real.png",
+    "talisman_critica": "assets/sprites/powerups/power_13_talisman_critica.png",
+    "pergamino_poder": "assets/sprites/powerups/power_14_pergamino_poder.png",
+    "emblema_supremo": "assets/sprites/powerups/power_15_emblema_supremo.png"
+  },
+  "prize_sprites": {
+    "corona_nubes": "assets/sprites/rewards/prize_01_corona_nubes.png",
+    "cetro_corazon": "assets/sprites/rewards/prize_02_cetro_corazon.png",
+    "ala_real": "assets/sprites/rewards/prize_03_ala_real.png",
+    "cristal_trueno": "assets/sprites/rewards/prize_04_cristal_trueno.png",
+    "medallon_lunar": "assets/sprites/rewards/prize_05_medallon_lunar.png",
+    "sello_estelar": "assets/sprites/rewards/prize_06_sello_estelar.png",
+    "relicario_aurora": "assets/sprites/rewards/prize_07_relicario_aurora.png",
+    "llave_reino": "assets/sprites/rewards/prize_08_llave_reino.png",
+    "gema_eclipse": "assets/sprites/rewards/prize_09_gema_eclipse.png",
+    "flor_sagrada": "assets/sprites/rewards/prize_10_flor_sagrada.png",
+    "cofre_celestial": "assets/sprites/rewards/prize_11_cofre_celestial.png",
+    "emblema_final": "assets/sprites/rewards/prize_12_emblema_final.png"
+  },
+  "notes": "Sprites generados desde los asset sheets disponibles; se reemplazó el render de jefes, esbirros, power-ups y premios por imágenes PNG externas con transparencia aproximada."
+}

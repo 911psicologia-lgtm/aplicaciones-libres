@@ -1,0 +1,28 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512">
+  <rect width="512" height="512" rx="100" fill="#060d1a"/>
+  <defs>
+    <radialGradient id="gi5" cx="35%" cy="32%" r="68%">
+      <stop offset="0%" stop-color="#7ec8f7" stop-opacity="0.9"/>
+      <stop offset="100%" stop-color="#2563eb" stop-opacity="0.75"/>
+    </radialGradient>
+  </defs>
+  <!-- Hemisferio grande -->
+  <path d="M 100,290 C 84,250 82,194 96,148 C 110,102 138,68 174,48 C 210,28 256,24 300,38 C 344,52 378,84 396,128 C 414,172 412,220 398,260 C 384,298 358,324 328,338 L 292,350 C 258,350 230,332 208,308 Z"
+        fill="url(#gi5)"/>
+  <!-- Cerebelo -->
+  <path d="M 292,350 C 320,336 362,336 392,352 C 422,368 432,400 420,424 C 408,448 376,458 348,450 C 320,442 302,420 306,396 Z"
+        fill="#4f8ef7" opacity="0.72"/>
+  <!-- Tronco -->
+  <path d="M 244,342 C 260,336 278,336 292,344 C 300,354 300,380 294,398 C 288,414 272,420 260,414 C 246,408 244,386 245,368 C 246,356 244,346 244,342 Z"
+        fill="#a78bfa" opacity="0.72"/>
+  <!-- Surcos -->
+  <path d="M 296,28 C 294,102 292,180 292,252" stroke="rgba(255,255,255,0.22)" stroke-width="5" fill="none" stroke-linecap="round"/>
+  <path d="M 186,46 C 184,118 183,192 184,260" stroke="rgba(255,255,255,0.13)" stroke-width="3.5" fill="none" stroke-linecap="round"/>
+  <path d="M 380,90 C 379,160 378,228 379,290" stroke="rgba(255,255,255,0.12)" stroke-width="3.5" fill="none" stroke-linecap="round"/>
+  <!-- Borde -->
+  <path d="M 100,290 C 84,250 82,194 96,148 C 110,102 138,68 174,48 C 210,28 256,24 300,38 C 344,52 378,84 396,128 C 414,172 412,220 398,260 C 384,298 358,324 328,338 L 292,350 Z"
+        fill="none" stroke="rgba(126,200,247,0.28)" stroke-width="4"/>
+  <!-- Acento -->
+  <circle cx="406" cy="92" r="22" fill="#4f8ef7" opacity="0.9"/>
+  <circle cx="406" cy="92" r="11" fill="#7ec8f7"/>
+</svg>

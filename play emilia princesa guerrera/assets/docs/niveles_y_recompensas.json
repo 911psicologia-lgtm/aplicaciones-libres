@@ -1,0 +1,482 @@
+[
+  {
+    "nivel": 1,
+    "mundo": "Reino Nube Corazón",
+    "jefe": "Reina Celestial de Nubes",
+    "icono_jefe": "💗",
+    "esbirros": [
+      "☁️",
+      "🪽",
+      "💎"
+    ],
+    "recompensa": {
+      "nombre": "Corazón de Vida",
+      "icono": "💖"
+    },
+    "color_base": "#2244aa"
+  },
+  {
+    "nivel": 2,
+    "mundo": "Jardín Rosa Lunar",
+    "jefe": "Duquesa Espina Rosa",
+    "icono_jefe": "🌹",
+    "esbirros": [
+      "🌿",
+      "🌸",
+      "🦋"
+    ],
+    "recompensa": {
+      "nombre": "Corona Escudo",
+      "icono": "👑"
+    },
+    "color_base": "#5b1f48"
+  },
+  {
+    "nivel": 3,
+    "mundo": "Torre del Trueno Azul",
+    "jefe": "Reina del Trueno y Hielo",
+    "icono_jefe": "⚡",
+    "esbirros": [
+      "⚡",
+      "💠",
+      "☁️"
+    ],
+    "recompensa": {
+      "nombre": "Gema Relámpago",
+      "icono": "⚡"
+    },
+    "color_base": "#1b2d72"
+  },
+  {
+    "nivel": 4,
+    "mundo": "Bosque del Viento Vivo",
+    "jefe": "Reina Mágica del Viento",
+    "icono_jefe": "🍃",
+    "esbirros": [
+      "🍃",
+      "🪶",
+      "🌪️"
+    ],
+    "recompensa": {
+      "nombre": "Estrella Mega-Blast",
+      "icono": "🌟"
+    },
+    "color_base": "#1a5b4f"
+  },
+  {
+    "nivel": 5,
+    "mundo": "Valle de Cristal",
+    "jefe": "Hechicera de Hielo Celestial",
+    "icono_jefe": "❄️",
+    "esbirros": [
+      "💎",
+      "❄️",
+      "✨"
+    ],
+    "recompensa": {
+      "nombre": "Ala Invocadora",
+      "icono": "🪽"
+    },
+    "color_base": "#365d86"
+  },
+  {
+    "nivel": 6,
+    "mundo": "Patio del Cupido Dulce",
+    "jefe": "Príncipe Querubín de Azúcar",
+    "icono_jefe": "💘",
+    "esbirros": [
+      "💘",
+      "☁️",
+      "🪽"
+    ],
+    "recompensa": {
+      "nombre": "Pluma de Velocidad",
+      "icono": "🪶"
+    },
+    "color_base": "#7a2d57"
+  },
+  {
+    "nivel": 7,
+    "mundo": "Jardín Mantis Rosa",
+    "jefe": "Matriarca Mantis Rosa",
+    "icono_jefe": "🪲",
+    "esbirros": [
+      "🌺",
+      "🪲",
+      "🍃"
+    ],
+    "recompensa": {
+      "nombre": "Orbe Combo",
+      "icono": "🔮"
+    },
+    "color_base": "#6b1f3d"
+  },
+  {
+    "nivel": 8,
+    "mundo": "Noche de Polillas Espejo",
+    "jefe": "Emperatriz Polilla Espejo",
+    "icono_jefe": "🦋",
+    "esbirros": [
+      "🦋",
+      "✨",
+      "💠"
+    ],
+    "recompensa": {
+      "nombre": "Llave de Cristal",
+      "icono": "🗝️"
+    },
+    "color_base": "#40235d"
+  },
+  {
+    "nivel": 9,
+    "mundo": "Refugio de Gatos Lunares",
+    "jefe": "Rey Gato Lunar",
+    "icono_jefe": "🐈",
+    "esbirros": [
+      "🌙",
+      "🐾",
+      "🔮"
+    ],
+    "recompensa": {
+      "nombre": "Flor de Curación",
+      "icono": "🌸"
+    },
+    "color_base": "#262d60"
+  },
+  {
+    "nivel": 10,
+    "mundo": "Teatro de Muñecas Sombra",
+    "jefe": "Dama de las Muñecas Sombra",
+    "icono_jefe": "🕯️",
+    "esbirros": [
+      "🎀",
+      "🪡",
+      "🌫️"
+    ],
+    "recompensa": {
+      "nombre": "Reloj de Tiempo",
+      "icono": "🕰️"
+    },
+    "color_base": "#34182f"
+  },
+  {
+    "nivel": 11,
+    "mundo": "Dominio Duende Nube",
+    "jefe": "Gran Duende Nube",
+    "icono_jefe": "🧙",
+    "esbirros": [
+      "☁️",
+      "💗",
+      "✨"
+    ],
+    "recompensa": {
+      "nombre": "Nube de Energía",
+      "icono": "☁️"
+    },
+    "color_base": "#5161a8"
+  },
+  {
+    "nivel": 12,
+    "mundo": "Pico de Cuervos de Rayo",
+    "jefe": "Cuervo Soberano del Rayo",
+    "icono_jefe": "🐦",
+    "esbirros": [
+      "🪶",
+      "⚡",
+      "💠"
+    ],
+    "recompensa": {
+      "nombre": "Cofre Real",
+      "icono": "🎁"
+    },
+    "color_base": "#182449"
+  },
+  {
+    "nivel": 13,
+    "mundo": "Jardines de Slimes del Cielo",
+    "jefe": "Reina Slime del Cielo",
+    "icono_jefe": "🫧",
+    "esbirros": [
+      "🫧",
+      "☁️",
+      "💎"
+    ],
+    "recompensa": {
+      "nombre": "Talismán de Crítica",
+      "icono": "✴️"
+    },
+    "color_base": "#3f7fb2"
+  },
+  {
+    "nivel": 14,
+    "mundo": "Gruta de Murciélagos Cristal",
+    "jefe": "Murciélaga Matriz de Cristal",
+    "icono_jefe": "🦇",
+    "esbirros": [
+      "🦇",
+      "💎",
+      "🌩️"
+    ],
+    "recompensa": {
+      "nombre": "Pergamino de Poder",
+      "icono": "📜"
+    },
+    "color_base": "#47255e"
+  },
+  {
+    "nivel": 15,
+    "mundo": "Paso de Goblins del Viento",
+    "jefe": "Señor Goblin del Viento",
+    "icono_jefe": "🧝",
+    "esbirros": [
+      "🍃",
+      "🗡️",
+      "🌪️"
+    ],
+    "recompensa": {
+      "nombre": "Emblema Supremo",
+      "icono": "🛡️"
+    },
+    "color_base": "#2d5a42"
+  },
+  {
+    "nivel": 16,
+    "mundo": "Cumbre de Lobos de Trueno",
+    "jefe": "Alfa Lobo de Trueno",
+    "icono_jefe": "🐺",
+    "esbirros": [
+      "🐺",
+      "⚡",
+      "💠"
+    ],
+    "recompensa": {
+      "nombre": "Corona de las Nubes",
+      "icono": "👑"
+    },
+    "color_base": "#2b456e"
+  },
+  {
+    "nivel": 17,
+    "mundo": "Templo de Querubines Mecánicos",
+    "jefe": "Arcángel Mecánico del Corazón",
+    "icono_jefe": "🤖",
+    "esbirros": [
+      "🤖",
+      "🪽",
+      "💘"
+    ],
+    "recompensa": {
+      "nombre": "Cetro del Corazón",
+      "icono": "🪄"
+    },
+    "color_base": "#5a5478"
+  },
+  {
+    "nivel": 18,
+    "mundo": "Órbita de Escarabajos Cometa",
+    "jefe": "Escarabajo Cometa Supremo",
+    "icono_jefe": "🪲",
+    "esbirros": [
+      "☄️",
+      "🪲",
+      "💎"
+    ],
+    "recompensa": {
+      "nombre": "Ala Real",
+      "icono": "🪽"
+    },
+    "color_base": "#4a2c7a"
+  },
+  {
+    "nivel": 19,
+    "mundo": "Biblioteca de Libros Arcanos",
+    "jefe": "Grimoire Arcano Mayor",
+    "icono_jefe": "📘",
+    "esbirros": [
+      "📘",
+      "✨",
+      "🔮"
+    ],
+    "recompensa": {
+      "nombre": "Cristal del Trueno",
+      "icono": "💎"
+    },
+    "color_base": "#3f285b"
+  },
+  {
+    "nivel": 20,
+    "mundo": "Santuario de Escarabajos Solares",
+    "jefe": "Reina Escarabajo Solar",
+    "icono_jefe": "☀️",
+    "esbirros": [
+      "☀️",
+      "🪲",
+      "⚡"
+    ],
+    "recompensa": {
+      "nombre": "Medallón Lunar",
+      "icono": "🌙"
+    },
+    "color_base": "#84611c"
+  },
+  {
+    "nivel": 21,
+    "mundo": "Jardines de Medusas Nube",
+    "jefe": "Medusa Nube Oracular",
+    "icono_jefe": "🪼",
+    "esbirros": [
+      "🪼",
+      "☁️",
+      "💎"
+    ],
+    "recompensa": {
+      "nombre": "Sello Estelar",
+      "icono": "⭐"
+    },
+    "color_base": "#5d8abc"
+  },
+  {
+    "nivel": 22,
+    "mundo": "Anillo de Serpientes de Viento",
+    "jefe": "Serpiente Matriarca del Viento",
+    "icono_jefe": "🐉",
+    "esbirros": [
+      "🐉",
+      "🍃",
+      "☁️"
+    ],
+    "recompensa": {
+      "nombre": "Relicario Aurora",
+      "icono": "🔷"
+    },
+    "color_base": "#2d6170"
+  },
+  {
+    "nivel": 23,
+    "mundo": "Reino Astrológico",
+    "jefe": "Reina Astrológica",
+    "icono_jefe": "🌟",
+    "esbirros": [
+      "⭐",
+      "🌙",
+      "🔮"
+    ],
+    "recompensa": {
+      "nombre": "Llave del Reino",
+      "icono": "🗝️"
+    },
+    "color_base": "#2b2370"
+  },
+  {
+    "nivel": 24,
+    "mundo": "Mar del Eclipse",
+    "jefe": "Sultana del Eclipse Solar",
+    "icono_jefe": "🌘",
+    "esbirros": [
+      "🌘",
+      "🔥",
+      "💠"
+    ],
+    "recompensa": {
+      "nombre": "Gema Eclipse",
+      "icono": "🌘"
+    },
+    "color_base": "#44211f"
+  },
+  {
+    "nivel": 25,
+    "mundo": "Palacio de Cometas",
+    "jefe": "Alquimista de Cometas",
+    "icono_jefe": "☄️",
+    "esbirros": [
+      "☄️",
+      "🧪",
+      "⭐"
+    ],
+    "recompensa": {
+      "nombre": "Flor Sagrada",
+      "icono": "🪷"
+    },
+    "color_base": "#402f79"
+  },
+  {
+    "nivel": 26,
+    "mundo": "Laberinto de Hielo",
+    "jefe": "Dama del Laberinto de Hielo",
+    "icono_jefe": "🧊",
+    "esbirros": [
+      "❄️",
+      "🧊",
+      "💠"
+    ],
+    "recompensa": {
+      "nombre": "Cofre Celestial",
+      "icono": "📦"
+    },
+    "color_base": "#315c87"
+  },
+  {
+    "nivel": 27,
+    "mundo": "Colmena de Rayos",
+    "jefe": "Reina Colmena de Rayos",
+    "icono_jefe": "⚡",
+    "esbirros": [
+      "🐝",
+      "⚡",
+      "🍯"
+    ],
+    "recompensa": {
+      "nombre": "Emblema Final",
+      "icono": "💠"
+    },
+    "color_base": "#6f4d16"
+  },
+  {
+    "nivel": 28,
+    "mundo": "Niebla Sombría",
+    "jefe": "Condesa Niebla Sombría",
+    "icono_jefe": "🕯️",
+    "esbirros": [
+      "🌫️",
+      "🦇",
+      "🖤"
+    ],
+    "recompensa": {
+      "nombre": "Portal Nube",
+      "icono": "🚪"
+    },
+    "color_base": "#31203b"
+  },
+  {
+    "nivel": 29,
+    "mundo": "Trono Celestial",
+    "jefe": "Emperatriz Aurora Helada",
+    "icono_jefe": "👑",
+    "esbirros": [
+      "👑",
+      "❄️",
+      "✨"
+    ],
+    "recompensa": {
+      "nombre": "Checkpoint Cristal",
+      "icono": "🔷"
+    },
+    "color_base": "#425a9e"
+  },
+  {
+    "nivel": 30,
+    "mundo": "Reino Final",
+    "jefe": "Sombra del Trono Celeste",
+    "icono_jefe": "☠️",
+    "esbirros": [
+      "🖤",
+      "💜",
+      "⚫"
+    ],
+    "recompensa": {
+      "nombre": "Plataforma Nube",
+      "icono": "☁️"
+    },
+    "color_base": "#10001a"
+  }
+]

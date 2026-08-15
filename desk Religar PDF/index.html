@@ -1,0 +1,152 @@
+<!doctype html>
+<html lang="es">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>ReligaPDF Local v2.0</title>
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+  <main id="app">
+    <section id="desktopApp" class="shell">
+      <header class="brandbar">
+        <div class="brand-left">
+          <div class="logo-wrap neutral-logo" aria-hidden="true">RP</div>
+          <div>
+            <p class="eyebrow">ReligaPDF Local v2.0 · sin Node.js · sin npm</p>
+            <h1>Consolidador documental local</h1>
+            <p class="sub">Diseñado para reunir, ordenar y consolidar expedientes PDF sin subir documentos a plataformas externas y sin instalar dependencias técnicas en el computador.</p>
+          </div>
+        </div>
+        <div class="brand-right">
+          <div class="status has-tip" data-tip="Versión local de navegador. Funciona offline con archivos seleccionados por el usuario." id="desktopStatus">Modo local activo</div>
+          <span class="site-link neutral-note has-tip" data-tip="Versión local neutra: no agrega marca institucional al PDF consolidado.">Salida PDF neutra</span>
+        </div>
+      </header>
+
+      <section class="project-card">
+        <div class="field-row">
+          <label for="projectName" class="has-tip" data-tip="Nombre interno del expediente o caso. Este nombre se usa en el proyecto JSON, el manifiesto y el PDF consolidado.">Nombre del expediente</label>
+          <input id="projectName" value="Expediente" title="Escribe el nombre del expediente o caso.">
+        </div>
+        <div class="output-options" aria-label="Opciones de salida del PDF consolidado">
+          <label class="check-option has-tip" data-tip="Si se desactiva, el PDF final iniciará directamente con el primer documento cargado.">
+            <input id="includeCover" type="checkbox" checked>
+            <span>Incluir portada neutra</span>
+          </label>
+          <label class="check-option has-tip" data-tip="Si se desactiva, la app unirá los PDFs sin páginas separadoras por tipo documental.">
+            <input id="includeSeparators" type="checkbox" checked>
+            <span>Incluir separadores por tipo</span>
+          </label>
+        </div>
+        <div class="actions">
+          <button id="btnAddPdfs" class="primary has-tip" data-tip="Selecciona uno o varios PDFs del equipo. Puedes repetir esta acción cuantas veces necesites.">📄 Agregar PDFs</button>
+          <button id="btnAddFolder" class="has-tip" data-tip="Selecciona una carpeta completa. La app incorporará todos los PDFs detectados en esa carpeta y subcarpetas.">📁 Agregar carpeta</button>
+          <button id="btnOpenProject" class="has-tip" data-tip="Abre un proyecto JSON guardado. En esta versión el proyecto puede conservar también los PDFs, si fue guardado desde v1.7.">📂 Abrir proyecto</button>
+          <button id="btnSaveProject" class="has-tip" data-tip="Guarda el expediente como JSON. Esta versión puede incrustar los PDFs para poder retomarlos después sin depender de rutas locales.">💾 Guardar proyecto</button>
+          <button id="btnManifest" class="has-tip" data-tip="Genera un manifiesto HTML con listado, tipo documental, tamaño y observaciones.">🧾 Manifiesto HTML</button>
+          <button id="btnMerge" class="success has-tip" data-tip="Consolida los PDFs de la bandeja en un solo PDF final. La salida generada por la app es neutra; portada y separadores pueden activarse o desactivarse.">🧩 Consolidar PDF</button>
+        </div>
+        <input id="fileInputPdfs" type="file" accept="application/pdf,.pdf" multiple hidden>
+        <input id="folderInput" type="file" accept="application/pdf,.pdf" multiple webkitdirectory hidden>
+        <input id="projectInput" type="file" accept="application/json,.json" hidden>
+      </section>
+
+      <section class="grid">
+        <aside class="panel">
+          <h2>Entrada documental</h2>
+          <div id="dropZone" class="dropzone has-tip" data-tip="Zona de arrastre secundaria. Para lotes grandes usa mejor 'Agregar carpeta'.">
+            <strong>Arrastra PDFs aquí</strong>
+            <span>Función secundaria. Para lotes grandes usa "Agregar carpeta".</span>
+          </div>
+
+          <div class="hint hint-disabled">
+            <label class="inline-label has-tip" data-tip="Esta configuración estará disponible en v2.0. En la versión actual no modifica el procesamiento.">
+              Procesamiento por lotes
+              <span class="badge-future">v2.0</span>
+            </label>
+            <input id="batchSize" type="number" min="10" max="200" step="5" value="75" disabled title="No activo en esta versión.">
+            <p class="mini-help muted-help">Función en desarrollo. No afecta la consolidación actual.</p>
+          </div>
+
+          <div class="summary has-tip" data-tip="Resumen del expediente: cantidad de archivos, peso total y nombre del proyecto." id="summary"></div>
+          <div class="log has-tip" data-tip="Registro de eventos recientes con hora. Muestra las últimas 6 acciones." id="log">
+            <ul class="log-entries"><li class="log-entry log-info"><span class="log-time">[inicio]</span> Listo para agregar PDFs.</li></ul>
+          </div>
+          <div id="progressWrap" class="progress-wrap hidden">
+            <div class="progress-bar"><div id="progressFill" class="progress-fill"></div></div>
+            <div id="progressLabel" class="progress-label">Consolidando…</div>
+          </div>
+        </aside>
+
+        <section class="panel table-panel">
+          <div class="table-head">
+            <div>
+              <h2>Bandeja del expediente</h2>
+              <p class="muted">Organiza el orden final, el tipo documental, la opción Otro y las observaciones de cada PDF. Si eliges Otro, especifica el tipo antes de consolidar.</p>
+            </div>
+            <button id="btnClear" class="danger has-tip" data-tip="Vacía toda la bandeja actual. Requiere confirmación. No borra archivos del equipo.">🗑 Limpiar bandeja</button>
+          </div>
+          <div class="table-wrap">
+            <table>
+              <thead>
+                <tr>
+                  <th>#</th>
+                  <th title="Nombre editable del archivo dentro del proyecto.">Archivo</th>
+                  <th title="Clasificación documental para ordenar el expediente.">Tipo</th>
+                  <th title="Peso original del archivo.">Tamaño</th>
+                  <th title="Comentario corto o nota interna.">Observación</th>
+                  <th title="Controles para mover el archivo arriba o abajo.">Orden</th>
+                  <th title="Acción sobre la fila.">Acción</th>
+                </tr>
+              </thead>
+              <tbody id="tbody"></tbody>
+            </table>
+          </div>
+        </section>
+      </section>
+
+      <section class="manual panel">
+        <div class="manual-head">
+          <h2>📘 Manual de usuario</h2>
+          <p class="muted">Guía breve de uso. La aplicación trabaja localmente en el navegador y no requiere npm, Node.js ni conexión a internet.</p>
+        </div>
+
+        <details open>
+          <summary>🚀 1. Inicio rápido</summary>
+          <div class="manual-body">
+            <p><strong>Paso 1:</strong> escribe el nombre del expediente en <strong>Nombre del expediente</strong>.</p>
+            <p><strong>Paso 2:</strong> usa <strong>📄 Agregar PDFs</strong> para documentos puntuales o <strong>📁 Agregar carpeta</strong> para cargar una carpeta completa.</p>
+            <p><strong>Paso 3:</strong> revisa la bandeja, clasifica cada archivo y ajusta el orden con las flechas <strong>↑</strong> y <strong>↓</strong>. Si el tipo documental no está en la lista, elige <strong>Otro</strong> y escribe de qué se trata.</p>
+            <p><strong>Paso 4:</strong> define si deseas portada y separadores. Luego pulsa <strong>🧩 Consolidar PDF</strong>. La barra de progreso mostrará el avance.</p>
+          </div>
+        </details>
+
+        <details>
+          <summary>🧰 2. Qué hace cada botón principal</summary>
+          <div class="manual-body">
+            <p><strong>📄 Agregar PDFs:</strong> permite seleccionar varios PDFs del equipo.</p>
+            <p><strong>📁 Agregar carpeta:</strong> incorpora todos los PDFs detectados dentro de una carpeta y sus subcarpetas.</p>
+            <p><strong>📂 Abrir proyecto:</strong> abre un proyecto JSON guardado. Si el proyecto fue guardado desde esta versión, puede recuperar también los PDFs incrustados.</p>
+            <p><strong>💾 Guardar proyecto:</strong> guarda la organización actual. Para conservar la continuidad sin rutas locales, el archivo JSON incluye el contenido de los PDFs seleccionados.</p>
+            <p><strong>🧾 Manifiesto HTML:</strong> crea una hoja de control del expediente.</p>
+            <p><strong>🧩 Consolidar PDF:</strong> genera el expediente unificado. La portada y los separadores son opcionales y salen sin marca institucional.</p>
+          </div>
+        </details>
+
+        <details>
+          <summary>🛡 3. Recomendaciones de uso</summary>
+          <div class="manual-body">
+            <p>Trabaja un expediente por caso y usa nombres claros, por ejemplo: <strong>Diana_Osorio_Acoso_Fuero_2026</strong>.</p>
+            <p>Antes de consolidar, revisa duplicados, orden documental, clasificación y observaciones. Si usaste <strong>Otro</strong>, escribe el tipo específico para evitar separadores ambiguos.</p>
+            <p>Si el expediente es muy grande, el proyecto JSON puede quedar pesado porque conserva los PDFs incrustados. En ese caso, consolida el PDF final una vez tengas la bandeja lista.</p>
+            <p>La información no se sube a internet. Todo se procesa localmente en el computador del usuario.</p>
+          </div>
+        </details>
+      </section>
+    </section>
+  </main>
+  <script src="lib/pdf-lib.min.js"></script>
+  <script src="renderer.js"></script>
+</body>
+</html>

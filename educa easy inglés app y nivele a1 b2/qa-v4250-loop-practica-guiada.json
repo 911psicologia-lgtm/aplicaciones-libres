@@ -1,0 +1,28 @@
+{
+  "version": "v4.25.0",
+  "createdAt": "2026-06-16T17:11:22.821911+00:00",
+  "base": "v4.24.5",
+  "loop1Repairs": {
+    "dom_canary_added": 1,
+    "runtime_qa_added": 1
+  },
+  "loop2Audit": {
+    "nodeCheck": 0,
+    "version": "2.12.1 / v4.25.0",
+    "hasMandatoryHelper": true,
+    "injectsMandatoryPrompt": true,
+    "handlerIncludesReadListen": true,
+    "hasDOMCanary": true,
+    "hasRuntimeQA": true,
+    "cssMandatoryVisible": true,
+    "contentIssues": {},
+    "contentIssueSamples": {}
+  },
+  "summary": [
+    "Bloque obligatorio externo para reading_choice/listen_choice, visible antes de opciones.",
+    "La práctica guiada ya no depende de un solo body interno.",
+    "Canary de despliegue: data-build-version y data-guided-loop en exercise shell.",
+    "Auditoría runtime: window.IPD_QA.guidedPracticeUI().",
+    "Validación node --check y auditoría de contenido sin faltantes."
+  ]
+}

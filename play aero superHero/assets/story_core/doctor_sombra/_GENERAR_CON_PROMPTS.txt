@@ -1,0 +1,2 @@
+Los PNG de esta carpeta se generan con los prompts en /prompts/doctor_sombra_prompts.md
+Deposita aqui cada archivo con el nombre exacto indicado en story_core_manifest.json

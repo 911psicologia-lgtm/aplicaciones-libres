@@ -1,0 +1,10 @@
+{
+  "version": "5.0.51-centro-refuerzo-hotfix",
+  "checks": {
+    "app_js_syntax": "node --check OK",
+    "content_json": "json.tool OK",
+    "error_fixed": "Se evita la referencia rota que bloqueaba la apertura de mundos y se reconstruye el acceso al Centro de refuerzo desde una versión base estable.",
+    "closeout_replaced": "Cierre del mundo fue reemplazado visualmente por Afianza este mundo / Explora recursos del mundo.",
+    "reinforcement_center": "Nueva vista reinforcement_center con rutas A1-A2-B1-B2, 30 mundos por ruta y recursos por mundo con badge de pendientes."
+  }
+}

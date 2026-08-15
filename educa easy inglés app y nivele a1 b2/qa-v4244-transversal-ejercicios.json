@@ -1,0 +1,29 @@
+{
+  "version": "v4.24.4",
+  "title": "QA transversal por tipo de ejercicio",
+  "routeCounts": {
+    "ruta_2": {
+      "lessons": 150,
+      "exerciseRefs": 750,
+      "shortLigero": 0
+    },
+    "ruta_3": {
+      "lessons": 150,
+      "exerciseRefs": 750,
+      "shortLigero": 0
+    },
+    "ruta_4": {
+      "lessons": 150,
+      "exerciseRefs": 750,
+      "shortLigero": 0
+    }
+  },
+  "finalIssues": {},
+  "samples": {},
+  "validations": {
+    "nodeCheck": 0,
+    "exerciseTypeAuditRuntime": "window.IPD_QA.exerciseTypes",
+    "completeAudioDirtyCount": 0,
+    "contentVersion": "2.12.1 / v4.24.4"
+  }
+}

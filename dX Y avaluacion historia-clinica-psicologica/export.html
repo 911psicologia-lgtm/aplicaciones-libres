@@ -1,0 +1,832 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Exportar | Historia Clínica Psicológica Integral</title>
+    
+    <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🧠</text></svg>">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="assets/css/main.css">
+    <link rel="manifest" href="manifest.json">
+    
+    <style>
+        .export-options {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 1rem;
+        }
+        
+        .export-card {
+            background: white;
+            border: 2px solid #e2e8f0;
+            border-radius: 12px;
+            padding: 1.5rem;
+            cursor: pointer;
+            transition: all 0.2s;
+            text-align: center;
+        }
+        
+        .export-card:hover {
+            border-color: #4299e1;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+        }
+        
+        .export-card i {
+            font-size: 2.5rem;
+            color: #2c5282;
+            margin-bottom: 1rem;
+        }
+        
+        .export-card h4 {
+            color: #2d3748;
+            margin-bottom: 0.5rem;
+        }
+        
+        .export-card p {
+            font-size: 0.875rem;
+            color: #718096;
+        }
+        
+        .date-range-selector {
+            background: #f7fafc;
+            border-radius: 10px;
+            padding: 1.25rem;
+            margin-bottom: 1.5rem;
+        }
+        
+        .format-selector {
+            display: flex;
+            gap: 0.75rem;
+            flex-wrap: wrap;
+            margin-top: 1rem;
+        }
+        
+        .format-btn {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            padding: 0.625rem 1rem;
+            border: 1.5px solid #e2e8f0;
+            border-radius: 8px;
+            background: white;
+            cursor: pointer;
+            font-size: 0.875rem;
+            transition: all 0.2s;
+        }
+        
+        .format-btn:hover {
+            border-color: #4299e1;
+        }
+        
+        .format-btn i {
+            font-size: 1rem;
+        }
+        
+        .format-btn.txt i { color: #4a5568; }
+        .format-btn.html i { color: #e34c26; }
+        .format-btn.docx i { color: #2b579a; }
+        
+        .preview-panel {
+            background: white;
+            border: 1px solid #e2e8f0;
+            border-radius: 12px;
+            padding: 1.5rem;
+            max-height: 600px;
+            overflow-y: auto;
+        }
+        
+        .preview-panel h4 {
+            margin-bottom: 1rem;
+            color: #2d3748;
+        }
+        
+        .preview-content {
+            font-family: 'Courier New', monospace;
+            font-size: 0.8125rem;
+            line-height: 1.6;
+            white-space: pre-wrap;
+            background: #f7fafc;
+            padding: 1rem;
+            border-radius: 8px;
+            color: #2d3748;
+        }
+        
+        .section-toggle {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 0.5rem;
+            margin-top: 0.75rem;
+        }
+        
+        .toggle-item {
+            display: flex;
+            align-items: center;
+            gap: 0.375rem;
+            padding: 0.375rem 0.75rem;
+            background: white;
+            border-radius: 6px;
+            font-size: 0.8125rem;
+            cursor: pointer;
+        }
+        
+        .toggle-item input {
+            accent-color: #2c5282;
+        }
+        
+        .progress-bar {
+            height: 8px;
+            background: #e2e8f0;
+            border-radius: 4px;
+            overflow: hidden;
+            margin-top: 1rem;
+        }
+        
+        .progress-bar .fill {
+            height: 100%;
+            background: linear-gradient(90deg, #2c5282, #4299e1);
+            border-radius: 4px;
+            transition: width 0.3s;
+        }
+    </style>
+</head>
+<body>
+    <!-- Header -->
+    <header class="app-header">
+        <div class="header-content">
+            <div class="header-brand">
+                <i class="fas fa-brain"></i>
+                <span>Historia Clínica Psicológica</span>
+            </div>
+            
+            <nav class="header-nav">
+                <a href="dashboard.html" class="nav-link">
+                    <i class="fas fa-home"></i> Inicio
+                </a>
+                <a href="patient.html" class="nav-link">
+                    <i class="fas fa-user"></i> Paciente
+                </a>
+                <a href="settings.html" class="nav-link">
+                    <i class="fas fa-cog"></i> Configuración
+                </a>
+            </nav>
+            
+            <div class="header-actions">
+                <div class="user-menu">
+                    <i class="fas fa-user-md"></i>
+                    <span id="userName">Profesional</span>
+                </div>
+                <button class="logout-btn" onclick="Auth.logout()">
+                    <i class="fas fa-sign-out-alt"></i>
+                </button>
+            </div>
+        </div>
+    </header>
+
+    <!-- Main Content -->
+    <main class="main-content">
+        <!-- Page Header -->
+        <div class="page-header">
+            <div>
+                <h1 class="page-title">Exportar Historia Clínica</h1>
+                <p class="page-subtitle" id="patientSubtitle">Generar informes y exportar documentos</p>
+            </div>
+            <div class="flex gap-2">
+                <button type="button" class="btn btn-outline" onclick="goBack()">
+                    <i class="fas fa-arrow-left"></i> Volver
+                </button>
+            </div>
+        </div>
+
+        <div class="grid grid-cols-2" style="gap: 1.5rem;">
+            <!-- Panel de Opciones -->
+            <div>
+                <input type="hidden" id="patientId">
+                
+                <!-- Tipo de Exportación -->
+                <div class="card" style="margin-bottom: 1.5rem;">
+                    <div class="card-header">
+                        <div class="card-title">
+                            <i class="fas fa-file-export"></i>
+                            Tipo de Exportación
+                        </div>
+                    </div>
+                    <div class="card-body">
+                        <div class="export-options">
+                            <div class="export-card" onclick="setExportType('complete')">
+                                <i class="fas fa-file-alt"></i>
+                                <h4>Historia Completa</h4>
+                                <p>Toda la información del paciente incluyendo todas las sesiones</p>
+                            </div>
+                            <div class="export-card" onclick="setExportType('summary')">
+                                <i class="fas fa-file-contract"></i>
+                                <h4>Informe Resumido</h4>
+                                <p>Resumen clínico con diagnóstico y recomendaciones</p>
+                            </div>
+                            <div class="export-card" onclick="setExportType('sessions')">
+                                <i class="fas fa-calendar-alt"></i>
+                                <h4>Solo Sesiones</h4>
+                                <p>Registro de todas las sesiones terapéuticas</p>
+                            </div>
+                            <div class="export-card" onclick="setExportType('assessments')">
+                                <i class="fas fa-clipboard-check"></i>
+                                <h4>Solo Evaluaciones</h4>
+                                <p>Resultados e interpretaciones de evaluaciones</p>
+                            </div>
+
+                            <div class="export-card" onclick="exportCaseJSON()" style="border-color:#4299e1;">
+                                <i class="fas fa-file-code" style="color:#4299e1;"></i>
+                                <h4>Exportar caso JSON</h4>
+                                <p>Descarga todos los datos del paciente en formato JSON (respaldo)</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Rango de Fechas -->
+                <div class="date-range-selector">
+                    <h4><i class="fas fa-calendar"></i> Rango de Fechas</h4>
+                    <div class="form-grid" style="margin-top: 1rem;">
+                        <div class="form-group">
+                            <label>Desde</label>
+                            <input type="date" class="form-control" id="dateFrom">
+                        </div>
+                        <div class="form-group">
+                            <label>Hasta</label>
+                            <input type="date" class="form-control" id="dateTo">
+                        </div>
+                    </div>
+                    <div class="section-toggle">
+                        <label class="toggle-item">
+                            <input type="checkbox" id="allDates" checked onchange="toggleDateRange()">
+                            <span>Todas las fechas</span>
+                        </label>
+                    </div>
+                </div>
+                
+                <!-- Secciones a Incluir -->
+                <div class="card" style="margin-bottom: 1.5rem;">
+                    <div class="card-header">
+                        <div class="card-title">
+                            <i class="fas fa-list-check"></i>
+                            Secciones a Incluir
+                        </div>
+                    </div>
+                    <div class="card-body">
+                        <div class="section-toggle">
+                            <label class="toggle-item">
+                                <input type="checkbox" id="includeId" checked>
+                                <span>Identificación</span>
+                            </label>
+                            <label class="toggle-item">
+                                <input type="checkbox" id="includeConsent" checked>
+                                <span>Consentimiento</span>
+                            </label>
+                            <label class="toggle-item">
+                                <input type="checkbox" id="includeConsultation" checked>
+                                <span>Motivo de consulta</span>
+                            </label>
+                            <label class="toggle-item">
+                                <input type="checkbox" id="includeHistory" checked>
+                                <span>Historia del problema</span>
+                            </label>
+                            <label class="toggle-item">
+                                <input type="checkbox" id="includeFormulation" checked>
+                                <span>Formulación clínica</span>
+                            </label>
+                            <label class="toggle-item">
+                                <input type="checkbox" id="includeDiagnosis" checked>
+                                <span>Diagnóstico</span>
+                            </label>
+                            <label class="toggle-item">
+                                <input type="checkbox" id="includeSessions" checked>
+                                <span>Sesiones</span>
+                            </label>
+                            <label class="toggle-item">
+                                <input type="checkbox" id="includeAssessments" checked>
+                                <span>Evaluaciones</span>
+                            </label>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Formato de Exportación -->
+                <div class="card">
+                    <div class="card-header">
+                        <div class="card-title">
+                            <i class="fas fa-file-code"></i>
+                            Formato de Exportación
+                        </div>
+                    </div>
+                    <div class="card-body">
+                        <p style="color: #718096; font-size: 0.875rem; margin-bottom: 1rem;">
+                            Seleccione el formato en el que desea exportar:
+                        </p>
+                        <div class="format-selector">
+                            <button type="button" class="format-btn txt" onclick="exportDocument('txt')">
+                                <i class="fas fa-file-alt"></i> TXT
+                            </button>
+                            <button type="button" class="format-btn html" onclick="exportDocument('html')">
+                                <i class="fas fa-file-code"></i> HTML
+                            </button>
+                            <button type="button" class="format-btn docx" onclick="exportDocument('docx')">
+                                <i class="fas fa-file-word"></i> DOCX
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Panel de Vista Previa -->
+            <div>
+                <div class="preview-panel">
+                    <h4><i class="fas fa-eye"></i> Vista Previa</h4>
+                    <div class="preview-content" id="previewContent">
+Seleccione las opciones de exportación y haga clic en "Generar Vista Previa" para ver el contenido.
+                    </div>
+                </div>
+                
+                <button type="button" class="btn btn-primary" style="width: 100%; margin-top: 1rem;" onclick="generatePreview()">
+                    <i class="fas fa-sync"></i> Generar Vista Previa
+                </button>
+            </div>
+        </div>
+    </main>
+
+    <!-- Scripts -->
+    <script src="assets/js/db.js"></script>
+    <script src="assets/js/utils.js"></script>
+    
+    <script>
+        let currentPatient = null;
+        let exportType = 'complete';
+        let professionalSettings = null;
+        
+        document.addEventListener('DOMContentLoaded', async function() {
+            // Auth + DB
+            const session = Auth.requireAuth();
+            await db.init();
+            if (session) {
+                document.getElementById('userName').textContent = session.fullName || session.username;
+            }
+            
+            // Cargar configuración del profesional
+            professionalSettings = await db.getSetting('professional', {});
+            
+            // Verificar parámetros
+            const urlParams = new URLSearchParams(window.location.search);
+            const patientId = urlParams.get('patient');
+            
+            if (patientId) {
+                document.getElementById('patientId').value = patientId;
+                await loadPatient(patientId);
+            } else {
+                UI.toast('Debe seleccionar un paciente', 'error');
+                setTimeout(() => window.location.href = 'dashboard.html', 2000);
+            }
+        });
+        
+        async function loadPatient(patientId) {
+            currentPatient = await db.get(STORES.PATIENTS, parseInt(patientId));
+            if (currentPatient) {
+                document.getElementById('patientSubtitle').textContent = 
+                    `Paciente: ${currentPatient.firstName} ${currentPatient.lastName} - ${currentPatient.historyNumber}`;
+            }
+        }
+        
+        function setExportType(type) {
+            exportType = type;
+            
+            // Actualizar selección visual
+            document.querySelectorAll('.export-card').forEach(card => {
+                card.style.borderColor = '#e2e8f0';
+            });
+            event.currentTarget.style.borderColor = '#4299e1';
+            
+            // Ajustar secciones según tipo
+            const checkboxes = {
+                includeId: true,
+                includeConsent: true,
+                includeConsultation: true,
+                includeHistory: true,
+                includeFormulation: true,
+                includeDiagnosis: true,
+                includeSessions: true,
+                includeAssessments: true
+            };
+            
+            switch(type) {
+                case 'sessions':
+                    checkboxes.includeConsultation = false;
+                    checkboxes.includeHistory = false;
+                    checkboxes.includeFormulation = false;
+                    checkboxes.includeDiagnosis = false;
+                    checkboxes.includeAssessments = false;
+                    break;
+                case 'assessments':
+                    checkboxes.includeConsultation = false;
+                    checkboxes.includeHistory = false;
+                    checkboxes.includeFormulation = false;
+                    checkboxes.includeDiagnosis = false;
+                    checkboxes.includeSessions = false;
+                    break;
+                case 'summary':
+                    checkboxes.includeConsent = false;
+                    checkboxes.includeSessions = false;
+                    checkboxes.includeAssessments = false;
+                    break;
+            }
+            
+            Object.entries(checkboxes).forEach(([id, checked]) => {
+                document.getElementById(id).checked = checked;
+            });
+        }
+        
+        function toggleDateRange() {
+            const allDates = document.getElementById('allDates').checked;
+            document.getElementById('dateFrom').disabled = allDates;
+            document.getElementById('dateTo').disabled = allDates;
+        }
+        
+        async function generatePreview() {
+            if (!currentPatient) return;
+            
+            const content = await buildExportContent();
+            document.getElementById('previewContent').textContent = content;
+        }
+        
+        async function buildExportContent() {
+            let content = '';
+            
+            // Encabezado
+            content += `================================================================================\n`;
+            content += `HISTORIA CLÍNICA PSICOLÓGICA INTEGRAL\n`;
+            content += `================================================================================\n\n`;
+            
+            // Información del profesional
+            if (professionalSettings.fullName) {
+                content += `Profesional: ${professionalSettings.fullName}\n`;
+            }
+            if (professionalSettings.license) {
+                content += `Registro: ${professionalSettings.license}\n`;
+            }
+            if (professionalSettings.institution) {
+                content += `Institución: ${professionalSettings.institution}\n`;
+            }
+            content += `Fecha de exportación: ${DateUtils.formatDateTime(DateUtils.getNow())}\n\n`;
+            
+            // Identificación
+            if (document.getElementById('includeId').checked) {
+                content += `--------------------------------------------------------------------------------\n`;
+                content += `1. IDENTIFICACIÓN DEL PACIENTE\n`;
+                content += `--------------------------------------------------------------------------------\n\n`;
+                content += `Historia Clínica: ${currentPatient.historyNumber}\n`;
+                content += `Nombres: ${currentPatient.firstName}\n`;
+                content += `Apellidos: ${currentPatient.lastName}\n`;
+                content += `Documento: ${localEscapeHTML(currentPatient.document || 'N/A')}\n`;
+                content += `Fecha de nacimiento: ${DateUtils.formatDate(currentPatient.birthDate)}\n`;
+                content += `Edad: ${DateUtils.formatAge(currentPatient.birthDate)}\n`;
+                content += `Género: ${getLabel(Dropdowns.gender, currentPatient.gender)}\n`;
+                content += `Estado civil: ${getLabel(Dropdowns.maritalStatus, currentPatient.maritalStatus)}\n`;
+                content += `Escolaridad: ${getLabel(Dropdowns.education, currentPatient.education)}\n`;
+                content += `Ocupación: ${currentPatient.occupation || 'N/A'}\n`;
+                content += `Teléfono: ${currentPatient.phone || 'N/A'}\n`;
+                content += `Email: ${currentPatient.email || 'N/A'}\n`;
+                content += `Dirección: ${currentPatient.address || 'N/A'}\n\n`;
+            }
+            
+            // Consentimiento
+            if (document.getElementById('includeConsent').checked && currentPatient.consent) {
+                content += `--------------------------------------------------------------------------------\n`;
+                content += `2. CONSENTIMIENTO INFORMADO\n`;
+                content += `--------------------------------------------------------------------------------\n\n`;
+                content += `Fecha: ${DateUtils.formatDate(currentPatient.consent.date)}\n`;
+                content += `Firmante: ${currentPatient.consent.signer || 'N/A'}\n`;
+                content += `Tipo: ${currentPatient.consent.signerType === 'paciente' ? 'Paciente' : 'Representante Legal'}\n\n`;
+            }
+            
+            // Motivo de consulta
+            if (document.getElementById('includeConsultation').checked && currentPatient.consultationReason) {
+                content += `--------------------------------------------------------------------------------\n`;
+                content += `3. MOTIVO DE CONSULTA\n`;
+                content += `--------------------------------------------------------------------------------\n\n`;
+                content += `${currentPatient.consultationReason}\n\n`;
+            }
+            
+            // Historia del problema
+            if (document.getElementById('includeHistory').checked && currentPatient.problemHistory) {
+                content += `--------------------------------------------------------------------------------\n`;
+                content += `4. HISTORIA DEL PROBLEMA ACTUAL\n`;
+                content += `--------------------------------------------------------------------------------\n\n`;
+                content += `${currentPatient.problemHistory}\n\n`;
+            }
+            
+            // Formulación clínica
+            if (document.getElementById('includeFormulation').checked && currentPatient.clinicalFormulation) {
+                const cf = currentPatient.clinicalFormulation;
+                content += `--------------------------------------------------------------------------------\n`;
+                content += `5. FORMULACIÓN CLÍNICA\n`;
+                content += `--------------------------------------------------------------------------------\n\n`;
+                if (cf.hypothesis) content += `Hipótesis Clínicas:\n${cf.hypothesis}\n\n`;
+                if (cf.relationalDynamics) content += `Dinámicas Relacionales:\n${cf.relationalDynamics}\n\n`;
+                if (cf.riskFactors) content += `Factores de Riesgo:\n${cf.riskFactors}\n\n`;
+                if (cf.protectiveFactors) content += `Factores Protectores:\n${cf.protectiveFactors}\n\n`;
+            }
+            
+
+            // Perfil modular / campo profesional
+            if (currentPatient.modularProfile || currentPatient.professionalField) {
+                const mp = currentPatient.modularProfile || {};
+                const moduleLabel = getModuleLabel(mp.field || currentPatient.professionalField, mp.customName || currentPatient.professionalFieldCustomName || '');
+                content += `--------------------------------------------------------------------------------\n`;
+                content += `5A. PERFIL MODULAR / CAMPO PROFESIONAL\n`;
+                content += `--------------------------------------------------------------------------------\n\n`;
+                content += `Campo principal: ${moduleLabel}\n\n`;
+                const values = mp.moduleValues || (mp.moduleValuesByField ? mp.moduleValuesByField[mp.field || currentPatient.professionalField] : {}) || {};
+                const labels = getModuleFieldLabels(mp.field || currentPatient.professionalField);
+                Object.keys(values).forEach(key => {
+                    if (values[key]) content += `${labels[key] || key}:\n${values[key]}\n\n`;
+                });
+                if (Array.isArray(mp.manualElements) && mp.manualElements.length) {
+                    content += `Elementos manuales agregados:\n`;
+                    mp.manualElements.forEach((item, idx) => {
+                        content += `${idx + 1}. ${item.type || 'Elemento'} - ${item.label || 'Sin título'}\n`;
+                        if (item.notes) content += `${item.notes}\n`;
+                    });
+                    content += `\n`;
+                }
+                if (Array.isArray(mp.customFields) && mp.customFields.length) {
+                    content += `Campos personalizados:\n`;
+                    mp.customFields.forEach((item, idx) => {
+                        content += `${idx + 1}. ${item.label || 'Campo personalizado'}\n`;
+                        if (item.value) content += `${item.value}\n`;
+                    });
+                    content += `\n`;
+                }
+            }
+            // Diagnóstico
+            if (document.getElementById('includeDiagnosis').checked) {
+                const diagnoses = await db.getPatientDiagnoses(currentPatient.id);
+                if (diagnoses.length > 0) {
+                    content += `--------------------------------------------------------------------------------\n`;
+                    content += `6. DIAGNÓSTICO\n`;
+                    content += `--------------------------------------------------------------------------------\n\n`;
+                    
+                    diagnoses.forEach((d, i) => {
+                        content += `Registro #${i + 1} - ${DateUtils.formatDate(d.date || d.createdAt)}\n`;
+                        content += `Certeza: ${d.certainty || 'medio'}\n`;
+                        const dxItems = [];
+                        if (d.mode === 'manual' && d.manualDiagnosis) {
+                            if (d.manualDiagnosis.primary) dxItems.push({ role: 'Principal', code: '', name: d.manualDiagnosis.primary, description: d.manualDiagnosis.notes || '' });
+                            if (d.manualDiagnosis.secondary) dxItems.push({ role: 'Secundario(s)', code: '', name: d.manualDiagnosis.secondary, description: '' });
+                        }
+                        if (Array.isArray(d.primaryDiagnosis)) d.primaryDiagnosis.forEach(x => dxItems.push({ ...x, role: 'Principal' }));
+                        if (Array.isArray(d.secondaryDiagnoses)) d.secondaryDiagnoses.forEach(x => dxItems.push({ ...x, role: 'Secundario' }));
+                        if (Array.isArray(d.diagnoses)) d.diagnoses.forEach(x => dxItems.push({ ...x, role: x.role || 'Diagnóstico' }));
+                        if (dxItems.length) {
+                            content += `Diagnóstico(s):\n`;
+                            dxItems.forEach(diag => {
+                                content += `  - ${diag.role}: ${diag.system ? diag.system + ' ' : ''}${diag.code ? diag.code + ' - ' : ''}${diag.name || diag.diagnosis || ''}\n`;
+                                if (diag.description) content += `    Descripción: ${diag.description}\n`;
+                            });
+                        }
+                        if (d.clinicalJustification) content += `Justificación: ${d.clinicalJustification}\n`;
+                        if (d.differentialDiagnosis) content += `Diagnóstico diferencial: ${d.differentialDiagnosis}\n`;
+                        if (Array.isArray(d.differentials) && d.differentials.length) {
+                            content += `Diferenciales:\n`;
+                            d.differentials.forEach(x => content += `  - ${x.diagnosis || ''}${x.reason ? ': ' + x.reason : ''}\n`);
+                        }
+                        content += `\n`;
+                    });
+                }
+            }
+            
+            // Sesiones
+            if (document.getElementById('includeSessions').checked) {
+                const sessions = await db.getPatientSessions(currentPatient.id);
+                if (sessions.length > 0) {
+                    content += `--------------------------------------------------------------------------------\n`;
+                    content += `7. NOTAS DE EVOLUCIÓN\n`;
+                    content += `--------------------------------------------------------------------------------\n\n`;
+                    content += `Total de sesiones: ${sessions.length}\n\n`;
+                    
+                    sessions.sort((a, b) => new Date(a.date) - new Date(b.date));
+                    
+                    sessions.forEach((s, i) => {
+                        content += `--- Sesión #${s.sessionNumber || i + 1} ---\n`;
+                        content += `Fecha: ${DateUtils.formatDate(s.date)}\n`;
+                        content += `Modalidad: ${getLabel(Dropdowns.sessionModality, s.modality)}\n`;
+                        content += `Duración: ${s.duration} minutos\n`;
+                        if (s.centralTheme) content += `Tema: ${s.centralTheme}\n`;
+                        if (s.clinicalSummary) content += `Resumen: ${s.clinicalSummary}\n`;
+                        if (s.isClosed) content += `Estado: CERRADA\n`;
+                        if (s.psychiatryEnabled && s.psychiatry) {
+                            content += `\n[MÓDULO PSIQUIATRÍA]\n`;
+                            if (s.psychiatry.hea) content += `HEA: ${s.psychiatry.hea}\n`;
+                            content += `EEM: ${s.psychiatry.eem || ''}\n`;
+                            content += `Riesgo: ${s.psychiatry.risk || ''}\n`;
+                            if (s.psychiatry.meds) content += `Psicofármacos: ${s.psychiatry.meds}\n`;
+                            if (s.psychiatry.substances) content += `Sustancias: ${s.psychiatry.substances}\n`;
+                            if (s.psychiatry.dxDiff) content += `Dx diferencial/especificadores: ${s.psychiatry.dxDiff}\n`;
+                            if (s.psychiatry.functioning) content += `Funcionamiento: ${s.psychiatry.functioning}\n`;
+                            if (s.psychiatry.followup) content += `Monitoreo/seguimiento: ${s.psychiatry.followup}\n`;
+                        }
+                        content += `\n`;
+                    });
+                }
+            }
+            
+            // Evaluaciones
+            if (document.getElementById('includeAssessments').checked) {
+                const assessments = await db.getPatientAssessments(currentPatient.id);
+                if (assessments.length > 0) {
+                    content += `--------------------------------------------------------------------------------\n`;
+                    content += `8. EVALUACIONES E INSTRUMENTOS\n`;
+                    content += `--------------------------------------------------------------------------------\n\n`;
+                    
+                    assessments.forEach(a => {
+                        content += `Instrumento: ${a.instrument}\n`;
+                        content += `Fecha: ${DateUtils.formatDate(a.date)}\n`;
+                        content += `Profesional: ${a.professional || 'N/A'}\n`;
+                        content += `Estado: ${getLabel(Dropdowns.assessmentStatus, a.status)}\n`;
+                        if (a.scores) content += `Puntajes:\n${a.scores}\n`;
+                        if (a.interpretation) content += `Interpretación:\n${a.interpretation}\n`;
+                        content += `\n`;
+                    });
+                }
+            }
+            
+            // Pie de página
+            content += `================================================================================\n`;
+            content += `Fin del documento\n`;
+            content += `Generado por: Historia Clínica Psicológica Integral v1.0\n`;
+            content += `================================================================================\n`;
+            
+            return content;
+        }
+        
+        function getLabel(list, value) {
+            const item = list.find(i => i.value === value);
+            return item ? item.label : value || 'N/A';
+        }
+        
+        function localEscapeHTML(value) {
+            if (typeof escapeHTML === 'function') return escapeHTML(value);
+            return String(value ?? '').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;').replace(/'/g,'&#039;');
+        }
+
+
+
+        function getModuleLabel(value, customName='') {
+            if (customName) return customName;
+            const labels = {
+                clinica:'Psicología clínica / psicoterapia',
+                neuropsicologia:'Neuropsicología',
+                juridica:'Psicología jurídica / forense',
+                organizacional:'Psicología organizacional y del trabajo',
+                educativa:'Psicología educativa',
+                familiar:'Psicología familiar / pareja',
+                familiar_pareja:'Psicología familiar / pareja',
+                infantil_adolescente:'Psicología infantil / adolescente',
+                salud:'Psicología de la salud',
+                comunitaria:'Psicología comunitaria',
+                deporte:'Psicología del deporte',
+                emergencias_trauma:'Emergencias, crisis y psicotraumatología',
+                vocacional:'Orientación vocacional / proyecto de vida',
+                personalizada:'Personalizada / otro campo'
+            };
+            return labels[value] || value || 'N/A';
+        }
+
+        function getModuleFieldLabels(field) {
+            const map = {
+                clinicalApproach:'Enfoque terapéutico / marco de lectura', symptomConfiguration:'Configuración sintomática y demanda subjetiva', interventionAxes:'Ejes de intervención clínica', clinicalInstruments:'Instrumentos o escalas clínicas sugeridas/aplicadas',
+                neuroReason:'Motivo neuropsicológico específico', neurologicalHistory:'Antecedentes neurológicos, médicos y del desarrollo', cognitiveDomains:'Dominios evaluados', neuroInstruments:'Instrumentos neuropsicológicos', functionalAutonomy:'Autonomía funcional y desempeño cotidiano', interprofessionalInputs:'Insumos derivados de otros profesionales',
+                requestingAuthority:'Autoridad, abogado, entidad o parte solicitante', legalContext:'Tipo de proceso y calidad del evaluado', forensicQuestion:'Pregunta pericial', reviewedDocuments:'Documentos revisados', forensicMethod:'Metodología y límites del concepto', psychologicalDamage:'Afectación/daño psicológico',
+                organization:'Empresa, institución, área y cargo', workReason:'Motivo organizacional', competencies:'Competencias y desempeño', workClimate:'Clima, cultura y liderazgo', psychosocialRisks:'Riesgos psicosociales y bienestar', organizationalRecommendations:'Recomendaciones organizacionales',
+                institutionalContext:'Institución, grado/programa y fuente solicitante', learningReason:'Motivo educativo', learningProfile:'Perfil de aprendizaje', schoolHistory:'Historia escolar', educationalInstruments:'Instrumentos educativos', adjustments:'Ajustes razonables y recomendaciones',
+                familyStructure:'Composición familiar y ciclo vital', relationalDemand:'Demanda relacional', interactionPatterns:'Patrones de interacción', conflictHistory:'Historia del conflicto', familyResources:'Recursos familiares', systemicPlan:'Plan sistémico',
+                developmentMilestones:'Hitos del desarrollo', caregiverReport:'Reporte de cuidadores', schoolSocialFunctioning:'Funcionamiento escolar/social/familiar', emotionalBehavioralSigns:'Indicadores emocionales y conductuales', playObservation:'Observación de juego/lenguaje/vínculo', caregiverGuidance:'Orientación a cuidadores',
+                medicalCondition:'Condición médica asociada', treatmentAdherence:'Adherencia y autocuidado', painSymptoms:'Dolor y síntomas corporales', healthBeliefs:'Creencias de salud y afrontamiento', medicalTeamInputs:'Insumos del equipo de salud', healthPlan:'Plan en salud',
+                communityContext:'Comunidad y territorio', collectiveDemand:'Demanda colectiva', networks:'Redes y recursos comunitarios', riskProtectionCommunity:'Riesgo/protección comunitaria', participatoryMethod:'Metodología participativa', communityActions:'Acciones comunitarias',
+                sportDiscipline:'Disciplina y nivel competitivo', performanceDemand:'Demanda de rendimiento', mentalSkills:'Habilidades mentales', teamDynamics:'Dinámica de equipo', trainingCompetition:'Entrenamiento/competencia', sportPlan:'Plan psicológico deportivo',
+                criticalEvent:'Evento crítico', acuteResponse:'Respuesta aguda', safetyRisk:'Seguridad/riesgo/red de apoyo', traumaSymptoms:'Síntomas postraumáticos/duelo', crisisIntervention:'Intervención en crisis', traumaFollowup:'Seguimiento trauma/crisis',
+                vocationalDemand:'Motivo vocacional', interestsValues:'Intereses y valores', influences:'Influencias y modelos', skillsProfile:'Perfil de habilidades', optionsExplored:'Opciones exploradas', vocationalPlan:'Plan vocacional',
+                customModulePurpose:'Propósito del módulo', customModuleContext:'Contexto de aplicación', customModuleCriteria:'Criterios del módulo', customModuleNotes:'Notas del módulo personalizado'
+            };
+            return map;
+        }
+        async function exportDocument(format) {
+            if (!currentPatient) return;
+            
+            const content = await buildExportContent();
+            const filename = `${currentPatient.historyNumber}_${DateUtils.getToday()}`;
+            
+            switch(format) {
+                case 'txt':
+                    ExportUtils.exportTXT(content, `${filename}.txt`);
+                    break;
+                case 'html':
+                    const safeContent = localEscapeHTML(content);
+                    const htmlContent = `<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Historia Clínica - ${localEscapeHTML(currentPatient.firstName)} ${localEscapeHTML(currentPatient.lastName)}</title>
+    <style>
+        :root { --azul:#1f4e79; --azul2:#2b6cb0; --gris:#f4f7fb; --borde:#d8e2ef; --texto:#1f2937; --suave:#64748b; }
+        * { box-sizing:border-box; }
+        body { margin:0; background:#eef3f8; color:var(--texto); font-family: Arial, Helvetica, sans-serif; line-height:1.62; }
+        .page { max-width:980px; margin:32px auto; background:white; border-radius:18px; box-shadow:0 18px 48px rgba(15, 23, 42, .14); overflow:hidden; }
+        .cover { background:linear-gradient(135deg, var(--azul), var(--azul2)); color:white; padding:34px 42px; }
+        .cover h1 { margin:0 0 8px; font-size:30px; letter-spacing:.2px; }
+        .cover p { margin:0; opacity:.9; }
+        .meta { display:grid; grid-template-columns:repeat(auto-fit,minmax(190px,1fr)); gap:12px; padding:22px 42px; background:#f8fafc; border-bottom:1px solid var(--borde); }
+        .meta .box { background:white; border:1px solid var(--borde); border-radius:12px; padding:12px 14px; }
+        .label { display:block; color:var(--suave); font-size:12px; text-transform:uppercase; letter-spacing:.08em; margin-bottom:3px; }
+        .value { font-weight:700; color:#0f172a; }
+        .content { padding:34px 42px 42px; }
+        .report-block { white-space:pre-wrap; font-family: Arial, Helvetica, sans-serif; background:var(--gris); border:1px solid var(--borde); border-left:7px solid var(--azul2); border-radius:14px; padding:24px; font-size:14.5px; }
+        .footer { padding:18px 42px; color:var(--suave); font-size:12px; border-top:1px solid var(--borde); background:#f8fafc; }
+        @media print { body{background:white;} .page{box-shadow:none; margin:0; border-radius:0;} .report-block{break-inside:auto;} }
+        @media (max-width:720px){ .page{margin:0; border-radius:0;} .cover,.meta,.content,.footer{padding-left:18px; padding-right:18px;} }
+    </style>
+</head>
+<body>
+    <article class="page">
+        <header class="cover">
+            <h1>Historia Clínica Psicológica</h1>
+            <p>Reporte HTML enriquecido · ${localEscapeHTML(currentPatient.firstName)} ${localEscapeHTML(currentPatient.lastName)}</p>
+        </header>
+        <section class="meta">
+            <div class="box"><span class="label">Paciente</span><span class="value">${localEscapeHTML(currentPatient.firstName)} ${localEscapeHTML(currentPatient.lastName)}</span></div>
+            <div class="box"><span class="label">Historia</span><span class="value">${localEscapeHTML(currentPatient.historyNumber || 'N/A')}</span></div>
+            <div class="box"><span class="label">Documento</span><span class="value">${localEscapeHTML(currentPatient.document || 'N/A')}</span></div>
+            <div class="box"><span class="label">Fecha de exportación</span><span class="value">${DateUtils.formatDate(DateUtils.getToday())}</span></div>
+        </section>
+        <main class="content">
+            <div class="report-block">${safeContent}</div>
+        </main>
+        <footer class="footer">Documento generado por Historia Clínica Psicológica Integral. Revise la información antes de compartir o imprimir.</footer>
+    </article>
+</body>
+</html>`;
+                    ExportUtils.exportHTML(htmlContent, `${filename}.html`);
+                    break;
+                case 'docx':
+                    // DOCX real (offline)
+                    DocxExport.download(
+                        `Historia Clínica - ${currentPatient.firstName} ${currentPatient.lastName}`,
+                        content,
+                        `${filename}.docx`
+                    );
+                    break;
+            }
+            
+            UI.toast(`Documento exportado en formato ${format.toUpperCase()}`, 'success');
+        }
+        
+        function goBack() {
+            const patientId = document.getElementById('patientId').value;
+            if (patientId) {
+                window.location.href = `patient.html?id=${patientId}`;
+            } else {
+                window.location.href = 'dashboard.html';
+            }
+        }
+
+        // Exportar caso completo del paciente en JSON
+        async function exportCaseJSON() {
+            if (!currentPatient) {
+                UI.toast('Seleccione un paciente primero', 'warning');
+                return;
+            }
+            try {
+                const [sessions, assessments, diagnoses] = await Promise.all([
+                    db.getPatientSessions(currentPatient.id),
+                    db.getPatientAssessments(currentPatient.id),
+                    db.getPatientDiagnoses(currentPatient.id)
+                ]);
+                const caseData = {
+                    exportedAt: new Date().toISOString(),
+                    patient: currentPatient,
+                    sessions, assessments, diagnoses
+                };
+                const blob = new Blob([JSON.stringify(caseData, null, 2)], { type: 'application/json;charset=utf-8' });
+                const a = document.createElement('a');
+                a.href = URL.createObjectURL(blob);
+                const nombre = (currentPatient.lastName || 'paciente').replace(/\s+/g, '-').toLowerCase();
+                const fecha = new Date().toISOString().slice(0,10);
+                a.download = `caso-${nombre}-${fecha}.json`;
+                a.click();
+                URL.revokeObjectURL(a.href);
+                UI.toast('Caso exportado en JSON correctamente', 'success');
+            } catch(err) {
+                UI.toast('Error al exportar: ' + err.message, 'error');
+            }
+        }
+    </script>
+
+</body>
+</html>

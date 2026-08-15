@@ -1,0 +1,3002 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
+<title>CalcPro — Calculadora Premium</title>
+<style>
+/* ===== VARIABLES ===== */
+:root {
+  --bg: #1c1c1e;
+  --bg2: #2c2c2e;
+  --bg3: #3a3a3c;
+  --surface: #2c2c2e;
+  --surface2: #3a3a3c;
+  --accent: #ff9f0a;
+  --accent2: #ff6b00;
+  --text: #f2f2f7;
+  --text2: #aeaeb2;
+  --text3: #636366;
+  --btn-num: #3a3a3c;
+  --btn-op: #ff9f0a;
+  --btn-fn: #636366;
+  --btn-eq: #ff9f0a;
+  --red: #ff453a;
+  --green: #30d158;
+  --blue: #0a84ff;
+  --purple: #bf5af2;
+  --radius: 14px;
+  --radius-sm: 10px;
+  --sidebar-w: 260px;
+  --font: 'SF Pro Display', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+  --mono: 'SF Mono', 'Fira Code', 'Consolas', monospace;
+}
+
+* { box-sizing: border-box; margin: 0; padding: 0; }
+
+body {
+  font-family: var(--font);
+  background: var(--bg);
+  color: var(--text);
+  height: 100dvh;
+  overflow: hidden;
+  display: flex;
+}
+
+/* ===== SIDEBAR ===== */
+#sidebar {
+  width: var(--sidebar-w);
+  background: rgba(28,28,30,0.97);
+  border-right: 1px solid rgba(255,255,255,0.06);
+  display: flex;
+  flex-direction: column;
+  flex-shrink: 0;
+  z-index: 100;
+  transition: transform 0.3s cubic-bezier(.4,0,.2,1);
+}
+
+#sidebar-header {
+  padding: 20px 16px 12px;
+  border-bottom: 1px solid rgba(255,255,255,0.06);
+}
+
+#sidebar-header .logo {
+  font-size: 20px;
+  font-weight: 700;
+  letter-spacing: -0.5px;
+  color: var(--accent);
+}
+#sidebar-header .logo span { color: var(--text2); font-weight: 400; }
+
+.lang-row {
+  display: flex;
+  gap: 6px;
+  margin-top: 10px;
+  flex-wrap: wrap;
+}
+.lang-btn {
+  background: var(--bg3);
+  border: none;
+  color: var(--text2);
+  font-size: 11px;
+  font-weight: 600;
+  padding: 4px 8px;
+  border-radius: 6px;
+  cursor: pointer;
+  transition: all 0.2s;
+}
+.lang-btn.active { background: var(--accent); color: #000; }
+
+#module-search {
+  margin: 10px 16px;
+  background: var(--bg3);
+  border: none;
+  border-radius: 10px;
+  padding: 8px 12px;
+  color: var(--text);
+  font-size: 13px;
+  width: calc(100% - 32px);
+  outline: none;
+}
+#module-search::placeholder { color: var(--text3); }
+
+#module-list {
+  flex: 1;
+  overflow-y: auto;
+  padding: 4px 8px 16px;
+  scrollbar-width: thin;
+  scrollbar-color: var(--bg3) transparent;
+}
+
+.module-category {
+  font-size: 10px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 1.2px;
+  color: var(--text3);
+  padding: 10px 8px 4px;
+}
+
+.module-item {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 9px 10px;
+  border-radius: 10px;
+  cursor: pointer;
+  transition: background 0.15s;
+  font-size: 13px;
+  color: var(--text2);
+}
+.module-item:hover { background: var(--bg3); color: var(--text); }
+.module-item.active { background: rgba(255,159,10,0.15); color: var(--accent); }
+.module-item .icon { font-size: 16px; width: 24px; text-align: center; flex-shrink: 0; }
+
+/* ===== MAIN ===== */
+#main {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+}
+
+#topbar {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 12px 16px;
+  border-bottom: 1px solid rgba(255,255,255,0.06);
+  flex-shrink: 0;
+}
+
+#menu-toggle {
+  display: none;
+  background: var(--bg3);
+  border: none;
+  color: var(--text);
+  width: 36px; height: 36px;
+  border-radius: 10px;
+  font-size: 18px;
+  cursor: pointer;
+  align-items: center;
+  justify-content: center;
+}
+
+#module-title {
+  font-size: 16px;
+  font-weight: 600;
+  flex: 1;
+}
+
+#tour-btn {
+  background: var(--bg3);
+  border: none;
+  color: var(--text2);
+  font-size: 12px;
+  padding: 6px 12px;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: all 0.2s;
+}
+#tour-btn:hover { background: var(--accent); color: #000; }
+
+#module-content {
+  flex: 1;
+  overflow-y: auto;
+  padding: 20px;
+  scrollbar-width: thin;
+  scrollbar-color: var(--bg3) transparent;
+}
+
+/* ===== CALCULATOR COMMON ===== */
+.calc-display {
+  background: var(--bg);
+  border: 1px solid rgba(255,255,255,0.08);
+  border-radius: var(--radius);
+  padding: 16px 20px;
+  margin-bottom: 16px;
+  min-height: 100px;
+}
+.calc-expression {
+  font-size: 14px;
+  color: var(--text3);
+  min-height: 20px;
+  text-align: right;
+  word-break: break-all;
+  font-family: var(--mono);
+}
+.calc-result {
+  font-size: clamp(32px, 6vw, 52px);
+  font-weight: 300;
+  text-align: right;
+  color: var(--text);
+  word-break: break-all;
+  line-height: 1.1;
+  font-family: var(--font);
+  letter-spacing: -1px;
+}
+
+.calc-grid {
+  display: grid;
+  gap: 10px;
+}
+.calc-grid-4 { grid-template-columns: repeat(4, 1fr); }
+.calc-grid-5 { grid-template-columns: repeat(5, 1fr); }
+
+.btn {
+  border: none;
+  border-radius: var(--radius-sm);
+  font-size: clamp(14px, 2.5vw, 18px);
+  font-weight: 500;
+  font-family: var(--font);
+  cursor: pointer;
+  padding: 0;
+  height: clamp(54px, 8vw, 66px);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: opacity 0.1s, transform 0.1s;
+  user-select: none;
+  -webkit-tap-highlight-color: transparent;
+}
+.btn:active { opacity: 0.7; transform: scale(0.96); }
+
+.btn-num { background: var(--btn-num); color: var(--text); }
+.btn-op  { background: var(--btn-op);  color: #000; font-weight: 600; }
+.btn-fn  { background: var(--btn-fn);  color: var(--text); font-size: clamp(11px, 2vw, 14px); }
+.btn-eq  { background: var(--btn-eq);  color: #000; font-weight: 600; }
+.btn-clr { background: var(--btn-fn);  color: var(--text); }
+.btn-red { background: rgba(255,69,58,0.2); color: var(--red); }
+.btn-green { background: rgba(48,209,88,0.15); color: var(--green); }
+.btn-blue  { background: rgba(10,132,255,0.15); color: var(--blue); }
+.btn-wide  { grid-column: span 2; }
+
+/* ===== FORM CONTROLS ===== */
+.form-section {
+  background: var(--surface);
+  border-radius: var(--radius);
+  padding: 16px;
+  margin-bottom: 14px;
+}
+.form-section h3 {
+  font-size: 12px;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.8px;
+  color: var(--text3);
+  margin-bottom: 12px;
+}
+.form-row {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin-bottom: 10px;
+}
+.form-row:last-child { margin-bottom: 0; }
+.form-row label {
+  font-size: 13px;
+  color: var(--text2);
+  flex: 1;
+  min-width: 0;
+}
+.form-row input, .form-row select {
+  background: var(--bg3);
+  border: 1px solid rgba(255,255,255,0.08);
+  border-radius: 8px;
+  color: var(--text);
+  font-size: 14px;
+  padding: 8px 10px;
+  width: 140px;
+  flex-shrink: 0;
+  font-family: var(--mono);
+  outline: none;
+  transition: border-color 0.2s;
+}
+.form-row input:focus { border-color: var(--accent); }
+.form-row select { width: 150px; }
+
+.result-box {
+  background: var(--bg);
+  border: 1px solid rgba(255,159,10,0.25);
+  border-radius: var(--radius);
+  padding: 16px 20px;
+  margin-bottom: 14px;
+}
+.result-box .r-label { font-size: 11px; color: var(--text3); text-transform: uppercase; letter-spacing: 0.8px; }
+.result-box .r-value { font-size: 28px; font-weight: 300; color: var(--accent); margin: 4px 0 0; letter-spacing: -0.5px; }
+.result-box .r-sub   { font-size: 13px; color: var(--text2); margin-top: 2px; }
+
+.results-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 10px;
+  margin-bottom: 14px;
+}
+.results-grid .result-box { margin: 0; }
+
+.action-row {
+  display: flex;
+  gap: 10px;
+  flex-wrap: wrap;
+}
+.action-btn {
+  flex: 1;
+  min-width: 80px;
+  background: var(--accent);
+  color: #000;
+  border: none;
+  border-radius: 10px;
+  padding: 12px;
+  font-size: 14px;
+  font-weight: 600;
+  cursor: pointer;
+  font-family: var(--font);
+  transition: opacity 0.15s;
+}
+.action-btn:active { opacity: 0.75; }
+.action-btn.secondary { background: var(--bg3); color: var(--text); font-weight: 500; }
+.action-btn.danger { background: rgba(255,69,58,0.2); color: var(--red); }
+
+/* ===== SLIDERS ===== */
+.slider-row {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin-bottom: 10px;
+}
+.slider-row label { font-size: 13px; color: var(--text2); width: 160px; flex-shrink: 0; font-size: 12px; }
+.slider-row input[type=range] {
+  flex: 1;
+  accent-color: var(--accent);
+  cursor: pointer;
+  height: 4px;
+}
+.slider-row .slider-val {
+  background: var(--bg3);
+  border: none;
+  border-radius: 6px;
+  color: var(--text);
+  font-size: 13px;
+  font-family: var(--mono);
+  width: 48px;
+  text-align: center;
+  padding: 4px;
+  outline: none;
+}
+
+/* ===== DOOMSDAY CLOCK ===== */
+#clock-canvas { display: block; margin: 0 auto; }
+.risk-bars { margin: 12px 0; }
+.risk-bar-row { display: flex; align-items: center; gap: 8px; margin-bottom: 6px; }
+.risk-bar-row span:first-child { font-size: 12px; color: var(--text2); width: 150px; flex-shrink: 0; }
+.risk-bar-track { flex: 1; background: var(--bg3); border-radius: 4px; height: 6px; overflow: hidden; }
+.risk-bar-fill { height: 100%; border-radius: 4px; transition: width 0.4s ease; }
+.risk-bar-row .pct { font-size: 11px; color: var(--text3); font-family: var(--mono); width: 36px; text-align: right; }
+
+.level-badge {
+  display: inline-block;
+  padding: 4px 12px;
+  border-radius: 20px;
+  font-size: 13px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+}
+.level-low    { background: rgba(48,209,88,0.2);  color: var(--green); }
+.level-mod    { background: rgba(255,214,10,0.2);  color: #ffd60a; }
+.level-high   { background: rgba(255,159,10,0.2);  color: var(--accent); }
+.level-crit   { background: rgba(255,69,58,0.25);  color: var(--red); }
+.level-ext    { background: rgba(191,90,242,0.25); color: var(--purple); }
+
+details.collapsible {
+  background: var(--surface);
+  border-radius: var(--radius);
+  padding: 0;
+  margin-top: 12px;
+  overflow: hidden;
+}
+details.collapsible summary {
+  padding: 12px 16px;
+  cursor: pointer;
+  font-size: 13px;
+  font-weight: 600;
+  color: var(--text2);
+  list-style: none;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+details.collapsible summary::before { content: '▶'; font-size: 10px; transition: transform 0.2s; }
+details[open].collapsible summary::before { transform: rotate(90deg); }
+details.collapsible .detail-body {
+  padding: 0 16px 16px;
+  font-size: 12px;
+  color: var(--text2);
+  line-height: 1.7;
+}
+.formula-block {
+  background: var(--bg);
+  border-radius: 8px;
+  padding: 10px 14px;
+  font-family: var(--mono);
+  font-size: 12px;
+  color: var(--accent);
+  margin: 8px 0;
+  word-break: break-all;
+}
+
+/* ===== TABLES ===== */
+.data-table { width: 100%; border-collapse: collapse; font-size: 13px; }
+.data-table th { background: var(--bg3); color: var(--text2); padding: 8px 10px; text-align: left; font-weight: 600; font-size: 11px; text-transform: uppercase; }
+.data-table td { padding: 8px 10px; border-bottom: 1px solid rgba(255,255,255,0.04); }
+.data-table tr:last-child td { border: none; }
+.data-table tr:hover td { background: rgba(255,255,255,0.03); }
+
+/* ===== CANVAS GRAPH ===== */
+#graph-canvas {
+  border-radius: 10px;
+  background: var(--bg);
+  display: block;
+  width: 100%;
+  max-width: 100%;
+}
+
+/* ===== MATRICES ===== */
+.matrix-inputs { display: inline-grid; gap: 4px; }
+.matrix-inputs input {
+  width: 54px; height: 36px;
+  background: var(--bg3);
+  border: 1px solid rgba(255,255,255,0.08);
+  border-radius: 6px;
+  color: var(--text);
+  font-size: 13px;
+  font-family: var(--mono);
+  text-align: center;
+  outline: none;
+}
+.matrix-inputs input:focus { border-color: var(--accent); }
+
+/* ===== OVERLAY SIDEBAR MOBILE ===== */
+#sidebar-overlay {
+  display: none;
+  position: fixed;
+  inset: 0;
+  background: rgba(0,0,0,0.6);
+  z-index: 99;
+}
+
+/* ===== TOUR ===== */
+#tour-overlay {
+  display: none;
+  position: fixed;
+  inset: 0;
+  z-index: 9999;
+  pointer-events: none;
+}
+#tour-overlay.active { display: block; pointer-events: all; }
+.tour-backdrop {
+  position: absolute;
+  inset: 0;
+  background: rgba(0,0,0,0.75);
+}
+.tour-popup {
+  position: absolute;
+  background: var(--bg2);
+  border: 1px solid rgba(255,159,10,0.3);
+  border-radius: 14px;
+  padding: 18px 20px;
+  max-width: 280px;
+  min-width: 220px;
+  z-index: 1;
+  box-shadow: 0 20px 60px rgba(0,0,0,0.5);
+}
+.tour-popup h4 { font-size: 15px; font-weight: 700; color: var(--accent); margin-bottom: 6px; }
+.tour-popup p  { font-size: 13px; color: var(--text2); line-height: 1.5; }
+.tour-nav { display: flex; gap: 8px; margin-top: 14px; }
+.tour-nav button {
+  flex: 1; border: none; border-radius: 8px; padding: 8px;
+  font-size: 13px; font-weight: 600; cursor: pointer; font-family: var(--font);
+}
+.tour-nav .t-next { background: var(--accent); color: #000; }
+.tour-nav .t-skip { background: var(--bg3); color: var(--text2); }
+.tour-counter { font-size: 11px; color: var(--text3); text-align: right; margin-top: 8px; }
+
+/* ===== RESPONSIVE ===== */
+@media (max-width: 768px) {
+  #sidebar {
+    position: fixed;
+    top: 0; left: 0; bottom: 0;
+    transform: translateX(-100%);
+  }
+  #sidebar.open { transform: translateX(0); }
+  #sidebar-overlay.visible { display: block; }
+  #menu-toggle { display: flex; }
+  #module-content { padding: 12px; }
+  .results-grid { grid-template-columns: 1fr; }
+  .form-row { flex-wrap: wrap; }
+  .form-row input, .form-row select { width: 100%; }
+  .form-row label { width: 100%; }
+  .slider-row label { width: 120px; font-size: 11px; }
+  .calc-grid-5 { grid-template-columns: repeat(4, 1fr); }
+}
+@media (max-width: 400px) {
+  .btn { height: 50px; font-size: 16px; }
+  .calc-result { font-size: 34px; }
+}
+
+/* ===== SCROLLBARS ===== */
+::-webkit-scrollbar { width: 5px; height: 5px; }
+::-webkit-scrollbar-track { background: transparent; }
+::-webkit-scrollbar-thumb { background: var(--bg3); border-radius: 3px; }
+
+/* === MISC === */
+.two-col { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; }
+@media (max-width: 600px) { .two-col { grid-template-columns: 1fr; } }
+
+.tag { display: inline-block; padding: 2px 8px; border-radius: 6px; font-size: 11px; font-weight: 600; }
+.tag-orange { background: rgba(255,159,10,0.15); color: var(--accent); }
+.tag-blue   { background: rgba(10,132,255,0.15); color: var(--blue); }
+
+.kbd { background: var(--bg3); border-radius: 5px; padding: 1px 6px; font-family: var(--mono); font-size: 12px; }
+
+.note { font-size: 12px; color: var(--text3); margin-top: 8px; }
+.note a { color: var(--accent); text-decoration: none; }
+
+/* Dropdown select styling */
+select option { background: #2c2c2e; color: var(--text); }
+</style>
+</head>
+<body>
+
+<!-- SIDEBAR OVERLAY -->
+<div id="sidebar-overlay" onclick="closeSidebar()"></div>
+
+<!-- SIDEBAR -->
+<nav id="sidebar">
+  <div id="sidebar-header">
+    <div class="logo">Calc<span>Pro</span></div>
+    <div class="lang-row" id="lang-row"></div>
+  </div>
+  <input id="module-search" type="text" placeholder="Buscar módulo…" oninput="filterModules(this.value)">
+  <div id="module-list"></div>
+</nav>
+
+<!-- MAIN -->
+<div id="main">
+  <div id="topbar">
+    <button id="menu-toggle" onclick="toggleSidebar()">☰</button>
+    <div id="module-title"></div>
+    <button id="tour-btn" onclick="startTour()" data-i="tour_btn">❓ Tour</button>
+  </div>
+  <div id="module-content"></div>
+</div>
+
+<!-- TOUR OVERLAY -->
+<div id="tour-overlay">
+  <div class="tour-backdrop" onclick="endTour()"></div>
+  <div class="tour-popup" id="tour-popup">
+    <h4 id="tour-title"></h4>
+    <p id="tour-desc"></p>
+    <div class="tour-nav">
+      <button class="t-skip" onclick="endTour()">Saltar</button>
+      <button class="t-next" id="tour-next-btn" onclick="tourNext()">Siguiente →</button>
+    </div>
+    <div class="tour-counter" id="tour-counter"></div>
+  </div>
+</div>
+
+<script>
+// ============================================================
+// TRANSLATIONS
+// ============================================================
+const T = {
+  es: {
+    search: "Buscar módulo…",
+    tour_btn: "❓ Tour",
+    tour_skip: "Saltar",
+    tour_next: "Siguiente →",
+    tour_finish: "Finalizar",
+    // module names
+    m_basic: "Básica",
+    m_sci: "Científica",
+    m_trig: "Trigonométrica",
+    m_fin: "Financiera",
+    m_stat: "Estadística",
+    m_alg: "Algebraica",
+    m_graph: "Gráfica",
+    m_matrix: "Matricial",
+    m_frac: "Fracciones",
+    m_pct: "Porcentual",
+    m_conv: "Conversión",
+    m_dates: "Fechas y Edad",
+    m_loans: "Préstamos",
+    m_mort: "Hipotecaria",
+    m_tax: "Impuestos",
+    m_health: "Salud",
+    m_phys: "Física",
+    m_chem: "Química",
+    m_prob: "Probabilidad",
+    m_logic: "Lógica / Booleana",
+    m_prog: "Programación",
+    m_costs: "Costos y Ventas",
+    m_actuar: "Actuarial",
+    m_const: "Construcción",
+    m_edu: "Educativa Infantil",
+    m_symb: "Simbólica",
+    m_templ: "Plantillas",
+    m_doom: "Reloj del Fin del Mundo",
+    m_acc: "Contable",
+    m_eng: "Ingeniería",
+    m_prog2: "Programable",
+    // categories
+    cat_general: "General",
+    cat_science: "Ciencia",
+    cat_finance: "Finanzas",
+    cat_tools: "Herramientas",
+    cat_special: "Especial",
+  },
+  en: {
+    search: "Search module…",
+    tour_btn: "❓ Tour",
+    tour_skip: "Skip",
+    tour_next: "Next →",
+    tour_finish: "Finish",
+    m_basic: "Basic",
+    m_sci: "Scientific",
+    m_trig: "Trigonometric",
+    m_fin: "Financial",
+    m_stat: "Statistics",
+    m_alg: "Algebra",
+    m_graph: "Graph",
+    m_matrix: "Matrix",
+    m_frac: "Fractions",
+    m_pct: "Percentage",
+    m_conv: "Conversion",
+    m_dates: "Dates & Age",
+    m_loans: "Loans",
+    m_mort: "Mortgage",
+    m_tax: "Tax",
+    m_health: "Health",
+    m_phys: "Physics",
+    m_chem: "Chemistry",
+    m_prob: "Probability",
+    m_logic: "Logic / Boolean",
+    m_prog: "Programming",
+    m_costs: "Costs & Sales",
+    m_actuar: "Actuarial",
+    m_const: "Construction",
+    m_edu: "Kids Calculator",
+    m_symb: "Symbolic",
+    m_templ: "Templates",
+    m_doom: "Doomsday Clock",
+    m_acc: "Accounting",
+    m_eng: "Engineering",
+    m_prog2: "Programmable",
+    cat_general: "General",
+    cat_science: "Science",
+    cat_finance: "Finance",
+    cat_tools: "Tools",
+    cat_special: "Special",
+  },
+  pt: {
+    search: "Buscar módulo…",
+    tour_btn: "❓ Tour",
+    tour_skip: "Pular",
+    tour_next: "Próximo →",
+    tour_finish: "Concluir",
+    m_basic: "Básica",
+    m_sci: "Científica",
+    m_trig: "Trigonométrica",
+    m_fin: "Financeira",
+    m_stat: "Estatística",
+    m_alg: "Álgebra",
+    m_graph: "Gráfica",
+    m_matrix: "Matricial",
+    m_frac: "Frações",
+    m_pct: "Percentual",
+    m_conv: "Conversão",
+    m_dates: "Datas e Idade",
+    m_loans: "Empréstimos",
+    m_mort: "Hipoteca",
+    m_tax: "Impostos",
+    m_health: "Saúde",
+    m_phys: "Física",
+    m_chem: "Química",
+    m_prob: "Probabilidade",
+    m_logic: "Lógica / Booleana",
+    m_prog: "Programação",
+    m_costs: "Custos e Vendas",
+    m_actuar: "Atuarial",
+    m_const: "Construção",
+    m_edu: "Infantil",
+    m_symb: "Simbólica",
+    m_templ: "Modelos",
+    m_doom: "Relógio do Fim do Mundo",
+    m_acc: "Contábil",
+    m_eng: "Engenharia",
+    m_prog2: "Programável",
+    cat_general: "Geral",
+    cat_science: "Ciência",
+    cat_finance: "Finanças",
+    cat_tools: "Ferramentas",
+    cat_special: "Especial",
+  },
+  fr: {
+    search: "Chercher un module…",
+    tour_btn: "❓ Tour",
+    tour_skip: "Passer",
+    tour_next: "Suivant →",
+    tour_finish: "Terminer",
+    m_basic: "Basique",
+    m_sci: "Scientifique",
+    m_trig: "Trigonométrique",
+    m_fin: "Financière",
+    m_stat: "Statistique",
+    m_alg: "Algèbre",
+    m_graph: "Graphique",
+    m_matrix: "Matricielle",
+    m_frac: "Fractions",
+    m_pct: "Pourcentage",
+    m_conv: "Conversion",
+    m_dates: "Dates & Âge",
+    m_loans: "Prêts",
+    m_mort: "Hypothèque",
+    m_tax: "Impôts",
+    m_health: "Santé",
+    m_phys: "Physique",
+    m_chem: "Chimie",
+    m_prob: "Probabilité",
+    m_logic: "Logique / Booléen",
+    m_prog: "Programmation",
+    m_costs: "Coûts & Ventes",
+    m_actuar: "Actuariel",
+    m_const: "Construction",
+    m_edu: "Enfants",
+    m_symb: "Symbolique",
+    m_templ: "Modèles",
+    m_doom: "Horloge de l'Apocalypse",
+    m_acc: "Comptable",
+    m_eng: "Ingénierie",
+    m_prog2: "Programmable",
+    cat_general: "Général",
+    cat_science: "Science",
+    cat_finance: "Finance",
+    cat_tools: "Outils",
+    cat_special: "Spécial",
+  }
+};
+
+let lang = 'es';
+function t(k) { return (T[lang] && T[lang][k]) || (T.es[k]) || k; }
+
+// ============================================================
+// MODULES REGISTRY
+// ============================================================
+const MODULES = [
+  { id:'basic',  icon:'🧮', key:'m_basic',  cat:'cat_general', render: renderBasic },
+  { id:'sci',    icon:'🔬', key:'m_sci',    cat:'cat_general', render: renderSci },
+  { id:'trig',   icon:'📐', key:'m_trig',   cat:'cat_science', render: renderTrig },
+  { id:'eng',    icon:'⚙️', key:'m_eng',    cat:'cat_science', render: renderEng },
+  { id:'prog2',  icon:'📟', key:'m_prog2',  cat:'cat_general', render: renderProg2 },
+  { id:'fin',    icon:'💹', key:'m_fin',    cat:'cat_finance', render: renderFin },
+  { id:'acc',    icon:'📊', key:'m_acc',    cat:'cat_finance', render: renderAcc },
+  { id:'loans',  icon:'🏦', key:'m_loans',  cat:'cat_finance', render: renderLoans },
+  { id:'mort',   icon:'🏠', key:'m_mort',   cat:'cat_finance', render: renderMort },
+  { id:'tax',    icon:'🧾', key:'m_tax',    cat:'cat_finance', render: renderTax },
+  { id:'costs',  icon:'🛒', key:'m_costs',  cat:'cat_finance', render: renderCosts },
+  { id:'actuar', icon:'📉', key:'m_actuar', cat:'cat_finance', render: renderActuar },
+  { id:'stat',   icon:'📈', key:'m_stat',   cat:'cat_science', render: renderStat },
+  { id:'alg',    icon:'🔣', key:'m_alg',    cat:'cat_science', render: renderAlg },
+  { id:'matrix', icon:'⬛', key:'m_matrix', cat:'cat_science', render: renderMatrix },
+  { id:'prob',   icon:'🎲', key:'m_prob',   cat:'cat_science', render: renderProb },
+  { id:'phys',   icon:'⚛️', key:'m_phys',   cat:'cat_science', render: renderPhys },
+  { id:'chem',   icon:'🧪', key:'m_chem',   cat:'cat_science', render: renderChem },
+  { id:'logic',  icon:'💡', key:'m_logic',  cat:'cat_science', render: renderLogic },
+  { id:'prog',   icon:'💻', key:'m_prog',   cat:'cat_science', render: renderProg },
+  { id:'symb',   icon:'∫',  key:'m_symb',   cat:'cat_science', render: renderSymb },
+  { id:'graph',  icon:'📉', key:'m_graph',  cat:'cat_tools',   render: renderGraph },
+  { id:'frac',   icon:'½',  key:'m_frac',   cat:'cat_tools',   render: renderFrac },
+  { id:'pct',    icon:'%',  key:'m_pct',    cat:'cat_tools',   render: renderPct },
+  { id:'conv',   icon:'🔄', key:'m_conv',   cat:'cat_tools',   render: renderConv },
+  { id:'dates',  icon:'📅', key:'m_dates',  cat:'cat_tools',   render: renderDates },
+  { id:'health', icon:'❤️', key:'m_health', cat:'cat_tools',   render: renderHealth },
+  { id:'const',  icon:'🏗️', key:'m_const',  cat:'cat_tools',   render: renderConst },
+  { id:'edu',    icon:'🎓', key:'m_edu',    cat:'cat_tools',   render: renderEdu },
+  { id:'templ',  icon:'📋', key:'m_templ',  cat:'cat_tools',   render: renderTempl },
+  { id:'doom',   icon:'🕰️', key:'m_doom',   cat:'cat_special', render: renderDoom },
+];
+
+let activeModule = 'basic';
+
+// ============================================================
+// SIDEBAR BUILD
+// ============================================================
+function buildSidebar() {
+  // Languages
+  const lr = document.getElementById('lang-row');
+  lr.innerHTML = ['es','en','pt','fr'].map(l =>
+    `<button class="lang-btn ${l===lang?'active':''}" onclick="setLang('${l}')">${l.toUpperCase()}</button>`
+  ).join('');
+
+  // Module list
+  const ml = document.getElementById('module-list');
+  const categories = [...new Set(MODULES.map(m => m.cat))];
+  const search = document.getElementById('module-search').value.toLowerCase();
+
+  let html = '';
+  for (const cat of categories) {
+    const items = MODULES.filter(m => m.cat === cat && (
+      !search || t(m.key).toLowerCase().includes(search)
+    ));
+    if (!items.length) continue;
+    html += `<div class="module-category">${t(cat)}</div>`;
+    for (const m of items) {
+      html += `<div class="module-item ${m.id===activeModule?'active':''}" onclick="loadModule('${m.id}')">
+        <span class="icon">${m.icon}</span> ${t(m.key)}
+      </div>`;
+    }
+  }
+  ml.innerHTML = html;
+}
+
+function filterModules(v) { buildSidebar(); }
+
+function setLang(l) {
+  lang = l;
+  document.getElementById('module-search').placeholder = t('search');
+  document.getElementById('tour-btn').textContent = t('tour_btn');
+  buildSidebar();
+  loadModule(activeModule);
+}
+
+function loadModule(id) {
+  activeModule = id;
+  const mod = MODULES.find(m => m.id === id);
+  if (!mod) return;
+  document.getElementById('module-title').textContent = `${mod.icon} ${t(mod.key)}`;
+  const content = document.getElementById('module-content');
+  content.innerHTML = '';
+  mod.render(content);
+  buildSidebar();
+  closeSidebar();
+}
+
+function toggleSidebar() {
+  document.getElementById('sidebar').classList.toggle('open');
+  document.getElementById('sidebar-overlay').classList.toggle('visible');
+}
+function closeSidebar() {
+  document.getElementById('sidebar').classList.remove('open');
+  document.getElementById('sidebar-overlay').classList.remove('visible');
+}
+
+// ============================================================
+// BASIC CALCULATOR
+// ============================================================
+let basicExpr = '', basicResult = '0', basicNewNum = true;
+
+function renderBasic(el) {
+  el.innerHTML = `
+    <div class="calc-display">
+      <div class="calc-expression" id="b-expr"></div>
+      <div class="calc-result" id="b-res">0</div>
+    </div>
+    <div class="calc-grid calc-grid-4" id="b-grid"></div>
+  `;
+  const btns = [
+    ['AC','±','%','÷'],
+    ['7','8','9','×'],
+    ['4','5','6','−'],
+    ['1','2','3','+'],
+    ['0','','.',  '='],
+  ];
+  const grid = el.querySelector('#b-grid');
+  btns.forEach((row, ri) => row.forEach((b, ci) => {
+    if (b === '') { grid.innerHTML += '<div></div>'; return; }
+    const cls = b === '0' ? 'btn-num btn-wide' :
+      ['÷','×','−','+'].includes(b) ? 'btn-op' :
+      b === '=' ? 'btn-eq' :
+      ['AC','±','%'].includes(b) ? 'btn-fn' : 'btn-num';
+    const d = document.createElement('div');
+    d.className = `btn ${cls}`;
+    d.textContent = b;
+    d.onclick = () => basicPress(b);
+    grid.appendChild(d);
+  }));
+}
+
+function basicPress(v) {
+  const resEl = document.getElementById('b-res');
+  const exprEl = document.getElementById('b-expr');
+  if (v === 'AC') { basicExpr = ''; basicResult = '0'; basicNewNum = true; }
+  else if (v === '±') { basicResult = String(-parseFloat(basicResult) || 0); basicNewNum = false; }
+  else if (v === '%') { basicResult = String(parseFloat(basicResult) / 100); basicNewNum = false; }
+  else if (['÷','×','−','+'].includes(v)) {
+    basicExpr = (basicExpr || '') + basicResult + ' ' + v + ' ';
+    basicNewNum = true;
+  } else if (v === '=') {
+    if (!basicExpr) { basicNewNum = true; return; }
+    const full = basicExpr + basicResult;
+    const safe = full.replace(/÷/g,'/').replace(/×/g,'*').replace(/−/g,'-');
+    try {
+      const r = Function('"use strict"; return (' + safe + ')')();
+      basicResult = isFinite(r) ? fmtNum(r) : 'Error';
+    } catch { basicResult = 'Error'; }
+    basicExpr = '';
+    basicNewNum = true;
+  } else if (v === '.') {
+    if (basicNewNum) { basicResult = '0.'; basicNewNum = false; }
+    else if (!basicResult.includes('.')) basicResult += '.';
+  } else {
+    if (basicNewNum) { basicResult = v; basicNewNum = false; }
+    else { basicResult = basicResult === '0' ? v : basicResult + v; }
+  }
+  if (resEl) resEl.textContent = basicResult;
+  if (exprEl) exprEl.textContent = basicExpr;
+}
+
+// ============================================================
+// SCIENTIFIC CALCULATOR
+// ============================================================
+let sciExpr = '', sciResult = '0', sciMode = 'DEG', sciNewNum = true, sciMemory = 0;
+
+function renderSci(el) {
+  el.innerHTML = `
+    <div class="calc-display">
+      <div class="calc-expression" style="display:flex;justify-content:space-between">
+        <span id="sci-mode" style="color:var(--accent);font-size:12px;cursor:pointer" onclick="sciToggleMode()">${sciMode}</span>
+        <span id="sci-expr" style="color:var(--text3)"></span>
+      </div>
+      <div class="calc-result" id="sci-res">0</div>
+    </div>
+    <div class="calc-grid calc-grid-5" id="sci-grid"></div>
+  `;
+  const rows = [
+    ['MC','MR','M+','M−','MS'],
+    ['2ⁿᵈ','π','e','⌫','AC'],
+    ['x²','x³','xʸ','eˣ','10ˣ'],
+    ['√','∛','ʸ√','ln','log'],
+    ['(',')',  '!','n!','mod'],
+    ['sin','cos','tan','sin⁻¹','cos⁻¹'],
+    ['tan⁻¹','sinh','cosh','tanh','EE'],
+    ['7','8','9','÷','%'],
+    ['4','5','6','×','1/x'],
+    ['1','2','3','−','±'],
+    ['0','.','π','+',' ='],
+  ];
+  const grid = el.querySelector('#sci-grid');
+  rows.forEach(row => row.forEach(b => {
+    const d = document.createElement('div');
+    const ops = ['÷','×','−','+'];
+    const fns = ['sin','cos','tan','sin⁻¹','cos⁻¹','tan⁻¹','sinh','cosh','tanh',
+                 'ln','log','√','∛','ʸ√','eˣ','10ˣ','x²','x³','xʸ','1/x',
+                 '(',')',  '!','n!','mod','EE','2ⁿᵈ','π','e','MC','MR','M+','M−','MS'];
+    d.className = `btn ${b==='='?'btn-eq':b==='AC'||b==='⌫'?'btn-clr':ops.includes(b)?'btn-op':fns.includes(b)?'btn-fn':'btn-num'}`;
+    d.textContent = b;
+    d.onclick = () => sciPress(b);
+    grid.appendChild(d);
+  }));
+}
+
+function sciToggleMode() {
+  sciMode = sciMode === 'DEG' ? 'RAD' : sciMode === 'RAD' ? 'GRAD' : 'DEG';
+  const el = document.getElementById('sci-mode');
+  if (el) el.textContent = sciMode;
+}
+
+function toRad(v) {
+  if (sciMode === 'DEG') return v * Math.PI / 180;
+  if (sciMode === 'GRAD') return v * Math.PI / 200;
+  return v;
+}
+
+function sciPress(v) {
+  const resEl = document.getElementById('sci-res');
+  const exprEl = document.getElementById('sci-expr');
+  const cur = parseFloat(sciResult) || 0;
+
+  const unary = {
+    'sin': x => Math.sin(toRad(x)), 'cos': x => Math.cos(toRad(x)),
+    'tan': x => Math.tan(toRad(x)),
+    'sin⁻¹': x => { const r=Math.asin(x); return sciMode==='DEG'?r*180/Math.PI:sciMode==='GRAD'?r*200/Math.PI:r; },
+    'cos⁻¹': x => { const r=Math.acos(x); return sciMode==='DEG'?r*180/Math.PI:sciMode==='GRAD'?r*200/Math.PI:r; },
+    'tan⁻¹': x => { const r=Math.atan(x); return sciMode==='DEG'?r*180/Math.PI:sciMode==='GRAD'?r*200/Math.PI:r; },
+    'sinh': x=>Math.sinh(x), 'cosh': x=>Math.cosh(x), 'tanh': x=>Math.tanh(x),
+    'ln': x=>Math.log(x), 'log': x=>Math.log10(x),
+    '√': x=>Math.sqrt(x), '∛': x=>Math.cbrt(x),
+    'eˣ': x=>Math.exp(x), '10ˣ': x=>Math.pow(10,x),
+    'x²': x=>x*x, 'x³': x=>x*x*x,
+    '1/x': x=>1/x,
+    'n!': x=>{ let r=1; for(let i=2;i<=Math.round(x);i++) r*=i; return r; },
+    '!': x=>{ let r=1; for(let i=2;i<=Math.round(x);i++) r*=i; return r; },
+  };
+
+  if (unary[v]) {
+    const r = unary[v](cur);
+    sciResult = fmtNum(r);
+    sciNewNum = true;
+  } else if (v === 'π') { sciResult = fmtNum(Math.PI); sciNewNum = false; }
+  else if (v === 'e') { sciResult = fmtNum(Math.E); sciNewNum = false; }
+  else if (v === 'AC') { sciExpr=''; sciResult='0'; sciNewNum=true; }
+  else if (v === '⌫') { sciResult = sciResult.length > 1 ? sciResult.slice(0,-1) : '0'; }
+  else if (v === 'MC') sciMemory = 0;
+  else if (v === 'MR') { sciResult = fmtNum(sciMemory); sciNewNum = false; }
+  else if (v === 'M+') sciMemory += cur;
+  else if (v === 'M−') sciMemory -= cur;
+  else if (v === 'MS') sciMemory = cur;
+  else if (v === 'EE') { sciExpr += sciResult + ' × 10^'; sciNewNum = true; }
+  else if (v === '±') { sciResult = String(-cur); }
+  else if (v === '%') { sciResult = String(cur/100); sciNewNum = false; }
+  else if (v === 'xʸ' || v === 'ʸ√' || v === 'mod') {
+    const op = v==='xʸ'?'^':v==='ʸ√'?'Y√':'%';
+    sciExpr += sciResult + ' ' + op + ' ';
+    sciNewNum = true;
+  }
+  else if (['÷','×','−','+'].includes(v)) {
+    sciExpr += sciResult + ' ' + v + ' ';
+    sciNewNum = true;
+  } else if (v === '=' || v === ' =') {
+    const full = sciExpr + sciResult;
+    const safe = full.replace(/÷/g,'/').replace(/×/g,'*').replace(/−/g,'-')
+      .replace(/\^/g,'**').replace(/(\d+)\s*Y√\s*(\d+)/g,'Math.pow($2,1/$1)')
+      .replace(/(\d+\.?\d*)\s*%\s*(\d+\.?\d*)/g,'(($1)%($2))');
+    try { sciResult = fmtNum(Function('"use strict";return('+safe+')')());
+    } catch { sciResult = 'Error'; }
+    sciExpr = ''; sciNewNum = true;
+  } else if (v === '(' || v === ')') {
+    sciExpr += v; 
+  } else {
+    if (sciNewNum) { sciResult = v; sciNewNum = false; }
+    else { sciResult = sciResult === '0' ? v : sciResult + v; }
+  }
+  if (resEl) resEl.textContent = sciResult;
+  if (exprEl) exprEl.textContent = sciExpr;
+}
+
+// ============================================================
+// TRIGONOMETRIC
+// ============================================================
+function renderTrig(el) {
+  el.innerHTML = `
+    <div class="form-section">
+      <h3>Entrada</h3>
+      <div class="form-row">
+        <label>Ángulo</label>
+        <input type="number" id="trig-angle" value="45" oninput="calcTrig()">
+      </div>
+      <div class="form-row">
+        <label>Unidad</label>
+        <select id="trig-unit" onchange="calcTrig()">
+          <option value="deg">Grados (°)</option>
+          <option value="rad">Radianes (rad)</option>
+          <option value="grad">Gradianes</option>
+        </select>
+      </div>
+    </div>
+    <div id="trig-results" class="results-grid"></div>
+    <div class="form-section" style="margin-top:8px">
+      <h3>Inversa — Ingresa un valor (−1 a 1)</h3>
+      <div class="form-row"><label>Valor</label><input type="number" id="trig-inv-val" value="0.5" step="0.01" oninput="calcTrigInv()"></div>
+      <div id="trig-inv-results"></div>
+    </div>
+  `;
+  calcTrig(); calcTrigInv();
+}
+
+function calcTrig() {
+  const a = parseFloat(document.getElementById('trig-angle').value) || 0;
+  const u = document.getElementById('trig-unit').value;
+  const rad = u==='deg'?a*Math.PI/180:u==='grad'?a*Math.PI/200:a;
+  const pairs = [
+    ['sin', Math.sin(rad)], ['cos', Math.cos(rad)], ['tan', Math.tan(rad)],
+    ['csc', 1/Math.sin(rad)], ['sec', 1/Math.cos(rad)], ['cot', 1/Math.tan(rad)],
+    ['sinh', Math.sinh(rad)], ['cosh', Math.cosh(rad)], ['tanh', Math.tanh(rad)],
+  ];
+  document.getElementById('trig-results').innerHTML = pairs.map(([n,v]) =>
+    `<div class="result-box"><div class="r-label">${n}</div><div class="r-value">${isFinite(v)?fmtNum(v):'∞'}</div></div>`
+  ).join('');
+}
+
+function calcTrigInv() {
+  const v = parseFloat(document.getElementById('trig-inv-val').value);
+  const u = document.getElementById('trig-unit').value || 'deg';
+  function conv(r) { return u==='deg'?r*180/Math.PI:u==='grad'?r*200/Math.PI:r; }
+  const pairs = [
+    ['arcsin', conv(Math.asin(v))], ['arccos', conv(Math.acos(v))], ['arctan', conv(Math.atan(v))]
+  ];
+  document.getElementById('trig-inv-results').innerHTML = `<div class="results-grid">${
+    pairs.map(([n,r]) => `<div class="result-box"><div class="r-label">${n}</div><div class="r-value">${isNaN(r)?'Indefinido':fmtNum(r)}</div></div>`).join('')
+  }</div>`;
+}
+
+// ============================================================
+// ENGINEERING
+// ============================================================
+function renderEng(el) {
+  el.innerHTML = `
+    <div class="form-section">
+      <h3>Conversión de Potencias (dB / Lineal)</h3>
+      <div class="form-row"><label>Valor (dB)</label><input type="number" id="eng-db" value="20" oninput="calcEng()"></div>
+      <div id="eng-lin-r" class="result-box"><div class="r-label">Lineal</div><div class="r-value" id="eng-lin">—</div></div>
+    </div>
+    <div class="form-section">
+      <h3>Divisor de Voltaje</h3>
+      <div class="form-row"><label>Vin (V)</label><input type="number" id="eng-vin" value="12" oninput="calcEng()"></div>
+      <div class="form-row"><label>R1 (Ω)</label><input type="number" id="eng-r1" value="1000" oninput="calcEng()"></div>
+      <div class="form-row"><label>R2 (Ω)</label><input type="number" id="eng-r2" value="2000" oninput="calcEng()"></div>
+      <div class="result-box"><div class="r-label">Vout</div><div class="r-value" id="eng-vout">—</div></div>
+    </div>
+    <div class="form-section">
+      <h3>Ley de Ohm</h3>
+      <div class="form-row"><label>Voltaje V (V)</label><input type="number" id="eng-v" value="12" oninput="calcEng()"></div>
+      <div class="form-row"><label>Corriente I (A)</label><input type="number" id="eng-i" value="2" oninput="calcEng()"></div>
+      <div class="form-row"><label>Resistencia R (Ω)</label><input type="number" id="eng-r" value="" oninput="calcEng()" placeholder="(calculada)"></div>
+      <div class="results-grid">
+        <div class="result-box"><div class="r-label">R (Ω)</div><div class="r-value" id="eng-ohm-r">—</div></div>
+        <div class="result-box"><div class="r-label">Potencia P (W)</div><div class="r-value" id="eng-ohm-p">—</div></div>
+      </div>
+    </div>
+  `;
+  calcEng();
+}
+
+function calcEng() {
+  const db = parseFloat(document.getElementById('eng-db')?.value)||0;
+  const lin = Math.pow(10, db/20);
+  if(document.getElementById('eng-lin')) document.getElementById('eng-lin').textContent = fmtNum(lin);
+  const vin = parseFloat(document.getElementById('eng-vin')?.value)||0;
+  const r1 = parseFloat(document.getElementById('eng-r1')?.value)||1;
+  const r2 = parseFloat(document.getElementById('eng-r2')?.value)||1;
+  const vout = vin * r2 / (r1+r2);
+  if(document.getElementById('eng-vout')) document.getElementById('eng-vout').textContent = fmtNum(vout)+' V';
+  const v = parseFloat(document.getElementById('eng-v')?.value)||0;
+  const i = parseFloat(document.getElementById('eng-i')?.value)||0;
+  if(document.getElementById('eng-ohm-r')) document.getElementById('eng-ohm-r').textContent = i?fmtNum(v/i)+' Ω':'—';
+  if(document.getElementById('eng-ohm-p')) document.getElementById('eng-ohm-p').textContent = fmtNum(v*i)+' W';
+}
+
+// ============================================================
+// PROGRAMMABLE
+// ============================================================
+let prog2Formulas = JSON.parse(localStorage.getItem('p2f')||'[]');
+function renderProg2(el) {
+  el.innerHTML = `
+    <div class="form-section">
+      <h3>Nueva Fórmula</h3>
+      <div class="form-row"><label>Nombre</label><input type="text" id="p2-name" placeholder="Ej: Área círculo"></div>
+      <div class="form-row"><label>Expresión JS</label><input type="text" id="p2-expr" placeholder="Math.PI * r * r"></div>
+      <div class="form-row"><label>Variables (csv)</label><input type="text" id="p2-vars" placeholder="r"></div>
+      <div class="action-row"><button class="action-btn" onclick="saveFormula()">Guardar Fórmula</button></div>
+    </div>
+    <div id="p2-saved"></div>
+  `;
+  renderSavedFormulas();
+}
+
+function saveFormula() {
+  const n = document.getElementById('p2-name').value.trim();
+  const e = document.getElementById('p2-expr').value.trim();
+  const v = document.getElementById('p2-vars').value.trim();
+  if (!n || !e) return;
+  prog2Formulas.push({ name: n, expr: e, vars: v.split(',').map(x=>x.trim()).filter(Boolean) });
+  localStorage.setItem('p2f', JSON.stringify(prog2Formulas));
+  renderSavedFormulas();
+}
+
+function renderSavedFormulas() {
+  const c = document.getElementById('p2-saved');
+  if (!c) return;
+  if (!prog2Formulas.length) { c.innerHTML = '<p class="note" style="text-align:center;padding:16px">No hay fórmulas guardadas.</p>'; return; }
+  c.innerHTML = prog2Formulas.map((f, fi) => `
+    <div class="form-section" style="margin-bottom:10px">
+      <h3>${f.name} <span style="float:right;cursor:pointer;color:var(--red)" onclick="deleteFormula(${fi})">✕</span></h3>
+      <div class="calc-expression" style="background:var(--bg);padding:8px;border-radius:8px;margin-bottom:8px;font-family:var(--mono);color:var(--accent)">${f.expr}</div>
+      ${f.vars.map(v=>`<div class="form-row"><label>${v}</label><input type="number" id="p2-v-${fi}-${v}" value="1" oninput="evalFormula(${fi})"></div>`).join('')}
+      <div class="result-box" style="margin-top:8px"><div class="r-label">Resultado</div><div class="r-value" id="p2-r-${fi}">—</div></div>
+    </div>
+  `).join('');
+  prog2Formulas.forEach((_,i)=>evalFormula(i));
+}
+
+function evalFormula(fi) {
+  const f = prog2Formulas[fi];
+  const args = {}; f.vars.forEach(v => { const el = document.getElementById(`p2-v-${fi}-${v}`); args[v] = el ? parseFloat(el.value)||0 : 0; });
+  try {
+    const fn = new Function(...Object.keys(args), '"use strict"; return (' + f.expr + ')');
+    const r = fn(...Object.values(args));
+    document.getElementById(`p2-r-${fi}`).textContent = fmtNum(r);
+  } catch { document.getElementById(`p2-r-${fi}`).textContent = 'Error'; }
+}
+
+function deleteFormula(fi) {
+  prog2Formulas.splice(fi,1);
+  localStorage.setItem('p2f', JSON.stringify(prog2Formulas));
+  renderSavedFormulas();
+}
+
+// ============================================================
+// FINANCIAL (TVM)
+// ============================================================
+function renderFin(el) {
+  el.innerHTML = `
+    <div class="form-section">
+      <h3>Valor del Dinero en el Tiempo (TVM)</h3>
+      <div class="form-row"><label>Periodos (N)</label><input type="number" id="f-n" value="10"></div>
+      <div class="form-row"><label>Tasa por periodo (%)</label><input type="number" id="f-r" value="5" step="0.01"></div>
+      <div class="form-row"><label>Valor presente (PV)</label><input type="number" id="f-pv" value="0"></div>
+      <div class="form-row"><label>Pago por periodo (PMT)</label><input type="number" id="f-pmt" value="100"></div>
+      <div class="form-row"><label>Pago al inicio (1) / fin (0)</label><input type="number" id="f-type" value="0" min="0" max="1"></div>
+      <div class="action-row">
+        <button class="action-btn" onclick="calcTVM('fv')">Calcular FV</button>
+        <button class="action-btn secondary" onclick="calcTVM('pv')">Calcular PV</button>
+        <button class="action-btn secondary" onclick="calcTVM('pmt')">Calcular PMT</button>
+      </div>
+    </div>
+    <div id="fin-results"></div>
+    <div class="form-section">
+      <h3>Rentabilidad</h3>
+      <div class="form-row"><label>Inversión inicial</label><input type="number" id="f-inv" value="1000"></div>
+      <div class="form-row"><label>Retorno final</label><input type="number" id="f-ret" value="1500"></div>
+      <div class="form-row"><label>Años</label><input type="number" id="f-yr" value="3"></div>
+      <div class="action-row"><button class="action-btn" onclick="calcROI()">Calcular ROI / CAGR</button></div>
+      <div id="fin-roi"></div>
+    </div>
+  `;
+}
+
+function calcTVM(solve) {
+  const N = parseFloat(document.getElementById('f-n').value)||0;
+  const r = (parseFloat(document.getElementById('f-r').value)||0)/100;
+  const PV = parseFloat(document.getElementById('f-pv').value)||0;
+  const PMT = parseFloat(document.getElementById('f-pmt').value)||0;
+  const type = parseFloat(document.getElementById('f-type').value)||0;
+  let result = 0, label = '';
+
+  if (solve === 'fv') {
+    label = 'Valor Futuro (FV)';
+    if (r === 0) result = -PV - PMT * N;
+    else result = -PV * Math.pow(1+r,N) - PMT * (1+(type*r)) * (Math.pow(1+r,N)-1)/r;
+  } else if (solve === 'pv') {
+    label = 'Valor Presente (PV)';
+    const fv = parseFloat(prompt('FV:', '0')) || 0;
+    if (r === 0) result = -fv - PMT * N;
+    else result = -(fv / Math.pow(1+r,N)) - PMT * (1+(type*r)) * (1 - Math.pow(1+r,-N)) / r;
+  } else if (solve === 'pmt') {
+    label = 'Pago Periódico (PMT)';
+    const fv = parseFloat(prompt('FV:', '0')) || 0;
+    if (r === 0) result = -(PV + fv) / N;
+    else result = -(PV * Math.pow(1+r,N) + fv) / ((1+(type*r)) * (Math.pow(1+r,N)-1)/r);
+  }
+
+  document.getElementById('fin-results').innerHTML = `
+    <div class="result-box">
+      <div class="r-label">${label}</div>
+      <div class="r-value">${fmt$(result)}</div>
+    </div>`;
+}
+
+function calcROI() {
+  const inv = parseFloat(document.getElementById('f-inv').value)||1;
+  const ret = parseFloat(document.getElementById('f-ret').value)||0;
+  const yr  = parseFloat(document.getElementById('f-yr').value)||1;
+  const roi = ((ret - inv) / inv) * 100;
+  const cagr = (Math.pow(ret/inv, 1/yr) - 1) * 100;
+  document.getElementById('fin-roi').innerHTML = `<div class="results-grid">
+    <div class="result-box"><div class="r-label">ROI Total</div><div class="r-value">${fmtNum(roi)}%</div></div>
+    <div class="result-box"><div class="r-label">CAGR Anual</div><div class="r-value">${fmtNum(cagr)}%</div></div>
+  </div>`;
+}
+
+// ============================================================
+// ACCOUNTING
+// ============================================================
+function renderAcc(el) {
+  el.innerHTML = `
+    <div class="form-section">
+      <h3>Margen y Markup</h3>
+      <div class="form-row"><label>Costo</label><input type="number" id="ac-cost" value="100" oninput="calcAcc()"></div>
+      <div class="form-row"><label>Precio de venta</label><input type="number" id="ac-price" value="150" oninput="calcAcc()"></div>
+    </div>
+    <div class="results-grid" id="acc-r"></div>
+    <div class="form-section" style="margin-top:8px">
+      <h3>Balance Simple</h3>
+      <div class="form-row"><label>Activos</label><input type="number" id="ac-assets" value="0" oninput="calcBalance()"></div>
+      <div class="form-row"><label>Pasivos</label><input type="number" id="ac-liab" value="0" oninput="calcBalance()"></div>
+      <div id="acc-bal"></div>
+    </div>
+  `;
+  calcAcc(); calcBalance();
+}
+
+function calcAcc() {
+  const c = parseFloat(document.getElementById('ac-cost')?.value)||0;
+  const p = parseFloat(document.getElementById('ac-price')?.value)||0;
+  const margin = p ? ((p-c)/p*100) : 0;
+  const markup = c ? ((p-c)/c*100) : 0;
+  const profit = p - c;
+  document.getElementById('acc-r').innerHTML = `
+    <div class="result-box"><div class="r-label">Utilidad</div><div class="r-value">${fmt$(profit)}</div></div>
+    <div class="result-box"><div class="r-label">Margen</div><div class="r-value">${fmtNum(margin)}%</div></div>
+    <div class="result-box"><div class="r-label">Markup</div><div class="r-value">${fmtNum(markup)}%</div></div>
+    <div class="result-box"><div class="r-label">ROI</div><div class="r-value">${c?fmtNum(profit/c*100):'—'}%</div></div>
+  `;
+}
+
+function calcBalance() {
+  const a = parseFloat(document.getElementById('ac-assets')?.value)||0;
+  const l = parseFloat(document.getElementById('ac-liab')?.value)||0;
+  const eq = a - l;
+  document.getElementById('acc-bal').innerHTML = `
+    <div class="result-box"><div class="r-label">Patrimonio (Activos − Pasivos)</div><div class="r-value" style="color:${eq>=0?'var(--green)':'var(--red)'}">${fmt$(eq)}</div></div>`;
+}
+
+// ============================================================
+// LOANS
+// ============================================================
+function renderLoans(el) {
+  el.innerHTML = `
+    <div class="form-section">
+      <h3>Calculadora de Préstamos</h3>
+      <div class="form-row"><label>Monto del préstamo</label><input type="number" id="l-amount" value="10000"></div>
+      <div class="form-row"><label>Tasa anual (%)</label><input type="number" id="l-rate" value="12" step="0.01"></div>
+      <div class="form-row"><label>Plazo (meses)</label><input type="number" id="l-term" value="24"></div>
+      <div class="action-row">
+        <button class="action-btn" onclick="calcLoan()">Calcular</button>
+        <button class="action-btn secondary" onclick="renderLoanTable()">Ver tabla</button>
+      </div>
+    </div>
+    <div id="loan-results"></div>
+    <div id="loan-table"></div>
+  `;
+}
+
+function calcLoan() {
+  const P = parseFloat(document.getElementById('l-amount').value)||0;
+  const R = (parseFloat(document.getElementById('l-rate').value)||0)/100/12;
+  const N = parseFloat(document.getElementById('l-term').value)||1;
+  const pmt = R ? P * R * Math.pow(1+R,N) / (Math.pow(1+R,N)-1) : P/N;
+  const total = pmt * N;
+  const interest = total - P;
+  document.getElementById('loan-results').innerHTML = `
+    <div class="results-grid">
+      <div class="result-box"><div class="r-label">Cuota mensual</div><div class="r-value">${fmt$(pmt)}</div></div>
+      <div class="result-box"><div class="r-label">Total pagado</div><div class="r-value">${fmt$(total)}</div></div>
+      <div class="result-box"><div class="r-label">Total intereses</div><div class="r-value" style="color:var(--red)">${fmt$(interest)}</div></div>
+      <div class="result-box"><div class="r-label">Costo/mes interés</div><div class="r-value">${fmt$(interest/N)}</div></div>
+    </div>`;
+}
+
+function renderLoanTable() {
+  calcLoan();
+  const P = parseFloat(document.getElementById('l-amount').value)||0;
+  const R = (parseFloat(document.getElementById('l-rate').value)||0)/100/12;
+  const N = parseFloat(document.getElementById('l-term').value)||1;
+  const pmt = R ? P * R * Math.pow(1+R,N) / (Math.pow(1+R,N)-1) : P/N;
+  let bal = P, rows = '';
+  for (let i=1;i<=Math.min(N,60);i++) {
+    const int_ = bal * R;
+    const prin = pmt - int_;
+    bal -= prin;
+    rows += `<tr><td>${i}</td><td>${fmt$(pmt)}</td><td>${fmt$(prin)}</td><td>${fmt$(int_)}</td><td>${fmt$(Math.max(0,bal))}</td></tr>`;
+  }
+  document.getElementById('loan-table').innerHTML = `
+    <div style="overflow-x:auto;margin-top:10px">
+      <table class="data-table">
+        <thead><tr><th>#</th><th>Cuota</th><th>Capital</th><th>Interés</th><th>Saldo</th></tr></thead>
+        <tbody>${rows}</tbody>
+      </table>
+      ${N>60?`<p class="note" style="padding:8px">Mostrando primeros 60 de ${N} periodos.</p>`:''}
+    </div>`;
+}
+
+// ============================================================
+// MORTGAGE
+// ============================================================
+function renderMort(el) {
+  el.innerHTML = `
+    <div class="form-section">
+      <h3>Crédito Hipotecario</h3>
+      <div class="form-row"><label>Valor del inmueble</label><input type="number" id="mo-val" value="200000"></div>
+      <div class="form-row"><label>Cuota inicial (%)</label><input type="number" id="mo-down" value="20" step="1" oninput="calcMort()"></div>
+      <div class="form-row"><label>Tasa anual (%)</label><input type="number" id="mo-rate" value="8" step="0.01"></div>
+      <div class="form-row"><label>Plazo (años)</label><input type="number" id="mo-yrs" value="20"></div>
+      <div class="action-row"><button class="action-btn" onclick="calcMort()">Calcular</button></div>
+    </div>
+    <div id="mort-results"></div>
+  `;
+}
+
+function calcMort() {
+  const val = parseFloat(document.getElementById('mo-val')?.value)||0;
+  const down = (parseFloat(document.getElementById('mo-down')?.value)||0)/100;
+  const rate = (parseFloat(document.getElementById('mo-rate')?.value)||0)/100/12;
+  const n = (parseFloat(document.getElementById('mo-yrs')?.value)||1)*12;
+  const P = val * (1-down);
+  const pmt = rate ? P * rate * Math.pow(1+rate,n) / (Math.pow(1+rate,n)-1) : P/n;
+  const total = pmt*n;
+  const interest = total - P;
+  document.getElementById('mort-results').innerHTML = `<div class="results-grid">
+    <div class="result-box"><div class="r-label">Préstamo</div><div class="r-value">${fmt$(P)}</div></div>
+    <div class="result-box"><div class="r-label">Cuota mensual</div><div class="r-value">${fmt$(pmt)}</div></div>
+    <div class="result-box"><div class="r-label">Total pagado</div><div class="r-value">${fmt$(total)}</div></div>
+    <div class="result-box"><div class="r-label">Total intereses</div><div class="r-value" style="color:var(--red)">${fmt$(interest)}</div></div>
+  </div>`;
+}
+
+// ============================================================
+// TAX
+// ============================================================
+function renderTax(el) {
+  el.innerHTML = `
+    <div class="form-section">
+      <h3>IVA / Impuesto al Valor Agregado</h3>
+      <div class="form-row"><label>Base gravable</label><input type="number" id="tx-base" value="1000" oninput="calcTax()"></div>
+      <div class="form-row"><label>Tasa IVA (%)</label><input type="number" id="tx-iva" value="19" step="0.1" oninput="calcTax()"></div>
+    </div>
+    <div class="results-grid" id="tax-r"></div>
+    <div class="form-section" style="margin-top:8px">
+      <h3>Precio con IVA incluido → Extraer base</h3>
+      <div class="form-row"><label>Precio total (con IVA)</label><input type="number" id="tx-total" value="1190" oninput="calcTaxRev()"></div>
+      <div class="form-row"><label>Tasa IVA (%)</label><input type="number" id="tx-iva2" value="19" step="0.1" oninput="calcTaxRev()"></div>
+      <div id="tax-rev-r"></div>
+    </div>
+    <div class="form-section">
+      <h3>Retención en la Fuente</h3>
+      <div class="form-row"><label>Valor bruto</label><input type="number" id="tx-gross" value="5000" oninput="calcRetencion()"></div>
+      <div class="form-row"><label>Tasa retención (%)</label><input type="number" id="tx-ret" value="3.5" step="0.1" oninput="calcRetencion()"></div>
+      <div id="tax-ret-r"></div>
+    </div>
+  `;
+  calcTax(); calcTaxRev(); calcRetencion();
+}
+
+function calcTax() {
+  const b = parseFloat(document.getElementById('tx-base')?.value)||0;
+  const t = (parseFloat(document.getElementById('tx-iva')?.value)||0)/100;
+  document.getElementById('tax-r').innerHTML = `
+    <div class="result-box"><div class="r-label">IVA</div><div class="r-value">${fmt$(b*t)}</div></div>
+    <div class="result-box"><div class="r-label">Total con IVA</div><div class="r-value">${fmt$(b*(1+t))}</div></div>`;
+}
+
+function calcTaxRev() {
+  const tot = parseFloat(document.getElementById('tx-total')?.value)||0;
+  const t = (parseFloat(document.getElementById('tx-iva2')?.value)||0)/100;
+  const base = tot / (1+t);
+  const iva = tot - base;
+  document.getElementById('tax-rev-r').innerHTML = `<div class="results-grid">
+    <div class="result-box"><div class="r-label">Base</div><div class="r-value">${fmt$(base)}</div></div>
+    <div class="result-box"><div class="r-label">IVA</div><div class="r-value">${fmt$(iva)}</div></div>
+  </div>`;
+}
+
+function calcRetencion() {
+  const g = parseFloat(document.getElementById('tx-gross')?.value)||0;
+  const r = (parseFloat(document.getElementById('tx-ret')?.value)||0)/100;
+  document.getElementById('tax-ret-r').innerHTML = `<div class="results-grid">
+    <div class="result-box"><div class="r-label">Retención</div><div class="r-value">${fmt$(g*r)}</div></div>
+    <div class="result-box"><div class="r-label">Neto</div><div class="r-value">${fmt$(g*(1-r))}</div></div>
+  </div>`;
+}
+
+// ============================================================
+// COSTS & SALES
+// ============================================================
+function renderCosts(el) {
+  el.innerHTML = `
+    <div class="form-section">
+      <h3>Precio, Costo y Margen</h3>
+      <div class="form-row"><label>Costo unitario</label><input type="number" id="cs-cost" value="50" oninput="calcCosts()"></div>
+      <div class="form-row"><label>Margen deseado (%)</label><input type="number" id="cs-margin" value="40" oninput="calcCosts()"></div>
+      <div class="form-row"><label>Unidades a vender</label><input type="number" id="cs-units" value="100" oninput="calcCosts()"></div>
+      <div class="form-row"><label>Gastos fijos</label><input type="number" id="cs-fixed" value="1000" oninput="calcCosts()"></div>
+    </div>
+    <div class="results-grid" id="costs-r"></div>
+  `;
+  calcCosts();
+}
+
+function calcCosts() {
+  const cost = parseFloat(document.getElementById('cs-cost')?.value)||0;
+  const margin = (parseFloat(document.getElementById('cs-margin')?.value)||0)/100;
+  const units = parseFloat(document.getElementById('cs-units')?.value)||0;
+  const fixed = parseFloat(document.getElementById('cs-fixed')?.value)||0;
+  const price = margin < 1 ? cost / (1 - margin) : cost;
+  const revenue = price * units;
+  const profit = revenue - cost*units - fixed;
+  const markup = cost ? ((price-cost)/cost*100) : 0;
+  const be = price > cost ? Math.ceil(fixed / (price - cost)) : Infinity;
+  document.getElementById('costs-r').innerHTML = `
+    <div class="result-box"><div class="r-label">Precio de venta</div><div class="r-value">${fmt$(price)}</div></div>
+    <div class="result-box"><div class="r-label">Markup</div><div class="r-value">${fmtNum(markup)}%</div></div>
+    <div class="result-box"><div class="r-label">Ingreso total</div><div class="r-value">${fmt$(revenue)}</div></div>
+    <div class="result-box"><div class="r-label">Utilidad neta</div><div class="r-value" style="color:${profit>=0?'var(--green)':'var(--red)'}">${fmt$(profit)}</div></div>
+    <div class="result-box"><div class="r-label">Punto de equilibrio</div><div class="r-value">${isFinite(be)?be+' uds':'—'}</div></div>
+  `;
+}
+
+// ============================================================
+// ACTUARIAL
+// ============================================================
+function renderActuar(el) {
+  el.innerHTML = `
+    <div class="form-section">
+      <h3>Cálculo de Prima de Seguro</h3>
+      <div class="form-row"><label>Suma asegurada</label><input type="number" id="ac2-sum" value="100000"></div>
+      <div class="form-row"><label>Tasa de riesgo (%)</label><input type="number" id="ac2-risk" value="2" step="0.01"></div>
+      <div class="form-row"><label>Gastos admin (%)</label><input type="number" id="ac2-admin" value="15" step="0.01"></div>
+      <div class="form-row"><label>Utilidad esperada (%)</label><input type="number" id="ac2-util" value="10" step="0.01"></div>
+      <div class="action-row"><button class="action-btn" onclick="calcActuar()">Calcular Prima</button></div>
+    </div>
+    <div id="actuar-results"></div>
+    <div class="form-section" style="margin-top:8px">
+      <h3>Expectativa de Vida Ajustada</h3>
+      <div class="form-row"><label>Edad actual</label><input type="number" id="ac2-age" value="35"></div>
+      <div class="form-row"><label>Esperanza de vida base</label><input type="number" id="ac2-life" value="76"></div>
+      <div class="form-row"><label>Factor de salud (0=malo, 1=bueno)</label><input type="number" id="ac2-health" value="0.7" step="0.1" min="0" max="1"></div>
+      <div class="action-row"><button class="action-btn secondary" onclick="calcLife()">Calcular</button></div>
+      <div id="actuar-life"></div>
+    </div>
+  `;
+}
+
+function calcActuar() {
+  const S = parseFloat(document.getElementById('ac2-sum').value)||0;
+  const r = (parseFloat(document.getElementById('ac2-risk').value)||0)/100;
+  const a = (parseFloat(document.getElementById('ac2-admin').value)||0)/100;
+  const u = (parseFloat(document.getElementById('ac2-util').value)||0)/100;
+  const prima_pura = S * r;
+  const prima_comercial = prima_pura / (1 - a - u);
+  document.getElementById('actuar-results').innerHTML = `<div class="results-grid">
+    <div class="result-box"><div class="r-label">Prima pura</div><div class="r-value">${fmt$(prima_pura)}</div></div>
+    <div class="result-box"><div class="r-label">Prima comercial</div><div class="r-value">${fmt$(prima_comercial)}</div></div>
+  </div>`;
+}
+
+function calcLife() {
+  const age = parseFloat(document.getElementById('ac2-age').value)||0;
+  const life = parseFloat(document.getElementById('ac2-life').value)||76;
+  const h = parseFloat(document.getElementById('ac2-health').value)||0.7;
+  const adj = life + (h - 0.5) * 10;
+  const remaining = Math.max(0, adj - age);
+  document.getElementById('actuar-life').innerHTML = `<div class="results-grid">
+    <div class="result-box"><div class="r-label">Esperanza ajustada</div><div class="r-value">${fmtNum(adj)} años</div></div>
+    <div class="result-box"><div class="r-label">Años restantes est.</div><div class="r-value">${fmtNum(remaining)} años</div></div>
+  </div>`;
+}
+
+// ============================================================
+// STATISTICS
+// ============================================================
+function renderStat(el) {
+  el.innerHTML = `
+    <div class="form-section">
+      <h3>Ingresa datos (separados por comas o espacios)</h3>
+      <textarea id="st-data" rows="3" style="width:100%;background:var(--bg3);border:1px solid rgba(255,255,255,0.08);border-radius:8px;padding:10px;color:var(--text);font-size:14px;font-family:var(--mono);resize:vertical;outline:none" placeholder="Ej: 2, 4, 4, 4, 5, 5, 7, 9">2, 4, 4, 4, 5, 5, 7, 9</textarea>
+      <div class="action-row" style="margin-top:8px"><button class="action-btn" onclick="calcStat()">Calcular</button></div>
+    </div>
+    <div class="results-grid" id="stat-r"></div>
+    <div id="stat-freq"></div>
+  `;
+}
+
+function calcStat() {
+  const raw = document.getElementById('st-data').value;
+  const data = raw.split(/[\s,;]+/).map(Number).filter(n => !isNaN(n));
+  if (!data.length) return;
+  const n = data.length;
+  const sorted = [...data].sort((a,b)=>a-b);
+  const mean = data.reduce((a,b)=>a+b,0)/n;
+  const variance = data.reduce((a,b)=>a+(b-mean)**2,0)/n;
+  const std = Math.sqrt(variance);
+  const median = n%2 ? sorted[Math.floor(n/2)] : (sorted[n/2-1]+sorted[n/2])/2;
+  const min = sorted[0], max = sorted[n-1];
+  const q1 = sorted[Math.floor(n*0.25)], q3 = sorted[Math.floor(n*0.75)];
+
+  // Mode
+  const freq = {}; data.forEach(v => freq[v] = (freq[v]||0)+1);
+  const maxFreq = Math.max(...Object.values(freq));
+  const modes = Object.keys(freq).filter(k => freq[k]===maxFreq).join(', ');
+
+  document.getElementById('stat-r').innerHTML = [
+    ['N', n], ['Media', fmtNum(mean)], ['Mediana', fmtNum(median)],
+    ['Moda', modes], ['Desv. Std', fmtNum(std)], ['Varianza', fmtNum(variance)],
+    ['Mín', min], ['Máx', max], ['Rango', max-min], ['Q1', q1], ['Q3', q3], ['IQR', q3-q1],
+  ].map(([l,v]) => `<div class="result-box"><div class="r-label">${l}</div><div class="r-value">${v}</div></div>`).join('');
+
+  const rows = Object.entries(freq).sort(([a],[b])=>Number(a)-Number(b))
+    .map(([v,f]) => `<tr><td>${v}</td><td>${f}</td><td>${fmtNum(f/n*100)}%</td></tr>`).join('');
+  document.getElementById('stat-freq').innerHTML = `
+    <div style="overflow-x:auto;margin-top:10px">
+      <table class="data-table"><thead><tr><th>Valor</th><th>Frecuencia</th><th>Relativa</th></tr></thead><tbody>${rows}</tbody></table>
+    </div>`;
+}
+
+// ============================================================
+// ALGEBRA
+// ============================================================
+function renderAlg(el) {
+  el.innerHTML = `
+    <div class="form-section">
+      <h3>Ecuación cuadrática: ax² + bx + c = 0</h3>
+      <div class="form-row"><label>a</label><input type="number" id="alg-a" value="1" oninput="calcAlg()"></div>
+      <div class="form-row"><label>b</label><input type="number" id="alg-b" value="-5" oninput="calcAlg()"></div>
+      <div class="form-row"><label>c</label><input type="number" id="alg-c" value="6" oninput="calcAlg()"></div>
+      <div id="alg-r"></div>
+    </div>
+    <div class="form-section">
+      <h3>Sistema 2×2: ax + by = c / dx + ey = f</h3>
+      <div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:8px;margin-bottom:8px">
+        <div class="form-row" style="flex-direction:column"><label style="margin-bottom:4px">a</label><input type="number" id="sys-a" value="2" oninput="calcSys()"></div>
+        <div class="form-row" style="flex-direction:column"><label style="margin-bottom:4px">b</label><input type="number" id="sys-b" value="1" oninput="calcSys()"></div>
+        <div class="form-row" style="flex-direction:column"><label style="margin-bottom:4px">c</label><input type="number" id="sys-c" value="5" oninput="calcSys()"></div>
+        <div class="form-row" style="flex-direction:column"><label style="margin-bottom:4px">d</label><input type="number" id="sys-d" value="1" oninput="calcSys()"></div>
+        <div class="form-row" style="flex-direction:column"><label style="margin-bottom:4px">e</label><input type="number" id="sys-e" value="-1" oninput="calcSys()"></div>
+        <div class="form-row" style="flex-direction:column"><label style="margin-bottom:4px">f</label><input type="number" id="sys-f" value="1" oninput="calcSys()"></div>
+      </div>
+      <div id="sys-r"></div>
+    </div>
+  `;
+  calcAlg(); calcSys();
+}
+
+function calcAlg() {
+  const a = parseFloat(document.getElementById('alg-a').value)||0;
+  const b = parseFloat(document.getElementById('alg-b').value)||0;
+  const c = parseFloat(document.getElementById('alg-c').value)||0;
+  const disc = b*b - 4*a*c;
+  let html = `<div class="result-box"><div class="r-label">Discriminante</div><div class="r-value">${fmtNum(disc)}</div></div>`;
+  if (a === 0) { html += `<div class="result-box"><div class="r-label">x</div><div class="r-value">${b?fmtNum(-c/b):'No válido'}</div></div>`; }
+  else if (disc > 0) {
+    html += `<div class="results-grid">
+      <div class="result-box"><div class="r-label">x₁</div><div class="r-value">${fmtNum((-b+Math.sqrt(disc))/(2*a))}</div></div>
+      <div class="result-box"><div class="r-label">x₂</div><div class="r-value">${fmtNum((-b-Math.sqrt(disc))/(2*a))}</div></div>
+    </div>`;
+  } else if (disc === 0) {
+    html += `<div class="result-box"><div class="r-label">x (doble)</div><div class="r-value">${fmtNum(-b/(2*a))}</div></div>`;
+  } else {
+    const re = -b/(2*a), im = Math.sqrt(-disc)/(2*a);
+    html += `<div class="result-box"><div class="r-label">Raíces complejas</div><div class="r-value" style="font-size:18px">${fmtNum(re)} ± ${fmtNum(im)}i</div></div>`;
+  }
+  document.getElementById('alg-r').innerHTML = html;
+}
+
+function calcSys() {
+  const a=parseFloat(document.getElementById('sys-a').value)||0,b=parseFloat(document.getElementById('sys-b').value)||0,c=parseFloat(document.getElementById('sys-c').value)||0;
+  const d=parseFloat(document.getElementById('sys-d').value)||0,e=parseFloat(document.getElementById('sys-e').value)||0,f=parseFloat(document.getElementById('sys-f').value)||0;
+  const det = a*e - b*d;
+  let html = '';
+  if (Math.abs(det) < 1e-10) {
+    html = `<div class="result-box"><div class="r-label">Sistema</div><div class="r-value" style="font-size:18px">Sin solución única</div></div>`;
+  } else {
+    const x = (c*e - b*f)/det, y = (a*f - c*d)/det;
+    html = `<div class="results-grid">
+      <div class="result-box"><div class="r-label">x</div><div class="r-value">${fmtNum(x)}</div></div>
+      <div class="result-box"><div class="r-label">y</div><div class="r-value">${fmtNum(y)}</div></div>
+    </div>`;
+  }
+  document.getElementById('sys-r').innerHTML = html;
+}
+
+// ============================================================
+// MATRIX
+// ============================================================
+function renderMatrix(el) {
+  el.innerHTML = `
+    <div class="form-section">
+      <h3>Operaciones con Matrices 3×3</h3>
+      <div style="display:flex;gap:20px;flex-wrap:wrap;margin-bottom:12px">
+        <div>
+          <div class="module-category">Matriz A</div>
+          <div class="matrix-inputs" id="mat-a" style="grid-template-columns:repeat(3,54px)">
+            ${[1,0,0,0,1,0,0,0,1].map((v,i)=>`<input type="number" id="ma-${i}" value="${v}" oninput="calcMatrix()">`).join('')}
+          </div>
+        </div>
+        <div>
+          <div class="module-category">Matriz B</div>
+          <div class="matrix-inputs" id="mat-b" style="grid-template-columns:repeat(3,54px)">
+            ${[2,0,0,0,2,0,0,0,2].map((v,i)=>`<input type="number" id="mb-${i}" value="${v}" oninput="calcMatrix()">`).join('')}
+          </div>
+        </div>
+      </div>
+      <div class="action-row">
+        <button class="action-btn" onclick="matOp('add')">A + B</button>
+        <button class="action-btn secondary" onclick="matOp('sub')">A − B</button>
+        <button class="action-btn secondary" onclick="matOp('mul')">A × B</button>
+        <button class="action-btn secondary" onclick="matOp('detA')">det(A)</button>
+        <button class="action-btn secondary" onclick="matOp('transA')">A<sup>T</sup></button>
+      </div>
+    </div>
+    <div id="mat-result"></div>
+  `;
+}
+
+function getMatrix(prefix) {
+  return Array.from({length:9}, (_,i) => parseFloat(document.getElementById(`${prefix}${i}`)?.value)||0);
+}
+
+function matOp(op) {
+  const A = getMatrix('ma-'), B = getMatrix('mb-');
+  const fmt3 = m => `<div class="matrix-inputs" style="grid-template-columns:repeat(3,54px)">${m.map((v,i)=>`<input type="number" value="${fmtNum(v)}" readonly style="background:var(--bg);color:var(--accent)">`).join('')}</div>`;
+  let html = '';
+
+  if (op === 'add') { const R = A.map((v,i)=>v+B[i]); html = `<div class="form-section"><h3>A + B</h3>${fmt3(R)}</div>`; }
+  else if (op === 'sub') { const R = A.map((v,i)=>v-B[i]); html = `<div class="form-section"><h3>A − B</h3>${fmt3(R)}</div>`; }
+  else if (op === 'mul') {
+    const R = Array(9).fill(0);
+    for(let i=0;i<3;i++) for(let j=0;j<3;j++) for(let k=0;k<3;k++) R[i*3+j]+=A[i*3+k]*B[k*3+j];
+    html = `<div class="form-section"><h3>A × B</h3>${fmt3(R)}</div>`;
+  } else if (op === 'detA') {
+    const d = A[0]*(A[4]*A[8]-A[5]*A[7])-A[1]*(A[3]*A[8]-A[5]*A[6])+A[2]*(A[3]*A[7]-A[4]*A[6]);
+    html = `<div class="result-box"><div class="r-label">det(A)</div><div class="r-value">${fmtNum(d)}</div></div>`;
+  } else if (op === 'transA') {
+    const R = [A[0],A[3],A[6],A[1],A[4],A[7],A[2],A[5],A[8]];
+    html = `<div class="form-section"><h3>Aᵀ</h3>${fmt3(R)}</div>`;
+  }
+  document.getElementById('mat-result').innerHTML = html;
+}
+
+function calcMatrix() {}
+
+// ============================================================
+// PROBABILITY
+// ============================================================
+function renderProb(el) {
+  el.innerHTML = `
+    <div class="form-section">
+      <h3>Combinatoria</h3>
+      <div class="form-row"><label>n (total)</label><input type="number" id="pr-n" value="10" oninput="calcProb()"></div>
+      <div class="form-row"><label>r (elegidos)</label><input type="number" id="pr-r" value="3" oninput="calcProb()"></div>
+    </div>
+    <div class="results-grid" id="prob-r"></div>
+    <div class="form-section" style="margin-top:8px">
+      <h3>Distribución Normal</h3>
+      <div class="form-row"><label>z-score</label><input type="number" id="pr-z" value="1.96" step="0.01" oninput="calcNorm()"></div>
+      <div id="norm-r"></div>
+    </div>
+    <div class="form-section" style="margin-top:8px">
+      <h3>Probabilidad Bayesiana</h3>
+      <div class="form-row"><label>P(A)</label><input type="number" id="pr-pa" value="0.3" step="0.01" oninput="calcBayes()"></div>
+      <div class="form-row"><label>P(B|A)</label><input type="number" id="pr-pba" value="0.7" step="0.01" oninput="calcBayes()"></div>
+      <div class="form-row"><label>P(B|¬A)</label><input type="number" id="pr-pbna" value="0.2" step="0.01" oninput="calcBayes()"></div>
+      <div id="bayes-r"></div>
+    </div>
+  `;
+  calcProb(); calcNorm(); calcBayes();
+}
+
+function fact(n) { let r=1; for(let i=2;i<=n;i++) r*=i; return r; }
+function calcProb() {
+  const n=parseInt(document.getElementById('pr-n').value)||0, r=parseInt(document.getElementById('pr-r').value)||0;
+  if(r>n){document.getElementById('prob-r').innerHTML='<div class="result-box"><div class="r-label">Error</div><div class="r-value">r > n</div></div>';return;}
+  const C = fact(n)/(fact(r)*fact(n-r));
+  const P = fact(n)/fact(n-r);
+  document.getElementById('prob-r').innerHTML=`
+    <div class="result-box"><div class="r-label">Combinaciones C(n,r)</div><div class="r-value">${fmtNum(C)}</div></div>
+    <div class="result-box"><div class="r-label">Permutaciones P(n,r)</div><div class="r-value">${fmtNum(P)}</div></div>
+    <div class="result-box"><div class="r-label">n! (factorial)</div><div class="r-value">${n<=20?fmtNum(fact(n)):'> 10²⁰'}</div></div>`;
+}
+
+function calcNorm() {
+  const z = parseFloat(document.getElementById('pr-z').value)||0;
+  // Approx normal CDF
+  function normCDF(z) {
+    const t = 1/(1+0.2316419*Math.abs(z));
+    const p = 1 - 0.3989422*Math.exp(-z*z/2) * t*(0.319381530 + t*(-0.356563782 + t*(1.781477937 + t*(-1.821255978 + t*1.330274429))));
+    return z >= 0 ? p : 1-p;
+  }
+  const p = normCDF(z);
+  document.getElementById('norm-r').innerHTML=`<div class="results-grid">
+    <div class="result-box"><div class="r-label">P(Z ≤ z)</div><div class="r-value">${fmtNum(p)}</div></div>
+    <div class="result-box"><div class="r-label">P(Z > z)</div><div class="r-value">${fmtNum(1-p)}</div></div>
+    <div class="result-box"><div class="r-label">P(-z ≤ Z ≤ z)</div><div class="r-value">${fmtNum(2*p-1)}</div></div>
+  </div>`;
+}
+
+function calcBayes() {
+  const pa=parseFloat(document.getElementById('pr-pa').value)||0;
+  const pba=parseFloat(document.getElementById('pr-pba').value)||0;
+  const pbna=parseFloat(document.getElementById('pr-pbna').value)||0;
+  const pb = pba*pa + pbna*(1-pa);
+  const pab = pb ? pba*pa/pb : 0;
+  document.getElementById('bayes-r').innerHTML=`<div class="results-grid">
+    <div class="result-box"><div class="r-label">P(B)</div><div class="r-value">${fmtNum(pb)}</div></div>
+    <div class="result-box"><div class="r-label">P(A|B)</div><div class="r-value">${fmtNum(pab)}</div></div>
+  </div>`;
+}
+
+// ============================================================
+// PHYSICS
+// ============================================================
+function renderPhys(el) {
+  const formulas = [
+    { title:'Movimiento Rectilíneo Uniforme', fields:[{l:'Distancia d (m)',id:'ph-d',v:'100'},{l:'Tiempo t (s)',id:'ph-t',v:'10'}], calc:'phMRU', results:['ph-v'] },
+    { title:'Energía Cinética', fields:[{l:'Masa m (kg)',id:'ph-m',v:'70'},{l:'Velocidad v (m/s)',id:'ph-vel',v:'10'}], calc:'phKE', results:['ph-ke'] },
+    { title:'Fuerza F = m·a', fields:[{l:'Masa m (kg)',id:'ph-fm',v:'10'},{l:'Aceleración a (m/s²)',id:'ph-fa',v:'9.8'}], calc:'phForce', results:['ph-f'] },
+    { title:'Ley de Ohm P=V·I', fields:[{l:'Voltaje V (V)',id:'ph-ov',v:'220'},{l:'Corriente I (A)',id:'ph-oi',v:'5'}], calc:'phOhm', results:['ph-p','ph-or'] },
+    { title:'Presión P = F/A', fields:[{l:'Fuerza F (N)',id:'ph-pf',v:'1000'},{l:'Área A (m²)',id:'ph-pa',v:'0.5'}], calc:'phPressure', results:['ph-pres'] },
+  ];
+  el.innerHTML = formulas.map(f=>`
+    <div class="form-section">
+      <h3>${f.title}</h3>
+      ${f.fields.map(fd=>`<div class="form-row"><label>${fd.l}</label><input type="number" id="${fd.id}" value="${fd.v}" oninput="${f.calc}()"></div>`).join('')}
+      <div class="results-grid" id="${f.calc}-r"></div>
+    </div>`).join('');
+  phMRU(); phKE(); phForce(); phOhm(); phPressure();
+}
+
+function phMRU() {
+  const d=parseFloat(document.getElementById('ph-d')?.value)||0, t=parseFloat(document.getElementById('ph-t')?.value)||1;
+  if(!document.getElementById('phMRU-r'))return;
+  document.getElementById('phMRU-r').innerHTML=`<div class="result-box"><div class="r-label">Velocidad v = d/t</div><div class="r-value">${fmtNum(d/t)} m/s</div></div>`;
+}
+function phKE() {
+  const m=parseFloat(document.getElementById('ph-m')?.value)||0, v=parseFloat(document.getElementById('ph-vel')?.value)||0;
+  if(!document.getElementById('phKE-r'))return;
+  document.getElementById('phKE-r').innerHTML=`<div class="result-box"><div class="r-label">Ec = ½mv²</div><div class="r-value">${fmtNum(0.5*m*v*v)} J</div></div>`;
+}
+function phForce() {
+  const m=parseFloat(document.getElementById('ph-fm')?.value)||0, a=parseFloat(document.getElementById('ph-fa')?.value)||0;
+  if(!document.getElementById('phForce-r'))return;
+  document.getElementById('phForce-r').innerHTML=`<div class="result-box"><div class="r-label">F = m·a</div><div class="r-value">${fmtNum(m*a)} N</div></div>`;
+}
+function phOhm() {
+  const v=parseFloat(document.getElementById('ph-ov')?.value)||0, i=parseFloat(document.getElementById('ph-oi')?.value)||1;
+  if(!document.getElementById('phOhm-r'))return;
+  document.getElementById('phOhm-r').innerHTML=`
+    <div class="result-box"><div class="r-label">Potencia P=V·I</div><div class="r-value">${fmtNum(v*i)} W</div></div>
+    <div class="result-box"><div class="r-label">Resistencia R=V/I</div><div class="r-value">${fmtNum(v/i)} Ω</div></div>`;
+}
+function phPressure() {
+  const f=parseFloat(document.getElementById('ph-pf')?.value)||0, a=parseFloat(document.getElementById('ph-pa')?.value)||1;
+  if(!document.getElementById('phPressure-r'))return;
+  document.getElementById('phPressure-r').innerHTML=`<div class="result-box"><div class="r-label">P = F/A</div><div class="r-value">${fmtNum(f/a)} Pa</div></div>`;
+}
+
+// ============================================================
+// CHEMISTRY
+// ============================================================
+function renderChem(el) {
+  const ELEMENTS = {H:1.008,He:4.003,Li:6.941,Be:9.012,B:10.811,C:12.011,N:14.007,O:15.999,F:18.998,Ne:20.180,Na:22.990,Mg:24.305,Al:26.982,Si:28.086,P:30.974,S:32.065,Cl:35.453,Ar:39.948,K:39.098,Ca:40.078,Fe:55.845,Cu:63.546,Zn:65.380,Ag:107.868,Au:196.967,Pb:207.200};
+  el.innerHTML = `
+    <div class="form-section">
+      <h3>Masa Molar</h3>
+      <div class="form-row"><label>Fórmula (Ej: H2O, NaCl, CO2)</label><input type="text" id="ch-form" value="H2O" oninput="calcMolar()"></div>
+      <div id="chem-molar"></div>
+    </div>
+    <div class="form-section">
+      <h3>Concentración Molar</h3>
+      <div class="form-row"><label>Moles de soluto (mol)</label><input type="number" id="ch-mol" value="0.5" step="0.01" oninput="calcConc()"></div>
+      <div class="form-row"><label>Volumen de solución (L)</label><input type="number" id="ch-vol" value="1" step="0.01" oninput="calcConc()"></div>
+      <div id="chem-conc"></div>
+    </div>
+    <div class="form-section">
+      <h3>pH / pOH</h3>
+      <div class="form-row"><label>[H⁺] mol/L</label><input type="number" id="ch-h" value="0.001" step="0.0001" oninput="calcPH()"></div>
+      <div id="chem-ph"></div>
+    </div>
+  `;
+  window._ELEMENTS = ELEMENTS;
+  calcMolar(); calcConc(); calcPH();
+}
+
+function calcMolar() {
+  const form = document.getElementById('ch-form')?.value||'';
+  const E = window._ELEMENTS||{};
+  let mass = 0, valid = true;
+  const re = /([A-Z][a-z]?)(\d*)/g;
+  let m;
+  while ((m = re.exec(form)) !== null) {
+    const sym = m[1], cnt = parseInt(m[2])||1;
+    if (E[sym]) mass += E[sym]*cnt;
+    else if (m[1]) { valid = false; break; }
+  }
+  document.getElementById('chem-molar').innerHTML = valid && mass > 0
+    ? `<div class="result-box"><div class="r-label">Masa molar</div><div class="r-value">${fmtNum(mass)} g/mol</div></div>`
+    : `<div class="result-box"><div class="r-label">Error</div><div class="r-value" style="font-size:16px">Fórmula no reconocida</div></div>`;
+}
+
+function calcConc() {
+  const mol=parseFloat(document.getElementById('ch-mol')?.value)||0, vol=parseFloat(document.getElementById('ch-vol')?.value)||1;
+  document.getElementById('chem-conc').innerHTML=`<div class="result-box"><div class="r-label">Concentración M</div><div class="r-value">${fmtNum(mol/vol)} mol/L</div></div>`;
+}
+
+function calcPH() {
+  const h=parseFloat(document.getElementById('ch-h')?.value)||0;
+  const pH = h > 0 ? -Math.log10(h) : 0;
+  const pOH = 14 - pH;
+  document.getElementById('chem-ph').innerHTML=`<div class="results-grid">
+    <div class="result-box"><div class="r-label">pH</div><div class="r-value" style="color:${pH<7?'var(--red)':pH>7?'var(--blue)':'var(--green)'}">${fmtNum(pH)}</div></div>
+    <div class="result-box"><div class="r-label">pOH</div><div class="r-value">${fmtNum(pOH)}</div></div>
+    <div class="result-box"><div class="r-label">Tipo</div><div class="r-value" style="font-size:16px">${pH<7?'Ácido':pH>7?'Básico':'Neutro'}</div></div>
+  </div>`;
+}
+
+// ============================================================
+// LOGIC / BOOLEAN
+// ============================================================
+function renderLogic(el) {
+  el.innerHTML = `
+    <div class="form-section">
+      <h3>Operaciones Booleanas</h3>
+      <div class="form-row"><label>A</label>
+        <select id="lg-a"><option value="1">1 (verdadero)</option><option value="0">0 (falso)</option></select>
+      </div>
+      <div class="form-row"><label>B</label>
+        <select id="lg-b"><option value="1">1 (verdadero)</option><option value="0">0 (falso)</option></select>
+      </div>
+      <div class="action-row"><button class="action-btn" onclick="calcLogic()">Evaluar</button></div>
+    </div>
+    <div class="results-grid" id="logic-r"></div>
+    <div class="form-section" style="margin-top:8px">
+      <h3>Tabla de Verdad — Expresión</h3>
+      <div class="form-row"><label>Expr. (use a, b, &&, ||, !)</label><input type="text" id="lg-expr" value="(a && b) || !a" placeholder="(a && b) || !a"></div>
+      <div class="action-row"><button class="action-btn secondary" onclick="calcTruth()">Tabla</button></div>
+      <div id="logic-truth"></div>
+    </div>
+  `;
+}
+
+function calcLogic() {
+  const a = document.getElementById('lg-a').value==='1', b = document.getElementById('lg-b').value==='1';
+  const ops = [
+    ['AND (∧)', a&&b], ['OR (∨)', a||b], ['NOT A (¬A)', !a], ['NOT B (¬B)', !b],
+    ['NAND', !(a&&b)], ['NOR', !(a||b)], ['XOR (⊕)', a!==b], ['XNOR', a===b],
+    ['A→B', !a||b], ['B→A', !b||a],
+  ];
+  document.getElementById('logic-r').innerHTML = ops.map(([n,v])=>
+    `<div class="result-box"><div class="r-label">${n}</div><div class="r-value" style="color:${v?'var(--green)':'var(--red)'}">${v?'1 (V)':'0 (F)'}</div></div>`
+  ).join('');
+}
+
+function calcTruth() {
+  const expr = document.getElementById('lg-expr').value;
+  const rows = [[false,false],[false,true],[true,false],[true,true]];
+  let html = '<table class="data-table" style="margin-top:10px"><thead><tr><th>A</th><th>B</th><th>Resultado</th></tr></thead><tbody>';
+  for (const [av,bv] of rows) {
+    try {
+      const r = Function('a','b','"use strict";return !!('+expr+')')(av,bv);
+      html += `<tr><td>${av?1:0}</td><td>${bv?1:0}</td><td style="color:${r?'var(--green)':'var(--red)'}">${r?1:0}</td></tr>`;
+    } catch { html += `<tr><td colspan="3">Error</td></tr>`; break; }
+  }
+  html += '</tbody></table>';
+  document.getElementById('logic-truth').innerHTML = html;
+}
+
+// ============================================================
+// PROGRAMMING (Binary/Hex/Oct)
+// ============================================================
+function renderProg(el) {
+  el.innerHTML = `
+    <div class="form-section">
+      <h3>Conversión de Bases Numéricas</h3>
+      <div class="form-row"><label>Decimal</label><input type="number" id="pg-dec" value="255" oninput="conv_from('dec')"></div>
+      <div class="form-row"><label>Binario</label><input type="text" id="pg-bin" placeholder="11111111" oninput="conv_from('bin')"></div>
+      <div class="form-row"><label>Hexadecimal</label><input type="text" id="pg-hex" placeholder="FF" oninput="conv_from('hex')"></div>
+      <div class="form-row"><label>Octal</label><input type="text" id="pg-oct" placeholder="377" oninput="conv_from('oct')"></div>
+    </div>
+    <div class="form-section">
+      <h3>Operaciones Bit a Bit</h3>
+      <div class="form-row"><label>A (decimal)</label><input type="number" id="pg-ba" value="12" oninput="calcBitwise()"></div>
+      <div class="form-row"><label>B (decimal)</label><input type="number" id="pg-bb" value="10" oninput="calcBitwise()"></div>
+      <div class="results-grid" id="bit-r"></div>
+    </div>
+  `;
+  calcBitwise();
+}
+
+let _convLock = false;
+function conv_from(base) {
+  if (_convLock) return;
+  _convLock = true;
+  let n;
+  try {
+    if (base==='dec') n = parseInt(document.getElementById('pg-dec').value)||0;
+    else if (base==='bin') n = parseInt(document.getElementById('pg-bin').value, 2)||0;
+    else if (base==='hex') n = parseInt(document.getElementById('pg-hex').value, 16)||0;
+    else n = parseInt(document.getElementById('pg-oct').value, 8)||0;
+    if (!isNaN(n)) {
+      document.getElementById('pg-dec').value = n;
+      document.getElementById('pg-bin').value = n.toString(2);
+      document.getElementById('pg-hex').value = n.toString(16).toUpperCase();
+      document.getElementById('pg-oct').value = n.toString(8);
+    }
+  } finally { _convLock = false; }
+}
+
+function calcBitwise() {
+  const a=parseInt(document.getElementById('pg-ba')?.value)||0, b=parseInt(document.getElementById('pg-bb')?.value)||0;
+  if (!document.getElementById('bit-r')) return;
+  document.getElementById('bit-r').innerHTML = [
+    ['AND', a&b], ['OR', a|b], ['XOR', a^b], ['NOT A', ~a], ['A << 1', a<<1], ['A >> 1', a>>1]
+  ].map(([l,v])=>`<div class="result-box"><div class="r-label">${l}</div><div class="r-value">${v}<br><span style="font-size:12px;color:var(--text3)">${v.toString(2)}</span></div></div>`).join('');
+}
+
+// ============================================================
+// SYMBOLIC
+// ============================================================
+function renderSymb(el) {
+  el.innerHTML = `
+    <div class="form-section">
+      <h3>Derivación Numérica (aproximación)</h3>
+      <div class="form-row"><label>f(x) expresión JS</label><input type="text" id="sy-fx" value="Math.sin(x)*x*x" placeholder="x*x + 2*x"></div>
+      <div class="form-row"><label>x =</label><input type="number" id="sy-x" value="1" step="0.1" oninput="calcDeriv()"></div>
+      <div class="action-row"><button class="action-btn" onclick="calcDeriv()">Calcular f'(x)</button></div>
+      <div id="symb-r"></div>
+    </div>
+    <div class="form-section">
+      <h3>Integración Numérica (Regla de Simpson)</h3>
+      <div class="form-row"><label>f(x)</label><input type="text" id="sy-intfx" value="x*x" placeholder="x*x"></div>
+      <div class="form-row"><label>a (límite inferior)</label><input type="number" id="sy-a" value="0"></div>
+      <div class="form-row"><label>b (límite superior)</label><input type="number" id="sy-b" value="1"></div>
+      <div class="form-row"><label>N (subintervalos, par)</label><input type="number" id="sy-n" value="100" step="2"></div>
+      <div class="action-row"><button class="action-btn secondary" onclick="calcIntegral()">Calcular ∫</button></div>
+      <div id="symb-int-r"></div>
+    </div>
+  `;
+}
+
+function calcDeriv() {
+  const exprStr = document.getElementById('sy-fx')?.value;
+  const xv = parseFloat(document.getElementById('sy-x')?.value)||0;
+  const h = 1e-7;
+  try {
+    const f = x => Function('x','"use strict";return ('+exprStr+')')(x);
+    const fp = (f(xv+h)-f(xv-h))/(2*h);
+    const fval = f(xv);
+    document.getElementById('symb-r').innerHTML = `<div class="results-grid">
+      <div class="result-box"><div class="r-label">f(${xv})</div><div class="r-value">${fmtNum(fval)}</div></div>
+      <div class="result-box"><div class="r-label">f'(${xv})</div><div class="r-value">${fmtNum(fp)}</div></div>
+    </div>`;
+  } catch { document.getElementById('symb-r').innerHTML = `<div class="result-box"><div class="r-label">Error</div><div class="r-value">Expresión inválida</div></div>`; }
+}
+
+function calcIntegral() {
+  const exprStr = document.getElementById('sy-intfx')?.value;
+  let a = parseFloat(document.getElementById('sy-a')?.value)||0;
+  let b = parseFloat(document.getElementById('sy-b')?.value)||1;
+  let N = parseInt(document.getElementById('sy-n')?.value)||100;
+  if (N % 2 !== 0) N++;
+  try {
+    const f = x => Function('x','"use strict";return ('+exprStr+')')(x);
+    const h = (b-a)/N;
+    let sum = f(a) + f(b);
+    for (let i=1;i<N;i++) sum += (i%2===0?2:4)*f(a+i*h);
+    const result = sum * h/3;
+    document.getElementById('symb-int-r').innerHTML = `<div class="result-box"><div class="r-label">∫f(x)dx de ${a} a ${b}</div><div class="r-value">${fmtNum(result)}</div></div>`;
+  } catch { document.getElementById('symb-int-r').innerHTML = `<div class="result-box"><div class="r-label">Error</div><div class="r-value">Expresión inválida</div></div>`; }
+}
+
+// ============================================================
+// GRAPH
+// ============================================================
+function renderGraph(el) {
+  el.innerHTML = `
+    <div class="form-section">
+      <h3>Graficadora de Funciones</h3>
+      <div class="form-row"><label>f(x) expresión JS</label><input type="text" id="gr-fx" value="Math.sin(x)*x" placeholder="x*x − 4"></div>
+      <div class="form-row"><label>x min</label><input type="number" id="gr-xmin" value="-10" oninput="drawGraph()"></div>
+      <div class="form-row"><label>x max</label><input type="number" id="gr-xmax" value="10" oninput="drawGraph()"></div>
+      <div class="action-row"><button class="action-btn" onclick="drawGraph()">Graficar</button></div>
+    </div>
+    <canvas id="graph-canvas" height="260" style="border-radius:10px;background:var(--bg);width:100%"></canvas>
+  `;
+  setTimeout(drawGraph, 50);
+}
+
+function drawGraph() {
+  const canvas = document.getElementById('graph-canvas');
+  if (!canvas) return;
+  const W = canvas.offsetWidth || 600;
+  canvas.width = W * (window.devicePixelRatio||1);
+  canvas.height = 260 * (window.devicePixelRatio||1);
+  const ctx = canvas.getContext('2d');
+  const dpr = window.devicePixelRatio||1;
+  ctx.scale(dpr, dpr);
+  const CW = W, CH = 260;
+  const exprStr = document.getElementById('gr-fx')?.value||'x';
+  const xmin = parseFloat(document.getElementById('gr-xmin')?.value)||-10;
+  const xmax = parseFloat(document.getElementById('gr-xmax')?.value)||10;
+  const f = x => { try { return Function('x','"use strict";return ('+exprStr+')')(x); } catch { return NaN; } };
+
+  // Sample
+  const pts = 600;
+  const ys = [];
+  for (let i=0;i<=pts;i++) { const x=xmin+(xmax-xmin)*i/pts; ys.push(f(x)); }
+  const validYs = ys.filter(isFinite);
+  if (!validYs.length) return;
+  let ymin = Math.min(...validYs), ymax = Math.max(...validYs);
+  const ypad = (ymax-ymin)*0.1 || 1;
+  ymin -= ypad; ymax += ypad;
+
+  ctx.clearRect(0,0,CW,CH);
+  const toX = x => ((x-xmin)/(xmax-xmin))*CW;
+  const toY = y => CH - ((y-ymin)/(ymax-ymin))*CH;
+
+  // Grid
+  ctx.strokeStyle = 'rgba(255,255,255,0.06)';
+  ctx.lineWidth = 1;
+  for (let i=-20;i<=20;i++) {
+    const px = toX(i); ctx.beginPath(); ctx.moveTo(px,0); ctx.lineTo(px,CH); ctx.stroke();
+    const py = toY(i); ctx.beginPath(); ctx.moveTo(0,py); ctx.lineTo(CW,py); ctx.stroke();
+  }
+
+  // Axes
+  ctx.strokeStyle = 'rgba(255,255,255,0.2)'; ctx.lineWidth = 1;
+  const x0 = toX(0), y0 = toY(0);
+  ctx.beginPath(); ctx.moveTo(x0,0); ctx.lineTo(x0,CH); ctx.stroke();
+  ctx.beginPath(); ctx.moveTo(0,y0); ctx.lineTo(CW,y0); ctx.stroke();
+
+  // Curve
+  ctx.strokeStyle = '#ff9f0a'; ctx.lineWidth = 2;
+  ctx.beginPath();
+  let started = false;
+  for (let i=0;i<=pts;i++) {
+    const x=xmin+(xmax-xmin)*i/pts, y=f(x);
+    if (!isFinite(y)||Math.abs(y)>1e10) { started=false; continue; }
+    const px=toX(x), py=toY(y);
+    if (!started) { ctx.moveTo(px,py); started=true; } else ctx.lineTo(px,py);
+  }
+  ctx.stroke();
+}
+
+// ============================================================
+// FRACTIONS
+// ============================================================
+function renderFrac(el) {
+  el.innerHTML = `
+    <div class="form-section">
+      <h3>Operaciones con Fracciones</h3>
+      <div style="display:grid;grid-template-columns:1fr auto 1fr;gap:10px;align-items:center;margin-bottom:10px">
+        <div>
+          <div style="display:flex;gap:6px;align-items:center">
+            <input type="number" id="fr-n1" value="1" style="width:60px;background:var(--bg3);border:1px solid rgba(255,255,255,0.1);border-radius:6px;padding:6px;color:var(--text);font-size:16px;text-align:center;outline:none">
+            <span style="color:var(--text3)">/</span>
+            <input type="number" id="fr-d1" value="2" style="width:60px;background:var(--bg3);border:1px solid rgba(255,255,255,0.1);border-radius:6px;padding:6px;color:var(--text);font-size:16px;text-align:center;outline:none">
+          </div>
+        </div>
+        <select id="fr-op" style="background:var(--bg3);border:none;border-radius:8px;color:var(--text);font-size:20px;padding:6px;text-align:center">
+          <option>+</option><option>−</option><option>×</option><option>÷</option>
+        </select>
+        <div>
+          <div style="display:flex;gap:6px;align-items:center">
+            <input type="number" id="fr-n2" value="1" style="width:60px;background:var(--bg3);border:1px solid rgba(255,255,255,0.1);border-radius:6px;padding:6px;color:var(--text);font-size:16px;text-align:center;outline:none">
+            <span style="color:var(--text3)">/</span>
+            <input type="number" id="fr-d2" value="3" style="width:60px;background:var(--bg3);border:1px solid rgba(255,255,255,0.1);border-radius:6px;padding:6px;color:var(--text);font-size:16px;text-align:center;outline:none">
+          </div>
+        </div>
+      </div>
+      <div class="action-row"><button class="action-btn" onclick="calcFrac()">Calcular</button></div>
+    </div>
+    <div id="frac-r"></div>
+  `;
+}
+
+function gcd(a,b) { a=Math.abs(a);b=Math.abs(b); while(b){let t=b;b=a%b;a=t;} return a; }
+function calcFrac() {
+  let n1=parseInt(document.getElementById('fr-n1').value)||0, d1=parseInt(document.getElementById('fr-d1').value)||1;
+  let n2=parseInt(document.getElementById('fr-n2').value)||0, d2=parseInt(document.getElementById('fr-d2').value)||1;
+  const op = document.getElementById('fr-op').value;
+  let rn, rd;
+  if (op==='+') { rn=n1*d2+n2*d1; rd=d1*d2; }
+  else if (op==='−') { rn=n1*d2-n2*d1; rd=d1*d2; }
+  else if (op==='×') { rn=n1*n2; rd=d1*d2; }
+  else { rn=n1*d2; rd=d1*n2; }
+  if (rd===0) { document.getElementById('frac-r').innerHTML=`<div class="result-box"><div class="r-label">Error</div><div class="r-value">División por cero</div></div>`; return; }
+  const g = gcd(Math.abs(rn),Math.abs(rd));
+  const fn=rn/g, fd=rd/g;
+  document.getElementById('frac-r').innerHTML = `<div class="result-box">
+    <div class="r-label">Resultado simplificado</div>
+    <div class="r-value">${fn}/${fd < 0 ? `(${fd})` : fd}</div>
+    <div class="r-sub">= ${fmtNum(fn/fd)} (decimal)</div>
+  </div>`;
+}
+
+// ============================================================
+// PERCENTAGE
+// ============================================================
+function renderPct(el) {
+  el.innerHTML = `
+    <div class="form-section">
+      <h3>¿Cuánto es X% de Y?</h3>
+      <div class="form-row"><label>X (%)</label><input type="number" id="pc-x" value="15" oninput="calcPct1()"></div>
+      <div class="form-row"><label>Y (valor base)</label><input type="number" id="pc-y" value="200" oninput="calcPct1()"></div>
+      <div id="pct1-r"></div>
+    </div>
+    <div class="form-section">
+      <h3>¿Qué % es A de B?</h3>
+      <div class="form-row"><label>A</label><input type="number" id="pc-a" value="30" oninput="calcPct2()"></div>
+      <div class="form-row"><label>B</label><input type="number" id="pc-b" value="200" oninput="calcPct2()"></div>
+      <div id="pct2-r"></div>
+    </div>
+    <div class="form-section">
+      <h3>Variación porcentual</h3>
+      <div class="form-row"><label>Valor inicial</label><input type="number" id="pc-v1" value="100" oninput="calcPct3()"></div>
+      <div class="form-row"><label>Valor final</label><input type="number" id="pc-v2" value="130" oninput="calcPct3()"></div>
+      <div id="pct3-r"></div>
+    </div>
+  `;
+  calcPct1(); calcPct2(); calcPct3();
+}
+
+function calcPct1() {
+  const x=parseFloat(document.getElementById('pc-x')?.value)||0, y=parseFloat(document.getElementById('pc-y')?.value)||0;
+  document.getElementById('pct1-r').innerHTML=`<div class="result-box"><div class="r-label">${x}% de ${y}</div><div class="r-value">${fmtNum(x*y/100)}</div></div>`;
+}
+function calcPct2() {
+  const a=parseFloat(document.getElementById('pc-a')?.value)||0, b=parseFloat(document.getElementById('pc-b')?.value)||1;
+  document.getElementById('pct2-r').innerHTML=`<div class="result-box"><div class="r-label">${a} de ${b} es</div><div class="r-value">${fmtNum(a/b*100)}%</div></div>`;
+}
+function calcPct3() {
+  const v1=parseFloat(document.getElementById('pc-v1')?.value)||0, v2=parseFloat(document.getElementById('pc-v2')?.value)||0;
+  const chg = v1 ? (v2-v1)/v1*100 : 0;
+  document.getElementById('pct3-r').innerHTML=`<div class="result-box"><div class="r-label">Variación</div><div class="r-value" style="color:${chg>=0?'var(--green)':'var(--red)'}">${chg>=0?'+':''}${fmtNum(chg)}%</div></div>`;
+}
+
+// ============================================================
+// UNIT CONVERSION
+// ============================================================
+function renderConv(el) {
+  const cats = {
+    'Longitud': {units:['mm','cm','m','km','in','ft','yd','mi'], factors:[0.001,0.01,1,1000,0.0254,0.3048,0.9144,1609.344]},
+    'Masa': {units:['mg','g','kg','ton','oz','lb'], factors:[0.000001,0.001,1,1000,0.028349,0.453592]},
+    'Temperatura': {special:true},
+    'Velocidad': {units:['m/s','km/h','mph','kt'], factors:[1,1/3.6,0.44704,0.514444]},
+    'Área': {units:['mm²','cm²','m²','km²','ha','ft²','yd²','ac'], factors:[0.000001,0.0001,1,1e6,10000,0.0929,0.8361,4046.86]},
+    'Volumen': {units:['mL','L','m³','ft³','gal(US)','fl oz'], factors:[0.001,1,1000,28.3168,3.78541,0.029574]},
+    'Tiempo': {units:['ms','s','min','h','día','semana','año'], factors:[0.001,1,60,3600,86400,604800,31536000]},
+    'Potencia': {units:['W','kW','MW','hp','BTU/h'], factors:[1,1000,1e6,745.7,0.29307]},
+    'Presión': {units:['Pa','kPa','MPa','bar','psi','atm'], factors:[1,1000,1e6,1e5,6894.76,101325]},
+    'Energía': {units:['J','kJ','MJ','kWh','cal','kcal','BTU'], factors:[1,1000,1e6,3.6e6,4.184,4184,1055.06]},
+  };
+  el.innerHTML = `
+    <div class="form-section">
+      <h3>Convertidor Universal</h3>
+      <div class="form-row"><label>Categoría</label>
+        <select id="cv-cat" onchange="updateConvUnits()">
+          ${Object.keys(cats).map(k=>`<option>${k}</option>`).join('')}
+        </select>
+      </div>
+      <div class="form-row"><label>Valor</label><input type="number" id="cv-val" value="1" oninput="doConv()"></div>
+      <div class="form-row"><label>De</label><select id="cv-from" onchange="doConv()"></select></div>
+      <div class="form-row"><label>A</label><select id="cv-to" onchange="doConv()"></select></div>
+    </div>
+    <div id="conv-r"></div>
+  `;
+  window._CONV_CATS = cats;
+  updateConvUnits();
+}
+
+function updateConvUnits() {
+  const cat = document.getElementById('cv-cat').value;
+  const cats = window._CONV_CATS;
+  const c = cats[cat];
+  const units = c.special ? ['°C','°F','K'] : c.units;
+  ['cv-from','cv-to'].forEach(id => {
+    const el = document.getElementById(id);
+    el.innerHTML = units.map(u=>`<option>${u}</option>`).join('');
+  });
+  document.getElementById('cv-to').selectedIndex = 1;
+  doConv();
+}
+
+function doConv() {
+  const cat = document.getElementById('cv-cat').value;
+  const val = parseFloat(document.getElementById('cv-val').value)||0;
+  const from = document.getElementById('cv-from').value;
+  const to = document.getElementById('cv-to').value;
+  const cats = window._CONV_CATS;
+  const c = cats[cat];
+  let result;
+  if (c.special) { // Temperature
+    let celsius;
+    if (from==='°C') celsius=val;
+    else if (from==='°F') celsius=(val-32)*5/9;
+    else celsius=val-273.15;
+    if (to==='°C') result=celsius;
+    else if (to==='°F') result=celsius*9/5+32;
+    else result=celsius+273.15;
+  } else {
+    const fi = c.units.indexOf(from), ti = c.units.indexOf(to);
+    const base = val * c.factors[fi];
+    result = base / c.factors[ti];
+  }
+  document.getElementById('conv-r').innerHTML = `<div class="result-box">
+    <div class="r-label">${val} ${from} =</div>
+    <div class="r-value">${fmtNum(result)} ${to}</div>
+  </div>`;
+}
+
+// ============================================================
+// DATES & AGE
+// ============================================================
+function renderDates(el) {
+  el.innerHTML = `
+    <div class="form-section">
+      <h3>Calcular Edad</h3>
+      <div class="form-row"><label>Fecha de nacimiento</label><input type="date" id="dt-birth" oninput="calcAge()"></div>
+      <div id="dt-age"></div>
+    </div>
+    <div class="form-section">
+      <h3>Diferencia entre Fechas</h3>
+      <div class="form-row"><label>Fecha inicial</label><input type="date" id="dt-d1" oninput="calcDateDiff()"></div>
+      <div class="form-row"><label>Fecha final</label><input type="date" id="dt-d2" oninput="calcDateDiff()"></div>
+      <div id="dt-diff"></div>
+    </div>
+    <div class="form-section">
+      <h3>Agregar / Restar días</h3>
+      <div class="form-row"><label>Fecha base</label><input type="date" id="dt-base" oninput="calcDateAdd()"></div>
+      <div class="form-row"><label>Días (+ o −)</label><input type="number" id="dt-days" value="30" oninput="calcDateAdd()"></div>
+      <div id="dt-add-r"></div>
+    </div>
+  `;
+  const today = new Date().toISOString().split('T')[0];
+  document.getElementById('dt-birth').value = '1990-01-01';
+  document.getElementById('dt-d1').value = '2020-01-01';
+  document.getElementById('dt-d2').value = today;
+  document.getElementById('dt-base').value = today;
+  calcAge(); calcDateDiff(); calcDateAdd();
+}
+
+function calcAge() {
+  const b = new Date(document.getElementById('dt-birth').value);
+  const n = new Date();
+  if (isNaN(b)) return;
+  let y=n.getFullYear()-b.getFullYear(), mo=n.getMonth()-b.getMonth(), d=n.getDate()-b.getDate();
+  if(d<0){mo--;d+=new Date(n.getFullYear(),n.getMonth(),0).getDate();}
+  if(mo<0){y--;mo+=12;}
+  const totalDays = Math.floor((n-b)/86400000);
+  document.getElementById('dt-age').innerHTML=`<div class="results-grid">
+    <div class="result-box"><div class="r-label">Edad</div><div class="r-value">${y} años ${mo} m</div></div>
+    <div class="result-box"><div class="r-label">Días vividos</div><div class="r-value">${fmtNum(totalDays)}</div></div>
+  </div>`;
+}
+
+function calcDateDiff() {
+  const d1=new Date(document.getElementById('dt-d1')?.value), d2=new Date(document.getElementById('dt-d2')?.value);
+  if(isNaN(d1)||isNaN(d2))return;
+  const diff=Math.round((d2-d1)/86400000);
+  document.getElementById('dt-diff').innerHTML=`<div class="results-grid">
+    <div class="result-box"><div class="r-label">Días</div><div class="r-value">${diff}</div></div>
+    <div class="result-box"><div class="r-label">Semanas</div><div class="r-value">${fmtNum(diff/7)}</div></div>
+    <div class="result-box"><div class="r-label">Meses aprox.</div><div class="r-value">${fmtNum(diff/30.44)}</div></div>
+    <div class="result-box"><div class="r-label">Años aprox.</div><div class="r-value">${fmtNum(diff/365.25)}</div></div>
+  </div>`;
+}
+
+function calcDateAdd() {
+  const base=new Date(document.getElementById('dt-base')?.value), days=parseInt(document.getElementById('dt-days')?.value)||0;
+  if(isNaN(base))return;
+  const result=new Date(base.getTime()+days*86400000);
+  document.getElementById('dt-add-r').innerHTML=`<div class="result-box"><div class="r-label">Fecha resultante</div><div class="r-value">${result.toLocaleDateString('es-CO',{weekday:'long',year:'numeric',month:'long',day:'numeric'})}</div></div>`;
+}
+
+// ============================================================
+// HEALTH
+// ============================================================
+function renderHealth(el) {
+  el.innerHTML = `
+    <div class="form-section">
+      <h3>IMC — Índice de Masa Corporal</h3>
+      <div class="form-row"><label>Peso (kg)</label><input type="number" id="hl-w" value="70" step="0.1" oninput="calcIMC()"></div>
+      <div class="form-row"><label>Talla (m)</label><input type="number" id="hl-h" value="1.70" step="0.01" oninput="calcIMC()"></div>
+      <div id="imc-r"></div>
+    </div>
+    <div class="form-section">
+      <h3>Gasto Energético (Mifflin-St Jeor)</h3>
+      <div class="form-row"><label>Peso (kg)</label><input type="number" id="hl-gw" value="70" step="0.1" oninput="calcGE()"></div>
+      <div class="form-row"><label>Talla (cm)</label><input type="number" id="hl-gh" value="170" oninput="calcGE()"></div>
+      <div class="form-row"><label>Edad (años)</label><input type="number" id="hl-ga" value="30" oninput="calcGE()"></div>
+      <div class="form-row"><label>Sexo</label>
+        <select id="hl-gs" onchange="calcGE()"><option value="M">Masculino</option><option value="F">Femenino</option></select>
+      </div>
+      <div class="form-row"><label>Actividad</label>
+        <select id="hl-act" onchange="calcGE()">
+          <option value="1.2">Sedentario</option>
+          <option value="1.375">Ligero</option>
+          <option value="1.55" selected>Moderado</option>
+          <option value="1.725">Activo</option>
+          <option value="1.9">Muy activo</option>
+        </select>
+      </div>
+      <div id="ge-r"></div>
+    </div>
+    <div class="form-section">
+      <h3>Frecuencia Cardíaca Máxima</h3>
+      <div class="form-row"><label>Edad (años)</label><input type="number" id="hl-age" value="30" oninput="calcHR()"></div>
+      <div id="hr-r"></div>
+    </div>
+  `;
+  calcIMC(); calcGE(); calcHR();
+}
+
+function calcIMC() {
+  const w=parseFloat(document.getElementById('hl-w')?.value)||0, h=parseFloat(document.getElementById('hl-h')?.value)||1;
+  const imc=w/(h*h);
+  const cat=imc<18.5?'Bajo peso':imc<25?'Normal':imc<30?'Sobrepeso':imc<35?'Obesidad I':imc<40?'Obesidad II':'Obesidad III';
+  const col=imc<18.5?'var(--blue)':imc<25?'var(--green)':imc<30?'var(--accent)':'var(--red)';
+  document.getElementById('imc-r').innerHTML=`<div class="results-grid">
+    <div class="result-box"><div class="r-label">IMC</div><div class="r-value" style="color:${col}">${fmtNum(imc)}</div></div>
+    <div class="result-box"><div class="r-label">Categoría</div><div class="r-value" style="font-size:16px;color:${col}">${cat}</div></div>
+    <div class="result-box"><div class="r-label">Peso ideal aprox.</div><div class="r-value">${fmtNum(22*h*h)} kg</div></div>
+  </div>`;
+}
+
+function calcGE() {
+  const w=parseFloat(document.getElementById('hl-gw')?.value)||0;
+  const h=parseFloat(document.getElementById('hl-gh')?.value)||0;
+  const a=parseFloat(document.getElementById('hl-ga')?.value)||0;
+  const s=document.getElementById('hl-gs')?.value;
+  const act=parseFloat(document.getElementById('hl-act')?.value)||1.55;
+  const bmr = s==='M' ? 10*w+6.25*h-5*a+5 : 10*w+6.25*h-5*a-161;
+  const tdee = bmr * act;
+  document.getElementById('ge-r').innerHTML=`<div class="results-grid">
+    <div class="result-box"><div class="r-label">TMB (Basal)</div><div class="r-value">${Math.round(bmr)} kcal</div></div>
+    <div class="result-box"><div class="r-label">TDEE (Total)</div><div class="r-value">${Math.round(tdee)} kcal</div></div>
+    <div class="result-box"><div class="r-label">Déficit (−500)</div><div class="r-value">${Math.round(tdee-500)} kcal</div></div>
+    <div class="result-box"><div class="r-label">Superávit (+300)</div><div class="r-value">${Math.round(tdee+300)} kcal</div></div>
+  </div>`;
+}
+
+function calcHR() {
+  const age=parseFloat(document.getElementById('hl-age')?.value)||30;
+  const max=220-age;
+  document.getElementById('hr-r').innerHTML=`<div class="results-grid">
+    <div class="result-box"><div class="r-label">FC Máxima</div><div class="r-value">${max} bpm</div></div>
+    <div class="result-box"><div class="r-label">Zona quema grasa (60%)</div><div class="r-value">${Math.round(max*0.6)}–${Math.round(max*0.7)} bpm</div></div>
+    <div class="result-box"><div class="r-label">Zona aeróbica (70%)</div><div class="r-value">${Math.round(max*0.7)}–${Math.round(max*0.8)} bpm</div></div>
+  </div>`;
+}
+
+// ============================================================
+// CONSTRUCTION
+// ============================================================
+function renderConst(el) {
+  el.innerHTML = `
+    <div class="form-section">
+      <h3>Áreas</h3>
+      <div class="form-row"><label>Figura</label>
+        <select id="co-fig" onchange="updateConstFig()">
+          <option>Rectángulo</option><option>Triángulo</option><option>Círculo</option><option>Trapecio</option>
+        </select>
+      </div>
+      <div id="co-fields"></div>
+      <div class="action-row"><button class="action-btn" onclick="calcConst()">Calcular</button></div>
+      <div id="const-r"></div>
+    </div>
+    <div class="form-section">
+      <h3>Volúmenes</h3>
+      <div class="form-row"><label>Sólido</label>
+        <select id="co-vol" onchange="updateConstVol()">
+          <option>Cuboide</option><option>Cilindro</option><option>Esfera</option><option>Cono</option>
+        </select>
+      </div>
+      <div id="co-vol-fields"></div>
+      <div class="action-row"><button class="action-btn secondary" onclick="calcConstVol()">Calcular Volumen</button></div>
+      <div id="const-vol-r"></div>
+    </div>
+  `;
+  updateConstFig(); updateConstVol();
+}
+
+const CONST_FIGS = {
+  Rectángulo: [{l:'Largo (m)',id:'co-l'},{l:'Ancho (m)',id:'co-w'}],
+  Triángulo: [{l:'Base (m)',id:'co-l'},{l:'Altura (m)',id:'co-h2'}],
+  Círculo: [{l:'Radio (m)',id:'co-r2'}],
+  Trapecio: [{l:'Base mayor (m)',id:'co-l'},{l:'Base menor (m)',id:'co-w'},{l:'Altura (m)',id:'co-h2'}],
+};
+
+function updateConstFig() {
+  const fig = document.getElementById('co-fig').value;
+  document.getElementById('co-fields').innerHTML = CONST_FIGS[fig].map(f=>`<div class="form-row"><label>${f.l}</label><input type="number" id="${f.id}" value="5" step="0.1"></div>`).join('');
+}
+
+function calcConst() {
+  const fig = document.getElementById('co-fig').value;
+  let area = 0, perim = 0;
+  const g = id => parseFloat(document.getElementById(id)?.value)||0;
+  if (fig==='Rectángulo') { const l=g('co-l'),w=g('co-w'); area=l*w; perim=2*(l+w); }
+  else if (fig==='Triángulo') { const b=g('co-l'),h=g('co-h2'); area=b*h/2; }
+  else if (fig==='Círculo') { const r=g('co-r2'); area=Math.PI*r*r; perim=2*Math.PI*r; }
+  else if (fig==='Trapecio') { const a=g('co-l'),b=g('co-w'),h=g('co-h2'); area=(a+b)*h/2; }
+  document.getElementById('const-r').innerHTML=`<div class="results-grid">
+    <div class="result-box"><div class="r-label">Área</div><div class="r-value">${fmtNum(area)} m²</div></div>
+    ${perim?`<div class="result-box"><div class="r-label">Perímetro</div><div class="r-value">${fmtNum(perim)} m</div></div>`:''}
+  </div>`;
+}
+
+const CONST_VOLS = {
+  Cuboide: [{l:'Largo (m)',id:'cv-l'},{l:'Ancho (m)',id:'cv-w'},{l:'Alto (m)',id:'cv-h'}],
+  Cilindro: [{l:'Radio (m)',id:'cv-r'},{l:'Altura (m)',id:'cv-h'}],
+  Esfera: [{l:'Radio (m)',id:'cv-r'}],
+  Cono: [{l:'Radio base (m)',id:'cv-r'},{l:'Altura (m)',id:'cv-h'}],
+};
+
+function updateConstVol() {
+  const v = document.getElementById('co-vol').value;
+  document.getElementById('co-vol-fields').innerHTML = CONST_VOLS[v].map(f=>`<div class="form-row"><label>${f.l}</label><input type="number" id="${f.id}" value="3" step="0.1"></div>`).join('');
+}
+
+function calcConstVol() {
+  const v = document.getElementById('co-vol').value;
+  const g = id => parseFloat(document.getElementById(id)?.value)||0;
+  let vol = 0;
+  if (v==='Cuboide') vol=g('cv-l')*g('cv-w')*g('cv-h');
+  else if (v==='Cilindro') vol=Math.PI*g('cv-r')**2*g('cv-h');
+  else if (v==='Esfera') vol=4/3*Math.PI*g('cv-r')**3;
+  else if (v==='Cono') vol=1/3*Math.PI*g('cv-r')**2*g('cv-h');
+  document.getElementById('const-vol-r').innerHTML=`<div class="result-box"><div class="r-label">Volumen</div><div class="r-value">${fmtNum(vol)} m³</div></div>`;
+}
+
+// ============================================================
+// KIDS CALCULATOR
+// ============================================================
+function renderEdu(el) {
+  el.innerHTML = `
+    <div style="text-align:center;padding:10px 0 16px">
+      <div style="font-size:40px">🎓</div>
+      <div style="font-size:20px;font-weight:700;color:var(--accent)">¡Calculadora para Niños!</div>
+      <div style="font-size:13px;color:var(--text2);margin-top:4px">Aprende matemáticas jugando</div>
+    </div>
+    <div style="background:var(--surface);border-radius:16px;padding:20px;text-align:center;margin-bottom:14px">
+      <div id="edu-expr" style="font-size:18px;color:var(--text3);min-height:26px"></div>
+      <div id="edu-res" style="font-size:54px;font-weight:700;color:var(--text);margin:8px 0;letter-spacing:-1px">0</div>
+    </div>
+    <div style="display:grid;grid-template-columns:repeat(4,1fr);gap:10px">
+      ${['7','8','9','➕','4','5','6','➖','1','2','3','✖️','0','.',  '🟰','➗'].map(b=>`
+        <div onclick="eduPress('${b}')" style="background:${['➕','➖','✖️','➗'].includes(b)?'rgba(255,159,10,0.25)':b==='🟰'?'var(--accent)':'var(--bg3)'};border-radius:14px;height:62px;display:flex;align-items:center;justify-content:center;font-size:26px;cursor:pointer;transition:transform 0.1s" onpointerdown="this.style.transform='scale(0.92)'" onpointerup="this.style.transform='scale(1)'">${b}</div>
+      `).join('')}
+    </div>
+    <div style="margin-top:10px;display:grid;grid-template-columns:1fr 1fr;gap:10px">
+      <div onclick="eduPress('🗑️')" style="background:rgba(255,69,58,0.15);border-radius:14px;height:50px;display:flex;align-items:center;justify-content:center;font-size:22px;cursor:pointer">🗑️ Borrar</div>
+      <div onclick="eduPress('❓')" style="background:rgba(48,209,88,0.15);border-radius:14px;height:50px;display:flex;align-items:center;justify-content:center;font-size:18px;color:var(--green);font-weight:700;cursor:pointer">❓ Desafío</div>
+    </div>
+    <div id="edu-challenge" style="margin-top:12px"></div>
+  `;
+  window._eduExpr = ''; window._eduRes = '0'; window._eduNew = true;
+}
+
+function eduPress(v) {
+  const MAP = {'➕':'+','➖':'-','✖️':'*','➗':'/','🟰':'=','🗑️':'AC'};
+  const b = MAP[v] || v;
+  basicPressEdu(b);
+}
+
+function basicPressEdu(v) {
+  const rEl = document.getElementById('edu-res');
+  const eEl = document.getElementById('edu-expr');
+  if (!rEl) return;
+  if (v === 'AC') { window._eduExpr=''; window._eduRes='0'; window._eduNew=true; }
+  else if (['+','-','*','/'].includes(v)) { window._eduExpr=(window._eduExpr||'')+window._eduRes+' '+v+' '; window._eduNew=true; }
+  else if (v === '=') {
+    if (!window._eduExpr) return;
+    try {
+      const r = Function('"use strict";return ('+window._eduExpr+window._eduRes+')')();
+      window._eduRes = isFinite(r) ? fmtNum(r) : '¡Uy!';
+    } catch { window._eduRes = '¡Uy!'; }
+    window._eduExpr = ''; window._eduNew = true;
+  } else if (v === '❓') {
+    genChallenge();
+    return;
+  } else {
+    if (window._eduNew) { window._eduRes = v; window._eduNew = false; }
+    else { window._eduRes = window._eduRes==='0'?v:window._eduRes+v; }
+  }
+  rEl.textContent = window._eduRes;
+  eEl.textContent = window._eduExpr;
+}
+
+function genChallenge() {
+  const a=Math.floor(Math.random()*12)+1, b=Math.floor(Math.random()*12)+1;
+  const ops=['+','-','×','÷'], op=ops[Math.floor(Math.random()*2)]; // + or -
+  const ans = op==='+'?a+b:a-b;
+  document.getElementById('edu-challenge').innerHTML=`
+    <div style="background:rgba(48,209,88,0.1);border:2px solid rgba(48,209,88,0.3);border-radius:14px;padding:16px;text-align:center">
+      <div style="font-size:24px;font-weight:700;color:var(--text)">¿Cuánto es ${a} ${op} ${b}?</div>
+      <input type="number" id="edu-ans" placeholder="Tu respuesta…" style="margin-top:10px;background:var(--bg3);border:none;border-radius:8px;padding:8px 12px;color:var(--text);font-size:20px;text-align:center;width:140px;outline:none">
+      <button onclick="checkChallenge(${ans})" style="display:block;margin:10px auto 0;background:var(--green);color:#000;border:none;border-radius:10px;padding:8px 20px;font-size:16px;font-weight:700;cursor:pointer">✓ Verificar</button>
+      <div id="edu-feedback" style="margin-top:8px;font-size:18px;min-height:28px"></div>
+    </div>`;
+}
+
+function checkChallenge(ans) {
+  const v = parseInt(document.getElementById('edu-ans').value);
+  const fb = document.getElementById('edu-feedback');
+  if (v === ans) { fb.innerHTML = '<span style="color:var(--green)">🎉 ¡Correcto! ¡Muy bien!</span>'; }
+  else { fb.innerHTML = `<span style="color:var(--red)">❌ No exactamente. La respuesta es <strong>${ans}</strong></span>`; }
+}
+
+// ============================================================
+// TEMPLATES
+// ============================================================
+function renderTempl(el) {
+  const templates = [
+    { name: 'Presupuesto mensual', icon: '💰', fields: ['Ingresos netos','Arriendo/hipoteca','Alimentación','Transporte','Salud','Educación','Entretenimiento','Ahorro objetivo'], calc: calcBudget },
+    { name: 'Nómina simple', icon: '👷', fields: ['Salario base','Días trabajados','Días del mes','Horas extra (h)','Valor hora extra','Deducciones'], calc: calcPayroll },
+    { name: 'Simulador de ahorros', icon: '🐷', fields: ['Ahorro mensual','Tasa anual (%)','Años'], calc: calcSavings },
+  ];
+
+  el.innerHTML = `
+    <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:10px;margin-bottom:16px">
+      ${templates.map((t,i)=>`<div onclick="loadTemplate(${i})" style="background:var(--surface);border-radius:14px;padding:16px;cursor:pointer;border:2px solid transparent;transition:border-color 0.2s" id="tpl-card-${i}">
+        <div style="font-size:28px;margin-bottom:6px">${t.icon}</div>
+        <div style="font-size:13px;font-weight:600">${t.name}</div>
+      </div>`).join('')}
+    </div>
+    <div id="tpl-body"></div>
+  `;
+  window._TEMPLATES = templates;
+  loadTemplate(0);
+}
+
+function loadTemplate(i) {
+  const t = window._TEMPLATES[i];
+  document.querySelectorAll('[id^="tpl-card-"]').forEach((el,j)=>{
+    el.style.borderColor = j===i?'var(--accent)':'transparent';
+  });
+  document.getElementById('tpl-body').innerHTML = `
+    <div class="form-section">
+      <h3>${t.icon} ${t.name}</h3>
+      ${t.fields.map((f,fi)=>`<div class="form-row"><label>${f}</label><input type="number" id="tpl-f-${fi}" value="0" oninput="window._TEMPLATES[${i}].calc()"></div>`).join('')}
+      <div class="action-row"><button class="action-btn" onclick="window._TEMPLATES[${i}].calc()">Calcular</button></div>
+      <div id="tpl-r"></div>
+    </div>`;
+  t.calc();
+}
+
+function g(i) { return parseFloat(document.getElementById(`tpl-f-${i}`)?.value)||0; }
+
+function calcBudget() {
+  const [income,rent,food,trans,health,edu,ent,save] = [0,1,2,3,4,5,6,7].map(g);
+  const expenses = rent+food+trans+health+edu+ent;
+  const balance = income - expenses - save;
+  document.getElementById('tpl-r').innerHTML=`<div class="results-grid">
+    <div class="result-box"><div class="r-label">Total gastos</div><div class="r-value">${fmt$(expenses)}</div></div>
+    <div class="result-box"><div class="r-label">Ahorro previsto</div><div class="r-value">${fmt$(save)}</div></div>
+    <div class="result-box"><div class="r-label">Balance</div><div class="r-value" style="color:${balance>=0?'var(--green)':'var(--red)'}">${fmt$(balance)}</div></div>
+    <div class="result-box"><div class="r-label">% gastado</div><div class="r-value">${income?fmtNum((expenses+save)/income*100):'—'}%</div></div>
+  </div>`;
+}
+
+function calcPayroll() {
+  const [base,days,monthDays,extraH,extraRate,deduct] = [0,1,2,3,4,5].map(g);
+  const dailySalary = monthDays ? base/monthDays : 0;
+  const earned = dailySalary * days;
+  const extra = extraH * extraRate;
+  const gross = earned + extra;
+  const net = gross - deduct;
+  document.getElementById('tpl-r').innerHTML=`<div class="results-grid">
+    <div class="result-box"><div class="r-label">Salario devengado</div><div class="r-value">${fmt$(earned)}</div></div>
+    <div class="result-box"><div class="r-label">Horas extra</div><div class="r-value">${fmt$(extra)}</div></div>
+    <div class="result-box"><div class="r-label">Bruto</div><div class="r-value">${fmt$(gross)}</div></div>
+    <div class="result-box"><div class="r-label">Neto</div><div class="r-value" style="color:var(--green)">${fmt$(net)}</div></div>
+  </div>`;
+}
+
+function calcSavings() {
+  const [monthly, rateAnnual, years] = [0,1,2].map(g);
+  const r = rateAnnual/100/12;
+  const N = years*12;
+  const fv = monthly * (Math.pow(1+r,N)-1)/r * (1+r);
+  const total = monthly * N;
+  const interest = fv - total;
+  document.getElementById('tpl-r').innerHTML=`<div class="results-grid">
+    <div class="result-box"><div class="r-label">Total aportado</div><div class="r-value">${fmt$(total)}</div></div>
+    <div class="result-box"><div class="r-label">Intereses ganados</div><div class="r-value" style="color:var(--green)">${fmt$(interest)}</div></div>
+    <div class="result-box"><div class="r-label">Total acumulado</div><div class="r-value">${fmt$(fv)}</div></div>
+  </div>`;
+}
+
+// ============================================================
+// DOOMSDAY CLOCK
+// ============================================================
+function renderDoom(el) {
+  el.innerHTML = `
+    <div style="display:grid;grid-template-columns:auto 1fr;gap:20px;align-items:start;margin-bottom:14px">
+      <canvas id="clock-canvas" width="160" height="160"></canvas>
+      <div>
+        <div class="result-box" style="margin-bottom:8px">
+          <div class="r-label">Segundos para medianoche</div>
+          <div class="r-value" id="doom-sec" style="font-size:38px">—</div>
+          <div class="r-sub" id="doom-min-sec">—</div>
+        </div>
+        <div class="result-box">
+          <div class="r-label">Índice global de riesgo</div>
+          <div style="display:flex;align-items:center;gap:10px;margin-top:4px">
+            <div class="r-value" id="doom-risk">—</div>
+            <div id="doom-badge"></div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="form-section">
+      <h3>Variables de Riesgo Global</h3>
+      ${[
+        {l:'☢️ Riesgo nuclear', id:'d-n', v:75, inv:false},
+        {l:'🌡️ Riesgo climático', id:'d-c', v:70, inv:false},
+        {l:'🦠 Riesgo biológico', id:'d-b', v:45, inv:false},
+        {l:'🤖 Riesgo tecnológico/IA', id:'d-t', v:65, inv:false},
+        {l:'⚔️ Tensión geopolítica', id:'d-g', v:80, inv:false},
+        {l:'🤝 Cooperación internacional', id:'d-i', v:35, inv:true},
+      ].map(s=>`
+        <div class="slider-row">
+          <label>${s.l}${s.inv?' <span style="color:var(--green);font-size:10px">(↓ riesgo)</span>':''}</label>
+          <input type="range" id="${s.id}-sl" min="0" max="100" value="${s.v}" oninput="syncDoom('${s.id}','sl')">
+          <input type="number" class="slider-val" id="${s.id}-nv" min="0" max="100" value="${s.v}" oninput="syncDoom('${s.id}','nv')">
+        </div>
+      `).join('')}
+    </div>
+    <div class="risk-bars" id="doom-bars"></div>
+    <div class="form-section">
+      <h3>Escenarios Predefinidos</h3>
+      <div class="action-row">
+        <button class="action-btn btn-green secondary" onclick="doomScenario('opt')">🌿 Optimista</button>
+        <button class="action-btn secondary" onclick="doomScenario('cur')">📅 Actual</button>
+        <button class="action-btn danger" onclick="doomScenario('crit')">🚨 Crítico</button>
+      </div>
+    </div>
+    <div class="form-section" id="doom-explain">
+      <h3>Lectura interpretativa</h3>
+      <p id="doom-text" style="font-size:13px;color:var(--text2);line-height:1.7">—</p>
+    </div>
+    <details class="collapsible">
+      <summary>¿Cómo se calcula?</summary>
+      <div class="detail-body">
+        <p>El modelo utiliza la siguiente función de riesgo compuesto:</p>
+        <div class="formula-block">R = 0.30·N + 0.20·C + 0.15·B + 0.15·T + 0.15·G + 0.05·(1−I)<br>+ 0.10·(N×G) + 0.05·(T×G)</div>
+        <p>Donde cada variable está normalizada entre 0 y 1. Los términos de interacción N×G y T×G capturan el efecto multiplicador del riesgo nuclear/tecnológico cuando la tensión geopolítica es alta.</p>
+        <p style="margin-top:8px">Los segundos para medianoche se calculan como:</p>
+        <div class="formula-block">S = round(600 × (1 − R)²)</div>
+        <p style="margin-top:8px">⚠️ Esta es una <strong>simulación educativa</strong> no oficial, inspirada en el Boletín de Científicos Atómicos. No representa ningún cálculo institucional real.</p>
+      </div>
+    </details>
+  `;
+  calcDoom();
+}
+
+function syncDoom(id, src) {
+  const sl = document.getElementById(`${id}-sl`);
+  const nv = document.getElementById(`${id}-nv`);
+  if (!sl || !nv) return;
+  if (src === 'sl') {
+    let v = parseInt(sl.value);
+    v = Math.max(0, Math.min(100, v));
+    nv.value = v;
+  } else {
+    let v = parseInt(nv.value);
+    if (isNaN(v)) return;
+    v = Math.max(0, Math.min(100, v));
+    nv.value = v;
+    sl.value = v;
+  }
+  calcDoom();
+}
+
+function doomScenario(s) {
+  const scenarios = {
+    opt:  {n:20,c:35,b:20,t:30,g:25,i:80},
+    cur:  {n:75,c:70,b:45,t:65,g:80,i:35},
+    crit: {n:95,c:90,b:70,t:85,g:95,i:15},
+  };
+  const sc = scenarios[s];
+  ['n','c','b','t','g','i'].forEach(k => {
+    const sl = document.getElementById(`d-${k}-sl`);
+    const nv = document.getElementById(`d-${k}-nv`);
+    if (sl) sl.value = sc[k];
+    if (nv) nv.value = sc[k];
+  });
+  calcDoom();
+}
+
+function getDoomVals() {
+  return ['n','c','b','t','g','i'].reduce((acc,k) => {
+    acc[k] = parseInt(document.getElementById(`d-${k}-sl`)?.value||'0')/100;
+    return acc;
+  }, {});
+}
+
+function calcDoom() {
+  const {n,c,b,t,g,i} = getDoomVals();
+  let R = 0.30*n + 0.20*c + 0.15*b + 0.15*t + 0.15*g + 0.05*(1-i)
+        + 0.10*(n*g) + 0.05*(t*g);
+  R = Math.max(0, Math.min(1, R));
+  const S = Math.round(600 * Math.pow(1-R, 2));
+  const mins = Math.floor(S/60), secs = S%60;
+
+  const el_sec = document.getElementById('doom-sec');
+  const el_ms  = document.getElementById('doom-min-sec');
+  const el_risk = document.getElementById('doom-risk');
+  const el_badge = document.getElementById('doom-badge');
+
+  if (el_sec) el_sec.textContent = S + ' s';
+  if (el_ms)  el_ms.textContent  = mins>0 ? `${mins} min ${secs} s para medianoche` : `${secs} s para medianoche`;
+  if (el_risk) el_risk.textContent = fmtNum(R,4) + ' (' + fmtNum(R*100) + '%)';
+
+  const levels = [
+    {max:0.20,label:'Bajo',cls:'level-low'},
+    {max:0.40,label:'Moderado',cls:'level-mod'},
+    {max:0.60,label:'Alto',cls:'level-high'},
+    {max:0.80,label:'Crítico',cls:'level-crit'},
+    {max:1.00,label:'Extremo',cls:'level-ext'},
+  ];
+  const lv = levels.find(l => R <= l.max) || levels[4];
+  if (el_badge) el_badge.innerHTML = `<span class="level-badge ${lv.cls}">${lv.label}</span>`;
+
+  // Bars
+  const varData = [
+    {l:'Nuclear',v:n,w:0.30,c:'#ff453a'},
+    {l:'Climático',v:c,w:0.20,c:'#ffd60a'},
+    {l:'Biológico',v:b,w:0.15,c:'#30d158'},
+    {l:'Tecnológico',v:t,w:0.15,c:'#0a84ff'},
+    {l:'Geopolítico',v:g,w:0.15,c:'#bf5af2'},
+    {l:'Cooperación',v:i,w:0.05,c:'#5ac8fa'},
+  ];
+  const barsEl = document.getElementById('doom-bars');
+  if (barsEl) barsEl.innerHTML = varData.map(d=>`
+    <div class="risk-bar-row">
+      <span>${d.l}</span>
+      <div class="risk-bar-track"><div class="risk-bar-fill" style="width:${d.v*100}%;background:${d.c}"></div></div>
+      <span class="pct">${Math.round(d.v*100)}%</span>
+    </div>
+  `).join('');
+
+  // Interpretive text
+  const dominant = varData.slice(0,5).sort((a,b)=>b.v-a.v);
+  let text = '';
+  if (R >= 0.8) text = `Escenario extremo. El resultado está impulsado principalmente por ${dominant[0].l.toLowerCase()} (${Math.round(dominant[0].v*100)}%) y ${dominant[1].l.toLowerCase()} (${Math.round(dominant[1].v*100)}%). La cooperación internacional, en ${Math.round(i*100)}%, es insuficiente para mitigar este nivel de riesgo acumulado.`;
+  else if (R >= 0.6) text = `Nivel crítico. La combinación entre ${dominant[0].l.toLowerCase()} y ${dominant[1].l.toLowerCase()} intensifica el escenario. ${i < 0.4 ? 'La baja cooperación internacional amplifica significativamente el riesgo global.' : 'La cooperación internacional ayuda a contener parcialmente el riesgo total.'}`;
+  else if (R >= 0.4) text = `Riesgo alto. El factor dominante es ${dominant[0].l.toLowerCase()} (${Math.round(dominant[0].v*100)}%). ${n>0.5&&g>0.5?'La interacción entre riesgo nuclear y tensión geopolítica actúa como multiplicador del índice.':'El sistema global muestra señales de tensión en varias dimensiones simultáneamente.'}`;
+  else if (R >= 0.2) text = `Riesgo moderado. El mundo opera con vulnerabilidades visibles, especialmente en ${dominant[0].l.toLowerCase()}. ${i>0.6?'El nivel de cooperación internacional actúa como factor estabilizador clave.':'Un aumento en la cooperación internacional reduciría notablemente este índice.'}`;
+  else text = `Riesgo bajo. El escenario es relativamente estable. La combinación de valores bajos de amenaza y ${i>0.7?'alta cooperación internacional contribuye a un horizonte global favorable.':'factores de riesgo contenidos genera un horizonte global estable.'}`;
+
+  const textEl = document.getElementById('doom-text');
+  if (textEl) textEl.textContent = text;
+
+  // Clock
+  drawDoomClock(R);
+}
+
+function drawDoomClock(R) {
+  const canvas = document.getElementById('clock-canvas');
+  if (!canvas) return;
+  const ctx = canvas.getContext('2d');
+  const CX = 80, CY = 80, CR = 68;
+  ctx.clearRect(0,0,160,160);
+
+  // Background circle
+  ctx.beginPath(); ctx.arc(CX,CY,CR,0,Math.PI*2);
+  ctx.fillStyle = '#1c1c1e'; ctx.fill();
+  ctx.strokeStyle = 'rgba(255,255,255,0.1)'; ctx.lineWidth = 2; ctx.stroke();
+
+  // Tick marks
+  for (let i=0;i<60;i++) {
+    const ang = (i/60)*Math.PI*2 - Math.PI/2;
+    const len = i%5===0?8:4;
+    ctx.beginPath();
+    ctx.moveTo(CX+Math.cos(ang)*(CR-2), CY+Math.sin(ang)*(CR-2));
+    ctx.lineTo(CX+Math.cos(ang)*(CR-2-len), CY+Math.sin(ang)*(CR-2-len));
+    ctx.strokeStyle = i%5===0?'rgba(255,255,255,0.4)':'rgba(255,255,255,0.15)';
+    ctx.lineWidth = i%5===0?1.5:1;
+    ctx.stroke();
+  }
+
+  // 12 marker
+  ctx.font = 'bold 11px sans-serif'; ctx.fillStyle = 'rgba(255,255,255,0.5)';
+  ctx.textAlign='center'; ctx.fillText('12', CX, CY-CR+16);
+
+  // Risk arc
+  const arcStart = -Math.PI/2;
+  const arcEnd = arcStart + R * Math.PI * 2;
+  const riskColor = R > 0.8 ? '#bf5af2' : R > 0.6 ? '#ff453a' : R > 0.4 ? '#ff9f0a' : R > 0.2 ? '#ffd60a' : '#30d158';
+  ctx.beginPath(); ctx.arc(CX,CY,CR-10, arcStart, arcEnd);
+  ctx.strokeStyle = riskColor + '40'; ctx.lineWidth = 8; ctx.stroke();
+
+  // Hand — approaches midnight (12) as R→1
+  // Midnight = angle -PI/2 (top). We go backward from -PI/2-spread to -PI/2
+  const spread = Math.PI * 0.75; // range of motion
+  const handAng = -Math.PI/2 - spread + R * spread;
+  const handLen = CR - 14;
+  ctx.beginPath();
+  ctx.moveTo(CX, CY);
+  ctx.lineTo(CX + Math.cos(handAng)*handLen, CY + Math.sin(handAng)*handLen);
+  ctx.strokeStyle = riskColor; ctx.lineWidth = 2.5;
+  ctx.lineCap = 'round'; ctx.stroke();
+
+  // Center dot
+  ctx.beginPath(); ctx.arc(CX,CY,4,0,Math.PI*2);
+  ctx.fillStyle = riskColor; ctx.fill();
+
+  // Label
+  ctx.font = '9px sans-serif'; ctx.fillStyle = 'rgba(255,255,255,0.4)';
+  ctx.textAlign='center'; ctx.fillText('MEDIANOCHE', CX, CY+CR-8);
+}
+
+// ============================================================
+// UTILITIES
+// ============================================================
+function fmtNum(n, dec=6) {
+  if (!isFinite(n)) return '∞';
+  if (Number.isInteger(n)) return n.toLocaleString('es');
+  const s = parseFloat(n.toPrecision(dec)).toString();
+  if (s.includes('e')) return n.toExponential(4);
+  const parts = s.split('.');
+  parts[0] = parseInt(parts[0]).toLocaleString('es');
+  return parts.join('.');
+}
+
+function fmt$(n) {
+  if (!isFinite(n)) return '—';
+  return n.toLocaleString('es', { minimumFractionDigits:2, maximumFractionDigits:2 });
+}
+
+// ============================================================
+// TOUR
+// ============================================================
+const TOUR_STEPS = [
+  { title:'Bienvenido a CalcPro', desc:'Una calculadora premium con 31 módulos especializados. Navega entre módulos usando el panel lateral.', target: null },
+  { title:'Selector de Módulos', desc:'Aquí encuentras todos los módulos organizados por categoría. Usa el buscador para encontrar rápidamente el que necesitas.', target:'#sidebar' },
+  { title:'Selector de Idioma', desc:'Puedes cambiar el idioma de la interfaz con los botones ES / EN / PT / FR.', target:'#lang-row' },
+  { title:'Módulo activo', desc:'El contenido del módulo seleccionado aparece aquí. Cada módulo incluye formularios, resultados visuales y funciones específicas.', target:'#module-content' },
+  { title:'Reloj del Fin del Mundo', desc:'Módulo especial: simula con variables de riesgo global cuán cerca estaría el mundo de una "medianoche simbólica".', target:null },
+  { title:'¡Listo!', desc:'Explora libremente todos los módulos. ¡Disfruta CalcPro!', target:null },
+];
+
+let tourStep = 0;
+function startTour() {
+  tourStep = 0;
+  document.getElementById('tour-overlay').classList.add('active');
+  showTourStep();
+}
+
+function showTourStep() {
+  const s = TOUR_STEPS[tourStep];
+  document.getElementById('tour-title').textContent = s.title;
+  document.getElementById('tour-desc').textContent = s.desc;
+  document.getElementById('tour-counter').textContent = `${tourStep+1} / ${TOUR_STEPS.length}`;
+  const nxt = document.getElementById('tour-next-btn');
+  nxt.textContent = tourStep === TOUR_STEPS.length-1 ? t('tour_finish') : t('tour_next');
+
+  // Position popup
+  const popup = document.getElementById('tour-popup');
+  if (s.target) {
+    const el = document.querySelector(s.target);
+    if (el) {
+      const r = el.getBoundingClientRect();
+      popup.style.top  = Math.min(r.bottom + 12, window.innerHeight - 200) + 'px';
+      popup.style.left = Math.min(Math.max(r.left, 10), window.innerWidth - 300) + 'px';
+    } else { centerPopup(popup); }
+  } else { centerPopup(popup); }
+}
+
+function centerPopup(popup) {
+  popup.style.top  = '50%';
+  popup.style.left = '50%';
+  popup.style.transform = 'translate(-50%,-50%)';
+}
+
+function tourNext() {
+  tourStep++;
+  if (tourStep >= TOUR_STEPS.length) { endTour(); return; }
+  showTourStep();
+}
+
+function endTour() {
+  document.getElementById('tour-overlay').classList.remove('active');
+  document.getElementById('tour-popup').style.transform = '';
+}
+
+// ============================================================
+// INIT
+// ============================================================
+(function init() {
+  // Inject attribution email via JS
+  const attr = document.createElement('meta');
+  attr.name = 'author';
+  attr.content = 'PhD. Jos\u00e9 Alonso Andrade Salazar — ' + ['911','psicologia','@','gmail','.com'].join('');
+  document.head.appendChild(attr);
+
+  buildSidebar();
+  loadModule('basic');
+})();
+</script>
+</body>
+</html>

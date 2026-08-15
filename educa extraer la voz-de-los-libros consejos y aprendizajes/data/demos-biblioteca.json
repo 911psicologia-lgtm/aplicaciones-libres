@@ -1,0 +1,2289 @@
+[
+  {
+    "id": "demo-trabajo-foco",
+    "demo": true,
+    "usuario": "jose",
+    "fecha": "2026-07-07",
+    "tipoEntrada": "lectura",
+    "modoLectura": "ideas",
+    "capaLectura": "ambas",
+    "cantidadTarjetas": 10,
+    "tema": "trabajo con foco, límites y sentido",
+    "titulo_sesion": "Trabajo con foco y sentido",
+    "fuentes": [
+      "The Effective Executive",
+      "Deep Work",
+      "Hábitos de trabajo consciente"
+    ],
+    "autores": [
+      "Peter F. Drucker",
+      "Cal Newport"
+    ],
+    "categoria_vital": "trabajo",
+    "nivel_profundidad": "medio",
+    "palabras_clave": [],
+    "saludo_audio": "Hola, José. Esta lectura te ayuda a ordenar el trabajo sin perder presencia ni humanidad.",
+    "destinatario": null,
+    "guia_acompanante": null,
+    "ideas": [
+      {
+        "numero": 1,
+        "prioritaria": true,
+        "directa": "Trabajar bien no es llenar el día de tareas, sino elegir qué contribución merece tu mejor atención.",
+        "adaptada": "Puedes iniciar la jornada preguntando qué acción moverá realmente tu proyecto, tu clase o tu responsabilidad principal.",
+        "consejo_practico": "Escribe una prioridad irrenunciable antes de abrir mensajes o redes.",
+        "frase_memorable": "El foco empieza cuando el día deja de mandar solo."
+      },
+      {
+        "numero": 2,
+        "prioritaria": true,
+        "directa": "La atención profunda necesita límites visibles frente a interrupciones, urgencias ajenas y dispersión digital.",
+        "adaptada": "En tu vida docente, clínica y creativa, proteger bloques de concentración es cuidar la calidad de lo que entregas.",
+        "consejo_practico": "Reserva 40 minutos sin notificaciones para una tarea de pensamiento.",
+        "frase_memorable": "La atención también se defiende."
+      },
+      {
+        "numero": 3,
+        "prioritaria": true,
+        "directa": "La productividad sostenible requiere pausas, no solo disciplina. El cansancio acumulado baja criterio y creatividad.",
+        "adaptada": "Puedes trabajar con intensidad sin convertir tu cuerpo en herramienta descartable.",
+        "consejo_practico": "Programa una pausa breve antes de sentir agotamiento total.",
+        "frase_memorable": "Descansar a tiempo también produce futuro."
+      },
+      {
+        "numero": 4,
+        "prioritaria": true,
+        "directa": "Delegar o simplificar no siempre es pérdida de control; puede ser una forma de cuidar lo esencial.",
+        "adaptada": "Cuando todo parece urgente, conviene separar lo que solo hace ruido de lo que sostiene el propósito.",
+        "consejo_practico": "Elimina, posterga o reduce una tarea secundaria hoy.",
+        "frase_memorable": "No todo lo pendiente merece tu centro."
+      },
+      {
+        "numero": 5,
+        "prioritaria": true,
+        "directa": "La claridad de objetivos disminuye ansiedad porque convierte una nube de demandas en pasos visibles.",
+        "adaptada": "Puedes traducir proyectos grandes en acciones pequeñas, verificables y menos intimidantes.",
+        "consejo_practico": "Convierte un pendiente amplio en tres acciones de máximo veinte minutos.",
+        "frase_memorable": "Lo claro pesa menos."
+      },
+      {
+        "numero": 6,
+        "prioritaria": true,
+        "directa": "Los límites laborales no niegan compromiso; protegen la continuidad del compromiso.",
+        "adaptada": "Decir no a una solicitud puede ser decir sí a tu salud, tus hijos, tu escritura o tu mejor trabajo.",
+        "consejo_practico": "Define una hora de cierre y respétala como cita contigo.",
+        "frase_memorable": "Un límite bien puesto también cuida lo que amas."
+      },
+      {
+        "numero": 7,
+        "prioritaria": true,
+        "directa": "El trabajo con sentido conecta tarea, valor y persona beneficiada.",
+        "adaptada": "Una clase, una consulta o una app adquieren energía distinta cuando recuerdas a quién pueden servir.",
+        "consejo_practico": "Antes de una tarea difícil, nombra a quién ayuda.",
+        "frase_memorable": "El sentido vuelve habitable el esfuerzo."
+      },
+      {
+        "numero": 8,
+        "prioritaria": true,
+        "directa": "Revisar el día sin culpa permite aprender de lo hecho y ajustar lo que no funcionó.",
+        "adaptada": "No necesitas castigarte para mejorar; basta mirar con honestidad y corregir con cuidado.",
+        "consejo_practico": "Cierra la jornada con una línea: qué funcionó y qué ajustaré mañana.",
+        "frase_memorable": "La mejora empieza sin maltrato."
+      },
+      {
+        "numero": 9,
+        "prioritaria": true,
+        "directa": "La excelencia cotidiana nace de hábitos pequeños repetidos con intención.",
+        "adaptada": "No todo avance será espectacular; algunas transformaciones se sostienen por rutinas humildes.",
+        "consejo_practico": "Elige un ritual breve para iniciar tu trabajo profundo.",
+        "frase_memorable": "La constancia silenciosa también construye obra."
+      },
+      {
+        "numero": 10,
+        "prioritaria": true,
+        "directa": "Un trabajo humano no separa resultados de vínculos, cuidado y dignidad.",
+        "adaptada": "Puedes evaluar tu productividad preguntando si también conservaste tu forma de tratar a otros y a ti mismo.",
+        "consejo_practico": "Antes de cerrar el día, revisa si fuiste eficaz sin perder cuidado.",
+        "frase_memorable": "Trabajar bien también es seguir siendo humano."
+      }
+    ],
+    "ideas_todas": [
+      {
+        "numero": 1,
+        "prioritaria": true,
+        "directa": "Trabajar bien no es llenar el día de tareas, sino elegir qué contribución merece tu mejor atención.",
+        "adaptada": "Puedes iniciar la jornada preguntando qué acción moverá realmente tu proyecto, tu clase o tu responsabilidad principal.",
+        "consejo_practico": "Escribe una prioridad irrenunciable antes de abrir mensajes o redes.",
+        "frase_memorable": "El foco empieza cuando el día deja de mandar solo."
+      },
+      {
+        "numero": 2,
+        "prioritaria": true,
+        "directa": "La atención profunda necesita límites visibles frente a interrupciones, urgencias ajenas y dispersión digital.",
+        "adaptada": "En tu vida docente, clínica y creativa, proteger bloques de concentración es cuidar la calidad de lo que entregas.",
+        "consejo_practico": "Reserva 40 minutos sin notificaciones para una tarea de pensamiento.",
+        "frase_memorable": "La atención también se defiende."
+      },
+      {
+        "numero": 3,
+        "prioritaria": true,
+        "directa": "La productividad sostenible requiere pausas, no solo disciplina. El cansancio acumulado baja criterio y creatividad.",
+        "adaptada": "Puedes trabajar con intensidad sin convertir tu cuerpo en herramienta descartable.",
+        "consejo_practico": "Programa una pausa breve antes de sentir agotamiento total.",
+        "frase_memorable": "Descansar a tiempo también produce futuro."
+      },
+      {
+        "numero": 4,
+        "prioritaria": true,
+        "directa": "Delegar o simplificar no siempre es pérdida de control; puede ser una forma de cuidar lo esencial.",
+        "adaptada": "Cuando todo parece urgente, conviene separar lo que solo hace ruido de lo que sostiene el propósito.",
+        "consejo_practico": "Elimina, posterga o reduce una tarea secundaria hoy.",
+        "frase_memorable": "No todo lo pendiente merece tu centro."
+      },
+      {
+        "numero": 5,
+        "prioritaria": true,
+        "directa": "La claridad de objetivos disminuye ansiedad porque convierte una nube de demandas en pasos visibles.",
+        "adaptada": "Puedes traducir proyectos grandes en acciones pequeñas, verificables y menos intimidantes.",
+        "consejo_practico": "Convierte un pendiente amplio en tres acciones de máximo veinte minutos.",
+        "frase_memorable": "Lo claro pesa menos."
+      },
+      {
+        "numero": 6,
+        "prioritaria": true,
+        "directa": "Los límites laborales no niegan compromiso; protegen la continuidad del compromiso.",
+        "adaptada": "Decir no a una solicitud puede ser decir sí a tu salud, tus hijos, tu escritura o tu mejor trabajo.",
+        "consejo_practico": "Define una hora de cierre y respétala como cita contigo.",
+        "frase_memorable": "Un límite bien puesto también cuida lo que amas."
+      },
+      {
+        "numero": 7,
+        "prioritaria": true,
+        "directa": "El trabajo con sentido conecta tarea, valor y persona beneficiada.",
+        "adaptada": "Una clase, una consulta o una app adquieren energía distinta cuando recuerdas a quién pueden servir.",
+        "consejo_practico": "Antes de una tarea difícil, nombra a quién ayuda.",
+        "frase_memorable": "El sentido vuelve habitable el esfuerzo."
+      },
+      {
+        "numero": 8,
+        "prioritaria": true,
+        "directa": "Revisar el día sin culpa permite aprender de lo hecho y ajustar lo que no funcionó.",
+        "adaptada": "No necesitas castigarte para mejorar; basta mirar con honestidad y corregir con cuidado.",
+        "consejo_practico": "Cierra la jornada con una línea: qué funcionó y qué ajustaré mañana.",
+        "frase_memorable": "La mejora empieza sin maltrato."
+      },
+      {
+        "numero": 9,
+        "prioritaria": true,
+        "directa": "La excelencia cotidiana nace de hábitos pequeños repetidos con intención.",
+        "adaptada": "No todo avance será espectacular; algunas transformaciones se sostienen por rutinas humildes.",
+        "consejo_practico": "Elige un ritual breve para iniciar tu trabajo profundo.",
+        "frase_memorable": "La constancia silenciosa también construye obra."
+      },
+      {
+        "numero": 10,
+        "prioritaria": true,
+        "directa": "Un trabajo humano no separa resultados de vínculos, cuidado y dignidad.",
+        "adaptada": "Puedes evaluar tu productividad preguntando si también conservaste tu forma de tratar a otros y a ti mismo.",
+        "consejo_practico": "Antes de cerrar el día, revisa si fuiste eficaz sin perder cuidado.",
+        "frase_memorable": "Trabajar bien también es seguir siendo humano."
+      }
+    ],
+    "guion_audio_cierre": "Guarda esta lectura si quieres volver a ella. Escucha una tarjeta por día o repítela cuando necesites recuperar foco, calma y sentido.",
+    "modo": "ambas"
+  },
+  {
+    "id": "demo-orientacion-brujula",
+    "demo": true,
+    "usuario": "jose",
+    "fecha": "2026-07-07",
+    "tipoEntrada": "lectura",
+    "modoLectura": "historia",
+    "capaLectura": "ambas",
+    "cantidadTarjetas": 10,
+    "tema": "orientación personal para recuperar dirección",
+    "titulo_sesion": "La brújula de las pequeñas decisiones",
+    "fuentes": [
+      "Historia pedagógica original"
+    ],
+    "autores": [],
+    "categoria_vital": "orientacion",
+    "nivel_profundidad": "medio",
+    "palabras_clave": [],
+    "saludo_audio": "Hola, José. Hoy caminaremos una historia sencilla sobre una brújula que no responde por ti, pero te ayuda a escuchar mejor.",
+    "destinatario": null,
+    "guia_acompanante": null,
+    "ideas": [
+      {
+        "numero": 1,
+        "prioritaria": true,
+        "directa": "Un caminante encuentra una brújula antigua en medio de una mañana confusa. No le dice el camino exacto; solo le recuerda que puede detenerse antes de correr.",
+        "adaptada": "Cuando te sientas disperso, la primera orientación puede ser una pausa, no una respuesta inmediata.",
+        "consejo_practico": "Haz una pausa de un minuto antes de decidir qué sigue.",
+        "frase_memorable": "La dirección aparece mejor cuando baja el ruido."
+      },
+      {
+        "numero": 2,
+        "prioritaria": true,
+        "directa": "El caminante descubre que la brújula se altera cuando la sostiene con miedo. Debe respirar para que la aguja vuelva a moverse con claridad.",
+        "adaptada": "Tus decisiones pueden verse más grandes de lo que son cuando las miras desde cansancio o ansiedad.",
+        "consejo_practico": "Respira lento y nombra qué emoción está entrando en la decisión.",
+        "frase_memorable": "La emoción no debe conducir sin ser escuchada."
+      },
+      {
+        "numero": 3,
+        "prioritaria": true,
+        "directa": "En el bosque hay muchos senderos prometedores. Algunos brillan, pero no llevan agua ni sombra.",
+        "adaptada": "Puedes diferenciar lo atractivo de lo nutritivo: no todo lo que seduce sostiene tu vida.",
+        "consejo_practico": "Pregunta qué camino te dará paz después, no solo entusiasmo ahora.",
+        "frase_memorable": "No todo brillo orienta."
+      },
+      {
+        "numero": 4,
+        "prioritaria": true,
+        "directa": "El caminante pregunta a otros viajeros, pero aprende que nadie puede caminar exactamente por él.",
+        "adaptada": "Puedes escuchar consejos sin entregar tu decisión completa a otra persona.",
+        "consejo_practico": "Pide una opinión y luego escribe qué parte resuena contigo.",
+        "frase_memorable": "Escuchar no es desaparecer."
+      },
+      {
+        "numero": 5,
+        "prioritaria": true,
+        "directa": "La brújula apunta de nuevo cuando el caminante recuerda sus valores: cuidado, verdad, presencia y responsabilidad.",
+        "adaptada": "Tus valores funcionan como norte cuando la situación tiene demasiadas voces.",
+        "consejo_practico": "Elige tres valores que quieres respetar en esta semana.",
+        "frase_memorable": "Los valores son norte cuando el mapa falta."
+      },
+      {
+        "numero": 6,
+        "prioritaria": true,
+        "directa": "Una tormenta borra las huellas del sendero. El caminante aprende a mirar señales pequeñas: una piedra, un árbol, la dirección del viento.",
+        "adaptada": "En momentos inciertos, las señales pequeñas ayudan más que esperar claridad total.",
+        "consejo_practico": "Busca una señal concreta de avance, aunque sea mínima.",
+        "frase_memorable": "La vida también orienta por indicios."
+      },
+      {
+        "numero": 7,
+        "prioritaria": true,
+        "directa": "El caminante se equivoca y retrocede sin llamarse fracasado. Comprende que rectificar también es avanzar.",
+        "adaptada": "Puedes cambiar de dirección sin interpretar cada ajuste como derrota.",
+        "consejo_practico": "Revisa una decisión y permite una corrección amable.",
+        "frase_memorable": "Rectificar no niega el camino; lo cuida."
+      },
+      {
+        "numero": 8,
+        "prioritaria": true,
+        "directa": "Al caer la tarde, la brújula no elimina el cansancio, pero evita que el cansancio decida por él.",
+        "adaptada": "No siempre tendrás energía plena, pero puedes no entregar tus decisiones al agotamiento.",
+        "consejo_practico": "Posterga una decisión importante si estás demasiado cansado.",
+        "frase_memorable": "El cansancio merece cuidado, no mando absoluto."
+      },
+      {
+        "numero": 9,
+        "prioritaria": true,
+        "directa": "El caminante llega a una colina y ve que su ruta no fue perfecta, pero sí propia.",
+        "adaptada": "Una vida orientada no es una vida sin dudas; es una vida que aprende a volver a sí misma.",
+        "consejo_practico": "Escribe una frase de dirección personal para este mes.",
+        "frase_memorable": "Lo propio no siempre es recto, pero puede ser verdadero."
+      },
+      {
+        "numero": 10,
+        "prioritaria": true,
+        "directa": "La brújula queda en su bolsillo como recordatorio: detenerse, escuchar, elegir y corregir.",
+        "adaptada": "Puedes usar esta historia como ritual cuando la vida se sienta saturada.",
+        "consejo_practico": "Repite: me detengo, escucho, elijo un paso posible.",
+        "frase_memorable": "La orientación es una práctica, no un milagro."
+      }
+    ],
+    "ideas_todas": [
+      {
+        "numero": 1,
+        "prioritaria": true,
+        "directa": "Un caminante encuentra una brújula antigua en medio de una mañana confusa. No le dice el camino exacto; solo le recuerda que puede detenerse antes de correr.",
+        "adaptada": "Cuando te sientas disperso, la primera orientación puede ser una pausa, no una respuesta inmediata.",
+        "consejo_practico": "Haz una pausa de un minuto antes de decidir qué sigue.",
+        "frase_memorable": "La dirección aparece mejor cuando baja el ruido."
+      },
+      {
+        "numero": 2,
+        "prioritaria": true,
+        "directa": "El caminante descubre que la brújula se altera cuando la sostiene con miedo. Debe respirar para que la aguja vuelva a moverse con claridad.",
+        "adaptada": "Tus decisiones pueden verse más grandes de lo que son cuando las miras desde cansancio o ansiedad.",
+        "consejo_practico": "Respira lento y nombra qué emoción está entrando en la decisión.",
+        "frase_memorable": "La emoción no debe conducir sin ser escuchada."
+      },
+      {
+        "numero": 3,
+        "prioritaria": true,
+        "directa": "En el bosque hay muchos senderos prometedores. Algunos brillan, pero no llevan agua ni sombra.",
+        "adaptada": "Puedes diferenciar lo atractivo de lo nutritivo: no todo lo que seduce sostiene tu vida.",
+        "consejo_practico": "Pregunta qué camino te dará paz después, no solo entusiasmo ahora.",
+        "frase_memorable": "No todo brillo orienta."
+      },
+      {
+        "numero": 4,
+        "prioritaria": true,
+        "directa": "El caminante pregunta a otros viajeros, pero aprende que nadie puede caminar exactamente por él.",
+        "adaptada": "Puedes escuchar consejos sin entregar tu decisión completa a otra persona.",
+        "consejo_practico": "Pide una opinión y luego escribe qué parte resuena contigo.",
+        "frase_memorable": "Escuchar no es desaparecer."
+      },
+      {
+        "numero": 5,
+        "prioritaria": true,
+        "directa": "La brújula apunta de nuevo cuando el caminante recuerda sus valores: cuidado, verdad, presencia y responsabilidad.",
+        "adaptada": "Tus valores funcionan como norte cuando la situación tiene demasiadas voces.",
+        "consejo_practico": "Elige tres valores que quieres respetar en esta semana.",
+        "frase_memorable": "Los valores son norte cuando el mapa falta."
+      },
+      {
+        "numero": 6,
+        "prioritaria": true,
+        "directa": "Una tormenta borra las huellas del sendero. El caminante aprende a mirar señales pequeñas: una piedra, un árbol, la dirección del viento.",
+        "adaptada": "En momentos inciertos, las señales pequeñas ayudan más que esperar claridad total.",
+        "consejo_practico": "Busca una señal concreta de avance, aunque sea mínima.",
+        "frase_memorable": "La vida también orienta por indicios."
+      },
+      {
+        "numero": 7,
+        "prioritaria": true,
+        "directa": "El caminante se equivoca y retrocede sin llamarse fracasado. Comprende que rectificar también es avanzar.",
+        "adaptada": "Puedes cambiar de dirección sin interpretar cada ajuste como derrota.",
+        "consejo_practico": "Revisa una decisión y permite una corrección amable.",
+        "frase_memorable": "Rectificar no niega el camino; lo cuida."
+      },
+      {
+        "numero": 8,
+        "prioritaria": true,
+        "directa": "Al caer la tarde, la brújula no elimina el cansancio, pero evita que el cansancio decida por él.",
+        "adaptada": "No siempre tendrás energía plena, pero puedes no entregar tus decisiones al agotamiento.",
+        "consejo_practico": "Posterga una decisión importante si estás demasiado cansado.",
+        "frase_memorable": "El cansancio merece cuidado, no mando absoluto."
+      },
+      {
+        "numero": 9,
+        "prioritaria": true,
+        "directa": "El caminante llega a una colina y ve que su ruta no fue perfecta, pero sí propia.",
+        "adaptada": "Una vida orientada no es una vida sin dudas; es una vida que aprende a volver a sí misma.",
+        "consejo_practico": "Escribe una frase de dirección personal para este mes.",
+        "frase_memorable": "Lo propio no siempre es recto, pero puede ser verdadero."
+      },
+      {
+        "numero": 10,
+        "prioritaria": true,
+        "directa": "La brújula queda en su bolsillo como recordatorio: detenerse, escuchar, elegir y corregir.",
+        "adaptada": "Puedes usar esta historia como ritual cuando la vida se sienta saturada.",
+        "consejo_practico": "Repite: me detengo, escucho, elijo un paso posible.",
+        "frase_memorable": "La orientación es una práctica, no un milagro."
+      }
+    ],
+    "guion_audio_cierre": "Guarda esta lectura si quieres volver a ella. Escucha una tarjeta por día o repítela cuando necesites recuperar foco, calma y sentido.",
+    "modo": "ambas"
+  },
+  {
+    "id": "demo-estudio-paideia",
+    "demo": true,
+    "usuario": "jose",
+    "fecha": "2026-07-07",
+    "tipoEntrada": "lectura",
+    "modoLectura": "academica",
+    "capaLectura": "ambas",
+    "cantidadTarjetas": 10,
+    "tema": "ideas clave para estudiar la Paideia de Werner Jaeger",
+    "titulo_sesion": "Paideia: formar humanidad",
+    "fuentes": [
+      "Paideia: los ideales de la cultura griega",
+      "La República",
+      "Ética a Nicómaco"
+    ],
+    "autores": [
+      "Werner Jaeger",
+      "Platón",
+      "Aristóteles"
+    ],
+    "categoria_vital": "estudio",
+    "nivel_profundidad": "medio",
+    "palabras_clave": [],
+    "saludo_audio": "Hola, José. Esta lectura ofrece una entrada académica breve a la Paideia como formación humana, cultura y vida común.",
+    "destinatario": null,
+    "guia_acompanante": null,
+    "ideas": [
+      {
+        "numero": 1,
+        "prioritaria": true,
+        "directa": "La Paideia no es simple instrucción; es formación integral de la persona dentro de una cultura que transmite ideales de humanidad.",
+        "adaptada": "Puedes usar esta clave para pensar educación más allá de competencias: qué humanidad produce una práctica pedagógica.",
+        "consejo_practico": "Pregunta qué ideal humano sostiene una clase, app o currículo.",
+        "frase_memorable": "Educar es formar una manera de habitar el mundo."
+      },
+      {
+        "numero": 2,
+        "prioritaria": true,
+        "directa": "La areté designa excelencia humana: carácter, virtud, capacidad y dignidad desplegadas ante la comunidad.",
+        "adaptada": "Te permite distinguir rendimiento de formación profunda: aprobar no equivale a cultivar juicio y responsabilidad.",
+        "consejo_practico": "Diferencia desempeño, habilidad y excelencia formativa.",
+        "frase_memorable": "La excelencia no es brillo aislado; es vida con forma."
+      },
+      {
+        "numero": 3,
+        "prioritaria": true,
+        "directa": "La polis da sentido público a la formación: la persona se comprende en relación con la ciudad y la vida común.",
+        "adaptada": "Toda educación produce efectos sociales, incluso cuando parece centrada en logros individuales.",
+        "consejo_practico": "Analiza qué comunidad fortalece o debilita una práctica educativa.",
+        "frase_memorable": "Toda formación personal toca la vida común."
+      },
+      {
+        "numero": 4,
+        "prioritaria": true,
+        "directa": "Jaeger muestra una cultura donde cuerpo, palabra, ética, belleza y pensamiento no aparecen separados rígidamente.",
+        "adaptada": "Puedes revisar si tus proyectos enseñan conceptos sin descuidar sensibilidad, vínculo y expresión.",
+        "consejo_practico": "Marca en una clase dónde aparece lo cognitivo, ético, estético y relacional.",
+        "frase_memorable": "La formación se empobrece cuando divide demasiado al ser humano."
+      },
+      {
+        "numero": 5,
+        "prioritaria": true,
+        "directa": "La poesía épica funcionó como pedagogía cultural antes de la escuela formal, transmitiendo modelos de acción y memoria colectiva.",
+        "adaptada": "Hoy también educan las narrativas: series, apps, canciones, redes y relatos familiares.",
+        "consejo_practico": "Observa qué historias modelan los deseos de tus estudiantes.",
+        "frase_memorable": "Una cultura educa con las historias que repite."
+      },
+      {
+        "numero": 6,
+        "prioritaria": true,
+        "directa": "Sócrates desplaza la formación hacia el examen de la vida, la virtud y el cuidado del alma.",
+        "adaptada": "Enseñar también puede abrir preguntas que ayuden a otro a revisar cómo piensa y decide.",
+        "consejo_practico": "Construye tres preguntas socráticas sobre un tema de clase.",
+        "frase_memorable": "Una buena pregunta puede educar más que una respuesta brillante."
+      },
+      {
+        "numero": 7,
+        "prioritaria": true,
+        "directa": "Platón reorganiza la educación alrededor de la formación filosófica de la mirada, el deseo y la ciudad justa.",
+        "adaptada": "Puedes leer la educación como orientación de la mirada: distinguir opinión, apariencia y conocimiento.",
+        "consejo_practico": "Dibuja una escala entre opinión, comprensión y sabiduría práctica.",
+        "frase_memorable": "Formar es enseñar a mirar mejor."
+      },
+      {
+        "numero": 8,
+        "prioritaria": true,
+        "directa": "Aristóteles aporta la importancia del hábito y la prudencia: la virtud se aprende ejercitándola en situaciones concretas.",
+        "adaptada": "Un estudiante no se vuelve crítico solo oyendo sobre pensamiento crítico; necesita practicar juicio.",
+        "consejo_practico": "Diseña una actividad donde se practique una virtud académica.",
+        "frase_memorable": "La virtud se entiende mejor cuando se vuelve hábito."
+      },
+      {
+        "numero": 9,
+        "prioritaria": true,
+        "directa": "La tradición en Paideia no es repetición pasiva; es herencia interpretada, discutida y transformada históricamente.",
+        "adaptada": "Puedes actualizar conceptos clásicos sin idealizarlos ni copiarlos mecánicamente.",
+        "consejo_practico": "Anota qué conservar, revisar y transformar de una tradición educativa.",
+        "frase_memorable": "La tradición vive cuando puede volver a pensar."
+      },
+      {
+        "numero": 10,
+        "prioritaria": true,
+        "directa": "El valor actual de la Paideia está en preguntar cómo formar humanidad en cada época, no en imitar Grecia sin crítica.",
+        "adaptada": "Jaeger puede servir como espejo para pensar educación, tecnología, subjetividad e investigación hoy.",
+        "consejo_practico": "Escribe una tesis breve sobre qué aporta la Paideia a la educación actual.",
+        "frase_memorable": "La Paideia es una pregunta viva por lo humano."
+      }
+    ],
+    "ideas_todas": [
+      {
+        "numero": 1,
+        "prioritaria": true,
+        "directa": "La Paideia no es simple instrucción; es formación integral de la persona dentro de una cultura que transmite ideales de humanidad.",
+        "adaptada": "Puedes usar esta clave para pensar educación más allá de competencias: qué humanidad produce una práctica pedagógica.",
+        "consejo_practico": "Pregunta qué ideal humano sostiene una clase, app o currículo.",
+        "frase_memorable": "Educar es formar una manera de habitar el mundo."
+      },
+      {
+        "numero": 2,
+        "prioritaria": true,
+        "directa": "La areté designa excelencia humana: carácter, virtud, capacidad y dignidad desplegadas ante la comunidad.",
+        "adaptada": "Te permite distinguir rendimiento de formación profunda: aprobar no equivale a cultivar juicio y responsabilidad.",
+        "consejo_practico": "Diferencia desempeño, habilidad y excelencia formativa.",
+        "frase_memorable": "La excelencia no es brillo aislado; es vida con forma."
+      },
+      {
+        "numero": 3,
+        "prioritaria": true,
+        "directa": "La polis da sentido público a la formación: la persona se comprende en relación con la ciudad y la vida común.",
+        "adaptada": "Toda educación produce efectos sociales, incluso cuando parece centrada en logros individuales.",
+        "consejo_practico": "Analiza qué comunidad fortalece o debilita una práctica educativa.",
+        "frase_memorable": "Toda formación personal toca la vida común."
+      },
+      {
+        "numero": 4,
+        "prioritaria": true,
+        "directa": "Jaeger muestra una cultura donde cuerpo, palabra, ética, belleza y pensamiento no aparecen separados rígidamente.",
+        "adaptada": "Puedes revisar si tus proyectos enseñan conceptos sin descuidar sensibilidad, vínculo y expresión.",
+        "consejo_practico": "Marca en una clase dónde aparece lo cognitivo, ético, estético y relacional.",
+        "frase_memorable": "La formación se empobrece cuando divide demasiado al ser humano."
+      },
+      {
+        "numero": 5,
+        "prioritaria": true,
+        "directa": "La poesía épica funcionó como pedagogía cultural antes de la escuela formal, transmitiendo modelos de acción y memoria colectiva.",
+        "adaptada": "Hoy también educan las narrativas: series, apps, canciones, redes y relatos familiares.",
+        "consejo_practico": "Observa qué historias modelan los deseos de tus estudiantes.",
+        "frase_memorable": "Una cultura educa con las historias que repite."
+      },
+      {
+        "numero": 6,
+        "prioritaria": true,
+        "directa": "Sócrates desplaza la formación hacia el examen de la vida, la virtud y el cuidado del alma.",
+        "adaptada": "Enseñar también puede abrir preguntas que ayuden a otro a revisar cómo piensa y decide.",
+        "consejo_practico": "Construye tres preguntas socráticas sobre un tema de clase.",
+        "frase_memorable": "Una buena pregunta puede educar más que una respuesta brillante."
+      },
+      {
+        "numero": 7,
+        "prioritaria": true,
+        "directa": "Platón reorganiza la educación alrededor de la formación filosófica de la mirada, el deseo y la ciudad justa.",
+        "adaptada": "Puedes leer la educación como orientación de la mirada: distinguir opinión, apariencia y conocimiento.",
+        "consejo_practico": "Dibuja una escala entre opinión, comprensión y sabiduría práctica.",
+        "frase_memorable": "Formar es enseñar a mirar mejor."
+      },
+      {
+        "numero": 8,
+        "prioritaria": true,
+        "directa": "Aristóteles aporta la importancia del hábito y la prudencia: la virtud se aprende ejercitándola en situaciones concretas.",
+        "adaptada": "Un estudiante no se vuelve crítico solo oyendo sobre pensamiento crítico; necesita practicar juicio.",
+        "consejo_practico": "Diseña una actividad donde se practique una virtud académica.",
+        "frase_memorable": "La virtud se entiende mejor cuando se vuelve hábito."
+      },
+      {
+        "numero": 9,
+        "prioritaria": true,
+        "directa": "La tradición en Paideia no es repetición pasiva; es herencia interpretada, discutida y transformada históricamente.",
+        "adaptada": "Puedes actualizar conceptos clásicos sin idealizarlos ni copiarlos mecánicamente.",
+        "consejo_practico": "Anota qué conservar, revisar y transformar de una tradición educativa.",
+        "frase_memorable": "La tradición vive cuando puede volver a pensar."
+      },
+      {
+        "numero": 10,
+        "prioritaria": true,
+        "directa": "El valor actual de la Paideia está en preguntar cómo formar humanidad en cada época, no en imitar Grecia sin crítica.",
+        "adaptada": "Jaeger puede servir como espejo para pensar educación, tecnología, subjetividad e investigación hoy.",
+        "consejo_practico": "Escribe una tesis breve sobre qué aporta la Paideia a la educación actual.",
+        "frase_memorable": "La Paideia es una pregunta viva por lo humano."
+      }
+    ],
+    "guion_audio_cierre": "Guarda esta lectura si quieres volver a ella. Escucha una tarjeta por día o repítela cuando necesites recuperar foco, calma y sentido.",
+    "modo": "ambas"
+  },
+  {
+    "id": "demo-escritura-pensar",
+    "demo": true,
+    "usuario": "jose",
+    "fecha": "2026-07-07",
+    "tipoEntrada": "lectura",
+    "modoLectura": "ideas",
+    "capaLectura": "ambas",
+    "cantidadTarjetas": 10,
+    "tema": "escritura como claridad, memoria y creación",
+    "titulo_sesion": "Escribir para pensar",
+    "fuentes": [
+      "Escritura reflexiva",
+      "Ensayo breve",
+      "Diario intelectual"
+    ],
+    "autores": [],
+    "categoria_vital": "escritura",
+    "nivel_profundidad": "medio",
+    "palabras_clave": [],
+    "saludo_audio": "Hola, José. Esta lectura te acompaña a usar la escritura como herramienta de pensamiento, cuidado y creación.",
+    "destinatario": null,
+    "guia_acompanante": null,
+    "ideas": [
+      {
+        "numero": 1,
+        "prioritaria": true,
+        "directa": "Escribir no solo comunica lo pensado; también ayuda a descubrir lo que todavía no estaba claro.",
+        "adaptada": "Puedes iniciar un texto sin tener todo resuelto, dejando que la escritura piense contigo.",
+        "consejo_practico": "Escribe diez líneas exploratorias sin corregirlas de inmediato.",
+        "frase_memorable": "A veces la idea aparece mientras se escribe."
+      },
+      {
+        "numero": 2,
+        "prioritaria": true,
+        "directa": "Un buen texto necesita una pregunta viva que organice su movimiento interno.",
+        "adaptada": "Cuando una escritura se dispersa, volver a la pregunta ayuda a recuperar dirección.",
+        "consejo_practico": "Formula la pregunta central antes de seguir redactando.",
+        "frase_memorable": "Una pregunta clara ordena muchas páginas."
+      },
+      {
+        "numero": 3,
+        "prioritaria": true,
+        "directa": "La escritura profunda alterna expansión y poda: primero abre posibilidades, luego elimina exceso.",
+        "adaptada": "No todo párrafo producido debe quedarse; borrar también es escribir.",
+        "consejo_practico": "Subraya una frase fuerte y elimina una repetición cercana.",
+        "frase_memorable": "Podar también deja respirar al texto."
+      },
+      {
+        "numero": 4,
+        "prioritaria": true,
+        "directa": "El estilo no es adorno; expresa una forma de relación con el lector y con el conocimiento.",
+        "adaptada": "Puedes buscar una voz clara, reflexiva y cálida sin perder rigor.",
+        "consejo_practico": "Reescribe un párrafo difícil para hacerlo más respirable.",
+        "frase_memorable": "La forma también piensa."
+      },
+      {
+        "numero": 5,
+        "prioritaria": true,
+        "directa": "La lectura alimenta la escritura cuando no se copia, sino que se transforma en diálogo propio.",
+        "adaptada": "Puedes tomar autores como interlocutores, no como muletas que sustituyen tu voz.",
+        "consejo_practico": "Escribe una idea de un autor y luego tu respuesta crítica.",
+        "frase_memorable": "Citar no reemplaza pensar."
+      },
+      {
+        "numero": 6,
+        "prioritaria": true,
+        "directa": "El primer borrador cumple una función distinta al texto final: permite existir a la materia inicial.",
+        "adaptada": "No exijas perfección a una versión que apenas está naciendo.",
+        "consejo_practico": "Nombra tu archivo como borrador para bajar presión.",
+        "frase_memorable": "Lo imperfecto también abre camino."
+      },
+      {
+        "numero": 7,
+        "prioritaria": true,
+        "directa": "La estructura cuida al lector: títulos, transiciones y cierres hacen visible el recorrido.",
+        "adaptada": "Puedes pensar cada subtítulo como una puerta de entrada a una estación del argumento.",
+        "consejo_practico": "Revisa si cada subtítulo promete lo que el apartado entrega.",
+        "frase_memorable": "Ordenar es una forma de cuidar."
+      },
+      {
+        "numero": 8,
+        "prioritaria": true,
+        "directa": "Escribir exige escuchar el ritmo de las frases. La claridad también depende de respiración.",
+        "adaptada": "Un texto muy cargado puede ganar potencia al alternar frases largas y breves.",
+        "consejo_practico": "Lee un párrafo en voz alta y corta donde falte aire.",
+        "frase_memorable": "La frase también respira."
+      },
+      {
+        "numero": 9,
+        "prioritaria": true,
+        "directa": "La revisión ética pregunta si el texto simplifica demasiado, invisibiliza voces o promete más de lo que puede sostener.",
+        "adaptada": "Puedes fortalecer tu escritura cuidando precisión, límites y responsabilidad.",
+        "consejo_practico": "Marca una afirmación fuerte y revisa si necesita matiz.",
+        "frase_memorable": "La honestidad también mejora el estilo."
+      },
+      {
+        "numero": 10,
+        "prioritaria": true,
+        "directa": "Terminar un texto no significa cerrarlo para siempre, sino entregarlo con suficiente cuidado para que dialogue.",
+        "adaptada": "Puedes aprender a soltar versiones buenas sin esperar una perfección imposible.",
+        "consejo_practico": "Define qué criterio indica que un texto ya puede compartirse.",
+        "frase_memorable": "Publicar también es confiar."
+      }
+    ],
+    "ideas_todas": [
+      {
+        "numero": 1,
+        "prioritaria": true,
+        "directa": "Escribir no solo comunica lo pensado; también ayuda a descubrir lo que todavía no estaba claro.",
+        "adaptada": "Puedes iniciar un texto sin tener todo resuelto, dejando que la escritura piense contigo.",
+        "consejo_practico": "Escribe diez líneas exploratorias sin corregirlas de inmediato.",
+        "frase_memorable": "A veces la idea aparece mientras se escribe."
+      },
+      {
+        "numero": 2,
+        "prioritaria": true,
+        "directa": "Un buen texto necesita una pregunta viva que organice su movimiento interno.",
+        "adaptada": "Cuando una escritura se dispersa, volver a la pregunta ayuda a recuperar dirección.",
+        "consejo_practico": "Formula la pregunta central antes de seguir redactando.",
+        "frase_memorable": "Una pregunta clara ordena muchas páginas."
+      },
+      {
+        "numero": 3,
+        "prioritaria": true,
+        "directa": "La escritura profunda alterna expansión y poda: primero abre posibilidades, luego elimina exceso.",
+        "adaptada": "No todo párrafo producido debe quedarse; borrar también es escribir.",
+        "consejo_practico": "Subraya una frase fuerte y elimina una repetición cercana.",
+        "frase_memorable": "Podar también deja respirar al texto."
+      },
+      {
+        "numero": 4,
+        "prioritaria": true,
+        "directa": "El estilo no es adorno; expresa una forma de relación con el lector y con el conocimiento.",
+        "adaptada": "Puedes buscar una voz clara, reflexiva y cálida sin perder rigor.",
+        "consejo_practico": "Reescribe un párrafo difícil para hacerlo más respirable.",
+        "frase_memorable": "La forma también piensa."
+      },
+      {
+        "numero": 5,
+        "prioritaria": true,
+        "directa": "La lectura alimenta la escritura cuando no se copia, sino que se transforma en diálogo propio.",
+        "adaptada": "Puedes tomar autores como interlocutores, no como muletas que sustituyen tu voz.",
+        "consejo_practico": "Escribe una idea de un autor y luego tu respuesta crítica.",
+        "frase_memorable": "Citar no reemplaza pensar."
+      },
+      {
+        "numero": 6,
+        "prioritaria": true,
+        "directa": "El primer borrador cumple una función distinta al texto final: permite existir a la materia inicial.",
+        "adaptada": "No exijas perfección a una versión que apenas está naciendo.",
+        "consejo_practico": "Nombra tu archivo como borrador para bajar presión.",
+        "frase_memorable": "Lo imperfecto también abre camino."
+      },
+      {
+        "numero": 7,
+        "prioritaria": true,
+        "directa": "La estructura cuida al lector: títulos, transiciones y cierres hacen visible el recorrido.",
+        "adaptada": "Puedes pensar cada subtítulo como una puerta de entrada a una estación del argumento.",
+        "consejo_practico": "Revisa si cada subtítulo promete lo que el apartado entrega.",
+        "frase_memorable": "Ordenar es una forma de cuidar."
+      },
+      {
+        "numero": 8,
+        "prioritaria": true,
+        "directa": "Escribir exige escuchar el ritmo de las frases. La claridad también depende de respiración.",
+        "adaptada": "Un texto muy cargado puede ganar potencia al alternar frases largas y breves.",
+        "consejo_practico": "Lee un párrafo en voz alta y corta donde falte aire.",
+        "frase_memorable": "La frase también respira."
+      },
+      {
+        "numero": 9,
+        "prioritaria": true,
+        "directa": "La revisión ética pregunta si el texto simplifica demasiado, invisibiliza voces o promete más de lo que puede sostener.",
+        "adaptada": "Puedes fortalecer tu escritura cuidando precisión, límites y responsabilidad.",
+        "consejo_practico": "Marca una afirmación fuerte y revisa si necesita matiz.",
+        "frase_memorable": "La honestidad también mejora el estilo."
+      },
+      {
+        "numero": 10,
+        "prioritaria": true,
+        "directa": "Terminar un texto no significa cerrarlo para siempre, sino entregarlo con suficiente cuidado para que dialogue.",
+        "adaptada": "Puedes aprender a soltar versiones buenas sin esperar una perfección imposible.",
+        "consejo_practico": "Define qué criterio indica que un texto ya puede compartirse.",
+        "frase_memorable": "Publicar también es confiar."
+      }
+    ],
+    "guion_audio_cierre": "Guarda esta lectura si quieres volver a ella. Escucha una tarjeta por día o repítela cuando necesites recuperar foco, calma y sentido.",
+    "modo": "ambas"
+  },
+  {
+    "id": "demo-crianza-situacion",
+    "demo": true,
+    "usuario": "jose",
+    "fecha": "2026-07-07",
+    "tipoEntrada": "situacion",
+    "modoLectura": "ideas",
+    "capaLectura": "ambas",
+    "cantidadTarjetas": 10,
+    "tema": "lectura para acompañar a un niño con frustración",
+    "titulo_sesion": "Acompañar una emoción grande",
+    "fuentes": [
+      "Situación de crianza respetuosa"
+    ],
+    "autores": [],
+    "categoria_vital": "crianza",
+    "nivel_profundidad": "sencillo",
+    "palabras_clave": [],
+    "saludo_audio": "Hola. Esta lectura es para acompañar con calma una emoción grande, sin gritos y sin abandono.",
+    "destinatario": {
+      "nombre": "un niño o niña",
+      "edad": "5-9",
+      "relacion": "hijo, hija o estudiante"
+    },
+    "guia_acompanante": null,
+    "ideas": [
+      {
+        "numero": 1,
+        "prioritaria": true,
+        "directa": "Un niño que se frustra no siempre está desafiando; muchas veces está mostrando que todavía no sabe organizar lo que siente.",
+        "adaptada": "Puedes mirar la conducta como una señal de necesidad, no solo como problema.",
+        "consejo_practico": "Antes de corregir, nombra la emoción que podría estar apareciendo.",
+        "frase_memorable": "Una emoción grande necesita un adulto más grande en calma."
+      },
+      {
+        "numero": 2,
+        "prioritaria": true,
+        "directa": "Validar no significa permitir todo. Significa reconocer lo que siente mientras se sostiene un límite claro.",
+        "adaptada": "Puedes decir sí a la emoción y no a la conducta que lastima.",
+        "consejo_practico": "Usa una frase: entiendo tu rabia, no voy a dejar que golpees.",
+        "frase_memorable": "El límite cuida cuando no humilla."
+      },
+      {
+        "numero": 3,
+        "prioritaria": true,
+        "directa": "La voz adulta puede regular o intensificar la escena. El tono importa tanto como la frase.",
+        "adaptada": "Cuando bajas la voz, ayudas al niño a encontrar un ritmo más seguro.",
+        "consejo_practico": "Habla más lento de lo que tu impulso quisiera.",
+        "frase_memorable": "La calma se presta antes de exigirse."
+      },
+      {
+        "numero": 4,
+        "prioritaria": true,
+        "directa": "Los niños aprenden con repetición, no con una explicación perfecta en medio de la crisis.",
+        "adaptada": "No necesitas dar una clase moral durante el llanto; primero hay que recuperar conexión.",
+        "consejo_practico": "Deja la explicación larga para después de la calma.",
+        "frase_memorable": "Primero vínculo, luego enseñanza."
+      },
+      {
+        "numero": 5,
+        "prioritaria": true,
+        "directa": "La frustración enseña tolerancia cuando el adulto no resuelve todo ni abandona emocionalmente.",
+        "adaptada": "Puedes acompañar sin quitar cada dificultad del camino.",
+        "consejo_practico": "Permite un pequeño esfuerzo antes de intervenir.",
+        "frase_memorable": "Amar también es sostener el aprendizaje."
+      },
+      {
+        "numero": 6,
+        "prioritaria": true,
+        "directa": "Las rutinas anticipan y reducen conflictos porque dan previsibilidad al cuerpo y a la mente infantil.",
+        "adaptada": "Puedes evitar muchas crisis si el niño sabe qué viene después.",
+        "consejo_practico": "Anuncia una transición con cinco minutos de anticipación.",
+        "frase_memorable": "La previsibilidad también es ternura."
+      },
+      {
+        "numero": 7,
+        "prioritaria": true,
+        "directa": "Pedir reparación enseña responsabilidad sin convertir el error en vergüenza.",
+        "adaptada": "Después de la calma, el niño puede participar en arreglar lo que dañó.",
+        "consejo_practico": "Pregunta: cómo podemos reparar esto juntos.",
+        "frase_memorable": "Reparar enseña mejor que culpar."
+      },
+      {
+        "numero": 8,
+        "prioritaria": true,
+        "directa": "El adulto también necesita reconocer su cansancio para no confundir agotamiento con autoridad.",
+        "adaptada": "Puedes pausar antes de reaccionar desde saturación.",
+        "consejo_practico": "Si puedes, toma agua o respira antes de intervenir.",
+        "frase_memorable": "Cuidarte ayuda a cuidar."
+      },
+      {
+        "numero": 9,
+        "prioritaria": true,
+        "directa": "Una crianza afectiva no busca niños perfectos, sino vínculos suficientemente seguros para aprender.",
+        "adaptada": "El error no cancela el amor ni la oportunidad educativa.",
+        "consejo_practico": "Repite una frase de seguridad después del conflicto.",
+        "frase_memorable": "El amor firme no desaparece cuando corrige."
+      },
+      {
+        "numero": 10,
+        "prioritaria": true,
+        "directa": "Cada crisis puede convertirse en memoria de confianza si el niño siente que no fue dejado solo con su emoción.",
+        "adaptada": "Puedes cerrar con abrazo, palabra breve o presencia tranquila.",
+        "consejo_practico": "Cuando todo pase, dile: aquí estoy, seguimos aprendiendo.",
+        "frase_memorable": "La seguridad se construye después de la tormenta."
+      }
+    ],
+    "ideas_todas": [
+      {
+        "numero": 1,
+        "prioritaria": true,
+        "directa": "Un niño que se frustra no siempre está desafiando; muchas veces está mostrando que todavía no sabe organizar lo que siente.",
+        "adaptada": "Puedes mirar la conducta como una señal de necesidad, no solo como problema.",
+        "consejo_practico": "Antes de corregir, nombra la emoción que podría estar apareciendo.",
+        "frase_memorable": "Una emoción grande necesita un adulto más grande en calma."
+      },
+      {
+        "numero": 2,
+        "prioritaria": true,
+        "directa": "Validar no significa permitir todo. Significa reconocer lo que siente mientras se sostiene un límite claro.",
+        "adaptada": "Puedes decir sí a la emoción y no a la conducta que lastima.",
+        "consejo_practico": "Usa una frase: entiendo tu rabia, no voy a dejar que golpees.",
+        "frase_memorable": "El límite cuida cuando no humilla."
+      },
+      {
+        "numero": 3,
+        "prioritaria": true,
+        "directa": "La voz adulta puede regular o intensificar la escena. El tono importa tanto como la frase.",
+        "adaptada": "Cuando bajas la voz, ayudas al niño a encontrar un ritmo más seguro.",
+        "consejo_practico": "Habla más lento de lo que tu impulso quisiera.",
+        "frase_memorable": "La calma se presta antes de exigirse."
+      },
+      {
+        "numero": 4,
+        "prioritaria": true,
+        "directa": "Los niños aprenden con repetición, no con una explicación perfecta en medio de la crisis.",
+        "adaptada": "No necesitas dar una clase moral durante el llanto; primero hay que recuperar conexión.",
+        "consejo_practico": "Deja la explicación larga para después de la calma.",
+        "frase_memorable": "Primero vínculo, luego enseñanza."
+      },
+      {
+        "numero": 5,
+        "prioritaria": true,
+        "directa": "La frustración enseña tolerancia cuando el adulto no resuelve todo ni abandona emocionalmente.",
+        "adaptada": "Puedes acompañar sin quitar cada dificultad del camino.",
+        "consejo_practico": "Permite un pequeño esfuerzo antes de intervenir.",
+        "frase_memorable": "Amar también es sostener el aprendizaje."
+      },
+      {
+        "numero": 6,
+        "prioritaria": true,
+        "directa": "Las rutinas anticipan y reducen conflictos porque dan previsibilidad al cuerpo y a la mente infantil.",
+        "adaptada": "Puedes evitar muchas crisis si el niño sabe qué viene después.",
+        "consejo_practico": "Anuncia una transición con cinco minutos de anticipación.",
+        "frase_memorable": "La previsibilidad también es ternura."
+      },
+      {
+        "numero": 7,
+        "prioritaria": true,
+        "directa": "Pedir reparación enseña responsabilidad sin convertir el error en vergüenza.",
+        "adaptada": "Después de la calma, el niño puede participar en arreglar lo que dañó.",
+        "consejo_practico": "Pregunta: cómo podemos reparar esto juntos.",
+        "frase_memorable": "Reparar enseña mejor que culpar."
+      },
+      {
+        "numero": 8,
+        "prioritaria": true,
+        "directa": "El adulto también necesita reconocer su cansancio para no confundir agotamiento con autoridad.",
+        "adaptada": "Puedes pausar antes de reaccionar desde saturación.",
+        "consejo_practico": "Si puedes, toma agua o respira antes de intervenir.",
+        "frase_memorable": "Cuidarte ayuda a cuidar."
+      },
+      {
+        "numero": 9,
+        "prioritaria": true,
+        "directa": "Una crianza afectiva no busca niños perfectos, sino vínculos suficientemente seguros para aprender.",
+        "adaptada": "El error no cancela el amor ni la oportunidad educativa.",
+        "consejo_practico": "Repite una frase de seguridad después del conflicto.",
+        "frase_memorable": "El amor firme no desaparece cuando corrige."
+      },
+      {
+        "numero": 10,
+        "prioritaria": true,
+        "directa": "Cada crisis puede convertirse en memoria de confianza si el niño siente que no fue dejado solo con su emoción.",
+        "adaptada": "Puedes cerrar con abrazo, palabra breve o presencia tranquila.",
+        "consejo_practico": "Cuando todo pase, dile: aquí estoy, seguimos aprendiendo.",
+        "frase_memorable": "La seguridad se construye después de la tormenta."
+      }
+    ],
+    "guion_audio_cierre": "Guarda esta lectura si quieres volver a ella. Escucha una tarjeta por día o repítela cuando necesites recuperar foco, calma y sentido.",
+    "modo": "ambas"
+  },
+  {
+    "id": "demo-decision-calma",
+    "demo": true,
+    "usuario": "jose",
+    "fecha": "2026-07-07",
+    "tipoEntrada": "lectura",
+    "modoLectura": "historia",
+    "capaLectura": "ambas",
+    "cantidadTarjetas": 10,
+    "tema": "historia breve para decidir sin prisa",
+    "titulo_sesion": "La decisión que pide calma",
+    "fuentes": [
+      "Historia pedagógica original"
+    ],
+    "autores": [],
+    "categoria_vital": "decision",
+    "nivel_profundidad": "medio",
+    "palabras_clave": [],
+    "saludo_audio": "Hola, José. Esta historia acompaña una decisión importante con calma, criterio y cuidado.",
+    "destinatario": null,
+    "guia_acompanante": null,
+    "ideas": [
+      {
+        "numero": 1,
+        "prioritaria": true,
+        "directa": "Una persona llega a un cruce con tres caminos y un cielo nublado. Quiere elegir rápido para dejar de sentir incertidumbre.",
+        "adaptada": "Cuando quieras decidir solo para aliviar ansiedad, conviene detenerte un poco.",
+        "consejo_practico": "Espera unos minutos antes de responder a una decisión importante.",
+        "frase_memorable": "No toda prisa es claridad."
+      },
+      {
+        "numero": 2,
+        "prioritaria": true,
+        "directa": "En el primer camino hay aplausos; en el segundo, silencio; en el tercero, trabajo difícil.",
+        "adaptada": "Puedes diferenciar entre lo que impresiona, lo que calma y lo que realmente exige crecimiento.",
+        "consejo_practico": "Escribe qué promete cada opción y qué costo oculta.",
+        "frase_memorable": "Cada camino también trae su precio."
+      },
+      {
+        "numero": 3,
+        "prioritaria": true,
+        "directa": "La persona descubre que no decide sola: sus vínculos, valores y responsabilidades caminan con ella.",
+        "adaptada": "Una decisión personal también toca a quienes comparten tu vida.",
+        "consejo_practico": "Nombra tres personas o áreas que serían afectadas.",
+        "frase_memorable": "Decidir es mover una red."
+      },
+      {
+        "numero": 4,
+        "prioritaria": true,
+        "directa": "Un anciano le dice que ninguna opción elimina totalmente la pérdida. Elegir también es renunciar.",
+        "adaptada": "Puedes aceptar que una buena decisión no conserva todas las posibilidades.",
+        "consejo_practico": "Escribe qué debes soltar si eliges cada camino.",
+        "frase_memorable": "Elegir es cuidar una renuncia."
+      },
+      {
+        "numero": 5,
+        "prioritaria": true,
+        "directa": "La lluvia empieza y obliga a buscar refugio. Allí la persona nota que estaba cansada, no confundida.",
+        "adaptada": "A veces la decisión necesita descanso antes que más análisis.",
+        "consejo_practico": "Duerme o pausa antes de cerrar una elección compleja.",
+        "frase_memorable": "El cansancio puede disfrazarse de duda."
+      },
+      {
+        "numero": 6,
+        "prioritaria": true,
+        "directa": "Al amanecer, el paisaje no cambió, pero la mirada sí. Ahora puede ver señales que la noche ocultaba.",
+        "adaptada": "La claridad muchas veces llega cuando baja la intensidad emocional.",
+        "consejo_practico": "Revisa la decisión en dos momentos distintos del día.",
+        "frase_memorable": "La luz cambia la forma de los caminos."
+      },
+      {
+        "numero": 7,
+        "prioritaria": true,
+        "directa": "La persona consulta a alguien sabio, pero no pide que elija por ella. Pide preguntas mejores.",
+        "adaptada": "Puedes buscar acompañamiento para ampliar criterio, no para delegar responsabilidad.",
+        "consejo_practico": "Pide a alguien que te haga tres preguntas, no que te dé una orden.",
+        "frase_memorable": "Una buena pregunta devuelve libertad."
+      },
+      {
+        "numero": 8,
+        "prioritaria": true,
+        "directa": "Elige el camino que no promete facilidad, pero sí coherencia con su vida.",
+        "adaptada": "Puedes elegir lo que se alinea con tus valores aunque no sea lo más cómodo.",
+        "consejo_practico": "Cruza cada opción con tus tres valores centrales.",
+        "frase_memorable": "La coherencia sostiene cuando baja el entusiasmo."
+      },
+      {
+        "numero": 9,
+        "prioritaria": true,
+        "directa": "Al avanzar, todavía siente miedo. Comprende que miedo no siempre significa error.",
+        "adaptada": "Puedes caminar con cierta incertidumbre sin interpretar eso como mala señal.",
+        "consejo_practico": "Da el primer paso verificable y observa qué ocurre.",
+        "frase_memorable": "La decisión madura no siempre elimina el temblor."
+      },
+      {
+        "numero": 10,
+        "prioritaria": true,
+        "directa": "El cruce queda atrás, pero la persona conserva una enseñanza: decidir es escuchar, renunciar y actuar con cuidado.",
+        "adaptada": "Puedes volver a esta historia cuando una elección parezca demasiado grande.",
+        "consejo_practico": "Resume tu decisión en una frase honesta.",
+        "frase_memorable": "La calma no decide por ti; te devuelve a ti."
+      }
+    ],
+    "ideas_todas": [
+      {
+        "numero": 1,
+        "prioritaria": true,
+        "directa": "Una persona llega a un cruce con tres caminos y un cielo nublado. Quiere elegir rápido para dejar de sentir incertidumbre.",
+        "adaptada": "Cuando quieras decidir solo para aliviar ansiedad, conviene detenerte un poco.",
+        "consejo_practico": "Espera unos minutos antes de responder a una decisión importante.",
+        "frase_memorable": "No toda prisa es claridad."
+      },
+      {
+        "numero": 2,
+        "prioritaria": true,
+        "directa": "En el primer camino hay aplausos; en el segundo, silencio; en el tercero, trabajo difícil.",
+        "adaptada": "Puedes diferenciar entre lo que impresiona, lo que calma y lo que realmente exige crecimiento.",
+        "consejo_practico": "Escribe qué promete cada opción y qué costo oculta.",
+        "frase_memorable": "Cada camino también trae su precio."
+      },
+      {
+        "numero": 3,
+        "prioritaria": true,
+        "directa": "La persona descubre que no decide sola: sus vínculos, valores y responsabilidades caminan con ella.",
+        "adaptada": "Una decisión personal también toca a quienes comparten tu vida.",
+        "consejo_practico": "Nombra tres personas o áreas que serían afectadas.",
+        "frase_memorable": "Decidir es mover una red."
+      },
+      {
+        "numero": 4,
+        "prioritaria": true,
+        "directa": "Un anciano le dice que ninguna opción elimina totalmente la pérdida. Elegir también es renunciar.",
+        "adaptada": "Puedes aceptar que una buena decisión no conserva todas las posibilidades.",
+        "consejo_practico": "Escribe qué debes soltar si eliges cada camino.",
+        "frase_memorable": "Elegir es cuidar una renuncia."
+      },
+      {
+        "numero": 5,
+        "prioritaria": true,
+        "directa": "La lluvia empieza y obliga a buscar refugio. Allí la persona nota que estaba cansada, no confundida.",
+        "adaptada": "A veces la decisión necesita descanso antes que más análisis.",
+        "consejo_practico": "Duerme o pausa antes de cerrar una elección compleja.",
+        "frase_memorable": "El cansancio puede disfrazarse de duda."
+      },
+      {
+        "numero": 6,
+        "prioritaria": true,
+        "directa": "Al amanecer, el paisaje no cambió, pero la mirada sí. Ahora puede ver señales que la noche ocultaba.",
+        "adaptada": "La claridad muchas veces llega cuando baja la intensidad emocional.",
+        "consejo_practico": "Revisa la decisión en dos momentos distintos del día.",
+        "frase_memorable": "La luz cambia la forma de los caminos."
+      },
+      {
+        "numero": 7,
+        "prioritaria": true,
+        "directa": "La persona consulta a alguien sabio, pero no pide que elija por ella. Pide preguntas mejores.",
+        "adaptada": "Puedes buscar acompañamiento para ampliar criterio, no para delegar responsabilidad.",
+        "consejo_practico": "Pide a alguien que te haga tres preguntas, no que te dé una orden.",
+        "frase_memorable": "Una buena pregunta devuelve libertad."
+      },
+      {
+        "numero": 8,
+        "prioritaria": true,
+        "directa": "Elige el camino que no promete facilidad, pero sí coherencia con su vida.",
+        "adaptada": "Puedes elegir lo que se alinea con tus valores aunque no sea lo más cómodo.",
+        "consejo_practico": "Cruza cada opción con tus tres valores centrales.",
+        "frase_memorable": "La coherencia sostiene cuando baja el entusiasmo."
+      },
+      {
+        "numero": 9,
+        "prioritaria": true,
+        "directa": "Al avanzar, todavía siente miedo. Comprende que miedo no siempre significa error.",
+        "adaptada": "Puedes caminar con cierta incertidumbre sin interpretar eso como mala señal.",
+        "consejo_practico": "Da el primer paso verificable y observa qué ocurre.",
+        "frase_memorable": "La decisión madura no siempre elimina el temblor."
+      },
+      {
+        "numero": 10,
+        "prioritaria": true,
+        "directa": "El cruce queda atrás, pero la persona conserva una enseñanza: decidir es escuchar, renunciar y actuar con cuidado.",
+        "adaptada": "Puedes volver a esta historia cuando una elección parezca demasiado grande.",
+        "consejo_practico": "Resume tu decisión en una frase honesta.",
+        "frase_memorable": "La calma no decide por ti; te devuelve a ti."
+      }
+    ],
+    "guion_audio_cierre": "Guarda esta lectura si quieres volver a ella. Escucha una tarjeta por día o repítela cuando necesites recuperar foco, calma y sentido.",
+    "modo": "ambas"
+  },
+  {
+    "id": "demo-espiritualidad-lampara",
+    "demo": true,
+    "usuario": "jose",
+    "fecha": "2026-07-07",
+    "tipoEntrada": "lectura",
+    "modoLectura": "ideas",
+    "capaLectura": "ambas",
+    "cantidadTarjetas": 10,
+    "tema": "espiritualidad cotidiana con compasión y discernimiento",
+    "titulo_sesion": "La lámpara interior",
+    "fuentes": [
+      "Tradiciones de compasión",
+      "Práctica contemplativa cotidiana"
+    ],
+    "autores": [],
+    "categoria_vital": "espiritualidad",
+    "nivel_profundidad": "medio",
+    "palabras_clave": [],
+    "saludo_audio": "Hola, José. Esta lectura acompaña una espiritualidad sencilla, compasiva y con los pies en la vida.",
+    "destinatario": null,
+    "guia_acompanante": null,
+    "ideas": [
+      {
+        "numero": 1,
+        "prioritaria": true,
+        "directa": "La espiritualidad puede entenderse como una forma de volver al centro, no como huida del mundo.",
+        "adaptada": "Puedes orar, meditar o contemplar para habitar mejor tus responsabilidades, no para escapar de ellas.",
+        "consejo_practico": "Haz una pausa breve y pregunta qué pide más cuidado hoy.",
+        "frase_memorable": "Lo interior se prueba en la forma de vivir."
+      },
+      {
+        "numero": 2,
+        "prioritaria": true,
+        "directa": "El silencio no siempre trae respuestas; a veces permite escuchar con menos ruido.",
+        "adaptada": "Puedes darte momentos sin producir para que la vida se acomode por dentro.",
+        "consejo_practico": "Apaga estímulos durante cinco minutos y respira.",
+        "frase_memorable": "El silencio no vacía; ordena."
+      },
+      {
+        "numero": 3,
+        "prioritaria": true,
+        "directa": "La compasión comienza cuando el dolor propio y ajeno deja de ser tratado como estorbo.",
+        "adaptada": "Puedes mirar tus heridas sin convertirlas en identidad cerrada.",
+        "consejo_practico": "Nombra una dificultad con ternura y sin exagerarla.",
+        "frase_memorable": "La compasión suaviza sin negar."
+      },
+      {
+        "numero": 4,
+        "prioritaria": true,
+        "directa": "Discernir es distinguir entre una intuición que cuida y un impulso que arrastra.",
+        "adaptada": "No toda sensación intensa es guía; algunas piden espera.",
+        "consejo_practico": "Antes de actuar por intuición, revisa si trae paz, claridad y responsabilidad.",
+        "frase_memorable": "Lo profundo no necesita atropellar."
+      },
+      {
+        "numero": 5,
+        "prioritaria": true,
+        "directa": "La gratitud no niega lo difícil; impide que lo difícil ocupe toda la escena.",
+        "adaptada": "Puedes agradecer algo pequeño incluso en días pesados.",
+        "consejo_practico": "Anota tres cosas simples que sostuvieron tu día.",
+        "frase_memorable": "Agradecer también abre espacio."
+      },
+      {
+        "numero": 6,
+        "prioritaria": true,
+        "directa": "Una espiritualidad madura no produce miedo innecesario, sino libertad, humildad y cuidado.",
+        "adaptada": "Puedes revisar creencias que te estrechan y prácticas que te vuelven más humano.",
+        "consejo_practico": "Pregunta si una creencia te hace más compasivo o más temeroso.",
+        "frase_memorable": "La fe que cuida ensancha la vida."
+      },
+      {
+        "numero": 7,
+        "prioritaria": true,
+        "directa": "El cuerpo también participa en lo espiritual: respirar, descansar, caminar y comer con presencia pueden ser prácticas de cuidado.",
+        "adaptada": "No necesitas separar totalmente alma y cuerpo para vivir con profundidad.",
+        "consejo_practico": "Camina unos minutos atendiendo a tus pasos.",
+        "frase_memorable": "La presencia también entra por el cuerpo."
+      },
+      {
+        "numero": 8,
+        "prioritaria": true,
+        "directa": "El perdón no debe apresurarse ni usarse para negar límites necesarios.",
+        "adaptada": "Puedes soltar resentimientos poco a poco sin permitir nuevas heridas.",
+        "consejo_practico": "Diferencia perdonar, reconciliar y poner límite.",
+        "frase_memorable": "El perdón sin cuidado puede confundirse."
+      },
+      {
+        "numero": 9,
+        "prioritaria": true,
+        "directa": "La esperanza no es certeza de que todo saldrá bien, sino fuerza para seguir cuidando lo posible.",
+        "adaptada": "Puedes sostener esperanza realista en medio de procesos inciertos.",
+        "consejo_practico": "Elige una acción pequeña que mantenga viva tu confianza.",
+        "frase_memorable": "La esperanza trabaja en voz baja."
+      },
+      {
+        "numero": 10,
+        "prioritaria": true,
+        "directa": "La espiritualidad cotidiana se vuelve visible en cómo tratas a otros cuando estás cansado, ocupado o herido.",
+        "adaptada": "Puedes medir tu camino interior por la calidad de tus gestos concretos.",
+        "consejo_practico": "Haz hoy un acto pequeño de amabilidad sin exhibirlo.",
+        "frase_memorable": "La luz interior también se nota afuera."
+      }
+    ],
+    "ideas_todas": [
+      {
+        "numero": 1,
+        "prioritaria": true,
+        "directa": "La espiritualidad puede entenderse como una forma de volver al centro, no como huida del mundo.",
+        "adaptada": "Puedes orar, meditar o contemplar para habitar mejor tus responsabilidades, no para escapar de ellas.",
+        "consejo_practico": "Haz una pausa breve y pregunta qué pide más cuidado hoy.",
+        "frase_memorable": "Lo interior se prueba en la forma de vivir."
+      },
+      {
+        "numero": 2,
+        "prioritaria": true,
+        "directa": "El silencio no siempre trae respuestas; a veces permite escuchar con menos ruido.",
+        "adaptada": "Puedes darte momentos sin producir para que la vida se acomode por dentro.",
+        "consejo_practico": "Apaga estímulos durante cinco minutos y respira.",
+        "frase_memorable": "El silencio no vacía; ordena."
+      },
+      {
+        "numero": 3,
+        "prioritaria": true,
+        "directa": "La compasión comienza cuando el dolor propio y ajeno deja de ser tratado como estorbo.",
+        "adaptada": "Puedes mirar tus heridas sin convertirlas en identidad cerrada.",
+        "consejo_practico": "Nombra una dificultad con ternura y sin exagerarla.",
+        "frase_memorable": "La compasión suaviza sin negar."
+      },
+      {
+        "numero": 4,
+        "prioritaria": true,
+        "directa": "Discernir es distinguir entre una intuición que cuida y un impulso que arrastra.",
+        "adaptada": "No toda sensación intensa es guía; algunas piden espera.",
+        "consejo_practico": "Antes de actuar por intuición, revisa si trae paz, claridad y responsabilidad.",
+        "frase_memorable": "Lo profundo no necesita atropellar."
+      },
+      {
+        "numero": 5,
+        "prioritaria": true,
+        "directa": "La gratitud no niega lo difícil; impide que lo difícil ocupe toda la escena.",
+        "adaptada": "Puedes agradecer algo pequeño incluso en días pesados.",
+        "consejo_practico": "Anota tres cosas simples que sostuvieron tu día.",
+        "frase_memorable": "Agradecer también abre espacio."
+      },
+      {
+        "numero": 6,
+        "prioritaria": true,
+        "directa": "Una espiritualidad madura no produce miedo innecesario, sino libertad, humildad y cuidado.",
+        "adaptada": "Puedes revisar creencias que te estrechan y prácticas que te vuelven más humano.",
+        "consejo_practico": "Pregunta si una creencia te hace más compasivo o más temeroso.",
+        "frase_memorable": "La fe que cuida ensancha la vida."
+      },
+      {
+        "numero": 7,
+        "prioritaria": true,
+        "directa": "El cuerpo también participa en lo espiritual: respirar, descansar, caminar y comer con presencia pueden ser prácticas de cuidado.",
+        "adaptada": "No necesitas separar totalmente alma y cuerpo para vivir con profundidad.",
+        "consejo_practico": "Camina unos minutos atendiendo a tus pasos.",
+        "frase_memorable": "La presencia también entra por el cuerpo."
+      },
+      {
+        "numero": 8,
+        "prioritaria": true,
+        "directa": "El perdón no debe apresurarse ni usarse para negar límites necesarios.",
+        "adaptada": "Puedes soltar resentimientos poco a poco sin permitir nuevas heridas.",
+        "consejo_practico": "Diferencia perdonar, reconciliar y poner límite.",
+        "frase_memorable": "El perdón sin cuidado puede confundirse."
+      },
+      {
+        "numero": 9,
+        "prioritaria": true,
+        "directa": "La esperanza no es certeza de que todo saldrá bien, sino fuerza para seguir cuidando lo posible.",
+        "adaptada": "Puedes sostener esperanza realista en medio de procesos inciertos.",
+        "consejo_practico": "Elige una acción pequeña que mantenga viva tu confianza.",
+        "frase_memorable": "La esperanza trabaja en voz baja."
+      },
+      {
+        "numero": 10,
+        "prioritaria": true,
+        "directa": "La espiritualidad cotidiana se vuelve visible en cómo tratas a otros cuando estás cansado, ocupado o herido.",
+        "adaptada": "Puedes medir tu camino interior por la calidad de tus gestos concretos.",
+        "consejo_practico": "Haz hoy un acto pequeño de amabilidad sin exhibirlo.",
+        "frase_memorable": "La luz interior también se nota afuera."
+      }
+    ],
+    "guion_audio_cierre": "Guarda esta lectura si quieres volver a ella. Escucha una tarjeta por día o repítela cuando necesites recuperar foco, calma y sentido.",
+    "modo": "ambas"
+  },
+  {
+    "id": "demo-proyecto-prototipo",
+    "demo": true,
+    "usuario": "jose",
+    "fecha": "2026-07-07",
+    "tipoEntrada": "lectura",
+    "modoLectura": "academica",
+    "capaLectura": "ambas",
+    "cantidadTarjetas": 10,
+    "tema": "estructura breve para convertir una idea en proyecto",
+    "titulo_sesion": "Del sueño al prototipo",
+    "fuentes": [
+      "Diseño de proyectos",
+      "Prototipado",
+      "Pensamiento de producto"
+    ],
+    "autores": [],
+    "categoria_vital": "proyecto",
+    "nivel_profundidad": "medio",
+    "palabras_clave": [],
+    "saludo_audio": "Hola, José. Esta lectura te ayuda a transformar una idea en proyecto claro, probando sin perder la visión.",
+    "destinatario": null,
+    "guia_acompanante": null,
+    "ideas": [
+      {
+        "numero": 1,
+        "prioritaria": true,
+        "directa": "Un proyecto nace cuando una intuición se convierte en problema, destinatario, propósito y primer resultado verificable.",
+        "adaptada": "Puedes pasar de la emoción inicial a una forma concreta que otros puedan probar.",
+        "consejo_practico": "Escribe problema, usuario, promesa y primer entregable.",
+        "frase_memorable": "Una idea empieza a vivir cuando toma forma."
+      },
+      {
+        "numero": 2,
+        "prioritaria": true,
+        "directa": "La claridad del destinatario evita diseñar para todos y no servirle bien a nadie.",
+        "adaptada": "Puedes definir quién necesita realmente tu app, curso, texto o producto.",
+        "consejo_practico": "Describe a una persona concreta que usaría el proyecto.",
+        "frase_memorable": "Diseñar para alguien es cuidar mejor."
+      },
+      {
+        "numero": 3,
+        "prioritaria": true,
+        "directa": "El problema debe formularse desde la vida real, no solo desde lo que el creador quiere construir.",
+        "adaptada": "Puedes preguntar qué duele, falta o se complica antes de proponer solución.",
+        "consejo_practico": "Escribe el problema sin mencionar todavía tu solución.",
+        "frase_memorable": "El problema bien visto ya orienta medio camino."
+      },
+      {
+        "numero": 4,
+        "prioritaria": true,
+        "directa": "El prototipo permite aprender con bajo riesgo. No es versión pobre, sino instrumento de conversación.",
+        "adaptada": "Puedes probar una función mínima antes de construir todo el sistema.",
+        "consejo_practico": "Define qué parte puede probarse en una semana.",
+        "frase_memorable": "Prototipar es conversar con la realidad."
+      },
+      {
+        "numero": 5,
+        "prioritaria": true,
+        "directa": "La propuesta de valor explica qué cambia para el usuario después de usar el proyecto.",
+        "adaptada": "No basta que algo sea bonito o complejo; debe mejorar una experiencia concreta.",
+        "consejo_practico": "Completa: esto ayuda a alguien a lograr… sin tener que…",
+        "frase_memorable": "El valor se nota en la vida del usuario."
+      },
+      {
+        "numero": 6,
+        "prioritaria": true,
+        "directa": "Todo proyecto necesita límites de alcance para no volverse inabarcable.",
+        "adaptada": "Puedes decidir qué no entra todavía, aunque sea interesante.",
+        "consejo_practico": "Crea una lista de pendientes para después, no para la primera versión.",
+        "frase_memorable": "Decir después también protege el avance."
+      },
+      {
+        "numero": 7,
+        "prioritaria": true,
+        "directa": "La retroalimentación temprana evita enamorarse de supuestos no comprobados.",
+        "adaptada": "Puedes pedir pruebas honestas, no solo elogios.",
+        "consejo_practico": "Muestra el prototipo a tres personas y pregunta qué no entendieron.",
+        "frase_memorable": "El usuario enseña donde el creador supone."
+      },
+      {
+        "numero": 8,
+        "prioritaria": true,
+        "directa": "La estética del proyecto también comunica identidad, confianza y cuidado.",
+        "adaptada": "Una interfaz o documento desordenado puede debilitar una buena idea.",
+        "consejo_practico": "Revisa si forma, tono y propósito dicen lo mismo.",
+        "frase_memorable": "La forma también promete."
+      },
+      {
+        "numero": 9,
+        "prioritaria": true,
+        "directa": "La sostenibilidad pregunta cómo se mantendrá el proyecto después del entusiasmo inicial.",
+        "adaptada": "Puedes pensar tiempo, costos, soporte y energía personal desde el comienzo.",
+        "consejo_practico": "Anota qué necesitará el proyecto para seguir vivo tres meses.",
+        "frase_memorable": "Crear también es sostener."
+      },
+      {
+        "numero": 10,
+        "prioritaria": true,
+        "directa": "Una buena iteración conserva el corazón del proyecto y mejora lo que la prueba mostró débil.",
+        "adaptada": "Puedes avanzar por versiones sin sentir que cada ajuste niega tu intuición original.",
+        "consejo_practico": "Define la mejora central de la próxima versión.",
+        "frase_memorable": "Iterar es cuidar la idea mientras aprende."
+      }
+    ],
+    "ideas_todas": [
+      {
+        "numero": 1,
+        "prioritaria": true,
+        "directa": "Un proyecto nace cuando una intuición se convierte en problema, destinatario, propósito y primer resultado verificable.",
+        "adaptada": "Puedes pasar de la emoción inicial a una forma concreta que otros puedan probar.",
+        "consejo_practico": "Escribe problema, usuario, promesa y primer entregable.",
+        "frase_memorable": "Una idea empieza a vivir cuando toma forma."
+      },
+      {
+        "numero": 2,
+        "prioritaria": true,
+        "directa": "La claridad del destinatario evita diseñar para todos y no servirle bien a nadie.",
+        "adaptada": "Puedes definir quién necesita realmente tu app, curso, texto o producto.",
+        "consejo_practico": "Describe a una persona concreta que usaría el proyecto.",
+        "frase_memorable": "Diseñar para alguien es cuidar mejor."
+      },
+      {
+        "numero": 3,
+        "prioritaria": true,
+        "directa": "El problema debe formularse desde la vida real, no solo desde lo que el creador quiere construir.",
+        "adaptada": "Puedes preguntar qué duele, falta o se complica antes de proponer solución.",
+        "consejo_practico": "Escribe el problema sin mencionar todavía tu solución.",
+        "frase_memorable": "El problema bien visto ya orienta medio camino."
+      },
+      {
+        "numero": 4,
+        "prioritaria": true,
+        "directa": "El prototipo permite aprender con bajo riesgo. No es versión pobre, sino instrumento de conversación.",
+        "adaptada": "Puedes probar una función mínima antes de construir todo el sistema.",
+        "consejo_practico": "Define qué parte puede probarse en una semana.",
+        "frase_memorable": "Prototipar es conversar con la realidad."
+      },
+      {
+        "numero": 5,
+        "prioritaria": true,
+        "directa": "La propuesta de valor explica qué cambia para el usuario después de usar el proyecto.",
+        "adaptada": "No basta que algo sea bonito o complejo; debe mejorar una experiencia concreta.",
+        "consejo_practico": "Completa: esto ayuda a alguien a lograr… sin tener que…",
+        "frase_memorable": "El valor se nota en la vida del usuario."
+      },
+      {
+        "numero": 6,
+        "prioritaria": true,
+        "directa": "Todo proyecto necesita límites de alcance para no volverse inabarcable.",
+        "adaptada": "Puedes decidir qué no entra todavía, aunque sea interesante.",
+        "consejo_practico": "Crea una lista de pendientes para después, no para la primera versión.",
+        "frase_memorable": "Decir después también protege el avance."
+      },
+      {
+        "numero": 7,
+        "prioritaria": true,
+        "directa": "La retroalimentación temprana evita enamorarse de supuestos no comprobados.",
+        "adaptada": "Puedes pedir pruebas honestas, no solo elogios.",
+        "consejo_practico": "Muestra el prototipo a tres personas y pregunta qué no entendieron.",
+        "frase_memorable": "El usuario enseña donde el creador supone."
+      },
+      {
+        "numero": 8,
+        "prioritaria": true,
+        "directa": "La estética del proyecto también comunica identidad, confianza y cuidado.",
+        "adaptada": "Una interfaz o documento desordenado puede debilitar una buena idea.",
+        "consejo_practico": "Revisa si forma, tono y propósito dicen lo mismo.",
+        "frase_memorable": "La forma también promete."
+      },
+      {
+        "numero": 9,
+        "prioritaria": true,
+        "directa": "La sostenibilidad pregunta cómo se mantendrá el proyecto después del entusiasmo inicial.",
+        "adaptada": "Puedes pensar tiempo, costos, soporte y energía personal desde el comienzo.",
+        "consejo_practico": "Anota qué necesitará el proyecto para seguir vivo tres meses.",
+        "frase_memorable": "Crear también es sostener."
+      },
+      {
+        "numero": 10,
+        "prioritaria": true,
+        "directa": "Una buena iteración conserva el corazón del proyecto y mejora lo que la prueba mostró débil.",
+        "adaptada": "Puedes avanzar por versiones sin sentir que cada ajuste niega tu intuición original.",
+        "consejo_practico": "Define la mejora central de la próxima versión.",
+        "frase_memorable": "Iterar es cuidar la idea mientras aprende."
+      }
+    ],
+    "guion_audio_cierre": "Guarda esta lectura si quieres volver a ella. Escucha una tarjeta por día o repítela cuando necesites recuperar foco, calma y sentido.",
+    "modo": "ambas"
+  },
+  {
+    "id": "demo-amor-cuidado",
+    "demo": true,
+    "usuario": "jose",
+    "fecha": "2026-07-07",
+    "tipoEntrada": "situacion",
+    "modoLectura": "ideas",
+    "capaLectura": "ambas",
+    "cantidadTarjetas": 10,
+    "tema": "lectura para amar con cuidado propio y vínculo sano",
+    "titulo_sesion": "Amar sin perderse",
+    "fuentes": [
+      "Situación afectiva cotidiana"
+    ],
+    "autores": [],
+    "categoria_vital": "amor",
+    "nivel_profundidad": "sencillo",
+    "palabras_clave": [],
+    "saludo_audio": "Hola. Esta lectura acompaña una forma de amar con ternura, límite y presencia.",
+    "destinatario": {
+      "nombre": "quien necesita cuidar su vida afectiva",
+      "edad": "adulto",
+      "relacion": "pareja o vínculo afectivo"
+    },
+    "guia_acompanante": null,
+    "ideas": [
+      {
+        "numero": 1,
+        "prioritaria": true,
+        "directa": "Amar no significa desaparecer en las necesidades de otra persona. El vínculo sano conserva dos vidas, no una sola sombra.",
+        "adaptada": "Puedes cuidar sin abandonar tus ritmos, amistades, proyectos y silencio interior.",
+        "consejo_practico": "Pregunta qué parte de ti necesita seguir viva dentro del vínculo.",
+        "frase_memorable": "El amor no pide borrarse."
+      },
+      {
+        "numero": 2,
+        "prioritaria": true,
+        "directa": "La idealización puede confundir intensidad con profundidad. No todo lo que emociona construye cuidado.",
+        "adaptada": "Puedes disfrutar la emoción sin apagar el criterio.",
+        "consejo_practico": "Observa si el vínculo te da paz además de deseo.",
+        "frase_memorable": "La intensidad no siempre es hogar."
+      },
+      {
+        "numero": 3,
+        "prioritaria": true,
+        "directa": "Un límite claro protege la dignidad de ambos cuando se expresa sin castigo ni manipulación.",
+        "adaptada": "Puedes decir lo que necesitas sin convertirlo en amenaza.",
+        "consejo_practico": "Formula un límite en primera persona y con respeto.",
+        "frase_memorable": "El límite honesto cuida el amor posible."
+      },
+      {
+        "numero": 4,
+        "prioritaria": true,
+        "directa": "La comunicación afectiva necesita escuchar para comprender, no solo esperar turno para defenderse.",
+        "adaptada": "Puedes preguntar antes de concluir lo peor.",
+        "consejo_practico": "Repite con tus palabras lo que entendiste antes de responder.",
+        "frase_memorable": "Escuchar también abraza."
+      },
+      {
+        "numero": 5,
+        "prioritaria": true,
+        "directa": "La confianza crece con coherencia repetida, no con promesas grandes y aisladas.",
+        "adaptada": "Puedes mirar acciones sostenidas más que discursos emocionales.",
+        "consejo_practico": "Identifica un gesto concreto que construye confianza.",
+        "frase_memorable": "El amor se prueba en la continuidad."
+      },
+      {
+        "numero": 6,
+        "prioritaria": true,
+        "directa": "Los conflictos no destruyen necesariamente el vínculo; pueden mostrar qué necesita reparación.",
+        "adaptada": "Puedes discutir sin humillar ni buscar ganar.",
+        "consejo_practico": "Después de un desacuerdo, pregunta qué aprendimos de esto.",
+        "frase_memorable": "Reparar vale más que vencer."
+      },
+      {
+        "numero": 7,
+        "prioritaria": true,
+        "directa": "La soledad dentro de una relación también merece ser escuchada.",
+        "adaptada": "Puedes sentir compañía física y aun así necesitar conversación real.",
+        "consejo_practico": "Nombra una necesidad afectiva no dicha.",
+        "frase_memorable": "No toda presencia acompaña de verdad."
+      },
+      {
+        "numero": 8,
+        "prioritaria": true,
+        "directa": "El amor maduro no controla para sentirse seguro; aprende a pedir, confiar y poner límites.",
+        "adaptada": "Puedes distinguir cuidado de vigilancia.",
+        "consejo_practico": "Revisa si una conducta busca cuidar o controlar.",
+        "frase_memorable": "El control no es ternura."
+      },
+      {
+        "numero": 9,
+        "prioritaria": true,
+        "directa": "A veces amar también implica aceptar que una relación no puede sostenerse de cualquier manera.",
+        "adaptada": "Puedes elegir dignidad sin negar lo vivido.",
+        "consejo_practico": "Escribe qué condiciones mínimas necesita un vínculo sano para ti.",
+        "frase_memorable": "Soltar también puede ser cuidado."
+      },
+      {
+        "numero": 10,
+        "prioritaria": true,
+        "directa": "El amor propio no compite con el amor a otro; lo vuelve menos dependiente y más libre.",
+        "adaptada": "Puedes tratarte con la misma paciencia que ofreces.",
+        "consejo_practico": "Haz hoy una acción concreta de cuidado personal.",
+        "frase_memorable": "Amar mejor empieza por no abandonarse."
+      }
+    ],
+    "ideas_todas": [
+      {
+        "numero": 1,
+        "prioritaria": true,
+        "directa": "Amar no significa desaparecer en las necesidades de otra persona. El vínculo sano conserva dos vidas, no una sola sombra.",
+        "adaptada": "Puedes cuidar sin abandonar tus ritmos, amistades, proyectos y silencio interior.",
+        "consejo_practico": "Pregunta qué parte de ti necesita seguir viva dentro del vínculo.",
+        "frase_memorable": "El amor no pide borrarse."
+      },
+      {
+        "numero": 2,
+        "prioritaria": true,
+        "directa": "La idealización puede confundir intensidad con profundidad. No todo lo que emociona construye cuidado.",
+        "adaptada": "Puedes disfrutar la emoción sin apagar el criterio.",
+        "consejo_practico": "Observa si el vínculo te da paz además de deseo.",
+        "frase_memorable": "La intensidad no siempre es hogar."
+      },
+      {
+        "numero": 3,
+        "prioritaria": true,
+        "directa": "Un límite claro protege la dignidad de ambos cuando se expresa sin castigo ni manipulación.",
+        "adaptada": "Puedes decir lo que necesitas sin convertirlo en amenaza.",
+        "consejo_practico": "Formula un límite en primera persona y con respeto.",
+        "frase_memorable": "El límite honesto cuida el amor posible."
+      },
+      {
+        "numero": 4,
+        "prioritaria": true,
+        "directa": "La comunicación afectiva necesita escuchar para comprender, no solo esperar turno para defenderse.",
+        "adaptada": "Puedes preguntar antes de concluir lo peor.",
+        "consejo_practico": "Repite con tus palabras lo que entendiste antes de responder.",
+        "frase_memorable": "Escuchar también abraza."
+      },
+      {
+        "numero": 5,
+        "prioritaria": true,
+        "directa": "La confianza crece con coherencia repetida, no con promesas grandes y aisladas.",
+        "adaptada": "Puedes mirar acciones sostenidas más que discursos emocionales.",
+        "consejo_practico": "Identifica un gesto concreto que construye confianza.",
+        "frase_memorable": "El amor se prueba en la continuidad."
+      },
+      {
+        "numero": 6,
+        "prioritaria": true,
+        "directa": "Los conflictos no destruyen necesariamente el vínculo; pueden mostrar qué necesita reparación.",
+        "adaptada": "Puedes discutir sin humillar ni buscar ganar.",
+        "consejo_practico": "Después de un desacuerdo, pregunta qué aprendimos de esto.",
+        "frase_memorable": "Reparar vale más que vencer."
+      },
+      {
+        "numero": 7,
+        "prioritaria": true,
+        "directa": "La soledad dentro de una relación también merece ser escuchada.",
+        "adaptada": "Puedes sentir compañía física y aun así necesitar conversación real.",
+        "consejo_practico": "Nombra una necesidad afectiva no dicha.",
+        "frase_memorable": "No toda presencia acompaña de verdad."
+      },
+      {
+        "numero": 8,
+        "prioritaria": true,
+        "directa": "El amor maduro no controla para sentirse seguro; aprende a pedir, confiar y poner límites.",
+        "adaptada": "Puedes distinguir cuidado de vigilancia.",
+        "consejo_practico": "Revisa si una conducta busca cuidar o controlar.",
+        "frase_memorable": "El control no es ternura."
+      },
+      {
+        "numero": 9,
+        "prioritaria": true,
+        "directa": "A veces amar también implica aceptar que una relación no puede sostenerse de cualquier manera.",
+        "adaptada": "Puedes elegir dignidad sin negar lo vivido.",
+        "consejo_practico": "Escribe qué condiciones mínimas necesita un vínculo sano para ti.",
+        "frase_memorable": "Soltar también puede ser cuidado."
+      },
+      {
+        "numero": 10,
+        "prioritaria": true,
+        "directa": "El amor propio no compite con el amor a otro; lo vuelve menos dependiente y más libre.",
+        "adaptada": "Puedes tratarte con la misma paciencia que ofreces.",
+        "consejo_practico": "Haz hoy una acción concreta de cuidado personal.",
+        "frase_memorable": "Amar mejor empieza por no abandonarse."
+      }
+    ],
+    "guion_audio_cierre": "Guarda esta lectura si quieres volver a ella. Escucha una tarjeta por día o repítela cuando necesites recuperar foco, calma y sentido.",
+    "modo": "ambas"
+  },
+  {
+    "id": "demo-politica-desacuerdo",
+    "demo": true,
+    "usuario": "jose",
+    "fecha": "2026-07-07",
+    "tipoEntrada": "lectura",
+    "modoLectura": "academica",
+    "capaLectura": "ambas",
+    "cantidadTarjetas": 10,
+    "tema": "política cotidiana, diálogo y bien común",
+    "titulo_sesion": "Convivir en desacuerdo",
+    "fuentes": [
+      "Ética pública",
+      "Democracia deliberativa",
+      "Ciudadanía"
+    ],
+    "autores": [],
+    "categoria_vital": "politica",
+    "nivel_profundidad": "medio",
+    "palabras_clave": [],
+    "saludo_audio": "Hola, José. Esta lectura propone claves breves para pensar la política como convivencia, desacuerdo y responsabilidad común.",
+    "destinatario": null,
+    "guia_acompanante": null,
+    "ideas": [
+      {
+        "numero": 1,
+        "prioritaria": true,
+        "directa": "La política no empieza solo en partidos o gobiernos; aparece donde las personas organizan la vida común y deciden cómo convivir.",
+        "adaptada": "Puedes pensar la política también en aula, familia, comunidad digital e institución.",
+        "consejo_practico": "Identifica una regla cotidiana que organiza convivencia.",
+        "frase_memorable": "La política vive donde compartimos mundo."
+      },
+      {
+        "numero": 2,
+        "prioritaria": true,
+        "directa": "El desacuerdo democrático no es falla del sistema; es condición normal de sociedades plurales.",
+        "adaptada": "Puedes enseñar a disentir sin convertir al otro en enemigo moral absoluto.",
+        "consejo_practico": "Formula una crítica sin atacar la dignidad de la persona.",
+        "frase_memorable": "Disentir no obliga a deshumanizar."
+      },
+      {
+        "numero": 3,
+        "prioritaria": true,
+        "directa": "El bien común no coincide siempre con la suma de intereses privados.",
+        "adaptada": "Puedes preguntar qué decisión protege a más personas, especialmente a quienes tienen menos voz.",
+        "consejo_practico": "Analiza quién gana, quién pierde y quién no fue escuchado.",
+        "frase_memorable": "Lo común empieza donde miro más allá de mí."
+      },
+      {
+        "numero": 4,
+        "prioritaria": true,
+        "directa": "La ciudadanía requiere información, juicio y participación responsable, no solo opinión rápida.",
+        "adaptada": "Puedes diferenciar reacción emocional de deliberación informada.",
+        "consejo_practico": "Antes de compartir una noticia, verifica fuente y contexto.",
+        "frase_memorable": "Opinar también exige cuidado."
+      },
+      {
+        "numero": 5,
+        "prioritaria": true,
+        "directa": "La justicia pública se vuelve concreta cuando las reglas protegen dignidad, límites y oportunidades reales.",
+        "adaptada": "Puedes mirar una política por sus efectos en vidas concretas, no solo por su discurso.",
+        "consejo_practico": "Pregunta qué cuerpo o territorio afecta una decisión.",
+        "frase_memorable": "La justicia se mide en vidas tocadas."
+      },
+      {
+        "numero": 6,
+        "prioritaria": true,
+        "directa": "La polarización reduce complejidad y convierte problemas comunes en identidades enfrentadas.",
+        "adaptada": "Puedes abrir matices donde todo parece consigna.",
+        "consejo_practico": "Escribe dos razones de una postura contraria antes de criticarla.",
+        "frase_memorable": "El matiz es una forma de resistencia."
+      },
+      {
+        "numero": 7,
+        "prioritaria": true,
+        "directa": "La memoria colectiva ayuda a no repetir daños y a reconocer responsabilidades históricas.",
+        "adaptada": "Puedes cuidar la memoria sin convertirla en venganza ni olvido cómodo.",
+        "consejo_practico": "Relaciona una discusión actual con una memoria social relevante.",
+        "frase_memorable": "Recordar también organiza el futuro."
+      },
+      {
+        "numero": 8,
+        "prioritaria": true,
+        "directa": "La ética del cuidado amplía la política hacia dependencias, vulnerabilidades y sostenimiento de la vida.",
+        "adaptada": "Puedes preguntar quién cuida, quién es cuidado y qué trabajos quedan invisibles.",
+        "consejo_practico": "Identifica un cuidado invisible en tu comunidad.",
+        "frase_memorable": "Sin cuidado no hay polis habitable."
+      },
+      {
+        "numero": 9,
+        "prioritaria": true,
+        "directa": "La palabra pública tiene consecuencias: puede deliberar, manipular, reparar o incendiar.",
+        "adaptada": "Puedes exigir precisión y respeto en discusiones difíciles.",
+        "consejo_practico": "Cambia una frase agresiva por una pregunta crítica.",
+        "frase_memorable": "La palabra política también construye clima."
+      },
+      {
+        "numero": 10,
+        "prioritaria": true,
+        "directa": "Una política compleja reconoce interdependencia entre economía, cultura, afectos, tecnología y ambiente.",
+        "adaptada": "Puedes evitar soluciones simples para problemas entramados.",
+        "consejo_practico": "Mapea tres dimensiones de un problema público antes de opinar.",
+        "frase_memorable": "Lo común es una red, no una línea."
+      }
+    ],
+    "ideas_todas": [
+      {
+        "numero": 1,
+        "prioritaria": true,
+        "directa": "La política no empieza solo en partidos o gobiernos; aparece donde las personas organizan la vida común y deciden cómo convivir.",
+        "adaptada": "Puedes pensar la política también en aula, familia, comunidad digital e institución.",
+        "consejo_practico": "Identifica una regla cotidiana que organiza convivencia.",
+        "frase_memorable": "La política vive donde compartimos mundo."
+      },
+      {
+        "numero": 2,
+        "prioritaria": true,
+        "directa": "El desacuerdo democrático no es falla del sistema; es condición normal de sociedades plurales.",
+        "adaptada": "Puedes enseñar a disentir sin convertir al otro en enemigo moral absoluto.",
+        "consejo_practico": "Formula una crítica sin atacar la dignidad de la persona.",
+        "frase_memorable": "Disentir no obliga a deshumanizar."
+      },
+      {
+        "numero": 3,
+        "prioritaria": true,
+        "directa": "El bien común no coincide siempre con la suma de intereses privados.",
+        "adaptada": "Puedes preguntar qué decisión protege a más personas, especialmente a quienes tienen menos voz.",
+        "consejo_practico": "Analiza quién gana, quién pierde y quién no fue escuchado.",
+        "frase_memorable": "Lo común empieza donde miro más allá de mí."
+      },
+      {
+        "numero": 4,
+        "prioritaria": true,
+        "directa": "La ciudadanía requiere información, juicio y participación responsable, no solo opinión rápida.",
+        "adaptada": "Puedes diferenciar reacción emocional de deliberación informada.",
+        "consejo_practico": "Antes de compartir una noticia, verifica fuente y contexto.",
+        "frase_memorable": "Opinar también exige cuidado."
+      },
+      {
+        "numero": 5,
+        "prioritaria": true,
+        "directa": "La justicia pública se vuelve concreta cuando las reglas protegen dignidad, límites y oportunidades reales.",
+        "adaptada": "Puedes mirar una política por sus efectos en vidas concretas, no solo por su discurso.",
+        "consejo_practico": "Pregunta qué cuerpo o territorio afecta una decisión.",
+        "frase_memorable": "La justicia se mide en vidas tocadas."
+      },
+      {
+        "numero": 6,
+        "prioritaria": true,
+        "directa": "La polarización reduce complejidad y convierte problemas comunes en identidades enfrentadas.",
+        "adaptada": "Puedes abrir matices donde todo parece consigna.",
+        "consejo_practico": "Escribe dos razones de una postura contraria antes de criticarla.",
+        "frase_memorable": "El matiz es una forma de resistencia."
+      },
+      {
+        "numero": 7,
+        "prioritaria": true,
+        "directa": "La memoria colectiva ayuda a no repetir daños y a reconocer responsabilidades históricas.",
+        "adaptada": "Puedes cuidar la memoria sin convertirla en venganza ni olvido cómodo.",
+        "consejo_practico": "Relaciona una discusión actual con una memoria social relevante.",
+        "frase_memorable": "Recordar también organiza el futuro."
+      },
+      {
+        "numero": 8,
+        "prioritaria": true,
+        "directa": "La ética del cuidado amplía la política hacia dependencias, vulnerabilidades y sostenimiento de la vida.",
+        "adaptada": "Puedes preguntar quién cuida, quién es cuidado y qué trabajos quedan invisibles.",
+        "consejo_practico": "Identifica un cuidado invisible en tu comunidad.",
+        "frase_memorable": "Sin cuidado no hay polis habitable."
+      },
+      {
+        "numero": 9,
+        "prioritaria": true,
+        "directa": "La palabra pública tiene consecuencias: puede deliberar, manipular, reparar o incendiar.",
+        "adaptada": "Puedes exigir precisión y respeto en discusiones difíciles.",
+        "consejo_practico": "Cambia una frase agresiva por una pregunta crítica.",
+        "frase_memorable": "La palabra política también construye clima."
+      },
+      {
+        "numero": 10,
+        "prioritaria": true,
+        "directa": "Una política compleja reconoce interdependencia entre economía, cultura, afectos, tecnología y ambiente.",
+        "adaptada": "Puedes evitar soluciones simples para problemas entramados.",
+        "consejo_practico": "Mapea tres dimensiones de un problema público antes de opinar.",
+        "frase_memorable": "Lo común es una red, no una línea."
+      }
+    ],
+    "guion_audio_cierre": "Guarda esta lectura si quieres volver a ella. Escucha una tarjeta por día o repítela cuando necesites recuperar foco, calma y sentido.",
+    "modo": "ambas"
+  },
+  {
+    "id": "demo-autoayuda-ordenar-dia",
+    "demo": true,
+    "usuario": "jose",
+    "fecha": "2026-07-07",
+    "tipoEntrada": "lectura",
+    "modoLectura": "ideas",
+    "capaLectura": "ambas",
+    "cantidadTarjetas": 10,
+    "tema": "cuidado práctico para un día saturado",
+    "titulo_sesion": "Respirar y ordenar el día",
+    "fuentes": [
+      "Cuidado cotidiano",
+      "Hábitos de regulación"
+    ],
+    "autores": [],
+    "categoria_vital": "autoayuda",
+    "nivel_profundidad": "medio",
+    "palabras_clave": [],
+    "saludo_audio": "Hola. Esta lectura breve acompaña un día cargado con pasos simples, realistas y amables.",
+    "destinatario": null,
+    "guia_acompanante": null,
+    "ideas": [
+      {
+        "numero": 1,
+        "prioritaria": true,
+        "directa": "Un día difícil no necesita resolverse completo para empezar a mejorar. A veces basta ordenar el primer paso.",
+        "adaptada": "Puedes bajar presión eligiendo una acción pequeña y concreta.",
+        "consejo_practico": "Escribe solo la próxima acción posible.",
+        "frase_memorable": "Lo pequeño también abre camino."
+      },
+      {
+        "numero": 2,
+        "prioritaria": true,
+        "directa": "Respirar con atención ayuda a que el cuerpo deje de actuar como si todo fuera emergencia.",
+        "adaptada": "Puedes usar la respiración como pausa, no como solución mágica.",
+        "consejo_practico": "Respira cuatro tiempos al entrar y cuatro al salir durante un minuto.",
+        "frase_memorable": "La calma comienza en el ritmo."
+      },
+      {
+        "numero": 3,
+        "prioritaria": true,
+        "directa": "Nombrar lo que sientes reduce confusión y evita que la emoción tome todo el espacio.",
+        "adaptada": "Puedes decir: estoy preocupado, cansado o triste, sin juzgarte.",
+        "consejo_practico": "Completa: en este momento siento…",
+        "frase_memorable": "Nombrar ordena por dentro."
+      },
+      {
+        "numero": 4,
+        "prioritaria": true,
+        "directa": "No todas las tareas tienen la misma importancia. Algunas presionan mucho y aportan poco.",
+        "adaptada": "Puedes separar urgencia real de ruido mental.",
+        "consejo_practico": "Marca una tarea importante y una que puede esperar.",
+        "frase_memorable": "No todo lo que grita manda."
+      },
+      {
+        "numero": 5,
+        "prioritaria": true,
+        "directa": "El cuerpo necesita señales básicas de cuidado para sostener la mente.",
+        "adaptada": "Puedes comenzar por agua, comida sencilla, movimiento suave o descanso breve.",
+        "consejo_practico": "Haz una acción corporal de cuidado ahora.",
+        "frase_memorable": "Cuidar el cuerpo le da suelo al ánimo."
+      },
+      {
+        "numero": 6,
+        "prioritaria": true,
+        "directa": "La comparación aumenta cansancio porque mide tu proceso con la superficie visible de otros.",
+        "adaptada": "Puedes volver a tu ritmo sin convertirlo en derrota.",
+        "consejo_practico": "Deja de revisar por un rato aquello que alimenta comparación.",
+        "frase_memorable": "Tu proceso no necesita parecerse a todos."
+      },
+      {
+        "numero": 7,
+        "prioritaria": true,
+        "directa": "Pedir apoyo puede ser una estrategia adulta, no una falla de carácter.",
+        "adaptada": "Puedes acercarte a alguien seguro con una petición concreta.",
+        "consejo_practico": "Envía un mensaje breve pidiendo ayuda específica.",
+        "frase_memorable": "La ayuda también forma parte del camino."
+      },
+      {
+        "numero": 8,
+        "prioritaria": true,
+        "directa": "Cerrar ciclos pequeños devuelve sensación de agencia.",
+        "adaptada": "Puedes terminar una tarea mínima para recordarte que sí puedes avanzar.",
+        "consejo_practico": "Completa algo de menos de diez minutos.",
+        "frase_memorable": "Terminar algo pequeño también fortalece."
+      },
+      {
+        "numero": 9,
+        "prioritaria": true,
+        "directa": "La mente necesita espacios sin entrada constante de estímulos.",
+        "adaptada": "Puedes recuperar claridad reduciendo ruido externo.",
+        "consejo_practico": "Haz diez minutos sin pantalla ni audio.",
+        "frase_memorable": "El silencio también limpia."
+      },
+      {
+        "numero": 10,
+        "prioritaria": true,
+        "directa": "Al final del día, reconocer un avance evita que la mente solo registre pendientes.",
+        "adaptada": "Puedes cerrar con gratitud realista, no forzada.",
+        "consejo_practico": "Escribe una cosa que sí lograste o cuidaste hoy.",
+        "frase_memorable": "Un avance visto pesa menos que diez culpas."
+      }
+    ],
+    "ideas_todas": [
+      {
+        "numero": 1,
+        "prioritaria": true,
+        "directa": "Un día difícil no necesita resolverse completo para empezar a mejorar. A veces basta ordenar el primer paso.",
+        "adaptada": "Puedes bajar presión eligiendo una acción pequeña y concreta.",
+        "consejo_practico": "Escribe solo la próxima acción posible.",
+        "frase_memorable": "Lo pequeño también abre camino."
+      },
+      {
+        "numero": 2,
+        "prioritaria": true,
+        "directa": "Respirar con atención ayuda a que el cuerpo deje de actuar como si todo fuera emergencia.",
+        "adaptada": "Puedes usar la respiración como pausa, no como solución mágica.",
+        "consejo_practico": "Respira cuatro tiempos al entrar y cuatro al salir durante un minuto.",
+        "frase_memorable": "La calma comienza en el ritmo."
+      },
+      {
+        "numero": 3,
+        "prioritaria": true,
+        "directa": "Nombrar lo que sientes reduce confusión y evita que la emoción tome todo el espacio.",
+        "adaptada": "Puedes decir: estoy preocupado, cansado o triste, sin juzgarte.",
+        "consejo_practico": "Completa: en este momento siento…",
+        "frase_memorable": "Nombrar ordena por dentro."
+      },
+      {
+        "numero": 4,
+        "prioritaria": true,
+        "directa": "No todas las tareas tienen la misma importancia. Algunas presionan mucho y aportan poco.",
+        "adaptada": "Puedes separar urgencia real de ruido mental.",
+        "consejo_practico": "Marca una tarea importante y una que puede esperar.",
+        "frase_memorable": "No todo lo que grita manda."
+      },
+      {
+        "numero": 5,
+        "prioritaria": true,
+        "directa": "El cuerpo necesita señales básicas de cuidado para sostener la mente.",
+        "adaptada": "Puedes comenzar por agua, comida sencilla, movimiento suave o descanso breve.",
+        "consejo_practico": "Haz una acción corporal de cuidado ahora.",
+        "frase_memorable": "Cuidar el cuerpo le da suelo al ánimo."
+      },
+      {
+        "numero": 6,
+        "prioritaria": true,
+        "directa": "La comparación aumenta cansancio porque mide tu proceso con la superficie visible de otros.",
+        "adaptada": "Puedes volver a tu ritmo sin convertirlo en derrota.",
+        "consejo_practico": "Deja de revisar por un rato aquello que alimenta comparación.",
+        "frase_memorable": "Tu proceso no necesita parecerse a todos."
+      },
+      {
+        "numero": 7,
+        "prioritaria": true,
+        "directa": "Pedir apoyo puede ser una estrategia adulta, no una falla de carácter.",
+        "adaptada": "Puedes acercarte a alguien seguro con una petición concreta.",
+        "consejo_practico": "Envía un mensaje breve pidiendo ayuda específica.",
+        "frase_memorable": "La ayuda también forma parte del camino."
+      },
+      {
+        "numero": 8,
+        "prioritaria": true,
+        "directa": "Cerrar ciclos pequeños devuelve sensación de agencia.",
+        "adaptada": "Puedes terminar una tarea mínima para recordarte que sí puedes avanzar.",
+        "consejo_practico": "Completa algo de menos de diez minutos.",
+        "frase_memorable": "Terminar algo pequeño también fortalece."
+      },
+      {
+        "numero": 9,
+        "prioritaria": true,
+        "directa": "La mente necesita espacios sin entrada constante de estímulos.",
+        "adaptada": "Puedes recuperar claridad reduciendo ruido externo.",
+        "consejo_practico": "Haz diez minutos sin pantalla ni audio.",
+        "frase_memorable": "El silencio también limpia."
+      },
+      {
+        "numero": 10,
+        "prioritaria": true,
+        "directa": "Al final del día, reconocer un avance evita que la mente solo registre pendientes.",
+        "adaptada": "Puedes cerrar con gratitud realista, no forzada.",
+        "consejo_practico": "Escribe una cosa que sí lograste o cuidaste hoy.",
+        "frase_memorable": "Un avance visto pesa menos que diez culpas."
+      }
+    ],
+    "guion_audio_cierre": "Guarda esta lectura si quieres volver a ella. Escucha una tarjeta por día o repítela cuando necesites recuperar foco, calma y sentido.",
+    "modo": "ambas"
+  },
+  {
+    "id": "demo-duelo-respirar",
+    "demo": true,
+    "usuario": "jose",
+    "fecha": "2026-07-07",
+    "tipoEntrada": "situacion",
+    "modoLectura": "ideas",
+    "capaLectura": "ambas",
+    "cantidadTarjetas": 10,
+    "tema": "acompañamiento breve para una pérdida",
+    "titulo_sesion": "Volver a respirar despacio",
+    "fuentes": [
+      "Situación de duelo"
+    ],
+    "autores": [],
+    "categoria_vital": "duelo",
+    "nivel_profundidad": "sencillo",
+    "palabras_clave": [],
+    "saludo_audio": "Hola. Esta lectura acompaña un momento de duelo con respeto, calma y sin exigirte estar bien de inmediato.",
+    "destinatario": {
+      "nombre": "una persona en duelo",
+      "edad": "adulto",
+      "relacion": "acompañamiento emocional"
+    },
+    "guia_acompanante": null,
+    "ideas": [
+      {
+        "numero": 1,
+        "prioritaria": true,
+        "directa": "El duelo aparece cuando algo o alguien significativo ya no está como antes. No es debilidad; es respuesta a una pérdida importante.",
+        "adaptada": "Puedes permitirte reconocer que duele sin tener que justificarlo ante todos.",
+        "consejo_practico": "Di con claridad qué pérdida estás viviendo.",
+        "frase_memorable": "Lo que duele también tuvo valor."
+      },
+      {
+        "numero": 2,
+        "prioritaria": true,
+        "directa": "El duelo no avanza en línea recta. Puede volver en oleadas, incluso después de días tranquilos.",
+        "adaptada": "Puedes dejar de medir tu proceso como si fuera una escalera perfecta.",
+        "consejo_practico": "Cuando vuelva la tristeza, recuerda que una oleada no borra tu avance.",
+        "frase_memorable": "Sanar no siempre sube en línea recta."
+      },
+      {
+        "numero": 3,
+        "prioritaria": true,
+        "directa": "El cuerpo también vive la pérdida: sueño, apetito, energía y concentración pueden cambiar.",
+        "adaptada": "Puedes cuidarte con acciones básicas aunque el ánimo no acompañe.",
+        "consejo_practico": "Toma agua, come algo sencillo o descansa unos minutos.",
+        "frase_memorable": "El cuerpo sostiene lo que el alma procesa."
+      },
+      {
+        "numero": 4,
+        "prioritaria": true,
+        "directa": "Recordar no obliga a quedarse atrapado. También puede ser una forma de honrar y ordenar lo vivido.",
+        "adaptada": "Puedes elegir un recuerdo sin usarlo para castigarte.",
+        "consejo_practico": "Escribe un recuerdo y una gratitud asociada.",
+        "frase_memorable": "La memoria puede cuidar sin encadenar."
+      },
+      {
+        "numero": 5,
+        "prioritaria": true,
+        "directa": "La culpa suele buscar explicaciones absolutas donde hubo límites humanos.",
+        "adaptada": "Puedes revisar responsabilidades sin convertirte en juez cruel de ti mismo.",
+        "consejo_practico": "Diferencia lo que dependía de ti y lo que no.",
+        "frase_memorable": "La culpa no siempre dice la verdad completa."
+      },
+      {
+        "numero": 6,
+        "prioritaria": true,
+        "directa": "Pedir compañía en duelo no significa cargar a otros; significa permitir presencia humana.",
+        "adaptada": "Puedes pedir escucha sin tener que explicar todo.",
+        "consejo_practico": "Escribe a alguien: hoy me haría bien compañía tranquila.",
+        "frase_memorable": "El dolor compartido pesa distinto."
+      },
+      {
+        "numero": 7,
+        "prioritaria": true,
+        "directa": "No hay obligación de estar fuerte todo el tiempo. La fortaleza también incluye dejarse sostener.",
+        "adaptada": "Puedes descansar de demostrar que puedes con todo.",
+        "consejo_practico": "Permítete un momento sin fingir bienestar.",
+        "frase_memorable": "La vulnerabilidad también es verdad."
+      },
+      {
+        "numero": 8,
+        "prioritaria": true,
+        "directa": "Los rituales ayudan a dar forma simbólica a lo que no cabe solo en palabras.",
+        "adaptada": "Puedes crear un gesto sencillo de despedida o memoria.",
+        "consejo_practico": "Enciende una vela, escribe una carta o guarda una foto con cuidado.",
+        "frase_memorable": "El rito le da casa al dolor."
+      },
+      {
+        "numero": 9,
+        "prioritaria": true,
+        "directa": "Seguir viviendo no traiciona lo perdido. La vida que continúa puede llevar memoria y amor.",
+        "adaptada": "Puedes avanzar sin borrar.",
+        "consejo_practico": "Haz una acción cotidiana que afirme vida sin culpa.",
+        "frase_memorable": "Vivir también puede ser una forma de honrar."
+      },
+      {
+        "numero": 10,
+        "prioritaria": true,
+        "directa": "Cuando el duelo desborda durante mucho tiempo, buscar apoyo profesional puede ser cuidado, no fracaso.",
+        "adaptada": "Puedes pedir ayuda si el dolor afecta gravemente sueño, alimentación, trabajo o vínculos.",
+        "consejo_practico": "Observa qué áreas de tu vida necesitan apoyo adicional.",
+        "frase_memorable": "Pedir ayuda también es amor propio."
+      }
+    ],
+    "ideas_todas": [
+      {
+        "numero": 1,
+        "prioritaria": true,
+        "directa": "El duelo aparece cuando algo o alguien significativo ya no está como antes. No es debilidad; es respuesta a una pérdida importante.",
+        "adaptada": "Puedes permitirte reconocer que duele sin tener que justificarlo ante todos.",
+        "consejo_practico": "Di con claridad qué pérdida estás viviendo.",
+        "frase_memorable": "Lo que duele también tuvo valor."
+      },
+      {
+        "numero": 2,
+        "prioritaria": true,
+        "directa": "El duelo no avanza en línea recta. Puede volver en oleadas, incluso después de días tranquilos.",
+        "adaptada": "Puedes dejar de medir tu proceso como si fuera una escalera perfecta.",
+        "consejo_practico": "Cuando vuelva la tristeza, recuerda que una oleada no borra tu avance.",
+        "frase_memorable": "Sanar no siempre sube en línea recta."
+      },
+      {
+        "numero": 3,
+        "prioritaria": true,
+        "directa": "El cuerpo también vive la pérdida: sueño, apetito, energía y concentración pueden cambiar.",
+        "adaptada": "Puedes cuidarte con acciones básicas aunque el ánimo no acompañe.",
+        "consejo_practico": "Toma agua, come algo sencillo o descansa unos minutos.",
+        "frase_memorable": "El cuerpo sostiene lo que el alma procesa."
+      },
+      {
+        "numero": 4,
+        "prioritaria": true,
+        "directa": "Recordar no obliga a quedarse atrapado. También puede ser una forma de honrar y ordenar lo vivido.",
+        "adaptada": "Puedes elegir un recuerdo sin usarlo para castigarte.",
+        "consejo_practico": "Escribe un recuerdo y una gratitud asociada.",
+        "frase_memorable": "La memoria puede cuidar sin encadenar."
+      },
+      {
+        "numero": 5,
+        "prioritaria": true,
+        "directa": "La culpa suele buscar explicaciones absolutas donde hubo límites humanos.",
+        "adaptada": "Puedes revisar responsabilidades sin convertirte en juez cruel de ti mismo.",
+        "consejo_practico": "Diferencia lo que dependía de ti y lo que no.",
+        "frase_memorable": "La culpa no siempre dice la verdad completa."
+      },
+      {
+        "numero": 6,
+        "prioritaria": true,
+        "directa": "Pedir compañía en duelo no significa cargar a otros; significa permitir presencia humana.",
+        "adaptada": "Puedes pedir escucha sin tener que explicar todo.",
+        "consejo_practico": "Escribe a alguien: hoy me haría bien compañía tranquila.",
+        "frase_memorable": "El dolor compartido pesa distinto."
+      },
+      {
+        "numero": 7,
+        "prioritaria": true,
+        "directa": "No hay obligación de estar fuerte todo el tiempo. La fortaleza también incluye dejarse sostener.",
+        "adaptada": "Puedes descansar de demostrar que puedes con todo.",
+        "consejo_practico": "Permítete un momento sin fingir bienestar.",
+        "frase_memorable": "La vulnerabilidad también es verdad."
+      },
+      {
+        "numero": 8,
+        "prioritaria": true,
+        "directa": "Los rituales ayudan a dar forma simbólica a lo que no cabe solo en palabras.",
+        "adaptada": "Puedes crear un gesto sencillo de despedida o memoria.",
+        "consejo_practico": "Enciende una vela, escribe una carta o guarda una foto con cuidado.",
+        "frase_memorable": "El rito le da casa al dolor."
+      },
+      {
+        "numero": 9,
+        "prioritaria": true,
+        "directa": "Seguir viviendo no traiciona lo perdido. La vida que continúa puede llevar memoria y amor.",
+        "adaptada": "Puedes avanzar sin borrar.",
+        "consejo_practico": "Haz una acción cotidiana que afirme vida sin culpa.",
+        "frase_memorable": "Vivir también puede ser una forma de honrar."
+      },
+      {
+        "numero": 10,
+        "prioritaria": true,
+        "directa": "Cuando el duelo desborda durante mucho tiempo, buscar apoyo profesional puede ser cuidado, no fracaso.",
+        "adaptada": "Puedes pedir ayuda si el dolor afecta gravemente sueño, alimentación, trabajo o vínculos.",
+        "consejo_practico": "Observa qué áreas de tu vida necesitan apoyo adicional.",
+        "frase_memorable": "Pedir ayuda también es amor propio."
+      }
+    ],
+    "guion_audio_cierre": "Guarda esta lectura si quieres volver a ella. Escucha una tarjeta por día o repítela cuando necesites recuperar foco, calma y sentido.",
+    "modo": "ambas"
+  }
+]

@@ -1,0 +1,15 @@
+Fase 55 · Prompt de mejora aplicado
+
+Objetivo:
+Hacer que los mundos 2, 3, 4 y 5 se sientan menos estáticos y más vivos, con jefes que presionan al jugador, más recorrido, más enemigos y biomas con mecánicas propias.
+
+Reglas aplicadas:
+- El jefe del mundo 2 debe moverse más, perseguir, subir/bajar y lanzar cohetes/bombas.
+- Cada jefe debe tener acceso a ayudantes/secundarios.
+- Antes del jefe deben aparecer armas/poderes especiales que lo hieran mucho sin matarlo de inmediato.
+- El mundo 3 debe dar más poder a Aero: aliados temporales que disparan durante 10 segundos.
+- El pantano debe parecer pantano: lodo, arenas movedizas, insectos, sapos, colgantes y fase subterránea.
+- El mundo 5 debe incluir una nebulosa tóxica con oleadas de mosquitos/enemigos aéreos.
+- Cada nivel debe ser más largo y con más oleadas.
+- Pisotear/rebotar sobre el jefe también debe bajarle vida.
+- Evitar reintroducir tubos o encierros.

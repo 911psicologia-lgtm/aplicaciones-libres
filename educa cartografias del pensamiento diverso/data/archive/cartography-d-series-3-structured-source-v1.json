@@ -1,0 +1,634 @@
+{
+  "version": "2.8",
+  "collectionId": "classical_china",
+  "title": "Cartografía D · Serie 3: Han, xuanxue y primeras traducciones budistas",
+  "createdAt": "2026-07-24",
+  "status": "materialización estructurada",
+  "pronunciationPolicy": "Las ayudas son aproximaciones para síntesis de voz en español y no sustituyen reconstrucciones históricas especializadas.",
+  "records": [
+    {
+      "id": "card_han_classics_imperial_academy_001",
+      "author": "Eruditos y funcionarios de la dinastía Han",
+      "title": "El canon organiza educación y gobierno",
+      "territory": "Chang’an y el imperio Han",
+      "period": "Siglos II–I a. C.",
+      "family": "Confucianismo Han: clásicos e instituciones",
+      "symbol": "經",
+      "statement": "La creación de especialistas en los Clásicos y de instituciones educativas vinculó interpretación textual, formación de funcionarios y autoridad estatal.",
+      "tags": [
+        "Dinastía Han",
+        "Cinco Clásicos",
+        "Academia Imperial",
+        "Canon",
+        "Educación"
+      ],
+      "question": "¿Qué ocurre cuando interpretar textos antiguos se convierte también en una vía de formación y autoridad pública?",
+      "caution": "La fórmula “el confucianismo se volvió ideología oficial” simplifica un proceso gradual y plural. La corte Han conservó prácticas legales, cosmológicas, rituales y administrativas de procedencias diversas.",
+      "connections": [
+        "Confucio",
+        "Dong Zhongshu",
+        "Cinco Clásicos",
+        "Exámenes",
+        "Canon"
+      ],
+      "audio": "Comenzamos con los eruditos Han y la institucionalización de los Clásicos. La corte creó especialistas y una Academia Imperial que vinculaban lectura, ritual y formación de funcionarios. El proceso fortaleció tradiciones confucianas, pero no produjo una doctrina única ni eliminó otras corrientes. Un canon no solo conserva textos: también organiza quién puede interpretarlos y gobernar con ellos.",
+      "why": "Permite comprender cómo una tradición intelectual adquiere poder cuando se convierte en currículo, credencial e institución.",
+      "histContext": "Durante la dinastía Han, especialmente desde el reinado del emperador Wu, la corte amplió el patrocinio de especialistas en textos clásicos y estableció la Academia Imperial. Los llamados Cinco Clásicos se convirtieron en referencias centrales de aprendizaje, ritual y asesoría política.",
+      "histDevelopment": "La consolidación fue gradual. Los funcionarios interpretaron versiones y linajes textuales diferentes, y la administración Han combinó vocabularios confucianos con técnicas legales, cosmologías correlativas y prácticas heredadas del imperio Qin. La educación clásica ofreció una vía de reclutamiento, pero no equivalía todavía al sistema de exámenes de épocas posteriores.",
+      "milestones": [
+        "Nombramiento de especialistas imperiales en los Clásicos.",
+        "Fundación y crecimiento de la Academia Imperial durante la dinastía Han.",
+        "Formación posterior de tradiciones de comentario y canonización textual."
+      ],
+      "sections": [
+        [
+          "Canon",
+          "Seleccionar textos centrales delimita aquello que merece ser aprendido y comentado."
+        ],
+        [
+          "Institución",
+          "Academias y cargos transforman la lectura en una práctica pública y profesional."
+        ],
+        [
+          "Pluralidad",
+          "La identidad confuciana Han coexistió con técnicas y cosmologías de procedencias diversas."
+        ]
+      ],
+      "legacy": [
+        "Preparó la larga relación entre aprendizaje clásico, administración y autoridad cultural en China."
+      ],
+      "works": [
+        "Hanshu: tratados sobre educación y eruditos",
+        "Cinco Clásicos"
+      ],
+      "sources": [
+        "https://plato.stanford.edu/entries/han-dynasty/",
+        "https://ctext.org/hanshu"
+      ],
+      "evidence": "A–B",
+      "pronunciation": "Han → jan; Chang’an → chang-án"
+    },
+    {
+      "id": "card_dong_zhongshu_heaven_human_resonance_001",
+      "author": "Dong Zhongshu",
+      "title": "El gobierno responde ante cielo, tierra y humanidad",
+      "territory": "Imperio Han occidental",
+      "period": "Aproximadamente 179–104 a. C.",
+      "family": "Dong Zhongshu: resonancia y responsabilidad política",
+      "symbol": "天",
+      "statement": "Dong Zhongshu relacionó gobierno, conducta y cosmos: las anomalías podían leerse como advertencias que exigían corregir al gobernante antes de una catástrofe mayor.",
+      "tags": [
+        "Dong Zhongshu",
+        "Tian",
+        "Resonancia",
+        "Anomalías",
+        "Gobierno"
+      ],
+      "question": "¿Puede una cosmología limitar al gobernante al convertir los desastres en advertencias sobre su conducta?",
+      "caution": "El Chunqiu fanlu es una compilación heterogénea cuya autoría completa se discute. No todas las teorías correlativas atribuidas posteriormente a Dong proceden con seguridad de sus escritos.",
+      "connections": [
+        "Mandato del Cielo",
+        "Zou Yan",
+        "Yinyang",
+        "Wuxing",
+        "Wang Chong"
+      ],
+      "audio": "Seguimos con Dong Zhongshu y la relación entre cosmos y gobierno. El gobernante debía enlazar cielo, tierra y humanidad; anomalías y desastres podían funcionar como advertencias ante una conducta política inadecuada. La idea permitía criticar al poder, pero también reforzaba su centralidad. Conviene añadir que el Chunqiu fanlu es una compilación posterior y de autoría discutida.",
+      "why": "Muestra cómo una visión cosmológica puede legitimar al soberano y, al mismo tiempo, ofrecer un lenguaje para exigirle corrección moral.",
+      "histContext": "Dong Zhongshu fue un erudito de la tradición Gongyang del Chunqiu y sirvió durante la dinastía Han. Las fuentes posteriores lo convirtieron en figura emblemática de la síntesis entre aprendizaje clásico, política y cosmología.",
+      "histDevelopment": "Su pensamiento interpretó al soberano como mediador entre cielo, tierra y humanidad. Las anomalías naturales podían ser entendidas como advertencias graduales: antes del castigo, el cielo señalaría la necesidad de reforma. Esta teoría ofrecía a los eruditos un modo indirecto de amonestar al emperador, aunque situaba al mismo emperador en el centro del orden cósmico.",
+      "milestones": [
+        "Actividad como especialista en el Chunqiu durante el Han occidental.",
+        "Memoriales y debates sobre gobierno y educación clásica.",
+        "Atribución posterior del Chunqiu fanlu, hoy considerada problemática."
+      ],
+      "sections": [
+        [
+          "Resonancia",
+          "Los órdenes natural, humano y político se interpretan como dominios relacionados."
+        ],
+        [
+          "Advertencia",
+          "La anomalía puede leerse como señal que exige corregir antes de la catástrofe."
+        ],
+        [
+          "Autoridad",
+          "La misma teoría que limita al gobernante también afirma su posición cósmica excepcional."
+        ]
+      ],
+      "legacy": [
+        "Influyó en cosmología política, lectura de portentos y autocomprensión imperial durante siglos."
+      ],
+      "works": [
+        "Hanshu, biografía de Dong Zhongshu",
+        "Chunqiu fanlu, atribución compuesta"
+      ],
+      "sources": [
+        "https://plato.stanford.edu/entries/han-dynasty/",
+        "https://www.rep.routledge.com/articles/biographical/dong-zhongshu-195-115-bc/v-1",
+        "https://ctext.org/hanshu/dong-zhong-shu-zhuan"
+      ],
+      "evidence": "A–B",
+      "pronunciation": "Dong Zhongshu → dong chong-shú"
+    },
+    {
+      "id": "card_wang_chong_natural_heaven_001",
+      "author": "Wang Chong",
+      "title": "El cielo no premia ni castiga intencionalmente",
+      "territory": "China de los Han orientales",
+      "period": "Aproximadamente 27–100 d. C.",
+      "family": "Wang Chong: crítica y naturalismo",
+      "symbol": "衡",
+      "statement": "Wang Chong explicó numerosos fenómenos mediante el movimiento espontáneo del qi y rechazó que el cielo actuara como una persona que recompensa, castiga o envía portentos morales.",
+      "tags": [
+        "Wang Chong",
+        "Lunheng",
+        "Qi",
+        "Tian",
+        "Crítica"
+      ],
+      "question": "¿Qué cambia cuando un fenómeno natural deja de interpretarse como mensaje intencional dirigido a los seres humanos?",
+      "caution": "Wang Chong no fue un científico moderno ni un materialista en todos los sentidos actuales. Conservó conceptos de qi, destino y carácter que pertenecen a su contexto Han.",
+      "connections": [
+        "Dong Zhongshu",
+        "Tian",
+        "Qi",
+        "Ziran",
+        "Escepticismo"
+      ],
+      "audio": "Pasamos a Wang Chong y sus Discusiones equilibradas. Criticó la idea de que el cielo enviara tormentas, eclipses o desgracias para premiar y castigar conductas humanas. Muchos cambios surgían espontáneamente mediante el qi, sin intención semejante a la de una persona. Su crítica fue excepcional, pero no lo convierte sin más en científico moderno ni elimina sus conceptos Han de destino.",
+      "why": "Introduce una crítica interna a las lecturas antropocéntricas de la naturaleza y exige distinguir causalidad física de interpretación moral.",
+      "histContext": "Wang Chong escribió el Lunheng durante los Han orientales. Fue una figura relativamente marginal en su época, pero su obra sobrevivió por su amplitud enciclopédica y su examen crítico de creencias comunes, textos y explicaciones naturales.",
+      "histDevelopment": "Wang rechazó que tian actuara como agente consciente que observaba las acciones humanas. Explicó la generación y transformación mediante qi y ziran, espontaneidad. También criticó fantasmas, portentos y la supuesta correspondencia automática entre virtud y éxito social. Sus propias explicaciones físicas no siempre coinciden con el conocimiento actual.",
+      "milestones": [
+        "Composición del Lunheng en el siglo I.",
+        "Circulación posterior como obra enciclopédica y crítica.",
+        "Revalorización moderna de Wang Chong como pensador naturalista, a veces de manera anacrónica."
+      ],
+      "sections": [
+        [
+          "Tian",
+          "El cielo no actúa como gobernante humano con voluntad punitiva."
+        ],
+        [
+          "Qi",
+          "Los cambios se explican mediante procesos naturales y espontáneos."
+        ],
+        [
+          "Método crítico",
+          "Una afirmación debe examinarse por su coherencia, evidencia y capacidad explicativa."
+        ]
+      ],
+      "legacy": [
+        "Ofreció un contrapunto crítico a la cosmología de portentos y fue recuperado por movimientos intelectuales modernos."
+      ],
+      "works": [
+        "Lunheng, Discusiones equilibradas"
+      ],
+      "sources": [
+        "https://iep.utm.edu/wangchon/",
+        "https://plato.stanford.edu/entries/han-dynasty/"
+      ],
+      "evidence": "A–B",
+      "pronunciation": "Wang Chong → uang chong; Lunheng → lun-jeng"
+    },
+    {
+      "id": "card_xuanxue_profound_learning_001",
+      "author": "Pensadores de xuanxue",
+      "title": "Releer los clásicos después del colapso Han",
+      "territory": "China de Wei y Jin",
+      "period": "Siglos III–IV",
+      "family": "Xuanxue: aprendizaje profundo y orden",
+      "symbol": "玄",
+      "statement": "Xuanxue reunió debates que releyeron el Laozi, el Zhuangzi, el Yijing y textos confucianos para pensar fundamento, espontaneidad, lenguaje y gobierno tras la fragmentación del Han.",
+      "tags": [
+        "Xuanxue",
+        "Wei-Jin",
+        "Laozi",
+        "Zhuangzi",
+        "Yijing"
+      ],
+      "question": "¿Cómo cambia una tradición cuando vuelve a sus clásicos durante una crisis política e intelectual?",
+      "caution": "Xuanxue no fue una escuela uniforme ni debe traducirse simplemente como “neodaoísmo”. Muchos participantes buscaban articular textos daoístas y responsabilidades confucianas.",
+      "connections": [
+        "Wang Bi",
+        "Guo Xiang",
+        "Qingtan",
+        "Laozi",
+        "Zhuangzi"
+      ],
+      "audio": "Entramos en xuanxue, el aprendizaje profundo de los siglos Wei y Jin. Tras el colapso Han, varios pensadores releyeron Laozi, Zhuangzi, Yijing y textos confucianos para discutir fundamento, espontaneidad y gobierno. No formaron una escuela uniforme ni abandonaron necesariamente a Confucio. La etiqueta “neodaoísmo” puede ocultar una conversación más amplia entre clásicos y crisis política.",
+      "why": "Sitúa a Wang Bi y otros comentaristas dentro de una conversación histórica, evitando separarlos artificialmente entre “daoístas” y “confucianos”.",
+      "histContext": "La caída de la dinastía Han en 220 abrió un periodo de fragmentación y competencia política. Miembros de las élites letradas revisaron los clásicos en reuniones, comentarios y debates conocidos posteriormente como xuanxue y qingtan.",
+      "histDevelopment": "El problema central fue cómo relacionar lo indeterminado o no-ser con los seres concretos, y cómo pensar espontaneidad sin destruir instituciones. Wang Bi, He Yan, Zhong Hui, Xiang Xiu y Guo Xiang ofrecieron respuestas diferentes. El movimiento también creó vocabularios que influyeron en la recepción inicial del budismo Mahāyāna.",
+      "milestones": [
+        "Colapso del Han en 220.",
+        "Comentarios de Wang Bi al Laozi y Yijing.",
+        "Desarrollo posterior del comentario de Guo Xiang al Zhuangzi."
+      ],
+      "sections": [
+        [
+          "Xuan",
+          "Lo profundo señala aquello anterior o resistente a las distinciones ordinarias."
+        ],
+        [
+          "Comentario",
+          "Interpretar los clásicos se vuelve una forma de filosofía original."
+        ],
+        [
+          "Política",
+          "La espontaneidad debe relacionarse con roles, rituales y gobierno."
+        ]
+      ],
+      "legacy": [
+        "Influyó en metafísica china, comentario clásico y vocabulario de la recepción budista."
+      ],
+      "works": [
+        "Comentarios de Wang Bi",
+        "Comentario de Guo Xiang al Zhuangzi"
+      ],
+      "sources": [
+        "https://plato.stanford.edu/entries/chinese-metaphysics/",
+        "https://iep.utm.edu/wangbi/",
+        "https://iep.utm.edu/guoxiang/"
+      ],
+      "evidence": "B",
+      "pronunciation": "Xuanxue → shüan-shüe"
+    },
+    {
+      "id": "card_wang_bi_nonbeing_root_001",
+      "author": "Wang Bi",
+      "title": "El no-ser permite que los seres funcionen",
+      "territory": "Reino de Wei, China",
+      "period": "226–249",
+      "family": "Wang Bi: no-ser y fundamento",
+      "symbol": "無",
+      "statement": "Wang Bi interpretó wu, no-ser, como fundamento no objetivable que permite la aparición y coordinación de los seres sin convertirse en una cosa adicional entre ellos.",
+      "tags": [
+        "Wang Bi",
+        "Wu",
+        "No-ser",
+        "Laozi",
+        "Fundamento"
+      ],
+      "question": "¿Cómo puede aquello que no es una cosa determinada hacer posible la función de muchas cosas?",
+      "caution": "Wu no significa una nada absoluta ni equivale sin mediación a la vacuidad budista. La posterior comparación entre ambos conceptos produjo lecturas creativas y también confusiones.",
+      "connections": [
+        "Laozi",
+        "Yijing",
+        "Xuanxue",
+        "Sengzhao",
+        "Vacuidad"
+      ],
+      "audio": "Seguimos con Wang Bi y el no-ser, wu. Al comentar el Laozi, sostuvo que lo indeterminado permite que las cosas particulares aparezcan y funcionen, como el vacío útil de un recipiente. El no-ser no es otra cosa escondida ni una nada destructiva. Tampoco equivale automáticamente a la vacuidad budista, aunque esa semejanza facilitó traducciones y debates posteriores.",
+      "why": "Ofrece una ontología relacional donde la función depende de aperturas, ausencia de fijación y un fundamento que no puede tratarse como objeto.",
+      "histContext": "Wang Bi vivió apenas veintitrés años durante el reino de Wei, después del colapso Han. Sus comentarios al Laozi y al Yijing se convirtieron en algunos de los textos más influyentes de la tradición clásica china.",
+      "histDevelopment": "Wang interpretó wu como raíz de you, los seres determinados. La unidad no impone una forma externa, sino que permite la coordinación de la multiplicidad. Esta lectura se relacionó con wuwei, ziran y un ideal de gobierno que no multiplica intervenciones coercitivas.",
+      "milestones": [
+        "Nacimiento de Wang Bi en 226.",
+        "Composición de comentarios al Laozi y Yijing.",
+        "Transmisión de su versión comentada del Laozi como edición dominante."
+      ],
+      "sections": [
+        [
+          "Wu",
+          "No-ser o indeterminación que no puede fijarse como entidad particular."
+        ],
+        [
+          "You",
+          "Seres concretos, nombres y funciones que surgen dentro de la multiplicidad."
+        ],
+        [
+          "Gobierno",
+          "El orden puede sostenerse sin una intervención que controle cada detalle."
+        ]
+      ],
+      "legacy": [
+        "Su lectura del Laozi dominó la transmisión del texto e influyó en metafísica y recepción budista."
+      ],
+      "works": [
+        "Comentario al Laozi",
+        "Comentario al Yijing"
+      ],
+      "sources": [
+        "https://iep.utm.edu/wangbi/",
+        "https://plato.stanford.edu/entries/chinese-metaphysics/"
+      ],
+      "evidence": "A–B",
+      "pronunciation": "Wang Bi → uang bi; wu → u"
+    },
+    {
+      "id": "card_wang_bi_words_meaning_001",
+      "author": "Wang Bi",
+      "title": "Las palabras conducen al sentido y después deben soltarse",
+      "territory": "Reino de Wei, China",
+      "period": "Siglo III",
+      "family": "Wang Bi: lenguaje e interpretación",
+      "symbol": "意",
+      "statement": "Las palabras y las imágenes orientan hacia un sentido, pero aferrarse literalmente a ellas puede impedir comprender el principio que intentaban expresar.",
+      "tags": [
+        "Wang Bi",
+        "Lenguaje",
+        "Sentido",
+        "Imágenes",
+        "Comentario"
+      ],
+      "question": "¿Cuándo una formulación ayuda a comprender y cuándo comienza a reemplazar aquello que debía mostrar?",
+      "caution": "“Olvidar las palabras” no recomienda abandonar los textos ni aceptar cualquier interpretación. Wang Bi desarrolla una disciplina comentarial minuciosa para justificar el sentido que propone.",
+      "connections": [
+        "Yijing",
+        "Zhuangzi",
+        "Hermenéutica",
+        "Laozi",
+        "Sengzhao"
+      ],
+      "audio": "Ahora, Wang Bi y la relación entre palabras, imágenes y sentido. Los signos del Yijing y las frases de los clásicos orientan la comprensión, pero aferrarse a ellos literalmente puede ocultar el principio que expresan. “Olvidar las palabras” no significa dejar de estudiar ni interpretar libremente: Wang Bi trabajó con enorme precisión textual para mostrar cuándo el medio ya cumplió su función.",
+      "why": "Permite pensar la interpretación como tránsito: necesitamos signos para alcanzar un sentido, sin confundir el signo con todo lo que puede significar.",
+      "histContext": "La cultura intelectual de Wei y Jin valoró el comentario como práctica filosófica. Wang Bi respondió a interpretaciones Han que acumulaban correspondencias numéricas y simbólicas en torno al Yijing.",
+      "histDevelopment": "Su teoría distingue palabras, imágenes y sentido. Las palabras producen imágenes; las imágenes permiten captar una intención; una vez comprendida, no debe confundirse con la formulación literal. Sin embargo, el comentarista debe demostrar por qué una lectura revela mejor la estructura del texto.",
+      "milestones": [
+        "Redacción del Zhouyi lüeli, observaciones generales sobre el Yijing.",
+        "Desarrollo de una hermenéutica centrada en principios.",
+        "Influencia en comentaristas, budistas y teorías posteriores del lenguaje."
+      ],
+      "sections": [
+        [
+          "Palabras",
+          "Formulaciones que hacen comunicable una distinción."
+        ],
+        [
+          "Imágenes",
+          "Configuraciones que median entre el signo y el principio."
+        ],
+        [
+          "Sentido",
+          "Aquello que la interpretación busca comprender sin convertirlo en fórmula rígida."
+        ]
+      ],
+      "legacy": [
+        "Influyó en hermenéutica clásica y en discusiones budistas sobre lenguaje y realidad."
+      ],
+      "works": [
+        "Zhouyi lüeli",
+        "Comentarios al Yijing y al Laozi"
+      ],
+      "sources": [
+        "https://iep.utm.edu/wangbi/"
+      ],
+      "evidence": "A–B",
+      "pronunciation": "Yi → i; Zhouyi → chou-i"
+    },
+    {
+      "id": "card_buddhism_china_translation_001",
+      "author": "Primeras comunidades budistas y traductoras en China",
+      "title": "Traducir el budismo transformó ambos lenguajes",
+      "territory": "Rutas de Asia Central, Luoyang y otras ciudades chinas",
+      "period": "Desde los siglos I–II d. C.",
+      "family": "Budismo en China: traducción y adaptación",
+      "symbol": "譯",
+      "statement": "La recepción del budismo exigió crear vocabularios, comunidades y prácticas capaces de expresar en chino conceptos formados en lenguas y contextos de India y Asia Central.",
+      "tags": [
+        "Budismo chino",
+        "Traducción",
+        "Asia Central",
+        "An Shigao",
+        "Adaptación"
+      ],
+      "question": "¿Puede una enseñanza atravesar lenguas y territorios sin cambiar la manera en que es comprendida y expresada?",
+      "caution": "No hubo una única fecha de “llegada” ni una simple sustitución de palabras indias por términos daoístas. La traducción fue colectiva, desigual y revisada durante siglos.",
+      "connections": [
+        "An Shigao",
+        "Dao’an",
+        "Kumārajīva",
+        "Xuanxue",
+        "Madhyamaka"
+      ],
+      "audio": "Entramos en la recepción del budismo en China. Monjes y equipos procedentes de Asia Central tradujeron prácticas y conceptos para lectores chinos, creando vocabularios nuevos y usando comparaciones locales. No hubo una llegada única ni una copia intacta: cada traducción seleccionó sentidos y abrió problemas. El budismo cambió al expresarse en chino, y el pensamiento chino cambió al responderle.",
+      "why": "Hace visible que la circulación de ideas no es traslado mecánico, sino producción intelectual, lingüística e institucional.",
+      "histContext": "Desde los siglos I y II, traductores como An Shigao trabajaron en Luoyang con textos de meditación, análisis doctrinal y práctica. Las rutas de Asia Central conectaron comunidades de Partia, Kucha, India y China.",
+      "histDevelopment": "Al principio, la falta de terminología estable produjo traducciones variadas y asociaciones con vocabularios daoístas y confucianos. Con el crecimiento del canon, los monjes desarrollaron catálogos, normas, equipos de revisión y debates sobre fidelidad. La traducción creó un nuevo chino budista y nuevas formas de vida monástica.",
+      "milestones": [
+        "Actividad de An Shigao en Luoyang durante el siglo II.",
+        "Crecimiento de comunidades y corpus traducidos durante los siglos III–IV.",
+        "Grandes proyectos de Dao’an y Kumārajīva en el siglo IV y comienzos del V."
+      ],
+      "sections": [
+        [
+          "Ruta",
+          "Los textos viajaron con personas, rituales y redes políticas."
+        ],
+        [
+          "Vocabulario",
+          "Traducir exigió decidir cuándo adaptar, transcribir o explicar."
+        ],
+        [
+          "Transformación",
+          "La enseñanza recibida y la cultura receptora cambiaron mediante el encuentro."
+        ]
+      ],
+      "legacy": [
+        "Sentó las bases de tradiciones Tiantai, Huayan, Chan, Tierra Pura y múltiples escuelas de comentario."
+      ],
+      "works": [
+        "Primeras traducciones atribuidas a An Shigao",
+        "Catálogos budistas tempranos"
+      ],
+      "sources": [
+        "https://plato.stanford.edu/entries/buddhism-chan/",
+        "https://www.encyclopedia.com/religion/encyclopedias-almanacs-transcripts-and-maps/shigao",
+        "https://www.encyclopedia.com/religion/encyclopedias-almanacs-transcripts-and-maps/daoism-and-buddhism"
+      ],
+      "evidence": "B",
+      "pronunciation": "An Shigao → an shi-gao"
+    },
+    {
+      "id": "card_daoan_catalog_translation_001",
+      "author": "Dao’an",
+      "title": "Traducir exige reconocer pérdidas y decisiones",
+      "territory": "Norte y centro de China",
+      "period": "312–385",
+      "family": "Dao’an: catálogo, comunidad y traducción",
+      "symbol": "安",
+      "statement": "Dao’an organizó comunidades, catalogó escrituras y formuló criterios para reconocer qué cambia al traducir, en vez de ocultar la distancia entre los textos y sus versiones chinas.",
+      "tags": [
+        "Dao’an",
+        "Traducción",
+        "Catálogo",
+        "Canon",
+        "Comunidad monástica"
+      ],
+      "question": "¿Cómo puede una comunidad evaluar traducciones cuando no conserva siempre el original ni domina todas sus lenguas?",
+      "caution": "Dao’an no conocía sánscrito y trabajó con traductores de distintas regiones. Sus reglas no eliminaban la incertidumbre; hacían explícitos los lugares donde toda traducción debía decidir.",
+      "connections": [
+        "Kumārajīva",
+        "Huiyuan",
+        "Canon budista",
+        "An Shigao",
+        "Monacato"
+      ],
+      "audio": "Seguimos con Dao’an, monje y organizador del budismo chino. Reunió comunidades, elaboró un catálogo de escrituras y formuló criterios sobre aquello que una traducción modifica o debe preservar. No conocía sánscrito, por lo que dependía de equipos multilingües. Su aporte no fue prometer equivalencia perfecta, sino convertir las pérdidas, dudas y decisiones de traducir en problemas que podían discutirse.",
+      "why": "Introduce una ética de traducción y archivo: reconocer límites resulta más responsable que presentar cada versión como reproducción transparente del original.",
+      "histContext": "Dao’an vivió durante una época de guerra y desplazamiento. Estudió con Fotudeng, formó amplias comunidades y terminó colaborando con un proyecto de traducción patrocinado en Chang’an.",
+      "histDevelopment": "Compiló uno de los primeros catálogos críticos de textos budistas chinos, distinguió traducciones y atribuciones y formuló las conocidas “cinco pérdidas” y “tres dificultades”. También promovió una identidad monástica común mediante el apellido Shi, asociado con Śākyamuni.",
+      "milestones": [
+        "Formación con Fotudeng.",
+        "Organización de comunidades en Xiangyang.",
+        "Trabajo en Chang’an y elaboración de catálogos y prefacios."
+      ],
+      "sections": [
+        [
+          "Catálogo",
+          "Registrar títulos y atribuciones permite detectar ausencias, duplicaciones y textos dudosos."
+        ],
+        [
+          "Traducción",
+          "Toda versión altera orden, estilo o explicaciones para ser comprensible."
+        ],
+        [
+          "Comunidad",
+          "La interpretación necesita instituciones capaces de conservar, revisar y enseñar."
+        ]
+      ],
+      "legacy": [
+        "Preparó la autonomía doctrinal e institucional del budismo chino y formó a figuras como Huiyuan."
+      ],
+      "works": [
+        "Catálogo de escrituras de Dao’an, conservado parcialmente",
+        "Prefacios y reglas de traducción"
+      ],
+      "sources": [
+        "https://www.encyclopedia.com/environment/encyclopedias-almanacs-transcripts-and-maps/daoan",
+        "https://www.encyclopedia.com/philosophy-and-religion/eastern-religions/buddhism/buddhism"
+      ],
+      "evidence": "B",
+      "pronunciation": "Dao’an → dao-an"
+    },
+    {
+      "id": "card_kumarajiva_collaborative_translation_001",
+      "author": "Kumārajīva y sus equipos de traducción",
+      "title": "Una traducción puede ser conversación pública",
+      "territory": "Kucha y Chang’an",
+      "period": "Aproximadamente 344–413",
+      "family": "Kumārajīva: traducción y Madhyamaka",
+      "symbol": "羅",
+      "statement": "Kumārajīva dirigió equipos que leían, explicaban, discutían y revisaban textos colectivamente, produciendo versiones chinas influyentes por su claridad y fuerza literaria.",
+      "tags": [
+        "Kumārajīva",
+        "Chang’an",
+        "Traducción colectiva",
+        "Madhyamaka",
+        "Mahāyāna"
+      ],
+      "question": "¿Qué gana y qué pierde una traducción cuando prioriza comunicar el sentido sobre reproducir cada forma del original?",
+      "caution": "Las obras atribuidas a Kumārajīva fueron productos colectivos y no simples traducciones individuales. Su elegancia no garantiza correspondencia literal, y la autenticidad de algunos títulos continúa examinándose.",
+      "connections": [
+        "Dao’an",
+        "Sengzhao",
+        "Nāgārjuna",
+        "Lotus Sutra",
+        "Vimalakīrti"
+      ],
+      "audio": "Pasamos a Kumārajīva y sus equipos de Chang’an. La traducción comenzaba con lectura y explicación, continuaba mediante discusión y terminaba después de varias revisiones. Sus versiones del Sutra del Loto, Vimalakīrti y tratados Madhyamaka fueron célebres por su claridad. No eran obras individuales ni copias palabra por palabra: la fluidez ganada también implicaba elecciones interpretativas.",
+      "why": "Muestra la traducción como práctica colectiva donde filología, enseñanza oral, debate y estilo producen una nueva tradición textual.",
+      "histContext": "Kumārajīva nació en Kucha, se formó en tradiciones budistas de Asia Central e India y fue llevado a Chang’an en 401. Allí encabezó una oficina de traducción patrocinada por el gobernante Yao Xing.",
+      "histDevelopment": "Los proyectos reunían al maestro, asistentes bilingües, escribas, revisores y grandes audiencias. Las traducciones transmitieron sutras Mahāyāna y tratados asociados con Nāgārjuna, moldeando el vocabulario del budismo chino. Su estilo privilegió inteligibilidad y ritmo, a veces frente a una reproducción más literal.",
+      "milestones": [
+        "Llegada a Chang’an en 401.",
+        "Traducción colectiva de sutras y tratados durante aproximadamente doce años.",
+        "Formación de discípulos como Sengzhao, Daosheng, Daorong y Sengrui."
+      ],
+      "sections": [
+        [
+          "Equipo",
+          "La autoría traductora se distribuye entre explicación, discusión, escritura y revisión."
+        ],
+        [
+          "Estilo",
+          "La claridad puede comunicar mejor una enseñanza y, al mismo tiempo, alejarse de formas lingüísticas del original."
+        ],
+        [
+          "Madhyamaka",
+          "Las traducciones abrieron una recepción china de vacuidad, dos verdades y crítica de posiciones extremas."
+        ]
+      ],
+      "legacy": [
+        "Sus versiones continúan siendo litúrgica y filosóficamente centrales en Asia oriental."
+      ],
+      "works": [
+        "Sutra del Loto",
+        "Sutra de Vimalakīrti",
+        "Tratados Madhyamaka atribuidos a Nāgārjuna"
+      ],
+      "sources": [
+        "https://plato.stanford.edu/entries/buddhism-chan/",
+        "https://www.encyclopedia.com/people/philosophy-and-religion/buddhism-biographies/kumarajiva",
+        "https://www.treccani.it/enciclopedia/kumarajiva/"
+      ],
+      "evidence": "B",
+      "pronunciation": "Kumārajīva → ku-ma-ra-YI-va; Chang’an → chang-án"
+    },
+    {
+      "id": "card_sengzhao_nonabsolute_emptiness_001",
+      "author": "Sengzhao",
+      "title": "La vacuidad no destruye las cosas convencionales",
+      "territory": "Chang’an, China",
+      "period": "Aproximadamente 378–413",
+      "family": "Sengzhao: Madhyamaka en lengua china",
+      "symbol": "肇",
+      "statement": "Sengzhao sostuvo que las cosas funcionan convencionalmente sin poseer una esencia independiente; por eso la vacuidad evita tanto convertirlas en sustancias como negar su aparición.",
+      "tags": [
+        "Sengzhao",
+        "Vacuidad",
+        "Madhyamaka",
+        "Zhaolun",
+        "No dualidad"
+      ],
+      "question": "¿Cómo puede algo aparecer, relacionarse y producir efectos sin poseer una esencia fija e independiente?",
+      "caution": "Sengzhao utilizó vocabularios chinos para expresar Madhyamaka, pero su pensamiento no es una simple mezcla de Laozi y Nāgārjuna. La posterior escuela Sanlun organizó una genealogía que no existía plenamente en su época.",
+      "connections": [
+        "Kumārajīva",
+        "Nāgārjuna",
+        "Wang Bi",
+        "Vimalakīrti",
+        "Jizang"
+      ],
+      "audio": "Cerramos con Sengzhao, discípulo de Kumārajīva y autor del Zhaolun. Explicó que las cosas aparecen y actúan, pero carecen de una esencia independiente; por eso la vacuidad no es una nada que las borra. Su lenguaje dialogó con xuanxue, aunque no fue una simple traducción de Wang Bi. La escuela Sanlun posterior organizó una genealogía más definida que la existente en su tiempo.",
+      "why": "Muestra cómo una filosofía cambia al atravesar una lengua nueva sin perder su crítica de los extremos de existencia absoluta y nihilismo.",
+      "histContext": "Sengzhao estudió textos chinos y luego se integró al círculo de Kumārajīva en Chang’an. Participó en traducciones y escribió tratados que se convirtieron en referencias tempranas del Madhyamaka chino.",
+      "histDevelopment": "El Zhaolun reúne ensayos sobre vacuidad, movimiento, sabiduría y nirvāṇa. Sengzhao argumentó que conceptos y oposiciones son necesarios en el nivel convencional, pero se vuelven engañosos cuando se toman como estructuras independientes de la realidad.",
+      "milestones": [
+        "Encuentro con la comunidad de Kumārajīva.",
+        "Participación en traducciones de textos Mahāyāna.",
+        "Composición y reunión posterior de los tratados del Zhaolun."
+      ],
+      "sections": [
+        [
+          "Vacuidad",
+          "Ausencia de naturaleza propia, no inexistencia total."
+        ],
+        [
+          "Convención",
+          "Las cosas conservan funciones y relaciones en la experiencia ordinaria."
+        ],
+        [
+          "Lenguaje",
+          "Las palabras orientan, pero no capturan una realidad fija separada de sus relaciones."
+        ]
+      ],
+      "legacy": [
+        "Influyó en Sanlun, Tiantai, Huayan, Chan y debates posteriores sobre lenguaje y no dualidad."
+      ],
+      "works": [
+        "Zhaolun",
+        "Comentario al Sutra de Vimalakīrti"
+      ],
+      "sources": [
+        "https://iep.utm.edu/sengzhao",
+        "https://www.rep.routledge.com/articles/biographical/sengzhao-ad-384-414/v-1",
+        "https://plato.stanford.edu/entries/buddhism-chan/"
+      ],
+      "evidence": "A–B",
+      "pronunciation": "Sengzhao → seng-chao; Zhaolun → chao-lun"
+    }
+  ]
+}

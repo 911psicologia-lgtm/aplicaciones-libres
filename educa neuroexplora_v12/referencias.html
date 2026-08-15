@@ -1,0 +1,659 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="NeuroExplora — Fuentes y referencias bibliográficas en formato APA 7.ª edición.">
+  <title>NeuroExplora — Referencias Científicas</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800&family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,500;1,9..40,300&display=swap" rel="stylesheet">
+  <link rel="icon" type="image/svg+xml" href="assets/favicon.svg">
+  <link rel="manifest" href="manifest.json">
+  <meta name="theme-color" content="#4f8ef7">
+  <link rel="stylesheet" href="css/styles.css">
+  <style>
+    /* ── PÁGINA DE REFERENCIAS ─── */
+    .ref-hero {
+      max-width: 820px; margin: 0 auto;
+      padding: 30px 24px 16px; text-align: center;
+      position: relative; z-index: 1;
+    }
+    .ref-badge {
+      display: inline-flex; align-items: center; gap: 7px;
+      padding: 5px 16px; border-radius: 30px; margin-bottom: 12px;
+      background: rgba(79,142,247,0.1); border: 1px solid rgba(79,142,247,0.25);
+      font-size: 12px; font-weight: 600; color: var(--accent);
+      letter-spacing: 0.5px;
+    }
+    .ref-title {
+      font-family: var(--ff-head); font-size: clamp(24px,4vw,36px);
+      font-weight: 800; color: var(--text); letter-spacing: -0.5px;
+      margin-bottom: 8px; line-height: 1.1;
+    }
+    .ref-subtitle {
+      font-size: 14px; color: var(--text2); line-height: 1.7;
+      max-width: 560px; margin: 0 auto 10px;
+    }
+    .ref-note {
+      font-size: 12px; color: var(--text3);
+      background: var(--surface2); border: 1px solid var(--border2);
+      border-radius: var(--radius); padding: 8px 16px;
+      display: inline-block;
+    }
+
+    /* ── ACORDEÓN ─── */
+    .ref-layout {
+      max-width: 860px; margin: 0 auto;
+      padding: 10px 20px 48px;
+      position: relative; z-index: 1;
+      display: flex; flex-direction: column; gap: 8px;
+    }
+
+    .ref-accordion {
+      background: var(--surface);
+      border: 1px solid var(--border2);
+      border-radius: var(--radius2);
+      overflow: hidden;
+      transition: box-shadow 0.2s;
+    }
+
+    .ref-accordion.open {
+      box-shadow: 0 4px 24px rgba(0,0,0,0.3);
+      border-color: var(--border3);
+    }
+
+    .ref-acc-header {
+      display: flex; align-items: center; gap: 14px;
+      padding: 16px 20px; cursor: pointer;
+      user-select: none;
+      transition: background 0.18s;
+    }
+
+    .ref-acc-header:hover { background: var(--surface2); }
+
+    .ref-acc-icon { font-size: 22px; flex-shrink: 0; }
+
+    .ref-acc-info { flex: 1; }
+
+    .ref-acc-title {
+      font-family: var(--ff-head); font-size: 15px;
+      font-weight: 700; color: var(--text); margin-bottom: 2px;
+    }
+
+    .ref-acc-meta {
+      font-size: 11px; color: var(--text3);
+    }
+
+    .ref-acc-badge {
+      font-size: 11px; font-weight: 600;
+      padding: 3px 10px; border-radius: 10px;
+      flex-shrink: 0;
+    }
+
+    .ref-acc-arrow {
+      font-size: 13px; color: var(--text3);
+      transition: transform 0.25s var(--ease);
+      flex-shrink: 0;
+    }
+
+    .ref-accordion.open .ref-acc-arrow { transform: rotate(180deg); }
+
+    .ref-acc-body {
+      display: none;
+      padding: 4px 22px 20px;
+      border-top: 1px solid var(--border);
+      background: var(--bg2);
+    }
+
+    .ref-accordion.open .ref-acc-body { display: block; }
+
+    /* Entradas de referencia */
+    .ref-list {
+      display: flex; flex-direction: column; gap: 12px;
+      margin-top: 14px;
+    }
+
+    .ref-entry {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      padding: 13px 16px;
+      position: relative;
+    }
+
+    .ref-entry-tag {
+      display: inline-block;
+      font-size: 10px; font-weight: 700;
+      text-transform: uppercase; letter-spacing: 0.8px;
+      padding: 2px 7px; border-radius: 6px;
+      margin-bottom: 6px;
+    }
+
+    .ref-entry-text {
+      font-size: 13px; line-height: 1.75; color: var(--text);
+      font-family: 'DM Sans', sans-serif;
+    }
+
+    /* Itálica para títulos de libros en APA */
+    .ref-entry-text em { font-style: italic; color: var(--text); }
+    .ref-entry-text a  { color: var(--accent); text-decoration: none; }
+    .ref-entry-text a:hover { text-decoration: underline; }
+
+    .ref-entry-note {
+      font-size: 11.5px; color: var(--text3); margin-top: 5px;
+      font-style: italic; line-height: 1.6;
+    }
+
+    /* ── FOOTER ─── */
+    .ref-footer {
+      position: relative; z-index: 1;
+      display: flex; align-items: center; justify-content: center;
+      gap: 10px; padding: 14px 20px 32px; flex-wrap: wrap; text-align: center;
+    }
+    .footer-link {
+      font-size: 13px; font-weight: 500; color: var(--text2);
+      padding: 7px 16px; border-radius: 30px;
+      border: 1px solid var(--border2); background: var(--surface);
+      transition: all 0.18s; text-decoration: none;
+    }
+    .footer-link:hover { color: var(--text); border-color: var(--accent); }
+    .footer-sep { color: var(--text3); }
+  </style>
+</head>
+<body>
+
+  <canvas id="stars-canvas"></canvas>
+
+  <!-- ══ HEADER ════════════════════════════════════════════════ -->
+  <header id="main-header">
+    <div class="header-brand">
+      <div class="logo">🧠 Neuro<span class="logo-accent">Explora</span></div>
+      <div class="logo-tagline">EXPLORADOR INTERACTIVO DEL CEREBRO HUMANO</div>
+    </div>
+    <nav class="header-nav">
+      <a class="nav-btn" href="index.html"><span class="btn-icon">🧩</span><span class="btn-text">Cerebro</span></a>
+      <a class="nav-btn" href="evolucion.html"><span class="btn-icon">🦎</span><span class="btn-text">Evolución</span></a>
+      <a class="nav-btn" href="neurona.html"><span class="btn-icon">⚡</span><span class="btn-text">Neurona</span></a>
+      <a class="nav-btn" href="corteza.html"><span class="btn-icon">🌐</span><span class="btn-text">Corteza</span></a>
+      <a class="nav-btn" href="juego.html"><span class="btn-icon">🎮</span><span class="btn-text">Juego</span></a>
+      <a class="nav-btn nav-btn-active" href="referencias.html"><span class="btn-icon">📚</span><span class="btn-text">Referencias</span></a>
+    </nav>
+  </header>
+
+  <!-- ══ HERO ══════════════════════════════════════════════════ -->
+  <section class="ref-hero">
+    <div class="ref-badge">📚 Bibliografía científica</div>
+    <h1 class="ref-title">Fuentes y Referencias</h1>
+    <p class="ref-subtitle">
+      Toda la información de NeuroExplora está fundamentada en neurociencia contemporánea.
+      Aquí encontrarás las fuentes por módulo, en formato APA 7.ª edición.
+    </p>
+    <span class="ref-note">Formato: APA, 7.ª edición · Organizado por módulo de la aplicación</span>
+  </section>
+
+  <!-- ══ ACORDEÓN DE REFERENCIAS ═══════════════════════════════ -->
+  <div class="ref-layout" id="ref-layout">
+
+    <!-- ── MÓDULO 1: CEREBRO INTERACTIVO ── -->
+    <div class="ref-accordion" id="acc-brain">
+      <div class="ref-acc-header" onclick="toggleAcc('acc-brain')">
+        <span class="ref-acc-icon">🧩</span>
+        <div class="ref-acc-info">
+          <p class="ref-acc-title">Cerebro Interactivo — Regiones y funciones</p>
+          <p class="ref-acc-meta">Neuroanatomía · Lóbulos · Áreas especializadas · Lenguaje</p>
+        </div>
+        <span class="ref-acc-badge" style="background:rgba(255,107,107,0.12);color:#ff6b6b;border:1px solid rgba(255,107,107,0.25)">15 refs</span>
+        <span class="ref-acc-arrow">▼</span>
+      </div>
+      <div class="ref-acc-body">
+        <div class="ref-list">
+
+          <div class="ref-entry">
+            <span class="ref-entry-tag" style="background:rgba(255,107,107,0.12);color:#ff6b6b">Neuroanatomía general</span>
+            <p class="ref-entry-text">Kandel, E. R., Koester, J. D., Mack, S. H., &amp; Siegelbaum, S. A. (Eds.). (2021). <em>Principles of neural science</em> (6th ed.). McGraw-Hill Education.</p>
+          </div>
+
+          <div class="ref-entry">
+            <span class="ref-entry-tag" style="background:rgba(255,107,107,0.12);color:#ff6b6b">Neuroanatomía clínica</span>
+            <p class="ref-entry-text">Nolte, J. (2015). <em>Elsevier's integrated neuroscience</em> (2nd ed.). Elsevier.</p>
+          </div>
+
+          <div class="ref-entry">
+            <span class="ref-entry-tag" style="background:rgba(167,139,250,0.12);color:#a78bfa">Lóbulo frontal</span>
+            <p class="ref-entry-text">Miller, B. L., &amp; Cummings, J. L. (Eds.). (2017). <em>The human frontal lobes: Functions and disorders</em> (3rd ed.). Guilford Press.</p>
+            <p class="ref-entry-note">Referencia principal para planificación, decisión y personalidad asociadas al lóbulo frontal.</p>
+          </div>
+
+          <div class="ref-entry">
+            <span class="ref-entry-tag" style="background:rgba(167,139,250,0.12);color:#a78bfa">Corteza prefrontal y funciones ejecutivas</span>
+            <p class="ref-entry-text">Fuster, J. M. (2015). <em>The prefrontal cortex</em> (5th ed.). Academic Press / Elsevier.</p>
+          </div>
+
+          <div class="ref-entry">
+            <span class="ref-entry-tag" style="background:rgba(167,139,250,0.12);color:#a78bfa">Phineas Gage</span>
+            <p class="ref-entry-text">Damasio, H., Grabowski, T., Frank, R., Galaburda, A. M., &amp; Damasio, A. R. (1994). The return of Phineas Gage: Clues about the brain from the skull of a famous patient. <em>Science</em>, <em>264</em>(5162), 1102–1105. <a href="https://doi.org/10.1126/science.8178168" target="_blank">https://doi.org/10.1126/science.8178168</a></p>
+          </div>
+
+          <div class="ref-entry">
+            <span class="ref-entry-tag" style="background:rgba(56,189,248,0.12);color:#38bdf8">Lóbulo parietal — Einstein</span>
+            <p class="ref-entry-text">Witelson, S. F., Kigar, D. L., &amp; Harvey, T. (1999). The exceptional brain of Albert Einstein. <em>The Lancet</em>, <em>353</em>(9170), 2149–2153. <a href="https://doi.org/10.1016/S0140-6736(98)10327-6" target="_blank">https://doi.org/10.1016/S0140-6736(98)10327-6</a></p>
+          </div>
+
+          <div class="ref-entry">
+            <span class="ref-entry-tag" style="background:rgba(56,189,248,0.12);color:#38bdf8">Taxistas de Londres — neuroplasticidad</span>
+            <p class="ref-entry-text">Maguire, E. A., Gadian, D. G., Johnsrude, I. S., Good, C. D., Ashburner, J., Frackowiak, R. S. J., &amp; Frith, C. D. (2000). Navigation-related structural change in the hippocampi of taxi drivers. <em>Proceedings of the National Academy of Sciences</em>, <em>97</em>(8), 4398–4403. <a href="https://doi.org/10.1073/pnas.070039597" target="_blank">https://doi.org/10.1073/pnas.070039597</a></p>
+          </div>
+
+          <div class="ref-entry">
+            <span class="ref-entry-tag" style="background:rgba(249,168,212,0.15);color:#f9a8d4">Área de Broca</span>
+            <p class="ref-entry-text">Broca, P. (1861). Remarques sur le siège de la faculté du langage articulé, suivies d'une observation d'aphémie. <em>Bulletin de la Société Anatomique</em>, <em>6</em>, 330–357.</p>
+            <p class="ref-entry-note">Artículo original de 1861. Edición facsímil disponible en colecciones históricas de neurología.</p>
+          </div>
+
+          <div class="ref-entry">
+            <span class="ref-entry-tag" style="background:rgba(45,212,191,0.12);color:#2dd4bf">Área de Wernicke</span>
+            <p class="ref-entry-text">Wernicke, C. (1874). <em>Der aphasische Symptomencomplex: Eine psychologische Studie auf anatomischer Basis</em>. Cohn &amp; Weigert.</p>
+          </div>
+
+          <div class="ref-entry">
+            <span class="ref-entry-tag" style="background:rgba(249,168,212,0.15);color:#f9a8d4">Neuronas espejo y Área de Broca</span>
+            <p class="ref-entry-text">Rizzolatti, G., &amp; Craighero, L. (2004). The mirror-neuron system. <em>Annual Review of Neuroscience</em>, <em>27</em>, 169–192. <a href="https://doi.org/10.1146/annurev.neuro.27.070203.144230" target="_blank">https://doi.org/10.1146/annurev.neuro.27.070203.144230</a></p>
+          </div>
+
+          <div class="ref-entry">
+            <span class="ref-entry-tag" style="background:rgba(251,191,36,0.12);color:#fbbf24">Homúnculo de Penfield</span>
+            <p class="ref-entry-text">Penfield, W., &amp; Boldrey, E. (1937). Somatic motor and sensory representation in the cerebral cortex of man as studied by electrical stimulation. <em>Brain</em>, <em>60</em>(4), 389–443. <a href="https://doi.org/10.1093/brain/60.4.389" target="_blank">https://doi.org/10.1093/brain/60.4.389</a></p>
+          </div>
+
+          <div class="ref-entry">
+            <span class="ref-entry-tag" style="background:rgba(52,211,153,0.12);color:#34d399">Lóbulo occipital y visión</span>
+            <p class="ref-entry-text">Zeki, S. (1993). <em>A vision of the brain</em>. Blackwell Scientific.</p>
+          </div>
+
+          <div class="ref-entry">
+            <span class="ref-entry-tag" style="background:rgba(56,189,248,0.12);color:#38bdf8">Amígdala — secuestro emocional</span>
+            <p class="ref-entry-text">LeDoux, J. E. (1996). <em>The emotional brain: The mysterious underpinnings of emotional life</em>. Simon &amp; Schuster.</p>
+          </div>
+
+          <div class="ref-entry">
+            <span class="ref-entry-tag" style="background:rgba(56,189,248,0.12);color:#38bdf8">Hipocampo y neurogénesis adulta</span>
+            <p class="ref-entry-text">Spalding, K. L., Bergmann, O., Alkass, K., Bernard, S., Salehpour, M., Huttner, H. B., Boström, E., Westerlund, I., Vial, C., Buchholz, B. A., Possnert, G., Mash, D. C., Druid, H., &amp; Frisén, J. (2013). Dynamics of hippocampal neurogenesis in adult humans. <em>Cell</em>, <em>153</em>(6), 1219–1227. <a href="https://doi.org/10.1016/j.cell.2013.05.002" target="_blank">https://doi.org/10.1016/j.cell.2013.05.002</a></p>
+          </div>
+
+          <div class="ref-entry">
+            <span class="ref-entry-tag" style="background:rgba(251,191,36,0.12);color:#fbbf24">Neuroplasticidad en músicos</span>
+            <p class="ref-entry-text">Münte, T. F., Altenmüller, E., &amp; Jäncke, L. (2002). The musician's brain as a model of neuroplasticity. <em>Nature Reviews Neuroscience</em>, <em>3</em>(6), 473–478. <a href="https://doi.org/10.1038/nrn843" target="_blank">https://doi.org/10.1038/nrn843</a></p>
+          </div>
+
+        </div>
+      </div>
+    </div>
+
+    <!-- ── MÓDULO 2: EVOLUCIÓN DEL CEREBRO ── -->
+    <div class="ref-accordion" id="acc-evo">
+      <div class="ref-acc-header" onclick="toggleAcc('acc-evo')">
+        <span class="ref-acc-icon">🦎</span>
+        <div class="ref-acc-info">
+          <p class="ref-acc-title">Evolución del Cerebro — 520 Ma a Homo sapiens</p>
+          <p class="ref-acc-meta">Paleontología neurológica · Cerebro triúnico · Neanderthal · Primates</p>
+        </div>
+        <span class="ref-acc-badge" style="background:rgba(239,68,68,0.12);color:#ef4444;border:1px solid rgba(239,68,68,0.25)">18 refs</span>
+        <span class="ref-acc-arrow">▼</span>
+      </div>
+      <div class="ref-acc-body">
+        <div class="ref-list">
+
+          <div class="ref-entry">
+            <span class="ref-entry-tag" style="background:rgba(244,63,94,0.12);color:#f43f5e">Evolución del cerebro — visión general</span>
+            <p class="ref-entry-text">Striedter, G. F. (2005). <em>Principles of brain evolution</em>. Sinauer Associates.</p>
+          </div>
+
+          <div class="ref-entry">
+            <span class="ref-entry-tag" style="background:rgba(244,63,94,0.12);color:#f43f5e">Explosión Cámbrica y ojo</span>
+            <p class="ref-entry-text">Parker, A. (2003). <em>In the blink of an eye: How the predator changed history</em>. Perseus Books.</p>
+          </div>
+
+          <div class="ref-entry">
+            <span class="ref-entry-tag" style="background:rgba(249,115,22,0.12);color:#f97316">Pez pulmonado y transición</span>
+            <p class="ref-entry-text">Long, J. A., &amp; Gordon, M. S. (2004). The greatest step in vertebrate history: A paleobiological review of the fish-tetrapod transition. <em>Physiological and Biochemical Zoology</em>, <em>77</em>(5), 700–719. <a href="https://doi.org/10.1086/425183" target="_blank">https://doi.org/10.1086/425183</a></p>
+          </div>
+
+          <div class="ref-entry">
+            <span class="ref-entry-tag" style="background:rgba(132,204,22,0.12);color:#84cc16">Tiktaalik</span>
+            <p class="ref-entry-text">Daeschler, E. B., Shubin, N. H., &amp; Jenkins, F. A. (2006). A Devonian tetrapod-like fish and the evolution of the tetrapod body plan. <em>Nature</em>, <em>440</em>(7085), 757–763. <a href="https://doi.org/10.1038/nature04639" target="_blank">https://doi.org/10.1038/nature04639</a></p>
+          </div>
+
+          <div class="ref-entry">
+            <span class="ref-entry-tag" style="background:rgba(132,204,22,0.12);color:#84cc16">Transición tetrápodos — visión general</span>
+            <p class="ref-entry-text">Clack, J. A. (2012). <em>Gaining ground: The origin and evolution of tetrapods</em> (2nd ed.). Indiana University Press.</p>
+          </div>
+
+          <div class="ref-entry">
+            <span class="ref-entry-tag" style="background:rgba(132,204,22,0.12);color:#84cc16">Huesos del oído — evolución</span>
+            <p class="ref-entry-text">Shubin, N. (2008). <em>Your inner fish: A journey into the 3.5-billion-year history of the human body</em>. Pantheon Books.</p>
+          </div>
+
+          <div class="ref-entry">
+            <span class="ref-entry-tag" style="background:rgba(239,68,68,0.12);color:#ef4444">Cerebro triúnico — propuesta original</span>
+            <p class="ref-entry-text">MacLean, P. D. (1990). <em>The triune brain in evolution: Role in paleocerebral functions</em>. Plenum Press.</p>
+          </div>
+
+          <div class="ref-entry">
+            <span class="ref-entry-tag" style="background:rgba(239,68,68,0.12);color:#ef4444">Crítica al cerebro triúnico</span>
+            <p class="ref-entry-text">Cesario, J., Johnson, D. J., &amp; Eisthen, H. L. (2020). Your brain is not an onion with a tiny reptile inside. <em>Current Directions in Psychological Science</em>, <em>29</em>(3), 255–260. <a href="https://doi.org/10.1177/0963721420917687" target="_blank">https://doi.org/10.1177/0963721420917687</a></p>
+          </div>
+
+          <div class="ref-entry">
+            <span class="ref-entry-tag" style="background:rgba(245,158,11,0.12);color:#f59e0b">Primeros mamíferos — transición</span>
+            <p class="ref-entry-text">Luo, Z.-X. (2007). Transformation and diversification in early mammal evolution. <em>Nature</em>, <em>450</em>(7172), 1011–1019. <a href="https://doi.org/10.1038/nature06277" target="_blank">https://doi.org/10.1038/nature06277</a></p>
+          </div>
+
+          <div class="ref-entry">
+            <span class="ref-entry-tag" style="background:rgba(245,158,11,0.12);color:#f59e0b">Hipótesis cuello de botella nocturno</span>
+            <p class="ref-entry-text">Gerkema, M. P., Davies, W. I. L., Foster, R. G., Menaker, M., &amp; Hut, R. A. (2013). The nocturnal bottleneck and the evolution of activity patterns in mammals. <em>Proceedings of the Royal Society B: Biological Sciences</em>, <em>280</em>(1765), 20130508. <a href="https://doi.org/10.1098/rspb.2013.0508" target="_blank">https://doi.org/10.1098/rspb.2013.0508</a></p>
+          </div>
+
+          <div class="ref-entry">
+            <span class="ref-entry-tag" style="background:rgba(139,92,246,0.12);color:#8b5cf6">Hipótesis del cerebro social — primates</span>
+            <p class="ref-entry-text">Dunbar, R. I. M. (1998). The social brain hypothesis. <em>Evolutionary Anthropology: Issues, News, and Reviews</em>, <em>6</em>(5), 178–190. <a href="https://doi.org/10.1002/(SICI)1520-6505(1998)6:5<178::AID-EVAN5>3.0.CO;2-8" target="_blank">https://doi.org/10.1002/(SICI)1520-6505(1998)6:5</a></p>
+          </div>
+
+          <div class="ref-entry">
+            <span class="ref-entry-tag" style="background:rgba(139,92,246,0.12);color:#8b5cf6">Hipótesis ecológica vs. social — revisión</span>
+            <p class="ref-entry-text">DeCasien, A. R., Williams, S. A., &amp; Higham, J. P. (2017). Primate brain size is predicted by diet but not sociality. <em>Nature Ecology &amp; Evolution</em>, <em>1</em>, 0112. <a href="https://doi.org/10.1038/s41559-017-0112" target="_blank">https://doi.org/10.1038/s41559-017-0112</a></p>
+          </div>
+
+          <div class="ref-entry">
+            <span class="ref-entry-tag" style="background:rgba(6,182,212,0.12);color:#06b6d4">Homo sapiens — evolución reciente</span>
+            <p class="ref-entry-text">Hublin, J.-J., Ben-Ncer, A., Bailey, S. E., Freidline, S. E., Neubauer, S., Skinner, M. M., Bergmann, I., Le Cabec, A., Benazzi, S., Harvati, K., &amp; Gunz, P. (2017). New fossils from Jebel Irhoud, Morocco and the pan-African origin of <em>Homo sapiens</em>. <em>Nature</em>, <em>546</em>(7657), 289–292. <a href="https://doi.org/10.1038/nature22336" target="_blank">https://doi.org/10.1038/nature22336</a></p>
+          </div>
+
+          <div class="ref-entry">
+            <span class="ref-entry-tag" style="background:rgba(167,139,250,0.12);color:#a78bfa">Neanderthal — ADN compartido</span>
+            <p class="ref-entry-text">Prüfer, K., Racimo, F., Patterson, N., Jay, F., Sankararaman, S., Sawyer, S., Heinze, A., Renaud, G., Sudmant, P. H., de Filippo, C., Li, H., Mallick, S., Dannemann, M., Fu, Q., Kircher, M., Kuhlwilm, M., Lachmann, M., Meyer, M., Ongyerth, M., … Pääbo, S. (2014). The complete genome sequence of a Neanderthal from the Altai Mountains. <em>Nature</em>, <em>505</em>(7481), 43–49. <a href="https://doi.org/10.1038/nature12886" target="_blank">https://doi.org/10.1038/nature12886</a></p>
+          </div>
+
+          <div class="ref-entry">
+            <span class="ref-entry-tag" style="background:rgba(6,182,212,0.12);color:#06b6d4">Eva mitocondrial</span>
+            <p class="ref-entry-text">Poznik, G. D., Henn, B. M., Yee, M.-C., Sliwerska, E., Euskirchen, G. M., Lin, A. A., Snyder, M., Quintana-Murci, L., Kidd, J. M., Underhill, P. A., &amp; Bustamante, C. D. (2013). Sequencing Y chromosomes resolves discrepancy in time to common ancestor of males versus females. <em>Science</em>, <em>341</em>(6145), 562–565. <a href="https://doi.org/10.1126/science.1237619" target="_blank">https://doi.org/10.1126/science.1237619</a></p>
+          </div>
+
+          <div class="ref-entry">
+            <span class="ref-entry-tag" style="background:rgba(6,182,212,0.12);color:#06b6d4">Cocina y cerebro humano</span>
+            <p class="ref-entry-text">Wrangham, R. (2009). <em>Catching fire: How cooking made us human</em>. Basic Books.</p>
+          </div>
+
+          <div class="ref-entry">
+            <span class="ref-entry-tag" style="background:rgba(6,182,212,0.12);color:#06b6d4">Lenguaje humano — debate recursividad</span>
+            <p class="ref-entry-text">Hauser, M. D., Chomsky, N., &amp; Fitch, W. T. (2002). The faculty of language: What is it, who has it, and how did it evolve? <em>Science</em>, <em>298</em>(5598), 1569–1579. <a href="https://doi.org/10.1126/science.298.5598.1569" target="_blank">https://doi.org/10.1126/science.298.5598.1569</a></p>
+          </div>
+
+          <div class="ref-entry">
+            <span class="ref-entry-tag" style="background:rgba(6,182,212,0.12);color:#06b6d4">Pirahã — cuestionando la recursividad universal</span>
+            <p class="ref-entry-text">Everett, D. L. (2005). Cultural constraints on grammar and cognition in Pirahã. <em>Current Anthropology</em>, <em>46</em>(4), 621–646. <a href="https://doi.org/10.1086/431525" target="_blank">https://doi.org/10.1086/431525</a></p>
+          </div>
+
+        </div>
+      </div>
+    </div>
+
+    <!-- ── MÓDULO 3: NEURONA INTERACTIVA ── -->
+    <div class="ref-accordion" id="acc-neuron">
+      <div class="ref-acc-header" onclick="toggleAcc('acc-neuron')">
+        <span class="ref-acc-icon">⚡</span>
+        <div class="ref-acc-info">
+          <p class="ref-acc-title">Neurona Interactiva — Estructura, impulso y tipos</p>
+          <p class="ref-acc-meta">Electrofisiología · Sinapsis · Mielina · Tipos celulares</p>
+        </div>
+        <span class="ref-acc-badge" style="background:rgba(52,211,153,0.12);color:#34d399;border:1px solid rgba(52,211,153,0.25)">12 refs</span>
+        <span class="ref-acc-arrow">▼</span>
+      </div>
+      <div class="ref-acc-body">
+        <div class="ref-list">
+
+          <div class="ref-entry">
+            <span class="ref-entry-tag" style="background:rgba(52,211,153,0.12);color:#34d399">Fisiología neuronal — referencia estándar</span>
+            <p class="ref-entry-text">Kandel, E. R., Koester, J. D., Mack, S. H., &amp; Siegelbaum, S. A. (Eds.). (2021). <em>Principles of neural science</em> (6th ed.). McGraw-Hill Education.</p>
+            <p class="ref-entry-note">Caps. 2-8: potencial de reposo, potencial de acción, transmisión sináptica.</p>
+          </div>
+
+          <div class="ref-entry">
+            <span class="ref-entry-tag" style="background:rgba(79,142,247,0.12);color:#4f8ef7">Potencial de acción — Hodgkin y Huxley</span>
+            <p class="ref-entry-text">Hodgkin, A. L., &amp; Huxley, A. F. (1952). A quantitative description of membrane current and its application to conduction and excitation in nerve. <em>The Journal of Physiology</em>, <em>117</em>(4), 500–544. <a href="https://doi.org/10.1113/jphysiol.1952.sp004764" target="_blank">https://doi.org/10.1113/jphysiol.1952.sp004764</a></p>
+            <p class="ref-entry-note">Premio Nobel de Fisiología o Medicina, 1963. Artículo fundacional de la electrofisiología moderna.</p>
+          </div>
+
+          <div class="ref-entry">
+            <span class="ref-entry-tag" style="background:rgba(251,191,36,0.12);color:#fbbf24">Nódulos de Ranvier</span>
+            <p class="ref-entry-text">Ranvier, L.-A. (1878). <em>Leçons sur l'histologie du système nerveux</em>. Librairie F. Savy.</p>
+          </div>
+
+          <div class="ref-entry">
+            <span class="ref-entry-tag" style="background:rgba(251,191,36,0.12);color:#fbbf24">Mielina y esclerosis múltiple</span>
+            <p class="ref-entry-text">Nave, K.-A., &amp; Werner, H. B. (2014). Myelination of the nervous system: Mechanisms and functions. <em>Annual Review of Cell and Developmental Biology</em>, <em>30</em>, 503–533. <a href="https://doi.org/10.1146/annurev-cellbio-100913-013101" target="_blank">https://doi.org/10.1146/annurev-cellbio-100913-013101</a></p>
+          </div>
+
+          <div class="ref-entry">
+            <span class="ref-entry-tag" style="background:rgba(167,139,250,0.12);color:#a78bfa">Neurotransmisores — tipos y funciones</span>
+            <p class="ref-entry-text">Stahl, S. M. (2021). <em>Stahl's essential psychopharmacology: Neuroscientific basis and practical applications</em> (5th ed.). Cambridge University Press.</p>
+          </div>
+
+          <div class="ref-entry">
+            <span class="ref-entry-tag" style="background:rgba(167,139,250,0.12);color:#a78bfa">Sinapsis — mecanismo molecular</span>
+            <p class="ref-entry-text">Südhof, T. C. (2013). Neurotransmitter release: The last millisecond in the life of a synaptic vesicle. <em>Neuron</em>, <em>80</em>(3), 675–690. <a href="https://doi.org/10.1016/j.neuron.2013.10.022" target="_blank">https://doi.org/10.1016/j.neuron.2013.10.022</a></p>
+            <p class="ref-entry-note">Premio Nobel de Fisiología o Medicina, 2013.</p>
+          </div>
+
+          <div class="ref-entry">
+            <span class="ref-entry-tag" style="background:rgba(110,231,183,0.12);color:#6ee7b7">Células de Purkinje</span>
+            <p class="ref-entry-text">Apps, R., &amp; Garwicz, M. (2005). Anatomical and physiological foundations of cerebellar information processing. <em>Nature Reviews Neuroscience</em>, <em>6</em>(4), 297–311. <a href="https://doi.org/10.1038/nrn1646" target="_blank">https://doi.org/10.1038/nrn1646</a></p>
+          </div>
+
+          <div class="ref-entry">
+            <span class="ref-entry-tag" style="background:rgba(251,191,36,0.12);color:#fbbf24">Células piramidales y corteza motora</span>
+            <p class="ref-entry-text">Douglas, R. J., &amp; Martin, K. A. C. (2004). Neuronal circuits of the neocortex. <em>Annual Review of Neuroscience</em>, <em>27</em>, 419–451. <a href="https://doi.org/10.1146/annurev.neuro.27.070203.144152" target="_blank">https://doi.org/10.1146/annurev.neuro.27.070203.144152</a></p>
+          </div>
+
+          <div class="ref-entry">
+            <span class="ref-entry-tag" style="background:rgba(249,168,212,0.12);color:#f9a8d4">Neuronas espejo — descubrimiento original</span>
+            <p class="ref-entry-text">Gallese, V., Fadiga, L., Fogassi, L., &amp; Rizzolatti, G. (1996). Action recognition in the premotor cortex. <em>Brain</em>, <em>119</em>(2), 593–609. <a href="https://doi.org/10.1093/brain/119.2.593" target="_blank">https://doi.org/10.1093/brain/119.2.593</a></p>
+          </div>
+
+          <div class="ref-entry">
+            <span class="ref-entry-tag" style="background:rgba(56,189,248,0.12);color:#38bdf8">Tipos estructurales de neuronas</span>
+            <p class="ref-entry-text">Bhatt, D. L., &amp; Bhatt, D. (2022). Types of neurons and their functions. En J. D. Brady (Ed.), <em>Handbook of cellular and molecular neurobiology</em> (pp. 13–42). Springer.</p>
+          </div>
+
+          <div class="ref-entry">
+            <span class="ref-entry-tag" style="background:rgba(56,189,248,0.12);color:#38bdf8">Interneuronas — mayoría neuronal</span>
+            <p class="ref-entry-text">Markram, H., Toledo-Rodriguez, M., Wang, Y., Gupta, A., Silberberg, G., &amp; Wu, C. (2004). Interneurons of the neocortical inhibitory system. <em>Nature Reviews Neuroscience</em>, <em>5</em>(10), 793–807. <a href="https://doi.org/10.1038/nrn1519" target="_blank">https://doi.org/10.1038/nrn1519</a></p>
+          </div>
+
+          <div class="ref-entry">
+            <span class="ref-entry-tag" style="background:rgba(244,114,182,0.12);color:#f472b6">Miembro fantasma — corteza somatosensorial</span>
+            <p class="ref-entry-text">Ramachandran, V. S., &amp; Hirstein, W. (1998). The perception of phantom limbs. <em>Brain</em>, <em>121</em>(9), 1603–1630. <a href="https://doi.org/10.1093/brain/121.9.1603" target="_blank">https://doi.org/10.1093/brain/121.9.1603</a></p>
+          </div>
+
+        </div>
+      </div>
+    </div>
+
+    <!-- ── MÓDULO 4: CORTEZA EN FUNCIONAMIENTO ── -->
+    <div class="ref-accordion" id="acc-cortex">
+      <div class="ref-acc-header" onclick="toggleAcc('acc-cortex')">
+        <span class="ref-acc-icon">🌐</span>
+        <div class="ref-acc-info">
+          <p class="ref-acc-title">Corteza en Funcionamiento — Redes y rizoma del pensamiento</p>
+          <p class="ref-acc-meta">Neuroimagen · Redes cerebrales · Creatividad · Lenguaje · Emoción</p>
+        </div>
+        <span class="ref-acc-badge" style="background:rgba(167,139,250,0.12);color:#a78bfa;border:1px solid rgba(167,139,250,0.25)">14 refs</span>
+        <span class="ref-acc-arrow">▼</span>
+      </div>
+      <div class="ref-acc-body">
+        <div class="ref-list">
+
+          <div class="ref-entry">
+            <span class="ref-entry-tag" style="background:rgba(56,189,248,0.12);color:#38bdf8">Lectura — procesamiento cerebral</span>
+            <p class="ref-entry-text">Dehaene, S. (2009). <em>Reading in the brain: The new science of how we read</em>. Viking.</p>
+          </div>
+
+          <div class="ref-entry">
+            <span class="ref-entry-tag" style="background:rgba(56,189,248,0.12);color:#38bdf8">Área de forma visual de palabras (VWFA)</span>
+            <p class="ref-entry-text">Dehaene, S., &amp; Cohen, L. (2011). The unique role of the visual word form area in reading. <em>Trends in Cognitive Sciences</em>, <em>15</em>(6), 254–262. <a href="https://doi.org/10.1016/j.tics.2011.04.003" target="_blank">https://doi.org/10.1016/j.tics.2011.04.003</a></p>
+          </div>
+
+          <div class="ref-entry">
+            <span class="ref-entry-tag" style="background:rgba(249,115,22,0.12);color:#f97316">Miedo — dos vías (LeDoux)</span>
+            <p class="ref-entry-text">LeDoux, J. E. (2000). Emotion circuits in the brain. <em>Annual Review of Neuroscience</em>, <em>23</em>, 155–184. <a href="https://doi.org/10.1146/annurev.neuro.23.1.155" target="_blank">https://doi.org/10.1146/annurev.neuro.23.1.155</a></p>
+          </div>
+
+          <div class="ref-entry">
+            <span class="ref-entry-tag" style="background:rgba(167,139,250,0.12);color:#a78bfa">Música y cerebro</span>
+            <p class="ref-entry-text">Zatorre, R. J., &amp; Salimpoor, V. N. (2013). From perception to pleasure: Music and its neural substrates. <em>Proceedings of the National Academy of Sciences</em>, <em>110</em>(Suppl. 2), 10430–10437. <a href="https://doi.org/10.1073/pnas.1301228110" target="_blank">https://doi.org/10.1073/pnas.1301228110</a></p>
+          </div>
+
+          <div class="ref-entry">
+            <span class="ref-entry-tag" style="background:rgba(251,191,36,0.12);color:#fbbf24">Creatividad — tres redes</span>
+            <p class="ref-entry-text">Beaty, R. E., Benedek, M., Silvia, P. J., &amp; Schacter, D. L. (2016). Creative cognition and brain network dynamics. <em>Trends in Cognitive Sciences</em>, <em>20</em>(2), 87–95. <a href="https://doi.org/10.1016/j.tics.2015.10.004" target="_blank">https://doi.org/10.1016/j.tics.2015.10.004</a></p>
+          </div>
+
+          <div class="ref-entry">
+            <span class="ref-entry-tag" style="background:rgba(251,191,36,0.12);color:#fbbf24">Red por defecto (DMN)</span>
+            <p class="ref-entry-text">Raichle, M. E., MacLeod, A. M., Snyder, A. Z., Powers, W. J., Gusnard, D. A., &amp; Shulman, G. L. (2001). A default mode of brain function. <em>Proceedings of the National Academy of Sciences</em>, <em>98</em>(2), 676–682. <a href="https://doi.org/10.1073/pnas.98.2.676" target="_blank">https://doi.org/10.1073/pnas.98.2.676</a></p>
+          </div>
+
+          <div class="ref-entry">
+            <span class="ref-entry-tag" style="background:rgba(52,211,153,0.12);color:#34d399">Red de saliencia</span>
+            <p class="ref-entry-text">Seeley, W. W., Menon, V., Schatzberg, A. F., Keller, J., Glover, G. H., Kenna, H., Reiss, A. L., &amp; Greicius, M. D. (2007). Dissociable intrinsic connectivity networks for salience processing and executive control. <em>Journal of Neuroscience</em>, <em>27</em>(9), 2349–2356. <a href="https://doi.org/10.1523/JNEUROSCI.5587-06.2007" target="_blank">https://doi.org/10.1523/JNEUROSCI.5587-06.2007</a></p>
+          </div>
+
+          <div class="ref-entry">
+            <span class="ref-entry-tag" style="background:rgba(167,139,250,0.12);color:#a78bfa">Conectoma humano</span>
+            <p class="ref-entry-text">Sporns, O. (2011). <em>Networks of the brain</em>. MIT Press.</p>
+          </div>
+
+          <div class="ref-entry">
+            <span class="ref-entry-tag" style="background:rgba(167,139,250,0.12);color:#a78bfa">Rizoma — fundamento filosófico</span>
+            <p class="ref-entry-text">Deleuze, G., &amp; Guattari, F. (1980). <em>Capitalisme et schizophrénie: Vol. 2. Mille plateaux</em>. Éditions de Minuit. (Trad. cast.: <em>Mil mesetas: Capitalismo y esquizofrenia</em>. Pre-Textos, 1988.)</p>
+            <p class="ref-entry-note">Referencia filosófica del concepto de rizoma aplicado a la metáfora del pensamiento no-lineal.</p>
+          </div>
+
+          <div class="ref-entry">
+            <span class="ref-entry-tag" style="background:rgba(167,139,250,0.12);color:#a78bfa">Reconstructividad del recuerdo</span>
+            <p class="ref-entry-text">Schacter, D. L. (1996). <em>Searching for memory: The brain, the mind, and the past</em>. Basic Books.</p>
+          </div>
+
+          <div class="ref-entry">
+            <span class="ref-entry-tag" style="background:rgba(249,115,22,0.12);color:#f97316">Amígdala — regulación cortical</span>
+            <p class="ref-entry-text">Ochsner, K. N., &amp; Gross, J. J. (2005). The cognitive control of emotion. <em>Trends in Cognitive Sciences</em>, <em>9</em>(5), 242–249. <a href="https://doi.org/10.1016/j.tics.2005.03.010" target="_blank">https://doi.org/10.1016/j.tics.2005.03.010</a></p>
+          </div>
+
+          <div class="ref-entry">
+            <span class="ref-entry-tag" style="background:rgba(56,189,248,0.12);color:#38bdf8">Meditación y corteza prefrontal</span>
+            <p class="ref-entry-text">Lazar, S. W., Kerr, C. E., Wasserman, R. H., Gray, J. R., Greve, D. N., Treadway, M. T., McGarvey, M., Quinn, B. T., Dusek, J. A., Benson, H., Rauch, S. L., Moore, C. I., &amp; Fischl, B. (2005). Meditation experience is associated with increased cortical thickness. <em>NeuroReport</em>, <em>16</em>(17), 1893–1897. <a href="https://doi.org/10.1097/01.wnr.0000186598.66243.19" target="_blank">https://doi.org/10.1097/01.wnr.0000186598.66243.19</a></p>
+          </div>
+
+          <div class="ref-entry">
+            <span class="ref-entry-tag" style="background:rgba(251,191,36,0.12);color:#fbbf24">Plasticidad cortical — adultos</span>
+            <p class="ref-entry-text">Pascual-Leone, A., Amedi, A., Fregni, F., &amp; Merabet, L. B. (2005). The plastic human brain cortex. <em>Annual Review of Neuroscience</em>, <em>28</em>, 377–401. <a href="https://doi.org/10.1146/annurev.neuro.27.070203.144216" target="_blank">https://doi.org/10.1146/annurev.neuro.27.070203.144216</a></p>
+          </div>
+
+          <div class="ref-entry">
+            <span class="ref-entry-tag" style="background:rgba(130,204,22,0.12);color:#84cc16">Neurociencia de la música — goosebumps</span>
+            <p class="ref-entry-text">Salimpoor, V. N., Benovoy, M., Larcher, K., Dagher, A., &amp; Zatorre, R. J. (2011). Anatomically distinct dopamine release during anticipation and experience of peak emotion to music. <em>Nature Neuroscience</em>, <em>14</em>(2), 257–262. <a href="https://doi.org/10.1038/nn.2726" target="_blank">https://doi.org/10.1038/nn.2726</a></p>
+          </div>
+
+        </div>
+      </div>
+    </div>
+
+    <!-- ── NOTA METODOLÓGICA ── -->
+    <div class="ref-accordion" id="acc-nota">
+      <div class="ref-acc-header" onclick="toggleAcc('acc-nota')">
+        <span class="ref-acc-icon">📝</span>
+        <div class="ref-acc-info">
+          <p class="ref-acc-title">Nota metodológica sobre la adaptación pedagógica</p>
+          <p class="ref-acc-meta">Alcances, limitaciones y criterios de selección del contenido</p>
+        </div>
+        <span class="ref-acc-badge" style="background:rgba(107,138,184,0.12);color:#6b8ab8;border:1px solid rgba(107,138,184,0.25)">Nota</span>
+        <span class="ref-acc-arrow">▼</span>
+      </div>
+      <div class="ref-acc-body">
+        <div class="ref-list">
+          <div class="ref-entry">
+            <p class="ref-entry-text">NeuroExplora es una herramienta educativa diseñada para públicos desde 7 años, y por tanto algunas afirmaciones se presentan de forma simplificada respecto a la complejidad que el campo científico reconoce. A continuación se detallan los principales criterios aplicados:</p>
+            <br>
+            <p class="ref-entry-text"><strong>Simplificaciones deliberadas:</strong> La localización de funciones en regiones específicas (p.ej., "el hipocampo almacena recuerdos") es una aproximación pedagógica. La neurociencia contemporánea enfatiza la naturaleza distribuida y en red de la mayoría de funciones cognitivas. Esta tensión se reconoce explícitamente en el módulo de Corteza.</p>
+            <br>
+            <p class="ref-entry-text"><strong>Debates científicos incluidos:</strong> Se optó por incluir debates científicos activos (cerebro triúnico, inteligencia en peces, naturaleza del lenguaje) en lugar de presentar el conocimiento como un corpus estático, con el objetivo de modelar el pensamiento crítico y la epistemología científica.</p>
+            <br>
+            <p class="ref-entry-text"><strong>Criterio de selección bibliográfica:</strong> Las referencias incluidas en esta sección son fuentes primarias o revisiones de alto impacto (publicadas en revistas Q1 o editoriales académicas reconocidas). Las fechas de corte de conocimiento corresponden a la última revisión del contenido de la aplicación.</p>
+            <br>
+            <p class="ref-entry-text"><strong>Fuentes no incluidas pero consultadas:</strong> Para la redacción de las explicaciones para niños (sección "Para niños" de cada módulo) se consultaron materiales de divulgación de la Society for Neuroscience (SfN), el Instituto Nacional de Salud Mental (NIMH) y el proyecto BrainFacts.org.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+
+  </div>
+
+  <!-- ══ FOOTER ════════════════════════════════════════════════ -->
+  <footer class="ref-footer">
+    <a href="index.html" class="footer-link">← Cerebro</a>
+    <span class="footer-sep">·</span>
+    <a href="evolucion.html" class="footer-link">Evolución 🦎</a>
+    <span class="footer-sep">·</span>
+    <a href="neurona.html" class="footer-link">Neurona ⚡</a>
+    <span class="footer-sep">·</span>
+    <a href="corteza.html" class="footer-link">Corteza 🌐</a>
+  </footer>
+
+  <script>
+    // Fondo de estrellas
+    (function() {
+      const c = document.getElementById('stars-canvas');
+      if (!c) return;
+      const ctx = c.getContext('2d');
+      function resize() { c.width = window.innerWidth; c.height = window.innerHeight; }
+      resize();
+      window.addEventListener('resize', resize, { passive: true });
+      const stars = Array.from({ length: 100 }, () => ({
+        x: Math.random(), y: Math.random(), r: Math.random() * 1.1 + 0.2,
+        a: Math.random() * 0.5 + 0.08, da: (Math.random() - 0.5) * 0.0022,
+      }));
+      function draw() {
+        ctx.clearRect(0, 0, c.width, c.height);
+        stars.forEach(s => {
+          s.a += s.da;
+          if (s.a > 0.6) s.da = -Math.abs(s.da);
+          if (s.a < 0.04) s.da = Math.abs(s.da);
+          ctx.beginPath();
+          ctx.arc(s.x * c.width, s.y * c.height, s.r, 0, Math.PI * 2);
+          ctx.fillStyle = `rgba(200,220,255,${s.a})`;
+          ctx.fill();
+        });
+        requestAnimationFrame(draw);
+      }
+      draw();
+    })();
+
+    // Acordeón
+    function toggleAcc(id) {
+      const el = document.getElementById(id);
+      if (!el) return;
+      const isOpen = el.classList.contains('open');
+      // Cierra todos
+      document.querySelectorAll('.ref-accordion').forEach(a => a.classList.remove('open'));
+      // Abre el clickeado si estaba cerrado
+      if (!isOpen) el.classList.add('open');
+    }
+
+    // Registrar SW
+    if ('serviceWorker' in navigator) {
+      navigator.serviceWorker.register('/sw.js').catch(() => {});
+    }
+  </script>
+
+</body>
+</html>

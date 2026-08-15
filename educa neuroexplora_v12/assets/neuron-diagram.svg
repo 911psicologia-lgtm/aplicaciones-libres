@@ -1,0 +1,230 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 900 420" font-family="'Outfit', 'DM Sans', sans-serif">
+  <defs>
+    <!-- Gradientes principales -->
+    <radialGradient id="soma-grad" cx="40%" cy="35%" r="65%">
+      <stop offset="0%" stop-color="#7ec8f7"/>
+      <stop offset="100%" stop-color="#2563eb"/>
+    </radialGradient>
+    <linearGradient id="axon-grad" x1="0%" y1="0%" x2="100%" y2="0%">
+      <stop offset="0%" stop-color="#4f8ef7"/>
+      <stop offset="100%" stop-color="#34d399"/>
+    </linearGradient>
+    <linearGradient id="myelin-grad" x1="0%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%" stop-color="#fbbf24" stop-opacity="0.85"/>
+      <stop offset="100%" stop-color="#d97706" stop-opacity="0.75"/>
+    </linearGradient>
+    <radialGradient id="terminal-grad" cx="40%" cy="35%" r="65%">
+      <stop offset="0%" stop-color="#a78bfa"/>
+      <stop offset="100%" stop-color="#7c3aed"/>
+    </radialGradient>
+    <radialGradient id="nucleus-grad" cx="40%" cy="35%" r="65%">
+      <stop offset="0%" stop-color="#fff" stop-opacity="0.9"/>
+      <stop offset="100%" stop-color="#93c5fd" stop-opacity="0.7"/>
+    </radialGradient>
+    <!-- Filtro glow para el impulso -->
+    <filter id="pulse-glow" x="-30%" y="-30%" width="160%" height="160%">
+      <feGaussianBlur stdDeviation="3" result="blur"/>
+      <feMerge><feMergeNode in="blur"/><feMergeNode in="SourceGraphic"/></feMerge>
+    </filter>
+    <!-- Fondo oscuro -->
+    <linearGradient id="bg-grad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#060d1a"/>
+      <stop offset="100%" stop-color="#0c1628"/>
+    </linearGradient>
+  </defs>
+
+  <!-- FONDO -->
+  <rect width="900" height="420" fill="url(#bg-grad)" rx="16"/>
+  <!-- Textura sutil -->
+  <rect width="900" height="420" fill="rgba(79,142,247,0.015)" rx="16"/>
+
+  <!-- ═══════════════════════════════════════════════
+       DENDRITAS (izquierda)
+  ═══════════════════════════════════════════════ -->
+
+  <!-- Dendrita principal superior -->
+  <path d="M 210,210 C 185,210 165,195 145,178 C 128,163 112,145 98,128"
+        stroke="#38bdf8" stroke-width="4" fill="none" stroke-linecap="round" opacity="0.85"/>
+  <!-- Rama dendrítica 1 -->
+  <path d="M 160,190 C 140,180 118,172 95,168"
+        stroke="#38bdf8" stroke-width="2.5" fill="none" stroke-linecap="round" opacity="0.7"/>
+  <!-- Rama 2 -->
+  <path d="M 145,178 C 130,165 110,158 88,155"
+        stroke="#38bdf8" stroke-width="2" fill="none" stroke-linecap="round" opacity="0.6"/>
+  <!-- Sub-ramas (espinas dendríticas) -->
+  <path d="M 98,128 C 88,118 75,112 62,110" stroke="#38bdf8" stroke-width="1.5" fill="none" stroke-linecap="round" opacity="0.55"/>
+  <path d="M 98,128 C 92,112 85,100 80,88"  stroke="#38bdf8" stroke-width="1.5" fill="none" stroke-linecap="round" opacity="0.5"/>
+  <path d="M 95,168 C 80,160 65,155 52,152" stroke="#38bdf8" stroke-width="1.5" fill="none" stroke-linecap="round" opacity="0.5"/>
+  <!-- Espinas -->
+  <circle cx="62" cy="110" r="4" fill="#38bdf8" opacity="0.7"/>
+  <circle cx="80" cy="88"  r="3.5" fill="#38bdf8" opacity="0.65"/>
+  <circle cx="52" cy="152" r="3.5" fill="#38bdf8" opacity="0.65"/>
+  <circle cx="88" cy="155" r="3"   fill="#38bdf8" opacity="0.6"/>
+
+  <!-- Dendrita principal inferior -->
+  <path d="M 210,210 C 185,215 165,228 145,245 C 128,260 112,278 98,295"
+        stroke="#38bdf8" stroke-width="4" fill="none" stroke-linecap="round" opacity="0.85"/>
+  <path d="M 160,230 C 140,240 118,248 95,250"
+        stroke="#38bdf8" stroke-width="2.5" fill="none" stroke-linecap="round" opacity="0.7"/>
+  <path d="M 98,295 C 82,308 65,315 48,316"   stroke="#38bdf8" stroke-width="1.5" fill="none" stroke-linecap="round" opacity="0.55"/>
+  <path d="M 98,295 C 90,312 85,326 82,340"   stroke="#38bdf8" stroke-width="1.5" fill="none" stroke-linecap="round" opacity="0.5"/>
+  <path d="M 95,250 C 78,260 62,268 48,270"   stroke="#38bdf8" stroke-width="1.5" fill="none" stroke-linecap="round" opacity="0.5"/>
+  <circle cx="48" cy="316" r="4"   fill="#38bdf8" opacity="0.7"/>
+  <circle cx="82" cy="340" r="3.5" fill="#38bdf8" opacity="0.65"/>
+  <circle cx="48" cy="270" r="3.5" fill="#38bdf8" opacity="0.65"/>
+
+  <!-- Dendrita central -->
+  <path d="M 210,210 C 192,210 168,210 145,210"
+        stroke="#38bdf8" stroke-width="3" fill="none" stroke-linecap="round" opacity="0.8"/>
+  <path d="M 145,210 C 128,210 110,207 92,205"
+        stroke="#38bdf8" stroke-width="2" fill="none" stroke-linecap="round" opacity="0.65"/>
+  <circle cx="92" cy="205" r="3.5" fill="#38bdf8" opacity="0.6"/>
+
+  <!-- ═══════════════════════════════════════════════
+       SOMA (cuerpo celular) — centro
+  ═══════════════════════════════════════════════ -->
+  <ellipse cx="258" cy="210" rx="48" ry="45" fill="url(#soma-grad)" opacity="0.88"/>
+  <!-- Núcleo celular -->
+  <circle cx="258" cy="208" r="18" fill="url(#nucleus-grad)" opacity="0.55"/>
+  <circle cx="258" cy="208" r="8"  fill="rgba(255,255,255,0.4)"/>
+  <!-- Nucléolo -->
+  <circle cx="261" cy="205" r="3.5" fill="rgba(79,142,247,0.9)"/>
+  <!-- Borde de membrana -->
+  <ellipse cx="258" cy="210" rx="48" ry="45" fill="none" stroke="#7ec8f7" stroke-width="1.5" opacity="0.55"/>
+
+  <!-- ═══════════════════════════════════════════════
+       AXÓN (línea central larga)
+  ═══════════════════════════════════════════════ -->
+  <!-- Cono axónico -->
+  <path d="M 300,200 C 315,200 325,204 332,210 C 325,216 315,220 300,220 Z"
+        fill="#4f8ef7" opacity="0.8"/>
+
+  <!-- Axón principal -->
+  <rect x="332" y="204" width="380" height="12" rx="6" fill="url(#axon-grad)" opacity="0.82"/>
+
+  <!-- ═══════════════════════════════════════════════
+       VAINA DE MIELINA (segmentos)
+  ═══════════════════════════════════════════════ -->
+  <!-- Segmento 1 -->
+  <rect x="340" y="198" width="68" height="24" rx="12" fill="url(#myelin-grad)" opacity="0.78"/>
+  <!-- Nódulo de Ranvier 1 -->
+  <rect x="408" y="203" width="8"  height="14" rx="4"  fill="rgba(255,255,255,0.12)"/>
+  <!-- Segmento 2 -->
+  <rect x="416" y="198" width="68" height="24" rx="12" fill="url(#myelin-grad)" opacity="0.78"/>
+  <!-- Nódulo 2 -->
+  <rect x="484" y="203" width="8"  height="14" rx="4"  fill="rgba(255,255,255,0.12)"/>
+  <!-- Segmento 3 -->
+  <rect x="492" y="198" width="68" height="24" rx="12" fill="url(#myelin-grad)" opacity="0.78"/>
+  <!-- Nódulo 3 -->
+  <rect x="560" y="203" width="8"  height="14" rx="4"  fill="rgba(255,255,255,0.12)"/>
+  <!-- Segmento 4 -->
+  <rect x="568" y="198" width="68" height="24" rx="12" fill="url(#myelin-grad)" opacity="0.78"/>
+  <!-- Nódulo 4 -->
+  <rect x="636" y="203" width="8"  height="14" rx="4"  fill="rgba(255,255,255,0.12)"/>
+  <!-- Segmento 5 parcial -->
+  <rect x="644" y="198" width="52" height="24" rx="12" fill="url(#myelin-grad)" opacity="0.72"/>
+
+  <!-- ═══════════════════════════════════════════════
+       TERMINALES SINÁPTICOS (derecha)
+  ═══════════════════════════════════════════════ -->
+  <!-- Bulbo terminal principal -->
+  <circle cx="730" cy="210" r="16" fill="url(#terminal-grad)" opacity="0.88"/>
+  <circle cx="730" cy="210" r="8"  fill="rgba(167,139,250,0.5)"/>
+
+  <!-- Ramas terminales -->
+  <path d="M 696,210 C 706,210 715,210 714,195 C 714,178 724,165 738,158"
+        stroke="#a78bfa" stroke-width="2.5" fill="none" stroke-linecap="round" opacity="0.75"/>
+  <path d="M 696,210 C 706,210 715,210 716,225 C 716,242 726,255 740,262"
+        stroke="#a78bfa" stroke-width="2.5" fill="none" stroke-linecap="round" opacity="0.75"/>
+  <path d="M 696,210 C 706,210 726,210 730,210"
+        stroke="#a78bfa" stroke-width="2.5" fill="none" stroke-linecap="round" opacity="0.75"/>
+
+  <!-- Terminal 1 (arriba) -->
+  <circle cx="745" cy="152" r="13" fill="url(#terminal-grad)" opacity="0.82"/>
+  <circle cx="745" cy="152" r="6"  fill="rgba(167,139,250,0.5)"/>
+
+  <!-- Terminal 2 (abajo) -->
+  <circle cx="747" cy="268" r="13" fill="url(#terminal-grad)" opacity="0.82"/>
+  <circle cx="747" cy="268" r="6"  fill="rgba(167,139,250,0.5)"/>
+
+  <!-- Terminal extra arriba -->
+  <path d="M 738,158 C 750,148 762,140 776,136"
+        stroke="#a78bfa" stroke-width="1.8" fill="none" stroke-linecap="round" opacity="0.6"/>
+  <circle cx="782" cy="133" r="10" fill="url(#terminal-grad)" opacity="0.72"/>
+
+  <!-- Terminal extra abajo -->
+  <path d="M 740,262 C 752,272 764,280 778,284"
+        stroke="#a78bfa" stroke-width="1.8" fill="none" stroke-linecap="round" opacity="0.6"/>
+  <circle cx="784" cy="287" r="10" fill="url(#terminal-grad)" opacity="0.72"/>
+
+  <!-- ═══════════════════════════════════════════════
+       IMPULSO NERVIOSO (partícula animada visual)
+       — indicado como flecha estática con glow
+  ═══════════════════════════════════════════════ -->
+  <circle cx="520" cy="210" r="6" fill="#fff" filter="url(#pulse-glow)" opacity="0.92"/>
+  <circle cx="520" cy="210" r="3" fill="#4f8ef7"/>
+  <!-- Estela del impulso -->
+  <path d="M 460,210 C 480,210 500,210 514,210" stroke="rgba(255,255,255,0.35)" stroke-width="2" fill="none" stroke-linecap="round"/>
+
+  <!-- ═══════════════════════════════════════════════
+       ETIQUETAS
+  ═══════════════════════════════════════════════ -->
+
+  <!-- Dendritas -->
+  <line x1="90" y1="98" x2="115" y2="132" stroke="rgba(56,189,248,0.4)" stroke-width="1" stroke-dasharray="3 3"/>
+  <text x="44" y="94" fill="#38bdf8" font-size="13" font-weight="600">Dendritas</text>
+  <text x="32" y="110" fill="rgba(56,189,248,0.65)" font-size="10">Reciben señales</text>
+
+  <!-- Soma -->
+  <line x1="258" y1="258" x2="258" y2="278" stroke="rgba(126,200,247,0.4)" stroke-width="1" stroke-dasharray="3 3"/>
+  <text x="224" y="292" fill="#7ec8f7" font-size="13" font-weight="600">Soma</text>
+  <text x="212" y="308" fill="rgba(126,200,247,0.65)" font-size="10">Cuerpo celular</text>
+
+  <!-- Núcleo -->
+  <line x1="274" y1="194" x2="292" y2="172" stroke="rgba(147,197,253,0.4)" stroke-width="1" stroke-dasharray="3 3"/>
+  <text x="294" y="168" fill="#93c5fd" font-size="11" font-weight="600">Núcleo</text>
+
+  <!-- Cono axónico -->
+  <line x1="318" y1="222" x2="318" y2="248" stroke="rgba(79,142,247,0.4)" stroke-width="1" stroke-dasharray="3 3"/>
+  <text x="292" y="262" fill="#4f8ef7" font-size="11" font-weight="600">Cono axónico</text>
+
+  <!-- Axón -->
+  <line x1="520" y1="200" x2="520" y2="175" stroke="rgba(52,211,153,0.4)" stroke-width="1" stroke-dasharray="3 3"/>
+  <text x="492" y="170" fill="#34d399" font-size="13" font-weight="600">Axón</text>
+
+  <!-- Vaina de mielina -->
+  <line x1="453" y1="222" x2="453" y2="248" stroke="rgba(251,191,36,0.5)" stroke-width="1" stroke-dasharray="3 3"/>
+  <text x="398" y="264" fill="#fbbf24" font-size="13" font-weight="600">Vaina de mielina</text>
+  <text x="404" y="280" fill="rgba(251,191,36,0.65)" font-size="10">Acelera el impulso</text>
+
+  <!-- Nódulo de Ranvier -->
+  <line x1="412" y1="200" x2="412" y2="175" stroke="rgba(251,191,36,0.35)" stroke-width="1" stroke-dasharray="3 3"/>
+  <text x="350" y="170" fill="rgba(251,191,36,0.8)" font-size="10" font-weight="600">Nódulo de Ranvier</text>
+
+  <!-- Impulso nervioso -->
+  <line x1="520" y1="198" x2="520" y2="160" stroke="rgba(255,255,255,0.3)" stroke-width="1" stroke-dasharray="3 3"/>
+  <text x="475" y="154" fill="rgba(255,255,255,0.8)" font-size="11" font-weight="600">Impulso nervioso</text>
+
+  <!-- Botón sináptico / Terminales -->
+  <line x1="730" y1="228" x2="730" y2="248" stroke="rgba(167,139,250,0.4)" stroke-width="1" stroke-dasharray="3 3"/>
+  <text x="680" y="264" fill="#a78bfa" font-size="13" font-weight="600">Botón sináptico</text>
+  <text x="678" y="280" fill="rgba(167,139,250,0.65)" font-size="10">Libera neurotransmisores</text>
+
+  <!-- ═══════════════════════════════════════════════
+       TÍTULO Y NOTA AL PIE
+  ═══════════════════════════════════════════════ -->
+  <text x="450" y="35" text-anchor="middle" fill="rgba(221,238,255,0.9)" font-size="16" font-weight="700" letter-spacing="-0.3">Estructura de una Neurona</text>
+  <text x="450" y="55" text-anchor="middle" fill="rgba(107,138,184,0.8)" font-size="11">El tipo de célula más especializado del sistema nervioso humano</text>
+
+  <!-- Línea separadora título -->
+  <line x1="280" y1="64" x2="620" y2="64" stroke="rgba(79,142,247,0.2)" stroke-width="1"/>
+
+  <!-- Nota de dirección del impulso -->
+  <path d="M 105,388 L 790,388" stroke="rgba(79,142,247,0.15)" stroke-width="1"/>
+  <text x="260" y="404" fill="rgba(107,138,184,0.6)" font-size="10">← Señal entrante (dendritas)</text>
+  <text x="540" y="404" fill="rgba(107,138,184,0.6)" font-size="10">Señal saliente (axón) →</text>
+
+  <!-- Dirección flecha grande -->
+  <path d="M 180,380 L 680,380" stroke="rgba(79,142,247,0.25)" stroke-width="1.5" stroke-dasharray="6 4"/>
+  <polygon points="680,376 692,380 680,384" fill="rgba(79,142,247,0.45)"/>
+</svg>

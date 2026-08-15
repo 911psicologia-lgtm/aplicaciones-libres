@@ -1,0 +1,771 @@
+<!doctype html>
+<html lang="es">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Aplicaciones Libres · Catálogo</title>
+  <meta name="description" content="Catálogo de aplicaciones HTML5 propias, organizadas por categoría, con acceso directo a cada una." />
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,500;9..144,600;9..144,700&family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+
+  <style>
+    /* =========================================================
+       APLICACIONES LIBRES · INDEX REDISEÑADO
+       Objetivo: conservar enlaces existentes y reorganizar la
+       experiencia como dashboard claro, intuitivo y responsive.
+       ========================================================= */
+
+    :root{
+      --bg:#f6f8fb;
+      --paper:#ffffff;
+      --paper-soft:#f9fbff;
+      --ink:#182033;
+      --muted:#637089;
+      --line:#dfe6f2;
+      --line-strong:#c8d3e3;
+      --brand:#c40014;
+      --brand-dark:#91000f;
+      --brand-soft:#fff0f1;
+      --accent:#2563eb;
+      --ok:#16a34a;
+      --shadow:0 18px 45px rgba(35,49,84,.13);
+      --shadow-soft:0 8px 24px rgba(35,49,84,.10);
+      --radius:22px;
+      --radius-sm:15px;
+      --top-h:74px;
+      --display:'Fraunces', ui-serif, Georgia, serif;
+    }
+
+    *{box-sizing:border-box;margin:0;padding:0}
+    html{scroll-behavior:smooth}
+    body{
+      min-height:100vh;
+      overflow-x:hidden;
+      color:var(--ink);
+      font-family:Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+      background:
+        radial-gradient(circle at 10% -10%, rgba(196,0,20,.10), transparent 38%),
+        radial-gradient(circle at 80% 0%, rgba(37,99,235,.12), transparent 36%),
+        linear-gradient(180deg,#fff 0%,var(--bg) 38%,#eef3fa 100%);
+    }
+    a{color:inherit;text-decoration:none}
+    button,input,select{font:inherit}
+    .wrap{width:min(1180px, calc(100% - 32px)); margin:0 auto}
+
+    /* Fondo sutil animado: más claro que el index original. */
+    .soft-grid{
+      position:fixed; inset:0; pointer-events:none; z-index:-1; opacity:.45;
+      background-image:
+        linear-gradient(rgba(99,112,137,.08) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(99,112,137,.08) 1px, transparent 1px);
+      background-size:44px 44px;
+      mask-image:linear-gradient(to bottom, black 0%, transparent 78%);
+      animation:gridFloat 18s linear infinite;
+    }
+    @keyframes gridFloat{to{transform:translate3d(44px,44px,0)}}
+
+    /* =========================================================
+       1. CABECERA: identidad, búsqueda y acciones principales
+       ========================================================= */
+    .topbar{
+      position:sticky; top:0; z-index:50;
+      height:var(--top-h);
+      background:rgba(255,255,255,.82);
+      backdrop-filter:blur(18px);
+      border-bottom:1px solid rgba(200,211,227,.72);
+    }
+    .topbar-inner{height:100%;display:flex;align-items:center;justify-content:space-between;gap:14px}
+    .brand{display:flex;align-items:center;gap:12px;min-width:0}
+    .logo{
+      width:48px;height:48px;border-radius:16px;display:grid;place-items:center;flex:0 0 auto;
+      color:#fff;background:linear-gradient(135deg,var(--brand),#ff4d5e 58%,#ffb4bd);
+      box-shadow:0 10px 24px rgba(196,0,20,.22);
+      font-size:25px;
+      animation:logoPulse 2.8s ease-in-out infinite;
+    }
+    @keyframes logoPulse{50%{transform:translateY(-1px) scale(1.03)}}
+    .brand h1{font-family:var(--display);font-weight:600;font-size:clamp(18px,3vw,26px);letter-spacing:-.01em;line-height:1.02}
+    .brand p{font-size:12px;color:var(--muted);white-space:nowrap;overflow:hidden;text-overflow:ellipsis;max-width:52vw}
+    .top-actions{display:flex;align-items:center;gap:8px;flex:0 0 auto}
+    .icon-btn,.select-chip{
+      border:1px solid var(--line); background:var(--paper); color:var(--ink);
+      height:42px;border-radius:999px;display:inline-flex;align-items:center;gap:8px;
+      padding:0 13px;box-shadow:0 4px 14px rgba(35,49,84,.06);
+      cursor:pointer;transition:.18s ease;
+    }
+    .icon-btn:hover,.select-chip:hover{transform:translateY(-1px);box-shadow:var(--shadow-soft);border-color:var(--line-strong)}
+    .select-chip select{border:0;background:transparent;outline:0;color:var(--ink);cursor:pointer;font-weight:700}
+
+    /* =========================================================
+       2. HERO: primero se entiende qué es y cómo se usa
+       ========================================================= */
+    .hero{padding:18px 0 10px}
+    .hero-card{
+      position:relative;overflow:hidden;border-radius:30px;border:1px solid var(--line);
+      background:linear-gradient(135deg,rgba(255,255,255,.95),rgba(255,255,255,.76));
+      box-shadow:var(--shadow-soft);padding:18px 20px;
+      display:flex;align-items:center;min-height:96px;
+    }
+    .hero-card::after{
+      content:"";position:absolute;right:-70px;top:-60px;width:310px;height:310px;border-radius:50%;
+      background:conic-gradient(from 120deg, rgba(196,0,20,.20), rgba(37,99,235,.18), rgba(22,163,74,.12), rgba(196,0,20,.20));
+      filter:blur(2px);opacity:.85;animation:spin 14s linear infinite;
+    }
+    @keyframes spin{to{transform:rotate(360deg)}}
+    .hero-main,.hero-panel{position:relative;z-index:1}
+    .eyebrow{display:inline-flex;align-items:center;gap:8px;padding:7px 12px;border-radius:999px;background:var(--brand-soft);color:var(--brand-dark);font-weight:800;font-size:12px;margin-bottom:14px}
+    .hero h2{font-family:var(--display);font-weight:600;font-size:clamp(24px,4.2vw,42px);letter-spacing:-.01em;line-height:1.04;margin:0;max-width:760px}
+    .hero-stats{
+      display:flex;align-items:center;gap:8px;flex-wrap:wrap;margin-top:14px;position:relative;z-index:1
+    }
+    .stat-pill{
+      display:inline-flex;align-items:center;gap:8px;border:1px solid var(--line);
+      background:rgba(255,255,255,.88);border-radius:999px;padding:8px 12px;
+      box-shadow:0 6px 16px rgba(35,49,84,.07);font-size:12px;color:var(--muted);font-weight:800
+    }
+    .stat-number{
+      min-width:28px;height:28px;border-radius:999px;display:inline-grid;place-items:center;
+      background:var(--ink);color:#fff;font-weight:950;font-size:13px;padding:0 8px
+    }
+    .stat-label{white-space:nowrap}
+    /* Se elimina el texto descriptivo largo para reducir carga visual. */
+
+
+    /* =========================================================
+       3. BÚSQUEDA Y CATEGORÍAS: iconos reorganizados y visibles
+       ========================================================= */
+    .command-center{
+      margin:10px 0 12px;border:1px solid var(--line);border-radius:22px;background:rgba(255,255,255,.88);
+      box-shadow:var(--shadow-soft);padding:12px;display:grid;gap:10px;
+    }
+    .search-row{display:grid;grid-template-columns:1fr auto;gap:10px;align-items:center}
+    .search-box{display:flex;align-items:center;gap:10px;border:1px solid var(--line);background:#fff;border-radius:18px;padding:0 14px;height:52px;transition:.18s ease}
+    .search-box:focus-within{border-color:rgba(196,0,20,.45);box-shadow:0 0 0 4px rgba(196,0,20,.08)}
+    .search-box input{width:100%;height:100%;border:0;outline:0;background:transparent;color:var(--ink)}
+    .search-box input::placeholder{color:#8b97aa}
+    .result-badge{height:52px;display:flex;align-items:center;border-radius:18px;background:var(--brand);color:#fff;font-weight:900;padding:0 16px;white-space:nowrap;box-shadow:0 10px 20px rgba(196,0,20,.18)}
+    .category-rail{display:grid;grid-template-columns:repeat(10,minmax(70px,1fr));gap:7px}
+    .cat-tile{
+      min-height:64px;border:1px solid var(--line);background:linear-gradient(180deg,#fff,#f8fbff);
+      border-radius:18px;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:5px;
+      cursor:pointer;transition:.18s ease;position:relative;overflow:hidden;color:var(--ink)
+    }
+    .cat-tile::before{content:"";position:absolute;inset:0 0 auto;height:4px;background:var(--cat-color,#c40014);opacity:.85;transform:scaleX(.38);transition:.18s ease;border-radius:0 0 999px 999px}
+    .cat-tile .emoji{font-size:20px;line-height:1;transition:.18s ease}
+    .cat-tile .label{font-size:11px;font-weight:850;text-align:center;line-height:1.1}
+    .cat-tile .mini{
+      display:inline-flex;align-items:center;justify-content:center;min-width:24px;height:20px;
+      padding:0 7px;border-radius:999px;background:#fff;border:1px solid var(--line);
+      color:var(--muted);font-size:10px;font-weight:950;line-height:1;box-shadow:0 3px 8px rgba(35,49,84,.06)
+    }
+    .cat-tile.active .mini{background:var(--cat-color,#c40014);border-color:var(--cat-color,#c40014);color:#fff}
+    .cat-tile:hover,.cat-tile.active{transform:translateY(-3px);box-shadow:var(--shadow-soft);border-color:color-mix(in srgb, var(--cat-color,#c40014) 36%, var(--line))}
+    .cat-tile:hover .emoji,.cat-tile.active .emoji{transform:scale(1.12) rotate(-3deg)}
+    .cat-tile.active{background:linear-gradient(180deg,#fff,color-mix(in srgb, var(--cat-color,#c40014) 8%, #fff));}
+    .cat-tile.active::before{transform:scaleX(1)}
+
+    /* =========================================================
+       4. CONTENIDO: secciones claras + tarjetas funcionales
+       ========================================================= */
+    .section{margin:10px 0;border:1px solid var(--line);border-radius:22px;background:rgba(255,255,255,.78);box-shadow:var(--shadow-soft);overflow:hidden;animation:fadeUp .42s ease both}
+    .section-head{display:flex;align-items:center;justify-content:space-between;gap:10px;padding:12px 14px;background:linear-gradient(90deg,#fff,color-mix(in srgb,var(--cat-color,#c40014) 8%,#fff));border-bottom:1px solid var(--line)}
+    .section-title{display:flex;align-items:center;gap:12px;min-width:0}
+    .section-icon{width:38px;height:38px;display:grid;place-items:center;border-radius:14px;background:color-mix(in srgb,var(--cat-color,#c40014) 13%,#fff);border:1px solid color-mix(in srgb,var(--cat-color,#c40014) 28%,var(--line));font-size:21px;flex:0 0 auto}
+    .section h3{font-family:var(--display);font-weight:600;font-size:19px;letter-spacing:-.005em;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+    .section p{color:var(--muted);font-size:12px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+    .section-count{font-size:12px;color:var(--muted);font-weight:850;border:1px solid var(--line);background:#fff;border-radius:999px;padding:7px 11px;white-space:nowrap}
+    .grid{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:10px;padding:12px}
+    .app-card{
+      min-height:148px;border:1px solid var(--line);background:#fff;border-radius:18px;padding:12px;
+      display:flex;flex-direction:column;gap:10px;position:relative;overflow:hidden;transition:.18s ease;
+    }
+    .app-card::after{content:"";position:absolute;inset:auto -38px -58px auto;width:120px;height:120px;border-radius:50%;background:color-mix(in srgb,var(--cat-color,#c40014) 9%,transparent);transition:.18s ease}
+    .app-card:hover,.app-card:focus-within{transform:translateY(-4px);box-shadow:0 16px 38px rgba(35,49,84,.14);border-color:color-mix(in srgb,var(--cat-color,#c40014) 40%,var(--line))}
+    .app-card:hover::after{transform:scale(1.2)}
+    .card-top{display:flex;align-items:flex-start;justify-content:space-between;gap:10px;position:relative;z-index:1}
+    .app-icon{width:38px;height:38px;border-radius:14px;background:color-mix(in srgb,var(--cat-color,#c40014) 12%,#fff);border:1px solid color-mix(in srgb,var(--cat-color,#c40014) 25%,var(--line));display:grid;place-items:center;font-size:20px;flex:0 0 auto}
+    .open-btn{border:0;border-radius:999px;background:var(--ink);color:#fff;font-weight:900;font-size:11px;padding:7px 10px;display:inline-flex;align-items:center;gap:5px;cursor:pointer;transition:.18s ease;white-space:nowrap}
+    .open-btn:hover{background:var(--brand);transform:translateY(-1px)}
+    .app-name{font-size:14px;font-weight:900;letter-spacing:-.035em;line-height:1.15;position:relative;z-index:1;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden}
+    .app-desc{color:var(--muted);font-size:12px;line-height:1.35;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden;position:relative;z-index:1;min-height:32px}
+    .tags{display:flex;gap:6px;flex-wrap:wrap;margin-top:auto;position:relative;z-index:1}
+    .tag{font-size:10px;font-weight:800;color:#526077;background:#f4f7fb;border:1px solid var(--line);border-radius:999px;padding:3px 7px;max-width:100%;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+    .empty{padding:38px;text-align:center;color:var(--muted);background:#fff;border:1px dashed var(--line-strong);border-radius:24px;margin:18px 0}
+
+    footer{padding:28px 0 42px;text-align:center;color:var(--muted);font-size:12px}
+    .toast{position:fixed;left:50%;bottom:22px;transform:translateX(-50%) translateY(20px);opacity:0;pointer-events:none;z-index:80;background:#111827;color:#fff;border-radius:999px;padding:11px 16px;box-shadow:var(--shadow);transition:.18s ease;font-weight:800;font-size:13px}
+    .toast.show{opacity:1;transform:translateX(-50%) translateY(0)}
+    @keyframes fadeUp{from{opacity:0;transform:translateY(16px)}to{opacity:1;transform:translateY(0)}}
+
+    /* =========================================================
+       5. RESPONSIVE: prioridad desktop + móvil
+       ========================================================= */
+    @media (max-width:1050px){
+      .category-rail{grid-template-columns:repeat(5,minmax(78px,1fr))}
+      .grid{grid-template-columns:repeat(3,minmax(0,1fr))}
+    }
+    @media (max-width:860px){
+      .grid{grid-template-columns:repeat(2,minmax(0,1fr))}
+    }
+    @media (max-width:760px){
+      :root{--top-h:66px}
+      .wrap{width:min(100% - 20px,1180px)}
+      .topbar-inner{gap:8px}
+      .brand p{display:none}
+      .logo{width:42px;height:42px;border-radius:14px}
+      .top-actions .copy-text,.top-actions .top-text{display:none}
+      .icon-btn,.select-chip{height:40px;padding:0 11px}
+      .hero{padding:18px 0 10px}
+      .hero-card{padding:16px;border-radius:22px;min-height:86px}
+      .hero-card::after{width:210px;height:210px;right:-90px;top:-60px}
+      .hero-stats{margin-top:12px;gap:6px}
+      .stat-pill{padding:7px 10px;font-size:11px}
+      .stat-number{min-width:24px;height:24px;font-size:12px}
+      .search-row{grid-template-columns:1fr}
+      .result-badge{height:auto;min-height:42px;justify-content:center}
+      .category-rail{display:flex;overflow-x:auto;scroll-snap-type:x mandatory;padding-bottom:4px;scrollbar-width:none}
+      .category-rail::-webkit-scrollbar{display:none}
+      .cat-tile{min-width:82px;scroll-snap-align:start}
+      .grid{grid-template-columns:1fr;padding:10px}
+      .section-head{align-items:flex-start;padding:14px}
+      .section h3{font-size:18px}
+      .section p{white-space:normal;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical}
+      .section-count{display:inline-flex;font-size:11px;padding:6px 9px}
+      .app-card{min-height:142px}
+    }
+
+    .route-modal-backdrop{position:fixed;inset:0;background:rgba(24,32,51,.38);backdrop-filter:blur(8px);z-index:90;display:none;align-items:center;justify-content:center;padding:18px}
+    .route-modal-backdrop.show{display:flex}
+    .route-modal{width:min(520px,100%);background:#fff;border:1px solid var(--line);border-radius:24px;box-shadow:var(--shadow);padding:18px}
+    .route-modal h3{font-size:18px;letter-spacing:-.03em;margin-bottom:6px}
+    .route-modal p{font-size:13px;color:var(--muted);margin-bottom:12px;line-height:1.4}
+    .route-list{display:grid;gap:8px;margin-bottom:12px}
+    .route-list a{display:block;border:1px solid var(--line);background:#f8fbff;border-radius:14px;padding:10px 12px;font-size:13px;font-weight:850;color:var(--ink);word-break:break-all;transition:.18s ease}
+    .route-list a:hover{border-color:var(--brand);background:var(--brand-soft)}
+    .route-close{border:0;background:var(--ink);color:#fff;border-radius:999px;padding:10px 14px;font-weight:900;cursor:pointer}
+
+    @media (prefers-reduced-motion:reduce){
+      *{animation:none!important;transition:none!important;scroll-behavior:auto!important}
+    }
+  </style>
+</head>
+<body>
+  <div class="soft-grid" aria-hidden="true"></div>
+
+  <!-- Cabecera principal: acceso rápido, idioma y enlace compartible. -->
+  <header class="topbar">
+    <div class="wrap topbar-inner">
+      <a class="brand" href="#inicio" aria-label="Ir al inicio del dashboard">
+        <div class="logo" aria-hidden="true">🔥</div>
+        <div>
+          <h1>Aplicaciones Libres</h1>
+          <p>Dashboard claro para abrir herramientas HTML5</p>
+        </div>
+      </a>
+      <div class="top-actions" aria-label="Acciones rápidas">
+        <label class="select-chip" title="Cambiar idioma">
+          🌐
+          <select id="lang" aria-label="Idioma">
+            <option value="es">ES</option>
+            <option value="en">EN</option>
+            <option value="pt">PT</option>
+          </select>
+        </label>
+        <button class="icon-btn" id="copyLink" type="button" title="Copiar enlace del catálogo">🔗 <span class="copy-text">Copiar</span></button>
+        <button class="icon-btn" id="goTop" type="button" title="Volver arriba">⬆ <span class="top-text">Arriba</span></button>
+      </div>
+    </div>
+  </header>
+
+  <main id="inicio" class="wrap">
+    <!-- Jerarquía 1: presentación rápida del sitio. -->
+    <section class="hero" aria-labelledby="hero-title">
+      <div class="hero-card">
+        <div class="hero-main">
+          <div class="eyebrow">Catálogo propio · HTML5</div>
+          <h2 id="hero-title">Todas tus apps, un solo lugar.</h2>
+          <div class="hero-stats" aria-label="Resumen del catálogo">
+            <div class="stat-pill" title="Total de aplicaciones disponibles"><span class="stat-number" id="totalApps">0</span><span class="stat-label">apps disponibles</span></div>
+            <div class="stat-pill" title="Categorías activas del catálogo"><span class="stat-number" id="totalCats">0</span><span class="stat-label">categorías</span></div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Jerarquía 2: búsqueda + iconos de categorías reorganizados. -->
+    <section class="command-center" aria-label="Búsqueda y categorías">
+      <div class="search-row">
+        <label class="search-box" title="Buscar por nombre, descripción, etiqueta o categoría">
+          🔎
+          <input id="search" type="search" placeholder="Buscar aplicación, categoría o palabra clave…" autocomplete="off" />
+        </label>
+        <div class="result-badge" id="resultBadge">Mostrando todo</div>
+      </div>
+      <nav class="category-rail" id="categoryRail" aria-label="Categorías de aplicaciones"></nav>
+    </section>
+
+    <!-- Jerarquía 3: aplicaciones renderizadas por categoría. -->
+    <div id="sections" aria-live="polite"></div>
+  </main>
+
+  <footer class="wrap">© 2026 · Aplicaciones Libres · Catálogo reconstruido a partir de las 85 carpetas del proyecto.</footer>
+  <div class="toast" id="toast" role="status" aria-live="polite"></div>
+
+  <div class="route-modal-backdrop" id="routeModal" role="dialog" aria-modal="true" aria-labelledby="routeTitle">
+    <div class="route-modal">
+      <h3 id="routeTitle">Abrir aplicación</h3>
+      <p>Esta app tiene rutas alternativas. Usa la primera; si no abre, prueba las siguientes.</p>
+      <div class="route-list" id="routeList"></div>
+      <button class="route-close" id="routeClose" type="button">Cerrar</button>
+    </div>
+  </div>
+
+
+
+  <!--
+    Reconstrucción completa (ago. 2026): las 85 entradas de APPS se generaron
+    a partir del listado real de carpetas del proyecto. Cada href sigue el
+    patrón "Carpeta Exacta/index.html", replicando el nombre de carpeta tal
+    como aparece en el explorador (mayúsculas, tildes y espacios incluidos).
+    Si el servidor de despliegue no conserva mayúsculas/tildes exactamente
+    igual, ese es el primer punto a revisar ante un enlace roto.
+  -->
+  <script>
+  const APPS = [
+    { cat:"Mind", icon:"🌿", name:{es:"Neurocalma · Migrañas y Cefaleas",en:"Neurocalm · Migraines & Headaches",pt:"Neurocalma · Enxaquecas"}, href:"MIND CEPHALOS/index.html",
+      desc:{es:"Herramienta de apoyo para explorar hábitos, estímulos y estrategias cotidianas frente a las cefaleas.",en:"Support tool to explore habits, triggers and daily strategies for headaches.",pt:"Ferramenta de apoio para explorar hábitos, gatilhos e estratégias diárias para cefaleias."},
+      tags:["bienestar","cefaleas","autocuidado"] },
+    { cat:"Mind", icon:"💬", name:{es:"Consejos Diarios",en:"Daily Tips",pt:"Conselhos Diários"}, href:"mind CONSEJOS DIARIOS/index.html",
+      desc:{es:"Una frase o consejo breve cada día para sostener el bienestar personal.",en:"A short daily quote or tip to support personal wellbeing.",pt:"Uma frase ou conselho breve a cada dia para sustentar o bem-estar pessoal."},
+      tags:["bienestar","diario"] },
+    { cat:"Mind", icon:"👪", name:{es:"Consejos para Padres",en:"Tips for Parents",pt:"Conselhos para Pais"}, href:"mind consejos para padres de familia/index.html",
+      desc:{es:"Recomendaciones prácticas de crianza y acompañamiento familiar cotidiano.",en:"Practical parenting and everyday family guidance.",pt:"Recomendações práticas de criação e acompanhamento familiar cotidiano."},
+      tags:["familia","crianza"] },
+    { cat:"Mind", icon:"💌", name:{es:"Tarjeticas",en:"Little Cards",pt:"Cartõezinhos"}, href:"mind enviar Tarjeticas/index.html",
+      desc:{es:"Crea y envía tarjetas breves de ánimo, afecto o agradecimiento.",en:"Create and send short cards of encouragement, affection or thanks.",pt:"Crie e envie cartõezinhos de ânimo, afeto ou agradecimento."},
+      tags:["afecto","mensajes"] },
+    { cat:"Mind", icon:"⚡", name:{es:"Estimular el SNC",en:"Stimulate the CNS",pt:"Estimular o SNC"}, href:"mind estimular el SNC/index.html",
+      desc:{es:"Ejercicios breves orientados a la estimulación del sistema nervioso central.",en:"Short exercises aimed at central nervous system stimulation.",pt:"Exercícios breves voltados à estimulação do sistema nervoso central."},
+      tags:["cognición","estimulación"] },
+    { cat:"Mind", icon:"🌌", name:{es:"Sonidos del Universo",en:"Sounds of the Universe",pt:"Sons do Universo"}, href:"mind GENERADOR SIMULADOR DE SONIDOS UNIVERSALES/index.html",
+      desc:{es:"Paisajes sonoros ambientales para acompañar concentración, lectura o descanso.",en:"Ambient soundscapes for focus, reading or rest.",pt:"Paisagens sonoras ambientais para acompanhar foco, leitura ou descanso."},
+      tags:["sonido","focus"] },
+    { cat:"Mind", icon:"😴", name:{es:"HYPNOS · Inductor de Sueño",en:"HYPNOS · Sleep Inducer",pt:"HYPNOS · Indutor de Sono"}, href:"mind inductor de sueño/index.html",
+      desc:{es:"Rutinas y recursos simples para favorecer el descanso nocturno.",en:"Simple routines and resources to support nighttime rest.",pt:"Rotinas e recursos simples para favorecer o descanso noturno."},
+      tags:["sueño","bienestar"] },
+    { cat:"Mind", icon:"🕊️", name:{es:"Mensaje sin Pelea",en:"Message Without a Fight",pt:"Mensagem sem Briga"}, href:"mind mensaje sin pelea/index.html",
+      desc:{es:"Formula mensajes familiares claros que reducen el conflicto en la comunicación diaria.",en:"Draft clear family messages that reduce everyday conflict.",pt:"Formule mensagens familiares claras que reduzem o conflito na comunicação diária."},
+      tags:["familia","comunicación"] },
+    { cat:"Mind", icon:"🤝", name:{es:"Mensajes y Tareas sin Pelea",en:"Messages & Tasks Without a Fight",pt:"Mensagens e Tarefas sem Briga"}, href:"mind mensajes y tareas sin pelea/index.html",
+      desc:{es:"Organiza acuerdos y tareas del hogar con una comunicación más serena.",en:"Organize household agreements and tasks with calmer communication.",pt:"Organize acordos e tarefas domésticas com uma comunicação mais serena."},
+      tags:["familia","tareas"] },
+    { cat:"Mind", icon:"🌀", name:{es:"MESmER · Sugestión",en:"MESmER · Suggestion",pt:"MESmER · Sugestão"}, href:"MIND MESmER hipnosis SUGETION/index.html",
+      desc:{es:"Sesiones guiadas de sugestión orientadas a la relajación profunda.",en:"Guided suggestion sessions aimed at deep relaxation.",pt:"Sessões guiadas de sugestão voltadas ao relaxamento profundo."},
+      tags:["sugestión","relajación"] },
+    { cat:"Mind", icon:"🔮", name:{es:"MESmER · Hipnotismo",en:"MESmER · Hypnotism",pt:"MESmER · Hipnotismo"}, href:"MIND MESmER HIPNOTISMO/index.html",
+      desc:{es:"Exploración del hipnotismo como recurso complementario de bienestar.",en:"Exploring hypnotism as a complementary wellbeing resource.",pt:"Exploração do hipnotismo como recurso complementar de bem-estar."},
+      tags:["hipnotismo","bienestar"] },
+    { cat:"Mind", icon:"⚖️", name:{es:"Neuro-Equilibrio · Ansiedad/Pánico",en:"Neuro-Balance · Anxiety/Panic",pt:"Neuro-Equilíbrio · Ansiedade/Pânico"}, href:"MIND NeuroEquilibrio/index.html",
+      desc:{es:"Recursos prácticos para organizar sensaciones, pensamientos y acciones cuando sube la ansiedad.",en:"Practical resources to organize sensations, thoughts and actions when anxiety rises.",pt:"Recursos práticos para organizar sensações, pensamentos e ações quando a ansiedade aumenta."},
+      tags:["regulación","ansiedad"] },
+    { cat:"Mind", icon:"🎐", name:{es:"Tao-Tone · Sanación Mente-Cuerpo",en:"Tao-Tone · Mind-Body Healing",pt:"Tao-Tone · Cura Mente-Corpo"}, href:"MIND SOUND TAO-TONE SANACION MENTE-CUERPO/index.html",
+      desc:{es:"Frecuencias y tonos para acompañar procesos de sanación mente-cuerpo.",en:"Frequencies and tones to accompany mind-body healing processes.",pt:"Frequências e tons para acompanhar processos de cura mente-corpo."},
+      tags:["sonido","sanación"] },
+    { cat:"Body", icon:"🥗", name:{es:"NutriAI · Asesor Nutricional",en:"NutriAI · Nutrition Advisor",pt:"NutriAI · Assessor Nutricional"}, href:"Body & Healt Asesor nutricional/index.html",
+      desc:{es:"Coach nutricional con IA para explorar hábitos y construir planes de alimentación saludable.",en:"AI nutrition coach to explore habits and build healthy eating plans.",pt:"Coach nutricional com IA para explorar hábitos e construir planos de alimentação saudável."},
+      tags:["nutrición","ia"] },
+    { cat:"Body", icon:"🧘", name:{es:"Pausas Activas",en:"Active Breaks",pt:"Pausas Ativas"}, href:"DESK Body & Healt pausas_activas/index.html",
+      desc:{es:"Organiza microdescansos, respiración y cuidado corporal durante la jornada.",en:"Organize micro-breaks, breathing and body care throughout the day.",pt:"Organize micropausas, respiração e cuidado corporal durante a jornada."},
+      tags:["pausas activas","bienestar"] },
+    { cat:"Body", icon:"🏃", name:{es:"KINETIC Beat",en:"KINETIC Beat",pt:"KINETIC Beat"}, href:"MIND & BODY KINETIC BEAT PARA EJERCITARSE/index.html",
+      desc:{es:"Compás y ritmo para acompañar actividad física ligera y sostener la energía.",en:"Beat and pace to accompany light training and sustain energy.",pt:"Batida e ritmo para acompanhar treino leve e sustentar energia."},
+      tags:["movimiento","ritmo"] },
+    { cat:"Educa", icon:"🏫", name:{es:"Agenda Escolar Virtual",en:"Virtual School Agenda",pt:"Agenda Escolar Virtual"}, href:"educa agenda colegial/index.html",
+      desc:{es:"Organización de tareas y seguimiento escolar con interfaz pensada para familias.",en:"Task organization and school tracking with a family-friendly UI.",pt:"Organização de tarefas e acompanhamento escolar com UI pensada para famílias."},
+      tags:["organización","escuela"] },
+    { cat:"Educa", icon:"🌍", name:{es:"Idiomas para Niños · Inglés, Francés y Portugués",en:"Languages for Kids · English, French & Portuguese",pt:"Idiomas para Crianças · Inglês, Francês e Português"}, href:"educa aprende ingles frances y portugues NIÑOS/index.html",
+      desc:{es:"Vocabulario básico en tres idiomas con actividades pensadas para primera infancia.",en:"Basic vocabulary in three languages with activities for early childhood.",pt:"Vocabulário básico em três idiomas com atividades para a primeira infância."},
+      tags:["idiomas","infancia"] },
+    { cat:"Educa", icon:"📖", name:{es:"Aprender a Leer",en:"Learn to Read",pt:"Aprender a Ler"}, href:"educa aprender a leer niños/index.html",
+      desc:{es:"Actividades para acompañar la lectura inicial: reconocimiento, práctica y progreso.",en:"Activities for early literacy: recognition, practice and progress.",pt:"Atividades para alfabetização inicial: reconhecimento, prática e progresso."},
+      tags:["infancia","lectura"] },
+    { cat:"Educa", icon:"🧮", name:{es:"Aritmética con Martín",en:"Arithmetic with Martin",pt:"Aritmética com Martín"}, href:"educa aprender aritmética/index.html",
+      desc:{es:"Rutinas cortas de cálculo y fortalecimiento numérico con enfoque infantil.",en:"Short calculation routines and number skills for kids.",pt:"Rotinas curtas de cálculo e habilidades numéricas para crianças."},
+      tags:["matemáticas","niños"] },
+    { cat:"Educa", icon:"🇬🇧", name:{es:"Inglés para Niños",en:"English for Kids",pt:"Inglês para Crianças"}, href:"educa aprender ingles niños/index.html",
+      desc:{es:"Aprendizaje inicial de inglés en primera infancia: vocabulario, lectura y práctica.",en:"Early English learning for kids: vocabulary, reading and practice.",pt:"Aprendizagem inicial de inglês: vocabulário, leitura e prática."},
+      tags:["inglés","infancia"] },
+    { cat:"Educa", icon:"🗺️", name:{es:"Atlas del Asombro",en:"Atlas of Wonder",pt:"Atlas do Espanto"}, href:"educa atlas-del-asombro/index.html",
+      desc:{es:"Exploración visual del mundo a través de geografía y curiosidades.",en:"Visual exploration of the world through geography and curiosities.",pt:"Exploração visual do mundo através de geografia e curiosidades."},
+      tags:["geografía","curiosidad"] },
+    { cat:"Educa", icon:"⛏️", name:{es:"Cartilla Craft · Minecraft",en:"Craft Booklet · Minecraft",pt:"Cartilha Craft · Minecraft"}, href:"educa cartilla-minecraft/index.html",
+      desc:{es:"Cartilla gamificada estilo Minecraft: 5 biomas, 100 preguntas, logros y certificado final.",en:"Minecraft-style gamified booklet: 5 biomes, 100 questions, achievements and a final certificate.",pt:"Cartilha gamificada estilo Minecraft: 5 biomas, 100 perguntas, conquistas e certificado final."},
+      tags:["minecraft","gamificada"] },
+    { cat:"Educa", icon:"🧭", name:{es:"Cartografías del Pensamiento Diverso",en:"Cartographies of Diverse Thinking",pt:"Cartografias do Pensamento Diverso"}, href:"educa cartografias del pensamiento diverso/index.html",
+      desc:{es:"Mapa interactivo para reconocer distintos estilos y enfoques de pensamiento.",en:"Interactive map to recognize different thinking styles and approaches.",pt:"Mapa interativo para reconhecer diferentes estilos e abordagens de pensamento."},
+      tags:["pensamiento","diversidad"] },
+    { cat:"Educa", icon:"🇬🇧", name:{es:"Easy Inglés A1-B2",en:"Easy English A1-B2",pt:"Easy Inglês A1-B2"}, href:"educa easy inglés app y nivele a1 b2/index.html",
+      desc:{es:"Progresión guiada de inglés desde nivel A1 hasta B2 con ejercicios prácticos.",en:"Guided English progression from A1 to B2 with practical exercises.",pt:"Progressão guiada de inglês de A1 a B2 com exercícios práticos."},
+      tags:["inglés","niveles"] },
+    { cat:"Educa", icon:"📚", name:{es:"La Voz de los Libros",en:"The Voice of Books",pt:"A Voz dos Livros"}, href:"educa extraer la voz-de-los-libros consejos y aprendizajes/index.html",
+      desc:{es:"Extrae consejos y aprendizajes clave a partir de libros y lecturas.",en:"Extracts key tips and lessons from books and readings.",pt:"Extrai conselhos e aprendizados-chave de livros e leituras."},
+      tags:["lectura","aprendizaje"] },
+    { cat:"Educa", icon:"🧠", name:{es:"Afianzar la Metacognición",en:"Strengthen Metacognition",pt:"Fortalecer a Metacognição"}, href:"EDUCA GENERAR METACOGNICIÓN/index.html",
+      desc:{es:"Actividades para fortalecer la conciencia del propio aprendizaje y la autorregulación.",en:"Activities to strengthen awareness of learning and self-regulation.",pt:"Atividades para fortalecer a consciência da aprendizagem e a autorregulação."},
+      tags:["metacognición","educación"] },
+    { cat:"Educa", icon:"🦜", name:{es:"Easy Parrot · Inglés en Audio",en:"Easy Parrot · English by Ear",pt:"Easy Parrot · Inglês em Áudio"}, href:"educa INGLES easy parrot audio/index.html",
+      desc:{es:"Práctica de inglés por repetición auditiva, simple y directa.",en:"English practice through audio repetition, simple and direct.",pt:"Prática de inglês por repetição auditiva, simples e direta."},
+      tags:["inglés","audio"] },
+    { cat:"Educa", icon:"✖️", name:{es:"Tablas de Multiplicar",en:"Multiplication Tables",pt:"Tabuadas"}, href:"educa RIZO MULTIPLICA/index.html",
+      desc:{es:"Entrenamiento gradual de multiplicación con dinámica lúdica.",en:"Gradual multiplication practice with playful dynamics.",pt:"Prática gradual de multiplicação com dinâmica lúdica."},
+      tags:["matemáticas","gamificación"] },
+    { cat:"Educa", icon:"🔤", name:{es:"Verbos Irregulares (con Martín)",en:"Irregular Verbs (with Martin)",pt:"Verbos Irregulares (com Martín)"}, href:"EDUCA VERBOS IRREGULARES/index.html",
+      desc:{es:"Práctica guiada de verbos irregulares en inglés con enfoque infantil.",en:"Guided practice of English irregular verbs for children.",pt:"Prática guiada de verbos irregulares em inglês para crianças."},
+      tags:["inglés","verbos"] },
+    { cat:"Educa", icon:"🧩", name:{es:"Estilos y Ritmos de Aprendizaje",en:"Learning Styles and Pace",pt:"Estilos e Ritmos de Aprendizagem"}, href:"DX ESTILOS Y RITMOS DE APRENDIZAJE/index.html",
+      desc:{es:"App docente para reconocer estilos de aprendizaje y completar listas de observación.",en:"Teacher app to identify learning styles and complete observation checklists.",pt:"App docente para reconhecer estilos de aprendizagem e preencher listas de observação."},
+      tags:["educación","observación"] },
+    { cat:"Neuro", icon:"🧠", name:{es:"Evaluación Neuro",en:"Neuro Evaluation",pt:"Avaliação Neuro"}, href:"DX Y EVALUACION NEURO/index.html",
+      desc:{es:"Módulo de evaluación neuropsicológica con seguimiento de resultados.",en:"Neuropsychological evaluation module with results tracking.",pt:"Módulo de avaliação neuropsicológica com acompanhamento de resultados."},
+      tags:["neuro","evaluación"] },
+    { cat:"Neuro", icon:"🧩", name:{es:"OMNI-Dx · Suite Integrada",en:"OMNI-Dx · Integrated Suite",pt:"OMNI-Dx · Suíte Integrada"}, href:"DX Y EVALUACION Neuro OMNI-Dx Integrated Suite/index.html",
+      desc:{es:"Módulos integrados orientados a evaluación y entrenamiento cognitivo.",en:"Integrated modules for cognitive assessment and training.",pt:"Módulos integrados para avaliação e treino cognitivo."},
+      tags:["dx","cognición"] },
+    { cat:"Neuro", icon:"🧠", name:{es:"NeuroExplora",en:"NeuroExplora",pt:"NeuroExplora"}, href:"educa neuroexplora_v12/index.html",
+      desc:{es:"Explorador interactivo del cerebro humano con navegación visual y evaluación tipo juego.",en:"Interactive human brain explorer with visual navigation and game-like assessment.",pt:"Explorador interativo do cérebro humano com navegação visual e avaliação em formato de jogo."},
+      tags:["cerebro","cognición"] },
+    { cat:"Dx", icon:"🛡️", name:{es:"Radar de Bullying",en:"Bullying Radar",pt:"Radar de Bullying"}, href:"dx de acoso bullying/index.html",
+      desc:{es:"Herramienta para familias: registra hechos, analiza criterios y sugiere rutas de acción ante violencia escolar.",en:"For families: record facts, analyze with criteria and get action routes for school violence.",pt:"Para famílias: registrar fatos, analisar critérios e obter rotas de ação para violência escolar."},
+      tags:["convivencia","familias"] },
+    { cat:"Dx", icon:"🧭", name:{es:"Reestructurador Conductual",en:"Behavioral Restructuring",pt:"Reestruturador Comportamental"}, href:"Dx Reestructurador conductual/index.html",
+      desc:{es:"Herramienta clínica para analizar y reestructurar patrones de conducta.",en:"Clinical tool to analyze and restructure behavioral patterns.",pt:"Ferramenta clínica para analisar e reestruturar padrões de comportamento."},
+      tags:["conducta","clínica"] },
+    { cat:"Dx", icon:"🧭", name:{es:"Reestructurador Conductual LITE",en:"Behavioral Restructuring LITE",pt:"Reestruturador Comportamental LITE"}, href:"Dx Reestructurador conductual LITE/index.html",
+      desc:{es:"Versión simplificada del reestructurador conductual, de uso rápido.",en:"Simplified, fast-use version of the behavioral restructuring tool.",pt:"Versão simplificada do reestruturador comportamental, de uso rápido."},
+      tags:["conducta","lite"] },
+    { cat:"Dx", icon:"🧾", name:{es:"Historia Clínica Psicológica",en:"Psychological Clinical History",pt:"História Clínica Psicológica"}, href:"dX Y avaluacion historia-clinica-psicologica/index.html",
+      desc:{es:"Estructura la historia clínica psicológica y organiza los datos relevantes del caso.",en:"Structures the psychological clinical history and organizes relevant case data.",pt:"Estrutura a história clínica psicológica e organiza os dados relevantes do caso."},
+      tags:["clínica","psicología"] },
+    { cat:"Dx", icon:"🩺", name:{es:"TRAS · Test de Relaciones Afectivas y Sociales",en:"TRAS · Affective & Social Relations Test",pt:"TRAS · Teste de Relações Afetivas e Sociais"}, href:"dx y evaluacion TRAS/index.html",
+      desc:{es:"Test de autoría propia para evaluar relaciones afectivas y sociales.",en:"Original test, authored by the creator, to assess affective and social relationships.",pt:"Teste de autoria própria para avaliar relações afetivas e sociais."},
+      tags:["test","relaciones","autoría propia"] },
+    { cat:"Dx", icon:"🧠", name:{es:"Test de Distorsiones Cognitivas",en:"Cognitive Distortions Test",pt:"Teste de Distorções Cognitivas"}, href:"https://distorciones-cognitivas.911psicologia.workers.dev/",
+      desc:{es:"Identifica patrones de pensamiento distorsionado (Beck) a partir de frases y situaciones concretas.",en:"Identifies distorted thinking patterns (Beck) from concrete phrases and situations.",pt:"Identifica padrões de pensamento distorcido (Beck) a partir de frases e situações concretas."},
+      tags:["dx","distorsiones cognitivas","tcc"] },
+    { cat:"Investigación", icon:"🏗️", name:{es:"Arquitecto de Prompts Académicos",en:"Academic Prompt Architect",pt:"Arquiteto de Prompts Acadêmicos"}, href:"invest Arquitecto de prompts académicos/index.html",
+      desc:{es:"Construye prompts estructurados y claros para tareas de investigación académica.",en:"Builds clear, structured prompts for academic research tasks.",pt:"Constrói prompts estruturados e claros para tarefas de pesquisa acadêmica."},
+      tags:["prompts","academia"] },
+    { cat:"Investigación", icon:"🧬", name:{es:"MiniRizoma v1.6",en:"MiniRizoma v1.6",pt:"MiniRizoma v1.6"}, href:"INVEST generar MINI rizoma investigativo/index.html",
+      desc:{es:"Cartógrafo rizomático para crear mapas de núcleos, segmentos y relaciones, con exportación.",en:"Rhizomatic mapper for cores, segments and relations, with export.",pt:"Mapeador rizomático para núcleos, segmentos e relações, com exportação."},
+      tags:["rizoma","mapas"] },
+    { cat:"Investigación", icon:"🧬", name:{es:"Rizoma Investigativo",en:"Research Rhizome",pt:"Rizoma Investigativo"}, href:"INVEST generar rizoma investigativo/index.html",
+      desc:{es:"Organiza procesos investigativos completos desde una lógica rizomática.",en:"Organizes full research processes with a rhizomatic logic.",pt:"Organiza processos de pesquisa completos com lógica rizomática."},
+      tags:["investigación","metodología"] },
+    { cat:"Investigación", icon:"🧪", name:{es:"PromptLab Premium",en:"PromptLab Premium",pt:"PromptLab Premium"}, href:"INVEST Orquestador de Prompts Premium/index.html",
+      desc:{es:"Laboratorio para construir, depurar y organizar prompts profesionales.",en:"Lab to build, refine and organize professional prompts.",pt:"Laboratório para construir, depurar e organizar prompts profissionais."},
+      tags:["prompts","premium"] },
+    { cat:"Investigación", icon:"❓", name:{es:"Prompts Profesionales · Preguntas Concretas",en:"Professional Prompts · Concrete Questions",pt:"Prompts Profissionais · Perguntas Concretas"}, href:"INVEST Prompts profesionales preguntas concretas/index.html",
+      desc:{es:"Genera preguntas precisas y accionables para contextos profesionales.",en:"Generates precise, actionable questions for professional contexts.",pt:"Gera perguntas precisas e acionáveis para contextos profissionais."},
+      tags:["prompts","profesional"] },
+    { cat:"Investigación", icon:"📑", name:{es:"Protocolo de Investigación",en:"Research Protocol",pt:"Protocolo de Pesquisa"}, href:"invest protocolo impulsado por IA/index.html",
+      desc:{es:"Estructuración guiada de protocolos con foco en coherencia y trazabilidad.",en:"Guided protocol structuring with focus on coherence and traceability.",pt:"Estruturação guiada de protocolos com foco em coerência e rastreabilidade."},
+      tags:["protocolo","academia"] },
+    { cat:"Utilidades", icon:"📄", name:{es:"App Scanner",en:"App Scanner",pt:"App Scanner"}, href:"DESK APP SCANER/index.html",
+      desc:{es:"Escanea documentos y páginas físicas para convertirlos en archivos digitales.",en:"Scans physical documents and pages into digital files.",pt:"Digitaliza documentos e páginas físicas transformando-os em arquivos digitais."},
+      tags:["escáner","documentos"] },
+    { cat:"Utilidades", icon:"🧮", name:{es:"CalcPro Premium",en:"CalcPro Premium",pt:"CalcPro Premium"}, href:"desk CALCULADORA PREMIUM/index.html",
+      desc:{es:"Suite de cálculo con módulos en varias categorías: general, ciencia, finanzas y herramientas.",en:"Calculation suite with modules across categories: general, science, finance and tools.",pt:"Suíte de cálculo com módulos em várias categorias: geral, ciência, finanças e ferramentas."},
+      tags:["cálculo","académico"] },
+    { cat:"Utilidades", icon:"🔢", name:{es:"Calculadoras Múltiples",en:"Multiple Calculators",pt:"Calculadoras Múltiplas"}, href:"desk calculadoras múltiples/index.html",
+      desc:{es:"Conjunto de calculadoras especializadas para distintos usos cotidianos.",en:"A set of specialized calculators for everyday uses.",pt:"Conjunto de calculadoras especializadas para diversos usos cotidianos."},
+      tags:["cálculo","utilidades"] },
+    { cat:"Utilidades", icon:"🗓️", name:{es:"Calendario-Task-Planner",en:"Calendar-Task-Planner",pt:"Calendário-Task-Planner"}, href:"desk CALENDARIO/index.html",
+      desc:{es:"Agenda con tareas y planificación pensada para trabajo personal y proyectos.",en:"Calendar with tasks and planning for personal work and projects.",pt:"Agenda com tarefas e planejamento para trabalho pessoal e projetos."},
+      tags:["agenda","tareas"] },
+    { cat:"Utilidades", icon:"📜", name:{es:"CertiFlow · Certificados",en:"CertiFlow · Certificates",pt:"CertiFlow · Certificados"}, href:"desk certificados elaborar/index.html",
+      desc:{es:"Genera certificados personalizados para eventos académicos y formativos con vista previa.",en:"Generates personalized certificates for academic and training events with preview.",pt:"Gera certificados personalizados para eventos acadêmicos e formativos com pré-visualização."},
+      tags:["certificados","eventos"] },
+    { cat:"Utilidades", icon:"🖼️", name:{es:"Imagen a PDF",en:"Image to PDF",pt:"Imagem para PDF"}, href:"desk DE IMAGEN A PDF/index.html",
+      desc:{es:"Convierte imágenes en documentos PDF listos para compartir.",en:"Converts images into PDF documents ready to share.",pt:"Converte imagens em documentos PDF prontos para compartilhar."},
+      tags:["pdf","imágenes"] },
+    { cat:"Utilidades", icon:"💳", name:{es:"Gestor Financiero",en:"Finance Manager",pt:"Gestor Financeiro"}, href:"desk gestor financiero/index.html",
+      desc:{es:"Gestión y lectura de ingresos y egresos con enfoque pedagógico y reporte.",en:"Income/expense management with a pedagogical, report-friendly approach.",pt:"Gestão de receitas e despesas com abordagem pedagógica e relatórios."},
+      tags:["finanzas","reporte"] },
+    { cat:"Utilidades", icon:"📊", name:{es:"Crea tu Presupuesto",en:"Build Your Budget",pt:"Crie seu Orçamento"}, href:"DESK PRESUPUESTO/index.html",
+      desc:{es:"Presupuesta por categorías y toma decisiones financieras con datos.",en:"Budget by categories for data-driven financial decisions.",pt:"Orçamento por categorias para decisões financeiras orientadas por dados."},
+      tags:["presupuesto","planificación"] },
+    { cat:"Utilidades", icon:"🔗", name:{es:"Recortador de Enlaces",en:"Link Shortener",pt:"Encurtador de Links"}, href:"DESK RECORTAR LINKS/index.html",
+      desc:{es:"Acorta y organiza enlaces largos para compartir con facilidad.",en:"Shortens and organizes long links for easy sharing.",pt:"Encurta e organiza links longos para compartilhar com facilidade."},
+      tags:["enlaces","utilidades"] },
+    { cat:"Utilidades", icon:"📎", name:{es:"Religar PDF",en:"Merge PDF",pt:"Unir PDF"}, href:"desk Religar PDF/index.html",
+      desc:{es:"Une varios documentos PDF en uno solo, listo para compartir.",en:"Merges multiple PDF documents into one, ready to share.",pt:"Une vários documentos PDF em um só, pronto para compartilhar."},
+      tags:["pdf","documentos"] },
+    { cat:"Utilidades", icon:"🔎", name:{es:"Papel a Texto (OCR)",en:"Paper to Text (OCR)",pt:"Papel para Texto (OCR)"}, href:"DESK scanner papel a texto/index.html",
+      desc:{es:"Convierte imágenes de papel escaneado en texto editable.",en:"Converts scanned paper images into editable text.",pt:"Converte imagens de papel escaneado em texto editável."},
+      tags:["ocr","texto"] },
+    { cat:"Utilidades", icon:"✅", name:{es:"Tareas al Día",en:"Daily Tasks",pt:"Tarefas do Dia"}, href:"desk tareas al dia/index.html",
+      desc:{es:"Lista rápida de pendientes diarios con foco en ejecución.",en:"Quick daily to-do list focused on execution.",pt:"Lista rápida de pendências diárias com foco em execução."},
+      tags:["productividad","checklist"] },
+    { cat:"Utilidades", icon:"✅", name:{es:"Task-Now",en:"Task-Now",pt:"Task-Now"}, href:"MIND task-now-fixed/index.html",
+      desc:{es:"Lista rápida de tareas con enfoque en ejecución diaria y claridad.",en:"Fast task list focused on daily execution and clarity.",pt:"Lista rápida de tarefas focada em execução diária e clareza."},
+      tags:["productividad","checklist"] },
+    { cat:"Utilidades", icon:"✂️", name:{es:"CutZap Imagen",en:"CutZap Image",pt:"CutZap Imagem"}, href:"recortar cambiar fondo a imagenes/index.html",
+      desc:{es:"Recorta imágenes, quita fondos, aplica color de fondo y crea collages.",en:"Crop images, remove backgrounds, apply background color and create collages.",pt:"Recorta imagens, remove fundos, aplica cor de fundo e cria collages."},
+      tags:["imagen","recorte"] },
+    { cat:"Astros", icon:"☯️", name:{es:"I Ching · Adivinación",en:"I Ching · Divination",pt:"I Ching · Adivinhação"}, href:"trascendental adivinación el Iching/index.html",
+      desc:{es:"Consulta simbólica basada en el I Ching para reflexión personal.",en:"Symbolic I Ching consultation for personal reflection.",pt:"Consulta simbólica baseada no I Ching para reflexão pessoal."},
+      tags:["iching","símbolos"] },
+    { cat:"Astros", icon:"✨", name:{es:"AstraDaily · Zodiaco",en:"AstraDaily · Zodiac",pt:"AstraDaily · Zodíaco"}, href:"trascendental ASTROS Y ZODIACO/index.html",
+      desc:{es:"Lectura breve y cotidiana con elementos simbólicos y consejos prácticos.",en:"Short daily reading with symbolic elements and practical tips.",pt:"Leitura diária curta com elementos simbólicos e dicas práticas."},
+      tags:["astros","diario"] },
+    { cat:"Astros", icon:"👻", name:{es:"Caza Fantasmas Radar",en:"Ghost Hunt Radar",pt:"Radar Caça-Fantasmas"}, href:"trascendental CAZA FANTASMAS RADAR/index.html",
+      desc:{es:"Experiencia lúdica de exploración de presencias tipo \"radar\".",en:"Playful \"radar\"-style presence-hunting experience.",pt:"Experiência lúdica de exploração de presenças em formato \"radar\"."},
+      tags:["ficción","experimento"] },
+    { cat:"Astros", icon:"🎰", name:{es:"Fortuna Quantum",en:"Quantum Fortune",pt:"Fortuna Quantum"}, href:"trascendental Fortuna_Quantum_v4_multi/index.html",
+      desc:{es:"Generador lúdico de números y combinaciones para juego y curiosidad.",en:"Playful number and combination generator for fun and curiosity.",pt:"Gerador lúdico de números e combinações para diversão e curiosidade."},
+      tags:["azar","números"] },
+    { cat:"Astros", icon:"🧘‍♂️", name:{es:"Método Joe Dispenza",en:"Joe Dispenza Method",pt:"Método Joe Dispenza"}, href:"trascendental Joe Dispenza método/index.html",
+      desc:{es:"Recursos inspirados en meditación y cambio de hábitos para el desarrollo personal.",en:"Resources inspired by meditation and habit change for personal development.",pt:"Recursos inspirados em meditação e mudança de hábitos para o desenvolvimento pessoal."},
+      tags:["meditación","hábitos"] },
+    { cat:"Astros", icon:"🎲", name:{es:"Números de la Suerte",en:"Lucky Numbers",pt:"Números da Sorte"}, href:"trascendental Números de lotería/index.html",
+      desc:{es:"Generador lúdico de números para juego y curiosidad personal.",en:"Playful number generator for games and personal curiosity.",pt:"Gerador lúdico de números para jogo e curiosidade pessoal."},
+      tags:["azar","números"] },
+    { cat:"Astros", icon:"📓", name:{es:"Bitácora del Alma",en:"Soul Log",pt:"Diário da Alma"}, href:"trascendental Reencarnación bitacora-del-alma/index.html",
+      desc:{es:"Espacio simbólico para reflexionar sobre reencarnación y trayectoria personal.",en:"Symbolic space to reflect on reincarnation and personal journey.",pt:"Espaço simbólico para refletir sobre reencarnação e trajetória pessoal."},
+      tags:["reflexión","símbolos"] },
+    { cat:"Astros", icon:"🔮", name:{es:"Tarot y Destino",en:"Tarot & Destiny",pt:"Tarô e Destino"}, href:"trascendental tarot lectura/index.html",
+      desc:{es:"Interfaz para tiradas y lecturas simbólicas con enfoque práctico.",en:"Interface for spreads and symbolic readings, practical approach.",pt:"Interface para tiragens e leituras simbólicas com abordagem prática."},
+      tags:["tarot","símbolos"] },
+    { cat:"Astros", icon:"🤝", name:{es:"Mi Dote Intercultural",en:"My Intercultural Dowry",pt:"Meu Dote Intercultural"}, href:"valor de mujeres según tribus/index.html",
+      desc:{es:"Explora criterios culturales comparativos y resultados explicativos.",en:"Explores comparative cultural criteria and explanatory outputs.",pt:"Explora critérios culturais comparativos e resultados explicativos."},
+      tags:["cultura","comparativo"] },
+    { cat:"Play", icon:"🦸", name:{es:"Aero SuperHéroe",en:"Aero SuperHero",pt:"Aero SuperHerói"}, href:"play aero superHero/index.html",
+      desc:{es:"Juego infantil de vuelo y misiones con temática de superhéroes.",en:"Kids flying-and-missions game with a superhero theme.",pt:"Jogo infantil de voo e missões com temática de super-heróis."},
+      tags:["niños","aventura"] },
+    { cat:"Play", icon:"✊", name:{es:"Piedra, Papel o Tijera",en:"Rock, Paper, Scissors",pt:"Pedra, Papel ou Tesoura"}, href:"play azar piedra papel tijera/index.html",
+      desc:{es:"Mini-juego rápido para decisiones triviales con azar controlado.",en:"Quick mini-game for trivial decisions with controlled randomness.",pt:"Mini-jogo rápido para decisões triviais com aleatoriedade controlada."},
+      tags:["juego","rápido"] },
+    { cat:"Play", icon:"🛡️", name:{es:"Biodefensa · Guerra Interna",en:"Biodefense · Internal War",pt:"Biodefesa · Guerra Interna"}, href:"play biodefensa guerra interna/index.html",
+      desc:{es:"Juego de acción y supervivencia biológica con oleadas y estrategia rápida.",en:"Biological action-survival game with waves and quick strategy.",pt:"Jogo de ação e sobrevivência biológica com ondas e estratégia rápida."},
+      tags:["biodefensa","acción"] },
+    { cat:"Play", icon:"🎲", name:{es:"Cubo Armable",en:"Buildable Cube",pt:"Cubo Montável"}, href:"PLAY CUBO armable/index.html",
+      desc:{es:"Rompecabezas de cubo para activar flexibilidad y retos rápidos.",en:"Cube puzzle to activate flexibility and quick challenges.",pt:"Quebra-cabeça de cubo para ativar flexibilidade e desafios rápidos."},
+      tags:["juego","cognición"] },
+    { cat:"Play", icon:"🎲", name:{es:"Cubo Cognitivo",en:"Cognitive Cube",pt:"Cubo Cognitivo"}, href:"Play cubo cognitivo/index.html",
+      desc:{es:"Juego/artefacto para activar flexibilidad cognitiva y retos rápidos.",en:"Game/artifact for cognitive flexibility and quick challenges.",pt:"Jogo/artefato para flexibilidade cognitiva e desafios rápidos."},
+      tags:["juego","cognición"] },
+    { cat:"Play", icon:"👑", name:{es:"Emilia Princesa Guerrera · Básico",en:"Emilia Warrior Princess · Basic",pt:"Emilia Princesa Guerreira · Básico"}, href:"play emilia princesa guerrea BASIC/index.html",
+      desc:{es:"Versión básica del juego de Emilia con misiones y exploración narrativa.",en:"Basic version of the Emilia game with missions and narrative exploration.",pt:"Versão básica do jogo de Emilia com missões e exploração narrativa."},
+      tags:["emilia","niños"] },
+    { cat:"Play", icon:"👑", name:{es:"Emilia Princesa Guerrera 2 · Reinos Celestiales",en:"Emilia Warrior Princess 2 · Celestial Realms",pt:"Emilia Princesa Guerreira 2 · Reinos Celestiais"}, href:"play emilia princesa guerrera/index.html",
+      desc:{es:"Mundos celestiales, jefes, esbirros, recompensas luminosas y progresión arcade.",en:"Celestial worlds, bosses, minions, luminous rewards and arcade progression.",pt:"Mundos celestiais, chefes, lacaios, recompensas luminosas e progressão arcade."},
+      tags:["emilia","arcade"] },
+    { cat:"Play", icon:"🦖", name:{es:"Escalera Jurásica Digital",en:"Jurassic Digital Ladder",pt:"Escada Jurássica Digital"}, href:"play escalera digital jyurasica/index.html",
+      desc:{es:"Juego tipo escalera con temática jurásica para niños.",en:"Ladder-style game with a Jurassic theme for kids.",pt:"Jogo tipo escada com tema jurássico para crianças."},
+      tags:["dinosaurios","niños"] },
+    { cat:"Play", icon:"🛸", name:{es:"STAR RAID 198X",en:"STAR RAID 198X",pt:"STAR RAID 198X"}, href:"play invasores espaciales/index.html",
+      desc:{es:"Arcade retro espacial inspirado en los invasores clásicos, con jefes y power-ups.",en:"Retro space arcade inspired by classic invaders, with bosses and power-ups.",pt:"Arcade espacial retrô inspirado nos invasores clássicos, com chefes e power-ups."},
+      tags:["arcade","retro"] },
+    { cat:"Play", icon:"🌀", name:{es:"Lejos del Equilibrio",en:"Far From Equilibrium",pt:"Longe do Equilíbrio"}, href:"Play Lejos del equilibrio disipacion y caos/index.html",
+      desc:{es:"Interfaz lúdica para explorar conceptos de complejidad y caos mediante metáforas.",en:"Playful UI to explore complexity and chaos concepts through metaphors.",pt:"UI lúdica para explorar conceitos de complexidade e caos através de metáforas."},
+      tags:["complejidad","metáfora"] },
+    { cat:"Play", icon:"🚀", name:{es:"Martín · Guerrero Galáctico",en:"Martin · Galactic Warrior",pt:"Martín · Guerreiro Galáctico"}, href:"Play martin guerrero galactivo/index.html",
+      desc:{es:"Juego narrativo infantil con estética espacial y retos simples.",en:"Kids narrative game with space aesthetics and simple challenges.",pt:"Jogo narrativo infantil com estética espacial e desafios simples."},
+      tags:["story","space"] },
+    { cat:"Play", icon:"👾", name:{es:"XenoStrike",en:"XenoStrike",pt:"XenoStrike"}, href:"play naves XenoStrike/index.html",
+      desc:{es:"Shooter retro-moderno de combate espacial con jefes, mejoras y acción arcade.",en:"Retro-modern space combat shooter with bosses, upgrades and arcade action.",pt:"Shooter retrô-moderno de combate espacial com chefes, melhorias e ação arcade."},
+      tags:["arcade","shooter"] },
+    { cat:"Play", icon:"🎂", name:{es:"Regalo de Cumpleaños de Emilia",en:"Emilia's Birthday Gift",pt:"Presente de Aniversário da Emilia"}, href:"play regalo emilia cumpleaños/index.html",
+      desc:{es:"Juego especial de cumpleaños con sorpresas y niveles temáticos.",en:"Special birthday game with surprises and themed levels.",pt:"Jogo especial de aniversário com surpresas e fases temáticas."},
+      tags:["emilia","cumpleaños"] },
+    { cat:"Play", icon:"🧟", name:{es:"Rizoma Zombie Strike",en:"Rizoma Zombie Strike",pt:"Rizoma Zombie Strike"}, href:"play rizoma_zombie_strike_v0_1/index.html",
+      desc:{es:"Arcade minimalista de acción zombie: supervivencia, poderes y oleadas.",en:"Minimalist zombie action arcade: survival, powers and waves.",pt:"Arcade minimalista de ação zumbi: sobrevivência, poderes e ondas."},
+      tags:["zombis","arcade"] },
+    { cat:"Play", icon:"🌼", name:{es:"Martín & Emilia vs. Zombies de Sausalito",en:"Martin & Emilia vs. the Zombies of Sausalito",pt:"Martín & Emilia vs. os Zumbis de Sausalito"}, href:"play sausalito/index.html",
+      desc:{es:"Aventura familiar de defensa estratégica contra los zombis de Sausalito.",en:"Family strategic-defense adventure against the zombies of Sausalito.",pt:"Aventura em família de defesa estratégica contra os zumbis de Sausalito."},
+      tags:["familia","zombis"] },
+    { cat:"Play", icon:"🧠", name:{es:"TriviaLab",en:"TriviaLab",pt:"TriviaLab"}, href:"PLAY TRIVIAS/index.html",
+      desc:{es:"Trivias rápidas por temas para aprender jugando y compartir en familia.",en:"Fast quizzes by topic to learn by playing and share with family.",pt:"Trívias rápidas por temas para aprender brincando e compartilhar em família."},
+      tags:["trivia","familia"] },
+    { cat:"Play", icon:"🌌", name:{es:"Génesis Universal",en:"Universal Genesis",pt:"Gênesis Universal"}, href:"educa genesis universal simulador/index.html",
+      desc:{es:"Viaje interactivo del Big Bang a la conciencia: 9 eras, estética cósmica y mecánicas evolutivas.",en:"Interactive journey from the Big Bang to consciousness: 9 eras, cosmic aesthetics and evolutionary mechanics.",pt:"Jornada interativa do Big Bang à consciência: 9 eras, estética cósmica e mecânicas evolutivas."},
+      tags:["cosmos","evolución"] },
+  ];
+
+    /* =========================================================
+       CONFIGURACIÓN VISUAL POR CATEGORÍA
+       Se conserva la taxonomía del index original y se reorganiza
+       como rail de iconos + secciones tipo dashboard.
+       ========================================================= */
+    const CAT_ORDER = ['Todos','Mind','Body','Educa','Neuro','Dx','Investigación','Utilidades','Astros','Play'];
+    const CAT_META = {
+      'Todos': { icon:'🏠', label:{es:'Todo',en:'All',pt:'Tudo'}, sub:{es:'Catálogo completo',en:'Full catalog',pt:'Catálogo completo'}, color:'#c40014' },
+      'Mind': { icon:'🧠', label:{es:'Mind',en:'Mind',pt:'Mind'}, sub:{es:'Bienestar y regulación',en:'Wellbeing and regulation',pt:'Bem-estar e regulação'}, color:'#8b5cf6' },
+      'Body': { icon:'🏃', label:{es:'Body',en:'Body',pt:'Body'}, sub:{es:'Cuerpo y hábitos',en:'Body and habits',pt:'Corpo e hábitos'}, color:'#16a34a' },
+      'Educa': { icon:'📘', label:{es:'Educa',en:'Educa',pt:'Educa'}, sub:{es:'Aprendizaje',en:'Learning',pt:'Aprendizagem'}, color:'#2563eb' },
+      'Neuro': { icon:'🧩', label:{es:'Neuro',en:'Neuro',pt:'Neuro'}, sub:{es:'Cognición',en:'Cognition',pt:'Cognição'}, color:'#f97316' },
+      'Dx': { icon:'🩺', label:{es:'Dx',en:'Dx',pt:'Dx'}, sub:{es:'Diagnóstico y clínica',en:'Diagnostics and clinic',pt:'Diagnóstico e clínica'}, color:'#0d9488' },
+      'Investigación': { icon:'🧬', label:{es:'Investigación',en:'Research',pt:'Pesquisa'}, sub:{es:'Academia y método',en:'Academia and method',pt:'Academia e método'}, color:'#0891b2' },
+      'Utilidades': { icon:'🧰', label:{es:'Utilidades',en:'Utilities',pt:'Utilidades'}, sub:{es:'Productividad',en:'Productivity',pt:'Produtividade'}, color:'#ca8a04' },
+      'Astros': { icon:'✨', label:{es:'Astros',en:'Astros',pt:'Astros'}, sub:{es:'Símbolos y juego',en:'Symbols and play',pt:'Símbolos e jogo'}, color:'#db2777' },
+      'Play': { icon:'🎮', label:{es:'Play',en:'Play',pt:'Play'}, sub:{es:'Juegos e historias',en:'Games and stories',pt:'Jogos e histórias'}, color:'#dc2626' }
+    };
+
+    const I18N = {
+      es:{open:'Abrir', showing:'Mostrando', apps:'apps', all:'Mostrando todo', none:'No se encontraron aplicaciones con ese criterio.', copied:'Enlace copiado', blocked:'No se pudo copiar el enlace'},
+      en:{open:'Open', showing:'Showing', apps:'apps', all:'Showing all', none:'No apps were found with that filter.', copied:'Link copied', blocked:'Copy blocked'},
+      pt:{open:'Abrir', showing:'Mostrando', apps:'apps', all:'Mostrando tudo', none:'Nenhum app encontrado com esse filtro.', copied:'Link copiado', blocked:'Cópia bloqueada'}
+    };
+
+    const $ = s => document.querySelector(s);
+    const esc = s => String(s ?? '').replace(/[&<>"']/g, ch => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[ch]));
+    const state = { lang: localStorage.getItem('apps_lang') || 'es', activeCat: 'Todos', q: '' };
+
+    function t(key){ return (I18N[state.lang] || I18N.es)[key] || I18N.es[key] || key; }
+    function txt(obj){ return obj?.[state.lang] || obj?.es || obj?.en || obj?.pt || ''; }
+    function normalizePath(path){
+      if(!path) return '#';
+      if(/^https?:\/\//i.test(path)) return path;
+      const hasExt = /\.[a-z0-9]{2,5}(#.*)?$/i.test(path);
+      return encodeURI(hasExt ? path : `${path}.html`);
+    }
+    function appPaths(app){
+      const raw = Array.isArray(app.paths) && app.paths.length ? app.paths : [app.href || app.file || '#'];
+      return [...new Set(raw.map(normalizePath))];
+    }
+    const APPS_READY = APPS.map((app, index) => ({...app, id:index, cat:app.cat || 'Otros', paths:appPaths(app), tags:app.tags || []}));
+
+    function matches(app){
+      const q = state.q.trim().toLowerCase();
+      const catOK = state.activeCat === 'Todos' || app.cat === state.activeCat;
+      if(!q) return catOK;
+      const haystack = [txt(app.name), txt(app.desc), app.cat, ...(app.tags || [])].join(' ').toLowerCase();
+      return catOK && haystack.includes(q);
+    }
+
+    function renderStats(){
+      const appsEl = $('#totalApps');
+      const catsEl = $('#totalCats');
+      if(appsEl) appsEl.textContent = APPS_READY.length;
+      if(catsEl) catsEl.textContent = new Set(APPS_READY.map(a => a.cat)).size;
+    }
+
+    function renderCategoryRail(){
+      const rail = $('#categoryRail');
+      rail.innerHTML = CAT_ORDER.map(cat => {
+        const meta = CAT_META[cat] || CAT_META.Otros;
+        const count = cat === 'Todos' ? APPS_READY.length : APPS_READY.filter(a => a.cat === cat).length;
+        return `<button type="button" class="cat-tile ${state.activeCat===cat?'active':''}" data-cat="${esc(cat)}" style="--cat-color:${meta.color}" aria-pressed="${state.activeCat===cat}" aria-label="${esc(txt(meta.label))}: ${count} ${t('apps')}">
+          <span class="emoji" aria-hidden="true">${meta.icon}</span>
+          <span class="label">${esc(txt(meta.label))}</span>
+          <span class="mini" title="${count} ${t('apps')}">${count}</span>
+        </button>`;
+      }).join('');
+      rail.querySelectorAll('[data-cat]').forEach(btn => btn.addEventListener('click', () => {
+        state.activeCat = btn.dataset.cat;
+        render();
+      }));
+    }
+
+    function renderResultBadge(list){
+      const label = state.activeCat === 'Todos' ? t('all') : `${t('showing')} ${txt(CAT_META[state.activeCat]?.label)} · ${list.length} ${t('apps')}`;
+      $('#resultBadge').textContent = state.q ? `${list.length} ${t('apps')}` : label;
+    }
+
+    function appCard(app){
+      const meta = CAT_META[app.cat] || CAT_META.Otros;
+      const href = app.paths[0] || '#';
+      const tags = (app.tags || []).slice(0,3).map(tag => `<span class="tag">${esc(tag)}</span>`).join('');
+      return `<article class="app-card" style="--cat-color:${meta.color}">
+        <div class="card-top">
+          <div class="app-icon" aria-hidden="true">${esc(app.icon || meta.icon)}</div>
+          <a class="open-btn" href="${esc(href)}" data-app-id="${app.id}" title="Abrir ${esc(txt(app.name))}">${t('open')} ↗</a>
+        </div>
+        <h4 class="app-name">${esc(txt(app.name))}</h4>
+        <p class="app-desc">${esc(txt(app.desc))}</p>
+        <div class="tags">${tags}</div>
+      </article>`;
+    }
+
+    function sectionBlock(cat, apps){
+      const meta = CAT_META[cat] || CAT_META.Otros;
+      return `<section class="section" style="--cat-color:${meta.color}" aria-labelledby="sec-${esc(cat)}">
+        <div class="section-head">
+          <div class="section-title">
+            <div class="section-icon" aria-hidden="true">${meta.icon}</div>
+            <div>
+              <h3 id="sec-${esc(cat)}">${esc(txt(meta.label))}</h3>
+              <p>${esc(txt(meta.sub))}</p>
+            </div>
+          </div>
+          <div class="section-count">${apps.length} ${t('apps')}</div>
+        </div>
+        <div class="grid">${apps.map(appCard).join('')}</div>
+      </section>`;
+    }
+
+    function render(){
+      $('#lang').value = state.lang;
+      renderStats();
+      renderCategoryRail();
+      const list = APPS_READY.filter(matches);
+      renderResultBadge(list);
+      const container = $('#sections');
+      if(!list.length){
+        container.innerHTML = `<div class="empty">${t('none')}</div>`;
+        return;
+      }
+      const cats = CAT_ORDER.filter(c => c !== 'Todos').filter(c => list.some(a => a.cat === c));
+      container.innerHTML = cats.map(cat => sectionBlock(cat, list.filter(a => a.cat === cat))).join('');
+    }
+
+    function toast(message){
+      const el = $('#toast');
+      el.textContent = message;
+      el.classList.add('show');
+      clearTimeout(window.__toastTimer);
+      window.__toastTimer = setTimeout(() => el.classList.remove('show'), 1800);
+    }
+
+
+    function showRouteOptions(app){
+      const modal = $('#routeModal');
+      const list = $('#routeList');
+      $('#routeTitle').textContent = `Abrir ${txt(app.name)}`;
+      list.innerHTML = app.paths.map((path, i) => `<a href="${esc(path)}">Ruta ${i+1}: ${esc(path)}</a>`).join('');
+      modal.classList.add('show');
+    }
+
+    document.addEventListener('click', e => {
+      const link = e.target.closest('.open-btn[data-app-id]');
+      if(!link) return;
+      const app = APPS_READY.find(a => String(a.id) === String(link.dataset.appId));
+      if(app && app.paths.length > 1){
+        e.preventDefault();
+        showRouteOptions(app);
+      }
+    });
+    $('#routeClose').addEventListener('click', () => $('#routeModal').classList.remove('show'));
+    $('#routeModal').addEventListener('click', e => { if(e.target.id === 'routeModal') $('#routeModal').classList.remove('show'); });
+
+    $('#lang').addEventListener('change', e => {
+      state.lang = e.target.value;
+      localStorage.setItem('apps_lang', state.lang);
+      render();
+    });
+    $('#search').addEventListener('input', e => { state.q = e.target.value; render(); });
+    $('#goTop').addEventListener('click', () => scrollTo({top:0, behavior:'smooth'}));
+    $('#copyLink').addEventListener('click', async () => {
+      try{ await navigator.clipboard.writeText(location.href); toast(t('copied')); }
+      catch(err){ toast(t('blocked')); }
+    });
+    window.addEventListener('keydown', e => {
+      if(e.key === '/' && document.activeElement !== $('#search')){ e.preventDefault(); $('#search').focus(); }
+      if(e.key === 'Escape' && state.q){ state.q=''; $('#search').value=''; render(); }
+    });
+
+    render();
+  </script>
+</body>
+</html>

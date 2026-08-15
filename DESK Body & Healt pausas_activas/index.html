@@ -1,0 +1,1211 @@
+<!doctype html>
+<html lang="es">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+  <meta name="theme-color" content="#006B54" />
+  <meta name="description" content="ActivaCare · Cuidado Inteligente: pausas activas adaptativas, offline-first, instalable y con análisis heurístico." />
+  <link rel="manifest" href="manifest.webmanifest" />
+  <link rel="icon" href="icon-192.svg" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet" />
+  <title>ActivaCare · Cuidado Inteligente v2.5.1</title>
+  <style>
+    /* ─── Design Tokens ─── */
+    :root {
+      --bg: #F8F9FA;
+      --panel: #FFFFFF;
+      --surface: #F1F5F9;
+      --text: #212121;
+      --muted: #6C757D;
+      --primary: #006B54;
+      --primary-light: #00A885;
+      --primary-bg: #E0F7F6;
+      --secondary: #FF5A5F;
+      --secondary-bg: #FFF1F1;
+      --accent: #F59E0B;
+      --accent-bg: #FFFBEB;
+      --line: #E5E7EB;
+      --shadow: 0 1px 3px rgba(0,0,0,.08);
+      --shadow-md: 0 4px 12px rgba(0,0,0,.1);
+      --radius: 12px;
+      --radius-sm: 8px;
+      --radius-lg: 16px;
+      --radius-full: 9999px;
+      --font: 'Inter', ui-sans-serif, system-ui, -apple-system, sans-serif;
+      --topbar-h: 60px;
+      --bottomnav-h: 64px;
+    }
+    [data-theme="dark"] {
+      --bg: #0F172A;
+      --panel: #1E293B;
+      --surface: #273548;
+      --text: #F8FAFC;
+      --muted: #94A3B8;
+      --primary: #34D399;
+      --primary-light: #6EE7B7;
+      --primary-bg: #064E3B;
+      --secondary: #FB7185;
+      --secondary-bg: #4C1D2B;
+      --accent: #FBBF24;
+      --accent-bg: #422006;
+      --line: #334155;
+      --shadow: 0 2px 8px rgba(0,0,0,.3);
+      --shadow-md: 0 4px 16px rgba(0,0,0,.4);
+    }
+
+    /* ─── Reset & Base ─── */
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    html { scroll-behavior: smooth; -webkit-text-size-adjust: 100%; }
+    body {
+      font-family: var(--font);
+      background: var(--bg);
+      color: var(--text);
+      min-height: 100vh;
+      line-height: 1.5;
+      -webkit-font-smoothing: antialiased;
+    }
+    img, svg { display: block; max-width: 100%; }
+    button, input, select, textarea { font: inherit; color: inherit; }
+    button { cursor: pointer; border: none; background: none; }
+    a { color: var(--primary); text-decoration: none; }
+
+    /* ─── Layout ─── */
+    .app { min-height: 100vh; display: flex; flex-direction: column; }
+    .wrap { width: min(960px, calc(100% - 32px)); margin: 0 auto; }
+
+    /* ─── Topbar ─── */
+    .topbar {
+      position: sticky; top: 0; z-index: 20;
+      backdrop-filter: blur(16px); -webkit-backdrop-filter: blur(16px);
+      background: color-mix(in srgb, var(--bg) 80%, transparent);
+      border-bottom: 1px solid var(--line);
+    }
+    .topbar-inner {
+      height: var(--topbar-h);
+      display: flex; align-items: center; justify-content: space-between; gap: 12px;
+    }
+    .brand { display: flex; align-items: center; gap: 10px; }
+    .brand-name { font-size: 18px; font-weight: 700; letter-spacing: -0.3px; }
+    .brand-sub { display: block; font-size: 12px; font-weight: 500; color: var(--muted); }
+    .logo {
+      width: 36px; height: 36px; border-radius: var(--radius-sm);
+      background: var(--primary);
+      display: grid; place-items: center;
+      color: #fff; font-size: 18px;
+    }
+    .nav-actions { display: flex; align-items: center; gap: 6px; }
+
+    /* ─── Buttons ─── */
+    .btn {
+      display: inline-flex; align-items: center; justify-content: center; gap: 6px;
+      border-radius: var(--radius-sm);
+      padding: 10px 18px;
+      font-size: 14px; font-weight: 600;
+      border: 1px solid transparent;
+      transition: all .15s ease;
+      white-space: nowrap;
+    }
+    .btn-primary { background: var(--primary); color: #fff; }
+    .btn-primary:hover { background: var(--primary-light); }
+    .btn-secondary { background: var(--panel); color: var(--text); border-color: var(--line); }
+    .btn-secondary:hover { background: var(--surface); }
+    .btn-danger { background: var(--secondary); color: #fff; }
+    .btn-danger:hover { opacity: .9; }
+    .btn-ghost { background: transparent; color: var(--muted); }
+    .btn-ghost:hover { color: var(--text); background: var(--surface); }
+    .btn:disabled { opacity: .45; cursor: not-allowed; pointer-events: none; }
+    .btn-sm { padding: 6px 12px; font-size: 13px; border-radius: 6px; }
+    .btn-block { width: 100%; }
+    .iconbtn {
+      width: 38px; height: 38px;
+      display: grid; place-items: center;
+      border-radius: var(--radius-sm);
+      background: var(--panel);
+      border: 1px solid var(--line);
+      font-size: 16px;
+      transition: background .15s;
+    }
+    .iconbtn:hover { background: var(--surface); }
+
+    /* ─── Hero ─── */
+    .hero { padding: 24px 0 8px; }
+    .hero h1 { font-size: clamp(24px, 4vw, 32px); font-weight: 700; letter-spacing: -0.5px; line-height: 1.2; }
+    .hero .muted { color: var(--muted); font-size: 14px; margin-top: 4px; }
+
+    /* ─── Tabs ─── */
+    .tabs {
+      display: flex; gap: 4px; overflow-x: auto;
+      padding: 12px 0 20px;
+      scrollbar-width: none;
+    }
+    .tabs::-webkit-scrollbar { display: none; }
+    .tab {
+      padding: 8px 16px; border-radius: var(--radius-full);
+      font-size: 13px; font-weight: 600;
+      background: var(--panel); color: var(--muted);
+      border: 1px solid var(--line);
+      white-space: nowrap; transition: all .15s;
+    }
+    .tab:hover { color: var(--text); }
+    .tab.active { background: var(--primary); color: #fff; border-color: var(--primary); }
+
+    /* ─── Bottom Navigation ─── */
+    .bottom-nav {
+      display: none;
+      position: fixed; bottom: 0; left: 0; right: 0;
+      z-index: 25;
+      background: var(--panel);
+      border-top: 1px solid var(--line);
+      padding: 6px 8px calc(6px + env(safe-area-inset-bottom, 0px));
+    }
+    .bottom-nav-inner {
+      display: flex; justify-content: space-around; align-items: center;
+    }
+    .bnav-item {
+      display: flex; flex-direction: column; align-items: center; gap: 2px;
+      padding: 6px 4px; border-radius: var(--radius-sm);
+      color: var(--muted); font-size: 10px; font-weight: 500;
+      transition: color .15s;
+      min-width: 48px;
+    }
+    .bnav-icon { font-size: 20px; line-height: 1; }
+    .bnav-label { font-size: 10px; }
+    .bnav-item.active { color: var(--primary); }
+    .bnav-item:hover { color: var(--text); }
+
+    /* ─── Grid ─── */
+    .grid { display: grid; gap: 16px; }
+    .grid.two { grid-template-columns: 1.3fr .7fr; }
+    .grid.three { grid-template-columns: repeat(3, 1fr); }
+
+    /* ─── Card ─── */
+    .card {
+      background: var(--panel);
+      border: 1px solid var(--line);
+      border-radius: var(--radius-lg);
+      box-shadow: var(--shadow);
+      padding: 20px;
+    }
+
+    /* ─── Section Title ─── */
+    .section-title {
+      display: flex; align-items: center; justify-content: space-between;
+      gap: 12px; margin-bottom: 16px;
+    }
+    .section-title h2 { font-size: 18px; font-weight: 700; letter-spacing: -0.3px; }
+    .section-title p { font-size: 13px; color: var(--muted); margin-top: 2px; }
+
+    /* ─── Pills ─── */
+    .pill-row { display: flex; flex-wrap: wrap; gap: 6px; margin-top: 8px; }
+    .pill {
+      display: inline-flex; align-items: center; gap: 4px;
+      border: 1px solid var(--primary);
+      border-radius: var(--radius-full);
+      padding: 4px 10px;
+      background: transparent;
+      color: var(--primary);
+      font-size: 12px; font-weight: 600;
+    }
+    [data-theme="dark"] .pill { border-color: var(--primary); color: var(--primary); }
+
+    /* ─── Form Elements ─── */
+    .field { display: grid; gap: 6px; margin: 10px 0; }
+    .field label { font-size: 13px; font-weight: 600; color: var(--text); }
+    .field small { font-size: 12px; color: var(--muted); }
+    input[type="text"], input[type="number"], input[type="password"],
+    input[type="time"], input[type="email"], select, textarea {
+      width: 100%;
+      border: 1px solid var(--line);
+      background: var(--panel);
+      color: var(--text);
+      border-radius: var(--radius-sm);
+      padding: 10px 12px;
+      font-size: 14px;
+      outline: none;
+      transition: border-color .15s;
+    }
+    input:focus, select:focus, textarea:focus { border-color: var(--primary); }
+    textarea { min-height: 80px; resize: vertical; }
+    .rangegrid { display: grid; grid-template-columns: 1fr 60px; gap: 8px; align-items: center; }
+    .rangegrid b { font-size: 14px; font-weight: 600; text-align: center; }
+
+    /* ─── Checks ─── */
+    .checks { display: grid; grid-template-columns: repeat(auto-fill, minmax(155px, 1fr)); gap: 6px; }
+    .check {
+      display: flex; gap: 8px; align-items: center;
+      border: 1px solid var(--line); border-radius: var(--radius-sm);
+      padding: 8px 10px; background: var(--panel);
+      font-size: 13px; cursor: pointer; transition: border-color .15s;
+    }
+    .check:hover { border-color: var(--primary); }
+    .check input[type="checkbox"] { width: 16px; height: 16px; accent-color: var(--primary); cursor: pointer; }
+    .profile-compact { display: grid; gap: 12px; }
+    .profile-head-actions { display:flex; align-items:center; gap:8px; flex-wrap:wrap; }
+    .section-kicker { display:flex; align-items:center; gap:7px; margin: 14px 0 8px; font-size:15px; font-weight:700; letter-spacing:-0.2px; }
+    .info-tip { position:relative; display:inline-grid; place-items:center; width:18px; height:18px; border-radius:50%; border:1px solid var(--line); color:var(--muted); font-size:11px; font-weight:700; background:var(--panel); cursor:help; }
+    .info-tip:focus { outline:2px solid color-mix(in srgb, var(--primary) 35%, transparent); outline-offset:2px; }
+    .info-tip:hover::after, .info-tip:focus::after { content: attr(data-tip); position:absolute; left:50%; top: calc(100% + 8px); transform:translateX(-50%); width:min(280px, 78vw); z-index:90; background:var(--text); color:var(--bg); border-radius:10px; padding:9px 11px; font-size:12px; line-height:1.35; font-weight:500; box-shadow:var(--shadow-md); }
+    .field label.with-tip { display:flex; align-items:center; gap:6px; }
+    .profile-note { padding:10px 12px; border-radius:var(--radius); background:var(--primary-bg); border:1px solid color-mix(in srgb, var(--primary) 25%, transparent); color:var(--text); font-size:12px; line-height:1.45; }
+    .diag-summary { margin-top:10px; padding:10px 12px; border-radius:var(--radius); background:var(--surface); border:1px solid var(--line); font-size:12px; color:var(--muted); }
+    .diag-summary b { color:var(--text); }
+    .checks.dense { grid-template-columns: repeat(auto-fill, minmax(185px, 1fr)); }
+    .checks.conditions { grid-template-columns: repeat(auto-fill, minmax(245px, 1fr)); }
+    .checks.conditions .check { align-items:flex-start; line-height:1.3; }
+    .save-status { font-size:12px; color:var(--primary); font-weight:600; min-height:18px; }
+    .block-compact-title { display:flex; justify-content:space-between; gap:8px; align-items:center; grid-column:1 / -1; }
+    .block-compact-title b { font-size:13px; }
+    .block input, .block select { padding:8px 10px; font-size:13px; }
+    .block .field { margin:4px 0; gap:4px; }
+    .block .field label { font-size:12px; }
+
+
+    /* ─── Personalized Plan / Recommendation Layer ─── */
+    .plan-card { border-color: color-mix(in srgb, var(--primary) 28%, var(--line)); background: linear-gradient(135deg, color-mix(in srgb, var(--primary-bg) 72%, var(--panel)), var(--panel)); }
+    .plan-header { display:flex; align-items:flex-start; justify-content:space-between; gap:12px; flex-wrap:wrap; }
+    .plan-badge { display:inline-flex; align-items:center; gap:6px; border-radius:var(--radius-full); padding:4px 10px; background:var(--primary); color:#fff; font-size:12px; font-weight:700; }
+    .plan-list { display:grid; gap:8px; margin-top:12px; }
+    .plan-item { display:grid; grid-template-columns:1fr auto; gap:8px; align-items:center; padding:10px 12px; border:1px solid var(--line); border-radius:var(--radius); background:color-mix(in srgb, var(--panel) 82%, transparent); }
+    .plan-item b { font-size:13px; }
+    .plan-item small { display:block; margin-top:2px; color:var(--muted); font-size:12px; }
+    .plan-actions { display:flex; flex-wrap:wrap; gap:8px; margin-top:12px; }
+    .recommend-block { margin-bottom:16px; padding:14px; border:1px solid color-mix(in srgb, var(--primary) 30%, var(--line)); border-radius:var(--radius-lg); background:color-mix(in srgb, var(--primary-bg) 55%, var(--panel)); }
+    .recommended-card { position:relative; border-color: color-mix(in srgb, var(--primary) 46%, var(--line)); box-shadow: 0 0 0 1px color-mix(in srgb, var(--primary) 18%, transparent), 0 0 22px color-mix(in srgb, var(--primary) 16%, transparent); background:linear-gradient(145deg, color-mix(in srgb, var(--primary-bg) 52%, var(--panel)), var(--panel)); }
+    .recommended-card.priority-pulse, .plan-item.priority-pulse { animation: softPulse 1.9s ease-in-out infinite; border-color: color-mix(in srgb, var(--primary) 72%, var(--line)); box-shadow: 0 0 0 1px color-mix(in srgb, var(--primary) 28%, transparent), 0 0 28px color-mix(in srgb, var(--primary) 30%, transparent); }
+    @keyframes softPulse { 0%,100% { transform: translateY(0); filter: brightness(1); } 50% { transform: translateY(-1px); filter: brightness(1.05); } }
+    .quick-context-chips { display:flex; gap:8px; flex-wrap:wrap; margin:0 0 12px; }
+    .quick-context-chips .chip-action { border:1px solid var(--line); background:var(--panel); color:var(--text); border-radius:999px; padding:8px 11px; font-size:12px; font-weight:700; cursor:pointer; box-shadow:var(--shadow-sm); }
+    .quick-context-chips .chip-action.primary { border-color: color-mix(in srgb, var(--primary) 40%, var(--line)); background: color-mix(in srgb, var(--primary-bg) 80%, var(--panel)); color:var(--primary); }
+    .quick-context-chips .chip-action.notify-on { border-color: color-mix(in srgb, var(--primary) 45%, var(--line)); background: color-mix(in srgb, var(--primary-bg) 70%, var(--panel)); color:var(--primary); }
+    .quick-context-chips .chip-action.notify-off { opacity:.72; }
+    .screen-alert { position:fixed; left:50%; bottom:92px; transform:translateX(-50%); width:min(94vw,520px); z-index:580; border:1px solid color-mix(in srgb, var(--primary) 45%, var(--line)); background:var(--panel); border-radius:22px; box-shadow:0 18px 50px rgba(15,23,42,.22); padding:14px; animation: alertSlide .22s ease-out both; }
+    .screen-alert h3 { margin:0 0 4px; font-size:15px; }
+    .screen-alert p { margin:0 0 10px; color:var(--muted); font-size:13px; }
+    .screen-alert-actions { display:flex; gap:8px; flex-wrap:wrap; }
+    @keyframes alertSlide { from{opacity:0; transform:translateX(-50%) translateY(18px);} to{opacity:1; transform:translateX(-50%) translateY(0);} }
+    .profile-bottom-actions { position:sticky; bottom:70px; z-index:20; display:flex; justify-content:flex-end; gap:8px; margin-top:18px; padding:10px; border:1px solid var(--line); border-radius:var(--radius); background:color-mix(in srgb, var(--panel) 92%, transparent); backdrop-filter: blur(10px); }
+    .analysis-help-title { display:flex; align-items:center; gap:6px; }
+    .tour-bubble-backdrop { position:fixed; inset:0; z-index:600; background:rgba(2,6,23,.38); pointer-events:auto; }
+    .tour-bubble { position:fixed; z-index:610; max-width:min(320px,88vw); background:var(--panel); color:var(--text); border:1px solid color-mix(in srgb, var(--primary) 35%, var(--line)); border-radius:18px; box-shadow:var(--shadow-lg); padding:14px; }
+    .tour-bubble h3 { margin:0 0 6px; font-size:15px; }
+    .tour-bubble p { margin:0 0 12px; color:var(--muted); font-size:13px; line-height:1.4; }
+    .tour-bubble-actions { display:flex; justify-content:space-between; gap:8px; align-items:center; }
+    .tour-target-highlight { position:relative; z-index:605; box-shadow:0 0 0 4px color-mix(in srgb, var(--primary) 24%, transparent), 0 0 28px color-mix(in srgb, var(--primary) 28%, transparent) !important; border-radius:16px; }
+    @media(max-width:640px){ .quick-context-chips{overflow-x:auto;flex-wrap:nowrap;padding-bottom:2px}.quick-context-chips .chip-action{white-space:nowrap}.profile-bottom-actions{bottom:74px;justify-content:stretch}.profile-bottom-actions .btn{flex:1} }
+    .rec-label { display:inline-flex; align-items:center; gap:4px; border-radius:var(--radius-full); padding:3px 8px; background:var(--primary); color:#fff; font-size:11px; font-weight:700; }
+    .rec-reason { margin-top:6px; font-size:12px; color:var(--muted); line-height:1.35; }
+    .history-date { border:1px solid var(--line); border-radius:var(--radius); overflow:hidden; background:var(--panel); }
+    .history-date + .history-date { margin-top:10px; }
+    .history-date summary { list-style:none; cursor:pointer; padding:12px 14px; display:flex; justify-content:space-between; gap:10px; align-items:center; background:var(--surface); }
+    .history-date summary::-webkit-details-marker { display:none; }
+    .history-date summary b { font-size:14px; }
+    .history-date summary small { color:var(--muted); font-size:12px; text-align:right; }
+    .history-records { display:grid; gap:8px; padding:10px; }
+    .record.status-pospuesta { border-left-color:var(--accent); }
+    .record.status-omitida { border-left-color:var(--secondary); }
+    .record.status-realizada { border-left-color:var(--primary); }
+    .plan-modal-list { display:grid; gap:8px; margin:12px 0; }
+    .plan-edit-row { display:grid; grid-template-columns:1fr 96px auto; gap:8px; align-items:end; padding:10px; border:1px solid var(--line); border-radius:var(--radius); background:var(--surface); }
+    @media(max-width:640px){ .plan-item, .plan-edit-row { grid-template-columns:1fr; } }
+
+    /* ─── Stats ─── */
+    .stats-row { display: grid; grid-template-columns: repeat(3, 1fr); gap: 12px; }
+    .stat { text-align: center; }
+    .stat b { display: block; font-size: 28px; font-weight: 700; letter-spacing: -1px; color: var(--text); }
+    .stat span { font-size: 12px; color: var(--muted); font-weight: 500; }
+
+    /* ─── Daily Progress ─── */
+    .day-prog-wrap { margin: 12px 0; }
+    .day-prog-meta { display: flex; justify-content: space-between; font-size: 12px; font-weight: 600; margin-bottom: 6px; color: var(--muted); }
+    .day-prog { height: 6px; background: var(--line); border-radius: var(--radius-full); overflow: hidden; }
+    .day-prog-bar { height: 100%; border-radius: var(--radius-full); transition: width .4s ease; }
+
+    /* ─── Pause Hero ─── */
+    .pause-hero { margin: 16px 0; }
+    .pause-hero h3 { font-size: 16px; font-weight: 600; margin-bottom: 4px; }
+    .pause-actions { display: flex; flex-wrap: wrap; gap: 8px; }
+
+    /* ─── Quick Row ─── */
+    .quick-row { display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px; margin-top: 12px; }
+    .quick-btn {
+      background: var(--panel); border: 1px solid var(--line);
+      border-radius: var(--radius); padding: 12px; text-align: left;
+      font-size: 13px; transition: all .15s; cursor: pointer;
+    }
+    .quick-btn:hover { border-color: var(--primary); box-shadow: var(--shadow-md); transform: translateY(-1px); }
+    .quick-btn small { display: block; }
+    .quick-btn b { display: block; font-size: 13px; margin: 4px 0; }
+
+    /* ─── Pause Card ─── */
+    .pause-card { display: grid; gap: 12px; }
+    .pause-card-top { display: flex; gap: 12px; align-items: flex-start; }
+    .pause-card-info { flex: 1; min-width: 0; }
+    .pause-card-info h3 { font-size: 14px; font-weight: 600; margin-bottom: 4px; line-height: 1.3; }
+    .pause-card-info small { font-size: 12px; color: var(--muted); display: block; }
+    .pause-card-footer { display: flex; gap: 6px; }
+
+    /* ─── Block Info ─── */
+    .block-info { display: flex; flex-direction: column; gap: 2px; padding: 8px 0; }
+    .block-info + .block-info { border-top: 1px solid var(--line); }
+    .block-info b { font-size: 14px; font-weight: 600; }
+    .block-info span { font-size: 12px; color: var(--muted); }
+
+    /* ─── Record ─── */
+    .record {
+      border-left: 3px solid var(--primary);
+      padding: 10px 12px;
+      border-radius: var(--radius-sm);
+      background: var(--panel);
+      border: 1px solid var(--line);
+      border-left: 3px solid var(--primary);
+    }
+    .record-header { display: flex; justify-content: space-between; align-items: center; }
+    .record-header b { font-size: 14px; font-weight: 600; }
+    .record-header small { font-size: 12px; color: var(--muted); }
+    .record-meta { font-size: 12px; color: var(--muted); margin-top: 2px; }
+
+    /* ─── Block Form ─── */
+    .block {
+      display: grid; grid-template-columns: 1fr 1fr; gap: 8px;
+      align-items: end;
+      border: 1px solid var(--line); padding: 12px;
+      border-radius: var(--radius); background: var(--surface);
+    }
+    .block .wide { grid-column: 1 / -1; }
+    .day-checks { display: flex; flex-wrap: wrap; gap: 4px; margin: 4px 0; }
+    .day-chk {
+      display: flex; align-items: center; gap: 3px;
+      font-size: 12px; border: 1px solid var(--line);
+      border-radius: 6px; padding: 4px 8px;
+      background: var(--panel); cursor: pointer;
+    }
+    .day-chk input[type="checkbox"] { width: 14px; height: 14px; accent-color: var(--primary); cursor: pointer; }
+
+    /* ─── Score Bar ─── */
+    .analysis-box { display: grid; gap: 16px; }
+    .scorebar { height: 6px; background: var(--line); border-radius: var(--radius-full); overflow: hidden; }
+    .scorebar span { display: block; height: 100%; background: var(--primary); border-radius: var(--radius-full); transition: width .3s; }
+    .score-line { margin-bottom: 12px; }
+    .score-line-header { display: flex; justify-content: space-between; font-size: 13px; margin-bottom: 4px; }
+    .score-line-header span:last-child { font-weight: 700; }
+
+    /* ─── Heatmap ─── */
+    .heatmap-row { display: flex; gap: 6px; align-items: center; margin: 8px 0; }
+    .heatmap-cell { width: 28px; height: 28px; border-radius: 6px; background: var(--line); }
+    .trend-legend { display: flex; gap: 16px; margin-top: 8px; font-size: 12px; color: var(--muted); }
+    .trend-dot { display: inline-block; width: 8px; height: 8px; border-radius: 50%; margin-right: 4px; }
+
+    /* ─── Steps ─── */
+    .steps { display: flex; flex-direction: column; gap: 12px; margin: 16px 0; }
+    .step { display: flex; align-items: flex-start; gap: 12px; }
+    .step-num {
+      width: 26px; height: 26px; min-width: 26px;
+      border-radius: 50%; background: var(--primary); color: #fff;
+      display: grid; place-items: center;
+      font-size: 13px; font-weight: 600;
+    }
+    .step span:last-child { font-size: 14px; line-height: 1.5; padding-top: 2px; }
+
+    /* ─── Timer (Circular SVG) ─── */
+    .timer-wrap {
+      display: flex; justify-content: center; align-items: center;
+      position: relative; padding: 28px 0 12px;
+    }
+    .timer-ring {
+      width: 220px; height: 220px;
+      transform: rotate(-90deg);
+    }
+    .timer-bg { fill: none; stroke: var(--line); stroke-width: 8; }
+    .timer-fg {
+      fill: none; stroke: var(--primary); stroke-width: 8;
+      stroke-linecap: round;
+      transition: stroke-dashoffset .3s linear;
+    }
+    .timer-text {
+      position: absolute;
+      font-size: 44px; font-weight: 700; letter-spacing: -1px;
+      color: var(--text);
+    }
+    .timer-controls {
+      display: flex; justify-content: center; gap: 10px;
+      padding: 16px 0;
+    }
+
+    /* ─── Menu / Drawer ─── */
+    .menu { position: fixed; inset: 0; display: none; z-index: 40; background: rgba(0,0,0,.3); }
+    .menu.open { display: block; }
+    .drawer {
+      position: absolute; right: 0; top: 0;
+      width: min(340px, 88vw); height: 100%;
+      background: var(--panel); padding: 20px;
+      box-shadow: -4px 0 20px rgba(0,0,0,.15);
+      overflow-y: auto;
+    }
+    .drawer h3 { font-size: 16px; font-weight: 700; margin: 12px 0 8px; }
+    .drawer .btn-secondary { width: 100%; text-align: left; margin: 4px 0; }
+
+    /* ─── Modal ─── */
+    .modal {
+      position: fixed; inset: 0; display: none;
+      align-items: center; justify-content: center;
+      z-index: 50; background: rgba(0,0,0,.4); padding: 16px;
+    }
+    .modal.open { display: flex; }
+    .modal-box {
+      width: min(520px, 100%);
+      max-height: 88vh; overflow-y: auto;
+      background: var(--panel);
+      border: 1px solid var(--line);
+      border-radius: var(--radius-lg);
+      box-shadow: var(--shadow-md);
+      padding: 24px;
+    }
+    .modal-box h2 { font-size: 20px; font-weight: 700; margin-bottom: 4px; letter-spacing: -0.3px; }
+    .modal-box h3 { font-size: 16px; font-weight: 600; margin: 16px 0 8px; }
+    .modal-box p { font-size: 14px; color: var(--muted); line-height: 1.5; }
+
+    /* ─── Toast ─── */
+    .toast-stack {
+      position: fixed; right: 12px; bottom: 12px; z-index: 80;
+      display: grid; gap: 8px;
+      width: min(320px, calc(100vw - 24px));
+    }
+    .toast {
+      background: var(--panel); border: 1px solid var(--line);
+      border-left: 4px solid var(--primary);
+      border-radius: var(--radius-sm);
+      padding: 10px 14px;
+      box-shadow: var(--shadow-md);
+      font-size: 13px;
+    }
+    .toast b { display: block; font-size: 13px; font-weight: 600; margin-bottom: 2px; }
+    .toast p { margin: 0; font-size: 12px; color: var(--muted); }
+
+    /* ─── Microwarn ─── */
+    .microwarn {
+      padding: 8px 12px; border-radius: var(--radius-sm);
+      background: var(--accent-bg);
+      border: 1px solid color-mix(in srgb, var(--accent) 30%, transparent);
+      font-size: 12px; color: var(--text);
+    }
+
+    /* ─── Empty State ─── */
+    .empty {
+      border: 1px dashed var(--line); border-radius: var(--radius);
+      padding: 24px; text-align: center; color: var(--muted); font-size: 14px;
+    }
+
+    /* ─── User List ─── */
+    .userlist { display: grid; gap: 8px; }
+    .useritem {
+      display: flex; justify-content: space-between; align-items: center; gap: 8px;
+      border: 1px solid var(--line); border-radius: var(--radius);
+      padding: 12px; background: var(--panel);
+    }
+    .useritem b { font-size: 14px; }
+    .useritem small { font-size: 12px; color: var(--muted); }
+
+    /* ─── KBD ─── */
+    .kbd { font-size: 11px; border: 1px solid var(--line); border-bottom-width: 2px; padding: 2px 6px; border-radius: 4px; background: var(--surface); font-family: monospace; }
+
+    /* ─── Footer ─── */
+    .footer {
+      padding: 20px 0; margin-bottom: var(--bottomnav-h);
+      color: var(--muted); font-size: 12px; text-align: center;
+    }
+
+    /* ─── Utility ─── */
+    .hidden { display: none !important; }
+    .text-muted { color: var(--muted); }
+    .text-sm { font-size: 13px; }
+    .text-xs { font-size: 12px; }
+    .fw-600 { font-weight: 600; }
+    .mt-8 { margin-top: 8px; }
+    .mt-12 { margin-top: 12px; }
+    .mt-16 { margin-top: 16px; }
+    .mb-8 { margin-bottom: 8px; }
+    .gap-8 { gap: 8px; }
+
+    /* ─── Pause Animations ─── */
+    .anim-preview {
+      width: 120px; height: 120px;
+      margin: 0 auto; position: relative;
+      display: flex; align-items: center; justify-content: center;
+      border-radius: 50%;
+      background: var(--primary-bg);
+      flex-shrink: 0;
+    }
+    .anim-preview-sm { width: 64px; height: 64px; }
+    .anim-preview-sm .anim-breathe { width: 36px; height: 36px; }
+    .anim-preview-sm .anim-breathe::after { width: 14px; height: 14px; margin: 4px auto 0; }
+    .anim-preview-sm .anim-eye { width: 48px; height: 22px; }
+    .anim-preview-sm .anim-iris { width: 10px; height: 10px; }
+    .anim-preview-sm .anim-head-c { width: 24px; height: 24px; }
+    .anim-preview-sm .anim-neck-l { width: 2px; height: 12px; }
+    .anim-preview-sm .anim-sh { width: 10px; height: 24px; }
+    .anim-preview-sm .anim-torso-l { width: 2px; height: 18px; }
+    .anim-preview-sm .anim-shoulders { width: 40px; height: 30px; }
+    .anim-preview-sm .anim-palm { width: 14px; height: 16px; }
+    .anim-preview-sm .anim-fing { width: 3px; height: 8px; }
+    .anim-preview-sm .anim-hand { gap: 2px; }
+    .anim-preview-sm .anim-leg { width: 4px; height: 20px; }
+    .anim-preview-sm .anim-heart { width: 24px; height: 22px; }
+    .anim-preview-sm .anim-heart::before, .anim-preview-sm .anim-heart::after { width: 14px; height: 20px; border-radius: 14px 14px 0 0; }
+    .anim-preview-sm .anim-heart::before { left: 12px; }
+    .anim-preview-sm .anim-heart::after { left: 0; }
+    .anim-preview-sm .anim-stretch { width: 2px; height: 28px; }
+    .anim-preview-sm .anim-stretch::before { width: 14px; height: 2px; }
+
+    .anim-label { font-size: 12px; color: var(--muted); text-align: center; margin-top: 6px; min-height: 18px; }
+
+    .anim-breathe { width: 60px; height: 60px; border-radius: 50%; border: 3px solid var(--primary); animation: abreathe 4s ease-in-out infinite; }
+    .anim-breathe::after { content: ''; display: block; width: 26px; height: 26px; border-radius: 50%; background: color-mix(in srgb, var(--primary) 15%, transparent); margin: 6px auto 0; animation: abreatheIn 4s ease-in-out infinite; }
+    @keyframes abreathe { 0%, 100% { transform: scale(.5); opacity: .3; } 50% { transform: scale(1); opacity: .9; } }
+    @keyframes abreatheIn { 0%, 100% { transform: scale(.6); } 50% { transform: scale(1.4); } }
+
+    .anim-eye { width: 80px; height: 38px; border: 3px solid var(--primary); border-radius: 50%; position: relative; background: color-mix(in srgb, var(--primary) 5%, transparent); overflow: hidden; }
+    .anim-iris { width: 16px; height: 16px; border-radius: 50%; background: var(--primary); position: absolute; top: 50%; left: 50%; animation: aeyeFocus 4s ease-in-out infinite; }
+    @keyframes aeyeFocus { 0%, 100% { transform: translate(-50%, -50%) translateX(-12px) scale(.7); opacity: .5; } 50% { transform: translate(-50%, -50%) translateX(12px) scale(1.15); opacity: 1; } }
+
+    .anim-neck { display: flex; flex-direction: column; align-items: center; animation: aneckTilt 3s ease-in-out infinite; transform-origin: bottom center; }
+    .anim-head-c { width: 38px; height: 38px; border: 3px solid var(--primary); border-radius: 50%; }
+    .anim-neck-l { width: 3px; height: 18px; background: var(--primary); margin-top: 2px; }
+    @keyframes aneckTilt { 0%, 100% { transform: rotate(0); } 25% { transform: rotate(-18deg); } 75% { transform: rotate(18deg); } }
+
+    .anim-shoulders { position: relative; width: 64px; height: 48px; }
+    .anim-sh { width: 14px; height: 38px; border: 3px solid var(--primary); border-radius: 6px; position: absolute; top: 0; }
+    .anim-sh-l { left: 0; animation: ashUp 2.5s ease-in-out infinite; }
+    .anim-sh-r { right: 0; animation: ashUp 2.5s ease-in-out infinite .15s; }
+    .anim-torso-l { width: 3px; height: 28px; background: var(--primary); position: absolute; top: 12px; left: 50%; transform: translateX(-50%); border-radius: 2px; }
+    @keyframes ashUp { 0%, 100% { transform: translateY(0); } 50% { transform: translateY(-10px); } }
+
+    .anim-hands { display: flex; gap: 12px; justify-content: center; align-items: flex-end; }
+    .anim-hand { display: flex; gap: 2px; align-items: flex-end; }
+    .anim-palm { width: 22px; height: 26px; border: 3px solid var(--primary); border-radius: 3px 3px 6px 6px; }
+    .anim-fing { width: 4px; height: 14px; border: 2px solid var(--primary); border-radius: 2px; animation: afingFlex 2.5s ease-in-out infinite; }
+    .anim-fing:nth-child(2) { animation-delay: .1s; }
+    .anim-fing:nth-child(3) { animation-delay: .2s; }
+    .anim-fing:nth-child(4) { animation-delay: .3s; }
+    @keyframes afingFlex { 0%, 100% { transform: scaleY(.7); opacity: .6; } 50% { transform: scaleY(1.2); opacity: 1; } }
+
+    .anim-legs { display: flex; gap: 8px; align-items: flex-end; justify-content: center; }
+    .anim-leg { width: 6px; height: 34px; border: 3px solid var(--primary); border-radius: 3px; animation: awalk 1.2s ease-in-out infinite; }
+    .anim-leg:nth-child(2) { animation-delay: .6s; }
+    @keyframes awalk { 0%, 100% { transform: translateY(0); } 50% { transform: translateY(-14px); } }
+
+    .anim-heart { width: 40px; height: 36px; position: relative; animation: aheartP 1.4s ease-in-out infinite; }
+    .anim-heart::before, .anim-heart::after { content: ''; position: absolute; top: 0; width: 22px; height: 32px; border-radius: 22px 22px 0 0; background: var(--primary); }
+    .anim-heart::before { left: 20px; transform: rotate(-45deg); transform-origin: 0 100%; }
+    .anim-heart::after { left: 0; transform: rotate(45deg); transform-origin: 100% 100%; }
+    @keyframes aheartP { 0%, 100% { transform: scale(1); } 50% { transform: scale(1.18); } }
+
+    .anim-stretch { position: relative; width: 3px; height: 44px; background: var(--primary); margin: 0 auto; border-radius: 2px; animation: astrLean 3s ease-in-out infinite; transform-origin: bottom center; }
+    .anim-stretch::before { content: ''; position: absolute; top: 0; right: 0; width: 24px; height: 3px; background: var(--primary); border-radius: 2px; transform-origin: left center; animation: astrArm 3s ease-in-out infinite; }
+    @keyframes astrLean { 0%, 100% { transform: rotate(0); } 50% { transform: rotate(14deg); } }
+    @keyframes astrArm { 0%, 100% { transform: rotate(0); } 50% { transform: rotate(-70deg); } }
+
+    /* ─── Login Card ─── */
+    .login-card { max-width: 560px; margin: 0 auto; }
+    .login-card h1 { font-size: 28px; font-weight: 700; letter-spacing: -0.5px; line-height: 1.2; }
+    .login-card .subtitle { color: var(--muted); font-size: 14px; margin: 8px 0 20px; }
+    .login-card .grid.two { grid-template-columns: 1fr 1fr; }
+    .login-card h2 { font-size: 15px; font-weight: 600; margin-bottom: 8px; }
+
+    /* ─── Responsive ─── */
+    @media (max-width: 768px) {
+      .bottom-nav { display: block; }
+      .tabs { display: none; }
+      .grid.two, .grid.three { grid-template-columns: 1fr; }
+      .topbar-inner { height: auto; min-height: var(--topbar-h); padding: 6px 0; }
+      .brand-sub { display: none; }
+      .nav-actions .btn-secondary { display: none; }
+      .card { padding: 16px; }
+      .block { grid-template-columns: 1fr; }
+      .checks.conditions, .checks.dense { grid-template-columns: 1fr; }
+      .info-tip:hover::after, .info-tip:focus::after { left:auto; right:0; transform:none; }
+      .block .wide { grid-column: auto; }
+      .section-title { flex-direction: column; align-items: flex-start; }
+      .quick-row { grid-template-columns: 1fr; }
+      #pauseList { grid-template-columns: 1fr; }
+      .hero { padding: 16px 0 4px; }
+      .hero h1 { font-size: 22px; }
+      .pause-card-top { flex-direction: column; }
+      .footer { margin-bottom: calc(var(--bottomnav-h) + 8px); }
+      .login-card .grid.two { grid-template-columns: 1fr; }
+      .modal-box { padding: 18px; }
+      .timer-ring { width: 180px; height: 180px; }
+      .timer-text { font-size: 36px; }
+    }
+    @media (min-width: 769px) {
+      .footer { margin-bottom: 0; }
+    }
+
+    /* ─── Print ─── */
+    @media print {
+      .topbar, .tabs, .bottom-nav, .menu, .modal, .toast-stack, .footer, .no-print { display: none !important; }
+      body { background: #fff; }
+      .wrap { width: 100%; }
+      .card { box-shadow: none; break-inside: avoid; border: 1px solid #ddd; }
+    }
+.tip{display:inline-flex;align-items:center;justify-content:center;width:18px;height:18px;margin-left:4px;border-radius:999px;border:1px solid rgba(37,99,235,.28);background:rgba(37,99,235,.08);color:#2563eb;font-size:11px;font-weight:800;position:relative;cursor:help;vertical-align:middle}
+.tip-pop{position:absolute;left:50%;bottom:125%;transform:translateX(-50%);width:min(260px,70vw);background:rgba(15,23,42,.96);color:#fff;border:1px solid rgba(255,255,255,.16);border-radius:12px;padding:8px 10px;font-size:12px;line-height:1.35;font-weight:500;box-shadow:0 12px 30px rgba(0,0,0,.28);opacity:0;pointer-events:none;z-index:80;white-space:normal}
+.tip:hover .tip-pop,.tip:focus .tip-pop{opacity:1}
+.profile-kicker{margin:14px 0 6px;display:flex;align-items:center;gap:6px}.profile-kicker h3{font-size:14px;margin:0}.profile-note{font-size:12px;color:var(--muted);background:rgba(37,99,235,.06);border:1px solid rgba(37,99,235,.14);border-radius:12px;padding:8px 10px}.checks.dense{gap:6px}.chip-check{padding:6px 8px}
+
+
+    /* ────────────────────────────────────────────────
+       FASE 3 · Capa visual premium preservativa v2.5.0
+       Solo estilos: no altera lógica, guardado, plan ni navegación.
+    ───────────────────────────────────────────────── */
+    :root {
+      --bg: #F5F9F7;
+      --panel: rgba(255,255,255,.86);
+      --surface: rgba(236,248,244,.86);
+      --line: rgba(0,107,84,.14);
+      --line-strong: rgba(0,107,84,.26);
+      --primary: #006B54;
+      --primary-light: #00B894;
+      --primary-bg: rgba(224,247,246,.88);
+      --accent: #F59E0B;
+      --accent-bg: rgba(255,251,235,.9);
+      --glow-primary: rgba(0,184,148,.22);
+      --glow-secondary: rgba(245,158,11,.18);
+      --shadow: 0 10px 30px rgba(5,71,59,.08);
+      --shadow-md: 0 18px 44px rgba(5,71,59,.14);
+      --shadow-lg: 0 28px 70px rgba(5,71,59,.18);
+      --radius: 16px;
+      --radius-sm: 12px;
+      --radius-lg: 22px;
+    }
+    [data-theme="dark"] {
+      --bg: #071411;
+      --panel: rgba(18,34,31,.86);
+      --surface: rgba(24,51,45,.82);
+      --line: rgba(110,231,183,.14);
+      --line-strong: rgba(110,231,183,.28);
+      --primary: #6EE7B7;
+      --primary-light: #A7F3D0;
+      --primary-bg: rgba(6,78,59,.78);
+      --glow-primary: rgba(110,231,183,.20);
+      --glow-secondary: rgba(251,191,36,.16);
+    }
+    html { background: var(--bg); }
+    body {
+      background:
+        radial-gradient(circle at 8% -12%, color-mix(in srgb, var(--primary-light) 24%, transparent), transparent 34vw),
+        radial-gradient(circle at 94% 6%, color-mix(in srgb, var(--accent) 18%, transparent), transparent 30vw),
+        radial-gradient(circle at 50% 115%, color-mix(in srgb, var(--primary) 12%, transparent), transparent 40vw),
+        var(--bg);
+      background-attachment: fixed;
+    }
+    body::before {
+      content: "";
+      position: fixed;
+      inset: 0;
+      pointer-events: none;
+      z-index: -1;
+      background-image:
+        linear-gradient(120deg, rgba(255,255,255,.08), transparent 32%, rgba(255,255,255,.05)),
+        radial-gradient(circle at 20% 20%, rgba(255,255,255,.09) 0 1px, transparent 1px);
+      background-size: auto, 34px 34px;
+      opacity: .55;
+    }
+    .wrap { width: min(1040px, calc(100% - 28px)); }
+    .topbar {
+      background: color-mix(in srgb, var(--panel) 76%, transparent);
+      box-shadow: 0 8px 28px rgba(5,71,59,.06);
+      border-bottom-color: var(--line);
+    }
+    .logo {
+      border-radius: 14px;
+      background: linear-gradient(135deg, var(--primary), var(--primary-light));
+      box-shadow: 0 10px 24px var(--glow-primary), inset 0 1px 0 rgba(255,255,255,.34);
+    }
+    .brand-name { letter-spacing: -.45px; }
+    .brand-sub { color: color-mix(in srgb, var(--muted) 78%, var(--primary)); }
+    .hero { padding-top: 28px; }
+    .hero h1, .login-card h1 {
+      letter-spacing: -.75px;
+      background: linear-gradient(135deg, var(--text) 20%, color-mix(in srgb, var(--primary) 64%, var(--text)) 88%);
+      -webkit-background-clip: text;
+      background-clip: text;
+      color: transparent;
+    }
+    .tabs { gap: 8px; padding-bottom: 18px; }
+    .tab {
+      background: color-mix(in srgb, var(--panel) 82%, transparent);
+      border-color: var(--line);
+      box-shadow: 0 8px 20px rgba(5,71,59,.04);
+    }
+    .tab.active {
+      background: linear-gradient(135deg, var(--primary), var(--primary-light));
+      box-shadow: 0 10px 24px var(--glow-primary);
+      transform: translateY(-1px);
+    }
+    .card, .login-card, .modal-box, .menu-panel {
+      background: linear-gradient(145deg, color-mix(in srgb, var(--panel) 96%, white), color-mix(in srgb, var(--surface) 38%, var(--panel)));
+      border-color: var(--line);
+      box-shadow: var(--shadow);
+      backdrop-filter: blur(18px);
+      -webkit-backdrop-filter: blur(18px);
+    }
+    .card {
+      position: relative;
+      overflow: hidden;
+      transition: transform .22s ease, box-shadow .22s ease, border-color .22s ease, background .22s ease;
+    }
+    .card::before {
+      content: "";
+      position: absolute;
+      inset: 0 0 auto 0;
+      height: 1px;
+      background: linear-gradient(90deg, transparent, color-mix(in srgb, var(--primary-light) 48%, transparent), transparent);
+      opacity: .75;
+      pointer-events: none;
+    }
+    .card:hover {
+      border-color: var(--line-strong);
+      box-shadow: var(--shadow-md);
+      transform: translateY(-1px);
+    }
+    .section-title h2 { letter-spacing: -.45px; }
+    .btn, .iconbtn, .quick-btn, .chip-action, .tab, .bnav-item {
+      transition: transform .18s ease, box-shadow .18s ease, background .18s ease, border-color .18s ease, color .18s ease;
+    }
+    .btn-primary {
+      background: linear-gradient(135deg, var(--primary), var(--primary-light));
+      box-shadow: 0 12px 28px var(--glow-primary);
+    }
+    .btn-primary:hover { transform: translateY(-1px); box-shadow: 0 16px 36px var(--glow-primary); }
+    .btn-secondary, .iconbtn {
+      background: color-mix(in srgb, var(--panel) 90%, transparent);
+      border-color: var(--line);
+    }
+    .btn-secondary:hover, .iconbtn:hover { transform: translateY(-1px); border-color: var(--line-strong); }
+    .pill, .tag, .badge {
+      background: color-mix(in srgb, var(--primary-bg) 68%, transparent);
+      border-color: color-mix(in srgb, var(--primary) 28%, var(--line));
+      box-shadow: inset 0 1px 0 rgba(255,255,255,.25);
+    }
+    input[type="text"], input[type="number"], input[type="password"],
+    input[type="time"], input[type="email"], select, textarea {
+      background: color-mix(in srgb, var(--panel) 76%, white);
+      border-color: var(--line);
+      border-radius: 14px;
+      box-shadow: inset 0 1px 0 rgba(255,255,255,.35);
+    }
+    input:focus, select:focus, textarea:focus {
+      border-color: color-mix(in srgb, var(--primary) 62%, var(--line));
+      box-shadow: 0 0 0 4px var(--glow-primary), inset 0 1px 0 rgba(255,255,255,.35);
+      outline: none;
+    }
+    .quick-context-chips {
+      position: sticky;
+      top: calc(var(--topbar-h) + 6px);
+      z-index: 15;
+      padding: 8px 0;
+      margin-bottom: 10px;
+      background: linear-gradient(180deg, color-mix(in srgb, var(--bg) 88%, transparent), color-mix(in srgb, var(--bg) 34%, transparent));
+      backdrop-filter: blur(12px);
+      -webkit-backdrop-filter: blur(12px);
+    }
+    .quick-context-chips .chip-action {
+      border-radius: 999px;
+      padding: 9px 13px;
+      background: color-mix(in srgb, var(--panel) 84%, transparent);
+      border-color: var(--line);
+    }
+    .quick-context-chips .chip-action:hover { transform: translateY(-1px); box-shadow: 0 10px 22px rgba(5,71,59,.08); }
+    .quick-context-chips .chip-action.primary,
+    .quick-context-chips .chip-action.notify-on {
+      background: linear-gradient(135deg, color-mix(in srgb, var(--primary-bg) 90%, var(--panel)), color-mix(in srgb, var(--panel) 70%, var(--primary-bg)));
+      border-color: color-mix(in srgb, var(--primary) 36%, var(--line));
+      box-shadow: 0 10px 24px var(--glow-primary);
+    }
+    .quick-row { gap: 12px; }
+    .quick-btn, .pause-card, .plan-item, .useritem {
+      border-radius: 18px;
+      border-color: var(--line);
+      background: color-mix(in srgb, var(--panel) 86%, transparent);
+      box-shadow: 0 10px 24px rgba(5,71,59,.06);
+    }
+    .quick-btn:hover, .pause-card:hover, .plan-item:hover {
+      transform: translateY(-2px);
+      border-color: var(--line-strong);
+      box-shadow: 0 18px 38px rgba(5,71,59,.12);
+    }
+    .plan-card {
+      background:
+        radial-gradient(circle at 10% 0%, color-mix(in srgb, var(--primary-light) 22%, transparent), transparent 42%),
+        linear-gradient(135deg, color-mix(in srgb, var(--primary-bg) 72%, var(--panel)), var(--panel));
+      border-color: color-mix(in srgb, var(--primary) 34%, var(--line));
+      box-shadow: 0 18px 44px var(--glow-primary);
+    }
+    .recommended-card {
+      border-color: color-mix(in srgb, var(--primary) 48%, var(--line));
+      background:
+        radial-gradient(circle at 90% 0%, color-mix(in srgb, var(--primary-light) 18%, transparent), transparent 40%),
+        linear-gradient(145deg, color-mix(in srgb, var(--primary-bg) 56%, var(--panel)), var(--panel));
+      box-shadow: 0 0 0 1px color-mix(in srgb, var(--primary) 18%, transparent), 0 18px 42px var(--glow-primary);
+    }
+    .recommended-card::after, .plan-item.priority-pulse::after {
+      content: "Prioritaria";
+      position: absolute;
+      top: 12px;
+      right: 12px;
+      border-radius: 999px;
+      padding: 4px 8px;
+      font-size: 10px;
+      font-weight: 800;
+      letter-spacing: .02em;
+      color: var(--primary);
+      background: color-mix(in srgb, var(--primary-bg) 88%, var(--panel));
+      border: 1px solid color-mix(in srgb, var(--primary) 26%, var(--line));
+    }
+    @keyframes premiumFadeUp { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
+    @keyframes premiumPulse {
+      0%,100% { box-shadow: 0 0 0 1px color-mix(in srgb, var(--primary) 22%, transparent), 0 12px 30px var(--glow-primary); }
+      50% { box-shadow: 0 0 0 1px color-mix(in srgb, var(--primary) 46%, transparent), 0 0 0 7px color-mix(in srgb, var(--primary) 8%, transparent), 0 22px 52px var(--glow-primary); }
+    }
+    .recommended-card.priority-pulse, .plan-item.priority-pulse { animation: premiumPulse 2.2s ease-in-out infinite; }
+    main .card, main .quick-btn, main .pause-card { animation: premiumFadeUp .28s ease both; }
+    .modal {
+      backdrop-filter: blur(10px);
+      -webkit-backdrop-filter: blur(10px);
+      background: rgba(4,18,15,.34);
+    }
+    .modal-box {
+      border-radius: 26px;
+      box-shadow: var(--shadow-lg);
+      animation: premiumFadeUp .22s ease both;
+    }
+    .toast {
+      border-radius: 16px;
+      border: 1px solid var(--line-strong);
+      background: color-mix(in srgb, var(--panel) 92%, transparent);
+      box-shadow: var(--shadow-md);
+      backdrop-filter: blur(16px);
+      -webkit-backdrop-filter: blur(16px);
+    }
+    .bottom-nav {
+      background: color-mix(in srgb, var(--panel) 88%, transparent);
+      backdrop-filter: blur(18px);
+      -webkit-backdrop-filter: blur(18px);
+      box-shadow: 0 -12px 30px rgba(5,71,59,.08);
+    }
+    .bnav-item.active {
+      color: var(--primary);
+      background: color-mix(in srgb, var(--primary-bg) 70%, transparent);
+    }
+    .tour-pop, .tour-bubble, .coach-bubble {
+      border-radius: 18px !important;
+      box-shadow: var(--shadow-lg) !important;
+      border: 1px solid var(--line-strong) !important;
+      backdrop-filter: blur(18px) !important;
+      -webkit-backdrop-filter: blur(18px) !important;
+    }
+    .empty {
+      border-radius: 18px;
+      border: 1px dashed var(--line-strong);
+      background: color-mix(in srgb, var(--surface) 62%, transparent);
+    }
+    @media (max-width: 720px) {
+      .wrap { width: min(100% - 20px, 1040px); }
+      .hero { padding-top: 16px; }
+      .card { padding: 16px; border-radius: 20px; }
+      .quick-context-chips { top: 0; margin-left: -10px; margin-right: -10px; padding: 8px 10px; }
+      .quick-context-chips .chip-action { padding: 8px 11px; }
+      .section-title { margin-bottom: 12px; }
+      .pause-card-footer, .pause-actions { gap: 8px; flex-wrap: wrap; }
+      .btn { min-height: 40px; }
+      .bottom-nav { border-radius: 18px 18px 0 0; }
+    }
+    @media (prefers-reduced-motion: reduce) {
+      *, *::before, *::after { animation-duration: .001ms !important; animation-iteration-count: 1 !important; transition-duration: .001ms !important; scroll-behavior: auto !important; }
+    }
+
+  </style>
+</head>
+<body>
+<div id="app" class="app" data-theme="light"></div>
+<script>
+(() => {
+'use strict';
+const APP_VERSION = '2.5.1';
+const APP_NAME = 'ActivaCare'; // nombre editable: conserva el ícono y permite cambiar la marca sin tocar la arquitectura
+const STORAGE_KEY = 'rizoma_pausas_activas_v1_0';
+const HISTORY_PER_PAGE = 20;
+const nowIso = () => new Date().toISOString();
+const uid = (p='id') => p + '_' + Math.random().toString(36).slice(2,9) + '_' + Date.now().toString(36);
+const $ = sel => document.querySelector(sel);
+const esc = s => String(s ?? '').replace(/[&<>"]/g, m => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[m]));
+function labelTip(label,text){
+  return `<span class="tip" tabindex="0" aria-label="${esc(label)}: ${esc(text)}">ⓘ<span class="tip-pop">${esc(text)}</span></span>`;
+}
+function sectionKicker(title,text){
+  return `<div class="profile-kicker"><h3>${esc(title)} ${labelTip(title,text)}</h3></div>`;
+}
+function optionChecks(name,items,selected){
+  selected = Array.isArray(selected) ? selected : [];
+  return items.map(x=>`<label class="check chip-check"><input type="checkbox" name="${esc(name)}" value="${esc(x)}" ${selected.includes(x)?'checked':''}> <span>${esc(x)}</span></label>`).join('');
+}
+const fmtDate = iso => iso ? new Date(iso).toLocaleString('es-CO',{dateStyle:'medium',timeStyle:'short'}) : '';
+const todayKey = () => new Date().toISOString().slice(0,10);
+
+const PAUSES = [
+{id:'visual_202020',title:'Pausa visual 20-20-20',zone:'ojos',type:'visual',intensity:'suave',duration:60,posture:'sentado/de pie',tags:['pantalla','vista','discreta'],avoid:'No fuerza la mirada; si hay dolor ocular intenso, suspender.',steps:['Aparta la mirada de la pantalla.','Mira un punto lejano durante 20 segundos.','Parpadea lento diez veces.','Relaja mandíbula y hombros.']},
+{id:'cervical_suave',title:'Cuello sin rebote',zone:'cuello',type:'movilidad',intensity:'suave',duration:120,posture:'sentado',tags:['cervical','oficina','discreta'],avoid:'Evita giros bruscos o dolorosos.',steps:['Alarga la columna.','Inclina la cabeza lentamente a un lado.','Vuelve al centro y cambia de lado.','Dibuja medios círculos lentos, nunca círculos completos rápidos.']},
+{id:'hombros_descarga',title:'Descarga de hombros',zone:'hombros',type:'movilidad',intensity:'suave',duration:120,posture:'sentado/de pie',tags:['tension','docencia','consulta'],avoid:'No elevar hombros con dolor agudo.',steps:['Sube los hombros hacia las orejas.','Suelta el peso al exhalar.','Rota hombros hacia atrás lentamente.','Abre el pecho sin arquear la espalda baja.']},
+{id:'lumbar_silla',title:'Lumbar suave en silla',zone:'lumbar',type:'postural',intensity:'suave',duration:150,posture:'sentado',tags:['lumbar','sedentarismo','no levantarse'],avoid:'Si hay dolor irradiado fuerte, entumecimiento o pérdida de fuerza, no forzar y consultar.',steps:['Apoya ambos pies en el piso.','Lleva la espalda al respaldo.','Respira profundo y crece desde la coronilla.','Haz una leve basculación pélvica sin dolor.','Descansa 20 segundos.']},
+{id:'manos_teclado',title:'Manos y muñecas de teclado',zone:'manos',type:'movilidad',intensity:'suave',duration:120,posture:'sentado',tags:['teclado','mouse','escritura'],avoid:'Evita estiramientos dolorosos.',steps:['Abre y cierra manos lentamente.','Rota muñecas en ambos sentidos.','Estira dedos como abanico.','Sacude suavemente manos hacia abajo.']},
+{id:'caminata_breve',title:'Caminata breve de reinicio',zone:'piernas',type:'activacion',intensity:'moderada',duration:180,posture:'de pie',tags:['energía','circulación','larga jornada'],avoid:'No usar si hay mareo o dolor que impida caminar.',steps:['Levántate con apoyo si lo necesitas.','Camina a ritmo cómodo.','Respira por nariz si puedes.','Regresa y toma agua.']},
+{id:'respira_90',title:'Respiración de 90 segundos',zone:'mente',type:'regulacion',intensity:'suave',duration:90,posture:'sentado',tags:['estrés','ansiedad','consulta'],avoid:'Respira natural; no hiperventilar.',steps:['Suelta la mandíbula.','Inhala contando cuatro.','Exhala contando seis.','Repite sin forzar.']},
+{id:'cadera_silla',title:'Cadera en silla',zone:'cadera',type:'movilidad',intensity:'suave',duration:150,posture:'sentado',tags:['cadera','lumbar','sedentarismo'],avoid:'No cruzar piernas si aumenta dolor.',steps:['Siéntate al borde de la silla.','Apoya los pies.','Abre y cierra rodillas suavemente.','Alterna el peso entre ambos isquiones.']},
+{id:'pantorrillas_talones',title:'Talones y pantorrillas',zone:'piernas',type:'activacion',intensity:'suave',duration:120,posture:'de pie',tags:['circulación','oficina'],avoid:'Usar apoyo si hay inestabilidad.',steps:['Apóyate en una mesa o pared.','Eleva talones lentamente.','Baja sin golpe.','Repite con respiración tranquila.']},
+{id:'pausa_docente',title:'Pausa docente entre bloques',zone:'voz/cuerpo',type:'mixta',intensity:'suave',duration:180,posture:'de pie',tags:['docencia','voz','energía'],avoid:'No forzar voz ni cuello.',steps:['Toma agua.','Mueve hombros hacia atrás.','Respira profundo tres veces.','Camina dentro del espacio.','Relaja mandíbula y lengua.']},
+{id:'reunion_discreta',title:'Pausa silenciosa en reunión',zone:'mente',type:'discreta',intensity:'suave',duration:75,posture:'sentado',tags:['reunión','silenciosa','no levantarse'],avoid:'Mantén naturalidad y no hagas movimientos llamativos.',steps:['Apoya pies.','Relaja manos sobre piernas.','Baja hombros al exhalar.','Mira un punto neutro y parpadea.']},
+{id:'escritura_profunda',title:'Reinicio para escritura profunda',zone:'manos/mente',type:'mixta',intensity:'suave',duration:150,posture:'sentado/de pie',tags:['escritura','investigación','concentración'],avoid:'No seguir escribiendo durante la pausa.',steps:['Retira manos del teclado.','Mira lejos.','Rota muñecas.','Anota en una frase qué sigue.','Vuelve con una sola tarea.']},
+{id:'mandibula_relax',title:'Mandíbula y rostro',zone:'rostro',type:'relajacion',intensity:'suave',duration:90,posture:'sentado',tags:['tensión','estrés','pantalla'],avoid:'No presionar articulaciones.',steps:['Separa suavemente los dientes.','Apoya la lengua en el paladar.','Masajea mejillas con suavidad.','Exhala largo.']},
+{id:'pecho_apertura',title:'Apertura de pecho',zone:'pecho',type:'postural',intensity:'suave',duration:120,posture:'de pie/sentado',tags:['postura','hombros'],avoid:'No arquear excesivamente la espalda baja.',steps:['Entrelaza manos atrás o apóyalas en la silla.','Abre el pecho suavemente.','Respira tres ciclos.','Suelta y relaja hombros.']},
+{id:'hidratacion',title:'Pausa de hidratación consciente',zone:'general',type:'habito',intensity:'suave',duration:60,posture:'libre',tags:['agua','cuidado','cierre'],avoid:'No aplica.',steps:['Toma agua lentamente.','Observa tu postura.','Pregunta: ¿necesito moverme o descansar vista?','Registra una palabra sobre tu estado.']},
+{id:'micro_piernas_sentado',title:'Piernas sin levantarse',zone:'piernas',type:'circulacion',intensity:'suave',duration:100,posture:'sentado',tags:['no levantarse','circulación'],avoid:'Evitar si genera dolor.',steps:['Apoya talones y eleva puntas.','Apoya puntas y eleva talones.','Extiende una rodilla suavemente.','Cambia de pierna.']},
+{id:'reset_energia',title:'Reset de energía',zone:'general',type:'activacion',intensity:'moderada',duration:180,posture:'de pie',tags:['energía','tarde'],avoid:'No usar si hay mareo o dolor intenso.',steps:['Ponte de pie.','Marcha suave en el sitio.','Mueve brazos naturalmente.','Respira y vuelve lentamente.']},
+{id:'cierre_jornada',title:'Cierre corporal de jornada',zone:'general',type:'cierre',intensity:'suave',duration:240,posture:'de pie/sentado',tags:['cierre','hábitos','noche'],avoid:'No aplica.',steps:['Revisa qué zona quedó cargada.','Haz respiración lenta.','Ordena tu espacio.','Registra una nota de cierre.']},
+{id:'consulta_clinica',title:'Pausa después de atención emocional',zone:'mente/cuerpo',type:'regulacion',intensity:'suave',duration:180,posture:'sentado/de pie',tags:['consulta','carga emocional'],avoid:'No reemplaza supervisión ni autocuidado profundo.',steps:['Aléjate unos segundos de la pantalla o escritorio.','Respira con exhalación larga.','Estira manos y hombros.','Escribe una palabra: cuerpo, emoción o límite.']},
+{id:'conduccion_parada',title:'Parada breve para conducción',zone:'lumbar/piernas',type:'movilidad',intensity:'suave',duration:240,posture:'de pie',tags:['conducción','lumbar'],avoid:'Solo realizar en lugar seguro.',steps:['Detente en un lugar seguro.','Baja del vehículo.','Camina lentamente.','Mueve hombros y tobillos.','Toma agua.']},
+{id:'lectura_extensa',title:'Descanso de lectura extensa',zone:'ojos/cuello',type:'visual',intensity:'suave',duration:120,posture:'sentado',tags:['lectura','investigación'],avoid:'No leer durante la pausa.',steps:['Cierra el documento.','Mira lejos.','Mueve cuello de forma lenta.','Resume mentalmente una sola idea.']},
+{id:'postura_pies',title:'Revisión de apoyos',zone:'postura',type:'postural',intensity:'suave',duration:75,posture:'sentado',tags:['postura','rápida'],avoid:'No aplica.',steps:['Apoya ambos pies.','Descruza piernas.','Relaja hombros.','Acerca pantalla o teclado si estás forzando cuello.']},
+{id:'respiracion_4_4',title:'Respiración cuadrada breve',zone:'mente',type:'regulacion',intensity:'suave',duration:120,posture:'sentado',tags:['estrés','foco'],avoid:'Suspender si incomoda.',steps:['Inhala 4.','Sostén 4.','Exhala 4.','Sostén 4.','Repite suave.']},
+{id:'hombro_mouse',title:'Hombro de mouse',zone:'hombro/mano',type:'movilidad',intensity:'suave',duration:120,posture:'sentado',tags:['mouse','teclado'],avoid:'No elevar el brazo si duele.',steps:['Suelta el mouse.','Baja hombro dominante.','Rota muñeca.','Apoya el antebrazo y respira.']},
+{id:'bipedestacion',title:'Alternancia de pie',zone:'postura',type:'postural',intensity:'suave',duration:120,posture:'de pie',tags:['trabajo de pie'],avoid:'Evitar si aumenta dolor de piernas.',steps:['Distribuye el peso en ambos pies.','Flexiona rodillas muy levemente.','Alterna peso izquierda/derecha.','Mueve tobillos.']},
+{id:'mini_estiramiento_lateral',title:'Lateral suave',zone:'tronco',type:'movilidad',intensity:'suave',duration:120,posture:'sentado/de pie',tags:['tronco','respiración'],avoid:'No inclinar si produce dolor lumbar.',steps:['Eleva un brazo.','Inclina apenas hacia el lado contrario.','Respira dos veces.','Vuelve y cambia.']},
+{id:'pausa_sin_pantalla',title:'Dos minutos sin pantalla',zone:'mente/ojos',type:'recuperacion',intensity:'suave',duration:120,posture:'libre',tags:['pantalla','foco'],avoid:'No sustituir sueño o descanso prolongado.',steps:['Bloquea o aleja la pantalla.','Mira por una ventana o pared distante.','Respira y no revises notificaciones.','Vuelve con una intención clara.']},
+{id:'activacion_manana',title:'Activación de inicio',zone:'general',type:'activacion',intensity:'moderada',duration:180,posture:'de pie',tags:['inicio','energía'],avoid:'No usar si hay dolor agudo.',steps:['Respira profundo.','Mueve hombros.','Camina en el sitio.','Eleva brazos suave.','Define el primer bloque de trabajo.']},
+{id:'pausa_dolor_bajo',title:'Pausa de cuidado ante dolor bajo',zone:'zona dolorosa',type:'cuidado',intensity:'suave',duration:120,posture:'libre',tags:['dolor','suave','seguridad'],avoid:'Si el dolor aumenta, se irradia intensamente o hay pérdida de fuerza/sensibilidad, suspender y consultar.',steps:['No fuerces la zona.','Cambia lentamente de postura.','Respira profundo.','Elige una posición cómoda.','Registra qué estabas haciendo.']}
+];
+
+const DIAG_CONDITIONS = [
+ {id:'tunel_carpiano',label:'Síndrome del túnel carpiano',actions:['Movilización de muñecas','Apertura y cierre suave de manos','Estiramiento de flexores y extensores'],zones:['manos'],tags:['teclado','mouse','escritura','muñeca','mano']},
+ {id:'tendinitis_muneca_mano',label:'Tendinitis de muñeca o mano',actions:['Estiramiento de antebrazo','Pausa de digitación','Movilidad suave de mano'],zones:['manos'],tags:['teclado','escritura','mano','muñeca']},
+ {id:'de_quervain',label:'Tenosinovitis de De Quervain',actions:['Movilidad suave de pulgar','Estiramiento radial de muñeca','Pausa de agarre y digitación'],zones:['manos'],tags:['teclado','mouse','agarre','muñeca']},
+ {id:'epicondilitis_lateral',label:'Epicondilitis lateral o codo de tenista',actions:['Estiramiento de antebrazo','Descarga de agarre','Rotación suave de muñeca'],zones:['manos'],tags:['mouse','teclado','agarre','antebrazo']},
+ {id:'epitrocleitis',label:'Epitrocleitis o codo de golfista',actions:['Estiramiento de flexores del antebrazo','Relajación de agarre','Movilidad suave de codo y muñeca'],zones:['manos'],tags:['mouse','teclado','agarre','antebrazo']},
+ {id:'cervicalgia_laboral',label:'Cervicalgia laboral',actions:['Movilidad cervical lenta','Inclinaciones laterales','Retracción de mentón'],zones:['cuello'],tags:['cervical','oficina','pantalla']},
+ {id:'contractura_trapecios',label:'Contractura de trapecios',actions:['Elevación y descenso de hombros','Círculos de hombros','Respiración diafragmática'],zones:['hombros','cuello'],tags:['hombros','tension','respiración']},
+ {id:'dolor_lumbar_mecanico',label:'Dolor lumbar mecánico',actions:['Extensión lumbar suave de pie','Movilidad pélvica','Pausa de caminata'],zones:['lumbar','cadera'],tags:['lumbar','sedentarismo','caminar']},
+ {id:'lumbalgia_sedestacion',label:'Lumbalgia por sedestación prolongada',actions:['Levantarse cada 45 a 60 minutos','Marcha breve','Estiramiento de cadera'],zones:['lumbar','cadera','piernas'],tags:['sedentarismo','cadera','circulación']},
+ {id:'dorsalgia',label:'Dorsalgia',actions:['Apertura torácica','Retracción escapular','Respiración amplia'],zones:['hombros','cuello'],tags:['postura','hombros','respiración']},
+ {id:'manguito_rotador',label:'Síndrome del manguito rotador',actions:['Movilidad suave de hombros','Péndulo de brazo','Activación escapular'],zones:['hombros'],tags:['hombros','movilidad']},
+ {id:'bursitis_hombro',label:'Bursitis de hombro',actions:['Pausa de descarga','Movilidad no dolorosa','Estiramiento pectoral suave'],zones:['hombros'],tags:['hombros','postura']},
+ {id:'sindrome_visual_informatico',label:'Síndrome visual informático',actions:['Regla 20-20-20','Parpadeo consciente','Descanso de pantalla'],zones:['ojos'],tags:['pantalla','vista','visual']},
+ {id:'fatiga_ocular',label:'Fatiga ocular',actions:['Mirada lejana','Enfoque cercano-lejano','Relajación palpebral'],zones:['ojos'],tags:['pantalla','vista','visual']},
+ {id:'cefalea_tensional',label:'Cefalea tensional',actions:['Movilidad cervical','Respiración lenta','Relajación mandibular'],zones:['cuello','mente'],tags:['cervical','estrés','tensión']},
+ {id:'bruxismo_estres',label:'Bruxismo asociado al estrés laboral',actions:['Relajación mandibular','Respiración diafragmática','Pausa de tensión facial'],zones:['mente'],tags:['estrés','tensión','rostro']},
+ {id:'piernas_cansadas',label:'Síndrome de piernas cansadas por estar de pie',actions:['Elevación de talones','Movilidad de tobillos','Caminata breve'],zones:['piernas'],tags:['circulación','trabajo de pie']},
+ {id:'dolor_rodilla_postura',label:'Dolor de rodilla por postura sostenida',actions:['Flexoextensión suave','Activación de cuádriceps','Cambio postural'],zones:['piernas'],tags:['postura','movilidad']},
+ {id:'fascitis_plantar',label:'Fascitis plantar',actions:['Estiramiento de planta del pie','Movilidad de tobillo','Descarga con pausa sentada'],zones:['piernas'],tags:['trabajo de pie','circulación']},
+ {id:'edema_piernas_sedentarismo',label:'Edema o hinchazón de piernas por sedentarismo',actions:['Bombeo de pantorrillas','Caminar','Elevar piernas brevemente'],zones:['piernas'],tags:['circulación','sedentarismo']},
+ {id:'estres_laboral',label:'Estrés laboral',actions:['Respiración 4-6','Pausa consciente','Desconexión breve de pantalla'],zones:['mente'],tags:['estrés','pantalla','regulacion']},
+ {id:'fatiga_mental',label:'Fatiga mental',actions:['Microdescanso atencional','Respiración','Cambio de foco'],zones:['mente'],tags:['foco','estrés','recuperacion']},
+ {id:'burnout_ocupacional',label:'Burnout o agotamiento ocupacional',actions:['Pausas de recuperación','Respiración reguladora','Caminata breve sin pantalla'],zones:['mente','general'],tags:['recuperacion','estrés','caminata']},
+ {id:'ansiedad_laboral',label:'Ansiedad laboral',actions:['Respiración lenta','Grounding sensorial','Pausa de movimiento suave'],zones:['mente'],tags:['ansiedad','estrés','regulacion']},
+ {id:'disfonia_ocupacional',label:'Disfonía ocupacional en docentes o atención al público',actions:['Reposo vocal breve','Hidratación','Respiración diafragmática'],zones:['voz','general'],tags:['docencia','voz','agua']}
+];
+
+const DEFAULT_STATE
+ = {version:APP_VERSION, activeUserId:null, users:[], records:[], ui:{theme:'light', tab:'home', menu:false, tourSeen:false, lastAlertAt:null, planAlertDue:null, inAppNotifications:true, browserNotifications:false}};
+let state = loadState();
+let activeTimer = null;
+let deferredInstallPrompt = null;
+let historyPage = 1;
+let runtime = {alertInterval:null, countdownInterval:null};
+
+function loadState(){try{const raw=localStorage.getItem(STORAGE_KEY); if(!raw) return structuredClone(DEFAULT_STATE); const parsed=JSON.parse(raw); return migrateState(parsed);}catch(e){console.warn(e); return structuredClone(DEFAULT_STATE)}}
+function migrateState(s){const base=structuredClone(DEFAULT_STATE); const out={...base,...s,ui:{...base.ui,...(s.ui||{})}}; out.users=Array.isArray(out.users)?out.users:[]; out.records=Array.isArray(out.records)?out.records:[]; out.version=APP_VERSION; if(out.ui.inAppNotifications===undefined) out.ui.inAppNotifications=true; if(out.ui.browserNotifications===undefined) out.ui.browserNotifications=false; const ALL_DAYS=['lun','mar','mié','jue','vie','sáb','dom']; out.users.forEach(u=>{if(!u.profile) u.profile=makeDefaultProfile(u.name||'Usuario'); if(u.profile.notify===undefined) u.profile.notify=true; if(u.profile?.workBlocks){u.profile.workBlocks.forEach(b=>{if(!b.days)b.days=[...ALL_DAYS];if(!b.emotionalLoad)b.emotionalLoad='media';if(b.intervalMin===undefined)b.intervalMin=null;});} if(!Array.isArray(u.profile?.diagnosedConditions)) u.profile.diagnosedConditions=[]; if(!Array.isArray(u.profile?.painZones)) u.profile.painZones=[]; if(!Array.isArray(u.profile?.goals)) u.profile.goals=[]; if(!Array.isArray(u.profile?.restrictions)) u.profile.restrictions=[]; if(!u.plan) u.plan={status:'none',items:[],fingerprint:'',createdAt:null,updatedAt:null,nextDueAt:null}; if(!Array.isArray(u.plan.items)) u.plan.items=[];}); return out;}
+function saveState(){try{localStorage.setItem(STORAGE_KEY, JSON.stringify(state));return true;}catch(e){console.error('saveState failed',e);return false;}}
+function currentUser(){return state.users.find(u=>u.id===state.activeUserId)||null;}
+function setTheme(t){state.ui.theme=t; saveState(); document.documentElement.setAttribute('data-theme',t); const app=$('#app'); if(app) app.setAttribute('data-theme',t);}
+function makeDefaultProfile(name='Usuario'){const ALL_DAYS=['lun','mar','mié','jue','vie','sáb','dom']; return {name, occupation:'', workMode:'pantalla', posture:'sentado', screenHours:6, movementLevel:'bajo', painZones:[], goals:['prevenir dolor'], pausePreference:'suave', alertStyle:'visual', notify:true, intervalMin:35, longBreakEveryMin:150, workBlocks:[{id:uid('block'),label:'Bloque flexible de trabajo',start:'08:00',end:'12:00',activity:'pantalla',intensity:'media',days:[...ALL_DAYS],emotionalLoad:'media',intervalMin:null},{id:uid('block'),label:'Bloque flexible de tarde',start:'14:00',end:'17:30',activity:'escritura',intensity:'media',days:[...ALL_DAYS],emotionalLoad:'media',intervalMin:null}], diagnosedConditions:[], restrictions:[], createdAt:nowIso(), updatedAt:nowIso()};}
+function createUser(name){const u={id:uid('user'), name:name.trim()||'Usuario', createdAt:nowIso(), profile:makeDefaultProfile(name), plan:{status:'none',items:[],fingerprint:'',createdAt:null,updatedAt:null,nextDueAt:null}, settings:{firstRun:true}}; state.users.push(u); state.activeUserId=u.id; state.ui.tab='profile'; state.ui.tourSeen=false; saveState(); render(); openTour();}
+function deleteUser(id){const u=state.users.find(x=>x.id===id); if(!u) return; if(!confirm('¿Eliminar este usuario y sus registros? Esta acción no se puede deshacer.')) return; state.users=state.users.filter(x=>x.id!==id); state.records=state.records.filter(r=>r.userId!==id); if(state.activeUserId===id) state.activeUserId=state.users[0]?.id||null; saveState(); render();}
+function switchUser(id){state.activeUserId=id; state.ui.tab='home'; saveState(); render();}
+
+function render(){try{setTheme(state.ui.theme||'light'); const u=currentUser(); $('#app').innerHTML = `${topbar(u)}${u?mainApp(u):loginScreen()}${drawer(u)}${modalShell()}<div class="toast-stack" id="toasts"></div><footer class="footer wrap">${APP_NAME} v${APP_VERSION} &middot; Offline-first &middot; Datos locales</footer>`; bindCommon(); if(u) { bindApp(u); startAlertEngine(); startCountdownUpdater(); }}catch(err){console.error('render failed',err); const app=$('#app'); if(app) app.innerHTML=`<main class="wrap"><div class="card"><h2>No se pudo abrir esta vista</h2><p class="text-sm text-muted">La app detectó un error de renderizado. Vuelve al inicio para continuar sin perder datos.</p><button class="btn btn-primary" id="safeHomeBtn">Volver al inicio</button></div></main><div class="toast-stack" id="toasts"></div>`; $('#safeHomeBtn')?.addEventListener('click',()=>{state.ui.tab='home';saveState();render();});}}
+
+function topbar(u){return `<header class="topbar"><div class="wrap topbar-inner"><div class="brand"><div class="logo">🌿</div><div><span class="brand-name">${APP_NAME}</span><span class="brand-sub">Cuidado Inteligente</span></div></div><div class="nav-actions">${u?`<button class="btn btn-secondary btn-sm" data-action="install" aria-label="Instalar app">Instalar</button><button class="iconbtn" title="Cambiar tema" aria-label="Cambiar tema" data-action="theme">${state.ui.theme==='dark'?'☀️':'🌙'}</button><button class="iconbtn" title="Menú" aria-label="Abrir menú" data-action="menu">☰</button>`:''}</div></div></header>`}
+
+function loginScreen(){return `<main class="wrap hero"><section class="card login-card"><h1>Pausas activas que se adaptan a ti</h1><p class="subtitle">Configura tu perfil y recibe sugerencias inteligentes según tu actividad.</p><div class="grid two"><div><div class="field"><label>Crear usuario</label><input id="newUserName" placeholder="Nombre" /></div><button class="btn btn-primary btn-block" id="createUserBtn">Crear y comenzar</button></div><div><h2>Usuarios guardados</h2><div class="userlist">${state.users.length?state.users.map(u=>`<div class="useritem"><div><b>${esc(u.name)}</b><br><small>${esc(u.profile?.occupation||'Sin ocupación')}</small></div><div style="display:flex;gap:6px"><button class="btn btn-secondary btn-sm" data-switch="${u.id}">Entrar</button><button class="btn btn-danger btn-sm" data-deluser="${u.id}">✕</button></div></div>`).join(''):'<div class="empty">Sin usuarios.</div>'}</div></div></div></section></main>`}
+
+function mainApp(u){const tab=state.ui.tab||'home';return `<main class="wrap"><section class="hero"><h1>Hola, ${esc(u.name)}</h1><p class="muted">${dailyGreeting(u)}</p></section><nav class="tabs no-print">${[['home','Inicio'],['profile','Perfil'],['library','Pausas'],['history','Historial'],['analysis','Análisis'],['settings','Ajustes']].map(t=>`<button class="tab ${tab===t[0]?'active':''}" data-tab="${t[0]}">${t[1]}</button>`).join('')}</nav><section>${tab==='home'?homeView(u):tab==='profile'?profileView(u):tab==='library'?libraryView(u):tab==='history'?historyView(u):tab==='analysis'?analysisView(u):settingsView(u)}</section></main><nav class="bottom-nav no-print"><div class="bottom-nav-inner">${[['home','🏠','Inicio'],['profile','👤','Perfil'],['library','🧘','Pausas'],['history','📊','Historial'],['analysis','📈','Análisis'],['settings','⚙️','Ajustes']].map(t=>`<button class="bnav-item ${tab===t[0]?'active':''}" data-tab="${t[0]}"><span class="bnav-icon">${t[1]}</span><span class="bnav-label">${t[2]}</span></button>`).join('')}</div></nav>`}
+
+function dailyGreeting(u){const h=new Date().getHours(); const rec=recommendPause(u); if(h<12) return `Sugerido: ${rec.title.toLowerCase()}`; if(h<18) return `Revisa tensión y vista. Sugerido: ${rec.title.toLowerCase()}.`; return `Cierra la jornada suavemente.`;}
+function profilePills(u){const p=u.profile;return [`${esc(p.workMode||'—')}`,`${esc(p.posture||'—')}`,`${p.screenHours||0}h pantalla`,`${p.intervalMin||35}min`];}
+function dailyProgressHtml(u){const recs=state.records.filter(r=>r.userId===u.id&&r.createdAt.slice(0,10)===todayKey()&&r.completed); const target=Math.max(1,Math.round(((u.profile.screenHours||6)*60)/(u.profile.intervalMin||35))); const pct=Math.min(100,Math.round(recs.length/target*100)); const color=pct>=80?'var(--primary)':pct>=50?'var(--accent)':'var(--secondary)'; return `<div class="day-prog-wrap"><div class="day-prog-meta"><span>${recs.length}/${target} hoy</span><span>${pct}%</span></div><div class="day-prog"><div class="day-prog-bar" style="width:${pct}%;background:${color}"></div></div></div>`;}
+function quickPausesHtml(u){const top3=rankPauses(u).slice(0,3); return `<div class="quick-row">${top3.map(p=>`<button class="quick-btn" data-startpause="${p.id}"><small class="text-muted">${esc(p.zone)}</small><b>${esc(p.title)}</b><small class="text-muted">${Math.round(p.duration/60)||1} min</small></button>`).join('')}</div>`;}
+
+function profileFingerprint(u){const p=u.profile||{}; return JSON.stringify({workMode:p.workMode,posture:p.posture,screenHours:p.screenHours,movementLevel:p.movementLevel,painZones:p.painZones||[],goals:p.goals||[],restrictions:p.restrictions||[],diagnosedConditions:p.diagnosedConditions||[],blocks:(p.workBlocks||[]).map(b=>({activity:b.activity,intensity:b.intensity,emotionalLoad:b.emotionalLoad,intervalMin:b.intervalMin,start:b.start,end:b.end,days:Array.isArray(b.days)?b.days:[]}))});}
+function getRecReason(u,p){const prof=u.profile||{}, bits=[]; if((prof.painZones||[]).some(z=>p.zone.includes(z)||p.tags.includes(z))) bits.push('zona de cuidado'); if(p.tags.includes(prof.workMode)) bits.push(prof.workMode); if((prof.diagnosedConditions||[]).length){const conds=(prof.diagnosedConditions||[]).map(id=>DIAG_CONDITIONS.find(c=>c.id===id)).filter(Boolean); const hit=conds.find(c=>(c.zones||[]).some(z=>p.zone.includes(z)||p.tags.includes(z))||(c.tags||[]).some(t=>p.tags.includes(t)||p.title.toLowerCase().includes(t))); if(hit) bits.push(hit.label);} const activeB=getActiveBlock(u); if(activeB&&p.tags.includes(activeB.activity)) bits.push('bloque activo'); if(p.type==='regulacion'&&((prof.goals||[]).join(' ').includes('estrés')||activeB?.emotionalLoad==='alta')) bits.push('regulación'); return bits.length?'Recomendada por: '+bits.slice(0,3).join(' + '):'Recomendada por tu perfil preventivo.';}
+
+function hasConfiguredBlocks(u){return Array.isArray(u?.profile?.workBlocks)&&u.profile.workBlocks.length>0;}
+function planCanRunNow(u){return !hasConfiguredBlocks(u)||!!getActiveBlock(u);}
+function currentPriorityPauseId(u){const due=duePlanItem(u); if(due) return due.pauseId; const plan=ensureSuggestedPlan(u); const active=(plan.items||[]).filter(x=>x.active!==false); if(active.length) return active[0].pauseId; const ranked=rankPauses(u); return ranked[0]?.id||null;}
+function quickContextChips(u){const plan=ensureSuggestedPlan(u); const block=getActiveBlock(u); const due=duePlanItem(u); const activeCount=(plan.items||[]).filter(x=>x.active!==false).length; const notifOn=state.ui.inAppNotifications!==false; return `<div class="quick-context-chips no-print"><button class="chip-action primary" data-startpause="${esc((due?.pauseId)||currentPriorityPauseId(u)||recommendPause(u).id)}">Pausa sugerida</button><button class="chip-action" data-tab="profile">Bloques: ${esc(block?block.label||block.activity:'fuera de horario')}</button><button class="chip-action" data-action="${plan.status==='active'?'editPlan':'acceptPlan'}">${plan.status==='active'?'Plan activo':'Activar plan'} · ${activeCount}</button><button class="chip-action ${notifOn?'notify-on':'notify-off'}" data-action="toggleNotify">${notifOn?'Notificaciones activas':'Notificaciones pausadas'}</button></div>`;}
+function openPlanReviewModal(u){const plan=ensureSuggestedPlan(u); const items=(plan.items||[]).filter(x=>x.active!==false).slice(0,5); openModal(`<h2>Plan organizado para ti</h2><p class="text-sm text-muted mt-8">Con tu perfil actual, la app preparó estas pausas. Aprueba el plan para que empiece a correr, mejóralo o quítalo si prefieres usar la biblioteca manual.</p><div class="plan-modal-list">${items.map((it,i)=>`<div class="plan-item ${i===0?'priority-pulse':''}"><div><b>${esc(it.title)}</b><small>Cada ${it.frequencyMin} min · prioridad ${esc(it.priority)} · ${esc(it.motive||'perfil')}</small></div><button class="btn btn-secondary btn-sm" data-startpause="${it.pauseId}">Probar</button></div>`).join('')}</div><div class="plan-actions"><button class="btn btn-primary" id="acceptPlanFromModal">Aceptar y activar</button><button class="btn btn-secondary" id="editPlanFromModal">Mejorar / editar</button><button class="btn btn-danger" id="rejectPlanFromModal">Quitar</button></div>`); document.querySelectorAll('#modalBox [data-startpause]').forEach(b=>b.onclick=()=>startPause(b.dataset.startpause)); $('#acceptPlanFromModal').onclick=()=>{closeModal(); activatePlan(u);}; $('#editPlanFromModal').onclick=()=>{closeModal(); openEditPlan(u);}; $('#rejectPlanFromModal').onclick=()=>{closeModal(); rejectPlan(u);};}
+
+function generateSuggestedPlan(u){const fingerprint=profileFingerprint(u); const ranked=rankPauses(u).filter(p=>p.score>=0).slice(0,6); const baseInterval=Number(u.profile.intervalMin||35); const items=ranked.map((p,i)=>({id:uid('plan'),pauseId:p.id,title:p.title,duration:p.duration,frequencyMin:i<2?Math.max(20,Math.min(baseInterval,45)):Math.max(baseInterval,60),priority:p.score>=55?'alta':p.score>=25?'media':'baja',motive:getRecReason(u,p).replace('Recomendada por: ','').replace('Recomendada por tu perfil preventivo.','perfil preventivo'),active:true,lastPromptAt:null,nextDueAt:null})); return {status:'suggested',items,fingerprint,createdAt:nowIso(),updatedAt:nowIso(),nextDueAt:null};}
+function ensureSuggestedPlan(u){if(!u.plan||!Array.isArray(u.plan.items)) u.plan={status:'none',items:[],fingerprint:'',createdAt:null,updatedAt:null,nextDueAt:null}; const fp=profileFingerprint(u); if(u.plan.status==='active'&&u.plan.fingerprint===fp) return u.plan; if(u.plan.status==='rejected'&&u.plan.fingerprint===fp) return u.plan; if(!u.plan.items.length||u.plan.fingerprint!==fp||u.plan.status==='none'){u.plan=generateSuggestedPlan(u); saveState();} return u.plan;}
+function planStatusLabel(status){return status==='active'?'Plan activo':status==='rejected'?'Plan rechazado':'Plan sugerido';}
+function planSuggestedHtml(u){const plan=ensureSuggestedPlan(u); if(plan.status==='rejected') return `<div class="card plan-card"><div class="plan-header"><div><span class="plan-badge">Plan manual</span><h2 class="mt-8">Sin plan activo</h2><p class="text-sm text-muted">Puedes explorar pausas manualmente o reactivar un plan sugerido cuando quieras.</p></div></div><div class="plan-actions"><button class="btn btn-primary btn-sm" data-action="regeneratePlan">Generar plan sugerido</button><button class="btn btn-secondary btn-sm" data-tab="library">Ver pausas</button></div></div>`; const items=(plan.items||[]).filter(x=>x.active!==false).slice(0,5); return `<div class="card plan-card"><div class="plan-header"><div><span class="plan-badge">${planStatusLabel(plan.status)}</span><h2 class="mt-8">Tu plan sugerido de pausas activas</h2><p class="text-sm text-muted">Este es el siguiente paso: revisa la propuesta, actívala o ajústala antes de trabajar. Cuando el plan esté activo, la app te avisará en el momento de hacer cada pausa.</p></div></div><div class="plan-list">${items.map((it,i)=>`<div class="plan-item ${plan.status==='active'&&i===0?'priority-pulse':''}"><div><b>${esc(it.title)}</b><small>Cada ${it.frequencyMin} min · prioridad ${esc(it.priority)} · ${esc(it.motive||'perfil')}</small></div><button class="btn btn-secondary btn-sm" data-startpause="${it.pauseId}">Probar</button></div>`).join('')}</div><div class="plan-actions">${plan.status==='active'?`<button class="btn btn-secondary btn-sm" data-action="editPlan">Mejorar / editar plan</button><button class="btn btn-danger btn-sm" data-action="rejectPlan">Pausar plan</button>`:`<button class="btn btn-primary btn-sm" data-action="acceptPlan">Aceptar y activar plan</button><button class="btn btn-secondary btn-sm" data-action="editPlan">Mejorar / editar</button><button class="btn btn-danger btn-sm" data-action="rejectPlan">Quitar / rechazar</button>`}</div></div>`;}
+function planMiniPromptHtml(u){const plan=ensureSuggestedPlan(u); const active=(plan.items||[]).filter(x=>x.active!==false).slice(0,3); if(plan.status==='active') return `<div class="card plan-card"><div class="plan-header"><div><span class="plan-badge">Plan activo</span><h2 class="mt-8">Tu plan ya está en marcha</h2><p class="text-sm text-muted">Puedes seguir trabajando. La app mostrará una pausa emergente cuando corresponda.</p></div></div><div class="plan-actions"><button class="btn btn-secondary btn-sm" data-action="editPlan">Mejorar / editar</button><button class="btn btn-danger btn-sm" data-action="rejectPlan">Pausar plan</button></div></div>`; if(plan.status==='rejected') return `<div class="card plan-card"><div class="plan-header"><div><span class="plan-badge">Plan manual</span><h2 class="mt-8">Plan sugerido desactivado</h2><p class="text-sm text-muted">Puedes usar las pausas manualmente o generar una nueva propuesta.</p></div></div><div class="plan-actions"><button class="btn btn-primary btn-sm" data-action="regeneratePlan">Generar plan sugerido</button></div></div>`; return `<div class="card plan-card"><div class="plan-header"><div><span class="plan-badge">Siguiente paso</span><h2 class="mt-8">Activa tu plan sugerido</h2><p class="text-sm text-muted">Según tu perfil, la app priorizó ${active.length?active.map(x=>esc(x.title)).join(', '):'algunas pausas'}. Puedes aceptar el plan, mejorarlo o quitarlo.</p></div></div><div class="plan-actions"><button class="btn btn-primary btn-sm" data-action="acceptPlan">Aceptar y activar plan</button><button class="btn btn-secondary btn-sm" data-action="editPlan">Mejorar / editar</button><button class="btn btn-danger btn-sm" data-action="rejectPlan">Quitar / rechazar</button></div></div>`;}
+function activatePlan(u){if(state.ui.tab==='profile'&&document.getElementById('pf_name')){saveProfile(u,{silent:true,rerender:false});}const plan=ensureSuggestedPlan(u); plan.status='active'; plan.updatedAt=nowIso(); const t=Date.now(); plan.items.forEach((it,i)=>{if(it.active!==false){it.lastPromptAt=t; it.nextDueAt=t+((i===0?1:it.frequencyMin)*60000);}}); plan.nextDueAt=Math.min(...plan.items.filter(it=>it.active!==false).map(it=>it.nextDueAt||Infinity)); saveState(); toast('Plan activo',planCanRunNow(u)?'Las pausas emergerán según tu horario y perfil.':'El plan queda activo, pero pausado hasta entrar en un bloque de trabajo.'); render();}
+function rejectPlan(u){u.plan=u.plan||generateSuggestedPlan(u); u.plan.status='rejected'; u.plan.fingerprint=profileFingerprint(u); u.plan.updatedAt=nowIso(); saveState(); toast('Plan pausado','Puedes usar las pausas manualmente o generar otro plan.'); render();}
+function openEditPlan(u){const plan=ensureSuggestedPlan(u); openModal(`<h2>Editar plan sugerido</h2><p>Ajusta frecuencia o desactiva pausas. El plan sigue siendo orientativo y editable.</p><div class="plan-modal-list">${plan.items.map(it=>`<div class="plan-edit-row" data-planitem="${it.id}"><div><b>${esc(it.title)}</b><small>${esc(it.motive||'perfil')}</small></div><div class="field"><label>Min</label><input type="number" min="10" max="180" step="5" data-planfreq value="${it.frequencyMin}"></div><label class="check"><input type="checkbox" data-planactive ${it.active!==false?'checked':''}> Activa</label></div>`).join('')}</div><div class="plan-actions"><button class="btn btn-primary" id="savePlanEdit">Guardar plan</button><button class="btn btn-secondary" id="closePlanEdit">Cerrar</button></div>`); $('#closePlanEdit').onclick=closeModal; $('#savePlanEdit').onclick=()=>{document.querySelectorAll('[data-planitem]').forEach(row=>{const it=plan.items.find(x=>x.id===row.dataset.planitem); if(!it) return; it.frequencyMin=Math.max(10,parseInt(row.querySelector('[data-planfreq]').value||it.frequencyMin)); it.active=row.querySelector('[data-planactive]').checked;}); plan.updatedAt=nowIso(); saveState(); closeModal(); toast('Plan actualizado','Tus recordatorios usarán esta configuración.'); render();};}
+function duePlanItem(u){const plan=u.plan; if(!plan||plan.status!=='active') return null; if(!planCanRunNow(u)) return null; const active=(plan.items||[]).filter(it=>it.active!==false); if(!active.length) return null; const t=Date.now(); return active.filter(it=>(it.nextDueAt||0)<=t).sort((a,b)=>(a.nextDueAt||0)-(b.nextDueAt||0))[0]||null;}
+function schedulePlanItem(u,item,extraMin=0){const plan=u.plan; if(!plan||!item) return; const t=Date.now(); item.lastPromptAt=t; item.nextDueAt=t+((extraMin||item.frequencyMin||u.profile.intervalMin||35)*60000); plan.nextDueAt=Math.min(...(plan.items||[]).filter(it=>it.active!==false).map(it=>it.nextDueAt||Infinity)); plan.updatedAt=nowIso(); saveState();}
+function recordPlanEvent(u,item,status,pause){state.records.push({id:uid('rec'),userId:u.id,pauseId:pause?.id||item.pauseId,title:pause?.title||item.title,zone:pause?.zone||'',duration:status==='pospuesta'||status==='omitida'?0:(pause?.duration||0),completed:status==='realizada',status,createdAt:nowIso(),noteAfter:status==='pospuesta'?'Pospuesta desde plan':status==='omitida'?'Omitida desde plan':'Registrada desde plan'});}
+
+function homeView(u){const stats=getStats(u.id); const rec=recommendPause(u);return `${quickContextChips(u)}<div class="grid two"><div class="card"><div class="section-title"><h2>Pausa sugerida</h2></div>${dailyProgressHtml(u)}<div class="pause-hero">${getPauseAnimationHtml(rec)}<h3>${esc(rec.title)}</h3><div class="pill-row">${pillHtml(rec.zone)}${pillHtml(rec.duration+'s')}${pillHtml(rec.intensity)}</div><p class="rec-reason">${esc(rec.why||getRecReason(u,rec))}</p></div><div class="pause-actions"><button class="btn btn-primary" data-startpause="${rec.id}">Iniciar pausa</button><button class="btn btn-secondary btn-sm" data-action="quickNote">Registrar estado</button></div><div class="mt-16"><h3 class="mb-8">Acceso rápido</h3>${quickPausesHtml(u)}</div></div><div class="grid"><div class="card"><div class="stats-row"><div class="stat"><b>${stats.todayCount}</b><span>Hoy</span></div><div class="stat"><b>${stats.minutes}</b><span>Min</span></div><div class="stat"><b>${stats.streak}</b><span>Racha</span></div></div></div><div class="card"><h3 class="mb-8">Bloques activos</h3>${activeBlockInfo(u)}<p class="text-xs text-muted mt-8" id="next-alert-live">${nextAlertText(u)}</p></div></div></div><div class="mt-16">${planSuggestedHtml(u)}</div>`}
+
+function pillHtml(text){return `<span class="pill">${esc(text)}</span>`;}
+function weeklyHeatmap(userId){const days=['Dom','Lun','Mar','Mié','Jue','Vie','Sáb']; const now=new Date(); const cells=Array.from({length:7},(_,i)=>{const d=new Date(now); d.setDate(d.getDate()-6+i); const key=d.toISOString().slice(0,10); const count=state.records.filter(r=>r.userId===userId&&(r.createdAt||'').slice(0,10)===key&&(r.completed||r.status==='realizada')).length; const pct=Math.min(100,count*25); return `<div style="text-align:center"><div style="font-size:11px;color:var(--muted)">${days[d.getDay()]}</div><div class="heatmap-cell" style="background:color-mix(in srgb,var(--primary) ${pct}%,var(--line));" title="${count} pausas"></div></div>`;}); return `<div class="heatmap-row">${cells.join('')}</div>`;}
+function trendChart(userId){const recs=state.records.filter(r=>r.userId===userId&&(r.completed||r.status==='realizada')).slice(-14); if(recs.length<2) return '<p class="text-muted text-sm">Mínimo 2 registros para mostrar tendencias.</p>'; const vals=recs.map((r,i)=>Number(r.energyAfter ?? r.painAfter ?? Math.min(10,5+i%5))); const W=320,H=84,n=vals.length; const px=i=>Math.round(i/(Math.max(1,n-1))*(W-24)+12); const py=v=>Math.round(H-12-(Math.max(0,Math.min(10,v))/10)*(H-24)); const path=vals.map((v,i)=>`${i===0?'M':'L'}${px(i)},${py(v)}`).join(' '); return `<svg viewBox="0 0 ${W} ${H}" style="width:100%;max-width:360px;overflow:visible"><path d="${path}" fill="none" stroke="var(--primary)" stroke-width="2" stroke-linejoin="round"/>${vals.map((v,i)=>`<circle cx="${px(i)}" cy="${py(v)}" r="3" fill="var(--primary)"><title>Registro ${i+1}</title></circle>`).join('')}</svg><div class="trend-legend"><span><span class="trend-dot" style="background:var(--primary)"></span>Registros recientes</span></div>`;}
+
+function conditionSummaryHtml(p){const selected=DIAG_CONDITIONS.filter(c=>(p.diagnosedConditions||[]).includes(c.id)); if(!selected.length) return ''; const actions=[...new Set(selected.flatMap(c=>c.actions))].slice(0,9); return `<div class="diag-summary"><b>Pausas priorizadas por diagnóstico:</b> ${esc(actions.join(' · '))}. <br>La app usará estas pistas para ordenar las pausas; no constituye diagnóstico ni tratamiento médico.</div>`;}
+function profileView(u){const p=u.profile; const zones=['ojos','cuello','hombros','espalda alta','lumbar','cadera','manos','muñecas','codos','mandíbula','piernas','rodillas','tobillos','pies','mente','voz','respiración','general']; const goals=['prevenir dolor','descansar vista','mejorar postura','activar circulación','regular estrés','reducir fatiga mental','aumentar energía','mejorar adherencia','cuidar manos','prevenir molestias por digitación','prevenir molestias por sedestación','hacer pausa breve','regular ansiedad laboral','cuidar la voz','cierre saludable']; const restr=['evitar movimientos bruscos','evitar impacto','evitar flexión lumbar profunda','evitar carga sobre muñecas','evitar elevación sostenida de brazos','evitar ejercicios de rodilla','evitar movimientos cervicales rápidos','evitar pausas con sonido','evitar ejercicios de pie','evitar ejercicios sentado','no puedo levantarme','estoy en reunión','necesito pausa silenciosa','dolor lumbar/cadera','fatiga visual','trabajo emocional intenso','poco espacio','dolor activo','recomendación médica de precaución','conducción']; const activities=['pantalla','digitación intensa','escritura','docencia','consulta','reuniones','atención a público','foco profundo','oficina compartida','trabajo desde casa','trabajo de pie','desplazamientos frecuentes','pantalla intensa','jornada larga','poco movimiento','estrés alto','conducción','trabajo físico','mixto']; return `<div class="card profile-compact"><div class="section-title"><div><h2>Perfil</h2><p>Configura datos básicos para personalizar las pausas activas.</p></div><div class="profile-head-actions"><span class="save-status" id="profileSaveStatus"></span><button class="btn btn-primary btn-sm" id="saveProfileBtn">Guardar</button></div></div><div class="grid two"><div><div class="field"><label class="with-tip">Nombre ${labelTip('Nombre','Sirve para personalizar la experiencia y mostrar recomendaciones más cercanas a tu rutina.')}</label><input id="pf_name" value="${esc(u.name)}"></div><div class="field"><label>Ocupación</label><input id="pf_occupation" value="${esc(p.occupation||'')}" placeholder="Docente, terapeuta..."></div><div class="field"><label>Actividad principal</label><select id="pf_workMode">${activities.map(x=>`<option ${p.workMode===x?'selected':''}>${x}</option>`).join('')}</select></div><div class="field"><label>Postura</label><select id="pf_posture">${['sentado','de pie','alternante','caminando','conduciendo','mixta'].map(x=>`<option ${p.posture===x?'selected':''}>${x}</option>`).join('')}</select></div><div class="field"><label>Pantalla</label><div class="rangegrid"><input type="range" min="0" max="14" step=".5" id="pf_screenHours" value="${p.screenHours||0}"><b id="screenVal">${p.screenHours||0}h</b></div></div></div><div><div class="field"><label>Intervalo</label><select id="pf_interval">${[20,25,30,35,40,45,50,60,75,90].map(n=>`<option value="${n}" ${(p.intervalMin||35)==n?'selected':''}>${n} min</option>`).join('')}</select></div><div class="field"><label>Preferencia</label><select id="pf_preference">${['suave','moderada','energizante','discreta','silenciosa','guiada'].map(x=>`<option ${p.pausePreference===x?'selected':''}>${x}</option>`).join('')}</select></div><div class="field"><label>Alertas</label><select id="pf_alertStyle">${['visual','sonora suave','silenciosa','insistente'].map(x=>`<option ${p.alertStyle===x?'selected':''}>${x}</option>`).join('')}</select></div><div class="field"><label>Movimiento</label><select id="pf_movement">${['bajo','medio','alto','variable'].map(x=>`<option ${p.movementLevel===x?'selected':''}>${x}</option>`).join('')}</select></div></div></div>${sectionKicker('Zonas de cuidado','Son partes del cuerpo o áreas de bienestar que necesitan atención durante tus pausas activas.')}<div class="checks dense">${optionChecks('zone',zones,p.painZones)}</div>${sectionKicker('Objetivos','Indican qué quieres lograr con tus pausas: aliviar tensión, descansar la vista, moverte más o regular el estrés.')}<div class="checks dense">${optionChecks('goal',goals,p.goals)}</div>${sectionKicker('Restricciones','Permiten evitar ejercicios que no sean adecuados para tu condición, dolor actual o contexto de trabajo.')}<div class="checks dense">${optionChecks('restr',restr,p.restrictions)}</div>${sectionKicker('Enfermedades o condiciones diagnosticadas','Selecciona solo condiciones diagnosticadas por un profesional. La app no diagnostica; solo adapta sugerencias de pausas activas.')}<div class="profile-note">Selecciona únicamente condiciones diagnosticadas por un profesional. Esta app no reemplaza atención médica, fisioterapia ni valoración clínica. Las sugerencias son pausas activas preventivas y de autocuidado laboral.</div><div class="checks conditions mt-8">${DIAG_CONDITIONS.map(c=>`<label class="check"><input type="checkbox" name="diag" value="${c.id}" ${(p.diagnosedConditions||[]).includes(c.id)?'checked':''}> <span>${esc(c.label)}</span></label>`).join('')}</div>${conditionSummaryHtml(p)}${sectionKicker('Bloques de actividad','Describen el tipo de jornada o actividad que realizas. La app usa esta información para sugerir pausas más pertinentes.')}<div id="blocksBox">${(p.workBlocks||[]).map(blockHtml).join('')}</div><button class="btn btn-secondary btn-sm mt-8" id="addBlockBtn">+ Bloque</button><div class="profile-bottom-actions"><span class="save-status" id="profileSaveStatusBottom"></span><button class="btn btn-primary btn-sm" id="saveProfileBtnBottom">Guardar y revisar plan</button></div><div class="mt-16">${planMiniPromptHtml(u)}</div></div>`}
+function blockHtml(b){const ALL_DAYS=['lun','mar','mié','jue','vie','sáb','dom'];const dayLabels={lun:'Lun',mar:'Mar',mié:'Mié',jue:'Jue',vie:'Vie',sáb:'Sáb',dom:'Dom'};const selDays=Array.isArray(b.days)?b.days:ALL_DAYS;const activities=['pantalla','digitación intensa','escritura','docencia','consulta','reuniones','atención a público','foco profundo','oficina compartida','trabajo desde casa','trabajo de pie','desplazamientos frecuentes','pantalla intensa','jornada larga','poco movimiento','estrés alto','conducción','trabajo físico','descanso activo','mixto'];return `<div class="block" data-block="${b.id}"><div class="block-compact-title"><b>Bloque de actividad</b><button class="btn btn-danger btn-sm" data-removeblock="${b.id}">✕</button></div><div class="field"><label>Nombre</label><input data-bfield="label" value="${esc(b.label||'')}"></div><div class="field"><label>Actividad</label><select data-bfield="activity">${activities.map(x=>`<option ${b.activity===x?'selected':''}>${x}</option>`).join('')}</select></div><div class="field"><label>Inicio</label><input type="time" data-bfield="start" value="${b.start||'08:00'}"></div><div class="field"><label>Fin</label><input type="time" data-bfield="end" value="${b.end||'12:00'}"></div><div class="field"><label>Intensidad</label><select data-bfield="intensity">${['baja','media','alta','variable'].map(x=>`<option ${b.intensity===x?'selected':''}>${x}</option>`).join('')}</select></div><div class="field"><label>Carga emocional</label><select data-bfield="emotionalLoad">${['baja','media','alta'].map(x=>`<option ${(b.emotionalLoad||'media')===x?'selected':''}>${x}</option>`).join('')}</select></div><div class="field"><label>Intervalo</label><select data-bfield="intervalMin"><option value="global" ${!b.intervalMin?'selected':''}>Global</option>${[20,25,30,35,40,45,50,55,60,75,90].map(n=>`<option value="${n}" ${b.intervalMin==n?'selected':''}>${n} min</option>`).join('')}</select></div><div class="field wide"><label>Días</label><div class="day-checks">${ALL_DAYS.map(d=>`<label class="day-chk"><input type="checkbox" data-bday="${d}" ${selDays.includes(d)?'checked':''}> ${dayLabels[d]}</label>`).join('')}</div></div></div>`}
+function libraryView(u){const zones=['todas','ojos','cuello','hombros','manos','muñecas','codos','lumbar','cadera','piernas','rodillas','pies','mente','voz','general']; const ranked=rankPauses(u); const suggested=ranked.slice(0,8); const suggestedIds=suggested.map(x=>x.id); return `<div class="mb-16">${planMiniPromptHtml(u)}</div><div class="card"><div class="section-title"><div><h2>Banco de pausas</h2><p>Primero aparecen las que la app considera compatibles con tu perfil. La biblioteca completa queda disponible para uso manual.</p></div></div><div class="recommend-block"><div class="section-title"><div><h3>Recomendadas para ti</h3><p>Resaltadas según perfil, bloques, zonas de cuidado, restricciones y diagnósticos seleccionados.</p></div></div><div class="grid three">${suggested.slice(0,6).map(pause=>pauseCard(pause,true,getRecReason(u,pause))).join('')}</div></div><div class="field"><select id="pauseFilter">${zones.map(z=>`<option>${z}</option>`).join('')}</select></div><div class="grid three" id="pauseList">${PAUSES.map(pause=>pauseCard(pause,suggestedIds.includes(pause.id),suggestedIds.includes(pause.id)?getRecReason(u,pause):'')).join('')}</div></div>`}
+function pauseCard(p,sug=false,reason=''){const u=currentUser(); const priorityId=u?currentPriorityPauseId(u):null; return `<article class="card pause-card ${sug?'recommended-card':''} ${p.id===priorityId?'priority-pulse':''}" data-pausezone="${esc(p.zone)}"><div class="pause-card-top"><div class="anim-preview anim-preview-sm">${getPauseAnimationHtml(p).replace(/<div class="anim-preview">|<\/div>\s*<div class="anim-label">.*?<\/div>/g,'')}</div><div class="pause-card-info"><h3>${esc(p.title)}</h3><div class="pill-row">${sug?'<span class="rec-label">✦ Sugerida</span>':''}${pillHtml(p.zone)}${pillHtml(p.type)}${pillHtml((Math.round(p.duration/60)||1)+' min')}</div>${reason?`<div class="rec-reason">${esc(reason)}</div>`:''}</div></div><p class="text-xs text-muted mt-8">${esc(p.avoid||'Realizar de forma suave y sin dolor.')}</p><div class="pause-card-footer"><button class="btn btn-primary btn-sm" data-startpause="${p.id}">Iniciar</button><button class="btn btn-secondary btn-sm" data-detailpause="${p.id}">Pasos</button></div></article>`}
+function historyView(u){const allRows=state.records.filter(r=>r.userId===u.id).sort((a,b)=>b.createdAt.localeCompare(a.createdAt)); const rows=allRows.slice(0,historyPage*HISTORY_PER_PAGE); const hasMore=allRows.length>rows.length; const groups={}; rows.forEach(r=>{const k=(r.createdAt||nowIso()).slice(0,10); (groups[k]=groups[k]||[]).push(r);}); const dateLabel=k=>{const today=todayKey(); const d=new Date(k+'T12:00:00'); const y=new Date(); y.setDate(y.getDate()-1); if(k===today) return 'Hoy — '+d.toLocaleDateString('es-CO',{day:'numeric',month:'long'}); if(k===y.toISOString().slice(0,10)) return 'Ayer — '+d.toLocaleDateString('es-CO',{day:'numeric',month:'long'}); return d.toLocaleDateString('es-CO',{weekday:'long',day:'numeric',month:'long',year:'numeric'});}; const statusOf=r=>r.status||(r.completed?'realizada':'omitida'); return `<div class="card"><div class="section-title"><div><h2>Historial</h2><p>Organizado por fechas para leer avances, pausas pospuestas y omisiones sin saturación.</p></div><div style="display:flex;gap:6px;flex-wrap:wrap"><button class="btn btn-secondary btn-sm" data-action="exportCsv">CSV</button><button class="btn btn-secondary btn-sm" data-action="exportHtml">Informe</button></div></div>${rows.length?Object.keys(groups).sort().reverse().map((k,idx)=>{const g=groups[k]; const done=g.filter(r=>statusOf(r)==='realizada').length; const post=g.filter(r=>statusOf(r)==='pospuesta').length; const skip=g.filter(r=>statusOf(r)==='omitida').length; return `<details class="history-date" ${idx===0?'open':''}><summary><b>${esc(dateLabel(k))}</b><small>${g.length} sugeridas · ${done} realizadas · ${post} pospuestas · ${skip} omitidas</small></summary><div class="history-records">${g.map(r=>{const st=statusOf(r);return `<div class="record status-${st}"><div class="record-header"><b>${esc(r.title)}</b><small>${st==='realizada'?'✓ realizada':st==='pospuesta'?'⏱ pospuesta':'⊘ omitida'}</small></div><div class="record-meta">${fmtDate(r.createdAt)} · ${Math.round((r.duration||0)/60)||0} min · ${esc(r.zone||'general')}</div>${r.noteAfter?`<div class="record-meta">${esc(r.noteAfter)}</div>`:''}</div>`}).join('')}</div></details>`}).join(''):'<div class="empty">Aún no hay pausas registradas.</div>'}${hasMore?'<button class="btn btn-secondary btn-block mt-16" data-action="historyMore">Ver más</button>':''}</div>`}
+function analysisView(u){const a=analyzeUser(u); const priorityId=currentPriorityPauseId(u);return `<div class="grid two"><div class="card analysis-box"><div class="section-title"><h2 class="analysis-help-title">Análisis ${labelTip('Análisis','Resume señales de pantalla, postura, carga mental, adherencia y zonas corporales a partir del perfil y los registros de pausas.')}</h2></div>${scoreLine('Pantalla',a.screen)}${scoreLine('Postura',a.posture)}${scoreLine('Mental',a.mental)}${scoreLine('Adherencia',a.adherence)}${scoreLine('Corporal',a.body)}<div class="microwarn"><b>Perfil:</b> ${esc(a.profileLabel)}</div><h3 class="mt-12 mb-8 analysis-help-title">Adherencia semanal ${labelTip('Adherencia semanal','Muestra qué días registraste pausas realizadas, pospuestas u omitidas. Sirve para observar continuidad, no para calificarte.')}</h3>${weeklyHeatmap(u.id)}</div><div class="grid"><div class="card"><h3 class="mb-8 analysis-help-title">Recomendación ${labelTip('Recomendación','Texto orientativo que interpreta tu perfil, horarios y uso de pausas para sugerir el siguiente cuidado.')}</h3><p class="text-sm">${esc(a.recommendation)}</p><h3 class="mt-12 mb-8 analysis-help-title">Prioritarias ${labelTip('Prioritarias','La pausa con pulso suave es la más conveniente ahora; cuando la realices, la siguiente toma prioridad.')}</h3><div class="pause-actions">${rankPauses(u).slice(0,5).map(p=>`<button class="btn btn-secondary btn-sm ${p.id===priorityId?'priority-pulse':''}" data-startpause="${p.id}">${esc(p.title)}</button>`).join('')}</div></div><div class="card"><h3 class="mb-8 analysis-help-title">Tendencia ${labelTip('Tendencia','Visualiza la evolución reciente de tus registros. Ayuda a ver si sostienes o abandonas las pausas con el paso de los días.')}</h3>${trendChart(u.id)}</div></div></div>`}
+function scoreLine(label,val){return `<div class="score-line"><div class="score-line-header"><span>${label}</span><span>${val}/100</span></div><div class="scorebar"><span style="width:${Math.max(0,Math.min(100,val))}%"></span></div></div>`}
+function settingsView(u){return `<div class="grid two"><div class="card"><h2 class="mb-8">Ajustes</h2><div style="display:grid;gap:8px"><button class="btn btn-primary btn-block" data-action="install">Instalar app</button><button class="btn btn-secondary btn-block" data-action="toggleNotify">Activar/pausar notificaciones en pantalla</button><button class="btn btn-secondary btn-block" data-action="notify">Permiso de notificación del navegador</button><button class="btn btn-secondary btn-block" data-action="tour">Tour</button><button class="btn btn-secondary btn-block" data-action="manual">Manual</button><button class="btn btn-secondary btn-block" data-action="exportCsv">Exportar CSV</button></div><div class="field mt-16"><label>Tema</label><select id="themeSelect"><option value="light">Claro</option><option value="dark" ${state.ui.theme==='dark'?'selected':''}>Oscuro</option></select></div></div><div class="card"><h2 class="mb-8">Datos</h2><div style="display:grid;gap:8px"><button class="btn btn-primary btn-block" data-action="exportJson">Exportar backup</button><label class="btn btn-secondary btn-block">Importar JSON<input type="file" id="importJson" accept="application/json" class="hidden"></label><button class="btn btn-danger btn-block" data-action="wipeAll">Borrar todo</button></div></div></div>`}
+function drawer(u){return `<div class="menu ${state.ui.menu?'open':''}" id="menu"><aside class="drawer"><button class="iconbtn" style="float:right" data-action="menu">✕</button><h3>Menú</h3>${u?`<button class="btn btn-secondary btn-block" data-tab="home">Inicio</button><button class="btn btn-secondary btn-block" data-tab="profile">Perfil</button><button class="btn btn-secondary btn-block" data-tab="library">Pausas</button><button class="btn btn-secondary btn-block" data-tab="history">Historial</button><button class="btn btn-secondary btn-block" data-tab="analysis">Análisis</button><button class="btn btn-secondary btn-block" data-tab="settings">Ajustes</button><hr style="border:none;border-top:1px solid var(--line);margin:12px 0"><button class="btn btn-secondary btn-block" data-action="tour">Tour</button><button class="btn btn-secondary btn-block" data-action="theme">${state.ui.theme==='dark'?'☀️ Claro':'🌙 Oscuro'}</button><button class="btn btn-secondary btn-block" data-action="logout">Cambiar usuario</button>`:''}</aside></div>`}
+function modalShell(){return `<div class="modal" id="modal"><div class="modal-box" id="modalBox"></div></div>`}
+
+function bindCommon(){$('#createUserBtn')?.addEventListener('click',()=>createUser($('#newUserName').value));$('#newUserName')?.addEventListener('keydown',e=>{if(e.key==='Enter') createUser($('#newUserName').value);});document.querySelectorAll('[data-switch]').forEach(b=>b.addEventListener('click',()=>switchUser(b.dataset.switch)));document.querySelectorAll('[data-deluser]').forEach(b=>b.addEventListener('click',()=>deleteUser(b.dataset.deluser)));document.querySelectorAll('[data-action]').forEach(b=>b.addEventListener('click',()=>handleAction(b.dataset.action)));document.querySelectorAll('[data-tab]').forEach(b=>b.addEventListener('click',()=>{autoSaveProfileIfOpen();state.ui.tab=b.dataset.tab;state.ui.menu=false;historyPage=1;saveState();render();}));$('#menu')?.addEventListener('click',e=>{if(e.target.id==='menu'){state.ui.menu=false;saveState();render();}});$('#modal')?.addEventListener('click',e=>{if(e.target.id==='modal'){if(activeTimer?.running){toast('Temporizador activo','Detén la pausa antes de cerrar.');return;} closeModal();}});}
+function bindApp(u){document.querySelectorAll('[data-startpause]').forEach(b=>b.addEventListener('click',()=>startPause(b.dataset.startpause)));document.querySelectorAll('[data-detailpause]').forEach(b=>b.addEventListener('click',()=>showPauseDetail(b.dataset.detailpause)));$('#saveProfileBtn')?.addEventListener('click',()=>saveProfile(u));$('#saveProfileBtnBottom')?.addEventListener('click',()=>saveProfile(u,{reviewPlan:true}));$('#pf_screenHours')?.addEventListener('input',e=>$('#screenVal').textContent=e.target.value+'h');$('#addBlockBtn')?.addEventListener('click',()=>{u.profile.workBlocks.push({id:uid('block'),label:'Nuevo bloque',start:'09:00',end:'10:30',activity:'pantalla',intensity:'media',days:['lun','mar','mié','jue','vie','sáb','dom'],emotionalLoad:'media',intervalMin:null});saveState();render();});document.querySelectorAll('[data-removeblock]').forEach(b=>b.addEventListener('click',()=>{u.profile.workBlocks=u.profile.workBlocks.filter(x=>x.id!==b.dataset.removeblock);saveState();render();}));$('#pauseFilter')?.addEventListener('change',e=>{const val=e.target.value; document.querySelectorAll('[data-pausezone]').forEach(card=>card.style.display=(val==='todas'||card.dataset.pausezone.includes(val))?'grid':'none')});$('#themeSelect')?.addEventListener('change',e=>{setTheme(e.target.value);render();});$('#importJson')?.addEventListener('change',importJson);}
+function autoSaveProfileIfOpen(){const u=currentUser(); if(!u||state.ui.tab!=='profile'||!document.getElementById('pf_name')) return; saveProfile(u,{silent:true,rerender:false});}
+function handleAction(action){const u=currentUser();if(action==='menu'){state.ui.menu=!state.ui.menu;saveState();render();}if(action==='theme'){setTheme(state.ui.theme==='dark'?'light':'dark');render();}if(action==='logout'){state.activeUserId=null;state.ui.menu=false;saveState();render();}if(action==='tour') openTour();if(action==='manual') openManual();if(action==='install') installApp();if(action==='notify') requestNotifications();if(action==='toggleNotify') toggleNotifications();if(action==='exportJson') exportJson();if(action==='exportHtml') exportHtml();if(action==='wipeAll') wipeAll();if(action==='quickNote') openQuickNote();if(action==='historyMore'){historyPage++;render();}if(action==='exportCsv') exportCsv();if(action==='acceptPlan'&&u) activatePlan(u);if(action==='rejectPlan'&&u) rejectPlan(u);if(action==='editPlan'&&u) openEditPlan(u);if(action==='regeneratePlan'&&u){u.plan=generateSuggestedPlan(u);saveState();toast('Plan generado','Revisa la propuesta y decide si la aceptas.');render();}}
+function saveProfile(u,opts={}){try{const p=structuredClone(u.profile||makeDefaultProfile(u.name)); u.profile=p; const nameEl=$('#pf_name'); if(!nameEl) return; u.name=nameEl.value.trim()||u.name||'Usuario'; p.name=u.name; p.occupation=$('#pf_occupation')?.value.trim()||''; p.workMode=$('#pf_workMode')?.value||p.workMode||'pantalla'; p.posture=$('#pf_posture')?.value||p.posture||'sentado'; p.screenHours=parseFloat($('#pf_screenHours')?.value||p.screenHours||6); p.intervalMin=parseInt($('#pf_interval')?.value||p.intervalMin||35); p.pausePreference=$('#pf_preference')?.value||p.pausePreference||'suave'; p.alertStyle=$('#pf_alertStyle')?.value||p.alertStyle||'visual'; p.movementLevel=$('#pf_movement')?.value||p.movementLevel||'bajo'; p.painZones=[...document.querySelectorAll('input[name="zone"]:checked')].map(x=>x.value); p.goals=[...document.querySelectorAll('input[name="goal"]:checked')].map(x=>x.value); p.restrictions=[...document.querySelectorAll('input[name="restr"]:checked')].map(x=>x.value); p.diagnosedConditions=[...document.querySelectorAll('input[name="diag"]:checked')].map(x=>x.value); const blocks=[...document.querySelectorAll('[data-block]')].map(el=>{const obj={id:el.dataset.block||uid('block')}; el.querySelectorAll('[data-bfield]').forEach(f=>{let v=f.value; if(f.dataset.bfield==='intervalMin'){v=(v==='global'||v==='')?null:parseInt(v,10);} obj[f.dataset.bfield]=v;}); const days=[...el.querySelectorAll('[data-bday]:checked')].map(c=>c.dataset.bday); obj.days=days; if(!obj.label)obj.label='Bloque de actividad'; if(!obj.activity)obj.activity='pantalla'; if(!obj.start)obj.start='08:00'; if(!obj.end)obj.end='12:00'; if(!obj.intensity)obj.intensity='media'; if(!obj.emotionalLoad)obj.emotionalLoad='media'; return obj;}); p.workBlocks=blocks.length?blocks:(p.workBlocks||[]); p.updatedAt=nowIso(); try{const fp=profileFingerprint(u); if(!u.plan||u.plan.fingerprint!==fp||u.plan.status!=='active'){u.plan=generateSuggestedPlan(u);}}catch(planErr){console.warn('plan generation failed',planErr);} const persisted=saveState(); if(opts.rerender!==false) render(); if(!opts.silent){setTimeout(()=>{const st=$('#profileSaveStatus'); const sb=$('#profileSaveStatusBottom'); if(st) st.textContent=persisted?'Guardado ✓':'Guardado en memoria'; if(sb) sb.textContent=persisted?'Guardado ✓':'Guardado en memoria'; toast(persisted?'Perfil guardado correctamente':'Perfil guardado en esta sesión', persisted?'Ya puedes aceptar, mejorar o quitar el plan sugerido.':'Los cambios quedaron disponibles mientras la app esté abierta.'); if(opts.reviewPlan) setTimeout(()=>openPlanReviewModal(currentUser()),120);},40);} }catch(err){console.error(err); if(!opts.silent) toast('No se pudo guardar el perfil','Intenta nuevamente.');}}
+function startPause(id,planItemId=null){const p=PAUSES.find(x=>x.id===id); if(!p) return; closeModal(); activeTimer={pause:p, planItemId, start:Date.now(), elapsed:0, running:false, before:{pain:3,energy:5,note:''}}; openBeforePause(p);}
+function openBeforePause(p){openModal(`<h2>${esc(p.title)}</h2>${getPauseAnimationHtml(p)}<h3>Pasos</h3><div class="steps">${p.steps.map((s,i)=>`<div class="step"><span class="step-num">${i+1}</span><span>${esc(s)}</span></div>`).join('')}</div><div class="microwarn"><small>⚠ ${esc(p.avoid)}</small></div><div class="mt-16"><h3>Estado antes</h3><div class="grid two"><div class="field"><label>Dolor <b id="painBeforeVal">3</b>/10</label><input type="range" min="0" max="10" value="3" id="painBefore"></div><div class="field"><label>Energía <b id="energyBeforeVal">5</b>/10</label><input type="range" min="0" max="10" value="5" id="energyBefore"></div></div><div class="field"><label>Nota</label><textarea id="noteBefore" placeholder="¿Qué sientes?" rows="2"></textarea><button class="btn btn-secondary btn-sm mt-8" data-mic="noteBefore">🎙️ Dictar</button></div></div><div class="pause-actions mt-16"><button class="btn btn-primary" id="goTimer">Iniciar temporizador</button><button class="btn btn-secondary" onclick="document.getElementById('modal').classList.remove('open')">Cancelar</button></div>`); bindRangeLabels(); bindMicButtons(); $('#goTimer').onclick=()=>{activeTimer.before={pain:+$('#painBefore').value,energy:+$('#energyBefore').value,note:$('#noteBefore').value}; openTimer(p);};}
+function bindRangeLabels(){[['painBefore','painBeforeVal'],['energyBefore','energyBeforeVal'],['painAfter','painAfterVal'],['energyAfter','energyAfterVal']].forEach(([i,l])=>{const el=$('#'+i), lab=$('#'+l); if(el&&lab) el.oninput=()=>lab.textContent=el.value;});}
+function openTimer(p){activeTimer.running=true; activeTimer.start=Date.now(); const C=252, r=110, circ=2*Math.PI*r; openModal(`<div class="timer-wrap"><svg class="timer-ring" viewBox="0 0 ${C} ${C}"><circle class="timer-bg" cx="${C/2}" cy="${C/2}" r="${r}"/><circle class="timer-fg" id="timerRing" cx="${C/2}" cy="${C/2}" r="${r}" stroke-dasharray="${circ}" stroke-dashoffset="${circ}"/></svg><div class="timer-text" id="timerText">${formatTime(p.duration)}</div></div><h3 style="text-align:center;font-weight:600">${esc(p.title)}</h3><div class="timer-controls"><button class="btn btn-secondary" id="pauseTimerBtn">Pausar</button><button class="btn btn-primary" id="finishTimerBtn">Finalizar</button><button class="btn btn-danger" id="omitTimerBtn">Omitir</button></div>`); const tick=()=>{if(!activeTimer?.running)return; const elapsed=Math.floor((Date.now()-activeTimer.start)/1000); activeTimer.elapsed=elapsed; const remain=Math.max(0,p.duration-elapsed); const pct=Math.min(1,elapsed/p.duration); const timerText=$('#timerText'),timerRing=$('#timerRing'); if(!timerText||!timerRing)return; timerText.textContent=formatTime(remain); timerRing.setAttribute('stroke-dashoffset', circ*(1-pct)); if(remain<=0){activeTimer.running=false; playCompletionSound(); finishPauseForm(true);} else {requestAnimationFrame(tick)}}; requestAnimationFrame(tick); $('#pauseTimerBtn').onclick=()=>{activeTimer.running=!activeTimer.running; if(activeTimer.running){activeTimer.start=Date.now()-activeTimer.elapsed*1000; $('#pauseTimerBtn').textContent='Pausar'; requestAnimationFrame(tick);} else $('#pauseTimerBtn').textContent='Continuar';}; $('#finishTimerBtn').onclick=()=>finishPauseForm(true); $('#omitTimerBtn').onclick=()=>finishPauseForm(false);}
+function finishPauseForm(completed){const p=activeTimer.pause; activeTimer.running=false; openModal(`<h2>${completed?'Pausa completada':'Pausa omitida'}</h2><p class="text-sm text-muted mt-8">Registra el efecto para mejorar sugerencias.</p><div class="mt-16"><div class="grid two"><div class="field"><label>Dolor <b id="painAfterVal">${activeTimer.before.pain}</b>/10</label><input type="range" min="0" max="10" value="${activeTimer.before.pain}" id="painAfter"></div><div class="field"><label>Energía <b id="energyAfterVal">${activeTimer.before.energy}</b>/10</label><input type="range" min="0" max="10" value="${activeTimer.before.energy}" id="energyAfter"></div></div><div class="field"><label>Nota</label><textarea id="noteAfter" placeholder="¿Qué cambió?" rows="2"></textarea><button class="btn btn-secondary btn-sm mt-8" data-mic="noteAfter">🎙️ Dictar</button></div><div class="pause-actions mt-16"><button class="btn btn-primary" id="saveRecordBtn">Guardar</button></div></div>`); bindRangeLabels(); bindMicButtons(); $('#saveRecordBtn').onclick=()=>{const u=currentUser(); state.records.push({id:uid('rec'),userId:u.id,pauseId:p.id,title:p.title,zone:p.zone,duration:activeTimer.elapsed||p.duration,completed,status:completed?'realizada':'omitida',createdAt:nowIso(),painBefore:activeTimer.before.pain,energyBefore:activeTimer.before.energy,noteBefore:activeTimer.before.note,painAfter:+$('#painAfter').value,energyAfter:+$('#energyAfter').value,noteAfter:$('#noteAfter').value}); if(activeTimer.planItemId&&u.plan){const it=(u.plan.items||[]).find(x=>x.id===activeTimer.planItemId); if(it){it.lastPromptAt=Date.now(); it.nextDueAt=Date.now()+((it.frequencyMin||u.profile.intervalMin||35)*60000); u.plan.updatedAt=nowIso();}} state.ui.lastAlertAt=Date.now(); saveState(); activeTimer=null; closeModal(); toast('Guardado', completed?'Pausa completada.':'Omisión registrada.'); render();};}
+function formatTime(sec){const m=Math.floor(sec/60), s=sec%60; return `${String(m).padStart(2,'0')}:${String(s).padStart(2,'0')}`}
+function showPauseDetail(id){const p=PAUSES.find(x=>x.id===id); if(!p)return; openModal(`<h2>${esc(p.title)}</h2>${getPauseAnimationHtml(p)}<div class="pill-row" style="margin:12px 0">${pillHtml(p.zone)}${pillHtml(p.type)}${pillHtml(p.duration+'s')}${pillHtml(p.posture)}</div><h3>Pasos</h3><div class="steps">${p.steps.map((s,i)=>`<div class="step"><span class="step-num">${i+1}</span><span>${esc(s)}</span></div>`).join('')}</div><div class="microwarn"><small>⚠ ${esc(p.avoid)}</small></div><div class="pause-actions mt-16"><button class="btn btn-primary" data-startpause="${p.id}">Iniciar pausa</button><button class="btn btn-secondary" onclick="document.getElementById('modal').classList.remove('open')">Cerrar</button></div>`); $('#modalBox [data-startpause]').onclick=()=>startPause(p.id);}
+function openQuickNote(){openModal(`<h2>Estado actual</h2><div class="field mt-12"><textarea id="quickNoteText" placeholder="Describe qué sientes..." rows="2"></textarea><button class="btn btn-secondary btn-sm mt-8" data-mic="quickNoteText">🎙️ Dictar</button></div><div class="pause-actions mt-16"><button class="btn btn-primary" id="quickSuggest">Sugerir pausa</button></div>`); bindMicButtons(); $('#quickSuggest').onclick=()=>{const txt=$('#quickNoteText').value.toLowerCase(); const u=currentUser(); const p = txt.includes('lumbar')||txt.includes('espalda')?PAUSES.find(x=>x.id==='lumbar_silla'):txt.includes('vista')||txt.includes('ojos')?PAUSES.find(x=>x.id==='visual_202020'):txt.includes('mano')||txt.includes('muñeca')?PAUSES.find(x=>x.id==='manos_teclado'):recommendPause(u); showPauseDetail(p.id);};}
+function openTour(){
+  state.ui.tourSeen=true;
+  state.ui.menu=false;
+  saveState();
+  const steps=[
+    {tab:'profile', sel:'#saveProfileBtn', title:'1. Configura y guarda tu perfil', text:'Aquí empiezas: nombre, actividad, postura, zonas de cuidado, restricciones, diagnósticos y bloques. El perfil debe quedar guardado antes de activar el plan.'},
+    {tab:'profile', sel:'#blocksBox', title:'2. Define tus bloques de trabajo', text:'Los horarios y actividades indican cuándo estás trabajando y qué tipo de carga tienes. La app usa ese reloj interno para no interrumpirte fuera de jornada.'},
+    {tab:'profile', sel:'#saveProfileBtnBottom', title:'3. Guarda y revisa el plan', text:'Este botón evita volver arriba. Guarda el perfil y abre la revisión del plan para aceptar, mejorar o quitar lo sugerido.'},
+    {tab:'home', sel:'.plan-card', title:'4. Activa o mejora tu plan', text:'Después de guardar, revisa esta tarjeta: puedes aceptar el plan, mejorarlo o quitarlo. Solo cuando lo aceptas empieza a correr.'},
+    {tab:'home', sel:'[data-startpause]', title:'5. Inicia la pausa sugerida', text:'Cuando aparezca una pausa prioritaria, este botón debe abrir la actividad concreta. No es solo aviso: inicia la pausa.'},
+    {tab:'library', sel:'.recommend-block', title:'6. Revisa las recomendadas para ti', text:'En Pausas, la biblioteca sigue completa, pero arriba aparecen las pausas que el sistema prioriza según tu perfil, horario y restricciones.'},
+    {tab:'analysis', sel:'.analysis-box', title:'7. Comprende tu análisis', text:'Aquí se interpretan barras, adherencia, tendencia y prioridades. Los íconos de ayuda explican qué significa cada dato.'},
+    {tab:'home', sel:'.quick-context-chips', title:'8. Accesos rápidos móviles', text:'Estos chips compactos ayudan a ver pausa sugerida, bloques activos, plan activo y notificaciones sin desplazarte demasiado.'}
+  ];
+  let i=0;
+  function clear(){
+    document.querySelectorAll('.tour-bubble-backdrop,.tour-bubble').forEach(x=>x.remove());
+    document.querySelectorAll('.tour-target-highlight').forEach(x=>x.classList.remove('tour-target-highlight'));
+  }
+  function goToStep(index){
+    i=Math.max(0,Math.min(index,steps.length-1));
+    const st=steps[i];
+    if(state.ui.tab!==st.tab){
+      state.ui.tab=st.tab;
+      saveState();
+      render();
+      setTimeout(show,90);
+    }else{
+      show();
+    }
+  }
+  function findTarget(st){
+    return document.querySelector(st.sel) || document.querySelector('main .card') || document.querySelector('main') || document.body;
+  }
+  function placeBubble(bubble, rect){
+    const bw=Math.min(340, window.innerWidth-24);
+    bubble.style.maxWidth=bw+'px';
+    const below = rect.bottom + 12;
+    const above = rect.top - 12;
+    let top = below;
+    if(below + 190 > window.innerHeight && above > 220) top = Math.max(76, above - 190);
+    top = Math.min(window.innerHeight-210, Math.max(76, top));
+    let left = rect.left;
+    if(left + bw > window.innerWidth - 12) left = window.innerWidth - bw - 12;
+    left = Math.max(12,left);
+    bubble.style.top=top+'px';
+    bubble.style.left=left+'px';
+  }
+  function show(){
+    clear();
+    const st=steps[i];
+    const target=findTarget(st);
+    target.scrollIntoView({behavior:'smooth', block:'center', inline:'nearest'});
+    setTimeout(()=>{
+      clear();
+      const freshTarget=findTarget(st);
+      freshTarget.classList.add('tour-target-highlight');
+      const r=freshTarget.getBoundingClientRect();
+      const back=document.createElement('div');
+      back.className='tour-bubble-backdrop';
+      const bubble=document.createElement('div');
+      bubble.className='tour-bubble';
+      bubble.innerHTML=`<h3>${esc(st.title)}</h3><p>${esc(st.text)}</p><div class="tour-bubble-actions"><button class="btn btn-secondary btn-sm" id="tourSkip">Cerrar</button><div style="display:flex;gap:8px;align-items:center"><button class="btn btn-secondary btn-sm" id="tourPrev" ${i===0?'disabled':''}>Atrás</button><span class="text-xs text-muted">${i+1}/${steps.length}</span><button class="btn btn-primary btn-sm" id="tourNext">${i===steps.length-1?'Finalizar':'Siguiente'}</button></div></div>`;
+      document.body.append(back,bubble);
+      placeBubble(bubble,r);
+      $('#tourSkip').onclick=()=>{clear(); state.ui.tourSeen=true; saveState();};
+      $('#tourPrev').onclick=()=>goToStep(i-1);
+      $('#tourNext').onclick=()=>{if(i>=steps.length-1){clear(); state.ui.tourSeen=true; saveState(); toast('Tour finalizado','Ya puedes activar o ajustar tu plan.');}else goToStep(i+1);};
+    },260);
+  }
+  goToStep(0);
+}
+function openManual(){openModal(`<h2>Manual</h2><div class="mt-12"><h3>Instalación</h3><p class="text-sm text-muted">Sube a Cloudflare Pages o abre con servidor local. Usa <b>Instalar</b> o "Agregar a pantalla de inicio".</p><h3 class="mt-12">Privacidad</h3><p class="text-sm text-muted">Datos locales en localStorage. Exporta backup antes de cambiar equipo.</p><h3 class="mt-12">Seguridad</h3><p class="text-sm text-muted">La app no diagnostica. Ante dolor intenso o pérdida de fuerza, consulta un profesional.</p></div><div class="mt-16"><button class="btn btn-primary" onclick="document.getElementById('modal').classList.remove('open')">Cerrar</button></div>`)}
+function openModal(html){$('#modalBox').innerHTML=html; $('#modal').classList.add('open');}
+function closeModal(){const m=$('#modal'); if(m)m.classList.remove('open');}
+function toast(title,msg){const box=$('#toasts'); if(!box)return; const el=document.createElement('div'); el.className='toast'; el.innerHTML=`<b>${esc(title)}</b><p>${esc(msg)}</p>`; box.appendChild(el); setTimeout(()=>el.remove(),5000);}
+function bindMicButtons(){document.querySelectorAll('[data-mic]').forEach(btn=>btn.addEventListener('click',()=>dictateTo(btn.dataset.mic,btn)));}
+function dictateTo(id,btn){const SR=window.SpeechRecognition||window.webkitSpeechRecognition; if(!SR){toast('Micrófono','No disponible en este navegador.');return;} const rec=new SR(); rec.lang='es-CO'; rec.interimResults=false; rec.continuous=false; btn.textContent='🎙️ Escuchando...'; rec.onresult=e=>{const txt=e.results[0][0].transcript; const area=$('#'+id); area.value=(area.value?area.value+' ':'')+txt;}; rec.onerror=()=>toast('Error','Revisa permisos del micrófono.'); rec.onend=()=>btn.textContent='🎙️ Dictar'; rec.start();}
+function analyzeUser(u){const p=u.profile, recs=state.records.filter(r=>r.userId===u.id), today=recs.filter(r=>r.createdAt.slice(0,10)===todayKey()); const activeB=getActiveBlock(u); const screen=Math.min(100,Math.round((p.screenHours||0)*9 + (p.workMode==='pantalla'?18:0))); const posture=Math.min(100,35+(p.posture==='sentado'?25:0)+(p.movementLevel==='bajo'?20:0)+(p.painZones?.includes('lumbar')?15:0)); const mental=Math.min(100,30+(['consulta','docencia','reuniones','escritura'].includes(p.workMode)?20:0)+(p.restrictions?.includes('trabajo emocional intenso')?25:0)+(activeB?.emotionalLoad==='alta'?15:0)+(activeB?.emotionalLoad==='media'?5:0)); const target=Math.max(1,Math.round(((p.screenHours||6)*60)/(p.intervalMin||35))); const adherence=Math.min(100,Math.round(today.filter(r=>r.completed).length/target*100)); const avgPain=recs.slice(-8).reduce((a,r)=>a+(+r.painAfter||+r.painBefore||0),0)/Math.max(1,recs.slice(-8).length); const body=Math.min(100,Math.round(avgPain*10 + (p.painZones?.length||0)*5)); const labels=[]; if(screen>60)labels.push('pantalla prolongada'); if(posture>60)labels.push('carga postural'); if(mental>60)labels.push('carga mental'); if(activeB?.emotionalLoad==='alta')labels.push('carga emocional activa'); if(body>55)labels.push('señales corporales'); const profileLabel=labels.join(' + ')||'perfil preventivo'; const recommendation=`Pausas ${p.pausePreference||'suaves'} cada ${activeB?.intervalMin||p.intervalMin||35} min, priorizando ${rankPauses(u).slice(0,3).map(x=>x.zone).join(', ')}.`; const narrative=`Perfil: ${p.workMode}, postura ${p.posture}, ${p.screenHours}h pantalla, zonas: ${(p.painZones||[]).join(', ')||'ninguna'}${activeB?`. Bloque activo: ${activeB.label} (${activeB.activity}, emocional ${activeB.emotionalLoad||'media'})`:''}. Lectura: ${profileLabel}.`; return {screen,posture,mental,adherence,body,profileLabel,recommendation,narrative};}
+function rankPauses(u){const p=u.profile;const activeB=getActiveBlock(u);const selected=(p.diagnosedConditions||[]).map(id=>DIAG_CONDITIONS.find(c=>c.id===id)).filter(Boolean);return [...PAUSES].map(x=>{let s=0;if(p.painZones?.some(z=>x.zone.includes(z)||x.tags.includes(z)))s+=35;if(x.tags.includes(p.workMode))s+=20;if(p.restrictions?.includes('no puedo levantarme')&&x.posture.includes('sentado'))s+=18;if(p.restrictions?.includes('estoy en reunión')&&x.tags.includes('reunión'))s+=22;if(p.restrictions?.includes('fatiga visual')&&x.zone==='ojos')s+=25;if(p.pausePreference==='discreta'&&x.tags.includes('discreta'))s+=18;if(p.posture==='sentado'&&['lumbar','cadera','piernas','ojos','cuello'].includes(x.zone))s+=10;selected.forEach(c=>{if(c.zones?.some(z=>x.zone.includes(z)||x.tags.includes(z)))s+=34;if(c.tags?.some(t=>x.tags.includes(t)||x.title.toLowerCase().includes(t)||x.steps.join(' ').toLowerCase().includes(t)))s+=18;if(c.actions?.some(a=>x.steps.join(' ').toLowerCase().includes(a.toLowerCase().split(' ')[0])))s+=6;});if((p.restrictions||[]).some(r=>r.includes('muñeca') && x.zone.includes('manos')))s-=25;if((p.restrictions||[]).some(r=>r.includes('rodilla') && x.zone.includes('piernas')))s-=15;if((p.restrictions||[]).some(r=>r.includes('de pie') && x.posture.includes('de pie')))s-=20;if((p.restrictions||[]).some(r=>r.includes('sentado') && x.posture.includes('sentado')))s-=15;if(activeB){if(x.tags.includes(activeB.activity))s+=15;if(activeB.emotionalLoad==='alta'&&(x.type==='regulacion'||x.tags.includes('carga emocional')||x.tags.includes('consulta')))s+=30;if(activeB.emotionalLoad==='alta'&&x.type==='relajacion')s+=20;if(activeB.emotionalLoad==='media'&&(x.type==='regulacion'||x.tags.includes('estrés')))s+=10;}return{...x,score:s};}).sort((a,b)=>b.score-a.score||a.duration-b.duration);}
+function recommendPause(u){const r=rankPauses(u)[0]||PAUSES[0]; const a=analyzeUser(u); const dx=(u.profile.diagnosedConditions||[]).length?' Incluye condiciones diagnosticadas seleccionadas.':''; return {...r, reason:a.profileLabel, why:`Sugerida por tu perfil de ${u.profile.workMode}, zonas de cuidado y restricciones.${dx}`};}
+function getStats(userId){const recs=state.records.filter(r=>r.userId===userId); const today=recs.filter(r=>r.createdAt.slice(0,10)===todayKey()&&r.completed); const minutes=Math.round(today.reduce((a,r)=>a+(r.duration||0),0)/60); const days=[...new Set(recs.filter(r=>r.completed).map(r=>r.createdAt.slice(0,10)))].sort().reverse(); let streak=0; let d=new Date(); while(days.includes(d.toISOString().slice(0,10))){streak++; d.setDate(d.getDate()-1);} const deltas=recs.filter(r=>r.completed && r.painBefore!=null && r.painAfter!=null).slice(-5); const avgDelta=deltas.reduce((a,r)=>a+(r.painBefore-r.painAfter),0)/Math.max(1,deltas.length); return {todayCount:today.length, minutes, streak, deltaText:deltas.length?`Cambio promedio de tensión: ${avgDelta.toFixed(1)} pts.`:'Sin registros suficientes.'};}
+function getActiveBlock(u){const blocks=u.profile.workBlocks||[]; return blocks.find(isWithinBlock)||null;}
+function getPauseAnimationHtml(p){let anim='',label='';if(p.type==='regulacion'||p.tags.includes('estrés')||p.tags.includes('ansiedad')||p.zone==='mente'||p.zone==='rostro'){anim='<div class="anim-breathe"></div>';label='Inhala... Exhala...';}else if(p.zone==='ojos'||p.type==='visual'||p.zone.includes('ojo')){anim='<div class="anim-eye"><div class="anim-iris"></div></div>';label='Mira lejos... Mira cerca...';}else if(p.zone==='cuello'){anim='<div class="anim-neck"><div class="anim-head-c"></div><div class="anim-neck-l"></div></div>';label='Inclina suave';}else if(p.zone.includes('hombro')){anim='<div class="anim-shoulders"><div class="anim-sh anim-sh-l"></div><div class="anim-torso-l"></div><div class="anim-sh anim-sh-r"></div></div>';label='Sube y suelta';}else if(p.zone==='manos'||p.zone.includes('mano')){anim='<div class="anim-hands"><div class="anim-hand"><div class="anim-fing"></div><div class="anim-fing"></div><div class="anim-fing"></div><div class="anim-fing"></div><div class="anim-palm"></div></div></div>';label='Abre y cierra';}else if(p.zone==='piernas'&&(p.type==='activacion'||p.type==='circulacion')){anim='<div class="anim-legs"><div class="anim-leg"></div><div class="anim-leg"></div></div>';label='Marcha suave';}else if(p.tags.includes('carga emocional')||p.tags.includes('consulta')||p.zone==='mente/cuerpo'){anim='<div class="anim-heart"></div>';label='Regula tu estado';}else if(p.type==='postural'||p.zone==='pecho'||p.zone==='tronco'||p.zone==='postura'||p.zone==='cadera'){anim='<div class="anim-stretch"></div>';label='Estira suave';}else{anim='<div class="anim-breathe"></div>';label='Respira y mueve';}return `<div class="anim-preview">${anim}</div><div class="anim-label">${label}</div>`;}
+function isWithinBlock(block){const n=new Date();const dayNames=['dom','lun','mar','mié','jue','vie','sáb'];const todayName=dayNames[n.getDay()];if(block.days&&block.days.length&&!block.days.includes(todayName))return false;const hh=String(n.getHours()).padStart(2,'0')+':'+String(n.getMinutes()).padStart(2,'0');return block.start<=hh&&hh<=block.end;}
+function activeBlockInfo(u){const blocks=u.profile.workBlocks||[];const active=blocks.filter(isWithinBlock);if(!active.length)return '<p class="text-muted text-sm">Sin bloque activo.</p>';const dayLabels={lun:'Lun',mar:'Mar',mié:'Mié',jue:'Jue',vie:'Vie',sáb:'Sáb',dom:'Dom'};return active.map(b=>`<div class="block-info"><b>${esc(b.label)}</b><span>${b.start}–${b.end} · ${esc(b.activity)}${b.emotionalLoad?` · emocional ${esc(b.emotionalLoad)}`:''} · ${((b.days||[]).length?(b.days||[]).map(d=>dayLabels[d]||d).join(' '):'sin días activos')}</span></div>`).join('');}
+function canUseBrowserNotification(){return ('Notification' in window) && Notification.permission==='granted' && state.ui.browserNotifications===true;}
+function fireBrowserNotification(title,body){try{if(canUseBrowserNotification()) new Notification(title,{body,icon:'icon-192.svg',tag:'pausa-activa'});}catch(e){console.warn('browser notification failed',e);}}
+function triggerDeviceFeedback(){try{const u=currentUser(); const style=u?.profile?.alertStyle||'visual'; if(navigator.vibrate && style!=='silenciosa') navigator.vibrate(style==='insistente'?[220,80,220]:[120]); if(style==='sonora suave'||style==='insistente') playCompletionSound();}catch(e){}}
+function showScreenAlert(p,planItem=null){if(state.ui.inAppNotifications===false) return; if(document.querySelector('.screen-alert')) return; const el=document.createElement('div'); el.className='screen-alert'; el.setAttribute('role','status'); el.setAttribute('aria-live','polite'); el.innerHTML=`<h3>Pausa activa sugerida</h3><p>${esc(p.title)} · ${esc(planItem?('Plan: cada '+(planItem.frequencyMin||'varios')+' min'):'Según tu perfil actual')}</p><div class="screen-alert-actions"><button class="btn btn-primary btn-sm" data-alertstart="${p.id}">Iniciar</button><button class="btn btn-secondary btn-sm" data-alertopen>Ver opciones</button><button class="btn btn-secondary btn-sm" data-alertclose>Ahora no</button></div>`; document.body.appendChild(el); el.querySelector('[data-alertstart]').onclick=()=>{el.remove(); startPause(p.id,planItem?.id||null);}; el.querySelector('[data-alertopen]').onclick=()=>{el.remove(); openAlertModal(p,planItem);}; el.querySelector('[data-alertclose]').onclick=()=>{const u=currentUser(); if(planItem&&u){recordPlanEvent(u,planItem,'pospuesta',p); schedulePlanItem(u,planItem,10); saveState(); toast('Pausa pospuesta','Volverá a sugerirse en 10 minutos.'); render();} else {state.ui.lastAlertAt=Date.now(); saveState(); toast('Pausa pausada','Volverá a sugerirse más adelante.');} el.remove();}; setTimeout(()=>{ if(el.isConnected) el.remove(); },22000);}
+function toggleNotifications(){state.ui.inAppNotifications=state.ui.inAppNotifications===false?true:false; saveState(); toast('Notificaciones en pantalla',state.ui.inAppNotifications?'Activas. La app mostrará avisos internos.':'Pausadas. Puedes activarlas de nuevo desde los chips o ajustes.'); render();}
+function nextAlertText(u){if(u.plan&&u.plan.status==='active'){const due=duePlanItem(u); if(due) return 'Pausa del plan disponible.'; const active=(u.plan.items||[]).filter(it=>it.active!==false&&it.nextDueAt); if(active.length){const next=Math.min(...active.map(it=>it.nextDueAt)); const remain=Math.max(0,Math.ceil((next-Date.now())/60000)); return remain?`Próxima pausa del plan en ${remain} min.`:'Pausa del plan disponible.';}}const activeB=getActiveBlock(u);const last=state.ui.lastAlertAt||Date.now();const interval=(activeB?.intervalMin||u.profile.intervalMin||35)*60000;const remain=Math.max(0,Math.ceil((last+interval-Date.now())/60000));if(!activeB)return 'Sin bloque activo.';return remain?`Próxima alerta en ${remain} min.`:'Alerta disponible.';}
+function startAlertEngine(){if(runtime.alertInterval)clearInterval(runtime.alertInterval);runtime.alertInterval=setInterval(()=>{if($('#modal')?.classList.contains('open')||document.querySelector('.screen-alert'))return;const u=currentUser();if(!u)return; const dueItem=duePlanItem(u); if(dueItem){const p=PAUSES.find(x=>x.id===dueItem.pauseId)||recommendPause(u);toast('Pausa activa sugerida',p.title);triggerDeviceFeedback();fireBrowserNotification(APP_NAME+' · Pausa activa',`Pausa sugerida: ${p.title}`);showScreenAlert(p,dueItem);return;} const activeB=getActiveBlock(u);if(!activeB)return;const last=state.ui.lastAlertAt||Date.now();const interval=(activeB?.intervalMin||u.profile.intervalMin||35)*60000;const due=Date.now()-last>interval;if(due){const rec=recommendPause(u);state.ui.lastAlertAt=Date.now();saveState();toast('Pausa sugerida',rec.title);triggerDeviceFeedback();fireBrowserNotification(APP_NAME+' · Pausa activa',`Pausa sugerida: ${rec.title}`);showScreenAlert(rec,null);}} ,15000);}
+function openAlertModal(p,planItem=null){openModal(`<h2>Pausa activa sugerida</h2><h3>${esc(p.title)}</h3><p class="text-sm text-muted">${esc(planItem?('Han pasado '+(planItem.frequencyMin||'varios')+' minutos según tu plan. '+(planItem.motive||'')):(p.why||'Sugerida por tu perfil actual.'))}</p><div class="pause-actions mt-16"><button class="btn btn-primary" data-startpause="${p.id}">Iniciar pausa</button><button class="btn btn-secondary" id="postponeBtn">Posponer 10 min</button><button class="btn btn-danger" id="skipBtn">Omitir por ahora</button></div>`); $('#modalBox [data-startpause]').onclick=()=>{startPause(p.id,planItem?.id||null);}; $('#postponeBtn').onclick=()=>{const u=currentUser(); if(planItem){recordPlanEvent(u,planItem,'pospuesta',p); schedulePlanItem(u,planItem,10);} else {state.ui.lastAlertAt=Date.now()-(u.profile.intervalMin-10)*60000;} saveState(); closeModal(); toast('Pausa pospuesta','Volverá a sugerirse en 10 minutos.'); render();}; $('#skipBtn').onclick=()=>{const u=currentUser(); if(planItem){recordPlanEvent(u,planItem,'omitida',p); schedulePlanItem(u,planItem);} else {state.records.push({id:uid('rec'),userId:u.id,pauseId:p.id,title:p.title,zone:p.zone,duration:0,completed:false,status:'omitida',createdAt:nowIso(),noteAfter:'Omitida desde alerta'});state.ui.lastAlertAt=Date.now();} saveState(); closeModal(); render();};}
+function requestNotifications(){if(!('Notification' in window)){toast('Notificaciones del navegador','Este navegador no permite notificaciones externas. Los avisos internos siguen funcionando.');return;} Notification.requestPermission().then(p=>{state.ui.browserNotifications=(p==='granted'); state.ui.inAppNotifications=true; saveState(); toast('Permiso del navegador',p==='granted'?'Concedido. Además quedan activos los avisos internos.':'No concedido. La app usará avisos internos en pantalla.'); render();}).catch(()=>toast('Notificaciones','No se pudo solicitar el permiso.'));}
+function installApp(){if(deferredInstallPrompt){deferredInstallPrompt.prompt(); deferredInstallPrompt.userChoice.finally(()=>deferredInstallPrompt=null);} else toast('Instalación','Usa el menú del navegador o "Agregar a pantalla de inicio".');}
+function exportJson(){downloadFile(`activacare_backup_${todayKey()}.json`, JSON.stringify(state,null,2),'application/json');}
+function importJson(e){const file=e.target.files[0]; if(!file)return; const reader=new FileReader(); reader.onload=()=>{try{const data=JSON.parse(reader.result); if(!data.users||!Array.isArray(data.users)) throw new Error('Formato inválido'); if(!confirm('Esto reemplazará los datos actuales. ¿Continuar?'))return; state=migrateState(data); saveState(); render(); toast('Importado','Datos recuperados.');}catch(err){toast('Error','Archivo no válido.');}}; reader.readAsText(file);}
+function exportHtml(){const u=currentUser(), a=analyzeUser(u), recs=state.records.filter(r=>r.userId===u.id); const html=`<!doctype html><meta charset="utf-8"><title>Informe ActivaCare · Cuidado Inteligente</title><style>body{font-family:sans-serif;padding:28px;color:#212121}h1{color:#006B54}.box{border:1px solid #E5E7EB;border-radius:12px;padding:14px;margin:12px 0}</style><h1>Informe ActivaCare</h1><p><b>${esc(u.name)}</b> · ${fmtDate(nowIso())}</p><div class="box"><h2>Análisis</h2><p>${esc(a.narrative)}</p></div><div class="box"><h2>Registros</h2>${recs.map(r=>`<p><b>${esc(r.title)}</b> · ${fmtDate(r.createdAt)} · ${r.completed?'✓':'⊘'}</p>`).join('')}</div>`; downloadFile(`informe_activacare_${todayKey()}.html`,html,'text/html');}
+function downloadFile(name,content,type){const a=document.createElement('a'); a.href=URL.createObjectURL(new Blob([content],{type})); a.download=name; a.click(); setTimeout(()=>URL.revokeObjectURL(a.href),1000);}
+function playCompletionSound(){try{const ctx=new (window.AudioContext||window.webkitAudioContext)(); const notes=[261.6,329.6,392.0]; notes.forEach((freq,i)=>{const o=ctx.createOscillator(); const g=ctx.createGain(); o.connect(g); g.connect(ctx.destination); o.frequency.value=freq; g.gain.setValueAtTime(0.25,ctx.currentTime+i*0.18); g.gain.exponentialRampToValueAtTime(0.001,ctx.currentTime+i*0.18+0.35); o.start(ctx.currentTime+i*0.18); o.stop(ctx.currentTime+i*0.18+0.4);}); }catch(e){} if(navigator.vibrate) navigator.vibrate([180,90,180]);}
+function exportCsv(){const u=currentUser(); if(!u) return; const rows=state.records.filter(r=>r.userId===u.id); const bom='\uFEFF'; const header='Fecha,Pausa,Zona,Completada,Duracion_seg,Dolor_antes,Energia_antes,Dolor_despues,Energia_despues,Nota_antes,Nota_despues'; const csv=rows.map(r=>[r.createdAt,`"${(r.title||'').replace(/"/g,'""')}"`,r.zone||'',r.completed?'si':'no',r.duration||0,r.painBefore??'',r.energyBefore??'',r.painAfter??'',r.energyAfter??'',`"${(r.noteBefore||'').replace(/"/g,'""')}"`,`"${(r.noteAfter||'').replace(/"/g,'""')}"`].join(',')).join('\n'); downloadFile(`activacare_${u.name.replace(/\s+/g,'_')}_${todayKey()}.csv`,bom+header+'\n'+csv,'text/csv;charset=utf-8');}
+function startCountdownUpdater(){if(runtime.countdownInterval)clearInterval(runtime.countdownInterval); runtime.countdownInterval=setInterval(()=>{const el=$('#next-alert-live'); if(!el)return; const u=currentUser(); if(!u)return; el.textContent=nextAlertText(u);},5000);}
+function wipeAll(){if(confirm('¿Borrar todos los datos?')){localStorage.removeItem(STORAGE_KEY); state=structuredClone(DEFAULT_STATE); render();}}
+
+window.addEventListener('beforeinstallprompt', e => { e.preventDefault(); deferredInstallPrompt = e; });
+window.addEventListener('keydown', e => { if(e.key==='Escape' && $('#modal')?.classList.contains('open')){ if(activeTimer?.running){toast('Temporizador activo','Detén la pausa antes de cerrar.'); return;} closeModal(); } });
+render();
+})();
+</script>
+</body>
+</html>

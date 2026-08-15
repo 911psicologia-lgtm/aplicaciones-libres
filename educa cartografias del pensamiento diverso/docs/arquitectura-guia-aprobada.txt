@@ -1,0 +1,522 @@
+Arquitectura del avatar-guía de Cartografías del Pensamiento
+1. Función general
+
+El logo aprobado se convierte en una presencia pedagógica contextual. No será una mascota, un chatbot ni un personaje que intervenga constantemente. Será la voz visual que acompaña al usuario cuando necesita orientación, contexto o cierre.
+
+Su función será:
+
+recibir;
+explicar procesos;
+situar recorridos;
+sugerir acciones;
+acompañar transiciones;
+cerrar sesiones;
+ofrecer ayuda cuando el usuario la solicite.
+
+No sustituirá el contenido filosófico ni ocupará el centro de la experiencia. La tarjeta seguirá siendo la unidad principal; el guía aparecerá únicamente cuando aporte claridad.
+
+2. Identidad del guía
+Denominación funcional
+
+Por ahora conviene llamarlo internamente:
+
+Guía del pensamiento
+
+Este nombre puede utilizarse en el código, en la documentación y en los textos de accesibilidad. Más adelante podremos decidir si tendrá un nombre propio.
+
+Personalidad comunicativa
+
+Su voz debe ser:
+
+cálida, sin infantilizar;
+clara, sin volverse técnica;
+culta, sin solemnidad innecesaria;
+reflexiva, sin hablar mediante acertijos;
+breve, sin convertirse en otra tarjeta;
+orientadora, sin dar órdenes autoritarias.
+
+No dirá:
+
+Seleccione el modo de navegación deseado.
+
+Dirá:
+
+Elige cómo quieres recorrer las ideas: siguiendo el tiempo, descubriendo al azar o avanzando por conexiones.
+
+3. Formas de aparición
+
+El guía tendrá cuatro presentaciones visuales.
+
+A. Aparición completa
+
+Incluye el logo aprobado y una cápsula de texto. Se utiliza en momentos importantes:
+
+bienvenida;
+configuración inicial;
+presentación de un modo;
+final de sesión;
+despedida.
+B. Aparición compacta
+
+Muestra una versión pequeña del logo junto a una cápsula de una o dos líneas.
+
+Se utiliza para:
+
+recordatorios;
+sugerencias;
+explicaciones rápidas;
+información sobre una función.
+C. Icono de ayuda
+
+Una miniatura circular del guía permite solicitar orientación. No permanece flotando sobre todas las pantallas; aparece únicamente donde pueda ser útil.
+
+D. Guía integrado en pantalla
+
+En algunas vistas, especialmente “¿Qué quieres hacer hoy?”, el guía puede formar parte estable del diseño y ofrecer una sugerencia variable.
+
+4. Anatomía de la cápsula
+
+Cada intervención contendrá como máximo:
+
+imagen del guía;
+mensaje principal;
+una acción opcional;
+un control para cerrar.
+
+Ejemplo:
+
+Explora por conexiones
+En el modo rizoma puedes pasar de una idea a sus antecedentes, críticas y transformaciones.
+Comenzar
+
+No debe contener más de 35 o 40 palabras, salvo en una explicación solicitada expresamente por el usuario.
+
+5. Tipos de mensajes
+
+El sistema distinguirá seis categorías.
+
+Bienvenida
+
+Recibe al usuario y presenta la experiencia.
+
+Bienvenido a Cartografías del Pensamiento. Aquí podrás recorrer ideas, territorios y preguntas que han transformado nuestra manera de comprender el mundo.
+
+Orientación
+
+Explica qué puede hacerse en una pantalla.
+
+Elige un periodo o activa el recorrido completo. También puedes dejar que la aplicación seleccione las tarjetas por ti.
+
+Contextualización
+
+Sitúa al usuario antes de iniciar un recorrido.
+
+Entrarás en un periodo donde filosofía, religión, ciencia y política todavía no estaban separadas como hoy.
+
+Sugerencia
+
+Propone una acción sin interrumpir.
+
+Has explorado varias ideas sobre el cambio. Podrías comparar ahora a Heráclito con Parménides.
+
+Ayuda
+
+Responde a una solicitud directa.
+
+Desliza la tarjeta hacia la izquierda para continuar. También puedes usar las flechas de la barra inferior.
+
+Cierre
+
+Resume y despide.
+
+Hoy recorriste cinco ideas nacidas en tres territorios. Tus tarjetas favoritas quedaron guardadas para volver a ellas cuando quieras.
+
+6. Momentos de activación
+Inicio de la aplicación
+
+El splash mostrará el logo durante aproximadamente 1,5 a 2 segundos. Después aparecerá una bienvenida breve, solo cuando:
+
+sea el primer ingreso;
+exista una actualización importante;
+el usuario haya restablecido la experiencia.
+
+En los ingresos habituales, el splash no debe retrasar el acceso.
+
+Primera configuración
+
+El guía intervendrá al inicio de cada uno de los dos pasos.
+
+Paso 1: forma de exploración
+
+Puedes seguir el curso del tiempo, descubrir tarjetas al azar o recorrer conexiones entre ideas.
+
+Paso 2: campo o periodo
+
+Elige aquello que deseas explorar. Podrás modificarlo después sin perder tu progreso.
+
+Pantalla “¿Qué quieres hacer hoy?”
+
+Aquí el guía puede ofrecer una recomendación breve basada en el progreso:
+
+Ayer recorriste la filosofía antigua. Hoy podrías continuar o dejar que una idea inesperada te encuentre.
+
+La recomendación nunca bloqueará las opciones principales.
+
+Primera entrada a un modo
+
+Cada modo tendrá una explicación que aparece una sola vez, salvo que el usuario solicite verla de nuevo.
+
+Cronología
+
+Recorre las ideas respetando sus épocas, coexistencias y desplazamientos entre territorios.
+
+Aleatorio
+
+La aplicación elegirá tarjetas de forma variada, evitando repeticiones cercanas y equilibrando periodos, territorios y problemas.
+
+Rizoma
+
+Avanza por relaciones: influencias, críticas, conceptos compartidos, traducciones y bifurcaciones.
+
+Inicio de una sesión
+
+El guía puede confirmar duración y recorrido:
+
+Tu sesión durará diez minutos. Las tarjetas avanzarán automáticamente al terminar cada audio, aunque puedes cambiarlas manualmente.
+
+Final de una sesión
+
+Aparece después de la última tarjeta o cuando termina el temporizador.
+
+Has completado tu recorrido. Hoy escuchaste seis tarjetas sobre conocimiento, ética y vida común.
+
+Podrá ofrecer dos acciones:
+
+guardar la sesión;
+continuar libremente.
+Salida
+
+La despedida solo aparecerá cuando el usuario cierre voluntariamente una sesión, no cuando cambie de pantalla.
+
+Hasta pronto. El camino queda guardado para que continúes desde aquí.
+
+7. Presencia en el modo aleatorio
+
+El modo aleatorio será una función principal y deberá sentirse como descubrimiento, no como desorden.
+
+El guía intervendrá al comienzo:
+
+En este recorrido no seguirás una secuencia fija. Cada tarjeta te indicará su época y territorio para que la sorpresa no te haga perder el contexto.
+
+El sistema aleatorio deberá:
+
+evitar tarjetas escuchadas recientemente;
+alternar periodos y territorios;
+variar problemas filosóficos;
+equilibrar autores reconocidos y menos conocidos;
+insertar ocasionalmente una tarjeta relacionada con la anterior;
+permitir seleccionar “solo nuevas” o “nuevas y repasos”;
+respetar los filtros elegidos por el usuario.
+
+Al final podrá decir:
+
+La ruta de hoy reunió ideas que no suelen aparecer juntas. Revisa las conexiones para descubrir por qué se encontraron.
+
+8. Relación con la tarjeta principal
+
+El guía nunca cubrirá:
+
+nombre del autor;
+idea central;
+palabras clave;
+controles de audio;
+icono de compartir;
+navegación lateral.
+
+Cuando aparezca durante una tarjeta, se ubicará:
+
+sobre una franja inferior elevada por encima de la barra;
+en una cápsula lateral en tablet y escritorio;
+dentro de un panel deslizable en celular.
+
+La tarjeta permanecerá visible detrás, pero sin quedar ilegible.
+
+9. Relación con la barra inferior
+
+La barra inferior principal conserva:
+
+Anterior — Reproducir/Pausar — Siguiente — Compartir — Favorito
+
+El guía no ocupará un sexto botón permanente. Su acceso estará disponible mediante:
+
+el menú hamburguesa;
+un pequeño icono contextual en pantallas complejas;
+mensajes automáticos en momentos específicos.
+
+Dentro del menú hamburguesa aparecerá:
+
+Guía y ayuda
+
+Desde allí el usuario podrá consultar:
+
+cómo funcionan los recorridos;
+cómo usar las tarjetas;
+cómo compartir;
+cómo configurar una sesión;
+cómo interpretar la línea de tiempo;
+cómo navegar el rizoma;
+cómo funciona el quiz;
+cómo se verifican las fuentes.
+10. Frecuencia y control de repetición
+
+Cada mensaje tendrá una política de frecuencia.
+
+Mensajes únicos
+
+Se muestran solo una vez:
+
+presentación inicial;
+explicación de cada modo;
+explicación del quiz;
+explicación del compartir;
+explicación del rizoma.
+Mensajes ocasionales
+
+Pueden reaparecer si aportan valor:
+
+sugerencias de recorrido;
+recordatorios de funciones poco utilizadas;
+invitaciones a retomar una ruta.
+Mensajes de sesión
+
+Aparecen siempre que corresponde:
+
+inicio;
+final;
+error importante;
+confirmación de una acción relevante.
+
+El sistema guardará:
+
+{
+  "mensajeVisto": true,
+  "vecesMostrado": 1,
+  "ultimaAparicion": "2026-07-23",
+  "descartadoPorUsuario": false
+}
+
+Si el usuario cierra reiteradamente un tipo de sugerencia, el sistema reducirá automáticamente su frecuencia.
+
+11. Acciones permitidas
+
+Las cápsulas podrán incluir como máximo una acción principal y, excepcionalmente, una secundaria.
+
+Ejemplos:
+
+Comenzar
+Continuar
+Ver cómo funciona
+Explorar conexiones
+Repetir explicación
+Cerrar sesión
+Seguir escuchando
+
+No se colocarán cuatro o cinco botones dentro de una misma cápsula.
+
+12. Animación
+
+La animación será discreta:
+
+entrada con desvanecimiento y desplazamiento corto;
+duración aproximada entre 180 y 260 milisegundos;
+sin rebotes;
+sin movimientos permanentes;
+sin parpadeos;
+sin sonidos adicionales obligatorios.
+
+El globo de diálogo podrá aparecer ligeramente después del logo para producir sensación de conversación, pero el efecto completo no debería superar medio segundo.
+
+La configuración de accesibilidad permitirá reducir o eliminar animaciones.
+
+13. Audio del guía
+
+El usuario podrá elegir si las intervenciones del guía:
+
+se leen automáticamente;
+aparecen solo como texto;
+se leen únicamente al pulsar el botón de audio.
+
+La configuración predeterminada podría ser:
+
+saludo inicial: leído;
+explicación de una función nueva: leído;
+sugerencias ocasionales: solo texto;
+despedida: leída;
+ayuda solicitada: leída.
+
+La voz del guía debe ser la misma durante toda la aplicación para conservar identidad.
+
+14. Accesibilidad
+
+El logo tendrá una descripción funcional:
+
+Ilustración del guía de Cartografías del Pensamiento, representado como un maestro que señala una idea junto a una cápsula de diálogo.
+
+Las cápsulas deberán:
+
+permitir aumento de texto;
+tener contraste suficiente;
+ser navegables mediante teclado;
+anunciarse correctamente al lector de pantalla;
+poder cerrarse sin gestos complejos;
+no desaparecer antes de que el usuario pueda leerlas;
+respetar la preferencia de reducción de movimiento.
+15. Modelo de datos
+
+Cada mensaje del guía se almacenará como contenido independiente:
+
+{
+  "id": "guia_modo_rizoma_01",
+  "categoria": "orientacion",
+  "pantalla": "modo_rizoma",
+  "momento": "primer_ingreso",
+  "titulo": "Explora por conexiones",
+  "texto": "En el modo rizoma puedes pasar de una idea a sus antecedentes, críticas y transformaciones.",
+  "accionPrincipal": {
+    "etiqueta": "Comenzar",
+    "destino": "rizoma_inicio"
+  },
+  "audioAutomatico": true,
+  "frecuencia": "una_vez",
+  "prioridad": 2,
+  "duracionMinimaMs": 5000,
+  "puedeCerrar": true
+}
+
+Esto permitirá modificar mensajes sin tocar el código de las pantallas.
+
+16. Reglas editoriales
+
+Los textos del guía deberán cumplir estas condiciones:
+
+una idea principal por cápsula;
+máximo tres frases;
+sin conceptos técnicos innecesarios;
+sin repetir información visible;
+sin elogiar constantemente al usuario;
+sin frases vacías como “¡Excelente trabajo!”;
+sin fingir emociones humanas;
+sin convertir toda acción en una celebración;
+sin tono infantil;
+sin usar siempre la misma estructura.
+
+En vez de:
+
+Muy bien, has terminado otra increíble tarjeta.
+
+Se utilizará:
+
+Terminaste esta tarjeta. Puedes continuar o explorar las conexiones que dejó abiertas.
+
+17. Estados especiales
+El usuario permanece inactivo
+
+No aparecerá inmediatamente. Después de un tiempo razonable, el guía podrá ofrecer ayuda una sola vez:
+
+¿Necesitas orientación? Puedo explicarte los controles de esta pantalla.
+
+No hay conexión
+
+Estás sin conexión. Las tarjetas descargadas y tu progreso siguen disponibles.
+
+Actualización disponible
+
+Hay una nueva versión de Cartografías del Pensamiento. Puedes actualizarla cuando termines tu sesión.
+
+Error de audio
+
+El audio no pudo iniciarse. Puedes volver a intentarlo o leer la explicación completa.
+
+Fin del contenido descargado
+
+Llegaste al final de las tarjetas disponibles sin conexión. Conéctate para ampliar esta ruta.
+
+18. Integración visual del logo aprobado
+
+El logo conservará su identidad principal:
+
+fondo claro;
+trazos azul oscuro;
+tonos marfil y dorados;
+figura del maestro;
+cápsula de conversación.
+
+Se prepararán variantes técnicas derivadas del mismo diseño:
+
+versión completa para splash;
+versión circular para ayuda;
+versión compacta sin cápsula;
+versión monocromática para tamaños muy pequeños;
+versión adaptable a modo oscuro;
+versión de cierre con la cápsula orientada hacia el contenido.
+
+No se cambiará el personaje ni se generarán rostros alternativos. La diversidad estará en la cápsula, la posición y el contexto, no en modificar constantemente el logo.
+
+19. Flujo de una sesión completa
+Apertura
+
+Logo completo:
+
+Bienvenido a Cartografías del Pensamiento.
+
+Elección
+
+Guía compacto:
+
+¿Cómo quieres explorar hoy?
+
+Configuración
+
+Cápsula breve:
+
+Elige un periodo o conserva el recorrido completo.
+
+Inicio de audio
+
+Confirmación:
+
+Comienza una sesión de diez minutos en modo aleatorio.
+
+Recorrido
+
+El guía desaparece. Solo quedan la tarjeta y los controles.
+
+Intervención contextual excepcional
+
+Esta tarjeta se conecta con otra idea que escuchaste antes. Puedes abrir la relación o continuar.
+
+Cierre
+
+Logo completo:
+
+Terminaste la sesión. Tu progreso quedó guardado.
+
+Este flujo permite que el guía esté presente sin invadir el núcleo de aprendizaje.
+
+20. Criterios de aceptación
+
+La arquitectura estará bien resuelta cuando:
+
+el usuario comprenda cada modo sin leer un manual;
+el guía no cubra contenido ni controles;
+sus mensajes puedan ignorarse o cerrarse;
+no repita explicaciones ya aprendidas;
+el audio filosófico nunca sea interrumpido por una sugerencia;
+el personaje conserve una identidad estable;
+las cápsulas puedan actualizarse sin modificar el código;
+la ayuda sea accesible desde el menú;
+el cierre de sesión aporte síntesis y no simple decoración;
+la presencia del guía se sienta útil, no obligatoria.
+Decisión consolidada
+
+El logo aprobado se integrará como Guía del pensamiento, una presencia visual y auditiva breve que acompaña momentos de entrada, orientación, transición, ayuda y cierre. No formará parte permanente de la barra inferior ni aparecerá sobre cada tarjeta. Su valor estará precisamente en intervenir poco, pero hacerlo cuando una frase clara pueda mejorar la comprensión de toda la experiencia.

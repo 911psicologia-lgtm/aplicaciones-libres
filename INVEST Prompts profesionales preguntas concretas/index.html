@@ -1,0 +1,283 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Rizoma PromptLab Premium v0.3.5</title>
+  <link rel="stylesheet" href="styles.css" />
+</head>
+<body>
+<div class="app-shell">
+  <main class="phone" id="app">
+    <header class="topbar">
+      <div class="brand">
+        <div class="logo">✦</div>
+        <div>
+          <h1>PromptLab Premium</h1>
+          <small id="screenLabel">Inicio</small>
+        </div>
+      </div>
+      <button class="icon-btn" onclick="openDrawer()" title="Menú principal">☰</button>
+    </header>
+
+    <section class="screen active" data-screen="home">
+      <div class="hero">
+        <span class="kicker">🧭 DSEBI · v0.3.5</span>
+        <h2>Construye preguntas profesionales para IA externa <span class="tip" tabindex="0" data-tip="La app no usa API: genera prompts premium para copiar en una IA externa y luego recuperar la respuesta.">?</span></h2>
+        <p>Perfila tu identidad profesional, formula una consulta compleja, genera un prompt JSON premium, llévalo a tu IA preferida y devuelve la respuesta para convertirla en informe y caso reutilizable.</p>
+        <div class="process">
+          <div class="step"><b>1</b><span>Registra tu perfil profesional y tu modo de preguntar.</span></div>
+          <div class="step"><b>2</b><span>Describe la consulta, anexos y formato esperado.</span></div>
+          <div class="step"><b>3</b><span>Copia el prompt, consulta una IA externa y valida la respuesta.</span></div>
+          <div class="step"><b>4</b><span>Genera informe enriquecido, exporta y guarda el caso.</span></div>
+        </div>
+        <div class="actions">
+          <button class="btn" onclick="go('profile')">Iniciar registro</button>
+          <button class="btn secondary" onclick="loadDemoCase()">Demo oftalmología</button>
+          <button class="btn secondary" onclick="loadAcademicDemo()">Demo académico</button>
+          <button class="btn secondary" onclick="go('cases')">Ver casos guardados</button>
+        </div>
+      </div>
+    </section>
+
+    <section class="screen" data-screen="profile">
+      <div class="progress"><span class="dot on"></span><span class="dot"></span><span class="dot"></span><span class="dot"></span></div>
+      <div class="hero">
+        <span class="kicker">👤 Perfil profesional</span>
+        <h2>¿Quién formula la consulta? <span class="tip" tabindex="0" data-tip="Estos datos permiten que el prompt se adapte al rol, campo y forma de trabajo del usuario.">?</span></h2>
+        <p>Estos datos se integran al prompt para que la IA responda desde un encuadre profesional coherente.</p>
+        <div class="form">
+          <div class="row">
+            <div class="field"><label>Nombre <span class="tip" tabindex="0" data-tip="Se usará en informes y exportaciones.">?</span></label><input id="name" placeholder="Ej. José Andrade"></div>
+            <div class="field"><label>Profesión <span class="tip" tabindex="0" data-tip="Ayuda a activar el equipo experto más pertinente.">?</span></label><input id="profession" placeholder="Ej. Psicólogo clínico"></div>
+          </div>
+          <div class="row">
+            <div class="field"><label>Correo</label><input id="email" placeholder="correo@ejemplo.com"></div>
+            <div class="field"><label>Teléfono</label><input id="phone" placeholder="+57..."></div>
+          </div>
+          <div class="field"><label>Área o campo de trabajo <span class="tip" tabindex="0" data-tip="Ej.: salud mental, educación, derecho, investigación, diseño de apps.">?</span></label><input id="field" placeholder="Salud, educación, derecho, investigación..."></div>
+          <div class="field"><label>¿Qué sueles preguntar a la IA? <span class="tip" tabindex="0" data-tip="Define patrones de uso: informes, revisión, diagnóstico orientativo, desarrollo, análisis documental, etc.">?</span></label><div class="mic-row"><textarea id="aiUse" placeholder="Ej. análisis de casos, revisión de documentos, construcción de apps, informes..."></textarea><button class="mic-btn mini-mic" onclick="toggleMicForField('aiUse', this)" aria-label="Dictar en este campo">🎙️</button></div></div>
+          <button class="btn" onclick="saveProfile();go('question')">Guardar y continuar</button>
+        </div>
+      </div>
+    </section>
+
+    <section class="screen" data-screen="question">
+      <div class="progress"><span class="dot on"></span><span class="dot on"></span><span class="dot"></span><span class="dot"></span></div>
+      <div class="hero">
+        <span class="kicker">❓ Pregunta profesional</span>
+        <h2>¿Qué quieres resolver? <span class="tip" tabindex="0" data-tip="Formula aquí la necesidad central. Puede ser clínica, académica, jurídica, técnica, formativa o de desarrollo.">?</span></h2>
+        <p>La consulta debe orientar a la IA sobre el caso, el objetivo, los límites y el producto esperado.</p>
+        <div class="form">
+          <div class="field"><label>Título corto del caso <span class="tip" tabindex="0" data-tip="Debe permitir reconocer el caso después. Ej.: Análisis de exámenes visuales.">?</span></label><input id="caseTitle" placeholder="Ej. Integración de exámenes visuales"></div>
+
+          <div class="field">
+            <label>Pregunta o necesidad central <span class="tip" tabindex="0" data-tip="Describe qué quieres consolidar, descartar, analizar, producir o decidir.">?</span></label>
+            <div class="mic-row">
+              <textarea id="centralQuestion" class="big" placeholder="Describe qué quieres preguntar, consolidar, descartar, diseñar o producir..."></textarea>
+              <button class="mic-btn" id="micBtn" onclick="toggleMic()" title="Dictar por voz" aria-label="Activar/desactivar micrófono para dictado">🎙️</button>
+            </div>
+            <small class="hint" id="micHint">Micrófono opcional. Funciona si el navegador permite reconocimiento de voz.</small>
+          </div>
+
+          <div class="field"><label>Tipo de producto esperado <span class="tip" tabindex="0" data-tip="Define cómo debe responder la IA y cómo se organizará el informe final.">?</span></label>
+            <select id="productType" onchange="toggleCustomProduct()">
+              <option>Informe profesional</option><option>Análisis técnico</option><option>Concepto orientativo</option><option>Matriz comparativa</option><option>Revisión crítica</option><option>Prompt para app</option><option>Curso o guía formativa</option><option>Otro personalizado</option>
+            </select>
+          </div>
+          <div class="field hidden" id="customProductBox">
+            <label>Describe el formato personalizado <span class="tip" tabindex="0" data-tip="Este texto se inyectará directamente en el prompt para orientar la respuesta.">?</span></label>
+            <textarea id="customProduct" placeholder="Ej. Quiero una respuesta en formato de nota clínica extensa, matriz de decisión, ruta de intervención, ficha técnica..."></textarea>
+          </div>
+          
+          <div class="field"><label>Naturaleza del informe</label>
+            <select id="reportNature" onchange="toggleCustomNature()">
+              <option>Académico / bibliográfico</option>
+              <option>Clínico / orientativo</option>
+              <option>Evaluativo / interpretación de pruebas</option>
+              <option>Jurídico / documental</option>
+              <option>Técnico / profesional</option>
+              <option>Desarrollo app/web</option>
+              <option>Formativo / curso</option>
+              <option>Investigación / metodología</option>
+              <option>Otro / personalizado</option>
+            </select>
+          </div>
+
+          <div class="field hidden" id="customNatureBox">
+            <label>¿De qué se trata este tipo de informe?</label>
+            <textarea id="customNatureDesc" placeholder="Describe el tipo de informe, su lógica y propósito..."></textarea>
+          </div>
+
+          <div class="field hidden" id="customNatureStructureBox">
+            <label>¿Cómo imaginas que debe organizarse el informe?</label>
+            <textarea id="customNatureStructure" placeholder="Ej. apartados, tono, tablas, extensión, referencias, advertencias, estilo narrativo..."></textarea>
+          </div>
+
+          <div class="field hidden" id="customNatureFieldsBox">
+            <label>¿Qué campos o secciones esperas en la respuesta? <span class="tip" tabindex="0" data-tip="Escribe los nombres de sección separados por coma. La app los normaliza como claves JSON y los inyecta al prompt para que la IA los incluya obligatoriamente. Ej.: seguimiento_clinico, plan_de_transicion, acuerdos">?</span></label>
+            <input id="customNatureFields"
+              placeholder="Ej. seguimiento clinico, plan de transición, acuerdos interdisciplinares, cronograma"
+              oninput="updateCustomKeysPreview()"
+              autocomplete="off">
+            <small class="hint">Separa con comas · máx. 10 campos · se normalizan automáticamente a snake_case</small>
+            <div id="customKeysPreview" class="custom-keys-preview" style="display:none"></div>
+          </div>
+
+<button class="btn" onclick="go('docs')">Continuar</button>
+        </div>
+      </div>
+    </section>
+
+    <section class="screen" data-screen="docs">
+      <div class="progress"><span class="dot on"></span><span class="dot on"></span><span class="dot on"></span><span class="dot"></span></div>
+      <div class="hero">
+        <span class="kicker">📎 Anexos y respuesta</span>
+        <h2>¿Qué información acompañará la consulta? <span class="tip" tabindex="0" data-tip="La app no sube archivos. Registra qué anexos entregarás a la IA externa.">?</span></h2>
+        <p>Indica si entregarás anexos a la IA para que el prompt recuerde analizarlos sin inventar información.</p>
+        <div class="form">
+          <div class="check-card">
+            <input type="checkbox" id="willAttach" />
+            <label for="willAttach">Confirmo que subiré o pegaré archivos/anexos en la IA externa</label>
+          </div>
+          <div class="field"><label>Tipos de documentos o insumos <span class="tip" tabindex="0" data-tip="Ej.: exámenes, imágenes, valoraciones, artículos, sentencias, historia clínica, matrices.">?</span></label><div class="mic-row"><textarea id="docTypes" placeholder="Ej. exámenes, valoraciones, imágenes, artículos, historia clínica, matrices, sentencias..."></textarea><button class="mic-btn mini-mic" onclick="toggleMicForField('docTypes', this)" aria-label="Dictar en este campo">🎙️</button></div></div>
+          <div class="field"><label>Instrucciones especiales para la respuesta <span class="tip" tabindex="0" data-tip="Define tono, límites, extensión, enfoque, advertencias y criterios de evidencia.">?</span></label><div class="mic-row"><textarea id="responseStyle" placeholder="Ej. tono profesional, advertencias, límites, formato, extensión, nivel técnico..."></textarea><button class="mic-btn mini-mic" onclick="toggleMicForField('responseStyle', this)" aria-label="Dictar en este campo">🎙️</button></div></div>
+          <div class="field"><label>Etiquetas manuales <span class="tip" tabindex="0" data-tip="Separadas por coma. Ayudan a buscar y reutilizar casos.">?</span></label><input id="manualLabels" placeholder="Ej. clínica, diagnóstico, informe, app, educación"></div>
+          <button class="btn" onclick="generatePrompt();go('prompt')">Generar prompt premium</button>
+        </div>
+      </div>
+    </section>
+
+    <section class="screen" data-screen="prompt">
+      <div class="progress"><span class="dot on"></span><span class="dot on"></span><span class="dot on"></span><span class="dot on"></span></div>
+      <div class="hero">
+        <span class="kicker">⚙️ Prompt JSON</span>
+        <h2>Prompt listo para IA externa <span class="tip" tabindex="0" data-tip="Copia todo el JSON. La IA debe devolver JSON válido o un informe estructurado.">?</span></h2>
+        <p>Este prompt activa equipo senior-premium, protocolo anti-alucinación, evidencia, contextualización al caso y lectura de anexos.</p>
+        <div class="actions">
+          <button class="btn" onclick="copyPrompt()">Copiar prompt</button>
+          <button class="btn secondary" onclick="go('hub')">Abrir hub de IA</button>
+        </div>
+        <div class="card"><div id="promptOutput" class="output"></div></div>
+      </div>
+    </section>
+
+    <section class="screen" data-screen="hub">
+      <div class="hero">
+        <span class="kicker">🌐 Hub externo</span>
+        <h2>Elige una IA externa <span class="tip" tabindex="0" data-tip="Se abrirá en una pestaña nueva. Luego regresa a la app y pega la respuesta obtenida.">?</span></h2>
+        <p>La app no usa API. Abre una IA, pega el prompt, adjunta documentos si corresponde y vuelve para validarla.</p>
+        <div class="form ai-grid" id="aiHub"></div>
+        <div class="actions"><button class="btn" onclick="go('validate')">Pegar respuesta obtenida</button></div>
+      </div>
+    </section>
+
+    <section class="screen" data-screen="validate">
+      <div class="hero">
+        <span class="kicker">✅ Validación</span>
+        <h2>Devuelve la respuesta a la app <span class="tip" tabindex="0" data-tip="El JSON válido permite construir mejor el informe; el texto bruto también puede guardarse.">?</span></h2>
+        <p>Pega el JSON devuelto por la IA. Si no es JSON, también puedes guardarlo como respuesta textual.</p>
+        <div class="form">
+          <textarea id="aiResponse" class="big" placeholder='{"titulo":"...","informe_final":"...","recomendaciones":["..."]}'></textarea>
+          <button class="btn" onclick="validateResponse()">Validar respuesta</button>
+          <button class="btn secondary" onclick="buildReport()">Generar informe</button>
+        </div>
+        <div class="card"><div id="validationMsg" class="hint">Aún no se ha validado la respuesta.</div><div id="semanticValidation" class="semantic-box"></div></div>
+      </div>
+    </section>
+
+    <section class="screen" data-screen="report">
+      <div class="hero">
+        <span class="kicker">📄 Informe final</span>
+        <h2 id="reportTitle">Informe profesional</h2>
+        <div class="save-callout">
+          <div>
+            <strong>💾 Guarda este caso</strong>
+            <span>Así podrás abrirlo después desde “Casos guardados”.</span>
+          </div>
+          <button class="btn save-main" onclick="openSaveCaseModal()">Guardar caso</button>
+        </div>
+        <div class="actions report-actions">
+          <button class="btn secondary" onclick="copyReport()">Copiar informe</button>
+          <button class="btn secondary" onclick="exportCurrent('html')">Exportar HTML</button>
+          <button class="btn secondary" onclick="exportCurrent('txt')">Exportar TXT</button>
+          <button class="btn secondary" onclick="exportCurrent('doc')">Exportar Word</button>
+        </div>
+        <div class="report-preview" id="reportOutput"></div>
+      </div>
+    </section>
+
+    <section class="screen" data-screen="cases">
+      <div class="hero">
+        <span class="kicker">🗂️ Casos guardados</span>
+        <h2>Memoria de prompts e informes <span class="tip" tabindex="0" data-tip="Los casos quedan en localStorage del navegador. Exporta JSON como respaldo.">?</span></h2>
+        <p>Abre, reutiliza, exporta o elimina casos guardados localmente en este dispositivo.</p>
+        <div class="actions">
+          <button class="btn secondary" onclick="exportAllCases()">Exportar todos JSON</button>
+          <label class="btn ghost" style="text-align:center">Importar JSON<input type="file" accept=".json" style="display:none" onchange="importCases(event)"></label>
+        </div>
+        <div id="caseList" class="case-list"></div>
+      </div>
+    </section>
+
+    <div class="footer-nav">
+      <button class="btn ghost" onclick="back()">← Atrás</button>
+      <button class="btn ghost" onclick="go('home')">Inicio</button>
+    </div>
+
+    <div class="drawer" id="drawer" onclick="closeDrawer(event)">
+      <aside class="drawer-panel" onclick="event.stopPropagation()">
+        <button class="icon-btn" onclick="openDrawer()" style="float:right">×</button>
+        <h2>Menú</h2>
+        <button class="menu-item" onclick="go('home');openDrawer()">🏠 Volver al inicio</button>
+        <button class="menu-item" onclick="back();openDrawer()">← Ir atrás</button>
+        <button class="menu-item" onclick="go('cases');openDrawer()">🗂️ Casos guardados</button>
+        <button class="menu-item" onclick="exportAllCases()">⬇️ Exportar todos</button>
+        <button class="menu-item" onclick="resetFlow()">🔓 Desbloquear flujo</button>
+        <button class="menu-item" onclick="logout()">🚪 Logout / limpiar sesión visual</button>
+        <h3>Paletas</h3>
+        <div class="palette-grid" id="paletteGrid"></div>
+        <h3>Manual breve</h3>
+        <div class="accordion">
+          <details><summary>¿Cómo funciona?</summary><p>Registra tu perfil, formula la consulta, genera el JSON, llévalo a una IA externa y devuelve la respuesta para crear el informe.</p></details>
+          <details><summary>¿La app usa API?</summary><p>No. Todo funciona por copiar y pegar. La información se guarda localmente en este navegador.</p></details>
+          <details><summary>¿Qué exporta?</summary><p>Casos en JSON, informes en HTML, TXT y formato compatible con Word.</p></details>
+        </div>
+        <h3>Créditos</h3>
+        <p>Diseño conceptual y desarrollo: José Alonso Andrade Salazar · Ecosistema Rizoma.</p>
+      </aside>
+    </div>
+
+    <div class="modal" id="attachModal">
+      <div class="modal-card">
+        <h2>📎 Recuerda los anexos</h2>
+        <p>Marcaste que usarás archivos. Antes de enviar el prompt en la IA externa, adjunta o pega los documentos indicados para evitar respuestas incompletas o inventadas.</p>
+        <button class="btn" onclick="closeAttachModal()">Entendido</button>
+      </div>
+    </div>
+
+    <div class="modal" id="saveCaseModal">
+      <div class="modal-card">
+        <h2>💾 Guardar caso</h2>
+        <p>Asigna un nombre reconocible. El caso quedará disponible en “Casos guardados” junto con el prompt, la respuesta, el informe y sus etiquetas.</p>
+        <div class="form">
+          <div class="field">
+            <label>Nombre del caso</label>
+            <input id="saveCaseName" placeholder="Ej. Revisión bibliográfica complejidad" />
+          </div>
+          <div class="field">
+            <label>Etiquetas adicionales</label>
+            <input id="saveCaseExtraLabels" placeholder="Ej. académico, bibliografía, complejidad" />
+          </div>
+          <button class="btn" onclick="confirmSaveCurrentCase()">Guardar definitivamente</button>
+          <button class="btn ghost" onclick="closeSaveCaseModal()">Cancelar</button>
+        </div>
+      </div>
+    </div>
+
+    <div class="toast" id="toast"></div>
+  </main>
+</div>
+<script src="app.js"></script>
+</body>
+</html>

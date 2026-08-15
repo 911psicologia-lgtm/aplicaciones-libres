@@ -1,0 +1,619 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Remisión | Historia Clínica Psicológica Integral</title>
+    
+    <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🧠</text></svg>">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="assets/css/main.css">
+    <link rel="manifest" href="manifest.json">
+    
+    <style>
+        .referral-preview {
+            background: white;
+            border: 1px solid #e2e8f0;
+            border-radius: 12px;
+            padding: 2rem;
+            font-family: 'Georgia', serif;
+            line-height: 1.8;
+            color: #2d3748;
+        }
+        
+        .referral-preview .header {
+            text-align: center;
+            margin-bottom: 2rem;
+            padding-bottom: 1rem;
+            border-bottom: 2px solid #2c5282;
+        }
+        
+        .referral-preview .header h2 {
+            color: #2c5282;
+            font-size: 1.5rem;
+            margin-bottom: 0.5rem;
+        }
+        
+        .referral-preview .header .subtitle {
+            color: #718096;
+            font-size: 0.875rem;
+        }
+        
+        .referral-preview .section {
+            margin-bottom: 1.5rem;
+        }
+        
+        .referral-preview .section-title {
+            font-weight: 600;
+            color: #2c5282;
+            margin-bottom: 0.5rem;
+            font-size: 0.9375rem;
+        }
+        
+        .referral-preview .content {
+            text-align: justify;
+        }
+        
+        .referral-preview .signature-section {
+            margin-top: 3rem;
+            display: flex;
+            justify-content: space-between;
+        }
+        
+        .referral-preview .signature-box {
+            text-align: center;
+            width: 250px;
+        }
+        
+        .referral-preview .signature-line {
+            border-top: 1px solid #2d3748;
+            margin-top: 3rem;
+            padding-top: 0.5rem;
+        }
+        
+        .referral-preview .footer {
+            margin-top: 2rem;
+            padding-top: 1rem;
+            border-top: 1px solid #e2e8f0;
+            font-size: 0.75rem;
+            color: #718096;
+            text-align: center;
+        }
+        
+        .config-panel {
+            background: #f7fafc;
+            border-radius: 12px;
+            padding: 1.5rem;
+        }
+        
+        .config-panel h4 {
+            margin-bottom: 1rem;
+            color: #2d3748;
+        }
+        
+        .include-options {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 0.75rem;
+        }
+        
+        .include-option {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            padding: 0.5rem;
+            background: white;
+            border-radius: 6px;
+            cursor: pointer;
+        }
+        
+        .include-option input {
+            accent-color: #2c5282;
+        }
+        
+        .recipient-section {
+            margin-top: 1.5rem;
+        }
+        
+        .template-selector {
+            display: flex;
+            gap: 0.5rem;
+            margin-bottom: 1rem;
+            flex-wrap: wrap;
+        }
+        
+        .template-btn {
+            padding: 0.5rem 1rem;
+            border: 1.5px solid #e2e8f0;
+            border-radius: 6px;
+            background: white;
+            cursor: pointer;
+            font-size: 0.8125rem;
+            transition: all 0.2s;
+        }
+        
+        .template-btn:hover {
+            border-color: #4299e1;
+        }
+        
+        .template-btn.active {
+            background: #2c5282;
+            color: white;
+            border-color: #2c5282;
+        }
+        
+        .clinical-question-box {
+            background: #fffaf0;
+            border: 1px solid #fbd38d;
+            border-radius: 8px;
+            padding: 1rem;
+            margin-top: 1rem;
+        }
+        
+        .clinical-question-box h5 {
+            color: #c05621;
+            margin-bottom: 0.5rem;
+        }
+        
+        @media print {
+            .app-header, .page-header, .config-panel, .btn {
+                display: none !important;
+            }
+            
+            .referral-preview {
+                border: none;
+                padding: 0;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Header -->
+    <header class="app-header">
+        <div class="header-content">
+            <div class="header-brand">
+                <i class="fas fa-brain"></i>
+                <span>Historia Clínica Psicológica</span>
+            </div>
+            
+            <nav class="header-nav">
+                <a href="dashboard.html" class="nav-link">
+                    <i class="fas fa-home"></i> Inicio
+                </a>
+                <a href="patient.html" class="nav-link">
+                    <i class="fas fa-user"></i> Paciente
+                </a>
+                <a href="settings.html" class="nav-link">
+                    <i class="fas fa-cog"></i> Configuración
+                </a>
+            </nav>
+            
+            <div class="header-actions">
+                <div class="user-menu">
+                    <i class="fas fa-user-md"></i>
+                    <span id="userName">Profesional</span>
+                </div>
+                <button class="logout-btn" onclick="Auth.logout()">
+                    <i class="fas fa-sign-out-alt"></i>
+                </button>
+            </div>
+        </div>
+    </header>
+
+    <!-- Main Content -->
+    <main class="main-content">
+        <!-- Page Header -->
+        <div class="page-header">
+            <div>
+                <h1 class="page-title">Carta de Remisión</h1>
+                <p class="page-subtitle" id="patientSubtitle">Generar remisión a otros profesionales</p>
+            </div>
+            <div class="flex gap-2">
+                <button type="button" class="btn btn-outline" onclick="goBack()">
+                    <i class="fas fa-arrow-left"></i> Volver
+                </button>
+                <button type="button" class="btn btn-secondary" onclick="printReferral()">
+                    <i class="fas fa-print"></i> Imprimir
+                </button>
+                <button type="button" class="btn btn-primary" onclick="exportReferral()">
+                    <i class="fas fa-download"></i> Exportar
+                </button>
+            </div>
+        </div>
+
+        <div class="grid grid-cols-2" style="gap: 1.5rem;">
+            <!-- Panel de Configuración -->
+            <div>
+                <div class="config-panel">
+                    <h4><i class="fas fa-cog"></i> Configuración de la Remisión</h4>
+                    
+                    <input type="hidden" id="patientId">
+                    
+                    <div class="template-selector">
+                        <button type="button" class="template-btn active" onclick="setTemplate('general', this)">General</button>
+                        <button type="button" class="template-btn" onclick="setTemplate('psiquiatria', this)">Psiquiatría</button>
+                        <button type="button" class="template-btn" onclick="setTemplate('neurologia', this)">Neurología</button>
+                        <button type="button" class="template-btn" onclick="setTemplate('medicina', this)">Medicina General</button>
+                        <button type="button" class="template-btn" onclick="setTemplate('trabajosocial', this)">Trabajo Social</button>
+                    </div>
+                    
+                    <div class="recipient-section">
+                        <div class="form-group">
+                            <label>Destinatario <span class="required">*</span></label>
+                            <input type="text" class="form-control" id="recipientName" placeholder="Nombre del profesional o institución">
+                        </div>
+                        <div class="form-group">
+                            <label>Especialidad / Cargo</label>
+                            <input type="text" class="form-control" id="recipientSpecialty" placeholder="Ej: Psiquiatra, Médico General">
+                        </div>
+                    </div>
+                    
+                    <div class="form-group" style="margin-top: 1rem;">
+                        <label>Incluir en la remisión:</label>
+                        <div class="include-options">
+                            <label class="include-option">
+                                <input type="checkbox" id="includeData" checked>
+                                <span>Datos del paciente</span>
+                            </label>
+                            <label class="include-option">
+                                <input type="checkbox" id="includeSummary" checked>
+                                <span>Resumen clínico</span>
+                            </label>
+                            <label class="include-option">
+                                <input type="checkbox" id="includeDiagnosis" checked>
+                                <span>Diagnóstico</span>
+                            </label>
+                            <label class="include-option">
+                                <input type="checkbox" id="includeFindings">
+                                <span>Hallazgos de evaluaciones</span>
+                            </label>
+                            <label class="include-option">
+                                <input type="checkbox" id="includeSessions" checked>
+                                <span>Número de sesiones</span>
+                            </label>
+                            <label class="include-option">
+                                <input type="checkbox" id="includeDates" checked>
+                                <span>Fechas de atención</span>
+                            </label>
+                        </div>
+                    </div>
+                    
+                    <div class="clinical-question-box">
+                        <h5><i class="fas fa-question-circle"></i> Pregunta Clínica</h5>
+                        <textarea class="form-control" id="clinicalQuestion" rows="3" placeholder="¿Qué consulta o interconsulta se solicita al profesional remitido?"></textarea>
+                    </div>
+                    
+                    <div class="form-group" style="margin-top: 1rem;">
+                        <label>Notas Adicionales</label>
+                        <textarea class="form-control" id="additionalNotes" rows="3" placeholder="Información adicional relevante para el destinatario"></textarea>
+                    </div>
+                    
+                    <button type="button" class="btn btn-primary" style="width: 100%; margin-top: 1rem;" onclick="generatePreview()">
+                        <i class="fas fa-sync"></i> Actualizar Vista Previa
+                    </button>
+                </div>
+            </div>
+            
+            <!-- Vista Previa -->
+            <div>
+                <div class="referral-preview" id="referralPreview">
+                    <div class="header">
+                        <h2>CARTA DE REMISIÓN</h2>
+                        <div class="subtitle">Historia Clínica Psicológica Integral</div>
+                    </div>
+                    
+                    <div class="section">
+                        <div class="section-title">DESTINATARIO:</div>
+                        <div class="content" id="previewRecipient">[Nombre del profesional]</div>
+                    </div>
+                    
+                    <div class="section">
+                        <div class="section-title">ASUNTO:</div>
+                        <div class="content">Remisión de paciente para evaluación / tratamiento interdisciplinario</div>
+                    </div>
+                    
+                    <div class="section">
+                        <div class="section-title">DATOS DEL PACIENTE:</div>
+                        <div class="content" id="previewPatientData">
+                            [Datos del paciente]
+                        </div>
+                    </div>
+                    
+                    <div class="section">
+                        <div class="section-title">RESUMEN CLÍNICO:</div>
+                        <div class="content" id="previewSummary">
+                            [Resumen clínico del caso]
+                        </div>
+                    </div>
+                    
+                    <div class="section">
+                        <div class="section-title">DIAGNÓSTICO:</div>
+                        <div class="content" id="previewDiagnosis">
+                            [Diagnóstico actual]
+                        </div>
+                    </div>
+                    
+                    <div class="section">
+                        <div class="section-title">MOTIVO DE REMISIÓN:</div>
+                        <div class="content" id="previewReason">
+                            [Pregunta clínica o motivo de la remisión]
+                        </div>
+                    </div>
+                    
+                    <div class="section">
+                        <div class="section-title">HALLAZGOS RELEVANTES:</div>
+                        <div class="content" id="previewFindings">
+                            [Hallazgos de evaluaciones psicológicas]
+                        </div>
+                    </div>
+                    
+                    <div class="signature-section">
+                        <div class="signature-box">
+                            <div class="signature-line">
+                                <div id="previewProfessionalName">[Nombre del profesional]</div>
+                                <div style="font-size: 0.875rem; color: #718096;" id="previewProfessionalTitle">Psicólogo</div>
+                                <div style="font-size: 0.75rem; color: #a0aec0;" id="previewLicense">[Registro profesional]</div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="footer">
+                        <div id="previewInstitution">[Datos institucionales]</div>
+                        <div>Fecha de emisión: <span id="previewDate"></span></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <!-- Scripts -->
+    <script src="assets/js/db.js"></script>
+    <script src="assets/js/utils.js"></script>
+    
+    <script>
+        let currentPatient = null;
+        let currentTemplate = 'general';
+        let professionalSettings = null;
+        
+        document.addEventListener('DOMContentLoaded', async function() {
+            // Auth + DB
+            const session = Auth.requireAuth();
+            await db.init();
+            if (session) {
+                document.getElementById('userName').textContent = session.fullName || session.username;
+            }
+            
+            // Cargar configuración del profesional
+            await loadProfessionalSettings();
+            
+            // Verificar parámetros
+            const urlParams = new URLSearchParams(window.location.search);
+            const patientId = urlParams.get('patient');
+            
+            if (patientId) {
+                document.getElementById('patientId').value = patientId;
+                await loadPatient(patientId);
+                await generatePreview();
+            } else {
+                UI.toast('Debe seleccionar un paciente', 'error');
+                setTimeout(() => window.location.href = 'dashboard.html', 2000);
+            }
+            
+            // Fecha actual
+            document.getElementById('previewDate').textContent = DateUtils.formatDate(DateUtils.getToday());
+        });
+        
+        async function loadProfessionalSettings() {
+            professionalSettings = await db.getSetting('professional', {});
+            
+            // Actualizar preview con datos del profesional
+            if (professionalSettings.fullName) {
+                document.getElementById('previewProfessionalName').textContent = professionalSettings.fullName;
+            }
+            if (professionalSettings.license) {
+                document.getElementById('previewLicense').textContent = professionalSettings.license;
+            }
+            if (professionalSettings.institution) {
+                document.getElementById('previewInstitution').textContent = professionalSettings.institution;
+            }
+        }
+        
+        async function loadPatient(patientId) {
+            currentPatient = await db.get(STORES.PATIENTS, parseInt(patientId));
+            if (currentPatient) {
+                document.getElementById('patientSubtitle').textContent = 
+                    `Paciente: ${currentPatient.firstName} ${currentPatient.lastName} - ${currentPatient.historyNumber}`;
+            }
+        }
+        
+        function setTemplate(template, el = null) {
+            currentTemplate = template;
+            
+            document.querySelectorAll('.template-btn').forEach(btn => btn.classList.remove('active'));
+            const btn = el || document.querySelector(`.template-btn[onclick*="'${template}'"]`) || document.querySelectorAll('.template-btn')[0];
+            if (btn) btn.classList.add('active');
+            
+            // Sugerir especialidad según template
+            const specialties = {
+                general: '',
+                psiquiatria: 'Psiquiatra',
+                neurologia: 'Neurólogo',
+                medicina: 'Médico General',
+                trabajosocial: 'Trabajador Social'
+            };
+            
+            document.getElementById('recipientSpecialty').value = specialties[template] || '';
+        }
+        
+        async function generatePreview() {
+            if (!currentPatient) return;
+            
+            const includeData = document.getElementById('includeData').checked;
+            const includeSummary = document.getElementById('includeSummary').checked;
+            const includeDiagnosis = document.getElementById('includeDiagnosis').checked;
+            const includeFindings = document.getElementById('includeFindings').checked;
+            const includeSessions = document.getElementById('includeSessions').checked;
+            const includeDates = document.getElementById('includeDates').checked;
+            
+            // Destinatario
+            const recipientName = document.getElementById('recipientName').value.trim();
+            const recipientSpecialty = document.getElementById('recipientSpecialty').value.trim();
+            document.getElementById('previewRecipient').innerHTML = recipientName ? 
+                `<strong>${recipientName}</strong>${recipientSpecialty ? `<br>${recipientSpecialty}` : ''}` : 
+                '[Nombre del profesional]';
+            
+            // Datos del paciente
+            if (includeData) {
+                const age = DateUtils.formatAge(currentPatient.birthDate);
+                document.getElementById('previewPatientData').innerHTML = `
+                    <strong>Nombre:</strong> ${currentPatient.firstName} ${currentPatient.lastName}<br>
+                    <strong>Historia Clínica:</strong> ${currentPatient.historyNumber}<br>
+                    <strong>Documento:</strong> ${currentPatient.document || 'N/A'}<br>
+                    <strong>Edad:</strong> ${age}<br>
+                    <strong>Género:</strong> ${getGenderLabel(currentPatient.gender)}<br>
+                    ${currentPatient.phone ? `<strong>Teléfono:</strong> ${currentPatient.phone}<br>` : ''}
+                    ${currentPatient.email ? `<strong>Email:</strong> ${currentPatient.email}` : ''}
+                `;
+            } else {
+                document.getElementById('previewPatientData').textContent = '[Datos del paciente]';
+            }
+            
+            // Resumen clínico
+            if (includeSummary && currentPatient.consultationReason) {
+                document.getElementById('previewSummary').innerHTML = 
+                    `<strong>Motivo de consulta:</strong><br>${currentPatient.consultationReason}<br><br>` +
+                    (currentPatient.problemHistory ? `<strong>Historia del problema:</strong><br>${currentPatient.problemHistory}` : '');
+            } else {
+                document.getElementById('previewSummary').textContent = '[Resumen clínico del caso]';
+            }
+            
+            // Diagnóstico
+            if (includeDiagnosis) {
+                const diagnoses = await db.getPatientDiagnoses(currentPatient.id);
+                if (diagnoses && diagnoses.length > 0) {
+                    const latestDiagnosis = diagnoses[diagnoses.length - 1];
+                    let diagnosisText = '';
+                    
+                    const dxItems = [];
+                    if (latestDiagnosis.mode === 'manual' && latestDiagnosis.manualDiagnosis) {
+                        if (latestDiagnosis.manualDiagnosis.primary) dxItems.push({ role:'Principal', code:'', name: latestDiagnosis.manualDiagnosis.primary });
+                        if (latestDiagnosis.manualDiagnosis.secondary) dxItems.push({ role:'Secundario(s)', code:'', name: latestDiagnosis.manualDiagnosis.secondary });
+                    }
+                    if (Array.isArray(latestDiagnosis.primaryDiagnosis)) latestDiagnosis.primaryDiagnosis.forEach(d => dxItems.push({ ...d, role:'Principal' }));
+                    if (Array.isArray(latestDiagnosis.secondaryDiagnoses)) latestDiagnosis.secondaryDiagnoses.forEach(d => dxItems.push({ ...d, role:'Secundario' }));
+                    if (Array.isArray(latestDiagnosis.diagnoses)) latestDiagnosis.diagnoses.forEach(d => dxItems.push({ ...d, role:d.role || 'Diagnóstico' }));
+                    diagnosisText = dxItems.map(d => `${d.role}: ${d.system ? d.system + ' ' : ''}${d.code ? d.code + ' - ' : ''}${d.name || d.diagnosis || ''}`).join('<br>');
+                    document.getElementById('previewDiagnosis').innerHTML = diagnosisText || '[Diagnóstico actual]';
+                } else {
+                    document.getElementById('previewDiagnosis').textContent = 'Sin diagnóstico formal establecido';
+                }
+            } else {
+                document.getElementById('previewDiagnosis').textContent = '[Diagnóstico actual]';
+            }
+            
+            // Motivo de remisión
+            const clinicalQuestion = document.getElementById('clinicalQuestion').value.trim();
+            document.getElementById('previewReason').textContent = clinicalQuestion || '[Pregunta clínica o motivo de la remisión]';
+            
+            // Hallazgos
+            if (includeFindings) {
+                const assessments = await db.getPatientAssessments(currentPatient.id);
+                if (assessments && assessments.length > 0) {
+                    // Priorizar completadas; si no hay, mostrar las que tengan interpretación/puntajes.
+                    const completed = assessments.filter(a => a.status === 'completado');
+                    const withContent = assessments.filter(a => (a.interpretation && a.interpretation.trim()) || (a.scores && a.scores.trim()));
+                    const toShow = (completed.length > 0 ? completed : withContent);
+                    if (toShow.length > 0) {
+                        document.getElementById('previewFindings').innerHTML = toShow.map(a => {
+                            const interp = (a.interpretation && a.interpretation.trim()) ? a.interpretation : '';
+                            const scores = (a.scores && a.scores.trim()) ? `<em>Puntajes:</em> ${a.scores}<br>` : '';
+                            return `<strong>${a.instrument}:</strong><br>${scores}${interp || 'Sin interpretación'}<br>`;
+                        }).join('<br>');
+                    } else {
+                        document.getElementById('previewFindings').textContent = 'No hay evaluaciones con hallazgos registrados';
+                    }
+                } else {
+                    document.getElementById('previewFindings').textContent = 'No se han realizado evaluaciones formales';
+                }
+            } else {
+                document.getElementById('previewFindings').textContent = '[Hallazgos de evaluaciones psicológicas]';
+            }
+            
+            // Información de sesiones
+            if (includeSessions || includeDates) {
+                const sessions = await db.getPatientSessions(currentPatient.id);
+                if (sessions.length > 0) {
+                    let sessionInfo = '';
+                    if (includeSessions) {
+                        sessionInfo += `<br><br><strong>Total de sesiones realizadas:</strong> ${sessions.length}`;
+                    }
+                    if (includeDates) {
+                        const firstSession = new Date(Math.min(...sessions.map(s => new Date(s.date))));
+                        const lastSession = new Date(Math.max(...sessions.map(s => new Date(s.date))));
+                        sessionInfo += `<br><strong>Período de atención:</strong> ${DateUtils.formatDate(firstSession)} - ${DateUtils.formatDate(lastSession)}`;
+                    }
+                    document.getElementById('previewSummary').innerHTML += sessionInfo;
+                }
+            }
+        }
+        
+        function getGenderLabel(gender) {
+            const labels = {
+                masculino: 'Masculino',
+                femenino: 'Femenino',
+                intersexual: 'Intersexual',
+                no_binario: 'No binario',
+                genero_fluido: 'Género fluido',
+                agenero: 'Agénero',
+                prefiere_no_decir: 'Prefiere no decir',
+                otro: 'Otro'
+            };
+            return labels[gender] || gender || 'No especificado';
+        }
+        
+        function printReferral() {
+            window.print();
+        }
+        
+        async function exportReferral() {
+            const preview = document.getElementById('referralPreview').innerHTML;
+            const fullHTML = `<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <title>Remisión - ${currentPatient?.firstName || ''} ${currentPatient?.lastName || ''}</title>
+    <style>
+        body { font-family: Georgia, serif; line-height: 1.8; max-width: 800px; margin: 0 auto; padding: 40px; color: #2d3748; }
+        .header { text-align: center; margin-bottom: 2rem; padding-bottom: 1rem; border-bottom: 2px solid #2c5282; }
+        .header h2 { color: #2c5282; font-size: 1.5rem; margin-bottom: 0.5rem; }
+        .subtitle { color: #718096; font-size: 0.875rem; }
+        .section { margin-bottom: 1.5rem; }
+        .section-title { font-weight: 600; color: #2c5282; margin-bottom: 0.5rem; font-size: 0.9375rem; }
+        .content { text-align: justify; }
+        .signature-section { margin-top: 3rem; display: flex; justify-content: space-between; }
+        .signature-box { text-align: center; width: 250px; }
+        .signature-line { border-top: 1px solid #2d3748; margin-top: 3rem; padding-top: 0.5rem; }
+        .footer { margin-top: 2rem; padding-top: 1rem; border-top: 1px solid #e2e8f0; font-size: 0.75rem; color: #718096; text-align: center; }
+    </style>
+</head>
+<body>
+    ${preview}
+</body>
+</html>`;
+            
+            const filename = `remision_${currentPatient?.historyNumber || 'paciente'}_${DateUtils.getToday()}.html`;
+            ExportUtils.downloadFile(fullHTML, filename, 'text/html');
+            UI.toast('Remisión exportada correctamente', 'success');
+        }
+        
+        function goBack() {
+            const patientId = document.getElementById('patientId').value;
+            if (patientId) {
+                window.location.href = `patient.html?id=${patientId}`;
+            } else {
+                window.location.href = 'dashboard.html';
+            }
+        }
+    </script>
+</body>
+</html>

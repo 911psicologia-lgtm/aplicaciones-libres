@@ -1,0 +1,2666 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Radar de Bullying — Convivencia Escolar</title>
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Lora:ital,wght@0,400;0,600;1,400&family=Inter:wght@300;400;500;600&display=swap');
+
+:root {
+  --sage: #6b8f71;
+  --sage-light: #e8f0e9;
+  --sage-mid: #c4d9c6;
+  --stone: #8c7b6e;
+  --stone-light: #f5f0eb;
+  --stone-mid: #d4c9be;
+  --ink: #2a2520;
+  --ink-soft: #5a524c;
+  --ink-ghost: #9c9490;
+  --amber: #c4862a;
+  --amber-pale: #fdf3e3;
+  --rose: #b5607a;
+  --rose-pale: #fceef3;
+  --sky: #4a7fa5;
+  --sky-pale: #e8f2f9;
+  --surface: #fafaf8;
+  --white: #ffffff;
+  --border: #e4dfd8;
+  --border-soft: #ede9e4;
+  --radius: 12px;
+  --radius-lg: 18px;
+  --shadow: 0 2px 12px rgba(42,37,32,0.08);
+  --shadow-lg: 0 6px 28px rgba(42,37,32,0.12);
+  --font-display: 'Lora', Georgia, serif;
+  --font-body: 'Inter', system-ui, sans-serif;
+}
+
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+html { font-size: 16px; scroll-behavior: smooth; }
+body {
+  font-family: var(--font-body);
+  background: var(--surface);
+  color: var(--ink);
+  min-height: 100vh;
+  line-height: 1.6;
+}
+
+/* ── LAYOUT ─────────────────────────────────────── */
+.app {
+  max-width: 780px;
+  margin: 0 auto;
+  padding: 0 16px 80px;
+}
+.step { display: none; }
+.step.active { display: block; animation: fadeUp 0.3s ease; }
+@keyframes fadeUp { from { opacity: 0; transform: translateY(12px); } to { opacity: 1; transform: translateY(0); } }
+
+/* ── PROGRESS BAR ───────────────────────────────── */
+.progress-wrap {
+  position: sticky; top: 0; z-index: 50;
+  background: rgba(250,250,248,0.95);
+  backdrop-filter: blur(8px);
+  border-bottom: 1px solid var(--border-soft);
+  padding: 12px 16px;
+}
+.progress-top {
+  display: flex; justify-content: space-between; align-items: center;
+  margin-bottom: 8px; font-size: 0.75rem; color: var(--ink-ghost);
+}
+.progress-bar { height: 4px; background: var(--border); border-radius: 99px; overflow: hidden; }
+.progress-fill {
+  height: 100%; background: var(--sage);
+  border-radius: 99px; transition: width 0.4s ease;
+}
+.step-dots {
+  display: flex; gap: 4px; margin-top: 6px;
+}
+.step-dot {
+  width: 6px; height: 6px; border-radius: 50%;
+  background: var(--border); transition: all 0.3s;
+}
+.step-dot.done { background: var(--sage); }
+.step-dot.active { background: var(--sage); width: 18px; border-radius: 4px; }
+
+/* ── TYPOGRAPHY ─────────────────────────────────── */
+h1 { font-family: var(--font-display); font-size: 1.8rem; font-weight: 600; line-height: 1.25; color: var(--ink); }
+h2 { font-family: var(--font-display); font-size: 1.35rem; font-weight: 600; color: var(--ink); margin-bottom: 6px; }
+h3 { font-size: 0.95rem; font-weight: 600; color: var(--ink); margin-bottom: 4px; }
+p { color: var(--ink-soft); font-size: 0.9rem; line-height: 1.65; }
+.caption { font-size: 0.75rem; color: var(--ink-ghost); }
+.section-title {
+  font-size: 0.65rem; font-weight: 600; letter-spacing: 0.1em;
+  text-transform: uppercase; color: var(--ink-ghost);
+  margin-bottom: 14px; padding-bottom: 8px;
+  border-bottom: 1px solid var(--border-soft);
+}
+
+/* ── STEP HEADER ────────────────────────────────── */
+.step-header {
+  padding: 36px 0 28px;
+  display: flex; flex-direction: column; gap: 8px;
+}
+.step-badge {
+  display: inline-flex; align-items: center; gap: 6px;
+  font-size: 0.72rem; font-weight: 500; color: var(--sage);
+  background: var(--sage-light); border-radius: 99px;
+  padding: 3px 10px; width: fit-content;
+}
+
+/* ── CARDS ──────────────────────────────────────── */
+.card {
+  background: var(--white);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-lg);
+  box-shadow: var(--shadow);
+  overflow: hidden;
+}
+.card-body { padding: 20px 22px; }
+.card-section { padding: 18px 22px; border-bottom: 1px solid var(--border-soft); }
+.card-section:last-child { border-bottom: none; }
+
+/* ── FORMS ──────────────────────────────────────── */
+.form-group { margin-bottom: 18px; }
+.form-label {
+  display: block; font-size: 0.8rem; font-weight: 500;
+  color: var(--ink-soft); margin-bottom: 6px;
+}
+.form-label .hint {
+  font-weight: 400; color: var(--ink-ghost);
+  font-size: 0.72rem; margin-left: 4px;
+}
+.form-control {
+  width: 100%; padding: 10px 14px;
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  font-family: var(--font-body); font-size: 0.875rem;
+  color: var(--ink); background: var(--white);
+  transition: border-color 0.2s, box-shadow 0.2s;
+  outline: none;
+}
+.form-control:focus {
+  border-color: var(--sage);
+  box-shadow: 0 0 0 3px rgba(107,143,113,0.12);
+}
+select.form-control { cursor: pointer; }
+textarea.form-control { resize: vertical; min-height: 130px; line-height: 1.6; }
+
+/* Slider */
+.slider-wrap { padding: 6px 0; }
+.slider {
+  -webkit-appearance: none; appearance: none;
+  width: 100%; height: 5px;
+  background: var(--border); border-radius: 99px; outline: none;
+  cursor: pointer; transition: background 0.2s;
+}
+.slider::-webkit-slider-thumb {
+  -webkit-appearance: none; appearance: none;
+  width: 18px; height: 18px; border-radius: 50%;
+  background: var(--sage); cursor: pointer;
+  box-shadow: 0 1px 4px rgba(0,0,0,0.18);
+  border: 2px solid white;
+}
+.slider-labels {
+  display: flex; justify-content: space-between;
+  font-size: 0.68rem; color: var(--ink-ghost); margin-top: 4px;
+}
+
+/* Checkboxes */
+.checkbox-group { display: flex; flex-direction: column; gap: 8px; }
+.checkbox-item {
+  display: flex; align-items: flex-start; gap: 10px;
+  padding: 10px 14px; border: 1px solid var(--border-soft);
+  border-radius: var(--radius); cursor: pointer;
+  transition: background 0.15s, border-color 0.15s;
+}
+.checkbox-item:hover { background: var(--sage-light); border-color: var(--sage-mid); }
+.checkbox-item input { margin-top: 2px; accent-color: var(--sage); flex-shrink: 0; }
+.checkbox-item label { font-size: 0.85rem; cursor: pointer; color: var(--ink-soft); }
+
+/* Radio-like intensity buttons */
+.intensity-row {
+  display: flex; gap: 6px; margin-top: 6px;
+}
+.intensity-btn {
+  flex: 1; padding: 7px 4px; border: 1.5px solid var(--border);
+  border-radius: 8px; font-size: 0.72rem; text-align: center;
+  cursor: pointer; background: var(--white); transition: all 0.15s;
+  display: flex; flex-direction: column; align-items: center; gap: 2px;
+  color: var(--ink-soft); font-weight: 500;
+}
+.intensity-btn.active { border-color: currentColor; }
+.intensity-btn[data-level="0"].active { border-color: #6b8f71; background: #e8f0e9; color: #3d5e42; }
+.intensity-btn[data-level="1"].active { border-color: #b89a2a; background: #fdf5db; color: #7a6010; }
+.intensity-btn[data-level="2"].active { border-color: #d4721a; background: #fdf0e0; color: #8a4010; }
+.intensity-btn[data-level="3"].active { border-color: #c03040; background: #fdecea; color: #8a1020; }
+
+/* ── BUTTONS ─────────────────────────────────────── */
+.btn {
+  display: inline-flex; align-items: center; justify-content: center; gap: 7px;
+  padding: 11px 22px; border-radius: var(--radius);
+  font-family: var(--font-body); font-size: 0.875rem; font-weight: 500;
+  cursor: pointer; transition: all 0.2s; border: none; text-decoration: none;
+}
+.btn-primary { background: var(--sage); color: white; }
+.btn-primary:hover { background: #5a7c60; transform: translateY(-1px); box-shadow: 0 4px 14px rgba(107,143,113,0.35); }
+.btn-secondary { background: var(--stone-light); color: var(--ink-soft); border: 1px solid var(--border); }
+.btn-secondary:hover { background: var(--stone-mid); }
+.btn-ghost { background: transparent; color: var(--sage); border: 1px solid var(--sage-mid); }
+.btn-ghost:hover { background: var(--sage-light); }
+.btn-danger-soft { background: var(--rose-pale); color: var(--rose); border: 1px solid rgba(181,96,122,0.2); }
+.btn-full { width: 100%; }
+.btn-lg { padding: 14px 28px; font-size: 0.95rem; border-radius: var(--radius-lg); }
+.btn-sm { padding: 6px 14px; font-size: 0.8rem; }
+
+/* ── ALERTS / BANNERS ───────────────────────────── */
+.alert {
+  padding: 14px 18px; border-radius: var(--radius);
+  display: flex; gap: 12px; align-items: flex-start;
+  font-size: 0.85rem; line-height: 1.55;
+}
+.alert-info { background: var(--sky-pale); color: #2d5a7a; border: 1px solid rgba(74,127,165,0.2); }
+.alert-warning { background: var(--amber-pale); color: #7a5010; border: 1px solid rgba(196,134,42,0.2); }
+.alert-calm { background: var(--stone-light); color: var(--ink-soft); border: 1px solid var(--border); }
+.alert-icon { font-size: 1.1rem; flex-shrink: 0; margin-top: 1px; }
+
+/* ── RISK DISPLAY ───────────────────────────────── */
+.risk-bar-wrap { margin: 10px 0; }
+.risk-bar-bg { height: 10px; background: var(--border); border-radius: 99px; overflow: hidden; }
+.risk-bar-fill { height: 100%; border-radius: 99px; transition: width 0.6s ease; }
+.risk-low .risk-bar-fill { background: var(--sage); }
+.risk-medium .risk-bar-fill { background: var(--amber); }
+.risk-high .risk-bar-fill { background: #d4601a; }
+.risk-critical .risk-bar-fill { background: var(--rose); }
+
+.risk-badge {
+  display: inline-flex; align-items: center; gap: 5px;
+  padding: 3px 10px; border-radius: 99px;
+  font-size: 0.72rem; font-weight: 600;
+}
+.risk-badge.low { background: var(--sage-light); color: var(--sage); }
+.risk-badge.medium { background: var(--amber-pale); color: var(--amber); }
+.risk-badge.high { background: #fdf0e0; color: #c4601a; }
+.risk-badge.critical { background: var(--rose-pale); color: var(--rose); }
+
+/* ── AI ASSISTANT ───────────────────────────────── */
+.ai-grid {
+  display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px;
+  margin-bottom: 16px;
+}
+@media (max-width: 520px) { .ai-grid { grid-template-columns: repeat(2, 1fr); } }
+.ai-card {
+  border: 1.5px solid var(--border); border-radius: var(--radius);
+  padding: 14px 12px; text-align: center; cursor: pointer;
+  transition: all 0.2s; background: var(--white);
+  display: flex; flex-direction: column; align-items: center; gap: 6px;
+}
+.ai-card:hover { border-color: var(--sage); background: var(--sage-light); }
+.ai-card.selected { border-color: var(--sage); background: var(--sage-light); box-shadow: 0 0 0 2px rgba(107,143,113,0.2); }
+.ai-logo {
+  width: 38px; height: 38px; border-radius: 10px;
+  display: flex; align-items: center; justify-content: center;
+  font-size: 1.3rem; font-weight: 700;
+}
+.ai-name { font-size: 0.78rem; font-weight: 600; color: var(--ink); }
+.ai-note { font-size: 0.65rem; color: var(--ink-ghost); }
+
+/* AI logos by brand */
+.logo-claude { background: #cc785c; color: white; font-family: serif; }
+.logo-chatgpt { background: #10a37f; color: white; }
+.logo-gemini { background: linear-gradient(135deg, #4285f4, #ea4335); color: white; }
+.logo-copilot { background: #0078d4; color: white; }
+.logo-perplexity { background: #1c1c1e; color: white; }
+.logo-meta { background: linear-gradient(135deg, #0082fb, #00c6ff); color: white; }
+
+.prompt-box {
+  background: var(--stone-light); border: 1px solid var(--border);
+  border-radius: var(--radius); padding: 16px;
+  font-family: 'Courier New', monospace; font-size: 0.78rem;
+  line-height: 1.6; color: var(--ink-soft); white-space: pre-wrap;
+  max-height: 240px; overflow-y: auto; position: relative;
+}
+.copy-overlay {
+  position: absolute; top: 8px; right: 8px;
+  background: var(--white); border: 1px solid var(--border);
+  border-radius: 6px; padding: 4px 10px;
+  font-size: 0.72rem; cursor: pointer; color: var(--sage); font-weight: 500;
+  transition: all 0.2s; font-family: var(--font-body);
+}
+.copy-overlay:hover { background: var(--sage-light); }
+
+.ai-steps { counter-reset: step; display: flex; flex-direction: column; gap: 12px; }
+.ai-step {
+  display: flex; gap: 12px; align-items: flex-start;
+  padding: 12px; background: var(--white);
+  border: 1px solid var(--border-soft); border-radius: var(--radius);
+}
+.ai-step-num {
+  width: 26px; height: 26px; border-radius: 50%;
+  background: var(--sage); color: white;
+  font-size: 0.75rem; font-weight: 700;
+  display: flex; align-items: center; justify-content: center; flex-shrink: 0;
+}
+.ai-step-text { font-size: 0.83rem; color: var(--ink-soft); line-height: 1.5; }
+.ai-step-text strong { color: var(--ink); }
+.ai-link {
+  display: inline-flex; align-items: center; gap: 4px;
+  color: var(--sage); text-decoration: none; font-weight: 500; font-size: 0.82rem;
+  border-bottom: 1px dashed var(--sage-mid);
+}
+.ai-link:hover { color: #3d5e42; }
+
+/* JSON import area */
+.json-area {
+  width: 100%; min-height: 100px;
+  padding: 12px; font-family: 'Courier New', monospace; font-size: 0.78rem;
+  border: 1.5px dashed var(--border); border-radius: var(--radius);
+  background: var(--surface); color: var(--ink-soft); outline: none;
+  transition: border-color 0.2s; resize: vertical;
+}
+.json-area:focus { border-color: var(--sage); border-style: solid; }
+.json-status { font-size: 0.75rem; margin-top: 6px; padding: 6px 10px; border-radius: 6px; }
+.json-ok { background: var(--sage-light); color: var(--sage); }
+.json-err { background: var(--rose-pale); color: var(--rose); }
+
+/* ── RESULT CARDS ───────────────────────────────── */
+.result-type {
+  padding: 20px; border-radius: var(--radius-lg);
+  border: 1.5px solid; margin-bottom: 16px;
+}
+.result-type.bullying { border-color: rgba(181,96,122,0.35); background: var(--rose-pale); }
+.result-type.conflict { border-color: rgba(196,134,42,0.35); background: var(--amber-pale); }
+.result-type.aggression { border-color: rgba(212,96,26,0.35); background: #fdf0e0; }
+.result-type.other { border-color: var(--border); background: var(--stone-light); }
+.result-label { font-family: var(--font-display); font-size: 1.15rem; font-weight: 600; margin-bottom: 8px; }
+.result-label.bullying { color: var(--rose); }
+.result-label.conflict { color: var(--amber); }
+.result-label.aggression { color: #c4601a; }
+.result-label.other { color: var(--ink-soft); }
+
+/* Route cards */
+.route-card {
+  border: 1px solid var(--border); border-radius: var(--radius);
+  overflow: hidden; margin-bottom: 12px;
+}
+.route-header {
+  padding: 12px 16px;
+  display: flex; align-items: center; gap: 10px;
+  background: var(--stone-light); border-bottom: 1px solid var(--border-soft);
+  cursor: pointer;
+}
+.route-icon { font-size: 1.1rem; }
+.route-title { font-weight: 600; font-size: 0.875rem; flex: 1; }
+.route-body { padding: 14px 16px; display: none; }
+.route-body.open { display: block; }
+.route-item { margin-bottom: 14px; padding-bottom: 14px; border-bottom: 1px solid var(--border-soft); }
+.route-item:last-child { margin-bottom: 0; padding-bottom: 0; border-bottom: none; }
+.route-item-what { font-size: 0.875rem; color: var(--ink); margin-bottom: 4px; }
+.route-item-when { font-size: 0.75rem; color: var(--ink-ghost); display: flex; align-items: center; gap: 4px; margin-bottom: 4px; }
+.route-source {
+  display: inline-flex; align-items: center; gap: 4px;
+  font-size: 0.7rem; color: var(--sky);
+  background: var(--sky-pale); border-radius: 99px;
+  padding: 2px 8px; text-decoration: none;
+}
+.route-source:hover { color: #2d5a7a; }
+
+/* ── LIBRARY ─────────────────────────────────────── */
+.library-tabs {
+  display: flex; gap: 6px; flex-wrap: wrap; margin-bottom: 20px;
+}
+.lib-tab {
+  padding: 6px 14px; border-radius: 99px; font-size: 0.78rem; font-weight: 500;
+  border: 1px solid var(--border); background: var(--white);
+  cursor: pointer; transition: all 0.2s; color: var(--ink-soft);
+}
+.lib-tab.active { background: var(--sage); color: white; border-color: var(--sage); }
+.lib-section { display: none; }
+.lib-section.active { display: block; }
+.lib-item {
+  display: flex; gap: 12px; padding: 14px;
+  border: 1px solid var(--border-soft); border-radius: var(--radius);
+  margin-bottom: 8px; background: var(--white);
+  transition: box-shadow 0.15s;
+}
+.lib-item:hover { box-shadow: var(--shadow); }
+.lib-icon { font-size: 1.2rem; flex-shrink: 0; margin-top: 1px; }
+.lib-content h4 { font-size: 0.875rem; font-weight: 600; color: var(--ink); margin-bottom: 3px; }
+.lib-content p { font-size: 0.78rem; color: var(--ink-ghost); margin-bottom: 5px; line-height: 1.4; }
+.lib-meta {
+  display: flex; gap: 8px; flex-wrap: wrap; align-items: center;
+}
+.lib-tag {
+  font-size: 0.65rem; padding: 2px 7px; border-radius: 99px; font-weight: 500;
+  background: var(--stone-light); color: var(--ink-ghost);
+}
+.lib-link {
+  font-size: 0.72rem; color: var(--sky); text-decoration: none;
+  border-bottom: 1px dashed rgba(74,127,165,0.4);
+}
+.lib-link:hover { color: #2d5a7a; }
+.pending-tag { background: var(--amber-pale); color: var(--amber); font-weight: 600; font-size: 0.65rem; padding: 2px 7px; border-radius: 99px; }
+
+/* ── CASE LIST ──────────────────────────────────── */
+.case-item {
+  display: flex; align-items: center; gap: 14px;
+  padding: 14px 18px; border: 1px solid var(--border-soft);
+  border-radius: var(--radius); margin-bottom: 8px;
+  background: var(--white); cursor: pointer; transition: all 0.15s;
+}
+.case-item:hover { border-color: var(--sage-mid); box-shadow: var(--shadow); }
+.case-avatar {
+  width: 40px; height: 40px; border-radius: 50%;
+  background: var(--sage-light); color: var(--sage);
+  display: flex; align-items: center; justify-content: center;
+  font-size: 1.1rem; flex-shrink: 0;
+}
+.case-info h4 { font-size: 0.875rem; font-weight: 600; margin-bottom: 2px; }
+.case-info p { font-size: 0.75rem; color: var(--ink-ghost); }
+.case-badge {
+  margin-left: auto; font-size: 0.65rem; padding: 3px 8px; border-radius: 99px;
+  font-weight: 600; flex-shrink: 0;
+}
+
+/* ── STICKY FOOTER ACTIONS ──────────────────────── */
+.sticky-actions {
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  background: rgba(250,250,248,0.96);
+  backdrop-filter: blur(10px);
+  border-top: 1px solid var(--border-soft);
+  padding: 12px 16px calc(12px + env(safe-area-inset-bottom));
+  display: flex;
+  gap: 10px;
+  justify-content: flex-end;
+  align-items: center;
+  flex-wrap: wrap;           /* ✅ evita desbordes horizontales */
+  max-width: 780px;
+  margin: 0 auto;
+  z-index: 40;
+}
+
+.sticky-actions .btn{
+  flex: 0 1 auto;
+  min-width: 140px;
+}
+
+@media (max-width: 780px) {
+  .sticky-actions {
+    left: 0;
+    right: 0;
+    margin: 0;
+  }
+}
+
+@media (max-width: 520px) {
+  .sticky-actions{
+    justify-content: stretch; /* ✅ hace que los botones ocupen ancho disponible */
+    padding: 10px 12px calc(10px + env(safe-area-inset-bottom));
+  }
+  .sticky-actions .btn{
+    flex: 1 1 100%;          /* ✅ apila botones en móvil */
+    min-width: 0;
+  }
+}
+
+
+/* ── GLOSARY TERM ───────────────────────────────── */
+.glos-term { cursor: help; border-bottom: 1px dashed var(--sage-mid); color: var(--sage); }
+
+/* ── MISC ────────────────────────────────────────── */
+.divider { height: 1px; background: var(--border-soft); margin: 20px 0; }
+.badge-row { display: flex; gap: 8px; flex-wrap: wrap; margin-top: 6px; }
+.badge { font-size: 0.7rem; padding: 3px 9px; border-radius: 99px; font-weight: 500; background: var(--stone-light); color: var(--ink-ghost); }
+.grid-2 { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
+@media (max-width: 480px) { .grid-2 { grid-template-columns: 1fr; } }
+.mt-2 { margin-top: 8px; } .mt-3 { margin-top: 14px; } .mt-4 { margin-top: 20px; } .mt-6 { margin-top: 28px; }
+.mb-1 { margin-bottom: 4px; } .mb-2 { margin-bottom: 8px; } .mb-3 { margin-bottom: 14px; }
+.text-center { text-align: center; }
+.flex { display: flex; } .items-center { align-items: center; } .gap-2 { gap: 8px; } .gap-3 { gap: 12px; }
+.justify-between { justify-content: space-between; }
+.hidden { display: none; }
+
+/* ── TOP ICONS ─────────────────────────────────── */
+.top-icons { display:flex; gap:8px; align-items:center; }
+.icon-btn{
+  width:34px; height:34px; border-radius:10px;
+  border:1px solid var(--border); background: var(--white);
+  cursor:pointer; display:inline-flex; align-items:center; justify-content:center;
+  transition: all 0.15s; color: var(--ink-soft);
+}
+.icon-btn:hover{ background: var(--sage-light); border-color: var(--sage-mid); transform: translateY(-1px); }
+.icon-btn:active{ transform: translateY(0px); }
+.modal-backdrop{
+  position:fixed; inset:0; background: rgba(42,37,32,0.45);
+  display:none; align-items:center; justify-content:center; padding:18px;
+  z-index: 999;
+}
+.modal-backdrop.show{ display:flex; }
+.modal{
+  width:min(760px, 100%);
+  background: var(--white);
+  border:1px solid var(--border);
+  border-radius: var(--radius-lg);
+  box-shadow: var(--shadow-lg);
+  overflow:hidden;
+}
+.modal-head{
+  display:flex; align-items:center; justify-content:space-between;
+  padding:14px 16px; background: rgba(250,250,248,0.95);
+  border-bottom:1px solid var(--border-soft);
+}
+.modal-head h3{ margin:0; font-size:0.95rem; }
+.modal-close{
+  background:none; border:none; cursor:pointer; font-size:1.1rem;
+  color: var(--ink-ghost); padding:6px 10px; border-radius: 10px;
+}
+.modal-close:hover{ background: var(--stone-light); color: var(--ink-soft); }
+.modal-body{ padding:16px; max-height: 70vh; overflow:auto; }
+.kbd{ font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace;
+  font-size: 0.72rem; padding:2px 6px; border-radius: 6px; border:1px solid var(--border);
+  background: var(--surface); color: var(--ink-soft);
+}
+.tour-pop{
+  position: fixed; left: 50%; top: 50%;
+  transform: translate(-50%, -50%);
+  width: min(520px, calc(100% - 36px));
+  z-index: 1000;
+}
+.tour-card{
+  background: var(--white);
+  border:1px solid var(--border);
+  border-radius: var(--radius-lg);
+  box-shadow: var(--shadow-lg);
+  overflow:hidden;
+}
+.tour-body{ padding:16px; }
+.tour-title{ font-weight:700; margin-bottom:6px; }
+.tour-text{ font-size:0.85rem; color: var(--ink-soft); line-height:1.55; }
+.tour-actions{ display:flex; gap:8px; justify-content:flex-end; padding:14px 16px; border-top:1px solid var(--border-soft); background: var(--surface); }
+.tour-highlight{
+  position: relative;
+  outline: 3px solid rgba(107,143,113,0.35);
+  border-radius: 12px;
+  box-shadow: 0 0 0 6px rgba(107,143,113,0.12);
+}
+@media print {
+  .progress-wrap, .sticky-actions, .copy-overlay, .btn, .icon-btn, .tour-pop, .modal-backdrop { display:none !important; }
+  body { background: white; }
+  .app { max-width: 100%; padding: 0; }
+  .card { box-shadow: none; }
+}
+
+
+/* ===== IA FLOW (Stepper) ===== */
+.ai-flow-top{display:flex;flex-direction:column;gap:10px}
+.ai-flow-steps{display:flex;gap:10px;flex-wrap:wrap}
+.ai-flow-step{display:flex;align-items:center;gap:10px;border:1px solid var(--border);background:var(--card);padding:10px 12px;border-radius:12px;cursor:pointer;transition:.15s;user-select:none}
+.ai-flow-step .n{width:28px;height:28px;border-radius:999px;display:grid;place-items:center;background:rgba(0,0,0,.06);font-weight:700}
+.ai-flow-step .t{font-weight:700}
+.ai-flow-step.active{border-color:rgba(46, 204, 113,.7);box-shadow:0 0 0 3px rgba(46,204,113,.15)}
+.ai-flow-step.done{opacity:.9}
+.ai-flow-bar{height:10px;border-radius:999px;background:rgba(0,0,0,.06);overflow:hidden}
+.ai-flow-bar-fill{height:100%;width:0%;background:linear-gradient(90deg, rgba(46,204,113,.9), rgba(52,152,219,.9));transition:width .25s ease}
+.ai-flow-panel.hidden{display:none}
+.prompt-area{width:100%;min-height:210px;border:1px solid var(--border);border-radius:14px;padding:14px 14px 14px 14px;background:var(--card);font-family:ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace;font-size:12.5px;line-height:1.45;white-space:pre;overflow:auto}
+.ai-mini-guide{border:1px dashed var(--border);border-radius:14px;padding:12px;background:rgba(52,152,219,.06)}
+.ai-mini-row{display:flex;gap:10px;align-items:flex-start;margin:6px 0}
+.ai-mini-row .k{font-weight:800;color:var(--text)}
+
+
+/* ===== MICRO-PREMIUM (sin tocar espaciados) ===== */
+h2, h3 { font-weight: 700; }
+
+.mono-data{
+  font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", monospace;
+  font-size: 0.82rem;
+}
+
+.severity-badge{
+  display:inline-flex;
+  align-items:center;
+  font-size: 0.72rem;
+  padding: 3px 10px;
+  border-radius: 999px;
+  font-weight: 600;
+  margin-left: 6px;
+  border: 1px solid rgba(0,0,0,0.06);
+}
+.badge-low{ background:#d1fae5; color:#065f46; }
+.badge-moderate{ background:#fef9c3; color:#854d0e; }
+.badge-high{ background:#fed7aa; color:#9a3412; }
+.badge-critical{ background:#fee2e2; color:#991b1b; }
+
+/* Stepper IA: más claro sin cambiar tamaños */
+.ai-flow-step{ transition: background .2s ease, border-color .2s ease, box-shadow .2s ease, transform .15s ease; }
+.ai-flow-step:hover{ transform: translateY(-1px); }
+.ai-flow-step.active{
+  background: rgba(107,143,113,0.10);
+  border-color: rgba(107,143,113,0.75);
+  box-shadow: 0 0 0 3px rgba(107,143,113,0.15);
+}
+.ai-flow-step.done .n{
+  background: rgba(22,163,74,0.12);
+  color: #166534;
+}
+.ai-flow-step.done .t::after{
+  content:" ✓";
+  font-size: 0.75rem;
+  color: #16a34a;
+  margin-left: 4px;
+}
+
+</style>
+<script src="https://cdn.jsdelivr.net/npm/docx@8.5.0/build/index.umd.js"></script>
+</head>
+<body>
+
+<!-- PROGRESS -->
+<div class="progress-wrap" id="progressWrap">
+  <div class="progress-top">
+    <span id="stepLabel">Inicio</span>
+    <div class="top-icons">
+      <button class="icon-btn" id="tourBtn" title="Tour guiado" onclick="openTour()">
+        🧭
+      </button>
+      <button class="icon-btn" id="helpBtn" title="Manual de usuario" onclick="openHelp()">
+        ❓
+      </button>
+      <button class="icon-btn" id="infoBtn" title="Info del desarrollador" onclick="openInfo()">
+        ℹ️
+      </button>
+      <span id="stepCounter">1 / 10</span>
+    </div>
+  </div>
+  <div class="progress-bar"><div class="progress-fill" id="progressFill" style="width:10%"></div></div>
+  <div class="step-dots" id="stepDots"></div>
+</div>
+
+<div class="app">
+
+<!-- ════════════════════════════════════════════
+  PASO 1: ONBOARDING
+═══════════════════════════════════════════════ -->
+<div class="step active" id="step-1">
+  <div class="step-header">
+    <div class="step-badge">🌿 Bienvenida</div>
+    <h1>Radar de Bullying</h1>
+    <p>Una herramienta para familias que necesitan entender y actuar ante situaciones de violencia escolar.</p>
+  </div>
+
+  <div class="card mb-3">
+    <div class="card-section">
+      <h3 class="mb-2">¿Para qué sirve esta app?</h3>
+      <div class="alert alert-calm" style="margin-bottom:10px">
+        <span class="alert-icon">📋</span>
+        <span>Registrar y organizar los hechos del caso de tu hijo/a o persona a cargo.</span>
+      </div>
+      <div class="alert alert-calm" style="margin-bottom:10px">
+        <span class="alert-icon">🔍</span>
+        <span>Analizar la situación usando criterios confiables (Ley 1620/2013, UNESCO, CDC) para diferenciar bullying de otras formas de agresión.</span>
+      </div>
+      <div class="alert alert-calm">
+        <span class="alert-icon">🗺️</span>
+        <span>Generar rutas de acción concretas: ruta escolar, salud mental, salud física, jurídica y familiar.</span>
+      </div>
+    </div>
+    <div class="card-section">
+      <div class="alert alert-info">
+        <span class="alert-icon">ℹ️</span>
+        <div>
+          <strong>Importante:</strong> Esta herramienta <em>no reemplaza</em> la atención de profesionales de salud mental, docentes, ni autoridades. Si hay riesgo inmediato, busca ayuda de inmediato.
+        </div>
+      </div>
+    </div>
+    <div class="card-section">
+      <div class="alert alert-calm">
+        <span class="alert-icon">🔒</span>
+        <div><strong>Privacidad:</strong> Toda la información queda guardada solo en tu dispositivo (localStorage). Nada se envía a ningún servidor. Puedes borrar todo en la Configuración.</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="flex gap-2 mt-4">
+    <button class="btn btn-primary btn-lg btn-full" onclick="goStep(2)">✨ Empezar evaluación</button>
+  </div>
+  <div class="mt-2 text-center">
+    <button class="btn btn-ghost btn-sm" onclick="goStep(10)">📚 Explorar biblioteca</button>
+  </div>
+</div>
+
+<!-- ════════════════════════════════════════════
+  PASO 2: CASOS GUARDADOS
+═══════════════════════════════════════════════ -->
+<div class="step" id="step-2">
+  <div class="step-header">
+    <div class="step-badge">📁 Mis casos</div>
+    <h2>Gestión de casos</h2>
+    <p>Crea un nuevo caso o continúa con uno guardado.</p>
+  </div>
+
+  <div class="card mb-3">
+    <div class="card-body">
+      <div class="form-group">
+        <label class="form-label">Nombre del caso <span class="hint">(interno, no se compartirá)</span></label>
+        <input type="text" class="form-control" id="caseNameInput" placeholder="Ej: Situación colegio, nov 2024" maxlength="60">
+      </div>
+      <button class="btn btn-primary" onclick="createNewCase()">+ Crear caso nuevo</button>
+    </div>
+  </div>
+
+  <div id="caseListWrap">
+    <div class="section-title">Casos guardados</div>
+    <div id="caseList"></div>
+    <div id="noCases" class="text-center" style="padding:24px;color:var(--ink-ghost);font-size:0.85rem">
+      No hay casos guardados aún.
+    </div>
+  </div>
+</div>
+
+<!-- ════════════════════════════════════════════
+  PASO 3: PERFIL DEL CASO
+═══════════════════════════════════════════════ -->
+<div class="step" id="step-3">
+  <div class="step-header">
+    <div class="step-badge">👤 Perfil</div>
+    <h2>Perfil del caso</h2>
+    <p>Información contextual que ayuda a calibrar el análisis de riesgo.</p>
+  </div>
+
+  <div class="card mb-3">
+    <div class="card-section">
+      <div class="section-title">Datos básicos</div>
+      <div class="grid-2">
+        <div class="form-group">
+          <label class="form-label">Edad</label>
+          <select class="form-control" id="p_age">
+            <option value="">Seleccionar</option>
+            <option>6–7 años</option><option>8–10 años</option><option>11–13 años</option>
+            <option>14–16 años</option><option>17–18 años</option><option>Mayor de 18</option>
+          </select>
+        </div>
+        <div class="form-group">
+          <label class="form-label">Género <span class="hint">(opcional)</span></label>
+          <select class="form-control" id="p_gender">
+            <option value="">Prefiero no decir</option>
+            <option>Niño/Adolescente masculino</option>
+            <option>Niña/Adolescente femenina</option>
+            <option>No binario / otro</option>
+          </select>
+        </div>
+        <div class="form-group">
+          <label class="form-label">Grado escolar</label>
+          <select class="form-control" id="p_grade">
+            <option value="">Seleccionar</option>
+            <option>Preescolar</option><option>Primaria (1°–5°)</option>
+            <option>Secundaria (6°–9°)</option><option>Media (10°–11°)</option>
+            <option>Universitario</option><option>No aplica</option>
+          </select>
+        </div>
+        <div class="form-group">
+          <label class="form-label">Contexto</label>
+          <select class="form-control" id="p_context">
+            <option value="">Seleccionar</option>
+            <option>Urbano — colegio público</option>
+            <option>Urbano — colegio privado</option>
+            <option>Rural</option><option>Virtual/mixto</option>
+          </select>
+        </div>
+      </div>
+    </div>
+
+    <div class="card-section">
+      <div class="section-title">Participación e influencia social</div>
+      <div class="form-group">
+        <label class="form-label">Participación social <span class="hint">— ¿Qué tan activo/a es en su grupo? (0 = muy aislado, 10 = muy integrado)</span></label>
+        <div class="slider-wrap">
+          <input type="range" class="slider" id="p_social" min="0" max="10" value="5" oninput="document.getElementById('p_social_val').textContent=this.value">
+          <div class="slider-labels"><span>0 — aislado</span><span id="p_social_val">5</span><span>10 — integrado</span></div>
+        </div>
+      </div>
+      <div class="form-group">
+        <label class="form-label">Influencia social <span class="hint">— ¿Cuánta influencia tiene sobre pares? (0 = ninguna, 10 = alta)</span></label>
+        <div class="slider-wrap">
+          <input type="range" class="slider" id="p_influence" min="0" max="10" value="5" oninput="document.getElementById('p_influence_val').textContent=this.value">
+          <div class="slider-labels"><span>0 — sin influencia</span><span id="p_influence_val">5</span><span>10 — muy influyente</span></div>
+        </div>
+      </div>
+    </div>
+
+    <div class="card-section">
+      <div class="section-title">Factores de vulnerabilidad <span class="hint">(marcar si aplica)</span></div>
+      <div class="checkbox-group">
+        <div class="checkbox-item"><input type="checkbox" id="v_disability"><label for="v_disability">Discapacidad física o sensorial</label></div>
+        <div class="checkbox-item"><input type="checkbox" id="v_neuro"><label for="v_neuro">Diferencia cognitiva / neurodiversidad (TDAH, autismo, etc.)</label></div>
+        <div class="checkbox-item"><input type="checkbox" id="v_migrant"><label for="v_migrant">Condición migrante o de desplazamiento</label></div>
+        <div class="checkbox-item"><input type="checkbox" id="v_lgbtq"><label for="v_lgbtq">Orientación sexual o identidad de género (LGBTIQ+)</label></div>
+        <div class="checkbox-item"><input type="checkbox" id="v_poverty"><label for="v_poverty">Vulnerabilidad socioeconómica</label></div>
+        <div class="checkbox-item"><input type="checkbox" id="v_ethnic"><label for="v_ethnic">Pertenencia étnica o racial (discriminación asociada)</label></div>
+        <div class="checkbox-item"><input type="checkbox" id="v_mh"><label for="v_mh">Diagnóstico de salud mental previo</label></div>
+        <div class="checkbox-item"><input type="checkbox" id="v_other"><label for="v_other">Otro factor de vulnerabilidad</label></div>
+      </div>
+    </div>
+  </div>
+
+  <div class="sticky-actions">
+    <button class="btn btn-secondary" onclick="goStep(2)">← Atrás</button>
+    <button class="btn btn-primary" onclick="saveProfile(); goStep(4)">Continuar →</button>
+  </div>
+</div>
+
+<!-- ════════════════════════════════════════════
+  PASO 4: NARRATIVA
+═══════════════════════════════════════════════ -->
+<div class="step" id="step-4">
+  <div class="step-header">
+    <div class="step-badge">✍️ Narrativa</div>
+    <h2>Describe los hechos</h2>
+    <p>Escribe con tus propias palabras qué ha pasado. No hay forma correcta de hacerlo.</p>
+  </div>
+
+  <div class="card mb-3">
+    <div class="card-section">
+      <div class="form-group">
+        <label class="form-label">Narrativa principal</label>
+        <textarea class="form-control" id="narrative" rows="7" placeholder="Describe qué ha pasado: cuándo comenzó, quiénes están involucrados, qué tipo de situaciones ocurren, cómo afecta a tu hijo/a..."></textarea>
+      </div>
+      <div class="flex items-center gap-2">
+        <button class="btn btn-ghost btn-sm" id="dictateBtn" onclick="toggleDictation()">🎙️ Dictar (voz)</button>
+        <span class="caption" id="dictateStatus"></span>
+      </div>
+    </div>
+
+    <div class="card-section">
+      <div class="section-title">Línea de tiempo (opcional)</div>
+      <div id="timeline"></div>
+      <button class="btn btn-ghost btn-sm mt-2" onclick="addTimelineEvent()">+ Agregar evento</button>
+    </div>
+  </div>
+
+  <div class="sticky-actions">
+    <button class="btn btn-secondary" onclick="goStep(3)">← Atrás</button>
+    <button class="btn btn-primary" onclick="saveNarrative(); goStep(5)">Continuar →</button>
+  </div>
+</div>
+
+<!-- ════════════════════════════════════════════
+  PASO 5: INDICADORES
+═══════════════════════════════════════════════ -->
+<div class="step" id="step-5">
+  <div class="step-header">
+    <div class="step-badge">📊 Indicadores</div>
+    <h2>Indicadores del evento</h2>
+    <p>Selecciona el nivel de intensidad para cada indicador. 🟢 leve · 🟡 medio · 🟠 alto · 🔴 crítico</p>
+  </div>
+
+  <div id="indicatorsContainer"></div>
+
+  <div class="sticky-actions">
+    <button class="btn btn-secondary" onclick="goStep(4)">← Atrás</button>
+    <button class="btn btn-primary" onclick="saveIndicators(); goStep(6)">Continuar →</button>
+  </div>
+</div>
+
+<!-- ════════════════════════════════════════════
+  PASO 6: ASISTENTE IA
+═══════════════════════════════════════════════ -->
+<div class="step" id="step-6">
+  <div class="step-header">
+    <div class="step-badge">🤖 Asistente IA</div>
+    <h2>Asistente IA (opcional)</h2>
+    <p>Flujo guiado: elige IA → copia prompt → abre IA → pega respuesta → genera análisis.</p>
+  </div>
+
+  <div class="card mb-3" id="aiFlowCard">
+    <div class="card-section">
+      <div class="ai-flow-top">
+        <div class="ai-flow-steps" role="tablist" aria-label="Pasos IA">
+          <button class="ai-flow-step active" id="aiFlowStepBtn1" onclick="setAIFlowStep(1)" type="button">
+            <span class="n">1</span><span class="t">Elegir IA</span>
+          </button>
+          <button class="ai-flow-step" id="aiFlowStepBtn2" onclick="setAIFlowStep(2)" type="button">
+            <span class="n">2</span><span class="t">Copiar prompt</span>
+          </button>
+          <button class="ai-flow-step" id="aiFlowStepBtn3" onclick="setAIFlowStep(3)" type="button">
+            <span class="n">3</span><span class="t">Pegar respuesta</span>
+          </button>
+          <button class="ai-flow-step" id="aiFlowStepBtn4" onclick="setAIFlowStep(4)" type="button">
+            <span class="n">4</span><span class="t">Generar análisis</span>
+          </button>
+        </div>
+        <div class="ai-flow-bar" aria-hidden="true">
+          <div class="ai-flow-bar-fill" id="aiFlowBarFill"></div>
+        </div>
+      </div>
+      <div class="caption mt-2">Tip: este módulo no reemplaza tu análisis. Solo organiza la información para importarla a la app.</div>
+    </div>
+
+    <!-- Panel 1: Elegir IA -->
+    <div class="card-section ai-flow-panel" id="aiFlowPanel1">
+      <div class="section-title">1) Elige tu asistente de IA</div>
+      <div class="ai-grid" id="aiGrid">
+        <div class="ai-card selected" data-ai="claude" onclick="selectAI('claude', true)">
+          <div class="ai-logo logo-claude">C</div>
+          <div class="ai-name">Claude</div>
+          <div class="ai-note">Anthropic</div>
+        </div>
+
+        <div class="ai-card" data-ai="chatgpt" onclick="selectAI('chatgpt', true)">
+          <div class="ai-logo logo-chatgpt">G</div>
+          <div class="ai-name">ChatGPT</div>
+          <div class="ai-note">OpenAI</div>
+        </div>
+
+        <div class="ai-card" data-ai="gemini" onclick="selectAI('gemini', true)">
+          <div class="ai-logo logo-gemini">✦</div>
+          <div class="ai-name">Gemini</div>
+          <div class="ai-note">Google</div>
+        </div>
+
+        <div class="ai-card" data-ai="copilot" onclick="selectAI('copilot', true)">
+          <div class="ai-logo logo-copilot">⊕</div>
+          <div class="ai-name">Copilot</div>
+          <div class="ai-note">Microsoft</div>
+        </div>
+
+        <div class="ai-card" data-ai="perplexity" onclick="selectAI('perplexity', true)">
+          <div class="ai-logo logo-perplexity">⊘</div>
+          <div class="ai-name">Perplexity</div>
+          <div class="ai-note">Perplexity AI</div>
+        </div>
+
+        <div class="ai-card" data-ai="meta" onclick="selectAI('meta', true)">
+          <div class="ai-logo logo-meta">M</div>
+          <div class="ai-name">Meta AI</div>
+          <div class="ai-note">Meta</div>
+        </div>
+      </div>
+
+      <div class="flex gap-2 mt-3">
+        <button class="btn btn-primary" type="button" onclick="setAIFlowStep(2)">Continuar →</button>
+        <button class="btn btn-secondary" type="button" onclick="goStep(7)">Saltar IA</button>
+      </div>
+    </div>
+
+    <!-- Panel 2: Copiar prompt -->
+    <div class="card-section ai-flow-panel hidden" id="aiFlowPanel2">
+      <div class="section-title">2) Copia el prompt y abre <span id="aiSelectedName">Claude</span></div>
+
+      <div class="ai-mini-guide">
+        <div class="ai-mini-row"><span class="k">A.</span> Copia el prompt.</div>
+        <div class="ai-mini-row"><span class="k">B.</span> Abre <span id="aiOpenLabel">Claude</span> en un chat nuevo y pega (<strong>Ctrl+V</strong>).</div>
+        <div class="ai-mini-row"><span class="k">C.</span> Copia la respuesta (JSON) tal como aparece.</div>
+      </div>
+
+      <div class="mt-2" style="position:relative">
+        <textarea class="prompt-area" id="aiPromptText" spellcheck="false"></textarea>
+        <button class="copy-overlay" type="button" onclick="copyPrompt()">📋 Copiar prompt</button>
+      </div>
+
+      <div class="flex gap-2 mt-2">
+        <button class="btn btn-secondary btn-sm" type="button" onclick="refreshAIPrompt()">↻ Actualizar prompt</button>
+        <button class="btn btn-primary btn-sm" type="button" onclick="openSelectedAI()">🚀 Abrir IA seleccionada</button>
+        <button class="btn btn-secondary btn-sm" type="button" onclick="setAIFlowStep(3)">Ya tengo la respuesta →</button>
+      </div>
+
+      <div class="caption mt-2">Si el navegador bloquea la copia automática, la app seleccionará el texto para que uses <strong>Ctrl+C</strong>.</div>
+    </div>
+
+    <!-- Panel 3: Pegar respuesta -->
+    <div class="card-section ai-flow-panel hidden" id="aiFlowPanel3">
+      <div class="section-title">3) Pegar respuesta de IA</div>
+      <p class="caption">Pega aquí la respuesta completa (JSON) que te devolvió la IA.</p>
+
+      <textarea class="json-area" id="jsonReturn" placeholder='{"resumen":"...","hechos":[],"actores":[],"cronologia":[],"indicadores_sugeridos":[],"dudas":[]}'></textarea>
+      <div id="jsonStatus" class="json-status hidden"></div>
+
+      <div class="flex gap-2 mt-2">
+        <button class="btn btn-primary btn-sm" type="button" onclick="setAIFlowStep(4)">Continuar →</button>
+        <button class="btn btn-secondary btn-sm" type="button" onclick="clearJSON()">✕ Limpiar</button>
+      </div>
+    </div>
+
+    <!-- Panel 4: Generar análisis -->
+    <div class="card-section ai-flow-panel hidden" id="aiFlowPanel4">
+      <div class="section-title">4) Generar análisis e informe</div>
+      <div class="ai-mini-guide">
+        <div class="ai-mini-row"><span class="k">D.</span> Da click en <strong>✅ Validar e importar</strong> para integrar el análisis a la app.</div>
+        <div class="ai-mini-row"><span class="k">E.</span> Luego pasa a <strong>Clasificación</strong> y <strong>Riesgo</strong> para completar el informe.</div>
+      </div>
+
+      <div class="flex gap-2 mt-2">
+        <button class="btn btn-primary" type="button" onclick="validateAndApplyJSON(); goStep(7)">✅ Validar e importar y continuar</button>
+        <button class="btn btn-secondary" type="button" onclick="validateAndApplyJSON()">✅ Validar e importar</button>
+        <button class="btn btn-ghost" type="button" onclick="setAIFlowStep(3)">← Volver</button>
+      </div>
+    </div>
+  </div>
+
+  <div class="alert alert-calm mb-3">
+    <span class="alert-icon">💡</span>
+    <div>Este paso es <strong>opcional</strong>. Si no quieres usar IA, puedes continuar sin importar JSON.</div>
+  </div>
+
+  <div class="sticky-actions">
+    <button class="btn btn-secondary" onclick="goStep(5)">← Atrás</button>
+    <button class="btn btn-ghost" onclick="goStep(7)">Saltar este paso</button>
+    <button class="btn btn-primary" onclick="goStep(7)">Continuar →</button>
+  </div>
+</div>
+
+<!-- ════════════════════════════════════════════
+  PASO 7: CLASIFICACIÓN
+═══════════════════════════════════════════════ -->
+<div class="step" id="step-7">
+  <div class="step-header">
+    <div class="step-badge">🔎 Clasificación</div>
+    <h2>Análisis del tipo de situación</h2>
+    <p>Basado en tus respuestas, el sistema aplica los criterios de la Ley 1620/2013 y marcos de UNESCO/CDC.</p>
+  </div>
+
+  <div id="classificationResult"></div>
+
+  <div class="sticky-actions">
+    <button class="btn btn-secondary" onclick="goStep(6)">← Atrás</button>
+    <button class="btn btn-primary" onclick="goStep(8)">Ver evaluación de riesgo →</button>
+  </div>
+</div>
+
+<!-- ════════════════════════════════════════════
+  PASO 8: RIESGO
+═══════════════════════════════════════════════ -->
+<div class="step" id="step-8">
+  <div class="step-header">
+    <div class="step-badge">⚠️ Riesgo</div>
+    <h2>Evaluación bio-psico-social</h2>
+    <p>Estimación del nivel de riesgo actual y probabilidad de escalamiento.</p>
+  </div>
+
+  <div id="riskResult"></div>
+
+  <div class="alert alert-info mt-3">
+    <span class="alert-icon">ℹ️</span>
+    <div>Esta evaluación es orientativa y se basa en los indicadores registrados. No constituye un diagnóstico clínico.</div>
+  </div>
+
+  <div class="sticky-actions">
+    <button class="btn btn-secondary" onclick="goStep(7)">← Atrás</button>
+    <button class="btn btn-primary" onclick="goStep(9)">Ver rutas de acción →</button>
+  </div>
+</div>
+
+<!-- ════════════════════════════════════════════
+  PASO 9: RUTAS DE ACCIÓN
+═══════════════════════════════════════════════ -->
+<div class="step" id="step-9">
+  <div class="step-header">
+    <div class="step-badge">🗺️ Plan de acción</div>
+    <h2>Rutas de acción</h2>
+    <p>Recomendaciones concretas organizadas por ámbito, con fuentes verificables.</p>
+  </div>
+
+  <div id="routesResult"></div>
+
+  <div class="alert alert-warning mt-3 mb-3">
+    <span class="alert-icon">⚠️</span>
+    <div>Las entidades y leyes mencionadas corresponden al marco colombiano. Si estás en otro país, las rutas jurídicas y las entidades pueden diferir.</div>
+  </div>
+
+  <div class="sticky-actions">
+    <button class="btn btn-secondary" onclick="goStep(8)">← Atrás</button>
+    <button class="btn btn-ghost" onclick="openReport()">📄 Informe</button>
+    <button class="btn btn-ghost" onclick="goStep(10)">📚 Ver biblioteca</button>
+    <button class="btn btn-primary" onclick="goStep(2)">🏠 Inicio</button>
+  </div>
+</div>
+
+<!-- ════════════════════════════════════════════
+  PASO 10: BIBLIOTECA
+═══════════════════════════════════════════════ -->
+<div class="step" id="step-10">
+  <div class="step-header">
+    <div class="step-badge">📚 Biblioteca</div>
+    <h2>Glosario y recursos curados</h2>
+    <p>Definiciones verificadas y recursos con enlaces a fuentes oficiales.</p>
+  </div>
+
+  <div class="library-tabs">
+    <button class="lib-tab active" onclick="showLibTab('glosario')">📖 Glosario</button>
+    <button class="lib-tab" onclick="showLibTab('colombia')">🏛️ Colombia</button>
+    <button class="lib-tab" onclick="showLibTab('articulos')">🧪 Artículos</button>
+    <button class="lib-tab" onclick="showLibTab('guias')">📘 Guías</button>
+    <button class="lib-tab" onclick="showLibTab('digital')">📱 Recursos digitales</button>
+  </div>
+
+  <div id="lib-glosario" class="lib-section active"></div>
+  <div id="lib-colombia" class="lib-section"></div>
+  <div id="lib-articulos" class="lib-section"></div>
+  <div id="lib-guias" class="lib-section"></div>
+  <div id="lib-digital" class="lib-section"></div>
+
+  <div class="sticky-actions">
+    <button class="btn btn-secondary" onclick="goStep(1)">← Inicio</button>
+    <button class="btn btn-primary" onclick="goStep(2)">Ir a mis casos</button>
+  </div>
+</div>
+
+</div><!-- end .app -->
+
+
+<!-- MODALS: INFO / MANUAL / INFORME / TOUR -->
+<div class="modal-backdrop" id="infoModal" role="dialog" aria-modal="true" aria-label="Información del desarrollador">
+  <div class="modal">
+    <div class="modal-head">
+      <h3>ℹ️ Información del desarrollador</h3>
+      <button class="modal-close" onclick="closeModal('infoModal')" aria-label="Cerrar">✕</button>
+    </div>
+    <div class="modal-body">
+      <div class="alert alert-calm">
+        <span class="alert-icon">🧑‍💻</span>
+        <div>
+          <div><strong>Desarrollado por:</strong> PhD. José Alonso Andrade</div>
+          <div><strong>Email:</strong> <a class="ai-link" href="mailto:911psicologia@gmail.com">911psicologia@gmail.com</a></div>
+          <div class="caption mt-2">Sugerencias, reporte de errores y solicitudes de mejora: escríbeme al correo.</div>
+        </div>
+      </div>
+      <div class="divider"></div>
+      <div class="caption">Nota: esta app guarda la información solo en tu dispositivo (localStorage) y no envía datos a servidores.</div>
+    </div>
+  </div>
+</div>
+
+<div class="modal-backdrop" id="helpModal" role="dialog" aria-modal="true" aria-label="Manual de usuario">
+  <div class="modal">
+    <div class="modal-head">
+      <h3>❓ Manual de usuario</h3>
+      <button class="modal-close" onclick="closeModal('helpModal')" aria-label="Cerrar">✕</button>
+    </div>
+    <div class="modal-body">
+      <div class="section-title">Flujo rápido (3 minutos)</div>
+      <div class="ai-steps">
+        <div class="ai-step"><div class="ai-step-num">1</div><div class="ai-step-text"><strong>Crea un caso</strong> en <em>Mis casos</em> y completa el <strong>Perfil</strong>.</div></div>
+        <div class="ai-step"><div class="ai-step-num">2</div><div class="ai-step-text"><strong>Narra</strong> los hechos y, si puedes, agrega eventos en la <strong>Línea de tiempo</strong>.</div></div>
+        <div class="ai-step"><div class="ai-step-num">3</div><div class="ai-step-text"><strong>Marca indicadores</strong> (🟢🟡🟠🔴). Con eso, la app calcula <strong>Clasificación</strong>, <strong>Riesgo</strong> y <strong>Rutas</strong>.</div></div>
+        <div class="ai-step"><div class="ai-step-num">4</div><div class="ai-step-text"><strong>Opcional:</strong> usa el <strong>Asistente IA</strong> para estructurar tu narrativa y luego <strong>✅ Validar e importar</strong>.</div></div>
+        <div class="ai-step"><div class="ai-step-num">5</div><div class="ai-step-text"><strong>Genera el informe</strong> (PDF/impresión) desde <em>Rutas de acción</em> con el botón <strong>📄 Informe</strong>.</div></div>
+      </div>
+
+      <div class="divider"></div>
+      <div class="section-title">Preguntas frecuentes</div>
+
+      <div class="route-card">
+        <div class="route-header" onclick="toggleRoute(this)"><span class="route-icon">🔒</span><span class="route-title">¿Se envían mis datos a internet?</span><span style="color:var(--ink-ghost);font-size:0.75rem">▾</span></div>
+        <div class="route-body open"><div class="caption">No. Todo queda en tu dispositivo (localStorage). Si compartes un informe, lo haces tú.</div></div>
+      </div>
+
+      <div class="route-card">
+        <div class="route-header" onclick="toggleRoute(this)"><span class="route-icon">🤖</span><span class="route-title">¿Por qué el paso de IA es opcional?</span><span style="color:var(--ink-ghost);font-size:0.75rem">▾</span></div>
+        <div class="route-body open"><div class="caption">Porque una IA puede ayudar a ordenar tu narrativa, pero la evaluación principal se basa en tus indicadores y criterios de convivencia.</div></div>
+      </div>
+
+      <div class="route-card">
+        <div class="route-header" onclick="toggleRoute(this)"><span class="route-icon">📄</span><span class="route-title">¿Cómo saco un PDF del informe?</span><span style="color:var(--ink-ghost);font-size:0.75rem">▾</span></div>
+        <div class="route-body open"><div class="caption">Abre <strong>📄 Informe</strong> y usa <strong>Imprimir</strong>. En tu navegador elige “Guardar como PDF”.</div></div>
+      </div>
+
+      <div class="divider"></div>
+      <div class="caption">Atajos: puedes abrir este manual desde el icono <span class="kbd">❓</span> en la barra superior.</div>
+    </div>
+  </div>
+</div>
+
+<div class="modal-backdrop" id="reportModal" role="dialog" aria-modal="true" aria-label="Informe del caso">
+  <div class="modal">
+    <div class="modal-head">
+      <h3>📄 Informe del caso</h3>
+      <div style="display:flex;gap:8px;align-items:center">
+        <button class="btn btn-secondary btn-sm" onclick="printReport()">🖨️ Imprimir / PDF</button>
+        <button class="btn btn-secondary btn-sm" onclick="exportReportTXT()">⬇️ TXT</button>
+        <button class="btn btn-secondary btn-sm" onclick="exportReportDOCX()">⬇️ DOCX</button>
+        <button class="modal-close" onclick="closeModal('reportModal')" aria-label="Cerrar">✕</button>
+      </div>
+    </div>
+    <div class="modal-body" id="reportBody">
+      <!-- contenido dinámico -->
+    </div>
+  </div>
+</div>
+
+<div class="modal-backdrop" id="tourBackdrop" aria-hidden="true">
+  <div class="tour-pop">
+    <div class="tour-card">
+      <div class="modal-head">
+        <h3>🧭 Tour rápido</h3>
+        <button class="modal-close" onclick="endTour()" aria-label="Cerrar tour">✕</button>
+      </div>
+      <div class="tour-body">
+        <div class="tour-title" id="tourTitle">Bienvenido</div>
+        <div class="tour-text" id="tourText">Te muestro lo esencial en menos de 1 minuto.</div>
+      </div>
+      <div class="tour-actions">
+        <button class="btn btn-secondary btn-sm" onclick="prevTour()">← Atrás</button>
+        <button class="btn btn-primary btn-sm" onclick="nextTour()">Siguiente →</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+<script>
+// ══════════════════════════════════════════════
+//  STATE
+// ══════════════════════════════════════════════
+let state = {
+  currentStep: 1,
+  currentCaseId: null,
+  cases: JSON.parse(localStorage.getItem('rc_cases') || '[]'),
+  selectedAI: 'claude'
+};
+
+const STEP_LABELS = ['','Inicio','Mis casos','Perfil','Narrativa','Indicadores','Asistente IA','Clasificación','Riesgo','Rutas','Biblioteca'];
+
+// ══════════════════════════════════════════════
+//  NAVIGATION
+// ══════════════════════════════════════════════
+function goStep(n) {
+  document.getElementById('step-'+state.currentStep).classList.remove('active');
+  state.currentStep = n;
+  document.getElementById('step-'+n).classList.add('active');
+  window.scrollTo({top:0, behavior:'smooth'});
+  updateProgress();
+  if(n===7) runClassification();
+  if(n===8) runRiskAssessment();
+  if(n===9) renderRoutes();
+  if(n===10) renderLibrary();
+  if(n===6) renderAIAssistant();
+  if(n===2) renderCaseList();
+  if(n===5) renderIndicators();
+}
+
+function updateProgress() {
+  const pct = Math.round((state.currentStep / 10) * 100);
+  document.getElementById('progressFill').style.width = pct + '%';
+  document.getElementById('stepLabel').textContent = STEP_LABELS[state.currentStep] || '';
+  document.getElementById('stepCounter').textContent = state.currentStep + ' / 10';
+  const dots = document.getElementById('stepDots');
+  dots.innerHTML = '';
+  for(let i=1;i<=10;i++){
+    const d = document.createElement('div');
+    d.className = 'step-dot' + (i < state.currentStep ? ' done' : i === state.currentStep ? ' active' : '');
+    dots.appendChild(d);
+  }
+}
+
+// ══════════════════════════════════════════════
+//  CASES
+// ══════════════════════════════════════════════
+function saveCases() { localStorage.setItem('rc_cases', JSON.stringify(state.cases)); }
+
+function createNewCase() {
+  const name = document.getElementById('caseNameInput').value.trim() || 'Caso sin nombre';
+  const c = {
+    id: 'c_' + Date.now(),
+    name, createdAt: new Date().toLocaleDateString('es-CO'),
+    profile:{}, narrative:'', timeline:[], indicators:{}, classification:null, risk:null
+  };
+  state.cases.unshift(c);
+  state.currentCaseId = c.id;
+  saveCases();
+  document.getElementById('caseNameInput').value = '';
+  goStep(3);
+}
+
+function loadCase(id) {
+  state.currentCaseId = id;
+  const c = state.cases.find(x=>x.id===id);
+  if(!c) return;
+  // Pre-fill profile
+  if(c.profile) {
+    ['age','gender','grade','context'].forEach(k=>{
+      const el = document.getElementById('p_'+k);
+      if(el && c.profile[k]) el.value = c.profile[k];
+    });
+    if(c.profile.social!==undefined) { document.getElementById('p_social').value=c.profile.social; document.getElementById('p_social_val').textContent=c.profile.social; }
+    if(c.profile.influence!==undefined) { document.getElementById('p_influence').value=c.profile.influence; document.getElementById('p_influence_val').textContent=c.profile.influence; }
+  }
+  if(c.narrative) document.getElementById('narrative').value = c.narrative;
+  goStep(3);
+}
+
+function deleteCase(id) {
+  if(!confirm('¿Eliminar este caso? Esta acción no se puede deshacer.')) return;
+  state.cases = state.cases.filter(x=>x.id!==id);
+  saveCases();
+  renderCaseList();
+}
+
+function renderCaseList() {
+  const list = document.getElementById('caseList');
+  const none = document.getElementById('noCases');
+  if(!state.cases.length) { list.innerHTML=''; none.classList.remove('hidden'); return; }
+  none.classList.add('hidden');
+  list.innerHTML = state.cases.map(c=>`
+    <div class="case-item">
+      <div class="case-avatar">📁</div>
+      <div class="case-info" onclick="loadCase('${c.id}')" style="flex:1;cursor:pointer">
+        <h4>${c.name}</h4>
+        <p>${c.createdAt}</p>
+      </div>
+      <span class="case-badge" style="background:var(--sage-light);color:var(--sage)">Ver</span>
+      <button onclick="deleteCase('${c.id}')" style="background:none;border:none;cursor:pointer;color:var(--ink-ghost);padding:4px 8px;font-size:1rem">🗑</button>
+    </div>
+  `).join('');
+}
+
+function currentCase() { return state.cases.find(x=>x.id===state.currentCaseId); }
+
+// ══════════════════════════════════════════════
+//  PROFILE SAVE
+// ══════════════════════════════════════════════
+function saveProfile() {
+  const c = currentCase(); if(!c) return;
+  c.profile = {
+    age: document.getElementById('p_age').value,
+    gender: document.getElementById('p_gender').value,
+    grade: document.getElementById('p_grade').value,
+    context: document.getElementById('p_context').value,
+    social: +document.getElementById('p_social').value,
+    influence: +document.getElementById('p_influence').value,
+    vulnerabilities: ['disability','neuro','migrant','lgbtq','poverty','ethnic','mh','other']
+      .filter(v=>document.getElementById('v_'+v).checked)
+  };
+  saveCases();
+}
+
+// ══════════════════════════════════════════════
+//  NARRATIVE
+// ══════════════════════════════════════════════
+let recognition = null;
+let tlCount = 0;
+
+let lastDictationChunk = '';
+function cleanDictation(t){
+  if(!t) return '';
+  let x = (' '+t+' ').replace(/\s+/g,' ').trim();
+  // Elimina frases repetidas típicas
+  x = x.replace(/\b(mira el adjunto)\b/gi,'').replace(/\s+/g,' ').trim();
+  // Limpia duplicaciones inmediatas
+  x = x.replace(/(\b\w+\b)(\s+\1\b){2,}/gi,'$1');
+  return x;
+}
+function appendDictation(chunk){
+  const area = document.getElementById('narrative');
+  const prev = area.value.trim();
+  // Evita pegar el mismo fragmento consecutivo
+  const norm = chunk.toLowerCase();
+  if(norm && norm === (lastDictationChunk||'')) return;
+  lastDictationChunk = norm;
+  area.value = (prev ? (prev + ' ') : '') + chunk;
+}
+
+function saveNarrative() {
+  const c = currentCase(); if(!c) return;
+  c.narrative = document.getElementById('narrative').value;
+  const items = document.querySelectorAll('.tl-item');
+  c.timeline = Array.from(items).map(el=>({
+    date: el.querySelector('.tl-date').value,
+    desc: el.querySelector('.tl-desc').value
+  }));
+  saveCases();
+}
+
+function addTimelineEvent() {
+  tlCount++;
+  const tl = document.getElementById('timeline');
+  const div = document.createElement('div');
+  div.className = 'tl-item';
+  div.style.cssText = 'display:flex;gap:8px;margin-bottom:8px;align-items:flex-start';
+  div.innerHTML = `
+    <input type="date" class="form-control tl-date" style="width:145px;flex-shrink:0">
+    <input type="text" class="form-control tl-desc" placeholder="Describe el evento ${tlCount}...">
+    <button onclick="this.parentElement.remove()" style="background:none;border:none;cursor:pointer;color:var(--ink-ghost);font-size:1.1rem;padding:8px 4px">✕</button>
+  `;
+  tl.appendChild(div);
+}
+
+function toggleDictation() {
+  if(!('webkitSpeechRecognition' in window) && !('SpeechRecognition' in window)) {
+    document.getElementById('dictateStatus').textContent = 'Tu navegador no soporta dictado de voz.';
+    return;
+  }
+  if(!recognition) {
+    const SR = window.SpeechRecognition || window.webkitSpeechRecognition;
+    recognition = new SR();
+    recognition.lang = 'es-CO'; recognition.continuous = true; recognition.interimResults = true;
+    recognition.onresult = e => {
+      // Solo agrega resultados finales para evitar repeticiones por "interimResults"
+      let finalText = '';
+      for(let i=e.resultIndex;i<e.results.length;i++){
+        const r = e.results[i];
+        if(r.isFinal) finalText += ' ' + r[0].transcript;
+      }
+      finalText = cleanDictation(finalText);
+      if(finalText) appendDictation(finalText);
+    };
+    recognition.onend = ()=>{ document.getElementById('dictateStatus').textContent=''; document.getElementById('dictateBtn').textContent='🎙️ Dictar (voz)'; };
+  }
+  if(recognition._on) { recognition.stop(); recognition._on=false; document.getElementById('dictateBtn').textContent='🎙️ Dictar (voz)'; }
+  else { recognition.start(); recognition._on=true; document.getElementById('dictateBtn').textContent='🔴 Detener dictado'; document.getElementById('dictateStatus').textContent='Escuchando...'; }
+}
+
+// ══════════════════════════════════════════════
+//  INDICATORS
+// ══════════════════════════════════════════════
+const INDICATOR_CATEGORIES = [
+  { id:'conduct', label:'Tipo de conducta', items:[
+    {id:'verbal', label:'Insultos, burlas, sobrenombres hirientes', key:'conducta_verbal'},
+    {id:'fisica', label:'Golpes, empujones, agresión física', key:'conducta_fisica'},
+    {id:'relacional', label:'Exclusión, rumores, manipulación de relaciones', key:'conducta_relacional'},
+    {id:'sexual', label:'Acoso o tocamiento de naturaleza sexual', key:'conducta_sexual'},
+    {id:'digital', label:'Mensajes ofensivos, fotos sin permiso, acoso digital', key:'conducta_digital'},
+    {id:'pertenencias', label:'Daño o robo de objetos personales', key:'conducta_pertenencias'},
+    {id:'amenazas', label:'Amenazas directas o implícitas', key:'conducta_amenazas'},
+  ]},
+  { id:'frequency', label:'Frecuencia y duración', items:[
+    {id:'freq', label:'Frecuencia: único / ocasional / semanal / diaria', key:'frecuencia'},
+    {id:'dur', label:'Duración: días / semanas / meses / más de un año', key:'duracion'},
+  ]},
+  { id:'power', label:'Desequilibrio de poder', items:[
+    {id:'edad', label:'Diferencia de edad o curso', key:'poder_edad'},
+    {id:'fuerza', label:'Diferencia de fuerza física', key:'poder_fuerza'},
+    {id:'estatus', label:'Diferencia de estatus social en el grupo', key:'poder_estatus'},
+    {id:'grupo', label:'Actúan en grupo contra uno/a', key:'poder_grupo'},
+    {id:'digital_poder', label:'Poder o anonimato digital', key:'poder_digital'},
+  ]},
+  { id:'impact', label:'Impacto observado', items:[
+    {id:'miedo', label:'Miedo a ir al colegio / evitación escolar', key:'impacto_miedo'},
+    {id:'lesiones', label:'Lesiones físicas visibles', key:'impacto_lesiones'},
+    {id:'sueno', label:'Cambios en sueño / alimentación', key:'impacto_sueno'},
+    {id:'animo', label:'Cambios de ánimo / tristeza / ansiedad', key:'impacto_animo'},
+    {id:'aislamiento', label:'Aislamiento social', key:'impacto_aislamiento'},
+    {id:'rendimiento', label:'Caída en rendimiento académico', key:'impacto_rendimiento'},
+  ]},
+  { id:'witnesses', label:'Testigos y respuesta', items:[
+    {id:'testigos', label:'Presencia de testigos o espectadores', key:'testigos'},
+    {id:'complicidad', label:'Complicidad activa o pasiva de testigos', key:'complicidad'},
+    {id:'institucional', label:'Respuesta institucional previa (colegio)', key:'respuesta_institucional'},
+  ]},
+];
+
+const INTENSITY_LABELS = [
+  {icon:'🟢', label:'Sin / mínimo'},
+  {icon:'🟡', label:'Leve'},
+  {icon:'🟠', label:'Moderado'},
+  {icon:'🔴', label:'Grave'},
+];
+
+let indicatorValues = {};
+
+function renderIndicators() {
+  const c = currentCase();
+  if(c && c.indicators) indicatorValues = {...c.indicators};
+  const container = document.getElementById('indicatorsContainer');
+  container.innerHTML = '';
+  INDICATOR_CATEGORIES.forEach(cat=>{
+    const card = document.createElement('div');
+    card.className = 'card mb-3';
+    card.innerHTML = `<div class="card-section"><div class="section-title">${cat.label}</div>${
+      cat.items.map(item=>`
+        <div class="form-group">
+          <label class="form-label">${item.label}</label>
+          <div class="intensity-row">
+            ${INTENSITY_LABELS.map((l,i)=>`
+              <div class="intensity-btn${indicatorValues[item.key]===i?' active':''}" data-level="${i}" onclick="setIndicator('${item.key}',${i},this)">
+                <span>${l.icon}</span><span>${l.label}</span>
+              </div>
+            `).join('')}
+          </div>
+        </div>
+      `).join('')
+    }</div>`;
+    container.appendChild(card);
+  });
+}
+
+function setIndicator(key, val, el) {
+  indicatorValues[key] = val;
+  const row = el.parentElement;
+  row.querySelectorAll('.intensity-btn').forEach(b=>b.classList.remove('active'));
+  el.classList.add('active');
+}
+
+function saveIndicators() {
+  const c = currentCase(); if(!c) return;
+  c.indicators = {...indicatorValues};
+  saveCases();
+}
+
+// ══════════════════════════════════════════════
+//  AI ASSISTANT (6 IAs)
+// ══════════════════════════════════════════════
+const AI_CONFIG = {
+  claude: {
+    name: 'Claude', company: 'Anthropic',
+    url: 'https://claude.ai',
+    urlLabel: 'claude.ai',
+    mode: 'chat',
+    steps: [
+      { t: 'Abre', d: '<strong>claude.ai</strong> en tu navegador. Inicia sesión o crea una cuenta gratuita.' },
+      { t: 'Copia el prompt', d: 'Copia el prompt de la sección de abajo con el botón <strong>"Copiar"</strong>.' },
+      { t: 'Pégalo en el chat', d: 'Pégalo en el campo de mensaje de Claude y espera la respuesta en formato JSON.' },
+      { t: 'Copia el JSON', d: 'Copia el bloque JSON de la respuesta y pégalo abajo. Luego da click en <strong>✅ Validar e importar</strong>.' },
+    ]
+  },
+  chatgpt: {
+    name: 'ChatGPT', company: 'OpenAI',
+    url: 'https://chat.openai.com',
+    urlLabel: 'chat.openai.com',
+    mode: 'chat',
+    steps: [
+      { t: 'Abre', d: '<strong>chat.openai.com</strong>. Usa GPT-4o si tienes acceso, o GPT-3.5.' },
+      { t: 'Nuevo chat', d: 'Asegúrate de estar en un chat nuevo (sin contexto previo).' },
+      { t: 'Pega el prompt', d: 'Pega el prompt completo y envíalo.' },
+      { t: 'Importa el JSON', d: 'Cuando responda, copia el bloque JSON y pégalo abajo. Luego da click en <strong>✅ Validar e importar</strong>.' },
+    ]
+  },
+  gemini: {
+    name: 'Gemini', company: 'Google',
+    url: 'https://gemini.google.com',
+    urlLabel: 'gemini.google.com',
+    mode: 'chat',
+    steps: [
+      { t: 'Abre', d: '<strong>gemini.google.com</strong>. Necesitas cuenta de Google.' },
+      { t: 'Nueva conversación', d: 'Inicia una conversación nueva. Para mejor resultado, usa <em>Gemini Advanced</em> si tienes acceso.' },
+      { t: 'Pega el prompt', d: 'Pega el prompt completo. Gemini puede pedir confirmación antes de generar el JSON.' },
+      { t: 'Importa el resultado', d: 'Copia el bloque JSON de la respuesta y pégalo abajo. Si Gemini añade texto adicional, solo pega el JSON.' },
+    ]
+  },
+  copilot: {
+    name: 'Microsoft Copilot', company: 'Microsoft',
+    url: 'https://copilot.microsoft.com',
+    urlLabel: 'copilot.microsoft.com',
+    mode: 'chat',
+    steps: [
+      { t: 'Abre', d: '<strong>copilot.microsoft.com</strong> o desde Edge / Windows. Cuenta Microsoft opcional.' },
+      { t: 'Elige modo "Preciso"', d: 'En el selector de conversación, elige el modo <strong>Preciso o Equilibrado</strong> para respuestas más estructuradas.' },
+      { t: 'Pega el prompt', d: 'Pega el prompt completo. Copilot puede agregar fuentes al final — ignóralas si no vienen en el JSON.' },
+      { t: 'Importa el JSON', d: 'Copia únicamente el bloque JSON de la respuesta e impórtalo abajo.' },
+    ]
+  },
+  perplexity: {
+    name: 'Perplexity', company: 'Perplexity AI',
+    url: 'https://perplexity.ai',
+    urlLabel: 'perplexity.ai',
+    mode: 'search',
+    steps: [
+      { t: 'Abre', d: '<strong>perplexity.ai</strong>. Puedes usarlo sin cuenta.' },
+      { t: 'Usa modo "Focus: Writing"', d: 'En el menú de búsqueda, selecciona <strong>Writing</strong> (no Web Search) para que genere el JSON sin buscar en internet.' },
+      { t: 'Pega el prompt', d: 'Pega el prompt. <em>Tip: </em>Agrega al inicio: <em>"No busques en internet. Solo analiza el siguiente texto:"</em>' },
+      { t: 'Importa el resultado', d: 'Copia el bloque JSON y pégalo abajo. Perplexity puede agregar fuentes — solo necesitas el JSON.' },
+    ]
+  },
+  meta: {
+    name: 'Meta AI', company: 'Meta · Llama',
+    url: 'https://meta.ai',
+    urlLabel: 'meta.ai',
+    mode: 'chat',
+    steps: [
+      { t: 'Abre', d: '<strong>meta.ai</strong> o desde WhatsApp / Instagram / Messenger (busca el icono de Meta AI).' },
+      { t: 'Chat nuevo', d: 'Inicia una conversación nueva en meta.ai o en la app que uses.' },
+      { t: 'Pega el prompt', d: 'Pega el prompt completo. Meta AI puede generar el JSON directamente o añadir explicaciones antes.' },
+      { t: 'Extrae el JSON', d: 'Si la respuesta incluye texto adicional, busca el bloque que empieza con { y termina con } y cópialo abajo.' },
+    ]
+  }
+};
+
+
+function selectAI(key, _ignoredAuto=false) {
+  state.selectedAI = key;
+  document.querySelectorAll('.ai-card').forEach(c=>c.classList.remove('selected'));
+  const card = document.querySelector(`[data-ai="${key}"]`);
+  if(card) card.classList.add('selected');
+
+  // Al elegir IA: paso 2 (prompt) en primer plano
+  setAIFlowStep(2);
+}
+
+
+
+function renderAIAssistant() {
+  // Compat: mantenemos el nombre de la función para no romper llamadas previas.
+  renderAIFlow();
+}
+
+function setAIFlowStep(n){
+  state.aiFlowStep = Math.max(1, Math.min(4, n));
+  renderAIFlow();
+  const panel = document.getElementById('aiFlowPanel' + state.aiFlowStep);
+  if(panel) panel.scrollIntoView({behavior:'smooth', block:'start'});
+}
+
+function refreshAIPrompt(){
+  const ta = document.getElementById('aiPromptText');
+  if(!ta) return;
+  ta.value = buildAIPrompt();
+}
+
+function openSelectedAI(){
+  const ai = AI_CONFIG[state.selectedAI] || AI_CONFIG['claude'];
+  try { window.open(ai.url, '_blank', 'noopener'); } catch(e){}
+  setAIFlowStep(3);
+}
+
+function renderAIFlow(){
+  // Estado inicial
+  if(typeof state.aiFlowStep === 'undefined') state.aiFlowStep = 1;
+
+  const ai = AI_CONFIG[state.selectedAI] || AI_CONFIG['claude'];
+  const nameEl = document.getElementById('aiSelectedName');
+  const openLabelEl = document.getElementById('aiOpenLabel');
+  if(nameEl) nameEl.textContent = ai.name;
+  if(openLabelEl) openLabelEl.textContent = ai.name;
+
+  // Panels
+  for(let i=1;i<=4;i++){
+    const p = document.getElementById('aiFlowPanel'+i);
+    const b = document.getElementById('aiFlowStepBtn'+i);
+    if(p) p.classList.toggle('hidden', state.aiFlowStep !== i);
+    if(b){
+      b.classList.toggle('active', state.aiFlowStep === i);
+      b.classList.toggle('done', state.aiFlowStep > i);
+    }
+  }
+
+  // Progress bar
+  const fill = document.getElementById('aiFlowBarFill');
+  if(fill){
+    const pct = ((state.aiFlowStep-1)/3)*100;
+    fill.style.width = pct + '%';
+  }
+
+  // Prompt (solo cuando corresponde)
+  if(state.aiFlowStep === 2){
+    refreshAIPrompt();
+  }
+}
+
+
+
+function buildAIPrompt() {
+  // Lee datos del formulario (si no existen, marca "no informado")
+  const getVal = (id) => {
+    const el = document.getElementById(id);
+    if(!el) return "no informado";
+    const v = (el.value ?? "").toString().trim();
+    return v ? v : "no informado";
+  };
+  const getNum = (id, fallbackId=null) => {
+    const el = document.getElementById(id);
+    if(el && el.value !== undefined && el.value !== null && el.value !== "") return el.value;
+    if(fallbackId) {
+      const el2 = document.getElementById(fallbackId);
+      if(el2 && el2.textContent) return el2.textContent.trim();
+    }
+    return "no informado";
+  };
+  const getChecked = (id) => {
+    const el = document.getElementById(id);
+    return !!(el && el.checked);
+  };
+
+  const edad = getVal("p_age");
+  const genero = getVal("p_gender");
+  const grado = getVal("p_grade");
+  const contexto = getVal("p_context");
+
+  const participacion = getNum("p_social", "p_social_val");
+  const influencia = getNum("p_influence", "p_influence_val");
+
+  const vulnerabilidades = [];
+  if(getChecked("v_disability")) vulnerabilidades.push("discapacidad física o sensorial");
+  if(getChecked("v_neuro")) vulnerabilidades.push("diferencia cognitiva / neurodiversidad");
+  if(getChecked("v_migrant")) vulnerabilidades.push("condición migrante/desplazamiento");
+  if(getChecked("v_lgbtq")) vulnerabilidades.push("diversidad sexual / de género");
+  if(getChecked("v_poverty")) vulnerabilidades.push("vulnerabilidad socioeconómica");
+  if(getChecked("v_ethnic")) vulnerabilidades.push("pertenencia étnica/minoritaria");
+  if(getChecked("v_mh")) vulnerabilidades.push("malestar emocional previo (ansiedad/depresión)");
+  if(getChecked("v_other")) vulnerabilidades.push("otra (no especificada)");
+
+  const narrativa = getVal("narrative");
+
+  // Prompt (diseñado para devolver SOLO JSON)
+  return `Eres un asistente de análisis. A continuación te presento la narrativa y datos de una situación escolar.
+Analiza el contenido y devuelve ÚNICAMENTE un bloque JSON válido, sin ningún texto adicional antes ni después.
+
+El JSON debe tener esta estructura exacta:
+{
+  "resumen": "resumen de 2-3 oraciones de la situación",
+  "hechos": ["hecho 1", "hecho 2", "hecho 3"],
+  "actores": [
+    {"rol": "víctima/agresor/testigo/otro", "descripcion": "descripción breve, sin nombres reales"}
+  ],
+  "cronologia": [
+    {"periodo": "ej: semana pasada", "evento": "descripción del evento"}
+  ],
+  "indicadores_sugeridos": [
+    {"indicador": "nombre del indicador", "nivel": 0-3, "razon": "por qué ese nivel"}
+  ],
+  "dudas": ["aspecto que no queda claro 1", "aspecto que no queda claro 2"]
+}
+
+DATOS DEL CASO (si algún dato no está, indícalo como "no informado"):
+- Edad: ${edad}
+- Género: ${genero}
+- Escolaridad/Grado: ${grado}
+- Contexto: ${contexto}
+- Participación social (escala): ${participacion}
+- Influencia social (escala): ${influencia}
+- Factores de susceptibilidad / vulnerabilidades: ${vulnerabilidades.length ? vulnerabilidades.join(", ") : "no informado"}
+
+NARRATIVA:
+${narrativa}`;
+}
+
+function copyPrompt(silent=false) {
+  const txt = buildAIPrompt();
+
+  // Clipboard API (solo funciona bien en contexto seguro https/http; en file:// puede fallar)
+  const canClipboard = !!(navigator.clipboard && navigator.clipboard.writeText);
+
+  const fallbackCopy = () => {
+    try {
+      const ta = document.createElement('textarea');
+      ta.value = txt;
+      ta.setAttribute('readonly','');
+      ta.style.position = 'fixed';
+      ta.style.top = '-9999px';
+      document.body.appendChild(ta);
+      ta.focus();
+      ta.select();
+      const ok = document.execCommand('copy');
+      document.body.removeChild(ta);
+
+      if(ok) {
+        if(!silent) toast('✅ Prompt copiado. Pega en tu IA (Ctrl+V).');
+        return true;
+      }
+    } catch(e) {}
+
+    // Último recurso: selecciona el prompt en pantalla para copiar manualmente
+    const taVis = document.getElementById('aiPromptText');
+    if(taVis) {
+      taVis.focus();
+      taVis.select();
+    }
+    if(!silent) toast('ℹ️ No pude copiar automáticamente. El prompt quedó seleccionado: usa Ctrl+C y luego Ctrl+V en tu IA.');
+    return false;
+  };
+
+  if(canClipboard) {
+    navigator.clipboard.writeText(txt).then(()=>{
+      if(!silent) toast('✅ Prompt copiado. Pega en tu IA (Ctrl+V).');
+    }).catch(()=>fallbackCopy());
+  } else {
+    fallbackCopy();
+  }
+}
+
+
+
+function validateAndApplyJSON() {
+  const raw = document.getElementById('jsonReturn').value.trim();
+  const status = document.getElementById('jsonStatus');
+  status.classList.remove('hidden','json-ok','json-err');
+  try {
+    const data = JSON.parse(raw);
+    if(!data.resumen) throw new Error('Falta campo "resumen"');
+    const c = currentCase();
+    if(c) {
+      if(data.resumen && !c.narrative) { c.narrative = data.resumen; document.getElementById('narrative').value = data.resumen; }
+      if(data.indicadores_sugeridos && Array.isArray(data.indicadores_sugeridos)) {
+        data.indicadores_sugeridos.forEach(ind=>{
+          const match = INDICATOR_CATEGORIES.flatMap(cat=>cat.items).find(item=>
+            ind.indicador?.toLowerCase().includes(item.id) || item.key?.includes(ind.indicador?.toLowerCase())
+          );
+          if(match && ind.nivel>=0 && ind.nivel<=3) indicatorValues[match.key] = ind.nivel;
+        });
+      }
+      c.aiData = data;
+      saveCases();
+    }
+    status.className = 'json-status json-ok';
+    status.textContent = '✅ JSON válido importado correctamente. Los indicadores sugeridos se han aplicado.';
+  } catch(e) {
+    status.className = 'json-status json-err';
+    status.textContent = '❌ JSON inválido: ' + e.message + '. Asegúrate de copiar solo el bloque JSON.';
+  }
+  status.classList.remove('hidden');
+}
+
+function clearJSON() {
+  document.getElementById('jsonReturn').value = '';
+  document.getElementById('jsonStatus').classList.add('hidden');
+}
+
+
+function scrollToAIPaste(){
+  const sec = document.getElementById('aiPasteSection');
+  if(sec) sec.scrollIntoView({behavior:'smooth', block:'start'});
+  setTimeout(()=>{ const t=document.getElementById('jsonReturn'); if(t) t.focus(); }, 220);
+}
+
+function openAIAndCopy() {
+  // Copia el prompt y abre el asistente seleccionado en una pestaña nueva.
+  copyPrompt();
+  const ai = AI_CONFIG[state.selectedAI];
+  if(ai && ai.url) window.open(ai.url, '_blank', 'noopener');
+  // En móviles, algunos navegadores bloquean el open si no es por gesto directo.
+}
+
+function openModal(id) { document.getElementById(id).classList.add('show'); }
+function closeModal(id) { document.getElementById(id).classList.remove('show'); }
+
+function openInfo(){ openModal('infoModal'); }
+function openHelp(){ openModal('helpModal'); }
+
+function escapeHtml(s){
+  return (s||'').toString().replace(/[&<>"']/g, c=>({ '&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;' }[c]));
+}
+
+function fmtVal(v, fallback='—'){ return (v===undefined || v===null || v==='' ) ? fallback : v; }
+
+function indicatorLabelFromKey(key){
+  const all = INDICATOR_CATEGORIES.flatMap(c=>c.items);
+  const it = all.find(x=>x.key===key);
+  return it ? it.label : key;
+}
+
+
+function buildIndicatorsAnalysis(inds){
+  const get = (k)=> Number.isFinite(+inds[k]) ? +inds[k] : 0;
+  const conductKeys = ['conducta_fisica','conducta_verbal','conducta_relacional','conducta_digital','conducta_sexual','conducta_pertenencias','conducta_amenazas'];
+  const powerKeys = ['poder_edad','poder_fuerza','poder_estatus','poder_grupo','poder_digital'];
+  const impactKeys = ['impacto_miedo','impacto_lesiones','impacto_sueno','impacto_animo','impacto_aislamiento','impacto_rendimiento'];
+  const witnessKeys = ['testigos','complicidad','respuesta_institucional'];
+
+  const conductPresent = conductKeys.filter(k=>get(k)>0);
+  const powerPresent = powerKeys.filter(k=>get(k)>0);
+  const impactPresent = impactKeys.filter(k=>get(k)>0);
+
+  const highCount = Object.keys(inds||{}).filter(k=>get(k)>=2).length;
+  const criticalCount = Object.keys(inds||{}).filter(k=>get(k)>=3).length;
+
+  const freq = get('frecuencia');
+  const dur = get('duracion');
+  const repetition = (freq>=2) || (dur>=2); // 2=semanal/meses (aprox) o más
+  const power = powerPresent.length>0;
+  const harm = impactPresent.length>0;
+
+  const formsText = conductPresent.length ? conductPresent.map(k=>indicatorLabelFromKey(k)).join(', ') : '—';
+  const powerText = powerPresent.length ? powerPresent.map(k=>indicatorLabelFromKey(k)).join(', ') : '—';
+  const impactText = impactPresent.length ? impactPresent.map(k=>indicatorLabelFromKey(k)).join(', ') : '—';
+
+  let judgment = 'Los indicadores registrados sugieren una situación de conflicto escolar que requiere seguimiento.';
+  if(repetition && power && harm){
+    judgment = 'La combinación de repetición (o alta probabilidad de repetición), desequilibrio de poder e impacto observado es consistente con un escenario de bullying probable.';
+  }else if((repetition && harm) || (power && harm)){
+    judgment = 'Los indicadores muestran señales relevantes compatibles con acoso entre pares en evolución (bullying posible), y ameritan intervención y verificación institucional.';
+  }
+
+  const severityNote = (criticalCount>0)
+    ? `Se observan ${criticalCount} indicador(es) en nivel 🔴 (grave) y ${highCount} en niveles 🟠/🔴, lo que eleva la prioridad de actuación.`
+    : (highCount>0)
+      ? `Se observan ${highCount} indicador(es) en niveles 🟠/🔴, lo que sugiere mayor intensidad o impacto.`
+      : `La mayoría de indicadores se ubican en niveles 🟢/🟡; aun así, conviene monitorear evolución y consistencia del relato.`;
+
+  return `${judgment} <br><br><strong>Formas reportadas:</strong> ${escapeHtml(formsText)}. <strong>Desequilibrio de poder:</strong> ${escapeHtml(powerText)}. <strong>Impacto observado:</strong> ${escapeHtml(impactText)}. <br><br>${escapeHtml(severityNote)}`;
+}
+
+
+function riskBadgeClass(levelKey){
+  const map = { low:'badge-low', medium:'badge-moderate', high:'badge-high', critical:'badge-critical' };
+  return map[levelKey] || 'badge-moderate';
+}
+
+function intensityChip(v){
+  const map = [
+    {t:'🟢 Sin/mínimo', cls:'low'},
+    {t:'🟡 Leve', cls:'medium'},
+    {t:'🟠 Moderado', cls:'high'},
+    {t:'🔴 Grave', cls:'critical'},
+  ];
+  const m = map[Math.max(0, Math.min(3, v||0))];
+  return `<span class="risk-badge ${m.cls}" style="margin-right:6px">${m.t}</span>`;
+}
+
+function openReport(){
+  const c = currentCase();
+  if(!c){ alert('Primero selecciona o crea un caso.'); return; }
+  // Asegura cálculos actualizados
+  runClassification(); runRiskAssessment(); renderRoutes();
+  document.getElementById('reportBody').innerHTML = buildReportHTML(c);
+  openModal('reportModal');
+}
+
+function printReport(){
+  // Imprime solo el cuerpo del informe mediante una ventana temporal para mantener formato.
+  const body = document.getElementById('reportBody').innerHTML;
+  const w = window.open('', '_blank');
+  if(!w) { window.print(); return; }
+  w.document.write(`<!doctype html><html><head><meta charset="utf-8"><title>Informe — Radar de Bullying</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <style>
+      body{ font-family: Inter, system-ui, sans-serif; color:#222; line-height:1.5; padding:24px; }
+      h1,h2,h3{ font-family: Lora, Georgia, serif; margin:0 0 10px; }
+      h1{ font-size:22px; } h2{ font-size:16px; margin-top:18px; } h3{ font-size:14px; margin-top:14px; }
+      .meta{ color:#666; font-size:12px; margin-bottom:12px; }
+      .box{ border:1px solid #e4dfd8; border-radius:12px; padding:14px 16px; margin:10px 0; }
+      .row{ display:flex; gap:10px; flex-wrap:wrap; }
+      .tag{ display:inline-block; padding:2px 8px; border:1px solid #e4dfd8; border-radius:999px; font-size:11px; color:#555; margin-right:6px; }
+      .small{ font-size:12px; color:#555; }
+      table{ width:100%; border-collapse:collapse; margin-top:8px; }
+      td,th{ border:1px solid #eee; padding:8px; font-size:12px; vertical-align:top; }
+      th{ background:#fafaf8; text-align:left; }
+      a{ color:#2d5a7a; text-decoration:none; }
+      @media print{ body{ padding:0; } }
+    
+/* ===== MICRO-PREMIUM (sin tocar espaciados) ===== */
+h2, h3 { font-weight: 700; }
+
+.mono-data{
+  font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", monospace;
+  font-size: 0.82rem;
+}
+
+.severity-badge{
+  display:inline-flex;
+  align-items:center;
+  font-size: 0.72rem;
+  padding: 3px 10px;
+  border-radius: 999px;
+  font-weight: 600;
+  margin-left: 6px;
+  border: 1px solid rgba(0,0,0,0.06);
+}
+.badge-low{ background:#d1fae5; color:#065f46; }
+.badge-moderate{ background:#fef9c3; color:#854d0e; }
+.badge-high{ background:#fed7aa; color:#9a3412; }
+.badge-critical{ background:#fee2e2; color:#991b1b; }
+
+/* Stepper IA: más claro sin cambiar tamaños */
+.ai-flow-step{ transition: background .2s ease, border-color .2s ease, box-shadow .2s ease, transform .15s ease; }
+.ai-flow-step:hover{ transform: translateY(-1px); }
+.ai-flow-step.active{
+  background: rgba(107,143,113,0.10);
+  border-color: rgba(107,143,113,0.75);
+  box-shadow: 0 0 0 3px rgba(107,143,113,0.15);
+}
+.ai-flow-step.done .n{
+  background: rgba(22,163,74,0.12);
+  color: #166534;
+}
+.ai-flow-step.done .t::after{
+  content:" ✓";
+  font-size: 0.75rem;
+  color: #16a34a;
+  margin-left: 4px;
+}
+
+</style>
+</head><body>${body}</body></html>`);
+  w.document.close();
+  w.focus();
+  w.print();
+}
+
+// ── EXPORTACIONES ─────────────────────────────────
+function downloadBlob(filename, mime, content){
+  const blob = new Blob([content], {type: mime});
+  const a = document.createElement('a');
+  a.href = URL.createObjectURL(blob);
+  a.download = filename;
+  document.body.appendChild(a);
+  a.click();
+  setTimeout(()=>{ URL.revokeObjectURL(a.href); a.remove(); }, 800);
+}
+
+function exportReportTXT(){
+  const c = currentCase();
+  if(!c){ alert('Primero selecciona o crea un caso.'); return; }
+  // Asegura informe actualizado
+  runClassification(); runRiskAssessment(); renderRoutes();
+  const body = document.getElementById('reportBody');
+  // Si el modal no está abierto, construimos el HTML temporalmente
+  const temp = document.createElement('div');
+  temp.innerHTML = buildReportHTML(c);
+  const text = (temp.innerText || '').replace(/\n{3,}/g,'\n\n').trim();
+  const stamp = new Date().toISOString().slice(0,10);
+  downloadBlob(`Informe_RadarDeBullying_${stamp}.txt`, 'text/plain;charset=utf-8', text);
+}
+
+function exportReportDOCX(){
+  if(typeof window.docx === 'undefined'){
+    alert('No se pudo cargar el módulo DOCX. Verifica conexión a internet o usa Imprimir/PDF.');
+    return;
+  }
+  const c = currentCase();
+  if(!c){ alert('Primero selecciona o crea un caso.'); return; }
+  runClassification(); runRiskAssessment(); renderRoutes();
+
+  const temp = document.createElement('div');
+  temp.innerHTML = buildReportHTML(c);
+
+  const { Document, Packer, Paragraph, HeadingLevel, TextRun, Table, TableRow, TableCell, WidthType } = window.docx;
+
+  function paraFromText(t, heading){
+    if(!t) return null;
+    const clean = t.replace(/\s+/g,' ').trim();
+    if(!clean) return null;
+    if(heading){
+      return new Paragraph({ text: clean, heading: heading });
+    }
+    return new Paragraph({ children: [ new TextRun(clean) ] });
+  }
+
+  function tableFromHTML(tbl){
+    const rows = Array.from(tbl.querySelectorAll('tr'));
+    const docRows = rows.map(r=>{
+      const cells = Array.from(r.children).map(td=>{
+        const txt = (td.innerText || '').replace(/\s+/g,' ').trim();
+        return new TableCell({
+          width: { size: 50, type: WidthType.PERCENTAGE },
+          children: [ new Paragraph({ children:[ new TextRun(txt) ] }) ]
+        });
+      });
+      return new TableRow({ children: cells });
+    });
+    return new Table({ rows: docRows, width: { size: 100, type: WidthType.PERCENTAGE } });
+  }
+
+  const blocks = [];
+  // Recorrer nodos principales del informe
+  const walker = document.createTreeWalker(temp, NodeFilter.SHOW_ELEMENT, null);
+  const tables = [];
+  // primera pasada: extraer por orden
+  const ordered = [];
+  let node = walker.currentNode;
+  while(node){
+    if(node.tagName === 'H1') ordered.push({type:'h1', el:node});
+    if(node.tagName === 'H2') ordered.push({type:'h2', el:node});
+    if(node.tagName === 'TABLE') ordered.push({type:'table', el:node});
+    if(node.classList && (node.classList.contains('small') || node.classList.contains('meta')) && node.tagName==='DIV'){
+      ordered.push({type:'p', el:node});
+    }
+    node = walker.nextNode();
+  }
+
+  // Título principal si no hay H1
+  const title = temp.querySelector('h1')?.innerText?.trim() || 'Informe del caso';
+  blocks.push(new Paragraph({ text: title, heading: HeadingLevel.TITLE }));
+
+  // Construir el documento
+  ordered.forEach(item=>{
+    if(item.type==='h1'){
+      const p = paraFromText(item.el.innerText, HeadingLevel.HEADING_1);
+      if(p) blocks.push(p);
+    } else if(item.type==='h2'){
+      const p = paraFromText(item.el.innerText, HeadingLevel.HEADING_2);
+      if(p) blocks.push(p);
+    } else if(item.type==='p'){
+      const p = paraFromText(item.el.innerText, null);
+      if(p) blocks.push(p);
+    } else if(item.type==='table'){
+      blocks.push(tableFromHTML(item.el));
+    }
+  });
+
+  const doc = new Document({ sections: [{ children: blocks }] });
+  Packer.toBlob(doc).then(blob=>{
+    const stamp = new Date().toISOString().slice(0,10);
+    const a = document.createElement('a');
+    a.href = URL.createObjectURL(blob);
+    a.download = `Informe_RadarDeBullying_${stamp}.docx`;
+    document.body.appendChild(a);
+    a.click();
+    setTimeout(()=>{ URL.revokeObjectURL(a.href); a.remove(); }, 800);
+  });
+}
+
+function buildReportHTML(c){
+  const now = new Date().toLocaleString('es-CO');
+  const p = c.profile || {};
+  const vuln = (p.vulnerabilities||[]).map(v=>`<span class="tag">${escapeHtml(v)}</span>`).join('') || '<span class="tag">—</span>';
+
+  const tl = (c.timeline||[]).filter(x=>x.date||x.desc);
+  const tlHtml = tl.length ? `<table><thead><tr><th>Fecha</th><th>Evento</th></tr></thead><tbody>${
+    tl.map(x=>`<tr><td>${escapeHtml(x.date||'')}</td><td>${escapeHtml(x.desc||'')}</td></tr>`).join('')
+  }</tbody></table>` : `<div class="small">—</div>`;
+
+  const inds = c.indicators || {};
+  const indKeys = Object.keys(inds);
+  const indHtml = indKeys.length ? `<table><thead><tr><th>Indicador</th><th>Nivel</th></tr></thead><tbody>${
+    indKeys.map(k=>`<tr><td>${escapeHtml(indicatorLabelFromKey(k))}</td><td>${escapeHtml(String(inds[k]))}</td></tr>`).join('')
+  }</tbody></table>` : `<div class="small">—</div>`;
+
+  const indAnalysis = buildIndicatorsAnalysis(inds);
+
+  const cl = c.classification || {};
+  const rk = c.risk || {};
+
+  // Rutas (si ya están renderizadas)
+  const routesEl = document.getElementById('routesResult');
+  const routesHtml = routesEl ? routesEl.innerHTML : '';
+
+  return `
+    <h1>Informe del caso — Radar de Bullying</h1>
+    <div class="meta">Generado: ${escapeHtml(now)} · Caso: <strong>${escapeHtml(c.name||'Caso')}</strong></div>
+
+    <div class="box">
+      <h2>1) Perfil del caso</h2>
+      <div class="row">
+        <div class="tag">Edad: ${escapeHtml(fmtVal(p.age))}</div>
+        <div class="tag">Género: ${escapeHtml(fmtVal(p.gender))}</div>
+        <div class="tag">Grado: ${escapeHtml(fmtVal(p.grade))}</div>
+        <div class="tag">Contexto: ${escapeHtml(fmtVal(p.context))}</div>
+        <div class="tag">Participación social: ${escapeHtml(fmtVal(p.social))}/10</div>
+        <div class="tag">Influencia social: ${escapeHtml(fmtVal(p.influence))}/10</div>
+      </div>
+      <div style="margin-top:10px" class="small"><strong>Factores de vulnerabilidad:</strong> ${vuln}</div>
+    </div>
+
+    <div class="box">
+      <h2>2) Narrativa y línea de tiempo</h2>
+      <div class="small"><strong>Narrativa:</strong><br>${escapeHtml(c.narrative||'—').replace(/\n/g,'<br>')}</div>
+      <h3>Línea de tiempo</h3>
+      ${tlHtml}
+    </div>
+
+    <div class="box">
+      <h2>3) Indicadores registrados</h2>
+      ${indHtml}
+      <div class="small" style="margin-top:8px">Escala: 0=🟢, 1=🟡, 2=🟠, 3=🔴.</div>
+      <h3 style="margin-top:14px">Análisis técnico de los indicadores</h3>
+      <div class="small" style="line-height:1.6">${indAnalysis}</div>
+    </div>
+
+    
+    <div class="box">
+      <h2>4) Clasificación del tipo de situación</h2>
+      <div class="small"><strong>${escapeHtml(cl?.label || '—')}</strong></div>
+      ${cl?.definicion ? `<div class="small" style="margin-top:8px">${escapeHtml(cl.definicion)}</div>` : ``}
+      ${cl?.notes ? `<div class="small" style="margin-top:10px;line-height:1.55">${cl.notes}</div>` : ``}
+      ${cl?.razones?.length ? `<div class="small" style="margin-top:10px"><strong>Razones (según indicadores):</strong><ul style="margin:6px 0 0 18px">${cl.razones.map(r=>`<li>${escapeHtml(r)}</li>`).join('')}</ul></div>` : ``}
+    </div>
+
+    <div class="box">
+      <h2>5) Evaluación bio-psico-social</h2>
+      <div class="small">Estimación del nivel de riesgo actual y probabilidad de escalamiento.</div>
+
+      ${rk && (rk.total!==undefined) ? `
+      <div class="small" style="margin-top:10px">
+        <strong>Riesgo general:</strong> <span class="severity-badge ${riskBadgeClass(rk.level)}">${escapeHtml(({low:'Bajo',medium:'Medio',high:'Alto',critical:'Crítico'}[rk.level]||'—'))}</span>
+        <br>
+        <span>Puntuación compuesta: <strong>${escapeHtml(String(rk.total))}</strong> / 24</span>
+        <span> | Probabilidad de escalamiento: <strong>${escapeHtml((rk.escalLevel||'—'))}</strong></span>
+      </div>
+
+      <div style="margin-top:12px;display:flex;flex-direction:column;gap:12px">
+        ${[
+          {label:'🧬 Biológico / Físico', val:rk.bio, max:6, desc:'Lesiones físicas, cambios en sueño y alimentación'},
+          {label:'🧠 Psicológico / Emocional', val:rk.psi, max:9, desc:'Miedo, ansiedad, cambios de ánimo, evitación escolar'},
+          {label:'👥 Social', val:rk.soc, max:9, desc:'Aislamiento, participación social, complicidad de pares'},
+        ].map(d=>`
+          <div>
+            <div style="display:flex;justify-content:space-between;gap:12px;margin-bottom:4px">
+              <span class="small"><strong>${d.label}</strong></span>
+              <span class="small">${escapeHtml(String(d.val))}/${escapeHtml(String(d.max))}</span>
+            </div>
+            <div style="height:6px;background:var(--border);border-radius:99px;overflow:hidden">
+              <div style="height:100%;width:${Math.min(100,(d.val||0)/(d.max||1)*100)}%;background:var(--sage);border-radius:99px"></div>
+            </div>
+            <div class="small" style="margin-top:4px;color:var(--ink-soft)">${escapeHtml(d.desc)}</div>
+          </div>
+        `).join('')}
+      </div>
+      ` : `<div class="small" style="margin-top:10px">—</div>`}
+    </div>
+
+      ${rk?.summary ? `<div class="small" style="margin-top:8px">${escapeHtml(rk.summary)}</div>` : ``}
+    </div>
+
+    <div class="box">
+      <h2>6) Rutas de acción sugeridas</h2>
+      <div class="small">Las rutas se organizan por ámbito. Verifica fuentes y ajusta a tu contexto.</div>
+      <div style="margin-top:10px">${routesHtml || '<div class="small">—</div>'}</div>
+    </div>
+
+    <div class="box">
+      <h2>7) Evidencias y anexos</h2>
+      <div class="small">Sugerencia: adjunta capturas, correos, chats, reportes médicos/psicológicos (si existen), comunicaciones con el colegio y fechas de reuniones.</div>
+    </div>
+
+    
+    <div class="box">
+      <h2>Nota importante</h2>
+      <div class="small">Este informe es una <strong>herramienta de organización y apoyo</strong> basada en la información registrada por el usuario y, cuando aplique, en una síntesis automatizada. <strong>No constituye diagnóstico clínico</strong> ni reemplaza la valoración de profesionales de salud mental, docentes u autoridades competentes. Si hay <strong>riesgo inmediato</strong> o amenaza activa, solicita ayuda y activa las rutas institucionales de forma prioritaria.</div>
+    </div>
+
+
+    <div class="meta">
+      Desarrollado por PhD. José Alonso Andrade · 911psicologia@gmail.com
+    </div>
+  `;
+}
+
+// ── TOUR ─────────────────────────────────────────
+let tourIndex = 0;
+const TOUR_STEPS = [
+  { title:'Bienvenida', text:'Aquí registras el caso y construyes una lectura ordenada para actuar con claridad.', step:1, highlight:'#step-1 .card' },
+  { title:'Mis casos', text:'Crea y guarda casos. Todo queda solo en tu dispositivo.', step:2, highlight:'#caseListWrap' },
+  { title:'Narrativa', text:'Escribe o dicta los hechos. Agrega eventos en la línea de tiempo para tener secuencia.', step:4, highlight:'#step-4 .card' },
+  { title:'Indicadores', text:'Marca niveles 🟢🟡🟠🔴. Esto alimenta clasificación, riesgo y rutas.', step:5, highlight:'#indicatorsContainer' },
+  { title:'Asistente IA (opcional)', text:'Si quieres, abre tu IA y copia el prompt con un solo click: “🚀 Abrir IA + Copiar prompt”. Luego pega el JSON y valida.', step:6, highlight:'#step-6 .card' },
+  { title:'Informe', text:'Al final puedes generar un informe para colegio/familia/abogados y guardarlo como PDF.', step:9, highlight:'#step-9' },
+];
+
+function openTour(){
+  tourIndex = 0;
+  document.getElementById('tourBackdrop').classList.add('show');
+  renderTour();
+}
+function endTour(){
+  document.getElementById('tourBackdrop').classList.remove('show');
+  clearTourHighlight();
+  try { localStorage.setItem('rb_tour_done','1'); } catch(e){}
+}
+function nextTour(){
+  tourIndex = Math.min(TOUR_STEPS.length-1, tourIndex+1);
+  renderTour();
+}
+function prevTour(){
+  tourIndex = Math.max(0, tourIndex-1);
+  renderTour();
+}
+function clearTourHighlight(){
+  document.querySelectorAll('.tour-highlight').forEach(el=>el.classList.remove('tour-highlight'));
+}
+function renderTour(){
+  const s = TOUR_STEPS[tourIndex];
+  if(state.currentStep !== s.step) goStep(s.step);
+  document.getElementById('tourTitle').textContent = s.title + ` (${tourIndex+1}/${TOUR_STEPS.length})`;
+  document.getElementById('tourText').textContent = s.text;
+  clearTourHighlight();
+  setTimeout(()=>{
+    const el = document.querySelector(s.highlight);
+    if(el){ el.classList.add('tour-highlight'); el.scrollIntoView({behavior:'smooth', block:'center'}); }
+  }, 280);
+}
+window.addEventListener('keydown', (e)=>{
+  if(e.key==='Escape'){
+    ['infoModal','helpModal','reportModal','tourBackdrop'].forEach(id=>{
+      const el = document.getElementById(id);
+      if(el && el.classList.contains('show')) el.classList.remove('show');
+    });
+    clearTourHighlight();
+  }
+});
+window.addEventListener('load', ()=>{
+  try{
+    if(!localStorage.getItem('rb_tour_done')){
+      // mostrar tour solo si el usuario no lo ha cerrado antes
+      // no autoiniciar para no ser invasivo; pero lo dejamos listo si se quiere activar:
+      // openTour();
+    }
+  }catch(e){}
+});
+
+
+// ══════════════════════════════════════════════
+//  CLASSIFICATION ENGINE
+// ══════════════════════════════════════════════
+function getIndicatorScore(key) { return indicatorValues[key] || 0; }
+
+function runClassification() {
+  const c = currentCase(); if(!c) return;
+  const ind = c.indicators || indicatorValues;
+
+  // Núcleo epidemiológico / salud pública:
+  // - conducta agresiva no deseada
+  // - desbalance de poder (real o percibido)
+  // - repetición o alta probabilidad de repetición
+  // - daño físico / psicológico / social / educativo
+  // (en Colombia, Ley 1620/2013 recoge criterios de intencionalidad, sistematicidad, reiteración y asimetría)
+
+  const repeticion = (ind.frecuencia||0) + (ind.duracion||0);              // 0-6
+  const desequilibrio = (ind.poder_edad||0)+(ind.poder_fuerza||0)+(ind.poder_estatus||0)+(ind.poder_grupo||0)+(ind.poder_digital||0); // 0-10
+  const danio = (ind.impacto_miedo||0)+(ind.impacto_lesiones||0)+(ind.impacto_sueno||0)+(ind.impacto_animo||0)+(ind.impacto_aislamiento||0)+(ind.impacto_rendimiento||0); // 0-18
+
+  // Identidad (formas) del bullying / agresión
+  const formas = [];
+  if((ind.conducta_fisica||0) >= 2 || (ind.conducta_pertenencias||0) >= 2) formas.push('Física');
+  if((ind.conducta_verbal||0) >= 2 || (ind.conducta_amenazas||0) >= 2) formas.push('Verbal / amenazas');
+  if((ind.conducta_relacional||0) >= 2) formas.push('Relacional / social');
+  if((ind.conducta_digital||0) >= 2) formas.push('Ciberacoso');
+  if((ind.conducta_sexual||0) >= 2) formas.push('Connotación sexual');
+
+  const identity =
+    formas.length === 0 ? 'No definida' :
+    formas.length === 1 ? formas[0] :
+    'Mixto (combinado): ' + formas.join(' + ');
+
+  const direct = ((ind.conducta_fisica||0) >= 2) || ((ind.conducta_verbal||0) >= 2) || ((ind.conducta_amenazas||0) >= 2);
+  const indirect = ((ind.conducta_relacional||0) >= 2) || ((ind.conducta_digital||0) >= 2);
+  const modalidad = direct && indirect ? 'Directo e indirecto (mixto)' : direct ? 'Directo (más visible)' : indirect ? 'Indirecto (más encubierto)' : '—';
+
+  let tipo, label, cls, razones = [], definicion = '', notas = '';
+
+  // Priorización por protección: sexualidad y amenazas/lesiones tienen ruta inmediata.
+  if((ind.conducta_sexual||0) >= 2) {
+    tipo = 'acoso_sexual';
+    label = 'Conducta de connotación sexual (prioridad de protección)';
+    cls = 'bullying';
+    definicion = 'Conductas de connotación sexual en contexto escolar: requieren atención prioritaria, activación de rutas de protección y registro cuidadoso, incluso si no hay repetición.';
+    razones = [
+      'Se registraron conductas de connotación sexual con nivel medio-alto.',
+      'Este tipo de situación se atiende por ruta de protección independientemente de la frecuencia.'
+    ];
+  } else if((ind.conducta_amenazas||0) >= 2 || (ind.impacto_lesiones||0) >= 2) {
+    tipo = 'violencia';
+    label = 'Agresión o violencia grave (acción inmediata)';
+    cls = 'aggression';
+    definicion = 'Agresión directa con potencial de daño físico o amenaza seria. Un solo evento grave puede requerir intervención inmediata y medidas de protección.';
+    razones = [
+      (ind.conducta_amenazas||0) >= 2 ? 'Amenazas directas registradas.' : '',
+      (ind.impacto_lesiones||0) >= 2 ? 'Lesiones físicas reportadas.' : '',
+      'La gravedad pesa más que la repetición en la decisión de actuar.'
+    ].filter(Boolean);
+  } else if(repeticion >= 3 && desequilibrio >= 3 && danio >= 4) {
+    tipo = 'bullying';
+    label = 'Acoso escolar (bullying) probable';
+    cls = 'bullying';
+    definicion = 'Conducta agresiva no deseada entre pares, con desbalance de poder (real o percibido), repetida o muy probable que se repita, y con daño físico, psicológico, social o educativo.';
+    razones = [
+      `Repetición relevante (score: ${repeticion}/6).`,
+      `Asimetría de poder significativa (score: ${desequilibrio}/10).`,
+      `Impacto significativo en el bienestar (score: ${danio}/18).`,
+      formas.length ? `Identidad/forma dominante: ${identity}.` : '',
+      (ind.testigos||0) >= 2 ? 'Hay testigos o dinámica grupal involucrada.' : ''
+    ].filter(Boolean);
+  } else if((ind.conducta_digital||0) >= 2) {
+    tipo = 'ciberagresion';
+    label = 'Ciberagresión o ciberbullying posible';
+    cls = 'aggression';
+    definicion = 'Hostigamiento, intimidación o exclusión mediante medios digitales. Puede ser indirecto y amplificarse por difusión. Requiere evidencia y trazabilidad.';
+    razones = [
+      'Conductas digitales registradas con intensidad media-alta.',
+      repeticion >= 2 ? 'Hay repetición en el canal digital.' : 'Puede ser un episodio aislado, pero requiere seguimiento.'
+    ];
+  } else if(repeticion >= 2 && desequilibrio <= 2) {
+    tipo = 'conflicto';
+    label = 'Conflicto interpersonal recurrente';
+    cls = 'conflict';
+    definicion = 'Tensión o disputa entre pares con repetición, pero sin asimetría de poder sostenida claramente establecida. Puede escalar si no se atiende.';
+    razones = [
+      'Hay repetición pero sin desequilibrio de poder claro.',
+      'Las partes pueden tener agencia simétrica en la situación.',
+      'Requiere intervención (mediación/acompañamiento) y seguimiento.'
+    ];
+  } else if(((ind.conducta_verbal||0)+(ind.conducta_fisica||0)+(ind.conducta_relacional||0)+(ind.conducta_amenazas||0)+(ind.conducta_pertenencias||0)) >= 2 && danio >= 2) {
+    tipo = 'agresion';
+    label = 'Agresión puntual o incidente aislado (en seguimiento)';
+    cls = 'conflict';
+    definicion = 'Agresión que todavía no cumple criterios completos de bullying (por repetición o asimetría), pero merece registro, intervención y monitoreo.';
+    razones = [
+      'No se confirma repetición sistemática suficiente.',
+      'La asimetría de poder no es concluyente con los datos actuales.',
+      'Se recomienda documentar y re-evaluar si reaparece.'
+    ];
+  } else {
+    tipo = 'incierto';
+    label = 'Información insuficiente para clasificar';
+    cls = 'other';
+    definicion = 'Los datos registrados no permiten una clasificación clara. Completa más indicadores y/o amplía la narrativa con fechas, participantes y evidencia.';
+    razones = [
+      'Pocos indicadores completados o con niveles bajos.',
+      'Se requiere mayor precisión en hechos y secuencia.'
+    ];
+  }
+
+  // Notas ampliadas para el informe
+  notas = `
+<strong>Identidad (forma):</strong> ${escapeHtml(identity)}<br>
+<strong>Modalidad:</strong> ${escapeHtml(modalidad)}<br>
+<strong>Formas frecuentes:</strong> física, verbal, relacional/social y ciberacoso. En marcos de convivencia también se suele distinguir bullying psicológico y sexual (cuando aplica).<br>
+<strong>Roles:</strong> además del trípode agresor–víctima–observador, pueden existir asistentes del agresor, reforzadores (aplausos/risas), defensores de la víctima y externos que se apartan, lo que sostiene la escena como proceso grupal.
+  `.trim();
+
+  c.classification = { tipo, label, cls, razones, definicion, identity, formas, modalidad, notes: notas };
+  saveCases();
+
+  document.getElementById('classificationResult').innerHTML = `
+    <div class="result-type ${cls}">
+      <div class="result-label ${cls}">${label}</div>
+      <p style="font-size:0.85rem;margin-bottom:12px">${definicion}</p>
+      <div class="section-title">Por qué esta clasificación</div>
+      <ul style="padding-left:18px;margin-bottom:12px">
+        ${razones.map(r=>`<li style="font-size:0.83rem;color:var(--ink-soft);margin-bottom:4px">${r}</li>`).join('')}
+      </ul>
+    </div>
+    <div class="card">
+      <div class="card-body">
+        <div class="section-title">Marco de referencia</div>
+        <div style="display:flex;flex-direction:column;gap:8px">
+          <a href="https://www.funcionpublica.gov.co/eva/gestornormativo/norma.php?i=52287" target="_blank" class="route-source">🏛️ Ley 1620/2013 Colombia — Definición bullying</a>
+          <a href="https://www.funcionpublica.gov.co/eva/gestornormativo/norma.php?i=54537" target="_blank" class="route-source">📋 Decreto 1965/2013 — Reglamentario</a>
+          <a href="https://www.stopbullying.gov/bullying/what-is-bullying" target="_blank" class="route-source">🌐 StopBullying.gov — Definición operativa</a>
+          <a href="https://www.cdc.gov/violenceprevention/youthviolence/bullying/index.html" target="_blank" class="route-source">🏥 CDC — Youth Violence & Bullying</a>
+        </div>
+      </div>
+    </div>
+  `;
+}
+
+// ══════════════════════════════════════════════
+//  RISK ASSESSMENT
+// ══════════════════════════════════════════════
+function runRiskAssessment() {
+  const c = currentCase(); if(!c) return;
+  const ind = c.indicators || {};
+  const profile = c.profile || {};
+
+  let bio = (ind.impacto_lesiones||0)*2 + (ind.impacto_sueno||0);
+  let psi = (ind.impacto_animo||0)*2 + (ind.impacto_miedo||0) + (ind.impacto_aislamiento||0);
+  let soc = (ind.aislamiento||0) + (ind.impacto_aislamiento||0) + (profile.social<3?2:0) + (ind.complicidad||0);
+  let escal = (ind.frecuencia||0)+(ind.conducta_amenazas||0)+(ind.respuesta_institucional===0?1:0)+(ind.conducta_sexual||0);
+
+  const vulnBonus = (profile.vulnerabilities||[]).length >= 2 ? 1 : 0;
+  bio += vulnBonus; psi += vulnBonus; soc += vulnBonus;
+
+  const total = bio + psi + soc;
+  let level, pct;
+  if(total <= 4) { level='low'; pct=25; }
+  else if(total <= 9) { level='medium'; pct=55; }
+  else if(total <= 14) { level='high'; pct=78; }
+  else { level='critical'; pct=95; }
+
+  const escalLevel = escal <= 1 ? 'Baja' : escal <= 3 ? 'Media' : 'Alta';
+  const levelLabel = {low:'Bajo',medium:'Medio',high:'Alto',critical:'Crítico'}[level];
+
+  c.risk = { level, bio, psi, soc, escal, total };
+  saveCases();
+
+  document.getElementById('riskResult').innerHTML = `
+    <div class="card mb-3">
+      <div class="card-section">
+        <div class="flex items-center justify-between mb-2">
+          <h3>Riesgo general</h3>
+          <span class="risk-badge ${level}">${levelLabel}</span>
+        </div>
+        <div class="risk-bar-wrap risk-${level}">
+          <div class="risk-bar-bg"><div class="risk-bar-fill" style="width:${pct}%"></div></div>
+        </div>
+        <p class="caption mt-2">Puntuación compuesta: ${total} / 24 | Probabilidad de escalamiento: <strong>${escalLevel}</strong></p>
+      </div>
+      <div class="card-section">
+        <div class="section-title">Dimensiones bio-psico-social</div>
+        <div style="display:flex;flex-direction:column;gap:12px">
+          ${[
+            {label:'🧬 Biológico / Físico', val:bio, max:6, desc:'Lesiones físicas, cambios en sueño y alimentación'},
+            {label:'🧠 Psicológico / Emocional', val:psi, max:9, desc:'Miedo, ansiedad, cambios de ánimo, evitación escolar'},
+            {label:'👥 Social', val:soc, max:9, desc:'Aislamiento, participación social, complicidad de pares'},
+          ].map(d=>`
+            <div>
+              <div class="flex justify-between mb-1"><span style="font-size:0.82rem;font-weight:500">${d.label}</span><span class="caption">${d.val}/${d.max}</span></div>
+              <div style="height:6px;background:var(--border);border-radius:99px;overflow:hidden">
+                <div style="height:100%;width:${Math.min(100,d.val/d.max*100)}%;background:var(--sage);border-radius:99px;transition:width 0.5s"></div>
+              </div>
+              <p class="caption mt-1">${d.desc}</p>
+            </div>
+          `).join('')}
+        </div>
+      </div>
+    </div>
+    ${level==='critical'?`<div class="alert alert-warning"><span class="alert-icon">🆘</span><div><strong>Riesgo crítico detectado.</strong> Si hay riesgo inmediato para la integridad de la persona, comunícate con el <strong>ICBF (018000 918080)</strong> o acude a urgencias de salud mental.</div></div>`:''}
+  `;
+}
+
+// ══════════════════════════════════════════════
+//  ROUTES
+// ══════════════════════════════════════════════
+function renderRoutes() {
+  const c = currentCase(); if(!c) return;
+  const risk = c.risk || {level:'low'};
+  const isCritical = risk.level === 'critical';
+  const isHigh = risk.level === 'high' || isCritical;
+
+  const routes = [
+    {
+      icon:'🏫', title:'Ruta escolar',
+      items:[
+        {what:'Solicitar reunión formal con el director/a de grupo y/o coordinador de convivencia. Presentar los hechos documentados.', when:'Primer paso en todos los casos.', src:'https://www.mineducacion.gov.co/portal/Preescolar-basica-y-media/Proyectos-de-Calidad/322486:Ley-de-Convivencia-Escolar', srcLabel:'MEN — Ley Convivencia'},
+        {what:'Solicitar activación del Comité Escolar de Convivencia (CEC) si la situación es reiterada.', when:'Cuando el caso no se resuelve en primera instancia.', src:'https://www.funcionpublica.gov.co/eva/gestornormativo/norma.php?i=54537', srcLabel:'Decreto 1965/2013'},
+        {what:'Registrar por escrito cada incidente: fecha, lugar, descripción, testigos.', when:'Desde el primer momento. Este registro es clave para el proceso.', src:'https://www.stopbullying.gov/resources/research-resources/mental-health-resources', srcLabel:'StopBullying.gov'},
+      ]
+    },
+    {
+      icon:'🧠', title:'Ruta salud mental',
+      items:[
+        {what:'Consultar con psicólogo/a escolar o de EPS/IPS. Comentar cambios de ánimo, miedo o aislamiento observados.', when:'Si hay impacto emocional o de comportamiento.', src:'https://www.minsalud.gov.co/salud/publica/SMental/Paginas/salud-mental.aspx', srcLabel:'MinSalud — Salud Mental'},
+        ...(isHigh?[{what:'Evaluación por psiquiatría infantil si hay síntomas severos (autolesiones, ideación, regresión).', when:'Cuando los síntomas son intensos o no mejoran.', src:'https://www.minsalud.gov.co', srcLabel:'MinSalud Colombia'}]:[]),
+      ]
+    },
+    {
+      icon:'⚕️', title:'Ruta salud física',
+      items:[
+        {what:'Consulta médica para documentar y atender lesiones físicas si las hay.', when:'Si hay golpes, moretones, heridas u otras lesiones visibles.', src:'https://www.minsalud.gov.co', srcLabel:'MinSalud Colombia'},
+        {what:'Registro médico: solicitar que quede consignado en historia clínica. Esto puede ser necesario en procesos jurídicos.', when:'Ante cualquier lesión física.', src:'https://www.icbf.gov.co', srcLabel:'ICBF Colombia'},
+      ]
+    },
+    {
+      icon:'⚖️', title:'Ruta jurídica (Colombia)',
+      items:[
+        {what:'Reportar al ICBF (Instituto Colombiano de Bienestar Familiar) si hay vulneración de derechos del NNA.', when:'Cuando la institución educativa no actúa o el caso es grave.', src:'https://www.icbf.gov.co/bienestar/proteccion/restablecimiento-derechos', srcLabel:'ICBF — Restablecimiento'},
+        {what:'Interponer denuncia ante la Policía Nacional o Fiscalía si hay delitos (lesiones, acoso sexual, extorsión).', when:'Ante conductas que constituyan delito.', src:'https://www.fiscalia.gov.co/colombia/servicios-a-la-ciudadania/', srcLabel:'Fiscalía Colombia'},
+        {what:'Personería Municipal o Defensoría del Pueblo: pueden mediar y exigir al colegio activar protocolos.', when:'Cuando el colegio no responde al proceso de convivencia.', src:'https://www.defensoria.gov.co', srcLabel:'Defensoría del Pueblo'},
+      ]
+    },
+    {
+      icon:'🏠', title:'Ruta familiar y de contención',
+      items:[
+        {what:'Escuchar activamente sin minimizar ni dramatizar. Validar las emociones del niño/a.', when:'Desde el primer momento.', src:'https://www.redpapaz.org', srcLabel:'RedPaPaz Colombia'},
+        {what:'Establecer un registro conjunto con la familia: anotar fechas, descripciones, estado emocional.', when:'Como práctica continua.', src:'https://www.stopbullying.gov/bullying/at-home', srcLabel:'StopBullying.gov'},
+        {what:'Revisar uso de dispositivos y redes sociales si hay componente digital.', when:'En casos con ciberacoso.', src:'https://www.redpapaz.org/herramientas/', srcLabel:'RedPaPaz — Herramientas'},
+      ]
+    },
+    {
+      icon:'📞', title:'Líneas y recursos externos',
+      items:[
+        {what:'ICBF Línea gratuita 141: atención a niños, niñas y adolescentes en riesgo.', when:'Disponible 24/7, gratuita desde cualquier teléfono en Colombia.', src:'https://www.icbf.gov.co/bienestar/proteccion/linea-141', srcLabel:'ICBF — Línea 141'},
+        {what:'Te Protejo (Colombia): plataforma para reportar contenido inapropiado digital y situaciones de riesgo de NNA.', when:'Para situaciones con componente digital o ciberbullying.', src:'https://www.teprotejo.org', srcLabel:'TeProtejo.org'},
+        ...(isCritical?[{what:'Líneas de crisis de salud mental. Consultar con EPS o IPS más cercana por línea de crisis activa.', when:'Ante riesgo inmediato.', src:'https://www.minsalud.gov.co/salud/publica/SMental/Paginas/salud-mental.aspx', srcLabel:'MinSalud — Crisis'}]:[]),
+      ]
+    },
+  ];
+
+  document.getElementById('routesResult').innerHTML = routes.map(r=>`
+    <div class="route-card">
+      <div class="route-header" onclick="toggleRoute(this)">
+        <span class="route-icon">${r.icon}</span>
+        <span class="route-title">${r.title}</span>
+        <span style="color:var(--ink-ghost);font-size:0.75rem">▾</span>
+      </div>
+      <div class="route-body open">
+        ${r.items.map(item=>`
+          <div class="route-item">
+            <div class="route-item-what">${item.what}</div>
+            <div class="route-item-when">🕐 <em>${item.when}</em></div>
+            <a href="${item.src}" target="_blank" rel="noopener" class="route-source">🔗 ${item.srcLabel}</a>
+          </div>
+        `).join('')}
+      </div>
+    </div>
+  `).join('');
+}
+
+function toggleRoute(header) {
+  const body = header.nextElementSibling;
+  body.classList.toggle('open');
+}
+
+// ══════════════════════════════════════════════
+//  LIBRARY
+// ══════════════════════════════════════════════
+function showLibTab(id) {
+  document.querySelectorAll('.lib-tab').forEach(t=>t.classList.remove('active'));
+  document.querySelectorAll('.lib-section').forEach(s=>s.classList.remove('active'));
+  document.querySelector(`[onclick="showLibTab('${id}')"]`).classList.add('active');
+  document.getElementById('lib-'+id).classList.add('active');
+}
+
+function renderLibItem(item) {
+  return `<div class="lib-item">
+    <div class="lib-icon">${item.icon}</div>
+    <div class="lib-content">
+      <h4>${item.title}</h4>
+      <p>${item.desc}</p>
+      <div class="lib-meta">
+        ${item.tags.map(t=>`<span class="lib-tag">${t}</span>`).join('')}
+        ${item.url?`<a href="${item.url}" target="_blank" rel="noopener" class="lib-link">→ ${item.urlLabel||'Ver recurso'}</a>`:'<span class="pending-tag">⏳ Verificación pendiente</span>'}
+      </div>
+    </div>
+  </div>`;
+}
+
+const LIBRARY = {
+  glosario: [
+    {icon:'📌', title:'Bullying / Acoso escolar', desc:'Conducta negativa, intencional, sistemática y reiterada contra una persona con desequilibrio de poder. Colombia lo define en la Ley 1620/2013 Art. 2.', tags:['Colombia','Definición legal'], url:'https://www.funcionpublica.gov.co/eva/gestornormativo/norma.php?i=52287', urlLabel:'Ley 1620/2013'},
+    {icon:'📌', title:'Ciberbullying / Ciberacoso escolar', desc:'Intimidación usando tecnologías de información (internet, redes, telefonía) de forma deliberada. Incluido en la Ley 1620/2013 y el Decreto 1965/2013.', tags:['Colombia','Digital'], url:'https://www.funcionpublica.gov.co/eva/gestornormativo/norma.php?i=54537', urlLabel:'Decreto 1965/2013'},
+    {icon:'📌', title:'Violencia relacional', desc:'Agresión que busca dañar las relaciones sociales de la víctima: exclusión deliberada, rumores, manipulación de amistades.', tags:['Tipología','UNESCO'], url:'https://www.stopbullying.gov/bullying/what-is-bullying', urlLabel:'StopBullying.gov'},
+    {icon:'📌', title:'Desequilibrio de poder', desc:'Criterio clave para distinguir bullying de conflicto: existe asimetría en fuerza física, estatus, número, edad o acceso digital.', tags:['Criterio','CDC'], url:'https://www.cdc.gov/violenceprevention/youthviolence/bullying/index.html', urlLabel:'CDC'},
+    {icon:'📌', title:'Comité Escolar de Convivencia (CEC)', desc:'Órgano obligatorio en cada institución educativa colombiana. Debe recibir, tramitar y hacer seguimiento a casos de violencia escolar.', tags:['Colombia','Ruta'], url:'https://www.mineducacion.gov.co/portal/Preescolar-basica-y-media/Proyectos-de-Calidad/322486:Ley-de-Convivencia-Escolar', urlLabel:'MEN'},
+    {icon:'📌', title:'Víctima', desc:'Persona que recibe sistemáticamente las conductas de agresión. Puede ser estudiante o docente.', tags:['Definición'], url:'https://www.stopbullying.gov/bullying/who-is-at-risk', urlLabel:'StopBullying.gov'},
+    {icon:'📌', title:'Agresor / Perpetrador', desc:'Persona que ejerce la conducta de acoso. Puede actuar solo o en grupo. El papel puede cambiar en el tiempo.', tags:['Definición'], url:'https://www.stopbullying.gov/bullying/who-is-involved', urlLabel:'StopBullying.gov'},
+    {icon:'📌', title:'Espectador / Testigo', desc:'Personas que presencian el acoso. Su reacción (intervención vs. complicidad) es determinante para frenar o escalar la situación.', tags:['Dinámica'], url:'https://www.stopbullying.gov/bullying/bystanders', urlLabel:'StopBullying.gov'},
+    {icon:'📌', title:'Ruta de atención integral', desc:'Proceso definido en la Ley 1620/2013 que establece los pasos que instituciones, familia y entidades deben seguir ante situaciones de violencia escolar.', tags:['Colombia','Proceso'], url:'http://www.secretariasenado.gov.co/senado/basedoc/ley_1620_2013.html', urlLabel:'Secretaría Senado'},
+    {icon:'📌', title:'Violencia de género escolar', desc:'Formas de violencia basadas en género o identidad sexual. Las niñas y personas LGBTIQ+ enfrentan patrones específicos.', tags:['UNESCO','Género'], url:'https://en.unesco.org/themes/school-violence-and-bullying', urlLabel:'UNESCO'},
+  ],
+  colombia: [
+    {icon:'🏛️', title:'Ley 1620 de 2013 — Texto completo', desc:'Crea el Sistema Nacional de Convivencia Escolar. Define bullying, ciberbullying y establece la ruta de atención integral.', tags:['Normativa','Obligatoria'], url:'https://www.funcionpublica.gov.co/eva/gestornormativo/norma.php?i=52287', urlLabel:'Función Pública'},
+    {icon:'🏛️', title:'Decreto 1965 de 2013 — Reglamentario', desc:'Reglamenta la Ley 1620. Define procedimientos del Comité Escolar de Convivencia y protocolos de atención.', tags:['Normativa'], url:'https://www.funcionpublica.gov.co/eva/gestornormativo/norma.php?i=54537', urlLabel:'Función Pública'},
+    {icon:'🏛️', title:'MEN — Ley de Convivencia Escolar', desc:'Portal oficial del Ministerio de Educación Nacional con información sobre la implementación de la ley.', tags:['MEN','Guía'], url:'https://www.mineducacion.gov.co/portal/Preescolar-basica-y-media/Proyectos-de-Calidad/322486:Ley-de-Convivencia-Escolar', urlLabel:'MEN Colombia'},
+    {icon:'🏛️', title:'ICBF — Línea 141', desc:'Línea nacional gratuita para reportar vulneración de derechos de NNA. Activa 24/7.', tags:['Emergencia','Gratuito'], url:'https://www.icbf.gov.co/bienestar/proteccion/linea-141', urlLabel:'ICBF'},
+    {icon:'🏛️', title:'ICBF — Restablecimiento de Derechos', desc:'Proceso institucional para restablecer derechos de NNA vulnerados. Incluye medidas de protección.', tags:['ICBF','Protección'], url:'https://www.icbf.gov.co/bienestar/proteccion/restablecimiento-derechos', urlLabel:'ICBF'},
+    {icon:'🏛️', title:'RedPaPaz', desc:'Red de Padres y Madres de familia en Colombia. Recursos sobre convivencia digital, prevención de acoso y participación familiar.', tags:['Familias','Digital'], url:'https://www.redpapaz.org', urlLabel:'RedPaPaz'},
+    {icon:'🏛️', title:'TeProtejo.org', desc:'Plataforma colombiana para reportar contenido inapropiado en internet que involucre NNA.', tags:['Digital','Reporte'], url:'https://www.teprotejo.org', urlLabel:'TeProtejo.org'},
+    {icon:'🏛️', title:'Defensoría del Pueblo Colombia', desc:'Puede mediar y requerir a instituciones que activen protocolos de convivencia.', tags:['Jurídica','Mediación'], url:'https://www.defensoria.gov.co', urlLabel:'Defensoría'},
+    {icon:'🏛️', title:'MinSalud — Salud Mental', desc:'Lineamientos de salud mental para NNA. Incluye protocolos de atención y rutas en crisis.', tags:['Salud','Mental'], url:'https://www.minsalud.gov.co/salud/publica/SMental/Paginas/salud-mental.aspx', urlLabel:'MinSalud'},
+    {icon:'🏛️', title:'Código de Infancia y Adolescencia (Ley 1098/2006)', desc:'Marco legal general de protección de NNA en Colombia. Complementa la ruta de atención del CEC.', tags:['Normativa','NNA'], url:'https://www.icbf.gov.co/cargues/avance/docs/ley_1098_2006.htm', urlLabel:'ICBF — Ley 1098'},
+  ],
+  articulos: [
+    {icon:'🧪', title:'UNESCO — Behind the numbers: Ending school violence and bullying (2019)', desc:'Informe global de UNESCO sobre violencia escolar y bullying. Base de datos internacional, marcos de análisis.', tags:['UNESCO','Internacional','2019'], url:'https://unesdoc.unesco.org/ark:/48223/pf0000366483', urlLabel:'UNESCO Digital Library'},
+    {icon:'🧪', title:'CDC — Understanding Bullying Fact Sheet', desc:'Hoja de hechos del CDC (EE.UU.) sobre definición, factores de riesgo e impacto del bullying.', tags:['CDC','EE.UU.'], url:'https://www.cdc.gov/violenceprevention/pdf/bullying_factsheet.pdf', urlLabel:'CDC PDF'},
+    {icon:'🧪', title:'APA — Bullying: What psychologists know', desc:'Recursos de la American Psychological Association sobre impacto psicológico y estrategias de intervención.', tags:['APA','Psicología'], url:'https://www.apa.org/topics/bullying', urlLabel:'APA Topics'},
+    {icon:'🧪', title:'StopBullying.gov — Research Resources', desc:'Portal del gobierno de EE.UU. con investigación sobre bullying, recursos para familias y escuelas.', tags:['EE.UU.','Familias'], url:'https://www.stopbullying.gov/resources/research-resources', srcLabel:'StopBullying.gov'},
+    {icon:'🧪', title:'Dan Olweus — Bullying Prevention Program (referencia)', desc:'El programa de Olweus es referencia global en prevención. Su web institucional ofrece materiales de investigación.', tags:['Programa','Prevención'], url:'https://olweus.sites.clemson.edu', urlLabel:'Olweus Bullying Prevention'},
+    {icon:'🧪', title:'OPS/OMS — Informe mundial sobre violencia y salud', desc:'Capítulos relevantes sobre violencia juvenil y escolar desde perspectiva de salud pública.', tags:['OPS','OMS','Salud'], url:'https://www.who.int/violence_injury_prevention/violence/world_report/en/', urlLabel:'WHO'},
+    {icon:'🧪', title:'UNICEF — Acoso escolar y ciberbullying (2019)', desc:'Datos globales sobre prevalencia de bullying y ciberbullying en NNA.', tags:['UNICEF','Estadísticas'], url:'https://www.unicef.org/es/informes/una-cara-familiar', urlLabel:'UNICEF'},
+    {icon:'🧪', title:'Dane / Encuesta de Convivencia Escolar Colombia (por verificar)', desc:'Datos estadísticos sobre convivencia escolar en Colombia.', tags:['Colombia','Estadísticas'], url:null},
+  ],
+  guias: [
+    {icon:'📘', title:'UNESCO — Good Policy and Practice in HIV & Health Education: Booklet 8 — School Violence', desc:'Guía de buenas prácticas para abordaje de violencia escolar en instituciones.', tags:['UNESCO','Guía'], url:'https://unesdoc.unesco.org/ark:/48223/pf0000366483', urlLabel:'UNESCO'},
+    {icon:'📘', title:'StopBullying.gov — Guía para padres', desc:'Cómo hablar con tus hijos, señales de alerta, pasos a seguir.', tags:['Familias','EE.UU.'], url:'https://www.stopbullying.gov/bullying/at-home', urlLabel:'StopBullying.gov — Familias'},
+    {icon:'📘', title:'RedPaPaz — Herramientas para familias digitales (Colombia)', desc:'Recursos prácticos para prevención de acoso digital, supervisión parental y comunicación familiar.', tags:['Colombia','Digital'], url:'https://www.redpapaz.org/herramientas/', urlLabel:'RedPaPaz'},
+    {icon:'📘', title:'MEN — Guías pedagógicas para la convivencia escolar (Guías 49)', desc:'Serie de guías del MEN para docentes y coordinadores sobre manejo de conflictos y convivencia.', tags:['Colombia','Docentes'], url:'https://www.mineducacion.gov.co/1759/w3-article-339480.html', urlLabel:'MEN — Guías 49'},
+    {icon:'📘', title:'ICBF — Lineamientos técnicos para la atención de niños, niñas y adolescentes víctimas de violencia', desc:'Protocolo institucional del ICBF para abordaje de vulneraciones.', tags:['Colombia','ICBF'], url:'https://www.icbf.gov.co/system/files/procesos/lm14.p_lineamiento_tecnico_modalidades_atencion_para_el_restablecimiento_de_derechos_de_nna_con_derechos_inobservados_amenazados_o_vulnerados_v2.pdf', urlLabel:'ICBF PDF'},
+    {icon:'📘', title:'CDC — Prevent Bullying (programa escolar)', desc:'Recursos del CDC para prevención de bullying en escuelas y comunidades.', tags:['CDC','Prevención'], url:'https://www.cdc.gov/violenceprevention/youthviolence/bullyingresearch/fastfact.html', urlLabel:'CDC'},
+  ],
+  digital: [
+    {icon:'🌐', title:'StopBullying.gov', desc:'Portal oficial del gobierno de EE.UU. con recursos para familias, jóvenes y escuelas.', tags:['EE.UU.','Portal'], url:'https://www.stopbullying.gov', urlLabel:'stopbullying.gov'},
+    {icon:'🌐', title:'UNESCO — School Violence and Bullying', desc:'Sección temática de UNESCO con informes, datos y recursos globales.', tags:['UNESCO','Portal'], url:'https://en.unesco.org/themes/school-violence-and-bullying', urlLabel:'UNESCO'},
+    {icon:'🌐', title:'RedPaPaz — Portal principal', desc:'Organización colombiana de familias con contenido sobre crianza digital y convivencia.', tags:['Colombia','Familias'], url:'https://www.redpapaz.org', urlLabel:'RedPaPaz'},
+    {icon:'🌐', title:'ICBF — Portal oficial', desc:'Información sobre rutas, líneas de atención y protección de NNA en Colombia.', tags:['Colombia','Oficial'], url:'https://www.icbf.gov.co', urlLabel:'ICBF'},
+    {icon:'🌐', title:'TeProtejo.org', desc:'Reporta contenidos inapropiados o situaciones de riesgo que involucren NNA en internet.', tags:['Colombia','Digital'], url:'https://www.teprotejo.org', urlLabel:'TeProtejo'},
+    {icon:'🌐', title:'CDC — Violence Prevention', desc:'Centro de Control y Prevención de Enfermedades: recursos sobre violencia juvenil y bullying.', tags:['CDC','Salud'], url:'https://www.cdc.gov/violenceprevention/youthviolence/bullying/index.html', urlLabel:'CDC'},
+    {icon:'🌐', title:'Pacer Center — Bullying Prevention (por verificar región)', desc:'Centro de recursos para NNA con discapacidad en contextos de bullying.', tags:['Discapacidad','EE.UU.'], url:'https://www.pacer.org/bullying/', urlLabel:'PACER'},
+    {icon:'🌐', title:'OPS — Violencia escolar / Youth violence', desc:'Organización Panamericana de la Salud: marco de salud pública para violencia juvenil.', tags:['OPS','Latinoamérica'], url:'https://www.paho.org/es/temas/violencia-contra-la-ninez', urlLabel:'OPS'},
+  ]
+};
+
+function renderLibrary() {
+  Object.keys(LIBRARY).forEach(key=>{
+    const el = document.getElementById('lib-'+key);
+    if(el) el.innerHTML = LIBRARY[key].map(renderLibItem).join('');
+  });
+}
+
+// ══════════════════════════════════════════════
+//  INIT
+// ══════════════════════════════════════════════
+updateProgress();
+renderLibrary();
+renderAIAssistant();
+</script>
+</body>
+</html>

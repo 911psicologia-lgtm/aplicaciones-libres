@@ -1,0 +1,27 @@
+{
+  "id": "qa-v501-curaduria-loop",
+  "fecha": "2026-06-17",
+  "version": "5.0.1 / v5.0.1",
+  "alcance": "Curaduría en loop sobre contenido B1/B2 (solo content.v1.json; shell sin tocar)",
+  "loop": "revisión → ajuste → mejora → optimización → resultado",
+  "mejoras": {
+    "distractores": {
+      "antes": "6 únicos por nivel; los 3 principales repetidos 300× cada uno",
+      "despues": "Selección natural y Diálogo breve: 145-150 únicos, máx 3-4×. Tomados del banco real de respuestas de otros mundos (no relleno).",
+      "nota": "Decisión guiada conserva 5 opciones (clasificación cerrada de jugada comunicativa); su repetición es inherente al diseño."
+    },
+    "feedback": {"antes": "10 textos para 1500 campos", "despues": "~620 por nivel; cada ítem cita su respuesta modelo y su situación."},
+    "idioma": {"antes": "165 campos español con sustantivo en inglés ('con my suitcase')", "despues": "0; traducidos a español ('con mi maleta', etc.) solo en campos español. Respuestas en inglés intactas."}
+  },
+  "correcciones_de_mi_propio_reporte": [
+    "Los diálogos NO estaban clonados: tienen 145-150 turnos y ~60 distractores únicos (varían por mundo). Mi auditoría previa dijo '5 turnos ×30' por un error de script; se retira.",
+    "El bug de idioma estaba en lessons[].blocks[].es (no en los ejercicios) y eran ~165 campos, no 95."
+  ],
+  "no_tocado": ["app.js", "app.css", "index.html", "diálogos (estaban bien)", "A1/A2"],
+  "pendiente_generacion": [
+    "Variedad real entre mundos: en B1 varios mundos comparten el mismo molde con otro sustantivo (B2 ya varía).",
+    "Decisión guiada: resúmenes específicos por mundo para más de 5 opciones.",
+    "Naturalidad del inglés por hablante competente."
+  ],
+  "checks": {"node_check_app": 0, "json_valido": true, "items_opcion_con_problema": 0}
+}

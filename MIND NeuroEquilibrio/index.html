@@ -1,0 +1,821 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>NeuroEquilibrio | V21 Science+</title>
+    <style>
+        :root {
+            /* PALETA "AURORA BOREAL" */
+            --bg-grad-start: #141e30;
+            --bg-grad-end: #243b55;
+            
+            --surface: rgba(255, 255, 255, 0.1); 
+            --primary: #00d2ff; 
+            --secondary: #3a7bd5; 
+            --accent: #f8cdda; 
+            --text: #ffffff;
+            --text-dim: #b3cdd1;
+            
+            --font-main: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+            --radius-soft: 20px;
+            --radius-pill: 50px;
+            --danger: #ff8a65;
+        }
+
+        * { box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
+
+        body {
+            margin: 0; 
+            background: linear-gradient(135deg, var(--bg-grad-start), var(--bg-grad-end));
+            color: var(--text);
+            font-family: var(--font-main); height: 100vh; overflow: hidden;
+            display: flex; flex-direction: column; user-select: none;
+        }
+
+        /* SCROLL INVISIBLE */
+        * { scrollbar-width: none; }
+        *::-webkit-scrollbar { display: none; }
+
+        .full-screen { position: absolute; top: 0; left: 0; width: 100%; height: 100%; z-index: 10; display: flex; flex-direction: column; background: transparent; }
+        .hidden { display: none !important; }
+        .btn { cursor: pointer; border: none; outline: none; transition: transform 0.2s, background 0.3s; font-family: inherit; }
+        .btn:active { transform: scale(0.96); }
+        
+        /* HEADER */
+        header {
+            padding: 20px; display: flex; justify-content: space-between; align-items: center;
+            background: transparent; flex-shrink: 0;
+        }
+        .logo h1 { margin: 0; font-size: 1.3rem; font-weight: 800; letter-spacing: 0.5px; background: linear-gradient(to right, #00d2ff, #928dab); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
+        .logo span { font-size: 0.75rem; color: var(--text-dim); display: block; margin-top: 4px; }
+        
+        .lang-switch { background: rgba(0,0,0,0.2); border-radius: 20px; padding: 3px; display: flex; backdrop-filter: blur(5px); }
+        .lang-btn { background: transparent; color: var(--text-dim); padding: 5px 12px; font-size: 0.7rem; border-radius: 18px; font-weight: 600; }
+        .lang-btn.active { background: rgba(255,255,255,0.2); color: #fff; box-shadow: 0 2px 10px rgba(0,0,0,0.1); }
+
+        .container {
+            flex: 1; overflow-y: auto; padding: 20px; width: 100%;
+            margin: 0 auto; max-width: 500px; -webkit-overflow-scrolling: touch;
+        }
+
+        .control-group { margin-bottom: 25px; }
+        .label { display: block; font-size: 0.85rem; color: var(--text-dim); margin-bottom: 10px; font-weight: 500; margin-left: 5px; }
+        
+        /* --- CORRECCIÓN DE SELECTORES --- */
+        select {
+            width: 100%; 
+            background-color: rgba(255, 255, 255, 0.1); /* Fondo translúcido */
+            color: #fff; /* Texto blanco */
+            border: 1px solid rgba(255,255,255,0.1);
+            padding: 15px 20px; border-radius: var(--radius-soft); font-size: 1rem; appearance: none;
+            backdrop-filter: blur(10px); box-shadow: 0 4px 20px rgba(0,0,0,0.1);
+            background-image: url("data:image/svg+xml;charset=UTF-8,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='white' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3e%3cpolyline points='6 9 12 15 18 9'%3e%3c/polyline%3e%3c/svg%3e");
+            background-repeat: no-repeat;
+            background-position: right 1rem center;
+            background-size: 1em;
+        }
+        /* ESTO ARREGLA EL MENU DESPLEGABLE EN MOVILES */
+        option {
+            background-color: #141e30; /* Fondo oscuro sólido */
+            color: #fff; /* Texto blanco */
+            padding: 10px;
+        }
+
+        .mode-selector { display: flex; background: rgba(0,0,0,0.2); border-radius: var(--radius-pill); padding: 4px; }
+        .mode-btn { flex: 1; background: transparent; color: var(--text-dim); padding: 12px; border-radius: var(--radius-pill); font-size: 0.9rem; font-weight: 500; }
+        .mode-btn.active { background: var(--primary); color: #000; font-weight: bold; box-shadow: 0 4px 15px rgba(0, 210, 255, 0.4); }
+
+        .intensity-row { display: flex; gap: 10px; }
+        .int-btn {
+            flex: 1; background: var(--surface); border: 1px solid rgba(255,255,255,0.05); padding: 12px 5px;
+            border-radius: var(--radius-soft); color: var(--text); font-size: 0.75rem; display: flex; flex-direction: column; align-items: center; gap: 6px;
+        }
+        .int-btn.active { background: rgba(0, 210, 255, 0.15); border-color: var(--primary); color: #fff; transform: translateY(-2px); }
+        .int-emoji { font-size: 1.5rem; }
+
+        .binaural-row { display: flex; align-items: center; gap: 12px; margin-top: 15px; background: rgba(255,255,255,0.05); padding: 15px; border-radius: var(--radius-soft); border: 1px solid rgba(255,255,255,0.05); }
+        .tooltip-container { position: relative; display: inline-block; cursor: help; margin-left: auto; }
+        .info-icon { background: rgba(255,255,255,0.1); color: var(--primary); border-radius: 50%; width: 22px; height: 22px; display: flex; align-items: center; justify-content: center; font-size: 12px; font-weight: bold; }
+        .tooltip-text {
+            visibility: hidden; width: 240px; background-color: #1a2634; color: #e0f2f1; text-align: left;
+            border: 1px solid #3a4b5c; border-radius: 12px; padding: 12px; position: absolute; z-index: 20;
+            bottom: 135%; right: 0; opacity: 0; transition: opacity 0.3s;
+            font-size: 0.8rem; line-height: 1.5; box-shadow: 0 10px 30px rgba(0,0,0,0.5); pointer-events: none;
+        }
+        .tooltip-container:hover .tooltip-text, .tooltip-container:active .tooltip-text { visibility: visible; opacity: 1; }
+
+        .btn-start {
+            background: linear-gradient(135deg, #00d2ff, #3a7bd5);
+            color: #fff; font-weight: 800; font-size: 1.1rem; padding: 18px;
+            width: 100%; border-radius: var(--radius-pill); margin-top: 25px; text-transform: uppercase; letter-spacing: 1.5px;
+            box-shadow: 0 10px 30px rgba(0, 210, 255, 0.3);
+            border: 1px solid rgba(255,255,255,0.2);
+        }
+        .info-link { 
+            text-align: center; margin-top: 25px; font-size: 0.9rem; 
+            color: #fff; background: rgba(255,255,255,0.1); 
+            text-decoration: none; padding: 10px 20px; border-radius: 30px;
+            display: inline-block; transition: 0.2s; border: 1px solid rgba(255,255,255,0.1);
+        }
+        .info-link:active { background: rgba(255,255,255,0.2); transform: scale(0.98); }
+
+        /* PRE-FLIGHT CHECK */
+        #preflight-screen {
+            background: #141e30; z-index: 200;
+            align-items: center; justify-content: center; padding: 30px; text-align: center;
+        }
+        .check-list { text-align: left; margin: 30px 0; color: #b3cdd1; font-size: 1rem; line-height: 2.2; max-width: 300px; }
+        
+        /* PLAYER SCREEN */
+        #player-screen {
+            background: linear-gradient(to bottom, #141e30, #000);
+            align-items: center; justify-content: space-between; padding: 40px 20px;
+        }
+        .vis-container { position: relative; width: 240px; height: 240px; display: flex; align-items: center; justify-content: center; margin-top: 10px; }
+        .progress-ring { position: absolute; top: 0; left: 0; transform: rotate(-90deg); }
+        .progress-ring__circle { transition: stroke-dashoffset 1s linear; transform-origin: 50% 50%; stroke-linecap: round; }
+        
+        .breath-guide { width: 120px; height: 120px; background: radial-gradient(circle, var(--primary), transparent); border-radius: 50%; opacity: 0.3; animation: breathe 6s infinite ease-in-out; filter: blur(25px); }
+        @keyframes breathe { 0%, 100% { transform: scale(0.8); opacity: 0.2; } 50% { transform: scale(1.3); opacity: 0.5; } }
+        
+        .timer-display { font-size: 3rem; font-weight: 200; margin: 5px 0; color: #fff; letter-spacing: 2px; }
+        .protocol-name { font-size: 1rem; font-weight: bold; color: var(--primary); text-transform: uppercase; letter-spacing: 1px; margin-top: 10px; text-align: center; }
+        .tech-info { font-size: 0.8rem; color: var(--text-dim); margin-top: 5px; font-family: monospace; opacity: 0.8; }
+        
+        .controls { display: flex; gap: 20px; align-items: center; margin-bottom: 10px; }
+        .ctrl-btn { background: rgba(255,255,255,0.08); color: #fff; width: 55px; height: 55px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 1.2rem; backdrop-filter: blur(5px); }
+        .ctrl-btn.main { width: 75px; height: 75px; background: #fff; color: #000; font-size: 2rem; box-shadow: 0 0 20px rgba(255,255,255,0.2); }
+        .ctrl-btn.small-action { font-size: 0.9rem; width: 45px; height: 45px; opacity: 0.7; }
+
+        .volume-control { width: 90%; max-width: 320px; margin: 20px 0; display: flex; align-items: center; gap: 15px; }
+        input[type=range] { -webkit-appearance: none; width: 100%; background: transparent; }
+        input[type=range]::-webkit-slider-thumb { -webkit-appearance: none; height: 24px; width: 24px; border-radius: 50%; background: #fff; cursor: pointer; margin-top: -10px; box-shadow: 0 2px 10px rgba(0,0,0,0.3); }
+        input[type=range]::-webkit-slider-runnable-track { width: 100%; height: 4px; cursor: pointer; background: rgba(255,255,255,0.2); border-radius: 10px; }
+
+        .hold-exit {
+            position: relative; width: 100%; max-width: 200px; height: 40px;
+            display: flex; align-items: center; justify-content: center;
+            margin-top: auto; border: 1px solid rgba(255,255,255,0.1); border-radius: var(--radius-pill);
+            overflow: hidden; cursor: pointer; user-select: none;
+        }
+        .hold-text { font-size: 0.75rem; color: var(--text-dim); z-index: 2; pointer-events: none; letter-spacing: 1px; text-transform: uppercase; }
+        .hold-progress { position: absolute; left: 0; top: 0; height: 100%; width: 0%; background: var(--danger); z-index: 1; transition: width 0.1s linear; }
+
+        /* MODAL CIENTÍFICO EXPANDIDO */
+        .modal-overlay {
+            background: rgba(20, 30, 48, 0.98); backdrop-filter: blur(15px);
+            display: flex; justify-content: center; align-items: flex-start; overflow-y: auto;
+            padding: 20px; z-index: 300; opacity: 0; pointer-events: none; transition: opacity 0.3s;
+            position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+        }
+        .modal-overlay.active { opacity: 1; pointer-events: auto; }
+        .modal-content { background: #1b2838; width: 100%; max-width: 650px; border-radius: 20px; padding: 30px; margin-top: 10px; border: 1px solid rgba(255,255,255,0.05); margin-bottom: 20px; box-shadow: 0 20px 50px rgba(0,0,0,0.5); }
+        .red-flag { border-left: 4px solid var(--danger); background: rgba(255, 138, 101, 0.1); padding: 15px; margin: 15px 0; font-size: 0.9rem; border-radius: 0 10px 10px 0; }
+        
+        /* Tipografía Modal */
+        h2 { color: #fff; margin-top: 0; }
+        h3 { color: var(--primary); margin-top: 30px; font-size: 1.1rem; border-bottom: 1px solid rgba(255,255,255,0.1); padding-bottom: 10px; margin-bottom: 15px; text-transform: uppercase; letter-spacing: 1px; }
+        h4 { color: var(--accent); margin: 20px 0 5px 0; font-size: 1rem; font-weight: bold; }
+        p, li { font-size: 0.95rem; line-height: 1.8; color: #b3cdd1; margin-bottom: 12px; }
+        
+        .hz-table { width: 100%; border-collapse: collapse; margin: 15px 0; font-size: 0.85rem; }
+        .hz-table th { text-align: left; color: var(--primary); border-bottom: 1px solid rgba(255,255,255,0.2); padding: 8px; }
+        .hz-table td { border-bottom: 1px solid rgba(255,255,255,0.05); padding: 8px; color: #fff; }
+        
+        .close-modal { margin-top: 25px; width: 100%; padding: 15px; background: rgba(255,255,255,0.1); color: #fff; border-radius: 12px; font-weight: bold; border: 1px solid rgba(255,255,255,0.1); }
+        .close-modal:hover { background: rgba(255,255,255,0.2); }
+
+    </style>
+</head>
+<body>
+
+    <div id="home-screen" class="full-screen">
+        <header>
+            <div class="logo">
+                <h1>NeuroEquilibrio</h1>
+                <span data-i18n="subtitle">Regulación Emocional</span>
+            </div>
+            <div class="lang-switch">
+                <button class="lang-btn active" onclick="setLang('es')">ES</button>
+                <button class="lang-btn" onclick="setLang('en')">EN</button>
+            </div>
+        </header>
+
+        <div class="container">
+            <div class="control-group">
+                <div class="mode-selector">
+                    <button class="mode-btn active" onclick="setMode('manual')" data-i18n="modeManual">Manual (Explorar)</button>
+                    <button class="mode-btn" onclick="setMode('auto')" data-i18n="modeAuto">Guía SOS (Auto)</button>
+                </div>
+            </div>
+
+            <div class="control-group">
+                <span class="label" data-i18n="lblType">¿Cómo te sientes?</span>
+                <select id="headache-type" onchange="updateSubtypes()"></select>
+            </div>
+
+            <div class="control-group">
+                <span class="label" data-i18n="lblSubtype">Síntoma principal</span>
+                <select id="headache-subtype"></select>
+            </div>
+
+            <div class="control-group">
+                <span class="label" data-i18n="lblIntensity">Nivel de Malestar</span>
+                <div class="intensity-row">
+                    <button class="int-btn" onclick="setIntensity(1)"><span class="int-emoji">😶‍🌫️</span> <span data-i18n="intLow">Bajo</span></button>
+                    <button class="int-btn" onclick="setIntensity(2)"><span class="int-emoji">😟</span> <span data-i18n="intMed">Medio</span></button>
+                    <button class="int-btn" onclick="setIntensity(3)"><span class="int-emoji">😣</span> <span data-i18n="intHigh">Alto</span></button>
+                    <button class="int-btn" onclick="setIntensity(4)"><span class="int-emoji">🆘</span> <span data-i18n="intSev">Crisis</span></button>
+                </div>
+            </div>
+
+            <div class="control-group" id="grp-duration">
+                <span class="label" data-i18n="lblDuration">Tiempo de sesión</span>
+                <select id="duration-select">
+                    <option value="5">5 min (SOS Rápido)</option>
+                    <option value="15" selected>15 min (Restauración)</option>
+                    <option value="30">30 min (Profundo)</option>
+                    <option value="60">60 min (Fondo/Sueño)</option>
+                </select>
+            </div>
+
+            <div class="control-group">
+                <div class="binaural-row">
+                    <input type="checkbox" id="binaural-check" checked style="width:20px; height:20px; accent-color: var(--primary);">
+                    <label for="binaural-check" style="cursor:pointer; color:var(--text); font-size:0.95rem; font-weight:500;" data-i18n="binauralLabel">Ondas Binaurales Activas</label>
+                    <div class="tooltip-container">
+                        <div class="info-icon">?</div>
+                        <span class="tooltip-text" data-i18n="binauralTip">Pulsos auditivos que invitan al cerebro a cambiar de frecuencia. Requiere audífonos.</span>
+                    </div>
+                </div>
+            </div>
+
+            <button class="btn btn-start" onclick="prepareSession()" data-i18n="btnStart">COMENZAR SESIÓN</button>
+            
+            <div style="display:flex; justify-content:center;">
+                <a href="#" class="info-link" onclick="toggleModal(true)" data-i18n="linkScience">📖 Ver Evidencia Científica Detallada</a>
+            </div>
+        </div>
+    </div>
+
+    <div id="preflight-screen" class="full-screen hidden">
+        <div id="preflight-screen-content" style="flex:1; display:flex; flex-direction:column; align-items:center; justify-content:center; padding:20px;">
+            <div style="font-size:4rem; margin-bottom:20px; animation: float 3s infinite ease-in-out;">🎧</div>
+            <h2 style="color:#fff; font-weight:300; font-size:1.5rem; margin-bottom:30px;" data-i18n="readyTitle">Preparando entorno...</h2>
+            
+            <ul class="check-list">
+                <li>✅ <span data-i18n="chkHeadphones">Conecta tus audífonos</span></li>
+                <li>✅ <span data-i18n="chkVolume">Ajuste de volumen automático</span></li>
+                <li>✅ <span data-i18n="chkDistraction">Inhala profundo... Exhala</span></li>
+            </ul>
+            
+            <button class="btn btn-start" style="max-width:280px;" onclick="confirmStart()" data-i18n="btnConfirm">ENTRAR AHORA</button>
+            <div style="margin-top:25px; font-size:0.9rem; color:var(--text-dim); cursor:pointer; opacity:0.7;" onclick="cancelSession()" data-i18n="btnCancel">Volver atrás</div>
+        </div>
+    </div>
+
+    <div id="player-screen" class="full-screen hidden">
+        <div class="protocol-name" id="player-protocol">PROTOCOLO</div>
+        <div class="tech-info" id="tech-info">Mezcla: --</div>
+        
+        <div class="vis-container">
+            <svg class="progress-ring" width="240" height="240">
+                <circle stroke="rgba(255,255,255,0.05)" stroke-width="6" fill="transparent" r="110" cx="120" cy="120"/>
+                <circle class="progress-ring__circle" id="prog-circle" stroke="url(#grad1)" stroke-width="6" fill="transparent" r="110" cx="120" cy="120"/>
+                <defs>
+                    <linearGradient id="grad1" x1="0%" y1="0%" x2="100%" y2="0%">
+                        <stop offset="0%" style="stop-color:#00d2ff;stop-opacity:1" />
+                        <stop offset="100%" style="stop-color:#3a7bd5;stop-opacity:1" />
+                    </linearGradient>
+                </defs>
+            </svg>
+            <div class="breath-guide"></div>
+        </div>
+
+        <div class="timer-display" id="timer">15:00</div>
+        
+        <div class="volume-control">
+            <span class="vol-icon">🔈</span>
+            <input type="range" id="vol-slider" min="0" max="1" step="0.01" value="0.5" oninput="setGlobalVolume(this.value)">
+            <span class="vol-icon">🔊</span>
+        </div>
+
+        <div class="controls">
+            <button class="ctrl-btn small-action" onclick="restartAudioEngine()">🔄</button>
+            <button class="ctrl-btn main" id="btn-playpause" onclick="togglePlay()">❚❚</button>
+            <button class="ctrl-btn" id="btn-mute" onclick="toggleMute()">🔇</button>
+        </div>
+
+        <div class="hold-exit" id="hold-btn">
+            <div class="hold-progress" id="hold-bar"></div>
+            <span class="hold-text" data-i18n="holdExit">Mantén para salir</span>
+        </div>
+    </div>
+
+    <div id="info-modal" class="modal-overlay">
+        <div class="modal-content">
+            <h2 data-i18n="modalTitle">Ciencia Detrás</h2>
+            
+            <div class="red-flag">
+                <strong data-i18n="rfTitle">⚠️ USO RESPONSABLE:</strong>
+                <p data-i18n="rfDesc">Herramienta de neuroestimulación complementaria. NO sustituye ayuda profesional. Ante crisis severas o pensamientos oscuros, contacta a urgencias.</p>
+            </div>
+            
+            <h3 data-i18n="classTitle">Mecánica Neural (FFR)</h3>
+            <div data-i18n="audioEvidence">
+                </div>
+            
+            <button class="btn close-modal" onclick="toggleModal(false)" data-i18n="btnClose">Entendido</button>
+        </div>
+    </div>
+
+    <script>
+        const I18N = {
+            es: {
+                subtitle: "Regulación Emocional",
+                modeManual: "Manual (Explorar)", modeAuto: "Guía SOS (Auto)",
+                lblType: "¿Cómo te sientes?", lblSubtype: "Síntoma Principal", lblIntensity: "Nivel de Malestar", lblDuration: "Tiempo de sesión",
+                intLow: "Bajo", intMed: "Medio", intHigh: "Alto", intSev: "Crisis",
+                btnStart: "COMENZAR SESIÓN", linkScience: "📖 Ver Evidencia Científica Detallada",
+                binauralLabel: "Ondas Binaurales Activas",
+                binauralTip: "Pulsos auditivos que invitan al cerebro a cambiar de frecuencia. Usa audífonos.",
+                readyTitle: "Preparando entorno...",
+                chkHeadphones: "Usa audífonos (Vital)", chkVolume: "Ajuste de volumen automático", chkDistraction: "Inhala profundo... Exhala",
+                btnConfirm: "ENTRAR AHORA", btnCancel: "Volver atrás",
+                holdExit: "Mantén para salir",
+                modalTitle: "Ciencia Detrás",
+                rfTitle: "⚠️ USO RESPONSABLE:",
+                rfDesc: "Esta app usa principios de Arrastre de Ondas Cerebrales (Brainwave Entrainment). Es segura, pero no reemplaza a un médico.",
+                classTitle: "Fundamentos Técnicos",
+                audioEvidence: `
+                    <h4>1. ¿Qué es el Arrastre de Ondas? (FFR)</h4>
+                    <p>El cerebro tiene una tendencia natural a sincronizar sus ciclos eléctricos con ritmos externos. Esto se llama <b>Frequency Following Response (FFR)</b>. Si escuchas un pulso a 10Hz, tu cerebro tiende a resonar a 10Hz.</p>
+
+                    <h4>2. Protocolos de Frecuencia (Hz)</h4>
+                    <table class="hz-table">
+                        <tr><th>Onda</th><th>Rango</th><th>Efecto</th></tr>
+                        <tr><td>Delta</td><td>0.5-4 Hz</td><td>Sueño profundo, reparación.</td></tr>
+                        <tr><td>Theta</td><td>4-8 Hz</td><td>Meditación profunda, creatividad.</td></tr>
+                        <tr><td>Alpha</td><td>8-12 Hz</td><td>Calma despierta, relajación.</td></tr>
+                        <tr><td>Beta</td><td>12-30 Hz</td><td>Atención, alerta, pensamiento.</td></tr>
+                    </table>
+
+                    <h4>3. Espectro de Ruido (Colores)</h4>
+                    <ul>
+                        <li><b>Ruido Rosa:</b> Todas las octavas tienen igual energía. Suena como lluvia o viento suave. Ideal para calmar la ansiedad.</li>
+                        <li><b>Ruido Marrón (Brown):</b> Énfasis en graves profundos. Suena como una cascada lejana. Excelente para "Grounding" (Pánico).</li>
+                        <li><b>Ruido Blanco:</b> Igual energía en todas las frecuencias. Suena como estática. Útil para bloquear distracciones y activar.</li>
+                    </ul>
+                `,
+                btnClose: "Entendido",
+                groups: { anxiety: "Ansiedad Generalizada", panic: "Ataque de Pánico", depression: "Depresión / Apatía" },
+                subtypes: { 
+                    a_rumination: "Pensamiento Bucle", a_tension: "Tensión en el Pecho", 
+                    p_sos: "¡Crisis Ahora! (SOS)", p_prevent: "Miedo a que ocurra",
+                    d_fatigue: "Sin Energía (Fatiga)", d_sadness: "Tristeza Profunda", d_anhedonia: "Mixto: Fatiga/Vacío (Anhedonia)"
+                },
+                techInfos: {
+                    anxiety: "Ruido Rosa + Alpha 10Hz (Calma)",
+                    panic: "Ruido Marrón + Theta 8Hz (Anclaje)",
+                    depression: "Ruido Blanco + Beta 14Hz (Despertar)"
+                }
+            },
+            en: {
+                subtitle: "Emotional Regulation",
+                modeManual: "Manual (Explore)", modeAuto: "SOS Guide (Auto)",
+                lblType: "How do you feel?", lblSubtype: "Main Symptom", lblIntensity: "Distress Level", lblDuration: "Session Time",
+                intLow: "Low", intMed: "Med", intHigh: "High", intSev: "Crisis",
+                btnStart: "START SESSION", linkScience: "📖 View Detailed Scientific Evidence",
+                binauralLabel: "Active Binaural Beats",
+                binauralTip: "Auditory pulses that invite the brain to shift frequency.",
+                readyTitle: "Preparing environment...",
+                chkHeadphones: "Use headphones", chkVolume: "Auto-volume set", chkDistraction: "Deep breath in... out",
+                btnConfirm: "ENTER NOW", btnCancel: "Go back",
+                holdExit: "Hold to exit",
+                modalTitle: "The Science",
+                rfTitle: "⚠️ RESPONSIBLE USE:",
+                rfDesc: "Uses brainwave entrainment principles. Not a substitute for professional help.",
+                classTitle: "Technical Fundamentals",
+                audioEvidence: `
+                    <h4>1. What is Frequency Following (FFR)?</h4>
+                    <p>The brain naturally tends to synchronize its electrical cycles with external rhythms. This is called <b>Frequency Following Response</b>. If you hear a 10Hz pulse, your brain resonates at 10Hz.</p>
+
+                    <h4>2. Frequency Protocols (Hz)</h4>
+                    <table class="hz-table">
+                        <tr><th>Wave</th><th>Range</th><th>Effect</th></tr>
+                        <tr><td>Delta</td><td>0.5-4 Hz</td><td>Deep sleep, repair.</td></tr>
+                        <tr><td>Theta</td><td>4-8 Hz</td><td>Deep meditation, creativity.</td></tr>
+                        <tr><td>Alpha</td><td>8-12 Hz</td><td>Calm alertness, relaxation.</td></tr>
+                        <tr><td>Beta</td><td>12-30 Hz</td><td>Focus, alert, thinking.</td></tr>
+                    </table>
+
+                    <h4>3. Noise Spectrum (Colors)</h4>
+                    <ul>
+                        <li><b>Pink Noise:</b> Equal energy per octave. Sounds like rain. Ideal for anxiety.</li>
+                        <li><b>Brown Noise:</b> Emphasis on deep lows. Sounds like a distant waterfall. Great for grounding.</li>
+                        <li><b>White Noise:</b> Equal energy per frequency. Sounds like static. Good for activation.</li>
+                    </ul>
+                `,
+                btnClose: "Understood",
+                groups: { anxiety: "Generalized Anxiety", panic: "Panic Attack", depression: "Depression / Apathy" },
+                subtypes: { 
+                    a_rumination: "Looping Thoughts", a_tension: "Chest Tension", 
+                    p_sos: "Crisis Now! (SOS)", p_prevent: "Fear of onset",
+                    d_fatigue: "No Energy (Fatigue)", d_sadness: "Deep Sadness", d_anhedonia: "Mixed: Fatigue/Empty (Anhedonia)"
+                },
+                techInfos: {
+                    anxiety: "Pink Noise + Alpha 10Hz (Calm)",
+                    panic: "Brown Noise + Theta 8Hz (Grounding)",
+                    depression: "White Noise + Beta 14Hz (Awake)"
+                }
+            }
+        };
+
+        const DATA_MAP = {
+            anxiety: ['a_rumination', 'a_tension'],
+            panic: ['p_sos', 'p_prevent'],
+            depression: ['d_fatigue', 'd_sadness', 'd_anhedonia']
+        };
+
+        let state = {
+            lang: 'es', mode: 'manual', type: 'anxiety', intensity: 2, binaural: true,
+            isPlaying: false, timeLeft: 0, totalTime: 0, isMuted: false
+        };
+
+        // --- AUDIO ENGINE V21 (ESTABLE + BOOSTS) ---
+        const AudioEngine = (() => {
+            let ctx = null;
+            let nodes = {};
+            let globalVol = 0.5;
+
+            function startNewSession(config) {
+                if (ctx) { try { ctx.close(); } catch(e){} ctx = null; nodes = {}; }
+
+                const AudioContext = window.AudioContext || window.webkitAudioContext;
+                ctx = new AudioContext();
+                if (ctx.state === 'suspended') ctx.resume();
+
+                const masterGain = ctx.createGain();
+                masterGain.gain.value = 0; 
+                masterGain.connect(ctx.destination);
+                nodes.master = masterGain;
+
+                const mainGain = ctx.createGain();
+                
+                // --- BOOST LOGIC ---
+                let boost = 1.0;
+                if (config.noiseType === 'brown') boost = 10.0; 
+                else if (config.noiseType === 'pink') boost = 8.0; 
+                else boost = 6.0; // WHITE NOISE BOOST (Depresión/Anhedonia)
+                
+                mainGain.gain.value = config.mainVol * boost;
+
+                const filter = ctx.createBiquadFilter();
+                filter.type = 'lowpass';
+                filter.frequency.value = config.filterFreq || 1000;
+
+                let source;
+                if(config.noiseType === 'brown') source = createBrownNoise(ctx);
+                else if(config.noiseType === 'pink') source = createPinkNoise(ctx);
+                else source = createWhiteNoise(ctx);
+
+                source.connect(filter);
+                filter.connect(mainGain);
+                mainGain.connect(masterGain);
+                nodes.source = source;
+
+                if(config.binaural) {
+                    const binGain = ctx.createGain(); 
+                    binGain.gain.value = 0.15; 
+                    const carrier = 200; 
+                    const beat = config.targetFreq; 
+                    const oscL = ctx.createOscillator(); oscL.frequency.value = carrier;
+                    const oscR = ctx.createOscillator(); oscR.frequency.value = carrier + beat;
+                    const panL = ctx.createStereoPanner(); panL.pan.value = -1;
+                    const panR = ctx.createStereoPanner(); panR.pan.value = 1;
+                    oscL.connect(panL); panL.connect(binGain);
+                    oscR.connect(panR); panR.connect(binGain);
+                    oscL.start(); oscR.start();
+                    binGain.connect(masterGain);
+                    nodes.oscL = oscL; nodes.oscR = oscR;
+                }
+
+                const target = state.isMuted ? 0 : globalVol;
+                masterGain.gain.linearRampToValueAtTime(target, ctx.currentTime + (config.ramp || 2));
+                state.isMuted = false;
+                updateMuteIcon();
+            }
+
+            function createWhiteNoise(context) {
+                const bufferSize = 4096;
+                const node = context.createScriptProcessor(bufferSize, 1, 1);
+                node.onaudioprocess = function(e) {
+                    const output = e.outputBuffer.getChannelData(0);
+                    for (let i = 0; i < bufferSize; i++) {
+                        output[i] = Math.random() * 2 - 1;
+                        output[i] *= 0.15; 
+                    }
+                };
+                return node;
+            }
+
+            function createPinkNoise(context) {
+                const bufferSize = 4096;
+                const node = context.createScriptProcessor(bufferSize, 1, 1);
+                let b0=0, b1=0, b2=0, b3=0, b4=0, b5=0, b6=0;
+                node.onaudioprocess = function(e) {
+                    const output = e.outputBuffer.getChannelData(0);
+                    for (let i = 0; i < bufferSize; i++) {
+                        const white = Math.random() * 2 - 1;
+                        b0 = 0.99886 * b0 + white * 0.0555179;
+                        b1 = 0.99332 * b1 + white * 0.0750759;
+                        b2 = 0.96900 * b2 + white * 0.1538520;
+                        b3 = 0.86650 * b3 + white * 0.3104856;
+                        b4 = 0.55000 * b4 + white * 0.5329522;
+                        b5 = -0.7616 * b5 - white * 0.0168980;
+                        output[i] = b0 + b1 + b2 + b3 + b4 + b5 + b6 + white * 0.5362;
+                        output[i] *= 0.11; b6 = white * 0.11592;
+                    }
+                };
+                return node;
+            }
+
+            function createBrownNoise(context) {
+                const bufferSize = 4096;
+                const node = context.createScriptProcessor(bufferSize, 1, 1);
+                let lastOut = 0;
+                node.onaudioprocess = function(e) {
+                    const output = e.outputBuffer.getChannelData(0);
+                    for (let i = 0; i < bufferSize; i++) {
+                        const white = Math.random() * 2 - 1;
+                        output[i] = (lastOut + (0.02 * white)) / 1.02;
+                        lastOut = output[i];
+                        output[i] *= 3.5; 
+                    }
+                };
+                return node;
+            }
+
+            function setVolume(val) {
+                globalVol = parseFloat(val);
+                if(nodes.master && ctx) {
+                    nodes.master.gain.setTargetAtTime(state.isMuted ? 0 : globalVol, ctx.currentTime, 0.1);
+                }
+            }
+
+            function stopAndKill() {
+                if(ctx) {
+                    if(nodes.master) { try { nodes.master.gain.exponentialRampToValueAtTime(0.001, ctx.currentTime + 0.5); } catch(e){} }
+                    setTimeout(() => { if(ctx) { ctx.close().then(() => { ctx = null; nodes = {}; }); } }, 500);
+                }
+            }
+            
+            function toggleMute() {
+                state.isMuted = !state.isMuted;
+                if(nodes.master && ctx) {
+                    const target = state.isMuted ? 0 : globalVol;
+                    nodes.master.gain.setTargetAtTime(target, ctx.currentTime, 0.1);
+                }
+                updateMuteIcon();
+            }
+
+            return { start: startNewSession, stop: stopAndKill, toggleMute, setVolume };
+        })();
+
+        // --- UI & LOGIC ---
+        const circle = document.getElementById('prog-circle');
+        const radius = circle.r.baseVal.value;
+        const circumference = radius * 2 * Math.PI;
+        circle.style.strokeDasharray = `${circumference} ${circumference}`;
+        circle.style.strokeDashoffset = circumference;
+
+        function setProgress(percent) {
+            const offset = circumference - (percent / 100) * circumference;
+            circle.style.strokeDashoffset = offset;
+        }
+
+        function renderContent() {
+            const t = I18N[state.lang];
+            document.querySelectorAll('[data-i18n]').forEach(el => {
+                const key = el.getAttribute('data-i18n');
+                if(t[key]) {
+                    if(t[key].includes('<')) el.innerHTML = t[key];
+                    else el.innerText = t[key];
+                }
+            });
+
+            const typeSel = document.getElementById('headache-type');
+            typeSel.innerHTML = '';
+            for(let key in t.groups) {
+                let opt = document.createElement('option'); opt.value = key; opt.innerText = t.groups[key];
+                typeSel.appendChild(opt);
+            }
+            typeSel.value = state.type;
+            updateSubtypes();
+            
+            document.getElementById('audioEvidence').innerHTML = t.audioEvidence;
+        }
+
+        function updateSubtypes() {
+            const t = I18N[state.lang];
+            const subSel = document.getElementById('headache-subtype');
+            const type = document.getElementById('headache-type').value;
+            state.type = type;
+            subSel.innerHTML = '';
+            DATA_MAP[type].forEach(key => {
+                let opt = document.createElement('option'); opt.value = key; opt.innerText = t.subtypes[key];
+                subSel.appendChild(opt);
+            });
+        }
+
+        function setLang(lang) {
+            state.lang = lang;
+            document.querySelectorAll('.lang-btn').forEach(b => b.classList.remove('active'));
+            document.querySelectorAll('.lang-btn')[lang === 'es' ? 0 : 1].classList.add('active');
+            renderContent();
+        }
+
+        function setMode(mode) {
+            state.mode = mode;
+            document.querySelectorAll('.mode-btn').forEach(b => b.classList.remove('active'));
+            document.querySelectorAll('.mode-btn')[mode === 'manual' ? 0 : 1].classList.add('active');
+            const durGrp = document.getElementById('grp-duration');
+            if(mode === 'auto') durGrp.classList.add('hidden'); else durGrp.classList.remove('hidden');
+        }
+
+        function setIntensity(lvl) {
+            state.intensity = lvl;
+            const btns = document.querySelectorAll('.int-btn');
+            btns.forEach(b => b.classList.remove('active'));
+            btns[lvl-1].classList.add('active');
+        }
+
+        function setGlobalVolume(val) {
+            AudioEngine.setVolume(val);
+        }
+
+        function toggleModal(show) {
+            const modal = document.getElementById('info-modal');
+            if(show) modal.classList.add('active'); else modal.classList.remove('active');
+        }
+
+        function updateMuteIcon() {
+            const btn = document.getElementById('btn-mute');
+            btn.innerText = state.isMuted ? '🔇' : '🔊';
+            btn.style.opacity = state.isMuted ? '0.5' : '1';
+        }
+
+        let timerInterval;
+
+        function prepareSession() {
+            document.getElementById('preflight-screen').classList.remove('hidden');
+        }
+
+        function cancelSession() {
+            document.getElementById('preflight-screen').classList.add('hidden');
+        }
+
+        function confirmStart() {
+            document.getElementById('preflight-screen').classList.add('hidden');
+            setTimeout(startSession, 50); 
+        }
+
+        function getRecommendation() {
+            let config = {
+                noiseType: 'pink', 
+                mainVol: 0.5, 
+                filterFreq: 1000, 
+                targetFreq: 10, 
+                binaural: document.getElementById('binaural-check').checked,
+                duration: parseInt(document.getElementById('duration-select').value),
+                volStart: 0.5
+            };
+            
+            // OBTENER SUBTIPO ESPECÍFICO
+            const subtype = document.getElementById('headache-subtype').value;
+
+            if(state.type === 'panic') {
+                config.noiseType = 'brown'; 
+                config.filterFreq = 400; 
+                config.volStart = 0.85; 
+                config.targetFreq = 8; 
+                config.mainVol = 0.6;
+                if(state.mode === 'auto') config.duration = 10;
+            } 
+            else if (state.type === 'anxiety') {
+                config.noiseType = 'pink'; 
+                config.filterFreq = 800;
+                config.volStart = 0.50; 
+                config.targetFreq = 10; 
+                config.mainVol = 0.5;
+                if(state.mode === 'auto') config.duration = 20;
+            } 
+            else { // DEPRESIÓN
+                config.noiseType = 'white'; 
+                config.filterFreq = 2000; 
+                config.targetFreq = 14; 
+                
+                // AJUSTE ESPECIAL PARA ANHEDONIA (MIXTO)
+                if (subtype === 'd_anhedonia') {
+                    config.volStart = 0.70; // Un poco más fuerte para romper inercia
+                    config.targetFreq = 15; // Un poco más activo (Beta medio)
+                } else {
+                    config.volStart = 0.60;
+                }
+                
+                config.mainVol = 0.4;
+                if(state.mode === 'auto') config.duration = 15;
+            }
+            return config;
+        }
+
+        function startSession() {
+            const config = getRecommendation();
+            document.getElementById('home-screen').classList.add('hidden');
+            document.getElementById('player-screen').classList.remove('hidden');
+
+            const t = I18N[state.lang];
+            state.totalTime = config.duration * 60;
+            state.timeLeft = state.totalTime;
+            state.isPlaying = true;
+            
+            document.getElementById('player-protocol').innerText = t.groups[state.type];
+            // INFO DINÁMICA DE LA MEZCLA
+            const subtype = document.getElementById('headache-subtype').value;
+            let techText = t.techInfos[state.type];
+            if (subtype === 'd_anhedonia') techText = "Ruido Blanco + Beta 15Hz (Activación Mixta)";
+            document.getElementById('tech-info').innerText = techText;
+
+            document.getElementById('vol-slider').value = config.volStart;
+            AudioEngine.setVolume(config.volStart);
+
+            AudioEngine.start(config);
+            
+            updateTimerDisplay();
+            setProgress(0);
+            
+            clearInterval(timerInterval);
+            timerInterval = setInterval(tick, 1000);
+        }
+
+        function restartAudioEngine() {
+            const config = getRecommendation();
+            AudioEngine.start(config);
+        }
+
+        function tick() {
+            if(!state.isPlaying) return;
+            state.timeLeft--;
+            updateTimerDisplay();
+            const elapsed = state.totalTime - state.timeLeft;
+            const percentage = (elapsed / state.totalTime) * 100;
+            setProgress(percentage);
+            if(state.timeLeft <= 0) stopSession();
+        }
+
+        function updateTimerDisplay() {
+            const m = Math.floor(state.timeLeft / 60).toString().padStart(2, '0');
+            const s = (state.timeLeft % 60).toString().padStart(2, '0');
+            document.getElementById('timer').innerText = `${m}:${s}`;
+        }
+
+        function togglePlay() {
+            state.isPlaying = !state.isPlaying;
+            const btn = document.getElementById('btn-playpause');
+            btn.innerText = state.isPlaying ? "❚❚" : "▶";
+            AudioEngine.toggleMute();
+        }
+
+        function toggleMute() { AudioEngine.toggleMute(); }
+
+        function stopSession() {
+            clearInterval(timerInterval);
+            AudioEngine.stop();
+            document.getElementById('player-screen').classList.add('hidden');
+            document.getElementById('home-screen').classList.remove('hidden');
+        }
+
+        const holdBtn = document.getElementById('hold-btn');
+        const holdBar = document.getElementById('hold-bar');
+        let holdStart = 0, holdRaf;
+
+        function updateHold() {
+            const now = Date.now();
+            const pct = Math.min(((now - holdStart) / 2000) * 100, 100);
+            holdBar.style.width = pct + "%";
+            if(pct >= 100) { stopSession(); resetHold(); } 
+            else holdRaf = requestAnimationFrame(updateHold);
+        }
+        function resetHold() { cancelAnimationFrame(holdRaf); holdBar.style.width = "0%"; }
+        holdBtn.addEventListener('mousedown', () => { holdStart = Date.now(); updateHold(); });
+        holdBtn.addEventListener('touchstart', (e) => { e.preventDefault(); holdStart = Date.now(); updateHold(); });
+        ['mouseup', 'mouseleave', 'touchend'].forEach(evt => holdBtn.addEventListener(evt, resetHold));
+
+        document.body.addEventListener('touchstart', function() { if(!state.isPlaying){} }, {once:true});
+        document.body.addEventListener('click', function() { if(!state.isPlaying){} }, {once:true});
+
+        renderContent();
+    </script>
+</body>
+</html>

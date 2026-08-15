@@ -1,0 +1,1 @@
+Imágenes Busca y encuentra integradas como JPG externos, no base64. IDs: cosmos, animals, dinos, ocean, hist, cells, earth, inv, brain, plants, art, chem, cultures, numbers, emotions, social, ufo, anime_dojo, olympus_epic, literature

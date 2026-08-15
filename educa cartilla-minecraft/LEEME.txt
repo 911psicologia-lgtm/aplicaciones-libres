@@ -1,0 +1,85 @@
+╔══════════════════════════════════════════════════════════════╗
+║                  CARTILLA CRAFT                              ║
+║          Evaluación Gamificada Estilo Minecraft              ║
+║                  Grado 4° - SAI Punto C                      ║
+╚══════════════════════════════════════════════════════════════╝
+
+INSTRUCCIONES DE USO
+====================
+
+1. DESCOMPRIME EL ARCHIVO .ZIP en cualquier carpeta de tu computadora.
+
+2. ABRE EL ARCHIVO "index.html" con un navegador web moderno:
+   - Google Chrome (recomendado)
+   - Mozilla Firefox
+   - Microsoft Edge
+   - Safari
+
+   IMPORTANTE: NO necesitas internet ni instalar nada.
+   Todo funciona directamente en el navegador.
+
+3. EXPERIENCIA DE JUEGO:
+   a) Escribe el nombre del explorador
+   b) Elige un personaje (Steve, Alex, Zombie, Creeper, Enderman o Pig)
+   c) Explora el mapa del mundo - 5 biomas esperan:
+      - The End (Inglés) - 20 preguntas
+      - Village (Lenguaje) - 20 preguntas
+      - Mineshaft (Matemáticas) - 20 preguntas
+      - Forest (Ciencias Naturales) - 20 preguntas
+      - Nether (Sociales y Ciudadanas) - 20 preguntas
+   d) Cada bioma tiene 4 misiones de 5 preguntas cada una
+   e) Gana XP, recolecta recursos, desbloquea logros
+   f) Al completar el juego, obtén tu certificado
+
+4. SISTEMA DE GAMIFICACIÓN:
+   - XP y niveles: Cada respuesta correcta otorga puntos de experiencia
+   - 5 vidas (corazones): Se regeneran al volver al mapa
+   - 5 recursos: Ender Pearls, Esmeraldas, Diamantes, Manzanas Doradas, Pepitas de Oro
+   - 17 logros desbloqueables
+   - 6 rangos: Madera, Piedra, Hierro, Oro, Diamante, Netherite
+   - Pistas disponibles en cada pregunta
+   - Certificado imprimible al finalizar
+
+5. CONTROLES:
+   - Mouse/Touch: Haz clic en las opciones para responder
+   - Teclado: Teclas 1-4 para seleccionar opciones, Enter para avanzar, Escape para volver
+
+6. GUARDADO AUTOMÁTICO:
+   - El progreso se guarda automáticamente en el navegador
+   - Puedes cerrar y volver a abrir sin perder tu avance
+   - Para reiniciar, usa el botón "Reiniciar Aventura" en la pantalla de resultados
+
+NOTAS PARA DOCENTES/PADRES
+===========================
+- Esta cartilla es una herramienta de familiarización con el formato de prueba SAI
+- Cada sesión corta (5 preguntas) está diseñada para mantener la atención del niño
+- No reemplaza la evaluación oficial; es un complemento de preparación
+- El sistema de vidas NO penaliza: simplemente ofrece un descanso motivador
+- Se recomienda supervisión de un adulto para niños que necesiten apoyo con la lectura
+
+ESTRUCTURA DE ARCHIVOS
+=======================
+cartilla-minecraft/
+  index.html          <- Abre este archivo para comenzar
+  LEEME.txt           <- Este archivo de instrucciones
+  css/
+    style.css          <- Estilos visuales (tema Minecraft)
+  js/
+    questions.js       <- Banco de 100 preguntas (5 áreas × 20 preguntas)
+    gamification.js    <- Motor de gamificación (XP, logros, recursos)
+    app.js             <- Controlador principal de la aplicación
+
+DISEÑADO BAJO METODOLOGÍA DSEBI v2.1
+Diseño de Soluciones Digitales Basado en Evidencia con IA
+
+
+Versión v3.9.2
+- En Perfil se agregó Copia del avance: Descargar JSON y Cargar JSON.
+- El archivo JSON permite trasladar el progreso entre dispositivos.
+- Cargar JSON reemplaza el avance local luego de confirmación.
+
+
+ACTUALIZACIÓN v3.9.2
+- Auditoría F4: el certificado ahora calcula rendimiento sobre el criterio real de 4 misiones principales por mundo.
+- Se protegió el nombre del estudiante en certificados y cargas JSON para evitar inyección de HTML al importar archivos.
+- Se añadieron ayudas breves en botones de backup y certificado.

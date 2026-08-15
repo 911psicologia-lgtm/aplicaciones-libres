@@ -1,0 +1,393 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Cubo Cognitivo 3.3: Omnisistema</title>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/three@0.128.0/examples/js/controls/OrbitControls.js"></script>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700&family=Roboto:wght@300;500&display=swap');
+
+        body { margin: 0; overflow: hidden; background-color: #020205; font-family: 'Roboto', sans-serif; color: white; user-select: none; }
+        #ui-layer { position: absolute; top: 0; left: 0; width: 100%; height: 100%; pointer-events: none; z-index: 10; }
+        
+        .screen { 
+            position: absolute; top: 0; left: 0; width: 100%; height: 100%; 
+            background: rgba(5, 5, 10, 0.98); 
+            display: flex; flex-direction: column; align-items: center; justify-content: center; 
+            pointer-events: auto; backdrop-filter: blur(12px); transition: opacity 0.5s;
+        }
+        .hidden { display: none !important; }
+        
+        .panel { background: rgba(255,255,255,0.03); padding: 25px; border-radius: 20px; border: 1px solid #00f2ff44; text-align: center; max-width: 1000px; width: 95%; max-height: 90vh; overflow-y: auto; box-shadow: 0 0 50px rgba(0,0,0,0.8); }
+        h1 { font-family: 'Orbitron', sans-serif; font-size: 2.2rem; color: #00f2ff; text-shadow: 0 0 15px #00f2ff; margin: 0; text-transform: uppercase; }
+        
+        .section-title { color: #00f2ff; font-family: 'Orbitron'; font-size: 0.75rem; margin: 15px 0 8px; text-transform: uppercase; letter-spacing: 2px; border-bottom: 1px solid #333; padding-bottom: 5px; }
+
+        input { padding: 10px; font-size: 1rem; background: #111; border: 1px solid #00f2ff; color: white; border-radius: 5px; width: 300px; text-align: center; margin-bottom: 10px; font-family: 'Orbitron'; }
+        
+        .opt-grid { display: flex; justify-content: center; gap: 8px; margin-bottom: 10px; flex-wrap: wrap; }
+        .btn-opt { background: #1a1a1a; border: 1px solid #333; color: #888; padding: 8px 15px; cursor: pointer; border-radius: 4px; font-family: 'Orbitron'; font-size: 0.75rem; transition: 0.3s; }
+        .btn-opt.active { background: #00f2ff; color: black; border-color: #00f2ff; box-shadow: 0 0 15px #00f2ff44; }
+
+        .level-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(110px, 1fr)); gap: 6px; margin-bottom: 15px; }
+        .level-btn { background: #0a0a0a; border: 1px solid #333; color: #aaa; padding: 8px; cursor: pointer; transition: 0.3s; font-family: 'Orbitron'; font-size: 0.6rem; border-radius: 4px; }
+        .level-btn.active { border-color: #00f2ff; color: #fff; background: #00f2ff33; }
+
+        .action-btn { padding: 15px 50px; font-size: 1.1rem; cursor: pointer; background: linear-gradient(90deg, #00f2ff, #0077ff); border: none; color: white; border-radius: 50px; font-weight: bold; text-transform: uppercase; letter-spacing: 2px; transition: 0.3s; box-shadow: 0 5px 20px rgba(0, 242, 255, 0.3); }
+        .action-btn:hover { transform: scale(1.05); }
+
+        #ranking-table { width: 100%; margin-top: 15px; border-collapse: collapse; font-size: 0.8rem; color: #ccc; }
+        #ranking-table th { color: #00f2ff; padding: 8px; border-bottom: 1px solid #333; text-transform: uppercase; }
+        #ranking-table td { padding: 6px; border-bottom: 1px solid #111; }
+
+        #hud { padding: 20px; display: flex; justify-content: space-between; width: 95%; pointer-events: none; position: absolute; top:0; }
+        .hud-box { background: rgba(0,0,0,0.85); border: 1px solid #00f2ff66; padding: 12px 25px; border-radius: 10px; font-family: 'Orbitron'; color: #00f2ff; pointer-events: auto; }
+        .warning { color: #ff0055; animation: blink 0.5s infinite alternate; }
+        @keyframes blink { from { opacity: 1; } to { opacity: 0.4; } }
+        
+        #feedback { position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); font-size: 7rem; opacity: 0; pointer-events: none; transition: 0.3s; z-index: 5; font-family: 'Orbitron'; }
+    </style>
+</head>
+<body>
+
+    <div id="canvas-container"></div>
+    <div id="feedback"></div>
+
+    <div id="ui-layer">
+        <div id="hud" class="hidden">
+            <div class="hud-box">BUSCA: <span id="hud-target" style="color:white; font-size: 1.5rem;"></span></div>
+            <div class="hud-box" id="timer-box">T-MINUS: <span id="hud-time">0.00</span>s</div>
+            <button onclick="game.pauseGame()" class="hud-box" style="cursor: pointer; background: #222;">PAUSA</button>
+        </div>
+    </div>
+
+    <div id="start-screen" class="screen">
+        <div class="panel">
+            <h1>COGNITIVE OMNI 3.3</h1>
+            <input type="text" id="username" placeholder="IDENTIFICACIÓN DE AGENTE">
+            
+            <div class="section-title">1. Nivel de Dificultad (Presión de Tiempo)</div>
+            <div class="opt-grid" id="diff-selector">
+                <button class="btn-opt active" onclick="game.setDiff('EASY', 0, this)">Fácil (Entrenamiento)</button>
+                <button class="btn-opt" onclick="game.setDiff('MEDIUM', 120, this)">Medio (120s)</button>
+                <button class="btn-opt" onclick="game.setDiff('HARD', 180, this)">Duro (180s)</button>
+            </div>
+
+            <div class="section-title">2. Densidad de Datos (N x N por cara)</div>
+            <div class="opt-grid" id="grid-selector">
+                <button class="btn-opt active" onclick="game.setGrid(2, this)">2x2 (24)</button>
+                <button class="btn-opt" onclick="game.setGrid(3, this)">3x3 (54)</button>
+                <button class="btn-opt" onclick="game.setGrid(4, this)">4x4 (96)</button>
+                <button class="btn-opt" onclick="game.setGrid(5, this)">5x5 (150)</button>
+                <button class="btn-opt" onclick="game.setGrid(6, this)">6x6 (216)</button>
+            </div>
+
+            <div class="section-title">3. Secuencia Cognitiva</div>
+            <div class="level-grid" id="serie-selector"></div>
+
+            <button class="action-btn" onclick="game.startMatch()">INICIAR PROTOCOLO</button>
+            
+            <div class="section-title">Historial de Excelencia</div>
+            <table id="ranking-table">
+                <thead><tr><th>Agente</th><th>Dificultad</th><th>Grilla</th><th>Serie</th><th>Tiempo</th></tr></thead>
+                <tbody id="ranking-body"></tbody>
+            </table>
+        </div>
+    </div>
+
+    <div id="pause-screen" class="screen hidden">
+        <div class="panel" style="max-width: 350px;">
+            <h1>SISTEMA SUSPENDIDO</h1>
+            <button class="action-btn" onclick="game.resumeGame()" style="width:100%; margin-bottom: 10px;">REANUDAR</button>
+            <button class="action-btn" style="background: #444; width:100%;" onclick="game.saveGame()">GUARDAR</button>
+            <button class="action-btn" style="background: #600; width:100%; margin-top: 20px;" onclick="location.reload()">ABORTAR</button>
+        </div>
+    </div>
+
+    <script>
+        class SoundEngine {
+            constructor() {
+                this.ctx = new (window.AudioContext || window.webkitAudioContext)();
+            }
+            playTone(freq, type, duration, vol) {
+                if(this.ctx.state === 'suspended') this.ctx.resume();
+                const o = this.ctx.createOscillator();
+                const g = this.ctx.createGain();
+                o.type = type; o.frequency.setValueAtTime(freq, this.ctx.currentTime);
+                g.gain.setValueAtTime(vol, this.ctx.currentTime);
+                g.gain.exponentialRampToValueAtTime(0.001, this.ctx.currentTime + duration);
+                o.connect(g); g.connect(this.ctx.destination);
+                o.start(); o.stop(this.ctx.currentTime + duration);
+            }
+            playStart() { [300, 400, 500, 600].forEach((f, i) => setTimeout(() => this.playTone(f, 'sine', 0.5, 0.1), i * 100)); }
+            playCorrect() { this.playTone(800, 'sine', 0.2, 0.1); }
+            playWrong() { this.playTone(100, 'sawtooth', 0.3, 0.1); }
+            playWin() { [523, 659, 783, 1046].forEach((f, i) => setTimeout(() => this.playTone(f, 'triangle', 1, 0.1), i * 150)); }
+            playFail() { [150, 100, 80].forEach((f, i) => setTimeout(() => this.playTone(f, 'sawtooth', 1, 0.2), i * 200)); }
+        }
+
+        class GameApp {
+            constructor() {
+                this.audio = new SoundEngine();
+                this.series = {
+                    'números': Array.from({length:50}, (_,i)=> (i+1).toString()),
+                    'alfabeto': "ABCDEFGHIJKLMNOPQRSTUVWXYZ".split(""),
+                    'griego': ['α','β','γ','δ','ε','ζ','η','θ','ι','κ','λ','μ','ν','ξ','ο','π','ρ','σ','τ','υ','φ','χ','ψ','ω'],
+                    'romanos': ['I','II','III','IV','V','VI','VII','VIII','IX','X','XI','XII','XIII','XIV','XV','XVI','XVII','XVIII','XIX','XX','XXI','XXII','XXIII','XXIV'],
+                    'fibonacci': ['1','1','2','3','5','8','13','21','34','55','89','144','233','377','610','987','1597','2584','4181','6765','10946','17711','28657','46368'],
+                    'cuadrados': Array.from({length:30}, (_,i)=> ((i+1)**2).toString()),
+                    'primos': ['2','3','5','7','11','13','17','19','23','29','31','37','41','43','47','53','59','61','67','71','73','79','83','89'],
+                    'meses': ['Ene','Feb','Mar','Abr','May','Jun','Jul','Ago','Sep','Oct','Nov','Dic'],
+                    'semana': ['L','M','X','J','V','S','D'],
+                    'día_noche': ['🌅','☀️','🌤','☁️','🌇','🌙','🌌'],
+                    'tamaños': ['·','•','●','⬤','⬤⬤','⬤⬤⬤','⬤⬤⬤⬤','⬤⬤⬤⬤⬤','⬤⬤⬤⬤⬤⬤'],
+                    'elementos': ['🌱','💧','🔥','🌬','🪨'],
+                    'emociones': ['🙂','😐','😶','🙁','😟','😠','😡','🤯','😵','😴'],
+                    'planetas': ['☿','♀','🌍','♂','♃','♄','♅','♆'],
+                    'fases': ['●','◔','◑','◕','○','◕','◑','◔'],
+                    'caos': ['A','7','●','γ','🍎','⚡','III','🐍','∆','?','Ω','9','■','🌪','λ','🍄','♠','5','🔥','π'],
+                    'complejidad': ['Bucle','Fractal','Azar','Nodo','Flujo','Caos','Orden','Red','Salto','Nivel','Hito','Fase'],
+                    'sagrada': ['Flower','Seed','Tree','Metatron','Vesica','Torus','Spiral','Pent','Hex','Octa'],
+                    'alquimia': ['🜁','🜂','🜃','🜄','🜍','🜔','☿','☉','☽','♂','♃','♄'],
+                    'vitalis': ['Piel','Alma','Vida','Salud','Pura','Esencia','Bio','Vital','Glow','Zen','Nutri'],
+                    'cromática': ['🔴','🟠','🟡','🟢','🔵','🟣','🟤','⚫','⚪']
+                };
+
+                this.state = {
+                    diff: 'EASY', gridDim: 2, timeLimit: 0,
+                    serieKey: 'números', isPlaying: false, isPaused: false,
+                    currentIndex: 0, startTime: 0, penalty: 0, foundCells: []
+                };
+
+                this.initUI();
+                this.initThree();
+                this.loadRanking();
+            }
+
+            initUI() {
+                const container = document.getElementById('serie-selector');
+                Object.keys(this.series).forEach(key => {
+                    const btn = document.createElement('button');
+                    btn.className = `level-btn ${key === 'números' ? 'active' : ''}`;
+                    btn.innerText = key.toUpperCase();
+                    btn.onclick = () => {
+                        document.querySelectorAll('#serie-selector button').forEach(b => b.classList.remove('active'));
+                        btn.classList.add('active'); this.state.serieKey = key;
+                    };
+                    container.appendChild(btn);
+                });
+            }
+
+            setDiff(label, limit, btn) {
+                document.querySelectorAll('#diff-selector button').forEach(b => b.classList.remove('active'));
+                btn.classList.add('active');
+                this.state.diff = label; this.state.timeLimit = limit;
+            }
+
+            setGrid(dim, btn) {
+                document.querySelectorAll('#grid-selector button').forEach(b => b.classList.remove('active'));
+                btn.classList.add('active'); this.state.gridDim = dim;
+            }
+
+            initThree() {
+                this.scene = new THREE.Scene();
+                this.camera = new THREE.PerspectiveCamera(60, window.innerWidth/window.innerHeight, 0.1, 1000);
+                this.camera.position.z = 7;
+                this.renderer = new THREE.WebGLRenderer({ antialias: true });
+                this.renderer.setSize(window.innerWidth, window.innerHeight);
+                document.getElementById('canvas-container').appendChild(this.renderer.domElement);
+
+                // Controls (rotación suave)
+                this.controls = new THREE.OrbitControls(this.camera, this.renderer.domElement);
+                this.controls.autoRotate = true;
+                this.controls.enableDamping = true;
+                this.controls.dampingFactor = 0.08;
+
+                // Evita scroll/zoom del navegador en touch y mejora el gesto de rotación
+                this.renderer.domElement.style.touchAction = 'none';
+
+                // Anti "click accidental": solo valida si NO hubo arrastre (drag)
+                this.pointer = { down: false, moved: false, startX: 0, startY: 0, id: null };
+                this.clickThresholdPx = 8;
+
+                const dom = this.renderer.domElement;
+                dom.addEventListener('pointerdown', (e) => this.onPointerDown(e));
+                dom.addEventListener('pointermove', (e) => this.onPointerMove(e));
+                dom.addEventListener('pointerup', (e) => this.onPointerUp(e));
+                dom.addEventListener('pointercancel', (e) => this.onPointerUp(e));
+
+                this.scene.add(new THREE.AmbientLight(0xffffff, 1));
+                this.animate();
+            }
+
+            onPointerDown(e) {
+                // En menú inicial permite rotar libre sin que se valide nada
+                if(!this.state.isPlaying || this.state.isPaused) return;
+                this.pointer.down = true;
+                this.pointer.moved = false;
+                this.pointer.startX = e.clientX;
+                this.pointer.startY = e.clientY;
+                this.pointer.id = e.pointerId;
+            }
+
+            onPointerMove(e) {
+                if(!this.pointer.down || e.pointerId !== this.pointer.id) return;
+                const dx = e.clientX - this.pointer.startX;
+                const dy = e.clientY - this.pointer.startY;
+                if(!this.pointer.moved && (dx*dx + dy*dy) > (this.clickThresholdPx * this.clickThresholdPx)) {
+                    this.pointer.moved = true;
+                }
+            }
+
+            onPointerUp(e) {
+                if(!this.pointer.down || e.pointerId !== this.pointer.id) return;
+                const wasClick = !this.pointer.moved;
+                this.pointer.down = false;
+                this.pointer.id = null;
+
+                // Solo si fue "tap/click" (sin arrastre) se interpreta como selección
+                if(wasClick) this.onCubeClick(e);
+            }
+
+
+            startMatch() {
+                this.state.playerName = document.getElementById('username').value || "Agente X";
+                this.state.currentIndex = 0; this.state.foundCells = []; this.state.penalty = 0;
+                this.state.startTime = Date.now(); this.state.isPlaying = true;
+                this.controls.autoRotate = false;
+                this.audio.playStart();
+                document.getElementById('start-screen').classList.add('hidden');
+                document.getElementById('hud').classList.remove('hidden');
+                this.buildLogicalCube();
+                this.createVisualCube();
+                this.updateHUD();
+            }
+
+            buildLogicalCube() {
+                const perFace = this.state.gridDim**2;
+                const base = this.series[this.state.serieKey];
+                this.gameSequence = [...base];
+                let content = [];
+                for(let i=0; i < perFace * 6; i++) content.push(base[i % base.length]);
+                content.sort(() => Math.random() - 0.5);
+                this.logicalCube = [];
+                for(let f=0; f<6; f++) this.logicalCube.push(content.slice(f * perFace, (f+1) * perFace));
+            }
+
+            createVisualCube() {
+                if(this.cube) this.scene.remove(this.cube);
+                const mats = [];
+                for(let f=0; f<6; f++) mats.push(new THREE.MeshStandardMaterial({ map: this.generateTex(f) }));
+                this.cube = new THREE.Mesh(new THREE.BoxGeometry(3,3,3), mats);
+                this.scene.add(this.cube);
+            }
+
+            generateTex(faceIdx) {
+                const canvas = document.createElement('canvas'); canvas.width = 512; canvas.height = 512;
+                const ctx = canvas.getContext('2d'); const dim = this.state.gridDim; const cellSize = 512 / dim;
+                ctx.clearRect(0, 0, 512, 512); // Limpiar para evitar superposición
+                ctx.fillStyle = '#050505'; ctx.fillRect(0,0,512,512);
+                this.logicalCube[faceIdx].forEach((val, i) => {
+                    const x = (i % dim) * cellSize; const y = Math.floor(i / dim) * cellSize; const cellID = `${faceIdx}-${i}`;
+                    ctx.fillStyle = this.state.foundCells.includes(cellID) ? '#003322' : '#0a0a0a';
+                    ctx.fillRect(x,y,cellSize,cellSize); ctx.strokeStyle = '#00f2ff33'; ctx.strokeRect(x,y,cellSize,cellSize);
+                    ctx.fillStyle = this.state.foundCells.includes(cellID) ? '#00ff88' : '#ffffff';
+                    let fs = (cellSize / 2.8); if(val.length > 3) fs *= 0.7; if(val.length > 6) fs *= 0.6;
+                    ctx.font = `bold ${fs}px Orbitron`; ctx.textAlign = 'center'; ctx.textBaseline = 'middle';
+                    ctx.fillText(val, x + cellSize/2, y + cellSize/2);
+                });
+                const tex = new THREE.CanvasTexture(canvas);
+                tex.anisotropy = this.renderer.capabilities.getMaxAnisotropy();
+                return tex;
+            }
+
+            onCubeClick(e) {
+                if(!this.state.isPlaying || this.state.isPaused) return;
+
+                const rect = this.renderer.domElement.getBoundingClientRect();
+                const mouse = new THREE.Vector2(
+                    ((e.clientX - rect.left) / rect.width) * 2 - 1,
+                    -(((e.clientY - rect.top) / rect.height) * 2 - 1)
+                );
+
+                const rc = new THREE.Raycaster();
+                rc.setFromCamera(mouse, this.camera);
+
+                const intersects = rc.intersectObject(this.cube);
+                if(intersects.length > 0) {
+                    const hit = intersects[0];
+                    const faceIdx = hit.face.materialIndex;
+                    const dim = this.state.gridDim;
+
+                    // uv va de 0 a 1; ajustamos y para que el índice coincida con la grilla renderizada
+                    const cellIdx = Math.floor(hit.uv.x * dim) + Math.floor((1 - hit.uv.y) * dim) * dim;
+                    const cellID = `${faceIdx}-${cellIdx}`;
+                    const val = this.logicalCube[faceIdx][cellIdx];
+
+                    this.validate(val, cellID, faceIdx);
+                }
+            }
+
+            validate(val, cellID, faceIdx) {
+                const target = this.gameSequence[this.state.currentIndex % this.gameSequence.length];
+                if(val === target && !this.state.foundCells.includes(cellID)) {
+                    this.state.foundCells.push(cellID); this.state.currentIndex++;
+                    this.audio.playCorrect(); this.showFeedback(val, "#00ff88");
+                    this.cube.material[faceIdx].map = this.generateTex(faceIdx); this.updateHUD();
+                    if(this.state.foundCells.length >= (this.state.gridDim**2 * 6)) this.win();
+                } else {
+                    this.state.penalty += 3; this.audio.playWrong(); this.showFeedback("X", "#ff0055");
+                }
+            }
+
+            updateHUD() {
+                const t = this.gameSequence[this.state.currentIndex % this.gameSequence.length];
+                document.getElementById('hud-target').innerText = t;
+            }
+
+            win() {
+                this.state.isPlaying = false; this.audio.playWin();
+                this.saveRanking(document.getElementById('hud-time').innerText);
+                alert("MISIÓN COMPLETADA"); location.reload();
+            }
+
+            saveRanking(time) {
+                let r = JSON.parse(localStorage.getItem('cubo_rank_v33')) || [];
+                r.push({ name: this.state.playerName, diff: this.state.diff, grid: `${this.state.gridDim}x${this.state.gridDim}`, serie: this.state.serieKey, time: parseFloat(time) });
+                r.sort((a,b) => a.time - b.time); localStorage.setItem('cubo_rank_v33', JSON.stringify(r.slice(0, 10)));
+            }
+
+            loadRanking() {
+                const r = JSON.parse(localStorage.getItem('cubo_rank_v33')) || [];
+                document.getElementById('ranking-body').innerHTML = r.map((e) => `<tr><td>${e.name}</td><td>${e.diff}</td><td>${e.grid}</td><td>${e.serie}</td><td>${e.time}s</td></tr>`).join('');
+            }
+
+            pauseGame() { this.state.isPaused = true; document.getElementById('pause-screen').classList.remove('hidden'); }
+            resumeGame() { this.state.isPaused = false; document.getElementById('pause-screen').classList.add('hidden'); }
+            
+            animate() {
+                requestAnimationFrame(() => this.animate());
+                if(this.state.isPlaying && !this.state.isPaused) {
+                    const elapsed = (Date.now() - this.state.startTime)/1000 + this.state.penalty;
+                    let displayTime = elapsed;
+                    if(this.state.timeLimit > 0) {
+                        displayTime = this.state.timeLimit - elapsed;
+                        if(displayTime <= 0) { this.audio.playFail(); alert("TIEMPO AGOTADO"); location.reload(); }
+                        if(displayTime < 10) document.getElementById('timer-box').className = 'hud-box warning';
+                    }
+                    document.getElementById('hud-time').innerText = displayTime.toFixed(2);
+                }
+                this.controls.update(); this.renderer.render(this.scene, this.camera);
+            }
+
+            showFeedback(t, c) {
+                const f = document.getElementById('feedback'); f.innerText = t; f.style.color = c; f.style.opacity = 1;
+                setTimeout(() => f.style.opacity = 0, 400);
+            }
+        }
+        const game = new GameApp();
+    </script>
+</body>
+</html>

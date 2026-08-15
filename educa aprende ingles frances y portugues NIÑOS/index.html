@@ -1,0 +1,2595 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="theme-color" content="#1a0f3c">
+<title>🌍 WordQuest — Martín</title>
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Nunito:wght@400;700;800;900;1000&family=Fredoka+One&display=swap');
+:root{
+  --bg:#0d0b1e;--surface:#1a1535;--card:#231d4a;--card2:#2a2255;
+  --gold:#FFD700;--gold2:#FFA500;--green:#2ecc71;--red:#e74c3c;
+  --blue:#3498db;--purple:#9b59b6;--pink:#e91e8c;--cyan:#00bcd4;
+  --text:#f0eeff;--muted:#8b7fc7;--r:18px;--r2:12px;
+}
+*{margin:0;padding:0;box-sizing:border-box;-webkit-tap-highlight-color:transparent;touch-action:manipulation}
+html,body{height:100%;overflow:hidden;background:var(--bg);color:var(--text);font-family:'Nunito',sans-serif;user-select:none}
+/* ─ SCREENS ─ */
+.screen{position:absolute;inset:0;display:flex;flex-direction:column;align-items:center;overflow-y:auto;padding:16px 14px 90px;opacity:0;pointer-events:none;transition:opacity .35s;scroll-behavior:smooth}
+.screen.on{opacity:1;pointer-events:all}
+/* ─ BG STARS ─ */
+#stars{position:fixed;inset:0;overflow:hidden;pointer-events:none;z-index:0}
+.st{position:absolute;border-radius:50%;background:#fff;animation:twink var(--d) var(--dl) infinite alternate}
+@keyframes twink{from{opacity:.05;transform:scale(.7)}to{opacity:.9;transform:scale(1.1)}}
+/* ─ TOPBAR ─ */
+#topbar{position:fixed;top:0;left:0;right:0;height:58px;background:rgba(13,11,30,.92);backdrop-filter:blur(16px);-webkit-backdrop-filter:blur(16px);display:flex;align-items:center;justify-content:space-between;padding:0 14px;z-index:200;border-bottom:1px solid rgba(255,215,0,.18);display:none}
+.tb-logo{font-family:'Fredoka One',cursive;font-size:1.3em;color:var(--gold);letter-spacing:.5px}
+.tb-right{display:flex;gap:8px;align-items:center}
+.chip{display:flex;align-items:center;gap:4px;background:rgba(255,255,255,.08);border-radius:20px;padding:4px 10px;font-size:.8em;font-weight:800;color:var(--text)}
+/* ─ BOTTOM NAV ─ */
+#botnav{position:fixed;bottom:0;left:0;right:0;height:68px;background:rgba(13,11,30,.96);backdrop-filter:blur(16px);-webkit-backdrop-filter:blur(16px);display:flex;align-items:center;justify-content:space-around;border-top:1px solid rgba(255,215,0,.12);z-index:200;display:none}
+.bnb{display:flex;flex-direction:column;align-items:center;gap:2px;padding:6px 14px;border-radius:14px;cursor:pointer;color:var(--muted);font-size:.68em;font-weight:800;background:none;border:none;transition:all .2s}
+.bnb .bi{font-size:1.5em;transition:transform .2s}
+.bnb.act{color:var(--gold)}
+.bnb:active .bi{transform:scale(1.25)}
+/* ─ GLOBAL ELEMENTS ─ */
+.btn{display:inline-flex;align-items:center;justify-content:center;gap:7px;padding:13px 26px;border-radius:50px;border:none;cursor:pointer;font-family:'Nunito',sans-serif;font-size:1em;font-weight:900;transition:all .18s;position:relative;overflow:hidden}
+.btn::after{content:'';position:absolute;inset:0;background:rgba(255,255,255,.12);opacity:0;transition:opacity .15s}
+.btn:active::after{opacity:1}
+.btn:active{transform:scale(.93)}
+.btn-gold{background:linear-gradient(135deg,var(--gold),var(--gold2));color:#1a0f3c;box-shadow:0 4px 20px rgba(255,215,0,.35)}
+.btn-gold:hover{box-shadow:0 6px 28px rgba(255,215,0,.55);transform:translateY(-2px)}
+.btn-green{background:linear-gradient(135deg,#2ecc71,#27ae60);color:#fff;box-shadow:0 4px 18px rgba(46,204,113,.35)}
+.btn-blue{background:linear-gradient(135deg,var(--blue),#2980b9);color:#fff}
+.btn-ghost{background:rgba(255,255,255,.08);color:var(--text);border:2px solid rgba(255,255,255,.15)}
+.btn-xs{padding:8px 16px;font-size:.85em}
+.btn-sm{padding:10px 20px;font-size:.9em}
+.btn-w{width:100%;max-width:340px}
+.card{background:var(--card);border-radius:var(--r);padding:20px;border:1.5px solid rgba(255,255,255,.06);box-shadow:0 8px 32px rgba(0,0,0,.4)}
+.section-title{font-family:'Fredoka One',cursive;font-size:1.45em;color:var(--gold);margin-bottom:14px;text-align:center}
+/* ─ LOGIN ─ */
+#loginScreen{justify-content:center;gap:0;padding-bottom:20px}
+.login-planet{font-size:5.5em;animation:bob 2.8s ease-in-out infinite;display:block;text-align:center;margin-bottom:4px}
+@keyframes bob{0%,100%{transform:translateY(0) rotate(-3deg)}50%{transform:translateY(-14px) rotate(3deg)}}
+.login-title{font-family:'Fredoka One',cursive;font-size:2.5em;color:var(--gold);text-align:center;line-height:1.1}
+.login-sub{color:var(--muted);font-size:.95em;text-align:center;margin:6px 0 22px;line-height:1.5}
+.input-block{width:100%;max-width:340px;margin:8px 0}
+.input-block label{display:block;font-size:.78em;font-weight:800;color:var(--gold);text-transform:uppercase;letter-spacing:.6px;margin-bottom:5px}
+.input-block input{width:100%;padding:13px 16px;background:rgba(255,255,255,.08);border:2px solid rgba(255,255,255,.12);border-radius:var(--r2);color:var(--text);font-family:'Nunito',sans-serif;font-size:1em;font-weight:700;transition:border-color .2s}
+.input-block input:focus{outline:none;border-color:var(--gold);background:rgba(255,255,255,.12)}
+.lang-row{display:flex;gap:8px;width:100%;max-width:340px;margin:8px 0}
+.lang-tile{flex:1;padding:12px 6px;border-radius:var(--r2);border:2.5px solid rgba(255,255,255,.12);background:rgba(255,255,255,.06);cursor:pointer;text-align:center;font-family:'Nunito',sans-serif;font-weight:800;font-size:.88em;color:var(--muted);transition:all .2s;line-height:1.3}
+.lang-tile .lf{font-size:1.7em;display:block;margin-bottom:3px}
+.lang-tile.sel{border-color:var(--gold);background:rgba(255,215,0,.15);color:var(--gold)}
+/* ─ HOME ─ */
+#homeScreen{padding-top:72px;gap:0;align-items:stretch}
+.hero-banner{background:linear-gradient(135deg,rgba(155,89,182,.2),rgba(52,152,219,.2));border:1.5px solid rgba(255,215,0,.25);border-radius:var(--r);padding:16px 18px;display:flex;align-items:center;gap:14px;margin-bottom:14px}
+.hero-avatar{font-size:2.8em;flex-shrink:0}
+.hero-name{font-family:'Fredoka One',cursive;font-size:1.4em;color:var(--gold)}
+.hero-sub{font-size:.82em;color:var(--muted)}
+.xp-wrap{margin-bottom:14px}
+.xp-label{display:flex;justify-content:space-between;font-size:.75em;font-weight:800;color:var(--muted);margin-bottom:5px}
+.xp-bar{height:12px;background:rgba(255,255,255,.08);border-radius:20px;overflow:hidden}
+.xp-fill{height:100%;background:linear-gradient(90deg,var(--purple),var(--gold));border-radius:20px;transition:width .9s cubic-bezier(.34,1.56,.64,1)}
+.stats-row{display:flex;gap:8px;margin-bottom:18px;flex-wrap:wrap}
+.stat-pill{flex:1;min-width:70px;background:var(--card);border-radius:var(--r2);padding:10px 8px;text-align:center;border:1.5px solid rgba(255,255,255,.06)}
+.stat-pill .sv{font-family:'Fredoka One',cursive;font-size:1.5em;color:var(--gold)}
+.stat-pill .sl{font-size:.68em;color:var(--muted);font-weight:800;text-transform:uppercase}
+.missions-title{font-family:'Fredoka One',cursive;font-size:1.1em;color:var(--text);margin-bottom:10px}
+.missions-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:10px}
+@media(min-width:500px){.missions-grid{grid-template-columns:repeat(3,1fr)}}
+@media(min-width:768px){.missions-grid{grid-template-columns:repeat(4,1fr)}}
+.mis-card{
+  background:var(--card);border-radius:var(--r);padding:16px 12px;
+  text-align:center;cursor:pointer;border:2.5px solid transparent;
+  transition:all .22s;position:relative;overflow:hidden;
+}
+.mis-card.unlocked{border-color:rgba(255,255,255,.18)}
+.mis-card.unlocked:hover{border-color:var(--gold);transform:translateY(-4px);box-shadow:0 8px 22px rgba(255,215,0,.3)}
+.mis-card.done{border-color:var(--green);box-shadow:0 0 0 2px rgba(46,204,113,.25)}
+.mis-card.done-all{
+  border-color:var(--gold);
+  background:linear-gradient(145deg,rgba(255,215,0,.12),rgba(255,165,0,.06));
+  box-shadow:0 0 18px rgba(255,215,0,.3);
+}
+.mis-card.locked{opacity:.35;cursor:not-allowed;filter:grayscale(.4)}
+.mis-card .mc-icon{font-size:2.5em;margin-bottom:6px;display:block;filter:drop-shadow(0 2px 4px rgba(0,0,0,.3))}
+.mis-card .mc-name{font-weight:900;font-size:.88em;line-height:1.2;color:#fff}
+.mis-card .mc-lang{font-size:.68em;color:rgba(255,255,255,.55);margin-top:3px}
+.mis-card .mc-stars{font-size:.85em;margin-top:5px;letter-spacing:1px}
+.mc-best{font-size:.68em;color:rgba(255,255,255,.6);margin-top:2px}
+.mc-pb{font-size:.68em;color:var(--cyan);font-weight:800;margin-top:3px;display:block}
+.lock-badge{position:absolute;top:8px;right:8px;font-size:.78em;opacity:.85;font-weight:800}
+
+/* Level indicator chip — shown top-left of mission card */
+.mc-level-chip{
+  position:absolute;top:7px;left:7px;
+  display:flex;align-items:center;gap:3px;
+  background:rgba(0,0,0,.4);border:1px solid rgba(255,255,255,.2);
+  border-radius:20px;padding:2px 7px;font-size:.62em;font-weight:900;color:#fff;
+  backdrop-filter:blur(4px);
+}
+.mc-level-chip.lv1{border-color:rgba(46,204,113,.6);color:#2ecc71}
+.mc-level-chip.lv2{border-color:rgba(52,152,219,.6);color:#3498db}
+.mc-level-chip.lv3{border-color:rgba(255,165,0,.6);color:#FFA500}
+
+/* Activity type dots row inside mission card */
+.mc-types-row{
+  display:flex;justify-content:center;gap:5px;margin-top:8px;flex-wrap:wrap;
+}
+.mc-type-dot{
+  width:24px;height:24px;border-radius:50%;
+  border:2px solid rgba(255,255,255,.2);
+  display:flex;align-items:center;justify-content:center;
+  font-size:.72em;background:rgba(255,255,255,.06);
+  transition:all .2s;
+}
+.mc-type-dot.done{
+  background:rgba(46,204,113,.3);border-color:var(--green);
+}
+.mc-type-dot.done.perfect{
+  background:rgba(255,215,0,.25);border-color:var(--gold);
+}
+
+/* Mission level-complete badge — shown inside card when all 5 types done */
+.mc-level-complete{
+  margin-top:8px;
+  display:inline-flex;align-items:center;gap:4px;
+  background:linear-gradient(135deg,rgba(255,215,0,.25),rgba(255,165,0,.15));
+  border:1.5px solid rgba(255,215,0,.6);
+  border-radius:20px;padding:3px 10px;
+  font-size:.68em;font-weight:900;color:var(--gold);
+  animation:shimmer 2s ease-in-out infinite;
+}
+@keyframes shimmer{0%,100%{opacity:1}50%{opacity:.75}}
+
+/* ─ GAME ─ */
+#gameScreen{padding-top:70px;align-items:stretch}
+.game-hdr{display:flex;align-items:center;gap:8px;margin-bottom:14px}
+.game-level-badge{
+  display:flex;align-items:center;gap:5px;
+  background:rgba(255,255,255,.1);border:1.5px solid rgba(255,255,255,.2);
+  border-radius:20px;padding:4px 10px;font-size:.75em;font-weight:900;
+  color:#fff;flex-shrink:0;white-space:nowrap;
+}
+.game-level-badge.lv1{background:rgba(46,204,113,.15);border-color:rgba(46,204,113,.5);color:#2ecc71}
+.game-level-badge.lv2{background:rgba(52,152,219,.15);border-color:rgba(52,152,219,.5);color:#74b9ff}
+.game-level-badge.lv3{background:rgba(255,165,0,.15);border-color:rgba(255,165,0,.5);color:#FFA500}
+.prog-wrap{flex:1}
+.prog-bar{height:8px;background:rgba(255,255,255,.1);border-radius:20px;overflow:hidden}
+.prog-fill{height:100%;background:linear-gradient(90deg,var(--cyan),var(--purple));border-radius:20px;transition:width .4s ease}
+.q-cnt{font-size:.78em;font-weight:800;color:var(--muted);white-space:nowrap}
+.timer-wrap{position:relative;width:46px;height:46px;flex-shrink:0}
+.timer-wrap svg{transform:rotate(-90deg)}
+.timer-num{position:absolute;inset:0;display:flex;align-items:center;justify-content:center;font-size:.85em;font-weight:900;color:var(--gold)}
+/* quiz card */
+.quiz-card{background:var(--card);border-radius:var(--r);padding:24px 18px;border:2px solid rgba(255,255,255,.07);text-align:center;margin-bottom:12px;box-shadow:0 10px 36px rgba(0,0,0,.45)}
+.q-langbadge{display:inline-flex;align-items:center;gap:5px;background:rgba(255,255,255,.08);border-radius:20px;padding:4px 12px;font-size:.75em;font-weight:800;color:var(--cyan);margin-bottom:12px}
+.q-emoji{font-size:4em;display:block;margin-bottom:8px;animation:popIn .35s cubic-bezier(.34,1.56,.64,1)}
+@keyframes popIn{from{transform:scale(0);opacity:0}to{transform:scale(1);opacity:1}}
+.q-prompt{font-size:.8em;font-weight:800;color:var(--gold);text-transform:uppercase;letter-spacing:.7px;margin-bottom:6px}
+.q-word{font-family:'Fredoka One',cursive;font-size:2.1em;color:var(--text);line-height:1.1;margin-bottom:4px}
+.q-hint{font-size:.82em;color:var(--muted);font-style:italic;margin-bottom:12px;min-height:20px}
+.q-speak{display:inline-flex;align-items:center;justify-content:center;width:44px;height:44px;background:rgba(0,188,212,.15);border:2px solid rgba(0,188,212,.4);border-radius:50%;cursor:pointer;font-size:1.3em;transition:all .2s;margin-bottom:10px}
+.q-speak:hover{background:rgba(0,188,212,.3);transform:scale(1.1)}
+.q-speak.speaking{animation:speakPulse .5s infinite alternate}
+@keyframes speakPulse{from{box-shadow:0 0 0 0 rgba(0,188,212,.5)}to{box-shadow:0 0 0 8px rgba(0,188,212,0)}}
+/* options */
+.opts{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+.opt{padding:14px 10px;border-radius:var(--r2);border:2.5px solid rgba(255,255,255,.18);background:rgba(255,255,255,.09);cursor:pointer;font-family:'Nunito',sans-serif;font-size:.95em;font-weight:800;color:#fff;transition:all .2s;text-align:center;line-height:1.3;text-shadow:0 1px 3px rgba(0,0,0,.4)}
+.opt:hover{background:rgba(255,255,255,.14);border-color:rgba(255,255,255,.25)}
+.opt.ok{background:rgba(46,204,113,.2);border-color:var(--green);color:var(--green);animation:optOk .3s ease}
+.opt.bad{background:rgba(231,76,60,.2);border-color:var(--red);color:var(--red);animation:optBad .3s ease}
+@keyframes optOk{0%,100%{transform:scale(1)}50%{transform:scale(1.07)}}
+@keyframes optBad{0%,100%{transform:translateX(0)}25%{transform:translateX(-5px)}75%{transform:translateX(5px)}}
+/* feedback */
+.feedback{display:none;padding:14px 16px;border-radius:var(--r2);margin-top:10px;display:flex;align-items:flex-start;gap:10px;animation:slideUp .25s ease}
+.feedback.on{display:flex}
+.feedback.ok{background:rgba(46,204,113,.12);border:2px solid rgba(46,204,113,.4)}
+.feedback.bad{background:rgba(231,76,60,.1);border:2px solid rgba(231,76,60,.3)}
+.fb-icon{font-size:1.6em;flex-shrink:0}
+.fb-body strong{font-size:.95em;font-weight:900}
+.fb-body p{font-size:.8em;color:var(--muted);margin-top:2px}
+.fb-next{margin-left:auto;flex-shrink:0}
+@keyframes slideUp{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:translateY(0)}}
+/* ─ RESULT ─ */
+#resultScreen{justify-content:center;padding-top:74px}
+.res-trophy{font-size:5em;text-align:center;animation:bounceIn .6s cubic-bezier(.34,1.56,.64,1);display:block}
+@keyframes bounceIn{from{transform:scale(0) rotate(-15deg);opacity:0}to{transform:scale(1) rotate(0);opacity:1}}
+.res-title{font-family:'Fredoka One',cursive;font-size:2em;text-align:center;margin:8px 0}
+.stars-row{display:flex;justify-content:center;gap:6px;font-size:2.2em;margin:8px 0}
+.s1{animation:sp .4s .1s cubic-bezier(.34,1.56,.64,1) both}
+.s2{animation:sp .4s .28s cubic-bezier(.34,1.56,.64,1) both}
+.s3{animation:sp .4s .46s cubic-bezier(.34,1.56,.64,1) both}
+@keyframes sp{from{transform:scale(0) rotate(-25deg);opacity:0}to{transform:scale(1) rotate(0);opacity:1}}
+.res-stats{display:flex;gap:10px;flex-wrap:wrap;justify-content:center;margin:14px 0}
+.res-stat{background:var(--card);border-radius:var(--r2);padding:12px 16px;text-align:center;min-width:90px;border:1.5px solid rgba(255,255,255,.06)}
+.res-stat .rv{font-family:'Fredoka One',cursive;font-size:1.8em;color:var(--gold)}
+.res-stat .rl{font-size:.65em;color:var(--muted);font-weight:800;text-transform:uppercase}
+.badge-pop{display:flex;align-items:center;gap:12px;background:linear-gradient(135deg,rgba(255,215,0,.12),rgba(155,89,182,.12));border:2px solid rgba(255,215,0,.4);border-radius:var(--r2);padding:14px 16px;margin:7px 0;width:100%;max-width:380px;animation:badgePop .5s .5s cubic-bezier(.34,1.56,.64,1) both}
+@keyframes badgePop{from{transform:translateX(50px);opacity:0}to{transform:translateX(0);opacity:1}}
+.bp-icon{font-size:2.4em;flex-shrink:0}
+.bp-text strong{color:var(--gold);font-size:.95em}
+.bp-text p{font-size:.8em;color:var(--muted)}
+.res-btns{display:flex;gap:10px;flex-wrap:wrap;justify-content:center;margin-top:10px}
+/* ─ BADGES/RANKING ─ */
+#badgesScreen{padding-top:72px;align-items:stretch}
+.badges-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:9px;margin-bottom:24px}
+@media(min-width:420px){.badges-grid{grid-template-columns:repeat(4,1fr)}}
+@media(min-width:600px){.badges-grid{grid-template-columns:repeat(5,1fr)}}
+.b-tile{background:var(--card);border-radius:var(--r2);padding:14px 8px;text-align:center;border:2px solid rgba(255,255,255,.06);transition:all .25s}
+.b-tile.earned{border-color:var(--gold);box-shadow:0 0 14px rgba(255,215,0,.25)}
+.b-tile.earned:hover{transform:translateY(-3px)}
+.b-tile.locked{filter:grayscale(1);opacity:.35}
+.b-tile .bi2{font-size:1.9em}
+.b-tile .bn{font-size:.7em;font-weight:800;margin-top:5px;color:var(--text)}
+.b-tile .bd{font-size:.62em;color:var(--muted);margin-top:2px}
+.rank-list{display:flex;flex-direction:column;gap:8px}
+.rank-row{display:flex;align-items:center;gap:12px;background:var(--card);border-radius:var(--r2);padding:12px 14px;border:1.5px solid rgba(255,255,255,.06)}
+.rank-row.me{border-color:var(--gold);background:rgba(255,215,0,.07)}
+.rank-pos{font-family:'Fredoka One',cursive;font-size:1.5em;width:32px;text-align:center}
+.rank-name{flex:1;font-weight:800}
+.rank-xp{font-weight:900;color:var(--gold);font-size:.9em}
+/* ─ CONFETTI ─ */
+.conf{position:fixed;width:9px;height:9px;pointer-events:none;z-index:9999;animation:confFall var(--d) ease-in forwards}
+@keyframes confFall{0%{transform:translateY(-10px) rotate(0deg);opacity:1}100%{transform:translateY(102vh) rotate(600deg) translateX(var(--tx));opacity:0}}
+/* ─ FLOAT ANIM ─ */
+.floatxp{position:fixed;font-family:'Fredoka One',cursive;font-size:1.7em;color:var(--gold);pointer-events:none;z-index:9999;animation:fxp .8s ease forwards}
+@keyframes fxp{0%{opacity:1;transform:translateY(0) scale(1)}100%{opacity:0;transform:translateY(-70px) scale(1.4)}}
+/* ─ NOTIF ─ */
+.notif{position:fixed;top:68px;left:50%;transform:translateX(-50%) translateY(-20px);background:var(--card2);border-radius:50px;padding:10px 20px;font-weight:800;font-size:.9em;z-index:9999;border:2px solid;animation:notifIn .3s ease forwards;white-space:nowrap;pointer-events:none}
+@keyframes notifIn{from{opacity:0;transform:translateX(-50%) translateY(-30px)}to{opacity:1;transform:translateX(-50%) translateY(0)}}
+/* ─ TIME WARN ─ */
+.timewarn{position:fixed;bottom:76px;left:50%;transform:translateX(-50%);background:rgba(231,76,60,.15);border:2px solid var(--red);border-radius:50px;padding:9px 20px;font-weight:800;font-size:.85em;color:var(--red);z-index:190;display:none;animation:warnPulse 1.2s infinite alternate}
+@keyframes warnPulse{from{opacity:.7}to{opacity:1}}
+/* ─ VOICE BTN en resultado ─ */
+.listen-hint{display:flex;align-items:center;gap:8px;color:var(--cyan);font-size:.82em;font-weight:700;margin:8px 0;justify-content:center;cursor:pointer}
+/* ─ PHRASE MODE ─ */
+.phrase-card{background:var(--card2);border-radius:var(--r);padding:20px;border:2px solid rgba(255,215,0,.2);text-align:center;margin-bottom:10px}
+.phrase-es{font-size:1.15em;color:var(--muted);margin-bottom:8px}
+.phrase-target{font-family:'Fredoka One',cursive;font-size:1.7em;color:var(--gold);letter-spacing:.5px}
+.phrase-hint{font-size:.82em;color:var(--muted);margin-top:5px}
+/* tab inside badges */
+.tab-row{display:flex;gap:6px;margin-bottom:16px}
+.tab{flex:1;padding:9px;border-radius:var(--r2);border:2px solid rgba(255,255,255,.1);background:rgba(255,255,255,.05);cursor:pointer;font-weight:800;font-size:.85em;color:var(--muted);transition:all .2s;text-align:center}
+.tab.on{border-color:var(--gold);background:rgba(255,215,0,.15);color:var(--gold)}
+
+/* ── v3 additions: modals, admin, buttons, session time ── */
+.modal-overlay{position:fixed;inset:0;display:none;align-items:center;justify-content:center;background:rgba(0,0,0,.6);z-index:50;padding:18px}
+.modal-overlay.on{display:flex}
+.modal{width:100%;max-width:520px;background:linear-gradient(180deg, rgba(35,29,74,.98), rgba(26,21,53,.98));border:1px solid rgba(255,255,255,.12);border-radius:18px;box-shadow:0 18px 70px rgba(0,0,0,.45);overflow:hidden}
+.modal-h{display:flex;align-items:center;justify-content:space-between;padding:14px 16px;border-bottom:1px solid rgba(255,255,255,.08)}
+.modal-h strong{font-size:1.05em}
+.modal-b{padding:14px 16px}
+.modal-f{display:flex;gap:10px;justify-content:flex-end;padding:12px 16px;border-top:1px solid rgba(255,255,255,.08)}
+.btn{cursor:pointer}
+.btn-mini{padding:8px 10px;border-radius:12px;font-weight:900}
+.btn-red{background:linear-gradient(180deg,#ff4d4d,#c0392b);color:#fff;border:none}
+.btn-blue{background:linear-gradient(180deg,#4da3ff,#2b6fc0);color:#fff;border:none}
+.btn-dark{background:rgba(255,255,255,.08);color:#fff;border:1px solid rgba(255,255,255,.14)}
+.pillrow{display:flex;gap:10px;flex-wrap:wrap;margin-top:10px}
+.pill{padding:8px 10px;border-radius:999px;background:rgba(255,255,255,.08);border:1px solid rgba(255,255,255,.12);font-weight:900;font-size:.9em}
+.small{opacity:.86;font-size:.92em;line-height:1.35}
+.hr{height:1px;background:rgba(255,255,255,.08);margin:12px 0}
+.kbd{font-family:ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace;background:rgba(255,255,255,.08);padding:2px 6px;border-radius:8px;border:1px solid rgba(255,255,255,.12)}
+.hbtns{display:flex;gap:10px;flex-wrap:wrap;margin:10px 0 4px}
+.hbtns .btn{flex:1;min-width:120px}
+.locknote{margin-top:10px;padding:10px 12px;border-radius:14px;background:rgba(231,76,60,.12);border:1px solid rgba(231,76,60,.25);display:none}
+.locknote.on{display:block}
+.mtype-grid{display:grid;grid-template-columns:1fr;gap:10px}
+.mtype{
+  display:flex;gap:14px;align-items:center;justify-content:space-between;
+  padding:16px 18px;border-radius:18px;
+  background:rgba(255,255,255,.08);border:2px solid rgba(255,255,255,.15);
+  transition:all .18s;cursor:pointer;
+}
+.mtype:not(.locked):hover{background:rgba(255,255,255,.14);border-color:rgba(255,215,0,.5);transform:translateX(3px);}
+.mtype .left{display:flex;gap:14px;align-items:center}
+.mtype .mi{font-size:1.9em;flex-shrink:0}
+.mtype .mt-name{font-weight:900;font-size:1.05em;margin-bottom:3px}
+.mtype .mt-sub{font-size:.85em;opacity:.78;line-height:1.35}
+.mtype.locked{opacity:.45;cursor:not-allowed}
+.mtype.done-type{border-color:rgba(46,204,113,.5);background:rgba(46,204,113,.07);}
+.mtype-done-badge{
+  font-size:1.3em;flex-shrink:0;
+  background:rgba(46,204,113,.18);
+  border:1.5px solid rgba(46,204,113,.4);
+  border-radius:50%;width:32px;height:32px;
+  display:flex;align-items:center;justify-content:center;
+}
+.order-area{display:flex;gap:10px;flex-wrap:wrap;margin-top:10px}
+.order-slot{
+  min-height:52px;padding:12px 16px;border-radius:14px;
+  background:rgba(0,0,0,.28);
+  border:2px dashed rgba(255,255,255,.35);
+  color:rgba(255,255,255,.85);font-size:1em;font-weight:700;
+  line-height:1.5;letter-spacing:.02em;
+}
+.token{
+  padding:11px 16px;border-radius:14px;
+  background:rgba(255,255,255,.22);
+  border:2px solid rgba(255,255,255,.55);
+  font-weight:900;font-size:1.05em;color:#fff;
+  text-shadow:0 1px 4px rgba(0,0,0,.5);
+  box-shadow:0 2px 8px rgba(0,0,0,.35);
+  transition:all .15s;
+}
+.token:not(:disabled):hover{background:rgba(255,255,255,.34);border-color:#fff;transform:translateY(-2px);}
+.token.sel{background:rgba(255,215,0,.35);border-color:var(--gold);color:var(--gold);}
+.token:disabled{background:rgba(255,255,255,.07);border-color:rgba(255,255,255,.12);color:rgba(255,255,255,.3);text-shadow:none;}
+.opt.emoji{font-size:1.7em;line-height:1}
+.top-schip{min-width:92px;text-align:center}
+
+/* ── SPEED MODE ── */
+.speed-mode-active .quiz-card{
+  border-color:rgba(255,165,0,.7)!important;
+  box-shadow:0 0 0 3px rgba(255,165,0,.25),0 10px 36px rgba(0,0,0,.45)!important;
+  animation:speedPulse 1.2s ease-in-out infinite;
+}
+@keyframes speedPulse{0%,100%{box-shadow:0 0 0 3px rgba(255,165,0,.2),0 10px 36px rgba(0,0,0,.45)}50%{box-shadow:0 0 0 6px rgba(255,165,0,.4),0 10px 36px rgba(0,0,0,.45)}}
+.speed-banner{
+  display:flex;align-items:center;justify-content:center;gap:8px;
+  background:linear-gradient(135deg,rgba(255,165,0,.2),rgba(255,69,0,.15));
+  border:2px solid rgba(255,165,0,.5);border-radius:50px;
+  padding:6px 18px;margin-bottom:10px;font-weight:900;font-size:.9em;color:#FFA500;
+  animation:speedPulse 1s ease-in-out infinite;
+}
+/* ── PERSONAL BEST ── */
+.pb-banner{
+  display:flex;align-items:center;gap:12px;
+  background:linear-gradient(135deg,rgba(255,215,0,.18),rgba(255,165,0,.12));
+  border:2px solid rgba(255,215,0,.55);
+  border-radius:var(--r2);
+  padding:14px 16px;margin:10px 0;
+  width:100%;max-width:380px;
+  animation:pbPop .6s .3s cubic-bezier(.34,1.56,.64,1) both;
+}
+@keyframes pbPop{from{transform:scale(0) rotate(-6deg);opacity:0}to{transform:scale(1) rotate(0);opacity:1}}
+.pb-icon{font-size:2.2em;flex-shrink:0}
+.pb-text strong{color:var(--gold);font-size:.95em;display:block}
+.pb-text span{font-size:.78em;color:var(--muted)}
+.pb-delta{font-family:'Fredoka One',cursive;color:var(--green);font-size:1.1em;margin-left:auto;flex-shrink:0}
+
+/* new personal best on mission card */
+.mc-pb{font-size:.68em;color:var(--cyan);font-weight:800;margin-top:3px;display:block}
+
+/* ── CATEGORY PILLS on result ── */
+.res-cat-pill{
+  display:inline-flex;align-items:center;gap:6px;
+  background:rgba(255,255,255,.07);border:1.5px solid rgba(255,255,255,.12);
+  border-radius:50px;padding:5px 12px;font-size:.8em;font-weight:800;
+  color:var(--muted);margin-bottom:10px;
+}
+
+</style>
+</head>
+<body>
+<div id="stars"></div>
+<div class="timewarn" id="tw">⏰ ¡5 minuticos más, Martín!</div>
+
+<!-- TOP BAR -->
+<div id="topbar">
+  <div class="tb-logo">🌍 WordQuest</div>
+  <div class="tb-right">
+    <div class="chip">⭐<span id="tbXP">0</span></div>
+    <div class="chip">🔥<span id="tbStreak">0</span></div>
+    <div class="chip top-schip">⏳<span id="tbTime">15:00</span></div>
+    <div class="chip">💰<span id="tbCoins">0</span></div>
+  </div>
+</div>
+
+<!-- BOTTOM NAV -->
+<div id="botnav">
+  <button class="bnb act" id="nb0" onclick="nav(0)"><span class="bi">🏠</span>Inicio</button>
+  <button class="bnb" id="nb1" onclick="nav(1)"><span class="bi">🎮</span>Jugar</button>
+  <button class="bnb" id="nb2" onclick="nav(2)"><span class="bi">🏅</span>Insignias</button>
+  <button class="bnb" id="nb3" onclick="nav(3)"><span class="bi">🏆</span>Ranking</button>
+</div>
+
+<!-- ══ LOGIN ══ -->
+<div id="loginScreen" class="screen on">
+  <span class="login-planet">🌍</span>
+  <div class="login-title">WordQuest</div>
+  <div class="login-sub">Aprende inglés y francés<br>¡jugando y ganando estrellitas! 🌟</div>
+
+  <datalist id="dl"></datalist>
+  <div class="input-block">
+    <label>¿Cómo te llamas?</label>
+    <input id="iName" type="text" list="dl" placeholder="Ej: Martín" maxlength="18" autocomplete="off">
+  </div>
+
+  <div style="width:100%;max-width:340px;margin:8px 0">
+    <label style="display:block;font-size:.78em;font-weight:800;color:var(--gold);text-transform:uppercase;letter-spacing:.6px;margin-bottom:6px">¿Qué idioma hoy?</label>
+    <div class="lang-row">
+      <div class="lang-tile sel" data-l="en" onclick="selL('en')"><span class="lf">🇬🇧</span>Inglés</div>
+      <div class="lang-tile" data-l="fr" onclick="selL('fr')"><span class="lf">🇫🇷</span>Francés</div>
+      <div class="lang-tile" data-l="pt" onclick="selL('pt')"><span class="lf">🇧🇷</span>Portugués</div>
+      <div class="lang-tile" data-l="both" onclick="selL('both')"><span class="lf">⚡</span>Ambos</div>
+    </div>
+  </div>
+
+  <div style="width:100%;max-width:340px;margin:6px 0 18px">
+    <label style="display:block;font-size:.78em;font-weight:800;color:var(--gold);text-transform:uppercase;letter-spacing:.6px;margin-bottom:6px">Dificultad</label>
+    <div class="lang-row">
+      <div class="lang-tile sel" data-d="easy" onclick="selD('easy')"><span class="lf">🐣</span>Fácil</div>
+      <div class="lang-tile" data-d="medium" onclick="selD('medium')"><span class="lf">🦊</span>Medio</div>
+      <div class="lang-tile" data-d="hard" onclick="selD('hard')"><span class="lf">🦁</span>Difícil</div>
+    </div>
+  </div>
+  <button class="btn btn-gold btn-w" onclick="doLogin()">🚀 ¡Comenzar Aventura!</button>
+  <p style="font-size:.76em;color:var(--muted);margin-top:12px;text-align:center">Tu progreso se guarda automáticamente ✨</p>
+</div>
+
+<!-- ══ HOME ══ -->
+<div id="homeScreen" class="screen">
+  <div class="hero-banner">
+    <div class="hero-avatar" id="hAvatar">🧒</div>
+    <div>
+      <div class="hero-name">¡Hola, <span id="hName">Martín</span>! 👋</div>
+      <div class="hero-sub" id="hSub">Nivel 1 · Explorador</div>
+    </div>
+  </div>
+  <div class="xp-wrap">
+    <div class="xp-label"><span>⭐ <span id="hXP">0</span> XP</span><span>Prox nivel: <span id="hXPN">100</span></span></div>
+    <div class="xp-bar"><div class="xp-fill" id="hXPbar" style="width:0%"></div></div>
+  </div>
+  <div class="stats-row">
+    <div class="stat-pill"><div class="sv" id="hStreak">0</div><div class="sl">🔥 días</div></div>
+    <div class="stat-pill"><div class="sv" id="hBadges">0</div><div class="sl">🏅 insignias</div></div>
+    <div class="stat-pill"><div class="sv" id="hCoins">0</div><div class="sl">💰 monedas</div></div>
+    <div class="stat-pill"><div class="sv" id="hWords">0</div><div class="sl">📝 palabras</div></div>
+  </div>
+  <div class="hbtns">
+    <button class="btn btn-dark btn-w" onclick="openHelp()">❓ ¿Cómo jugar?</button>
+    <button class="btn btn-dark btn-w" onclick="openAdult()">🛡️ Adultos</button>
+    <button class="btn btn-dark btn-w" onclick="logout()">🚪 Cambiar jugador</button>
+  </div>
+  <div class="locknote" id="lockNote"></div>
+  <div class="missions-title">🎯 Elige tu misión:</div>
+  <div class="missions-grid" id="mgrid"></div>
+  <div style="height:10px"></div>
+</div>
+
+<!-- ══ GAME ══ -->
+<div id="gameScreen" class="screen">
+  <div class="game-hdr">
+    <button class="btn btn-ghost btn-xs" onclick="exitMission()" style="padding:7px 11px">✖</button>
+    <button class="btn btn-ghost btn-xs" onclick="goHomeSafe()" style="padding:7px 11px">🏠</button>
+    <div class="prog-wrap">
+      <div class="prog-bar"><div class="prog-fill" id="pgFill" style="width:0%"></div></div>
+    </div>
+    <div class="q-cnt" id="qCnt">1/8</div>
+    <div class="timer-wrap">
+      <svg width="46" height="46" viewBox="0 0 46 46">
+        <circle cx="23" cy="23" r="19" fill="none" stroke="rgba(255,255,255,.1)" stroke-width="4"/>
+        <circle id="timerC" cx="23" cy="23" r="19" fill="none" stroke="#FFD700" stroke-width="4" stroke-linecap="round" stroke-dasharray="119" stroke-dashoffset="0" style="transition:stroke-dashoffset .4s linear"/>
+      </svg>
+      <div class="timer-num" id="timerN">15</div>
+    </div>
+  </div>
+  <div class="quiz-card">
+    <div class="q-langbadge" id="qBadge">🇬🇧 English</div>
+    <span class="q-emoji" id="qEmoji">🌈</span>
+    <div class="q-prompt" id="qPrompt">¿Cómo se dice en inglés?</div>
+    <div class="q-word" id="qWord">word</div>
+    <div class="q-hint" id="qHint"></div>
+    <div class="q-speak" id="qSpeak" onclick="speakNow()" title="Escuchar">🔊</div>
+    <div class="opts" id="opts"></div>
+  </div>
+  <div class="feedback" id="fbBox">
+    <span class="fb-icon" id="fbIcon">✅</span>
+    <div class="fb-body"><strong id="fbTitle">¡Correcto!</strong><p id="fbMsg">+10 XP</p></div>
+    <button class="btn btn-gold btn-xs fb-next" onclick="nextQ()">Siguiente →</button>
+  </div>
+</div>
+
+<!-- ══ RESULT ══ -->
+<div id="resultScreen" class="screen">
+  <span class="res-trophy" id="rTrophy">🏆</span>
+  <div class="res-title" id="rTitle">¡Increíble!</div>
+  <div class="stars-row"><span class="s1" id="rS1">☆</span><span class="s2" id="rS2">☆</span><span class="s3" id="rS3">☆</span></div>
+  <div class="res-stats">
+    <div class="res-stat"><div class="rv" id="rOk">0</div><div class="rl">Correctas</div></div>
+    <div class="res-stat"><div class="rv" id="rXP">+0</div><div class="rl">XP</div></div>
+    <div class="res-stat"><div class="rv" id="rTime">0s</div><div class="rl">Tiempo</div></div>
+    <div class="res-stat"><div class="rv" id="rCoins">+0</div><div class="rl">Monedas</div></div>
+  </div>
+  <div id="rBadges" style="width:100%;max-width:380px"></div>
+  <div id="rPB" style="width:100%;max-width:380px"></div>
+  <div class="res-btns">
+    <button class="btn btn-gold btn-sm" onclick="retry()">🔄 Repetir</button>
+    <button class="btn btn-green btn-sm" onclick="nav(0)">🏠 Inicio</button>
+  </div>
+</div>
+
+<!-- ══ BADGES / RANKING ══ -->
+<div id="badgesScreen" class="screen">
+  <div class="tab-row">
+    <div class="tab on" id="tabB" onclick="switchTab('b')">🏅 Insignias</div>
+    <div class="tab" id="tabR" onclick="switchTab('r')">🏆 Ranking</div>
+  </div>
+  <div id="badgesContent"></div>
+  <div id="rankingContent" style="display:none"></div>
+</div>
+
+
+<!-- ══ MODALS (v3) ══ -->
+<div class="modal-overlay" id="modalExit">
+  <div class="modal">
+    <div class="modal-h"><strong>Salir de la misión</strong><button class="btn btn-dark btn-mini" onclick="closeModal('modalExit')">Cerrar</button></div>
+    <div class="modal-b">
+      <div class="small">¿Salir ahora? <strong>Esta misión no se contará</strong> y el temporizador se detendrá.</div>
+      <div class="hr"></div>
+      <div class="small">Si estás saturado o necesitas hacer otra cosa, salir está bien. Puedes volver luego.</div>
+    </div>
+    <div class="modal-f">
+      <button class="btn btn-dark btn-w" onclick="closeModal('modalExit')">Cancelar</button>
+      <button class="btn btn-red btn-w" onclick="confirmExitMission()">Salir</button>
+    </div>
+  </div>
+</div>
+
+<div class="modal-overlay" id="modalTutorial">
+  <div class="modal">
+    <div class="modal-h"><strong>Guía rápida (WordQuest)</strong><button class="btn btn-dark btn-mini" onclick="closeTutorial()">Cerrar</button></div>
+    <div class="modal-b" id="tutBody"></div>
+    <div class="modal-f">
+      <button class="btn btn-dark btn-w" onclick="tutPrev()">Atrás</button>
+      <button class="btn btn-blue btn-w" onclick="tutNext()">Siguiente</button>
+    </div>
+  </div>
+</div>
+
+<div class="modal-overlay" id="modalMissionType">
+  <div class="modal">
+    <div class="modal-h"><strong>Elige el tipo de misión</strong><button class="btn btn-dark btn-mini" onclick="closeModal('modalMissionType')">Cerrar</button></div>
+    <div class="modal-b">
+      <div class="small" id="mtInfo"></div>
+      <div class="hr"></div>
+      <div class="mtype-grid" id="mtGrid"></div>
+    </div>
+  </div>
+</div>
+
+<div class="modal-overlay" id="modalGate">
+  <div class="modal">
+    <div class="modal-h"><strong id="gateTitle">Tiempo terminado</strong><button class="btn btn-dark btn-mini" onclick="gateCancel()">Cerrar</button></div>
+    <div class="modal-b">
+      <div class="small" id="gateMsg"></div>
+      <div class="hr"></div>
+      <div id="gateHold">
+        <div class="small">Para continuar, un adulto puede aprobar un nuevo ciclo.</div>
+        <div class="pillrow" style="margin-top:12px">
+          <button class="btn btn-dark btn-w" onclick="gateRest()">Descansar</button>
+          <button class="btn btn-blue btn-w" id="holdBtn">Mantener presionado 2s</button>
+        </div>
+        <div class="small" style="margin-top:10px;opacity:.78">Sugerencia: puedes decir “volveré luego” y regresar a jugar cuando estés listo.</div>
+      </div>
+      <div id="gateMath" style="display:none">
+        <div class="small">Verificación rápida:</div>
+        <div class="pillrow" style="align-items:center">
+          <span class="pill" id="mathQ">7 + 5 = ?</span>
+          <input id="mathA" type="number" inputmode="numeric" style="flex:1;min-width:120px;padding:10px 12px;border-radius:12px;border:1px solid rgba(255,255,255,.16);background:rgba(0,0,0,.18);color:#fff;font-weight:900">
+        </div>
+        <div class="pillrow">
+          <button class="btn btn-dark btn-w" onclick="gateBack()">Volver</button>
+          <button class="btn btn-blue btn-w" onclick="gateApprove()">Aprobar y continuar</button>
+        </div>
+        <div class="small" id="gateErr" style="display:none;margin-top:8px;color:#ffb3b3">Respuesta incorrecta. Intenta de nuevo.</div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="modal-overlay" id="modalAdult">
+  <div class="modal">
+    <div class="modal-h"><strong>Panel Adultos</strong><button class="btn btn-dark btn-mini" onclick="closeModal('modalAdult')">Cerrar</button></div>
+    <div class="modal-b">
+      <div class="small">Ajustes por perfil: <strong id="adultWho">—</strong></div>
+      <div class="hr"></div>
+      <div class="small"><strong>Tiempo por sesión</strong> (min):</div>
+      <div class="pillrow">
+        <button class="btn btn-dark btn-w" onclick="setSessionLimit(10)">10</button>
+        <button class="btn btn-dark btn-w" onclick="setSessionLimit(15)">15</button>
+        <button class="btn btn-dark btn-w" onclick="setSessionLimit(20)">20</button>
+      </div>
+      <div class="hr"></div>
+      <div class="small"><strong>Modo “Ambos”</strong>:</div>
+      <div class="pillrow">
+        <button class="btn btn-dark btn-w" onclick="setBothMode('mission')">Alterna por misión (recomendado)</button>
+        <button class="btn btn-dark btn-w" onclick="setBothMode('question')">Alterna por pregunta (reto)</button>
+      </div>
+      <div class="hr"></div>
+      <div class="small"><strong>Premium</strong>:</div>
+      <div class="pillrow">
+        <button class="btn btn-blue btn-w" onclick="togglePremium(true)">Activar Premium</button>
+        <button class="btn btn-dark btn-w" onclick="togglePremium(false)">Desactivar</button>
+      </div>
+      <div class="small" style="margin-top:8px;opacity:.82">Premium habilita Portugués, misiones avanzadas y más categorías.</div>
+      <div class="hr"></div>
+      <div class="small"><strong>Avatar</strong> (Premium):</div>
+      <div class="pillrow" id="avatarRow"></div>
+      <div class="hr"></div>
+      <div class="pillrow">
+        <button class="btn btn-dark btn-w" onclick="resetTutorial()">Reiniciar tutorial</button>
+        <button class="btn btn-dark btn-w" onclick="exportProfile()">Exportar progreso (JSON)</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+<script>
+// ════════════════════════════════════════════════════════
+//  WordQuest — Martín (v3)  |  Misiones + Tutorial + Premium
+//  - Salir de misión / Logout
+//  - Tutorial guiado
+//  - Modo "Ambos" configurable (por misión o por pregunta)
+//  - Nuevos tipos de misión: completar oración, ordenar oración, emojis
+//  - Nuevas categorías (premium): elementos, planetas, karate, princesas, mascotas, extraterrestres + 3 más
+//  - Control de tiempo en pantalla (15 min por defecto) con aprobación adulta
+// ════════════════════════════════════════════════════════
+
+/* =========================
+   DATA: CATS (base original)
+   ========================= */
+const CATS = {
+  colors:{icon:'🎨',nameEs:'Colores',nameEn:'Colors',nameFr:'Couleurs',req:0,words:[
+    {es:'rojo',en:'red',fr:'rouge',e:'🔴',frase:{es:'El carro es rojo',en:'The car is red',fr:'La voiture est rouge'}},
+    {es:'azul',en:'blue',fr:'bleu',e:'🔵',frase:{es:'El cielo es azul',en:'The sky is blue',fr:'Le ciel est bleu'}},
+    {es:'verde',en:'green',fr:'vert',e:'💚',frase:{es:'El árbol es verde',en:'The tree is green',fr:'L\'arbre est vert'}},
+    {es:'amarillo',en:'yellow',fr:'jaune',e:'💛',frase:{es:'El sol es amarillo',en:'The sun is yellow',fr:'Le soleil est jaune'}},
+    {es:'naranja',en:'orange',fr:'orange',e:'🟠',frase:{es:'La naranja es naranja',en:'The orange is orange',fr:'L\'orange est orange'}},
+    {es:'morado',en:'purple',fr:'violet',e:'🟣',frase:{es:'La uva es morada',en:'The grape is purple',fr:'Le raisin est violet'}},
+    {es:'rosado',en:'pink',fr:'rose',e:'🌸',frase:{es:'La flor es rosada',en:'The flower is pink',fr:'La fleur est rose'}},
+    {es:'blanco',en:'white',fr:'blanc',e:'⬜',frase:{es:'La nieve es blanca',en:'The snow is white',fr:'La neige est blanche'}},
+    {es:'negro',en:'black',fr:'noir',e:'⬛',frase:{es:'La noche es negra',en:'The night is black',fr:'La nuit est noire'}},
+    {es:'café',en:'brown',fr:'marron',e:'🟫',frase:{es:'El chocolate es café',en:'Chocolate is brown',fr:'Le chocolat est marron'}},
+  ]},
+  animals:{icon:'🦁',nameEs:'Animales',nameEn:'Animals',nameFr:'Animaux',req:0,words:[
+    {es:'perro',en:'dog',fr:'chien',e:'🐶',frase:{es:'El perro ladra',en:'The dog barks',fr:'Le chien aboie'}},
+    {es:'gato',en:'cat',fr:'chat',e:'🐱',frase:{es:'El gato duerme',en:'The cat sleeps',fr:'Le chat dort'}},
+    {es:'pájaro',en:'bird',fr:'oiseau',e:'🐦',frase:{es:'El pájaro vuela',en:'The bird flies',fr:'L\'oiseau vole'}},
+    {es:'pez',en:'fish',fr:'poisson',e:'🐟',frase:{es:'El pez nada',en:'The fish swims',fr:'Le poisson nage'}},
+    {es:'caballo',en:'horse',fr:'cheval',e:'🐴',frase:{es:'El caballo corre',en:'The horse runs',fr:'Le cheval court'}},
+    {es:'elefante',en:'elephant',fr:'éléphant',e:'🐘',frase:{es:'El elefante es grande',en:'The elephant is big',fr:'L\'éléphant est grand'}},
+    {es:'tigre',en:'tiger',fr:'tigre',e:'🐯',frase:{es:'El tigre ruge',en:'The tiger roars',fr:'Le tigre rugit'}},
+    {es:'mono',en:'monkey',fr:'singe',e:'🐵',frase:{es:'El mono trepa',en:'The monkey climbs',fr:'Le singe grimpe'}},
+    {es:'rana',en:'frog',fr:'grenouille',e:'🐸',frase:{es:'La rana salta',en:'The frog jumps',fr:'La grenouille saute'}},
+    {es:'conejo',en:'rabbit',fr:'lapin',e:'🐰',frase:{es:'El conejo come zanahoria',en:'The rabbit eats carrot',fr:'Le lapin mange une carotte'}},
+  ]},
+  numbers:{icon:'🔢',nameEs:'Números',nameEn:'Numbers',nameFr:'Nombres',req:0,words:[
+    {es:'uno',en:'one',fr:'un',e:'1️⃣',frase:{es:'Tengo un gato',en:'I have one cat',fr:'J\'ai un chat'}},
+    {es:'dos',en:'two',fr:'deux',e:'2️⃣',frase:{es:'Tengo dos manos',en:'I have two hands',fr:'J\'ai deux mains'}},
+    {es:'tres',en:'three',fr:'trois',e:'3️⃣',frase:{es:'Tengo tres libros',en:'I have three books',fr:'J\'ai trois livres'}},
+    {es:'cuatro',en:'four',fr:'quatre',e:'4️⃣',frase:{es:'Hay cuatro sillas',en:'There are four chairs',fr:'Il y a quatre chaises'}},
+    {es:'cinco',en:'five',fr:'cinq',e:'5️⃣',frase:{es:'Tengo cinco dedos',en:'I have five fingers',fr:'J\'ai cinq doigts'}},
+    {es:'seis',en:'six',fr:'six',e:'6️⃣',frase:{es:'El cubo tiene seis caras',en:'The cube has six sides',fr:'Le cube a six faces'}},
+    {es:'siete',en:'seven',fr:'sept',e:'7️⃣',frase:{es:'Hay siete días',en:'There are seven days',fr:'Il y a sept jours'}},
+    {es:'ocho',en:'eight',fr:'huit',e:'8️⃣',frase:{es:'La araña tiene ocho patas',en:'The spider has eight legs',fr:'L\'araignée a huit pattes'}},
+    {es:'nueve',en:'nine',fr:'neuf',e:'9️⃣',frase:{es:'Hay nueve planetas',en:'There are nine planets',fr:'Il y a neuf planètes'}},
+    {es:'diez',en:'ten',fr:'dix',e:'🔟',frase:{es:'Tengo diez dedos',en:'I have ten fingers',fr:'J\'ai dix doigts'}},
+  ]},
+  fruits:{icon:'🍎',nameEs:'Frutas',nameEn:'Fruits',nameFr:'Fruits',req:1,words:[
+    {es:'manzana',en:'apple',fr:'pomme',e:'🍎',frase:{es:'La manzana es roja',en:'The apple is red',fr:'La pomme est rouge'}},
+    {es:'plátano',en:'banana',fr:'banane',e:'🍌',frase:{es:'El plátano es amarillo',en:'The banana is yellow',fr:'La banane est jaune'}},
+    {es:'naranja',en:'orange',fr:'orange',e:'🍊',frase:{es:'La naranja es dulce',en:'The orange is sweet',fr:'L\'orange est sucrée'}},
+    {es:'uva',en:'grape',fr:'raisin',e:'🍇',frase:{es:'Las uvas son moradas',en:'Grapes are purple',fr:'Les raisins sont violets'}},
+    {es:'fresa',en:'strawberry',fr:'fraise',e:'🍓',frase:{es:'La fresa es roja',en:'The strawberry is red',fr:'La fraise est rouge'}},
+    {es:'sandía',en:'watermelon',fr:'pastèque',e:'🍉',frase:{es:'La sandía es fresca',en:'The watermelon is fresh',fr:'La pastèque est fraîche'}},
+    {es:'piña',en:'pineapple',fr:'ananas',e:'🍍',frase:{es:'La piña es tropical',en:'The pineapple is tropical',fr:'L\'ananas est tropical'}},
+    {es:'mango',en:'mango',fr:'mangue',e:'🥭',frase:{es:'Me gusta el mango',en:'I like mango',fr:'J\'aime la mangue'}},
+    {es:'pera',en:'pear',fr:'poire',e:'🍐',frase:{es:'La pera es verde',en:'The pear is green',fr:'La poire est verte'}},
+    {es:'cereza',en:'cherry',fr:'cerise',e:'🍒',frase:{es:'Las cerezas son rojas',en:'Cherries are red',fr:'Les cerises sont rouges'}},
+  ]},
+  school:{icon:'🏫',nameEs:'Colegio',nameEn:'School',nameFr:'École',req:1,words:[
+    {es:'lápiz',en:'pencil',fr:'crayon',e:'✏️',frase:{es:'Escribo con lápiz',en:'I write with a pencil',fr:'J\'écris avec un crayon'}},
+    {es:'libro',en:'book',fr:'livre',e:'📖',frase:{es:'Leo un libro',en:'I read a book',fr:'Je lis un livre'}},
+    {es:'cuaderno',en:'notebook',fr:'cahier',e:'📓',frase:{es:'Escribo en el cuaderno',en:'I write in the notebook',fr:'J\'écris dans le cahier'}},
+    {es:'maestra',en:'teacher',fr:'professeur',e:'👩‍🏫',frase:{es:'La maestra enseña',en:'The teacher teaches',fr:'Le professeur enseigne'}},
+    {es:'clase',en:'classroom',fr:'classe',e:'🏫',frase:{es:'Estoy en la clase',en:'I am in the classroom',fr:'Je suis en classe'}},
+    {es:'mochila',en:'backpack',fr:'sac à dos',e:'🎒',frase:{es:'Llevo mi mochila',en:'I carry my backpack',fr:'Je porte mon sac à dos'}},
+    {es:'regla',en:'ruler',fr:'règle',e:'📏',frase:{es:'Uso la regla',en:'I use the ruler',fr:'J\'utilise la règle'}},
+    {es:'borrador',en:'eraser',fr:'gomme',e:'🧽',frase:{es:'Borro el error',en:'I erase the mistake',fr:'J\'efface l\'erreur'}},
+    {es:'tijeras',en:'scissors',fr:'ciseaux',e:'✂️',frase:{es:'Corto con tijeras',en:'I cut with scissors',fr:'Je coupe avec des ciseaux'}},
+    {es:'pizarrón',en:'blackboard',fr:'tableau',e:'📋',frase:{es:'La maestra escribe en el pizarrón',en:'The teacher writes on the blackboard',fr:'Le professeur écrit au tableau'}},
+  ]},
+  body:{icon:'🫶',nameEs:'Cuerpo',nameEn:'Body',nameFr:'Corps',req:2,words:[
+    {es:'cabeza',en:'head',fr:'tête',e:'🫡',frase:{es:'Mi cabeza duele',en:'My head hurts',fr:'Ma tête fait mal'}},
+    {es:'mano',en:'hand',fr:'main',e:'✋',frase:{es:'Levanta la mano',en:'Raise your hand',fr:'Lève la main'}},
+    {es:'ojo',en:'eye',fr:'œil',e:'👁️',frase:{es:'Tengo dos ojos',en:'I have two eyes',fr:'J\'ai deux yeux'}},
+    {es:'nariz',en:'nose',fr:'nez',e:'👃',frase:{es:'Mi nariz es pequeña',en:'My nose is small',fr:'Mon nez est petit'}},
+    {es:'boca',en:'mouth',fr:'bouche',e:'👄',frase:{es:'Abro la boca',en:'I open my mouth',fr:'J\'ouvre la bouche'}},
+    {es:'oreja',en:'ear',fr:'oreille',e:'👂',frase:{es:'Escucho con la oreja',en:'I listen with my ear',fr:'J\'écoute avec mon oreille'}},
+    {es:'brazo',en:'arm',fr:'bras',e:'🦾',frase:{es:'Tengo dos brazos',en:'I have two arms',fr:'J\'ai deux bras'}},
+    {es:'pierna',en:'leg',fr:'jambe',e:'🦵',frase:{es:'Corro con las piernas',en:'I run with my legs',fr:'Je cours avec mes jambes'}},
+    {es:'pie',en:'foot',fr:'pied',e:'🦶',frase:{es:'Llevo zapatos en los pies',en:'I wear shoes on my feet',fr:'Je porte des chaussures aux pieds'}},
+    {es:'dedo',en:'finger',fr:'doigt',e:'☝️',frase:{es:'Señalo con el dedo',en:'I point with my finger',fr:'Je pointe avec mon doigt'}},
+  ]},
+  weather:{icon:'⛅',nameEs:'Clima',nameEn:'Weather',nameFr:'Météo',req:2,words:[
+    {es:'sol',en:'sun',fr:'soleil',e:'☀️',frase:{es:'Hoy hay sol',en:'Today it is sunny',fr:'Aujourd\'hui il y a du soleil'}},
+    {es:'lluvia',en:'rain',fr:'pluie',e:'🌧️',frase:{es:'Está lloviendo',en:'It is raining',fr:'Il pleut'}},
+    {es:'nieve',en:'snow',fr:'neige',e:'❄️',frase:{es:'La nieve es blanca',en:'The snow is white',fr:'La neige est blanche'}},
+    {es:'nube',en:'cloud',fr:'nuage',e:'☁️',frase:{es:'El cielo tiene nubes',en:'The sky has clouds',fr:'Le ciel a des nuages'}},
+    {es:'viento',en:'wind',fr:'vent',e:'💨',frase:{es:'Hay mucho viento',en:'It is very windy',fr:'Il y a beaucoup de vent'}},
+    {es:'tormenta',en:'storm',fr:'tempête',e:'⛈️',frase:{es:'Hay una tormenta',en:'There is a storm',fr:'Il y a une tempête'}},
+    {es:'arcoiris',en:'rainbow',fr:'arc-en-ciel',e:'🌈',frase:{es:'El arcoiris es bonito',en:'The rainbow is beautiful',fr:'L\'arc-en-ciel est beau'}},
+    {es:'caliente',en:'hot',fr:'chaud',e:'🔥',frase:{es:'Hoy hace calor',en:'Today it is hot',fr:'Aujourd\'hui il fait chaud'}},
+    {es:'frío',en:'cold',fr:'froid',e:'🥶',frase:{es:'Hoy hace frío',en:'Today it is cold',fr:'Aujourd\'hui il fait froid'}},
+    {es:'nublado',en:'cloudy',fr:'nuageux',e:'🌥️',frase:{es:'El día está nublado',en:'The day is cloudy',fr:'La journée est nuageuse'}},
+  ]},
+  family:{icon:'👨‍👩‍👧‍👦',nameEs:'Familia',nameEn:'Family',nameFr:'Famille',req:3,words:[
+    {es:'mamá',en:'mom',fr:'maman',e:'👩',frase:{es:'Mi mamá cocina',en:'My mom cooks',fr:'Ma maman cuisine'}},
+    {es:'papá',en:'dad',fr:'papa',e:'👨',frase:{es:'Mi papá trabaja',en:'My dad works',fr:'Mon papa travaille'}},
+    {es:'hermano',en:'brother',fr:'frère',e:'👦',frase:{es:'Mi hermano juega',en:'My brother plays',fr:'Mon frère joue'}},
+    {es:'hermana',en:'sister',fr:'sœur',e:'👧',frase:{es:'Mi hermana estudia',en:'My sister studies',fr:'Ma sœur étudie'}},
+    {es:'abuelo',en:'grandpa',fr:'grand-père',e:'👴',frase:{es:'Mi abuelo es sabio',en:'My grandpa is wise',fr:'Mon grand-père est sage'}},
+    {es:'abuela',en:'grandma',fr:'grand-mère',e:'👵',frase:{es:'Mi abuela hace torta',en:'My grandma makes cake',fr:'Ma grand-mère fait un gâteau'}},
+    {es:'tío',en:'uncle',fr:'oncle',e:'🧔',frase:{es:'Mi tío es alto',en:'My uncle is tall',fr:'Mon oncle est grand'}},
+    {es:'tía',en:'aunt',fr:'tante',e:'👩‍🦱',frase:{es:'Mi tía es divertida',en:'My aunt is funny',fr:'Ma tante est drôle'}},
+    {es:'primo',en:'cousin',fr:'cousin',e:'🧒',frase:{es:'Mi primo vive lejos',en:'My cousin lives far',fr:'Mon cousin habite loin'}},
+    {es:'bebé',en:'baby',fr:'bébé',e:'👶',frase:{es:'El bebé llora',en:'The baby cries',fr:'Le bébé pleure'}},
+  ]},
+  food:{icon:'🍕',nameEs:'Comida',nameEn:'Food',nameFr:'Nourriture',req:3,words:[
+    {es:'pan',en:'bread',fr:'pain',e:'🍞',frase:{es:'Quiero pan con mantequilla',en:'I want bread with butter',fr:'Je veux du pain avec du beurre'}},
+    {es:'leche',en:'milk',fr:'lait',e:'🥛',frase:{es:'Bebo leche en la mañana',en:'I drink milk in the morning',fr:'Je bois du lait le matin'}},
+    {es:'huevo',en:'egg',fr:'œuf',e:'🥚',frase:{es:'Como huevo en el desayuno',en:'I eat an egg for breakfast',fr:'Je mange un œuf au petit-déjeuner'}},
+    {es:'pollo',en:'chicken',fr:'poulet',e:'🍗',frase:{es:'El pollo está rico',en:'The chicken is delicious',fr:'Le poulet est délicieux'}},
+    {es:'pizza',en:'pizza',fr:'pizza',e:'🍕',frase:{es:'Me encanta la pizza',en:'I love pizza',fr:'J\'adore la pizza'}},
+    {es:'arroz',en:'rice',fr:'riz',e:'🍚',frase:{es:'Comemos arroz al almuerzo',en:'We eat rice for lunch',fr:'Nous mangeons du riz au déjeuner'}},
+    {es:'ensalada',en:'salad',fr:'salade',e:'🥗',frase:{es:'La ensalada es sana',en:'The salad is healthy',fr:'La salade est saine'}},
+    {es:'sopa',en:'soup',fr:'soupe',e:'🍲',frase:{es:'Tomo sopa cuando estoy enfermo',en:'I have soup when I am sick',fr:'Je mange de la soupe quand je suis malade'}},
+    {es:'pastel',en:'cake',fr:'gâteau',e:'🎂',frase:{es:'Hay pastel en mi cumpleaños',en:'There is cake on my birthday',fr:'Il y a un gâteau pour mon anniversaire'}},
+    {es:'helado',en:'ice cream',fr:'glace',e:'🍦',frase:{es:'El helado es frío y rico',en:'Ice cream is cold and yummy',fr:'La glace est froide et délicieuse'}},
+  ]},
+  transport:{icon:'🚀',nameEs:'Transporte',nameEn:'Transport',nameFr:'Transport',req:3,words:[
+    {es:'carro',en:'car',fr:'voiture',e:'🚗',frase:{es:'Voy en carro al colegio',en:'I go to school by car',fr:'Je vais à l\'école en voiture'}},
+    {es:'avión',en:'airplane',fr:'avion',e:'✈️',frase:{es:'El avión vuela alto',en:'The airplane flies high',fr:'L\'avion vole haut'}},
+    {es:'tren',en:'train',fr:'train',e:'🚂',frase:{es:'El tren va rápido',en:'The train goes fast',fr:'Le train va vite'}},
+    {es:'barco',en:'ship',fr:'bateau',e:'🚢',frase:{es:'El barco navega en el mar',en:'The ship sails in the sea',fr:'Le bateau navigue dans la mer'}},
+    {es:'bicicleta',en:'bicycle',fr:'vélo',e:'🚲',frase:{es:'Monto bicicleta en el parque',en:'I ride a bicycle in the park',fr:'Je fais du vélo dans le parc'}},
+    {es:'autobús',en:'bus',fr:'bus',e:'🚌',frase:{es:'El bus me lleva al colegio',en:'The bus takes me to school',fr:'Le bus m\'emmène à l\'école'}},
+    {es:'metro',en:'subway',fr:'métro',e:'🚇',frase:{es:'El metro va bajo tierra',en:'The subway goes underground',fr:'Le métro va sous terre'}},
+    {es:'cohete',en:'rocket',fr:'fusée',e:'🚀',frase:{es:'El cohete va al espacio',en:'The rocket goes to space',fr:'La fusée va dans l\'espace'}},
+    {es:'helicóptero',en:'helicopter',fr:'hélicoptère',e:'🚁',frase:{es:'El helicóptero sube alto',en:'The helicopter goes up high',fr:'L\'hélicoptère monte haut'}},
+    {es:'moto',en:'motorcycle',fr:'moto',e:'🏍️',frase:{es:'La moto va muy rápido',en:'The motorcycle goes very fast',fr:'La moto va très vite'}},
+  ]},
+  verbs:{icon:'⚡',nameEs:'Verbos',nameEn:'Verbs',nameFr:'Verbes',req:4,words:[
+    {es:'correr',en:'to run',fr:'courir',e:'🏃',frase:{es:'Me gusta correr',en:'I like to run',fr:'J\'aime courir'}},
+    {es:'saltar',en:'to jump',fr:'sauter',e:'🦘',frase:{es:'Puedo saltar muy alto',en:'I can jump very high',fr:'Je peux sauter très haut'}},
+    {es:'comer',en:'to eat',fr:'manger',e:'😋',frase:{es:'Me gusta comer frutas',en:'I like to eat fruits',fr:'J\'aime manger des fruits'}},
+    {es:'beber',en:'to drink',fr:'boire',e:'🥤',frase:{es:'Bebo agua',en:'I drink water',fr:'Je bois de l\'eau'}},
+    {es:'dormir',en:'to sleep',fr:'dormir',e:'😴',frase:{es:'Duermo 8 horas',en:'I sleep 8 hours',fr:'Je dors 8 heures'}},
+    {es:'jugar',en:'to play',fr:'jouer',e:'🎮',frase:{es:'Me encanta jugar',en:'I love to play',fr:'J\'adore jouer'}},
+    {es:'leer',en:'to read',fr:'lire',e:'📖',frase:{es:'Leo libros de aventuras',en:'I read adventure books',fr:'Je lis des livres d\'aventure'}},
+    {es:'escribir',en:'to write',fr:'écrire',e:'✍️',frase:{es:'Escribo en mi cuaderno',en:'I write in my notebook',fr:'J\'écris dans mon cahier'}},
+    {es:'cantar',en:'to sing',fr:'chanter',e:'🎵',frase:{es:'Canto en la ducha',en:'I sing in the shower',fr:'Je chante sous la douche'}},
+    {es:'bailar',en:'to dance',fr:'danser',e:'💃',frase:{es:'Bailo con mis amigos',en:'I dance with my friends',fr:'Je danse avec mes amis'}},
+  ]},
+  sports:{icon:'⚽',nameEs:'Deportes',nameEn:'Sports',nameFr:'Sports',req:4,words:[
+    {es:'fútbol',en:'soccer',fr:'football',e:'⚽',frase:{es:'Juego fútbol con amigos',en:'I play soccer with friends',fr:'Je joue au football avec des amis'}},
+    {es:'natación',en:'swimming',fr:'natation',e:'🏊',frase:{es:'Nado en la piscina',en:'I swim in the pool',fr:'Je nage dans la piscine'}},
+    {es:'baloncesto',en:'basketball',fr:'basketball',e:'🏀',frase:{es:'Lanzo el balón al aro',en:'I throw the ball at the hoop',fr:'Je lance le ballon dans le panier'}},
+    {es:'tenis',en:'tennis',fr:'tennis',e:'🎾',frase:{es:'Juego tenis los sábados',en:'I play tennis on Saturdays',fr:'Je joue au tennis le samedi'}},
+    {es:'béisbol',en:'baseball',fr:'baseball',e:'⚾',frase:{es:'El béisbol es emocionante',en:'Baseball is exciting',fr:'Le baseball est passionnant'}},
+    {es:'ciclismo',en:'cycling',fr:'cyclisme',e:'🚴',frase:{es:'Hago ciclismo en montaña',en:'I do mountain cycling',fr:'Je fais du cyclisme en montagne'}},
+    {es:'atletismo',en:'athletics',fr:'athlétisme',e:'🏃',frase:{es:'El atletismo es mi deporte',en:'Athletics is my sport',fr:'L\'athlétisme est mon sport'}},
+    {es:'voleibol',en:'volleyball',fr:'volleyball',e:'🏐',frase:{es:'Jugamos voleibol en equipo',en:'We play volleyball as a team',fr:'Nous jouons au volleyball en équipe'}},
+    {es:'yoga',en:'yoga',fr:'yoga',e:'🧘',frase:{es:'El yoga relaja el cuerpo',en:'Yoga relaxes the body',fr:'Le yoga détend le corps'}},
+    {es:'boxeo',en:'boxing',fr:'boxe',e:'🥊',frase:{es:'El boxeo requiere fuerza',en:'Boxing requires strength',fr:'La boxe demande de la force'}},
+  ]},
+};
+
+
+/* Añadidos v3 (Premium + PT-ready) */
+Object.assign(CATS,{
+  elements:{icon:'🧪',nameEs:'Elementos',nameEn:'Elements',nameFr:'Éléments',req:2,premium:true,ptReady:true,words:[
+    {es:'agua',en:'water',fr:'eau',pt:'água',e:'💧',frase:{es:'El agua es importante',en:'Water is important',fr:"L\'eau est importante",pt:'A água é importante'}},
+    {es:'fuego',en:'fire',fr:'feu',pt:'fogo',e:'🔥',frase:{es:'El fuego da calor',en:'Fire gives heat',fr:'Le feu donne de la chaleur',pt:'O fogo dá calor'}},
+    {es:'tierra',en:'earth',fr:'terre',pt:'terra',e:'🌍',frase:{es:'La tierra es nuestro hogar',en:'Earth is our home',fr:'La Terre est notre maison',pt:'A Terra é nossa casa'}},
+    {es:'aire',en:'air',fr:'air',pt:'ar',e:'💨',frase:{es:'El aire está en todas partes',en:'Air is everywhere',fr:'L\'air est partout',pt:'O ar está em toda parte'}},
+    {es:'metal',en:'metal',fr:'métal',pt:'metal',e:'⚙️',frase:{es:'El metal es fuerte',en:'Metal is strong',fr:'Le métal est solide',pt:'O metal é forte'}},
+    {es:'madera',en:'wood',fr:'bois',pt:'madeira',e:'🪵',frase:{es:'La madera viene de los árboles',en:'Wood comes from trees',fr:'Le bois vient des arbres',pt:'A madeira vem das árvores'}},
+    {es:'hielo',en:'ice',fr:'glace',pt:'gelo',e:'🧊',frase:{es:'El hielo está frío',en:'Ice is cold',fr:'La glace est froide',pt:'O gelo é frio'}},
+    {es:'rayo',en:'lightning',fr:'éclair',pt:'raio',e:'⚡',frase:{es:'El rayo brilla en la tormenta',en:'Lightning shines in the storm',fr:'L\'éclair brille dans l\'orage',pt:'O raio brilha na tempestade'}},
+    {es:'vapor',en:'steam',fr:'vapeur',pt:'vapor',e:'♨️',frase:{es:'El vapor sale de la olla',en:'Steam comes from the pot',fr:'La vapeur sort de la casserole',pt:'O vapor sai da panela'}},
+    {es:'arena',en:'sand',fr:'sable',pt:'areia',e:'🏖️',frase:{es:'La arena está en la playa',en:'Sand is on the beach',fr:'Le sable est sur la plage',pt:'A areia está na praia'}},
+  ]},
+  planets:{icon:'🪐',nameEs:'Planetas',nameEn:'Planets',nameFr:'Planètes',req:2,premium:true,ptReady:true,words:[
+    {es:'Mercurio',en:'Mercury',fr:'Mercure',pt:'Mercúrio',e:'☿️',frase:{es:'Mercurio es un planeta',en:'Mercury is a planet',fr:'Mercure est une planète',pt:'Mercúrio é um planeta'}},
+    {es:'Venus',en:'Venus',fr:'Vénus',pt:'Vênus',e:'♀️',frase:{es:'Venus brilla en el cielo',en:'Venus shines in the sky',fr:'Vénus brille dans le ciel',pt:'Vênus brilha no céu'}},
+    {es:'Tierra',en:'Earth',fr:'Terre',pt:'Terra',e:'🌍',frase:{es:'La Tierra es nuestro hogar',en:'Earth is our home',fr:'La Terre est notre maison',pt:'A Terra é nossa casa'}},
+    {es:'Marte',en:'Mars',fr:'Mars',pt:'Marte',e:'♂️',frase:{es:'Marte es el planeta rojo',en:'Mars is the red planet',fr:'Mars est la planète rouge',pt:'Marte é o planeta vermelho'}},
+    {es:'Júpiter',en:'Jupiter',fr:'Jupiter',pt:'Júpiter',e:'🟠',frase:{es:'Júpiter es muy grande',en:'Jupiter is very big',fr:'Jupiter est très grand',pt:'Júpiter é muito grande'}},
+    {es:'Saturno',en:'Saturn',fr:'Saturne',pt:'Saturno',e:'🪐',frase:{es:'Saturno tiene anillos',en:'Saturn has rings',fr:'Saturne a des anneaux',pt:'Saturno tem anéis'}},
+    {es:'Urano',en:'Uranus',fr:'Uranus',pt:'Urano',e:'🟦',frase:{es:'Urano es azul',en:'Uranus is blue',fr:'Uranus est bleu',pt:'Urano é azul'}},
+    {es:'Neptuno',en:'Neptune',fr:'Neptune',pt:'Netuno',e:'🔵',frase:{es:'Neptuno está lejos',en:'Neptune is far away',fr:'Neptune est loin',pt:'Netuno fica longe'}},
+    {es:'Plutón',en:'Pluto',fr:'Pluton',pt:'Plutão',e:'🧊',frase:{es:'Plutón es pequeño',en:'Pluto is small',fr:'Pluton est petit',pt:'Plutão é pequeno'}},
+    {es:'Luna',en:'Moon',fr:'Lune',pt:'Lua',e:'🌙',frase:{es:'La Luna se ve de noche',en:'The Moon is seen at night',fr:'La Lune se voit la nuit',pt:'A Lua aparece à noite'}},
+  ]},
+  karate:{icon:'🥋',nameEs:'Karate',nameEn:'Karate',nameFr:'Karaté',req:1,premium:true,ptReady:true,words:[
+    {es:'dojo',en:'dojo',fr:'dojo',pt:'dojo',e:'🏯',frase:{es:'Entreno en el dojo',en:'I train in the dojo',fr:'Je m\'entraîne au dojo',pt:'Eu treino no dojo'}},
+    {es:'sensei',en:'sensei',fr:'sensei',pt:'sensei',e:'🧑‍🏫',frase:{es:'El sensei enseña',en:'The sensei teaches',fr:'Le sensei enseigne',pt:'O sensei ensina'}},
+    {es:'cinturón',en:'belt',fr:'ceinture',pt:'faixa',e:'🟤',frase:{es:'Mi cinturón es nuevo',en:'My belt is new',fr:'Ma ceinture est nouvelle',pt:'Minha faixa é nova'}},
+    {es:'patada',en:'kick',fr:'coup de pied',pt:'chute',e:'🦵',frase:{es:'La patada es fuerte',en:'The kick is strong',fr:'Le coup de pied est fort',pt:'O chute é forte'}},
+    {es:'puño',en:'punch',fr:'coup de poing',pt:'soco',e:'👊',frase:{es:'El puño va al frente',en:'The punch goes forward',fr:'Le coup de poing va devant',pt:'O soco vai à frente'}},
+    {es:'kata',en:'kata',fr:'kata',pt:'kata',e:'🧘',frase:{es:'Practico un kata',en:'I practice a kata',fr:'Je pratique un kata',pt:'Eu pratico um kata'}},
+    {es:'kumite',en:'sparring',fr:'combat',pt:'luta',e:'🤼',frase:{es:'Hoy hay combate',en:'Today there is sparring',fr:'Aujourd\'hui il y a combat',pt:'Hoje tem luta'}},
+    {es:'saludo',en:'bow',fr:'salut',pt:'saudação',e:'🙇',frase:{es:'Hago un saludo',en:'I make a bow',fr:'Je fais un salut',pt:'Eu faço uma saudação'}},
+    {es:'uniforme',en:'gi',fr:'kimono',pt:'quimono',e:'🥋',frase:{es:'Mi uniforme está limpio',en:'My gi is clean',fr:'Mon kimono est propre',pt:'Meu quimono está limpo'}},
+    {es:'postura',en:'stance',fr:'position',pt:'postura',e:'🧍',frase:{es:'La postura es estable',en:'The stance is stable',fr:'La position est stable',pt:'A postura é estável'}},
+  ]},
+  princesses:{icon:'👸',nameEs:'Princesas',nameEn:'Princesses',nameFr:'Princesses',req:1,premium:true,ptReady:true,words:[
+    {es:'princesa',en:'princess',fr:'princesse',pt:'princesa',e:'👸',frase:{es:'La princesa sonríe',en:'The princess smiles',fr:'La princesse sourit',pt:'A princesa sorri'}},
+    {es:'corona',en:'crown',fr:'couronne',pt:'coroa',e:'👑',frase:{es:'La corona brilla',en:'The crown shines',fr:'La couronne brille',pt:'A coroa brilha'}},
+    {es:'castillo',en:'castle',fr:'château',pt:'castelo',e:'🏰',frase:{es:'El castillo es grande',en:'The castle is big',fr:'Le château est grand',pt:'O castelo é grande'}},
+    {es:'vestido',en:'dress',fr:'robe',pt:'vestido',e:'👗',frase:{es:'El vestido es bonito',en:'The dress is pretty',fr:'La robe est jolie',pt:'O vestido é bonito'}},
+    {es:'varita',en:'wand',fr:'baguette',pt:'varinha',e:'🪄',frase:{es:'La varita hace magia',en:'The wand makes magic',fr:'La baguette fait de la magie',pt:'A varinha faz magia'}},
+    {es:'tiara',en:'tiara',fr:'diadème',pt:'tiara',e:'💎',frase:{es:'La tiara es de brillo',en:'The tiara is shiny',fr:'Le diadème brille',pt:'A tiara brilha'}},
+    {es:'baile',en:'ball',fr:'bal',pt:'baile',e:'💃',frase:{es:'Hay un baile hoy',en:'There is a ball today',fr:'Il y a un bal aujourd\'hui',pt:'Tem um baile hoje'}},
+    {es:'hada',en:'fairy',fr:'fée',pt:'fada',e:'🧚',frase:{es:'El hada ayuda',en:'The fairy helps',fr:'La fée aide',pt:'A fada ajuda'}},
+    {es:'trono',en:'throne',fr:'trône',pt:'trono',e:'🪑',frase:{es:'El trono está aquí',en:'The throne is here',fr:'Le trône est ici',pt:'O trono está aqui'}},
+    {es:'reino',en:'kingdom',fr:'royaume',pt:'reino',e:'🗺️',frase:{es:'El reino está en paz',en:'The kingdom is at peace',fr:'Le royaume est en paix',pt:'O reino está em paz'}},
+  ]},
+  pets:{icon:'🐾',nameEs:'Mascotas',nameEn:'Pets',nameFr:'Animaux de compagnie',req:1,premium:true,ptReady:true,words:[
+    {es:'perro',en:'dog',fr:'chien',pt:'cachorro',e:'🐶',frase:{es:'Mi perro juega',en:'My dog plays',fr:'Mon chien joue',pt:'Meu cachorro brinca'}},
+    {es:'gato',en:'cat',fr:'chat',pt:'gato',e:'🐱',frase:{es:'El gato duerme',en:'The cat sleeps',fr:'Le chat dort',pt:'O gato dorme'}},
+    {es:'pez',en:'fish',fr:'poisson',pt:'peixe',e:'🐟',frase:{es:'El pez nada',en:'The fish swims',fr:'Le poisson nage',pt:'O peixe nada'}},
+    {es:'hámster',en:'hamster',fr:'hamster',pt:'hamster',e:'🐹',frase:{es:'El hámster corre',en:'The hamster runs',fr:'Le hamster court',pt:'O hamster corre'}},
+    {es:'conejo',en:'rabbit',fr:'lapin',pt:'coelho',e:'🐰',frase:{es:'El conejo come',en:'The rabbit eats',fr:'Le lapin mange',pt:'O coelho come'}},
+    {es:'tortuga',en:'turtle',fr:'tortue',pt:'tartaruga',e:'🐢',frase:{es:'La tortuga es lenta',en:'The turtle is slow',fr:'La tortue est lente',pt:'A tartaruga é lenta'}},
+    {es:'loro',en:'parrot',fr:'perroquet',pt:'papagaio',e:'🦜',frase:{es:'El loro habla',en:'The parrot talks',fr:'Le perroquet parle',pt:'O papagaio fala'}},
+    {es:'correa',en:'leash',fr:'laisse',pt:'coleira',e:'🦮',frase:{es:'La correa está lista',en:'The leash is ready',fr:'La laisse est prête',pt:'A coleira está pronta'}},
+    {es:'tazón',en:'bowl',fr:'bol',pt:'tigela',e:'🥣',frase:{es:'El tazón tiene comida',en:'The bowl has food',fr:'Le bol a de la nourriture',pt:'A tigela tem comida'}},
+    {es:'veterinario',en:'vet',fr:'vétérinaire',pt:'veterinário',e:'🩺',frase:{es:'Vamos al veterinario',en:'We go to the vet',fr:'On va chez le vétérinaire',pt:'Vamos ao veterinário'}},
+  ]},
+  aliens:{icon:'👽',nameEs:'Extraterrestres',nameEn:'Aliens',nameFr:'Extraterrestres',req:2,premium:true,ptReady:true,words:[
+    {es:'alien',en:'alien',fr:'alien',pt:'alienígena',e:'👽',frase:{es:'Veo un alien',en:'I see an alien',fr:'Je vois un alien',pt:'Eu vejo um alienígena'}},
+    {es:'nave',en:'spaceship',fr:'vaisseau spatial',pt:'nave espacial',e:'🛸',frase:{es:'La nave vuela',en:'The spaceship flies',fr:'Le vaisseau vole',pt:'A nave espacial voa'}},
+    {es:'galaxia',en:'galaxy',fr:'galaxie',pt:'galáxia',e:'🌌',frase:{es:'La galaxia es enorme',en:'The galaxy is huge',fr:'La galaxie est énorme',pt:'A galáxia é enorme'}},
+    {es:'robot',en:'robot',fr:'robot',pt:'robô',e:'🤖',frase:{es:'El robot camina',en:'The robot walks',fr:'Le robot marche',pt:'O robô anda'}},
+    {es:'antena',en:'antenna',fr:'antenne',pt:'antena',e:'📡',frase:{es:'La antena recibe señales',en:'The antenna receives signals',fr:'L\'antenne reçoit des signaux',pt:'A antena recebe sinais'}},
+    {es:'láser',en:'laser',fr:'laser',pt:'laser',e:'🔫',frase:{es:'El láser es luz',en:'Laser is light',fr:'Le laser est de la lumière',pt:'O laser é luz'}},
+    {es:'astronauta',en:'astronaut',fr:'astronaute',pt:'astronauta',e:'🧑‍🚀',frase:{es:'El astronauta explora',en:'The astronaut explores',fr:'L\'astronaute explore',pt:'O astronauta explora'}},
+    {es:'ovni',en:'UFO',fr:'OVNI',pt:'OVNI',e:'🛸',frase:{es:'Un ovni aparece',en:'A UFO appears',fr:'Un OVNI apparaît',pt:'Um OVNI aparece'}},
+    {es:'meteorito',en:'meteor',fr:'météore',pt:'meteoro',e:'☄️',frase:{es:'El meteorito cae',en:'The meteor falls',fr:'Le météore tombe',pt:'O meteoro cai'}},
+    {es:'planeta',en:'planet',fr:'planète',pt:'planeta',e:'🪐',frase:{es:'Un planeta gira',en:'A planet spins',fr:'Une planète tourne',pt:'Um planeta gira'}},
+  ]},
+  dinosaurs:{icon:'🦖',nameEs:'Dinosaurios',nameEn:'Dinosaurs',nameFr:'Dinosaures',req:1,premium:true,ptReady:true,words:[
+    {es:'T-rex',en:'T-rex',fr:'T-rex',pt:'T-rex',e:'🦖',frase:{es:'El T-rex ruge',en:'The T-rex roars',fr:'Le T-rex rugit',pt:'O T-rex ruge'}},
+    {es:'triceratops',en:'triceratops',fr:'tricératops',pt:'tricerátops',e:'🦕',frase:{es:'El triceratops tiene cuernos',en:'The triceratops has horns',fr:'Le tricératops a des cornes',pt:'O tricerátops tem chifres'}},
+    {es:'velociraptor',en:'velociraptor',fr:'vélociraptor',pt:'velociraptor',e:'🦖',frase:{es:'El velociraptor corre',en:'The velociraptor runs',fr:'Le vélociraptor court',pt:'O velociraptor corre'}},
+    {es:'braquiosaurio',en:'brachiosaurus',fr:'brachiosaure',pt:'braquiossauro',e:'🦕',frase:{es:'El braquiosaurio es alto',en:'The brachiosaurus is tall',fr:'Le brachiosaure est grand',pt:'O braquiossauro é alto'}},
+    {es:'estegosaurio',en:'stegosaurus',fr:'stégosaure',pt:'estegossauro',e:'🦕',frase:{es:'El estegosaurio tiene placas',en:'The stegosaurus has plates',fr:'Le stégosaure a des plaques',pt:'O estegossauro tem placas'}},
+    {es:'pterodáctilo',en:'pterodactyl',fr:'ptérodactyle',pt:'pterodáctilo',e:'🦅',frase:{es:'El pterodáctilo vuela',en:'The pterodactyl flies',fr:'Le ptérodactyle vole',pt:'O pterodáctilo voa'}},
+    {es:'anquilosaurio',en:'ankylosaurus',fr:'ankylosaure',pt:'anquilossauro',e:'🛡️',frase:{es:'El anquilosaurio tiene armadura',en:'The ankylosaurus has armor',fr:'L\'ankylosaure a une armure',pt:'O anquilossauro tem armadura'}},
+    {es:'fósil',en:'fossil',fr:'fossile',pt:'fóssil',e:'🦴',frase:{es:'Encuentro un fósil',en:'I find a fossil',fr:'Je trouve un fossile',pt:'Eu encontro um fóssil'}},
+    {es:'volcán',en:'volcano',fr:'volcan',pt:'vulcão',e:'🌋',frase:{es:'El volcán hace humo',en:'The volcano smokes',fr:'Le volcan fume',pt:'O vulcão solta fumaça'}},
+    {es:'jungla',en:'jungle',fr:'jungle',pt:'selva',e:'🌿',frase:{es:'La jungla es verde',en:'The jungle is green',fr:'La jungle est verte',pt:'A selva é verde'}},
+  ]},
+  vehicles:{icon:'🚗',nameEs:'Vehículos',nameEn:'Vehicles',nameFr:'Véhicules',req:0,premium:true,ptReady:true,words:[
+    {es:'carro',en:'car',fr:'voiture',pt:'carro',e:'🚗',frase:{es:'El carro va rápido',en:'The car goes fast',fr:'La voiture va vite',pt:'O carro vai rápido'}},
+    {es:'bus',en:'bus',fr:'bus',pt:'ônibus',e:'🚌',frase:{es:'El bus llega',en:'The bus arrives',fr:'Le bus arrive',pt:'O ônibus chega'}},
+    {es:'tren',en:'train',fr:'train',pt:'trem',e:'🚆',frase:{es:'El tren suena',en:'The train sounds',fr:'Le train fait du bruit',pt:'O trem faz barulho'}},
+    {es:'avión',en:'airplane',fr:'avion',pt:'avião',e:'✈️',frase:{es:'El avión despega',en:'The airplane takes off',fr:'L\'avion décolle',pt:'O avião decola'}},
+    {es:'bicicleta',en:'bicycle',fr:'vélo',pt:'bicicleta',e:'🚲',frase:{es:'La bicicleta gira',en:'The bicycle turns',fr:'Le vélo tourne',pt:'A bicicleta vira'}},
+    {es:'moto',en:'motorcycle',fr:'moto',pt:'moto',e:'🏍️',frase:{es:'La moto acelera',en:'The motorcycle accelerates',fr:'La moto accélère',pt:'A moto acelera'}},
+    {es:'barco',en:'boat',fr:'bateau',pt:'barco',e:'🚤',frase:{es:'El barco flota',en:'The boat floats',fr:'Le bateau flotte',pt:'O barco flutua'}},
+    {es:'camión',en:'truck',fr:'camion',pt:'caminhão',e:'🚚',frase:{es:'El camión carga cosas',en:'The truck carries things',fr:'Le camion transporte des choses',pt:'O caminhão carrega coisas'}},
+    {es:'helicóptero',en:'helicopter',fr:'hélicoptère',pt:'helicóptero',e:'🚁',frase:{es:'El helicóptero sube',en:'The helicopter goes up',fr:'L\'hélicoptère monte',pt:'O helicóptero sobe'}},
+    {es:'patineta',en:'scooter',fr:'trottinette',pt:'patinete',e:'🛴',frase:{es:'La patineta rueda',en:'The scooter rolls',fr:'La trottinette roule',pt:'O patinete roda'}},
+  ]},
+  instruments:{icon:'🎵',nameEs:'Instrumentos',nameEn:'Instruments',nameFr:'Instruments',req:0,premium:true,ptReady:true,words:[
+    {es:'guitarra',en:'guitar',fr:'guitare',pt:'violão',e:'🎸',frase:{es:'La guitarra suena',en:'The guitar sounds',fr:'La guitare sonne',pt:'O violão toca'}},
+    {es:'piano',en:'piano',fr:'piano',pt:'piano',e:'🎹',frase:{es:'El piano es grande',en:'The piano is big',fr:'Le piano est grand',pt:'O piano é grande'}},
+    {es:'batería',en:'drums',fr:'batterie',pt:'bateria',e:'🥁',frase:{es:'La batería marca el ritmo',en:'The drums set the rhythm',fr:'La batterie donne le rythme',pt:'A bateria marca o ritmo'}},
+    {es:'violín',en:'violin',fr:'violon',pt:'violino',e:'🎻',frase:{es:'El violín canta',en:'The violin sings',fr:'Le violon chante',pt:'O violino canta'}},
+    {es:'flauta',en:'flute',fr:'flûte',pt:'flauta',e:'🪈',frase:{es:'La flauta es suave',en:'The flute is soft',fr:'La flûte est douce',pt:'A flauta é suave'}},
+    {es:'trompeta',en:'trumpet',fr:'trompette',pt:'trompete',e:'🎺',frase:{es:'La trompeta suena fuerte',en:'The trumpet sounds loud',fr:'La trompette sonne fort',pt:'O trompete toca alto'}},
+    {es:'saxofón',en:'saxophone',fr:'saxophone',pt:'saxofone',e:'🎷',frase:{es:'El saxofón es jazz',en:'The saxophone is jazz',fr:'Le saxophone, c\'est le jazz',pt:'O saxofone é jazz'}},
+    {es:'micrófono',en:'microphone',fr:'microphone',pt:'microfone',e:'🎤',frase:{es:'Canto con micrófono',en:'I sing with a microphone',fr:'Je chante avec un micro',pt:'Eu canto com microfone'}},
+    {es:'maracas',en:'maracas',fr:'maracas',pt:'maracas',e:'🪇',frase:{es:'Las maracas suenan',en:'The maracas shake',fr:'Les maracas bougent',pt:'As maracas chacoalham'}},
+    {es:'xilófono',en:'xylophone',fr:'xylophone',pt:'xilofone',e:'🎶',frase:{es:'El xilófono hace notas',en:'The xylophone makes notes',fr:'Le xylophone fait des notes',pt:'O xilofone faz notas'}},
+  ]},
+
+  // ── MISIÓN 1: VALORES ─────────────────────────────────────────
+  values:{
+    icon:'🌟',nameEs:'Valores',nameEn:'Values',nameFr:'Valeurs',
+    req:1,premium:false,ptReady:true,
+    words:[
+      {es:'esfuerzo',en:'effort',fr:'effort',pt:'esforço',e:'💪',frase:{es:'Mi esfuerzo es grande',en:'My effort is great',fr:'Mon effort est grand',pt:'Meu esforço é grande'}},
+      {es:'equipo',en:'team',fr:'équipe',pt:'equipe',e:'🤝',frase:{es:'Trabajamos en equipo',en:'We work as a team',fr:'Nous travaillons en équipe',pt:'Trabalhamos em equipe'}},
+      {es:'respeto',en:'respect',fr:'respect',pt:'respeito',e:'🙌',frase:{es:'Yo muestro respeto',en:'I show respect',fr:'Je montre du respect',pt:'Eu mostro respeito'}},
+      {es:'valiente',en:'brave',fr:'courageux',pt:'valente',e:'🦁',frase:{es:'Soy muy valiente',en:'I am very brave',fr:'Je suis très courageux',pt:'Eu sou muito valente'}},
+      {es:'meta',en:'goal',fr:'but',pt:'meta',e:'🎯',frase:{es:'Yo alcanzo mi meta',en:'I reach my goal',fr:"J'atteins mon but",pt:'Eu alcanço minha meta'}},
+      {es:'calma',en:'calm',fr:'calme',pt:'calma',e:'🧘',frase:{es:'Respiro con calma',en:'I breathe calmly',fr:'Je respire avec calme',pt:'Eu respiro com calma'}},
+      {es:'honesto',en:'honest',fr:'honnête',pt:'honesto',e:'🤞',frase:{es:'Soy honesto siempre',en:'I am always honest',fr:'Je suis toujours honnête',pt:'Eu sou sempre honesto'}},
+      {es:'perseverar',en:'persevere',fr:'persévérer',pt:'perseverar',e:'🔥',frase:{es:'Debo perseverar hoy',en:'I must persevere today',fr:'Je dois persévérer aujourd\'hui',pt:'Devo perseverar hoje'}},
+      {es:'confianza',en:'confidence',fr:'confiance',pt:'confiança',e:'💛',frase:{es:'Tengo confianza en mí',en:'I have confidence in myself',fr:"J'ai confiance en moi",pt:'Tenho confiança em mim'}},
+      {es:'generoso',en:'generous',fr:'généreux',pt:'generoso',e:'🎁',frase:{es:'Soy muy generoso',en:'I am very generous',fr:'Je suis très généreux',pt:'Eu sou muito generoso'}},
+    ]
+  },
+
+  // ── MISIÓN 2: DEPORTES (versión premium ampliada) ─────────────
+  sportsPlus:{
+    icon:'🏅',nameEs:'Deportes',nameEn:'Sports',nameFr:'Sports',
+    req:1,premium:false,ptReady:true,
+    words:[
+      {es:'correr',en:'run',fr:'courir',pt:'correr',e:'🏃',frase:{es:'Me gusta correr rápido',en:'I like to run fast',fr:"J'aime courir vite",pt:'Eu gosto de correr rápido'}},
+      {es:'saltar',en:'jump',fr:'sauter',pt:'pular',e:'🦘',frase:{es:'Puedo saltar alto',en:'I can jump high',fr:'Je peux sauter haut',pt:'Eu posso pular alto'}},
+      {es:'jugar',en:'play',fr:'jouer',pt:'jogar',e:'⚽',frase:{es:'Vamos a jugar hoy',en:"Let's play today",fr:"Jouons aujourd\'hui",pt:'Vamos jogar hoje'}},
+      {es:'nadar',en:'swim',fr:'nager',pt:'nadar',e:'🏊',frase:{es:'Yo sé nadar bien',en:'I can swim well',fr:'Je sais bien nager',pt:'Eu sei nadar bem'}},
+      {es:'entrenar',en:'train',fr:'entraîner',pt:'treinar',e:'🏋️',frase:{es:'Voy a entrenar duro',en:'I will train hard',fr:"Je vais m'entraîner dur",pt:'Eu vou treinar duro'}},
+      {es:'ganar',en:'win',fr:'gagner',pt:'ganhar',e:'🏆',frase:{es:'Es divertido ganar',en:'It is fun to win',fr:"C'est amusant de gagner",pt:'É divertido ganhar'}},
+      {es:'competir',en:'compete',fr:'concourir',pt:'competir',e:'🏁',frase:{es:'Voy a competir hoy',en:'I will compete today',fr:"Je vais concourir aujourd\'hui",pt:'Vou competir hoje'}},
+      {es:'campeón',en:'champion',fr:'champion',pt:'campeão',e:'🏅',frase:{es:'Soy el campeón',en:'I am the champion',fr:'Je suis le champion',pt:'Eu sou o campeão'}},
+      {es:'descansar',en:'rest',fr:'se reposer',pt:'descansar',e:'😴',frase:{es:'Debo descansar bien',en:'I must rest well',fr:'Je dois bien me reposer',pt:'Devo descansar bem'}},
+      {es:'esforzarse',en:'try hard',fr:'faire effort',pt:'se esforçar',e:'💯',frase:{es:'Hay que esforzarse más',en:'We must try harder',fr:"Il faut faire plus d'effort",pt:'Precisamos nos esforçar mais'}},
+    ]
+  },
+
+  // ── MISIÓN 3: MENTALIDAD GANADORA ────────────────────────────
+  mindset:{
+    icon:'🧠',nameEs:'Mentalidad',nameEn:'Mindset',nameFr:'Mentalité',
+    req:2,premium:false,ptReady:true,
+    words:[
+      {es:'creer',en:'believe',fr:'croire',pt:'acreditar',e:'⭐',frase:{es:'Creo en mí mismo',en:'I believe in myself',fr:'Je crois en moi',pt:'Eu acredito em mim'}},
+      {es:'mejorar',en:'improve',fr:'améliorer',pt:'melhorar',e:'📈',frase:{es:'Puedo mejorar cada día',en:'I can improve every day',fr:"Je peux m'améliorer chaque jour",pt:'Posso melhorar cada dia'}},
+      {es:'positivo',en:'positive',fr:'positif',pt:'positivo',e:'☀️',frase:{es:'Pienso de manera positiva',en:'I think in a positive way',fr:'Je pense de façon positive',pt:'Penso de maneira positiva'}},
+      {es:'disciplina',en:'discipline',fr:'discipline',pt:'disciplina',e:'📐',frase:{es:'La disciplina me ayuda',en:'Discipline helps me',fr:"La discipline m'aide",pt:'A disciplina me ajuda'}},
+      {es:'foco',en:'focus',fr:'concentration',pt:'foco',e:'🔭',frase:{es:'Mantengo el foco siempre',en:'I always stay focused',fr:'Je reste concentré toujours',pt:'Mantenho o foco sempre'}},
+      {es:'error',en:'mistake',fr:'erreur',pt:'erro',e:'💡',frase:{es:'Un error me enseña',en:'A mistake teaches me',fr:"Une erreur m'apprend",pt:'Um erro me ensina'}},
+      {es:'intentar',en:'try',fr:'essayer',pt:'tentar',e:'🚀',frase:{es:'Voy a intentarlo hoy',en:'I will try today',fr:"Je vais essayer aujourd\'hui",pt:'Vou tentar hoje'}},
+      {es:'paciencia',en:'patience',fr:'patience',pt:'paciência',e:'⏳',frase:{es:'La paciencia es virtud',en:'Patience is a virtue',fr:'La patience est une vertu',pt:'A paciência é uma virtude'}},
+      {es:'aprender',en:'learn',fr:'apprendre',pt:'aprender',e:'📚',frase:{es:'Me encanta aprender cosas',en:'I love to learn things',fr:"J'aime apprendre des choses",pt:'Adoro aprender coisas'}},
+      {es:'motivado',en:'motivated',fr:'motivé',pt:'motivado',e:'🔥',frase:{es:'Estoy muy motivado hoy',en:'I am very motivated today',fr:"Je suis très motivé aujourd\'hui",pt:'Estou muito motivado hoje'}},
+    ]
+  },
+
+});
+
+// marca premium por defecto para categorías base
+Object.keys(CATS).forEach(k=>{
+  if(typeof CATS[k].premium==='undefined') CATS[k].premium=false;
+  if(typeof CATS[k].ptReady==='undefined') CATS[k].ptReady=false;
+});
+
+/* =========================
+   BADGES (más + variadas)
+   ========================= */
+const BADGES = [
+  // ── PRIMEROS PASOS ──
+  {id:'first',     icon:'🎬',name:'Primera misión',   desc:'Completaste tu primera misión.',       c:p=>(p.stats?.missionsTotal||0)>=1},
+  {id:'five_mis',  icon:'🚀',name:'5 misiones',       desc:'Completaste 5 misiones.',              c:p=>(p.stats?.missionsTotal||0)>=5},
+  {id:'ten_mis',   icon:'🎯',name:'10 misiones',      desc:'Completaste 10 misiones.',             c:p=>(p.stats?.missionsTotal||0)>=10},
+  {id:'twenty_mis',icon:'🏅',name:'20 misiones',      desc:'Completaste 20 misiones.',             c:p=>(p.stats?.missionsTotal||0)>=20},
+  {id:'fifty_mis', icon:'💫',name:'50 misiones',      desc:'Completaste 50 misiones. ¡Leyenda!',   c:p=>(p.stats?.missionsTotal||0)>=50},
+
+  // ── PERFECCIÓN ──
+  {id:'perfect1',  icon:'🏆',name:'Perfecto',         desc:'Lograste 100% en una misión.',         c:p=>(p.perfect||0)>=1},
+  {id:'perfect5',  icon:'👑',name:'Imparable x5',     desc:'5 misiones perfectas.',                c:p=>(p.perfect||0)>=5},
+  {id:'perfect10', icon:'💎',name:'Diamante',         desc:'10 misiones perfectas.',               c:p=>(p.perfect||0)>=10},
+
+  // ── VELOCIDAD ──
+  {id:'fast10',    icon:'⚡',name:'Rápido',           desc:'10 respuestas en menos de 4 segundos.',c:p=>(p.fast||0)>=10},
+  {id:'fast50',    icon:'🌩️',name:'Relámpago',        desc:'50 respuestas ultrarrápidas.',          c:p=>(p.fast||0)>=50},
+  {id:'speed1',    icon:'🏎️',name:'Modo Relámpago',   desc:'Primera misión en Modo Relámpago.',    c:p=>(p.stats?.byType?.speed_match||0)>=1},
+  {id:'speed_perf',icon:'🌟',name:'Tormenta Perfecta',desc:'100% en Modo Relámpago.',              c:p=>Object.keys(p.best||{}).some(k=>k.includes('|speed_match|')&&p.best[k]===100)},
+
+  // ── RACHA ──
+  {id:'streak2',   icon:'🔥',name:'Racha 2 días',     desc:'2 días seguidos jugando.',             c:p=>(p.streak||0)>=2},
+  {id:'streak5',   icon:'🔥',name:'Racha 5 días',     desc:'5 días seguidos jugando.',             c:p=>(p.streak||0)>=5},
+  {id:'streak10',  icon:'🔥',name:'Racha 10 días',    desc:'10 días seguidos. ¡Fuego!',            c:p=>(p.streak||0)>=10},
+  {id:'streak30',  icon:'🔥',name:'Mes de fuego',     desc:'30 días seguidos. ¡Increíble!',        c:p=>(p.streak||0)>=30},
+
+  // ── IDIOMAS ──
+  {id:'en5',       icon:'🇬🇧',name:'Inglés x5',       desc:'5 misiones en inglés.',               c:p=>(p.langDone?.en||0)>=5},
+  {id:'en15',      icon:'🇬🇧',name:'Inglés Experto',   desc:'15 misiones en inglés.',              c:p=>(p.langDone?.en||0)>=15},
+  {id:'fr5',       icon:'🇫🇷',name:'Francés x5',       desc:'5 misiones en francés.',              c:p=>(p.langDone?.fr||0)>=5},
+  {id:'fr15',      icon:'🇫🇷',name:'Francés Experto',  desc:'15 misiones en francés.',             c:p=>(p.langDone?.fr||0)>=15},
+  {id:'pt3',       icon:'🇧🇷',name:'Portugués x3',     desc:'3 misiones en portugués.',            c:p=>(p.langDone?.pt||0)>=3},
+  {id:'pt10',      icon:'🇧🇷',name:'Portugués Experto',desc:'10 misiones en portugués.',           c:p=>(p.langDone?.pt||0)>=10},
+  {id:'trilingual',icon:'🌍',name:'Trilingüe',         desc:'5 misiones en cada idioma.',          c:p=>(p.langDone?.en||0)>=5&&(p.langDone?.fr||0)>=5&&(p.langDone?.pt||0)>=5},
+  {id:'both10',    icon:'⚡',name:'Modo Ambos x10',    desc:'10 misiones en modo Ambos.',          c:p=>(p.stats?.bothMissions||0)>=10},
+
+  // ── NIVELES GENERALES ──
+  {id:'lvl2',      icon:'🧭',name:'Explorador',        desc:'Llegaste al Nivel 2.',                c:p=>getLevel(p.xp)>=2},
+  {id:'lvl3',      icon:'🛡️',name:'Aventurero',        desc:'Llegaste al Nivel 3.',                c:p=>getLevel(p.xp)>=3},
+  {id:'lvl4',      icon:'⚔️',name:'Guardián',          desc:'Llegaste al Nivel 4.',                c:p=>getLevel(p.xp)>=4},
+  {id:'lvl5',      icon:'🌟',name:'Campeón',           desc:'Llegaste al Nivel 5.',                c:p=>getLevel(p.xp)>=5},
+  {id:'lvl6',      icon:'👑',name:'Leyenda',           desc:'Llegaste al Nivel 6.',                c:p=>getLevel(p.xp)>=6},
+
+  // ── MONEDAS ──
+  {id:'coins50',   icon:'💰',name:'Ahorrista',         desc:'Juntaste 50 monedas.',                c:p=>(p.coins||0)>=50},
+  {id:'coins200',  icon:'💰',name:'Rico Rico',         desc:'Juntaste 200 monedas.',               c:p=>(p.coins||0)>=200},
+  {id:'coins500',  icon:'💎',name:'Millonario',        desc:'Juntaste 500 monedas.',               c:p=>(p.coins||0)>=500},
+
+  // ── TIPOS DE ACTIVIDAD ──
+  {id:'vocab5',    icon:'🧩',name:'Vocabulario x5',    desc:'5 misiones de vocabulario.',          c:p=>(p.stats?.byType?.vocab_mcq||0)>=5},
+  {id:'sentence5', icon:'🧠',name:'Oraciones x5',      desc:'5 misiones de completar oración.',    c:p=>(p.stats?.byType?.sentence_fill_mcq||0)>=5},
+  {id:'order3',    icon:'🧱',name:'Ordenador',          desc:'3 misiones de ordenar oración.',      c:p=>(p.stats?.byType?.sentence_order||0)>=3},
+  {id:'emoji3',    icon:'😄',name:'Emoji Master',       desc:'3 misiones con emojis.',              c:p=>(p.stats?.byType?.emoji_fill||0)>=3},
+
+  // ── PROGRESIÓN DE DIFICULTAD ──
+  {id:'diff2_any', icon:'🔵',name:'Nivel Medio',        desc:'Subiste a Nivel Medio en alguna misión.',c:p=>Object.values(p.catDiff||{}).some(d=>d>=2)},
+  {id:'diff3_any', icon:'🟠',name:'Nivel Difícil',      desc:'Subiste a Nivel Difícil en alguna misión.',c:p=>Object.values(p.catDiff||{}).some(d=>d>=3)},
+  {id:'diff3_five',icon:'🔥',name:'5 en Difícil',       desc:'Nivel Difícil en 5 categorías.',      c:p=>Object.values(p.catDiff||{}).filter(d=>d>=3).length>=5},
+  {id:'all_lvl1',  icon:'🌱',name:'Base Completa',      desc:'Completaste Nivel Fácil en 5 categorías.',c:p=>Object.keys(CATS).filter(id=>isCatLevelComplete(id,1)).length>=5},
+  {id:'all_lvl2',  icon:'💧',name:'Intermedio Maestro', desc:'Nivel Medio completo en 5 categorías.',c:p=>Object.keys(CATS).filter(id=>isCatLevelComplete(id,2)).length>=5},
+  {id:'all_lvl3',  icon:'🔥',name:'Experto Total',      desc:'Nivel Difícil completo en 5 categorías.',c:p=>Object.keys(CATS).filter(id=>isCatLevelComplete(id,3)).length>=5},
+
+  // ── CATEGORÍAS ──
+  {id:'cats3',     icon:'🗺️',name:'3 categorías',       desc:'60%+ en 3 categorías.',              c:p=>countCats60(p)>=3},
+  {id:'cats6',     icon:'🧩',name:'6 categorías',        desc:'60%+ en 6 categorías.',              c:p=>countCats60(p)>=6},
+  {id:'cats10',    icon:'🌐',name:'10 categorías',       desc:'60%+ en 10 categorías.',             c:p=>countCats60(p)>=10},
+
+  // ── MISIONES ESPECIALES ──
+  {id:'space1',    icon:'🪐',name:'Cosmos',             desc:'Misión de Planetas o Extraterrestres.',c:p=>hasCatDone(p,['planets','aliens'])},
+  {id:'dino1',     icon:'🦖',name:'Jurásico',           desc:'Misión de Dinosaurios.',              c:p=>hasCatDone(p,['dinosaurs'])},
+  {id:'karate1',   icon:'🥋',name:'Dojo',               desc:'Misión de Karate.',                   c:p=>hasCatDone(p,['karate'])},
+  {id:'pets1',     icon:'🐾',name:'Amigo Fiel',         desc:'Misión de Mascotas.',                 c:p=>hasCatDone(p,['pets'])},
+  {id:'vehicles1', icon:'🚗',name:'Viajero',            desc:'Misión de Vehículos.',                c:p=>hasCatDone(p,['vehicles'])},
+  {id:'music1',    icon:'🎵',name:'Música',             desc:'Misión de Instrumentos.',             c:p=>hasCatDone(p,['instruments'])},
+  {id:'elements1', icon:'🧪',name:'Laboratorio',        desc:'Misión de Elementos.',                c:p=>hasCatDone(p,['elements'])},
+
+  // ── NUEVAS MISIONES (Valores, Deportes, Mentalidad) ──
+  {id:'values1',   icon:'🌟',name:'Valores',            desc:'Completaste Valores.',                c:p=>hasCatDone(p,['values'])},
+  {id:'values100', icon:'💛',name:'Corazón Dorado',     desc:'100% en Valores.',                    c:p=>Object.keys(p.best||{}).some(k=>k.startsWith('values|')&&p.best[k]===100)},
+  {id:'sports1',   icon:'🏅',name:'Deportista',         desc:'Completaste Deportes.',               c:p=>hasCatDone(p,['sportsPlus'])},
+  {id:'sports100', icon:'🥇',name:'Número 1',           desc:'100% en Deportes.',                   c:p=>Object.keys(p.best||{}).some(k=>k.startsWith('sportsPlus|')&&p.best[k]===100)},
+  {id:'mindset1',  icon:'🧠',name:'Mente Ganadora',     desc:'Completaste Mentalidad.',             c:p=>hasCatDone(p,['mindset'])},
+  {id:'mindset100',icon:'🔥',name:'Fuego Mental',       desc:'100% en Mentalidad.',                 c:p=>Object.keys(p.best||{}).some(k=>k.startsWith('mindset|')&&p.best[k]===100)},
+  {id:'triple',    icon:'👑',name:'Triple Corona',       desc:'100% en Valores, Deportes y Mentalidad.',c:p=>['values','sportsPlus','mindset'].every(id=>Object.keys(p.best||{}).some(k=>k.startsWith(id+'|')&&p.best[k]===100))},
+
+  // ── SUPER LOGROS ──
+  {id:'pb5',       icon:'🏆',name:'5 Récords 100%',     desc:'100% en 5 categorías distintas.',     c:p=>new Set(Object.keys(p.best||{}).filter(k=>p.best[k]===100).map(k=>k.split('|')[0])).size>=5},
+  {id:'all_types', icon:'🌈',name:'Polivalente',        desc:'Completaste los 5 tipos de actividad.',c:p=>ALL_ACTIVITY_TYPES.every(t=>(p.stats?.byType?.[t]||0)>=1)},
+];
+
+/* =========================
+   CONSTANTES / ESTADO
+   ========================= */
+const BUILD = { VERSION:'3.0', PREMIUM_DEFAULT:true };
+const LS_PROFILES='wq_profiles_v3';
+const LS_ACTIVE='wq_active_v3';
+const LS_LEGACY='wq2';
+
+const LVLNAMES=['Novato','Explorador','Aventurero','Guardián','Campeón','Maestro','Leyenda'];
+const LVLXP=[0,100,250,450,700,1000,1500];
+
+// ── DIFFICULTY LEVELS per mission ──────────────────────────────
+const DIFF_LEVELS=[
+  {id:1, icon:'🌱', label:'Fácil',   color:'#2ecc71', cls:'lv1', wordCount:6},
+  {id:2, icon:'🔥', label:'Medio',   color:'#3498db', cls:'lv2', wordCount:8},
+  {id:3, icon:'⚡', label:'Difícil', color:'#FFA500', cls:'lv3', wordCount:10},
+];
+const ALL_ACTIVITY_TYPES=['vocab_mcq','sentence_fill_mcq','sentence_order','emoji_fill','speed_match'];
+
+function getCatDiff(catId){ return P.catDiff?.[catId] || 1; }
+
+function getWordsForLevel(cat, diffLevel){
+  const n = DIFF_LEVELS[diffLevel-1]?.wordCount || cat.words.length;
+  // Take first n words for easy, all for hard — words are ordered easiest→hardest
+  return cat.words.slice(0, Math.min(n, cat.words.length));
+}
+
+// Check if all 5 activity types are done (≥60%) at a given difficulty level
+function isCatLevelComplete(catId, diffLevel){
+  return ALL_ACTIVITY_TYPES.every(tid => {
+    const key = catId+'|'+tid+'|'+diffLevel;
+    return (P.best?.[key]||0) >= 60;
+  });
+}
+
+// Get per-type completion status at current cat difficulty
+function getCatTypeStatus(catId, diffLevel){
+  return ALL_ACTIVITY_TYPES.map(tid=>({
+    tid,
+    pct: P.best?.[catId+'|'+tid+'|'+diffLevel] || 0,
+    done: (P.best?.[catId+'|'+tid+'|'+diffLevel]||0) >= 60,
+    perfect: (P.best?.[catId+'|'+tid+'|'+diffLevel]||0) === 100,
+  }));
+}
+
+function getPlayerLevel(){
+  // Player general level based on how many (cat × diff) combos completed
+  let total = 0;
+  Object.keys(CATS).forEach(catId=>{
+    [1,2,3].forEach(d => { if(isCatLevelComplete(catId,d)) total++; });
+  });
+  return total; // used alongside XP level
+}
+
+const LANGS={
+  en:{id:'en',flag:'🇬🇧',name:'Inglés',code:'en-US'},
+  fr:{id:'fr',flag:'🇫🇷',name:'Francés',code:'fr-FR'},
+  pt:{id:'pt',flag:'🇧🇷',name:'Portugués',code:'pt-BR'},
+  both:{id:'both',flag:'⚡',name:'Ambos',code:''},
+};
+
+const MISSION_TYPES=[
+  {id:'vocab_mcq',icon:'🧩',name:'Vocabulario',sub:'Elige la palabra correcta',premium:false},
+  {id:'sentence_fill_mcq',icon:'📝',name:'Completa la oración',sub:'Elige la palabra que falta',premium:false},
+  {id:'sentence_order',icon:'🧱',name:'Ordena la oración',sub:'Pon las palabras en orden',premium:true},
+  {id:'emoji_fill',icon:'😄',name:'Oración con emojis',sub:'Completa con el emoji correcto',premium:true},
+  {id:'speed_match',icon:'⚡',name:'Modo Relámpago',sub:'¡6 segundos para responder! XP x2',premium:false,minLevel:0,requirePrev4:true},
+];
+
+const AVATARS=['🧒','👧','🧑','👦','🦖','🦄','🤖','🧙‍♂️','🧙‍♀️','🧑‍🚀'];
+
+// selector login
+let selLang='en', selDiff='easy';
+
+// perfiles
+let PROFILES={}, ACTIVE='', P=null;
+
+// juego
+let G={active:false,cat:'',type:'vocab_mcq',qs:[],qi:0,ok:0,t0:0,iv:null,tl:15,paused:false,fast:0,lang:'en',newB:[],lockedReason:''};
+
+// sesión / pantalla
+let S={start:0,limitMin:15,iv:null,gate:false,paused:false,remainingMs:0};
+
+// tutorial
+let TUT={step:0,steps:[]};
+
+// adult gate
+let GATE={purpose:'',onOk:null,a:0,b:0,holdT:null,holdP:0};
+
+// audio
+let _AC=null;
+
+/* =========================
+   UTILIDADES
+   ========================= */
+const $=id=>document.getElementById(id);
+const clamp=(v,a,b)=>Math.max(a,Math.min(b,v));
+function shuffle(a){for(let i=a.length-1;i>0;i--){const j=Math.floor(Math.random()*(i+1));[a[i],a[j]]=[a[j],a[i]];}return a;}
+function now(){return Date.now();}
+function getLevel(xp){for(let i=LVLXP.length-1;i>=0;i--) if(xp>=LVLXP[i]) return i; return 0;}
+
+function show(screenId){
+  document.querySelectorAll('.screen').forEach(s=>s.classList.remove('on'));
+  $(screenId).classList.add('on');
+  window.scrollTo?.(0,0);
+  setTimeout(()=>$(screenId).scrollTo?.(0,0),50);
+}
+function showUI(on){
+  $('topbar').style.display=on?'flex':'none';
+  $('botnav').style.display=on?'flex':'none';
+}
+function setNav(i){
+  for(let k=0;k<4;k++) $('nb'+k).classList.toggle('act',k===i);
+}
+
+function openModal(id){$(id).classList.add('on');}
+function closeModal(id){$(id).classList.remove('on');}
+
+// notifs simples
+function notif(msg, col){
+  const t=$('tw');
+  t.textContent=msg;
+  t.style.background=col||'rgba(0,0,0,.35)';
+  t.style.display='block';
+  clearTimeout(t._to);
+  t._to=setTimeout(()=>{t.style.display='none';},3500);
+}
+
+// confetti mini
+function confetti(){
+  try{
+    for(let i=0;i<24;i++){
+      const p=document.createElement('div');
+      p.style.cssText=`position:fixed;left:${Math.random()*100}vw;top:-10px;width:8px;height:8px;border-radius:2px;background:hsl(${Math.random()*360},90%,60%);opacity:.95;z-index:60;transform:rotate(${Math.random()*180}deg)`;
+      document.body.appendChild(p);
+      const dur=900+Math.random()*900;
+      const endY=110+Math.random()*30;
+      p.animate([{transform:p.style.transform,top:'-10px',opacity:1},{transform:`rotate(${Math.random()*720}deg)`,top:`${endY}vh`,opacity:0}],{duration:dur,easing:'cubic-bezier(.2,.7,.2,1)'}).onfinish=()=>p.remove();
+    }
+  }catch(e){}
+}
+
+/* =========================
+   AUDIO SFX
+   ========================= */
+function getAC(){
+  try{
+    if(!_AC) _AC=new (window.AudioContext||window.webkitAudioContext)();
+    if(_AC.state==='suspended') _AC.resume?.();
+    return _AC;
+  }catch(e){return null;}
+}
+function snd(type){
+  try{
+    const ac=getAC();if(!ac)return;
+    const t=ac.currentTime;
+    const o=ac.createOscillator(),g=ac.createGain();
+    o.connect(g);g.connect(ac.destination);
+    if(type==='ok'){
+      o.type='sine';o.frequency.setValueAtTime(440,t);o.frequency.exponentialRampToValueAtTime(880,t+.14);
+      g.gain.setValueAtTime(.18,t);g.gain.exponentialRampToValueAtTime(.001,t+.35);
+      o.start(t);o.stop(t+.36);
+    }else if(type==='bad'){
+      o.type='sawtooth';o.frequency.setValueAtTime(320,t);o.frequency.exponentialRampToValueAtTime(160,t+.22);
+      g.gain.setValueAtTime(.12,t);g.gain.exponentialRampToValueAtTime(.001,t+.26);
+      o.start(t);o.stop(t+.28);
+    }else if(type==='click'){
+      o.type='triangle';o.frequency.setValueAtTime(520,t);
+      g.gain.setValueAtTime(.08,t);g.gain.exponentialRampToValueAtTime(.001,t+.12);
+      o.start(t);o.stop(t+.12);
+    }else if(type==='win'){
+      const seq=[523,659,784,1047];
+      seq.forEach((f,i)=>{
+        const oc=ac.createOscillator(),gc=ac.createGain();
+        oc.connect(gc);gc.connect(ac.destination);
+        oc.type='sine';oc.frequency.setValueAtTime(f,t+i*.09);
+        gc.gain.setValueAtTime(.12,t+i*.09);gc.gain.exponentialRampToValueAtTime(.001,t+i*.09+.18);
+        oc.start(t+i*.09);oc.stop(t+i*.09+.18);
+      });
+    }
+  }catch(e){}
+}
+
+/* =========================
+   TTS (SpeechSynthesis)
+   ========================= */
+function speakText(txt, langId){
+  try{
+    const meta=LANGS[langId]||LANGS.en;
+    const u=new SpeechSynthesisUtterance(txt);
+    u.lang=meta.code||'en-US';
+    u.rate=0.86; u.pitch=1.05;
+    window.speechSynthesis.cancel();
+    window.speechSynthesis.speak(u);
+  }catch(e){}
+}
+function speakNow(){
+  const q=G.qs[G.qi]; if(!q) return;
+  const sp=$('qSpeak'); sp.className='q-speak speaking';
+  const say = (q.type==='vocab_mcq') ? q.ans : (q.sentenceFull || q.ans);
+  try{
+    const meta=LANGS[q.lang]||LANGS.en;
+    const u=new SpeechSynthesisUtterance(say);
+    u.lang=meta.code||'en-US';
+    u.rate=(q.type==='vocab_mcq')?0.82:0.9;
+    u.pitch=1.05;
+    u.onend=()=>{sp.className='q-speak';};
+    window.speechSynthesis.cancel();
+    window.speechSynthesis.speak(u);
+  }catch(e){ sp.className='q-speak'; }
+}
+
+/* =========================
+   PERFILES: guardar/cargar
+   ========================= */
+function defaultProfile(name){
+  return {
+    name,
+    avatar:'🧒',
+    lang:'en',
+    bothMode:'mission', // 'mission' | 'question'
+    diff:'easy',
+    xp:0, coins:0,
+    streak:0, lastDate:'',
+    perfect:0, fast:0,
+    langDone:{en:0,fr:0,pt:0},
+    stars:{},     // key cat|type|diff => 0..3
+    best:{},      // key cat|type|diff => pct
+    catDiff:{},   // key catId => 1|2|3 (active difficulty tier)
+    catLevelBadge:{}, // key catId|diff => true (all 5 types done)
+    badges:[],
+    tutorialSeen:false,
+    lastLangUsed:'fr',
+    sessionLimit:15,
+    lockUntil:0,
+    premium:BUILD.PREMIUM_DEFAULT,
+    stats:{missionsTotal:0,bothMissions:0,byType:{},byCat:{}},
+  };
+}
+
+function loadProfiles(){
+  PROFILES={};
+  try{
+    const raw=localStorage.getItem(LS_PROFILES);
+    if(raw) PROFILES=JSON.parse(raw)||{};
+  }catch(e){ PROFILES={}; }
+
+  // migración del legacy (wq2)
+  try{
+    const legacy=localStorage.getItem(LS_LEGACY);
+    if(legacy && !Object.keys(PROFILES).length){
+      const old=JSON.parse(legacy);
+      const nm=(old.name||'Jugador').slice(0,18);
+      const p=defaultProfile(nm);
+      // intenta mapear datos básicos
+      p.lang=old.lang||'en';
+      p.diff=old.diff||'easy';
+      p.xp=old.xp||0; p.coins=old.coins||0;
+      p.streak=old.streak||0; p.lastDate=old.lastDate||'';
+      p.perfect=old.perfect||0; p.fast=old.fast||0;
+      p.langDone.en=old.enDone||0; p.langDone.fr=old.frDone||0;
+      p.badges=old.badges||[];
+      p.tutorialSeen=false;
+      // progreso por categorías (solo vocab legacy)
+      if(old.best){ Object.keys(old.best).forEach(cid=>{
+        p.best[`${cid}|vocab_mcq`]=old.best[cid];
+      });}
+      if(old.stars){ Object.keys(old.stars).forEach(cid=>{
+        p.stars[`${cid}|vocab_mcq`]=old.stars[cid];
+      });}
+      PROFILES[nm]=p;
+      localStorage.removeItem(LS_LEGACY);
+      saveProfiles();
+      localStorage.setItem(LS_ACTIVE,nm);
+    }
+  }catch(e){}
+}
+
+function saveProfiles(){
+  try{ localStorage.setItem(LS_PROFILES, JSON.stringify(PROFILES)); }catch(e){}
+}
+
+function setActive(name){
+  ACTIVE=name;
+  localStorage.setItem(LS_ACTIVE,name);
+  P=PROFILES[name]||null;
+  if(P) saveProfiles();
+}
+
+function upsertProfile(name){
+  if(!PROFILES[name]) PROFILES[name]=defaultProfile(name);
+  return PROFILES[name];
+}
+
+/* =========================
+   LOGIN / LOGOUT
+   ========================= */
+function updateStreak(p){
+  const today = new Date().toDateString();
+  if(p.lastDate === today) return; // already updated today
+  const yesterday = new Date(Date.now()-86400000).toDateString();
+  if(p.lastDate === yesterday){
+    p.streak = (p.streak||0) + 1;
+  } else if(p.lastDate === ''){
+    p.streak = 1; // first time ever
+  } else {
+    p.streak = 1; // streak broken — reset to 1 for today
+  }
+  p.lastDate = today;
+  saveProfiles();
+}
+
+function fillDL(){
+  const dl=$('dl'); if(!dl) return;
+  dl.innerHTML='';
+  const names=Object.keys(PROFILES).slice(0,12);
+  names.forEach(n=>{
+    const o=document.createElement('option'); o.value=n; dl.appendChild(o);
+  });
+}
+
+function selL(l){
+  // pt solo premium
+  if(l==='pt' && (!P?.premium) && isActiveUserLoggedIn()){
+    // si ya logueado, se maneja en panel adultos; en login dependerá del toggle premium por defecto
+  }
+  selLang=l;
+  document.querySelectorAll('[data-l]').forEach(t=>t.classList.toggle('sel',t.getAttribute('data-l')===l));
+}
+function selD(d){
+  selDiff=d;
+  document.querySelectorAll('[data-d]').forEach(t=>t.classList.toggle('sel',t.getAttribute('data-d')===d));
+}
+
+function isActiveUserLoggedIn(){ return !!P?.name; }
+
+function doLogin(){
+  const n=($('iName').value||'').trim().slice(0,18) || 'Jugador';
+  const p=upsertProfile(n);
+  setActive(n);
+
+  // set settings from selectors (pero respeta pt si no premium)
+  p.diff=selDiff;
+  if(selLang==='pt' && !p.premium){
+    notif('🔒 Portugués es Premium. Actívalo en “Panel Adultos”.','#2b6fc0');
+    p.lang='en';
+  }else{
+    p.lang=selLang;
+  }
+
+  // streak — delegate to shared function
+  updateStreak(p);
+
+  saveProfiles();
+  fillDL();
+
+  showUI(true);
+  updateTopbar();
+  renderHome();
+  show('homeScreen');
+  setNav(0);
+  startSessionCycle();
+
+  // tutorial 1a vez
+  if(!p.tutorialSeen) openTutorial(true);
+
+  snd('click');
+}
+
+function logout(){
+  // cambiar jugador: vuelve a login sin borrar progreso
+  if(G.active) { exitMission(); return; }
+  stopSessionCycle();
+  showUI(false);
+  show('loginScreen');
+  setNav(0);
+  snd('click');
+}
+
+function updateTopbar(){
+  if(!P) return;
+  $('tbXP').textContent=P.xp||0;
+  $('tbStreak').textContent=P.streak||0;
+  $('tbCoins').textContent=P.coins||0;
+}
+
+function formatMMSS(ms){
+  const s=Math.max(0,Math.floor(ms/1000));
+  const m=Math.floor(s/60);
+  const r=s%60;
+  return `${String(m).padStart(2,'0')}:${String(r).padStart(2,'0')}`;
+}
+
+/* =========================
+   SESIÓN / TIEMPO EN PANTALLA
+   ========================= */
+function startSessionCycle(){
+  if(!P) return;
+  S.limitMin = clamp(P.sessionLimit||15,5,60);
+  S.start = now();
+  S.gate = false;
+  if(S.iv) clearInterval(S.iv);
+  S.iv=setInterval(tickSession, 1000);
+  tickSession();
+}
+function stopSessionCycle(){
+  if(S.iv) clearInterval(S.iv);
+  S.iv=null;
+}
+
+function tickSession(){
+  if(!P) return;
+  const remaining = (S.limitMin*60000) - (now()-S.start);
+  S.remainingMs = remaining;
+
+  // lock status
+  const lock = (P.lockUntil||0) > now();
+  const lockNote=$('lockNote');
+  if(lock){
+    const mm = formatMMSS((P.lockUntil-now()));
+    lockNote.classList.add('on');
+    lockNote.textContent = `⏸️ Descanso activo: vuelve a jugar en ${mm}.`;
+  }else{
+    lockNote.classList.remove('on');
+  }
+
+  $('tbTime').textContent = formatMMSS(Math.max(0,remaining));
+
+  // fin de ciclo
+  if(remaining<=0 && !S.gate){
+    S.gate=true;
+    onSessionExpired();
+  }
+}
+
+function onSessionExpired(){
+  // pausa juego si estaba activo
+  pauseGame(true);
+  openGate('⏳ Tiempo de pantalla', `Se terminó el ciclo de ${S.limitMin} minutos. Un adulto puede aprobar un nuevo ciclo, o puedes descansar un rato.`, 'session', ()=>{
+    // aprobado
+    S.start=now();
+    S.gate=false;
+    pauseGame(false);
+    notif('✅ Nuevo ciclo aprobado. ¡A jugar!','#2b6fc0');
+  });
+}
+
+/* =========================
+   HOME
+   ========================= */
+function renderHome(){
+  if(!P) return;
+  $('hName').textContent=P.name;
+  $('hAvatar').textContent=P.avatar||'🧒';
+  const lv=getLevel(P.xp);
+  $('hSub').textContent=`Nivel ${lv} · ${LVLNAMES[lv]||'Explorador'}`;
+  $('hXP').textContent=P.xp||0;
+  const next=LVLXP[lv+1]|| (LVLXP[LVLXP.length-1]+500);
+  $('hXPN').textContent=next;
+  const frac = (P.xp - (LVLXP[lv]||0)) / ((next-(LVLXP[lv]||0))||1);
+  $('hXPbar').style.width = (clamp(frac,0,1)*100)+'%';
+
+  $('hStreak').textContent=P.streak||0;
+  $('hBadges').textContent=(P.badges||[]).length;
+  $('hCoins').textContent=P.coins||0;
+  // words count based on actual levels completed
+  const totalWordsLearned = Object.entries(CATS).reduce((sum,[id,cat])=>{
+    const d = getCatDiff(id);
+    const done = ALL_ACTIVITY_TYPES.some(t=>(P.best?.[id+'|'+t+'|'+d]||0)>=60);
+    return sum + (done ? getWordsForLevel(cat,d).length : 0);
+  },0);
+  $('hWords').textContent = totalWordsLearned;
+
+  updateTopbar();
+  renderMissions();
+}
+
+function renderMissions(){
+  const g=$('mgrid'); g.innerHTML='';
+  const lv=getLevel(P.xp);
+  const lockedRest = (P.lockUntil||0) > now();
+
+  Object.entries(CATS).forEach(([id,cat])=>{
+    // filtro pt: solo categorías con ptReady si lang=pt
+    if(P.lang==='pt' && !cat.ptReady) return;
+
+    const lockedLevel = (cat.req||0) > lv;
+    const lockedPremium = cat.premium && !P.premium;
+
+    const bestStars = Math.max(
+      P.stars[`${id}|vocab_mcq`]||0,
+      P.stars[`${id}|sentence_fill_mcq`]||0,
+      P.stars[`${id}|sentence_order`]||0,
+      P.stars[`${id}|emoji_fill`]||0
+    );
+    const bestPct = Math.max(
+      P.best[`${id}|vocab_mcq`]||0,
+      P.best[`${id}|sentence_fill_mcq`]||0,
+      P.best[`${id}|sentence_order`]||0,
+      P.best[`${id}|emoji_fill`]||0
+    );
+    const done = bestPct>=60;
+
+    const d=document.createElement('div');
+    const lock = lockedRest || lockedLevel || lockedPremium;
+    d.className=`mis-card ${lock?'locked':done?'done':'unlocked'}`;
+
+    let lockLabel='';
+    if(lockedRest) lockLabel='⏸️ Descanso';
+    else if(lockedPremium) lockLabel='✨ Premium';
+    else if(lockedLevel) lockLabel=`🔒 Nivel ${cat.req}`;
+
+    const langLbl = (P.lang==='both')?'⚡ EN/FR': (P.lang==='pt')?'🇧🇷 PT': (P.lang==='fr')?'🇫🇷 FR':'🇬🇧 EN';
+
+    // personal best across all types for this cat
+    const pbAll = Math.max(
+      P.best[`${id}|vocab_mcq`]||0,
+      P.best[`${id}|sentence_fill_mcq`]||0,
+      P.best[`${id}|sentence_order`]||0,
+      P.best[`${id}|emoji_fill`]||0
+    );
+    const pbLabel = pbAll===100 ? '🏆 ¡Perfecto!' : pbAll>0 ? `🏅 Récord: ${pbAll}%` : '';
+
+    d.innerHTML=`${lockLabel?'<span class="lock-badge">'+lockLabel+'</span>':''}
+      <span class="mc-icon">${cat.icon||'🎯'}</span>
+      <div class="mc-name">${cat.nameEs||id}</div>
+      <div class="mc-lang">${cat.words.length} palabras · ${langLbl}</div>
+      <div class="mc-stars">${'⭐'.repeat(bestStars)}${'☆'.repeat(3-bestStars)}</div>
+      <div class="mc-best">${done?('Mejor: '+bestPct+'%'):('Meta: 60%')}</div>
+      ${pbLabel?`<span class="mc-pb">${pbLabel}</span>`:''}`;
+
+    d.onclick=()=>{
+      if(lock){
+        snd('bad');
+        if(lockedRest) notif('⏸️ Ahora toca descansar un poquito.','#e74c3c');
+        else if(lockedPremium) notif('✨ Esto es Premium. Actívalo en “Panel Adultos”.','#2b6fc0');
+        else notif('🔒 Sube de nivel para desbloquear.','#2b6fc0');
+        return;
+      }
+      openMissionType(id);
+    };
+
+    g.appendChild(d);
+  });
+}
+
+/* =========================
+   SELECCIÓN DE TIPO DE MISIÓN
+   ========================= */
+let _pendingCat=null;
+function openMissionType(catId){
+  _pendingCat=catId;
+  const cat=CATS[catId];
+  const diff = getCatDiff(catId);
+  const diffInfo = DIFF_LEVELS[diff-1];
+  const levelComplete = isCatLevelComplete(catId, diff);
+  const canAdvance = levelComplete && diff < 3;
+  const xpLv=getLevel(P.xp);
+
+  let hdr = `<div style="display:flex;align-items:center;gap:10px;flex-wrap:wrap;margin-bottom:10px">
+    <span style="font-size:2em">${cat.icon}</span>
+    <div>
+      <div style="font-weight:900;font-size:1.05em;color:#fff">${cat.nameEs}</div>
+      <div style="font-size:.8em;color:rgba(255,255,255,.6)">${getWordsForLevel(cat,diff).length} palabras · Nivel: <strong style="color:${diffInfo.color}">${diffInfo.icon} ${diffInfo.label}</strong></div>
+    </div>
+  </div>`;
+
+  if(canAdvance){
+    const nextDiff = DIFF_LEVELS[diff];
+    hdr += `<div style="background:linear-gradient(135deg,rgba(255,215,0,.15),rgba(255,165,0,.1));border:1.5px solid rgba(255,215,0,.4);border-radius:12px;padding:10px 14px;margin-bottom:10px;display:flex;align-items:center;gap:8px">
+      <span style="font-size:1.4em">🎉</span>
+      <div style="flex:1"><div style="font-weight:900;font-size:.88em;color:var(--gold)">¡Nivel ${diffInfo.label} completo!</div>
+      <div style="font-size:.75em;color:rgba(255,255,255,.7)">Puedes avanzar a ${nextDiff.icon} ${nextDiff.label}</div></div>
+      <button class="btn btn-gold btn-xs" onclick="advanceCatLevel('${catId}')">Subir ▶</button>
+    </div>`;
+  }
+  hdr += `<div style="font-size:.73em;color:rgba(255,255,255,.5);margin-bottom:4px">✅ completado · 🏆 perfecto · toca para jugar</div>`;
+  $('mtInfo').innerHTML = hdr;
+
+  const grid=$('mtGrid'); grid.innerHTML='';
+  MISSION_TYPES.forEach(t=>{
+    const lockedPremium = t.premium && !P.premium;
+    const lockedLevel  = (t.minLevel||0) > xpLv;
+    // Relámpago: se desbloquea cuando se completan las 4 actividades previas en este catId+diff
+    const prev4Types = ['vocab_mcq','sentence_fill_mcq','sentence_order','emoji_fill'];
+    const lockedPrev4 = t.requirePrev4 && !prev4Types.every(tid=>(P.best?.[catId+'|'+tid+'|'+diff]||0)>=60);
+    const locked = lockedPremium || lockedLevel || lockedPrev4;
+    const key = catId+'|'+t.id+'|'+diff;
+    const bestPct = P.best?.[key]||0;
+    const isDone  = bestPct >= 60;
+    const isPerfect = bestPct === 100;
+    const doneBadge = isPerfect ? '🏆' : isDone ? '✅' : '';
+    const completedPrev4Count = prev4Types.filter(tid=>(P.best?.[catId+'|'+tid+'|'+diff]||0)>=60).length;
+
+    const b=document.createElement('button');
+    b.className='mtype '+(locked?'locked':'')+(isDone?' done-type':'');
+    const lockSubMsg = lockedPrev4
+      ? '🔒 Completa las 4 actividades anteriores ('+completedPrev4Count+'/4)'
+      : lockedLevel?'🔒 Nivel '+t.minLevel+' XP · '
+      : '🔒 Premium · ';
+    b.innerHTML = `<div class="left"><span class="mi">${t.icon}</span><div>
+      <div class="mt-name">${t.name}${bestPct>0?' <span style="font-size:.75em;opacity:.7;font-weight:700">'+bestPct+'%</span>':''}</div>
+      <div class="mt-sub">${locked?lockSubMsg:''}${locked?'':t.sub}</div>
+    </div></div>
+    <div style="display:flex;align-items:center;gap:8px">
+      ${lockedPrev4?'<span style="font-size:.8em;opacity:.6">'+completedPrev4Count+'/4</span>':''}
+      ${doneBadge?'<div class="mtype-done-badge">'+doneBadge+'</div>':''}
+      <span style="font-size:1.2em;opacity:.5">${locked?'🔒':'▶'}</span>
+    </div>`;
+    b.onclick=()=>{
+      if(locked){ snd('bad');
+        notif(lockedPrev4?'⚡ Primero completa las 4 actividades anteriores en esta misión ('+completedPrev4Count+'/4)':'✨ Activa Premium en "Panel Adultos".','#2b6fc0');
+        return;
+      }
+      closeModal('modalMissionType');
+      startMission(catId,t.id);
+    };
+    grid.appendChild(b);
+  });
+  openModal('modalMissionType');
+}
+
+function advanceCatLevel(catId){
+  const cur = getCatDiff(catId);
+  if(cur >= 3) return;
+  if(!P.catDiff) P.catDiff={};
+  P.catDiff[catId] = cur+1;
+  saveProfiles();
+  closeModal('modalMissionType');
+  snd('win'); confetti();
+  const nextInfo = DIFF_LEVELS[cur];
+  notif(nextInfo.icon+' ¡Subiste a nivel '+nextInfo.label+' en '+CATS[catId].nameEs+'!', '#FFA500');
+  renderHome();
+}
+
+/* =========================
+   JUEGO: construir preguntas
+   ========================= */
+const DIFF_TIME = {
+  vocab_mcq:{easy:18,medium:12,hard:8},
+  sentence_fill_mcq:{easy:22,medium:15,hard:10},
+  sentence_order:{easy:28,medium:20,hard:14},
+  emoji_fill:{easy:20,medium:14,hard:9},
+  speed_match:{easy:6,medium:5,hard:4},
+};
+
+function pickMissionLang(){
+  if(P.lang==='both'){
+    // por defecto alterna por misión
+    if(P.bothMode==='mission'){
+      const next = (P.lastLangUsed==='en')?'fr':'en';
+      P.lastLangUsed = next;
+      P.stats.bothMissions = (P.stats.bothMissions||0) + 1;
+      return next;
+    }
+    // en modo por pregunta, se define base en startMission
+    const next = (P.lastLangUsed==='en')?'fr':'en';
+    P.lastLangUsed = next;
+    P.stats.bothMissions = (P.stats.bothMissions||0) + 1;
+    return next;
+  }
+  return P.lang;
+}
+
+function makeBlankSentence(sentence, answer){
+  if(!sentence) return '____';
+  const esc=answer.replace(/[.*+?^${}()|[\]\\]/g,'\\$&');
+  const re=new RegExp(`\\b${esc}\\b`,'i');
+  if(re.test(sentence)) return sentence.replace(re,'____');
+  // alternativa: intenta con comillas o puntuación
+  const re2=new RegExp(esc,'i');
+  if(re2.test(sentence)) return sentence.replace(re2,'____');
+  return sentence + ' ____';
+}
+
+function safePhrase(word, lang){
+  return word.frase && word.frase[lang] ? word.frase[lang] : null;
+}
+
+function startMission(catId, typeId){
+  if((P.lockUntil||0) > now()){
+    snd('bad'); notif('⏸️ Descanso activo.','#e74c3c'); return;
+  }
+
+  const cat=CATS[catId];
+  const diff = getCatDiff(catId);
+  G._catDiff = diff; // store for endMission
+  const levelWords = getWordsForLevel(cat, diff);
+  const words=shuffle([...levelWords]);
+  const baseLang = pickMissionLang();
+  const tl = (DIFF_TIME[typeId]?.[P.diff]) || 15;
+
+  G={active:true,cat:catId,type:typeId,qs:[],qi:0,ok:0,t0:now(),iv:null,tl,paused:false,fast:0,lang:baseLang,newB:[],lockedReason:''};
+
+  // armamos 8 preguntas (con fallback seguro)
+  const altMode = (P.lang==='both' && P.bothMode==='question');
+  let picks = [];
+
+  // Número de preguntas adaptado al vocabulario disponible (min 4, max 10)
+  const targetQ = Math.max(4, Math.min(words.length, 10));
+
+  if(typeId==='speed_match'){
+    // repetir palabras si hacen falta para llegar a targetQ
+    let pool = [...words];
+    while(pool.length < targetQ) pool = [...pool, ...words];
+    picks = shuffle(pool).slice(0, targetQ);
+  }else if(typeId==='vocab_mcq'){
+    let pool = [...words];
+    while(pool.length < targetQ) pool = [...pool, ...words];
+    picks = shuffle(pool).slice(0, targetQ);
+  }else{
+    // Para modos que usan frases: filtrar palabras con frase disponible
+    let goodWords = words.filter(w=>{
+      const phBase = safePhrase(w, baseLang);
+      if(!phBase) return false;
+      if(typeId==='sentence_order' && phBase.split(' ').length>8) return false;
+      if(altMode){
+        const other = (baseLang==='en')?'fr':'en';
+        const phOther = safePhrase(w, other);
+        if(!phOther) return false;
+        if(typeId==='sentence_order' && phOther.split(' ').length>8) return false;
+      }
+      return true;
+    });
+
+    // Si no hay suficientes palabras con frase, complementar con todas las del cat
+    if(goodWords.length < 4){
+      goodWords = cat.words.filter(w=>{
+        const ph = safePhrase(w, baseLang);
+        if(!ph) return false;
+        if(typeId==='sentence_order' && ph.split(' ').length>8) return false;
+        return true;
+      });
+    }
+
+    // Si aún no hay 4 palabras con frase válida, caer a vocab_mcq sin notif de error
+    if(goodWords.length < 4){
+      typeId='vocab_mcq';
+      G.type='vocab_mcq';
+      G.tl = (DIFF_TIME['vocab_mcq']?.[P.diff]) || 15;
+      let pool = [...words];
+      while(pool.length < targetQ) pool = [...pool, ...words];
+      picks = shuffle(pool).slice(0, targetQ);
+    }else{
+      // Repetir palabras si hacen falta para llenar targetQ
+      let pool = [...goodWords];
+      while(pool.length < targetQ) pool = [...pool, ...goodWords];
+      picks = shuffle(pool).slice(0, targetQ);
+    }
+  }
+
+
+  picks.forEach((w,i)=>{
+    const qLang = altMode ? (i%2===0 ? baseLang : (baseLang==='en'?'fr':'en')) : baseLang;
+    const pool=cat.words.filter(x=>x!==w);
+    const wrongs=shuffle(pool).slice(0,3);
+
+    if(typeId==='speed_match'){
+      const ans = (w[qLang]||w.en||w.fr||w.es);
+      const opts = shuffle([ans, ...wrongs.map(x=>x[qLang]||x.en||x.fr||x.es)]);
+      G.qs.push({type:typeId,word:w,lang:qLang,ans,opts,speed:true});
+    }else if(typeId==='vocab_mcq'){
+      const ans = (w[qLang]||w.en||w.fr||w.es);
+      const opts = shuffle([ans, ...wrongs.map(x=>x[qLang]||x.en||x.fr||x.es)]);
+      G.qs.push({type:typeId,word:w,lang:qLang,ans,opts});
+    }else if(typeId==='sentence_fill_mcq'){
+      const ans = (w[qLang]||w.en||w.fr||w.pt||w.es);
+      const ph = safePhrase(w,qLang) || '';
+      const blank = makeBlankSentence(ph, ans);
+      const opts = shuffle([ans, ...wrongs.map(x=>x[qLang]||x.en||x.fr||x.pt||x.es)]);
+      G.qs.push({type:typeId,word:w,lang:qLang,ans,opts,sentenceBlank:blank,sentenceFull:ph});
+    }else if(typeId==='sentence_order'){
+      const ph = safePhrase(w,qLang) || '';
+      const tokens = ph.split(' ').filter(Boolean);
+      const shuffled = shuffle(tokens.map((t,idx)=>({t,idx}))).map(o=>o.t);
+      G.qs.push({type:typeId,word:w,lang:qLang,ans:ph,opts:[],tokensCorrect:tokens,tokensBank:shuffled,build:[],sentenceFull:ph});
+    }else if(typeId==='emoji_fill'){
+      const ansEmoji = w.e || '⭐';
+      const ph = safePhrase(w,qLang) || '';
+      const ansWord = (w[qLang]||w.en||w.fr||w.pt||w.es);
+      const blank = makeBlankSentence(ph, ansWord);
+      const opts = shuffle([ansEmoji, ...wrongs.map(x=>x.e||'❓')]);
+      G.qs.push({type:typeId,word:w,lang:qLang,ans:ansEmoji,opts,sentenceBlank:blank,sentenceFull:ph,ansWord});
+    }
+  });
+
+  saveProfiles();
+  show('gameScreen');
+  setNav(1);
+  renderQ();
+  snd('click');
+}
+
+function pauseGame(on){
+  if(!G.active) return;
+  if(on){
+    G.paused=true;
+    clearInterval(G.iv);
+    try{ window.speechSynthesis.cancel(); }catch(e){}
+    // deshabilita botones
+    document.querySelectorAll('.opt, .token, #btnCheckOrder, #btnClearOrder').forEach(b=>b.disabled=true);
+  }else{
+    G.paused=false;
+    // re-render sin perder estado
+    renderQ(true);
+  }
+}
+
+function renderQ(keepTime=false){
+  const q=G.qs[G.qi];
+  const tot=G.qs.length;
+
+  $('pgFill').style.width=(G.qi/tot*100)+'%';
+  $('qCnt').textContent=`${G.qi+1}/${tot}`;
+  $('qEmoji').textContent=q.word.e||'🎯';
+  // speed mode class on game screen
+  const gScreen=$('gameScreen');
+  if(G.type==='speed_match') gScreen.classList.add('speed-mode-active');
+  else gScreen.classList.remove('speed-mode-active');
+  // Level badge in game header
+  let lvBadge=$('gameLvBadge');
+  if(!lvBadge){
+    lvBadge=document.createElement('div');
+    lvBadge.id='gameLvBadge';
+    const hdr=document.querySelector('.game-hdr');
+    if(hdr) hdr.insertBefore(lvBadge, hdr.firstChild.nextSibling);
+  }
+  const catDiff2 = G._catDiff||1;
+  const di2 = DIFF_LEVELS[catDiff2-1];
+  lvBadge.className='game-level-badge '+di2.cls;
+  lvBadge.textContent=di2.icon+' '+di2.label;
+
+  // badge lang
+  $('qBadge').textContent = (q.lang==='en')?'🇬🇧 English' : (q.lang==='fr')?'🇫🇷 Français' : '🇧🇷 Português';
+
+  const promptMap = {
+    vocab_mcq: q.lang==='en'?'¿Cómo se dice en inglés?': q.lang==='fr'?'¿Cómo se dice en francés?':'¿Cómo se dice en portugués?',
+    sentence_fill_mcq: 'Completa la oración (elige la palabra)',
+    sentence_order: 'Ordena la oración (toca las palabras)',
+    emoji_fill: 'Completa la oración (elige el emoji)',
+  };
+  $('qPrompt').textContent = promptMap[q.type] || 'Misión';
+
+  // palabra / oración
+  if(q.type==='vocab_mcq'){
+    $('qWord').textContent=q.word.es;
+    $('qHint').textContent = q.word.frase ? `📌 "${q.word.frase.es}"` : '';
+  }else{
+    $('qWord').textContent = q.sentenceBlank || '____';
+    const hint = q.word.frase?.es ? `📌 Pista: "${q.word.frase.es}"` : '';
+    $('qHint').textContent = hint;
+  }
+
+  // speak
+  const sp=$('qSpeak');
+  sp.className='q-speak';
+  sp.onclick=speakNow;
+
+  // opciones
+  const ob=$('opts'); ob.innerHTML='';
+  $('fbBox').className='feedback';
+
+  // speed mode banner
+  const existBanner=$('speedBanner');
+  if(existBanner) existBanner.remove();
+  if(G.type==='speed_match'){
+    const banner=document.createElement('div');
+    banner.id='speedBanner';
+    banner.className='speed-banner';
+    banner.innerHTML='⚡ MODO RELÁMPAGO · XP x2';
+    $('opts').before?.(banner) || $('opts').parentNode.insertBefore(banner,$('opts'));
+  }
+
+  if(q.type==='sentence_order'){
+    // área de construcción
+    const slot=document.createElement('div');
+    slot.className='order-slot';
+    slot.id='orderSlot';
+    slot.textContent = q.build.length ? q.build.join(' ') : 'Toca palabras para armar la oración…';
+    ob.appendChild(slot);
+
+    const bank=document.createElement('div');
+    bank.className='order-area';
+    q.tokensBank.forEach((tok,idx)=>{
+      const b=document.createElement('button');
+      b.className='token';
+      b.textContent=tok;
+      b.disabled=G.paused;
+      b.onclick=()=>{
+        snd('click');
+        // evita duplicar: usa índice en banco, marcando seleccionado con null
+        if(q.tokensBank[idx]===null) return;
+        q.build.push(tok);
+        q.tokensBank[idx]=null;
+        renderQ(true);
+      };
+      if(q.tokensBank[idx]===null){ b.disabled=true; b.style.opacity='.35'; }
+      bank.appendChild(b);
+    });
+    ob.appendChild(bank);
+
+    const actions=document.createElement('div');
+    actions.className='pillrow';
+    const clear=document.createElement('button');
+    clear.id='btnClearOrder';
+    clear.className='btn btn-dark btn-w';
+    clear.textContent='Borrar';
+    clear.disabled=G.paused;
+    clear.onclick=()=>{
+      snd('click');
+      // reconstruye banco: vuelve a tokensCorrect
+      q.tokensBank = shuffle(q.tokensCorrect.slice());
+      q.build=[];
+      renderQ(true);
+    };
+    const check=document.createElement('button');
+    check.id='btnCheckOrder';
+    check.className='btn btn-blue btn-w';
+    check.textContent='Comprobar';
+    check.disabled=G.paused;
+    check.onclick=()=>checkOrder(q);
+    actions.appendChild(clear); actions.appendChild(check);
+    ob.appendChild(actions);
+
+    // timer
+    startTimer(keepTime);
+    return;
+  }
+
+  // opciones normales (vocab / fill / emoji)
+  q.opts.forEach(o=>{
+    const b=document.createElement('button');
+    b.className='opt' + (q.type==='emoji_fill'?' emoji':'');
+    b.textContent=o;
+    b.disabled=G.paused;
+    b.onclick=()=>checkOption(o,q,b);
+    ob.appendChild(b);
+  });
+
+  startTimer(keepTime);
+}
+
+function startTimer(keepTime){
+  clearInterval(G.iv);
+  if(!keepTime){
+    G.tl = (DIFF_TIME[G.type]?.[P.diff]) || 15;
+  }
+  updateTimer();
+  if(G.paused) return;
+  G.iv=setInterval(()=>{
+    G.tl--;
+    updateTimer();
+    if(G.tl<=0){ clearInterval(G.iv); timeout(); }
+  },1000);
+}
+
+function updateTimer(){
+  const max=(DIFF_TIME[G.type]?.[P.diff]) || 15;
+  const frac=clamp(G.tl/max,0,1);
+  const circ=119;
+  $('timerC').style.strokeDashoffset=circ*(1-frac);
+  const col=G.tl>5?'#FFD700':'#e74c3c';
+  $('timerC').style.stroke=col;
+  $('timerN').textContent=G.tl;
+  $('timerN').style.color=col;
+}
+
+function timeout(){
+  const q=G.qs[G.qi];
+  // bloquea interacción
+  document.querySelectorAll('.opt, .token, #btnCheckOrder, #btnClearOrder').forEach(b=>{b.disabled=true;b.style.opacity='.45';});
+  if(q.type==='emoji_fill'){
+    showFB(false,`Tiempo…`, `Era: ${q.ans} (${q.ansWord||''})`);
+  }else if(q.type==='sentence_order'){
+    showFB(false,'Tiempo…',`La oración era: "${q.sentenceFull}"`);
+  }else{
+    showFB(false,`¡Tiempo!`, `Era: "${q.ans}"`);
+  }
+  snd('bad');
+}
+
+function showFB(good,title,msg){
+  const b=$('fbBox');
+  b.className='feedback on '+(good?'ok':'bad');
+  $('fbIcon').textContent=good?'✅':'❌';
+  $('fbTitle').textContent=title;
+  $('fbMsg').textContent=msg;
+}
+
+function checkOption(chosen,q,btn){
+  clearInterval(G.iv);
+  const max=(DIFF_TIME[G.type]?.[P.diff]) || 15;
+  const t=max-G.tl;
+  let ok=false;
+
+  if(q.type==='emoji_fill'){
+    ok = chosen===q.ans;
+  }else{
+    ok = chosen===q.ans;
+  }
+
+  document.querySelectorAll('.opt').forEach(b=>{
+    b.disabled=true; b.style.opacity='.5';
+    if(q.type==='emoji_fill'){
+      if(b.textContent===q.ans){ b.classList.add('ok'); b.style.opacity='1'; }
+    }else{
+      if(b.textContent===q.ans){ b.classList.add('ok'); b.style.opacity='1'; }
+    }
+  });
+
+  if(ok){
+    btn.style.opacity='1';
+    G.ok++;
+    const isSpeed = (G.type==='speed_match');
+    const xp = isSpeed ? ((t<=2)?30:20) : ((t<=4)?15:10);
+    if(t<=4||isSpeed) G.fast++;
+    if(q.type==='emoji_fill'){
+      showFB(true,'¡Correcto! 🎉', `Era: ${q.ans} · "${q.ansWord}"`);
+    }else if(q.type==='sentence_fill_mcq'){
+      showFB(true,'¡Correcto! 🎉', `"${q.sentenceFull}"`);
+    }else{
+      showFB(true,'¡Correcto! 🎉', q.word.frase?.[q.lang] ? `"${q.word.frase[q.lang]}"` : '');
+    }
+    snd('ok');
+  }else{
+    if(q.type==='emoji_fill'){
+      showFB(false,'Casi…', `Era: ${q.ans} (${q.ansWord})`);
+    }else if(q.type==='sentence_fill_mcq'){
+      showFB(false,'Casi…', `Era: "${q.ans}" · "${q.sentenceFull}"`);
+    }else{
+      showFB(false,'Casi…', `Era: "${q.ans}" · En español: "${q.word.es}"`);
+    }
+    snd('bad');
+  }
+}
+
+function checkOrder(q){
+  clearInterval(G.iv);
+  const built = q.build.join(' ').trim();
+  const ok = built===q.sentenceFull.trim();
+  // bloquea banco
+  document.querySelectorAll('.token').forEach(b=>b.disabled=true);
+  $('btnCheckOrder').disabled=true;
+  $('btnClearOrder').disabled=true;
+
+  if(ok){
+    G.ok++;
+    showFB(true,'¡Perfecto! 🧱', `"${q.sentenceFull}"`);
+    snd('ok');
+  }else{
+    showFB(false,'Casi…', `Tu frase: "${built||'—'}"\nCorrecta: "${q.sentenceFull}"`);
+    snd('bad');
+  }
+}
+
+function nextQ(){
+  snd('click');
+  G.qi++;
+  if(G.qi>=G.qs.length) endMission();
+  else renderQ();
+}
+
+function endMission(){
+  clearInterval(G.iv);
+
+  const tot=G.qs.length;
+  const pct=Math.round((G.ok/tot)*100);
+  const elapsed=Math.round((now()-G.t0)/1000);
+
+  // recompensa
+  const diffMul = ({easy:1,medium:1.2,hard:1.5}[P.diff]||1);
+  const baseXp = (G.type==='sentence_order'?36:G.type==='sentence_fill_mcq'?32:G.type==='emoji_fill'?34:G.type==='speed_match'?60:30);
+  const xpE = Math.round(baseXp*(G.ok/tot)*diffMul);
+  const coinsE = Math.round(16*(G.ok/tot)*diffMul);
+  const stars = pct>=90?3:pct>=60?2:pct>=30?1:0;
+
+  // stats
+  P.xp += xpE;
+  P.coins += coinsE;
+  P.fast += G.fast;
+  if(pct===100) P.perfect++;
+
+  P.stats.missionsTotal = (P.stats.missionsTotal||0) + 1;
+  P.stats.byType[G.type] = (P.stats.byType[G.type]||0) + 1;
+  P.stats.byCat[G.cat] = (P.stats.byCat[G.cat]||0) + 1;
+
+  // lang done
+  if(G.lang==='en') P.langDone.en = (P.langDone.en||0)+1;
+  if(G.lang==='fr') P.langDone.fr = (P.langDone.fr||0)+1;
+  if(G.lang==='pt') P.langDone.pt = (P.langDone.pt||0)+1;
+
+  // progreso por cat|type — con Personal Best
+  const catDiffUsed = G._catDiff || 1;
+  const key = G.cat+'|'+G.type+'|'+catDiffUsed;
+  const prevBest = P.best?.[key]||0;
+  const isNewPB = pct > prevBest;
+  if(!P.best) P.best={};
+  P.best[key] = Math.max(prevBest, pct);
+  if(!P.stars) P.stars={};
+  if(pct>=60) P.stars[key] = Math.max(P.stars[key]||0, stars);
+  if(pct===100){
+    if(!P.bestTime) P.bestTime={};
+    const prevBestTime = P.bestTime[key]||9999;
+    if(elapsed < prevBestTime) P.bestTime[key] = elapsed;
+  }
+  // Check if this completed all 5 types at this level (level-complete bonus)
+  const justCompletedLevel = pct>=60 && isCatLevelComplete(G.cat, catDiffUsed);
+  if(justCompletedLevel && !P.catLevelBadge?.[G.cat+'|'+catDiffUsed]){
+    if(!P.catLevelBadge) P.catLevelBadge={};
+    P.catLevelBadge[G.cat+'|'+catDiffUsed] = true;
+    const diffInfo = DIFF_LEVELS[catDiffUsed-1];
+    // Show in result as special badge
+    G.newB.push({icon:diffInfo.icon, name:'Nivel '+diffInfo.label+' Completo', desc:CATS[G.cat].nameEs+' — todos los modos en '+diffInfo.label, special:true});
+  }
+
+  // badges
+  G.newB=[];
+  BADGES.forEach(b=>{
+    if(!P.badges.includes(b.id) && b.c(P)){
+      P.badges.push(b.id);
+      G.newB.push(b);
+    }
+  });
+
+  // Update streak on mission completion too
+  updateStreak(P);
+  saveProfiles();
+  updateTopbar();
+
+  // render resultados (usa IDs existentes)
+  const title = pct===100?`¡Perfecto, ${P.name}! 🏆` : pct>=70?'¡Muy bien! 🌟' : pct>=40?'¡Buen intento! 💪' : '¡Sigue practicando! 📚';
+  $('rTitle').textContent=title;
+  $('rTrophy').textContent = pct===100?'🏆': pct>=70?'🥇': pct>=40?'🥈':'🎯';
+
+  $('rS1').textContent=stars>=1?'⭐':'☆';
+  $('rS2').textContent=stars>=2?'⭐':'☆';
+  $('rS3').textContent=stars>=3?'⭐':'☆';
+  $('rOk').textContent=`${G.ok}/${tot}`;
+  $('rXP').textContent=`+${xpE}`;
+  $('rTime').textContent=`${elapsed}s`;
+  $('rCoins').textContent=`+${coinsE}`;
+
+  const rb=$('rBadges'); rb.innerHTML='';
+  G.newB.forEach(b=>{
+    const goldStyle = b.special ? 'background:linear-gradient(135deg,rgba(255,215,0,.2),rgba(255,165,0,.12));border-color:var(--gold)' : '';
+    rb.innerHTML += `<div class="badge-pop" style="${goldStyle}"><span class="bp-icon">${b.icon}</span><div class="bp-text"><strong>¡${b.special?'':'Insignia: '}${b.name}!</strong><p>${b.desc}</p></div></div>`;
+  });
+
+  if(pct>=60){ confetti(); snd('win'); } else snd('click');
+
+  // ── Personal Best panel ──
+  const pbEl=document.getElementById('rPB');
+  pbEl.innerHTML='';
+  const cat=CATS[G.cat];
+  const diffUsed = G._catDiff||1;
+  const diffInfo2 = DIFF_LEVELS[diffUsed-1];
+  const catPill=document.createElement('div');
+  catPill.className='res-cat-pill';
+  catPill.innerHTML=cat?.icon+' '+cat?.nameEs+' · '+(G.type==='vocab_mcq'?'Vocabulario':G.type==='sentence_fill_mcq'?'Completa oración':G.type==='sentence_order'?'Ordena oración':G.type==='speed_match'?'⚡ Relámpago':'Emojis')+' · <strong style="color:'+diffInfo2.color+'">'+diffInfo2.icon+' '+diffInfo2.label+'</strong>';
+  pbEl.appendChild(catPill);
+
+  if(isNewPB && pct>0){
+    const delta = prevBest>0 ? `+${pct-prevBest}%` : '🆕 Primera vez';
+    const pb=document.createElement('div');
+    pb.className='pb-banner';
+    pb.innerHTML=`
+      <span class="pb-icon">🏆</span>
+      <div class="pb-text">
+        <strong>¡Nuevo récord personal!</strong>
+        <span>${prevBest>0?'Anterior: '+prevBest+'%':'¡Primera misión de esta categoría!'}</span>
+      </div>
+      <span class="pb-delta">${delta}</span>`;
+    pbEl.appendChild(pb);
+  } else if(prevBest>0){
+    const pb=document.createElement('div');
+    pb.className='pb-banner';
+    pb.style.background='rgba(255,255,255,.05)';
+    pb.style.borderColor='rgba(255,255,255,.12)';
+    pb.innerHTML=`
+      <span class="pb-icon">📊</span>
+      <div class="pb-text">
+        <strong style="color:var(--muted)">Mejor personal: ${prevBest}%</strong>
+        <span>${pct>=prevBest?'¡Igualaste tu récord!':'Este intento: '+pct+'%'}</span>
+      </div>`;
+    pbEl.appendChild(pb);
+  }
+
+  // fin de juego
+  G.active=false;
+  show('resultScreen');
+  setNav(0);
+}
+
+function retry(){
+  // reintenta misma categoría y tipo
+  if(!G.cat || !G.type){ nav(0); return; }
+  startMission(G.cat, G.type);
+}
+
+/* =========================
+   NAV segura
+   ========================= */
+function nav(i){
+  setNav(i);
+  if(i===2||i===3){
+    renderBadgesScreen(i===2?'b':'r');
+    show('badgesScreen');
+    snd('click');
+    return;
+  }
+  // Inicio / Jugar: ambos llevan a Home; si hay misión activa, pedir salida
+  if(G.active){ exitMission(); return; }
+  renderHome();
+  show('homeScreen');
+  snd('click');
+}
+function goHomeSafe(){
+  if(G.active){ exitMission(); return; }
+  nav(0);
+}
+
+/* =========================
+   SALIR DE MISIÓN
+   ========================= */
+function exitMission(){
+  if(!G.active){ return; }
+  openModal('modalExit');
+}
+function confirmExitMission(){
+  closeModal('modalExit');
+  clearInterval(G.iv);
+  try{ window.speechSynthesis.cancel(); }catch(e){}
+  // reset de estado sin sumar puntos
+  G.active=false;
+  renderHome();
+  show('homeScreen');
+  setNav(0);
+  snd('click');
+}
+
+/* =========================
+   INSIGNIAS / RANKING
+   ========================= */
+let _activeTab='b';
+function switchTab(t){
+  _activeTab=t;
+  $('tabB').classList.toggle('on',t==='b');
+  $('tabR').classList.toggle('on',t==='r');
+  $('badgesContent').style.display=t==='b'?'block':'none';
+  $('rankingContent').style.display=t==='r'?'block':'none';
+}
+function hasCatDone(p, ids){
+  return ids.some(id => (p.stats.byCat[id]||0) >= 1);
+}
+function countCats60(p){
+  const set=new Set();
+  Object.keys(p.best||{}).forEach(k=>{
+    if((p.best[k]||0)>=60){
+      const cat=k.split('|')[0];
+      set.add(cat);
+    }
+  });
+  return set.size;
+}
+function hasCatDoneAtLevel(p, ids, minDiff){
+  return ids.some(id => (p.catDiff?.[id]||1) >= minDiff || isCatLevelComplete(id, minDiff));
+}
+function renderBadgesScreen(tab='b'){
+  _activeTab=tab;
+
+  // badges list
+  const bg=document.createElement('div');
+  bg.className='badges-grid';
+  BADGES.forEach(b=>{
+    const earned=(P.badges||[]).includes(b.id);
+    const t=document.createElement('div');
+    t.className=`b-tile ${earned?'earned':'locked'}`;
+    t.innerHTML=`<div class="bi2">${b.icon}</div><div class="bn">${b.name}</div><div class="bd">${earned?b.desc:'???'}</div>`;
+    bg.appendChild(t);
+  });
+  $('badgesContent').innerHTML='<div class="section-title">🏅 Mis Insignias</div>';
+  $('badgesContent').appendChild(bg);
+
+  // ranking (simple)
+  const others=[
+    {name:'Sofía',xp:P.xp+120},{name:'Carlos',xp:Math.max(0,P.xp-80)},
+    {name:'Valentina',xp:Math.max(0,P.xp-160)},{name:'Diego',xp:Math.max(0,P.xp-220)},
+  ];
+  const all=[...others,{name:P.name,xp:P.xp,me:true}].sort((a,b)=>b.xp-a.xp);
+  const medals=['🥇','🥈','🥉'];
+  let rh='<div class="section-title">🏆 Ranking</div><div class="rank-list">';
+  all.forEach((r,i)=>{
+    rh+=`<div class="rank-row${r.me?' me':''}"><div class="rank-pos">${medals[i]||i+1}</div><div class="rank-name">${r.me?'⭐ '+r.name:r.name}</div><div class="rank-xp">${r.xp} XP</div></div>`;
+  });
+  rh+='</div>';
+  $('rankingContent').innerHTML=rh;
+
+  switchTab(_activeTab);
+}
+
+/* =========================
+   TUTORIAL
+   ========================= */
+function openHelp(){ openTutorial(false); }
+function openTutorial(firstTime){
+  TUT.step=0;
+  const modeText = `Modo “Ambos”: <strong>${(P.bothMode==='mission')?'alterno por misión (recomendado)':'alterno por pregunta (reto)'}</strong>.`;
+  TUT.steps=[
+    {t:'1/5 · Objetivo',h:`Elige una categoría y completa misiones para ganar ⭐ XP, 💰 monedas e insignias. ${modeText}`},
+    {t:'2/5 · Vocabulario',h:`Mira la palabra en español y elige la traducción correcta. Usa <span class="kbd">🔊</span> para escuchar la pronunciación.`},
+    {t:'3/5 · Oraciones',h:`En “Completa la oración” verás una frase con un espacio <span class="kbd">____</span>. Elige la palabra que falta.`},
+    {t:'4/5 · Premium',h:`Premium agrega Portugués 🇧🇷, misiones avanzadas (ordenar y emojis) y nuevas categorías (planetas, karate, dinosaurios…).`},
+    {t:'5/6 · Tiempo en pantalla',h:`Por defecto hay ${P.sessionLimit||15} minutos por sesión. Al terminar, un adulto puede aprobar un nuevo ciclo en “Panel Adultos”.`},
+    {t:'6/7 · Récord Personal',h:'Al terminar cada misión verás tu <strong>🏆 Récord Personal</strong>. Si superas tu mejor puntaje, aparece el banner dorado. ¡Intenta llegar al 100% en Valores, Deportes y Mentalidad!'},
+    {t:'7/7 · Modo Relámpago ⚡',h:'¡Al llegar al <strong>Nivel 5</strong> se desbloquea el <strong>Modo Relámpago</strong>! Solo tienes 6 segundos por respuesta y ganas el <strong>doble de XP</strong>. ¿Te atreves?'},
+  ];
+  renderTutorial();
+  openModal('modalTutorial');
+  if(firstTime) P.tutorialSeen=true, saveProfiles();
+}
+function renderTutorial(){
+  const s=TUT.steps[TUT.step];
+  $('tutBody').innerHTML=`<div style="font-weight:1000;font-size:1.05em;margin-bottom:8px">${s.t}</div><div class="small">${s.h}</div>`;
+}
+function tutNext(){
+  if(TUT.step<TUT.steps.length-1){ TUT.step++; renderTutorial(); snd('click'); }
+  else{ closeTutorial(); }
+}
+function tutPrev(){
+  if(TUT.step>0){ TUT.step--; renderTutorial(); snd('click'); }
+}
+function closeTutorial(){ closeModal('modalTutorial'); snd('click'); }
+
+/* =========================
+   PANEL ADULTOS (con gate)
+   ========================= */
+function openAdult(){
+  // solicita gate
+  openGate('🛡️ Panel Adultos', 'Para abrir el panel, un adulto aprueba con una verificación rápida.', 'adult', ()=>{
+    openAdultPanel();
+  });
+}
+function openAdultPanel(){
+  $('adultWho').textContent=P.name;
+  // avatar row
+  const row=$('avatarRow'); row.innerHTML='';
+  AVATARS.forEach(a=>{
+    const b=document.createElement('button');
+    b.className='btn btn-dark btn-mini';
+    b.textContent=a;
+    b.disabled=!P.premium;
+    b.style.opacity = P.premium ? '1' : '.5';
+    b.onclick=()=>{ P.avatar=a; saveProfiles(); renderHome(); notif('✅ Avatar actualizado','#2b6fc0'); };
+    row.appendChild(b);
+  });
+  openModal('modalAdult');
+}
+function setSessionLimit(m){
+  P.sessionLimit=m;
+  saveProfiles();
+  // reinicia ciclo desde ya
+  S.limitMin=m; S.start=now(); S.gate=false;
+  notif(`⏳ Sesión: ${m} min`,'#2b6fc0');
+}
+function setBothMode(mode){
+  P.bothMode=mode;
+  saveProfiles();
+  notif(`⚡ Ambos: ${mode==='mission'?'por misión':'por pregunta'}`,'#2b6fc0');
+}
+function togglePremium(on){
+  P.premium=!!on;
+  if(!P.premium && P.lang==='pt'){ P.lang='en'; }
+  saveProfiles();
+  renderHome();
+  notif(P.premium?'✨ Premium activado':'Premium desactivado', '#2b6fc0');
+}
+function resetTutorial(){
+  P.tutorialSeen=false;
+  saveProfiles();
+  notif('✅ Tutorial reiniciado', '#2b6fc0');
+}
+function exportProfile(){
+  try{
+    const blob=new Blob([JSON.stringify(P,null,2)],{type:'application/json'});
+    const a=document.createElement('a');
+    a.href=URL.createObjectURL(blob);
+    a.download=`WordQuest_${P.name}_progreso.json`;
+    a.click();
+    setTimeout(()=>URL.revokeObjectURL(a.href),1000);
+  }catch(e){
+    notif('No se pudo exportar.', '#e74c3c');
+  }
+}
+
+/* =========================
+   GATE (hold + math)
+   ========================= */
+function openGate(title,msg,purpose,onOk){
+  GATE.purpose=purpose;
+  GATE.onOk=onOk;
+  $('gateTitle').textContent=title;
+  $('gateMsg').textContent=msg;
+  $('gateErr').style.display='none';
+  $('gateHold').style.display='block';
+  $('gateMath').style.display='none';
+  setupHoldButton();
+  openModal('modalGate');
+}
+
+function setupHoldButton(){
+  const btn=$('holdBtn');
+  if(!btn) return;
+  // reset
+  btn.textContent='Mantener presionado 2s';
+  btn.style.transform='scale(1)';
+  clearInterval(GATE.holdT);
+  GATE.holdT=null;
+  GATE.holdP=0;
+
+  const start=()=>{
+    snd('click');
+    clearInterval(GATE.holdT);
+    GATE.holdP=0;
+    const t0=now();
+    GATE.holdT=setInterval(()=>{
+      const p=clamp((now()-t0)/2000,0,1);
+      GATE.holdP=p;
+      btn.textContent = p<1 ? `Mantén… ${Math.round(p*100)}%` : 'Listo ✅';
+      btn.style.transform = `scale(${1+0.02*p})`;
+      if(p>=1){
+        clearInterval(GATE.holdT);
+        showMathGate();
+      }
+    },40);
+  };
+  const stop=()=>{
+    if(GATE.holdP<1){
+      clearInterval(GATE.holdT);
+      btn.textContent='Mantener presionado 2s';
+      btn.style.transform='scale(1)';
+    }
+  };
+
+  // mouse + touch
+  btn.onmousedown=start;
+  btn.onmouseup=stop;
+  btn.onmouseleave=stop;
+  btn.ontouchstart=(e)=>{e.preventDefault();start();};
+  btn.ontouchend=(e)=>{e.preventDefault();stop();};
+}
+
+function showMathGate(){
+  // prepara pregunta
+  GATE.a=3+Math.floor(Math.random()*8);
+  GATE.b=3+Math.floor(Math.random()*8);
+  $('mathQ').textContent=`${GATE.a} + ${GATE.b} = ?`;
+  $('mathA').value='';
+  $('gateHold').style.display='none';
+  $('gateMath').style.display='block';
+  setTimeout(()=>$('mathA').focus?.(),120);
+}
+
+function gateBack(){
+  $('gateErr').style.display='none';
+  $('gateMath').style.display='none';
+  $('gateHold').style.display='block';
+  setupHoldButton();
+}
+
+function gateApprove(){
+  const v=Number(($('mathA').value||'').trim());
+  if(v !== (GATE.a+GATE.b)){
+    $('gateErr').style.display='block';
+    snd('bad');
+    return;
+  }
+  closeModal('modalGate');
+  $('gateErr').style.display='none';
+  snd('ok');
+  if(typeof GATE.onOk==='function') GATE.onOk();
+}
+
+function gateRest(){
+  // descanso 10 min
+  closeModal('modalGate');
+  P.lockUntil = now() + 10*60000;
+  saveProfiles();
+  renderHome();
+  show('homeScreen');
+  setNav(0);
+  notif('⏸️ Descanso de 10 minutos.','#e74c3c');
+}
+function gateCancel(){
+  closeModal('modalGate');
+  // si la sesión estaba vencida, se queda en pausa
+  if(S.gate){
+    renderHome();
+    show('homeScreen');
+    setNav(0);
+  }
+}
+
+/* =========================
+   INIT
+   ========================= */
+function initStars(){
+  const c=$('stars');
+  if(!c) return;
+  for(let i=0;i<55;i++){
+    const s=document.createElement('div'); s.className='st';
+    const sz=1+Math.random()*2.5;
+    s.style.cssText=`width:${sz}px;height:${sz}px;left:${Math.random()*100}%;top:${Math.random()*100}%;--d:${2+Math.random()*4}s;--dl:${Math.random()*5}s`;
+    c.appendChild(s);
+  }
+}
+
+function init(){
+  initStars();
+  loadProfiles();
+  fillDL();
+
+  // Set default selected tiles
+  selL('en');
+  selD('easy');
+
+  const act = localStorage.getItem(LS_ACTIVE)||'';
+  if(act && PROFILES[act]){
+    setActive(act);
+    showUI(true);
+    updateTopbar();
+    renderHome();
+    show('homeScreen');
+    setNav(0);
+    startSessionCycle();
+  }else{
+    showUI(false);
+    show('loginScreen');
+    setNav(0);
+  }
+}
+init();
+</script>
+
+</body>
+</html>

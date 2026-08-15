@@ -1,0 +1,143 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
+  <meta name="description" content="NeuroExplora: Neurona Interactiva — partes, impulso nervioso y tipos de neuronas.">
+  <title>NeuroExplora — Neurona Interactiva</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800&family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,500;1,9..40,300&display=swap" rel="stylesheet">
+  <link rel="icon" type="image/svg+xml" href="assets/favicon.svg">
+  <link rel="manifest" href="manifest.json">
+  <meta name="theme-color" content="#4f8ef7">
+  <link rel="stylesheet" href="css/styles.css">
+  <link rel="stylesheet" href="css/neuron.css">
+  <link rel="stylesheet" href="css/cortex.css">
+</head>
+<body>
+
+  <canvas id="stars-canvas"></canvas>
+
+  <!-- ══ HEADER ════════════════════════════════════════════════ -->
+  <header id="main-header">
+    <div class="header-brand">
+      <div class="logo">🧠 Neuro<span class="logo-accent">Explora</span></div>
+      <div class="logo-tagline">EXPLORADOR INTERACTIVO DEL CEREBRO HUMANO</div>
+    </div>
+    <nav class="header-nav">
+      <a class="nav-btn" href="index.html"><span class="btn-icon">🧩</span><span class="btn-text">Cerebro</span></a>
+      <a class="nav-btn" href="evolucion.html"><span class="btn-icon">🦎</span><span class="btn-text">Evolución</span></a>
+      <a class="nav-btn nav-btn-active" href="neurona.html"><span class="btn-icon">⚡</span><span class="btn-text">Neurona</span></a>
+      <a class="nav-btn" href="corteza.html"><span class="btn-icon">🌐</span><span class="btn-text">Corteza</span></a>
+      <a class="nav-btn" href="juego.html"><span class="btn-icon">🎮</span><span class="btn-text">Juego</span></a>
+      <a class="nav-btn" href="referencias.html"><span class="btn-icon">📚</span><span class="btn-text">Referencias</span></a>
+    </nav>
+  </header>
+
+  <!-- ══ HERO ══════════════════════════════════════════════════ -->
+  <section class="neuron-hero">
+    <div class="neuron-hero-badge">⚡ Neurona Interactiva</div>
+    <h1 class="neuron-hero-title">La célula más especializada<br>del universo conocido</h1>
+    <p class="neuron-hero-desc">
+      Explora las 7 partes de una neurona, activa el impulso nervioso y descubre
+      los distintos tipos de neuronas que hacen posible todo lo que eres.
+    </p>
+  </section>
+
+  <!-- ══ IMÁGENES REALES — referencias científicas ════════════ -->
+  <div class="neuron-hero-img">
+    <div class="real-img-wrap">
+      <span class="real-img-badge">🔬 Microscopía</span>
+      <img src="assets/neuron/neuron-real.webp"
+           alt="Neurona real vista al microscopio de fluorescencia" loading="lazy">
+      <p class="real-img-caption">Neurona humana — microscopía de fluorescencia · Wikimedia Commons</p>
+    </div>
+    <div class="real-img-wrap">
+      <span class="real-img-badge">⚡ Sinapsis</span>
+      <img src="assets/neuron/synapse-electron.webp"
+           alt="Sinapsis vista al microscopio electrónico" loading="lazy">
+      <p class="real-img-caption">Sinapsis — microscopía electrónica de transmisión · Wikimedia Commons</p>
+    </div>
+  </div>
+
+  <!-- ══ NEURONA INTERACTIVA ════════════════════════════════════ -->
+  <div class="neuron-layout">
+
+    <div class="neuron-svg-section">
+      <div id="neuron-svg-container" style="position:relative">
+        <div id="neuron-tooltip" class="brain-tooltip"></div>
+      </div>
+      <div class="neuron-controls">
+        <div class="impulse-btn-group">
+          <button class="btn-play-impulse" id="btn-play-impulse">▶ Disparar impulso nervioso</button>
+          <button class="btn-pause-impulse" id="btn-pause-impulse" disabled title="Pausar/Reanudar">⏸ Pausar</button>
+        </div>
+        <div class="speed-group">
+          <span class="speed-label">Velocidad</span>
+          <button class="speed-btn" data-speed="0.25">🐢 Muy lento</button>
+          <button class="speed-btn" data-speed="0.5">Lento</button>
+          <button class="speed-btn active" data-speed="1">Normal</button>
+          <button class="speed-btn" data-speed="2">Rápido</button>
+        </div>
+      </div>
+      <div class="impulse-phase-wrap">
+        <div id="impulse-phase-info"></div>
+      </div>
+      <div class="part-legend-wrap">
+        <div id="part-legend"></div>
+      </div>
+    </div>
+
+    <div class="neuron-panel-area">
+      <div class="part-empty" id="part-empty">
+        <div class="pe-icon">🔬</div>
+        <p class="pe-text">Haz clic en cualquier parte de la neurona o en la leyenda para ver su función y datos curiosos</p>
+        <p style="font-size:11px;color:var(--text3)">O pulsa <strong style="color:var(--accent)">▶ Disparar impulso</strong> para ver cómo viaja la señal</p>
+      </div>
+      <aside id="part-panel" class="hidden" role="complementary">
+        <div id="part-content"></div>
+      </aside>
+    </div>
+
+  </div>
+
+  <!-- ══ ANIMACIÓN DE SINAPSIS ══════════════════════════════════ -->
+  <section class="synapse-section" id="synapse-section">
+    <div class="synapse-header">
+      <h2 class="synapse-title">⚡ La Sinapsis: dos neuronas conectándose</h2>
+      <p class="synapse-desc">Observa cómo el impulso pasa de una neurona a la siguiente a través de la hendidura sináptica. Este es el momento donde lo eléctrico se convierte en químico y vuelve a ser eléctrico.</p>
+      <button class="synapse-play-btn" id="btn-synapse-play">▶ Ver la sinapsis</button>
+    </div>
+    <div class="synapse-canvas-wrap">
+      <svg id="synapse-svg" viewBox="0 0 720 260" xmlns="http://www.w3.org/2000/svg"></svg>
+      <div class="synapse-phase-label" id="synapse-phase-label">Pulsa el botón para iniciar la animación</div>
+    </div>
+  </section>
+
+  <!-- ══ TIPOS DE NEURONAS ══════════════════════════════════════ -->
+  <section class="neuron-types-section" id="neuron-types">
+    <!-- Generado por buildNeuronTypes() -->
+  </section>
+
+  <!-- ══ FOOTER ════════════════════════════════════════════════ -->
+  <footer class="neuron-footer">
+    <a href="evolucion.html" class="footer-link">← Evolución del Cerebro</a>
+    <span class="footer-sep">·</span>
+    <a href="index.html" class="footer-link">Cerebro Interactivo 🧩</a>
+    <span class="footer-sep">·</span>
+    <span class="footer-hint">Próximo: <strong>Gamificación 🎮</strong></span>
+  </footer>
+
+  <script src="js/neuron-data.js"></script>
+  <script src="js/neuron.js"></script>
+  <script src="js/synapse.js"></script>
+</div>
+
+  <script>
+    if ("serviceWorker" in navigator) {
+      navigator.serviceWorker.register("/sw.js").catch(()=>{});
+    }
+  </script>
+</body>
+</html>

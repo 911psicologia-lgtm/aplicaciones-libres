@@ -1,0 +1,879 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+<title>Voz de los Libros</title>
+<meta name="description" content="Transforma libros, autores y situaciones en lecturas escuchables, organizables y compartibles.">
+<meta name="theme-color" content="#1FA97C">
+<link rel="manifest" href="manifest.webmanifest">
+<link rel="icon" type="image/png" sizes="192x192" href="iconos/icono-192.png">
+<link rel="apple-touch-icon" href="iconos/apple-touch-icon.png">
+<meta name="mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="default">
+<meta name="apple-mobile-web-app-title" content="Voz Libros">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="css/estilos.css">
+</head>
+<body>
+
+<div class="splash-overlay" id="splash-overlay" aria-hidden="true">
+  <img src="iconos/splash-voz-libros.png" alt="Voz de los Libros" class="splash-imagen">
+</div>
+
+<div class="telefono">
+
+  <!-- Menú hamburguesa retirado en v0.10.28: las funciones secundarias viven en la pantalla Configuración. -->
+
+  <!-- ══════════ PANTALLA: USUARIOS (¿quién está aquí?) ══════════ -->
+  <section class="pantalla" id="p-usuarios">
+    <header class="cabecera con-volver">
+      <button class="volver oculto" id="btn-usuarios-volver-inicio" data-ir="inicio" aria-label="Volver al inicio">‹</button>
+      <div class="logo-marca">
+        <span class="logo-circulo"><img src="iconos/icono-192.png" alt="Logo Voz de los Libros" class="logo-img"></span>
+        <div>
+          <h1>Voz de los Libros</h1>
+          <p class="subtitulo">Lecturas que acompañan</p>
+        </div>
+      </div>
+    </header>
+    <div class="contenido chat-fondo">
+      <div class="burbuja app">Hola. ¿Quién está aquí hoy? Cada perfil tiene su propia biblioteca y sus propios consejos.</div>
+      <div class="nota nota-usuarios">Puedes entrar a un perfil o tocar ✏️ para corregir su nombre. No se guardan perfiles sin nombre.</div>
+      <div id="lista-usuarios" class="menu-principal lista-usuarios-gestion"></div>
+      <div class="burbuja app">¿Alguien nuevo?</div>
+      <div class="crear-usuario">
+        <input type="text" id="nuevo-usuario-nombre" class="area-texto" placeholder="Escribe tu nombre…" autocomplete="off" maxlength="40">
+        <button class="boton-primario" id="btn-crear-usuario">Crear mi perfil</button>
+      </div>
+      <div class="nota">🔒 Los perfiles viven solo en este dispositivo. Usa 💾 Backup para llevar tu biblioteca a otro lugar.</div>
+    </div>
+  </section>
+
+  <!-- ══════════ PANTALLA: INICIO ══════════ -->
+  <section class="pantalla activa" id="p-inicio">
+    <header class="cabecera">
+      <div class="logo-marca">
+        <span class="logo-circulo"><img src="iconos/icono-192.png" alt="Logo Voz de los Libros" class="logo-img"></span>
+        <div>
+          <h1>Voz de los Libros</h1>
+          <p class="subtitulo">Lecturas que acompañan</p>
+        </div>
+      </div>
+    </header>
+
+    <div class="contenido chat-fondo">
+      <div class="burbuja app" id="saludo-inicio">
+        Hola. Hoy podemos convertir una lectura en ideas para tu camino.
+      </div>
+      <div class="promesa-inicio">Convierte libros, autores, temas o vivencias en lecturas para escuchar, guardar y volver.</div>
+      <p class="racha-linea oculto" id="racha-linea"></p>
+
+      <!-- B1: Tarjeta "Hoy" — una frase tuya que vuelve -->
+      <div class="tarjeta-hoy oculto" id="tarjeta-hoy">
+        <p class="hoy-eyebrow">🌿 Para hoy</p>
+        <p class="hoy-frase" id="hoy-frase"></p>
+        <p class="hoy-origen" id="hoy-origen"></p>
+        <div class="hoy-acciones">
+          <button class="boton-mini-menu" id="btn-hoy-escuchar">▶ Escuchar</button>
+          <button class="boton-mini-menu" id="btn-hoy-repaso">★ Repaso</button>
+        </div>
+        <p class="hoy-stats" id="hoy-stats"></p>
+      </div>
+
+      <div class="hub-intencion" aria-label="Accesos principales">
+        <p class="hub-pregunta">¿Qué quieres hacer hoy?</p>
+        <div class="menu-principal hub-grid-principal">
+          <button class="boton-menu destacado" id="btn-escuchar-ultima">
+            <span class="icono">🎧</span>
+            <span><strong>Continuar escuchando</strong><br><small>Retoma tu última sesión</small></span>
+          </button>
+          <button class="boton-menu" id="btn-repaso-3-home" type="button">
+            <span class="icono">🌿</span>
+            <span><strong>Repaso de 3 minutos</strong><br><small>Favoritas y memorables para volver</small></span>
+          </button>
+          <button class="boton-menu" data-ir="tipo-lectura">
+            <span class="icono">✨</span>
+            <span><strong>Crear nueva lectura</strong><br><small>Libre o para una situación concreta</small></span>
+          </button>
+          <button class="boton-menu" data-ir="biblioteca">
+            <span class="icono">🗄️</span>
+            <span><strong>Mi biblioteca</strong><br><small>Tus sesiones guardadas</small></span>
+          </button>
+          <button class="boton-menu" id="btn-playlist-home">
+            <span class="icono">🎼</span>
+            <span><strong>Playlist</strong><br><small>Ver listas guardadas o crear una nueva</small></span>
+          </button>
+          <button class="boton-menu" id="btn-usuarios-home" type="button">
+            <span class="icono">👤</span>
+            <span><strong>Usuarios y perfiles</strong><br><small>Cambiar, crear o editar nombres</small></span>
+          </button>
+          <button class="boton-menu" data-ir="configuracion">
+            <span class="icono">⚙️</span>
+            <span><strong>Configuración</strong><br><small>Backup, importar, manual, tema y ajustes</small></span>
+          </button>
+        </div>
+      </div>
+
+      <div class="home-playlists oculto" id="home-playlists-rapidas" aria-label="Últimas playlists guardadas">
+        <div class="home-playlists-head">
+          <div>
+            <p class="playlist-eyebrow">🎼 Últimas playlists</p>
+            <strong>Retomar una lista guardada</strong>
+          </div>
+          <button class="boton-mini-menu" id="btn-home-ver-playlists" type="button">Ver todas</button>
+        </div>
+        <div class="home-playlists-lista" id="home-playlists-lista"></div>
+      </div>
+
+      <div class="menu-secundario menu-secundario-legacy oculto" aria-hidden="true">
+        <button class="boton-mini-menu" id="btn-exportar-home" data-tooltip="Descargar un respaldo de tu biblioteca">💾 Backup</button>
+        <button class="boton-mini-menu" id="btn-importar-home" data-tooltip="Importar un backup o una sesión compartida">📥 Importar</button>
+        <button class="boton-mini-menu" data-ir="manual" data-tooltip="Guía rápida de la app">📖 Manual</button>
+        <button class="boton-mini-menu" id="btn-tema" data-tooltip="Modo claro, oscuro o automático">🌓 Tema</button>
+        <button class="boton-mini-menu" id="btn-salir" data-tooltip="Volver al inicio y cambiar de perfil">⌂ Volver al inicio</button>
+      </div>
+      <input type="file" id="archivo-importar" accept="application/json,.json" class="oculto">
+    </div>
+  </section>
+
+  <!-- ══════════ PANTALLA: CONFIGURACIÓN GENERAL ══════════ -->
+  <section class="pantalla" id="p-configuracion">
+    <header class="cabecera con-volver">
+      <button class="volver" data-ir="inicio" aria-label="Volver al inicio">‹</button>
+      <div><h1>Configuración</h1><p class="subtitulo">Herramientas de apoyo</p></div>
+    </header>
+    <div class="contenido chat-fondo">
+      <div class="burbuja app">Aquí están las funciones secundarias de la app, sin cajones laterales ni superposiciones.</div>
+      <div class="menu-principal configuracion-grid" aria-label="Opciones de configuración">
+        <button class="boton-menu" id="btn-config-backup" type="button">
+          <span class="icono">💾</span>
+          <span><strong>Backup</strong><br><small>Descargar respaldo de biblioteca y playlists</small></span>
+        </button>
+        <button class="boton-menu" id="btn-config-importar" type="button">
+          <span class="icono">📥</span>
+          <span><strong>Importar</strong><br><small>Cargar backup o sesión compartida</small></span>
+        </button>
+        <button class="boton-menu" data-ir="manual" type="button">
+          <span class="icono">📖</span>
+          <span><strong>Manual</strong><br><small>Guía rápida de uso</small></span>
+        </button>
+        <button class="boton-menu" id="btn-config-tema" type="button">
+          <span class="icono">🌓</span>
+          <span><strong>Tema</strong><br><small>Claro, oscuro o automático</small></span>
+        </button>
+        <button class="boton-menu" data-ir="perfil" type="button">
+          <span class="icono">🌱</span>
+          <span><strong>Ajustes del perfil</strong><br><small>Editar datos lectores y tono</small></span>
+        </button>
+        <button class="boton-menu" id="btn-config-usuarios" type="button">
+          <span class="icono">👤</span>
+          <span><strong>Usuarios y perfiles</strong><br><small>Corregir nombres, cambiar o crear perfiles</small></span>
+        </button>
+        <button class="boton-menu" id="btn-config-ayuda" type="button">
+          <span class="icono">?</span>
+          <span><strong>Ayuda</strong><br><small>Orientación contextual de esta pantalla</small></span>
+        </button>
+        <button class="boton-menu" id="btn-config-salir" type="button">
+          <span class="icono">⌂</span>
+          <span><strong>Volver al inicio</strong><br><small>Cambiar de perfil</small></span>
+        </button>
+        <button class="boton-menu peligro-config" id="btn-config-borrar-app" type="button">
+          <span class="icono">🧹</span>
+          <span><strong>Borrar datos de la app</strong><br><small>Reinicio local con doble confirmación</small></span>
+        </button>
+      </div>
+      <div class="configuracion-paisaje" aria-hidden="true">
+        <svg viewBox="0 0 420 120" focusable="false">
+          <path d="M0 86 C45 48 82 56 118 84 C166 28 223 43 268 86 C318 48 368 52 420 80 V120 H0Z"></path>
+          <path d="M0 99 C75 76 150 82 218 103 C286 73 349 78 420 94 V120 H0Z"></path>
+          <circle cx="350" cy="31" r="15"></circle>
+        </svg>
+      </div>
+    </div>
+  </section>
+
+  <!-- ══════════ PANTALLA: PERFIL (chat de onboarding) ══════════ -->
+  <section class="pantalla" id="p-perfil">
+    <header class="cabecera con-volver">
+      <button class="volver" data-ir="inicio">‹</button>
+      <div><h1>Mi perfil vital</h1><p class="subtitulo">Resumen editable</p></div>
+    </header>
+    <div class="contenido chat-fondo" id="chat-perfil"></div>
+    <div class="barra-entrada" id="entrada-perfil">
+      <input type="text" id="input-perfil" placeholder="Escribe tu respuesta…" autocomplete="off">
+      <button class="boton-micro" data-dictado="#input-perfil" aria-label="Dictar respuesta">🎙</button>
+      <button class="boton-enviar" id="enviar-perfil">➤</button>
+    </div>
+  </section>
+
+    <!-- ══════════ PANTALLA: TIPO DE LECTURA ══════════ -->
+  <section class="pantalla" id="p-tipo-lectura">
+    <header class="cabecera con-volver">
+      <button class="volver" data-ir="inicio" aria-label="Volver al inicio">‹</button>
+      <div><h1>Crear nueva lectura</h1><p class="subtitulo">Elige el camino de entrada</p></div>
+    </header>
+    <div class="contenido chat-fondo">
+      <div class="burbuja app">Elige si trabajarás con libros, autores o temas, si crearás una historia, o si quieres que tu biblioteca te recomiende algo para hoy.</div>
+      <div class="menu-principal tipo-lectura-grid">
+        <button class="boton-menu destacado" data-ir="intencion" data-tooltip="Para leer libros, autores, conceptos, temas o textos.">
+          <span class="icono">📚</span>
+          <span><strong>Lectura libre</strong><br><small>Libros, autores, textos o temas</small></span>
+        </button>
+        <button class="boton-menu" data-ir="situacion" data-tooltip="Para acompañar a una persona, grupo o caso concreto sin confundir nombres.">
+          <span class="icono">🫶</span>
+          <span><strong>Lectura para una situación</strong><br><small>Quién pide, quién escucha y quién acompaña</small></span>
+        </button>
+        <button class="boton-menu" data-ir="historia-para" data-tooltip="Para crear, mejorar o continuar una historia con enseñanza.">
+          <span class="icono">🌙</span>
+          <span><strong>Una historia para…</strong><br><small>Cuento, aventura o relato con enseñanza</small></span>
+        </button>
+        <button class="boton-menu" data-ir="para-mi" data-tooltip="Una recomendación diaria según tus lecturas, favoritas y categorías.">
+          <span class="icono">🎁</span>
+          <span><strong>¿Qué hay para mí?</strong><br><small>Recomendación de hoy desde tu biblioteca</small></span>
+        </button>
+      </div>
+      <div class="nota">La lectura para una situación conserva solicitante y destinatario. Historias trabaja con argumento y moraleja. ¿Qué hay para mí? usa tu biblioteca, favoritas y categorías.</div>
+      <div class="limites-card">
+        <strong>Privacidad y límites</strong>
+        <span>Tus lecturas se guardan en este dispositivo. La app acompaña reflexión y estudio; no reemplaza atención médica, psicológica, jurídica ni decisiones profesionales.</span>
+      </div>
+    </div>
+  </section>
+
+  
+  <!-- ══════════ PANTALLA: ¿QUÉ HAY PARA MÍ? ══════════ -->
+  <section class="pantalla" id="p-para-mi">
+    <header class="cabecera con-volver">
+      <button class="volver" data-ir="tipo-lectura" aria-label="Volver">‹</button>
+      <div><h1>¿Qué hay para mí?</h1><p class="subtitulo">Una recomendación para hoy desde tu biblioteca</p></div>
+    </header>
+    <div class="contenido chat-fondo">
+      <div class="burbuja app">Miro tus lecturas, favoritas, categorías y últimas escuchas para proponerte un recorrido breve para hoy.</div>
+
+      <div class="para-mi-panel" id="para-mi-panel">
+        <p class="playlist-eyebrow">🎁 Recomendación viva</p>
+        <h2 id="para-mi-titulo">Tu biblioteca todavía está despertando</h2>
+        <p id="para-mi-resumen">Cuando guardes lecturas, aquí aparecerán recomendaciones según lo que más escuchas y marcas como favorito.</p>
+        <div class="para-mi-metricas" id="para-mi-metricas"></div>
+      </div>
+
+      <div class="menu-principal para-mi-acciones">
+        <button class="boton-menu destacado" id="btn-para-mi-hoy" type="button">
+          <span class="icono">🎁</span>
+          <span><strong>Recomendarme algo para hoy</strong><br><small>Mezcla favoritas, categorías y lecturas recientes</small></span>
+        </button>
+        <button class="boton-menu" id="btn-para-mi-sorpresa" type="button">
+          <span class="icono">🎲</span>
+          <span><strong>Sorpréndeme</strong><br><small>Un recorrido aleatorio con sentido</small></span>
+        </button>
+        <button class="boton-menu" id="btn-para-mi-favoritas" type="button">
+          <span class="icono">★</span>
+          <span><strong>Volver a favoritas</strong><br><small>Repaso breve de lo que marcaste</small></span>
+        </button>
+        <button class="boton-menu" data-ir="biblioteca" type="button">
+          <span class="icono">🗄️</span>
+          <span><strong>Ir a mi biblioteca</strong><br><small>Buscar, filtrar o crear playlists</small></span>
+        </button>
+      </div>
+
+      <div class="nota">Este módulo no reemplaza tu decisión lectora: te devuelve una posibilidad para hoy según tus señales de uso.</div>
+    </div>
+  </section>
+
+<!-- ══════════ PANTALLA: UNA HISTORIA PARA... ══════════ -->
+  <section class="pantalla" id="p-historia-para">
+    <header class="cabecera con-volver">
+      <button class="volver" data-ir="tipo-lectura" aria-label="Volver">‹</button>
+      <div><h1>Una historia para…</h1><p class="subtitulo">Cuentos, aventuras y relatos con enseñanza</p></div>
+    </header>
+    <div class="contenido chat-fondo">
+      <div class="burbuja app">Crea, mejora o continúa una historia para alguien especial, sin llenar formularios largos.</div>
+
+      <label class="etiqueta">¿Qué quieres hacer?</label>
+      <div class="chips seleccion-unica" id="chips-historia-accion">
+        <button class="chip seleccionado" data-valor="crear">✨ Crear nueva</button>
+        <button class="chip" data-valor="mejorar">🪄 Mejorar una mía</button>
+        <button class="chip" data-valor="continuar">➡️ Continuar una historia</button>
+      </div>
+
+      <div class="form-grid-situacion historia-para-form">
+        <label class="etiqueta">Para quién es</label>
+        <input type="text" class="area-texto" id="historia-destinatario" placeholder="Ej.: Emilia, Martín, mis estudiantes…" autocomplete="off">
+
+        <label class="etiqueta">Edad aproximada</label>
+        <input type="number" class="area-texto" id="historia-edad" min="0" max="120" placeholder="Ej.: 5">
+
+        <label class="etiqueta">Idea, argumento base o historia que ya cuentas</label>
+        <div class="campo-dictado">
+          <textarea class="area-texto" id="historia-base" rows="4" placeholder="Ej.: Una niña pierde sus juguetes y descubre que la alegría vuelve cuando comparte…"></textarea>
+          <button class="boton-micro boton-micro-campo" data-dictado="#historia-base" aria-label="Dictar historia base">🎙</button>
+        </div>
+
+        <label class="etiqueta">Personajes que quieres incluir</label>
+        <input type="text" class="area-texto" id="historia-personajes" placeholder="Ej.: Emilia, Martín, Doctor Sombra, una gata sabia…" autocomplete="off">
+
+        <label class="etiqueta">Referentes opcionales</label>
+        <textarea class="area-texto" id="historia-referentes" rows="2" placeholder="Ej.: Harry Potter + Plantas vs. Zombies, cuentos de hadas, mitología griega…"></textarea>
+        <div class="nota nota-suave">La app puede inspirarse en referentes, personajes o mundos conocidos, pero pedirá una historia original: argumento nuevo, personajes transformados y sin copiar escenas, diálogos ni tramas protegidas.</div>
+
+        <label class="etiqueta">Enseñanza o moraleja</label>
+        <input type="text" class="area-texto" id="historia-moraleja" placeholder="Ej.: compartir, vencer el miedo, cuidar a un hermano, decir la verdad…" autocomplete="off">
+
+        <label class="etiqueta">Tono o forma</label>
+        <input type="text" class="area-texto" id="historia-tono" placeholder="Ej.: tierno, mágico, divertido, para dormir, aventura…" autocomplete="off">
+
+        <label class="etiqueta">Final deseado</label>
+        <input type="text" class="area-texto" id="historia-final" placeholder="Ej.: feliz, esperanzador, divertido, con sorpresa…" autocomplete="off">
+      </div>
+
+      <button class="boton-primario" id="btn-historia-seguir">Continuar</button>
+    </div>
+  </section>
+
+<!-- ══════════ PANTALLA: INTENCIÓN DEL DÍA ══════════ -->
+  <section class="pantalla" id="p-intencion">
+    <header class="cabecera con-volver">
+      <button class="volver" data-ir="tipo-lectura">‹</button>
+      <div><h1>Nueva lectura</h1><p class="subtitulo">Paso 1 de 3 · Intención</p></div>
+    </header>
+    <div class="contenido chat-fondo">
+      <div class="burbuja app">¿Qué necesitas hoy?</div>
+      <div class="nota nota-modo">Elige una sola intención principal. Esto ayuda a que la lectura tenga foco.</div>
+      <div class="chips" id="chips-intencion">
+        <button class="chip" data-valor="Un consejo para el trabajo" data-tooltip="Empleo, liderazgo, equipos, decisiones laborales o cansancio profesional.">💼 Trabajo</button>
+        <button class="chip" data-valor="Una orientación personal" data-tooltip="Claridad, dirección, pausa o sentido para un momento de vida.">🧭 Orientación personal</button>
+        <button class="chip" data-valor="Acompañamiento emocional" data-tooltip="Comprender emociones como miedo, rabia, culpa, tristeza, ansiedad o calma, sin diagnosticar.">🧠 Emociones</button>
+        <button class="chip" data-valor="Ideas para estudiar" data-tooltip="Aprender, repasar autores, preparar clase, tesis, exposiciones o lecturas académicas.">📚 Estudio</button>
+        <button class="chip" data-valor="Inspiración para escribir" data-tooltip="Desbloquear ideas, ordenar textos, crear argumentos o mejorar una voz escrita.">✍️ Escritura</button>
+        <button class="chip" data-valor="Consejos de crianza" data-tooltip="Acompañar hijos, adolescentes, familia, límites, vínculos y conversaciones difíciles.">👶 Crianza</button>
+        <button class="chip" data-valor="Orientación familiar" data-tooltip="Vínculos familiares, hogar, padres, hermanos, pareja extendida o conversaciones difíciles.">🏡 Familia</button>
+        <button class="chip" data-valor="Claridad para una decisión" data-tooltip="Pensar opciones, consecuencias, valores y pasos antes de elegir.">⚖️ Una decisión</button>
+        <button class="chip" data-valor="Reflexión espiritual" data-tooltip="Sentido, interioridad, fe, esperanza, gratitud o cuidado del alma.">🕊️ Espiritualidad</button>
+        <button class="chip" data-valor="Ideas para un proyecto" data-tooltip="Crear, organizar, lanzar o mejorar una idea, app, clase, libro o iniciativa.">🚀 Un proyecto</button>
+        <button class="chip" data-valor="Orientación sobre amor" data-tooltip="Vínculos, pareja, deseo, pérdida, espera, cuidado o reconciliación.">💚 Amor</button>
+        <button class="chip" data-valor="Reflexión política" data-tooltip="Poder, ciudadanía, justicia, democracia, conflicto social o pensamiento crítico.">🏛️ Política</button>
+        <button class="chip" data-valor="Autoayuda con evidencia" data-tooltip="Hábitos, calma, autoestima, motivación, emociones y cuidado personal.">🌿 Autoayuda</button>
+        <button class="chip" data-valor="Cuidado de salud y cuerpo" data-tooltip="Dolor, cansancio, hábitos, autocuidado y bienestar, sin reemplazar orientación médica.">🩺 Salud y cuerpo</button>
+        <button class="chip" data-valor="Acompañamiento en duelo" data-tooltip="Pérdidas, despedidas, memoria, ausencia y reconstrucción con cuidado.">🕯️ Duelo</button>
+        <button class="chip" data-valor="Consejos prácticos para una situación" data-tooltip="Orientaciones breves, aplicables y escuchables para actuar o preguntar mejor.">🧩 Consejos</button>
+        <button class="chip" data-valor="Transformar vivencias en aprendizaje" data-tooltip="Convertir experiencias personales en memoria, aprendizaje o relato con sentido.">🌎 Vivencias</button>
+      </div>
+      <div class="burbuja app">O cuéntame con tus palabras:</div>
+      <div class="campo-dictado">
+        <textarea class="area-texto" id="intencion-libre" rows="2" placeholder="Hoy necesito orientación sobre…"></textarea>
+        <button class="boton-micro boton-micro-campo" data-dictado="#intencion-libre" aria-label="Dictar intención">🎙</button>
+      </div>
+      <button class="boton-primario" id="btn-intencion-seguir">Continuar</button>
+    </div>
+  </section>
+
+  <!-- ══════════ PANTALLA: LECTURA PARA UNA SITUACIÓN ══════════ -->
+  <section class="pantalla" id="p-situacion">
+    <header class="cabecera con-volver">
+      <button class="volver" data-ir="tipo-lectura" aria-label="Volver">‹</button>
+      <div><h1>Lectura para una situación</h1><p class="subtitulo">Identidad clara y cuidado del destinatario</p></div>
+    </header>
+    <div class="contenido chat-fondo">
+      <div class="burbuja app">Define quién pide, quién escucha y quién acompaña.</div>
+
+      <label class="etiqueta">Tipo de lectura</label>
+      <div class="chips seleccion-unica" id="chips-situacion-tipo">
+        <button class="chip seleccionado" data-valor="mi">Para mí</button>
+        <button class="chip" data-valor="otra">Para otra persona</button>
+        <button class="chip" data-valor="grupo">Para un grupo</button>
+      </div>
+
+      <div class="form-grid-situacion">
+        <label class="etiqueta">Quién crea la lectura</label>
+        <input type="text" class="area-texto" id="situacion-solicitante" placeholder="Ej.: José" autocomplete="off">
+
+        <label class="etiqueta">Nombre del destinatario o grupo</label>
+        <input type="text" class="area-texto" id="situacion-destinatario" placeholder="Ej.: Martín José / estudiantes / familia" autocomplete="off">
+
+        <label class="etiqueta">Edad aproximada</label>
+        <input type="number" class="area-texto" id="situacion-edad" min="0" max="120" placeholder="Ej.: 9">
+
+        <label class="etiqueta">Relación</label>
+        <input type="text" class="area-texto" id="situacion-relacion" placeholder="Ej.: hijo, paciente, estudiante, grupo" autocomplete="off">
+
+        <label class="etiqueta">Situación concreta</label>
+        <div class="campo-dictado">
+          <textarea class="area-texto" id="situacion-concreta" rows="3" placeholder="Describe con cuidado qué está pasando…"></textarea>
+          <button class="boton-micro boton-micro-campo" data-dictado="#situacion-concreta" aria-label="Dictar situación concreta">🎙</button>
+        </div>
+
+        <label class="etiqueta">Emoción principal</label>
+        <input type="text" class="area-texto" id="situacion-emocion" placeholder="Ej.: miedo, incertidumbre, tristeza, entusiasmo" autocomplete="off">
+
+        <label class="etiqueta">Objetivo de la lectura</label>
+        <input type="text" class="area-texto" id="situacion-objetivo" placeholder="Ej.: ayudarlo a afrontar el miedo con calma" autocomplete="off">
+
+        <label class="etiqueta">Tono deseado</label>
+        <input type="text" class="area-texto" id="situacion-tono" placeholder="Ej.: dulce, sencillo, protector, práctico" autocomplete="off">
+
+        <label class="etiqueta">Fuentes, autores o libros específicos</label>
+        <textarea class="area-texto" id="situacion-fuentes" rows="2" placeholder="Opcional. Escribe solo si quieres usar esas fuentes en este caso…"></textarea>
+        <label class="etiqueta-check situacion-sugerencias-linea">
+          <input type="checkbox" id="situacion-sugerencias">
+          Pedir sugerencias bibliográficas abiertas para este caso
+        </label>
+        <div class="nota nota-suave">Si dejas este campo vacío, la IA trabajará desde la situación concreta y no arrastrará automáticamente los autores favoritos del perfil.</div>
+      </div>
+      <input type="hidden" id="situacion-salida" value="destinatario">
+      <div class="nota">La lectura se dirigirá al destinatario indicado. Si es menor de edad, el prompt usará lenguaje sencillo, protector y no alarmante. En situaciones médicas no reemplaza al equipo de salud.</div>
+      <button class="boton-primario" id="btn-situacion-seguir">Continuar</button>
+    </div>
+  </section>
+
+  <!-- ══════════ PANTALLA: FUENTES ══════════ -->
+  <section class="pantalla" id="p-fuentes">
+    <header class="cabecera con-volver">
+      <button class="volver" data-ir="intencion">‹</button>
+      <div><h1>Fuentes de lectura</h1><p class="subtitulo">Paso 2 de 3 · Libros y autores</p></div>
+    </header>
+    <div class="contenido chat-fondo">
+      <div class="burbuja app">Escribe libros, autores o temas. Si no tienes fuentes, la IA elegirá referencias reales y pertinentes.</div>
+
+      <label class="etiqueta">Libros, textos o temas (uno por línea)</label>
+      <div class="campo-dictado">
+        <textarea class="area-texto" id="fuentes-libros" rows="3" placeholder="Ej.: El hombre en busca de sentido — Viktor Frankl"></textarea>
+        <button class="boton-micro boton-micro-campo" data-dictado="#fuentes-libros" aria-label="Dictar libros o textos">🎙</button>
+      </div>
+
+      <label class="etiqueta">Autores o corrientes que te inspiran</label>
+      <div class="campo-dictado">
+        <textarea class="area-texto" id="fuentes-autores" rows="2" placeholder="Ej.: Edgar Morin, estoicismo, pedagogía crítica…"></textarea>
+        <button class="boton-micro boton-micro-campo" data-dictado="#fuentes-autores" aria-label="Dictar autores o corrientes">🎙</button>
+      </div>
+
+      <label class="etiqueta-check">
+        <input type="checkbox" id="fuentes-sugerencias">
+        Pedir también sugerencias bibliográficas abiertas
+      </label>
+
+      <div class="nota">💡 Si tienes archivos o textos, los usarás en la IA al final. Si no escribes libros ni autores, el prompt pedirá fuentes existentes y adecuadas; no debe inventar obras.</div>
+
+      <button class="boton-primario" id="btn-fuentes-seguir">Continuar</button>
+    </div>
+  </section>
+
+  <!-- ══════════ PANTALLA: CONFIGURACIÓN ══════════ -->
+  <section class="pantalla" id="p-config">
+    <header class="cabecera con-volver">
+      <button class="volver" id="btn-volver-config" data-ir="fuentes">‹</button>
+      <div><h1 id="config-titulo">Extracción</h1><p class="subtitulo" id="config-subtitulo">Paso 3 de 3 · Ideas y enfoque</p></div>
+    </header>
+    <div class="contenido chat-fondo">
+      <div class="bloque-modo-lectura" id="bloque-modo-lectura"><div class="burbuja app">Elige el modo de lectura. Esto define cómo se transformará el contenido.</div>
+      <div class="chips seleccion-unica chips-modo-lectura" id="chips-modo-lectura">
+        <button class="chip seleccionado" data-valor="ideas">💡 Ideas</button>
+        <button class="chip" data-valor="narrativa">📚 Narrativa</button>
+        <button class="chip" data-valor="historia">🌿 Historia</button>
+        <button class="chip" data-valor="academica">🎓 Académica</button>
+      </div>
+      <div class="nota nota-modo" id="nota-modo-lectura">Ideas centrales extrae aprendizajes, frases memorables y recomendaciones. Narrativa resumida debe parafrasear, sin copiar pasajes de obras protegidas.</div></div>
+
+      <div class="campo-historia oculto" id="historia-estilo-box">
+        <label class="etiqueta" for="historia-estilo">Tipo de historia opcional</label>
+        <input type="text" class="area-texto" id="historia-estilo" placeholder="Ej.: cuento breve, viaje, diálogo maestro-aprendiz, caso cotidiano, metáfora espiritual, escena educativa…" maxlength="120">
+        <div class="nota">Si lo dejas vacío, la IA elegirá la forma narrativa más clara para comprender el tema.</div>
+      </div>
+
+      <div class="burbuja app"><span id="pregunta-cantidad-texto">¿Cuántas tarjetas quieres recibir?</span></div>
+      <div class="chips seleccion-unica" id="chips-cantidad">
+        <button class="chip" data-valor="10">10</button>
+        <button class="chip seleccionado" data-valor="20">20</button>
+        <button class="chip" data-valor="30">30</button>
+        <button class="chip" data-valor="50">50</button>
+        <button class="chip" data-valor="personalizado">Personalizado</button>
+      </div>
+      <div class="cantidad-personalizada oculto" id="cantidad-personalizada-box">
+        <label class="etiqueta" for="cantidad-personalizada">Cantidad personalizada (1 o más)</label>
+        <input type="number" class="area-texto" id="cantidad-personalizada" min="1" value="20" inputmode="numeric">
+      </div>
+      <div class="nota nota-modo" id="nota-cantidad-dinamica">La app pedirá 20 ideas/tarjetas y no recortará la respuesta si llegan más tarjetas válidas.</div>
+      <div class="nota nota-cantidad-recomendada">Recomendado para estabilidad: 30–100 tarjetas. 150 es avanzado. 200 o más puede tardar, cortarse o fallar; mejor dividir por bloques.</div>
+
+      <div class="burbuja app">Elige cómo quieres escuchar cada tarjeta.</div>
+      <div class="chips seleccion-unica" id="chips-capa">
+        <button class="chip" data-valor="directas" data-tooltip="Solo la idea central del libro, autor, tema o situación.">Neto</button>
+        <button class="chip" data-valor="adaptadas" data-tooltip="Cómo esa idea se conecta contigo, más una frase memorable.">Contexto</button>
+        <button class="chip seleccionado" data-valor="ambas" data-tooltip="Idea central + conexión contigo + frase memorable.">Ambos</button>
+        <button class="chip" data-valor="accion" data-tooltip="Solo el consejo práctico: qué hacer, preguntar o ensayar.">Acción</button>
+      </div>
+      <div class="nota nota-modo">Neto: idea central. Contexto: significado para ti + frase. Ambos: todo junto. Acción: qué hacer, preguntar o practicar.</div>
+      <div class="ejemplo-capas" aria-label="Ejemplo de capas de escucha">
+        <p><strong>Ejemplo rápido</strong></p>
+        <div><span>Neto</span><small>La obra habla de una decisión difícil.</small></div>
+        <div><span>Contexto</span><small>Esto puede ayudarte a mirar tu situación con más calma. “Elegir también es cuidar.”</small></div>
+        <div><span>Acción</span><small>Escribe dos opciones y una consecuencia de cada una.</small></div>
+      </div>
+
+      <button class="boton-primario" id="btn-generar-prompt">Preparar instrucciones para la IA</button>
+    </div>
+  </section>
+
+  <!-- ══════════ PANTALLA: PROMPT ══════════ -->
+  <section class="pantalla" id="p-prompt">
+    <header class="cabecera con-volver">
+      <button class="volver" data-ir="config">‹</button>
+      <div><h1>Motor IA</h1><p class="subtitulo">Instrucciones listas</p></div>
+    </header>
+    <div class="contenido chat-fondo">
+      <div class="burbuja app">✅ Ya preparé las instrucciones para la IA. El viaje es así:</div>
+
+      <!-- A3: Guía visual del ciclo IA -->
+      <div class="ciclo-ia" aria-label="Pasos del ciclo con la IA">
+        <div class="ciclo-paso"><span class="ciclo-icono">📋</span><span>Copia las instrucciones</span></div>
+        <div class="ciclo-flecha">→</div>
+        <div class="ciclo-paso"><span class="ciclo-icono">🤖</span><span>Abre tu IA</span></div>
+        <div class="ciclo-flecha">→</div>
+        <div class="ciclo-paso"><span class="ciclo-icono">📚</span><span>Carga tus libros</span></div>
+        <div class="ciclo-flecha">→</div>
+        <div class="ciclo-paso"><span class="ciclo-icono">📥</span><span>Pega y espera</span></div>
+        <div class="ciclo-flecha">→</div>
+        <div class="ciclo-paso"><span class="ciclo-icono">📄</span><span>Copia el JSON</span></div>
+        <div class="ciclo-flecha">→</div>
+        <div class="ciclo-paso destino"><span class="ciclo-icono">🎧</span><span>Vuelve y escucha</span></div>
+      </div>
+
+      <button class="boton-primario" id="btn-copiar-prompt">📋 Copiar instrucciones</button>
+      <div class="hub-ia" aria-label="Abrir una inteligencia artificial">
+        <p class="hub-titulo">Abrir una IA</p>
+        <p class="hub-texto">Copia el prompt, abre una IA y pega allí las instrucciones.</p>
+        <div class="hub-grid">
+          <a class="hub-link" href="https://chatgpt.com" target="_blank" rel="noopener">ChatGPT</a>
+          <a class="hub-link" href="https://claude.ai/new" target="_blank" rel="noopener">Claude</a>
+          <a class="hub-link" href="https://gemini.google.com/app" target="_blank" rel="noopener">Gemini</a>
+          <a class="hub-link" href="https://www.perplexity.ai" target="_blank" rel="noopener">Perplexity</a>
+          <a class="hub-link" href="https://copilot.microsoft.com" target="_blank" rel="noopener">Copilot</a>
+          <a class="hub-link" href="https://chat.deepseek.com" target="_blank" rel="noopener">DeepSeek</a>
+          <a class="hub-link" href="https://chat.mistral.ai/chat" target="_blank" rel="noopener">Mistral</a>
+          <a class="hub-link" href="https://grok.com" target="_blank" rel="noopener">Grok</a>
+        </div>
+      </div>
+      <pre id="texto-prompt" class="oculto"></pre>
+      <button class="boton-secundario" data-ir="json">Ya tengo la respuesta →</button>
+    </div>
+  </section>
+
+  <!-- ══════════ PANTALLA: PEGAR JSON ══════════ -->
+  <section class="pantalla" id="p-json">
+    <header class="cabecera con-volver">
+      <button class="volver" data-ir="prompt">‹</button>
+      <div><h1>Respuesta de la IA</h1><p class="subtitulo">Pega el JSON aquí</p></div>
+    </header>
+    <div class="contenido chat-fondo">
+      <div class="burbuja app">Pega abajo el JSON que te entregó la IA y lo convertiré en tu sesión de consejos.</div>
+      <textarea class="area-texto mono" id="entrada-json" rows="9" placeholder='{ "titulo_sesion": … }'></textarea>
+      <button class="boton-primario" id="btn-procesar-json">Crear mi sesión</button>
+      <button class="boton-secundario" id="btn-cargar-ejemplo">Probar con un ejemplo</button>
+      <p class="error" id="error-json"></p>
+    </div>
+  </section>
+
+  <!-- ══════════ PANTALLA: SESIÓN / ESCUCHA ══════════ -->
+  <section class="pantalla" id="p-sesion">
+    <!-- Héroe verde de la sesión -->
+    <header class="sesion-hero">
+      <div class="sesion-hero-top">
+        <button class="volver" data-ir="biblioteca" aria-label="Volver a la biblioteca">‹</button>
+        <div class="rep-extras hero-extras">
+          <button class="rep-mini" id="rep-velocidad" data-tooltip="Velocidad de la voz" aria-label="Velocidad de la voz">1×</button>
+          <button class="rep-mini" id="rep-compartir-sesion" data-tooltip="Compartir sesión completa" aria-label="Compartir sesión completa">📤</button>
+          <button class="rep-mini" id="rep-voz" data-tooltip="Cambiar voz" aria-label="Cambiar voz">🗣</button>
+          <button class="rep-mini" id="rep-sueno" data-tooltip="Cronómetro de apagado: 10, 20 o 30 minutos" aria-label="Cronómetro de apagado">⏱</button>
+          <button class="rep-mini" id="rep-letra" data-tooltip="Tamaño del texto" aria-label="Tamaño del texto">A±</button>
+          <button class="rep-mini oculto" id="rep-mp3" data-tooltip="Descargar audio (.mp3)" aria-label="Descargar audio MP3">MP3</button>
+        </div>
+      </div>
+      <h1 class="sesion-hero-titulo" id="sesion-titulo">Sesión</h1>
+      <p class="sesion-hero-sub" id="sesion-sub"></p>
+      <div class="selector-modo-sesion" id="selector-modo-sesion" aria-label="Elegir modo de lectura">
+        <button class="modo-chip" data-modo-sesion="directas" data-tooltip="Solo la idea central del libro, autor, tema o situación.">Neto</button>
+        <button class="modo-chip" data-modo-sesion="adaptadas" data-tooltip="Cómo esa idea se conecta contigo, más una frase memorable.">Contexto</button>
+        <button class="modo-chip" data-modo-sesion="ambas" data-tooltip="Idea central + conexión contigo + frase memorable.">Ambos</button>
+        <button class="modo-chip" data-modo-sesion="accion" data-tooltip="Solo el consejo práctico: qué hacer, preguntar o ensayar.">Acción</button>
+      </div>
+    </header>
+
+    <!-- Reproductor: tarjeta blanca sobre el héroe -->
+    <div class="reproductor reproductor-tarjeta" id="reproductor">
+      <div class="rep-info">
+        <div>
+          <span class="rep-contador" id="rep-contador" aria-label="Idea 1">1/—</span>
+          <p class="rep-estado" id="rep-estado">Listo para escuchar</p>
+        </div>
+      </div>
+      <div class="rep-controles">
+        <button class="rep-btn principal" id="rep-play" data-tooltip="Reproducir o pausar" aria-label="Reproducir">▶</button>
+        <button class="rep-btn" id="rep-anterior" data-tooltip="Idea anterior" aria-label="Idea anterior">⏮</button>
+        <button class="rep-btn" id="rep-siguiente" data-tooltip="Siguiente idea" aria-label="Siguiente idea">⏭</button>
+        <button class="rep-btn" id="rep-favorita" data-tooltip="Guardar favorita" aria-label="Guardar favorita">☆</button>
+        <button class="rep-btn contorno" id="rep-compartir" data-tooltip="Compartir este consejo como tarjeta" aria-label="Compartir este consejo">❞</button>
+        <button class="rep-btn contorno" id="rep-aleatorio" data-tooltip="Reproducción aleatoria: todos los consejos, en orden sorpresa" aria-label="Reproducción aleatoria">🔀</button>
+      </div>
+      <div class="rep-progreso" aria-hidden="true">
+        <div class="rep-barra"><div class="rep-barra-lleno" id="rep-barra-lleno"></div></div>
+        <div class="rep-tiempos"><span id="rep-tiempo-actual">00:00</span><span id="rep-tiempo-total">—</span></div>
+      </div>
+    </div>
+
+    <div class="contenido chat-fondo sesion-contenido" id="sesion-cuerpo">
+      <div class="saludo-fila">
+        <span class="saludo-avatar" aria-hidden="true">
+          <svg width="22" height="22" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M4 10v4M8 7v10M12 4v16M16 7v10M20 10v4" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg>
+        </span>
+        <div class="burbuja app" id="sesion-saludo"></div>
+      </div>
+      <div id="lista-ideas"></div>
+      <button class="pie-marca" data-ir="inicio">📖 Voz de los Libros</button>
+    </div>
+  </section>
+
+  <!-- ══════════ PANTALLA: BIBLIOTECA ══════════ -->
+  <section class="pantalla" id="p-biblioteca">
+    <header class="cabecera con-volver">
+      <button class="volver" data-ir="inicio">‹</button>
+      <div><h1>Mi biblioteca</h1><p class="subtitulo">Memoria viva de tus lecturas</p></div>
+    </header>
+    <div class="contenido chat-fondo">
+      <input type="search" class="buscador" id="buscador" placeholder="Buscar por tema, libro, palabra…">
+      <div class="memoria-viva-card" id="memoria-viva-resumen">
+        <strong>Tu memoria viva</strong>
+        <span>Cuando guardes lecturas, aquí verás sesiones, favoritas, playlists y repasos.</span>
+      </div>
+      <div class="biblioteca-tabs" id="biblioteca-tabs" role="tablist" aria-label="Secciones de Mi biblioteca">
+        <button type="button" class="seleccionado" data-vista-biblioteca="sesiones">📚 Lecturas <small id="tab-count-sesiones">0</small></button>
+        <button type="button" data-vista-biblioteca="playlists">🎼 Playlists <small id="tab-count-playlists">0</small></button>
+        <button type="button" data-vista-biblioteca="favoritas">★ Favoritas <small id="tab-count-favoritas">0</small></button>
+      </div>
+
+      <div class="biblioteca-zona" id="zona-sesiones-biblioteca">
+        <div class="chips filtros-modo-biblioteca" id="filtros-modo-biblioteca"></div>
+        <div class="chips filtros-biblioteca" id="filtros-biblioteca"></div>
+        <div class="playlist-builder-bar oculto" id="playlist-builder-bar" aria-live="polite">
+          <div>
+            <strong id="playlist-builder-count">0 seleccionadas</strong>
+            <small>Selecciona sesiones de la biblioteca. Mantén presionado o toca una tarjeta en modo selección.</small>
+          </div>
+          <input type="text" class="area-texto" id="playlist-builder-nombre" maxlength="50" placeholder="Nombre de la playlist…">
+          <div class="playlist-builder-acciones">
+            <button class="boton-primario" id="btn-guardar-playlist-personalizada" type="button">Guardar playlist</button>
+            <button class="boton-secundario" id="btn-escuchar-playlist-personalizada" type="button">Escuchar selección</button>
+            <button class="boton-secundario" id="btn-cancelar-playlist-personalizada" type="button">Cancelar</button>
+          </div>
+        </div>
+        <div id="lista-sesiones"></div>
+        <div class="vacio" id="biblioteca-vacia">
+          <p>🌿</p>
+          <p>Aún no hay sesiones guardadas.<br>Empieza con una lectura libre o una situación concreta. Tu biblioteca será la memoria viva de lo que quieras volver a escuchar.</p>
+          <button class="boton-primario" data-ir="tipo-lectura">Crear nueva lectura</button>
+        </div>
+      </div>
+
+      <div class="biblioteca-zona oculto" id="zona-playlists-biblioteca">
+        <div class="biblioteca-seccion-head">
+          <div>
+            <p class="playlist-eyebrow">🎼 Mis playlists guardadas</p>
+            <h2>Recorridos de lectura</h2>
+            <small>Tus listas viven aquí: puedes reproducirlas, renombrarlas o eliminarlas sin borrar las sesiones originales.</small>
+          </div>
+          <div class="biblioteca-head-acciones">
+            <button class="boton-secundario boton-compacto" id="btn-playlist-intencion" type="button" data-tooltip="Crea una playlist automática con la intención más repetida en tu biblioteca">Auto por intención</button>
+            <button class="boton-primario boton-compacto" id="btn-nueva-playlist-zona" type="button">+ Crear playlist</button>
+          </div>
+        </div>
+        <div class="playlists-guardadas-biblioteca" id="playlists-guardadas-biblioteca" aria-label="Playlists guardadas"></div>
+        <div class="vacio playlists-vacias-biblioteca oculto" id="playlists-vacias-biblioteca">
+          <p>🎼</p>
+          <p>Aún no tienes playlists guardadas.<br>Las playlists convierten sesiones dispersas en recorridos para volver a escuchar.</p>
+          <button class="boton-primario" id="btn-crear-primera-playlist" type="button">Crear mi primera playlist</button>
+        </div>
+      </div>
+
+      <div class="biblioteca-zona oculto" id="zona-favoritas-biblioteca">
+        <div class="biblioteca-seccion-head">
+          <div>
+            <p class="playlist-eyebrow">★ Favoritas</p>
+            <h2>Ideas marcadas para volver</h2>
+            <small>Un acceso rápido a las tarjetas que señalaste dentro de tus sesiones.</small>
+          </div>
+          <button class="boton-secundario boton-compacto" id="btn-escuchar-favoritas-biblioteca" type="button">▶ Repasar favoritas</button>
+        </div>
+        <div id="lista-favoritas-biblioteca" class="lista-favoritas-biblioteca"></div>
+        <div class="vacio favoritas-vacias-biblioteca oculto" id="favoritas-vacias-biblioteca">
+          <p>★</p>
+          <p>Aún no hay favoritas.<br>Marca ideas con la estrella y luego usa el repaso de 3 minutos: reunirá tantas tarjetas como quepan aproximadamente en tres minutos.</p>
+          <button class="boton-secundario" id="btn-repaso-3-biblioteca" type="button">🌿 Repaso de 3 minutos</button>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ══════════ PANTALLA: MANUAL ══════════ -->
+  <section class="pantalla" id="p-manual">
+    <header class="cabecera con-volver">
+      <button class="volver" data-ir="inicio" data-tooltip="Volver al inicio">‹</button>
+      <div><h1>Manual de la app</h1><p class="subtitulo">Guía puntual, sin rodeos</p></div>
+    </header>
+    <div class="contenido chat-fondo">
+      <div class="burbuja app">Todo lo esencial, en píldoras. Toca cada tema para abrirlo.</div>
+
+      <details class="manual-item"><summary>🌱 Perfiles</summary>
+        <p>Después del splash aparece “¿Quién está aquí hoy?” cuando hay perfiles guardados. Cada perfil conserva su biblioteca, sesiones, favoritos, playlists, autores, tono y preferencias. Desde Inicio o Configuración puedes entrar a Usuarios y perfiles para cambiar, crear o editar nombres. La app no guarda perfiles vacíos y evita nombres genéricos como “Usuario” para que el audio no suene impersonal.</p>
+      </details>
+      <details class="manual-item"><summary>🏠 Inicio personalizado</summary>
+        <p>La pantalla inicial funciona como hub: Continuar escuchando, Crear nueva lectura, Lectura para una situación, Mi biblioteca, Playlist y Configuración. Backup, Importar, Manual, Tema, Ajustes, Ayuda y Volver al inicio viven en una pantalla propia de Configuración, sin menú lateral.</p>
+      </details>
+      <details class="manual-item"><summary>✨ Crear nueva lectura</summary>
+        <p>Crear nueva lectura abre dos caminos: Lectura libre, para libros, autores, textos o temas; y Lectura para una situación, para indicar quién pide, quién escucha y quién acompaña. En intención se elige una sola categoría principal para mantener foco. Para estabilidad de la IA se recomiendan 30–100 tarjetas; 150 es avanzado y 200 o más puede cortarse.</p>
+      </details>
+      <details class="manual-item"><summary>🧠 Modos de lectura</summary>
+        <p>Ideas centrales extrae aprendizajes, frases propias y recomendaciones. Narrativa resumida resume una obra en capítulos, escenas o partes ordenadas; si es académica, sigue sus argumentos sin saltos. Historia para comprender no resume: convierte una obra, tema o concepto en una historia pedagógica nueva, con inicio y cierre ligados a las fuentes. Guía académica explica conceptos y relaciones con más rigor.</p>
+      </details>
+      <details class="manual-item"><summary>🧩 Neto / Contexto / Ambos / Acción</summary>
+        <p>Neto muestra la idea central del libro, autor, tema o situación. Contexto muestra qué significa para la persona y cierra con frase memorable. Ambos une idea central, contexto y frase. Acción muestra solo qué hacer, preguntar o practicar.</p>
+      </details>
+      <details class="manual-item"><summary>🎁 ¿Qué hay para mí?</summary>
+        <p>Analiza lecturas, favoritas, categorías y escuchas para devolver una recomendación breve del día. Puede generar un recorrido estable para hoy o una sorpresa aleatoria con sentido.</p>
+      </details>
+      <details class="manual-item"><summary>🌙 Una historia para…</summary>
+        <p>Permite crear una historia nueva, mejorar una historia propia o continuar un relato. Usa destinatario, edad, argumento base, personajes, referentes, moraleja, tono y final deseado. Si aparecen referentes protegidos, la app debe transformarlos en una historia original.</p>
+      </details>
+      <details class="manual-item"><summary>🛡️ Límites y privacidad</summary>
+        <p>La app guarda datos en este dispositivo y permite backup JSON. No sincroniza en la nube, no genera PDF, no usa API interna, no exporta Word y no usa OCR ni cámara. Sus lecturas acompañan reflexión y estudio; no sustituyen atención profesional.</p>
+      </details>
+      <details class="manual-item"><summary>🫶 Lectura para una situación</summary>
+        <p>Permite crear lecturas para ti, otra persona o un grupo. La app separa solicitante, destinatario y acompañante para evitar saludos confusos. En esta pantalla los autores favoritos del perfil no se arrastran automáticamente: solo se usan fuentes escritas para el caso o sugerencias abiertas pedidas por ti. Si el destinatario es menor, el prompt pide lenguaje sencillo, protector, no clínico, no alarmante y sin promesas médicas absolutas.</p>
+      </details>
+      <details class="manual-item"><summary>🎧 Escuchar y reproductor global</summary>
+        <p>Dentro de la sesión se mantiene el reproductor-tarjeta superior y, cuando ya hay lectura activa, aparece también una mini-barra inferior con anterior, play/pausa y siguiente para poder pausar mientras lees tarjetas más abajo. Fuera de la sesión, esa misma barra permite continuar escuchando mientras navegas.</p>
+      </details>
+      <details class="manual-item"><summary>🗄️ Biblioteca</summary>
+        <p>Cada JSON pegado queda como sesión. Puedes buscar, filtrar por tema, abrir lecturas, marcar favoritas, reproducir sesiones y detectar metadatos como cantidad visible/guardada, fuentes y favoritos. Backup e Importar se gestionan desde Configuración.</p>
+      </details>
+      <details class="manual-item"><summary>🎼 Playlists</summary>
+        <p>Mi biblioteca está organizada en tres secciones: Sesiones, Playlists y Favoritas. Las playlists guardadas viven en Mi biblioteca → Playlists, donde puedes reproducirlas, renombrarlas o eliminarlas sin borrar las sesiones originales. Para crear una personalizada, entra a Sesiones, toca “Crear playlist” o mantén presionada una sesión, selecciona varias sesiones, ponles nombre y guárdalas.</p>
+      </details>
+      <details class="manual-item"><summary>↗ Compartir</summary>
+        <p>Un consejo se comparte como tarjeta, imagen, texto o enlace. Una sesión completa se comparte como archivo JSON desde el reproductor. El lector interno sigue trabajando tarjeta por tarjeta.</p>
+      </details>
+      <details class="manual-item"><summary>💾 Backup e importar</summary>
+        <p>Backup descarga biblioteca, perfil y metadatos principales. Importar recibe un backup o una sesión compartida. Los datos viven en este dispositivo; por eso conviene respaldar cada cierto número de sesiones nuevas.</p>
+      </details>
+      <details class="manual-item"><summary>⚙️ Configuración</summary>
+        <p>La app ya no usa menú hamburguesa. En el inicio toca Configuración para abrir una pantalla completa con Backup, Importar, Manual, Tema, Ajustes del perfil, Usuarios y perfiles, Ayuda y Volver al inicio. Así se evitan superposiciones sobre sesiones y playlists.</p>
+      </details>
+      <details class="manual-item"><summary>📲 Instalar como app</summary>
+        <p>Desde Chrome puedes instalarla en la pantalla de inicio. Funciona sin conexión para leer, escuchar sesiones guardadas y gestionar biblioteca; el motor IA requiere conexión.</p>
+      </details>
+    </div>
+  </section>
+
+  <!-- ══════════ MODAL: TARJETA COMPARTIBLE ══════════ -->
+  <div class="modal oculto" id="modal-tarjeta">
+    <div class="modal-caja">
+      <div class="tarjeta" id="tarjeta-visual">
+        <p class="tarjeta-eyebrow">IDEA PARA HOY</p>
+        <div class="tarjeta-comilla">❝</div>
+        <p class="tarjeta-texto" id="tarjeta-texto"></p>
+        <div class="tarjeta-linea"></div>
+        <p class="tarjeta-titulo" id="tarjeta-titulo"></p>
+        <p class="tarjeta-fuente" id="tarjeta-fuente"></p>
+        <p class="tarjeta-pie"><span class="tarjeta-sello">📖 Voz de los Libros</span></p>
+      </div>
+      <div class="modal-acciones">
+        <button class="boton-primario" id="btn-compartir-nativo">↗ Compartir</button>
+        <button class="boton-secundario" id="btn-whatsapp-tarjeta">🟢 WhatsApp</button>
+        <button class="boton-secundario" id="btn-descargar-tarjeta">🖼 Imagen</button>
+        <button class="boton-secundario" id="btn-enlace-consejo">🔗 Enlace</button>
+        <button class="boton-secundario" id="btn-copiar-tarjeta">📋 Texto</button>
+        <button class="boton-secundario" id="btn-cerrar-tarjeta">Cerrar</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- ══════════ MODAL: CONSEJO RECIBIDO ══════════ -->
+  <div class="modal oculto" id="modal-recibido">
+    <div class="modal-caja">
+      <div class="tarjeta">
+        <p class="tarjeta-eyebrow">🎁 Alguien te compartió un consejo</p>
+        <div class="tarjeta-comilla">❝</div>
+        <p class="tarjeta-texto" id="recibido-frase"></p>
+        <div class="tarjeta-linea"></div>
+        <p class="tarjeta-titulo" id="recibido-detalle"></p>
+        <p class="tarjeta-fuente" id="recibido-fuente"></p>
+      </div>
+      <div class="modal-acciones">
+        <button class="boton-primario" id="btn-recibido-adaptar">✨ Adaptar a mi contexto</button>
+        <button class="boton-secundario" id="btn-recibido-guardar">Guardar así</button>
+        <button class="boton-secundario" id="btn-recibido-cerrar">Cerrar</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- ══════════ MODAL: PLAYLIST DE BIBLIOTECA ══════════ -->
+  <div class="modal oculto" id="modal-playlist">
+    <div class="modal-caja">
+      <div class="playlist-panel">
+        <p class="playlist-eyebrow">🎧 Playlist de biblioteca</p>
+        <h2>¿Qué quieres escuchar?</h2>
+        <p class="playlist-ayuda">Elige uno o varios temas, escucha toda la biblioteca, pide una ronda aleatoria con un consejo por tema o reproduce tus favoritos ★.</p>
+        <div class="playlist-categorias" id="playlist-categorias"></div>
+        <div class="modal-acciones playlist-acciones">
+          <button class="boton-primario" id="btn-playlist-seleccion">▶ Escuchar selección</button>
+          <button class="boton-secundario" id="btn-playlist-todo">▶ Escuchar todo</button>
+          <button class="boton-secundario" id="btn-playlist-aleatorio">🎲 Uno por tema</button>
+          <button class="boton-secundario" id="btn-playlist-favoritos">★ Escuchar favoritos</button>
+          <button class="boton-secundario" id="btn-playlist-cerrar">Cerrar</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- A2: Recordatorio amable de backup -->
+  <div class="banner oculto" id="banner-backup" role="status" aria-label="Recordatorio de respaldo">
+    <span class="banner-icono">💾</span>
+    <p class="banner-texto" id="banner-backup-texto">Tienes sesiones nuevas sin respaldar. Un backup toma un segundo.</p>
+    <div class="banner-acciones">
+      <button class="banner-btn primario" id="btn-backup-ahora">Hacer backup</button>
+      <button class="banner-btn" id="btn-backup-luego">Luego</button>
+    </div>
+  </div>
+
+  <!-- Aviso flotante -->
+  <div class="toast oculto" id="toast"></div>
+
+  <!-- Sugerencia discreta de instalación (nunca obligatoria) -->
+  <div class="banner oculto" id="banner-instalar" role="dialog" aria-label="Instalar la aplicación">
+    <span class="banner-icono">📲</span>
+    <p class="banner-texto">Si quieres, puedes instalar <strong>Voz de los Libros</strong> para tenerla siempre a la mano, incluso sin conexión.</p>
+    <div class="banner-acciones">
+      <button class="banner-btn primario" id="btn-instalar">Instalar</button>
+      <button class="banner-btn" id="btn-instalar-despues">Ahora no</button>
+    </div>
+  </div>
+
+  <!-- Aviso de nueva versión -->
+  <div class="banner version oculto" id="banner-version" role="status" aria-label="Nueva versión disponible">
+    <span class="banner-icono">🌿</span>
+    <p class="banner-texto">Hay una versión nueva de la app lista para ti.</p>
+    <div class="banner-acciones">
+      <button class="banner-btn primario" id="btn-actualizar">Actualizar</button>
+      <button class="banner-btn" id="btn-version-despues">Luego</button>
+    </div>
+  </div>
+
+</div>
+
+<script src="js/prompt.js"></script>
+<script src="js/audio.js"></script>
+<script src="js/biblioteca.js"></script>
+<script src="js/app.js"></script>
+<script src="js/pwa.js"></script>
+</body>
+</html>

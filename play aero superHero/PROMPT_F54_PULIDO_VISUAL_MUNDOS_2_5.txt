@@ -1,0 +1,18 @@
+Objetivo Fase 54
+Pulir visualmente los mundos 2, 3, 4 y 5 para que la experiencia se sienta más rica, con más escenas especiales, identidad por mundo y momentos memorables, sin romper las mecánicas ya funcionales.
+
+Criterios aplicados
+- Mantener la base jugable estable.
+- Añadir escenas especiales no colisionables y 100% decorativas.
+- Mejorar el ritmo visual mediante tramos temáticos y setpieces grandes.
+- Hacer que cada mundo tenga subtítulos / micro-escenas reconocibles.
+- Reforzar el mundo 3 con una ruta de vuelo más narrativa y espectacular.
+- Extender el pulido visual al mundo 4 (pantano anfibio) y mundo 5 (atmósfera tóxica).
+
+Implementación deseada
+- Mundo 2: hangar vertical, ascenso tipo Donkey, ciudad de acero y plataforma del jefe.
+- Mundo 3: caverna geoda, ruta de vuelo larga, túnel wireframe, muelle orbital final.
+- Mundo 4: pantano viviente, ruinas sumergidas, altar del pantano.
+- Mundo 5: torres reactivas, corredor de tormenta, fortaleza de gas.
+- Mostrar rótulos visuales discretos por tramo.
+- No cambiar controles ni introducir bloqueos nuevos.

@@ -1,0 +1,23 @@
+{
+  "id": "qa-v501-curaduria-mejora-b1-b2",
+  "fecha": "2026-06-17",
+  "version": "5.0.1 / v5.0.1",
+  "base": "v5.0.0 rebuild B1/B2",
+  "alcance": "Curaduría en loop (revisión→ajuste→mejora→optimización) sobre contenido B1/B2. Sin cambios de shell.",
+  "mejoras": {
+    "distractores_anclados": "Selección natural y Diálogo breve: 3 distractores globales -> anclados al tema del mundo. Únicos 12 -> 354 (máx 300x -> 20x).",
+    "decision_guiada": "Resumen correcto inyecta el tema del mundo. Correctas únicas 10 -> 295 (máx 30x -> 2x).",
+    "feedback": "Embebe la respuesta/tema concreto. Únicos 10 -> 1064.",
+    "dialogos": "Turnos reanclados al tema del mundo (mini-conversación coherente). Turnos únicos 10 -> 295 (máx 30x -> 2x).",
+    "bug_mezcla_idiomas": "170 campos ES corregidos (p.ej. 'con my suitcase' -> 'con mi maleta'), respetando inglés entre comillas. Restante: 0."
+  },
+  "integridad": {
+    "correctIndex_fuera_de_rango_B1B2": 0,
+    "items_opcion_multiple_B1B2": 900,
+    "cada_turno_dialogo_1_correcta": true,
+    "node_check_app_js": "OK",
+    "lecciones": 600, "ejercicios": 3000, "dialogos": 120
+  },
+  "limite_honesto": "Los arreglos se anclan a los escenarios existentes; reducen drásticamente la repetición pero, dentro de un mundo, los 5 ejercicios siguen compartiendo el tema (variación por faceta). La diferenciación profunda entre mundos depende del paso de generación.",
+  "no_tocado": "A2 (true_false/order_words/complete_text usan options:[] por esquema; sin cambios)."
+}

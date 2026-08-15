@@ -1,0 +1,330 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+  <meta name="theme-color" content="#0a0a0f">
+  <meta name="description" content="Fortuna Quantum: laboratorio académico para simular relaciones entre azar, símbolos, ciclos y datos.">
+  <title>Fortuna Quantum | Laboratorio relacional</title>
+  <link rel="manifest" href="manifest.webmanifest">
+  <link rel="icon" href="assets/icon.svg" type="image/svg+xml">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700;900&family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="css/styles.css">
+</head>
+<body>
+  <div class="particles" id="particles" aria-hidden="true"></div>
+
+  <header class="app-header">
+    <div class="logo">FORTUNA QUANTUM</div>
+    <p class="slogan">Laboratorio académico del azar, los símbolos y los ciclos</p>
+    <div class="header-badges">
+      <span class="version-tag">v4.2 AUDITORÍA</span>
+      <button class="ghost-chip" id="aboutQuantumBtn" type="button">¿Qué significa “Quantum”?</button>
+    </div>
+  </header>
+
+  <main class="container">
+    <section class="card hero-card" aria-labelledby="mainTitle">
+      <div class="card-header">
+        <div class="card-icon" aria-hidden="true">🧭</div>
+        <h1 class="card-title" id="mainTitle">Laboratorio de cartografías</h1>
+        <p class="card-subtitle">Construye simulaciones trazables para estudiar datos, transformaciones simbólicas, controles aleatorios y sesgos interpretativos.</p>
+      </div>
+
+      <div class="epistemic-banner">
+        <strong>Principio de lectura:</strong>
+        <span>la app distingue entre <b>datos</b>, <b>descripción</b>, <b>simbolismo</b> y <b>azar</b>. El navegador produce un paquete de auditoría agregado y la IA interpreta el método sin reconstruir estados individuales.</span>
+      </div>
+
+      <form id="quantumForm" novalidate>
+        <section class="form-section" aria-labelledby="modeTitle">
+          <div class="section-title" id="modeTitle">🧩 Arquitectura de lectura</div>
+          <div class="mode-grid" id="readingModeGrid"></div>
+        </section>
+
+        <section class="form-section" aria-labelledby="drawTitle">
+          <div class="section-title" id="drawTitle">🧪 Escenario experimental</div>
+
+          <div class="row">
+            <div class="form-group">
+              <label class="label" for="country">País</label>
+              <input type="text" id="country" placeholder="Ej.: Colombia" list="countries" autocomplete="country-name">
+              <datalist id="countries">
+                <option value="Colombia"></option>
+                <option value="España"></option>
+                <option value="México"></option>
+                <option value="Argentina"></option>
+                <option value="Chile"></option>
+                <option value="Perú"></option>
+                <option value="Estados Unidos"></option>
+                <option value="Venezuela"></option>
+              </datalist>
+            </div>
+
+            <div class="form-group">
+              <label class="label" for="city">Ciudad o región <span class="muted">(opcional)</span></label>
+              <input type="text" id="city" placeholder="Ej.: Bogotá">
+            </div>
+          </div>
+
+          <div class="form-group autocomplete-wrapper">
+            <label class="label" for="lottoName">Escenario o dataset de referencia</label>
+            <input type="text" id="lottoName" placeholder="Ej.: ESCENARIO FQ-LAB 5/39 o nombre de un dataset documental" autocomplete="off">
+            <div class="suggestions" id="lottoSuggestions" role="listbox" aria-label="Sugerencias de juegos de referencia"></div>
+          </div>
+
+          <div class="row">
+            <div class="form-group">
+              <label class="label" for="type">Tipo de formato</label>
+              <select id="type">
+                <option value="Muestreo sin reemplazo">🧮 Muestreo sin reemplazo</option>
+                <option value="Muestreo compuesto">🧩 Muestreo compuesto</option>
+                <option value="Secuencia de dígitos">🔢 Secuencia de dígitos</option>
+                <option value="Dataset documental">📚 Dataset documental</option>
+              </select>
+            </div>
+
+            <div class="form-group">
+              <label class="label" for="drawDate">Fecha de corte o simulación</label>
+              <input type="date" id="drawDate">
+            </div>
+          </div>
+
+          <div class="row">
+            <div class="form-group">
+              <label class="label" for="drawTime">Hora local <span class="muted">(opcional)</span></label>
+              <input type="time" id="drawTime">
+            </div>
+
+            <div class="form-group">
+              <label class="label" for="timezone">Zona horaria</label>
+              <input type="text" id="timezone" value="America/Bogota" placeholder="Ej.: America/Bogota">
+            </div>
+          </div>
+
+          <div class="form-group">
+            <label class="label" for="config">Estructura experimental</label>
+            <input type="text" id="config" placeholder="Ej.: 5 estados de un universo de 39, sin repetir">
+          </div>
+
+          <div class="row">
+            <label class="checkbox-card">
+              <input type="checkbox" id="hasSeries">
+              <span>
+                <b>El formato utiliza serie o fracción</b>
+                <small>Actívalo para reproducir técnicamente esa regla dentro de la simulación.</small>
+              </span>
+            </label>
+
+            <div class="form-group compact-group">
+              <label class="label" for="officialSource">Fuente documental o dataset <span class="muted">(opcional)</span></label>
+              <input type="url" id="officialSource" placeholder="https://...">
+            </div>
+          </div>
+        </section>
+
+        <details class="collapsible" open>
+          <summary>
+            <span>🕸️ Matrices de análisis</span>
+            <small>Selecciona las capas que deseas relacionar</small>
+          </summary>
+          <div class="details-body">
+            <div class="matrix-grid" id="matrixGrid"></div>
+            <div class="matrix-actions">
+              <button type="button" class="secondary-btn" id="selectRecommendedBtn">Selección recomendada</button>
+              <button type="button" class="secondary-btn" id="clearMatricesBtn">Limpiar matrices</button>
+            </div>
+          </div>
+        </details>
+
+        <details class="collapsible" id="personalDetails">
+          <summary>
+            <span>🔢 Datos simbólicos opcionales</span>
+            <small>Se procesan para construir correspondencias, no diagnósticos</small>
+          </summary>
+          <div class="details-body">
+            <div class="privacy-note">No se almacenan automáticamente. Comparte únicamente lo que resulte pertinente para tu lectura.</div>
+
+            <div class="row">
+              <div class="form-group">
+                <label class="label" for="birthDate">Fecha de nacimiento</label>
+                <input type="date" id="birthDate">
+              </div>
+              <div class="form-group">
+                <label class="label" for="userName">Nombre de uso</label>
+                <input type="text" id="userName" placeholder="Nombre o alias">
+              </div>
+            </div>
+
+            <div class="row">
+              <div class="form-group">
+                <label class="label" for="significantWord">Palabra significativa</label>
+                <input type="text" id="significantWord" placeholder="Ej.: transformación">
+              </div>
+              <div class="form-group">
+                <label class="label" for="recurringNumbers">Números recurrentes</label>
+                <input type="text" id="recurringNumbers" placeholder="Ej.: 7, 11, 28">
+              </div>
+            </div>
+
+            <div class="form-group">
+              <label class="label" for="intention">Pregunta o intención</label>
+              <textarea id="intention" rows="3" placeholder="¿Qué dimensión deseas explorar mediante esta cartografía?"></textarea>
+            </div>
+
+            <div class="row">
+              <div class="form-group">
+                <label class="label" for="symbol">Sueño, imagen o símbolo</label>
+                <input type="text" id="symbol" placeholder="Ej.: puente, espiral, luna">
+              </div>
+              <div class="form-group">
+                <label class="label" for="direction">Dirección elegida</label>
+                <select id="direction">
+                  <option value="No seleccionada">No seleccionada</option>
+                  <option value="Norte">Norte</option>
+                  <option value="Sur">Sur</option>
+                  <option value="Este">Este</option>
+                  <option value="Oeste">Oeste</option>
+                  <option value="Noreste">Noreste</option>
+                  <option value="Noroeste">Noroeste</option>
+                  <option value="Sureste">Sureste</option>
+                  <option value="Suroeste">Suroeste</option>
+                </select>
+              </div>
+            </div>
+
+            <div class="row">
+              <div class="form-group">
+                <label class="label" for="significantDate">Fecha biográfica significativa</label>
+                <input type="date" id="significantDate">
+              </div>
+              <div class="form-group">
+                <label class="label" for="numerologySystem">Sistema numerológico</label>
+                <select id="numerologySystem">
+                  <option value="Pitagórico">Pitagórico</option>
+                  <option value="Caldeo">Caldeo</option>
+                  <option value="Solo fechas">Solo fechas</option>
+                </select>
+              </div>
+            </div>
+          </div>
+        </details>
+
+        <details class="collapsible">
+          <summary>
+            <span>✨ Semilla gestual</span>
+            <small>Un gesto voluntario que alimenta el componente aleatorio</small>
+          </summary>
+          <div class="details-body">
+            <p class="gesture-instruction">Traza una ruta o toca varias veces el campo. La app convertirá el recorrido en una semilla; no interpreta tu cuerpo ni infiere rasgos personales.</p>
+            <canvas id="gestureCanvas" class="gesture-canvas" width="900" height="260" aria-label="Lienzo para generar una semilla gestual"></canvas>
+            <div class="gesture-footer">
+              <span>Semilla: <code id="gestureSeedLabel">sin gesto</code></span>
+              <button type="button" class="secondary-btn" id="clearGestureBtn">Limpiar gesto</button>
+            </div>
+          </div>
+        </details>
+
+        <section class="form-section">
+          <div class="section-title">🎚️ Profundidad y salida</div>
+          <div class="row">
+            <div class="form-group">
+              <label class="label" for="depth">Nivel de profundidad</label>
+              <select id="depth">
+                <option value="Ligero">Ligero · síntesis breve</option>
+                <option value="Profundo" selected>Profundo · análisis trazable</option>
+                <option value="Integral">Integral · todas las relaciones disponibles</option>
+              </select>
+            </div>
+            <div class="form-group">
+              <label class="label" for="combinationCount">Cantidad de muestras</label>
+              <select id="combinationCount">
+                <option value="3">3 muestras</option>
+                <option value="5" selected>5 muestras</option>
+                <option value="7">7 muestras</option>
+              </select>
+            </div>
+          </div>
+
+          <label class="checkbox-card warning-card">
+            <input type="checkbox" id="ethicalAcknowledgement" required>
+            <span>
+              <b>Confirmo el uso académico y de auditoría</b>
+              <small>El paquete local contiene métricas agregadas y huellas de integridad; no revela ni reconstruye estados individuales.</small>
+            </span>
+          </label>
+        </section>
+
+        <div class="validation-message" id="validationMessage" role="alert"></div>
+
+        <button class="btn-generate" id="generateBtn" type="submit">
+          <span class="btn-text">⚡ GENERAR SIMULACIÓN</span>
+          <span class="spinner" aria-hidden="true"></span>
+        </button>
+      </form>
+    </section>
+
+    <section class="card preview-card" id="summaryCard" aria-live="polite">
+      <div class="section-title">🔎 Vista previa de la arquitectura</div>
+      <div id="architectureSummary" class="architecture-summary"></div>
+    </section>
+  </main>
+
+  <div id="promptModal" class="modal-overlay" aria-hidden="true">
+    <div class="modal-content" role="dialog" aria-modal="true" aria-labelledby="modalTitle">
+      <button class="close-btn" id="closeModalBtn" type="button" aria-label="Cerrar">×</button>
+      <div class="modal-header">
+        <div class="modal-title" id="modalTitle">✨ Paquete y prompt de auditoría</div>
+        <p class="modal-subtitle">La aplicación ya ejecutó un control local agregado. Copia el prompt para analizar fuentes, matrices, sesgos y límites metodológicos.</p>
+      </div>
+      <section class="audit-panel" aria-labelledby="auditTitle">
+        <div class="audit-title" id="auditTitle">Paquete local de auditoría</div>
+        <div class="audit-preview" id="auditPreview" tabindex="0"></div>
+        <div class="audit-actions">
+          <button class="btn-download" id="copyAuditBtn" type="button">📋 Copiar paquete</button>
+          <button class="btn-download" id="downloadAuditBtn" type="button">⬇️ Guardar JSON</button>
+        </div>
+      </section>
+      <div class="audit-title prompt-title">Prompt para análisis externo</div>
+      <div class="prompt-box" id="outputPrompt" tabindex="0"></div>
+      <div class="modal-actions">
+        <button class="btn-copy" id="copyPromptBtn" type="button">📋 Copiar prompt</button>
+        <button class="btn-download" id="downloadPromptBtn" type="button">⬇️ Guardar TXT</button>
+        <button class="btn-close-modal" id="secondaryCloseBtn" type="button">Cerrar</button>
+      </div>
+      <div class="ai-drawer" id="aiDrawer">
+        <div class="ai-drawer-title">Abrir una IA</div>
+        <div class="ai-apps-grid">
+          <a href="https://chatgpt.com/" target="_blank" rel="noopener" class="ai-app-card"><span>🤖</span><b>ChatGPT</b><small>Con búsqueda web</small></a>
+          <a href="https://gemini.google.com/" target="_blank" rel="noopener" class="ai-app-card"><span>💎</span><b>Gemini</b><small>Búsqueda integrada</small></a>
+          <a href="https://www.perplexity.ai/" target="_blank" rel="noopener" class="ai-app-card"><span>🔍</span><b>Perplexity</b><small>Fuentes visibles</small></a>
+          <a href="https://claude.ai/" target="_blank" rel="noopener" class="ai-app-card"><span>🧠</span><b>Claude</b><small>Análisis extenso</small></a>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div id="aboutModal" class="modal-overlay" aria-hidden="true">
+    <div class="modal-content compact-modal" role="dialog" aria-modal="true" aria-labelledby="aboutTitle">
+      <button class="close-btn" id="closeAboutBtn" type="button" aria-label="Cerrar">×</button>
+      <div class="modal-header">
+        <div class="modal-title" id="aboutTitle">Quantum como metáfora relacional</div>
+      </div>
+      <p class="about-copy">En esta aplicación, “Quantum” alude metafóricamente a un campo de posibilidades y relaciones. No implica física cuántica ni capacidad predictiva; el producto es un laboratorio de simulación, trazabilidad y auditoría metodológica.</p>
+      <button class="btn-close-modal full" id="aboutAcceptBtn" type="button">Entendido</button>
+    </div>
+  </div>
+
+  <div class="notification" id="notification" role="status"></div>
+
+  <script src="js/data/lotteries.js"></script>
+  <script src="js/data/matrices.js"></script>
+  <script src="js/utils/random.js"></script>
+  <script src="js/utils/numerology.js"></script>
+  <script src="js/utils/audit-engine.js"></script>
+  <script src="js/prompt-engine.js"></script>
+  <script src="js/app.js"></script>
+</body>
+</html>

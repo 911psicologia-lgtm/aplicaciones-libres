@@ -1,0 +1,1894 @@
+[
+  {
+    "id": "card_bertalanffy_open_system_001",
+    "author": "Ludwig von Bertalanffy",
+    "title": "El organismo como sistema abierto",
+    "territory": "Viena y redes transatlánticas",
+    "period": "Siglo XX",
+    "family": "Teoría general de sistemas",
+    "statement": "Un organismo conserva su organización no porque permanezca cerrado, sino porque intercambia continuamente con su entorno.",
+    "tags": [
+      "sistema abierto",
+      "organización",
+      "intercambio"
+    ],
+    "question": "¿Cómo conserva su organización un ser vivo que intercambia continuamente con el entorno?",
+    "caution": "Sistema abierto no significa sistema sin límites ni autoriza trasladar directamente leyes biológicas a la sociedad.",
+    "connections": [
+      "Boulding",
+      "Prigogine",
+      "Maturana y Varela",
+      "Morin"
+    ],
+    "order": 1,
+    "status": "nucleo_editorial_preservado",
+    "evidence": "A–B",
+    "audio": "Ludwig von Bertalanffy aborda una pregunta precisa: ¿Cómo conserva su organización un ser vivo que intercambia continuamente con el entorno? Un organismo conserva su organización no porque permanezca cerrado, sino porque intercambia continuamente con su entorno. La precaución editorial es igualmente importante: Sistema abierto no significa sistema sin límites ni autoriza trasladar directamente leyes biológicas a la sociedad.",
+    "quiz": {
+      "prompt": "¿Cómo conserva su organización un ser vivo que intercambia continuamente con el entorno?",
+      "options": [
+        "Un organismo conserva su organización no porque permanezca cerrado, sino porque intercambia continuamente con su entorno.",
+        "Todas las teorías del campo dicen exactamente lo mismo.",
+        "La explicación elimina la necesidad de contexto y evidencia.",
+        "La idea solo puede aplicarse como metáfora universal."
+      ],
+      "answer": 0,
+      "feedback": "Un organismo conserva su organización no porque permanezca cerrado, sino porque intercambia continuamente con su entorno."
+    }
+  },
+  {
+    "id": "card_wiener_feedback_001",
+    "author": "Norbert Wiener",
+    "title": "La retroalimentación convierte el resultado en información",
+    "territory": "MIT, Estados Unidos",
+    "period": "1948",
+    "family": "Primera cibernética",
+    "statement": "Un sistema puede corregir su conducta cuando los efectos de su acción regresan como nueva información.",
+    "tags": [
+      "retroalimentación",
+      "regulación",
+      "comunicación"
+    ],
+    "question": "¿Cómo pueden los efectos de una acción modificar las acciones posteriores?",
+    "caution": "Retroalimentación positiva y negativa describen funciones del circuito, no valoraciones morales.",
+    "connections": [
+      "Shannon",
+      "Ashby",
+      "Bateson",
+      "Beer"
+    ],
+    "order": 2,
+    "status": "nucleo_editorial_preservado",
+    "evidence": "A–B",
+    "audio": "Norbert Wiener aborda una pregunta precisa: ¿Cómo pueden los efectos de una acción modificar las acciones posteriores? Un sistema puede corregir su conducta cuando los efectos de su acción regresan como nueva información. La precaución editorial es igualmente importante: Retroalimentación positiva y negativa describen funciones del circuito, no valoraciones morales.",
+    "quiz": {
+      "prompt": "¿Cómo pueden los efectos de una acción modificar las acciones posteriores?",
+      "options": [
+        "Un sistema puede corregir su conducta cuando los efectos de su acción regresan como nueva información.",
+        "Todas las teorías del campo dicen exactamente lo mismo.",
+        "La explicación elimina la necesidad de contexto y evidencia.",
+        "La idea solo puede aplicarse como metáfora universal."
+      ],
+      "answer": 0,
+      "feedback": "Un sistema puede corregir su conducta cuando los efectos de su acción regresan como nueva información."
+    }
+  },
+  {
+    "id": "card_shannon_information_meaning_001",
+    "author": "Claude Shannon",
+    "title": "Medir información no es interpretar significado",
+    "territory": "Bell Labs, Estados Unidos",
+    "period": "1948",
+    "family": "Teoría matemática de la comunicación",
+    "statement": "La información matemática mide incertidumbre y posibilidades de transmisión; no determina por sí sola el significado del mensaje.",
+    "tags": [
+      "información",
+      "entropía",
+      "canal",
+      "ruido"
+    ],
+    "question": "¿Qué puede medir una teoría técnica de la comunicación sin convertirse en teoría completa del significado?",
+    "caution": "Shannon no negó la importancia del significado: lo dejó fuera de un problema técnico delimitado.",
+    "connections": [
+      "Wiener",
+      "Ashby",
+      "Bateson",
+      "Floridi"
+    ],
+    "order": 3,
+    "status": "nucleo_editorial_preservado",
+    "evidence": "A–B",
+    "audio": "Claude Shannon aborda una pregunta precisa: ¿Qué puede medir una teoría técnica de la comunicación sin convertirse en teoría completa del significado? La información matemática mide incertidumbre y posibilidades de transmisión; no determina por sí sola el significado del mensaje. La precaución editorial es igualmente importante: Shannon no negó la importancia del significado: lo dejó fuera de un problema técnico delimitado.",
+    "quiz": {
+      "prompt": "¿Qué puede medir una teoría técnica de la comunicación sin convertirse en teoría completa del significado?",
+      "options": [
+        "La información matemática mide incertidumbre y posibilidades de transmisión; no determina por sí sola el significado del mensaje.",
+        "Todas las teorías del campo dicen exactamente lo mismo.",
+        "La explicación elimina la necesidad de contexto y evidencia.",
+        "La idea solo puede aplicarse como metáfora universal."
+      ],
+      "answer": 0,
+      "feedback": "La información matemática mide incertidumbre y posibilidades de transmisión; no determina por sí sola el significado del mensaje."
+    }
+  },
+  {
+    "id": "card_ashby_requisite_variety_001",
+    "author": "W. Ross Ashby",
+    "title": "Regular exige variedad de respuestas",
+    "territory": "Reino Unido y Estados Unidos",
+    "period": "Década de 1950",
+    "family": "Regulación cibernética",
+    "statement": "Un regulador necesita respuestas suficientemente diversas para enfrentar la diversidad de perturbaciones relevantes.",
+    "tags": [
+      "variedad",
+      "regulación",
+      "adaptación"
+    ],
+    "question": "¿Qué diversidad necesita un regulador para responder a perturbaciones distintas?",
+    "caution": "Más control no equivale a mejor regulación; la variedad relevante depende de metas y condiciones definidas.",
+    "connections": [
+      "Wiener",
+      "Shannon",
+      "Beer",
+      "Holland"
+    ],
+    "order": 4,
+    "status": "nucleo_editorial_preservado",
+    "evidence": "A–B",
+    "audio": "W. Ross Ashby aborda una pregunta precisa: ¿Qué diversidad necesita un regulador para responder a perturbaciones distintas? Un regulador necesita respuestas suficientemente diversas para enfrentar la diversidad de perturbaciones relevantes. La precaución editorial es igualmente importante: Más control no equivale a mejor regulación; la variedad relevante depende de metas y condiciones definidas.",
+    "quiz": {
+      "prompt": "¿Qué diversidad necesita un regulador para responder a perturbaciones distintas?",
+      "options": [
+        "Un regulador necesita respuestas suficientemente diversas para enfrentar la diversidad de perturbaciones relevantes.",
+        "Todas las teorías del campo dicen exactamente lo mismo.",
+        "La explicación elimina la necesidad de contexto y evidencia.",
+        "La idea solo puede aplicarse como metáfora universal."
+      ],
+      "answer": 0,
+      "feedback": "Un regulador necesita respuestas suficientemente diversas para enfrentar la diversidad de perturbaciones relevantes."
+    }
+  },
+  {
+    "id": "card_vonfoerster_observer_001",
+    "author": "Heinz von Foerster",
+    "title": "La observación pertenece al problema",
+    "territory": "Viena e Illinois",
+    "period": "Segunda mitad del siglo XX",
+    "family": "Cibernética de segundo orden",
+    "statement": "Observar no es mirar desde ninguna parte: es construir distinciones dentro del mundo que intentamos conocer.",
+    "tags": [
+      "observador",
+      "distinción",
+      "recursividad"
+    ],
+    "question": "¿Qué cambia cuando el observador reconoce que participa en la descripción?",
+    "caution": "Incluir al observador no vuelve equivalentes todas las afirmaciones ni elimina la evidencia.",
+    "connections": [
+      "Mead",
+      "Maturana",
+      "Von Glasersfeld",
+      "Bateson"
+    ],
+    "order": 5,
+    "status": "nucleo_editorial_preservado",
+    "evidence": "A–B",
+    "audio": "Heinz von Foerster aborda una pregunta precisa: ¿Qué cambia cuando el observador reconoce que participa en la descripción? Observar no es mirar desde ninguna parte: es construir distinciones dentro del mundo que intentamos conocer. La precaución editorial es igualmente importante: Incluir al observador no vuelve equivalentes todas las afirmaciones ni elimina la evidencia.",
+    "quiz": {
+      "prompt": "¿Qué cambia cuando el observador reconoce que participa en la descripción?",
+      "options": [
+        "Observar no es mirar desde ninguna parte: es construir distinciones dentro del mundo que intentamos conocer.",
+        "Todas las teorías del campo dicen exactamente lo mismo.",
+        "La explicación elimina la necesidad de contexto y evidencia.",
+        "La idea solo puede aplicarse como metáfora universal."
+      ],
+      "answer": 0,
+      "feedback": "Observar no es mirar desde ninguna parte: es construir distinciones dentro del mundo que intentamos conocer."
+    }
+  },
+  {
+    "id": "card_prigogine_dissipative_structures_001",
+    "author": "Ilya Prigogine",
+    "title": "Orden lejos del equilibrio",
+    "territory": "Bruselas y Austin",
+    "period": "Décadas de 1960–1970",
+    "family": "Termodinámica del no equilibrio",
+    "statement": "Algunos sistemas abiertos forman orden lejos del equilibrio gracias a los flujos que atraviesan y sostienen su organización.",
+    "tags": [
+      "irreversibilidad",
+      "fluctuación",
+      "disipación"
+    ],
+    "question": "¿Cómo puede aparecer organización en sistemas atravesados por flujos y disipación?",
+    "caution": "La teoría físico-química no demuestra que toda crisis social produzca espontáneamente un orden mejor.",
+    "connections": [
+      "Bertalanffy",
+      "Haken",
+      "Morin",
+      "Kauffman"
+    ],
+    "order": 6,
+    "status": "nucleo_editorial_preservado",
+    "evidence": "A–B",
+    "audio": "Ilya Prigogine aborda una pregunta precisa: ¿Cómo puede aparecer organización en sistemas atravesados por flujos y disipación? Algunos sistemas abiertos forman orden lejos del equilibrio gracias a los flujos que atraviesan y sostienen su organización. La precaución editorial es igualmente importante: La teoría físico-química no demuestra que toda crisis social produzca espontáneamente un orden mejor.",
+    "quiz": {
+      "prompt": "¿Cómo puede aparecer organización en sistemas atravesados por flujos y disipación?",
+      "options": [
+        "Algunos sistemas abiertos forman orden lejos del equilibrio gracias a los flujos que atraviesan y sostienen su organización.",
+        "Todas las teorías del campo dicen exactamente lo mismo.",
+        "La explicación elimina la necesidad de contexto y evidencia.",
+        "La idea solo puede aplicarse como metáfora universal."
+      ],
+      "answer": 0,
+      "feedback": "Algunos sistemas abiertos forman orden lejos del equilibrio gracias a los flujos que atraviesan y sostienen su organización."
+    }
+  },
+  {
+    "id": "card_bateson_ecology_difference_001",
+    "author": "Gregory Bateson",
+    "title": "Una diferencia que produce otra diferencia",
+    "territory": "Reino Unido, Estados Unidos y trabajo antropológico",
+    "period": "Siglo XX",
+    "family": "Ecología de la mente",
+    "statement": "Una diferencia se convierte en información cuando entra en una relación capaz de producir otra diferencia.",
+    "tags": [
+      "contexto",
+      "patrón",
+      "información",
+      "relación"
+    ],
+    "question": "¿Cuándo una diferencia se vuelve informativa para un sistema?",
+    "caution": "No toda diferencia es información; el doble vínculo no debe usarse como explicación causal única ni diagnóstico informal.",
+    "connections": [
+      "Shannon",
+      "Wiener",
+      "Von Foerster",
+      "Maturana"
+    ],
+    "order": 7,
+    "status": "nucleo_editorial_preservado",
+    "evidence": "A–B",
+    "audio": "Gregory Bateson aborda una pregunta precisa: ¿Cuándo una diferencia se vuelve informativa para un sistema? Una diferencia se convierte en información cuando entra en una relación capaz de producir otra diferencia. La precaución editorial es igualmente importante: No toda diferencia es información; el doble vínculo no debe usarse como explicación causal única ni diagnóstico informal.",
+    "quiz": {
+      "prompt": "¿Cuándo una diferencia se vuelve informativa para un sistema?",
+      "options": [
+        "Una diferencia se convierte en información cuando entra en una relación capaz de producir otra diferencia.",
+        "Todas las teorías del campo dicen exactamente lo mismo.",
+        "La explicación elimina la necesidad de contexto y evidencia.",
+        "La idea solo puede aplicarse como metáfora universal."
+      ],
+      "answer": 0,
+      "feedback": "Una diferencia se convierte en información cuando entra en una relación capaz de producir otra diferencia."
+    }
+  },
+  {
+    "id": "card_beer_viable_system_001",
+    "author": "Stafford Beer",
+    "title": "Viabilidad sin control total",
+    "territory": "Reino Unido y Chile",
+    "period": "Segunda mitad del siglo XX",
+    "family": "Cibernética organizacional",
+    "statement": "Una organización viable combina autonomía operativa, coordinación, atención al presente, inteligencia sobre el entorno e identidad compartida.",
+    "tags": [
+      "viabilidad",
+      "autonomía",
+      "coordinación",
+      "recursividad"
+    ],
+    "question": "¿Cómo coordinar una organización sin destruir la autonomía local necesaria?",
+    "caution": "Las cinco funciones no son cinco oficinas y la viabilidad no garantiza justicia o legitimidad.",
+    "connections": [
+      "Ashby",
+      "Cybersyn",
+      "Checkland",
+      "Meadows"
+    ],
+    "order": 8,
+    "status": "nucleo_editorial_preservado",
+    "evidence": "A–B",
+    "audio": "Stafford Beer aborda una pregunta precisa: ¿Cómo coordinar una organización sin destruir la autonomía local necesaria? Una organización viable combina autonomía operativa, coordinación, atención al presente, inteligencia sobre el entorno e identidad compartida. La precaución editorial es igualmente importante: Las cinco funciones no son cinco oficinas y la viabilidad no garantiza justicia o legitimidad.",
+    "quiz": {
+      "prompt": "¿Cómo coordinar una organización sin destruir la autonomía local necesaria?",
+      "options": [
+        "Una organización viable combina autonomía operativa, coordinación, atención al presente, inteligencia sobre el entorno e identidad compartida.",
+        "Todas las teorías del campo dicen exactamente lo mismo.",
+        "La explicación elimina la necesidad de contexto y evidencia.",
+        "La idea solo puede aplicarse como metáfora universal."
+      ],
+      "answer": 0,
+      "feedback": "Una organización viable combina autonomía operativa, coordinación, atención al presente, inteligencia sobre el entorno e identidad compartida."
+    }
+  },
+  {
+    "id": "card_maturana_varela_autopoiesis_001",
+    "author": "Humberto Maturana y Francisco Varela",
+    "title": "La vida produce su propia organización",
+    "territory": "Chile y redes internacionales",
+    "period": "Décadas de 1960–1980",
+    "family": "Autopoiesis",
+    "statement": "Vivir consiste en regenerar continuamente la red de procesos que produce los componentes y límites de la propia unidad.",
+    "tags": [
+      "autopoiesis",
+      "organización",
+      "clausura",
+      "vida"
+    ],
+    "question": "¿Qué organización distingue a un ser vivo?",
+    "caution": "Autopoiesis no significa autosuficiencia; las extensiones sociales del concepto son posteriores y discutidas.",
+    "connections": [
+      "Bertalanffy",
+      "Von Foerster",
+      "Varela",
+      "Luhmann"
+    ],
+    "order": 9,
+    "status": "nucleo_editorial_preservado",
+    "evidence": "A–B",
+    "audio": "Humberto Maturana y Francisco Varela aborda una pregunta precisa: ¿Qué organización distingue a un ser vivo? Vivir consiste en regenerar continuamente la red de procesos que produce los componentes y límites de la propia unidad. La precaución editorial es igualmente importante: Autopoiesis no significa autosuficiencia; las extensiones sociales del concepto son posteriores y discutidas.",
+    "quiz": {
+      "prompt": "¿Qué organización distingue a un ser vivo?",
+      "options": [
+        "Vivir consiste en regenerar continuamente la red de procesos que produce los componentes y límites de la propia unidad.",
+        "Todas las teorías del campo dicen exactamente lo mismo.",
+        "La explicación elimina la necesidad de contexto y evidencia.",
+        "La idea solo puede aplicarse como metáfora universal."
+      ],
+      "answer": 0,
+      "feedback": "Vivir consiste en regenerar continuamente la red de procesos que produce los componentes y límites de la propia unidad."
+    }
+  },
+  {
+    "id": "card_holland_complex_adaptive_systems_001",
+    "author": "John Holland",
+    "title": "Agentes que adaptan sus reglas",
+    "territory": "Michigan y Santa Fe",
+    "period": "Siglo XX",
+    "family": "Sistemas adaptativos complejos",
+    "statement": "Agentes diversos que modifican sus reglas al interactuar pueden producir patrones colectivos que nadie diseñó por completo.",
+    "tags": [
+      "agentes",
+      "adaptación",
+      "emergencia",
+      "reglas"
+    ],
+    "question": "¿Cómo producen patrones colectivos los agentes que aprenden y cambian?",
+    "caution": "Emergencia no significa magia ni beneficio; una simulación no demuestra automáticamente el funcionamiento del fenómeno real.",
+    "connections": [
+      "Kauffman",
+      "Axelrod",
+      "Epstein y Axtell",
+      "Ashby"
+    ],
+    "order": 10,
+    "status": "nucleo_editorial_preservado",
+    "evidence": "A–B",
+    "audio": "John Holland aborda una pregunta precisa: ¿Cómo producen patrones colectivos los agentes que aprenden y cambian? Agentes diversos que modifican sus reglas al interactuar pueden producir patrones colectivos que nadie diseñó por completo. La precaución editorial es igualmente importante: Emergencia no significa magia ni beneficio; una simulación no demuestra automáticamente el funcionamiento del fenómeno real.",
+    "quiz": {
+      "prompt": "¿Cómo producen patrones colectivos los agentes que aprenden y cambian?",
+      "options": [
+        "Agentes diversos que modifican sus reglas al interactuar pueden producir patrones colectivos que nadie diseñó por completo.",
+        "Todas las teorías del campo dicen exactamente lo mismo.",
+        "La explicación elimina la necesidad de contexto y evidencia.",
+        "La idea solo puede aplicarse como metáfora universal."
+      ],
+      "answer": 0,
+      "feedback": "Agentes diversos que modifican sus reglas al interactuar pueden producir patrones colectivos que nadie diseñó por completo."
+    }
+  },
+  {
+    "id": "card_morin_reform_thought_001",
+    "author": "Edgar Morin",
+    "title": "Distinguir sin separar",
+    "territory": "Francia y recepción internacional",
+    "period": "Siglos XX–XXI",
+    "family": "Pensamiento complejo",
+    "statement": "Conocer exige distinguir los componentes y, al mismo tiempo, reconstruir las relaciones que hacen posible el fenómeno.",
+    "tags": [
+      "distinción",
+      "relación",
+      "recursividad",
+      "incertidumbre"
+    ],
+    "question": "¿Cómo conocer sin reducir las partes ni disolverlas en una totalidad vaga?",
+    "caution": "Pensamiento complejo no es sinónimo de ciencias de la complejidad ni una metodología empírica única.",
+    "connections": [
+      "Bertalanffy",
+      "Prigogine",
+      "Nicolescu",
+      "Rolando García"
+    ],
+    "order": 11,
+    "status": "nucleo_editorial_preservado",
+    "evidence": "A–B",
+    "audio": "Edgar Morin aborda una pregunta precisa: ¿Cómo conocer sin reducir las partes ni disolverlas en una totalidad vaga? Conocer exige distinguir los componentes y, al mismo tiempo, reconstruir las relaciones que hacen posible el fenómeno. La precaución editorial es igualmente importante: Pensamiento complejo no es sinónimo de ciencias de la complejidad ni una metodología empírica única.",
+    "quiz": {
+      "prompt": "¿Cómo conocer sin reducir las partes ni disolverlas en una totalidad vaga?",
+      "options": [
+        "Conocer exige distinguir los componentes y, al mismo tiempo, reconstruir las relaciones que hacen posible el fenómeno.",
+        "Todas las teorías del campo dicen exactamente lo mismo.",
+        "La explicación elimina la necesidad de contexto y evidencia.",
+        "La idea solo puede aplicarse como metáfora universal."
+      ],
+      "answer": 0,
+      "feedback": "Conocer exige distinguir los componentes y, al mismo tiempo, reconstruir las relaciones que hacen posible el fenómeno."
+    }
+  },
+  {
+    "id": "card_nicolescu_transdisciplinarity_001",
+    "author": "Basarab Nicolescu",
+    "title": "Atravesar disciplinas sin mezclarlas",
+    "territory": "Rumania y Francia",
+    "period": "Finales del siglo XX",
+    "family": "Transdisciplinariedad epistemológica",
+    "statement": "Atravesar las disciplinas exige conservar su rigor y construir relaciones entre niveles que ninguna de ellas puede agotar aisladamente.",
+    "tags": [
+      "niveles de realidad",
+      "tercero incluido",
+      "complejidad"
+    ],
+    "question": "¿Cómo relacionar niveles y disciplinas sin reducirlos a una sola explicación?",
+    "caution": "Nicolescu representa una genealogía específica; el tercero incluido no vuelve idénticos A y no-A.",
+    "connections": [
+      "Morin",
+      "Klein",
+      "Pohl y Hirsch Hadorn",
+      "Max-Neef"
+    ],
+    "order": 12,
+    "status": "nucleo_editorial_preservado",
+    "evidence": "A–B",
+    "audio": "Basarab Nicolescu aborda una pregunta precisa: ¿Cómo relacionar niveles y disciplinas sin reducirlos a una sola explicación? Atravesar las disciplinas exige conservar su rigor y construir relaciones entre niveles que ninguna de ellas puede agotar aisladamente. La precaución editorial es igualmente importante: Nicolescu representa una genealogía específica; el tercero incluido no vuelve idénticos A y no-A.",
+    "quiz": {
+      "prompt": "¿Cómo relacionar niveles y disciplinas sin reducirlos a una sola explicación?",
+      "options": [
+        "Atravesar las disciplinas exige conservar su rigor y construir relaciones entre niveles que ninguna de ellas puede agotar aisladamente.",
+        "Todas las teorías del campo dicen exactamente lo mismo.",
+        "La explicación elimina la necesidad de contexto y evidencia.",
+        "La idea solo puede aplicarse como metáfora universal."
+      ],
+      "answer": 0,
+      "feedback": "Atravesar las disciplinas exige conservar su rigor y construir relaciones entre niveles que ninguna de ellas puede agotar aisladamente."
+    }
+  },
+  {
+    "id": "card_boulding_system_levels_001",
+    "author": "Kenneth Boulding",
+    "title": "No todos los sistemas exigen el mismo lenguaje",
+    "territory": "Estados Unidos",
+    "period": "1956",
+    "family": "Jerarquías sistémicas",
+    "statement": "Llamar sistemas a una célula, una máquina y una sociedad no autoriza a explicarlas mediante el mismo modelo.",
+    "tags": [
+      "niveles",
+      "organización",
+      "comparación",
+      "límites"
+    ],
+    "question": "¿Qué niveles de organización requieren conceptos diferentes?",
+    "caution": "La jerarquía es una guía histórica y heurística, no una escala moral o evolutiva universal.",
+    "connections": [
+      "Bertalanffy",
+      "Miller",
+      "Morin",
+      "Emergencia"
+    ],
+    "order": 13,
+    "status": "nucleo_editorial_preservado",
+    "evidence": "A–B",
+    "audio": "Kenneth Boulding aborda una pregunta precisa: ¿Qué niveles de organización requieren conceptos diferentes? Llamar sistemas a una célula, una máquina y una sociedad no autoriza a explicarlas mediante el mismo modelo. La precaución editorial es igualmente importante: La jerarquía es una guía histórica y heurística, no una escala moral o evolutiva universal.",
+    "quiz": {
+      "prompt": "¿Qué niveles de organización requieren conceptos diferentes?",
+      "options": [
+        "Llamar sistemas a una célula, una máquina y una sociedad no autoriza a explicarlas mediante el mismo modelo.",
+        "Todas las teorías del campo dicen exactamente lo mismo.",
+        "La explicación elimina la necesidad de contexto y evidencia.",
+        "La idea solo puede aplicarse como metáfora universal."
+      ],
+      "answer": 0,
+      "feedback": "Llamar sistemas a una célula, una máquina y una sociedad no autoriza a explicarlas mediante el mismo modelo."
+    }
+  },
+  {
+    "id": "card_rapoport_conflict_modes_001",
+    "author": "Anatol Rapoport",
+    "title": "Lucha, juego y debate",
+    "territory": "Estados Unidos y Canadá",
+    "period": "1960",
+    "family": "Sistemas y conflicto",
+    "statement": "En una lucha el otro es una amenaza; en un juego es un estratega; en un debate es un interlocutor capaz de responder.",
+    "tags": [
+      "conflicto",
+      "estrategia",
+      "diálogo",
+      "perspectiva"
+    ],
+    "question": "¿Qué relación construimos con el adversario en cada forma de conflicto?",
+    "caution": "No todo conflicto puede resolverse conversando y los tres modos pueden coexistir o mezclarse.",
+    "connections": [
+      "Axelrod",
+      "Bateson",
+      "Habermas",
+      "Galtung"
+    ],
+    "order": 14,
+    "status": "nucleo_editorial_preservado",
+    "evidence": "A–B",
+    "audio": "Anatol Rapoport aborda una pregunta precisa: ¿Qué relación construimos con el adversario en cada forma de conflicto? En una lucha el otro es una amenaza; en un juego es un estratega; en un debate es un interlocutor capaz de responder. La precaución editorial es igualmente importante: No todo conflicto puede resolverse conversando y los tres modos pueden coexistir o mezclarse.",
+    "quiz": {
+      "prompt": "¿Qué relación construimos con el adversario en cada forma de conflicto?",
+      "options": [
+        "En una lucha el otro es una amenaza; en un juego es un estratega; en un debate es un interlocutor capaz de responder.",
+        "Todas las teorías del campo dicen exactamente lo mismo.",
+        "La explicación elimina la necesidad de contexto y evidencia.",
+        "La idea solo puede aplicarse como metáfora universal."
+      ],
+      "answer": 0,
+      "feedback": "En una lucha el otro es una amenaza; en un juego es un estratega; en un debate es un interlocutor capaz de responder."
+    }
+  },
+  {
+    "id": "card_pask_conversation_learning_001",
+    "author": "Gordon Pask",
+    "title": "Comprender es reconstruir en conversación",
+    "territory": "Reino Unido",
+    "period": "Décadas de 1960–1970",
+    "family": "Cibernética del aprendizaje",
+    "statement": "Comprender una idea implica poder reconstruirla, relacionarla y enseñarla de vuelta dentro de una conversación.",
+    "tags": [
+      "conversación",
+      "comprensión",
+      "teachback",
+      "conceptos"
+    ],
+    "question": "¿Cómo demostramos que comprendimos y no solo repetimos?",
+    "caution": "Pask no propuso estilos fijos visuales, auditivos o cinestésicos; estudió estrategias de comprensión.",
+    "connections": [
+      "Bateson",
+      "Von Foerster",
+      "Freire",
+      "Sterman"
+    ],
+    "order": 15,
+    "status": "nucleo_editorial_preservado",
+    "evidence": "A–B",
+    "audio": "Gordon Pask aborda una pregunta precisa: ¿Cómo demostramos que comprendimos y no solo repetimos? Comprender una idea implica poder reconstruirla, relacionarla y enseñarla de vuelta dentro de una conversación. La precaución editorial es igualmente importante: Pask no propuso estilos fijos visuales, auditivos o cinestésicos; estudió estrategias de comprensión.",
+    "quiz": {
+      "prompt": "¿Cómo demostramos que comprendimos y no solo repetimos?",
+      "options": [
+        "Comprender una idea implica poder reconstruirla, relacionarla y enseñarla de vuelta dentro de una conversación.",
+        "Todas las teorías del campo dicen exactamente lo mismo.",
+        "La explicación elimina la necesidad de contexto y evidencia.",
+        "La idea solo puede aplicarse como metáfora universal."
+      ],
+      "answer": 0,
+      "feedback": "Comprender una idea implica poder reconstruirla, relacionarla y enseñarla de vuelta dentro de una conversación."
+    }
+  },
+  {
+    "id": "card_meadows_leverage_points_001",
+    "author": "Donella Meadows",
+    "title": "Intervenir donde se reproduce el sistema",
+    "territory": "Estados Unidos",
+    "period": "Finales del siglo XX",
+    "family": "Dinámica de sistemas",
+    "statement": "Los cambios más profundos suelen ocurrir al transformar información, reglas, metas y paradigmas, no solo cantidades visibles.",
+    "tags": [
+      "reservas",
+      "flujos",
+      "demoras",
+      "intervención"
+    ],
+    "question": "¿En qué lugares una intervención puede transformar el comportamiento del sistema?",
+    "caution": "Los puntos de intervención no son una receta universal ni garantizan resultados moralmente deseables.",
+    "connections": [
+      "Forrester",
+      "Wiener",
+      "Beer",
+      "Morin"
+    ],
+    "order": 16,
+    "status": "nucleo_editorial_preservado",
+    "evidence": "A–B",
+    "audio": "Donella Meadows aborda una pregunta precisa: ¿En qué lugares una intervención puede transformar el comportamiento del sistema? Los cambios más profundos suelen ocurrir al transformar información, reglas, metas y paradigmas, no solo cantidades visibles. La precaución editorial es igualmente importante: Los puntos de intervención no son una receta universal ni garantizan resultados moralmente deseables.",
+    "quiz": {
+      "prompt": "¿En qué lugares una intervención puede transformar el comportamiento del sistema?",
+      "options": [
+        "Los cambios más profundos suelen ocurrir al transformar información, reglas, metas y paradigmas, no solo cantidades visibles.",
+        "Todas las teorías del campo dicen exactamente lo mismo.",
+        "La explicación elimina la necesidad de contexto y evidencia.",
+        "La idea solo puede aplicarse como metáfora universal."
+      ],
+      "answer": 0,
+      "feedback": "Los cambios más profundos suelen ocurrir al transformar información, reglas, metas y paradigmas, no solo cantidades visibles."
+    }
+  },
+  {
+    "id": "card_kauffman_selforganization_landscapes_001",
+    "author": "Stuart Kauffman",
+    "title": "La selección actúa sobre posibilidades estructuradas",
+    "territory": "Estados Unidos y Santa Fe",
+    "period": "Finales del siglo XX",
+    "family": "Autoorganización evolutiva",
+    "statement": "La selección no actúa sobre posibilidades sin forma: las interacciones del sistema ya facilitan algunos órdenes y dificultan otros.",
+    "tags": [
+      "autoorganización",
+      "selección",
+      "paisajes",
+      "interdependencia"
+    ],
+    "question": "¿Cómo estructuran las interacciones el espacio de posibilidades evolutivas?",
+    "caution": "Autoorganización no reemplaza la selección y el “borde del caos” no es una ley universal.",
+    "connections": [
+      "Holland",
+      "Prigogine",
+      "Haken",
+      "Bak"
+    ],
+    "order": 17,
+    "status": "nucleo_editorial_preservado",
+    "evidence": "A–B",
+    "audio": "Stuart Kauffman aborda una pregunta precisa: ¿Cómo estructuran las interacciones el espacio de posibilidades evolutivas? La selección no actúa sobre posibilidades sin forma: las interacciones del sistema ya facilitan algunos órdenes y dificultan otros. La precaución editorial es igualmente importante: Autoorganización no reemplaza la selección y el “borde del caos” no es una ley universal.",
+    "quiz": {
+      "prompt": "¿Cómo estructuran las interacciones el espacio de posibilidades evolutivas?",
+      "options": [
+        "La selección no actúa sobre posibilidades sin forma: las interacciones del sistema ya facilitan algunos órdenes y dificultan otros.",
+        "Todas las teorías del campo dicen exactamente lo mismo.",
+        "La explicación elimina la necesidad de contexto y evidencia.",
+        "La idea solo puede aplicarse como metáfora universal."
+      ],
+      "answer": 0,
+      "feedback": "La selección no actúa sobre posibilidades sin forma: las interacciones del sistema ya facilitan algunos órdenes y dificultan otros."
+    }
+  },
+  {
+    "id": "card_rolando_garcia_complex_systems_001",
+    "author": "Rolando García",
+    "title": "Construir el sistema desde una problemática",
+    "territory": "Argentina y México",
+    "period": "Siglos XX–XXI",
+    "family": "Sistemas complejos latinoamericanos",
+    "statement": "Un sistema complejo se construye al delimitar procesos interdependientes que ninguna disciplina puede explicar aisladamente.",
+    "tags": [
+      "problemática",
+      "interdefinibilidad",
+      "escalas",
+      "método"
+    ],
+    "question": "¿Cómo construir interdisciplinariamente un sistema desde un problema real?",
+    "caution": "Complejidad no significa incluirlo todo ni sumar informes disciplinares al final.",
+    "connections": [
+      "Piaget",
+      "Morin",
+      "Pohl y Hirsch Hadorn",
+      "Fals Borda"
+    ],
+    "order": 18,
+    "status": "nucleo_editorial_preservado",
+    "evidence": "A–B",
+    "audio": "Rolando García aborda una pregunta precisa: ¿Cómo construir interdisciplinariamente un sistema desde un problema real? Un sistema complejo se construye al delimitar procesos interdependientes que ninguna disciplina puede explicar aisladamente. La precaución editorial es igualmente importante: Complejidad no significa incluirlo todo ni sumar informes disciplinares al final.",
+    "quiz": {
+      "prompt": "¿Cómo construir interdisciplinariamente un sistema desde un problema real?",
+      "options": [
+        "Un sistema complejo se construye al delimitar procesos interdependientes que ninguna disciplina puede explicar aisladamente.",
+        "Todas las teorías del campo dicen exactamente lo mismo.",
+        "La explicación elimina la necesidad de contexto y evidencia.",
+        "La idea solo puede aplicarse como metáfora universal."
+      ],
+      "answer": 0,
+      "feedback": "Un sistema complejo se construye al delimitar procesos interdependientes que ninguna disciplina puede explicar aisladamente."
+    }
+  },
+  {
+    "id": "card_pohl_hirsch_transdisciplinary_research_001",
+    "author": "Christian Pohl y Gertrude Hirsch Hadorn",
+    "title": "Sistema, objetivos y transformación",
+    "territory": "Suiza y redes internacionales",
+    "period": "Siglo XXI",
+    "family": "Investigación transdisciplinaria aplicada",
+    "statement": "Comprender un problema, deliberar sus metas y construir su transformación son formas de conocimiento distintas pero interdependientes.",
+    "tags": [
+      "sistema",
+      "objetivos",
+      "transformación",
+      "coproducción"
+    ],
+    "question": "¿Cómo relacionar explicación, futuros deseados y estrategias de transformación?",
+    "caution": "Participación no es automáticamente democrática y los actores sociales no forman una voz única.",
+    "connections": [
+      "Nicolescu",
+      "Rolando García",
+      "Max-Neef",
+      "Fals Borda"
+    ],
+    "order": 19,
+    "status": "nucleo_editorial_preservado",
+    "evidence": "A–B",
+    "audio": "Christian Pohl y Gertrude Hirsch Hadorn aborda una pregunta precisa: ¿Cómo relacionar explicación, futuros deseados y estrategias de transformación? Comprender un problema, deliberar sus metas y construir su transformación son formas de conocimiento distintas pero interdependientes. La precaución editorial es igualmente importante: Participación no es automáticamente democrática y los actores sociales no forman una voz única.",
+    "quiz": {
+      "prompt": "¿Cómo relacionar explicación, futuros deseados y estrategias de transformación?",
+      "options": [
+        "Comprender un problema, deliberar sus metas y construir su transformación son formas de conocimiento distintas pero interdependientes.",
+        "Todas las teorías del campo dicen exactamente lo mismo.",
+        "La explicación elimina la necesidad de contexto y evidencia.",
+        "La idea solo puede aplicarse como metáfora universal."
+      ],
+      "answer": 0,
+      "feedback": "Comprender un problema, deliberar sus metas y construir su transformación son formas de conocimiento distintas pero interdependientes."
+    }
+  },
+  {
+    "id": "card_maxneef_transdisciplinary_levels_001",
+    "author": "Manfred Max-Neef",
+    "title": "Hechos, acción, objetivos y valores",
+    "territory": "Chile y redes internacionales",
+    "period": "Siglos XX–XXI",
+    "family": "Transdisciplinariedad y desarrollo",
+    "statement": "Conocer un problema exige relacionar lo que existe, lo que podemos hacer, lo que queremos y lo que deberíamos hacer.",
+    "tags": [
+      "hechos",
+      "acción",
+      "objetivos",
+      "valores"
+    ],
+    "question": "¿Cómo conectar capacidad técnica, decisión política y responsabilidad ética?",
+    "caution": "La transdisciplinariedad no reemplaza el trabajo disciplinario ni resuelve automáticamente conflictos de valor.",
+    "connections": [
+      "Nicolescu",
+      "Pohl y Hirsch Hadorn",
+      "Morin",
+      "Freire"
+    ],
+    "order": 20,
+    "status": "nucleo_editorial_preservado",
+    "evidence": "A–B",
+    "audio": "Manfred Max-Neef aborda una pregunta precisa: ¿Cómo conectar capacidad técnica, decisión política y responsabilidad ética? Conocer un problema exige relacionar lo que existe, lo que podemos hacer, lo que queremos y lo que deberíamos hacer. La precaución editorial es igualmente importante: La transdisciplinariedad no reemplaza el trabajo disciplinario ni resuelve automáticamente conflictos de valor.",
+    "quiz": {
+      "prompt": "¿Cómo conectar capacidad técnica, decisión política y responsabilidad ética?",
+      "options": [
+        "Conocer un problema exige relacionar lo que existe, lo que podemos hacer, lo que queremos y lo que deberíamos hacer.",
+        "Todas las teorías del campo dicen exactamente lo mismo.",
+        "La explicación elimina la necesidad de contexto y evidencia.",
+        "La idea solo puede aplicarse como metáfora universal."
+      ],
+      "answer": 0,
+      "feedback": "Conocer un problema exige relacionar lo que existe, lo que podemos hacer, lo que queremos y lo que deberíamos hacer."
+    }
+  },
+  {
+    "id": "card_bogdanov_tektology_001",
+    "author": "Alexander Bogdanov",
+    "title": "Tectología: ciencia de la organización",
+    "territory": "Rusia",
+    "period": "1912–1922",
+    "family": "Antecedentes sistémicos",
+    "statement": "La tectología estudia cómo se forman, se sostienen y se desintegran organizaciones en campos materialmente diferentes.",
+    "tags": [
+      "organización",
+      "conexión",
+      "estabilidad",
+      "transformación"
+    ],
+    "question": "¿Qué procesos organizativos pueden compararse entre campos distintos?",
+    "caution": "Bogdanov es un antecedente con proyecto propio, no una versión prematura de toda teoría sistémica posterior.",
+    "connections": [
+      "Bertalanffy",
+      "Boulding",
+      "Marx",
+      "Cibernética"
+    ],
+    "order": 21,
+    "status": "nucleo_editorial_preservado",
+    "evidence": "A–B",
+    "audio": "Alexander Bogdanov aborda una pregunta precisa: ¿Qué procesos organizativos pueden compararse entre campos distintos? La tectología estudia cómo se forman, se sostienen y se desintegran organizaciones en campos materialmente diferentes. La precaución editorial es igualmente importante: Bogdanov es un antecedente con proyecto propio, no una versión prematura de toda teoría sistémica posterior.",
+    "quiz": {
+      "prompt": "¿Qué procesos organizativos pueden compararse entre campos distintos?",
+      "options": [
+        "La tectología estudia cómo se forman, se sostienen y se desintegran organizaciones en campos materialmente diferentes.",
+        "Todas las teorías del campo dicen exactamente lo mismo.",
+        "La explicación elimina la necesidad de contexto y evidencia.",
+        "La idea solo puede aplicarse como metáfora universal."
+      ],
+      "answer": 0,
+      "feedback": "La tectología estudia cómo se forman, se sostienen y se desintegran organizaciones en campos materialmente diferentes."
+    }
+  },
+  {
+    "id": "card_churchman_systems_ethics_001",
+    "author": "C. West Churchman",
+    "title": "La frontera sistémica es una decisión ética",
+    "territory": "Estados Unidos",
+    "period": "Segunda mitad del siglo XX",
+    "family": "Ética sistémica",
+    "statement": "Definir un sistema también significa decidir qué voces, consecuencias y valores quedarán dentro o fuera de la explicación.",
+    "tags": [
+      "frontera",
+      "ética",
+      "poder",
+      "responsabilidad"
+    ],
+    "question": "¿Quién define la frontera y quién soporta las consecuencias que quedan fuera?",
+    "caution": "Ampliar el sistema no elimina el conflicto ni garantiza una decisión ética.",
+    "connections": [
+      "Ulrich",
+      "Checkland",
+      "Meadows",
+      "Jackson"
+    ],
+    "order": 22,
+    "status": "nucleo_editorial_preservado",
+    "evidence": "A–B",
+    "audio": "C. West Churchman aborda una pregunta precisa: ¿Quién define la frontera y quién soporta las consecuencias que quedan fuera? Definir un sistema también significa decidir qué voces, consecuencias y valores quedarán dentro o fuera de la explicación. La precaución editorial es igualmente importante: Ampliar el sistema no elimina el conflicto ni garantiza una decisión ética.",
+    "quiz": {
+      "prompt": "¿Quién define la frontera y quién soporta las consecuencias que quedan fuera?",
+      "options": [
+        "Definir un sistema también significa decidir qué voces, consecuencias y valores quedarán dentro o fuera de la explicación.",
+        "Todas las teorías del campo dicen exactamente lo mismo.",
+        "La explicación elimina la necesidad de contexto y evidencia.",
+        "La idea solo puede aplicarse como metáfora universal."
+      ],
+      "answer": 0,
+      "feedback": "Definir un sistema también significa decidir qué voces, consecuencias y valores quedarán dentro o fuera de la explicación."
+    }
+  },
+  {
+    "id": "card_checkland_soft_systems_001",
+    "author": "Peter Checkland",
+    "title": "El sistema como herramienta para aprender",
+    "territory": "Lancaster, Reino Unido",
+    "period": "Desde finales de 1960",
+    "family": "Metodología de sistemas blandos",
+    "statement": "En los problemas humanos, los modelos sistémicos no describen una verdad final: organizan el aprendizaje entre perspectivas diferentes.",
+    "tags": [
+      "situación",
+      "perspectiva",
+      "aprendizaje",
+      "acción"
+    ],
+    "question": "¿Cómo investigar una situación cuando no existe una meta o definición única del problema?",
+    "caution": "“Blando” no significa impreciso; CATWOE y los modelos no producen automáticamente una solución correcta.",
+    "connections": [
+      "Churchman",
+      "Pask",
+      "Rolando García",
+      "Fals Borda"
+    ],
+    "order": 23,
+    "status": "nucleo_editorial_preservado",
+    "evidence": "A–B",
+    "audio": "Peter Checkland aborda una pregunta precisa: ¿Cómo investigar una situación cuando no existe una meta o definición única del problema? En los problemas humanos, los modelos sistémicos no describen una verdad final: organizan el aprendizaje entre perspectivas diferentes. La precaución editorial es igualmente importante: “Blando” no significa impreciso; CATWOE y los modelos no producen automáticamente una solución correcta.",
+    "quiz": {
+      "prompt": "¿Cómo investigar una situación cuando no existe una meta o definición única del problema?",
+      "options": [
+        "En los problemas humanos, los modelos sistémicos no describen una verdad final: organizan el aprendizaje entre perspectivas diferentes.",
+        "Todas las teorías del campo dicen exactamente lo mismo.",
+        "La explicación elimina la necesidad de contexto y evidencia.",
+        "La idea solo puede aplicarse como metáfora universal."
+      ],
+      "answer": 0,
+      "feedback": "En los problemas humanos, los modelos sistémicos no describen una verdad final: organizan el aprendizaje entre perspectivas diferentes."
+    }
+  },
+  {
+    "id": "card_mead_cybernetics_reflexivity_001",
+    "author": "Margaret Mead",
+    "title": "La comunidad cibernética debe observarse",
+    "territory": "Estados Unidos",
+    "period": "1967–1968",
+    "family": "Reflexividad cibernética",
+    "statement": "Quienes estudian sistemas también forman sistemas: deben examinar cómo se organizan, comunican y responden a sus efectos.",
+    "tags": [
+      "reflexividad",
+      "comunidad",
+      "observación",
+      "participación"
+    ],
+    "question": "¿Cómo cambia una ciencia cuando examina su propia organización y autoridad?",
+    "caution": "Mead contribuyó a la reflexividad cibernética, pero no fue la única creadora de la segunda cibernética.",
+    "connections": [
+      "Von Foerster",
+      "Bateson",
+      "Comunidades epistémicas",
+      "Feminismos de la ciencia"
+    ],
+    "order": 24,
+    "status": "nucleo_editorial_preservado",
+    "evidence": "A–B",
+    "audio": "Margaret Mead aborda una pregunta precisa: ¿Cómo cambia una ciencia cuando examina su propia organización y autoridad? Quienes estudian sistemas también forman sistemas: deben examinar cómo se organizan, comunican y responden a sus efectos. La precaución editorial es igualmente importante: Mead contribuyó a la reflexividad cibernética, pero no fue la única creadora de la segunda cibernética.",
+    "quiz": {
+      "prompt": "¿Cómo cambia una ciencia cuando examina su propia organización y autoridad?",
+      "options": [
+        "Quienes estudian sistemas también forman sistemas: deben examinar cómo se organizan, comunican y responden a sus efectos.",
+        "Todas las teorías del campo dicen exactamente lo mismo.",
+        "La explicación elimina la necesidad de contexto y evidencia.",
+        "La idea solo puede aplicarse como metáfora universal."
+      ],
+      "answer": 0,
+      "feedback": "Quienes estudian sistemas también forman sistemas: deben examinar cómo se organizan, comunican y responden a sus efectos."
+    }
+  },
+  {
+    "id": "card_mcculloch_pitts_neural_logic_001",
+    "author": "Warren McCulloch y Walter Pitts",
+    "title": "La lógica puede emerger de una red formal",
+    "territory": "Estados Unidos",
+    "period": "1943",
+    "family": "Lógica neuronal",
+    "statement": "Redes de unidades neuronales idealizadas pueden realizar operaciones lógicas mediante la organización de sus conexiones.",
+    "tags": [
+      "red",
+      "umbral",
+      "lógica",
+      "computación"
+    ],
+    "question": "¿Cómo puede una configuración de unidades simples realizar operaciones colectivas?",
+    "caution": "La neurona formal no describe toda la biología y capacidad de cálculo no equivale a conciencia o comprensión.",
+    "connections": [
+      "Shannon",
+      "Von Neumann",
+      "Rosenblatt",
+      "IA conexionista"
+    ],
+    "order": 25,
+    "status": "nucleo_editorial_preservado",
+    "evidence": "A–B",
+    "audio": "Warren McCulloch y Walter Pitts aborda una pregunta precisa: ¿Cómo puede una configuración de unidades simples realizar operaciones colectivas? Redes de unidades neuronales idealizadas pueden realizar operaciones lógicas mediante la organización de sus conexiones. La precaución editorial es igualmente importante: La neurona formal no describe toda la biología y capacidad de cálculo no equivale a conciencia o comprensión.",
+    "quiz": {
+      "prompt": "¿Cómo puede una configuración de unidades simples realizar operaciones colectivas?",
+      "options": [
+        "Redes de unidades neuronales idealizadas pueden realizar operaciones lógicas mediante la organización de sus conexiones.",
+        "Todas las teorías del campo dicen exactamente lo mismo.",
+        "La explicación elimina la necesidad de contexto y evidencia.",
+        "La idea solo puede aplicarse como metáfora universal."
+      ],
+      "answer": 0,
+      "feedback": "Redes de unidades neuronales idealizadas pueden realizar operaciones lógicas mediante la organización de sus conexiones."
+    }
+  },
+  {
+    "id": "card_vonneumann_self_reproduction_001",
+    "author": "John von Neumann",
+    "title": "Construir y transmitir una descripción",
+    "territory": "Europa central y Estados Unidos",
+    "period": "Décadas de 1940–1950",
+    "family": "Teoría de autómatas",
+    "statement": "Un autómata puede reproducirse cuando interpreta una descripción para construir y, al mismo tiempo, la copia para transmitirla.",
+    "tags": [
+      "constructor",
+      "descripción",
+      "copia",
+      "reproducción"
+    ],
+    "question": "¿Qué relación doble con la información requiere la autorreproducción?",
+    "caution": "El modelo no equivale a una célula viva ni demuestra conciencia, evolución abierta o identidad entre vida y máquina.",
+    "connections": [
+      "Turing",
+      "McCulloch y Pitts",
+      "Autopoiesis",
+      "Vida artificial"
+    ],
+    "order": 26,
+    "status": "nucleo_editorial_preservado",
+    "evidence": "A–B",
+    "audio": "John von Neumann aborda una pregunta precisa: ¿Qué relación doble con la información requiere la autorreproducción? Un autómata puede reproducirse cuando interpreta una descripción para construir y, al mismo tiempo, la copia para transmitirla. La precaución editorial es igualmente importante: El modelo no equivale a una célula viva ni demuestra conciencia, evolución abierta o identidad entre vida y máquina.",
+    "quiz": {
+      "prompt": "¿Qué relación doble con la información requiere la autorreproducción?",
+      "options": [
+        "Un autómata puede reproducirse cuando interpreta una descripción para construir y, al mismo tiempo, la copia para transmitirla.",
+        "Todas las teorías del campo dicen exactamente lo mismo.",
+        "La explicación elimina la necesidad de contexto y evidencia.",
+        "La idea solo puede aplicarse como metáfora universal."
+      ],
+      "answer": 0,
+      "feedback": "Un autómata puede reproducirse cuando interpreta una descripción para construir y, al mismo tiempo, la copia para transmitirla."
+    }
+  },
+  {
+    "id": "card_haken_synergetics_001",
+    "author": "Hermann Haken",
+    "title": "Parámetros colectivos que organizan muchas partes",
+    "territory": "Alemania",
+    "period": "Desde 1969",
+    "family": "Sinergética",
+    "statement": "Muchas partes pueden generar un patrón colectivo que, a su vez, organiza el comportamiento de esas mismas partes.",
+    "tags": [
+      "autoorganización",
+      "parámetro de orden",
+      "inestabilidad"
+    ],
+    "question": "¿Cómo pueden pocas variables colectivas describir y organizar muchos componentes?",
+    "caution": "El principio de subordinación es una relación dinámica formal y no justifica jerarquías sociales o liderazgo.",
+    "connections": [
+      "Prigogine",
+      "Kauffman",
+      "Bak",
+      "Transiciones de fase"
+    ],
+    "order": 27,
+    "status": "nucleo_editorial_preservado",
+    "evidence": "A–B",
+    "audio": "Hermann Haken aborda una pregunta precisa: ¿Cómo pueden pocas variables colectivas describir y organizar muchos componentes? Muchas partes pueden generar un patrón colectivo que, a su vez, organiza el comportamiento de esas mismas partes. La precaución editorial es igualmente importante: El principio de subordinación es una relación dinámica formal y no justifica jerarquías sociales o liderazgo.",
+    "quiz": {
+      "prompt": "¿Cómo pueden pocas variables colectivas describir y organizar muchos componentes?",
+      "options": [
+        "Muchas partes pueden generar un patrón colectivo que, a su vez, organiza el comportamiento de esas mismas partes.",
+        "Todas las teorías del campo dicen exactamente lo mismo.",
+        "La explicación elimina la necesidad de contexto y evidencia.",
+        "La idea solo puede aplicarse como metáfora universal."
+      ],
+      "answer": 0,
+      "feedback": "Muchas partes pueden generar un patrón colectivo que, a su vez, organiza el comportamiento de esas mismas partes."
+    }
+  },
+  {
+    "id": "card_bak_self_organized_criticality_001",
+    "author": "Per Bak, Chao Tang y Kurt Wiesenfeld",
+    "title": "Criticidad autoorganizada",
+    "territory": "Estados Unidos",
+    "period": "1987",
+    "family": "Criticidad autoorganizada",
+    "statement": "Algunos sistemas pueden aproximarse espontáneamente a un régimen crítico donde ocurren eventos de muchas escalas.",
+    "tags": [
+      "umbral",
+      "avalancha",
+      "escala",
+      "criticidad"
+    ],
+    "question": "¿Cómo puede una dinámica local conducir a eventos distribuidos en múltiples escalas?",
+    "caution": "Una ley de potencia no demuestra por sí sola criticidad autoorganizada ni autoriza extrapolaciones sociales automáticas.",
+    "connections": [
+      "Haken",
+      "Prigogine",
+      "Kauffman",
+      "Redes de fallos"
+    ],
+    "order": 28,
+    "status": "nucleo_editorial_preservado",
+    "evidence": "A–C",
+    "audio": "Per Bak, Chao Tang y Kurt Wiesenfeld aborda una pregunta precisa: ¿Cómo puede una dinámica local conducir a eventos distribuidos en múltiples escalas? Algunos sistemas pueden aproximarse espontáneamente a un régimen crítico donde ocurren eventos de muchas escalas. La precaución editorial es igualmente importante: Una ley de potencia no demuestra por sí sola criticidad autoorganizada ni autoriza extrapolaciones sociales automáticas.",
+    "quiz": {
+      "prompt": "¿Cómo puede una dinámica local conducir a eventos distribuidos en múltiples escalas?",
+      "options": [
+        "Algunos sistemas pueden aproximarse espontáneamente a un régimen crítico donde ocurren eventos de muchas escalas.",
+        "Todas las teorías del campo dicen exactamente lo mismo.",
+        "La explicación elimina la necesidad de contexto y evidencia.",
+        "La idea solo puede aplicarse como metáfora universal."
+      ],
+      "answer": 0,
+      "feedback": "Algunos sistemas pueden aproximarse espontáneamente a un régimen crítico donde ocurren eventos de muchas escalas."
+    }
+  },
+  {
+    "id": "card_klein_boundary_work_001",
+    "author": "Julie Thompson Klein",
+    "title": "El trabajo de cruzar fronteras",
+    "territory": "Estados Unidos y redes internacionales",
+    "period": "Siglos XX–XXI",
+    "family": "Interdisciplinariedad",
+    "statement": "Integrar conocimientos exige comprender cómo se construyen, negocian y atraviesan las fronteras entre disciplinas y sectores.",
+    "tags": [
+      "fronteras",
+      "traducción",
+      "colaboración",
+      "integración"
+    ],
+    "question": "¿Cómo cooperar entre disciplinas sin borrar sus lenguajes, métodos y autoridades?",
+    "caution": "No toda frontera debe desaparecer y colaboración no garantiza integración.",
+    "connections": [
+      "Nicolescu",
+      "Pohl",
+      "Rolando García",
+      "Objetos fronterizos"
+    ],
+    "order": 29,
+    "status": "nucleo_editorial_preservado",
+    "evidence": "A–B",
+    "audio": "Julie Thompson Klein aborda una pregunta precisa: ¿Cómo cooperar entre disciplinas sin borrar sus lenguajes, métodos y autoridades? Integrar conocimientos exige comprender cómo se construyen, negocian y atraviesan las fronteras entre disciplinas y sectores. La precaución editorial es igualmente importante: No toda frontera debe desaparecer y colaboración no garantiza integración.",
+    "quiz": {
+      "prompt": "¿Cómo cooperar entre disciplinas sin borrar sus lenguajes, métodos y autoridades?",
+      "options": [
+        "Integrar conocimientos exige comprender cómo se construyen, negocian y atraviesan las fronteras entre disciplinas y sectores.",
+        "Todas las teorías del campo dicen exactamente lo mismo.",
+        "La explicación elimina la necesidad de contexto y evidencia.",
+        "La idea solo puede aplicarse como metáfora universal."
+      ],
+      "answer": 0,
+      "feedback": "Integrar conocimientos exige comprender cómo se construyen, negocian y atraviesan las fronteras entre disciplinas y sectores."
+    }
+  },
+  {
+    "id": "card_falsborda_participatory_action_001",
+    "author": "Orlando Fals Borda",
+    "title": "Conocimiento participativo y transformador",
+    "territory": "Colombia y redes del Sur global",
+    "period": "Desde las décadas de 1960–1970",
+    "family": "Investigación-acción participativa",
+    "statement": "Investigar con las comunidades significa compartir la construcción de preguntas, interpretaciones y usos transformadores del conocimiento.",
+    "tags": [
+      "participación",
+      "acción",
+      "memoria",
+      "transformación"
+    ],
+    "question": "¿Quién formula, interpreta y utiliza el conocimiento producido por una investigación?",
+    "caution": "Consulta, taller o recolección de datos no equivalen por sí solos a IAP; participación no significa unanimidad.",
+    "connections": [
+      "Freire",
+      "Pohl",
+      "Rolando García",
+      "Escobar"
+    ],
+    "order": 30,
+    "status": "nucleo_editorial_preservado",
+    "evidence": "A–B",
+    "audio": "Orlando Fals Borda aborda una pregunta precisa: ¿Quién formula, interpreta y utiliza el conocimiento producido por una investigación? Investigar con las comunidades significa compartir la construcción de preguntas, interpretaciones y usos transformadores del conocimiento. La precaución editorial es igualmente importante: Consulta, taller o recolección de datos no equivalen por sí solos a IAP; participación no significa unanimidad.",
+    "quiz": {
+      "prompt": "¿Quién formula, interpreta y utiliza el conocimiento producido por una investigación?",
+      "options": [
+        "Investigar con las comunidades significa compartir la construcción de preguntas, interpretaciones y usos transformadores del conocimiento.",
+        "Todas las teorías del campo dicen exactamente lo mismo.",
+        "La explicación elimina la necesidad de contexto y evidencia.",
+        "La idea solo puede aplicarse como metáfora universal."
+      ],
+      "answer": 0,
+      "feedback": "Investigar con las comunidades significa compartir la construcción de preguntas, interpretaciones y usos transformadores del conocimiento."
+    }
+  },
+  {
+    "id": "card_ulrich_boundary_critique_001",
+    "author": "Werner Ulrich",
+    "title": "Hacer discutibles los juicios de frontera",
+    "territory": "Suiza",
+    "period": "Desde la década de 1980",
+    "family": "Heurística crítica de sistemas",
+    "statement": "Toda intervención define quién se beneficia, quién decide, qué conocimiento cuenta y quién queda sin voz.",
+    "tags": [
+      "frontera",
+      "legitimidad",
+      "poder",
+      "crítica"
+    ],
+    "question": "¿Qué juicios de motivación, control, conocimiento y legitimidad sostienen una intervención?",
+    "caution": "Las doce preguntas no producen automáticamente justicia ni permiten incluir toda la realidad.",
+    "connections": [
+      "Churchman",
+      "Midgley",
+      "Fals Borda",
+      "Justicia epistémica"
+    ],
+    "order": 31,
+    "status": "nucleo_editorial_preservado",
+    "evidence": "A–B",
+    "audio": "Werner Ulrich aborda una pregunta precisa: ¿Qué juicios de motivación, control, conocimiento y legitimidad sostienen una intervención? Toda intervención define quién se beneficia, quién decide, qué conocimiento cuenta y quién queda sin voz. La precaución editorial es igualmente importante: Las doce preguntas no producen automáticamente justicia ni permiten incluir toda la realidad.",
+    "quiz": {
+      "prompt": "¿Qué juicios de motivación, control, conocimiento y legitimidad sostienen una intervención?",
+      "options": [
+        "Toda intervención define quién se beneficia, quién decide, qué conocimiento cuenta y quién queda sin voz.",
+        "Todas las teorías del campo dicen exactamente lo mismo.",
+        "La explicación elimina la necesidad de contexto y evidencia.",
+        "La idea solo puede aplicarse como metáfora universal."
+      ],
+      "answer": 0,
+      "feedback": "Toda intervención define quién se beneficia, quién decide, qué conocimiento cuenta y quién queda sin voz."
+    }
+  },
+  {
+    "id": "card_jackson_critical_systems_pluralism_001",
+    "author": "Michael C. Jackson",
+    "title": "Pluralismo metodológico crítico",
+    "territory": "Reino Unido",
+    "period": "Siglos XX–XXI",
+    "family": "Pensamiento crítico de sistemas",
+    "statement": "Una situación compleja puede exigir varios enfoques, pero cada combinación debe justificar qué revela, qué limita y qué consecuencias produce.",
+    "tags": [
+      "pluralismo",
+      "métodos",
+      "crítica",
+      "intervención"
+    ],
+    "question": "¿Cómo elegir y combinar métodos sin convertir el pluralismo en mezcla arbitraria?",
+    "caution": "Acumular métodos no garantiza holismo; deben conocerse sus supuestos e incompatibilidades.",
+    "connections": [
+      "Checkland",
+      "Beer",
+      "Ulrich",
+      "Midgley"
+    ],
+    "order": 32,
+    "status": "nucleo_editorial_preservado",
+    "evidence": "A–B",
+    "audio": "Michael C. Jackson aborda una pregunta precisa: ¿Cómo elegir y combinar métodos sin convertir el pluralismo en mezcla arbitraria? Una situación compleja puede exigir varios enfoques, pero cada combinación debe justificar qué revela, qué limita y qué consecuencias produce. La precaución editorial es igualmente importante: Acumular métodos no garantiza holismo; deben conocerse sus supuestos e incompatibilidades.",
+    "quiz": {
+      "prompt": "¿Cómo elegir y combinar métodos sin convertir el pluralismo en mezcla arbitraria?",
+      "options": [
+        "Una situación compleja puede exigir varios enfoques, pero cada combinación debe justificar qué revela, qué limita y qué consecuencias produce.",
+        "Todas las teorías del campo dicen exactamente lo mismo.",
+        "La explicación elimina la necesidad de contexto y evidencia.",
+        "La idea solo puede aplicarse como metáfora universal."
+      ],
+      "answer": 0,
+      "feedback": "Una situación compleja puede exigir varios enfoques, pero cada combinación debe justificar qué revela, qué limita y qué consecuencias produce."
+    }
+  },
+  {
+    "id": "card_forrester_system_dynamics_001",
+    "author": "Jay W. Forrester",
+    "title": "La estructura genera comportamiento",
+    "territory": "MIT, Estados Unidos",
+    "period": "Desde finales de 1950",
+    "family": "Dinámica de sistemas",
+    "statement": "Los patrones persistentes de un sistema suelen surgir de acumulaciones, flujos, demoras y circuitos de retroalimentación.",
+    "tags": [
+      "reservas",
+      "flujos",
+      "estructura",
+      "simulación"
+    ],
+    "question": "¿Qué estructuras producen crecimiento, oscilación, saturación o colapso?",
+    "caution": "La simulación hace explícitas hipótesis; no es una predicción automática ni una copia total de la realidad.",
+    "connections": [
+      "Wiener",
+      "Meadows",
+      "Sterman",
+      "Churchman"
+    ],
+    "order": 33,
+    "status": "nucleo_editorial_preservado",
+    "evidence": "A–B",
+    "audio": "Jay W. Forrester aborda una pregunta precisa: ¿Qué estructuras producen crecimiento, oscilación, saturación o colapso? Los patrones persistentes de un sistema suelen surgir de acumulaciones, flujos, demoras y circuitos de retroalimentación. La precaución editorial es igualmente importante: La simulación hace explícitas hipótesis; no es una predicción automática ni una copia total de la realidad.",
+    "quiz": {
+      "prompt": "¿Qué estructuras producen crecimiento, oscilación, saturación o colapso?",
+      "options": [
+        "Los patrones persistentes de un sistema suelen surgir de acumulaciones, flujos, demoras y circuitos de retroalimentación.",
+        "Todas las teorías del campo dicen exactamente lo mismo.",
+        "La explicación elimina la necesidad de contexto y evidencia.",
+        "La idea solo puede aplicarse como metáfora universal."
+      ],
+      "answer": 0,
+      "feedback": "Los patrones persistentes de un sistema suelen surgir de acumulaciones, flujos, demoras y circuitos de retroalimentación."
+    }
+  },
+  {
+    "id": "card_miller_living_systems_001",
+    "author": "James Grier Miller",
+    "title": "Procesos recurrentes en sistemas vivientes",
+    "territory": "Estados Unidos",
+    "period": "1960–1978",
+    "family": "Sistemas vivientes",
+    "statement": "La vida presenta procesos recurrentes de materia, energía e información, pero cada nivel los realiza mediante estructuras diferentes.",
+    "tags": [
+      "niveles",
+      "subsistemas",
+      "información",
+      "vida"
+    ],
+    "question": "¿Qué procesos pueden compararse desde células hasta organizaciones sin biologizar la sociedad?",
+    "caution": "Semejanza funcional no significa identidad biológica literal ni justifica naturalizar jerarquías sociales.",
+    "connections": [
+      "Boulding",
+      "Bertalanffy",
+      "Beer",
+      "Luhmann"
+    ],
+    "order": 34,
+    "status": "nucleo_editorial_preservado",
+    "evidence": "A–B",
+    "audio": "James Grier Miller aborda una pregunta precisa: ¿Qué procesos pueden compararse desde células hasta organizaciones sin biologizar la sociedad? La vida presenta procesos recurrentes de materia, energía e información, pero cada nivel los realiza mediante estructuras diferentes. La precaución editorial es igualmente importante: Semejanza funcional no significa identidad biológica literal ni justifica naturalizar jerarquías sociales.",
+    "quiz": {
+      "prompt": "¿Qué procesos pueden compararse desde células hasta organizaciones sin biologizar la sociedad?",
+      "options": [
+        "La vida presenta procesos recurrentes de materia, energía e información, pero cada nivel los realiza mediante estructuras diferentes.",
+        "Todas las teorías del campo dicen exactamente lo mismo.",
+        "La explicación elimina la necesidad de contexto y evidencia.",
+        "La idea solo puede aplicarse como metáfora universal."
+      ],
+      "answer": 0,
+      "feedback": "La vida presenta procesos recurrentes de materia, energía e información, pero cada nivel los realiza mediante estructuras diferentes."
+    }
+  },
+  {
+    "id": "card_luhmann_communication_systems_001",
+    "author": "Niklas Luhmann",
+    "title": "La comunicación reproduce sistemas sociales",
+    "territory": "Alemania",
+    "period": "Segunda mitad del siglo XX",
+    "family": "Teoría de sistemas sociales",
+    "statement": "Los sistemas sociales continúan cuando una comunicación enlaza con otra, incluso mientras cambian las personas participantes.",
+    "tags": [
+      "comunicación",
+      "autopoiesis",
+      "cierre",
+      "sentido"
+    ],
+    "question": "¿Qué operación elemental permite la continuidad de un sistema social?",
+    "caution": "La afirmación no niega la existencia o dignidad de las personas; la extensión social de autopoiesis es discutida.",
+    "connections": [
+      "Maturana y Varela",
+      "Von Foerster",
+      "Habermas",
+      "Organizaciones"
+    ],
+    "order": 35,
+    "status": "nucleo_editorial_preservado",
+    "evidence": "A–C",
+    "audio": "Niklas Luhmann aborda una pregunta precisa: ¿Qué operación elemental permite la continuidad de un sistema social? Los sistemas sociales continúan cuando una comunicación enlaza con otra, incluso mientras cambian las personas participantes. La precaución editorial es igualmente importante: La afirmación no niega la existencia o dignidad de las personas; la extensión social de autopoiesis es discutida.",
+    "quiz": {
+      "prompt": "¿Qué operación elemental permite la continuidad de un sistema social?",
+      "options": [
+        "Los sistemas sociales continúan cuando una comunicación enlaza con otra, incluso mientras cambian las personas participantes.",
+        "Todas las teorías del campo dicen exactamente lo mismo.",
+        "La explicación elimina la necesidad de contexto y evidencia.",
+        "La idea solo puede aplicarse como metáfora universal."
+      ],
+      "answer": 0,
+      "feedback": "Los sistemas sociales continúan cuando una comunicación enlaza con otra, incluso mientras cambian las personas participantes."
+    }
+  },
+  {
+    "id": "card_vonglasersfeld_viability_001",
+    "author": "Ernst von Glasersfeld",
+    "title": "El conocimiento como construcción viable",
+    "territory": "Europa y Estados Unidos",
+    "period": "Segunda mitad del siglo XX",
+    "family": "Constructivismo radical",
+    "statement": "Conocer no es copiar una realidad independiente: es construir formas de actuar y pensar que permanezcan viables en la experiencia.",
+    "tags": [
+      "construcción",
+      "viabilidad",
+      "experiencia",
+      "aprendizaje"
+    ],
+    "question": "¿Cómo evaluar una construcción sin afirmar que copia la realidad tal como es en sí misma?",
+    "caution": "Viabilidad no significa capricho, relativismo absoluto o irrelevancia de la evidencia y las restricciones.",
+    "connections": [
+      "Piaget",
+      "Von Foerster",
+      "Pask",
+      "Najmanovich"
+    ],
+    "order": 36,
+    "status": "nucleo_editorial_preservado",
+    "evidence": "A–B",
+    "audio": "Ernst von Glasersfeld aborda una pregunta precisa: ¿Cómo evaluar una construcción sin afirmar que copia la realidad tal como es en sí misma? Conocer no es copiar una realidad independiente: es construir formas de actuar y pensar que permanezcan viables en la experiencia. La precaución editorial es igualmente importante: Viabilidad no significa capricho, relativismo absoluto o irrelevancia de la evidencia y las restricciones.",
+    "quiz": {
+      "prompt": "¿Cómo evaluar una construcción sin afirmar que copia la realidad tal como es en sí misma?",
+      "options": [
+        "Conocer no es copiar una realidad independiente: es construir formas de actuar y pensar que permanezcan viables en la experiencia.",
+        "Todas las teorías del campo dicen exactamente lo mismo.",
+        "La explicación elimina la necesidad de contexto y evidencia.",
+        "La idea solo puede aplicarse como metáfora universal."
+      ],
+      "answer": 0,
+      "feedback": "Conocer no es copiar una realidad independiente: es construir formas de actuar y pensar que permanezcan viables en la experiencia."
+    }
+  },
+  {
+    "id": "card_varela_thompson_rosch_enaction_001",
+    "author": "Francisco Varela, Evan Thompson y Eleanor Rosch",
+    "title": "Conocer como acción encarnada",
+    "territory": "Francia, Canadá y Estados Unidos",
+    "period": "1991",
+    "family": "Enacción",
+    "statement": "Conocer es participar corporalmente en una relación donde organismo y entorno hacen emerger un mundo significativo.",
+    "tags": [
+      "cuerpo",
+      "acción",
+      "experiencia",
+      "sentido"
+    ],
+    "question": "¿Cómo emerge el significado mediante la actividad situada de un organismo?",
+    "caution": "Enacción no significa inventar la realidad, rechazar toda representación o sustituir la ciencia por introspección.",
+    "connections": [
+      "Autopoiesis",
+      "Merleau-Ponty",
+      "Thompson",
+      "IA encarnada"
+    ],
+    "order": 37,
+    "status": "nucleo_editorial_preservado",
+    "evidence": "A–B",
+    "audio": "Francisco Varela, Evan Thompson y Eleanor Rosch aborda una pregunta precisa: ¿Cómo emerge el significado mediante la actividad situada de un organismo? Conocer es participar corporalmente en una relación donde organismo y entorno hacen emerger un mundo significativo. La precaución editorial es igualmente importante: Enacción no significa inventar la realidad, rechazar toda representación o sustituir la ciencia por introspección.",
+    "quiz": {
+      "prompt": "¿Cómo emerge el significado mediante la actividad situada de un organismo?",
+      "options": [
+        "Conocer es participar corporalmente en una relación donde organismo y entorno hacen emerger un mundo significativo.",
+        "Todas las teorías del campo dicen exactamente lo mismo.",
+        "La explicación elimina la necesidad de contexto y evidencia.",
+        "La idea solo puede aplicarse como metáfora universal."
+      ],
+      "answer": 0,
+      "feedback": "Conocer es participar corporalmente en una relación donde organismo y entorno hacen emerger un mundo significativo."
+    }
+  },
+  {
+    "id": "card_brianarthur_path_dependence_001",
+    "author": "W. Brian Arthur",
+    "title": "La historia abre y cierra trayectorias",
+    "territory": "Estados Unidos y Santa Fe",
+    "period": "Décadas de 1980–1990",
+    "family": "Economía de la complejidad",
+    "statement": "Cuando una elección aumenta su propio atractivo, pequeños acontecimientos históricos pueden consolidar trayectorias difíciles de abandonar.",
+    "tags": [
+      "retroalimentación positiva",
+      "trayectoria",
+      "lock-in"
+    ],
+    "question": "¿Cómo pueden las primeras elecciones transformar las opciones económicas futuras?",
+    "caution": "Dependencia de trayectoria no significa determinismo ni demuestra que toda opción dominante sea inferior o inevitable.",
+    "connections": [
+      "Wiener",
+      "Kauffman",
+      "Barabási",
+      "Plataformas digitales"
+    ],
+    "order": 38,
+    "status": "nucleo_editorial_preservado",
+    "evidence": "A–B",
+    "audio": "W. Brian Arthur aborda una pregunta precisa: ¿Cómo pueden las primeras elecciones transformar las opciones económicas futuras? Cuando una elección aumenta su propio atractivo, pequeños acontecimientos históricos pueden consolidar trayectorias difíciles de abandonar. La precaución editorial es igualmente importante: Dependencia de trayectoria no significa determinismo ni demuestra que toda opción dominante sea inferior o inevitable.",
+    "quiz": {
+      "prompt": "¿Cómo pueden las primeras elecciones transformar las opciones económicas futuras?",
+      "options": [
+        "Cuando una elección aumenta su propio atractivo, pequeños acontecimientos históricos pueden consolidar trayectorias difíciles de abandonar.",
+        "Todas las teorías del campo dicen exactamente lo mismo.",
+        "La explicación elimina la necesidad de contexto y evidencia.",
+        "La idea solo puede aplicarse como metáfora universal."
+      ],
+      "answer": 0,
+      "feedback": "Cuando una elección aumenta su propio atractivo, pequeños acontecimientos históricos pueden consolidar trayectorias difíciles de abandonar."
+    }
+  },
+  {
+    "id": "card_axelrod_cooperation_001",
+    "author": "Robert Axelrod",
+    "title": "Cooperación mediante repetición y reparación",
+    "territory": "Estados Unidos",
+    "period": "Décadas de 1970–1980",
+    "family": "Cooperación emergente",
+    "statement": "La cooperación puede estabilizarse cuando las relaciones continúan, las respuestas son recíprocas y existe posibilidad de volver a cooperar.",
+    "tags": [
+      "repetición",
+      "reciprocidad",
+      "confianza",
+      "reparación"
+    ],
+    "question": "¿Qué condiciones permiten que la cooperación emerja sin una autoridad central?",
+    "caution": "Tit for Tat no es una receta moral universal y puede fallar bajo ruido, desigualdad o interacciones breves.",
+    "connections": [
+      "Rapoport",
+      "Ostrom",
+      "Holland",
+      "Redes"
+    ],
+    "order": 39,
+    "status": "nucleo_editorial_preservado",
+    "evidence": "A–B",
+    "audio": "Robert Axelrod aborda una pregunta precisa: ¿Qué condiciones permiten que la cooperación emerja sin una autoridad central? La cooperación puede estabilizarse cuando las relaciones continúan, las respuestas son recíprocas y existe posibilidad de volver a cooperar. La precaución editorial es igualmente importante: Tit for Tat no es una receta moral universal y puede fallar bajo ruido, desigualdad o interacciones breves.",
+    "quiz": {
+      "prompt": "¿Qué condiciones permiten que la cooperación emerja sin una autoridad central?",
+      "options": [
+        "La cooperación puede estabilizarse cuando las relaciones continúan, las respuestas son recíprocas y existe posibilidad de volver a cooperar.",
+        "Todas las teorías del campo dicen exactamente lo mismo.",
+        "La explicación elimina la necesidad de contexto y evidencia.",
+        "La idea solo puede aplicarse como metáfora universal."
+      ],
+      "answer": 0,
+      "feedback": "La cooperación puede estabilizarse cuando las relaciones continúan, las respuestas son recíprocas y existe posibilidad de volver a cooperar."
+    }
+  },
+  {
+    "id": "card_najmanovich_dynamic_configurations_001",
+    "author": "Denise Najmanovich",
+    "title": "Cartografías dinámicas y subjetividad entramada",
+    "territory": "Argentina y Abya Yala",
+    "period": "Siglos XX–XXI",
+    "family": "Complejidades situadas",
+    "statement": "Pensamos desde vínculos y territorios: nuestras cartografías organizan la experiencia mientras la experiencia también nos transforma.",
+    "tags": [
+      "vínculos",
+      "configuraciones",
+      "cartografías",
+      "emergencia"
+    ],
+    "question": "¿Cómo conocer desde dentro de configuraciones históricas, corporales y territoriales?",
+    "caution": "Lo situado no equivale a opinión privada y “complejidades” no elimina evidencia, criterios o conflictos.",
+    "connections": [
+      "Morin",
+      "Rolando García",
+      "Haraway",
+      "Escobar"
+    ],
+    "order": 40,
+    "status": "nucleo_editorial_preservado",
+    "evidence": "A–B",
+    "audio": "Denise Najmanovich aborda una pregunta precisa: ¿Cómo conocer desde dentro de configuraciones históricas, corporales y territoriales? Pensamos desde vínculos y territorios: nuestras cartografías organizan la experiencia mientras la experiencia también nos transforma. La precaución editorial es igualmente importante: Lo situado no equivale a opinión privada y “complejidades” no elimina evidencia, criterios o conflictos.",
+    "quiz": {
+      "prompt": "¿Cómo conocer desde dentro de configuraciones históricas, corporales y territoriales?",
+      "options": [
+        "Pensamos desde vínculos y territorios: nuestras cartografías organizan la experiencia mientras la experiencia también nos transforma.",
+        "Todas las teorías del campo dicen exactamente lo mismo.",
+        "La explicación elimina la necesidad de contexto y evidencia.",
+        "La idea solo puede aplicarse como metáfora universal."
+      ],
+      "answer": 0,
+      "feedback": "Pensamos desde vínculos y territorios: nuestras cartografías organizan la experiencia mientras la experiencia también nos transforma."
+    }
+  },
+  {
+    "id": "card_midgley_systemic_intervention_001",
+    "author": "Gerald Midgley",
+    "title": "Intervención, fronteras y marginalización",
+    "territory": "Reino Unido y redes internacionales",
+    "period": "Siglos XX–XXI",
+    "family": "Intervención sistémica",
+    "statement": "Intervenir exige examinar qué fronteras definen el problema, qué voces quedan marginadas y qué métodos permiten actuar responsablemente.",
+    "tags": [
+      "fronteras",
+      "marginalización",
+      "pluralismo",
+      "intervención"
+    ],
+    "question": "¿Cómo afecta la selección de fronteras y métodos a quienes quedan en el centro o el margen?",
+    "caution": "Utilizar muchos métodos no vuelve sistémica una intervención si no examina valores, exclusiones y consecuencias.",
+    "connections": [
+      "Ulrich",
+      "Jackson",
+      "Fals Borda",
+      "Pohl"
+    ],
+    "order": 41,
+    "status": "nucleo_editorial_preservado",
+    "evidence": "A–B",
+    "audio": "Gerald Midgley aborda una pregunta precisa: ¿Cómo afecta la selección de fronteras y métodos a quienes quedan en el centro o el margen? Intervenir exige examinar qué fronteras definen el problema, qué voces quedan marginadas y qué métodos permiten actuar responsablemente. La precaución editorial es igualmente importante: Utilizar muchos métodos no vuelve sistémica una intervención si no examina valores, exclusiones y consecuencias.",
+    "quiz": {
+      "prompt": "¿Cómo afecta la selección de fronteras y métodos a quienes quedan en el centro o el margen?",
+      "options": [
+        "Intervenir exige examinar qué fronteras definen el problema, qué voces quedan marginadas y qué métodos permiten actuar responsablemente.",
+        "Todas las teorías del campo dicen exactamente lo mismo.",
+        "La explicación elimina la necesidad de contexto y evidencia.",
+        "La idea solo puede aplicarse como metáfora universal."
+      ],
+      "answer": 0,
+      "feedback": "Intervenir exige examinar qué fronteras definen el problema, qué voces quedan marginadas y qué métodos permiten actuar responsablemente."
+    }
+  },
+  {
+    "id": "card_sterman_learning_complex_systems_001",
+    "author": "John D. Sterman",
+    "title": "Aprender de nuestras decisiones y modelos mentales",
+    "territory": "MIT, Estados Unidos",
+    "period": "Siglos XX–XXI",
+    "family": "Aprendizaje en sistemas complejos",
+    "statement": "Aprender exige revisar las decisiones y también los modelos mentales que hicieron que esas decisiones parecieran correctas.",
+    "tags": [
+      "modelos mentales",
+      "simulación",
+      "retroalimentación",
+      "aprendizaje"
+    ],
+    "question": "¿Por qué la experiencia puede repetir errores cuando existen demoras y efectos indirectos?",
+    "caution": "Simular no equivale a predecir ni el modelo formal contiene toda la realidad.",
+    "connections": [
+      "Forrester",
+      "Meadows",
+      "Pask",
+      "Senge"
+    ],
+    "order": 42,
+    "status": "nucleo_editorial_preservado",
+    "evidence": "A–B",
+    "audio": "John D. Sterman aborda una pregunta precisa: ¿Por qué la experiencia puede repetir errores cuando existen demoras y efectos indirectos? Aprender exige revisar las decisiones y también los modelos mentales que hicieron que esas decisiones parecieran correctas. La precaución editorial es igualmente importante: Simular no equivale a predecir ni el modelo formal contiene toda la realidad.",
+    "quiz": {
+      "prompt": "¿Por qué la experiencia puede repetir errores cuando existen demoras y efectos indirectos?",
+      "options": [
+        "Aprender exige revisar las decisiones y también los modelos mentales que hicieron que esas decisiones parecieran correctas.",
+        "Todas las teorías del campo dicen exactamente lo mismo.",
+        "La explicación elimina la necesidad de contexto y evidencia.",
+        "La idea solo puede aplicarse como metáfora universal."
+      ],
+      "answer": 0,
+      "feedback": "Aprender exige revisar las decisiones y también los modelos mentales que hicieron que esas decisiones parecieran correctas."
+    }
+  },
+  {
+    "id": "card_ostrom_commons_governance_001",
+    "author": "Elinor Ostrom",
+    "title": "Gobernanza de los bienes comunes",
+    "territory": "Estados Unidos y estudios comparativos globales",
+    "period": "Siglos XX–XXI",
+    "family": "Instituciones y acción colectiva",
+    "statement": "Los usuarios pueden sostener un recurso compartido cuando construyen reglas legítimas, vigilancia, resolución de conflictos y capacidad de autogobierno.",
+    "tags": [
+      "comunes",
+      "reglas",
+      "cooperación",
+      "policentrismo"
+    ],
+    "question": "¿Cómo pueden los usuarios construir instituciones duraderas para recursos compartidos?",
+    "caution": "La comunidad no siempre funciona; los principios de diseño son patrones comparativos, no una receta universal.",
+    "connections": [
+      "Axelrod",
+      "Rapoport",
+      "Beer",
+      "Fals Borda"
+    ],
+    "order": 43,
+    "status": "nucleo_editorial_preservado",
+    "evidence": "A–B",
+    "audio": "Elinor Ostrom aborda una pregunta precisa: ¿Cómo pueden los usuarios construir instituciones duraderas para recursos compartidos? Los usuarios pueden sostener un recurso compartido cuando construyen reglas legítimas, vigilancia, resolución de conflictos y capacidad de autogobierno. La precaución editorial es igualmente importante: La comunidad no siempre funciona; los principios de diseño son patrones comparativos, no una receta universal.",
+    "quiz": {
+      "prompt": "¿Cómo pueden los usuarios construir instituciones duraderas para recursos compartidos?",
+      "options": [
+        "Los usuarios pueden sostener un recurso compartido cuando construyen reglas legítimas, vigilancia, resolución de conflictos y capacidad de autogobierno.",
+        "Todas las teorías del campo dicen exactamente lo mismo.",
+        "La explicación elimina la necesidad de contexto y evidencia.",
+        "La idea solo puede aplicarse como metáfora universal."
+      ],
+      "answer": 0,
+      "feedback": "Los usuarios pueden sostener un recurso compartido cuando construyen reglas legítimas, vigilancia, resolución de conflictos y capacidad de autogobierno."
+    }
+  },
+  {
+    "id": "card_granovetter_weak_ties_embeddedness_001",
+    "author": "Mark Granovetter",
+    "title": "La fuerza estructural de los vínculos débiles",
+    "territory": "Estados Unidos",
+    "period": "1973–1985",
+    "family": "Sociología de redes",
+    "statement": "Un vínculo poco intenso puede resultar estructuralmente poderoso cuando conecta grupos que comparten poca información entre sí.",
+    "tags": [
+      "vínculos débiles",
+      "puentes",
+      "información",
+      "inserción"
+    ],
+    "question": "¿Cómo puede una relación poco cercana conectar mundos sociales y oportunidades distintas?",
+    "caution": "No todo vínculo débil es puente y las redes también reproducen exclusión, fraude, favoritismo y desigualdad.",
+    "connections": [
+      "Watts y Strogatz",
+      "Newman",
+      "Ostrom",
+      "Mercados laborales"
+    ],
+    "order": 44,
+    "status": "nucleo_editorial_preservado",
+    "evidence": "A–B",
+    "audio": "Mark Granovetter aborda una pregunta precisa: ¿Cómo puede una relación poco cercana conectar mundos sociales y oportunidades distintas? Un vínculo poco intenso puede resultar estructuralmente poderoso cuando conecta grupos que comparten poca información entre sí. La precaución editorial es igualmente importante: No todo vínculo débil es puente y las redes también reproducen exclusión, fraude, favoritismo y desigualdad.",
+    "quiz": {
+      "prompt": "¿Cómo puede una relación poco cercana conectar mundos sociales y oportunidades distintas?",
+      "options": [
+        "Un vínculo poco intenso puede resultar estructuralmente poderoso cuando conecta grupos que comparten poca información entre sí.",
+        "Todas las teorías del campo dicen exactamente lo mismo.",
+        "La explicación elimina la necesidad de contexto y evidencia.",
+        "La idea solo puede aplicarse como metáfora universal."
+      ],
+      "answer": 0,
+      "feedback": "Un vínculo poco intenso puede resultar estructuralmente poderoso cuando conecta grupos que comparten poca información entre sí."
+    }
+  },
+  {
+    "id": "card_watts_strogatz_small_world_001",
+    "author": "Duncan Watts y Steven Strogatz",
+    "title": "Redes de mundo pequeño",
+    "territory": "Cornell, Estados Unidos",
+    "period": "1998",
+    "family": "Ciencia de redes",
+    "statement": "Pocos enlaces entre regiones distantes pueden reducir enormemente las separaciones y conservar, al mismo tiempo, grupos locales densos.",
+    "tags": [
+      "agrupamiento",
+      "distancia",
+      "atajos",
+      "difusión"
+    ],
+    "question": "¿Cómo combinar cohesión local y cercanía global en una red?",
+    "caution": "No todas las redes son mundos pequeños y una distancia corta no implica confianza o efectos beneficiosos.",
+    "connections": [
+      "Granovetter",
+      "Newman",
+      "Barabási",
+      "Difusión"
+    ],
+    "order": 45,
+    "status": "nucleo_editorial_preservado",
+    "evidence": "A–B",
+    "audio": "Duncan Watts y Steven Strogatz aborda una pregunta precisa: ¿Cómo combinar cohesión local y cercanía global en una red? Pocos enlaces entre regiones distantes pueden reducir enormemente las separaciones y conservar, al mismo tiempo, grupos locales densos. La precaución editorial es igualmente importante: No todas las redes son mundos pequeños y una distancia corta no implica confianza o efectos beneficiosos.",
+    "quiz": {
+      "prompt": "¿Cómo combinar cohesión local y cercanía global en una red?",
+      "options": [
+        "Pocos enlaces entre regiones distantes pueden reducir enormemente las separaciones y conservar, al mismo tiempo, grupos locales densos.",
+        "Todas las teorías del campo dicen exactamente lo mismo.",
+        "La explicación elimina la necesidad de contexto y evidencia.",
+        "La idea solo puede aplicarse como metáfora universal."
+      ],
+      "answer": 0,
+      "feedback": "Pocos enlaces entre regiones distantes pueden reducir enormemente las separaciones y conservar, al mismo tiempo, grupos locales densos."
+    }
+  },
+  {
+    "id": "card_barabasi_albert_preferential_attachment_001",
+    "author": "Albert-László Barabási y Réka Albert",
+    "title": "Crecimiento y conexión preferencial",
+    "territory": "Estados Unidos",
+    "period": "1999",
+    "family": "Ciencia de redes",
+    "statement": "Cuando los nodos ya conectados atraen más enlaces, el crecimiento de la red puede producir hubs y desigualdades acumulativas.",
+    "tags": [
+      "crecimiento",
+      "preferencia",
+      "hubs",
+      "concentración"
+    ],
+    "question": "¿Cómo pueden reglas locales de crecimiento producir concentración global?",
+    "caution": "No toda red es libre de escala y la centralidad acumulada no demuestra mérito, necesidad o legitimidad.",
+    "connections": [
+      "Brian Arthur",
+      "Granovetter",
+      "Newman",
+      "Plataformas digitales"
+    ],
+    "order": 46,
+    "status": "nucleo_editorial_preservado",
+    "evidence": "A–B",
+    "audio": "Albert-László Barabási y Réka Albert aborda una pregunta precisa: ¿Cómo pueden reglas locales de crecimiento producir concentración global? Cuando los nodos ya conectados atraen más enlaces, el crecimiento de la red puede producir hubs y desigualdades acumulativas. La precaución editorial es igualmente importante: No toda red es libre de escala y la centralidad acumulada no demuestra mérito, necesidad o legitimidad.",
+    "quiz": {
+      "prompt": "¿Cómo pueden reglas locales de crecimiento producir concentración global?",
+      "options": [
+        "Cuando los nodos ya conectados atraen más enlaces, el crecimiento de la red puede producir hubs y desigualdades acumulativas.",
+        "Todas las teorías del campo dicen exactamente lo mismo.",
+        "La explicación elimina la necesidad de contexto y evidencia.",
+        "La idea solo puede aplicarse como metáfora universal."
+      ],
+      "answer": 0,
+      "feedback": "Cuando los nodos ya conectados atraen más enlaces, el crecimiento de la red puede producir hubs y desigualdades acumulativas."
+    }
+  },
+  {
+    "id": "card_newman_network_structure_001",
+    "author": "Mark Newman",
+    "title": "Varios centros y comunidades posibles",
+    "territory": "Estados Unidos y Reino Unido",
+    "period": "Siglo XXI",
+    "family": "Análisis de redes",
+    "statement": "Una red posee varios centros posibles y distintas divisiones, según la pregunta, la métrica y la escala de observación.",
+    "tags": [
+      "centralidad",
+      "comunidades",
+      "modularidad",
+      "puentes"
+    ],
+    "question": "¿Qué significa ser central y cómo cambia según la métrica elegida?",
+    "caution": "Una comunidad algorítmica no es automáticamente una comunidad social y ninguna métrica es neutral o absoluta.",
+    "connections": [
+      "Granovetter",
+      "Watts y Strogatz",
+      "Barabási",
+      "Visualización de datos"
+    ],
+    "order": 47,
+    "status": "nucleo_editorial_preservado",
+    "evidence": "A–B",
+    "audio": "Mark Newman aborda una pregunta precisa: ¿Qué significa ser central y cómo cambia según la métrica elegida? Una red posee varios centros posibles y distintas divisiones, según la pregunta, la métrica y la escala de observación. La precaución editorial es igualmente importante: Una comunidad algorítmica no es automáticamente una comunidad social y ninguna métrica es neutral o absoluta.",
+    "quiz": {
+      "prompt": "¿Qué significa ser central y cómo cambia según la métrica elegida?",
+      "options": [
+        "Una red posee varios centros posibles y distintas divisiones, según la pregunta, la métrica y la escala de observación.",
+        "Todas las teorías del campo dicen exactamente lo mismo.",
+        "La explicación elimina la necesidad de contexto y evidencia.",
+        "La idea solo puede aplicarse como metáfora universal."
+      ],
+      "answer": 0,
+      "feedback": "Una red posee varios centros posibles y distintas divisiones, según la pregunta, la métrica y la escala de observación."
+    }
+  },
+  {
+    "id": "card_thompson_mind_in_life_001",
+    "author": "Evan Thompson",
+    "title": "La mente hunde sus raíces en la vida",
+    "territory": "Canadá y redes internacionales",
+    "period": "2007",
+    "family": "Enactivismo y filosofía de la vida",
+    "statement": "La capacidad de producir sentido hunde sus raíces en organismos autónomos para los cuales ciertas interacciones favorecen o amenazan la vida.",
+    "tags": [
+      "autonomía",
+      "sentido",
+      "normatividad",
+      "experiencia"
+    ],
+    "question": "¿Qué continuidad puede existir entre organización vital y capacidades mentales?",
+    "caution": "Continuidad vida-mente no significa que toda célula tenga conciencia humana o que normatividad vital equivalga a ética.",
+    "connections": [
+      "Autopoiesis",
+      "Enacción",
+      "Hans Jonas",
+      "Neurofenomenología"
+    ],
+    "order": 48,
+    "status": "nucleo_editorial_preservado",
+    "evidence": "A–B",
+    "audio": "Evan Thompson aborda una pregunta precisa: ¿Qué continuidad puede existir entre organización vital y capacidades mentales? La capacidad de producir sentido hunde sus raíces en organismos autónomos para los cuales ciertas interacciones favorecen o amenazan la vida. La precaución editorial es igualmente importante: Continuidad vida-mente no significa que toda célula tenga conciencia humana o que normatividad vital equivalga a ética.",
+    "quiz": {
+      "prompt": "¿Qué continuidad puede existir entre organización vital y capacidades mentales?",
+      "options": [
+        "La capacidad de producir sentido hunde sus raíces en organismos autónomos para los cuales ciertas interacciones favorecen o amenazan la vida.",
+        "Todas las teorías del campo dicen exactamente lo mismo.",
+        "La explicación elimina la necesidad de contexto y evidencia.",
+        "La idea solo puede aplicarse como metáfora universal."
+      ],
+      "answer": 0,
+      "feedback": "La capacidad de producir sentido hunde sus raíces en organismos autónomos para los cuales ciertas interacciones favorecen o amenazan la vida."
+    }
+  },
+  {
+    "id": "card_stengers_cosmopolitics_001",
+    "author": "Isabelle Stengers",
+    "title": "Desacelerar para que el problema resista",
+    "territory": "Bélgica",
+    "period": "Siglos XX–XXI",
+    "family": "Cosmopolítica",
+    "statement": "Pensar despacio impide que la urgencia, la experticia o el consenso definan demasiado pronto qué importa y quién puede hablar.",
+    "tags": [
+      "cosmopolítica",
+      "prácticas",
+      "desaceleración",
+      "obligación"
+    ],
+    "question": "¿Cómo impedir que una definición dominante cierre prematuramente una controversia?",
+    "caution": "Desacelerar no significa ignorar emergencias, rechazar ciencia o aceptar todas las perspectivas como verdaderas.",
+    "connections": [
+      "Prigogine",
+      "Churchman",
+      "Ulrich",
+      "Escobar"
+    ],
+    "order": 49,
+    "status": "nucleo_editorial_preservado",
+    "evidence": "A–B",
+    "audio": "Isabelle Stengers aborda una pregunta precisa: ¿Cómo impedir que una definición dominante cierre prematuramente una controversia? Pensar despacio impide que la urgencia, la experticia o el consenso definan demasiado pronto qué importa y quién puede hablar. La precaución editorial es igualmente importante: Desacelerar no significa ignorar emergencias, rechazar ciencia o aceptar todas las perspectivas como verdaderas.",
+    "quiz": {
+      "prompt": "¿Cómo impedir que una definición dominante cierre prematuramente una controversia?",
+      "options": [
+        "Pensar despacio impide que la urgencia, la experticia o el consenso definan demasiado pronto qué importa y quién puede hablar.",
+        "Todas las teorías del campo dicen exactamente lo mismo.",
+        "La explicación elimina la necesidad de contexto y evidencia.",
+        "La idea solo puede aplicarse como metáfora universal."
+      ],
+      "answer": 0,
+      "feedback": "Pensar despacio impide que la urgencia, la experticia o el consenso definan demasiado pronto qué importa y quién puede hablar."
+    }
+  },
+  {
+    "id": "card_escobar_design_pluriverse_001",
+    "author": "Arturo Escobar",
+    "title": "Diseños para el pluriverso",
+    "territory": "Colombia y redes latinoamericanas",
+    "period": "Siglos XX–XXI",
+    "family": "Diseño ontológico y decolonial",
+    "statement": "Diseñar es intervenir en la creación de relaciones y mundos; por eso las comunidades deben participar en aquello que configurará sus vidas.",
+    "tags": [
+      "pluriverso",
+      "autonomía",
+      "relacionalidad",
+      "diseño"
+    ],
+    "question": "¿Qué sujetos, relaciones, dependencias y mundos produce cada diseño?",
+    "caution": "Pluriverso no es relativismo absoluto, marca estética o idea de mundos incomunicables; autonomía no significa aislamiento.",
+    "connections": [
+      "Fals Borda",
+      "Stengers",
+      "Najmanovich",
+      "Quijano"
+    ],
+    "order": 50,
+    "status": "nucleo_editorial_preservado",
+    "evidence": "A–B",
+    "audio": "Arturo Escobar aborda una pregunta precisa: ¿Qué sujetos, relaciones, dependencias y mundos produce cada diseño? Diseñar es intervenir en la creación de relaciones y mundos; por eso las comunidades deben participar en aquello que configurará sus vidas. La precaución editorial es igualmente importante: Pluriverso no es relativismo absoluto, marca estética o idea de mundos incomunicables; autonomía no significa aislamiento.",
+    "quiz": {
+      "prompt": "¿Qué sujetos, relaciones, dependencias y mundos produce cada diseño?",
+      "options": [
+        "Diseñar es intervenir en la creación de relaciones y mundos; por eso las comunidades deben participar en aquello que configurará sus vidas.",
+        "Todas las teorías del campo dicen exactamente lo mismo.",
+        "La explicación elimina la necesidad de contexto y evidencia.",
+        "La idea solo puede aplicarse como metáfora universal."
+      ],
+      "answer": 0,
+      "feedback": "Diseñar es intervenir en la creación de relaciones y mundos; por eso las comunidades deben participar en aquello que configurará sus vidas."
+    }
+  }
+]

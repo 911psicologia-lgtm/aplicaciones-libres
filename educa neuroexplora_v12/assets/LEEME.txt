@@ -1,0 +1,44 @@
+CARPETA DE RECURSOS — NeuroExplora v1.1
+========================================
+
+Todos los archivos SVG fueron generados específicamente para este proyecto.
+Son vectoriales: escalables sin pérdida de calidad, sin dependencias externas.
+
+INVENTARIO ACTUAL
+─────────────────
+
+favicon.svg
+  Ícono del sitio. Referenciado desde index.html como <link rel="icon">.
+
+neuron-diagram.svg
+  Diagrama completo de neurona humana con etiquetas en español:
+  dendritas, soma, núcleo, nucléolo, cono axónico, axón,
+  vaina de mielina, nódulos de Ranvier, botón sináptico.
+  Dimensiones: 900x420 px. Para el módulo Neurona Interactiva (Fase 2).
+
+brain-evo-1.svg  ->  Tronco encefálico    (~500 millones de años)
+brain-evo-2.svg  ->  Sistema límbico       (~200 millones de años)
+brain-evo-3.svg  ->  Neocórtex             (~65 millones de años)
+brain-evo-4.svg  ->  Telencéfalo humano    (actualidad)
+  Serie de 4 ilustraciones para el módulo Evolución Cerebral (Fase 2).
+  Dimensiones: 200x200 px cada una.
+
+icon-memory.svg    ->  Memoria
+icon-emotion.svg   ->  Emociones
+icon-movement.svg  ->  Movimiento
+icon-language.svg  ->  Lenguaje
+icon-vision.svg    ->  Visión
+icon-thinking.svg  ->  Pensamiento
+  Set de 6 íconos para tarjetas de Funciones Cerebrales (Fase 2).
+  Dimensiones: 80x80 px cada uno.
+
+CÓMO USAR EN HTML
+─────────────────
+  <img src="assets/neuron-diagram.svg" alt="Diagrama de neurona">
+  <img src="assets/icon-memory.svg" alt="Memoria" width="60" height="60">
+
+PARA NUEVOS RECURSOS (fotos libres)
+─────────────────────────────────────
+  https://unsplash.com   - fotos sin atribución requerida
+  https://undraw.co      - ilustraciones SVG editables
+  https://openmoji.org   - emojis SVG (CC BY-SA 4.0)

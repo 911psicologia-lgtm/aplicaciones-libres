@@ -1,0 +1,2175 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="theme-color" content="#17324a" />
+  <title>MetamorIA</title>
+  <link rel="manifest" href="manifest.json" />
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Lora:wght@600;700&family=Plus+Jakarta+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --bg:       #F3F6F9;
+      --panel:    #FFFFFF;
+      --ink:      #16202A;
+      --muted:    #5A6B79;
+      --line:     #D6E0EA;
+      --brand:    #1E4976;
+      --brand-lt: #E8F2FD;
+      --accent:   #DD7B1A;
+      --ok:       #1A7A45;
+      --warn:     #B85C38;
+      --sb-bg:    #111E2B;
+      --sb-text:  #C8D8E8;
+      --sb-muted: #5A7490;
+      --sb-hover: rgba(255,255,255,.07);
+      --sb-active:rgba(255,255,255,.13);
+      --sb-w:     188px;
+      --radius:   16px;
+      --shadow:   0 4px 20px rgba(18,38,63,.10);
+    }
+    *, *::before, *::after { box-sizing: border-box; }
+    html, body { margin: 0; padding: 0; background: var(--bg); color: var(--ink); }
+    body { font-family: 'Plus Jakarta Sans', sans-serif; font-size: .95rem; line-height: 1.55; min-height: 100vh; }
+
+    /* ── LAYOUT ── */
+    .app { display: grid; grid-template-columns: var(--sb-w) 1fr; min-height: 100vh; }
+
+    /* ── SIDEBAR ── */
+    .sidebar {
+      background: var(--sb-bg);
+      color: var(--sb-text);
+      display: flex;
+      flex-direction: column;
+      position: sticky;
+      top: 0;
+      height: 100vh;
+      overflow: hidden;
+    }
+    .sb-brand {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      padding: 20px 16px 14px;
+      border-bottom: 1px solid rgba(255,255,255,.06);
+      flex-shrink: 0;
+    }
+    .sb-logo {
+      width: 34px; height: 34px;
+      border-radius: 10px;
+      background: linear-gradient(135deg, #3596C8, var(--accent));
+      display: grid; place-items: center;
+      font-family: 'Lora', serif;
+      font-weight: 700; font-size: 1.1rem; color: #fff;
+      flex-shrink: 0;
+    }
+    .sb-brand-text { font-family: 'Lora', serif; font-size: 1.1rem; font-weight: 700; color: #fff; }
+    .sb-brand-text span { color: #60A8D8; }
+
+    .sb-nav {
+      flex: 1;
+      overflow-y: auto;
+      padding: 8px 0;
+    }
+    .sb-nav::-webkit-scrollbar { width: 3px; }
+    .sb-nav::-webkit-scrollbar-thumb { background: rgba(255,255,255,.1); border-radius: 99px; }
+
+    .sb-section-label {
+      font-size: .65rem;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: .1em;
+      color: var(--sb-muted);
+      padding: 7px 14px 3px;
+      margin-top: 2px;
+    }
+    .sb-item {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      padding: 7px 12px;
+      margin: 1px 7px;
+      border-radius: 10px;
+      cursor: pointer;
+      transition: background .15s;
+      font-size: .88rem;
+      font-weight: 500;
+      color: var(--sb-text);
+      opacity: .7;
+      border: none;
+      background: none;
+      text-align: left;
+      width: calc(100% - 16px);
+      position: relative;
+    }
+    .sb-item:hover { background: var(--sb-hover); opacity: 1; }
+    .sb-item.active { background: var(--sb-active); opacity: 1; color: #fff; }
+    .sb-item.active::before {
+      content: '';
+      position: absolute;
+      left: -8px; top: 50%; transform: translateY(-50%);
+      width: 3px; height: 60%;
+      background: #60A8D8;
+      border-radius: 0 2px 2px 0;
+    }
+    .sb-icon { font-size: .95rem; width: 18px; text-align: center; flex-shrink: 0; }
+    .sb-check { margin-left: auto; font-size: .72rem; color: var(--ok); opacity: 0; transition: opacity .2s; }
+    .sb-item.done .sb-check { opacity: 1; }
+
+    .sb-footer {
+      padding: 12px 14px;
+      border-top: 1px solid rgba(255,255,255,.06);
+      flex-shrink: 0;
+    }
+    .sb-session-pill {
+      background: rgba(255,255,255,.06);
+      border: 1px solid rgba(255,255,255,.08);
+      border-radius: 10px;
+      padding: 9px 11px;
+    }
+    .sb-session-name { font-size: .82rem; font-weight: 600; color: #fff; margin-bottom: 2px; }
+    .sb-session-id { font-size: .7rem; color: var(--sb-muted); font-family: monospace; letter-spacing: .04em; }
+    .sb-tour-btn {
+      display: flex; align-items: center; gap: 6px;
+      color: var(--sb-muted); font-size: .76rem; cursor: pointer;
+      margin-top: 8px; border: none; background: none;
+      font-family: inherit; padding: 0;
+      transition: color .15s;
+    }
+    .sb-tour-btn:hover { color: var(--sb-text); }
+
+    /* ── MAIN ── */
+    .main { overflow: auto; display: flex; flex-direction: column; }
+
+    /* ── TOPBAR ── */
+    .topbar {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      padding: 16px 28px;
+      border-bottom: 1px solid var(--line);
+      background: var(--panel);
+      position: sticky;
+      top: 0;
+      z-index: 10;
+    }
+    .topbar-title {
+      font-family: 'Lora', serif;
+      font-size: 1.35rem;
+      font-weight: 700;
+      margin: 0;
+      flex: 1;
+    }
+    .topbar-actions { display: flex; gap: 8px; align-items: center; position: relative; }
+    .gear-menu-wrap { position: relative; }
+    .gear-btn {
+      appearance: none; border: 1px solid var(--line);
+      background: var(--panel); color: var(--muted);
+      border-radius: 10px; padding: 8px 11px;
+      font-size: 1rem; cursor: pointer; transition: .15s;
+    }
+    .gear-btn:hover { background: var(--bg); color: var(--ink); }
+    .gear-dropdown {
+      display: none;
+      position: absolute; top: calc(100% + 6px); right: 0;
+      background: var(--panel);
+      border: 1px solid var(--line);
+      border-radius: 12px;
+      box-shadow: var(--shadow);
+      min-width: 200px;
+      overflow: hidden;
+      z-index: 100;
+    }
+    .gear-dropdown.open { display: block; }
+    .gear-item {
+      display: flex; align-items: center; gap: 9px;
+      padding: 10px 14px;
+      cursor: pointer;
+      font-size: .87rem;
+      color: var(--ink);
+      border: none; background: none;
+      font-family: inherit;
+      width: 100%;
+      text-align: left;
+      transition: background .12s;
+    }
+    .gear-item:hover { background: var(--bg); }
+    .gear-item.danger { color: var(--warn); }
+    .gear-sep { height: 1px; background: var(--line); margin: 3px 0; }
+
+    /* ── PAGE CONTENT ── */
+    .page { padding: 28px 28px 48px; max-width: 980px; }
+
+    /* ── COMMON COMPONENTS ── */
+    .section { display: none; }
+    .section.active { display: block; }
+    .grid { display: grid; gap: 16px; }
+    .grid.cols-2 { grid-template-columns: repeat(2, minmax(0,1fr)); }
+    .grid.cols-3 { grid-template-columns: repeat(3, minmax(0,1fr)); }
+    .split { display: grid; grid-template-columns: 1.1fr .9fr; gap: 16px; }
+    .card {
+      background: var(--panel);
+      border: 1px solid var(--line);
+      border-radius: var(--radius);
+      padding: 20px;
+      box-shadow: 0 1px 4px rgba(18,38,63,.06);
+    }
+    .card h3 { margin: 0 0 10px; font-size: 1.05rem; font-weight: 700; font-family: 'Lora', serif; }
+    .card h4 { margin: 0 0 8px; font-size: .95rem; font-weight: 600; }
+    .helper, .card p.helper { margin: 0 0 14px; color: var(--muted); font-size: .88rem; line-height: 1.5; }
+    .muted { color: var(--muted); }
+    .field { display: grid; gap: 6px; margin-bottom: 13px; }
+    .field label { font-weight: 600; font-size: .84rem; }
+    .field label .opt { font-weight: 400; color: var(--muted); }
+    input, select, textarea {
+      width: 100%;
+      border: 1.5px solid var(--line);
+      border-radius: 10px;
+      padding: 10px 12px;
+      font: inherit;
+      font-size: .9rem;
+      background: #fff;
+      color: var(--ink);
+      transition: border-color .15s;
+    }
+    input:focus, select:focus, textarea:focus {
+      outline: none;
+      border-color: var(--brand);
+      box-shadow: 0 0 0 3px rgba(30,73,118,.1);
+    }
+    textarea { min-height: 110px; resize: vertical; line-height: 1.55; }
+
+    /* ── BUTTONS ── */
+    .btn {
+      appearance: none; border: none;
+      border-radius: 10px;
+      padding: 10px 16px;
+      font: inherit; font-size: .88rem; font-weight: 600;
+      cursor: pointer;
+      background: var(--brand); color: #fff;
+      transition: transform .12s, box-shadow .12s, opacity .12s;
+    }
+    .btn:hover { transform: translateY(-1px); box-shadow: 0 4px 14px rgba(30,73,118,.25); }
+    .btn.secondary {
+      background: #fff; color: var(--brand);
+      border: 1.5px solid var(--line);
+      box-shadow: none;
+    }
+    .btn.secondary:hover { border-color: var(--brand); box-shadow: none; }
+    .btn.ghost { background: transparent; color: var(--brand); border: 1.5px dashed var(--brand); box-shadow: none; }
+    .btn.warn { background: var(--warn); }
+    .btn.ok { background: var(--ok); }
+    .btn.sm { padding: 7px 12px; font-size: .82rem; }
+    .footer-actions { display: flex; gap: 9px; flex-wrap: wrap; margin-top: 14px; }
+
+    /* ── NOTICE / GUIDE ── */
+    .notice {
+      padding: 11px 14px;
+      background: #FFF6E6; border: 1px solid #F5D08A;
+      border-radius: 10px; color: #7A4E0A;
+      font-size: .86rem; line-height: 1.5;
+    }
+    .guide {
+      font-size: .83rem; color: #5A7080;
+      background: #F2F7FD; border: 1px dashed #B8CEDF;
+      border-radius: 10px; padding: 11px 13px; line-height: 1.55;
+    }
+    .info-bar {
+      display: flex; align-items: flex-start; gap: 9px;
+      background: var(--brand-lt); border-radius: 10px;
+      padding: 10px 14px; font-size: .86rem; color: var(--brand);
+      margin-bottom: 14px;
+    }
+
+    /* ── CHIPS ── */
+    .chips { display: flex; gap: 8px; flex-wrap: wrap; }
+    .chip {
+      padding: 8px 14px; border: 1.5px solid var(--line);
+      border-radius: 999px; background: #fff; cursor: pointer;
+      font-size: .87rem; font-weight: 500; transition: .15s;
+    }
+    .chip:hover { border-color: var(--brand); }
+    .chip.active {
+      background: var(--brand-lt); border-color: var(--brand);
+      color: var(--brand); font-weight: 700;
+    }
+
+    /* ── MISC ── */
+    .meta-list { display: grid; grid-template-columns: repeat(2,minmax(0,1fr)); gap: 10px; }
+    .meta-item { background: var(--bg); border: 1px solid var(--line); padding: 11px 13px; border-radius: 11px; }
+    .meta-item strong { display: block; font-size: .78rem; color: var(--muted); margin-bottom: 3px; font-weight: 600; }
+    pre {
+      white-space: pre-wrap; word-break: break-word;
+      background: #0D1B2A; color: #C8DCF0;
+      padding: 16px; border-radius: 12px;
+      max-height: 380px; overflow: auto;
+      font-size: .82rem; line-height: 1.6;
+    }
+    .hub { display: grid; grid-template-columns: repeat(auto-fit,minmax(150px,1fr)); gap: 10px; }
+    .hub a {
+      display: flex; align-items: center; gap: 10px;
+      text-decoration: none;
+      background: #fff; border: 1.5px solid var(--line);
+      padding: 12px 14px; border-radius: 12px;
+      color: var(--ink); font-weight: 700; font-size: .88rem;
+      transition: .15s;
+    }
+    .hub a:hover { border-color: var(--brand); transform: translateY(-2px); box-shadow: var(--shadow); }
+    .hub a .ai-dot {
+      width: 30px; height: 30px; border-radius: 8px;
+      display: grid; place-items: center;
+      font-size: .75rem; font-weight: 800; color: #fff;
+      flex-shrink: 0;
+    }
+    .report { display: grid; gap: 14px; }
+    .report-section {
+      background: #fff; border: 1px solid var(--line);
+      border-radius: 14px; padding: 16px;
+    }
+    .report-section h4 { margin: 0 0 9px; font-size: 1rem; font-weight: 700; font-family: 'Lora', serif; }
+    .report-section ul { margin: 8px 0 0 18px; padding: 0; line-height: 1.65; }
+    .flow-svg { width: 100%; background: #F5F9FF; border: 1px solid var(--line); border-radius: 12px; padding: 8px; }
+
+    /* ── REPORT v2 ── */
+    .report-summary { background:var(--brand);color:#fff;border-radius:14px;padding:20px 24px;margin-bottom:14px; }
+    .report-summary h2 { font-family:'Lora',serif;font-size:1.4rem;font-weight:700;color:#fff;margin:0 0 5px; }
+    .report-summary .rs-meta { font-size:.8rem;opacity:.72; }
+    .rs-header { display:flex;align-items:center;gap:10px;margin-bottom:12px;padding-bottom:10px;border-bottom:1px solid var(--line); }
+    .rs-icon { width:28px;height:28px;border-radius:8px;display:grid;place-items:center;font-size:.95rem;flex-shrink:0; }
+    .rs-title { font-family:'Lora',serif;font-size:1rem;font-weight:700; }
+    .pattern-cards { display:grid;gap:7px; }
+    .pattern-card { display:flex;gap:0;border:1px solid var(--line);border-radius:9px;overflow:hidden; }
+    .pc-accent { width:4px;flex-shrink:0; }
+    .pc-body { padding:10px 13px;flex:1; }
+    .pc-item { font-weight:700;font-size:.88rem;margin-bottom:2px; }
+    .pc-sub { font-size:.8rem;color:var(--muted);line-height:1.5; }
+    .temp-cards { display:grid;grid-template-columns:repeat(2,1fr);gap:9px; }
+    .temp-full { grid-column:1/-1; }
+    .temp-card { background:var(--bg);border:1px solid var(--line);border-radius:10px;padding:12px 14px; }
+    .temp-card-title { font-size:.7rem;font-weight:700;text-transform:uppercase;letter-spacing:.08em;color:var(--muted);margin-bottom:8px; }
+    .temp-tag { display:inline-block;background:var(--brand-lt);color:var(--brand);font-size:.77rem;padding:2px 8px;border-radius:6px;margin:2px 2px 2px 0;font-weight:600; }
+    .ed-grid { display:grid;grid-template-columns:repeat(2,1fr);gap:8px; }
+    .ed-card { background:var(--bg);border:1px solid var(--line);border-radius:9px;padding:10px 13px; }
+    .ed-item { font-weight:700;font-size:.87rem;margin-bottom:3px; }
+    .ed-sub { font-size:.78rem;color:var(--muted);line-height:1.5; }
+    .impl-tags { display:flex;flex-wrap:wrap;gap:7px; }
+    .impl-tag { background:#FFF3E0;border:1px solid #FFB74D;color:#7A4400;font-size:.82rem;padding:5px 12px;border-radius:8px;font-weight:500; }
+    .ep-flow { display:flex;flex-wrap:wrap;gap:0;align-items:stretch; }
+    .ep-step { flex:1;min-width:110px;border-radius:11px;padding:13px 12px; }
+    .ep-connector { display:flex;align-items:center;justify-content:center;font-size:1.3rem;color:#bbb;padding:0 3px;flex-shrink:0; }
+    .ep-num { font-size:.65rem;font-weight:800;text-transform:uppercase;letter-spacing:.07em;margin-bottom:5px;opacity:.7; }
+    .ep-stage { font-size:.85rem;font-weight:700;margin-bottom:5px; }
+    .ep-content { font-size:.78rem;line-height:1.55;opacity:.88; }
+    .reco-table { width:100%;border-collapse:collapse;font-size:.87rem; }
+    .reco-table th { background:var(--bg);font-size:.73rem;font-weight:700;text-transform:uppercase;letter-spacing:.06em;padding:9px 12px;border-bottom:1.5px solid var(--line);text-align:left; }
+    .reco-table td { padding:9px 12px;border-bottom:1px solid var(--line);vertical-align:top; }
+    .reco-table tr:last-child td { border-bottom:none; }
+    .reco-type { font-size:.71rem;font-weight:700;padding:2px 8px;border-radius:99px;white-space:nowrap;display:inline-block; }
+    .plan-timeline { display:grid;grid-template-columns:repeat(4,1fr);gap:11px; }
+    .pt-col { border-radius:12px;overflow:hidden;border:1.5px solid; }
+    .pt-header { padding:9px 11px;font-size:.73rem;font-weight:700;text-transform:uppercase;letter-spacing:.06em; }
+    .pt-items { padding:8px 11px 11px;display:grid;gap:5px; }
+    .pt-item { font-size:.81rem;line-height:1.55;padding:6px 8px;border-radius:7px; }
+    .nota-box { background:var(--brand-lt);border-left:4px solid var(--brand);border-radius:0 10px 10px 0;padding:15px 18px;font-size:.93rem;line-height:1.75;color:var(--ink); }
+    .refs-list { list-style:none;padding:0;margin:0; }
+    .refs-list li { padding:6px 0;border-bottom:1px solid var(--line);font-size:.8rem;color:var(--muted);display:flex;gap:8px; }
+    .refs-list li::before { content:'📄';flex-shrink:0; }
+    .refs-list li:last-child { border-bottom:none; }
+    @media (max-width:860px){ .plan-timeline{grid-template-columns:repeat(2,1fr)} .temp-full{grid-column:auto} .ed-grid{grid-template-columns:1fr} }
+    @media (max-width:580px){ .ep-flow{flex-direction:column} .ep-connector{transform:rotate(90deg);padding:3px 0} .plan-timeline{grid-template-columns:1fr} }
+    .table-wrap { overflow: auto; border: 1px solid var(--line); border-radius: 12px; }
+    table { width: 100%; border-collapse: collapse; background: #fff; }
+    th, td { border-bottom: 1px solid var(--line); padding: 9px 11px; text-align: left; vertical-align: top; }
+    th { background: var(--bg); font-size: .82rem; font-weight: 700; }
+    td input, td textarea { min-width: 110px; padding: 8px 10px; border-radius: 8px; }
+    .badge { display: inline-block; padding: 4px 9px; border-radius: 999px; background: #E8F5ED; color: var(--ok); font-weight: 700; font-size: .8rem; }
+    .textarea-mic { display: grid; gap: 6px; }
+    .mic-toolbar { display: flex; gap: 7px; flex-wrap: wrap; align-items: center; }
+    .mic-mini {
+      appearance: none; border: 1.5px solid var(--line);
+      background: #fff; color: var(--brand);
+      border-radius: 9px; padding: 6px 10px;
+      font: inherit; font-size: .8rem; font-weight: 600; cursor: pointer;
+    }
+    .mic-mini.active { background: var(--brand-lt); border-color: var(--brand); }
+    .mic-target-label { font-size: .78rem; color: var(--muted); }
+    .success { color: var(--ok); } .danger { color: var(--warn); }
+
+    /* ── DASHBOARD ── */
+    .progress-steps { display: grid; gap: 6px; }
+    .progress-step {
+      display: flex; align-items: center; gap: 12px;
+      padding: 11px 15px;
+      background: #fff; border: 1.5px solid var(--line);
+      border-radius: 11px; cursor: pointer;
+      transition: .15s;
+    }
+    .progress-step:hover { border-color: var(--brand); background: var(--brand-lt); }
+    .ps-num {
+      width: 26px; height: 26px; border-radius: 50%;
+      background: var(--bg); border: 1.5px solid var(--line);
+      display: grid; place-items: center;
+      font-size: .78rem; font-weight: 700; color: var(--muted);
+      flex-shrink: 0;
+    }
+    .progress-step.done .ps-num { background: var(--ok); border-color: var(--ok); color: #fff; }
+    .ps-label { font-weight: 600; font-size: .9rem; }
+    .ps-sub { font-size: .78rem; color: var(--muted); }
+    .ps-arrow { margin-left: auto; color: var(--muted); font-size: .85rem; }
+
+    /* ── REGISTRATION MODAL ── */
+    #regModal {
+      position: fixed; inset: 0;
+      background: rgba(8, 18, 30, .7);
+      display: flex; align-items: center; justify-content: center;
+      padding: 20px;
+      z-index: 1000;
+    }
+    #regModal.hidden { display: none; }
+    .reg-card {
+      background: var(--panel);
+      border-radius: 22px;
+      width: min(540px, 100%);
+      box-shadow: 0 24px 60px rgba(0,0,0,.28);
+      overflow: hidden;
+    }
+    .reg-header {
+      background: var(--sb-bg);
+      padding: 24px 28px 20px;
+      display: flex; align-items: center; gap: 12px;
+    }
+    .reg-logo {
+      width: 40px; height: 40px; border-radius: 12px;
+      background: linear-gradient(135deg, #3596C8, var(--accent));
+      display: grid; place-items: center;
+      font-family: 'Lora', serif; font-weight: 700;
+      font-size: 1.3rem; color: #fff; flex-shrink: 0;
+    }
+    .reg-brand-name {
+      font-family: 'Lora', serif;
+      font-size: 1.3rem; font-weight: 700; color: #fff;
+    }
+    .reg-brand-name span { color: #60A8D8; }
+    .reg-tagline { font-size: .8rem; color: var(--sb-muted); margin-top: 2px; }
+    .reg-body { padding: 24px 28px 26px; }
+    .reg-step { display: none; }
+    .reg-step.active { display: block; }
+    .reg-subtitle { font-size: .9rem; color: var(--muted); margin-bottom: 18px; line-height: 1.55; }
+    .reg-grid-2 { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
+    .cred-box {
+      background: var(--bg); border: 1px solid var(--line);
+      border-radius: 12px; padding: 14px 16px; margin-bottom: 16px;
+    }
+    .cred-row {
+      display: flex; align-items: flex-start; gap: 10px;
+      padding: 7px 0; border-bottom: 1px solid var(--line);
+    }
+    .cred-row:last-child { border-bottom: none; padding-bottom: 0; }
+    .cred-icon { font-size: .9rem; margin-top: 1px; }
+    .cred-key { font-size: .72rem; font-weight: 700; text-transform: uppercase; letter-spacing: .07em; color: var(--muted); margin-bottom: 1px; }
+    .cred-val { font-size: .88rem; font-weight: 600; word-break: break-all; }
+    .share-row { display: grid; grid-template-columns: repeat(3,1fr); gap: 8px; margin-bottom: 16px; }
+    .share-btn {
+      display: flex; flex-direction: column; align-items: center; gap: 5px;
+      padding: 11px 8px; border-radius: 10px;
+      background: var(--bg); border: 1.5px solid var(--line);
+      cursor: pointer; font: inherit; font-size: .78rem; font-weight: 600;
+      color: var(--ink); transition: .15s; text-align: center;
+    }
+    .share-btn:hover { border-color: var(--brand); background: var(--brand-lt); color: var(--brand); }
+    .share-btn .sh-icon { font-size: 1.3rem; }
+
+    /* ── TOUR MODAL ── */
+    .modal-backdrop { position: fixed; inset: 0; background: rgba(8,15,24,.55); display: none; align-items: center; justify-content: center; padding: 20px; z-index: 999; }
+    .modal-backdrop.show { display: flex; }
+    .modal {
+      width: min(820px, 100%); max-height: 90vh; overflow: auto;
+      background: #fff; border-radius: 22px; padding: 26px;
+      box-shadow: 0 20px 50px rgba(0,0,0,.2);
+    }
+    .tour-grid { display: grid; grid-template-columns: repeat(auto-fit,minmax(210px,1fr)); gap: 11px; margin-top: 14px; }
+    .tour-step {
+      border: 1px solid var(--line); border-radius: 12px;
+      padding: 13px 14px; background: var(--bg);
+      font-size: .87rem; line-height: 1.5;
+    }
+    .tour-step strong { display: flex; align-items: center; gap: 7px; margin-bottom: 6px; font-size: .9rem; }
+    .install-pill { display: none; padding: 6px 12px; border-radius: 999px; background: var(--brand-lt); color: var(--brand); font-weight: 700; font-size: .8rem; }
+    .install-pill.show { display: inline-flex; }
+
+    /* ── RESPONSIVE ── */
+    @media (max-width: 860px) {
+      .app { grid-template-columns: 1fr; }
+      .sidebar { display: none; }
+      .split, .grid.cols-2, .grid.cols-3 { grid-template-columns: 1fr; }
+      .meta-list { grid-template-columns: 1fr; }
+      .share-row { grid-template-columns: 1fr 1fr; }
+      .reg-grid-2 { grid-template-columns: 1fr; }
+    }
+    @media (max-width: 580px) {
+      .page { padding: 18px 16px 40px; }
+      .topbar { padding: 13px 16px; }
+      .btn { width: 100%; justify-content: center; }
+      .footer-actions, .actions { display: grid; grid-template-columns: 1fr; }
+    }
+  </style>
+</head>
+<body>
+
+<!-- ══════════════════════════════════════════════
+     REGISTRATION MODAL
+══════════════════════════════════════════════ -->
+<div id="regModal" class="hidden">
+  <div class="reg-card">
+
+    <div class="reg-header">
+      <div class="reg-logo">M</div>
+      <div>
+        <div class="reg-brand-name">Metamor<span>IA</span></div>
+        <div class="reg-tagline">Comprende tu cambio · Trázalo · Sostenlo</div>
+      </div>
+    </div>
+
+    <div class="reg-body">
+
+      <!-- Step 1: Form -->
+      <div class="reg-step active" id="regStep1">
+        <p class="reg-subtitle">Crea tu sesión local. Toda la información se guarda en este dispositivo. <strong>No se envía a ningún servidor.</strong></p>
+        <div class="reg-grid-2">
+          <div class="field">
+            <label for="reg-nombre">Nombre <span class="opt">(opcional)</span></label>
+            <input id="reg-nombre" placeholder="Ej. Laura, Caso A…">
+          </div>
+          <div class="field">
+            <label for="reg-correo">Correo <span class="opt">(opcional)</span></label>
+            <input id="reg-correo" type="email" placeholder="tu@correo.com">
+          </div>
+          <div class="field">
+            <label for="reg-celular">Celular / WhatsApp <span class="opt">(opcional)</span></label>
+            <input id="reg-celular" type="tel" placeholder="+57 300 000 0000">
+          </div>
+          <div class="field">
+            <label for="reg-clave">Clave de acceso</label>
+            <input id="reg-clave" type="password" placeholder="Crea una clave local">
+          </div>
+        </div>
+        <div style="display:flex;gap:9px;flex-wrap:wrap;margin-top:6px;">
+          <button class="btn" onclick="regCreateSession()">Crear sesión →</button>
+          <button class="btn secondary" id="regCancelBtn" onclick="hideRegModal()">Tengo una sesión</button>
+        </div>
+      </div>
+
+      <!-- Step 2: Credentials -->
+      <div class="reg-step" id="regStep2">
+        <p class="reg-subtitle">✅ Sesión creada. <strong>Guarda tus credenciales</strong> antes de continuar:</p>
+        <div class="cred-box">
+          <div class="cred-row"><span class="cred-icon">👤</span><div><div class="cred-key">Nombre</div><div class="cred-val" id="cred-nombre">—</div></div></div>
+          <div class="cred-row"><span class="cred-icon">🆔</span><div><div class="cred-key">ID de sesión</div><div class="cred-val" id="cred-id">—</div></div></div>
+          <div class="cred-row"><span class="cred-icon">📧</span><div><div class="cred-key">Correo</div><div class="cred-val" id="cred-correo">—</div></div></div>
+          <div class="cred-row"><span class="cred-icon">📱</span><div><div class="cred-key">Celular</div><div class="cred-val" id="cred-celular">—</div></div></div>
+          <div class="cred-row"><span class="cred-icon">🔑</span><div><div class="cred-key">Clave local</div><div class="cred-val" id="cred-clave">—</div></div></div>
+        </div>
+        <div class="share-row">
+          <button class="share-btn" onclick="regShareWhatsApp()"><span class="sh-icon">💬</span>WhatsApp</button>
+          <button class="share-btn" onclick="regShareEmail()"><span class="sh-icon">📧</span>Correo</button>
+          <button class="share-btn" onclick="regDownloadTxt()"><span class="sh-icon">⬇️</span>Descargar TXT</button>
+        </div>
+        <button class="btn" style="width:100%" onclick="hideRegModal()">Entendido, comenzar →</button>
+      </div>
+
+    </div>
+  </div>
+</div>
+
+<!-- ══════════════════════════════════════════════
+     TOUR MODAL
+══════════════════════════════════════════════ -->
+<div class="modal-backdrop" id="tourModal">
+  <div class="modal">
+    <div style="display:flex;justify-content:space-between;gap:12px;align-items:flex-start;flex-wrap:wrap;margin-bottom:6px">
+      <div>
+        <h3 style="margin:0 0 4px;font-family:'Lora',serif">Tour inicial de MetamorIA</h3>
+        <p class="muted" style="font-size:.88rem;margin:0">Organiza tu caso, genera un prompt científico, recibe un análisis JSON y obtén un informe exportable con plan de cambio y seguimiento.</p>
+      </div>
+      <button class="btn secondary sm" id="closeTourBtn">Cerrar</button>
+    </div>
+    <div id="installPill" class="install-pill" style="margin-bottom:12px">Instalable en este dispositivo</div>
+    <div class="tour-grid">
+      <div class="tour-step"><strong>🔑 Sesión</strong>Crea tu sesión. Guarda o comparte las credenciales por WhatsApp, correo o TXT.</div>
+      <div class="tour-step"><strong>👤 Perfil</strong>Nombre, ocupación, filosofía de vida. Evita recomendaciones genéricas.</div>
+      <div class="tour-step"><strong>🎯 Foco y relato</strong>Elige qué quieres cambiar y narra tu caso con detalle. El micrófono está disponible.</div>
+      <div class="tour-step"><strong>⏱ Temporalidad</strong>¿Cuándo? ¿Con qué frecuencia? ¿Qué disparadores? El patrón temporal es clave.</div>
+      <div class="tour-step"><strong>⚡ Prompt maestro</strong>La app construye el prompt en JSON y te envía al hub de IAs.</div>
+      <div class="tour-step"><strong>📊 Informe y seguimiento</strong>Pegas la respuesta JSON, generas el informe y activas el módulo de seguimiento.</div>
+    </div>
+    <div class="footer-actions" style="margin-top:16px">
+      <button class="btn" id="tourUnderstoodBtn">Entendido, comenzar</button>
+      <button class="btn secondary" id="installBtn">Instalar como app</button>
+    </div>
+  </div>
+</div>
+
+<!-- ══════════════════════════════════════════════
+     APP LAYOUT
+══════════════════════════════════════════════ -->
+<div class="app">
+
+  <!-- ── SIDEBAR ── -->
+  <aside class="sidebar">
+    <div class="sb-brand">
+      <div class="sb-logo">M</div>
+      <div class="sb-brand-text">Metamor<span>IA</span></div>
+    </div>
+
+    <nav class="sb-nav" id="menu"></nav>
+
+    <div class="sb-footer">
+      <div class="sb-session-pill">
+        <div class="sb-session-name" id="sbSessionName">Sin sesión</div>
+        <div class="sb-session-id" id="sbSessionId">—</div>
+      </div>
+      <button class="sb-tour-btn" id="openTourBtn">❓ Ver tour</button>
+    </div>
+  </aside>
+
+  <!-- ── MAIN ── -->
+  <main class="main">
+
+    <!-- TOPBAR -->
+    <div class="topbar">
+      <h2 class="topbar-title" id="viewTitle">Bienvenida</h2>
+      <div class="topbar-actions">
+        <div class="gear-menu-wrap">
+          <button class="gear-btn" onclick="toggleGearMenu()" title="Opciones de sesión">⚙️</button>
+          <div class="gear-dropdown" id="gearDropdown">
+            <button class="gear-item" onclick="doSave()">💾 Guardar sesión</button>
+            <button class="gear-item" onclick="doDownloadSession()">📦 Descargar sesión JSON</button>
+            <div class="gear-sep"></div>
+            <button class="gear-item" onclick="showRegModal()">🔑 Gestionar sesión</button>
+            <div class="gear-sep"></div>
+            <button class="gear-item danger" onclick="doReset()">🗑 Limpiar sesión</button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- PAGE CONTENT -->
+    <div class="page">
+
+      <!-- ── DASHBOARD ── -->
+      <section class="section active" id="section-dashboard">
+        <div class="info-bar">
+          <span>💡</span>
+          <span>MetamorIA organiza tu caso desde 5 niveles: conductas, hábitos, comportamientos, elecciones y decisiones. Genera un prompt maestro con base científica y transforma la respuesta de la IA en un informe completo.</span>
+        </div>
+        <div class="grid cols-2">
+          <div class="card">
+            <h3>Recorrido del proceso</h3>
+            <div class="progress-steps" id="progressSteps"></div>
+          </div>
+          <div class="card">
+            <h3>Acciones rápidas</h3>
+            <p class="helper">Carga datos de ejemplo para ver cómo funciona la herramienta antes de ingresar tu propio caso.</p>
+            <div class="notice" style="margin-bottom:14px">Esta herramienta no reemplaza la valoración clínica o profesional cuando el caso la requiere.</div>
+            <div class="footer-actions">
+              <button class="btn" id="loadWizardExampleBtn">Cargar ejemplo completo</button>
+              <button class="btn secondary" id="loadWizardExamplePromptBtn">Ejemplo → Prompt directo</button>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- ── SESIÓN ── -->
+      <section class="section" id="section-sesion">
+        <div class="split">
+          <div class="card">
+            <h3>Datos de sesión</h3>
+            <p class="helper">Todo se guarda localmente en este dispositivo.</p>
+            <div class="grid cols-2">
+              <div class="field"><label for="nombre">Nombre <span class="opt">(opcional)</span></label><input id="nombre" placeholder="Ej. Laura, Caso A…" /></div>
+              <div class="field"><label for="correo">Correo <span class="opt">(opcional)</span></label><input id="correo" type="email" placeholder="tu@correo.com" /></div>
+              <div class="field"><label for="celular">Celular / WhatsApp <span class="opt">(opcional)</span></label><input id="celular" type="tel" placeholder="+57 300 000 0000" /></div>
+              <div class="field"><label for="claveLocal">Clave local <span class="opt">(opcional)</span></label><input id="claveLocal" type="text" placeholder="Solo para identificar la sesión" /></div>
+              <div class="field"><label for="sessionId">ID de sesión</label><input id="sessionId" readonly /></div>
+              <div class="field"><label for="fechaSesion">Fecha de creación</label><input id="fechaSesion" readonly /></div>
+            </div>
+            <div class="footer-actions">
+              <button class="btn" id="generateSessionBtn">Generar / renovar sesión</button>
+              <button class="btn secondary" id="copyCredentialsBtn">Copiar datos</button>
+              <button class="btn secondary" id="downloadCredentialsBtn">Descargar TXT</button>
+              <button class="btn secondary" id="shareWhatsBtn">📱 WhatsApp</button>
+              <button class="btn secondary" id="shareEmailBtn">📧 Correo</button>
+            </div>
+          </div>
+          <div class="card">
+            <h3>¿Sin backend?</h3>
+            <p class="helper" style="margin-bottom:10px">Sin servidor no hay sincronización entre dispositivos ni envío automático de correos. Por eso la sesión se maneja de forma local y descargable.</p>
+            <div class="guide">Guarda el ID de sesión en un lugar accesible, descarga el TXT de credenciales o envíalo por WhatsApp o correo para poder recuperarla desde otro dispositivo cargando el archivo JSON de sesión.</div>
+          </div>
+        </div>
+      </section>
+
+      <!-- ── PERFIL ── -->
+      <section class="section" id="section-perfil">
+        <div class="grid cols-2">
+          <div class="card">
+            <h3>Perfil narrativo</h3>
+            <div class="grid cols-2">
+              <div class="field"><label for="edad">Edad</label><input id="edad" inputmode="numeric" placeholder="Ej. 34" /></div>
+              <div class="field"><label for="ocupacion">Ocupación</label><input id="ocupacion" placeholder="Ej. docente, abogado, estudiante" /></div>
+              <div class="field"><label for="escolaridad">Escolaridad</label><input id="escolaridad" placeholder="Ej. pregrado, maestría" /></div>
+              <div class="field"><label for="situacionRelacional">Situación relacional</label><input id="situacionRelacional" placeholder="Ej. casado, soltera, separado" /></div>
+            </div>
+            <div class="field"><label for="contextoVida">Contexto de vida</label><textarea id="contextoVida" placeholder="Describe tu contexto actual, entorno familiar, laboral o vital."></textarea></div>
+            <div class="field"><label for="presentacionNarrativa">Presentación narrativa</label><textarea id="presentacionNarrativa" placeholder="Quién eres, qué momento vives, qué te preocupa hoy."></textarea></div>
+          </div>
+          <div class="card">
+            <h3>Filosofía de vida</h3>
+            <p class="helper">Contextualiza recomendaciones y evita sugerencias que contradigan tus principios.</p>
+            <div class="field"><label for="principios">Principios o máximas</label><textarea id="principios" placeholder="Ej. Quiero vivir con dignidad y sin dañarme."></textarea></div>
+            <div class="field"><label for="fraseGuia">Frase guía</label><input id="fraseGuia" placeholder="Una frase breve que resuma tu horizonte ético" /></div>
+            <div class="field"><label for="valoresClave">Valores clave (separados por coma)</label><input id="valoresClave" placeholder="Ej. cuidado, responsabilidad, libertad" /></div>
+          </div>
+        </div>
+      </section>
+
+      <!-- ── FOCO ── -->
+      <section class="section" id="section-foco">
+        <div class="card">
+          <h3>¿Qué quieres cambiar principalmente?</h3>
+          <p class="helper">Esta elección guía el punto de partida. La IA puede reorganizar el caso si detecta que el núcleo está en otro nivel.</p>
+          <div class="chips" id="focusChips" style="margin-bottom:16px"></div>
+          <div class="field"><label for="motivoPrincipal">Descripción breve del foco</label><textarea id="motivoPrincipal" placeholder="¿Qué quieres cambiar y por qué ahora?"></textarea></div>
+        </div>
+      </section>
+
+      <!-- ── RELATO ── -->
+      <section class="section" id="section-relato">
+        <div class="grid cols-2">
+          <div class="card">
+            <h3>Relato amplio del caso</h3>
+            <p class="helper">Narra con la mayor profundidad posible. No hay límite de extensión. A más detalle, más precisas serán las recomendaciones.</p>
+            <div class="field">
+              <label for="relatoAmplio">Tu relato</label>
+              <textarea id="relatoAmplio" style="min-height:260px" placeholder="Cuéntame qué ocurre, cuándo, con quién, cómo te sientes antes y después, qué has intentado, cómo afecta tu vida…"></textarea>
+            </div>
+            <div class="footer-actions">
+              <button class="btn secondary sm" id="micBtn">🎤 Dictar</button>
+              <button class="btn secondary sm" id="stopMicBtn">⏹ Detener</button>
+              <span id="micStatus" style="font-size:.78rem;color:var(--muted);align-self:center"></span>
+            </div>
+          </div>
+          <div class="card">
+            <h3>Recursos y gustos de vida</h3>
+            <p class="helper">¿Qué actividades disfrutas genuinamente? ¿Qué te ayuda a sentirte bien? Esto orienta recomendaciones coherentes con quien eres.</p>
+            <div class="field">
+              <label for="gustosVida">Gustos, recursos y actividades</label>
+              <textarea id="gustosVida" style="min-height:200px" placeholder="Ej. Me gusta caminar, escuchar música, hablar con amigos, leer…"></textarea>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- ── TEMPORALIDAD ── -->
+      <section class="section" id="section-temporalidad">
+        <div class="grid cols-2">
+          <div class="card">
+            <h3>Cuándo y con qué frecuencia</h3>
+            <div class="field"><label for="momentosCriticos">Momentos críticos</label><textarea id="momentosCriticos" placeholder="Ej. Después de almorzar, al caer la tarde, en la noche solo…"></textarea></div>
+            <div class="field"><label for="frecuencia">Frecuencia</label><input id="frecuencia" placeholder="Ej. Varias veces al día, 3 o 4 veces por semana…" /></div>
+            <div class="field"><label for="disparadores">Disparadores identificados</label><textarea id="disparadores" placeholder="¿Qué lo activa? ¿Emociones, contextos, personas, estados físicos?"></textarea></div>
+            <div class="field"><label for="desdeCuando">Desde cuándo ocurre</label><input id="desdeCuando" placeholder="Ej. Desde hace 2 años, desde el cambio de trabajo…" /></div>
+          </div>
+          <div class="card">
+            <h3>Contexto y evolución</h3>
+            <div class="field"><label for="contextosRecurrentes">Contextos recurrentes</label><textarea id="contextosRecurrentes" placeholder="¿Dónde y con quién ocurre principalmente?"></textarea></div>
+            <div class="field"><label for="evolucionTiempo">Evolución en el tiempo</label><textarea id="evolucionTiempo" placeholder="¿Ha empeorado, mejorado, va y viene?"></textarea></div>
+            <div class="field"><label for="emocionesMencionadas">Emociones asociadas</label><input id="emocionesMencionadas" placeholder="Ej. Ansiedad, alivio, culpa, frustración…" /></div>
+            <div class="field"><label for="consecuenciasMencionadas">Consecuencias percibidas</label><textarea id="consecuenciasMencionadas" placeholder="¿Qué impactos tiene en tu vida?"></textarea></div>
+          </div>
+        </div>
+      </section>
+
+      <!-- ── PROMPT ── -->
+      <section class="section" id="section-prompt">
+        <div class="split">
+          <div class="card">
+            <h3>Prompt maestro</h3>
+            <p class="helper">El prompt se construye a partir de tu caso completo. Cópialo y pégalo en la IA de tu elección.</p>
+            <div class="footer-actions" style="margin-bottom:12px;">
+              <button class="btn" id="buildPromptBtn">Construir prompt</button>
+              <button class="btn secondary" id="copyPromptBtn">Copiar prompt</button>
+              <button class="btn secondary" id="reloadWizardExampleBtn">Recargar ejemplo</button>
+            </div>
+            <pre id="promptPreview">Genera el prompt para verlo aquí.</pre>
+          </div>
+          <div class="card">
+            <h3>Hub de IAs</h3>
+            <div class="notice" style="margin-bottom:14px">Este análisis es una aproximación razonada, no una verdad definitiva ni una prescripción. Interpreta con criterio.</div>
+            <div class="hub" id="hubLinks"></div>
+          </div>
+        </div>
+      </section>
+
+      <!-- ── ANÁLISIS ── -->
+      <section class="section" id="section-analisis">
+        <div class="grid cols-2">
+          <div class="card">
+            <h3>Pegar respuesta JSON</h3>
+            <p class="helper">Pega aquí el JSON que devolvió la IA. El sistema lo valida y lo convierte en un informe.</p>
+            <textarea id="analysisJson" style="min-height:320px" placeholder='Pega la respuesta JSON de la IA elegida.'></textarea>
+            <div id="jsonStatus" class="helper" style="margin-top:8px">Sin validar todavía.</div>
+            <div class="footer-actions">
+              <button class="btn" id="validateJsonBtn">Validar JSON</button>
+              <button class="btn secondary" id="generateReportBtn">Generar informe</button>
+              <button class="btn secondary" id="loadExampleBtn">Cargar ejemplo de prueba</button>
+            </div>
+          </div>
+          <div class="card">
+            <h3>Campos esperados</h3>
+            <div class="guide">
+              La IA debe devolver al menos:<br><br>
+              <code>resumen_ejecutivo</code>, <code>reformulacion_problema</code>, <code>conductas</code>, <code>habitos</code>, <code>comportamientos</code>, <code>elecciones</code>, <code>decisiones</code>, <code>temporalidad</code>, <code>implicancias</code>, <code>recomendaciones</code>, <code>plan_cambio</code>, <code>nota_interpretativa</code>.
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- ── INFORME ── -->
+      <section class="section" id="section-informe">
+        <div class="card">
+          <h3>Informe generado</h3>
+          <p class="helper">Construido a partir del caso. Incluye resumen, hallazgos, esquema procesual, recomendaciones y plan de cambio temporalizado.</p>
+          <div id="reportContainer" class="report"></div>
+          <div class="footer-actions">
+            <button class="btn secondary" id="exportHtmlBtn">Exportar HTML</button>
+            <button class="btn secondary" id="exportTxtBtn">Exportar TXT</button>
+            <button class="btn secondary" id="exportDocBtn">Exportar DOC</button>
+          </div>
+        </div>
+      </section>
+
+      <!-- ── SEGUIMIENTO ── -->
+      <section class="section" id="section-seguimiento">
+
+        <!-- Step indicators -->
+        <div style="display:flex;gap:0;margin-bottom:20px;border:1px solid var(--line);border-radius:12px;overflow:hidden;">
+          <div class="fu-step-tab active" id="fuTab1" onclick="fuShowStep(1)" style="flex:1;padding:10px 14px;cursor:pointer;background:var(--brand);color:#fff;font-size:.82rem;font-weight:700;text-align:center;">① Tu narrativa</div>
+          <div class="fu-step-tab" id="fuTab2" onclick="fuShowStep(2)" style="flex:1;padding:10px 14px;cursor:pointer;background:var(--bg);color:var(--muted);font-size:.82rem;font-weight:600;text-align:center;border-left:1px solid var(--line);">② Pegar respuesta JSON</div>
+          <div class="fu-step-tab" id="fuTab3" onclick="fuShowStep(3)" style="flex:1;padding:10px 14px;cursor:pointer;background:var(--bg);color:var(--muted);font-size:.82rem;font-weight:600;text-align:center;border-left:1px solid var(--line);">③ Tabla de seguimiento</div>
+        </div>
+
+        <!-- STEP 1: Narrative + prompt generation -->
+        <div id="fuStep1">
+          <div class="grid cols-2">
+            <div class="card">
+              <h3>1. Escribe tu narrativa de seguimiento</h3>
+              <p class="helper">Describe qué ha pasado desde el último análisis: avances, retrocesos, resistencias, recaídas, cambios observados, dificultades persistentes.</p>
+              <div class="field">
+                <label for="seguimientoNarrativa">Tu relato de avance</label>
+                <textarea id="seguimientoNarrativa" style="min-height:260px" placeholder="Ej: En estas dos semanas logré reducir los cigarrillos post-almuerzo de 3 a 1. Sin embargo, los fines de semana el patrón se mantuvo igual…"></textarea>
+              </div>
+              <div class="footer-actions">
+                <button class="btn" id="generateFollowupBtn">⚡ Generar prompt de seguimiento</button>
+                <button class="btn secondary" id="copyFollowupBtn">📋 Copiar prompt</button>
+              </div>
+              <div id="followupGenStatus" style="display:none;margin-top:10px;" class="info-bar">
+                <span>✓</span><span>Prompt generado y copiado. Pégalo en la IA y trae la respuesta JSON al Paso 2.</span>
+              </div>
+            </div>
+            <div class="card">
+              <h3>Vista previa del prompt</h3>
+              <p class="helper" style="margin-bottom:8px">El prompt incluye el análisis previo, tu narrativa y la instrucción para actualizar el caso.</p>
+              <pre id="followupPreview" style="min-height:280px;font-size:.75rem">Genera el prompt para verlo aquí.</pre>
+              <div class="footer-actions" style="margin-top:10px">
+                <button class="btn secondary" onclick="fuShowStep(2)">Continuar → Pegar respuesta JSON</button>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- STEP 2: Paste follow-up JSON -->
+        <div id="fuStep2" style="display:none">
+          <div class="grid cols-2">
+            <div class="card">
+              <h3>2. Pegar respuesta JSON de seguimiento</h3>
+              <p class="helper">Pega aquí el JSON que devolvió la IA al procesar el prompt de seguimiento. El sistema lo valida y auto-completa la tabla.</p>
+              <div class="info-bar" style="margin-bottom:12px">
+                <span>💡</span>
+                <span>La IA debe devolver un JSON con claves como <code>resumen_seguimiento</code>, <code>avances</code>, <code>persistencias</code>, <code>dificultades</code>, <code>reajustes_recomendados</code>, <code>nota_interpretativa</code>.</span>
+              </div>
+              <textarea id="followupJson" style="min-height:320px" placeholder='Pega aquí el JSON de seguimiento devuelto por la IA…'></textarea>
+              <div id="followupJsonStatus" class="helper" style="margin-top:8px">Sin validar todavía.</div>
+              <div class="footer-actions">
+                <button class="btn" id="validateFollowupJsonBtn">Validar JSON</button>
+                <button class="btn secondary" id="applyFollowupJsonBtn" disabled>Aplicar a tabla →</button>
+              </div>
+            </div>
+            <div class="card">
+              <h3>¿Qué espera el sistema?</h3>
+              <p class="helper">Schema esperado de la respuesta IA:</p>
+              <div class="guide" style="font-size:.8rem">
+                <code>resumen_seguimiento</code> — string<br>
+                <code>avances</code> — [{area, descripcion}]<br>
+                <code>persistencias</code> — [{area, descripcion}]<br>
+                <code>dificultades</code> — [{area, descripcion, hipotesis}]<br>
+                <code>reajustes_recomendados</code> — [{area, ajuste, justificacion}]<br>
+                <code>plan_proximas_semanas</code> — [string]<br>
+                <code>alertas</code> — [string]<br>
+                <code>nota_interpretativa</code> — string
+              </div>
+              <div class="footer-actions" style="margin-top:14px">
+                <button class="btn secondary" onclick="fuShowStep(1)">← Volver al Paso 1</button>
+                <button class="btn secondary" onclick="fuShowStep(3)">Ir a tabla manual →</button>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- STEP 3: Table + export -->
+        <div id="fuStep3" style="display:none">
+          <div class="card">
+            <div style="display:flex;align-items:flex-start;justify-content:space-between;flex-wrap:wrap;gap:12px;margin-bottom:14px">
+              <div>
+                <h3 style="margin:0 0 4px">3. Tabla de seguimiento</h3>
+                <p class="helper" style="margin:0">Auto-completada desde el JSON o editable manualmente. Refleja el estado de cada área observada.</p>
+              </div>
+              <div style="display:flex;gap:8px;flex-wrap:wrap">
+                <button class="btn secondary sm" id="addFollowRowBtn">+ Agregar fila</button>
+                <button class="btn secondary sm" id="exportFollowHtmlBtn">Exportar HTML</button>
+              </div>
+            </div>
+
+            <!-- Resumen de seguimiento (from JSON) -->
+            <div id="fuResumen" style="display:none;margin-bottom:14px" class="nota-box"></div>
+
+            <div class="table-wrap">
+              <table>
+                <thead>
+                  <tr>
+                    <th style="min-width:110px">Área observada</th>
+                    <th style="min-width:130px">Estado previo</th>
+                    <th style="min-width:130px">Estado actual</th>
+                    <th style="min-width:90px">Cambio</th>
+                    <th style="min-width:140px">Hallazgo relevante</th>
+                    <th style="min-width:140px">Dificultad persistente</th>
+                    <th style="min-width:150px">Ajuste recomendado</th>
+                    <th style="min-width:80px">Prioridad</th>
+                    <th style="min-width:80px">Periodo</th>
+                  </tr>
+                </thead>
+                <tbody id="followupTableBody"></tbody>
+              </table>
+            </div>
+
+            <!-- Alertas from JSON -->
+            <div id="fuAlertas" style="display:none;margin-top:16px">
+              <div style="font-size:.75rem;font-weight:700;text-transform:uppercase;letter-spacing:.07em;color:var(--warn);margin-bottom:8px">⚠ Señales de alerta detectadas</div>
+              <div id="fuAlertasList" style="display:flex;flex-wrap:wrap;gap:7px"></div>
+            </div>
+
+            <!-- Plan próximas semanas from JSON -->
+            <div id="fuPlan" style="display:none;margin-top:16px">
+              <div style="font-size:.75rem;font-weight:700;text-transform:uppercase;letter-spacing:.07em;color:var(--brand);margin-bottom:8px">📅 Plan próximas semanas</div>
+              <div id="fuPlanList"></div>
+            </div>
+
+            <div class="footer-actions">
+              <button class="btn secondary" onclick="fuShowStep(2)">← Volver al JSON</button>
+            </div>
+          </div>
+        </div>
+
+      </section>
+
+    </div><!-- end .page -->
+  </main>
+</div><!-- end .app -->
+
+<!-- ══════════════════════════════════════════════
+     JAVASCRIPT
+══════════════════════════════════════════════ -->
+<script>
+  const STORAGE_KEY = 'metamoria_state_v1_0';
+  const TOUR_KEY    = 'metamoria_tour_seen_v1';
+
+  const sections = [
+    {id:'dashboard',   title:'Bienvenida',     icon:'🏠'},
+    {id:'sesion',      title:'Sesión',          icon:'🔑'},
+    {id:'perfil',      title:'Perfil y filosofía', icon:'👤'},
+    {id:'foco',        title:'Foco de cambio',  icon:'🎯'},
+    {id:'relato',      title:'Relato amplio',   icon:'📝'},
+    {id:'temporalidad',title:'Temporalidad',    icon:'⏱'},
+    {id:'prompt',      title:'Prompt maestro',  icon:'⚡'},
+    {id:'analisis',    title:'Análisis JSON',   icon:'🔬'},
+    {id:'informe',     title:'Informe',         icon:'📊'},
+    {id:'seguimiento', title:'Seguimiento',     icon:'📈'}
+  ];
+
+  const AI_LINKS = [
+    ['ChatGPT',    'https://chat.openai.com/',         '#10A37F'],
+    ['Claude',     'https://claude.ai/',               '#C4622D'],
+    ['Gemini',     'https://gemini.google.com/',       '#4285F4'],
+    ['Perplexity', 'https://www.perplexity.ai/',       '#20808D'],
+    ['Copilot',    'https://copilot.microsoft.com/',   '#0078D4'],
+    ['Grok',       'https://grok.com/',                '#333333'],
+    ['Mistral',    'https://chat.mistral.ai/',         '#FF7000'],
+    ['DeepSeek',   'https://chat.deepseek.com/',       '#2B5CE6']
+  ];
+
+  const focusOptions = ['Conducta','Hábito','Comportamiento','Elección','Decisión'];
+
+  const reportFields = [
+    ['resumen_ejecutivo',    'Resumen ejecutivo'],
+    ['reformulacion_problema','Qué quiere cambiar la persona'],
+    ['conductas',            'Conductas detectadas'],
+    ['habitos',              'Hábitos detectados'],
+    ['comportamientos',      'Comportamientos detectados'],
+    ['elecciones',           'Elecciones implicadas'],
+    ['decisiones',           'Decisiones implicadas'],
+    ['temporalidad',         'Temporalidad y momentos críticos'],
+    ['implicancias',         'Implicancias del estilo de vida'],
+    ['recomendaciones',      'Recomendaciones estructuradas'],
+    ['plan_cambio',          'Plan de cambio basado en evidencia'],
+    ['nota_interpretativa',  'Nota interpretativa final']
+  ];
+
+  // Done-tracking for progress
+  const sectionDone = {
+    sesion:'', perfil:'', foco:'', relato:'', temporalidad:'',
+    prompt:'', analisis:'', informe:'', seguimiento:''
+  };
+
+  const state = {
+    ui:{ section:'dashboard' },
+    session:{ nombre:'', correo:'', celular:'', claveLocal:'', sessionId:'', fecha:'' },
+    perfil:{ edad:'', ocupacion:'', escolaridad:'', situacionRelacional:'', contextoVida:'', presentacionNarrativa:'' },
+    filosofia:{ principios:'', fraseGuia:'', valoresClave:'' },
+    foco:{ nivel:'Conducta', motivoPrincipal:'' },
+    relato:{ amplio:'', gustosVida:'' },
+    temporalidad:{ momentosCriticos:'', frecuencia:'', disparadores:'', contextosRecurrentes:'', desdeCuando:'', evolucionTiempo:'', emocionesMencionadas:'', consecuenciasMencionadas:'' },
+    prompt:{ payload:null, text:'' },
+    analysis:{ raw:'', parsed:null },
+    followup:{ narrativa:'', prompt:'', rows:[] }
+  };
+
+  let deferredPrompt = null;
+  let recognition    = null;
+  let activeMicTarget = null;
+  let isListening    = false;
+
+  const $ = id => document.getElementById(id);
+  const bySel = sel => Array.from(document.querySelectorAll(sel));
+
+  /* ── PERSIST ── */
+  function saveState(){
+    localStorage.setItem(STORAGE_KEY, JSON.stringify(state));
+    updateSessionSummary();
+    refreshProgressSteps();
+  }
+  function loadState(){
+    const raw = localStorage.getItem(STORAGE_KEY);
+    if(!raw) return;
+    try{ Object.assign(state, JSON.parse(raw)); }catch(e){ console.warn(e); }
+  }
+  function download(filename, content, mime='text/plain;charset=utf-8'){
+    const blob = new Blob([content], {type:mime});
+    const url  = URL.createObjectURL(blob);
+    const a    = document.createElement('a');
+    a.href = url; a.download = filename; a.click(); URL.revokeObjectURL(url);
+  }
+  function escapeHtml(str=''){
+    return String(str).replace(/[&<>"']/g, s => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[s]));
+  }
+  function toList(value){
+    if(Array.isArray(value)) return value.filter(Boolean);
+    if(value == null) return [];
+    if(typeof value === 'object') return Object.entries(value).map(([k,v])=>`${k}: ${typeof v==='string'?v:JSON.stringify(v)}`);
+    return String(value).split(/\n|,/).map(v=>v.trim()).filter(Boolean);
+  }
+  function uuid12(){
+    return Math.random().toString(36).slice(2,8).toUpperCase() + Math.random().toString(36).slice(2,8).toUpperCase();
+  }
+  function ensureSession(){
+    if(!state.session.sessionId) state.session.sessionId = uuid12();
+    if(!state.session.fecha) state.session.fecha = new Date().toLocaleString('es-CO');
+    saveState();
+  }
+
+  /* ── GEAR MENU ── */
+  function toggleGearMenu(){
+    $('gearDropdown').classList.toggle('open');
+  }
+  document.addEventListener('click', e => {
+    if(!e.target.closest('.gear-menu-wrap')) $('gearDropdown').classList.remove('open');
+  });
+  function doSave(){ saveState(); showToast('Sesión guardada localmente.'); }
+  function doDownloadSession(){ download(`metamoria_sesion_${state.session.sessionId}.json`, JSON.stringify(state,null,2),'application/json;charset=utf-8'); }
+  function doReset(){ if(confirm('Esto limpiará la sesión local guardada en este navegador.')){ localStorage.removeItem(STORAGE_KEY); location.reload(); } }
+
+  /* ── TOAST ── */
+  function showToast(msg){
+    const t = document.createElement('div');
+    t.style.cssText = 'position:fixed;bottom:20px;right:20px;background:#1A2E42;color:#fff;padding:11px 18px;border-radius:12px;font-size:.85rem;z-index:9999;box-shadow:0 6px 20px rgba(0,0,0,.25);animation:fadein .2s;';
+    t.textContent = msg;
+    document.body.appendChild(t);
+    setTimeout(()=>t.remove(), 2800);
+  }
+
+  /* ── NAVIGATION ── */
+  function buildMenu(){
+    const menu = $('menu');
+    menu.innerHTML = '';
+    const done = computeDone();
+    const groups = [
+      { label:'Inicio', ids:['dashboard','sesion'] },
+      { label:'Tu caso', ids:['perfil','foco','relato','temporalidad'] },
+      { label:'Análisis con IA', ids:['prompt','analisis','informe'] },
+      { label:'Proceso', ids:['seguimiento'] }
+    ];
+    groups.forEach(group => {
+      const lbl = document.createElement('div');
+      lbl.className = 'sb-section-label';
+      lbl.textContent = group.label;
+      menu.appendChild(lbl);
+      group.ids.forEach(id => {
+        const sec = sections.find(s => s.id === id);
+        if(!sec) return;
+        const btn = document.createElement('button');
+        btn.className = 'sb-item' +
+          (state.ui.section === id ? ' active' : '') +
+          (done[id] ? ' done' : '');
+        btn.innerHTML = `<span class="sb-icon">${sec.icon}</span><span>${sec.title}</span><span class="sb-check">✓</span>`;
+        btn.addEventListener('click', ()=>showSection(id));
+        menu.appendChild(btn);
+      });
+    });
+  }
+
+  function computeDone(){
+    return {
+      sesion:      !!state.session.sessionId,
+      perfil:      !!(state.perfil.edad || state.perfil.ocupacion),
+      foco:        !!state.foco.motivoPrincipal,
+      relato:      state.relato.amplio.length > 60,
+      temporalidad:!!(state.temporalidad.momentosCriticos || state.temporalidad.frecuencia),
+      prompt:      !!state.prompt.text,
+      analisis:    !!state.analysis.parsed,
+      informe:     !!$('reportContainer')?.children?.length,
+      seguimiento: state.followup.rows.some(r => r.area),
+      dashboard: false
+    };
+  }
+
+  function showSection(id){
+    state.ui.section = id;
+    bySel('.section').forEach(s => s.classList.remove('active'));
+    $('section-'+id).classList.add('active');
+    const current = sections.find(s => s.id===id);
+    $('viewTitle').textContent = current?.title || id;
+    buildMenu(); saveState();
+    $('gearDropdown').classList.remove('open');
+  }
+
+  function refreshProgressSteps(){
+    const container = $('progressSteps');
+    if(!container) return;
+    const done = computeDone();
+    const steps = sections.filter(s => s.id !== 'dashboard');
+    container.innerHTML = steps.map(sec => `
+      <div class="progress-step${done[sec.id]?' done':''}" onclick="showSection('${sec.id}')">
+        <div class="ps-num">${done[sec.id] ? '✓' : ''}</div>
+        <div><div class="ps-label">${sec.icon} ${sec.title}</div></div>
+        <div class="ps-arrow">›</div>
+      </div>`).join('');
+  }
+
+  function updateSessionSummary(){
+    const s = state.session;
+    $('sbSessionName').textContent = s.nombre || (s.sessionId ? 'Sesión activa' : 'Sin sesión');
+    $('sbSessionId').textContent   = s.sessionId ? s.sessionId.slice(0,8)+'…' : '—';
+  }
+
+  /* ── INPUT BINDING ── */
+  function bindInputs(){
+    const bindings = {
+      nombre:['session','nombre'], correo:['session','correo'], celular:['session','celular'],
+      claveLocal:['session','claveLocal'], sessionId:['session','sessionId'], fechaSesion:['session','fecha'],
+      edad:['perfil','edad'], ocupacion:['perfil','ocupacion'], escolaridad:['perfil','escolaridad'],
+      situacionRelacional:['perfil','situacionRelacional'], contextoVida:['perfil','contextoVida'],
+      presentacionNarrativa:['perfil','presentacionNarrativa'],
+      principios:['filosofia','principios'], fraseGuia:['filosofia','fraseGuia'], valoresClave:['filosofia','valoresClave'],
+      motivoPrincipal:['foco','motivoPrincipal'],
+      relatoAmplio:['relato','amplio'], gustosVida:['relato','gustosVida'],
+      momentosCriticos:['temporalidad','momentosCriticos'], frecuencia:['temporalidad','frecuencia'],
+      disparadores:['temporalidad','disparadores'], contextosRecurrentes:['temporalidad','contextosRecurrentes'],
+      desdeCuando:['temporalidad','desdeCuando'], evolucionTiempo:['temporalidad','evolucionTiempo'],
+      emocionesMencionadas:['temporalidad','emocionesMencionadas'],
+      consecuenciasMencionadas:['temporalidad','consecuenciasMencionadas'],
+      analysisJson:['analysis','raw'], seguimientoNarrativa:['followup','narrativa']
+    };
+    Object.entries(bindings).forEach(([id,[group,key]]) => {
+      const el = $(id); if(!el) return;
+      el.value = state[group][key] || '';
+      el.addEventListener('input', e => {
+        state[group][key] = e.target.value;
+        saveState();
+        if(id==='analysisJson') validateJson(false);
+      });
+    });
+  }
+
+  function renderFocusChips(){
+    const wrap = $('focusChips');
+    if(!wrap) return;
+    wrap.innerHTML='';
+    focusOptions.forEach(opt => {
+      const b = document.createElement('button');
+      b.type='button';
+      b.className='chip'+(state.foco.nivel===opt?' active':'');
+      b.textContent=opt;
+      b.addEventListener('click',()=>{ state.foco.nivel=opt; renderFocusChips(); saveState(); });
+      wrap.appendChild(b);
+    });
+  }
+
+  function renderHub(){
+    $('hubLinks').innerHTML = AI_LINKS.map(([name,url,color]) =>
+      `<a href="${url}" target="_blank" rel="noopener">
+        <div class="ai-dot" style="background:${color}">${name.slice(0,2)}</div>
+        <span>${name}</span>
+      </a>`).join('');
+  }
+
+  /* ── CREDENTIAL HELPER ── */
+  function getCredText(){
+    const s = state.session;
+    return [
+      'MetamorIA · Credenciales de sesión',
+      '─'.repeat(36),
+      `Nombre:    ${s.nombre    || '—'}`,
+      `ID sesión: ${s.sessionId || '—'}`,
+      `Correo:    ${s.correo    || '—'}`,
+      `Celular:   ${s.celular   || '—'}`,
+      `Clave:     ${s.claveLocal|| '—'}`,
+      `Fecha:     ${s.fecha     || '—'}`,
+      '─'.repeat(36),
+      'Guarda este archivo en un lugar seguro.',
+    ].join('\n');
+  }
+  function copyText(text){ navigator.clipboard.writeText(text).then(()=>showToast('Copiado al portapapeles.')); }
+
+  /* ── REGISTRATION MODAL ── */
+  function showRegModal(){
+    const hasSess = !!state.session.sessionId;
+    $('regCancelBtn').style.display = hasSess ? '' : 'none';
+    // If session exists, pre-fill fields
+    if(hasSess){
+      $('reg-nombre').value  = state.session.nombre  || '';
+      $('reg-correo').value  = state.session.correo  || '';
+      $('reg-celular').value = state.session.celular || '';
+      $('reg-clave').value   = '';
+    }
+    $('regStep1').classList.add('active');
+    $('regStep2').classList.remove('active');
+    $('regModal').classList.remove('hidden');
+  }
+
+  function hideRegModal(){
+    $('regModal').classList.add('hidden');
+    updateSessionSummary();
+    buildMenu();
+  }
+
+  function regCreateSession(){
+    const nombre  = $('reg-nombre').value.trim();
+    const correo  = $('reg-correo').value.trim();
+    const celular = $('reg-celular').value.trim();
+    const clave   = $('reg-clave').value;
+
+    // Update state
+    state.session.nombre   = nombre  || 'Usuario';
+    state.session.correo   = correo  || '';
+    state.session.celular  = celular || '';
+    state.session.claveLocal = clave || '';
+    if(!state.session.sessionId) state.session.sessionId = uuid12();
+    if(!state.session.fecha) state.session.fecha = new Date().toLocaleString('es-CO');
+    saveState();
+
+    // Populate credential display
+    $('cred-nombre').textContent  = state.session.nombre;
+    $('cred-id').textContent      = state.session.sessionId;
+    $('cred-correo').textContent  = state.session.correo  || '—';
+    $('cred-celular').textContent = state.session.celular || '—';
+    $('cred-clave').textContent   = state.session.claveLocal || '—';
+
+    // Also sync main session form
+    bindInputs();
+
+    $('regStep1').classList.remove('active');
+    $('regStep2').classList.add('active');
+  }
+
+  function regShareWhatsApp(){
+    const msg = encodeURIComponent(
+      '🔐 *MetamorIA — Mis credenciales*\n\n' +
+      `👤 ${state.session.nombre}\n` +
+      `🆔 Sesión: ${state.session.sessionId}\n` +
+      `📧 ${state.session.correo || '—'}\n` +
+      `📱 ${state.session.celular || '—'}\n` +
+      `🔑 Clave: ${state.session.claveLocal || '—'}\n` +
+      `📅 ${state.session.fecha}`
+    );
+    window.open('https://wa.me/?text='+msg, '_blank');
+  }
+
+  function regShareEmail(){
+    const body = encodeURIComponent(getCredText());
+    const sub  = encodeURIComponent('MetamorIA — Credenciales de sesión');
+    window.open(`mailto:${state.session.correo||''}?subject=${sub}&body=${body}`,'_blank');
+  }
+
+  function regDownloadTxt(){
+    download(`MetamorIA_Credenciales_${state.session.sessionId||'sesion'}.txt`, getCredText());
+    showToast('Archivo descargado.');
+  }
+
+  /* ── SESSION SECTION ACTIONS ── */
+  function initSessionSection(){
+    $('generateSessionBtn').onclick = ()=>{
+      state.session.sessionId = uuid12();
+      state.session.fecha = new Date().toLocaleString('es-CO');
+      $('sessionId').value   = state.session.sessionId;
+      $('fechaSesion').value = state.session.fecha;
+      updateSessionSummary(); saveState();
+      showToast('Nueva sesión generada.');
+    };
+    $('copyCredentialsBtn').onclick = ()=> copyText(getCredText());
+    $('downloadCredentialsBtn').onclick = ()=> { download(`sesion_${state.session.sessionId}.txt`, getCredText()); showToast('Descargado.'); };
+    $('shareWhatsBtn').onclick = regShareWhatsApp;
+    $('shareEmailBtn').onclick = regShareEmail;
+  }
+
+  /* ── PROMPT ── */
+  function buildPayload(){
+    ensureSession();
+    return {
+      metadata:{ app:'MetamorIA', version:'1.0', fecha_generacion:new Date().toISOString(), sesion:state.session.sessionId },
+      perfil_usuario:{
+        nombre_opcional:state.session.nombre||'', edad:state.perfil.edad||'',
+        ocupacion:state.perfil.ocupacion||'', escolaridad:state.perfil.escolaridad||'',
+        situacion_relacional:state.perfil.situacionRelacional||'',
+        contexto_de_vida:state.perfil.contextoVida||'',
+        presentacion_narrativa:state.perfil.presentacionNarrativa||''
+      },
+      filosofia_de_vida:{
+        principios:toList(state.filosofia.principios),
+        frase_guia:state.filosofia.fraseGuia||'',
+        valores_clave:toList(state.filosofia.valoresClave)
+      },
+      foco_de_cambio:{ nivel_elegido_por_usuario:state.foco.nivel, motivo_principal:state.foco.motivoPrincipal||'' },
+      relato_problema:{ narrativa_usuario:state.relato.amplio||'', gustos_y_recursos:state.relato.gustosVida||'' },
+      temporalidad_patrones:{
+        momentos_criticos:toList(state.temporalidad.momentosCriticos),
+        frecuencia:state.temporalidad.frecuencia||'',
+        disparadores:toList(state.temporalidad.disparadores),
+        contextos_recurrentes:toList(state.temporalidad.contextosRecurrentes),
+        desde_cuando:state.temporalidad.desdeCuando||'',
+        evolucion_en_el_tiempo:state.temporalidad.evolucionTiempo||'',
+        emociones_asociadas:toList(state.temporalidad.emocionesMencionadas),
+        consecuencias_percibidas:toList(state.temporalidad.consecuenciasMencionadas)
+      },
+      instrucciones_para_ia:{
+        objetivo:'Analizar el caso de manera sistémica, identificar patrones recurrentes por nivel (conductas, hábitos, comportamientos, elecciones y decisiones), reconocer temporalidad y disparadores, y proponer recomendaciones contextualizadas.',
+        mandato_de_evidencia:'Usa evidencia científica verificable y prioriza guías clínicas, revisiones sistemáticas, metaanálisis, ensayos relevantes y estudios longitudinales, con preferencia por fuentes como PubMed, PMC, OMS, NICE, Cochrane o revistas indexadas verificables.',
+        restricciones:[
+          'No prometas cambios inmediatos ni resultados de la noche a la mañana.',
+          'No uses recomendaciones genéricas ni clichés de IA como mindfulness, yoga o respiración, salvo que el caso y el relato los hagan pertinentes.',
+          'Toda recomendación debe poder justificarse desde la narrativa del usuario y, si es posible, desde la evidencia citada.',
+          'Si sugieres apoyo profesional (psicología, psiquiatría, medicina, nutrición, consejería u otro), justifica por qué aplica al caso.',
+          'No presentes el análisis como verdad absoluta, sino como aproximación razonada y contextualizada.'
+        ],
+        salida_json_esperada:{
+          resumen_ejecutivo:'string', reformulacion_problema:'string',
+          conductas:[{item:'string',patron:'string'}], habitos:[{item:'string',patron:'string'}],
+          comportamientos:[{item:'string',patron:'string'}], elecciones:[{item:'string',funcion:'string'}],
+          decisiones:[{item:'string',estado:'string'}],
+          temporalidad:{momentos_criticos:['string'],recurrencias:['string'],lectura:'string'},
+          implicancias:['string'],
+          esquema_procesual:[{etapa:'string',contenido:'string'}],
+          recomendaciones:{inmediatas:['string'],elecciones:['string'],habitos:['string'],decisiones:['string'],apoyo_externo:['string']},
+          plan_cambio:{esta_semana:['string'],dos_semanas:['string'],un_mes:['string'],seguimiento:['string']},
+          nota_interpretativa:'string', referencias:['string']
+        }
+      }
+    };
+  }
+
+  function buildPromptText(){
+    const payload = buildPayload();
+    state.prompt.payload = payload;
+
+    const SCHEMA = {
+      resumen_ejecutivo: "string — síntesis diagnóstica en máximo 5 líneas",
+      reformulacion_problema: "string — reencuadre clínico y funcional del problema desde el análisis conductual",
+      conductas: [{ item: "string — conducta específica observable", patron: "string — función y patrón de activación" }],
+      habitos: [{ item: "string — hábito identificado", patron: "string — cómo se consolida y mantiene" }],
+      comportamientos: [{ item: "string — comportamiento estable", patron: "string — lógica de mantenimiento sistémica" }],
+      elecciones: [{ item: "string — elección concreta", funcion: "string — función o consecuencia en el sistema conductual" }],
+      decisiones: [{ item: "string — decisión global o intención", estado: "string — estado: consolidada | en conflicto | latente | ausente" }],
+      temporalidad: {
+        momentos_criticos: ["string — momento del día o situación específica"],
+        recurrencias: ["string — patrón de frecuencia o variación contextual"],
+        lectura: "string — interpretación clínica del patrón temporal de este caso"
+      },
+      implicancias: ["string — consecuencia concreta en salud, economía, vínculos o coherencia de valores"],
+      esquema_procesual: [
+        {
+          etapa: "string — nombre de la etapa del ciclo vivido: Disparador | Estado interno | Conducta automática | Refuerzo inmediato | Repetición y consolidación | Impacto acumulado | Punto de quiebre posible (u otras etapas que el caso requiera)",
+          contenido: "string — qué le ocurre EXACTAMENTE a esta persona en esta etapa. Descripción fenomenológica y específica, no genérica ni prescriptiva. Redactada como si se describiera el patrón desde afuera, observando al sujeto."
+        }
+      ],
+      recomendaciones: {
+        inmediatas: ["string — acción concreta para esta semana, justificada desde la narrativa"],
+        elecciones: ["string — elección alternativa específica a activar"],
+        habitos: ["string — intervención sobre hábito + sustituto funcional concreto"],
+        decisiones: ["string — cómo traducir la decisión en compromiso concreto"],
+        apoyo_externo: ["string — tipo de apoyo profesional + justificación clínica basada en el caso"]
+      },
+      plan_cambio: {
+        esta_semana: ["string — micro-acción con descripción operativa"],
+        dos_semanas: ["string — acción de consolidación y observación"],
+        un_mes: ["string — revisión y ajuste de hábitos emergentes"],
+        seguimiento: ["string — indicadores observables y frecuencia de revisión recomendada"]
+      },
+      nota_interpretativa: "string — reflexión honesta sobre los límites del análisis y su carácter de aproximación razonada",
+      referencias: ["Apellido, A. (año). Título. Revista/Editorial — SOLO fuentes reales verificables, no inventadas"]
+    };
+
+    state.prompt.text =
+      `Eres un especialista en psicología del comportamiento, análisis funcional de la conducta y cambio conductual. Analizas casos reales con rigor metodológico, base en evidencia científica y sensibilidad contextual. Debes responder ÚNICAMENTE en JSON válido, sin texto previo ni posterior al bloque JSON. Cualquier texto fuera del JSON causará un error de parsing.\n\n` +
+      `INSTRUCCIONES CLÍNICAS:\n` +
+      `1. EVIDENCIA: Basa todas las recomendaciones en fuentes verificables (PubMed, PMC, OMS, NICE, Cochrane, metaanálisis). Cita solo fuentes reales en el campo "referencias". NUNCA inventes referencias.\n` +
+      `2. PERSONALIZACIÓN ESTRICTA: Cada recomendación debe derivarse directamente de la narrativa de esta persona. Prohibido usar clichés genéricos (mindfulness, yoga, respiración, meditación) a menos que el relato los justifique de forma explícita.\n` +
+      `3. GRADUALIDAD: El cambio es procesual, gradual y revisable. No prometas resultados rápidos ni garantizados. El plan debe ser realista y por aproximaciones.\n` +
+      `4. TAXONOMÍA 5 NIVELES: Analiza usando conducta → hábito → comportamiento → elección → decisión como sistema recursivo (no lineal).\n` +
+      `5. ESQUEMA PROCESUAL — INSTRUCCIÓN CRÍTICA: El campo "esquema_procesual" describe el CICLO VIVIDO POR ESTA PERSONA ESPECÍFICA. NO es un plan de intervención ni una secuencia terapéutica. Es la descripción de lo que le ocurre: cómo se activa, cómo se sostiene y cómo impacta su vida. Debe leerse como un relato del patrón, no como una prescripción.\n\n` +
+      `Ejemplo del formato correcto para esquema_procesual:\n` +
+      `[\n` +
+      `  {"etapa":"Disparador", "contenido":"Al terminar el almuerzo o al sentir fatiga cognitiva acumulada, aparece una señal interna de tensión que activa el impulso."},\n` +
+      `  {"etapa":"Estado interno", "contenido":"Sensación de ansiedad difusa o agotamiento mental; el cuerpo busca una pausa de bajo costo."},\n` +
+      `  {"etapa":"Conducta automática", "contenido":"La mano busca el cigarrillo de forma casi refleja, antes de que haya una decisión consciente."},\n` +
+      `  {"etapa":"Refuerzo inmediato", "contenido":"La nicotina produce alivio en segundos; la pausa misma interrumpe la demanda. El cerebro registra 'funcionó'."},\n` +
+      `  {"etapa":"Repetición y consolidación", "contenido":"El ciclo se repite diariamente en los mismos contextos; el hábito se fortalece por consistencia temporal."},\n` +
+      `  {"etapa":"Impacto acumulado", "contenido":"Deterioro físico progresivo, gasto sostenido, disonancia entre la conducta y el valor declarado de cuidarse."},\n` +
+      `  {"etapa":"Punto de quiebre posible", "contenido":"La decisión global existe pero aún no modifica las elecciones concretas que sostienen el ciclo cada día."}\n` +
+      `]\n\n` +
+      `6. APOYO PROFESIONAL: Sugiérelo solo si el caso lo justifica clínicamente. Explica el por qué con base en el relato.\n` +
+      `7. TEMPORALIDAD: El campo "temporalidad" es estructural. El patrón temporal de este caso es clave para las recomendaciones.\n\n` +
+      `SCHEMA JSON ESPERADO (respeta exactamente las claves y tipos de datos):\n${JSON.stringify(SCHEMA, null, 2)}\n\n` +
+      `CASO A ANALIZAR:\n${JSON.stringify(payload, null, 2)}`;
+
+    saveState();
+    $('promptPreview').textContent = state.prompt.text;
+    return state.prompt.text;
+  }
+
+  /* ── EXAMPLE WIZARD ── */
+  function loadWizardExample(goToPrompt=true){
+    state.session.nombre='Caso ejemplo'; state.session.celular='';
+    ensureSession();
+    state.perfil={ edad:'35', ocupacion:'Docente universitario', escolaridad:'Maestría', situacionRelacional:'Soltero', contextoVida:'Trabajo muchas horas frente al computador, vivo solo y me cuesta sostener rutinas de autocuidado cuando aumenta la carga laboral.', presentacionNarrativa:'Soy una persona funcional y comprometida con mi trabajo, pero noto que he ido normalizando hábitos que afectan mi salud y mi energía diaria.' };
+    state.filosofia={ principios:'Quiero vivir de forma consciente y cuidar mi salud sin violentarme con cambios irreales.', fraseGuia:'Cambiar con realismo también es cuidarme.', valoresClave:'cuidado, coherencia, salud, responsabilidad' };
+    state.foco={ nivel:'Hábito', motivoPrincipal:'Quiero intervenir un hábito que parece simple, pero está unido a ansiedad, rutina y soledad.' };
+    state.relato={ amplio:'Fumo principalmente después de almorzar, al terminar la jornada y cuando estoy solo en casa. Siento que el cigarrillo me corta la ansiedad y me da una pausa rápida, pero también sé que me está afectando la salud, el bolsillo y la sensación de control sobre mí mismo. He intentado reducirlo varias veces, pero en los días de mayor cansancio vuelvo a repetir el patrón. Quiero cambiar este hábito sin prometerme algo imposible de sostener.', gustosVida:'Me gusta caminar, escuchar música, hablar con un amigo cercano, leer un poco en la noche y salir a tomar café, aunque muchas veces asocio el café con fumar.' };
+    state.temporalidad={ momentosCriticos:'Después de almorzar, al caer la tarde, en la noche cuando estoy solo', frecuencia:'Varias veces al día', disparadores:'Ansiedad, soledad, cansancio, rutina después de comer', contextosRecurrentes:'Casa, trayecto de regreso, pausas laborales, momentos de descanso', desdeCuando:'Desde hace aproximadamente 4 años', evolucionTiempo:'Ha aumentado en épocas de estrés laboral.', emocionesMencionadas:'Ansiedad, alivio momentáneo, culpa, frustración', consecuenciasMencionadas:'Malestar físico, gasto económico, contradicción con el deseo de cuidarme' };
+    bindInputs(); renderFocusChips(); updateSessionSummary(); saveState();
+    if(goToPrompt){ buildPromptText(); showSection('prompt'); } else { showSection('perfil'); }
+    showToast(goToPrompt ? 'Ejemplo cargado → Prompt maestro.' : 'Ejemplo cargado en el wizard.');
+  }
+
+  /* ── JSON VALIDATE & REPORT ── */
+  function validateJson(showAlert=true){
+    const raw = $('analysisJson').value.trim();
+    if(!raw){ $('jsonStatus').innerHTML='Sin validar todavía.'; return false; }
+    try{
+      state.analysis.parsed = JSON.parse(raw);
+      $('jsonStatus').innerHTML='<span class="success">✓ JSON válido — listo para generar el informe.</span>';
+      saveState(); return true;
+    }catch(err){
+      $('jsonStatus').innerHTML=`<span class="danger">✗ JSON inválido: ${escapeHtml(err.message)}</span>`;
+      if(showAlert) showToast('JSON no válido. Revisa el formato.');
+      return false;
+    }
+  }
+
+  function listHtml(value){
+    const items = toList(value);
+    return items.length ? `<ul>${items.map(v=>`<li>${escapeHtml(v)}</li>`).join('')}</ul>` : '<p class="muted">Sin datos.</p>';
+  }
+  function listOrPairsHtml(value){
+    if(Array.isArray(value) && value.length && typeof value[0]==='object'){
+      return `<ul>${value.map(item=>`<li>${Object.entries(item).map(([k,v])=>`<strong>${escapeHtml(k)}:</strong> ${escapeHtml(v)}`).join(' · ')}</li>`).join('')}</ul>`;
+    }
+    return listHtml(value);
+  }
+  function processSvg(data){ return ''; } // legacy stub
+
+  function generateReport(){
+    if(!validateJson(true)) return;
+    const d  = state.analysis.parsed || {};
+    const E  = escapeHtml;
+    const a  = v => Array.isArray(v) ? v.filter(Boolean) : [];
+    const s  = v => typeof v === 'string' ? v : (v ? JSON.stringify(v) : '');
+    const o  = v => (v && typeof v === 'object' && !Array.isArray(v)) ? v : {};
+
+    // ── Section wrapper ──────────────────────────
+    function sec(icon, title, html, bg){
+      return `<div class="report-section">
+        <div class="rs-header">
+          <div class="rs-icon" style="background:${bg||'#F3F6F9'}">${icon}</div>
+          <div class="rs-title">${title}</div>
+        </div>${html}</div>`;
+    }
+
+    // ── Pattern cards (conductas / hábitos / comportamientos) ──
+    function patCards(items, color){
+      if(!a(items).length) return '<p class="muted" style="font-size:.85rem">Sin datos registrados.</p>';
+      return '<div class="pattern-cards">' + a(items).map(i => {
+        const main = s(i.item || i.conducta || i.habito || i.comportamiento || '');
+        const sub  = s(i.patron || i.funcion || i.estado || '');
+        return `<div class="pattern-card">
+          <div class="pc-accent" style="background:${color}"></div>
+          <div class="pc-body">
+            <div class="pc-item">${E(main)}</div>
+            ${sub ? `<div class="pc-sub">${E(sub)}</div>` : ''}
+          </div></div>`;
+      }).join('') + '</div>';
+    }
+
+    // ── Elecciones / Decisiones ──
+    function edCards(items, color, subKey){
+      if(!a(items).length) return '<p class="muted" style="font-size:.85rem">Sin datos.</p>';
+      return '<div class="ed-grid">' + a(items).map(i =>
+        `<div class="ed-card">
+          <div class="ed-item" style="color:${color}">${E(s(i.item||''))}</div>
+          <div class="ed-sub"><em>${subKey}:</em> ${E(s(i[subKey]||''))}</div>
+        </div>`).join('') + '</div>';
+    }
+
+    // ── Temporalidad ──
+    const T = o(d.temporalidad);
+    const tempHtml = `<div class="temp-cards">
+      <div class="temp-card">
+        <div class="temp-card-title">⏰ Momentos críticos</div>
+        <div>${a(T.momentos_criticos).map(m=>`<span class="temp-tag">${E(m)}</span>`).join('') || '<span style="font-size:.82rem;color:#aaa">—</span>'}</div>
+      </div>
+      <div class="temp-card">
+        <div class="temp-card-title">🔁 Recurrencias</div>
+        <div>${a(T.recurrencias).map(m=>`<span class="temp-tag">${E(m)}</span>`).join('') || '<span style="font-size:.82rem;color:#aaa">—</span>'}</div>
+      </div>
+      <div class="temp-card temp-full" style="grid-column:1/-1">
+        <div class="temp-card-title">📖 Lectura del patrón temporal</div>
+        <p style="font-size:.88rem;margin:0;line-height:1.65">${E(s(T.lectura))}</p>
+      </div>
+    </div>`;
+
+    // ── Esquema Procesual ──
+    const EP_C = ['#C62828','#E64A19','#F9A825','#1565C0','#6A1B9A','#2E7D32','#00838F','#4E342E'];
+    const EP_B = ['#FFEBEE','#FBE9E7','#FFFDE7','#E3F2FD','#F3E5F5','#E8F5E9','#E0F7FA','#EFEBE9'];
+    const steps = a(d.esquema_procesual);
+    const epHtml = steps.length ? `
+      <p style="font-size:.82rem;color:var(--muted);margin-bottom:12px">Cada bloque representa una etapa del proceso que vive esta persona. Léelos en orden para seguir el ciclo completo.</p>
+      <div class="ep-flow">
+        ${steps.map((st, i) => {
+          const c = EP_C[i % EP_C.length];
+          const b = EP_B[i % EP_B.length];
+          return `${i > 0 ? '<div class="ep-connector">›</div>' : ''}
+            <div class="ep-step" style="background:${b};border:1.5px solid ${c}30">
+              <div class="ep-num" style="color:${c}">${E(s(st.etapa))}</div>
+              <div class="ep-content" style="color:${c}DD">${E(s(st.contenido))}</div>
+            </div>`;
+        }).join('')}
+      </div>` : '<p class="muted" style="font-size:.85rem">Esquema procesual no disponible en esta respuesta.</p>';
+
+    // ── Recomendaciones ──
+    const R = o(d.recomendaciones);
+    const RTYPES = [
+      {k:'inmediatas',    l:'Inmediata',  c:'#1565C0', b:'#E3F2FD'},
+      {k:'elecciones',    l:'Elección',   c:'#E65100', b:'#FFF3E0'},
+      {k:'habitos',       l:'Hábito',     c:'#2E7D32', b:'#E8F5E9'},
+      {k:'decisiones',    l:'Decisión',   c:'#6A1B9A', b:'#F3E5F5'},
+      {k:'apoyo_externo', l:'Apoyo ext.', c:'#B71C1C', b:'#FFEBEE'},
+    ];
+    const recoRows = RTYPES.flatMap(t =>
+      a(R[t.k]).map(r =>
+        `<tr><td style="width:90px"><span class="reco-type" style="background:${t.b};color:${t.c}">${t.l}</span></td><td>${E(s(r))}</td></tr>`)
+    ).join('');
+    const recoHtml = recoRows
+      ? `<table class="reco-table"><thead><tr><th>Tipo</th><th>Recomendación basada en el caso</th></tr></thead><tbody>${recoRows}</tbody></table>`
+      : '<p class="muted" style="font-size:.85rem">Sin recomendaciones generadas.</p>';
+
+    // ── Plan de Cambio ──
+    const P = o(d.plan_cambio);
+    const PCOLS = [
+      {k:'esta_semana', l:'Esta semana',  c:'#1565C0', bg:'#E3F2FD', br:'#BBDEFB', ic:'📅'},
+      {k:'dos_semanas', l:'2 semanas',    c:'#1B5E20', bg:'#E8F5E9', br:'#C8E6C9', ic:'📆'},
+      {k:'un_mes',      l:'1 mes',        c:'#E65100', bg:'#FFF3E0', br:'#FFE0B2', ic:'🗓️'},
+      {k:'seguimiento', l:'Seguimiento',  c:'#4A148C', bg:'#F3E5F5', br:'#E1BEE7', ic:'♻️'},
+    ];
+    const planHtml = `<p style="font-size:.82rem;color:var(--muted);margin-bottom:12px">El plan es una hoja de ruta gradual, no una obligación rígida. Ajústalo según la realidad de cada semana.</p>
+      <div class="plan-timeline">
+        ${PCOLS.map(col => `
+          <div class="pt-col" style="border-color:${col.br}">
+            <div class="pt-header" style="background:${col.bg};color:${col.c}">${col.ic} ${col.l}</div>
+            <div class="pt-items">
+              ${a(P[col.k]).map(item =>
+                `<div class="pt-item" style="background:${col.bg}99;color:${col.c}CC">${E(s(item))}</div>`
+              ).join('') || `<div class="pt-item" style="color:#bbb;font-style:italic;font-size:.78rem">Sin acciones definidas</div>`}
+            </div>
+          </div>`).join('')}
+      </div>`;
+
+    // ── Implicancias ──
+    const implHtml = `<div class="impl-tags">
+      ${a(d.implicancias).map(i=>`<div class="impl-tag">${E(s(i))}</div>`).join('') || '<p class="muted" style="font-size:.85rem">Sin implicancias registradas.</p>'}
+    </div>`;
+
+    // ── Referencias ──
+    const refsHtml = `<ul class="refs-list">
+      ${a(d.referencias).map(r=>`<li>${E(s(r))}</li>`).join('') || '<li>Sin referencias citadas en esta respuesta.</li>'}
+    </ul>`;
+
+    // ── ASSEMBLE ──────────────────────────────────
+    $('reportContainer').innerHTML = `
+      <div class="report-summary">
+        <h2>Informe de Cambio Procesual</h2>
+        <div class="rs-meta">
+          ${E(state.session.nombre||'—')} · Foco: ${E(state.foco.nivel)} · Sesión ${E(state.session.sessionId||'—')} · ${new Date().toLocaleString('es-CO')}
+        </div>
+      </div>
+
+      ${sec('📋','Resumen ejecutivo',
+        `<p style="font-size:.95rem;line-height:1.75">${E(s(d.resumen_ejecutivo))}</p>`,'#EEF4FF')}
+
+      ${sec('🔄','Reformulación del problema',
+        `<p style="font-size:.93rem;line-height:1.75">${E(s(d.reformulacion_problema))}</p>`,'#F0FFF4')}
+
+      ${sec('⚡','Conductas detectadas', patCards(d.conductas,'#E64A19'),'#FFF3E0')}
+      ${sec('🔁','Hábitos detectados',   patCards(d.habitos,  '#1565C0'),'#E3F2FD')}
+      ${sec('🌊','Comportamientos',      patCards(d.comportamientos,'#5C6BC0'),'#EDE7F6')}
+
+      ${sec('🔀','Elecciones y decisiones',
+        `<p style="font-size:.76rem;font-weight:700;text-transform:uppercase;letter-spacing:.06em;color:var(--muted);margin-bottom:8px">Elecciones</p>
+         ${edCards(d.elecciones,'#E65100','funcion')}
+         <p style="font-size:.76rem;font-weight:700;text-transform:uppercase;letter-spacing:.06em;color:var(--muted);margin:12px 0 8px">Decisiones</p>
+         ${edCards(d.decisiones,'#4A148C','estado')}`,'#FFF8F0')}
+
+      ${sec('⏱','Temporalidad y patrones', tempHtml,'#E8F4FD')}
+      ${sec('🌐','Implicancias del estilo de vida', implHtml,'#FFF8F0')}
+      ${sec('🗺','Esquema procesual — qué le sucede a esta persona', epHtml,'#F0FFF4')}
+      ${sec('✅','Recomendaciones estructuradas', recoHtml,'#F5FFF5')}
+      ${sec('📅','Plan de cambio basado en evidencia', planHtml,'#E8F2FD')}
+
+      ${sec('🧭','Nota interpretativa',
+        `<div class="nota-box">${E(s(d.nota_interpretativa))}</div>`,'#EEF4FF')}
+
+      ${sec('📚','Referencias científicas', refsHtml,'#F5F5F5')}
+    `;
+
+    showSection('informe'); saveState();
+  }
+
+  function reportHtmlDocument(title='Informe MetamorIA'){
+    const body = $('reportContainer').innerHTML || '<p>Sin informe generado.</p>';
+    return `<!doctype html><html lang="es"><head><meta charset="utf-8"><title>${escapeHtml(title)}</title>
+    <link href="https://fonts.googleapis.com/css2?family=Lora:wght@600;700&family=Plus+Jakarta+Sans:wght@400;600;700&display=swap" rel="stylesheet">
+    <style>
+      body{font-family:'Plus Jakarta Sans',sans-serif;background:#F3F6F9;color:#16202A;padding:32px;max-width:980px;margin:0 auto}
+      h1,h2,h4{font-family:'Lora',serif;color:#1E4976}
+      .report-summary{background:#1E4976;color:#fff;border-radius:14px;padding:20px 24px;margin-bottom:14px}
+      .report-summary h2{color:#fff;margin:0 0 4px;font-size:1.4rem}
+      .report-summary .rs-meta{font-size:.8rem;opacity:.7}
+      .report-section{background:#fff;border:1px solid #D6E0EA;border-radius:14px;padding:16px;margin-bottom:12px}
+      .rs-header{display:flex;align-items:center;gap:10px;margin-bottom:12px;padding-bottom:10px;border-bottom:1px solid #D6E0EA}
+      .rs-icon{width:26px;height:26px;border-radius:7px;display:inline-flex;align-items:center;justify-content:center;font-size:.9rem}
+      .rs-title{font-family:'Lora',serif;font-size:1rem;font-weight:700}
+      .pattern-cards{display:grid;gap:7px}
+      .pattern-card{display:flex;border:1px solid #D6E0EA;border-radius:9px;overflow:hidden}
+      .pc-accent{width:4px;flex-shrink:0}
+      .pc-body{padding:10px 13px;flex:1}
+      .pc-item{font-weight:700;font-size:.88rem;margin-bottom:2px}
+      .pc-sub{font-size:.8rem;color:#5A6B79;line-height:1.5}
+      .temp-cards{display:grid;grid-template-columns:repeat(2,1fr);gap:9px}
+      .temp-full{grid-column:1/-1}
+      .temp-card{background:#F3F6F9;border:1px solid #D6E0EA;border-radius:10px;padding:12px 14px}
+      .temp-card-title{font-size:.7rem;font-weight:700;text-transform:uppercase;letter-spacing:.08em;color:#5A6B79;margin-bottom:8px}
+      .temp-tag{display:inline-block;background:#E8F2FD;color:#1E4976;font-size:.77rem;padding:2px 8px;border-radius:6px;margin:2px;font-weight:600}
+      .ed-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:8px}
+      .ed-card{background:#F3F6F9;border:1px solid #D6E0EA;border-radius:9px;padding:10px 13px}
+      .ed-item{font-weight:700;font-size:.87rem;margin-bottom:3px}
+      .ed-sub{font-size:.78rem;color:#5A6B79;line-height:1.5}
+      .impl-tags{display:flex;flex-wrap:wrap;gap:7px}
+      .impl-tag{background:#FFF3E0;border:1px solid #FFB74D;color:#7A4400;font-size:.82rem;padding:5px 12px;border-radius:8px;font-weight:500}
+      .ep-flow{display:flex;flex-wrap:wrap;gap:4px;align-items:stretch}
+      .ep-step{flex:1;min-width:110px;border-radius:11px;padding:13px 12px}
+      .ep-connector{display:flex;align-items:center;justify-content:center;font-size:1.2rem;color:#bbb;padding:0 2px}
+      .ep-num{font-size:.65rem;font-weight:800;text-transform:uppercase;letter-spacing:.07em;margin-bottom:5px;opacity:.7}
+      .ep-content{font-size:.78rem;line-height:1.55;opacity:.88}
+      .reco-table{width:100%;border-collapse:collapse;font-size:.87rem}
+      .reco-table th{background:#F3F6F9;font-size:.73rem;font-weight:700;text-transform:uppercase;padding:9px 12px;border-bottom:1.5px solid #D6E0EA;text-align:left}
+      .reco-table td{padding:9px 12px;border-bottom:1px solid #D6E0EA;vertical-align:top}
+      .reco-type{font-size:.71rem;font-weight:700;padding:2px 8px;border-radius:99px;white-space:nowrap;display:inline-block}
+      .plan-timeline{display:grid;grid-template-columns:repeat(4,1fr);gap:11px}
+      .pt-col{border-radius:12px;overflow:hidden;border:1.5px solid}
+      .pt-header{padding:9px 11px;font-size:.73rem;font-weight:700;text-transform:uppercase;letter-spacing:.06em}
+      .pt-items{padding:8px 11px 11px;display:grid;gap:5px}
+      .pt-item{font-size:.81rem;line-height:1.55;padding:6px 8px;border-radius:7px}
+      .nota-box{background:#E8F2FD;border-left:4px solid #1E4976;border-radius:0 10px 10px 0;padding:15px 18px;font-size:.93rem;line-height:1.75}
+      .refs-list{list-style:none;padding:0;margin:0}
+      .refs-list li{padding:6px 0;border-bottom:1px solid #D6E0EA;font-size:.8rem;color:#5A6B79}
+      @media(max-width:700px){.plan-timeline,.temp-cards,.ed-grid{grid-template-columns:1fr!important}}
+    </style></head><body><h1>${escapeHtml(title)}</h1>${body}</body></html>`;
+  }
+  function reportText(){
+    const data=state.analysis.parsed||{};
+    return ['INFORME METAMORIA',`Sesión: ${state.session.sessionId||''}`,`Nombre: ${state.session.nombre||'No indicado'}`,`Foco: ${state.foco.nivel}`,'',
+      ...reportFields.map(([k,label])=>`${label.toUpperCase()}\n${typeof data[k]==='string'?data[k]:JSON.stringify(data[k]||{},null,2)}\n`)
+    ].join('\n');
+  }
+
+  /* ── FOLLOW-UP ── */
+  function buildFollowupPrompt(){
+    const prevAnalysis = state.analysis.parsed || {};
+    const prevPlan     = prevAnalysis.plan_cambio || {};
+    const prevEsquema  = (prevAnalysis.esquema_procesual || []).map(e => e.etapa + ': ' + e.contenido).join(' → ');
+
+    const FOLLOWUP_SCHEMA = {
+      resumen_seguimiento: "string — síntesis de qué cambió, qué no y por qué en máximo 4 líneas",
+      avances: [
+        { area: "string — área observada (ej: Conducta post-almuerzo, Soledad nocturna, Relación con el café)", estado_previo: "string — cómo era antes", estado_actual: "string — cómo está ahora", hallazgo: "string — qué revela este cambio sobre el patrón", prioridad: "alta | media | baja" }
+      ],
+      persistencias: [
+        { area: "string", estado_previo: "string", estado_actual: "string — sigue igual", hallazgo: "string — por qué persiste, hipótesis funcional", prioridad: "alta | media | baja" }
+      ],
+      dificultades: [
+        { area: "string", estado_previo: "string", estado_actual: "string — empeoró o no varió", dificultad: "string — descripción de la dificultad concreta", hipotesis: "string — qué sostiene esta dificultad según el análisis funcional", ajuste: "string — ajuste recomendado específico para este caso", prioridad: "alta | media | baja" }
+      ],
+      reajustes_recomendados: [
+        { area: "string", descripcion_del_ajuste: "string — qué cambiar y cómo exactamente", justificacion: "string — por qué este ajuste basado en lo observado en el seguimiento" }
+      ],
+      plan_proximas_semanas: [
+        "string — acción concreta para la próxima semana o quincena. Solo texto, no objetos."
+      ],
+      alertas: [
+        "string — señal de alerta descrita en lenguaje claro. Solo texto, no objetos."
+      ],
+      nota_interpretativa: "string — reflexión honesta sobre los límites del análisis y sus hallazgos centrales"
+    };
+
+    const payload = {
+      metadata: { sesion: state.session.sessionId, fecha: new Date().toISOString(), tipo: 'seguimiento' },
+      perfil_usuario: {
+        nombre: state.session.nombre || '',
+        foco_original: state.foco.nivel,
+        relato_original: (state.relato.amplio || '').slice(0, 500)
+      },
+      analisis_previo: {
+        resumen: prevAnalysis.resumen_ejecutivo || '',
+        esquema_procesual: prevEsquema,
+        plan_previo: prevPlan
+      },
+      narrativa_seguimiento: state.followup.narrativa
+    };
+
+    state.followup.prompt =
+      `Eres el mismo especialista que elaboró el análisis inicial. Tu tarea es analizar el seguimiento del proceso de cambio, comparar el estado previo con la narrativa actual e identificar avances, persistencias, dificultades y ajustes necesarios.\n\n` +
+      `REGLAS CRÍTICAS:\n` +
+      `1. Responde ÚNICAMENTE con un bloque JSON válido. Sin texto antes ni después.\n` +
+      `2. Todos los campos de "alertas" y "plan_proximas_semanas" deben ser STRINGS, no objetos.\n` +
+      `3. Cada ítem en avances, persistencias, dificultades DEBE tener los campos: area, estado_previo, estado_actual, hallazgo (y también dificultad, hipotesis, ajuste en dificultades), prioridad.\n` +
+      `4. El campo "area" debe ser específico y descriptivo (ej: "Conducta post-almuerzo", "Soledad nocturna"), no genérico.\n` +
+      `5. No repitas el mismo texto en estado_actual y hallazgo — son perspectivas distintas.\n\n` +
+      `SCHEMA JSON ESPERADO:\n${JSON.stringify(FOLLOWUP_SCHEMA, null, 2)}\n\n` +
+      `DATOS DEL SEGUIMIENTO:\n${JSON.stringify(payload, null, 2)}`;
+
+    $('followupPreview').textContent = state.followup.prompt;
+    saveState();
+  }
+  function addFollowRow(row={}){
+    state.followup.rows.push(Object.assign({area:'',previo:'',actual:'',cambio:'',hallazgo:'',dificultad:'',ajuste:'',prioridad:'',periodo:''},row));
+    renderFollowRows(); saveState();
+  }
+  function renderFollowRows(){
+    const body=$('followupTableBody'); body.innerHTML='';
+    if(!state.followup.rows.length){ for(let i=0;i<3;i++) state.followup.rows.push({area:'',previo:'',actual:'',cambio:'',hallazgo:'',dificultad:'',ajuste:'',prioridad:'',periodo:''}); }
+    state.followup.rows.forEach((row,idx)=>{
+      const tr=document.createElement('tr');
+      [['area','text'],['previo','textarea'],['actual','textarea'],['cambio','textarea'],['hallazgo','textarea'],['dificultad','textarea'],['ajuste','textarea'],['prioridad','text'],['periodo','text']].forEach(([key,type])=>{
+        const td=document.createElement('td');
+        const el=document.createElement(type==='textarea'?'textarea':'input');
+        if(type!=='textarea') el.type='text';
+        el.value=row[key]||'';
+        el.addEventListener('input',e=>{ state.followup.rows[idx][key]=e.target.value; saveState(); });
+        td.appendChild(el); tr.appendChild(td);
+      });
+      body.appendChild(tr);
+    });
+  }
+  function exportFollowHtml(){
+    const rows = state.followup.rows.map(r =>
+      `<tr style="vertical-align:top">${['area','previo','actual','cambio','hallazgo','dificultad','ajuste','prioridad','periodo'].map(k=>{
+        const v = escapeHtml(r[k]||'');
+        const color = k==='cambio' ? (r[k]==='Mejoró'?'#1A7A45':r[k]==='Dificultad'?'#B85C38':'#5A6B79') : '';
+        return `<td${color?` style="color:${color};font-weight:600"`:''} >${v||'—'}</td>`;
+      }).join('')}</tr>`
+    ).join('');
+
+    const resumenTxt = $('fuResumen') ? $('fuResumen').textContent : '';
+    const notaTxt    = state.followup.nota || '';
+
+    const html = `<!doctype html><html lang="es"><head><meta charset="utf-8">
+    <title>Seguimiento MetamorIA</title>
+    <link href="https://fonts.googleapis.com/css2?family=Lora:wght@700&family=Plus+Jakarta+Sans:wght@400;600&display=swap" rel="stylesheet">
+    <style>
+      body{font-family:'Plus Jakarta Sans',sans-serif;background:#F3F6F9;color:#16202A;padding:32px;max-width:1100px;margin:0 auto}
+      h1{font-family:'Lora',serif;color:#1E4976;margin-bottom:4px}
+      .meta{font-size:.82rem;color:#5A6B79;margin-bottom:20px}
+      .resumen{background:#1E4976;color:#fff;border-radius:12px;padding:16px 20px;margin-bottom:20px;font-size:.93rem;line-height:1.7}
+      .resumen strong{display:block;font-size:.72rem;text-transform:uppercase;letter-spacing:.08em;opacity:.7;margin-bottom:5px}
+      table{width:100%;border-collapse:collapse;background:#fff;border-radius:12px;overflow:hidden;font-size:.85rem}
+      th{background:#1E4976;color:#fff;padding:10px 12px;text-align:left;font-size:.73rem;font-weight:700;text-transform:uppercase;letter-spacing:.06em}
+      td{padding:9px 12px;border-bottom:1px solid #D6E0EA;vertical-align:top;line-height:1.55}
+      tr:last-child td{border-bottom:none}
+      tr:hover td{background:#F8FAFD}
+      .alertas{margin-top:20px;background:#FFF3F3;border:1px solid #FFCDD2;border-radius:10px;padding:14px 18px}
+      .alertas h4{color:#B71C1C;font-size:.8rem;text-transform:uppercase;letter-spacing:.07em;margin:0 0 10px}
+      .alerta-item{background:#FFEBEE;border:1px solid #EF9A9A;color:#B71C1C;padding:5px 12px;border-radius:7px;font-size:.83rem;margin-bottom:6px}
+      .plan{margin-top:20px;background:#EAF2FD;border:1px solid #BBDEFB;border-radius:10px;padding:14px 18px}
+      .plan h4{color:#1565C0;font-size:.8rem;text-transform:uppercase;letter-spacing:.07em;margin:0 0 10px}
+      .plan-item{background:#E3F2FD;border-radius:7px;padding:6px 12px;font-size:.83rem;color:#1565C0;margin-bottom:6px;line-height:1.55}
+    </style></head><body>
+    <h1>Seguimiento MetamorIA</h1>
+    <div class="meta">Sesión: <strong>${escapeHtml(state.session.sessionId||'—')}</strong> · ${new Date().toLocaleDateString('es-CO')}</div>
+    ${resumenTxt ? `<div class="resumen"><strong>Resumen del seguimiento</strong>${escapeHtml(resumenTxt)}</div>` : ''}
+    <p style="font-size:.82rem;color:#5A6B79;margin-bottom:8px"><strong>Narrativa:</strong> ${escapeHtml(state.followup.narrativa||'—')}</p>
+    <table>
+      <thead><tr><th>Área observada</th><th>Estado previo</th><th>Estado actual</th><th>Cambio</th><th>Hallazgo relevante</th><th>Dificultad</th><th>Ajuste recomendado</th><th>Prioridad</th><th>Periodo</th></tr></thead>
+      <tbody>${rows}</tbody>
+    </table>
+    ${$('fuAlertasList') && $('fuAlertasList').innerHTML ?
+      `<div class="alertas"><h4>⚠ Señales de alerta</h4>${$('fuAlertasList').innerHTML}</div>` : ''}
+    ${$('fuPlanList') && $('fuPlanList').innerHTML ?
+      `<div class="plan"><h4>📅 Plan próximas semanas</h4>${$('fuPlanList').innerHTML}</div>` : ''}
+    </body></html>`;
+
+    download(`seguimiento_${state.session.sessionId||'metamoria'}.html`, html, 'text/html;charset=utf-8');
+    showToast('Seguimiento exportado.');
+  }
+
+  /* ── FILL EXAMPLE ── */
+  function fillExample(){
+    const example={resumen_ejecutivo:'El caso describe un hábito consolidado que se intensifica en momentos de soledad, ansiedad y después del almuerzo. La decisión global de cambio existe, pero las elecciones cotidianas todavía sostienen el patrón.',reformulacion_problema:'La persona no enfrenta solo una conducta aislada, sino una secuencia repetida en la que ciertos contextos y emociones activan respuestas estables.',conductas:[{item:'Encender un cigarrillo después de almorzar',patron:'Aparece como respuesta casi automática tras la comida.'},{item:'Comprar cajetilla al salir del trabajo',patron:'Se asocia a trayectos y momentos de transición.'}],habitos:[{item:'Fumar para regular ansiedad',patron:'El consumo funciona como alivio rápido y repetido.'}],comportamientos:[{item:'Afrontamiento evitativo del malestar',patron:'Se busca descarga inmediata antes que procesamiento gradual.'}],elecciones:[{item:'Llevar encendedor y cigarrillos',funcion:'Facilita la repetición sin fricción.'},{item:'Salir solo después de comer',funcion:'Aumenta la probabilidad de consumo.'}],decisiones:[{item:'Cuidar la salud y dejar de fumar',estado:'Presente, pero aún no traducida por completo en elecciones consistentes.'}],temporalidad:{momentos_criticos:['Después de almorzar','En la noche','Cuando está solo'],recurrencias:['Diario','Más intenso en días de estrés'],lectura:'La repetición se concentra en ventanas temporales y emocionales muy definidas.'},implicancias:['Afectación de salud física','Gasto económico sostenido','Tensión con valores personales'],esquema_procesual:[{etapa:'Disparador',contenido:'Ansiedad, soledad o final de comida'},{etapa:'Conducta',contenido:'Encender cigarrillo'},{etapa:'Repetición',contenido:'Se reproduce cada día en contextos semejantes'},{etapa:'Hábito',contenido:'Alivio automático mediante consumo'},{etapa:'Comportamiento',contenido:'Afrontamiento evitativo del malestar'},{etapa:'Punto de cambio',contenido:'Modificar elecciones concretas y sostener decisión global'}],recomendaciones:{inmediatas:['Rediseñar el momento posterior al almuerzo con una actividad compatible con la vida cotidiana.','Retirar del entorno inmediato los objetos que facilitan la secuencia.'],elecciones:['No comprar cajetilla en recorridos habituales.'],habitos:['Intervenir la secuencia completa posterior al almuerzo.'],decisiones:['Traducir la decisión global en acuerdos concretos para esta semana.'],apoyo_externo:['Explorar acompañamiento psicológico si la ansiedad interfiere en la adherencia.']},plan_cambio:{esta_semana:['Registrar momentos críticos y rediseñar el postalmuerzo.','Reducir disponibilidad física del objeto de consumo.'],dos_semanas:['Comparar intensidad del impulso según contextos.'],un_mes:['Evaluar consolidación de nuevas rutinas.'],seguimiento:['Registrar avances, recaídas y condiciones que ayudaron o dificultaron el cambio.']},nota_interpretativa:'Este análisis es una aproximación razonada y no sustituye valoración profesional cuando el caso lo requiera.',referencias:['WHO clinical treatment guideline for tobacco cessation (2024)','Michie et al. Behaviour Change Wheel','Lally et al. habit formation in the real world']};
+    $('analysisJson').value=JSON.stringify(example,null,2);
+    state.analysis.raw=$('analysisJson').value;
+    validateJson(false);
+  }
+
+  /* ── MIC ── */
+  function enhanceTextareasWithMic(){
+    bySel('textarea').forEach(ta=>{
+      if(ta.dataset.micEnhanced==='1') return;
+      ta.dataset.micEnhanced='1';
+      const wrapper=document.createElement('div'); wrapper.className='textarea-mic';
+      ta.parentNode.insertBefore(wrapper,ta); wrapper.appendChild(ta);
+      const toolbar=document.createElement('div'); toolbar.className='mic-toolbar';
+      const startBtn=document.createElement('button'); startBtn.type='button'; startBtn.className='mic-mini'; startBtn.textContent='🎤 Dictar';
+      const stopBtn=document.createElement('button'); stopBtn.type='button'; stopBtn.className='mic-mini'; stopBtn.textContent='⏹ Detener';
+      const hint=document.createElement('span'); hint.className='mic-target-label'; hint.textContent='Dictado disponible';
+      toolbar.append(startBtn,stopBtn,hint); wrapper.appendChild(toolbar);
+      startBtn.addEventListener('click',()=>startMicFor(ta,startBtn));
+      stopBtn.addEventListener('click',stopMic);
+    });
+  }
+  function updateMicButtons(){
+    bySel('.mic-mini').forEach(b=>b.classList.remove('active'));
+    if(activeMicTarget){ const wrap=activeMicTarget.closest('.textarea-mic'); const btn=wrap&&wrap.querySelector('.mic-mini'); if(btn&&isListening) btn.classList.add('active'); }
+  }
+  function startMicFor(target,button){
+    if(!recognition){ showToast('Micrófono no disponible en este navegador.'); return; }
+    if(isListening&&activeMicTarget===target) return;
+    if(isListening) recognition.stop();
+    activeMicTarget=target; target.focus(); recognition.start(); updateMicButtons();
+  }
+  function stopMic(){ if(recognition&&isListening) recognition.stop(); }
+  function setupMic(){
+    const SR=window.SpeechRecognition||window.webkitSpeechRecognition;
+    if(!SR){ $('micStatus').textContent='Reconocimiento de voz no disponible en este navegador.'; return; }
+    recognition=new SR(); recognition.lang='es-CO'; recognition.interimResults=false; recognition.continuous=true;
+    recognition.onresult=e=>{
+      if(!activeMicTarget) return;
+      let t=''; for(let i=e.resultIndex;i<e.results.length;i++) if(e.results[i].isFinal) t+=e.results[i][0].transcript+' ';
+      if(!t.trim()) return;
+      const cur=activeMicTarget.value||''; activeMicTarget.value=cur+(cur&&!/[\s\n]$/.test(cur)?' ':'')+t.trim();
+      activeMicTarget.dispatchEvent(new Event('input',{bubbles:true}));
+      $('micStatus').textContent='Escuchando...';
+    };
+    recognition.onstart=()=>{ isListening=true; updateMicButtons(); $('micStatus').textContent='Escuchando...'; };
+    recognition.onend=()=>{ isListening=false; updateMicButtons(); $('micStatus').textContent=''; };
+    recognition.onerror=e=>{ isListening=false; updateMicButtons(); $('micStatus').textContent='Error: '+e.error; };
+  }
+
+  /* ── PWA ── */
+  function initPWA(){
+    // Only register SW when running as a real installed origin, not inside iframes or sandboxes
+    const isRealOrigin = window.self === window.top &&
+      !window.location.hostname.includes('claudeusercontent.com') &&
+      window.location.protocol === 'https:';
+    if('serviceWorker' in navigator && isRealOrigin){
+      navigator.serviceWorker.register('./sw.js').catch(()=>{});
+    }
+    window.addEventListener('beforeinstallprompt',e=>{ e.preventDefault(); deferredPrompt=e; $('installPill').classList.add('show'); });
+    $('installBtn').addEventListener('click',async()=>{
+      if(!deferredPrompt){ showToast('La app puede que ya esté instalada.'); return; }
+      deferredPrompt.prompt(); await deferredPrompt.userChoice; deferredPrompt=null;
+    });
+  }
+
+  /* ── FOLLOW-UP STEP NAVIGATION ── */
+  function fuShowStep(n){
+    [1,2,3].forEach(i=>{
+      const step = $('fuStep'+i);
+      const tab  = $('fuTab'+i);
+      if(step) step.style.display = (i===n) ? '' : 'none';
+      if(tab){
+        tab.style.background = (i===n) ? 'var(--brand)' : 'var(--bg)';
+        tab.style.color      = (i===n) ? '#fff' : 'var(--muted)';
+      }
+    });
+  }
+
+  /* ── FOLLOW-UP JSON VALIDATION & AUTO-FILL ── */
+  function initFollowupJson(){
+    const ta  = $('followupJson');
+    const valBtn = $('validateFollowupJsonBtn');
+    const applyBtn = $('applyFollowupJsonBtn');
+    if(!ta) return;
+
+    ta.addEventListener('input', ()=>{
+      $('followupJsonStatus').innerHTML = 'Sin validar todavía.';
+      $('followupJsonStatus').className = 'helper';
+      applyBtn.disabled = true;
+    });
+
+    valBtn.onclick = ()=>{
+      const raw = ta.value.trim();
+      if(!raw){ $('followupJsonStatus').innerHTML='Pega el JSON primero.'; return; }
+      try{
+        const parsed = JSON.parse(raw.replace(/^```json\s*/i,'').replace(/^```\s*/i,'').replace(/\s*```$/i,''));
+        ta._parsed = parsed;
+        $('followupJsonStatus').innerHTML = '<span class="success">✓ JSON válido — pulsa "Aplicar a tabla" para auto-rellenar.</span>';
+        applyBtn.disabled = false;
+      }catch(e){
+        $('followupJsonStatus').innerHTML = `<span class="danger">✗ JSON inválido: ${escapeHtml(e.message.slice(0,80))}</span>`;
+        applyBtn.disabled = true;
+      }
+    };
+
+    applyBtn.onclick = ()=>{
+      const data = $('followupJson')._parsed;
+      if(!data) return;
+      applyFollowupJson(data);
+    };
+  }
+
+  function applyFollowupJson(data){
+    const arr  = v => Array.isArray(v) ? v.filter(Boolean) : [];
+    // Smart string extractor: handles strings, objects with descripcion/texto/content
+    const str  = v => {
+      if(typeof v === 'string') return v;
+      if(!v) return '';
+      if(typeof v === 'object'){
+        return v.descripcion || v.texto || v.content || v.descripcion_del_ajuste ||
+               v.objetivo    || v.hallazgo || v.accion ||
+               (v.acciones ? v.objetivo + ': ' + arr(v.acciones).join('; ') : '') ||
+               JSON.stringify(v);
+      }
+      return String(v);
+    };
+
+    // ── Build table rows from new schema ──────────────────
+    const rows = [];
+
+    // Helper: push a row with all fields
+    const push = (area, previo, actual, cambio, hallazgo, dificultad, ajuste, prioridad, periodo) =>
+      rows.push({ area, previo, actual, cambio, hallazgo, dificultad, ajuste, prioridad, periodo });
+
+    arr(data.avances).forEach(i => push(
+      str(i.area),
+      str(i.estado_previo),
+      str(i.estado_actual || i.descripcion),
+      'Mejoró',
+      str(i.hallazgo || i.descripcion),
+      '',
+      '',
+      str(i.prioridad || ''),
+      ''
+    ));
+
+    arr(data.persistencias).forEach(i => push(
+      str(i.area),
+      str(i.estado_previo),
+      str(i.estado_actual || i.descripcion),
+      'Sin cambio',
+      str(i.hallazgo || i.descripcion),
+      '',
+      '',
+      str(i.prioridad || ''),
+      ''
+    ));
+
+    arr(data.dificultades).forEach(i => push(
+      str(i.area),
+      str(i.estado_previo),
+      str(i.estado_actual || i.descripcion),
+      'Dificultad',
+      str(i.hallazgo || i.descripcion),
+      str(i.dificultad || i.hipotesis),
+      str(i.ajuste || i.ajuste_recomendado),
+      str(i.prioridad || ''),
+      ''
+    ));
+
+    arr(data.reajustes_recomendados).forEach(i => push(
+      str(i.area),
+      '',
+      '',
+      'Ajuste',
+      str(i.descripcion_del_ajuste || i.descripcion),
+      '',
+      str(i.justificacion),
+      '',
+      ''
+    ));
+
+    if(rows.length){
+      state.followup.rows = rows;
+      renderFollowRows();
+    }
+
+    // ── Resumen ──────────────────────────────────────────
+    const resumenEl = $('fuResumen');
+    if(resumenEl && data.resumen_seguimiento){
+      resumenEl.textContent = str(data.resumen_seguimiento);
+      resumenEl.style.display = '';
+    }
+
+    // ── Alertas (handle string or object items) ───────────
+    const alertas = arr(data.alertas);
+    const alertasEl = $('fuAlertas');
+    const alertasListEl = $('fuAlertasList');
+    if(alertasEl && alertasListEl && alertas.length){
+      alertasEl.style.display = '';
+      alertasListEl.innerHTML = alertas.map(al => {
+        const txt = typeof al === 'string' ? al : (al.descripcion || al.texto || JSON.stringify(al));
+        const tipo = (typeof al === 'object' && al.tipo) ? `<strong>[${escapeHtml(al.tipo)}]</strong> ` : '';
+        return `<div class="impl-tag" style="background:#FFEBEE;border-color:#EF9A9A;color:#B71C1C;width:100%;max-width:100%">⚠ ${tipo}${escapeHtml(txt)}</div>`;
+      }).join('');
+    }
+
+    // ── Plan próximas semanas (handle string or object items) ──
+    const plan = arr(data.plan_proximas_semanas);
+    const planEl = $('fuPlan');
+    const planListEl = $('fuPlanList');
+    if(planEl && planListEl && plan.length){
+      planEl.style.display = '';
+      planListEl.innerHTML = plan.map(p => {
+        let txt = '';
+        if(typeof p === 'string'){
+          txt = p;
+        } else if(typeof p === 'object'){
+          const sem    = p.semana ? `Semana ${p.semana}: ` : '';
+          const obj    = p.objetivo ? `${p.objetivo}. ` : '';
+          const accs   = arr(p.acciones).join(' · ');
+          txt = sem + obj + accs;
+          if(!txt) txt = JSON.stringify(p);
+        }
+        return `<div style="padding:8px 12px;background:var(--brand-lt);border-radius:7px;font-size:.83rem;color:var(--brand);margin-bottom:5px;line-height:1.55">${escapeHtml(txt)}</div>`;
+      }).join('');
+    }
+
+    // ── Nota interpretativa ──────────────────────────────
+    if(data.nota_interpretativa){
+      const nota = str(data.nota_interpretativa);
+      // Append below plan if it exists
+      if(planListEl) planListEl.insertAdjacentHTML('afterend',
+        `<div style="margin-top:12px;padding:12px 16px;background:#EEF4FF;border-left:4px solid #1E4976;border-radius:0 8px 8px 0;font-size:.87rem;line-height:1.65;color:#16202A">
+          <strong style="font-size:.72rem;text-transform:uppercase;letter-spacing:.07em;color:#1E4976;display:block;margin-bottom:5px">🧭 Nota interpretativa</strong>
+          ${escapeHtml(nota)}
+        </div>`);
+    }
+
+    saveState();
+    fuShowStep(3);
+    showToast('Tabla y resumen actualizados desde el JSON de seguimiento.');
+  }
+
+  /* ── INIT ── */
+  function init(){
+    loadState();
+    ensureSession();
+    bindInputs();
+    renderFocusChips();
+    renderHub();
+    renderFollowRows();
+    buildMenu();
+    showSection(state.ui.section||'dashboard');
+    updateSessionSummary();
+    refreshProgressSteps();
+    enhanceTextareasWithMic();
+    setupMic();
+    initPWA();
+    initSessionSection();
+    fuShowStep(1);
+    initFollowupJson();
+
+    // Tour
+    if(!localStorage.getItem(TOUR_KEY)) $('tourModal').classList.add('show');
+    $('openTourBtn').onclick = ()=>$('tourModal').classList.add('show');
+    $('closeTourBtn').onclick = $('tourUnderstoodBtn').onclick = ()=>{ $('tourModal').classList.remove('show'); localStorage.setItem(TOUR_KEY,'1'); };
+
+    // Registration modal: show if no session
+    if(!state.session.sessionId) showRegModal();
+
+    // Prompt + analysis + follow-up buttons
+    $('buildPromptBtn').onclick      = buildPromptText;
+    $('copyPromptBtn').onclick       = ()=>{ copyText(state.prompt.text||buildPromptText()); showToast('Prompt copiado.'); };
+    $('loadWizardExampleBtn').onclick = ()=>loadWizardExample(false);
+    $('loadWizardExamplePromptBtn').onclick = ()=>loadWizardExample(true);
+    $('reloadWizardExampleBtn').onclick = ()=>loadWizardExample(true);
+    $('validateJsonBtn').onclick     = ()=>validateJson(true);
+    $('generateReportBtn').onclick   = generateReport;
+    $('loadExampleBtn').onclick      = fillExample;
+    $('exportHtmlBtn').onclick       = ()=>download(`informe_${state.session.sessionId||'metamoria'}.html`,reportHtmlDocument(),'text/html;charset=utf-8');
+    $('exportTxtBtn').onclick        = ()=>download(`informe_${state.session.sessionId||'metamoria'}.txt`,reportText());
+    $('exportDocBtn').onclick        = ()=>download(`informe_${state.session.sessionId||'metamoria'}.doc`,reportHtmlDocument('Informe MetamorIA'),'application/msword');
+    $('generateFollowupBtn').onclick = ()=>{
+      buildFollowupPrompt();
+      const st = $('followupGenStatus');
+      if(st) st.style.display='flex';
+    };
+    $('copyFollowupBtn').onclick = ()=>{ copyText(state.followup.prompt||(buildFollowupPrompt(),state.followup.prompt)); showToast('Prompt copiado.'); };
+    $('addFollowRowBtn').onclick     = ()=>addFollowRow();
+    $('exportFollowHtmlBtn').onclick = exportFollowHtml;
+    $('micBtn').onclick              = ()=>startMicFor($('relatoAmplio'));
+    $('stopMicBtn').onclick          = stopMic;
+
+    setInterval(saveState, 30000);
+  }
+
+  document.addEventListener('DOMContentLoaded', init);
+</script>
+</body>
+</html>

@@ -1,0 +1,2928 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>AETHERIS Scanner v26 | Protocolo acústico experimental</title>
+    <meta name="theme-color" content="#010101">
+    <meta name="mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    <meta name="apple-mobile-web-app-title" content="AETHERIS">
+    <link id="pwa-manifest" rel="manifest">
+    <style>
+        :root {
+            --bg: #010101;
+            --phosphor-main: #00ff41; 
+            --phosphor-dim: #003b00;
+            --alert: #ff1a1a;
+            --spectral-purple: #bc13fe;
+            --processing: #00e5ff; 
+            --quantum-gold: #ffd700;
+            --authentic-signal: #ffaa00; /* NUEVO: Color para señales auténticas verificadas */
+            --font-tech: 'Courier New', Courier, monospace;
+            /* Layout tuning (PC vs móvil) */
+            --radar-h: clamp(320px, 32vh, 420px);
+            --radar-h-xl: clamp(360px, 34vh, 480px);
+            --radar-h-mobile: clamp(260px, 36vh, 420px);
+            --spectrum-h: 86px;
+            --spectrum-h-mobile: 96px;
+            --console-h: 120px;
+
+        }
+
+        * { box-sizing: border-box; user-select: none; -webkit-tap-highlight-color: transparent; }
+        
+        body {
+            background-color: var(--bg); color: var(--phosphor-main); font-family: var(--font-tech);
+            margin: 0; height: 100vh; height: 100svh; overflow: hidden; display: flex; flex-direction: column;
+            background-image: radial-gradient(circle at center, #051005 0%, #000 100%);
+        }
+
+        /* EFECTO CRT ABSOLUTE MEJORADO */
+        body::before {
+            content: " "; display: block; position: absolute; top: 0; left: 0; bottom: 0; right: 0;
+            background: 
+                linear-gradient(rgba(18, 16, 16, 0) 50%, rgba(0, 0, 0, 0.15) 50%),
+                linear-gradient(90deg, rgba(255, 0, 0, 0.03), rgba(0, 255, 0, 0.01), rgba(0, 0, 255, 0.03));
+            z-index: 999; background-size: 100% 3px, 3px 100%; pointer-events: none;
+            opacity: 0.4; animation: scanline 8s linear infinite;
+        }
+
+        @keyframes scanline {
+            0% { transform: translateY(0); }
+            100% { transform: translateY(100vh); }
+        }
+
+        .screen { 
+            position: absolute; top:0; left:0; width:100%; height:100%; 
+            display:none; flex-direction:column; padding:25px; 
+            background:transparent; z-index:10; overflow-y: auto; 
+        }
+        .screen.active { display: flex; animation: fadeIn 0.5s ease-out; }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: scale(0.95); }
+            to { opacity: 1; transform: scale(1); }
+        }
+
+        /* INICIO MEJORADO */
+        #splash { align-items: center; justify-content: center; text-align: center; }
+        
+        .zenith-orb { 
+            width: 180px; height: 180px; border-radius: 50%;
+            border: 3px solid var(--phosphor-main);
+            display: flex; align-items: center; justify-content: center;
+            position: relative; margin-bottom: 30px;
+            box-shadow: 
+                0 0 60px var(--phosphor-dim), 
+                inset 0 0 30px var(--phosphor-dim),
+                0 0 100px rgba(0, 255, 65, 0.3);
+            animation: rotateOrb 15s infinite linear, orbPulse 3s infinite ease-in-out;
+        }
+        
+        .zenith-orb::before {
+            content: "";
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            border-radius: 50%;
+            background: radial-gradient(circle, rgba(0, 255, 65, 0.2) 0%, transparent 70%);
+            animation: innerPulse 2s infinite ease-in-out;
+        }
+
+        .zenith-orb::after {
+            content: "Ω"; font-size: 6rem; color: var(--phosphor-main);
+            text-shadow: 0 0 30px var(--phosphor-main), 0 0 60px var(--phosphor-main);
+            animation: pulseText 4s infinite ease-in-out;
+            position: relative;
+            z-index: 1;
+        }
+        
+        @keyframes rotateOrb { from { transform: rotate(0deg); } to { transform: rotate(360deg); } }
+        @keyframes orbPulse { 
+            0%, 100% { transform: scale(1); } 
+            50% { transform: scale(1.05); } 
+        }
+        @keyframes innerPulse { 
+            0%, 100% { opacity: 0.3; transform: scale(0.9); } 
+            50% { opacity: 0.6; transform: scale(1.1); } 
+        }
+        @keyframes pulseText { 
+            0%, 100% { opacity: 0.6; transform: scale(0.9); } 
+            50% { opacity: 1; transform: scale(1.15); } 
+        }
+
+        h1 { 
+            margin: 0; 
+            text-shadow: 0 0 25px var(--phosphor-main), 0 0 50px var(--phosphor-main); 
+            letter-spacing: 12px; 
+            font-size: 3rem; 
+            font-weight: 900; 
+            animation: titleGlow 3s infinite ease-in-out;
+        }
+        
+        @keyframes titleGlow {
+            0%, 100% { text-shadow: 0 0 20px var(--phosphor-main); }
+            50% { text-shadow: 0 0 40px var(--phosphor-main), 0 0 60px var(--phosphor-main); }
+        }
+
+        .version-tag { 
+            font-size: 0.8rem; 
+            color: var(--quantum-gold); 
+            letter-spacing: 5px; 
+            margin-bottom: 30px; 
+            font-weight: bold; 
+            text-transform: uppercase;
+            text-shadow: 0 0 15px var(--quantum-gold);
+        }
+
+        .noise-selector-container { margin-top: 15px; width: 100%; max-width: 400px; text-align: left; }
+        .noise-label { 
+            font-size: 0.7rem; 
+            color: #888; 
+            margin-bottom: 12px; 
+            display: block; 
+            letter-spacing: 3px;
+            text-transform: uppercase;
+        }
+        .noise-selector {
+            width: 100%; 
+            background: rgba(0, 255, 65, 0.08); 
+            border: 2px solid var(--phosphor-dim);
+            color: var(--phosphor-main); 
+            padding: 18px; 
+            font-family: inherit; 
+            font-size: 1rem;
+            cursor: pointer; 
+            outline: none; 
+            transition: all 0.3s; 
+            border-radius: 6px;
+        }
+        .noise-selector:hover {
+            background: rgba(0, 255, 65, 0.15);
+            border-color: var(--phosphor-main);
+            box-shadow: 0 0 20px rgba(0, 255, 65, 0.3);
+        }
+
+        /* NUEVO: Selector de sensibilidad */
+        .sensitivity-container {
+            margin-top: 20px;
+            width: 100%;
+            max-width: 400px;
+        }
+
+        .sensitivity-buttons {
+            display: flex;
+            gap: 10px;
+            margin-top: 10px;
+        }
+
+        .btn-sensitivity {
+            flex: 1;
+            background: rgba(0, 255, 65, 0.05);
+            border: 2px solid var(--phosphor-dim);
+            color: var(--phosphor-main);
+            padding: 12px;
+            font-size: 0.85rem;
+            font-weight: bold;
+            cursor: pointer;
+            letter-spacing: 2px;
+            border-radius: 4px;
+            transition: all 0.3s;
+        }
+
+        .btn-sensitivity:hover {
+            background: rgba(0, 255, 65, 0.1);
+        }
+
+        .btn-sensitivity.active {
+            background: var(--phosphor-main);
+            color: #000;
+            border-color: var(--phosphor-main);
+            box-shadow: 0 0 20px var(--phosphor-main);
+        }
+
+        .btn-main {
+            background: var(--phosphor-main); 
+            color: #000; 
+            border: none;
+            padding: 24px; 
+            font-size: 1.3rem; 
+            margin-top: 35px; 
+            letter-spacing: 5px; 
+            cursor: pointer; 
+            width: 100%; 
+            max-width: 400px;
+            font-weight: 900; 
+            transition: all 0.3s; 
+            border-radius: 6px;
+            box-shadow: 0 0 40px var(--phosphor-dim);
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .btn-main::before {
+            content: "";
+            position: absolute;
+            top: -50%;
+            left: -50%;
+            width: 200%;
+            height: 200%;
+            background: linear-gradient(45deg, transparent, rgba(255, 255, 255, 0.3), transparent);
+            transform: rotate(45deg);
+            animation: shimmer 3s infinite;
+        }
+
+        @keyframes shimmer {
+            0% { transform: translateX(-100%) translateY(-100%) rotate(45deg); }
+            100% { transform: translateX(100%) translateY(100%) rotate(45deg); }
+        }
+
+        .btn-main:hover {
+            transform: scale(1.05);
+            box-shadow: 0 0 60px var(--phosphor-main);
+        }
+        
+        .btn-secondary { 
+            background: transparent; 
+            color: #999; 
+            border: 2px solid #333; 
+            padding: 16px; 
+            width: 100%; 
+            max-width: 400px; 
+            margin-top: 15px; 
+            cursor: pointer; 
+            font-size: 0.95rem; 
+            letter-spacing: 3px; 
+            border-radius: 6px;
+            transition: all 0.3s;
+        }
+
+        .btn-secondary:hover {
+            border-color: #666;
+            color: #ccc;
+        }
+
+        /* INTERFAZ PRINCIPAL MEJORADA */
+        header { 
+            display: flex; 
+            flex-direction: column; 
+            gap: 15px; 
+            padding-bottom: 20px; 
+            border-bottom: 2px solid rgba(0, 255, 65, 0.3); 
+            margin-bottom: 20px;
+            position: relative; 
+            z-index: 100;
+        }
+        .header-top { display: flex; justify-content: space-between; align-items: center; width: 100%; }
+        
+        .rec-tag { 
+            background: rgba(255, 26, 26, 0.1); 
+            color: #600; 
+            padding: 8px 16px; 
+            border-radius: 4px; 
+            font-weight: bold; 
+            font-size: 0.75rem; 
+            border: 2px solid #300;
+            transition: all 0.3s;
+        }
+        .rec-tag.active { 
+            background: var(--alert); 
+            color: #fff; 
+            border-color: #fff;
+            animation: blink 1s infinite; 
+            box-shadow: 0 0 20px var(--alert);
+        }
+
+        .header-btns { display: flex; gap: 10px; flex-wrap: wrap; align-items: center; }
+        .btn-header { 
+            width: 42px;
+            height: 42px;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            background: rgba(0, 255, 65, 0.08); 
+            border: 2px solid var(--phosphor-dim); 
+            color: var(--phosphor-main); 
+            padding: 0; 
+            font-size: 1rem; 
+            font-weight: bold; 
+            cursor: pointer; 
+            letter-spacing: 0;
+            border-radius: 10px; 
+            transition: all 0.2s;
+            box-shadow: inset 0 0 12px rgba(0,255,65,0.06);
+        }
+        .btn-header:hover {
+            background: rgba(0, 255, 65, 0.15);
+            transform: translateY(-2px);
+        }
+        .btn-header.pause-active { 
+            background: var(--quantum-gold); 
+            color: #000; 
+            border-color: #000;
+            box-shadow: inset 0 0 15px rgba(0,0,0,0.5); 
+            transform: translateY(2px);
+        }
+        .btn-header.stop-btn { 
+            border-color: rgba(255, 26, 26, 0.55); 
+            color: #ff8b8b; 
+        }
+        .btn-header.stop-btn:hover {
+            background: rgba(255, 26, 26, 0.1);
+        }
+        /* Botón grabación manual — compacto, rojo y más claro */
+        .btn-rec-manual {
+            width: 46px;
+            height: 46px;
+            border-radius: 50% !important;
+            border-color: rgba(255, 60, 60, 0.85) !important;
+            color: #fff !important;
+            background: radial-gradient(circle at 40% 35%, #ff7a7a 0%, #ff3b3b 42%, #b40000 100%) !important;
+            box-shadow: 0 0 0 3px rgba(255, 70, 70, 0.14), 0 0 18px rgba(255, 40, 40, 0.55);
+            animation: recRedPulse 1.9s infinite ease-in-out;
+            font-size: 1.15rem;
+        }
+        .btn-rec-manual.recording-active {
+            border-radius: 12px !important;
+            background: linear-gradient(180deg, #ff4d4d 0%, #cc0f0f 100%) !important;
+            box-shadow: 0 0 0 3px rgba(255, 70, 70, 0.16), 0 0 22px rgba(255, 40, 40, 0.75);
+            animation: blink 0.85s infinite;
+        }
+        @keyframes recRedPulse {
+            0%, 100% { transform: scale(1); box-shadow: 0 0 0 3px rgba(255,70,70,0.12), 0 0 12px rgba(255,40,40,0.42); }
+            50%      { transform: scale(1.04); box-shadow: 0 0 0 4px rgba(255,70,70,0.18), 0 0 22px rgba(255,40,40,0.78); }
+        }
+
+        .header-btns { gap: 8px; }
+        .btn-header.mobile-ctl {
+            width: 62px;
+            height: 56px;
+            padding: 6px 4px;
+            border-radius: 14px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            gap: 3px;
+            font-size: .92rem;
+        }
+        .btn-header.mobile-ctl .ctl-icon { font-size: 1.1rem; line-height: 1; }
+        .btn-header.mobile-ctl .ctl-label { font-size: .52rem; letter-spacing: .8px; line-height: 1; opacity: .95; }
+        .btn-header.mobile-ctl.btn-rec-manual {
+            width: 66px; height: 60px;
+            border-radius: 18px !important;
+            background: linear-gradient(180deg, rgba(255,63,63,.95) 0%, rgba(164,0,0,.96) 100%) !important;
+            border-color: rgba(255,92,92,.95) !important;
+            box-shadow: 0 0 0 3px rgba(255,70,70,.10), 0 0 18px rgba(255,40,40,.45);
+        }
+        .btn-header.mobile-ctl.btn-rec-manual .ctl-icon {
+            width: 18px; height: 18px; border-radius: 50%; background: #fff; display:flex; align-items:center; justify-content:center; color:#ff3b3b; font-size:.7rem;
+        }
+        .btn-header.mobile-ctl.btn-rec-manual.recording-active {
+            background: linear-gradient(180deg, rgba(255,83,83,.98) 0%, rgba(186,0,0,.98) 100%) !important;
+            box-shadow: 0 0 0 3px rgba(255,70,70,.18), 0 0 24px rgba(255,40,40,.75);
+        }
+        .btn-header.mobile-ctl.stop-rec-btn {
+            border-color: rgba(255,180,0,.45);
+            color: #ffd56b;
+            background: rgba(255,187,0,.08);
+        }
+        .btn-header.mobile-ctl.stop-rec-btn.is-disabled {
+            opacity: .38;
+            filter: grayscale(.25);
+            box-shadow: none;
+        }
+        .btn-header.mobile-ctl.exit-btn {
+            border-color: rgba(255,90,90,.55);
+            color: #ffb5b5;
+        }
+        .btn-header.mobile-ctl.info-btn {
+            border-color: rgba(0,255,65,.3);
+        }
+        @media (max-width: 600px) {
+            .header-top { align-items: flex-start; gap: 8px; }
+            .header-btns { flex-wrap: nowrap; gap: 6px; }
+            .btn-header.mobile-ctl { width: 58px; height: 54px; }
+            .btn-header.mobile-ctl.btn-rec-manual { width: 62px; height: 58px; }
+            .btn-header.mobile-ctl .ctl-label { font-size: .5rem; }
+        }
+
+        /* Leyenda de radar */
+        .radar-legend {
+            position: absolute;
+            bottom: 10px;
+            left: 12px;
+            display: flex;
+            gap: 12px;
+            font-size: 0.58rem;
+            letter-spacing: 1px;
+            opacity: 0.7;
+            pointer-events: none;
+        }
+        .legend-item { display: flex; align-items: center; gap: 5px; }
+        .legend-dot {
+            width: 8px; height: 8px; border-radius: 50%;
+            flex-shrink: 0;
+        }
+        .legend-dot.red    { background: #cc2222; box-shadow: 0 0 4px #cc2222; }
+        .legend-dot.purple { background: #9910cc; box-shadow: 0 0 4px #9910cc; }
+        .legend-dot.gold   { background: #ffaa00; box-shadow: 0 0 6px #ffaa00; }
+
+        .vol-control { width: 100%; display: flex; align-items: center; gap: 15px; }
+        .vol-label { 
+            font-size: 0.75rem; 
+            color: var(--phosphor-main); 
+            width: 110px; 
+            font-weight: bold; 
+            letter-spacing: 2px; 
+        }
+        input[type=range] { flex: 1; -webkit-appearance: none; background: transparent; }
+        input[type=range]::-webkit-slider-thumb {
+            -webkit-appearance: none; 
+            height: 24px; 
+            width: 24px; 
+            border-radius: 50%;
+            background: var(--phosphor-main); 
+            cursor: pointer; 
+            margin-top: -10px;
+            box-shadow: 0 0 20px var(--phosphor-main);
+            transition: all 0.2s;
+        }
+        input[type=range]::-webkit-slider-thumb:hover {
+            transform: scale(1.2);
+            box-shadow: 0 0 30px var(--phosphor-main);
+        }
+        input[type=range]::-webkit-slider-runnable-track { 
+            width: 100%; 
+            height: 6px; 
+            cursor: pointer; 
+            background: linear-gradient(to right, #111, var(--phosphor-dim)); 
+            border-radius: 3px; 
+        }
+        input[type=range]::-moz-range-thumb {
+            height: 24px; 
+            width: 24px; 
+            border-radius: 50%; 
+            background: var(--phosphor-main); 
+            cursor: pointer;
+            border: none;
+            box-shadow: 0 0 20px var(--phosphor-main);
+        }
+        input[type=range]::-moz-range-track {
+            width: 100%; 
+            height: 6px; 
+            cursor: pointer; 
+            background: linear-gradient(to right, #111, var(--phosphor-dim)); 
+            border-radius: 3px;
+        }
+
+        @keyframes blink { 0%, 50%, 100% { opacity: 1; } 25%, 75% { opacity: 0.3; } }
+
+        /* NUEVO: Panel de estadísticas mejorado */
+        .stats-panel {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+            gap: 12px;
+            margin-bottom: 20px;
+        }
+
+        .stat-box {
+            background: rgba(0, 255, 65, 0.05);
+            border: 2px solid var(--phosphor-dim);
+            border-radius: 6px;
+            padding: 12px;
+            text-align: center;
+        }
+
+        .stat-label {
+            font-size: 0.65rem;
+            color: #666;
+            letter-spacing: 2px;
+            margin-bottom: 8px;
+            text-transform: uppercase;
+        }
+
+        .stat-value {
+            font-size: 1.5rem;
+            font-weight: bold;
+            color: var(--phosphor-main);
+            text-shadow: 0 0 15px var(--phosphor-main);
+        }
+
+        .stat-value.alert {
+            color: var(--alert);
+            text-shadow: 0 0 15px var(--alert);
+            animation: pulse 1s infinite;
+        }
+
+        @keyframes pulse {
+            0%, 100% { transform: scale(1); opacity: 1; }
+            50% { transform: scale(1.1); opacity: 0.8; }
+        }
+
+        .stat-value.spectral {
+            color: var(--spectral-purple);
+            text-shadow: 0 0 15px var(--spectral-purple);
+        }
+
+        /* RADAR MEJORADO */
+        .radar-zone {
+            position: relative; 
+            height: 360px; /* fallback */
+            height: var(--radar-h);
+            min-height: 280px;
+            margin-bottom: 16px;
+            background: rgba(0, 10, 0, 0.3); 
+            border-radius: 8px; 
+            overflow: hidden;
+            border: 2px solid rgba(0, 255, 65, 0.3);
+            box-shadow: inset 0 0 30px rgba(0, 255, 65, 0.1);
+        }
+        #radar-canvas { 
+            width: 100%; 
+            height: 100%; 
+            display: block;
+            image-rendering: auto;
+            touch-action: pan-y;
+        }
+        .heading-tag {
+            position: absolute; 
+            top: 12px; 
+            right: 12px; 
+            background: rgba(0, 0, 0, 0.8); 
+            color: var(--quantum-gold); 
+            padding: 8px 14px; 
+            font-size: 0.75rem; 
+            border-radius: 4px;
+            font-weight: bold; 
+            letter-spacing: 2px;
+            border: 2px solid rgba(255, 215, 0, 0.3);
+            box-shadow: 0 0 15px rgba(255, 215, 0, 0.2);
+        }
+
+        /* ESPECTRO MEJORADO */
+        .spectral-box {
+            background: rgba(0, 10, 0, 0.3); 
+            padding: 16px; 
+            border-radius: 8px; 
+            margin-bottom: 16px;
+            border: 2px solid rgba(0, 255, 65, 0.3);
+            box-shadow: inset 0 0 30px rgba(0, 255, 65, 0.1);
+        }
+        .spec-label { 
+            font-size: 0.7rem; 
+            color: #666; 
+            margin-bottom: 15px; 
+            letter-spacing: 3px;
+            text-transform: uppercase;
+        }
+        .spectrum {
+            display: flex; 
+            gap: 3px; 
+            height: var(--spectrum-h); 
+            align-items: flex-end; 
+            justify-content: center;
+        }
+        .bar {
+            flex: 1; 
+            max-width: 12px; 
+            background: var(--phosphor-dim); 
+            transition: background 0.1s, height 0.05s;
+            border-radius: 2px 2px 0 0;
+            box-shadow: 0 0 5px currentColor;
+        }
+
+        /* MÉTRICAS MEJORADAS */
+        .metrics-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; margin-bottom: 16px; }
+        .metric-card {
+            background: rgba(0, 10, 0, 0.3); 
+            padding: 12px; 
+            border-radius: 8px;
+            border: 2px solid rgba(0, 255, 65, 0.3);
+        }
+        .metric-title { 
+            font-size: 0.65rem; 
+            color: #666; 
+            margin-bottom: 10px; 
+            letter-spacing: 2px;
+            text-transform: uppercase;
+        }
+        .metric-bar-bg {
+            background: #111; 
+            height: 16px; 
+            border-radius: 10px; 
+            overflow: hidden;
+            border: 1px solid rgba(0, 255, 65, 0.2);
+        }
+        .metric-bar {
+            height: 100%; 
+            background: linear-gradient(to right, var(--phosphor-dim), var(--phosphor-main)); 
+            transition: width 0.3s;
+            box-shadow: 0 0 10px var(--phosphor-main);
+        }
+        .metric-bar.critical {
+            background: linear-gradient(to right, var(--alert), #ff6666);
+            box-shadow: 0 0 15px var(--alert);
+        }
+        .metric-text { 
+            margin-top: 8px; 
+            font-size: 0.75rem; 
+            color: var(--phosphor-main); 
+            font-weight: bold;
+        }
+
+        /* CONSOLA MEJORADA */
+        .console-box {
+            background: rgba(0, 10, 0, 0.5); 
+            padding: 15px; 
+            border-radius: 8px; 
+            height: var(--console-h); 
+            overflow-y: auto;
+            font-size: 0.75rem; 
+            line-height: 1.6;
+            border: 2px solid rgba(0, 255, 65, 0.3);
+            box-shadow: inset 0 0 20px rgba(0, 0, 0, 0.8);
+        }
+        .console-box::-webkit-scrollbar { width: 8px; }
+        .console-box::-webkit-scrollbar-track { background: #111; }
+        .console-box::-webkit-scrollbar-thumb { background: var(--phosphor-dim); border-radius: 4px; }
+        .console-box div {
+            color: var(--phosphor-main); 
+            margin-bottom: 6px;
+            animation: consoleEntry 0.3s ease-out;
+        }
+
+        @keyframes consoleEntry {
+            from { opacity: 0; transform: translateX(-10px); }
+            to { opacity: 1; transform: translateX(0); }
+        }
+
+        /* MODAL DE EVIDENCIA MEJORADO */
+        .modal {
+            display: none; 
+            position: fixed; 
+            z-index: 1000; 
+            left: 0; 
+            top: 0; 
+            width: 100%; 
+            height: 100%; 
+            height: 100dvh;
+            background: rgba(0, 0, 0, 0.95);
+            backdrop-filter: blur(10px);
+            animation: fadeIn 0.3s ease-out;
+            overflow-y: auto;
+            -webkit-overflow-scrolling: touch;
+        }
+        .modal-content {
+            background: linear-gradient(135deg, #0a0a0a 0%, #000 100%); 
+            margin: 4% auto 20px auto;
+            padding: 24px; 
+            border: 2px solid var(--phosphor-main); 
+            border-radius: 12px;
+            width: 92%; 
+            max-width: 700px;
+            box-shadow: 0 0 50px rgba(0,255,65,0.4);
+            /* Garantiza que el contenido nunca quede cortado en móvil */
+            min-height: unset;
+        }
+        @media (max-width: 600px) {
+            .modal-content {
+                margin: 0 auto;
+                border-radius: 12px 12px 0 0;
+                width: 100%;
+                padding: 20px 16px 32px 16px;
+                border-left: none;
+                border-right: none;
+            }
+        }
+        .modal h2 { 
+            color: var(--phosphor-main); 
+            margin-top: 0; 
+            letter-spacing: 5px;
+            text-shadow: 0 0 20px var(--phosphor-main);
+            text-align: center;
+        }
+        .audio-row {
+            background: rgba(0, 255, 65, 0.05); 
+            padding: 12px 14px; 
+            margin-bottom: 10px; 
+            border-radius: 8px;
+            border: 1px solid rgba(0, 255, 65, 0.25);
+            transition: all 0.25s;
+        }
+        .audio-row:hover {
+            background: rgba(0, 255, 65, 0.09);
+            border-color: var(--phosphor-main);
+            box-shadow: 0 0 12px rgba(0, 255, 65, 0.18);
+        }
+        .audio-row strong { 
+            display: block; 
+            margin-bottom: 6px; 
+            color: var(--quantum-gold); 
+            font-size: 0.76rem; 
+            letter-spacing: 1.6px;
+            text-transform: uppercase;
+        }
+        .row-head {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 8px;
+            margin-bottom: 8px;
+        }
+        .mode-chip {
+            font-size: 0.62rem;
+            color: #b7ffcb;
+            border: 1px solid rgba(0,255,65,0.25);
+            background: rgba(0,255,65,0.06);
+            border-radius: 999px;
+            padding: 4px 8px;
+            white-space: nowrap;
+        }
+        audio {
+            width: 100%; 
+            height: 36px;
+            filter: saturate(0) brightness(0.86);
+        }
+        audio::-webkit-media-controls-panel {
+            background: rgba(0, 255, 65, 0.08);
+        }
+        .clean-panel {
+            margin: 10px 0 12px 0;
+            padding: 10px 12px;
+            border-radius: 8px;
+            border: 1px solid rgba(0,255,65,.18);
+            background: rgba(0,255,65,.035);
+        }
+        .clean-title {
+            font-size: .7rem;
+            color: #8bb38f;
+            margin-bottom: 8px;
+            letter-spacing: 1.5px;
+            text-transform: uppercase;
+        }
+        .clean-levels {
+            display: grid;
+            grid-template-columns: repeat(4, minmax(0, 1fr));
+            gap: 8px;
+        }
+        .btn-clean {
+            border: 1px solid rgba(0,255,65,.2);
+            background: rgba(0,255,65,.05);
+            color: var(--phosphor-main);
+            padding: 10px 8px;
+            border-radius: 8px;
+            font-family: inherit;
+            font-size: .72rem;
+            font-weight: 700;
+            cursor: pointer;
+            transition: all .2s ease;
+        }
+        .btn-clean:hover { background: rgba(0,255,65,.1); }
+        .btn-clean.active {
+            background: rgba(0,255,65,.16);
+            border-color: rgba(0,255,65,.45);
+            box-shadow: inset 0 0 10px rgba(0,255,65,.08), 0 0 10px rgba(0,255,65,.12);
+            color: #fff8cc;
+        }
+        .btn-download, .btn-dismiss {
+            width: 100%; 
+            padding: 14px 16px; 
+            margin-top: 10px; 
+            border: none; 
+            cursor: pointer;
+            font-family: inherit; 
+            font-size: .92rem; 
+            font-weight: bold; 
+            letter-spacing: 2px;
+            border-radius: 8px;
+            transition: all 0.25s;
+        }
+        .btn-download { 
+            background: var(--quantum-gold); 
+            color: #000;
+            box-shadow: 0 0 16px rgba(255,215,0,.24);
+        }
+        .btn-download:hover {
+            transform: scale(1.01);
+            box-shadow: 0 0 24px rgba(255,215,0,.34);
+        }
+        .btn-dismiss { 
+            background: rgba(255,255,255,0.06);
+            color: #ccc; 
+            border: 1px solid #555;
+        }
+        .btn-dismiss:hover, .btn-dismiss:active {
+            border-color: var(--phosphor-main);
+            color: var(--phosphor-main);
+            background: rgba(0,255,65,0.08);
+        }
+        .compact-evidence {
+            max-height: calc(100dvh - 8px);
+            overflow-y: auto;
+            padding-bottom: calc(88px + env(safe-area-inset-bottom, 0px));
+        }
+        .evidence-actions {
+            position: sticky;
+            bottom: 0;
+            z-index: 5;
+            background: linear-gradient(to top, rgba(0,0,0,.96) 68%, rgba(0,0,0,0));
+            padding-top: 12px;
+            padding-bottom: max(8px, env(safe-area-inset-bottom, 0px));
+            margin-top: 4px;
+        }
+        #results-rack { display: block; }
+
+        /* INFO SCREEN MEJORADA */
+        #info h2 { 
+            color: var(--quantum-gold); 
+            text-align: center; 
+            letter-spacing: 5px;
+            text-shadow: 0 0 20px var(--quantum-gold);
+        }
+        .info-block {
+            background: rgba(0, 255, 65, 0.05); 
+            padding: 20px; 
+            margin-bottom: 20px; 
+            border-radius: 8px;
+            border: 2px solid var(--phosphor-dim);
+        }
+        .info-block h3 { 
+            color: var(--phosphor-main); 
+            margin-top: 0; 
+            letter-spacing: 3px;
+        }
+        .info-block p { 
+            line-height: 1.8; 
+            color: #999; 
+            font-size: 0.9rem;
+        }
+
+        /* RESPONSIVE MEJORADO */
+        @media (max-width: 600px) {
+            h1 { font-size: 2.2rem; letter-spacing: 8px; }
+            .zenith-orb { width: 140px; height: 140px; }
+            .zenith-orb::after { font-size: 4.5rem; }
+            .metrics-grid { grid-template-columns: 1fr; }
+            .header-btns { justify-content: center; gap: 8px; }
+            .stats-panel { grid-template-columns: 1fr 1fr; }
+            .radar-zone { height: 320px; /* fallback */ height: var(--radar-h-mobile); min-height: 280px; }
+            .spectrum { height: var(--spectrum-h-mobile); }
+            .clean-levels { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+            .modal h2 { font-size: 1.05rem; letter-spacing: 3px; }
+            .audio-row { padding: 10px 12px; }
+            .btn-download, .btn-dismiss { font-size: .84rem; letter-spacing: 1.6px; }
+            .evidence-meta { font-size: .62rem; }
+            .btn-header { width: 40px; height: 40px; }
+            .btn-rec-manual { width: 44px; height: 44px; }
+
+        }
+    
+        @media (min-width: 1100px) {
+            .radar-zone { height: var(--radar-h-xl); }
+            .console-box { height: 110px; }
+        }
+
+        @media (max-width: 600px) and (orientation: portrait) {
+            .radar-zone { height: 340px; /* fallback */ height: 40vh; height: clamp(280px, 40vh, 460px); max-height: 460px; min-height: 280px; }
+        }
+        /* ═══════════════════════════════════════════════
+           BANNER DE INSTALACIÓN PWA
+        ═══════════════════════════════════════════════ */
+        #install-banner {
+            display: none;
+            position: fixed;
+            bottom: 0; left: 0; right: 0;
+            z-index: 2000;
+            padding: 0 16px 20px 16px;
+            background: linear-gradient(to top, rgba(0,0,0,0.98) 70%, transparent 100%);
+            animation: bannerSlideUp 0.45s cubic-bezier(0.22, 1, 0.36, 1) forwards;
+        }
+        #install-banner.visible { display: flex; flex-direction: column; }
+        @keyframes bannerSlideUp {
+            from { transform: translateY(100%); opacity: 0; }
+            to   { transform: translateY(0);    opacity: 1; }
+        }
+        .install-card {
+            background: linear-gradient(135deg, #0b0f0b 0%, #050905 100%);
+            border: 1px solid rgba(0,255,65,0.35);
+            border-radius: 14px;
+            padding: 20px;
+            box-shadow:
+                0 0 40px rgba(0,255,65,0.12),
+                0 -8px 32px rgba(0,0,0,0.8),
+                inset 0 1px 0 rgba(0,255,65,0.1);
+            position: relative;
+        }
+        .install-card::before {
+            content: "";
+            position: absolute;
+            inset: 0;
+            border-radius: 14px;
+            background: radial-gradient(ellipse at 50% 0%, rgba(0,255,65,0.06) 0%, transparent 65%);
+            pointer-events: none;
+        }
+        .install-header {
+            display: flex;
+            align-items: center;
+            gap: 14px;
+            margin-bottom: 14px;
+        }
+        .install-icon {
+            width: 52px; height: 52px;
+            border-radius: 12px;
+            background: #010101;
+            border: 1px solid rgba(0,255,65,0.4);
+            display: flex; align-items: center; justify-content: center;
+            font-size: 1.8rem;
+            box-shadow: 0 0 20px rgba(0,255,65,0.2), inset 0 0 12px rgba(0,255,65,0.08);
+            flex-shrink: 0;
+            color: var(--phosphor-main);
+            text-shadow: 0 0 15px var(--phosphor-main);
+        }
+        .install-text-block { flex: 1; }
+        .install-app-name {
+            font-size: 1rem;
+            font-weight: 900;
+            letter-spacing: 4px;
+            color: var(--phosphor-main);
+            text-shadow: 0 0 12px rgba(0,255,65,0.5);
+            margin-bottom: 3px;
+        }
+        .install-subtitle {
+            font-size: 0.68rem;
+            color: #666;
+            letter-spacing: 1.5px;
+        }
+        .install-close-x {
+            position: absolute;
+            top: 14px; right: 14px;
+            background: none;
+            border: none;
+            color: #555;
+            font-size: 1.1rem;
+            cursor: pointer;
+            padding: 4px 8px;
+            line-height: 1;
+            transition: color 0.2s;
+        }
+        .install-close-x:hover { color: #aaa; }
+        .install-desc {
+            font-size: 0.72rem;
+            color: #777;
+            line-height: 1.6;
+            letter-spacing: 0.5px;
+            margin-bottom: 16px;
+        }
+        .install-desc span { color: rgba(0,255,65,0.7); }
+        .install-actions {
+            display: flex;
+            gap: 10px;
+        }
+        .btn-install-accept {
+            flex: 1;
+            background: var(--phosphor-main);
+            color: #000;
+            border: none;
+            padding: 14px;
+            font-family: inherit;
+            font-size: 0.85rem;
+            font-weight: 900;
+            letter-spacing: 3px;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: all 0.2s;
+            box-shadow: 0 0 20px rgba(0,255,65,0.3);
+        }
+        .btn-install-accept:hover {
+            transform: translateY(-1px);
+            box-shadow: 0 0 30px rgba(0,255,65,0.5);
+        }
+        .btn-install-dismiss {
+            background: transparent;
+            color: #555;
+            border: 1px solid #333;
+            padding: 14px 18px;
+            font-family: inherit;
+            font-size: 0.75rem;
+            letter-spacing: 2px;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: all 0.2s;
+            white-space: nowrap;
+        }
+        .btn-install-dismiss:hover {
+            border-color: #555;
+            color: #888;
+        }
+        /* iOS manual hint */
+        .ios-hint {
+            display: none;
+            font-size: 0.7rem;
+            color: #666;
+            text-align: center;
+            margin-top: 12px;
+            letter-spacing: 0.5px;
+            line-height: 1.6;
+        }
+        .ios-hint .share-icon {
+            display: inline-block;
+            background: rgba(0,255,65,0.15);
+            border: 1px solid rgba(0,255,65,0.3);
+            border-radius: 4px;
+            padding: 1px 6px;
+            font-size: 0.8rem;
+            margin: 0 2px;
+        }
+    
+
+        /* ═══════════════════════════════════════════════
+           DSEBI v23 — UX MÓVIL COMPACTA + MODO EVP EXPERIMENTAL
+        ═══════════════════════════════════════════════ */
+        :root {
+            --radar-h-mobile: clamp(300px, 42vh, 460px);
+            --spectrum-h: 44px;
+            --spectrum-h-mobile: 48px;
+            --console-h: 92px;
+        }
+        #main.screen { padding: 12px; gap: 0; }
+        #main header {
+            gap: 8px;
+            padding-bottom: 8px;
+            margin-bottom: 8px;
+            border-bottom-width: 1px;
+        }
+        .header-top { gap: 8px; }
+        .rec-tag { padding: 5px 8px; font-size: 0.62rem; min-width: 74px; text-align:center; }
+        .header-btns { gap: 6px; flex-wrap: nowrap; }
+        .btn-header {
+            min-width: 36px;
+            min-height: 34px;
+            padding: 7px 8px;
+            font-size: 0.9rem;
+            line-height: 1;
+            letter-spacing: 0;
+            border-width: 1px;
+        }
+        .vol-control { gap: 8px; }
+        .vol-label { width: 74px; font-size: 0.62rem; letter-spacing: 1px; }
+        input[type=range]::-webkit-slider-thumb { width: 20px; height: 20px; margin-top: -8px; }
+        input[type=range]::-moz-range-thumb { width: 20px; height: 20px; }
+        .stats-panel { grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 6px; margin-bottom: 8px; }
+        .stat-box { padding: 7px 4px; border-width: 1px; border-radius: 7px; }
+        .stat-label { font-size: 0.52rem; letter-spacing: .5px; margin-bottom: 3px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+        .stat-value { font-size: 1rem; }
+        .radar-zone { margin-bottom: 8px; min-height: 260px; border-width: 1px; }
+        .heading-tag { top: 8px; right: 8px; padding: 5px 8px; font-size: 0.62rem; border-width: 1px; }
+        .radar-legend { bottom: 7px; left: 8px; gap: 7px; font-size: 0.48rem; flex-wrap: wrap; max-width: calc(100% - 16px); }
+        .spectral-box { padding: 8px; margin-bottom: 8px; border-width: 1px; }
+        .spec-label { font-size: 0.56rem; margin-bottom: 6px; letter-spacing: 1px; }
+        .spectrum { height: var(--spectrum-h); gap: 2px; overflow: hidden; }
+        .bar { max-width: 7px; min-width: 2px; }
+        .metrics-grid { grid-template-columns: 1fr 1fr; gap: 8px; margin-bottom: 8px; }
+        .metric-card { padding: 8px; border-width: 1px; }
+        .metric-title { font-size: 0.54rem; letter-spacing: 1px; margin-bottom: 6px; }
+        .metric-bar-bg { height: 10px; }
+        .metric-text { margin-top: 5px; font-size: 0.62rem; }
+        .console-box { height: var(--console-h); padding: 9px; font-size: 0.62rem; line-height: 1.35; border-width: 1px; }
+        .audio-hint { color:#888; font-size:.68rem; line-height:1.45; margin: 4px 0 10px 0; text-align:center; }
+        .evidence-meta { font-size:.66rem; color:#888; line-height:1.42; border:1px solid rgba(0,255,65,.18); border-radius:8px; padding:8px 10px; margin-bottom:10px; background:rgba(0,255,65,.04); }
+        @media (max-width: 600px) {
+            #main.screen { padding: 8px; }
+            .header-btns { margin-left:auto; }
+            .btn-header { min-width: 34px; min-height: 32px; padding: 6px 7px; }
+            .stats-panel { gap: 5px; }
+            .stat-label { font-size: 0.48rem; }
+            .stat-value { font-size: .92rem; }
+            .radar-zone { height: var(--radar-h-mobile); min-height: 270px; }
+            .spectrum { height: var(--spectrum-h-mobile); }
+            .metrics-grid { grid-template-columns: 1fr 1fr; }
+            .console-box { height: 88px; }
+        }
+        @media (max-height: 740px) and (max-width: 600px) {
+            .radar-zone { height: clamp(240px, 36vh, 360px); min-height: 240px; }
+            .console-box { height: 74px; }
+            .spectral-box { padding: 7px; }
+        }
+
+
+        /* ═══════════════════════════════════════════════
+           AETHERIS SCANNER v26 — THEMES + SCANNER CLEAN
+           Sin pulso | clásico verde recuperado | temas activables
+        ═══════════════════════════════════════════════ */
+        :root{
+            --radar-h:clamp(360px, 48vh, 560px);
+            --radar-h-xl:clamp(420px, 56vh, 680px);
+            --radar-h-mobile:clamp(360px, 58vh, 620px);
+
+            --theme-bg:#000000;
+            --theme-bg-deep:#020502;
+            --theme-text:#00ff41;
+            --theme-text-soft:rgba(182,255,199,.74);
+            --theme-border:rgba(0,255,65,.20);
+            --theme-panel:rgba(0,255,65,.05);
+            --theme-panel-strong:rgba(0,255,65,.09);
+            --theme-hover:rgba(0,255,65,.12);
+            --theme-glow:rgba(0,255,65,.18);
+            --theme-strong:#00ff41;
+            --theme-strong-contrast:#001407;
+            --theme-orb-border:rgba(0,255,65,.74);
+            --theme-orb-glow:rgba(0,255,65,.18);
+            --theme-screen-radial:rgba(0,255,65,.06);
+            --theme-screen-line:rgba(0,255,65,.03);
+            --theme-panel-text:rgba(204,255,214,.80);
+            --theme-bar-idle:rgba(0,255,65,.16);
+            --theme-bar-glow:rgba(0,255,65,.14);
+            --theme-modal-overlay:rgba(0,0,0,.94);
+            --theme-modal-start:#071107;
+            --theme-modal-end:#000000;
+            --theme-audio-filter:none;
+        }
+
+        body[data-theme="mono"]{
+            --theme-bg:#000000;
+            --theme-bg-deep:#030303;
+            --theme-text:#f4f4f4;
+            --theme-text-soft:rgba(238,238,238,.74);
+            --theme-border:rgba(255,255,255,.20);
+            --theme-panel:rgba(255,255,255,.05);
+            --theme-panel-strong:rgba(255,255,255,.09);
+            --theme-hover:rgba(255,255,255,.10);
+            --theme-glow:rgba(255,255,255,.16);
+            --theme-strong:#ffffff;
+            --theme-strong-contrast:#000000;
+            --theme-orb-border:rgba(255,255,255,.74);
+            --theme-orb-glow:rgba(255,255,255,.15);
+            --theme-screen-radial:rgba(255,255,255,.055);
+            --theme-screen-line:rgba(255,255,255,.03);
+            --theme-panel-text:rgba(230,230,230,.78);
+            --theme-bar-idle:rgba(255,255,255,.14);
+            --theme-bar-glow:rgba(255,255,255,.08);
+            --theme-modal-overlay:rgba(0,0,0,.94);
+            --theme-modal-start:#090909;
+            --theme-modal-end:#000000;
+            --theme-audio-filter:grayscale(1) contrast(.95) brightness(.92);
+        }
+
+        body[data-theme="light-black"]{
+            --theme-bg:#f7f7f7;
+            --theme-bg-deep:#ffffff;
+            --theme-text:#111111;
+            --theme-text-soft:rgba(17,17,17,.72);
+            --theme-border:rgba(0,0,0,.18);
+            --theme-panel:rgba(0,0,0,.045);
+            --theme-panel-strong:rgba(0,0,0,.075);
+            --theme-hover:rgba(0,0,0,.10);
+            --theme-glow:rgba(0,0,0,.10);
+            --theme-strong:#111111;
+            --theme-strong-contrast:#ffffff;
+            --theme-orb-border:rgba(0,0,0,.62);
+            --theme-orb-glow:rgba(0,0,0,.10);
+            --theme-screen-radial:rgba(0,0,0,.04);
+            --theme-screen-line:rgba(0,0,0,.022);
+            --theme-panel-text:rgba(0,0,0,.74);
+            --theme-bar-idle:rgba(0,0,0,.14);
+            --theme-bar-glow:rgba(0,0,0,.06);
+            --theme-modal-overlay:rgba(248,248,248,.94);
+            --theme-modal-start:#ffffff;
+            --theme-modal-end:#f3f3f3;
+            --theme-audio-filter:grayscale(1) contrast(.96) brightness(.98);
+        }
+
+        body[data-theme="light-green"]{
+            --theme-bg:#f7fff8;
+            --theme-bg-deep:#ffffff;
+            --theme-text:#008d30;
+            --theme-text-soft:rgba(0,96,32,.72);
+            --theme-border:rgba(0,141,48,.22);
+            --theme-panel:rgba(0,141,48,.05);
+            --theme-panel-strong:rgba(0,141,48,.08);
+            --theme-hover:rgba(0,141,48,.11);
+            --theme-glow:rgba(0,141,48,.14);
+            --theme-strong:#00a53a;
+            --theme-strong-contrast:#ffffff;
+            --theme-orb-border:rgba(0,141,48,.60);
+            --theme-orb-glow:rgba(0,141,48,.12);
+            --theme-screen-radial:rgba(0,141,48,.04);
+            --theme-screen-line:rgba(0,141,48,.02);
+            --theme-panel-text:rgba(0,96,32,.76);
+            --theme-bar-idle:rgba(0,141,48,.14);
+            --theme-bar-glow:rgba(0,141,48,.08);
+            --theme-modal-overlay:rgba(245,255,247,.95);
+            --theme-modal-start:#ffffff;
+            --theme-modal-end:#f1fff4;
+            --theme-audio-filter:none;
+        }
+
+        body{
+            color:var(--theme-text);
+            background:var(--theme-bg);
+            background-image:
+                radial-gradient(circle at 50% 22%, var(--theme-screen-radial), transparent 40%),
+                linear-gradient(180deg, var(--theme-bg-deep) 0%, var(--theme-bg) 100%);
+        }
+        body::before{
+            background:
+                linear-gradient(rgba(255,255,255,0) 50%, var(--theme-screen-line) 50%),
+                linear-gradient(90deg, color-mix(in srgb, var(--theme-text) 12%, transparent), rgba(255,255,255,0), color-mix(in srgb, var(--theme-text) 12%, transparent));
+            opacity:.42;
+        }
+        h1{
+            color:var(--theme-text);
+            letter-spacing:10px;
+            text-shadow:0 0 28px var(--theme-glow);
+        }
+        .version-tag{
+            color:var(--theme-panel-text);
+            text-shadow:0 0 14px var(--theme-glow);
+        }
+        .zenith-orb{
+            border-color:var(--theme-orb-border);
+            box-shadow:0 0 70px var(--theme-orb-glow), inset 0 0 40px color-mix(in srgb, var(--theme-text) 12%, transparent);
+        }
+        .zenith-orb::before{ background:radial-gradient(circle, color-mix(in srgb, var(--theme-text) 16%, transparent), transparent 70%); }
+        .zenith-orb::after{ color:var(--theme-text); text-shadow:0 0 34px var(--theme-glow); content:"∿"; }
+        .noise-selector,.btn-sensitivity,.btn-secondary{
+            color:var(--theme-text);
+            background:var(--theme-panel);
+            border-color:var(--theme-border);
+            box-shadow:none;
+        }
+        .noise-selector:hover,.btn-sensitivity:hover,.btn-secondary:hover{
+            border-color:color-mix(in srgb, var(--theme-text) 38%, transparent);
+            background:var(--theme-hover);
+            box-shadow:0 0 24px var(--theme-glow);
+        }
+        .btn-sensitivity.active,.btn-main{
+            background:var(--theme-strong);
+            color:var(--theme-strong-contrast);
+            border:1px solid var(--theme-strong);
+            box-shadow:0 0 38px var(--theme-glow);
+        }
+        #main header{
+            border-bottom:1px solid var(--theme-border);
+            background:linear-gradient(180deg, color-mix(in srgb, var(--theme-bg) 84%, transparent), rgba(0,0,0,0));
+        }
+        .header-top{ display:flex; align-items:center; justify-content:space-between; }
+        .rec-tag{
+            background:var(--theme-panel);
+            color:var(--theme-panel-text);
+            border:1px solid var(--theme-border);
+            border-radius:999px;
+            letter-spacing:1.3px;
+        }
+        .rec-tag.active{
+            background:var(--theme-strong);
+            color:var(--theme-strong-contrast);
+            border-color:var(--theme-strong);
+            box-shadow:0 0 20px var(--theme-glow);
+        }
+        .header-btns{ gap:7px; flex-wrap:nowrap; }
+        .btn-header,
+        .btn-header.mobile-ctl,
+        .btn-header.mobile-ctl.btn-rec-manual,
+        .btn-header.mobile-ctl.stop-rec-btn,
+        .btn-header.mobile-ctl.exit-btn,
+        .btn-header.mobile-ctl.info-btn{
+            width:48px;
+            height:48px;
+            min-width:48px;
+            min-height:48px;
+            border-radius:16px!important;
+            background:var(--theme-panel)!important;
+            color:var(--theme-text)!important;
+            border:1px solid var(--theme-border)!important;
+            box-shadow:inset 0 0 12px color-mix(in srgb, var(--theme-text) 5%, transparent), 0 0 0 rgba(255,255,255,0)!important;
+            animation:none;
+            padding:4px;
+        }
+        .btn-header:hover,.btn-header.mobile-ctl:hover{
+            background:var(--theme-hover)!important;
+            border-color:color-mix(in srgb, var(--theme-text) 40%, transparent)!important;
+            transform:translateY(-1px);
+        }
+        .btn-header.mobile-ctl .ctl-icon{
+            font-size:1.05rem;
+            background:none!important;
+            color:inherit!important;
+            width:auto!important;
+            height:auto!important;
+        }
+        .btn-header.mobile-ctl .ctl-label{ font-size:.46rem; letter-spacing:.5px; opacity:.76; }
+        .btn-header.mobile-ctl.btn-rec-manual.recording-active{
+            background:var(--theme-strong)!important;
+            color:var(--theme-strong-contrast)!important;
+            border-color:var(--theme-strong)!important;
+            box-shadow:0 0 26px var(--theme-glow)!important;
+        }
+        .vol-control{ display:none; }
+        .stats-panel,.metrics-grid,.console-box{ display:none!important; }
+        .radar-zone{
+            height:var(--radar-h);
+            min-height:340px;
+            border:1px solid var(--theme-border);
+            border-radius:18px;
+            background:
+                radial-gradient(circle at 50% 50%, color-mix(in srgb, var(--theme-text) 6%, transparent), transparent 52%),
+                linear-gradient(180deg, color-mix(in srgb, var(--theme-text) 3.5%, transparent), color-mix(in srgb, var(--theme-bg) 78%, transparent));
+            box-shadow:inset 0 0 70px color-mix(in srgb, var(--theme-text) 5%, transparent), 0 0 40px color-mix(in srgb, var(--theme-text) 3%, transparent);
+        }
+        #radar-canvas{ touch-action:none; }
+        .heading-tag,.radar-legend{ display:none!important; }
+        .scanner-readout{
+            position:absolute;
+            left:16px;
+            right:16px;
+            bottom:14px;
+            display:flex;
+            align-items:center;
+            justify-content:space-between;
+            gap:12px;
+            color:var(--theme-text-soft);
+            font-size:.68rem;
+            letter-spacing:1.5px;
+            pointer-events:none;
+            text-transform:uppercase;
+        }
+        .scanner-readout span{
+            border:1px solid var(--theme-border);
+            border-radius:999px;
+            padding:6px 10px;
+            background:color-mix(in srgb, var(--theme-bg) 72%, transparent);
+            backdrop-filter:blur(6px);
+        }
+        .scanner-readout .scanner-level{ min-width:88px; text-align:center; }
+        .spectral-box{
+            border:1px solid var(--theme-border);
+            background:var(--theme-panel);
+            border-radius:14px;
+            padding:10px;
+        }
+        .spec-label{ color:var(--theme-text-soft); }
+        .bar{
+            background:var(--theme-bar-idle);
+            box-shadow:0 0 8px var(--theme-bar-glow);
+        }
+        .modal{ background:var(--theme-modal-overlay); backdrop-filter:blur(12px); }
+        .modal-content{
+            border:1px solid color-mix(in srgb, var(--theme-text) 26%, transparent);
+            background:linear-gradient(180deg,var(--theme-modal-start),var(--theme-modal-end));
+            box-shadow:0 0 60px color-mix(in srgb, var(--theme-text) 8%, transparent);
+            color:var(--theme-text);
+        }
+        .modal h2{
+            color:var(--theme-text);
+            text-shadow:0 0 22px var(--theme-glow);
+            letter-spacing:3px;
+            font-size:1.2rem;
+        }
+        .audio-hint{ display:none!important; }
+        .evidence-meta{
+            display:none;
+            border-color:var(--theme-border)!important;
+            background:var(--theme-panel)!important;
+            color:var(--theme-panel-text)!important;
+        }
+        .evidence-meta.visible{ display:block; }
+        .audio-row{ border:1px solid var(--theme-border); background:var(--theme-panel); }
+        .audio-row strong{ color:var(--theme-text); }
+        .mode-chip{ color:var(--theme-text); border-color:var(--theme-border); background:var(--theme-panel-strong); }
+        audio{ filter:var(--theme-audio-filter); }
+        .clean-panel{ border-color:var(--theme-border); background:var(--theme-panel); }
+        .clean-title{ color:var(--theme-text-soft); }
+        .btn-clean{ color:var(--theme-text); border-color:var(--theme-border); background:var(--theme-panel); }
+        .btn-clean.active{ background:var(--theme-strong); color:var(--theme-strong-contrast); border-color:var(--theme-strong); box-shadow:0 0 18px var(--theme-glow); }
+        .btn-download{ background:var(--theme-strong); color:var(--theme-strong-contrast); box-shadow:0 0 20px var(--theme-glow); }
+        .btn-dismiss{ color:var(--theme-text); border-color:var(--theme-border); background:var(--theme-panel); }
+        .btn-mini{
+            width:100%;
+            border:1px solid var(--theme-border);
+            background:var(--theme-panel);
+            color:var(--theme-text);
+            font-family:inherit;
+            border-radius:8px;
+            padding:11px;
+            margin-top:8px;
+            cursor:pointer;
+            letter-spacing:1.4px;
+        }
+        .btn-mini:hover{ background:var(--theme-hover); }
+
+        .theme-panel{
+            display:none;
+            position:absolute;
+            top:72px;
+            right:24px;
+            z-index:220;
+            width:min(360px, calc(100vw - 28px));
+            grid-template-columns:1fr 1fr;
+            gap:8px;
+            padding:10px;
+            border:1px solid var(--theme-border);
+            border-radius:14px;
+            background:color-mix(in srgb, var(--theme-bg) 88%, transparent);
+            box-shadow:0 20px 45px rgba(0,0,0,.32), 0 0 22px var(--theme-glow);
+            backdrop-filter:blur(12px);
+        }
+        .theme-panel.open{ display:grid; }
+        .theme-option{
+            border:1px solid var(--theme-border);
+            background:var(--theme-panel);
+            color:var(--theme-text);
+            font-family:inherit;
+            font-weight:700;
+            border-radius:10px;
+            padding:11px 8px;
+            font-size:.66rem;
+            letter-spacing:.8px;
+            cursor:pointer;
+            min-height:40px;
+        }
+        .theme-option:hover{ background:var(--theme-hover); }
+        .theme-option.active{
+            background:var(--theme-strong);
+            color:var(--theme-strong-contrast);
+            border-color:var(--theme-strong);
+            box-shadow:0 0 18px var(--theme-glow);
+        }
+        .theme-btn.active{
+            background:var(--theme-strong)!important;
+            color:var(--theme-strong-contrast)!important;
+            border-color:var(--theme-strong)!important;
+        }
+        @media (max-width:600px){
+            h1{ font-size:2.05rem; letter-spacing:7px; }
+            #main header{ gap:8px; padding-bottom:10px; margin-bottom:10px; }
+            .header-top{ gap:6px; align-items:center; }
+            .rec-tag{ font-size:.54rem; padding:6px 8px; letter-spacing:.7px; max-width:72px; overflow:hidden; text-overflow:ellipsis; white-space:nowrap; }
+            .header-btns{ flex:1; justify-content:flex-end; gap:4px; min-width:0; }
+            .radar-zone{ height:var(--radar-h-mobile); min-height:340px; border-radius:16px; }
+            .btn-header,
+            .btn-header.mobile-ctl,
+            .btn-header.mobile-ctl.btn-rec-manual,
+            .btn-header.mobile-ctl.stop-rec-btn,
+            .btn-header.mobile-ctl.exit-btn,
+            .btn-header.mobile-ctl.info-btn,
+            .btn-header.mobile-ctl.theme-btn{
+                width:38px!important;
+                height:38px!important;
+                min-width:38px!important;
+                min-height:38px!important;
+                max-width:38px!important;
+                max-height:38px!important;
+                border-radius:12px!important;
+                padding:0!important;
+                display:inline-flex!important;
+                flex:0 0 38px!important;
+                align-items:center!important;
+                justify-content:center!important;
+                line-height:1!important;
+            }
+            .btn-header.mobile-ctl .ctl-icon{
+                font-size:1rem!important;
+                line-height:1!important;
+                display:flex!important;
+                align-items:center!important;
+                justify-content:center!important;
+                width:100%!important;
+                height:100%!important;
+            }
+            .btn-header.mobile-ctl .ctl-label{ display:none!important; }
+            .theme-panel{
+                top:60px;
+                right:8px;
+                left:8px;
+                width:auto;
+                grid-template-columns:1fr 1fr;
+                padding:8px;
+                gap:6px;
+            }
+            .theme-option{ font-size:.58rem; padding:9px 6px; min-height:36px; }
+            .scanner-readout{ left:10px; right:10px; bottom:10px; font-size:.55rem; letter-spacing:.8px; }
+            .scanner-readout span{ padding:5px 7px; }
+            .spectral-box{ padding:8px; }
+            #main.screen{ padding:9px; }
+        }
+
+        @media (max-width:380px){
+            .rec-tag{ max-width:58px; font-size:.48rem; padding:5px 6px; }
+            .header-btns{ gap:3px; }
+            .btn-header,
+            .btn-header.mobile-ctl,
+            .btn-header.mobile-ctl.btn-rec-manual,
+            .btn-header.mobile-ctl.stop-rec-btn,
+            .btn-header.mobile-ctl.exit-btn,
+            .btn-header.mobile-ctl.info-btn,
+            .btn-header.mobile-ctl.theme-btn{
+                width:34px!important;
+                height:34px!important;
+                min-width:34px!important;
+                min-height:34px!important;
+                max-width:34px!important;
+                max-height:34px!important;
+                flex-basis:34px!important;
+                border-radius:11px!important;
+            }
+            .btn-header.mobile-ctl .ctl-icon{ font-size:.92rem!important; }
+        }
+
+    </style>
+</head>
+<body data-theme="classic">
+    <!-- SPLASH SCREEN -->
+    <div class="screen active" id="splash">
+        <div class="zenith-orb"></div>
+        <h1>AETHERIS</h1>
+        <div class="version-tag">SCANNER v26 | PROTOCOLO ACÚSTICO EXPERIMENTAL</div>
+
+        <div class="noise-selector-container">
+            <label class="noise-label">▸ SELECCIONAR PORTADORA DE RUIDO</label>
+            <select class="noise-selector" id="carrier-select">
+                <option value="white">RUIDO BLANCO | ESPECTRO COMPLETO</option>
+                <option value="pink">RUIDO ROSA | 1/f NATURAL</option>
+                <option value="brown">RUIDO MARRÓN | FRECUENCIAS BAJAS</option>
+                <option value="fibonacci">FIBONACCI 528 Hz | RESONANCIA DIVINA</option>
+            </select>
+        </div>
+<div class="sensitivity-container">
+            <label class="noise-label">▸ SENSIBILIDAD DE DETECCIÓN</label>
+            <div class="sensitivity-buttons">
+                <button class="btn-sensitivity" data-level="low">BAJA</button>
+                <button class="btn-sensitivity active" data-level="medium">MEDIA</button>
+                <button class="btn-sensitivity" data-level="high">ALTA</button>
+            </div>
+        </div>
+
+        <button class="btn-main" onclick="app.init()">INICIAR SCANNER</button>
+        <button class="btn-secondary" onclick="app.showScreen('info')">GUÍA BREVE</button>
+    </div>
+
+    <!-- MAIN INTERFACE -->
+    <div class="screen" id="main">
+        <header>
+            <div class="header-top">
+                <div class="rec-tag" id="rec-ui">STANDBY</div>
+                <div class="header-btns">
+                    <button class="btn-header mobile-ctl btn-rec-manual" id="manual-rec-btn" onclick="app.manualRecord()" title="Grabar evidencia" aria-label="Grabar evidencia">
+                        <span class="ctl-icon" id="manual-rec-icon">●</span><span class="ctl-label" id="manual-rec-label">GRABAR</span>
+                    </button>
+                    <button class="btn-header mobile-ctl stop-rec-btn is-disabled" id="stop-rec-btn" onclick="app.stopRecording()" title="Detener grabación" aria-label="Detener grabación">
+                        <span class="ctl-icon">■</span><span class="ctl-label">PARAR</span>
+                    </button>
+                    <button class="btn-header mobile-ctl listen-btn" id="listen-btn" onclick="app.openRecordings()" title="Escuchar la última grabación" aria-label="Escuchar la última grabación">
+                        <span class="ctl-icon">◉</span><span class="ctl-label">ESCUCHAR</span>
+                    </button>
+                    <button class="btn-header mobile-ctl exit-btn" onclick="app.stop()" title="Salir de la aplicación" aria-label="Salir de la aplicación">
+                        <span class="ctl-icon">⏻</span><span class="ctl-label">SALIR</span>
+                    </button>
+                    <button class="btn-header mobile-ctl theme-btn" id="theme-toggle-btn" onclick="app.toggleThemePanel()" title="Cambiar paleta visual" aria-label="Cambiar paleta visual">
+                        <span class="ctl-icon">◐</span><span class="ctl-label">PALETA</span>
+                    </button>
+                    <button class="btn-header mobile-ctl info-btn" onclick="app.showScreen('info')" title="Información del protocolo" aria-label="Información del protocolo">
+                        <span class="ctl-icon">ℹ</span><span class="ctl-label">INFO</span>
+                    </button>
+                </div>
+            </div>
+            <div class="theme-panel" id="theme-panel" aria-label="Selector de paleta visual">
+                <button class="theme-option active" data-theme-choice="classic" onclick="app.selectThemeFromPanel('classic')" title="Negro con verde fósforo">NEGRO + VERDE</button>
+                <button class="theme-option" data-theme-choice="mono" onclick="app.selectThemeFromPanel('mono')" title="Negro con blanco monocromo">NEGRO + BLANCO</button>
+                <button class="theme-option" data-theme-choice="light-black" onclick="app.selectThemeFromPanel('light-black')" title="Fondo blanco con scanner negro">BLANCO + NEGRO</button>
+                <button class="theme-option" data-theme-choice="light-green" onclick="app.selectThemeFromPanel('light-green')" title="Fondo blanco con scanner verde">BLANCO + VERDE</button>
+            </div>
+            <div class="vol-control">
+                <label class="vol-label">VOLUMEN</label>
+                <input type="range" id="vol-slider" min="0" max="100" value="50" oninput="app.setVolume(this.value)">
+            </div>
+        </header>
+
+        <!-- NUEVO: Panel de estadísticas -->
+        <div class="stats-panel">
+            <div class="stat-box">
+                <div class="stat-label">Anomalías</div>
+                <div class="stat-value" id="stat-anomalies">0</div>
+            </div>
+            <div class="stat-box">
+                <div class="stat-label">Espectrales</div>
+                <div class="stat-value spectral" id="stat-spectral">0</div>
+            </div>
+            <div class="stat-box">
+                <div class="stat-label">Auténticas</div>
+                <div class="stat-value" id="stat-authentic" style="color: var(--authentic-signal); text-shadow: 0 0 15px var(--authentic-signal);">0</div>
+            </div>
+            <div class="stat-box">
+                <div class="stat-label">Intensidad</div>
+                <div class="stat-value" id="stat-intensity">0</div>
+            </div>
+        </div>
+
+        <div class="radar-zone">
+            <canvas id="radar-canvas" width="600" height="600"></canvas>
+            <div class="heading-tag">NORTE: <span id="heading-val">0</span>°</div>
+            <div class="radar-legend">
+                <div class="legend-item"><div class="legend-dot red"></div><span>TRANSITORIA</span></div>
+                <div class="legend-item"><div class="legend-dot purple"></div><span>ESPECTRAL</span></div>
+                <div class="legend-item"><div class="legend-dot gold"></div><span>EVP / AUTÉNTICA</span></div>
+            </div>
+            <div class="scanner-readout">
+                <span id="scanner-status">EXPLORANDO</span>
+                <span class="scanner-level" id="scanner-level">0%</span>
+            </div>
+        </div>
+
+        <div class="spectral-box">
+            <div class="spec-label">▸ ANÁLISIS ESPECTRAL EN TIEMPO REAL</div>
+            <div class="spectrum" id="spectrum"></div>
+        </div>
+
+        <div class="metrics-grid">
+            <div class="metric-card">
+                <div class="metric-title">MAGNITUD CAMPO</div>
+                <div class="metric-bar-bg">
+                    <div class="metric-bar" id="bar-mag"></div>
+                </div>
+                <div class="metric-text" id="txt-mag">0 µT</div>
+            </div>
+            <div class="metric-card">
+                <div class="metric-title">ÍNDICE ANOMALÍA</div>
+                <div class="metric-bar-bg">
+                    <div class="metric-bar" id="bar-anom"></div>
+                </div>
+                <div class="metric-text" id="txt-anom">0%</div>
+            </div>
+        </div>
+
+        <div class="console-box" id="console"></div>
+    </div>
+
+    <!-- INFO SCREEN -->
+    <div class="screen" id="info">
+        <h2>PROTOCOLO AETHERIS SCANNER v26</h2>
+        
+        <div class="info-block">
+            <h3>▸ TECNOLOGÍA EXPERIMENTAL</h3>
+            <p>Sistema experimental de registro y análisis acústico anómalo tipo EVP. No prueba entidades; organiza señales del micrófono, ruido portador y bandas vocales para revisión humana prudente.</p>
+        </div>
+
+        <div class="info-block">
+            <h3>▸ PORTADORAS DISPONIBLES</h3>
+            <p><strong>RUIDO BLANCO:</strong> Espectro completo de frecuencias para detección generalizada.<br>
+            <strong>RUIDO ROSA:</strong> Patrón 1/f natural, similar a procesos orgánicos.<br>
+            <strong>RUIDO MARRÓN:</strong> Énfasis en frecuencias bajas, útil para fenómenos graves.<br>
+            <strong>FIBONACCI 528 Hz:</strong> Portadora tonal experimental; su valor es inmersivo, no una validación científica de comunicación espiritual.</p>
+        </div>
+
+        <div class="info-block">
+            <h3>▸ CAPAS DE PROCESAMIENTO</h3>
+            <p><strong>ORGANIC:</strong> Filtro de puerta de ruido para aislar eventos orgánicos.<br>
+            <strong>ISOLATED:</strong> Bandpass centrado en 1500 Hz, Q=1.2<br>
+            <strong>VOICE:</strong> Bandpass agresivo 1500 Hz, Q=5.0 para voces humanas.<br>
+            <strong>DEEP:</strong> Puerta extrema + amplificación 12x para señales débiles.</p>
+        </div>
+
+        <div class="info-block">
+            <h3>▸ SENSIBILIDAD DE DETECCIÓN</h3>
+            <p><strong>BAJA:</strong> Solo detecta anomalías muy fuertes (umbral alto).<br>
+            <strong>MEDIA:</strong> Balance entre sensibilidad y falsos positivos.<br>
+            <strong>ALTA:</strong> Máxima sensibilidad, detecta señales sutiles.</p>
+        </div>
+
+        <div class="info-block">
+            <h3>▸ SCANNER ESPECTRAL</h3>
+            <p>El scanner muestra un barrido horizontal y un indicador visual de desplazamiento para señales candidatas. La orientación visual es una guía de seguimiento de patrones acústicos, no una prueba de localización física.</p>
+            <p><strong>Eventos transitorios:</strong> Actividad breve de baja persistencia.<br>
+            <strong>Señales candidatas:</strong> Actividad con mayor energía o claridad vocal.<br>
+            <strong>Capturas reforzadas:</strong> Señales con persistencia y puntaje alto para revisión humana prudente.</p>
+        </div>
+
+        <div class="info-block">
+            <h3>▸ CRITERIOS DE CAPTURA — USO PRUDENTE</h3>
+            <p>Una señal se marca como captura reforzada cuando cumple varios criterios acústicos internos:</p>
+            <p>
+            • <strong>Rareza temporal:</strong> ≥20s desde la última señal auténtica (Müller, 1969).<br>
+            • <strong>Banda vocal activa:</strong> Energía en 300–3400 Hz sin dominancia en extremos (Raudive).<br>
+            • <strong>Persistencia moderada:</strong> Duración equivalente a 0.5–5s de evento real (Cardoso, 2010).<br>
+            • <strong>Repetición zonal:</strong> ≥2 eventos previos fuertes en ±40° en últimos 30s (Jürgenson, 1964).<br>
+            • <strong>Correlación magnética:</strong> Fluctuación en rango 10–65 µT (Locher &amp; Harsch, 1995).<br>
+            • <strong>Modulación natural:</strong> Amplitud variable, no pico plano (interferencia eléctrica).
+            </p>
+        </div>
+
+        <div class="info-block">
+            <h3>▸ GRABACIÓN AUTOMÁTICA</h3>
+            <p>El sistema inicia captura automática cuando el puntaje EVP compuesto supera el umbral configurado. Usa micrófono, calibración ambiental, pre-roll aproximado de 3 segundos y extensión dinámica si persiste actividad acústica anómala. Duración máxima: 30 segundos.</p>
+        </div>
+
+        <button class="btn-main" onclick="app.showScreen(app.isRunning ? 'main' : 'splash')">VOLVER</button>
+    </div>
+
+    <!-- EVIDENCE MODAL -->
+    <div class="modal" id="evidence-modal">
+        <div class="modal-content compact-evidence">
+            <h2>GRABACIÓN CAPTURADA</h2>
+
+            <div class="audio-row compact">
+                <div class="row-head">
+                    <strong>REVISIÓN DE AUDIO</strong>
+                    <span class="mode-chip" id="clean-mode-chip">BRUTO</span>
+                </div>
+                <audio id="audio-review" controls onplay="app.pauseAllAudiosExcept(this)"></audio>
+            </div>
+
+            <div class="clean-panel">
+                <div class="clean-title">Versión de escucha</div>
+                <div class="clean-levels">
+                    <button class="btn-clean active" data-clean="raw" onclick="app.applyCleanupLevel('raw', this)" title="Audio original sin intervención">Bruto</button>
+                    <button class="btn-clean" data-clean="organic" onclick="app.applyCleanupLevel('organic', this)" title="Reduce fondo sin alterar demasiado la captura">Suave</button>
+                    <button class="btn-clean" data-clean="isolated" onclick="app.applyCleanupLevel('isolated', this)" title="Reduce fondo y exalta presencia vocal">Vocal</button>
+                    <button class="btn-clean" data-clean="deep" onclick="app.applyCleanupLevel('deep', this)" title="Realce fuerte para señales débiles; puede crear artefactos">Intensa</button>
+                </div>
+            </div>
+
+            <button class="btn-mini" onclick="app.toggleEvidenceDetails()" title="Ver modo, fecha, sensibilidad y puntaje">DETALLES DE CAPTURA</button>
+            <div class="evidence-meta" id="evidence-meta">Metadatos de captura pendientes.</div>
+
+            <button class="btn-download" onclick="app.downloadSelectedAudio()">DESCARGAR AUDIO ACTUAL</button>
+
+            <div class="evidence-actions">
+                <button class="btn-dismiss" onclick="app.dismissEvidence()">CERRAR</button>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // BUFFER TO WAVE CONVERTER
+        function bufferToWave(buffer, len) {
+            const numOfChan = buffer.numberOfChannels, length = len * numOfChan * 2 + 44, out = new ArrayBuffer(length);
+            const view = new DataView(out), channels = []; let i, sample, offset = 0, pos = 0;
+            const setUint16 = d => { view.setUint16(pos, d, true); pos += 2; };
+            const setUint32 = d => { view.setUint32(pos, d, true); pos += 4; };
+            setUint32(0x46464952); setUint32(length - 8); setUint32(0x45564157); setUint32(0x20746d66);
+            setUint32(16); setUint16(1); setUint16(numOfChan); setUint32(buffer.sampleRate); setUint32(buffer.sampleRate * 2 * numOfChan);
+            setUint16(numOfChan * 2); setUint16(16); setUint32(0x61746164); setUint32(length - pos - 4);
+            for(i = 0; i < buffer.numberOfChannels; i++) channels.push(buffer.getChannelData(i));
+            while(pos < length) { for(i = 0; i < numOfChan; i++) { sample = Math.max(-1, Math.min(1, channels[i][offset])); sample = (0.5 + sample < 0 ? sample * 32768 : sample * 32767) | 0; view.setInt16(pos, sample, true); pos += 2; } offset++; }
+            return new Blob([out], { type: 'audio/wav' });
+        }
+
+        const app = {
+            ctx: null, analyser: null, audioData: null, source: null, gainNode: null, audioDest: null, mediaRecorder: null, micStream: null, micSource: null, micGain: null, preRollRecorder: null,
+            audioChunks: [], isRunning: false, isPaused: false, isRecording: false, isReviewing: false,
+            spectralBars: [], radarAngle: 0, anomalies: [], deviceHeading: 0, baselineNoise: 30, currentMagVal: 0,
+            radarCanvas: null, radarCtx: null, radarDpr: 1, lowPerf: false, fontFamily: null, _resizeBound: false,
+            recordDuration: 5000, maxRecordDuration: 30000, recordTimeout: null, selectedCarrier: 'white', rawBlob: null, preRollChunks: [], preRollMs: 3000, lastEvpScore: 0, lastCaptureMeta: null,
+            currentRecordingMode: null, processedAudioCache: {}, currentSelectedCleanup: 'raw', currentSelectedCleanupLabel: 'BRUTO',
+            autoCandidateFrames: 0, autoRecordCooldownUntil: 0, lastAnomalySpawnAt: 0, recordMimeType: '',
+            sensitivityLevel: 'medium', // NUEVO
+            selectedTheme: 'classic',
+            sessionStats: { totalAnomalies: 0, spectralAnomalies: 0, authenticSignals: 0, maxIntensity: 0 }, // NUEVO: authenticSignals agregado
+            // Variables para validación de autenticidad
+            anomalyHistory: [], // Historial de anomalías para análisis de patrones
+            lastAuthenticTime: 0, // Timestamp de última señal auténtica
+            baselineProfile: null, calibrationFrames: 0, calibrationTargetFrames: 300, displayBarCount: 48,
+            scannerPos: 0, scannerDir: 1, scannerLastPulse: 0, activeSignalX: null, previousSignalX: null, signalGlow: 0, signalDrift: 0,
+
+            // NUEVO: Umbrales según sensibilidad
+            getSensitivityThresholds: () => {
+                const thresholds = {
+                    low:    { spike: 28, strongSpike: 62, autoRecord: 90 },
+                    medium: { spike: 22, strongSpike: 48, autoRecord: 84 },
+                    high:   { spike: 15, strongSpike: 34, autoRecord: 74 }
+                };
+                return thresholds[app.sensitivityLevel] || thresholds.medium;
+            },
+
+            applyTheme: (theme) => {
+                const allowed = ['classic','mono','light-black','light-green'];
+                app.selectedTheme = allowed.includes(theme) ? theme : 'classic';
+                document.body.setAttribute('data-theme', app.selectedTheme);
+                const sel = document.getElementById('theme-select');
+                if(sel && sel.value !== app.selectedTheme) sel.value = app.selectedTheme;
+                document.querySelectorAll('[data-theme-choice]').forEach(btn => {
+                    btn.classList.toggle('active', btn.dataset.themeChoice === app.selectedTheme);
+                });
+                const meta = document.querySelector('meta[name="theme-color"]');
+                if(meta){
+                    const colorMap = {
+                        'classic':'#000000',
+                        'mono':'#000000',
+                        'light-black':'#f7f7f7',
+                        'light-green':'#f7fff8'
+                    };
+                    meta.setAttribute('content', colorMap[app.selectedTheme] || '#000000');
+                }
+            },
+
+            toggleThemePanel: () => {
+                const panel = document.getElementById('theme-panel');
+                const btn = document.getElementById('theme-toggle-btn');
+                if(!panel) return;
+                const isOpen = panel.classList.toggle('open');
+                if(btn) btn.classList.toggle('active', isOpen);
+                app.applyTheme(app.selectedTheme);
+            },
+
+            closeThemePanel: () => {
+                const panel = document.getElementById('theme-panel');
+                const btn = document.getElementById('theme-toggle-btn');
+                if(panel) panel.classList.remove('open');
+                if(btn) btn.classList.remove('active');
+            },
+
+            selectThemeFromPanel: (theme) => {
+                app.applyTheme(theme);
+                app.closeThemePanel();
+                app.log(`PALETA: ${theme.toUpperCase()}`);
+            },
+
+            getThemePalette: () => {
+                const palettes = {
+                    classic: {
+                        scanner:'0,255,65', text:'0,255,65', gridSoft:'rgba(0,255,65,.045)', gridStrong:'rgba(0,255,65,.11)', band:'rgba(0,255,65,.06)', trailMid:'rgba(0,255,65,.11)', trailStrong:'rgba(0,255,65,.34)', border:'rgba(0,255,65,.16)', readoutBg:'rgba(0,12,0,.48)', lowBar:'rgba(0,255,65,.16)', midBar:'rgba(255,59,59,.74)', highBar:'rgba(188,19,254,.82)', topBar:'rgba(255,215,0,.92)', transient:'255,59,59', spectral:'188,19,254', authentic:'255,215,0'
+                    },
+                    mono: {
+                        scanner:'255,255,255', text:'255,255,255', gridSoft:'rgba(255,255,255,.045)', gridStrong:'rgba(255,255,255,.11)', band:'rgba(255,255,255,.055)', trailMid:'rgba(255,255,255,.10)', trailStrong:'rgba(255,255,255,.32)', border:'rgba(255,255,255,.16)', readoutBg:'rgba(0,0,0,.45)', lowBar:'rgba(255,255,255,.14)', midBar:'rgba(255,59,59,.74)', highBar:'rgba(188,19,254,.82)', topBar:'rgba(255,215,0,.92)', transient:'255,59,59', spectral:'188,19,254', authentic:'255,215,0'
+                    },
+                    'light-black': {
+                        scanner:'17,17,17', text:'17,17,17', gridSoft:'rgba(17,17,17,.04)', gridStrong:'rgba(17,17,17,.10)', band:'rgba(17,17,17,.05)', trailMid:'rgba(17,17,17,.08)', trailStrong:'rgba(17,17,17,.26)', border:'rgba(17,17,17,.15)', readoutBg:'rgba(255,255,255,.68)', lowBar:'rgba(17,17,17,.14)', midBar:'rgba(255,59,59,.74)', highBar:'rgba(188,19,254,.82)', topBar:'rgba(255,215,0,.92)', transient:'255,59,59', spectral:'188,19,254', authentic:'255,215,0'
+                    },
+                    'light-green': {
+                        scanner:'0,141,48', text:'0,141,48', gridSoft:'rgba(0,141,48,.04)', gridStrong:'rgba(0,141,48,.10)', band:'rgba(0,141,48,.05)', trailMid:'rgba(0,141,48,.09)', trailStrong:'rgba(0,141,48,.28)', border:'rgba(0,141,48,.16)', readoutBg:'rgba(255,255,255,.66)', lowBar:'rgba(0,141,48,.14)', midBar:'rgba(255,59,59,.74)', highBar:'rgba(188,19,254,.82)', topBar:'rgba(255,215,0,.92)', transient:'255,59,59', spectral:'188,19,254', authentic:'255,215,0'
+                    }
+                };
+                return palettes[app.selectedTheme] || palettes.classic;
+            },
+
+            // SISTEMA EVP EXPERIMENTAL — prudente: detecta patrones acústicos compatibles con voz, no “prueba” entidades.
+            getBandStats: (data, fromHz, toHz) => {
+                const fftSize = app.analyser ? app.analyser.fftSize : 2048;
+                const sampleRate = app.ctx ? app.ctx.sampleRate : 48000;
+                const binHz = sampleRate / fftSize;
+                const from = Math.max(0, Math.floor(fromHz / binHz));
+                const to = Math.min(data.length - 1, Math.ceil(toHz / binHz));
+                let sum = 0, max = 0, n = 0;
+                for(let i = from; i <= to; i++) {
+                    const base = app.baselineProfile ? app.baselineProfile[i] : app.baselineNoise;
+                    const v = Math.max(0, data[i] - base);
+                    sum += v; if(v > max) max = v; n++;
+                }
+                return { avg: n ? sum / n : 0, max, n };
+            },
+
+            computeEvpFeatures: (data) => {
+                const voice = app.getBandStats(data, 300, 3400);
+                const clarity = app.getBandStats(data, 1700, 3300);
+                const low = app.getBandStats(data, 20, 80);
+                const subVoice = app.getBandStats(data, 80, 300);
+                const high = app.getBandStats(data, 8000, 16000);
+                const wide = app.getBandStats(data, 300, 7000);
+                const thresholds = app.getSensitivityThresholds();
+
+                let modulation = 0;
+                const fftSize = app.analyser ? app.analyser.fftSize : 2048;
+                const binHz = (app.ctx ? app.ctx.sampleRate : 48000) / fftSize;
+                const a = Math.max(0, Math.floor(300 / binHz));
+                const b = Math.min(data.length - 1, Math.ceil(3400 / binHz));
+                const vals = [];
+                for(let i=a;i<=b;i++) {
+                    const base = app.baselineProfile ? app.baselineProfile[i] : app.baselineNoise;
+                    vals.push(Math.max(0, data[i] - base));
+                }
+                if(vals.length) {
+                    const mean = vals.reduce((x,y)=>x+y,0) / vals.length;
+                    const variance = vals.reduce((x,y)=>x + Math.pow(y-mean,2),0) / vals.length;
+                    modulation = Math.min(20, Math.sqrt(variance) / 2.5);
+                }
+
+                let score = 0;
+                score += Math.min(40, voice.avg * 1.25);
+                score += Math.min(24, clarity.avg * 1.10);
+                score += Math.min(12, subVoice.avg * 0.45);
+                score += modulation;
+                if(app.currentMagVal > 15) score += 8;
+                if(wide.max > thresholds.strongSpike) score += 8;
+                if(low.avg > voice.avg * 0.85) score -= 18;       // golpes/vibración grave
+                if(high.avg > voice.avg * 0.75) score -= 14;      // hiss/interferencia digital
+                if(wide.max > 245) score -= 16;                   // saturación plana
+                score = Math.max(0, Math.min(100, Math.round(score)));
+                return { score, voice, clarity, low, high, wide, modulation };
+            },
+
+            validateAuthenticity: (anomaly, spectralData, magField) => {
+                const f = app.computeEvpFeatures(Array.from(spectralData));
+                const now = Date.now();
+                let score = f.score;
+                const timeSinceLast = now - app.lastAuthenticTime;
+                if(timeSinceLast > 20000) score += 10;
+                else if(timeSinceLast < 6000) score -= 30;
+                if(anomaly.persistence >= 0.45 && anomaly.persistence <= 1.25) score += 10;
+                if(anomaly.persistence < 0.25) score -= 20;
+                const zoneRepeats = app.anomalyHistory.filter(h => {
+                    const dAngle = Math.abs(h.angle - anomaly.absAngle);
+                    const dTime  = now - h.timestamp;
+                    return dAngle < 40 && dTime < 30000 && h.wasStrong;
+                }).length;
+                if(zoneRepeats >= 2) score += 8;
+                if(magField >= 10 && magField <= 65) score += 6;
+                if(f.voice.avg < app.getSensitivityThresholds().spike) score -= 20;
+                const minScore = { high: 62, medium: 70, low: 80 };
+                anomaly.evpScore = Math.max(0, Math.min(100, Math.round(score)));
+                return anomaly.evpScore >= (minScore[app.sensitivityLevel] || 70);
+            },
+
+            showScreen: (id) => {
+                document.querySelectorAll('.screen').forEach(s => s.classList.remove('active'));
+                document.getElementById(id).classList.add('active');
+                if(id === 'main') {
+                    requestAnimationFrame(() => {
+                        app.resizeRadarCanvas();
+                        setTimeout(() => app.resizeRadarCanvas(), 250);
+                        setTimeout(() => app.resizeRadarCanvas(), 900);
+                    });
+                }
+            },
+
+            // Ajuste crítico: el canvas del radar se redimensiona al tamaño real del contenedor (clave para móvil)
+            resizeRadarCanvas: () => {
+                const canvas = document.getElementById('radar-canvas');
+                if(!canvas) return;
+
+                app.radarCanvas = canvas;
+
+                const zone = canvas.closest('.radar-zone') || canvas.parentElement;
+
+                // Fallback: algunos navegadores móviles pueden calcular 0px (sobre todo al cargar/rotar)
+                if(zone) {
+                    const z0 = zone.getBoundingClientRect();
+                    if(z0.width < 2 || z0.height < 2) {
+                        const isMobile = window.matchMedia('(max-width: 600px)').matches;
+                        const vh = Math.max(0, window.innerHeight || 0);
+                        const targetH = isMobile
+                            ? Math.max(280, Math.min(460, Math.round(vh * 0.36)))
+                            : 360;
+
+                        zone.style.height = targetH + 'px';
+                        zone.style.minHeight = (isMobile ? '280px' : '320px');
+                    }
+                }
+
+                // Medir DESPUÉS de forzar altura si aplica
+                const rect = (zone ? zone.getBoundingClientRect() : canvas.getBoundingClientRect());
+                const dpr = Math.max(1, window.devicePixelRatio || 1);
+                app.radarDpr = dpr;
+
+                if(rect.width < 2 || rect.height < 2) return;
+
+                // Asegura que el canvas llene el contenedor incluso si CSS se aplica tarde
+                canvas.style.width = '100%';
+                canvas.style.height = '100%';
+                canvas.style.display = 'block';
+
+                const w = Math.max(1, Math.floor(rect.width * dpr));
+                const h = Math.max(1, Math.floor(rect.height * dpr));
+
+                if(canvas.width !== w || canvas.height !== h) {
+                    canvas.width = w;
+                    canvas.height = h;
+                }
+
+                const ctx = canvas.getContext('2d');
+                if(!ctx) return;
+                app.radarCtx = ctx;
+            },
+
+            init: async () => {
+                try {
+                    app.selectedCarrier = document.getElementById('carrier-select').value;
+                    app.selectedTheme = (document.getElementById('theme-select') || { value: 'classic' }).value;
+                    app.applyTheme(app.selectedTheme);
+                    app.lowPerf = window.matchMedia('(max-width: 600px)').matches;
+                    app.ctx = new (window.AudioContext || window.webkitAudioContext)({ sampleRate: 48000 });
+                    await app.ctx.resume();
+                    
+                    app.analyser = app.ctx.createAnalyser(); 
+                    app.analyser.fftSize = app.lowPerf ? 2048 : 4096;
+                    app.analyser.smoothingTimeConstant = 0.72;
+                    app.audioData = new Uint8Array(app.analyser.frequencyBinCount);
+                    app.baselineProfile = new Float32Array(app.analyser.frequencyBinCount).fill(app.baselineNoise);
+                    app.gainNode = app.ctx.createGain(); 
+                    app.gainNode.gain.value = 0.25;
+                    app.audioDest = app.ctx.createMediaStreamDestination();
+
+                    app.micStream = await navigator.mediaDevices.getUserMedia({
+                        audio: { echoCancellation: false, noiseSuppression: false, autoGainControl: false }
+                    });
+                    app.micSource = app.ctx.createMediaStreamSource(app.micStream);
+                    app.micGain = app.ctx.createGain();
+                    app.micGain.gain.value = 1.0;
+                    app.micSource.connect(app.micGain);
+                    app.micGain.connect(app.analyser);
+                    app.micGain.connect(app.audioDest);
+                    
+                    app.createNoiseSource();
+                    app.gainNode.connect(app.ctx.destination); 
+                    
+                    app.setupSpectrum(); 
+                    app.isRunning = true; 
+                    app.showScreen('main');
+
+                    // Preferencia de uso: móvil primero.
+                    // Recalibra el radar al tamaño real del contenedor (evita “radar invisible” en celular).
+                    app.lowPerf = window.matchMedia('(max-width: 600px)').matches;
+                    app.fontFamily = getComputedStyle(document.body).fontFamily;
+                    app.resizeRadarCanvas();
+
+                    // Recalcular en cambios de viewport / rotación
+                    if(!app._resizeBound) {
+                        app._resizeBound = true;
+                        const onResize = () => {
+                            app.lowPerf = window.matchMedia('(max-width: 600px)').matches;
+                            app.resizeRadarCanvas();
+                        };
+                        window.addEventListener('resize', onResize, { passive: true });
+                        window.addEventListener('orientationchange', onResize, { passive: true });
+                    }
+
+                    app.loop();
+                    
+                    if('DeviceOrientationEvent' in window && typeof DeviceOrientationEvent.requestPermission === 'function') {
+                        DeviceOrientationEvent.requestPermission().then(r => { if(r==='granted') app.startCompass(); }).catch(console.error);
+                    } else { app.startCompass(); }
+                    
+                    app.log("✓ SISTEMA ABSOLUTE ONLINE"); 
+                    app.log(`PORTADORA: ${app.selectedCarrier.toUpperCase()}`);
+                    app.log(`SENSIBILIDAD: ${app.sensitivityLevel.toUpperCase()}`);
+                    
+                    // NUEVO: Reset de estadísticas
+                    app.sessionStats = { totalAnomalies: 0, spectralAnomalies: 0, authenticSignals: 0, maxIntensity: 0 };
+                    app.anomalyHistory = [];
+                    app.lastAuthenticTime = 0;
+                    app.calibrationFrames = 0;
+                    app.preRollChunks = [];
+                    app.updateStats();
+                    app.updateControlButtons();
+                } catch(e) { alert("ERROR: " + e.message + "\n\nVerifica permisos de micrófono y ejecuta la app en HTTPS/Cloudflare o localhost."); }
+            },
+
+            createNoiseSource: () => {
+                const bufferSize = app.ctx.sampleRate * 2; 
+                const buffer = app.ctx.createBuffer(1, bufferSize, app.ctx.sampleRate);
+                const data = buffer.getChannelData(0);
+                
+                if(app.selectedCarrier === 'white') {
+                    for(let i = 0; i < bufferSize; i++) data[i] = Math.random() * 2 - 1;
+                } else if(app.selectedCarrier === 'pink') {
+                    let b0 = 0, b1 = 0, b2 = 0, b3 = 0, b4 = 0, b5 = 0, b6 = 0;
+                    for(let i = 0; i < bufferSize; i++) {
+                        const white = Math.random() * 2 - 1;
+                        b0 = 0.99886 * b0 + white * 0.0555179; b1 = 0.99332 * b1 + white * 0.0750759;
+                        b2 = 0.96900 * b2 + white * 0.1538520; b3 = 0.86650 * b3 + white * 0.3104856;
+                        b4 = 0.55000 * b4 + white * 0.5329522; b5 = -0.7616 * b5 - white * 0.0168980;
+                        data[i] = (b0 + b1 + b2 + b3 + b4 + b5 + b6 + white * 0.5362) * 0.11;
+                        b6 = white * 0.115926;
+                    }
+                } else if(app.selectedCarrier === 'brown') {
+                    let last = 0;
+                    for(let i = 0; i < bufferSize; i++) { last += (Math.random() * 2 - 1) * 0.02; last *= 0.96; data[i] = last * 3.5; }
+                } else if(app.selectedCarrier === 'fibonacci') {
+                    const f = 528; 
+                    for(let i = 0; i < bufferSize; i++) data[i] = Math.sin(2 * Math.PI * f * i / app.ctx.sampleRate) * 0.5;
+                }
+                
+                app.source = app.ctx.createBufferSource(); 
+                app.source.buffer = buffer; 
+                app.source.loop = true; 
+                app.source.connect(app.gainNode); 
+                app.source.start();
+            },
+
+            setupSpectrum: () => {
+                const container = document.getElementById('spectrum');
+                container.innerHTML = '';
+                app.spectralBars = [];
+                for(let i = 0; i < app.displayBarCount; i++) {
+                    const bar = document.createElement('div'); 
+                    bar.className = 'bar'; 
+                    container.appendChild(bar); 
+                    app.spectralBars.push(bar);
+                }
+            },
+
+            startCompass: () => {
+                if('ondeviceorientationabsolute' in window) {
+                    window.addEventListener('deviceorientationabsolute', e => { 
+                        if(e.absolute && e.alpha !== null) app.deviceHeading = e.alpha; 
+                    }, true);
+                } else if('ondeviceorientation' in window) {
+                    window.addEventListener('deviceorientation', e => { 
+                        if(e.alpha !== null) app.deviceHeading = e.alpha; 
+                    }, true);
+                }
+                
+                if('Magnetometer' in window) {
+                    const sensor = new Magnetometer({ frequency: 10 });
+                    sensor.addEventListener('reading', () => {
+                        const { x, y, z } = sensor;
+                        const magnitude = Math.sqrt(x*x + y*y + z*z);
+                        app.currentMagVal = Math.min(100, magnitude * 2);
+                        document.getElementById('bar-mag').style.width = app.currentMagVal + "%";
+                        document.getElementById('txt-mag').innerText = magnitude.toFixed(1) + " µT";
+                    });
+                    sensor.start();
+                }
+            },
+
+            togglePause: () => {
+                app.isPaused = !app.isPaused;
+                const btn = document.getElementById('pause-btn');
+                if(app.isPaused) {
+                    app.ctx.suspend(); 
+                    btn.classList.add('pause-active'); 
+                    btn.innerText = "▶";
+                    app.log("⏸ SISTEMA EN PAUSA");
+                } else {
+                    app.ctx.resume(); 
+                    btn.classList.remove('pause-active'); 
+                    btn.innerText = "⏸";
+                    app.log("▶ SISTEMA REANUDADO");
+                }
+            },
+
+            stop: () => {
+                if(confirm("¿Salir y detener la sesión actual?")) {
+                    app.isRunning = false;
+                    if(app.preRollRecorder && app.preRollRecorder.state !== 'inactive') app.preRollRecorder.stop();
+                    if(app.source) app.source.stop();
+                    if(app.micStream) app.micStream.getTracks().forEach(t => t.stop());
+                    if(app.ctx) app.ctx.close();
+                    app.showScreen('splash');
+                    app.log("⏹ SESIÓN TERMINADA");
+                    
+                    // NUEVO: Mostrar resumen de sesión
+                    setTimeout(() => {
+                        alert(`RESUMEN DE SESIÓN:\n\nAnomalías totales: ${app.sessionStats.totalAnomalies}\nAnomalías espectrales: ${app.sessionStats.spectralAnomalies}\nSeñales auténticas: ${app.sessionStats.authenticSignals}\nIntensidad máxima: ${app.sessionStats.maxIntensity}`);
+                    }, 500);
+                }
+            },
+
+            setVolume: (val) => {
+                const normalized = Math.pow(val / 100, 2);
+                if(app.gainNode && !app.isReviewing) app.gainNode.gain.linearRampToValueAtTime(normalized, app.ctx.currentTime + 0.1);
+            },
+
+            loop: () => {
+                if(!app.isRunning) return;
+                if(!app.isPaused) {
+                    const headingEl = document.getElementById('heading-val'); if(headingEl) headingEl.innerText = Math.round(app.deviceHeading);
+                    app.analyser.getByteFrequencyData(app.audioData);
+                    const data = Array.from(app.audioData);
+                    const thresholds = app.getSensitivityThresholds();
+                    const palette = app.getThemePalette();
+
+                    // Calibración dinámica inicial del ruido ambiental real del micrófono.
+                    if(app.calibrationFrames < app.calibrationTargetFrames) {
+                        for(let i = 0; i < data.length; i++) {
+                            app.baselineProfile[i] = app.baselineProfile[i] * 0.96 + data[i] * 0.04;
+                        }
+                        app.calibrationFrames++;
+                        if(app.calibrationFrames === 1) app.log("⌁ CALIBRANDO AMBIENTE Y MICRÓFONO...");
+                        if(app.calibrationFrames === app.calibrationTargetFrames) app.log("✓ CALIBRACIÓN BASE COMPLETA");
+                    } else {
+                        // Adaptación lenta: permite cambios ambientales sin borrar eventos breves.
+                        for(let i = 0; i < data.length; i++) app.baselineProfile[i] = app.baselineProfile[i] * 0.995 + data[i] * 0.005;
+                    }
+
+                    const features = app.computeEvpFeatures(data);
+                    app.lastEvpScore = features.score;
+                    const spike = features.voice.avg > thresholds.spike || features.clarity.avg > thresholds.spike * 0.85;
+                    const strongSpike = features.score >= thresholds.autoRecord || features.voice.max > thresholds.strongSpike;
+
+                    // Barras visuales comprimidas: se agregan bins reales para no saturar la pantalla.
+                    const group = Math.max(1, Math.floor(data.length / app.displayBarCount));
+                    for(let i = 0; i < app.displayBarCount; i++) {
+                        let sum = 0, max = 0, n = 0;
+                        for(let j = i * group; j < Math.min(data.length, (i + 1) * group); j++) {
+                            const base = app.baselineProfile ? app.baselineProfile[j] : app.baselineNoise;
+                            const v = Math.max(0, data[j] - base);
+                            sum += v; if(v > max) max = v; n++;
+                        }
+                        const val = n ? sum / n : 0;
+                        const bar = app.spectralBars[i];
+                        if(bar) {
+                            bar.style.height = Math.min(100, val * 3.2) + "%";
+                            bar.style.backgroundColor = max > thresholds.strongSpike ? palette.topBar : (val > thresholds.spike * 1.12 ? palette.highBar : (val > thresholds.spike ? palette.midBar : palette.lowBar));
+                        }
+                    }
+
+                    const nowMs = Date.now();
+                    if(spike && nowMs - app.lastAnomalySpawnAt > (strongSpike ? 180 : 380)) {
+                        const scanX = Math.max(0.04, Math.min(0.96, app.scannerPos + (Math.random() - 0.5) * 0.10));
+                        app.previousSignalX = app.activeSignalX ?? scanX;
+                        app.activeSignalX = scanX;
+                        app.signalGlow = Math.max(app.signalGlow || 0, features.score / 100);
+                        const anomaly = { 
+                            absAngle: scanX * 360, 
+                            trackX: scanX,
+                            prevTrackX: app.previousSignalX,
+                            targetX: Math.max(0.04, Math.min(0.96, scanX + (Math.random() - 0.5) * 0.18)),
+                            trackY: 0.28 + Math.random() * 0.44,
+                            dist: Math.random() * 60 + 20, 
+                            life: 1.18, 
+                            persistence: 0, 
+                            isSpectral: false,
+                            isAuthentic: false,
+                            wasStrong: strongSpike,
+                            tooStrong: features.wide.max > 245,
+                            evpScore: features.score,
+                            birthTime: nowMs
+                        };
+                        app.anomalies.push(anomaly);
+                        app.lastAnomalySpawnAt = nowMs;
+                        app.sessionStats.totalAnomalies++;
+                        app.anomalyHistory.push({ angle: anomaly.absAngle, x: anomaly.trackX, timestamp: nowMs, wasStrong: strongSpike, score: features.score });
+                        if(app.anomalyHistory.length > 80) app.anomalyHistory.shift();
+                    }
+                    if(!spike) app.signalGlow = Math.max(0, (app.signalGlow || 0) - 0.008);
+
+                    if(app.isRecording && spike) app.extendRecording();
+                    let anomalyScore = features.score;
+                    if(anomalyScore > app.sessionStats.maxIntensity) app.sessionStats.maxIntensity = anomalyScore;
+                    const barAnom = document.getElementById('bar-anom');
+                    barAnom.style.width = anomalyScore + "%";
+                    if(anomalyScore >= thresholds.autoRecord) barAnom.classList.add('critical'); else barAnom.classList.remove('critical');
+                    document.getElementById('txt-anom').innerText = anomalyScore + "%";
+                    const scannerStatus = document.getElementById('scanner-status');
+                    const scannerLevel = document.getElementById('scanner-level');
+                    if(scannerStatus) scannerStatus.textContent = app.isRecording ? "CAPTURANDO" : (anomalyScore >= thresholds.autoRecord ? "SEÑAL CANDIDATA" : "EXPLORANDO");
+                    if(scannerLevel) scannerLevel.textContent = anomalyScore + "%";
+
+                    if(app.calibrationFrames >= app.calibrationTargetFrames && anomalyScore >= thresholds.autoRecord) app.autoCandidateFrames++; else app.autoCandidateFrames = Math.max(0, app.autoCandidateFrames - 1);
+                    if(app.calibrationFrames >= app.calibrationTargetFrames && app.autoCandidateFrames >= 12 && Date.now() >= app.autoRecordCooldownUntil && !app.isRecording && !app.isReviewing) {
+                        app.autoCandidateFrames = 0;
+                        app.triggerRecord('auto', features);
+                    }
+                    app.updateStats();
+                    app.radarDraw();
+                }
+                requestAnimationFrame(app.loop);
+            },
+
+            // NUEVO: Actualizar estadísticas en tiempo real
+            updateStats: () => {
+                document.getElementById('stat-anomalies').innerText = app.sessionStats.totalAnomalies;
+                document.getElementById('stat-spectral').innerText = app.sessionStats.spectralAnomalies;
+                document.getElementById('stat-authentic').innerText = app.sessionStats.authenticSignals;
+                document.getElementById('stat-intensity').innerText = app.sessionStats.maxIntensity;
+                
+                // Añadir clase de alerta si hay muchas anomalías
+                const anomalyEl = document.getElementById('stat-anomalies');
+                if(app.sessionStats.totalAnomalies > 50) {
+                    anomalyEl.classList.add('alert');
+                } else {
+                    anomalyEl.classList.remove('alert');
+                }
+            },
+
+            radarDraw: () => {
+                const cvs = app.radarCanvas || document.getElementById('radar-canvas');
+                if(!cvs) return;
+                const ctx = app.radarCtx || cvs.getContext('2d');
+                if(!ctx) return;
+
+                const w = cvs.width;
+                const h = cvs.height;
+                const now = performance.now();
+                const palette = app.getThemePalette();
+                const isDesktopWide = window.innerWidth >= 900;
+                ctx.clearRect(0, 0, w, h);
+
+                // Barrido horizontal más lento en PC, manteniendo buen ritmo en móvil.
+                const speed = app.lowPerf ? 0.0082 : (isDesktopWide ? 0.0046 : 0.0062);
+                app.scannerPos += speed * app.scannerDir;
+                if(app.scannerPos >= 0.985) { app.scannerPos = 0.985; app.scannerDir = -1; }
+                if(app.scannerPos <= 0.015) { app.scannerPos = 0.015; app.scannerDir = 1; }
+                const sx = app.scannerPos * w;
+
+                ctx.save();
+                ctx.lineWidth = Math.max(1, w / 1200);
+
+                // Malla técnica
+                for(let i = 0; i <= 12; i++){
+                    const x = i * w / 12;
+                    ctx.strokeStyle = i % 3 === 0 ? palette.gridStrong : palette.gridSoft;
+                    ctx.beginPath(); ctx.moveTo(x, 0); ctx.lineTo(x, h); ctx.stroke();
+                }
+                for(let i = 0; i <= 6; i++){
+                    const y = i * h / 6;
+                    ctx.strokeStyle = i === 3 ? palette.gridStrong : palette.gridSoft;
+                    ctx.beginPath(); ctx.moveTo(0, y); ctx.lineTo(w, y); ctx.stroke();
+                }
+
+                // Banda central de búsqueda
+                const bandY = h * 0.50;
+                const bandH = h * 0.24;
+                const band = ctx.createLinearGradient(0, bandY - bandH, 0, bandY + bandH);
+                band.addColorStop(0, 'rgba(0,0,0,0)');
+                band.addColorStop(.5, palette.band);
+                band.addColorStop(1, 'rgba(0,0,0,0)');
+                ctx.fillStyle = band;
+                ctx.fillRect(0, bandY - bandH, w, bandH * 2);
+
+                // Rastro del barrido, sin pulso circular
+                const trailWidth = isDesktopWide ? w * .22 : w * .26;
+                const trailStart = sx - app.scannerDir * trailWidth;
+                const trail = ctx.createLinearGradient(trailStart, 0, sx, 0);
+                trail.addColorStop(0, 'rgba(0,0,0,0)');
+                trail.addColorStop(.78, palette.trailMid);
+                trail.addColorStop(1, palette.trailStrong);
+                ctx.fillStyle = trail;
+                ctx.fillRect(Math.min(sx, trailStart), 0, Math.abs(trailWidth), h);
+
+                // Línea del scanner
+                ctx.shadowBlur = app.lowPerf ? 10 : 24;
+                ctx.shadowColor = `rgba(${palette.scanner},.55)`;
+                const lineGrad = ctx.createLinearGradient(sx - 18, 0, sx + 18, 0);
+                lineGrad.addColorStop(0, 'rgba(0,0,0,0)');
+                lineGrad.addColorStop(.5, `rgba(${palette.scanner},.98)`);
+                lineGrad.addColorStop(1, 'rgba(0,0,0,0)');
+                ctx.strokeStyle = lineGrad;
+                ctx.lineWidth = Math.max(2, w / 310);
+                ctx.beginPath(); ctx.moveTo(sx, h * .06); ctx.lineTo(sx, h * .94); ctx.stroke();
+
+                // Señales y desplazamiento visual
+                let dominant = null;
+                for(let i = app.anomalies.length - 1; i >= 0; i--){
+                    const a = app.anomalies[i];
+                    if(typeof a.trackX !== 'number') a.trackX = app.scannerPos;
+                    if(typeof a.prevTrackX !== 'number') a.prevTrackX = a.trackX;
+                    if(typeof a.targetX !== 'number') a.targetX = a.trackX;
+                    if(typeof a.trackY !== 'number') a.trackY = .5;
+
+                    a.prevTrackX = a.trackX;
+                    a.trackX += (a.targetX - a.trackX) * 0.018;
+                    if(Math.abs(a.targetX - a.trackX) < 0.012) a.targetX = Math.max(0.04, Math.min(0.96, a.trackX + (Math.random() - 0.5) * 0.22));
+
+                    const scanFocus = Math.max(0, 1 - Math.abs(app.scannerPos - a.trackX) * 7.0);
+                    if(scanFocus > 0.62 && a.wasStrong) a.persistence += 0.015;
+                    else if(scanFocus > 0.62) a.persistence += 0.008;
+                    else if(a.wasStrong) a.persistence += 0.004;
+                    else a.persistence += 0.0015;
+
+                    if(a.persistence > 0.65 && !a.isSpectral) {
+                        a.isSpectral = true;
+                        app.sessionStats.spectralAnomalies++;
+                    }
+                    if(a.persistence > 0.50 && !a.isAuthentic && a.isSpectral && Math.random() > 0.985) {
+                        const isAuthentic = app.validateAuthenticity(a, app.audioData, app.currentMagVal);
+                        if(isAuthentic) {
+                            a.isAuthentic = true;
+                            app.sessionStats.authenticSignals++;
+                            app.lastAuthenticTime = Date.now();
+                            app.log("✦ SEÑAL CANDIDATA REFORZADA");
+                        }
+                    }
+
+                    const x = a.trackX * w;
+                    const y = a.trackY * h;
+                    const strength = Math.max(.16, Math.min(1, (a.evpScore || 35) / 100));
+                    const near = Math.max(.08, scanFocus);
+                    const alpha = a.life * (.22 + strength * .52) * near;
+                    const core = (a.isAuthentic ? 12 : a.isSpectral ? 8 : 5) + near * 12;
+                    const signalColor = a.isAuthentic ? palette.authentic : (a.isSpectral ? palette.spectral : palette.transient);
+
+                    // Indicador vectorial de desplazamiento
+                    const dx = (a.trackX - a.prevTrackX) * w;
+                    if(Math.abs(dx) > w * .0015){
+                        const arrowLen = Math.max(18, Math.min(54, Math.abs(dx) * 12 + 18));
+                        const dir = dx >= 0 ? 1 : -1;
+                        ctx.save();
+                        ctx.translate(x - dir * arrowLen * .42, y - core - 12);
+                        ctx.rotate(dir > 0 ? 0 : Math.PI);
+                        ctx.strokeStyle = `rgba(${signalColor},${Math.min(.95, a.life * .50)})`;
+                        ctx.fillStyle = `rgba(${signalColor},${Math.min(.95, a.life * .68)})`;
+                        ctx.lineWidth = 1.4;
+                        ctx.beginPath(); ctx.moveTo(0,0); ctx.lineTo(arrowLen,0); ctx.stroke();
+                        ctx.beginPath(); ctx.moveTo(arrowLen + 7, 0); ctx.lineTo(arrowLen - 2, -5); ctx.lineTo(arrowLen - 2, 5); ctx.closePath(); ctx.fill();
+                        ctx.restore();
+                    }
+
+                    ctx.shadowBlur = app.lowPerf ? 12 : 28 + 32 * near;
+                    ctx.shadowColor = `rgba(${signalColor},.75)`;
+                    const grad = ctx.createRadialGradient(x, y, 0, x, y, core * 4.1);
+                    grad.addColorStop(0, `rgba(${signalColor},${Math.min(.98, alpha + .22)})`);
+                    grad.addColorStop(.18, `rgba(${signalColor},${alpha})`);
+                    grad.addColorStop(.64, `rgba(${signalColor},${alpha * .20})`);
+                    grad.addColorStop(1, 'rgba(0,0,0,0)');
+                    ctx.fillStyle = grad;
+                    ctx.beginPath(); ctx.arc(x, y, core * 4.1, 0, Math.PI * 2); ctx.fill();
+
+                    ctx.strokeStyle = `rgba(${signalColor},${a.life * (.26 + near * .50)})`;
+                    ctx.lineWidth = a.isAuthentic ? 2.4 : 1.35;
+                    ctx.beginPath();
+                    ctx.ellipse(x, y, core * (a.isAuthentic ? 3.6 : 2.7), core * .72, 0, 0, Math.PI * 2);
+                    ctx.stroke();
+
+                    ctx.fillStyle = `rgba(${signalColor},${Math.min(1, a.life * (.62 + near * .34))})`;
+                    ctx.beginPath(); ctx.arc(x, y, core * .60, 0, Math.PI * 2); ctx.fill();
+
+                    if(!dominant || (a.evpScore || 0) > (dominant.evpScore || 0)) dominant = a;
+
+                    ctx.shadowBlur = 0;
+                    a.life -= app.lowPerf ? 0.0025 : 0.0018;
+                    if(a.life <= 0) app.anomalies.splice(i, 1);
+                }
+
+                // Guía visual de persecución para la señal dominante
+                if(dominant){
+                    const x = dominant.trackX * w;
+                    const y = dominant.trackY * h;
+                    const level = Math.max(.18, Math.min(1, (dominant.evpScore || 40) / 100));
+                    const dominantColor = dominant.isAuthentic ? palette.authentic : (dominant.isSpectral ? palette.spectral : palette.transient);
+                    ctx.save();
+                    ctx.shadowBlur = 18 + level * 24;
+                    ctx.shadowColor = `rgba(${dominantColor},.72)`;
+                    ctx.strokeStyle = `rgba(${dominantColor},${.26 + level * .54})`;
+                    ctx.lineWidth = 1.5 + level * 2.2;
+                    ctx.setLineDash([8, 8]);
+                    ctx.beginPath();
+                    ctx.moveTo(x, h * .08);
+                    ctx.lineTo(x, h * .92);
+                    ctx.stroke();
+                    ctx.setLineDash([]);
+
+                    const dy = Math.sin(now / 180) * 4;
+                    ctx.translate(x, Math.max(34, y - 58 + dy));
+                    ctx.fillStyle = `rgba(${dominantColor},${.54 + level * .40})`;
+                    ctx.beginPath();
+                    ctx.moveTo(0, -12);
+                    ctx.lineTo(-10, 8);
+                    ctx.lineTo(10, 8);
+                    ctx.closePath();
+                    ctx.fill();
+                    ctx.restore();
+                }
+
+                // Borde respiración del scanner
+                ctx.shadowBlur = 0;
+                ctx.strokeStyle = `rgba(${palette.scanner},${.08 + Math.min(.22, (app.signalGlow || 0) * .18)})`;
+                ctx.lineWidth = 1;
+                ctx.strokeRect(1, 1, w - 2, h - 2);
+                ctx.restore();
+            },
+            pickRecorderMimeType: () => {
+                const candidates = ['audio/webm;codecs=opus','audio/webm','audio/mp4'];
+                if(typeof MediaRecorder === 'undefined') return '';
+                for(const type of candidates) {
+                    try {
+                        if(MediaRecorder.isTypeSupported && MediaRecorder.isTypeSupported(type)) return type;
+                    } catch(e) {}
+                }
+                return '';
+            },
+
+            startPreRollRecorder: () => {
+                if(!app.audioDest || typeof MediaRecorder === 'undefined') return;
+                try {
+                    app.preRollChunks = [];
+                    app.preRollRecorder = new MediaRecorder(app.audioDest.stream);
+                    app.preRollRecorder.ondataavailable = (e) => {
+                        if(e.data && e.data.size) {
+                            const now = Date.now();
+                            app.preRollChunks.push({ blob: e.data, time: now });
+                            app.preRollChunks = app.preRollChunks.filter(x => now - x.time <= app.preRollMs);
+                        }
+                    };
+                    app.preRollRecorder.start(500);
+                    app.log("✓ PRE-ROLL ACTIVO (3s)");
+                } catch(e) {
+                    app.log("⚠ PRE-ROLL NO DISPONIBLE EN ESTE NAVEGADOR");
+                }
+            },
+
+            silenceCarrierForReview: () => {
+                if(app.gainNode && app.ctx) app.gainNode.gain.setTargetAtTime(0, app.ctx.currentTime, 0.05);
+            },
+
+            restoreCarrierAfterReview: () => {
+                const sliderVal = document.getElementById('vol-slider').value / 100;
+                if(app.gainNode && app.ctx) app.gainNode.gain.linearRampToValueAtTime(Math.pow(sliderVal, 2), app.ctx.currentTime + 0.6);
+            },
+
+            updateControlButtons: () => {
+                const recBtn = document.getElementById('manual-rec-btn');
+                const recIcon = document.getElementById('manual-rec-icon');
+                const recLabel = document.getElementById('manual-rec-label');
+                const stopBtn = document.getElementById('stop-rec-btn');
+                const isRec = !!app.isRecording;
+                if(recBtn) recBtn.classList.toggle('recording-active', isRec);
+                if(recIcon) recIcon.textContent = isRec ? '■' : '●';
+                if(recLabel) recLabel.textContent = isRec ? 'REC ON' : 'GRABAR';
+                if(stopBtn) stopBtn.classList.toggle('is-disabled', !isRec);
+            },
+
+            manualRecord: () => {
+                if(app.isReviewing) { app.log("⚠ CIERRA LA EVIDENCIA ANTES DE GRABAR DE NUEVO"); return; }
+                if(!app.audioDest) { app.log("⚠ SISTEMA NO INICIADO"); return; }
+                if(app.isRecording) { app.log("⚠ YA HAY UNA GRABACIÓN EN CURSO"); return; }
+                app.log("⏺ GRABACIÓN MANUAL INICIADA");
+                app.triggerRecord('manual');
+            },
+
+            stopRecording: () => {
+                if(!app.isRecording || !app.mediaRecorder || app.mediaRecorder.state !== 'recording') {
+                    app.log("⚠ NO HAY GRABACIÓN ACTIVA");
+                    return;
+                }
+                app.log("■ GRABACIÓN DETENIDA POR EL USUARIO");
+                clearTimeout(app.recordTimeout);
+                app.mediaRecorder.stop();
+            },
+
+            triggerRecord: (mode = 'auto', features = null) => {
+                app.log(mode === 'manual' ? "🔴 GRABACIÓN MANUAL..." : "🔴 CAPTURA AUTOMÁTICA EVP..."); 
+                document.getElementById('rec-ui').classList.add('active'); 
+                app.isRecording = true; 
+                app.currentRecordingMode = mode; 
+                app.audioChunks = [];
+                app.lastCaptureMeta = {
+                    modo: mode === 'manual' ? 'Manual' : 'Automática',
+                    fecha: new Date().toLocaleString(),
+                    portadora: app.selectedCarrier,
+                    sensibilidad: app.sensitivityLevel,
+                    evpScore: features ? features.score : app.lastEvpScore,
+                    banda: '300–3400 Hz / claridad 1700–3300 Hz',
+                    preRoll: 'desactivado para estabilidad'
+                };
+                app.recordMimeType = app.pickRecorderMimeType();
+                app.mediaRecorder = app.recordMimeType ? new MediaRecorder(app.audioDest.stream, { mimeType: app.recordMimeType }) : new MediaRecorder(app.audioDest.stream);
+                app.updateControlButtons();
+                app.mediaRecorder.ondataavailable = e => { if(e.data && e.data.size) app.audioChunks.push(e.data); };
+                app.mediaRecorder.onstop = () => {
+                    app.isRecording = false; 
+                    app.currentRecordingMode = null;
+                    app.updateControlButtons();
+                    document.getElementById('rec-ui').classList.remove('active'); 
+                    app.isReviewing = true;
+                    app.silenceCarrierForReview();
+                    app.rawBlob = new Blob(app.audioChunks, { type: app.recordMimeType || (app.audioChunks[0] && app.audioChunks[0].type) || 'audio/webm' });
+                    app.processedAudioCache = {};
+                    app.currentSelectedCleanup = 'raw';
+                    app.currentSelectedCleanupLabel = 'BRUTO';
+                    const rawUrl = URL.createObjectURL(app.rawBlob);
+                    app.processedAudioCache.raw = rawUrl;
+                    const review = document.getElementById('audio-review');
+                    if(review) { review.pause(); review.src = rawUrl; review.load(); }
+                    const chip = document.getElementById('clean-mode-chip'); if(chip) chip.textContent = 'BRUTO';
+                    document.querySelectorAll('.btn-clean').forEach((b,i) => b.classList.toggle('active', i===0));
+                    const meta = app.lastCaptureMeta || {};
+                    const metaEl = document.getElementById('evidence-meta');
+                    if(metaEl) {
+                        metaEl.classList.remove('visible');
+                        metaEl.innerHTML = `<strong>Modo:</strong> ${meta.modo || 'N/D'} · <strong>Fecha:</strong> ${meta.fecha || 'N/D'}<br><strong>Portadora:</strong> ${meta.portadora || 'N/D'} · <strong>Sensibilidad:</strong> ${meta.sensibilidad || 'N/D'} · <strong>Score:</strong> ${meta.evpScore || 0}/100<br><strong>Banda guía:</strong> ${meta.banda || '300–3400 Hz'} · <strong>Pre-roll:</strong> ${meta.preRoll || 'N/D'}`;
+                    }
+                    document.getElementById('evidence-modal').style.display = 'flex';
+                    app.log("✓ GRABACIÓN GUARDADA PARA REVISIÓN");
+                };
+                app.mediaRecorder.start(500); 
+                if(mode === 'auto') app.autoRecordCooldownUntil = Date.now() + 12000;
+                app.recordDuration = mode === 'manual' ? 8000 : 5000; 
+                app.resetRecordTimer();
+            },
+
+            extendRecording: () => { 
+                if(app.recordDuration < app.maxRecordDuration) { 
+                    app.recordDuration += 2000; 
+                    app.resetRecordTimer(); 
+                    app.log("⏱ EXTENDIENDO CAPTURA..."); 
+                } 
+            },
+            
+            resetRecordTimer: () => { 
+                if(app.recordTimeout) clearTimeout(app.recordTimeout); 
+                app.recordTimeout = setTimeout(() => { 
+                    if(app.mediaRecorder.state==='recording') app.mediaRecorder.stop(); 
+                }, app.recordDuration); 
+            },
+
+            getRawAudioBuffer: async () => {
+                if(!app.rawBlob) throw new Error('No hay audio base');
+                const arrayBuffer = await app.rawBlob.arrayBuffer();
+                return await app.ctx.decodeAudioData(arrayBuffer.slice(0));
+            },
+
+            pauseAllAudiosExcept: (current = null) => {
+                document.querySelectorAll('audio').forEach(a => {
+                    if(a !== current) {
+                        try { a.pause(); } catch(e) {}
+                    }
+                });
+            },
+
+            toggleEvidenceDetails: () => {
+                const metaEl = document.getElementById('evidence-meta');
+                if(metaEl) metaEl.classList.toggle('visible');
+            },
+
+            openRecordings: () => {
+                if(!app.rawBlob) { app.log("Aún no hay grabaciones para escuchar"); return; }
+                app.isReviewing = true;
+                app.silenceCarrierForReview();
+                document.getElementById('evidence-modal').style.display = 'flex';
+                app.updateControlButtons();
+            },
+
+            applyCleanupLevel: async (level, btnEl = null) => {
+                if(!app.rawBlob) return;
+                const labels = { raw: 'BRUTO', organic: 'SUAVE', isolated: 'VOCAL', deep: 'INTENSA' };
+                app.pauseAllAudiosExcept(null);
+                document.querySelectorAll('.btn-clean').forEach(btn => btn.classList.toggle('active', btn === btnEl || btn.dataset.clean === level));
+                app.currentSelectedCleanup = level;
+                app.currentSelectedCleanupLabel = labels[level] || 'BRUTO';
+                const chip = document.getElementById('clean-mode-chip');
+                const player = document.getElementById('audio-review');
+                if(chip) chip.textContent = app.currentSelectedCleanupLabel;
+                if(!player) return;
+
+                if(level === 'raw') {
+                    player.src = app.processedAudioCache.raw || player.src;
+                    player.load();
+                    return;
+                }
+                if(app.processedAudioCache[level]) {
+                    player.src = app.processedAudioCache[level];
+                    player.load();
+                    return;
+                }
+                if(chip) chip.textContent = 'PROCESANDO...';
+                try {
+                    app.log(`Procesando versión ${app.currentSelectedCleanupLabel}...`);
+                    const audioBuffer = await app.getRawAudioBuffer();
+                    const rendered = await app.renderTrack(audioBuffer, level);
+                    const url = URL.createObjectURL(rendered);
+                    app.processedAudioCache[level] = url;
+                    player.src = url;
+                    player.load();
+                    if(chip) chip.textContent = app.currentSelectedCleanupLabel;
+                    app.log(`✓ VERSIÓN ${app.currentSelectedCleanupLabel} LISTA`);
+                } catch(e) {
+                    if(chip) chip.textContent = 'BRUTO';
+                    player.src = app.processedAudioCache.raw || player.src;
+                    app.currentSelectedCleanup = 'raw';
+                    app.currentSelectedCleanupLabel = 'BRUTO';
+                    document.querySelectorAll('.btn-clean').forEach(btn => btn.classList.toggle('active', btn.dataset.clean === 'raw'));
+                    app.log('⚠ NO SE PUDO PROCESAR EL AUDIO. SE MANTIENE BRUTO.');
+                }
+            },
+
+            renderTrack: async (buffer, type) => {
+                const offlineCtx = new OfflineAudioContext(buffer.numberOfChannels, buffer.length, buffer.sampleRate);
+                const source = offlineCtx.createBufferSource(); 
+                source.buffer = buffer;
+                let lastNode = source;
+
+                const connect = (node) => { lastNode.connect(node); lastNode = node; return node; };
+
+                if(app.selectedCarrier === 'fibonacci') {
+                    const notch = offlineCtx.createBiquadFilter(); 
+                    notch.type = 'notch'; 
+                    notch.frequency.value = 528; 
+                    notch.Q.value = 18;
+                    connect(notch);
+                }
+
+                // Quita subgraves/rumble antes de cualquier realce.
+                const safetyHP = offlineCtx.createBiquadFilter();
+                safetyHP.type = 'highpass';
+                safetyHP.frequency.value = type === 'deep' ? 110 : 125;
+                safetyHP.Q.value = 0.72;
+                connect(safetyHP);
+
+                if(type === 'organic') {
+                    // Reducción suave de fondo: conserva naturalidad.
+                    const lp = offlineCtx.createBiquadFilter(); lp.type = 'lowpass'; lp.frequency.value = 6800; lp.Q.value = 0.7;
+                    const presence = offlineCtx.createBiquadFilter(); presence.type = 'peaking'; presence.frequency.value = 2600; presence.Q.value = 1.0; presence.gain.value = 2.2;
+                    const comp = offlineCtx.createDynamicsCompressor(); comp.threshold.value = -34; comp.knee.value = 16; comp.ratio.value = 2.4; comp.attack.value = .006; comp.release.value = .20;
+                    const gain = offlineCtx.createGain(); gain.gain.value = 1.22;
+                    connect(lp); connect(presence); connect(comp); connect(gain);
+
+                } else if(type === 'isolated') {
+                    // Vocal v26: reducción de fondo + presencia vocal + compresión + limitación.
+                    const lowCut = offlineCtx.createBiquadFilter(); lowCut.type = 'highpass'; lowCut.frequency.value = 165; lowCut.Q.value = 0.85;
+                    const voiceLP = offlineCtx.createBiquadFilter(); voiceLP.type = 'lowpass'; voiceLP.frequency.value = 4600; voiceLP.Q.value = 0.72;
+                    const mudCut = offlineCtx.createBiquadFilter(); mudCut.type = 'peaking'; mudCut.frequency.value = 260; mudCut.Q.value = 0.9; mudCut.gain.value = -4.8;
+                    const nasalCut = offlineCtx.createBiquadFilter(); nasalCut.type = 'peaking'; nasalCut.frequency.value = 720; nasalCut.Q.value = 1.2; nasalCut.gain.value = -1.8;
+                    const presence = offlineCtx.createBiquadFilter(); presence.type = 'peaking'; presence.frequency.value = 2450; presence.Q.value = 1.05; presence.gain.value = 6.2;
+                    const intelligibility = offlineCtx.createBiquadFilter(); intelligibility.type = 'peaking'; intelligibility.frequency.value = 3350; intelligibility.Q.value = 1.18; intelligibility.gain.value = 4.4;
+                    const deHiss = offlineCtx.createBiquadFilter(); deHiss.type = 'highshelf'; deHiss.frequency.value = 5700; deHiss.gain.value = -9.0;
+                    const comp = offlineCtx.createDynamicsCompressor(); comp.threshold.value = -42; comp.knee.value = 22; comp.ratio.value = 5.2; comp.attack.value = .004; comp.release.value = .18;
+                    const gain = offlineCtx.createGain(); gain.gain.value = 1.72;
+                    const limiter = offlineCtx.createDynamicsCompressor(); limiter.threshold.value = -9; limiter.knee.value = 2; limiter.ratio.value = 18; limiter.attack.value = .001; limiter.release.value = .09;
+                    connect(lowCut); connect(voiceLP); connect(mudCut); connect(nasalCut); connect(presence); connect(intelligibility); connect(deHiss); connect(comp); connect(gain); connect(limiter);
+
+                } else if(type === 'deep') {
+                    // Realce fuerte para señales débiles; útil pero puede crear artefactos.
+                    const lp = offlineCtx.createBiquadFilter(); lp.type = 'lowpass'; lp.frequency.value = 6200; lp.Q.value = 0.7;
+                    const bp = offlineCtx.createBiquadFilter(); bp.type = 'bandpass'; bp.frequency.value = 2550; bp.Q.value = 1.55;
+                    const presence = offlineCtx.createBiquadFilter(); presence.type = 'peaking'; presence.frequency.value = 3100; presence.Q.value = 1.35; presence.gain.value = 7.5;
+                    const hissCut = offlineCtx.createBiquadFilter(); hissCut.type = 'highshelf'; hissCut.frequency.value = 6000; hissCut.gain.value = -10;
+                    const comp = offlineCtx.createDynamicsCompressor(); comp.threshold.value = -46; comp.knee.value = 24; comp.ratio.value = 7.8; comp.attack.value = .003; comp.release.value = .16;
+                    const gain = offlineCtx.createGain(); gain.gain.value = 2.28;
+                    const limiter = offlineCtx.createDynamicsCompressor(); limiter.threshold.value = -10; limiter.knee.value = 2; limiter.ratio.value = 20; limiter.attack.value = .001; limiter.release.value = .08;
+                    connect(lp); connect(bp); connect(presence); connect(hissCut); connect(comp); connect(gain); connect(limiter);
+                }
+
+                lastNode.connect(offlineCtx.destination); 
+                source.start();
+                const rendered = await offlineCtx.startRendering(); 
+                return bufferToWave(rendered, rendered.length);
+            },
+
+            downloadSelectedAudio: () => { 
+                const a = document.createElement('a'); 
+                const timestamp = new Date().toISOString().replace(/:/g, '-').slice(0, -5);
+                const level = app.currentSelectedCleanup || 'raw';
+                const labels = { raw: 'RAW', organic: 'SUAVE', isolated: 'VOCAL', deep: 'INTENSA' };
+                const audioEl = document.getElementById('audio-review');
+                a.href = audioEl ? audioEl.src : ''; 
+                a.download = `AETHERIS_${timestamp}_${labels[level] || 'RAW'}.wav`; 
+                a.click(); 
+                app.log(`⬇ DESCARGANDO AUDIO ${labels[level] || 'RAW'}`);
+            },
+            
+            dismissEvidence: () => { 
+                document.getElementById('evidence-modal').style.display = 'none'; 
+                app.pauseAllAudiosExcept(null);
+                const chip = document.getElementById('clean-mode-chip'); if(chip) chip.textContent = 'BRUTO';
+                const metaEl = document.getElementById('evidence-meta'); if(metaEl) metaEl.classList.remove('visible');
+                document.querySelectorAll('.btn-clean').forEach((b,i) => b.classList.toggle('active', i===0));
+                app.currentSelectedCleanup = 'raw';
+                app.currentSelectedCleanupLabel = 'BRUTO';
+                app.isReviewing = false; 
+                app.restoreCarrierAfterReview();
+                app.updateControlButtons();
+                app.log("▶ CONTINUANDO SESIÓN");
+            },
+            
+            log: (t) => { 
+                const c = document.getElementById('console'); 
+                const d = document.createElement('div'); 
+                const timestamp = new Date().toLocaleTimeString();
+                d.innerText = `[${timestamp}] ${t}`; 
+                c.prepend(d); 
+                if(c.children.length > 8) c.lastElementChild.remove(); 
+            }
+        };
+
+        // NUEVO: Selector de sensibilidad
+        document.querySelectorAll('.btn-sensitivity').forEach(btn => {
+            btn.addEventListener('click', function() {
+                document.querySelectorAll('.btn-sensitivity').forEach(b => b.classList.remove('active'));
+                this.classList.add('active');
+                app.sensitivityLevel = this.dataset.level;
+                console.log('Sensibilidad ajustada a:', app.sensitivityLevel);
+            });
+        });
+
+        app.applyTheme((document.getElementById('theme-select') || { value: 'classic' }).value);
+    </script>
+    <!-- ═══════ BANNER DE INSTALACIÓN PWA ═══════ -->
+    <div id="install-banner">
+        <div class="install-card">
+            <button class="install-close-x" onclick="pwa.dismiss()" aria-label="Cerrar">✕</button>
+            <div class="install-header">
+                <div class="install-icon">Ω</div>
+                <div class="install-text-block">
+                    <div class="install-app-name">AETHERIS</div>
+                    <div class="install-subtitle">SCANNER EVP PROTOCOL v26</div>
+                </div>
+            </div>
+            <div class="install-desc">
+                Instala AETHERIS en tu dispositivo para acceso rápido, 
+                <span>sin necesidad de navegador</span> y con pantalla completa optimizada 
+                para sesiones de campo.
+            </div>
+            <div class="install-actions">
+                <button class="btn-install-accept" id="btn-install-now" onclick="pwa.install()">
+                    INSTALAR APP
+                </button>
+                <button class="btn-install-dismiss" onclick="pwa.dismiss()">
+                    AHORA NO
+                </button>
+            </div>
+            <div class="ios-hint" id="ios-hint">
+                En iPhone/iPad: toca <span class="share-icon">⬆</span> y luego 
+                <strong style="color:rgba(0,255,65,0.7)">"Añadir a pantalla de inicio"</strong>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // ═══════════════════════════════════════════════════════════════
+        // PWA — Service Worker + Manifest inline + Install Prompt
+        // ═══════════════════════════════════════════════════════════════
+
+        // 1. Manifest embebido como blob URL
+        const manifestData = {
+            name: "AETHERIS EVP Protocol",
+            short_name: "AETHERIS",
+            description: "Sistema experimental de scanner acústico y revisión de señales de voz",
+            start_url: "./",
+            display: "fullscreen",
+            orientation: "portrait",
+            background_color: "#010101",
+            theme_color: "#010101",
+            icons: [
+                {
+                    src: "data:image/svg+xml," + encodeURIComponent(`<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><rect width="512" height="512" fill="#010101" rx="80"/><circle cx="256" cy="256" r="200" fill="none" stroke="#00ff41" stroke-width="8" opacity="0.5"/><circle cx="256" cy="256" r="130" fill="none" stroke="#00ff41" stroke-width="4" opacity="0.3"/><text x="256" y="320" font-size="200" text-anchor="middle" fill="#00ff41" font-family="serif" filter="url(#g)">Ω</text><defs><filter id="g"><feGaussianBlur stdDeviation="6" result="blur"/><feMerge><feMergeNode in="blur"/><feMergeNode in="SourceGraphic"/></feMerge></filter></defs></svg>`),
+                    sizes: "512x512",
+                    type: "image/svg+xml",
+                    purpose: "any maskable"
+                }
+            ]
+        };
+        const manifestBlob = new Blob([JSON.stringify(manifestData)], { type: 'application/json' });
+        document.getElementById('pwa-manifest').href = URL.createObjectURL(manifestBlob);
+
+        // 2. Service Worker inline (cache básico para offline)
+        const swCode = `
+const CACHE = 'aetheris-scanner-v26';
+self.addEventListener('install', e => {
+    self.skipWaiting();
+});
+self.addEventListener('activate', e => {
+    self.clients.claim();
+});
+self.addEventListener('fetch', e => {
+    e.respondWith(
+        caches.match(e.request).then(r => r || fetch(e.request))
+    );
+});
+        `;
+        if ('serviceWorker' in navigator) {
+            const swBlob = new Blob([swCode], { type: 'application/javascript' });
+            const swUrl  = URL.createObjectURL(swBlob);
+            navigator.serviceWorker.register(swUrl, { scope: '/' })
+                .catch(() => {}); // silencioso si falla por scope
+        }
+
+        // 3. Lógica del prompt de instalación
+        const pwa = {
+            deferredPrompt: null,
+            shown: false,
+
+            init() {
+                // ¿Ya instalada? No mostrar
+                if (window.matchMedia('(display-mode: standalone)').matches ||
+                    window.navigator.standalone === true) return;
+
+                // Guardamos el evento beforeinstallprompt (Chrome/Android)
+                window.addEventListener('beforeinstallprompt', (e) => {
+                    e.preventDefault();
+                    pwa.deferredPrompt = e;
+                    pwa.show(false); // no es iOS
+                });
+
+                // Detección iOS (Safari no dispara beforeinstallprompt)
+                const isIos = /iphone|ipad|ipod/i.test(navigator.userAgent);
+                const isInStandalone = window.navigator.standalone;
+                if (isIos && !isInStandalone) {
+                    // En iOS mostramos el banner con instrucción manual
+                    setTimeout(() => pwa.show(true), 1200);
+                }
+            },
+
+            show(isIos) {
+                if (pwa.shown) return;
+                pwa.shown = true;
+                const banner = document.getElementById('install-banner');
+                banner.classList.add('visible');
+                if (isIos) {
+                    document.getElementById('ios-hint').style.display = 'block';
+                    document.getElementById('btn-install-now').style.display = 'none';
+                }
+            },
+
+            async install() {
+                if (!pwa.deferredPrompt) return;
+                pwa.deferredPrompt.prompt();
+                const { outcome } = await pwa.deferredPrompt.userChoice;
+                pwa.deferredPrompt = null;
+                pwa.dismiss();
+            },
+
+            dismiss() {
+                const banner = document.getElementById('install-banner');
+                banner.style.animation = 'none';
+                banner.style.transition = 'transform 0.3s ease, opacity 0.3s ease';
+                banner.style.transform = 'translateY(100%)';
+                banner.style.opacity  = '0';
+                setTimeout(() => banner.classList.remove('visible'), 320);
+            }
+        };
+
+        // Mostrar con pequeño delay para que la app cargue primero
+        setTimeout(() => pwa.init(), 800);
+    </script>
+</body>
+</html>

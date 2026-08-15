@@ -1,0 +1,459 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>MESMER | V5 Dynamic Waves</title>
+    <style>
+        :root {
+            --bg-deep: #000000; 
+            --text-color: #aaddff; 
+            --accent: #5588cc; 
+            /* Colores Dinámicos */
+            --mode-astral: #88ccff;
+            --mode-sleep: #aa88ff;
+            --mode-focus: #ffcc88;
+        }
+
+        body {
+            margin: 0; background-color: var(--bg-deep); color: var(--text-color);
+            font-family: 'Courier New', monospace; overflow: hidden; height: 100vh;
+            display: flex; flex-direction: column; align-items: center; justify-content: center;
+            user-select: none; -webkit-user-select: none; -webkit-tap-highlight-color: transparent;
+        }
+
+        /* CAPAS DE PANTALLA */
+        .screen {
+            position: absolute; width: 100%; height: 100%;
+            display: flex; flex-direction: column; align-items: center; justify-content: center;
+            transition: opacity 1s ease; z-index: 100; background: var(--bg-deep);
+        }
+
+        /* 1. SETUP UI */
+        h1 { font-weight: 100; letter-spacing: 12px; font-size: 2rem; opacity: 0.9; margin-bottom: 5px; color: var(--text-color); text-shadow: 0 0 20px rgba(100,200,255,0.3); }
+        
+        #message-box { 
+            border: 1px solid #112233; padding: 15px; width: 280px; text-align: center; 
+            margin-bottom: 10px; font-size: 0.8rem; color: #446688; font-style: italic; opacity: 0.8; 
+        }
+
+        /* BOTÓN DE INFO */
+        #info-btn { 
+            font-size: 0.8rem; color: #557799; cursor: pointer; margin-bottom: 25px; 
+            border-bottom: 1px dotted #335577; padding: 5px; z-index: 1001; 
+        }
+
+        /* SELECTOR DE MODO */
+        .mode-selector { display: flex; gap: 10px; margin-bottom: 20px; }
+        .mode-btn {
+            background: #050a10; border: 1px solid #224466; color: #557799;
+            padding: 10px 15px; border-radius: 4px; cursor: pointer; font-size: 0.75rem;
+            transition: all 0.3s; text-transform: uppercase; letter-spacing: 1px;
+        }
+        .mode-btn.active { border-color: var(--text-color); color: var(--text-color); box-shadow: 0 0 10px rgba(255,255,255,0.1); }
+
+        select {
+            background: #050a10; border: 1px solid #224466; color: #88ccff; 
+            padding: 15px; margin-bottom: 25px; font-size: 1rem; outline: none; 
+            text-align: center; width: 200px; letter-spacing: 1px; border-radius: 4px;
+        }
+
+        .btn {
+            background: transparent; border: 1px solid #336699; color: #88ccff;
+            padding: 20px 40px; font-size: 1.1rem; border-radius: 5px;
+            margin: 10px; cursor: pointer; transition: all 0.3s; min-width: 240px;
+            box-shadow: 0 0 15px rgba(0,100,255,0.1);
+            text-transform: uppercase; letter-spacing: 2px;
+        }
+        .btn:active { transform: scale(0.96); background: #001122; box-shadow: 0 0 5px rgba(0,100,255,0.2); }
+
+        /* 2. INSTRUCTION OVERLAY */
+        #instr-overlay {
+            z-index: 200; background: black; opacity: 0; pointer-events: none;
+            cursor: pointer;
+        }
+        .instr-text {
+            font-size: 1.1rem; color: #fff; letter-spacing: 4px; margin: 25px;
+            text-align: center; opacity: 0; transform: translateY(20px);
+            transition: all 1.5s ease; font-weight: lighter;
+        }
+        .pulse-text { animation: pulse 4s infinite ease-in-out; color: #5588cc; font-size: 0.8rem; margin-top: 50px;}
+        @keyframes pulse { 0% {opacity:0.3;} 50% {opacity:0.8;} 100% {opacity:0.3;} }
+
+        /* 3. TRANCE ZONE */
+        #trance-zone { 
+            z-index: 50; opacity: 0; pointer-events: none; background: #000000; cursor: pointer;
+            touch-action: none; position: absolute; top:0; left:0; width:100%; height:100%;
+        }
+        canvas { position: absolute; top: 0; left: 0; width: 100%; height: 100%; opacity: 0.9; }
+
+        #subliminal-word {
+            position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%);
+            font-size: 2rem; letter-spacing: 12px; color: rgba(255,255,255,0.7);
+            font-weight: 100; text-shadow: 0 0 40px rgba(255,255,255,0.6);
+            opacity: 0; transition: opacity 3s ease-in-out; pointer-events: none;
+            text-align: center; width: 100%; filter: blur(1px);
+        }
+
+        #exit-hint { 
+            position: absolute; bottom: 10%; width: 100%; text-align: center;
+            opacity: 0; color: #88ccff; font-size: 1rem; font-weight: lighter;
+            letter-spacing: 4px; transition: opacity 0.5s; pointer-events: none;
+        }
+
+        /* MODAL */
+        #science-modal {
+            position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+            background: rgba(0,0,0,0.96); z-index: 2000; display: none;
+            flex-direction: column; align-items: center; justify-content: center; padding: 30px;
+            text-align: left;
+        }
+        .science-content { max-width: 400px; font-size: 0.9rem; line-height: 1.6; color: #99aabb; }
+        .science-title { color: #88ccff; margin-bottom: 20px; font-weight: bold; border-bottom: 1px solid #335577; padding-bottom: 10px; font-size: 1.2rem;}
+        .close-btn { background: none; border: none; color: #557799; text-decoration: underline; margin-top: 30px; cursor: pointer; font-size: 1rem;}
+
+        .hidden { display: none !important; }
+
+    </style>
+</head>
+<body>
+
+    <div id="setup-ui" class="screen">
+        <h1>MESMER</h1>
+        
+        <div id="message-box">
+            "Sincroniza tu respiración con el pulso visual. La mente seguirá."
+        </div>
+
+        <div id="info-btn">? Protocolo & Ciencia</div>
+
+        <div class="mode-selector">
+            <div class="mode-btn active" data-mode="astral" onclick="setMode('astral')">ASTRAL</div>
+            <div class="mode-btn" data-mode="sleep" onclick="setMode('sleep')">SUEÑO</div>
+            <div class="mode-btn" data-mode="focus" onclick="setMode('focus')">FOCO</div>
+        </div>
+
+        <select id="timer-select">
+            <option value="15">15 Min (Suave)</option>
+            <option value="30" selected>30 Min (Profundo)</option>
+            <option value="60">60 Min (Eterno)</option>
+        </select>
+
+        <button id="btn-prepare" class="btn">PREPARAR MENTE</button>
+    </div>
+
+    <div id="instr-overlay" class="screen">
+        <div class="instr-text" id="ins-1">SUELTA EL CUERPO</div>
+        <div class="instr-text" id="ins-2">OBSERVA EL CENTRO</div>
+        <div class="instr-text" id="ins-3">RESPIRA CON LA LUZ</div>
+        <div class="instr-text pulse-text" id="ins-action">[ TOCA PARA INICIAR ]</div>
+    </div>
+
+    <div id="trance-zone">
+        <canvas id="spiral-canvas"></canvas>
+        <div id="subliminal-word">...</div>
+        <div id="exit-hint">MANTÉN PARA DESPERTAR</div>
+    </div>
+
+    <div id="science-modal">
+        <div class="science-content">
+            <div class="science-title">ARQUITECTURA V5 (DYNAMIC)</div>
+            <p><b>1. Respiración Visual (Visual Entrainment):</b><br>La espiral central se expande y contrae en ciclos de 6 segundos para guiar la respiración.</p>
+            <p><b>2. Campo de Ondas Dinámico:</b><br>Múltiples capas de ondas lentas llenan el espacio periférico, creando una sensación de inmersión oceánica y llenando el vacío visual.</p>
+            <p><b>3. Atmósfera "Void" & Audio Etéreo:</b><br>Ruido Marrón Estéreo más acordes sinusoidales puros en frecuencias Theta (6Hz).</p>
+            <br>
+            <center><button id="close-science" class="close-btn">Cerrar</button></center>
+        </div>
+    </div>
+
+    <script>
+        // --- CONFIGURACIÓN DE MODOS ---
+        const MODES = {
+            astral: { color: [100, 200, 255], words: ["FLOTAR", "VACÍO", "ETERNO", "LUZ", "CERO", "AIRE"] }, // Cian
+            sleep:  { color: [160, 100, 255], words: ["PESADO", "PROFUNDO", "DORMIR", "NIEBLA", "PAZ", "HUNDIR"] }, // Violeta
+            focus:  { color: [255, 180, 100], words: ["CLARIDAD", "MENTE", "FLUJO", "AHORA", "PODER", "FOCO"] }  // Ámbar
+        };
+        let currentMode = 'astral';
+
+        function setMode(mode) {
+            currentMode = mode;
+            document.querySelectorAll('.mode-btn').forEach(b => b.classList.remove('active'));
+            document.querySelector(`.mode-btn[data-mode="${mode}"]`).classList.add('active');
+            
+            const c = MODES[mode].color;
+            document.querySelector('h1').style.color = `rgb(${c[0]}, ${c[1]}, ${c[2]})`;
+            document.querySelector('.btn').style.borderColor = `rgb(${c[0]-50}, ${c[1]-50}, ${c[2]-50})`;
+            document.querySelector('.btn').style.color = `rgb(${c[0]}, ${c[1]}, ${c[2]})`;
+        }
+
+        // --- MOTOR VISUAL (V5 - DYNAMIC WAVES) ---
+        class SpiralEngine {
+            constructor(canvasId) {
+                this.cvs = document.getElementById(canvasId);
+                this.ctx = this.cvs.getContext('2d');
+                this.resize();
+                window.addEventListener('resize', () => this.resize());
+                this.angle = 0;
+                this.running = false;
+                this.frame = 0;
+            }
+
+            resize() {
+                this.cvs.width = window.innerWidth;
+                this.cvs.height = window.innerHeight;
+                this.cx = this.cvs.width / 2;
+                this.cy = this.cvs.height / 2;
+            }
+
+            start() {
+                this.running = true;
+                this.animate();
+            }
+
+            stop() {
+                this.running = false;
+            }
+
+            animate() {
+                if(!this.running) return;
+                
+                // Rastro suave
+                this.ctx.fillStyle = 'rgba(0, 0, 0, 0.08)'; 
+                this.ctx.fillRect(0, 0, this.cvs.width, this.cvs.height);
+
+                this.ctx.save();
+                this.ctx.translate(this.cx, this.cy);
+
+                const rgb = MODES[currentMode].color;
+
+                // --- CAPA 1: FONDO OCEÁNICO (NUEVAS ONDAS LENTAS) ---
+                // Estas ondas no rotan y son más lentas, llenan el espacio negro.
+                for(let k=0; k<5; k++) {
+                    // Expansión muy lenta y amplia
+                    const radius = (this.frame * 0.3 + k * 250) % 1500; 
+                    if(radius > 50) {
+                        this.ctx.beginPath();
+                        this.ctx.arc(0, 0, radius, 0, Math.PI * 2);
+                        // Opacidad muy baja, solo para dar textura
+                        const opacity = (1 - radius/1500) * 0.15;
+                        this.ctx.strokeStyle = `rgba(${rgb[0]}, ${rgb[1]}, ${rgb[2]}, ${opacity})`;
+                        this.ctx.lineWidth = 1;
+                        this.ctx.stroke();
+                    }
+                }
+
+                // --- CAPA 2: NÚCLEO CENTRAL (ESPIRAL + RESPIRACIÓN) ---
+                // Efecto Respiración (Breathing)
+                const breath = 1 + Math.sin(this.frame * 0.015) * 0.08; 
+                this.ctx.scale(breath, breath); // Aplicar escala solo al núcleo
+                this.ctx.rotate(this.angle);    // Aplicar rotación solo al núcleo
+
+                this.ctx.beginPath();
+                const alpha = 0.2 + Math.sin(this.frame * 0.02) * 0.1;
+                this.ctx.strokeStyle = `rgba(${rgb[0]}, ${rgb[1]}, ${rgb[2]}, ${alpha})`;
+                this.ctx.lineWidth = 2;
+
+                for (let i = 0; i < 160; i++) {
+                    const angle = 0.1 * i;
+                    const x = (1 + angle) * Math.cos(angle) * (i * 1.1);
+                    const y = (1 + angle) * Math.sin(angle) * (i * 1.1);
+                    this.ctx.lineTo(x, y);
+                }
+                this.ctx.stroke();
+
+                // Círculos centrales rápidos
+                for(let j=0; j<3; j++) {
+                    const radius = ((this.frame * 0.8 + j * 150) % 800);
+                    if(radius > 20) {
+                        this.ctx.beginPath();
+                        this.ctx.arc(0, 0, radius, 0, Math.PI * 2);
+                        this.ctx.strokeStyle = `rgba(${rgb[0]}, ${rgb[1]}, ${rgb[2]}, ${ (1 - radius/800) * 0.3 })`;
+                        this.ctx.stroke();
+                    }
+                }
+
+                this.ctx.restore();
+
+                this.angle -= 0.008; 
+                this.frame++;
+                requestAnimationFrame(() => this.animate());
+            }
+        }
+
+        // --- MOTOR DE AUDIO (ATMÓSFERA + ETÉREO) ---
+        class AudioEngine {
+            constructor() {
+                this.ctx = null;
+                this.master = null;
+            }
+
+            init() {
+                if(!this.ctx) this.ctx = new (window.AudioContext || window.webkitAudioContext)();
+            }
+
+            resumeAndStart() {
+                if(this.ctx.state === 'suspended') this.ctx.resume();
+                this.master = this.ctx.createGain();
+                this.master.connect(this.ctx.destination);
+                this.master.gain.value = 0; 
+                this.master.gain.linearRampToValueAtTime(1.0, this.ctx.currentTime + 5);
+
+                // 1. CAPA ATMÓSFERA (BROWN NOISE)
+                const bSize = this.ctx.sampleRate * 2;
+                const bBuf = this.ctx.createBuffer(1, bSize, this.ctx.sampleRate);
+                const data = bBuf.getChannelData(0);
+                let lastOut = 0;
+                for(let i=0; i<bSize; i++) {
+                    const white = Math.random() * 2 - 1;
+                    data[i] = (lastOut + (0.02 * white)) / 1.02; 
+                    lastOut = data[i];
+                    data[i] *= 3.5; 
+                }
+                const noise = this.ctx.createBufferSource();
+                noise.buffer = bBuf; noise.loop = true;
+                const nGain = this.ctx.createGain(); nGain.gain.value = 0.05; 
+                const nPan = this.ctx.createStereoPanner(); nPan.pan.value = 0;
+                noise.connect(nGain); nGain.connect(nPan); nPan.connect(this.master);
+                noise.start();
+
+                // 2. TONOS ETÉREOS
+                const osc1 = this.ctx.createOscillator(); osc1.type = 'sine'; osc1.frequency.value = 110; 
+                const g1 = this.ctx.createGain(); g1.gain.value = 0.25;
+                const osc2 = this.ctx.createOscillator(); osc2.type = 'sine'; osc2.frequency.value = 164.81; 
+                const g2 = this.ctx.createGain(); g2.gain.value = 0.15;
+                const filter = this.ctx.createBiquadFilter(); filter.type = 'lowpass'; filter.frequency.value = 220;
+
+                osc1.connect(g1); g1.connect(filter); osc2.connect(g2); g2.connect(filter); filter.connect(this.master);
+                osc1.start(); osc2.start();
+
+                // 3. MODULACIÓN THETA & PANNING
+                const lfo = this.ctx.createOscillator(); lfo.frequency.value = 6; lfo.type = 'sine';
+                const lfoGain = this.ctx.createGain(); lfoGain.gain.value = 0.08;
+                lfo.connect(this.master.gain); lfo.start();
+
+                const panner = this.ctx.createStereoPanner();
+                const panLFO = this.ctx.createOscillator(); panLFO.frequency.value = 0.1; 
+                panLFO.connect(panner.pan); panLFO.start();
+
+                filter.disconnect(); filter.connect(panner); panner.connect(this.master);
+            }
+
+            stop() {
+                if(this.ctx) {
+                    const t = this.ctx.currentTime;
+                    this.master.gain.cancelScheduledValues(t);
+                    this.master.gain.setValueAtTime(this.master.gain.value, t);
+                    this.master.gain.exponentialRampToValueAtTime(0.001, t+3);
+                    setTimeout(() => this.ctx.suspend(), 3100);
+                }
+            }
+        }
+
+        // --- APP LOGIC ---
+        const visual = new SpiralEngine('spiral-canvas');
+        const audio = new AudioEngine();
+        let wordTimer;
+        let isRunning = false;
+        let wakeLock = null;
+
+        // UI BINDINGS
+        const modal = document.getElementById('science-modal');
+        document.getElementById('info-btn').addEventListener('click', (e) => { e.stopPropagation(); modal.style.display = 'flex'; });
+        document.getElementById('close-science').addEventListener('click', (e) => { e.stopPropagation(); modal.style.display = 'none'; });
+
+        document.getElementById('btn-prepare').onclick = () => {
+            audio.init(); 
+            document.getElementById('setup-ui').style.opacity = 0;
+            setTimeout(() => {
+                document.getElementById('setup-ui').style.display = 'none';
+                showInstructions();
+            }, 1000);
+        };
+
+        function showInstructions() {
+            const overlay = document.getElementById('instr-overlay');
+            overlay.style.opacity = 1; overlay.style.pointerEvents = 'auto'; 
+
+            setTimeout(() => { document.getElementById('ins-1').style.opacity = 1; document.getElementById('ins-1').style.transform = 'translateY(0)'; }, 500);
+            setTimeout(() => { document.getElementById('ins-2').style.opacity = 1; document.getElementById('ins-2').style.transform = 'translateY(0)'; }, 1500);
+            setTimeout(() => { document.getElementById('ins-3').style.opacity = 1; document.getElementById('ins-3').style.transform = 'translateY(0)'; }, 2500);
+            setTimeout(() => { document.getElementById('ins-action').style.opacity = 1; }, 3500);
+
+            overlay.onclick = startTrance;
+        }
+
+        async function startTrance() {
+            document.getElementById('instr-overlay').onclick = null;
+            try { if('wakeLock' in navigator) wakeLock = await navigator.wakeLock.request('screen'); } catch(e){}
+
+            audio.resumeAndStart();
+
+            document.getElementById('instr-overlay').style.opacity = 0;
+            document.getElementById('instr-overlay').style.pointerEvents = 'none';
+
+            const zone = document.getElementById('trance-zone');
+            zone.style.opacity = 1; zone.style.pointerEvents = 'auto';
+            
+            isRunning = true;
+            visual.start();
+            startWordCycle();
+            startTimer();
+        }
+
+        function startWordCycle() {
+            const el = document.getElementById('subliminal-word');
+            const wordList = MODES[currentMode].words;
+            let idx = 0;
+            
+            const cycle = () => {
+                if(!isRunning) return;
+                el.innerText = wordList[idx % wordList.length];
+                el.style.opacity = 0.4; 
+                setTimeout(() => { el.style.opacity = 0; }, 3000); 
+                idx++;
+                wordTimer = setTimeout(cycle, 6000); 
+            };
+            cycle();
+        }
+
+        function startTimer() {
+            const min = parseInt(document.getElementById('timer-select').value);
+            setTimeout(stopSession, min * 60 * 1000);
+        }
+
+        function stopSession() {
+            isRunning = false;
+            clearTimeout(wordTimer);
+            document.getElementById('exit-hint').innerText = "REGRESANDO...";
+            document.getElementById('exit-hint').style.opacity = 1;
+            
+            visual.stop();
+            audio.stop();
+            if(wakeLock) wakeLock.release();
+
+            setTimeout(() => location.reload(), 3500);
+        }
+
+        // HOLD TO EXIT
+        const zone = document.getElementById('trance-zone');
+        const hint = document.getElementById('exit-hint');
+        let holdTimer;
+        const holdStart = (e) => {
+            if(!isRunning) return;
+            if(e.cancelable) e.preventDefault();
+            hint.style.opacity = 0.8;
+            holdTimer = setTimeout(stopSession, 2500);
+        };
+        const holdEnd = (e) => {
+            if(e && e.cancelable) e.preventDefault();
+            clearTimeout(holdTimer);
+            if(isRunning) hint.style.opacity = 0;
+        };
+        zone.addEventListener('mousedown', holdStart); zone.addEventListener('touchstart', holdStart);
+        zone.addEventListener('mouseup', holdEnd); zone.addEventListener('touchend', holdEnd);
+        zone.addEventListener('mouseleave', holdEnd); zone.addEventListener('touchcancel', holdEnd);
+        zone.oncontextmenu = (e) => { e.preventDefault(); return false; };
+
+    </script>
+</body>
+</html>

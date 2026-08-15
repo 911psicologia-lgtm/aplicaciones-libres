@@ -1,0 +1,35 @@
+{
+  "version": "3.9.1",
+  "principle": "No afirmar más de lo que permiten las fuentes y declarar toda incertidumbre relevante.",
+  "hierarchy": [
+    "primary_text_or_academic_translation",
+    "university_encyclopedia_or_reference",
+    "academic_book_or_peer_reviewed_article",
+    "heritage_or_specialized_institution",
+    "specialized_source",
+    "bibliographic_anchor"
+  ],
+  "evidenceNatureVocabulary": [
+    "documented_intellectual_tradition",
+    "archaeological_evidence",
+    "academic_reconstruction",
+    "approximate_date",
+    "disputed_authorship",
+    "oral_or_indirect_transmission",
+    "contested_interpretation",
+    "editorial_synthesis"
+  ],
+  "sourceVerificationStates": [
+    "provided_in_research_pack",
+    "bibliographic_anchor_requires_url_or_edition_check",
+    "independently_verified",
+    "revision_required"
+  ],
+  "rules": [
+    "Las fechas aproximadas no se presentan como fechas exactas.",
+    "Las tradiciones orales se distinguen de la autoría textual individual.",
+    "Las comparaciones interculturales no prueban identidades históricas.",
+    "Una evidencia arqueológica no demuestra por sí sola una filosofía completa.",
+    "Las fuentes sin URL o edición completa permanecen como anclas bibliográficas pendientes de verificación."
+  ]
+}

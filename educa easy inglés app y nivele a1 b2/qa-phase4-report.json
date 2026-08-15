@@ -1,0 +1,50 @@
+{
+  "version": "v4.21.3",
+  "phase": "Fase 4 · QA automático y saneamiento transversal",
+  "fixes": [
+    "Dedupe runtime de traducción progresiva por mundo/ruta.",
+    "Reducción segura de textos de traducción a bloques únicos y legibles.",
+    "Emojis añadidos a ejercicios que no tenían icono.",
+    "QA runtime disponible en window.IPD_QA.run().",
+    "Validación estructural de diálogos por ruta conservada."
+  ],
+  "routeStats": {
+    "ruta_1": {
+      "lessons": 150,
+      "exerciseRefs": 750,
+      "missingExerciseRefs": 0,
+      "missingEmoji": 0,
+      "shortLigero": 150,
+      "basicDistractorHits": 5
+    },
+    "ruta_2": {
+      "lessons": 150,
+      "exerciseRefs": 750,
+      "missingExerciseRefs": 0,
+      "missingEmoji": 0,
+      "shortLigero": 150,
+      "basicDistractorHits": 0
+    },
+    "ruta_3": {
+      "lessons": 150,
+      "exerciseRefs": 750,
+      "missingExerciseRefs": 0,
+      "missingEmoji": 0,
+      "shortLigero": 0,
+      "basicDistractorHits": 0
+    },
+    "ruta_4": {
+      "lessons": 150,
+      "exerciseRefs": 750,
+      "missingExerciseRefs": 0,
+      "missingEmoji": 0,
+      "shortLigero": 0,
+      "basicDistractorHits": 0
+    }
+  },
+  "translationDuplicatesAfter": [],
+  "notes": {
+    "shortLigero": "A1/A2 conservan su diseño de intensidad ligera; B1/B2 ya quedaron en 5 ejercicios ligeros desde fases 2 y 3.",
+    "basicDistractorHits": "Los hits restantes corresponden a A1, donde pueden ser pedagógicamente esperables; B1/B2 están en cero."
+  }
+}

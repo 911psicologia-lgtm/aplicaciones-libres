@@ -1,0 +1,1256 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Rizoma Presupuesto - v6.4</title>
+<style>
+  *{margin:0;padding:0;box-sizing:border-box}
+  body{font-family:Segoe UI,Tahoma,Geneva,Verdana,sans-serif;background:linear-gradient(135deg,#667eea 0%,#764ba2 100%);min-height:100vh;padding:20px}
+  .container{background:#fff;border-radius:15px;max-width:1200px;margin:0 auto;box-shadow:0 10px 30px rgba(0,0,0,.2);overflow:hidden}
+  .header{background:linear-gradient(135deg,#2E7D32,#1B5E20);color:#fff;padding:20px;text-align:center}
+  .header h1{font-size:28px;margin-bottom:6px}
+  .header p{opacity:.95}
+  .nav{display:flex;flex-wrap:wrap;gap:10px;justify-content:center;background:#f5f7fa;padding:12px;border-bottom:1px solid #e5e7eb}
+  .nav-btn{padding:10px 14px;border:none;border-radius:10px;background:#fff;cursor:pointer;font-weight:700;color:#2E7D32;transition:.2s;box-shadow:0 2px 8px rgba(0,0,0,.08)}
+  .nav-btn:hover{transform:translateY(-1px)}
+  .nav-btn.active{background:#2E7D32;color:#fff}
+  .content{padding:20px}
+  .section{display:none}
+  .section.active{display:block}
+  .card{background:#fff;border-radius:12px;padding:18px;box-shadow:0 2px 10px rgba(0,0,0,.08);margin-bottom:16px}
+  .grid-2{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+  @media(max-width:900px){.grid-2{grid-template-columns:1fr}}
+  .btn{background:#2E7D32;color:#fff;border:none;border-radius:10px;padding:10px 14px;font-weight:800;cursor:pointer;transition:.2s}
+  .btn:hover{filter:brightness(1.05);transform:translateY(-1px)}
+  .btn-secondary{background:#455a64}
+  .btn-danger{background:#c62828}
+  .btn-ghost{background:#fff;color:#2E7D32;border:2px solid #2E7D32}
+  .pill{display:inline-flex;align-items:center;gap:8px;padding:8px 10px;border-radius:999px;background:#f0fdf4;color:#14532d;font-weight:700}
+  .small{font-size:13px;color:#555;line-height:1.5}
+  .empresa-item{display:flex;justify-content:space-between;align-items:center;gap:10px;padding:12px;border-radius:12px;border:1px solid #e5e7eb;margin-bottom:10px}
+  .empresa-item:hover{background:#f8fafc}
+  .empresa-actions{display:flex;gap:8px;flex-wrap:wrap}
+  .icon-btn{border:none;border-radius:10px;padding:9px 11px;cursor:pointer;font-weight:900}
+  .icon-edit{background:#fff3e0;color:#ef6c00;border:2px solid #ef6c00}
+  .icon-del{background:#ffebee;color:#c62828;border:2px solid #c62828}
+  .icon-open{background:#e8f5e9;color:#2E7D32;border:2px solid #2E7D32}
+  table{width:100%;border-collapse:collapse;margin-top:12px}
+  th{background:#2E7D32;color:#fff;padding:12px;text-align:left}
+  td{padding:12px;border-bottom:1px solid #e5e7eb;vertical-align:top}
+  tr:hover{background:#f8fafc}
+  .money{text-align:right;font-weight:800}
+  .muted{color:#6b7280;font-size:13px}
+  .badge{display:inline-block;padding:4px 8px;border-radius:999px;background:#eef2ff;color:#3730a3;font-weight:800;font-size:12px}
+  .resumen{background:#e8f5e9;border-radius:12px;padding:18px;margin-top:12px}
+  .res-row{display:flex;justify-content:space-between;gap:10px;padding:10px 0;border-bottom:1px solid rgba(46,125,50,.18)}
+  .res-row:last-child{border-bottom:none}
+  .grand{margin-top:12px;background:#2E7D32;color:#fff;border-radius:12px;padding:18px;font-size:26px;font-weight:900;text-align:right}
+  .toolbar{display:flex;gap:10px;justify-content:flex-end;flex-wrap:wrap;margin-top:10px}
+  .form-group{margin-bottom:12px}
+  label{display:block;font-weight:800;color:#1f2937;margin-bottom:6px}
+  input,select,textarea{width:100%;padding:10px;border:2px solid #e5e7eb;border-radius:10px;font-size:14px}
+  input:focus,select:focus,textarea:focus{outline:none;border-color:#2E7D32}
+  .modal{display:none;position:fixed;inset:0;background:rgba(0,0,0,.55);z-index:9999;padding:20px;overflow:auto}
+  .modal-content{background:#fff;border-radius:14px;max-width:720px;margin:0 auto;padding:18px;box-shadow:0 15px 40px rgba(0,0,0,.3)}
+  .modal-header{display:flex;justify-content:space-between;align-items:center;gap:10px;margin-bottom:12px}
+  .xbtn{border:none;background:#fff;border-radius:10px;padding:8px 10px;font-size:18px;font-weight:900;cursor:pointer}
+  .hint{background:#f3f4f6;border-radius:12px;padding:12px;color:#374151;line-height:1.5}
+  .warn{background:#fff7ed;border:1px solid #fed7aa;border-radius:12px;padding:12px;color:#7c2d12}
+</style>
+</head>
+<body>
+<div class="container">
+  <div class="header">
+    <h1>📊 APP Crea tu presupuesto (Rizoma)</h1>
+    <p>Empresas → Presupuestos → Productos | Offline-first</p>
+  </div>
+
+  <div class="nav">
+    <button class="nav-btn active" onclick="showSection('inicio')">🏠 Inicio</button>
+    <button class="nav-btn" onclick="showSection('empresa')">🏢 Empresa</button>
+    <button class="nav-btn" onclick="showSection('presupuesto')">🧾 Presupuesto</button>
+    <button class="nav-btn" onclick="showSection('exportar')">📤 Exportar</button>
+    <button class="nav-btn" onclick="showSection('ajustes')">⚙️ Ajustes</button>
+    <button class="nav-btn" onclick="showSection('manual')">📘 Manual</button>
+  </div>
+
+  <div class="content">
+    <!-- INICIO -->
+    <div id="inicio" class="section active">
+      <div class="card">
+        <div style="display:flex;justify-content:space-between;align-items:center;gap:10px;flex-wrap:wrap;">
+          <h2 style="color:#2E7D32;">📋 Empresas Registradas</h2>
+          <button class="btn" onclick="nuevaEmpresa()">➕ Nueva empresa</button>
+        </div>
+        <p class="small" style="margin-top:6px;">Selecciona una empresa para ver sus <strong>presupuestos</strong> o crear uno nuevo.</p>
+        <div id="listaEmpresas" style="margin-top:12px;"></div>
+      </div>
+
+      <div class="card" id="panelPresupuestos" style="display:none;">
+        <div style="display:flex;justify-content:space-between;align-items:center;gap:10px;flex-wrap:wrap;">
+          <div>
+            <h2 style="color:#2E7D32;">🧾 Presupuestos</h2>
+            <div class="small" id="empresaSeleccionadaLabel"></div>
+          </div>
+          <div style="display:flex;gap:10px;flex-wrap:wrap;">
+            <button class="btn btn-secondary" onclick="showSection('empresa')">⚙️ Configuración empresa</button>
+            <button class="btn" onclick="nuevoPresupuesto()">➕ Nuevo presupuesto</button>
+          </div>
+        </div>
+        <div id="listaPresupuestos" style="margin-top:12px;"></div>
+      </div>
+    </div>
+
+    <!-- EMPRESA -->
+    <div id="empresa" class="section">
+      <div class="card">
+        <h2 style="color:#2E7D32;">🏢 Empresa</h2>
+        <p class="small">Crea o edita empresas. Estos valores sirven como <strong>sugerencias</strong> para nuevos productos (no aplican automático a todo).</p>
+        <div id="empresaActualInfo" class="hint" style="margin-top:10px;"></div>
+        <div class="toolbar" style="justify-content:flex-start;">
+          <button class="btn" onclick="nuevaEmpresa()">➕ Nueva empresa</button>
+          <button class="btn btn-secondary" onclick="editarEmpresaActual()">✏️ Editar empresa actual</button>
+          <button class="btn btn-danger" onclick="borrarEmpresaActual()">🗑️ Borrar empresa actual</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- PRESUPUESTO -->
+    <div id="presupuesto" class="section">
+      <div class="card">
+        <h2 style="color:#2E7D32;">🧾 Presupuesto</h2>
+        <div id="presupuestoEstado" class="warn" style="display:none;margin-top:10px;"></div>
+
+        <div class="grid-2" style="margin-top:10px;">
+          <div class="form-group">
+            <label>Nombre del Presupuesto *</label>
+            <input id="presupuestoNombre" placeholder="Ej. Presupuesto Asesoría Marzo" />
+          </div>
+          <div class="form-group">
+            <label>Intervalo (Inicio – Fin)</label>
+            <div class="grid-2" style="gap:10px;">
+              <input type="date" id="presupuestoInicio" />
+              <input type="date" id="presupuestoFin" />
+            </div>
+          </div>
+        </div>
+
+        <div class="toolbar">
+          <button class="btn" onclick="guardarAvance()">💾 Guardar</button>
+          <button class="btn" onclick="openProductoModal()">➕ Agregar Producto</button>
+          <button class="btn" onclick="aplicarIPC()">🧮 Aplicar IPC</button>
+          <button class="btn btn-secondary" onclick="limpiarPresupuestoActual()">🗑️ Limpiar</button>
+        </div>
+
+        <div id="tablaWrap" style="margin-top:14px;"></div>
+      </div>
+    </div>
+
+    <!-- EXPORTAR -->
+    <div id="exportar" class="section">
+      <div class="card">
+        <h2>📤 Exportar</h2>
+        <p class="small" style="margin-top:8px;">Exporta el presupuesto actualmente abierto.</p>
+        <div class="toolbar" style="justify-content:flex-start;">
+          <button class="btn" onclick="exportarExcelValores()">📊 Excel (.xls)</button>
+          <button class="btn btn-secondary" onclick="exportarTablaDOC()">📝 Word (.doc)</button>
+          <button class="btn btn-secondary" onclick="exportarReporteHTML()">🌐 Reporte HTML</button>
+          <button class="btn btn-secondary" onclick="exportarBackupJSON()">💾 Copia de seguridad (.json)</button>
+        </div>
+        <div class="hint" style="margin-top:12px;">
+          <div><strong>Tip:</strong> si no te muestra nada, primero abre una empresa y un presupuesto.</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- AJUSTES -->
+    <div id="ajustes" class="section">
+      <div class="card">
+        <h2>⚙️ Ajustes</h2>
+        <p class="small" style="margin-top:8px;">Acciones avanzadas para la empresa actual.</p>
+        <div class="toolbar" style="justify-content:flex-start;">
+          <button class="btn btn-secondary" onclick="limpiarPresupuestoActual()">🗑️ Limpiar presupuesto actual</button>
+          <button class="btn btn-danger" onclick="resetPresupuestosEmpresaDoble()">🔥 Reset presupuestos empresa</button>
+        </div>
+        <div class="warn" style="margin-top:12px;">
+          <strong>Reset presupuestos empresa</strong> elimina TODOS los presupuestos de la empresa actual y sus productos. Tiene doble confirmación.
+        </div>
+      </div>
+    </div>
+
+    <!-- MANUAL -->
+    <div id="manual" class="section">
+      <div class="card">
+        <h2>📘 Manual de Usuario</h2>
+        <div class="hint" style="margin-top:10px;">
+          <div class="small"><strong>Flujo recomendado:</strong> 🏠 Inicio → (📋 elegir empresa) → 🧾 elegir presupuesto → ➕ Agregar Producto → 💾 Guardar → 📤 Exportar</div>
+        </div>
+
+        <div class="card" style="margin-top:12px;">
+          <h3 style="color:#2E7D32;">1) Empresas</h3>
+          <p class="small">En <strong>📋 Empresas Registradas</strong> puedes:</p>
+          <p class="small">• <span class="badge">➕ Nueva empresa</span> crea una empresa con valores sugeridos (IPC, AIU, IVA, Otros Impuestos).</p>
+          <p class="small">• <span class="badge">📂 Abrir</span> muestra presupuestos guardados y permite crear uno nuevo.</p>
+          <p class="small">• <span class="badge">✏️</span> edita la empresa.</p>
+          <p class="small">• <span class="badge">🗑️</span> elimina la empresa (incluye presupuestos y productos).</p>
+        </div>
+
+        <div class="card">
+          <h3 style="color:#2E7D32;">2) Presupuestos</h3>
+          <p class="small">Al abrir o crear un presupuesto verás, en este orden:</p>
+          <p class="small">• <strong>Nombre del Presupuesto *</strong></p>
+          <p class="small">• <strong>Intervalo (Inicio – Fin)</strong></p>
+          <p class="small">• <strong>💾 Guardar</strong> (guarda el avance)</p>
+          <p class="small">• <strong>➕ Agregar Producto</strong> (abre el modal)</p>
+          <p class="small">• <strong>🧮 Aplicar IPC</strong> (asigna el IPC sugerido de empresa a todos los productos del presupuesto)</p>
+          <p class="small">• <strong>🗑️ Limpiar</strong> (solo el presupuesto actual)</p>
+        </div>
+
+        <div class="card">
+          <h3 style="color:#2E7D32;">3) Productos</h3>
+          <p class="small">Cada producto puede tener sus propios porcentajes: <strong>% IPC</strong>, <strong>% IVA</strong>, <strong>% AIU</strong> y <strong>Otros Impuestos (%)</strong>.</p>
+          <p class="small"><strong>Importante:</strong> “Otros Impuestos” NO se aplica automático por empresa; se define por producto.</p>
+          <p class="small">En la tabla: ✏️ editar, 🗑️ eliminar.</p>
+        </div>
+
+        <div class="card">
+          <h3 style="color:#2E7D32;">4) Exportación</h3>
+          <p class="small">En <strong>📤 Exportar</strong> puedes descargar:</p>
+          <p class="small">• <strong>📊 Excel (sin fórmulas)</strong> con tabla + totales.</p>
+          <p class="small">• <strong>🌐 Reporte HTML</strong> listo para enviar o imprimir.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- MODAL EMPRESA -->
+  <div id="empresaModal" class="modal" onclick="if(event.target===this) closeEmpresaModal()">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h3 style="color:#2E7D32;" id="empresaModalTitle">➕ Nueva empresa</h3>
+        <button class="xbtn" onclick="closeEmpresaModal()">✖</button>
+      </div>
+      <form id="empresaForm" onsubmit="guardarEmpresa(event)">
+        <input type="hidden" id="empresaId" />
+        <div class="form-group">
+          <label>Nombre de la empresa *</label>
+          <input id="empresaNombre" required placeholder="Ej. Vitalis / UNIMINUTO / Cliente X" />
+        </div>
+        <div class="grid-2">
+          <div class="form-group">
+            <label>Razón social</label>
+            <input id="empresaRazonSocial" placeholder="Nombre oficial registrado" />
+          </div>
+          <div class="form-group">
+            <label>Nombre comercial</label>
+            <input id="empresaNombreComercial" placeholder="Nombre con el que se presenta al público" />
+          </div>
+        </div>
+        <div class="grid-2">
+          <div class="form-group">
+            <label>NIT / Identificación tributaria</label>
+            <input id="empresaNIT" placeholder="NIT / RFC / CIF / RUC, etc." />
+          </div>
+          <div class="form-group">
+            <label>Registro mercantil</label>
+            <input id="empresaRegistroMercantil" placeholder="N° o código en cámara de comercio" />
+          </div>
+        </div>
+        <div class="grid-2">
+          <div class="form-group">
+            <label>País de constitución</label>
+            <input id="empresaPais" placeholder="País" />
+          </div>
+          <div class="form-group">
+            <label>Ciudad de constitución</label>
+            <input id="empresaCiudad" placeholder="Ciudad" />
+          </div>
+        </div>
+        <div class="grid-2">
+          <div class="form-group">
+            <label>Fecha de constitución</label>
+            <input type="date" id="empresaFechaConstitucion" />
+          </div>
+          <div class="form-group">
+            <label>Representante legal</label>
+            <input id="empresaRepresentanteLegal" placeholder="Nombre completo" />
+          </div>
+        </div>
+        <div class="form-group">
+          <label>Domicilio legal</label>
+          <input id="empresaDomicilioLegal" placeholder="Dirección oficial registrada" />
+        </div>
+        <div class="form-group">
+          <label>Objeto social</label>
+          <input id="empresaObjetoSocial" placeholder="Actividad económica principal" />
+        </div>
+
+        <div class="grid-2">
+          <div class="form-group">
+            <label>IPC sugerido (%)</label>
+            <input type="number" id="empresaIPC" step="0.01" value="5.1" />
+          </div>
+          <div class="form-group">
+            <label>AIU sugerido (%)</label>
+            <input type="number" id="empresaAIU" step="0.01" value="25" />
+          </div>
+        </div>
+        <div class="grid-2">
+          <div class="form-group">
+            <label>IVA sugerido (%)</label>
+            <input type="number" id="empresaIVA" step="0.01" value="19" />
+          </div>
+          <div class="form-group">
+            <label>Otros Impuestos sugerido (%)</label>
+            <input type="number" id="empresaOtrosImp" step="0.01" value="0" />
+          </div>
+        </div>
+        <div class="form-group">
+          <label>Detalle Otros Impuestos (opcional)</label>
+          <input id="empresaOtrosImpDetalle" placeholder="Ej. Retención, estampillas, etc." />
+        </div>
+        <div class="toolbar" style="justify-content:flex-start;">
+          <button class="btn" type="submit">💾 Guardar empresa</button>
+          <button class="btn btn-secondary" type="button" onclick="closeEmpresaModal()">Cancelar</button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <!-- MODAL PRODUCTO -->
+  <div id="productoModal" class="modal" onclick="if(event.target===this) closeProductoModal()">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h3 style="color:#2E7D32;" id="productoModalTitle">➕ Agregar producto</h3>
+        <button class="xbtn" onclick="closeProductoModal()">✖</button>
+      </div>
+      <form id="productoForm" onsubmit="guardarProducto(event)">
+        <input type="hidden" id="productoId" />
+        <div class="grid-2">
+          <div class="form-group">
+            <label>Producto/Servicio *</label>
+            <input id="productoNombre" required />
+          </div>
+          <div class="form-group">
+            <label>Categoría</label>
+            <input id="productoCategoria" placeholder="Ej. asesoría, insumo, transporte" />
+          </div>
+        </div>
+        <div class="grid-2">
+          <div class="form-group">
+            <label>Cantidad *</label>
+            <input type="number" id="productoCantidad" step="0.01" required />
+          </div>
+          <div class="form-group">
+            <label>Unidad</label>
+            <input id="productoUnidad" placeholder="hora, día, kg, m²..." />
+          </div>
+        </div>
+        <div class="form-group">
+          <label>Valor Unitario *</label>
+          <input type="number" id="productoValorUnitario" step="0.01" required />
+        </div>
+
+        <div class="grid-2">
+          <div class="form-group">
+            <label>% IPC</label>
+            <input type="number" id="productoIPC" step="0.01" />
+          </div>
+          <div class="form-group">
+            <label>% IVA</label>
+            <input type="number" id="productoIVA" step="0.01" />
+          </div>
+        </div>
+        <div class="grid-2">
+          <div class="form-group">
+            <label>% AIU (por producto)</label>
+            <input type="number" id="productoAIU" step="0.01" />
+          </div>
+          <div class="form-group">
+            <label>Otros Impuestos (%)</label>
+            <input type="number" id="productoOtrosImp" step="0.01" />
+          </div>
+        </div>
+        <div class="form-group">
+          <label>Detalle Otros Impuestos (opcional)</label>
+          <input id="productoOtrosImpDetalle" />
+        </div>
+
+        <div class="toolbar" style="justify-content:flex-start;">
+          <button class="btn" type="submit">💾 Guardar producto</button>
+          <button class="btn btn-secondary" type="button" onclick="closeProductoModal()">Cancelar</button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+</div>
+
+<script>
+/* Rizoma Presupuesto v6.4 (reparado)
+ - Empresas con edición + borrado
+ - Presupuestos por empresa, múltiples, con guardado explícito
+ - Modal producto funcional (IPC/IVA/AIU/Otros Impuestos por producto)
+ - Export Excel XML 2003 sin fórmulas, con totales
+*/
+
+const STORAGE_KEY = "rizoma_presupuesto_v6_4_state";
+
+const State = {
+  empresas: [],
+  presupuestos: [],
+  productos: [],
+  empresaActualId: null,
+  presupuestoActualId: null
+};
+
+function uid(prefix="id"){ return `${prefix}_${Date.now()}_${Math.floor(Math.random()*100000)}`; }
+
+function loadState(){
+  const raw = localStorage.getItem(STORAGE_KEY);
+  if(!raw) return;
+  try{
+    const parsed = JSON.parse(raw);
+    Object.assign(State, parsed);
+  }catch(e){}
+}
+
+function saveState(){
+  localStorage.setItem(STORAGE_KEY, JSON.stringify({
+    empresas: State.empresas,
+    presupuestos: State.presupuestos,
+    productos: State.productos,
+    empresaActualId: State.empresaActualId,
+    presupuestoActualId: State.presupuestoActualId
+  }));
+}
+
+function money(n){
+  const v = Number(n||0);
+  return v.toLocaleString('es-CO', {style:'currency', currency:'COP', maximumFractionDigits:0});
+}
+function pct(n){
+  const v = Number(n||0);
+  return `${v.toFixed(1)}%`;
+}
+
+function getEmpresaActual(){
+  return State.empresas.find(e=>e.id===State.empresaActualId) || null;
+}
+function getPresupuestoActual(){
+  return State.presupuestos.find(p=>p.id===State.presupuestoActualId) || null;
+}
+function getProductosActuales(){
+  const pres = getPresupuestoActual();
+  if(!pres) return [];
+  return State.productos.filter(pr=>pr.presupuestoId===pres.id);
+}
+
+/* ---------------- Navegación ---------------- */
+function showSection(id){
+  document.querySelectorAll('.section').forEach(s=>s.classList.remove('active'));
+  document.getElementById(id)?.classList.add('active');
+
+  document.querySelectorAll('.nav-btn').forEach(b=>b.classList.remove('active'));
+  const map={inicio:0,empresa:1,presupuesto:2,exportar:3,ajustes:4,manual:5};
+  const idx = map[id];
+  const btns = Array.from(document.querySelectorAll('.nav-btn'));
+  if(btns[idx]) btns[idx].classList.add('active');
+
+  if(id==='inicio') renderInicio();
+  if(id==='empresa') renderEmpresa();
+  if(id==='presupuesto') renderPresupuesto();
+}
+
+/* ---------------- Inicio: Empresas y Presupuestos ---------------- */
+function renderInicio(){
+  const list = document.getElementById('listaEmpresas');
+  const panel = document.getElementById('panelPresupuestos');
+  const empLabel = document.getElementById('empresaSeleccionadaLabel');
+  const listPres = document.getElementById('listaPresupuestos');
+
+  // Empresas
+  list.innerHTML = '';
+  if(State.empresas.length===0){
+    list.innerHTML = `<div class="hint">Aún no hay empresas. Crea una con <strong>➕ Nueva empresa</strong>.</div>`;
+  }else{
+    State.empresas
+      .slice()
+      .sort((a,b)=> (b.updatedAt||b.createdAt||0) - (a.updatedAt||a.createdAt||0))
+      .forEach(emp=>{
+        const wrap = document.createElement('div');
+        wrap.className='empresa-item';
+        wrap.innerHTML = `
+          <div>
+            <div style="font-weight:900;color:#111827;font-size:16px;">${escapeHtml(emp.nombre)}</div>
+            <div class="muted">IPC sug: ${pct(emp.ipcSugerido)} · AIU sug: ${pct(emp.aiuSugerido)} · IVA sug: ${pct(emp.ivaSugerido)}</div>
+          </div>
+          <div class="empresa-actions">
+            <button class="icon-btn icon-open" title="Abrir presupuestos" onclick="abrirPanelPresupuestos('${emp.id}')">📂 Abrir</button>
+            <button class="icon-btn icon-edit" title="Editar empresa" onclick="editarEmpresa('${emp.id}')">✏️</button>
+            <button class="icon-btn icon-del" title="Borrar empresa" onclick="borrarEmpresa('${emp.id}')">🗑️</button>
+          </div>
+        `;
+        list.appendChild(wrap);
+      });
+  }
+
+  // Panel presupuestos
+  const emp = getEmpresaActual();
+  if(!emp){
+    panel.style.display='none';
+    return;
+  }
+  panel.style.display='block';
+  empLabel.innerHTML = `<span class="pill">Empresa seleccionada: <strong>${escapeHtml(emp.nombre)}</strong></span>`;
+
+  const presupuestos = State.presupuestos.filter(p=>p.empresaId===emp.id)
+    .slice().sort((a,b)=> (b.updatedAt||b.createdAt||0) - (a.updatedAt||a.createdAt||0));
+
+  listPres.innerHTML='';
+  if(presupuestos.length===0){
+    listPres.innerHTML = `<div class="hint">Esta empresa aún no tiene presupuestos. Usa <strong>➕ Nuevo presupuesto</strong>.</div>`;
+  }else{
+    presupuestos.forEach(p=>{
+      const box=document.createElement('div');
+      box.className='empresa-item';
+      box.innerHTML = `
+        <div>
+          <div style="font-weight:900;color:#111827;">${escapeHtml(p.nombre || 'Presupuesto sin nombre')}</div>
+          <div class="muted">Intervalo: ${(p.inicio||'—')} → ${(p.fin||'—')}</div>
+        </div>
+        <div class="empresa-actions">
+          <button class="icon-btn icon-open" onclick="abrirPresupuesto('${p.id}')">🧾 Abrir</button>
+          <button class="icon-btn icon-edit" onclick="editarPresupuestoMeta('${p.id}')">✏️</button>
+          <button class="icon-btn icon-del" onclick="borrarPresupuesto('${p.id}')">🗑️</button>
+        </div>
+      `;
+      listPres.appendChild(box);
+    });
+  }
+}
+
+function abrirPanelPresupuestos(empId){
+  State.empresaActualId = empId;
+  State.presupuestoActualId = null; // pantalla presupuesto en blanco hasta abrir/crear
+  saveState();
+  renderInicio();
+}
+
+function nuevoPresupuesto(){
+  const emp = getEmpresaActual();
+  if(!emp){ alert('Selecciona una empresa primero.'); return; }
+  const id = uid('pres');
+  const p = { id, empresaId: emp.id, nombre:'', inicio:'', fin:'', createdAt: Date.now(), updatedAt: Date.now() };
+  State.presupuestos.push(p);
+  State.presupuestoActualId = id;
+  saveState();
+  showSection('presupuesto');
+}
+
+function abrirPresupuesto(id){
+  State.presupuestoActualId = id;
+  saveState();
+  showSection('presupuesto');
+}
+
+function editarPresupuestoMeta(id){
+  abrirPresupuesto(id);
+  // el usuario edita en la pantalla de presupuesto y guarda
+  showSection('presupuesto');
+  setTimeout(()=>{ document.getElementById('presupuestoNombre')?.focus(); }, 50);
+}
+
+function borrarPresupuesto(id){
+  const p = State.presupuestos.find(x=>x.id===id);
+  if(!p) return;
+  if(!confirm('¿Borrar este presupuesto y todos sus productos?')) return;
+  State.productos = State.productos.filter(pr=>pr.presupuestoId!==id);
+  State.presupuestos = State.presupuestos.filter(x=>x.id!==id);
+  if(State.presupuestoActualId===id) State.presupuestoActualId=null;
+  saveState();
+  renderInicio();
+}
+
+/* ---------------- Empresa ---------------- */
+function renderEmpresa(){
+  const box = document.getElementById('empresaActualInfo');
+  const emp = getEmpresaActual();
+  if(!emp){
+    box.innerHTML = 'No hay empresa seleccionada. Ve a <strong>🏠 Inicio</strong> y elige una empresa o crea una nueva.';
+    return;
+  }
+  box.innerHTML = `
+    <div><strong>${escapeHtml(emp.nombre)}</strong></div>
+    <div class="small" style="margin-top:6px;">
+      IPC sugerido: <strong>${pct(emp.ipcSugerido)}</strong> · AIU sugerido: <strong>${pct(emp.aiuSugerido)}</strong> · IVA sugerido: <strong>${pct(emp.ivaSugerido)}</strong>
+      <br/>Otros Impuestos sugerido: <strong>${pct(emp.otrosImpSugerido)}</strong> <span class="muted">${emp.otrosImpDetalle?('— '+escapeHtml(emp.otrosImpDetalle)) : ''}</span>
+    </div>
+  `;
+}
+
+function nuevaEmpresa(){
+  document.getElementById('empresaModalTitle').textContent = '➕ Nueva empresa';
+  document.getElementById('empresaId').value='';
+  document.getElementById('empresaNombre').value='';
+  document.getElementById('empresaIPC').value='5.1';
+  document.getElementById('empresaAIU').value='25';
+  document.getElementById('empresaIVA').value='19';
+  document.getElementById('empresaOtrosImp').value='0';
+  document.getElementById('empresaOtrosImpDetalle').value='';
+  
+  document.getElementById('empresaRazonSocial').value='';
+  document.getElementById('empresaNombreComercial').value='';
+  document.getElementById('empresaNIT').value='';
+  document.getElementById('empresaDomicilioLegal').value='';
+  document.getElementById('empresaPais').value='';
+  document.getElementById('empresaCiudad').value='';
+  document.getElementById('empresaFechaConstitucion').value='';
+  document.getElementById('empresaObjetoSocial').value='';
+  document.getElementById('empresaRegistroMercantil').value='';
+  document.getElementById('empresaRepresentanteLegal').value='';
+openEmpresaModal();
+}
+
+function editarEmpresa(empId){
+  const emp = State.empresas.find(e=>e.id===empId);
+  if(!emp) return;
+  State.empresaActualId = empId;
+  State.presupuestoActualId = null;
+  saveState();
+
+  document.getElementById('empresaModalTitle').textContent = '✏️ Editar empresa';
+  document.getElementById('empresaId').value=emp.id;
+  document.getElementById('empresaNombre').value=emp.nombre||'';
+  document.getElementById('empresaRazonSocial').value=emp.razonSocial||'';
+  document.getElementById('empresaNombreComercial').value=emp.nombreComercial||'';
+  document.getElementById('empresaNIT').value=emp.nit||'';
+  document.getElementById('empresaDomicilioLegal').value=emp.domicilioLegal||'';
+  document.getElementById('empresaPais').value=emp.pais||'';
+  document.getElementById('empresaCiudad').value=emp.ciudad||'';
+  document.getElementById('empresaFechaConstitucion').value=emp.fechaConstitucion||'';
+  document.getElementById('empresaObjetoSocial').value=emp.objetoSocial||'';
+  document.getElementById('empresaRegistroMercantil').value=emp.registroMercantil||'';
+  document.getElementById('empresaRepresentanteLegal').value=emp.representanteLegal||'';
+
+  document.getElementById('empresaIPC').value=Number(emp.ipcSugerido??5.1);
+  document.getElementById('empresaAIU').value=Number(emp.aiuSugerido??25);
+  document.getElementById('empresaIVA').value=Number(emp.ivaSugerido??19);
+  document.getElementById('empresaOtrosImp').value=Number(emp.otrosImpSugerido??0);
+  document.getElementById('empresaOtrosImpDetalle').value=emp.otrosImpDetalle||'';
+  openEmpresaModal();
+}
+
+function editarEmpresaActual(){
+  const emp = getEmpresaActual();
+  if(!emp){ alert('Selecciona una empresa primero.'); return; }
+  editarEmpresa(emp.id);
+}
+
+function borrarEmpresa(empId){
+  const emp = State.empresas.find(e=>e.id===empId);
+  if(!emp) return;
+  if(!confirm(`¿Borrar la empresa "${emp.nombre}"? Esto elimina también sus presupuestos y productos.`)) return;
+  if(!confirm('Confirmación final: ¿Seguro que deseas borrar la empresa y TODO su contenido?')) return;
+
+  const presIds = State.presupuestos.filter(p=>p.empresaId===empId).map(p=>p.id);
+  State.productos = State.productos.filter(pr=>!presIds.includes(pr.presupuestoId));
+  State.presupuestos = State.presupuestos.filter(p=>p.empresaId!==empId);
+  State.empresas = State.empresas.filter(e=>e.id!==empId);
+
+  if(State.empresaActualId===empId){ State.empresaActualId=null; State.presupuestoActualId=null; }
+  saveState();
+  renderInicio();
+  alert('✅ Empresa eliminada.');
+}
+
+function borrarEmpresaActual(){
+  const emp = getEmpresaActual();
+  if(!emp){ alert('Selecciona una empresa primero.'); return; }
+  borrarEmpresa(emp.id);
+}
+
+function openEmpresaModal(){ document.getElementById('empresaModal').style.display='block'; }
+function closeEmpresaModal(){ document.getElementById('empresaModal').style.display='none'; }
+
+function guardarEmpresa(ev){
+  ev.preventDefault();
+  const id = document.getElementById('empresaId').value || uid('emp');
+  const nombre = (document.getElementById('empresaNombre').value||'').trim();
+  if(!nombre){ alert('Nombre de empresa requerido'); return; }
+  const ipc = Number(document.getElementById('empresaIPC').value||0);
+  const aiu = Number(document.getElementById('empresaAIU').value||0);
+  const iva = Number(document.getElementById('empresaIVA').value||0);
+  const otros = Number(document.getElementById('empresaOtrosImp').value||0);
+  const detalle = (document.getElementById('empresaOtrosImpDetalle').value||'').trim();
+
+  let emp = State.empresas.find(e=>e.id===id);
+  if(!emp){
+    emp = { id, createdAt: Date.now() };
+    State.empresas.push(emp);
+  }
+  emp.nombre = nombre;
+
+  emp.razonSocial = (document.getElementById('empresaRazonSocial').value||'').trim();
+  emp.nombreComercial = (document.getElementById('empresaNombreComercial').value||'').trim();
+  emp.nit = (document.getElementById('empresaNIT').value||'').trim();
+  emp.domicilioLegal = (document.getElementById('empresaDomicilioLegal').value||'').trim();
+  emp.pais = (document.getElementById('empresaPais').value||'').trim();
+  emp.ciudad = (document.getElementById('empresaCiudad').value||'').trim();
+  emp.fechaConstitucion = (document.getElementById('empresaFechaConstitucion').value||'').trim();
+  emp.objetoSocial = (document.getElementById('empresaObjetoSocial').value||'').trim();
+  emp.registroMercantil = (document.getElementById('empresaRegistroMercantil').value||'').trim();
+  emp.representanteLegal = (document.getElementById('empresaRepresentanteLegal').value||'').trim();
+  emp.ipcSugerido = isFinite(ipc)? ipc : 0;
+  emp.aiuSugerido = isFinite(aiu)? aiu : 0;
+  emp.ivaSugerido = isFinite(iva)? iva : 0;
+  emp.otrosImpSugerido = isFinite(otros)? otros : 0;
+  emp.otrosImpDetalle = detalle;
+  emp.updatedAt = Date.now();
+
+  State.empresaActualId = emp.id;
+  State.presupuestoActualId = null;
+  saveState();
+
+  closeEmpresaModal();
+  renderInicio();
+  renderEmpresa();
+  alert('✅ Empresa guardada.');
+}
+
+/* ---------------- Presupuesto ---------------- */
+function renderPresupuesto(){
+  const emp = getEmpresaActual();
+  const pres = getPresupuestoActual();
+
+  const estado = document.getElementById('presupuestoEstado');
+  const wrap = document.getElementById('tablaWrap');
+
+  if(!emp || !pres){
+    estado.style.display='block';
+    estado.innerHTML = `No hay presupuesto abierto. Ve a <strong>🏠 Inicio</strong>, elige una empresa y abre/crea un presupuesto.`;
+    wrap.innerHTML = '';
+    document.getElementById('presupuestoNombre').value='';
+    document.getElementById('presupuestoInicio').value='';
+    document.getElementById('presupuestoFin').value='';
+    return;
+  }
+  estado.style.display='none';
+
+  document.getElementById('presupuestoNombre').value = pres.nombre || '';
+  document.getElementById('presupuestoInicio').value = pres.inicio || '';
+  document.getElementById('presupuestoFin').value = pres.fin || '';
+  actualizarTabla();
+}
+
+function guardarAvance(){
+  const emp = getEmpresaActual();
+  const pres = getPresupuestoActual();
+  if(!emp || !pres){ alert('No hay empresa/presupuesto activo.'); return; }
+
+  pres.nombre = (document.getElementById('presupuestoNombre').value||'').trim();
+  pres.inicio = document.getElementById('presupuestoInicio').value || '';
+  pres.fin = document.getElementById('presupuestoFin').value || '';
+  pres.updatedAt = Date.now();
+
+  saveState();
+  renderInicio();
+  alert('✅ Avance guardado.');
+}
+
+function limpiarPresupuestoActual(){
+  const pres = getPresupuestoActual();
+  if(!pres){ alert('No hay presupuesto activo.'); return; }
+  if(!confirm('¿Limpiar este presupuesto? (Solo elimina los productos del presupuesto actual)')) return;
+  State.productos = State.productos.filter(pr=>pr.presupuestoId!==pres.id);
+  saveState();
+  actualizarTabla();
+  alert('✅ Presupuesto limpiado.');
+}
+
+function resetPresupuestosEmpresaDoble(){
+  const emp = getEmpresaActual();
+  if(!emp){ alert('Selecciona una empresa.'); return; }
+  if(!confirm(`⚠️ Esto eliminará TODOS los presupuestos de "${emp.nombre}". ¿Continuar?`)) return;
+  if(!confirm('Confirmación final: ¿Eliminar TODOS los presupuestos y productos de esta empresa?')) return;
+
+  const presIds = State.presupuestos.filter(p=>p.empresaId===emp.id).map(p=>p.id);
+  State.productos = State.productos.filter(pr=>!presIds.includes(pr.presupuestoId));
+  State.presupuestos = State.presupuestos.filter(p=>p.empresaId!==emp.id);
+  State.presupuestoActualId = null;
+  saveState();
+  renderInicio();
+  alert('✅ Presupuestos eliminados para esta empresa.');
+}
+
+/* ---------------- Productos ---------------- */
+function openProductoModal(productoId=null){
+  const emp = getEmpresaActual();
+  const pres = getPresupuestoActual();
+  if(!emp || !pres){ alert('Abre o crea un presupuesto primero.'); return; }
+
+  const title = document.getElementById('productoModalTitle');
+  document.getElementById('productoForm').reset();
+  document.getElementById('productoId').value = productoId || '';
+
+  // defaults sugeridos por empresa
+  document.getElementById('productoIPC').value = Number(emp.ipcSugerido ?? 0);
+  document.getElementById('productoAIU').value = Number(emp.aiuSugerido ?? 0);
+  document.getElementById('productoIVA').value = Number(emp.ivaSugerido ?? 0);
+  document.getElementById('productoOtrosImp').value = Number(emp.otrosImpSugerido ?? 0);
+  document.getElementById('productoOtrosImpDetalle').value = emp.otrosImpDetalle || '';
+
+  if(productoId){
+    const pr = State.productos.find(x=>x.id===productoId);
+    if(!pr){ alert('Producto no encontrado'); return; }
+    title.textContent = '✏️ Editar producto';
+    document.getElementById('productoNombre').value = pr.nombre || '';
+    document.getElementById('productoCategoria').value = pr.categoria || '';
+    document.getElementById('productoCantidad').value = pr.cantidad ?? 1;
+    document.getElementById('productoUnidad').value = pr.unidad || '';
+    document.getElementById('productoValorUnitario').value = pr.valorUnitario ?? 0;
+    document.getElementById('productoIPC').value = pr.ipcPorc ?? Number(emp.ipcSugerido ?? 0);
+    document.getElementById('productoIVA').value = pr.ivaPorc ?? Number(emp.ivaSugerido ?? 0);
+    document.getElementById('productoAIU').value = pr.aiuPorc ?? Number(emp.aiuSugerido ?? 0);
+    document.getElementById('productoOtrosImp').value = pr.otrosImpPorc ?? 0;
+    document.getElementById('productoOtrosImpDetalle').value = pr.otrosImpDetalle ?? '';
+  }else{
+    title.textContent = '➕ Agregar producto';
+  }
+
+  document.getElementById('productoModal').style.display='block';
+  setTimeout(()=>document.getElementById('productoNombre')?.focus(), 50);
+}
+
+function closeProductoModal(){ document.getElementById('productoModal').style.display='none'; }
+
+function guardarProducto(ev){
+  ev.preventDefault();
+  const pres = getPresupuestoActual();
+  if(!pres){ alert('No hay presupuesto activo.'); return; }
+
+  const id = document.getElementById('productoId').value || uid('prd');
+  const nombre = (document.getElementById('productoNombre').value||'').trim();
+  if(!nombre){ alert('Producto/Servicio requerido'); return; }
+
+  const pr = {
+    id,
+    presupuestoId: pres.id,
+    nombre,
+    categoria: (document.getElementById('productoCategoria').value||'').trim(),
+    cantidad: Number(document.getElementById('productoCantidad').value||0),
+    unidad: (document.getElementById('productoUnidad').value||'').trim(),
+    valorUnitario: Number(document.getElementById('productoValorUnitario').value||0),
+    ipcPorc: Number(document.getElementById('productoIPC').value||0),
+    ivaPorc: Number(document.getElementById('productoIVA').value||0),
+    aiuPorc: Number(document.getElementById('productoAIU').value||0),
+    otrosImpPorc: Number(document.getElementById('productoOtrosImp').value||0),
+    otrosImpDetalle: (document.getElementById('productoOtrosImpDetalle').value||'').trim(),
+    updatedAt: Date.now()
+  };
+
+  let existing = State.productos.find(x=>x.id===id);
+  if(existing){
+    Object.assign(existing, pr);
+  }else{
+    pr.createdAt = Date.now();
+    State.productos.push(pr);
+  }
+
+  saveState();
+  closeProductoModal();
+  actualizarTabla();
+  alert('✅ Producto guardado.');
+}
+
+function eliminarProducto(id){
+  if(!confirm('¿Eliminar este producto?')) return;
+  State.productos = State.productos.filter(pr=>pr.id!==id);
+  saveState();
+  actualizarTabla();
+}
+
+function aplicarIPC(){
+  const emp = getEmpresaActual();
+  const pres = getPresupuestoActual();
+  if(!emp || !pres){ alert('No hay presupuesto activo.'); return; }
+  const prods = getProductosActuales();
+  if(prods.length===0){ alert('No hay productos en este presupuesto.'); return; }
+  const v = Number(emp.ipcSugerido ?? 0);
+  prods.forEach(pr=> pr.ipcPorc = v);
+  saveState();
+  actualizarTabla();
+  alert('✅ IPC aplicado a todos los productos del presupuesto actual.');
+}
+
+/* ---------------- Cálculos y tabla ---------------- */
+function calcProducto(pr){
+  const subtotal = (Number(pr.cantidad||0) * Number(pr.valorUnitario||0));
+  const ipcFactor = 1 + (Number(pr.ipcPorc||0)/100);
+  const conIpc = subtotal * ipcFactor;
+
+  const aiu = conIpc * (Number(pr.aiuPorc||0)/100);
+  const baseConAiu = conIpc + aiu;
+
+  const iva = baseConAiu * (Number(pr.ivaPorc||0)/100);
+  const otros = baseConAiu * (Number(pr.otrosImpPorc||0)/100);
+
+  const total = baseConAiu + iva + otros;
+
+  return { subtotal, conIpc, aiu, baseConAiu, iva, otros, total };
+}
+
+function actualizarTabla(){
+  const emp = getEmpresaActual();
+  const pres = getPresupuestoActual();
+  const wrap = document.getElementById('tablaWrap');
+  if(!emp || !pres){
+    wrap.innerHTML='';
+    return;
+  }
+
+  const prods = getProductosActuales();
+  if(prods.length===0){
+    wrap.innerHTML = `<div class="hint">Aún no hay productos. Usa <strong>➕ Agregar Producto</strong>.</div>`;
+    return;
+  }
+
+  let sumSubtotal=0, sumAjusteIpc=0, sumConIpc=0, sumAiu=0, sumBase=0, sumIva=0, sumOtros=0, sumTotal=0;
+
+  const rows = prods.map((pr, idx)=>{
+    const c = calcProducto(pr);
+    sumSubtotal += c.subtotal;
+    sumConIpc += c.conIpc;
+    sumAjusteIpc += (c.conIpc - c.subtotal);
+    sumAiu += c.aiu;
+    sumBase += c.baseConAiu;
+    sumIva += c.iva;
+    sumOtros += c.otros;
+    sumTotal += c.total;
+
+    const ivaTxt = (Number(pr.ivaPorc||0)===0) ? '-' : pct(Number(pr.ivaPorc||0));
+    return `
+      <tr>
+        <td>${idx+1}</td>
+        <td>
+          <div style="font-weight:900">${escapeHtml(pr.nombre)}</div>
+          <div class="muted">${escapeHtml(pr.categoria||'')}</div>
+        </td>
+        <td class="money">${Number(pr.cantidad||0).toFixed(2)}</td>
+        <td class="money">${money(pr.valorUnitario)}</td>
+        <td class="money">${money(c.subtotal)}</td>
+        <td class="money">${pct(pr.ipcPorc||0)}</td>
+        <td class="money">${money(c.conIpc)}</td>
+        <td class="money">${ivaTxt}</td>
+        <td class="money">${money(c.total)}</td>
+        <td style="white-space:nowrap;">
+          <button class="icon-btn icon-edit" onclick="openProductoModal('${pr.id}')">✏️</button>
+          <button class="icon-btn icon-del" onclick="eliminarProducto('${pr.id}')">🗑️</button>
+        </td>
+      </tr>
+    `;
+  }).join('');
+
+  wrap.innerHTML = `
+    <table>
+      <thead>
+        <tr>
+          <th>#</th>
+          <th>PRODUCTO/SERVICIO</th>
+          <th>CANTIDAD</th>
+          <th>V. UNITARIO</th>
+          <th>SUBTOTAL</th>
+          <th>% IPC</th>
+          <th>CON IPC</th>
+          <th>% IVA</th>
+          <th>TOTAL</th>
+          <th>ACCIONES</th>
+        </tr>
+      </thead>
+      <tbody>${rows}</tbody>
+    </table>
+
+    <div class="resumen">
+      <div class="res-row"><div><strong>SUBTOTAL COSTOS DIRECTOS:</strong></div><div class="money">${money(sumSubtotal)}</div></div>
+      <div class="res-row"><div>Ajuste IPC Total:</div><div class="money">${money(sumAjusteIpc)}</div></div>
+      <div class="res-row"><div>Subtotal + IPC:</div><div class="money">${money(sumConIpc)}</div></div>
+      <hr style="border:none;border-top:2px solid rgba(46,125,50,.25);margin:12px 0;">
+      <div style="font-weight:900;margin-bottom:8px;color:#1B5E20;">LIQUIDACIÓN AIU</div>
+      <div class="res-row"><div>AIU (suma por producto):</div><div class="money">${money(sumAiu)}</div></div>
+      <div class="res-row"><div>Subtotal + AIU:</div><div class="money">${money(sumBase)}</div></div>
+      <div class="res-row"><div>IVA (suma por producto):</div><div class="money">${money(sumIva)}</div></div>
+      <div class="res-row"><div>Otros Impuestos (suma por producto):</div><div class="money">${money(sumOtros)}</div></div>
+    </div>
+
+    <div class="grand">GRAN TOTAL PRESUPUESTO: ${money(sumTotal)}</div>
+  `;
+}
+
+/* ---------------- Exportaciones ---------------- */
+function ensureSelection(){
+  const emp = getEmpresaActual();
+  const pres = getPresupuestoActual();
+  if(!emp){ alert('Selecciona una empresa en Inicio.'); return null; }
+  if(!pres){ alert('Selecciona o crea un presupuesto en Inicio.'); return null; }
+  return {emp, pres, prods: getProductosActuales()};
+}
+
+function exportarExcelValores(){
+  const sel = ensureSelection();
+  if(!sel) return;
+  const {emp,pres,prods} = sel;
+
+  // Totales
+  let sumSubtotal=0, sumAdj=0, sumConIpc=0, sumAiu=0, sumBase=0, sumIva=0, sumOtros=0, sumTotal=0;
+
+  const rows = prods.map((pr,i)=>{
+    const c = calcProducto(pr);
+    sumSubtotal += c.subtotal;
+    sumAdj += (c.conIpc - c.subtotal);
+    sumConIpc += c.conIpc;
+    sumAiu += c.aiu;
+    sumBase += c.baseConAiu;
+    sumIva += c.iva;
+    sumOtros += c.otros;
+    sumTotal += c.total;
+
+    return `<tr>
+      <td style="text-align:center;">${i+1}</td>
+      <td><strong>${escapeHtml(pr.nombre)}</strong><div style="color:#6b7280;font-size:12px;">${escapeHtml(pr.categoria||'')}</div></td>
+      <td style="text-align:right;">${Number(pr.cantidad||0).toFixed(2)}</td>
+      <td style="text-align:right;">${money(pr.valorUnitario)}</td>
+      <td style="text-align:right;">${money(c.subtotal)}</td>
+      <td style="text-align:right;">${pct(pr.ipcPorc||0)}</td>
+      <td style="text-align:right;">${money(c.conIpc)}</td>
+      <td style="text-align:right;">${pct(pr.ivaPorc||0)}</td>
+      <td style="text-align:right;">${money(c.total)}</td>
+    </tr>`;
+  }).join('');
+
+  // HTML compatible con Excel (.xls) - SIN fórmulas
+  const template = `<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<title>Reporte Presupuesto</title>
+<style>
+  body{font-family:Segoe UI,Arial,sans-serif;padding:14px}
+  h1{margin:0 0 6px;font-size:18px}
+  .muted{color:#6b7280;font-size:12px;margin-bottom:10px}
+  table{border-collapse:collapse;width:100%}
+  th,td{border:1px solid #cbd5e1;padding:8px;font-size:12px;vertical-align:top}
+  th{background:#2E7D32;color:#fff;font-weight:700}
+  .resumen{margin-top:14px;border:1px solid #cbd5e1;border-radius:10px;padding:12px;background:#f0fdf4}
+  .res-row{display:flex;justify-content:space-between;gap:12px;padding:6px 0;border-bottom:1px solid rgba(46,125,50,.18)}
+  .res-row:last-child{border-bottom:none}
+  .money{font-weight:700}
+  .grand{margin-top:14px;font-size:18px;font-weight:900;text-align:right;background:#2E7D32;color:#fff;padding:12px;border-radius:10px}
+</style>
+</head>
+<body>
+  <h1>Presupuesto</h1>
+  <div class="muted">
+    <strong>Empresa:</strong> ${escapeHtml(emp.nombre)} ·
+    <strong>Presupuesto:</strong> ${escapeHtml(pres.nombre||'')} ·
+    <strong>Intervalo:</strong> ${(pres.inicio||'')} → ${(pres.fin||'')}
+  </div>
+
+  <table>
+    <thead>
+      <tr>
+        <th>#</th>
+        <th>PRODUCTO/SERVICIO</th>
+        <th>CANTIDAD</th>
+        <th>V. UNITARIO</th>
+        <th>SUBTOTAL</th>
+        <th>% IPC</th>
+        <th>CON IPC</th>
+        <th>% IVA</th>
+        <th>TOTAL</th>
+      </tr>
+    </thead>
+    <tbody>${rows}</tbody>
+  </table>
+
+  <div class="resumen">
+    <div class="res-row"><div><strong>SUBTOTAL COSTOS DIRECTOS:</strong></div><div class="money">${money(sumSubtotal)}</div></div>
+    <div class="res-row"><div>Ajuste IPC Total:</div><div class="money">${money(sumAdj)}</div></div>
+    <div class="res-row"><div>Subtotal + IPC:</div><div class="money">${money(sumConIpc)}</div></div>
+    <div style="margin:10px 0 6px;font-weight:900;color:#1B5E20;">LIQUIDACIÓN AIU</div>
+    <div class="res-row"><div>AIU (suma por producto):</div><div class="money">${money(sumAiu)}</div></div>
+    <div class="res-row"><div>Subtotal + AIU:</div><div class="money">${money(sumBase)}</div></div>
+    <div class="res-row"><div>IVA (suma por producto):</div><div class="money">${money(sumIva)}</div></div>
+    <div class="res-row"><div>Otros Impuestos (suma por producto):</div><div class="money">${money(sumOtros)}</div></div>
+  </div>
+
+  <div class="grand">GRAN TOTAL PRESUPUESTO: ${money(sumTotal)}</div>
+</body>
+</html>`;
+
+  try{
+    const blob = new Blob([template], { type: "application/vnd.ms-excel" });
+    const url = URL.createObjectURL(blob);
+    const a = document.createElement("a");
+    a.href = url;
+    a.download = `Reporte_Final_Excel.xls`;
+    document.body.appendChild(a);
+    a.click();
+    a.remove();
+    setTimeout(()=>URL.revokeObjectURL(url), 500);
+  }catch(e){
+    alert("Error: " + e.message);
+  }
+}
+
+function exportarTablaDOC(){
+  const sel = ensureSelection();
+  if(!sel) return;
+  const {emp,pres,prods} = sel;
+
+  let sumTotal=0;
+  const rows = prods.map((pr,i)=>{
+    const c = calcProducto(pr); sumTotal += c.total;
+    return `<tr>
+      <td style="text-align:center;">${i+1}</td>
+      <td><strong>${escapeHtml(pr.nombre)}</strong><div style="color:#6b7280;font-size:12px;">${escapeHtml(pr.categoria||'')}</div></td>
+      <td style="text-align:right;">${Number(pr.cantidad||0).toFixed(2)}</td>
+      <td style="text-align:right;">${money(pr.valorUnitario)}</td>
+      <td style="text-align:right;">${money(c.subtotal)}</td>
+      <td style="text-align:right;">${pct(pr.ipcPorc||0)}</td>
+      <td style="text-align:right;">${money(c.conIpc)}</td>
+      <td style="text-align:right;">${pct(pr.ivaPorc||0)}</td>
+      <td style="text-align:right;"><strong>${money(c.total)}</strong></td>
+    </tr>`;
+  }).join('');
+
+  const doc = `<!doctype html>
+<html lang="es"><head><meta charset="utf-8">
+<title>Tabla Presupuesto</title>
+<style>
+  body{font-family:Calibri,Segoe UI,Arial,sans-serif;padding:18px}
+  h1{margin:0 0 8px;font-size:18px}
+  .muted{color:#6b7280;font-size:12px;margin-bottom:12px}
+  table{border-collapse:collapse;width:100%}
+  th,td{border:1px solid #cbd5e1;padding:8px;font-size:12px;vertical-align:top}
+  th{background:#2E7D32;color:#fff;font-weight:700}
+  .grand{margin-top:14px;font-weight:900;text-align:right}
+</style>
+</head><body>
+  <h1>Tabla de Presupuesto</h1>
+  <div class="muted"><strong>Empresa:</strong> ${escapeHtml(emp.nombre)} · <strong>Presupuesto:</strong> ${escapeHtml(pres.nombre||'')} · <strong>Intervalo:</strong> ${(pres.inicio||'')} → ${(pres.fin||'')}</div>
+  <table>
+    <thead>
+      <tr>
+        <th>#</th><th>PRODUCTO/SERVICIO</th><th>CANTIDAD</th><th>V. UNITARIO</th><th>SUBTOTAL</th><th>% IPC</th><th>CON IPC</th><th>% IVA</th><th>TOTAL</th>
+      </tr>
+    </thead>
+    <tbody>${rows}</tbody>
+  </table>
+  <div class="grand">GRAN TOTAL: ${money(sumTotal)}</div>
+</body></html>`;
+
+  try{
+    const blob = new Blob([doc], {type:"application/msword"});
+    const url = URL.createObjectURL(blob);
+    const a = document.createElement("a");
+    a.href = url;
+    a.download = "Tabla_Presupuesto.doc";
+    document.body.appendChild(a);
+    a.click();
+    a.remove();
+    setTimeout(()=>URL.revokeObjectURL(url), 500);
+  }catch(e){
+    alert("Error: " + e.message);
+  }
+}
+
+function exportarReporteHTML(){
+  const sel = ensureSelection();
+  if(!sel) return;
+  const {emp,pres,prods} = sel;
+
+  let sumTotal=0;
+  const rows = prods.map((pr,i)=>{
+    const c=calcProducto(pr); sumTotal+=c.total;
+    return `<tr>
+      <td>${i+1}</td>
+      <td><strong>${escapeHtml(pr.nombre)}</strong><div class="muted">${escapeHtml(pr.categoria||'')}</div></td>
+      <td style="text-align:right">${Number(pr.cantidad||0).toFixed(2)}</td>
+      <td style="text-align:right">${money(pr.valorUnitario)}</td>
+      <td style="text-align:right">${pct(pr.ipcPorc||0)}</td>
+      <td style="text-align:right">${money(c.conIpc)}</td>
+      <td style="text-align:right">${pct(pr.ivaPorc||0)}</td>
+      <td style="text-align:right"><strong>${money(c.total)}</strong></td>
+    </tr>`;
+  }).join('');
+
+  const doc = `<!doctype html><html lang="es"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+  <title>Reporte Presupuesto</title>
+  <style>
+    body{font-family:Segoe UI,Tahoma,sans-serif;padding:20px}
+    h1{margin:0 0 8px}
+    .muted{color:#6b7280;font-size:13px}
+    table{width:100%;border-collapse:collapse;margin-top:12px}
+    th,td{border-bottom:1px solid #e5e7eb;padding:10px;text-align:left}
+    th{background:#2E7D32;color:#fff}
+    .grand{margin-top:14px;font-size:22px;font-weight:900;text-align:right;background:#2E7D32;color:#fff;padding:12px;border-radius:10px}
+  </style></head><body>
+    <h1>Reporte de Presupuesto</h1>
+    <div class="muted"><strong>Empresa:</strong> ${escapeHtml(emp.nombre)} · <strong>Presupuesto:</strong> ${escapeHtml(pres.nombre||'')} · <strong>Intervalo:</strong> ${(pres.inicio||'')} → ${(pres.fin||'')}</div>
+    <table><thead><tr><th>#</th><th>Producto/Servicio</th><th>Cantidad</th><th>V. Unitario</th><th>% IPC</th><th>Con IPC</th><th>% IVA</th><th>Total</th></tr></thead>
+      <tbody>${rows}</tbody>
+    </table>
+    <div class="grand">GRAN TOTAL: ${money(sumTotal)}</div>
+  </body></html>`;
+
+  const blob = new Blob([doc], {type:'text/html'});
+  const a = document.createElement('a');
+  a.href = URL.createObjectURL(blob);
+  a.download = `Reporte_${(emp.nombre||'Empresa').replace(/\s+/g,'_')}.html`;
+  a.click();
+  URL.revokeObjectURL(a.href);
+}
+
+
+function exportarBackupJSON(){
+  try{
+    const payload = {
+      app: "Rizoma Presupuesto",
+      version: (window.APP_VERSION||"v6.6"),
+      exportedAt: new Date().toISOString(),
+      state: State
+    };
+    const blob = new Blob([JSON.stringify(payload, null, 2)], {type:"application/json"});
+    const url = URL.createObjectURL(blob);
+    const a = document.createElement("a");
+    a.href = url;
+    a.download = `rizoma_presupuesto_backup_${(new Date().toISOString().slice(0,10))}.json`;
+    document.body.appendChild(a);
+    a.click();
+    a.remove();
+    setTimeout(()=>URL.revokeObjectURL(url), 500);
+  }catch(e){
+    alert("Error al generar copia de seguridad: " + e.message);
+  }
+}
+
+
+/* ---------------- Utils ---------------- */
+function escapeHtml(s){
+  return String(s??'')
+    .replace(/&/g,'&amp;')
+    .replace(/</g,'&lt;')
+    .replace(/>/g,'&gt;')
+    .replace(/"/g,'&quot;')
+    .replace(/'/g,'&#039;');
+}
+
+/* ---------------- Init ---------------- */
+document.addEventListener('DOMContentLoaded', ()=>{
+  loadState();
+  renderInicio();
+});
+</script>
+</body>
+</html>

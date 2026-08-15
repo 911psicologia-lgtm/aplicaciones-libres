@@ -1,0 +1,10 @@
+{
+  "version": "v4.27.5",
+  "focus": "Replantear tareas de escucha redundantes como decisión guiada sin audio.",
+  "convertedListenChoiceToScenarioChoice": 300,
+  "remainingListenChoiceInA2B1B2": 0,
+  "audioFieldsInConverted": 0,
+  "flow": "Título breve → Consigna → Situación → Opciones",
+  "nodeCheck": 0,
+  "createdAt": "2026-06-17T03:22:06.074574+00:00"
+}

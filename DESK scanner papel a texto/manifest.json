@@ -1,0 +1,10 @@
+{
+  "name": "Texto Vivo",
+  "short_name": "Texto Vivo",
+  "description": "Captura fotos, transcribe con OCR, guarda avance y exporta texto.",
+  "start_url": "./index.html",
+  "display": "standalone",
+  "background_color": "#f5efe5",
+  "theme_color": "#7a4f2a",
+  "icons": []
+}

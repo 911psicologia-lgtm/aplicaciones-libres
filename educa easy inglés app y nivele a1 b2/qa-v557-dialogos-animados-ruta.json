@@ -1,0 +1,32 @@
+{
+  "version": "5.0.57-dialogos-animados-ruta",
+  "animatedDialogues": 120,
+  "byRoute": {
+    "ruta_1": 30,
+    "ruta_2": 30,
+    "ruta_3": 30,
+    "ruta_4": 30
+  },
+  "idsSample": [
+    "A1-M1",
+    "A1-M2",
+    "A1-M3",
+    "A2-M1",
+    "A2-M2",
+    "A2-M3",
+    "B1-M1",
+    "B1-M2",
+    "B1-M3",
+    "B2-M1",
+    "B2-M2",
+    "B2-M3"
+  ],
+  "fixes": [
+    "Se reemplazó el banco global de 30 diálogos por 120 diálogos con routeId + worldId.",
+    "getAnimatedDialogue ahora prioriza A1/A2/B1/B2 + mundo.",
+    "Se bloqueó el fallback global para A2/B1/B2.",
+    "Diálogo animado y Centro de refuerzo pasan routeId al abrir el módulo.",
+    "Repaso auditivo filtra diálogos por la ruta activa para evitar duplicados."
+  ],
+  "contentPolish": "Se limpiaron títulos/escenas generadas para evitar temas en español dentro de frases inglesas; las frases núcleo salen de los contenidos reales del mundo."
+}

@@ -1,0 +1,961 @@
+{
+  "schemaVersion": "1.0",
+  "packId": "pack_cartography_f_medieval_circulations_islamic_20_v1",
+  "title": "Cartografía F · Series 1–2 · Circulaciones medievales, falsafa, kalām, sufismo y traducciones",
+  "status": "research_consolidated_pending_app_integration",
+  "createdAt": "2026-07-25",
+  "recordCount": 20,
+  "editorialRule": "Audios breves con entidad inicial, idea central, aporte y cautela; énfasis en traducciones, pluralidad religiosa y controversias sin relatos lineales de influencia.",
+  "records": [
+    {
+      "id": "card_medieval_worlds_plural_001",
+      "series": "cartography-f-series-1-2",
+      "order": 1,
+      "entity": "Mundos intelectuales medievales",
+      "title": "Una época hecha de traducciones y desacuerdos",
+      "period": "Siglos V–XV",
+      "territory": "Mediterráneo, Europa, Asia occidental y norte de África",
+      "cardType": "portal_metodologica",
+      "question": "¿Qué se pierde cuando la filosofía medieval se reduce a una sola tradición europea?",
+      "visibleText": "El pensamiento medieval se formó en redes cristianas, judías y musulmanas que tradujeron, discutieron y transformaron herencias antiguas.",
+      "coreIdea": "La filosofía medieval fue un campo multilingüe y plurirreligioso, no un intervalo uniforme entre Antigüedad y modernidad.",
+      "distinctiveKey": "pluralidad + circulación + controversia",
+      "audio": "Comenzamos con los mundos intelectuales medievales. No hubo una sola filosofía encerrada en Europa latina: hubo debates en griego, siríaco, árabe, hebreo y latín, vinculados por traducciones, viajes y controversias. Las tradiciones religiosas dieron marcos diferentes, pero también compartieron problemas sobre razón, creación, libertad y conocimiento. La categoría medieval sirve para orientarnos, no para borrar estas diferencias.",
+      "caution": "No tratar diez siglos, varias lenguas y religiones como una época homogénea ni como simple espera de la modernidad.",
+      "tags": [
+        "medieval",
+        "pluralidad",
+        "traducción",
+        "Mediterráneo"
+      ],
+      "connections": [
+        "card_greek_syriac_arabic_translation_001",
+        "card_toledo_translation_networks_001"
+      ],
+      "quiz": {
+        "question": "¿Cuál es la lectura más rigurosa de la filosofía medieval?",
+        "options": [
+          "Una doctrina europea única",
+          "Una red plural de tradiciones, lenguas y disputas",
+          "Un periodo sin innovación",
+          "Una repetición literal de Grecia"
+        ],
+        "correctIndex": 1,
+        "explanation": "La etapa estuvo atravesada por múltiples comunidades y circuitos de transmisión."
+      },
+      "evidenceLevel": "A",
+      "sources": [
+        {
+          "title": "Medieval Philosophy",
+          "url": "https://plato.stanford.edu/archives/fall2025/entries/medieval-philosophy/"
+        },
+        {
+          "title": "Greek Sources in Arabic and Islamic Philosophy",
+          "url": "https://plato.stanford.edu/entries/arabic-islamic-greek/"
+        }
+      ]
+    },
+    {
+      "id": "card_greek_syriac_arabic_translation_001",
+      "series": "cartography-f-series-1-2",
+      "order": 2,
+      "entity": "Traducciones greco-siríaco-árabes",
+      "title": "Traducir también fue reorganizar el conocimiento",
+      "period": "Siglos VIII–X",
+      "territory": "Bagdad y centros del califato abasí",
+      "cardType": "tradicion_proceso",
+      "question": "¿Una traducción conserva intacto un pensamiento o también lo transforma?",
+      "visibleText": "Las obras griegas llegaron al árabe mediante selecciones, revisiones y mediaciones siríacas que crearon nuevos vocabularios filosóficos.",
+      "coreIdea": "La traducción fue una práctica intelectual productiva: permitió apropiación, comentario y reconstrucción de las ciencias antiguas.",
+      "distinctiveKey": "traducción + mediación + nuevo vocabulario",
+      "audio": "Entramos en las traducciones greco-siríaco-árabes. Textos de Aristóteles, Plotino, Proclo, Galeno y otros autores no pasaron mecánicamente de una lengua a otra. Traductores y revisores compararon manuscritos, acuñaron términos y adaptaron problemas a nuevos debates. Este movimiento hizo posible la falsafa, pero no la convirtió en una copia de Grecia: produjo un espacio intelectual nuevo.",
+      "caution": "No imaginar una transferencia directa, completa y neutral desde “Grecia” hacia un mundo islámico pasivo.",
+      "tags": [
+        "traducción",
+        "siríaco",
+        "árabe",
+        "falsafa"
+      ],
+      "connections": [
+        "card_baghdad_multilingual_circles_001",
+        "card_alkindi_first_philosophy_001"
+      ],
+      "quiz": {
+        "question": "¿Qué caracteriza a estas traducciones?",
+        "options": [
+          "Fueron copias sin decisiones",
+          "Crearon vocabularios y nuevas formas de discusión",
+          "Eliminaron toda herencia griega",
+          "Solo tradujeron literatura"
+        ],
+        "correctIndex": 1,
+        "explanation": "Traducir implicó interpretar, seleccionar y reorganizar conceptos."
+      },
+      "evidenceLevel": "A",
+      "sources": [
+        {
+          "title": "Greek Sources in Arabic and Islamic Philosophy",
+          "url": "https://plato.stanford.edu/entries/arabic-islamic-greek/"
+        },
+        {
+          "title": "Arabic and Islamic Philosophy of Language and Logic",
+          "url": "https://plato.stanford.edu/archives/fall2024/entries/arabic-islamic-language/"
+        }
+      ]
+    },
+    {
+      "id": "card_baghdad_multilingual_circles_001",
+      "series": "cartography-f-series-1-2",
+      "order": 3,
+      "entity": "Círculos intelectuales de Bagdad",
+      "title": "La filosofía creció entre comunidades distintas",
+      "period": "Siglos IX–X",
+      "territory": "Bagdad",
+      "cardType": "tradicion_red",
+      "question": "¿Qué ocurre cuando una tradición filosófica depende de colaboradores de varias religiones y lenguas?",
+      "visibleText": "Musulmanes, cristianos, judíos y sabeos participaron en traducción, enseñanza, medicina, lógica y comentario filosófico.",
+      "coreIdea": "La producción filosófica abasí surgió de redes plurales donde identidad religiosa y cooperación intelectual no coincidían de manera simple.",
+      "distinctiveKey": "pluralidad religiosa + trabajo intelectual compartido",
+      "audio": "Seguimos con los círculos intelectuales de Bagdad. Traductores cristianos de lengua siríaca, filósofos musulmanes, médicos, copistas y estudiosos de otras comunidades colaboraron y discutieron dentro de redes cambiantes. La filosofía escrita en árabe no fue exclusivamente musulmana ni étnicamente homogénea. El idioma común facilitó intercambios, aunque no eliminó jerarquías, polémicas ni diferencias doctrinales.",
+      "caution": "No romantizar Bagdad como convivencia sin conflictos ni atribuir todo el movimiento a una sola institución llamada Casa de la Sabiduría.",
+      "tags": [
+        "Bagdad",
+        "multilingüismo",
+        "redes",
+        "traducción"
+      ],
+      "connections": [
+        "card_greek_syriac_arabic_translation_001",
+        "card_judeo_arabic_shared_world_001"
+      ],
+      "quiz": {
+        "question": "¿Qué muestra el caso de Bagdad?",
+        "options": [
+          "Que cada religión pensó aislada",
+          "Que el árabe articuló redes intelectuales plurales",
+          "Que no hubo controversias",
+          "Que solo trabajaron filósofos musulmanes"
+        ],
+        "correctIndex": 1,
+        "explanation": "Las redes incluyeron participantes de distintas comunidades."
+      },
+      "evidenceLevel": "B",
+      "sources": [
+        {
+          "title": "Greek Sources in Arabic and Islamic Philosophy",
+          "url": "https://plato.stanford.edu/entries/arabic-islamic-greek/"
+        },
+        {
+          "title": "Arabic and Islamic Philosophy of Language and Logic",
+          "url": "https://plato.stanford.edu/archives/fall2024/entries/arabic-islamic-language/"
+        }
+      ]
+    },
+    {
+      "id": "card_toledo_translation_networks_001",
+      "series": "cartography-f-series-1-2",
+      "order": 4,
+      "entity": "Traducciones de Toledo y otros centros",
+      "title": "El conocimiento viajó por equipos y fronteras",
+      "period": "Siglos XII–XIII",
+      "territory": "Península ibérica, Sicilia y Europa latina",
+      "cardType": "tradicion_proceso",
+      "question": "¿Cómo llegaron al latín obras árabes, griegas y judías que transformaron las universidades?",
+      "visibleText": "Traductores con competencias complementarias trasladaron filosofía, medicina y ciencias desde el árabe al latín, a veces con mediaciones romances o hebreas.",
+      "coreIdea": "Las traducciones latino-medievales fueron redes de apropiación que modificaron el currículo europeo y la lectura de Aristóteles.",
+      "distinctiveKey": "equipos + circulación + transformación curricular",
+      "audio": "Pasamos a Toledo, Sicilia y otros centros de traducción. Obras de Avicena, al-Farabi, al-Ghazali, Ibn Gabirol y comentaristas de Aristóteles circularon hacia el latín mediante colaboradores con lenguas diferentes. Estas versiones alimentaron escuelas y universidades europeas. No fueron un simple regreso de Europa a Grecia: el conocimiento había sido comentado y transformado durante siglos en árabe.",
+      "caution": "No presentar Toledo como una escuela única perfectamente organizada ni borrar la mediación filosófica árabe y judía.",
+      "tags": [
+        "Toledo",
+        "latín",
+        "árabe",
+        "circulación"
+      ],
+      "connections": [
+        "card_greek_syriac_arabic_translation_001",
+        "card_latin_averroism_1277_001"
+      ],
+      "quiz": {
+        "question": "¿Qué cambió con estas traducciones?",
+        "options": [
+          "Nada en el currículo latino",
+          "El acceso latino a nuevas obras y comentarios filosóficos",
+          "La desaparición del árabe",
+          "La prohibición de Aristóteles en toda Europa"
+        ],
+        "correctIndex": 1,
+        "explanation": "Las versiones ampliaron de modo decisivo el repertorio filosófico latino."
+      },
+      "evidenceLevel": "A",
+      "sources": [
+        {
+          "title": "Influence of Arabic and Islamic Philosophy on the Latin West",
+          "url": "https://plato.stanford.edu/archives/fall2014/entries/arabic-islamic-influence/"
+        },
+        {
+          "title": "Medieval Philosophy",
+          "url": "https://plato.stanford.edu/archives/fall2025/entries/medieval-philosophy/"
+        }
+      ]
+    },
+    {
+      "id": "card_alkindi_first_philosophy_001",
+      "series": "cartography-f-series-1-2",
+      "order": 5,
+      "entity": "Al-Kindi",
+      "title": "La unidad como causa del ser",
+      "period": "ca. 800–870",
+      "territory": "Bagdad y califato abasí",
+      "cardType": "autor_concepto",
+      "question": "¿Por qué la multiplicidad del mundo remite a una fuente de unidad?",
+      "visibleText": "Al-Kindi vinculó primera filosofía, verdad, unidad y una causa primera absolutamente simple.",
+      "coreIdea": "La metafísica estudia la causa primera de ser y unidad, combinando recursos aristotélicos y neoplatónicos con creación.",
+      "distinctiveKey": "unidad + verdad + causa primera",
+      "audio": "Escuchamos a al-Kindi y la primera filosofía. Todo lo que existe posee alguna unidad, pero ninguna cosa compuesta explica por sí sola esa unidad. Al-Kindi busca una causa primera simple, fuente del ser y de la verdad. Trabajó con materiales griegos recién traducidos, aunque defendió la creación y reformuló esas herencias dentro de su propio horizonte intelectual.",
+      "caution": "No reducir a al-Kindi a traductor de Grecia ni identificar sin matices su Uno primero con cualquier versión de neoplatonismo.",
+      "tags": [
+        "al-Kindi",
+        "unidad",
+        "metafísica",
+        "creación"
+      ],
+      "connections": [
+        "card_greek_syriac_arabic_translation_001",
+        "card_avicenna_essence_exist_001"
+      ],
+      "quiz": {
+        "question": "¿Qué relaciona al-Kindi en la primera filosofía?",
+        "options": [
+          "Unidad, ser y causa primera",
+          "Solo gramática",
+          "Azar y materia eterna",
+          "Política y música exclusivamente"
+        ],
+        "correctIndex": 0,
+        "explanation": "Su metafísica busca la fuente primera de unidad y existencia."
+      },
+      "evidenceLevel": "A",
+      "sources": [
+        {
+          "title": "al-Kindi",
+          "url": "https://plato.stanford.edu/archives/fall2022/entries/al-kindi/"
+        },
+        {
+          "title": "Greek Sources in Arabic and Islamic Philosophy",
+          "url": "https://plato.stanford.edu/entries/arabic-islamic-greek/"
+        }
+      ]
+    },
+    {
+      "id": "card_alfarabi_logic_languages_001",
+      "series": "cartography-f-series-1-2",
+      "order": 6,
+      "entity": "Al-Farabi",
+      "title": "La lógica no pertenece a una sola lengua",
+      "period": "ca. 870–950",
+      "territory": "Bagdad, Damasco y mundo islámico",
+      "cardType": "autor_concepto",
+      "question": "¿Puede una regla del pensamiento confundirse con la gramática de una lengua particular?",
+      "visibleText": "Al-Farabi distinguió la lógica, orientada a formas válidas de pensamiento, de las gramáticas propias de cada idioma.",
+      "coreIdea": "La pretensión universal de la lógica exige reconocer mediaciones lingüísticas sin reducir el razonamiento al griego o al árabe.",
+      "distinctiveKey": "lógica + lenguaje + universalidad",
+      "audio": "Seguimos con al-Farabi, la lógica y las lenguas. Una gramática ordena expresiones de un idioma; la lógica examina relaciones del pensamiento que pueden expresarse en idiomas distintos. Esta distinción respondía a disputas reales sobre si la lógica griega podía reclamar universalidad en árabe. Al-Farabi no elimina las diferencias lingüísticas: intenta encontrar estructuras compartidas sin confundirlas con una gramática particular.",
+      "caution": "No afirmar que las lenguas son idénticas ni que la lógica funciona sin vocabularios, traducciones y convenciones.",
+      "tags": [
+        "al-Farabi",
+        "lógica",
+        "lenguaje",
+        "gramática"
+      ],
+      "connections": [
+        "card_baghdad_multilingual_circles_001",
+        "card_alfarabi_virtuous_city_001"
+      ],
+      "quiz": {
+        "question": "¿Qué distingue al-Farabi?",
+        "options": [
+          "Lógica universal y gramáticas particulares",
+          "Razón y memoria como opuestos",
+          "Árabe y pensamiento como idénticos",
+          "Filosofía y música sin relación"
+        ],
+        "correctIndex": 0,
+        "explanation": "La lógica busca reglas del pensamiento, mientras cada lengua tiene su gramática."
+      },
+      "evidenceLevel": "A",
+      "sources": [
+        {
+          "title": "al-Fārābī’s Metaphysics",
+          "url": "https://plato.stanford.edu/archives/sum2026/entries/al-farabi-metaphysics/"
+        },
+        {
+          "title": "Arabic and Islamic Philosophy of Language and Logic",
+          "url": "https://plato.stanford.edu/archives/fall2024/entries/arabic-islamic-language/"
+        }
+      ]
+    },
+    {
+      "id": "card_alfarabi_virtuous_city_001",
+      "series": "cartography-f-series-1-2",
+      "order": 7,
+      "entity": "Al-Farabi",
+      "title": "La ciudad debe orientar hacia la felicidad",
+      "period": "ca. 870–950",
+      "territory": "Mundo islámico medieval",
+      "cardType": "autor_concepto",
+      "question": "¿Qué convierte una organización política en una ciudad virtuosa?",
+      "visibleText": "La ciudad virtuosa coordina saber, educación, religión y gobierno para conducir a sus habitantes hacia la perfección humana.",
+      "coreIdea": "La política es una ciencia práctica sobre las condiciones sociales de la felicidad, no solo una técnica para conservar el poder.",
+      "distinctiveKey": "ciudad + educación + felicidad",
+      "audio": "Volvemos a al-Farabi y la ciudad virtuosa. Las personas no alcanzan por sí solas todos los bienes necesarios para su perfección; necesitan cooperación, educación y un orden político. La ciudad se juzga por el fin que promueve: felicidad verdadera o bienes aparentes como riqueza y dominio. La religión puede comunicar mediante imágenes lo que la filosofía formula demostrativamente.",
+      "caution": "No presentar la ciudad virtuosa como plano institucional moderno ni equiparar sin más al gobernante con un filósofo autoritario.",
+      "tags": [
+        "al-Farabi",
+        "política",
+        "felicidad",
+        "religión"
+      ],
+      "connections": [
+        "card_alfarabi_logic_languages_001",
+        "card_ibnrushd_reason_revelation_001"
+      ],
+      "quiz": {
+        "question": "¿Cómo evalúa al-Farabi una ciudad?",
+        "options": [
+          "Por su tamaño",
+          "Por el fin humano que promueve",
+          "Por su riqueza militar",
+          "Por una sola ley ritual"
+        ],
+        "correctIndex": 1,
+        "explanation": "El criterio central es su orientación hacia la felicidad y perfección."
+      },
+      "evidenceLevel": "A",
+      "sources": [
+        {
+          "title": "al-Farabi’s Philosophy of Society and Religion",
+          "url": "https://plato.stanford.edu/entries/al-farabi-soc-rel/"
+        },
+        {
+          "title": "Arabic and Islamic Philosophy of Religion",
+          "url": "https://plato.stanford.edu/entries/arabic-islamic-religion/"
+        }
+      ]
+    },
+    {
+      "id": "card_avicenna_essence_exist_001",
+      "series": "cartography-f-series-1-2",
+      "order": 8,
+      "entity": "Ibn Sina / Avicena",
+      "title": "Lo que una cosa es no explica que exista",
+      "period": "980–1037",
+      "territory": "Asia central, Irán y mundo islámico oriental",
+      "cardType": "autor_concepto",
+      "question": "¿Por qué comprender la esencia de algo no demuestra todavía su existencia?",
+      "visibleText": "Avicena distinguió quiddidad o esencia y existencia para analizar seres posibles y el fundamento necesario de todo existir.",
+      "coreIdea": "Los seres posibles reciben existencia; el Ser Necesario no depende de otra causa y en él no se separan esencia y existir.",
+      "distinctiveKey": "esencia + existencia + necesidad",
+      "audio": "Llegamos a Ibn Sina, conocido en latín como Avicena. Podemos comprender qué es un triángulo, un caballo o una ciudad sin afirmar que exista aquí y ahora. Esa diferencia entre esencia y existencia permite pensar los seres posibles, cuya existencia depende de causas. La serie causal remite al Ser Necesario, que no recibe existir de otro y fundamenta lo demás.",
+      "caution": "No convertir la distinción en dos piezas físicas dentro de cada cosa ni suponer que todos los intérpretes avicenianos la formularon igual.",
+      "tags": [
+        "Avicena",
+        "esencia",
+        "existencia",
+        "Ser Necesario"
+      ],
+      "connections": [
+        "card_alkindi_first_philosophy_001",
+        "card_avicenna_self_awareness_001"
+      ],
+      "quiz": {
+        "question": "¿Qué caracteriza a un ser posible?",
+        "options": [
+          "Su existencia se explica por sí sola",
+          "Puede concebirse y requiere una causa para existir",
+          "No tiene esencia",
+          "Es necesariamente eterno"
+        ],
+        "correctIndex": 1,
+        "explanation": "En Avicena, lo posible no contiene por sí mismo la razón suficiente de su existencia."
+      },
+      "evidenceLevel": "A",
+      "sources": [
+        {
+          "title": "Ibn Sina’s Metaphysics",
+          "url": "https://plato.stanford.edu/entries/ibn-sina-metaphysics/"
+        }
+      ]
+    },
+    {
+      "id": "card_avicenna_self_awareness_001",
+      "series": "cartography-f-series-1-2",
+      "order": 9,
+      "entity": "Ibn Sina / Avicena",
+      "title": "El yo se advierte antes de describir su cuerpo",
+      "period": "980–1037",
+      "territory": "Asia central e Irán",
+      "cardType": "autor_experimento",
+      "question": "¿Podría una persona advertir que existe sin percibir su cuerpo ni el mundo exterior?",
+      "visibleText": "El experimento del ser humano suspendido explora una autoconciencia inmediata que no depende de una imagen corporal explícita.",
+      "coreIdea": "La conciencia de sí ofrece a Avicena una vía para distinguir el alma de la percepción corporal, sin constituir por sí sola una prueba moderna de dualismo.",
+      "distinctiveKey": "autoconciencia + alma + experimento mental",
+      "audio": "Seguimos con el ser humano suspendido de Avicena. Imaginemos a una persona creada de repente, sin contacto entre sus miembros y sin percibir nada externo. Avicena sostiene que aun así afirmaría su propia existencia. El experimento busca mostrar una conciencia de sí inmediata y abrir una investigación sobre el alma. No describe una prueba clínica ni niega que la vida humana ordinaria sea corporal.",
+      "caution": "No presentar el “hombre volador” como experimento empírico, experiencia extracorporal o demostración indiscutible de dualismo.",
+      "tags": [
+        "Avicena",
+        "autoconciencia",
+        "alma",
+        "experimento mental"
+      ],
+      "connections": [
+        "card_avicenna_essence_exist_001",
+        "card_suhrawardi_presence_light_001"
+      ],
+      "quiz": {
+        "question": "¿Qué investiga el experimento aviceniano?",
+        "options": [
+          "La capacidad de volar",
+          "La autoconciencia sin percepción corporal explícita",
+          "La anatomía humana",
+          "La memoria de otras vidas"
+        ],
+        "correctIndex": 1,
+        "explanation": "El caso imaginario examina la inmediatez de la conciencia de sí."
+      },
+      "evidenceLevel": "B",
+      "sources": [
+        {
+          "title": "Arabic and Islamic Psychology and Philosophy of Mind",
+          "url": "https://plato.stanford.edu/entries/arabic-islamic-mind/"
+        },
+        {
+          "title": "Ibn Sina’s Metaphysics",
+          "url": "https://plato.stanford.edu/entries/ibn-sina-metaphysics/"
+        }
+      ]
+    },
+    {
+      "id": "card_mutazila_justice_freedom_001",
+      "series": "cartography-f-series-1-2",
+      "order": 10,
+      "entity": "Teologías muʿtazilíes",
+      "title": "Justicia divina y responsabilidad humana",
+      "period": "Siglos VIII–X",
+      "territory": "Basora, Bagdad y otros centros islámicos",
+      "cardType": "tradicion_concepto",
+      "question": "¿Cómo puede haber responsabilidad moral si todos los actos fueran producidos de manera irresistible?",
+      "visibleText": "Pensadores muʿtazilíes defendieron la justicia y unidad divinas, atribuyendo a los humanos capacidad real para responder por sus actos.",
+      "coreIdea": "La defensa racional de justicia, libertad y unidad de Dios convirtió el kalām en una tradición argumentativa diversa.",
+      "distinctiveKey": "justicia + libertad + unidad divina",
+      "audio": "Entramos en las teologías muʿtazilíes. Si Dios es justo, sostuvieron muchos de sus autores, no castigaría a las personas por actos que no pudieran evitar. Por eso defendieron alguna forma de capacidad humana y examinaron racionalmente atributos divinos, bien y mal, revelación y responsabilidad. La escuela no fue una doctrina única y cambió entre ciudades, autores y periodos.",
+      "caution": "No describir el muʿtazilismo como racionalismo secular moderno ni atribuir una posición idéntica a todos sus representantes.",
+      "tags": [
+        "Muʿtazila",
+        "kalām",
+        "justicia",
+        "libertad"
+      ],
+      "connections": [
+        "card_ashari_power_causality_001",
+        "card_saadya_reason_revelation_001"
+      ],
+      "quiz": {
+        "question": "¿Qué problema articula esta tradición?",
+        "options": [
+          "Cómo justificar responsabilidad y justicia divina",
+          "Cómo negar toda razón",
+          "Cómo eliminar la ley",
+          "Cómo demostrar que el mundo es eterno"
+        ],
+        "correctIndex": 0,
+        "explanation": "La capacidad humana resulta central para explicar responsabilidad moral."
+      },
+      "evidenceLevel": "B",
+      "sources": [
+        {
+          "title": "Arabic and Islamic Philosophy of Religion",
+          "url": "https://plato.stanford.edu/entries/arabic-islamic-religion/"
+        }
+      ]
+    },
+    {
+      "id": "card_ashari_power_causality_001",
+      "series": "cartography-f-series-1-2",
+      "order": 11,
+      "entity": "Teologías ashʿaríes",
+      "title": "La regularidad del mundo no limita el poder divino",
+      "period": "Siglos X–XII",
+      "territory": "Irak, Persia y otros territorios islámicos",
+      "cardType": "tradicion_concepto",
+      "question": "¿Las cosas producen efectos por una necesidad propia o porque Dios sostiene cada acontecimiento?",
+      "visibleText": "Diversos teólogos ashʿaríes subrayaron la dependencia radical de los acontecimientos respecto de la acción divina.",
+      "coreIdea": "El ocasionalismo protege soberanía divina y cuestiona poderes causales necesarios, aunque admite regularidades estables en la experiencia.",
+      "distinctiveKey": "poder divino + hábito + causalidad",
+      "audio": "Pasamos a las teologías ashʿaríes. Muchos de sus autores desconfiaron de atribuir a las cosas poderes necesarios independientes de Dios. El fuego y la combustión aparecen juntos de manera regular, pero esa regularidad puede depender de la creación divina de cada acontecimiento. Esta posición no obliga a negar toda investigación natural: cuestiona qué significa explicar la necesidad causal.",
+      "caution": "No reducir toda teología ashʿarí a una sola versión de ocasionalismo ni afirmar que niega cualquier regularidad observable.",
+      "tags": [
+        "Ashʿarismo",
+        "kalām",
+        "causalidad",
+        "poder divino"
+      ],
+      "connections": [
+        "card_mutazila_justice_freedom_001",
+        "card_ghazali_causal_connection_001"
+      ],
+      "quiz": {
+        "question": "¿Qué cuestiona el ocasionalismo?",
+        "options": [
+          "La existencia de regularidades",
+          "Que las causas creadas produzcan efectos con necesidad independiente",
+          "La posibilidad de describir fenómenos",
+          "Toda responsabilidad humana"
+        ],
+        "correctIndex": 1,
+        "explanation": "La controversia concierne a la necesidad y autonomía de los poderes causales."
+      },
+      "evidenceLevel": "B",
+      "sources": [
+        {
+          "title": "Arabic and Islamic Philosophy of Religion",
+          "url": "https://plato.stanford.edu/entries/arabic-islamic-religion/"
+        },
+        {
+          "title": "Causation in Arabic and Islamic Thought",
+          "url": "https://plato.stanford.edu/archives/fall2025/entries/arabic-islamic-causation/"
+        }
+      ]
+    },
+    {
+      "id": "card_ghazali_causal_connection_001",
+      "series": "cartography-f-series-1-2",
+      "order": 12,
+      "entity": "Al-Ghazali",
+      "title": "Observar una sucesión no demuestra necesidad",
+      "period": "1058–1111",
+      "territory": "Persia, Bagdad y mundo islámico",
+      "cardType": "autor_concepto",
+      "question": "¿Ver repetidamente fuego y combustión prueba que uno necesite producir al otro?",
+      "visibleText": "Al-Ghazali negó que la observación establezca por sí sola una conexión necesaria entre lo llamado causa y efecto.",
+      "coreIdea": "La crítica a la necesidad causal abre alternativas sobre hábito, acción divina y causalidad secundaria sin negar que los acontecimientos se relacionen.",
+      "distinctiveKey": "concomitancia ≠ necesidad",
+      "audio": "Escuchamos a al-Ghazali y la causalidad. Ver que el algodón se quema al tocar el fuego muestra una concomitancia frecuente, pero no demuestra que la combustión sea lógicamente inseparable del fuego. Al-Ghazali usa esta crítica para defender la posibilidad de milagros y la libertad divina. No niega toda relación causal: discute su carácter necesario y las explicaciones disponibles.",
+      "caution": "No afirmar que al-Ghazali destruyó la ciencia o que sostuvo una única teoría ocasionalista sin matices.",
+      "tags": [
+        "al-Ghazali",
+        "causalidad",
+        "hábito",
+        "milagro"
+      ],
+      "connections": [
+        "card_ashari_power_causality_001",
+        "card_ibnrushd_natures_causality_001"
+      ],
+      "quiz": {
+        "question": "¿Qué niega al-Ghazali?",
+        "options": [
+          "Toda relación entre eventos",
+          "Que la observación pruebe una conexión causal necesaria",
+          "La existencia del fuego",
+          "La posibilidad de explicaciones naturales"
+        ],
+        "correctIndex": 1,
+        "explanation": "Su argumento distingue sucesión observada y necesidad demostrada."
+      },
+      "evidenceLevel": "A",
+      "sources": [
+        {
+          "title": "al-Ghazali",
+          "url": "https://plato.stanford.edu/archives/spr2024/entries/al-ghazali/"
+        },
+        {
+          "title": "Causation in Arabic and Islamic Thought",
+          "url": "https://plato.stanford.edu/archives/fall2025/entries/arabic-islamic-causation/"
+        }
+      ]
+    },
+    {
+      "id": "card_ibntufayl_hayy_inquiry_001",
+      "series": "cartography-f-series-1-2",
+      "order": 13,
+      "entity": "Ibn Tufayl",
+      "title": "Aprender el mundo mediante experiencia, razón y contemplación",
+      "period": "ca. 1105–1185",
+      "territory": "Al-Ándalus y Magreb",
+      "cardType": "autor_obra",
+      "question": "¿Hasta dónde podría llegar una inteligencia humana educada fuera de una sociedad?",
+      "visibleText": "Hayy ibn Yaqzan narra el aprendizaje de un ser humano aislado que investiga naturaleza, alma y divinidad antes de encontrar una comunidad religiosa.",
+      "coreIdea": "La alegoría compara vías de conocimiento y pregunta cómo se relacionan investigación racional, experiencia espiritual y lenguaje revelado.",
+      "distinctiveKey": "aislamiento + investigación + encuentro religioso",
+      "audio": "Llegamos a Ibn Tufayl y Hayy ibn Yaqzan. En una isla, Hayy aprende observando seres vivos, experimentando y ordenando causas hasta alcanzar preguntas metafísicas y contemplativas. Después descubre una sociedad religiosa y las dificultades de comunicar lo comprendido. La obra no prueba que toda persona aislada reconstruiría la ciencia: es una alegoría sobre capacidades, educación y formas de verdad.",
+      "caution": "No leer la novela como experimento histórico, defensa simple del individualismo o rechazo completo de la comunidad y la revelación.",
+      "tags": [
+        "Ibn Tufayl",
+        "Hayy ibn Yaqzan",
+        "educación",
+        "alegoría"
+      ],
+      "connections": [
+        "card_alfarabi_virtuous_city_001",
+        "card_ibnrushd_reason_revelation_001"
+      ],
+      "quiz": {
+        "question": "¿Qué pone en relación la obra?",
+        "options": [
+          "Solo supervivencia física",
+          "Experiencia, razón, contemplación y religión",
+          "Comercio y guerra",
+          "Memorización y obediencia"
+        ],
+        "correctIndex": 1,
+        "explanation": "La narración explora varias vías de conocimiento y sus traducciones sociales."
+      },
+      "evidenceLevel": "B",
+      "sources": [
+        {
+          "title": "Mysticism in Arabic and Islamic Philosophy",
+          "url": "https://plato.stanford.edu/archives/fall2018/entries/arabic-islamic-mysticism/"
+        },
+        {
+          "title": "Arabic and Islamic Philosophy of Religion",
+          "url": "https://plato.stanford.edu/entries/arabic-islamic-religion/"
+        }
+      ]
+    },
+    {
+      "id": "card_ibnrushd_reason_revelation_001",
+      "series": "cartography-f-series-1-2",
+      "order": 14,
+      "entity": "Ibn Rushd / Averroes",
+      "title": "La investigación demostrativa puede ser una obligación",
+      "period": "1126–1198",
+      "territory": "Córdoba, Marrakech y al-Ándalus",
+      "cardType": "autor_concepto",
+      "question": "¿Qué hacer cuando una lectura literal parece contradecir una demostración racional?",
+      "visibleText": "Ibn Rushd sostuvo que la ley revelada invita a estudiar los seres y que las interpretaciones deben ajustarse al nivel de demostración alcanzado.",
+      "coreIdea": "Filosofía y revelación buscan verdad; sus tensiones exigen interpretación rigurosa, no una doctrina de dos verdades contradictorias.",
+      "distinctiveKey": "demostración + interpretación + ley",
+      "audio": "Escuchamos a Ibn Rushd, Averroes en latín. Si la revelación ordena reflexionar sobre la creación, la investigación filosófica puede ser una obligación para quienes están capacitados. Cuando una demostración firme parece chocar con una lectura literal, corresponde interpretar el texto. Esto no significa sostener dos verdades incompatibles, sino distinguir métodos, públicos y niveles de discurso.",
+      "caution": "No atribuirle la teoría simplificada de “doble verdad” ni suponer que autorizó cualquier interpretación privada.",
+      "tags": [
+        "Ibn Rushd",
+        "razón",
+        "revelación",
+        "interpretación"
+      ],
+      "connections": [
+        "card_alfarabi_virtuous_city_001",
+        "card_latin_averroism_1277_001"
+      ],
+      "quiz": {
+        "question": "¿Qué propone Ibn Rushd ante una demostración sólida?",
+        "options": [
+          "Abandonar toda revelación",
+          "Interpretar cuidadosamente los pasajes aparentes",
+          "Aceptar dos verdades opuestas",
+          "Prohibir la filosofía"
+        ],
+        "correctIndex": 1,
+        "explanation": "La verdad no contradice la verdad; la tensión exige interpretación."
+      },
+      "evidenceLevel": "A",
+      "sources": [
+        {
+          "title": "Ibn Rushd [Averroes]",
+          "url": "https://plato.stanford.edu/entries/ibn-rushd/"
+        },
+        {
+          "title": "Arabic and Islamic Philosophy of Religion",
+          "url": "https://plato.stanford.edu/entries/arabic-islamic-religion/"
+        }
+      ]
+    },
+    {
+      "id": "card_ibnrushd_natures_causality_001",
+      "series": "cartography-f-series-1-2",
+      "order": 15,
+      "entity": "Ibn Rushd / Averroes",
+      "title": "Sin naturalezas diferenciadas, explicar sería imposible",
+      "period": "1126–1198",
+      "territory": "Al-Ándalus y Magreb",
+      "cardType": "autor_concepto",
+      "question": "¿Qué perderíamos si las cosas no tuvieran capacidades y funciones propias?",
+      "visibleText": "Ibn Rushd defendió naturalezas y causalidades creadas frente a interpretaciones que reducían cada cambio a una intervención sin mediaciones.",
+      "coreIdea": "Las propiedades causales permiten distinguir, definir e investigar los seres, aunque dependan de una causa primera.",
+      "distinctiveKey": "naturaleza + función + explicación",
+      "audio": "Volvemos a Ibn Rushd y las naturalezas. Una cosa se distingue de otra por propiedades y operaciones específicas; si nada tuviera funciones propias, las definiciones y las investigaciones perderían fundamento. Por eso criticó versiones fuertes del ocasionalismo. Su defensa de causas naturales no elimina una causa primera: busca explicar cómo el orden natural posee estructura y continuidad.",
+      "caution": "No convertir su postura en ciencia experimental moderna ni afirmar que excluye toda dependencia del mundo respecto de Dios.",
+      "tags": [
+        "Ibn Rushd",
+        "naturaleza",
+        "causalidad",
+        "definición"
+      ],
+      "connections": [
+        "card_ghazali_causal_connection_001",
+        "card_aquinas_essence_exist_001"
+      ],
+      "quiz": {
+        "question": "¿Por qué son importantes las naturalezas para Ibn Rushd?",
+        "options": [
+          "Permiten distinguir y explicar operaciones",
+          "Eliminan toda causa primera",
+          "Vuelven innecesaria la observación",
+          "Hacen idénticas todas las cosas"
+        ],
+        "correctIndex": 0,
+        "explanation": "Las funciones específicas sostienen definiciones y explicaciones."
+      },
+      "evidenceLevel": "A",
+      "sources": [
+        {
+          "title": "Ibn Rushd [Averroes]",
+          "url": "https://plato.stanford.edu/entries/ibn-rushd/"
+        },
+        {
+          "title": "Causation in Arabic and Islamic Thought",
+          "url": "https://plato.stanford.edu/archives/fall2025/entries/arabic-islamic-causation/"
+        }
+      ]
+    },
+    {
+      "id": "card_suhrawardi_presence_light_001",
+      "series": "cartography-f-series-1-2",
+      "order": 16,
+      "entity": "Suhrawardi",
+      "title": "Conocer algo puede ser hacerlo presente",
+      "period": "1154–1191",
+      "territory": "Irán, Anatolia y Alepo",
+      "cardType": "autor_concepto",
+      "question": "¿Todo conocimiento depende de construir una definición o representación?",
+      "visibleText": "Suhrawardi defendió formas de conocimiento por presencia, especialmente en la autoconciencia, y elaboró una metafísica de luces.",
+      "coreIdea": "La presencia inmediata complementa y critica modelos puramente representacionales del conocimiento.",
+      "distinctiveKey": "presencia + autoconciencia + luz",
+      "audio": "Seguimos con Suhrawardi y el conocimiento por presencia. La conciencia de sí no parece requerir una imagen intermediaria del propio yo: el sujeto está presente para sí mismo. Desde esta intuición, Suhrawardi revisa lógica, psicología y metafísica mediante grados de luz y oscuridad. La luz es un concepto ontológico y epistemológico, no una sustancia física medible.",
+      "caution": "No reducir la iluminación a emoción, visión sobrenatural espontánea o metáfora decorativa sin estructura filosófica.",
+      "tags": [
+        "Suhrawardi",
+        "presencia",
+        "luz",
+        "autoconciencia"
+      ],
+      "connections": [
+        "card_avicenna_self_awareness_001",
+        "card_ibnarabi_divine_names_001"
+      ],
+      "quiz": {
+        "question": "¿Qué caracteriza al conocimiento por presencia?",
+        "options": [
+          "Depende siempre de una imagen externa",
+          "El conocido está inmediatamente presente al conocedor",
+          "Es solo memoria",
+          "Elimina toda argumentación"
+        ],
+        "correctIndex": 1,
+        "explanation": "La autoconciencia ofrece el caso principal de presencia inmediata."
+      },
+      "evidenceLevel": "A",
+      "sources": [
+        {
+          "title": "Suhrawardi",
+          "url": "https://plato.stanford.edu/archives/fall2022/entries/suhrawardi/"
+        }
+      ]
+    },
+    {
+      "id": "card_ibnarabi_divine_names_001",
+      "series": "cartography-f-series-1-2",
+      "order": 17,
+      "entity": "Ibn ʿArabi",
+      "title": "La realidad se muestra mediante relaciones y nombres",
+      "period": "1165–1240",
+      "territory": "Al-Ándalus, norte de África y Oriente islámico",
+      "cardType": "autor_concepto",
+      "question": "¿Cómo hablar de una realidad divina que excede toda descripción y, sin embargo, se manifiesta?",
+      "visibleText": "Ibn ʿArabi articuló nombres divinos, cosmos e interpretación espiritual como relaciones múltiples entre unidad y manifestación.",
+      "coreIdea": "Los nombres no fragmentan a Dios: expresan modos relacionales en que la realidad divina se conoce a través del mundo.",
+      "distinctiveKey": "unidad + nombres + manifestación",
+      "audio": "Llegamos a Ibn ʿArabi y los nombres divinos. Dios en sí mismo excede las delimitaciones, pero nombres como misericordioso, sabio o creador describen relaciones manifestadas en el cosmos. Los seres revelan combinaciones distintas de esos nombres y cada perspectiva es parcial. Su pensamiento integra teología, exégesis, filosofía y práctica espiritual sin reducirse a una fórmula única.",
+      "caution": "No usar “unidad del ser” como eslogan suficiente ni presentar toda diferencia como ilusión sin realidad.",
+      "tags": [
+        "Ibn Arabi",
+        "nombres divinos",
+        "manifestación",
+        "hermenéutica"
+      ],
+      "connections": [
+        "card_suhrawardi_presence_light_001",
+        "card_pseudodionysius_apophatic_001"
+      ],
+      "quiz": {
+        "question": "¿Qué función cumplen los nombres divinos?",
+        "options": [
+          "Dividir a Dios en partes",
+          "Expresar relaciones de manifestación sin agotar la esencia",
+          "Negar el cosmos",
+          "Reemplazar toda interpretación"
+        ],
+        "correctIndex": 1,
+        "explanation": "Los nombres hacen inteligibles relaciones, pero no capturan la esencia divina."
+      },
+      "evidenceLevel": "B",
+      "sources": [
+        {
+          "title": "Ibn ‘Arabī",
+          "url": "https://plato.stanford.edu/entries/ibn-arabi/"
+        },
+        {
+          "title": "Mysticism in Arabic and Islamic Philosophy",
+          "url": "https://plato.stanford.edu/archives/fall2018/entries/arabic-islamic-mysticism/"
+        }
+      ]
+    },
+    {
+      "id": "card_ikhwan_encyclopedia_001",
+      "series": "cartography-f-series-1-2",
+      "order": 18,
+      "entity": "Ikhwān al-Safāʾ / Hermanos de la Pureza",
+      "title": "Una enciclopedia para relacionar las ciencias",
+      "period": "Siglos X–XI",
+      "territory": "Basora y mundo islámico",
+      "cardType": "tradicion_obra",
+      "question": "¿Qué cambia cuando las ciencias se presentan como partes de una formación integral?",
+      "visibleText": "Las Epístolas de los Hermanos de la Pureza organizaron matemáticas, naturaleza, alma, política y religión dentro de un proyecto enciclopédico.",
+      "coreIdea": "El saber aparece como recorrido articulado de purificación intelectual y cooperación, no como acumulación de disciplinas aisladas.",
+      "distinctiveKey": "enciclopedia + ciencias + formación",
+      "audio": "Entramos en las Epístolas de los Hermanos de la Pureza. Esta amplia enciclopedia conecta aritmética, música, astronomía, lógica, ciencias naturales, psicología y cuestiones religiosas. Su organización supone que aprender transforma a la persona y requiere cooperación. La identidad exacta de sus autores y su contexto político siguen discutidos, por lo que no debe atribuirse el corpus a una única voz plenamente conocida.",
+      "caution": "No presentar la fraternidad como sociedad secreta perfectamente documentada ni su enciclopedia como clasificación científica moderna.",
+      "tags": [
+        "Ikhwan al-Safa",
+        "enciclopedia",
+        "ciencias",
+        "formación"
+      ],
+      "connections": [
+        "card_baghdad_multilingual_circles_001",
+        "card_ibntufayl_hayy_inquiry_001"
+      ],
+      "quiz": {
+        "question": "¿Qué propone el proyecto enciclopédico?",
+        "options": [
+          "Separar todas las ciencias",
+          "Articular saberes dentro de una formación integral",
+          "Eliminar matemáticas",
+          "Sustituir aprendizaje por obediencia"
+        ],
+        "correctIndex": 1,
+        "explanation": "Las Epístolas conectan disciplinas y transformación humana."
+      },
+      "evidenceLevel": "B",
+      "sources": [
+        {
+          "title": "Ikhwān al-Safā’",
+          "url": "https://plato.stanford.edu/entries/ikhwan-al-safa/"
+        }
+      ]
+    },
+    {
+      "id": "card_judeo_arabic_shared_world_001",
+      "series": "cartography-f-series-1-2",
+      "order": 19,
+      "entity": "Pensamiento judeo-árabe",
+      "title": "El árabe también fue lengua de filosofía judía",
+      "period": "Siglos IX–XIII",
+      "territory": "Egipto, Irak, al-Ándalus y Mediterráneo",
+      "cardType": "tradicion_proceso",
+      "question": "¿Cómo cambia nuestra cartografía cuando una filosofía judía se escribe en árabe y dialoga con kalām y falsafa?",
+      "visibleText": "Autores judíos emplearon árabe y judeo-árabe para discutir razón, ley, creación, profecía y metafísica dentro de un espacio intelectual compartido.",
+      "coreIdea": "Las fronteras religiosas no coinciden con fronteras lingüísticas o filosóficas; las ideas circularon mediante apropiaciones selectivas.",
+      "distinctiveKey": "judeo-árabe + circulación + apropiación",
+      "audio": "Seguimos con el pensamiento judeo-árabe. Saadia, Ibn Gabirol, Judah Halevi y Maimónides escribieron obras centrales en árabe o judeo-árabe y dialogaron con kalām, neoplatonismo, al-Farabi, Avicena y otros autores. Esto no disuelve la especificidad judía: muestra que una tradición puede elaborar su identidad usando lenguajes y problemas compartidos.",
+      "caution": "No describir esta relación como influencia unilateral ni suponer que los autores judíos aceptaron sin crítica las doctrinas islámicas.",
+      "tags": [
+        "judeo-árabe",
+        "filosofía judía",
+        "circulación",
+        "Mediterráneo"
+      ],
+      "connections": [
+        "card_baghdad_multilingual_circles_001",
+        "card_saadya_reason_revelation_001",
+        "card_maimonides_negative_theology_001"
+      ],
+      "quiz": {
+        "question": "¿Qué demuestra el judeo-árabe?",
+        "options": [
+          "Que lengua y religión siempre coinciden",
+          "Que hubo espacios intelectuales compartidos con apropiaciones propias",
+          "Que la filosofía judía solo usó hebreo",
+          "Que no existieron polémicas"
+        ],
+        "correctIndex": 1,
+        "explanation": "La escritura en árabe permitió diálogo sin eliminar diferencias religiosas."
+      },
+      "evidenceLevel": "A",
+      "sources": [
+        {
+          "title": "Influence of Arabic and Islamic Philosophy on Judaic Thought",
+          "url": "https://plato.stanford.edu/entries/arabic-islamic-judaic/"
+        },
+        {
+          "title": "The Influence of Islamic Thought on Maimonides",
+          "url": "https://plato.stanford.edu/entries/maimonides-islamic/"
+        }
+      ]
+    },
+    {
+      "id": "card_latin_averroism_1277_001",
+      "series": "cartography-f-series-1-2",
+      "order": 20,
+      "entity": "Recepción latina de Averroes y condenas de 1277",
+      "title": "Una traducción puede abrir posibilidades y conflictos",
+      "period": "Siglos XIII–XIV",
+      "territory": "Universidad de París y Europa latina",
+      "cardType": "tradicion_controversia",
+      "question": "¿Qué sucede cuando una lectura filosófica parece tensionar doctrinas institucionales?",
+      "visibleText": "La recepción latina de Averroes impulsó debates sobre intelecto, eternidad, causalidad y autonomía de las ciencias, algunos incluidos en las condenas parisinas.",
+      "coreIdea": "Las condenas de 1277 fueron intervenciones institucionales complejas, no una batalla simple entre ciencia y religión.",
+      "distinctiveKey": "recepción + universidad + censura",
+      "audio": "Cerramos el primer lote con la recepción latina de Averroes. Sus comentarios ayudaron a leer a Aristóteles y alimentaron debates sobre intelecto único, eternidad del mundo y necesidad causal. En 1277, el obispo de París condenó doscientas diecinueve proposiciones discutidas en el ambiente universitario. Los destinatarios y efectos exactos siguen debatidos; no fue una prohibición uniforme de la razón.",
+      "caution": "No usar “averroísmo latino” como etiqueta homogénea ni afirmar que 1277 creó por sí solo la ciencia moderna.",
+      "tags": [
+        "Averroes",
+        "París",
+        "1277",
+        "universidad"
+      ],
+      "connections": [
+        "card_toledo_translation_networks_001",
+        "card_ibnrushd_reason_revelation_001",
+        "card_aquinas_essence_exist_001"
+      ],
+      "quiz": {
+        "question": "¿Cuál es la cautela principal sobre 1277?",
+        "options": [
+          "Fue una simple guerra entre ciencia y fe",
+          "Su contexto, blancos y efectos son históricamente discutidos",
+          "Prohibió toda obra de Aristóteles para siempre",
+          "No tuvo relación con universidades"
+        ],
+        "correctIndex": 1,
+        "explanation": "La condena fue plural y su significado no admite una explicación única."
+      },
+      "evidenceLevel": "A",
+      "sources": [
+        {
+          "title": "Condemnation of 1277",
+          "url": "https://plato.stanford.edu/archives/fall2020/entries/condemnation/"
+        },
+        {
+          "title": "Influence of Arabic and Islamic Philosophy on the Latin West",
+          "url": "https://plato.stanford.edu/archives/fall2014/entries/arabic-islamic-influence/"
+        },
+        {
+          "title": "Ibn Rushd [Averroes]",
+          "url": "https://plato.stanford.edu/entries/ibn-rushd/"
+        }
+      ]
+    }
+  ]
+}

@@ -1,0 +1,14 @@
+{
+  "version": "5.0.56-playlists-nivel",
+  "playlists": {
+    "A1": "https://www.youtube.com/playlist?list=PLk6voQWRP6kzf5ab1ff_ZJ0q_T8KAqNfq",
+    "A2": "https://www.youtube.com/playlist?list=PLk6voQWRP6kwSGKPs6j_gHMVGVS20TnpT",
+    "B1": "https://www.youtube.com/playlist?list=PLk6voQWRP6kzXw6_xcITOdRFfze7Wgx0-",
+    "B2": "https://www.youtube.com/playlist?list=PLk6voQWRP6kwudByDCsMhFvB4CCkkDb52"
+  },
+  "placements": [
+    "Centro de refuerzo",
+    "Módulo canción subtitulada",
+    "Carretera principal"
+  ]
+}

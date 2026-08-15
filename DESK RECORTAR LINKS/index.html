@@ -1,0 +1,316 @@
+<!doctype html>
+<html lang="es">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>RizoLink · Enlaces breves, QR y rutas inteligentes</title>
+  <meta name="description" content="RizoLink transforma enlaces largos en rutas breves, memorables y escaneables, con biblioteca visual, QR y gestión local." />
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Space+Grotesk:wght@500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="css/base.css" />
+  <link rel="stylesheet" href="css/components.css" />
+  <link rel="stylesheet" href="css/layout.css" />
+  <link rel="manifest" href="manifest.webmanifest" />
+</head>
+<body>
+  <div class="ambient" aria-hidden="true">
+    <span class="orb orb-a"></span>
+    <span class="orb orb-b"></span>
+    <span class="orb orb-c"></span>
+    <span class="mesh"></span>
+  </div>
+
+  <div id="redirectOverlay" class="redirect-overlay" hidden>
+    <div class="glass-card redirect-card">
+      <span class="mini-kicker">RizoLink</span>
+      <h1>Preparando ruta segura</h1>
+      <p id="redirectText">Estamos buscando el enlace en tu biblioteca local.</p>
+      <div class="actions">
+        <button class="btn ghost" id="cancelRedirect" type="button">Cancelar</button>
+        <button class="btn primary" id="confirmRedirect" type="button" hidden>Abrir destino</button>
+      </div>
+    </div>
+  </div>
+
+  <header class="app-header">
+    <div class="brand-block">
+      <div class="brand-mark">RL</div>
+      <div>
+        <p class="eyebrow">Rutas breves · QR · biblioteca</p>
+        <h1>RizoLink</h1>
+      </div>
+    </div>
+    <div class="header-actions">
+      <button class="icon-btn" id="themeToggle" type="button" title="Cambiar tema">🌙</button>
+      <button class="btn ghost" id="exportBtn" type="button">Exportar</button>
+      <label class="btn primary file-label" for="importFile">Importar</label>
+      <input id="importFile" type="file" accept="application/json" hidden />
+    </div>
+  </header>
+
+  <main class="shell">
+    <section class="hero glass-card">
+      <div class="hero-copy">
+        <div class="status-pill"><span class="pulse-dot"></span> Modo local funcional · backend listo para Cloudflare</div>
+        <h2>Convierte enlaces largos en rutas claras, memorables y escaneables.</h2>
+        <p>Acorta, personaliza, organiza y comparte mejor. Crea alias propios, genera QR descargables y conserva una biblioteca visual de tus enlaces importantes.</p>
+        <div class="hero-actions">
+          <button class="btn primary" data-tab-jump="create" type="button">Crear un RizoLink</button>
+          <button class="btn soft" data-tab-jump="library" type="button">Ver biblioteca</button>
+        </div>
+      </div>
+      <div class="hero-panel">
+        <div class="priority-card">
+          <span class="priority-ring"></span>
+          <p class="small-title">Enlace prioritario</p>
+          <h3 id="priorityTitle">Aún no hay destacados</h3>
+          <p id="priorityMeta">Marca un enlace como prioritario para verlo aquí.</p>
+        </div>
+        <div class="metrics-row">
+          <div><strong id="metricTotal">0</strong><span>Links</span></div>
+          <div><strong id="metricPriority">0</strong><span>Prioritarios</span></div>
+          <div><strong id="metricClicks">0</strong><span>Aperturas</span></div>
+        </div>
+      </div>
+    </section>
+
+    <nav class="tabs glass-card" aria-label="Navegación principal">
+      <button class="tab active" data-tab="create" type="button">➕ Crear</button>
+      <button class="tab" data-tab="library" type="button">🗂️ Biblioteca</button>
+      <button class="tab" data-tab="qr" type="button">▣ QR Studio</button>
+      <button class="tab" data-tab="settings" type="button">⚙️ Ajustes</button>
+    </nav>
+
+    <section id="tab-create" class="tab-panel active">
+      <div class="grid-two">
+        <form id="linkForm" class="glass-card form-card">
+          <div class="section-title">
+            <span>01</span>
+            <div>
+              <h2>Crear enlace</h2>
+              <p>Pega el enlace largo, nómbralo y crea una ruta breve con alias personalizado.</p>
+            </div>
+          </div>
+
+          <label class="field">
+            <span>Enlace largo</span>
+            <input id="longUrl" type="url" placeholder="https://..." required />
+          </label>
+
+          <div class="form-grid">
+            <label class="field">
+              <span>Título visible</span>
+              <input id="title" type="text" placeholder="Clase semana 3, ActivaCare, encuesta..." maxlength="72" required />
+            </label>
+            <label class="field">
+              <span>Alias personalizado</span>
+              <div class="alias-box">
+                <small>r/</small>
+                <input id="alias" type="text" placeholder="activa-care" maxlength="48" />
+              </div>
+            </label>
+          </div>
+
+          <div class="form-grid">
+            <label class="field">
+              <span>Categoría</span>
+              <select id="category">
+                <option>Apps</option>
+                <option>Clases</option>
+                <option>Documentos</option>
+                <option>Eventos</option>
+                <option>Formularios</option>
+                <option>Productos</option>
+                <option>Redes</option>
+                <option>Otros</option>
+              </select>
+            </label>
+            <label class="field">
+              <span>Nota interna</span>
+              <input id="note" type="text" placeholder="Uso, destinatario o contexto" maxlength="120" />
+            </label>
+          </div>
+
+          <div class="switch-row">
+            <label class="switch-card">
+              <input id="priority" type="checkbox" />
+              <span><b>Prioritario</b><small>Resalta este enlace en el panel principal.</small></span>
+            </label>
+            <label class="switch-card">
+              <input id="trust" type="checkbox" checked />
+              <span><b>Vista de confianza</b><small>Muestra destino antes de abrir.</small></span>
+            </label>
+          </div>
+
+          <div class="actions end">
+            <button class="btn ghost" id="resetForm" type="button">Limpiar</button>
+            <button class="btn primary" type="submit">Crear RizoLink</button>
+          </div>
+        </form>
+
+        <aside class="glass-card result-card">
+          <div class="section-title compact">
+            <span>02</span>
+            <div>
+              <h2>Resultado</h2>
+              <p>Tu link corto y QR aparecerán aquí.</p>
+            </div>
+          </div>
+          <div id="emptyResult" class="empty-state">
+            <div class="big-icon">🔗</div>
+            <h3>Listo para crear</h3>
+            <p>Cuando guardes un enlace, podrás copiarlo, abrirlo y descargar su QR.</p>
+          </div>
+          <div id="createdResult" class="created-result" hidden>
+            <div class="link-preview">
+              <small>RizoLink generado</small>
+              <strong id="createdShort">—</strong>
+              <span id="createdLong">—</span>
+            </div>
+            <div class="qr-box">
+              <div id="qrCreate"></div>
+            </div>
+            <div class="actions stack-mobile">
+              <button class="btn soft" id="copyCreated" type="button">Copiar link</button>
+              <button class="btn soft" id="downloadCreatedQr" type="button">Descargar QR</button>
+              <button class="btn ghost" id="openCreated" type="button">Abrir</button>
+            </div>
+          </div>
+        </aside>
+      </div>
+    </section>
+
+    <section id="tab-library" class="tab-panel">
+      <div class="glass-card library-card">
+        <div class="library-head">
+          <div class="section-title compact">
+            <span>03</span>
+            <div>
+              <h2>Biblioteca visual</h2>
+              <p>Gestiona tus rutas, edita destinos, copia alias y marca prioridades.</p>
+            </div>
+          </div>
+          <div class="filters">
+            <input id="searchLinks" type="search" placeholder="Buscar enlace..." />
+            <select id="filterCategory"><option value="all">Todas</option></select>
+          </div>
+        </div>
+        <div id="linksGrid" class="links-grid"></div>
+        <div id="libraryEmpty" class="empty-state slim">
+          <div class="big-icon">🗂️</div>
+          <h3>Aún no tienes enlaces guardados</h3>
+          <p>Crea el primero desde la pestaña Crear.</p>
+        </div>
+      </div>
+    </section>
+
+    <section id="tab-qr" class="tab-panel">
+      <div class="grid-two">
+        <div class="glass-card form-card">
+          <div class="section-title compact">
+            <span>04</span>
+            <div>
+              <h2>QR Studio</h2>
+              <p>Genera un QR limpio para cualquier enlace o para uno ya guardado.</p>
+            </div>
+          </div>
+          <label class="field">
+            <span>Contenido del QR</span>
+            <input id="qrInput" type="text" placeholder="Pega un link o selecciona uno de la biblioteca" />
+          </label>
+          <div class="form-grid">
+            <label class="field">
+              <span>Tamaño</span>
+              <select id="qrSize"><option value="180">Pequeño</option><option value="240" selected>Mediano</option><option value="320">Grande</option></select>
+            </label>
+            <label class="field">
+              <span>Título inferior</span>
+              <input id="qrTitle" type="text" placeholder="Opcional" />
+            </label>
+          </div>
+          <div class="actions end">
+            <button class="btn primary" id="makeQr" type="button">Generar QR</button>
+          </div>
+        </div>
+        <div class="glass-card result-card qr-studio-card">
+          <div class="qr-poster" id="qrPoster">
+            <div id="qrStudio"></div>
+            <p id="qrCaption">RizoLink</p>
+          </div>
+          <div class="actions center">
+            <button class="btn soft" id="downloadStudioQr" type="button">Descargar PNG</button>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section id="tab-settings" class="tab-panel">
+      <div class="grid-two">
+        <div class="glass-card form-card">
+          <div class="section-title compact">
+            <span>05</span>
+            <div>
+              <h2>Ajustes</h2>
+              <p>Esta versión funciona en modo local. También queda preparada para conectar un backend.</p>
+            </div>
+          </div>
+          <label class="field">
+            <span>Dominio base público</span>
+            <input id="baseDomain" type="url" placeholder="https://tudominio.com/" />
+          </label>
+          <label class="field">
+            <span>API backend opcional</span>
+            <input id="apiBase" type="url" placeholder="https://rizolink.tudominio.workers.dev" />
+          </label>
+          <div class="actions end">
+            <button class="btn primary" id="saveSettings" type="button">Guardar ajustes</button>
+          </div>
+        </div>
+        <div class="glass-card notes-card">
+          <h2>Nota técnica honesta</h2>
+          <p>En modo local, RizoLink guarda la biblioteca en este navegador. Para que los enlaces cortos funcionen públicamente para cualquier persona, se requiere desplegar el backend incluido en la carpeta <code>worker</code> usando Cloudflare Workers + KV o una base de datos.</p>
+          <p>La app ya deja lista la interfaz premium, la biblioteca, el QR, la edición y el modelo de datos para crecer sin rehacer el diseño.</p>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <nav class="bottom-nav" aria-label="Navegación inferior">
+    <button class="bottom-item active" data-tab="create" type="button"><span>➕</span><small>Crear</small></button>
+    <button class="bottom-item" data-tab="library" type="button"><span>🗂️</span><small>Links</small></button>
+    <button class="bottom-item" data-tab="qr" type="button"><span>▣</span><small>QR</small></button>
+    <button class="bottom-item" data-tab="settings" type="button"><span>⚙️</span><small>Ajustes</small></button>
+  </nav>
+
+  <div id="toast" class="toast" role="status" aria-live="polite"></div>
+
+  <dialog id="editDialog" class="modal">
+    <form method="dialog" id="editForm" class="modal-inner">
+      <div class="modal-head">
+        <h2>Editar RizoLink</h2>
+        <button class="icon-btn" value="cancel" type="submit">✕</button>
+      </div>
+      <input id="editId" type="hidden" />
+      <label class="field"><span>Título</span><input id="editTitle" type="text" required /></label>
+      <label class="field"><span>Destino</span><input id="editUrl" type="url" required /></label>
+      <div class="form-grid">
+        <label class="field"><span>Alias</span><input id="editAlias" type="text" required /></label>
+        <label class="field"><span>Categoría</span><input id="editCategory" type="text" /></label>
+      </div>
+      <label class="field"><span>Nota</span><input id="editNote" type="text" /></label>
+      <div class="switch-row">
+        <label class="switch-card"><input id="editPriority" type="checkbox" /><span><b>Prioritario</b><small>Destacar en panel</small></span></label>
+        <label class="switch-card"><input id="editTrust" type="checkbox" /><span><b>Vista de confianza</b><small>Mostrar destino antes de abrir</small></span></label>
+      </div>
+      <div class="actions end">
+        <button class="btn ghost" value="cancel" type="submit">Cancelar</button>
+        <button class="btn primary" id="saveEdit" value="default" type="button">Guardar cambios</button>
+      </div>
+    </form>
+  </dialog>
+
+  <script src="https://cdn.jsdelivr.net/npm/qrcodejs@1.0.0/qrcode.min.js"></script>
+  <script type="module" src="js/app.js"></script>
+</body>
+</html>

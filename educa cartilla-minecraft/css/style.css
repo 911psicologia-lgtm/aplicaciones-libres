@@ -1,0 +1,3260 @@
+/* ============================================================================
+ * CARTILLA AVENTURA MINECRAFT — Main Stylesheet
+ * ============================================================================
+ * Gamified evaluation cartilla for 8-year-old children
+ * Pixel-art Minecraft aesthetic · No external images · Pure CSS visuals
+ * ============================================================================
+ */
+
+/* ============================================================================
+ * 1. GOOGLE FONTS IMPORT
+ * ============================================================================ */
+@import url('https://fonts.googleapis.com/css2?family=Press+Start+2P&family=VT323&display=swap');
+
+/* ============================================================================
+ * 2. CSS CUSTOM PROPERTIES (Color Palette & Design Tokens)
+ * ============================================================================ */
+:root {
+  /* --- Core Minecraft Palette --- */
+  --mc-grass:       #5D8C2E;
+  --mc-grass-dark:  #4A7023;
+  --mc-grass-light: #7BA83E;
+  --mc-dirt:        #8B6914;
+  --mc-dirt-dark:   #6B5210;
+  --mc-dirt-light:  #A67D1A;
+  --mc-diamond:     #4AEDD9;
+  --mc-diamond-dark:#2BB5A6;
+  --mc-gold:        #FFD700;
+  --mc-gold-dark:   #CCAC00;
+  --mc-dark:        #1a1a2e;
+  --mc-dark-lighter:#2d2d44;
+  --mc-stone:       #8B8B8B;
+  --mc-stone-dark:  #6E6E6E;
+  --mc-stone-light: #A8A8A8;
+  --mc-bg-dark:     #2d2d2d;
+  --mc-bg-mid:      #3d3d3d;
+  --mc-hearts:      #FF0000;
+  --mc-hearts-dark: #CC0000;
+  --mc-xp-green:    #55FF55;
+  --mc-xp-dark:     #33AA33;
+  --mc-ender:       #C084FC;
+  --mc-ender-dark:  #9333EA;
+  --mc-lava:        #FF4500;
+  --mc-lava-dark:   #CC3700;
+  --mc-water:       #3F76E4;
+  --mc-water-dark:  #2A50A0;
+  --mc-nether:      #BF3030;
+  --mc-nether-dark: #8B2020;
+  --mc-obsidian:    #1D1D2E;
+  --mc-emerald:     #50C878;
+  --mc-iron:        #D4D4D4;
+
+  /* --- Semantic Aliases --- */
+  --color-primary:   var(--mc-grass);
+  --color-secondary: var(--mc-dirt);
+  --color-accent:    var(--mc-diamond);
+  --color-gold:      var(--mc-gold);
+  --color-danger:    var(--mc-hearts);
+  --color-success:   var(--mc-xp-green);
+  --color-purple:    var(--mc-ender);
+
+  /* --- Typography --- */
+  --font-title: 'Press Start 2P', monospace;
+  --font-body:  'VT323', monospace;
+
+  /* --- Sizing --- */
+  --panel-padding: 16px;
+  --slot-size: 48px;
+  --hotbar-height: 64px;
+
+  /* --- Transitions --- */
+  --transition-fast: 150ms ease;
+  --transition-med:  300ms ease;
+  --transition-slow: 500ms ease;
+
+  /* --- Z-index layers --- */
+  --z-panel:    10;
+  --z-hotbar:   100;
+  --z-toast:    200;
+  --z-overlay:  300;
+  --z-modal:    400;
+}
+
+/* ============================================================================
+ * 3. RESET & BASE STYLES
+ * ============================================================================ */
+*,
+*::before,
+*::after {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+html {
+  font-size: 16px;
+  scroll-behavior: smooth;
+  -webkit-text-size-adjust: 100%;
+}
+
+body {
+  font-family: var(--font-body);
+  font-size: 1.25rem;                /* 20px base for VT323 readability */
+  line-height: 1.5;
+  color: #E0E0E0;
+  background-color: var(--mc-bg-dark);
+  min-height: 100vh;
+  overflow-x: hidden;
+  /* Subtle stone-like noise background */
+  background-image:
+    repeating-linear-gradient(
+      0deg,
+      transparent,
+      transparent 2px,
+      rgba(255,255,255,0.015) 2px,
+      rgba(255,255,255,0.015) 4px
+    ),
+    repeating-linear-gradient(
+      90deg,
+      transparent,
+      transparent 2px,
+      rgba(255,255,255,0.01) 2px,
+      rgba(255,255,255,0.01) 4px
+    );
+  background-size: 4px 4px;
+}
+
+/* Remove tap highlight on mobile */
+* {
+  -webkit-tap-highlight-color: transparent;
+}
+
+img {
+  max-width: 100%;
+  height: auto;
+  display: block;
+  image-rendering: pixelated;   /* Minecraft pixel look */
+}
+
+a {
+  color: var(--mc-diamond);
+  text-decoration: none;
+}
+
+a:hover {
+  text-decoration: underline;
+}
+
+/* Pixel-perfect text rendering */
+h1, h2, h3, h4, h5, h6 {
+  font-family: var(--font-title);
+  color: #FFFFFF;
+  text-shadow:
+    2px 2px 0px #3F3F3F,
+    -1px -1px 0px #3F3F3F;
+  line-height: 1.4;
+}
+
+/* Scrollbar styling */
+::-webkit-scrollbar {
+  width: 12px;
+}
+::-webkit-scrollbar-track {
+  background: var(--mc-bg-dark);
+}
+::-webkit-scrollbar-thumb {
+  background: var(--mc-stone-dark);
+  border: 2px solid var(--mc-bg-dark);
+}
+::-webkit-scrollbar-thumb:hover {
+  background: var(--mc-stone);
+}
+
+/* ============================================================================
+ * 4. APP CONTAINER & SCREEN MANAGEMENT
+ * ============================================================================ */
+#app {
+  max-width: 900px;
+  margin: 0 auto;
+  padding: 16px;
+  min-height: 100vh;
+  position: relative;
+}
+
+/* --- Screen containers --- */
+[data-screen] {
+  display: none;
+  opacity: 0;
+  transform: translateY(10px);
+  transition: opacity var(--transition-med), transform var(--transition-med);
+  padding-bottom: calc(var(--hotbar-height) + 24px);
+}
+
+[data-screen].active {
+  display: block;
+  opacity: 1;
+  transform: translateY(0);
+}
+
+/* Screen entrance animation via class */
+[data-screen].screen-enter {
+  animation: screenFadeIn 0.4s ease forwards;
+}
+
+[data-screen].screen-exit {
+  animation: screenFadeOut 0.3s ease forwards;
+}
+
+/* ============================================================================
+ * 5. KEYFRAME ANIMATIONS
+ * ============================================================================ */
+
+/* Floating blocks on welcome screen */
+@keyframes float {
+  0%, 100% { transform: translateY(0px) rotate(0deg); }
+  25%      { transform: translateY(-12px) rotate(2deg); }
+  50%      { transform: translateY(-20px) rotate(0deg); }
+  75%      { transform: translateY(-8px) rotate(-2deg); }
+}
+
+/* Pulse effect for interactive elements */
+@keyframes pulse {
+  0%, 100% { transform: scale(1); }
+  50%      { transform: scale(1.05); }
+}
+
+/* Achievement toast slide in from right */
+@keyframes slideInRight {
+  0%   { transform: translateX(120%); opacity: 0; }
+  60%  { transform: translateX(-8px); opacity: 1; }
+  80%  { transform: translateX(4px); opacity: 1; }
+  100% { transform: translateX(0); opacity: 1; }
+}
+
+/* Slide out to right */
+@keyframes slideOutRight {
+  0%   { transform: translateX(0); opacity: 1; }
+  100% { transform: translateX(120%); opacity: 0; }
+}
+
+/* Wrong answer shake */
+@keyframes shake {
+  0%, 100% { transform: translateX(0); }
+  10%, 50%, 90% { transform: translateX(-6px); }
+  30%, 70% { transform: translateX(6px); }
+}
+
+/* Correct answer sparkle */
+@keyframes sparkle {
+  0%   { box-shadow: 0 0 0 0 rgba(85, 255, 85, 0.7); }
+  50%  { box-shadow: 0 0 20px 10px rgba(85, 255, 85, 0.3); }
+  100% { box-shadow: 0 0 0 0 rgba(85, 255, 85, 0); }
+}
+
+/* Mining / progress animation */
+@keyframes mining {
+  0%   { background-position: 0 0; }
+  100% { background-position: 48px 0; }
+}
+
+/* Heart beat pulse */
+@keyframes heartBeat {
+  0%, 100% { transform: scale(1); }
+  15%      { transform: scale(1.3); }
+  30%      { transform: scale(1); }
+  45%      { transform: scale(1.15); }
+  60%      { transform: scale(1); }
+}
+
+/* Block breaking crack effect */
+@keyframes blockBreak {
+  0%   { opacity: 1; }
+  20%  { opacity: 0.8; transform: scale(1.02); }
+  40%  { opacity: 0.6; transform: scale(0.98); }
+  60%  { opacity: 0.4; transform: scale(1.01); }
+  80%  { opacity: 0.2; transform: scale(0.99); }
+  100% { opacity: 0; transform: scale(0.9); }
+}
+
+/* Screen fade in/out */
+@keyframes screenFadeIn {
+  0%   { opacity: 0; transform: translateY(12px); }
+  100% { opacity: 1; transform: translateY(0); }
+}
+
+@keyframes screenFadeOut {
+  0%   { opacity: 1; transform: translateY(0); }
+  100% { opacity: 0; transform: translateY(-12px); }
+}
+
+/* Glow pulse for diamonds & special items */
+@keyframes glowPulse {
+  0%, 100% { filter: brightness(1) drop-shadow(0 0 4px rgba(74, 237, 217, 0.4)); }
+  50%      { filter: brightness(1.2) drop-shadow(0 0 12px rgba(74, 237, 217, 0.8)); }
+}
+
+/* XP bar shimmer */
+@keyframes xpShimmer {
+  0%   { background-position: -200% 0; }
+  100% { background-position: 200% 0; }
+}
+
+/* Spin for loading */
+@keyframes spin {
+  0%   { transform: rotate(0deg); }
+  100% { transform: rotate(360deg); }
+}
+
+/* Bobbing effect for characters */
+@keyframes bob {
+  0%, 100% { transform: translateY(0); }
+  50%      { transform: translateY(-6px); }
+}
+
+/* Title text glow for welcome */
+@keyframes titleGlow {
+  0%, 100% {
+    text-shadow:
+      2px 2px 0px #3F3F3F,
+      0 0 10px rgba(255, 215, 0, 0.3);
+  }
+  50% {
+    text-shadow:
+      2px 2px 0px #3F3F3F,
+      0 0 20px rgba(255, 215, 0, 0.6),
+      0 0 40px rgba(255, 215, 0, 0.3);
+  }
+}
+
+/* Particle rise for rewards */
+@keyframes particleRise {
+  0%   { transform: translateY(0) scale(1); opacity: 1; }
+  100% { transform: translateY(-60px) scale(0.3); opacity: 0; }
+}
+
+/* Crown float */
+@keyframes crownFloat {
+  0%, 100% { transform: translateY(0) rotate(-3deg); }
+  50%      { transform: translateY(-8px) rotate(3deg); }
+}
+
+/* ============================================================================
+ * 6. MINECRAFT BUTTON STYLES (.mc-btn)
+ * ============================================================================ */
+.mc-btn {
+  font-family: var(--font-title);
+  font-size: 0.7rem;                /* ~11px – readable but pixel-sized */
+  padding: 12px 24px;
+  border: 3px solid #000;
+  border-bottom-width: 5px;         /* 3D block effect bottom */
+  cursor: pointer;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  color: #FFFFFF;
+  background: var(--mc-stone);
+  text-shadow: 1px 1px 0 #000;
+  box-shadow:
+    inset -3px -3px 0 rgba(0,0,0,0.3),
+    inset 3px 3px 0 rgba(255,255,255,0.15);
+  transition: all var(--transition-fast);
+  min-width: 48px;
+  min-height: 48px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  user-select: none;
+  position: relative;
+  overflow: hidden;
+  /* No border-radius – Minecraft blocky style */
+  border-radius: 0;
+}
+
+/* Hover: lift up (reduce bottom border) */
+.mc-btn:hover {
+  border-bottom-width: 3px;
+  transform: translateY(-2px);
+  box-shadow:
+    inset -3px -3px 0 rgba(0,0,0,0.3),
+    inset 3px 3px 0 rgba(255,255,255,0.15),
+    0 4px 12px rgba(0,0,0,0.3);
+  filter: brightness(1.1);
+}
+
+/* Active: press down */
+.mc-btn:active {
+  border-bottom-width: 1px;
+  transform: translateY(3px);
+  box-shadow:
+    inset 3px 3px 0 rgba(0,0,0,0.3);
+  filter: brightness(0.9);
+}
+
+/* Focus ring for accessibility */
+.mc-btn:focus-visible {
+  outline: 3px solid var(--mc-diamond);
+  outline-offset: 2px;
+}
+
+/* Disabled state */
+.mc-btn:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+  transform: none;
+  filter: grayscale(0.5);
+}
+.mc-btn:disabled:hover {
+  border-bottom-width: 5px;
+  transform: none;
+  box-shadow:
+    inset -3px -3px 0 rgba(0,0,0,0.3),
+    inset 3px 3px 0 rgba(255,255,255,0.15);
+  filter: grayscale(0.5);
+}
+
+/* --- Button Variants --- */
+
+/* Primary: Grass green */
+.mc-btn-primary {
+  background: var(--mc-grass);
+  border-color: #000;
+  border-bottom-color: var(--mc-grass-dark);
+}
+.mc-btn-primary:hover {
+  background: var(--mc-grass-light);
+}
+
+/* Secondary: Dirt brown */
+.mc-btn-secondary {
+  background: var(--mc-dirt);
+  border-color: #000;
+  border-bottom-color: var(--mc-dirt-dark);
+}
+.mc-btn-secondary:hover {
+  background: var(--mc-dirt-light);
+}
+
+/* Success: XP green */
+.mc-btn-success {
+  background: var(--mc-xp-green);
+  color: #000;
+  text-shadow: 1px 1px 0 rgba(255,255,255,0.3);
+  border-bottom-color: var(--mc-xp-dark);
+}
+.mc-btn-success:hover {
+  background: #77FF77;
+}
+
+/* Danger: Hearts red */
+.mc-btn-danger {
+  background: var(--mc-hearts);
+  border-bottom-color: var(--mc-hearts-dark);
+}
+.mc-btn-danger:hover {
+  background: #FF3333;
+}
+
+/* Accent: Diamond blue */
+.mc-btn-accent {
+  background: var(--mc-diamond);
+  color: #000;
+  text-shadow: 1px 1px 0 rgba(255,255,255,0.3);
+  border-bottom-color: var(--mc-diamond-dark);
+}
+.mc-btn-accent:hover {
+  background: #7AF5E5;
+}
+
+/* Gold variant */
+.mc-btn-gold {
+  background: var(--mc-gold);
+  color: #000;
+  text-shadow: 1px 1px 0 rgba(255,255,255,0.3);
+  border-bottom-color: var(--mc-gold-dark);
+}
+.mc-btn-gold:hover {
+  background: #FFE033;
+}
+
+/* Large button */
+.mc-btn-lg {
+  font-size: 0.85rem;
+  padding: 16px 32px;
+  min-height: 56px;
+}
+
+/* Small button */
+.mc-btn-sm {
+  font-size: 0.55rem;
+  padding: 8px 14px;
+  min-height: 36px;
+}
+
+/* Full-width button */
+.mc-btn-block {
+  display: flex;
+  width: 100%;
+}
+
+/* Pulse animation on important buttons */
+.mc-btn-pulse {
+  animation: pulse 2s ease-in-out infinite;
+}
+
+/* ============================================================================
+ * 7. PANEL STYLES (.mc-panel)
+ * ============================================================================ */
+.mc-panel {
+  background: var(--mc-stone);
+  border: 3px solid #000;
+  box-shadow:
+    inset 3px 3px 0 rgba(255,255,255,0.15),
+    inset -3px -3px 0 rgba(0,0,0,0.3),
+    4px 4px 0 rgba(0,0,0,0.3);
+  padding: var(--panel-padding);
+  /* Stone texture via CSS gradient */
+  background-image:
+    repeating-linear-gradient(
+      0deg,
+      transparent,
+      transparent 3px,
+      rgba(0,0,0,0.06) 3px,
+      rgba(0,0,0,0.06) 4px
+    ),
+    repeating-linear-gradient(
+      90deg,
+      transparent,
+      transparent 3px,
+      rgba(0,0,0,0.04) 3px,
+      rgba(0,0,0,0.04) 4px
+    );
+  background-color: var(--mc-stone);
+  position: relative;
+}
+
+/* Dark panel variant (for overlays/modals) */
+.mc-panel-dark {
+  background-color: var(--mc-dark);
+  border-color: #444;
+  background-image:
+    repeating-linear-gradient(
+      0deg,
+      transparent,
+      transparent 3px,
+      rgba(255,255,255,0.02) 3px,
+      rgba(255,255,255,0.02) 4px
+    ),
+    repeating-linear-gradient(
+      90deg,
+      transparent,
+      transparent 3px,
+      rgba(255,255,255,0.015) 3px,
+      rgba(255,255,255,0.015) 4px
+    );
+}
+
+/* Dirt panel variant */
+.mc-panel-dirt {
+  background-color: var(--mc-dirt);
+  background-image:
+    repeating-linear-gradient(
+      0deg,
+      transparent,
+      transparent 2px,
+      rgba(0,0,0,0.1) 2px,
+      rgba(0,0,0,0.1) 3px
+    ),
+    repeating-linear-gradient(
+      90deg,
+      transparent,
+      transparent 4px,
+      rgba(0,0,0,0.07) 4px,
+      rgba(0,0,0,0.07) 5px
+    );
+}
+
+/* Grass panel variant */
+.mc-panel-grass {
+  background-color: var(--mc-grass);
+  background-image:
+    repeating-linear-gradient(
+      0deg,
+      transparent,
+      transparent 2px,
+      rgba(0,0,0,0.08) 2px,
+      rgba(0,0,0,0.08) 3px
+    ),
+    repeating-linear-gradient(
+      90deg,
+      transparent,
+      transparent 2px,
+      rgba(0,0,0,0.05) 2px,
+      rgba(0,0,0,0.05) 3px
+    );
+}
+
+/* Nether panel variant */
+.mc-panel-nether {
+  background-color: var(--mc-nether);
+  background-image:
+    repeating-linear-gradient(
+      0deg,
+      transparent,
+      transparent 3px,
+      rgba(0,0,0,0.12) 3px,
+      rgba(0,0,0,0.12) 4px
+    );
+}
+
+/* Obsidian panel variant (The End) */
+.mc-panel-obsidian {
+  background-color: var(--mc-obsidian);
+  border-color: var(--mc-ender);
+  box-shadow:
+    inset 3px 3px 0 rgba(192, 132, 252, 0.15),
+    inset -3px -3px 0 rgba(0,0,0,0.5),
+    0 0 20px rgba(192, 132, 252, 0.15);
+  background-image:
+    repeating-linear-gradient(
+      0deg,
+      transparent,
+      transparent 4px,
+      rgba(192, 132, 252, 0.04) 4px,
+      rgba(192, 132, 252, 0.04) 5px
+    );
+}
+
+/* Panel title */
+.mc-panel-title {
+  font-family: var(--font-title);
+  font-size: 0.75rem;
+  color: var(--mc-gold);
+  margin-bottom: 12px;
+  padding-bottom: 8px;
+  border-bottom: 2px solid rgba(0,0,0,0.3);
+  text-shadow: 1px 1px 0 #000;
+}
+
+/* ============================================================================
+ * 8. INVENTORY SLOT (.mc-inventory-slot)
+ * ============================================================================ */
+.mc-inventory-slot {
+  width: var(--slot-size);
+  height: var(--slot-size);
+  border: 2px solid #000;
+  background: #555555;
+  box-shadow:
+    inset 2px 2px 0 rgba(0,0,0,0.4),
+    inset -2px -2px 0 rgba(255,255,255,0.1);
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  position: relative;
+  image-rendering: pixelated;
+  transition: all var(--transition-fast);
+  cursor: default;
+}
+
+.mc-inventory-slot:hover {
+  background: #6A6A6A;
+  box-shadow:
+    inset 2px 2px 0 rgba(0,0,0,0.4),
+    inset -2px -2px 0 rgba(255,255,255,0.2);
+}
+
+/* Slot with item inside (lighter background) */
+.mc-inventory-slot.has-item {
+  background: #4A4A4A;
+}
+
+/* Slot number badge */
+.mc-inventory-slot .slot-count {
+  position: absolute;
+  bottom: 1px;
+  right: 2px;
+  font-family: var(--font-title);
+  font-size: 0.45rem;
+  color: #FFFFFF;
+  text-shadow: 1px 1px 0 #000, -1px -1px 0 #000, 1px -1px 0 #000, -1px 1px 0 #000;
+}
+
+/* Selected slot (highlighted) */
+.mc-inventory-slot.selected {
+  border-color: #FFFFFF;
+  box-shadow:
+    inset 2px 2px 0 rgba(0,0,0,0.4),
+    inset -2px -2px 0 rgba(255,255,255,0.1),
+    0 0 8px rgba(255,255,255,0.4);
+}
+
+/* ============================================================================
+ * 9. HOTBAR NAVIGATION
+ * ============================================================================ */
+.mc-hotbar {
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  height: var(--hotbar-height);
+  background: var(--mc-stone);
+  border-top: 3px solid #000;
+  box-shadow:
+    0 -4px 12px rgba(0,0,0,0.5),
+    inset 0 3px 0 rgba(255,255,255,0.1);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 4px;
+  padding: 0 12px;
+  z-index: var(--z-hotbar);
+  /* Stone texture */
+  background-image:
+    repeating-linear-gradient(
+      0deg,
+      transparent,
+      transparent 3px,
+      rgba(0,0,0,0.06) 3px,
+      rgba(0,0,0,0.06) 4px
+    );
+  background-color: var(--mc-stone);
+}
+
+.mc-hotbar-slot {
+  width: 48px;
+  height: 48px;
+  border: 2px solid #1a1a1a;
+  background: #555555;
+  box-shadow:
+    inset 2px 2px 0 rgba(0,0,0,0.4),
+    inset -2px -2px 0 rgba(255,255,255,0.1);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  transition: all var(--transition-fast);
+  text-decoration: none;
+  position: relative;
+}
+
+.mc-hotbar-slot:hover {
+  background: #6A6A6A;
+}
+
+.mc-hotbar-slot.active {
+  border-color: #FFFFFF;
+  box-shadow:
+    inset 2px 2px 0 rgba(0,0,0,0.4),
+    inset -2px -2px 0 rgba(255,255,255,0.1),
+    0 0 8px rgba(255,255,255,0.3);
+}
+
+.mc-hotbar-slot .hotbar-icon {
+  font-size: 1.3rem;
+  line-height: 1;
+}
+
+.mc-hotbar-slot .hotbar-label {
+  font-family: var(--font-title);
+  font-size: 0.35rem;
+  color: #CCCCCC;
+  margin-top: 2px;
+  text-shadow: 1px 1px 0 #000;
+  text-align: center;
+  line-height: 1.1;
+}
+
+/* ============================================================================
+ * 10. HEARTS DISPLAY (.mc-heart)
+ * ============================================================================ */
+.mc-hearts-container {
+  display: flex;
+  gap: 3px;
+  align-items: center;
+  flex-wrap: wrap;
+}
+
+.mc-heart {
+  width: 18px;
+  height: 18px;
+  position: relative;
+  display: inline-block;
+}
+
+/* Full heart (using CSS shapes) */
+.mc-heart.full::before,
+.mc-heart.full::after {
+  content: '';
+  position: absolute;
+  width: 9px;
+  height: 15px;
+  background: var(--mc-hearts);
+  border: 1px solid #990000;
+}
+.mc-heart.full::before {
+  left: 1px;
+  top: 0;
+  border-radius: 9px 9px 0 0;
+  transform: rotate(-45deg);
+  transform-origin: bottom right;
+}
+.mc-heart.full::after {
+  left: 7px;
+  top: 0;
+  border-radius: 9px 9px 0 0;
+  transform: rotate(45deg);
+  transform-origin: bottom left;
+}
+
+/* Half heart */
+.mc-heart.half::before {
+  content: '';
+  position: absolute;
+  width: 9px;
+  height: 15px;
+  background: var(--mc-hearts);
+  border: 1px solid #990000;
+  left: 1px;
+  top: 0;
+  border-radius: 9px 9px 0 0;
+  transform: rotate(-45deg);
+  transform-origin: bottom right;
+}
+.mc-heart.half::after {
+  content: '';
+  position: absolute;
+  width: 9px;
+  height: 15px;
+  background: #444444;
+  border: 1px solid #333333;
+  left: 7px;
+  top: 0;
+  border-radius: 9px 9px 0 0;
+  transform: rotate(45deg);
+  transform-origin: bottom left;
+}
+
+/* Empty heart */
+.mc-heart.empty::before,
+.mc-heart.empty::after {
+  content: '';
+  position: absolute;
+  width: 9px;
+  height: 15px;
+  background: #444444;
+  border: 1px solid #333333;
+}
+.mc-heart.empty::before {
+  left: 1px;
+  top: 0;
+  border-radius: 9px 9px 0 0;
+  transform: rotate(-45deg);
+  transform-origin: bottom right;
+}
+.mc-heart.empty::after {
+  left: 7px;
+  top: 0;
+  border-radius: 9px 9px 0 0;
+  transform: rotate(45deg);
+  transform-origin: bottom left;
+}
+
+/* Heart beat animation */
+.mc-heart.beating {
+  animation: heartBeat 0.6s ease-in-out;
+}
+
+/* Larger hearts for UI display */
+.mc-heart-lg {
+  width: 28px;
+  height: 28px;
+}
+.mc-heart-lg.full::before,
+.mc-heart-lg.full::after {
+  width: 14px;
+  height: 24px;
+}
+.mc-heart-lg.full::after {
+  left: 11px;
+}
+.mc-heart-lg.half::before,
+.mc-heart-lg.half::after {
+  width: 14px;
+  height: 24px;
+}
+.mc-heart-lg.half::after {
+  left: 11px;
+}
+.mc-heart-lg.empty::before,
+.mc-heart-lg.empty::after {
+  width: 14px;
+  height: 24px;
+}
+.mc-heart-lg.empty::after {
+  left: 11px;
+}
+
+/* ============================================================================
+ * 11. XP BAR (.mc-xp-bar)
+ * ============================================================================ */
+.mc-xp-bar-container {
+  width: 100%;
+  height: 20px;
+  background: #222222;
+  border: 2px solid #000;
+  box-shadow:
+    inset 2px 2px 0 rgba(0,0,0,0.5),
+    0 2px 4px rgba(0,0,0,0.3);
+  position: relative;
+  overflow: hidden;
+}
+
+.mc-xp-bar {
+  height: 100%;
+  background: var(--mc-xp-green);
+  transition: width var(--transition-slow);
+  position: relative;
+  /* Shimmer animation */
+  background-image: linear-gradient(
+    90deg,
+    var(--mc-xp-green) 0%,
+    #88FF88 50%,
+    var(--mc-xp-green) 100%
+  );
+  background-size: 200% 100%;
+  animation: xpShimmer 2s linear infinite;
+}
+
+/* XP level display above bar */
+.mc-xp-level {
+  font-family: var(--font-title);
+  font-size: 0.65rem;
+  color: var(--mc-xp-green);
+  text-shadow: 1px 1px 0 #000;
+}
+
+.mc-xp-text {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  font-family: var(--font-title);
+  font-size: 0.5rem;
+  color: #FFFFFF;
+  text-shadow: 1px 1px 0 #000, -1px -1px 0 #000;
+  z-index: 2;
+  white-space: nowrap;
+}
+
+/* ============================================================================
+ * 12. TOAST / ACHIEVEMENT NOTIFICATION (.mc-toast)
+ * ============================================================================ */
+.mc-toast-container {
+  position: fixed;
+  top: 16px;
+  right: 16px;
+  z-index: var(--z-toast);
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  pointer-events: none;
+}
+
+.mc-toast {
+  background: var(--mc-dark);
+  border: 2px solid #000;
+  border-left: 4px solid var(--mc-gold);
+  box-shadow: 4px 4px 0 rgba(0,0,0,0.4);
+  padding: 12px 16px;
+  min-width: 260px;
+  max-width: 360px;
+  animation: slideInRight 0.5s ease forwards;
+  pointer-events: auto;
+  position: relative;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.mc-toast.toast-exit {
+  animation: slideOutRight 0.4s ease forwards;
+}
+
+.mc-toast-icon {
+  font-size: 1.5rem;
+  flex-shrink: 0;
+}
+
+.mc-toast-content {
+  flex: 1;
+}
+
+.mc-toast-title {
+  font-family: var(--font-title);
+  font-size: 0.5rem;
+  color: var(--mc-gold);
+  text-shadow: 1px 1px 0 #000;
+  margin-bottom: 2px;
+}
+
+.mc-toast-message {
+  font-family: var(--font-body);
+  font-size: 1rem;
+  color: #DDDDDD;
+}
+
+/* Toast variants */
+.mc-toast.toast-success {
+  border-left-color: var(--mc-xp-green);
+}
+.mc-toast.toast-success .mc-toast-title {
+  color: var(--mc-xp-green);
+}
+
+.mc-toast.toast-danger {
+  border-left-color: var(--mc-hearts);
+}
+.mc-toast.toast-danger .mc-toast-title {
+  color: var(--mc-hearts);
+}
+
+.mc-toast.toast-achievement {
+  border-left-color: var(--mc-gold);
+  background: linear-gradient(135deg, var(--mc-dark) 0%, #2d2d1a 100%);
+}
+
+/* ============================================================================
+ * 13. CHEST STYLES (.mc-chest)
+ * ============================================================================ */
+.mc-chest {
+  width: 80px;
+  height: 64px;
+  position: relative;
+  cursor: pointer;
+  transition: transform var(--transition-fast);
+}
+
+.mc-chest:hover {
+  transform: scale(1.08);
+}
+
+/* Chest body */
+.mc-chest::before {
+  content: '';
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  height: 44px;
+  background: var(--mc-dirt);
+  border: 2px solid #000;
+  box-shadow:
+    inset 2px 2px 0 rgba(255,255,255,0.15),
+    inset -2px -2px 0 rgba(0,0,0,0.3);
+}
+
+/* Chest lid */
+.mc-chest::after {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 28px;
+  background: var(--mc-dirt-light);
+  border: 2px solid #000;
+  border-bottom: none;
+  box-shadow:
+    inset 2px 2px 0 rgba(255,255,255,0.15);
+  transition: transform 0.3s ease;
+  transform-origin: top;
+}
+
+/* Chest lock (center) */
+.mc-chest .chest-lock {
+  position: absolute;
+  top: 22px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 12px;
+  height: 10px;
+  background: var(--mc-gold);
+  border: 1px solid #000;
+  z-index: 2;
+}
+
+/* Open chest */
+.mc-chest.open::after {
+  transform: rotateX(-110deg);
+}
+
+/* Locked chest (gray overlay) */
+.mc-chest.locked {
+  opacity: 0.6;
+  cursor: not-allowed;
+}
+.mc-chest.locked::before {
+  background: #666;
+}
+.mc-chest.locked::after {
+  background: #777;
+}
+.mc-chest.locked .chest-lock {
+  background: #888;
+}
+
+/* ============================================================================
+ * 14. PORTAL STYLES (.mc-portal)
+ * ============================================================================ */
+.mc-portal {
+  width: 80px;
+  height: 120px;
+  position: relative;
+  overflow: hidden;
+  border: 3px solid #000;
+  box-shadow:
+    0 0 20px rgba(192, 132, 252, 0.4),
+    inset 0 0 20px rgba(192, 132, 252, 0.2);
+}
+
+/* Nether portal (orange/red) */
+.mc-portal.nether {
+  background: linear-gradient(
+    180deg,
+    transparent 0%,
+    var(--mc-lava) 20%,
+    var(--mc-lava-dark) 40%,
+    var(--mc-lava) 60%,
+    var(--mc-lava-dark) 80%,
+    transparent 100%
+  );
+  box-shadow:
+    0 0 20px rgba(255, 69, 0, 0.4),
+    inset 0 0 20px rgba(255, 69, 0, 0.2);
+}
+
+/* End portal (purple) */
+.mc-portal.end {
+  background: linear-gradient(
+    180deg,
+    transparent 0%,
+    var(--mc-ender) 20%,
+    var(--mc-ender-dark) 40%,
+    var(--mc-ender) 60%,
+    var(--mc-ender-dark) 80%,
+    transparent 100%
+  );
+  animation: glowPulse 3s ease-in-out infinite;
+}
+
+/* Portal frame blocks (obsidian-like) */
+.mc-portal::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  border: 4px solid #1a1a2e;
+  box-shadow: inset 0 0 4px rgba(0,0,0,0.5);
+  z-index: 1;
+}
+
+/* Swirling particles effect */
+.mc-portal::after {
+  content: '';
+  position: absolute;
+  inset: 6px;
+  background: repeating-conic-gradient(
+    rgba(255,255,255,0.1) 0deg,
+    transparent 10deg,
+    transparent 30deg
+  );
+  animation: spin 8s linear infinite;
+  z-index: 2;
+}
+
+/* ============================================================================
+ * 15. CHARACTER CARD (.mc-character-card)
+ * ============================================================================ */
+.mc-character-card {
+  background: #555555;
+  border: 3px solid #000;
+  box-shadow:
+    inset 2px 2px 0 rgba(255,255,255,0.1),
+    inset -2px -2px 0 rgba(0,0,0,0.3),
+    3px 3px 0 rgba(0,0,0,0.3);
+  padding: 12px;
+  text-align: center;
+  cursor: pointer;
+  transition: all var(--transition-fast);
+  position: relative;
+  min-height: 140px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+}
+
+.mc-character-card:hover {
+  transform: translateY(-4px);
+  box-shadow:
+    inset 2px 2px 0 rgba(255,255,255,0.1),
+    inset -2px -2px 0 rgba(0,0,0,0.3),
+    3px 7px 0 rgba(0,0,0,0.3);
+  background: #666666;
+}
+
+.mc-character-card.selected {
+  border-color: var(--mc-diamond);
+  box-shadow:
+    inset 2px 2px 0 rgba(255,255,255,0.1),
+    inset -2px -2px 0 rgba(0,0,0,0.3),
+    0 0 12px rgba(74, 237, 217, 0.4);
+}
+
+/* Character "sprite" area */
+.mc-character-card .character-sprite {
+  width: 64px;
+  height: 80px;
+  margin: 0 auto;
+  position: relative;
+  image-rendering: pixelated;
+}
+
+.mc-character-card .character-name {
+  font-family: var(--font-title);
+  font-size: 0.5rem;
+  color: #FFFFFF;
+  text-shadow: 1px 1px 0 #000;
+}
+
+/* Selected checkmark overlay */
+.mc-character-card.selected::after {
+  content: '✓';
+  position: absolute;
+  top: 4px;
+  right: 6px;
+  font-family: var(--font-title);
+  font-size: 0.7rem;
+  color: var(--mc-xp-green);
+  text-shadow: 1px 1px 0 #000;
+}
+
+/* ============================================================================
+ * 16. BIOME CARD (.mc-biome-card)
+ * ============================================================================ */
+.mc-biome-card {
+  border: 3px solid #000;
+  box-shadow:
+    inset 2px 2px 0 rgba(255,255,255,0.1),
+    inset -2px -2px 0 rgba(0,0,0,0.3),
+    4px 4px 0 rgba(0,0,0,0.3);
+  padding: 0;
+  cursor: pointer;
+  transition: all var(--transition-fast);
+  position: relative;
+  overflow: hidden;
+  min-height: 120px;
+}
+
+.mc-biome-card:hover {
+  transform: translateY(-3px) scale(1.02);
+  box-shadow:
+    inset 2px 2px 0 rgba(255,255,255,0.1),
+    inset -2px -2px 0 rgba(0,0,0,0.3),
+    4px 8px 0 rgba(0,0,0,0.3);
+}
+
+.mc-biome-card:active {
+  transform: translateY(1px);
+  box-shadow:
+    inset 2px 2px 0 rgba(0,0,0,0.3),
+    inset -2px -2px 0 rgba(255,255,255,0.1);
+}
+
+/* Biome-specific backgrounds */
+.mc-biome-card.biome-plains {
+  background: linear-gradient(180deg, #87CEEB 0%, #87CEEB 40%, var(--mc-grass) 40%, var(--mc-grass-dark) 100%);
+}
+.mc-biome-card.biome-nether {
+  background: linear-gradient(180deg, #3a0a0a 0%, #5a1a0a 40%, var(--mc-nether) 40%, var(--mc-nether-dark) 100%);
+  box-shadow:
+    inset 2px 2px 0 rgba(255,255,255,0.05),
+    inset -2px -2px 0 rgba(0,0,0,0.3),
+    4px 4px 0 rgba(0,0,0,0.3),
+    0 0 10px rgba(191, 48, 48, 0.2);
+}
+.mc-biome-card.biome-end {
+  background: linear-gradient(180deg, #0a0a1a 0%, #1a0a2e 40%, #2d1a4e 40%, #1a0a2e 100%);
+  box-shadow:
+    inset 2px 2px 0 rgba(192,132,252,0.1),
+    inset -2px -2px 0 rgba(0,0,0,0.5),
+    4px 4px 0 rgba(0,0,0,0.3),
+    0 0 10px rgba(192,132,252,0.2);
+}
+.mc-biome-card.biome-ocean {
+  background: linear-gradient(180deg, #87CEEB 0%, #5BA3D9 40%, var(--mc-water) 40%, var(--mc-water-dark) 100%);
+}
+.mc-biome-card.biome-desert {
+  background: linear-gradient(180deg, #87CEEB 0%, #87CEEB 30%, #D4A76A 30%, #B8894A 100%);
+}
+.mc-biome-card.biome-forest {
+  background: linear-gradient(180deg, #4a7a4a 0%, #3a6a3a 40%, #2d5a2d 40%, #1a4a1a 100%);
+}
+
+/* Biome card content */
+.mc-biome-card .biome-header {
+  padding: 12px 12px 8px;
+  position: relative;
+  z-index: 2;
+}
+
+.mc-biome-card .biome-icon {
+  font-size: 2rem;
+  margin-bottom: 4px;
+}
+
+.mc-biome-card .biome-name {
+  font-family: var(--font-title);
+  font-size: 0.6rem;
+  color: #FFFFFF;
+  text-shadow: 2px 2px 0 #000;
+}
+
+.mc-biome-card .biome-progress {
+  padding: 8px 12px 12px;
+  background: rgba(0,0,0,0.4);
+  position: relative;
+  z-index: 2;
+}
+
+/* Completed biome badge */
+.mc-biome-card.completed::before {
+  content: '✓';
+  position: absolute;
+  top: 6px;
+  right: 8px;
+  font-family: var(--font-title);
+  font-size: 0.7rem;
+  color: var(--mc-xp-green);
+  text-shadow: 1px 1px 0 #000, 2px 2px 0 #000;
+  z-index: 5;
+}
+
+/* Locked biome */
+.mc-biome-card.locked {
+  opacity: 0.5;
+  cursor: not-allowed;
+  filter: grayscale(0.7);
+}
+.mc-biome-card.locked:hover {
+  transform: none;
+}
+
+/* ============================================================================
+ * 17. QUESTION CARD (.mc-question-card)
+ * ============================================================================ */
+.mc-question-card {
+  background: var(--mc-stone);
+  border: 3px solid #000;
+  box-shadow:
+    inset 3px 3px 0 rgba(255,255,255,0.15),
+    inset -3px -3px 0 rgba(0,0,0,0.3),
+    4px 4px 0 rgba(0,0,0,0.3);
+  padding: 20px;
+  /* Stone texture */
+  background-image:
+    repeating-linear-gradient(
+      0deg,
+      transparent,
+      transparent 3px,
+      rgba(0,0,0,0.06) 3px,
+      rgba(0,0,0,0.06) 4px
+    ),
+    repeating-linear-gradient(
+      90deg,
+      transparent,
+      transparent 3px,
+      rgba(0,0,0,0.04) 3px,
+      rgba(0,0,0,0.04) 4px
+    );
+  background-color: var(--mc-stone);
+}
+
+.mc-question-card .question-instruction {
+  font-family: var(--font-body);
+  font-size: 1.15rem;
+  color: var(--mc-diamond);
+  margin-bottom: 12px;
+  font-style: italic;
+}
+
+.mc-question-card .question-text {
+  font-family: var(--font-body);
+  font-size: 1.4rem;
+  color: #FFFFFF;
+  line-height: 1.6;
+  margin-bottom: 20px;
+  text-shadow: 1px 1px 0 rgba(0,0,0,0.5);
+  white-space: pre-line;
+}
+
+.mc-question-card .question-image-placeholder {
+  width: 100%;
+  height: 150px;
+  background: #444;
+  border: 2px dashed #666;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-bottom: 16px;
+  color: #888;
+  font-family: var(--font-title);
+  font-size: 0.5rem;
+}
+
+/* Question counter */
+.mc-question-card .question-counter {
+  font-family: var(--font-title);
+  font-size: 0.55rem;
+  color: var(--mc-gold);
+  text-shadow: 1px 1px 0 #000;
+  margin-bottom: 8px;
+}
+
+/* ============================================================================
+ * 18. OPTION BUTTONS (.mc-option-btn)
+ * ============================================================================ */
+.mc-option-btn {
+  width: 100%;
+  padding: 14px 18px;
+  margin-bottom: 10px;
+  border: 3px solid #000;
+  border-bottom-width: 5px;
+  background: var(--mc-stone);
+  color: #FFFFFF;
+  font-family: var(--font-body);
+  font-size: 1.25rem;
+  text-align: left;
+  cursor: pointer;
+  transition: all var(--transition-fast);
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  min-height: 48px;
+  box-shadow:
+    inset -2px -2px 0 rgba(0,0,0,0.3),
+    inset 2px 2px 0 rgba(255,255,255,0.15);
+  position: relative;
+  /* Pixel look: no rounded corners */
+  border-radius: 0;
+}
+
+.mc-option-btn:hover:not(:disabled) {
+  background: var(--mc-stone-light);
+  border-bottom-width: 3px;
+  transform: translateY(-2px);
+}
+
+.mc-option-btn:active:not(:disabled) {
+  border-bottom-width: 1px;
+  transform: translateY(3px);
+}
+
+/* Option letter badge (A, B, C, D) */
+.mc-option-btn .option-letter {
+  width: 32px;
+  height: 32px;
+  min-width: 32px;
+  background: #333;
+  border: 2px solid #555;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-family: var(--font-title);
+  font-size: 0.6rem;
+  color: var(--mc-gold);
+}
+
+.mc-option-btn .option-text {
+  flex: 1;
+}
+
+/* Selected state */
+.mc-option-btn.selected {
+  border-color: var(--mc-diamond);
+  background: rgba(74, 237, 217, 0.15);
+  box-shadow:
+    inset -2px -2px 0 rgba(0,0,0,0.3),
+    inset 2px 2px 0 rgba(255,255,255,0.15),
+    0 0 10px rgba(74, 237, 217, 0.2);
+}
+.mc-option-btn.selected .option-letter {
+  background: var(--mc-diamond);
+  color: #000;
+  border-color: var(--mc-diamond-dark);
+}
+
+/* Correct state */
+.mc-option-btn.correct {
+  border-color: var(--mc-xp-green) !important;
+  background: rgba(85, 255, 85, 0.2) !important;
+  animation: sparkle 0.6s ease !important;
+}
+.mc-option-btn.correct .option-letter {
+  background: var(--mc-xp-green) !important;
+  color: #000 !important;
+  border-color: var(--mc-xp-dark) !important;
+}
+
+/* Wrong state */
+.mc-option-btn.wrong {
+  border-color: var(--mc-hearts) !important;
+  background: rgba(255, 0, 0, 0.15) !important;
+  animation: shake 0.5s ease !important;
+}
+.mc-option-btn.wrong .option-letter {
+  background: var(--mc-hearts) !important;
+  color: #FFF !important;
+  border-color: var(--mc-hearts-dark) !important;
+}
+
+/* Disabled state (after answering) */
+.mc-option-btn:disabled {
+  cursor: default;
+  opacity: 0.6;
+}
+
+/* ============================================================================
+ * 19. HINT BUTTON (.mc-hint-btn)
+ * ============================================================================ */
+.mc-hint-btn {
+  background: var(--mc-gold);
+  border: 2px solid #000;
+  border-bottom-width: 4px;
+  padding: 8px 16px;
+  font-family: var(--font-title);
+  font-size: 0.55rem;
+  color: #000;
+  cursor: pointer;
+  transition: all var(--transition-fast);
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  min-height: 44px;
+  text-shadow: none;
+  box-shadow:
+    inset -2px -2px 0 rgba(0,0,0,0.2),
+    inset 2px 2px 0 rgba(255,255,255,0.3);
+}
+
+.mc-hint-btn:hover {
+  border-bottom-width: 2px;
+  transform: translateY(-2px);
+  background: #FFE033;
+}
+
+.mc-hint-btn:active {
+  border-bottom-width: 1px;
+  transform: translateY(2px);
+}
+
+.mc-hint-btn:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+  transform: none;
+}
+
+/* Hint text display */
+.mc-hint-text {
+  background: rgba(255, 215, 0, 0.1);
+  border: 2px solid var(--mc-gold);
+  border-left: 4px solid var(--mc-gold);
+  padding: 10px 14px;
+  margin-top: 10px;
+  font-family: var(--font-body);
+  font-size: 1.15rem;
+  color: var(--mc-gold);
+  animation: screenFadeIn 0.3s ease;
+}
+
+/* ============================================================================
+ * 20. TIMER DISPLAY (.mc-timer)
+ * ============================================================================ */
+.mc-timer {
+  font-family: var(--font-title);
+  font-size: 0.7rem;
+  color: #FFFFFF;
+  text-shadow: 1px 1px 0 #000;
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 6px 12px;
+  background: #333;
+  border: 2px solid #000;
+  box-shadow: inset 1px 1px 0 rgba(255,255,255,0.1);
+}
+
+.mc-timer .timer-icon {
+  font-size: 1rem;
+}
+
+/* Timer warning (low time) */
+.mc-timer.warning {
+  color: var(--mc-gold);
+  animation: pulse 0.8s ease-in-out infinite;
+}
+
+/* Timer danger (critical time) */
+.mc-timer.danger {
+  color: var(--mc-hearts);
+  background: rgba(255, 0, 0, 0.15);
+  animation: pulse 0.4s ease-in-out infinite;
+}
+
+/* ============================================================================
+ * 21. RESOURCE COUNTER (.mc-resource)
+ * ============================================================================ */
+.mc-resource {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  padding: 4px 10px;
+  background: rgba(0,0,0,0.4);
+  border: 2px solid rgba(255,255,255,0.1);
+  font-family: var(--font-title);
+  font-size: 0.55rem;
+  color: #FFFFFF;
+  text-shadow: 1px 1px 0 #000;
+}
+
+.mc-resource .resource-icon {
+  font-size: 1.1rem;
+}
+
+.mc-resource .resource-count {
+  color: var(--mc-gold);
+}
+
+/* Diamond resource variant */
+.mc-resource.diamond .resource-count {
+  color: var(--mc-diamond);
+}
+
+/* Emerald resource variant */
+.mc-resource.emerald .resource-count {
+  color: var(--mc-emerald);
+}
+
+/* ============================================================================
+ * 22. ACHIEVEMENT BADGE (.mc-achievement)
+ * ============================================================================ */
+.mc-achievement {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 12px;
+  background: rgba(0,0,0,0.3);
+  border: 2px solid #444;
+  transition: all var(--transition-fast);
+}
+
+.mc-achievement.unlocked {
+  border-color: var(--mc-gold);
+  background: linear-gradient(135deg, rgba(255,215,0,0.05) 0%, rgba(255,215,0,0.1) 100%);
+  box-shadow: 0 0 8px rgba(255,215,0,0.15);
+}
+
+.mc-achievement.locked {
+  opacity: 0.5;
+  filter: grayscale(0.8);
+}
+
+.mc-achievement .achievement-icon {
+  width: 40px;
+  height: 40px;
+  min-width: 40px;
+  background: #333;
+  border: 2px solid #555;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1.3rem;
+}
+
+.mc-achievement.unlocked .achievement-icon {
+  border-color: var(--mc-gold);
+  animation: glowPulse 3s ease-in-out infinite;
+}
+
+.mc-achievement .achievement-info {
+  flex: 1;
+}
+
+.mc-achievement .achievement-name {
+  font-family: var(--font-title);
+  font-size: 0.5rem;
+  color: #FFFFFF;
+  text-shadow: 1px 1px 0 #000;
+  margin-bottom: 2px;
+}
+
+.mc-achievement.unlocked .achievement-name {
+  color: var(--mc-gold);
+}
+
+.mc-achievement .achievement-desc {
+  font-family: var(--font-body);
+  font-size: 1rem;
+  color: #AAAAAA;
+}
+
+/* ============================================================================
+ * 23. PROGRESS RING (.mc-progress-ring)
+ * ============================================================================ */
+.mc-progress-ring {
+  position: relative;
+  width: 80px;
+  height: 80px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.mc-progress-ring svg {
+  transform: rotate(-90deg);
+}
+
+.mc-progress-ring .ring-bg {
+  fill: none;
+  stroke: #333;
+  stroke-width: 6;
+}
+
+.mc-progress-ring .ring-progress {
+  fill: none;
+  stroke: var(--mc-xp-green);
+  stroke-width: 6;
+  stroke-linecap: butt;      /* Square cap for pixel look */
+  transition: stroke-dashoffset var(--transition-slow);
+}
+
+.mc-progress-ring .ring-text {
+  position: absolute;
+  font-family: var(--font-title);
+  font-size: 0.6rem;
+  color: #FFFFFF;
+  text-shadow: 1px 1px 0 #000;
+}
+
+/* Large variant */
+.mc-progress-ring.ring-lg {
+  width: 120px;
+  height: 120px;
+}
+.mc-progress-ring.ring-lg .ring-text {
+  font-size: 0.9rem;
+}
+
+/* Gold variant */
+.mc-progress-ring.ring-gold .ring-progress {
+  stroke: var(--mc-gold);
+}
+
+/* Diamond variant */
+.mc-progress-ring.ring-diamond .ring-progress {
+  stroke: var(--mc-diamond);
+}
+
+/* ============================================================================
+ * 24. CROWN / RANKING (.mc-crown)
+ * ============================================================================ */
+.mc-crown {
+  font-size: 2.5rem;
+  display: inline-block;
+  animation: crownFloat 2s ease-in-out infinite;
+  filter: drop-shadow(0 2px 4px rgba(0,0,0,0.5));
+}
+
+/* ============================================================================
+ * 25. SCREEN: WELCOME (#screen-welcome)
+ * ============================================================================ */
+#screen-welcome {
+  text-align: center;
+  padding-top: 40px;
+  min-height: 80vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  position: relative;
+  overflow: hidden;
+}
+
+/* Animated title */
+#screen-welcome .welcome-title {
+  font-family: var(--font-title);
+  font-size: 1.8rem;
+  color: var(--mc-gold);
+  text-shadow:
+    3px 3px 0 #000,
+    -1px -1px 0 #000,
+    0 0 20px rgba(255,215,0,0.3);
+  margin-bottom: 8px;
+  animation: titleGlow 3s ease-in-out infinite;
+  line-height: 1.3;
+}
+
+#screen-welcome .welcome-subtitle {
+  font-family: var(--font-body);
+  font-size: 1.5rem;
+  color: #CCCCCC;
+  margin-bottom: 32px;
+  text-shadow: 1px 1px 0 #000;
+}
+
+/* Floating blocks decoration */
+#screen-welcome .floating-blocks {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  overflow: hidden;
+  z-index: 0;
+}
+
+.floating-block {
+  position: absolute;
+  width: 32px;
+  height: 32px;
+  opacity: 0.4;
+  animation: float 6s ease-in-out infinite;
+}
+
+.floating-block:nth-child(1) {
+  top: 10%; left: 5%;
+  background: var(--mc-grass);
+  border: 1px solid #000;
+  animation-delay: 0s;
+  animation-duration: 5s;
+}
+.floating-block:nth-child(2) {
+  top: 20%; right: 10%;
+  background: var(--mc-dirt);
+  border: 1px solid #000;
+  animation-delay: 1s;
+  animation-duration: 7s;
+}
+.floating-block:nth-child(3) {
+  top: 60%; left: 8%;
+  background: var(--mc-diamond);
+  border: 1px solid #000;
+  animation-delay: 2s;
+  animation-duration: 6s;
+}
+.floating-block:nth-child(4) {
+  top: 75%; right: 5%;
+  background: var(--mc-stone);
+  border: 1px solid #000;
+  animation-delay: 0.5s;
+  animation-duration: 8s;
+}
+.floating-block:nth-child(5) {
+  top: 40%; left: 15%;
+  background: var(--mc-gold);
+  border: 1px solid #000;
+  animation-delay: 3s;
+  animation-duration: 5.5s;
+}
+.floating-block:nth-child(6) {
+  top: 85%; left: 50%;
+  background: var(--mc-ender);
+  border: 1px solid #000;
+  animation-delay: 1.5s;
+  animation-duration: 7.5s;
+}
+.floating-block:nth-child(7) {
+  top: 30%; right: 20%;
+  background: var(--mc-lava);
+  border: 1px solid #000;
+  animation-delay: 2.5s;
+  animation-duration: 6.5s;
+}
+.floating-block:nth-child(8) {
+  top: 50%; right: 15%;
+  background: var(--mc-water);
+  border: 1px solid #000;
+  animation-delay: 4s;
+  animation-duration: 5.8s;
+}
+
+/* Welcome start button container */
+#screen-welcome .welcome-actions {
+  position: relative;
+  z-index: 1;
+  margin-top: 20px;
+}
+
+/* Grass ground strip at bottom */
+#screen-welcome .ground-strip {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  height: 60px;
+  background:
+    linear-gradient(180deg,
+      var(--mc-grass) 0px,
+      var(--mc-grass) 16px,
+      var(--mc-dirt) 16px,
+      var(--mc-dirt-dark) 100%
+    );
+  z-index: 0;
+  /* Pixel block pattern */
+  background-image:
+    repeating-linear-gradient(
+      90deg,
+      transparent 0px,
+      transparent 30px,
+      rgba(0,0,0,0.1) 30px,
+      rgba(0,0,0,0.1) 31px
+    ),
+    repeating-linear-gradient(
+      0deg,
+      transparent 0px,
+      transparent 15px,
+      rgba(0,0,0,0.08) 15px,
+      rgba(0,0,0,0.08) 16px
+    ),
+    linear-gradient(180deg,
+      var(--mc-grass) 0px,
+      var(--mc-grass) 16px,
+      var(--mc-dirt) 16px,
+      var(--mc-dirt-dark) 100%
+    );
+}
+
+/* Version / credits text */
+#screen-welcome .welcome-credits {
+  position: relative;
+  z-index: 1;
+  margin-top: 24px;
+  font-family: var(--font-title);
+  font-size: 0.4rem;
+  color: #666;
+  text-shadow: 1px 1px 0 #000;
+}
+
+/* ============================================================================
+ * 26. SCREEN: CHARACTER SELECTION (#screen-character)
+ * ============================================================================ */
+#screen-character .character-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 12px;
+  margin: 20px 0;
+}
+
+#screen-character .character-grid .mc-character-card {
+  min-height: 160px;
+}
+
+#screen-character .screen-title {
+  font-size: 1rem;
+  text-align: center;
+  margin-bottom: 8px;
+}
+
+#screen-character .screen-subtitle {
+  font-family: var(--font-body);
+  font-size: 1.2rem;
+  color: #CCCCCC;
+  text-align: center;
+  margin-bottom: 16px;
+}
+
+#screen-character .character-actions {
+  display: flex;
+  justify-content: center;
+  gap: 12px;
+  margin-top: 20px;
+}
+
+/* ============================================================================
+ * 27. SCREEN: MAP (#screen-map)
+ * ============================================================================ */
+#screen-map .map-header {
+  text-align: center;
+  margin-bottom: 16px;
+}
+
+#screen-map .map-header .screen-title {
+  font-size: 0.9rem;
+  margin-bottom: 4px;
+}
+
+/* Stats panel on map */
+#screen-map .stats-panel {
+  display: flex;
+  gap: 12px;
+  flex-wrap: wrap;
+  justify-content: center;
+  margin-bottom: 16px;
+}
+
+#screen-map .stats-panel .mc-resource {
+  font-size: 0.5rem;
+}
+
+/* Biome grid */
+#screen-map .biome-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 12px;
+}
+
+/* If there are 5 biomes, the last one spans full width */
+#screen-map .biome-grid .mc-biome-card:last-child:nth-child(odd) {
+  grid-column: 1 / -1;
+}
+
+/* Player stats sidebar (on desktop) */
+#screen-map .player-stats {
+  margin-top: 16px;
+}
+
+/* ============================================================================
+ * 28. SCREEN: MISSION SELECT (#screen-mission)
+ * ============================================================================ */
+#screen-mission .mission-header {
+  text-align: center;
+  margin-bottom: 16px;
+}
+
+#screen-mission .mission-header .biome-name {
+  font-family: var(--font-title);
+  font-size: 0.65rem;
+  color: var(--mc-gold);
+  margin-bottom: 4px;
+}
+
+#screen-mission .mission-header .screen-title {
+  font-size: 0.8rem;
+}
+
+#screen-mission .mission-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 12px;
+  margin: 16px 0;
+}
+
+/* Mission card */
+.mission-card {
+  background: #555;
+  border: 3px solid #000;
+  padding: 16px;
+  text-align: center;
+  cursor: pointer;
+  transition: all var(--transition-fast);
+  box-shadow:
+    inset 2px 2px 0 rgba(255,255,255,0.1),
+    inset -2px -2px 0 rgba(0,0,0,0.3),
+    3px 3px 0 rgba(0,0,0,0.3);
+  min-height: 100px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+}
+
+.mission-card:hover {
+  transform: translateY(-3px);
+  background: #666;
+}
+
+.mission-card .mission-icon {
+  font-size: 2rem;
+}
+
+.mission-card .mission-name {
+  font-family: var(--font-title);
+  font-size: 0.45rem;
+  color: #FFFFFF;
+  text-shadow: 1px 1px 0 #000;
+  line-height: 1.4;
+}
+
+.mission-card.completed {
+  border-color: var(--mc-xp-green);
+}
+
+.mission-card.completed::after {
+  content: '✓';
+  position: absolute;
+  top: 6px;
+  right: 8px;
+  font-family: var(--font-title);
+  font-size: 0.7rem;
+  color: var(--mc-xp-green);
+  text-shadow: 1px 1px 0 #000;
+}
+
+.mission-card.locked {
+  opacity: 0.5;
+  cursor: not-allowed;
+  filter: grayscale(0.7);
+}
+
+.mission-card.locked:hover {
+  transform: none;
+}
+
+#screen-mission .mission-actions {
+  display: flex;
+  justify-content: center;
+  gap: 12px;
+  margin-top: 16px;
+}
+
+/* ============================================================================
+ * 29. SCREEN: QUESTION (#screen-question)
+ * ============================================================================ */
+#screen-question .question-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin-bottom: 12px;
+}
+
+#screen-question .question-hud {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  flex-wrap: wrap;
+}
+
+#screen-question .question-hud-left {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+#screen-question .question-hud-right {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+#screen-question .question-body {
+  margin-bottom: 16px;
+}
+
+#screen-question .question-options {
+  margin-bottom: 16px;
+}
+
+#screen-question .question-footer {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+
+/* Mining progress bar for loading between questions */
+.mining-bar {
+  width: 100%;
+  height: 24px;
+  background: #333;
+  border: 2px solid #000;
+  position: relative;
+  overflow: hidden;
+}
+
+.mining-bar .mining-fill {
+  height: 100%;
+  width: 0%;
+  background:
+    repeating-linear-gradient(
+      -45deg,
+      var(--mc-stone) 0px,
+      var(--mc-stone) 6px,
+      var(--mc-stone-dark) 6px,
+      var(--mc-stone-dark) 12px
+    );
+  background-size: 24px 24px;
+  animation: mining 0.5s linear infinite;
+  transition: width 0.3s ease;
+}
+
+.mining-bar .mining-text {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  font-family: var(--font-title);
+  font-size: 0.45rem;
+  color: #FFFFFF;
+  text-shadow: 1px 1px 0 #000;
+  z-index: 2;
+  white-space: nowrap;
+}
+
+/* ============================================================================
+ * 30. SCREEN: FEEDBACK (#screen-feedback)
+ * ============================================================================ */
+#screen-feedback {
+  text-align: center;
+  padding-top: 40px;
+  min-height: 60vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
+
+#screen-feedback .feedback-icon {
+  font-size: 4rem;
+  margin-bottom: 16px;
+  display: inline-block;
+}
+
+#screen-feedback .feedback-icon.correct-icon {
+  animation: sparkle 0.8s ease infinite alternate;
+}
+
+#screen-feedback .feedback-icon.wrong-icon {
+  animation: shake 0.6s ease;
+}
+
+#screen-feedback .feedback-title {
+  font-family: var(--font-title);
+  font-size: 1.2rem;
+  margin-bottom: 8px;
+}
+
+#screen-feedback .feedback-title.correct {
+  color: var(--mc-xp-green);
+}
+
+#screen-feedback .feedback-title.wrong {
+  color: var(--mc-hearts);
+}
+
+#screen-feedback .feedback-message {
+  font-family: var(--font-body);
+  font-size: 1.4rem;
+  color: #CCCCCC;
+  margin-bottom: 16px;
+  line-height: 1.5;
+}
+
+/* XP gained animation */
+#screen-feedback .xp-gained {
+  font-family: var(--font-title);
+  font-size: 0.8rem;
+  color: var(--mc-xp-green);
+  text-shadow: 1px 1px 0 #000;
+  margin-bottom: 8px;
+  animation: float 2s ease-in-out infinite;
+}
+
+/* Resource earned display */
+#screen-feedback .resource-earned {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  margin-bottom: 20px;
+  font-family: var(--font-title);
+  font-size: 0.6rem;
+  color: var(--mc-diamond);
+  text-shadow: 1px 1px 0 #000;
+}
+
+#screen-feedback .resource-earned .resource-icon {
+  font-size: 1.5rem;
+  animation: glowPulse 2s ease-in-out infinite;
+}
+
+#screen-feedback .feedback-actions {
+  margin-top: 20px;
+  display: flex;
+  gap: 12px;
+  justify-content: center;
+  flex-wrap: wrap;
+}
+
+/* Correct answer explanation */
+#screen-feedback .correct-answer {
+  background: rgba(85, 255, 85, 0.1);
+  border: 2px solid var(--mc-xp-green);
+  padding: 12px;
+  margin-bottom: 16px;
+  font-family: var(--font-body);
+  font-size: 1.2rem;
+  color: var(--mc-xp-green);
+}
+
+/* ============================================================================
+ * 31. SCREEN: REWARDS / INVENTORY (#screen-rewards)
+ * ============================================================================ */
+#screen-rewards .rewards-header {
+  text-align: center;
+  margin-bottom: 16px;
+}
+
+/* Inventory grid */
+#screen-rewards .inventory-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(var(--slot-size), 1fr));
+  gap: 4px;
+  margin-bottom: 20px;
+  background: #3A3A3A;
+  border: 3px solid #000;
+  padding: 8px;
+  box-shadow: inset 3px 3px 0 rgba(0,0,0,0.5);
+}
+
+#screen-rewards .inventory-grid .mc-inventory-slot {
+  cursor: default;
+}
+
+/* Item inside slot */
+#screen-rewards .inventory-grid .slot-item {
+  font-size: 1.5rem;
+  image-rendering: pixelated;
+}
+
+/* Achievements list */
+#screen-rewards .achievements-list {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+#screen-rewards .stats-summary {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
+  gap: 12px;
+  margin-bottom: 20px;
+}
+
+.stat-item {
+  background: rgba(0,0,0,0.3);
+  border: 2px solid #444;
+  padding: 12px;
+  text-align: center;
+}
+
+.stat-item .stat-value {
+  font-family: var(--font-title);
+  font-size: 0.8rem;
+  color: var(--mc-gold);
+  text-shadow: 1px 1px 0 #000;
+  margin-bottom: 4px;
+}
+
+.stat-item .stat-label {
+  font-family: var(--font-body);
+  font-size: 1rem;
+  color: #AAAAAA;
+}
+
+/* ============================================================================
+ * 32. SCREEN: RESULTS (#screen-results)
+ * ============================================================================ */
+#screen-results {
+  text-align: center;
+  padding-top: 30px;
+  min-height: 70vh;
+}
+
+#screen-results .results-header {
+  margin-bottom: 24px;
+}
+
+#screen-results .results-crown {
+  margin-bottom: 12px;
+}
+
+#screen-results .results-rank {
+  font-family: var(--font-title);
+  font-size: 1.2rem;
+  color: var(--mc-gold);
+  text-shadow: 2px 2px 0 #000;
+  margin-bottom: 8px;
+}
+
+#screen-results .results-title {
+  font-family: var(--font-title);
+  font-size: 0.9rem;
+  margin-bottom: 4px;
+}
+
+#screen-results .results-subtitle {
+  font-family: var(--font-body);
+  font-size: 1.3rem;
+  color: #CCCCCC;
+}
+
+/* Results score */
+#screen-results .results-score {
+  margin: 24px 0;
+}
+
+#screen-results .results-score .score-number {
+  font-family: var(--font-title);
+  font-size: 2rem;
+  color: var(--mc-gold);
+  text-shadow: 2px 2px 0 #000;
+}
+
+#screen-results .results-score .score-label {
+  font-family: var(--font-title);
+  font-size: 0.5rem;
+  color: #AAAAAA;
+  text-shadow: 1px 1px 0 #000;
+}
+
+/* Results grid (areas completed) */
+#screen-results .results-areas {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
+  gap: 10px;
+  margin: 20px 0;
+}
+
+#screen-results .results-area-item {
+  background: rgba(0,0,0,0.3);
+  border: 2px solid #444;
+  padding: 12px;
+  text-align: center;
+}
+
+#screen-results .results-area-item .area-icon {
+  font-size: 1.5rem;
+  margin-bottom: 4px;
+}
+
+#screen-results .results-area-item .area-name {
+  font-family: var(--font-title);
+  font-size: 0.45rem;
+  color: #FFFFFF;
+  text-shadow: 1px 1px 0 #000;
+  margin-bottom: 4px;
+}
+
+#screen-results .results-area-item .area-score {
+  font-family: var(--font-title);
+  font-size: 0.55rem;
+  color: var(--mc-xp-green);
+  text-shadow: 1px 1px 0 #000;
+}
+
+/* Certificate section */
+#screen-results .certificate {
+  margin: 24px 0;
+  padding: 24px;
+  background: #F5E6C8;
+  border: 4px double #8B6914;
+  color: #3a2a0a;
+  position: relative;
+}
+
+#screen-results .certificate .cert-title {
+  font-family: var(--font-title);
+  font-size: 0.65rem;
+  color: var(--mc-dirt);
+  text-shadow: none;
+  margin-bottom: 8px;
+}
+
+#screen-results .certificate .cert-text {
+  font-family: var(--font-body);
+  font-size: 1.2rem;
+  color: #4a3a1a;
+  line-height: 1.5;
+}
+
+#screen-results .certificate .cert-stamp {
+  margin-top: 12px;
+  font-family: var(--font-title);
+  font-size: 0.5rem;
+  color: var(--mc-hearts);
+  border: 2px solid var(--mc-hearts);
+  display: inline-block;
+  padding: 4px 12px;
+  transform: rotate(-8deg);
+}
+
+#screen-results .results-actions {
+  margin-top: 20px;
+  display: flex;
+  gap: 12px;
+  justify-content: center;
+  flex-wrap: wrap;
+}
+
+/* ============================================================================
+ * 33. UTILITY CLASSES
+ * ============================================================================ */
+
+/* Text colors */
+.text-gold    { color: var(--mc-gold) !important; }
+.text-diamond { color: var(--mc-diamond) !important; }
+.text-green   { color: var(--mc-xp-green) !important; }
+.text-red     { color: var(--mc-hearts) !important; }
+.text-purple  { color: var(--mc-ender) !important; }
+.text-muted   { color: #888 !important; }
+.text-white   { color: #FFF !important; }
+.text-dark    { color: #333 !important; }
+
+/* Font families */
+.font-title { font-family: var(--font-title); }
+.font-body  { font-family: var(--font-body); }
+
+/* Text alignment */
+.text-center { text-align: center; }
+.text-left   { text-align: left; }
+.text-right  { text-align: right; }
+
+/* Flex utilities */
+.flex         { display: flex; }
+.flex-col     { flex-direction: column; }
+.flex-wrap    { flex-wrap: wrap; }
+.items-center { align-items: center; }
+.items-start  { align-items: flex-start; }
+.items-end    { align-items: flex-end; }
+.justify-center   { justify-content: center; }
+.justify-between  { justify-content: space-between; }
+.justify-around   { justify-content: space-around; }
+.gap-8  { gap: 8px; }
+.gap-12 { gap: 12px; }
+.gap-16 { gap: 16px; }
+.gap-20 { gap: 20px; }
+.gap-24 { gap: 24px; }
+
+/* Spacing */
+.mt-8  { margin-top: 8px; }
+.mt-12 { margin-top: 12px; }
+.mt-16 { margin-top: 16px; }
+.mt-20 { margin-top: 20px; }
+.mt-24 { margin-top: 24px; }
+.mb-8  { margin-bottom: 8px; }
+.mb-12 { margin-bottom: 12px; }
+.mb-16 { margin-bottom: 16px; }
+.mb-20 { margin-bottom: 20px; }
+.mb-24 { margin-bottom: 24px; }
+.p-8  { padding: 8px; }
+.p-12 { padding: 12px; }
+.p-16 { padding: 16px; }
+.p-20 { padding: 20px; }
+
+/* Visibility */
+.hidden     { display: none !important; }
+.invisible  { visibility: hidden; }
+.sr-only {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  overflow: hidden;
+  clip: rect(0,0,0,0);
+  white-space: nowrap;
+  border: 0;
+}
+
+/* Pixel divider */
+.mc-divider {
+  border: none;
+  height: 4px;
+  background:
+    linear-gradient(90deg,
+      transparent 0%,
+      #555 10%,
+      #666 20%,
+      #555 30%,
+      transparent 40%,
+      transparent 60%,
+      #555 70%,
+      #666 80%,
+      #555 90%,
+      transparent 100%
+    );
+  margin: 16px 0;
+}
+
+/* Badge / tag */
+.mc-badge {
+  font-family: var(--font-title);
+  font-size: 0.4rem;
+  padding: 3px 8px;
+  border: 1px solid #000;
+  display: inline-block;
+}
+
+.mc-badge-gold {
+  background: var(--mc-gold);
+  color: #000;
+}
+
+.mc-badge-green {
+  background: var(--mc-xp-green);
+  color: #000;
+}
+
+.mc-badge-red {
+  background: var(--mc-hearts);
+  color: #FFF;
+}
+
+.mc-badge-purple {
+  background: var(--mc-ender);
+  color: #FFF;
+}
+
+/* Loading spinner (pixel style) */
+.mc-spinner {
+  width: 32px;
+  height: 32px;
+  border: 4px solid #333;
+  border-top-color: var(--mc-gold);
+  animation: spin 0.8s linear infinite;
+  display: inline-block;
+}
+
+/* ============================================================================
+ * 34. GRASS PATTERN BACKGROUND (decorative)
+ * ============================================================================ */
+.bg-grass {
+  background:
+    repeating-linear-gradient(
+      0deg,
+      transparent,
+      transparent 3px,
+      rgba(0,0,0,0.08) 3px,
+      rgba(0,0,0,0.08) 4px
+    ),
+    linear-gradient(180deg, var(--mc-grass) 0%, var(--mc-grass-dark) 100%) !important;
+}
+
+.bg-dirt {
+  background:
+    repeating-linear-gradient(
+      0deg,
+      transparent,
+      transparent 2px,
+      rgba(0,0,0,0.1) 2px,
+      rgba(0,0,0,0.1) 3px
+    ),
+    linear-gradient(180deg, var(--mc-dirt) 0%, var(--mc-dirt-dark) 100%) !important;
+}
+
+.bg-stone {
+  background:
+    repeating-linear-gradient(
+      0deg,
+      transparent,
+      transparent 3px,
+      rgba(0,0,0,0.06) 3px,
+      rgba(0,0,0,0.06) 4px
+    ),
+    repeating-linear-gradient(
+      90deg,
+      transparent,
+      transparent 3px,
+      rgba(0,0,0,0.04) 3px,
+      rgba(0,0,0,0.04) 4px
+    ),
+    linear-gradient(180deg, var(--mc-stone) 0%, var(--mc-stone-dark) 100%) !important;
+}
+
+.bg-obsidian {
+  background:
+    linear-gradient(180deg, var(--mc-obsidian) 0%, #0a0a14 100%) !important;
+  box-shadow: inset 0 0 30px rgba(192,132,252,0.05);
+}
+
+.bg-nether {
+  background:
+    repeating-linear-gradient(
+      0deg,
+      transparent,
+      transparent 3px,
+      rgba(0,0,0,0.12) 3px,
+      rgba(0,0,0,0.12) 4px
+    ),
+    linear-gradient(180deg, var(--mc-nether) 0%, var(--mc-nether-dark) 100%) !important;
+}
+
+/* ============================================================================
+ * 35. OVERLAY & MODAL
+ * ============================================================================ */
+.mc-overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(0,0,0,0.7);
+  z-index: var(--z-overlay);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 16px;
+  animation: screenFadeIn 0.3s ease;
+}
+
+.mc-overlay.hidden {
+  display: none;
+}
+
+.mc-modal {
+  background: var(--mc-stone);
+  border: 3px solid #000;
+  box-shadow:
+    inset 3px 3px 0 rgba(255,255,255,0.15),
+    inset -3px -3px 0 rgba(0,0,0,0.3),
+    6px 6px 0 rgba(0,0,0,0.4);
+  max-width: 500px;
+  width: 100%;
+  padding: 20px;
+  position: relative;
+  animation: screenFadeIn 0.3s ease;
+  /* Stone texture */
+  background-image:
+    repeating-linear-gradient(
+      0deg,
+      transparent,
+      transparent 3px,
+      rgba(0,0,0,0.06) 3px,
+      rgba(0,0,0,0.06) 4px
+    );
+  background-color: var(--mc-stone);
+}
+
+.mc-modal .modal-close {
+  position: absolute;
+  top: 8px;
+  right: 10px;
+  width: 28px;
+  height: 28px;
+  background: #555;
+  border: 2px solid #000;
+  color: #FFF;
+  font-size: 1rem;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-family: var(--font-body);
+}
+
+.mc-modal .modal-close:hover {
+  background: var(--mc-hearts);
+}
+
+/* ============================================================================
+ * 36. RESPONSIVE DESIGN
+ * ============================================================================ */
+
+/* --- Tablet (768px and below) --- */
+@media (max-width: 768px) {
+  #app {
+    padding: 12px;
+  }
+
+  h1 { font-size: 1.2rem; }
+  h2 { font-size: 1rem; }
+  h3 { font-size: 0.85rem; }
+
+  #screen-welcome .welcome-title {
+    font-size: 1.3rem;
+  }
+
+  #screen-welcome .welcome-subtitle {
+    font-size: 1.3rem;
+  }
+
+  .floating-block {
+    width: 24px;
+    height: 24px;
+    opacity: 0.25;
+  }
+
+  #screen-character .character-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+
+  #screen-map .biome-grid {
+    grid-template-columns: 1fr;
+  }
+
+  #screen-map .biome-grid .mc-biome-card:last-child:nth-child(odd) {
+    grid-column: auto;
+  }
+
+  .mc-toast-container {
+    right: 8px;
+    left: 8px;
+  }
+
+  .mc-toast {
+    min-width: unset;
+    max-width: 100%;
+  }
+
+  #screen-results .results-areas {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+/* --- Mobile (480px and below) --- */
+@media (max-width: 480px) {
+  :root {
+    --slot-size: 44px;
+    --hotbar-height: 56px;
+    --panel-padding: 12px;
+  }
+
+  body {
+    font-size: 1.15rem;
+  }
+
+  #app {
+    padding: 8px;
+  }
+
+  #screen-welcome .welcome-title {
+    font-size: 1rem;
+    line-height: 1.4;
+  }
+
+  #screen-welcome .welcome-subtitle {
+    font-size: 1.1rem;
+  }
+
+  #screen-character .character-grid {
+    grid-template-columns: repeat(2, 1fr);
+    gap: 8px;
+  }
+
+  #screen-mission .mission-grid {
+    grid-template-columns: 1fr;
+    gap: 8px;
+  }
+
+  #screen-question .question-header {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+
+  #screen-question .question-hud {
+    width: 100%;
+    justify-content: space-between;
+  }
+
+  .mc-option-btn {
+    padding: 12px 14px;
+    font-size: 1.15rem;
+    min-height: 48px;
+  }
+
+  .mc-option-btn .option-letter {
+    width: 28px;
+    height: 28px;
+    min-width: 28px;
+    font-size: 0.55rem;
+  }
+
+  .mc-btn {
+    font-size: 0.6rem;
+    padding: 10px 18px;
+  }
+
+  .mc-btn-lg {
+    font-size: 0.7rem;
+    padding: 14px 24px;
+  }
+
+  .mc-hotbar-slot {
+    width: 44px;
+    height: 44px;
+  }
+
+  .mc-hotbar-slot .hotbar-icon {
+    font-size: 1.1rem;
+  }
+
+  .mc-hotbar-slot .hotbar-label {
+    font-size: 0.3rem;
+  }
+
+  .mc-hotbar {
+    gap: 3px;
+    padding: 0 6px;
+  }
+
+  #screen-results .results-areas {
+    grid-template-columns: 1fr;
+  }
+
+  #screen-results .certificate {
+    padding: 16px;
+  }
+
+  /* Larger touch targets for mobile */
+  .mc-character-card,
+  .mission-card {
+    min-height: 120px;
+  }
+
+  .mc-hint-btn {
+    padding: 10px 14px;
+    min-height: 48px;
+  }
+
+  .mc-timer {
+    padding: 6px 10px;
+    font-size: 0.6rem;
+  }
+}
+
+/* --- Small mobile (360px and below) --- */
+@media (max-width: 360px) {
+  #screen-welcome .welcome-title {
+    font-size: 0.85rem;
+  }
+
+  #screen-character .character-grid {
+    grid-template-columns: 1fr 1fr;
+  }
+
+  .mc-inventory-slot {
+    width: 40px;
+    height: 40px;
+  }
+
+  #screen-rewards .inventory-grid {
+    grid-template-columns: repeat(auto-fill, minmax(40px, 1fr));
+  }
+}
+
+/* --- Large desktop (1200px+) --- */
+@media (min-width: 1200px) {
+  #app {
+    max-width: 960px;
+  }
+
+  #screen-welcome .welcome-title {
+    font-size: 2.2rem;
+  }
+
+  .floating-block {
+    width: 40px;
+    height: 40px;
+    opacity: 0.5;
+  }
+}
+
+/* ============================================================================
+ * 37. PRINT STYLES (for certificate)
+ * ============================================================================ */
+@media print {
+  body {
+    background: #FFF;
+    color: #000;
+  }
+
+  .mc-hotbar,
+  .mc-toast-container,
+  #screen-welcome .floating-blocks,
+  #screen-welcome .ground-strip {
+    display: none !important;
+  }
+
+  #screen-results .certificate {
+    border: 4px double #000;
+    box-shadow: none;
+    break-inside: avoid;
+  }
+
+  [data-screen] {
+    padding-bottom: 0 !important;
+  }
+}
+
+/* ============================================================================
+ * 38. REDUCED MOTION (Accessibility)
+ * ============================================================================ */
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
+
+  .floating-block {
+    animation: none !important;
+  }
+
+  #screen-welcome .welcome-title {
+    animation: none !important;
+    text-shadow:
+      2px 2px 0px #3F3F3F;
+  }
+}
+
+/* ============================================================================
+ * 39. DARK MODE OVERRIDES (for system preference)
+ * ============================================================================ */
+@media (prefers-color-scheme: dark) {
+  /* Already dark by default — no overrides needed */
+}
+
+/* ============================================================================
+ * 40. FOCUS STYLES (Accessibility)
+ * ============================================================================ */
+*:focus-visible {
+  outline: 3px solid var(--mc-diamond);
+  outline-offset: 2px;
+}
+
+.mc-btn:focus-visible,
+.mc-option-btn:focus-visible,
+.mc-hotbar-slot:focus-visible {
+  outline: 3px solid var(--mc-diamond);
+  outline-offset: 2px;
+}
+
+/* ============================================================================
+ * 41. UTILITY CLASSES (used by app.js)
+ * ============================================================================ */
+
+/* Visibility toggle (used by showEl/hideEl in app.js) */
+.is-hidden {
+  display: none !important;
+}
+
+/* Character card selected state */
+.mc-character-card--selected,
+.mc-character-card.selected {
+  border-color: var(--mc-diamond) !important;
+  box-shadow: 0 0 20px rgba(74, 237, 217, 0.5), inset 0 0 15px rgba(74, 237, 217, 0.1);
+  transform: translateY(-4px) scale(1.02);
+}
+
+/* Option button states (added by app.js) */
+.mc-option--correct,
+.mc-option.correct {
+  border-color: var(--mc-success) !important;
+  background: rgba(34, 197, 94, 0.2) !important;
+  box-shadow: 0 0 15px rgba(34, 197, 94, 0.4);
+}
+
+.mc-option--wrong,
+.mc-option.wrong {
+  border-color: var(--mc-danger) !important;
+  background: rgba(239, 68, 68, 0.2) !important;
+  animation: shake 0.5s ease-in-out;
+}
+
+.mc-option--selected,
+.mc-option.selected {
+  border-color: var(--mc-diamond) !important;
+  background: rgba(74, 237, 217, 0.15) !important;
+}
+
+.mc-option--disabled,
+.mc-option.disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+  pointer-events: none;
+}
+
+/* Heart full/empty states */
+.mc-heart--full,
+.mc-heart.full {
+  color: var(--mc-danger);
+  text-shadow: 0 0 8px rgba(255, 0, 0, 0.6);
+}
+
+.mc-heart--empty,
+.mc-heart.empty {
+  color: #555;
+  text-shadow: none;
+}
+
+.mc-heart--half,
+.mc-heart.half {
+  color: var(--mc-danger);
+  opacity: 0.6;
+}
+
+/* XP bar fill */
+.mc-xp-bar__fill,
+.xp-bar-fill {
+  height: 100%;
+  background: linear-gradient(90deg, #55FF55, #00CC00);
+  transition: width 0.5s ease;
+  position: relative;
+  overflow: hidden;
+}
+
+.mc-xp-bar__fill::after,
+.xp-bar-fill::after {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: -100%;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(90deg, transparent, rgba(255,255,255,0.3), transparent);
+  animation: xpShimmer 2s infinite;
+}
+
+/* Hotbar item states */
+.mc-hotbar__item,
+.mc-hotbar-item {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 4px;
+  padding: 8px;
+  cursor: pointer;
+  transition: transform 0.2s, background 0.2s;
+  min-width: 60px;
+  text-align: center;
+}
+
+.mc-hotbar__item--active,
+.mc-hotbar-item.active {
+  background: rgba(255, 255, 255, 0.1);
+  transform: translateY(-2px);
+}
+
+/* Question card wrapper */
+.question-card {
+  background: var(--mc-stone);
+  border: 4px solid #555;
+  padding: 24px;
+  margin: 16px 0;
+}
+
+/* Feedback states */
+.feedback {
+  padding: 32px;
+  text-align: center;
+}
+
+.feedback--correct {
+  background: rgba(34, 197, 94, 0.15);
+  border: 4px solid var(--mc-success);
+}
+
+.feedback--wrong {
+  background: rgba(249, 115, 22, 0.15);
+  border: 4px solid #F97316;
+}
+
+.feedback--no-lives {
+  background: rgba(239, 68, 68, 0.15);
+  border: 4px solid var(--mc-danger);
+}
+
+/* Star display */
+.star {
+  font-size: 2rem;
+  opacity: 0.3;
+  transition: opacity 0.3s, transform 0.3s;
+}
+
+.star.earned {
+  opacity: 1;
+  transform: scale(1.2);
+  animation: glowPulse 1.5s ease-in-out infinite;
+}
+
+/* Resource counter */
+.resource-counter {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  font-family: var(--font-body);
+  font-size: 1rem;
+}
+
+.resource-counter .resource-icon {
+  font-size: 1.2rem;
+}
+
+.resource-counter .resource-count {
+  font-weight: bold;
+  color: white;
+  min-width: 20px;
+  text-align: center;
+}
+
+/* Achievement item */
+.achievement-item {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 12px;
+  background: var(--mc-stone-dark, #444);
+  border: 2px solid #555;
+  margin-bottom: 8px;
+}
+
+.achievement-item.unlocked {
+  border-color: var(--mc-gold, #FFD700);
+  background: rgba(255, 215, 0, 0.1);
+}
+
+.achievement-item.locked {
+  opacity: 0.4;
+  filter: grayscale(1);
+}
+
+/* Certificate styles */
+.certificate {
+  background: #FFF8E7;
+  color: #333;
+  max-width: 800px;
+  margin: 0 auto;
+  padding: 48px;
+  border: 8px double #8B6914;
+  font-family: 'VT323', monospace;
+}
+
+.certificate h1 {
+  color: #8B6914;
+  text-shadow: none;
+  font-size: 2rem;
+}
+
+.certificate h2 {
+  color: #5D8C2E;
+  text-shadow: none;
+}
+
+/* Screen transitions */
+.screen {
+  animation: screenFade 0.3s ease-in-out;
+}
+
+@keyframes screenFade {
+  from { opacity: 0; transform: translateY(10px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+/* Remove default focus for mouse users */
+*:focus:not(:focus-visible) {
+  outline: none;
+}
+
+/* ============================================================================
+ * END OF STYLESHEET
+ * ============================================================================
+ */

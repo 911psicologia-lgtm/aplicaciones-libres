@@ -1,0 +1,17 @@
+{
+  "version": "v4.27.2",
+  "focus": "Corrección de respuestas naturales A2 en selección múltiple.",
+  "fixed": {
+    "a2MultipleChoiceRepaired": 150,
+    "exactCase": "What do you usually do before work?",
+    "exampleCorrect": "I usually wake up early and get ready."
+  },
+  "checks": {
+    "metaOptionsRemaining": 0,
+    "usuallyQuestionWithTodayCorrect": 0,
+    "pastQuestionWithUsuallyCorrect": 0,
+    "nodeCheck": 0,
+    "runtimeAudit": "window.IPD_QA.a2NaturalAnswers()"
+  },
+  "createdAt": "2026-06-17T02:52:26.948133+00:00"
+}

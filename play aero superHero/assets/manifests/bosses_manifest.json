@@ -1,0 +1,121 @@
+[
+  {
+    "id": "kharon_lancero_alado",
+    "name": "Kharon, el Lancero Alado",
+    "type": "boss",
+    "role": "primer_jefe",
+    "image": "assets/bosses/kharon_lancero_alado/boss.png",
+    "preview": "assets/bosses/kharon_lancero_alado/boss_preview.png",
+    "recommendedWidth": 138,
+    "recommendedHeight": 98,
+    "hp": 8,
+    "states": [
+      "patrol",
+      "aim",
+      "lance",
+      "precharge",
+      "charge",
+      "rest"
+    ],
+    "notes": "Jefe volador con lanza. Debe usarse como primer gran jefe del nivel inicial."
+  },
+  {
+    "id": "diablito_jefe_1",
+    "name": "Diablito Jefe 1, Toro Alado del Tridente",
+    "type": "boss",
+    "role": "jefe",
+    "image": "assets/bosses/diablito_jefe_1/boss.png",
+    "preview": "assets/bosses/diablito_jefe_1/boss_preview.png",
+    "recommendedWidth": 150,
+    "recommendedHeight": 98,
+    "hp": 10,
+    "states": [
+      "patrol",
+      "guard",
+      "thrust",
+      "sweep",
+      "charge",
+      "rest"
+    ],
+    "notes": "Jefe pesado con armadura; ataca con tridente y embiste."
+  },
+  {
+    "id": "diablito_jefe_2",
+    "name": "Diablito Jefe 2, Caballero Calavera",
+    "type": "boss",
+    "role": "jefe",
+    "image": "assets/bosses/diablito_jefe_2/boss.png",
+    "preview": "assets/bosses/diablito_jefe_2/boss_preview.png",
+    "recommendedWidth": 152,
+    "recommendedHeight": 82,
+    "hp": 12,
+    "states": [
+      "patrol",
+      "aim",
+      "slash",
+      "shield_block",
+      "whip",
+      "enrage",
+      "rest"
+    ],
+    "notes": "Jefe con aura roja, espada, escudo y cola-latigo. Fase avanzada."
+  },
+  {
+    "id": "diablito_jefe_3",
+    "name": "Diablito Jefe 3, Senor del Trono",
+    "type": "boss",
+    "role": "jefe",
+    "image": "assets/bosses/diablito_jefe_3/boss.png",
+    "preview": "assets/bosses/diablito_jefe_3/boss_preview.png",
+    "recommendedWidth": 110,
+    "recommendedHeight": 126,
+    "hp": 14,
+    "states": [
+      "throne",
+      "rise",
+      "summon",
+      "slam",
+      "rest"
+    ],
+    "notes": "Jefe sedente sobre trono de craneos. Jefe de arena/fase fija."
+  },
+  {
+    "id": "demonio_bestia_1",
+    "name": "Demonio Bestia 1, Toro Cuadrupedo",
+    "type": "boss",
+    "role": "jefe_bestia",
+    "image": "assets/bosses/demonio_bestia_1/boss.png",
+    "preview": "assets/bosses/demonio_bestia_1/boss_preview.png",
+    "recommendedWidth": 150,
+    "recommendedHeight": 88,
+    "hp": 10,
+    "states": [
+      "roam",
+      "stomp",
+      "charge",
+      "gore",
+      "rest"
+    ],
+    "notes": "Bestia cuadrupeda terrestre; mini-jefe de embestida."
+  },
+  {
+    "id": "demonio_bestia_2_hidra",
+    "name": "Demonio Bestia 2, Hidra",
+    "type": "boss",
+    "role": "jefe_bestia",
+    "image": "assets/bosses/demonio_bestia_2_hidra/boss.png",
+    "preview": "assets/bosses/demonio_bestia_2_hidra/boss_preview.png",
+    "recommendedWidth": 160,
+    "recommendedHeight": 104,
+    "hp": 16,
+    "states": [
+      "coil",
+      "bite",
+      "triple_bite",
+      "spit",
+      "regen",
+      "rest"
+    ],
+    "notes": "Hidra de varias cabezas; jefe de resistencia con multiples ataques."
+  }
+]

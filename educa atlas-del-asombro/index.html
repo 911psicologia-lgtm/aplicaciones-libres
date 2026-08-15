@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+<title>Atlas del Asombro</title>
+<link rel="canonical" href="https://sabias-que.pages.dev/">
+<link rel="stylesheet" href="css/styles.css">
+<meta name="theme-color" content="#101b35">
+</head>
+<body>
+<div id="toast" class="toast" role="status" aria-live="polite"></div>
+<div id="fxLayer" class="fx-layer" aria-hidden="true"></div>
+
+<section id="loginScreen" class="screen on login-screen">
+  <div class="particles" id="loginParticles"></div>
+  <div class="login-shell">
+    <div class="brand-orbit"><span>🗺️</span><i></i><i></i><i></i></div>
+    <h1>Atlas del Asombro</h1>
+    <p class="subtitle">Un mapa vivo para explorar ciencia, historia, arte, naturaleza y números curiosos.</p>
+    <div class="login-card glass">
+      <label>Nombre del explorador</label>
+      <input id="nameInput" maxlength="20" autocomplete="off" placeholder="Escribe tu nombre...">
+      <label>Avatar</label>
+      <div id="avatarRow" class="avatar-row"></div>
+      <button id="startBtn" class="primary big" data-sound="start" data-tip="Inicia la aventura y activa los sonidos.">Comenzar aventura 🚀</button>
+      <p class="tiny">Sonidos suaves activados por interacción: piano inicial, clics, cambio de módulo, logros y cierre de mundos.</p>
+    </div>
+  </div>
+</section>
+
+<section id="homeScreen" class="screen home-screen">
+  <div class="particles" id="homeParticles"></div>
+  <header class="topbar">
+    <button class="avatar-chip" id="homeAvatar" data-tip="Perfil del explorador"></button>
+    <div class="top-info"><strong id="helloName"></strong><span id="rankLabel"></span></div>
+    <div class="xpbox"><span id="xpText">0 XP</span><div><b id="xpFill"></b></div></div>
+    <button id="giftBtn" class="gift-btn hidden" data-tip="Hay regalos pendientes por reclamar">🎁</button>
+  </header>
+  <main class="home-main">
+    <section class="hero glass">
+      <div><span class="kicker">Bienvenida</span><h2 id="homeTitle">¿Qué mundo exploramos hoy?</h2><p>Elige un mundo, abre cápsulas, responde quizzes y reclama certificados por disciplina.</p></div>
+      <button class="secondary" id="continueBtn" data-tip="Continuar el mapa del último mundo explorado" aria-label="Continuar mapa">🧭</button>
+    </section>
+    <section class="icon-dock" aria-label="Accesos rápidos">
+      <button class="dock-icon" id="achievementsBtn" data-tip="Logros y medallas"><span>🏅</span><em id="badgeMini">0</em></button>
+      <button class="dock-icon" id="certificatesBtn" data-tip="Certificados"><span>📜</span><em id="certMini">0</em></button>
+      <button class="dock-icon" id="rewardsBtn" data-tip="Regalos pendientes"><span>🎁</span><em id="rewardMini">0</em></button>
+      <button class="dock-icon" id="shopBtn" data-tip="Tienda de mundos"><span>🛒</span><em id="shopMini">0</em></button>
+      <button class="dock-icon" id="favoritesBtn" data-tip="Favoritas"><span>💛</span><em id="favMini">0</em></button>
+      <button class="dock-icon" id="homeQuizBtn" data-tip="Juegos y quiz"><span>🎮</span><em id="quizMini">0</em></button>
+      <button class="dock-icon" id="profileBtn" data-tip="Perfil"><span>🧭</span></button>
+      <button class="dock-icon danger-soft" id="exitBtn" data-tip="Salir al inicio"><span>🚪</span></button>
+    </section>
+    <div class="section-head world-section-head"><div><h3>Mundos del conocimiento</h3><small>Tarjetas adaptativas · 20 cápsulas mínimas por mundo</small></div><div class="view-toggle"><button id="gridModeBtn" class="sel" data-tip="Vista en cuadrícula">▦</button><button id="deckModeBtn" data-tip="Vista tipo baraja">▱</button></div></div>
+    <section id="worldDeck" class="world-deck"></section>
+    <section id="worldGrid" class="world-grid hidden"></section>
+    <section id="favoritesPanel" class="favorites-panel glass"></section>
+  </main>
+</section>
+
+<section id="mapScreen" class="screen map-screen">
+  <header class="map-top">
+    <button id="backHome" class="icon-btn" data-tip="Volver a mundos">←</button>
+    <div id="mapIcon" class="map-icon"></div>
+    <div class="map-title"><strong id="mapWorldName"></strong><span id="mapWorldProgress"></span></div>
+    <button id="mapGamesBtn" class="icon-btn map-games-btn" data-tip="Juegos del mundo">🎮</button>
+    <button id="quizBtn" class="icon-btn" data-tip="Quiz del mundo">🧩</button>
+  </header>
+  <div id="mapScroll" class="map-scroll">
+    <div id="mapCanvas" class="map-canvas">
+      <svg id="mapSvg" class="map-svg" xmlns="http://www.w3.org/2000/svg"></svg>
+    </div>
+  </div>
+  <nav class="bottom-nav">
+    <button id="navWorlds" data-tip="Pantalla de mundos">🌍<span>Mundos</span></button>
+    <button id="navQuiz" data-tip="Quiz del mundo activo">🧩<span>Quiz</span></button>
+    <button id="navAwards" data-tip="Premios y medallas">🏅<span>Premios</span></button>
+    <button id="navProfile" data-tip="Perfil del explorador">🧭<span>Perfil</span></button>
+  </nav>
+</section>
+
+<div id="cardOverlay" class="overlay hidden">
+  <div class="learning-card" id="learningCard"></div>
+</div>
+<div id="modalOverlay" class="overlay hidden"><div id="modalBox" class="modal-box glass"></div></div>
+<script src="js/app.js"></script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+</body>
+</html>

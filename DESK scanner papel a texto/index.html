@@ -1,0 +1,95 @@
+<!doctype html>
+<html lang="es">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Texto Vivo v1.4</title>
+  <meta name="description" content="Texto Vivo: crear proyecto, tomar fotos, transcribir con OCR, guardar avance y exportar." />
+  <link rel="manifest" href="./manifest.json">
+  <link rel="stylesheet" href="./css/styles.css" />
+</head>
+<body>
+  <main class="app-shell">
+    <header class="topbar">
+      <div>
+        <p class="eyebrow">Texto Vivo v1.4</p>
+        <h1>Del papel al texto</h1>
+      </div>
+      <button id="btnReset" class="ghost danger" type="button" title="Borrar proyecto actual">Borrar</button>
+    </header>
+
+    <section id="startView" class="card start-card">
+      <div class="brand-mark">📜</div>
+      <h2>Nuevo proyecto</h2>
+      <p>Crea un proyecto, toma fotos, transcribe y exporta.</p>
+      <label class="field-label" for="projectName">Nombre del proyecto</label>
+      <input id="projectName" class="text-input" placeholder="Ej. Novela familiar" autocomplete="off" />
+      <button id="btnCreateProject" class="primary big" type="button">Crear proyecto</button>
+    </section>
+
+    <section id="projectView" class="hidden">
+      <section class="card project-head">
+        <div>
+          <p class="eyebrow">Proyecto activo</p>
+          <h2 id="activeProjectName">Sin proyecto</h2>
+          <p id="projectMeta" class="muted">0 fotos · 0 transcritas</p>
+        </div>
+        <div class="save-state" id="saveState">Guardado</div>
+      </section>
+
+      <nav class="steps" aria-label="Acciones principales">
+        <button class="step active" data-tab="capture" type="button">📷 Fotos</button>
+        <button class="step" data-tab="transcribe" type="button">📝 Transcribir</button>
+        <button class="step" data-tab="export" type="button">⬇️ Exportar</button>
+      </nav>
+
+      <section id="tab-capture" class="tab active card">
+        <h3>1. Fotos</h3>
+        <p class="muted compact">Toma o carga fotos. Para documentos largos, trabaja en bloques de 10 a 20 páginas.</p>
+        <label class="file-box" for="imageInput">
+          <span class="file-icon">📷</span>
+          <strong>Tomar fotos o elegir imágenes</strong>
+          <small>JPG, PNG, WEBP</small>
+        </label>
+        <input id="imageInput" type="file" accept="image/*" capture="environment" multiple hidden />
+        <div class="actions-row">
+          <button id="btnTranscribeNow" class="primary" type="button">Transcribir pendientes</button>
+          <button id="btnClearPhotos" class="ghost" type="button">Quitar fotos</button>
+        </div>
+        <div id="photoList" class="photo-list empty">Aún no hay fotos.</div>
+      </section>
+
+      <section id="tab-transcribe" class="tab card">
+        <h3>2. Transcripción</h3>
+        <p class="muted compact">La primera vez carga el motor OCR. En 100 páginas conviene transcribir por bloques.</p>
+        <div id="ocrProgress" class="progress hidden">
+          <div class="progress-bar"><span id="progressFill"></span></div>
+          <p id="progressText">Preparando OCR…</p>
+        </div>
+        <textarea id="fullText" class="editor" placeholder="Aquí aparecerá el texto transcrito. También puedes corregirlo manualmente."></textarea>
+        <div class="actions-row sticky-actions">
+          <button id="btnSaveText" class="primary" type="button">Guardar avance</button>
+          <button id="btnCleanText" class="ghost" type="button">Mejorar saltos</button>
+        </div>
+      </section>
+
+      <section id="tab-export" class="tab card">
+        <h3>3. Exportar</h3>
+        <p class="muted compact">Descarga el texto recuperado para editarlo en Word u otro editor.</p>
+        <div class="export-grid">
+          <button id="btnExportTxt" class="export-btn" type="button">📄 TXT</button>
+          <button id="btnExportDoc" class="export-btn" type="button">📝 Word compatible</button>
+          <button id="btnExportHtml" class="export-btn" type="button">🌐 HTML</button>
+          <button id="btnBackup" class="export-btn" type="button">💾 Respaldo JSON</button>
+        </div>
+        <label class="import-box" for="backupInput">Importar respaldo JSON</label>
+        <input id="backupInput" type="file" accept="application/json" hidden />
+      </section>
+    </section>
+  </main>
+
+  <div id="toast" class="toast"></div>
+
+  <script src="./js/app.js"></script>
+</body>
+</html>

@@ -1,0 +1,882 @@
+<!DOCTYPE html>
+<html lang="es" data-theme="light">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1.0">
+<meta name="description" content="PromptForge — Orquestador de Prompts Premium. Crea, gestiona y mejora tus prompts para cualquier IA. 100% offline y privado.">
+<title>PromptForge — Orquestador de Prompts Premium</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="styles/styles.css">
+</head>
+<body>
+
+<!-- ============================================================
+     BOTON MENU MOBILE
+     ============================================================ -->
+<button id="menu-btn" onclick="toggleSidebar()" aria-label="Menu">
+  <svg width="20" height="20" viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.5"><line x1="3" y1="5" x2="17" y2="5"/><line x1="3" y1="10" x2="17" y2="10"/><line x1="3" y1="15" x2="17" y2="15"/></svg>
+</button>
+<div id="overlay" onclick="toggleSidebar()"></div>
+
+<!-- ============================================================
+     SIDEBAR
+     ============================================================ -->
+<aside id="sidebar">
+  <div class="sidebar-head">
+    <div class="sidebar-logo">Prompt<span>Forge</span></div>
+    <div class="sidebar-sub">Orquestador de Prompts Premium</div>
+  </div>
+  <nav class="sidebar-nav">
+    <button class="nav-item active" data-panel="crear" onclick="switchPanel('crear')">
+      <svg viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M14.5 2.5l3 3L6 17H3v-3z"/></svg>
+      Crear Prompt
+    </button>
+    <button class="nav-item" data-panel="biblioteca" onclick="switchPanel('biblioteca')">
+      <svg viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M4 4h8v12H4zM12 6h4v10h-4"/><line x1="6" y1="7" x2="10" y2="7"/><line x1="6" y1="10" x2="10" y2="10"/></svg>
+      Mi Biblioteca
+    </button>
+    <button class="nav-item" data-panel="hub" onclick="switchPanel('hub')">
+      <svg viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.5"><circle cx="10" cy="10" r="8"/><line x1="2" y1="10" x2="18" y2="10"/><path d="M10 2a12 12 0 014 8 12 12 0 01-4 8 12 12 0 01-4-8A12 12 0 0110 2z"/></svg>
+      Hub de IAs
+    </button>
+    <button class="nav-item" data-panel="aprende" onclick="switchPanel('aprende')">
+      <svg viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M10 2L2 7l8 5 8-5-8-5z"/><path d="M4 9v5c0 2 3 4 6 4s6-2 6-4V9"/></svg>
+      Aprende
+    </button>
+    <button class="nav-item" data-panel="config" onclick="switchPanel('config')">
+      <svg viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.5"><circle cx="10" cy="10" r="3"/><path d="M10 1v3m0 12v3m-6.4-2.6l2.1-2.1m8.6-8.6l2.1-2.1M1 10h3m12 0h3M2.6 3.6l2.1 2.1m8.6 8.6l2.1 2.1"/></svg>
+      Configuracion
+    </button>
+  </nav>
+  <div class="sidebar-foot">
+    <svg viewBox="0 0 16 16" fill="currentColor"><path d="M8 1a4 4 0 00-4 4v2H3a1 1 0 00-1 1v6a1 1 0 001 1h10a1 1 0 001-1V8a1 1 0 00-1-1h-1V5a4 4 0 00-4-4zm2 6H6V5a2 2 0 014 0v2z"/></svg>
+    Tus datos nunca salen de tu dispositivo
+  </div>
+</aside>
+
+<!-- ============================================================
+     MAIN CONTENT
+     ============================================================ -->
+<main id="main">
+
+<!-- ===================== CREAR PROMPT ===================== -->
+<section id="panel-crear" class="panel active">
+  <h1 class="panel-title">Crear Prompt</h1>
+  <p class="panel-desc">Construye un prompt estructurado de nivel premium. Completa los campos guiados y recibe sugerencias en tiempo real.</p>
+
+  <div class="privacy-badge">
+    <svg viewBox="0 0 16 16" fill="currentColor"><path d="M8 1a4 4 0 00-4 4v2H3a1 1 0 00-1 1v6a1 1 0 001 1h10a1 1 0 001-1V8a1 1 0 00-1-1h-1V5a4 4 0 00-4-4zm2 6H6V5a2 2 0 014 0v2z"/></svg>
+    Tus datos nunca salen de tu dispositivo
+  </div>
+
+  <div style="display:flex;gap:10px;flex-wrap:wrap;margin-bottom:20px">
+    <div class="privacy-badge anti-halluc-badge" style="background:var(--bg2);border:1px solid var(--brd);color:var(--warn)">
+      <svg viewBox="0 0 16 16" fill="currentColor" width="14" height="14"><path d="M8 1L1 5l2 7h10l2-7L8 1z" fill="none" stroke="currentColor" stroke-width="1.5"/><path d="M8 5v4M8 11v1" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg>
+      Modo antialucinacion: SIEMPRE ACTIVO en cada prompt generado
+    </div>
+  </div>
+
+  <div class="create-layout">
+    <div class="create-form">
+
+      <!-- Categoria -->
+      <div class="field-group">
+        <label class="field-label" for="f-cat">
+          Categoria
+          <span class="tip-trigger" title="Selecciona el tipo de tarea para la que necesitas el prompt">(?)</span>
+        </label>
+        <select id="f-cat" onchange="onFieldChange()">
+          <option value="">-- Selecciona una categoria --</option>
+          <optgroup label="⚙️ Construir">
+            <option value="apps">Aplicaciones (web / movil / desktop)</option>
+            <option value="web">Paginas web</option>
+            <option value="docs">Documentos y reportes</option>
+            <option value="slides">Presentaciones / diapositivas</option>
+            <option value="courses">Cursos / e-learning</option>
+            <option value="agents">Agentes conversacionales</option>
+            <option value="automation">Automatizacion y scripts</option>
+          </optgroup>
+          <optgroup label="✍️ Crear">
+            <option value="images">Imagenes (Midjourney, DALL-E, etc.)</option>
+            <option value="videos">Videos</option>
+            <option value="podcast">Guiones de podcast</option>
+            <option value="copy">Marketing y copywriting</option>
+            <option value="narrative">Narrativa y ficcion</option>
+          </optgroup>
+          <optgroup label="🔍 Analizar">
+            <option value="research">Investigacion y estado del arte</option>
+            <option value="data">Analisis de datos</option>
+            <option value="feedback">Evaluacion y retroalimentacion</option>
+            <option value="strategy">Estrategia y planificacion</option>
+          </optgroup>
+          <optgroup label="🛡️ Mejorar">
+            <option value="improve">Auditar / Corregir / Mejorar / Enseñar</option>
+          </optgroup>
+          <optgroup label="📧 Comunicar">
+            <option value="email">Email y comunicaciones</option>
+            <option value="legal">Legal y contractual</option>
+            <option value="productivity">Productividad y gestion</option>
+          </optgroup>
+          <optgroup label="🌐 Otros">
+            <option value="surveys">Encuestas</option>
+            <option value="seo">SEO y contenido web</option>
+            <option value="translation">Traduccion y localizacion</option>
+            <option value="other">Otro</option>
+          </optgroup>
+        </select>
+        <span class="field-hint" id="hint-cat"></span>
+      </div>
+
+      <!-- Campos dinamicos por categoria -->
+      <div id="dynamic-fields-container" style="display:none">
+        <div class="dynamic-fields-header">
+          <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5" width="14" height="14"><path d="M8 1l2 4 5 .7-3.5 3.4.8 5L8 11.8l-4.3 2.3.8-5L1 5.7 6 5z"/></svg>
+          Campos especificos para esta categoria
+        </div>
+        <div id="dynamic-fields-body" class="dynamic-fields-body"></div>
+      </div>
+
+      <!-- Intencion -->
+      <div class="field-group">
+        <label class="field-label" for="f-intention">
+          Que quieres lograr?
+          <span class="tip-trigger" title="Describe lo mas especificamente posible lo que necesitas que la IA produzca">(?)</span>
+        </label>
+        <textarea id="f-intention" rows="3" placeholder="Ej: Necesito un sistema de login con autenticacion por email y Google para una app de gestion de tareas..." oninput="onFieldChange()"></textarea>
+        <span class="field-hint">Sé especifico. Mientras mas detalle, mejor resultado.</span>
+      </div>
+
+      <!-- Contexto -->
+      <div class="field-group">
+        <label class="field-label" for="f-context">
+          Contexto o informacion de fondo
+          <span class="tip-trigger" title="Explica la situacion, el proyecto, o el motivo por el que necesitas esto">(?)</span>
+        </label>
+        <textarea id="f-context" rows="3" placeholder="Ej: Es para una startup de 5 personas, la app usa React y Node.js, el diseño es minimalista..." oninput="onFieldChange()"></textarea>
+        <span class="field-hint">Ayuda a la IA a entender el panorama completo.</span>
+      </div>
+
+      <div class="field-row">
+        <!-- Rol -->
+        <div class="field-group">
+          <label class="field-label" for="f-role">
+            Rol de la IA
+            <span class="tip-trigger" title="Define que personaje o experto debe asumir la IA">(?)</span>
+          </label>
+          <input id="f-role" type="text" placeholder="Ej: Experto en UX senior..." oninput="onFieldChange()">
+        </div>
+        <!-- Audiencia -->
+        <div class="field-group">
+          <label class="field-label" for="f-audience">
+            Audiencia
+            <span class="tip-trigger" title="Quien recibira o usara el resultado">(?)</span>
+          </label>
+          <input id="f-audience" type="text" placeholder="Ej: Usuarios no tecnicos de 25-40 anos..." oninput="onFieldChange()">
+        </div>
+      </div>
+
+      <div class="field-row">
+        <!-- Formato -->
+        <div class="field-group">
+          <label class="field-label" for="f-format">
+            Formato esperado
+            <span class="tip-trigger" title="Como quieres que la IA entregue el resultado">(?)</span>
+          </label>
+          <select id="f-format" onchange="onFieldChange()">
+            <option value="">-- Selecciona --</option>
+            <option value="texto">Texto continuo</option>
+            <option value="lista">Lista con viñetas</option>
+            <option value="tabla">Tabla</option>
+            <option value="codigo">Codigo fuente</option>
+            <option value="paso_a_paso">Paso a paso / tutorial</option>
+            <option value="estructura">Estructura / esquema</option>
+            <option value="dialogo">Dialogo / guion</option>
+            <option value="json">JSON estructurado</option>
+            <option value="markdown">Markdown</option>
+          </select>
+        </div>
+        <!-- Tono -->
+        <div class="field-group">
+          <label class="field-label" for="f-tone">
+            Tono / Estilo
+            <span class="tip-trigger" title="Como debe sonar el resultado">(?)</span>
+          </label>
+          <select id="f-tone" onchange="onFieldChange()">
+            <option value="">-- Selecciona --</option>
+            <option value="formal">Formal / profesional</option>
+            <option value="casual">Casual / cercano</option>
+            <option value="tecnico">Tecnico / especializado</option>
+            <option value="creativo">Creativo / inspirador</option>
+            <option value="directo">Directo / conciso</option>
+            <option value="pedagogico">Pedagogico / didactico</option>
+            <option value="persuasivo">Persuasivo / comercial</option>
+          </select>
+        </div>
+      </div>
+
+      <!-- Restricciones -->
+      <div class="field-group">
+        <label class="field-label" for="f-restrictions">
+          Restricciones
+          <span class="tip-trigger" title="Que NO debe hacer la IA, que debe evitar">(?)</span>
+        </label>
+        <textarea id="f-restrictions" rows="2" placeholder="Ej: No uses jerga tecnica avanzada. No supongas que el usuario tiene conocimientos previos..." oninput="onFieldChange()"></textarea>
+        <span class="field-hint">Delimitar lo que NO quieres es tan importante como definir lo que si quieres.</span>
+      </div>
+
+      <!-- Ejemplo -->
+      <div class="field-group">
+        <label class="field-label" for="f-example">
+          Ejemplo de salida esperada (opcional)
+          <span class="tip-trigger" title="Si tienes un ejemplo de como quieres que se vea el resultado, incluyelo aqui">(?)</span>
+        </label>
+        <textarea id="f-example" rows="3" placeholder="Ej: El resultado deberia verse como una tabla con columnas: Nombre, Descripcion, Prioridad..." oninput="onFieldChange()"></textarea>
+        <span class="field-hint">Un ejemplo concreto es la forma mas rapida de alinear a la IA con tu expectativa.</span>
+      </div>
+
+      <!-- Acciones -->
+      <div class="action-bar">
+        <button class="btn" onclick="copyPrompt()">
+          <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="5" y="5" width="9" height="9" rx="1"/><path d="M5 11H4a1 1 0 01-1-1V4a1 1 0 011-1h6a1 1 0 011 1v1"/></svg>
+          Copiar Prompt
+        </button>
+        <button class="btn-ghost" onclick="savePrompt()">
+          <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M13 1H3a1 1 0 00-1 1v12a1 1 0 001 1h10a1 1 0 001-1V2a1 1 0 00-1-1z"/><path d="M11 1v4H6V1M6 13h4M6 10h4"/></svg>
+          Guardar en Biblioteca
+        </button>
+        <button class="btn-ghost" onclick="goToHubWithFilter()">
+          <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5"><circle cx="8" cy="8" r="6"/><path d="M8 2a10 10 0 013 6 10 10 0 01-3 6 10 10 0 01-3-6A10 10 0 018 2z"/></svg>
+          Usar en IA
+        </button>
+        <button class="btn-ghost" onclick="clearForm()">
+          <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M2 4h12M5.3 4V2.7a.7.7 0 01.7-.7h4a.7.7 0 01.7.7V4m1.3 0v9.3a.7.7 0 01-.7.7H5a.7.7 0 01-.7-.7V4"/></svg>
+          Limpiar
+        </button>
+      </div>
+
+      <!-- Boton prominente: Nuevo Prompt -->
+      <div class="mt-2" style="text-align:center">
+        <button class="btn" onclick="newPrompt()" style="padding:14px 32px;font-size:1.02rem;border-radius:12px;background:linear-gradient(135deg,var(--accent),var(--accent-h))">
+          <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5" width="18" height="18"><line x1="8" y1="3" x2="8" y2="13"/><line x1="3" y1="8" x2="13" y2="8"/></svg>
+          Nuevo Prompt
+        </button>
+      </div>
+    </div>
+
+    <!-- SCORE PANEL -->
+    <div class="score-panel">
+      <div style="font-size:.8rem;font-weight:700;color:var(--tx);margin-bottom:12px;text-align:center">Evaluacion del Prompt</div>
+      <div class="score-circle" id="score-circle">
+        <span id="score-num">0</span>
+        <span class="label">/ 100</span>
+      </div>
+      <div class="score-level" id="score-level">Completa los campos para evaluar</div>
+      <div style="font-size:.75rem;font-weight:700;color:var(--tx);margin:14px 0 8px">Sugerencias de mejora</div>
+      <ul class="suggestions" id="suggestions-list">
+        <li>Comienza completando los campos del formulario.</li>
+      </ul>
+
+      <!-- Preview toggle -->
+      <div style="margin-top:20px">
+        <button class="btn" style="width:100%;font-size:.92rem" onclick="togglePreview()">
+          Ver prompt generado ↓
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Preview (hidden by default) -->
+  <div id="preview-area" class="hidden mt-3">
+    <h3 style="font-size:.95rem;margin-bottom:10px;font-weight:700">Prompt Estructurado Generado</h3>
+    <div class="preview-box" id="preview-content"></div>
+    <div class="action-bar mt-1">
+      <button class="btn btn-sm" onclick="copyPrompt()">
+        <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5" width="14" height="14"><rect x="5" y="5" width="9" height="9" rx="1"/><path d="M5 11H4a1 1 0 01-1-1V4a1 1 0 011-1h6a1 1 0 011 1v1"/></svg>
+        Copiar
+      </button>
+      <button class="btn-ghost btn-sm" onclick="goToHubWithFilter()">Abrir Hub de IAs</button>
+    </div>
+  </div>
+</section>
+
+<!-- ===================== BIBLIOTECA ===================== -->
+<section id="panel-biblioteca" class="panel">
+  <h1 class="panel-title">Mi Biblioteca</h1>
+  <p class="panel-desc">Tus prompts guardados y plantillas listas para personalizar.</p>
+
+  <!-- TABS -->
+  <div class="lib-tabs">
+    <button id="libtab-mine" class="lib-tab active" onclick="switchLibTab('mine')">
+      <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5" width="15" height="15"><path d="M4 4h8v12H4zM12 6h4v10h-4"/><line x1="6" y1="7" x2="10" y2="7"/><line x1="6" y1="10" x2="10" y2="10"/></svg>
+      Mis Prompts
+    </button>
+    <button id="libtab-tpl" class="lib-tab" onclick="switchLibTab('tpl')">
+      <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5" width="15" height="15"><path d="M2 2h12v3H2zM2 7h5v7H2zM9 7h5v3H9zM9 12h5v2H9z"/></svg>
+      Plantillas
+    </button>
+  </div>
+
+  <!-- PANE: MIS PROMPTS -->
+  <div id="libpane-mine">
+  <div class="lib-toolbar">
+    <div class="lib-search">
+      <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5"><circle cx="7" cy="7" r="5"/><line x1="11" y1="11" x2="14" y2="14"/></svg>
+      <input id="lib-search" type="text" placeholder="Buscar prompts..." oninput="debouncedRenderLib()">
+    </div>
+    <div class="lib-filters" id="lib-filters"></div>
+    <div class="flex gap-1">
+      <button class="btn-ghost btn-sm" onclick="exportLibrary()">
+        <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5" width="14" height="14"><path d="M2 10v3a1 1 0 001 1h10a1 1 0 001-1v-3M8 2v8M5 7l3 3 3-3"/></svg>
+        Exportar
+      </button>
+      <button class="btn-ghost btn-sm" onclick="document.getElementById('import-file').click()">
+        <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5" width="14" height="14"><path d="M2 6v7a1 1 0 001 1h10a1 1 0 001-1V6M8 10V2M5 5l3-3 3 3"/></svg>
+        Importar
+      </button>
+      <input type="file" id="import-file" accept=".json" style="display:none" onchange="importLibrary(event)">
+    </div>
+  </div>
+
+  <div class="lib-grid" id="lib-grid"></div>
+  <div class="lib-empty" id="lib-empty">
+    <svg viewBox="0 0 48 48" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="8" y="4" width="32" height="40" rx="3"/><line x1="14" y1="14" x2="34" y2="14"/><line x1="14" y1="22" x2="34" y2="22"/><line x1="14" y1="30" x2="26" y2="30"/></svg>
+    <p>Tu biblioteca esta vacia</p>
+    <p class="sub">Crea tu primer prompt premium o carga una plantilla para empezar.</p>
+    <div style="display:flex;gap:10px;justify-content:center;margin-top:12px">
+      <button class="btn btn-sm" onclick="switchPanel('crear')">Crear Prompt</button>
+      <button class="btn-ghost btn-sm" onclick="switchLibTab('tpl')">Ver Plantillas</button>
+    </div>
+  </div>
+  </div><!-- /libpane-mine -->
+
+  <!-- PANE: PLANTILLAS -->
+  <div id="libpane-tpl" style="display:none">
+    <p style="font-size:.88rem;color:var(--tx2);margin-bottom:20px;line-height:1.65">
+      Plantillas listas para usar. Haz clic en <strong>Usar plantilla</strong> para cargarla en el formulario —
+      luego personaliza los textos entre <strong>[corchetes]</strong> con tu informacion real.
+    </p>
+    <div class="tpl-grid" id="tpl-grid"></div>
+  </div>
+
+</section>
+
+<!-- ===================== HUB DE IAs ===================== -->
+<section id="panel-hub" class="panel">
+  <h1 class="panel-title">Hub de IAs</h1>
+  <p class="panel-desc">Accede a las inteligencias artificiales mas utilizadas. Copia tu prompt y usalo directamente en la IA que necesites.</p>
+
+  <div class="lib-toolbar">
+    <div class="lib-search">
+      <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5"><circle cx="7" cy="7" r="5"/><line x1="11" y1="11" x2="14" y2="14"/></svg>
+      <input id="hub-search" type="text" placeholder="Buscar IA..." oninput="debouncedRenderHub()">
+    </div>
+    <div class="lib-filters">
+      <button class="filter-chip active" data-filter="all" onclick="filterHub('all',this)">Todas</button>
+      <button class="filter-chip" data-filter="texto" onclick="filterHub('texto',this)">Texto</button>
+      <button class="filter-chip" data-filter="imagen" onclick="filterHub('imagen',this)">Imagen</button>
+      <button class="filter-chip" data-filter="codigo" onclick="filterHub('codigo',this)">Codigo</button>
+      <button class="filter-chip" data-filter="busqueda" onclick="filterHub('busqueda',this)">Busqueda</button>
+    </div>
+  </div>
+
+  <div class="hub-grid" id="hub-grid"></div>
+</section>
+
+<!-- ===================== APRENDE ===================== -->
+<section id="panel-aprende" class="panel">
+  <h1 class="panel-title">Aprende a crear Prompts Premium</h1>
+  <p class="panel-desc">Domina el arte de comunicarte con la inteligencia artificial. Aqui encontraras todo lo que necesitas, desde lo basico hasta tecnicas avanzadas.</p>
+
+  <details class="learn-section" open>
+    <summary>Que es un prompt?</summary>
+    <div class="learn-body">
+      <p>Un <strong>prompt</strong> es la instruccion o mensaje que le das a una inteligencia artificial para que produzca un resultado. Es tu herramienta principal de comunicacion con cualquier IA. Piensa en ello como la "receta" que le entregas al chef IA: si la receta es vaga, el plato sera impredecible; si la receta es precisa, el resultado sera excelente.</p>
+      <h4>Por que importa un buen prompt?</h4>
+      <p>La diferencia entre un resultado mediocre y uno excepcional no esta en la IA que uses, sino en <strong>como le pidas las cosas</strong>. Un usuario que construye prompts de calidad obtiene consistentemente mejores resultados, ahorra tiempo, reduce frustracion y maximiza el retorno de su inversion en herramientas de IA. La investigacion academica ha demostrado consistentemente que la estructura y claridad del prompt tiene un impacto directo y medible en la calidad de las respuestas: estudios publicados por Microsoft Research (2023, "Prompting Can Distill Knowledge from LLMs") y la Universidad de Stanford (2022, "Quantifying Language Models' Sensitivity to Spurious Features in Prompt Design") documentan que la formulacion del prompt modifica sustancialmente los resultados, siendo este factor tan importante como el modelo mismo que se utilice.</p>
+      <h4>Un prompt NO es solo una pregunta</h4>
+      <p>Muchas personas creen que un prompt es simplemente hacerle una pregunta a la IA. En realidad, un prompt premium es una <strong>instruccion completa y estructurada</strong> que incluye: contexto, objetivo claro, formato deseado, tono, restricciones y ejemplos. A medida que avances en esta seccion, aprenderas a construir prompts que parezcan escritos por profesionales.</p>
+    </div>
+  </details>
+
+  <details class="learn-section">
+    <summary>Anatomia de un prompt premium</summary>
+    <div class="learn-body">
+      <p>Un prompt de nivel premium se compone de <strong>8 elementos clave</strong>. No siempre necesitas usar todos, pero mientras mas incluyas, mas preciso y predecible sera el resultado:</p>
+      <h4>1. Rol</h4>
+      <p>Define que experto o personaje debe asumir la IA. Esto calibra el nivel de profundidad y vocabulario de la respuesta.</p>
+      <div class="example-box"><span class="pv-tag">Rol:</span> Actua como un arquitecto de software senior con 15 anos de experiencia en sistemas distribuidos.</div>
+      <h4>2. Contexto</h4>
+      <p>Proporciona informacion de fondo que ayude a la IA a entender la situacion completa. Cuanto mas relevante sea el contexto, mejor sera la respuesta.</p>
+      <div class="example-box"><span class="pv-tag">Contexto:</span> Estoy construyendo una app de gestion de proyectos para equipos remotos de 10-50 personas. El stack actual es React + Node.js + PostgreSQL.</div>
+      <h4>3. Intencion / Tarea</h4>
+      <p>Describe de forma especifica y accionable lo que quieres que la IA produzca. Usa verbos de accion claros.</p>
+      <div class="example-box"><span class="pv-tag">Tarea:</span> Disena el esquema de base de datos para gestionar proyectos, tareas, usuarios y permisos, incluyendo relaciones entre tablas.</div>
+      <h4>4. Audiencia</h4>
+      <p>Indica quien sera el receptor o usuario final del resultado. Esto ajusta el nivel de complejidad y el lenguaje.</p>
+      <div class="example-box"><span class="pv-tag">Audiencia:</span> Desarrolladores junior que implementaran el esquema. Necesitan comentarios explicativos en el codigo.</div>
+      <h4>5. Formato esperado</h4>
+      <p>Especifica exactamente como quieres que se entregue el resultado: texto, tabla, codigo, lista, JSON, etc.</p>
+      <div class="example-box"><span class="pv-tag">Formato:</span> Entrega el resultado como codigo SQL con comentarios explicativos para cada tabla y relacion.</div>
+      <h4>6. Tono / Estilo</h4>
+      <p>Define como debe sonar el resultado: formal, casual, tecnico, creativo, pedagogico, etc.</p>
+      <div class="example-box"><span class="pv-tag">Tono:</span> Pedagogico. Explica las decisiones de diseno de forma clara para desarrolladores junior.</div>
+      <h4>7. Restricciones</h4>
+      <p>Establece limites claros sobre lo que la IA NO debe hacer o incluir. Esto es tan importante como definir lo que si quieres.</p>
+      <div class="example-box"><span class="pv-tag">Restricciones:</span> No uses procedimientos almacenados. No incluyas datos de ejemplo ficticios. Limita el esquema a un maximo de 8 tablas.</div>
+      <h4>8. Ejemplo de salida</h4>
+      <p>Si tienes un ejemplo de como quieres que se vea el resultado, incluyelo. Un ejemplo concreto es la forma mas rapida de alinear expectativas.</p>
+      <div class="example-box"><span class="pv-tag">Ejemplo:</span> La tabla "users" deberia tener: id (UUID), email (VARCHAR), name (VARCHAR), role (ENUM), created_at (TIMESTAMP).</div>
+    </div>
+  </details>
+
+  <details class="learn-section">
+    <summary>Niveles de un prompt</summary>
+    <div class="learn-body">
+      <p>Todo prompt puede clasificarse en uno de cuatro niveles. A medida que aprendes, avanzas del nivel basico al premium:</p>
+
+      <h4><span class="level-badge level-basic">BASICO</span> 0-30 puntos</h4>
+      <p>El prompt es una instruccion corta y vaga sin estructura ni contexto. La IA tiene que adivinar la intencion del usuario.</p>
+      <div class="example-box"><span class="level-badge level-basic">BASICO</span>
+Hazme una pagina web bonita.</div>
+      <p><strong>Problema:</strong> La IA no sabe que tipo de pagina, para quien, con que contenido, ni que significa "bonita".</p>
+
+      <h4><span class="level-badge level-inter">INTERMEDIO</span> 31-50 puntos</h4>
+      <p>Incluye algo de contexto y especificidad, pero le faltan elementos clave como formato, tono o restricciones.</p>
+      <div class="example-box"><span class="level-badge level-inter">INTERMEDIO</span>
+Necesito una pagina web para mi negocio de cafe. Quiero que tenga secciones de menu, contacto y un poco de historia del lugar. Que sea moderna.</div>
+      <p><strong>Mejora:</strong> Hay intencion y contexto basico, pero no define audiencia, formato exacto, tono ni restricciones.</p>
+
+      <h4><span class="level-badge level-adv">AVANZADO</span> 51-75 puntos</h4>
+      <p>Incluye la mayoria de los elementos de un prompt premium: rol, contexto, tarea, audiencia, formato y tono.</p>
+      <div class="example-box"><span class="level-badge level-adv">AVANZADO</span>
+Actua como un diseador web profesional. Necesito una landing page para "Cafe Colonial", un cafe artisanal en el centro historico de la ciudad.
+
+Contexto: El cafe tiene 30 anos de tradicion, menu de especialidades y eventos culturales semanales.
+
+Tarea: Disena una landing page con secciones: hero con historia, menu destacado (3 productos), galeria de fotos, seccion de eventos proximos, y formulario de contacto.
+
+Audiencia: Jovenes profesionales de 25-40 anos que buscan experiencias gastronomicas unicas.
+
+Formato: Entrega el contenido como texto estructurado para cada seccion, listo para copiar en un constructor de paginas.
+
+Tono: Calido, nostalgiico, con un toque contemporaneo.</div>
+      <p><strong>Mejora:</strong> Muy completo. Solo le faltaria agregar restricciones y/o un ejemplo de salida para ser premium.</p>
+
+      <h4><span class="level-badge level-prem">PREMIUM</span> 76-100 puntos</h4>
+      <p>Incluye los 8 elementos clave, esta perfectamente estructurado y es altamente predecible en su resultado.</p>
+      <div class="example-box"><span class="level-badge level-prem">PREMIUM</span>
+Actua como un diseador web senior especializado en sitios para restaurantes y gastronomia.
+
+Contexto: "Cafe Colonial" es un cafe artisanal con 30 anos de tradicion en el centro historico. Tienen menu de especialidades de cafe de origen, reposteria casera y eventos culturales semanales (musica en vivo, talleres de barismo). El sitio actual es obsoleto y no refleja la calidad del negocio.
+
+Tarea: Crea el contenido completo para una landing page moderna con las siguientes secciones:
+1. Hero: Titulo impactante + subtitulo + boton CTA
+2. Historia: 2-3 parrafos sobre los 30 anos
+3. Menu destacado: 3 productos estrella con descripcion breve
+4. Galeria: Sugerencias de 6 fotos con descripcion de que mostrar
+5. Eventos: Proximos 3 eventos con fecha, titulo y descripcion corta
+6. Contacto: Datos de contacto + formulario + mapa embebido
+
+Audiencia: Jovenes profesionales urbanos de 25-40 anos, amantes del cafe y la cultura, con poder adquisitivo medio-alto.
+
+Formato: Para cada seccion entrega: titulo, texto principal y notas de diseno (que imagen, que colores, que tipografia sugerir).
+
+Tono: Calido, nostalgiico pero contemporaneo. No uses lenguaje cursi ni comercial agresivo.
+
+Restricciones:
+- No uses emojis en los titulos
+- Las descripciones de menu deben ser maximo 2 lineas cada una
+- No incluyas precios (cambian frecuentemente)
+- El CTA principal debe ser "Reservar mesa" no "Comprar"
+
+Ejemplo de tono deseado: "Cada taza cuenta una historia que comienza en los volcanes de Guatemala y termina en tu mesa. Desde 1994, hemos perfeccionado el arte de un cafe que no solo se bebe, se vive."</div>
+      <p><strong>Resultado:</strong> Este prompt deja muy poco espacio para la ambiguedad. La IA sabe exactamente que producir, como, y con que limites.</p>
+    </div>
+  </details>
+
+  <details class="learn-section">
+    <summary>Consejos para principiantes</summary>
+    <div class="learn-body">
+      <h4>1. Empieza con la intencion clara</h4>
+      <p>Antes de escribir tu prompt, preguntate: "Que quiero exactamente que la IA produzca?" Si no puedes responder esto en una oracion clara, tu prompt tampoco sera claro. Toma 30 segundos para definir tu objetivo antes de empezar a escribir.</p>
+      <h4>2. Contexto es rey</h4>
+      <p>La IA no conoce tu situacion, tu proyecto ni tus necesidades. Proporciona toda la informacion relevante de fondo. No asumas que la IA "ya sabe" o "puede inferir". Dilo explicitamente.</p>
+      <h4>3. Usa verbos de accion</h4>
+      <p>En lugar de "cosas sobre marketing", di "escribe una estrategia de marketing digital con 5 tacticas especificas para redes sociales". Los verbos de accion (escribe, disena, analiza, compara, crea, explica, resume) guian a la IA hacia el resultado que buscas.</p>
+      <h4>4. Especifica el formato</h4>
+      <p>No dejes que la IA decida como presentar el resultado. Si quieres una tabla, pide una tabla. Si quieres pasos numerados, pidelos. Si quieres codigo con comentarios, especificalo. El formato es el 20% del esfuerzo que produce el 80% de la satisfaccion.</p>
+      <h4>5. Itera, no esperes perfeccion al primer intento</h4>
+      <p>Es raro obtener el resultado perfecto en el primer prompt. Construye tu prompt de forma iterativa: empieza con una version basica, analiza el resultado, identifica que falta o sobra, y refina el prompt. PromptForge te ayuda en este proceso de iteracion.</p>
+      <h4>6. Las restricciones son tan importantes como las instrucciones</h4>
+      <p>Decirle a la IA que NO haga algo es frecuentemente mas poderoso que decirle que si haga algo. Restricciones como "no uses jerga tecnica", "maximo 3 parrafos" o "no incluyas precios" eliminan resultados no deseados de forma efectiva.</p>
+      <h4>7. Aprende de los ejemplos</h4>
+      <p>Revisa la seccion de niveles de esta guia y estudia como evoluciona un prompt desde basico hasta premium. Identifica que elementos se agregan en cada nivel y por que mejoran el resultado. Luego aplica esos mismos patrones a tus propios prompts.</p>
+    </div>
+  </details>
+
+  <details class="learn-section">
+    <summary>Errores comunes al crear prompts</summary>
+    <div class="learn-body">
+      <h4>Error 1: Ser demasiado vago</h4>
+      <p><strong>Mal:</strong> "Escribeme algo sobre marketing."</p>
+      <p><strong>Bien:</strong> "Escribe una guia de 5 pasos para crear una estrategia de marketing digital para una pequena tienda de ropa online con presupuesto menor a $500/mes."</p>
+      <h4>Error 2: No definir la audiencia</h4>
+      <p><strong>Mal:</strong> "Explica que es la inteligencia artificial."</p>
+      <p><strong>Bien:</strong> "Explica que es la inteligencia artificial para un estudiante de secundaria de 14 anos que no tiene conocimientos previos de tecnologia. Usa analogias cotidianas."</p>
+      <h4>Error 3: Pedir demasiado en un solo prompt</h4>
+      <p><strong>Mal:</strong> "Hazme una app completa de e-commerce con login, carrito, pagos, admin panel, analytics y chat de soporte."</p>
+      <p><strong>Bien:</strong> Divide en prompts especificos: uno para la arquitectura general, otro para el login, otro para el carrito, etc. Un prompt por tarea produce mejores resultados.</p>
+      <h4>Error 4: No especificar formato</h4>
+      <p><strong>Mal:</strong> "Dame ideas para un video."</p>
+      <p><strong>Bien:</strong> " Dame 5 ideas para un video de YouTube de 10 minutos sobre productividad personal. Presentalas como: titulo, descripcion en 2 lineas, estructura de secciones (inicio, desarrollo, cierre)."</p>
+      <h4>Error 5: Ignorar el contexto</h4>
+      <p><strong>Mal:</strong> "Corrige este texto."</p>
+      <p><strong>Bien:</strong> "Corrige este texto que sera enviado por email a un cliente corporativo. El tono debe ser formal y profesional. Solo corrige gramatica y estilo, no cambies el contenido. Marca los cambios realizados."</p>
+    </div>
+  </details>
+
+  <details class="learn-section">
+    <summary>Tips por categoria</summary>
+    <div class="learn-body">
+      <h4>Desarrollo de aplicaciones</h4>
+      <ul>
+        <li>Menciona el stack tecnologico (lenguaje, framework, base de datos)</li>
+        <li>Especifica el patron de arquitectura (MVC, microservicios, monolito)</li>
+        <li>Indica nivel de los desarrolladores que implementaran</li>
+        <li>Pide codigo con comentarios y documentacion</li>
+      </ul>
+      <h4>Imagenes (Midjourney, DALL-E, etc.)</h4>
+      <ul>
+        <li>Especifica estilo artistico (fotorealista, ilustracion, 3D, acuarela)</li>
+        <li>Incluye detalles de composicion (angulo de camara, iluminacion, colores)</li>
+        <li>Menciona referencias visuales si las hay</li>
+        <li>Usa terminologia tecnica de fotografia o arte cuando sea posible</li>
+      </ul>
+      <h4>Agentes conversacionales</h4>
+      <ul>
+        <li>Define la personalidad del agente (amigable, formal, experto)</li>
+        <li>Establece limites claros de lo que puede y no puede responder</li>
+        <li>Incluye ejemplos de dialogo (few-shot prompting)</li>
+        <li>Especifica que hacer cuando no sabe la respuesta</li>
+      </ul>
+      <h4>Documentos y reportes</h4>
+      <ul>
+        <li>Define la extension (numero de paginas o palabras)</li>
+        <li>Especifica la estructura (secciones, subsecciones)</li>
+        <li>Menciona si necesita datos, estadisticas o fuentes</li>
+        <li>Indica si debe incluir conclusiones o recomendaciones</li>
+      </ul>
+      <h4>Cursos y e-learning</h4>
+      <ul>
+        <li>Define el nivel (principiante, intermedio, avanzado)</li>
+        <li>Especifica objetivos de aprendizaje medibles</li>
+        <li>Pide actividades practicas o evaluaciones</li>
+        <li>Indica la duracion total estimada del curso</li>
+      </ul>
+    </div>
+  </details>
+
+  <details class="learn-section">
+    <summary>Modo antialucinacion: que es y como funciona</summary>
+    <div class="learn-body">
+      <h4>Que es una alucinacion en IA?</h4>
+      <p>Una <strong>alucinacion</strong> ocurre cuando una inteligencia artificial genera informacion que parece correcta y convincente, pero que en realidad es falsa, inventada o sin fundamentos. Este fenomeno esta ampliamente documentado en la literatura academica. Por ejemplo, el paper de la Universidad de Oxford <strong>"Survey of Hallucination in Natural Language Generation"</strong> (2023, Ji et al.) define las alucinaciones como "contenido generado que es irrelevante, nonsensico o contradictorio respecto a una fuente conocida". Las alucinaciones son una limitacion intrinseca de los modelos de lenguaje grandes (LLMs), no un error del usuario.</p>
+
+      <h4>Por que ocurren?</h4>
+      <p>Los modelos de IA generan texto prediciendo la palabra o token mas probable siguiente, basandose en patrones estadisticicos aprendidos durante su entrenamiento. No "saben" hechos de la misma manera que un humano los sabe. Cuando se les pregunta sobre algo fuera de su conocimiento o ambiguamente, pueden generar respuestas que suenan plausibles pero son incorrectas. Esto es particularmente peligroso con datos numericos, fechas, nombres, citas bibliograficas y hechos historicos.</p>
+
+      <h4>Como reduce PromptForge las alucinaciones?</h4>
+      <p>PromptForge incluye un <strong>protocolo anti-alucinacion que se inyecta automaticamente en cada prompt generado</strong>. Este protocolo instruye explicitamente a la IA para que:</p>
+      <ul>
+        <li>Indique cuando no tiene certeza sobre un dato especifico</li>
+        <li>No invente fuentes, citas ni referencias</li>
+        <li>Comunique cuando una pregunta excede su fecha de corte de conocimiento</li>
+        <li>Prefiera decir "no lo se con certeza" antes que fabricar informacion</li>
+      </ul>
+
+      <h4>Estrategias adicionales del usuario</h4>
+      <p>El protocolo anti-alucinacion reduce significativamente el riesgo, pero no lo elimina por completo. El usuario puede agregar estas estrategias adicionales a sus prompts:</p>
+      <ul>
+        <li>Pide a la IA que cite fuentes especificas y verificables</li>
+        <li>Solicita que distinga entre hechos documentados y opiniones o inferencias</li>
+        <li>Pide que indique su nivel de confianza en cada afirmacion</li>
+        <li>Solicita respuestas del tipo "Lo que se sabe" vs "Lo que no se sabe con certeza"</li>
+        <li>Para datos criticos, pide siempre verificacion con fuentes primarias</li>
+      </ul>
+
+      <h4>Nota importante</h4>
+      <p>Ningun protocolo de texto puede eliminar completamente las alucinaciones. La verificacion humana sigue siendo el ultimo filtro de calidad. PromptForge te da herramientas para minimizar el riesgo, pero la responsabilidad final de verificar la informacion recae en el usuario.</p>
+    </div>
+  </details>
+
+  <details class="learn-section">
+    <summary>Glosario de terminos</summary>
+    <div class="learn-body">
+      <h4>Prompt</h4>
+      <p>Instruccion o mensaje enviado a una IA para obtener una respuesta.</p>
+      <h4>Prompt Engineering</h4>
+      <p>Disciplina que estudia como disenar prompts optimos para obtener los mejores resultados de las IAs.</p>
+      <h4>System Prompt</h4>
+      <p>Instruccion inicial que define el comportamiento general de un agente conversacional antes de interactuar con el usuario.</p>
+      <h4>Few-shot Prompting</h4>
+      <p>Tecnica que incluye ejemplos de entrada-salida dentro del prompt para que la IA imite el patron deseado.</p>
+      <h4>Zero-shot Prompting</h4>
+      <p>Pedirle a la IA que realice una tarea sin proporcionarle ejemplos previos.</p>
+      <h4>Chain of Thought (CoT)</h4>
+      <p>Tecnica que pide a la IA que muestre su razonamiento paso a paso antes de dar la respuesta final, mejorando la calidad en tareas complejas.</p>
+      <h4>Tokens</h4>
+      <p>Unidad basica que usan las IAs para procesar texto. Un token equivale aproximadamente a 3/4 de una palabra en ingles.</p>
+      <h4>Temperatura</h4>
+      <p>Parametro que controla la creatividad de la IA. Valores bajos (0-0.3) = respuestas mas predecibles. Valores altos (0.7-1.0) = respuestas mas creativas.</p>
+      <h4>Alucinacion</h4>
+      <p>Cuando una IA genera informacion falsa o inventada con apariencia de veracidad. Los prompts bien estructurados reducen este riesgo.</p>
+      <h4>Heuristica</h4>
+      <p>Conjunto de reglas o criterios praticos para resolver un problema. PromptForge usa heuristicas para evaluar y mejorar tus prompts sin necesidad de IA.</p>
+    </div>
+  </details>
+
+  <details class="learn-section">
+    <summary>Metodologia de Diseno Evidencia-Based para Prompts</summary>
+    <div class="learn-body">
+      <p>Esta seccion presenta un marco de trabajo riguroso para crear prompts que produzcan resultados verificables, relevantes y de alta calidad. No se trata de escribir prompts bonitos, sino de <strong>disenar instrucciones que funcionen</strong> basandose en evidencia, identidad y criterio humano.</p>
+
+      <h4>Fase 1 — Diagnostico del problema</h4>
+      <p>Antes de escribir un solo prompt, responde: Cual es el problema real que intentas resolver? No confundas el sintoma con la causa. Mapea la escala de impacto: es un problema personal (afecta a un individuo), grupal (afecta a un equipo), social (afecta a una comunidad) o planetario (afecta a muchos)? Investiga el estado del arte: que soluciones existen ya? Que funciona y que no? Formula una pregunta de innovacion clara: "Como podemos lograr X de una manera que nadie ha intentado antes?".</p>
+      <div class="example-box"><span class="pv-tag">Diagnostico:</span> No es lo mismo "quiero una app de tareas" que "los equipos remotos de mi startup pierden un 30% del tiempo porque no tienen visibilidad sobre quienn hace quE y cuAndo. Necesito un sistema que elimine esa friccion sin anadir complejidad."</div>
+
+      <h4>Fase 2 — Captura de identidad y contexto</h4>
+      <p>Todo prompt de calidad nace de entender profundamente quiEn lo usa, para quE, y en quE condiciones. Define 8 dimensiones clave del resultado que buscas: visual (como se ve), discursivo (como se comunica), etico (que valores refleja), funcional (que hace), experiencial (como se siente usarlo), limites (que no debe hacer), atmosfera (que emocion transmite) y relacion (como conecta usuario y resultado). Ademas, describe la ecologia de uso: quiEn usa esto, cOmo lo usa, quE sabe previamente, quE resistencias podria tener. Sin esta captura, el prompt sera genericO.</p>
+      <div class="example-box"><span class="pv-tag">Identidad:</span> "La app es para desarrolladores junior que nunca han usado un gestor de proyectos. Tienen resistencia a herramientas complejas. Usan el celular 60% del tiempo. El tono debe ser amigable pero profesional, como un mentor paciente."</div>
+
+      <h4>Fase 3 — Construccion con criterio verificable</h4>
+      <p>Construye tu prompt como un equipo multidisciplinario lo haria: el arquitecto define la estructura, el disenador cuida la experiencia, el revisor cuestiona cada decision, el tecnico valida la viabilidad. Cada componente del prompt debe cumplir una regla de oro: debe religarse con el problema (resuelve algo real), la evidencia (esta basado en datos verificables), la identidad (es coherente con quiEn lo usa) y el uso (funciona en la practica). No inventes APIs, funciones ni librerias sin confirmar que existen. Si no puedes verificar algo, declAralo como supuesto.</p>
+      <div class="example-box"><span class="pv-tag">Construccion:</span> No digas "usa la API de pagos" sin especificar cuAl. En su lugar: "Implementa pagos usando Stripe o PayPal, ambos verificados y documentados. Si sugieres otra opcion, confirma que la API existe y esta activa."</div>
+
+      <h4>Fase 4 — Auditoria triple antes de entregar</h4>
+      <p>Antes de usar cualquier prompt, aplicale tres niveles de revision. Primera revision: evalUa si el prompt cumple todos los objetivos originales del diagnOstico. Segunda revision: cuestiona la primera revision, aNade al menos un punto que la primera revisiOn no considerO (la segunda revisiOn NUNCA debe solo concordar). Tercera revision: integra ambas, prueba el prompt y toma una decision: APROBADO (listo para usar), CON AJUSTES (necesita modificaciones menores) o NO APROBADO (regresa a la fase de construcciOn con correcciones). Sin esta auditoria, no hay entrega confiable.</p>
+      <div class="example-box"><span class="pv-tag">Auditoria:</span> Revision 1: "El prompt define rol, contexto, tarea, audiencia y formato." Revision 2: "Cierto, pero falta definir que pasa si la IA no puede cumplir la tarea. Y no incluye un criterio de calidad." Revision 3: "Aprobado con ajustes: agregar protocolo de calidad y manejo de limitaciones."</div>
+
+      <h4>Fase 5 — Entrega con contexto formativo</h4>
+      <p>El prompt final no es solo el texto que copias y pegas. Incluye instrucciones de uso, contexto de por quE se construyO asI, y materiales de acompañamiento para que otros puedan entender, replicar y mejorar el prompt. La IA no decide: el metodologo decide con criterio. Cada prompt es un documento vivo que puede iterarse.</p>
+
+      <h4>Principios no negociables</h4>
+      <ul>
+        <li><strong>Evidencia sobre intuicion:</strong> Preferir datos verificables antes que suposiciones. Si no hay evidencia, declararlo explicitamente.</li>
+        <li><strong>Identidad como materia prima:</strong> Las necesidades, resistencias y contexto del usuario son la base del diseno, no un adorno.</li>
+        <li><strong>Religamiento funcional:</strong> Cada componente del prompt debe conectar con problema, evidencia, identidad y uso. Nada queda suelto.</li>
+        <li><strong>Auditoria antes de entrega:</strong> Ningun prompt se considera final sin revision critica de al menos dos perspectivas.</li>
+        <li><strong>El humano decide:</strong> La IA propone opciones basadas en evidencia, pero la decision final siempre es del usuario. La IA no substituye el criterio humano.</li>
+        <li><strong>Protocolo antialucinacion permanente:</strong> Toda informacion debe ser real y comprobable. No se inventan fuentes, datos ni referencias.</li>
+      </ul>
+    </div>
+  </details>
+</section>
+
+<!-- ===================== CONFIG ===================== -->
+<section id="panel-config" class="panel">
+  <h1 class="panel-title">Configuracion</h1>
+  <p class="panel-desc">Personaliza tu experiencia y gestiona tus datos.</p>
+
+  <div class="config-section">
+    <h3>Apariencia</h3>
+    <div class="config-row">
+      <div class="config-label">
+        Modo oscuro
+        <small>Cambia entre tema claro y oscuro</small>
+      </div>
+      <button class="toggle" id="theme-toggle" onclick="toggleTheme()" role="switch" aria-checked="false" aria-label="Modo oscuro"></button>
+    </div>
+  </div>
+
+  <div class="config-section">
+    <h3>Datos</h3>
+    <div class="config-row">
+      <div class="config-label">
+        Exportar todos los datos
+        <small>Descarga tu biblioteca completa como archivo JSON</small>
+      </div>
+      <button class="btn-ghost btn-sm" onclick="exportLibrary()">Exportar</button>
+    </div>
+    <div class="config-row">
+      <div class="config-label">
+        Importar datos
+        <small>Carga un archivo JSON previamente exportado</small>
+      </div>
+      <button class="btn-ghost btn-sm" onclick="document.getElementById('import-file').click()">Importar</button>
+    </div>
+    <div class="config-row">
+      <div class="config-label">
+        Eliminar todos los datos
+        <small>Borra permanentemente tu biblioteca y configuracion</small>
+      </div>
+      <button class="btn-danger btn-sm" onclick="clearAllData()">Eliminar todo</button>
+    </div>
+  </div>
+
+  <div class="config-section">
+    <h3>Sobre PromptForge</h3>
+    <div class="privacy-notice">
+      <strong>Privacidad total:</strong> PromptForge funciona 100% offline. Tus prompts, tu biblioteca y tus datos <strong>nunca salen de tu dispositivo</strong>. No hay servidores, no hay telemetria, no hay recopilacion de datos. Toda la informacion se almacena localmente en tu navegador usando localStorage.
+    </div>
+    <div class="mt-2" style="font-size:.78rem;color:var(--tx2);line-height:1.6">
+      <p><strong>PromptForge</strong> es un orquestador de prompts premium de codigo abierto, disenado bajo la metodologia DSEBI (Diseno de Soluciones Digitales Basado en Evidencia con IA). Su objetivo es ensenar a cualquier persona a comunicarse efectivamente con inteligencias artificiales mediante prompts estructurados, auditables y reutilizables.</p>
+      <p class="mt-1"><strong>Version:</strong> 1.0 MVP | <strong>Licencia:</strong> Libre uso</p>
+    </div>
+  </div>
+
+  <div class="config-section">
+    <h3>Atajos de teclado</h3>
+    <div class="config-row">
+      <div class="config-label">
+        Ctrl + N
+        <small>Nuevo prompt</small>
+      </div>
+      <span style="font-size:.78rem;color:var(--tx3)">Crea un prompt nuevo</span>
+    </div>
+    <div class="config-row">
+      <div class="config-label">
+        Ctrl + S
+        <small>Guardar en biblioteca</small>
+      </div>
+      <span style="font-size:.78rem;color:var(--tx3)">Guarda el prompt actual</span>
+    </div>
+    <div class="config-row">
+      <div class="config-label">
+        Ctrl + Shift + C
+        <small>Copiar prompt</small>
+      </div>
+      <span style="font-size:.78rem;color:var(--tx3)">Copia el prompt generado</span>
+    </div>
+    <div class="config-row">
+      <div class="config-label">
+        Escape
+        <small>Cerrar modal</small>
+      </div>
+      <span style="font-size:.78rem;color:var(--tx3)">Cierra cualquier ventana modal</span>
+    </div>
+    <div class="config-row">
+      <div class="config-label">
+        Teclas 1-5
+        <small>Cambiar panel</small>
+      </div>
+      <span style="font-size:.78rem;color:var(--tx3)">Navega entre las 5 secciones</span>
+    </div>
+  </div>
+</section>
+
+</main>
+
+<!-- Undo bar -->
+<div class="undo-bar" id="undo-bar">
+  <span>Prompt eliminado</span>
+  <button onclick="undoDelete()">Deshacer</button>
+</div>
+
+<!-- Toast -->
+<div class="toast" id="toast" role="status" aria-live="polite"></div>
+
+<!-- ============================================================
+     MODAL: VALIDACION ANTES DE COPIAR
+     ============================================================ -->
+<div class="modal-overlay" id="modal-validate" onclick="if(event.target===this)closeModal('modal-validate')">
+  <div class="modal">
+    <h3>Antes de copiar tu prompt...</h3>
+    <p style="font-size:.85rem;color:var(--tx2);margin-bottom:12px">Revisa tu prompt generado. Este es el texto que copiaras al portapapeles para usar en tu IA preferida.</p>
+    <div class="modal-prompt-preview" id="validate-preview"></div>
+    <div class="field-group">
+      <label class="field-label">Este prompt refleja lo que buscas?</label>
+      <p style="font-size:.75rem;color:var(--tx3)">Si no es exactamente lo que necesitas, puedes volver al formulario y ajustar los campos.</p>
+    </div>
+    <div class="modal-actions">
+      <button class="btn-ghost" onclick="closeModal('modal-validate')">Volver a editar</button>
+      <button class="btn" onclick="confirmCopy()">Si, copiar prompt</button>
+    </div>
+  </div>
+</div>
+
+<!-- ============================================================
+     MODAL: GUARDAR CON TITULO EDITABLE
+     ============================================================ -->
+<div class="modal-overlay" id="modal-save" onclick="if(event.target===this)closeModal('modal-save')">
+  <div class="modal">
+    <h3>Guardar en Biblioteca</h3>
+    <div class="field-group">
+      <label class="field-label">Titulo del prompt</label>
+      <input type="text" id="save-title" placeholder="Escribe un titulo descriptivo...">
+      <span style="font-size:.7rem;color:var(--tx3)">Este titulo te ayudara a encontrar tu prompt facilmente en la biblioteca.</span>
+    </div>
+    <div class="field-group">
+      <label class="field-label">Puntuacion: <span id="save-score-badge"></span></label>
+    </div>
+    <div class="modal-actions">
+      <button class="btn-ghost" onclick="closeModal('modal-save')">Cancelar</button>
+      <button class="btn" onclick="confirmSave()">Guardar</button>
+    </div>
+  </div>
+</div>
+
+<!-- ============================================================
+     MODAL: CAPTURAR RESULTADO DE IA
+     ============================================================ -->
+<div class="modal-overlay" id="modal-capture" onclick="if(event.target===this)closeModal('modal-capture')">
+  <div class="modal">
+    <h3>Capturar Resultado de IA</h3>
+    <p style="font-size:.85rem;color:var(--tx2);margin-bottom:12px">Pega aqui la respuesta que recibiste de la IA. Se guardara asociada a tu prompt original como referencia.</p>
+    <div style="font-size:.78rem;font-weight:600;color:var(--tx);margin-bottom:6px">Prompt original:</div>
+    <div class="modal-prompt-preview" id="capture-original" style="max-height:120px"></div>
+    <div class="field-group mt-1">
+      <label class="field-label">Resultado de la IA</label>
+      <textarea id="capture-result" rows="8" placeholder="Pega aqui la respuesta que te dio la IA..."></textarea>
+    </div>
+    <div class="field-group">
+      <label class="field-label">Calidad del resultado (opcional)</label>
+      <select id="capture-quality">
+        <option value="">-- Sin calificar --</option>
+        <option value="excelente">Excelente - Exactamente lo que buscaba</option>
+        <option value="bueno">Bueno - Necesita ajustes menores</option>
+        <option value="regular">Regular - Le faltan cosas importantes</option>
+        <option value="malo">Malo - No corresponde a lo que busco</option>
+      </select>
+    </div>
+    <div class="field-group">
+      <label class="field-label">Notas (opcional)</label>
+      <input type="text" id="capture-notes" placeholder="Ej: Use ChatGPT, ajuste tono, muy util para...">
+    </div>
+    <div class="modal-actions">
+      <button class="btn-ghost" onclick="closeModal('modal-capture')">Cancelar</button>
+      <button class="btn" onclick="confirmCapture()">Guardar resultado</button>
+    </div>
+  </div>
+</div>
+
+<!-- MODAL: VER PROMPT -->
+<div class="modal-overlay" id="modal-view" onclick="if(event.target===this)closeModal('modal-view')">
+  <div class="modal">
+    <div style="display:flex;justify-content:space-between;align-items:flex-start;gap:12px;margin-bottom:12px">
+      <h3 id="view-title" style="font-size:1.1rem;font-weight:700;color:var(--tx);flex:1">Prompt</h3>
+      <div style="display:flex;gap:8px;align-items:center;flex-shrink:0">
+        <span id="view-score" style="font-size:.78rem"></span>
+        <span id="view-cat" style="font-size:.72rem;color:var(--accent);background:var(--accent-light);padding:2px 8px;border-radius:4px"></span>
+      </div>
+    </div>
+    <div style="font-size:.72rem;color:var(--tx3);margin-bottom:10px" id="view-date"></div>
+    <div class="modal-prompt-preview" id="view-prompt-text" style="max-height:350px"></div>
+    <div class="modal-actions">
+      <button class="btn-ghost btn-sm" onclick="closeModal('modal-view')">Cerrar</button>
+      <button class="btn btn-sm" onclick="copyFromView()">
+        <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5" width="14" height="14"><rect x="5" y="5" width="9" height="9" rx="1"/><path d="M5 11H4a1 1 0 01-1-1V4a1 1 0 011-1h6a1 1 0 011 1v1"/></svg>
+        Copiar Prompt
+      </button>
+      <button class="btn-ghost btn-sm" onclick="editPrompt(document.querySelector('.lib-card')?.dataset?.id)">Editar</button>
+    </div>
+  </div>
+</div>
+
+<!-- ============================================================
+     JAVASCRIPT
+     ============================================================ -->
+<script src="js/app.js"></script>
+</body>
+</html>

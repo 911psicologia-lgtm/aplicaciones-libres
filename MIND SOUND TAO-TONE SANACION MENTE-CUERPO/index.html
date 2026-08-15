@@ -1,0 +1,352 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>TAO-TONE | V3 Alquimia Edition</title>
+    <style>
+        :root {
+            --bg: #050805; 
+            --gold: #d4af37;
+            --jade: #2e8b57;
+            --glass: rgba(212, 175, 55, 0.05);
+            --text: #e0e0e0;
+        }
+
+        body {
+            margin: 0; background-color: var(--bg); color: var(--gold);
+            font-family: 'Times New Roman', serif; overflow: hidden; height: 100vh;
+            display: flex; flex-direction: column; align-items: center; justify-content: center;
+            user-select: none; -webkit-tap-highlight-color: transparent;
+        }
+
+        .screen {
+            position: absolute; width: 100%; height: 100%;
+            display: flex; flex-direction: column; align-items: center; justify-content: center;
+            transition: opacity 1s ease; z-index: 100; background: var(--bg);
+        }
+
+        h1 { font-weight: 100; letter-spacing: 12px; font-size: 1.8rem; margin-bottom: 5px; text-transform: uppercase; text-shadow: 0 0 15px rgba(212, 175, 55, 0.3); }
+        .subtitle { font-size: 0.7rem; letter-spacing: 5px; color: var(--jade); margin-bottom: 25px; }
+
+        /* PROTOCOLOS DE TIEMPO */
+        .section-label { font-size: 0.6rem; letter-spacing: 3px; margin-bottom: 10px; opacity: 0.6; text-transform: uppercase; }
+        
+        .protocol-bar { display: flex; gap: 8px; margin-bottom: 25px; width: 95%; max-width: 420px; }
+        .protocol-btn {
+            flex: 1; border: 1px solid #1a2a1a; padding: 12px 5px; font-size: 0.55rem;
+            cursor: pointer; border-radius: 4px; text-align: center; transition: 0.3s; color: #556655;
+            display: flex; flex-direction: column; gap: 4px;
+        }
+        .protocol-btn b { font-size: 0.7rem; }
+        .protocol-btn.active { border-color: var(--gold); color: var(--gold); background: var(--glass); box-shadow: 0 0 10px rgba(212, 175, 55, 0.1); }
+
+        /* GRID DE ÓRGANOS */
+        .organ-grid {
+            display: grid; grid-template-columns: repeat(4, 1fr); gap: 8px;
+            width: 95%; max-width: 420px; margin-bottom: 30px;
+        }
+        .organ-item {
+            background: var(--glass); border: 1px solid #1a2a1a; padding: 15px 2px;
+            border-radius: 4px; cursor: pointer; text-align: center; transition: 0.3s;
+        }
+        .organ-item.active { border-color: var(--jade); background: rgba(46, 139, 87, 0.15); transform: translateY(-2px); }
+        .o-name { font-size: 0.65rem; font-weight: bold; display: block; margin-bottom: 4px; color: #fff; }
+        .o-mantra { font-size: 0.55rem; opacity: 0.6; font-style: italic; letter-spacing: 1px; }
+
+        .btn-launch {
+            background: transparent; border: 1px solid var(--gold); color: var(--gold);
+            padding: 20px 70px; font-size: 1rem; border-radius: 2px;
+            cursor: pointer; transition: 0.5s; letter-spacing: 5px; font-weight: 100;
+        }
+        .btn-launch:active { background: var(--gold); color: #000; }
+
+        /* ACTIVE ZONE */
+        #active-zone { z-index: 50; opacity: 0; pointer-events: none; position: absolute; width:100%; height:100%; }
+        canvas { position: absolute; top:0; left:0; width:100%; height:100%; }
+        
+        #hud { position: absolute; width: 100%; text-align: center; top: 50%; transform: translateY(-50%); pointer-events: none; }
+        #action-hint { font-size: 0.9rem; letter-spacing: 10px; color: #fff; margin-bottom: 30px; font-weight: 100; text-transform: uppercase; }
+        #mantra-display { font-size: 5rem; font-weight: 100; letter-spacing: 15px; transition: color 1.5s; }
+        
+        #header-hud { position: absolute; top: 10%; width: 100%; text-align: center; }
+        #organ-title { font-size: 0.8rem; letter-spacing: 10px; opacity: 0.7; margin-bottom: 10px; }
+        #timer-display { font-size: 0.6rem; letter-spacing: 3px; opacity: 0.4; font-family: monospace; }
+
+        #footer-msg { position: absolute; bottom: 8%; width: 100%; text-align: center; font-size: 0.6rem; letter-spacing: 3px; opacity: 0.3; }
+
+        /* INFO MODAL */
+        #modal {
+            position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+            background: rgba(0,0,0,0.98); z-index: 2000; display: none;
+            flex-direction: column; align-items: center; justify-content: center; padding: 40px;
+        }
+        .modal-content { max-width: 450px; line-height: 1.6; font-size: 0.9rem; color: #889988; }
+        .modal-content h3 { color: var(--gold); border-bottom: 1px solid #223322; padding-bottom: 10px; font-weight: 100; letter-spacing: 3px; }
+    </style>
+</head>
+<body>
+
+    <div id="setup-ui" class="screen">
+        <h1>TAO-TONE</h1>
+        <div class="subtitle">ALQUIMIA VIBRACIONAL</div>
+
+        <div class="section-label">Protocolo de Inmersión</div>
+        <div class="protocol-bar">
+            <div class="protocol-btn active" onclick="setProtocol('single')" id="p-single"><b>MANUAL</b>TERAPIA</div>
+            <div class="protocol-btn" onclick="setProtocol(12)" id="p-12"><b>12m</b>EQUILIBRIO</div>
+            <div class="protocol-btn" onclick="setProtocol(24)" id="p-24"><b>24m</b>PURIFICA</div>
+            <div class="protocol-btn" onclick="setProtocol(48)" id="p-48"><b>48m</b>REGENERA</div>
+        </div>
+
+        <div class="section-label">Selector de Frecuencia</div>
+        <div class="organ-grid" id="organ-grid"></div>
+
+        <button class="btn-launch" onclick="launch()">INICIAR</button>
+        <div style="margin-top:25px; font-size:0.6rem; cursor:pointer; opacity:0.5; border-bottom:1px dotted;" onclick="toggleModal(true)">CIENCIA Y PROTOCOLO</div>
+    </div>
+
+    <div id="active-zone">
+        <canvas id="main-canvas"></canvas>
+        <div id="header-hud">
+            <div id="organ-title">-</div>
+            <div id="timer-display">MODO MANUAL</div>
+        </div>
+        <div id="hud">
+            <div id="action-hint">PREPARANDO</div>
+            <div id="mantra-display">-</div>
+        </div>
+        <div id="footer-msg">MANTÉN PRESIONADO PARA CERRAR EL CICLO</div>
+    </div>
+
+    <div id="modal">
+        <div class="modal-content">
+            <h3>ALQUIMIA DE SONIDO</h3>
+            <p><b>1. Resonancia Taoísta:</b> El sistema utiliza los 6 sonidos curativos para liberar el calor emocional atrapado en los órganos internos (Ira, Miedo, Duelo).</p>
+            <p><b>2. Binaural Alfa (10Hz):</b> Cada tono de sanación está entrelazado con una frecuencia de 10Hz para forzar la relajación del sistema nervioso.</p>
+            <p><b>3. Cimática Interactiva:</b> La geometría sagrada en pantalla dicta el ritmo respiratorio. Inhale luz en la expansión, exhale el mantra en la contracción.</p>
+            <center><button style="background:none; border:none; color:var(--gold); margin-top:30px; cursor:pointer; text-decoration:underline;" onclick="toggleModal(false)">REGRESAR</button></center>
+        </div>
+    </div>
+
+    <script>
+        // CONFIGURACIÓN MAESTRA DE ESTADOS
+        const STATES = [
+            { id: 'liver', name: 'HÍGADO', mantra: 'SHHHHH', freq: 432, color: '#2e8b57' },
+            { id: 'heart', name: 'CORAZÓN', mantra: 'HAAAAA', freq: 528, color: '#b22222' },
+            { id: 'spleen', name: 'BAZO', mantra: 'JUUUUU', freq: 528, color: '#d4af37' },
+            { id: 'lungs', name: 'PULMONES', mantra: 'SSSSSS', freq: 741, color: '#dcdcdc' },
+            { id: 'kidneys', name: 'RIÑONES', mantra: 'CHUUUU', freq: 639, color: '#1e90ff' },
+            { id: 'triple', name: 'TRIPLE CAL', mantra: 'JIIIIII', freq: 417, color: '#ff8c00' },
+            { id: 'brain', name: 'CEREBRO', mantra: 'OMMMMM', freq: 963, color: '#9400d3' }
+        ];
+
+        let selectedIdx = 0;
+        let protocolType = 'single';
+        let audioCtx, masterGain, oscBase, oscBinaural;
+        let isRunning = false;
+        let wakeLock = null;
+
+        // INICIALIZAR INTERFAZ
+        const grid = document.getElementById('organ-grid');
+        STATES.forEach((s, i) => {
+            const div = document.createElement('div');
+            div.className = `organ-item ${i === 0 ? 'active' : ''}`;
+            div.onclick = () => {
+                selectedIdx = i;
+                document.querySelectorAll('.organ-item').forEach((el, idx) => el.classList.toggle('active', idx === i));
+            };
+            div.innerHTML = `<span class="o-name">${s.name}</span><span class="o-mantra">${s.mantra}</span>`;
+            grid.appendChild(div);
+        });
+
+        function setProtocol(val) {
+            protocolType = val;
+            document.querySelectorAll('.protocol-btn').forEach(b => b.classList.remove('active'));
+            document.getElementById(val === 'single' ? 'p-single' : `p-${val}`).classList.add('active');
+        }
+
+        function toggleModal(show) { document.getElementById('modal').style.display = show ? 'flex' : 'none'; }
+
+        // LÓGICA DE LANZAMIENTO
+        async function launch() {
+            if(!audioCtx) audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+            isRunning = true;
+            
+            try { if('wakeLock' in navigator) wakeLock = await navigator.wakeLock.request('screen'); } catch(e){}
+
+            document.getElementById('setup-ui').style.opacity = 0;
+            setTimeout(() => {
+                document.getElementById('setup-ui').style.display = 'none';
+                document.getElementById('active-zone').style.opacity = 1;
+                document.getElementById('active-zone').style.pointerEvents = 'auto';
+                
+                initAudioEngine();
+                initVisualEngine();
+                if(protocolType !== 'single') startProtocolSequence();
+            }, 1000);
+        }
+
+        // MOTOR DE AUDIO (BASE + BINAURAL ALFA)
+        function initAudioEngine() {
+            if(audioCtx.state === 'suspended') audioCtx.resume();
+            masterGain = audioCtx.createGain();
+            masterGain.connect(audioCtx.destination);
+            applyHealingFrequency();
+        }
+
+        function applyHealingFrequency() {
+            const data = STATES[selectedIdx];
+            
+            // Limpieza de osciladores previos
+            if(oscBase) oscBase.stop();
+            if(oscBinaural) oscBinaural.stop();
+
+            oscBase = audioCtx.createOscillator();
+            oscBinaural = audioCtx.createOscillator();
+            
+            oscBase.type = 'sine';
+            oscBase.frequency.value = data.freq;
+
+            // Diferencial de 10Hz para inducir estado Alfa
+            oscBinaural.type = 'sine';
+            oscBinaural.frequency.value = data.freq + 10;
+
+            const localGain = audioCtx.createGain();
+            localGain.gain.setValueAtTime(0, audioCtx.currentTime);
+            localGain.gain.linearRampToValueAtTime(0.3, audioCtx.currentTime + 3);
+
+            oscBase.connect(localGain);
+            oscBinaural.connect(localGain);
+            localGain.connect(masterGain);
+
+            oscBase.start();
+            oscBinaural.start();
+
+            // Actualizar HUD
+            document.getElementById('mantra-display').innerText = data.mantra;
+            document.getElementById('mantra-display').style.color = data.color;
+            document.getElementById('organ-title').innerText = data.name;
+        }
+
+        // LÓGICA DE PROTOCOLOS AUTOMÁTICOS
+        async function startProtocolSequence() {
+            const organsToCycle = STATES.length; 
+            const totalMs = protocolType * 60 * 1000;
+            const msPerOrgan = totalMs / organsToCycle;
+
+            for(let i=0; i < organsToCycle; i++) {
+                if(!isRunning) break;
+                selectedIdx = i;
+                applyHealingFrequency();
+                
+                // Actualizar timer visual (opcional)
+                let remaining = msPerOrgan;
+                const timerInt = setInterval(() => {
+                    if(!isRunning) clearInterval(timerInt);
+                    remaining -= 1000;
+                    document.getElementById('timer-display').innerText = `SIGUIENTE FASE EN: ${Math.max(0, Math.floor(remaining/1000))}s`;
+                }, 1000);
+
+                await new Promise(r => setTimeout(r, msPerOrgan));
+                clearInterval(timerInt);
+            }
+
+            if(isRunning) endSession();
+        }
+
+        // MOTOR VISUAL (CIMÁTICA Y RESPIRACIÓN)
+        function initVisualEngine() {
+            const canvas = document.getElementById('main-canvas');
+            const ctx = canvas.getContext('2d');
+            canvas.width = window.innerWidth;
+            canvas.height = window.innerHeight;
+            let frame = 0;
+
+            function animate() {
+                if(!isRunning) return;
+                
+                ctx.fillStyle = 'rgba(5, 8, 5, 0.1)';
+                ctx.fillRect(0, 0, canvas.width, canvas.height);
+
+                const cx = canvas.width / 2;
+                const cy = canvas.height / 2;
+                const data = STATES[selectedIdx];
+
+                // Ciclo de respiración (senoidal)
+                const breath = Math.sin(frame * 0.02);
+                const radius = 130 + (breath * 60);
+
+                // Guía de texto
+                const hint = document.getElementById('action-hint');
+                if(breath > 0) {
+                    hint.innerText = "Inhala Energía";
+                    hint.style.opacity = breath + 0.2;
+                } else {
+                    hint.innerText = "Exhala: " + data.mantra;
+                    hint.style.opacity = Math.abs(breath) + 0.2;
+                }
+
+                // Dibujo Cimático (Patrón de interferencia)
+                ctx.beginPath();
+                ctx.strokeStyle = data.color;
+                ctx.lineWidth = 1;
+                
+                const lines = 8;
+                for(let i=0; i<lines; i++) {
+                    const angle = (Math.PI * 2 / lines) * i + (frame * 0.005);
+                    const x = cx + Math.cos(angle) * radius;
+                    const y = cy + Math.sin(angle) * radius;
+                    
+                    ctx.moveTo(cx, cy);
+                    ctx.lineTo(x, y);
+                    
+                    // Círculos resonantes periféricos
+                    ctx.arc(x, y, Math.abs(breath * 20), 0, Math.PI * 2);
+                }
+                ctx.stroke();
+
+                frame++;
+                requestAnimationFrame(animate);
+            }
+            animate();
+        }
+
+        // CIERRE DE SESIÓN
+        function endSession() {
+            isRunning = false;
+            if(masterGain) masterGain.gain.linearRampToValueAtTime(0, audioCtx.currentTime + 2);
+            if(wakeLock) wakeLock.release();
+            
+            document.getElementById('hud').style.opacity = 0;
+            document.getElementById('footer-msg').innerText = "CICLO DE ALQUIMIA COMPLETADO";
+            document.getElementById('footer-msg').style.opacity = 1;
+            
+            setTimeout(() => location.reload(), 3000);
+        }
+
+        // CONTROL DE SALIDA (HOLD TO EXIT)
+        let holdTimer;
+        const activeZone = document.getElementById('active-zone');
+        
+        const startHold = () => {
+            if(!isRunning) return;
+            holdTimer = setTimeout(() => {
+                endSession();
+            }, 2000);
+            document.getElementById('footer-msg').style.opacity = 0.8;
+        };
+
+        const endHold = () => {
+            clearTimeout(holdTimer);
+            if(isRunning) document.getElementById('footer-msg').style.opacity = 0.3;
+        };
+
+        activeZone.addEventListener('mousedown', startHold);
+        activeZone.addEventListener('touchstart', startHold);
+        window.addEventListener('mouseup', endHold);
+        window.addEventListener('touchend', endHold);
+
+    </script>
+</body>
+</html>

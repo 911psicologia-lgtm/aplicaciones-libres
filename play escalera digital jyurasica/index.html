@@ -1,0 +1,2506 @@
+<!doctype html>
+<html lang="es">
+<head>
+  <meta charset="utf-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <title>Escalera Juego — Tablero Virtual (HTML5)</title>
+  <style>
+    :root{
+      --bg:#0b1220; --card:#111a2e; --card2:#0f1730; --ink:#e9eefc; --muted:#a9b6d6;
+      --accent:#6ee7ff; --accent2:#a78bfa; --good:#34d399; --bad:#fb7185; --warn:#fbbf24;
+      --line: rgba(255,255,255,.10);
+      --shadow: 0 20px 60px rgba(0,0,0,.45);
+      --r: 18px;
+      --mono: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace;
+      --sans: ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto, Helvetica, Arial, "Apple Color Emoji","Segoe UI Emoji";
+    }
+    *{box-sizing:border-box}
+    body{
+      margin:0; font-family:var(--sans); background:
+      radial-gradient(1200px 800px at 20% 0%, rgba(110,231,255,.18), transparent 60%),
+      radial-gradient(900px 700px at 90% 30%, rgba(167,139,250,.18), transparent 55%),
+      linear-gradient(180deg, #081024, #060b16 60%, #050810);
+      color:var(--ink);
+      min-height:100vh;
+    }
+    .wrap{max-width:1180px; margin:0 auto; padding:18px;}
+    header{
+      position:sticky; top:0; z-index:50;
+      display:flex; gap:12px; align-items:flex-start; justify-content:space-between; flex-wrap:wrap;
+      padding:10px; border:1px solid var(--line); border-radius:var(--r); background:rgba(17,26,46,.75); box-shadow: var(--shadow);
+      backdrop-filter: blur(8px);
+      position:relative;
+    }
+    .title{display:flex; gap:12px; align-items:center;}
+    .logo{
+      width:44px; height:44px; border-radius:14px;
+      background: conic-gradient(from 180deg, var(--accent), var(--accent2), var(--accent));
+      box-shadow: 0 10px 30px rgba(110,231,255,.18);
+      position:relative;
+    }
+    .logo:after{
+      content:""; position:absolute; inset:2px; border-radius:12px; background:rgba(9,14,28,.85);
+      border:1px solid rgba(255,255,255,.10);
+    }
+    h1{margin:0; font-size:18px; letter-spacing:.2px}
+    .sub{margin:3px 0 0; color:var(--muted); font-size:13px; line-height:1.35}
+    .topbar{display:flex; gap:10px; align-items:stretch; flex-wrap:wrap;}
+    .topbar .card{padding:10px;}
+    .card{
+      border:1px solid var(--line); border-radius:var(--r); background:rgba(17,26,46,.65);
+      padding:10px; box-shadow: 0 10px 30px rgba(0,0,0,.25);
+    }
+    .diceCard{min-width:340px}
+    .diceRow{display:flex; gap:12px; align-items:center; justify-content:space-between}
+    .btn{
+      appearance:none; border:1px solid rgba(255,255,255,.16);
+      background: rgba(255,255,255,.06);
+      color:var(--ink); padding:10px 12px; border-radius:14px;
+      font-weight:700; cursor:pointer;
+      transition: transform .06s ease, background .2s ease, border-color .2s ease;
+    }
+    .btn:hover{background: rgba(255,255,255,.10)}
+    .btn:active{transform: translateY(1px)}
+    .btn.primary{border-color: rgba(110,231,255,.45); background: rgba(110,231,255,.12)}
+    .btn.primary:hover{background: rgba(110,231,255,.18)}
+    .btn.good{border-color: rgba(52,211,153,.45); background: rgba(52,211,153,.12)}
+    .btn.bad{border-color: rgba(251,113,133,.55); background: rgba(251,113,133,.12)}
+    .btn.warn{border-color: rgba(251,191,36,.55); background: rgba(251,191,36,.12)}
+    .btn.small{padding:8px 10px; border-radius:12px; font-weight:800; font-size:13px}
+    .row{display:flex; gap:16px; flex-wrap:wrap; margin-top:12px}
+    .col{flex: 1 1 380px; min-width: 330px}
+    .boardWrap{border:1px solid rgba(255,255,255,.16); border-radius:26px; background: rgba(9,16,30,.55); padding:14px; overflow:hidden;}
+    .boardWrap.shake{animation: shake .55s cubic-bezier(.36,.07,.19,.97) both;}
+    @keyframes shake{
+      10%, 90% { transform: translateX(-1px); }
+      20%, 80% { transform: translateX(2px); }
+      30%, 50%, 70% { transform: translateX(-4px); }
+      40%, 60% { transform: translateX(4px); }
+    }
+    .boardHead{display:flex; gap:10px; align-items:center; justify-content:space-between; flex-wrap:wrap; margin-bottom:10px;}
+    .chips{display:flex; gap:8px; flex-wrap:wrap}
+    .chip{
+      display:flex; gap:8px; align-items:center;
+      padding:8px 10px; border-radius:999px;
+      border:1px solid rgba(255,255,255,.14);
+      background: rgba(255,255,255,.06);
+      font-size:13px; color:var(--muted);
+    }
+    .dot{width:10px; height:10px; border-radius:999px; display:inline-block}
+    .grid{display:grid; grid-template-columns: repeat(var(--cols,10), minmax(var(--cellMin,38px), 1fr)); gap: var(--gap,8px);}
+    .cell{position:relative; border:2px solid rgba(255,255,255,.22); border-radius:18px; padding: clamp(6px, 1.4vw, 10px) clamp(6px, 1.1vw, 8px); min-height: clamp(40px, 6.5vw, 58px); background: linear-gradient(180deg, rgba(255,255,255,.06), rgba(0,0,0,.08)); display:flex; align-items:center; justify-content:space-between; gap:8px; transition: transform .14s ease, border-color .14s ease, background .14s ease;}
+    .cell .n{font-family:var(--mono); font-size:12px; color: rgba(233,238,252,.75); opacity:.95;}
+    .badge{
+      position:absolute; right:8px; top:8px;
+      font-size:11px; font-weight:900; padding:4px 7px; border-radius:999px;
+      border:1px solid rgba(255,255,255,.16);
+      background: rgba(255,255,255,.06);
+      color: rgba(233,238,252,.9);
+    }
+    .badge.good{border-color: rgba(52,211,153,.45); background: rgba(52,211,153,.14)}
+    .badge.bad{border-color: rgba(251,113,133,.5); background: rgba(251,113,133,.14)}
+    .badge.warn{border-color: rgba(251,191,36,.5); background: rgba(251,191,36,.14)}
+    .tokens{
+      position:absolute; left:8px; bottom:8px;
+      display:flex; gap:6px; flex-wrap:wrap;
+    }
+    .tok{
+      width:18px; height:18px; border-radius:999px;
+      border:2px solid rgba(0,0,0,.45);
+      box-shadow: 0 6px 14px rgba(0,0,0,.25);
+      display:grid; place-items:center;
+      font-size:12px; line-height:1; user-select:none;
+    }
+    .cell.active{
+      outline: 3px solid rgba(110,231,255,.55);
+      outline-offset: 2px;
+      box-shadow: 0 0 0 8px rgba(110,231,255,.08);
+    }
+    .panel{
+      border:1px solid var(--line); border-radius:var(--r);
+      background:rgba(17,26,46,.60);
+      padding:14px; box-shadow: var(--shadow);
+    }
+    .panel h2{margin:0 0 10px; font-size:15px}
+    .muted{color:var(--muted); font-size:13px; line-height:1.4}
+    .formRow{display:flex; gap:10px; flex-wrap:wrap; align-items:flex-end}
+    label{font-size:12px; color:var(--muted); font-weight:800; letter-spacing:.2px}
+    input, select{
+      width:100%;
+      padding:10px 12px;
+      border-radius:14px;
+      border:1px solid rgba(255,255,255,.16);
+      background: rgba(0,0,0,.18);
+      color:var(--ink);
+      outline:none;
+    }
+    select{padding-right:32px}
+    .field{flex:1 1 180px; min-width:160px}
+    .playersList{margin-top:10px; display:flex; flex-direction:column; gap:8px; max-height: 420px; overflow:auto; padding-right:4px}
+    .pRow{
+      display:flex; gap:10px; align-items:center; justify-content:space-between;
+      padding:10px 12px; border-radius:16px;
+      border:1px solid rgba(255,255,255,.14);
+      background: rgba(255,255,255,.05);
+    }
+    .pLeft{display:flex; gap:10px; align-items:center}
+    .pName{font-weight:900; font-size:13px}
+    .pMeta{font-family:var(--mono); font-size:12px; color:var(--muted)}
+    .turnTag{
+      font-size:11px; font-weight:950;
+      padding:4px 8px; border-radius:999px;
+      border:1px solid rgba(110,231,255,.45);
+      background: rgba(110,231,255,.12);
+    }
+    .avatarChip{
+      width:26px; height:26px; border-radius:12px;
+      border:1px solid rgba(255,255,255,.18);
+      background: rgba(255,255,255,.06);
+      display:grid; place-items:center;
+      font-size:16px; user-select:none;
+    }
+    .hr{height:1px; background: rgba(255,255,255,.10); margin:10px 0}
+
+    /* Modal */
+    .modalOverlay{
+      position:fixed; inset:0; background:rgba(0,0,0,.55);
+      display:none; align-items:center; justify-content:center;
+      padding:16px; z-index:999;
+    }
+    .modal{
+      width:min(640px, 100%);
+      border:1px solid rgba(255,255,255,.16);
+      border-radius:22px;
+      background: rgba(17,26,46,.92);
+      backdrop-filter: blur(10px);
+      box-shadow: 0 30px 90px rgba(0,0,0,.6);
+      overflow:hidden;
+    }
+    .modalHeader{
+      padding:14px 16px;
+      display:flex; align-items:flex-start; justify-content:space-between; gap:12px;
+      border-bottom:1px solid rgba(255,255,255,.10);
+      background: linear-gradient(180deg, rgba(255,255,255,.08), rgba(255,255,255,.03));
+    }
+    .modalTitle{margin:0; font-size:15px}
+    .modalBody{padding:14px 16px}
+    .modalFooter{
+      padding:14px 16px; border-top:1px solid rgba(255,255,255,.10);
+      display:flex; gap:10px; justify-content:flex-end; flex-wrap:wrap;
+    }
+    .kicker{
+      font-family:var(--mono); font-size:12px; color: rgba(233,238,252,.72);
+      padding:7px 10px; border-radius:999px;
+      border:1px dashed rgba(255,255,255,.20);
+      background: rgba(255,255,255,.05);
+      display:inline-flex; align-items:center; gap:8px;
+    }
+    .qBox{
+      margin-top:10px; padding:10px; border-radius:18px;
+      border:1px solid rgba(255,255,255,.14); background: rgba(0,0,0,.18);
+    }
+    .qText{margin:0 0 10px; font-weight:900}
+    .opts{display:grid; gap:8px}
+    .opt{
+      display:flex; gap:10px; align-items:flex-start;
+      padding:10px 12px; border-radius:16px;
+      border:1px solid rgba(255,255,255,.14); background: rgba(255,255,255,.05);
+      cursor:pointer;
+    }
+    .opt input{width:auto; margin-top:3px}
+    .hint{margin-top:10px; color:var(--muted); font-size:13px}
+
+    /* Toast */
+    .toast{
+      position:fixed; left:50%; transform:translateX(-50%);
+      bottom:18px; z-index:1000;
+      padding:10px 12px; border-radius:16px;
+      border:1px solid rgba(255,255,255,.16);
+      background: rgba(17,26,46,.92);
+      box-shadow: 0 20px 60px rgba(0,0,0,.45);
+      color:var(--ink);
+      display:none;
+      max-width:min(760px, calc(100vw - 24px));
+      font-size:13px;
+    }
+    .toast b{color:var(--accent)}
+
+    /* 🎲 DADO 3D */
+    .dieStage{width:78px; height:78px; perspective: 900px; display:grid; place-items:center;}
+    .cube{
+      width:58px; height:58px; position:relative;
+      transform-style:preserve-3d;
+      transition: transform 520ms cubic-bezier(.2,.9,.2,1);
+      filter: drop-shadow(0 16px 26px rgba(0,0,0,.28));
+    }
+    .face{
+      position:absolute; inset:0;
+      border-radius:16px;
+      border:1px solid rgba(255,255,255,.22);
+      background: linear-gradient(180deg, rgba(255,255,255,.18), rgba(255,255,255,.06));
+      display:grid; place-items:center;
+      font-family:var(--mono); font-weight:950; font-size:22px;
+      user-select:none; backface-visibility:hidden;
+    }
+    .face::after{
+      content:""; position:absolute; inset:6px; border-radius:13px;
+      border:1px solid rgba(255,255,255,.10); pointer-events:none;
+    }
+    .f1{transform: rotateY(  0deg) translateZ(29px)}
+    .f2{transform: rotateY( 90deg) translateZ(29px)}
+    .f3{transform: rotateY(180deg) translateZ(29px)}
+    .f4{transform: rotateY(-90deg) translateZ(29px)}
+    .f5{transform: rotateX( 90deg) translateZ(29px)}
+    .f6{transform: rotateX(-90deg) translateZ(29px)}
+    .cube.rolling{animation: roll 1800ms cubic-bezier(.12,.86,.18,1) both;}
+    @keyframes roll{
+      0%   {transform: rotateX(0deg) rotateY(0deg) rotateZ(0deg)}
+      20%  {transform: rotateX(420deg) rotateY(320deg) rotateZ(40deg)}
+      40%  {transform: rotateX(760deg) rotateY(680deg) rotateZ(90deg)}
+      60%  {transform: rotateX(1120deg) rotateY(980deg) rotateZ(140deg)}
+      80%  {transform: rotateX(1480deg) rotateY(1340deg) rotateZ(200deg)}
+      100% {transform: rotateX(1760deg) rotateY(1660deg) rotateZ(260deg)}
+    }
+
+    /* fireworks canvas */
+    #fxCanvas{
+      position:fixed; inset:0;
+      width:100vw; height:100vh;
+      pointer-events:none;
+      z-index:1200;
+      display:none;
+    }
+
+    
+    /* Compact mode: keep board visible */
+    .col.boardCol{flex: 1 1 520px; min-width: 320px}
+    .col.playersCol{flex: 0 1 360px; min-width: 320px}
+
+    @media (max-width: 860px){
+      .row{flex-direction:column;}
+      .playersCol{order:2}
+      .boardCol{order:1}
+      .playersCollapsible summary{
+        cursor:pointer;
+        font-weight:950;
+        color:var(--muted);
+      }
+      .playersCollapsible{
+        border:1px solid rgba(255,255,255,.14);
+        border-radius:22px;
+        background:rgba(17,26,46,.55);
+        padding:10px 12px;
+      }
+      .playersCollapsible[open]{padding-bottom:14px}
+      .playersCollapsible .panel{border:none; box-shadow:none; background:transparent; padding:0; margin-top:10px}
+    }
+
+
+    
+    /* Details/accordion: menos sensible */
+    details > summary{
+      list-style:none;
+      padding:10px 12px;
+      border-radius:16px;
+      background: rgba(255,255,255,.05);
+      border:1px solid rgba(255,255,255,.12);
+      user-select:none;
+      -webkit-tap-highlight-color: transparent;
+    }
+    details > summary::-webkit-details-marker{display:none}
+    details[open] > summary{
+      border-color: rgba(110,231,255,.30);
+      background: rgba(110,231,255,.08);
+    }
+
+
+    
+    /* Animaciones en casillas especiales */
+    .cell.prize{animation: pulseGood 2.2s ease-in-out infinite;}
+    .cell.penalty{animation: pulseBad 2.2s ease-in-out infinite;}
+    .cell.trivia{animation: pulseWarn 2.2s ease-in-out infinite;}
+    @keyframes pulseGood{
+      0%,100%{ box-shadow: 0 0 0 rgba(52,211,153,0); }
+      50%{ box-shadow: 0 0 0 6px rgba(52,211,153,.10), 0 0 24px rgba(52,211,153,.14); }
+    }
+    @keyframes pulseBad{
+      0%,100%{ box-shadow: 0 0 0 rgba(251,113,133,0); }
+      50%{ box-shadow: 0 0 0 6px rgba(251,113,133,.10), 0 0 24px rgba(251,113,133,.14); }
+    }
+    @keyframes pulseWarn{
+      0%,100%{ box-shadow: 0 0 0 rgba(251,191,36,0); }
+      50%{ box-shadow: 0 0 0 6px rgba(251,191,36,.10), 0 0 24px rgba(251,191,36,.14); }
+    }
+    /* Ruta de movimiento */
+    .cell.path{
+      outline: 3px dashed rgba(110,231,255,.45);
+      outline-offset: 2px;
+      background: linear-gradient(180deg, rgba(110,231,255,.10), rgba(255,255,255,.03));
+    }
+
+
+    
+    /* Alternancia suave para que la grilla se lea mejor */
+    .cell:nth-child(odd){
+      background: linear-gradient(180deg, rgba(255,255,255,.075), rgba(0,0,0,.10));
+    }
+    .cell:nth-child(even){
+      background: linear-gradient(180deg, rgba(110,231,255,.06), rgba(0,0,0,.10));
+    }
+    .cell:hover{ transform: translateY(-1px); border-color: rgba(110,231,255,.35); }
+
+
+    @media (max-width: 520px){
+      .grid{grid-template-columns: repeat(5, minmax(0, 1fr));}
+      .diceCard{min-width: unset; width:100%}
+      .playersList{max-height: 320px}
+    }
+  
+    @media (max-width: 520px){
+      .grid{grid-template-columns: repeat(10, minmax(42px, 1fr)); gap:7px;}
+      .cell{min-height:46px; border-radius:16px; padding:9px 7px;}
+      .board{max-height:60vh;}
+    }
+
+
+    .btn.ghost{
+      min-width:44px;
+      display:inline-flex;
+      align-items:center;
+      justify-content:center;
+
+      background: rgba(255,255,255,.06);
+      border:1px solid rgba(255,255,255,.12);
+      color: var(--ink);
+      padding:10px 12px;
+    }
+    .btn.ghost:hover{ border-color: rgba(110,231,255,.35); transform: translateY(-1px); }
+
+    /* Tour */
+    #tourOverlay{
+      position:fixed; inset:0; z-index:200;
+      display:none;
+      background: rgba(0,0,0,.55);
+      backdrop-filter: blur(2px);
+    }
+    #tourCard{
+      position:absolute;
+      max-width: 420px;
+      width: calc(100vw - 28px);
+      background: rgba(17,26,46,.96);
+      border:1px solid rgba(255,255,255,.18);
+      border-radius: 22px;
+      box-shadow: 0 24px 80px rgba(0,0,0,.45);
+      padding: 14px 14px 12px;
+    }
+    #tourCard h3{ margin:0 0 6px; font-size:16px; }
+    #tourCard p{ margin:0 0 10px; color: var(--muted); line-height:1.45; }
+    #tourNav{ display:flex; gap:10px; justify-content:flex-end; flex-wrap:wrap; }
+    .spotlight{
+      position:absolute;
+      border-radius: 18px;
+      box-shadow: 0 0 0 9999px rgba(0,0,0,.55);
+      outline: 2px solid rgba(110,231,255,.55);
+      transition: all .22s ease;
+      pointer-events:none;
+    }
+
+
+    /* Responsive layout: móvil/tablet/PC */
+    @media (max-width: 980px){
+      .layout{ grid-template-columns: 1fr; }
+      .topBar{ grid-template-columns: 1fr; gap: 12px; }
+      .boardCard{ order: 2; }
+      .sideCard{ order: 1; }
+    }
+    @media (max-width: 520px){
+      .grid{ gap: 6px; }
+      .cell{ border-radius: 14px; }
+      .chip{ padding: 8px 10px; }
+      .btn{ padding: 10px 12px; }
+      .boardWrap{ max-height: calc(100vh - 220px); }
+    }
+    @media (min-width: 521px) and (max-width: 980px){
+      .boardWrap{ max-height: calc(100vh - 260px); }
+    }
+    @media (min-width: 981px){
+      .boardWrap{ max-height: calc(100vh - 240px); }
+    }
+
+
+    /* Mobile badge containment */
+    .badge{
+      max-width: calc(100% - 16px);
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      right: 6px;
+      top: 6px;
+      font-size: clamp(9px, 2.4vw, 11px);
+      padding: 3px 6px;
+    }
+    @media (max-width: 520px){
+      .badge{ right:4px; top:4px; }
+      .cell{ padding-top: 18px; } /* espacio para la etiqueta */
+    }
+
+    /* Premium: vista solo tablero (fullscreen board) */
+    body.premiumFullBoard .sideCard,
+    body.premiumFullBoard #playersCard,
+    body.premiumFullBoard #manualModeDetails,
+    body.premiumFullBoard #premiumDetails{
+      display:none !important;
+    }
+    body.premiumFullBoard .layout{ grid-template-columns: 1fr !important; }
+    body.premiumFullBoard .topBar{ grid-template-columns: 1fr !important; }
+    body.premiumFullBoard .boardWrap{ max-height: calc(100vh - 170px) !important; }
+    body.premiumFullBoard #btnExitFullBoard{ display:inline-flex !important; }
+
+    /* Premium boardWrap mobile viewport fix */
+    .boardWrap{ overflow:auto; -webkit-overflow-scrolling: touch; }
+    @media (max-width: 720px){
+      .boardWrap{ max-height: calc(100vh - 220px); }
+    }
+
+
+    /* ========== MEJORAS VISUALES ÉPICAS ========== */
+    
+    /* Animación de pulso para celdas especiales */
+    @keyframes glow {
+      0%, 100% { box-shadow: 0 0 10px rgba(110,231,255,.3); }
+      50% { box-shadow: 0 0 30px rgba(110,231,255,.8); }
+    }
+    
+    .cell.special {
+      animation: glow 2s infinite;
+    }
+    
+    /* Efecto hover mejorado */
+    .cell:hover {
+      transform: translateY(-3px) scale(1.03);
+      border-color: rgba(110,231,255,.8);
+      transition: all 0.2s ease;
+    }
+    
+    /* Dados 3D */
+    .dice {
+      display: inline-block;
+      transition: transform 0.1s ease;
+    }
+    
+    .dice.rolling {
+      animation: roll3d 0.6s cubic-bezier(0.68, -0.55, 0.265, 1.55);
+    }
+    
+    @keyframes roll3d {
+      0% { transform: rotateX(0deg) rotateY(0deg) scale(1); }
+      25% { transform: rotateX(180deg) rotateY(90deg) scale(1.2); }
+      50% { transform: rotateX(360deg) rotateY(180deg) scale(1.1); }
+      75% { transform: rotateX(540deg) rotateY(270deg) scale(1.15); }
+      100% { transform: rotateX(720deg) rotateY(360deg) scale(1); }
+    }
+    
+    /* Botones más grandes y táctiles */
+    @media (max-width: 768px) {
+      .btn {
+        padding: 16px 24px;
+        font-size: 18px;
+        min-height: 52px;
+        touch-action: manipulation;
+      }
+      
+      .cell {
+        min-height: 60px;
+        font-size: 16px;
+      }
+      
+      .grid {
+        gap: 6px;
+      }
+    }
+    
+    /* Efectos de partículas */
+    .particle {
+      position: fixed;
+      pointer-events: none;
+      font-size: 24px;
+      z-index: 9999;
+      animation: float-up 2s ease-out forwards;
+    }
+    
+    @keyframes float-up {
+      0% { 
+        opacity: 1;
+        transform: translateY(0) scale(1) rotate(0deg);
+      }
+      100% { 
+        opacity: 0;
+        transform: translateY(-100px) scale(0.5) rotate(360deg);
+      }
+    }
+    
+    /* Toast mejorado */
+    .toast {
+      animation: slideIn 0.3s ease-out;
+    }
+    
+    @keyframes slideIn {
+      from {
+        transform: translateY(-100%);
+        opacity: 0;
+      }
+      to {
+        transform: translateY(0);
+        opacity: 1;
+      }
+    }
+    
+    /* Responsive optimizado */
+    @media (max-width: 640px) {
+      .wrap { padding: 12px 8px; }
+      header { flex-direction: column; }
+      .topbar { width: 100%; justify-content: center; }
+      .grid { grid-template-columns: repeat(5, 1fr); }
+    }
+    
+    @media (min-width: 641px) and (max-width: 1024px) {
+      .grid { grid-template-columns: repeat(8, 1fr); }
+    }
+    
+    /* ========== FIN MEJORAS VISUALES ========== */
+</style>
+</head>
+<body>
+  <canvas id="fxCanvas"></canvas>
+
+  <div class="wrap">
+    <header>
+      <div class="title">
+        <div class="logo" aria-hidden="true"></div>
+        <div>
+          <h1>Escalera Juego — Tablero Virtual</h1>
+          <div class="sub">Dado 3D arriba · Tablero visible · Avatares emoji · Trivias + Dino · Efectos de éxito y castigo.</div>
+        </div>
+      </div>
+
+      <div class="topbar">
+        <div class="card diceCard">
+          <div class="diceRow">
+            <div>
+              <div style="font-weight:950; font-size:13px">Turno</div>
+              <div class="muted" id="turnInfo">—</div>
+            </div>
+
+            <div class="dieStage" aria-label="dado 3d">
+              <div class="cube" id="cube">
+                <div class="face f1">1</div>
+                <div class="face f2">2</div>
+                <div class="face f3">3</div>
+                <div class="face f4">4</div>
+                <div class="face f5">5</div>
+                <div class="face f6">6</div>
+              </div>
+            </div>
+
+            <div style="display:flex; gap:10px; align-items:center; flex-wrap:wrap;"><button class="btn primary" id="rollBtn">🎲 Lanzar</button><button class="btn ghost" id="tourBtn" title="Cómo se juega">❓</button><button class="btn ghost" id="soundBtn" title="Sonidos">🔊</button></div>
+          </div>
+          <div class="hr"></div>
+          
+        </div>
+
+        </div>
+    </header>
+
+    <div class="row">
+      <div class="col boardCol">
+        <div class="boardWrap" id="boardWrap">
+          <div class="boardHead">
+            <div style="display:flex; gap:10px; align-items:center; flex-wrap:wrap">
+              <div style="font-weight:950">Tablero</div>
+              <div class="chips" id="legend"></div>
+            </div>
+            <div class="chips">
+              <span class="chip"><span class="dot" style="background:var(--accent)"></span> Jugador activo</span>
+              <span class="chip"><span class="dot" style="background:var(--good)"></span> Premio</span>
+              <span class="chip"><span class="dot" style="background:var(--warn)"></span> Trivia</span>
+              <span class="chip"><span class="dot" style="background:var(--bad)"></span> Castigo</span>
+            </div>
+          </div>
+          <div class="grid" id="board"></div>
+        </div>
+      </div>
+
+      <div class="col playersCol">
+        <details class="playersCollapsible" id="playersCollapse" open>
+        <summary>Jugadores (tocar para abrir/cerrar)</summary>
+        <div class="panel">
+          <h2>Jugadores</h2>
+          <div class="muted">Agrega tantos jugadores como quieras. Cada uno elige un avatar emoji que también aparece en el tablero.</div>
+
+          <div class="hr"></div>
+
+          <div class="formRow">
+            <div class="field">
+              <label for="playerName">Nombre</label>
+              <input id="playerName" placeholder="Ej: Ana" />
+            </div>
+            <div class="field">
+              <label for="playerAvatar">Avatar</label>
+              <select id="playerAvatar"></select>
+            </div>
+            <button class="btn good" id="addBtn">➕ Agregar</button>
+            <button class="btn warn" id="resetBtn">♻️ Reiniciar partida</button>
+          </div>
+
+          <div class="playersList" id="playersList"></div>
+
+          <details style="margin-top:10px">
+            <summary style="cursor:pointer; font-weight:950; color:var(--muted)">Historial (últimos movimientos)</summary>
+            <div class="qBox" style="margin-top:10px"><div id="history" class="muted">—</div></div>
+          </details>
+
+          <details style="margin-top:10px" id="manualModeDetails">
+            <summary style="cursor:pointer; font-weight:950; color:var(--muted)">Modo Mesa (penitencias manuales)</summary>
+            <div class="qBox" style="margin-top:10px">
+              <div style="display:flex; gap:10px; align-items:center; flex-wrap:wrap;">
+                <label class="chip" style="gap:8px; cursor:pointer;">
+                  <input type="checkbox" id="manualModeToggle" style="accent-color:#60a5fa; transform:scale(1.1)">
+                  <span><b>Activar</b> modo presencial</span>
+                </label>
+                <span class="muted">Si está activo, el juego te muestra una penitencia y tú marcas si la cumplió.</span>
+              </div>
+              <div class="hr" style="margin:12px 0"></div>
+              <div class="muted" style="margin-bottom:8px">Tu banco de penitencias (una por línea). Se guarda en este dispositivo.</div>
+              <textarea id="penitenciasInput" rows="7" style="width:100%; resize:vertical; border-radius:16px; padding:12px; border:1px solid rgba(255,255,255,.12); background: rgba(255,255,255,.04); color: var(--ink);"></textarea>
+              <div style="display:flex; gap:10px; margin-top:10px; flex-wrap:wrap;">
+                <button class="btn ghost" id="penitenciasSave">💾 Guardar penitencias</button>
+                <button class="btn ghost" id="penitenciasReset">♻️ Cargar ejemplo</button>
+              </div>
+            </div>
+          </details>
+
+
+<details style="margin-top:10px" id="premiumDetails">
+  <summary style="cursor:pointer; font-weight:950; color:var(--muted)">⚙️ Premium (opcional)</summary>
+  <div class="qBox" style="margin-top:10px">
+    <div style="display:flex; gap:10px; align-items:center; flex-wrap:wrap;">
+      <label class="chip" style="gap:8px; cursor:pointer;">
+        <input type="checkbox" id="premiumToggle" style="accent-color:#34d399; transform:scale(1.1)">
+        <span><b>Activar</b> Premium</span>
+      </label>
+      <span class="muted">Si está apagado, el juego funciona igual que siempre.</span>
+    </div>
+
+    <div class="hr" style="margin:12px 0"></div>
+
+    <div style="display:flex; gap:10px; flex-wrap:wrap; align-items:center;">
+      <button class="btn ghost" id="btnFullBoard">🧭 Vista solo tablero</button>
+      <label class="chip" style="gap:8px; cursor:pointer;">
+        <input type="checkbox" id="vibrateToggle" style="accent-color:#60a5fa; transform:scale(1.1)">
+        <span>📳 Vibración</span>
+      </label>
+    </div>
+
+    <div class="hr" style="margin:12px 0"></div>
+
+    <div class="muted" style="margin-bottom:6px">Densidad del tablero (más/menos casillas especiales, sin saturar el final).</div>
+    <select id="densitySelect" style="width:100%; border-radius:16px; padding:10px 12px; border:1px solid rgba(255,255,255,.12); background: rgba(255,255,255,.04); color: var(--ink);">
+      <option value="low">Baja (más espacios en blanco)</option>
+      <option value="med">Media</option>
+      <option value="high">Alta (más retos)</option>
+    </select>
+
+    <div style="display:flex; gap:10px; margin-top:10px; flex-wrap:wrap;">
+      <button class="btn ghost" id="regenBoard">🔁 Regenerar especiales</button>
+      <button class="btn ghost" id="exportCfg">⬇️ Exportar config</button>
+      <label class="btn ghost" style="cursor:pointer;">
+        ⬆️ Importar config <input type="file" id="importCfg" accept="application/json" style="display:none">
+      </label>
+    </div>
+
+    <div class="hr" style="margin:12px 0"></div>
+    <div class="muted">Estadísticas rápidas:</div>
+    <div id="statsBox" class="muted" style="margin-top:6px">—</div>
+  </div>
+</details>
+
+
+          <div class="hr"></div>
+          <div class="muted">
+            <b>Tip:</b> Si juegan en mesa, este tablero sirve como “motor” (dado + reglas + progreso).
+          </div>
+        </div>
+        </div>
+      </details>
+      </div>
+    </div>
+  </div>
+
+  <!-- Modal -->
+  <div class="modalOverlay" id="modalOverlay" role="dialog" aria-modal="true" aria-labelledby="modalTitle">
+    <div class="modal">
+      <div class="modalHeader">
+        <div>
+          <h3 class="modalTitle" id="modalTitle">—</h3>
+          <div class="muted" id="modalSub">—</div>
+        </div>
+        <button class="btn small" id="closeModalBtn" title="Cerrar">✕</button>
+      </div>
+      <div class="modalBody" id="modalBody"></div>
+      <div class="modalFooter" id="modalFooter"></div>
+    </div>
+  </div>
+
+  <div class="toast" id="toast"></div>
+
+  <script>
+    const LS_KEY = "escalera_juego_v3_avatar_fireworks_shake";
+    // ========== SISTEMA DE SONIDO ÉPICO ==========
+    const SOUNDS = {
+      diceRoll: 'https://assets.mixkit.co/active_storage/sfx/2004/2004-preview.mp3',
+      step: 'https://assets.mixkit.co/active_storage/sfx/2568/2568-preview.mp3',
+      ladderUp: 'https://assets.mixkit.co/active_storage/sfx/1435/1435-preview.mp3',
+      snakeDown: 'https://assets.mixkit.co/active_storage/sfx/2018/2018-preview.mp3',
+      win: 'https://assets.mixkit.co/active_storage/sfx/1435/1435-preview.mp3',
+      powerUp: 'https://assets.mixkit.co/active_storage/sfx/1434/1434-preview.mp3',
+      roar: 'https://assets.mixkit.co/active_storage/sfx/1765/1765-preview.mp3'
+    };
+    
+    let audioContext = null;
+    let soundBuffers = {};
+    let soundEnabled = true;
+    
+    async function initAudio() {
+      if (audioContext) return;
+      try {
+        audioContext = new (window.AudioContext || window.webkitAudioContext)();
+        console.log('🔊 Audio iniciado');
+        preloadSounds();
+      } catch(e) {
+        console.warn('Audio no disponible:', e);
+      }
+    }
+    
+    async function preloadSounds() {
+      for (let [key, url] of Object.entries(SOUNDS)) {
+        try {
+          const response = await fetch(url);
+          const arrayBuffer = await response.arrayBuffer();
+          soundBuffers[key] = await audioContext.decodeAudioData(arrayBuffer);
+        } catch(e) {
+          console.warn(`No se pudo cargar ${key}`);
+        }
+      }
+    }
+    
+    function playSound(soundName, volume = 0.3) {
+      if (!soundEnabled || !audioContext || !soundBuffers[soundName]) return;
+      try {
+        const source = audioContext.createBufferSource();
+        const gainNode = audioContext.createGain();
+        source.buffer = soundBuffers[soundName];
+        source.connect(gainNode);
+        gainNode.connect(audioContext.destination);
+        gainNode.gain.value = volume;
+        source.start(0);
+      } catch(e) {
+        console.warn('Error reproduciendo:', e);
+      }
+    }
+    
+    // Auto-inicializar con primer click
+    let audioInitialized = false;
+    function autoInitAudio() {
+      if (!audioInitialized) {
+        audioInitialized = true;
+        initAudio();
+        showToast('🔊 Audio activado', 1200);
+      }
+    }
+    document.addEventListener('click', autoInitAudio, { once: true });
+    document.addEventListener('touchstart', autoInitAudio, { once: true });
+    // ========== FIN SISTEMA DE SONIDO ==========
+
+    const BOARD_SIZE = 100;
+    const COLORS = ["#60a5fa","#34d399","#fbbf24","#fb7185","#a78bfa","#22d3ee","#f472b6","#4ade80","#f97316","#38bdf8"];
+    const AVATARS = ["🦖","🦕","🧠","🐉","🦊","🐯","🐼","🐸","🐙","🦄","🐲","🐢","🦁","🐵","🐧","🐝","🦋","🐳","🦈","🐺","🐰","🐻","🐨","🦝","🦭","🐬","🦦","🦜","🦩","🐱","🐶","🐻‍❄️","🦉","🐍","🦎","✨","⚡","🔥","🌟","🚀","🎯","🧩","🏆"];
+
+    let SPECIAL = {
+      3:{type:"trivia",label:"Trivia ⚡",detail:"Penitencia por trivia"},
+      5:{type:"prize",label:"Premio ✨",detail:"Avanzas 2 casillas",effect:{move:+2}},
+      9:{type:"penalty",label:"Castigo 🔻",detail:"Retrocedes 2 casillas",effect:{move:-2}},
+      12:{type:"trivia",label:"Trivia ⚡",detail:"Reto rápido"},
+      14:{type:"prize",label:"Premio ✨",detail:"Avanzas 3 casillas",effect:{move:+3}},
+      18:{type:"penalty",label:"Castigo 🔻",detail:"Vuelves al inicio",effect:{to:1}},
+      20:{type:"trivia",label:"Trivia ⚡",detail:"Desafío"},
+      24:{type:"prize",label:"Premio ✨",detail:"Avanzas 1 casilla",effect:{move:+1}},
+      27:{type:"penalty",label:"Castigo 🔻",detail:"Retrocedes 3 casillas",effect:{move:-3}},
+      30:{type:"trivia",label:"Trivia ⚡",detail:"Penitencia por trivia"},
+      33:{type:"prize",label:"Premio ✨",detail:"Avanzas 4 casillas",effect:{move:+4}},
+      36:{type:"penalty",label:"Castigo 🔻",detail:"Pierdes un turno",effect:{skip:true}},
+      38:{type:"trivia",label:"Trivia ⚡",detail:"Último reto del primer tramo"},
+      39:{type:"prize",label:"Premio ✨",detail:"Avanzas 1 casilla",effect:{move:+1}},
+
+      42:{type:"penalty",label:"Castigo 🔻",detail:"Retrocedes 4 casillas",effect:{move:-4}},
+      44:{type:"trivia",label:"Trivia ⚡",detail:"Reto: naturaleza/animales"},
+      46:{type:"prize",label:"Premio ✨",detail:"Avanzas 3 casillas",effect:{move:+3}},
+      49:{type:"penalty",label:"Castigo 🔻",detail:"Te devuelves a la casilla 40",effect:{to:40}},
+      52:{type:"trivia",label:"Trivia ⚡",detail:"Reto: espacio"},
+      55:{type:"prize",label:"Premio ✨",detail:"Avanzas 2 casillas",effect:{move:+2}},
+      58:{type:"penalty",label:"Castigo 🔻",detail:"Retrocedes 2 casillas",effect:{move:-2}},
+
+      60:{type:"prize",label:"Premio ✨",detail:"Avanzas 5 casillas",effect:{move:+5}},
+      62:{type:"trivia",label:"Trivia ⚡",detail:"Reto: princesas"},
+      65:{type:"penalty",label:"Castigo 🔻",detail:"Pierdes un turno",effect:{skip:true}},
+      68:{type:"trivia",label:"Trivia ⚡",detail:"Reto: héroes y villanos (Marvel)"},
+      70:{type:"prize",label:"Premio ✨",detail:"Avanzas 2 casillas",effect:{move:+2}},
+      72:{type:"penalty",label:"Castigo 🔻",detail:"Retrocedes 5 casillas",effect:{move:-5}},
+      75:{type:"trivia",label:"Trivia ⚡",detail:"Reto final: mezcla"},
+      78:{type:"prize",label:"Premio ✨",detail:"Avanzas 3 casillas",effect:{move:+3}},
+      79:{type:"penalty",label:"Castigo 🔻",detail:"Te quedas sin avanzar (pierdes un turno)",effect:{skip:true}},
+      // Tramo final (81–100): algunos eventos, con espacios en blanco
+      82:{type:"trivia",label:"Trivia ⚡",detail:"Reto sorpresa (tema mixto)"},
+      84:{type:"prize",label:"Premio ✨",detail:"Avanzas 2 casillas",effect:{move:+2}},
+      86:{type:"penalty",label:"Castigo 🔻",detail:"Retrocedes 3 casillas",effect:{move:-3}},
+      88:{type:"penalty",label:"Castigo 🔻",detail:"Retrocedes 10 casillas",effect:{move:-10}},
+      90:{type:"trivia",label:"Trivia ⚡",detail:"Reto final (mixto)"},
+      92:{type:"prize",label:"Premio ✨",detail:"Avanzas 4 casillas",effect:{move:+4}},
+      96:{type:"trivia",label:"Trivia ⚡",detail:"Última trivia antes del cierre"},
+      97:{type:"prize",label:"Premio ✨",detail:"Avanzas 1 casilla",effect:{move:+1}},
+      98:{type:"penalty",label:"Castigo 🔻",detail:"Pierdes un turno",effect:{skip:true}},
+      99:{type:"penalty",label:"Castigo ☠️",detail:"¡Fatal! Regresas al inicio (casilla 1)",effect:{to:1}},
+
+    };
+    const BASE_SPECIAL = JSON.parse(JSON.stringify(SPECIAL));
+
+
+    const TRIVIA_BANK = [
+      {q:"¿Cuál es una emoción básica?", options:["Envidia","Tristeza","Orgullo","Culpa"], a:1},
+      {q:"¿Qué significa “empatía”?", options:["Gritar más fuerte","Entender al otro sin ser el otro","Ganar una discusión","Ignorar emociones"], a:1},
+      {q:"¿Cuál es un hábito de autocuidado?", options:["Dormir bien","No comer nunca","Aislarse siempre","Nunca descansar"], a:0},
+      {q:"En comunicación, escuchar es…", options:["Interrumpir","Esperar mi turno","Poner atención y preguntar","Cambiar el tema"], a:2},
+      {q:"¿Qué ayuda a resolver conflictos?", options:["Insultar","Evitar todo","Buscar acuerdos","Amenazar"], a:2},
+      {q:"Una norma de respeto en juego es…", options:["Hacer trampa","Burlarse","Aceptar turnos","Romper reglas"], a:2},
+      {q:"Si me equivoco en una trivia, lo mejor es…", options:["Rendirme","Intentar otra vez","Culpar al dado","Desconectarme"], a:1},
+      {q:"¿Qué es resiliencia?", options:["No sentir nada","Recuperarse y aprender","Nunca fallar","Controlar a otros"], a:1},
+      {q:"¿Qué es un límite sano?", options:["Silencio total","Regla clara con respeto","Control absoluto","Castigo sin sentido"], a:1},
+      {q:"Cuando hay frustración, puede ayudar…", options:["Respirar lento","Golpear la mesa","Insultar","Apagar todo"], a:0},
+      {q:"¿En qué era vivieron la mayoría de dinosaurios?", options:["Cenozoica","Mesozoica","Paleozoica","Cuaternaria"], a:1},
+      {q:"¿Qué significa “herbívoro”?", options:["Come plantas","Come carne","Come rocas","No come nada"], a:0},
+      {q:"¿Cuál era un dinosaurio carnívoro famoso?", options:["Triceratops","Tyrannosaurus rex","Stegosaurus","Brachiosaurus"], a:1},
+      {q:"¿Qué dinosaurio tenía tres cuernos?", options:["Velociraptor","Triceratops","Ankylosaurus","Diplodocus"], a:1},
+      {q:"¿Qué dinosaurio tenía placas en la espalda?", options:["Stegosaurus","Spinosaurus","Iguanodon","Allosaurus"], a:0},
+      {q:"¿Cuál de estos era un dinosaurio de cuello largo?", options:["Brachiosaurus","Deinonychus","Carnotaurus","Pachycephalosaurus"], a:0},
+      {q:"¿Qué es un fósil?", options:["Una huella/resto antiguo preservado","Una piedra brillante","Un tipo de planta viva","Un meteorito"], a:0},
+      {q:"¿Qué creían muchos científicos sobre las aves?", options:["No existen","Son reptiles modernos emparentados con dinosaurios","Vienen del mar","Son mamíferos"], a:1},
+      {q:"¿Qué animal NO es un dinosaurio (estrictamente)?", options:["Pterosaurio","Triceratops","Velociraptor","Stegosaurus"], a:0},
+      {q:"¿Cómo se llama el periodo con muchos dinosaurios como T. rex?", options:["Triásico","Jurásico","Cretácico","Pérmico"], a:2},
+      {q:"¿Qué dinosaurio tenía una “armadura” y cola como maza?", options:["Ankylosaurus","Oviraptor","Compsognathus","Plateosaurus"], a:0},
+      {q:"¿Qué comía un carnívoro?", options:["Plantas","Carne","Arena","Hojas solamente"], a:1},
+
+      // 🟩 Naturaleza / animales
+      {q:"¿Qué proceso hacen las plantas para producir su alimento?", options:["Fotosíntesis","Fermentación","Evaporación","Erosión"], a:0},
+      {q:"¿Cuál de estos es un mamífero?", options:["Delfín","Tiburón","Cocodrilo","Águila"], a:0},
+      {q:"¿Qué animal es un anfibio?", options:["Rana","Serpiente","Gato","Gallina"], a:0},
+      {q:"¿Qué gas necesitan las plantas para la fotosíntesis?", options:["Oxígeno","Dióxido de carbono","Helio","Nitrógeno"], a:1},
+      {q:"¿Cuál es el órgano principal para respirar en peces?", options:["Pulmones","Branquias","Piel","Pico"], a:1},
+      {q:"¿Qué ecosistema es muy seco y con poca lluvia?", options:["Selva","Desierto","Pantano","Arrecife"], a:1},
+      {q:"¿Qué animal suele ser polinizador?", options:["Abeja","Tortuga","Lobo","Pingüino"], a:0},
+      {q:"¿Qué significa “nocturno”?", options:["Duerme siempre","Activo de noche","Vive bajo tierra","Come solo plantas"], a:1},
+
+      // 🟦 Espacio
+      {q:"¿Cuál es la estrella más cercana a la Tierra?", options:["Sirio","El Sol","Polaris","Betelgeuse"], a:1},
+      {q:"¿Cómo se llama nuestra galaxia?", options:["Andrómeda","Vía Láctea","Sombrero","Triángulo"], a:1},
+      {q:"¿Qué planeta es conocido como el “planeta rojo”?", options:["Marte","Venus","Júpiter","Urano"], a:0},
+      {q:"¿Qué objeto orbita un planeta?", options:["Cometa","Satélite","Asteroide","Nebulosa"], a:1},
+      {q:"¿Qué fenómeno es una “estrella fugaz” normalmente?", options:["Un planeta","Un meteoro","Una luna","Un agujero negro"], a:1},
+      {q:"¿Qué planeta tiene anillos muy visibles?", options:["Saturno","Mercurio","Tierra","Marte"], a:0},
+      {q:"¿Cómo se llama la fuerza que atrae los objetos hacia el suelo?", options:["Magnetismo","Gravedad","Fricción","Energía"], a:1},
+
+      // 🟪 Princesas (cuento y cultura popular)
+      {q:"En muchos cuentos, ¿qué objeto simboliza la realeza?", options:["Corona","Llave","Reloj","Martillo"], a:0},
+      {q:"¿Qué valor suele destacar en historias de princesas?", options:["Crueldad","Valentía","Egoísmo","Trampa"], a:1},
+      {q:"En una historia clásica, ¿qué se pierde a medianoche?", options:["Sombrero","Zapato","Capa","Anillo"], a:1},
+      {q:"¿Qué suele ayudar a una princesa a superar un reto?", options:["Mentira","Paciencia y coraje","Burlas","Rencor"], a:1},
+      {q:"¿Qué criatura aparece en muchos cuentos como “guardián”?", options:["Dragón","Ballena","Cangrejo","Lombriz"], a:0},
+      {q:"¿Qué animal suele ser un compañero en cuentos de hadas?", options:["Ratón o pájaro","Tiburón","Tigre","Murciélago"], a:0},
+
+      // 🟥 Héroes y villanos (Marvel) — preguntas simples
+      {q:"¿Quién es conocido como el “Capitán América”?", options:["Steve Rogers","Peter Parker","Tony Stark","Bruce Banner"], a:0},
+      {q:"¿Qué héroe lanza telarañas?", options:["Spider-Man","Thor","Doctor Strange","Wolverine"], a:0},
+      {q:"¿Qué objeto usa Thor?", options:["Un martillo","Un escudo","Un arco","Un casco"], a:0},
+      {q:"¿Quién es Iron Man?", options:["Tony Stark","Scott Lang","Nick Fury","Clint Barton"], a:0},
+      {q:"¿Qué héroe se transforma cuando se enoja mucho?", options:["Hulk","Ant-Man","Black Panther","Vision"], a:0},
+      {q:"¿Qué villano busca las Gemas del Infinito?", options:["Thanos","Loki","Ultron","Red Skull"], a:0},
+      {q:"¿Cuál es el reino de Thor en Marvel?", options:["Asgard","Wakanda","Xandar","Latveria"], a:0},
+      {q:"¿Qué heroína usa “viudas” en su nombre?", options:["Black Widow","Captain Marvel","Scarlet Witch","Wasp"], a:0},
+      // 🦖 Dinos (extra repertorio - jurásica)
+      {q:"¿Cuál de estos dinosaurios era conocido por tener dientes afilados y carnívoros?", options:["Triceratops","Stegosaurus","Velociraptor","Brachiosaurus"], a:2, explain:"Los Velocirraptores eran carnívoros y tenían dientes afilados."},
+      {q:"¿Qué dinosaurio tenía un cuerno grande en su cabeza?", options:["T-Rex","Triceratops","Diplodocus","Ankylosaurus"], a:1, explain:"El Triceratops tenía tres cuernos, uno en el hocico y dos sobre los ojos."},
+      {q:"¿Cuál de estos dinosaurios era uno de los mayores depredadores terrestres?", options:["Stegosaurus","Brachiosaurus","T-Rex","Pterodáctilo"], a:2, explain:"El T-Rex era un carnívoro gigante y uno de los mayores depredadores terrestres."},
+      {q:"¿Qué dinosaurio tenía un cuello extremadamente largo?", options:["Velociraptor","Triceratops","Diplodocus","Ankylosaurus"], a:2, explain:"El Diplodocus tenía un cuello y una cola largos."},
+      {q:"¿Qué dinosaurio tenía un pico parecido al de un loro?", options:["Stegosaurus","Pterodáctilo","Brachiosaurus","Parasaurolophus"], a:3, explain:"El Parasaurolophus tenía un pico distintivo parecido al de un loro."},
+      {q:"¿Cuál de estos dinosaurios tenía placas óseas y espinas en su espalda?", options:["Triceratops","Stegosaurus","Velociraptor","T-Rex"], a:1, explain:"El Stegosaurus tenía placas óseas y espinas en su espalda para la defensa."},
+      {q:"¿Cuál de estos dinosaurios podía volar?", options:["T-Rex","Triceratops","Pterodáctilo","Ankylosaurus"], a:2, explain:"El Pterodáctilo era un reptil volador, no un dinosaurio real."},
+      {q:"¿Qué dinosaurio tenía pies anchos y aplastantes para caminar sobre barro?", options:["Stegosaurus","Brachiosaurus","Ankylosaurus","Parasaurolophus"], a:2, explain:"El Ankylosaurus tenía pies anchos adaptados para caminar sobre terrenos blandos."},
+      {q:"¿Qué dinosaurio tenía dos cuernos largos en su cabeza?", options:["Triceratops","T-Rex","Velociraptor","Brachiosaurus"], a:0, explain:"El Triceratops tenía dos cuernos sobre sus ojos."},
+      {q:"¿Cuál de estos dinosaurios era conocido por ser un cazador veloz y astuto?", options:["Brachiosaurus","Stegosaurus","Velociraptor","Pterodáctilo"], a:2, explain:"Los Velocirraptores eran cazadores veloces y astutos."},
+      {q:"El T-Rex era un dinosaurio carnívoro.", options:["Verdadero","Falso"], a:0, explain:"El T-Rex era un depredador carnívoro."},
+      {q:"Algunos dinosaurios vivían en ambientes acuáticos.", options:["Verdadero","Falso"], a:0, explain:"Algunos dinosaurios, como el Spinosaurus, vivían en ambientes acuáticos."},
+      {q:"Los pterodáctilos eran dinosaurios voladores.", options:["Verdadero","Falso"], a:1, explain:"Los pterodáctilos no eran dinosaurios, eran reptiles voladores."},
+      {q:"Los dinosaurios se extinguieron hace millones de años.", options:["Verdadero","Falso"], a:0, explain:"Los dinosaurios se extinguieron al final del período Cretácico."},
+      {q:"El Brachiosaurus era un dinosaurio herbívoro.", options:["Verdadero","Falso"], a:0, explain:"El Brachiosaurus se alimentaba de plantas y era herbívoro."},
+      {q:"El Velociraptor tenía plumas.", options:["Verdadero","Falso"], a:0, explain:"Se cree que los Velocirraptores tenían plumas."},
+      {q:"El Stegosaurus tenía espinas afiladas en su cola.", options:["Verdadero","Falso"], a:1, explain:"El Stegosaurus tenía placas y espinas en su espalda, no en la cola."},
+      {q:"El Struthiomimus tenía una armadura protectora.", options:["Verdadero","Falso"], a:0, explain:"El Struthiomimus NO tenía una armadura ósea para la protección."},
+      {q:"El Triceratops tenía cuernos en su nariz y frente.", options:["Verdadero","Falso"], a:1, explain:"El Triceratops tenía cuernos sobre los ojos y en la nariz."},
+      {q:"Los pterodáctilos eran mamíferos.", options:["Verdadero","Falso"], a:1, explain:"Los pterodáctilos eran reptiles voladores, no mamíferos."},
+      {q:"¿Qué evento contribuyó en gran medida a la extinción de los dinosaurios?", options:["Erupción volcánica","Colisión de un asteroide","Cambio climático natural","Epidemia de enfermedades"], a:1, explain:"La colisión de un asteroide en la península de Yucatán es una teoría ampliamente aceptada sobre la extinción masiva."},
+      {q:"¿En qué lugar ocurrió el impacto del asteroide que contribuyó a la extinción de los dinosaurios?", options:["Isla de Madagascar","Península de Yucatán","Montañas del Himalaya","Desierto del Sahara"], a:1, explain:"La colisión del asteroide ocurrió en la península de Yucatán, México."},
+      {q:"¿Qué característica hace que el Maiasaura sea especial entre los dinosaurios?", options:["Cuernos largos","Cuello largo","Cuidado parental","Velocidad extrema"], a:2, explain:"El Maiasaura es conocido por cuidar y proteger a sus crías."},
+      {q:"¿Cuál de estos dinosaurios tenía una armadura ósea y un mazo en la cola?", options:["Triceratops","Stegosaurus","Anquilosaurio","Parasaurolophus"], a:2, explain:"El Anquilosaurio tenía una armadura y un mazo en la cola para la defensa."},
+      {q:"¿Cuál de estos dinosaurios era un reptil volador con membranas en las alas?", options:["Velociraptor","Pterodáctilo","Brachiosaurus","Triceratops"], a:1, explain:"El Pterodáctilo era un reptil volador con membranas en las alas."},
+      {q:"¿Cuál de estos reptiles voladores tenía una distintiva cresta en su cabeza?", options:["Pterodáctilo","Pteranodón","Dimorphodon","Quetzalcoatlus"], a:1, explain:"El Pteranodón tenía una cresta en la cabeza y era un pterosaurio."},
+      {q:"¿Cuál de estos dinosaurios era un carnívoro ágil y de gran velocidad?", options:["Triceratops","Velociraptor","Brachiosaurus","Diplodocus"], a:1, explain:"Los Velocirraptores eran carnívoros ágiles y veloces."},
+      {q:"¿Qué dinosaurio herbívoro tenía un cuerno en su nariz y dos en su frente?", options:["Stegosaurus","Ankylosaurus","Triceratops","Parasaurolophus"], a:2, explain:"El Triceratops tenía cuernos en la nariz y dos en la frente."},
+      {q:"¿Cómo se llama la cría de un dinosaurio?", options:["Cachorro","Polluelo","Huevo","Bebé"], a:1, explain:"La cría de un dinosaurio se llama polluelo."},
+      {q:"¿Qué dinosaurio tenía dos cuernos curvados hacia adelante en su cabeza?", options:["Carnotaurus","Dicraeosaurus","Allosaurus","Spinosaurus"], a:1, explain:"El Dicraeosaurus tenía dos cuernos en su cabeza que apuntaban hacia adelante."},
+      {q:"¿Qué tipo de alimentación caracterizaba principalmente a los dinosaurios herbívoros?", options:["Carnívora","Insectívora","Herbívora","Omnívora"], a:2, explain:"Los dinosaurios herbívoros se alimentaban principalmente de plantas."},
+      {q:"¿Qué término se usa para describir la conducta defensiva de algunos dinosaurios?", options:["Migración","Territorialidad","Hibridación","Simbiosis"], a:1, explain:"Algunos dinosaurios eran territoriales para proteger sus áreas de alimentación o reproducción."},
+      {q:"¿Cuál de las siguientes aves se cree que tiene una conexión evolutiva directa con los dinosaurios?", options:["Águila","Pato","Pavo","Pájaro Carpintero"], a:1, explain:"Se cree que los patos tienen una conexión evolutiva con los dinosaurios."},
+      {q:"¿Cuál de las siguientes no es una teoría comúnmente aceptada sobre la extinción de los dinosaurios?", options:["Erupción volcánica masiva","Cambio climático","Epidemia global","Impacto de asteroide"], a:2, explain:"La extinción de los dinosaurios no se atribuye comúnmente a una epidemia global."},
+      {q:"¿Qué término se usa para describir el trabajo de los científicos que estudian y descubren fósiles de dinosaurios?", options:["Astronomía","Paleontología","Arqueología","Geología"], a:1, explain:"Los paleontólogos estudian fósiles para entender la vida prehistórica."},
+      {q:"¿Qué función principal se cree que tenían las plumas en algunos dinosaurios?", options:["Vuelo","Aislamiento térmico","Camuflaje","Comunicación"], a:1, explain:"Se cree que las plumas proporcionaban aislamiento térmico en lugar de función de vuelo inicialmente."},
+      {q:"¿Qué dinosaurio se cree que tenía adaptaciones acuáticas y podría haber pasado tiempo en el agua?", options:["Tyrannosaurus Rex","Spinosaurus","Brachiosaurus","Stegosaurus"], a:1, explain:"El Spinosaurus tenía adaptaciones que sugieren una vida parcialmente acuática."},
+      {q:"¿Cuál de las siguientes actividades NO es realizada comúnmente por los paleontólogos?", options:["Excavación de fósiles","Reconstrucción de esqueletos","Análisis genético","Datación de fósiles"], a:2, explain:"El análisis genético no es una práctica común en la paleontología."},
+      {q:"¿Cuál de los siguientes dinosaurios era el más pequeño?", options:["Compsognathus","Echinodon becklesii","Nanosaurus agilis","Lesothosaurus diagnosticus"], a:0, explain:"El Compsognathus era el más pequeño de todos los dinosaurios conocidos hasta ahora."},
+      {q:"¿Qué se llama a las impresiones fosilizadas de las huellas de los dinosaurios?", options:["Esqueletos","Coprolitos","Icnitas","Fosilización"], a:2, explain:"Las icnitas son rastros fosilizados de las huellas de los dinosaurios."},
+      {q:"Algunos dinosaurios, como el Pterodáctilo, eran capaces de volar.", options:["Verdadero","Falso"], a:0, explain:"El Pterodáctilo era un reptil volador que vivió durante la era de los dinosaurios."},
+      {q:"El Stegosaurus tenía espinas afiladas en su cola.", options:["Verdadero","Falso"], a:1, explain:"El Stegosaurus tenía placas y espinas en su espalda, no en la cola."},
+      {q:"Se han encontrado fósiles de dinosaurios en la Antártida.", options:["Verdadero","Falso"], a:0, explain:"Sí, se han descubierto fósiles de dinosaurios en la Antártida."},
+      {q:"El Carnotaurus tenía un solo cuerno en su cabeza.", options:["Verdadero","Falso"], a:1, explain:"El Carnotaurus no tenía cuernos, pero sí brazos muy pequeños."},
+      {q:"Los dinosaurios vivieron exclusivamente en la Era Mesozoica.", options:["Verdadero","Falso"], a:0, explain:"La Era Mesozoica es conocida como la \"Era de los Dinosaurios\"."},
+      {q:"El T-Rex caminaba mayormente en sus patas traseras.", options:["Verdadero","Falso"], a:0, explain:"El T-Rex era bípedo y caminaba mayormente sobre sus patas traseras."},
+      {q:"Todos los dinosaurios herbívoros eran bípedos.", options:["Verdadero","Falso"], a:1, explain:"Algunos dinosaurios herbívoros eran cuadrúpedos, como el Triceratops."},
+      {q:"Se han encontrado fósiles de dinosaurios preservados en ámbar.", options:["Verdadero","Falso"], a:1, explain:"Aunque se han encontrado insectos en ámbar, no fósiles de dinosaurios."},
+      {q:"Algunos dinosaurios acuáticos vivían en ríos y lagos.", options:["Verdadero","Falso"], a:0, explain:"Sí, algunos dinosaurios acuáticos vivían en ambientes de agua dulce."},
+      {q:"El Archaeopteryx tenía alas completamente formadas como las de las aves modernas.", options:["Verdadero","Falso"], a:0, explain:"El Archaeopteryx tenía alas con plumas parecidas a las de las aves modernas."},
+
+
+    ];
+
+    let state = loadState() || freshState();
+    // historial de jugadas (últimas 8)
+    if(!state.history) state.history = [];
+    if(!state.path) state.path = [];
+    function freshState(){ return {players:[], turnIndex:0, inMove:false, lastRoll:null, triviaCtx:null, history:[], path:[]}; }
+    function loadState(){ try{ const raw = localStorage.getItem(LS_KEY); return raw ? JSON.parse(raw) : null; }catch(e){ return null; } }
+    function saveState(){ localStorage.setItem(LS_KEY, JSON.stringify(state)); }
+
+    const $ = (sel)=>document.querySelector(sel);
+    const boardEl = $("#board");
+    const boardWrapEl = $("#boardWrap");
+    const playersListEl = $("#playersList");
+    const turnInfoEl = $("#turnInfo");
+    const rollBtn = $("#rollBtn");
+    const toastEl = $("#toast");
+    const cubeEl = $("#cube");
+    const avatarSelect = $("#playerAvatar");
+    const modalOverlay = $("#modalOverlay");
+    const modalTitle = $("#modalTitle");
+    const modalSub = $("#modalSub");
+    const modalBody = $("#modalBody");
+    const modalFooter = $("#modalFooter");
+    const closeModalBtn = $("#closeModalBtn");
+
+    // Canvas FX
+    const fxCanvas = document.getElementById("fxCanvas");
+    const fx = fxCanvas.getContext("2d");
+    let fxRunning = false;
+    let particles = [];
+    let fxEndAt = 0;
+
+    function fitCanvas(){
+      const dpr = Math.max(1, Math.min(2, window.devicePixelRatio || 1));
+      fxCanvas.width = Math.floor(window.innerWidth * dpr);
+      fxCanvas.height = Math.floor(window.innerHeight * dpr);
+      fx.setTransform(dpr,0,0,dpr,0,0);
+    }
+    window.addEventListener("resize", fitCanvas);
+    fitCanvas();
+
+    function rand(a,b){ return a + Math.random()*(b-a); }
+
+    // ========== FUNCIONES ÉPICAS ADICIONALES ==========
+    
+    // Partículas de dinosaurios
+    function dinoParticles(x, y) {
+      const emojis = ['🦖','🦕','🥚','🦴','🌿','🍖','🌋'];
+      for(let i = 0; i < 15; i++) {
+        setTimeout(() => {
+          const particle = document.createElement('div');
+          particle.className = 'particle';
+          particle.textContent = emojis[Math.floor(Math.random() * emojis.length)];
+          particle.style.left = x + 'px';
+          particle.style.top = y + 'px';
+          particle.style.transform = `translate(${(Math.random()-0.5)*200}px, 0)`;
+          document.body.appendChild(particle);
+          setTimeout(() => particle.remove(), 2000);
+        }, i * 80);
+      }
+      playSound('roar', 0.2);
+    }
+    
+    // Efecto de rugido al ganar
+    function victoryRoar() {
+      playSound('win', 0.5);
+      setTimeout(() => playSound('roar', 0.6), 800);
+      const centerX = window.innerWidth / 2;
+      const centerY = window.innerHeight / 2;
+      dinoParticles(centerX, centerY);
+    }
+    
+    // Animación de dado
+    function animateDice(element) {
+      element.classList.add('rolling');
+      setTimeout(() => element.classList.remove('rolling'), 600);
+    }
+    
+    // Easter egg: shake para sorpresa
+    let shakeCount = 0;
+    let shakeTimeout;
+    window.addEventListener('devicemotion', (e) => {
+      const acc = e.accelerationIncludingGravity;
+      if (Math.abs(acc.x) > 15 || Math.abs(acc.y) > 15) {
+        shakeCount++;
+        clearTimeout(shakeTimeout);
+        shakeTimeout = setTimeout(() => { shakeCount = 0; }, 1000);
+        
+        if (shakeCount >= 3) {
+          shakeCount = 0;
+          dinoParticles(window.innerWidth / 2, window.innerHeight / 2);
+          showToast('🦖 ¡RUGIDO JURÁSICO!', 2000);
+        }
+      }
+    });
+    
+    // ========== FIN FUNCIONES ÉPICAS ==========
+    function burst(x,y, amount=60, power=6){
+      for(let i=0;i<amount;i++){
+        const ang = rand(0, Math.PI*2);
+        const sp = rand(1.2, power);
+        particles.push({
+          x, y,
+          vx: Math.cos(ang)*sp,
+          vy: Math.sin(ang)*sp - rand(0,2.0),
+          r: rand(1.2, 3.6),
+          a: 1,
+          g: rand(0.05, 0.12),
+          drag: rand(0.985, 0.995),
+          hue: rand(160, 320),
+          tw: rand(0.6, 1.3),
+        });
+      }
+    }
+    function startFireworks(kind="small"){
+      fxCanvas.style.display = "block";
+      fitCanvas();
+      fxRunning = true;
+      const now = performance.now();
+      fxEndAt = now + (kind==="big" ? 4200 : 1300);
+
+      if(kind==="big"){
+        for(let i=0;i<6;i++) setTimeout(()=> burst(rand(80, window.innerWidth-80), rand(120, window.innerHeight*0.55), 90, 8), i*220);
+        for(let i=0;i<10;i++) setTimeout(()=> burst(rand(40, window.innerWidth-40), rand(140, window.innerHeight*0.7), 60, 7), 900 + i*160);
+      }else{
+        burst(window.innerWidth*0.5, window.innerHeight*0.32, 70, 7);
+      }
+
+      if(!startFireworks._loop){ startFireworks._loop = true; requestAnimationFrame(fxLoop); }
+    }
+    function fxLoop(t){
+      if(!fxRunning){
+        fx.clearRect(0,0,window.innerWidth, window.innerHeight);
+      // tinte suave si el efecto es de castigo (muchos rojos)
+      const redCount = particles.reduce((acc,p)=> acc + (p.hue < 40 ? 1 : 0), 0);
+      if(redCount > 80){
+        fx.save();
+        fx.globalAlpha = Math.min(0.18, redCount/900);
+        fx.fillStyle = 'rgba(255,60,90,1)';
+        fx.fillRect(0,0,window.innerWidth, window.innerHeight);
+        fx.restore();
+      }
+        fxCanvas.style.display = "none";
+        startFireworks._loop = false;
+        return;
+      }
+      fx.clearRect(0,0,window.innerWidth, window.innerHeight);
+      // tinte suave si el efecto es de castigo (muchos rojos)
+      const redCount = particles.reduce((acc,p)=> acc + (p.hue < 40 ? 1 : 0), 0);
+      if(redCount > 80){
+        fx.save();
+        fx.globalAlpha = Math.min(0.18, redCount/900);
+        fx.fillStyle = 'rgba(255,60,90,1)';
+        fx.fillRect(0,0,window.innerWidth, window.innerHeight);
+        fx.restore();
+      }
+      if(t < fxEndAt && Math.random() < 0.06) burst(rand(60, window.innerWidth-60), rand(120, window.innerHeight*0.6), 55, 7);
+
+      particles = particles.filter(p=> p.a > 0.02);
+      for(const p of particles){
+        p.vx *= p.drag;
+        p.vy = p.vy * p.drag + p.g;
+        p.x += p.vx; p.y += p.vy;
+        p.a *= 0.985;
+        const glow = 10 * p.a;
+
+        fx.save();
+        fx.globalAlpha = Math.max(0, p.a);
+        fx.fillStyle = `hsl(${p.hue}, 95%, 65%)`;
+        fx.shadowColor = `hsla(${p.hue}, 95%, 70%, ${p.a})`;
+        fx.shadowBlur = glow;
+        fx.beginPath();
+        fx.arc(p.x, p.y, p.r * (1 + 0.15*Math.sin(t*0.02*p.tw)), 0, Math.PI*2);
+        fx.fill();
+        fx.restore();
+      }
+
+      if(t >= fxEndAt && particles.length===0) fxRunning = false;
+      requestAnimationFrame(fxLoop);
+    }
+
+    // FX de castigo: "lluvia" rojiza + destellos
+    function startPenaltyFX(){
+      fxCanvas.style.display = "block";
+      fitCanvas();
+      fxRunning = true;
+      const now = performance.now();
+      fxEndAt = now + 1200;
+
+      // flash rojo suave (superpuesto por partículas densas en el centro)
+      for(let i=0;i<3;i++){
+        setTimeout(()=>{
+          const x = rand(window.innerWidth*0.25, window.innerWidth*0.75);
+          const y = rand(window.innerHeight*0.20, window.innerHeight*0.55);
+          for(let k=0;k<85;k++){
+            const ang = rand(-Math.PI, 0); // hacia arriba y lados
+            const sp = rand(2.5, 8.5);
+            particles.push({
+              x, y,
+              vx: Math.cos(ang)*sp,
+              vy: Math.sin(ang)*sp - rand(0,3.0),
+              r: rand(1.4, 3.4),
+              a: 1,
+              g: rand(0.10, 0.20),
+              drag: rand(0.975, 0.990),
+              hue: rand(0, 28), // rojos/naranjas
+              tw: rand(0.7, 1.5),
+            });
+          }
+        }, i*140);
+      }
+    }
+
+    function showToast(html, ms=2600){
+      toastEl.innerHTML = html;
+      toastEl.style.display = "block";
+      clearTimeout(showToast._t);
+      showToast._t = setTimeout(()=> toastEl.style.display="none", ms);
+    }
+    function openModal({title, sub, bodyHTML, buttons}){
+      modalTitle.textContent = title || "—";
+      modalSub.textContent = sub || "";
+      modalBody.innerHTML = bodyHTML || "";
+      modalFooter.innerHTML = "";
+      (buttons || []).forEach(btn=>{
+        const b = document.createElement("button");
+        b.className = "btn " + (btn.kind || "");
+        b.textContent = btn.text;
+        b.onclick = ()=>btn.onClick && btn.onClick();
+        modalFooter.appendChild(b);
+      });
+      modalOverlay.style.display = "flex";
+    }
+    function closeModal(){
+      modalOverlay.style.display = "none";
+      modalBody.innerHTML = "";
+      modalFooter.innerHTML = "";
+    }
+
+    // ===== Modo Mesa (penitencias manuales) =====
+    state.manualMode = (localStorage.getItem("esc_manual") ?? "0") === "1";
+    const manualModeToggle = document.getElementById("manualModeToggle");
+    const penitenciasInput = document.getElementById("penitenciasInput");
+    const penitenciasSave = document.getElementById("penitenciasSave");
+    const penitenciasReset = document.getElementById("penitenciasReset");
+
+    const manualActions = document.getElementById("manualActions");
+    const manualPassBtn = document.getElementById("manualPassBtn");
+    const manualFailBtn = document.getElementById("manualFailBtn");
+    const manualDigitalBtn = document.getElementById("manualDigitalBtn");
+
+    const PEN_EXAMPLE = [
+      "Canta 10 segundos como dinosaurio 🦖",
+      "Imita un rugido de T‑Rex y camina 5 pasos",
+      "Di 3 animales nocturnos en 5 segundos",
+      "Nombra 3 planetas en 5 segundos 🪐",
+      "Haz 5 sentadillas (o 5 aplausos) 👏",
+      "Cuenta una curiosidad rápida de la naturaleza 🌿",
+      "Di 2 héroes y 1 villano de Marvel en 6 segundos 🦸‍♂️",
+      "Haz una pose de princesa por 3 segundos 👑"
+    ];
+
+    function loadPenitencias(){
+      const raw = localStorage.getItem("esc_penitencias");
+      let arr = [];
+      try{ arr = raw ? JSON.parse(raw) : []; }catch(e){ arr = []; }
+      if(!Array.isArray(arr) || !arr.length) arr = PEN_EXAMPLE.slice();
+      return arr.map(s=>String(s).trim()).filter(Boolean);
+    }
+    function savePenitencias(arr){ localStorage.setItem("esc_penitencias", JSON.stringify(arr)); }
+
+    let penitenciasBank = loadPenitencias();
+    function syncManualUI(){
+      if(manualModeToggle) manualModeToggle.checked = !!state.manualMode;
+      if(penitenciasInput) penitenciasInput.value = penitenciasBank.join("\n");
+    }
+    syncManualUI();
+
+    manualModeToggle?.addEventListener("change", ()=>{
+      state.manualMode = !!manualModeToggle.checked;
+      localStorage.setItem("esc_manual", state.manualMode ? "1" : "0");
+      showToast(state.manualMode ? "🧩 Modo Mesa activado" : "🧩 Modo Mesa desactivado", 1400);
+    });
+    penitenciasSave?.addEventListener("click", ()=>{
+      const arr = (penitenciasInput?.value || "").split("\n").map(s=>s.trim()).filter(Boolean);
+      penitenciasBank = arr.length ? arr : PEN_EXAMPLE.slice();
+      savePenitencias(penitenciasBank);
+      showToast("💾 Penitencias guardadas", 1400);
+    });
+    penitenciasReset?.addEventListener("click", ()=>{
+      penitenciasBank = PEN_EXAMPLE.slice();
+      savePenitencias(penitenciasBank);
+      syncManualUI();
+      showToast("♻️ Ejemplo cargado", 1400);
+    });
+
+    let __lastPen = -1;
+    function pickPenitencia(){
+      if(!penitenciasBank.length) penitenciasBank = PEN_EXAMPLE.slice();
+      let i = Math.floor(Math.random()*penitenciasBank.length);
+      if(penitenciasBank.length>1 && i===__lastPen) i = (i+1)%penitenciasBank.length;
+      __lastPen = i;
+      return penitenciasBank[i];
+    }
+
+    state.pendingManual = null; // {kind,effect}
+    function triggerTriviaFlow(){
+      if(typeof startTrivia === "function") return startTrivia();
+      if(typeof openTrivia === "function") return openTrivia();
+      if(typeof showTrivia === "function") return showTrivia();
+      if(typeof launchTrivia === "function") return launchTrivia();
+    }
+
+    function openManualPenitencia(kind, effect){
+      const pen = pickPenitencia();
+      state.pendingManual = {kind, effect};
+
+      modalTitle.textContent = kind === "trivia" ? "Penitencia (en lugar de trivia) 🧩" : "Penitencia de castigo 🧩";
+      modalBody.innerHTML = `
+        <div class="qBox">
+          <div style="font-weight:900; margin-bottom:6px">Reto:</div>
+          <div style="font-size:16px; line-height:1.35">${escapeHTML(pen)}</div>
+          <div class="muted" style="margin-top:10px">Marca si la persona <b>cumplió</b> o <b>no cumplió</b>.</div>
+        </div>
+      `;
+
+      manualActions.style.display = "flex";
+      document.getElementById("modalActions").style.display = "none";
+      manualDigitalBtn.style.display = (kind === "trivia") ? "inline-flex" : "none";
+      openModal();
+    }
+
+    function closeManualUI(){
+      manualActions.style.display = "none";
+      document.getElementById("modalActions").style.display = "flex";
+      state.pendingManual = null;
+    }
+
+    manualPassBtn?.addEventListener("click", ()=>{
+      pushHistory(`🧩 Penitencia cumplida (${activePlayer().name})`);
+      closeManualUI(); closeModal(); endTurn();
+    });
+    manualFailBtn?.addEventListener("click", ()=>{
+      const p = activePlayer();
+      const eff = state.pendingManual?.effect || {move:-3};
+      closeManualUI(); closeModal();
+      applyEffect(p, eff, true);
+    });
+    manualDigitalBtn?.addEventListener("click", ()=>{
+      closeManualUI(); closeModal(); triggerTriviaFlow();
+    });
+
+    closeModalBtn.addEventListener("click", ()=>{ if(state.triviaCtx) handleTriviaDecline(); else closeModal(); });
+    modalOverlay.addEventListener("click", (e)=>{ if(e.target === modalOverlay){ if(state.triviaCtx) handleTriviaDecline(); else closeModal(); } });
+
+    function shakeBoard(){
+      boardWrapEl.classList.remove("shake");
+      void boardWrapEl.offsetWidth;
+      boardWrapEl.classList.add("shake");
+      setTimeout(()=> boardWrapEl.classList.remove("shake"), 650);
+    }
+
+
+    function scrollToCell(n, smooth=true){
+      const el = boardEl.querySelector(`.cell[data-n="${n}"]`);
+      if(!el) return;
+      try{
+        el.scrollIntoView({behavior: smooth ? "smooth" : "auto", block:"center", inline:"center"});
+      }catch(e){
+        const r = el.getBoundingClientRect();
+        window.scrollTo({top: window.scrollY + r.top - window.innerHeight*0.35, behavior: smooth ? "smooth":"auto"});
+      }
+    }
+
+    function setPath(from, to){
+      const a = Math.min(from, to), b = Math.max(from, to);
+      const arr = [];
+      for(let i=a; i<=b; i++) arr.push(i);
+      state.path = arr;
+    }
+    function clearPath(){ state.path = []; }
+
+    function animateMove(player, target, opts={}){
+      const stepDelay = opts.stepDelay ?? 200;
+      const smoothScroll = opts.smoothScroll ?? true;
+      const highlightPath = opts.highlightPath ?? true;
+
+      return new Promise(resolve=>{
+        const start = player.pos;
+        if(start === target){
+          scrollToCell(target, smoothScroll);
+          resolve();
+          return;
+        }
+        const dir = target > start ? 1 : -1;
+        const steps = Math.abs(target - start);
+
+        if(highlightPath){
+          setPath(start, target);
+          syncUI();
+        }
+
+        scrollToCell(start, smoothScroll);
+
+        let moved = 0;
+        const timer = setInterval(()=>{
+          player.pos = Math.max(1, Math.min(BOARD_SIZE, player.pos + dir));
+          moved++;
+          playSound("step", 0.2);
+          syncUI();
+          scrollToCell(player.pos, smoothScroll);
+
+          if(moved >= steps){
+            clearInterval(timer);
+            clearPath();
+            syncUI();
+            resolve();
+          }
+        }, stepDelay);
+      });
+    }
+
+    function fillAvatarSelect(){
+      avatarSelect.innerHTML = "";
+      AVATARS.forEach(a=>{
+        const opt = document.createElement("option");
+        opt.value = a;
+        opt.textContent = a + "  " + a;
+        avatarSelect.appendChild(opt);
+      });
+      avatarSelect.value = AVATARS[0];
+    }
+    fillAvatarSelect();
+
+    function renderLegend(){
+      const legend = document.getElementById("legend");
+      legend.innerHTML = "";
+      [{k:"Premio",c:"var(--good)"},{k:"Trivia",c:"var(--warn)"},{k:"Castigo",c:"var(--bad)"}].forEach(it=>{
+        const s = document.createElement("span");
+        s.className = "chip";
+        s.innerHTML = `<span class="dot" style="background:${it.c}"></span> ${it.k}`;
+        legend.appendChild(s);
+      });
+    }
+    function renderBoard(){
+      boardEl.innerHTML = "";
+      for(let n=1; n<=BOARD_SIZE; n++){
+        const cell = document.createElement("div");
+        cell.className = "cell";
+        const sp = SPECIAL[n];
+        if(sp){ cell.classList.add(sp.type); }
+        if((state.path||[]).includes(n)){ cell.classList.add("path"); }
+        cell.dataset.n = n;
+
+        if(sp){
+          let badgeClass = "badge";
+          if(sp.type==="prize") badgeClass += " good";
+          if(sp.type==="penalty") badgeClass += " bad";
+          if(sp.type==="trivia") badgeClass += " warn";
+          const badge = document.createElement("div");
+          badge.className = badgeClass;
+          badge.textContent = sp.label;
+          cell.appendChild(badge);
+        }
+
+        const num = document.createElement("div");
+        num.className = "n";
+        num.textContent = String(n).padStart(2,"0");
+        cell.appendChild(num);
+
+        const tokens = document.createElement("div");
+        tokens.className = "tokens";
+        state.players.forEach(p=>{
+          if(p.pos === n){
+            const t = document.createElement("div");
+            t.className = "tok";
+            t.style.background = p.color;
+            t.textContent = p.avatar || "🙂";
+            tokens.appendChild(t);
+          }
+        });
+        cell.appendChild(tokens);
+        boardEl.appendChild(cell);
+      }
+      const active = getActivePlayer();
+      if(active){
+        const activeCell = boardEl.querySelector(`.cell[data-n="${active.pos}"]`);
+        if(activeCell) activeCell.classList.add("active");
+      }
+    }
+    function renderPlayers(){
+      playersListEl.innerHTML = "";
+      if(!state.players.length){
+        playersListEl.innerHTML = `<div class="muted">Aún no hay jugadores. Agrega uno.</div>`;
+        turnInfoEl.textContent = "—";
+        rollBtn.disabled = true;
+        return;
+      }
+      rollBtn.disabled = false;
+
+      state.players.forEach((p, idx)=>{
+        const row = document.createElement("div");
+        row.className = "pRow";
+
+        const left = document.createElement("div");
+        left.className = "pLeft";
+        left.innerHTML = `
+          <span class="avatarChip" title="Avatar">${escapeHTML(p.avatar || "🙂")}</span>
+          <span class="dot" style="background:${p.color}; width:12px; height:12px"></span>
+          <div>
+            <div class="pName">${escapeHTML(p.name)}</div>
+            <div class="pMeta">pos: ${p.pos} · saltos: ${p.skips||0}</div>
+          </div>
+        `;
+
+        const right = document.createElement("div");
+        right.style.display="flex"; right.style.gap="8px"; right.style.alignItems="center";
+
+        if(idx === state.turnIndex){
+          const tag = document.createElement("span");
+          tag.className = "turnTag";
+          tag.textContent = "TU TURNO";
+          right.appendChild(tag);
+        }
+
+        const av = document.createElement("button");
+        av.className = "btn small";
+        av.textContent = "🙂";
+        av.title = "Cambiar avatar";
+        av.onclick = ()=>{
+          openModal({
+            title: "Elegir avatar",
+            sub: `Jugador: ${p.name}`,
+            bodyHTML: `
+              <div class="muted">Selecciona un emoji (se verá en el tablero).</div>
+              <div class="qBox" style="display:flex; flex-wrap:wrap; gap:8px; justify-content:flex-start">
+                ${AVATARS.slice(0, 40).map(a=>`<button class="btn small" data-av="${a}" style="min-width:42px">${a}</button>`).join("")}
+              </div>
+              <div class="hint">Tip: puedes agregar más emojis en el arreglo <b>AVATARS</b>.</div>
+            `,
+            buttons:[{text:"Cerrar", kind:"", onClick:()=>closeModal()}]
+          });
+          setTimeout(()=>{
+            modalBody.querySelectorAll("button[data-av]").forEach(b=>{
+              b.addEventListener("click", ()=>{
+                p.avatar = b.dataset.av;
+                closeModal();
+                syncUI();
+              });
+            });
+          }, 0);
+        };
+        right.appendChild(av);
+
+        const del = document.createElement("button");
+        del.className = "btn small bad";
+        del.textContent = "🗑️";
+        del.title = "Eliminar jugador";
+        del.onclick = ()=>{
+          const wasTurn = (idx === state.turnIndex);
+          state.players = state.players.filter(x=>x.id!==p.id);
+          if(!state.players.length){ state.turnIndex = 0; }
+          else{
+            if(state.turnIndex >= state.players.length) state.turnIndex = 0;
+            if(wasTurn){ state.triviaCtx = null; state.inMove = false; }
+          }
+          saveState(); syncUI();
+          showToast(`Jugador <b>${escapeHTML(p.name)}</b> eliminado.`);
+        };
+        right.appendChild(del);
+
+        row.appendChild(left);
+        row.appendChild(right);
+        playersListEl.appendChild(row);
+      });
+
+      const active = getActivePlayer();
+      if(active){
+        turnInfoEl.textContent = `${active.avatar || "🙂"} ${active.name} · casilla ${active.pos}` + ((active.skips||0)>0 ? ` · pierde ${active.skips} turno(s)` : "");
+      } else turnInfoEl.textContent = "—";
+    }
+
+    function renderHistory(){
+      const hEl = document.getElementById('history');
+      if(!hEl) return;
+      const h = state.history || [];
+      if(!h.length){ hEl.textContent = '—'; return; }
+      hEl.innerHTML = h.slice(-8).reverse().map(x=>`• ${escapeHTML(x)}`).join('<br>');
+    }
+    function syncUI(){ renderLegend(); renderPlayers(); renderBoard(); renderHistory(); saveState(); }
+    function escapeHTML(s){ return String(s).replace(/[&<>"']/g, m => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[m])); }
+
+    function pushHistory(msg){
+      state.history = state.history || [];
+      state.history.push(msg);
+      if(state.history.length > 30) state.history = state.history.slice(-30);
+    }
+
+    function setCubeFace(n){
+      const map = {1:"rotateX(0deg) rotateY(0deg)",2:"rotateX(0deg) rotateY(-90deg)",3:"rotateX(0deg) rotateY(-180deg)",4:"rotateX(0deg) rotateY(90deg)",5:"rotateX(-90deg) rotateY(0deg)",6:"rotateX(90deg) rotateY(0deg)"};
+      cubeEl.style.transform = map[n] || map[1];
+    }
+    const DICE_ROLL_MS = 1800;
+    function animateDiceTo(n){
+      cubeEl.classList.remove("rolling");
+      void cubeEl.offsetWidth;
+      cubeEl.classList.add("rolling");
+      clearTimeout(animateDiceTo._t);
+      animateDiceTo._t = setTimeout(()=>{
+        cubeEl.classList.remove("rolling");
+        setCubeFace(n);
+      }, DICE_ROLL_MS + 30);
+    }
+
+    function getActivePlayer(){ return state.players[state.turnIndex] || null; }
+    function nextTurn(){
+      state.lastRoll = null;
+      if(!state.players.length) return;
+      let safety = 0;
+      do{
+        state.turnIndex = (state.turnIndex + 1) % state.players.length;
+        const p = getActivePlayer();
+        if(p && (p.skips||0)>0){ p.skips -= 1; showToast(`<b>${escapeHTML(p.name)}</b> pierde un turno.`, 2200); }
+        else break;
+        safety++;
+      } while(safety < 500);
+      state.inMove = false;
+      state.triviaCtx = null;
+      saveState(); syncUI();
+    }
+
+    function rollDie(){ return 1 + Math.floor(Math.random()*6); }
+    function movePlayer(p, steps){
+      const from = p.pos;
+      let to = from + steps;
+      if(to > BOARD_SIZE) to = BOARD_SIZE;
+      if(to < 1) to = 1;
+      p.pos = to;
+      return {from,to};
+    }
+    function applyEffect(p, effect){
+      if(!effect) return;
+      if(effect.to) p.pos = Math.max(1, Math.min(BOARD_SIZE, effect.to));
+      if(effect.move) p.pos = Math.max(1, Math.min(BOARD_SIZE, p.pos + effect.move));
+      if(effect.skip) p.skips = (p.skips||0) + 1;
+    }
+    function applyTriviaFailurePenalty(p){
+      const pos = p.pos;
+      if(pos >= 28){ p.pos = 1; return "Vuelves al inicio (casilla 1)."; }
+      if(pos >= 14){ p.pos = Math.max(1, pos - 4); return "Retrocedes 4 casillas."; }
+      p.pos = Math.max(1, pos - 2); return "Retrocedes 2 casillas.";
+    }
+
+    function showWinner(p){
+      startFireworks("big");
+      openModal({
+        title: "🏆 ¡GANADOR!",
+        sub: `${p.avatar || "🏆"} ${p.name} llegó a la casilla ${BOARD_SIZE}.`,
+        bodyHTML: `
+          <div class="qBox">
+            <div style="font-size:18px; font-weight:950; margin-bottom:6px">🎉 Felicitaciones, ${escapeHTML(p.name)} 🎉</div>
+            <div class="muted">¡Lo lograste! La pantalla se llenó de fuegos artificiales para celebrar tu victoria.</div>
+          </div>
+          <div class="hint">Puedes reiniciar para jugar otra vez o seguir por diversión.</div>
+        `,
+        buttons:[
+          {text:"🎆 Más fuegos", kind:"good", onClick:()=>{startFireworks("big");}},
+          {text:"♻️ Reiniciar", kind:"warn", onClick:()=>{resetGame(true);}}
+        ]
+      });
+    }
+
+    function checkSquare(p){
+      if(p.pos === BOARD_SIZE){ showWinner(p); return; }
+      const sp = SPECIAL[p.pos];
+      if(!sp){ nextTurn(); return; }
+
+      if(sp.type === "prize"){
+        openModal({
+          title: "✨ Premio",
+          sub: `${p.avatar || "✨"} ${p.name} cayó en casilla ${p.pos}.`,
+          bodyHTML: `<div class="kicker">Efecto</div><div class="qBox"><b>${escapeHTML(sp.detail)}</b></div><div class="hint">Se aplica automáticamente y el turno continúa.</div>`,
+          buttons:[{text:"Aplicar y seguir", kind:"good", onClick:()=>{applyEffect(p, sp.effect); closeModal(); syncUI(); startFireworks("small"); pushHistory(`${p.avatar||''} ${p.name}: acertó trivia ✅`); pushHistory(`${p.avatar||''} ${p.name}: premio → ${sp.detail}`); nextTurn();}}]
+        });
+        return;
+      }
+
+      if(sp.type === "penalty"){
+        shakeBoard();
+        openModal({
+          title: "🔻 Castigo",
+          sub: `${p.avatar || "🔻"} ${p.name} cayó en casilla ${p.pos}.`,
+          bodyHTML: `<div class="kicker">Efecto</div><div class="qBox"><b>${escapeHTML(sp.detail)}</b></div><div class="hint">Se aplica automáticamente y el turno continúa.</div>`,
+          buttons:[{text:"Aplicar y seguir", kind:"bad", onClick:async()=>{
+            const before = p.pos;
+            applyEffect(p, sp.effect);
+            const after = p.pos;
+            closeModal();
+            syncUI();
+            startPenaltyFX();
+            if(before !== after){
+              await animateMove(p, after, {stepDelay:280, smoothScroll:true, highlightPath:true});
+            }
+            pushHistory(`${p.avatar||''} ${p.name}: castigo → ${sp.detail}`);
+            nextTurn();
+          }}]
+        });
+        return;
+      }
+
+      if(sp.type === "trivia"){
+        startTriviaFlow(p, p.pos, 1, "Penitencia por trivia: 2 oportunidades.");
+      }
+    }
+
+    function pickTrivia(excludeIndex=null){
+      let idx = Math.floor(Math.random()*TRIVIA_BANK.length);
+      if(excludeIndex !== null && TRIVIA_BANK.length>1){
+        let safety=0;
+        while(idx===excludeIndex && safety<500){ idx = Math.floor(Math.random()*TRIVIA_BANK.length); safety++; }
+      }
+      return {idx, ...TRIVIA_BANK[idx]};
+    }
+
+    function startTriviaFlow(player, square, attempt, banner){
+      const prev = state.triviaCtx?.qIndex ?? null;
+      const trivia = pickTrivia(attempt===2 ? prev : null);
+
+      state.triviaCtx = { playerId: player.id, square, attempt, qIndex: trivia.idx };
+      saveState();
+
+      const title = attempt===1 ? "⚡ Trivia" : "⚡ Trivia — Otra oportunidad";
+      const sub = attempt===1
+        ? `${player.avatar || "⚡"} ${player.name}, estás en casilla ${square}.`
+        : `${player.avatar || "⚡"} ${player.name}, tienes otra oportunidad (intento 2/2).`;
+
+      const body = `
+        <div class="kicker">${escapeHTML(banner || "")}</div>
+        <div class="qBox">
+          <p class="qText">${escapeHTML(trivia.q)}</p>
+          <div class="opts">
+            ${trivia.options.map((opt,i)=>`
+              <label class="opt">
+                <input type="radio" name="triviaOpt" value="${i}">
+                <div>${escapeHTML(opt)}</div>
+              </label>
+            `).join("")}
+          </div>
+          <div class="hint">Puedes <b>hacer la trivia</b> o <b>rechazarla</b>. Rechazar cuenta como intento.</div>
+        </div>
+      `;
+
+      openModal({
+        title, sub, bodyHTML: body,
+        buttons: [
+          {text:"✅ Responder", kind:"primary", onClick:()=>handleTriviaAnswer(trivia)},
+          {text:"🙅 No quiero trivia", kind:"warn", onClick:()=>handleTriviaDecline()},
+        ]
+      });
+    }
+
+    async function handleTriviaDecline(){
+      const ctx = state.triviaCtx;
+      if(!ctx){ closeModal(); return; }
+      const p = state.players.find(x=>x.id===ctx.playerId);
+      if(!p){ state.triviaCtx=null; saveState(); closeModal(); syncUI(); return; }
+
+      if(ctx.attempt === 1){
+        closeModal();
+        showToast(`<b>${escapeHTML(p.name)}</b>: tienes otra oportunidad.`, 2200);
+        startTriviaFlow(p, ctx.square, 2, "Rechazaste la trivia. Intento 2/2.");
+        return;
+      }
+
+      closeModal();
+      shakeBoard();
+      startPenaltyFX();
+      const msg = applyTriviaFailurePenalty(p);
+      pushHistory(`${p.avatar||''} ${p.name}: castigo por trivia (rechazo)`);
+      state.triviaCtx = null;
+      syncUI();
+      openModal({
+        title: "🔻 Castigo por no hacer la trivia",
+        sub: `${p.avatar || "🔻"} ${p.name} rechazó dos veces.`,
+        bodyHTML: `<div class="qBox"><b>${escapeHTML(msg)}</b></div><div class="hint">El juego continúa sin bloquearse.</div>`,
+        buttons:[{text:"Continuar", kind:"bad", onClick:()=>{closeModal(); nextTurn();}}]
+      });
+    }
+
+    async function handleTriviaAnswer(trivia){
+      const ctx = state.triviaCtx;
+      if(!ctx) return;
+      const p = state.players.find(x=>x.id===ctx.playerId);
+      if(!p){ state.triviaCtx=null; saveState(); closeModal(); syncUI(); return; }
+
+      const chosen = document.querySelector('input[name="triviaOpt"]:checked');
+      if(!chosen){ showToast("Elige una opción antes de responder.", 1800); return; }
+      const ok = (Number(chosen.value) === trivia.a);
+
+      if(ok){
+        state.triviaCtx = null;
+        closeModal();
+        syncUI();
+        startFireworks("small"); pushHistory(`${p.avatar||''} ${p.name}: acertó trivia ✅`);
+        openModal({
+          title: "✅ Correcto",
+          sub: `${p.avatar || "✅"} ${p.name} acertó la trivia.`,
+          bodyHTML: `<div class="qBox"><b>Te quedas en la casilla ${p.pos}.</b></div><div class="hint">Se cierra el turno.</div>`,
+          buttons:[{text:"Terminar turno", kind:"good", onClick:()=>{closeModal(); nextTurn();}}]
+        });
+        return;
+      }
+
+      shakeBoard();
+
+      if(ctx.attempt === 1){
+        closeModal();
+        showToast(`<b>${escapeHTML(p.name)}</b>: tienes otra oportunidad.`, 2200);
+        startTriviaFlow(p, ctx.square, 2, "Fallaste el intento 1. Intento 2/2.");
+        return;
+      }
+
+      closeModal();
+      startPenaltyFX();
+      const before = p.pos;
+      const msg = applyTriviaFailurePenalty(p);
+      const after = p.pos;
+      if(before !== after){ await animateMove(p, after, {stepDelay:280, smoothScroll:true, highlightPath:true}); }
+      pushHistory(`${p.avatar||''} ${p.name}: castigo por trivia (fallo)`);
+      state.triviaCtx = null;
+      syncUI();
+      openModal({
+        title: "🔻 Castigo por fallar la trivia",
+        sub: `${p.avatar || "🔻"} ${p.name} falló dos veces.`,
+        bodyHTML: `<div class="qBox"><b>${escapeHTML(msg)}</b></div><div class="hint">El juego continúa sin bloquearse.</div>`,
+        buttons:[{text:"Continuar", kind:"bad", onClick:()=>{closeModal(); nextTurn();}}]
+      });
+    }
+
+    const nameInput = $("#playerName");
+    $("#addBtn").addEventListener("click", addPlayerFromUI);
+    nameInput.addEventListener("keydown", (e)=>{ if(e.key === "Enter") addPlayerFromUI(); });
+
+    function addPlayerFromUI(){
+      const raw = (nameInput.value || "").trim();
+      const name = raw || `Jugador ${state.players.length + 1}`;
+      const color = COLORS[state.players.length % COLORS.length];
+      const avatar = avatarSelect.value || "🙂";
+      state.players.push({id: cryptoRandomId(), name, color, avatar, pos:1, skips:0});
+      if(state.players.length === 1) state.turnIndex = 0;
+      nameInput.value = "";
+      saveState(); syncUI();
+      showToast(`Agregado <b>${escapeHTML(name)}</b> ${escapeHTML(avatar)}.`);
+    }
+
+    $("#resetBtn").addEventListener("click", ()=> resetGame(false));
+    function resetGame(silent){
+      state = freshState();
+      localStorage.removeItem(LS_KEY);
+      syncUI();
+      closeModal();
+      
+    // Tour: cómo se juega (sin saturar la pantalla)
+    const tourBtn = document.getElementById("tourBtn");
+    const tourOverlay = document.getElementById("tourOverlay");
+    const tourSpot = document.getElementById("tourSpot");
+    const tourCard = document.getElementById("tourCard");
+    const tourTitle = document.getElementById("tourTitle");
+    const tourText = document.getElementById("tourText");
+    const tourPrev = document.getElementById("tourPrev");
+    const tourNext = document.getElementById("tourNext");
+    const tourSkip = document.getElementById("tourSkip");
+
+    const steps = [
+      {title:"1) Agrega jugadores", text:"En “Jugadores” escribe el nombre, elige un avatar (emoji) y presiona “Agregar”. Puedes crear tantos como quieras.", el:()=>document.getElementById("playersCollapse") || document.querySelector(".playersCol")},
+      {title:"2) Lanza el dado", text:"Presiona “Lanzar 🎲”. El dado rota y luego marca el número. El jugador avanza casilla por casilla (verás la ruta).", el:()=>document.getElementById("rollBtn")},
+      {title:"3) Casillas especiales", text:"Las casillas con pulso son: Premio ✨, Castigo 🔻 o Trivia ⚡. Al caer, aparece un cuadro emergente con la acción.", el:()=>document.querySelector(".boardWrap")},
+      {title:"4) Regla de Trivia (anti-bloqueo)", text:"Si rechazas o fallas una trivia tienes 2 oportunidades. Si fallas/rechazas 2 veces, se aplica un castigo interno y el juego continúa.", el:()=>document.getElementById("modalRoot") || document.body},
+      {title:"5) Ganador", text:"Cuando alguien llegue a la última casilla, aparecerá la pantalla de ganador con fuegos artificiales.", el:()=>document.querySelector(".boardWrap")},
+    ];
+
+    let stepIndex = 0;
+
+    function placeSpot(){
+      const s = steps[stepIndex];
+      const el = s.el?.();
+      const rect = el?.getBoundingClientRect?.();
+      const pad = 10;
+
+      if(rect && rect.width && rect.height){
+        tourSpot.style.display = "block";
+        tourSpot.style.left = Math.max(8, rect.left - pad) + "px";
+        tourSpot.style.top = Math.max(8, rect.top - pad) + "px";
+        tourSpot.style.width = Math.min(window.innerWidth-16, rect.width + pad*2) + "px";
+        tourSpot.style.height = Math.min(window.innerHeight-16, rect.height + pad*2) + "px";
+      }else{
+        tourSpot.style.display = "none";
+      }
+
+      const cardW = Math.min(420, window.innerWidth - 28);
+      tourCard.style.width = cardW + "px";
+
+      let cx = (window.innerWidth - cardW)/2;
+      let cy = (window.innerHeight - 220)/2;
+
+      if(rect){
+        const below = rect.bottom + 14;
+        const above = rect.top - 14 - 220;
+        if(below + 220 < window.innerHeight) cy = below;
+        else if(above > 8) cy = above;
+        cx = Math.min(window.innerWidth - cardW - 8, Math.max(8, rect.left));
+      }
+
+      tourCard.style.left = cx + "px";
+      tourCard.style.top = cy + "px";
+    }
+
+    function renderStep(){
+      const s = steps[stepIndex];
+      tourTitle.textContent = s.title;
+      tourText.textContent = s.text;
+      tourPrev.disabled = stepIndex === 0;
+      tourNext.textContent = stepIndex === steps.length-1 ? "Listo" : "Siguiente";
+      placeSpot();
+    }
+
+    function openTour(){
+      tourOverlay.style.display = "block";
+      tourOverlay.setAttribute("aria-hidden","false");
+      stepIndex = 0;
+      renderStep();
+    }
+    function closeTour(){
+      tourOverlay.style.display = "none";
+      tourOverlay.setAttribute("aria-hidden","true");
+    }
+
+    tourBtn?.addEventListener("click", openTour);
+    tourSkip?.addEventListener("click", closeTour);
+    tourOverlay?.addEventListener("click", (e)=>{ if(e.target === tourOverlay) closeTour(); });
+    tourPrev?.addEventListener("click", ()=>{ if(stepIndex>0){ stepIndex--; renderStep(); } });
+    tourNext?.addEventListener("click", ()=>{ if(stepIndex < steps.length-1){ stepIndex++; renderStep(); } else { closeTour(); } });
+    window.addEventListener("resize", ()=>{ if(tourOverlay.style.display==="block") placeSpot(); });
+
+setCubeFace(1);
+    // Al cargar, centra la vista en el jugador activo
+    const ap = getActivePlayer();
+    if(ap) setTimeout(()=>scrollToCell(ap.pos, false), 60);
+      if(!silent) showToast("Partida reiniciada.");
+    }
+
+    rollBtn.addEventListener("click", ()=>{
+      if(state.inMove) return;
+      const p = getActivePlayer();
+      if(!p){ showToast("Agrega jugadores primero.", 1800); return; }
+      if((p.skips||0)>0){ p.skips -= 1; showToast(`<b>${escapeHTML(p.name)}</b> pierde un turno.`, 2200); nextTurn(); return; }
+
+      state.inMove = true;
+      const d = rollDie();
+      state.lastRoll = d;
+      animateDiceTo(d);
+
+      
+      const fromPos = p.pos;
+      const targetPos = Math.min(BOARD_SIZE, fromPos + d);
+
+      (async ()=>{
+        // avance casilla por casilla
+        await animateMove(p, targetPos, {stepDelay: 190, smoothScroll:true, highlightPath:true});
+
+        const sp = SPECIAL[p.pos];
+        const extra = sp ? ` · ${sp.type==="trivia"?"Trivia":sp.type==="prize"?"Premio":"Castigo"}` : "";
+        showToast(`<b>${escapeHTML(p.name)}</b> ${escapeHTML(p.avatar||"")} lanzó <b>${d}</b> (de ${fromPos} a ${p.pos})${extra}.`, 2600);
+        pushHistory(`${p.avatar||''} ${p.name}: 🎲 ${d} → ${p.pos}${sp?(' ('+ (sp.type==='trivia'?'trivia':sp.type==='prize'?'premio':'castigo') +')'):''}`);
+
+        if(SPECIAL[p.pos]?.type === "penalty"){ shakeBoard(); startPenaltyFX(); }
+        scrollToCell(p.pos, true);
+
+        state.inMove = false;
+        saveState();
+        checkSquare(p);
+      })();
+    });
+
+    function cryptoRandomId(){
+      return (crypto?.getRandomValues
+        ? [...crypto.getRandomValues(new Uint8Array(6))].map(b=>b.toString(16).padStart(2,"0")).join("")
+        : Math.random().toString(16).slice(2) + Date.now().toString(16).slice(2));
+    }
+
+    
+    /* ===== PATCH v17: Trivia aleatoria + fix castigo rojo + movimiento más lento (sin tocar render del tablero) ===== */
+
+    // 1) Trivia aleatoria con "bolsa" para evitar repetir siempre las mismas
+    let __TRIVIA_BAG = [];
+    function __refillBag(excludeIndex=null){
+      __TRIVIA_BAG = Array.from({length:TRIVIA_BANK.length}, (_,i)=>i);
+      for(let i=__TRIVIA_BAG.length-1;i>0;i--){
+        const j = Math.floor(Math.random()*(i+1));
+        const tmp = __TRIVIA_BAG[i]; __TRIVIA_BAG[i]=__TRIVIA_BAG[j]; __TRIVIA_BAG[j]=tmp;
+      }
+      if(excludeIndex!==null && __TRIVIA_BAG.length>1 && __TRIVIA_BAG[0]===excludeIndex){
+        const k = 1 + Math.floor(Math.random()*(__TRIVIA_BAG.length-1));
+        const tmp = __TRIVIA_BAG[0]; __TRIVIA_BAG[0]=__TRIVIA_BAG[k]; __TRIVIA_BAG[k]=tmp;
+      }
+    }
+    function pickTrivia(excludeIndex=null){
+      if(!TRIVIA_BANK.length) return {idx:0,q:"Sin trivias",options:["OK"],a:0};
+      if(!__TRIVIA_BAG.length) __refillBag(excludeIndex);
+      let idx = __TRIVIA_BAG.pop();
+      if(excludeIndex!==null && TRIVIA_BANK.length>1 && idx===excludeIndex){
+        if(__TRIVIA_BAG.length) idx = __TRIVIA_BAG.pop();
+        else { __refillBag(excludeIndex); idx = __TRIVIA_BAG.pop(); }
+      }
+      let t = TRIVIA_BANK[idx];
+      if(!t || !Array.isArray(t.options) || typeof t.a!=="number"){
+        __refillBag(excludeIndex);
+        idx = __TRIVIA_BAG.pop();
+        t = TRIVIA_BANK[idx];
+      }
+      return {idx, ...t};
+    }
+
+    // 2) Castigo: evita pantalla roja pegada / ralentización
+    const __startPenaltyFX_old = startPenaltyFX;
+    startPenaltyFX = function(){
+      try{ particles = []; }catch(e){}
+      try{ fx.clearRect(0,0,fxCanvas.width,fxCanvas.height); }catch(e){}
+      fxRunning = true;
+      fxCanvas.style.display = "block";
+      fitCanvas();
+      const now = performance.now();
+      fxEndAt = now + 450;
+
+      for(let i=0;i<2;i++){
+        setTimeout(()=>{
+          const x = rand(window.innerWidth*0.25, window.innerWidth*0.75);
+          const y = rand(window.innerHeight*0.22, window.innerHeight*0.55);
+          for(let k=0;k<28;k++){
+            const ang = rand(-Math.PI, 0);
+            const sp = rand(2.0, 6.2);
+            particles.push({
+              x, y,
+              vx: Math.cos(ang)*sp,
+              vy: Math.sin(ang)*sp - rand(0,2.0),
+              r: rand(1.1, 2.8),
+              a: 1,
+              g: rand(0.10, 0.16),
+              drag: rand(0.975, 0.990),
+              hue: rand(0, 28),
+              tw: rand(0.7, 1.5),
+            });
+          }
+        }, i*110);
+      }
+    };
+
+    // 3) Movimiento menos vertiginoso: si animateMove recibe stepDelay bajo, lo subimos suavemente
+    const __animateMove_old = animateMove;
+    animateMove = function(player, target, opts={}){
+      const patchedOpts = {...opts};
+      if(!patchedOpts.stepDelay || patchedOpts.stepDelay < 260) patchedOpts.stepDelay = 280;
+      return __animateMove_old(player, target, patchedOpts);
+    };
+
+
+    /* ===== PATCH v22 PREMIUM (opcional, sin romper base) ===== */
+    const PREMIUM_KEY = "esc_premium_cfg_v1";
+    const defaultPremium = { enabled:false, density:"low", vibrate:false };
+    function loadPremium(){
+      try{
+        const raw = localStorage.getItem(PREMIUM_KEY);
+        const obj = raw ? JSON.parse(raw) : {};
+        return {...defaultPremium, ...obj};
+      }catch(e){
+        return {...defaultPremium};
+      }
+    }
+    function savePremium(cfg){ localStorage.setItem(PREMIUM_KEY, JSON.stringify(cfg)); }
+
+    let premium = loadPremium();
+
+    const premiumToggle = document.getElementById("premiumToggle");
+    const densitySelect = document.getElementById("densitySelect");
+    const regenBoard = document.getElementById("regenBoard");
+    const exportCfg = document.getElementById("exportCfg");
+    const importCfg = document.getElementById("importCfg");
+    const vibrateToggle = document.getElementById("vibrateToggle");
+    const btnFullBoard = document.getElementById("btnFullBoard");
+    const btnExitFullBoard = document.getElementById("btnExitFullBoard");
+    const statsBox = document.getElementById("statsBox");
+
+    // Stats (se guardan por dispositivo)
+    const STATS_KEY = "esc_stats_v1";
+    const stats = (()=>{
+      try{ return JSON.parse(localStorage.getItem(STATS_KEY) || "{}"); }catch(e){ return {}; }
+    })();
+    stats.triviaOk = stats.triviaOk || 0;
+    stats.triviaFail = stats.triviaFail || 0;
+    stats.penalties = stats.penalties || 0;
+    function saveStats(){ localStorage.setItem(STATS_KEY, JSON.stringify(stats)); }
+    function renderStats(){
+      if(!statsBox) return;
+      statsBox.textContent = `✅ Aciertos: ${stats.triviaOk}  ·  ❌ Fallos: ${stats.triviaFail}  ·  🔻 Castigos: ${stats.penalties}`;
+    }
+
+    function maybeVibrate(pattern){
+      if(!premium.enabled || !premium.vibrate) return;
+      try{ if(navigator.vibrate) navigator.vibrate(pattern); }catch(e){}
+    }
+
+    // Generación de casillas especiales extra por densidad (sin saturar final 81–100)
+    function genExtraSpecials(density){
+      const map = {};
+      const ranges = [{from:2,to:80}]; // el final queda como BASE_SPECIAL
+      let target = 16; // low
+      if(density==="med") target = 26;
+      if(density==="high") target = 36;
+
+      const reserved = new Set(Object.keys(BASE_SPECIAL).map(n=>parseInt(n,10)));
+      function add(pos, obj){
+        if(pos<=1 || pos>=100) return;
+        if(reserved.has(pos)) return;
+        map[pos] = obj;
+        reserved.add(pos);
+      }
+
+      const pool = [];
+      for(const r of ranges){
+        for(let i=r.from;i<=r.to;i++){
+          if(!reserved.has(i)) pool.push(i);
+        }
+      }
+      for(let i=pool.length-1;i>0;i--){
+        const j = Math.floor(Math.random()*(i+1));
+        const t = pool[i]; pool[i]=pool[j]; pool[j]=t;
+      }
+
+      for(let k=0;k<target && pool.length;k++){
+        const pos = pool.pop();
+        const r = Math.random();
+        if(r < 0.40){
+          add(pos, {type:"trivia", label:"Trivia ⚡", detail:"Reto sorpresa (mixto)"});
+        }else if(r < 0.70){
+          const mv = [1,2,3,4][Math.floor(Math.random()*4)];
+          add(pos, {type:"prize", label:"Premio ✨", detail:`Avanzas ${mv} casillas`, effect:{move:+mv}});
+        }else{
+          const mv = [2,3,4,5,6][Math.floor(Math.random()*5)];
+          add(pos, {type:"penalty", label:"Castigo 🔻", detail:`Retrocedes ${mv} casillas`, effect:{move:-mv}});
+        }
+      }
+      return map;
+    }
+
+    function applyPremiumToBoard(forceRegen=false){
+      if(!premium.enabled){
+        SPECIAL = JSON.parse(JSON.stringify(BASE_SPECIAL));
+        return;
+      }
+      const base = JSON.parse(JSON.stringify(BASE_SPECIAL));
+      const extra = (forceRegen || !premium._cachedExtra) ? genExtraSpecials(premium.density) : (premium._cachedExtra || {});
+      premium._cachedExtra = extra;
+      savePremium(premium);
+      SPECIAL = {...base, ...extra};
+    }
+
+    function syncPremiumUI(){
+      if(premiumToggle) premiumToggle.checked = !!premium.enabled;
+      if(densitySelect) densitySelect.value = premium.density || "low";
+      if(vibrateToggle) vibrateToggle.checked = !!premium.vibrate;
+      renderStats();
+    }
+    syncPremiumUI();
+    applyPremiumToBoard(false);
+
+    premiumToggle?.addEventListener("change", ()=>{
+      premium.enabled = !!premiumToggle.checked;
+      if(!premium.enabled) delete premium._cachedExtra;
+      savePremium(premium);
+      applyPremiumToBoard(true);
+      renderBoard(); renderLegend();
+      showToast(premium.enabled ? "⚙️ Premium activado" : "⚙️ Premium desactivado", 1300);
+    });
+
+    densitySelect?.addEventListener("change", ()=>{
+      premium.density = densitySelect.value;
+      delete premium._cachedExtra;
+      savePremium(premium);
+      if(premium.enabled){
+        applyPremiumToBoard(true);
+        renderBoard(); renderLegend();
+        showToast("🔁 Densidad aplicada", 1200);
+      }
+    });
+
+    regenBoard?.addEventListener("click", ()=>{
+      if(!premium.enabled){ showToast("Activa Premium para regenerar", 1400); return; }
+      delete premium._cachedExtra;
+      applyPremiumToBoard(true);
+      renderBoard(); renderLegend();
+      showToast("🎲 Especiales regenerados", 1300);
+    });
+
+    vibrateToggle?.addEventListener("change", ()=>{
+      premium.vibrate = !!vibrateToggle.checked;
+      savePremium(premium);
+      showToast(premium.vibrate ? "📳 Vibración ON" : "📳 Vibración OFF", 1200);
+      maybeVibrate([40,40,60]);
+    });
+
+    // Full board mode
+    function setFullBoard(on){
+      document.body.classList.toggle("premiumFullBoard", !!on);
+      if(btnExitFullBoard) btnExitFullBoard.style.display = on ? "inline-flex" : "none";
+      if(on){
+        showToast("🧭 Vista solo tablero", 1200);
+        setTimeout(()=>{ try{ boardWrap?.scrollIntoView({behavior:"smooth", block:"start"});}catch(e){} }, 50);
+      }
+    }
+    btnFullBoard?.addEventListener("click", ()=> setFullBoard(true));
+    btnExitFullBoard?.addEventListener("click", ()=> setFullBoard(false));
+
+    // Export / Import config
+    exportCfg?.addEventListener("click", ()=>{
+      const payload = {
+        premium: {...premium, _cachedExtra: premium._cachedExtra || undefined},
+        manualMode: state.manualMode,
+        penitencias: (localStorage.getItem("esc_penitencias") ? JSON.parse(localStorage.getItem("esc_penitencias")) : undefined)
+      };
+      const blob = new Blob([JSON.stringify(payload, null, 2)], {type:"application/json"});
+      const a = document.createElement("a");
+      a.href = URL.createObjectURL(blob);
+      a.download = "escalera_premium_config.json";
+      document.body.appendChild(a); a.click(); a.remove();
+      setTimeout(()=>URL.revokeObjectURL(a.href), 800);
+      showToast("⬇️ Config exportada", 1200);
+    });
+
+    importCfg?.addEventListener("change", async (ev)=>{
+      const f = ev.target.files && ev.target.files[0];
+      if(!f) return;
+      try{
+        const txt = await f.text();
+        const obj = JSON.parse(txt);
+        if(obj.premium){
+          premium = {...defaultPremium, ...obj.premium};
+          savePremium(premium);
+        }
+        if(typeof obj.manualMode === "boolean"){
+          state.manualMode = obj.manualMode;
+          localStorage.setItem("esc_manual", state.manualMode ? "1":"0");
+        }
+        if(Array.isArray(obj.penitencias)){
+          localStorage.setItem("esc_penitencias", JSON.stringify(obj.penitencias));
+        }
+        delete premium._cachedExtra;
+        applyPremiumToBoard(true);
+        syncManualUI?.();
+        syncPremiumUI();
+        renderBoard(); renderLegend(); syncUI();
+        showToast("⬆️ Config importada", 1400);
+      }catch(e){
+        console.error(e);
+        showToast("❌ No se pudo importar", 1600);
+      }finally{
+        ev.target.value = "";
+      }
+    });
+
+    // Hooks de vibración + stats (sin tocar lógica base)
+
+    const __startPenaltyFX_old2 = startPenaltyFX;
+    startPenaltyFX = function(){
+      maybeVibrate([60,40,80]);
+      stats.penalties += 1; saveStats(); renderStats();
+      return __startPenaltyFX_old2();
+    };
+
+renderLegend();
+    syncUI();
+    setCubeFace(1);
+
+    // autoScrollToBoardOnMobile
+    setTimeout(()=>{
+      try{
+        if(window.innerWidth <= 720){
+          const bw = document.getElementById('boardWrap');
+          bw?.scrollIntoView({behavior:'smooth', block:'start'});
+        }
+      }catch(e){}
+    }, 120);
+
+    // Al cargar, centra la vista en el jugador activo
+    const ap = getActivePlayer();
+    if(ap) setTimeout(()=>scrollToCell(ap.pos, false), 60);
+
+    // En pantallas pequeñas, cerramos el panel de jugadores para priorizar el tablero (solo una vez).
+    const playersCollapse = document.getElementById("playersCollapse");
+    let playersAutoMode = true;
+    function setPlayersDefault(){
+      if(!playersCollapse) return;
+      if(window.innerWidth <= 860) playersCollapse.open = false;
+      else playersCollapse.open = true;
+    }
+    // Si el usuario lo abre/cierra manualmente, dejamos de forzarlo (evita cierres por teclado móvil).
+    if(playersCollapse){
+      playersCollapse.addEventListener("toggle", ()=>{ playersAutoMode = false; });
+    }
+    // Solo ajustamos al cruzar el breakpoint y solo si sigue en modo automático.
+    let lastIsSmall = window.innerWidth <= 860;
+    window.addEventListener("resize", ()=>{
+      const isSmall = window.innerWidth <= 860;
+      if(playersAutoMode && isSmall !== lastIsSmall){
+        if(isSmall) playersCollapse.open = false;
+        else playersCollapse.open = true;
+      }
+      lastIsSmall = isSmall;
+    });
+    setPlayersDefault();
+    /* =============================
+       SONIDOS + TOUR (fix visible)
+       ============================= */
+
+    // --- Sonidos (WebAudio) ---
+    const soundBtn = document.getElementById("soundBtn");
+    let soundOn = (localStorage.getItem("esc_snd") ?? "1") === "1";
+    let audioCtx = null;
+
+    function syncSoundBtn(){
+      if(!soundBtn) return;
+      soundBtn.textContent = soundOn ? "🔊" : "🔇";
+      soundBtn.title = soundOn ? "Sonidos: activados" : "Sonidos: desactivados";
+    }
+    syncSoundBtn();
+
+    function ensureAudio(){
+      if(!soundOn) return null;
+      const AC = window.AudioContext || window.webkitAudioContext;
+      if(!AC) return null;
+      if(!audioCtx) audioCtx = new AC();
+      if(audioCtx.state === "suspended") audioCtx.resume().catch(()=>{});
+      return audioCtx;
+    }
+
+    function beep(freq=440, dur=0.08, type="sine", gain=0.12){
+      if(!soundOn) return;
+      const ctx = ensureAudio();
+      if(!ctx) return;
+      const o = ctx.createOscillator();
+      const g = ctx.createGain();
+      o.type = type;
+      o.frequency.value = freq;
+      o.connect(g); g.connect(ctx.destination);
+      const t = ctx.currentTime;
+      g.gain.setValueAtTime(gain, t);
+      g.gain.exponentialRampToValueAtTime(0.0001, t + dur);
+      o.start(t); o.stop(t + dur + 0.02);
+    }
+    function sfxDice(){ playSound("diceRoll", 0.4); }
+    function sfxStep(){ beep(520,0.03,"triangle",0.08); }
+    function sfxSuccess(){ beep(660,0.06,"sine",0.13); setTimeout(()=>beep(880,0.08,"sine",0.13),90); }
+    function sfxPenalty(){ beep(180,0.10,"sawtooth",0.12); setTimeout(()=>beep(140,0.12,"sawtooth",0.12),90); }
+    function sfxRoll(){ beep(420,0.05,'triangle',0.10); }
+
+    function sfxWin(){ beep(523,0.08,"sine",0.14); setTimeout(()=>beep(659,0.08,"sine",0.14),90); setTimeout(()=>beep(784,0.10,"sine",0.14),180); setTimeout(()=>beep(1046,0.12,"sine",0.14),300); }
+
+    soundBtn?.addEventListener("click", ()=>{
+      soundOn = !soundOn;
+      localStorage.setItem("esc_snd", soundOn ? "1" : "0");
+      syncSoundBtn();
+      if(soundOn) ensureAudio();
+      showToast(soundOn ? "🔊 Sonidos activados" : "🔇 Sonidos desactivados", 1500);
+    });
+
+    // Desbloqueo de audio en móviles al primer toque
+    window.addEventListener("pointerdown", ()=>{ if(soundOn) ensureAudio(); }, {once:true});
+
+    // Hook sonidos a eventos sin tocar la lógica principal
+    const _startFireworks = startFireworks;
+    startFireworks = function(kind="small"){
+      if(kind === "big") victoryRoar(); else sfxSuccess();
+      return _startFireworks(kind);
+    }
+    const _startPenaltyFX = startPenaltyFX;
+    startPenaltyFX = function(){
+      sfxPenalty();
+      playSound("snakeDown", 0.3);
+      return _startPenaltyFX();
+    }
+    const _showWinner = showWinner;
+    showWinner = function(p){
+      sfxWin();
+      return _showWinner(p);
+    }
+
+    // Sonido por pasos: parche suave a animateMove
+    const _animateMove = animateMove;
+    animateMove = function(player, target, opts={}){
+      const stepDelay = opts.stepDelay ?? 200;
+      // usamos el original, pero añadimos un "tick" por paso vía wrapper temporal en syncUI
+      // (sin reescribir su lógica)
+      let lastPos = player.pos;
+      const id = setInterval(()=>{
+        if(!state?.inMove){ clearInterval(id); return; }
+        if(player.pos !== lastPos){
+          lastPos = player.pos;
+          sfxStep();
+        }
+      }, Math.max(40, Math.floor(stepDelay*0.6)));
+      return _animateMove(player, target, opts).finally(()=> clearInterval(id));
+    }
+
+    // Sonido al lanzar dado (sin alterar flujo)
+    const _rollClick = rollBtn.onclick;
+    // rollBtn usa addEventListener, así que ponemos un listener adicional seguro:
+    rollBtn.addEventListener("click", ()=>{ sfxDice(); });
+
+    // --- TOUR visible (sin depender del código interno del reset) ---
+    const tourBtn = document.getElementById("tourBtn");
+    const tourOverlay = document.getElementById("tourOverlay");
+    const tourSpot = document.getElementById("tourSpot");
+    const tourCard = document.getElementById("tourCard");
+    const tourTitle = document.getElementById("tourTitle");
+    const tourText = document.getElementById("tourText");
+    const tourPrev = document.getElementById("tourPrev");
+    const tourNext = document.getElementById("tourNext");
+    const tourSkip = document.getElementById("tourSkip");
+
+    const tourSteps = [
+      {title:"1) Agrega jugadores", text:"En “Jugadores” escribe el nombre, elige avatar emoji y presiona “Agregar”. Puedes crear tantos como quieras.", el:()=>document.getElementById("playersCollapse") || document.querySelector(".playersCol")},
+      {title:"2) Lanza el dado", text:"Presiona “🎲 Lanzar”. El dado rota y se detiene. El jugador avanza casilla por casilla (se ve el recorrido).", el:()=>document.getElementById("rollBtn")},
+      {title:"3) Casillas especiales", text:"Premio ✨, Castigo 🔻 o Trivia ⚡. Al caer, aparece un cuadro emergente con la acción.", el:()=>document.querySelector(".boardWrap")},
+      {title:"4) Regla de Trivia", text:"Tienes 2 oportunidades. Si rechazas o fallas 2 veces, se aplica castigo interno y el juego continúa (sin bloquearse).", el:()=>document.querySelector(".modal") || document.body},
+      {title:"5) Ganador", text:"Cuando alguien llega a la casilla 80, aparece GANADOR y la pantalla se llena de fuegos artificiales.", el:()=>document.querySelector(".boardWrap")},
+    ];
+    let tourI = 0;
+
+    function placeSpot(){
+      const s = tourSteps[tourI];
+      const el = s.el?.();
+      const rect = el?.getBoundingClientRect?.();
+      const pad = 10;
+
+      if(rect && rect.width && rect.height){
+        tourSpot.style.display = "block";
+        tourSpot.style.left = Math.max(8, rect.left - pad) + "px";
+        tourSpot.style.top = Math.max(8, rect.top - pad) + "px";
+        tourSpot.style.width = Math.min(window.innerWidth-16, rect.width + pad*2) + "px";
+        tourSpot.style.height = Math.min(window.innerHeight-16, rect.height + pad*2) + "px";
+      }else{
+        tourSpot.style.display = "none";
+      }
+
+      const cardW = Math.min(420, window.innerWidth - 28);
+      tourCard.style.width = cardW + "px";
+
+      let cx = (window.innerWidth - cardW)/2;
+      let cy = (window.innerHeight - 220)/2;
+
+      if(rect){
+        const below = rect.bottom + 14;
+        const above = rect.top - 14 - 220;
+        if(below + 220 < window.innerHeight) cy = below;
+        else if(above > 8) cy = above;
+        cx = Math.min(window.innerWidth - cardW - 8, Math.max(8, rect.left));
+      }
+
+      tourCard.style.left = cx + "px";
+      tourCard.style.top = cy + "px";
+    }
+
+    function renderTour(){
+      const s = tourSteps[tourI];
+      tourTitle.textContent = s.title;
+      tourText.textContent = s.text;
+      tourPrev.disabled = tourI === 0;
+      tourNext.textContent = tourI === tourSteps.length-1 ? "Listo" : "Siguiente";
+      placeSpot();
+    }
+    function openTour(){
+      tourOverlay.style.display = "block";
+      tourOverlay.setAttribute("aria-hidden","false");
+      tourI = 0;
+      renderTour();
+    }
+    function closeTour(){
+      tourOverlay.style.display = "none";
+      tourOverlay.setAttribute("aria-hidden","true");
+    }
+
+    tourBtn?.addEventListener("click", openTour);
+    tourSkip?.addEventListener("click", closeTour);
+    tourOverlay?.addEventListener("click", (e)=>{ if(e.target === tourOverlay) closeTour(); });
+    tourPrev?.addEventListener("click", ()=>{ if(tourI>0){ tourI--; renderTour(); } });
+    tourNext?.addEventListener("click", ()=>{ if(tourI < tourSteps.length-1){ tourI++; renderTour(); } else { closeTour(); } });
+    window.addEventListener("resize", ()=>{ if(tourOverlay.style.display==="block") placeSpot(); });
+
+
+    if(state.players.length) showToast("Partida cargada desde el navegador. Continúen donde iban.", 2400);
+  </script>
+
+  <div id="tourOverlay" aria-hidden="true">
+    <div class="spotlight" id="tourSpot"></div>
+    <div id="tourCard" role="dialog" aria-modal="true">
+      <h3 id="tourTitle">Tour</h3>
+      <p id="tourText">...</p>
+      <div id="tourNav">
+        <button class="btn" id="tourPrev">Atrás</button>
+        <button class="btn ghost" id="tourSkip">Salir</button>
+        <button class="btn primary" id="tourNext">Siguiente</button>
+      </div>
+    </div>
+  </div>
+
+</body>
+</html>

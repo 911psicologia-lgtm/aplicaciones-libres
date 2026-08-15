@@ -1,0 +1,10 @@
+world: world_3
+zoneId: zone_03
+zoneName: ice_canyon
+visualTheme: tundra_and_geode_abyss
+mood: frozen_to_crystalline
+dominantColors: #bcd0e4, #8fa6c4, #eef4fa
+recommendedUse: opressive_traversal
+notableProps: cristales geoda, estalagmitas de hielo, rocas nevadas, brillos minerales
+layeringNotes: orden de parallax (fondo->frente): bg_far, fog/smoke, bg_mid, light_glow, bg_near, ground_overlay, ambient, bg_foreground_fx. bg_far/bg_mid pensados para empalmar horizontalmente.
+integrationNotes: usar velocidades de parallax crecientes de bg_far (lenta) a bg_near (rapida); ground_overlay fija al piso; decor_props_sheet contiene props transparentes separados para componer. Sin texto, personajes ni HUD.

@@ -1,0 +1,316 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>PlumaPDF v1.1.1</title>
+  <style>
+    :root{
+      --bg:#f6f7f9;
+      --card:#ffffff;
+      --text:#1f2937;
+      --muted:#6b7280;
+      --line:#e5e7eb;
+      --soft:#f3f4f6;
+      --accent:#111827;
+      --danger:#991b1b;
+      --danger-soft:#fecaca;
+      --radius:18px;
+      --shadow:0 10px 30px rgba(17,24,39,.08);
+      --shadow-soft:0 6px 18px rgba(17,24,39,.06);
+      --menu-z:40;
+      --tour-z:50;
+    }
+    *{box-sizing:border-box}
+    html,body{margin:0;padding:0;background:var(--bg);color:var(--text);font-family:system-ui,-apple-system,Segoe UI,Roboto,Arial,sans-serif}
+    body{min-height:100vh}
+    button,input,select,summary{font:inherit}
+    .wrap{max-width:1140px;margin:0 auto;padding:16px}
+    .topbar{display:flex;align-items:center;justify-content:space-between;gap:12px;margin-bottom:12px}
+    .brand{min-width:0}
+    .brand h1{margin:0;font-size:24px;line-height:1.1}
+    .brand .subtitle{margin:6px 0 0;color:var(--muted);font-size:14px;line-height:1.45}
+    .top-actions{display:flex;align-items:center;gap:8px;position:relative}
+    .iconbtn{display:inline-flex;align-items:center;justify-content:center;width:42px;height:42px;border-radius:12px;border:1px solid var(--line);background:#fff;color:var(--text);cursor:pointer;box-shadow:var(--shadow-soft)}
+    .iconbtn:hover{transform:translateY(-1px)}
+    .menu{position:absolute;top:48px;right:0;background:#fff;border:1px solid var(--line);border-radius:16px;box-shadow:var(--shadow);padding:8px;min-width:220px;display:none;z-index:var(--menu-z)}
+    .menu.open{display:block}
+    .menu button{width:100%;text-align:left;background:#fff;color:var(--text);border:1px solid transparent;padding:10px 12px;border-radius:12px;cursor:pointer}
+    .menu button:hover{background:var(--soft);border-color:var(--line)}
+    .topnote{font-size:12px;color:var(--muted);margin-bottom:12px;line-height:1.45;background:#fff;border:1px solid var(--line);border-radius:14px;padding:10px 12px}
+    .app{display:grid;grid-template-columns:360px 1fr;gap:16px;align-items:start}
+    .panel,.viewer{background:var(--card);border:1px solid var(--line);border-radius:var(--radius);box-shadow:var(--shadow)}
+    .panel{padding:16px;position:sticky;top:16px}
+    .viewer{padding:16px;min-height:340px}
+    .section{padding-top:12px;margin-top:12px;border-top:1px solid var(--line)}
+    .label{display:block;font-size:13px;font-weight:700;margin:0 0 7px}
+    .row{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+    select,input[type="text"]{width:100%;border:1px solid var(--line);background:#fff;border-radius:12px;padding:11px 12px;color:var(--text);outline:none}
+    input:focus,select:focus{border-color:#9ca3af;box-shadow:0 0 0 3px rgba(17,24,39,.06)}
+    .project-head{display:flex;align-items:center;justify-content:space-between;gap:10px;margin-bottom:12px}
+    .project-name-input{font-size:18px;font-weight:800;padding:10px 12px}
+    .dropzone{display:flex;flex-direction:column;align-items:center;justify-content:center;width:100%;min-height:122px;overflow:hidden;border:1.5px dashed #cbd5e1;background:var(--soft);border-radius:16px;padding:18px;text-align:center;cursor:pointer;transition:.18s ease}
+    .dropzone:hover,.dropzone.drag{background:#eef2f7;border-color:#94a3b8}
+    .dropzone strong{display:block;font-size:15px;margin-bottom:6px}
+    .dropzone span{font-size:13px;color:var(--muted)}
+    .actions,.minirow,.viewer-actions{display:flex;flex-wrap:wrap;gap:10px}
+    button{appearance:none;border:none;background:var(--accent);color:#fff;padding:11px 14px;border-radius:12px;font-weight:700;cursor:pointer;transition:.18s ease;min-height:42px}
+    button:hover{transform:translateY(-1px)}
+    button:disabled{opacity:.45;cursor:not-allowed;transform:none}
+    .ghost{background:#fff;color:var(--text);border:1px solid var(--line)}
+    .danger{background:#fff;color:var(--danger);border:1px solid var(--danger-soft)}
+    .status{margin-top:12px;font-size:13px;color:var(--muted);min-height:18px}
+    .toolbar{display:flex;justify-content:space-between;gap:10px;align-items:center;margin-bottom:12px;flex-wrap:wrap}
+    .toolbar h2{margin:0;font-size:18px}
+    .count{font-size:13px;color:var(--muted)}
+    .empty{border:1px dashed var(--line);border-radius:16px;padding:28px;text-align:center;color:var(--muted);background:linear-gradient(180deg,#fff,#fafafa)}
+    .project-list{display:grid;gap:12px}
+    details.project{border:1px solid var(--line);border-radius:18px;background:#fff;overflow:hidden}
+    details.project[open]{box-shadow:var(--shadow-soft)}
+    details.project summary{list-style:none;cursor:pointer;padding:14px 16px;display:flex;align-items:center;justify-content:space-between;gap:12px;background:linear-gradient(180deg,#fff,#fafafa)}
+    details.project summary::-webkit-details-marker{display:none}
+    .summary-left{min-width:0}
+    .summary-title{font-size:15px;font-weight:800;word-break:break-word}
+    .summary-meta{font-size:12px;color:var(--muted);margin-top:4px}
+    .project-body{padding:0 12px 12px}
+    .item{display:grid;grid-template-columns:90px 1fr;gap:12px;padding:12px;border:1px solid var(--line);border-radius:16px;background:#fff;align-items:start;margin-top:10px}
+    .item.selected{border-color:var(--accent);box-shadow:0 0 0 2px rgba(17,24,39,.08)}
+    .selectline{display:flex;align-items:center;gap:8px;font-size:12px;color:var(--muted);margin:0 0 8px}
+    .selectline input{width:16px;height:16px;accent-color:#111827}
+    .viewer-actions-top{display:flex;flex-wrap:wrap;gap:10px;margin-bottom:12px}
+    .viewer-note{font-size:12px;color:var(--muted);margin:2px 0 0}
+    .thumb{width:90px;height:120px;border-radius:12px;overflow:hidden;background:var(--soft);border:1px solid var(--line)}
+    .thumb img{width:100%;height:100%;object-fit:cover;display:block}
+    .meta{min-width:0}
+    .name{font-size:14px;font-weight:800;line-height:1.35;word-break:break-word;margin-bottom:6px}
+    .small{font-size:12px;color:var(--muted);margin-bottom:8px}
+    .minirow button{padding:8px 10px;min-height:36px;border-radius:10px;font-size:13px}
+    .chip{display:inline-flex;align-items:center;gap:6px;background:var(--soft);border:1px solid var(--line);padding:6px 10px;border-radius:999px;font-size:12px;color:var(--muted)}
+    .footer{margin-top:14px;font-size:12px;color:var(--muted);line-height:1.5;border-top:1px solid var(--line);padding-top:12px}
+    .tour-overlay{position:fixed;inset:0;background:rgba(17,24,39,.48);display:none;z-index:var(--tour-z);padding:16px}
+    .tour-overlay.open{display:flex;align-items:center;justify-content:center}
+    .tour-card{width:min(560px,100%);background:#fff;border-radius:22px;padding:18px;border:1px solid var(--line);box-shadow:var(--shadow)}
+    .tour-step{font-size:12px;color:var(--muted);margin-bottom:8px}
+    .tour-title{font-size:22px;font-weight:800;line-height:1.2;margin-bottom:8px}
+    .tour-text{font-size:14px;line-height:1.6;color:var(--text);min-height:88px}
+    .tour-actions{display:flex;justify-content:space-between;gap:10px;flex-wrap:wrap;margin-top:14px}
+    .tour-actions .right{display:flex;gap:10px;flex-wrap:wrap}
+    @media (max-width: 900px){.app{grid-template-columns:1fr}.panel{position:static}}
+    @media (max-width: 640px){.wrap{padding:12px}.panel,.viewer{padding:14px}.item{grid-template-columns:72px 1fr;gap:10px}.thumb{width:72px;height:96px}.brand h1{font-size:22px}.row{grid-template-columns:1fr}.actions button,.viewer-actions button{flex:1 1 auto}.topbar{align-items:flex-start}.brand .subtitle{font-size:13px}.menu{right:0;left:auto;min-width:210px}}
+  </style>
+</head>
+<body>
+  <div class="wrap">
+    <div class="topbar">
+      <div class="brand">
+        <h1>PlumaPDF</h1>
+        <p class="subtitle">Convierte imágenes de tu celular, tablet o computador en un PDF único. Minimalista, responsive y en un solo archivo HTML.</p>
+      </div>
+      <div class="top-actions">
+        <button class="iconbtn" id="menuBtn" aria-label="Abrir menú" title="Menú">☰</button>
+        <div class="menu" id="menuPanel">
+          <button id="menuNewProject">Nuevo proyecto</button>
+          <button id="menuTour">Ver tour de uso</button>
+          <button id="menuExpandAll">Expandir proyectos</button>
+          <button id="menuCollapseAll">Contraer proyectos</button>
+        </div>
+      </div>
+    </div>
+
+    <div class="topnote">
+      <div><strong>Versión:</strong> 1.1.1 | <strong>Objetivo:</strong> convertir imágenes en PDF y organizarlas por proyectos | <strong>Cómo probar:</strong> 1) crea o usa el proyecto actual, 2) carga fotos o toma una foto, 3) descarga el PDF del proyecto.</div>
+    </div>
+
+    <div class="app">
+      <aside class="panel">
+        <div class="project-head">
+          <div class="chip" id="activeProjectChip">Proyecto activo</div>
+        </div>
+
+        <div class="section" style="padding-top:0;margin-top:0;border-top:none">
+          <label class="label" for="projectName">Nombre del proyecto</label>
+          <input id="projectName" class="project-name-input" type="text" placeholder="Proyecto sin nombre" />
+        </div>
+
+        <div class="section">
+          <label class="dropzone" id="dropzone" for="fileInput">
+            <strong>Cargar imágenes</strong>
+            <span>Toca aquí o arrastra tus fotos. Puedes seleccionar varias a la vez.</span>
+          </label>
+          <input id="fileInput" type="file" accept="image/*" multiple hidden />
+          <input id="cameraInput" type="file" accept="image/*" capture="environment" multiple hidden />
+          <div class="actions" style="margin-top:10px">
+            <button class="ghost" id="cameraBtn" type="button">Tomar foto</button>
+            <button class="ghost" id="newProjectBtn" type="button">Nuevo proyecto</button>
+          </div>
+          <div class="viewer-note">En móvil, “Tomar foto” intenta abrir la cámara. Si el dispositivo no lo permite, se abrirá el selector de imágenes.</div>
+          </div>
+        </div>
+
+        <div class="section">
+          <label class="label" for="pdfName">Nombre del archivo PDF</label>
+          <input id="pdfName" type="text" placeholder="documento_escaneado" />
+        </div>
+
+        <div class="section">
+          <div class="row">
+            <div>
+              <label class="label" for="pageSize">Tamaño de página</label>
+              <select id="pageSize">
+                <option value="AUTO">Auto</option>
+                <option value="A4">A4</option>
+                <option value="LETTER">Carta</option>
+              </select>
+            </div>
+            <div>
+              <label class="label" for="orientation">Orientación</label>
+              <select id="orientation">
+                <option value="auto">Automática</option>
+                <option value="portrait">Vertical</option>
+                <option value="landscape">Horizontal</option>
+              </select>
+            </div>
+          </div>
+        </div>
+
+        <div class="section">
+          <div class="row">
+            <div>
+              <label class="label" for="fitMode">Ajuste de imagen</label>
+              <select id="fitMode">
+                <option value="contain">Completa</option>
+                <option value="cover">Rellenar</option>
+              </select>
+            </div>
+            <div>
+              <label class="label" for="margin">Margen</label>
+              <select id="margin">
+                <option value="12">Estrecho</option>
+                <option value="24" selected>Normal</option>
+                <option value="40">Amplio</option>
+              </select>
+            </div>
+          </div>
+        </div>
+
+        <div class="section">
+          <div class="actions">
+            <button id="downloadBtn" disabled>Descargar PDF</button>
+            <button id="clearBtn" class="ghost" disabled>Vaciar proyecto</button>
+          </div>
+          <div class="status" id="status">Sin imágenes cargadas.</div>
+        </div>
+
+        <div class="footer">
+          <div><strong>Créditos:</strong> José Alonso Andrade Salazar</div>
+          <div><strong>Contacto:</strong> 911psicologia@gmail.com</div>
+        </div>
+      </aside>
+
+      <main class="viewer">
+        <div class="toolbar">
+          <h2>Proyectos</h2>
+          <div class="count" id="countLabel">0 imágenes</div>
+        </div>
+        <div class="viewer-actions-top">
+          <button class="ghost" id="selectAllBtn">Seleccionar todo</button>
+          <button class="ghost" id="clearSelectionBtn">Limpiar selección</button>
+          <button class="ghost" id="downloadSelectedBtn" disabled>PDF de seleccionadas</button>
+        </div>
+        <div class="viewer-actions" style="margin-bottom:12px">
+          <button class="ghost" id="renameProjectBtn">Renombrar proyecto</button>
+          <button class="danger" id="deleteProjectBtn">Borrar proyecto</button>
+        </div>
+        <div id="content"></div>
+      </main>
+    </div>
+  </div>
+
+  <div class="tour-overlay" id="tourOverlay" aria-hidden="true">
+    <div class="tour-card">
+      <div class="tour-step" id="tourStep"></div>
+      <div class="tour-title" id="tourTitle"></div>
+      <div class="tour-text" id="tourText"></div>
+      <div class="tour-actions">
+        <button class="ghost" id="tourClose">Cerrar</button>
+        <div class="right">
+          <button class="ghost" id="tourPrev">Anterior</button>
+          <button id="tourNext">Siguiente</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    const APP_KEY = 'plumapdf_v1_1_state';
+    const DEFAULT_SETTINGS = { pdfName: 'documento_escaneado', pageSize: 'AUTO', orientation: 'auto', fitMode: 'contain', margin: '24' };
+    const state = { activeProjectId: null, projects: [], selectedImageIds: [], settings: { ...DEFAULT_SETTINGS }, ui: { tourSeen: false } };
+    const el = {
+      fileInput: document.getElementById('fileInput'), cameraInput: document.getElementById('cameraInput'), cameraBtn: document.getElementById('cameraBtn'), dropzone: document.getElementById('dropzone'),
+      projectName: document.getElementById('projectName'), pdfName: document.getElementById('pdfName'), pageSize: document.getElementById('pageSize'), orientation: document.getElementById('orientation'), fitMode: document.getElementById('fitMode'), margin: document.getElementById('margin'),
+      newProjectBtn: document.getElementById('newProjectBtn'), renameProjectBtn: document.getElementById('renameProjectBtn'), deleteProjectBtn: document.getElementById('deleteProjectBtn'), downloadBtn: document.getElementById('downloadBtn'), clearBtn: document.getElementById('clearBtn'), selectAllBtn: document.getElementById('selectAllBtn'), clearSelectionBtn: document.getElementById('clearSelectionBtn'), downloadSelectedBtn: document.getElementById('downloadSelectedBtn'),
+      status: document.getElementById('status'), content: document.getElementById('content'), countLabel: document.getElementById('countLabel'), activeProjectChip: document.getElementById('activeProjectChip'),
+      menuBtn: document.getElementById('menuBtn'), menuPanel: document.getElementById('menuPanel'), menuNewProject: document.getElementById('menuNewProject'), menuTour: document.getElementById('menuTour'), menuExpandAll: document.getElementById('menuExpandAll'), menuCollapseAll: document.getElementById('menuCollapseAll'),
+      tourOverlay: document.getElementById('tourOverlay'), tourStep: document.getElementById('tourStep'), tourTitle: document.getElementById('tourTitle'), tourText: document.getElementById('tourText'), tourPrev: document.getElementById('tourPrev'), tourNext: document.getElementById('tourNext'), tourClose: document.getElementById('tourClose')
+    };
+    const tourSteps = [
+      { title: 'Bienvenido', text: 'Esta app convierte imágenes en un PDF único. Ahora también puedes organizar tus imágenes por proyectos para no mezclar trabajos.' },
+      { title: 'Carga o toma fotos', text: 'Usa “Cargar imágenes” para elegir archivos desde tu biblioteca. En móvil, “Tomar foto” intenta abrir la cámara del dispositivo.' },
+      { title: 'Organiza el proyecto', text: 'Cada proyecto se puede renombrar, vaciar, borrar o dejar contraído como acordeón. Dentro de cada uno puedes subir, bajar, girar o eliminar páginas.' },
+      { title: 'Ajuste automático', text: 'En “Tamaño de página” y “Orientación” puedes dejar el modo Auto para que el sistema decida el ajuste más razonable según la imagen.' },
+      { title: 'Descarga', text: 'Cuando el proyecto tenga imágenes, pulsa “Descargar PDF”. También puedes marcar páginas específicas y usar “PDF de seleccionadas”. El archivo se genera en tu propio dispositivo.' }
+    ];
+    let tourIndex = 0;
+    function uid(){ return (crypto.randomUUID ? crypto.randomUUID() : String(Date.now() + Math.random())).replaceAll('-', ''); }
+    function createProject(name=''){ const n=(name||'').trim(); return { id: uid(), name: n || `Proyecto ${state.projects.length + 1}`, pdfName: 'documento_escaneado', images: [], isOpen: true, createdAt: Date.now() }; }
+    function getActiveProject(){ return state.projects.find(p => p.id === state.activeProjectId) || null; }
+    function humanSize(bytes){ if(bytes < 1024) return bytes + ' B'; if(bytes < 1024*1024) return (bytes/1024).toFixed(1) + ' KB'; return (bytes/(1024*1024)).toFixed(2) + ' MB'; }
+    function escapeHtml(str){ return String(str).replace(/[&<>"']/g, m => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#039;'}[m])); }
+    function setStatus(msg){ el.status.textContent = msg; }
+    function saveState(){ try{ const persistable={ activeProjectId: state.activeProjectId, projects: state.projects.map(p => ({ id:p.id, name:p.name, pdfName:p.pdfName, isOpen:!!p.isOpen, createdAt:p.createdAt, images:p.images })), settings: state.settings, ui: state.ui }; localStorage.setItem(APP_KEY, JSON.stringify(persistable)); }catch(err){ console.warn('No se pudo guardar el estado.', err); setStatus('No se pudo guardar permanentemente todo el contenido. Puede deberse al tamaño de las imágenes.'); } }
+    function ensureState(){ if(!state.projects.length){ const p=createProject('Proyecto 1'); state.projects.push(p); state.activeProjectId=p.id; } if(!getActiveProject()) state.activeProjectId = state.projects[0].id; }
+    function loadState(){ try{ const raw=localStorage.getItem(APP_KEY); if(!raw){ ensureState(); return; } const saved=JSON.parse(raw); state.settings = { ...DEFAULT_SETTINGS, ...(saved.settings || {}) }; state.ui = { tourSeen:false, ...(saved.ui || {}) }; state.projects = Array.isArray(saved.projects) ? saved.projects.map(p => ({ id:p.id || uid(), name:p.name || 'Proyecto', pdfName:p.pdfName || 'documento_escaneado', isOpen:p.isOpen !== false, createdAt:p.createdAt || Date.now(), images:Array.isArray(p.images)? p.images: [] })) : []; state.activeProjectId = saved.activeProjectId || null; ensureState(); }catch(err){ console.warn('No se pudo cargar configuración.', err); state.projects=[createProject('Proyecto 1')]; state.activeProjectId=state.projects[0].id; } }
+    function getSelectedImages(project){ return project.images.filter(img => state.selectedImageIds.includes(img.id)); }
+    function syncSelection(project){ const allowed=new Set(project.images.map(img => img.id)); state.selectedImageIds = state.selectedImageIds.filter(id => allowed.has(id)); }
+    function syncControls(){ const project=getActiveProject(); if(project) syncSelection(project); el.projectName.value = project ? project.name : ''; el.pdfName.value = project ? (project.pdfName || state.settings.pdfName) : state.settings.pdfName; el.pageSize.value = state.settings.pageSize; el.orientation.value = state.settings.orientation; el.fitMode.value = state.settings.fitMode; el.margin.value = state.settings.margin; el.activeProjectChip.textContent = project ? `Activo: ${project.name}` : 'Proyecto activo'; }
+    function updateActionState(){ const project=getActiveProject(); const imageCount = project ? project.images.length : 0; const selectedCount = project ? getSelectedImages(project).length : 0; el.downloadBtn.disabled = !imageCount; el.clearBtn.disabled = !imageCount; el.downloadSelectedBtn.disabled = !selectedCount; el.deleteProjectBtn.disabled = state.projects.length <= 1 && imageCount === 0; el.countLabel.textContent = `${state.projects.length} proyecto(s) · ${state.projects.reduce((acc,p)=>acc+p.images.length,0)} imagen(es)`; if(!imageCount) setStatus('Sin imágenes cargadas en el proyecto activo.'); }
+    function render(){ ensureState(); syncControls(); updateActionState(); const active = getActiveProject(); el.content.innerHTML = '<div class="project-list">' + state.projects.map((project, projectIndex) => { const items = project.images.length ? project.images.map((img, index)=>`<article class="item ${state.selectedImageIds.includes(img.id) ? 'selected' : ''}"><div class="thumb"><img src="${img.preview}" alt="Vista previa ${index+1}"></div><div class="meta"><label class="selectline"><input type="checkbox" ${state.selectedImageIds.includes(img.id) ? 'checked' : ''} onchange="setActiveProject('${project.id}'); toggleImageSelection('${img.id}')"> Usar esta imagen en exportación selectiva</label><div class="name">${index+1}. ${escapeHtml(img.name)}</div><div class="small">${img.width} × ${img.height} px · ${humanSize(img.size)} · Rotación: ${img.rotation}°</div><div class="minirow"><button class="ghost" onclick="setActiveProject('${project.id}'); moveImage('${project.id}', ${index}, -1)" ${index===0?'disabled':''}>↑ Subir</button><button class="ghost" onclick="setActiveProject('${project.id}'); moveImage('${project.id}', ${index}, 1)" ${index===project.images.length-1?'disabled':''}>↓ Bajar</button><button class="ghost" onclick="setActiveProject('${project.id}'); rotateImage('${project.id}', ${index})">Girar</button><button class="danger" onclick="setActiveProject('${project.id}'); removeImage('${project.id}', ${index})">Eliminar</button></div></div></article>`).join('') : `<div class="empty" style="margin-top:10px"><div class="chip">Proyecto vacío</div><p>Añade imágenes a este proyecto y luego descarga su PDF.</p></div>`; return `<details class="project" ${project.isOpen ? 'open' : ''} data-project-id="${project.id}" ontoggle="toggleProjectOpen('${project.id}', this.open)"><summary onclick="setActiveProject('${project.id}')"><div class="summary-left"><div class="summary-title">${projectIndex + 1}. ${escapeHtml(project.name)} ${project.id === active.id ? '· activo' : ''}</div><div class="summary-meta">${project.images.length} imagen(es) · PDF: ${(project.pdfName || 'documento_escaneado')}.pdf</div></div><div class="chip">${project.isOpen ? 'Abierto' : 'Cerrado'}</div></summary><div class="project-body">${items}</div></details>`; }).join('') + '</div>'; }
+    function bindSettings(){ ['pageSize','orientation','fitMode','margin'].forEach(key=>{ el[key].addEventListener('change', ()=>{ state.settings[key]=el[key].value; saveState(); }); }); el.projectName.addEventListener('input', ()=>{ const project=getActiveProject(); if(!project) return; project.name = el.projectName.value.trim() || 'Proyecto sin nombre'; render(); saveState(); }); el.pdfName.addEventListener('input', ()=>{ const project=getActiveProject(); if(!project) return; project.pdfName = el.pdfName.value.trim() || 'documento_escaneado'; saveState(); render(); }); }
+    function setActiveProject(projectId){ state.activeProjectId = projectId; const p=getActiveProject(); if(p){ p.isOpen = true; syncSelection(p); } render(); saveState(); }
+    window.setActiveProject = setActiveProject;
+    function toggleProjectOpen(projectId, isOpen){ const p=state.projects.find(x => x.id === projectId); if(!p) return; p.isOpen = isOpen; saveState(); }
+    window.toggleProjectOpen = toggleProjectOpen;
+    async function fileToImageItem(file){ return new Promise((resolve, reject)=>{ const reader=new FileReader(); reader.onload=()=>{ const img=new Image(); img.onload=()=>{ resolve({ id:uid(), name:file.name, size:file.size, width:img.naturalWidth, height:img.naturalHeight, preview:reader.result, rotation:0 }); }; img.onerror=reject; img.src=reader.result; }; reader.onerror=reject; reader.readAsDataURL(file); }); }
+    async function loadFiles(fileList){ const project=getActiveProject(); if(!project) return; const files=[...fileList].filter(f => f.type && f.type.startsWith('image/')); if(!files.length){ setStatus('No se encontraron imágenes válidas.'); return; } setStatus(`Cargando ${files.length} imagen(es)...`); for(const file of files){ const imageData = await fileToImageItem(file); project.images.push(imageData); } project.isOpen = true; render(); saveState(); setStatus(`Listo. ${files.length} imagen(es) añadidas al proyecto activo.`); }
+    function moveImage(projectId, index, direction){ const project=state.projects.find(p => p.id === projectId); if(!project) return; const target=index+direction; if(target < 0 || target >= project.images.length) return; const temp=project.images[index]; project.images[index]=project.images[target]; project.images[target]=temp; render(); saveState(); }
+    window.moveImage = moveImage;
+    function rotateImage(projectId, index){ const project=state.projects.find(p => p.id === projectId); if(!project) return; project.images[index].rotation = (project.images[index].rotation + 90) % 360; render(); saveState(); }
+    window.rotateImage = rotateImage;
+    function removeImage(projectId, index){ const project=state.projects.find(p => p.id === projectId); if(!project) return; const removed = project.images[index]; project.images.splice(index,1); if(removed) state.selectedImageIds = state.selectedImageIds.filter(id => id !== removed.id); render(); saveState(); if(project.images.length) setStatus('Imagen eliminada.'); }
+    window.removeImage = removeImage;
+    function toggleImageSelection(imageId){ if(state.selectedImageIds.includes(imageId)) state.selectedImageIds = state.selectedImageIds.filter(id => id !== imageId); else state.selectedImageIds.push(imageId); render(); }
+    function selectAllImages(){ const project=getActiveProject(); if(!project) return; state.selectedImageIds = project.images.map(img => img.id); render(); }
+    function clearImageSelection(){ state.selectedImageIds = []; render(); }
+    function clearProject(){ const project=getActiveProject(); if(!project || !project.images.length) return; if(!confirm(`Se eliminarán todas las imágenes del proyecto "${project.name}".`)) return; project.images=[]; render(); saveState(); setStatus('Se vació el proyecto activo.'); }
+    function createNewProject(){ const name=prompt('Nombre del nuevo proyecto:', `Proyecto ${state.projects.length + 1}`); if(name === null) return; const p=createProject(name); p.pdfName = name.trim() || 'documento_escaneado'; state.projects.unshift(p); state.activeProjectId = p.id; render(); saveState(); setStatus(`Proyecto creado: ${p.name}`); }
+    function renameProject(){ const project=getActiveProject(); if(!project) return; const name=prompt('Nuevo nombre del proyecto:', project.name); if(name === null) return; project.name = name.trim() || project.name; render(); saveState(); setStatus('Proyecto renombrado.'); }
+    function deleteProject(){ const project=getActiveProject(); if(!project) return; if(!confirm(`Se borrará el proyecto "${project.name}" y sus imágenes guardadas en esta app.`)) return; const idx=state.projects.findIndex(p => p.id === project.id); if(idx >= 0) state.projects.splice(idx,1); ensureState(); render(); saveState(); setStatus('Proyecto eliminado.'); }
+    function getPageDimensionsForImage(item){ const sizes={ A4:{ portrait:[595.28, 841.89], landscape:[841.89, 595.28] }, LETTER:{ portrait:[612, 792], landscape:[792, 612] } }; let orientation=state.settings.orientation; const rotation=item.rotation % 360; const rotatedW=(rotation === 90 || rotation === 270) ? item.height : item.width; const rotatedH=(rotation === 90 || rotation === 270) ? item.width : item.height; const imageOrientation = rotatedW > rotatedH ? 'landscape' : 'portrait'; if(orientation === 'auto') orientation = imageOrientation; let pageSize=state.settings.pageSize; if(pageSize === 'AUTO') pageSize = rotatedW >= 3000 || rotatedH >= 3000 ? 'LETTER' : 'A4'; return sizes[pageSize][orientation]; }
+    function dataUrlToUint8Array(dataUrl){ const base64=dataUrl.split(',')[1]; const binary=atob(base64); const bytes=new Uint8Array(binary.length); for(let i=0;i<binary.length;i++) bytes[i]=binary.charCodeAt(i); return bytes; }
+    function textBytes(str){ const out=new Uint8Array(str.length); for(let i=0;i<str.length;i++) out[i]=str.charCodeAt(i) & 0xFF; return out; }
+    function concatBytes(parts){ const total=parts.reduce((sum,p)=>sum+p.length,0); const out=new Uint8Array(total); let offset=0; for(const p of parts){ out.set(p, offset); offset += p.length; } return out; }
+    function formatPdfNumber(n){ return Number(n).toFixed(2).replace(/\.00$/,''); }
+    async function preparePageImage(item, pageWidth, pageHeight){ return new Promise((resolve, reject)=>{ const img=new Image(); img.onload=()=>{ const margin=Number(state.settings.margin || 24); const canvas=document.createElement('canvas'); canvas.width=Math.round(pageWidth * 2); canvas.height=Math.round(pageHeight * 2); const ctx=canvas.getContext('2d', { alpha:false }); ctx.fillStyle='#FFFFFF'; ctx.fillRect(0,0,canvas.width,canvas.height); const rotation=item.rotation % 360; const baseW=img.naturalWidth; const baseH=img.naturalHeight; const rotatedW=(rotation === 90 || rotation === 270) ? baseH : baseW; const rotatedH=(rotation === 90 || rotation === 270) ? baseW : baseH; const innerW=canvas.width - margin*2; const innerH=canvas.height - margin*2; const scaleContain=Math.min(innerW / rotatedW, innerH / rotatedH); const scaleCover=Math.max(innerW / rotatedW, innerH / rotatedH); const scale=state.settings.fitMode === 'cover' ? scaleCover : scaleContain; ctx.save(); ctx.translate(canvas.width / 2, canvas.height / 2); ctx.rotate(rotation * Math.PI / 180); ctx.drawImage(img, -baseW * scale / 2, -baseH * scale / 2, baseW * scale, baseH * scale); ctx.restore(); const jpegUrl=canvas.toDataURL('image/jpeg', 0.9); resolve({ bytes:dataUrlToUint8Array(jpegUrl), width:canvas.width, height:canvas.height, pageWidth, pageHeight }); }; img.onerror=reject; img.src=item.preview; }); }
+    async function buildPdf(project, imagesOverride=null){ const sourceImages = imagesOverride || project.images; const pages=[]; for(const item of sourceImages){ const [pageWidth, pageHeight] = getPageDimensionsForImage(item); pages.push(await preparePageImage(item, pageWidth, pageHeight)); } const parts=[]; const offsets=[0]; let byteLen=0; const push=(chunk)=>{ const bytes = chunk instanceof Uint8Array ? chunk : textBytes(chunk); parts.push(bytes); byteLen += bytes.length; }; const markObject=()=>offsets.push(byteLen); push('%PDF-1.4\n%\xFF\xFF\xFF\xFF\n'); const totalObjects=2 + pages.length * 3; const catalogId=1; const pagesId=2; markObject(); push(`${catalogId} 0 obj\n<< /Type /Catalog /Pages ${pagesId} 0 R >>\nendobj\n`); const pageObjectIds=[]; const imageObjectIds=[]; const contentObjectIds=[]; let nextId=3; for(let i=0;i<pages.length;i++){ pageObjectIds.push(nextId++); imageObjectIds.push(nextId++); contentObjectIds.push(nextId++); } markObject(); push(`${pagesId} 0 obj\n<< /Type /Pages /Count ${pages.length} /Kids [ ${pageObjectIds.map(id=>id+' 0 R').join(' ')} ] >>\nendobj\n`); for(let i=0;i<pages.length;i++){ const p=pages[i]; const pageId=pageObjectIds[i]; const imgId=imageObjectIds[i]; const contentId=contentObjectIds[i]; const content=`q\n${formatPdfNumber(p.pageWidth)} 0 0 ${formatPdfNumber(p.pageHeight)} 0 0 cm\n/Im${i+1} Do\nQ`; markObject(); push(`${pageId} 0 obj\n<< /Type /Page /Parent ${pagesId} 0 R /MediaBox [0 0 ${formatPdfNumber(p.pageWidth)} ${formatPdfNumber(p.pageHeight)}] /Resources << /XObject << /Im${i+1} ${imgId} 0 R >> >> /Contents ${contentId} 0 R >>\nendobj\n`); markObject(); push(`${imgId} 0 obj\n<< /Type /XObject /Subtype /Image /Width ${p.width} /Height ${p.height} /ColorSpace /DeviceRGB /BitsPerComponent 8 /Filter /DCTDecode /Length ${p.bytes.length} >>\nstream\n`); push(p.bytes); push(`\nendstream\nendobj\n`); markObject(); push(`${contentId} 0 obj\n<< /Length ${content.length} >>\nstream\n${content}\nendstream\nendobj\n`); } const xrefStart=byteLen; push(`xref\n0 ${totalObjects + 1}\n`); push(`0000000000 65535 f \n`); for(let i=1;i<=totalObjects;i++){ const off=String(offsets[i] || 0).padStart(10,'0'); push(`${off} 00000 n \n`); } push(`trailer\n<< /Size ${totalObjects + 1} /Root ${catalogId} 0 R >>\nstartxref\n${xrefStart}\n%%EOF`); return new Blob([concatBytes(parts)], { type:'application/pdf' }); }
+    async function downloadPdf(){ const project=getActiveProject(); if(!project || !project.images.length) return; try{ el.downloadBtn.disabled=true; setStatus('Generando PDF...'); const blob=await buildPdf(project); const name=(project.pdfName || state.settings.pdfName || 'documento_escaneado').replace(/\.pdf$/i,'') + '.pdf'; const url=URL.createObjectURL(blob); const a=document.createElement('a'); a.href=url; a.download=name; document.body.appendChild(a); a.click(); a.remove(); setTimeout(()=>URL.revokeObjectURL(url), 2000); setStatus(`PDF listo: ${name}`); }catch(err){ console.error(err); setStatus('Ocurrió un error al generar el PDF. Prueba con menos imágenes o imágenes más ligeras.'); }finally{ updateActionState(); } }
+    async function downloadSelectedPdf(){ const project=getActiveProject(); const selected = project ? getSelectedImages(project) : []; if(!project || !selected.length) return; try{ el.downloadSelectedBtn.disabled=true; setStatus('Generando PDF de imágenes seleccionadas...'); const blob=await buildPdf(project, selected); const name=((project.pdfName || state.settings.pdfName || 'documento_escaneado') + '_seleccion').replace(/\.pdf$/i,'') + '.pdf'; const url=URL.createObjectURL(blob); const a=document.createElement('a'); a.href=url; a.download=name; document.body.appendChild(a); a.click(); a.remove(); setTimeout(()=>URL.revokeObjectURL(url), 2000); setStatus(`PDF selectivo listo: ${name}`); }catch(err){ console.error(err); setStatus('Ocurrió un error al generar el PDF selectivo.'); }finally{ updateActionState(); } }
+    function setupDnD(){ ['dragenter','dragover'].forEach(evt => { el.dropzone.addEventListener(evt, e=>{ e.preventDefault(); el.dropzone.classList.add('drag'); }); }); ['dragleave','drop'].forEach(evt => { el.dropzone.addEventListener(evt, e=>{ e.preventDefault(); el.dropzone.classList.remove('drag'); }); }); el.dropzone.addEventListener('drop', e=>{ const files=e.dataTransfer?.files; if(files?.length) loadFiles(files); }); }
+    function closeMenu(){ el.menuPanel.classList.remove('open'); }
+    function openTour(force=false){ if(!force && state.ui.tourSeen) return; tourIndex=0; updateTour(); el.tourOverlay.classList.add('open'); el.tourOverlay.setAttribute('aria-hidden', 'false'); }
+    function closeTour(markSeen=true){ el.tourOverlay.classList.remove('open'); el.tourOverlay.setAttribute('aria-hidden', 'true'); if(markSeen){ state.ui.tourSeen=true; saveState(); } }
+    function updateTour(){ const step=tourSteps[tourIndex]; el.tourStep.textContent=`Paso ${tourIndex + 1} de ${tourSteps.length}`; el.tourTitle.textContent=step.title; el.tourText.textContent=step.text; el.tourPrev.disabled=tourIndex===0; el.tourNext.textContent=tourIndex===tourSteps.length - 1 ? 'Finalizar' : 'Siguiente'; }
+    function bindUI(){ el.fileInput.addEventListener('change', e=>{ if(e.target.files?.length) loadFiles(e.target.files); e.target.value=''; }); el.cameraInput.addEventListener('change', e=>{ if(e.target.files?.length) loadFiles(e.target.files); e.target.value=''; }); el.cameraBtn.addEventListener('click', ()=>{ setStatus('Abriendo cámara o selector de imágenes...'); el.cameraInput.click(); }); el.selectAllBtn.addEventListener('click', selectAllImages); el.clearSelectionBtn.addEventListener('click', clearImageSelection); el.downloadSelectedBtn.addEventListener('click', downloadSelectedPdf); el.newProjectBtn.addEventListener('click', createNewProject); el.renameProjectBtn.addEventListener('click', renameProject); el.deleteProjectBtn.addEventListener('click', deleteProject); el.downloadBtn.addEventListener('click', downloadPdf); el.clearBtn.addEventListener('click', clearProject); el.menuBtn.addEventListener('click', e=>{ e.stopPropagation(); el.menuPanel.classList.toggle('open'); }); document.addEventListener('click', e=>{ if(!el.menuPanel.contains(e.target) && e.target !== el.menuBtn) closeMenu(); }); el.menuNewProject.addEventListener('click', ()=>{ closeMenu(); createNewProject(); }); el.menuTour.addEventListener('click', ()=>{ closeMenu(); openTour(true); }); el.menuExpandAll.addEventListener('click', ()=>{ state.projects.forEach(p => p.isOpen=true); render(); saveState(); closeMenu(); }); el.menuCollapseAll.addEventListener('click', ()=>{ state.projects.forEach(p => p.isOpen=false); const active=getActiveProject(); if(active) active.isOpen=true; render(); saveState(); closeMenu(); }); el.tourClose.addEventListener('click', ()=>closeTour(true)); el.tourPrev.addEventListener('click', ()=>{ if(tourIndex > 0){ tourIndex--; updateTour(); } }); el.tourNext.addEventListener('click', ()=>{ if(tourIndex < tourSteps.length - 1){ tourIndex++; updateTour(); } else { closeTour(true); } }); }
+    loadState(); ensureState(); syncControls(); bindSettings(); bindUI(); setupDnD(); render(); if(!state.ui.tourSeen){ setTimeout(()=>openTour(true), 350); }
+  </script>
+</body>
+</html>

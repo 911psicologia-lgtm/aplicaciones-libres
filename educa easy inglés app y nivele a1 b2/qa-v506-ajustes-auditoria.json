@@ -1,0 +1,14 @@
+{
+  "id": "qa-v506-ajustes-auditoria",
+  "fecha": "2026-06-18",
+  "version": "5.0.6",
+  "base": "5.0.5-hotfix5",
+  "principio": "primero no dañes / mínima intervención",
+  "ajustes_aplicados": [
+    {"archivo":"content/content.v1.json + FALLBACK_CONTENT(app.js)","cambio":"routeId rellenado en 1795 entradas A1 (ruta_1). Diccionario ahora 100% con routeId. Habilita filtro por ruta/mundo en A1.","riesgo":"ninguno (campo aditivo)"},
+    {"archivo":"app.js","funcion":"getExerciseSpeakText()","cambio":"En multiple_choice/scenario_choice se antepone la situación (scenario) a las opciones SOLO en B1/B2 (lecciones 301-600, escenario en inglés). A1/A2 quedan igual para no leer español con voz inglesa.","riesgo":"bajo, localizado"},
+    {"archivo":"app.js/sw.js/index.html/appMeta","cambio":"Versión unificada a 5.0.6 en los 4 lugares (resuelve el desajuste index ?v=).","riesgo":"ninguno; fuerza actualización de caché"}
+  ],
+  "deferido_por_seguridad": "Deduplicación de 45 entradas idénticas del diccionario: cambia conteos y valor bajo; se deja como deuda menor.",
+  "verificacion": {"node_check":"OK","json_valido":true,"fallback_igual_content":true,"dict_sin_routeId":0,"versiones_coherentes":true}
+}

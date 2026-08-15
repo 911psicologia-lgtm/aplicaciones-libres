@@ -1,0 +1,882 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Diagnóstico | Historia Clínica Psicológica Integral</title>
+    
+    <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🧠</text></svg>">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="assets/css/main.css">
+    <link rel="manifest" href="manifest.json">
+    
+    <script src="assets/data/dsm5.js"></script>
+    <script src="assets/data/cie11.js"></script>
+    
+    <style>
+        .diagnosis-mode-tabs {
+            display: flex;
+            gap: 0.5rem;
+            margin-bottom: 1.5rem;
+            background: #f7fafc;
+            padding: 0.5rem;
+            border-radius: 12px;
+        }
+        
+        .diagnosis-mode-tab {
+            flex: 1;
+            padding: 0.875rem 1rem;
+            border: none;
+            border-radius: 8px;
+            background: transparent;
+            cursor: pointer;
+            font-size: 0.9375rem;
+            font-weight: 500;
+            color: #4a5568;
+            transition: all 0.2s;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 0.5rem;
+        }
+        
+        .diagnosis-mode-tab:hover {
+            background: rgba(255,255,255,0.5);
+        }
+        
+        .diagnosis-mode-tab.active {
+            background: white;
+            color: #2c5282;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+        }
+        
+        .diagnosis-mode-tab i {
+            font-size: 1.125rem;
+        }
+        
+        .search-container {
+            position: relative;
+            margin-bottom: 1rem;
+        }
+        
+        .search-container input {
+            width: 100%;
+            padding: 0.875rem 1rem 0.875rem 2.75rem;
+            border: 2px solid #e2e8f0;
+            border-radius: 10px;
+            font-size: 1rem;
+            transition: all 0.2s;
+        }
+        
+        .search-container input:focus {
+            outline: none;
+            border-color: #4299e1;
+        }
+        
+        .search-container i {
+            position: absolute;
+            left: 1rem;
+            top: 50%;
+            transform: translateY(-50%);
+            color: #a0aec0;
+        }
+        
+        .search-results {
+            max-height: 300px;
+            overflow-y: auto;
+            border: 1px solid #e2e8f0;
+            border-radius: 10px;
+            background: white;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.05);
+        }
+        
+        .diagnosis-item {
+            padding: 0.875rem 1rem;
+            border-bottom: 1px solid #f0f0f0;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+        
+        .diagnosis-item:hover {
+            background: #f7fafc;
+        }
+        
+        .diagnosis-item:last-child {
+            border-bottom: none;
+        }
+        
+        .diagnosis-code {
+            font-family: 'Consolas', monospace;
+            font-size: 0.75rem;
+            color: #2c5282;
+            font-weight: 600;
+            background: #edf2f7;
+            padding: 0.25rem 0.5rem;
+            border-radius: 4px;
+            display: inline-block;
+            margin-bottom: 0.25rem;
+        }
+        
+        .diagnosis-name {
+            font-size: 0.9375rem;
+            color: #2d3748;
+        }
+        
+        .diagnosis-category {
+            font-size: 0.75rem;
+            color: #718096;
+            margin-top: 0.25rem;
+        }
+        
+        .selected-diagnoses {
+            margin-top: 1.5rem;
+        }
+        
+        .selected-diagnoses h4 {
+            margin-bottom: 0.75rem;
+            color: #2d3748;
+        }
+        
+        .diagnosis-tag {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            padding: 0.625rem 1rem;
+            background: #edf2f7;
+            border-radius: 8px;
+            font-size: 0.875rem;
+            margin: 0.25rem;
+            border: 1px solid #e2e8f0;
+        }
+        
+        .diagnosis-tag .code {
+            font-family: monospace;
+            font-weight: 600;
+            color: #2c5282;
+        }
+        
+        .diagnosis-tag button {
+            background: none;
+            border: none;
+            color: #e53e3e;
+            cursor: pointer;
+            padding: 0;
+            font-size: 0.875rem;
+            margin-left: 0.5rem;
+        }
+        
+        .manual-diagnosis {
+            background: #f7fafc;
+            border-radius: 10px;
+            padding: 1.25rem;
+        }
+        
+        .certainty-selector {
+            display: flex;
+            gap: 1rem;
+            margin-top: 0.5rem;
+        }
+        
+        .certainty-option {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            cursor: pointer;
+        }
+        
+        .certainty-option input {
+            accent-color: #2c5282;
+        }
+        
+        .differential-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 1rem;
+        }
+        
+        .differential-table th,
+        .differential-table td {
+            padding: 0.75rem;
+            text-align: left;
+            border-bottom: 1px solid #e2e8f0;
+        }
+        
+        .differential-table th {
+            background: #f7fafc;
+            font-weight: 600;
+            font-size: 0.8125rem;
+            color: #4a5568;
+        }
+        
+        .differential-table input {
+            width: 100%;
+            padding: 0.5rem;
+            border: 1px solid #e2e8f0;
+            border-radius: 6px;
+        }
+        
+        .other-diagnosis-section {
+            margin-top: 1.5rem;
+            padding-top: 1.5rem;
+            border-top: 1px solid #e2e8f0;
+        }
+        
+        .dx-name-line { margin:.35rem 0; padding:.45rem .6rem; background:#f7fafc; border-left:4px solid #4299e1; border-radius:6px; }
+        .dx-desc { color:#4a5568; font-size:.875rem; margin-top:.2rem; }
+        .saved-diagnoses {
+            margin-top: 2rem;
+        }
+        
+        .saved-diagnosis-card {
+            background: white;
+            border: 1.5px solid #e2e8f0;
+            border-radius: 10px;
+            padding: 1rem;
+            margin-bottom: 1rem;
+        }
+        
+        .saved-diagnosis-card .header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 0.75rem;
+        }
+        
+        .saved-diagnosis-card .codes {
+            display: flex;
+            gap: 0.5rem;
+            flex-wrap: wrap;
+        }
+        
+        .saved-diagnosis-card .notes {
+            margin-top: 0.75rem;
+            padding-top: 0.75rem;
+            border-top: 1px solid #f0f0f0;
+            font-size: 0.875rem;
+            color: #4a5568;
+        }
+    </style>
+</head>
+<body>
+    <!-- Header -->
+    <header class="app-header">
+        <div class="header-content">
+            <div class="header-brand">
+                <i class="fas fa-brain"></i>
+                <span>Historia Clínica Psicológica</span>
+            </div>
+            
+            <nav class="header-nav">
+                <a href="dashboard.html" class="nav-link">
+                    <i class="fas fa-home"></i> Inicio
+                </a>
+                <a href="patient.html" class="nav-link">
+                    <i class="fas fa-user"></i> Paciente
+                </a>
+                <a href="settings.html" class="nav-link">
+                    <i class="fas fa-cog"></i> Configuración
+                </a>
+            </nav>
+            
+            <div class="header-actions">
+                <div class="user-menu">
+                    <i class="fas fa-user-md"></i>
+                    <span id="userName">Profesional</span>
+                </div>
+                <button class="logout-btn" onclick="Auth.logout()">
+                    <i class="fas fa-sign-out-alt"></i>
+                </button>
+            </div>
+        </div>
+    </header>
+
+    <!-- Main Content -->
+    <main class="main-content">
+        <!-- Page Header -->
+        <div class="page-header">
+            <div>
+                <h1 class="page-title">Diagnóstico</h1>
+                <p class="page-subtitle" id="patientSubtitle">Formulación diagnóstica del paciente</p>
+            </div>
+            <div class="flex gap-2">
+                <button type="button" class="btn btn-outline" onclick="goBack()">
+                    <i class="fas fa-arrow-left"></i> Volver
+                </button>
+                <button type="button" class="btn btn-primary" onclick="saveDiagnosis()">
+                    <i class="fas fa-save"></i> Guardar Diagnóstico
+                </button>
+            </div>
+        </div>
+
+        <!-- Selector de Modo -->
+        <div class="diagnosis-mode-tabs">
+            <button type="button" class="diagnosis-mode-tab active" onclick="setMode('dsm5', this)">
+                <i class="fas fa-book-medical"></i> DSM-5-TR
+            </button>
+            <button type="button" class="diagnosis-mode-tab" onclick="setMode('cie11', this)">
+                <i class="fas fa-globe"></i> CIE-11
+            </button>
+            <button type="button" class="diagnosis-mode-tab" onclick="setMode('manual', this)">
+                <i class="fas fa-pen"></i> Manual
+            </button>
+        </div>
+
+        <div class="grid grid-cols-2" style="gap: 1.5rem;">
+            <!-- Panel de Búsqueda -->
+            <div>
+                <!-- DSM-5-TR -->
+                <div id="dsm5Panel" class="diagnosis-panel">
+                    <div class="card">
+                        <div class="card-header">
+                            <div class="card-title">
+                                <i class="fas fa-book-medical"></i>
+                                Búsqueda DSM-5-TR
+                            </div>
+                        </div>
+                        <div class="card-body">
+                            <div class="search-container">
+                                <i class="fas fa-search"></i>
+                                <input type="text" id="dsm5Search" placeholder="Buscar por código o nombre..." oninput="searchDSM5Diag(this.value)">
+                            </div>
+                            <div class="search-results" id="dsm5Results" style="display: none;"></div>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- CIE-11 -->
+                <div id="cie11Panel" class="diagnosis-panel" style="display: none;">
+                    <div class="card">
+                        <div class="card-header">
+                            <div class="card-title">
+                                <i class="fas fa-globe"></i>
+                                Búsqueda CIE-11
+                            </div>
+                        </div>
+                        <div class="card-body">
+                            <div class="search-container">
+                                <i class="fas fa-search"></i>
+                                <input type="text" id="cie11Search" placeholder="Buscar por código o nombre..." oninput="searchCIE11Diag(this.value)">
+                            </div>
+                            <div class="search-results" id="cie11Results" style="display: none;"></div>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Manual -->
+                <div id="manualPanel" class="diagnosis-panel" style="display: none;">
+                    <div class="card">
+                        <div class="card-header">
+                            <div class="card-title">
+                                <i class="fas fa-pen"></i>
+                                Diagnóstico Manual
+                            </div>
+                        </div>
+                        <div class="card-body">
+                            <div class="manual-diagnosis">
+                                <div class="form-group">
+                                    <label>Diagnóstico Principal</label>
+                                    <textarea class="form-control" id="manualPrimary" rows="3" placeholder="Describa el diagnóstico principal"></textarea>
+                                </div>
+                                <div class="form-group">
+                                    <label>Diagnósticos Secundarios</label>
+                                    <textarea class="form-control" id="manualSecondary" rows="2" placeholder="Otros diagnósticos relevantes"></textarea>
+                                </div>
+                                <div class="form-group">
+                                    <label>Observaciones</label>
+                                    <textarea class="form-control" id="manualNotes" rows="2" placeholder="Observaciones adicionales"></textarea>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Diagnósticos Seleccionados -->
+                <div class="selected-diagnoses" id="selectedDiagnosesSection">
+                    <h4><i class="fas fa-check-circle"></i> Diagnósticos Seleccionados</h4>
+                    <div id="selectedDiagnosesList">
+                        <p style="color: #718096; font-size: 0.875rem;">No hay diagnósticos seleccionados</p>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Panel de Detalles -->
+            <div>
+                <div class="card">
+                    <div class="card-header">
+                        <div class="card-title">
+                            <i class="fas fa-clipboard-check"></i>
+                            Detalles del Diagnóstico
+                        </div>
+                    </div>
+                    <div class="card-body">
+                        <input type="hidden" id="patientId">
+                        
+                        <div class="form-group">
+                            <label>Nivel de Certeza</label>
+                            <div class="certainty-selector">
+                                <label class="certainty-option">
+                                    <input type="radio" name="certainty" value="bajo">
+                                    <span>Bajo</span>
+                                </label>
+                                <label class="certainty-option">
+                                    <input type="radio" name="certainty" value="medio" checked>
+                                    <span>Medio</span>
+                                </label>
+                                <label class="certainty-option">
+                                    <input type="radio" name="certainty" value="alto">
+                                    <span>Alto</span>
+                                </label>
+                            </div>
+                        </div>
+                        
+                        <div class="form-group">
+                            <label>Justificación Clínica</label>
+                            <textarea class="form-control" id="clinicalJustification" rows="4" placeholder="Justifique el diagnóstico con base en los datos clínicos observados"></textarea>
+                        </div>
+                        
+                        <div class="form-group">
+                            <label>Diagnósticos Diferenciales</label>
+                            <table class="differential-table">
+                                <thead>
+                                    <tr>
+                                        <th style="width: 40%;">Diagnóstico</th>
+                                        <th style="width: 40%;">Razón de descarte</th>
+                                        <th style="width: 20%;"></th>
+                                    </tr>
+                                </thead>
+                                <tbody id="differentialBody">
+                                    <tr>
+                                        <td><input type="text" placeholder="Diagnóstico diferencial"></td>
+                                        <td><input type="text" placeholder="Por qué se descarta"></td>
+                                        <td>
+                                            <button type="button" class="btn btn-outline btn-sm" onclick="addDifferentialRow()">
+                                                <i class="fas fa-plus"></i>
+                                            </button>
+                                        </td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                        
+                        <div class="other-diagnosis-section">
+                            <h4 style="margin-bottom: 1rem;"><i class="fas fa-user-md"></i> Diagnósticos de Otros Profesionales</h4>
+                            <div id="otherDiagnosesContainer">
+                                <div class="form-grid other-diagnosis-row">
+                                    <div class="form-group">
+                                        <label>Profesional</label>
+                                        <input type="text" class="form-control" placeholder="Nombre y especialidad">
+                                    </div>
+                                    <div class="form-group">
+                                        <label>Diagnóstico</label>
+                                        <input type="text" class="form-control" placeholder="Diagnóstico realizado">
+                                    </div>
+                                    <div class="form-group">
+                                        <label>Fecha</label>
+                                        <input type="date" class="form-control">
+                                    </div>
+                                </div>
+                            </div>
+                            <button type="button" class="btn btn-outline btn-sm mt-2" onclick="addOtherDiagnosis()">
+                                <i class="fas fa-plus"></i> Agregar otro diagnóstico
+                            </button>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Historial de Diagnósticos -->
+                <div class="saved-diagnoses" id="savedDiagnosesSection">
+                    <h4 style="margin-bottom: 1rem;"><i class="fas fa-history"></i> Historial de Diagnósticos</h4>
+                    <div id="savedDiagnosesList">
+                        <p style="color: #718096; font-size: 0.875rem;">Cargando...</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <!-- Scripts -->
+    <script src="assets/js/db.js"></script>
+    <script src="assets/js/utils.js"></script>
+    
+    <script>
+        let currentMode = 'dsm5';
+        let selectedDiagnoses = [];
+        let currentPatient = null;
+        
+        document.addEventListener('DOMContentLoaded', async function() {
+            // Auth + DB
+            const session = Auth.requireAuth();
+            await db.init();
+            if (session) {
+                document.getElementById('userName').textContent = session.fullName || session.username;
+            }
+            
+            // Verificar parámetros
+            const urlParams = new URLSearchParams(window.location.search);
+            const patientId = urlParams.get('patient');
+            
+            if (patientId) {
+                document.getElementById('patientId').value = patientId;
+                await loadPatient(patientId);
+                await loadSavedDiagnoses(patientId);
+            } else {
+                UI.toast('Debe seleccionar un paciente', 'error');
+                setTimeout(() => window.location.href = 'dashboard.html', 2000);
+            }
+        });
+        
+        async function loadPatient(patientId) {
+            currentPatient = await db.get(STORES.PATIENTS, parseInt(patientId));
+            if (currentPatient) {
+                document.getElementById('patientSubtitle').textContent = 
+                    `Paciente: ${currentPatient.firstName} ${currentPatient.lastName} - ${currentPatient.historyNumber}`;
+            }
+        }
+        
+        function setMode(mode, el = null) {
+            currentMode = mode;
+            
+            // Actualizar tabs
+            document.querySelectorAll('.diagnosis-mode-tab').forEach(tab => tab.classList.remove('active'));
+            const btn = el || document.querySelector(`.diagnosis-mode-tab[onclick*="'${mode}'"]`) || document.querySelectorAll('.diagnosis-mode-tab')[0];
+            if (btn) btn.classList.add('active');
+            
+            // Mostrar panel correspondiente
+            document.querySelectorAll('.diagnosis-panel').forEach(panel => panel.style.display = 'none');
+            document.getElementById(mode + 'Panel').style.display = 'block';
+        }
+        
+        function searchDSM5Diag(query) {
+            const results = document.getElementById('dsm5Results');
+            
+            if (!query || query.length < 2) {
+                results.style.display = 'none';
+                return;
+            }
+            
+            const filtered = searchDSM5(query);
+            
+            if (filtered.length === 0) {
+                results.innerHTML = '<div class="diagnosis-item">No se encontraron resultados</div>';
+                results.style.display = 'block';
+                return;
+            }
+            
+            results.innerHTML = filtered.map(d => `
+                <div class="diagnosis-item" onclick="addDiagnosis('dsm5', '${d.code}', '${d.name.replace(/'/g, "\\'")}')">
+                    <span class="diagnosis-code">${d.code}</span>
+                    <div class="diagnosis-name">${d.name}</div>
+                    <div class="diagnosis-category">${d.category}</div>
+                </div>
+            `).join('');
+            
+            results.style.display = 'block';
+        }
+        
+        function searchCIE11Diag(query) {
+            const results = document.getElementById('cie11Results');
+            
+            if (!query || query.length < 2) {
+                results.style.display = 'none';
+                return;
+            }
+            
+            const filtered = searchCIE11(query);
+            
+            if (filtered.length === 0) {
+                results.innerHTML = '<div class="diagnosis-item">No se encontraron resultados</div>';
+                results.style.display = 'block';
+                return;
+            }
+            
+            results.innerHTML = filtered.map(d => `
+                <div class="diagnosis-item" onclick="addDiagnosis('cie11', '${d.code}', '${d.name.replace(/'/g, "\\'")}')">
+                    <span class="diagnosis-code">${d.code}</span>
+                    <div class="diagnosis-name">${d.name}</div>
+                    <div class="diagnosis-category">${d.category}</div>
+                </div>
+            `).join('');
+            
+            results.style.display = 'block';
+        }
+        
+        function addDiagnosis(system, code, name) {
+            // Verificar si ya existe
+            if (selectedDiagnoses.some(d => d.code === code && d.system === system)) {
+                UI.toast('Este diagnóstico ya está seleccionado', 'warning');
+                return;
+            }
+            
+            selectedDiagnoses.push({ system, code, name });
+            updateSelectedDiagnoses();
+            
+            // Limpiar búsqueda
+            document.getElementById('dsm5Search').value = '';
+            document.getElementById('cie11Search').value = '';
+            document.getElementById('dsm5Results').style.display = 'none';
+            document.getElementById('cie11Results').style.display = 'none';
+        }
+        
+        function removeDiagnosis(index) {
+            selectedDiagnoses.splice(index, 1);
+            updateSelectedDiagnoses();
+        }
+        
+        function updateSelectedDiagnoses() {
+            const container = document.getElementById('selectedDiagnosesList');
+            
+            if (selectedDiagnoses.length === 0) {
+                container.innerHTML = '<p style="color: #718096; font-size: 0.875rem;">No hay diagnósticos seleccionados</p>';
+                return;
+            }
+            
+            container.innerHTML = selectedDiagnoses.map((d, i) => `
+                <span class="diagnosis-tag">
+                    <span class="code">${d.code}</span>
+                    <span>${d.name}</span>
+                    <span class="badge badge-info" style="font-size: 0.625rem;">${d.system.toUpperCase()}</span>
+                    <button onclick="removeDiagnosis(${i})">
+                        <i class="fas fa-times"></i>
+                    </button>
+                </span>
+            `).join('');
+        }
+        
+        function addDifferentialRow() {
+            const tbody = document.getElementById('differentialBody');
+            const row = document.createElement('tr');
+            row.innerHTML = `
+                <td><input type="text" placeholder="Diagnóstico diferencial"></td>
+                <td><input type="text" placeholder="Por qué se descarta"></td>
+                <td>
+                    <button type="button" class="btn btn-danger btn-sm" onclick="this.closest('tr').remove()">
+                        <i class="fas fa-times"></i>
+                    </button>
+                </td>
+            `;
+            tbody.appendChild(row);
+        }
+        
+        function addOtherDiagnosis() {
+            const container = document.getElementById('otherDiagnosesContainer');
+            const div = document.createElement('div');
+            div.className = 'form-grid other-diagnosis-row mt-2';
+            div.innerHTML = `
+                <div class="form-group">
+                    <input type="text" class="form-control" placeholder="Nombre y especialidad">
+                </div>
+                <div class="form-group">
+                    <input type="text" class="form-control" placeholder="Diagnóstico realizado">
+                </div>
+                <div class="form-group flex gap-2">
+                    <input type="date" class="form-control">
+                    <button type="button" class="btn btn-danger btn-sm" onclick="this.closest('.other-diagnosis-row').remove()">
+                        <i class="fas fa-times"></i>
+                    </button>
+                </div>
+            `;
+            container.appendChild(div);
+        }
+        
+        async function saveDiagnosis() {
+            const patientId = document.getElementById('patientId').value;
+            
+            // Recopilar diagnósticos diferenciales
+            const differentials = [];
+            document.querySelectorAll('#differentialBody tr').forEach(row => {
+                const inputs = row.querySelectorAll('input');
+                if (inputs[0].value.trim()) {
+                    differentials.push({
+                        diagnosis: inputs[0].value.trim(),
+                        reason: inputs[1].value.trim()
+                    });
+                }
+            });
+            
+            // Recopilar diagnósticos de otros profesionales
+            const otherDiagnoses = [];
+            document.querySelectorAll('.other-diagnosis-row').forEach(row => {
+                const inputs = row.querySelectorAll('input');
+                if (inputs[0].value.trim()) {
+                    otherDiagnoses.push({
+                        professional: inputs[0].value.trim(),
+                        diagnosis: inputs[1].value.trim(),
+                        date: inputs[2].value
+                    });
+                }
+            });
+            
+            const diagnosisData = {
+                patientId: parseInt(patientId),
+                date: DateUtils.getToday(),
+                mode: currentMode,
+                diagnoses: selectedDiagnoses,
+                manualDiagnosis: currentMode === 'manual' ? {
+                    primary: document.getElementById('manualPrimary').value.trim(),
+                    secondary: document.getElementById('manualSecondary').value.trim(),
+                    notes: document.getElementById('manualNotes').value.trim()
+                } : null,
+                certainty: document.querySelector('input[name="certainty"]:checked')?.value || 'medio',
+                clinicalJustification: document.getElementById('clinicalJustification').value.trim(),
+                differentials: differentials,
+                otherDiagnoses: otherDiagnoses,
+                createdAt: DateUtils.getNow(),
+                updatedAt: DateUtils.getNow()
+            };
+            
+            // Validar que haya al menos un diagnóstico
+            if (currentMode !== 'manual' && selectedDiagnoses.length === 0) {
+                UI.toast('Debe seleccionar al menos un diagnóstico', 'error');
+                return;
+            }
+            
+            if (currentMode === 'manual' && !diagnosisData.manualDiagnosis?.primary) {
+                UI.toast('Debe ingresar un diagnóstico principal', 'error');
+                return;
+            }
+            
+            try {
+                await db.add(STORES.DIAGNOSES, diagnosisData);
+                
+                // Actualizar fecha del paciente
+                if (currentPatient) {
+                    currentPatient.updatedAt = DateUtils.getNow();
+                    await db.put(STORES.PATIENTS, currentPatient);
+                }
+                
+                UI.toast('Diagnóstico guardado correctamente', 'success');
+                
+                // Limpiar y recargar
+                selectedDiagnoses = [];
+                updateSelectedDiagnoses();
+                document.getElementById('clinicalJustification').value = '';
+                await loadSavedDiagnoses(patientId);
+                
+            } catch (error) {
+                console.error('Error guardando diagnóstico:', error);
+                UI.toast('Error al guardar el diagnóstico', 'error');
+            }
+        }
+        
+        async function loadSavedDiagnoses(patientId) {
+            const container = document.getElementById('savedDiagnosesList');
+            
+            try {
+                const diagnoses = await db.getPatientDiagnoses(parseInt(patientId));
+                
+                if (diagnoses.length === 0) {
+                    container.innerHTML = '<p style="color: #718096; font-size: 0.875rem;">No hay diagnósticos previos</p>';
+                    return;
+                }
+                
+                // Ordenar por fecha descendente
+                diagnoses.sort((a, b) => new Date(b.date) - new Date(a.date));
+                
+                container.innerHTML = diagnoses.map(d => renderSavedDiagnosis(d)).join('');
+                
+            } catch (error) {
+                console.error('Error cargando diagnósticos:', error);
+                container.innerHTML = '<p style="color: #e53e3e; font-size: 0.875rem;">Error al cargar diagnósticos</p>';
+            }
+        }
+        
+        function normalizeDiagnosisItems(diagnosis) {
+            const items = [];
+            if (diagnosis.mode === 'manual' && diagnosis.manualDiagnosis) {
+                if (diagnosis.manualDiagnosis.primary) {
+                    items.push({ code: '', name: diagnosis.manualDiagnosis.primary, description: diagnosis.manualDiagnosis.notes || '', role: 'Principal' });
+                }
+                if (diagnosis.manualDiagnosis.secondary) {
+                    items.push({ code: '', name: diagnosis.manualDiagnosis.secondary, description: '', role: 'Secundario(s)' });
+                }
+            }
+            if (Array.isArray(diagnosis.primaryDiagnosis)) {
+                diagnosis.primaryDiagnosis.forEach(d => items.push({ ...d, role: 'Principal' }));
+            }
+            if (Array.isArray(diagnosis.secondaryDiagnoses)) {
+                diagnosis.secondaryDiagnoses.forEach(d => items.push({ ...d, role: 'Secundario' }));
+            }
+            if (Array.isArray(diagnosis.diagnoses)) {
+                diagnosis.diagnoses.forEach(d => items.push({ ...d, role: d.role || 'Diagnóstico' }));
+            }
+            return items;
+        }
+
+        function renderSavedDiagnosis(diagnosis) {
+            const certaintyLabels = { bajo: 'Bajo', medio: 'Medio', alto: 'Alto' };
+            const certaintyBadges = { bajo: 'warning', medio: 'info', alto: 'success' };
+            const certainty = diagnosis.certainty || 'medio';
+            const items = normalizeDiagnosisItems(diagnosis);
+            const codesHtml = items.length
+                ? items.map(d => `
+                    <div class="dx-name-line">
+                        <strong>${d.role || 'Dx'}:</strong>
+                        ${d.system ? `<span class="badge badge-primary">${d.system}</span>` : ''}
+                        ${d.code ? `<span class="badge badge-info">${d.code}</span>` : ''}
+                        <span>${d.name || d.diagnosis || 'Diagnóstico sin nombre'}</span>
+                        ${d.description ? `<div class="dx-desc">${d.description}</div>` : ''}
+                    </div>`).join('')
+                : '<div class="dx-name-line"><em>Diagnóstico sin nombre registrado. Revise el campo manual o la estructura importada.</em></div>';
+
+            const differentialsHtml = Array.isArray(diagnosis.differentials) && diagnosis.differentials.length
+                ? `<div class="notes"><strong>Diferenciales:</strong><ul>${diagnosis.differentials.map(x => `<li>${x.diagnosis || ''}${x.reason ? ` — ${x.reason}` : ''}</li>`).join('')}</ul></div>`
+                : (diagnosis.differentialDiagnosis ? `<div class="notes"><strong>Diagnóstico diferencial:</strong> ${diagnosis.differentialDiagnosis}</div>` : '');
+
+            const manualNotes = diagnosis.manualNotes ? `<div class="notes"><strong>Notas manuales:</strong> ${diagnosis.manualNotes}</div>` : '';
+            return `
+                <div class="saved-diagnosis-card">
+                    <div class="header">
+                        <div>
+                            <span style="font-size: 0.875rem; color: #718096;">${DateUtils.formatDate(diagnosis.date || diagnosis.createdAt)}</span>
+                            <span class="badge badge-${certaintyBadges[certainty] || 'info'}" style="margin-left: 0.5rem;">
+                                Certeza: ${certaintyLabels[certainty] || certainty}
+                            </span>
+                        </div>
+                        <button class="btn btn-danger btn-sm" onclick="deleteDiagnosis(${diagnosis.id})" title="Eliminar diagnóstico">
+                            <i class="fas fa-trash"></i>
+                        </button>
+                    </div>
+                    <div class="codes">${codesHtml}</div>
+                    ${diagnosis.clinicalJustification ? `
+                        <div class="notes">
+                            <strong>Justificación:</strong> ${diagnosis.clinicalJustification}
+                        </div>
+                    ` : ''}
+                    ${differentialsHtml}
+                    ${manualNotes}
+                </div>
+            `;
+        }
+        
+        async function deleteDiagnosis(id) {
+            UI.confirm('¿Está seguro de eliminar este diagnóstico?', async () => {
+                try {
+                    await db.delete(STORES.DIAGNOSES, id);
+                    UI.toast('Diagnóstico eliminado correctamente', 'success');
+                    await loadSavedDiagnoses(document.getElementById('patientId').value);
+                } catch (error) {
+                    console.error('Error eliminando diagnóstico:', error);
+                    UI.toast('Error al eliminar el diagnóstico', 'error');
+                }
+            });
+        }
+        
+        function goBack() {
+            const patientId = document.getElementById('patientId').value;
+            if (patientId) {
+                window.location.href = `patient.html?id=${patientId}`;
+            } else {
+                window.location.href = 'dashboard.html';
+            }
+        }
+        
+        // Cerrar resultados al hacer clic fuera
+        document.addEventListener('click', function(e) {
+            if (!e.target.closest('.search-container')) {
+                document.getElementById('dsm5Results').style.display = 'none';
+                document.getElementById('cie11Results').style.display = 'none';
+            }
+        });
+    </script>
+</body>
+</html>

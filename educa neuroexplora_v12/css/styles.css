@@ -1,0 +1,1271 @@
+/* ════════════════════════════════════════════════
+   NeuroExplora — styles.css
+   Diseño: espacio profundo · neurociencia · educación
+   ════════════════════════════════════════════════ */
+
+/* ── TOKENS DE DISEÑO ─────────────────────────── */
+:root {
+  /* Paleta */
+  --bg:         #060d1a;
+  --bg2:        #091428;
+  --surface:    #0e1d36;
+  --surface2:   #152640;
+  --surface3:   #1a2e4a;
+  --border:     rgba(100,155,255,0.10);
+  --border2:    rgba(100,155,255,0.18);
+  --border3:    rgba(100,155,255,0.28);
+  --text:       #ddeeff;
+  --text2:      #8eadd8;
+  --text3:      #546e92;
+  --accent:     #4f8ef7;
+  --accent2:    #3b72d4;
+  --danger:     #f87171;
+
+  /* Tipografía */
+  --ff-head:    'Outfit', sans-serif;
+  --ff-body:    'DM Sans', sans-serif;
+
+  /* Espaciado */
+  --radius:     12px;
+  --radius2:    18px;
+  --radius3:    24px;
+
+  /* Sombras */
+  --shadow-sm:  0 2px 8px rgba(0,0,0,0.3);
+  --shadow-md:  0 4px 20px rgba(0,0,0,0.4);
+  --shadow-lg:  0 8px 40px rgba(0,0,0,0.5);
+
+  /* Transiciones */
+  --ease:       cubic-bezier(0.4, 0, 0.2, 1);
+  --ease-spring: cubic-bezier(0.34, 1.56, 0.64, 1);
+}
+
+/* ── RESET Y BASE ─────────────────────────────── */
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+html, body {
+  width: 100%; min-height: 100%;
+  background: var(--bg);
+  color: var(--text);
+  font-family: var(--ff-body);
+  overflow-x: hidden;
+  -webkit-font-smoothing: antialiased;
+}
+
+button { cursor: pointer; border: none; background: none; font-family: inherit; }
+a { color: var(--accent); text-decoration: none; }
+.hidden { display: none !important; }
+
+/* ── STARS CANVAS ─────────────────────────────── */
+#stars-canvas {
+  position: fixed;
+  inset: 0;
+  z-index: 0;
+  pointer-events: none;
+}
+
+/* ── HEADER ───────────────────────────────────── */
+#main-header {
+  position: relative;
+  z-index: 30;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 12px 24px;
+  background: rgba(6, 13, 26, 0.92);
+  border-bottom: 1px solid var(--border2);
+  backdrop-filter: blur(18px);
+  -webkit-backdrop-filter: blur(18px);
+}
+
+.logo {
+  font-family: var(--ff-head);
+  font-size: 22px;
+  font-weight: 800;
+  letter-spacing: -0.5px;
+  color: var(--text);
+}
+
+.logo-accent { color: var(--accent); }
+
+.logo-tagline {
+  font-size: 10px;
+  letter-spacing: 0.8px;
+  color: var(--text3);
+  font-weight: 500;
+  margin-top: -2px;
+}
+
+.header-nav {
+  display: flex;
+  gap: 6px;
+}
+
+.nav-btn {
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  padding: 7px 14px;
+  border-radius: 30px;
+  border: 1px solid var(--border2);
+  background: var(--surface2);
+  color: var(--text2);
+  font-size: 13px;
+  font-weight: 500;
+  transition: all 0.18s var(--ease);
+  white-space: nowrap;
+}
+
+.nav-btn:hover {
+  color: var(--text);
+  border-color: var(--border3);
+  background: var(--surface3);
+  transform: translateY(-1px);
+}
+
+.btn-icon { font-size: 14px; }
+
+/* ── LAYOUT PRINCIPAL ─────────────────────────── */
+.app-layout {
+  position: relative;
+  z-index: 1;
+  display: flex;
+  align-items: flex-start;
+  gap: 22px;
+  padding: 22px 22px 48px;
+  min-height: calc(100vh - 55px);
+}
+
+/* ── SECCIÓN DEL CEREBRO ──────────────────────── */
+.brain-section {
+  flex: 1;
+  min-width: 0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 14px;
+}
+
+.brain-hint {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  padding: 7px 18px;
+  border-radius: 30px;
+  background: var(--surface);
+  border: 1px solid var(--border2);
+  color: var(--text2);
+  font-size: 13px;
+  letter-spacing: 0.1px;
+}
+
+.hint-icon { font-size: 14px; }
+
+/* Contenedor SVG */
+.brain-container {
+  position: relative;
+  width: 100%;
+  max-width: 580px;
+}
+
+#brain-svg {
+  width: 100%;
+  overflow: visible;
+  filter: drop-shadow(0 0 50px rgba(79,142,247,0.06));
+}
+
+/* ── REGIONES (SVG interactivo) ──────────────── */
+.brain-region {
+  cursor: pointer;
+  transition: opacity 0.25s var(--ease);
+  animation: regionAppear 0.5s var(--ease) both;
+}
+
+.brain-region path {
+  transition: filter 0.28s var(--ease), opacity 0.22s var(--ease);
+}
+
+.brain-region:hover path {
+  filter: brightness(1.1);
+}
+
+.brain-region.region-dim path {
+  opacity: 0.95;
+}
+
+.brain-region.region-connected path {
+  opacity: 1;
+}
+
+/* Etiqueta dentro del SVG */
+.region-label {
+  font-family: var(--ff-head);
+  font-size: 11px;
+  font-weight: 600;
+  fill: rgba(255, 255, 255, 0.88);
+  pointer-events: none;
+  text-shadow: 0 1px 3px rgba(0, 0, 0, 0.9);
+}
+
+/* Surcos decorativos */
+.sulcus {
+  pointer-events: none;
+}
+
+@keyframes regionAppear {
+  from { opacity: 0; transform: scale(0.98); }
+  to   { opacity: 1; transform: scale(1);    }
+}
+
+/* ── TOOLTIP DE HOVER ─────────────────────────── */
+.brain-tooltip {
+  position: absolute;
+  padding: 5px 11px;
+  background: var(--surface3);
+  border: 1px solid var(--border3);
+  border-radius: 8px;
+  font-size: 12px;
+  font-weight: 600;
+  font-family: var(--ff-head);
+  color: var(--text);
+  pointer-events: none;
+  opacity: 0;
+  transform: translateY(3px);
+  transition: opacity 0.15s, transform 0.15s;
+  white-space: nowrap;
+  z-index: 10;
+  box-shadow: var(--shadow-sm);
+}
+
+.brain-tooltip.visible {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+/* ── LEYENDA ─────────────────────────────────── */
+.region-legend {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 5px;
+  justify-content: center;
+  max-width: 580px;
+}
+
+.legend-item {
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  padding: 4px 10px;
+  border-radius: 10px;
+  border: 1px solid transparent;
+  background: transparent;
+  color: var(--text2);
+  font-size: 11.5px;
+  font-weight: 500;
+  transition: all 0.18s var(--ease);
+}
+
+.legend-item:hover {
+  background: var(--surface2);
+  border-color: var(--border2);
+  color: var(--text);
+}
+
+.legend-item.legend-active {
+  background: var(--surface2);
+  border-color: var(--accent);
+  color: var(--text);
+}
+
+.legend-dot {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  flex-shrink: 0;
+}
+
+/* ── ESTADO VACÍO (sidebar desktop) ──────────── */
+.empty-state {
+  width: 320px;
+  min-width: 280px;
+  flex-shrink: 0;
+  background: var(--surface);
+  border: 1px solid var(--border2);
+  border-radius: var(--radius3);
+  padding: 36px 28px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 14px;
+  text-align: center;
+  min-height: 380px;
+  position: sticky;
+  top: 22px;
+  box-shadow: var(--shadow-md);
+}
+
+.empty-icon { font-size: 54px; opacity: 0.5; }
+
+.empty-text {
+  color: var(--text2);
+  font-size: 14px;
+  line-height: 1.7;
+}
+
+.empty-hint {
+  font-size: 12px;
+  color: var(--text3);
+  margin-bottom: 8px;
+}
+
+.explore-btn {
+  padding: 10px 20px;
+  border-radius: var(--radius);
+  background: var(--surface2);
+  border: 1px solid var(--border2);
+  color: var(--text);
+  font-size: 13px;
+  font-weight: 500;
+  transition: all 0.18s var(--ease);
+}
+
+.explore-btn:hover {
+  background: var(--surface3);
+  border-color: var(--accent);
+  transform: translateY(-1px);
+}
+
+/* ── PANEL DE INFORMACIÓN ─────────────────────── */
+.info-panel {
+  width: 320px;
+  min-width: 280px;
+  flex-shrink: 0;
+  background: var(--surface);
+  border: 1px solid var(--border2);
+  border-radius: var(--radius3);
+  padding: 0;
+  position: sticky;
+  top: 22px;
+  max-height: calc(100vh - 90px);
+  overflow-y: auto;
+  overflow-x: hidden;
+  box-shadow: var(--shadow-md);
+  transition: opacity 0.3s var(--ease), transform 0.3s var(--ease);
+  scrollbar-width: thin;
+  scrollbar-color: var(--surface3) transparent;
+}
+
+.info-panel::-webkit-scrollbar { width: 3px; }
+.info-panel::-webkit-scrollbar-thumb { background: var(--surface3); border-radius: 2px; }
+
+.panel-close {
+  position: absolute;
+  top: 14px;
+  right: 14px;
+  z-index: 5;
+  width: 28px;
+  height: 28px;
+  border-radius: 50%;
+  background: var(--surface2);
+  border: 1px solid var(--border2);
+  color: var(--text2);
+  font-size: 13px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: all 0.18s;
+}
+
+.panel-close:hover {
+  color: var(--text);
+  background: var(--surface3);
+}
+
+/* Header del panel */
+.panel-header {
+  padding: 26px 24px 16px;
+  border-bottom: 1px solid var(--border);
+  position: relative;
+}
+
+.panel-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 4px 11px;
+  border-radius: 20px;
+  background: color-mix(in srgb, var(--region-color, var(--accent)) 15%, transparent);
+  border: 1px solid color-mix(in srgb, var(--region-color, var(--accent)) 30%, transparent);
+  font-size: 12px;
+  font-weight: 500;
+  color: var(--region-color, var(--accent));
+  margin-bottom: 10px;
+}
+
+.panel-emoji { font-size: 14px; }
+
+.panel-title {
+  font-family: var(--ff-head);
+  font-size: 26px;
+  font-weight: 700;
+  line-height: 1.15;
+  color: var(--text);
+  letter-spacing: -0.5px;
+  padding-right: 36px;
+}
+
+.panel-color-bar {
+  height: 2px;
+  border-radius: 2px;
+  margin-top: 14px;
+  opacity: 0.6;
+}
+
+/* Tabs */
+.panel-tabs {
+  display: flex;
+  gap: 2px;
+  padding: 10px 16px;
+  border-bottom: 1px solid var(--border);
+  background: var(--bg2);
+}
+
+.tab-btn {
+  flex: 1;
+  padding: 7px 4px;
+  border-radius: var(--radius);
+  font-size: 12px;
+  font-weight: 500;
+  color: var(--text2);
+  transition: all 0.18s;
+  white-space: nowrap;
+  text-align: center;
+}
+
+.tab-btn:hover { color: var(--text); background: var(--surface2); }
+
+.tab-btn.active {
+  background: var(--surface2);
+  color: var(--text);
+  border: 1px solid var(--border2);
+}
+
+/* Contenido de tabs */
+.tab-content {
+  padding: 18px 22px 0;
+}
+
+.panel-desc {
+  font-size: 14px;
+  line-height: 1.78;
+  color: var(--text);
+}
+
+.kids-box {
+  background: var(--surface2);
+  border: 1px solid var(--border2);
+  border-radius: var(--radius2);
+  padding: 18px;
+}
+
+.kids-text {
+  font-size: 15px;
+  line-height: 1.72;
+  color: var(--text);
+}
+
+.fact-box {
+  background: var(--surface2);
+  border: 1px solid var(--border);
+  border-left: 3px solid;
+  border-radius: var(--radius);
+  padding: 15px 16px;
+}
+
+.fact-label {
+  display: block;
+  font-size: 11px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.8px;
+  color: var(--text2);
+  margin-bottom: 6px;
+}
+
+.fact-text {
+  font-size: 13.5px;
+  line-height: 1.7;
+  color: var(--text);
+}
+
+/* Secciones del panel */
+.panel-section {
+  padding: 16px 22px;
+  border-top: 1px solid var(--border);
+}
+
+.panel-section:last-child {
+  padding-bottom: 24px;
+}
+
+.section-label {
+  font-size: 11px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  color: var(--text3);
+  margin-bottom: 10px;
+}
+
+/* Chips de habilidades */
+.skills-grid {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 5px;
+}
+
+.skill-chip {
+  padding: 4px 11px;
+  border-radius: 10px;
+  font-size: 11.5px;
+  font-weight: 500;
+  background: color-mix(in srgb, var(--chip-color) 12%, transparent);
+  border: 1px solid color-mix(in srgb, var(--chip-color) 30%, transparent);
+  color: var(--chip-color);
+}
+
+/* Badges de conexión */
+.conn-grid {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+}
+
+.conn-badge {
+  padding: 6px 12px;
+  border-radius: var(--radius);
+  font-size: 12px;
+  font-weight: 500;
+  background: var(--surface2);
+  border: 1px solid var(--border2);
+  color: var(--text2);
+  transition: all 0.18s;
+}
+
+.conn-badge:hover {
+  color: var(--text);
+  border-color: var(--accent);
+  background: var(--surface3);
+  transform: translateY(-1px);
+}
+
+/* ── OVERLAYS ─────────────────────────────────── */
+.overlay {
+  position: fixed;
+  inset: 0;
+  z-index: 200;
+  background: rgba(4, 8, 20, 0.90);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 20px;
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  animation: overlayIn 0.22s var(--ease);
+}
+
+@keyframes overlayIn {
+  from { opacity: 0; }
+  to   { opacity: 1; }
+}
+
+.overlay-card {
+  background: var(--surface);
+  border: 1px solid var(--border3);
+  border-radius: var(--radius3);
+  padding: 40px 38px 36px;
+  max-width: 480px;
+  width: 100%;
+  position: relative;
+  box-shadow: 0 0 80px rgba(79,142,247,0.1), var(--shadow-lg);
+  animation: cardIn 0.3s var(--ease-spring);
+}
+
+@keyframes cardIn {
+  from { opacity: 0; transform: scale(0.94) translateY(12px); }
+  to   { opacity: 1; transform: scale(1)    translateY(0);    }
+}
+
+.overlay-title {
+  font-family: var(--ff-head);
+  font-size: 26px;
+  font-weight: 700;
+  color: var(--text);
+  margin-bottom: 8px;
+  letter-spacing: -0.3px;
+}
+
+.overlay-subtitle {
+  font-size: 15px;
+  color: var(--text2);
+  line-height: 1.6;
+  margin-bottom: 24px;
+}
+
+/* Tour */
+.tour-icon {
+  display: block;
+  font-size: 60px;
+  margin-bottom: 14px;
+  text-align: center;
+}
+
+.tour-card {
+  text-align: center;
+}
+
+.tour-steps {
+  display: flex;
+  flex-direction: column;
+  gap: 11px;
+  text-align: left;
+  margin-bottom: 26px;
+}
+
+.tour-step {
+  display: flex;
+  align-items: flex-start;
+  gap: 11px;
+  font-size: 14px;
+  color: var(--text2);
+  line-height: 1.6;
+}
+
+.step-num {
+  min-width: 22px;
+  height: 22px;
+  border-radius: 50%;
+  background: var(--accent);
+  color: #fff;
+  font-size: 11px;
+  font-weight: 700;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  margin-top: 1px;
+}
+
+.overlay-btn {
+  width: 100%;
+  padding: 14px;
+  border-radius: var(--radius);
+  font-family: var(--ff-head);
+  font-size: 15px;
+  font-weight: 600;
+  transition: all 0.2s;
+}
+
+.primary-btn {
+  background: var(--accent);
+  color: #fff;
+}
+
+.primary-btn:hover {
+  background: var(--accent2);
+  transform: translateY(-1px);
+  box-shadow: 0 4px 16px rgba(79,142,247,0.35);
+}
+
+/* Créditos */
+.credits-card { text-align: center; }
+
+.card-close {
+  position: absolute;
+  top: 16px; right: 16px;
+  width: 30px; height: 30px;
+  border-radius: 50%;
+  background: var(--surface2);
+  border: 1px solid var(--border2);
+  color: var(--text2);
+  font-size: 14px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: all 0.18s;
+}
+
+.card-close:hover { color: var(--text); background: var(--surface3); }
+
+.credits-icon { font-size: 52px; margin-bottom: 14px; display: block; }
+
+.credits-version {
+  font-size: 11px;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  color: var(--accent);
+  font-weight: 600;
+  margin-bottom: 18px;
+}
+
+.credits-divider {
+  height: 1px;
+  background: var(--border);
+  margin: 0 0 18px;
+}
+
+.credits-desc {
+  font-size: 14px;
+  line-height: 1.75;
+  color: var(--text2);
+  margin-bottom: 20px;
+}
+
+.credits-author-box {
+  background: var(--surface2);
+  border: 1px solid var(--border2);
+  border-radius: var(--radius2);
+  padding: 18px;
+  margin-bottom: 16px;
+}
+
+.credits-label {
+  font-size: 10px;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  color: var(--text3);
+  margin-bottom: 5px;
+}
+
+.credits-name {
+  font-family: var(--ff-head);
+  font-size: 19px;
+  font-weight: 700;
+  color: var(--text);
+}
+
+.credits-footer {
+  font-size: 11px;
+  color: var(--text3);
+  line-height: 1.6;
+}
+
+/* ── RESPONSIVE ───────────────────────────────── */
+@media (max-width: 900px) {
+  .empty-state { display: none; }
+  .info-panel  { width: 300px; min-width: 260px; }
+}
+
+@media (max-width: 768px) {
+  .app-layout {
+    flex-direction: column;
+    padding: 12px 10px 400px;
+    gap: 10px;
+  }
+
+  .empty-state { display: none; }
+
+  .info-panel {
+    position: fixed;
+    bottom: 0;
+    left: 0; right: 0;
+    width: auto;
+    min-width: unset;
+    border-radius: 20px 20px 0 0;
+    max-height: 60vh;
+    z-index: 60;
+    transform: translateY(0);
+    transition: transform 0.35s var(--ease);
+    top: auto;
+  }
+
+  .info-panel.hidden {
+    display: block !important;
+    transform: translateY(105%);
+  }
+
+  .btn-text { display: none; }
+
+  .nav-btn { padding: 8px; }
+
+  .overlay-card { padding: 28px 22px 24px; }
+
+  #main-header { padding: 10px 14px; }
+
+  .logo { font-size: 19px; }
+}
+
+@media (max-width: 380px) {
+  .logo-tagline { display: none; }
+  .brain-hint span:last-child { font-size: 12px; }
+}
+
+/* ── PRINT / A11Y ─────────────────────────────── */
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after {
+    animation-duration: 0.01ms !important;
+    transition-duration: 0.01ms !important;
+  }
+}
+
+/* ════════════════════════════════════════════════
+   ADICIONES v1.1 — Zoom, Flip, Facts carrusel
+   ════════════════════════════════════════════════ */
+
+/* ── WRAPPER DE TRANSFORMACIÓN ────────────────── */
+#svg-transform-wrapper {
+  transform-origin: center center;
+  transition: transform 0.22s ease;
+  display: flex;
+  justify-content: center;
+}
+
+/* ── CONTROLES DE CEREBRO ────────────────────── */
+.brain-controls {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  padding: 7px 14px;
+  background: var(--surface);
+  border: 1px solid var(--border2);
+  border-radius: 30px;
+  flex-wrap: wrap;
+  justify-content: center;
+}
+
+.control-group {
+  display: flex;
+  gap: 3px;
+}
+
+.ctrl-btn {
+  width: 34px;
+  height: 34px;
+  border-radius: 10px;
+  background: var(--surface2);
+  border: 1px solid var(--border2);
+  color: var(--text2);
+  font-size: 16px;
+  font-weight: 600;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: all 0.18s;
+  font-family: var(--ff-head);
+  line-height: 1;
+}
+
+.ctrl-btn:hover:not(:disabled) {
+  background: var(--surface3);
+  border-color: var(--accent);
+  color: var(--text);
+  transform: translateY(-1px);
+}
+
+.ctrl-btn:disabled {
+  opacity: 0.35;
+  cursor: not-allowed;
+}
+
+.flip-btn {
+  width: auto;
+  padding: 0 12px;
+  gap: 6px;
+  font-size: 13px;
+  font-weight: 500;
+}
+
+.btn-flip-label {
+  font-size: 12px;
+  white-space: nowrap;
+}
+
+.ctrl-divider {
+  width: 1px;
+  height: 26px;
+  background: var(--border2);
+  margin: 0 4px;
+}
+
+.ctrl-hint {
+  font-size: 11px;
+  color: var(--text3);
+  letter-spacing: 0.2px;
+  white-space: nowrap;
+}
+
+/* ── PANEL TABS — pestaña facts ───────────────── */
+
+/* ── FACTS CARRUSEL ───────────────────────────── */
+#facts-carousel {
+  padding: 4px 0 8px;
+}
+
+.fact-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 10px;
+}
+
+.fact-header-label {
+  font-size: 11px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  color: var(--text3);
+}
+
+.fact-nav {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.fact-arrow {
+  width: 26px;
+  height: 26px;
+  border-radius: 8px;
+  background: var(--surface2);
+  border: 1px solid var(--border2);
+  color: var(--text2);
+  font-size: 16px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: all 0.15s;
+  line-height: 1;
+}
+
+.fact-arrow:hover:not(:disabled) {
+  background: var(--surface3);
+  border-color: var(--accent);
+  color: var(--text);
+}
+
+.fact-arrow:disabled { opacity: 0.3; cursor: not-allowed; }
+
+.fact-counter {
+  font-size: 12px;
+  color: var(--text2);
+  font-weight: 500;
+  min-width: 34px;
+  text-align: center;
+}
+
+.fact-dots {
+  display: flex;
+  gap: 5px;
+  margin-bottom: 14px;
+}
+
+.fact-dot {
+  width: 8px; height: 8px;
+  border-radius: 50%;
+  background: var(--surface3);
+  border: 1px solid var(--border2);
+  transition: all 0.18s;
+  padding: 0;
+}
+
+.fact-dot.active {
+  background: var(--accent);
+  border-color: var(--accent);
+  transform: scale(1.2);
+}
+
+.fact-dot:hover:not(.active) {
+  background: var(--surface3);
+  border-color: var(--accent);
+  transform: scale(1.15);
+}
+
+.fact-slide {
+  background: var(--surface2);
+  border: 1px solid var(--border2);
+  border-radius: var(--radius2);
+  padding: 16px 18px;
+  display: flex;
+  gap: 12px;
+  align-items: flex-start;
+  animation: factSlide 0.25s var(--ease);
+}
+
+@keyframes factSlide {
+  from { opacity: 0; transform: translateX(8px); }
+  to   { opacity: 1; transform: none; }
+}
+
+.fact-icon {
+  font-size: 26px;
+  flex-shrink: 0;
+  margin-top: 2px;
+}
+
+.fact-text {
+  font-size: 13.5px;
+  line-height: 1.72;
+  color: var(--text);
+}
+
+/* Ver todos los facts */
+.fact-all-toggle {
+  margin-top: 12px;
+  text-align: center;
+}
+
+.fact-see-all {
+  font-size: 12px;
+  color: var(--accent);
+  font-weight: 500;
+  padding: 5px 12px;
+  border-radius: 10px;
+  border: 1px solid rgba(79,142,247,0.25);
+  background: rgba(79,142,247,0.07);
+  transition: all 0.18s;
+}
+
+.fact-see-all:hover {
+  background: rgba(79,142,247,0.14);
+  border-color: var(--accent);
+}
+
+.fact-all-list {
+  margin-top: 12px;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.fact-item-full {
+  display: flex;
+  gap: 10px;
+  align-items: flex-start;
+  padding: 11px 14px;
+  background: var(--bg2);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+}
+
+.fact-num {
+  min-width: 22px;
+  height: 22px;
+  border-radius: 50%;
+  background: var(--accent);
+  color: #fff;
+  font-size: 11px;
+  font-weight: 700;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  margin-top: 2px;
+}
+
+.fact-icon-sm { font-size: 16px; margin-right: 4px; }
+
+.fact-text-sm {
+  font-size: 12.5px;
+  line-height: 1.68;
+  color: var(--text);
+  display: inline;
+}
+
+/* ── RESPONSIVE CONTROLS ───────────────────────── */
+@media (max-width: 480px) {
+  .brain-controls { gap: 4px; padding: 6px 10px; }
+  .ctrl-hint { display: none; }
+  .btn-flip-label { display: none; }
+  .flip-btn { width: 34px; padding: 0; }
+}
+
+/* ════════════════════════════════════════════════
+   ADICIONES v1.2 — Navegación multi-módulo
+   ════════════════════════════════════════════════ */
+
+.nav-btn-active {
+  color: var(--text) !important;
+  border-color: var(--accent) !important;
+  background: var(--surface2) !important;
+  text-decoration: none;
+}
+
+.nav-btn-active:hover {
+  background: var(--surface3) !important;
+}
+
+.nav-btn-soon {
+  opacity: 0.38;
+  cursor: not-allowed;
+  pointer-events: none;
+  text-decoration: none;
+}
+
+/* Convertir a <a> navegables */
+a.nav-btn {
+  text-decoration: none;
+  display: flex;
+  align-items: center;
+  gap: 5px;
+}
+
+/* ════════════════════════════════════════════════
+   BRAIN LIVE MODE — Cerebro en Acción
+   ════════════════════════════════════════════════ */
+
+.live-controls-wrap {
+  width: 100%; max-width: 580px;
+  background: var(--surface);
+  border: 1px solid var(--border2);
+  border-radius: var(--radius2);
+  overflow: hidden;
+  margin-top: 4px;
+}
+
+.live-header {
+  padding: 12px 16px 8px;
+  border-bottom: 1px solid var(--border);
+  display: flex; flex-direction: column; gap: 3px;
+}
+
+.live-title {
+  font-family: var(--ff-head); font-size: 14px;
+  font-weight: 700; color: var(--text);
+}
+
+.live-subtitle {
+  font-size: 11px; color: var(--text3); line-height: 1.5;
+}
+
+.live-btns {
+  display: flex; flex-wrap: wrap; gap: 6px;
+  padding: 10px 14px 8px;
+}
+
+.live-scenario-btn {
+  display: flex; align-items: center; gap: 5px;
+  padding: 6px 12px; border-radius: var(--radius);
+  background: var(--surface2);
+  border: 1px solid var(--ls-color, var(--border2));
+  color: var(--text2); font-size: 12px; font-weight: 500;
+  transition: all 0.18s; cursor: pointer;
+}
+
+.live-scenario-btn:hover {
+  border-color: var(--accent); color: var(--text);
+  background: var(--surface3);
+}
+
+.live-scenario-btn.active {
+  border-color: var(--ls-color);
+  color: var(--ls-color);
+  background: color-mix(in srgb, var(--ls-color) 10%, var(--surface2));
+  box-shadow: 0 0 0 2px color-mix(in srgb, var(--ls-color) 15%, transparent);
+}
+
+.live-stop-btn {
+  padding: 6px 12px; border-radius: var(--radius);
+  background: transparent; border: 1px solid var(--border2);
+  color: var(--text3); font-size: 12px; cursor: pointer;
+  transition: all 0.15s;
+}
+
+.live-stop-btn:hover { border-color: var(--danger); color: var(--danger); }
+
+.live-label {
+  padding: 7px 14px 10px;
+  font-size: 11.5px; color: var(--text3);
+  border-top: 1px solid var(--border);
+  font-weight: 500; transition: color 0.3s;
+  background: var(--bg2);
+}
+
+/* Animación de líneas de conexión live */
+@keyframes dashFlow {
+  to { stroke-dashoffset: -18; }
+}
+
+#live-conn-layer line {
+  animation: dashFlow 1.4s linear infinite;
+}
+
+/* ════════════════════════════════════════════════
+   IMÁGENES REALES — referencia científica
+   ════════════════════════════════════════════════ */
+
+/* ── Contenedor de imagen real ───────────────── */
+.real-img-wrap {
+  position: relative; border-radius: var(--radius2);
+  overflow: hidden; background: #000;
+  border: 1px solid var(--border2);
+  flex-shrink: 0;
+}
+
+.real-img-wrap img {
+  width: 100%; display: block;
+  object-fit: cover;
+  transition: transform 0.4s var(--ease), opacity 0.3s;
+}
+
+.real-img-wrap:hover img { transform: scale(1.03); }
+
+.real-img-caption {
+  position: absolute; bottom: 0; left: 0; right: 0;
+  padding: 6px 10px;
+  background: linear-gradient(transparent, rgba(0,0,0,0.82));
+  font-size: 10px; color: rgba(255,255,255,0.72);
+  line-height: 1.4; font-style: italic;
+}
+
+.real-img-badge {
+  position: absolute; top: 8px; left: 8px;
+  padding: 3px 8px; border-radius: 8px;
+  background: rgba(79,142,247,0.85);
+  font-size: 9.5px; font-weight: 700; color: #fff;
+  letter-spacing: 0.5px; text-transform: uppercase;
+}
+
+/* ── Cerebro — hero lateral ──────────────────── */
+.brain-real-ref {
+  max-width: 580px; margin: 0 auto 8px;
+  display: grid; grid-template-columns: 1fr 1fr;
+  gap: 8px;
+}
+.brain-real-ref .real-img-wrap { height: 130px; }
+.brain-real-ref .real-img-wrap img { height: 100%; }
+
+/* ── Evolución — imagen en panel ─────────────── */
+.sp-real-img { height: 165px; margin-bottom: 12px; }
+.sp-real-img img { height: 100%; }
+
+/* ── Neurona — hero real ─────────────────────── */
+.neuron-hero-img {
+  max-width: 1100px; margin: 0 auto;
+  padding: 0 18px 12px;
+  display: grid; grid-template-columns: 1fr 1fr;
+  gap: 10px;
+}
+.neuron-hero-img .real-img-wrap { height: 160px; }
+.neuron-hero-img .real-img-wrap img { height: 100%; }
+
+/* ── Corteza — imagen de escenario ───────────── */
+.scenario-real-img {
+  height: 140px; width: 100%;
+  margin-bottom: 12px; display: none;
+  transition: opacity 0.4s;
+}
+.scenario-real-img.visible { display: block; }
+.scenario-real-img img { height: 100%; width: 100%; object-fit: cover; }
+
+/* ── Panel de parte neurona — imagen ────────── */
+.part-real-img { height: 110px; width: 100%; margin-bottom: 8px; }
+.part-real-img img { height: 100%; width: 100%; object-fit: cover; }
+
+/* ── Responsivo ──────────────────────────────── */
+@media (max-width: 600px) {
+  .brain-real-ref     { grid-template-columns: 1fr; }
+  .neuron-hero-img    { grid-template-columns: 1fr; }
+  .neuron-hero-img .real-img-wrap { height: 140px; }
+  .sp-real-img        { height: 130px; }
+}

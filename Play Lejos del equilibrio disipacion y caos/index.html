@@ -1,0 +1,1803 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width,initial-scale=1,user-scalable=no" />
+<title>Lejos del equilibrio</title>
+<style>
+  :root{
+    --bg:#05070c;
+    --panel:rgba(10,14,22,0.88);
+    --panel2:rgba(10,14,22,0.72);
+    --stroke:rgba(180,220,200,0.25);
+    --text:#d7e6ff;
+    --muted:#93a1b3;
+    --aqua:#6df0ff;
+    --mint:#78dc8c;
+    --warn:#ffd1a1;
+    --danger:#ffb3b3;
+  }
+  html,body{margin:0;padding:0;background:var(--bg);overflow:hidden;font-family:ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace;}
+  canvas{display:block}
+
+  /* ===== HUD ===== */
+  #hud{
+    position:fixed;left:10px;bottom:10px;z-index:30;
+    display:none;gap:8px;flex-wrap:wrap;align-items:center
+  }
+  .pill{
+    background:rgba(12,16,26,0.78);
+    border:1px solid rgba(180,220,200,0.22);
+    color:var(--text);
+    padding:6px 10px;border-radius:10px;
+    font-size:13px;backdrop-filter: blur(6px);
+    display:flex;gap:8px;align-items:center
+  }
+  .btn{
+    cursor:pointer;user-select:none;
+    background:rgba(12,16,26,0.78);
+    border:1px solid rgba(180,220,200,0.25);
+    color:var(--text);
+    padding:7px 10px;border-radius:10px;
+    font-size:13px;backdrop-filter: blur(6px);
+    transition:transform .06s ease, border-color .15s ease, background .15s ease;
+  }
+  .btn:hover{transform:translateY(-1px);border-color:rgba(160,255,210,0.45)}
+  .btn:active{transform:translateY(0px) scale(0.99)}
+  .btn.secondary{color:var(--muted)}
+  .btn.danger{border-color:rgba(255,160,160,0.35);color:var(--danger)}
+  .btn.accent{border-color:rgba(120,240,255,0.35);color:var(--aqua)}
+
+  #pauseBtn{
+    position:fixed;bottom:10px;right:10px;z-index:30;
+    display:none;
+  }
+
+  /* ===== Screens / Modals ===== */
+  .screen{
+    position:fixed;inset:0;z-index:50;
+    display:flex;align-items:center;justify-content:center;
+    background:radial-gradient(900px 500px at 50% 40%, rgba(20,35,40,0.22), rgba(5,7,12,0.92) 70%, rgba(5,7,12,0.98));
+  }
+  .card{
+    width:min(980px, calc(100vw - 28px));
+    background:var(--panel);
+    border:1px solid rgba(180,220,200,0.22);
+    border-radius:18px;
+    padding:18px 18px 16px 18px;
+    box-shadow:0 20px 70px rgba(0,0,0,0.45);
+  }
+  .title{
+    font-size:30px;letter-spacing:0.6px;color:var(--text);
+    margin:2px 0 10px 0
+  }
+  .subtitle{color:var(--muted);font-size:13px;line-height:1.45;margin:0 0 14px 0}
+  .grid{
+    display:grid;
+    grid-template-columns: 1.1fr 0.9fr;
+    gap:14px;
+  }
+  @media (max-width: 860px){
+    .grid{grid-template-columns:1fr;}
+  }
+  .panel{
+    background:var(--panel2);
+    border:1px solid rgba(180,220,200,0.16);
+    border-radius:14px;
+    padding:12px;
+  }
+  label{display:block;color:var(--muted);font-size:12px;margin:0 0 6px 0}
+  input{
+    width:100%;
+    padding:10px 11px;
+    border-radius:12px;
+    border:1px solid rgba(180,220,200,0.22);
+    background:rgba(3,5,9,0.55);
+    color:var(--text);
+    outline:none;
+  }
+  input:focus{border-color:rgba(120,240,255,0.45)}
+  .row{display:flex;gap:10px;flex-wrap:wrap;align-items:center}
+  .row.space{justify-content:space-between}
+  .muted{color:var(--muted)}
+  .small{font-size:12px}
+
+  table{width:100%;border-collapse:collapse;font-size:13px}
+  th,td{padding:8px 6px;border-bottom:1px solid rgba(180,220,200,0.12);text-align:left}
+  th{color:var(--muted);font-weight:600}
+  td{color:var(--text)}
+
+  .modal{
+    position:fixed;inset:0;z-index:60;
+    display:none;align-items:center;justify-content:center;
+    background:rgba(5,7,12,0.78);
+  }
+  .modal .card{max-width:min(920px, calc(100vw - 28px));}
+  .modal h3{margin:0 0 8px 0;color:var(--text)}
+  .modal p, .modal li{color:var(--muted);font-size:13px;line-height:1.5}
+  .modal ul{margin:8px 0 0 18px}
+  .kbd{display:inline-block;padding:1px 6px;border:1px solid rgba(180,220,200,0.25);border-radius:8px;background:rgba(0,0,0,0.15);color:var(--text)}
+
+  #pauseOverlay{
+    position:fixed;inset:0;
+    background:rgba(5,7,12,0.85);
+    display:none;align-items:center;justify-content:center;
+    font:22px ui-monospace,monospace;color:#ddd;z-index:55
+  }
+
+  /* quote / level complete */
+  #levelOverlay .quote{
+    font-size:16px;color:var(--text);line-height:1.55;
+    border-left:3px solid rgba(120,240,255,0.35);
+    padding:10px 12px;margin:10px 0 14px 0;
+    background:rgba(0,0,0,0.18);
+    border-radius:12px;
+  }
+
+  /* toast */
+  #toast{
+    position:fixed;left:50%;bottom:18px;transform:translateX(-50%);
+    z-index:70;display:none;
+    background:rgba(12,16,26,0.88);
+    border:1px solid rgba(180,220,200,0.22);
+    color:var(--text);
+    padding:10px 12px;border-radius:14px;
+    box-shadow:0 18px 50px rgba(0,0,0,0.45);
+    max-width:min(860px, calc(100vw - 26px));
+  }
+  #toast .row{justify-content:space-between}
+
+  /* accessibility */
+  .sr{position:absolute;left:-9999px}
+
+
+  /* celebrate words (learning moment) */
+  #celebrateOverlay{
+    position:fixed;inset:0;
+    display:none;align-items:center;justify-content:center;
+    background:rgba(5,7,12,0.78);
+    z-index:62;
+  }
+  #celebrateOverlay .card{
+    width:min(980px, calc(100vw - 26px));
+    max-height:calc(100vh - 26px);
+    overflow:auto;
+  }
+  #celebrateOverlay .headline{
+    font-size:16px;
+    color:var(--muted);
+    margin-bottom:8px;
+  }
+  #celebrateOverlay .wordsBig{
+    display:flex;
+    flex-wrap:wrap;
+    gap:10px;
+    margin-top:8px;
+  }
+  #celebrateOverlay .wItem{
+    padding:10px 12px;
+    border-radius:14px;
+    border:1px solid rgba(180,220,200,0.22);
+    background:rgba(0,0,0,0.22);
+    font:22px ui-monospace,monospace;
+    color:#e9f2ff;
+    letter-spacing:1px;
+    box-shadow:0 18px 60px rgba(0,0,0,0.45);
+    transform:translateY(8px) scale(0.98);
+    opacity:0;
+    animation:wPop 480ms ease forwards;
+  }
+  #celebrateOverlay .wItem:nth-child(2){animation-delay:60ms}
+  #celebrateOverlay .wItem:nth-child(3){animation-delay:120ms}
+  #celebrateOverlay .wItem:nth-child(4){animation-delay:180ms}
+  #celebrateOverlay .wItem:nth-child(5){animation-delay:240ms}
+  #celebrateOverlay .wItem:nth-child(6){animation-delay:300ms}
+  #celebrateOverlay .wItem:nth-child(7){animation-delay:360ms}
+  #celebrateOverlay .wItem:nth-child(8){animation-delay:420ms}
+  #celebrateOverlay .wItem:nth-child(9){animation-delay:480ms}
+  #celebrateOverlay .wItem:nth-child(10){animation-delay:540ms}
+  #celebrateOverlay .wItem b{color:var(--accent)}
+  #celebrateOverlay .hint{
+    margin-top:12px;
+    font-size:12px;
+    color:var(--muted);
+  }
+  @keyframes wPop{
+    to{transform:translateY(0) scale(1); opacity:1;}
+  }
+
+
+  /* ===== NIVEL: instrucciones / palabras a buscar ===== */
+  #levelIntroOverlay{position:fixed;inset:0;display:none;align-items:center;justify-content:center;background:rgba(5,7,12,0.78);z-index:61;}
+  #levelIntroOverlay .badge{font-size:12px;letter-spacing:.06em;text-transform:uppercase;padding:6px 10px;border:1px solid var(--stroke);border-radius:999px;background:rgba(10,14,22,0.6);color:var(--muted);}
+  #levelIntroOverlay .wordsList{display:flex;flex-wrap:wrap;gap:10px;margin-top:10px;}
+  #levelIntroOverlay .chip{padding:10px 12px;border-radius:14px;border:1px solid rgba(140,190,255,0.22);background:rgba(120,180,255,0.10);font:22px ui-monospace,monospace;color:#e9f2ff;letter-spacing:1px;}
+</style>
+</head>
+<body>
+
+<!-- ===== MENU ===== -->
+<div id="menu" class="screen">
+  <div class="card">
+    <div class="row space" style="gap:12px;align-items:flex-end;">
+      <div>
+        <div class="title">Lejos del equilibrio</div>
+        <div class="subtitle">Un juego de captura, disipación y emergencia. Completa las palabras de cada nivel y atraviesa el umbral.</div>
+      </div>
+      <div class="row" style="justify-content:flex-end">
+        <div class="btn secondary" id="openManualBtn">📘 Manual</div>
+        <div class="btn danger" id="wipeScoresBtn" title="Borrar puntuaciones">🗑️ Borrar puntajes</div>
+      </div>
+    </div>
+
+    <div class="grid">
+      <div class="panel">
+        <label for="nick">Nickname del jugador</label>
+        <input id="nick" maxlength="18" placeholder="Ej: Rizoma_7" />
+        <div class="row" style="margin-top:10px;">
+          <div class="btn accent" id="startBtn">▶ Iniciar nueva partida</div>
+          <div class="btn" id="loadBtn">⏳ Cargar partida</div>
+          <div class="btn" id="clearSaveBtn" title="Eliminar partida guardada">🧹 Borrar guardado</div>
+        </div>
+        <div class="row" style="margin-top:10px;">
+          <div class="muted small">Sugerencia: juega con una sola mano y piensa en fluctuaciones.</div>
+        </div>
+        <div class="row" style="margin-top:10px; flex-wrap:wrap;">
+          <div class="btn" id="timedBtn" title="Juego con tiempo por nivel">⏱ Contrarreloj</div>
+          <div class="btn" id="messageBtn" title="Convierte palabras en niveles">💌 Mensaje secreto</div>
+        </div>
+      </div>
+
+      <div class="panel">
+        <div class="row space" style="margin-bottom:8px;">
+          <div class="muted" style="font-weight:600;">Mejores puntajes</div>
+          <div class="muted small">Top 10</div>
+        </div>
+        <table aria-label="Mejores puntajes">
+          <thead>
+            <tr><th>#</th><th>Jugador</th><th>Puntaje</th><th>Fecha</th></tr>
+          </thead>
+          <tbody id="scoresBody"></tbody>
+        </table>
+      </div>
+    </div>
+
+    <div class="row space" style="margin-top:12px;">
+      <div class="muted small">© RizomaLab • estética no lineal • control por toque/arrastre</div>
+      <div class="muted small">Consejo: <span class="kbd">⏸</span> pausa cuando el campo se sature.</div>
+    </div>
+  </div>
+</div>
+
+<!-- ===== MANUAL ===== -->
+<div id="manual" class="modal" role="dialog" aria-modal="true" aria-labelledby="manualTitle">
+  <div class="card">
+    <div class="row space" style="margin-bottom:6px;">
+      <h3 id="manualTitle">Manual de ayuda</h3>
+      <div class="btn" id="closeManualBtn">Cerrar</div>
+    </div>
+    <p>
+      Mueves la nave tocando o arrastrando. Las letras aparecen alrededor del atractor central. Captura letras para completar las palabras del nivel.
+      Cuando todas las palabras estén completas, el nivel se cierra y el sistema entra en transición.
+    </p>
+    <ul>
+      <li><b>⭕ Círculo parcial</b>: reduce una parte del rizoma (disipación local).</li>
+      <li><b>⚪ Círculo blanco</b>: borra todo el campo (disipación global).</li>
+      <li><b>🌀 Atractor extraño</b>: al capturarlo, succiona todo el campo y hace emerger una palabra clave por tiempo limitado.</li>
+      <li><b>⏸ Pausa</b>: suspende el sistema sin perder el estado.</li>
+      <li><b>Guardar</b>: almacena nivel, puntaje, tiempo y progreso de letras.</li>
+    </ul>
+    <p class="small muted" style="margin-top:10px;">
+      Nota: el atractor extraño no “ayuda” necesariamente: crea vacío, presión temporal y reconfiguración.
+    </p>
+  </div>
+</div>
+
+<!-- ===== LEVEL COMPLETE / QUOTE ===== -->
+<div id="levelOverlay" class="modal" role="dialog" aria-modal="true" aria-labelledby="levelTitle">
+  <div class="card">
+    <div class="row space" style="margin-bottom:6px;">
+      <h3 id="levelTitle">Transición</h3>
+      <div class="muted small" id="levelMeta"></div>
+    </div>
+    <div class="quote" id="quoteText"></div>
+    <div class="row" style="justify-content:flex-end;">
+      <div class="btn" id="saveBtn">💾 Guardar partida</div>
+      <div class="btn secondary" id="toMenuBtn">↩ Menú principal</div>
+      <div class="btn accent" id="nextBtn">➡ Siguiente nivel</div>
+    </div>
+  </div>
+</div>
+
+
+
+<!-- ===== CELEBRACIÓN DE PALABRAS ===== -->
+<div id="celebrateOverlay" class="modal" role="dialog" aria-modal="true" aria-labelledby="celebrateTitle">
+  <div class="card">
+    <div class="row space" style="margin-bottom:6px;">
+      <h3 id="celebrateTitle">Palabras completadas</h3>
+      <div class="muted small" id="celebrateMeta"></div>
+    </div>
+    <div class="headline">Tómate 1 segundo: mira lo que acabas de estabilizar antes de la transición.</div>
+    <div class="wordsBig" id="celebrateWords"></div>
+    <div class="hint">Toca para continuar</div>      <div class="row" style="justify-content:flex-end;gap:10px;margin-top:10px;flex-wrap:wrap;">
+        <div class="btn secondary" id="celebratePauseBtn">⏸ Pausar lectura</div>
+        <div class="btn accent" id="celebrateContinueBtn">▶ Continuar</div>
+      </div>
+
+  </div>
+</div>
+
+
+<!-- ===== NIVEL: instrucciones / palabras a buscar ===== -->
+
+<!-- ===== MODOS: CONTRARRELOJ ===== -->
+<div id="timedModal" class="modal" role="dialog" aria-modal="true" aria-labelledby="timedTitle">
+  <div class="panel" style="max-width:640px;">
+    <h2 id="timedTitle" style="margin:0 0 6px 0;">⏱ Contrarreloj</h2>
+    <div class="muted">Tiempo por nivel. El reloj se pausa cuando pausas el juego.</div>
+    <div class="row" style="margin-top:14px; gap:10px; flex-wrap:wrap;">
+      <div class="btn accent" id="timedEasy">Fácil</div>
+      <div class="btn" id="timedHard">Difícil</div>
+      <div class="btn" id="timedSuper">Súper difícil</div>
+      <div class="btn secondary" id="timedCancel">Cancelar</div>
+    </div>
+  </div>
+</div>
+
+<!-- ===== MODOS: MENSAJE SECRETO ===== -->
+<div id="messageModal" class="modal" role="dialog" aria-modal="true" aria-labelledby="messageTitle">
+  <div class="panel" style="max-width:760px;">
+    <h2 id="messageTitle" style="margin:0 0 6px 0;">💌 Mensaje secreto</h2>
+    <div class="muted">Escribe un mensaje. El juego lo convierte en niveles. Al completar, se revela el mensaje.</div>
+    <div style="margin-top:12px;">
+      <label for="msgInput">Mensaje</label>
+      <textarea id="msgInput" placeholder="Ej: TE QUIERO MUCHO EMILIA"></textarea>
+    </div>
+    <div class="row" style="margin-top:10px; gap:10px; flex-wrap:wrap;">
+      <div style="flex:1; min-width:240px;">
+        <label for="msgLevels">Niveles (1–10)</label>
+        <input id="msgLevels" type="number" min="1" max="10" value="5" />
+      </div>
+      <div style="flex:2; min-width:260px;">
+        <label>Vista previa</label>
+        <div class="muted" id="msgPreview" style="border:1px dashed rgba(140,190,255,0.25); padding:10px 12px; border-radius:12px; background:rgba(10,14,22,0.35); min-height:46px;"></div>
+      </div>
+    </div>
+    <div class="row" style="margin-top:14px; gap:10px; flex-wrap:wrap; justify-content:flex-end;">
+      <div class="btn accent" id="msgStart">▶ Iniciar</div>
+      <div class="btn secondary" id="msgCancel">Cancelar</div>
+    </div>
+  </div>
+</div>
+
+<!-- ===== TIEMPO AGOTADO ===== -->
+<div id="timeUpOverlay" class="modal" role="dialog" aria-modal="true" aria-labelledby="timeUpTitle">
+  <div class="panel" style="max-width:620px;">
+    <h2 id="timeUpTitle" style="margin:0 0 6px 0;">⏳ Tiempo agotado</h2>
+    <div class="muted" id="timeUpMeta">El nivel no se completó a tiempo.</div>
+    <div class="row" style="margin-top:14px; gap:10px; flex-wrap:wrap; justify-content:flex-end;">
+      <div class="btn accent" id="timeUpRetry">↻ Reintentar nivel</div>
+      <div class="btn" id="timeUpMenu">🏠 Menú</div>
+    </div>
+  </div>
+</div>
+
+<div id="levelIntroOverlay" class="modal" role="dialog" aria-modal="true" aria-labelledby="introTitle">
+  <div class="card">
+    <div class="headline" style="display:flex;align-items:center;justify-content:space-between;gap:12px;margin-bottom:10px;">
+      <div>
+        <h3 id="introTitle" style="margin:0 0 6px 0;color:var(--text)">Nivel</h3>
+        <div class="muted small" id="introBriefLine" style="margin-top:0"></div>
+      </div>
+      <div class="badge" id="introBadge">Objetivo</div>
+    </div>
+
+    <div id="introFull" style="display:none">
+      <p class="muted" style="margin-top:0">
+        Completa las palabras capturando letras en pantalla. Evita la disipación (círculos) y aprovecha el <b>atractor extraño</b>.
+        Puedes pausar cuando el campo se sature.
+      </p>
+      <div class="muted small">Palabras del nivel:</div>
+      <div class="wordsList" id="introWords"></div>
+      <div class="row" style="justify-content:flex-end;gap:10px;margin-top:14px;flex-wrap:wrap;">
+        <div class="btn accent" id="introStartBtn">▶ Empezar</div>
+      </div>
+    </div>
+
+    <div id="introBrief" style="display:none">
+      <div class="wordsList" id="introWordsBrief"></div>
+      <div class="row" style="justify-content:flex-end;gap:10px;margin-top:14px;flex-wrap:wrap;">
+        <div class="btn secondary" id="introSkipBtn">Omitir</div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ===== HUD ===== -->
+<div id="hud">
+  <div class="pill" id="hudLevel">Nivel 1</div>
+  <div class="pill" id="hudScore">Puntaje: 0</div>
+  <div class="pill" id="hudTime">Tiempo: 00:00</div>
+  <div class="pill" id="hudRemain" style="display:none">⏳ 0:00</div>
+  <div class="btn" id="quickSaveBtn" title="Guardar en este momento">💾 Guardar</div>
+  <div class="btn secondary" id="menuBtn" title="Volver al menú (se registra tu mejor puntaje)">🏠 Menú</div>
+</div>
+
+<!-- ===== PAUSE ===== -->
+<button id="pauseBtn" class="btn">⏸ Pausa</button>
+<div id="pauseOverlay">Sistema en suspensión<br><small>(toca para continuar)</small></div>
+
+<!-- ===== TOAST ===== -->
+<div id="toast">
+  <div class="row">
+    <div id="toastMsg">…</div>
+    <div class="btn" id="toastClose">Cerrar</div>
+  </div>
+</div>
+
+<canvas id="c"></canvas>
+
+<script>
+/* ================= CANVAS ================= */
+const c=document.getElementById("c"),ctx=c.getContext("2d");
+function resize(){c.width=innerWidth;c.height=innerHeight}
+addEventListener("resize",resize);resize();
+
+/* ================= UI ================= */
+const el = {
+  menu: document.getElementById('menu'),
+  nick: document.getElementById('nick'),
+  startBtn: document.getElementById('startBtn'),
+  loadBtn: document.getElementById('loadBtn'),
+  clearSaveBtn: document.getElementById('clearSaveBtn'),
+  timedBtn: document.getElementById('timedBtn'),
+  messageBtn: document.getElementById('messageBtn'),
+  openManualBtn: document.getElementById('openManualBtn'),
+  manual: document.getElementById('manual'),
+  timedModal: document.getElementById('timedModal'),
+  timedEasy: document.getElementById('timedEasy'),
+  timedHard: document.getElementById('timedHard'),
+  timedSuper: document.getElementById('timedSuper'),
+  timedCancel: document.getElementById('timedCancel'),
+  messageModal: document.getElementById('messageModal'),
+  msgInput: document.getElementById('msgInput'),
+  msgLevels: document.getElementById('msgLevels'),
+  msgPreview: document.getElementById('msgPreview'),
+  msgStart: document.getElementById('msgStart'),
+  msgCancel: document.getElementById('msgCancel'),
+  timeUpOverlay: document.getElementById('timeUpOverlay'),
+  timeUpMeta: document.getElementById('timeUpMeta'),
+  timeUpRetry: document.getElementById('timeUpRetry'),
+  timeUpMenu: document.getElementById('timeUpMenu'),
+  closeManualBtn: document.getElementById('closeManualBtn'),
+  scoresBody: document.getElementById('scoresBody'),
+  wipeScoresBtn: document.getElementById('wipeScoresBtn'),
+
+  hud: document.getElementById('hud'),
+  hudLevel: document.getElementById('hudLevel'),
+  hudScore: document.getElementById('hudScore'),
+  hudTime: document.getElementById('hudTime'),
+  hudRemain: document.getElementById('hudRemain'),
+  quickSaveBtn: document.getElementById('quickSaveBtn'),
+  menuBtn: document.getElementById('menuBtn'),
+  pauseBtn: document.getElementById('pauseBtn'),
+  pauseOverlay: document.getElementById('pauseOverlay'),
+
+  levelOverlay: document.getElementById('levelOverlay'),
+  levelTitle: document.getElementById('levelTitle'),
+  levelMeta: document.getElementById('levelMeta'),
+  quoteText: document.getElementById('quoteText'),
+  nextBtn: document.getElementById('nextBtn'),
+  saveBtn: document.getElementById('saveBtn'),
+  toMenuBtn: document.getElementById('toMenuBtn'),
+
+  celebrateOverlay: document.getElementById('celebrateOverlay'),
+  celebrateMeta: document.getElementById('celebrateMeta'),
+  celebrateWords: document.getElementById('celebrateWords'),
+  celebratePauseBtn: document.getElementById('celebratePauseBtn'),
+  celebrateContinueBtn: document.getElementById('celebrateContinueBtn'),
+
+  levelIntroOverlay: document.getElementById('levelIntroOverlay'),
+  introTitle: document.getElementById('introTitle'),
+  introBadge: document.getElementById('introBadge'),
+  introFull: document.getElementById('introFull'),
+  introBrief: document.getElementById('introBrief'),
+  introBriefLine: document.getElementById('introBriefLine'),
+  introWords: document.getElementById('introWords'),
+  introWordsBrief: document.getElementById('introWordsBrief'),
+  introStartBtn: document.getElementById('introStartBtn'),
+  introSkipBtn: document.getElementById('introSkipBtn'),
+
+  toast: document.getElementById('toast'),
+  toastMsg: document.getElementById('toastMsg'),
+  toastClose: document.getElementById('toastClose'),
+};
+
+function showToast(msg){
+  el.toastMsg.textContent = msg;
+  el.toast.style.display='block';
+}
+function hideToast(){ el.toast.style.display='none'; }
+el.toastClose.onclick = hideToast;
+
+/* ================= STORAGE ================= */
+const LS = {
+  nick: 'LDE_NICK',
+  save: 'LDE_SAVE',
+  scores: 'LDE_HISCORES'
+};
+
+function getScores(){
+  try{ return JSON.parse(localStorage.getItem(LS.scores)||'[]'); }
+  catch{ return []; }
+}
+function setScores(arr){ localStorage.setItem(LS.scores, JSON.stringify(arr)); }
+
+function upsertScore(nick, score){
+  if(!nick) return;
+  const now = new Date();
+  const stamp = now.toISOString();
+  let scores = getScores();
+
+  // keep best per nickname
+  const idx = scores.findIndex(s => s.nick.toLowerCase() === nick.toLowerCase());
+  if(idx >= 0){
+    if(score > scores[idx].score){ scores[idx].score = score; scores[idx].ts = stamp; }
+  } else {
+    scores.push({nick, score, ts: stamp});
+  }
+
+  scores.sort((a,b)=> b.score - a.score);
+  scores = scores.slice(0,10);
+  setScores(scores);
+  renderScores();
+}
+
+function renderScores(){
+  const scores = getScores();
+  el.scoresBody.innerHTML = '';
+  if(!scores.length){
+    el.scoresBody.innerHTML = '<tr><td colspan="4" class="muted">Sin registros aún</td></tr>';
+    return;
+  }
+  scores.forEach((s,i)=>{
+    const d = new Date(s.ts);
+    const dd = isFinite(d) ? d.toLocaleDateString() : '';
+    const tr = document.createElement('tr');
+    tr.innerHTML = `<td>${i+1}</td><td>${escapeHTML(s.nick)}</td><td>${s.score}</td><td>${dd}</td>`;
+    el.scoresBody.appendChild(tr);
+  });
+}
+
+function escapeHTML(str){
+  return String(str).replace(/[&<>"']/g, m => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;','\'':'&#39;'}[m]));
+}
+
+function saveGame(){
+  const data = {
+    ver: 2,
+    ts: Date.now(),
+    nick: nickname,
+    lvl,
+    score,
+    elapsedMs: getElapsedMs(),
+    wordFlags: serializeWordState(),
+    gameMode,
+    timedDifficulty,
+    levelDurationMs,
+    levelStartElapsedMs,
+    customWordsByLevel,
+    messagePlan
+  };
+  localStorage.setItem(LS.save, JSON.stringify(data));
+  showToast('💾 Partida guardada.');
+  refreshLoadButton();
+}
+
+function loadGame(){
+  const raw = localStorage.getItem(LS.save);
+  if(!raw){ showToast('No hay partida guardada.'); return false; }
+  let data;
+  try{ data = JSON.parse(raw); } catch{ showToast('Guardado corrupto.'); return false; }
+  if(!data || typeof data.lvl !== 'number') { showToast('Guardado inválido.'); return false; }
+
+  nickname = (data.nick || nickname || '').trim();
+  // restore mode/plan (compat)
+  gameMode = data.gameMode || 'classic';
+  timedDifficulty = data.timedDifficulty || 'facil';
+  customWordsByLevel = data.customWordsByLevel || null;
+  messagePlan = data.messagePlan || null;
+  // restore per-level timer baseline
+  levelDurationMs = Number(data.levelDurationMs)||0;
+  levelStartElapsedMs = Number(data.levelStartElapsedMs)||0;
+  if(nickname) el.nick.value = nickname;
+  lvl = clamp(data.lvl, 0, levels.length-1);
+  score = Math.max(0, Number(data.score)||0);
+
+  resetField();
+  initWords();
+  applyWordState(data.wordFlags);
+
+  // restore timer
+  startTime = performance.now() - (Number(data.elapsedMs)||0);
+  pausedAccum = 0;
+  pauseStarted = null;
+  startLevelTimer();
+
+  startRootSpawner();
+  const seen = localStorage.getItem(INTRO_L1_KEY)==='1';
+  if(lvl===0 && !seen){
+    showLevelIntro({full:true, briefAutoStart:false});
+  } else {
+    showLevelIntro({full:false, briefAutoStart:true});
+  }
+  showToast('⏳ Partida cargada.');
+  return true;
+}
+
+function clearSave(){
+  localStorage.removeItem(LS.save);
+  showToast('🧹 Guardado eliminado.');
+  refreshLoadButton();
+}
+
+function refreshLoadButton(){
+  const has = !!localStorage.getItem(LS.save);
+  el.loadBtn.style.opacity = has ? '1' : '0.45';
+  el.loadBtn.style.pointerEvents = has ? 'auto' : 'none';
+}
+/* ================= INTRO POR NIVEL ================= */
+const INTRO_L1_KEY = 'LDE_INTRO_L1_SHOWN_V1';
+
+
+/* ================= MODOS NUEVOS (TIEMPO + MENSAJE) ================= */
+let gameMode = 'classic'; // classic | timed | message
+let timedDifficulty = 'facil'; // facil | dificil | super
+let levelDurationMs = 0;
+let levelStartElapsedMs = 0;
+let customWordsByLevel = null; // array of arrays
+let messagePlan = null; // { raw, n, unlocked: [] }
+
+function levelWords(i){
+  const w = customWordsByLevel && customWordsByLevel[i];
+  return (w && w.length) ? w : levels[i].words;
+}
+
+function normalizeToken(s){
+  return String(s||'')
+    .normalize('NFD')
+    .replace(/[̀-ͯ]/g,'')
+    .toUpperCase();
+}
+
+function computeLevelDurationMs(diff, wordsCount){
+  const base = diff==='super' ? 35000 : diff==='dificil' ? 50000 : 75000;
+  const extra = Math.min(35000, Math.max(0, (wordsCount||0) * 3500));
+  return base + extra;
+}
+
+function startLevelTimer(){
+  if(gameMode !== 'timed') { levelDurationMs = 0; levelStartElapsedMs = 0; return; }
+  const wc = levelWords(lvl).length;
+  levelDurationMs = computeLevelDurationMs(timedDifficulty, wc);
+  levelStartElapsedMs = getElapsedMs();
+}
+
+function getRemainingMs(){
+  if(gameMode !== 'timed') return null;
+  if(!levelDurationMs) return null;
+  const used = getElapsedMs() - levelStartElapsedMs;
+  return Math.max(0, levelDurationMs - used);
+}
+
+function fmtTimeShort(ms){
+  ms = Math.max(0, ms|0);
+  const s = Math.floor(ms/1000);
+  const m = Math.floor(s/60);
+  const ss = (s%60).toString().padStart(2,'0');
+  return `${m}:${ss}`;
+}
+
+function getKeywordTextForLevel(){
+  if(gameMode === 'message'){
+    const ws = levelWords(lvl);
+    const pick = ws[Math.floor(Math.random()*Math.max(1, ws.length))] || 'MENSAJE';
+    return normalizeToken(pick).split(/\s+/)[0] || 'MENSAJE';
+  }
+  return quoteKeywords[lvl] || 'EMERGENCIA';
+}
+
+function makeMessageLevels(raw, levelsCount){
+  const tokens = (normalizeToken(raw).match(/[A-ZÑ]+/g) || []);
+  let n = clamp(parseInt(levelsCount||'5',10)||5, 1, 10);
+  if(tokens.length && n > tokens.length) n = tokens.length;
+
+  const totalW = n*(n+1)/2;
+  let remaining = tokens.length;
+  let idx = 0;
+  const levelsWords = [];
+
+  for(let i=1;i<=n;i++){
+    let take = Math.round(tokens.length * (i/totalW));
+    take = clamp(take, 1, remaining);
+    if(i===n) take = remaining;
+    const slice = tokens.slice(idx, idx+take);
+    idx += take; remaining -= take;
+
+    // en niveles avanzados, agrupar en frases de 2 palabras cuando sea posible
+    const words = [];
+    const advanced = i > Math.floor(n/2);
+    if(advanced && slice.length >= 2){
+      for(let k=0;k<slice.length;k+=2){
+        if(k+1 < slice.length) words.push(slice[k] + ' ' + slice[k+1]);
+        else words.push(slice[k]);
+      }
+    } else {
+      slice.forEach(w=>words.push(w));
+    }
+    levelsWords.push(words);
+  }
+
+  return { tokens, n, levelsWords };
+}
+
+function updateMessagePreview(){
+  if(!el.msgPreview) return;
+  const raw = (el.msgInput.value||'').trim();
+  const built = makeMessageLevels(raw, el.msgLevels.value);
+  if(!built.tokens.length){ el.msgPreview.textContent = 'Escribe un mensaje para ver la vista previa.'; return; }
+  const parts = built.levelsWords.map((ws,i)=> `Nivel ${i+1}: ${ws.join(' • ')}`);
+  el.msgPreview.textContent = parts.slice(0,3).join(' | ') + (parts.length>3 ? ' | ...' : '');
+}
+
+function showTimedModal(){ el.timedModal.style.display = 'flex'; }
+function hideTimedModal(){ el.timedModal.style.display = 'none'; }
+function showMessageModal(){ updateMessagePreview(); el.messageModal.style.display = 'flex'; }
+function hideMessageModal(){ el.messageModal.style.display = 'none'; }
+
+function openTimeUp(){
+  el.timeUpMeta.textContent = `${levels[lvl].name} • Puntaje: ${score}`;
+  el.timeUpOverlay.style.display = 'flex';
+  setGameState('timeup');
+}
+function closeTimeUp(){ el.timeUpOverlay.style.display = 'none'; }
+
+function retryLevel(){
+  levelSealed = false;
+  resetField();
+  initWords();
+  startRootSpawner();
+  if(gameMode==='timed') startLevelTimer();
+  setGameState('playing');
+}
+let introFreezeStart = null;
+let introAutoTimer = null;
+
+function getTargetWordsForLevel(){
+  return (levels?.[lvl]?.words) ? levels[lvl].words.slice() : [];
+}
+
+function renderIntroChips(container, words){
+  container.innerHTML = '';
+  if(!words.length){
+    const d = document.createElement('div');
+    d.className = 'muted';
+    d.textContent = 'Este nivel no tiene palabras configuradas.';
+    container.appendChild(d);
+    return;
+  }
+  words.forEach((w)=>{
+    const chip = document.createElement('div');
+    chip.className = 'chip';
+    chip.textContent = w;
+    container.appendChild(chip);
+  });
+}
+
+function showLevelIntro({full=false, briefAutoStart=true} = {}){
+  // congelar tiempo mientras este overlay está activo
+  introFreezeStart = performance.now();
+
+  el.levelIntroOverlay.style.display = 'flex';
+  el.introFull.style.display = full ? 'block' : 'none';
+  el.introBrief.style.display = full ? 'none' : 'block';
+  el.introBadge.textContent = full ? 'Instrucciones' : 'Objetivo';
+  el.introTitle.textContent = `${levels[lvl].name} • ${lvl+1}/${levels.length}`;
+
+  const words = getTargetWordsForLevel();
+  el.introBriefLine.textContent = full ? 'Antes de empezar, mira las palabras del nivel.' : `Busca estas palabras: ${words.join(' · ')}`;
+
+  renderIntroChips(el.introWords, words);
+  renderIntroChips(el.introWordsBrief, words);
+
+  setGameState('intro');
+
+  if(introAutoTimer) clearTimeout(introAutoTimer);
+  if(!full && briefAutoStart){
+    introAutoTimer = setTimeout(()=>hideLevelIntro(true), 2600);
+  }
+}
+
+function hideLevelIntro(goPlay=true){
+  if(introAutoTimer){ clearTimeout(introAutoTimer); introAutoTimer = null; }
+
+  if(introFreezeStart){
+    const delta = performance.now() - introFreezeStart;
+    if(startTime && startTime > 0) pausedAccum += delta;
+    introFreezeStart = null;
+  }
+
+  el.levelIntroOverlay.style.display = 'none';
+  if(goPlay) setGameState('playing');
+}
+
+
+/* ================= GAME STATE ================= */
+let gameState = 'menu'; // menu | playing | paused | celebrate | transition | quote
+let paused = true;
+let nickname = '';
+
+function setGameState(st){
+  gameState = st;
+  const inGame = (st === 'playing' || st === 'paused' || st === 'celebrate' || st === 'transition' || st === 'quote');
+
+  el.menu.style.display = (st === 'menu') ? 'flex' : 'none';
+  el.pauseBtn.style.display = inGame ? 'block' : 'none';
+  el.hud.style.display = inGame ? 'flex' : 'none';
+
+  if(el.celebrateOverlay) el.celebrateOverlay.style.display = 'none';
+
+  if(st === 'menu'){
+    paused = true;
+    el.pauseOverlay.style.display = 'none';
+    el.levelOverlay.style.display = 'none';
+  }
+
+  if(st === 'playing'){
+    paused = false;
+    el.pauseOverlay.style.display = 'none';
+    el.levelOverlay.style.display = 'none';
+  }
+
+  if(st === 'paused'){
+    paused = true;
+    el.pauseOverlay.style.display = 'flex';
+  }
+
+  if(st === 'intro'){
+    paused = true;
+    el.pauseOverlay.style.display = 'none';
+    el.levelOverlay.style.display = 'none';
+    el.pauseBtn.style.display = 'none';
+    el.hud.style.display = 'none';
+    el.levelIntroOverlay.style.display = 'flex';
+    return;
+  }
+
+  if(st === 'celebrate'){
+    paused = true;
+    // keep UI clean for lectura
+    el.pauseOverlay.style.display = 'none';
+    el.levelOverlay.style.display = 'none';
+    el.pauseBtn.style.display = 'none';
+    el.hud.style.display = 'none';
+    el.celebrateOverlay.style.display = 'flex';
+  }
+
+
+  if(st === 'transition'){
+    paused = true;
+    el.pauseOverlay.style.display = 'none';
+    el.levelOverlay.style.display = 'none';
+  }
+
+  if(st === 'quote'){
+    paused = true;
+    el.pauseOverlay.style.display = 'none';
+    el.levelOverlay.style.display = 'flex';
+  }
+}
+
+/* ================= PAUSE ================= */
+function togglePause(){
+  if(gameState === 'menu' || gameState === 'celebrate' || gameState === 'transition' || gameState === 'quote') return;
+  if(gameState === 'paused'){
+    // resume
+    if(pauseStarted) pausedAccum += performance.now() - pauseStarted;
+    pauseStarted = null;
+  startLevelTimer();
+    el.pauseBtn.textContent = '⏸ Pausa';
+    setGameState('playing');
+  } else {
+    // pause
+    pauseStarted = performance.now();
+    el.pauseBtn.textContent = '▶ Continuar';
+    setGameState('paused');
+  }
+}
+el.pauseBtn.onclick = togglePause;
+el.pauseOverlay.onclick = togglePause;
+
+/* ================= QUOTES / KEYWORDS ================= */
+const quotes = [
+  '“La ciencia clásica enfatizó el orden y la estabilidad…” (Prigogine, 1997)',
+  '“Durante las últimas décadas, ha nacido una nueva ciencia…” (Prigogine, 1997)',
+  '“Una vez que tenemos estructuras disipativas, podemos hablar de autoorganización.” (Prigogine, 1997)',
+  '“Las bifurcaciones son una fuente de ruptura de simetría.” (Prigogine, 1997)',
+  '“Las bifurcaciones pueden considerarse la fuente de diversificación e innovación.” (Prigogine, 1997)',
+  '“Incluso pequeñas fluctuaciones pueden crecer y cambiar la estructura global.” (Prigogine, 1984)',
+  '“Sea lo que llamemos realidad, solo se nos revela a través de la construcción activa en la que participamos.” (Prigogine, 1984)',
+  '“La entropía se comporta como un atractor para sistemas cercanos al equilibrio.” (Prigogine, 1984)',
+  '“Existe un elemento aleatorio irreductible…” (Prigogine, 1984)',
+  '“El no equilibrio puede convertirse en una fuente de orden…” (Prigogine, 1977)'
+];
+
+// keyword per level (emerges after strange attractor absorption)
+const quoteKeywords = [
+  'ESTABILIDAD',
+  'CIENCIA',
+  'AUTOORGANIZACIÓN',
+  'BIFURCACIONES',
+  'INNOVACIÓN',
+  'FLUCTUACIONES',
+  'REALIDAD',
+  'ENTROPÍA',
+  'AZAR',
+  'NO EQUILIBRIO'
+];
+
+/* ================= NIVELES ================= */
+const levels = [
+ { name:"Nivel 1",  words:["CAOS","TIEMPO","ORDEN"], rootSpawn:720, growth:1.2 },
+ { name:"Nivel 2",  words:["ENTROPIA","FLUJO"], rootSpawn:600, growth:1.35 },
+ { name:"Nivel 3",  words:["COMPLEJIDAD","AUTOPOIESIS"], rootSpawn:520, growth:1.5 },
+ { name:"Nivel 4",  words:["ESTRUCTURAS DISIPATIVAS","NO EQUILIBRIO","ORGANIZACION EMERGENTE","FLUCTUACIONES"], rootSpawn:480, growth:1.6 },
+ { name:"Nivel 5",  words:["AUTO ORGANIZACION","DINAMICA NO LINEAL","TIEMPO IRREVERSIBLE","ATRACCION CAOTICA","CAMBIO CUALITATIVO","SENSIBILIDAD INICIAL"], rootSpawn:450, growth:1.7 },
+ { name:"Nivel 6",  words:["DISIPACION ENERGETICA","ORDEN DESDE CAOS","INDETERMINACION","EVOLUCION ABIERTA","RUPTURA SIMETRIA","MULTIESTABILIDAD","NO LINEALIDAD","HISTORICIDAD"], rootSpawn:420, growth:1.8 },
+ { name:"Nivel 7",  words:["PROCESOS IRREVERSIBLES","LEJOS DEL EQUILIBRIO","AUTO PRODUCCION","EMERGENCIA SISTEMICA","ENTROPIA NEGATIVA","CAMPO DE POSIBILIDADES","ESTABILIDAD DINAMICA","ORGANIZACION TEMPORAL","TRANSFORMACION","INNOVACION"], rootSpawn:390, growth:1.9 },
+ { name:"Nivel 8",  words:["CO EVOLUCION","DIFERENCIACION","SISTEMAS ABIERTOS","INTERCAMBIO ENERGETICO","PRODUCCION DE ORDEN","COMPLEJIDAD CRECIENTE","CAMBIOS DE FASE","PUNTOS CRITICOS","NO PREDECIBILIDAD","PLASTICIDAD","RESILIENCIA","METAMORFOSIS"], rootSpawn:360, growth:2.0 },
+ { name:"Nivel 9",  words:["SINGULARIDAD SISTEMICA","DIVERGENCIA TEMPORAL","COLAPSO ORGANIZATIVO","CREACION DE NOVEDAD","EXCESO DE ORDEN","EXCESO DE CAOS","UMBRAL CRITICO","NO REVERSIBILIDAD","DINAMICA COMPLEJA","SISTEMAS LEJOS EQUILIBRIO","CAMBIO ESTRUCTURAL","RECONFIGURACION","DERIVA","CONTINGENCIA"], rootSpawn:330, growth:2.1 },
+ { name:"Nivel 10", words:["AUTO POIESIS GENERALIZADA","ESTRUCTURAS EVOLUTIVAS","ORDEN INESTABLE","CAOS PRODUCTIVO","CREATIVIDAD SISTEMICA","HISTORIA NO LINEAL","ORGANIZACION VIVA","COMPLEJIDAD ABIERTA","TRANSICIONES CRITICAS","EMERGENCIA RADICAL","COHERENCIA DINAMICA","DISIPACION CREATIVA","PLURALIDAD DE FUTUROS","IRREVERSIBILIDAD TEMPORAL","NO TELEOLOGIA","APERTURA SISTEMICA"], rootSpawn:300, growth:2.2 }
+];
+
+let lvl = 0;
+
+/* ================= SCORE / TIME ================= */
+let score = 0;
+let startTime = 0;
+let pausedAccum = 0;
+let pauseStarted = null;
+
+function getElapsedMs(){
+  if(!startTime) return 0;
+  const now = performance.now();
+  const extra = pauseStarted ? (now - pauseStarted) : 0;
+  return Math.max(0, now - startTime - pausedAccum - extra);
+}
+
+function fmtTime(ms){
+  const s = Math.floor(ms/1000);
+  const m = Math.floor(s/60);
+  const r = s%60;
+  return `${m}:${String(r).padStart(2,'0')}`;
+}
+
+/* ================= NAVE ================= */
+const ship={x:c.width/2,y:c.height*0.65,phase:0,anti:0};
+let target={x:ship.x,y:ship.y};
+addEventListener("pointerdown",e=>{ if(gameState==='playing'){target.x=e.clientX;target.y=e.clientY} });
+addEventListener("pointermove",e=>{ if(gameState==='playing' && e.buttons){target.x=e.clientX;target.y=e.clientY} });
+
+/* ================= ATRACTOR CENTRAL ================= */
+const attractor={x:c.width/2,y:c.height*0.35};
+function syncAttractor(){attractor.x=c.width/2;attractor.y=c.height*0.35}
+addEventListener('resize',syncAttractor);
+
+/* ================= RIZOMA ================= */
+let roots=[];
+const MAX_ROOTS=90;
+let rootInterval=null;
+
+function spawnRoot(){
+  if(paused||roots.length>=MAX_ROOTS)return;
+  const s=Math.floor(Math.random()*4);
+  let x,y,a;
+  if(s===0){x=Math.random()*c.width;y=-10;a=Math.PI/2}
+  if(s===1){x=Math.random()*c.width;y=c.height+10;a=-Math.PI/2}
+  if(s===2){x=-10;y=Math.random()*c.height;a=0}
+  if(s===3){x=c.width+10;y=Math.random()*c.height;a=Math.PI}
+  roots.push({nodes:[{x,y}],angle:a});
+}
+
+function startRootSpawner(){
+  if(rootInterval) clearInterval(rootInterval);
+  rootInterval=setInterval(spawnRoot,levels[lvl].rootSpawn);
+}
+
+/* ================= PALABRAS ================= */
+let wordState={};
+function initWords(){
+  levelSealed = false;
+  wordState={};
+  levelWords(lvl).forEach(w=>{
+    wordState[w]={letters:w.split("").map(ch=>({c:ch,f:(ch===' ')})),done:false};
+  });
+}
+
+function serializeWordState(){
+  const out = {};
+  Object.keys(wordState).forEach(w=>{
+    out[w] = wordState[w].letters.map(l=>l.f?1:0);
+  });
+  return out;
+}
+
+function applyWordState(flags){
+  if(!flags) return;
+  Object.keys(flags).forEach(w=>{
+    if(!wordState[w]) return;
+    const arr = flags[w];
+    for(let i=0;i<wordState[w].letters.length && i<(arr?.length||0);i++){
+      wordState[w].letters[i].f = !!arr[i];
+    }
+    wordState[w].done = wordState[w].letters.every(e=>e.f);
+  });
+}
+
+/* ================= LETRAS ================= */
+let letters=[];
+function spawnLetter(){
+  if(paused)return;
+  const ws=levelWords(lvl).filter(w=>!wordState[w].done);
+  if(!ws.length)return;
+  const w=ws[Math.floor(Math.random()*ws.length)];
+  const miss=wordState[w].letters.filter(l=>!l.f);
+  if(!miss.length)return;
+  const l=miss[Math.floor(Math.random()*miss.length)];
+  letters.push({
+    w,c:l.c,
+    x:attractor.x+(Math.random()-0.5)*220,
+    y:attractor.y+(Math.random()-0.5)*220,
+    vx:(Math.random()-0.5)*0.35,
+    vy:(Math.random()-0.5)*0.35
+  });
+}
+setInterval(spawnLetter,1100);
+
+/* ================= DISIPADORES ================= */
+let dissipators=[];
+function spawnDissipator(){
+  if(paused)return;
+  dissipators.push({x:Math.random()*c.width,y:Math.random()*c.height,r:18});
+}
+setInterval(spawnDissipator,1200);
+
+/* ================= BOMBA (BORRA TODO) ================= */
+let bombs=[];
+function spawnBomb(){
+  if(paused)return;
+  bombs.push({x:Math.random()*c.width,y:Math.random()*c.height,r:22,phase:0});
+}
+setInterval(spawnBomb,9000);
+
+/* ================= ATRACTOR EXTRAÑO ================= */
+let strange=[];
+let keyword=null; // {text,x,y,ttl,born}
+let absorb=null;  // {x,y,start,dur}
+
+function spawnStrange(){
+  if(paused) return;
+  // avoid flooding
+  if(strange.length>1) return;
+  strange.push({x:Math.random()*c.width,y:Math.random()*c.height,r:20,phase:Math.random()*6.28});
+}
+setInterval(spawnStrange,15500);
+
+function triggerAbsorption(x,y){
+  absorb = {x,y,start:performance.now(),dur:720};
+  showToast('🌀 Atractor extraño: absorción en curso…');
+}
+
+function spawnKeyword(){
+  const text = (quoteKeywords[lvl] || 'EMERGENCIA');
+  keyword = {
+    text,
+    x: Math.random()*(c.width-120)+60,
+    y: Math.random()*(c.height-160)+80,
+    ttl: 4200,
+    born: performance.now(),
+    phase: 0
+  };
+  showToast(`⚡ Captura la palabra clave: ${text}`);
+}
+
+/* ================= FIELD / LEVEL FLOW ================= */
+function resetField(){
+  roots=[];letters=[];dissipators=[];bombs=[];strange=[];
+  keyword=null;absorb=null;
+}
+
+
+let levelSealed = false;
+let celebrateTimer = null;
+
+function openCelebrateOverlay(){
+  // build big list of words
+  const words = levelWords(lvl).slice();
+  el.celebrateMeta.textContent = `${levels[lvl].name} • +200 • ${words.length} palabras`;
+  el.celebrateWords.innerHTML = '';
+  words.forEach((w)=>{
+    const d = document.createElement('div');
+    d.className = 'wItem';
+    d.innerHTML = `✅ <b>${escapeHTML(w)}</b>`;
+    el.celebrateWords.appendChild(d);
+  });
+}
+
+function closeCelebrateOverlay(){
+  el.celebrateOverlay.style.display = 'none';
+}
+
+function celebrateBeforeComplete(){
+  if(levelSealed) return;
+  if(gameState === 'transition' || gameState === 'quote') return;
+  levelSealed = true;
+
+  openCelebrateOverlay();
+  setGameState('celebrate');
+
+  const proceed = () => {
+    if(celebrateTimer){ clearTimeout(celebrateTimer); celebrateTimer = null; }
+    if(el.celebrateOverlay) el.celebrateOverlay._proceed = null;
+    closeCelebrateOverlay();
+    completeLevel();
+  };
+
+  // store for Continue button
+  if(el.celebrateOverlay) el.celebrateOverlay._proceed = proceed;
+
+  // tap to continue earlier
+  el.celebrateOverlay.onclick = proceed;
+
+  // auto-continue (más tiempo para leer)
+  if(celebrateAutoTimer){ clearTimeout(celebrateAutoTimer); }
+  celebrateAutoTimer = setTimeout(proceed, 3600);
+  celebrateTimer = celebrateAutoTimer;
+}
+
+
+function completeLevel(){
+  // prevent double trigger
+  if(gameState==='transition' || gameState==='quote') return;
+  score += 200;
+  // best-effort: update score table progressively
+  upsertScore(nickname, score);
+
+  // start transition animation (rizoma expansivo)
+  transition = {active:true,start:performance.now(),dur:650};
+  setGameState('transition');
+  setTimeout(()=>{
+    transition.active=false;
+    openQuoteOverlay();
+  }, transition.dur);
+}
+
+function openQuoteOverlay(){
+  el.levelTitle.textContent = `${levels[lvl].name} completado`;
+  el.levelMeta.textContent = `Puntaje: ${score} • Tiempo: ${fmtTime(getElapsedMs())}`;
+
+  if(gameMode === 'message'){
+    const piece = levelWords(lvl).join(' • ');
+    if(messagePlan && messagePlan.unlocked){
+      messagePlan.unlocked.push(piece);
+    }
+    const unlocked = (messagePlan && messagePlan.unlocked) ? messagePlan.unlocked.join('  |  ') : piece;
+    el.quoteText.textContent = `Mensaje desbloqueado: ${unlocked}`;
+  } else {
+    el.quoteText.textContent = quotes[lvl] || '';
+  }
+
+  const lastIdx = (gameMode==='message' && messagePlan) ? (messagePlan.n-1) : (levels.length-1);
+  if(lvl >= lastIdx){
+    el.nextBtn.textContent = '🏁 Finalizar';
+  } else {
+    el.nextBtn.textContent = '➡ Siguiente nivel';
+  }
+
+  setGameState('quote');
+}
+
+function goNext(){
+  const lastIdx = (gameMode==='message' && messagePlan) ? (messagePlan.n-1) : (levels.length-1);
+  if(lvl >= lastIdx){
+    upsertScore(nickname, score);
+    showToast('🏁 Recorrido finalizado. Puntaje registrado.');
+    toMenu();
+    return;
+  }
+
+  lvl = lvl + 1;
+  resetField();
+  initWords();
+  startRootSpawner();
+  startLevelTimer();
+
+  const seen = localStorage.getItem(INTRO_L1_KEY)==='1';
+  if(lvl===0 && !seen){
+    showLevelIntro({full:true, briefAutoStart:false});
+  } else {
+    showLevelIntro({full:false, briefAutoStart:true});
+  }
+}
+
+function toMenu(){
+  // persist best score
+  upsertScore(nickname, score);
+  setGameState('menu');
+}
+
+/* ================= TRANSITION (RIZOMA EXPANSIVO) ================= */
+let transition = {active:false,start:0,dur:650};
+function drawTransition(){
+  const t = (performance.now()-transition.start)/transition.dur;
+  const p = clamp(t,0,1);
+
+  // quick flash / expansion
+  ctx.save();
+  ctx.globalCompositeOperation = 'lighter';
+
+  const cx = c.width*0.5, cy = c.height*0.5;
+  const maxLen = Math.hypot(c.width,c.height)*0.7;
+
+  // dark fade
+  ctx.fillStyle = `rgba(5,7,12,${0.40 + 0.35*p})`;
+  ctx.fillRect(0,0,c.width,c.height);
+
+  const branches = 260;
+  for(let i=0;i<branches;i++){
+    const ang = (i/branches)*Math.PI*2 + (Math.random()-0.5)*0.08;
+    const wob = (Math.random()-0.5)*0.28;
+    const len = maxLen*(0.12 + 0.88*p)*(0.65 + Math.random()*0.55);
+
+    ctx.beginPath();
+    ctx.moveTo(cx,cy);
+
+    const steps = 10;
+    for(let s=1;s<=steps;s++){
+      const k = s/steps;
+      const rr = len*k;
+      const a2 = ang + wob*(1-k);
+      const x = cx + Math.cos(a2)*rr + (Math.random()-0.5)*8*(1-k);
+      const y = cy + Math.sin(a2)*rr + (Math.random()-0.5)*8*(1-k);
+      ctx.lineTo(x,y);
+    }
+
+    const alpha = (1-p)*0.55 + 0.18;
+    ctx.strokeStyle = `rgba(120,220,140,${alpha})`;
+    ctx.lineWidth = 1;
+    ctx.stroke();
+  }
+
+  // central pulse
+  ctx.beginPath();
+  ctx.arc(cx,cy, 10 + 240*p, 0, Math.PI*2);
+  ctx.strokeStyle = `rgba(109,240,255,${0.25*(1-p)})`;
+  ctx.lineWidth = 2;
+  ctx.stroke();
+
+  ctx.restore();
+}
+
+/* ================= START / MENU WIRING ================= */
+function startNewGame(){
+  gameMode = 'classic';
+  timedDifficulty = 'facil';
+  customWordsByLevel = null;
+  messagePlan = null;
+
+  nickname = (el.nick.value||'').trim();
+  if(!nickname){
+    showToast('Escribe un nickname para iniciar.');
+    return;
+  }
+  localStorage.setItem(LS.nick, nickname);
+
+  lvl = 0;
+  score = 0;
+  resetField();
+  initWords();
+  startRootSpawner();
+
+  startTime = performance.now();
+  pausedAccum = 0;
+  pauseStarted = null;
+  startLevelTimer();
+
+  const seen = localStorage.getItem(INTRO_L1_KEY)==='1';
+  if(lvl===0 && !seen){
+    showLevelIntro({full:true, briefAutoStart:false});
+  } else {
+    showLevelIntro({full:false, briefAutoStart:true});
+  }
+}
+
+el.startBtn.onclick = startNewGame;
+el.loadBtn.onclick = () => {
+  nickname = (el.nick.value||'').trim();
+  if(!nickname){
+    // nickname may come from save
+    if(!loadGame()) return;
+    return;
+  }
+  if(!loadGame()) return;
+};
+el.clearSaveBtn.onclick = clearSave;
+
+el.openManualBtn.onclick = ()=> el.manual.style.display='flex';
+el.closeManualBtn.onclick = ()=> el.manual.style.display='none';
+// Intro overlay wiring
+if(el.introStartBtn){
+  el.introStartBtn.onclick = (e)=>{ e.stopPropagation(); localStorage.setItem(INTRO_L1_KEY,'1'); hideLevelIntro(true); };
+}
+if(el.introSkipBtn){
+  el.introSkipBtn.onclick = (e)=>{ e.stopPropagation(); hideLevelIntro(true); };
+}
+el.levelIntroOverlay.addEventListener('click',(e)=>{
+  if(e.target === el.levelIntroOverlay){
+    // click outside card starts too
+    if(lvl===0) localStorage.setItem(INTRO_L1_KEY,'1');
+    hideLevelIntro(true);
+  }
+});
+
+// Celebrate controls
+let celebrateAutoTimer = null;
+function clearCelebrateTimer(){ if(celebrateAutoTimer){ clearTimeout(celebrateAutoTimer); celebrateAutoTimer=null; } }
+if(el.celebratePauseBtn){
+  el.celebratePauseBtn.onclick = (e)=>{ e.stopPropagation(); clearCelebrateTimer(); el.celebratePauseBtn.textContent='⏸ Lectura pausada'; };
+}
+if(el.celebrateContinueBtn){
+  el.celebrateContinueBtn.onclick = (e)=>{ e.stopPropagation(); clearCelebrateTimer(); if(el.celebrateOverlay._proceed) el.celebrateOverlay._proceed(); };
+}
+
+
+el.wipeScoresBtn.onclick = ()=>{
+  localStorage.removeItem(LS.scores);
+  renderScores();
+  showToast('🗑️ Puntuaciones reiniciadas.');
+};
+
+el.saveBtn.onclick = saveGame;
+el.toMenuBtn.onclick = ()=>{
+  upsertScore(nickname, score);
+  toMenu();
+};
+el.nextBtn.onclick = goNext;
+
+el.quickSaveBtn.onclick = ()=>{
+  if(gameState === 'menu') return;
+  saveGame();
+};
+el.menuBtn.onclick = ()=>{
+  if(gameState === 'menu') return;
+  upsertScore(nickname, score);
+  toMenu();
+};
+
+// preload nickname
+(function initMenu(){
+  el.nick.value = (localStorage.getItem(LS.nick)||'').trim();
+  renderScores();
+  refreshLoadButton();
+
+
+// ===== MODOS NUEVOS: wiring =====
+if(el.timedBtn){
+  el.timedBtn.onclick = ()=>{
+    nickname = (el.nick.value||'').trim();
+    if(!nickname){ showToast('Escribe un nickname para iniciar.'); return; }
+    localStorage.setItem(LS.nick, nickname);
+    showTimedModal();
+  };
+}
+if(el.messageBtn){
+  el.messageBtn.onclick = ()=>{
+    nickname = (el.nick.value||'').trim();
+    if(!nickname){ showToast('Escribe un nickname para iniciar.'); return; }
+    localStorage.setItem(LS.nick, nickname);
+    showMessageModal();
+  };
+}
+
+if(el.timedCancel){ el.timedCancel.onclick = hideTimedModal; }
+if(el.timedEasy){ el.timedEasy.onclick = ()=> startTimedRun('facil'); }
+if(el.timedHard){ el.timedHard.onclick = ()=> startTimedRun('dificil'); }
+if(el.timedSuper){ el.timedSuper.onclick = ()=> startTimedRun('super'); }
+
+if(el.msgCancel){ el.msgCancel.onclick = hideMessageModal; }
+if(el.msgInput){ el.msgInput.addEventListener('input', updateMessagePreview); }
+if(el.msgLevels){ el.msgLevels.addEventListener('input', updateMessagePreview); }
+if(el.msgStart){ el.msgStart.onclick = startMessageRun; }
+
+if(el.timeUpMenu){ el.timeUpMenu.onclick = ()=>{ closeTimeUp(); upsertScore(nickname, score); toMenu(); }; }
+if(el.timeUpRetry){ el.timeUpRetry.onclick = ()=>{ closeTimeUp(); retryLevel(); }; }
+
+function startTimedRun(diff){
+  hideTimedModal();
+  gameMode = 'timed';
+  timedDifficulty = diff;
+  customWordsByLevel = null;
+  messagePlan = null;
+
+  lvl = 0;
+  score = 0;
+  resetField();
+  initWords();
+  startRootSpawner();
+
+  startTime = performance.now();
+  pausedAccum = 0;
+  pauseStarted = null;
+  startLevelTimer();
+
+  const seen = localStorage.getItem(INTRO_L1_KEY)==='1';
+  if(lvl===0 && !seen){
+    showLevelIntro({full:true, briefAutoStart:false});
+  } else {
+    showLevelIntro({full:false, briefAutoStart:true});
+  }
+}
+
+function startMessageRun(){
+  const raw = (el.msgInput.value||'').trim();
+  const built = makeMessageLevels(raw, el.msgLevels.value);
+  if(!built.tokens.length){
+    showToast('Escribe un mensaje con palabras (ej: TE QUIERO).');
+    return;
+  }
+  hideMessageModal();
+
+  gameMode = 'message';
+  timedDifficulty = 'facil';
+  customWordsByLevel = built.levelsWords;
+  messagePlan = { raw: raw, n: built.n, unlocked: [] };
+
+  lvl = 0;
+  score = 0;
+  resetField();
+  initWords();
+  startRootSpawner();
+
+  startTime = performance.now();
+  pausedAccum = 0;
+  pauseStarted = null;
+  startLevelTimer();
+
+  // En mensaje: nivel 1 mantiene la pantalla de instrucciones completa (solo la primera vez)
+  const seen = localStorage.getItem(INTRO_L1_KEY)==='1';
+  if(lvl===0 && !seen){
+    showLevelIntro({full:true, briefAutoStart:false});
+  } else {
+    showLevelIntro({full:false, briefAutoStart:true});
+  }
+}
+
+})();
+
+/* ================= UPDATE ================= */
+function update(){
+  if(paused) return;
+
+  // ship
+  const dx=target.x-ship.x,dy=target.y-ship.y,d=Math.hypot(dx,dy);
+  if(d>1){ship.x+=dx/d*4.6;ship.y+=dy/d*4.6}
+  ship.phase+=0.1;
+
+  // roots growth
+  roots.forEach(r=>{
+    const p=r.nodes.at(-1);
+    const ax=attractor.x-p.x,ay=attractor.y-p.y;
+    r.angle+=Math.atan2(ay,ax)*0.006+(Math.random()-0.5)*0.05;
+    r.nodes.push({
+      x:p.x+Math.cos(r.angle)*levels[lvl].growth,
+      y:p.y+Math.sin(r.angle)*levels[lvl].growth
+    });
+    if(Math.random()<0.015&&r.nodes.length>60){
+      roots.push({nodes:[p],angle:r.angle+(Math.random()>.5?1:-1)});
+    }
+  });
+
+  // letters
+  for(let i=letters.length-1;i>=0;i--){
+    const l = letters[i];
+    l.x+=l.vx; l.y+=l.vy;
+    if(Math.hypot(ship.x-l.x,ship.y-l.y)<18){
+      const st=wordState[l.w];
+      const letterObj = st.letters.find(e => e.c === l.c && !e.f);
+      if(letterObj){
+        letterObj.f = true;
+        score += 10;
+      }
+      letters.splice(i,1);
+
+      if(st.letters.every(e=>e.f) && !st.done){
+        st.done=true;
+        score += 50;
+      }
+      if(Object.values(wordState).every(w=>w.done)){
+        setTimeout(celebrateBeforeComplete, 240);
+      }
+    }
+  }
+
+  // dissipators (partial)
+  for(let i=dissipators.length-1;i>=0;i--){
+    const dObj = dissipators[i];
+    if(Math.hypot(ship.x-dObj.x,ship.y-dObj.y)<dObj.r){
+      roots.splice(0,Math.floor(roots.length*0.45));
+      dissipators.splice(i,1);
+      score = Math.max(0, score - 12);
+    }
+  }
+
+  // bombs (global)
+  for(let i=bombs.length-1;i>=0;i--){
+    const b = bombs[i];
+    b.phase+=0.08;
+    if(Math.hypot(ship.x-b.x,ship.y-b.y)<b.r){
+      roots=[]; letters=[]; dissipators=[]; strange=[];
+      bombs.splice(i,1);
+      keyword = null;
+      score = Math.max(0, score - 25);
+      showToast('⚪ Disipación global. Campo reiniciado.');
+    }
+  }
+
+  // strange attractor collision
+  for(let i=strange.length-1;i>=0;i--){
+    const s = strange[i];
+    s.phase += 0.12;
+    if(Math.hypot(ship.x-s.x,ship.y-s.y) < s.r){
+      strange.splice(i,1);
+      triggerAbsorption(s.x, s.y);
+    }
+  }
+
+  // absorption dynamics
+  if(absorb){
+    const t = (performance.now()-absorb.start)/absorb.dur;
+    const p = clamp(t,0,1);
+
+    // pull entities
+    const pull = (obj, k=0.05) => {
+      obj.x += (absorb.x - obj.x) * (k + 0.12*p);
+      obj.y += (absorb.y - obj.y) * (k + 0.12*p);
+    };
+
+    letters.forEach(l => pull(l, 0.06));
+    dissipators.forEach(d => pull(d, 0.05));
+    bombs.forEach(b => pull(b, 0.05));
+    strange.forEach(s => pull(s, 0.05));
+
+    // roots: pull last node per root (visual effect)
+    roots.forEach(r => {
+      const last = r.nodes[r.nodes.length-1];
+      last.x += (absorb.x - last.x) * (0.04 + 0.12*p);
+      last.y += (absorb.y - last.y) * (0.04 + 0.12*p);
+    });
+
+    if(t >= 1){
+      // clear field and spawn keyword
+      roots=[]; letters=[]; dissipators=[]; bombs=[]; strange=[];
+      absorb = null;
+      spawnKeyword();
+    }
+  }
+
+  // keyword timer + capture
+  if(keyword){
+    keyword.phase += 0.12;
+    const age = performance.now() - keyword.born;
+    if(age > keyword.ttl){
+      keyword = null;
+      showToast('⏳ Se disipó la palabra clave.');
+    } else {
+      if(Math.hypot(ship.x-keyword.x, ship.y-keyword.y) < 30){
+        score += 120;
+        showToast(`✅ ${keyword.text} capturada (+120).`);
+        keyword = null;
+      }
+    }
+  }
+}
+
+/* ================= DRAW ================= */
+function draw(){
+  ctx.clearRect(0,0,c.width,c.height);
+
+  // subtle vignette
+  ctx.fillStyle = 'rgba(0,0,0,0.18)';
+  ctx.fillRect(0,0,c.width,c.height);
+
+  // attractor central
+  ctx.save();
+  ctx.globalCompositeOperation = 'lighter';
+  ctx.beginPath();
+  ctx.arc(attractor.x,attractor.y, 34, 0, Math.PI*2);
+  ctx.strokeStyle = 'rgba(109,240,255,0.10)';
+  ctx.lineWidth = 1.5;
+  ctx.stroke();
+  ctx.beginPath();
+  ctx.arc(attractor.x,attractor.y, 10, 0, Math.PI*2);
+  ctx.fillStyle = 'rgba(109,240,255,0.12)';
+  ctx.fill();
+  ctx.restore();
+
+  // roots
+  roots.forEach(r=>{
+    ctx.beginPath();
+    r.nodes.forEach((n,i)=>i?ctx.lineTo(n.x,n.y):ctx.moveTo(n.x,n.y));
+    ctx.strokeStyle="rgba(120,220,140,0.45)";
+    ctx.lineWidth = 1;
+    ctx.stroke();
+  });
+
+  // letters
+  ctx.font = '18px ui-monospace,monospace';
+  letters.forEach(l=>{
+    ctx.fillStyle="#cfdcff";
+    ctx.fillText(l.c,l.x,l.y);
+  });
+
+  // dissipators
+  dissipators.forEach(d=>{
+    ctx.beginPath();ctx.arc(d.x,d.y,d.r,0,Math.PI*2);
+    ctx.strokeStyle="rgba(200,255,220,0.78)";
+    ctx.lineWidth=1.2;
+    ctx.stroke();
+  });
+
+  // bombs
+  bombs.forEach(b=>{
+    ctx.beginPath();
+    ctx.arc(b.x,b.y,b.r+Math.sin(b.phase)*2,0,Math.PI*2);
+    ctx.strokeStyle="rgba(255,255,255,0.85)";
+    ctx.lineWidth=1.4;
+    ctx.stroke();
+  });
+
+  // strange attractor
+  strange.forEach(s=>{
+    ctx.save();
+    ctx.globalCompositeOperation='lighter';
+    const rr = s.r + Math.sin(s.phase)*2;
+    ctx.beginPath();
+    ctx.arc(s.x,s.y,rr,0,Math.PI*2);
+    ctx.strokeStyle='rgba(170,130,255,0.55)';
+    ctx.lineWidth=1.6;
+    ctx.stroke();
+    ctx.beginPath();
+    ctx.arc(s.x,s.y, rr*0.55, 0, Math.PI*2);
+    ctx.strokeStyle='rgba(90,255,210,0.18)';
+    ctx.lineWidth=1;
+    ctx.stroke();
+    // swirl arms
+    for(let k=0;k<7;k++){
+      const ang = s.phase + k*(Math.PI*2/7);
+      ctx.beginPath();
+      ctx.moveTo(s.x, s.y);
+      ctx.lineTo(s.x + Math.cos(ang)*rr*1.35, s.y + Math.sin(ang)*rr*1.35);
+      ctx.strokeStyle='rgba(170,130,255,0.10)';
+      ctx.stroke();
+    }
+    ctx.restore();
+  });
+
+  // absorption spotlight
+  if(absorb){
+    const t = clamp((performance.now()-absorb.start)/absorb.dur, 0, 1);
+    ctx.save();
+    ctx.globalCompositeOperation='lighter';
+    ctx.beginPath();
+    ctx.arc(absorb.x, absorb.y, 40 + 220*t, 0, Math.PI*2);
+    ctx.strokeStyle = `rgba(170,130,255,${0.22*(1-t)})`;
+    ctx.lineWidth = 2;
+    ctx.stroke();
+    ctx.restore();
+  }
+
+  // keyword
+  if(keyword){
+    const age = performance.now() - keyword.born;
+    const remain = 1 - clamp(age/keyword.ttl, 0, 1);
+    ctx.save();
+    ctx.globalCompositeOperation='lighter';
+    ctx.font = '24px ui-monospace,monospace';
+    ctx.fillStyle = `rgba(255,240,210,${0.75*remain})`;
+    ctx.fillText(keyword.text, keyword.x, keyword.y);
+    ctx.beginPath();
+    ctx.arc(keyword.x-8, keyword.y-10, 30 + Math.sin(keyword.phase)*2, 0, Math.PI*2);
+    ctx.strokeStyle = `rgba(255,240,210,${0.25*remain})`;
+    ctx.stroke();
+    ctx.restore();
+  }
+
+  // ship
+  ctx.beginPath();
+  ctx.arc(ship.x,ship.y,9+Math.sin(ship.phase),0,Math.PI*2);
+  ctx.fillStyle="#6df0ff";
+  ctx.fill();
+
+  // words HUD inside canvas
+  let y=20;
+  ctx.font="14px ui-monospace,monospace";
+  levelWords(lvl).forEach(w=>{
+    const st=wordState[w];
+    ctx.fillStyle=st.done?"#baffcc":"#8fa0b8";
+    ctx.fillText(w+" ["+st.letters.map(l=>l.f?l.c:"_").join(" ")+"]",10,y);
+    y+=22;
+  });
+
+  // level label
+  ctx.fillStyle="#7f90a6";
+  ctx.fillText(levels[lvl].name,10,c.height-20);
+
+  // transition overlay
+  if(transition.active) drawTransition();
+}
+
+
+
+/* ================= HUD UPDATE ================= */
+function fmtTime(ms){
+  ms = Math.max(0, ms|0);
+  const s = Math.floor(ms/1000);
+  const m = Math.floor(s/60);
+  const ss = (s%60).toString().padStart(2,'0');
+  return `${m.toString().padStart(2,'0')}:${ss}`;
+}
+function updateHud(){
+  if(!el.hudLevel) return;
+  el.hudLevel.textContent = `${levels[lvl].name} • ${lvl+1}/${levels.length}`;
+  el.hudScore.textContent = `Puntaje: ${score}`;
+  el.hudTime.textContent = `Tiempo: ${fmtTime(getElapsedMs())}`;
+  if(el.hudRemain){
+    if(gameMode==='timed'){
+      el.hudRemain.style.display='inline-flex';
+      el.hudRemain.textContent = `⏳ ${fmtTimeShort(getRemainingMs()||0)}`;
+    } else {
+      el.hudRemain.style.display='none';
+    }
+  }
+}
+/* ================= LOOP ================= */
+function loop(){
+  // time mode: if expires, freeze and show overlay
+  if(gameMode==='timed' && gameState==='playing'){
+    const rem = getRemainingMs();
+    if(rem !== null && rem <= 0){
+      openTimeUp();
+    }
+  }
+  update();
+  draw();
+  if(gameState !== 'menu') updateHud();
+  requestAnimationFrame(loop);
+}
+
+/* ================= HELPERS ================= */
+function clamp(v,a,b){ return Math.max(a, Math.min(b, v)); }
+
+/* ================= BOOT ================= */
+initWords();
+startRootSpawner();
+setGameState('menu');
+
+// initial ship target
+target.x = ship.x; target.y = ship.y;
+
+loop();
+</script>
+</body>
+</html>

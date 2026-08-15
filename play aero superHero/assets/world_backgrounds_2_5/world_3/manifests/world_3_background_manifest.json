@@ -1,0 +1,147 @@
+[
+  {
+    "world": "world_3",
+    "zoneId": "zone_01",
+    "zoneName": "frozen_gate",
+    "theme": "tundra_and_geode_abyss",
+    "mood": "frozen_to_crystalline",
+    "files": {
+      "bg_far": "world_3/zone_01/bg_far.png",
+      "bg_mid": "world_3/zone_01/bg_mid.png",
+      "bg_near": "world_3/zone_01/bg_near.png",
+      "bg_foreground_fx": "world_3/zone_01/bg_foreground_fx.png",
+      "ground_overlay": "world_3/zone_01/ground_overlay.png",
+      "decor_props_sheet": "world_3/zone_01/decor_props_sheet.png",
+      "preview": "world_3/zone_01/composite_preview.jpg",
+      "fog_layer": "world_3/zone_01/fog_layer.png"
+    },
+    "recommendedUse": "intro_area",
+    "dominantColors": [
+      "#bcd0e4",
+      "#8fa6c4",
+      "#eef4fa"
+    ],
+    "notes": "Zona zone_01 (frozen_gate) de world_3; capas modulares para parallax 2D."
+  },
+  {
+    "world": "world_3",
+    "zoneId": "zone_02",
+    "zoneName": "glacial_ridges",
+    "theme": "tundra_and_geode_abyss",
+    "mood": "frozen_to_crystalline",
+    "files": {
+      "bg_far": "world_3/zone_02/bg_far.png",
+      "bg_mid": "world_3/zone_02/bg_mid.png",
+      "bg_near": "world_3/zone_02/bg_near.png",
+      "bg_foreground_fx": "world_3/zone_02/bg_foreground_fx.png",
+      "ground_overlay": "world_3/zone_02/ground_overlay.png",
+      "decor_props_sheet": "world_3/zone_02/decor_props_sheet.png",
+      "preview": "world_3/zone_02/composite_preview.jpg",
+      "fog_layer": "world_3/zone_02/fog_layer.png"
+    },
+    "recommendedUse": "traversal",
+    "dominantColors": [
+      "#bcd0e4",
+      "#8fa6c4",
+      "#eef4fa"
+    ],
+    "notes": "Zona zone_02 (glacial_ridges) de world_3; capas modulares para parallax 2D."
+  },
+  {
+    "world": "world_3",
+    "zoneId": "zone_03",
+    "zoneName": "ice_canyon",
+    "theme": "tundra_and_geode_abyss",
+    "mood": "frozen_to_crystalline",
+    "files": {
+      "bg_far": "world_3/zone_03/bg_far.png",
+      "bg_mid": "world_3/zone_03/bg_mid.png",
+      "bg_near": "world_3/zone_03/bg_near.png",
+      "bg_foreground_fx": "world_3/zone_03/bg_foreground_fx.png",
+      "ground_overlay": "world_3/zone_03/ground_overlay.png",
+      "decor_props_sheet": "world_3/zone_03/decor_props_sheet.png",
+      "preview": "world_3/zone_03/composite_preview.jpg",
+      "fog_layer": "world_3/zone_03/fog_layer.png"
+    },
+    "recommendedUse": "opressive_traversal",
+    "dominantColors": [
+      "#bcd0e4",
+      "#8fa6c4",
+      "#eef4fa"
+    ],
+    "notes": "Zona zone_03 (ice_canyon) de world_3; capas modulares para parallax 2D."
+  },
+  {
+    "world": "world_3",
+    "zoneId": "zone_04",
+    "zoneName": "geode_crack_descent",
+    "theme": "tundra_and_geode_abyss",
+    "mood": "frozen_to_crystalline",
+    "files": {
+      "bg_far": "world_3/zone_04/bg_far.png",
+      "bg_mid": "world_3/zone_04/bg_mid.png",
+      "bg_near": "world_3/zone_04/bg_near.png",
+      "bg_foreground_fx": "world_3/zone_04/bg_foreground_fx.png",
+      "ground_overlay": "world_3/zone_04/ground_overlay.png",
+      "decor_props_sheet": "world_3/zone_04/decor_props_sheet.png",
+      "preview": "world_3/zone_04/composite_preview.jpg",
+      "fog_layer": "world_3/zone_04/fog_layer.png",
+      "light_glow_layer": "world_3/zone_04/light_glow_layer.png"
+    },
+    "recommendedUse": "transition",
+    "dominantColors": [
+      "#6a2e7a",
+      "#e452b6",
+      "#5fe1f0"
+    ],
+    "notes": "Zona zone_04 (geode_crack_descent) de world_3; capas modulares para parallax 2D."
+  },
+  {
+    "world": "world_3",
+    "zoneId": "zone_05",
+    "zoneName": "crystal_abyss",
+    "theme": "tundra_and_geode_abyss",
+    "mood": "frozen_to_crystalline",
+    "files": {
+      "bg_far": "world_3/zone_05/bg_far.png",
+      "bg_mid": "world_3/zone_05/bg_mid.png",
+      "bg_near": "world_3/zone_05/bg_near.png",
+      "bg_foreground_fx": "world_3/zone_05/bg_foreground_fx.png",
+      "ground_overlay": "world_3/zone_05/ground_overlay.png",
+      "decor_props_sheet": "world_3/zone_05/decor_props_sheet.png",
+      "preview": "world_3/zone_05/composite_preview.jpg",
+      "light_glow_layer": "world_3/zone_05/light_glow_layer.png"
+    },
+    "recommendedUse": "combat",
+    "dominantColors": [
+      "#6a2e7a",
+      "#e452b6",
+      "#5fe1f0"
+    ],
+    "notes": "Zona zone_05 (crystal_abyss) de world_3; capas modulares para parallax 2D."
+  },
+  {
+    "world": "world_3",
+    "zoneId": "zone_06",
+    "zoneName": "titan_geode_sanctum",
+    "theme": "tundra_and_geode_abyss",
+    "mood": "frozen_to_crystalline",
+    "files": {
+      "bg_far": "world_3/zone_06/bg_far.png",
+      "bg_mid": "world_3/zone_06/bg_mid.png",
+      "bg_near": "world_3/zone_06/bg_near.png",
+      "bg_foreground_fx": "world_3/zone_06/bg_foreground_fx.png",
+      "ground_overlay": "world_3/zone_06/ground_overlay.png",
+      "decor_props_sheet": "world_3/zone_06/decor_props_sheet.png",
+      "preview": "world_3/zone_06/composite_preview.jpg",
+      "light_glow_layer": "world_3/zone_06/light_glow_layer.png"
+    },
+    "recommendedUse": "boss_arena",
+    "dominantColors": [
+      "#6a2e7a",
+      "#e452b6",
+      "#5fe1f0"
+    ],
+    "notes": "Zona zone_06 (titan_geode_sanctum) de world_3; capas modulares para parallax 2D."
+  }
+]

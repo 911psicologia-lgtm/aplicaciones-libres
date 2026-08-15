@@ -1,0 +1,972 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sesión | Historia Clínica Psicológica Integral</title>
+    
+    <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🧠</text></svg>">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="assets/css/main.css">
+    <link rel="manifest" href="manifest.json">
+    
+    <style>
+        .session-header {
+            background: linear-gradient(135deg, #2c5282, #4299e1);
+            color: white;
+            padding: 1.5rem;
+            border-radius: 12px;
+            margin-bottom: 1.5rem;
+        }
+        
+        .session-header h2 {
+            font-size: 1.5rem;
+            margin-bottom: 0.5rem;
+        }
+        
+        .session-header .meta {
+            display: flex;
+            gap: 1.5rem;
+            flex-wrap: wrap;
+            font-size: 0.875rem;
+            opacity: 0.9;
+        }
+        
+        .format-tabs {
+            display: flex;
+            gap: 0.5rem;
+            margin-bottom: 1rem;
+        }
+        
+        .format-tab {
+            padding: 0.5rem 1rem;
+            border: 1.5px solid #e2e8f0;
+            border-radius: 8px;
+            background: white;
+            cursor: pointer;
+            font-size: 0.875rem;
+            transition: all 0.2s;
+        }
+        
+        .format-tab:hover {
+            border-color: #4299e1;
+        }
+        
+        .format-tab.active {
+            background: #2c5282;
+            color: white;
+            border-color: #2c5282;
+        }
+        
+        .dap-section {
+            background: #f7fafc;
+            border-radius: 8px;
+            padding: 1rem;
+            margin-bottom: 1rem;
+        }
+        
+        .dap-section h4 {
+            color: #2c5282;
+            margin-bottom: 0.75rem;
+            font-size: 0.9375rem;
+        }
+        
+        .dap-section h4 i {
+            margin-right: 0.5rem;
+        }
+        
+        .soap-section {
+            border-left: 4px solid #4299e1;
+            padding-left: 1rem;
+            margin-bottom: 1rem;
+        }
+        
+        .soap-section.s {
+            border-color: #4299e1;
+        }
+        
+        .soap-section.o {
+            border-color: #38a169;
+        }
+        
+        .soap-section.a {
+            border-color: #d69e2e;
+        }
+        
+        .soap-section.p {
+            border-color: #e53e3e;
+        }
+        
+        .soap-section h4 {
+            margin-bottom: 0.75rem;
+            font-size: 0.9375rem;
+        }
+        
+        .timeline-session {
+            border-left: 3px solid #4299e1;
+            padding-left: 1rem;
+            margin-bottom: 1.5rem;
+            position: relative;
+        }
+        
+        .timeline-session::before {
+            content: '';
+            position: absolute;
+            left: -0.4rem;
+            top: 0.25rem;
+            width: 0.6rem;
+            height: 0.6rem;
+            border-radius: 50%;
+            background: #4299e1;
+        }
+        
+        .timeline-session .date {
+            font-size: 0.875rem;
+            color: #718096;
+            margin-bottom: 0.25rem;
+        }
+        
+        .timeline-session .number {
+            font-weight: 600;
+            color: #2c5282;
+            margin-bottom: 0.5rem;
+        }
+        
+        .timeline-session .summary {
+            font-size: 0.875rem;
+            color: #4a5568;
+            background: #f7fafc;
+            padding: 0.75rem;
+            border-radius: 6px;
+        }
+        
+        .timeline-session .actions {
+            margin-top: 0.5rem;
+        }
+        
+        .next-appointment {
+            background: #fffaf0;
+            border: 1px solid #fbd38d;
+            border-radius: 8px;
+            padding: 1rem;
+            margin-top: 1rem;
+        }
+        
+        .next-appointment h4 {
+            color: #c05621;
+            margin-bottom: 0.5rem;
+        }
+        
+        .next-appointment h4 i {
+            margin-right: 0.5rem;
+        }
+
+        .autosave-status {
+            display: inline-flex;
+            align-items: center;
+            gap: .4rem;
+            font-size: .8rem;
+            color: #4a5568;
+            background: #edf2f7;
+            border: 1px solid #e2e8f0;
+            border-radius: 999px;
+            padding: .35rem .65rem;
+        }
+        .btn-danger-soft {
+            border-color: #fed7d7 !important;
+            color: #c53030 !important;
+            background: #fff5f5 !important;
+        }
+        .btn-danger-soft:hover { background:#fed7d7 !important; }
+    </style>
+</head>
+<body>
+    <!-- Header -->
+    <header class="app-header">
+        <div class="header-content">
+            <div class="header-brand">
+                <i class="fas fa-brain"></i>
+                <span>Historia Clínica Psicológica</span>
+            </div>
+            
+            <nav class="header-nav">
+                <a href="dashboard.html" class="nav-link">
+                    <i class="fas fa-home"></i> Inicio
+                </a>
+                <a href="patient.html" class="nav-link">
+                    <i class="fas fa-user"></i> Paciente
+                </a>
+                <a href="settings.html" class="nav-link">
+                    <i class="fas fa-cog"></i> Configuración
+                </a>
+            </nav>
+            
+            <div class="header-actions">
+                <div class="user-menu">
+                    <i class="fas fa-user-md"></i>
+                    <span id="userName">Profesional</span>
+                </div>
+                <button class="logout-btn" onclick="Auth.logout()">
+                    <i class="fas fa-sign-out-alt"></i>
+                </button>
+            </div>
+        </div>
+    </header>
+
+    <!-- Main Content -->
+    <main class="main-content">
+        <!-- Patient Header -->
+        <div class="session-header" id="sessionHeader" style="display: none;">
+            <h2 id="headerName">-</h2>
+            <div class="meta">
+                <span><i class="fas fa-hashtag"></i> <span id="headerHistoryNumber">-</span></span>
+                <span><i class="fas fa-birthday-cake"></i> <span id="headerAge">-</span></span>
+                <span><i class="fas fa-phone"></i> <span id="headerPhone">-</span></span>
+            </div>
+        </div>
+
+        <!-- Page Header -->
+        <div class="page-header">
+            <div>
+                <h1 class="page-title">Notas de Evolución</h1>
+                <p class="page-subtitle">Registro de sesiones terapéuticas</p>
+            </div>
+            <div class="flex gap-2" style="align-items:center;">
+                <span class="autosave-status" id="autosaveStatus" title="Autoguardado local y en el registro abierto cada 15 segundos"><i class="fas fa-shield-alt"></i> Autoguardado activo</span>
+                <label style="display:flex; align-items:center; gap:.5rem; font-size:.875rem; color:#4a5568; margin-right:.25rem;">
+                    <input type="checkbox" id="closeSession" style="transform:scale(1.1)">
+                    Cerrar sesión
+                </label>
+                <button type="button" class="btn btn-outline" onclick="goBack()">
+                    <i class="fas fa-arrow-left"></i> Volver
+                </button>
+                <button type="button" class="btn btn-primary" onclick="saveSession()">
+                    <i class="fas fa-save"></i> Guardar Sesión
+                </button>
+            </div>
+        </div>
+
+        <div class="grid grid-cols-2" style="gap: 1.5rem;">
+            <!-- Formulario de Sesión -->
+            <div>
+                <div class="card">
+                    <div class="card-header">
+                        <div class="card-title">
+                            <i class="fas fa-plus-circle"></i>
+                            Nueva Sesión
+                        </div>
+                    </div>
+                    <div class="card-body">
+                        <input type="hidden" id="patientId">
+                        <input type="hidden" id="sessionId">
+                        
+                        <div class="form-grid">
+                            <div class="form-group">
+                                <label>Fecha <span class="required">*</span></label>
+                                <input type="date" class="form-control" id="sessionDate" required>
+                            </div>
+                            <div class="form-group">
+                                <label>Número de Sesión</label>
+                                <input type="number" class="form-control" id="sessionNumber" readonly>
+                            </div>
+                            <div class="form-group">
+                                <label>Modalidad</label>
+                                <select class="form-control" id="modality"></select>
+                            </div>
+                            <div class="form-group">
+                                <label>Duración (minutos)</label>
+                                <select class="form-control" id="duration"></select>
+                            </div>
+                        </div>
+                        
+                        <!-- Selector de formato -->
+                        <div class="format-tabs">
+                            <button type="button" class="format-tab active" onclick="setFormat('dap', this)">Formato DAP</button>
+                            <button type="button" class="format-tab" onclick="setFormat('soap', this)">Formato SOAP</button>
+                        </div>
+                        
+                        <!-- Formato DAP -->
+                        <div id="dapFormat">
+                            <div class="dap-section">
+                                <h4><i class="fas fa-clipboard"></i> D - Datos (Descripción)</h4>
+                                <textarea class="form-control" id="dapData" rows="4" placeholder="Describa los datos observados durante la sesión: comportamiento, lenguaje verbal y no verbal, apariencia, etc."></textarea>
+                            </div>
+                            
+                            <div class="dap-section">
+                                <h4><i class="fas fa-brain"></i> A - Análisis (Interpretación)</h4>
+                                <textarea class="form-control" id="dapAnalysis" rows="4" placeholder="Analice el significado de los datos observados, conexiones con patrones previos, dinámicas presentes."></textarea>
+                            </div>
+                            
+                            <div class="dap-section">
+                                <h4><i class="fas fa-tasks"></i> P - Plan (Intervención)</h4>
+                                <textarea class="form-control" id="dapPlan" rows="4" placeholder="Describa las intervenciones realizadas, técnicas aplicadas, tareas asignadas."></textarea>
+                            </div>
+                        </div>
+                        
+                        <!-- Formato SOAP -->
+                        <div id="soapFormat" style="display: none;">
+                            <div class="soap-section s">
+                                <h4><i class="fas fa-user"></i> S - Subjetivo</h4>
+                                <textarea class="form-control" id="soapSubjective" rows="3" placeholder="Lo que el paciente reporta: síntomas, preocupaciones, percepciones."></textarea>
+                            </div>
+                            
+                            <div class="soap-section o">
+                                <h4><i class="fas fa-eye"></i> O - Objetivo</h4>
+                                <textarea class="form-control" id="soapObjective" rows="3" placeholder="Lo que el terapeuta observa: conducta, signos, resultados de evaluación."></textarea>
+                            </div>
+                            
+                            <div class="soap-section a">
+                                <h4><i class="fas fa-stethoscope"></i> A - Evaluación</h4>
+                                <textarea class="form-control" id="soapAssessment" rows="3" placeholder="Interpretación clínica, diagnóstico diferencial, hipótesis."></textarea>
+                            </div>
+                            
+                            <div class="soap-section p">
+                                <h4><i class="fas fa-clipboard-list"></i> P - Plan</h4>
+                                <textarea class="form-control" id="soapPlan" rows="3" placeholder="Plan de tratamiento, intervenciones, seguimiento."></textarea>
+                            </div>
+                        </div>
+                        
+                        <div class="form-group" style="margin-top: 1rem;">
+                            <label>Tema Central</label>
+                            <input type="text" class="form-control" id="centralTheme" placeholder="Tema principal trabajado en la sesión">
+                        </div>
+                        
+                        <div class="form-group">
+                            <label>Respuesta del Paciente</label>
+                            <textarea class="form-control" id="patientResponse" rows="2" placeholder="Cómo respondió el paciente a las intervenciones"></textarea>
+                        </div>
+                        
+                        <div class="form-group">
+                            <label>Evaluación del Progreso</label>
+                            <select class="form-control" id="progressEvaluation">
+                                <option value="">Seleccione...</option>
+                                <option value="mejoria_significativa">Mejoría significativa</option>
+                                <option value="mejoria_moderada">Mejoría moderada</option>
+                                <option value="sin_cambios">Sin cambios apreciables</option>
+                                <option value="deterioro">Deterioro</option>
+                                <option value="primera_sesion">Primera sesión</option>
+                            </select>
+                        </div>
+                        
+                        <div class="form-group">
+                            <label>Tareas / Deberes</label>
+                            <textarea class="form-control" id="homework" rows="2" placeholder="Tareas asignadas para la próxima sesión"></textarea>
+                        </div>
+                        
+                        <div class="next-appointment">
+            
+                        <!-- Módulo Psiquiatría (se muestra si está activo) -->
+                        <div class="card" id="psychiatryCard" style="margin-top: 1.5rem; display:none;">
+                            <div class="card-header">
+                                <h4><i class="fas fa-user-md"></i> Módulo Psiquiatría</h4>
+                                <p class="subtitle">HEA psiquiátrica · EEM · Riesgo · psicofármacos · seguimiento</p>
+                            </div>
+                            <div class="card-body">
+                                <div class="alert alert-info" style="margin-bottom:1rem;">
+                                    <i class="fas fa-info-circle"></i>
+                                    Campos mínimos para <b>Cerrar sesión</b>: <b>EEM (resumen)</b> y <b>Riesgo</b>.
+                                </div>
+
+                                <div class="form-grid">
+                                    <div class="form-group" style="grid-column:1/-1;">
+                                        <label><b>Examen del Estado Mental (EEM) – resumen</b> <span style="color:#e53e3e">*</span></label>
+                                        <textarea class="form-control" id="psy_eem" rows="4" placeholder="Apariencia · actitud · ánimo/afecto · pensamiento · percepción · cognición · juicio/insight"></textarea>
+                                    </div>
+
+                                    <div class="form-group" style="grid-column:1/-1;">
+                                        <label><b>Riesgo – síntesis</b> <span style="color:#e53e3e">*</span></label>
+                                        <textarea class="form-control" id="psy_risk" rows="3" placeholder="Suicidio / heteroagresión / autolesión / vulnerabilidad · factores protectores · plan de seguridad si aplica"></textarea>
+                                    </div>
+
+                                    <div class="form-group" style="grid-column:1/-1;">
+                                        <label>HEA psiquiátrica</label>
+                                        <textarea class="form-control" id="psy_hea" rows="3" placeholder="Motivo, inicio, curso, precipitantes, tratamientos previos, respuesta, etc."></textarea>
+                                    </div>
+
+                                    <div class="form-group">
+                                        <label>Psicofármacos actuales</label>
+                                        <textarea class="form-control" id="psy_meds" rows="3" placeholder="Medicamento · dosis · horario · adherencia · efectos adversos"></textarea>
+                                    </div>
+
+                                    <div class="form-group">
+                                        <label>Sustancias</label>
+                                        <textarea class="form-control" id="psy_substances" rows="3" placeholder="Alcohol · tabaco · cannabis · otras · patrón · última vez"></textarea>
+                                    </div>
+
+                                    <div class="form-group" style="grid-column:1/-1;">
+                                        <label>Dx diferencial + especificadores</label>
+                                        <textarea class="form-control" id="psy_dxdiff" rows="3" placeholder="Hipótesis diferenciales y especificadores (si aplica)"></textarea>
+                                    </div>
+
+                                    <div class="form-group">
+                                        <label>Funcionamiento</label>
+                                        <textarea class="form-control" id="psy_function" rows="3" placeholder="Laboral/Académico · familiar · social · autocuidado"></textarea>
+                                    </div>
+
+                                    <div class="form-group">
+                                        <label>Monitoreo y seguimiento</label>
+                                        <textarea class="form-control" id="psy_follow" rows="3" placeholder="Monitoreo de síntomas · adherencia · signos de alarma · próxima revisión"></textarea>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                <h4><i class="fas fa-calendar-alt"></i> Próxima Cita</h4>
+                            <div class="form-grid">
+                                <div class="form-group">
+                                    <label>Fecha</label>
+                                    <input type="date" class="form-control" id="nextAppointmentDate">
+                                </div>
+                                <div class="form-group">
+                                    <label>Hora</label>
+                                    <input type="time" class="form-control" id="nextAppointmentTime">
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="form-group" style="margin-top: 1rem;">
+                            <label>Mini Resumen Clínico</label>
+                            <textarea class="form-control" id="clinicalSummary" rows="2" placeholder="Resumen breve de la sesión para referencia rápida"></textarea>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Historial de Sesiones -->
+            <div>
+                <div class="card">
+                    <div class="card-header">
+                        <div class="card-title">
+                            <i class="fas fa-history"></i>
+                            Historial de Sesiones
+                        </div>
+                    </div>
+                    <div class="card-body" id="sessionsTimeline">
+                        <div class="empty-state">
+                            <i class="fas fa-calendar-day"></i>
+                            <h3>No hay sesiones registradas</h3>
+                            <p>Registre la primera sesión usando el formulario</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    
+    </main>
+
+    <!-- Modal: Ver sesión -->
+    <div class="modal-overlay" id="viewSessionModal" style="display:none;">
+        <div class="modal" role="dialog" aria-modal="true" aria-labelledby="viewSessionTitle">
+            <div class="modal-header">
+                <h3 id="viewSessionTitle"><i class="fas fa-eye"></i> Detalle de sesión</h3>
+                <button class="icon-btn" onclick="closeViewSession()" title="Cerrar"><i class="fas fa-times"></i></button>
+            </div>
+            <div class="modal-body">
+                <div class="info-grid">
+                    <div><strong>Fecha:</strong> <span id="v_date">-</span></div>
+                    <div><strong>Tipo:</strong> <span id="v_type">-</span></div>
+                    <div><strong>Duración:</strong> <span id="v_duration">-</span></div>
+                    <div><strong>Motivo:</strong> <span id="v_reason">-</span></div>
+                </div>
+
+                <div class="section-card mt-3">
+                    <h4>SOAP / Notas</h4>
+                    <div class="read-box"><strong>S:</strong> <div id="v_soapS"></div></div>
+                    <div class="read-box"><strong>O:</strong> <div id="v_soapO"></div></div>
+                    <div class="read-box"><strong>A:</strong> <div id="v_soapA"></div></div>
+                    <div class="read-box"><strong>P:</strong> <div id="v_soapP"></div></div>
+                </div>
+
+                <div class="section-card mt-3">
+                    <h4>Escalas / Instrumentos</h4>
+                    <div class="read-box" id="v_assessments">-</div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button class="btn btn-outline" onclick="closeViewSession()"><i class="fas fa-check"></i> Cerrar</button>
+                <button class="btn btn-primary" id="btnEditFromView"><i class="fas fa-pen"></i> Editar</button>
+            </div>
+        </div>
+    </div>
+
+
+    <!-- Scripts -->
+    <script src="assets/js/db.js"></script>
+    <script src="assets/js/utils.js"></script>
+    
+    <script>
+        let currentFormat = 'dap';
+        let currentPatient = null;
+        let editingSessionId = null;
+        let autoSaveTimer = null;
+        let isAutoSaving = false;
+        
+        document.addEventListener('DOMContentLoaded', async function() {
+            // Auth + DB
+            const psychEnabled = (typeof isPsychiatryEnabled === 'function') ? isPsychiatryEnabled() : false;
+            if (psychEnabled) {
+                const card = document.getElementById('psychiatryCard');
+                if (card) card.style.display = 'block';
+            }
+            const session = Auth.requireAuth();
+            await db.init();
+            if (session) {
+                document.getElementById('userName').textContent = session.fullName || session.username;
+            }
+            
+            // Poblar dropdowns
+            Dropdowns.populateSelect('modality', Dropdowns.sessionModality);
+            Dropdowns.populateSelect('duration', Dropdowns.sessionDuration);
+            
+            // Fecha por defecto
+            document.getElementById('sessionDate').value = DateUtils.getToday();
+            
+            // Verificar parámetros
+            const urlParams = new URLSearchParams(window.location.search);
+            const patientId = urlParams.get('patient');
+            const sessionId = urlParams.get('session');
+            
+            if (patientId) {
+                await loadPatient(patientId);
+                await loadSessions(patientId);
+                await updateSessionNumber(patientId);
+            } else {
+                UI.toast('Debe seleccionar un paciente', 'error');
+                setTimeout(() => window.location.href = 'dashboard.html', 2000);
+            }
+            
+            if (sessionId) {
+                await loadSession(sessionId);
+            }
+            installSessionAutosave();
+            restoreSessionDraftIfNeeded();
+        });
+        
+        async function loadPatient(patientId) {
+            currentPatient = await db.get(STORES.PATIENTS, parseInt(patientId));
+            if (!currentPatient) {
+                UI.toast('Paciente no encontrado', 'error');
+                return;
+            }
+            
+            document.getElementById('patientId').value = patientId;
+            
+            // Mostrar header
+            document.getElementById('sessionHeader').style.display = 'block';
+            document.getElementById('headerName').textContent = `${currentPatient.firstName} ${currentPatient.lastName}`;
+            document.getElementById('headerHistoryNumber').textContent = currentPatient.historyNumber;
+            document.getElementById('headerAge').textContent = DateUtils.formatAge(currentPatient.birthDate);
+            document.getElementById('headerPhone').textContent = currentPatient.phone || 'Sin teléfono';
+        }
+        
+        async function updateSessionNumber(patientId) {
+            const sessions = await db.getPatientSessions(parseInt(patientId));
+            document.getElementById('sessionNumber').value = sessions.length + 1;
+        }
+        
+        async function loadSessions(patientId) {
+            const sessions = await db.getPatientSessions(parseInt(patientId));
+            const container = document.getElementById('sessionsTimeline');
+            
+            if (sessions.length === 0) {
+                container.innerHTML = `
+                    <div class="empty-state">
+                        <i class="fas fa-calendar-day"></i>
+                        <h3>No hay sesiones registradas</h3>
+                        <p>Registre la primera sesión usando el formulario</p>
+                    </div>
+                `;
+                return;
+            }
+            
+            // Ordenar por fecha descendente
+            sessions.sort((a, b) => new Date(b.date) - new Date(a.date));
+            
+            container.innerHTML = sessions.map((s, index) => `
+                <div class="timeline-session">
+                    <div class="date">${DateUtils.formatDate(s.date)}</div>
+                    <div class="number">Sesión #${s.sessionNumber || sessions.length - index}</div>
+                    <div class="summary">${s.clinicalSummary || s.centralTheme || 'Sin resumen'}</div>
+                    <div class="actions">
+                        <button class="btn btn-outline btn-sm" onclick="editSession(${s.id})">
+                            <i class="fas fa-edit"></i> Editar
+                        </button>
+                        <button class="btn btn-outline btn-sm" onclick="viewSession(${s.id})">
+                            <i class="fas fa-eye"></i> Ver
+                        </button>
+                        <button class="btn btn-outline btn-sm btn-danger-soft" onclick="deleteSession(${s.id})" title="Eliminar esta sesión y recomenzar el registro si fue creada por error">
+                            <i class="fas fa-trash"></i> Borrar
+                        </button>
+                    </div>
+                </div>
+            `).join('');
+        }
+        
+        async function loadSession(sessionId) {
+            const session = await db.get(STORES.SESSIONS, parseInt(sessionId));
+            if (!session) return;
+            
+            editingSessionId = sessionId;
+            
+            document.getElementById('sessionId').value = sessionId;
+            document.getElementById('sessionDate').value = session.date?.split('T')[0] || '';
+            document.getElementById('sessionNumber').value = session.sessionNumber || '';
+            document.getElementById('modality').value = session.modality || '';
+            document.getElementById('duration').value = session.duration || '';
+            document.getElementById('centralTheme').value = session.centralTheme || '';
+            document.getElementById('patientResponse').value = session.patientResponse || '';
+            document.getElementById('progressEvaluation').value = session.progressEvaluation || '';
+            document.getElementById('homework').value = session.homework || '';
+            document.getElementById('clinicalSummary').value = session.clinicalSummary || '';
+            
+            if (session.nextAppointment) {
+                document.getElementById('nextAppointmentDate').value = session.nextAppointment.date || '';
+                document.getElementById('nextAppointmentTime').value = session.nextAppointment.time || '';
+            }
+            
+            // Cargar según formato
+            if (session.format === 'dap') {
+                setFormat('dap');
+                document.getElementById('dapData').value = session.dapData || '';
+                document.getElementById('dapAnalysis').value = session.dapAnalysis || '';
+                document.getElementById('dapPlan').value = session.dapPlan || '';
+            } else if (session.format === 'soap') {
+                setFormat('soap');
+                document.getElementById('soapSubjective').value = session.soapSubjective || '';
+                document.getElementById('soapObjective').value = session.soapObjective || '';
+                document.getElementById('soapAssessment').value = session.soapAssessment || '';
+                document.getElementById('soapPlan').value = session.soapPlan || '';
+            }
+
+            // Psiquiatría (si existe en la sesión)
+            const psychEnabled = (typeof isPsychiatryEnabled === 'function') ? isPsychiatryEnabled() : false;
+            if (psychEnabled) {
+                document.getElementById('psychiatryCard').style.display = 'block';
+            }
+            document.getElementById('closeSession').checked = !!session.isClosed;
+            if (session.psychiatry) {
+                document.getElementById('psy_eem').value = session.psychiatry.eem || '';
+                document.getElementById('psy_risk').value = session.psychiatry.risk || '';
+                document.getElementById('psy_hea').value = session.psychiatry.hea || '';
+                document.getElementById('psy_meds').value = session.psychiatry.meds || '';
+                document.getElementById('psy_substances').value = session.psychiatry.substances || '';
+                document.getElementById('psy_dxdiff').value = session.psychiatry.dxDiff || '';
+                document.getElementById('psy_function').value = session.psychiatry.functioning || '';
+                document.getElementById('psy_follow').value = session.psychiatry.followup || '';
+            }
+
+        }
+        
+        function setFormat(format, el = null) {
+            currentFormat = format;
+            
+            document.querySelectorAll('.format-tab').forEach(tab => tab.classList.remove('active'));
+            // Soporta llamadas programáticas (sin evento)
+            const btn = el || document.querySelector(`.format-tab[onclick*="'${format}'"]`) || document.querySelectorAll('.format-tab')[0];
+            if (btn) btn.classList.add('active');
+            
+            if (format === 'dap') {
+                document.getElementById('dapFormat').style.display = 'block';
+                document.getElementById('soapFormat').style.display = 'none';
+            } else {
+                document.getElementById('dapFormat').style.display = 'none';
+                document.getElementById('soapFormat').style.display = 'block';
+            }
+        }
+        
+        function updateAutosaveStatus(message, type = 'info') {
+            const el = document.getElementById('autosaveStatus');
+            if (!el) return;
+            const icons = { info:'shield-alt', saving:'sync fa-spin', success:'check-circle', error:'exclamation-triangle' };
+            el.innerHTML = `<i class="fas fa-${icons[type] || icons.info}"></i> ${message}`;
+        }
+
+        function collectSessionData({allowEmptyDate = false} = {}) {
+            const patientId = document.getElementById('patientId').value;
+            const sessionDate = document.getElementById('sessionDate').value;
+            if (!allowEmptyDate && !sessionDate) return null;
+            const sessionData = {
+                patientId: parseInt(patientId),
+                date: sessionDate || DateUtils.getToday(),
+                sessionNumber: parseInt(document.getElementById('sessionNumber').value) || 0,
+                modality: document.getElementById('modality').value,
+                duration: document.getElementById('duration').value,
+                format: currentFormat,
+                centralTheme: document.getElementById('centralTheme').value.trim(),
+                patientResponse: document.getElementById('patientResponse').value.trim(),
+                progressEvaluation: document.getElementById('progressEvaluation').value,
+                homework: document.getElementById('homework').value.trim(),
+                clinicalSummary: document.getElementById('clinicalSummary').value.trim(),
+                nextAppointment: {
+                    date: document.getElementById('nextAppointmentDate').value,
+                    time: document.getElementById('nextAppointmentTime').value
+                },
+                updatedAt: DateUtils.getNow()
+            };
+
+            if (currentFormat === 'dap') {
+                sessionData.dapData = document.getElementById('dapData').value.trim();
+                sessionData.dapAnalysis = document.getElementById('dapAnalysis').value.trim();
+                sessionData.dapPlan = document.getElementById('dapPlan').value.trim();
+            } else {
+                sessionData.soapSubjective = document.getElementById('soapSubjective').value.trim();
+                sessionData.soapObjective = document.getElementById('soapObjective').value.trim();
+                sessionData.soapAssessment = document.getElementById('soapAssessment').value.trim();
+                sessionData.soapPlan = document.getElementById('soapPlan').value.trim();
+            }
+
+            const psychEnabled = (typeof isPsychiatryEnabled === 'function') ? isPsychiatryEnabled() : false;
+            if (psychEnabled) {
+                sessionData.psychiatry = {
+                    eem: (document.getElementById('psy_eem')?.value || '').trim(),
+                    risk: (document.getElementById('psy_risk')?.value || '').trim(),
+                    hea: (document.getElementById('psy_hea')?.value || '').trim(),
+                    meds: (document.getElementById('psy_meds')?.value || '').trim(),
+                    substances: (document.getElementById('psy_substances')?.value || '').trim(),
+                    dxDiff: (document.getElementById('psy_dxdiff')?.value || '').trim(),
+                    functioning: (document.getElementById('psy_function')?.value || '').trim(),
+                    followup: (document.getElementById('psy_follow')?.value || '').trim()
+                };
+                sessionData.psychiatryEnabled = true;
+            } else {
+                sessionData.psychiatryEnabled = false;
+            }
+            sessionData.isClosed = !!document.getElementById('closeSession')?.checked;
+            return sessionData;
+        }
+
+        async function autoSaveSession({silent = true} = {}) {
+            if (isAutoSaving) return;
+            const patientId = document.getElementById('patientId').value;
+            if (!patientId) return;
+            const draftKey = `hcp_session_draft_${patientId}_${editingSessionId || 'new'}`;
+            const draft = collectSessionData({allowEmptyDate: true});
+            if (!draft) return;
+            localStorage.setItem(draftKey, JSON.stringify({ savedAt: DateUtils.getNow(), data: draft }));
+
+            // Solo escribe en IndexedDB cuando se edita una sesión existente. Para sesiones nuevas guarda borrador local,
+            // evitando crear sesiones vacías automáticamente antes de que el clínico decida registrar.
+            if (!editingSessionId) {
+                updateAutosaveStatus('Borrador protegido', 'success');
+                return;
+            }
+            try {
+                isAutoSaving = true;
+                updateAutosaveStatus('Guardando...', 'saving');
+                draft.id = parseInt(editingSessionId);
+                const existing = await db.get(STORES.SESSIONS, draft.id);
+                draft.createdAt = existing?.createdAt || DateUtils.getNow();
+                await db.put(STORES.SESSIONS, draft);
+                if (currentPatient) {
+                    currentPatient.updatedAt = DateUtils.getNow();
+                    await db.put(STORES.PATIENTS, currentPatient);
+                }
+                updateAutosaveStatus('Guardado hace un momento', 'success');
+                if (!silent) UI.toast('Sesión autoguardada', 'success');
+            } catch (error) {
+                console.error('Autoguardado de sesión falló:', error);
+                updateAutosaveStatus('Autoguardado local activo', 'error');
+            } finally {
+                isAutoSaving = false;
+            }
+        }
+
+        function installSessionAutosave() {
+            const patientId = document.getElementById('patientId').value;
+            if (!patientId) return;
+            document.querySelectorAll('input, textarea, select').forEach(el => {
+                el.addEventListener('input', () => autoSaveSession({silent:true}));
+                el.addEventListener('change', () => autoSaveSession({silent:true}));
+            });
+            autoSaveTimer = setInterval(() => autoSaveSession({silent:true}), 15000);
+            window.addEventListener('beforeunload', () => {
+                try { const draft = collectSessionData({allowEmptyDate:true}); localStorage.setItem(`hcp_session_draft_${patientId}_${editingSessionId || 'new'}`, JSON.stringify({ savedAt: DateUtils.getNow(), data: draft })); } catch(e) {}
+            });
+        }
+
+
+        function restoreSessionDraftIfNeeded() {
+            try {
+                const patientId = document.getElementById('patientId').value;
+                if (!patientId || editingSessionId) return;
+                const raw = localStorage.getItem(`hcp_session_draft_${patientId}_new`);
+                if (!raw) return;
+                const parsed = JSON.parse(raw);
+                if (!parsed || !parsed.data) return;
+                const hasContent = Object.values(parsed.data).some(v => typeof v === 'string' && v.trim()) || parsed.data.centralTheme || parsed.data.clinicalSummary;
+                if (!hasContent) return;
+                const ok = window.confirm('Hay un borrador de sesión sin guardar. ¿Desea recuperarlo?');
+                if (!ok) return;
+                const d = parsed.data;
+                const set = (id, value) => { const el = document.getElementById(id); if (el && value !== undefined && value !== null) el.value = value; };
+                set('sessionDate', d.date); set('sessionNumber', d.sessionNumber); set('modality', d.modality); set('duration', d.duration);
+                set('centralTheme', d.centralTheme); set('patientResponse', d.patientResponse); set('progressEvaluation', d.progressEvaluation);
+                set('homework', d.homework); set('clinicalSummary', d.clinicalSummary);
+                if (d.nextAppointment) { set('nextAppointmentDate', d.nextAppointment.date); set('nextAppointmentTime', d.nextAppointment.time); }
+                setFormat(d.format || 'dap');
+                set('dapData', d.dapData); set('dapAnalysis', d.dapAnalysis); set('dapPlan', d.dapPlan);
+                set('soapSubjective', d.soapSubjective); set('soapObjective', d.soapObjective); set('soapAssessment', d.soapAssessment); set('soapPlan', d.soapPlan);
+                if (d.psychiatry) {
+                    set('psy_eem', d.psychiatry.eem); set('psy_risk', d.psychiatry.risk); set('psy_hea', d.psychiatry.hea);
+                    set('psy_meds', d.psychiatry.meds); set('psy_substances', d.psychiatry.substances); set('psy_dxdiff', d.psychiatry.dxDiff);
+                    set('psy_function', d.psychiatry.functioning); set('psy_follow', d.psychiatry.followup);
+                }
+                const close = document.getElementById('closeSession'); if (close) close.checked = !!d.isClosed;
+                updateAutosaveStatus('Borrador de sesión recuperado', 'success');
+            } catch (e) { console.warn('No se pudo recuperar borrador de sesión', e); }
+        }
+
+        async function saveSession() {
+            const patientId = document.getElementById('patientId').value;
+            const sessionDate = document.getElementById('sessionDate').value;
+            if (!sessionDate) {
+                UI.toast('La fecha de la sesión es obligatoria', 'error');
+                return;
+            }
+            const sessionData = collectSessionData();
+            if (!sessionData) return;
+            sessionData.createdAt = DateUtils.getNow();
+
+            // Validaciones mínimas al cerrar sesión
+            const psychEnabled = (typeof isPsychiatryEnabled === 'function') ? isPsychiatryEnabled() : false;
+            if (sessionData.isClosed && psychEnabled) {
+                if (!sessionData.psychiatry.eem || !sessionData.psychiatry.risk) {
+                    UI.toast('Para cerrar la sesión, complete EEM (resumen) y Riesgo.', 'error');
+                    return;
+                }
+            }
+
+            try {
+                const wasNewSession = !editingSessionId;
+                if (editingSessionId) {
+                    sessionData.id = parseInt(editingSessionId);
+                    const existing = await db.get(STORES.SESSIONS, sessionData.id);
+                    sessionData.createdAt = existing?.createdAt || DateUtils.getNow();
+                    await db.put(STORES.SESSIONS, sessionData);
+                    UI.toast('Sesión actualizada correctamente', 'success');
+                } else {
+                    const newId = await db.add(STORES.SESSIONS, sessionData);
+                    editingSessionId = String(newId);
+                    document.getElementById('sessionId').value = newId;
+                    UI.toast('Sesión registrada correctamente', 'success');
+                }
+                localStorage.removeItem(`hcp_session_draft_${patientId}_${editingSessionId || 'new'}`);
+                localStorage.removeItem(`hcp_session_draft_${patientId}_new`);
+                // Actualizar fecha de última modificación del paciente
+                currentPatient.updatedAt = DateUtils.getNow();
+                await db.put(STORES.PATIENTS, currentPatient);
+                await loadSessions(patientId);
+                if (wasNewSession) {
+                    clearForm();
+                    await updateSessionNumber(patientId);
+                    updateAutosaveStatus('Listo para nueva sesión', 'success');
+                } else {
+                    await updateSessionNumber(patientId);
+                }
+            } catch (error) {
+                console.error('Error guardando sesión:', error);
+                UI.toast('Error al guardar la sesión', 'error');
+            }
+        }
+        
+        function clearForm() {
+            editingSessionId = null;
+            document.getElementById('sessionId').value = '';
+            document.getElementById('sessionDate').value = DateUtils.getToday();
+            document.getElementById('centralTheme').value = '';
+            document.getElementById('patientResponse').value = '';
+            document.getElementById('progressEvaluation').value = '';
+            document.getElementById('homework').value = '';
+            document.getElementById('clinicalSummary').value = '';
+            document.getElementById('nextAppointmentDate').value = '';
+            document.getElementById('nextAppointmentTime').value = '';
+            document.getElementById('dapData').value = '';
+            document.getElementById('dapAnalysis').value = '';
+            document.getElementById('dapPlan').value = '';
+            document.getElementById('soapSubjective').value = '';
+            document.getElementById('soapObjective').value = '';
+            document.getElementById('soapAssessment').value = '';
+            document.getElementById('soapPlan').value = '';
+        }
+        
+        async function deleteSession(sessionId) {
+            const ok = window.confirm('¿Eliminar esta sesión? Esta acción no se puede deshacer. Úselo cuando el registro quedó equivocado y necesita recomenzar.');
+            if (!ok) return;
+            try {
+                await db.delete(STORES.SESSIONS, parseInt(sessionId));
+                const patientId = document.getElementById('patientId').value;
+                if (currentPatient) {
+                    currentPatient.updatedAt = DateUtils.getNow();
+                    await db.put(STORES.PATIENTS, currentPatient);
+                }
+                if (String(editingSessionId) === String(sessionId)) clearForm();
+                await loadSessions(patientId);
+                await updateSessionNumber(patientId);
+                UI.toast('Sesión eliminada correctamente', 'success');
+            } catch (error) {
+                console.error('Error eliminando sesión:', error);
+                UI.toast('No se pudo eliminar la sesión', 'error');
+            }
+        }
+
+        function editSession(sessionId) {
+            window.location.href = `session.html?patient=${document.getElementById('patientId').value}&session=${sessionId}`;
+        }
+        
+        async function viewSession(sessionId) {
+            try{
+                const s = await db.get(STORES.SESSIONS, sessionId);
+                if(!s){ showToast('No se encontró la sesión', 'error'); return; }
+
+                // datos básicos
+                document.getElementById('v_date').textContent = formatDateTime(s.date || s.createdAt || new Date());
+                document.getElementById('v_type').textContent = (s.type || 'Sesión');
+                document.getElementById('v_duration').textContent = (s.duration ? (s.duration + ' min') : '—');
+                document.getElementById('v_reason').textContent = (s.reason || s.motive || '—');
+
+                // soap
+                document.getElementById('v_soapS').textContent = s.soap?.subjective || s.soapSubjective || '';
+                document.getElementById('v_soapO').textContent = s.soap?.objective || s.soapObjective || '';
+                document.getElementById('v_soapA').textContent = s.soap?.assessment || s.soapAssessment || '';
+                document.getElementById('v_soapP').textContent = s.soap?.plan || s.soapPlan || '';
+
+                // assessments
+                const a = s.assessments || s.instruments || [];
+                document.getElementById('v_assessments').textContent = Array.isArray(a) && a.length ? a.join(', ') : '—';
+
+                // botón editar
+                const pid = document.getElementById('patientId').value;
+                document.getElementById('btnEditFromView').onclick = () => {
+                    window.location.href = `session.html?patient=${pid}&session=${sessionId}`;
+                };
+
+                openViewSession();
+            }catch(err){
+                console.error(err);
+                showToast('Error al abrir la sesión', 'error');
+            }
+        }
+
+        function openViewSession(){
+            const m = document.getElementById('viewSessionModal');
+            m.style.display = 'flex';
+            // evitar scroll fondo
+            document.body.style.overflow = 'hidden';
+        }
+        function closeViewSession(){
+            const m = document.getElementById('viewSessionModal');
+            m.style.display = 'none';
+            document.body.style.overflow = '';
+        }
+        
+        function goBack() {
+            const patientId = document.getElementById('patientId').value;
+            if (patientId) {
+                window.location.href = `patient.html?id=${patientId}`;
+            } else {
+                window.location.href = 'dashboard.html';
+            }
+        }
+    </script>
+</body>
+</html>

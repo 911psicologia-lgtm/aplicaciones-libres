@@ -1,0 +1,354 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width,initial-scale=1.0,maximum-scale=1.0"/>
+<title>MetamorIA Lite</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Lora:wght@600;700&family=Plus+Jakarta+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+<script src="https://unpkg.com/html-docx-js/dist/html-docx.js" async id="docxLib"></script>
+<style>
+:root{--bg:#F5F3EF;--white:#fff;--ink:#18211A;--muted:#6B7A6E;--line:#DDE4DA;--brand:#2A5C45;--brand-lt:#EAF4EE;--brand-dk:#1a3a2b;--accent:#C17B2E;--accent-lt:#FAF0E4;--ok:#1A7A45;--warn:#B83B2E;--r:12px;--r-lg:20px;--shadow:0 4px 20px rgba(20,40,25,.10);--ph:clamp(14px,4vw,28px)}
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+html{font-size:15px;scroll-behavior:smooth}
+body{background:var(--bg);color:var(--ink);font-family:'Plus Jakarta Sans',sans-serif;line-height:1.6;min-height:100vh;-webkit-font-smoothing:antialiased;overflow-x:hidden}
+.screen{display:none;min-height:100svh;flex-direction:column}
+.screen.active{display:flex;animation:fu .32s ease}
+@keyframes fu{from{opacity:0;transform:translateY(12px)}to{opacity:1;transform:translateY(0)}}
+.dots{display:flex;gap:6px;justify-content:center;padding-top:14px}
+.dot{width:7px;height:7px;border-radius:99px;background:rgba(255,255,255,.25);transition:.25s}
+.dot.active{width:22px;background:rgba(255,255,255,.9)}
+.dot.done{background:rgba(255,255,255,.5)}
+.dots-dk .dot{background:var(--line)}.dots-dk .dot.active{background:var(--brand)}.dots-dk .dot.done{background:var(--ok)}
+.back{display:inline-flex;align-items:center;gap:5px;font-size:.8rem;font-weight:600;border:none;background:none;font-family:inherit;color:rgba(255,255,255,.6);cursor:pointer;padding:0;transition:color .15s;margin-bottom:12px}
+.back:hover{color:#fff}
+.btn{display:inline-flex;align-items:center;justify-content:center;gap:6px;border:none;border-radius:var(--r);padding:11px 20px;font:inherit;font-size:.88rem;font-weight:700;cursor:pointer;transition:all .18s;white-space:nowrap;line-height:1}
+.btn:active{transform:scale(.97)}
+.btn-primary{background:var(--brand);color:#fff;box-shadow:0 3px 12px rgba(42,92,69,.3)}
+.btn-primary:hover{background:var(--brand-dk)}
+.btn-white{background:#fff;color:var(--brand)}
+.btn-white:hover{background:#f0f7f3}
+.btn-ghost{background:rgba(255,255,255,.12);color:#fff;border:1.5px solid rgba(255,255,255,.25)}
+.btn-ghost:hover{background:rgba(255,255,255,.2)}
+.btn-sec{background:var(--white);color:var(--ink);border:1.5px solid var(--line)}
+.btn-sec:hover{border-color:var(--brand);color:var(--brand)}
+.btn-acc{background:var(--accent);color:#fff}
+.btn-acc:hover{background:#a5682a}
+.btn-sm{padding:7px 14px;font-size:.8rem}
+.btn-xs{padding:5px 11px;font-size:.75rem}
+.btn:disabled{opacity:.4;cursor:not-allowed;transform:none!important;box-shadow:none!important}
+.btn-full{width:100%}
+#s1{background:var(--brand);align-items:center;justify-content:center;text-align:center;padding:32px var(--ph) 48px}
+.logo{width:66px;height:66px;border-radius:20px;background:rgba(255,255,255,.15);border:2px solid rgba(255,255,255,.2);display:grid;place-items:center;font-family:'Lora',serif;font-size:2rem;font-weight:700;color:#fff;margin:0 auto 20px}
+.title{font-family:'Lora',serif;font-size:clamp(1.9rem,7vw,3rem);font-weight:700;color:#fff;line-height:1.1;margin-bottom:5px}
+.title span{color:rgba(255,255,255,.4)}
+.tagline{font-size:clamp(.8rem,2.5vw,.93rem);color:rgba(255,255,255,.6);max-width:300px;line-height:1.65;margin:0 auto 26px}
+.feats{display:flex;gap:7px;justify-content:center;flex-wrap:wrap;margin-bottom:28px}
+.feat{display:flex;align-items:center;gap:5px;background:rgba(255,255,255,.1);border-radius:999px;padding:5px 11px;font-size:clamp(.71rem,2vw,.8rem);color:rgba(255,255,255,.8)}
+.cta-group{display:flex;flex-direction:column;align-items:center;gap:10px;width:100%;max-width:290px}
+.s1-note{font-size:.72rem;color:rgba(255,255,255,.35);margin-top:4px}
+.ex-banner{display:none;background:rgba(255,255,255,.12);border:1px solid rgba(255,255,255,.2);border-radius:var(--r);padding:9px 13px;font-size:.78rem;color:rgba(255,255,255,.85);margin-top:2px;align-items:center;gap:7px;max-width:290px;text-align:left}
+.ex-banner.show{display:flex}
+.s-top{background:var(--brand);padding:0 var(--ph) 22px;flex-shrink:0}
+.s-top-inner{max-width:820px}
+.s-head{font-family:'Lora',serif;font-size:clamp(1.35rem,4vw,1.75rem);font-weight:700;color:#fff;line-height:1.2;margin-bottom:3px}
+.s-sub{font-size:clamp(.78rem,2.2vw,.86rem);color:rgba(255,255,255,.6);max-width:460px}
+.s-body{padding:var(--ph);padding-top:18px;max-width:820px;width:100%}
+.ex-tag{display:none;align-items:center;gap:8px;background:var(--accent-lt);border:1.5px solid var(--accent);border-radius:var(--r);padding:8px 13px;font-size:.8rem;color:var(--accent);font-weight:600;margin-bottom:12px}
+.ex-tag.show{display:flex}
+.ex-tag button{margin-left:auto;font-size:.71rem;border:none;background:none;font-family:inherit;color:var(--accent);cursor:pointer;font-weight:600;text-decoration:underline}
+.g-btn{width:100%;display:flex;align-items:center;gap:8px;background:var(--white);border:1.5px solid var(--line);border-radius:var(--r);padding:9px 13px;font:inherit;font-size:.83rem;font-weight:600;color:var(--muted);cursor:pointer;margin-bottom:11px;transition:.15s;text-align:left}
+.g-btn:hover{border-color:var(--brand);color:var(--brand)}
+.g-btn .arr{margin-left:auto;font-size:.78rem;transition:transform .2s}
+.g-btn.open .arr{transform:rotate(180deg)}
+.g-panel{display:none;background:var(--white);border:1px solid var(--line);border-radius:var(--r);padding:13px 15px;margin-bottom:12px}
+.g-panel.open{display:block}
+.g-p{font-size:.82rem;color:var(--muted);margin-bottom:11px;line-height:1.6}
+.g-grid{display:grid;grid-template-columns:1fr 1fr;gap:7px}
+.g-item{background:var(--bg);border-radius:8px;padding:8px 10px}
+.g-lbl{font-size:.68rem;font-weight:700;text-transform:uppercase;letter-spacing:.06em;color:var(--brand);margin-bottom:2px}
+.g-p2{font-size:.78rem;color:var(--muted);line-height:1.5}
+.ta-wrap{margin-bottom:9px}
+.ta{width:100%;min-height:250px;resize:vertical;border:1.5px solid var(--line);border-radius:var(--r);background:var(--white);color:var(--ink);font:inherit;font-size:.94rem;line-height:1.8;padding:13px 15px;transition:border-color .15s,box-shadow .15s;-webkit-appearance:none}
+.ta:focus{outline:none;border-color:var(--brand);box-shadow:0 0 0 3px rgba(42,92,69,.1)}
+.toolbar{display:flex;align-items:center;gap:8px;flex-wrap:wrap;margin-bottom:11px}
+.cpill{display:inline-flex;align-items:center;gap:4px;font-size:.73rem;color:var(--muted);background:var(--bg);border:1px solid var(--line);border-radius:999px;padding:3px 9px;margin-left:auto}
+.cpill.good{color:var(--ok);border-color:var(--ok);background:var(--brand-lt)}
+.mic{display:inline-flex;align-items:center;gap:5px;border:1.5px solid var(--line);border-radius:999px;padding:6px 13px;background:var(--white);font:inherit;font-size:.79rem;font-weight:600;color:var(--muted);cursor:pointer;transition:.15s}
+.mic:hover{border-color:var(--brand);color:var(--brand)}
+.mic.rec{background:#FFF0EE;border-color:var(--warn);color:var(--warn);animation:mp 1s infinite}
+@keyframes mp{0%,100%{box-shadow:0 0 0 0 rgba(184,59,46,.2)}50%{box-shadow:0 0 0 6px rgba(184,59,46,0)}}
+.hints-wrap{overflow-x:auto;-webkit-overflow-scrolling:touch;padding-bottom:6px;margin-bottom:14px}
+.hints-wrap::-webkit-scrollbar{height:0}
+.hints{display:flex;gap:6px;width:max-content}
+.hint{flex-shrink:0;padding:4px 12px;font-size:.75rem;font-weight:500;border:1.5px solid var(--line);border-radius:999px;background:var(--white);color:var(--muted);cursor:pointer;transition:.14s}
+.hint:hover{border-color:var(--brand);color:var(--brand);background:var(--brand-lt)}
+.pcard{background:var(--white);border:1px solid var(--line);border-radius:var(--r-lg);padding:clamp(13px,3vw,20px)}
+.pc-top{display:flex;align-items:flex-start;justify-content:space-between;gap:10px;flex-wrap:wrap;margin-bottom:8px}
+.pc-title{font-size:.88rem;font-weight:700}
+.pc-btns{display:flex;gap:7px;flex-wrap:wrap}
+.gst{font-size:.79rem;color:var(--muted);margin-bottom:5px}
+.gst.ok{color:var(--ok)}
+.ppre{display:none;background:#0D1B14;color:#A8DFC0;border-radius:var(--r);padding:11px 13px;font-size:.71rem;line-height:1.65;font-family:monospace;max-height:170px;overflow-y:auto;margin-top:9px;word-break:break-word}
+.ppre.show{display:block}
+.pc-bot{display:flex;justify-content:space-between;align-items:center;gap:10px;flex-wrap:wrap;margin-top:12px;padding-top:11px;border-top:1px solid var(--line)}
+#s3 .s-top{background:linear-gradient(135deg,#172e22,var(--brand))}
+.ai-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:8px;margin-bottom:18px}
+.ai-card{display:flex;flex-direction:column;align-items:center;gap:6px;background:var(--white);border:1.5px solid var(--line);border-radius:var(--r);padding:12px 5px 9px;text-decoration:none;color:var(--ink);font-size:clamp(.68rem,1.8vw,.8rem);font-weight:700;transition:.18s;cursor:pointer}
+.ai-card:hover{transform:translateY(-2px);box-shadow:var(--shadow);border-color:var(--brand)}
+.ai-dot{width:clamp(30px,5.5vw,38px);height:clamp(30px,5.5vw,38px);border-radius:9px;display:grid;place-items:center;font-size:clamp(.68rem,1.7vw,.82rem);font-weight:800;color:#fff;flex-shrink:0}
+.scard{background:var(--white);border:1px solid var(--line);border-radius:var(--r-lg);padding:clamp(13px,3vw,22px);margin-bottom:13px}
+.slbl{display:flex;align-items:center;gap:7px;font-size:.68rem;font-weight:700;text-transform:uppercase;letter-spacing:.08em;color:var(--muted);margin-bottom:11px}
+.snum{width:19px;height:19px;border-radius:50%;background:var(--brand);color:#fff;display:grid;place-items:center;font-size:.66rem;font-weight:800;flex-shrink:0}
+.rta{width:100%;min-height:190px;resize:vertical;border:1.5px solid var(--line);border-radius:var(--r);background:var(--bg);color:var(--ink);font:inherit;font-size:.86rem;line-height:1.6;padding:11px 13px;transition:border-color .15s;-webkit-appearance:none}
+.rta:focus{outline:none;border-color:var(--brand);box-shadow:0 0 0 3px rgba(42,92,69,.1)}
+.vrow{display:flex;gap:7px;align-items:center;flex-wrap:wrap;margin-top:9px}
+.chip{display:inline-flex;align-items:center;gap:5px;font-size:.76rem;font-weight:600;padding:4px 10px;border-radius:999px}
+.ci{background:var(--bg);color:var(--muted)}.co{background:var(--brand-lt);color:var(--ok)}.ce{background:#FDECEA;color:var(--warn)}
+.exprow{display:grid;grid-template-columns:repeat(4,1fr);gap:8px;margin-top:13px;padding-top:12px;border-top:1px solid var(--line)}
+.ebtn{display:flex;flex-direction:column;align-items:center;gap:4px;padding:9px 4px;border:1.5px solid var(--line);border-radius:var(--r);background:var(--white);cursor:pointer;font:inherit;font-size:clamp(.65rem,1.8vw,.74rem);font-weight:600;color:var(--muted);transition:.15s}
+.ebtn:hover{border-color:var(--brand);color:var(--brand);background:var(--brand-lt)}
+.eico{font-size:clamp(1rem,3vw,1.25rem)}
+#reportArea{display:none;margin-top:14px}
+#reportArea.show{display:block}
+.rpt{display:grid;gap:9px}
+.rpt-head{background:var(--brand);color:#fff;border-radius:var(--r-lg);padding:clamp(14px,3vw,22px)}
+.rpt-head h2{font-family:'Lora',serif;font-size:clamp(1.15rem,3.5vw,1.45rem);font-weight:700;color:#fff;margin-bottom:3px}
+.rh-meta{font-size:.74rem;opacity:.6}
+.rs{background:var(--white);border:1px solid var(--line);border-radius:var(--r);padding:clamp(11px,2.5vw,17px)}
+.rh{display:flex;align-items:center;gap:8px;margin-bottom:9px;padding-bottom:8px;border-bottom:1px solid var(--line)}
+.ri{width:23px;height:23px;border-radius:6px;display:grid;place-items:center;font-size:.82rem;flex-shrink:0}
+.rt{font-family:'Lora',serif;font-size:.92rem;font-weight:700}
+.pcs{display:grid;gap:5px}
+.pc{display:flex;border:1px solid var(--line);border-radius:8px;overflow:hidden}
+.pb{width:3px;flex-shrink:0}
+.pbo{padding:7px 10px;flex:1;min-width:0}
+.pi{font-weight:700;font-size:.82rem;margin-bottom:2px}
+.ps{font-size:.75rem;color:var(--muted);line-height:1.5}
+.tc{display:grid;grid-template-columns:1fr 1fr;gap:7px}
+.tcard{background:var(--bg);border:1px solid var(--line);border-radius:8px;padding:9px 11px}
+.tt{font-size:.65rem;font-weight:700;text-transform:uppercase;letter-spacing:.07em;color:var(--muted);margin-bottom:6px}
+.tf{grid-column:1/-1}
+.ttag{display:inline-block;background:var(--brand-lt);color:var(--brand);font-size:.71rem;padding:2px 7px;border-radius:5px;margin:2px;font-weight:600}
+.eg{display:grid;grid-template-columns:1fr 1fr;gap:7px}
+.ec{background:var(--bg);border:1px solid var(--line);border-radius:8px;padding:8px 10px}
+.iw{display:flex;flex-wrap:wrap;gap:6px}
+.ic{background:#FFF3E0;border:1px solid #FFB74D;color:#7A4400;font-size:.77rem;padding:3px 9px;border-radius:6px;font-weight:500}
+.epf{display:flex;flex-wrap:wrap;gap:0;align-items:stretch}
+.epb{flex:1;min-width:88px;border-radius:8px;padding:9px 8px}
+.epa{display:flex;align-items:center;justify-content:center;font-size:1rem;color:#ccc;padding:0 1px;flex-shrink:0}
+.epl{font-size:.59rem;font-weight:800;text-transform:uppercase;letter-spacing:.06em;opacity:.7;margin-bottom:3px}
+.epbody{font-size:.71rem;line-height:1.5;opacity:.87}
+.reco{width:100%;border-collapse:collapse;font-size:.82rem}
+.reco th{background:var(--bg);font-size:.66rem;font-weight:700;text-transform:uppercase;padding:7px 9px;border-bottom:1.5px solid var(--line);text-align:left}
+.reco td{padding:7px 9px;border-bottom:1px solid var(--line);vertical-align:top}
+.reco tr:last-child td{border-bottom:none}
+.rtag{font-size:.66rem;font-weight:700;padding:2px 7px;border-radius:99px;white-space:nowrap;display:inline-block}
+.plg{display:grid;grid-template-columns:repeat(4,1fr);gap:8px}
+.pcl{border-radius:9px;overflow:hidden;border:1.5px solid}
+.plh{padding:6px 9px;font-size:.66rem;font-weight:700;text-transform:uppercase;letter-spacing:.06em}
+.plb{padding:6px 9px 9px;display:grid;gap:3px}
+.pli{font-size:.75rem;line-height:1.5;padding:4px 6px;border-radius:5px}
+.nota{background:var(--brand-lt);border-left:4px solid var(--brand);border-radius:0 8px 8px 0;padding:11px 14px;font-size:.86rem;line-height:1.75}
+.refs{list-style:none;padding:0;margin:0}
+.refs li{padding:4px 0;border-bottom:1px solid var(--line);font-size:.74rem;color:var(--muted)}
+.refs li:last-child{border-bottom:none}
+.refs li::before{content:'📄 '}
+#tw{position:fixed;bottom:14px;right:14px;display:flex;flex-direction:column-reverse;gap:7px;z-index:9999;pointer-events:none}
+.toast{background:#0D1B14;color:#A8DFC0;padding:8px 15px;border-radius:var(--r);font-size:.8rem;box-shadow:0 6px 20px rgba(0,0,0,.25);animation:ti .22s ease;max-width:270px;pointer-events:auto}
+@keyframes ti{from{opacity:0;transform:translateX(9px)}to{opacity:1;transform:translateX(0)}}
+@media(max-width:600px){.g-grid{grid-template-columns:1fr}.tc{grid-template-columns:1fr}.tf{grid-column:auto}.eg{grid-template-columns:1fr}.plg{grid-template-columns:1fr 1fr}.epf{flex-direction:column}.epa{transform:rotate(90deg);padding:1px 0}.reco{font-size:.75rem}}
+@media(max-width:420px){.plg{grid-template-columns:1fr}.title{font-size:1.85rem}.ai-card{padding:8px 2px 7px;gap:4px}.ai-dot{border-radius:8px}}
+</style>
+</head>
+<body>
+<div id="tw"></div>
+
+<div class="screen active" id="s1">
+  <div class="dots"><div class="dot active"></div><div class="dot"></div><div class="dot"></div></div>
+  <div class="logo">M</div>
+  <div class="title">Metamor<span>IA</span></div>
+  <p class="tagline">Comprende el patrón detrás de lo que quieres cambiar. Un relato. Un análisis. Un plan real.</p>
+  <div class="feats">
+    <div class="feat">✍️ Un solo paso</div>
+    <div class="feat">🔬 IA con evidencia</div>
+    <div class="feat">📊 Informe exportable</div>
+  </div>
+  <div class="cta-group">
+    <button class="btn btn-white btn-full" style="font-size:.93rem;padding:12px 24px" onclick="goTo(2)">Comenzar con mi caso →</button>
+    <button class="btn btn-ghost btn-full" onclick="loadEx()">✨ Ver ejemplo guiado</button>
+    <div class="ex-banner" id="exBanner"><span>✓</span> Ejemplo cargado — personalízalo libremente.</div>
+    <p class="s1-note">Sin registro · Sin datos en servidores</p>
+  </div>
+</div>
+
+<div class="screen" id="s2">
+  <div class="s-top">
+    <div class="dots"><div class="dot done"></div><div class="dot active"></div><div class="dot"></div></div>
+    <div class="s-top-inner" style="margin-top:14px">
+      <button class="back" onclick="goTo(1)">← Volver</button>
+      <div class="s-head">Cuéntame tu caso</div>
+      <p class="s-sub">En un relato: quién eres, qué quieres cambiar y cómo ocurre en tu vida.</p>
+    </div>
+  </div>
+  <div class="s-body">
+    <div class="ex-tag" id="exTag">
+      <span>✨ Ejemplo cargado</span>
+      <span style="font-size:.76rem;font-weight:400;color:#8a5a1a">Personalízalo o úsalo para ver el flujo completo.</span>
+      <button onclick="clearEx()">× Limpiar</button>
+    </div>
+    <button class="g-btn" id="gBtn" onclick="toggleG()">💡 ¿Qué puedo contar? — Guía rápida <span class="arr">▾</span></button>
+    <div class="g-panel" id="gPanel">
+      <p class="g-p">Escribe con libertad. No hay respuestas incorrectas. Cuanto más honesto y detallado seas, más preciso será el análisis.</p>
+      <div class="g-grid">
+        <div class="g-item"><div class="g-lbl">👤 Quién eres</div><p class="g-p2">Edad, ocupación, contexto de vida, con quién vives, tus valores.</p></div>
+        <div class="g-item"><div class="g-lbl">🎯 Qué quieres cambiar</div><p class="g-p2">La conducta, hábito o decisión específica que te preocupa.</p></div>
+        <div class="g-item"><div class="g-lbl">⏱ Cuándo y cómo ocurre</div><p class="g-p2">Momentos del día, frecuencia, contextos, emociones asociadas.</p></div>
+        <div class="g-item"><div class="g-lbl">💭 Qué has intentado</div><p class="g-p2">Intentos previos, qué funcionó, qué no, qué te ayuda.</p></div>
+        <div class="g-item"><div class="g-lbl">🌱 Tus recursos</div><p class="g-p2">Actividades que disfrutas, personas de apoyo, fortalezas personales.</p></div>
+        <div class="g-item"><div class="g-lbl">📍 Impacto en tu vida</div><p class="g-p2">Cómo afecta salud, relaciones, trabajo, economía, bienestar.</p></div>
+      </div>
+    </div>
+    <div class="ta-wrap">
+      <textarea class="ta" id="nta" oninput="onNI(this)"
+        placeholder="Escribe aquí tu relato o pulsa el micrófono para dictar…
+
+Ej: Tengo 34 años, trabajo en diseño gráfico desde casa. Quiero dejar de procrastinar: cada vez que tengo una tarea difícil abro el teléfono sin darme cuenta. Ocurre principalmente en las mañanas y se intensifica cuando me siento inseguro con el proyecto…"></textarea>
+    </div>
+    <div class="toolbar">
+      <button class="mic" id="micBtn" onclick="toggleMic()"><span id="mico">🎤</span><span id="micl">Dictar</span></button>
+      <div class="cpill" id="cpill">0 car.</div>
+    </div>
+    <div class="hints-wrap">
+      <div class="hints">
+        <div class="hint" onclick="addH('¿Cuándo ocurre exactamente?')">⏰ ¿Cuándo?</div>
+        <div class="hint" onclick="addH('¿Qué siento antes y después?')">💭 ¿Qué siento?</div>
+        <div class="hint" onclick="addH('¿Desde cuándo me pasa esto?')">📅 ¿Desde cuándo?</div>
+        <div class="hint" onclick="addH('¿Con quién o en qué contextos ocurre?')">🌍 ¿Con quién?</div>
+        <div class="hint" onclick="addH('¿Qué he intentado antes para cambiar esto?')">🔄 ¿Qué intenté?</div>
+        <div class="hint" onclick="addH('¿Qué actividades disfruto y me ayudan a sentirme bien?')">✨ Mis recursos</div>
+        <div class="hint" onclick="addH('¿Cómo afecta mi salud, trabajo o relaciones?')">📍 Impacto</div>
+        <div class="hint" onclick="addH('¿Cuáles son mis valores más importantes?')">🧭 Valores</div>
+      </div>
+    </div>
+    <div class="pcard">
+      <div class="pc-top">
+        <div><div class="pc-title">⚡ Generar prompt para la IA</div><div class="gst" id="gst">Escribe al menos 80 caracteres para generar el análisis.</div></div>
+        <div class="pc-btns"><button class="btn btn-sec btn-sm" onclick="togglePre()" id="prBtn">Ver prompt</button></div>
+      </div>
+      <pre class="ppre" id="ppre"></pre>
+      <div class="pc-bot">
+        <button class="btn btn-primary" onclick="buildCopy()" id="cpBtn"><span>📋</span> Generar y copiar</button>
+        <button class="btn btn-acc" onclick="goTo(3)" id="s3Btn" disabled>Continuar →</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="screen" id="s3">
+  <div class="s-top">
+    <div class="dots"><div class="dot done"></div><div class="dot done"></div><div class="dot active"></div></div>
+    <div class="s-top-inner" style="margin-top:14px">
+      <button class="back" onclick="goTo(2)">← Volver al relato</button>
+      <div class="s-head">Análisis con IA</div>
+      <p class="s-sub">Elige la IA, pega el prompt copiado, trae el JSON y genera tu informe.</p>
+    </div>
+  </div>
+  <div class="s-body">
+    <div class="scard">
+      <div class="slbl"><div class="snum">1</div>Abre la IA y pega el prompt copiado</div>
+      <div class="ai-grid" id="aig"></div>
+      <div style="display:flex;gap:7px;align-items:center;flex-wrap:wrap">
+        <button class="btn btn-sec btn-sm" onclick="reCopy()">📋 Volver a copiar</button>
+        <button class="btn btn-sec btn-sm" onclick="loadExJ()">🔬 Cargar respuesta de ejemplo</button>
+        <span id="cst" style="font-size:.74rem;color:var(--ok)"></span>
+      </div>
+    </div>
+    <div class="scard">
+      <div class="slbl"><div class="snum">2</div>Pega la respuesta JSON de la IA</div>
+      <textarea class="rta" id="rta" oninput="onRI()"
+        placeholder='Pega aquí el JSON que devolvió la IA. Debe empezar con { y terminar con }.
+Si la IA incluyó texto adicional, bórralo antes de pegar.'></textarea>
+      <div class="vrow">
+        <button class="btn btn-primary btn-sm" onclick="valReport()">✓ Validar y generar informe</button>
+        <div class="chip ci" id="vch">Sin validar</div>
+      </div>
+    </div>
+    <div id="expBar" style="display:none">
+      <div style="font-size:.7rem;font-weight:700;text-transform:uppercase;letter-spacing:.08em;color:var(--muted);margin-bottom:8px">Exportar informe</div>
+      <div class="exprow">
+        <button class="ebtn" onclick="expH()"><span class="eico">📄</span>HTML</button>
+        <button class="ebtn" onclick="expT()"><span class="eico">📝</span>TXT</button>
+        <button class="ebtn" onclick="expJ()"><span class="eico">🗂️</span>JSON</button>
+        <button class="ebtn" onclick="expD()"><span class="eico">📘</span>DOCX</button>
+      </div>
+    </div>
+    <div id="reportArea"></div>
+  </div>
+</div>
+
+<script>
+'use strict';
+let PT='',PJ=null,rec=null,isRec=false,prevOpen=false;
+const $=id=>document.getElementById(id);
+const narr=()=>$('nta').value.trim();
+const AI=[{n:'ChatGPT',u:'https://chat.openai.com',c:'#10A37F',i:'G'},{n:'Claude',u:'https://claude.ai',c:'#C4622D',i:'Cl'},{n:'Gemini',u:'https://gemini.google.com',c:'#4285F4',i:'Ge'},{n:'Perplx',u:'https://www.perplexity.ai',c:'#20808D',i:'Px'},{n:'Copilot',u:'https://copilot.microsoft.com',c:'#0078D4',i:'Co'},{n:'Grok',u:'https://grok.com',c:'#333',i:'Gr'},{n:'Mistral',u:'https://chat.mistral.ai',c:'#FF7000',i:'Mi'},{n:'DeepSeek',u:'https://chat.deepseek.com',c:'#2B5CE6',i:'Ds'}];
+const SCHEMA={resumen_ejecutivo:'string',reformulacion_problema:'string',conductas:[{item:'string',patron:'string'}],habitos:[{item:'string',patron:'string'}],comportamientos:[{item:'string',patron:'string'}],elecciones:[{item:'string',funcion:'string'}],decisiones:[{item:'string',estado:'string'}],temporalidad:{momentos_criticos:['string'],recurrencias:['string'],lectura:'string'},implicancias:['string'],esquema_procesual:[{etapa:'Disparador|Estado interno|Conducta automática|Refuerzo inmediato|Consolidación|Impacto acumulado|Punto de quiebre',contenido:'descripción fenomenológica concreta de lo que le ocurre a ESTA persona en esta etapa — NO prescriptivo'}],recomendaciones:{inmediatas:['string'],elecciones:['string'],habitos:['string'],decisiones:['string'],apoyo_externo:['string']},plan_cambio:{esta_semana:['string'],dos_semanas:['string'],un_mes:['string'],seguimiento:['string']},nota_interpretativa:'string',referencias:['Apellido A (año). Título real. Fuente — solo reales']};
+const EX_NAR=`Tengo 38 años, soy profesora de primaria y madre de dos hijos (7 y 11 años). Trabajo presencialmente y llego a casa agotada casi todos los días. Quiero cambiar el hábito de revisar el teléfono compulsivamente en las noches, especialmente después de que los niños se duermen.
+
+Lo que ocurre es así: en cuanto los niños están dormidos, entre las 9 y 10 de la noche, siento que ese momento es "mi tiempo". Pero en lugar de descansar, abro Instagram o TikTok de forma automática. A veces sin darme cuenta llevo una hora scrolleando y ya son las 12:30. Esto empezó hace unos 3 años y se fue convirtiendo en un ritual difícil de interrumpir.
+
+Lo que lo activa es el cansancio mezclado con la sensación de que "me lo merezco", la soledad porque mi pareja se duerme temprano, y el deseo de escapar del estrés acumulado. Cuando estoy más estresada en el trabajo, el consumo nocturno aumenta mucho más.
+
+El impacto es grande: duermo entre 6 y 6.5 horas cuando necesito al menos 8, amanezco irritable con mis hijos y mis estudiantes, y siento que desperdicio el único momento del día que podría usar para leer, escribir o descansar bien. He intentado poner el teléfono en el cuarto de los niños pero al día siguiente lo vuelvo a traer. También instalé apps de control de tiempo pero las ignoro cuando me llega la urgencia.
+
+Me gustan mucho los libros, aunque hace un año que no termino ninguno. También disfrutaba escribir un diario personal. Antes de tener hijos dormía muy bien y eso me da confianza de que puedo recuperarlo. Valoro mucho la coherencia, el cuidado de mi salud y ser una buena madre, y siento que este hábito contradice todo eso.`;
+const EX_JSON={resumen_ejecutivo:"Profesora de 38 años presenta un patrón de uso compulsivo del teléfono móvil en horario nocturno (22:00–01:30), funcionalmente adaptativo como mecanismo de regulación emocional del cansancio acumulado, la soledad relacional y la transición del rol maternal al espacio personal. El hábito, de 3 años de consolidación, genera un ciclo de privación del sueño que retroalimenta la irritabilidad y el agotamiento que, a su vez, intensifican el mismo mecanismo de alivio.",reformulacion_problema:"El uso nocturno del dispositivo no es un problema de fuerza de voluntad. Cumple tres funciones simultáneas: (1) delineación simbólica del espacio personal tras la jornada de cuidado intensivo, (2) regulación del vacío relacional en la soledad nocturna, y (3) descarga de la sobrecarga cognitiva mediante estimulación de alta recompensa dopaminérgica. Los intentos previos fracasaron porque eliminaron el objeto sin sustituir las funciones.",conductas:[{item:"Abrir Instagram o TikTok inmediatamente después de que los hijos se duermen",patron:"Respuesta automática ante la señal contextual 'silencio nocturno'; ocurre de forma preconsciente, sin decisión deliberada."},{item:"Desactivar o ignorar las apps de control de tiempo instaladas",patron:"Contrarespuesta a la restricción que revela la fortaleza del impulso: el deseo de regulación supera la intención de control."}],habitos:[{item:"Scrolling nocturno prolongado (90 min promedio)",patron:"Hábito consolidado por refuerzo variable (contenido nuevo e impredecible), el mecanismo más potente de mantenimiento conductual."},{item:"Aplazamiento del inicio del sueño",patron:"El inicio del sueño se pospone mientras la estimulación visual mantiene la alerta; la fatiga no logra competir con el circuito de recompensa activado."}],comportamientos:[{item:"Patrón de autorregulación emocional mediante estimulación externa",patron:"El malestar interno es sistemáticamente gestionado mediante estímulos externos de alta palatabilidad, sin elaboración interna del estado."}],elecciones:[{item:"Traer el teléfono de vuelta al cuarto después de haberlo dejado fuera",funcion:"Restaura el acceso al mecanismo de alivio; revela que la motivación de evitar el malestar supera la de mantener el propósito de descanso."},{item:"Quedarse en cama mirando el teléfono en lugar de preparar las condiciones de sueño",funcion:"Elección que maximiza el alivio inmediato a costa del bienestar mediato."}],decisiones:[{item:"Deseo declarado de dormir mejor y recuperar tiempo personal de calidad",estado:"Decisión presente pero aún no traducida en modificaciones ambientales o de elecciones cotidianas que la sustenten."}],temporalidad:{momentos_criticos:["22:00–22:30: los niños se duermen (señal de inicio del ciclo)","23:00–01:30: pico de consumo máximo","Días con alta carga emocional laboral (incremento significativo)"],recurrencias:["Diario, sin días de excepción observados","Intensificación correlacionada con el nivel de estrés laboral semanal"],lectura:"El patrón tiene una estructura temporal predecible y estable: la señal (silencio post-niños), la respuesta (abrir el teléfono) y el refuerzo (alivio) ocurren en secuencia casi automática cada noche. Esta predictabilidad es una ventaja terapéutica: el mismo carácter rutinario que consolida el hábito puede aprovecharse para introducir conductas alternativas en el mismo slot temporal."},implicancias:["Privación crónica de sueño (6–6.5h en lugar de las 8h necesarias) con impacto en memoria, regulación emocional y sistema inmune.","Irritabilidad matutina que afecta la calidad del vínculo con los hijos y el desempeño pedagógico.","Abandono progresivo de actividades reparadoras (lectura, escritura) que antes funcionaban como reguladores emocionales saludables.","Disonancia entre los valores declarados (coherencia, buen cuidado) y la conducta nocturna real."],esquema_procesual:[{etapa:"Disparador contextual",contenido:"Los niños se duermen. El silencio y la oscuridad activan la señal interna de 'ahora es mi momento', previamente condicionada como antecedente del ciclo."},{etapa:"Estado interno de activación dual",contenido:"Coexisten el agotamiento físico y la tensión emocional residual del día. El sistema busca alivio de bajo esfuerzo y alta recompensa."},{etapa:"Conducta automática de apertura",contenido:"La mano busca el teléfono antes de que haya decisión consciente. La conducta ya no requiere intención: es un reflejo habitual anclado a la señal contextual."},{etapa:"Refuerzo inmediato y sostenido",contenido:"El contenido visual produce activaciones dopaminérgicas frecuentes e impredecibles que mantienen la atención y suprimen la conciencia del cansancio."},{etapa:"Consolidación por repetición",contenido:"El ciclo se repite noche tras noche en las mismas condiciones: la asociación señal–respuesta–alivio se fortalece hasta volverse automática."},{etapa:"Impacto acumulado",contenido:"Privación crónica de sueño → irritabilidad matutina → menor capacidad regulatoria durante el día → mayor necesidad de alivio nocturno. Un ciclo que se alimenta a sí mismo."},{etapa:"Punto de quiebre posible",contenido:"La conciencia del ciclo existe y el deseo de cambio es genuino. El punto crítico está en sustituir las funciones del teléfono (transición, alivio) por alternativas que no penalicen el sueño."}],recomendaciones:{inmediatas:["Crear un 'ritual de transición' de 15 minutos sin teléfono justo después de que los niños se duermen: preparar una bebida caliente, encender una vela, poner música suave. La función simbólica de 'mi tiempo' se activa sin el dispositivo.","Establecer el teléfono en modo 'No molestar' a las 22:00 con una sola excepción (llamadas de familiares directos). No implica dejarlo fuera del cuarto aún; solo reduce la estimulación de notificaciones."],elecciones:["Antes de abrir una red social nocturna, añadir una fricción deliberada: dejar el teléfono cargando en la cocina y llevar al cuarto solo el libro o el cuaderno de escritura.","Elegir activamente qué hacer en 'su tiempo' la noche anterior, en un momento de menor cansancio, no en el momento de tensión."],habitos:["Reintroducir la escritura personal como actividad nocturna: 10 minutos de diario libre después del ritual de transición. Cumple la misma función de procesamiento emocional sin privación del sueño.","Establecer un horario de 'cierre digital' progresivo: comenzar apagando el teléfono a las 23:30 y reducir 15 minutos cada semana hasta llegar a las 22:30."],decisiones:["Traducir la decisión de 'dormir mejor' en un acuerdo concreto y observable para esta semana: 'Tres noches esta semana estaré durmiendo antes de las 23:00'. No 'todos los días' — tres es alcanzable."],apoyo_externo:["Evaluación para Terapia Cognitivo-Conductual orientada al insomnio y uso problemático de pantallas (TCC-I). La cronificación del patrón (3 años) y la resistencia a intervenciones de autocontrol previas indican que el soporte especializado mejoraría la adherencia."]},plan_cambio:{esta_semana:["Implementar el ritual de transición de 15 min sin teléfono justo después de que duermen los niños.","Activar modo 'No molestar' a las 22:00 todas las noches.","Llevar un libro o cuaderno al cuarto (no el teléfono)."],dos_semanas:["Revisar el cumplimiento del ritual: ¿cuántas noches ocurrió? ¿Qué lo interrumpió?","Iniciar la escritura personal de 10 minutos al menos 3 noches. Observar si modifica el umbral de activación del scrolling."],un_mes:["Evaluar si el horario de cierre digital se desplazó al menos 30 min.","Registrar la calidad subjetiva del sueño (1 a 5 cada mañana) para observar correlación con las noches donde el ritual se cumplió."],seguimiento:["Revisión quincenal de los registros. Ajustar si el cansancio laboral extremo sigue siendo el principal activador.","Indicador de éxito: 4 de 7 noches durmiendo antes de las 23:00 de forma sostenida por 4 semanas."]},nota_interpretativa:"Este análisis parte de un relato personal y opera como una aproximación razonada, no como un diagnóstico clínico. Las recomendaciones están orientadas por evidencia sobre modificación de hábitos y conductas de uso problemático de pantallas, pero deben adaptarse a la realidad de cada semana. El cambio ocurre en espiral: habrá noches que el ciclo vuelva. Lo importante es la dirección acumulada, no la perfección diaria.",referencias:["Treur J.L. et al. (2019). Problematic social media use and its relationship with mental health. Addiction, 114(9), 1665–1674.","Buysse D.J. (2014). Sleep health: can we define it? Does it matter? Sleep, 37(1), 9–17.","Duhigg C. (2012). The Power of Habit: Why We Do What We Do in Life and Business. Random House.","Lally P. et al. (2010). How are habits formed: modelling habit formation in the real world. European Journal of Social Psychology, 40(6), 998–1009.","Walker M. (2017). Why We Sleep: Unlocking the Power of Sleep and Dreams. Scribner."]};
+function goTo(n){document.querySelectorAll('.screen').forEach(s=>s.classList.remove('active'));$('s'+n).classList.add('active');window.scrollTo({top:0,behavior:'smooth'});if(n===3)renderAI();}
+function toggleG(){const b=$('gBtn'),p=$('gPanel');b.classList.toggle('open');p.classList.toggle('open');}
+function loadEx(){$('nta').value=EX_NAR;onNI($('nta'));$('exBanner').classList.add('show');$('exTag').classList.add('show');goTo(2);}
+function clearEx(){$('nta').value='';onNI($('nta'));$('exTag').classList.remove('show');PT='';$('ppre').textContent='';$('ppre').classList.remove('show');$('s3Btn').disabled=true;$('gst').textContent='Escribe al menos 80 caracteres para generar el análisis.';$('gst').className='gst';}
+function onNI(el){const l=el.value.length;const p=$('cpill');p.textContent=l+' car.';p.className='cpill'+(l>=200?' good':'');const s=$('gst');s.textContent=l<80?'Escribe al menos 80 caracteres para generar el análisis.':l<200?'¡Bien! Más detalle mejora la precisión del análisis.':'✓ Relato listo para analizar.';s.className='gst'+(l>=200?' ok':'');}
+function addH(t){const ta=$('nta');const c=ta.value;ta.value=c+(c&&!/[\s\n]$/.test(c)?'\n\n':'')+t+'\n';ta.focus();onNI(ta);}
+function buildPrompt(){const t=narr();if(t.length<80)return null;return`Eres un especialista en psicología del comportamiento y cambio conductual basado en evidencia científica. Responde ÚNICAMENTE con un bloque JSON válido — sin texto antes ni después.\n\nREGLAS CRÍTICAS:\n1. Solo JSON válido. Sin markdown, sin explicaciones fuera del JSON.\n2. El campo "esquema_procesual" describe el CICLO VIVIDO por esta persona (NO un plan terapéutico). Etapas: Disparador → Estado interno → Conducta automática → Refuerzo inmediato → Consolidación del hábito → Impacto acumulado → Punto de quiebre posible.\n3. Recomendaciones derivadas del relato. Sin clichés genéricos a menos que el relato los justifique.\n4. Solo referencias reales verificables.\n5. El cambio es gradual. Sin promesas inmediatas.\n\nSCHEMA JSON ESPERADO:\n${JSON.stringify(SCHEMA,null,2)}\n\nCASO:\n${JSON.stringify({metadata:{app:'MetamorIA Lite',fecha:new Date().toISOString()},relato_completo:t},null,2)}`;}
+function buildCopy(){const p=buildPrompt();if(!p){toast('Escribe al menos 80 caracteres.');return;}PT=p;$('ppre').textContent=p;if(prevOpen)$('ppre').classList.add('show');copy(p,'✓ Prompt copiado al portapapeles');$('s3Btn').disabled=false;$('gst').textContent='✓ Prompt generado y copiado. Continúa a la IA.';$('gst').className='gst ok';}
+function togglePre(){prevOpen=!prevOpen;if(!$('ppre').textContent)buildCopy();else $('ppre').classList.toggle('show',prevOpen);$('prBtn').textContent=prevOpen?'Ocultar':'Ver prompt';}
+function toggleMic(){if(!('webkitSpeechRecognition'in window)&&!('SpeechRecognition'in window)){toast('Dictado no disponible. Prueba en Chrome o Edge.');return;}if(isRec){rec.stop();return;}const SR=window.SpeechRecognition||window.webkitSpeechRecognition;rec=new SR();rec.lang='es-CO';rec.continuous=true;rec.interimResults=false;const ta=$('nta');rec.onstart=()=>{isRec=true;$('micBtn').classList.add('rec');$('mico').textContent='⏹';$('micl').textContent='Detener';};rec.onresult=e=>{let t='';for(let i=e.resultIndex;i<e.results.length;i++)if(e.results[i].isFinal)t+=e.results[i][0].transcript+' ';if(!t.trim())return;ta.value+=(ta.value&&!/[\s\n]$/.test(ta.value)?' ':'')+t.trim();onNI(ta);};rec.onend=()=>{isRec=false;$('micBtn').classList.remove('rec');$('mico').textContent='🎤';$('micl').textContent='Dictar';};rec.onerror=e=>{toast('Error micrófono: '+e.error);rec.stop();};rec.start();}
+function renderAI(){$('aig').innerHTML=AI.map(a=>`<a class="ai-card" href="${a.u}" target="_blank" rel="noopener"><div class="ai-dot" style="background:${a.c}">${a.i}</div><span>${a.n}</span></a>`).join('');}
+function reCopy(){if(!PT){toast('Primero genera el prompt.');return;}copy(PT);$('cst').textContent='✓ Copiado';setTimeout(()=>{$('cst').textContent='';},2200);}
+function loadExJ(){$('rta').value=JSON.stringify(EX_JSON,null,2);onRI();toast('Ejemplo cargado. Pulsa "Validar y generar informe".');}
+function onRI(){$('vch').textContent='Sin validar';$('vch').className='chip ci';PJ=null;}
+function valReport(){const raw=$('rta').value.trim();if(!raw){toast('Pega el JSON primero.');return;}const cl=raw.replace(/^```json\s*/i,'').replace(/^```\s*/i,'').replace(/\s*```$/,'').trim();try{PJ=JSON.parse(cl);$('vch').textContent='✓ JSON válido';$('vch').className='chip co';renderReport(PJ);$('expBar').style.display='';toast('✓ Informe generado.');}catch(e){$('vch').textContent='✗ '+e.message.slice(0,40);$('vch').className='chip ce';toast('JSON inválido. Revisa que empiece con { y termine con }.');}}
+function E(v){return String(v||'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));}
+function a(v){return Array.isArray(v)?v.filter(Boolean):[];}
+function s(v){return typeof v==='string'?v:(v?JSON.stringify(v):'');}
+function o(v){return(v&&typeof v==='object'&&!Array.isArray(v))?v:{};}
+function sec(ic,ti,body,bg){return`<div class="rs"><div class="rh"><div class="ri" style="background:${bg||'#F3F6F9'}">${ic}</div><div class="rt">${ti}</div></div>${body}</div>`;}
+function patC(items,color){if(!a(items).length)return'<p style="font-size:.78rem;color:#aaa">Sin datos.</p>';return'<div class="pcs">'+a(items).map(i=>{const m=s(i.item||i.conducta||i.habito||i.comportamiento||'');const su=s(i.patron||i.funcion||i.estado||'');return`<div class="pc"><div class="pb" style="background:${color}"></div><div class="pbo"><div class="pi">${E(m)}</div>${su?`<div class="ps">${E(su)}</div>`:''}</div></div>`;}).join('')+'</div>';}
+function edC(items,color,sk){if(!a(items).length)return'<p style="font-size:.78rem;color:#aaa">Sin datos.</p>';return'<div class="eg">'+a(items).map(i=>`<div class="ec"><div style="font-weight:700;font-size:.81rem;color:${color};margin-bottom:2px">${E(s(i.item||''))}</div><div style="font-size:.73rem;color:var(--muted);line-height:1.5"><em>${sk}:</em> ${E(s(i[sk]||''))}</div></div>`).join('')+'</div>';}
+function renderReport(d){const T=o(d.temporalidad);const tH=`<div class="tc"><div class="tcard"><div class="tt">⏰ Momentos críticos</div><div>${a(T.momentos_criticos).map(m=>`<span class="ttag">${E(s(m))}</span>`).join('')||'<span style="color:#bbb;font-size:.76rem">—</span>'}</div></div><div class="tcard"><div class="tt">🔁 Recurrencias</div><div>${a(T.recurrencias).map(m=>`<span class="ttag">${E(s(m))}</span>`).join('')||'<span style="color:#bbb;font-size:.76rem">—</span>'}</div></div><div class="tcard tf"><div class="tt">📖 Lectura del patrón</div><p style="font-size:.82rem;line-height:1.65;margin:0">${E(s(T.lectura))}</p></div></div>`;
+const EP_C=['#C62828','#E64A19','#F9A825','#1565C0','#6A1B9A','#2E7D32','#00838F'],EP_B=['#FFEBEE','#FBE9E7','#FFFDE7','#E3F2FD','#F3E5F5','#E8F5E9','#E0F7FA'];
+const steps=a(d.esquema_procesual);
+const epH=steps.length?`<p style="font-size:.74rem;color:var(--muted);margin-bottom:8px">Ciclo real de esta persona — léelo en orden para seguir el patrón completo.</p><div class="epf">${steps.map((st,i)=>{const c=EP_C[i%7],b=EP_B[i%7];return`${i>0?'<div class="epa">›</div>':''}<div class="epb" style="background:${b};border:1.5px solid ${c}22"><div class="epl" style="color:${c}">${E(s(st.etapa))}</div><div class="epbody" style="color:${c}DD">${E(s(st.contenido))}</div></div>`;}).join('')}</div>`:'<p style="font-size:.78rem;color:#aaa">No disponible.</p>';
+const R=o(d.recomendaciones);const RT=[{k:'inmediatas',l:'Inmediata',c:'#1565C0',b:'#E3F2FD'},{k:'elecciones',l:'Elección',c:'#E65100',b:'#FFF3E0'},{k:'habitos',l:'Hábito',c:'#2E7D32',b:'#E8F5E9'},{k:'decisiones',l:'Decisión',c:'#6A1B9A',b:'#F3E5F5'},{k:'apoyo_externo',l:'Apoyo ext.',c:'#B71C1C',b:'#FFEBEE'}];
+const rr=RT.flatMap(t=>a(R[t.k]).map(r=>`<tr><td style="width:78px"><span class="rtag" style="background:${t.b};color:${t.c}">${t.l}</span></td><td>${E(s(r))}</td></tr>`)).join('');
+const recoH=rr?`<table class="reco"><thead><tr><th>Tipo</th><th>Recomendación</th></tr></thead><tbody>${rr}</tbody></table>`:'<p style="font-size:.78rem;color:#aaa">Sin recomendaciones.</p>';
+const P=o(d.plan_cambio);const PC=[{k:'esta_semana',l:'Esta semana',c:'#1565C0',bg:'#E3F2FD',br:'#BBDEFB',ic:'📅'},{k:'dos_semanas',l:'2 semanas',c:'#1B5E20',bg:'#E8F5E9',br:'#C8E6C9',ic:'📆'},{k:'un_mes',l:'1 mes',c:'#E65100',bg:'#FFF3E0',br:'#FFE0B2',ic:'🗓️'},{k:'seguimiento',l:'Seguimiento',c:'#4A148C',bg:'#F3E5F5',br:'#E1BEE7',ic:'♻️'}];
+const planH=`<p style="font-size:.74rem;color:var(--muted);margin-bottom:7px">Hoja de ruta gradual. Ajusta según la realidad de cada semana.</p><div class="plg">${PC.map(col=>`<div class="pcl" style="border-color:${col.br}"><div class="plh" style="background:${col.bg};color:${col.c}">${col.ic} ${col.l}</div><div class="plb">${a(P[col.k]).map(item=>`<div class="pli" style="background:${col.bg}99;color:${col.c}BB">${E(s(item))}</div>`).join('')||`<div class="pli" style="color:#bbb;font-style:italic;font-size:.72rem">Sin acciones</div>`}</div></div>`).join('')}</div>`;
+const implH=`<div class="iw">${a(d.implicancias).map(i=>`<div class="ic">${E(s(i))}</div>`).join('')||'<p style="font-size:.78rem;color:#aaa">Sin implicancias.</p>'}</div>`;
+const refH=`<ul class="refs">${a(d.referencias).map(r=>`<li>${E(s(r))}</li>`).join('')||'<li>Sin referencias.</li>'}</ul>`;
+$('reportArea').innerHTML=`<div class="rpt"><div class="rpt-head"><h2>Informe de Cambio Procesual</h2><div class="rh-meta">MetamorIA Lite · ${new Date().toLocaleString('es-CO')}</div></div>${sec('📋','Resumen ejecutivo',`<p style="font-size:.88rem;line-height:1.75">${E(s(d.resumen_ejecutivo))}</p>`,'#EEF4FF')}${sec('🔄','Reformulación del problema',`<p style="font-size:.85rem;line-height:1.75">${E(s(d.reformulacion_problema))}</p>`,'#F0FFF4')}${sec('⚡','Conductas detectadas',patC(d.conductas,'#E64A19'),'#FFF3E0')}${sec('🔁','Hábitos detectados',patC(d.habitos,'#1565C0'),'#E3F2FD')}${sec('🌊','Comportamientos',patC(d.comportamientos,'#5C6BC0'),'#EDE7F6')}${sec('🔀','Elecciones y decisiones',`<p style="font-size:.66rem;font-weight:700;text-transform:uppercase;letter-spacing:.06em;color:var(--muted);margin-bottom:6px">Elecciones</p>${edC(d.elecciones,'#E65100','funcion')}<p style="font-size:.66rem;font-weight:700;text-transform:uppercase;letter-spacing:.06em;color:var(--muted);margin:9px 0 6px">Decisiones</p>${edC(d.decisiones,'#4A148C','estado')}`,'#FFF8F0')}${sec('⏱','Temporalidad y patrones',tH,'#E8F4FD')}${sec('🌐','Implicancias del estilo de vida',implH,'#FFF8F0')}${sec('🗺','Ciclo vivido — qué le ocurre a esta persona',epH,'#F0FFF4')}${sec('✅','Recomendaciones estructuradas',recoH,'#F5FFF5')}${sec('📅','Plan de cambio basado en evidencia',planH,'#E8F2FD')}${sec('🧭','Nota interpretativa',`<div class="nota">${E(s(d.nota_interpretativa))}</div>`,'#EEF4FF')}${sec('📚','Referencias científicas',refH,'#F5F5F5')}</div>`;
+$('reportArea').classList.add('show');setTimeout(()=>$('reportArea').scrollIntoView({behavior:'smooth',block:'start'}),100);}
+function getDoc(){const body=$('reportArea').innerHTML||'<p>Sin informe.</p>';const st=Array.from(document.querySelectorAll('style')).map(s=>s.textContent).join('\n');return`<!doctype html><html lang="es"><head><meta charset="UTF-8"><title>Informe MetamorIA Lite</title><link href="https://fonts.googleapis.com/css2?family=Lora:wght@700&family=Plus+Jakarta+Sans:wght@400;600&display=swap" rel="stylesheet"><style>body{font-family:'Plus Jakarta Sans',sans-serif;background:#F5F3EF;color:#18211A;padding:clamp(14px,4vw,40px);max-width:940px;margin:0 auto}${st}</style></head><body>${body}<p style="margin-top:48px;font-size:.7rem;color:#aaa;text-align:center">MetamorIA Lite · Dr. José Alonso Andrade Salazar · 911psicologia@gmail.com</p></body></html>`;}
+function dl(n,c,t){const b=new Blob([c],{type:t});const u=URL.createObjectURL(b);const a=document.createElement('a');a.href=u;a.download=n;a.click();setTimeout(()=>URL.revokeObjectURL(u),2000);}
+function expH(){if(!PJ){toast('Genera primero el informe.');return;}dl('MetamorIA_Informe.html',getDoc(),'text/html;charset=utf-8');toast('HTML descargado.');}
+function expJ(){if(!PJ){toast('Genera primero el informe.');return;}dl('MetamorIA_Backup.json',JSON.stringify({meta:{app:'MetamorIA Lite',fecha:new Date().toISOString()},relato:$('nta').value,informe:PJ},null,2),'application/json;charset=utf-8');toast('JSON descargado.');}
+function expT(){if(!PJ){toast('Genera primero el informe.');return;}const d=PJ,R=o(d.recomendaciones),P=o(d.plan_cambio),T=o(d.temporalidad),sep='─'.repeat(54);dl('MetamorIA_Informe.txt',['INFORME METAMORIA LITE',sep,`Fecha: ${new Date().toLocaleDateString('es-CO')}`,sep,'','RESUMEN EJECUTIVO',s(d.resumen_ejecutivo),'','REFORMULACIÓN',s(d.reformulacion_problema),'','CONDUCTAS',...a(d.conductas).map(c=>`  • ${s(c.item)} — ${s(c.patron)}`),'','HÁBITOS',...a(d.habitos).map(h=>`  • ${s(h.item)} — ${s(h.patron)}`),'','TEMPORALIDAD',`  Momentos: ${a(T.momentos_criticos).join(', ')}`,`  Recurrencias: ${a(T.recurrencias).join(', ')}`,`  Lectura: ${s(T.lectura)}`,'','IMPLICANCIAS',...a(d.implicancias).map(i=>`  • ${s(i)}`),'','CICLO VIVIDO',...a(d.esquema_procesual).map((e,i)=>`  ${i+1}. ${s(e.etapa)}: ${s(e.contenido)}`),'','RECOMENDACIONES',...['inmediatas','elecciones','habitos','decisiones','apoyo_externo'].flatMap(k=>a(R[k]).map(r=>`  [${k}] ${s(r)}`)),'','PLAN DE CAMBIO','Esta semana:',...a(P.esta_semana).map(x=>`  • ${s(x)}`),'2 semanas:',...a(P.dos_semanas).map(x=>`  • ${s(x)}`),'1 mes:',...a(P.un_mes).map(x=>`  • ${s(x)}`),'','NOTA INTERPRETATIVA',s(d.nota_interpretativa),'','REFERENCIAS',...a(d.referencias).map(r=>`  ${s(r)}`),sep,'MetamorIA Lite · Dr. José Alonso Andrade Salazar',sep].join('\n'),'text/plain;charset=utf-8');toast('TXT descargado.');}
+function expD(){if(!PJ){toast('Genera primero el informe.');return;}if(typeof htmlDocx==='undefined'){toast('Librería DOCX cargando, intenta en 5 seg.');return;}try{const b=htmlDocx.asBlob(getDoc());const u=URL.createObjectURL(b);const a=document.createElement('a');a.href=u;a.download='MetamorIA_Informe.docx';a.click();setTimeout(()=>URL.revokeObjectURL(u),2000);toast('DOCX descargado.');}catch(e){toast('Error DOCX: '+e.message.slice(0,50));}}
+function copy(text,msg){if(navigator.clipboard&&navigator.clipboard.writeText){navigator.clipboard.writeText(text).then(()=>{if(msg)toast(msg);}).catch(()=>fb(text,msg));}else fb(text,msg);}
+function fb(text,msg){const ta=document.createElement('textarea');ta.value=text;ta.style.cssText='position:fixed;top:-9999px';document.body.appendChild(ta);ta.select();try{document.execCommand('copy');if(msg)toast(msg);}catch(e){}document.body.removeChild(ta);}
+function toast(msg){const w=$('tw');const el=document.createElement('div');el.className='toast';el.textContent=msg;w.appendChild(el);setTimeout(()=>{el.style.opacity='0';el.style.transition='.3s';setTimeout(()=>el.remove(),300);},3000);}
+</script>
+</body>
+</html>

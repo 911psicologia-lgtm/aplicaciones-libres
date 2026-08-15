@@ -1,0 +1,100 @@
+[
+  {
+    "id": "world_1_escape_scene",
+    "name": "World 1 Escape Scene",
+    "type": "cutscene",
+    "world": "world_1",
+    "sceneType": "failed_rescue_escape",
+    "layers": {
+      "background": "assets/story_core/cutscenes/world_1_escape_scene/scene_background.png",
+      "ship": "assets/story_core/cutscenes/world_1_escape_scene/ship_layer.png",
+      "aurora": "assets/story_core/cutscenes/world_1_escape_scene/aurora_layer.png",
+      "energy": "assets/story_core/cutscenes/world_1_escape_scene/shadow_energy_layer.png",
+      "trail": "assets/story_core/cutscenes/world_1_escape_scene/escape_trail_layer.png",
+      "preview": "assets/story_core/cutscenes/world_1_escape_scene/composite_preview.jpg"
+    },
+    "notes": "Aero casi rescata a Aurora, pero Doctor Sombra escapa."
+  },
+  {
+    "id": "world_2_escape_scene",
+    "name": "World 2 Escape Scene",
+    "type": "cutscene",
+    "world": "world_2",
+    "sceneType": "failed_rescue_escape",
+    "layers": {
+      "background": "assets/story_core/cutscenes/world_2_escape_scene/scene_background.png",
+      "ship": "assets/story_core/cutscenes/world_2_escape_scene/ship_layer.png",
+      "aurora": "assets/story_core/cutscenes/world_2_escape_scene/aurora_layer.png",
+      "energy": "assets/story_core/cutscenes/world_2_escape_scene/mecha_energy_layer.png",
+      "trail": "assets/story_core/cutscenes/world_2_escape_scene/escape_trail_layer.png",
+      "preview": "assets/story_core/cutscenes/world_2_escape_scene/composite_preview.jpg"
+    },
+    "notes": "Aero casi rescata a Aurora, pero Doctor Sombra escapa."
+  },
+  {
+    "id": "world_3_escape_scene",
+    "name": "World 3 Escape Scene",
+    "type": "cutscene",
+    "world": "world_3",
+    "sceneType": "failed_rescue_escape",
+    "layers": {
+      "background": "assets/story_core/cutscenes/world_3_escape_scene/scene_background.png",
+      "ship": "assets/story_core/cutscenes/world_3_escape_scene/ship_layer.png",
+      "aurora": "assets/story_core/cutscenes/world_3_escape_scene/aurora_layer.png",
+      "energy": "assets/story_core/cutscenes/world_3_escape_scene/crystal_shards_layer.png",
+      "trail": "assets/story_core/cutscenes/world_3_escape_scene/escape_trail_layer.png",
+      "preview": "assets/story_core/cutscenes/world_3_escape_scene/composite_preview.jpg"
+    },
+    "notes": "Aero casi rescata a Aurora, pero Doctor Sombra escapa."
+  },
+  {
+    "id": "world_4_escape_scene",
+    "name": "World 4 Escape Scene",
+    "type": "cutscene",
+    "world": "world_4",
+    "sceneType": "failed_rescue_escape",
+    "layers": {
+      "background": "assets/story_core/cutscenes/world_4_escape_scene/scene_background.png",
+      "ship": "assets/story_core/cutscenes/world_4_escape_scene/ship_layer.png",
+      "aurora": "assets/story_core/cutscenes/world_4_escape_scene/aurora_layer.png",
+      "energy": "assets/story_core/cutscenes/world_4_escape_scene/swamp_fog_layer.png",
+      "trail": "assets/story_core/cutscenes/world_4_escape_scene/escape_trail_layer.png",
+      "preview": "assets/story_core/cutscenes/world_4_escape_scene/composite_preview.jpg"
+    },
+    "notes": "Aero casi rescata a Aurora, pero Doctor Sombra escapa."
+  },
+  {
+    "id": "world_5_escape_scene",
+    "name": "World 5 Escape Scene",
+    "type": "cutscene",
+    "world": "world_5",
+    "sceneType": "failed_rescue_escape",
+    "layers": {
+      "background": "assets/story_core/cutscenes/world_5_escape_scene/scene_background.png",
+      "ship": "assets/story_core/cutscenes/world_5_escape_scene/ship_layer.png",
+      "aurora": "assets/story_core/cutscenes/world_5_escape_scene/aurora_layer.png",
+      "energy": "assets/story_core/cutscenes/world_5_escape_scene/toxic_cloud_layer.png",
+      "lightning": "assets/story_core/cutscenes/world_5_escape_scene/lightning_layer.png",
+      "trail": "assets/story_core/cutscenes/world_5_escape_scene/escape_trail_layer.png",
+      "preview": "assets/story_core/cutscenes/world_5_escape_scene/composite_preview.jpg"
+    },
+    "notes": "Aero casi rescata a Aurora, pero Doctor Sombra escapa."
+  },
+  {
+    "id": "final_confrontation_scene",
+    "name": "Final Confrontation Scene",
+    "type": "cutscene",
+    "world": "final",
+    "sceneType": "final_confrontation",
+    "layers": {
+      "background": "assets/story_core/cutscenes/final_confrontation_scene/scene_background.png",
+      "ship": "assets/story_core/cutscenes/final_confrontation_scene/final_ship_layer.png",
+      "doctorSombra": "assets/story_core/cutscenes/final_confrontation_scene/doctor_sombra_layer.png",
+      "aurora": "assets/story_core/cutscenes/final_confrontation_scene/aurora_layer.png",
+      "lanzaLight": "assets/story_core/cutscenes/final_confrontation_scene/lanza_aurora_light_layer.png",
+      "shadowCore": "assets/story_core/cutscenes/final_confrontation_scene/shadow_core_layer.png",
+      "preview": "assets/story_core/cutscenes/final_confrontation_scene/composite_preview.jpg"
+    },
+    "notes": "Confrontacion final: Aero con la Lanza completa frente a la fortaleza del Doctor Sombra."
+  }
+]

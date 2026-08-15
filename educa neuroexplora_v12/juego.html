@@ -1,0 +1,463 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
+  <meta name="theme-color" content="#4f8ef7">
+  <title>NeuroExplora — Juego</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800&family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,500;1,9..40,300&display=swap" rel="stylesheet">
+  <link rel="icon" type="image/svg+xml" href="assets/favicon.svg">
+  <link rel="manifest" href="manifest.json">
+  <link rel="stylesheet" href="css/styles.css">
+  <link rel="stylesheet" href="css/game.css">
+  <style>
+    /* ── NUEVOS MODOS ─────────────────────────────────────────── */
+    .game-modes {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 12px;
+      margin-bottom: 20px;
+    }
+    @media (max-width: 680px) { .game-modes { grid-template-columns: 1fr 1fr; } }
+    @media (max-width: 420px) { .game-modes { grid-template-columns: 1fr; } }
+
+    /* ── VERDADERO/FALSO ─────────────────────────────────────── */
+    .tf-wrap { max-width: 640px; margin: 0 auto; padding: 20px 18px 0; }
+    .tf-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 12px; flex-wrap: wrap; gap: 8px; }
+    .tf-progress-wrap { flex: 1; }
+    .tf-progress-row { display: flex; justify-content: space-between; font-size: 12px; color: var(--text2); margin-bottom: 6px; font-weight: 500; }
+    .tf-track { height: 5px; background: var(--surface2); border-radius: 5px; overflow: hidden; }
+    .tf-bar { height: 100%; background: linear-gradient(90deg, #fbbf24, #f97316); border-radius: 5px; transition: width 0.5s; }
+    .tf-timer { font-family: var(--ff-head); font-size: 22px; font-weight: 800; min-width: 32px; text-align: center; }
+    .tf-module { font-size: 11px; font-weight: 600; color: var(--text3); text-transform: uppercase; letter-spacing: 0.6px; margin-bottom: 10px; }
+    .tf-statement-box { background: var(--surface); border: 1px solid var(--border2); border-radius: var(--radius2); padding: 24px 20px; margin-bottom: 18px; }
+    .tf-statement { font-size: clamp(15px, 2.5vw, 18px); font-weight: 500; line-height: 1.55; color: var(--text); }
+    .tf-buttons { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; margin-bottom: 14px; }
+    .tf-btn { padding: 16px 10px; border-radius: var(--radius); font-family: var(--ff-head); font-size: 15px; font-weight: 800; letter-spacing: 0.5px; border: 2px solid transparent; cursor: pointer; transition: all 0.18s; }
+    .tf-true { background: rgba(52,211,153,0.12); color: #34d399; border-color: rgba(52,211,153,0.3); }
+    .tf-true:hover { background: rgba(52,211,153,0.22); border-color: #34d399; }
+    .tf-false { background: rgba(244,63,94,0.12); color: #f43f5e; border-color: rgba(244,63,94,0.3); }
+    .tf-false:hover { background: rgba(244,63,94,0.22); border-color: #f43f5e; }
+    .tf-true.correct, .tf-false.correct { background: rgba(52,211,153,0.25); border-color: #34d399; color: #34d399; }
+    .tf-true.wrong, .tf-false.wrong { background: rgba(244,63,94,0.25); border-color: #f43f5e; color: #f43f5e; }
+    .tf-true:disabled, .tf-false:disabled { cursor: default; }
+    .tf-explanation { background: var(--surface); border: 1px solid var(--border2); border-radius: var(--radius); padding: 12px 14px; font-size: 13px; color: var(--text2); line-height: 1.55; }
+
+    /* ── PARES CRANEALES ──────────────────────────────────────── */
+    .cranial-wrap { max-width: 680px; margin: 0 auto; padding: 20px 18px 0; }
+    .cranial-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 14px; flex-wrap: wrap; gap: 8px; }
+    .cranial-progress-wrap { flex: 1; }
+    .cranial-progress-row { display: flex; justify-content: space-between; font-size: 12px; color: var(--text2); margin-bottom: 6px; font-weight: 500; }
+    .cranial-track { height: 5px; background: var(--surface2); border-radius: 5px; overflow: hidden; }
+    .cranial-bar { height: 100%; background: linear-gradient(90deg, #34d399, #10b981); border-radius: 5px; transition: width 0.5s; }
+    .cranial-timer { font-family: var(--ff-head); font-size: 22px; font-weight: 800; min-width: 32px; text-align: center; }
+    .cranial-emoji { font-size: 36px; text-align: center; margin-bottom: 6px; }
+    .cranial-q { font-size: clamp(15px,2.5vw,17px); font-weight: 600; color: var(--text); text-align: center; margin-bottom: 18px; padding: 18px 16px; background: var(--surface); border: 1px solid var(--border2); border-radius: var(--radius2); line-height: 1.5; }
+    #cranial-options { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-bottom: 14px; }
+    @media (max-width: 480px) { #cranial-options { grid-template-columns: 1fr; } }
+    .cranial-explanation { background: var(--surface); border: 1px solid var(--border2); border-radius: var(--radius); padding: 12px 14px; font-size: 13px; color: var(--text2); line-height: 1.55; }
+    .cranial-fun-fact { font-size: 12px; color: var(--text3); font-style: italic; margin-top: 6px; }
+
+    /* ── ÁREA INCORRECTA ──────────────────────────────────────── */
+    .identify-wrap { max-width: 700px; margin: 0 auto; padding: 20px 18px 0; }
+    .identify-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 14px; flex-wrap: wrap; gap: 8px; }
+    .identify-progress-wrap { flex: 1; }
+    .identify-progress-row { display: flex; justify-content: space-between; font-size: 12px; color: var(--text2); margin-bottom: 6px; font-weight: 500; }
+    .identify-track { height: 5px; background: var(--surface2); border-radius: 5px; overflow: hidden; }
+    .identify-bar { height: 100%; background: linear-gradient(90deg, #8b5cf6, #6d28d9); border-radius: 5px; transition: width 0.5s; }
+    .identify-timer { font-family: var(--ff-head); font-size: 22px; font-weight: 800; min-width: 32px; text-align: center; }
+    .identify-title { font-size: clamp(14px,2vw,16px); font-weight: 600; color: var(--text2); text-align: center; margin-bottom: 16px; padding: 10px; background: rgba(139,92,246,0.08); border-radius: var(--radius); border: 1px solid rgba(139,92,246,0.2); }
+    #identify-options { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-bottom: 14px; }
+    @media (max-width: 480px) { #identify-options { grid-template-columns: 1fr; } }
+    .identify-opt { background: var(--surface); border: 1px solid var(--border2); border-radius: var(--radius); padding: 14px 12px; cursor: pointer; transition: all 0.18s; text-align: left; }
+    .identify-opt:hover { border-color: #8b5cf6; background: rgba(139,92,246,0.06); }
+    .identify-area-name { font-weight: 700; font-size: 13px; color: var(--text); margin-bottom: 4px; }
+    .identify-area-func { font-size: 12px; color: var(--text2); line-height: 1.4; }
+    .identify-opt.correct { border-color: #34d399; background: rgba(52,211,153,0.1); }
+    .identify-opt.wrong { border-color: #f43f5e; background: rgba(244,63,94,0.08); }
+    .identify-opt:disabled { cursor: default; }
+    .identify-explanation { background: var(--surface); border: 1px solid var(--border2); border-radius: var(--radius); padding: 12px 14px; font-size: 13px; color: var(--text2); line-height: 1.55; }
+
+    /* ── RUTAS NEURONALES ─────────────────────────────────────── */
+    .pathway-wrap { max-width: 700px; margin: 0 auto; padding: 20px 18px 0; }
+    .pathway-header { text-align: center; margin-bottom: 14px; }
+    .pathway-counter { font-size: 12px; color: var(--text3); font-weight: 600; text-transform: uppercase; letter-spacing: 0.8px; margin-bottom: 6px; }
+    .pathway-emoji { font-size: 38px; margin-bottom: 8px; }
+    .pathway-name { font-family: var(--ff-head); font-size: clamp(18px,3vw,22px); font-weight: 800; color: var(--text); margin-bottom: 6px; }
+    .pathway-intro { font-size: 13px; color: var(--text2); line-height: 1.55; max-width: 480px; margin: 0 auto 16px; }
+    .pathway-status { font-size: 13px; font-weight: 600; color: var(--accent); text-align: center; padding: 8px; background: rgba(79,142,247,0.08); border-radius: var(--radius); margin-bottom: 14px; }
+    .pathway-diagram { position: relative; width: 100%; height: 280px; background: var(--surface); border: 1px solid var(--border2); border-radius: var(--radius2); margin-bottom: 14px; overflow: hidden; }
+    /* Simplified brain outline for pathway */
+    .pathway-diagram::before { content: ''; position: absolute; inset: 16px; border: 1px dashed rgba(79,142,247,0.15); border-radius: 50% 50% 40% 40%; pointer-events: none; }
+    #pathway-nodes { position: absolute; inset: 0; }
+    .pathway-node { position: absolute; transform: translate(-50%, -50%); background: var(--surface2); border: 2px solid var(--nc, #4f8ef7); border-radius: 12px; padding: 6px 10px; cursor: pointer; transition: all 0.22s; text-align: center; min-width: 80px; z-index: 5; }
+    .pathway-node:hover { transform: translate(-50%, -50%) scale(1.08); background: color-mix(in srgb, var(--nc,#4f8ef7) 12%, var(--surface2)); }
+    .pathway-node.highlight { background: color-mix(in srgb, var(--nc,#4f8ef7) 25%, var(--surface2)); border-color: var(--nc, #4f8ef7); box-shadow: 0 0 14px color-mix(in srgb, var(--nc,#4f8ef7) 50%, transparent); animation: nodeGlow 0.5s ease; }
+    .pathway-node.done { background: rgba(52,211,153,0.18); border-color: #34d399; }
+    .pathway-node.error { animation: shake 0.4s; border-color: #f43f5e; background: rgba(244,63,94,0.1); }
+    @keyframes nodeGlow { 0%{transform:translate(-50%,-50%) scale(1)} 50%{transform:translate(-50%,-50%) scale(1.15)} 100%{transform:translate(-50%,-50%) scale(1)} }
+    .pnode-label { display: block; font-size: 11px; font-weight: 600; color: var(--text2); line-height: 1.3; }
+    .pnode-num { display: block; font-family: var(--ff-head); font-size: 16px; font-weight: 800; color: var(--nc, #4f8ef7); margin-bottom: 2px; }
+    .pathway-step-list { display: flex; flex-wrap: wrap; gap: 8px; justify-content: center; margin-bottom: 14px; }
+    .pathway-step-tag { padding: 5px 12px; border-radius: 20px; font-size: 12px; font-weight: 600; border: 1px solid; }
+
+    /* Puzzle selector */
+    .puzzle-selector { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; max-width: 640px; margin: 0 auto 20px; }
+    .puzzle-type-card { background: var(--surface); border: 1.5px solid var(--border2); border-radius: var(--radius2); padding: 18px 14px; cursor: pointer; text-align: center; transition: all 0.2s; }
+    .puzzle-type-card:hover { border-color: var(--accent); transform: translateY(-2px); }
+    .puzzle-type-icon { font-size: 32px; margin-bottom: 8px; }
+    .puzzle-type-name { font-family: var(--ff-head); font-size: 14px; font-weight: 700; }
+    .puzzle-type-desc { font-size: 11px; color: var(--text2); margin-top: 4px; }
+  </style>
+</head>
+<body>
+  <canvas id="stars-canvas"></canvas>
+
+  <!-- ══ HEADER ════════════════════════════════════════════════ -->
+  <header id="main-header">
+    <div class="header-brand">
+      <div class="logo">🧠 Neuro<span class="logo-accent">Explora</span></div>
+      <div class="logo-tagline">EXPLORADOR INTERACTIVO DEL CEREBRO HUMANO</div>
+    </div>
+    <nav class="header-nav">
+      <a class="nav-btn" href="index.html"><span class="btn-icon">🧩</span><span class="btn-text">Cerebro</span></a>
+      <a class="nav-btn" href="evolucion.html"><span class="btn-icon">🦎</span><span class="btn-text">Evolución</span></a>
+      <a class="nav-btn" href="neurona.html"><span class="btn-icon">⚡</span><span class="btn-text">Neurona</span></a>
+      <a class="nav-btn" href="corteza.html"><span class="btn-icon">🌐</span><span class="btn-text">Corteza</span></a>
+      <a class="nav-btn nav-btn-active" href="juego.html"><span class="btn-icon">🎮</span><span class="btn-text">Juego</span></a>
+      <a class="nav-btn" href="referencias.html"><span class="btn-icon">📚</span><span class="btn-text">Referencias</span></a>
+    </nav>
+  </header>
+
+  <!-- ══ HUD ════════════════════════════════════════════════════ -->
+  <div class="game-hud">
+    <button class="hud-back" id="btn-home-back" onclick="showHome()">← Modos</button>
+    <div class="hud-xp-wrap">
+      <div class="hud-xp-row"><span data-level>Nivel 1</span><span data-xp>0 XP</span></div>
+      <div class="hud-xp-track"><div class="hud-xp-bar" data-xp-bar style="width:0%"></div></div>
+      <div class="hud-xp-next" data-xp-next></div>
+    </div>
+  </div>
+
+  <!-- ════════════════════════════════════════════════════════════
+       HOME
+  ════════════════════════════════════════════════════════════ -->
+  <div class="game-screen active" id="screen-home">
+    <div class="game-home">
+      <h1 class="game-hero-title">🎮 NeuroJuego</h1>
+      <p class="game-hero-sub">7 modos de juego para dominar la neurociencia</p>
+
+      <div class="home-stats">
+        <span class="home-stat">🏆 <span data-level>Nivel 1</span></span>
+        <span class="home-stat">⚡ <span data-xp>0 XP</span></span>
+        <span class="home-stat" data-xp-next></span>
+      </div>
+
+      <!-- Modos -->
+      <div class="game-modes">
+
+        <!-- TRIVIA -->
+        <div class="mode-card" style="--mc:#4f8ef7" onclick="document.getElementById('diff-section').classList.toggle('hidden')" data-mode-played="trivia">
+          <span class="mode-badge" style="background:rgba(79,142,247,0.15);color:#4f8ef7;border:1px solid rgba(79,142,247,0.3)">3 niveles</span>
+          <span class="mode-icon">🧠</span>
+          <h2 class="mode-title">Trivia</h2>
+          <p class="mode-desc">8 preguntas con tiempo. Más rápido = más XP.</p>
+          <span class="mode-played-badge">✓ Jugado</span>
+        </div>
+
+        <!-- PUZZLE -->
+        <div class="mode-card" style="--mc:#34d399" onclick="togglePuzzleSelector()" data-mode-played="puzzle">
+          <span class="mode-badge" style="background:rgba(52,211,153,0.15);color:#34d399;border:1px solid rgba(52,211,153,0.3)">2 variantes</span>
+          <span class="mode-icon">🧩</span>
+          <h2 class="mode-title">Puzzle</h2>
+          <p class="mode-desc">Arma el cerebro o la neurona. Arrastra o toca.</p>
+          <span class="mode-played-badge">✓ Jugado</span>
+        </div>
+
+        <!-- ADIVINANZA -->
+        <div class="mode-card" style="--mc:#fbbf24" onclick="startGuess()" data-mode-played="guess">
+          <span class="mode-badge" style="background:rgba(251,191,36,0.15);color:#fbbf24;border:1px solid rgba(251,191,36,0.3)">Pistas</span>
+          <span class="mode-icon">🔍</span>
+          <h2 class="mode-title">¿Qué región soy?</h2>
+          <p class="mode-desc">Lee las pistas, adivina la región. Menos pistas = más XP.</p>
+          <span class="mode-played-badge">✓ Jugado</span>
+        </div>
+
+        <!-- VERDADERO / FALSO -->
+        <div class="mode-card" style="--mc:#f97316" onclick="startTrueFalse()" data-mode-played="truefalse">
+          <span class="mode-badge" style="background:rgba(249,115,22,0.15);color:#f97316;border:1px solid rgba(249,115,22,0.3)">Nuevo</span>
+          <span class="mode-icon">⚖️</span>
+          <h2 class="mode-title">Verdadero / Falso</h2>
+          <p class="mode-desc">¿Mito o realidad? Identifica afirmaciones correctas sobre el cerebro.</p>
+          <span class="mode-played-badge">✓ Jugado</span>
+        </div>
+
+        <!-- RUTAS NEURONALES -->
+        <div class="mode-card" style="--mc:#ec4899" onclick="startPathway()" data-mode-played="pathway">
+          <span class="mode-badge" style="background:rgba(236,72,153,0.15);color:#ec4899;border:1px solid rgba(236,72,153,0.3)">Nuevo</span>
+          <span class="mode-icon">🗺️</span>
+          <h2 class="mode-title">Rutas Neuronales</h2>
+          <p class="mode-desc">Observa la ruta y repítela. Así piensa, ve y recuerda tu cerebro.</p>
+          <span class="mode-played-badge">✓ Jugado</span>
+        </div>
+
+        <!-- PARES CRANEALES -->
+        <div class="mode-card" style="--mc:#10b981" onclick="startCranial()" data-mode-played="cranial">
+          <span class="mode-badge" style="background:rgba(16,185,129,0.15);color:#10b981;border:1px solid rgba(16,185,129,0.3)">Nuevo</span>
+          <span class="mode-icon">🦴</span>
+          <h2 class="mode-title">Pares Craneales</h2>
+          <p class="mode-desc">Los 12 nervios craneales: nombre, número y función.</p>
+          <span class="mode-played-badge">✓ Jugado</span>
+        </div>
+
+        <!-- ÁREA INCORRECTA -->
+        <div class="mode-card" style="--mc:#8b5cf6" onclick="startIdentify()" data-mode-played="identify">
+          <span class="mode-badge" style="background:rgba(139,92,246,0.15);color:#8b5cf6;border:1px solid rgba(139,92,246,0.3)">Nuevo</span>
+          <span class="mode-icon">👁️</span>
+          <h2 class="mode-title">Área Incorrecta</h2>
+          <p class="mode-desc">Encuentra la función que NO corresponde al área indicada.</p>
+          <span class="mode-played-badge">✓ Jugado</span>
+        </div>
+
+      </div>
+
+      <!-- Selector de dificultad (trivia) -->
+      <div id="diff-section" class="hidden" style="text-align:center;margin-bottom:16px">
+        <p style="font-size:13px;color:var(--text2);margin-bottom:10px">Elige la dificultad:</p>
+        <div class="diff-selector">
+          <button class="diff-btn diff-easy"   onclick="startTrivia('easy')">🟢 Fácil<br><small>22 seg · +10–15 XP</small></button>
+          <button class="diff-btn diff-medium" onclick="startTrivia('medium')">🟡 Medio<br><small>16 seg · +20–25 XP</small></button>
+          <button class="diff-btn diff-hard"   onclick="startTrivia('hard')">🔴 Difícil<br><small>11 seg · +35–45 XP</small></button>
+        </div>
+      </div>
+
+      <!-- Selector puzzle -->
+      <div id="puzzle-selector-section" class="hidden" style="margin-bottom:16px">
+        <p style="font-size:13px;color:var(--text2);text-align:center;margin-bottom:12px">¿Qué quieres armar?</p>
+        <div class="puzzle-selector">
+          <div class="puzzle-type-card" onclick="startPuzzle('brain')">
+            <div class="puzzle-type-icon">🧠</div>
+            <div class="puzzle-type-name">El Cerebro</div>
+            <div class="puzzle-type-desc">8 regiones: lóbulos, áreas de lenguaje y más</div>
+          </div>
+          <div class="puzzle-type-card" onclick="startPuzzle('neuron')">
+            <div class="puzzle-type-icon">⚡</div>
+            <div class="puzzle-type-name">La Neurona</div>
+            <div class="puzzle-type-desc">7 partes: dendrita, soma, axón, mielina…</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Insignias -->
+      <section class="badges-section">
+        <p class="badges-title">🏅 Insignias (28 en total)</p>
+        <div id="badges-grid"></div>
+      </section>
+
+    </div>
+  </div>
+
+  <!-- ════════════════════════════════════════════════════════════
+       TRIVIA
+  ════════════════════════════════════════════════════════════ -->
+  <div class="game-screen" id="screen-trivia">
+    <div class="trivia-wrap">
+      <div class="trivia-header">
+        <div class="trivia-progress-wrap">
+          <div class="trivia-progress-row">
+            <span id="trivia-progress">1 / 8</span>
+            <span id="trivia-diff-tag" class="diff-tag"></span>
+            <span id="streak-display" style="display:none;font-size:12px;font-weight:700;color:#f97316"></span>
+          </div>
+          <div class="trivia-track"><div class="trivia-bar" id="trivia-progress-bar" style="width:0%"></div></div>
+        </div>
+        <div class="timer-circle">
+          <svg class="timer-svg" width="52" height="52" viewBox="0 0 52 52">
+            <circle class="timer-track" cx="26" cy="26" r="22"/>
+            <circle class="timer-arc" id="timer-arc" cx="26" cy="26" r="22"/>
+          </svg>
+          <div class="timer-num" id="trivia-timer">20</div>
+        </div>
+      </div>
+      <p class="trivia-q" id="trivia-question">Cargando...</p>
+      <div class="trivia-options" id="trivia-options"></div>
+      <div class="trivia-explanation hidden" id="trivia-explanation"></div>
+      <button class="btn-next-q hidden" id="btn-next-q">Siguiente →</button>
+    </div>
+  </div>
+
+  <!-- ════════════════════════════════════════════════════════════
+       PUZZLE
+  ════════════════════════════════════════════════════════════ -->
+  <div class="game-screen" id="screen-puzzle">
+    <div style="max-width:900px;margin:0 auto;padding:14px 18px 0">
+      <h2 style="font-family:var(--ff-head);font-size:20px;font-weight:700;color:var(--text)">🧩 Puzzle</h2>
+      <p style="font-size:13px;color:var(--text2);margin-bottom:12px">Arrastra cada pieza a su posición. En móvil: toca la pieza, luego la zona punteada.</p>
+    </div>
+    <div class="puzzle-layout">
+      <div id="puzzle-targets"></div>
+      <div class="puzzle-pieces" id="puzzle-pieces"></div>
+    </div>
+  </div>
+
+  <!-- ════════════════════════════════════════════════════════════
+       ADIVINANZA
+  ════════════════════════════════════════════════════════════ -->
+  <div class="game-screen" id="screen-guess">
+    <div class="guess-wrap">
+      <div class="guess-header">
+        <p class="guess-counter" id="guess-counter">1 / 6</p>
+        <h2 class="guess-title">🔍 ¿Qué región soy?</h2>
+        <p style="font-size:12px;color:var(--text3)">Menos pistas = más XP</p>
+      </div>
+      <div class="clue-indicators" id="clue-indicators"></div>
+      <div class="guess-clue-box">
+        <p class="guess-clue" id="guess-clue">Cargando...</p>
+        <button class="btn-more-clue" id="btn-more-clue">💡 Otra pista</button>
+      </div>
+      <div id="xp-preview" style="margin-bottom:10px"></div>
+      <div class="guess-options" id="guess-options"></div>
+      <div class="guess-result hidden" id="guess-result"></div>
+      <button class="btn-next-guess hidden" id="btn-next-guess">Siguiente →</button>
+    </div>
+  </div>
+
+  <!-- ════════════════════════════════════════════════════════════
+       VERDADERO / FALSO
+  ════════════════════════════════════════════════════════════ -->
+  <div class="game-screen" id="screen-truefalse">
+    <div class="tf-wrap">
+      <div class="tf-header">
+        <div class="tf-progress-wrap">
+          <div class="tf-progress-row">
+            <span id="tf-progress">1 / 10</span>
+            <span style="font-size:11px;color:var(--text3);font-weight:600">⚖️ VERDADERO / FALSO</span>
+          </div>
+          <div class="tf-track"><div class="tf-bar" id="tf-progress-bar" style="width:0%"></div></div>
+        </div>
+        <div class="tf-timer" id="tf-timer">10</div>
+      </div>
+      <div class="tf-module" id="tf-module">📚 Módulo</div>
+      <div class="tf-statement-box">
+        <p class="tf-statement" id="tf-statement">Cargando...</p>
+      </div>
+      <div class="tf-buttons" id="tf-buttons"></div>
+      <div class="tf-explanation hidden" id="tf-explanation"></div>
+      <button class="btn-next-q hidden" id="btn-next-tf" style="margin-top:12px" onclick="nextTF()">Siguiente →</button>
+    </div>
+  </div>
+
+  <!-- ════════════════════════════════════════════════════════════
+       PARES CRANEALES
+  ════════════════════════════════════════════════════════════ -->
+  <div class="game-screen" id="screen-cranial">
+    <div class="cranial-wrap">
+      <div class="cranial-header">
+        <div class="cranial-progress-wrap">
+          <div class="cranial-progress-row">
+            <span id="cranial-progress">1 / 12</span>
+            <span style="font-size:11px;color:var(--text3);font-weight:600">🦴 PARES CRANEALES</span>
+          </div>
+          <div class="cranial-track"><div class="cranial-bar" id="cranial-progress-bar" style="width:0%"></div></div>
+        </div>
+        <div class="cranial-timer" id="cranial-timer">18</div>
+      </div>
+      <div class="cranial-emoji" id="cranial-emoji">🦴</div>
+      <div class="cranial-q" id="cranial-question">Cargando...</div>
+      <div id="cranial-options"></div>
+      <div class="cranial-explanation hidden" id="cranial-explanation"></div>
+      <button class="btn-next-q hidden" id="btn-next-cranial" style="margin-top:12px" onclick="nextCranial()">Siguiente →</button>
+    </div>
+  </div>
+
+  <!-- ════════════════════════════════════════════════════════════
+       ÁREA INCORRECTA
+  ════════════════════════════════════════════════════════════ -->
+  <div class="game-screen" id="screen-identify">
+    <div class="identify-wrap">
+      <div class="identify-header">
+        <div class="identify-progress-wrap">
+          <div class="identify-progress-row">
+            <span id="identify-progress">1 / 7</span>
+            <span style="font-size:11px;color:var(--text3);font-weight:600">👁️ ÁREA INCORRECTA</span>
+          </div>
+          <div class="identify-track"><div class="identify-bar" id="identify-progress-bar" style="width:0%"></div></div>
+        </div>
+        <div class="identify-timer" id="identify-timer" style="font-family:var(--ff-head);font-size:22px;font-weight:800">20</div>
+      </div>
+      <div class="identify-title" id="identify-title">¿Cuál es incorrecta?</div>
+      <div id="identify-options"></div>
+      <div class="identify-explanation hidden" id="identify-explanation"></div>
+      <button class="btn-next-q hidden" id="btn-next-identify" style="margin-top:12px" onclick="nextIdentify()">Siguiente →</button>
+    </div>
+  </div>
+
+  <!-- ════════════════════════════════════════════════════════════
+       RUTAS NEURONALES
+  ════════════════════════════════════════════════════════════ -->
+  <div class="game-screen" id="screen-pathway">
+    <div class="pathway-wrap">
+      <div class="pathway-header">
+        <p class="pathway-counter" id="pathway-counter">1 / 5</p>
+        <div class="pathway-emoji" id="pathway-emoji">🧠</div>
+        <h2 class="pathway-name" id="pathway-name">Ruta Neuronal</h2>
+        <p class="pathway-intro" id="pathway-intro">Observa la ruta y repítela...</p>
+      </div>
+      <div class="pathway-status" id="pathway-status">Observa la ruta...</div>
+      <div class="pathway-diagram">
+        <div id="pathway-nodes"></div>
+      </div>
+      <div class="pathway-step-list" id="pathway-step-list"></div>
+    </div>
+  </div>
+
+  <!-- ════════════════════════════════════════════════════════════
+       RESULTADOS
+  ════════════════════════════════════════════════════════════ -->
+  <div class="game-screen" id="screen-results">
+    <div class="results-wrap">
+      <div id="results-content"></div>
+      <div id="results-new-badges" style="margin:0 0 14px"></div>
+      <div class="results-actions">
+        <button class="btn-results btn-results-home"  id="btn-results-home">← Menú</button>
+        <button class="btn-results btn-results-retry" id="btn-results-retry">↺ Repetir</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- ══ OVERLAYS ══════════════════════════════════════════════ -->
+  <div class="feedback-toast"  id="feedback-toast"></div>
+  <div id="badge-toast"></div>
+  <div id="xp-gain-float"></div>
+  <div id="levelup-overlay"></div>
+
+  <script>
+    function togglePuzzleSelector() {
+      const d = document.getElementById('puzzle-selector-section');
+      const df = document.getElementById('diff-section');
+      df.classList.add('hidden');
+      d.classList.toggle('hidden');
+    }
+
+    (function() {
+      const c = document.getElementById('stars-canvas');
+      if (!c) return;
+      const ctx = c.getContext('2d');
+      function resize() { c.width = window.innerWidth; c.height = window.innerHeight; }
+      resize(); window.addEventListener('resize', resize, { passive: true });
+      const stars = Array.from({length:100}, () => ({ x:Math.random(), y:Math.random(), r:Math.random()*1+0.2, a:Math.random()*0.5+0.08, da:(Math.random()-0.5)*0.002 }));
+      function draw() {
+        ctx.clearRect(0,0,c.width,c.height);
+        stars.forEach(s => { s.a+=s.da; if(s.a>0.6)s.da=-Math.abs(s.da); if(s.a<0.04)s.da=Math.abs(s.da); ctx.beginPath(); ctx.arc(s.x*c.width,s.y*c.height,s.r,0,Math.PI*2); ctx.fillStyle=`rgba(200,220,255,${s.a})`; ctx.fill(); }); requestAnimationFrame(draw);
+      } draw();
+    })();
+
+    // Fix SW path for subdir
+    if ('serviceWorker' in navigator) navigator.serviceWorker.register('./sw.js').catch(()=>{});
+  </script>
+  <script src="js/game-data.js"></script>
+  <script src="js/game.js"></script>
+</body>
+</html>

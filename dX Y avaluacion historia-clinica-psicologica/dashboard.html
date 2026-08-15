@@ -1,0 +1,541 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dashboard | Historia Clínica Psicológica Integral</title>
+    
+    <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🧠</text></svg>">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="assets/css/main.css">
+    <link rel="manifest" href="manifest.json">
+
+    <style>
+        .patient-item.import-highlight {
+            outline: 3px solid rgba(22, 163, 74, 0.65);
+            box-shadow: 0 0 0 6px rgba(22, 163, 74, 0.12), 0 12px 28px rgba(0,0,0,0.12);
+            border-radius: 18px;
+            animation: importPulse 1.5s ease-in-out 2;
+        }
+        @keyframes importPulse {
+            0%, 100% { transform: scale(1); }
+            50% { transform: scale(1.01); }
+        }
+    </style>
+</head>
+<body>
+    <!-- Header -->
+    <header class="app-header">
+        <div class="header-content">
+            <div class="header-brand">
+                <i class="fas fa-brain"></i>
+                <span>Historia Clínica Psicológica</span>
+            </div>
+            
+            <nav class="header-nav">
+                <a href="dashboard.html" class="nav-link active">
+                    <i class="fas fa-home"></i> Inicio
+                </a>
+                <a href="patient.html" class="nav-link">
+                    <i class="fas fa-user-plus"></i> Nuevo Paciente
+                </a>
+                <a href="assessments.html" class="nav-link">
+                    <i class="fas fa-clipboard-check"></i> Evaluaciones
+                </a>
+                <a href="settings.html" class="nav-link">
+                    <i class="fas fa-cog"></i> Configuración
+                </a>
+            </nav>
+            
+            <div class="header-actions">
+                <div class="user-menu">
+                    <i class="fas fa-user-md"></i>
+                    <span id="userName">Profesional</span>
+                </div>
+                <button class="logout-btn" onclick="logout()" title="Cerrar sesión">
+                    <i class="fas fa-sign-out-alt"></i>
+                </button>
+            </div>
+        </div>
+    </header>
+
+    <!-- Main Content -->
+    <main class="main-content">
+        <!-- Page Header -->
+        <div class="page-header">
+            <div>
+                <h1 class="page-title">Dashboard</h1>
+                <p class="page-subtitle">Panel de control de historias clínicas</p>
+            </div>
+            <a href="patient.html" class="btn btn-primary">
+                <i class="fas fa-user-plus"></i> Nuevo Paciente
+            </a>
+        </div>
+
+        <!-- Stats Cards -->
+        <div class="stats-grid">
+            <div class="stat-card">
+                <div class="stat-icon blue">
+                    <i class="fas fa-users"></i>
+                </div>
+                <div class="stat-content">
+                    <div class="stat-value" id="totalPatients">0</div>
+                    <div class="stat-label">Pacientes registrados</div>
+                </div>
+            </div>
+            
+            <div class="stat-card">
+                <div class="stat-icon green">
+                    <i class="fas fa-calendar-check"></i>
+                </div>
+                <div class="stat-content">
+                    <div class="stat-value" id="sessionsThisMonth">0</div>
+                    <div class="stat-label">Sesiones este mes</div>
+                </div>
+            </div>
+            
+            <div class="stat-card">
+                <div class="stat-icon orange">
+                    <i class="fas fa-clipboard-check"></i>
+                </div>
+                <div class="stat-content">
+                    <div class="stat-value" id="pendingAssessments">0</div>
+                    <div class="stat-label">Evaluaciones pendientes</div>
+                </div>
+            </div>
+            
+            <div class="stat-card">
+                <div class="stat-icon red">
+                    <i class="fas fa-clock"></i>
+                </div>
+                <div class="stat-content">
+                    <div class="stat-value" id="recentUpdates">0</div>
+                    <div class="stat-label">Actualizaciones recientes</div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Search and Filter -->
+        <div class="card" style="margin-bottom: 1.5rem;">
+            <div class="card-body">
+                <div class="flex gap-4" style="flex-wrap: wrap;">
+                    <div class="search-box" style="flex: 1; min-width: 250px;">
+                        <i class="fas fa-search"></i>
+                        <input type="text" id="searchInput" placeholder="Buscar paciente por nombre, documento o historia...">
+                    </div>
+                    <select id="filterStatus" class="form-control" style="width: auto; min-width: 150px;">
+                        <option value="">Todos los estados</option>
+                        <option value="active">Activos</option>
+                        <option value="inactive">Inactivos</option>
+                        <option value="recent">Recientes</option>
+                    </select>
+                </div>
+            </div>
+        </div>
+
+        <!-- Patients List -->
+        <div class="card">
+            <div class="card-header">
+                <div class="card-title">
+                    <i class="fas fa-list"></i>
+                    Lista de Pacientes
+                </div>
+                <div class="flex gap-2">
+                    <button class="btn btn-outline btn-sm" onclick="exportPatientList()">
+                        <i class="fas fa-download"></i> Exportar
+                    </button>
+                </div>
+            </div>
+            <div class="card-body" id="patientsContainer">
+                <div class="loading">
+                    <div class="spinner"></div>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <!-- Scripts -->
+    <script src="assets/js/db.js"></script>
+    <script src="assets/js/demo-data.js"></script>
+    <script src="assets/js/utils.js"></script>
+    
+    <script>
+        // Variables globales
+        let isAuthenticated = false;
+        
+        // Verificar autenticación inmediatamente
+        (function checkAuth() {
+            const session = localStorage.getItem('hcp_session');
+            if (!session) {
+                console.log('No hay sesión, redirigiendo a login...');
+                window.location.replace('index.html');
+                return;
+            }
+            
+            try {
+                const sessionData = JSON.parse(session);
+                const lastActivity = new Date(sessionData.lastActivity);
+                const now = new Date();
+                const inactive = now - lastActivity > (30 * 60 * 1000); // 30 minutos
+                
+                if (inactive) {
+                    console.log('Sesión expirada');
+                    localStorage.removeItem('hcp_session');
+                    window.location.replace('index.html');
+                    return;
+                }
+                
+                isAuthenticated = true;
+                
+                // Actualizar actividad
+                sessionData.lastActivity = new Date().toISOString();
+                localStorage.setItem('hcp_session', JSON.stringify(sessionData));
+                
+                // Mostrar nombre de usuario
+                if (sessionData.fullName || sessionData.username) {
+                    document.getElementById('userName').textContent = sessionData.fullName || sessionData.username;
+                }
+                
+            } catch (e) {
+                console.error('Error verificando sesión:', e);
+                localStorage.removeItem('hcp_session');
+                window.location.replace('index.html');
+            }
+        })();
+        
+        // Solo cargar datos si está autenticado
+        if (isAuthenticated) {
+            document.addEventListener('DOMContentLoaded', function() {
+                // Inicializar base de datos primero
+                db.init().then(() => {
+                    console.log('DB inicializada');
+                    loadDashboard();
+                }).catch(err => {
+                    console.error('Error inicializando DB:', err);
+                    document.getElementById('patientsContainer').innerHTML = `
+                        <div class="alert alert-danger">
+                            <i class="fas fa-exclamation-circle"></i>
+                            Error al inicializar la base de datos. Por favor recargue la página.
+                        </div>
+                    `;
+                });
+            });
+        }
+        
+        async function loadDashboard() {
+            try {
+                await loadStats();
+                await loadPatients();
+                const params = new URLSearchParams(window.location.search);
+                const imported = params.get('imported');
+                if (imported) {
+                    showToast('JSON cargado correctamente. Caso actualizado en el inicio.', 'success');
+                    const target = document.querySelector(`[data-patient-id="${imported}"]`);
+                    if (target) {
+                        target.classList.add('import-highlight');
+                        target.scrollIntoView({ behavior: 'smooth', block: 'center' });
+                    }
+                    window.history.replaceState({}, document.title, 'dashboard.html');
+                }
+            } catch (error) {
+                console.error('Error cargando dashboard:', error);
+                showToast('Error al cargar el dashboard', 'error');
+            }
+        }
+        
+        async function loadStats() {
+            try {
+                const patients = await db.getAll(STORES.PATIENTS);
+                const sessions = await db.getAll(STORES.SESSIONS);
+                const assessments = await db.getAll(STORES.ASSESSMENTS);
+                
+                // Total pacientes
+                document.getElementById('totalPatients').textContent = patients.length;
+                
+                // Sesiones este mes
+                const now = new Date();
+                const sessionsThisMonth = sessions.filter(s => {
+                    const sessionDate = new Date(s.date);
+                    return sessionDate.getMonth() === now.getMonth() && 
+                           sessionDate.getFullYear() === now.getFullYear();
+                });
+                document.getElementById('sessionsThisMonth').textContent = sessionsThisMonth.length;
+                
+                // Evaluaciones pendientes
+                const pendingAssessments = assessments.filter(a => a.status === 'pendiente');
+                document.getElementById('pendingAssessments').textContent = pendingAssessments.length;
+                
+                // Actualizaciones recientes (últimos 7 días)
+                const sevenDaysAgo = new Date(now - 7 * 24 * 60 * 60 * 1000);
+                const recentUpdates = patients.filter(p => {
+                    const updateDate = new Date(p.updatedAt);
+                    return updateDate >= sevenDaysAgo;
+                });
+                document.getElementById('recentUpdates').textContent = recentUpdates.length;
+            } catch (error) {
+                console.error('Error cargando estadísticas:', error);
+            }
+        }
+        
+        async function loadPatients(query = '') {
+            const container = document.getElementById('patientsContainer');
+            
+            try {
+                let patients = await db.searchPatients(query);
+                
+                // Ordenar por fecha de actualización (más reciente primero)
+                patients.sort((a, b) => new Date(b.updatedAt) - new Date(a.updatedAt));
+                
+                if (patients.length === 0) {
+                    container.innerHTML = `
+                        <div class="empty-state">
+                            <i class="fas fa-folder-open"></i>
+                            <h3>No hay pacientes registrados</h3>
+                            <p>Comience creando una nueva historia clínica</p>
+                            <a href="patient.html" class="btn btn-primary mt-4">
+                                <i class="fas fa-user-plus"></i> Nuevo Paciente
+                            </a>
+                        </div>
+                    `;
+                    return;
+                }
+                
+                container.innerHTML = `
+                    <div class="patient-list">
+                        ${patients.map(patient => renderPatientItem(patient)).join('')}
+                    </div>
+                `;
+            } catch (error) {
+                console.error('Error cargando pacientes:', error);
+                container.innerHTML = `
+                    <div class="alert alert-danger">
+                        <i class="fas fa-exclamation-circle"></i>
+                        Error al cargar los pacientes. Intente recargar la página.
+                    </div>
+                `;
+            }
+        }
+        
+
+        function getPatientFieldLabel(patient) {
+            const field = patient?.modularProfile?.customName || patient?.professionalFieldCustomName || patient?.modularProfile?.label || patient?.professionalField;
+            const labels = {
+                clinica: 'Clínica', neuropsicologia: 'Neuropsicología', juridica: 'Jurídica/forense', organizacional: 'Organizacional', educativa: 'Educativa', familiar: 'Familiar/pareja', familiar_pareja: 'Familiar/pareja', infantil_adolescente: 'Infantil/adolescente', salud: 'Salud', comunitaria: 'Comunitaria', deporte: 'Deporte', emergencias_trauma: 'Emergencias/trauma', vocacional: 'Vocacional', personalizada: 'Personalizada'
+            };
+            return labels[field] || field || '';
+        }
+        function renderPatientItem(patient) {
+            const age = formatAge(patient.birthDate, true);
+            const isMinor = checkMinor(patient.birthDate);
+            const lastUpdate = formatDate(patient.updatedAt);
+            const fieldLabel = getPatientFieldLabel(patient);
+            
+            const initials = `${patient.firstName?.charAt(0) || ''}${patient.lastName?.charAt(0) || ''}`.toUpperCase();
+            
+            return `
+                <a href="patient.html?id=${patient.id}" class="patient-item" data-patient-id="${patient.id}">
+                    <div class="patient-avatar">${escapeHTML(initials || '?')}</div>
+                    <div class="patient-info">
+                        <div class="patient-name">${escapeHTML(patient.firstName || '')} ${escapeHTML(patient.lastName || '')}</div>
+                        <div class="patient-meta">
+                            <span><i class="fas fa-hashtag"></i> ${escapeHTML(patient.historyNumber || 'N/A')}</span>
+                            <span><i class="fas fa-id-card"></i> ${escapeHTML(patient.document || 'N/A')}</span>
+                            <span><i class="fas fa-birthday-cake"></i> ${age}</span>
+                            ${isMinor ? '<span class="badge badge-warning">Menor</span>' : ''}
+                            <span><i class="fas fa-calendar"></i> ${lastUpdate}</span>
+                            ${fieldLabel ? `<span class="badge badge-info"><i class="fas fa-layer-group"></i> ${escapeHTML(fieldLabel)}</span>` : ''}
+                        </div>
+                    </div>
+                    <div class="patient-actions">
+                        <button class="btn btn-outline btn-sm" onclick="event.preventDefault(); window.location.href='session.html?patient=${patient.id}'" title="Nueva sesión / Historial">
+                            <i class="fas fa-notes-medical"></i> Sesiones
+                        </button>
+                        <div class="patient-actions-mini" aria-label="Accesos rápidos">
+                            <button class="icon-btn" onclick="event.preventDefault(); window.location.href='diagnosis.html?patient=${patient.id}'" title="Diagnóstico">
+                                <i class="fas fa-stethoscope"></i>
+                            </button>
+                            <button class="icon-btn" onclick="event.preventDefault(); window.location.href='referral.html?patient=${patient.id}'" title="Remisión">
+                                <i class="fas fa-share-square"></i>
+                            </button>
+                            <button class="icon-btn" onclick="event.preventDefault(); window.location.href='export.html?patient=${patient.id}'" title="Exportar">
+                                <i class="fas fa-file-export"></i>
+                            </button>
+                        </div>
+                        <button class="btn btn-primary btn-sm" onclick="event.preventDefault(); window.location.href='patient.html?id=${patient.id}'" title="Ver / Editar ficha">
+                            <i class="fas fa-eye"></i> Ficha
+                        </button>
+                    </div>
+                </a>
+            `;
+        }
+        
+        // Funciones auxiliares
+        function escapeHTML(value) {
+            if (typeof window.escapeHTML === 'function') return window.escapeHTML(value);
+            return String(value ?? '').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;').replace(/'/g,'&#039;');
+        }
+
+        function formatDate(date) {
+            if (!date) return '';
+            const d = new Date(date);
+            if (isNaN(d.getTime())) return '';
+            return `${String(d.getDate()).padStart(2, '0')}/${String(d.getMonth() + 1).padStart(2, '0')}/${d.getFullYear()}`;
+        }
+        
+        function formatAge(birthDate, short = false) {
+            if (!birthDate) return '';
+            const birth = new Date(birthDate);
+            const today = new Date();
+            
+            if (isNaN(birth.getTime())) return '';
+            
+            let years = today.getFullYear() - birth.getFullYear();
+            let months = today.getMonth() - birth.getMonth();
+            
+            if (months < 0) {
+                years--;
+                months += 12;
+            }
+            
+            if (short) {
+                return `${years}a ${months}m`;
+            }
+            
+            const parts = [];
+            if (years > 0) parts.push(`${years} año${years !== 1 ? 's' : ''}`);
+            if (months > 0) parts.push(`${months} mes${months !== 1 ? 'es' : ''}`);
+            
+            return parts.join(', ') || '0 meses';
+        }
+        
+        function checkMinor(birthDate) {
+            if (!birthDate) return false;
+            const age = formatAge(birthDate);
+            const years = parseInt(age.split('a')[0]);
+            return years < 18;
+        }
+        
+        // Búsqueda en tiempo real
+        let searchTimeout;
+        document.getElementById('searchInput').addEventListener('input', function(e) {
+            clearTimeout(searchTimeout);
+            searchTimeout = setTimeout(() => {
+                loadPatients(e.target.value);
+            }, 300);
+        });
+        
+        // Filtrar por estado
+        document.getElementById('filterStatus').addEventListener('change', async function(e) {
+            const container = document.getElementById('patientsContainer');
+            container.innerHTML = '<div class="loading"><div class="spinner"></div></div>';
+            
+            let patients = await db.getAll(STORES.PATIENTS);
+            
+            switch(e.target.value) {
+                case 'recent':
+                    const sevenDaysAgo = new Date(Date.now() - 7 * 24 * 60 * 60 * 1000);
+                    patients = patients.filter(p => new Date(p.createdAt) >= sevenDaysAgo);
+                    break;
+                case 'active':
+                    const sessions = await db.getAll(STORES.SESSIONS);
+                    const oneMonthAgo = new Date(Date.now() - 30 * 24 * 60 * 60 * 1000);
+                    const activePatientIds = new Set(
+                        sessions.filter(s => new Date(s.date) >= oneMonthAgo).map(s => s.patientId)
+                    );
+                    patients = patients.filter(p => activePatientIds.has(p.id));
+                    break;
+            }
+            
+            patients.sort((a, b) => new Date(b.updatedAt) - new Date(a.updatedAt));
+            
+            if (patients.length === 0) {
+                container.innerHTML = `
+                    <div class="empty-state">
+                        <i class="fas fa-filter"></i>
+                        <h3>No se encontraron pacientes</h3>
+                        <p>Intenta con otros criterios de búsqueda</p>
+                    </div>
+                `;
+                return;
+            }
+            
+            container.innerHTML = `
+                <div class="patient-list">
+                    ${patients.map(patient => renderPatientItem(patient)).join('')}
+                </div>
+            `;
+        });
+        
+        // Exportar lista de pacientes
+        async function exportPatientList() {
+            const patients = await db.getAll(STORES.PATIENTS);
+            
+            const csvContent = [
+                ['Historia', 'Nombres', 'Apellidos', 'Documento', 'Fecha Nacimiento', 'Edad', 'Género', 'Teléfono', 'Email', 'Fecha Registro'].join(','),
+                ...patients.map(p => [
+                    p.historyNumber,
+                    `"${p.firstName}"`,
+                    `"${p.lastName}"`,
+                    p.document,
+                    formatDate(p.birthDate),
+                    formatAge(p.birthDate),
+                    p.gender,
+                    p.phone,
+                    p.email,
+                    formatDate(p.createdAt)
+                ].join(','))
+            ].join('\n');
+            
+            downloadFile(csvContent, `pacientes_${formatDate(new Date())}.csv`, 'text/csv');
+            showToast('Lista exportada correctamente', 'success');
+        }
+        
+        function downloadFile(content, filename, mimeType) {
+            const blob = new Blob([content], { type: mimeType });
+            const url = URL.createObjectURL(blob);
+            const a = document.createElement('a');
+            a.href = url;
+            a.download = filename;
+            document.body.appendChild(a);
+            a.click();
+            document.body.removeChild(a);
+            URL.revokeObjectURL(url);
+        }
+        
+        function showToast(message, type = 'info') {
+            let container = document.querySelector('.toast-container');
+            if (!container) {
+                container = document.createElement('div');
+                container.className = 'toast-container';
+                document.body.appendChild(container);
+            }
+            
+            const toast = document.createElement('div');
+            toast.className = `toast ${type}`;
+            toast.innerHTML = `
+                <i class="fas fa-${type === 'success' ? 'check-circle' : type === 'error' ? 'exclamation-circle' : 'info-circle'}"></i>
+                <span>${message}</span>
+            `;
+            
+            container.appendChild(toast);
+            
+            setTimeout(() => {
+                toast.style.animation = 'slideIn 0.3s ease reverse';
+                setTimeout(() => toast.remove(), 300);
+            }, 3000);
+        }
+        
+        function logout() {
+            localStorage.removeItem('hcp_session');
+            window.location.replace('index.html');
+        }
+        
+        // Registrar service worker
+        if ('serviceWorker' in navigator) {
+            navigator.serviceWorker.register('sw.js')
+                .then(reg => console.log('Service Worker registrado'))
+                .catch(err => console.log('Error registrando Service Worker:', err));
+        }
+    </script>
+</body>
+</html>

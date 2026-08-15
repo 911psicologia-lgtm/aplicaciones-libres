@@ -1,0 +1,1591 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <meta name="theme-color" content="#060405">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    <meta name="apple-mobile-web-app-title" content="MIND HIPNOS">
+    <meta name="description" content="Inductor de sueño profundo con binaural delta, ruido marrón y anclaje de neuronas espejo.">
+    <title>MIND HIPNOS | Inductor de Sueño</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Cinzel:wght@300;400&family=Raleway:wght@200;300;400;500&display=swap">
+    <style>
+        :root {
+            --bg:           #060405;
+            --surface:      #100B0F;
+            --surface-2:    #1C1318;
+            --text-1:       #C4A882;
+            --text-2:       #7E6560;
+            --text-3:       #4A3535;
+            --accent-sage:  #7A9A6A;
+            --accent-rose:  #9A5252;
+            --accent-gold:  #B89060;
+            --border:       #261A1C;
+            --border-hi:    #3A2828;
+            --glow:         rgba(196,168,130,0.12);
+            --glow-rec:     rgba(154, 82, 82, 0.4);
+        }
+        *{margin:0;padding:0;box-sizing:border-box;}
+        html,body{
+            width:100%;height:100%;
+            overflow:hidden;
+            background:var(--bg);
+            color:var(--text-1);
+            font-family:'Raleway',sans-serif;
+            user-select:none;
+            -webkit-user-select:none;
+            -webkit-tap-highlight-color:transparent;
+            touch-action:manipulation;
+        }
+
+        /* ── SAFETY OVERLAY ───────────────────── */
+        #safety-layer{
+            position:fixed;inset:0;
+            background:rgba(255,0,0,0.03);
+            mix-blend-mode:multiply;
+            pointer-events:none;z-index:9999;
+        }
+
+        /* ── STAR CANVAS ──────────────────────── */
+        #stars-canvas{
+            position:fixed;inset:0;
+            opacity:0;transition:opacity 3s ease;
+            pointer-events:none;z-index:1;
+        }
+        #stars-canvas.active{opacity:0.18;}
+
+        /* ── TOP CONTROLS ─────────────────────── */
+        #top-bar{
+            position:fixed;top:0;left:0;right:0;
+            display:flex;justify-content:space-between;align-items:center;
+            padding:18px 20px;z-index:200;
+        }
+        .ctrl-btn{
+            font-family:'Raleway',sans-serif;
+            font-size:0.78rem;letter-spacing:2px;
+            cursor:pointer;border:1px solid var(--border);
+            padding:8px 14px;border-radius:30px;
+            opacity:0.55;transition:all 0.3s;
+            background:rgba(10,6,8,0.6);
+            color:var(--text-2);
+            backdrop-filter:blur(12px);
+        }
+        .ctrl-btn:hover{opacity:1;border-color:var(--border-hi);color:var(--text-1);}
+        #top-bar .right-group{display:flex;gap:10px;align-items:center;}
+
+        /* Install button — always visible */
+        #install-btn{
+            display:block;
+            font-family:'Raleway',sans-serif;
+            font-size:0.78rem;letter-spacing:2px;
+            cursor:pointer;border:1px solid var(--accent-gold);
+            padding:8px 16px;border-radius:30px;
+            opacity:0.75;transition:all 0.3s;
+            background:rgba(184,144,96,0.07);
+            color:var(--accent-gold);
+        }
+        #install-btn:hover{opacity:1;background:rgba(184,144,96,0.15);}
+        #install-btn.installed{
+            border-color:var(--accent-sage);
+            color:var(--accent-sage);
+            background:rgba(122,154,106,0.07);
+            cursor:default;
+            opacity:0.6;
+        }
+
+        /* ── INSTALL GUIDE SHEET ──────────────── */
+        #install-sheet{
+            position:fixed;inset:0;z-index:600;
+            pointer-events:none;
+        }
+        #install-backdrop{
+            position:absolute;inset:0;
+            background:rgba(0,0,0,0);
+            transition:background 0.4s ease;
+        }
+        #install-sheet.open #install-backdrop{
+            background:rgba(0,0,0,0.78);
+            pointer-events:auto;
+        }
+        #install-panel{
+            position:absolute;bottom:0;left:0;right:0;
+            background:var(--surface);
+            border-top:1px solid var(--border-hi);
+            border-radius:20px 20px 0 0;
+            padding:0 0 env(safe-area-inset-bottom,24px);
+            transform:translateY(100%);
+            transition:transform 0.45s cubic-bezier(0.32,0.72,0,1);
+            pointer-events:none;
+            overflow:hidden;
+        }
+        #install-sheet.open #install-panel{
+            transform:translateY(0);
+            pointer-events:auto;
+        }
+        #install-handle{
+            display:flex;flex-direction:column;align-items:center;
+            padding:16px 20px 12px;
+            border-bottom:1px solid var(--border);
+        }
+        #install-title-row{
+            display:flex;align-items:center;justify-content:space-between;
+            width:100%;
+        }
+        .inst-title{
+            font-family:'Cinzel',serif;font-weight:300;
+            font-size:1.05rem;letter-spacing:5px;color:var(--text-1);
+        }
+        #close-install{
+            width:36px;height:36px;
+            border:1px solid var(--border-hi);border-radius:50%;
+            display:flex;align-items:center;justify-content:center;
+            cursor:pointer;color:var(--text-2);font-size:1.1rem;
+            transition:all 0.3s;background:rgba(255,255,255,0.03);
+        }
+        #close-install:hover{border-color:var(--text-2);color:var(--text-1);}
+        #install-body{padding:28px 28px 32px;}
+        .inst-platform{
+            display:none;
+        }
+        .inst-platform.active{display:block;}
+        .inst-steps{list-style:none;padding:0;margin:0;}
+        .inst-steps li{
+            display:flex;gap:14px;align-items:flex-start;
+            padding:14px 0;border-bottom:1px solid var(--border);
+        }
+        .inst-steps li:last-child{border-bottom:none;}
+        .inst-num{
+            width:26px;height:26px;flex-shrink:0;
+            border:1px solid var(--border-hi);border-radius:50%;
+            display:flex;align-items:center;justify-content:center;
+            font-size:0.72rem;letter-spacing:1px;color:var(--text-2);
+            margin-top:2px;
+        }
+        .inst-text{font-size:0.88rem;line-height:1.8;color:var(--text-2);font-weight:300;}
+        .inst-text b{color:var(--text-1);font-weight:400;}
+        .inst-text .icon-inline{
+            display:inline-block;
+            padding:2px 7px;
+            border:1px solid var(--border-hi);
+            border-radius:6px;
+            font-size:0.8rem;
+            color:var(--text-1);
+            margin:0 2px;
+            background:var(--surface-2);
+        }
+        #inst-native-btn{
+            font-family:'Raleway',sans-serif;
+            width:100%;padding:16px;
+            background:rgba(184,144,96,0.1);
+            border:1px solid var(--accent-gold);
+            color:var(--accent-gold);
+            border-radius:50px;
+            font-size:0.9rem;letter-spacing:3px;
+            cursor:pointer;margin-top:4px;
+            transition:all 0.3s;
+        }
+        #inst-native-btn:hover{background:rgba(184,144,96,0.2);}
+        .inst-note{
+            font-size:0.78rem;line-height:1.7;
+            color:var(--text-3);text-align:center;
+            margin-top:20px;padding:14px;
+            border:1px solid var(--border);
+            border-radius:10px;
+        }
+
+        /* ── SCREENS ──────────────────────────── */
+        .screen{
+            position:fixed;inset:0;
+            display:flex;flex-direction:column;
+            align-items:center;justify-content:center;
+            transition:opacity 0.9s ease;
+            z-index:100;
+            background:var(--bg);
+        }
+        .screen.hidden-screen{opacity:0;pointer-events:none;}
+
+        /* ── SETUP SCREEN ─────────────────────── */
+        #setup-ui{z-index:110;}
+
+        .app-title{
+            font-family:'Cinzel',serif;
+            font-weight:300;
+            font-size:2.2rem;
+            letter-spacing:14px;
+            color:var(--text-1);
+            text-shadow:0 0 40px rgba(196,168,130,0.2);
+            margin-bottom:6px;
+        }
+        .app-sub{
+            font-size:0.7rem;
+            letter-spacing:5px;
+            color:var(--text-3);
+            margin-bottom:36px;
+            font-weight:300;
+        }
+
+        #info-btn{
+            font-size:0.78rem;
+            letter-spacing:3px;
+            color:var(--text-2);
+            cursor:pointer;
+            padding:6px 0;
+            border-bottom:1px solid var(--border);
+            margin-bottom:44px;
+            transition:all 0.3s;
+        }
+        #info-btn:hover{color:var(--text-1);border-bottom-color:var(--border-hi);}
+
+        /* Step containers */
+        .step{display:flex;flex-direction:column;align-items:center;width:100%;}
+        .step.hidden{display:none;}
+
+        p.instr{
+            text-align:center;
+            font-size:0.95rem;
+            font-weight:300;
+            line-height:1.9;
+            color:var(--text-2);
+            max-width:300px;
+            margin-bottom:32px;
+        }
+
+        /* Record visualizer */
+        #rec-visualizer{
+            width:220px;height:54px;
+            display:none;
+            margin-bottom:20px;
+            border-bottom:1px solid var(--border);
+        }
+
+        /* ── BUTTONS ──────────────────────────── */
+        .btn{
+            font-family:'Raleway',sans-serif;
+            background:rgba(12,8,10,0.6);
+            border:1px solid var(--border-hi);
+            color:var(--text-1);
+            padding:18px 42px;
+            font-size:0.95rem;
+            border-radius:50px;
+            margin:10px;
+            cursor:pointer;
+            transition:all 0.3s;
+            min-width:260px;
+            font-weight:300;
+            letter-spacing:3px;
+            backdrop-filter:blur(12px);
+            position:relative;overflow:hidden;
+        }
+        .btn::after{
+            content:'';position:absolute;inset:0;
+            background:radial-gradient(circle at center, var(--glow) 0%, transparent 70%);
+            opacity:0;transition:opacity 0.4s;
+        }
+        .btn:hover{
+            border-color:#4A3535;
+            transform:translateY(-2px);
+            box-shadow:0 6px 30px rgba(0,0,0,0.5);
+        }
+        .btn:hover::after{opacity:1;}
+        .btn:active{transform:scale(0.97);}
+
+        .btn-rec{
+            border-color:#3A2020;
+            animation:recReadyPulse 3s ease-in-out infinite;
+        }
+        @keyframes recReadyPulse{
+            0%,100%{border-color:#3A2020;}
+            50%{border-color:#5A2828;}
+        }
+        .btn-rec.recording{
+            border-color:var(--accent-rose) !important;
+            color:#CC7070 !important;
+            animation:recLivePulse 1.4s ease-in-out infinite !important;
+        }
+        @keyframes recLivePulse{
+            0%,100%{box-shadow:0 0 20px var(--glow-rec);border-color:#9A5252;}
+            50%{box-shadow:0 0 40px var(--glow-rec);border-color:#CC5555;}
+        }
+
+        .btn-start{
+            border-color:var(--accent-sage);
+            color:#9ABA8A;
+            box-shadow:0 0 20px rgba(122,154,106,0.15);
+        }
+        .btn-start:hover{
+            box-shadow:0 0 35px rgba(122,154,106,0.25);
+            border-color:#9ABA8A;
+        }
+
+        .link-btn{
+            background:none;border:none;
+            color:var(--text-2);
+            font-family:'Raleway',sans-serif;
+            font-size:0.85rem;letter-spacing:2px;
+            cursor:pointer;padding:14px;
+            text-decoration:underline;
+            text-underline-offset:4px;
+            transition:color 0.3s;
+        }
+        .link-btn:hover{color:var(--text-1);}
+
+        select{
+            font-family:'Raleway',sans-serif;
+            background:rgba(12,6,8,0.8);
+            border:1px solid var(--border-hi);
+            color:var(--text-1);
+            padding:16px 22px;
+            margin-bottom:28px;
+            font-size:0.95rem;
+            letter-spacing:2px;
+            outline:none;
+            border-radius:30px;
+            cursor:pointer;
+            transition:all 0.3s;
+            min-width:260px;
+            backdrop-filter:blur(10px);
+            appearance:none;
+            text-align:center;
+        }
+        select:hover{border-color:#4A3535;}
+        select option{background:#130D10;color:var(--text-1);}
+
+        /* Status badge */
+        #status-badge{
+            font-size:0.72rem;letter-spacing:3px;
+            color:var(--text-3);
+            margin-bottom:18px;
+            min-height:18px;
+            transition:all 0.4s;
+        }
+
+        /* ── SLEEP ZONE ───────────────────────── */
+        #sleep-zone{
+            z-index:50;
+            background:#000;
+            cursor:pointer;
+            touch-action:none;
+        }
+        #sleep-zone.hidden-screen{opacity:0;pointer-events:none;}
+
+        .breath-circle{
+            position:fixed;top:50%;left:50%;
+            transform:translate(-50%,-50%);
+            width:180px;height:180px;
+            border:1px solid rgba(196,168,130,0.12);
+            border-radius:50%;
+            opacity:0;transition:opacity 2s ease;
+            pointer-events:none;
+            animation:breathe 9s ease-in-out infinite;
+        }
+        .breath-circle.active{opacity:1;}
+        @keyframes breathe{
+            0%,100%{transform:translate(-50%,-50%) scale(1);opacity:0.12;}
+            50%{transform:translate(-50%,-50%) scale(1.35);opacity:0.04;}
+        }
+
+        #session-timer{
+            position:fixed;top:50%;left:50%;
+            transform:translate(-50%,-50%);
+            font-family:'Cinzel',serif;
+            font-size:2.8rem;font-weight:300;
+            color:rgba(196,168,130,0.25);
+            letter-spacing:8px;
+            opacity:0;transition:opacity 2s ease;
+            pointer-events:none;
+            font-variant-numeric:tabular-nums;
+        }
+        #session-timer.visible{opacity:1;}
+        #session-timer.fading{opacity:0;}
+
+        #exit-hint{
+            position:fixed;bottom:80px;left:50%;
+            transform:translateX(-50%);
+            opacity:0;
+            color:rgba(154,82,82,0.7);
+            font-size:0.7rem;letter-spacing:5px;
+            font-weight:300;
+            transition:opacity 0.3s;
+            pointer-events:none;
+            text-align:center;width:100%;
+        }
+
+        #progress-indicator{
+            position:fixed;bottom:44px;left:50%;
+            transform:translateX(-50%);
+            width:160px;height:1px;
+            background:rgba(196,168,130,0.08);
+            border-radius:1px;
+            opacity:0;transition:opacity 2s ease;
+        }
+        #progress-indicator.visible{opacity:1;}
+        #progress-bar{
+            height:100%;width:0%;
+            background:linear-gradient(to right,
+                rgba(196,168,130,0.25),
+                rgba(122,154,106,0.25));
+            border-radius:1px;
+            transition:width 1s linear;
+        }
+
+        /* Exit press progress arc */
+        #exit-press-ring{
+            position:fixed;top:50%;left:50%;
+            transform:translate(-50%,-50%);
+            width:60px;height:60px;
+            pointer-events:none;opacity:0;
+            transition:opacity 0.2s;
+        }
+        #exit-press-ring.visible{opacity:1;}
+        #exit-press-ring circle{
+            fill:none;stroke:rgba(154,82,82,0.5);stroke-width:2;
+            stroke-dasharray:157;stroke-dashoffset:157;
+            transition:stroke-dashoffset 3s linear;
+            transform-origin:center;
+            transform:rotate(-90deg);
+        }
+        #exit-press-ring.pressing circle{stroke-dashoffset:0;}
+
+        /* ── SCIENCE BOTTOM SHEET ─────────────── */
+        #science-sheet{
+            position:fixed;inset:0;z-index:500;
+            pointer-events:none;
+        }
+        #science-backdrop{
+            position:absolute;inset:0;
+            background:rgba(0,0,0,0);
+            transition:background 0.4s ease;
+        }
+        #science-sheet.open #science-backdrop{
+            background:rgba(0,0,0,0.75);
+            pointer-events:auto;
+        }
+        #science-panel{
+            position:absolute;bottom:0;left:0;right:0;
+            background:var(--surface);
+            border-top:1px solid var(--border-hi);
+            border-radius:20px 20px 0 0;
+            padding:0 0 env(safe-area-inset-bottom,20px);
+            max-height:85vh;
+            transform:translateY(100%);
+            transition:transform 0.45s cubic-bezier(0.32,0.72,0,1);
+            pointer-events:none;
+            overflow:hidden;
+            display:flex;flex-direction:column;
+        }
+        #science-sheet.open #science-panel{
+            transform:translateY(0);
+            pointer-events:auto;
+        }
+        #science-handle{
+            display:flex;flex-direction:column;align-items:center;
+            padding:16px 20px 12px;
+            flex-shrink:0;
+            border-bottom:1px solid var(--border);
+        }
+        .sheet-grip{
+            width:40px;height:3px;
+            background:var(--border-hi);
+            border-radius:2px;
+            margin-bottom:14px;
+        }
+        #science-title-row{
+            display:flex;align-items:center;justify-content:space-between;
+            width:100%;
+        }
+        .sci-title{
+            font-family:'Cinzel',serif;
+            font-weight:300;
+            font-size:1.1rem;
+            letter-spacing:5px;
+            color:var(--text-1);
+        }
+        #close-science{
+            width:36px;height:36px;
+            border:1px solid var(--border-hi);
+            border-radius:50%;
+            display:flex;align-items:center;justify-content:center;
+            cursor:pointer;
+            color:var(--text-2);
+            font-size:1.1rem;
+            transition:all 0.3s;
+            background:rgba(255,255,255,0.03);
+        }
+        #close-science:hover{border-color:var(--text-2);color:var(--text-1);}
+        #science-scroll{
+            overflow-y:auto;
+            padding:24px 28px 32px;
+            -webkit-overflow-scrolling:touch;
+        }
+        .sci-item{margin-bottom:28px;}
+        .sci-item-title{
+            font-size:0.78rem;letter-spacing:3px;
+            color:var(--text-1);margin-bottom:8px;
+            font-weight:500;
+        }
+        .sci-item p{
+            font-size:0.9rem;line-height:1.85;
+            color:var(--text-2);font-weight:300;
+            text-align:left;margin:0;
+        }
+        .sci-divider{
+            height:1px;background:var(--border);
+            margin:0 0 28px 0;
+        }
+
+        /* ── TOUR OVERLAY ─────────────────────── */
+        #tour-overlay{
+            position:fixed;inset:0;z-index:900;
+            display:none;
+            align-items:center;
+            justify-content:center;
+            background:rgba(0,0,0,0.92);
+            backdrop-filter:blur(4px);
+        }
+        #tour-overlay.active{display:flex;}
+        #tour-card{
+            background:var(--surface-2);
+            border:1px solid var(--border-hi);
+            border-radius:20px;
+            padding:38px 32px 32px;
+            max-width:320px;
+            width:88%;
+            text-align:center;
+            position:relative;
+        }
+        .tour-icon{
+            font-size:2.8rem;
+            margin-bottom:20px;
+            display:block;
+        }
+        .tour-step-label{
+            font-size:0.65rem;letter-spacing:4px;
+            color:var(--text-3);margin-bottom:14px;
+        }
+        .tour-title{
+            font-family:'Cinzel',serif;font-weight:300;
+            font-size:1.05rem;letter-spacing:4px;
+            color:var(--text-1);margin-bottom:16px;
+        }
+        .tour-body{
+            font-size:0.88rem;line-height:1.85;
+            color:var(--text-2);font-weight:300;
+            margin-bottom:30px;
+        }
+        .tour-body b{color:var(--text-1);font-weight:400;}
+        .tour-dots{
+            display:flex;justify-content:center;gap:8px;
+            margin-bottom:28px;
+        }
+        .tour-dot{
+            width:6px;height:6px;border-radius:50%;
+            background:var(--border-hi);
+            transition:all 0.3s;
+        }
+        .tour-dot.active{background:var(--text-1);transform:scale(1.3);}
+        .tour-actions{display:flex;gap:12px;justify-content:center;}
+        .tour-btn{
+            font-family:'Raleway',sans-serif;
+            font-size:0.78rem;letter-spacing:2px;
+            cursor:pointer;
+            border-radius:30px;
+            padding:12px 24px;
+            transition:all 0.3s;
+        }
+        .tour-btn-skip{
+            background:none;border:1px solid var(--border);
+            color:var(--text-3);
+        }
+        .tour-btn-skip:hover{border-color:var(--border-hi);color:var(--text-2);}
+        .tour-btn-next{
+            background:rgba(196,168,130,0.08);
+            border:1px solid var(--text-1);
+            color:var(--text-1);
+        }
+        .tour-btn-next:hover{background:rgba(196,168,130,0.15);}
+
+        /* ── RESPONSIVE ───────────────────────── */
+        @media(max-width:400px){
+            .app-title{font-size:1.8rem;letter-spacing:10px;}
+            .btn,select{min-width:240px;font-size:0.9rem;}
+            #session-timer{font-size:2.2rem;}
+        }
+        @media(max-height:640px){
+            .app-title{font-size:1.7rem;}
+            .app-sub{margin-bottom:20px;}
+            #info-btn{margin-bottom:24px;}
+            p.instr{margin-bottom:20px;}
+        }
+    </style>
+</head>
+<body>
+
+<div id="safety-layer"></div>
+<canvas id="stars-canvas"></canvas>
+
+<!-- Top bar -->
+<div id="top-bar">
+    <div class="ctrl-btn" id="lang-btn">ES</div>
+    <div class="right-group">
+        <div id="install-btn">⬇ INSTALAR APP</div>
+        <div class="ctrl-btn" id="help-btn" title="Ver guía">?</div>
+    </div>
+</div>
+
+<!-- SETUP SCREEN -->
+<div id="setup-ui" class="screen">
+    <h1 class="app-title">MIND HIPNOS</h1>
+    <div class="app-sub" data-t="subtitle">INDUCTOR DE SUEÑO PROFUNDO</div>
+
+    <div id="info-btn" data-t="ev_btn">◆ EVIDENCIA CIENTÍFICA</div>
+
+    <canvas id="rec-visualizer"></canvas>
+
+    <div id="status-badge" data-t="status_init">· INICIANDO PROTOCOLO ·</div>
+
+    <!-- Step: loading -->
+    <div id="step-loading" class="step">
+        <p class="instr" data-t="loading">Sincronizando protocolo neuronal...</p>
+    </div>
+
+    <!-- Step: record -->
+    <div id="step-record" class="step hidden">
+        <p class="instr" data-t="rec_instr">Graba tu bostezo maestro.<br>Se integrará de forma subliminal imperceptible.</p>
+        <button id="btn-record" class="btn btn-rec" data-t="rec_btn">● MANTENER PARA GRABAR</button>
+    </div>
+
+    <!-- Step: ready -->
+    <div id="step-ready" class="step hidden">
+        <p class="instr" data-t="ready_msg">Protocolo calibrado y listo.<br>Elige la duración de tu sesión.</p>
+        <select id="timer-select">
+            <option value="40">40 MIN — FASE PROFUNDA</option>
+            <option value="60" selected>60 MIN — ESTÁNDAR</option>
+            <option value="90">90 MIN — CICLO COMPLETO</option>
+            <option value="999">∞ — INFINITO</option>
+        </select>
+        <button id="btn-start" class="btn btn-start" data-t="start_btn">INICIAR TERAPIA</button>
+        <button id="btn-reset" class="link-btn" data-t="reset_btn">Recalibrar · Nueva grabación</button>
+    </div>
+</div>
+
+<!-- SLEEP ZONE -->
+<div id="sleep-zone" class="screen hidden-screen">
+    <div class="breath-circle" id="breath-circle"></div>
+    <div id="session-timer">00:00</div>
+    <div id="exit-hint" data-t="exit_hint">MANTÉN PRESIONADO PARA SALIR</div>
+    <div id="progress-indicator"><div id="progress-bar"></div></div>
+    <!-- Exit ring -->
+    <svg id="exit-press-ring" viewBox="0 0 60 60">
+        <circle cx="30" cy="30" r="25"/>
+    </svg>
+</div>
+
+<!-- SCIENCE BOTTOM SHEET -->
+<div id="science-sheet">
+    <div id="science-backdrop"></div>
+    <div id="science-panel" role="dialog" aria-modal="true" aria-label="Evidencia científica">
+        <div id="science-handle">
+            <div class="sheet-grip"></div>
+            <div id="science-title-row">
+                <span class="sci-title" data-t="sci_title">EVIDENCIA & MOTOR</span>
+                <div id="close-science" role="button" aria-label="Cerrar">✕</div>
+            </div>
+        </div>
+        <div id="science-scroll">
+            <div class="sci-item">
+                <div class="sci-item-title" data-t="sci_h1">01 · RUIDO MARRÓN 280Hz</div>
+                <p data-t="sci_1">Espectro denso en bajas frecuencias similar al ambiente uterino. Enmascara eficazmente el ruido externo y favorece el sueño profundo sin activar las vías auditivas de alerta.</p>
+            </div>
+            <div class="sci-divider"></div>
+            <div class="sci-item">
+                <div class="sci-item-title" data-t="sci_h2">02 · BINAURAL DELTA 4Hz</div>
+                <p data-t="sci_2">La diferencia de 4Hz entre oídos induce ondas cerebrales lentas características del sueño N3 (sueño profundo). Requiere auriculares para máxima eficacia.</p>
+            </div>
+            <div class="sci-divider"></div>
+            <div class="sci-item">
+                <div class="sci-item-title" data-t="sci_h3">03 · ANCLAJE DE NEURONAS ESPEJO</div>
+                <p data-t="sci_3">Tu propia vocalización procesada subliminalmente a −25dB y filtrada por debajo de 450Hz activa el sistema parasimpático de forma inconsciente. El retardo de 60 segundos evita la auto-percepción consciente del estímulo.</p>
+            </div>
+            <div class="sci-divider"></div>
+            <div class="sci-item">
+                <div class="sci-item-title" data-t="sci_h4">04 · PROTOCOLO ANTI-CLICK V15</div>
+                <p data-t="sci_4">Eliminación de 150ms iniciales y 600ms finales de la grabación. Fades cosenoidal de 250ms/600ms. Soft-clipping de picos anómalos. Normalización adaptativa. Resultado: transiciones inaudibles.</p>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- INSTALL GUIDE SHEET -->
+<div id="install-sheet">
+    <div id="install-backdrop"></div>
+    <div id="install-panel" role="dialog" aria-modal="true" aria-label="Instalar aplicación">
+        <div id="install-handle">
+            <div class="sheet-grip"></div>
+            <div id="install-title-row">
+                <span class="inst-title">INSTALAR APP</span>
+                <div id="close-install" role="button" aria-label="Cerrar">✕</div>
+            </div>
+        </div>
+        <div id="install-body">
+
+            <!-- ANDROID / DESKTOP nativo -->
+            <div class="inst-platform" id="inst-native">
+                <ul class="inst-steps">
+                    <li><div class="inst-num">1</div><div class="inst-text">Tu navegador soporta <b>instalación directa</b>. Pulsa el botón de abajo y confirma.</div></li>
+                    <li><div class="inst-num">2</div><div class="inst-text">La app aparecerá en tu pantalla de inicio o escritorio <b>sin necesidad de tienda de apps</b>.</div></li>
+                </ul>
+                <button id="inst-native-btn">⬇ INSTALAR AHORA</button>
+            </div>
+
+            <!-- ANDROID manual -->
+            <div class="inst-platform" id="inst-android-manual">
+                <ul class="inst-steps">
+                    <li><div class="inst-num">1</div><div class="inst-text">Abre esta página en <b>Chrome para Android</b>.</div></li>
+                    <li><div class="inst-num">2</div><div class="inst-text">Toca el menú <span class="icon-inline">⋮</span> en la esquina superior derecha.</div></li>
+                    <li><div class="inst-num">3</div><div class="inst-text">Selecciona <b>"Añadir a pantalla de inicio"</b> o <b>"Instalar app"</b>.</div></li>
+                    <li><div class="inst-num">4</div><div class="inst-text">Confirma. La app aparecerá con su propio ícono.</div></li>
+                </ul>
+                <div class="inst-note">Si no aparece la opción, la página debe estar en HTTPS. Usa GitHub Pages o cualquier hosting gratuito.</div>
+            </div>
+
+            <!-- iOS Safari -->
+            <div class="inst-platform" id="inst-ios">
+                <ul class="inst-steps">
+                    <li><div class="inst-num">1</div><div class="inst-text">Abre esta página en <b>Safari</b>. En iOS, Chrome y Firefox no permiten instalar PWA.</div></li>
+                    <li><div class="inst-num">2</div><div class="inst-text">Toca el botón <b>Compartir</b> <span class="icon-inline">⬆</span> en la barra inferior de Safari.</div></li>
+                    <li><div class="inst-num">3</div><div class="inst-text">Desliza hacia abajo y toca <b>"Añadir a pantalla de inicio"</b>.</div></li>
+                    <li><div class="inst-num">4</div><div class="inst-text">Confirma el nombre <b>MIND HIPNOS</b> y toca <b>Añadir</b>. Listo.</div></li>
+                </ul>
+                <div class="inst-note">iOS no muestra botón automático. Este proceso manual es el único método disponible en iPhone y iPad.</div>
+            </div>
+
+            <!-- Desktop manual -->
+            <div class="inst-platform" id="inst-desktop-manual">
+                <ul class="inst-steps">
+                    <li><div class="inst-num">1</div><div class="inst-text">En <b>Chrome o Edge</b>, busca el ícono <span class="icon-inline">⊕</span> al final de la barra de URL.</div></li>
+                    <li><div class="inst-num">2</div><div class="inst-text">Haz clic en ese ícono y selecciona <b>"Instalar"</b>. Se abrirá en ventana propia.</div></li>
+                    <li><div class="inst-num">3</div><div class="inst-text">Si no aparece, la página necesita estar en <b>HTTPS</b>.</div></li>
+                </ul>
+                <div class="inst-note">Firefox Desktop no soporta instalación PWA. Usa Chrome o Edge.</div>
+            </div>
+
+            <!-- Ya instalada -->
+            <div class="inst-platform" id="inst-already">
+                <ul class="inst-steps">
+                    <li><div class="inst-num">✓</div><div class="inst-text"><b>MIND HIPNOS ya está instalada</b>. Encuéntrala en tu pantalla de inicio o menú de aplicaciones.</div></li>
+                </ul>
+            </div>
+
+        </div>
+    </div>
+</div>
+
+<!-- TOUR OVERLAY -->
+<div id="tour-overlay" role="dialog" aria-modal="true">
+    <div id="tour-card">
+        <span class="tour-icon" id="tour-icon">🌙</span>
+        <div class="tour-step-label" id="tour-step-label">PASO 1 DE 7</div>
+        <div class="tour-title" id="tour-title">BIENVENIDO</div>
+        <div class="tour-body" id="tour-body">Texto del paso.</div>
+        <div class="tour-dots" id="tour-dots"></div>
+        <div class="tour-actions">
+            <button class="tour-btn tour-btn-skip" id="tour-skip">OMITIR</button>
+            <button class="tour-btn tour-btn-next" id="tour-next">SIGUIENTE →</button>
+        </div>
+    </div>
+</div>
+
+<script>
+// ═══════════════════════════════════════════════
+//  TRANSLATIONS
+// ═══════════════════════════════════════════════
+const T = {
+    es: {
+        subtitle:   'INDUCTOR DE SUEÑO PROFUNDO',
+        ev_btn:     '◆ EVIDENCIA CIENTÍFICA',
+        status_init:'· INICIANDO ·',
+        status_rec: '· LISTO PARA GRABAR ·',
+        status_rec_live:'● GRABANDO',
+        status_proc:'· PROCESANDO ·',
+        status_ready:'· CALIBRADO ·',
+        loading:    'Sincronizando protocolo neuronal...',
+        rec_instr:  'Graba tu bostezo maestro.\nSe integrará de forma subliminal imperceptible.',
+        rec_btn:    '● MANTENER PARA GRABAR',
+        rec_ing:    '● GRABANDO... SUELTA PARA PROCESAR',
+        rec_proc:   '◌ PROCESANDO CALIBRACIÓN...',
+        ready_msg:  'Protocolo calibrado y listo.\nElige la duración de tu sesión.',
+        start_btn:  'INICIAR TERAPIA',
+        reset_btn:  'Recalibrar · Nueva grabación',
+        exit_hint:  'MANTÉN PRESIONADO PARA SALIR',
+        sci_title:  'EVIDENCIA & MOTOR',
+        sci_h1:'01 · RUIDO MARRÓN 280Hz',sci_h2:'02 · BINAURAL DELTA 4Hz',
+        sci_h3:'03 · ANCLAJE NEURONAS ESPEJO',sci_h4:'04 · PROTOCOLO ANTI-CLICK V15',
+        sci_1:'Espectro denso en bajas frecuencias similar al ambiente uterino. Enmascara eficazmente el ruido externo y favorece el sueño profundo sin activar las vías auditivas de alerta.',
+        sci_2:'La diferencia de 4Hz entre oídos induce ondas cerebrales lentas características del sueño N3 (sueño profundo). Requiere auriculares para máxima eficacia.',
+        sci_3:'Tu propia vocalización procesada subliminalmente a −25dB y filtrada por debajo de 450Hz activa el sistema parasimpático. El retardo de 60s evita la auto-percepción consciente del estímulo.',
+        sci_4:'Eliminación de 150ms iniciales y 600ms finales. Fades coseno 250ms/600ms. Soft-clipping de picos anómalos. Normalización adaptativa. Resultado: transiciones inaudibles.',
+        short_rec: 'Grabación demasiado corta. Mantén presionado al menos 1 segundo.',
+    },
+    en: {
+        subtitle:   'DEEP SLEEP INDUCTOR',
+        ev_btn:     '◆ SCIENTIFIC EVIDENCE',
+        status_init:'· STARTING ·',
+        status_rec: '· READY TO RECORD ·',
+        status_rec_live:'● RECORDING',
+        status_proc:'· PROCESSING ·',
+        status_ready:'· CALIBRATED ·',
+        loading:    'Syncing neural protocol...',
+        rec_instr:  'Record your master yawn.\nIt will be integrated subliminally.',
+        rec_btn:    '● HOLD TO RECORD',
+        rec_ing:    '● RECORDING... RELEASE TO PROCESS',
+        rec_proc:   '◌ PROCESSING CALIBRATION...',
+        ready_msg:  'Protocol calibrated and ready.\nChoose your session duration.',
+        start_btn:  'START THERAPY',
+        reset_btn:  'Recalibrate · New recording',
+        exit_hint:  'HOLD TO EXIT',
+        sci_title:  'EVIDENCE & ENGINE',
+        sci_h1:'01 · BROWN NOISE 280Hz',sci_h2:'02 · DELTA BINAURAL 4Hz',
+        sci_h3:'03 · MIRROR NEURON ANCHOR',sci_h4:'04 · ANTI-CLICK PROTOCOL V15',
+        sci_1:'Dense low-frequency spectrum similar to the uterine environment. Effectively masks external noise and promotes deep sleep without activating auditory alert pathways.',
+        sci_2:'A 4Hz difference between ears induces slow brain waves characteristic of N3 (deep sleep). Headphones required for maximum efficacy.',
+        sci_3:'Your own vocalization processed subliminally at −25dB and filtered below 450Hz activates the parasympathetic system. 60s delay prevents conscious self-perception.',
+        sci_4:'Removal of 150ms start and 600ms end. Cosine fades 250ms/600ms. Anomalous peak soft-clipping. Adaptive normalization. Result: inaudible transitions.',
+        short_rec: 'Recording too short. Hold for at least 1 second.',
+    }
+};
+
+let lang = 'es';
+function t(key){ return T[lang][key] || key; }
+function applyLang(){
+    document.querySelectorAll('[data-t]').forEach(el=>{
+        const k=el.getAttribute('data-t');
+        const val=T[lang][k]; if(!val)return;
+        if(el.tagName==='P'||el.tagName==='DIV')el.innerHTML=val;
+        else el.textContent=val;
+    });
+}
+
+// ═══════════════════════════════════════════════
+//  PWA — MANIFEST + SERVICE WORKER (INLINE)
+// ═══════════════════════════════════════════════
+(function setupPWA(){
+    // SVG icon (crescent moon on dark bg)
+    const svgIcon = `<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 512 512'><rect width='512' height='512' rx='90' fill='%230A0608'/><path d='M300 110 C210 130 162 205 162 272 C162 358 226 415 304 415 C248 384 212 328 212 267 C212 194 254 148 300 140 C302 130 301 119 300 110Z' fill='%23C4A882'/><circle cx='330' cy='175' r='7' fill='%23C4A882' opacity='0.4'/><circle cx='348' cy='198' r='4' fill='%23C4A882' opacity='0.25'/><circle cx='320' cy='155' r='3' fill='%23C4A882' opacity='0.2'/></svg>`;
+    const iconUri = 'data:image/svg+xml,' + svgIcon;
+
+    const manifest = {
+        name: 'MIND HIPNOS — Inductor de Sueño',
+        short_name: 'MIND HIPNOS',
+        description: 'Inductor de sueño profundo con binaural delta, ruido marrón y anclaje de neuronas espejo.',
+        start_url: './',
+        display: 'standalone',
+        background_color: '#060405',
+        theme_color: '#060405',
+        orientation: 'portrait-primary',
+        categories: ['health', 'lifestyle'],
+        icons: [
+            { src: iconUri, sizes: '512x512', type: 'image/svg+xml', purpose: 'any maskable' }
+        ]
+    };
+    try {
+        const blob = new Blob([JSON.stringify(manifest)], {type:'application/manifest+json'});
+        const url  = URL.createObjectURL(blob);
+        const link = Object.assign(document.createElement('link'),{rel:'manifest',href:url});
+        document.head.appendChild(link);
+    } catch(e){}
+
+    // Apple touch icon
+    try {
+        const link2 = Object.assign(document.createElement('link'),{rel:'apple-touch-icon',href:iconUri});
+        document.head.appendChild(link2);
+    } catch(e){}
+
+    // Minimal inline Service Worker via blob
+    const swSrc = `
+self.addEventListener('install',()=>self.skipWaiting());
+self.addEventListener('activate',e=>e.waitUntil(clients.claim()));
+self.addEventListener('fetch',e=>{
+  if(e.request.method!=='GET')return;
+  e.respondWith(fetch(e.request).catch(()=>new Response('Offline',{status:503})));
+});`;
+    if('serviceWorker' in navigator){
+        try {
+            const swBlob = new Blob([swSrc],{type:'application/javascript'});
+            const swUrl  = URL.createObjectURL(swBlob);
+            navigator.serviceWorker.register(swUrl,{scope:'/'})
+                .then(()=>console.log('[MIND HIPNOS] SW registered'))
+                .catch(()=>{});
+        } catch(e){}
+    }
+})();
+
+// ═══════════════════════════════════════════════
+//  INSTALL SYSTEM — smart platform detection
+// ═══════════════════════════════════════════════
+let deferredInstall = null;
+
+const isIOS     = /iphone|ipad|ipod/i.test(navigator.userAgent);
+const isAndroid = /android/i.test(navigator.userAgent);
+const isInStandaloneMode = () =>
+    window.matchMedia('(display-mode: standalone)').matches ||
+    window.navigator.standalone === true;
+
+// Capture install prompt (Android/Desktop Chrome+Edge)
+window.addEventListener('beforeinstallprompt', e => {
+    e.preventDefault();
+    deferredInstall = e;
+});
+
+function openInstallSheet() {
+    document.querySelectorAll('.inst-platform').forEach(p => p.classList.remove('active'));
+
+    if (isInStandaloneMode()) {
+        document.getElementById('inst-already').classList.add('active');
+    } else if (deferredInstall) {
+        document.getElementById('inst-native').classList.add('active');
+        document.getElementById('inst-native-btn').onclick = async () => {
+            deferredInstall.prompt();
+            const { outcome } = await deferredInstall.userChoice;
+            if (outcome === 'accepted') {
+                deferredInstall = null;
+                closeInstallSheet();
+                const btn = document.getElementById('install-btn');
+                btn.textContent = '\u2713 INSTALADA';
+                btn.classList.add('installed');
+            }
+        };
+    } else if (isIOS) {
+        document.getElementById('inst-ios').classList.add('active');
+    } else if (isAndroid) {
+        document.getElementById('inst-android-manual').classList.add('active');
+    } else {
+        document.getElementById('inst-desktop-manual').classList.add('active');
+    }
+
+    const sheet = document.getElementById('install-sheet');
+    sheet.style.pointerEvents = 'auto';
+    sheet.classList.add('open');
+}
+
+function closeInstallSheet() {
+    const sheet = document.getElementById('install-sheet');
+    sheet.classList.remove('open');
+    setTimeout(() => sheet.style.pointerEvents = 'none', 450);
+}
+
+document.getElementById('install-btn').addEventListener('click', openInstallSheet);
+document.getElementById('close-install').addEventListener('click', closeInstallSheet);
+document.getElementById('install-backdrop').addEventListener('click', closeInstallSheet);
+
+(function(){
+    let sy = 0;
+    const panel = document.getElementById('install-panel');
+    panel.addEventListener('touchstart', e => { sy = e.touches[0].clientY; }, {passive:true});
+    panel.addEventListener('touchmove',  e => { if(e.touches[0].clientY - sy > 80) closeInstallSheet(); }, {passive:true});
+})();
+
+window.addEventListener('appinstalled', () => {
+    deferredInstall = null;
+    const btn = document.getElementById('install-btn');
+    btn.textContent = '\u2713 INSTALADA';
+    btn.classList.add('installed');
+});
+
+// Set initial button state
+(function(){
+    const btn = document.getElementById('install-btn');
+    if (isInStandaloneMode()) {
+        btn.textContent = '\u2713 INSTALADA';
+        btn.classList.add('installed');
+    }
+})();
+
+// ═══════════════════════════════════════════════
+//  STAR FIELD
+// ═══════════════════════════════════════════════
+class StarField {
+    constructor(){
+        this.canvas = document.getElementById('stars-canvas');
+        this.ctx    = this.canvas.getContext('2d');
+        this.stars  = [];
+        this._raf   = null;
+        this.running = false;
+        this._resize = ()=>this.resize();
+        window.addEventListener('resize', this._resize);
+        this.resize();
+        this.init();
+    }
+    resize(){ this.canvas.width=innerWidth; this.canvas.height=innerHeight; }
+    init(){
+        this.stars=[];
+        for(let i=0;i<90;i++) this.stars.push({
+            x:Math.random()*this.canvas.width,
+            y:Math.random()*this.canvas.height,
+            r:Math.random()*1.2+0.2,
+            o:Math.random()*0.25,
+            spd:Math.random()*0.015+0.004
+        });
+    }
+    animate(){
+        if(!this.running)return;
+        this.ctx.clearRect(0,0,this.canvas.width,this.canvas.height);
+        this.stars.forEach(s=>{
+            s.o+=s.spd; if(s.o>0.28||s.o<0)s.spd*=-1;
+            this.ctx.fillStyle=`rgba(196,168,130,${s.o})`;
+            this.ctx.beginPath();
+            this.ctx.arc(s.x,s.y,s.r,0,Math.PI*2);
+            this.ctx.fill();
+        });
+        this._raf=requestAnimationFrame(()=>this.animate());
+    }
+    start(){ this.running=true; this.animate(); }
+    stop(){ this.running=false; if(this._raf)cancelAnimationFrame(this._raf); }
+}
+
+// ═══════════════════════════════════════════════
+//  INDEXED-DB HELPERS (replaces broken localStorage blob URL)
+// ═══════════════════════════════════════════════
+const DB_NAME='MindHipnosDB', DB_VER=1, STORE='audio';
+
+function openDB(){
+    return new Promise((res,rej)=>{
+        const req=indexedDB.open(DB_NAME,DB_VER);
+        req.onupgradeneeded=e=>e.target.result.createObjectStore(STORE);
+        req.onsuccess=e=>res(e.target.result);
+        req.onerror=()=>rej(req.error);
+    });
+}
+async function idbSet(key,val){
+    const db=await openDB();
+    return new Promise((res,rej)=>{
+        const tx=db.transaction(STORE,'readwrite');
+        tx.objectStore(STORE).put(val,key);
+        tx.oncomplete=res; tx.onerror=()=>rej(tx.error);
+    });
+}
+async function idbGet(key){
+    const db=await openDB();
+    return new Promise((res,rej)=>{
+        const tx=db.transaction(STORE,'readonly');
+        const req=tx.objectStore(STORE).get(key);
+        req.onsuccess=()=>res(req.result);
+        req.onerror=()=>rej(req.error);
+    });
+}
+async function idbDel(key){
+    const db=await openDB();
+    return new Promise((res,rej)=>{
+        const tx=db.transaction(STORE,'readwrite');
+        tx.objectStore(STORE).delete(key);
+        tx.oncomplete=res; tx.onerror=()=>rej(tx.error);
+    });
+}
+
+// ═══════════════════════════════════════════════
+//  MAIN APP CLASS  (single instance, no duplicates)
+// ═══════════════════════════════════════════════
+class HypnosApp {
+    constructor(){
+        this.yawnBuffer     = null;
+        this.audioCtx       = null;
+        this.master         = null;
+        this.isRunning      = false;
+        this.wakeLock       = null;
+        this.recorder       = null;
+        this.recordStart    = 0;
+        this.timerInterval  = null;
+        this.sessionStart   = 0;
+        this.starField      = null;
+
+        this.ui = {
+            setup:   document.getElementById('setup-ui'),
+            loading: document.getElementById('step-loading'),
+            record:  document.getElementById('step-record'),
+            ready:   document.getElementById('step-ready'),
+            badge:   document.getElementById('status-badge'),
+            zone:    document.getElementById('sleep-zone'),
+        };
+
+        this._initExitZone();
+        this.init();
+    }
+
+    // ── INIT ──────────────────────────────────
+    async init(){
+        this._badge(t('status_init'));
+        try {
+            const stored = await idbGet('yawn_v15');
+            if(stored instanceof ArrayBuffer && stored.byteLength > 0){
+                const ctx = new (window.AudioContext||window.webkitAudioContext)();
+                this.audioCtx = ctx;
+                this.yawnBuffer = await this._processArrayBuffer(stored);
+                this.showReady();
+            } else {
+                this.showRecord();
+            }
+        } catch(e){
+            this.showRecord();
+        }
+    }
+
+    _badge(txt){ this.ui.badge.textContent=txt; }
+
+    // ── RECORD STEP ───────────────────────────
+    showRecord(){
+        this._hideAllSteps();
+        this.ui.record.classList.remove('hidden');
+        this._badge(t('status_rec'));
+
+        const btn = document.getElementById('btn-record');
+        // Remove previous listeners by cloning
+        const newBtn = btn.cloneNode(true);
+        btn.parentNode.replaceChild(newBtn, btn);
+
+        const self = this;
+
+        newBtn.addEventListener('pointerdown', async e=>{
+            e.preventDefault();
+            if(self.recorder) return;
+            try {
+                if(!self.audioCtx)
+                    self.audioCtx = new (window.AudioContext||window.webkitAudioContext)();
+                const stream = await navigator.mediaDevices.getUserMedia({audio:true});
+                self.recorder = new MediaRecorder(stream);
+                self.chunks   = [];
+                self.recorder.ondataavailable = ev => self.chunks.push(ev.data);
+                self.recorder.onstop = async ()=>{
+                    stream.getTracks().forEach(t=>t.stop());
+                    const blob = new Blob(self.chunks,{type:'audio/webm'});
+                    newBtn.textContent = t('rec_proc');
+                    newBtn.classList.remove('recording');
+                    self._badge(t('status_proc'));
+                    document.getElementById('rec-visualizer').style.display='none';
+                    await self._prepareAndStore(blob);
+                };
+                self.recorder.start();
+                newBtn.textContent = t('rec_ing');
+                newBtn.classList.add('btn-rec','recording');
+                self.recordStart = Date.now();
+                self._badge(t('status_rec_live'));
+                self._visualize();
+            } catch(e2){
+                alert('Micrófono no disponible: '+e2.message);
+            }
+        });
+
+        newBtn.addEventListener('pointerup', ()=>{
+            if(!self.recorder||self.recorder.state!=='recording') return;
+            const dur = Date.now()-self.recordStart;
+            if(dur<600){
+                alert(t('short_rec'));
+                self.recorder.stop();
+                self.recorder=null;
+                const nb = document.getElementById('btn-record');
+                nb.textContent=t('rec_btn');
+                nb.classList.remove('recording');
+                self._badge(t('status_rec'));
+            } else {
+                self.recorder.stop();
+                self.recorder=null;
+            }
+        });
+
+        newBtn.addEventListener('pointercancel', ()=>{
+            if(self.recorder&&self.recorder.state==='recording'){
+                self.recorder.stop(); self.recorder=null;
+            }
+            const nb=document.getElementById('btn-record');
+            if(nb){ nb.textContent=t('rec_btn'); nb.classList.remove('recording'); }
+            self._badge(t('status_rec'));
+        });
+    }
+
+    _visualize(){
+        const canvas = document.getElementById('rec-visualizer');
+        canvas.style.display='block';
+        const ctx=canvas.getContext('2d');
+        canvas.width=220; canvas.height=54;
+        const draw=()=>{
+            const btn=document.getElementById('btn-record');
+            if(!btn||!btn.classList.contains('recording')){canvas.style.display='none';return;}
+            ctx.clearRect(0,0,220,54);
+            ctx.strokeStyle='rgba(154,82,82,0.7)'; ctx.lineWidth=1.5;
+            ctx.beginPath();
+            for(let i=0;i<30;i++){
+                const x=(i/29)*220;
+                const y=27+Math.sin(Date.now()/80+i*0.7)*(Math.random()*12+2);
+                i===0?ctx.moveTo(x,y):ctx.lineTo(x,y);
+            }
+            ctx.stroke();
+            requestAnimationFrame(draw);
+        };
+        draw();
+    }
+
+    // ── AUDIO PROCESSING ──────────────────────
+    async _prepareAndStore(blob){
+        const ab = await blob.arrayBuffer();
+        // Store raw ArrayBuffer
+        await idbSet('yawn_v15', ab.slice(0));
+        this.yawnBuffer = await this._processArrayBuffer(ab);
+        this._hideAllSteps();
+        this.showReady();
+    }
+
+    async _processArrayBuffer(ab){
+        if(!this.audioCtx)
+            this.audioCtx = new (window.AudioContext||window.webkitAudioContext)();
+        const raw = await this.audioCtx.decodeAudioData(ab.slice(0));
+
+        const skipStart = 0.15, skipEnd = 0.6;
+        let dur = raw.duration - skipStart - skipEnd;
+        if(dur<0.3) dur=0.3;
+
+        const sr     = raw.sampleRate;
+        const sFrame = Math.floor(skipStart*sr);
+        const frames = Math.floor(dur*sr);
+        const buff   = this.audioCtx.createBuffer(1,frames,sr);
+        const src    = raw.getChannelData(0);
+        const dst    = buff.getChannelData(0);
+
+        // Find peak for normalization
+        let peak=0;
+        for(let i=0;i<frames;i++) peak=Math.max(peak,Math.abs(src[sFrame+i]||0));
+        const thresh=peak*0.85;
+
+        for(let i=0;i<frames;i++){
+            let v=src[sFrame+i]||0;
+            if(Math.abs(v)>thresh) v=thresh*Math.sign(v)*(1-Math.exp(-Math.abs(v)/thresh));
+            dst[i]=v;
+        }
+        // Fade in (250ms)
+        const fi=Math.floor(0.25*sr);
+        for(let i=0;i<Math.min(fi,frames);i++)
+            dst[i]*=0.5*(1-Math.cos(Math.PI*i/fi));
+        // Fade out (600ms)
+        const fo=Math.floor(0.6*sr), fs=frames-fo;
+        for(let i=0;i<fo;i++){
+            const idx=fs+i;
+            if(idx>=0&&idx<frames) dst[idx]*=0.5*(1+Math.cos(Math.PI*i/fo));
+        }
+        return buff;
+    }
+
+    // ── READY STEP ────────────────────────────
+    showReady(){
+        this._hideAllSteps();
+        this.ui.ready.classList.remove('hidden');
+        this._badge(t('status_ready'));
+
+        // Clone buttons to clear old listeners
+        const btnStart = document.getElementById('btn-start');
+        const btnReset = document.getElementById('btn-reset');
+        const ns=btnStart.cloneNode(true), nr=btnReset.cloneNode(true);
+        btnStart.parentNode.replaceChild(ns,btnStart);
+        btnReset.parentNode.replaceChild(nr,btnReset);
+
+        ns.addEventListener('click', ()=>this.startSession());
+        nr.addEventListener('click', async ()=>{
+            await idbDel('yawn_v15');
+            this.yawnBuffer=null;
+            this._hideAllSteps();
+            this.showRecord();
+        });
+    }
+
+    // ── SESSION ───────────────────────────────
+    async startSession(){
+        try { if('wakeLock' in navigator) this.wakeLock=await navigator.wakeLock.request('screen'); } catch(e){}
+
+        // Ensure AudioContext
+        if(!this.audioCtx) this.audioCtx=new (window.AudioContext||window.webkitAudioContext)();
+        if(this.audioCtx.state==='suspended') await this.audioCtx.resume();
+
+        this.ui.setup.classList.add('hidden-screen');
+
+        setTimeout(()=>{
+            this.ui.setup.style.display='none';
+            this.ui.zone.classList.remove('hidden-screen');
+            this.ui.zone.style.opacity='1';
+
+            // Stars
+            document.getElementById('stars-canvas').classList.add('active');
+            if(!this.starField){ this.starField=new StarField(); this.starField.start(); }
+            else { this.starField.running=true; this.starField.start(); }
+
+            document.getElementById('breath-circle').classList.add('active');
+
+            this.isRunning=true;
+            this._startAudio();
+            this._startTimer();
+            this._startSessionTimer();
+        }, 900);
+    }
+
+    stopSession(){
+        this.isRunning=false;
+
+        if(this.master){
+            const t0=this.audioCtx.currentTime;
+            this.master.gain.cancelScheduledValues(t0);
+            this.master.gain.setValueAtTime(this.master.gain.value,t0);
+            this.master.gain.exponentialRampToValueAtTime(0.001,t0+2);
+        }
+
+        if(this.wakeLock) this.wakeLock.release().catch(()=>{});
+        if(this.timerInterval) clearInterval(this.timerInterval);
+
+        const zone=this.ui.zone;
+        zone.style.opacity='0';
+
+        setTimeout(()=>{
+            if(this.audioCtx) this.audioCtx.suspend().catch(()=>{});
+            zone.classList.add('hidden-screen');
+
+            document.getElementById('stars-canvas').classList.remove('active');
+            document.getElementById('breath-circle').classList.remove('active');
+            document.getElementById('session-timer').classList.remove('visible','fading');
+            document.getElementById('progress-indicator').classList.remove('visible');
+            document.getElementById('exit-hint').style.opacity='0';
+            document.getElementById('exit-press-ring').classList.remove('visible','pressing');
+            document.getElementById('progress-bar').style.width='0%';
+
+            if(this.starField) this.starField.stop();
+
+            this.ui.setup.style.display='flex';
+            setTimeout(()=>this.ui.setup.classList.remove('hidden-screen'),40);
+        }, 2000);
+    }
+
+    _startTimer(){
+        const mins=parseInt(document.getElementById('timer-select').value);
+        if(mins===999) return;
+        const dur=mins*60;
+        const t0=this.audioCtx.currentTime;
+        this.master.gain.setValueAtTime(1,t0+dur-60);
+        this.master.gain.exponentialRampToValueAtTime(0.001,t0+dur);
+        setTimeout(()=>{ if(this.isRunning) this.stopSession(); }, dur*1000);
+
+        const bar=document.getElementById('progress-bar');
+        const ind=document.getElementById('progress-indicator');
+        setTimeout(()=>ind.classList.add('visible'),3000);
+        let el=0;
+        const pi=setInterval(()=>{
+            el++; bar.style.width=(el/dur*100)+'%';
+            if(el>=dur||!this.isRunning) clearInterval(pi);
+        },1000);
+    }
+
+    _startSessionTimer(){
+        const el=document.getElementById('session-timer');
+        this.sessionStart=Date.now();
+        setTimeout(()=>el.classList.add('visible'),900);
+        setTimeout(()=>el.classList.add('fading'),10000);
+        this.timerInterval=setInterval(()=>{
+            const s=Math.floor((Date.now()-this.sessionStart)/1000);
+            el.textContent=`${String(Math.floor(s/60)).padStart(2,'0')}:${String(s%60).padStart(2,'0')}`;
+        },1000);
+    }
+
+    _startAudio(){
+        this.master=this.audioCtx.createGain();
+        this.master.connect(this.audioCtx.destination);
+
+        // Brown noise
+        const bSz=this.audioCtx.sampleRate*4;
+        const bBuf=this.audioCtx.createBuffer(1,bSz,this.audioCtx.sampleRate);
+        const bDat=bBuf.getChannelData(0);
+        let last=0;
+        for(let i=0;i<bSz;i++){
+            const w=Math.random()*2-1;
+            bDat[i]=(last+(0.02*w))/1.02; last=bDat[i]; bDat[i]*=3.5;
+        }
+        const noise=this.audioCtx.createBufferSource();
+        noise.buffer=bBuf; noise.loop=true;
+        const nFil=this.audioCtx.createBiquadFilter();
+        nFil.type='lowpass'; nFil.frequency.value=280;
+        const nGain=this.audioCtx.createGain(); nGain.gain.value=0.5;
+        noise.connect(nFil); nFil.connect(nGain); nGain.connect(this.master);
+        noise.start();
+
+        // Binaural delta
+        const oL=this.audioCtx.createOscillator(); oL.frequency.value=200;
+        const oR=this.audioCtx.createOscillator(); oR.frequency.value=204;
+        const pL=this.audioCtx.createStereoPanner(); pL.pan.value=-1;
+        const pR=this.audioCtx.createStereoPanner(); pR.pan.value=1;
+        const bG=this.audioCtx.createGain(); bG.gain.value=0.08;
+        oL.connect(pL); pL.connect(bG); oR.connect(pR); pR.connect(bG);
+        bG.connect(this.master); oL.start(); oR.start();
+
+        // Yawn subliminal (60s delay)
+        if(this.yawnBuffer){
+            setTimeout(()=>{ if(this.isRunning) this._scheduleYawn(); }, 60000);
+        }
+    }
+
+    _scheduleYawn(){
+        if(!this.isRunning) return;
+        const delay=30000+Math.random()*30000;
+        setTimeout(()=>{
+            if(!this.isRunning) return;
+            const src=this.audioCtx.createBufferSource();
+            src.buffer=this.yawnBuffer; src.playbackRate.value=0.85;
+            const fil=this.audioCtx.createBiquadFilter();
+            fil.type='lowpass'; fil.frequency.value=450; fil.Q.value=0.7;
+            const g=this.audioCtx.createGain(); g.gain.value=0.04;
+            src.connect(fil); fil.connect(g); g.connect(this.master);
+            src.start();
+            this._scheduleYawn();
+        },delay);
+    }
+
+    // ── EXIT ZONE ─────────────────────────────
+    _initExitZone(){
+        const zone = document.getElementById('sleep-zone');
+        const hint = document.getElementById('exit-hint');
+        const ring = document.getElementById('exit-press-ring');
+        let pressT=0, pressTimer=null, ringTimer=null;
+
+        zone.addEventListener('pointerdown', e=>{
+            if(!this.isRunning) return;
+            e.preventDefault();
+            pressT=Date.now();
+            hint.style.opacity='1';
+            ring.classList.add('visible');
+            // animate ring
+            setTimeout(()=>ring.classList.add('pressing'),20);
+
+            // After 3s → exit
+            pressTimer=setTimeout(()=>{
+                if(this.isRunning) this.stopSession();
+            },3000);
+        });
+
+        const cancel=()=>{
+            clearTimeout(pressTimer);
+            hint.style.opacity='0';
+            ring.classList.remove('pressing');
+            setTimeout(()=>ring.classList.remove('visible'),300);
+        };
+        zone.addEventListener('pointerup',   cancel);
+        zone.addEventListener('pointercancel',cancel);
+    }
+
+    // ── HELPERS ───────────────────────────────
+    _hideAllSteps(){
+        this.ui.loading.classList.add('hidden');
+        this.ui.record.classList.add('hidden');
+        this.ui.ready.classList.add('hidden');
+    }
+}
+
+// ═══════════════════════════════════════════════
+//  TOUR SYSTEM
+// ═══════════════════════════════════════════════
+const TOUR_STEPS = [
+    { icon:'🌙', title:'BIENVENIDO', body:'<b>MIND HIPNOS</b> combina ruido marrón, binaural delta y tu propia voz para inducir el sueño profundo de forma natural.' },
+    { icon:'🎙️', title:'GRABAR BOSTEZO', body:'<b>Mantén pulsado</b> el botón de grabación. Suelta cuando termines. Tu vocalización quedará procesada de forma subliminal.' },
+    { icon:'🔴', title:'ESTADO GRABANDO', body:'El botón pulsará en <b>rojo</b> mientras grabas. El indicador de onda confirma que el micrófono está activo.' },
+    { icon:'⏱', title:'ESCOGER DURACIÓN', body:'Una vez calibrado el protocolo, elige entre <b>40, 60, 90 minutos o infinito</b> según tus necesidades de sueño.' },
+    { icon:'▶️', title:'INICIAR TERAPIA', body:'Pulsa <b>INICIAR TERAPIA</b> y pon tus auriculares. La pantalla se oscurecerá completamente. El audio trabaja en silencio.' },
+    { icon:'🔄', title:'RECALIBRAR', body:'Si quieres grabar un nuevo bostezo, pulsa <b>Recalibrar</b>. La sesión actual se detendrá y podrás volver a grabar.' },
+    { icon:'✋', title:'SALIR DE SESIÓN', body:'Para salir de la pantalla oscura, <b>mantén presionado 3 segundos</b> en cualquier punto. Un círculo animado confirmará la salida.' },
+];
+
+let tourStep=0;
+const tourOverlay=document.getElementById('tour-overlay');
+const tourDots   =document.getElementById('tour-dots');
+
+function buildTourDots(){
+    tourDots.innerHTML='';
+    TOUR_STEPS.forEach((_,i)=>{
+        const d=document.createElement('div');
+        d.className='tour-dot'+(i===tourStep?' active':'');
+        tourDots.appendChild(d);
+    });
+}
+
+function showTourStep(i){
+    tourStep=i;
+    const s=TOUR_STEPS[i];
+    document.getElementById('tour-icon').textContent=s.icon;
+    document.getElementById('tour-step-label').textContent=`PASO ${i+1} DE ${TOUR_STEPS.length}`;
+    document.getElementById('tour-title').textContent=s.title;
+    document.getElementById('tour-body').innerHTML=s.body;
+    buildTourDots();
+
+    const nextBtn=document.getElementById('tour-next');
+    const isLast=i===TOUR_STEPS.length-1;
+    nextBtn.textContent=isLast?'ENTENDIDO ✓':'SIGUIENTE →';
+}
+
+function openTour(){
+    tourOverlay.classList.add('active');
+    showTourStep(0);
+}
+function closeTour(){
+    tourOverlay.classList.remove('active');
+    localStorage.setItem('mh_tour_v15','seen');
+}
+
+document.getElementById('tour-next').addEventListener('click',()=>{
+    if(tourStep<TOUR_STEPS.length-1) showTourStep(tourStep+1);
+    else closeTour();
+});
+document.getElementById('tour-skip').addEventListener('click', closeTour);
+document.getElementById('help-btn').addEventListener('click', openTour);
+
+// Show tour on first visit
+if(!localStorage.getItem('mh_tour_v15')) openTour();
+
+// ═══════════════════════════════════════════════
+//  SCIENCE BOTTOM SHEET
+// ═══════════════════════════════════════════════
+const sciSheet   = document.getElementById('science-sheet');
+const sciBackdrop= document.getElementById('science-backdrop');
+const closeBtn   = document.getElementById('close-science');
+
+function openScience(){
+    sciSheet.style.pointerEvents='auto';
+    sciSheet.classList.add('open');
+}
+function closeScience(){
+    sciSheet.classList.remove('open');
+    setTimeout(()=>sciSheet.style.pointerEvents='none',450);
+}
+
+document.getElementById('info-btn').addEventListener('click', openScience);
+closeBtn.addEventListener('click', closeScience);
+sciBackdrop.addEventListener('click', closeScience);
+
+// Swipe-down to close science sheet
+let sheetTouchStart=0;
+document.getElementById('science-panel').addEventListener('touchstart',e=>{
+    sheetTouchStart=e.touches[0].clientY;
+},{passive:true});
+document.getElementById('science-panel').addEventListener('touchmove',e=>{
+    const delta=e.touches[0].clientY-sheetTouchStart;
+    if(delta>80) closeScience();
+},{passive:true});
+
+// ═══════════════════════════════════════════════
+//  LANGUAGE SWITCH
+// ═══════════════════════════════════════════════
+document.getElementById('lang-btn').addEventListener('click',()=>{
+    lang = lang==='es'?'en':'es';
+    document.getElementById('lang-btn').textContent = lang.toUpperCase();
+    applyLang();
+});
+
+// ═══════════════════════════════════════════════
+//  SINGLE BOOT
+// ═══════════════════════════════════════════════
+window.addEventListener('DOMContentLoaded', ()=>{
+    applyLang();
+    window._app = new HypnosApp();
+});
+</script>
+</body>
+</html>

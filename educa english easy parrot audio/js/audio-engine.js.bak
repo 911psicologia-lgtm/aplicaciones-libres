@@ -1,0 +1,239 @@
+/**
+ * AUDIO ENGINE — usa las voces de síntesis YA INSTALADAS en el dispositivo
+ * (Web Speech API). No descarga ni almacena archivos de audio.
+ *
+ * NOTA SOBRE EL BUG DE CUELGUE EN ESCRITORIO (Chrome/Edge):
+ * speechSynthesis tiene un comportamiento conocido donde, tras ~15s seguidos
+ * hablando (o si la pestaña pierde foco), el motor se "duerme" y nunca
+ * dispara el evento onend — la promesa quedaba esperando para siempre y la
+ * app parecía colgada. Se corrige con dos mecanismos:
+ *   1) un timeout de seguridad por frase (si no llega onend a tiempo, se
+ *      resuelve igual y la app sigue) y
+ *   2) un "keep-alive" que pausa y reanuda el motor cada ~12s mientras habla,
+ *      truco estándar para evitar que Chrome lo deje dormido.
+ */
+window.AudioEngine = (() => {
+  let voicesES = [];
+  let voicesEN = [];
+  let voicesByLang = {}; // { en:[...], fr:[...], pt:[...], es:[...] }
+  let targetLang = "en"; // idioma que se practica
+  let rate = 1;
+  let speaking = false;
+  let cancelled = false;
+  let onStateChange = null;
+  let onChainStep = null; // avisa qué idioma de la cadena suena (modo políglota)
+  let onVoicesChanged = null;
+
+  // Locales preferidos por idioma, en orden de preferencia.
+  const PREFERRED = {
+    en: ["en-US", "en-GB", "en-AU"],
+    fr: ["fr-FR", "fr-CA"],
+    pt: ["pt-BR", "pt-PT"],
+    es: ["es-MX", "es-US", "es-419", "es-ES"]
+  };
+
+  function loadVoices() {
+    if (!("speechSynthesis" in window)) return;
+    const voices = window.speechSynthesis.getVoices();
+    const byPrefix = p => voices.filter(v => v.lang.toLowerCase().startsWith(p));
+    voicesByLang = { en: byPrefix("en"), fr: byPrefix("fr"), pt: byPrefix("pt"), es: byPrefix("es") };
+    voicesES = voicesByLang.es;
+    voicesEN = voicesByLang.en;
+    if (onVoicesChanged) onVoicesChanged(getVoiceStatus());
+  }
+
+  if ("speechSynthesis" in window) {
+    loadVoices();
+    window.speechSynthesis.onvoiceschanged = loadVoices;
+  }
+
+  function pickVoice(list, preferredLangs) {
+    for (const lang of preferredLangs) {
+      const match = list.find(v => v.lang.toLowerCase() === lang.toLowerCase());
+      if (match) return match;
+    }
+    return list[0] || null;
+  }
+
+  function speakUtterance(text, lang, voiceList, preferredLangs) {
+    return new Promise((resolve) => {
+      if (!("speechSynthesis" in window) || cancelled || !text) { resolve(); return; }
+
+      const u = new SpeechSynthesisUtterance(text);
+      u.lang = lang;
+      const voice = pickVoice(voiceList, preferredLangs);
+      if (voice) u.voice = voice;
+      u.rate = rate;
+
+      let done = false;
+      let keepAlive = null;
+
+      const finish = () => {
+        if (done) return;
+        done = true;
+        if (keepAlive) clearInterval(keepAlive);
+        clearTimeout(safety);
+        resolve();
+      };
+
+      u.onend = finish;
+      u.onerror = finish;
+
+      // Mecanismo 2: keep-alive contra el bug de Chrome de escritorio.
+      keepAlive = setInterval(() => {
+        if (!("speechSynthesis" in window)) return;
+        if (window.speechSynthesis.speaking && !window.speechSynthesis.paused) {
+          window.speechSynthesis.pause();
+          window.speechSynthesis.resume();
+        }
+      }, 12000);
+
+      // Mecanismo 1: timeout de seguridad, estimado por longitud del texto.
+      const estMs = Math.max(2500, (text.length * 90) / Math.max(rate, 0.5)) + 4000;
+      const safety = setTimeout(finish, estMs);
+
+      try {
+        window.speechSynthesis.speak(u);
+      } catch (e) {
+        finish();
+      }
+    });
+  }
+
+  function setSpeaking(val) {
+    speaking = val;
+    if (onStateChange) onStateChange(speaking);
+  }
+
+  function getVoiceStatus() {
+    if (!("speechSynthesis" in window)) {
+      return { supported: false, totalVoices: 0, englishVoices: 0, spanishVoices: 0 };
+    }
+    const all = window.speechSynthesis.getVoices();
+    return {
+      supported: true,
+      totalVoices: all.length,
+      englishVoices: voicesEN.length,
+      spanishVoices: voicesES.length,
+      frenchVoices: (voicesByLang.fr || []).length,
+      portugueseVoices: (voicesByLang.pt || []).length
+    };
+  }
+
+  return {
+    hasSynthesis() {
+      return "speechSynthesis" in window;
+    },
+    getVoiceStatus,
+    setOnVoicesChanged(cb) { onVoicesChanged = typeof cb === "function" ? cb : null; },
+    setRate(r) { rate = r; },
+    getRate() { return rate; },
+    setTargetLang(lang) { if (PREFERRED[lang]) targetLang = lang; },
+    getTargetLang() { return targetLang; },
+    setOnStateChange(cb) { onStateChange = cb; },
+    setOnChainStep(cb) { onChainStep = typeof cb === "function" ? cb : null; },
+
+    // Pronuncia un único texto en el idioma dado (respeta la regla de no usar
+    // una voz de otro idioma si no hay voz/instalada).
+    async speakOne(text, lang) {
+      if (!text) return;
+      const usable = (lang === "en" || lang === "es" || (voicesByLang[lang] || []).length);
+      if (!usable) return;
+      const list = voicesByLang[lang] || voicesEN;
+      const prefs = PREFERRED[lang] || PREFERRED.en;
+      await speakUtterance(text, prefs[0], list, prefs);
+    },
+
+    // Modo Vocabulario con recuerdo activo:
+    // 1) dice el significado en español, 2) hace una pausa para que el usuario
+    // lo recuerde, 3) llama onReveal() para mostrar la respuesta y 4) pronuncia
+    // la palabra meta y su ejemplo de contexto.
+    async speakRecall(item, lang, onReveal) {
+      cancelled = false;
+      setSpeaking(true);
+      await this.speakOne(item.es, "es");
+      if (cancelled) { setSpeaking(false); return; }
+      await new Promise(r => setTimeout(r, 2200)); // ventana de recuerdo
+      if (cancelled) { setSpeaking(false); return; }
+      if (typeof onReveal === "function") onReveal();
+      await this.speakOne(item[lang] || item.en, item[lang] ? lang : "en");
+      if (cancelled) { setSpeaking(false); return; }
+      const ej = item.ej && (item.ej[lang] || item.ej.en);
+      if (ej) {
+        await new Promise(r => setTimeout(r, 300));
+        if (cancelled) { setSpeaking(false); return; }
+        await this.speakOne(ej, item.ej[lang] ? lang : "en");
+      }
+      setSpeaking(false);
+    },
+    hasVoiceFor(lang) {
+      const l = (voicesByLang[lang] || []);
+      return lang === "es" || lang === "en" ? true : l.length > 0;
+    },
+    isSpeaking() { return speaking; },
+
+    async speakPhrase(phrase, mode) {
+      cancelled = false;
+      setSpeaking(true);
+
+      // Regla crítica: si una frase todavía no tiene traducción al idioma
+      // seleccionado, NO debe pronunciarse con una voz de otro idioma.
+      // Antes ocurría esto: texto en inglés + voz francesa/portuguesa.
+      // Ahora el idioma real del audio acompaña al texto disponible.
+      const requestedLang = PREFERRED[targetLang] ? targetLang : "en";
+      const actualLang = (requestedLang === "en" || phrase[requestedLang]) ? requestedLang : "en";
+      const text = phrase[actualLang] || phrase.en;
+      const list = voicesByLang[actualLang] || voicesEN;
+      const prefs = PREFERRED[actualLang] || PREFERRED.en;
+
+      await speakUtterance(text, prefs[0], list, prefs);
+      if (cancelled) { setSpeaking(false); return; }
+      if (mode === "bilingue" && phrase.es) {
+        await new Promise(r => setTimeout(r, 350));
+        if (cancelled) { setSpeaking(false); return; }
+        await speakUtterance(phrase.es, "es-ES", voicesES, PREFERRED.es);
+      }
+      setSpeaking(false);
+    },
+
+    // Modo Políglota: lee la misma frase en varios idiomas, en orden.
+    // Salta cualquier idioma que no tenga texto o cuya voz no esté instalada
+    // (para no leer, por ejemplo, francés con acento inglés).
+    async speakChain(phrase, langs) {
+      cancelled = false;
+      setSpeaking(true);
+      const orden = (Array.isArray(langs) && langs.length) ? langs : ["en", "es", "fr", "pt"];
+      let primero = true;
+      let pronunciado = false;
+      for (const lang of orden) {
+        if (cancelled) { setSpeaking(false); return; }
+        const texto = (lang === "es") ? phrase.es : phrase[lang];
+        if (!texto) continue;
+        if (lang !== "en" && lang !== "es" && !((voicesByLang[lang] || []).length)) continue;
+        if (!primero) {
+          await new Promise(r => setTimeout(r, 350));
+          if (cancelled) { setSpeaking(false); return; }
+        }
+        primero = false;
+        pronunciado = true;
+        if (onChainStep) onChainStep(lang);
+        const list = voicesByLang[lang] || voicesEN;
+        const prefs = PREFERRED[lang] || PREFERRED.en;
+        await speakUtterance(texto, prefs[0], list, prefs);
+      }
+      if (onChainStep) onChainStep(null);
+      // Salvaguarda: si ningún idioma de la cadena pudo pronunciarse (sin texto
+      // o sin voz instalada), espera un momento para que el bucle no gire en vacío.
+      if (!pronunciado && !cancelled) await new Promise(r => setTimeout(r, 700));
+      setSpeaking(false);
+    },
+
+    stop() {
+      cancelled = true;
+      setSpeaking(false);
+      if ("speechSynthesis" in window) {
+        try { window.speechSynthesis.cancel(); } catch (e) { /* noop */ }
+      }
+    }
+  };
+})();

@@ -1,0 +1,1097 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<title>Tareas sin pelea</title>
+<meta name="theme-color" content="#1CA7EC">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<link rel="manifest" href="manifest.json">
+<style>
+:root{--bg:#eef7ff;--card:#fff;--text:#09275a;--muted:#5d78a0;--line:#cfe4fb;--brand:#1CA7EC;--brand2:#1F2F98;--soft:#e7f4ff;--danger:#e04b59;--ok:#10b981;--warn:#f59e0b;--shadow:0 8px 22px rgba(28,167,236,.10);--r:16px;--bh:44px}
+body.dark{--bg:#0d1a2e;--card:#112240;--text:#e8f4fd;--muted:#8ab4d4;--line:#1e3a5a;--soft:#172c49;--shadow:0 6px 20px rgba(0,0,0,.28)}
+body.pal-tierra{--bg:#fff8f2;--text:#2e1a14;--muted:#8a6459;--line:#ecd2c6;--brand:#b7664d;--brand2:#7f3f31;--soft:#fff0e8;--shadow:0 8px 22px rgba(183,102,77,.10)}
+body.pal-esmeralda{--bg:#f0fdf8;--text:#083526;--muted:#4a7a60;--line:#b9eedb;--brand:#10b981;--brand2:#065f46;--soft:#dcfce7;--shadow:0 8px 22px rgba(16,185,129,.10)}
+body.pal-ciruela{--bg:#faf5ff;--text:#2e1a4a;--muted:#7a5a9a;--line:#ddd6fe;--brand:#8b5cf6;--brand2:#5b21b6;--soft:#ede9fe;--shadow:0 8px 22px rgba(139,92,246,.12)}
+body.pal-coral{--bg:#fff1f2;--text:#2e0a14;--muted:#9a4a5a;--line:#fecdd3;--brand:#f43f5e;--brand2:#9f1239;--soft:#ffe4e6;--shadow:0 8px 22px rgba(244,63,94,.10)}
+body.pal-byn{--bg:#f5f5f5;--card:#fff;--text:#1a1a1a;--muted:#666;--line:#ddd;--brand:#333;--brand2:#000;--soft:#eee;--shadow:0 8px 22px rgba(0,0,0,.08)}
+body.dark.pal-byn{--bg:#111;--card:#1a1a1a;--text:#f0f0f0;--muted:#888;--line:#333;--soft:#222;--shadow:0 6px 20px rgba(0,0,0,.4)}
+body.pal-whatsapp{--bg:#e5ddd5;--text:#1f2328;--muted:#667781;--line:#d1d7db;--brand:#00a884;--brand2:#008069;--soft:#d9fdd3;--shadow:0 8px 22px rgba(0,168,132,.10)}
+body.dark.pal-whatsapp{--bg:#0b141a;--card:#1f2c34;--text:#e9edef;--muted:#8696a0;--line:#2a3942;--soft:#1a2730;--shadow:0 6px 20px rgba(0,0,0,.28)}
+*{box-sizing:border-box;margin:0;padding:0;-webkit-tap-highlight-color:transparent}
+html,body{min-height:100%;background:var(--bg);color:var(--text);font-family:Nunito,Inter,system-ui,-apple-system,Segoe UI,sans-serif;font-size:15px;line-height:1.45;overflow-x:hidden}
+button,input,select,textarea{font:inherit;color:inherit}
+button{border:0;background:none;cursor:pointer}
+input:focus,textarea:focus,select:focus{outline:2px solid var(--brand);outline-offset:-1px}
+
+/* RESPONSIVE LAYOUT — mobile-first, safe-area aware */
+.screen{display:none;min-height:100vh;min-height:100dvh;width:100%;margin:0 auto;padding:0 14px 24px;padding-left:calc(14px + env(safe-area-inset-left,0px));padding-right:calc(14px + env(safe-area-inset-right,0px))}
+.screen.with-nav{padding-bottom:calc(90px + env(safe-area-inset-bottom,0px))}
+.screen.show{display:block}
+
+/* Splash — palette-aware */
+.splash{display:none;min-height:100vh;min-height:100dvh;width:100%;margin:0 auto;padding:24px;align-items:center;justify-content:center;text-align:center;background:linear-gradient(180deg,var(--soft),var(--line))}
+.splash.show{display:flex}
+.splash-inner{width:100%;transform:translateY(-5vh)}
+.splash-emoji{font-size:4rem;margin-bottom:18px}
+.splash h1{font-size:2rem;line-height:1.08;font-weight:900;color:var(--brand2);letter-spacing:-.04em}
+.splash p{color:var(--muted);font-size:.92rem;line-height:1.4;margin:20px auto;max-width:290px}
+
+/* Buttons — 44px touch target */
+.btn{width:100%;border-radius:var(--r);padding:13px 14px;font-weight:800;font-size:.9rem;display:flex;align-items:center;justify-content:center;gap:7px;min-height:44px}
+.btn-primary{background:var(--brand);color:white;box-shadow:0 6px 16px rgba(28,167,236,.22)}
+.btn-secondary{background:var(--soft);border:1.5px solid var(--line)}
+.btn-ghost{border:1.5px solid var(--line);background:var(--card)}
+.btn-danger{background:var(--danger);color:white}
+.btn-small{width:auto;padding:8px 12px;border-radius:12px;font-size:.82rem;min-height:36px}
+
+/* Top bar */
+.top{display:flex;align-items:center;gap:8px;justify-content:center;padding:calc(14px + env(safe-area-inset-top,0px)) 0 8px;position:relative}
+.hamb{position:absolute;left:0;width:var(--bh);height:var(--bh);border-radius:14px;background:var(--card);border:1.5px solid var(--line);box-shadow:var(--shadow);display:grid;place-items:center;transition:transform .15s}
+.hamb:active{transform:scale(.9)}
+.hamb svg{width:20px;height:20px;stroke:var(--text);stroke-width:2.5;fill:none;stroke-linecap:round}
+.gear{position:absolute;right:0;width:var(--bh);height:var(--bh);border-radius:14px;background:var(--card);border:1.5px solid var(--line);box-shadow:var(--shadow);display:grid;place-items:center;transition:transform .15s}
+.gear:active{transform:scale(.9)}
+.brand{text-align:center}
+.brand h1{font-size:1.15rem;color:var(--brand2);font-weight:900;letter-spacing:-.02em}
+.brand p{font-size:.76rem;color:var(--muted);margin-top:1px}
+
+/* Section titles */
+.section-title{display:flex;align-items:center;justify-content:space-between;margin:14px 0 8px}
+.section-title h2{font-size:1.1rem;font-weight:900}
+.mini-link{font-size:.82rem;font-weight:800;color:var(--brand);white-space:nowrap;min-height:44px;display:flex;align-items:center}
+
+/* Person grid */
+.person-grid{display:grid;gap:8px}
+.person-card{display:grid;grid-template-columns:auto 1fr;align-items:center;gap:10px;padding:12px;border-radius:var(--r);background:var(--card);border:1px solid var(--line);box-shadow:var(--shadow);text-align:left;width:100%}
+.avatar{width:50px;height:50px;border-radius:50%;background:var(--soft);display:grid;place-items:center;font-size:1.7rem;overflow:hidden;border:1px solid var(--line);flex-shrink:0}
+.avatar img{width:100%;height:100%;object-fit:cover}
+.pc-info{min-width:0}
+.pc-name{font-weight:800;font-size:.98rem;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.pc-meta{color:var(--muted);font-size:.78rem;margin-top:1px}
+.pc-active{color:var(--brand);font-size:.74rem;font-weight:700;margin-top:3px}
+.pc-actions{display:flex;gap:6px;margin-top:8px;flex-wrap:wrap}
+.pc-act{background:var(--soft);border:1px solid var(--line);border-radius:10px;padding:7px 10px;font-size:.74rem;font-weight:800;display:flex;align-items:center;gap:4px;white-space:nowrap;min-height:34px}
+
+/* Empty states */
+.empty{border:1.5px dashed var(--line);background:var(--soft);border-radius:var(--r);padding:28px 14px;text-align:center;color:var(--muted)}
+.empty .e{font-size:2.5rem;margin-bottom:10px}
+
+/* Vent card — palette-aware */
+.vent-card{margin:12px 0 4px;border-radius:var(--r);padding:12px 14px;background:linear-gradient(135deg,var(--brand2),var(--brand));box-shadow:var(--shadow);color:white;display:flex;align-items:center;gap:10px;border:1.5px solid rgba(255,255,255,.15);width:100%;min-height:44px}
+.vent-card .face{font-size:1.7rem}
+.vent-card-info{flex:1;min-width:0}
+.vent-card h3{font-size:.95rem;line-height:1;font-weight:800}
+.vent-card p{font-size:.78rem;opacity:.88;margin-top:3px}
+.vent-card .next-btn{background:rgba(255,255,255,.12);border:1px solid rgba(255,255,255,.18);border-radius:999px;color:white;font-weight:800;padding:6px 10px;font-size:.78rem;white-space:nowrap}
+
+/* Bottom nav — 50px height for touch, safe-area */
+.bottom{position:fixed;left:50%;bottom:calc(8px + env(safe-area-inset-bottom,0px));transform:translateX(-50%);width:calc(100% - 22px);max-width:520px;display:none;grid-template-columns:repeat(4,1fr);gap:3px;background:var(--card);border:1px solid var(--line);border-radius:20px;padding:6px;box-shadow:0 8px 24px rgba(0,0,0,.10);z-index:30}
+.bottom.show{display:grid}
+.navbtn{border-radius:14px;padding:8px 2px;color:var(--muted);font-size:.68rem;font-weight:800;display:grid;gap:1px;place-items:center;min-height:44px;transition:color .2s,background .2s}
+.navbtn span{font-size:1.15rem}
+.navbtn.active{color:var(--brand);background:var(--soft)}
+
+/* Fields */
+.field{margin:10px 0}
+.field label{display:block;font-size:.72rem;font-weight:800;color:var(--muted);text-transform:uppercase;letter-spacing:.04em;margin-bottom:5px}
+.field input,.field textarea,.field select{width:100%;border:1.5px solid var(--line);border-radius:14px;padding:11px 12px;background:var(--card);outline:none;font-size:.9rem;min-height:44px}
+.field textarea{resize:vertical;min-height:80px}
+.row2{display:grid;grid-template-columns:1fr 1fr;gap:8px}
+
+/* Emoji pickers — 40px touch */
+.emoji-row{display:flex;gap:5px;flex-wrap:wrap}
+.emoji-btn{width:40px;height:40px;border-radius:10px;background:var(--soft);border:1px solid var(--line);font-size:1.12rem;display:grid;place-items:center;transition:transform .12s}
+.emoji-btn.sel{outline:2.5px solid var(--brand)}
+.emoji-btn:active{transform:scale(.88)}
+
+/* Cards */
+.card{background:var(--card);border:1px solid var(--line);border-radius:var(--r);padding:12px;box-shadow:var(--shadow);margin:8px 0}
+.agreement{display:grid;grid-template-columns:1fr auto auto;gap:6px;align-items:center;border-left:3.5px solid var(--brand)}
+.agreement>div{min-width:0;overflow:hidden}
+.agreement.alta{border-left-color:var(--danger)}
+.agreement.baja{border-left-color:var(--ok)}
+
+/* Chips */
+.chips{display:flex;gap:5px;flex-wrap:wrap;margin-top:6px}
+.chip{background:var(--soft);border:1px solid var(--line);border-radius:999px;padding:7px 9px;font-size:.78rem;font-weight:700;cursor:pointer;min-height:34px;transition:background .15s}
+.chip:hover{background:var(--line)}
+
+/* Priority */
+.prio{display:grid;grid-template-columns:repeat(3,1fr);gap:6px}
+.prio button{background:var(--soft);border:1.5px solid var(--line);border-radius:12px;padding:8px 4px;font-weight:800;font-size:.82rem;min-height:40px;transition:transform .12s}
+.prio button.sel{outline:2.5px solid var(--brand)}
+.prio button:active{transform:scale(.94)}
+
+/* Preview */
+.preview{white-space:pre-wrap;line-height:1.5;background:var(--soft);border:1px solid var(--line);border-radius:var(--r);padding:12px;font-size:.88rem}
+
+/* Send options */
+.send-list{display:grid;gap:6px}
+.send-opt{display:flex;gap:8px;align-items:center;background:var(--card);border:1px solid var(--line);border-radius:14px;padding:11px;font-weight:800;font-size:.88rem;text-align:left;min-height:48px;transition:transform .12s,background .15s}
+.send-opt:active{transform:scale(.97);background:var(--soft)}
+
+/* Vent box */
+.ventbox{min-height:200px;font-size:.95rem;line-height:1.5}
+
+/* Vent toolbar */
+.toolbar{display:flex;gap:5px;overflow:auto;padding:4px 0;-webkit-overflow-scrolling:touch}
+.tool{flex:0 0 auto;border-radius:11px;background:var(--soft);border:1px solid var(--line);padding:8px 10px;font-weight:800;font-size:.82rem;min-height:38px;transition:transform .12s}
+.tool:active{transform:scale(.9)}
+
+/* Details/accordion */
+.details{background:var(--card);border:1px solid var(--line);border-radius:14px;margin:6px 0;overflow:visible}
+.details summary{padding:10px 12px;font-weight:800;font-size:.84rem;list-style:none;cursor:pointer;display:flex;align-items:center;gap:6px;min-height:44px}
+.details summary::-webkit-details-marker{display:none}
+.details summary::after{content:'▾';margin-left:auto;font-size:.8rem;opacity:.5;transition:transform .2s}
+.details[open] summary::after{content:'▴'}
+.details-body{padding:0 10px 10px;display:flex;gap:5px;flex-wrap:wrap;width:100%}
+.details-body.vent-full{padding:6px;display:grid;grid-template-columns:repeat(auto-fill,minmax(40px,1fr));gap:4px}
+.details-body.sym-full{padding:6px;display:grid;grid-template-columns:repeat(auto-fill,minmax(80px,1fr));gap:5px}
+.details-body.tpl-full{padding:6px;display:flex;flex-direction:column;gap:5px}
+
+/* Symbol grid */
+.sym-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(80px,1fr));gap:5px}
+.sym-grid button{background:var(--soft);border:1px solid var(--line);border-radius:10px;padding:8px 6px;font-size:.78rem;font-weight:800;cursor:pointer;text-align:center;white-space:nowrap;min-height:38px}
+
+/* Private items */
+.private-item{background:var(--card);border:1px solid var(--line);border-radius:var(--r);padding:11px;margin:8px 0;box-shadow:var(--shadow)}
+.private-meta{font-size:.74rem;color:var(--muted);font-weight:700;margin-bottom:5px}
+.private-text{white-space:pre-wrap;line-height:1.45;font-size:.9rem}
+
+/* Private lock screen */
+.lock-info{font-size:.88rem;color:var(--muted);line-height:1.45;margin-bottom:10px}
+.lock-count{background:var(--soft);border:1px solid var(--line);border-radius:12px;padding:10px 12px;margin-bottom:10px;font-weight:800;font-size:.88rem;display:flex;align-items:center;gap:6px}
+
+/* Agreement done */
+.agreement.done{opacity:.55;text-decoration:line-through;border-left-color:var(--muted)!important}
+.agreement .done-toggle{width:34px;height:34px;border-radius:50%;background:var(--soft);border:1.5px solid var(--line);display:grid;place-items:center;font-size:.9rem;flex-shrink:0;transition:background .2s,transform .15s}
+.agreement .done-toggle:active{transform:scale(.85)}
+.agreement .done-toggle.checked{background:var(--ok);border-color:var(--ok);color:white}
+
+/* Onboard hint */
+.onboard{background:linear-gradient(135deg,var(--brand),var(--brand2));color:white;border-radius:var(--r);padding:16px 18px;margin:12px 0;box-shadow:var(--shadow);position:relative}
+.onboard h3{font-size:.98rem;margin-bottom:6px}
+.onboard p{font-size:.84rem;opacity:.9;line-height:1.4}
+.onboard-close{position:absolute;top:8px;right:10px;width:32px;height:32px;border-radius:50%;background:rgba(255,255,255,.15);display:grid;place-items:center;font-size:.9rem;color:white}
+
+/* Confirm modal */
+.confirm-card{text-align:center}
+.confirm-card .confirm-icon{font-size:2.5rem;margin-bottom:8px}
+.confirm-card h3{font-size:1.05rem;margin-bottom:4px}
+.confirm-card p{color:var(--muted);font-size:.86rem;line-height:1.4;margin-bottom:14px}
+.confirm-btns{display:flex;gap:8px;justify-content:center}
+.confirm-btns button{flex:1;max-width:160px}
+
+/* ─── SIDE DRAWER — compact, animated, minimalist ─── */
+.drawer-overlay{position:fixed;inset:0;background:rgba(0,0,0,.45);backdrop-filter:blur(3px);-webkit-backdrop-filter:blur(3px);z-index:60;opacity:0;pointer-events:none;transition:opacity .25s cubic-bezier(.4,0,.2,1)}
+.drawer-overlay.show{opacity:1;pointer-events:auto}
+.drawer{position:fixed;top:0;left:0;bottom:0;width:min(280px,80vw);background:var(--card);border-right:1px solid var(--line);box-shadow:4px 0 24px rgba(0,0,0,.15);transform:translateX(-100%);transition:transform .3s cubic-bezier(.4,0,.2,1);z-index:61;overflow-y:auto;overflow-x:hidden;padding:0 0 calc(20px + env(safe-area-inset-bottom,0px));-webkit-overflow-scrolling:touch}
+.drawer-overlay.show .drawer{transform:translateX(0)}
+.drawer-header{padding:calc(14px + env(safe-area-inset-top,0px)) 14px 10px;display:flex;align-items:center;gap:10px;border-bottom:1px solid var(--line)}
+.drawer-logo{width:36px;height:36px;border-radius:12px;background:linear-gradient(135deg,var(--brand),var(--brand2));display:grid;place-items:center;font-size:1.3rem;color:white;flex-shrink:0}
+.drawer-header-info{flex:1;min-width:0}
+.drawer-header h2{font-size:.9rem;font-weight:900;color:var(--brand2);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.drawer-header p{font-size:.68rem;color:var(--muted);margin-top:1px}
+.drawer-close{width:32px;height:32px;border-radius:10px;background:var(--soft);border:1px solid var(--line);display:grid;place-items:center;transition:transform .15s}
+.drawer-close:active{transform:scale(.85)}
+.drawer-close svg{width:14px;height:14px;stroke:var(--muted);stroke-width:2.5;fill:none;stroke-linecap:round}
+
+/* Palettes row in drawer */
+.pal-section{padding:10px 14px 6px}
+.pal-section-label{font-size:.62rem;font-weight:900;color:var(--muted);text-transform:uppercase;letter-spacing:.08em;margin-bottom:6px}
+.palettes{display:flex;gap:6px;flex-wrap:wrap}
+.pal{width:28px;height:28px;border-radius:50%;border:2.5px solid transparent;cursor:pointer;transition:transform .15s,border-color .15s}
+.pal:hover{transform:scale(1.2)}
+.pal.active{border-color:var(--text);transform:scale(1.2)}
+
+/* Menu sections — collapsible, with staggered animation */
+.menu-section{overflow:hidden}
+.menu-section-header{display:flex;align-items:center;gap:8px;padding:10px 14px 4px;cursor:pointer;-webkit-tap-highlight-color:transparent}
+.menu-section-icon{width:24px;height:24px;border-radius:8px;display:grid;place-items:center;flex-shrink:0}
+.menu-section-icon svg{width:14px;height:14px;stroke:var(--card);stroke-width:2;fill:none;stroke-linecap:round}
+.menu-section-label{font-size:.64rem;font-weight:900;color:var(--muted);text-transform:uppercase;letter-spacing:.08em;flex:1}
+.menu-section-arrow{font-size:.6rem;color:var(--muted);transition:transform .2s}
+.menu-section.open .menu-section-arrow{transform:rotate(180deg)}
+.menu-section-body{max-height:0;overflow:hidden;transition:max-height .3s cubic-bezier(.4,0,.2,1)}
+.menu-section.open .menu-section-body{max-height:400px}
+.menu-list{display:flex;flex-direction:column;gap:1px;padding:2px 8px 4px}
+
+.menu-row{display:flex;align-items:center;gap:10px;padding:10px 10px;border-radius:12px;background:transparent;cursor:pointer;font-weight:800;font-size:.82rem;width:100%;text-align:left;min-height:44px;transition:background .15s,transform .12s;opacity:0;transform:translateX(-8px)}
+.menu-section.open .menu-row{opacity:1;transform:translateX(0)}
+.menu-row:hover,.menu-row:active{background:var(--soft);transform:scale(1.01)}
+.menu-row svg{width:18px;height:18px;stroke:var(--text);stroke-width:2;fill:none;stroke-linecap:round;stroke-linejoin:round;flex-shrink:0}
+.menu-row span{flex:1}
+.menu-row .menu-badge{font-size:.62rem;background:var(--soft);border:1px solid var(--line);border-radius:8px;padding:2px 6px;font-weight:900;color:var(--muted)}
+.menu-sep{height:1px;background:var(--line);margin:6px 14px}
+
+/* staggered menu animations */
+.menu-section.open .menu-row:nth-child(1){transition:opacity .2s .05s,transform .2s .05s}
+.menu-section.open .menu-row:nth-child(2){transition:opacity .2s .1s,transform .2s .1s}
+.menu-section.open .menu-row:nth-child(3){transition:opacity .2s .15s,transform .2s .15s}
+.menu-section.open .menu-row:nth-child(4){transition:opacity .2s .2s,transform .2s .2s}
+.menu-section.open .menu-row:nth-child(5){transition:opacity .2s .25s,transform .2s .25s}
+
+/* PIN modal - warm & beautiful */
+.pin-modal{position:fixed;inset:0;display:none;align-items:center;justify-content:center;z-index:90;padding:18px;background:linear-gradient(135deg,rgba(28,167,236,.18),rgba(31,47,152,.22))}
+.pin-modal.show{display:flex}
+.pin-card{background:var(--card);border-radius:28px;border:1px solid var(--line);padding:32px 24px 24px;width:min(380px,100%);box-shadow:0 24px 60px rgba(28,167,236,.15),0 4px 16px rgba(0,0,0,.10);text-align:center;position:relative;overflow:hidden}
+.pin-card::before{content:'';position:absolute;top:0;left:0;right:0;height:6px;background:linear-gradient(90deg,var(--brand),var(--brand2))}
+.pin-icon{font-size:3.2rem;margin-bottom:10px;filter:drop-shadow(0 4px 8px rgba(28,167,236,.2))}
+.pin-card h3{font-size:1.15rem;margin-bottom:4px;color:var(--brand2);font-weight:900}
+.pin-card .pin-sub{color:var(--muted);font-size:.84rem;line-height:1.45;margin-bottom:16px}
+.pin-dots{display:flex;justify-content:center;gap:14px;margin-bottom:20px}
+.pin-dot{width:18px;height:18px;border-radius:50%;background:var(--soft);border:2px solid var(--line);transition:.25s cubic-bezier(.4,0,.2,1)}
+.pin-dot.filled{background:var(--brand);border-color:var(--brand);transform:scale(1.2);box-shadow:0 2px 8px rgba(28,167,236,.3)}
+.pin-input{position:absolute;opacity:0;pointer-events:none}
+.pin-keypad{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;max-width:250px;margin:0 auto 14px}
+.pin-key{height:54px;border-radius:16px;background:var(--soft);border:1.5px solid var(--line);font-size:1.3rem;font-weight:900;display:grid;place-items:center;transition:.15s}
+.pin-key:active{background:var(--line);transform:scale(.92)}
+.pin-key.del{font-size:1rem;color:var(--danger);background:transparent;border:1.5px solid var(--line)}
+.pin-actions{display:flex;gap:8px;justify-content:center}
+.pin-actions button{padding:9px 18px;border-radius:14px;font-weight:800;font-size:.86rem;background:var(--soft);border:1px solid var(--line);transition:.15s;min-height:44px}
+.pin-actions button:active{transform:scale(.95)}
+.pin-actions .pin-ok{background:linear-gradient(135deg,var(--brand),var(--brand2));color:white;border-color:transparent}
+
+/* Modal (general) */
+.modal{position:fixed;inset:0;background:rgba(0,0,0,.38);display:none;align-items:center;justify-content:center;z-index:80;padding:14px}
+.modal.show{display:flex}
+.modal-card{background:var(--card);border-radius:20px;border:1px solid var(--line);padding:16px;width:min(420px,100%);box-shadow:0 14px 36px rgba(0,0,0,.18)}
+.modal-card h3{font-size:1.02rem;margin-bottom:6px}
+.modal-card p{color:var(--muted);font-size:.86rem;line-height:1.4;margin-bottom:10px}
+
+/* Toast — aria-live */
+.toast{position:fixed;left:50%;bottom:calc(28px + env(safe-area-inset-bottom,0px));transform:translateX(-50%) translateY(10px);opacity:0;background:#10172a;color:white;border-radius:14px;padding:10px 14px;font-weight:800;font-size:.84rem;z-index:99;transition:.2s;max-width:88%;text-align:center;display:flex;align-items:center;gap:8px;flex-wrap:wrap;justify-content:center}
+.toast.show{opacity:1;transform:translateX(-50%) translateY(0)}
+
+/* Photo upload */
+.photo-row{display:flex;gap:10px;align-items:center;margin-bottom:8px}
+.photo-preview{width:54px;height:54px;border-radius:50%;background:var(--soft);border:1.5px solid var(--line);display:grid;place-items:center;font-size:1.8rem;overflow:hidden;flex-shrink:0}
+.photo-preview img{width:100%;height:100%;object-fit:cover}
+.photo-actions{display:flex;flex-direction:column;gap:4px}
+.photo-actions label,.photo-actions button{font-size:.78rem;font-weight:800;padding:7px 8px;border-radius:10px;background:var(--soft);border:1px solid var(--line);cursor:pointer;text-align:center;min-height:36px}
+
+/* Summary */
+.summary-card{background:var(--card);border:1px solid var(--line);border-radius:var(--r);padding:14px;box-shadow:var(--shadow);margin:8px 0}
+.summary-card h3{font-size:.92rem;font-weight:900;margin-bottom:8px;color:var(--brand2)}
+.summary-stat{display:flex;align-items:center;gap:8px;padding:5px 0;font-size:.88rem}
+.summary-stat b{font-size:1.15rem}
+.summary-person{display:flex;align-items:center;gap:8px;padding:8px 0;border-bottom:1px solid var(--line)}
+.summary-person:last-child{border-bottom:none}
+.summary-mini-avatar{width:32px;height:32px;border-radius:50%;background:var(--soft);display:grid;place-items:center;font-size:1.1rem;overflow:hidden;flex-shrink:0}
+.summary-mini-avatar img{width:100%;height:100%;object-fit:cover}
+
+/* ─── RESPONSIVE — mobile first, tablet, PC ─── */
+@media(max-width:519px){
+.screen{padding:0 12px 24px;padding-left:calc(12px + env(safe-area-inset-left,0px));padding-right:calc(12px + env(safe-area-inset-right,0px))}
+.splash{padding:24px 12px}
+}
+@media(min-width:520px)and(max-width:1023px){
+.screen{max-width:580px;padding:0 24px 24px}
+.splash{max-width:580px;padding:24px}
+.bottom{max-width:580px}
+}
+@media(min-width:1024px){
+body{background:var(--bg)}
+.screen{max-width:480px;padding:0 20px 24px}
+.splash{max-width:480px;padding:24px 20px}
+.bottom{max-width:480px}
+}
+@media(max-width:360px){
+.pc-actions{gap:4px}
+.pc-act{font-size:.68rem;padding:5px 7px}
+}
+</style>
+</head>
+<body>
+
+<!-- SPLASH -->
+<div id="splash" class="splash show">
+<div class="splash-inner">
+<div class="splash-emoji">🤝</div>
+<h1>Tareas<br>sin pelea</h1>
+<p>Acuerdos domésticos claros, mensajes amables y seguimiento simple.</p>
+<button id="startBtn" class="btn btn-primary">Empezar</button>
+</div>
+</div>
+
+<!-- HOME -->
+<div id="s-home" class="screen">
+<div class="top">
+<button class="hamb" id="menuBtn" title="Menú" aria-label="Abrir menú">
+<svg viewBox="0 0 20 20"><line x1="3" y1="5" x2="17" y2="5"/><line x1="3" y1="10" x2="17" y2="10"/><line x1="3" y1="15" x2="17" y2="15"/></svg>
+</button>
+<div class="brand"><h1>Tareas sin pelea</h1><p>Coordina, acuerda y cuida tus relaciones</p></div>
+</div>
+<div class="section-title"><h2>Mis personas</h2><button class="mini-link" id="topAddPerson">+ Nueva</button></div>
+<div id="personGrid" class="person-grid"></div>
+<button class="btn btn-secondary" id="addPersonBtn" style="margin-top:10px">+ Agregar persona</button>
+<div id="onboardHint" class="onboard" style="display:none">
+<button class="onboard-close" id="onboardClose" aria-label="Cerrar guía">✕</button>
+<h3>👋 ¡Bienvenido a Tareas sin pelea!</h3>
+<p><b>1.</b> Agrega una persona cercana.<br><b>2.</b> Crea acuerdos claros.<br><b>3.</b> Elige un tono cálido para tu mensaje.<br><b>4.</b> Si necesitas desahogarte, hazlo sin enviar.</p>
+</div>
+<button class="vent-card" id="openVentGeneral">
+<div class="face">🔥</div>
+<div class="vent-card-info"><h3>Desahogo seguro</h3><p>Escribe sin enviarlo a nadie</p></div>
+<span class="next-btn">Abrir</span>
+</button>
+</div>
+
+<!-- PERSON FORM -->
+<div id="s-person" class="screen">
+<div class="top">
+<button class="hamb backHome" title="Volver" aria-label="Volver al inicio">
+<svg viewBox="0 0 20 20"><polyline points="12,3 5,10 12,17"/></svg>
+</button>
+<div class="brand"><h1 id="personTitle">Nueva persona</h1><p>Datos solo en este dispositivo</p></div>
+</div>
+<input type="hidden" id="personId">
+<div class="field"><label>Nombre</label><input id="personName" placeholder="Ej. Mafe" autocomplete="off"></div>
+<div class="field"><label>Foto / Avatar</label>
+<div class="photo-row">
+<div class="photo-preview" id="photoPreview">👤</div>
+<div class="photo-actions">
+<label for="photoInput">📷 Subir foto</label>
+<button id="removePhotoBtn">✕ Quitar foto</button>
+</div>
+<input type="file" id="photoInput" accept="image/*" style="display:none">
+</div>
+<div style="margin-top:6px"><label style="display:block;font-size:.72rem;font-weight:800;color:var(--muted);text-transform:uppercase;letter-spacing:.04em;margin-bottom:5px">O elige emoji</label>
+<div id="emojiPick" class="emoji-row"></div>
+<details class="details"><summary>Más emojis</summary><div id="emojiMore" class="details-body"></div></details>
+</div></div>
+<div class="row2">
+<div class="field"><label>Relación</label><select id="personRelation"><option>pareja</option><option>expareja</option><option>mamá de mis hijos</option><option>papá de mis hijos</option><option>hijo/a</option><option>familia</option><option>amigo/a</option><option>compañero/a</option><option>otro</option></select></div>
+<div class="field"><label>Tono</label><select id="personTone"><option value="calido">Cálido</option><option value="neutro">Neutro</option><option value="directo">Directo</option><option value="formal">Formal</option></select></div>
+</div>
+<div class="field"><label>WhatsApp opcional</label><input id="personPhone" type="tel" placeholder="573001234567"></div>
+<div class="field"><label>Email opcional</label><input id="personEmail" type="email" placeholder="correo@ejemplo.com"></div>
+<button class="btn btn-primary" id="savePersonBtn">Guardar persona</button>
+<button class="btn btn-ghost backHome" style="margin-top:6px">Cancelar</button>
+</div>
+
+<!-- AGREEMENTS -->
+<div id="s-agreements" class="screen with-nav">
+<div class="top">
+<button class="hamb backHome" title="Volver" aria-label="Volver al inicio">
+<svg viewBox="0 0 20 20"><polyline points="12,3 5,10 12,17"/></svg>
+</button>
+<div class="brand"><h1 id="agTitle">Acuerdos</h1><p id="agSub">Organiza y coordina</p></div>
+<button class="gear" id="editPersonBtn" title="Editar persona" aria-label="Editar persona">
+<svg viewBox="0 0 20 20" style="width:18px;height:18px;stroke:var(--text);stroke-width:2;fill:none;stroke-linecap:round"><path d="M14.7 3.3a1 1 0 011.4 0l1.6 1.6a1 1 0 010 1.4L7 16.7 3 18l1.3-4z"/></svg>
+</button>
+</div>
+<div id="activeHero"></div>
+<div id="agreementList"></div>
+<div class="card">
+<div class="field"><label>Acuerdo</label><textarea id="agreementText" rows="2" placeholder="Ej. Comprar leche en polvo"></textarea></div>
+<div class="field"><label>Prioridad</label>
+<div class="prio"><button data-p="baja">🟢 Baja</button><button data-p="media" class="sel">🟡 Media</button><button data-p="alta">🔴 Alta</button></div>
+</div>
+<div class="field"><label>Momento</label><input id="agreementTime" placeholder="Ej. hoy · al salir" autocomplete="off"><div class="chips" id="timeChips"></div></div>
+<button class="btn btn-primary" id="addAgreementBtn">+ Agregar acuerdo</button>
+</div>
+<button class="btn btn-primary" id="goSendBtn" style="display:none;margin-top:8px">💬 Preparar mensaje</button>
+<button class="btn btn-secondary" id="ventThisPerson" style="margin-top:8px">🔥 Desahogarme con esta persona</button>
+</div>
+
+<!-- SEND -->
+<div id="s-send" class="screen with-nav">
+<div class="top">
+<button class="hamb" id="backAg" title="Volver" aria-label="Volver a acuerdos">
+<svg viewBox="0 0 20 20"><polyline points="12,3 5,10 12,17"/></svg>
+</button>
+<div class="brand"><h1 id="sendTitle">Mensaje</h1><p>Elige tono y comparte</p></div>
+</div>
+<div class="field"><label>Tono del mensaje</label><select id="toneSelect"></select></div>
+<div class="preview" id="msgPreview"></div>
+<div class="send-list" style="margin-top:10px">
+<button id="sendWA" class="send-opt">💬 Enviar por WhatsApp</button>
+<button id="sendEmail" class="send-opt">✉️ Enviar por correo</button>
+<button id="sendCopy" class="send-opt">📋 Copiar mensaje</button>
+<button id="sendImg" class="send-opt">🖼️ Descargar como imagen</button>
+</div>
+</div>
+
+<!-- VENT -->
+<div id="s-vent" class="screen with-nav">
+<div class="top">
+<button class="hamb backHome" title="Volver" aria-label="Volver al inicio">
+<svg viewBox="0 0 20 20"><polyline points="12,3 5,10 12,17"/></svg>
+</button>
+<div class="brand"><h1 id="ventTitle">Desahogo seguro</h1><p>No se envía. Solo descarga privada.</p></div>
+</div>
+<div class="card">
+<div class="field"><label>Destino simbólico</label><select id="ventPersonSelect"></select></div>
+<textarea id="ventText" class="field ventbox" placeholder="Escribe aquí lo que necesitas sacar..."></textarea>
+<div class="toolbar">
+<button class="tool" id="micBtn" title="Dictar por voz">🎙️</button>
+<button class="tool" data-ins="@#$%! ">#@$%</button>
+<button class="tool" data-ins="!!!???!!! ">!!!???</button>
+<button class="tool" data-ins="████ ">████</button>
+<button class="tool" data-ins="////// ">//////</button>
+<button class="tool" data-ins="↯↯↯ ">↯↯↯</button>
+<button class="tool" data-ins="💥💥💥 ">💥💥💥</button>
+</div>
+<details class="details" id="ventEmojiDetails">
+<summary>Emociones 😡</summary>
+<div id="ventEmojis" class="details-body vent-full"></div>
+</details>
+<details class="details">
+<summary>Símbolos 💥</summary>
+<div id="ventSymbols" class="details-body sym-grid"></div>
+</details>
+<details class="details">
+<summary>Plantillas rápidas 📝</summary>
+<div id="ventTemplates" class="details-body tpl-full"></div>
+</details>
+<div class="row2" style="margin-top:10px">
+<button class="btn btn-primary" id="savePrivateBtn">🔒 Guardar privado</button>
+<button class="btn btn-ghost" id="saveIncognitoBtn">🫥 Incógnito</button>
+</div>
+<button class="btn btn-danger" id="destroyVentBtn" style="margin-top:6px">🔥 Destruir sin guardar</button>
+</div>
+</div>
+
+<!-- PRIVATE -->
+<div id="s-private" class="screen with-nav">
+<div class="top">
+<button class="hamb backHome" title="Volver" aria-label="Volver al inicio">
+<svg viewBox="0 0 20 20"><polyline points="12,3 5,10 12,17"/></svg>
+</button>
+<div class="brand"><h1>Privado 🔒</h1><p>Desahogos guardados</p></div>
+</div>
+<div id="privateLocked">
+<div class="lock-count" id="privateCount">🔒 Sin notas privadas</div>
+<p class="lock-info">Este espacio se abre con PIN o biometría. Si olvidas el PIN, puedes borrar solo los desahogos privados y conservar contactos y acuerdos.</p>
+<button class="btn btn-primary" id="unlockPrivateBtn">🔓 Abrir privado</button>
+<div id="bioUnlockArea" style="margin-top:6px;display:none"><button class="btn btn-secondary" id="bioUnlockBtn">👆 Abrir con biometría</button></div>
+<button class="btn btn-ghost" id="forgotPinBtn" style="margin-top:6px">Olvidé mi PIN</button>
+</div>
+<div id="privateContent" style="display:none">
+<div style="display:flex;gap:6px;flex-wrap:wrap;margin-bottom:10px">
+<button class="btn btn-small btn-secondary" id="changePinBtn">🔐 Cambiar PIN</button>
+<button class="btn btn-small btn-ghost" id="bioToggleBtn">👆 Biometría</button>
+<button class="btn btn-small btn-ghost backHome">
+<svg viewBox="0 0 20 20" style="width:16px;height:16px;stroke:currentColor;stroke-width:2.5;fill:none;stroke-linecap:round"><polyline points="12,3 5,10 12,17"/></svg>
+Volver</button>
+</div>
+<div id="privateList"></div>
+</div>
+</div>
+
+<!-- SUMMARY -->
+<div id="s-summary" class="screen with-nav">
+<div class="top">
+<button class="hamb backHome" title="Volver" aria-label="Volver al inicio">
+<svg viewBox="0 0 20 20"><polyline points="12,3 5,10 12,17"/></svg>
+</button>
+<div class="brand"><h1>Resumen</h1><p>Estado general</p></div>
+</div>
+<div id="summaryBox"></div>
+</div>
+
+<!-- BOTTOM NAV -->
+<div class="bottom" id="bottomNav">
+<button class="navbtn" data-go="s-home"><span>🏠</span>Inicio</button>
+<button class="navbtn" data-go="agreements"><span>📋</span>Acuerdos</button>
+<button class="navbtn" data-go="s-private"><span>🔒</span>Privado</button>
+<button class="navbtn" data-go="s-summary"><span>📊</span>Resumen</button>
+</div>
+
+<!-- SIDE DRAWER — redesigned -->
+<div class="drawer-overlay" id="drawerOverlay">
+<div class="drawer" id="drawer">
+<div class="drawer-header">
+<div class="drawer-logo">🤝</div>
+<div class="drawer-header-info">
+<h2>Tareas sin pelea</h2>
+<p>v<span id="drawerVer"></span></p>
+</div>
+<button class="drawer-close" id="drawerClose" aria-label="Cerrar menú">
+<svg viewBox="0 0 14 14"><line x1="2" y1="2" x2="12" y2="12"/><line x1="12" y1="2" x2="2" y2="12"/></svg>
+</button>
+</div>
+
+<!-- Palette section -->
+<div class="pal-section">
+<div class="pal-section-label">🎨 Paleta</div>
+<div class="palettes" id="palettes"></div>
+</div>
+<div class="menu-sep"></div>
+
+<!-- Config section -->
+<div class="menu-section open" id="sec-config">
+<div class="menu-section-header" data-sec="sec-config">
+<div class="menu-section-icon" style="background:var(--brand)"><svg viewBox="0 0 14 14"><circle cx="7" cy="7" r="3"/><path d="M7 1v2M7 11v2M1 7h2M11 7h2"/></svg></div>
+<span class="menu-section-label">Configuración</span>
+<span class="menu-section-arrow">▾</span>
+</div>
+<div class="menu-section-body">
+<div class="menu-list">
+<button class="menu-row" id="themeBtn">
+<svg viewBox="0 0 18 18"><path d="M9 2a7 7 0 100 14A7 7 0 009 2zM9 2v14"/></svg>
+<span>Tema claro/oscuro</span>
+</button>
+<button class="menu-row" id="pinMenuBtn">
+<svg viewBox="0 0 18 18"><rect x="5" y="9" width="8" height="7" rx="1"/><path d="M7 9V6a2 2 0 114 0v3"/></svg>
+<span>Configurar PIN</span>
+</button>
+<button class="menu-row" id="bioMenuBtn">
+<svg viewBox="0 0 18 18"><circle cx="9" cy="7" r="4"/><path d="M2 17c0-3.3 3.1-5 7-5s7 1.7 7 5"/></svg>
+<span>Biometría</span>
+</button>
+</div>
+</div>
+</div>
+
+<!-- Data section -->
+<div class="menu-section open" id="sec-data">
+<div class="menu-section-header" data-sec="sec-data">
+<div class="menu-section-icon" style="background:var(--brand2)"><svg viewBox="0 0 14 14"><rect x="2" y="2" width="10" height="10" rx="2"/><path d="M5 5h4M5 7h4M5 9h2"/></svg></div>
+<span class="menu-section-label">Datos</span>
+<span class="menu-section-arrow">▾</span>
+</div>
+<div class="menu-section-body">
+<div class="menu-list">
+<button class="menu-row" id="exportBtn">
+<svg viewBox="0 0 18 18"><path d="M9 2v10M5 8l4 4 4-4"/><path d="M3 14v2h12v-2"/></svg>
+<span>Exportar backup</span>
+</button>
+<label class="menu-row" for="importInput">
+<svg viewBox="0 0 18 18"><path d="M9 12V2M5 6l4-4 4 4"/><path d="M3 14v2h12v-2"/></svg>
+<span>Importar backup</span>
+</label>
+<button class="menu-row" id="reportBtn">
+<svg viewBox="0 0 18 18"><path d="M3 14V4M7 14V8M11 14V6M15 14V2"/></svg>
+<span>Informe</span>
+</button>
+<button class="menu-row" id="demoBtn">
+<svg viewBox="0 0 18 18"><path d="M9 2l2.5 5 5.5.8-4 3.9.9 5.3L9 14.5 4.1 17l.9-5.3-4-3.9L6.5 7z"/></svg>
+<span>Cargar demo</span>
+</button>
+<button class="menu-row" id="helpBtn">
+<svg viewBox="0 0 18 18"><circle cx="9" cy="9" r="7"/><path d="M7 7a2 2 0 113 1.7c0 .8-.5 1.3-1 1.3M9 13v.5"/></svg>
+<span>Ayuda</span>
+</button>
+</div>
+</div>
+</div>
+
+<!-- Danger section -->
+<div class="menu-section open" id="sec-danger">
+<div class="menu-section-header" data-sec="sec-danger">
+<div class="menu-section-icon" style="background:var(--danger)"><svg viewBox="0 0 14 14"><path d="M7 1L1 13h12zM7 5v4M7 11v1"/></svg></div>
+<span class="menu-section-label">Peligro</span>
+<span class="menu-section-arrow">▾</span>
+</div>
+<div class="menu-section-body">
+<div class="menu-list">
+<button class="menu-row" id="logoutBtn" style="color:var(--brand)">
+<svg viewBox="0 0 18 18" style="stroke:var(--brand)"><path d="M7 2H3v14h4M11 6l4 3-4 3M7 9h8"/></svg>
+<span>Salir al inicio</span>
+</button>
+<button class="menu-row" id="wipeBtn" style="color:var(--danger)">
+<svg viewBox="0 0 18 18" style="stroke:var(--danger)"><path d="M4 4l10 10M14 4L4 14"/></svg>
+<span>Borrar todo</span>
+</button>
+</div>
+</div>
+</div>
+
+<input type="file" id="importInput" accept="application/json" style="display:none">
+</div>
+</div>
+
+<!-- PIN MODAL -->
+<div class="pin-modal" id="pinModal" role="dialog" aria-modal="true">
+<div class="pin-card" id="pinCard"></div>
+</div>
+
+<!-- GENERAL MODAL -->
+<div class="modal" id="modal" role="dialog" aria-modal="true"><div class="modal-card" id="modalCard"></div></div>
+
+<!-- TOAST — aria-live for accessibility -->
+<div class="toast" id="toast" role="status" aria-live="polite"></div>
+
+<!-- CANVAS -->
+<canvas id="msgCanvas" style="display:none"></canvas>
+
+<script>
+(function(){'use strict';
+
+var VERSION='4.5.0';
+var KEY='tareas_sin_pelea_v4_0_0';
+var OLD=['tareas_sin_pelea_v3_8_4','tareas_sin_pelea_v3_8_3','tareas_sin_pelea_v3_8_2','tareas_sin_pelea_html5_v1_1'];
+
+var state={version:VERSION,theme:'light',palette:'azul',selectedPersonId:'',activeTone:'calido',pinHash:'',biometryEnabled:false,biometryCredentialId:'',people:[],agreements:[],vents:[],message:'',onboardDismissed:false};
+
+/* Private session auto-timeout (5 min) */
+var PRIVATE_TIMEOUT=5*60*1000;
+var privateTimer=null;
+function startPrivateTimer(){clearPrivateTimer();privateTimer=setTimeout(function(){sessionStorage.removeItem('tsp_unlocked');var pc=$('privateContent');var pl=$('privateLocked');if(pc&&pl&&pc.style.display!=='none'){pc.style.display='none';pl.style.display='block';toast('Sesión privada cerrada por inactividad')}},PRIVATE_TIMEOUT)}
+function clearPrivateTimer(){if(privateTimer){clearTimeout(privateTimer);privateTimer=null}}
+function markPrivateUnlocked(){sessionStorage.setItem('tsp_unlocked','1');sessionStorage.setItem('tsp_unlock_time',Date.now().toString());startPrivateTimer()}
+
+var EMOJIS=['👤','👨','👩','🧒','👦','👧','👴','👵','💛','❤️','🌟','🤝','😊','🏠','🌈','🐶','😎','🦁','🦋','🌙','☀️','🔥','🧊','🐉','🐍','🤡','👹','👺','💀','💩','🎭','🪞'];
+
+var VEMO=['😤','😠','😡','🤬','😒','🙄','😑','😶‍🌫️','🫠','😵‍💫','🤯','😫','😖','😬','🤐','😭','😓','😰','😮‍💨','🥵','💩','🐍','🐉','🤡','👹','👺','💀','☠️','🔥','🧨','💥','🌪️','⚡','🗑️','🎭','🧊','⛓️','🪦','😈','👿','😾','💪','🫣','🫢','🤮','🤢','😤','😡','🤬','🥺'];
+
+var VSYM=[
+{label:'@#$%!',val:'@#$%! '},{label:'!!!???!!!',val:'!!!???!!! '},{label:'████',val:'████ '},
+{label:'↯↯↯',val:'↯↯↯ '},{label:'//////',val:'////// '},{label:'💥💥💥',val:'💥💥💥 '},
+{label:'⛓️🪦',val:'⛓️🪦 '},{label:'☠️☠️',val:'☠️☠️ '},{label:'🔥🔥🔥',val:'🔥🔥🔥 '},
+{label:'💢💢',val:'💢💢 '},{label:'💢',val:'💢 '},{label:'🏁',val:'🏁 '},
+{label:'🤬🤬🤬',val:'🤬🤬🤬 '},{label:'😡💢',val:'😡💢 '},{label:'👎👎👎',val:'👎👎👎 '},
+{label:'🙅‍♀️❌',val:'🙅‍♀️❌ '},{label:'🙅‍♂️⛔',val:'🙅‍♂️⛔ '},
+{label:'🚫🚫🚫',val:'🚫🚫🚫 '},{label:'⚠️⚠️⚠️',val:'⚠️⚠️⚠️ '},
+{label:'🔴🔴🔴',val:'🔴🔴🔴 '},{label:'💢🤬',val:'💢🤬 '},
+{label:'🖕🖕',val:'🖕🖕 '},{label:'👊💢',val:'👊💢 '},
+{label:'💣💥',val:'💣💥 '},{label:'🗡️💀',val:'🗡️💀 '},
+{label:'🔪💥',val:'🔪💥 '},{label:'🧨🧨🧨',val:'🧨🧨🧨 '},
+{label:'🪦💔',val:'🪦💔 '},{label:'😾😾',val:'😾😾 '},
+{label:'👿🔥',val:'👿🔥 '},{label:'😈⛓️',val:'😈⛓️ '},
+{label:'👹💢',val:'👹💢 '},{label:'👺🔥',val:'👺🔥 '},
+{label:'#@$%&!',val:'#@$%&! '},{label:'¡¡¡¿¿¿!!!',val:'¡¡¡¿¿¿!!! '},
+{label:'▓▓▓▓',val:'▓▓▓▓ '},{label:'░░░░',val:'░░░░ '},
+{label:'※※※',val:'※※※ '},{label:'†††',val:'††† '},
+{label:'¯¯¯',val:'¯¯¯ '},{label:'___',val:'___ '},
+{label:'NO NO NO',val:'NO NO NO '},{label:'BASTA!',val:'BASTA! '},
+{label:'YA!',val:'YA! '},{label:'PARA!',val:'PARA! '}
+];
+
+var TPL=[
+{text:'Ya no aguanto más 😤🔥'},{text:'Estoy a punto de explotar 🤯🧨'},{text:'Exploté por dentro 💥💀'},
+{text:'Me siento manipulado 🎭🐍'},{text:'No voy a responder ahora 🤐🧊'},{text:'Me dolió y estoy tratando de no pelear 😞⚡'},
+{text:'Otra vez lo mismo @#$%! 🙄'},{text:'Necesito sacar esto antes de hablar 🌪️'},{text:'Estoy saturado de todo 😫📦'},
+{text:'Respirando para no explotar 🧊🌬️'},{text:'Me siento invisible en esta relación 👻'},{text:'No quiero pelear, pero necesito que me escuchen 👂💛'},
+{text:'Cansado de repetir lo mismo 😞🔁'},{text:'Quiero que esto mejore, no que se acabe 💔🤞'}
+];
+
+var TIMES=['Hoy','Mañana','Esta semana','Al salir','Antes de dormir','Esta noche','Fin de semana','Cuando puedas'];
+
+var TONES=[
+['calido','💛 Cálido'],['neutro','📋 Neutro'],['directo','🎯 Directo'],['formal','📎 Formal'],
+['firme','🤜 Firme sin pelea'],['molestia','😔 Molestia cuidada'],['negociando','🤝 Negociando'],['agradecido','🙏 Agradecido'],
+['humor','😄 Con humor'],['amoroso','❤️ Amoroso'],['urgente','🚨 Urgente'],['firme_cari','💛🤜 Firme con cariño']
+];
+
+var MSG_INTROS={
+calido:function(n,e){return'Hola '+n+' '+(e||'')+', te comparto nuestros acuerdos:'},
+neutro:function(n){return'Hola '+n+', estos son los acuerdos:'},
+directo:function(n){return n+', acuerdos pendientes:'},
+formal:function(n){return'Estimado/a '+n+', comparto resumen de acuerdos:'},
+firme:function(n){return'Hola '+n+', comparto esto para organizarnos sin pelea:'},
+molestia:function(n){return'Hola '+n+', necesito que revisemos estos acuerdos:'},
+negociando:function(n){return'Hola '+n+', propongo revisar estos puntos:'},
+agradecido:function(n){return'Hola '+n+', gracias por ayudarnos con esto:'},
+humor:function(n){return'Hola '+n+', la lista manda 😄:'},
+amoroso:function(n,e){return'Hola '+n+' '+(e||'')+' 💛, acordamos esto:'},
+urgente:function(n){return n+', esto es urgente 🚨:'},
+firme_cari:function(n,e){return'Hola '+n+' '+(e||'')+', te quiero y necesito que veamos esto:'}
+};
+
+function $(id){return document.getElementById(id)}
+function q(s,c){return Array.from((c||document).querySelectorAll(s))}
+function uid(){return Date.now().toString(36)+Math.random().toString(36).slice(2,7)}
+function esc(v){return String(v==null?'':v).replace(/[&<>"']/g,m=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#039;'}[m]))}
+function now(){return new Date().toISOString()}
+
+function toast(m){var t=$('toast');t.textContent=m;t.classList.add('show');clearTimeout(toast.t);toast.t=setTimeout(function(){t.classList.remove('show')},2400)}
+
+function confirmAction(msg,cb,opts){opts=opts||{};var icon=opts.icon||'⚠️';var title=opts.title||'Confirmar';var danger=opts.danger;showModal('<div class="confirm-card"><div class="confirm-icon">'+icon+'</div><h3>'+esc(title)+'</h3><p>'+esc(msg)+'</p><div class="confirm-btns"><button class="btn btn-ghost" onclick="APP.closeModal()">Cancelar</button><button class="btn '+(danger?'btn-danger':'btn-primary')+'" id="cfmOk">'+(danger?'Eliminar':'Confirmar')+'</button></div></div>');$('cfmOk').onclick=function(){closeModal();cb()}}
+
+var PIN_SALT='tsp_v4_salt_2024';function hash(s){var h=2166136261;var input=PIN_SALT+s+PIN_SALT;for(var round=0;round<1000;round++){for(var i=0;i<input.length;i++){h^=input.charCodeAt(i);h+=(h<<1)+(h<<4)+(h<<7)+(h<<8)+(h<<24)}input=h.toString(36)}return(h>>>0).toString(16)}
+
+function save(){try{localStorage.setItem(KEY,JSON.stringify(state))}catch(e){if(e.name==='QuotaExceededError'||e.code===22){toast('Sin espacio. Elimina datos o fotos.')}else{toast('Error al guardar')}}}
+
+function load(){
+var d=null;
+try{d=JSON.parse(localStorage.getItem(KEY)||'null')}catch(e){}
+if(!d){for(var k of OLD){try{d=JSON.parse(localStorage.getItem(k)||'null');if(d)break}catch(e){}}}
+if(d){state=Object.assign(state,d);state.version=VERSION;if(!state.vents)state.vents=[];if(!state.people)state.people=[];if(!state.agreements)state.agreements=[];if(state.biometryEnabled===undefined)state.biometryEnabled=false;if(!state.biometryCredentialId)state.biometryCredentialId='';if(state.onboardDismissed===undefined)state.onboardDismissed=false;save()}
+}
+
+/* ─── PWA ICON GENERATION ─── Generates PNG icons on the fly for PWA install */
+function generatePWAIcons(){
+var sizes=[192,512];
+var icons=sizes.map(function(sz){
+var c=document.createElement('canvas');c.width=sz;c.height=sz;
+var ctx=c.getContext('2d');
+/* Background rounded rect */
+var rad=sz*0.22;
+if(ctx.roundRect){ctx.beginPath();ctx.roundRect(0,0,sz,sz,rad)}
+else{ctx.beginPath();ctx.moveTo(rad,0);ctx.lineTo(sz-rad,0);ctx.quadraticCurveTo(sz,0,sz,rad);ctx.lineTo(sz,sz-rad);ctx.quadraticCurveTo(sz,sz,sz-rad,sz);ctx.lineTo(rad,sz);ctx.quadraticCurveTo(0,sz,0,sz-rad);ctx.lineTo(0,rad);ctx.quadraticCurveTo(0,0,rad,0);ctx.closePath()}
+ctx.fillStyle='#1CA7EC';ctx.fill();
+/* Handshake emoji */
+ctx.font=(sz*0.5)+'px sans-serif';ctx.textAlign='center';ctx.textBaseline='middle';
+ctx.fillText('🤝',sz/2,sz/2);
+var url=c.toDataURL('image/png');
+return{src:url,sizes:sz+'x'+sz,type:'image/png',purpose:'any maskable'};
+});
+/* Update manifest dynamically */
+try{
+var manifest=JSON.parse(JSON.stringify({name:'Tareas sin pelea',short_name:'Tareas',start_url:'./index.html',display:'standalone',background_color:'#eef7ff',theme_color:'#1CA7EC',description:'Acuerdos domésticos claros, mensajes amables y seguimiento simple',icons:icons}));
+var blob=new Blob([JSON.stringify(manifest)],{type:'application/json'});
+var manifestURL=URL.createObjectURL(blob);
+var link=document.querySelector('link[rel="manifest"]');
+if(link)link.href=manifestURL;
+/* Also set apple-touch-icon */
+var head=document.head;
+var existingApple=document.querySelector('link[rel="apple-touch-icon"]');
+if(existingApple)existingApple.remove();
+var appleLink=document.createElement('link');
+appleLink.rel='apple-touch-icon';
+appleLink.href=icons[0].src;
+head.appendChild(appleLink);
+}catch(e){}
+}
+
+function applyPalette(){document.body.className=(state.theme==='dark'?'dark ':'')+(state.palette==='azul'?'':'pal-'+state.palette);renderPalettes();updateThemeColor()}
+
+function updateThemeColor(){
+var tc=document.querySelector('meta[name="theme-color"]');
+var map={azul:'#1CA7EC',tierra:'#b7664d',esmeralda:'#10b981',ciruela:'#8b5cf6',coral:'#f43f5e',byn:'#333',whatsapp:'#00a884'};
+if(tc)tc.content=map[state.palette]||'#1CA7EC';
+}
+
+function renderPalettes(){
+var colors=[['azul','linear-gradient(135deg,#1F2F98,#1CA7EC)'],['tierra','linear-gradient(135deg,#7f3f31,#b7664d)'],['esmeralda','linear-gradient(135deg,#065f46,#10b981)'],['ciruela','linear-gradient(135deg,#5b21b6,#8b5cf6)'],['coral','linear-gradient(135deg,#9f1239,#f43f5e)'],['byn','linear-gradient(135deg,#000,#888)'],['whatsapp','linear-gradient(135deg,#008069,#25d366)']];
+$('palettes').innerHTML=colors.map(function(c){return'<button class="pal '+(state.palette===c[0]?'active':'')+'" data-pal="'+c[0]+'" style="background:'+c[1]+'" title="'+c[0]+'"></button>'}).join('');
+q('.pal',$('palettes')).forEach(function(b){b.onclick=function(){state.palette=b.dataset.pal;save();applyPalette()}});
+}
+
+/* Navigation */
+function go(id){
+$('splash').classList.remove('show');
+var showNav=id!=='s-home'&&id!=='s-person';
+$('bottomNav').classList.toggle('show',showNav);
+q('.screen').forEach(function(s){s.classList.toggle('show',s.id===id)});
+q('.navbtn').forEach(function(b){b.classList.toggle('active',b.dataset.go===id||(id==='s-agreements'&&b.dataset.go==='agreements'))});
+window.scrollTo(0,0);
+if(id==='s-home')renderHome();
+if(id==='s-private')renderPrivate();
+if(id==='s-summary')renderSummary();
+}
+
+function activePerson(){return state.people.find(function(p){return p.id===state.selectedPersonId})}
+
+/* Photo */
+var pendingPhoto='';
+function resizePhoto(file,cb){var reader=new FileReader();reader.onload=function(){var img=new Image();img.onload=function(){var c=document.createElement('canvas');var size=64;c.width=size;c.height=size;var ctx=c.getContext('2d');var min=Math.min(img.width,img.height);var sx=(img.width-min)/2,sy=(img.height-min)/2;ctx.drawImage(img,sx,sy,min,min,0,0,size,size);cb(c.toDataURL('image/jpeg',0.8))};img.src=reader.result};reader.readAsDataURL(file)}
+
+/* Render Home */
+function renderHome(){
+var box=$('personGrid');
+var onboard=$('onboardHint');
+if(!state.people.length){box.innerHTML='<div class="empty"><div class="e">👥</div><b>Aún no hay personas.</b><br>Agrega la primera para empezar.</div>';if(onboard)onboard.style.display='block';return}
+if(onboard&&state.onboardDismissed)onboard.style.display='none';
+box.innerHTML=state.people.map(function(p){
+var n=state.agreements.filter(function(a){return a.personId===p.id&&a.status!=='completado'}).length;
+var av=p.photo&&p.photo.indexOf('<')===-1?'<img src="'+p.photo+'" alt="">':esc(p.emoji||'👤');
+return'<button class="person-card" data-id="'+p.id+'" aria-label="'+esc(p.name)+'"><div class="avatar">'+av+'</div><div class="pc-info"><div class="pc-name">'+esc(p.name)+'</div><div class="pc-meta">'+esc(p.relation||'persona')+'</div><div class="pc-active">'+n+' acuerdo'+(n!==1?'s':'')+' activo'+(n!==1?'s':'')+'</div><div class="pc-actions"><span class="pc-act" data-act="agreements" data-id="'+p.id+'">📄 Acuerdos</span><span class="pc-act" data-act="send" data-id="'+p.id+'">💬 Mensaje</span><span class="pc-act" data-act="vent" data-id="'+p.id+'">🔥 Desahogo</span></div></div></button>';
+}).join('');
+}
+
+/* Person form */
+function openPerson(id){var p=id?state.people.find(function(x){return x.id===id}):null;$('personTitle').textContent=p?'Editar persona':'Nueva persona';$('personId').value=p?p.id:'';$('personName').value=p?p.name:'';$('personRelation').value=p?p.relation:'pareja';$('personTone').value=p?p.tone:'calido';$('personPhone').value=p?p.phone:'';$('personEmail').value=p?p.email:'';pendingPhoto=p?p.photo:'';renderPhotoPreview();renderEmojiPick(p?p.emoji:'👤');go('s-person')}
+function renderPhotoPreview(){var pp=$('photoPreview');if(pendingPhoto&&pendingPhoto.indexOf('<')===-1)pp.innerHTML='<img src="'+pendingPhoto+'" alt="">';else pp.innerHTML='👤'}
+function renderEmojiPick(sel){$('emojiPick').innerHTML=EMOJIS.slice(0,8).map(function(e){return'<button class="emoji-btn '+(e===sel&&!pendingPhoto?'sel':'')+'" data-e="'+e+'">'+e+'</button>'}).join('');$('emojiMore').innerHTML=EMOJIS.slice(8).map(function(e){return'<button class="emoji-btn '+(e===sel&&!pendingPhoto?'sel':'')+'" data-e="'+e+'">'+e+'</button>'}).join('');q('.emoji-btn').forEach(function(b){b.onclick=function(){q('.emoji-btn').forEach(function(x){x.classList.remove('sel')});b.classList.add('sel');pendingPhoto='';renderPhotoPreview()}})}
+function savePerson(){var name=$('personName').value.trim();if(!name)return toast('Escribe el nombre');var selEmoji=(q('.emoji-btn.sel')[0]||{}).dataset?.e||'👤';var id=$('personId').value;var data={name:name,emoji:pendingPhoto?'👤':selEmoji,photo:pendingPhoto||'',relation:$('personRelation').value,tone:$('personTone').value,phone:$('personPhone').value.trim(),email:$('personEmail').value.trim(),updatedAt:now()};if(id){Object.assign(state.people.find(function(p){return p.id===id}),data);state.selectedPersonId=id}else{data.id=uid();data.createdAt=now();state.people.push(data);state.selectedPersonId=data.id}pendingPhoto='';save();renderAgreements();go('s-agreements')}
+
+/* Agreements */
+function renderAgreements(){var p=activePerson();if(!p){go('s-home');toast('Primero selecciona una persona');return}$('agTitle').textContent='Acuerdos con '+p.name;var av=p.photo&&p.photo.indexOf('<')===-1?'<img src="'+p.photo+'" alt="">':esc(p.emoji||'👤');$('activeHero').innerHTML='<div class="person-card"><div class="avatar">'+av+'</div><div class="pc-info"><div class="pc-name">'+esc(p.name)+'</div><div class="pc-meta">'+esc(p.relation||'persona')+'</div></div></div>';var list=state.agreements.filter(function(a){return a.personId===p.id});var pendingCount=list.filter(function(a){return a.status!=='completado'}).length;$('agreementList').innerHTML=list.map(function(a){var pc=a.priority==='alta'?'alta':a.priority==='baja'?'baja':'';var done=a.status==='completado';return'<div class="card agreement '+pc+(done?' done':'')+'"><button class="done-toggle'+(done?' checked':'')+'" data-id="'+a.id+'" title="'+(done?'Desmarcar':'Marcar como hecho')+'">'+(done?'✓':'○')+'</button><div style="flex:1;min-width:0"><b>'+esc(a.text)+'</b><div class="pc-meta">'+esc(a.time||'sin momento')+' · '+esc(a.priority)+(done?' · Completado':'')+'</div></div><button class="delAg" data-id="'+a.id+'" title="Eliminar" style="width:34px;height:34px;font-size:.9rem;background:var(--soft);border:1px solid var(--line);border-radius:50%;display:grid;place-items:center;flex-shrink:0;transition:transform .12s">✕</button></div>'}).join('');$('goSendBtn').style.display=pendingCount?'flex':'none';$('agreementText').value='';$('agreementTime').value=''}
+function addAgreement(){var p=activePerson();var text=$('agreementText').value.trim();if(!text)return toast('Escribe el acuerdo');state.agreements.push({id:uid(),personId:p.id,text:text,priority:(q('.prio .sel')[0]||{}).dataset?.p||'media',time:$('agreementTime').value.trim(),status:'pendiente',createdAt:now()});save();renderAgreements();toast('Acuerdo agregado')}
+
+function toggleAgreement(id){var a=state.agreements.find(function(x){return x.id===id});if(!a)return;a.status=a.status==='completado'?'pendiente':'completado';save();renderAgreements();if(a.status==='completado')toast('Acuerdo completado ✓')}
+
+/* Send */
+function renderSend(){var p=activePerson();$('sendTitle').textContent='Mensaje para '+p.name;$('toneSelect').innerHTML=TONES.map(function(t){return'<option value="'+t[0]+'" '+(state.activeTone===t[0]?'selected':'')+'>'+t[1]+'</option>'}).join('');genMsg();go('s-send')}
+function genMsg(){var p=activePerson();var tone=$('toneSelect').value||state.activeTone;state.activeTone=tone;var list=state.agreements.filter(function(a){return a.personId===p.id&&a.status!=='completado'});var introFn=MSG_INTROS[tone]||MSG_INTROS['calido'];var intro=introFn(p.name,p.emoji);var body=list.map(function(a){return'• '+a.text+(a.time?' — '+a.time:'')}).join('\n');state.message=intro+'\n\n'+body+'\n\nGracias 💛';$('msgPreview').textContent=state.message;save()}
+
+/* ─── Image export — cross-browser (works on iOS Safari) ─── */
+function generateMessageImage(){
+var p=activePerson();
+if(!p)return;
+var msg=state.message;
+var canvas=$('msgCanvas');
+var ctx=canvas.getContext('2d');
+var lines=msg.split('\n');
+var lineH=22;
+var padX=28,padY=24;
+var w=560;
+var h=padY*2+lines.length*lineH+40;
+canvas.width=w*2;
+canvas.height=h*2;
+ctx.scale(2,2);
+var isDark=document.body.classList.contains('dark');
+ctx.fillStyle=isDark?'#112240':'#f0f7ff';
+ctx.fillRect(0,0,w,h);
+function drawRoundRect(x,y,rw,rh,r){
+  if(ctx.roundRect){ctx.beginPath();ctx.roundRect(x,y,rw,rh,r);}
+  else{ctx.beginPath();ctx.moveTo(x+r,y);ctx.lineTo(x+rw-r,y);ctx.quadraticCurveTo(x+rw,y,x+rw,y+r);ctx.lineTo(x+rw,y+rh-r);ctx.quadraticCurveTo(x+rw,y+rh,x+rw-r,y+rh);ctx.lineTo(x+r,y+rh);ctx.quadraticCurveTo(x,y+rh,x,y+rh-r);ctx.lineTo(x,y+r);ctx.quadraticCurveTo(x,y,x+r,y);ctx.closePath();}
+}
+ctx.strokeStyle=isDark?'#1e3a5a':'#1CA7EC';
+ctx.lineWidth=2;
+drawRoundRect(8,8,w-16,h-16,14);
+ctx.stroke();
+var brandColor=isDark?'#00a884':'#1CA7EC';
+ctx.fillStyle=brandColor;
+drawRoundRect(8,8,w-16,36,14);
+ctx.fill();
+ctx.fillStyle='white';
+ctx.font='bold 13px Nunito,sans-serif';
+ctx.fillText('Tareas sin pelea',padX,32);
+ctx.fillStyle=isDark?'#e8f4fd':'#09275a';
+ctx.font='13px Nunito,sans-serif';
+var y=padY+44;
+lines.forEach(function(line){
+  if(y>h-padY-10)return;
+  ctx.fillText(line,padX,y);
+  y+=lineH;
+});
+/* Robust cross-browser download */
+function doDownload(blob){
+  try{
+    var url=URL.createObjectURL(blob);
+    var a=document.createElement('a');
+    a.href=url;a.download='mensaje_'+p.name+'.png';
+    a.style.display='none';document.body.appendChild(a);a.click();
+    setTimeout(function(){URL.revokeObjectURL(url);a.remove()},1000);
+    toast('Imagen descargada');
+  }catch(e){
+    /* Fallback: open in new tab */
+    try{
+      var url2=canvas.toDataURL('image/png');
+      window.open(url2,'_blank');
+      toast('Imagen abierta en nueva pestaña');
+    }catch(e2){
+      toast('No se pudo generar la imagen');
+    }
+  }
+}
+try{
+  if(canvas.toBlob){
+    canvas.toBlob(function(blob){
+      if(blob)doDownload(blob);
+      else{try{doDownload(new Blob([Uint8Array.from(atob(canvas.toDataURL('image/png').split(',')[1]),c=>c.charCodeAt(0))],{type:'image/png'}))}catch(e){toast('No se pudo generar la imagen')}}
+    },'image/png');
+  }else{
+    var dataURL=canvas.toDataURL('image/png');
+    var bin=atob(dataURL.split(',')[1]);
+    var arr=new Uint8Array(bin.length);for(var i=0;i<bin.length;i++)arr[i]=bin.charCodeAt(i);
+    doDownload(new Blob([arr],{type:'image/png'}));
+  }
+}catch(e){toast('No se pudo generar la imagen')}
+}
+
+/* Vent */
+function openVent(pid){state.selectedVentPersonId=pid||'';renderVent();go('s-vent')}
+function renderVent(){var opts='<option value="">Incógnito / general</option>'+state.people.map(function(p){return'<option value="'+p.id+'">'+esc(p.emoji||'👤')+' '+esc(p.name)+'</option>'}).join('');$('ventPersonSelect').innerHTML=opts;$('ventPersonSelect').value=state.selectedVentPersonId||'';var pName=state.selectedVentPersonId?(state.people.find(function(p){return p.id===state.selectedVentPersonId})||{}).name||'persona':'';$('ventTitle').textContent=pName?'Desahogo con '+pName:'Desahogo seguro';$('ventText').value='';$('ventEmojis').innerHTML=VEMO.map(function(e){return'<button class="emoji-btn ventIns" data-ins="'+e+' ">'+e+'</button>'}).join('');$('ventSymbols').innerHTML=VSYM.map(function(s){return'<button class="ventIns" data-ins="'+esc(s.val)+'">'+esc(s.label)+'</button>'}).join('');$('ventTemplates').innerHTML=TPL.map(function(t,i){return'<button class="chip ventTpl" data-idx="'+i+'" style="width:100%;text-align:left">'+esc(t.text)+'</button>'}).join('');q('.ventIns').forEach(function(b){b.onclick=function(){insertVent(b.dataset.ins)}});q('.ventTpl').forEach(function(b){b.onclick=function(){insertVent(TPL[parseInt(b.dataset.idx)].text+'\n')}});q('[data-ins]').forEach(function(b){if(!b.classList.contains('ventIns'))b.onclick=function(){insertVent(b.dataset.ins)}})}
+function insertVent(s){var ta=$('ventText');var st=ta.selectionStart||ta.value.length;ta.value=ta.value.slice(0,st)+s+ta.value.slice(st);ta.focus();ta.selectionStart=ta.selectionEnd=st+s.length}
+function saveVent(incog){var txt=$('ventText').value.trim();if(!txt)return toast('Escribe o marca algo primero');var pid=incog?'':$('ventPersonSelect').value;state.vents.unshift({id:uid(),personId:pid,incognito:!!incog,text:txt,createdAt:now()});save();showModal('<h3>🔒 Guardado en privado</h3><p>El desahogo quedó en el historial privado. No se envió a nadie.</p><button class="btn btn-primary" onclick="APP.closeModal();APP.goPrivate()">Ver privado</button><button class="btn btn-ghost" style="margin-top:6px" onclick="APP.closeModal();APP.goHome()">Volver al inicio</button>')}
+
+/* Private */
+function renderPrivate(){var box=$('privateContent'),locked=$('privateLocked');box.style.display='none';locked.style.display='block';var cnt=state.vents.length;$('privateCount').innerHTML='🔒 '+(cnt?cnt+' nota'+(cnt!==1?'s':'')+' privada'+(cnt!==1?'s':''):'Sin notas privadas');var bioArea=$('bioUnlockArea');bioArea.style.display=(state.biometryEnabled&&state.pinHash)?'block':'none';var unlockTime=parseInt(sessionStorage.getItem('tsp_unlock_time')||'0');var isExpired=unlockTime&&(Date.now()-unlockTime>PRIVATE_TIMEOUT);if(isExpired){sessionStorage.removeItem('tsp_unlocked');sessionStorage.removeItem('tsp_unlock_time')}if(sessionStorage.getItem('tsp_unlocked')==='1'&&!isExpired){locked.style.display='none';box.style.display='block';startPrivateTimer();renderPrivateList()}}
+function renderPrivateList(){var list=$('privateList');if(!state.vents.length){list.innerHTML='<div class="empty"><div class="e">🔒</div>No hay desahogos guardados.</div>';return}list.innerHTML=state.vents.map(function(v){var p=state.people.find(function(x){return x.id===v.personId});return'<div class="private-item"><div class="private-meta">'+new Date(v.createdAt).toLocaleString('es-CO')+' · '+(v.incognito||!p?'Incógnito':esc(p.name))+'</div><div class="private-text">'+esc(v.text)+'</div><button class="btn btn-ghost btn-small delVent" data-id="'+v.id+'" style="margin-top:8px">Borrar</button></div>'}).join('')}
+
+/* PIN with beautiful keypad */
+var pinBuffer='';
+var pinMode='unlock';
+var pinCallback=null;
+
+function openPinModal(mode,cb){
+pinMode=mode;pinCallback=cb;pinBuffer='';
+var isChange=mode==='change';
+$('pinCard').innerHTML='<div class="pin-icon">🔐</div><h3>'+(isChange?'Ingresa tu PIN actual':'Ingresa tu PIN')+'</h3><p class="pin-sub">'+(isChange?'Para cambiar tu PIN necesitas verificar el actual':'Esto protege tus desahogos privados')+'</p><div class="pin-dots" id="pinDots"><div class="pin-dot"></div><div class="pin-dot"></div><div class="pin-dot"></div><div class="pin-dot"></div></div><div class="pin-keypad"><button class="pin-key" data-d="1">1</button><button class="pin-key" data-d="2">2</button><button class="pin-key" data-d="3">3</button><button class="pin-key" data-d="4">4</button><button class="pin-key" data-d="5">5</button><button class="pin-key" data-d="6">6</button><button class="pin-key" data-d="7">7</button><button class="pin-key" data-d="8">8</button><button class="pin-key" data-d="9">9</button><button class="pin-key" style="visibility:hidden"></button><button class="pin-key" data-d="0">0</button><button class="pin-key del" data-d="del">⌫</button></div><div class="pin-actions"><button class="pin-cancel" onclick="APP.closePin()">Cancelar</button></div>';
+$('pinModal').classList.add('show');
+q('.pin-key[data-d]').forEach(function(b){b.onclick=function(){
+var d=b.dataset.d;
+if(d==='del'){pinBuffer=pinBuffer.slice(0,-1)}else if(pinBuffer.length<4){pinBuffer+=d}
+renderPinDots();
+if(pinBuffer.length===4){
+setTimeout(function(){
+if(pinMode==='unlock'||pinMode==='change'){
+if(hash(pinBuffer)===state.pinHash){closePinModal();if(pinMode==='change')openSetPin(true);else{markPrivateUnlocked();go('s-private')}if(pinCallback)pinCallback()}
+else{toast('PIN incorrecto');pinBuffer='';renderPinDots()}
+}
+},200);
+}
+}});
+}
+
+function openSetPin(isChange){
+pinBuffer='';
+$('pinCard').innerHTML='<div class="pin-icon">'+(isChange?'🔐':'✨')+'</div><h3>'+(isChange?'Nuevo PIN':'Crear tu PIN')+'</h3><p class="pin-sub">Usa 4 dígitos. Si lo olvidas podrás borrar solo los desahogos privados.</p><div class="pin-dots" id="pinDots"><div class="pin-dot"></div><div class="pin-dot"></div><div class="pin-dot"></div><div class="pin-dot"></div></div><p class="pin-sub" id="pinStep" style="margin-top:8px;font-weight:800;color:var(--brand)">Escribe el nuevo PIN</p><div class="pin-keypad"><button class="pin-key" data-d="1">1</button><button class="pin-key" data-d="2">2</button><button class="pin-key" data-d="3">3</button><button class="pin-key" data-d="4">4</button><button class="pin-key" data-d="5">5</button><button class="pin-key" data-d="6">6</button><button class="pin-key" data-d="7">7</button><button class="pin-key" data-d="8">8</button><button class="pin-key" data-d="9">9</button><button class="pin-key" style="visibility:hidden"></button><button class="pin-key" data-d="0">0</button><button class="pin-key del" data-d="del">⌫</button></div><div class="pin-actions"><button class="pin-cancel" onclick="APP.closePin()">Cancelar</button></div>';
+$('pinModal').classList.add('show');
+var step=1,pin1='';
+q('.pin-key[data-d]').forEach(function(b){b.onclick=function(){
+var d=b.dataset.d;
+if(d==='del'){pinBuffer=pinBuffer.slice(0,-1)}else if(pinBuffer.length<4){pinBuffer+=d}
+renderPinDots();
+if(pinBuffer.length===4){
+if(step===1){pin1=pinBuffer;pinBuffer='';step=2;$('pinStep').textContent='Repite el PIN';renderPinDots()}
+else{if(pinBuffer===pin1){state.pinHash=hash(pin1);save();closePinModal();toast('PIN guardado');if(pinCallback)pinCallback()}else{toast('Los PIN no coinciden');pinBuffer='';step=1;$('pinStep').textContent='Escribe el nuevo PIN';renderPinDots()}}
+}
+}});
+}
+
+function renderPinDots(){var dots=q('.pin-dot');dots.forEach(function(d,i){d.classList.toggle('filled',i<pinBuffer.length)})}
+function closePinModal(){$('pinModal').classList.remove('show')}
+
+function forgotPin(){showModal('<h3>Olvidé mi PIN</h3><p>Por seguridad no se recupera. Puedes borrar solo los desahogos privados y conservar personas y acuerdos.</p><button class="btn btn-danger" id="resetPriv">Borrar desahogos privados</button><button class="btn btn-ghost" style="margin-top:6px" onclick="APP.closeModal()">Cancelar</button>');$('resetPriv').onclick=function(){state.vents=[];state.pinHash='';state.biometryEnabled=false;state.biometryCredentialId='';sessionStorage.removeItem('tsp_unlocked');sessionStorage.removeItem('tsp_unlock_time');clearPrivateTimer();save();closeModal();go('s-private');toast('Privado reiniciado')}}
+
+/* Biometry */
+function arrayToBase64(arr){return btoa(String.fromCharCode.apply(null,new Uint8Array(arr)))}
+function base64ToArray(b64){var bin=atob(b64);var arr=new Uint8Array(bin.length);for(var i=0;i<bin.length;i++)arr[i]=bin.charCodeAt(i);return arr.buffer}
+
+async function setupBiometry(){if(!window.PublicKeyCredential){toast('Biometría no disponible');return false}try{var available=await PublicKeyCredential.isUserVerifyingPlatformAuthenticatorAvailable();if(!available){toast('Tu dispositivo no soporta biometría web');return false}}catch(e){toast('Biometría no disponible');return false}try{var challenge=new Uint8Array(32);crypto.getRandomValues(challenge);var userId=new Uint8Array(16);crypto.getRandomValues(userId);var cred=await navigator.credentials.create({publicKey:{challenge:challenge,rp:{name:'Tareas sin pelea',id:location.hostname||'localhost'},user:{id:userId,name:'usuario',displayName:'Usuario'},pubKeyCredParams:[{type:'public-key',alg:-7},{type:'public-key',alg:-257}],authenticatorSelection:{authenticatorAttachment:'platform',userVerification:'required'},timeout:60000}});state.biometryCredentialId=arrayToBase64(cred.rawId);state.biometryEnabled=true;save();toast('Biometría activada');return true}catch(e){if(e.name==='NotAllowedError')toast('Configuración cancelada');else toast('No se pudo activar biometría');return false}}
+
+async function verifyBiometry(){if(!state.biometryEnabled||!state.biometryCredentialId)return false;try{var challenge=new Uint8Array(32);crypto.getRandomValues(challenge);var credId=base64ToArray(state.biometryCredentialId);var result=await navigator.credentials.get({publicKey:{challenge:challenge,allowCredentials:[{id:credId,type:'public-key'}],userVerification:'required',timeout:60000}});return!!result}catch(e){return false}}
+
+async function toggleBiometry(){if(state.biometryEnabled){showModal('<h3>Desactivar biometría</h3><p>Se desactivará el acceso biométrico. Podrás seguir usando tu PIN.</p><button class="btn btn-danger" id="disableBio">Desactivar</button><button class="btn btn-ghost" style="margin-top:6px" onclick="APP.closeModal()">Cancelar</button>');$('disableBio').onclick=function(){state.biometryEnabled=false;state.biometryCredentialId='';save();closeModal();toast('Biometría desactivada');renderPrivate()}}else{if(!state.pinHash){toast('Primero crea un PIN');return}var ok=await setupBiometry();if(ok)renderPrivate()}}
+
+async function unlockWithBio(){var ok=await verifyBiometry();if(ok){markPrivateUnlocked();go('s-private')}else toast('Biometría no reconocida')}
+
+/* Summary - FULLY FUNCTIONAL */
+function renderSummary(){
+var pa=state.people.length,ag=state.agreements.length,ve=state.vents.length;
+var completed=state.agreements.filter(function(a){return a.status==='completado'}).length;
+var pending=ag-completed;
+var alta=state.agreements.filter(function(a){return a.priority==='alta'&&a.status!=='completado'}).length;
+var media=state.agreements.filter(function(a){return a.priority==='media'&&a.status!=='completado'}).length;
+var baja=state.agreements.filter(function(a){return a.priority==='baja'&&a.status!=='completado'}).length;
+var html='<div class="summary-card"><h3>📊 General</h3><div class="summary-stat"><b>👥</b> '+pa+' persona'+(pa!==1?'s':'')+'</div><div class="summary-stat"><b>📋</b> '+pending+' acuerdo'+(pending!==1?'s':'')+' pendiente'+(pending!==1?'s':'')+'</div><div class="summary-stat" style="color:var(--ok)"><b>✓</b> '+completed+' completado'+(completed!==1?'s':'')+'</div><div class="summary-stat"><b>🔒</b> '+ve+' desahogo'+(ve!==1?'s':'')+' privado'+(ve!==1?'s':'')+'</div></div>';
+
+if(pending>0){html+='<div class="summary-card"><h3>📋 Acuerdos pendientes por prioridad</h3><div class="summary-stat" style="color:var(--danger)"><b>🔴</b> Alta: '+alta+'</div><div class="summary-stat" style="color:var(--warn)"><b>🟡</b> Media: '+media+'</div><div class="summary-stat" style="color:var(--ok)"><b>🟢</b> Baja: '+baja+'</div></div>'}
+
+if(pa>0){html+='<div class="summary-card"><h3>👥 Mis personas</h3>';state.people.forEach(function(p){var n=state.agreements.filter(function(a){return a.personId===p.id&&a.status!=='completado'}).length;var c=state.agreements.filter(function(a){return a.personId===p.id&&a.status==='completado'}).length;var av=p.photo&&p.photo.indexOf('<')===-1?'<img src="'+p.photo+'" alt="">':esc(p.emoji||'👤');html+='<div class="summary-person"><div class="summary-mini-avatar">'+av+'</div><div style="flex:1;min-width:0"><div style="font-weight:800;font-size:.88rem">'+esc(p.name)+'</div><div style="color:var(--muted);font-size:.76rem">'+esc(p.relation||'')+' · '+n+' pendiente'+(n!==1?'s':'')+' · '+c+' hecho'+(c!==1?'s':'')+'</div></div></div>'});html+='</div>'}
+
+html+='<div class="summary-card"><h3>🛡️ Seguridad</h3><div class="summary-stat"><b>🔐</b> PIN: '+(state.pinHash?'Activado':'Sin configurar')+'</div><div class="summary-stat"><b>👆</b> Biometría: '+(state.biometryEnabled?'Activada':'Desactivada')+'</div><div class="summary-stat"><b>🎨</b> Tema: '+(state.theme==='dark'?'Oscuro':'Claro')+' · Paleta: '+state.palette+'</div></div>';
+
+$('summaryBox').innerHTML=html;
+}
+
+/* Modal */
+function showModal(html){$('modalCard').innerHTML=html;$('modal').classList.add('show')}
+function closeModal(){$('modal').classList.remove('show')}
+
+/* Drawer */
+function openDrawer(){$('drawerOverlay').classList.add('show')}
+function closeDrawer(){$('drawerOverlay').classList.remove('show')}
+
+/* Export */
+function exportJson(){dl('backup_tareas_sin_pelea.json',JSON.stringify(state,null,2),'application/json')}
+function dl(n,c,t){var a=document.createElement('a');a.href=URL.createObjectURL(new Blob([c],{type:t}));a.download=n;document.body.appendChild(a);a.click();setTimeout(function(){URL.revokeObjectURL(a.href);a.remove()},300)}
+
+function report(){var html='<!DOCTYPE html><html lang="es"><head><meta charset="utf-8"><title>Informe - Tareas sin pelea</title><style>body{font-family:sans-serif;max-width:600px;margin:40px auto;padding:0 20px;color:#09275a}h1{color:#1F2F98}h2{color:#1CA7EC;margin-top:24px}.person{background:#e7f4ff;border:1px solid #cfe4fb;border-radius:12px;padding:12px;margin:8px 0}.agreement{border-left:3px solid #1CA7EC;padding:8px 12px;margin:4px 0}.alta{border-left-color:#e04b59}.baja{border-left-color:#10b981}footer{margin-top:30px;color:#5d78a0;font-size:.85rem}</style></head><body><h1>🤝 Tareas sin pelea</h1><p>Informe generado el '+new Date().toLocaleString('es-CO')+'</p><h2>Resumen</h2><p>Personas: '+state.people.length+' · Acuerdos: '+state.agreements.length+' · Desahogos: '+state.vents.length+'</p>';state.people.forEach(function(p){var ags=state.agreements.filter(function(a){return a.personId===p.id});html+='<h2>'+(p.emoji||'👤')+' '+esc(p.name)+'</h2><p>'+esc(p.relation||'')+'</p>';if(ags.length)ags.forEach(function(a){html+='<div class="agreement '+(a.priority||'')+'"><b>'+esc(a.text)+'</b> — '+esc(a.time||'sin momento')+' · '+esc(a.priority)+'</div>'});else html+='<p style="color:#5d78a0">Sin acuerdos</p>'});html+='<footer>Generado por Tareas sin pelea v'+VERSION+'</footer></body></html>';dl('informe_tareas_sin_pelea.html',html,'text/html')}
+
+function demo(){
+var existing=state.people.find(function(p){return p.name==='Jose Andrade'&&p.phone==='+573156160390'});
+if(existing){state.selectedPersonId=existing.id;save();closeDrawer();go('s-home');toast('Jose Andrade ya existe');return}
+var p={id:uid(),name:'Jose Andrade',emoji:'👨',photo:'',relation:'amigo/a',tone:'calido',phone:'+573156160390',email:'911psicologia@gmail.com',createdAt:now()};
+state.people.push(p);state.selectedPersonId=p.id;
+state.agreements.push({id:uid(),personId:p.id,text:'Revisar pendientes del proyecto',priority:'alta',time:'hoy',status:'pendiente',createdAt:now()});
+state.agreements.push({id:uid(),personId:p.id,text:'Compartir documentos de trabajo',priority:'media',time:'esta semana',status:'pendiente',createdAt:now()});
+state.agreements.push({id:uid(),personId:p.id,text:'Coordinar llamada de seguimiento',priority:'baja',time:'cuando puedas',status:'pendiente',createdAt:now()});
+save();closeDrawer();go('s-home');toast('Demo cargada: Jose Andrade');
+}
+
+/* ─── Drawer section toggle ─── */
+function toggleMenuSection(id){
+var el=$(id);
+if(el)el.classList.toggle('open');
+}
+
+/* Bind all */
+function bind(){
+$('startBtn').onclick=function(){go('s-home')};
+
+// Onboard
+$('onboardClose').onclick=function(){state.onboardDismissed=true;save();$('onboardHint').style.display='none'};
+
+// Drawer
+$('menuBtn').onclick=openDrawer;
+$('drawerClose').onclick=closeDrawer;
+$('drawerOverlay').onclick=function(e){if(e.target===$('drawerOverlay'))closeDrawer()};
+$('drawerVer').textContent=VERSION;
+
+// Menu section toggles
+q('.menu-section-header').forEach(function(h){
+h.onclick=function(){var sec=h.dataset.sec;if(sec)toggleMenuSection(sec)};
+});
+
+// Home
+$('topAddPerson').onclick=$('addPersonBtn').onclick=function(){openPerson()};
+q('.backHome').forEach(function(b){b.onclick=function(){go('s-home')}});
+$('personGrid').onclick=function(e){var act=e.target.closest('.pc-act');if(act){var pid=act.dataset.id;var action=act.dataset.act;state.selectedPersonId=pid;save();if(action==='agreements'){renderAgreements();go('s-agreements')}else if(action==='send'){var list=state.agreements.filter(function(a){return a.personId===pid});if(!list.length){renderAgreements();go('s-agreements');toast('Agrega acuerdos primero');return}renderSend()}else if(action==='vent')openVent(pid);return}var c=e.target.closest('.person-card');if(c){state.selectedPersonId=c.dataset.id;save();renderAgreements();go('s-agreements')}};
+
+// Person form
+$('photoInput').onchange=function(e){var f=e.target.files[0];if(!f)return;resizePhoto(f,function(data){pendingPhoto=data;renderPhotoPreview();q('.emoji-btn').forEach(function(x){x.classList.remove('sel')})})};
+$('removePhotoBtn').onclick=function(){pendingPhoto='';renderPhotoPreview()};
+$('savePersonBtn').onclick=savePerson;
+
+// Agreements
+TIMES.forEach(function(t){$('timeChips').insertAdjacentHTML('beforeend','<button class="chip timechip">'+t+'</button>')});
+q('.timechip').forEach(function(b){b.onclick=function(){$('agreementTime').value=b.textContent}});
+q('.prio button').forEach(function(b){b.onclick=function(){q('.prio button').forEach(function(x){x.classList.remove('sel')});b.classList.add('sel')}});
+$('addAgreementBtn').onclick=addAgreement;
+$('agreementList').onclick=function(e){var done=e.target.closest('.done-toggle');if(done){toggleAgreement(done.dataset.id);return}var b=e.target.closest('.delAg');if(b){confirmAction('¿Eliminar este acuerdo? No se puede deshacer.',function(){state.agreements=state.agreements.filter(function(a){return a.id!==b.dataset.id});save();renderAgreements()},{icon:'🗑️',title:'Eliminar acuerdo',danger:true})}};
+$('goSendBtn').onclick=renderSend;
+$('backAg').onclick=function(){renderAgreements();go('s-agreements')};
+$('editPersonBtn').onclick=function(){if(state.selectedPersonId)openPerson(state.selectedPersonId)};
+$('ventThisPerson').onclick=function(){openVent(state.selectedPersonId)};
+
+// Vent
+$('openVentGeneral').onclick=function(){openVent('')};
+$('ventPersonSelect').onchange=function(){state.selectedVentPersonId=$('ventPersonSelect').value;renderVent();$('ventPersonSelect').value=state.selectedVentPersonId};
+$('savePrivateBtn').onclick=function(){saveVent(false)};
+$('saveIncognitoBtn').onclick=function(){saveVent(true)};
+$('destroyVentBtn').onclick=function(){confirmAction('¿Destruir este desahogo sin guardar? No se podrá recuperar.',function(){$('ventText').value='';toast('Destruido sin guardar')},{icon:'🔥',title:'Destruir desahogo',danger:true})};
+$('micBtn').onclick=function(){var SR=window.SpeechRecognition||window.webkitSpeechRecognition;if(!SR)return toast('Micrófono no disponible');var r=new SR();r.lang='es-CO';r.onresult=function(e){insertVent(e.results[0][0].transcript+' ')};r.start();toast('Escuchando...')};
+
+// Private
+$('unlockPrivateBtn').onclick=function(){if(!state.pinHash){openSetPin(false)}else{openPinModal('unlock')}};
+$('changePinBtn').onclick=function(){openPinModal('change')};
+$('pinMenuBtn').onclick=function(){closeDrawer();if(!state.pinHash)openSetPin(false);else openPinModal('change')};
+$('forgotPinBtn').onclick=forgotPin;
+$('bioUnlockBtn').onclick=unlockWithBio;
+$('bioToggleBtn').onclick=toggleBiometry;
+$('bioMenuBtn').onclick=function(){closeDrawer();toggleBiometry()};
+$('privateList').onclick=function(e){var b=e.target.closest('.delVent');if(b){confirmAction('¿Borrar este desahogo privado?',function(){state.vents=state.vents.filter(function(v){return v.id!==b.dataset.id});save();renderPrivateList()},{icon:'🗑️',title:'Borrar desahogo',danger:true})}};
+
+// Send
+$('toneSelect').onchange=genMsg;
+$('sendWA').onclick=function(){var p=activePerson(),ph=(p.phone||'').replace(/\D/g,'');if(!ph){toast('Esta persona no tiene teléfono');return}window.open('https://wa.me/'+ph+'?text='+encodeURIComponent(state.message),'_blank')};
+$('sendEmail').onclick=function(){var p=activePerson();location.href='mailto:'+(p.email||'')+'?subject=Acuerdos&body='+encodeURIComponent(state.message)};
+$('sendCopy').onclick=function(){if(navigator.clipboard)navigator.clipboard.writeText(state.message).then(function(){toast('Copiado')}).catch(function(){toast('No se pudo copiar')});else toast('No se pudo copiar')};
+$('sendImg').onclick=generateMessageImage;
+
+// Bottom nav
+q('.navbtn').forEach(function(b){b.onclick=function(){var g=b.dataset.go;if(g==='agreements'){if(!state.selectedPersonId){if(state.people.length===1){state.selectedPersonId=state.people[0].id;save()}else{toast('Selecciona una persona');return}}renderAgreements();go('s-agreements')}else go(g)}});
+
+// Drawer menu options
+$('themeBtn').onclick=function(){state.theme=state.theme==='dark'?'light':'dark';save();applyPalette()};
+$('exportBtn').onclick=exportJson;
+$('reportBtn').onclick=report;
+$('demoBtn').onclick=demo;
+$('helpBtn').onclick=function(){closeDrawer();showModal('<h3>Ayuda rápida</h3><p><b>1.</b> Crea una persona.<br><b>2.</b> Agrega acuerdos.<br><b>3.</b> Prepara el mensaje con el tono que quieras.<br><b>4.</b> Usa Desahogo seguro para escribir sin enviar.<br><b>5.</b> Protege tus desahogos con PIN o biometría.</p><p style="margin-top:8px;color:var(--muted);font-size:.82rem">Todo se guarda solo en este dispositivo.</p><button class="btn btn-primary" onclick="APP.closeModal()">Entendido</button>')};
+$('logoutBtn').onclick=function(){closeDrawer();sessionStorage.removeItem('tsp_unlocked');sessionStorage.removeItem('tsp_unlock_time');clearPrivateTimer();q('.screen').forEach(function(s){s.classList.remove('show')});$('bottomNav').classList.remove('show');$('splash').classList.add('show')};
+$('wipeBtn').onclick=function(){confirmAction('¿Borrar TODOS los datos? Personas, acuerdos y desahogos se eliminarán para siempre.',function(){localStorage.removeItem(KEY);OLD.forEach(function(k){localStorage.removeItem(k)});location.reload()},{icon:'💣',title:'Borrar todo',danger:true})};
+$('importInput').onchange=function(e){var f=e.target.files[0];if(!f)return;var r=new FileReader();r.onload=function(){try{var d=JSON.parse(r.result);state=Object.assign(state,d);state.version=VERSION;save();location.reload()}catch(e){toast('Archivo inválido')}};r.readAsText(f)};
+
+// Modal
+$('modal').onclick=function(e){if(e.target.id==='modal')closeModal()};
+}
+
+window.APP={closeModal:closeModal,closePin:closePinModal,goPrivate:function(){markPrivateUnlocked();go('s-private')},goHome:function(){go('s-home')},go:function(id){go(id)}};
+
+document.addEventListener('DOMContentLoaded',function(){load();applyPalette();generatePWAIcons();bind();renderHome();$('bottomNav').classList.remove('show');if(state.people.length){go('s-home')}else{if(!state.onboardDismissed){var ob=$('onboardHint');if(ob)ob.style.display='block'}}});
+
+if('serviceWorker' in navigator&&location.protocol!=='file:'){window.addEventListener('load',function(){navigator.serviceWorker.register('sw.js').catch(function(){})})}
+})();
+</script>
+</body>
+</html>

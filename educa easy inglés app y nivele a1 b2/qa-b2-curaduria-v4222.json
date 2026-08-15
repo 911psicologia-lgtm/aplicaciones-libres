@@ -1,0 +1,741 @@
+{
+  "phase": "v4.22.2 · Curaduría B2 situada",
+  "audit": {
+    "version": "2.12.1 / v4.22.2",
+    "b2_lessons": 150,
+    "b2_exercise_refs": 750,
+    "b2_missing_mc_scenario": 0,
+    "b2_missing_reading_scenario": 0,
+    "b2_missing_listen_scenario": 0,
+    "b2_complete_without_audio": 0,
+    "b2_order_without_scenario": 0,
+    "b2_short_ligero": 0,
+    "b2_visible_B2_prompt_or_scenario": 0,
+    "b2_conversations": 30,
+    "b2_deep_dialogues": 30
+  },
+  "sample_lesson_451": {
+    "id": "lesson_451",
+    "routeId": "ruta_4",
+    "emoji": "🧩",
+    "title": "Narrar experiencias complejas",
+    "subtitle": "Contexto y propósito",
+    "goal": "Responder a una situación laboral compleja con precisión, evidencia, matiz y cierre comunicativo.",
+    "duration": "6–9 min",
+    "blocks": [
+      {
+        "type": "phrase",
+        "emoji": "🧭",
+        "en": "That could explain the delay; however, we should check the sequence before reaching a final conclusion.",
+        "es": "Eso podría explicar el retraso; sin embargo, deberíamos revisar la secuencia antes de llegar a una conclusión final."
+      },
+      {
+        "type": "phrase",
+        "emoji": "⚖️",
+        "en": "Although two expectations conflicted during a meeting, the response should remain balanced and specific.",
+        "es": "Aunque dos expectativas entraron en conflicto durante una reunión, la respuesta debe mantenerse equilibrada y específica."
+      },
+      {
+        "type": "phrase",
+        "emoji": "🔎",
+        "en": "The strongest answer explains why organise the sequence and highlight the consequence matters.",
+        "es": "La respuesta más sólida explica por qué importa organizar la secuencia y destacar la consecuencia."
+      },
+      {
+        "type": "phrase",
+        "emoji": "🔗",
+        "en": "I should avoid exaggerating because the listener needs both the facts and the reasoning.",
+        "es": "Debo evitar exagerar porque la otra persona necesita los hechos y el razonamiento."
+      },
+      {
+        "type": "phrase",
+        "emoji": "🎯",
+        "en": "Overall, the answer should connect the situation, the evidence and the final point.",
+        "es": "En conjunto, la respuesta debe conectar la situación, la evidencia y el punto final."
+      },
+      {
+        "type": "tip",
+        "emoji": "💡",
+        "text": "En este nivel, la mejor respuesta no es la más larga: es la que reconoce contexto, límite y propósito."
+      },
+      {
+        "type": "example",
+        "emoji": "🧩",
+        "text": "Situación: En una reunión, dos personas esperan resultados distintos y te piden explicar qué ocurrió sin culpar a nadie. Respuesta útil: “That could explain the delay; however, we should check the sequence before reaching a final conclusion.”"
+      }
+    ],
+    "exerciseIds": [
+      "lesson_451_nuance",
+      "lesson_451_connector",
+      "lesson_451_sequence",
+      "lesson_451_read",
+      "lesson_451_listen"
+    ],
+    "exerciseSets": {
+      "ligero": [
+        "lesson_451_nuance",
+        "lesson_451_connector",
+        "lesson_451_sequence",
+        "lesson_451_read",
+        "lesson_451_listen"
+      ],
+      "constante": [
+        "lesson_451_nuance",
+        "lesson_451_connector",
+        "lesson_451_sequence",
+        "lesson_451_read",
+        "lesson_451_listen"
+      ],
+      "intensivo": [
+        "lesson_451_nuance",
+        "lesson_451_connector",
+        "lesson_451_sequence",
+        "lesson_451_read",
+        "lesson_451_listen"
+      ]
+    },
+    "layer": "b2",
+    "layerLabel": "🚀 B2"
+  },
+  "sample_exercises_lesson_451": [
+    {
+      "id": "lesson_451_nuance",
+      "lessonId": "lesson_451",
+      "type": "multiple_choice",
+      "emoji": "⚖️",
+      "prompt": "Lee la situación y elige la respuesta más equilibrada.",
+      "options": [
+        "That could explain the delay; however, we should check the sequence before reaching a final conclusion.",
+        "I cannot explain the situation, but I think we should make a decision immediately.",
+        "This is definitely the only possible explanation, so we do not need to check anything else.",
+        "I would give many details, although I might not connect them to the main point."
+      ],
+      "correctIndex": 0,
+      "feedbackCorrect": "Correcto: la respuesta es precisa, prudente y útil para la situación.",
+      "feedbackWrong": "Revisa el matiz: una buena respuesta evita exagerar y conecta la evidencia con la conclusión.",
+      "supportLabel": "situado",
+      "promptEs": "La mejor respuesta reconoce contexto, límite y propósito.",
+      "optionTranslations": [
+        "Eso podría explicar el retraso; sin embargo, deberíamos revisar la secuencia antes de llegar a una conclusión final.",
+        "No puedo explicar la situación, pero creo que deberíamos decidir de inmediato.",
+        "Esta es definitivamente la única explicación posible, así que no necesitamos revisar nada más.",
+        "Daría muchos detalles, aunque quizá no los conecte con el punto principal."
+      ],
+      "feedback": "Correcto: la respuesta es precisa, prudente y útil para la situación.",
+      "scenario": "En una reunión, dos personas esperan resultados distintos y te piden explicar qué ocurrió sin culpar a nadie.",
+      "scenarioEs": "En una reunión, dos personas esperan resultados distintos y te piden explicar qué ocurrió sin culpar a nadie."
+    },
+    {
+      "id": "lesson_451_connector",
+      "lessonId": "lesson_451",
+      "type": "complete_text",
+      "emoji": "🔗",
+      "prompt": "Completa la frase con el conector más adecuado: The evidence was incomplete; ____ I avoided giving a final conclusion.",
+      "answer": "therefore",
+      "acceptedAnswers": [
+        "Therefore",
+        "Therefore,",
+        "therefore",
+        "therefore,"
+      ],
+      "placeholder": "Escribe el conector",
+      "feedbackCorrect": "Correcto: “therefore” funciona porque expresa consecuencia.",
+      "feedbackWrong": "El conector esperado es “therefore”; revisa si la relación es contraste, consecuencia, concesión o comparación.",
+      "supportLabel": "situado",
+      "promptEs": "La evidencia estaba incompleta; por lo tanto, evité dar una conclusión final.",
+      "feedback": "Correcto: “therefore” funciona porque expresa consecuencia.",
+      "scenario": "En una reunión, dos personas esperan resultados distintos y te piden explicar qué ocurrió sin culpar a nadie. Debes conectar dos ideas con un conector que exprese consecuencia.",
+      "scenarioEs": "En una reunión, dos personas esperan resultados distintos y te piden explicar qué ocurrió sin culpar a nadie. Debes conectar dos ideas con un conector que exprese consecuencia.",
+      "audioText": "The evidence was incomplete; therefore I avoided giving a final conclusion.",
+      "audioTextEs": "La evidencia estaba incompleta; por lo tanto, evité dar una conclusión final."
+    },
+    {
+      "id": "lesson_451_sequence",
+      "lessonId": "lesson_451",
+      "type": "order_words",
+      "emoji": "🧩",
+      "prompt": "Ordena las palabras para formar una respuesta coherente.",
+      "words": [
+        "To",
+        "avoid",
+        "overgeneralising",
+        "I",
+        "connected",
+        "the",
+        "evidence",
+        "with",
+        "a",
+        "limited",
+        "conclusion"
+      ],
+      "feedbackCorrect": "Correcto: la frase avanza de contexto a conclusión sin perder precisión.",
+      "feedbackWrong": "Revisa el orden lógico: primero contexto o conector, luego idea principal y cierre.",
+      "es": "I explained the main point carefully",
+      "supportLabel": "situado",
+      "promptEs": "La frase debe conservar sentido, matiz y cierre.",
+      "answer": "To avoid overgeneralising, I connected the evidence with a limited conclusion.",
+      "feedback": "Correcto: la frase avanza de contexto a conclusión sin perder precisión.",
+      "scenario": "En una reunión, dos personas esperan resultados distintos y te piden explicar qué ocurrió sin culpar a nadie. Ordena la frase para que la idea avance con lógica.",
+      "scenarioEs": "En una reunión, dos personas esperan resultados distintos y te piden explicar qué ocurrió sin culpar a nadie. Ordena la frase para que la idea avance con lógica.",
+      "translation": "Ordena la frase para mantener una relación lógica entre contexto y conclusión."
+    },
+    {
+      "id": "lesson_451_read",
+      "lessonId": "lesson_451",
+      "type": "reading_choice",
+      "emoji": "📖",
+      "prompt": "En una reunión, dos personas esperan resultados distintos y te piden explicar qué ocurrió sin culpar a nadie. The main challenge was that two expectations conflicted during a meeting. Instead of giving an immediate answer, the speaker decided to organise the sequence and highlight the consequence. This made the response stronger because the listener needs both the facts and the reasoning.",
+      "promptEs": "En una reunión, dos personas esperan resultados distintos y te piden explicar qué ocurrió sin culpar a nadie. El principal desafío era que dos expectativas entraron en conflicto durante una reunión. En lugar de responder de inmediato, la persona decidió organizar la secuencia y destacar la consecuencia. Esto fortaleció la respuesta porque la otra persona necesita los hechos y el razonamiento.",
+      "question": "¿Qué interpretación capta mejor el propósito del texto?",
+      "questionEs": "Elige la opción que interpreta intención, evidencia y cierre.",
+      "options": [
+        "The speaker avoids a rushed conclusion and chooses a more careful, reasoned response.",
+        "The speaker changes the topic because the situation is too personal to discuss.",
+        "The speaker focuses only on sounding fluent, not on clarity or responsibility.",
+        "The speaker gives many details but ignores the relationship between evidence and conclusion."
+      ],
+      "correctIndex": 0,
+      "feedback": "Correcto: interpretaste intención, evidencia y cierre.",
+      "supportLabel": "situado",
+      "optionTranslations": [
+        "La persona evita una conclusión apresurada y elige una respuesta más cuidadosa y razonada.",
+        "La persona cambia de tema porque la situación es demasiado personal para discutirla.",
+        "La persona se enfoca solo en sonar fluida, no en claridad ni responsabilidad.",
+        "La persona da muchos detalles, pero ignora la relación entre evidencia y conclusión."
+      ],
+      "feedbackCorrect": "Correcto: interpretaste intención, evidencia y cierre.",
+      "feedbackWrong": "Vuelve al texto: la mejor interpretación reconoce por qué la respuesta fue más cuidadosa.",
+      "scenario": "En una reunión, dos personas esperan resultados distintos y te piden explicar qué ocurrió sin culpar a nadie.",
+      "scenarioEs": "En una reunión, dos personas esperan resultados distintos y te piden explicar qué ocurrió sin culpar a nadie."
+    },
+    {
+      "id": "lesson_451_listen",
+      "lessonId": "lesson_451",
+      "type": "listen_choice",
+      "emoji": "🎧",
+      "prompt": "Escucha y elige la interpretación más completa.",
+      "audioText": "Although two expectations conflicted during a meeting, the speaker decided to organise the sequence and highlight the consequence because the listener needs both the facts and the reasoning.",
+      "audioTextEs": "Aunque dos expectativas entraron en conflicto durante una reunión, la persona decidió organizar la secuencia y destacar la consecuencia porque la otra persona necesita los hechos y el razonamiento.",
+      "options": [
+        "The speaker recognises a complication and responds with a careful, reasoned strategy.",
+        "The speaker rejects the problem and avoids explaining the decision.",
+        "The speaker gives a direct answer without considering context or possible limits.",
+        "The speaker changes the topic instead of interpreting the situation."
+      ],
+      "correctIndex": 0,
+      "feedback": "Correcto: captaste problema, acción y razón.",
+      "supportLabel": "situado",
+      "promptEs": "La opción correcta debe captar problema, acción y razón.",
+      "optionTranslations": [
+        "La persona reconoce una complicación y responde con una estrategia cuidadosa y razonada.",
+        "La persona rechaza el problema y evita explicar la decisión.",
+        "La persona da una respuesta directa sin considerar contexto ni posibles límites.",
+        "La persona cambia de tema en lugar de interpretar la situación."
+      ],
+      "feedbackCorrect": "Correcto: captaste problema, acción y razón.",
+      "feedbackWrong": "Escucha la relación completa: complicación, estrategia y motivo.",
+      "scenario": "En una reunión, dos personas esperan resultados distintos y te piden explicar qué ocurrió sin culpar a nadie.",
+      "scenarioEs": "En una reunión, dos personas esperan resultados distintos y te piden explicar qué ocurrió sin culpar a nadie."
+    }
+  ],
+  "sample_lesson_600": {
+    "id": "lesson_600",
+    "routeId": "ruta_4",
+    "emoji": "🚀",
+    "title": "Autonomía comunicativa avanzada 5",
+    "subtitle": "Cierre y autonomía",
+    "goal": "Responder a autonomía comunicativa con precisión, evidencia, matiz y cierre comunicativo.",
+    "duration": "6–9 min",
+    "blocks": [
+      {
+        "type": "phrase",
+        "emoji": "🧭",
+        "en": "I would start with the context, add the reason and close with the purpose of my response.",
+        "es": "Empezaría con el contexto, añadiría la razón y cerraría con el propósito de mi respuesta."
+      },
+      {
+        "type": "phrase",
+        "emoji": "⚖️",
+        "en": "Although the speaker needed to adapt without a script, the response should remain balanced and specific.",
+        "es": "Aunque la persona necesitaba adaptarse sin guion, la respuesta debe mantenerse equilibrada y específica."
+      },
+      {
+        "type": "phrase",
+        "emoji": "🔎",
+        "en": "The strongest answer explains why combine context, nuance and purpose matters.",
+        "es": "La respuesta más sólida explica por qué importa combinar contexto, matiz y propósito."
+      },
+      {
+        "type": "phrase",
+        "emoji": "🔗",
+        "en": "I should avoid exaggerating because the response should show independent communication.",
+        "es": "Debo evitar exagerar porque la respuesta debe mostrar comunicación autónoma."
+      },
+      {
+        "type": "phrase",
+        "emoji": "🎯",
+        "en": "Overall, the answer should connect the situation, the evidence and the final point.",
+        "es": "En conjunto, la respuesta debe conectar la situación, la evidencia y el punto final."
+      },
+      {
+        "type": "tip",
+        "emoji": "💡",
+        "text": "En este nivel, la mejor respuesta no es la más larga: es la que reconoce contexto, límite y propósito."
+      },
+      {
+        "type": "example",
+        "emoji": "🧩",
+        "text": "Situación: Debes responder a una situación nueva sin depender de una frase memorizada. Respuesta útil: “I would start with the context, add the reason and close with the purpose of my response.”"
+      }
+    ],
+    "exerciseIds": [
+      "lesson_600_nuance",
+      "lesson_600_connector",
+      "lesson_600_sequence",
+      "lesson_600_read",
+      "lesson_600_listen"
+    ],
+    "exerciseSets": {
+      "ligero": [
+        "lesson_600_nuance",
+        "lesson_600_connector",
+        "lesson_600_sequence",
+        "lesson_600_read",
+        "lesson_600_listen"
+      ],
+      "constante": [
+        "lesson_600_nuance",
+        "lesson_600_connector",
+        "lesson_600_sequence",
+        "lesson_600_read",
+        "lesson_600_listen"
+      ],
+      "intensivo": [
+        "lesson_600_nuance",
+        "lesson_600_connector",
+        "lesson_600_sequence",
+        "lesson_600_read",
+        "lesson_600_listen"
+      ]
+    },
+    "layer": "b2",
+    "layerLabel": "🚀 B2"
+  },
+  "sample_exercises_lesson_600": [
+    {
+      "id": "lesson_600_nuance",
+      "lessonId": "lesson_600",
+      "type": "multiple_choice",
+      "emoji": "⚖️",
+      "prompt": "Lee la situación y elige la respuesta más equilibrada.",
+      "options": [
+        "I would give many details, although I might not connect them to the main point.",
+        "I cannot explain the situation, but I think we should make a decision immediately.",
+        "This is definitely the only possible explanation, so we do not need to check anything else.",
+        "I would start with the context, add the reason and close with the purpose of my response."
+      ],
+      "correctIndex": 3,
+      "feedbackCorrect": "Correcto: la respuesta es precisa, prudente y útil para la situación.",
+      "feedbackWrong": "Revisa el matiz: una buena respuesta evita exagerar y conecta la evidencia con la conclusión.",
+      "supportLabel": "situado",
+      "promptEs": "La mejor respuesta reconoce contexto, límite y propósito.",
+      "optionTranslations": [
+        "Daría muchos detalles, aunque quizá no los conecte con el punto principal.",
+        "No puedo explicar la situación, pero creo que deberíamos decidir de inmediato.",
+        "Esta es definitivamente la única explicación posible, así que no necesitamos revisar nada más.",
+        "Empezaría con el contexto, añadiría la razón y cerraría con el propósito de mi respuesta."
+      ],
+      "feedback": "Correcto: la respuesta es precisa, prudente y útil para la situación.",
+      "scenario": "Debes responder a una situación nueva sin depender de una frase memorizada.",
+      "scenarioEs": "Debes responder a una situación nueva sin depender de una frase memorizada."
+    },
+    {
+      "id": "lesson_600_connector",
+      "lessonId": "lesson_600",
+      "type": "complete_text",
+      "emoji": "🔗",
+      "prompt": "Completa la frase con el conector más adecuado: The first answer was reasonable; ____ it needed more context to sound balanced.",
+      "answer": "nevertheless",
+      "acceptedAnswers": [
+        "Nevertheless",
+        "Nevertheless,",
+        "nevertheless",
+        "nevertheless,"
+      ],
+      "placeholder": "Escribe el conector",
+      "feedbackCorrect": "Correcto: “nevertheless” funciona porque expresa contraste con continuidad.",
+      "feedbackWrong": "El conector esperado es “nevertheless”; revisa si la relación es contraste, consecuencia, concesión o comparación.",
+      "supportLabel": "situado",
+      "promptEs": "La primera respuesta era razonable; no obstante, necesitaba más contexto para sonar equilibrada.",
+      "feedback": "Correcto: “nevertheless” funciona porque expresa contraste con continuidad.",
+      "scenario": "Debes responder a una situación nueva sin depender de una frase memorizada. Debes conectar dos ideas con un conector que exprese contraste con continuidad.",
+      "scenarioEs": "Debes responder a una situación nueva sin depender de una frase memorizada. Debes conectar dos ideas con un conector que exprese contraste con continuidad.",
+      "audioText": "The first answer was reasonable; nevertheless it needed more context to sound balanced.",
+      "audioTextEs": "La primera respuesta era razonable; no obstante, necesitaba más contexto para sonar equilibrada."
+    },
+    {
+      "id": "lesson_600_sequence",
+      "lessonId": "lesson_600",
+      "type": "order_words",
+      "emoji": "🧩",
+      "prompt": "Ordena las palabras para formar una respuesta coherente.",
+      "words": [
+        "Overall",
+        "I",
+        "acknowledged",
+        "the",
+        "risk",
+        "and",
+        "then",
+        "explained",
+        "the",
+        "most",
+        "reasonable",
+        "next",
+        "step"
+      ],
+      "feedbackCorrect": "Correcto: la frase avanza de contexto a conclusión sin perder precisión.",
+      "feedbackWrong": "Revisa el orden lógico: primero contexto o conector, luego idea principal y cierre.",
+      "es": "I explained the main point carefully",
+      "supportLabel": "situado",
+      "promptEs": "La frase debe conservar sentido, matiz y cierre.",
+      "answer": "Overall, I acknowledged the risk and then explained the most reasonable next step.",
+      "feedback": "Correcto: la frase avanza de contexto a conclusión sin perder precisión.",
+      "scenario": "Debes responder a una situación nueva sin depender de una frase memorizada. Ordena la frase para que la idea avance con lógica.",
+      "scenarioEs": "Debes responder a una situación nueva sin depender de una frase memorizada. Ordena la frase para que la idea avance con lógica.",
+      "translation": "Ordena la frase para mantener una relación lógica entre contexto y conclusión."
+    },
+    {
+      "id": "lesson_600_read",
+      "lessonId": "lesson_600",
+      "type": "reading_choice",
+      "emoji": "📖",
+      "prompt": "Debes responder a una situación nueva sin depender de una frase memorizada. The main challenge was that the speaker needed to adapt without a script. Instead of giving an immediate answer, the speaker decided to combine context, nuance and purpose. This made the response stronger because the response should show independent communication.",
+      "promptEs": "Debes responder a una situación nueva sin depender de una frase memorizada. El principal desafío era que la persona necesitaba adaptarse sin guion. En lugar de responder de inmediato, la persona decidió combinar contexto, matiz y propósito. Esto fortaleció la respuesta porque la respuesta debe mostrar comunicación autónoma.",
+      "question": "¿Qué interpretación capta mejor el propósito del texto?",
+      "questionEs": "Elige la opción que interpreta intención, evidencia y cierre.",
+      "options": [
+        "The speaker gives many details but ignores the relationship between evidence and conclusion.",
+        "The speaker focuses only on sounding fluent, not on clarity or responsibility.",
+        "The speaker changes the topic because the situation is too personal to discuss.",
+        "The speaker avoids a rushed conclusion and chooses a more careful, reasoned response."
+      ],
+      "correctIndex": 3,
+      "feedback": "Correcto: interpretaste intención, evidencia y cierre.",
+      "supportLabel": "situado",
+      "optionTranslations": [
+        "La persona da muchos detalles, pero ignora la relación entre evidencia y conclusión.",
+        "La persona se enfoca solo en sonar fluida, no en claridad ni responsabilidad.",
+        "La persona cambia de tema porque la situación es demasiado personal para discutirla.",
+        "La persona evita una conclusión apresurada y elige una respuesta más cuidadosa y razonada."
+      ],
+      "feedbackCorrect": "Correcto: interpretaste intención, evidencia y cierre.",
+      "feedbackWrong": "Vuelve al texto: la mejor interpretación reconoce por qué la respuesta fue más cuidadosa.",
+      "scenario": "Debes responder a una situación nueva sin depender de una frase memorizada.",
+      "scenarioEs": "Debes responder a una situación nueva sin depender de una frase memorizada."
+    },
+    {
+      "id": "lesson_600_listen",
+      "lessonId": "lesson_600",
+      "type": "listen_choice",
+      "emoji": "🎧",
+      "prompt": "Escucha y elige la interpretación más completa.",
+      "audioText": "Although the speaker needed to adapt without a script, the speaker decided to combine context, nuance and purpose because the response should show independent communication.",
+      "audioTextEs": "Aunque la persona necesitaba adaptarse sin guion, la persona decidió combinar contexto, matiz y propósito porque la respuesta debe mostrar comunicación autónoma.",
+      "options": [
+        "The speaker gives a direct answer without considering context or possible limits.",
+        "The speaker rejects the problem and avoids explaining the decision.",
+        "The speaker changes the topic instead of interpreting the situation.",
+        "The speaker recognises a complication and responds with a careful, reasoned strategy."
+      ],
+      "correctIndex": 3,
+      "feedback": "Correcto: captaste problema, acción y razón.",
+      "supportLabel": "situado",
+      "promptEs": "La opción correcta debe captar problema, acción y razón.",
+      "optionTranslations": [
+        "La persona da una respuesta directa sin considerar contexto ni posibles límites.",
+        "La persona rechaza el problema y evita explicar la decisión.",
+        "La persona cambia de tema en lugar de interpretar la situación.",
+        "La persona reconoce una complicación y responde con una estrategia cuidadosa y razonada."
+      ],
+      "feedbackCorrect": "Correcto: captaste problema, acción y razón.",
+      "feedbackWrong": "Escucha la relación completa: complicación, estrategia y motivo.",
+      "scenario": "Debes responder a una situación nueva sin depender de una frase memorizada.",
+      "scenarioEs": "Debes responder a una situación nueva sin depender de una frase memorizada."
+    }
+  ],
+  "sample_deep_b2_m1": {
+    "id": "B2-M1",
+    "routeId": "ruta_4",
+    "world": "M1 · Reunión con expectativas cruzadas",
+    "title": "Reunión con expectativas cruzadas · escena integradora",
+    "scene": "En una reunión, dos personas esperan resultados distintos y te piden explicar qué ocurrió sin culpar a nadie.",
+    "characters": [
+      {
+        "id": "mentor",
+        "name": "Mentor",
+        "avatar": "🧑‍🏫"
+      },
+      {
+        "id": "speaker",
+        "name": "Speaker",
+        "avatar": "🧑"
+      }
+    ],
+    "steps": [
+      {
+        "prompt": {
+          "speaker": "mentor",
+          "en": "Can you describe the situation without jumping to a conclusion?",
+          "es": "¿Puedes describir la situación sin saltar a una conclusión?"
+        },
+        "correctReply": {
+          "speaker": "speaker",
+          "en": "The situation is that two expectations conflicted during a meeting, so I need to explain the context before judging the result.",
+          "es": "La situación es que dos expectativas entraron en conflicto durante una reunión, así que necesito explicar el contexto antes de juzgar el resultado."
+        },
+        "options": [
+          {
+            "en": "The result is obvious, so context is not necessary.",
+            "es": "El resultado es obvio, así que el contexto no es necesario.",
+            "correct": false
+          },
+          {
+            "en": "The situation is that two expectations conflicted during a meeting, so I need to explain the context before judging the result.",
+            "es": "La situación es que dos expectativas entraron en conflicto durante una reunión, así que necesito explicar el contexto antes de juzgar el resultado.",
+            "correct": true
+          },
+          {
+            "en": "I would begin with the conclusion and ignore the background.",
+            "es": "Empezaría con la conclusión e ignoraría el contexto.",
+            "correct": false
+          }
+        ]
+      },
+      {
+        "prompt": {
+          "speaker": "mentor",
+          "en": "What would make your answer more careful?",
+          "es": "¿Qué haría tu respuesta más cuidadosa?"
+        },
+        "correctReply": {
+          "speaker": "speaker",
+          "en": "It would be more careful if I organise the sequence and highlight the consequence and avoided overstating the evidence.",
+          "es": "Sería más cuidadosa si logro organizar la secuencia y destacar la consecuencia y evito exagerar la evidencia."
+        },
+        "options": [
+          {
+            "en": "It would be more careful if I sound completely certain.",
+            "es": "Sería más cuidadosa si sueno completamente seguro.",
+            "correct": false
+          },
+          {
+            "en": "It would be more careful if I add difficult words without clarifying the idea.",
+            "es": "Sería más cuidadosa si añado palabras difíciles sin aclarar la idea.",
+            "correct": false
+          },
+          {
+            "en": "It would be more careful if I organise the sequence and highlight the consequence and avoided overstating the evidence.",
+            "es": "Sería más cuidadosa si logro organizar la secuencia y destacar la consecuencia y evito exagerar la evidencia.",
+            "correct": true
+          }
+        ]
+      },
+      {
+        "prompt": {
+          "speaker": "mentor",
+          "en": "How would you respond to a different viewpoint?",
+          "es": "¿Cómo responderías a un punto de vista diferente?"
+        },
+        "correctReply": {
+          "speaker": "speaker",
+          "en": "I would acknowledge that point first; however, I would explain why my conclusion is still reasonable.",
+          "es": "Primero reconocería ese punto; sin embargo, explicaría por qué mi conclusión sigue siendo razonable."
+        },
+        "options": [
+          {
+            "en": "I would acknowledge that point first; however, I would explain why my conclusion is still reasonable.",
+            "es": "Primero reconocería ese punto; sin embargo, explicaría por qué mi conclusión sigue siendo razonable.",
+            "correct": true
+          },
+          {
+            "en": "I would accept every viewpoint without making a decision.",
+            "es": "Aceptaría todos los puntos de vista sin tomar una decisión.",
+            "correct": false
+          },
+          {
+            "en": "I would ignore the other viewpoint because it weakens my answer.",
+            "es": "Ignoraría el otro punto de vista porque debilita mi respuesta.",
+            "correct": false
+          }
+        ]
+      },
+      {
+        "prompt": {
+          "speaker": "mentor",
+          "en": "Can you close the response with purpose?",
+          "es": "¿Puedes cerrar la respuesta con propósito?"
+        },
+        "correctReply": {
+          "speaker": "speaker",
+          "en": "Overall, the answer should remain cautious because the listener needs both the facts and the reasoning.",
+          "es": "En conjunto, la respuesta debe mantenerse prudente porque la otra persona necesita los hechos y el razonamiento."
+        },
+        "options": [
+          {
+            "en": "Overall, I should add more examples even if they distract from the main point.",
+            "es": "En conjunto, debería añadir más ejemplos aunque distraigan del punto principal.",
+            "correct": false
+          },
+          {
+            "en": "Overall, I should finish quickly and avoid any limitation.",
+            "es": "En conjunto, debería terminar rápido y evitar cualquier límite.",
+            "correct": false
+          },
+          {
+            "en": "Overall, the answer should remain cautious because the listener needs both the facts and the reasoning.",
+            "es": "En conjunto, la respuesta debe mantenerse prudente porque la otra persona necesita los hechos y el razonamiento.",
+            "correct": true
+          }
+        ]
+      }
+    ]
+  },
+  "sample_deep_b2_m30": {
+    "id": "B2-M30",
+    "routeId": "ruta_4",
+    "world": "M30 · Responder sin guion",
+    "title": "Responder sin guion · escena integradora",
+    "scene": "Debes responder a una situación nueva sin depender de una frase memorizada.",
+    "characters": [
+      {
+        "id": "lead",
+        "name": "Lead",
+        "avatar": "🧑‍💼"
+      },
+      {
+        "id": "speaker",
+        "name": "Speaker",
+        "avatar": "🧑"
+      }
+    ],
+    "steps": [
+      {
+        "prompt": {
+          "speaker": "lead",
+          "en": "Can you describe the situation without jumping to a conclusion?",
+          "es": "¿Puedes describir la situación sin saltar a una conclusión?"
+        },
+        "correctReply": {
+          "speaker": "speaker",
+          "en": "The situation is that the speaker needed to adapt without a script, so I need to explain the context before judging the result.",
+          "es": "La situación es que la persona necesitaba adaptarse sin guion, así que necesito explicar el contexto antes de juzgar el resultado."
+        },
+        "options": [
+          {
+            "en": "I would begin with the conclusion and ignore the background.",
+            "es": "Empezaría con la conclusión e ignoraría el contexto.",
+            "correct": false
+          },
+          {
+            "en": "The result is obvious, so context is not necessary.",
+            "es": "El resultado es obvio, así que el contexto no es necesario.",
+            "correct": false
+          },
+          {
+            "en": "The situation is that the speaker needed to adapt without a script, so I need to explain the context before judging the result.",
+            "es": "La situación es que la persona necesitaba adaptarse sin guion, así que necesito explicar el contexto antes de juzgar el resultado.",
+            "correct": true
+          }
+        ]
+      },
+      {
+        "prompt": {
+          "speaker": "lead",
+          "en": "What would make your answer more careful?",
+          "es": "¿Qué haría tu respuesta más cuidadosa?"
+        },
+        "correctReply": {
+          "speaker": "speaker",
+          "en": "It would be more careful if I combine context, nuance and purpose and avoided overstating the evidence.",
+          "es": "Sería más cuidadosa si logro combinar contexto, matiz y propósito y evito exagerar la evidencia."
+        },
+        "options": [
+          {
+            "en": "It would be more careful if I sound completely certain.",
+            "es": "Sería más cuidadosa si sueno completamente seguro.",
+            "correct": false
+          },
+          {
+            "en": "It would be more careful if I combine context, nuance and purpose and avoided overstating the evidence.",
+            "es": "Sería más cuidadosa si logro combinar contexto, matiz y propósito y evito exagerar la evidencia.",
+            "correct": true
+          },
+          {
+            "en": "It would be more careful if I add difficult words without clarifying the idea.",
+            "es": "Sería más cuidadosa si añado palabras difíciles sin aclarar la idea.",
+            "correct": false
+          }
+        ]
+      },
+      {
+        "prompt": {
+          "speaker": "lead",
+          "en": "How would you respond to a different viewpoint?",
+          "es": "¿Cómo responderías a un punto de vista diferente?"
+        },
+        "correctReply": {
+          "speaker": "speaker",
+          "en": "I would acknowledge that point first; however, I would explain why my conclusion is still reasonable.",
+          "es": "Primero reconocería ese punto; sin embargo, explicaría por qué mi conclusión sigue siendo razonable."
+        },
+        "options": [
+          {
+            "en": "I would accept every viewpoint without making a decision.",
+            "es": "Aceptaría todos los puntos de vista sin tomar una decisión.",
+            "correct": false
+          },
+          {
+            "en": "I would ignore the other viewpoint because it weakens my answer.",
+            "es": "Ignoraría el otro punto de vista porque debilita mi respuesta.",
+            "correct": false
+          },
+          {
+            "en": "I would acknowledge that point first; however, I would explain why my conclusion is still reasonable.",
+            "es": "Primero reconocería ese punto; sin embargo, explicaría por qué mi conclusión sigue siendo razonable.",
+            "correct": true
+          }
+        ]
+      },
+      {
+        "prompt": {
+          "speaker": "lead",
+          "en": "Can you close the response with purpose?",
+          "es": "¿Puedes cerrar la respuesta con propósito?"
+        },
+        "correctReply": {
+          "speaker": "speaker",
+          "en": "Overall, the answer should remain cautious because the response should show independent communication.",
+          "es": "En conjunto, la respuesta debe mantenerse prudente porque la respuesta debe mostrar comunicación autónoma."
+        },
+        "options": [
+          {
+            "en": "Overall, I should finish quickly and avoid any limitation.",
+            "es": "En conjunto, debería terminar rápido y evitar cualquier límite.",
+            "correct": false
+          },
+          {
+            "en": "Overall, I should add more examples even if they distract from the main point.",
+            "es": "En conjunto, debería añadir más ejemplos aunque distraigan del punto principal.",
+            "correct": false
+          },
+          {
+            "en": "Overall, the answer should remain cautious because the response should show independent communication.",
+            "es": "En conjunto, la respuesta debe mantenerse prudente porque la respuesta debe mostrar comunicación autónoma.",
+            "correct": true
+          }
+        ]
+      }
+    ]
+  }
+}

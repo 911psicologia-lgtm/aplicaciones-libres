@@ -1,0 +1,33 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 192 192">
+  <rect width="192" height="192" rx="38" fill="#060d1a"/>
+  <rect width="192" height="192" rx="38" fill="url(#gi)"/>
+  <defs>
+    <radialGradient id="gi" cx="40%" cy="35%" r="65%">
+      <stop offset="0%" stop-color="#1a2e4a"/>
+      <stop offset="100%" stop-color="#060d1a"/>
+    </radialGradient>
+    <radialGradient id="bg2" cx="35%" cy="32%" r="68%">
+      <stop offset="0%" stop-color="#7ec8f7" stop-opacity="0.88"/>
+      <stop offset="100%" stop-color="#2563eb" stop-opacity="0.75"/>
+    </radialGradient>
+  </defs>
+  <!-- Hemisferio -->
+  <path d="M 44,108 C 36,92 35,70 42,52 C 49,34 64,20 84,14 C 104,8 128,12 146,26 C 164,40 172,62 170,84 C 168,104 158,120 144,130 L 128,138 C 110,138 95,130 84,118 Z"
+        fill="url(#bg2)"/>
+  <!-- Cerebelo -->
+  <path d="M 120,138 C 132,132 150,132 162,140 C 174,148 178,162 172,172 C 166,182 150,186 136,182 C 122,178 112,166 116,154 Z"
+        fill="#4f8ef7" opacity="0.7"/>
+  <!-- Tronco -->
+  <path d="M 96,130 C 102,128 110,128 115,132 C 118,138 118,150 114,158 C 110,164 102,166 97,162 C 91,158 90,148 91,140 C 92,135 94,131 96,130 Z"
+        fill="#a78bfa" opacity="0.7"/>
+  <!-- Surco central -->
+  <path d="M 114,16 C 113,42 112,72 112,98" stroke="rgba(255,255,255,0.22)" stroke-width="3" fill="none" stroke-linecap="round"/>
+  <path d="M 76,20 C 74,44 73,70 74,94" stroke="rgba(255,255,255,0.14)" stroke-width="2" fill="none" stroke-linecap="round"/>
+  <path d="M 145,34 C 144,56 143,78 144,98" stroke="rgba(255,255,255,0.13)" stroke-width="2" fill="none" stroke-linecap="round"/>
+  <!-- Borde cortical -->
+  <path d="M 44,108 C 36,92 35,70 42,52 C 49,34 64,20 84,14 C 104,8 128,12 146,26 C 164,40 172,62 170,84 C 168,104 158,120 144,130 L 128,138 C 110,138 95,130 84,118 Z"
+        fill="none" stroke="rgba(126,200,247,0.25)" stroke-width="2"/>
+  <!-- Punto de acento azul -->
+  <circle cx="154" cy="36" r="9" fill="#4f8ef7" opacity="0.9"/>
+  <circle cx="154" cy="36" r="4.5" fill="#7ec8f7"/>
+</svg>

@@ -1,0 +1,1978 @@
+{
+  "series": "2.4",
+  "collectionId": "south_asia_vedic_upanishadic",
+  "title": "Bhagavadgītā, Madhyamaka, Yogācāra, epistemología budista y Vedānta medieval",
+  "records": [
+    {
+      "card": {
+        "id": "card_bhagavadgita_action_without_attachment_001",
+        "author": "Bhagavadgītā: Kṛṣṇa y Arjuna",
+        "title": "Actuar sin poseer el resultado",
+        "territory": "Subcontinente indio · tradición del Mahābhārata",
+        "period": "Redacción estratificada en torno al cambio de era",
+        "family": "Acción, deber y libertad interior",
+        "statement": "Karma-yoga no propone abandonar la acción, sino cumplirla sin convertir sus frutos en posesión del yo ni medir toda conducta únicamente por el éxito obtenido.",
+        "tags": [
+          "Acción",
+          "deber",
+          "Karma-yoga",
+          "Dharma",
+          "Desapego"
+        ],
+        "question": "¿Cómo actuar responsablemente cuando no podemos controlar por completo el resultado?",
+        "caution": "Desapego no significa indiferencia ante las consecuencias ni justifica automáticamente cualquier deber social o acción violenta.",
+        "connections": [
+          "Karma",
+          "Dharma",
+          "Mīmāṃsā",
+          "Rāmānuja",
+          "Śaṅkara"
+        ],
+        "order": 141,
+        "status": "nucleo_editorial_preservado",
+        "evidence": "A–B",
+        "audio": "Comenzamos con la Bhagavadgītā, donde Kṛṣṇa responde a la crisis de Arjuna. Karma-yoga no exige huir de la acción, sino realizarla sin apropiarse de sus frutos. La responsabilidad permanece, pero el éxito deja de ser la única medida. Desapego no significa indiferencia: obliga a actuar con atención sin creer que podemos controlar todo resultado.",
+        "quiz": {
+          "prompt": "¿Cómo actuar responsablemente cuando no podemos controlar por completo el resultado?",
+          "options": [
+            "Karma-yoga no propone abandonar la acción, sino cumplirla sin convertir sus frutos en posesión del yo ni medir toda conducta únicamente por el éxito obtenido.",
+            "La tradición elimina toda diferencia entre sus conceptos.",
+            "La propuesta solo puede comprenderse como equivalente a una teoría moderna.",
+            "El problema queda resuelto sin controversias ni interpretaciones rivales."
+          ],
+          "answer": 0,
+          "feedback": "Karma-yoga no propone abandonar la acción, sino cumplirla sin convertir sus frutos en posesión del yo ni medir toda conducta únicamente por el éxito obtenido."
+        },
+        "whyItMatters": "Reformula la libertad dentro de la acción: decidir y actuar sin confundir responsabilidad con dominio total del futuro.",
+        "symbol": "➶",
+        "visual": {
+          "palette": [
+            "#3b2f5f",
+            "#7655a6",
+            "#d8b36d"
+          ],
+          "allegory": "acción, deber y libertad interior"
+        },
+        "seriesVersion": "2.4",
+        "materializationLevel": "dossier_structurado_v2_audio_conciso",
+        "shareFooter": "Pregunta guía: ¿Cómo actuar responsablemente cuando no podemos controlar por completo el resultado?",
+        "audioVersion": "concise-listening-3.6",
+        "guideTransition": "",
+        "audioLead": "Comenzamos con la Bhagavadgītā, donde Kṛṣṇa responde a la crisis de Arjuna.",
+        "audioContext": "",
+        "audioBody": "Karma-yoga no exige huir de la acción, sino realizarla sin apropiarse de sus frutos. La responsabilidad permanece, pero el éxito deja de ser la única medida. Desapego no significa indiferencia: obliga a actuar con atención sin creer que podemos controlar todo resultado.",
+        "listeningMode": "entity_concept_limit_compact",
+        "collectionId": "south_asia_vedic_upanishadic",
+        "collection": "Sur de Asia: fundamentos, renuncias y escuelas clásicas",
+        "collectionOrder": 4
+      },
+      "dossier": {
+        "id": "card_bhagavadgita_action_without_attachment_001",
+        "seriesVersion": "2.4",
+        "author": "Bhagavadgītā: Kṛṣṇa y Arjuna",
+        "title": "Actuar sin poseer el resultado",
+        "territory": "Subcontinente indio · tradición del Mahābhārata",
+        "period": "Redacción estratificada en torno al cambio de era",
+        "family": "Acción, deber y libertad interior",
+        "symbol": "➶",
+        "guidingQuestion": "¿Cómo actuar responsablemente cuando no podemos controlar por completo el resultado?",
+        "documentedCore": "Karma-yoga no propone abandonar la acción, sino cumplirla sin convertir sus frutos en posesión del yo ni medir toda conducta únicamente por el éxito obtenido.",
+        "distinctiveKey": "Karma-yoga no propone abandonar la acción, sino cumplirla sin convertir sus frutos en posesión del yo ni medir toda conducta únicamente por el éxito obtenido.",
+        "whyItMatters": "Reformula la libertad dentro de la acción: decidir y actuar sin confundir responsabilidad con dominio total del futuro.",
+        "editorialCaution": "Desapego no significa indiferencia ante las consecuencias ni justifica automáticamente cualquier deber social o acción violenta.",
+        "tags": [
+          "Acción",
+          "deber",
+          "Karma-yoga",
+          "Dharma",
+          "Desapego"
+        ],
+        "connections": [
+          "Karma",
+          "Dharma",
+          "Mīmāṃsā",
+          "Rāmānuja",
+          "Śaṅkara"
+        ],
+        "audioScript": "Comenzamos con la Bhagavadgītā, donde Kṛṣṇa responde a la crisis de Arjuna. Karma-yoga no exige huir de la acción, sino realizarla sin apropiarse de sus frutos. La responsabilidad permanece, pero el éxito deja de ser la única medida. Desapego no significa indiferencia: obliga a actuar con atención sin creer que podemos controlar todo resultado.",
+        "evidence": "A–B",
+        "visual": {
+          "palette": [
+            "#3b2f5f",
+            "#7655a6",
+            "#d8b36d"
+          ],
+          "allegory": "acción, deber y libertad interior"
+        },
+        "derivedCardSeeds": [
+          "Karma-yoga: desarrollo conceptual",
+          "Dharma: desarrollo conceptual",
+          "Desapego: desarrollo conceptual",
+          "Límites y debates de Actuar sin poseer el resultado"
+        ],
+        "materialization": {
+          "level": "dossier_estructurado_mas_capa_historica_v2_audio_conciso",
+          "allCoreFieldsPreserved": true,
+          "extendedProseExactArchive": "síntesis estructurada de la serie 2.4; no es transcripción literal del chat",
+          "source": "serie editorial 2.4"
+        },
+        "audioVersion": "concise-listening-3.6",
+        "audioLead": "Comenzamos con la Bhagavadgītā, donde Kṛṣṇa responde a la crisis de Arjuna.",
+        "audioContext": "",
+        "audioBody": "Karma-yoga no exige huir de la acción, sino realizarla sin apropiarse de sus frutos. La responsabilidad permanece, pero el éxito deja de ser la única medida. Desapego no significa indiferencia: obliga a actuar con atención sin creer que podemos controlar todo resultado.",
+        "collectionId": "south_asia_vedic_upanishadic",
+        "collection": "Sur de Asia: fundamentos, renuncias y escuelas clásicas",
+        "collectionOrder": 4,
+        "historicalLayer": {
+          "version": "historical-2.5",
+          "status": "materializada",
+          "sha256": "9085706fb2750872dd6aaec7ac57612137c7cbc0dc633ffc480455b10fef9b14"
+        },
+        "sourceAnchors": [
+          "https://iep.utm.edu/bhagavad-gita/",
+          "https://plato.stanford.edu/entries/naturalism-india/"
+        ],
+        "sha256": "a86f8124cb9f1897655c798c743c25a5807c0be9359697bd392cf89dd4962592"
+      },
+      "historicalLayer": {
+        "id": "card_bhagavadgita_action_without_attachment_001",
+        "layerVersion": "historical-2.5",
+        "seriesVersion": "2.4",
+        "author": "Bhagavadgītā: Kṛṣṇa y Arjuna",
+        "title": "Actuar sin poseer el resultado",
+        "historicalContext": "La Bhagavadgītā forma parte del Mahābhārata y sitúa su enseñanza en el instante previo a una guerra entre parientes. Su composición es estratificada y su datación exacta permanece discutida.",
+        "historicalDevelopment": "La obra enlaza acción, conocimiento y devoción. En el karma-yoga, la persona cumple una acción adecuada sin quedar dominada por deseo, temor o apropiación del fruto. Comentarios posteriores interpretaron de maneras distintas qué deberes deben mantenerse y cómo se relacionan con la liberación.",
+        "milestones": [
+          "Integración de la Gītā en el Mahābhārata.",
+          "Comentarios de Śaṅkara, Rāmānuja y Madhva.",
+          "Recepciones modernas políticas, religiosas y filosóficas."
+        ],
+        "conceptualSections": [
+          {
+            "title": "Karma-yoga",
+            "text": "Disciplina de la acción realizada sin apego posesivo a sus frutos."
+          },
+          {
+            "title": "Dharma",
+            "text": "Deber u orden práctico cuyo contenido depende del contexto y de la tradición."
+          },
+          {
+            "title": "Desapego",
+            "text": "Transformación de la relación con el resultado, no abandono de toda responsabilidad."
+          }
+        ],
+        "legacy": [
+          "Texto central para debates sobre acción, deber, devoción, liberación y vida pública."
+        ],
+        "anchorWorks": [
+          "Bhagavadgītā, especialmente capítulos 2–5 y 18"
+        ],
+        "guidingQuestion": "¿Cómo actuar responsablemente cuando no podemos controlar por completo el resultado?",
+        "distinctiveKey": "Karma-yoga no propone abandonar la acción, sino cumplirla sin convertir sus frutos en posesión del yo ni medir toda conducta únicamente por el éxito obtenido.",
+        "editorialCautions": [
+          "Desapego no significa indiferencia ante las consecuencias ni justifica automáticamente cualquier deber social o acción violenta."
+        ],
+        "connections": [
+          "Karma",
+          "Dharma",
+          "Mīmāṃsā",
+          "Rāmānuja",
+          "Śaṅkara"
+        ],
+        "evidence": "A–B",
+        "longAudioScript": "Profundizamos en Bhagavadgītā: Kṛṣṇa y Arjuna: Actuar sin poseer el resultado. La Bhagavadgītā forma parte del Mahābhārata y sitúa su enseñanza en el instante previo a una guerra entre parientes. Su composición es estratificada y su datación exacta permanece discutida. La obra enlaza acción, conocimiento y devoción. En el karma-yoga, la persona cumple una acción adecuada sin quedar dominada por deseo, temor o apropiación del fruto. Comentarios posteriores interpretaron de maneras distintas qué deberes deben mantenerse y cómo se relacionan con la liberación. Karma-yoga: Disciplina de la acción realizada sin apego posesivo a sus frutos. Dharma: Deber u orden práctico cuyo contenido depende del contexto y de la tradición. Desapego: Transformación de la relación con el resultado, no abandono de toda responsabilidad. Precisión editorial: Desapego no significa indiferencia ante las consecuencias ni justifica automáticamente cualquier deber social o acción violenta.",
+        "provenance": {
+          "source": "Consolidación editorial de la serie 2.4",
+          "preservationMode": "capa adicional; no sobrescribe tarjeta ni expediente",
+          "coverage": "contexto, desarrollo, hitos, conceptos, legado y cautela",
+          "materializedAt": "2026-07-24"
+        },
+        "audioVersion": "historical-entity-first-2.6",
+        "historicalAudioLead": "Profundizamos en Bhagavadgītā: Kṛṣṇa y Arjuna: Actuar sin poseer el resultado.",
+        "historicalAudioBody": "La Bhagavadgītā forma parte del Mahābhārata y sitúa su enseñanza en el instante previo a una guerra entre parientes. Su composición es estratificada y su datación exacta permanece discutida. La obra enlaza acción, conocimiento y devoción. En el karma-yoga, la persona cumple una acción adecuada sin quedar dominada por deseo, temor o apropiación del fruto. Comentarios posteriores interpretaron de maneras distintas qué deberes deben mantenerse y cómo se relacionan con la liberación.",
+        "collectionId": "south_asia_vedic_upanishadic",
+        "collection": "Sur de Asia: fundamentos, renuncias y escuelas clásicas",
+        "collectionOrder": 4,
+        "sourceAnchors": [
+          "https://iep.utm.edu/bhagavad-gita/",
+          "https://plato.stanford.edu/entries/naturalism-india/"
+        ],
+        "sha256": "9085706fb2750872dd6aaec7ac57612137c7cbc0dc633ffc480455b10fef9b14"
+      }
+    },
+    {
+      "card": {
+        "id": "card_bhagavadgita_paths_yoga_001",
+        "author": "Bhagavadgītā y sus tradiciones de comentario",
+        "title": "Acción, conocimiento y devoción como caminos relacionados",
+        "territory": "Subcontinente indio",
+        "period": "Antigüedad tardía y recepciones medievales",
+        "family": "Pluralidad de caminos de liberación",
+        "statement": "La Bhagavadgītā articula karma-yoga, jñāna-yoga y bhakti-yoga sin convertirlos necesariamente en rutas aisladas; cada comentario reorganiza su relación y prioridad.",
+        "tags": [
+          "Pluralidad",
+          "caminos",
+          "Karma-yoga",
+          "Jñāna-yoga",
+          "Bhakti-yoga"
+        ],
+        "question": "¿Puede una misma obra proponer varios caminos sin reducirlos a una única práctica?",
+        "caution": "Las tres vías no forman un esquema idéntico en todos los capítulos ni reciben la misma jerarquía en Śaṅkara, Rāmānuja, Madhva y otras tradiciones.",
+        "connections": [
+          "Bhagavadgītā",
+          "Bhakti",
+          "Vedānta",
+          "Yoga",
+          "Mokṣa"
+        ],
+        "order": 142,
+        "status": "nucleo_editorial_preservado",
+        "evidence": "B",
+        "audio": "Seguimos con la Bhagavadgītā y sus caminos de acción, conocimiento y devoción. La obra no los presenta siempre como opciones separadas: actuar puede preparar el conocimiento y la devoción puede transformar la acción. Después, cada escuela vedántica reorganizó sus prioridades. No existe una sola lectura definitiva de cómo estos yogas conducen a la liberación.",
+        "quiz": {
+          "prompt": "¿Puede una misma obra proponer varios caminos sin reducirlos a una única práctica?",
+          "options": [
+            "La Bhagavadgītā articula karma-yoga, jñāna-yoga y bhakti-yoga sin convertirlos necesariamente en rutas aisladas; cada comentario reorganiza su relación y prioridad.",
+            "La tradición elimina toda diferencia entre sus conceptos.",
+            "La propuesta solo puede comprenderse como equivalente a una teoría moderna.",
+            "El problema queda resuelto sin controversias ni interpretaciones rivales."
+          ],
+          "answer": 0,
+          "feedback": "La Bhagavadgītā articula karma-yoga, jñāna-yoga y bhakti-yoga sin convertirlos necesariamente en rutas aisladas; cada comentario reorganiza su relación y prioridad."
+        },
+        "whyItMatters": "Permite comprender por qué una misma obra sostuvo filosofías no dualistas, teístas y dualistas sin dejar de ser reconocida como autoridad común.",
+        "symbol": "✦",
+        "visual": {
+          "palette": [
+            "#203f57",
+            "#4f7893",
+            "#d9b45f"
+          ],
+          "allegory": "pluralidad de caminos de liberación"
+        },
+        "seriesVersion": "2.4",
+        "materializationLevel": "dossier_structurado_v2_audio_conciso",
+        "shareFooter": "Pregunta guía: ¿Puede una misma obra proponer varios caminos sin reducirlos a una única práctica?",
+        "audioVersion": "concise-listening-3.6",
+        "guideTransition": "",
+        "audioLead": "Seguimos con la Bhagavadgītā y sus caminos de acción, conocimiento y devoción.",
+        "audioContext": "",
+        "audioBody": "La obra no los presenta siempre como opciones separadas: actuar puede preparar el conocimiento y la devoción puede transformar la acción. Después, cada escuela vedántica reorganizó sus prioridades. No existe una sola lectura definitiva de cómo estos yogas conducen a la liberación.",
+        "listeningMode": "entity_concept_limit_compact",
+        "collectionId": "south_asia_vedic_upanishadic",
+        "collection": "Sur de Asia: fundamentos, renuncias y escuelas clásicas",
+        "collectionOrder": 4
+      },
+      "dossier": {
+        "id": "card_bhagavadgita_paths_yoga_001",
+        "seriesVersion": "2.4",
+        "author": "Bhagavadgītā y sus tradiciones de comentario",
+        "title": "Acción, conocimiento y devoción como caminos relacionados",
+        "territory": "Subcontinente indio",
+        "period": "Antigüedad tardía y recepciones medievales",
+        "family": "Pluralidad de caminos de liberación",
+        "symbol": "✦",
+        "guidingQuestion": "¿Puede una misma obra proponer varios caminos sin reducirlos a una única práctica?",
+        "documentedCore": "La Bhagavadgītā articula karma-yoga, jñāna-yoga y bhakti-yoga sin convertirlos necesariamente en rutas aisladas; cada comentario reorganiza su relación y prioridad.",
+        "distinctiveKey": "La Bhagavadgītā articula karma-yoga, jñāna-yoga y bhakti-yoga sin convertirlos necesariamente en rutas aisladas; cada comentario reorganiza su relación y prioridad.",
+        "whyItMatters": "Permite comprender por qué una misma obra sostuvo filosofías no dualistas, teístas y dualistas sin dejar de ser reconocida como autoridad común.",
+        "editorialCaution": "Las tres vías no forman un esquema idéntico en todos los capítulos ni reciben la misma jerarquía en Śaṅkara, Rāmānuja, Madhva y otras tradiciones.",
+        "tags": [
+          "Pluralidad",
+          "caminos",
+          "Karma-yoga",
+          "Jñāna-yoga",
+          "Bhakti-yoga"
+        ],
+        "connections": [
+          "Bhagavadgītā",
+          "Bhakti",
+          "Vedānta",
+          "Yoga",
+          "Mokṣa"
+        ],
+        "audioScript": "Seguimos con la Bhagavadgītā y sus caminos de acción, conocimiento y devoción. La obra no los presenta siempre como opciones separadas: actuar puede preparar el conocimiento y la devoción puede transformar la acción. Después, cada escuela vedántica reorganizó sus prioridades. No existe una sola lectura definitiva de cómo estos yogas conducen a la liberación.",
+        "evidence": "B",
+        "visual": {
+          "palette": [
+            "#203f57",
+            "#4f7893",
+            "#d9b45f"
+          ],
+          "allegory": "pluralidad de caminos de liberación"
+        },
+        "derivedCardSeeds": [
+          "Karma-yoga: desarrollo conceptual",
+          "Jñāna-yoga: desarrollo conceptual",
+          "Bhakti-yoga: desarrollo conceptual",
+          "Límites y debates de Acción, conocimiento y devoción como caminos relacionados"
+        ],
+        "materialization": {
+          "level": "dossier_estructurado_mas_capa_historica_v2_audio_conciso",
+          "allCoreFieldsPreserved": true,
+          "extendedProseExactArchive": "síntesis estructurada de la serie 2.4; no es transcripción literal del chat",
+          "source": "serie editorial 2.4"
+        },
+        "audioVersion": "concise-listening-3.6",
+        "audioLead": "Seguimos con la Bhagavadgītā y sus caminos de acción, conocimiento y devoción.",
+        "audioContext": "",
+        "audioBody": "La obra no los presenta siempre como opciones separadas: actuar puede preparar el conocimiento y la devoción puede transformar la acción. Después, cada escuela vedántica reorganizó sus prioridades. No existe una sola lectura definitiva de cómo estos yogas conducen a la liberación.",
+        "collectionId": "south_asia_vedic_upanishadic",
+        "collection": "Sur de Asia: fundamentos, renuncias y escuelas clásicas",
+        "collectionOrder": 4,
+        "historicalLayer": {
+          "version": "historical-2.5",
+          "status": "materializada",
+          "sha256": "681a620f2e4704678d477db5d9e6a80b39e742ff9761fab45fae0bc7352b28e5"
+        },
+        "sourceAnchors": [
+          "https://iep.utm.edu/bhagavad-gita/",
+          "https://plato.stanford.edu/archives/sum2024/entries/shankara/"
+        ],
+        "sha256": "7a68f59c950e9b4f7ef69dd7792a2fadf552e71a5d0215b6de073066b6d7f84e"
+      },
+      "historicalLayer": {
+        "id": "card_bhagavadgita_paths_yoga_001",
+        "layerVersion": "historical-2.5",
+        "seriesVersion": "2.4",
+        "author": "Bhagavadgītā y sus tradiciones de comentario",
+        "title": "Acción, conocimiento y devoción como caminos relacionados",
+        "historicalContext": "La Gītā combina vocabularios védicos, upaniṣádicos, sāṃkhya-yóguicos y devocionales dentro de un diálogo dramático.",
+        "historicalDevelopment": "Karma-yoga disciplina la acción; jñāna-yoga reorienta la comprensión del yo y la realidad; bhakti-yoga organiza la relación devocional con Kṛṣṇa. Śaṅkara, Rāmānuja y Madhva comentaron la obra desde sistemas incompatibles y otorgaron pesos distintos a cada camino.",
+        "milestones": [
+          "Composición dentro del Mahābhārata.",
+          "Ingreso al triple canon de Vedānta.",
+          "Comentarios medievales rivales."
+        ],
+        "conceptualSections": [
+          {
+            "title": "Karma-yoga",
+            "text": "Camino de acción disciplinada."
+          },
+          {
+            "title": "Jñāna-yoga",
+            "text": "Camino de conocimiento transformador."
+          },
+          {
+            "title": "Bhakti-yoga",
+            "text": "Camino de devoción y entrega a la divinidad."
+          }
+        ],
+        "legacy": [
+          "Modelo de integración y controversia entre acción, conocimiento y devoción."
+        ],
+        "anchorWorks": [
+          "Bhagavadgītā; comentarios de Śaṅkara, Rāmānuja y Madhva"
+        ],
+        "guidingQuestion": "¿Puede una misma obra proponer varios caminos sin reducirlos a una única práctica?",
+        "distinctiveKey": "La Bhagavadgītā articula karma-yoga, jñāna-yoga y bhakti-yoga sin convertirlos necesariamente en rutas aisladas; cada comentario reorganiza su relación y prioridad.",
+        "editorialCautions": [
+          "Las tres vías no forman un esquema idéntico en todos los capítulos ni reciben la misma jerarquía en Śaṅkara, Rāmānuja, Madhva y otras tradiciones."
+        ],
+        "connections": [
+          "Bhagavadgītā",
+          "Bhakti",
+          "Vedānta",
+          "Yoga",
+          "Mokṣa"
+        ],
+        "evidence": "B",
+        "longAudioScript": "Profundizamos en Bhagavadgītā y sus tradiciones de comentario: Acción, conocimiento y devoción como caminos relacionados. La Gītā combina vocabularios védicos, upaniṣádicos, sāṃkhya-yóguicos y devocionales dentro de un diálogo dramático. Karma-yoga disciplina la acción; jñāna-yoga reorienta la comprensión del yo y la realidad; bhakti-yoga organiza la relación devocional con Kṛṣṇa. Śaṅkara, Rāmānuja y Madhva comentaron la obra desde sistemas incompatibles y otorgaron pesos distintos a cada camino. Karma-yoga: Camino de acción disciplinada. Jñāna-yoga: Camino de conocimiento transformador. Bhakti-yoga: Camino de devoción y entrega a la divinidad. Precisión editorial: Las tres vías no forman un esquema idéntico en todos los capítulos ni reciben la misma jerarquía en Śaṅkara, Rāmānuja, Madhva y otras tradiciones.",
+        "provenance": {
+          "source": "Consolidación editorial de la serie 2.4",
+          "preservationMode": "capa adicional; no sobrescribe tarjeta ni expediente",
+          "coverage": "contexto, desarrollo, hitos, conceptos, legado y cautela",
+          "materializedAt": "2026-07-24"
+        },
+        "audioVersion": "historical-entity-first-2.6",
+        "historicalAudioLead": "Profundizamos en Bhagavadgītā y sus tradiciones de comentario: Acción, conocimiento y devoción como caminos relacionados.",
+        "historicalAudioBody": "La Gītā combina vocabularios védicos, upaniṣádicos, sāṃkhya-yóguicos y devocionales dentro de un diálogo dramático. Karma-yoga disciplina la acción; jñāna-yoga reorienta la comprensión del yo y la realidad; bhakti-yoga organiza la relación devocional con Kṛṣṇa. Śaṅkara, Rāmānuja y Madhva comentaron la obra desde sistemas incompatibles y otorgaron pesos distintos a cada camino.",
+        "collectionId": "south_asia_vedic_upanishadic",
+        "collection": "Sur de Asia: fundamentos, renuncias y escuelas clásicas",
+        "collectionOrder": 4,
+        "sourceAnchors": [
+          "https://iep.utm.edu/bhagavad-gita/",
+          "https://plato.stanford.edu/archives/sum2024/entries/shankara/"
+        ],
+        "sha256": "681a620f2e4704678d477db5d9e6a80b39e742ff9761fab45fae0bc7352b28e5"
+      }
+    },
+    {
+      "card": {
+        "id": "card_nagarjuna_emptiness_dependent_arising_001",
+        "author": "Nāgārjuna y la tradición Madhyamaka",
+        "title": "Vacío significa ausencia de naturaleza independiente",
+        "territory": "India · budismo Mahāyāna",
+        "period": "Aproximadamente siglos II–III e.c.",
+        "family": "Madhyamaka y crítica de la esencia",
+        "statement": "Nāgārjuna relaciona surgimiento dependiente y vacuidad: aquello que existe por causas, partes, relaciones y conceptos no posee una naturaleza intrínseca capaz de sostenerse por sí sola.",
+        "tags": [
+          "Madhyamaka",
+          "crítica",
+          "Śūnyatā",
+          "Svabhāva",
+          "Surgimiento dependiente"
+        ],
+        "question": "¿Cómo puede algo existir y, al mismo tiempo, estar vacío de naturaleza propia?",
+        "caution": "Śūnyatā no significa que nada exista; tampoco constituye una sustancia absoluta escondida detrás de los fenómenos.",
+        "connections": [
+          "Origen dependiente",
+          "Anātman",
+          "Dos verdades",
+          "Yogācāra",
+          "Śaṅkara"
+        ],
+        "order": 143,
+        "status": "nucleo_editorial_preservado",
+        "evidence": "A–B",
+        "audio": "Pasamos a Nāgārjuna y la vacuidad. Lo que surge dependiendo de causas, partes, relaciones y conceptos carece de una naturaleza propia e independiente. Por eso vacío no significa inexistente: las cosas funcionan precisamente dentro de redes de dependencia. Incluso la vacuidad está vacía; no debe convertirse en una sustancia absoluta que reemplace las esencias criticadas.",
+        "quiz": {
+          "prompt": "¿Cómo puede algo existir y, al mismo tiempo, estar vacío de naturaleza propia?",
+          "options": [
+            "Nāgārjuna relaciona surgimiento dependiente y vacuidad: aquello que existe por causas, partes, relaciones y conceptos no posee una naturaleza intrínseca capaz de sostenerse por sí sola.",
+            "La tradición elimina toda diferencia entre sus conceptos.",
+            "La propuesta solo puede comprenderse como equivalente a una teoría moderna.",
+            "El problema queda resuelto sin controversias ni interpretaciones rivales."
+          ],
+          "answer": 0,
+          "feedback": "Nāgārjuna relaciona surgimiento dependiente y vacuidad: aquello que existe por causas, partes, relaciones y conceptos no posee una naturaleza intrínseca capaz de sostenerse por sí sola."
+        },
+        "whyItMatters": "Ofrece una crítica radical de las esencias sin abandonar el funcionamiento causal y convencional del mundo.",
+        "symbol": "○",
+        "visual": {
+          "palette": [
+            "#4a2f3d",
+            "#99546d",
+            "#d9ae63"
+          ],
+          "allegory": "madhyamaka y crítica de la esencia"
+        },
+        "seriesVersion": "2.4",
+        "materializationLevel": "dossier_structurado_v2_audio_conciso",
+        "shareFooter": "Pregunta guía: ¿Cómo puede algo existir y, al mismo tiempo, estar vacío de naturaleza propia?",
+        "audioVersion": "concise-listening-3.6",
+        "guideTransition": "",
+        "audioLead": "Pasamos a Nāgārjuna y la vacuidad.",
+        "audioContext": "",
+        "audioBody": "Lo que surge dependiendo de causas, partes, relaciones y conceptos carece de una naturaleza propia e independiente. Por eso vacío no significa inexistente: las cosas funcionan precisamente dentro de redes de dependencia. Incluso la vacuidad está vacía; no debe convertirse en una sustancia absoluta que reemplace las esencias criticadas.",
+        "listeningMode": "entity_concept_limit_compact",
+        "collectionId": "south_asia_vedic_upanishadic",
+        "collection": "Sur de Asia: fundamentos, renuncias y escuelas clásicas",
+        "collectionOrder": 4
+      },
+      "dossier": {
+        "id": "card_nagarjuna_emptiness_dependent_arising_001",
+        "seriesVersion": "2.4",
+        "author": "Nāgārjuna y la tradición Madhyamaka",
+        "title": "Vacío significa ausencia de naturaleza independiente",
+        "territory": "India · budismo Mahāyāna",
+        "period": "Aproximadamente siglos II–III e.c.",
+        "family": "Madhyamaka y crítica de la esencia",
+        "symbol": "○",
+        "guidingQuestion": "¿Cómo puede algo existir y, al mismo tiempo, estar vacío de naturaleza propia?",
+        "documentedCore": "Nāgārjuna relaciona surgimiento dependiente y vacuidad: aquello que existe por causas, partes, relaciones y conceptos no posee una naturaleza intrínseca capaz de sostenerse por sí sola.",
+        "distinctiveKey": "Nāgārjuna relaciona surgimiento dependiente y vacuidad: aquello que existe por causas, partes, relaciones y conceptos no posee una naturaleza intrínseca capaz de sostenerse por sí sola.",
+        "whyItMatters": "Ofrece una crítica radical de las esencias sin abandonar el funcionamiento causal y convencional del mundo.",
+        "editorialCaution": "Śūnyatā no significa que nada exista; tampoco constituye una sustancia absoluta escondida detrás de los fenómenos.",
+        "tags": [
+          "Madhyamaka",
+          "crítica",
+          "Śūnyatā",
+          "Svabhāva",
+          "Surgimiento dependiente"
+        ],
+        "connections": [
+          "Origen dependiente",
+          "Anātman",
+          "Dos verdades",
+          "Yogācāra",
+          "Śaṅkara"
+        ],
+        "audioScript": "Pasamos a Nāgārjuna y la vacuidad. Lo que surge dependiendo de causas, partes, relaciones y conceptos carece de una naturaleza propia e independiente. Por eso vacío no significa inexistente: las cosas funcionan precisamente dentro de redes de dependencia. Incluso la vacuidad está vacía; no debe convertirse en una sustancia absoluta que reemplace las esencias criticadas.",
+        "evidence": "A–B",
+        "visual": {
+          "palette": [
+            "#4a2f3d",
+            "#99546d",
+            "#d9ae63"
+          ],
+          "allegory": "madhyamaka y crítica de la esencia"
+        },
+        "derivedCardSeeds": [
+          "Śūnyatā: desarrollo conceptual",
+          "Svabhāva: desarrollo conceptual",
+          "Surgimiento dependiente: desarrollo conceptual",
+          "Límites y debates de Vacío significa ausencia de naturaleza independiente"
+        ],
+        "materialization": {
+          "level": "dossier_estructurado_mas_capa_historica_v2_audio_conciso",
+          "allCoreFieldsPreserved": true,
+          "extendedProseExactArchive": "síntesis estructurada de la serie 2.4; no es transcripción literal del chat",
+          "source": "serie editorial 2.4"
+        },
+        "audioVersion": "concise-listening-3.6",
+        "audioLead": "Pasamos a Nāgārjuna y la vacuidad.",
+        "audioContext": "",
+        "audioBody": "Lo que surge dependiendo de causas, partes, relaciones y conceptos carece de una naturaleza propia e independiente. Por eso vacío no significa inexistente: las cosas funcionan precisamente dentro de redes de dependencia. Incluso la vacuidad está vacía; no debe convertirse en una sustancia absoluta que reemplace las esencias criticadas.",
+        "collectionId": "south_asia_vedic_upanishadic",
+        "collection": "Sur de Asia: fundamentos, renuncias y escuelas clásicas",
+        "collectionOrder": 4,
+        "historicalLayer": {
+          "version": "historical-2.5",
+          "status": "materializada",
+          "sha256": "4a6f27f1c875340ad5eb04f6a7dcdb13a6cc2f60f9334fd9271918bb749a8b80"
+        },
+        "sourceAnchors": [
+          "https://plato.stanford.edu/entries/nagarjuna/",
+          "https://plato.stanford.edu/entries/madhyamaka/"
+        ],
+        "sha256": "5dc9f6af92e889ca9ecb1426dfad8e8a0dda80f2a85cdf94adc4a2401988f127"
+      },
+      "historicalLayer": {
+        "id": "card_nagarjuna_emptiness_dependent_arising_001",
+        "layerVersion": "historical-2.5",
+        "seriesVersion": "2.4",
+        "author": "Nāgārjuna y la tradición Madhyamaka",
+        "title": "Vacío significa ausencia de naturaleza independiente",
+        "historicalContext": "Nāgārjuna es la figura fundacional de Madhyamaka. Sus Versos fundamentales del camino medio examinan causalidad, movimiento, identidad, tiempo y nirvāṇa mediante argumentos reductivos.",
+        "historicalDevelopment": "La crítica apunta a svabhāva, una naturaleza intrínseca que explicaría la existencia desde sí misma. Dependencia y vacuidad son inseparables. Las escuelas Madhyamaka posteriores discreparon sobre método, lenguaje y alcance de la verdad última.",
+        "milestones": [
+          "Composición del Mūlamadhyamakakārikā.",
+          "Comentarios de Buddhapālita, Bhāviveka y Candrakīrti.",
+          "Expansión en Asia Central, China y Tibet."
+        ],
+        "conceptualSections": [
+          {
+            "title": "Śūnyatā",
+            "text": "Vacuidad de naturaleza intrínseca."
+          },
+          {
+            "title": "Svabhāva",
+            "text": "Naturaleza propia o independencia ontológica criticada."
+          },
+          {
+            "title": "Surgimiento dependiente",
+            "text": "Existencia condicionada por causas y relaciones."
+          }
+        ],
+        "legacy": [
+          "Fundamento de múltiples tradiciones Madhyamaka y de debates sobre lenguaje, realidad y liberación."
+        ],
+        "anchorWorks": [
+          "Mūlamadhyamakakārikā; Vigrahavyāvartanī"
+        ],
+        "guidingQuestion": "¿Cómo puede algo existir y, al mismo tiempo, estar vacío de naturaleza propia?",
+        "distinctiveKey": "Nāgārjuna relaciona surgimiento dependiente y vacuidad: aquello que existe por causas, partes, relaciones y conceptos no posee una naturaleza intrínseca capaz de sostenerse por sí sola.",
+        "editorialCautions": [
+          "Śūnyatā no significa que nada exista; tampoco constituye una sustancia absoluta escondida detrás de los fenómenos."
+        ],
+        "connections": [
+          "Origen dependiente",
+          "Anātman",
+          "Dos verdades",
+          "Yogācāra",
+          "Śaṅkara"
+        ],
+        "evidence": "A–B",
+        "longAudioScript": "Profundizamos en Nāgārjuna y la tradición Madhyamaka: Vacío significa ausencia de naturaleza independiente. Nāgārjuna es la figura fundacional de Madhyamaka. Sus Versos fundamentales del camino medio examinan causalidad, movimiento, identidad, tiempo y nirvāṇa mediante argumentos reductivos. La crítica apunta a svabhāva, una naturaleza intrínseca que explicaría la existencia desde sí misma. Dependencia y vacuidad son inseparables. Las escuelas Madhyamaka posteriores discreparon sobre método, lenguaje y alcance de la verdad última. Śūnyatā: Vacuidad de naturaleza intrínseca. Svabhāva: Naturaleza propia o independencia ontológica criticada. Surgimiento dependiente: Existencia condicionada por causas y relaciones. Precisión editorial: Śūnyatā no significa que nada exista; tampoco constituye una sustancia absoluta escondida detrás de los fenómenos.",
+        "provenance": {
+          "source": "Consolidación editorial de la serie 2.4",
+          "preservationMode": "capa adicional; no sobrescribe tarjeta ni expediente",
+          "coverage": "contexto, desarrollo, hitos, conceptos, legado y cautela",
+          "materializedAt": "2026-07-24"
+        },
+        "audioVersion": "historical-entity-first-2.6",
+        "historicalAudioLead": "Profundizamos en Nāgārjuna y la tradición Madhyamaka: Vacío significa ausencia de naturaleza independiente.",
+        "historicalAudioBody": "Nāgārjuna es la figura fundacional de Madhyamaka. Sus Versos fundamentales del camino medio examinan causalidad, movimiento, identidad, tiempo y nirvāṇa mediante argumentos reductivos. La crítica apunta a svabhāva, una naturaleza intrínseca que explicaría la existencia desde sí misma. Dependencia y vacuidad son inseparables. Las escuelas Madhyamaka posteriores discreparon sobre método, lenguaje y alcance de la verdad última.",
+        "collectionId": "south_asia_vedic_upanishadic",
+        "collection": "Sur de Asia: fundamentos, renuncias y escuelas clásicas",
+        "collectionOrder": 4,
+        "sourceAnchors": [
+          "https://plato.stanford.edu/entries/nagarjuna/",
+          "https://plato.stanford.edu/entries/madhyamaka/"
+        ],
+        "sha256": "4a6f27f1c875340ad5eb04f6a7dcdb13a6cc2f60f9334fd9271918bb749a8b80"
+      }
+    },
+    {
+      "card": {
+        "id": "card_madhyamaka_two_truths_001",
+        "author": "Madhyamaka: Nāgārjuna y sus comentaristas",
+        "title": "Dos verdades, no dos mundos",
+        "territory": "India y posteriores redes budistas asiáticas",
+        "period": "Desde los primeros siglos e.c.",
+        "family": "Lenguaje convencional y análisis último",
+        "statement": "La verdad convencional permite hablar, actuar y explicar causalmente; la verdad última examina que nada posee naturaleza intrínseca. No son dos universos separados.",
+        "tags": [
+          "Lenguaje",
+          "convencional",
+          "Saṃvṛti-satya",
+          "Paramārtha-satya",
+          "Camino medio"
+        ],
+        "question": "¿Cómo utilizar conceptos cotidianos sin convertirlos en esencias absolutas?",
+        "caution": "Convencional no significa simplemente falso, y último no designa un objeto superior situado fuera de la experiencia dependiente.",
+        "connections": [
+          "Nāgārjuna",
+          "Vacuidad",
+          "Origen dependiente",
+          "Yogācāra",
+          "Lenguaje"
+        ],
+        "order": 144,
+        "status": "nucleo_editorial_preservado",
+        "evidence": "B",
+        "audio": "Continuamos con las dos verdades de Madhyamaka. En el nivel convencional hablamos de personas, causas y objetos porque esas distinciones permiten vivir y explicar. El análisis último muestra que ninguna posee naturaleza independiente. No son dos mundos: la verdad última examina el mismo ámbito convencional. Llamarlo convencional no significa que todo sea inútil o igualmente falso.",
+        "quiz": {
+          "prompt": "¿Cómo utilizar conceptos cotidianos sin convertirlos en esencias absolutas?",
+          "options": [
+            "La verdad convencional permite hablar, actuar y explicar causalmente; la verdad última examina que nada posee naturaleza intrínseca. No son dos universos separados.",
+            "La tradición elimina toda diferencia entre sus conceptos.",
+            "La propuesta solo puede comprenderse como equivalente a una teoría moderna.",
+            "El problema queda resuelto sin controversias ni interpretaciones rivales."
+          ],
+          "answer": 0,
+          "feedback": "La verdad convencional permite hablar, actuar y explicar causalmente; la verdad última examina que nada posee naturaleza intrínseca. No son dos universos separados."
+        },
+        "whyItMatters": "Evita dos extremos: absolutizar nuestras categorías o destruir toda posibilidad de conocimiento y comunicación.",
+        "symbol": "◐",
+        "visual": {
+          "palette": [
+            "#2f4a46",
+            "#5d8a7f",
+            "#d3b05e"
+          ],
+          "allegory": "lenguaje convencional y análisis último"
+        },
+        "seriesVersion": "2.4",
+        "materializationLevel": "dossier_structurado_v2_audio_conciso",
+        "shareFooter": "Pregunta guía: ¿Cómo utilizar conceptos cotidianos sin convertirlos en esencias absolutas?",
+        "audioVersion": "concise-listening-3.6",
+        "guideTransition": "",
+        "audioLead": "Continuamos con las dos verdades de Madhyamaka.",
+        "audioContext": "",
+        "audioBody": "En el nivel convencional hablamos de personas, causas y objetos porque esas distinciones permiten vivir y explicar. El análisis último muestra que ninguna posee naturaleza independiente. No son dos mundos: la verdad última examina el mismo ámbito convencional. Llamarlo convencional no significa que todo sea inútil o igualmente falso.",
+        "listeningMode": "entity_concept_limit_compact",
+        "collectionId": "south_asia_vedic_upanishadic",
+        "collection": "Sur de Asia: fundamentos, renuncias y escuelas clásicas",
+        "collectionOrder": 4
+      },
+      "dossier": {
+        "id": "card_madhyamaka_two_truths_001",
+        "seriesVersion": "2.4",
+        "author": "Madhyamaka: Nāgārjuna y sus comentaristas",
+        "title": "Dos verdades, no dos mundos",
+        "territory": "India y posteriores redes budistas asiáticas",
+        "period": "Desde los primeros siglos e.c.",
+        "family": "Lenguaje convencional y análisis último",
+        "symbol": "◐",
+        "guidingQuestion": "¿Cómo utilizar conceptos cotidianos sin convertirlos en esencias absolutas?",
+        "documentedCore": "La verdad convencional permite hablar, actuar y explicar causalmente; la verdad última examina que nada posee naturaleza intrínseca. No son dos universos separados.",
+        "distinctiveKey": "La verdad convencional permite hablar, actuar y explicar causalmente; la verdad última examina que nada posee naturaleza intrínseca. No son dos universos separados.",
+        "whyItMatters": "Evita dos extremos: absolutizar nuestras categorías o destruir toda posibilidad de conocimiento y comunicación.",
+        "editorialCaution": "Convencional no significa simplemente falso, y último no designa un objeto superior situado fuera de la experiencia dependiente.",
+        "tags": [
+          "Lenguaje",
+          "convencional",
+          "Saṃvṛti-satya",
+          "Paramārtha-satya",
+          "Camino medio"
+        ],
+        "connections": [
+          "Nāgārjuna",
+          "Vacuidad",
+          "Origen dependiente",
+          "Yogācāra",
+          "Lenguaje"
+        ],
+        "audioScript": "Continuamos con las dos verdades de Madhyamaka. En el nivel convencional hablamos de personas, causas y objetos porque esas distinciones permiten vivir y explicar. El análisis último muestra que ninguna posee naturaleza independiente. No son dos mundos: la verdad última examina el mismo ámbito convencional. Llamarlo convencional no significa que todo sea inútil o igualmente falso.",
+        "evidence": "B",
+        "visual": {
+          "palette": [
+            "#2f4a46",
+            "#5d8a7f",
+            "#d3b05e"
+          ],
+          "allegory": "lenguaje convencional y análisis último"
+        },
+        "derivedCardSeeds": [
+          "Saṃvṛti-satya: desarrollo conceptual",
+          "Paramārtha-satya: desarrollo conceptual",
+          "Camino medio: desarrollo conceptual",
+          "Límites y debates de Dos verdades, no dos mundos"
+        ],
+        "materialization": {
+          "level": "dossier_estructurado_mas_capa_historica_v2_audio_conciso",
+          "allCoreFieldsPreserved": true,
+          "extendedProseExactArchive": "síntesis estructurada de la serie 2.4; no es transcripción literal del chat",
+          "source": "serie editorial 2.4"
+        },
+        "audioVersion": "concise-listening-3.6",
+        "audioLead": "Continuamos con las dos verdades de Madhyamaka.",
+        "audioContext": "",
+        "audioBody": "En el nivel convencional hablamos de personas, causas y objetos porque esas distinciones permiten vivir y explicar. El análisis último muestra que ninguna posee naturaleza independiente. No son dos mundos: la verdad última examina el mismo ámbito convencional. Llamarlo convencional no significa que todo sea inútil o igualmente falso.",
+        "collectionId": "south_asia_vedic_upanishadic",
+        "collection": "Sur de Asia: fundamentos, renuncias y escuelas clásicas",
+        "collectionOrder": 4,
+        "historicalLayer": {
+          "version": "historical-2.5",
+          "status": "materializada",
+          "sha256": "f99500a516ab9f440d86ea08926388b5a23fef8dec467f45617408ca713e8faa"
+        },
+        "sourceAnchors": [
+          "https://plato.stanford.edu/entries/madhyamaka/",
+          "https://plato.stanford.edu/archives/fall2023/entries/twotruths-india/"
+        ],
+        "sha256": "c80a189b2260e01b9986dee0e053366c961236d4efca90b043da3704e1165a55"
+      },
+      "historicalLayer": {
+        "id": "card_madhyamaka_two_truths_001",
+        "layerVersion": "historical-2.5",
+        "seriesVersion": "2.4",
+        "author": "Madhyamaka: Nāgārjuna y sus comentaristas",
+        "title": "Dos verdades, no dos mundos",
+        "historicalContext": "La distinción entre verdad convencional y última aparece en Nāgārjuna y fue desarrollada de maneras diferentes por comentaristas indios y tibetanos.",
+        "historicalDevelopment": "La verdad convencional sostiene lenguaje, práctica y causalidad. La investigación última disuelve pretensiones de independencia intrínseca. Las escuelas difieren sobre si puede formularse positivamente la verdad última y qué cuenta como convención válida.",
+        "milestones": [
+          "Formulación temprana en Madhyamaka.",
+          "Debates entre Prāsaṅgika y Svātantrika en recepciones posteriores.",
+          "Relecturas en China y Tibet."
+        ],
+        "conceptualSections": [
+          {
+            "title": "Saṃvṛti-satya",
+            "text": "Verdad convencional o dependiente de prácticas y conceptos."
+          },
+          {
+            "title": "Paramārtha-satya",
+            "text": "Verdad última accesible al análisis de vacuidad."
+          },
+          {
+            "title": "Camino medio",
+            "text": "Rechazo de esencialismo y nihilismo."
+          }
+        ],
+        "legacy": [
+          "Herramienta central para relacionar lenguaje cotidiano, análisis filosófico y práctica liberadora."
+        ],
+        "anchorWorks": [
+          "Mūlamadhyamakakārikā; comentarios Madhyamaka indios"
+        ],
+        "guidingQuestion": "¿Cómo utilizar conceptos cotidianos sin convertirlos en esencias absolutas?",
+        "distinctiveKey": "La verdad convencional permite hablar, actuar y explicar causalmente; la verdad última examina que nada posee naturaleza intrínseca. No son dos universos separados.",
+        "editorialCautions": [
+          "Convencional no significa simplemente falso, y último no designa un objeto superior situado fuera de la experiencia dependiente."
+        ],
+        "connections": [
+          "Nāgārjuna",
+          "Vacuidad",
+          "Origen dependiente",
+          "Yogācāra",
+          "Lenguaje"
+        ],
+        "evidence": "B",
+        "longAudioScript": "Profundizamos en Madhyamaka: Nāgārjuna y sus comentaristas: Dos verdades, no dos mundos. La distinción entre verdad convencional y última aparece en Nāgārjuna y fue desarrollada de maneras diferentes por comentaristas indios y tibetanos. La verdad convencional sostiene lenguaje, práctica y causalidad. La investigación última disuelve pretensiones de independencia intrínseca. Las escuelas difieren sobre si puede formularse positivamente la verdad última y qué cuenta como convención válida. Saṃvṛti-satya: Verdad convencional o dependiente de prácticas y conceptos. Paramārtha-satya: Verdad última accesible al análisis de vacuidad. Camino medio: Rechazo de esencialismo y nihilismo. Precisión editorial: Convencional no significa simplemente falso, y último no designa un objeto superior situado fuera de la experiencia dependiente.",
+        "provenance": {
+          "source": "Consolidación editorial de la serie 2.4",
+          "preservationMode": "capa adicional; no sobrescribe tarjeta ni expediente",
+          "coverage": "contexto, desarrollo, hitos, conceptos, legado y cautela",
+          "materializedAt": "2026-07-24"
+        },
+        "audioVersion": "historical-entity-first-2.6",
+        "historicalAudioLead": "Profundizamos en Madhyamaka: Nāgārjuna y sus comentaristas: Dos verdades, no dos mundos.",
+        "historicalAudioBody": "La distinción entre verdad convencional y última aparece en Nāgārjuna y fue desarrollada de maneras diferentes por comentaristas indios y tibetanos. La verdad convencional sostiene lenguaje, práctica y causalidad. La investigación última disuelve pretensiones de independencia intrínseca. Las escuelas difieren sobre si puede formularse positivamente la verdad última y qué cuenta como convención válida.",
+        "collectionId": "south_asia_vedic_upanishadic",
+        "collection": "Sur de Asia: fundamentos, renuncias y escuelas clásicas",
+        "collectionOrder": 4,
+        "sourceAnchors": [
+          "https://plato.stanford.edu/entries/madhyamaka/",
+          "https://plato.stanford.edu/archives/fall2023/entries/twotruths-india/"
+        ],
+        "sha256": "f99500a516ab9f440d86ea08926388b5a23fef8dec467f45617408ca713e8faa"
+      }
+    },
+    {
+      "card": {
+        "id": "card_yogacara_three_natures_001",
+        "author": "Asaṅga, Vasubandhu y las tradiciones Yogācāra",
+        "title": "Tres naturalezas para desmontar la dualidad",
+        "territory": "India · redes Mahāyāna",
+        "period": "Principal desarrollo entre siglos IV–V e.c.",
+        "family": "Yogācāra y análisis de la experiencia",
+        "statement": "Yogācāra distingue lo imaginado, lo dependiente y lo perfeccionado para explicar cómo una experiencia condicionada es interpretada erróneamente como separación absoluta entre sujeto y objeto.",
+        "tags": [
+          "Yogācāra",
+          "análisis",
+          "Parikalpita",
+          "Paratantra",
+          "Pariniṣpanna"
+        ],
+        "question": "¿Qué parte de nuestra experiencia procede de condiciones y qué parte añadimos mediante reificación conceptual?",
+        "caution": "“Solo conciencia” no debe reducirse a solipsismo ni a la idea simple de que una mente individual inventa el universo.",
+        "connections": [
+          "Vasubandhu",
+          "Madhyamaka",
+          "Conciencia almacén",
+          "Dignāga",
+          "Origen dependiente"
+        ],
+        "order": 145,
+        "status": "nucleo_editorial_preservado",
+        "evidence": "B",
+        "audio": "Entramos en Yogācāra con Asaṅga y Vasubandhu. Sus tres naturalezas distinguen la experiencia dependiente, la dualidad imaginada y la comprensión perfeccionada que deja de reificar sujeto y objeto. La fórmula “solo conciencia” no significa que una mente privada invente todo. Investiga cómo hábitos y representaciones estructuran aquello que tomamos por realidad independiente.",
+        "quiz": {
+          "prompt": "¿Qué parte de nuestra experiencia procede de condiciones y qué parte añadimos mediante reificación conceptual?",
+          "options": [
+            "Yogācāra distingue lo imaginado, lo dependiente y lo perfeccionado para explicar cómo una experiencia condicionada es interpretada erróneamente como separación absoluta entre sujeto y objeto.",
+            "La tradición elimina toda diferencia entre sus conceptos.",
+            "La propuesta solo puede comprenderse como equivalente a una teoría moderna.",
+            "El problema queda resuelto sin controversias ni interpretaciones rivales."
+          ],
+          "answer": 0,
+          "feedback": "Yogācāra distingue lo imaginado, lo dependiente y lo perfeccionado para explicar cómo una experiencia condicionada es interpretada erróneamente como separación absoluta entre sujeto y objeto."
+        },
+        "whyItMatters": "Analiza la fabricación de dualidades sin negar que la experiencia condicionada produzca consecuencias compartidas.",
+        "symbol": "◈",
+        "visual": {
+          "palette": [
+            "#4a3829",
+            "#8b6a43",
+            "#d5a858"
+          ],
+          "allegory": "yogācāra y análisis de la experiencia"
+        },
+        "seriesVersion": "2.4",
+        "materializationLevel": "dossier_structurado_v2_audio_conciso",
+        "shareFooter": "Pregunta guía: ¿Qué parte de nuestra experiencia procede de condiciones y qué parte añadimos mediante reificación conceptual?",
+        "audioVersion": "concise-listening-3.6",
+        "guideTransition": "",
+        "audioLead": "Entramos en Yogācāra con Asaṅga y Vasubandhu.",
+        "audioContext": "",
+        "audioBody": "Sus tres naturalezas distinguen la experiencia dependiente, la dualidad imaginada y la comprensión perfeccionada que deja de reificar sujeto y objeto. La fórmula “solo conciencia” no significa que una mente privada invente todo. Investiga cómo hábitos y representaciones estructuran aquello que tomamos por realidad independiente.",
+        "listeningMode": "entity_concept_limit_compact",
+        "collectionId": "south_asia_vedic_upanishadic",
+        "collection": "Sur de Asia: fundamentos, renuncias y escuelas clásicas",
+        "collectionOrder": 4
+      },
+      "dossier": {
+        "id": "card_yogacara_three_natures_001",
+        "seriesVersion": "2.4",
+        "author": "Asaṅga, Vasubandhu y las tradiciones Yogācāra",
+        "title": "Tres naturalezas para desmontar la dualidad",
+        "territory": "India · redes Mahāyāna",
+        "period": "Principal desarrollo entre siglos IV–V e.c.",
+        "family": "Yogācāra y análisis de la experiencia",
+        "symbol": "◈",
+        "guidingQuestion": "¿Qué parte de nuestra experiencia procede de condiciones y qué parte añadimos mediante reificación conceptual?",
+        "documentedCore": "Yogācāra distingue lo imaginado, lo dependiente y lo perfeccionado para explicar cómo una experiencia condicionada es interpretada erróneamente como separación absoluta entre sujeto y objeto.",
+        "distinctiveKey": "Yogācāra distingue lo imaginado, lo dependiente y lo perfeccionado para explicar cómo una experiencia condicionada es interpretada erróneamente como separación absoluta entre sujeto y objeto.",
+        "whyItMatters": "Analiza la fabricación de dualidades sin negar que la experiencia condicionada produzca consecuencias compartidas.",
+        "editorialCaution": "“Solo conciencia” no debe reducirse a solipsismo ni a la idea simple de que una mente individual inventa el universo.",
+        "tags": [
+          "Yogācāra",
+          "análisis",
+          "Parikalpita",
+          "Paratantra",
+          "Pariniṣpanna"
+        ],
+        "connections": [
+          "Vasubandhu",
+          "Madhyamaka",
+          "Conciencia almacén",
+          "Dignāga",
+          "Origen dependiente"
+        ],
+        "audioScript": "Entramos en Yogācāra con Asaṅga y Vasubandhu. Sus tres naturalezas distinguen la experiencia dependiente, la dualidad imaginada y la comprensión perfeccionada que deja de reificar sujeto y objeto. La fórmula “solo conciencia” no significa que una mente privada invente todo. Investiga cómo hábitos y representaciones estructuran aquello que tomamos por realidad independiente.",
+        "evidence": "B",
+        "visual": {
+          "palette": [
+            "#4a3829",
+            "#8b6a43",
+            "#d5a858"
+          ],
+          "allegory": "yogācāra y análisis de la experiencia"
+        },
+        "derivedCardSeeds": [
+          "Parikalpita: desarrollo conceptual",
+          "Paratantra: desarrollo conceptual",
+          "Pariniṣpanna: desarrollo conceptual",
+          "Límites y debates de Tres naturalezas para desmontar la dualidad"
+        ],
+        "materialization": {
+          "level": "dossier_estructurado_mas_capa_historica_v2_audio_conciso",
+          "allCoreFieldsPreserved": true,
+          "extendedProseExactArchive": "síntesis estructurada de la serie 2.4; no es transcripción literal del chat",
+          "source": "serie editorial 2.4"
+        },
+        "audioVersion": "concise-listening-3.6",
+        "audioLead": "Entramos en Yogācāra con Asaṅga y Vasubandhu.",
+        "audioContext": "",
+        "audioBody": "Sus tres naturalezas distinguen la experiencia dependiente, la dualidad imaginada y la comprensión perfeccionada que deja de reificar sujeto y objeto. La fórmula “solo conciencia” no significa que una mente privada invente todo. Investiga cómo hábitos y representaciones estructuran aquello que tomamos por realidad independiente.",
+        "collectionId": "south_asia_vedic_upanishadic",
+        "collection": "Sur de Asia: fundamentos, renuncias y escuelas clásicas",
+        "collectionOrder": 4,
+        "historicalLayer": {
+          "version": "historical-2.5",
+          "status": "materializada",
+          "sha256": "2f85ae6838d0cc1929f4022fdba180276ec94c723da96dbb169324f2573c1a05"
+        },
+        "sourceAnchors": [
+          "https://plato.stanford.edu/entries/yogacara/",
+          "https://plato.stanford.edu/archives/fall2012/entries/vasubandhu/"
+        ],
+        "sha256": "95f618fa57dacad82f7839f3c1b22ff31471250e977107ff65d118c8c9149d53"
+      },
+      "historicalLayer": {
+        "id": "card_yogacara_three_natures_001",
+        "layerVersion": "historical-2.5",
+        "seriesVersion": "2.4",
+        "author": "Asaṅga, Vasubandhu y las tradiciones Yogācāra",
+        "title": "Tres naturalezas para desmontar la dualidad",
+        "historicalContext": "Yogācāra fue una de las principales tradiciones filosóficas del Mahāyāna indio. Sus textos se asocian con Asaṅga, Vasubandhu y amplias comunidades escolásticas.",
+        "historicalDevelopment": "La naturaleza imaginada reifica una dualidad; la dependiente es el flujo condicionado de experiencia; la perfeccionada es la ausencia de aquella construcción dual. Algunas fuentes desarrollan ālayavijñāna, conciencia almacén, para explicar continuidad kármica y hábitos.",
+        "milestones": [
+          "Textos Yogācāra y Mahāyānasaṃgraha.",
+          "Obras de Vasubandhu sobre tres naturalezas.",
+          "Traducciones y escuelas en China, Corea, Japón y Tibet."
+        ],
+        "conceptualSections": [
+          {
+            "title": "Parikalpita",
+            "text": "Naturaleza imaginada o construida dualmente."
+          },
+          {
+            "title": "Paratantra",
+            "text": "Naturaleza dependiente y condicionada."
+          },
+          {
+            "title": "Pariniṣpanna",
+            "text": "Naturaleza perfeccionada: ausencia de dualidad reificada."
+          }
+        ],
+        "legacy": [
+          "Influencia profunda en filosofía de la mente, epistemología y prácticas meditativas asiáticas."
+        ],
+        "anchorWorks": [
+          "Mahāyānasaṃgraha; Triṃśikā; Trisvabhāvanirdeśa"
+        ],
+        "guidingQuestion": "¿Qué parte de nuestra experiencia procede de condiciones y qué parte añadimos mediante reificación conceptual?",
+        "distinctiveKey": "Yogācāra distingue lo imaginado, lo dependiente y lo perfeccionado para explicar cómo una experiencia condicionada es interpretada erróneamente como separación absoluta entre sujeto y objeto.",
+        "editorialCautions": [
+          "“Solo conciencia” no debe reducirse a solipsismo ni a la idea simple de que una mente individual inventa el universo."
+        ],
+        "connections": [
+          "Vasubandhu",
+          "Madhyamaka",
+          "Conciencia almacén",
+          "Dignāga",
+          "Origen dependiente"
+        ],
+        "evidence": "B",
+        "longAudioScript": "Profundizamos en Asaṅga, Vasubandhu y las tradiciones Yogācāra: Tres naturalezas para desmontar la dualidad. Yogācāra fue una de las principales tradiciones filosóficas del Mahāyāna indio. Sus textos se asocian con Asaṅga, Vasubandhu y amplias comunidades escolásticas. La naturaleza imaginada reifica una dualidad; la dependiente es el flujo condicionado de experiencia; la perfeccionada es la ausencia de aquella construcción dual. Algunas fuentes desarrollan ālayavijñāna, conciencia almacén, para explicar continuidad kármica y hábitos. Parikalpita: Naturaleza imaginada o construida dualmente. Paratantra: Naturaleza dependiente y condicionada. Pariniṣpanna: Naturaleza perfeccionada: ausencia de dualidad reificada. Precisión editorial: “Solo conciencia” no debe reducirse a solipsismo ni a la idea simple de que una mente individual inventa el universo.",
+        "provenance": {
+          "source": "Consolidación editorial de la serie 2.4",
+          "preservationMode": "capa adicional; no sobrescribe tarjeta ni expediente",
+          "coverage": "contexto, desarrollo, hitos, conceptos, legado y cautela",
+          "materializedAt": "2026-07-24"
+        },
+        "audioVersion": "historical-entity-first-2.6",
+        "historicalAudioLead": "Profundizamos en Asaṅga, Vasubandhu y las tradiciones Yogācāra: Tres naturalezas para desmontar la dualidad.",
+        "historicalAudioBody": "Yogācāra fue una de las principales tradiciones filosóficas del Mahāyāna indio. Sus textos se asocian con Asaṅga, Vasubandhu y amplias comunidades escolásticas. La naturaleza imaginada reifica una dualidad; la dependiente es el flujo condicionado de experiencia; la perfeccionada es la ausencia de aquella construcción dual. Algunas fuentes desarrollan ālayavijñāna, conciencia almacén, para explicar continuidad kármica y hábitos.",
+        "collectionId": "south_asia_vedic_upanishadic",
+        "collection": "Sur de Asia: fundamentos, renuncias y escuelas clásicas",
+        "collectionOrder": 4,
+        "sourceAnchors": [
+          "https://plato.stanford.edu/entries/yogacara/",
+          "https://plato.stanford.edu/archives/fall2012/entries/vasubandhu/"
+        ],
+        "sha256": "2f85ae6838d0cc1929f4022fdba180276ec94c723da96dbb169324f2573c1a05"
+      }
+    },
+    {
+      "card": {
+        "id": "card_dignaga_dharmakirti_pramana_001",
+        "author": "Dignāga y Dharmakīrti",
+        "title": "Percepción e inferencia como fuentes de conocimiento",
+        "territory": "India budista · redes monásticas y de debate",
+        "period": "Aproximadamente siglos V–VII e.c.",
+        "family": "Epistemología budista y argumentación",
+        "statement": "Dignāga reorganizó la epistemología budista alrededor de percepción e inferencia; Dharmakīrti refinó sus criterios de validez, causalidad, lenguaje y razonamiento.",
+        "tags": [
+          "Epistemología",
+          "budista",
+          "Pramāṇa",
+          "Percepción",
+          "Inferencia"
+        ],
+        "question": "¿Qué convierte una cognición o una razón en conocimiento confiable?",
+        "caution": "No formaron un sistema idéntico ni una lógica puramente formal comparable sin más con la tradición moderna occidental.",
+        "connections": [
+          "Nyāya",
+          "Yogācāra",
+          "Apoha",
+          "Inferencia",
+          "Kumārila"
+        ],
+        "order": 146,
+        "status": "nucleo_editorial_preservado",
+        "evidence": "A–B",
+        "audio": "Seguimos con Dignāga y Dharmakīrti, figuras centrales de la epistemología budista. Dignāga concentró las fuentes de conocimiento en percepción e inferencia; Dharmakīrti refinó cómo una razón prueba algo mediante relaciones de identidad o causalidad. Sus proyectos no son idénticos ni una simple lógica formal: vinculan conocimiento válido, lenguaje, acción eficaz y liberación.",
+        "quiz": {
+          "prompt": "¿Qué convierte una cognición o una razón en conocimiento confiable?",
+          "options": [
+            "Dignāga reorganizó la epistemología budista alrededor de percepción e inferencia; Dharmakīrti refinó sus criterios de validez, causalidad, lenguaje y razonamiento.",
+            "La tradición elimina toda diferencia entre sus conceptos.",
+            "La propuesta solo puede comprenderse como equivalente a una teoría moderna.",
+            "El problema queda resuelto sin controversias ni interpretaciones rivales."
+          ],
+          "answer": 0,
+          "feedback": "Dignāga reorganizó la epistemología budista alrededor de percepción e inferencia; Dharmakīrti refinó sus criterios de validez, causalidad, lenguaje y razonamiento."
+        },
+        "whyItMatters": "Convirtió el análisis del conocimiento y del debate en un campo técnico compartido por escuelas budistas y brahmánicas rivales.",
+        "symbol": "⌁",
+        "visual": {
+          "palette": [
+            "#28364c",
+            "#55729c",
+            "#d7b15d"
+          ],
+          "allegory": "epistemología budista y argumentación"
+        },
+        "seriesVersion": "2.4",
+        "materializationLevel": "dossier_structurado_v2_audio_conciso",
+        "shareFooter": "Pregunta guía: ¿Qué convierte una cognición o una razón en conocimiento confiable?",
+        "audioVersion": "concise-listening-3.6",
+        "guideTransition": "",
+        "audioLead": "Seguimos con Dignāga y Dharmakīrti, figuras centrales de la epistemología budista.",
+        "audioContext": "",
+        "audioBody": "Dignāga concentró las fuentes de conocimiento en percepción e inferencia; Dharmakīrti refinó cómo una razón prueba algo mediante relaciones de identidad o causalidad. Sus proyectos no son idénticos ni una simple lógica formal: vinculan conocimiento válido, lenguaje, acción eficaz y liberación.",
+        "listeningMode": "entity_concept_limit_compact",
+        "collectionId": "south_asia_vedic_upanishadic",
+        "collection": "Sur de Asia: fundamentos, renuncias y escuelas clásicas",
+        "collectionOrder": 4
+      },
+      "dossier": {
+        "id": "card_dignaga_dharmakirti_pramana_001",
+        "seriesVersion": "2.4",
+        "author": "Dignāga y Dharmakīrti",
+        "title": "Percepción e inferencia como fuentes de conocimiento",
+        "territory": "India budista · redes monásticas y de debate",
+        "period": "Aproximadamente siglos V–VII e.c.",
+        "family": "Epistemología budista y argumentación",
+        "symbol": "⌁",
+        "guidingQuestion": "¿Qué convierte una cognición o una razón en conocimiento confiable?",
+        "documentedCore": "Dignāga reorganizó la epistemología budista alrededor de percepción e inferencia; Dharmakīrti refinó sus criterios de validez, causalidad, lenguaje y razonamiento.",
+        "distinctiveKey": "Dignāga reorganizó la epistemología budista alrededor de percepción e inferencia; Dharmakīrti refinó sus criterios de validez, causalidad, lenguaje y razonamiento.",
+        "whyItMatters": "Convirtió el análisis del conocimiento y del debate en un campo técnico compartido por escuelas budistas y brahmánicas rivales.",
+        "editorialCaution": "No formaron un sistema idéntico ni una lógica puramente formal comparable sin más con la tradición moderna occidental.",
+        "tags": [
+          "Epistemología",
+          "budista",
+          "Pramāṇa",
+          "Percepción",
+          "Inferencia"
+        ],
+        "connections": [
+          "Nyāya",
+          "Yogācāra",
+          "Apoha",
+          "Inferencia",
+          "Kumārila"
+        ],
+        "audioScript": "Seguimos con Dignāga y Dharmakīrti, figuras centrales de la epistemología budista. Dignāga concentró las fuentes de conocimiento en percepción e inferencia; Dharmakīrti refinó cómo una razón prueba algo mediante relaciones de identidad o causalidad. Sus proyectos no son idénticos ni una simple lógica formal: vinculan conocimiento válido, lenguaje, acción eficaz y liberación.",
+        "evidence": "A–B",
+        "visual": {
+          "palette": [
+            "#28364c",
+            "#55729c",
+            "#d7b15d"
+          ],
+          "allegory": "epistemología budista y argumentación"
+        },
+        "derivedCardSeeds": [
+          "Pramāṇa: desarrollo conceptual",
+          "Percepción: desarrollo conceptual",
+          "Inferencia: desarrollo conceptual",
+          "Límites y debates de Percepción e inferencia como fuentes de conocimiento"
+        ],
+        "materialization": {
+          "level": "dossier_estructurado_mas_capa_historica_v2_audio_conciso",
+          "allCoreFieldsPreserved": true,
+          "extendedProseExactArchive": "síntesis estructurada de la serie 2.4; no es transcripción literal del chat",
+          "source": "serie editorial 2.4"
+        },
+        "audioVersion": "concise-listening-3.6",
+        "audioLead": "Seguimos con Dignāga y Dharmakīrti, figuras centrales de la epistemología budista.",
+        "audioContext": "",
+        "audioBody": "Dignāga concentró las fuentes de conocimiento en percepción e inferencia; Dharmakīrti refinó cómo una razón prueba algo mediante relaciones de identidad o causalidad. Sus proyectos no son idénticos ni una simple lógica formal: vinculan conocimiento válido, lenguaje, acción eficaz y liberación.",
+        "collectionId": "south_asia_vedic_upanishadic",
+        "collection": "Sur de Asia: fundamentos, renuncias y escuelas clásicas",
+        "collectionOrder": 4,
+        "historicalLayer": {
+          "version": "historical-2.5",
+          "status": "materializada",
+          "sha256": "de35f5068ef315cf15a81235471cca0e9ab1dbb610c042f1af5459e8eaa36e21"
+        },
+        "sourceAnchors": [
+          "https://plato.stanford.edu/archives/spr2017/entries/epistemology-india/",
+          "https://plato.stanford.edu/entries/dharmakiirti/"
+        ],
+        "sha256": "be8549a100446c0048e3fd4abfe26d08aa2a79450fe3e5ce21e574466a71dcd9"
+      },
+      "historicalLayer": {
+        "id": "card_dignaga_dharmakirti_pramana_001",
+        "layerVersion": "historical-2.5",
+        "seriesVersion": "2.4",
+        "author": "Dignāga y Dharmakīrti",
+        "title": "Percepción e inferencia como fuentes de conocimiento",
+        "historicalContext": "Dignāga y Dharmakīrti transformaron los debates indios sobre pramāṇa, inferencia y lenguaje. Sus obras circularon ampliamente en India y luego en Tibet.",
+        "historicalDevelopment": "La percepción se entiende como no conceptual en varios pasajes; la inferencia opera mediante signos y relaciones fiables. La teoría de apoha explica conceptos por exclusión. Dharmakīrti vincula realidad última con eficacia causal, aunque la interpretación de su idealismo es debatida.",
+        "milestones": [
+          "Pramāṇasamuccaya de Dignāga.",
+          "Pramāṇavārttika de Dharmakīrti.",
+          "Debates con Nyāya y Mīmāṃsā."
+        ],
+        "conceptualSections": [
+          {
+            "title": "Pramāṇa",
+            "text": "Fuente o episodio de conocimiento válido."
+          },
+          {
+            "title": "Percepción",
+            "text": "Cognición directa, caracterizada como no conceptual en esta tradición."
+          },
+          {
+            "title": "Inferencia",
+            "text": "Conocimiento mediante una razón que mantiene relación fiable con lo probado."
+          }
+        ],
+        "legacy": [
+          "Base de la epistemología budista indo-tibetana y estímulo decisivo para Nyāya y Mīmāṃsā."
+        ],
+        "anchorWorks": [
+          "Pramāṇasamuccaya; Pramāṇavārttika"
+        ],
+        "guidingQuestion": "¿Qué convierte una cognición o una razón en conocimiento confiable?",
+        "distinctiveKey": "Dignāga reorganizó la epistemología budista alrededor de percepción e inferencia; Dharmakīrti refinó sus criterios de validez, causalidad, lenguaje y razonamiento.",
+        "editorialCautions": [
+          "No formaron un sistema idéntico ni una lógica puramente formal comparable sin más con la tradición moderna occidental."
+        ],
+        "connections": [
+          "Nyāya",
+          "Yogācāra",
+          "Apoha",
+          "Inferencia",
+          "Kumārila"
+        ],
+        "evidence": "A–B",
+        "longAudioScript": "Profundizamos en Dignāga y Dharmakīrti: Percepción e inferencia como fuentes de conocimiento. Dignāga y Dharmakīrti transformaron los debates indios sobre pramāṇa, inferencia y lenguaje. Sus obras circularon ampliamente en India y luego en Tibet. La percepción se entiende como no conceptual en varios pasajes; la inferencia opera mediante signos y relaciones fiables. La teoría de apoha explica conceptos por exclusión. Dharmakīrti vincula realidad última con eficacia causal, aunque la interpretación de su idealismo es debatida. Pramāṇa: Fuente o episodio de conocimiento válido. Percepción: Cognición directa, caracterizada como no conceptual en esta tradición. Inferencia: Conocimiento mediante una razón que mantiene relación fiable con lo probado. Precisión editorial: No formaron un sistema idéntico ni una lógica puramente formal comparable sin más con la tradición moderna occidental.",
+        "provenance": {
+          "source": "Consolidación editorial de la serie 2.4",
+          "preservationMode": "capa adicional; no sobrescribe tarjeta ni expediente",
+          "coverage": "contexto, desarrollo, hitos, conceptos, legado y cautela",
+          "materializedAt": "2026-07-24"
+        },
+        "audioVersion": "historical-entity-first-2.6",
+        "historicalAudioLead": "Profundizamos en Dignāga y Dharmakīrti: Percepción e inferencia como fuentes de conocimiento.",
+        "historicalAudioBody": "Dignāga y Dharmakīrti transformaron los debates indios sobre pramāṇa, inferencia y lenguaje. Sus obras circularon ampliamente en India y luego en Tibet. La percepción se entiende como no conceptual en varios pasajes; la inferencia opera mediante signos y relaciones fiables. La teoría de apoha explica conceptos por exclusión. Dharmakīrti vincula realidad última con eficacia causal, aunque la interpretación de su idealismo es debatida.",
+        "collectionId": "south_asia_vedic_upanishadic",
+        "collection": "Sur de Asia: fundamentos, renuncias y escuelas clásicas",
+        "collectionOrder": 4,
+        "sourceAnchors": [
+          "https://plato.stanford.edu/archives/spr2017/entries/epistemology-india/",
+          "https://plato.stanford.edu/entries/dharmakiirti/"
+        ],
+        "sha256": "de35f5068ef315cf15a81235471cca0e9ab1dbb610c042f1af5459e8eaa36e21"
+      }
+    },
+    {
+      "card": {
+        "id": "card_gaudapada_nonorigination_001",
+        "author": "Gauḍapāda",
+        "title": "Lo último no comienza a existir",
+        "territory": "India · Advaita temprano",
+        "period": "Probablemente alrededor del siglo VI e.c.; datación discutida",
+        "family": "Advaita temprano y no originación",
+        "statement": "Gauḍapāda interpreta la Māṇḍūkya Upaniṣad mediante la no originación: desde el punto de vista último, la realidad no nace como multiplicidad independiente.",
+        "tags": [
+          "Advaita",
+          "temprano",
+          "Ajātivāda",
+          "Turīya",
+          "Māyā"
+        ],
+        "question": "¿Qué cambia cuando vigilia y sueño dejan de considerarse pruebas suficientes de realidad última?",
+        "caution": "Sus paralelos con el budismo son importantes, pero no demuestran que Gauḍapāda sea simplemente un filósofo budista encubierto.",
+        "connections": [
+          "Māṇḍūkya Upaniṣad",
+          "Advaita",
+          "Śaṅkara",
+          "Madhyamaka",
+          "Sueño"
+        ],
+        "order": 147,
+        "status": "nucleo_editorial_preservado",
+        "evidence": "B–C",
+        "audio": "Pasamos a Gauḍapāda y la doctrina de no originación. Al comparar vigilia, sueño y sueño profundo, cuestiona que la multiplicidad cotidiana posea realidad última independiente. Lo absoluto no nace ni cambia como los objetos experimentados. Sus argumentos dialogan con vocabularios budistas, pero esos paralelos no permiten reducirlo simplemente a un pensador budista.",
+        "quiz": {
+          "prompt": "¿Qué cambia cuando vigilia y sueño dejan de considerarse pruebas suficientes de realidad última?",
+          "options": [
+            "Gauḍapāda interpreta la Māṇḍūkya Upaniṣad mediante la no originación: desde el punto de vista último, la realidad no nace como multiplicidad independiente.",
+            "La tradición elimina toda diferencia entre sus conceptos.",
+            "La propuesta solo puede comprenderse como equivalente a una teoría moderna.",
+            "El problema queda resuelto sin controversias ni interpretaciones rivales."
+          ],
+          "answer": 0,
+          "feedback": "Gauḍapāda interpreta la Māṇḍūkya Upaniṣad mediante la no originación: desde el punto de vista último, la realidad no nace como multiplicidad independiente."
+        },
+        "whyItMatters": "Introduce un puente decisivo entre reflexión upaniṣádica, análisis de estados de conciencia y sistematización no dual posterior.",
+        "symbol": "◎",
+        "visual": {
+          "palette": [
+            "#3d3155",
+            "#755f98",
+            "#d5b26b"
+          ],
+          "allegory": "advaita temprano y no originación"
+        },
+        "seriesVersion": "2.4",
+        "materializationLevel": "dossier_structurado_v2_audio_conciso",
+        "shareFooter": "Pregunta guía: ¿Qué cambia cuando vigilia y sueño dejan de considerarse pruebas suficientes de realidad última?",
+        "audioVersion": "concise-listening-3.6",
+        "guideTransition": "",
+        "audioLead": "Pasamos a Gauḍapāda y la doctrina de no originación.",
+        "audioContext": "",
+        "audioBody": "Al comparar vigilia, sueño y sueño profundo, cuestiona que la multiplicidad cotidiana posea realidad última independiente. Lo absoluto no nace ni cambia como los objetos experimentados. Sus argumentos dialogan con vocabularios budistas, pero esos paralelos no permiten reducirlo simplemente a un pensador budista.",
+        "listeningMode": "entity_concept_limit_compact",
+        "collectionId": "south_asia_vedic_upanishadic",
+        "collection": "Sur de Asia: fundamentos, renuncias y escuelas clásicas",
+        "collectionOrder": 4
+      },
+      "dossier": {
+        "id": "card_gaudapada_nonorigination_001",
+        "seriesVersion": "2.4",
+        "author": "Gauḍapāda",
+        "title": "Lo último no comienza a existir",
+        "territory": "India · Advaita temprano",
+        "period": "Probablemente alrededor del siglo VI e.c.; datación discutida",
+        "family": "Advaita temprano y no originación",
+        "symbol": "◎",
+        "guidingQuestion": "¿Qué cambia cuando vigilia y sueño dejan de considerarse pruebas suficientes de realidad última?",
+        "documentedCore": "Gauḍapāda interpreta la Māṇḍūkya Upaniṣad mediante la no originación: desde el punto de vista último, la realidad no nace como multiplicidad independiente.",
+        "distinctiveKey": "Gauḍapāda interpreta la Māṇḍūkya Upaniṣad mediante la no originación: desde el punto de vista último, la realidad no nace como multiplicidad independiente.",
+        "whyItMatters": "Introduce un puente decisivo entre reflexión upaniṣádica, análisis de estados de conciencia y sistematización no dual posterior.",
+        "editorialCaution": "Sus paralelos con el budismo son importantes, pero no demuestran que Gauḍapāda sea simplemente un filósofo budista encubierto.",
+        "tags": [
+          "Advaita",
+          "temprano",
+          "Ajātivāda",
+          "Turīya",
+          "Māyā"
+        ],
+        "connections": [
+          "Māṇḍūkya Upaniṣad",
+          "Advaita",
+          "Śaṅkara",
+          "Madhyamaka",
+          "Sueño"
+        ],
+        "audioScript": "Pasamos a Gauḍapāda y la doctrina de no originación. Al comparar vigilia, sueño y sueño profundo, cuestiona que la multiplicidad cotidiana posea realidad última independiente. Lo absoluto no nace ni cambia como los objetos experimentados. Sus argumentos dialogan con vocabularios budistas, pero esos paralelos no permiten reducirlo simplemente a un pensador budista.",
+        "evidence": "B–C",
+        "visual": {
+          "palette": [
+            "#3d3155",
+            "#755f98",
+            "#d5b26b"
+          ],
+          "allegory": "advaita temprano y no originación"
+        },
+        "derivedCardSeeds": [
+          "Ajātivāda: desarrollo conceptual",
+          "Turīya: desarrollo conceptual",
+          "Māyā: desarrollo conceptual",
+          "Límites y debates de Lo último no comienza a existir"
+        ],
+        "materialization": {
+          "level": "dossier_estructurado_mas_capa_historica_v2_audio_conciso",
+          "allCoreFieldsPreserved": true,
+          "extendedProseExactArchive": "síntesis estructurada de la serie 2.4; no es transcripción literal del chat",
+          "source": "serie editorial 2.4"
+        },
+        "audioVersion": "concise-listening-3.6",
+        "audioLead": "Pasamos a Gauḍapāda y la doctrina de no originación.",
+        "audioContext": "",
+        "audioBody": "Al comparar vigilia, sueño y sueño profundo, cuestiona que la multiplicidad cotidiana posea realidad última independiente. Lo absoluto no nace ni cambia como los objetos experimentados. Sus argumentos dialogan con vocabularios budistas, pero esos paralelos no permiten reducirlo simplemente a un pensador budista.",
+        "collectionId": "south_asia_vedic_upanishadic",
+        "collection": "Sur de Asia: fundamentos, renuncias y escuelas clásicas",
+        "collectionOrder": 4,
+        "historicalLayer": {
+          "version": "historical-2.5",
+          "status": "materializada",
+          "sha256": "918a8ed09438575152fa14c15824c58f603e0178c8891392500f1b5043c8016e"
+        },
+        "sourceAnchors": [
+          "https://iep.utm.edu/gau%E1%B8%8Dapad/",
+          "https://iep.utm.edu/advaita-vedanta/"
+        ],
+        "sha256": "a407b36080fb1e7d60f2f0862ed05e2636db3277d719a213c424720e50089f01"
+      },
+      "historicalLayer": {
+        "id": "card_gaudapada_nonorigination_001",
+        "layerVersion": "historical-2.5",
+        "seriesVersion": "2.4",
+        "author": "Gauḍapāda",
+        "title": "Lo último no comienza a existir",
+        "historicalContext": "La Gauḍapādakārikā comenta la breve Māṇḍūkya Upaniṣad y ocupa un lugar temprano en la genealogía Advaita. La información biográfica segura es escasa.",
+        "historicalDevelopment": "La obra examina los cuatro estados vinculados con Oṃ y desarrolla ajātivāda, no originación. Emplea argumentos y términos cercanos a tradiciones Mahāyāna, lo que ha generado debates sobre influencia y apropiación.",
+        "milestones": [
+          "Composición de la Gauḍapādakārikā.",
+          "Recepción por Śaṅkara y Advaita posterior.",
+          "Debate moderno sobre relaciones con Madhyamaka y Yogācāra."
+        ],
+        "conceptualSections": [
+          {
+            "title": "Ajātivāda",
+            "text": "Doctrina de no originación en el nivel último."
+          },
+          {
+            "title": "Turīya",
+            "text": "“Cuarto” que no es un estado ordinario adicional."
+          },
+          {
+            "title": "Māyā",
+            "text": "Apariencia y error de atribución, con sentidos variables."
+          }
+        ],
+        "legacy": [
+          "Precursor principal de la sistematización Advaita y de sus debates sobre conciencia y mundo."
+        ],
+        "anchorWorks": [
+          "Māṇḍūkyakārikā o Gauḍapādakārikā"
+        ],
+        "guidingQuestion": "¿Qué cambia cuando vigilia y sueño dejan de considerarse pruebas suficientes de realidad última?",
+        "distinctiveKey": "Gauḍapāda interpreta la Māṇḍūkya Upaniṣad mediante la no originación: desde el punto de vista último, la realidad no nace como multiplicidad independiente.",
+        "editorialCautions": [
+          "Sus paralelos con el budismo son importantes, pero no demuestran que Gauḍapāda sea simplemente un filósofo budista encubierto."
+        ],
+        "connections": [
+          "Māṇḍūkya Upaniṣad",
+          "Advaita",
+          "Śaṅkara",
+          "Madhyamaka",
+          "Sueño"
+        ],
+        "evidence": "B–C",
+        "longAudioScript": "Profundizamos en Gauḍapāda: Lo último no comienza a existir. La Gauḍapādakārikā comenta la breve Māṇḍūkya Upaniṣad y ocupa un lugar temprano en la genealogía Advaita. La información biográfica segura es escasa. La obra examina los cuatro estados vinculados con Oṃ y desarrolla ajātivāda, no originación. Emplea argumentos y términos cercanos a tradiciones Mahāyāna, lo que ha generado debates sobre influencia y apropiación. Ajātivāda: Doctrina de no originación en el nivel último. Turīya: “Cuarto” que no es un estado ordinario adicional. Māyā: Apariencia y error de atribución, con sentidos variables. Precisión editorial: Sus paralelos con el budismo son importantes, pero no demuestran que Gauḍapāda sea simplemente un filósofo budista encubierto.",
+        "provenance": {
+          "source": "Consolidación editorial de la serie 2.4",
+          "preservationMode": "capa adicional; no sobrescribe tarjeta ni expediente",
+          "coverage": "contexto, desarrollo, hitos, conceptos, legado y cautela",
+          "materializedAt": "2026-07-24"
+        },
+        "audioVersion": "historical-entity-first-2.6",
+        "historicalAudioLead": "Profundizamos en Gauḍapāda: Lo último no comienza a existir.",
+        "historicalAudioBody": "La Gauḍapādakārikā comenta la breve Māṇḍūkya Upaniṣad y ocupa un lugar temprano en la genealogía Advaita. La información biográfica segura es escasa. La obra examina los cuatro estados vinculados con Oṃ y desarrolla ajātivāda, no originación. Emplea argumentos y términos cercanos a tradiciones Mahāyāna, lo que ha generado debates sobre influencia y apropiación.",
+        "collectionId": "south_asia_vedic_upanishadic",
+        "collection": "Sur de Asia: fundamentos, renuncias y escuelas clásicas",
+        "collectionOrder": 4,
+        "sourceAnchors": [
+          "https://iep.utm.edu/gau%E1%B8%8Dapad/",
+          "https://iep.utm.edu/advaita-vedanta/"
+        ],
+        "sha256": "918a8ed09438575152fa14c15824c58f603e0178c8891392500f1b5043c8016e"
+      }
+    },
+    {
+      "card": {
+        "id": "card_shankara_advaita_adhyasa_001",
+        "author": "Śaṅkara",
+        "title": "La no dualidad y el error de superposición",
+        "territory": "India · redes monásticas y escolásticas",
+        "period": "Primeros siglos medievales, probablemente siglo VIII",
+        "family": "Advaita Vedānta",
+        "statement": "Śaṅkara explica la experiencia ordinaria mediante adhyāsa, superposición de propiedades del yo y de lo no-yo; el conocimiento libera al reconocer la no dualidad de ātman y brahman.",
+        "tags": [
+          "Advaita",
+          "Vedānta",
+          "Advaita",
+          "Adhyāsa",
+          "Jñāna"
+        ],
+        "question": "¿Cómo puede la experiencia cotidiana funcionar y, sin embargo, ocultar la identidad última del conocedor?",
+        "caution": "Advaita no afirma simplemente que el mundo “no existe”; distingue niveles de realidad y usos válidos dentro de la experiencia práctica.",
+        "connections": [
+          "Gauḍapāda",
+          "Upaniṣads",
+          "Bhagavadgītā",
+          "Rāmānuja",
+          "Māyā"
+        ],
+        "order": 148,
+        "status": "nucleo_editorial_preservado",
+        "evidence": "A–B",
+        "audio": "Continuamos con Śaṅkara y Advaita Vedānta. Su análisis parte de adhyāsa: atribuimos al yo propiedades del cuerpo y tratamos lo cambiante como identidad última. El conocimiento reconoce la no dualidad de ātman y brahman. Esto no significa que el mundo cotidiano sea pura nada; funciona convencionalmente mientras persiste la ignorancia que lo absolutiza.",
+        "quiz": {
+          "prompt": "¿Cómo puede la experiencia cotidiana funcionar y, sin embargo, ocultar la identidad última del conocedor?",
+          "options": [
+            "Śaṅkara explica la experiencia ordinaria mediante adhyāsa, superposición de propiedades del yo y de lo no-yo; el conocimiento libera al reconocer la no dualidad de ātman y brahman.",
+            "La tradición elimina toda diferencia entre sus conceptos.",
+            "La propuesta solo puede comprenderse como equivalente a una teoría moderna.",
+            "El problema queda resuelto sin controversias ni interpretaciones rivales."
+          ],
+          "answer": 0,
+          "feedback": "Śaṅkara explica la experiencia ordinaria mediante adhyāsa, superposición de propiedades del yo y de lo no-yo; el conocimiento libera al reconocer la no dualidad de ātman y brahman."
+        },
+        "whyItMatters": "Sistematiza una de las interpretaciones más influyentes de las Upaniṣads sin agotar la pluralidad de Vedānta.",
+        "symbol": "≋",
+        "visual": {
+          "palette": [
+            "#263d50",
+            "#4f7389",
+            "#d8b25e"
+          ],
+          "allegory": "advaita vedānta"
+        },
+        "seriesVersion": "2.4",
+        "materializationLevel": "dossier_structurado_v2_audio_conciso",
+        "shareFooter": "Pregunta guía: ¿Cómo puede la experiencia cotidiana funcionar y, sin embargo, ocultar la identidad última del conocedor?",
+        "audioVersion": "concise-listening-3.6",
+        "guideTransition": "",
+        "audioLead": "Continuamos con Śaṅkara y Advaita Vedānta.",
+        "audioContext": "",
+        "audioBody": "Su análisis parte de adhyāsa: atribuimos al yo propiedades del cuerpo y tratamos lo cambiante como identidad última. El conocimiento reconoce la no dualidad de ātman y brahman. Esto no significa que el mundo cotidiano sea pura nada; funciona convencionalmente mientras persiste la ignorancia que lo absolutiza.",
+        "listeningMode": "entity_concept_limit_compact",
+        "collectionId": "south_asia_vedic_upanishadic",
+        "collection": "Sur de Asia: fundamentos, renuncias y escuelas clásicas",
+        "collectionOrder": 4
+      },
+      "dossier": {
+        "id": "card_shankara_advaita_adhyasa_001",
+        "seriesVersion": "2.4",
+        "author": "Śaṅkara",
+        "title": "La no dualidad y el error de superposición",
+        "territory": "India · redes monásticas y escolásticas",
+        "period": "Primeros siglos medievales, probablemente siglo VIII",
+        "family": "Advaita Vedānta",
+        "symbol": "≋",
+        "guidingQuestion": "¿Cómo puede la experiencia cotidiana funcionar y, sin embargo, ocultar la identidad última del conocedor?",
+        "documentedCore": "Śaṅkara explica la experiencia ordinaria mediante adhyāsa, superposición de propiedades del yo y de lo no-yo; el conocimiento libera al reconocer la no dualidad de ātman y brahman.",
+        "distinctiveKey": "Śaṅkara explica la experiencia ordinaria mediante adhyāsa, superposición de propiedades del yo y de lo no-yo; el conocimiento libera al reconocer la no dualidad de ātman y brahman.",
+        "whyItMatters": "Sistematiza una de las interpretaciones más influyentes de las Upaniṣads sin agotar la pluralidad de Vedānta.",
+        "editorialCaution": "Advaita no afirma simplemente que el mundo “no existe”; distingue niveles de realidad y usos válidos dentro de la experiencia práctica.",
+        "tags": [
+          "Advaita",
+          "Vedānta",
+          "Advaita",
+          "Adhyāsa",
+          "Jñāna"
+        ],
+        "connections": [
+          "Gauḍapāda",
+          "Upaniṣads",
+          "Bhagavadgītā",
+          "Rāmānuja",
+          "Māyā"
+        ],
+        "audioScript": "Continuamos con Śaṅkara y Advaita Vedānta. Su análisis parte de adhyāsa: atribuimos al yo propiedades del cuerpo y tratamos lo cambiante como identidad última. El conocimiento reconoce la no dualidad de ātman y brahman. Esto no significa que el mundo cotidiano sea pura nada; funciona convencionalmente mientras persiste la ignorancia que lo absolutiza.",
+        "evidence": "A–B",
+        "visual": {
+          "palette": [
+            "#263d50",
+            "#4f7389",
+            "#d8b25e"
+          ],
+          "allegory": "advaita vedānta"
+        },
+        "derivedCardSeeds": [
+          "Advaita: desarrollo conceptual",
+          "Adhyāsa: desarrollo conceptual",
+          "Jñāna: desarrollo conceptual",
+          "Límites y debates de La no dualidad y el error de superposición"
+        ],
+        "materialization": {
+          "level": "dossier_estructurado_mas_capa_historica_v2_audio_conciso",
+          "allCoreFieldsPreserved": true,
+          "extendedProseExactArchive": "síntesis estructurada de la serie 2.4; no es transcripción literal del chat",
+          "source": "serie editorial 2.4"
+        },
+        "audioVersion": "concise-listening-3.6",
+        "audioLead": "Continuamos con Śaṅkara y Advaita Vedānta.",
+        "audioContext": "",
+        "audioBody": "Su análisis parte de adhyāsa: atribuimos al yo propiedades del cuerpo y tratamos lo cambiante como identidad última. El conocimiento reconoce la no dualidad de ātman y brahman. Esto no significa que el mundo cotidiano sea pura nada; funciona convencionalmente mientras persiste la ignorancia que lo absolutiza.",
+        "collectionId": "south_asia_vedic_upanishadic",
+        "collection": "Sur de Asia: fundamentos, renuncias y escuelas clásicas",
+        "collectionOrder": 4,
+        "historicalLayer": {
+          "version": "historical-2.5",
+          "status": "materializada",
+          "sha256": "f895c542077dfbe78e6c59640170c6e11af3c1927c4355aa8ea5e1dc4b294ac2"
+        },
+        "sourceAnchors": [
+          "https://plato.stanford.edu/archives/sum2024/entries/shankara/",
+          "https://iep.utm.edu/advaita-vedanta/"
+        ],
+        "sha256": "26c5784965652e9451c1b04e304a1ee33d5e40030910c82ab9012646b2a40817"
+      },
+      "historicalLayer": {
+        "id": "card_shankara_advaita_adhyasa_001",
+        "layerVersion": "historical-2.5",
+        "seriesVersion": "2.4",
+        "author": "Śaṅkara",
+        "title": "La no dualidad y el error de superposición",
+        "historicalContext": "Śaṅkara fue comentarista de Upaniṣads, Bhagavadgītā y Brahma-sūtra. Se entendía como heredero de una tradición previa, no como fundador absoluto de Advaita.",
+        "historicalDevelopment": "Adhyāsa describe la superposición entre sujeto y objetos. La ignorancia no se elimina solo mediante acción, aunque disciplinas éticas, devocionales y meditativas preparan el conocimiento. Sus interpretaciones fueron criticadas por otras escuelas Vedānta.",
+        "milestones": [
+          "Comentarios al triple canon.",
+          "Consolidación de linajes Advaita.",
+          "Controversias con Mīmāṃsā, budismo y Vedānta teísta."
+        ],
+        "conceptualSections": [
+          {
+            "title": "Advaita",
+            "text": "No dualidad de ātman y brahman."
+          },
+          {
+            "title": "Adhyāsa",
+            "text": "Superposición errónea entre yo y no-yo."
+          },
+          {
+            "title": "Jñāna",
+            "text": "Conocimiento liberador, no mera información proposicional."
+          }
+        ],
+        "legacy": [
+          "Influencia decisiva en filosofía, ascetismo y recepciones modernas de Vedānta."
+        ],
+        "anchorWorks": [
+          "Brahmasūtrabhāṣya; comentarios a Upaniṣads y Bhagavadgītā"
+        ],
+        "guidingQuestion": "¿Cómo puede la experiencia cotidiana funcionar y, sin embargo, ocultar la identidad última del conocedor?",
+        "distinctiveKey": "Śaṅkara explica la experiencia ordinaria mediante adhyāsa, superposición de propiedades del yo y de lo no-yo; el conocimiento libera al reconocer la no dualidad de ātman y brahman.",
+        "editorialCautions": [
+          "Advaita no afirma simplemente que el mundo “no existe”; distingue niveles de realidad y usos válidos dentro de la experiencia práctica."
+        ],
+        "connections": [
+          "Gauḍapāda",
+          "Upaniṣads",
+          "Bhagavadgītā",
+          "Rāmānuja",
+          "Māyā"
+        ],
+        "evidence": "A–B",
+        "longAudioScript": "Profundizamos en Śaṅkara: La no dualidad y el error de superposición. Śaṅkara fue comentarista de Upaniṣads, Bhagavadgītā y Brahma-sūtra. Se entendía como heredero de una tradición previa, no como fundador absoluto de Advaita. Adhyāsa describe la superposición entre sujeto y objetos. La ignorancia no se elimina solo mediante acción, aunque disciplinas éticas, devocionales y meditativas preparan el conocimiento. Sus interpretaciones fueron criticadas por otras escuelas Vedānta. Advaita: No dualidad de ātman y brahman. Adhyāsa: Superposición errónea entre yo y no-yo. Jñāna: Conocimiento liberador, no mera información proposicional. Precisión editorial: Advaita no afirma simplemente que el mundo “no existe”; distingue niveles de realidad y usos válidos dentro de la experiencia práctica.",
+        "provenance": {
+          "source": "Consolidación editorial de la serie 2.4",
+          "preservationMode": "capa adicional; no sobrescribe tarjeta ni expediente",
+          "coverage": "contexto, desarrollo, hitos, conceptos, legado y cautela",
+          "materializedAt": "2026-07-24"
+        },
+        "audioVersion": "historical-entity-first-2.6",
+        "historicalAudioLead": "Profundizamos en Śaṅkara: La no dualidad y el error de superposición.",
+        "historicalAudioBody": "Śaṅkara fue comentarista de Upaniṣads, Bhagavadgītā y Brahma-sūtra. Se entendía como heredero de una tradición previa, no como fundador absoluto de Advaita. Adhyāsa describe la superposición entre sujeto y objetos. La ignorancia no se elimina solo mediante acción, aunque disciplinas éticas, devocionales y meditativas preparan el conocimiento. Sus interpretaciones fueron criticadas por otras escuelas Vedānta.",
+        "collectionId": "south_asia_vedic_upanishadic",
+        "collection": "Sur de Asia: fundamentos, renuncias y escuelas clásicas",
+        "collectionOrder": 4,
+        "sourceAnchors": [
+          "https://plato.stanford.edu/archives/sum2024/entries/shankara/",
+          "https://iep.utm.edu/advaita-vedanta/"
+        ],
+        "sha256": "f895c542077dfbe78e6c59640170c6e11af3c1927c4355aa8ea5e1dc4b294ac2"
+      }
+    },
+    {
+      "card": {
+        "id": "card_ramanuja_qualified_nonduality_001",
+        "author": "Rāmānuja",
+        "title": "Una unidad que conserva personas y mundo reales",
+        "territory": "Sur de India · tradición Śrīvaiṣṇava",
+        "period": "Aproximadamente 1017–1137 e.c.",
+        "family": "Viśiṣṭādvaita y filosofía de la devoción",
+        "statement": "Rāmānuja afirma una no dualidad cualificada: almas y materia son reales y dependen de Brahman, relacionado con ellas como el alma con su cuerpo.",
+        "tags": [
+          "Viśiṣṭādvaita",
+          "filosofía",
+          "Viśiṣṭādvaita",
+          "Relación cuerpo-alma",
+          "Bhakti"
+        ],
+        "question": "¿Cómo puede toda realidad formar una unidad sin borrar las diferencias entre Dios, personas y mundo?",
+        "caution": "Viśiṣṭādvaita no es un compromiso impreciso entre monismo y dualismo, sino una metafísica propia de dependencia, cuerpo y devoción.",
+        "connections": [
+          "Bhagavadgītā",
+          "Bhakti",
+          "Śaṅkara",
+          "Madhva",
+          "Viṣṇu-Nārāyaṇa"
+        ],
+        "order": 149,
+        "status": "nucleo_editorial_preservado",
+        "evidence": "A–B",
+        "audio": "Llegamos a Rāmānuja y la no dualidad cualificada. Almas y materia son reales, pero dependen de Brahman como un cuerpo depende de su alma. La liberación no borra la identidad personal; la orienta hacia conocimiento, servicio y devoción a Viṣṇu-Nārāyaṇa. Su propuesta no es un punto medio vago, sino una metafísica sistemática de unidad con diferencias reales.",
+        "quiz": {
+          "prompt": "¿Cómo puede toda realidad formar una unidad sin borrar las diferencias entre Dios, personas y mundo?",
+          "options": [
+            "Rāmānuja afirma una no dualidad cualificada: almas y materia son reales y dependen de Brahman, relacionado con ellas como el alma con su cuerpo.",
+            "La tradición elimina toda diferencia entre sus conceptos.",
+            "La propuesta solo puede comprenderse como equivalente a una teoría moderna.",
+            "El problema queda resuelto sin controversias ni interpretaciones rivales."
+          ],
+          "answer": 0,
+          "feedback": "Rāmānuja afirma una no dualidad cualificada: almas y materia son reales y dependen de Brahman, relacionado con ellas como el alma con su cuerpo."
+        },
+        "whyItMatters": "Defiende que liberación y unidad no requieren negar la realidad del mundo ni la identidad del devoto.",
+        "symbol": "❖",
+        "visual": {
+          "palette": [
+            "#4c3033",
+            "#8e555a",
+            "#d8ae63"
+          ],
+          "allegory": "viśiṣṭādvaita y filosofía de la devoción"
+        },
+        "seriesVersion": "2.4",
+        "materializationLevel": "dossier_structurado_v2_audio_conciso",
+        "shareFooter": "Pregunta guía: ¿Cómo puede toda realidad formar una unidad sin borrar las diferencias entre Dios, personas y mundo?",
+        "audioVersion": "concise-listening-3.6",
+        "guideTransition": "",
+        "audioLead": "Llegamos a Rāmānuja y la no dualidad cualificada.",
+        "audioContext": "",
+        "audioBody": "Almas y materia son reales, pero dependen de Brahman como un cuerpo depende de su alma. La liberación no borra la identidad personal; la orienta hacia conocimiento, servicio y devoción a Viṣṇu-Nārāyaṇa. Su propuesta no es un punto medio vago, sino una metafísica sistemática de unidad con diferencias reales.",
+        "listeningMode": "entity_concept_limit_compact",
+        "collectionId": "south_asia_vedic_upanishadic",
+        "collection": "Sur de Asia: fundamentos, renuncias y escuelas clásicas",
+        "collectionOrder": 4
+      },
+      "dossier": {
+        "id": "card_ramanuja_qualified_nonduality_001",
+        "seriesVersion": "2.4",
+        "author": "Rāmānuja",
+        "title": "Una unidad que conserva personas y mundo reales",
+        "territory": "Sur de India · tradición Śrīvaiṣṇava",
+        "period": "Aproximadamente 1017–1137 e.c.",
+        "family": "Viśiṣṭādvaita y filosofía de la devoción",
+        "symbol": "❖",
+        "guidingQuestion": "¿Cómo puede toda realidad formar una unidad sin borrar las diferencias entre Dios, personas y mundo?",
+        "documentedCore": "Rāmānuja afirma una no dualidad cualificada: almas y materia son reales y dependen de Brahman, relacionado con ellas como el alma con su cuerpo.",
+        "distinctiveKey": "Rāmānuja afirma una no dualidad cualificada: almas y materia son reales y dependen de Brahman, relacionado con ellas como el alma con su cuerpo.",
+        "whyItMatters": "Defiende que liberación y unidad no requieren negar la realidad del mundo ni la identidad del devoto.",
+        "editorialCaution": "Viśiṣṭādvaita no es un compromiso impreciso entre monismo y dualismo, sino una metafísica propia de dependencia, cuerpo y devoción.",
+        "tags": [
+          "Viśiṣṭādvaita",
+          "filosofía",
+          "Viśiṣṭādvaita",
+          "Relación cuerpo-alma",
+          "Bhakti"
+        ],
+        "connections": [
+          "Bhagavadgītā",
+          "Bhakti",
+          "Śaṅkara",
+          "Madhva",
+          "Viṣṇu-Nārāyaṇa"
+        ],
+        "audioScript": "Llegamos a Rāmānuja y la no dualidad cualificada. Almas y materia son reales, pero dependen de Brahman como un cuerpo depende de su alma. La liberación no borra la identidad personal; la orienta hacia conocimiento, servicio y devoción a Viṣṇu-Nārāyaṇa. Su propuesta no es un punto medio vago, sino una metafísica sistemática de unidad con diferencias reales.",
+        "evidence": "A–B",
+        "visual": {
+          "palette": [
+            "#4c3033",
+            "#8e555a",
+            "#d8ae63"
+          ],
+          "allegory": "viśiṣṭādvaita y filosofía de la devoción"
+        },
+        "derivedCardSeeds": [
+          "Viśiṣṭādvaita: desarrollo conceptual",
+          "Relación cuerpo-alma: desarrollo conceptual",
+          "Bhakti: desarrollo conceptual",
+          "Límites y debates de Una unidad que conserva personas y mundo reales"
+        ],
+        "materialization": {
+          "level": "dossier_estructurado_mas_capa_historica_v2_audio_conciso",
+          "allCoreFieldsPreserved": true,
+          "extendedProseExactArchive": "síntesis estructurada de la serie 2.4; no es transcripción literal del chat",
+          "source": "serie editorial 2.4"
+        },
+        "audioVersion": "concise-listening-3.6",
+        "audioLead": "Llegamos a Rāmānuja y la no dualidad cualificada.",
+        "audioContext": "",
+        "audioBody": "Almas y materia son reales, pero dependen de Brahman como un cuerpo depende de su alma. La liberación no borra la identidad personal; la orienta hacia conocimiento, servicio y devoción a Viṣṇu-Nārāyaṇa. Su propuesta no es un punto medio vago, sino una metafísica sistemática de unidad con diferencias reales.",
+        "collectionId": "south_asia_vedic_upanishadic",
+        "collection": "Sur de Asia: fundamentos, renuncias y escuelas clásicas",
+        "collectionOrder": 4,
+        "historicalLayer": {
+          "version": "historical-2.5",
+          "status": "materializada",
+          "sha256": "8fedf44fbd15597d392961dc8801046a74f7f165a8117ac84baf839eb48d0cd3"
+        },
+        "sourceAnchors": [
+          "https://iep.utm.edu/ramanuja/",
+          "https://plato.stanford.edu/archives/fall2025/entries/god-ultimates/"
+        ],
+        "sha256": "3d64481f144eb6fb260acb3bf466aa9f5bb77dd7c997fc3a1776282e7f2bf286"
+      },
+      "historicalLayer": {
+        "id": "card_ramanuja_qualified_nonduality_001",
+        "layerVersion": "historical-2.5",
+        "seriesVersion": "2.4",
+        "author": "Rāmānuja",
+        "title": "Una unidad que conserva personas y mundo reales",
+        "historicalContext": "Rāmānuja fue una figura principal de la tradición Śrīvaiṣṇava del sur de India y comentarista del Brahma-sūtra y la Bhagavadgītā.",
+        "historicalDevelopment": "Criticó interpretaciones Advaita que debilitaban la realidad del mundo y de las cualidades divinas. En su relación cuerpo-alma, seres conscientes y materia forman el cuerpo de Brahman, que permanece su fundamento y controlador. Bhakti y gracia ocupan un lugar central.",
+        "milestones": [
+          "Vedārthasaṅgraha.",
+          "Śrībhāṣya al Brahma-sūtra.",
+          "Gītābhāṣya y consolidación de Viśiṣṭādvaita."
+        ],
+        "conceptualSections": [
+          {
+            "title": "Viśiṣṭādvaita",
+            "text": "No dualidad de un todo cualificado por diferencias reales."
+          },
+          {
+            "title": "Relación cuerpo-alma",
+            "text": "Modelo de dependencia del mundo y las almas respecto de Brahman."
+          },
+          {
+            "title": "Bhakti",
+            "text": "Conocimiento amoroso y disciplina devocional."
+          }
+        ],
+        "legacy": [
+          "Sistema vedántico teísta de enorme influencia religiosa y filosófica."
+        ],
+        "anchorWorks": [
+          "Śrībhāṣya; Vedārthasaṅgraha; Gītābhāṣya"
+        ],
+        "guidingQuestion": "¿Cómo puede toda realidad formar una unidad sin borrar las diferencias entre Dios, personas y mundo?",
+        "distinctiveKey": "Rāmānuja afirma una no dualidad cualificada: almas y materia son reales y dependen de Brahman, relacionado con ellas como el alma con su cuerpo.",
+        "editorialCautions": [
+          "Viśiṣṭādvaita no es un compromiso impreciso entre monismo y dualismo, sino una metafísica propia de dependencia, cuerpo y devoción."
+        ],
+        "connections": [
+          "Bhagavadgītā",
+          "Bhakti",
+          "Śaṅkara",
+          "Madhva",
+          "Viṣṇu-Nārāyaṇa"
+        ],
+        "evidence": "A–B",
+        "longAudioScript": "Profundizamos en Rāmānuja: Una unidad que conserva personas y mundo reales. Rāmānuja fue una figura principal de la tradición Śrīvaiṣṇava del sur de India y comentarista del Brahma-sūtra y la Bhagavadgītā. Criticó interpretaciones Advaita que debilitaban la realidad del mundo y de las cualidades divinas. En su relación cuerpo-alma, seres conscientes y materia forman el cuerpo de Brahman, que permanece su fundamento y controlador. Bhakti y gracia ocupan un lugar central. Viśiṣṭādvaita: No dualidad de un todo cualificado por diferencias reales. Relación cuerpo-alma: Modelo de dependencia del mundo y las almas respecto de Brahman. Bhakti: Conocimiento amoroso y disciplina devocional. Precisión editorial: Viśiṣṭādvaita no es un compromiso impreciso entre monismo y dualismo, sino una metafísica propia de dependencia, cuerpo y devoción.",
+        "provenance": {
+          "source": "Consolidación editorial de la serie 2.4",
+          "preservationMode": "capa adicional; no sobrescribe tarjeta ni expediente",
+          "coverage": "contexto, desarrollo, hitos, conceptos, legado y cautela",
+          "materializedAt": "2026-07-24"
+        },
+        "audioVersion": "historical-entity-first-2.6",
+        "historicalAudioLead": "Profundizamos en Rāmānuja: Una unidad que conserva personas y mundo reales.",
+        "historicalAudioBody": "Rāmānuja fue una figura principal de la tradición Śrīvaiṣṇava del sur de India y comentarista del Brahma-sūtra y la Bhagavadgītā. Criticó interpretaciones Advaita que debilitaban la realidad del mundo y de las cualidades divinas. En su relación cuerpo-alma, seres conscientes y materia forman el cuerpo de Brahman, que permanece su fundamento y controlador. Bhakti y gracia ocupan un lugar central.",
+        "collectionId": "south_asia_vedic_upanishadic",
+        "collection": "Sur de Asia: fundamentos, renuncias y escuelas clásicas",
+        "collectionOrder": 4,
+        "sourceAnchors": [
+          "https://iep.utm.edu/ramanuja/",
+          "https://plato.stanford.edu/archives/fall2025/entries/god-ultimates/"
+        ],
+        "sha256": "8fedf44fbd15597d392961dc8801046a74f7f165a8117ac84baf839eb48d0cd3"
+      }
+    },
+    {
+      "card": {
+        "id": "card_madhva_dvaita_difference_001",
+        "author": "Madhva",
+        "title": "La diferencia permanece incluso en la liberación",
+        "territory": "Suroeste de India · tradición Vaiṣṇava",
+        "period": "Siglo XIII e.c.",
+        "family": "Dvaita Vedānta",
+        "statement": "Madhva sostiene una diferencia real y permanente entre Viṣṇu, las almas y la materia; toda realidad dependiente existe por el Dios supremo sin confundirse con él.",
+        "tags": [
+          "Dvaita",
+          "Vedānta",
+          "Dvaita",
+          "Pañcabheda",
+          "Dependencia"
+        ],
+        "question": "¿Puede la liberación unir a la persona con lo divino sin eliminar su diferencia?",
+        "caution": "Dvaita no propone dos principios igualmente absolutos: solo Viṣṇu es independiente; almas y mundo son reales, pero dependientes.",
+        "connections": [
+          "Rāmānuja",
+          "Śaṅkara",
+          "Bhagavadgītā",
+          "Bhakti",
+          "Pañcabheda"
+        ],
+        "order": 150,
+        "status": "nucleo_editorial_preservado",
+        "evidence": "A–B",
+        "audio": "Cerramos con Madhva y Dvaita Vedānta. Viṣṇu, las almas y la materia son realmente diferentes; solo Dios es completamente independiente. La liberación acerca al alma a lo divino, pero no elimina su identidad ni su dependencia. Dvaita no enfrenta dos absolutos equivalentes: afirma una pluralidad real sostenida por la supremacía de Viṣṇu.",
+        "quiz": {
+          "prompt": "¿Puede la liberación unir a la persona con lo divino sin eliminar su diferencia?",
+          "options": [
+            "Madhva sostiene una diferencia real y permanente entre Viṣṇu, las almas y la materia; toda realidad dependiente existe por el Dios supremo sin confundirse con él.",
+            "La tradición elimina toda diferencia entre sus conceptos.",
+            "La propuesta solo puede comprenderse como equivalente a una teoría moderna.",
+            "El problema queda resuelto sin controversias ni interpretaciones rivales."
+          ],
+          "answer": 0,
+          "feedback": "Madhva sostiene una diferencia real y permanente entre Viṣṇu, las almas y la materia; toda realidad dependiente existe por el Dios supremo sin confundirse con él."
+        },
+        "whyItMatters": "Muestra que Vedānta también desarrolló una defensa rigurosa de pluralidad, dependencia y devoción sin identidad ontológica con Brahman.",
+        "symbol": "Ⅱ",
+        "visual": {
+          "palette": [
+            "#31433b",
+            "#647d6b",
+            "#d4b261"
+          ],
+          "allegory": "dvaita vedānta"
+        },
+        "seriesVersion": "2.4",
+        "materializationLevel": "dossier_structurado_v2_audio_conciso",
+        "shareFooter": "Pregunta guía: ¿Puede la liberación unir a la persona con lo divino sin eliminar su diferencia?",
+        "audioVersion": "concise-listening-3.6",
+        "guideTransition": "",
+        "audioLead": "Cerramos con Madhva y Dvaita Vedānta.",
+        "audioContext": "",
+        "audioBody": "Viṣṇu, las almas y la materia son realmente diferentes; solo Dios es completamente independiente. La liberación acerca al alma a lo divino, pero no elimina su identidad ni su dependencia. Dvaita no enfrenta dos absolutos equivalentes: afirma una pluralidad real sostenida por la supremacía de Viṣṇu.",
+        "listeningMode": "entity_concept_limit_compact",
+        "collectionId": "south_asia_vedic_upanishadic",
+        "collection": "Sur de Asia: fundamentos, renuncias y escuelas clásicas",
+        "collectionOrder": 4
+      },
+      "dossier": {
+        "id": "card_madhva_dvaita_difference_001",
+        "seriesVersion": "2.4",
+        "author": "Madhva",
+        "title": "La diferencia permanece incluso en la liberación",
+        "territory": "Suroeste de India · tradición Vaiṣṇava",
+        "period": "Siglo XIII e.c.",
+        "family": "Dvaita Vedānta",
+        "symbol": "Ⅱ",
+        "guidingQuestion": "¿Puede la liberación unir a la persona con lo divino sin eliminar su diferencia?",
+        "documentedCore": "Madhva sostiene una diferencia real y permanente entre Viṣṇu, las almas y la materia; toda realidad dependiente existe por el Dios supremo sin confundirse con él.",
+        "distinctiveKey": "Madhva sostiene una diferencia real y permanente entre Viṣṇu, las almas y la materia; toda realidad dependiente existe por el Dios supremo sin confundirse con él.",
+        "whyItMatters": "Muestra que Vedānta también desarrolló una defensa rigurosa de pluralidad, dependencia y devoción sin identidad ontológica con Brahman.",
+        "editorialCaution": "Dvaita no propone dos principios igualmente absolutos: solo Viṣṇu es independiente; almas y mundo son reales, pero dependientes.",
+        "tags": [
+          "Dvaita",
+          "Vedānta",
+          "Dvaita",
+          "Pañcabheda",
+          "Dependencia"
+        ],
+        "connections": [
+          "Rāmānuja",
+          "Śaṅkara",
+          "Bhagavadgītā",
+          "Bhakti",
+          "Pañcabheda"
+        ],
+        "audioScript": "Cerramos con Madhva y Dvaita Vedānta. Viṣṇu, las almas y la materia son realmente diferentes; solo Dios es completamente independiente. La liberación acerca al alma a lo divino, pero no elimina su identidad ni su dependencia. Dvaita no enfrenta dos absolutos equivalentes: afirma una pluralidad real sostenida por la supremacía de Viṣṇu.",
+        "evidence": "A–B",
+        "visual": {
+          "palette": [
+            "#31433b",
+            "#647d6b",
+            "#d4b261"
+          ],
+          "allegory": "dvaita vedānta"
+        },
+        "derivedCardSeeds": [
+          "Dvaita: desarrollo conceptual",
+          "Pañcabheda: desarrollo conceptual",
+          "Dependencia: desarrollo conceptual",
+          "Límites y debates de La diferencia permanece incluso en la liberación"
+        ],
+        "materialization": {
+          "level": "dossier_estructurado_mas_capa_historica_v2_audio_conciso",
+          "allCoreFieldsPreserved": true,
+          "extendedProseExactArchive": "síntesis estructurada de la serie 2.4; no es transcripción literal del chat",
+          "source": "serie editorial 2.4"
+        },
+        "audioVersion": "concise-listening-3.6",
+        "audioLead": "Cerramos con Madhva y Dvaita Vedānta.",
+        "audioContext": "",
+        "audioBody": "Viṣṇu, las almas y la materia son realmente diferentes; solo Dios es completamente independiente. La liberación acerca al alma a lo divino, pero no elimina su identidad ni su dependencia. Dvaita no enfrenta dos absolutos equivalentes: afirma una pluralidad real sostenida por la supremacía de Viṣṇu.",
+        "collectionId": "south_asia_vedic_upanishadic",
+        "collection": "Sur de Asia: fundamentos, renuncias y escuelas clásicas",
+        "collectionOrder": 4,
+        "historicalLayer": {
+          "version": "historical-2.5",
+          "status": "materializada",
+          "sha256": "09ca92a90d6361b10a19ceeb88a1d1f803ab563140b233f5329cc11d39bdaf75"
+        },
+        "sourceAnchors": [
+          "https://iep.utm.edu/madhva/",
+          "https://iep.utm.edu/upanisad/"
+        ],
+        "sha256": "11e4126db15a31b4c22a4517603fbfb8df17e20d377e856406fda9b7f8f084b4"
+      },
+      "historicalLayer": {
+        "id": "card_madhva_dvaita_difference_001",
+        "layerVersion": "historical-2.5",
+        "seriesVersion": "2.4",
+        "author": "Madhva",
+        "title": "La diferencia permanece incluso en la liberación",
+        "historicalContext": "Madhva desarrolló Dvaita Vedānta en el suroeste de India y escribió comentarios al triple canon vedántico junto con obras polémicas.",
+        "historicalDevelopment": "Su sistema insiste en diferencias reales: entre Dios y alma, Dios y materia, almas entre sí, alma y materia, y objetos materiales entre sí. Critica tanto la identidad Advaita como otras formas de no dualidad. Devoción, conocimiento correcto y gracia divina conducen a la liberación.",
+        "milestones": [
+          "Comentarios a Brahma-sūtra y Bhagavadgītā.",
+          "Desarrollo de pañcabheda, cinco diferencias.",
+          "Consolidación de la tradición Madhva."
+        ],
+        "conceptualSections": [
+          {
+            "title": "Dvaita",
+            "text": "Dualismo o pluralismo teísta de diferencias reales."
+          },
+          {
+            "title": "Pañcabheda",
+            "text": "Cinco diferencias fundamentales."
+          },
+          {
+            "title": "Dependencia",
+            "text": "Solo Viṣṇu es independiente; lo demás existe sostenido por él."
+          }
+        ],
+        "legacy": [
+          "Una de las grandes escuelas de Vedānta y una tradición viva de filosofía devocional."
+        ],
+        "anchorWorks": [
+          "Brahmasūtrabhāṣya; Anuvyākhyāna; comentario a Bhagavadgītā"
+        ],
+        "guidingQuestion": "¿Puede la liberación unir a la persona con lo divino sin eliminar su diferencia?",
+        "distinctiveKey": "Madhva sostiene una diferencia real y permanente entre Viṣṇu, las almas y la materia; toda realidad dependiente existe por el Dios supremo sin confundirse con él.",
+        "editorialCautions": [
+          "Dvaita no propone dos principios igualmente absolutos: solo Viṣṇu es independiente; almas y mundo son reales, pero dependientes."
+        ],
+        "connections": [
+          "Rāmānuja",
+          "Śaṅkara",
+          "Bhagavadgītā",
+          "Bhakti",
+          "Pañcabheda"
+        ],
+        "evidence": "A–B",
+        "longAudioScript": "Profundizamos en Madhva: La diferencia permanece incluso en la liberación. Madhva desarrolló Dvaita Vedānta en el suroeste de India y escribió comentarios al triple canon vedántico junto con obras polémicas. Su sistema insiste en diferencias reales: entre Dios y alma, Dios y materia, almas entre sí, alma y materia, y objetos materiales entre sí. Critica tanto la identidad Advaita como otras formas de no dualidad. Devoción, conocimiento correcto y gracia divina conducen a la liberación. Dvaita: Dualismo o pluralismo teísta de diferencias reales. Pañcabheda: Cinco diferencias fundamentales. Dependencia: Solo Viṣṇu es independiente; lo demás existe sostenido por él. Precisión editorial: Dvaita no propone dos principios igualmente absolutos: solo Viṣṇu es independiente; almas y mundo son reales, pero dependientes.",
+        "provenance": {
+          "source": "Consolidación editorial de la serie 2.4",
+          "preservationMode": "capa adicional; no sobrescribe tarjeta ni expediente",
+          "coverage": "contexto, desarrollo, hitos, conceptos, legado y cautela",
+          "materializedAt": "2026-07-24"
+        },
+        "audioVersion": "historical-entity-first-2.6",
+        "historicalAudioLead": "Profundizamos en Madhva: La diferencia permanece incluso en la liberación.",
+        "historicalAudioBody": "Madhva desarrolló Dvaita Vedānta en el suroeste de India y escribió comentarios al triple canon vedántico junto con obras polémicas. Su sistema insiste en diferencias reales: entre Dios y alma, Dios y materia, almas entre sí, alma y materia, y objetos materiales entre sí. Critica tanto la identidad Advaita como otras formas de no dualidad. Devoción, conocimiento correcto y gracia divina conducen a la liberación.",
+        "collectionId": "south_asia_vedic_upanishadic",
+        "collection": "Sur de Asia: fundamentos, renuncias y escuelas clásicas",
+        "collectionOrder": 4,
+        "sourceAnchors": [
+          "https://iep.utm.edu/madhva/",
+          "https://iep.utm.edu/upanisad/"
+        ],
+        "sha256": "09ca92a90d6361b10a19ceeb88a1d1f803ab563140b233f5329cc11d39bdaf75"
+      }
+    }
+  ],
+  "sourcePolicy": "Fuentes académicas abiertas; cada tarjeta mantiene cautela editorial y enlaces ancla."
+}

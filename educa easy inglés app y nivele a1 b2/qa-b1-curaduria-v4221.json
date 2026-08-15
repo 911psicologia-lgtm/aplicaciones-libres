@@ -1,0 +1,459 @@
+{
+  "phase": "v4.22.1 · Curaduría B1 situada",
+  "audit": {
+    "version": "2.12.1 / v4.22.1",
+    "b1_lessons": 150,
+    "b1_exercise_refs": 750,
+    "b1_missing_mc_scenario": 0,
+    "b1_missing_scenario_choice_scenario": 0,
+    "b1_listen_without_audio": 0,
+    "b1_reading_without_question": 0,
+    "b1_short_ligero": 0,
+    "b1_visible_B1_prompt_or_scenario": 0,
+    "b1_conversations": 30
+  },
+  "sample_lesson_301": {
+    "id": "lesson_301",
+    "routeId": "ruta_3",
+    "emoji": "🧩",
+    "title": "Narrar experiencias 1",
+    "subtitle": "Relatar experiencias breves con secuencia, causa y resultado.",
+    "goal": "Resolver una situación de una experiencia breve usando contexto, razón y cierre comunicativo.",
+    "duration": "5–8 min",
+    "blocks": [
+      {
+        "type": "phrase",
+        "emoji": "🧭",
+        "en": "First, I noticed that the order of events was not clear, so I decided to explain the events in order before giving my final answer.",
+        "es": "Primero noté que el orden de los hechos no estaba claro, así que decidí explicar los hechos en orden antes de dar mi respuesta final."
+      },
+      {
+        "type": "phrase",
+        "emoji": "💭",
+        "en": "In my opinion, we should explain the events in order because the other person needs to understand what happened.",
+        "es": "En mi opinión, deberíamos explicar los hechos en orden porque la otra persona necesita entender qué ocurrió."
+      },
+      {
+        "type": "phrase",
+        "emoji": "🔁",
+        "en": "First, I explained what happened; then, I added the reason and the result.",
+        "es": "Primero expliqué qué pasó; luego añadí la razón y el resultado."
+      },
+      {
+        "type": "phrase",
+        "emoji": "🧩",
+        "en": "The situation becomes clearer when I explain the events in order.",
+        "es": "La situación se vuelve más clara cuando logro explicar los hechos en orden."
+      },
+      {
+        "type": "phrase",
+        "emoji": "🎯",
+        "en": "I need to explain the context because the other person needs to understand what happened.",
+        "es": "Necesito explicar el contexto porque la otra persona necesita entender qué ocurrió."
+      },
+      {
+        "type": "tip",
+        "emoji": "💡",
+        "text": "En esta lección, la clave es orden y claridad: no basta una frase suelta; la respuesta debe servir en la situación."
+      },
+      {
+        "type": "example",
+        "emoji": "🧩",
+        "text": "Situación: Un compañero te pide contar qué pasó ayer, pero necesita entender el orden de los hechos. Respuesta útil: “First, I noticed that the order of events was not clear, so I decided to explain the events in order before giving my final answer.”"
+      }
+    ],
+    "exerciseIds": [
+      "lesson_301_infer",
+      "lesson_301_opinion",
+      "lesson_301_reform",
+      "lesson_301_read",
+      "lesson_301_listen"
+    ],
+    "exerciseSets": {
+      "ligero": [
+        "lesson_301_infer",
+        "lesson_301_opinion",
+        "lesson_301_reform",
+        "lesson_301_read",
+        "lesson_301_listen"
+      ],
+      "constante": [
+        "lesson_301_infer",
+        "lesson_301_opinion",
+        "lesson_301_reform",
+        "lesson_301_read",
+        "lesson_301_listen"
+      ],
+      "intensivo": [
+        "lesson_301_infer",
+        "lesson_301_opinion",
+        "lesson_301_reform",
+        "lesson_301_read",
+        "lesson_301_listen"
+      ]
+    },
+    "layer": "b1",
+    "layerLabel": "🧭 B1"
+  },
+  "sample_exercises_lesson_301": [
+    {
+      "id": "lesson_301_infer",
+      "lessonId": "lesson_301",
+      "type": "scenario_choice",
+      "prompt": "Lee la situación y elige la respuesta más útil.",
+      "scenario": "Un compañero te pide contar qué pasó ayer, pero necesita entender el orden de los hechos. La persona necesita entender qué ocurrió primero y qué ocurrió después.",
+      "options": [
+        "First, I noticed that the order of events was not clear, so I decided to explain the events in order before giving my final answer.",
+        "The situation is important, although I only repeat the topic.",
+        "I would give many details, but I might not connect them to the main idea.",
+        "I can answer quickly, but I do not need to explain the reason."
+      ],
+      "correctIndex": 0,
+      "feedback": "Correcto: la respuesta incluye contexto, razón o resultado y sirve para la escena.",
+      "emoji": "🧭",
+      "supportLabel": "situado",
+      "promptEs": "Elige la frase que resuelve mejor la situación.",
+      "scenarioEs": "Un compañero te pide contar qué pasó ayer, pero necesita entender el orden de los hechos. La persona necesita entender qué ocurrió primero y qué ocurrió después.",
+      "optionTranslations": [
+        "Primero noté que el orden de los hechos no estaba claro, así que decidí explicar los hechos en orden antes de dar mi respuesta final.",
+        "La situación es importante, aunque solo repito el tema.",
+        "Daría muchos detalles, pero quizá no los conecte con la idea principal.",
+        "Puedo responder rápido, pero no necesito explicar la razón."
+      ],
+      "feedbackCorrect": "Correcto: la respuesta incluye contexto, razón o resultado y sirve para la escena.",
+      "feedbackWrong": "Revisa la escena: la mejor respuesta no solo suena bien, también explica algo útil."
+    },
+    {
+      "id": "lesson_301_opinion",
+      "lessonId": "lesson_301",
+      "type": "multiple_choice",
+      "prompt": "Elige la opinión más clara para esta conversación.",
+      "options": [
+        "I agree, but I cannot explain why this matters.",
+        "I think every option is the same, so I do not need a reason.",
+        "The topic is interesting, but I do not give a clear position.",
+        "In my opinion, we should explain the events in order because the other person needs to understand what happened."
+      ],
+      "correctIndex": 3,
+      "feedback": "Correcto: la opinión tiene postura y razón.",
+      "emoji": "💭",
+      "supportLabel": "situado",
+      "promptEs": "La mejor opinión debe tener postura y razón.",
+      "optionTranslations": [
+        "Estoy de acuerdo, pero no puedo explicar por qué esto importa.",
+        "Creo que todas las opciones son iguales, así que no necesito una razón.",
+        "El tema es interesante, pero no doy una postura clara.",
+        "En mi opinión, deberíamos explicar los hechos en orden porque la otra persona necesita entender qué ocurrió."
+      ],
+      "feedbackCorrect": "Correcto: la opinión tiene postura y razón.",
+      "feedbackWrong": "Busca una opinión que no sea vacía: debe decir qué piensas y por qué.",
+      "scenario": "Un compañero te pide contar qué pasó ayer, pero necesita entender el orden de los hechos. Te piden decir qué piensas sin responder de forma brusca ni incompleta.",
+      "scenarioEs": "Un compañero te pide contar qué pasó ayer, pero necesita entender el orden de los hechos. Te piden decir qué piensas sin responder de forma brusca ni incompleta."
+    },
+    {
+      "id": "lesson_301_reform",
+      "lessonId": "lesson_301",
+      "type": "multiple_choice",
+      "prompt": "Elige la mejor reformulación.",
+      "options": [
+        "I already explained it, so I do not need to say it differently.",
+        "I will change the topic so it sounds easier.",
+        "Let me say it another way: the order of events was not clear, so I need to explain the events in order.",
+        "I can repeat the same sentence louder."
+      ],
+      "correctIndex": 2,
+      "feedback": "Correcto: reformula sin cambiar el sentido.",
+      "emoji": "🔁",
+      "supportLabel": "situado",
+      "promptEs": "La reformulación debe conservar la idea y hacerla más clara.",
+      "optionTranslations": [
+        "Ya lo expliqué, así que no necesito decirlo de otra manera.",
+        "Cambiaré de tema para que suene más fácil.",
+        "Déjame decirlo de otra forma: el orden de los hechos no estaba claro, así que necesito explicar los hechos en orden.",
+        "Puedo repetir la misma frase más fuerte."
+      ],
+      "feedbackCorrect": "Correcto: reformula sin cambiar el sentido.",
+      "feedbackWrong": "Reformular no es repetir ni cambiar de tema; es decir la misma idea con más claridad.",
+      "scenario": "Un compañero te pide contar qué pasó ayer, pero necesita entender el orden de los hechos. La otra persona no entendió tu primera explicación.",
+      "scenarioEs": "Un compañero te pide contar qué pasó ayer, pero necesita entender el orden de los hechos. La otra persona no entendió tu primera explicación."
+    },
+    {
+      "id": "lesson_301_read",
+      "lessonId": "lesson_301",
+      "type": "reading_choice",
+      "prompt": "Un compañero te pide contar qué pasó ayer, pero necesita entender el orden de los hechos. At first, the order of events was not clear. Instead of answering with a short sentence, I decided to explain the events in order. That made the explanation clearer because the other person needs to understand what happened.",
+      "question": "¿Cuál es la idea principal?",
+      "options": [
+        "The speaker gives details, but they do not connect to the result.",
+        "The speaker explains a situation, chooses a useful action and gives a reason.",
+        "The speaker only gives a personal preference without context.",
+        "The speaker changes the topic and avoids explaining the problem."
+      ],
+      "correctIndex": 1,
+      "feedback": "Correcto: identificaste situación, acción y razón.",
+      "promptEs": "Un compañero te pide contar qué pasó ayer, pero necesita entender el orden de los hechos. Al principio, el orden de los hechos no estaba claro. En lugar de responder con una frase corta, decidí explicar los hechos en orden. Eso hizo más clara la explicación porque la otra persona necesita entender qué ocurrió.",
+      "questionEs": "Elige la interpretación más completa.",
+      "emoji": "📖",
+      "supportLabel": "situado",
+      "optionTranslations": [
+        "La persona da detalles, pero no los conecta con el resultado.",
+        "La persona explica una situación, elige una acción útil y da una razón.",
+        "La persona solo da una preferencia personal sin contexto.",
+        "La persona cambia de tema y evita explicar el problema."
+      ],
+      "feedbackCorrect": "Correcto: identificaste situación, acción y razón.",
+      "feedbackWrong": "Vuelve al texto: la respuesta debe resumir la idea principal, no solo un detalle."
+    },
+    {
+      "id": "lesson_301_listen",
+      "lessonId": "lesson_301",
+      "type": "listen_choice",
+      "prompt": "Escucha y elige el mejor resumen.",
+      "audioText": "Although the order of events was not clear, I decided to explain the events in order because the other person needs to understand what happened.",
+      "options": [
+        "The speaker explains a difficulty and gives a practical reason for the response.",
+        "The speaker avoids the situation and changes the topic.",
+        "The speaker says the problem is simple but gives no reason.",
+        "The speaker only gives unrelated details without a clear purpose."
+      ],
+      "correctIndex": 0,
+      "feedback": "Correcto: captaste dificultad, acción y razón.",
+      "audioTextEs": "Aunque el orden de los hechos no estaba claro, decidí explicar los hechos en orden porque la otra persona necesita entender qué ocurrió.",
+      "emoji": "🎧",
+      "supportLabel": "situado",
+      "promptEs": "Concéntrate en la intención, no en palabras sueltas.",
+      "optionTranslations": [
+        "La persona explica una dificultad y da una razón práctica para su respuesta.",
+        "La persona evita la situación y cambia de tema.",
+        "La persona dice que el problema es simple, pero no da ninguna razón.",
+        "La persona solo da detalles no relacionados sin un propósito claro."
+      ],
+      "feedbackCorrect": "Correcto: captaste dificultad, acción y razón.",
+      "feedbackWrong": "Escucha la intención general: ¿qué problema aparece y qué acción se toma?",
+      "scenario": "Un compañero te pide contar qué pasó ayer, pero necesita entender el orden de los hechos.",
+      "scenarioEs": "Un compañero te pide contar qué pasó ayer, pero necesita entender el orden de los hechos."
+    }
+  ],
+  "sample_lesson_450": {
+    "id": "lesson_450",
+    "routeId": "ruta_3",
+    "emoji": "🏁",
+    "title": "Comunicación autónoma 5",
+    "subtitle": "Consolidar autonomía funcional de nivel umbral.",
+    "goal": "Resolver una situación de comunicación autónoma usando contexto, razón y cierre comunicativo.",
+    "duration": "5–8 min",
+    "blocks": [
+      {
+        "type": "phrase",
+        "emoji": "🧭",
+        "en": "Overall, I would combine context, reason and result because the answer shows autonomy.",
+        "es": "En conjunto, yo intentaría combinar contexto, razón y resultado porque la respuesta muestra autonomía."
+      },
+      {
+        "type": "phrase",
+        "emoji": "💭",
+        "en": "A complete answer should include the context, the reason and the result.",
+        "es": "Una respuesta completa debe incluir el contexto, la razón y el resultado."
+      },
+      {
+        "type": "phrase",
+        "emoji": "🔁",
+        "en": "I can explain the situation, give a reason and close with the result.",
+        "es": "Puedo explicar la situación, dar una razón y cerrar con el resultado."
+      },
+      {
+        "type": "phrase",
+        "emoji": "🧩",
+        "en": "The situation becomes clearer when I combine context, reason and result.",
+        "es": "La situación se vuelve más clara cuando logro combinar contexto, razón y resultado."
+      },
+      {
+        "type": "phrase",
+        "emoji": "🎯",
+        "en": "I need to explain the context because the answer shows autonomy.",
+        "es": "Necesito explicar el contexto porque la respuesta muestra autonomía."
+      },
+      {
+        "type": "tip",
+        "emoji": "💡",
+        "text": "En esta lección, la clave es cierre comunicativo: no basta una frase suelta; la respuesta debe servir en la situación."
+      },
+      {
+        "type": "example",
+        "emoji": "🧩",
+        "text": "Situación: Debes dar una respuesta completa sin depender de un guion. Respuesta útil: “Overall, I would combine context, reason and result because the answer shows autonomy.”"
+      }
+    ],
+    "exerciseIds": [
+      "lesson_450_infer",
+      "lesson_450_opinion",
+      "lesson_450_reform",
+      "lesson_450_read",
+      "lesson_450_listen"
+    ],
+    "exerciseSets": {
+      "ligero": [
+        "lesson_450_infer",
+        "lesson_450_opinion",
+        "lesson_450_reform",
+        "lesson_450_read",
+        "lesson_450_listen"
+      ],
+      "constante": [
+        "lesson_450_infer",
+        "lesson_450_opinion",
+        "lesson_450_reform",
+        "lesson_450_read",
+        "lesson_450_listen"
+      ],
+      "intensivo": [
+        "lesson_450_infer",
+        "lesson_450_opinion",
+        "lesson_450_reform",
+        "lesson_450_read",
+        "lesson_450_listen"
+      ]
+    },
+    "layer": "b1",
+    "layerLabel": "🧭 B1"
+  },
+  "sample_exercises_lesson_450": [
+    {
+      "id": "lesson_450_infer",
+      "lessonId": "lesson_450",
+      "type": "scenario_choice",
+      "prompt": "Lee la situación y elige la respuesta más útil.",
+      "scenario": "Debes dar una respuesta completa sin depender de un guion. Necesitas cerrar la idea con una frase completa y útil.",
+      "options": [
+        "Overall, I would combine context, reason and result because the answer shows autonomy.",
+        "I would give many details, but I might not connect them to the main idea.",
+        "The situation is important, although I only repeat the topic.",
+        "I can answer quickly, but I do not need to explain the reason."
+      ],
+      "correctIndex": 0,
+      "feedback": "Correcto: la respuesta incluye contexto, razón o resultado y sirve para la escena.",
+      "emoji": "🧭",
+      "supportLabel": "situado",
+      "promptEs": "Elige la frase que resuelve mejor la situación.",
+      "scenarioEs": "Debes dar una respuesta completa sin depender de un guion. Necesitas cerrar la idea con una frase completa y útil.",
+      "optionTranslations": [
+        "En conjunto, yo intentaría combinar contexto, razón y resultado porque la respuesta muestra autonomía.",
+        "Daría muchos detalles, pero quizá no los conecte con la idea principal.",
+        "La situación es importante, aunque solo repito el tema.",
+        "Puedo responder rápido, pero no necesito explicar la razón."
+      ],
+      "feedbackCorrect": "Correcto: la respuesta incluye contexto, razón o resultado y sirve para la escena.",
+      "feedbackWrong": "Revisa la escena: la mejor respuesta no solo suena bien, también explica algo útil."
+    },
+    {
+      "id": "lesson_450_opinion",
+      "lessonId": "lesson_450",
+      "type": "multiple_choice",
+      "prompt": "Elige la opinión más clara para esta conversación.",
+      "options": [
+        "I think every option is the same, so I do not need a reason.",
+        "A complete answer should include the context, the reason and the result.",
+        "The topic is interesting, but I do not give a clear position.",
+        "I agree, but I cannot explain why this matters."
+      ],
+      "correctIndex": 1,
+      "feedback": "Correcto: la opinión tiene postura y razón.",
+      "emoji": "💭",
+      "supportLabel": "situado",
+      "promptEs": "La mejor opinión debe tener postura y razón.",
+      "optionTranslations": [
+        "Creo que todas las opciones son iguales, así que no necesito una razón.",
+        "Una respuesta completa debe incluir el contexto, la razón y el resultado.",
+        "El tema es interesante, pero no doy una postura clara.",
+        "Estoy de acuerdo, pero no puedo explicar por qué esto importa."
+      ],
+      "feedbackCorrect": "Correcto: la opinión tiene postura y razón.",
+      "feedbackWrong": "Busca una opinión que no sea vacía: debe decir qué piensas y por qué.",
+      "scenario": "Debes dar una respuesta completa sin depender de un guion. Te piden decir qué piensas sin responder de forma brusca ni incompleta.",
+      "scenarioEs": "Debes dar una respuesta completa sin depender de un guion. Te piden decir qué piensas sin responder de forma brusca ni incompleta."
+    },
+    {
+      "id": "lesson_450_reform",
+      "lessonId": "lesson_450",
+      "type": "multiple_choice",
+      "prompt": "Elige la mejor reformulación.",
+      "options": [
+        "I already explained it, so I do not need to say it differently.",
+        "I can repeat the same sentence louder.",
+        "Let me say it another way: the speaker needed a complete response, so I need to combine context, reason and result.",
+        "I will change the topic so it sounds easier."
+      ],
+      "correctIndex": 2,
+      "feedback": "Correcto: reformula sin cambiar el sentido.",
+      "emoji": "🔁",
+      "supportLabel": "situado",
+      "promptEs": "La reformulación debe conservar la idea y hacerla más clara.",
+      "optionTranslations": [
+        "Ya lo expliqué, así que no necesito decirlo de otra manera.",
+        "Puedo repetir la misma frase más fuerte.",
+        "Déjame decirlo de otra forma: la persona necesitaba una respuesta completa, así que necesito combinar contexto, razón y resultado.",
+        "Cambiaré de tema para que suene más fácil."
+      ],
+      "feedbackCorrect": "Correcto: reformula sin cambiar el sentido.",
+      "feedbackWrong": "Reformular no es repetir ni cambiar de tema; es decir la misma idea con más claridad.",
+      "scenario": "Debes dar una respuesta completa sin depender de un guion. La otra persona no entendió tu primera explicación.",
+      "scenarioEs": "Debes dar una respuesta completa sin depender de un guion. La otra persona no entendió tu primera explicación."
+    },
+    {
+      "id": "lesson_450_read",
+      "lessonId": "lesson_450",
+      "type": "reading_choice",
+      "prompt": "Debes dar una respuesta completa sin depender de un guion. At first, the speaker needed a complete response. Instead of answering with a short sentence, I decided to combine context, reason and result. That made the explanation clearer because the answer shows autonomy.",
+      "question": "¿Cuál es la idea principal?",
+      "options": [
+        "The speaker changes the topic and avoids explaining the problem.",
+        "The speaker explains a situation, chooses a useful action and gives a reason.",
+        "The speaker only gives a personal preference without context.",
+        "The speaker gives details, but they do not connect to the result."
+      ],
+      "correctIndex": 1,
+      "feedback": "Correcto: identificaste situación, acción y razón.",
+      "promptEs": "Debes dar una respuesta completa sin depender de un guion. Al principio, la persona necesitaba una respuesta completa. En lugar de responder con una frase corta, decidí combinar contexto, razón y resultado. Eso hizo más clara la explicación porque la respuesta muestra autonomía.",
+      "questionEs": "Elige la interpretación más completa.",
+      "emoji": "📖",
+      "supportLabel": "situado",
+      "optionTranslations": [
+        "La persona cambia de tema y evita explicar el problema.",
+        "La persona explica una situación, elige una acción útil y da una razón.",
+        "La persona solo da una preferencia personal sin contexto.",
+        "La persona da detalles, pero no los conecta con el resultado."
+      ],
+      "feedbackCorrect": "Correcto: identificaste situación, acción y razón.",
+      "feedbackWrong": "Vuelve al texto: la respuesta debe resumir la idea principal, no solo un detalle."
+    },
+    {
+      "id": "lesson_450_listen",
+      "lessonId": "lesson_450",
+      "type": "listen_choice",
+      "prompt": "Escucha y elige el mejor resumen.",
+      "audioText": "Although the speaker needed a complete response, I decided to combine context, reason and result because the answer shows autonomy.",
+      "options": [
+        "The speaker explains a difficulty and gives a practical reason for the response.",
+        "The speaker only gives unrelated details without a clear purpose.",
+        "The speaker says the problem is simple but gives no reason.",
+        "The speaker avoids the situation and changes the topic."
+      ],
+      "correctIndex": 0,
+      "feedback": "Correcto: captaste dificultad, acción y razón.",
+      "audioTextEs": "Aunque la persona necesitaba una respuesta completa, decidí combinar contexto, razón y resultado porque la respuesta muestra autonomía.",
+      "emoji": "🎧",
+      "supportLabel": "situado",
+      "promptEs": "Concéntrate en la intención, no en palabras sueltas.",
+      "optionTranslations": [
+        "La persona explica una dificultad y da una razón práctica para su respuesta.",
+        "La persona solo da detalles no relacionados sin un propósito claro.",
+        "La persona dice que el problema es simple, pero no da ninguna razón.",
+        "La persona evita la situación y cambia de tema."
+      ],
+      "feedbackCorrect": "Correcto: captaste dificultad, acción y razón.",
+      "feedbackWrong": "Escucha la intención general: ¿qué problema aparece y qué acción se toma?",
+      "scenario": "Debes dar una respuesta completa sin depender de un guion.",
+      "scenarioEs": "Debes dar una respuesta completa sin depender de un guion."
+    }
+  ]
+}

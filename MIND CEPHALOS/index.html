@@ -1,0 +1,701 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>NeuroCalma | V19 Stable Audio</title>
+    <style>
+        :root {
+            --bg: #0b0d12;
+            --surface: #161b22;
+            --primary: #00bcd4;
+            --secondary: #26a69a;
+            --accent: #ffb74d;
+            --text: #e0e6ed;
+            --text-dim: #8b949e;
+            --danger: #ef5350;
+            --font-main: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+        }
+
+        * { box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
+
+        body {
+            margin: 0; background-color: var(--bg); color: var(--text);
+            font-family: var(--font-main); height: 100vh; overflow: hidden;
+            display: flex; flex-direction: column; user-select: none;
+        }
+
+        /* SCROLL INVISIBLE */
+        * { scrollbar-width: none; }
+        *::-webkit-scrollbar { display: none; }
+
+        .full-screen { position: absolute; top: 0; left: 0; width: 100%; height: 100%; z-index: 10; background: var(--bg); display: flex; flex-direction: column; }
+        .hidden { display: none !important; }
+        .btn { cursor: pointer; border: none; outline: none; transition: 0.2s; font-family: inherit; }
+        
+        /* HEADER */
+        header {
+            padding: 15px 20px; display: flex; justify-content: space-between; align-items: center;
+            border-bottom: 1px solid rgba(255,255,255,0.05); background: var(--surface);
+            flex-shrink: 0;
+        }
+        .logo h1 { margin: 0; font-size: 1.1rem; letter-spacing: 1px; color: var(--primary); }
+        .logo span { font-size: 0.7rem; color: var(--text-dim); display: block; }
+        
+        .lang-switch { background: rgba(0,0,0,0.3); border-radius: 20px; padding: 2px; display: flex; }
+        .lang-btn { background: transparent; color: var(--text-dim); padding: 5px 10px; font-size: 0.7rem; border-radius: 18px; font-weight: bold; }
+        .lang-btn.active { background: var(--secondary); color: #fff; }
+
+        .container {
+            flex: 1; overflow-y: auto; padding: 20px; width: 100%;
+            margin: 0 auto; max-width: 500px; -webkit-overflow-scrolling: touch;
+        }
+
+        .control-group { margin-bottom: 20px; }
+        .label { display: block; font-size: 0.8rem; color: var(--text-dim); margin-bottom: 8px; text-transform: uppercase; letter-spacing: 0.5px; font-weight: 600; }
+        
+        select {
+            width: 100%; background: var(--surface); color: #fff; border: 1px solid #30363d;
+            padding: 12px; border-radius: 8px; font-size: 0.95rem; appearance: none;
+            background-image: url("data:image/svg+xml;charset=US-ASCII,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20width%3D%22292.4%22%20height%3D%22292.4%22%3E%3Cpath%20fill%3D%22%2300bcd4%22%20d%3D%22M287%2069.4a17.6%2017.6%200%200%200-13-5.4H18.4c-5%200-9.3%201.8-12.9%205.4A17.6%2017.6%200%200%200%200%2082.2c0%205%201.8%209.3%205.4%2012.9l128%20127.9c3.6%203.6%207.8%205.4%2012.8%205.4s9.2-1.8%2012.8-5.4L287%2095c3.5-3.5%205.4-7.8%205.4-12.8%200-5-1.9-9.2-5.5-12.8z%22%2F%3E%3C%2Fsvg%3E");
+            background-repeat: no-repeat; background-position: right .7em top 50%; background-size: .65em auto;
+        }
+
+        .mode-selector { display: flex; background: var(--surface); border-radius: 8px; padding: 4px; border: 1px solid #30363d; }
+        .mode-btn { flex: 1; background: transparent; color: var(--text-dim); padding: 10px; border-radius: 6px; font-size: 0.9rem; }
+        .mode-btn.active { background: var(--primary); color: #000; font-weight: bold; }
+
+        .intensity-row { display: flex; gap: 8px; }
+        .int-btn {
+            flex: 1; background: var(--surface); border: 1px solid #30363d; padding: 10px 2px;
+            border-radius: 8px; color: var(--text); font-size: 0.75rem; display: flex; flex-direction: column; align-items: center; gap: 5px;
+        }
+        .int-btn.active { border-color: var(--accent); background: rgba(255, 183, 77, 0.1); color: var(--accent); }
+        .int-emoji { font-size: 1.4rem; margin-bottom: 2px; }
+
+        .binaural-row { display: flex; align-items: center; gap: 10px; margin-top: 10px; background: rgba(0,0,0,0.2); padding: 10px; border-radius: 8px; }
+        .tooltip-container { position: relative; display: inline-block; cursor: help; }
+        .info-icon { background: #333; color: var(--primary); border-radius: 50%; width: 18px; height: 18px; display: flex; align-items: center; justify-content: center; font-size: 12px; font-weight: bold; }
+        .tooltip-text {
+            visibility: hidden; width: 220px; background-color: #222; color: #eee; text-align: left;
+            border: 1px solid #444; border-radius: 6px; padding: 8px; position: absolute; z-index: 20;
+            bottom: 125%; left: 50%; margin-left: -110px; opacity: 0; transition: opacity 0.3s;
+            font-size: 0.75rem; line-height: 1.4; box-shadow: 0 5px 15px rgba(0,0,0,0.5); pointer-events: none;
+        }
+        .tooltip-container:hover .tooltip-text, .tooltip-container:active .tooltip-text { visibility: visible; opacity: 1; }
+
+        .btn-start {
+            background: linear-gradient(135deg, var(--secondary), var(--primary));
+            color: #000; font-weight: bold; font-size: 1rem; padding: 16px;
+            width: 100%; border-radius: 50px; margin-top: 20px; text-transform: uppercase; letter-spacing: 1px;
+            box-shadow: 0 4px 15px rgba(0, 188, 212, 0.3);
+        }
+        .btn-start:active { transform: scale(0.98); }
+        .info-link { text-align: center; margin-top: 20px; font-size: 0.8rem; color: var(--text-dim); text-decoration: underline; cursor: pointer; padding: 10px; }
+
+        #preflight-screen {
+            background: rgba(11, 13, 18, 0.98); z-index: 200;
+            align-items: center; justify-content: center; padding: 30px; text-align: center;
+        }
+        .check-list { text-align: left; margin: 20px 0; color: #ccc; font-size: 0.9rem; line-height: 2; max-width: 300px; }
+        .check-list li { list-style: none; display: flex; align-items: center; gap: 10px; }
+
+        #player-screen {
+            background: radial-gradient(circle at center, #1b2530 0%, #0b0d12 100%);
+            align-items: center; justify-content: space-between; padding: 30px 20px;
+        }
+        .vis-container { position: relative; width: 220px; height: 220px; display: flex; align-items: center; justify-content: center; margin-top: 10px; }
+        .progress-ring { position: absolute; top: 0; left: 0; transform: rotate(-90deg); }
+        .progress-ring__circle { transition: stroke-dashoffset 1s linear; transform-origin: 50% 50%; }
+        .breath-guide { width: 100px; height: 100px; background: var(--primary); border-radius: 50%; opacity: 0.3; animation: breathe 8s infinite ease-in-out; filter: blur(20px); }
+        @keyframes breathe { 0%, 100% { transform: scale(0.8); opacity: 0.2; } 50% { transform: scale(1.4); opacity: 0.6; } }
+        
+        .timer-display { font-size: 2.5rem; font-weight: 300; margin: 10px 0; }
+        .protocol-name { font-size: 0.85rem; color: var(--text-dim); text-transform: uppercase; letter-spacing: 1px; margin-top: 10px; text-align: center; }
+        
+        .controls { display: flex; gap: 15px; align-items: center; }
+        .ctrl-btn { background: rgba(255,255,255,0.1); color: #fff; width: 50px; height: 50px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 1.2rem; }
+        .ctrl-btn.main { width: 70px; height: 70px; background: var(--text); color: #000; font-size: 1.8rem; }
+        .ctrl-btn.small-action { font-size: 0.8rem; width: 40px; height: 40px; }
+
+        .volume-control { width: 85%; max-width: 320px; margin: 15px 0; display: flex; align-items: center; gap: 10px; }
+        .vol-icon { font-size: 1rem; color: var(--text-dim); }
+        input[type=range] { -webkit-appearance: none; width: 100%; background: transparent; }
+        input[type=range]::-webkit-slider-thumb { -webkit-appearance: none; height: 18px; width: 18px; border-radius: 50%; background: var(--primary); cursor: pointer; margin-top: -7px; box-shadow: 0 0 10px rgba(0, 188, 212, 0.5); }
+        input[type=range]::-webkit-slider-runnable-track { width: 100%; height: 4px; cursor: pointer; background: #333; border-radius: 2px; }
+
+        .hold-exit {
+            position: relative; width: 100%; max-width: 250px; height: 45px;
+            display: flex; align-items: center; justify-content: center;
+            margin-top: auto; border: 1px solid rgba(255,255,255,0.1); border-radius: 25px;
+            overflow: hidden; cursor: pointer; user-select: none;
+        }
+        .hold-text { font-size: 0.75rem; color: var(--text-dim); z-index: 2; pointer-events: none; }
+        .hold-progress { position: absolute; left: 0; top: 0; height: 100%; width: 0%; background: var(--danger); z-index: 1; transition: width 0.1s linear; }
+
+        .modal-overlay {
+            background: rgba(0,0,0,0.95); backdrop-filter: blur(8px);
+            display: flex; justify-content: center; align-items: flex-start; overflow-y: auto;
+            padding: 20px; z-index: 300; opacity: 0; pointer-events: none; transition: opacity 0.3s;
+            position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+        }
+        .modal-overlay.active { opacity: 1; pointer-events: auto; }
+        .modal-content { background: var(--surface); width: 100%; max-width: 600px; border-radius: 12px; padding: 25px; margin-top: 10px; border: 1px solid #30363d; margin-bottom: 20px; }
+        .red-flag { border-left: 4px solid var(--danger); background: rgba(239, 83, 80, 0.1); padding: 15px; margin: 10px 0; font-size: 0.85rem; }
+        h3 { color: var(--primary); margin-top: 25px; font-size: 1rem; border-bottom: 1px solid #333; padding-bottom: 8px; margin-bottom: 10px; }
+        h4 { color: var(--accent); margin: 15px 0 5px 0; font-size: 0.9rem; }
+        p, li { font-size: 0.9rem; line-height: 1.6; color: #ccc; margin-bottom: 8px; }
+        .close-modal { margin-top: 20px; width: 100%; padding: 12px; background: #333; color: #fff; border-radius: 8px; border: 1px solid #444; }
+
+    </style>
+</head>
+<body>
+
+    <div id="home-screen" class="full-screen">
+        <header>
+            <div class="logo">
+                <h1>NeuroCalma</h1>
+                <span data-i18n="subtitle">Protocolo Auditivo</span>
+            </div>
+            <div class="lang-switch">
+                <button class="lang-btn active" onclick="setLang('es')">ES</button>
+                <button class="lang-btn" onclick="setLang('en')">EN</button>
+            </div>
+        </header>
+
+        <div class="container">
+            <div class="control-group">
+                <div class="mode-selector">
+                    <button class="mode-btn active" onclick="setMode('manual')" data-i18n="modeManual">Manual</button>
+                    <button class="mode-btn" onclick="setMode('auto')" data-i18n="modeAuto">Automático</button>
+                </div>
+            </div>
+
+            <div class="control-group">
+                <span class="label" data-i18n="lblType">Tipo de Cefalea</span>
+                <select id="headache-type" onchange="updateSubtypes()"></select>
+            </div>
+
+            <div class="control-group">
+                <span class="label" data-i18n="lblSubtype">Subtipo (Frecuencia/Síntoma)</span>
+                <select id="headache-subtype"></select>
+            </div>
+
+            <div class="control-group">
+                <span class="label" data-i18n="lblIntensity">Nivel de Dolor Actual</span>
+                <div class="intensity-row">
+                    <button class="int-btn" onclick="setIntensity(1)"><span class="int-emoji">☁️</span> <span data-i18n="intLow">Leve</span></button>
+                    <button class="int-btn" onclick="setIntensity(2)"><span class="int-emoji">🌧️</span> <span data-i18n="intMed">Media</span></button>
+                    <button class="int-btn" onclick="setIntensity(3)"><span class="int-emoji">⛈️</span> <span data-i18n="intHigh">Alta</span></button>
+                    <button class="int-btn" onclick="setIntensity(4)"><span class="int-emoji">⚡</span> <span data-i18n="intSev">Severa</span></button>
+                </div>
+            </div>
+
+            <div class="control-group" id="grp-duration">
+                <span class="label" data-i18n="lblDuration">Duración</span>
+                <select id="duration-select">
+                    <option value="10">10 min (Breve)</option>
+                    <option value="20" selected>20 min (Recomendado)</option>
+                    <option value="30">30 min (Profundo)</option>
+                    <option value="45">45 min (Extendido)</option>
+                </select>
+            </div>
+
+            <div class="control-group">
+                <div class="binaural-row">
+                    <input type="checkbox" id="binaural-check" style="width:18px; height:18px; accent-color: var(--primary);">
+                    <label for="binaural-check" style="cursor:pointer; color:var(--text); font-size:0.9rem;" data-i18n="binauralLabel">Binaural (Experimental)</label>
+                    <div class="tooltip-container">
+                        <div class="info-icon">?</div>
+                        <span class="tooltip-text" data-i18n="binauralTip">Técnica que usa dos frecuencias distintas para estimular relajación. Requiere audífonos estéreo.</span>
+                    </div>
+                </div>
+            </div>
+
+            <button class="btn btn-start" onclick="prepareSession()" data-i18n="btnStart">INICIAR SESIÓN</button>
+            <div class="info-link" onclick="toggleModal(true)" data-i18n="linkScience">Leer Ciencia y Advertencias</div>
+        </div>
+    </div>
+
+    <div id="preflight-screen" class="full-screen hidden">
+        <div id="preflight-screen-content" style="flex:1; display:flex; flex-direction:column; align-items:center; justify-content:center; padding:20px;">
+            <div style="font-size:3rem; margin-bottom:10px; animation: pulse 2s infinite;">🎧</div>
+            <h2 style="color:var(--primary); text-transform:uppercase; letter-spacing:1px; margin-bottom:20px;" data-i18n="readyTitle">¿Estás Listo?</h2>
+            
+            <ul class="check-list">
+                <li>✅ <span data-i18n="chkHeadphones">Conecta audífonos</span></li>
+                <li>✅ <span data-i18n="chkVolume">El volumen se ajustará automáticamente</span></li>
+                <li>✅ <span data-i18n="chkDistraction">Busca un lugar tranquilo</span></li>
+            </ul>
+            
+            <button class="btn btn-start" style="max-width:280px;" onclick="confirmStart()" data-i18n="btnConfirm">COMENZAR AHORA</button>
+            <div style="margin-top:20px; font-size:0.85rem; color:#666; cursor:pointer; text-decoration:underline;" onclick="cancelSession()" data-i18n="btnCancel">Cancelar</div>
+        </div>
+    </div>
+
+    <div id="player-screen" class="full-screen hidden">
+        <div class="protocol-name" id="player-protocol">PROTOCOLO</div>
+        
+        <div class="vis-container">
+            <svg class="progress-ring" width="220" height="220">
+                <circle stroke="rgba(255,255,255,0.05)" stroke-width="4" fill="transparent" r="100" cx="110" cy="110"/>
+                <circle class="progress-ring__circle" id="prog-circle" stroke="#00bcd4" stroke-width="4" fill="transparent" r="100" cx="110" cy="110"/>
+            </svg>
+            <div class="breath-guide"></div>
+        </div>
+
+        <div class="timer-display" id="timer">20:00</div>
+        
+        <div class="volume-control">
+            <span class="vol-icon">🔈</span>
+            <input type="range" id="vol-slider" min="0" max="1" step="0.01" value="0.5" oninput="setGlobalVolume(this.value)">
+            <span class="vol-icon">🔊</span>
+        </div>
+
+        <div class="controls">
+            <button class="ctrl-btn small-action" onclick="restartAudioEngine()">🔄</button>
+            <button class="ctrl-btn main" id="btn-playpause" onclick="togglePlay()">❚❚</button>
+            <button class="ctrl-btn" id="btn-mute" onclick="toggleMute()">🔇</button>
+        </div>
+
+        <div class="hold-exit" id="hold-btn">
+            <div class="hold-progress" id="hold-bar"></div>
+            <span class="hold-text" data-i18n="holdExit">Mantén para salir</span>
+        </div>
+    </div>
+
+    <div id="info-modal" class="modal-overlay">
+        <div class="modal-content">
+            <h2 data-i18n="modalTitle">Ciencia y Seguridad</h2>
+            <div class="red-flag">
+                <strong data-i18n="rfTitle">⚠️ BANDERAS ROJAS (Urgencias):</strong>
+                <ul id="rf-list" style="padding-left:20px; margin:5px 0;"></ul>
+            </div>
+            <h3 data-i18n="classTitle">¿Qué es ICHD-3?</h3>
+            <p data-i18n="classDesc">NeuroCalma se basa en la Clasificación Internacional de Trastornos de Cefalea, el estándar médico global.</p>
+            <ul id="types-list" style="padding-left:20px;"></ul>
+            <h3 data-i18n="audioTitle">Ingeniería del Sonido</h3>
+            <div data-i18n="audioEvidence"></div>
+            <button class="btn close-modal" onclick="toggleModal(false)" data-i18n="btnClose">Cerrar</button>
+        </div>
+    </div>
+
+    <script>
+        // --- TEXTOS ---
+        const I18N = {
+            es: {
+                subtitle: "Apoyo en Relajación",
+                modeManual: "Manual", modeAuto: "Auto",
+                lblType: "Tipo de Cefalea", lblSubtype: "Subtipo", lblIntensity: "Intensidad", lblDuration: "Duración",
+                intLow: "Leve", intMed: "Media", intHigh: "Alta", intSev: "Severa",
+                btnStart: "CONTINUAR", linkScience: "Leer Ciencia",
+                binauralLabel: "Binaural (Experimental) + 🎧",
+                binauralTip: "Experimental: Frecuencias distintas en cada oído.",
+                readyTitle: "¿Estás listo?",
+                chkHeadphones: "Conecta audífonos", chkVolume: "El volumen se ajustará automáticamente", chkDistraction: "Lugar tranquilo",
+                btnConfirm: "COMENZAR AHORA", btnCancel: "Cancelar",
+                holdExit: "Mantén para salir",
+                modalTitle: "Ciencia y Seguridad",
+                rfTitle: "⚠️ BANDERAS ROJAS (Urgencias):",
+                rfList: ["Dolor súbito y explosivo.", "Fiebre + rigidez de cuello.", "Pérdida de visión o fuerza.", "Post-trauma."],
+                classTitle: "¿Qué es ICHD-3?",
+                classDesc: "Estándar médico internacional para clasificar cefaleas. Usamos sus criterios para no confundir diagnósticos.",
+                typeDesc: ["<b>Migraña:</b> Pulsátil, molestia a luz/ruido. El audio usa filtros suaves.", "<b>Tensional:</b> Opresión, estrés. El audio induce relajación.", "<b>TACs:</b> Dolor severo en ojo. El audio es solo distracción."],
+                audioTitle: "Ingeniería Sonora",
+                audioEvidence: `<h4>Ruido Rosa</h4><p>Enmascara sonidos molestos con todas las frecuencias equilibradas.</p><h4>Filtros Low-Pass</h4><p>Eliminamos agudos hirientes (fonofobia).</p><h4>Binaural</h4><p>Ondas Alpha para calma (Experimental).</p>`,
+                btnClose: "Cerrar",
+                groups: { migraine: "Migraña", tension: "Tensional", cluster: "TACs" },
+                subtypes: { m_no_aura: "Sin Aura", m_aura: "Con Aura", m_chronic: "Crónica", t_freq: "Episódica", t_chronic: "Crónica", c_cluster: "Cluster", c_hemi: "Hemicránea" }
+            },
+            en: {
+                subtitle: "Relaxation Support",
+                modeManual: "Manual", modeAuto: "Auto",
+                lblType: "Headache Type", lblSubtype: "Subtype", lblIntensity: "Intensity", lblDuration: "Duration",
+                intLow: "Mild", intMed: "Mod", intHigh: "High", intSev: "Severe",
+                btnStart: "CONTINUE", linkScience: "Read Science",
+                binauralLabel: "Binaural (Experimental)",
+                binauralTip: "Different frequencies in each ear.",
+                readyTitle: "Ready?",
+                chkHeadphones: "Connect headphones", chkVolume: "Auto-volume set", chkDistraction: "Find quiet place",
+                btnConfirm: "START NOW", btnCancel: "Cancel",
+                holdExit: "Hold to exit",
+                modalTitle: "Science & Safety",
+                rfTitle: "⚠️ RED FLAGS:",
+                rfList: ["Sudden explosive pain.", "Fever + Stiff neck.", "Vision loss/Weakness.", "Post-trauma."],
+                classTitle: "What is ICHD-3?",
+                classDesc: "International medical standard for headache classification.",
+                typeDesc: ["<b>Migraine:</b> Throbbing, light sensitivity.", "<b>Tension:</b> Pressing, stress.", "<b>TACs:</b> Severe eye pain."],
+                audioTitle: "Sound Engineering",
+                audioEvidence: `<h4>Pink Noise</h4><p>Masks sounds gently.</p><h4>Filters</h4><p>We cut sharp frequencies.</p>`,
+                btnClose: "Close",
+                groups: { migraine: "Migraine", tension: "Tension", cluster: "TACs" },
+                subtypes: { m_no_aura: "No Aura", m_aura: "With Aura", m_chronic: "Chronic", t_freq: "Episodic", t_chronic: "Chronic", c_cluster: "Cluster", c_hemi: "Hemicrania" }
+            }
+        };
+
+        const DATA_MAP = {
+            migraine: ['m_no_aura', 'm_aura', 'm_chronic'],
+            tension: ['t_freq', 't_chronic'],
+            cluster: ['c_cluster', 'c_hemi']
+        };
+
+        let state = {
+            lang: 'es', mode: 'manual', type: 'migraine', intensity: 2, binaural: false,
+            isPlaying: false, timeLeft: 0, totalTime: 0, isMuted: false
+        };
+
+        // --- MOTOR DE AUDIO TOTALMENTE RENOVADO ---
+        // ESTRATEGIA: DESTRUIR Y RECREAR EL CONTEXTO EN CADA SESIÓN
+        const AudioEngine = (() => {
+            let ctx = null;
+            let nodes = {};
+            let globalVol = 0.5;
+
+            // ESTA FUNCIÓN CREA UN MOTOR NUEVO CADA VEZ
+            function startNewSession(config) {
+                // 1. Matar cualquier contexto previo si existe
+                if (ctx) {
+                    try { ctx.close(); } catch(e){}
+                    ctx = null;
+                    nodes = {};
+                }
+
+                // 2. Crear nuevo contexto fresco
+                const AudioContext = window.AudioContext || window.webkitAudioContext;
+                ctx = new AudioContext();
+
+                // 3. Desbloqueo inmediato
+                if (ctx.state === 'suspended') ctx.resume();
+
+                // 4. Configurar el grafo de audio
+                const masterGain = ctx.createGain();
+                masterGain.gain.value = 0; // Inicia en silencio para fade-in
+                masterGain.connect(ctx.destination);
+                nodes.master = masterGain;
+
+                const mainGain = ctx.createGain();
+                // BOOST DE VOLUMEN X8
+                let boost = (config.type === 'pink') ? 8.0 : 3.0;
+                mainGain.gain.value = config.mainVol * boost;
+
+                const filter = ctx.createBiquadFilter();
+                filter.type = 'lowpass';
+                filter.frequency.value = config.filterFreq || 400;
+
+                let source;
+                if(config.type === 'pink') source = createPinkNoise(ctx);
+                else { source = createOscillator(ctx, 100); nodes.oscMain = source; source.start(); }
+
+                source.connect(filter);
+                filter.connect(mainGain);
+                mainGain.connect(masterGain);
+                nodes.source = source;
+
+                if(config.binaural) {
+                    const binGain = ctx.createGain(); binGain.gain.value = 0.2;
+                    const oscL = createOscillator(ctx, 200); const oscR = createOscillator(ctx, 210);
+                    const panL = ctx.createStereoPanner(); panL.pan.value = -1;
+                    const panR = ctx.createStereoPanner(); panR.pan.value = 1;
+                    oscL.connect(panL); panL.connect(binGain);
+                    oscR.connect(panR); panR.connect(binGain);
+                    oscL.start(); oscR.start();
+                    binGain.connect(masterGain);
+                    nodes.oscL = oscL; nodes.oscR = oscR;
+                }
+
+                // 5. Fade In
+                const target = state.isMuted ? 0 : globalVol;
+                masterGain.gain.linearRampToValueAtTime(target, ctx.currentTime + (config.ramp || 2));
+                state.isMuted = false;
+                updateMuteIcon();
+            }
+
+            // UTILS
+            function createPinkNoise(context) {
+                const bufferSize = 4096;
+                const node = context.createScriptProcessor(bufferSize, 1, 1);
+                let b0=0, b1=0, b2=0, b3=0, b4=0, b5=0, b6=0;
+                node.onaudioprocess = function(e) {
+                    const output = e.outputBuffer.getChannelData(0);
+                    for (let i = 0; i < bufferSize; i++) {
+                        const white = Math.random() * 2 - 1;
+                        b0 = 0.99886 * b0 + white * 0.0555179;
+                        b1 = 0.99332 * b1 + white * 0.0750759;
+                        b2 = 0.96900 * b2 + white * 0.1538520;
+                        b3 = 0.86650 * b3 + white * 0.3104856;
+                        b4 = 0.55000 * b4 + white * 0.5329522;
+                        b5 = -0.7616 * b5 - white * 0.0168980;
+                        output[i] = b0 + b1 + b2 + b3 + b4 + b5 + b6 + white * 0.5362;
+                        output[i] *= 0.15; 
+                        b6 = white * 0.11592;
+                    }
+                };
+                return node;
+            }
+
+            function createOscillator(context, freq) {
+                const osc = context.createOscillator();
+                osc.type = 'sine'; osc.frequency.value = freq;
+                return osc;
+            }
+
+            function setVolume(val) {
+                globalVol = parseFloat(val);
+                if(nodes.master && ctx) {
+                    nodes.master.gain.setTargetAtTime(state.isMuted ? 0 : globalVol, ctx.currentTime, 0.1);
+                }
+            }
+
+            function stopAndKill() {
+                if(ctx) {
+                    // Fade out rápido
+                    if(nodes.master) {
+                        try {
+                            nodes.master.gain.exponentialRampToValueAtTime(0.001, ctx.currentTime + 0.5);
+                        } catch(e){}
+                    }
+                    // DESTRUCCIÓN TOTAL DEL CONTEXTO
+                    setTimeout(() => {
+                        if(ctx) {
+                            ctx.close().then(() => {
+                                ctx = null;
+                                nodes = {};
+                            });
+                        }
+                    }, 500);
+                }
+            }
+            
+            function toggleMute() {
+                state.isMuted = !state.isMuted;
+                if(nodes.master && ctx) {
+                    const target = state.isMuted ? 0 : globalVol;
+                    nodes.master.gain.setTargetAtTime(target, ctx.currentTime, 0.1);
+                }
+                updateMuteIcon();
+            }
+
+            return { start: startNewSession, stop: stopAndKill, toggleMute, setVolume };
+        })();
+
+        // --- UI ---
+        const circle = document.getElementById('prog-circle');
+        const radius = circle.r.baseVal.value;
+        const circumference = radius * 2 * Math.PI;
+        circle.style.strokeDasharray = `${circumference} ${circumference}`;
+        circle.style.strokeDashoffset = circumference;
+
+        function setProgress(percent) {
+            const offset = circumference - (percent / 100) * circumference;
+            circle.style.strokeDashoffset = offset;
+        }
+
+        function renderContent() {
+            const t = I18N[state.lang];
+            document.querySelectorAll('[data-i18n]').forEach(el => {
+                const key = el.getAttribute('data-i18n');
+                if(t[key]) {
+                    if(t[key].includes('<')) el.innerHTML = t[key];
+                    else el.innerText = t[key];
+                }
+            });
+
+            const typeSel = document.getElementById('headache-type');
+            typeSel.innerHTML = '';
+            for(let key in t.groups) {
+                let opt = document.createElement('option'); opt.value = key; opt.innerText = t.groups[key];
+                typeSel.appendChild(opt);
+            }
+            typeSel.value = state.type;
+            updateSubtypes();
+            
+            document.getElementById('rf-list').innerHTML = t.rfList.map(item => `<li>${item}</li>`).join('');
+            document.getElementById('types-list').innerHTML = t.typeDesc.map(item => `<li>${item}</li>`).join('');
+        }
+
+        function updateSubtypes() {
+            const t = I18N[state.lang];
+            const subSel = document.getElementById('headache-subtype');
+            const type = document.getElementById('headache-type').value;
+            state.type = type;
+            subSel.innerHTML = '';
+            DATA_MAP[type].forEach(key => {
+                let opt = document.createElement('option'); opt.value = key; opt.innerText = t.subtypes[key];
+                subSel.appendChild(opt);
+            });
+        }
+
+        function setLang(lang) {
+            state.lang = lang;
+            document.querySelectorAll('.lang-btn').forEach(b => b.classList.remove('active'));
+            document.querySelectorAll('.lang-btn')[lang === 'es' ? 0 : 1].classList.add('active');
+            renderContent();
+        }
+
+        function setMode(mode) {
+            state.mode = mode;
+            document.querySelectorAll('.mode-btn').forEach(b => b.classList.remove('active'));
+            document.querySelectorAll('.mode-btn')[mode === 'manual' ? 0 : 1].classList.add('active');
+            const durGrp = document.getElementById('grp-duration');
+            if(mode === 'auto') durGrp.classList.add('hidden'); else durGrp.classList.remove('hidden');
+        }
+
+        function setIntensity(lvl) {
+            state.intensity = lvl;
+            const btns = document.querySelectorAll('.int-btn');
+            btns.forEach(b => b.classList.remove('active'));
+            btns[lvl-1].classList.add('active');
+        }
+
+        function setGlobalVolume(val) {
+            AudioEngine.setVolume(val);
+        }
+
+        function toggleModal(show) {
+            const modal = document.getElementById('info-modal');
+            if(show) modal.classList.add('active'); else modal.classList.remove('active');
+        }
+
+        function updateMuteIcon() {
+            const btn = document.getElementById('btn-mute');
+            btn.innerText = state.isMuted ? '🔇' : '🔊';
+            btn.style.opacity = state.isMuted ? '0.5' : '1';
+        }
+
+        // --- APP FLOW ---
+        let timerInterval;
+
+        function prepareSession() {
+            document.getElementById('preflight-screen').classList.remove('hidden');
+        }
+
+        function cancelSession() {
+            document.getElementById('preflight-screen').classList.add('hidden');
+        }
+
+        function confirmStart() {
+            // AQUÍ ES DONDE SUCEDE LA MAGIA.
+            // Al hacer click, el navegador permite crear audio nuevo.
+            document.getElementById('preflight-screen').classList.add('hidden');
+            setTimeout(startSession, 50); 
+        }
+
+        function getRecommendation() {
+            let config = {
+                type: 'pink', mainVol: 0.5, filterFreq: 800, ramp: 3,
+                binaural: document.getElementById('binaural-check').checked,
+                duration: parseInt(document.getElementById('duration-select').value),
+                volStart: 0.5
+            };
+
+            // VOLUMEN INTELIGENTE
+            if(state.type === 'migraine') {
+                config.type = 'pink'; config.filterFreq = 300; config.mainVol = 0.4;
+                config.volStart = 0.35; 
+                if(state.intensity > 2) config.mainVol = 0.3;
+                if(state.mode === 'auto') config.duration = 45;
+            } else if (state.type === 'tension') {
+                config.type = 'pink'; config.filterFreq = 600; config.mainVol = 0.6;
+                config.volStart = 0.75; 
+                if(state.mode === 'auto') config.duration = 20;
+            } else {
+                config.type = 'drone'; config.mainVol = 0.5;
+                config.volStart = 0.50; 
+                if(state.mode === 'auto') config.duration = 15;
+            }
+            return config;
+        }
+
+        function startSession() {
+            const config = getRecommendation();
+            document.getElementById('home-screen').classList.add('hidden');
+            document.getElementById('player-screen').classList.remove('hidden');
+
+            const t = I18N[state.lang];
+            state.totalTime = config.duration * 60;
+            state.timeLeft = state.totalTime;
+            state.isPlaying = true;
+            
+            document.getElementById('player-protocol').innerText = t.groups[state.type];
+
+            // AUTO-AJUSTE VOLUMEN
+            document.getElementById('vol-slider').value = config.volStart;
+            AudioEngine.setVolume(config.volStart);
+
+            // INICIAR AUDIO NUEVO
+            AudioEngine.start(config);
+            
+            updateTimerDisplay();
+            setProgress(0);
+            
+            clearInterval(timerInterval);
+            timerInterval = setInterval(tick, 1000);
+        }
+
+        function restartAudioEngine() {
+            // Botón de pánico: mata todo y arranca de nuevo
+            const config = getRecommendation();
+            AudioEngine.start(config);
+        }
+
+        function tick() {
+            if(!state.isPlaying) return;
+            state.timeLeft--;
+            updateTimerDisplay();
+            const elapsed = state.totalTime - state.timeLeft;
+            const percentage = (elapsed / state.totalTime) * 100;
+            setProgress(percentage);
+            if(state.timeLeft <= 0) stopSession();
+        }
+
+        function updateTimerDisplay() {
+            const m = Math.floor(state.timeLeft / 60).toString().padStart(2, '0');
+            const s = (state.timeLeft % 60).toString().padStart(2, '0');
+            document.getElementById('timer').innerText = `${m}:${s}`;
+        }
+
+        function togglePlay() {
+            state.isPlaying = !state.isPlaying;
+            const btn = document.getElementById('btn-playpause');
+            btn.innerText = state.isPlaying ? "❚❚" : "▶";
+            AudioEngine.toggleMute();
+        }
+
+        function toggleMute() { AudioEngine.toggleMute(); }
+
+        function resetTimer() {
+            const config = getRecommendation();
+            state.timeLeft = config.duration * 60;
+            state.totalTime = state.timeLeft;
+            setProgress(0);
+            updateTimerDisplay();
+        }
+
+        function stopSession() {
+            clearInterval(timerInterval);
+            // MATAR AUDIO COMPLETAMENTE
+            AudioEngine.stop();
+            document.getElementById('player-screen').classList.add('hidden');
+            document.getElementById('home-screen').classList.remove('hidden');
+        }
+
+        const holdBtn = document.getElementById('hold-btn');
+        const holdBar = document.getElementById('hold-bar');
+        let holdStart = 0, holdRaf;
+
+        function updateHold() {
+            const now = Date.now();
+            const pct = Math.min(((now - holdStart) / 2000) * 100, 100);
+            holdBar.style.width = pct + "%";
+            if(pct >= 100) { stopSession(); resetHold(); } 
+            else holdRaf = requestAnimationFrame(updateHold);
+        }
+        function resetHold() { cancelAnimationFrame(holdRaf); holdBar.style.width = "0%"; }
+        holdBtn.addEventListener('mousedown', () => { holdStart = Date.now(); updateHold(); });
+        holdBtn.addEventListener('touchstart', (e) => { e.preventDefault(); holdStart = Date.now(); updateHold(); });
+        ['mouseup', 'mouseleave', 'touchend'].forEach(evt => holdBtn.addEventListener(evt, resetHold));
+
+        renderContent();
+    </script>
+</body>
+</html>

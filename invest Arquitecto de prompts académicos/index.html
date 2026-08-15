@@ -1,0 +1,1350 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <meta name="theme-color" content="#0f0f13">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    <title>RizoGénesis V5.0 | Universal</title>
+    <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🧬</text></svg>">
+    
+    <style>
+        /* --- 1. CORE DESIGN SYSTEM --- */
+        :root {
+            --bg-body: #0f0f13;
+            --bg-surface: #1b1b21;
+            --bg-input: #24242c;
+            --text-main: #e4e4e7;
+            --text-sec: #a1a1aa;
+            --accent: #6366f1;
+            --accent-hover: #4f46e5;
+            --danger: #ef4444;
+            --success: #10b981;
+            --warning: #f59e0b;
+            --gold: #f59e0b;
+            --radius: 12px;
+            --shadow: 0 10px 25px -5px rgba(0,0,0,0.6);
+            --font-main: 'Segoe UI', system-ui, -apple-system, sans-serif;
+            --font-mono: 'Fira Code', 'Cascadia Code', monospace;
+        }
+
+        * { box-sizing: border-box; margin: 0; padding: 0; outline: none; -webkit-tap-highlight-color: transparent; }
+
+        body {
+            background-color: var(--bg-body); color: var(--text-main); font-family: var(--font-main);
+            line-height: 1.6; display: flex; flex-direction: column; min-height: 100vh; overflow-x: hidden;
+        }
+
+        h1, h2, h3, h4 { font-weight: 700; color: var(--text-main); margin-bottom: 0.5rem; }
+        h1 { font-size: 1.4rem; letter-spacing: 0.5px; background: linear-gradient(90deg, #fff, var(--accent)); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
+        h2 { font-size: 1.2rem; color: var(--accent); border-bottom: 1px solid #333; padding-bottom: 0.8rem; margin-bottom: 1.5rem; display: flex; align-items: center; gap: 10px; }
+        p { margin-bottom: 1rem; font-size: 0.95rem; color: var(--text-sec); }
+
+        button {
+            cursor: pointer; border: none; border-radius: var(--radius); padding: 0.9rem 1.4rem;
+            font-weight: 600; transition: all 0.25s cubic-bezier(0.4,0,0.2,1); font-size: 0.9rem;
+            display: inline-flex; align-items: center; justify-content: center; gap: 8px;
+        }
+        button:active { transform: scale(0.95); }
+
+        .btn-primary   { background-color: var(--accent); color: white; box-shadow: 0 4px 15px rgba(99,102,241,0.4); }
+        .btn-primary:hover   { background-color: var(--accent-hover); box-shadow: 0 6px 20px rgba(99,102,241,0.6); }
+        .btn-secondary { background-color: var(--bg-input); color: var(--text-main); border: 1px solid #3f3f46; }
+        .btn-secondary:hover { background-color: #31313a; border-color: #71717a; }
+        .btn-danger    { background-color: rgba(239,68,68,0.1); color: var(--danger); border: 1px solid var(--danger); }
+        .btn-danger:hover    { background-color: rgba(239,68,68,0.2); }
+        .btn-success   { background-color: var(--success); color: white; box-shadow: 0 4px 15px rgba(16,185,129,0.4); }
+        .btn-success:hover   { background-color: #059669; }
+        .btn-icon      { padding: 0; width: 40px; height: 40px; border-radius: 50%; font-size: 1.2rem; }
+
+        input, select, textarea {
+            background-color: var(--bg-input); border: 1px solid #3f3f46; color: var(--text-main);
+            padding: 1.1rem; border-radius: var(--radius); width: 100%; font-family: inherit; font-size: 1rem; margin-bottom: 1.4rem;
+            transition: all 0.2s;
+        }
+        input:focus, select:focus, textarea:focus { border-color: var(--accent); box-shadow: 0 0 0 3px rgba(99,102,241,0.2); background: #2a2a35; }
+        label { display: block; margin-bottom: 0.6rem; font-size: 0.85rem; font-weight: 700; color: var(--text-main); text-transform: uppercase; letter-spacing: 1px; }
+
+        .card { background-color: var(--bg-surface); padding: 1.8rem; border-radius: var(--radius); box-shadow: var(--shadow); margin-bottom: 1.8rem; border: 1px solid #27272a; position: relative; overflow: hidden; }
+
+        /* --- HEADER --- */
+        header {
+            background-color: rgba(27,27,33,0.9); padding: 1rem 1.5rem; display: flex; justify-content: space-between; align-items: center;
+            border-bottom: 1px solid #2a2a35; position: sticky; top: 0; z-index: 1000; backdrop-filter: blur(15px);
+        }
+        .user-pill { font-size: 0.85rem; background: rgba(99,102,241,0.1); padding: 6px 14px; border-radius: 50px; display: flex; align-items: center; gap: 8px; border: 1px solid var(--accent); }
+        .header-actions { display: flex; align-items: center; gap: 10px; }
+        .version-badge { font-size: 0.65rem; background: rgba(99,102,241,0.15); color: var(--accent); padding: 3px 8px; border-radius: 20px; border: 1px solid rgba(99,102,241,0.3); letter-spacing: 1px; font-weight: 700; }
+
+        main { flex: 1; padding: 1.5rem; max-width: 850px; margin: 0 auto; width: 100%; }
+
+        /* --- HOME ACTIONS --- */
+        .home-actions { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 1rem; margin-bottom: 2.5rem; }
+        .home-btn { padding: 1.2rem 1rem; font-size: 0.95rem; flex-direction: column; gap: 0.4rem; min-height: 85px; border-radius: var(--radius); width: 100%; }
+
+        /* --- STEPPER --- */
+        .stepper { display: flex; justify-content: space-between; margin-bottom: 2.5rem; position: relative; max-width: 500px; margin-inline: auto; padding: 0 10px; }
+        .stepper::before { content: ''; position: absolute; top: 50%; left: 0; width: 100%; height: 2px; background: #333; z-index: 0; transform: translateY(-50%); }
+        .step { width: 36px; height: 36px; background: var(--bg-input); border: 2px solid #555; border-radius: 50%; display: flex; align-items: center; justify-content: center; z-index: 1; font-weight: bold; font-size: 0.9rem; transition: 0.4s; color: var(--text-sec); }
+        .step.active { border-color: var(--accent); color: var(--accent); background: #1e1e2d; box-shadow: 0 0 15px rgba(99,102,241,0.4); transform: scale(1.1); }
+        .step.completed { background: var(--accent); border-color: var(--accent); color: white; }
+
+        /* --- TOASTS --- */
+        #toast-container { position: fixed; top: 20px; left: 50%; transform: translateX(-50%); z-index: 9999; display: flex; flex-direction: column; gap: 12px; width: 90%; max-width: 420px; pointer-events: none; }
+        .toast { pointer-events: auto; background: #1e1e24; color: white; padding: 16px 22px; border-radius: 12px; border-left: 5px solid var(--accent); box-shadow: 0 15px 40px rgba(0,0,0,0.8); font-size: 1rem; text-align: center; animation: slideDown 0.4s forwards; }
+        @keyframes slideDown { from { transform: translateY(-120%); opacity: 0; } to { transform: translateY(0); opacity: 1; } }
+
+        /* --- VIEWS --- */
+        .view { display: none; opacity: 0; }
+        .view.active { display: block; animation: fadeSlide 0.4s forwards; }
+        @keyframes fadeSlide { from { opacity: 0; transform: translateY(20px); } to { opacity: 1; transform: translateY(0); } }
+
+        .chip-container { display: flex; flex-wrap: wrap; gap: 0.8rem; margin-bottom: 1.5rem; }
+        .chip { background: var(--bg-input); border: 1px solid #3f3f46; padding: 0.6rem 1.2rem; border-radius: 50px; font-size: 0.9rem; cursor: pointer; transition: 0.3s; white-space: nowrap; }
+        .chip:hover { border-color: var(--accent); transform: translateY(-2px); }
+        .chip.selected { background: var(--accent); color: white; border-color: var(--accent); box-shadow: 0 4px 12px rgba(99,102,241,0.3); }
+
+        /* Special highlight for the new "Ficha" chip */
+        .chip-special { border-color: var(--gold); color: var(--gold); }
+        .chip-special:hover { background: rgba(245,158,11,0.1); border-color: var(--gold); }
+        .chip-special.selected { background: var(--gold); color: #000; border-color: var(--gold); box-shadow: 0 4px 12px rgba(245,158,11,0.4); }
+
+        .prod-setting-card { background: rgba(255,255,255,0.02); border-left: 4px solid var(--accent); padding: 15px 20px; margin-bottom: 12px; border-radius: 0 var(--radius) var(--radius) 0; animation: slideIn 0.3s forwards; }
+        .prod-setting-card.ficha-card { border-left-color: var(--gold); background: rgba(245,158,11,0.04); }
+        @keyframes slideIn { from{opacity:0; transform:translateX(-20px);} to{opacity:1; transform:translateX(0);} }
+
+        .toggle-row { display: flex; justify-content: space-between; align-items: center; padding: 1rem; background: rgba(255,255,255,0.03); border-radius: var(--radius); margin-bottom: 1rem; border: 1px solid #333; }
+        .toggle-switch { position: relative; display: inline-block; width: 46px; height: 26px; }
+        .toggle-switch input { opacity: 0; width: 0; height: 0; }
+        .slider { position: absolute; cursor: pointer; top: 0; left: 0; right: 0; bottom: 0; background-color: #444; transition: .4s; border-radius: 34px; }
+        .slider:before { position: absolute; content: ""; height: 18px; width: 18px; left: 4px; bottom: 4px; background-color: white; transition: .4s; border-radius: 50%; }
+        input:checked + .slider { background-color: var(--accent); }
+        input:checked + .slider:before { transform: translateX(20px); }
+
+        .modal-overlay { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.92); z-index: 5000; display: flex; align-items: center; justify-content: center; backdrop-filter: blur(8px); opacity: 0; pointer-events: none; transition: 0.3s; }
+        .modal-overlay.active { opacity: 1; pointer-events: auto; }
+        .modal-content { background: var(--bg-surface); padding: 2.5rem; border-radius: var(--radius); max-width: 90%; width: 500px; border: 1px solid #444; max-height: 85vh; overflow-y: auto; box-shadow: 0 25px 50px -12px rgba(0,0,0,0.5); }
+
+        .grid-2 { display: grid; grid-template-columns: 1fr 1fr; gap: 1.2rem; }
+        @media (max-width: 650px) { .grid-2 { grid-template-columns: 1fr; } .home-actions { grid-template-columns: 1fr; } }
+        .hidden { display: none !important; }
+
+        .project-item { display: flex; justify-content: space-between; align-items: center; transition: 0.2s; }
+        .project-item:hover { border-color: var(--accent); }
+        .proj-actions { display: flex; align-items: center; gap: 8px; flex-shrink: 0; }
+
+        /* --- HINT BOX --- */
+        .action-hint-box { background: rgba(99,102,241,0.07); border: 1px solid rgba(99,102,241,0.25); border-radius: var(--radius); padding: 0.8rem 1rem; margin-bottom: 1.5rem; font-size: 0.88rem; color: #a5b4fc; font-style: italic; display: none; }
+        .action-hint-box.visible { display: block; animation: fadeSlide 0.3s forwards; }
+
+        /* --- ANTI-ALUCINACION BADGE --- */
+        .anti-hal-badge { display: inline-flex; align-items: center; gap: 6px; background: rgba(16,185,129,0.1); border: 1px solid rgba(16,185,129,0.3); border-radius: 50px; padding: 4px 12px; font-size: 0.75rem; color: var(--success); font-weight: 700; letter-spacing: 0.5px; }
+    </style>
+</head>
+<body>
+
+    <header>
+        <div style="display:flex; align-items:center; gap:12px;">
+            <h1>🧬 RizoGénesis</h1>
+            <span class="version-badge">V5.0</span>
+        </div>
+        <div class="header-actions">
+            <div class="user-pill" id="user-display" style="display:none;">
+                <span id="u-emoji"></span>
+                <span id="u-name"></span>
+            </div>
+            <button id="btn-logout" class="btn-icon" style="background:rgba(255,255,255,0.08); font-size:1rem; display:none;" onclick="app.logout()" title="Cerrar Sesión">🚪</button>
+        </div>
+    </header>
+
+    <main>
+        <!-- VIEW: LOGIN -->
+        <section id="v-login" class="view active">
+            <div class="card" style="text-align:center; padding:4rem 2rem; max-width:450px; margin:2rem auto; border-top:4px solid var(--accent);">
+                <div style="font-size:4rem; margin-bottom:1.5rem; filter:drop-shadow(0 0 10px var(--accent));">🧬</div>
+                <h2 style="justify-content:center;">Inicia la Investigación</h2>
+                <p>Arquitecto de prompts académicos con protocolo anti-alucinación y generación de fichas de lectura profunda.</p>
+                <div style="margin-top:2.5rem;">
+                    <label>Tu Nombre / Firma Académica</label>
+                    <input type="text" id="login-name" placeholder="Ej: Dr. Pérez / Investigador-01">
+                    <label>Rol Académico</label>
+                    <select id="login-emoji">
+                        <option value="👤">👤 Académico</option>
+                        <option value="🧠">🧠 Investigador</option>
+                        <option value="🎓">🎓 Docente</option>
+                        <option value="🚀">🚀 Innovador</option>
+                        <option value="⚖️">⚖️ Jurista</option>
+                        <option value="🔬">🔬 Científico</option>
+                    </select>
+                    <div class="grid-2">
+                        <button class="btn-primary" onclick="app.login(false)">Entrar al Sistema</button>
+                        <button class="btn-secondary" onclick="app.login(true)">Modo Invitado</button>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- VIEW: HOME -->
+        <section id="v-home" class="view">
+            <div class="home-actions">
+                <button class="btn-primary home-btn" onclick="app.startNewProject()">
+                    <span style="font-size:2rem;">+</span>
+                    <span>Nuevo Proyecto</span>
+                </button>
+                <button class="btn-secondary home-btn" onclick="app.importProjectTrigger()">
+                    <span style="font-size:1.5rem;">📂</span>
+                    <span>Importar JSON</span>
+                </button>
+                <button class="btn-secondary home-btn" onclick="app.showManual()">
+                    <span style="font-size:1.5rem;">📖</span>
+                    <span>Manual de Uso</span>
+                </button>
+            </div>
+
+            <h3 style="margin-bottom:1.2rem; display:flex; align-items:center; gap:10px;">
+                ⚡ Plantillas de Acción
+            </h3>
+            <div class="chip-container">
+                <div class="chip" onclick="app.loadTemplate('essay')">📝 Ensayo</div>
+                <div class="chip" onclick="app.loadTemplate('video')">🎬 Guion Video</div>
+                <div class="chip" onclick="app.loadTemplate('podcast')">🎙️ Guion Podcast</div>
+                <div class="chip" onclick="app.loadTemplate('forum')">💬 Intervención Foro</div>
+                <div class="chip" onclick="app.loadTemplate('state')">📚 Estado del Arte</div>
+                <div class="chip" onclick="app.loadTemplate('theory')">🧠 Marco Teórico</div>
+                <div class="chip" onclick="app.loadTemplate('concept')">🧩 Marco Conceptual</div>
+                <div class="chip" onclick="app.loadTemplate('legal')">⚖️ Marco Legal</div>
+                <div class="chip" onclick="app.loadTemplate('abstract')">📄 Abstract</div>
+                <div class="chip" onclick="app.loadTemplate('intro')">📖 Introducción</div>
+                <div class="chip" onclick="app.loadTemplate('problem')">🧩 Planteamiento del Problema</div>
+                <div class="chip" onclick="app.loadTemplate('method')">🧪 Diseño Metodológico</div>
+                <div class="chip" onclick="app.loadTemplate('review')">🔎 Revisión Sistemática</div>
+                <div class="chip" onclick="app.loadTemplate('discussion')">🗣️ Discusión</div>
+                <div class="chip" onclick="app.loadTemplate('conclusions')">🧾 Conclusiones</div>
+                <div class="chip" onclick="app.loadTemplate('intervention')">📌 Plan de Mejora</div>
+                <div class="chip" onclick="app.loadTemplate('syllabus')">📋 Plan de Aula</div>
+                <div class="chip" onclick="app.loadTemplate('rubric')">✅ Rúbrica-Evaluación</div>
+                <div class="chip" onclick="app.loadTemplate('report')">🗂️ Informe Técnico</div>
+                <div class="chip" onclick="app.loadTemplate('conference')">🎤 Ponencia</div>
+                <div class="chip" onclick="app.loadTemplate('imryd')">📑 Artículo Científico (IMRyD)</div>
+                <div class="chip" onclick="app.loadTemplate('letter')">✉️ Carta al Editor</div>
+                <div class="chip" onclick="app.loadTemplate('reviewCritical')">📘 Reseña Crítica</div>
+                <div class="chip" onclick="app.loadTemplate('complex')">🌀 Análisis Transdisciplinar</div>
+                <div class="chip chip-special" onclick="app.loadTemplate('deepread')">📓 Ficha de Lectura Profunda</div>
+            </div>
+
+            <h3 style="margin-top:2.5rem; margin-bottom:1rem;">📂 Proyectos en Memoria</h3>
+            <div id="project-list"></div>
+
+            <div style="border-top:1px solid #333; margin-top:3rem; padding-top:2rem;">
+                <h4 style="color:#666; font-size:0.8rem; text-transform:uppercase; margin-bottom:1rem;">⚙️ Zona de Gestión</h4>
+                <div class="grid-2">
+                    <button class="btn-secondary" onclick="app.logout()">Cerrar Sesión</button>
+                    <button class="btn-danger" onclick="app.factoryReset()">⚠️ Reset de Fábrica</button>
+                </div>
+            </div>
+        </section>
+
+        <!-- VIEW: WIZARD -->
+        <section id="v-wizard" class="view">
+            <div class="stepper">
+                <div class="step active" id="s-1">1</div>
+                <div class="step" id="s-2">2</div>
+                <div class="step" id="s-3">3</div>
+                <div class="step" id="s-4">4</div>
+                <div class="step" id="s-5">5</div>
+            </div>
+
+            <!-- STEP 1 -->
+            <div id="step-1" class="w-step">
+                <h2>1. Contexto Académico y Nivel</h2>
+                <label>Temática de Investigación (Obligatorio)</label>
+                <input type="text" id="w-topic" placeholder="Ej: El impacto de la IA en la ética clínica...">
+
+                <label>Nivel de Estructura Académica</label>
+                <select id="w-level" onchange="app.updateFieldsStruct()">
+                    <option value="">-- Seleccione Nivel --</option>
+                    <optgroup label="Escolar (Normativa MEN)">
+                        <option value="Basica">Básica y Media (Colegio)</option>
+                    </optgroup>
+                    <optgroup label="Educación Superior (Normativa SNIES)">
+                        <option value="Pregrado">Pregrado Universitario</option>
+                        <option value="Posgrado">Posgrado (Especialización / Maestría)</option>
+                    </optgroup>
+                    <optgroup label="Investigación Avanzada">
+                        <option value="Doctorado">Doctorado / Post-doctorado (OCDE)</option>
+                        <option value="Complejidad">Estudios de Complejidad y Transdisciplina</option>
+                    </optgroup>
+                </select>
+
+                <div class="grid-2">
+                    <div>
+                        <label>Gran Área del Conocimiento</label>
+                        <select id="w-field" onchange="app.updateSubfields()"></select>
+                    </div>
+                    <div>
+                        <label>Disciplina / Asignatura</label>
+                        <select id="w-subfield"></select>
+                    </div>
+                </div>
+
+                <label>Enfoque del Texto</label>
+                <select id="w-context-type">
+                    <option value="Académico Formal">Académico Formal (Estructura APA/ICONTEC)</option>
+                    <option value="Investigativo Riguroso">Investigativo (Factual y Crítico)</option>
+                    <option value="Pedagógico / Didáctico">Pedagógico (Para enseñanza)</option>
+                    <option value="Divulgación Científica">Divulgación (Lenguaje claro)</option>
+                    <option value="Técnico / Profesional">Informe Técnico Profesional</option>
+                    <option value="Crítico / Rizomático">Análisis de Complejidad (No lineal)</option>
+                </select>
+                <button class="btn-secondary" style="width:100%; margin-top:10px;" onclick="app.nav('v-home')">🏠 Volver al Inicio</button>
+            </div>
+
+            <!-- STEP 2 -->
+            <div id="step-2" class="w-step hidden">
+                <h2>2. Propósito Operativo</h2>
+                <label>Acción Taxonómica Principal</label>
+                <select id="w-action" onchange="app.checkActionHint()">
+                    <optgroup label="Análisis">
+                        <option value="Analizar críticamente">Analizar críticamente</option>
+                        <option value="Construir Estado del Arte">Construir Estado del Arte</option>
+                        <option value="Realizar Análisis Situado">Realizar Análisis Situado (Contextual)</option>
+                        <option value="Sintetizar evidencia">Sintetizar evidencia (hallazgos clave)</option>
+                        <option value="Comparar enfoques">Comparar enfoques / marcos teóricos</option>
+                        <option value="Interpretar resultados">Interpretar resultados (cuali/cuanti)</option>
+                        <option value="Identificar brechas">Identificar brechas y vacíos de investigación</option>
+                        <option value="Analizar políticas">Analizar políticas / normativas</option>
+                        <option value="Analizar discurso">Analizar discurso / narrativa (crítico/decolonial)</option>
+                        <option value="Analizar caso">Analizar caso (estudio de caso)</option>
+                        <option value="Evaluar evidencia">Evaluar calidad metodológica de estudios</option>
+                    </optgroup>
+                    <optgroup label="Producción">
+                        <option value="Redactar Ensayo Argumentativo">Redactar Ensayo Argumentativo</option>
+                        <option value="Desarrollar Marco Teórico">Desarrollar Marco Teórico</option>
+                        <option value="Elaborar Marco Legal y Jurídico">Elaborar Marco Legal y Jurídico</option>
+                        <option value="Redactar artículo científico">Redactar artículo científico (IMRyD)</option>
+                        <option value="Elaborar planteamiento del problema">Elaborar planteamiento del problema</option>
+                        <option value="Formular objetivos y preguntas">Formular objetivos y preguntas de investigación</option>
+                        <option value="Diseñar metodología">Diseñar metodología / protocolo (incluye ética)</option>
+                        <option value="Construir matriz de operacionalización">Construir matriz de operacionalización</option>
+                        <option value="Elaborar discusión">Elaborar discusión</option>
+                        <option value="Elaborar conclusiones">Elaborar conclusiones + recomendaciones</option>
+                        <option value="Redactar carta al editor">Redactar carta al editor</option>
+                        <option value="Elaborar informe técnico">Elaborar informe técnico</option>
+                        <option value="Construir propuesta de intervención">Construir propuesta de intervención</option>
+                        <option value="Redactar abstract estructurado">Redactar abstract estructurado</option>
+                    </optgroup>
+                    <optgroup label="Lectura y Síntesis">
+                        <option value="Sintetizar documentos para estudio profundo">Sintetizar documentos para estudio profundo (Ficha de Lectura)</option>
+                        <option value="Construir RAE">Construir Resumen Analítico de Escritura (RAE)</option>
+                    </optgroup>
+                    <optgroup label="Complejidad">
+                        <option value="Análisis Transdisciplinar">Análisis Transdisciplinar</option>
+                        <option value="Comprensión Rizomática-Sistémica">Comprensión Rizomática-Sistémica</option>
+                        <option value="Diseño de Secuencia Didáctica">Diseño de Secuencia Didáctica</option>
+                        <option value="Modelar el sistema">Modelar el sistema (actores, relaciones, bucles)</option>
+                        <option value="Identificar patrones emergentes">Identificar patrones emergentes y no linealidades</option>
+                        <option value="Construir cartografía conceptual">Construir cartografía/rizoma conceptual</option>
+                        <option value="Identificar tensiones ético-políticas">Identificar tensiones ético-políticas del sistema</option>
+                    </optgroup>
+                    <optgroup label="Interacción">
+                        <option value="Responder a Foro de Discusión">Responder a Foro de Discusión</option>
+                        <option value="Crear Guion de Exposición">Crear Guion de Exposición</option>
+                        <option value="Diseñar preguntas detonadoras">Diseñar preguntas detonadoras</option>
+                        <option value="Elaborar retroalimentación formativa">Elaborar retroalimentación formativa</option>
+                        <option value="Preparar ponencia">Preparar ponencia/presentación congresual</option>
+                        <option value="Preparar debate">Preparar debate/argumentario</option>
+                    </optgroup>
+                    <optgroup label="Evaluación">
+                        <option value="Diseñar rúbrica de evaluación">Diseñar rúbrica de evaluación</option>
+                        <option value="Elaborar lista de cotejo">Elaborar lista de cotejo</option>
+                        <option value="Construir instrumento de evaluación">Construir instrumento de evaluación</option>
+                        <option value="Calificar con criterios">Calificar con criterios</option>
+                    </optgroup>
+                </select>
+
+                <div id="action-hint-box" class="action-hint-box"></div>
+
+                <label>Audiencia o Lector Objetivo</label>
+                <input type="text" id="w-audience" placeholder="Ej: Jurado de tesis, Estudiantes de medicina, Pares evaluadores...">
+            </div>
+
+            <!-- STEP 3 -->
+            <div id="step-3" class="w-step hidden">
+                <h2>3. Insumos y Evidencia</h2>
+                <div class="card" style="border:2px dashed #444; background:#15151a;">
+                    <label>📂 Carga de Evidencia (PDF/Word)</label>
+                    <p style="font-size:0.85rem;">Estos archivos serán tu "Fuente de Verdad". La IA usará <strong>exclusivamente</strong> su contenido.</p>
+                    <input type="file" id="w-files" multiple onchange="app.handleFiles(this)" style="margin-bottom:0.5rem;">
+                    <div id="file-list" style="display:flex; flex-wrap:wrap; gap:8px;"></div>
+                </div>
+
+                <label>Bibliografía de Referencia / DOI / Referencias</label>
+                <textarea id="w-biblio" rows="5" placeholder="Pega aquí referencias bibliográficas, DOIs o textos base. Si dejas este campo VACÍO y no subes archivos, se activará el Protocolo de Búsqueda Proactiva con verificación anti-alucinación."></textarea>
+
+                <div style="margin-bottom:1rem;">
+                    <span class="anti-hal-badge">🛡️ Protocolo Anti-Alucinación Activo</span>
+                    <p style="font-size:0.8rem; margin-top:0.6rem; margin-bottom:0;">En todos los modos: se prohíbe explícitamente a la IA fabricar autores, años, títulos, revistas o DOIs. Toda referencia incierta debe marcarse como no verificada.</p>
+                </div>
+
+                <label>Notas de Autor / Postura / Instrucciones Especiales</label>
+                <div style="display:flex; gap:10px; margin-bottom:10px;">
+                    <button class="btn-icon" style="background:rgba(255,255,255,0.08);" id="btn-record" onclick="app.toggleRecord()">🎤</button>
+                    <span id="rec-status" style="align-self:center; font-size:0.8rem; color:var(--danger); font-weight:bold;"></span>
+                </div>
+                <textarea id="w-notes" rows="3" placeholder="Tu tesis principal, lo que quieres resaltar, perspectiva teórica preferida, aspectos a evitar..."></textarea>
+            </div>
+
+            <!-- STEP 4 -->
+            <div id="step-4" class="w-step hidden">
+                <h2>4. Configuración de Productos</h2>
+                <p>Selecciona los elementos que la IA debe generar. <strong>📓 Ficha de Lectura Profunda</strong> produce un análisis de estudio por cada fuente provista.</p>
+                <div id="prod-container" class="chip-container"></div>
+                <div id="prod-settings-area" style="margin-top:1.5rem;"></div>
+            </div>
+
+            <!-- STEP 5 -->
+            <div id="step-5" class="w-step hidden">
+                <h2>5. Normativa y Estética</h2>
+                <div class="grid-2">
+                    <div>
+                        <label>Idioma de Salida</label>
+                        <select id="w-lang">
+                            <option value="Español">Español (Castellano)</option>
+                            <option value="Inglés">Inglés (Académico)</option>
+                            <option value="Portugués">Portugués</option>
+                            <option value="Francés">Francés (Académico)</option>
+                            <option value="Alemán">Alemán (Científico)</option>
+                            <option value="Italiano">Italiano</option>
+                            <option value="Chino">Chino Mandarín (Académico)</option>
+                            <option value="Ruso">Ruso (Científico)</option>
+                        </select>
+                    </div>
+                    <div>
+                        <label>Norma de Citación</label>
+                        <select id="w-citation">
+                            <option value="APA 7ma Edición">APA 7ma Edición</option>
+                            <option value="AMA 11a Edición">AMA 11a Edición (Medicina)</option>
+                            <option value="ACS">ACS (Química)</option>
+                            <option value="CSE">CSE (Ciencias Biológicas)</option>
+                            <option value="IEEE">IEEE (Ingeniería)</option>
+                            <option value="Vancouver">Vancouver (Salud)</option>
+                            <option value="Chicago">Chicago</option>
+                            <option value="Turabian">Turabian</option>
+                            <option value="Harvard">Harvard</option>
+                            <option value="OSCOLA">OSCOLA (Derecho)</option>
+                            <option value="Bluebook">Bluebook (Derecho - EE.UU.)</option>
+                            <option value="ABNT (NBR 6023/10520)">ABNT (Brasil)</option>
+                            <option value="ICONTEC (NTC 1486)">ICONTEC (Colombia)</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="card" style="margin-top:1rem;">
+                    <div class="toggle-row">
+                        <div>
+                            <strong>Permitir Citas Textuales</strong>
+                            <div style="font-size:0.75rem; color:var(--text-sec);">Activa solo si los insumos tienen número de página disponible.</div>
+                        </div>
+                        <label class="toggle-switch"><input type="checkbox" id="w-opt-quotes"><span class="slider"></span></label>
+                    </div>
+                    <div class="toggle-row">
+                        <div>
+                            <strong>Generar Bibliografía Final</strong>
+                            <div style="font-size:0.75rem; color:var(--text-sec);">Incluye lista consolidada de referencias al final.</div>
+                        </div>
+                        <label class="toggle-switch"><input type="checkbox" id="w-opt-biblio" checked><span class="slider"></span></label>
+                    </div>
+                    <div class="toggle-row">
+                        <div>
+                            <strong>Trazabilidad de Fuentes en Párrafos</strong>
+                            <div style="font-size:0.75rem; color:var(--text-sec);">Cita (Autor, Año) sistemáticamente en los párrafos.</div>
+                        </div>
+                        <label class="toggle-switch"><input type="checkbox" id="w-opt-trace" checked><span class="slider"></span></label>
+                    </div>
+                    <div class="toggle-row">
+                        <div>
+                            <strong>Incluir Verificación de Consistencia</strong>
+                            <div style="font-size:0.75rem; color:var(--text-sec);">La IA revisará que todas las citas del texto estén en la bibliografía final.</div>
+                        </div>
+                        <label class="toggle-switch"><input type="checkbox" id="w-opt-verify" checked><span class="slider"></span></label>
+                    </div>
+                </div>
+            </div>
+
+            <!-- NAV BUTTONS -->
+            <div style="display:flex; justify-content:space-between; margin-top:2.5rem; gap:15px;">
+                <button id="btn-back" class="btn-secondary" onclick="wizard.move(-1)" style="flex:1;">Atrás</button>
+                <button id="btn-next" class="btn-primary" onclick="wizard.move(1)" style="flex:2;">Siguiente Paso</button>
+            </div>
+        </section>
+
+        <!-- VIEW: VALIDATION -->
+        <section id="v-validation" class="view">
+            <h2>Verificación de Estructura</h2>
+            <div class="card" id="val-summary" style="font-size:0.95rem; border-left:5px solid var(--success);"></div>
+            <div class="grid-2">
+                <button class="btn-secondary" onclick="wizard.goTo(5); app.nav('v-wizard')">Ajustar Datos</button>
+                <button class="btn-primary" onclick="app.generateFinalPrompt()">Construir Prompt Maestro ✨</button>
+            </div>
+        </section>
+
+        <!-- VIEW: RESULT -->
+        <section id="v-result" class="view">
+            <h2>Arquitectura de Prompt Generada</h2>
+            <div class="card" style="padding:0; border:1px solid #444;">
+                <textarea id="final-prompt" rows="22" spellcheck="false" style="width:100%; border:none; background:#0a0a0c; padding:1.2rem; font-family:var(--font-mono); font-size:0.85rem; color:#9cdcfe; resize:vertical; line-height:1.5;"></textarea>
+                <div style="background:#1a1a1f; padding:8px 15px; text-align:right; font-size:0.75rem; color:#666; border-top:1px solid #333;">
+                    Longitud del Prompt: <span id="char-count">0</span> caracteres
+                </div>
+            </div>
+            <div class="grid-2" style="margin-top:1rem;">
+                <button class="btn-primary" onclick="app.copyPrompt()">📋 Copiar Prompt</button>
+                <button class="btn-secondary" onclick="app.saveProject()">💾 Guardar Proyecto</button>
+            </div>
+            <button class="btn-secondary" style="width:100%; margin:15px 0; border-style:dashed;" onclick="wizard.goTo(5); app.nav('v-wizard')">⬅️ Volver para Ajustar Parámetros</button>
+
+            <h3 style="margin-top:2rem;">Lanzar a Inteligencia Artificial</h3>
+            <div class="chip-container">
+                <button class="chip" style="background:#444654; color:white;" onclick="app.triggerAI('ChatGPT')">ChatGPT (OpenAI)</button>
+                <button class="chip" style="background:#d97757; color:white;" onclick="app.triggerAI('Claude')">Claude (Anthropic)</button>
+                <button class="chip" style="background:#4285f4; color:white;" onclick="app.triggerAI('Gemini')">Gemini (Google)</button>
+                <button class="chip" style="background:#10b981; color:white;" onclick="app.triggerAI('Perplexity')">Perplexity (Buscador)</button>
+            </div>
+            <div style="margin-top:2.5rem; display:flex; flex-direction:column; gap:10px;">
+                <button class="btn-secondary" onclick="app.exportJSON()">Exportar a Archivo JSON</button>
+                <button class="btn-danger" onclick="app.nav('v-home')">Finalizar y Volver al Inicio</button>
+            </div>
+        </section>
+    </main>
+
+    <!-- MODALS -->
+    <div id="manual-modal" class="modal-overlay">
+        <div class="modal-content" style="max-width:600px;">
+            <div style="display:flex; align-items:center; gap:10px; margin-bottom:1.5rem; border-bottom:1px solid #333; padding-bottom:1rem;">
+                <span style="font-size:2rem;">📖</span>
+                <div>
+                    <h2 style="margin:0; font-size:1.3rem; color:var(--accent);">Manual Operativo</h2>
+                    <small style="color:var(--text-sec);">RizoGénesis V5.0 | Arquitectura de Prompting Académico</small>
+                </div>
+            </div>
+            <div style="font-size:0.9rem; line-height:1.6; max-height:60vh; overflow-y:auto; padding-right:5px;">
+
+                <div style="margin-bottom:1.5rem;">
+                    <h4 style="color:var(--text-main); display:flex; align-items:center; gap:8px;"><span style="color:var(--accent);">1.</span> 🧬 Inicio y Rol</h4>
+                    <p style="margin-bottom:0.5rem;">Define tu <b>Rol</b> para calibrar el rigor léxico. Usa las <b>Plantillas</b> del home para cargar configuraciones pre-diseñadas.</p>
+                </div>
+
+                <div style="margin-bottom:1.5rem;">
+                    <h4 style="color:var(--text-main); display:flex; align-items:center; gap:8px;"><span style="color:var(--accent);">2.</span> ⚙️ Los 5 Pasos</h4>
+                    <ul style="list-style:none; padding-left:10px; color:var(--text-sec); font-size:0.85rem;">
+                        <li style="margin-bottom:6px;">📂 <b>Fuente de Verdad (Paso 3):</b> Si subes archivos, la IA usa <b>SOLO</b> ese contenido.</li>
+                        <li style="margin-bottom:6px;">🕵️ <b>Modo Investigador (Paso 3):</b> Sin archivos ni texto, activa búsqueda en bases científicas verificadas con protocolo anti-alucinación completo.</li>
+                        <li style="margin-bottom:6px;">🎙️ <b>Dictado:</b> Usa el micrófono para instrucciones complejas.</li>
+                    </ul>
+                </div>
+
+                <div style="margin-bottom:1.5rem;">
+                    <h4 style="color:var(--text-main); display:flex; align-items:center; gap:8px;"><span style="color:var(--accent);">3.</span> 📓 Ficha de Lectura Profunda <span style="font-size:0.7rem; background:rgba(245,158,11,0.15); color:var(--gold); padding:2px 8px; border-radius:20px; border:1px solid rgba(245,158,11,0.3);">NUEVO</span></h4>
+                    <p>Selecciona este producto en el Paso 4 para obtener un análisis de estudio profundo por cada fuente. A diferencia del abstract, la Ficha de Lectura está orientada a la comprensión y estudio: incluye los autores citados dentro del documento, la relevancia temática y lo que el texto aporta y deja abierto. Genera 3 párrafos de prosa académica sin viñetas ni listas.</p>
+                </div>
+
+                <div style="margin-bottom:1.5rem;">
+                    <h4 style="color:var(--text-main); display:flex; align-items:center; gap:8px;"><span style="color:var(--accent);">4.</span> 🛡️ Protocolo Anti-Alucinación</h4>
+                    <p>V5.0 incluye instrucciones explícitas que prohíben a la IA fabricar referencias. Toda fuente incierta se marcará con "[Fuente no verificada]". Activa la opción de <b>Verificación de Consistencia</b> en el Paso 5 para que la IA reconcilie citas del texto con la bibliografía final.</p>
+                </div>
+
+                <div style="margin-bottom:1rem;">
+                    <h4 style="color:var(--text-main); display:flex; align-items:center; gap:8px;"><span style="color:var(--accent);">5.</span> 💾 Gestión y Puente AI</h4>
+                    <ul style="list-style:none; padding-left:10px; color:var(--text-sec); font-size:0.85rem;">
+                        <li>🚀 <b>Lanzadores:</b> Abren ChatGPT, Claude, Gemini o Perplexity con el prompt ya copiado.</li>
+                        <li>📥 <b>Exportar/Importar JSON:</b> Lleva tus proyectos entre dispositivos.</li>
+                    </ul>
+                </div>
+            </div>
+            <button class="btn-primary" style="width:100%; margin-top:1.5rem;" onclick="app.closeModal('manual-modal')">Entendido, Iniciar</button>
+        </div>
+    </div>
+
+    <div id="ai-modal" class="modal-overlay">
+        <div class="modal-content" style="text-align:center;">
+            <h3>🚀 Abriendo Puente a <span id="ai-name">IA</span></h3>
+            <div style="background:rgba(99,102,241,0.05); padding:1.5rem; border-radius:12px; margin:1.5rem 0; border:1px solid var(--accent);">
+                <p style="color:#fff;">1. El prompt ha sido copiado al portapapeles.</p>
+                <p style="color:#fff;">2. Se abrirá la IA en una nueva pestaña.</p>
+                <p style="color:var(--warning); font-weight:bold;">3. ¡RECUERDA CARGAR TUS PDF/DOCS EN LA IA!</p>
+            </div>
+            <button class="btn-primary" style="width:100%;" onclick="app.closeModal('ai-modal', true)">Ir a la IA Ahora</button>
+        </div>
+    </div>
+
+    <div id="toast-container"></div>
+    <input type="file" id="import-input" accept=".json" style="display:none;" onchange="app.fileImportHandler(this)">
+
+    <script>
+        /* =====================================================
+           RIZOGÉNESIS V5.0 — MASTER DATABASE
+        ===================================================== */
+        const knowledgeMap = {
+            'Basica': {
+                'Ciencias Naturales y Edu. Ambiental': ['Biología','Física','Química','Ecología','Salud','Otras áreas del campo'],
+                'Ciencias Sociales': ['Historia','Geografía','Constitución y Democracia','Otras áreas del campo'],
+                'Humanidades y Lengua': ['Lengua Castellana','Inglés','Idiomas','Literatura','Urbanidad','Religión','Otras áreas del campo'],
+                'Matemáticas': ['Aritmética','Álgebra','Geometría','Física','Estadística','Otras áreas del campo'],
+                'Tecnología e Informática': ['Pensamiento Computacional','Emprendimiento'],
+                'Ética y Cátedra de Paz': ['Ética','Religión','Cátedra de Paz','Bioética','Otras áreas del campo']
+            },
+            'Superior': {
+                'Ciencias de la Salud': ['Medicina','Enfermería','Odontología','Salud Pública','Psicología de la salud','Psicología Clínica','Otras áreas del campo'],
+                'Ciencias Sociales y Humanas': ['Derecho','Sociología','Antropología','Psicología','Trabajo social','Historia','Filosofía','Comunicación social','Interdisciplina','Otras áreas del campo'],
+                'Ingeniería y Arquitectura': ['Ing. de Sistemas','Ing. Civil','Ing. Industrial','Ing. mecánica','Arquitectura','Diseño','Otras Ing'],
+                'Economía y Administración': ['Administración de Empresas','Contaduría','Economía','Negocios','Otras áreas del campo'],
+                'Ciencias de la Educación': ['Pedagogía','Licenciaturas','Didáctica','Gestión Educativa','Interdisciplina','Otras áreas del campo'],
+                'Bellas Artes': ['Música','Artes Plásticas','Artes Escénicas','Diseño Gráfico','Otras áreas del campo'],
+                'Matemáticas y C. Naturales': ['Física Pura','Química Farmacéutica','Biología Marina','Matemáticas','Otras áreas del campo']
+            },
+            'Investigacion': {
+                'Ciencias Exactas': ['Matemáticas','Computación Avanzada','Física de Partículas','Interdisciplina','Otras áreas del campo'],
+                'Ingeniería y Tecnología': ['Biotecnología','Nanotecnología','Inteligencia Artificial','Otras áreas del campo'],
+                'Ciencias Médicas': ['Epidemiología','Neurociencias','Genética','Otras áreas del campo'],
+                'Ciencias Sociales': ['Econometría','Ciencia Política','Derecho Internacional','Interdisciplina','Otras áreas del campo'],
+                'Humanidades': ['Epistemología','Estética','Arqueología','Otras áreas del campo']
+            },
+            'Complejidad': {
+                'Transdisciplina': ['Interdisciplina','Bioética Global','Ecología Política','Sistemas Complejos','Paradigma de la Complejidad','Otras áreas del campo'],
+                'Epistemologías': ['Epistemología Compleja','Epistemologías del Sur','Pensamiento Rizomático','Saberes Ancestrales','Sistemas Complejos','Otras áreas del campo'],
+                'Ciencia de Frontera': ['Cibernética','Teoría del Caos','Antropoceno','Epistemología Compleja','Otras áreas del campo']
+            }
+        };
+
+        /* Base de datos recomendadas por área */
+        const fieldDatabases = {
+            'Ciencias de la Salud':         'PubMed/MEDLINE, Cochrane Library, LILACS, ClinicalTrials.gov, Scielo Salud',
+            'Ciencias Sociales y Humanas':  'Scielo, Redalyc, JSTOR, Dialnet, CLACSO',
+            'Ingeniería y Arquitectura':    'IEEE Xplore, Scopus, Web of Science, ACM Digital Library',
+            'Economía y Administración':    'SSRN, EconLit, Scopus, Banco Mundial Open Data',
+            'Ciencias de la Educación':     'ERIC, Redalyc, Dialnet, Scielo Educación, REDIB',
+            'Bellas Artes':                 'JSTOR, ProQuest Arts, Dialnet, Google Scholar',
+            'Matemáticas y C. Naturales':   'arXiv, MathSciNet, Web of Science, Scopus',
+            'Transdisciplina':              'Scielo, Redalyc, CLACSO, Google Scholar, bases de complejidad',
+            'Epistemologías':               'Dialnet, Redalyc, CLACSO, PhilPapers, Google Scholar',
+            'Ciencias Exactas':             'arXiv, IEEE Xplore, Scopus, Web of Science',
+            'Ingeniería y Tecnología':      'IEEE Xplore, Scopus, ACM Digital Library',
+            'Ciencias Médicas':             'PubMed, Cochrane Library, Scopus',
+            'Ciencias Sociales':            'Scielo, JSTOR, Scopus, SSRN',
+            'Humanidades':                  'JSTOR, PhilPapers, Dialnet, Google Scholar'
+        };
+
+        /* =====================================================
+           PRODUCTOS CONFIGURABLES
+        ===================================================== */
+        const productsConfig = {
+            "Ensayo Argumentativo":         { label: "Párrafos de desarrollo",         default: 8 },
+            "Marco Teórico":                { label: "Párrafos de profundidad",         default: 8 },
+            "Marco Conceptual":             { label: "Párrafos de definición",          default: 6 },
+            "Marco Legal / Jurídico":       { label: "Párrafos de análisis normativo",  default: 6 },
+            "Estado del Arte":              { label: "Categorías de análisis",          default: 4 },
+            "Planteamiento":                { label: "Párrafos de descripción",         default: 5 },
+            "Objetivos":                    { label: "Objetivos específicos",           default: 4 },
+            "Metodología":                  { label: "Párrafos de detalle",             default: 6 },
+            "Discusión":                    { label: "Hallazgos a contrastar",          default: 6 },
+            "Conclusiones":                 { label: "Párrafos analíticos",             default: 5 },
+            "Introducción":                 { label: "Párrafos de introducción",        default: 4 },
+            "Abstract Estructurado":        { label: "Palabras máx",                   default: 250 },
+            "Resumen Analítico (RAE)":      { label: "Palabras máx",                   default: 500 },
+            "📓 Ficha de Lectura Profunda": { label: "Número de fuentes a fichar",      default: 1, special: true },
+            "Síntesis de Estudio":          { label: "Bloques temáticos",              default: 6 },
+            "Propuesta de Intervención":    { label: "Fases del proyecto",             default: 4 },
+            "Secuencia Didáctica":          { label: "Momentos",                       default: 3 },
+            "Reflexión Pedagógica":         { label: "Párrafos",                       default: 4 },
+            "Informe Técnico":              { label: "Secciones",                      default: 6 },
+            "Rúbrica de Evaluación":        { label: "Criterios",                      default: 5 },
+            "Matriz Comparativa":           { label: "Criterios de comparación",       default: 4 },
+            "Glosario Técnico":             { label: "Términos",                       default: 12 },
+            "Mapa Conceptual (Texto)":      { label: "Nodos principales",              default: 8 },
+            "Guion Video Educativo":        { label: "Minutos estimados",              default: 5 },
+            "Guion Podcast":                { label: "Minutos estimados",              default: 10 },
+            "Comentario de Foro":           { label: "Párrafos",                       default: 3 },
+            "Prompt de Imagen":             { label: "Estilo Visual",                  default: "Fotorealista Cinematográfico" }
+        };
+
+        /* =====================================================
+           HINTS POR ACCIÓN
+        ===================================================== */
+        const actionHints = {
+            'Construir Estado del Arte': '💡 Organiza las fuentes por núcleos temáticos, no cronológicamente. Muestra convergencias, divergencias y vacíos. No hagas un listado de resúmenes.',
+            'Analizar críticamente': '💡 Señala supuestos implícitos, limitaciones metodológicas y sesgos. No solo describas: evalúa desde criterios explícitos.',
+            'Redactar Ensayo Argumentativo': '💡 Estructura: tesis → argumentos sustentados con evidencia → contraargumentos → conclusión. Evita la enumeración y las listas.',
+            'Desarrollar Marco Teórico': '💡 Articula las teorías en diálogo mutuo. Muestra cómo cada enfoque ilumina el objeto de estudio. No hagas una enciclopedia de autores.',
+            'Diseñar metodología': '💡 Justifica cada decisión metodológica desde el paradigma elegido. Incluye consideraciones éticas. Explica el "por qué" de cada elección.',
+            'Redactar artículo científico': '💡 Estructura IMRyD. El abstract debe ser autosuficiente. La discusión contrasta hallazgos con la literatura, no los repite.',
+            'Análisis Transdisciplinar': '💡 Supera la yuxtaposición disciplinar. Busca los metapuntos de vista que reorganizan el problema desde un nivel superior de comprensión.',
+            'Comprensión Rizomática-Sistémica': '💡 Piensa en términos de conexiones, mesetas y multiplicidades. Evita el pensamiento arbóreo y las jerarquías rígidas.',
+            'Sintetizar evidencia': '💡 Distingue hallazgos convergentes de divergentes. Pondera la calidad metodológica. Señala heterogeneidad en los estudios.',
+            'Elaborar planteamiento del problema': '💡 Lógica: contexto general → problema específico → evidencia del problema → antecedentes → justificación → pregunta de investigación.',
+            'Sintetizar documentos para estudio profundo': '💡 Selecciona el producto "📓 Ficha de Lectura Profunda" en el Paso 4. Obtendrás una ficha por cada fuente con análisis de 3 párrafos orientado al estudio.',
+            'Elaborar discusión': '💡 La discusión interpreta los hallazgos en diálogo con la teoría. Explica las divergencias. No repitas los resultados.',
+            'Elaborar conclusiones': '💡 Las conclusiones sintetizan el aporte del trabajo, responden la pregunta de investigación y señalan limitaciones y líneas futuras.',
+            'Diseñar rúbrica de evaluación': '💡 Define criterios observables y niveles de desempeño diferenciables. Incluye peso porcentual y descriptores específicos por nivel.',
+            'Comparar enfoques': '💡 Usa una estructura paralela para cada enfoque. Identifica los criterios de comparación antes de ejecutar el análisis.',
+        };
+
+        /* =====================================================
+           APP — CONTROLADOR PRINCIPAL
+        ===================================================== */
+        const app = {
+            state: { user: null, projects: [], current: {}, files: [], aiUrl: '', pendingChips: [] },
+
+            init: () => {
+                const u = localStorage.getItem('rizo_user');
+                const p = localStorage.getItem('rizo_projects');
+                if (u) {
+                    app.state.user = JSON.parse(u);
+                    app.updateHeaderUser();
+                    app.nav('v-home');
+                }
+                if (p) {
+                    app.state.projects = JSON.parse(p);
+                    app.renderProjects();
+                }
+                app.renderProductChips();
+                document.getElementById('final-prompt').oninput = (e) => {
+                    document.getElementById('char-count').innerText = e.target.value.length;
+                };
+                console.log("RizoGénesis V5.0 | Universal — Iniciada.");
+            },
+
+            nav: (id) => {
+                document.querySelectorAll('.view').forEach(v => v.classList.remove('active'));
+                const el = document.getElementById(id);
+                if (el) el.classList.add('active');
+                window.scrollTo(0, 0);
+            },
+
+            login: (guest) => {
+                const n = document.getElementById('login-name').value.trim();
+                if (!guest && !n) return app.toast('Se requiere un nombre', 'error');
+                const emoji = document.getElementById('login-emoji').value;
+                app.state.user = guest
+                    ? { name: 'Invitado Académico', emoji: '👤', role: 'Investigador' }
+                    : { name: n, emoji: emoji, role: document.getElementById('login-emoji').options[document.getElementById('login-emoji').selectedIndex].text.split(' ').slice(1).join(' ') };
+                if (!guest) localStorage.setItem('rizo_user', JSON.stringify(app.state.user));
+                app.updateHeaderUser();
+                app.nav('v-home');
+                app.toast(`Bienvenido, ${app.state.user.name}`, 'success');
+            },
+
+            updateHeaderUser: () => {
+                if (app.state.user) {
+                    document.getElementById('user-display').style.display = 'flex';
+                    document.getElementById('u-emoji').innerText = app.state.user.emoji;
+                    document.getElementById('u-name').innerText = app.state.user.name;
+                    document.getElementById('btn-logout').style.display = 'inline-flex';
+                } else {
+                    document.getElementById('user-display').style.display = 'none';
+                    document.getElementById('btn-logout').style.display = 'none';
+                }
+            },
+
+            logout: () => {
+                if (confirm("¿Deseas cerrar sesión?")) {
+                    localStorage.removeItem('rizo_user');
+                    app.state.user = null;
+                    app.updateHeaderUser();
+                    app.nav('v-login');
+                    app.toast("Sesión cerrada", "success");
+                }
+            },
+
+            factoryReset: () => {
+                if (confirm("⚠️ ¡ADVERTENCIA CRÍTICA!\n\nEsto borrará TODOS tus proyectos y tu perfil.\n\n¿Estás absolutamente seguro?")) {
+                    if (confirm("Última oportunidad: Esta acción es irreversible.")) {
+                        localStorage.clear();
+                        location.reload();
+                    }
+                }
+            },
+
+            startNewProject: () => {
+                app.state.current = { id: Date.now() };
+                app.state.files = [];
+                // Resetea solo los campos del wizard, no los de login
+                ['w-topic','w-audience','w-biblio','w-notes'].forEach(id => {
+                    const el = document.getElementById(id);
+                    if (el) el.value = '';
+                });
+                ['w-level','w-field','w-subfield','w-action','w-context-type','w-lang','w-citation'].forEach(id => {
+                    const el = document.getElementById(id);
+                    if (el) el.selectedIndex = 0;
+                });
+                ['w-opt-quotes'].forEach(id => {
+                    const el = document.getElementById(id);
+                    if (el) el.checked = false;
+                });
+                ['w-opt-biblio','w-opt-trace','w-opt-verify'].forEach(id => {
+                    const el = document.getElementById(id);
+                    if (el) el.checked = true;
+                });
+                document.getElementById('file-list').innerHTML = '';
+                document.getElementById('action-hint-box').classList.remove('visible');
+                document.querySelectorAll('#prod-container .chip.selected').forEach(c => c.classList.remove('selected'));
+                document.getElementById('prod-settings-area').innerHTML = '';
+                document.getElementById('w-field').innerHTML = '<option value="">-- Seleccione Área --</option>';
+                document.getElementById('w-subfield').innerHTML = '<option value="">-- Seleccione Disciplina --</option>';
+                wizard.goTo(1);
+                app.nav('v-wizard');
+            },
+
+            updateFieldsStruct: () => {
+                const lvl = document.getElementById('w-level').value;
+                const fSel = document.getElementById('w-field');
+                fSel.innerHTML = '<option value="">-- Seleccione Área --</option>';
+                let key = lvl === 'Basica' ? 'Basica'
+                    : (lvl === 'Doctorado' ? 'Investigacion'
+                    : (lvl === 'Complejidad' ? 'Complejidad' : 'Superior'));
+                if (lvl && knowledgeMap[key]) {
+                    Object.keys(knowledgeMap[key]).forEach(f => {
+                        fSel.innerHTML += `<option value="${f}">${f}</option>`;
+                    });
+                    fSel.dataset.mapKey = key;
+                }
+                document.getElementById('w-subfield').innerHTML = '<option value="">-- Seleccione Disciplina --</option>';
+            },
+
+            updateSubfields: () => {
+                const mKey = document.getElementById('w-field').dataset.mapKey;
+                const field = document.getElementById('w-field').value;
+                const sSel = document.getElementById('w-subfield');
+                sSel.innerHTML = '<option value="">-- Seleccione Disciplina --</option>';
+                if (mKey && field && knowledgeMap[mKey] && knowledgeMap[mKey][field]) {
+                    knowledgeMap[mKey][field].forEach(s => {
+                        sSel.innerHTML += `<option value="${s}">${s}</option>`;
+                    });
+                }
+            },
+
+            /* ✅ FIX: función que faltaba */
+            checkActionHint: () => {
+                const action = document.getElementById('w-action').value;
+                const box = document.getElementById('action-hint-box');
+                const hint = actionHints[action] || '';
+                if (hint) {
+                    box.innerText = hint;
+                    box.classList.add('visible');
+                } else {
+                    box.classList.remove('visible');
+                }
+            },
+
+            renderProductChips: () => {
+                const c = document.getElementById('prod-container');
+                c.innerHTML = '';
+                Object.keys(productsConfig).forEach(p => {
+                    const conf = productsConfig[p];
+                    const d = document.createElement('div');
+                    d.className = conf.special ? 'chip chip-special' : 'chip';
+                    d.innerText = p;
+                    d.onclick = () => { d.classList.toggle('selected'); app.updateProductSettings(); };
+                    c.appendChild(d);
+                });
+            },
+
+            updateProductSettings: () => {
+                const area = document.getElementById('prod-settings-area');
+                area.innerHTML = '';
+                const selected = document.querySelectorAll('#prod-container .chip.selected');
+                selected.forEach(chip => {
+                    const n = chip.innerText;
+                    const conf = productsConfig[n];
+                    if (!conf) return;
+                    const div = document.createElement('div');
+                    div.className = conf.special ? 'prod-setting-card ficha-card' : 'prod-setting-card';
+                    const icon = conf.special ? '📓' : '▸';
+                    div.innerHTML = `
+                        <label style="color:${conf.special ? 'var(--gold)' : 'var(--accent)'};">${icon} ${n}</label><br>
+                        <label style="font-size:0.75rem; color:#888;">${conf.label}</label>
+                        <input type="text" class="prod-input" data-prod="${n}" value="${conf.default}" style="margin-bottom:0; padding:0.6rem;">
+                    `;
+                    area.appendChild(div);
+                });
+            },
+
+            handleFiles: (input) => {
+                app.state.files = Array.from(input.files).map(f => f.name);
+                document.getElementById('file-list').innerHTML = app.state.files
+                    .map(n => `<div class="chip" style="font-size:0.7rem;">📎 ${n}</div>`).join('');
+            },
+
+            previewValidation: () => {
+                if (!app.validateWizard()) return;
+                const get = id => document.getElementById(id).value;
+                const prods = Array.from(document.querySelectorAll('#prod-container .chip.selected'))
+                    .map(c => c.innerText).join(', ');
+                const modeLabel = app.state.files.length > 0 ? '📎 Fuente de Verdad (Archivos)' :
+                    (!get('w-biblio').trim() ? '🛡️ Modo Investigador (Búsqueda Verificada)' : '📋 Bibliografía Provista');
+                document.getElementById('val-summary').innerHTML = `
+                    <p><b>Tema:</b> ${get('w-topic')}</p>
+                    <p><b>Contexto:</b> ${get('w-level')} › ${get('w-field')} › ${get('w-subfield') || '—'}</p>
+                    <p><b>Enfoque:</b> ${get('w-context-type')}</p>
+                    <p><b>Acción:</b> ${get('w-action')}</p>
+                    <p><b>Modo de fuentes:</b> ${modeLabel}</p>
+                    <p><b>Productos:</b> ${prods || 'Ninguno seleccionado'}</p>
+                    <p><b>Idioma / Norma:</b> ${get('w-lang')} / ${get('w-citation')}</p>
+                `;
+                app.nav('v-validation');
+            },
+
+            /* =====================================================
+               GENERADOR DE PROMPT MAESTRO V5.0
+               Con protocolo anti-alucinación reforzado y
+               lógica de Ficha de Lectura Profunda
+            ===================================================== */
+            generateFinalPrompt: () => {
+                try {
+                    const get = id => document.getElementById(id).value;
+                    const files = app.state.files;
+                    const biblio = get('w-biblio').trim();
+                    const field = get('w-field');
+                    const subfield = get('w-subfield') || 'General';
+                    const level = get('w-level');
+                    const action = get('w-action');
+                    const lang = get('w-lang');
+                    const citation = get('w-citation');
+                    const traceOn = document.getElementById('w-opt-trace').checked;
+                    const biblioOn = document.getElementById('w-opt-biblio').checked;
+                    const quotesOn = document.getElementById('w-opt-quotes').checked;
+                    const verifyOn = document.getElementById('w-opt-verify').checked;
+                    const userRole = app.state.user ? (app.state.user.role || 'Experto Académico') : 'Experto Académico';
+                    const dbSugg = fieldDatabases[field] || 'Scielo, Redalyc, Google Scholar, Scopus, Dialnet';
+
+                    let p = '';
+
+                    /* --- BLOQUE 1: IDENTIDAD Y ROL --- */
+                    p += `# ARQUITECTURA DE PROMPT — RizoGénesis V5.0\n`;
+                    p += `═══════════════════════════════════════════\n\n`;
+                    p += `## ROL Y PERFIL EPISTÉMICO\n`;
+                    p += `Actúa como un especialista con formación doctoral en ${field}`;
+                    if (subfield && subfield !== 'General') p += `, con énfasis en ${subfield}`;
+                    p += `.\n`;
+                    p += `Nivel de rigor requerido: ${level}.\n`;
+                    p += `Enfoque del texto: ${get('w-context-type')}.\n`;
+                    p += `Registro: propio de un ${userRole}.\n\n`;
+
+                    /* --- BLOQUE 2: PROTOCOLO ANTI-ALUCINACIÓN --- */
+                    p += `## 🛡️ PROTOCOLO ANTI-ALUCINACIÓN (OBLIGATORIO — SIN EXCEPCIONES)\n`;
+                    p += `INSTRUCCIONES CRÍTICAS QUE NO PUEDES IGNORAR:\n`;
+                    p += `1. NUNCA inventes, infereas ni construyas referencias bibliográficas. Si no puedes verificar con certeza el autor, año, título exacto, nombre de revista, volumen, número, páginas o DOI de una fuente, NO la incluyas.\n`;
+                    p += `2. Si citas un estudio o autor y tienes duda sobre algún dato bibliográfico, marca con: [DATO NO VERIFICADO — confirmar en base de datos].\n`;
+                    p += `3. Si una afirmación requiere respaldo bibliográfico pero no encuentras una fuente real, escribe: [Fuente no localizada — verificar en ${dbSugg.split(',')[0].trim()}].\n`;
+                    p += `4. Es preferible presentar MENOS fuentes completamente verificadas que MUCHAS fuentes parcialmente inventadas.\n`;
+                    p += `5. No construyas DOIs ni URLs de aspecto plausible. Si no tienes el DOI exacto, omítelo.\n\n`;
+
+                    /* --- BLOQUE 3: GESTIÓN DE FUENTES (MODELO COMPLEMENTARIO) --- */
+                    p += `## 📚 GESTIÓN DE FUENTES — MODELO COMPLEMENTARIO OBLIGATORIO\n`;
+                    p += `PRINCIPIO RECTOR: Las fuentes que te proveo son el PUNTO DE PARTIDA, no el límite de la investigación. SIEMPRE debes complementar con búsqueda verificada en bases científicas, independientemente de si hay archivos adjuntos o bibliografía previa. El análisis documental y la búsqueda bibliográfica son procesos paralelos e inseparables.\n\n`;
+
+                    if (files.length > 0) {
+                        p += `### CAPA 1 — DOCUMENTOS ADJUNTOS (Fuente Primaria)\n`;
+                        p += `He adjuntado ${files.length} documento(s): ${files.join(', ')}.\n`;
+                        p += `- Espera a que los archivos carguen completamente antes de responder.\n`;
+                        p += `- Analiza cada documento en profundidad. Extrae y registra: (a) los argumentos centrales, (b) los autores y teorías que el propio documento cita internamente, (c) los datos, hallazgos o conceptos que puedan respaldarse o ampliarse con literatura externa.\n`;
+                        p += `- Los autores citados DENTRO de los documentos que yo adjunto deben ser extraídos y sumados a la bibliografía final si son pertinentes al tema.\n\n`;
+                    }
+
+                    if (biblio) {
+                        p += `### CAPA ${files.length > 0 ? '2' : '1'} — BIBLIOGRAFÍA BASE PROVISTA\n`;
+                        p += `"""\n${biblio}\n"""\n`;
+                        p += `- Usa estas referencias como base estructural prioritaria. Cita y analiza cada una en el desarrollo.\n`;
+                        p += `- Si alguna de estas referencias contiene autores secundarios relevantes citados en su interior, extráelos e incorpóralos a la bibliografía final.\n\n`;
+                    }
+
+                    const capaExtra = (files.length > 0 && biblio) ? '3' : (files.length > 0 || biblio) ? '2' : '1';
+                    p += `### CAPA ${capaExtra} — BÚSQUEDA PROACTIVA COMPLEMENTARIA (SIEMPRE OBLIGATORIA)\n`;
+                    if (!files.length && !biblio) {
+                        p += `No se han proporcionado archivos ni bibliografía base. Modo de búsqueda completa activado.\n`;
+                    } else {
+                        p += `Aunque ya tienes fuentes primarias, debes complementar activamente con literatura científica adicional que enriquezca, contextualice, contraste o amplíe el análisis.\n`;
+                    }
+                    p += `- Busca fuentes verificadas en: ${dbSugg}.\n`;
+                    p += `- Prioriza publicaciones entre 2015 y ${new Date().getFullYear()}. Acepta clásicos fundacionales si son imprescindibles para el tema (indícalo explícitamente).\n`;
+                    p += `- Jerarquía de evidencia: revisiones sistemáticas > metaanálisis > estudios originales > revisiones narrativas > capítulos de libro > informes institucionales.\n`;
+                    p += `- Para cada fuente que uses, proporciona: Autor(es), Año, Título completo, Revista o Editorial, DOI o URL si está disponible.\n`;
+                    p += `- Si dudas de la existencia o exactitud de cualquier dato de una fuente, NO la incluyas (Protocolo Anti-Alucinación).\n\n`;
+
+                    /* --- BLOQUE 4: PROYECTO --- */
+                    p += `## 📌 PROYECTO\n`;
+                    p += `- **TEMA:** ${get('w-topic')}\n`;
+                    p += `- **AUDIENCIA:** ${get('w-audience') || 'Comunidad académica especializada'}\n`;
+                    p += `- **OBJETIVO PRINCIPAL:** ${action}\n`;
+                    if (get('w-notes').trim()) p += `- **INSTRUCCIONES ADICIONALES:** "${get('w-notes').trim()}"\n`;
+                    p += '\n';
+
+                    /* --- BLOQUE 5: AUTORÍA Y CITACIÓN DIFERENCIADA POR PRODUCTO --- */
+                    p += `## ✍️ PROTOCOLO DE AUTORÍA Y CITACIÓN\n`;
+                    p += `Norma de citación aplicable a todos los productos: ${citation}.\n\n`;
+                    p += `REGLAS DE ATRIBUCIÓN SEGÚN TIPO DE PRODUCTO:\n`;
+                    p += `▸ PRODUCTOS DE ANÁLISIS Y ARGUMENTACIÓN (Marcos teóricos, conceptuales, legales; Estado del Arte; Ensayo; Planteamiento; Discusión; Conclusiones; Introducción; Metodología): OBLIGATORIO incluir (Autor, Año) en CADA afirmación que requiera respaldo empírico o teórico. No hay párrafo sin cita cuando se hace una afirmación de contenido. Los autores deben nombrarse explícitamente en el texto: "Según García (2019)...", "Como señala López et al. (2021)...", "En este sentido, Morin (1990) sostiene que..."\n`;
+                    p += `▸ FICHA DE LECTURA PROFUNDA: El autor del documento analizado debe aparecer como sujeto activo de las oraciones: "Andrade et al. (2025) propone...", "El texto de Rodríguez (2022) señala...". Los autores citados DENTRO del documento analizado también deben nombrarse cuando se mencionen sus ideas.\n`;
+                    p += `▸ ABSTRACT ESTRUCTURADO: No requiere citas en texto. Si se mencionan autores o corrientes, hacerlo de forma integrada y natural ("siguiendo el enfoque de..."), no con sistema parentético.\n`;
+                    p += `▸ GLOSARIO TÉCNICO: Cada definición debe cerrar con la fuente: "(Autor, Año)".\n`;
+                    p += `▸ OBJETIVOS y RÚBRICAS: No requieren citas en texto.\n`;
+                    p += `▸ GUIONES: Los datos y afirmaciones factuales llevan referencia al pie o entre paréntesis.\n\n`;
+                    p += `EXTRACCIÓN DE REFERENCIAS INTERNAS: Si analizas documentos (adjuntos o bibliografía provista) y esos textos citan autores en su interior, debes: (1) identificar esos autores internos, (2) citarlos en el texto cuando sean relevantes, (3) incluirlos en la bibliografía final si los usas en el desarrollo.\n\n`;
+
+                    /* --- BLOQUE 5B: PRODUCTOS A GENERAR --- */
+                    p += `## 📦 PRODUCTOS A GENERAR\n`;
+                    p += `Genera todos los productos en idioma: ${lang}.\n\n`;
+
+                    const prodInputs = document.querySelectorAll('.prod-input');
+                    prodInputs.forEach(i => {
+                        const n = i.dataset.prod;
+                        const val = i.value;
+
+                        // ── FICHA DE LECTURA PROFUNDA ──
+                        if (n.includes('Ficha de Lectura Profunda')) {
+                            const numFichas = parseInt(val) || 1;
+                            p += `### 📓 FICHA DE LECTURA PROFUNDA\n`;
+                            p += `Genera ${numFichas} Ficha(s) de Lectura Profunda INDEPENDIENTE(S), una por cada fuente analizada.\n\n`;
+                            p += `PROPÓSITO DE LA FICHA: Este no es un resumen de divulgación ni un abstract. Es un instrumento de estudio profundo que debe permitir a quien lo lea comprender el texto sin haberlo leído, identificar con quién dialoga el autor, y evaluar su pertinencia para la investigación propia.\n\n`;
+                            p += `ESTRUCTURA OBLIGATORIA DE CADA FICHA:\n\n`;
+                            p += `[FICHA N° X]\n`;
+                            p += `Referencia completa del documento analizado en ${citation}.\n\n`;
+                            p += `PÁRRAFO 1 — AUTOR, PROPÓSITO Y ARQUITECTURA DEL TEXTO\n`;
+                            p += `Inicia SIEMPRE nombrando al autor o autores del documento con su año entre paréntesis como sujeto gramatical de las oraciones: "Andrade et al. (2025) proponen...", "García y López (2020) argumentan que...", "En este estudio, Rodríguez (2018) examina...". Describe qué investiga o argumenta el texto, cuál es su pregunta central o tesis, cómo está estructurado, y cuál es el enfoque teórico-metodológico del autor. Todo el párrafo en prosa académica continua, mínimo 130 palabras.\n\n`;
+                            p += `PÁRRAFO 2 — IDEAS NUCLEARES Y DIÁLOGO BIBLIOGRÁFICO INTERNO\n`;
+                            p += `Desarrolla los conceptos, categorías e ideas centrales del texto. OBLIGATORIO: identifica y nombra explícitamente los autores y teorías que el propio documento cita en su interior, indicando cómo el autor analizado los usa: "Para sustentar este argumento, los autores retoman a Vygotsky (1978) y Morin (1999)...", "El texto dialoga críticamente con Foucault (1977) al cuestionar...". Muestra si estas referencias sustentan, contradicen o amplían el argumento principal. Prosa académica continua, mínimo 150 palabras. TODOS los autores internos mencionados en este párrafo deben ser incluidos en la bibliografía final del trabajo.\n\n`;
+                            p += `PÁRRAFO 3 — RELEVANCIA, APORTE Y PREGUNTAS ABIERTAS\n`;
+                            p += `Vuelve a nombrar al autor o autores del documento al inicio: "El aporte de Andrade et al. (2025) radica en...". Explica por qué este texto es relevante para el tema de investigación, qué contribución específica hace al campo, qué aspectos trata de forma incompleta o que pueden discutirse, y qué líneas de indagación deja abiertas para investigaciones futuras. Cierra el párrafo con una valoración sintética de la calidad del texto para el propósito investigativo. Prosa académica continua, mínimo 120 palabras.\n\n`;
+                            p += `REGLAS ABSOLUTAS PARA LAS FICHAS:\n`;
+                            p += `- PROHIBIDO usar viñetas, listas numeradas, guiones o cualquier forma de fragmentación dentro de los tres párrafos.\n`;
+                            p += `- Los autores del documento analizado deben aparecer como sujetos activos de las oraciones, no como objetos o menciones al margen.\n`;
+                            p += `- Los autores INTERNOS al documento (citados dentro de él) deben nombrarse explícitamente cuando se referencian sus ideas en el Párrafo 2.\n`;
+                            p += `- Al final de todas las fichas, incluye una sección "REFERENCIAS EXTRAÍDAS" con la lista completa en ${citation} de: (1) el documento analizado y (2) todos los autores internos que mencionaste en el Párrafo 2.\n\n`;
+
+                        // ── RESUMEN ANALÍTICO (RAE) ──
+                        } else if (n === 'Resumen Analítico (RAE)') {
+                            p += `### RESUMEN ANALÍTICO DE ESCRITURA (RAE)\n`;
+                            p += `Genera un RAE completo con las siguientes secciones (en prosa, no en listas):\n`;
+                            p += `1. Referencia bibliográfica completa (${citation}). 2. Tipo de documento y fecha. 3. Autor(es) y filiación. 4. Palabras clave. 5. Descripción del contenido central. 6. Fuentes citadas en el documento. 7. Metodología empleada. 8. Conclusiones del autor. 9. Observaciones del lector.\n`;
+                            p += `Longitud máxima: ${val} palabras. Formato: prosa estructurada (no viñetas).\n\n`;
+
+                        // ── ABSTRACT ──
+                        } else if (n === 'Abstract Estructurado') {
+                            p += `### ABSTRACT ESTRUCTURADO\n`;
+                            p += `Genera un abstract con estas secciones implícitas integradas en prosa (sin subtítulos): Objetivo, Métodos, Resultados/Hallazgos principales, Conclusiones. Longitud: máximo ${val} palabras. Redacción impersonal. Si el contexto del trabajo involucra un enfoque teórico reconocido, menciona el autor o corriente de forma integrada y natural ("desde la perspectiva de Morin" o "siguiendo el enfoque sistémico de Bronfenbrenner"), pero sin sistema de citas parentéticas (sin "(Autor, Año)") salvo que la norma ${citation} lo exija en este tipo de texto.\n\n`;
+
+                        // ── PROSA ACADÉMICA DENSA ──
+                        } else if (['Marco Teórico','Marco Conceptual','Marco Legal / Jurídico','Planteamiento','Metodología','Conclusiones','Discusión','Introducción','Estado del Arte','Ensayo Argumentativo'].includes(n)) {
+                            p += `### ${n.toUpperCase()}\n`;
+                            p += `Alcance: ${val} párrafos. FORMATO OBLIGATORIO: PROSA ACADÉMICA DENSA Y CONTINUA. PROHIBIDO usar listas, viñetas, numeraciones o guiones. Se requiere coherencia argumentativa inter-párrafos, densidad conceptual y progresión lógica del argumento.\n`;
+                            p += `AUTORÍA OBLIGATORIA: Cada párrafo debe contener al menos una cita con autor y año (Autor, Año). Los autores deben nombrarse en el cuerpo del texto: "Morin (1990) señala que...", "Según Vygotsky (1978)...", "Como argumenta García et al. (2021)...". Ningún párrafo puede sostener afirmaciones conceptuales o empíricas sin respaldo atribuido a una fuente identificable.\n\n`;
+
+                        // ── GUIONES ──
+                        } else if (n.includes('Guion')) {
+                            p += `### ${n.toUpperCase()}\n`;
+                            p += `Duración estimada: ${val} minutos. FORMATO: Tabla estructurada con columnas: [Tiempo | Escena/Imagen | Narración/Audio | Recurso sugerido]. Lenguaje claro, fluido y adaptado a la audiencia. Incluye introducción, desarrollo y cierre.\n\n`;
+
+                        // ── RÚBRICA ──
+                        } else if (n === 'Rúbrica de Evaluación') {
+                            p += `### RÚBRICA DE EVALUACIÓN\n`;
+                            p += `Genera ${val} criterios de evaluación. FORMATO: Tabla con columnas: [Criterio | Excelente (4) | Bueno (3) | En desarrollo (2) | Insuficiente (1) | Peso %]. Los descriptores deben ser observables, específicos y diferenciables entre niveles.\n\n`;
+
+                        // ── OBJETIVOS ──
+                        } else if (n === 'Objetivos') {
+                            p += `### OBJETIVOS\n`;
+                            p += `Genera 1 objetivo general y ${val} objetivos específicos. Los objetivos específicos deben ser alcanzables, medibles y derivarse directamente del objetivo general. Inician con verbo en infinitivo (taxonomía de Bloom). Formato: párrafo para el general, lista numerada para los específicos.\n\n`;
+
+                        // ── PROMPT DE IMAGEN ──
+                        } else if (n === 'Prompt de Imagen') {
+                            p += `### PROMPT DE IMAGEN (IA Generativa)\n`;
+                            p += `Genera un prompt profesional para Midjourney / DALL-E / Stable Diffusion. Estilo visual: ${val}. Incluye: descripción de la escena, composición visual, tipo de iluminación, paleta de colores, perspectiva, resolución sugerida y referencia artística o cinematográfica. Formato: párrafo único en inglés técnico.\n\n`;
+
+                        // ── GLOSARIO ──
+                        } else if (n === 'Glosario Técnico') {
+                            p += `### GLOSARIO TÉCNICO\n`;
+                            p += `Genera ${val} términos clave del tema. Para cada término: definición académica rigurosa (2-3 oraciones), etimología si es relevante, y cita de un autor de referencia verificable. FORMATO: lista con término en negrita seguido de la definición en párrafo.\n\n`;
+
+                        // ── DEFAULT ──
+                        } else {
+                            p += `### ${n.toUpperCase()}\n`;
+                            p += `Alcance: ${val}. Genera en prosa académica cuando el contenido lo permita. Mantén coherencia con el tema y la audiencia definidos.\n\n`;
+                        }
+                    });
+
+                    /* --- BLOQUE 6: PARÁMETROS FINALES --- */
+                    p += `## ⚙️ PARÁMETROS DE SALIDA\n`;
+                    p += `- Idioma: ${lang}.\n`;
+                    p += `- Norma de citación: ${citation}.\n`;
+                    p += `- Trazabilidad en párrafos: ${traceOn ? 'SÍ — incluye (Autor, Año) en cada afirmación que requiera respaldo.' : 'NO — sin citas en el cuerpo del texto.'}.\n`;
+                    p += `- Bibliografía final consolidada: ${biblioOn ? 'SÍ — lista completa de referencias al final.' : 'NO'}.\n`;
+                    if (quotesOn) p += `- Citas textuales: PERMITIDAS solo cuando tengas el número de página exacto. Usa comillas y (Autor, Año, p. XX).\n`;
+                    if (verifyOn) {
+                        p += `\n## ✅ VERIFICACIÓN FINAL (ANTES DE ENTREGAR)\n`;
+                        p += `Antes de entregar tu respuesta, revisa punto por punto:\n`;
+                        p += `1. TRAZABILIDAD: ¿Cada afirmación conceptual o empírica en los productos que lo requieren tiene su (Autor, Año) explícito? Corrige las que no.\n`;
+                        p += `2. EXTRACCIÓN DE REFERENCIAS INTERNAS: Si analizaste documentos provistos, ¿extrajiste los autores citados dentro de ellos y los incorporaste a la bibliografía final cuando los usaste?\n`;
+                        p += `3. CONSISTENCIA BIBLIOGRÁFICA: ¿Cada referencia citada en el texto aparece en la bibliografía final? Si no, agrégala o elimina la cita.\n`;
+                        p += `4. ANTI-ALUCINACIÓN: ¿Alguna referencia tiene datos inciertos? Si es así, márcala con [VERIFICAR] o elimínala.\n`;
+                        p += `5. FORMATO: ¿Los productos que requieren prosa continua están libres de viñetas y listas? ¿La Ficha de Lectura nombra al autor del documento como sujeto activo?\n`;
+                        p += `6. EXTENSIÓN: ¿Cada producto corresponde al alcance solicitado?\n`;
+                    }
+
+                    document.getElementById('final-prompt').value = p;
+                    document.getElementById('char-count').innerText = p.length;
+                    app.nav('v-result');
+
+                } catch (e) {
+                    console.error(e);
+                    app.toast("Error al generar: verifica los campos.", "error");
+                }
+            },
+
+            validateWizard: () => {
+                if (!document.getElementById('w-topic').value.trim()) {
+                    app.toast("Falta la Temática de investigación", "error"); wizard.goTo(1); return false;
+                }
+                if (!document.getElementById('w-field').value) {
+                    app.toast("Selecciona un Área del conocimiento", "error"); wizard.goTo(1); return false;
+                }
+                if (document.querySelectorAll('#prod-container .chip.selected').length === 0) {
+                    app.toast("Selecciona al menos un producto", "error"); wizard.goTo(4); return false;
+                }
+                return true;
+            },
+
+            copyPrompt: () => {
+                const ta = document.getElementById('final-prompt');
+                ta.select();
+                try {
+                    document.execCommand('copy');
+                    app.toast("✅ Prompt copiado al portapapeles", "success");
+                } catch (e) {
+                    navigator.clipboard.writeText(ta.value).then(() => app.toast("✅ Prompt copiado", "success"));
+                }
+            },
+
+            saveProject: () => {
+                const proj = {
+                    ...app.state.current,
+                    topic: document.getElementById('w-topic').value,
+                    prompt: document.getElementById('final-prompt').value,
+                    date: new Date().toISOString()
+                };
+                const idx = app.state.projects.findIndex(p => p.id === proj.id);
+                if (idx > -1) app.state.projects[idx] = proj;
+                else app.state.projects.push(proj);
+                localStorage.setItem('rizo_projects', JSON.stringify(app.state.projects));
+                app.renderProjects();
+                app.toast("💾 Proyecto guardado", "success");
+            },
+
+            renderProjects: () => {
+                const list = document.getElementById('project-list');
+                list.innerHTML = '';
+                if (app.state.projects.length === 0) {
+                    list.innerHTML = '<p style="text-align:center; opacity:0.5; padding:1rem 0;">No hay proyectos guardados.</p>';
+                    return;
+                }
+                app.state.projects.slice().reverse().forEach(p => {
+                    const d = document.createElement('div');
+                    d.className = 'project-item card';
+                    d.innerHTML = `
+                        <div style="flex:1; min-width:0;">
+                            <strong style="display:block; white-space:nowrap; overflow:hidden; text-overflow:ellipsis;">${p.topic || 'Sin título'}</strong>
+                            <small style="color:var(--text-sec);">${new Date(p.date || p.id).toLocaleString()}</small>
+                        </div>
+                        <div class="proj-actions">
+                            <button class="btn-secondary btn-icon" onclick="event.stopPropagation(); app.loadProjectPrompt('${p.id}')" title="Ver prompt">👁️</button>
+                            <button class="btn-danger btn-icon" onclick="event.stopPropagation(); app.deleteProject('${p.id}')" title="Eliminar">🗑️</button>
+                        </div>`;
+                    d.onclick = () => app.loadProjectPrompt(p.id);
+                    list.appendChild(d);
+                });
+            },
+
+            loadProjectPrompt: (id) => {
+                const p = app.state.projects.find(x => x.id == id);
+                if (p) {
+                    document.getElementById('final-prompt').value = p.prompt;
+                    document.getElementById('char-count').innerText = p.prompt.length;
+                    app.state.current = p;
+                    app.nav('v-result');
+                }
+            },
+
+            deleteProject: (id) => {
+                if (confirm("¿Eliminar este proyecto?")) {
+                    app.state.projects = app.state.projects.filter(p => p.id != id);
+                    localStorage.setItem('rizo_projects', JSON.stringify(app.state.projects));
+                    app.renderProjects();
+                    app.toast("Proyecto eliminado", "success");
+                }
+            },
+
+            exportJSON: () => {
+                const dataStr = "data:text/json;charset=utf-8," + encodeURIComponent(JSON.stringify(app.state.projects));
+                const a = document.createElement('a');
+                a.href = dataStr; a.download = "rizogenesis_proyectos.json"; a.click();
+            },
+
+            fileImportHandler: (input) => {
+                const file = input.files[0];
+                if (!file) return;
+                const reader = new FileReader();
+                reader.onload = (e) => {
+                    try {
+                        const imported = JSON.parse(e.target.result);
+                        if (Array.isArray(imported)) {
+                            app.state.projects = [...app.state.projects, ...imported];
+                            localStorage.setItem('rizo_projects', JSON.stringify(app.state.projects));
+                            app.renderProjects();
+                            app.toast(`${imported.length} proyecto(s) importado(s)`, "success");
+                        }
+                    } catch (err) { app.toast("Error al leer el archivo JSON", "error"); }
+                };
+                reader.readAsText(file);
+                input.value = '';
+            },
+
+            importProjectTrigger: () => document.getElementById('import-input').click(),
+
+            triggerAI: (name) => {
+                app.copyPrompt();
+                document.getElementById('ai-name').innerText = name;
+                app.state.aiUrl = {
+                    'ChatGPT': 'https://chatgpt.com/',
+                    'Claude': 'https://claude.ai/',
+                    'Gemini': 'https://gemini.google.com/',
+                    'Perplexity': 'https://www.perplexity.ai/'
+                }[name];
+                document.getElementById('ai-modal').classList.add('active');
+            },
+
+            showManual: () => document.getElementById('manual-modal').classList.add('active'),
+
+            closeModal: (id, openAI) => {
+                document.getElementById(id).classList.remove('active');
+                if (openAI && app.state.aiUrl) window.open(app.state.aiUrl, '_blank');
+            },
+
+            toast: (msg, type) => {
+                const c = document.getElementById('toast-container');
+                const t = document.createElement('div');
+                t.className = 'toast'; t.innerText = msg;
+                if (type === 'error')   t.style.borderLeftColor = 'var(--danger)';
+                if (type === 'success') t.style.borderLeftColor = 'var(--success)';
+                if (type === 'warning') t.style.borderLeftColor = 'var(--warning)';
+                c.appendChild(t);
+                setTimeout(() => t.remove(), 4000);
+            },
+
+            toggleRecord: () => {
+                if (!('webkitSpeechRecognition' in window) && !('SpeechRecognition' in window)) {
+                    return app.toast("Navegador no soporta reconocimiento de voz", "error");
+                }
+                if (app.rec) { app.rec.stop(); return; }
+                const SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
+                const r = new SpeechRecognition();
+                r.lang = 'es-ES'; r.continuous = false; r.interimResults = false;
+                r.onstart = () => { document.getElementById('rec-status').innerText = "🔴 Grabando..."; app.rec = r; };
+                r.onend = () => { document.getElementById('rec-status').innerText = ""; app.rec = null; };
+                r.onresult = (e) => {
+                    document.getElementById('w-notes').value += " " + e.results[0][0].transcript;
+                };
+                r.onerror = () => { app.toast("Error en el micrófono", "error"); app.rec = null; };
+                r.start();
+            },
+
+            /* PLANTILLAS — cobertura completa de los 25 chips del home */
+            loadTemplate: (type) => {
+                app.startNewProject();
+                const t = prompt("Introduce el tema del proyecto:");
+                if (!t) return;
+                document.getElementById('w-topic').value = t;
+
+                const configs = {
+                    'essay':         { action: 'Redactar Ensayo Argumentativo',        context: 'Académico Formal',        chips: ['Ensayo Argumentativo','Conclusiones'] },
+                    'video':         { action: 'Crear Guion de Exposición',             context: 'Divulgación Científica',  chips: ['Guion Video Educativo'] },
+                    'podcast':       { action: 'Crear Guion de Exposición',             context: 'Divulgación Científica',  chips: ['Guion Podcast'] },
+                    'forum':         { action: 'Responder a Foro de Discusión',         context: 'Pedagógico / Didáctico',  chips: ['Comentario de Foro'] },
+                    'state':         { action: 'Construir Estado del Arte',             context: 'Investigativo Riguroso',  chips: ['Estado del Arte','Marco Teórico'] },
+                    'theory':        { action: 'Desarrollar Marco Teórico',             context: 'Académico Formal',        chips: ['Marco Teórico'] },
+                    'concept':       { action: 'Desarrollar Marco Teórico',             context: 'Académico Formal',        chips: ['Marco Conceptual'] },
+                    'legal':         { action: 'Elaborar Marco Legal y Jurídico',       context: 'Técnico / Profesional',   chips: ['Marco Legal / Jurídico'] },
+                    'abstract':      { action: 'Redactar abstract estructurado',        context: 'Investigativo Riguroso',  chips: ['Abstract Estructurado'] },
+                    'intro':         { action: 'Elaborar planteamiento del problema',   context: 'Académico Formal',        chips: ['Introducción','Planteamiento'] },
+                    'problem':       { action: 'Elaborar planteamiento del problema',   context: 'Investigativo Riguroso',  chips: ['Planteamiento','Objetivos'] },
+                    'method':        { action: 'Diseñar metodología',                   context: 'Investigativo Riguroso',  chips: ['Metodología'] },
+                    'review':        { action: 'Construir Estado del Arte',             context: 'Investigativo Riguroso',  chips: ['Estado del Arte','Resumen Analítico (RAE)'] },
+                    'discussion':    { action: 'Elaborar discusión',                    context: 'Investigativo Riguroso',  chips: ['Discusión'] },
+                    'conclusions':   { action: 'Elaborar conclusiones',                 context: 'Académico Formal',        chips: ['Conclusiones'] },
+                    'intervention':  { action: 'Construir propuesta de intervención',   context: 'Técnico / Profesional',   chips: ['Propuesta de Intervención'] },
+                    'syllabus':      { action: 'Diseño de Secuencia Didáctica',         context: 'Pedagógico / Didáctico',  chips: ['Secuencia Didáctica','Reflexión Pedagógica'] },
+                    'rubric':        { action: 'Diseñar rúbrica de evaluación',         context: 'Pedagógico / Didáctico',  chips: ['Rúbrica de Evaluación'] },
+                    'report':        { action: 'Elaborar informe técnico',              context: 'Técnico / Profesional',   chips: ['Informe Técnico'] },
+                    'conference':    { action: 'Preparar ponencia',                     context: 'Académico Formal',        chips: ['Introducción','Ensayo Argumentativo','Conclusiones'] },
+                    'imryd':         { action: 'Redactar artículo científico',          context: 'Investigativo Riguroso',  chips: ['Abstract Estructurado','Planteamiento','Metodología','Discusión','Conclusiones'] },
+                    'letter':        { action: 'Redactar carta al editor',              context: 'Académico Formal',        chips: ['Comentario de Foro'] },
+                    'reviewCritical':{ action: 'Analizar críticamente',                 context: 'Investigativo Riguroso',  chips: ['Resumen Analítico (RAE)','Discusión'] },
+                    'complex':       { action: 'Análisis Transdisciplinar',             context: 'Crítico / Rizomático',    chips: ['Marco Teórico','Síntesis de Estudio'] },
+                    'deepread':      { action: 'Sintetizar documentos para estudio profundo', context: 'Investigativo Riguroso', chips: ['📓 Ficha de Lectura Profunda'] },
+                };
+
+                const cfg = configs[type];
+                if (cfg) {
+                    document.getElementById('w-action').value = cfg.action;
+                    document.getElementById('w-context-type').value = cfg.context;
+                    app.checkActionHint();
+                    // Auto-select chips after a tick (chips already rendered)
+                    setTimeout(() => {
+                        document.querySelectorAll('#prod-container .chip').forEach(chip => {
+                            if (cfg.chips.includes(chip.innerText)) {
+                                chip.classList.add('selected');
+                            }
+                        });
+                        app.updateProductSettings();
+                    }, 80);
+                }
+                app.toast("✅ Plantilla cargada — revisa y ajusta los pasos", "success");
+            }
+        };
+
+        /* =====================================================
+           WIZARD — CONTROLADOR DE PASOS
+        ===================================================== */
+        const wizard = {
+            step: 1,
+            move: (d) => {
+                const c = wizard.step, n = c + d;
+                if (c === 5 && d === 1) { app.previewValidation(); return; }
+                if (n >= 1 && n <= 5) wizard.goTo(n);
+            },
+            goTo: (n) => {
+                document.getElementById('v-wizard').classList.add('active');
+                document.getElementById('v-validation').classList.remove('active');
+                document.querySelectorAll('.w-step').forEach(s => s.classList.add('hidden'));
+                const step = document.getElementById(`step-${n}`);
+                if (step) step.classList.remove('hidden');
+                document.querySelectorAll('.step').forEach((s, idx) => {
+                    s.classList.remove('active','completed');
+                    if (idx + 1 === n) s.classList.add('active');
+                    if (idx + 1 < n) s.classList.add('completed');
+                });
+                wizard.step = n;
+                const backBtn = document.getElementById('btn-back');
+                const nextBtn = document.getElementById('btn-next');
+                backBtn.style.visibility = n === 1 ? 'hidden' : 'visible';
+                if (n === 5) {
+                    nextBtn.innerText = '✅ Verificar y Previsualizar';
+                    nextBtn.className = 'btn-success';
+                } else {
+                    nextBtn.innerText = 'Siguiente Paso →';
+                    nextBtn.className = 'btn-primary';
+                }
+                window.scrollTo(0, 0);
+            }
+        };
+
+        window.onload = app.init;
+    </script>
+</body>
+</html>

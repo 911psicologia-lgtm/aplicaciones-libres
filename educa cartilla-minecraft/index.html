@@ -1,0 +1,318 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no">
+<title>⛏️ SAI Quest — Mejorada</title>
+<link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&family=Nunito:wght@700;800;900&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="css/styles.css">
+</head>
+<body>
+
+<!-- ESTRELLAS DE FONDO -->
+<div id="stars"></div>
+
+<!-- CONTENEDOR DE CONFETI -->
+<div id="cbox"></div>
+
+<!-- TOPBAR -->
+<div id="topbar">
+  <button class="home-btn" id="homeBtn" onclick="goHome()" title="Pantalla principal">🏠</button>
+  <div class="tlogo">⛏️ SAI</div>
+  <div class="tr">
+    <div class="chip">⚡<span id="tbX">0</span></div>
+    <div class="chip">🪙<span id="tbC">0</span></div>
+    <div class="chip"><span id="tbS">0</span></div>
+  </div>
+</div>
+
+<!-- BOTTOM NAV -->
+<div id="botnav">
+  <button class="bnb act" id="bn0" onclick="nav(0)"><span>🗺️</span>Mapa</button>
+  <button class="bnb" id="bn1" onclick="nav(1)"><span>👤</span>Perfil</button>
+  <button class="bnb" id="bn2" onclick="nav(2)"><span>🏅</span>Logros</button>
+</div>
+
+<!-- ═══ LOGIN ═══ -->
+<div class="screen on" id="loginScreen">
+  <br>
+  <div class="px" style="font-size:1.3em;text-shadow:3px 3px 0 rgba(0,0,0,.6)">⛏️ SAI<br>QUEST</div>
+  <div style="color:var(--muted);font-size:.84em;text-align:center;margin-bottom:4px">¡Entrena · Sube de nivel · Gana!</div>
+  <div class="avrow" id="avRow">
+    <div class="av sel" data-a="🧑‍🦱" onclick="selAv(this)">🧑‍🦱</div>
+    <div class="av" data-a="🧒" onclick="selAv(this)">🧒</div>
+    <div class="av" data-a="🦸" onclick="selAv(this)">🦸</div>
+    <div class="av" data-a="🧙" onclick="selAv(this)">🧙</div>
+    <div class="av" data-a="⚔️" onclick="selAv(this)">⚔️</div>
+    <div class="av" data-a="🐉" onclick="selAv(this)">🐉</div>
+  </div>
+  <div class="ib">
+    <label>Tu nombre de héroe</label>
+    <input id="iName" type="text" placeholder="Ej: Martín" maxlength="20" autocomplete="off">
+  </div>
+  <br>
+  <button class="btn bgold bw" onclick="doLogin()">⚔️ COMENZAR AVENTURA</button>
+</div>
+
+<!-- ═══ MAPA ═══ -->
+<div class="screen" id="mapScreen">
+  <div class="hbanner">
+    <span class="hav" id="hav">🧑‍🦱</span>
+    <div><div class="hn" id="hn">Héroe</div><div class="hs" id="hs">Nivel 1</div></div>
+  </div>
+  <div class="xpw" style="margin-bottom:12px">
+    <div class="xpl"><span>XP <span id="xpC">0</span></span><span><span id="xpN">100</span> → Nv<span id="xpNL">2</span></span></div>
+    <div class="xpb"><div class="xpf" id="xpBar" style="width:0%"></div></div>
+  </div>
+  <div class="srow">
+    <div class="sp"><div class="sv" id="stX">0</div><div class="sl">XP</div></div>
+    <div class="sp"><div class="sv" id="stC">0</div><div class="sl">🪙</div></div>
+    <div class="sp"><div class="sv" id="stS">0</div><div class="sl">🔥 Días</div></div>
+    <div class="sp"><div class="sv" id="stM">0</div><div class="sl">Misiones</div></div>
+  </div>
+  <div class="wt">🌍 ELIGE TU MUNDO</div>
+  <div class="bgrid" id="biGrid"></div>
+</div>
+
+<!-- ═══ BIOMA ═══ -->
+<div class="screen" id="biomeScreen">
+  <button class="bbtn" onclick="nav(0)">◀ Mapa</button>
+  <div class="bhdr" id="bHdr"></div>
+  <div class="mlist" id="mList"></div>
+</div>
+
+<!-- ═══ JUEGO ═══ -->
+<div class="screen" id="gameScreen">
+  <div class="ghdr">
+    <button class="ex" onclick="openExit()">✕</button>
+    <div class="gpb"><div class="gpf" id="gpf" style="width:0%"></div></div>
+    <div class="gcnt" id="gcnt">1/5</div>
+    <div class="gtm" id="gtm">0:00</div>
+  </div>
+
+<!-- ═══ MODO JEFE FINAL — Barra de HP ═══ -->
+<div id="bossHPContainer" class="boss-hp-container" style="display:none">
+  <div class="boss-banner">
+    <span id="bossBannerEmoji">👹</span>
+    <span id="bossBannerName" class="boss-banner-name">Jefe Final</span>
+    <span class="boss-banner-tag">⚔️ BATALLA FINAL</span>
+  </div>
+  <div class="boss-bar-wrap">
+    <div class="boss-bar-fill" id="bossBarFill" style="width:100%"></div>
+  </div>
+  <div class="boss-hp-text" id="bossHPText">❤️ 8/8</div>
+</div>
+  <div class="lvs" id="lvs"></div>
+  <div class="qcard">
+    <div class="qi" id="qi"></div>
+    <div class="qt" id="qt"></div>
+  </div>
+  <div class="bird-ref-panel" id="birdRefPanel" style="display:none"></div>
+  <div class="og" id="og"></div>
+  <div class="tip" id="tip"></div>
+  <br>
+  <button class="btn bblue bw" id="nxtBtn" style="display:none" onclick="nextQ()">Siguiente ▶</button>
+</div>
+
+<!-- ═══ RESULTADO ═══ -->
+<div class="screen" id="resultScreen">
+  <span class="rtr" id="rTr">🏆</span>
+  <div class="rti" id="rTi">¡Misión completada!</div>
+  <span class="rst" id="rSt">☆☆☆</span>
+  <div class="rss">
+    <div class="rs"><div class="rv" id="rOk">0/5</div><div class="rl">Correctas</div></div>
+    <div class="rs"><div class="rv" id="rXP">+0</div><div class="rl">XP</div></div>
+    <div class="rs"><div class="rv" id="rCo">+0</div><div class="rl">Monedas</div></div>
+    <div class="rs"><div class="rv" id="rTm">0s</div><div class="rl">Tiempo</div></div>
+  </div>
+  <div id="rBadges" style="width:100%;max-width:340px;display:flex;flex-direction:column;gap:8px"></div>
+  <button class="btn bgold bw" onclick="retry()">🔄 Repetir</button>
+  <button class="btn bgreen bw" onclick="nav(0)">🗺️ Volver al mapa</button>
+</div>
+
+<!-- ═══ PERFIL ═══ -->
+<div class="screen" id="profileScreen">
+  <span id="pAv" style="font-size:3.6em;text-align:center;display:block;margin-bottom:8px">🧑‍🦱</span>
+  <div id="pLvl" class="px" style="font-size:.7em;margin-bottom:14px">Nivel 1</div>
+  <div class="card" style="width:100%;max-width:400px">
+    <div class="xpw" style="margin-bottom:14px">
+      <div class="xpl"><span>Progreso de nivel</span><span id="pXPl">0/100 XP</span></div>
+      <div class="xpb" style="height:16px"><div class="xpf" id="pXPb" style="width:0%"></div></div>
+    </div>
+    <div class="srow">
+      <div class="sp"><div class="sv" id="pX">0</div><div class="sl">XP Total</div></div>
+      <div class="sp"><div class="sv" id="pC">0</div><div class="sl">Monedas</div></div>
+      <div class="sp"><div class="sv" id="pS">0</div><div class="sl">🔥 Días</div></div>
+    </div>
+    <div class="srow">
+      <div class="sp"><div class="sv" id="pM">0</div><div class="sl">Misiones</div></div>
+      <div class="sp"><div class="sv" id="pCo">0</div><div class="sl">✅ Buenas</div></div>
+      <div class="sp"><div class="sv" id="pPr">0m</div><div class="sl">⏱️ Práctica</div></div>
+    </div>
+  </div>
+  <div id="treasurePanel" style="width:100%;max-width:400px;margin-top:12px"></div>
+  <div id="certBtnWrap" style="width:100%;max-width:400px;margin-top:12px;text-align:center">
+    <button id="certBtn" class="btn bgold bw" style="display:none;font-size:1em;padding:14px 0;letter-spacing:1px" onclick="openCertDrawer()">📜 MIS CERTIFICADOS SAI</button>
+  </div>
+
+  <div class="profile-backup-card">
+    <div class="profile-backup-title">💾 Copia del avance</div>
+    <div class="profile-backup-text">Guarda tu progreso en JSON o cárgalo en otro dispositivo.</div>
+    <div class="profile-backup-actions">
+      <button class="btn bgreen bsm" title="Descargar copia del avance actual en este dispositivo" onclick="downloadProgressJSON()">⬇️ Descargar JSON</button>
+      <button class="btn bblue bsm" title="Cargar un avance guardado desde otro dispositivo" onclick="triggerProgressJSONLoad()">⬆️ Cargar JSON</button>
+    </div>
+    <input id="progressJsonInput" type="file" accept="application/json,.json" aria-label="Cargar avance SAI Quest en archivo JSON" style="display:none" onchange="loadProgressJSON(event)">
+  </div>
+
+  <br>
+  <button class="btn bghost bsm" onclick="openModal('mReset')">🗑️ Reiniciar progreso</button>
+</div>
+
+<!-- ═══ LOGROS ═══ -->
+<div class="screen" id="badgesScreen">
+  <div class="px" style="font-size:.8em;margin-bottom:14px">🏅 MIS LOGROS</div>
+  <div class="bgr" id="bGrid"></div>
+</div>
+
+<!-- ═══ OVERLAY: LEVEL UP ═══ -->
+<div id="lvlUp" onclick="closeLvl()">
+  <div class="lub">
+    <div style="font-size:3em">⬆️</div>
+    <div class="px" style="font-size:.85em;margin:10px 0">¡SUBISTE DE<br>NIVEL!</div>
+    <div id="luTxt" style="font-size:1.1em;font-weight:900;color:var(--gold);margin-bottom:12px"></div>
+    <button class="btn bgold bsm" onclick="closeLvl()">¡Genial! 🎉</button>
+  </div>
+</div>
+
+<!-- ═══ OVERLAY: BADGE UNLOCK ═══ -->
+<div id="badgeOverlay" onclick="closeBadgeOverlay()">
+  <div class="badge-card" id="badgeContent" onclick="event.stopPropagation()">
+    <!-- Contenido dinámico -->
+  </div>
+</div>
+
+<!-- ═══ OVERLAY: LEVEL SELECT ═══ -->
+<div id="levelSelect" class="mov">
+  <div class="level-select-box">
+    <div class="level-title">
+      <div class="px" style="font-size:.7em;margin-bottom:8px">⚡ ELIGE NIVEL ⚡</div>
+    </div>
+    <div id="levelContent"></div>
+    <br>
+    <button class="btn bghost bsm bw" onclick="closeModal('levelSelect');nav(0)">◀ Volver al mapa</button>
+  </div>
+</div>
+
+<!-- ═══ OVERLAY: REINFORCEMENT ═══ -->
+<div id="reinforcementOverlay" class="mov">
+  <div class="reinforcement-box">
+    <span class="reinforcement-icon">🔄</span>
+    <div class="reinforcement-title">MUNDO DE<br>REFUERZO</div>
+    <div class="reinforcement-text">
+      Tienes <strong id="reinforcementFailCount" style="color:var(--gold);font-size:1.1em">0</strong> ejercicios por reforzar.<br>
+      ¿Quieres practicarlos ahora?
+    </div>
+    <div class="reinforcement-btns">
+      <button class="btn-reinforce skip" onclick="skipReinforcement()">⏭️ Continuar</button>
+      <button class="btn-reinforce practice" onclick="startReinforcement()">🔄 Practicar</button>
+    </div>
+  </div>
+</div>
+
+<!-- ═══ MODAL: SALIR ═══ -->
+<div class="mov" id="mExit">
+  <div class="mb">
+    <div class="mt">¿Salir de la misión?</div>
+    <div class="mbody">Perderás el progreso de esta misión. ¿Seguro?</div>
+    <div class="mbtns">
+      <button class="btn bghost bsm" style="flex:1" onclick="closeModal('mExit')">Cancelar</button>
+      <button class="btn bred bsm" style="flex:1" onclick="doExit()">Salir</button>
+    </div>
+  </div>
+</div>
+
+<!-- ═══ MODAL: REINICIAR ═══ -->
+<div class="mov" id="mReset">
+  <div class="mb">
+    <div class="mt">⚠️ Reiniciar todo</div>
+    <div class="mbody">Se borrará todo tu progreso. No se puede deshacer.</div>
+    <div class="mbtns">
+      <button class="btn bghost bsm" style="flex:1" onclick="closeModal('mReset')">Cancelar</button>
+      <button class="btn bred bsm" style="flex:1" onclick="doReset()">Borrar</button>
+    </div>
+  </div>
+</div>
+
+<!-- ═══ COMBO DISPLAY (flotante) ═══ -->
+<div id="comboDisplay" class="combo-display">
+  <div class="combo-count" id="comboCount">x2</div>
+  <div class="combo-label" id="comboLabel">COMBO</div>
+</div>
+
+
+<!-- ═══ OVERLAY: BOSS INTRO ═══ -->
+<div id="bossIntro" class="mov">
+  <div class="boss-intro-box">
+    <div class="boss-intro-emoji" id="bossIntroEmoji">👹</div>
+    <div class="boss-badge-tag">⚔️ JEFE FINAL</div>
+    <div class="boss-intro-name px" id="bossIntroName">El Jefe</div>
+    <div class="boss-intro-desc" id="bossIntroDesc">Descripción del jefe</div>
+    <div class="boss-reward-preview" id="bossRewardPreview"></div>
+    <div class="boss-intro-btns">
+      <button class="btn bghost bsm" onclick="closeModal('bossIntro')">↩ Atrás</button>
+      <button class="btn boss-fight-btn bsm" onclick="confirmStartBoss()">⚔️ ¡LUCHAR!</button>
+    </div>
+  </div>
+</div>
+
+
+<!-- ═══ TOAST ═══ -->
+<div id="toast"></div>
+
+<!-- ═══ OVERLAY: CAJÓN DE CERTIFICADOS ═══ -->
+<div id="certDrawerOverlay" class="cert-drawer-overlay">
+  <div class="cert-drawer-box">
+    <div class="cert-drawer-header">
+      <div class="cert-drawer-title">📜 MIS CERTIFICADOS SAI QUEST</div>
+      <button class="btn bghost bsm" onclick="closeCertDrawer()">✕ Cerrar</button>
+    </div>
+    <div class="cert-drawer-sub">Colecciona un certificado por cada nivel completado en todos los mundos</div>
+    <div class="cert-drawer-grid" id="certDrawerGrid"></div>
+  </div>
+</div>
+
+<!-- ═══════════════════════════════════════════════════
+     OVERLAY: CERTIFICADO MINECRAFT (A4 Horizontal)
+═══════════════════════════════════════════════════ -->
+<div id="certOverlay">
+  <div class="cert-toolbar no-print">
+    <button class="btn bghost bsm" onclick="closeCertificate()">✕ Cerrar</button>
+    <div class="cert-toolbar-title">📜 Certificado SAI Quest</div>
+    <button class="btn bgold bsm" title="Abrir el diálogo de impresión para guardar como PDF" onclick="printCertificate()">🖨️ Imprimir / Guardar PDF</button>
+    <button class="btn bgreen bsm" title="Descargar el certificado como archivo HTML offline" onclick="downloadCertificateHTML()">⬇️ Descargar HTML</button>
+  </div>
+  <div class="cert-scroll-area">
+    <div id="certContent"></div>
+  </div>
+</div>
+
+<!-- ═══ MODAL: EVALUACIÓN ═══ -->
+<div class="mov" id="evalModal">
+  <div class="mb">
+    <div class="mt" id="evalModalTitle">📝 Evaluación del Mundo</div>
+    <div class="mbody" id="evalModalDesc" style="text-align:center;padding:12px 4px;line-height:1.5"></div>
+    <div class="mbtns" style="gap:8px">
+      <button class="btn bghost bsm" style="flex:1" onclick="closeModal('evalModal')">↩ Cancelar</button>
+      <button class="btn bgold bsm" style="flex:1" id="evalModalStart">📝 ¡Iniciar Evaluación!</button>
+    </div>
+  </div>
+</div>
+
+<!-- ═══ SCRIPTS (orden: datos → audio → motor → UI) ═══ -->
+<script src="js/data.js"></script>
+<script src="js/audio.js"></script>
+<script src="js/engine.js"></script>
+<script src="js/ui.js"></script>
+</body>
+</html>

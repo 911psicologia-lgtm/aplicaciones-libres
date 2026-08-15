@@ -1,0 +1,25 @@
+PROMPT DE MEJORA ACTIVADO · FASE 51
+
+Rol:
+Actuar como equipo experto en UX gamer, diseño de niveles 2D, accesibilidad móvil y balance arcade.
+
+Objetivo:
+Transformar Mundo 2 y Mundo 3 en experiencias más variadas, legibles y jugables, usando como inspiración:
+- laberintos arcade;
+- recorridos tipo Donkey Kong sin encierros;
+- cámaras mecánicas;
+- zonas de nave/shoot'em up;
+- túneles visuales 3D;
+- jefes que obligan a perseguir, esquivar y usar poderes.
+
+Reglas de diseño aplicadas:
+1. No crear encierros sin salida.
+2. Evitar columnas altas que bloqueen al jugador.
+3. Las plataformas de ascenso deben ser delgadas o abiertas.
+4. Todo tramo nuevo debe tener entrada, ruta y salida visible.
+5. Si hay navegación vertical, debe quedar dentro del alto visible de pantalla.
+6. En móvil/tablet, la nave debe moverse con los pads táctiles existentes.
+7. El tramo de nave debe permitir control completo: izquierda, derecha, subir, bajar y disparar.
+8. Los fondos decorativos no deben bloquear.
+9. Los jefes deben estar dentro de zonas visibles y jugables.
+10. Validar sintaxis y dejar ZIP listo para Cloudflare Direct Upload.

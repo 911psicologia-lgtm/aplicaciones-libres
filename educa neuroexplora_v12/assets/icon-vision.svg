@@ -1,0 +1,26 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 80 80">
+  <defs>
+    <radialGradient id="vg" cx="50%" cy="50%" r="50%">
+      <stop offset="0%" stop-color="#86efac"/>
+      <stop offset="60%" stop-color="#34d399"/>
+      <stop offset="100%" stop-color="#065f46"/>
+    </radialGradient>
+    <radialGradient id="iris" cx="40%" cy="38%" r="65%">
+      <stop offset="0%" stop-color="#34d399"/>
+      <stop offset="100%" stop-color="#064e3b"/>
+    </radialGradient>
+  </defs>
+  <!-- Contorno del ojo -->
+  <path d="M 8,40 C 16,24 28,16 40,16 C 52,16 64,24 72,40 C 64,56 52,64 40,64 C 28,64 16,56 8,40 Z"
+        fill="rgba(52,211,153,0.15)" stroke="#34d399" stroke-width="2" opacity="0.8"/>
+  <!-- Iris -->
+  <circle cx="40" cy="40" r="16" fill="url(#iris)" opacity="0.85"/>
+  <!-- Pupila -->
+  <circle cx="40" cy="40" r="7" fill="rgba(0,0,0,0.7)"/>
+  <!-- Brillo -->
+  <ellipse cx="35" cy="35" rx="4" ry="3" fill="rgba(255,255,255,0.5)" transform="rotate(-20 35 35)"/>
+  <circle cx="44" cy="44" r="1.5" fill="rgba(255,255,255,0.3)"/>
+  <!-- Rayos visuales -->
+  <path d="M 40,64 C 38,70 36,74 34,76" stroke="#34d399" stroke-width="1.5" fill="none" stroke-linecap="round" opacity="0.4"/>
+  <path d="M 40,64 C 42,70 44,74 46,76" stroke="#34d399" stroke-width="1.5" fill="none" stroke-linecap="round" opacity="0.4"/>
+</svg>

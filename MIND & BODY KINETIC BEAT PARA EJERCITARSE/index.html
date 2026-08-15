@@ -1,0 +1,540 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>KINETIC | V3 RHYTHM</title>
+    <style>
+        :root {
+            --bg-deep: #050505; 
+            --text-color: #e0e0e0;
+            --accent: #ff3300;     
+            --glass: rgba(255, 255, 255, 0.05);
+            --border: rgba(255, 51, 0, 0.3);
+        }
+
+        body {
+            margin: 0; background-color: var(--bg-deep); color: var(--text-color);
+            font-family: 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+            overflow: hidden; height: 100vh;
+            display: flex; flex-direction: column; align-items: center; justify-content: center;
+            user-select: none; -webkit-user-select: none; -webkit-tap-highlight-color: transparent;
+        }
+
+        .screen {
+            position: absolute; width: 100%; height: 100%;
+            display: flex; flex-direction: column; align-items: center; justify-content: center;
+            transition: opacity 0.6s ease; z-index: 100; background: var(--bg-deep);
+        }
+
+        /* --- 0. SYSTEM CHECK UI --- */
+        #system-check { z-index: 200; background: #000; text-align: center; }
+        .check-step { opacity: 0; transition: opacity 0.5s; margin-bottom: 20px; font-size: 1.2rem; letter-spacing: 2px; color: #fff;}
+        .check-icon { font-size: 3rem; margin-bottom: 20px; color: var(--accent); }
+        .blink { animation: blink 1s infinite; }
+        @keyframes blink { 50% { opacity: 0.5; } }
+
+        /* --- 1. SETUP UI --- */
+        h1 { 
+            font-weight: 900; letter-spacing: 5px; font-size: 2.5rem; margin-bottom: 5px; 
+            color: #fff; font-style: italic; text-transform: uppercase;
+        }
+        
+        .subtitle { font-size: 0.8rem; opacity: 0.7; margin-bottom: 20px; letter-spacing: 1px; text-transform: uppercase; }
+
+        /* TARJETAS DE MODO */
+        .mode-container { display: flex; flex-direction: column; gap: 8px; width: 90%; max-width: 320px; margin-bottom: 15px; }
+        
+        .mode-card {
+            background: var(--glass); border: 1px solid #333; padding: 12px;
+            border-radius: 8px; cursor: pointer; transition: all 0.3s;
+            display: flex; justify-content: space-between; align-items: center;
+        }
+        .mode-card.active {
+            border-color: var(--accent); background: rgba(255, 51, 0, 0.1);
+            box-shadow: 0 0 15px rgba(255, 51, 0, 0.1);
+        }
+        
+        .card-info { text-align: left; }
+        .card-title { font-weight: bold; font-size: 0.95rem; color: #fff; letter-spacing: 1px; margin-bottom: 2px; }
+        .card-desc { font-size: 0.7rem; opacity: 0.7; }
+        .card-bpm { font-family: 'Courier New', monospace; font-weight: bold; font-size: 1.1rem; color: var(--accent); }
+
+        /* SELECTOR DE ESTILO (NUEVO V3) */
+        .style-selector {
+            display: flex; gap: 5px; margin-bottom: 15px; width: 90%; max-width: 320px;
+        }
+        .style-btn {
+            flex: 1; background: #111; border: 1px solid #333; color: #888;
+            padding: 10px 0; font-size: 0.7rem; cursor: pointer; border-radius: 4px;
+            text-transform: uppercase; letter-spacing: 1px; transition: all 0.2s;
+            text-align: center;
+        }
+        .style-btn.active {
+            background: #222; color: #fff; border-color: #fff;
+        }
+
+        select {
+            background: #111; border: 1px solid #333; color: #ccc; 
+            padding: 10px; margin-bottom: 15px; font-size: 0.9rem; outline: none; 
+            text-align: center; width: 200px; border-radius: 4px;
+        }
+
+        .btn-start {
+            background: var(--accent); color: #000; border: none;
+            padding: 18px 50px; font-size: 1rem; border-radius: 50px; font-weight: 900;
+            cursor: pointer; transition: transform 0.2s; letter-spacing: 2px;
+            box-shadow: 0 0 20px rgba(255, 51, 0, 0.4); text-transform: uppercase;
+        }
+        .btn-start:active { transform: scale(0.95); }
+
+        /* --- 2. ACTIVE ZONE (HUD) --- */
+        #active-zone { 
+            z-index: 50; opacity: 0; pointer-events: none; background: #000; 
+            touch-action: none; position: absolute; top:0; left:0; width:100%; height:100%;
+        }
+        canvas { position: absolute; top: 0; left: 0; width: 100%; height: 100%; }
+
+        #hud-top { position: absolute; top: 12%; width: 100%; text-align: center; pointer-events: none; }
+        #current-mode-label { font-size: 1rem; letter-spacing: 4px; color: #fff; font-weight: bold; margin-bottom: 5px; text-shadow: 0 0 10px black;}
+        #current-bpm-display { font-size: 6rem; font-weight: 900; color: #fff; line-height: 1; text-shadow: 0 0 20px var(--accent); font-family: 'Courier New'; font-style: italic;}
+        
+        /* BOTÓN NITRO PRO */
+        #nitro-btn {
+            position: absolute; top: 60%; left: 50%; transform: translate(-50%, -50%);
+            width: 140px; height: 140px; border-radius: 50%;
+            background: rgba(255, 255, 255, 0.05); border: 2px solid rgba(255,255,255,0.2);
+            color: #fff; font-weight: bold; font-size: 1.2rem; letter-spacing: 1px;
+            cursor: pointer; display: flex; flex-direction: column; align-items: center; justify-content: center;
+            backdrop-filter: blur(4px); transition: all 0.2s; pointer-events: auto;
+            text-shadow: 0 0 5px rgba(0,0,0,0.5);
+        }
+        #nitro-label { font-size: 0.7rem; opacity: 0.7; margin-top: 5px; }
+        
+        #nitro-btn:active { transform: translate(-50%, -50%) scale(0.95); }
+        
+        .nitro-active { 
+            animation: nitroShake 0.1s infinite; 
+            background: rgba(255,0,0,0.5) !important; 
+            border-color: #ffcc00 !important; 
+            box-shadow: 0 0 50px rgba(255, 68, 0, 0.6);
+        }
+        @keyframes nitroShake { 0% { transform: translate(-51%, -51%); } 100% { transform: translate(-49%, -49%); } }
+
+        #exit-hint { 
+            position: absolute; bottom: 8%; width: 100%; text-align: center;
+            opacity: 0; color: #ff5555; font-size: 0.9rem; letter-spacing: 3px; 
+            font-weight: bold; pointer-events: none;
+        }
+        
+        #info-btn { position: absolute; bottom: 20px; font-size: 0.7rem; color: #666; cursor: pointer; border-bottom: 1px dotted #444; }
+
+        /* MODAL */
+        #science-modal {
+            position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+            background: rgba(0,0,0,0.98); z-index: 2000; display: none;
+            flex-direction: column; align-items: center; justify-content: center; padding: 30px;
+            text-align: left;
+        }
+        .science-content { max-width: 400px; font-size: 0.9rem; line-height: 1.6; color: #ccc; }
+        .close-btn { background: none; border: none; color: var(--accent); margin-top: 30px; cursor: pointer; font-size: 1rem; text-decoration: underline;}
+
+    </style>
+</head>
+<body>
+
+    <div id="system-check" class="screen">
+        <div class="check-icon blink">🎧</div>
+        <div class="check-step" id="step-1">CONECTA AUDÍFONOS</div>
+        <div class="check-step" id="step-2" style="font-size: 0.9rem; color: #aaa;">AUDIO 8D INMERSIVO</div>
+        <div class="check-step" id="step-3" style="margin-top:40px;">
+            <button class="btn-start" style="padding: 15px 30px; font-size: 0.8rem;" onclick="finishSystemCheck()">SISTEMAS LISTOS</button>
+        </div>
+    </div>
+
+    <div id="setup-ui" class="screen" style="display:none; opacity:0;">
+        <h1>KINETIC</h1>
+        <div class="subtitle">NEURO-PERFORMANCE TOOL</div>
+        
+        <div class="mode-container">
+            <div class="mode-card active" onclick="setMode('burn')">
+                <div class="card-info"><div class="card-title">QUEMA GRASA</div><div class="card-desc">Resistencia (160 BPM)</div></div>
+                <div class="card-bpm"></div>
+            </div>
+            <div class="mode-card" onclick="setMode('flow')">
+                <div class="card-info"><div class="card-title">CRUCERO / FLOW</div><div class="card-desc">Cardio Eficiente (170 BPM)</div></div>
+                <div class="card-bpm"></div>
+            </div>
+            <div class="mode-card" onclick="setMode('elite')">
+                <div class="card-info"><div class="card-title">ÉLITE / SPRINT</div><div class="card-desc">Potencia Máxima (180 BPM)</div></div>
+                <div class="card-bpm"></div>
+            </div>
+        </div>
+
+        <label style="font-size:0.7rem; color:#666; margin-bottom:5px;">ESTILO RÍTMICO</label>
+        <div class="style-selector">
+            <div class="style-btn active" onclick="setStyle('clinical')" id="style-clinical">CLÍNICO</div>
+            <div class="style-btn" onclick="setStyle('urban')" id="style-urban">URBAN</div>
+            <div class="style-btn" onclick="setStyle('techno')" id="style-techno">TECHNO</div>
+        </div>
+
+        <select id="timer-select">
+            <option value="15">15 Min (Express)</option>
+            <option value="30" selected>30 Min (Entrenamiento)</option>
+            <option value="45">45 Min (Fondo)</option>
+            <option value="60">60 Min (Maratón)</option>
+        </select>
+
+        <button id="btn-launch" class="btn-start">INICIAR SESIÓN</button>
+        <div id="info-btn">? Evidencia Científica</div>
+    </div>
+
+    <div id="active-zone">
+        <canvas id="hud-canvas"></canvas>
+        
+        <div id="hud-top">
+            <div id="current-mode-label">QUEMA GRASA</div>
+            <div id="current-bpm-display">160</div>
+        </div>
+
+        <div id="nitro-btn">
+            NITRO
+            <div id="nitro-label">TAP ON/OFF</div>
+        </div>
+
+        <div id="exit-hint">MANTÉN PARA TERMINAR</div>
+    </div>
+
+    <div id="science-modal">
+        <div class="science-content">
+            <h3 style="color:#ff3300">BIO-MECÁNICA SONORA</h3>
+            <p><b>1. Ritmo Urbano Cuantizado:</b> A diferencia de la música normal que varía, nuestros patrones "Urban" y "Techno" están matemáticamente bloqueados. Ofrecen la motivación de la música pero la precisión de un metrónomo.</p>
+            <p><b>2. Nitro Toggle:</b> Activación manual de frecuencias Gamma (40Hz) y +15 BPM para superar "muros" de fatiga. Apagado manual para recuperación inmediata.</p>
+            <p><b>3. Feedback Háptico:</b> Vibración en cada golpe fuerte para sincronización neuro-muscular.</p>
+            <center><button class="close-btn" onclick="document.getElementById('science-modal').style.display='none'">CERRAR</button></center>
+        </div>
+    </div>
+
+    <script>
+        // --- DATA ---
+        const MODES = {
+            burn:  { bpm: 160, label: "QUEMA GRASA",  color: "#ff8844", wind: 300 },
+            flow:  { bpm: 170, label: "CRUCERO",      color: "#ff4400", wind: 600 },
+            elite: { bpm: 180, label: "ÉLITE",        color: "#ff0000", wind: 900 }
+        };
+
+        // PATRONES DE RITMO (16 pasos = 1 compás de 4/4)
+        // 1 = Kick fuerte, 2 = Snare, 3 = HiHat, 4 = Bass/Sub
+        const PATTERNS = {
+            clinical: [1,0,0,0, 1,0,0,0, 1,0,0,0, 1,0,0,0], // Metrónomo clásico
+            urban:    [1,0,3,0, 2,0,3,1, 3,0,1,0, 2,0,3,0], // Boom-Bap con síncopa
+            techno:   [1,3,4,3, 1,3,4,3, 1,3,4,3, 1,3,4,3]  // 4-on-floor con bajo en contratiempo
+        };
+
+        let currentMode = 'burn';
+        let currentStyle = 'clinical';
+        let activeBPM = 160;
+        let isNitro = false;
+        let wakeLock = null;
+
+        // --- 0. SYSTEM CHECK LOGIC ---
+        window.onload = () => {
+            setTimeout(() => document.getElementById('step-1').style.opacity = 1, 500);
+            setTimeout(() => document.getElementById('step-2').style.opacity = 1, 1500);
+            setTimeout(() => document.getElementById('step-3').style.opacity = 1, 2500);
+        };
+        function finishSystemCheck() {
+            document.getElementById('system-check').style.opacity = 0;
+            setTimeout(() => {
+                document.getElementById('system-check').style.display = 'none';
+                document.getElementById('setup-ui').style.display = 'flex';
+                setTimeout(() => document.getElementById('setup-ui').style.opacity = 1, 50);
+            }, 500);
+        }
+
+        // --- 1. SETUP LOGIC ---
+        function setMode(key) {
+            currentMode = key;
+            activeBPM = MODES[key].bpm;
+            document.querySelectorAll('.mode-card').forEach(c => c.classList.remove('active'));
+            const cards = document.querySelectorAll('.mode-card');
+            if(key === 'burn') cards[0].classList.add('active');
+            if(key === 'flow') cards[1].classList.add('active');
+            if(key === 'elite') cards[2].classList.add('active');
+        }
+
+        function setStyle(style) {
+            currentStyle = style;
+            document.querySelectorAll('.style-btn').forEach(b => b.classList.remove('active'));
+            document.getElementById(`style-${style}`).classList.add('active');
+        }
+
+        document.getElementById('btn-launch').onclick = async () => {
+            audioEngine.init();
+            try { if('wakeLock' in navigator) wakeLock = await navigator.wakeLock.request('screen'); } catch(e){}
+            document.getElementById('setup-ui').style.opacity = 0;
+            setTimeout(() => {
+                document.getElementById('setup-ui').style.display = 'none';
+                document.getElementById('active-zone').style.opacity = 1;
+                document.getElementById('active-zone').style.pointerEvents = 'auto';
+                document.getElementById('current-mode-label').innerText = MODES[currentMode].label;
+                document.getElementById('current-bpm-display').innerText = activeBPM;
+                visualEngine.start();
+                audioEngine.start();
+                startSessionTimer();
+            }, 600);
+        };
+
+        // --- 2. ADVANCED AUDIO ENGINE (DRUM SYNTH) ---
+        const audioEngine = {
+            ctx: null,
+            nextNoteTime: 0.0,
+            step: 0, // 0-15
+            timerID: null,
+            isRunning: false,
+            windGain: null,
+            windFilter: null,
+
+            init() { if(!this.ctx) this.ctx = new (window.AudioContext || window.webkitAudioContext)(); },
+
+            start() {
+                if(this.ctx.state === 'suspended') this.ctx.resume();
+                this.isRunning = true;
+                this.step = 0;
+                this.nextNoteTime = this.ctx.currentTime + 0.1;
+                this.startWind();
+                this.scheduler();
+            },
+
+            stop() {
+                this.isRunning = false;
+                clearTimeout(this.timerID);
+                if(this.windGain) this.windGain.gain.exponentialRampToValueAtTime(0.001, this.ctx.currentTime + 1);
+            },
+
+            scheduler() {
+                // Semicorcheas (1/16 notas)
+                const secondsPerStep = (60.0 / activeBPM) / 4; 
+                while (this.nextNoteTime < this.ctx.currentTime + 0.1) {
+                    this.playStep(this.nextNoteTime, this.step);
+                    this.nextNoteTime += secondsPerStep;
+                    this.step = (this.step + 1) % 16;
+                }
+                if(this.isRunning) this.timerID = setTimeout(() => this.scheduler(), 15);
+            },
+
+            playStep(time, step) {
+                const pattern = PATTERNS[currentStyle];
+                const soundType = pattern[step]; // 0=silence, 1=kick, 2=snare, 3=hat, 4=bass
+
+                // SINTETIZADOR DE BATERÍA
+                if (soundType === 1) this.playKick(time);
+                if (soundType === 2) this.playSnare(time);
+                if (soundType === 3) this.playHiHat(time);
+                if (soundType === 4) this.playBass(time);
+
+                // Feedback Visual y Háptico solo en el Beat principal (cada 4 pasos)
+                if (step % 4 === 0) {
+                    if(navigator.vibrate) setTimeout(() => navigator.vibrate(30), (time - this.ctx.currentTime)*1000);
+                    setTimeout(() => visualEngine.beat(), (time - this.ctx.currentTime)*1000);
+                }
+            },
+
+            // --- INSTRUMENTOS SINTETIZADOS ---
+            playKick(t) {
+                const osc = this.ctx.createOscillator();
+                const g = this.ctx.createGain();
+                osc.frequency.setValueAtTime(isNitro ? 180 : 150, t);
+                osc.frequency.exponentialRampToValueAtTime(0.01, t + 0.5);
+                g.gain.setValueAtTime(1, t);
+                g.gain.exponentialRampToValueAtTime(0.01, t + 0.5);
+                osc.connect(g); g.connect(this.ctx.destination);
+                osc.start(t); osc.stop(t + 0.5);
+            },
+            playSnare(t) {
+                const noise = this.ctx.createBufferSource();
+                const bBuf = this.ctx.createBuffer(1, 44100 * 0.2, 44100);
+                const data = bBuf.getChannelData(0);
+                for(let i=0; i<data.length; i++) data[i] = (Math.random()*2-1);
+                noise.buffer = bBuf;
+                
+                const filter = this.ctx.createBiquadFilter();
+                filter.type = 'highpass'; filter.frequency.value = 1000;
+                const g = this.ctx.createGain();
+                g.gain.setValueAtTime(0.7, t);
+                g.gain.exponentialRampToValueAtTime(0.01, t + 0.2);
+                
+                noise.connect(filter); filter.connect(g); g.connect(this.ctx.destination);
+                noise.start(t);
+            },
+            playHiHat(t) {
+                // Ruido corto agudo
+                const bBuf = this.ctx.createBuffer(1, 44100 * 0.05, 44100);
+                const data = bBuf.getChannelData(0);
+                for(let i=0; i<data.length; i++) data[i] = (Math.random()*2-1);
+                const noise = this.ctx.createBufferSource(); noise.buffer = bBuf;
+                
+                const filter = this.ctx.createBiquadFilter(); filter.type = 'highpass'; filter.frequency.value = 5000;
+                const g = this.ctx.createGain();
+                g.gain.setValueAtTime(0.3, t); g.gain.exponentialRampToValueAtTime(0.01, t + 0.05);
+                
+                noise.connect(filter); filter.connect(g); g.connect(this.ctx.destination);
+                noise.start(t);
+            },
+            playBass(t) {
+                const osc = this.ctx.createOscillator();
+                osc.type = 'sawtooth';
+                osc.frequency.setValueAtTime(60, t);
+                const filter = this.ctx.createBiquadFilter();
+                filter.type = 'lowpass'; filter.frequency.setValueAtTime(200, t);
+                filter.frequency.exponentialRampToValueAtTime(50, t+0.2);
+                
+                const g = this.ctx.createGain();
+                g.gain.setValueAtTime(0.4, t); g.gain.linearRampToValueAtTime(0, t+0.2);
+                
+                osc.connect(filter); filter.connect(g); g.connect(this.ctx.destination);
+                osc.start(t); osc.stop(t+0.2);
+            },
+
+            startWind() {
+                const bSize = this.ctx.sampleRate * 2;
+                const bBuf = this.ctx.createBuffer(1, bSize, this.ctx.sampleRate);
+                const data = bBuf.getChannelData(0);
+                let last = 0;
+                for(let i=0; i<bSize; i++) {
+                    const w = Math.random() * 2 - 1;
+                    data[i] = (last + (0.02 * w)) / 1.02; last = data[i]; data[i] *= 3.5; 
+                }
+                const noise = this.ctx.createBufferSource();
+                noise.buffer = bBuf; noise.loop = true;
+                
+                this.windFilter = this.ctx.createBiquadFilter();
+                this.windFilter.type = 'lowpass';
+                this.windFilter.frequency.value = MODES[currentMode].wind; 
+
+                this.windGain = this.ctx.createGain();
+                this.windGain.gain.value = 0.15;
+
+                noise.connect(this.windFilter);
+                this.windFilter.connect(this.windGain);
+                this.windGain.connect(this.ctx.destination);
+                noise.start();
+            },
+
+            updateWind(nitro) {
+                if(!this.windFilter) return;
+                const baseFreq = MODES[currentMode].wind;
+                const targetFreq = nitro ? 1500 : baseFreq; 
+                const targetVol = nitro ? 0.4 : 0.15; 
+                this.windFilter.frequency.linearRampToValueAtTime(targetFreq, this.ctx.currentTime + 0.5);
+                this.windGain.gain.linearRampToValueAtTime(targetVol, this.ctx.currentTime + 0.5);
+            }
+        };
+
+        // --- 3. VISUAL ENGINE ---
+        const visualEngine = {
+            cvs: document.getElementById('hud-canvas'),
+            ctx: null, circles: [],
+            start() {
+                this.ctx = this.cvs.getContext('2d');
+                this.resize(); window.addEventListener('resize', () => this.resize());
+                this.animate();
+            },
+            resize() { this.cvs.width = window.innerWidth; this.cvs.height = window.innerHeight; },
+            beat() { this.circles.push({ r: 50, op: 1, w: 5 }); },
+            animate() {
+                if(!audioEngine.isRunning) return;
+                this.ctx.fillStyle = 'rgba(0,0,0,0.15)';
+                this.ctx.fillRect(0,0, this.cvs.width, this.cvs.height);
+                const cx = this.cvs.width / 2; const cy = this.cvs.height / 2;
+                const color = isNitro ? '#ffff00' : MODES[currentMode].color;
+
+                for(let i = this.circles.length -1; i >= 0; i--) {
+                    let c = this.circles[i];
+                    c.r += isNitro ? 20 : 10; c.op -= 0.025;
+                    if(c.op <= 0) { this.circles.splice(i, 1); } else {
+                        this.ctx.beginPath(); this.ctx.arc(cx, cy, c.r, 0, Math.PI * 2);
+                        this.ctx.strokeStyle = color; this.ctx.lineWidth = c.w;
+                        this.ctx.globalAlpha = c.op; this.ctx.stroke(); this.ctx.globalAlpha = 1;
+                    }
+                }
+                requestAnimationFrame(() => this.animate());
+            }
+        };
+
+        // --- 4. INTERACTIONS & TOGGLE NITRO ---
+        const nitroBtn = document.getElementById('nitro-btn');
+        let nitroTimer;
+
+        nitroBtn.addEventListener('click', () => {
+            if(!isNitro) {
+                // ACTIVAR NITRO
+                isNitro = true;
+                activeBPM = MODES[currentMode].bpm + 15;
+                updateNitroUI(true);
+                audioEngine.updateWind(true);
+                // Auto-off seguro
+                clearTimeout(nitroTimer);
+                nitroTimer = setTimeout(() => toggleNitroOff(), 60000);
+            } else {
+                // DESACTIVAR NITRO (Manual)
+                toggleNitroOff();
+            }
+        });
+
+        function toggleNitroOff() {
+            if(!isNitro) return;
+            isNitro = false;
+            activeBPM = MODES[currentMode].bpm;
+            updateNitroUI(false);
+            audioEngine.updateWind(false);
+            clearTimeout(nitroTimer);
+        }
+
+        function updateNitroUI(active) {
+            if(active) {
+                document.getElementById('current-bpm-display').innerText = activeBPM;
+                document.getElementById('current-bpm-display').style.color = '#ffff00';
+                document.getElementById('current-mode-label').innerText = "NITRO BOOST";
+                document.getElementById('current-mode-label').style.color = '#ffff00';
+                nitroBtn.classList.add('nitro-active');
+            } else {
+                document.getElementById('current-bpm-display').innerText = activeBPM;
+                document.getElementById('current-bpm-display').style.color = '#fff';
+                document.getElementById('current-mode-label').innerText = MODES[currentMode].label;
+                document.getElementById('current-mode-label').style.color = '#fff';
+                nitroBtn.classList.remove('nitro-active');
+            }
+        }
+
+        function startSessionTimer() {
+            const min = document.getElementById('timer-select').value;
+            setTimeout(() => {
+                audioEngine.stop();
+                document.getElementById('exit-hint').innerText = "SESIÓN COMPLETADA";
+                document.getElementById('exit-hint').style.opacity = 1;
+                document.getElementById('exit-hint').style.color = "#00ff00";
+                if(wakeLock) wakeLock.release();
+                setTimeout(() => location.reload(), 3000);
+            }, min * 60 * 1000);
+        }
+
+        let holdTimer;
+        const zone = document.getElementById('active-zone');
+        const hint = document.getElementById('exit-hint');
+        const holdStart = (e) => {
+            if(e.target.id === 'nitro-btn' || e.target.parentElement.id === 'nitro-btn') return;
+            hint.style.opacity = 1;
+            holdTimer = setTimeout(() => {
+                audioEngine.stop();
+                if(wakeLock) wakeLock.release();
+                location.reload();
+            }, 2000);
+        };
+        const holdEnd = () => { clearTimeout(holdTimer); if(audioEngine.isRunning) hint.style.opacity = 0; };
+        zone.addEventListener('mousedown', holdStart); zone.addEventListener('touchstart', holdStart);
+        zone.addEventListener('mouseup', holdEnd); zone.addEventListener('touchend', holdEnd);
+        document.getElementById('info-btn').onclick = () => document.getElementById('science-modal').style.display='flex';
+    </script>
+</body>
+</html>

@@ -1,0 +1,19 @@
+{
+  "version": "5.0.48-videos-ruta-letras",
+  "changes": [
+    "MUSIC_VIDEO_LIBRARY deja de ser cíclica y queda indexada por routeId + worldId.",
+    "Se cargan 120 registros de canciones: A1 M1-M30, A2 M1-M30, B1 M1-M30, B2 M1-M30.",
+    "A1 M11-M30, A2, B1 y B2 usan los enlaces entregados por el usuario.",
+    "Ruta de Letras usa posiciones dispersas por semilla estable, evitando la secuencia pegada de letras.",
+    "Las celdas de letras ya no revelan si son objetivo o distractor antes del clic.",
+    "El bus queda sobre la primera letra al iniciar; anima trayecto al acierto y visita/regresa en rojo al error.",
+    "Desde la mitad de la palabra/frase aparece una nueva pista pulsante."
+  ],
+  "counts": {
+    "musicVideoItems": 120,
+    "A1": 30,
+    "A2": 30,
+    "B1": 30,
+    "B2": 30
+  }
+}

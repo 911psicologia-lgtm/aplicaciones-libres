@@ -1,0 +1,1824 @@
+<!doctype html>
+<html lang="es">
+<head>
+  <meta charset="utf-8"/>
+  <meta name="viewport" content="width=device-width,initial-scale=1"/>
+  <title>Synaptik — Cosmos, Vida y Complejidad (v0.3.5 sonido-fix)</title>
+  <meta name="theme-color" content="#0b1020"/>
+  <style>
+    :root{
+      --bg:#070a14; --card:#111a33; --txt:#eef1ff; --mut:#aab6ff;
+      --acc:#ffb020; --acc2:#5eead4; --bad:#ff4d6d;
+      --shadow: 0 18px 60px rgba(0,0,0,.35);
+      --r:18px;
+    }
+    *{box-sizing:border-box}
+    body{
+      margin:0; color:var(--txt);
+      font-family: system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif;
+      background:
+        radial-gradient(1200px 600px at 15% 10%, rgba(94,234,212,.10), transparent 60%),
+        radial-gradient(900px 500px at 85% 20%, rgba(255,176,32,.12), transparent 55%),
+        linear-gradient(180deg, #050712 0%, #0b1020 55%, #050712 100%);
+    }
+    header{
+      position:sticky; top:0; z-index:7;
+      backdrop-filter: blur(10px);
+      background: rgba(11,16,32,.72);
+      border-bottom:1px solid rgba(255,255,255,.08);
+    }
+    .wrap{max-width:1220px; margin:0 auto; padding:16px}
+    .top{display:flex; gap:12px; align-items:center; justify-content:space-between; flex-wrap:wrap}
+    .brand{display:flex; gap:10px; align-items:center}
+    .logo{
+      width:44px; height:44px; border-radius:14px;
+      background: linear-gradient(135deg, rgba(255,176,32,.95), rgba(94,234,212,.90));
+      box-shadow: var(--shadow);
+      display:grid; place-items:center; color:#06101a; font-weight:1000;
+      letter-spacing:.5px;
+    }
+    .h1{font-size:16px; font-weight:900}
+    .sub{font-size:12px; color:rgba(238,241,255,.70); line-height:1.35}
+    .row{display:flex; gap:10px; align-items:center; flex-wrap:wrap}
+    button, .chip, input, select, textarea{
+      border:1px solid rgba(255,255,255,.12);
+      background: rgba(255,255,255,.06);
+      color:var(--txt);
+      border-radius: 12px;
+      padding:10px 12px;
+      cursor:pointer;
+      transition:.15s transform, .15s background, .15s border;
+    }
+    textarea{cursor:text; resize:vertical; min-height:84px; width:100%}
+    button:hover{transform: translateY(-1px); background: rgba(255,255,255,.10)}
+    button.primary{
+      background: linear-gradient(135deg, rgba(255,176,32,.95), rgba(255,140,64,.85));
+      border-color: rgba(255,176,32,.35);
+      color:#1b1205; font-weight:900;
+    }
+    button.ghost{background: transparent}
+    button.danger{background: rgba(255,77,109,.12); border-color: rgba(255,77,109,.35)}
+    button.ok{background: rgba(94,234,212,.12); border-color: rgba(94,234,212,.35)}
+    .grid{display:grid; gap:14px; grid-template-columns: 1.25fr .75fr}
+    @media (max-width: 980px){ .grid{grid-template-columns:1fr} }
+    .card{
+      background: rgba(17,26,51,.84);
+      border:1px solid rgba(255,255,255,.10);
+      border-radius: var(--r);
+      box-shadow: var(--shadow);
+      overflow:hidden;
+    }
+    .hd{
+      padding:14px 14px 10px;
+      border-bottom:1px solid rgba(255,255,255,.08);
+      display:flex; gap:10px; align-items:flex-start; justify-content:space-between;
+    }
+    .title{font-weight:950; font-size:14px}
+    .meta{font-size:12px; color:rgba(238,241,255,.72); line-height:1.35}
+    .body{padding:14px}
+    .pill{
+      display:flex; align-items:center; gap:8px;
+      padding:8px 10px; border-radius:999px;
+      background: rgba(255,255,255,.06); border:1px solid rgba(255,255,255,.10);
+      white-space:nowrap;
+    }
+    .mono{font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace}
+    .toolbar{
+      display:grid; gap:10px;
+      grid-template-columns: 1fr 190px 160px;
+      align-items:center;
+    }
+    @media (max-width: 780px){ .toolbar{grid-template-columns:1fr} }
+    .list{display:grid; gap:10px}
+    .item{
+      padding:12px; border-radius: 16px;
+      border:1px solid rgba(255,255,255,.10);
+      background: rgba(255,255,255,.05);
+      display:grid; gap:10px;
+    }
+    .itemTop{display:flex; gap:10px; align-items:flex-start; justify-content:space-between}
+    .itemTop > :first-child{flex:1 1 auto; min-width:0}
+    .itemTop > .row{flex:0 0 auto; flex-wrap:nowrap}
+    .item .title{font-size:12.5px; line-height:1.2; white-space:normal; overflow-wrap:anywhere; word-break:break-word; padding-right:6px}
+    .item .meta{display:flex; flex-wrap:wrap; gap:6px; margin-top:5px}
+    .item .meta .chip{font-size:11px; padding:5px 8px; min-height:auto}
+    .tags{display:flex; gap:8px; flex-wrap:wrap}
+    .chip{
+      padding:6px 9px; border-radius:999px; font-size:12px;
+      background: rgba(94,234,212,.10);
+      border-color: rgba(94,234,212,.20);
+      color: rgba(230,255,251,.95);
+      user-select:none;
+    }
+    .chip.alt{background: rgba(255,176,32,.10); border-color: rgba(255,176,32,.22); color: rgba(255,230,196,.95);}
+    .chip.dim{background: rgba(159,176,255,.10); border-color: rgba(159,176,255,.20); color: rgba(205,214,255,.92);}
+    .fav{font-size:14px}
+    .small{font-size:12px}
+    .sep{height:1px; background: rgba(255,255,255,.08); margin:10px 0}
+    .kv{display:flex; justify-content:space-between; gap:10px}
+    .k{font-size:12px; color:rgba(238,241,255,.65)}
+    .v{font-size:12px; font-weight:800}
+    input[type="range"]{padding:0; height:42px; width:100%}
+    select, input[type="search"], input[type="text"]{width:100%}
+    .footerNote{font-size:12px; color:rgba(238,241,255,.62); line-height:1.35}
+    .badge{
+      display:inline-flex; align-items:center; gap:6px;
+      padding:6px 10px; border-radius:999px;
+      border:1px solid rgba(255,255,255,.10);
+      background: rgba(255,255,255,.06);
+      font-size:12px;
+    }
+    .legend{display:flex; gap:8px; flex-wrap:wrap; margin-top:8px}
+    .hint{font-size:12px; color:rgba(238,241,255,.70)}
+    .btnTiny{padding:8px 10px; border-radius: 12px}
+    .modal{
+      position:fixed; inset:0; z-index:20;
+      background: rgba(0,0,0,.55);
+      display:none; align-items:center; justify-content:center; padding:18px;
+    }
+    .modal.show{display:flex}
+    .modalCard{
+      width:min(980px, 100%);
+      max-height: 88vh;
+      overflow:auto;
+      background: rgba(17,26,51,.95);
+      border:1px solid rgba(255,255,255,.12);
+      border-radius: 18px;
+      box-shadow: var(--shadow);
+    }
+    .modalHd{
+      padding:14px;
+      border-bottom:1px solid rgba(255,255,255,.10);
+      display:flex; justify-content:space-between; align-items:flex-start; gap:10px;
+    }
+    .drop{
+      border:2px dashed rgba(94,234,212,.35);
+      background: rgba(94,234,212,.06);
+      border-radius: 16px;
+      padding:14px;
+      display:grid; gap:8px;
+    }
+    .two{display:grid; gap:12px; grid-template-columns:1fr 1fr}
+    @media (max-width: 860px){ .two{grid-template-columns:1fr} }
+    .tbl{display:grid; gap:10px}
+    .rowCard{
+      border:1px solid rgba(255,255,255,.10);
+      background: rgba(255,255,255,.05);
+      border-radius: 16px;
+      padding:12px;
+      display:grid; gap:10px;
+    }
+    .rowCardTop{display:flex; justify-content:space-between; gap:10px; align-items:flex-start}
+    .muted{color:rgba(238,241,255,.65); font-size:12px}
+    :focus-visible{outline:3px solid rgba(94,234,212,.85); outline-offset:3px}
+    button[disabled]{opacity:.55; cursor:not-allowed; transform:none}
+    @media (max-width: 560px){
+      .wrap{padding:12px}
+      .top{align-items:flex-start}
+      .brand{width:100%}
+      .logo{width:38px; height:38px; border-radius:12px}
+      .h1{font-size:15px}
+      .sub{font-size:11.5px}
+      .row{width:100%}
+      header .row button{flex:1 1 auto}
+      button, .chip, input, select, textarea{min-height:42px}
+      .itemTop,.rowCardTop{flex-direction:column; align-items:stretch}
+      .itemTop .row,.rowCardTop .row{justify-content:stretch}
+      .itemTop .row button,.rowCardTop .row button{flex:1}
+      .item .title{font-size:12px}
+      .modal{padding:10px; align-items:flex-end}
+      .modalCard{max-height:92vh; border-radius:18px 18px 0 0}
+      .modalHd{position:sticky; top:0; background:rgba(17,26,51,.98); z-index:2}
+    }
+    @media (prefers-reduced-motion: reduce){
+      *{scroll-behavior:auto!important; transition:none!important}
+      button:hover{transform:none}
+    }
+
+  </style>
+</head>
+<body>
+<header>
+  <div class="wrap top">
+    <div class="brand">
+      <div class="logo">SΨ</div>
+      <div>
+        <div class="h1">Synaptik <span class="sub">— v0.3.5 sonido-fix</span></div>
+        <div class="sub">Biblioteca sonora: modelos sintéticos + sonificación. Mezcla libre, loop por ítem y “Audios reales” (carga local + metadatos).</div>
+      </div>
+    </div>
+    <div class="row">
+      <button class="ghost" id="btnRealAudio">🎧 Audios reales</button>
+      <button class="ghost" id="btnStopAll">⏹ Detener todo</button>
+      <button class="danger" id="btnReset">🧹 Reset</button>
+    </div>
+  </div>
+</header>
+
+<main class="wrap">
+  <div class="grid">
+    <section class="card">
+      <div class="hd">
+        <div style="min-width:0">
+          <div class="title">Biblioteca</div>
+          <div class="meta">
+            En el vacío no hay “sonido”: aquí hay <b>sonificación</b> (datos→audio) y <b>modelos</b> (síntesis plausible).
+            Puedes activar varios ▶︎ para <b>combinar</b>. El botón ∞ deja un ítem en <b>loop</b>.
+          </div>
+          <div class="legend">
+            <span class="badge"><span class="chip alt" style="padding:2px 8px">sonificación</span> datos→audio</span>
+            <span class="badge"><span class="chip dim" style="padding:2px 8px">modelo</span> síntesis plausible</span>
+            <span class="badge"><span class="chip" style="padding:2px 8px">audio real</span> archivo local</span>
+          </div>
+        </div>
+        <div class="pill small">
+          <span>🔈</span>
+          <span class="mono" id="status">audio: listo</span>
+        </div>
+      </div>
+
+      <div class="body">
+        <div class="toolbar">
+          <input id="q" type="search" placeholder="Buscar: big bang, átomo, fractal, lluvia, supernova, ADN, neuronas…" />
+          <select id="filter">
+            <option value="all">Todo</option>
+            <option value="cosmos">Cosmos</option>
+            <option value="micro">Micro (átomo/partículas)</option>
+            <option value="vida">Vida (cuerpo/cerebro)</option>
+            <option value="complejidad">Complejidad (estructuras/fractales)</option>
+            <option value="real">Audios reales</option>
+          </select>
+          <button class="primary" id="btnDemo">▶︎ Demo</button>
+        </div>
+
+        <div class="sep"></div>
+
+        <div class="row" style="justify-content:space-between">
+          <div class="pill small"><span>🧩</span><span class="mono" id="mixInfo">mix: 0 activos</span></div>
+          <div class="hint">Tip: ▶︎ en varios ítems para mezclar. ∞ para loop. “Variación” reduce repetición al re-loop.</div>
+        </div>
+
+        <div class="sep"></div>
+        <div class="list" id="soundList"></div>
+      </div>
+    </section>
+
+    <aside class="card">
+      <div class="hd">
+        <div>
+          <div class="title">Panel de control</div>
+          <div class="meta">Ajustes globales persistentes.</div>
+        </div>
+        <button class="ghost" id="btnUnlock">🔓 Activar audio</button>
+      </div>
+      <div class="body">
+        <div class="kv"><span class="k">Volumen maestro</span><span class="v" id="labVol">0.65</span></div>
+        <input type="range" min="0" max="1" step="0.01" id="masterVol"/>
+
+        <div class="sep"></div>
+
+        <div class="kv"><span class="k">Zoom temporal (sonificación)</span><span class="v" id="labTime">1.00×</span></div>
+        <input type="range" min="0.25" max="8" step="0.01" id="timeZoom"/>
+
+        <div class="sep"></div>
+
+        <div class="kv"><span class="k">Brillo armónico</span><span class="v" id="labBright">0.35</span></div>
+        <input type="range" min="0" max="1" step="0.01" id="brightness"/>
+
+        <div class="sep"></div>
+
+        <div class="kv"><span class="k">Variación anti-repetición</span><span class="v" id="labVar">0.30</span></div>
+        <input type="range" min="0" max="1" step="0.01" id="variation"/>
+        <div class="footerNote">Afecta re-loop (micro-afinación, densidad y filtros). 0 = idéntico, 1 = más orgánico.</div>
+
+        <div class="sep"></div>
+        <div class="footerNote">
+          <b>Audios reales:</b> arrastra WAV/MP3/OGG. Etiqueta/rotula y quedan como ítems con play/mix/loop.
+        </div>
+      </div>
+    </aside>
+  </div>
+</main>
+
+<!-- MODAL: Audios reales -->
+<div class="modal" id="modal">
+  <div class="modalCard">
+    <div class="modalHd">
+      <div>
+        <div class="title">🎧 Audios reales (carga local)</div>
+        <div class="meta">Se guardan en tu navegador (IndexedDB). Puedes renombrar, etiquetar, rotular y asignar categoría.</div>
+      </div>
+      <div class="row" style="gap:8px; justify-content:flex-end">
+        <button class="ghost" id="btnCloseModal">✕ Cerrar</button>
+      </div>
+    </div>
+    <div class="body">
+      <div class="two">
+        <div class="drop" id="dropzone">
+          <div class="title">Arrastrar y soltar</div>
+          <div class="muted">Suelta aquí archivos de audio. También puedes usar el selector.</div>
+          <div class="row">
+            <input type="file" id="filePick" accept="audio/*" multiple />
+          </div>
+          <div class="muted">El soporte depende del navegador/codec.</div>
+        </div>
+        <div class="drop">
+          <div class="title">Metadatos por defecto</div>
+          <div class="muted">Se aplican al importar (luego puedes editar cada audio).</div>
+          <label class="muted">Categoría</label>
+          <select id="defGroup">
+            <option value="cosmos">Cosmos</option>
+            <option value="micro">Micro</option>
+            <option value="vida" selected>Vida</option>
+            <option value="complejidad">Complejidad</option>
+            <option value="real">Audios reales</option>
+          </select>
+          <label class="muted">Etiquetas (coma)</label>
+          <input type="text" id="defTags" placeholder="p.ej.: campo, grabación, laboratorio" />
+          <label class="muted">Nota/rotulo</label>
+          <textarea id="defNote" placeholder="p.ej.: 'Grabación personal — Bogotá, 2026'"></textarea>
+        </div>
+      </div>
+
+      <div class="sep"></div>
+
+      <div class="row" style="justify-content:space-between; align-items:center">
+        <div class="pill small"><span>📦</span><span class="mono" id="realCount">0 audios guardados</span></div>
+        <button class="danger" id="btnPurgeReal">🗑 Borrar todos los audios reales</button>
+      </div>
+
+      <div class="sep"></div>
+      <div class="tbl" id="realList"></div>
+    </div>
+  </div>
+</div>
+
+<script>
+(() => {
+  const LS_KEY = "synaptik_v0_3_5_sonido_fix";
+  const DB_NAME = "synaptik_db";
+  const DB_STORE = "audios";
+
+  const clamp = (v,min,max)=>Math.max(min,Math.min(max,v));
+  const fmt = (n,d=2)=>Number(n).toFixed(d);
+  const uid = ()=>"a_"+Math.random().toString(36).slice(2,10)+Date.now().toString(36);
+
+  const DEFAULT = {
+    masterVol: 0.65,
+    timeZoom: 1.00,
+    brightness: 0.35,
+    variation: 0.30,
+    fav: {},
+    loop: {},
+  };
+
+  function loadState(){
+    try{
+      const raw = localStorage.getItem(LS_KEY);
+      if(!raw) return structuredClone(DEFAULT);
+      const s = JSON.parse(raw);
+      return {
+        masterVol: clamp(Number(s.masterVol ?? DEFAULT.masterVol), 0, 1),
+        timeZoom: clamp(Number(s.timeZoom ?? DEFAULT.timeZoom), 0.25, 8),
+        brightness: clamp(Number(s.brightness ?? DEFAULT.brightness), 0, 1),
+        variation: clamp(Number(s.variation ?? DEFAULT.variation), 0, 1),
+        fav: s.fav && typeof s.fav === "object" ? s.fav : {},
+        loop: s.loop && typeof s.loop === "object" ? s.loop : {},
+      };
+    }catch(e){ return structuredClone(DEFAULT); }
+  }
+  function saveState(){ localStorage.setItem(LS_KEY, JSON.stringify(state)); }
+
+  let state = loadState();
+
+  // --- WebAudio
+  let ctx = null, master = null;
+  const active = new Map(); // id -> {stop()}
+  const uiStatus = document.getElementById("status");
+  const uiMixInfo = document.getElementById("mixInfo");
+
+  function ensureAudio(){
+    if(ctx) return;
+    ctx = new (window.AudioContext || window.webkitAudioContext)();
+    master = ctx.createGain();
+    master.gain.value = state.masterVol;
+    master.connect(ctx.destination);
+    uiStatus.textContent = "audio: activo";
+  }
+  async function unlockAudio(){
+    ensureAudio();
+    if(ctx.state === "suspended") await ctx.resume();
+    uiStatus.textContent = "audio: activo";
+  }
+
+  function stopAll(){
+    for(const [,h] of active){ try{h.stop();}catch(e){} }
+    active.clear();
+    render();
+  }
+
+  // --- Variation helpers (used for loop reseed + some new sounds)
+  function vrng(base=1){
+    const v = state.variation;
+    if(v <= 0.001) return base;
+    const r = (Math.random()*2-1) * v;
+    return base * (1 + r*0.18);
+  }
+  function vadd(base=0){
+    const v = state.variation;
+    if(v <= 0.001) return base;
+    const r = (Math.random()*2-1) * v;
+    return base + r*14;
+  }
+
+  function makeNoiseBuffer(duration=1, mode="white"){
+    ensureAudio();
+    const seconds = Math.max(0.05, Number(duration) || 1);
+    const len = Math.max(1, Math.floor(ctx.sampleRate * seconds));
+    const buffer = ctx.createBuffer(1, len, ctx.sampleRate);
+    const data = buffer.getChannelData(0);
+    let last = 0, last2 = 0;
+    for(let i=0;i<len;i++){
+      const white = Math.random()*2 - 1;
+      if(mode === "brown"){
+        last = (last + 0.02 * white) / 1.02;
+        data[i] = last * 3.5;
+      } else if(mode === "pink"){
+        last = 0.98 * last + 0.02 * white;
+        last2 = 0.92 * last2 + 0.08 * white;
+        data[i] = (white*0.35 + last*1.2 + last2*0.8) * 0.55;
+      } else {
+        data[i] = white * 0.85;
+      }
+    }
+    return buffer;
+  }
+
+  // ---- Base sound library (from v0.2, probado)
+  const SOUNDS = [
+    // VIDA / CEREBRO
+    { id:"eeg_sonify", name:"Corteza / EEG (bandas → música)", kind:"sonificación", group:"vida",
+      tags:["cerebro","EEG","delta-theta-alpha-beta"], base:"0.5–30 Hz (no audible como tal)",
+      transform:"Sube octavas + modulación por bandas",
+      make:(out)=>{
+        ensureAudio();
+        const now = ctx.currentTime, dur = 9 / state.timeZoom;
+        const baseTones = [110, 146.8, 196, 246.9, 329.6];
+        const lfos = [1.2, 5.5, 10, 18, 40].map(x=>x*state.timeZoom);
+        const nodes = [];
+        for(let i=0;i<5;i++){
+          const osc = ctx.createOscillator(); osc.type="sine"; osc.frequency.value = baseTones[i]*(1+state.brightness*0.35);
+          const amp = ctx.createGain(); amp.gain.value = 0.0;
+          const lfo = ctx.createOscillator(); lfo.type="sine"; lfo.frequency.value = lfos[i];
+          const lfoGain = ctx.createGain(); lfoGain.gain.value = (i<2?0.18: i===2?0.14:0.10) * (0.7 + state.brightness*0.6);
+          lfo.connect(lfoGain); lfoGain.connect(amp.gain);
+          osc.connect(amp); amp.connect(out);
+          osc.start(now); lfo.start(now);
+          osc.stop(now + dur); lfo.stop(now + dur);
+          nodes.push({osc,lfo});
+        }
+        return { stop:()=>nodes.forEach(n=>{ try{n.osc.stop();}catch(e){} try{n.lfo.stop();}catch(e){} }) };
+      }
+    },
+    { id:"heart_beat", name:"Primer latido (modelo cardiaco simple)", kind:"modelo", group:"vida",
+      tags:["corazón","PCG","pulso"], base:"S1/S2 ~ 20–200 Hz (audible)",
+      transform:"Dos golpes filtrados + resonancia suave",
+      make:(out)=>{
+        ensureAudio();
+        const now = ctx.currentTime;
+        function thump(at, freq, len, amp){
+          const o = ctx.createOscillator(); o.type="sine"; o.frequency.value = freq*(1+state.brightness*0.2);
+          const g = ctx.createGain(); g.gain.value = 0.0001;
+          const f = ctx.createBiquadFilter(); f.type="lowpass"; f.frequency.value = 240 + state.brightness*380;
+          o.connect(f); f.connect(g); g.connect(out);
+          g.gain.setValueAtTime(0.0001, at);
+          g.gain.exponentialRampToValueAtTime(amp, at + 0.02);
+          g.gain.exponentialRampToValueAtTime(0.0001, at + len);
+          o.start(at); o.stop(at + len + 0.02);
+        }
+        thump(now + 0.10, 58, 0.20, 0.55);
+        thump(now + 0.46, 92, 0.16, 0.40);
+        thump(now + 1.35, 60, 0.20, 0.50);
+        thump(now + 1.72, 96, 0.16, 0.36);
+        return { stop:()=>{} };
+      }
+    },
+    { id:"blood_doppler", name:"Torrente sanguíneo (estilo Doppler audible)", kind:"modelo", group:"vida",
+      tags:["sangre","Doppler","flujo"], base:"Desplazamiento Doppler → audio (20–20k Hz)",
+      transform:"Tono portador + modulación pulsátil",
+      make:(out)=>{
+        ensureAudio();
+        const now = ctx.currentTime, dur = 7 / state.timeZoom;
+        const carrier = ctx.createOscillator(); carrier.type = state.brightness>0.55 ? "sawtooth" : "triangle";
+        const filt = ctx.createBiquadFilter(); filt.type="bandpass"; filt.frequency.value=520 + state.brightness*900; filt.Q.value=2.2;
+        const g = ctx.createGain(); g.gain.value = 0.0;
+        const lfo = ctx.createOscillator(); lfo.type="sine"; lfo.frequency.value = 1.1 * state.timeZoom;
+        const lfoG = ctx.createGain(); lfoG.gain.value = 0.30 * (0.75 + state.brightness*0.6);
+        lfo.connect(lfoG); lfoG.connect(g.gain);
+        carrier.frequency.setValueAtTime(210 + state.brightness*120, now);
+        carrier.frequency.linearRampToValueAtTime(460 + state.brightness*180, now + dur*0.45);
+        carrier.frequency.linearRampToValueAtTime(260 + state.brightness*140, now + dur);
+        carrier.connect(filt); filt.connect(g); g.connect(out);
+        g.gain.setValueAtTime(0.0001, now);
+        g.gain.linearRampToValueAtTime(0.55, now + 0.2);
+        g.gain.linearRampToValueAtTime(0.0001, now + dur);
+        carrier.start(now); lfo.start(now);
+        carrier.stop(now + dur); lfo.stop(now + dur);
+        return { stop:()=>{ try{carrier.stop();}catch(e){} try{lfo.stop();}catch(e){} } };
+      }
+    },
+
+    // MICRO
+    { id:"atom_hum", name:"Átomo (nube electrónica → zumbido granular)", kind:"modelo", group:"micro",
+      tags:["átomo","nube","cuántico"], base:"Transiciones EM (no audio directo)",
+      transform:"Granular + resonancias (representación)",
+      make:(out)=>{
+        ensureAudio();
+        const now = ctx.currentTime, dur = 8 / state.timeZoom;
+        const buf = makeNoiseBuffer(dur, "pink");
+        const src = ctx.createBufferSource(); src.buffer = buf;
+        const bp = ctx.createBiquadFilter(); bp.type="bandpass";
+        bp.frequency.value = 350 + state.brightness*3800; bp.Q.value = 6.0;
+        const g = ctx.createGain(); g.gain.value = 0.0;
+        const lfo = ctx.createOscillator(); lfo.type="sine"; lfo.frequency.value = 11 * state.timeZoom;
+        const lfoG = ctx.createGain(); lfoG.gain.value = 180 + state.brightness*520;
+        lfo.connect(lfoG); lfoG.connect(bp.frequency);
+        g.gain.setValueAtTime(0.0001, now);
+        g.gain.linearRampToValueAtTime(0.55, now + 0.6);
+        g.gain.linearRampToValueAtTime(0.0001, now + dur);
+        src.connect(bp); bp.connect(g); g.connect(out);
+        src.start(now); lfo.start(now);
+        src.stop(now + dur); lfo.stop(now + dur);
+        return { stop:()=>{ try{src.stop();}catch(e){} try{lfo.stop();}catch(e){} } };
+      }
+    },
+    { id:"electron_pop", name:"Electrón (saltos → clicks + tonos)", kind:"sonificación", group:"micro",
+      tags:["electrón","saltos","eventos"], base:"Eventos discretos (representación)",
+      transform:"Clicks (detección) + chirps cortos",
+      make:(out)=>{
+        ensureAudio();
+        const now = ctx.currentTime, dur = 7 / state.timeZoom;
+        const g = ctx.createGain(); g.gain.value = 0.0; g.connect(out);
+        const clicks = [];
+        const count = 32;
+        for(let i=0;i<count;i++){
+          const t = now + (Math.random()*dur*0.92);
+          const o = ctx.createOscillator(); o.type="sine";
+          o.frequency.value = 400 + Math.random()*(2200 + state.brightness*3200);
+          const og = ctx.createGain(); og.gain.value = 0.0001;
+          o.connect(og); og.connect(g);
+          og.gain.setValueAtTime(0.0001, t);
+          og.gain.exponentialRampToValueAtTime(0.18*(0.6+state.brightness), t + 0.006);
+          og.gain.exponentialRampToValueAtTime(0.0001, t + 0.05);
+          o.start(t); o.stop(t + 0.06);
+          clicks.push(o);
+        }
+        g.gain.setValueAtTime(0.0001, now);
+        g.gain.linearRampToValueAtTime(0.75, now + 0.12);
+        g.gain.linearRampToValueAtTime(0.0001, now + dur);
+        return { stop:()=>{ clicks.forEach(o=>{ try{o.stop();}catch(e){} }); } };
+      }
+    },
+    { id:"proton_neutron", name:"Protón y neutrón (colisiones → golpes densos)", kind:"modelo", group:"micro",
+      tags:["protón","neutrón","colisión"], base:"Interacciones subatómicas (no audio directo)",
+      transform:"Impactos filtrados + subgrave",
+      make:(out)=>{
+        ensureAudio();
+        const now = ctx.currentTime, dur = 6.5 / state.timeZoom;
+        const buf = makeNoiseBuffer(dur, "pink");
+        const src = ctx.createBufferSource(); src.buffer = buf;
+        const hp = ctx.createBiquadFilter(); hp.type="highpass"; hp.frequency.value = 35 + state.brightness*80;
+        const lp = ctx.createBiquadFilter(); lp.type="lowpass"; lp.frequency.value = 240 + state.brightness*520;
+        const g = ctx.createGain(); g.gain.value = 0.0;
+        const o = ctx.createOscillator(); o.type="sine"; o.frequency.value = 42 + state.brightness*26;
+        const og = ctx.createGain(); og.gain.value = 0.0;
+        src.connect(hp); hp.connect(lp); lp.connect(g); g.connect(out);
+        o.connect(og); og.connect(out);
+        g.gain.setValueAtTime(0.0001, now);
+        g.gain.linearRampToValueAtTime(0.60, now + 0.10);
+        g.gain.exponentialRampToValueAtTime(0.0001, now + dur);
+        const impacts = 5;
+        for(let i=0;i<impacts;i++){
+          const t = now + (i*0.85 + Math.random()*0.12)/state.timeZoom;
+          og.gain.setValueAtTime(0.0001, t);
+          og.gain.exponentialRampToValueAtTime(0.55*(0.7+state.brightness*0.6), t + 0.02);
+          og.gain.exponentialRampToValueAtTime(0.0001, t + 0.20);
+          o.frequency.setValueAtTime(42 + state.brightness*26, t);
+          o.frequency.exponentialRampToValueAtTime(58 + state.brightness*44, t + 0.08);
+        }
+        src.start(now); o.start(now);
+        src.stop(now + dur); o.stop(now + dur);
+        return { stop:()=>{ try{src.stop();}catch(e){} try{o.stop();}catch(e){} } };
+      }
+    },
+    { id:"particle_shower", name:"Lluvia de partículas (cascada → chisporroteo)", kind:"sonificación", group:"micro",
+      tags:["partículas","cascada","detectores"], base:"Conteos de eventos (representación)",
+      transform:"Chisporroteo + ráfagas",
+      make:(out)=>{
+        ensureAudio();
+        const now = ctx.currentTime, dur = 8 / state.timeZoom;
+        const mix = ctx.createGain(); mix.gain.value = 0.0; mix.connect(out);
+        const N = 90, oscs = [];
+        for(let i=0;i<N;i++){
+          const t = now + Math.random()*dur;
+          const o = ctx.createOscillator(); o.type = "triangle";
+          o.frequency.value = 500 + Math.random()*(4200 + state.brightness*5200);
+          const g = ctx.createGain(); g.gain.value=0.0001;
+          o.connect(g); g.connect(mix);
+          g.gain.setValueAtTime(0.0001, t);
+          g.gain.exponentialRampToValueAtTime(0.08*(0.7+state.brightness), t+0.004);
+          g.gain.exponentialRampToValueAtTime(0.0001, t+0.03);
+          o.start(t); o.stop(t+0.04);
+          oscs.push(o);
+        }
+        mix.gain.setValueAtTime(0.0001, now);
+        mix.gain.linearRampToValueAtTime(0.75, now + 0.12);
+        mix.gain.linearRampToValueAtTime(0.0001, now + dur);
+        return { stop:()=>{ oscs.forEach(o=>{ try{o.stop();}catch(e){} }); } };
+      }
+    },
+
+    // COMPLEJIDAD
+    { id:"dissipative", name:"Estructuras disipativas (flujos → orden emergente)", kind:"modelo", group:"complejidad",
+      tags:["Prigogine","disipación","autoorganización"], base:"Gradientes/flujo (no audio directo)",
+      transform:"Ruido que se ordena en tono (del caos a patrón)",
+      make:(out)=>{
+        ensureAudio();
+        const now = ctx.currentTime, dur = 12 / state.timeZoom;
+        const buf = makeNoiseBuffer(dur, "pink");
+        const src = ctx.createBufferSource(); src.buffer = buf;
+        const bp = ctx.createBiquadFilter(); bp.type="bandpass";
+        bp.frequency.value = 180 + state.brightness*600; bp.Q.value = 0.6;
+        const g = ctx.createGain(); g.gain.value = 0.0;
+        bp.Q.setValueAtTime(0.5, now);
+        bp.Q.linearRampToValueAtTime(9.0, now + dur*0.75);
+        bp.frequency.setValueAtTime(160 + state.brightness*480, now);
+        bp.frequency.linearRampToValueAtTime(520 + state.brightness*920, now + dur*0.60);
+        bp.frequency.linearRampToValueAtTime(440 + state.brightness*660, now + dur);
+        src.connect(bp); bp.connect(g); g.connect(out);
+        g.gain.setValueAtTime(0.0001, now);
+        g.gain.linearRampToValueAtTime(0.62, now + 1.0);
+        g.gain.linearRampToValueAtTime(0.0001, now + dur);
+        src.start(now); src.stop(now + dur);
+        return { stop:()=>{ try{src.stop();}catch(e){} } };
+      }
+    },
+    { id:"fractal_attractor", name:"Fractal (atractor → bucles que no repiten)", kind:"sonificación", group:"complejidad",
+      tags:["fractal","atractor","no-lineal"], base:"Iteraciones (representación)",
+      transform:"Mapeo de iteraciones → escala musical + microvariación",
+      make:(out)=>{
+        ensureAudio();
+        const now = ctx.currentTime;
+        const dur = 12 / state.timeZoom;
+        let x = 0.421, r = 3.91;
+        const steps = 120;
+        const scale = [0,2,3,5,7,8,10];
+        const root = 110 + state.brightness*110;
+        const nodes = [];
+        for(let i=0;i<steps;i++){
+          x = r*x*(1-x);
+          const idx = Math.floor(clamp(x,0,0.999)*scale.length);
+          const semi = scale[idx] + 12*Math.floor(clamp(x,0,0.999)*3);
+          const freq = root * Math.pow(2, semi/12);
+          const t = now + (i*(dur/steps));
+          const o = ctx.createOscillator(); o.type = "sine"; o.frequency.value = freq;
+          const g = ctx.createGain(); g.gain.value = 0.0001;
+          o.detune.value = (i%2===0 ? -4 : 4) * (0.5 + state.brightness);
+          o.connect(g); g.connect(out);
+          g.gain.setValueAtTime(0.0001, t);
+          g.gain.exponentialRampToValueAtTime(0.12*(0.8+state.brightness*0.6), t+0.01);
+          g.gain.exponentialRampToValueAtTime(0.0001, t+0.08);
+          o.start(t); o.stop(t+0.10);
+          nodes.push(o);
+        }
+        return { stop:()=>nodes.forEach(n=>{ try{n.stop();}catch(e){} }) };
+      }
+    },
+
+    // COSMOS
+    { id:"ligo_chirp", name:"Onda gravitacional “chirp” (estilo LIGO)", kind:"sonificación", group:"cosmos",
+      tags:["LIGO","chirp","fusión"], base:"35→250 Hz (audible en muchos eventos)",
+      transform:"Barrido ascendente + golpe final reforzado",
+      loopMs: 3600,
+      make:(out)=>{
+        ensureAudio();
+        const now = ctx.currentTime;
+        const dur = Math.max(0.85, 1.25 / state.timeZoom);
+        const mix = ctx.createGain(); mix.gain.value = 0.0001; mix.connect(out);
+
+        const o1 = ctx.createOscillator(); o1.type = "sine";
+        const o2 = ctx.createOscillator(); o2.type = "triangle";
+        const g1 = ctx.createGain(); const g2 = ctx.createGain();
+        g1.gain.value = 0.70; g2.gain.value = 0.22;
+
+        const f0 = 42*(1+state.brightness*0.10);
+        const f1 = 520*(1+state.brightness*0.35);
+        o1.frequency.setValueAtTime(f0, now);
+        o1.frequency.exponentialRampToValueAtTime(f1, now + dur*0.86);
+        o2.frequency.setValueAtTime(f0*2.01, now);
+        o2.frequency.exponentialRampToValueAtTime(f1*1.35, now + dur*0.88);
+
+        const lp = ctx.createBiquadFilter(); lp.type = "lowpass"; lp.frequency.value = 1700 + state.brightness*3200;
+        o1.connect(g1); o2.connect(g2); g1.connect(lp); g2.connect(lp); lp.connect(mix);
+
+        mix.gain.setValueAtTime(0.0001, now);
+        mix.gain.linearRampToValueAtTime(0.18, now + dur*0.20);
+        mix.gain.exponentialRampToValueAtTime(0.92, now + dur*0.84);
+        mix.gain.exponentialRampToValueAtTime(0.0001, now + dur);
+
+        // golpe final para que no quede imperceptible en parlantes pequeños
+        const th = ctx.createOscillator(); th.type = "sine"; th.frequency.value = 92;
+        const thg = ctx.createGain(); thg.gain.value = 0.0001;
+        th.connect(thg); thg.connect(out);
+        const hit = now + dur*0.80;
+        thg.gain.setValueAtTime(0.0001, hit);
+        thg.gain.exponentialRampToValueAtTime(0.75, hit + 0.025);
+        thg.gain.exponentialRampToValueAtTime(0.0001, hit + 0.28);
+
+        o1.start(now); o2.start(now); th.start(hit);
+        o1.stop(now + dur); o2.stop(now + dur); th.stop(hit + 0.32);
+        return { stop:()=>{ try{o1.stop();}catch(e){} try{o2.stop();}catch(e){} try{th.stop();}catch(e){} try{mix.disconnect();}catch(e){} } };
+      }
+    },
+    { id:"sun_resonance", name:"El Sol (modos de oscilación → zumbido cálido)", kind:"sonificación", group:"cosmos",
+      tags:["Sol","oscilaciones","helioseismología"], base:"~mHz (muy por debajo de audible)",
+      transform:"Acelerar/elevar: zumbido + armónicos suaves",
+      make:(out)=>{
+        ensureAudio();
+        const now = ctx.currentTime, dur = 10 / state.timeZoom;
+        const base = 55 + state.brightness*55;
+        const osc1 = ctx.createOscillator(); osc1.type="sine"; osc1.frequency.value = base;
+        const osc2 = ctx.createOscillator(); osc2.type="sine"; osc2.frequency.value = base*2.01;
+        const osc3 = ctx.createOscillator(); osc3.type="triangle"; osc3.frequency.value = base*3.00;
+        const g = ctx.createGain(); g.gain.value = 0.0;
+        const lp = ctx.createBiquadFilter(); lp.type="lowpass"; lp.frequency.value = 380 + state.brightness*1200;
+        const lfo = ctx.createOscillator(); lfo.type="sine"; lfo.frequency.value = 0.18 * state.timeZoom;
+        const lfoG = ctx.createGain(); lfoG.gain.value = 0.18;
+        lfo.connect(lfoG); lfoG.connect(g.gain);
+        osc1.connect(lp); osc2.connect(lp); osc3.connect(lp);
+        lp.connect(g); g.connect(out);
+        g.gain.setValueAtTime(0.0001, now);
+        g.gain.linearRampToValueAtTime(0.55, now + 1.0);
+        g.gain.linearRampToValueAtTime(0.0001, now + dur);
+        osc1.start(now); osc2.start(now); osc3.start(now); lfo.start(now);
+        osc1.stop(now + dur); osc2.stop(now + dur); osc3.stop(now + dur); lfo.stop(now + dur);
+        return { stop:()=>{ [osc1,osc2,osc3,lfo].forEach(n=>{ try{n.stop();}catch(e){} }); } };
+      }
+    },
+    { id:"supernova", name:"Supernova (explosión estelar → choque, brillo, eco)", kind:"modelo", group:"cosmos",
+      tags:["supernova","explosión","choque"], base:"Evento: energía no-acústica en vacío",
+      transform:"Impacto (transiente) + cola de ruido + ‘destello’ armónico",
+      make:(out)=>{
+        ensureAudio();
+        const now = ctx.currentTime, dur = 8.5 / state.timeZoom;
+        const nbuf = makeNoiseBuffer(dur, "pink");
+        const ns = ctx.createBufferSource(); ns.buffer = nbuf;
+        const bp = ctx.createBiquadFilter(); bp.type="bandpass";
+        bp.frequency.value = 220 + state.brightness*2200; bp.Q.value = 0.9 + state.brightness*2.2;
+        const g = ctx.createGain(); g.gain.value = 0.0;
+        const o = ctx.createOscillator(); o.type = state.brightness>0.55 ? "sawtooth" : "triangle";
+        o.frequency.value = 110 + state.brightness*220;
+        const og = ctx.createGain(); og.gain.value = 0.0;
+
+        g.gain.setValueAtTime(0.0001, now);
+        g.gain.linearRampToValueAtTime(0.75, now + 0.10);
+        g.gain.exponentialRampToValueAtTime(0.18, now + 0.70);
+        g.gain.exponentialRampToValueAtTime(0.0001, now + dur);
+
+        og.gain.setValueAtTime(0.0001, now);
+        og.gain.linearRampToValueAtTime(0.55, now + 0.06);
+        og.gain.exponentialRampToValueAtTime(0.0001, now + 0.35);
+
+        bp.frequency.setValueAtTime(260 + state.brightness*900, now);
+        bp.frequency.linearRampToValueAtTime(2200 + state.brightness*5200, now + dur*0.22);
+        bp.frequency.linearRampToValueAtTime(380 + state.brightness*1200, now + dur);
+
+        ns.connect(bp); bp.connect(g); g.connect(out);
+        o.connect(og); og.connect(out);
+
+        ns.start(now); o.start(now);
+        ns.stop(now + dur); o.stop(now + dur);
+
+        return { stop:()=>{ try{ns.stop();}catch(e){} try{o.stop();}catch(e){} } };
+      }
+    },
+    { id:"dying_star", name:"Estrella moribunda (pulsos + disipación + silencio)", kind:"modelo", group:"cosmos",
+      tags:["moribunda","pulsos","declive"], base:"Pulsaciones y colapso (representación)",
+      transform:"Pulsos audibles, caída espectral y cierre en silencio",
+      loopMs: 10500,
+      make:(out)=>{
+        ensureAudio();
+        const now = ctx.currentTime, dur = 10.5 / state.timeZoom;
+        const nodes = [];
+        const bus = ctx.createGain(); bus.gain.value = 0.0001;
+        const lp = ctx.createBiquadFilter(); lp.type = "lowpass"; lp.frequency.value = 1800 + state.brightness*2400;
+        bus.connect(lp); lp.connect(out);
+
+        const base = 132 + state.brightness*44;
+        const pulses = 9;
+        for(let i=0;i<pulses;i++){
+          const t = now + (i * (0.55 + i*0.055)) / state.timeZoom;
+          if(t > now + dur - 0.5) break;
+          const o = ctx.createOscillator(); o.type = i < 3 ? "triangle" : "sine";
+          const g = ctx.createGain(); g.gain.value = 0.0001;
+          o.frequency.setValueAtTime(base * Math.pow(0.93, i), t);
+          o.frequency.exponentialRampToValueAtTime(Math.max(48, base * Math.pow(0.88, i)), t + 0.42);
+          g.gain.setValueAtTime(0.0001, t);
+          g.gain.exponentialRampToValueAtTime(0.62 * Math.exp(-i*0.13), t + 0.035);
+          g.gain.exponentialRampToValueAtTime(0.0001, t + 0.50 + i*0.03);
+          o.connect(g); g.connect(bus);
+          o.start(t); o.stop(t + 0.70 + i*0.03);
+          nodes.push(o,g);
+        }
+
+        const noise = ctx.createBufferSource(); noise.buffer = makeNoiseBuffer(dur, "pink");
+        const ng = ctx.createGain(); ng.gain.value = 0.0001;
+        noise.connect(ng); ng.connect(bus);
+        ng.gain.setValueAtTime(0.10, now);
+        ng.gain.exponentialRampToValueAtTime(0.0001, now + dur);
+        noise.start(now); noise.stop(now + dur);
+        nodes.push(noise, ng, bus, lp);
+
+        bus.gain.setValueAtTime(0.0001, now);
+        bus.gain.linearRampToValueAtTime(0.82, now + 0.25);
+        bus.gain.exponentialRampToValueAtTime(0.0001, now + dur);
+
+        return { stop:()=>{ for(const n of nodes){ try{n.disconnect?.();}catch(e){} try{n.stop?.();}catch(e){} } } };
+      }
+    },
+    { id:"plasma_texture", name:"Plasma / magnetosfera (textura ‘datos→audio’)", kind:"sonificación", group:"cosmos",
+      tags:["plasma","EM","textura"], base:"Señales EM/plasma convertidas a audio",
+      transform:"Ruido granulado + barridos + chasquidos",
+      make:(out)=>{
+        ensureAudio();
+        const now = ctx.currentTime, dur = 9 / state.timeZoom;
+        const buf = makeNoiseBuffer(dur, "pink");
+        const src = ctx.createBufferSource(); src.buffer = buf;
+        const bp = ctx.createBiquadFilter(); bp.type="bandpass";
+        bp.frequency.value=1200 + state.brightness*2800; bp.Q.value=0.9 + state.brightness*1.2;
+        const g = ctx.createGain(); g.gain.value = 0.0;
+        const sweep = ctx.createOscillator(); sweep.type="sine"; sweep.frequency.value = 0.18 * state.timeZoom;
+        const sweepG = ctx.createGain(); sweepG.gain.value = 900 + state.brightness*2200;
+        sweep.connect(sweepG); sweepG.connect(bp.frequency);
+        const click = ctx.createOscillator(); click.type="square"; click.frequency.value = (10 + state.brightness*8) * state.timeZoom;
+        const clickG = ctx.createGain(); clickG.gain.value = 0.0;
+        click.connect(clickG); clickG.connect(out);
+        g.gain.setValueAtTime(0.0001, now);
+        g.gain.linearRampToValueAtTime(0.60, now + 0.7);
+        g.gain.linearRampToValueAtTime(0.0001, now + dur);
+        clickG.gain.setValueAtTime(0.0, now);
+        clickG.gain.linearRampToValueAtTime(0.08*(0.6+state.brightness), now + 0.5);
+        clickG.gain.linearRampToValueAtTime(0.0, now + dur);
+        src.connect(bp); bp.connect(g); g.connect(out);
+        src.start(now); sweep.start(now); click.start(now);
+        src.stop(now + dur); sweep.stop(now + dur); click.stop(now + dur);
+        return { stop:()=>{ try{src.stop();}catch(e){} try{sweep.stop();}catch(e){} try{click.stop();}catch(e){} } };
+      }
+    },
+    { id:"hurricane_infra", name:"Huracán (infrasónico → audible)", kind:"sonificación", group:"cosmos",
+      tags:["huracán","infrasound","tierra"], base:"0.02–15 Hz (instrumental)",
+      transform:"Acelerar tiempo + filtrar ruido",
+      make:(out)=>{
+        ensureAudio();
+        const now = ctx.currentTime, dur = 10 / state.timeZoom;
+        const buf = makeNoiseBuffer(dur, "pink");
+        const src = ctx.createBufferSource(); src.buffer = buf;
+        const lp = ctx.createBiquadFilter(); lp.type = "lowpass"; lp.frequency.value = 160 + state.brightness*260;
+        const hp = ctx.createBiquadFilter(); hp.type = "highpass"; hp.frequency.value = 16;
+        const g = ctx.createGain(); g.gain.value = 0.0;
+        const lfo = ctx.createOscillator(); lfo.type="sine"; lfo.frequency.value = 0.45 * state.timeZoom;
+        const lfoG = ctx.createGain(); lfoG.gain.value = 0.28 * (0.75 + state.brightness*0.6);
+        lfo.connect(lfoG); lfoG.connect(g.gain);
+        lp.frequency.setValueAtTime(120 + state.brightness*120, now);
+        lp.frequency.linearRampToValueAtTime(420 + state.brightness*260, now + dur*0.55);
+        lp.frequency.linearRampToValueAtTime(160 + state.brightness*120, now + dur);
+        src.connect(hp); hp.connect(lp); lp.connect(g); g.connect(out);
+        g.gain.setValueAtTime(0.0001, now);
+        g.gain.linearRampToValueAtTime(0.55, now + 0.8);
+        g.gain.linearRampToValueAtTime(0.0001, now + dur);
+        src.start(now); lfo.start(now);
+        src.stop(now + dur); lfo.stop(now + dur);
+        return { stop:()=>{ try{src.stop();}catch(e){} try{lfo.stop();}catch(e){} } };
+      }
+    }
+  ];
+
+  // --- Add 10 extra sounds (línea Synaptik)
+  function makeDrone({base=110, spread=0.012, noise=0.06, cutoff=800, lfo=0.25, dur=10}) {
+    return (out)=>{
+      ensureAudio();
+      const now = ctx.currentTime;
+      const g = ctx.createGain(); g.gain.value = 0.0001;
+      const f = ctx.createBiquadFilter(); f.type="lowpass"; f.frequency.value = cutoff* (0.75+ state.brightness*0.7) * vrng(1);
+      const comp = ctx.createDynamicsCompressor();
+      g.connect(f); f.connect(comp); comp.connect(out);
+
+      const osc1 = ctx.createOscillator(); osc1.type="sine";
+      const osc2 = ctx.createOscillator(); osc2.type="triangle";
+      osc1.frequency.value = base * vrng(1);
+      osc2.frequency.value = base*(1+spread*vrng(1));
+      const o1g = ctx.createGain(); o1g.gain.value = 0.22;
+      const o2g = ctx.createGain(); o2g.gain.value = 0.18;
+
+      osc1.connect(o1g); osc2.connect(o2g);
+      o1g.connect(g); o2g.connect(g);
+
+      // noise bed
+      const nbuf = (()=>{
+        const len = Math.floor(ctx.sampleRate*dur);
+        const b = ctx.createBuffer(1, len, ctx.sampleRate);
+        const d = b.getChannelData(0);
+        let prev=0;
+        for(let i=0;i<d.length;i++){ const r=(Math.random()*2-1); prev = prev*0.86 + r*0.14; d[i]=prev; }
+        return b;
+      })();
+      const ns = ctx.createBufferSource(); ns.buffer = nbuf;
+      const ng = ctx.createGain(); ng.gain.value = noise*(0.7+state.brightness*0.8)*vrng(1);
+      ns.connect(ng); ng.connect(g);
+
+      // gentle LFO on filter
+      const l = ctx.createOscillator(); l.type="sine"; l.frequency.value = lfo*vrng(1);
+      const lg = ctx.createGain(); lg.gain.value = 120 + vadd(0);
+      l.connect(lg); lg.connect(f.frequency);
+
+      // envelope
+      g.gain.setValueAtTime(0.0001, now);
+      g.gain.exponentialRampToValueAtTime(0.85*state.masterVol, now+0.8);
+      g.gain.exponentialRampToValueAtTime(0.0001, now+dur);
+
+      osc1.start(now); osc2.start(now); ns.start(now); l.start(now);
+      osc1.stop(now+dur); osc2.stop(now+dur); ns.stop(now+dur); l.stop(now+dur);
+
+      return {
+        stop: ()=> {
+          try{osc1.stop();}catch(e){}
+          try{osc2.stop();}catch(e){}
+          try{ns.stop();}catch(e){}
+          try{l.stop();}catch(e){}
+          try{o1g.disconnect(); o2g.disconnect(); ng.disconnect(); lg.disconnect();}catch(e){}
+          try{g.disconnect(); f.disconnect(); comp.disconnect();}catch(e){}
+        }
+      };
+    };
+  }
+
+  const EXTRA = [
+    { id:"aurora", name:"Aurora boreal (plasma → coro)", kind:"sonificación", group:"cosmos",
+      tags:["aurora","plasma","magnetosfera"], base:"ELF/ULF sonificados", transform:"coro suave + ruido filtrado", loopMs: 11000,
+      make: makeDrone({base: 140, noise:0.05, cutoff:950, lfo:0.22, dur:11})},
+    { id:"pulsar", name:"Púlsar (pulso rotante)", kind:"sonificación", group:"cosmos",
+      tags:["pulsar","periodicidad"], base:"periodos ms–s", transform:"trenes de pulsos", loopMs: 9000,
+      make:(out)=>{
+        ensureAudio();
+        const now=ctx.currentTime;
+        const g=ctx.createGain(); g.gain.value=0.001;
+        const f=ctx.createBiquadFilter(); f.type="bandpass"; f.frequency.value=420*(0.7+state.brightness*0.8);
+        g.connect(f); f.connect(out);
+
+        const o=ctx.createOscillator(); o.type="square"; o.frequency.value=vrng(180);
+        o.connect(g);
+
+        const dur=9;
+        let t=0;
+        const basePeriod=0.18/ state.timeZoom;
+        while(t<dur){
+          const p = basePeriod*vrng(1);
+          const w = 0.02*vrng(1);
+          g.gain.setValueAtTime(0.0001, now+t);
+          g.gain.exponentialRampToValueAtTime(0.9, now+t+w);
+          g.gain.exponentialRampToValueAtTime(0.0001, now+t+w*2.2);
+          t += p;
+        }
+        o.start(now); o.stop(now+dur);
+        return { stop:()=>{ try{o.stop();}catch(e){} } };
+      }
+    },
+    { id:"tides", name:"Mareas (ciclo → respiración marina)", kind:"sonificación", group:"cosmos",
+      tags:["mareas","luna","océano"], base:"horas", transform:"ondas lentas → audio", loopMs: 14000,
+      make: makeDrone({base: 92, noise:0.08, cutoff:680, lfo:0.11, dur:14})},
+    { id:"photosynthesis", name:"Fotosíntesis (ritmo bioquímico)", kind:"modelo", group:"vida",
+      tags:["planta","luz","clorofila"], base:"procesos lentos", transform:"pulsos cálidos", loopMs: 10000,
+      make: makeDrone({base: 196, noise:0.03, cutoff:1200, lfo:0.33, dur:10})},
+    { id:"synapse", name:"Sinapsis (chispas químicas)", kind:"modelo", group:"vida",
+      tags:["sinapsis","neuronas"], base:"ms", transform:"chispas + cama tonal", loopMs: 8000,
+      make:(out)=>{
+        ensureAudio();
+        const now=ctx.currentTime;
+        const dur=8;
+        const g=ctx.createGain(); g.gain.value=0.0001; g.connect(out);
+        const f=ctx.createBiquadFilter(); f.type="highpass"; f.frequency.value=600*(0.7+state.brightness*0.9);
+        g.disconnect(); g.connect(f); f.connect(out);
+
+        // bed
+        const o=ctx.createOscillator(); o.type="sine"; o.frequency.value=vrng(140);
+        const og=ctx.createGain(); og.gain.value=0.12; o.connect(og); og.connect(out);
+
+        // sparks
+        for(let i=0;i<32;i++){ 
+          const t=now + Math.random()*dur;
+          const s=ctx.createOscillator(); s.type="triangle"; s.frequency.value=vrng(900+Math.random()*900);
+          const sg=ctx.createGain(); sg.gain.setValueAtTime(0.0001,t);
+          sg.gain.exponentialRampToValueAtTime(0.55*vrng(1), t+0.01);
+          sg.gain.exponentialRampToValueAtTime(0.0001, t+0.05);
+          s.connect(sg); sg.connect(f);
+          s.start(t); s.stop(t+0.06);
+        }
+        o.start(now); o.stop(now+dur);
+        return { stop:()=>{ try{o.stop();}catch(e){} } };
+      }
+    },
+    { id:"swarm", name:"Enjambre (autoorganización)", kind:"modelo", group:"complejidad",
+      tags:["enjambre","emergencia"], base:"reglas locales", transform:"nubes en movimiento", loopMs: 12000,
+      make: makeDrone({base: 74, noise:0.10, cutoff:900, lfo:0.28, dur:12})},
+    { id:"crystallization", name:"Cristalización (orden emergente)", kind:"modelo", group:"complejidad",
+      tags:["cristal","transición"], base:"nucleación", transform:"campanas microtonales", loopMs: 9000,
+      make:(out)=>{
+        ensureAudio();
+        const now=ctx.currentTime;
+        const dur=9;
+        const g=ctx.createGain(); g.gain.value=0.0001; g.connect(out);
+        g.gain.setValueAtTime(0.0001, now);
+        g.gain.exponentialRampToValueAtTime(0.75, now+0.7);
+        g.gain.exponentialRampToValueAtTime(0.0001, now+dur);
+
+        for(let i=0;i<18;i++){ 
+          const t=now+Math.random()*(dur-1.2);
+          const o=ctx.createOscillator(); o.type="sine";
+          const base= 260 + Math.random()*520;
+          o.frequency.value = base * (1 + (state.brightness*0.02)) * vrng(1);
+          const og=ctx.createGain();
+          og.gain.setValueAtTime(0.0001,t);
+          og.gain.exponentialRampToValueAtTime(0.35*vrng(1), t+0.02);
+          og.gain.exponentialRampToValueAtTime(0.0001, t+0.5);
+          o.connect(og); og.connect(g);
+          o.start(t); o.stop(t+0.55);
+        }
+        return { stop:()=>{ try{g.disconnect();}catch(e){} } };
+      }
+    },
+    { id:"solar_storm", name:"Tormenta solar (viento solar)", kind:"sonificación", group:"cosmos",
+      tags:["sol","tormenta","viento solar"], base:"variaciones EM", transform:"ruido + barridos", loopMs: 11000,
+      make: makeDrone({base: 58, noise:0.14, cutoff:1400, lfo:0.41, dur:11})},
+    { id:"time_fold", name:"Pliegue del tiempo (metáfora)", kind:"modelo", group:"complejidad",
+      tags:["tiempo","metáfora"], base:"conceptual", transform:"glissandos lentos", loopMs: 10000,
+      make: makeDrone({base: 156, noise:0.04, cutoff:1500, lfo:0.17, dur:10})},
+    { id:"schumann", name:"Schumann (7.83 Hz → audible)", kind:"sonificación", group:"cosmos",
+      tags:["schumann","resonancia"], base:"~7.83 Hz", transform:"octavas + armónicos", loopMs: 12000,
+      make: makeDrone({base: 98, noise:0.05, cutoff:1050, lfo:0.12, dur:12})},
+    // COMPLEJIDAD / PATRONES
+    { id:"fibonacci", name:"Fibonacci (proporciones → arpegio)", kind:"sonificación", group:"complejidad",
+      tags:["fibonacci","proporción","patrón","series"], base:"1,1,2,3,5,8… (relaciones)", 
+      transform:"Secuencia de intervalos (razones) convertida en alturas + variación microtonal",
+      loopMs: 9500,
+      make:(out)=>{
+        ensureAudio();
+        const now = ctx.currentTime, dur = 9 / state.timeZoom;
+        const g = ctx.createGain();
+        g.gain.value = 0.22 + state.brightness*0.10;
+        const lp = ctx.createBiquadFilter();
+        lp.type = "lowpass";
+        lp.frequency.setValueAtTime(1800 + state.brightness*3800, now);
+        const pan = ctx.createStereoPanner();
+        pan.pan.setValueAtTime((Math.random()*2-1)*0.35, now);
+
+        g.connect(lp); lp.connect(pan); pan.connect(out);
+
+        const seq = [1,1,2,3,5,8,13,21];
+        const base = 110 + state.brightness*110; // 110..220
+        const step = dur / (seq.length + 2);
+        let t = now;
+
+        const nodes = [];
+        for(let i=0;i<seq.length;i++){
+          const ratio = seq[i] / seq[Math.max(0,i-1)] || 1;
+          const f = base * ratio * (1 + (Math.random()*2-1)*state.variation*0.02);
+          const o = ctx.createOscillator();
+          o.type = (Math.random() < 0.5 ? "triangle" : "sine");
+          o.frequency.setValueAtTime(Math.min(1600, Math.max(55, f)), t);
+
+          const eg = ctx.createGain();
+          eg.gain.setValueAtTime(0.0001, t);
+          eg.gain.exponentialRampToValueAtTime(0.32, t + step*0.18);
+          eg.gain.exponentialRampToValueAtTime(0.0001, t + step*0.92);
+
+          o.connect(eg); eg.connect(g);
+          o.start(t); o.stop(t + step);
+          nodes.push(o, eg);
+          t += step * (0.92 + Math.random()*0.22*state.variation);
+        }
+
+        return { stop:()=>{ 
+          try{ g.disconnect(); lp.disconnect(); pan.disconnect(); }catch(e){}
+          for(const n of nodes){ try{ n.disconnect?.(); }catch(e){} try{ n.stop?.(); }catch(e){} }
+        } };
+      }
+    }
+    ,{ id:"nuclear_blast", name:"Bomba nuclear (onda de choque)", kind:"modelo", group:"micro",
+      tags:["bomba nuclear","fisión","choque","explosión"], base:"fisión + liberación energética",
+      transform:"subgrave, ruido de choque y resonancia", loopMs: 12000,
+      make:(out)=>{
+        ensureAudio();
+        const now = ctx.currentTime, dur = 10 / state.timeZoom;
+        const masterG = ctx.createGain(); masterG.gain.value = 0.0; masterG.connect(out);
+        const noiseBuf = makeNoiseBuffer(dur, "pink");
+        const ns = ctx.createBufferSource(); ns.buffer = noiseBuf;
+        const bp = ctx.createBiquadFilter(); bp.type = "bandpass"; bp.frequency.value = 110 + state.brightness*900; bp.Q.value = 0.8;
+        const low = ctx.createBiquadFilter(); low.type = "lowpass"; low.frequency.value = 240 + state.brightness*420;
+        ns.connect(bp); bp.connect(low); low.connect(masterG);
+
+        const sub = ctx.createOscillator(); sub.type = "sine";
+        const subG = ctx.createGain(); subG.gain.value = 0.0001;
+        sub.frequency.setValueAtTime(58, now);
+        sub.frequency.exponentialRampToValueAtTime(33, now + dur*0.7);
+        sub.connect(subG); subG.connect(out);
+
+        const ring = ctx.createOscillator(); ring.type = "triangle";
+        const ringG = ctx.createGain(); ringG.gain.value = 0.0001;
+        ring.frequency.setValueAtTime(220 + state.brightness*120, now + 0.02);
+        ring.frequency.exponentialRampToValueAtTime(72, now + 1.5);
+        ring.connect(ringG); ringG.connect(out);
+
+        masterG.gain.setValueAtTime(0.0001, now);
+        masterG.gain.exponentialRampToValueAtTime(0.92, now + 0.08);
+        masterG.gain.exponentialRampToValueAtTime(0.10, now + 1.2);
+        masterG.gain.exponentialRampToValueAtTime(0.0001, now + dur);
+
+        subG.gain.setValueAtTime(0.0001, now);
+        subG.gain.exponentialRampToValueAtTime(0.75, now + 0.05);
+        subG.gain.exponentialRampToValueAtTime(0.0001, now + dur);
+
+        ringG.gain.setValueAtTime(0.0001, now + 0.03);
+        ringG.gain.exponentialRampToValueAtTime(0.32, now + 0.18);
+        ringG.gain.exponentialRampToValueAtTime(0.0001, now + 2.2);
+
+        ns.start(now); sub.start(now); ring.start(now);
+        ns.stop(now + dur); sub.stop(now + dur); ring.stop(now + dur);
+        return { stop:()=>{ try{ns.stop();}catch(e){} try{sub.stop();}catch(e){} try{ring.stop();}catch(e){} } };
+      }
+    }
+    ,{ id:"dissipative_structure", name:"Estructura disipativa (caos canalizado)", kind:"modelo", group:"complejidad",
+      tags:["estructura disipativa","Prigogine","flujo","orden emergente"], base:"gradientes y disipación",
+      transform:"ruido que se organiza en pulsos y armónicos", loopMs: 11000,
+      make:(out)=>{
+        ensureAudio();
+        const now = ctx.currentTime, dur = 11 / state.timeZoom;
+        const src = ctx.createBufferSource(); src.buffer = makeNoiseBuffer(dur, "pink");
+        const bp = ctx.createBiquadFilter(); bp.type = "bandpass"; bp.frequency.value = 160; bp.Q.value = 0.6;
+        const g = ctx.createGain(); g.gain.value = 0.0001;
+        const pulse = ctx.createOscillator(); pulse.type = "sine"; pulse.frequency.value = 2.2 * state.timeZoom;
+        const pulseG = ctx.createGain(); pulseG.gain.value = 0;
+        pulse.connect(pulseG); pulseG.connect(g.gain);
+        bp.frequency.setValueAtTime(160, now);
+        bp.frequency.linearRampToValueAtTime(820 + state.brightness*900, now + dur*0.55);
+        bp.Q.setValueAtTime(0.6, now);
+        bp.Q.linearRampToValueAtTime(7.5, now + dur*0.75);
+        pulseG.gain.setValueAtTime(0.02, now);
+        pulseG.gain.linearRampToValueAtTime(0.22, now + dur*0.55);
+        src.connect(bp); bp.connect(g); g.connect(out);
+        g.gain.setValueAtTime(0.0001, now);
+        g.gain.linearRampToValueAtTime(0.60, now + 0.8);
+        g.gain.linearRampToValueAtTime(0.0001, now + dur);
+        src.start(now); pulse.start(now);
+        src.stop(now + dur); pulse.stop(now + dur);
+        return { stop:()=>{ try{src.stop();}catch(e){} try{pulse.stop();}catch(e){} } };
+      }
+    }
+    ,{ id:"photosynthesis_cycle", name:"Fotosíntesis (ciclo luz–vida)", kind:"modelo", group:"vida",
+      tags:["fotosíntesis","planta","luz","oxígeno"], base:"captura de luz y conversión",
+      transform:"pulsos cálidos y respiración armónica", loopMs: 10000,
+      make: makeDrone({base: 174, noise:0.025, cutoff:1500, lfo:0.24, dur:10})
+    }
+    ,{ id:"fertilization", name:"Fecundación (encuentro y fusión)", kind:"modelo", group:"vida",
+      tags:["fecundación","vida","fusión","origen"], base:"encuentro de dos gametos",
+      transform:"dos líneas tonales que convergen en una sola", loopMs: 9000,
+      make:(out)=>{
+        ensureAudio();
+        const now = ctx.currentTime, dur = 9 / state.timeZoom;
+        const o1 = ctx.createOscillator(); o1.type = "sine";
+        const o2 = ctx.createOscillator(); o2.type = "triangle";
+        const g1 = ctx.createGain(); const g2 = ctx.createGain();
+        g1.gain.value = 0.0001; g2.gain.value = 0.0001;
+        o1.frequency.setValueAtTime(220, now); o1.frequency.linearRampToValueAtTime(330, now + dur*0.55);
+        o2.frequency.setValueAtTime(330, now); o2.frequency.linearRampToValueAtTime(330, now + dur*0.55);
+        g1.gain.setValueAtTime(0.0001, now); g1.gain.linearRampToValueAtTime(0.28, now + 0.4); g1.gain.exponentialRampToValueAtTime(0.0001, now + dur);
+        g2.gain.setValueAtTime(0.0001, now); g2.gain.linearRampToValueAtTime(0.25, now + 0.4); g2.gain.exponentialRampToValueAtTime(0.0001, now + dur);
+        const merged = ctx.createGain(); merged.gain.value = 0.0001;
+        merged.gain.setValueAtTime(0.0001, now + dur*0.45);
+        merged.gain.linearRampToValueAtTime(0.46, now + dur*0.65);
+        merged.gain.exponentialRampToValueAtTime(0.0001, now + dur);
+        o1.connect(g1); o2.connect(g2); g1.connect(out); g2.connect(out);
+        const o3 = ctx.createOscillator(); o3.type = "sine"; o3.frequency.value = 330; o3.connect(merged); merged.connect(out);
+        o1.start(now); o2.start(now); o3.start(now + dur*0.45);
+        o1.stop(now + dur); o2.stop(now + dur); o3.stop(now + dur);
+        return { stop:()=>{ try{o1.stop();}catch(e){} try{o2.stop();}catch(e){} try{o3.stop();}catch(e){} } };
+      }
+    }
+    ,{ id:"thought_pattern", name:"Pensamiento (red asociativa)", kind:"modelo", group:"vida",
+      tags:["pensamiento","mente","asociación","cognición"], base:"actividad asociativa",
+      transform:"destellos, microarpegios y deriva tonal", loopMs: 9500,
+      make:(out)=>{
+        ensureAudio();
+        const now = ctx.currentTime, dur = 9.5 / state.timeZoom;
+        const nodes = [];
+        for(let i=0;i<26;i++){
+          const t = now + Math.random() * (dur - 0.4);
+          const o = ctx.createOscillator();
+          o.type = Math.random() < 0.65 ? "sine" : "triangle";
+          o.frequency.value = 180 + Math.random()*(980 + state.brightness*1200);
+          const g = ctx.createGain();
+          g.gain.setValueAtTime(0.0001, t);
+          g.gain.exponentialRampToValueAtTime(0.18, t + 0.03);
+          g.gain.exponentialRampToValueAtTime(0.0001, t + 0.22);
+          o.connect(g); g.connect(out);
+          o.start(t); o.stop(t + 0.25);
+          nodes.push(o,g);
+        }
+        const bed = ctx.createOscillator(); bed.type = "sine"; bed.frequency.value = 132 + state.brightness*44;
+        const bedG = ctx.createGain(); bedG.gain.value = 0.0001;
+        bed.connect(bedG); bedG.connect(out);
+        bedG.gain.setValueAtTime(0.0001, now);
+        bedG.gain.linearRampToValueAtTime(0.12, now + 0.5);
+        bedG.gain.linearRampToValueAtTime(0.0001, now + dur);
+        bed.start(now); bed.stop(now + dur);
+        nodes.push(bed, bedG);
+        return { stop:()=>{ for(const n of nodes){ try{n.disconnect?.();}catch(e){} try{n.stop?.();}catch(e){} } } };
+      }
+    }
+    ,{ id:"mantra", name:"Mantra (repetición meditativa)", kind:"modelo", group:"vida",
+      tags:["mantra","meditación","repetición","calma"], base:"patrón vocal simbólico",
+      transform:"bordón, pulsación y armónicos suaves", loopMs: 12000,
+      make:(out)=>{
+        ensureAudio();
+        const now = ctx.currentTime, dur = 12 / state.timeZoom;
+        const root = 110 + state.brightness*30;
+        const notes = [1, 1.5, 2];
+        const nodes = [];
+        notes.forEach((mul, idx)=>{
+          const o = ctx.createOscillator(); o.type = idx === 0 ? "sine" : "triangle";
+          const g = ctx.createGain();
+          o.frequency.value = root*mul;
+          g.gain.setValueAtTime(0.0001, now);
+          g.gain.linearRampToValueAtTime(idx===0?0.22:0.12, now + 0.7 + idx*0.1);
+          g.gain.linearRampToValueAtTime(0.0001, now + dur);
+          o.connect(g); g.connect(out);
+          o.start(now); o.stop(now + dur);
+          nodes.push(o,g);
+        });
+        const pulse = ctx.createOscillator(); pulse.type = "sine"; pulse.frequency.value = 1.6 * state.timeZoom;
+        const pulseG = ctx.createGain(); pulseG.gain.value = 0.08; pulse.connect(pulseG); pulseG.connect(nodes[1]);
+        pulse.start(now); pulse.stop(now + dur);
+        nodes.push(pulse,pulseG);
+        return { stop:()=>{ for(const n of nodes){ try{n.disconnect?.();}catch(e){} try{n.stop?.();}catch(e){} } } };
+      }
+    }
+    ,{ id:"chaos_order_organization", name:"Caos–orden–organización (tránsito emergente)", kind:"sonificación", group:"complejidad",
+      tags:["caos","orden","organización","emergencia"], base:"transición no lineal",
+      transform:"de chisporroteo caótico a patrón estable", loopMs: 13000,
+      make:(out)=>{
+        ensureAudio();
+        const now = ctx.currentTime, dur = 13 / state.timeZoom;
+        const nodes = [];
+        // fase 1: caos
+        for(let i=0;i<28;i++){
+          const t = now + Math.random()*(dur*0.35);
+          const o = ctx.createOscillator(); o.type = "triangle"; o.frequency.value = 180 + Math.random()*2200;
+          const g = ctx.createGain();
+          g.gain.setValueAtTime(0.0001, t);
+          g.gain.exponentialRampToValueAtTime(0.13, t+0.01);
+          g.gain.exponentialRampToValueAtTime(0.0001, t+0.10);
+          o.connect(g); g.connect(out); o.start(t); o.stop(t+0.11);
+          nodes.push(o,g);
+        }
+        // fase 2: orden
+        const base = 146.8;
+        for(let i=0;i<10;i++){
+          const t = now + dur*0.40 + i*(0.36/state.timeZoom);
+          const o = ctx.createOscillator(); o.type = "sine"; o.frequency.value = base * (i%2===0 ? 1 : 1.5);
+          const g = ctx.createGain();
+          g.gain.setValueAtTime(0.0001, t);
+          g.gain.exponentialRampToValueAtTime(0.18, t+0.02);
+          g.gain.exponentialRampToValueAtTime(0.0001, t+0.28);
+          o.connect(g); g.connect(out); o.start(t); o.stop(t+0.30);
+          nodes.push(o,g);
+        }
+        // fase 3: organización
+        const drone = ctx.createOscillator(); drone.type = "triangle"; drone.frequency.value = 220;
+        const droneG = ctx.createGain();
+        droneG.gain.setValueAtTime(0.0001, now + dur*0.72);
+        droneG.gain.linearRampToValueAtTime(0.28, now + dur*0.82);
+        droneG.gain.exponentialRampToValueAtTime(0.0001, now + dur);
+        drone.connect(droneG); droneG.connect(out); drone.start(now + dur*0.70); drone.stop(now + dur);
+        nodes.push(drone,droneG);
+        return { stop:()=>{ for(const n of nodes){ try{n.disconnect?.();}catch(e){} try{n.stop?.();}catch(e){} } } };
+      }
+    }
+
+
+  ];
+  for(const x of EXTRA) SOUNDS.push(x);
+
+  // --- REAL AUDIOS (IndexedDB)
+  let REAL = [];
+
+  function openDB(){
+    return new Promise((resolve,reject)=>{
+      if(!('indexedDB' in window)){ reject(new Error('IndexedDB no disponible')); return; }
+      const req = indexedDB.open(DB_NAME, 1);
+      req.onupgradeneeded = ()=>{
+        const db = req.result;
+        if(!db.objectStoreNames.contains(DB_STORE)){
+          const st = db.createObjectStore(DB_STORE, { keyPath:"id" });
+          st.createIndex("byGroup","group",{unique:false});
+          st.createIndex("byCreatedAt","createdAt",{unique:false});
+        }
+      };
+      req.onsuccess = ()=>resolve(req.result);
+      req.onerror = ()=>reject(req.error);
+    });
+  }
+  async function dbPut(rec){
+    const db = await openDB();
+    return new Promise((resolve,reject)=>{
+      const tx = db.transaction(DB_STORE,"readwrite");
+      tx.objectStore(DB_STORE).put(rec);
+      tx.oncomplete = ()=>{ db.close(); resolve(true); };
+      tx.onerror = ()=>{ const e=tx.error; db.close(); reject(e); };
+    });
+  }
+  async function dbGetAll(){
+    const db = await openDB();
+    return new Promise((resolve,reject)=>{
+      const tx=db.transaction(DB_STORE,"readonly");
+      const rq=tx.objectStore(DB_STORE).getAll();
+      rq.onsuccess=()=>{ const rows=rq.result||[]; db.close(); resolve(rows); };
+      rq.onerror=()=>{ const e=rq.error; db.close(); reject(e); };
+    });
+  }
+  async function dbDelete(id){
+    const db = await openDB();
+    return new Promise((resolve,reject)=>{
+      const tx=db.transaction(DB_STORE,"readwrite");
+      tx.objectStore(DB_STORE).delete(id);
+      tx.oncomplete=()=>{ db.close(); resolve(true); };
+      tx.onerror=()=>{ const e=tx.error; db.close(); reject(e); };
+    });
+  }
+  async function dbClear(){
+    const db=await openDB();
+    return new Promise((resolve,reject)=>{
+      const tx=db.transaction(DB_STORE,"readwrite");
+      tx.objectStore(DB_STORE).clear();
+      tx.oncomplete=()=>{ db.close(); resolve(true); };
+      tx.onerror=()=>{ const e=tx.error; db.close(); reject(e); };
+    });
+  }
+
+  function makeRealSoundItem(rec){
+    return {
+      id: rec.id,
+      name: rec.name || "Audio real",
+      kind: "audio real",
+      group: rec.group || "real",
+      tags: Array.isArray(rec.tags) ? rec.tags : [],
+      base: "archivo local",
+      transform: rec.note ? ("nota: " + rec.note) : "reproducción",
+      loopMs: null, // se gestiona por audio.loop
+      make: (out, opt)=>{
+        ensureAudio();
+        const loop = !!opt?.loop;
+        const blob = rec.blob;
+        if(!blob) return { stop:()=>{} };
+
+        const url = URL.createObjectURL(blob);
+        const audio = new Audio();
+        audio.src = url;
+        audio.loop = loop;
+        audio.preload = "auto";
+        audio.crossOrigin = "anonymous";
+        audio.volume = 1.0;
+
+        const srcNode = ctx.createMediaElementSource(audio);
+        const g = ctx.createGain(); g.gain.value = 1.0;
+        srcNode.connect(g); g.connect(out);
+
+        audio.onloadedmetadata = ()=>{
+          try{
+            if(!loop && audio.duration && audio.duration > 6 && state.variation > 0.05){
+              const maxOff = Math.min(6, audio.duration*0.25);
+              audio.currentTime = Math.random()*maxOff;
+            }
+          }catch(e){}
+        };
+
+        audio.play().catch(()=>{});
+
+        const stop = ()=>{
+          try{ audio.pause(); }catch(e){}
+          try{ audio.currentTime = 0; }catch(e){}
+          try{ srcNode.disconnect(); }catch(e){}
+          try{ g.disconnect(); }catch(e){}
+          try{ URL.revokeObjectURL(url); }catch(e){}
+        };
+        return { stop };
+      }
+    };
+  }
+
+  function allSounds(){ return [...SOUNDS, ...REAL.map(makeRealSoundItem)].filter(Boolean); }
+
+  // UI refs
+  const $list = document.getElementById("soundList");
+  const $masterVol = document.getElementById("masterVol");
+  const $timeZoom  = document.getElementById("timeZoom");
+  const $brightness = document.getElementById("brightness");
+  const $variation = document.getElementById("variation");
+  const $labVol = document.getElementById("labVol");
+  const $labTime = document.getElementById("labTime");
+  const $labBright = document.getElementById("labBright");
+  const $labVar = document.getElementById("labVar");
+  const $q = document.getElementById("q");
+  const $filter = document.getElementById("filter");
+
+  function escapeHtml(str){
+    return String(str ?? "")
+      .replaceAll("&","&amp;").replaceAll("<","&lt;").replaceAll(">","&gt;")
+      .replaceAll('"',"&quot;").replaceAll("'","&#039;");
+  }
+
+  function isFav(id){ return !!state.fav[id]; }
+  function toggleFav(id){ state.fav[id]=!state.fav[id]; saveState(); render(); }
+
+  function isLoop(id){ return !!state.loop[id]; }
+  function toggleLoop(id){ state.loop[id]=!state.loop[id]; saveState(); if(active.has(id)){ playSound(id); } else { render(); } }
+
+  function playSound(id){
+    const s = allSounds().find(x=>x && x.id===id);
+    if(!s){ uiStatus.textContent = "audio: ítem no encontrado"; return; }
+    ensureAudio();
+    if(ctx.state === "suspended") ctx.resume().catch(()=>{});
+
+    // if already active: stop first
+    if(active.has(id)){ try{active.get(id).stop();}catch(e){} active.delete(id); }
+
+    const loop = isLoop(id);
+
+    // loop wrapper: re-seed by re-triggering make()
+    let current = null;
+    try{ current = s.make(master, {loop}); }catch(err){ console.error(err); uiStatus.textContent = "audio: error en " + s.name; return; }
+    let timer = null;
+
+    if(loop && s.kind !== "audio real") {
+      const baseMs = Number(s.loopMs || 9000);
+      const jitter = state.variation; // 0..1
+      const interval = Math.max(2200, Math.floor(baseMs * (0.90 + Math.random()*0.25 + jitter*0.08)));
+      timer = setInterval(()=>{
+        try{ current?.stop(); }catch(e){}
+        try{ current = s.make(master, {loop:false}); }catch(err){ console.error(err); } // el loop lo hace el wrapper
+      }, interval);
+    }
+
+    const stop = ()=>{
+      if(timer) clearInterval(timer);
+      try{ current?.stop(); }catch(e){}
+    };
+
+    active.set(id, {stop});
+    render();
+  }
+
+  function stopSound(id){
+    if(!active.has(id)) return;
+    try{ active.get(id).stop(); }catch(e){}
+    active.delete(id);
+    render();
+  }
+
+  window.addEventListener("error", (ev)=>{
+    console.error(ev.error || ev.message);
+    if(uiStatus) uiStatus.textContent = "audio: error revisado";
+  });
+
+  function groupMatch(s){
+    const f = $filter.value;
+    if(f === "all") return true;
+    if(f === "real") return s.kind === "audio real" || s.group === "real";
+    return s.group === f;
+  }
+  function queryMatch(s){
+    const q = ($q.value || "").trim().toLowerCase();
+    if(!q) return true;
+    const hay = (s.name + " " + (s.tags||[]).join(" ") + " " + (s.base||"") + " " + (s.transform||"")).toLowerCase();
+    return hay.includes(q);
+  }
+
+  function render(){
+    $labVol.textContent = fmt(state.masterVol,2);
+    $labTime.textContent = fmt(state.timeZoom,2) + "×";
+    $labBright.textContent = fmt(state.brightness,2);
+    $labVar.textContent = fmt(state.variation,2);
+
+    $masterVol.value = state.masterVol;
+    $timeZoom.value = state.timeZoom;
+    $brightness.value = state.brightness;
+    $variation.value = state.variation;
+
+    uiMixInfo.textContent = "mix: " + active.size + " activos";
+
+    const items = allSounds().filter(s=>groupMatch(s) && queryMatch(s));
+
+    $list.innerHTML = "";
+    for(const s of items){
+      const playing = active.has(s.id);
+      const fav = isFav(s.id);
+      const loop = isLoop(s.id);
+
+      const el = document.createElement("div");
+      el.className = "item";
+      el.innerHTML = `
+        <div class="itemTop">
+          <div style="min-width:0">
+            <div class="title">${escapeHtml(s.name)}</div>
+            <div class="meta">
+              <span class="chip ${s.kind==='sonificación'?'alt': (s.kind==='modelo'?'dim':'')}">${escapeHtml(s.kind)}</span>
+              <span class="chip">base: ${escapeHtml(s.base)}</span>
+              <span class="chip dim">transform: ${escapeHtml(s.transform)}</span>
+            </div>
+          </div>
+          <div class="row" style="gap:8px; justify-content:flex-end">
+            <button class="${playing?'danger':'primary'} btnTiny" data-act="${playing?'stop':'play'}" data-id="${s.id}" aria-label="${playing?'Detener':'Reproducir'} ${escapeHtml(s.name)}">
+              ${playing?'⏹':'▶︎'}
+            </button>
+            <button class="${loop?'ok':'ghost'} btnTiny" data-act="loop" data-id="${s.id}" title="Loop" aria-label="Activar o desactivar loop para ${escapeHtml(s.name)}">∞</button>
+            <button class="ghost fav btnTiny" data-act="fav" data-id="${s.id}" title="Favorito" aria-label="Marcar favorito ${escapeHtml(s.name)}">
+              ${fav?'★':'☆'}
+            </button>
+          </div>
+        </div>
+        <div class="tags">
+          <span class="chip">${escapeHtml(s.group)}</span>
+          ${(s.tags||[]).slice(0,10).map(t=>`<span class="chip">${escapeHtml(t)}</span>`).join("")}
+          ${(s.tags||[]).length>10 ? `<span class="chip dim">+${(s.tags||[]).length-10}</span>` : ""}
+        </div>
+      `;
+      $list.appendChild(el);
+    }
+
+    if(items.length === 0){
+      const empty = document.createElement("div");
+      empty.className = "item";
+      empty.innerHTML = `<div class="meta">No hay coincidencias. Prueba con: <span class="chip">fractal</span> <span class="chip">átomo</span> <span class="chip">supernova</span> <span class="chip">aurora</span>.</div>`;
+      $list.appendChild(empty);
+    }
+
+    if(modal.classList.contains("show")) renderRealList();
+  }
+
+  // list events
+  $list.addEventListener("click", (e)=>{
+    const btn = e.target.closest("button");
+    if(!btn) return;
+    const act = btn.dataset.act;
+    const id = btn.dataset.id;
+    if(act==="play") playSound(id);
+    if(act==="stop") stopSound(id);
+    if(act==="fav") toggleFav(id);
+    if(act==="loop") toggleLoop(id);
+  });
+
+  document.getElementById("btnStopAll").addEventListener("click", stopAll);
+  document.getElementById("btnReset").addEventListener("click", async ()=>{
+    stopAll();
+    localStorage.removeItem(LS_KEY);
+    state = loadState();
+    if(master) master.gain.value = state.masterVol;
+    await loadRealFromDB();
+    render();
+  });
+  document.getElementById("btnUnlock").addEventListener("click", unlockAudio);
+
+  document.getElementById("btnDemo").addEventListener("click", async ()=>{
+    await unlockAudio();
+    const seq = ["ligo_chirp","fractal_attractor","dissipative","sun_resonance","hurricane_infra","supernova","dying_star","pulsar"];
+    let t = 0;
+    seq.forEach((id,i)=>{
+      setTimeout(()=>playSound(id), t);
+      t += (i===0?900:1100);
+    });
+  });
+
+  $masterVol.addEventListener("input", ()=>{
+    state.masterVol = clamp(Number($masterVol.value), 0, 1);
+    if(master) master.gain.value = state.masterVol;
+    saveState(); render();
+  });
+  $timeZoom.addEventListener("input", ()=>{ state.timeZoom = clamp(Number($timeZoom.value), 0.25, 8); saveState(); render(); });
+  $brightness.addEventListener("input", ()=>{ state.brightness = clamp(Number($brightness.value), 0, 1); saveState(); render(); });
+  $variation.addEventListener("input", ()=>{ state.variation = clamp(Number($variation.value), 0, 1); saveState(); render(); });
+  $q.addEventListener("input", render);
+  $filter.addEventListener("change", render);
+
+  // ---- Modal (Audios reales)
+  const modal = document.getElementById("modal");
+  const btnRealAudio = document.getElementById("btnRealAudio");
+  const btnCloseModal = document.getElementById("btnCloseModal");
+  const dropzone = document.getElementById("dropzone");
+  const filePick = document.getElementById("filePick");
+  const defGroup = document.getElementById("defGroup");
+  const defTags = document.getElementById("defTags");
+  const defNote = document.getElementById("defNote");
+  const realList = document.getElementById("realList");
+  const realCount = document.getElementById("realCount");
+  const btnPurgeReal = document.getElementById("btnPurgeReal");
+
+  btnRealAudio.addEventListener("click", async ()=>{
+    await unlockAudio();
+    await loadRealFromDB();
+    modal.classList.add("show");
+    renderRealList();
+  });
+  btnCloseModal.addEventListener("click", ()=> modal.classList.remove("show"));
+  modal.addEventListener("click", (e)=>{ if(e.target === modal) modal.classList.remove("show"); });
+  document.addEventListener("keydown", (e)=>{ if(e.key === "Escape" && modal.classList.contains("show")) modal.classList.remove("show"); });
+
+  function parseTags(s){ return (s||"").split(",").map(x=>x.trim()).filter(Boolean).slice(0, 24); }
+
+  async function importFiles(files){
+    const arr = Array.from(files || []);
+    if(arr.length === 0) return;
+    const g = defGroup.value || "real";
+    const tags = parseTags(defTags.value);
+    const note = (defNote.value || "").trim().slice(0, 400);
+
+    try{
+      let imported = 0;
+      for(const f of arr){
+        if(!f.type.startsWith("audio/")) continue;
+        const rec = {
+          id: uid(),
+          name: f.name.replace(/\.[^/.]+$/,""),
+          group: g === "real" ? "real" : g,
+          tags,
+          note,
+          mime: f.type,
+          blob: f,
+          createdAt: Date.now(),
+          size: f.size
+        };
+        await dbPut(rec);
+        imported++;
+      }
+      uiStatus.textContent = imported ? ("audios importados: " + imported) : "no se detectaron audios válidos";
+    }catch(err){
+      console.error(err);
+      uiStatus.textContent = "no se pudo guardar el audio local";
+      alert("No se pudo guardar el audio en este navegador. Prueba con un archivo más pequeño o revisa permisos/almacenamiento local.");
+    }
+    await loadRealFromDB();
+    render();
+    renderRealList();
+  }
+
+  dropzone.addEventListener("dragover", (e)=>{ e.preventDefault(); dropzone.style.borderColor="rgba(255,176,32,.45)"; });
+  dropzone.addEventListener("dragleave", ()=>{ dropzone.style.borderColor="rgba(94,234,212,.35)"; });
+  dropzone.addEventListener("drop", async (e)=>{
+    e.preventDefault();
+    dropzone.style.borderColor="rgba(94,234,212,.35)";
+    await importFiles(e.dataTransfer.files);
+  });
+  filePick.addEventListener("change", async (e)=>{ await importFiles(e.target.files); filePick.value=""; });
+
+  btnPurgeReal.addEventListener("click", async ()=>{
+    const ok = confirm("Esto borrará TODOS los audios reales guardados en este navegador. ¿Continuar?");
+    if(!ok) return;
+    for(const r of REAL){ if(active.has(r.id)){ try{active.get(r.id).stop();}catch(e){} active.delete(r.id); } }
+    await dbClear();
+    await loadRealFromDB();
+    render();
+    renderRealList();
+  });
+
+  async function loadRealFromDB(){
+    try{
+      REAL = await dbGetAll();
+      REAL = REAL.map(r=>({
+        ...r,
+        group: r.group || "real",
+        tags: Array.isArray(r.tags) ? r.tags : [],
+        note: r.note || ""
+      }));
+    }catch(e){ REAL = []; }
+  }
+
+  function humanBytes(n){
+    const u=["B","KB","MB","GB"]; let i=0, x=n||0;
+    while(x>=1024 && i<u.length-1){ x/=1024; i++; }
+    return x.toFixed(i===0?0:1)+" "+u[i];
+  }
+
+  async function updateRec(id, patch){
+    const all = await dbGetAll();
+    const rec = all.find(x=>x.id===id);
+    if(!rec) return;
+    await dbPut({...rec, ...patch});
+    await loadRealFromDB();
+    render();
+    renderRealList();
+  }
+  async function removeRec(id){
+    if(active.has(id)){ try{active.get(id).stop();}catch(e){} active.delete(id); }
+    await dbDelete(id);
+    await loadRealFromDB();
+    render();
+    renderRealList();
+  }
+
+  function renderRealList(){
+    realCount.textContent = REAL.length + " audios guardados";
+    realList.innerHTML = "";
+    if(REAL.length === 0){
+      const el = document.createElement("div");
+      el.className = "rowCard";
+      el.innerHTML = `<div class="meta">Aún no hay audios guardados. Arrastra un archivo o usa el selector.</div>`;
+      realList.appendChild(el);
+      return;
+    }
+    const rows = [...REAL].sort((a,b)=>(b.createdAt||0)-(a.createdAt||0));
+    for(const r of rows){
+      const el = document.createElement("div");
+      el.className = "rowCard";
+      el.innerHTML = `
+        <div class="rowCardTop">
+          <div style="min-width:0">
+            <div class="title">${escapeHtml(r.name || "Audio real")}</div>
+            <div class="muted">${escapeHtml(r.mime || "audio")} • ${humanBytes(r.size||0)} • ${new Date(r.createdAt||Date.now()).toLocaleString()}</div>
+          </div>
+          <div class="row" style="gap:8px; justify-content:flex-end">
+            <button class="danger btnTiny" data-act="del" data-id="${r.id}">🗑</button>
+          </div>
+        </div>
+
+        <div class="two">
+          <div>
+            <label class="muted">Nombre/rotulo</label>
+            <input type="text" value="${escapeHtml(r.name||"")}" data-act="name" data-id="${r.id}"/>
+            <label class="muted" style="margin-top:8px; display:block">Categoría</label>
+            <select data-act="group" data-id="${r.id}">
+              <option value="real" ${r.group==="real"?"selected":""}>Audios reales</option>
+              <option value="cosmos" ${r.group==="cosmos"?"selected":""}>Cosmos</option>
+              <option value="micro" ${r.group==="micro"?"selected":""}>Micro</option>
+              <option value="vida" ${r.group==="vida"?"selected":""}>Vida</option>
+              <option value="complejidad" ${r.group==="complejidad"?"selected":""}>Complejidad</option>
+            </select>
+          </div>
+          <div>
+            <label class="muted">Etiquetas (coma)</label>
+            <input type="text" value="${escapeHtml((r.tags||[]).join(", "))}" data-act="tags" data-id="${r.id}"/>
+            <label class="muted" style="margin-top:8px; display:block">Nota</label>
+            <textarea data-act="note" data-id="${r.id}">${escapeHtml(r.note||"")}</textarea>
+          </div>
+        </div>
+      `;
+      realList.appendChild(el);
+    }
+  }
+
+  let editTimer = null;
+  realList.addEventListener("input", (e)=>{
+    const el = e.target;
+    const act = el.dataset.act;
+    const id = el.dataset.id;
+    if(!act || !id) return;
+    clearTimeout(editTimer);
+    editTimer = setTimeout(async ()=>{
+      if(act==="name") await updateRec(id, { name: el.value.trim().slice(0,80) });
+      if(act==="tags") await updateRec(id, { tags: parseTags(el.value) });
+      if(act==="note") await updateRec(id, { note: (el.value||"").trim().slice(0,400) });
+    }, 350);
+  });
+  realList.addEventListener("change", async (e)=>{
+    const el=e.target;
+    const act=el.dataset.act;
+    const id=el.dataset.id;
+    if(act==="group") await updateRec(id, { group: el.value });
+  });
+  realList.addEventListener("click", async (e)=>{
+    const btn = e.target.closest("button");
+    if(!btn) return;
+    const act=btn.dataset.act;
+    const id=btn.dataset.id;
+    if(act==="del") {
+      const ok = confirm("¿Borrar este audio real?");
+      if(!ok) return;
+      await removeRec(id);
+    }
+  });
+
+  // init
+  (async ()=>{
+    await loadRealFromDB();
+    render();
+  })();
+})();
+</script>
+</body>
+</html>

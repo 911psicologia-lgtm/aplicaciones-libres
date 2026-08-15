@@ -1,0 +1,11 @@
+Nombre: Griffin 3
+ID: griffin_3
+Tipo: enemy
+Mundo: world_1
+Archivo principal: enemy.png
+Archivo preview: enemy_preview.png
+Tamano del lienzo: 384 x 384 px
+Tamano recomendado en Canvas: 64 x 47
+Rol visual: flying_enemy
+Notas visuales: Grifo extra en vuelo. NOTA: recortado en el borde derecho de la lamina original. [EXTRA: encontrado en la lamina, no estaba en la lista original]
+Fondo: PNG transparente, sin rotulos/cuadricula/fondo; personaje centrado y completo.

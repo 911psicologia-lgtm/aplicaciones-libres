@@ -1,0 +1,1936 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Perfil de Aprendizaje + IA | Andrade Lab</title>
+  <style>
+    /* ===== DESIGN TOKENS ===== */
+    :root {
+      --bg: #f5f7fb;
+      --panel: #ffffff;
+      --panel-soft: #f9fafc;
+      --text: #172033;
+      --muted: #62708a;
+      --line: #dde4ef;
+      --primary: #2563eb;
+      --primary-soft: #eaf2ff;
+      --good: #16794b;
+      --warn: #b86b00;
+      --success: #10b981;
+      --warning: #f59e0b;
+      --danger: #ef4444;
+      --shadow: 0 12px 35px rgba(23,32,51,0.08);
+      --radius: 16px;
+      --radius-sm: 10px;
+      /* Spacing scale */
+      --space-xs: 6px;
+      --space-sm: 10px;
+      --space-md: 16px;
+      --space-lg: 20px;
+      --space-xl: 28px;
+    }
+
+    /* ===== RESET & BASE ===== */
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    html { -webkit-text-size-adjust: 100%; }
+
+    body {
+      padding: var(--space-sm);
+      background: linear-gradient(180deg, #f8fbff 0%, #f5f7fb 100%);
+      color: var(--text);
+      font-family: 'Plus Jakarta Sans', system-ui, -apple-system, sans-serif;
+      font-size: 15px;
+      line-height: 1.55;
+      min-height: 100vh;
+    }
+
+    /* ===== LAYOUT ===== */
+    .app { max-width: 1600px; margin: 0 auto; display: flex; flex-direction: column; gap: 12px; }
+
+    /* ===== TOP BAR ===== */
+    .top-bar {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      background: var(--panel);
+      border: 1px solid var(--line);
+      border-radius: var(--radius);
+      padding: 10px 14px;
+      box-shadow: var(--shadow);
+      gap: 8px;
+    }
+    .logo-area { display: flex; align-items: center; gap: 8px; min-width: 0; }
+    .logo-icon { font-size: 22px; flex-shrink: 0; }
+    .logo-text {
+      font-weight: 800;
+      font-size: 1rem;
+      background: linear-gradient(135deg, #2563eb, #4f46e5);
+      -webkit-background-clip: text; background-clip: text; color: transparent;
+      white-space: nowrap; overflow: hidden; text-overflow: ellipsis;
+    }
+    .logo-sub { font-size: 0.68rem; color: var(--muted); white-space: nowrap; }
+    .top-bar-actions { display: flex; gap: 8px; align-items: center; flex-shrink: 0; }
+    .tour-btn {
+      background: var(--primary-soft); color: var(--primary);
+      border: 1px solid var(--line); border-radius: 40px;
+      padding: 7px 14px; font-size: 0.8rem; font-weight: 600; cursor: pointer;
+      transition: all 0.2s; white-space: nowrap;
+    }
+    .tour-btn:hover { background: var(--primary); color: white; }
+    /* Hide tour button text on very small screens */
+    .tour-btn-text { display: inline; }
+    .hamburger {
+      background: var(--panel-soft); border: 1px solid var(--line);
+      border-radius: 40px; padding: 8px 14px;
+      font-size: 1rem; font-weight: 700; cursor: pointer;
+      transition: all 0.2s; flex-shrink: 0;
+      min-width: 42px; min-height: 38px;
+    }
+    .hamburger:hover { background: var(--primary); color: white; }
+
+    /* ===== SIDE MENU ===== */
+    .side-menu {
+      position: fixed; top: 0; left: -320px;
+      width: min(300px, 85vw); height: 100vh;
+      background: var(--panel); border-right: 1px solid var(--line);
+      box-shadow: 10px 0 40px rgba(0,0,0,0.15);
+      z-index: 1000; transition: left 0.3s ease;
+      padding: var(--space-lg); display: flex;
+      flex-direction: column; gap: var(--space-lg);
+      overflow-y: auto;
+    }
+    .side-menu.open { left: 0; }
+    .menu-overlay {
+      position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+      background: rgba(0,0,0,0.45); z-index: 999; display: none;
+    }
+    .menu-overlay.active { display: block; }
+    .menu-header {
+      display: flex; justify-content: space-between; align-items: center;
+      padding-bottom: 14px; border-bottom: 1px solid var(--line);
+    }
+    .menu-item {
+      padding: 13px 0; border-bottom: 1px solid var(--line);
+      cursor: pointer; display: flex; align-items: center;
+      gap: 12px; font-weight: 500; font-size: 0.95rem;
+      transition: color 0.15s;
+    }
+    .menu-item:hover { color: var(--primary); }
+    .credits {
+      margin-top: auto; padding-top: var(--space-lg);
+      font-size: 0.78rem; color: var(--muted);
+      border-top: 1px solid var(--line); line-height: 1.6;
+    }
+
+    /* ===== TABS ===== */
+    .tabs-container {
+      background: var(--panel); border: 1px solid var(--line);
+      border-radius: var(--radius); overflow: hidden;
+    }
+    .tab-header {
+      display: flex; border-bottom: 1px solid var(--line);
+      background: var(--panel-soft);
+      overflow-x: auto; -webkit-overflow-scrolling: touch;
+      scrollbar-width: none;
+    }
+    .tab-header::-webkit-scrollbar { display: none; }
+    .tab-btn {
+      flex: 1; min-width: 80px;
+      padding: 12px 10px; background: none; border: none;
+      font-weight: 600; cursor: pointer; color: var(--muted);
+      font-size: 0.8rem; white-space: nowrap;
+      transition: all 0.15s; font-family: inherit;
+    }
+    .tab-btn.active {
+      background: var(--panel); color: var(--primary);
+      border-bottom: 3px solid var(--primary);
+    }
+    .tab-pane { display: none; padding: var(--space-md); }
+    .tab-pane.active { display: block; }
+
+    /* ===== PANELS ===== */
+    .panel {
+      background: var(--panel); border: 1px solid var(--line);
+      border-radius: var(--radius); padding: var(--space-md);
+      margin-bottom: var(--space-md);
+    }
+    .panel h2 { font-size: 1.05rem; margin-bottom: var(--space-sm); margin-top: 6px; }
+    .panel h3 { font-size: 0.95rem; margin: var(--space-md) 0 var(--space-xs); }
+
+    /* ===== GRID SYSTEM (mobile-first) ===== */
+    .grid-2, .grid-3, .grid-4 { display: grid; gap: 12px; }
+    .grid-2 { grid-template-columns: 1fr; }
+    .grid-3 { grid-template-columns: 1fr; }
+    .grid-4 { grid-template-columns: 1fr; }
+    .cards { display: grid; gap: 12px; margin-bottom: 16px; }
+    .cards.four { grid-template-columns: 1fr; }
+    .cards.two { grid-template-columns: 1fr; }
+
+    /* ===== MINI CARDS (checklists) ===== */
+    .mini-card {
+      background: var(--panel-soft); border: 1px solid var(--line);
+      border-radius: 14px; padding: 12px;
+    }
+    .mini-card h3 { font-size: 0.88rem; margin-bottom: 8px; }
+    .check-item { display: flex; gap: 10px; padding: 5px 0; align-items: flex-start; }
+    .check-item span { font-size: 0.85rem; line-height: 1.4; }
+
+    /* ===== CHECKBOXES — isolated from global input rules ===== */
+    input[type="checkbox"], input[type="radio"] {
+      -webkit-appearance: checkbox; appearance: checkbox; /* native rendering */
+      width: 17px !important; height: 17px !important;
+      min-width: 17px; min-height: 17px;
+      padding: 0 !important; margin: 0; margin-top: 2px;
+      border: none !important; border-radius: 3px !important;
+      background: none !important; box-shadow: none !important;
+      flex-shrink: 0; cursor: pointer;
+      accent-color: var(--primary);
+    }
+    input[type="checkbox"]:focus, input[type="radio"]:focus {
+      outline: 2px solid var(--primary); outline-offset: 1px;
+      box-shadow: none !important;
+    }
+
+    /* ===== FORM FIELDS (text, select, textarea only) ===== */
+    .field { display: flex; flex-direction: column; gap: 5px; }
+    .field label { font-size: 0.82rem; font-weight: 600; color: var(--muted); }
+    input:not([type="checkbox"]):not([type="radio"]), select, textarea {
+      padding: 10px 12px; border-radius: var(--radius-sm);
+      border: 1px solid var(--line); font-family: inherit;
+      font-size: 16px; /* prevents iOS zoom */
+      width: 100%; background: var(--panel-soft);
+      color: var(--text); transition: border-color 0.15s;
+      -webkit-appearance: none; appearance: none;
+    }
+    input:not([type="checkbox"]):not([type="radio"]):focus, select:focus, textarea:focus {
+      outline: none; border-color: var(--primary);
+      background: white; box-shadow: 0 0 0 3px rgba(37,99,235,0.1);
+    }
+    textarea { resize: vertical; min-height: 72px; }
+    select { cursor: pointer; }
+
+    /* ===== TOOLBAR & BUTTONS ===== */
+    .toolbar {
+      display: flex; flex-wrap: wrap; gap: 8px;
+      margin-top: var(--space-md);
+    }
+    .btn-primary, .btn-secondary, .btn-good, .btn-warn, .btn-ai {
+      padding: 11px 18px; border-radius: var(--radius-sm);
+      font-weight: 600; cursor: pointer; font-family: inherit;
+      font-size: 0.88rem; transition: all 0.2s;
+      min-height: 44px; /* touch target */
+      white-space: nowrap; border: none;
+    }
+    .btn-primary { background: var(--primary); color: white; }
+    .btn-primary:hover { background: #1d4ed8; }
+    .btn-secondary { background: #eef3fb; border: 1px solid var(--line); color: var(--text); }
+    .btn-secondary:hover { background: #e0e8f7; }
+    .btn-good { background: #eaf7ef; color: #16794b; border: 1px solid #cdebd6; }
+    .btn-good:hover { background: #d1f0dc; }
+    .btn-warn { background: #fff6e7; color: #b86b00; border: 1px solid #f3dfb3; }
+    .btn-warn:hover { background: #fde8c0; }
+    .btn-ai {
+      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+      color: white; padding: 12px 24px; font-size: 0.92rem; font-weight: 700;
+    }
+    .btn-ai:hover { opacity: 0.9; transform: translateY(-1px); }
+
+    /* ===== BADGES ===== */
+    .badge {
+      background: var(--primary-soft); color: var(--primary);
+      padding: 4px 10px; border-radius: 40px;
+      font-size: 0.78rem; font-weight: 600; display: inline-block;
+    }
+    .summary-badges { display: flex; flex-wrap: wrap; gap: 6px; margin: 8px 0; }
+
+    /* ===== SAVED CARDS ===== */
+    .saved-list { display: flex; flex-direction: column; gap: 10px; }
+    .saved-card {
+      border: 1px solid var(--line); border-radius: 14px;
+      padding: 12px; background: var(--panel-soft);
+    }
+    .saved-head {
+      display: flex; justify-content: space-between;
+      align-items: flex-start; flex-wrap: wrap; gap: 4px;
+    }
+    .saved-head strong { font-size: 0.95rem; }
+
+    /* ===== SCORE BARS ===== */
+    .bar { height: 7px; background: #edf1f7; border-radius: 10px; overflow: hidden; margin-top: 4px; }
+    .bar span { display: block; height: 100%; background: linear-gradient(90deg, #2563eb, #4f46e5); width: 0%; border-radius: 10px; transition: width 0.5s ease; }
+    .score-row { margin-bottom: 10px; }
+    .score-head { display: flex; justify-content: space-between; font-size: 0.82rem; }
+
+    /* ===== IA HUB ===== */
+    .ia-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(110px, 1fr));
+      gap: 10px; margin: 14px 0;
+    }
+    .ia-card {
+      background: var(--panel-soft); border: 1px solid var(--line);
+      border-radius: 14px; padding: 12px; text-align: center;
+      cursor: pointer; transition: all 0.2s;
+    }
+    .ia-card:hover { transform: translateY(-2px); box-shadow: var(--shadow); border-color: var(--primary); }
+    .ia-icon { font-size: 26px; margin-bottom: 6px; }
+    .ia-name { font-weight: 700; font-size: 0.8rem; }
+
+    /* ===== MODALS ===== */
+    .modal {
+      display: none; position: fixed; top: 0; left: 0;
+      width: 100%; height: 100%; background: rgba(0,0,0,0.5);
+      z-index: 2000; justify-content: center; align-items: center;
+      padding: var(--space-md);
+    }
+    .modal.active { display: flex; }
+    .modal-content {
+      background: var(--panel); border-radius: 18px;
+      padding: var(--space-lg); max-width: 600px; width: 100%;
+      max-height: 85vh; overflow-y: auto;
+    }
+    .modal-content h3 { font-size: 1rem; margin-bottom: 12px; }
+    .prompt-box {
+      background: #1e1e2e; color: #fff; padding: 14px;
+      border-radius: 10px; font-family: monospace; font-size: 0.8rem;
+      white-space: pre-wrap; margin: 12px 0; max-height: 300px; overflow-y: auto;
+    }
+
+    /* ===== FACTOR CATEGORIES ===== */
+    .factor-category {
+      background: var(--primary-soft); border-radius: 12px;
+      padding: 12px; margin-bottom: 12px;
+    }
+    .factor-category h3 { font-size: 0.9rem; margin-bottom: 8px; }
+
+    /* ===== DEMO MODAL ===== */
+    .demo-modal {
+      display: none; position: fixed; top: 0; left: 0;
+      width: 100%; height: 100%; background: rgba(0,0,0,0.5);
+      z-index: 3000; justify-content: center; align-items: flex-end;
+      padding: 0;
+    }
+    .demo-modal.active { display: flex; }
+    .demo-modal-content {
+      background: var(--panel); border-radius: 20px 20px 0 0;
+      padding: var(--space-xl) var(--space-lg) max(var(--space-xl), env(safe-area-inset-bottom));
+      width: 100%; max-width: 100%;
+      box-shadow: 0 -8px 40px rgba(0,0,0,0.15);
+      animation: slideUp 0.3s ease;
+    }
+    @keyframes slideUp { from { transform: translateY(100%); } to { transform: translateY(0); } }
+    .demo-modal-content h3 { font-size: 1.05rem; margin-bottom: 6px; }
+    .demo-modal-content .sub { color: var(--muted); font-size: 0.84rem; margin-bottom: 16px; }
+    .demo-cases { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
+    .demo-case-card {
+      border: 2px solid var(--line); border-radius: 14px;
+      padding: 14px; cursor: pointer; transition: all 0.2s;
+      text-align: center; -webkit-tap-highlight-color: transparent;
+    }
+    .demo-case-card:active, .demo-case-card:hover { border-color: var(--primary); background: var(--primary-soft); }
+    .demo-case-card .case-emoji { font-size: 28px; margin-bottom: 6px; }
+    .demo-case-card .case-name { font-weight: 700; font-size: 0.88rem; }
+    .demo-case-card .case-meta { font-size: 0.72rem; color: var(--muted); margin-top: 3px; }
+    .demo-case-card .case-tags { display: flex; flex-wrap: wrap; justify-content: center; gap: 3px; margin-top: 7px; }
+    .demo-case-card .case-tag { background: var(--primary-soft); color: var(--primary); padding: 2px 7px; border-radius: 20px; font-size: 0.68rem; font-weight: 600; }
+    .demo-modal-close { float: right; background: none; border: none; font-size: 20px; cursor: pointer; color: var(--muted); padding: 2px 6px; }
+
+    /* ===== CASE STATUS TAGS ===== */
+    .case-status-tag { display: inline-block; padding: 2px 7px; border-radius: 20px; font-size: 0.7rem; font-weight: 700; margin-left: 6px; }
+    .case-status-tag.uni { background: #ede9fe; color: #7c3aed; }
+    .case-status-tag.primaria { background: #dcfce7; color: #166534; }
+    .case-status-tag.media { background: #fef3c7; color: #92400e; }
+
+    /* ===== TOAST ===== */
+    #toast-container {
+      position: fixed; bottom: max(20px, env(safe-area-inset-bottom));
+      left: 50%; transform: translateX(-50%);
+      z-index: 9999; display: flex; flex-direction: column;
+      gap: 8px; align-items: center; pointer-events: none;
+      width: calc(100% - 32px); max-width: 400px;
+    }
+    .toast {
+      background: #1e293b; color: #fff; padding: 11px 16px;
+      border-radius: 12px; font-size: 0.85rem; font-weight: 600;
+      box-shadow: 0 8px 24px rgba(0,0,0,0.25);
+      display: flex; align-items: center; gap: 10px;
+      animation: slideInUp 0.3s ease; width: 100%; pointer-events: auto;
+    }
+    .toast.success { border-left: 4px solid #10b981; }
+    .toast.warn { border-left: 4px solid #f59e0b; }
+    .toast.info { border-left: 4px solid #2563eb; }
+    .toast.error { border-left: 4px solid #ef4444; }
+    @keyframes slideInUp { from { opacity:0; transform:translateY(16px); } to { opacity:1; transform:translateY(0); } }
+    @keyframes fadeOut { from { opacity:1; } to { opacity:0; } }
+
+    /* ===== UTILITY ===== */
+    .muted { color: var(--muted); }
+    .empty { text-align: center; padding: 24px; color: var(--muted); font-size: 0.88rem; }
+
+    @media (max-width: 420px) {
+      .tour-btn-text { display: none; }
+      .logo-sub { display: none; }
+    }
+
+    /* ===== BREAKPOINT: TABLET (600px+) ===== */
+    @media (min-width: 600px) {      body { padding: 14px; font-size: 15px; }
+      .app { gap: 14px; }
+      .top-bar { padding: 11px 18px; }
+      .logo-text { font-size: 1.1rem; }
+      .logo-icon { font-size: 26px; }
+      .tab-btn { padding: 13px 16px; font-size: 0.85rem; }
+      .tab-pane { padding: 18px; }
+      .panel { padding: 18px; }
+      .grid-2 { grid-template-columns: repeat(2, 1fr); }
+      .grid-3 { grid-template-columns: repeat(2, 1fr); }
+      .cards.two { grid-template-columns: repeat(2, 1fr); }
+      .cards.four { grid-template-columns: repeat(2, 1fr); }
+      .ia-grid { grid-template-columns: repeat(auto-fill, minmax(130px, 1fr)); }
+      .demo-modal { align-items: center; padding: var(--space-md); }
+      .demo-modal-content { border-radius: 20px; max-width: 520px; padding: var(--space-xl); animation: fadeInScale 0.25s ease; }
+      @keyframes fadeInScale { from { opacity:0; transform:scale(0.95); } to { opacity:1; transform:scale(1); } }
+      #toast-container { left: auto; right: 20px; transform: none; width: auto; max-width: 340px; }
+      .toast { width: auto; animation: slideIn 0.3s ease; }
+      @keyframes slideIn { from { opacity:0; transform:translateX(40px); } to { opacity:1; transform:translateX(0); } }
+    }
+
+    /* ===== BREAKPOINT: DESKTOP (900px+) ===== */
+    @media (min-width: 900px) {
+      body { padding: 16px; }
+      .app { gap: 18px; }
+      .top-bar { padding: 12px 22px; border-radius: 20px; }
+      .logo-text { font-size: 1.2rem; }
+      .logo-icon { font-size: 28px; }
+      .tab-btn { padding: 14px 22px; font-size: 0.9rem; }
+      .tab-pane { padding: 22px; }
+      .panel { padding: 22px; border-radius: 20px; }
+      .panel h2 { font-size: 1.15rem; }
+      .grid-2 { grid-template-columns: repeat(2, 1fr); }
+      .grid-3 { grid-template-columns: repeat(3, 1fr); }
+      .grid-4 { grid-template-columns: repeat(4, 1fr); }
+      .cards.four { grid-template-columns: repeat(4, 1fr); }
+      .cards.two { grid-template-columns: repeat(2, 1fr); }
+      .ia-grid { grid-template-columns: repeat(auto-fill, minmax(150px, 1fr)); }
+      .ia-icon { font-size: 32px; }
+      .ia-name { font-size: 0.9rem; }
+      .mini-card { max-height: 400px; overflow-y: auto; }
+      input:not([type="checkbox"]):not([type="radio"]), select, textarea { font-size: 14px; }
+    }
+
+    /* ===== BREAKPOINT: LARGE DESKTOP (1280px+) ===== */
+    @media (min-width: 1280px) {
+      body { padding: 20px; }
+      .panel { padding: 24px; }
+      .tab-pane { padding: 24px; }
+    }
+
+    /* ===== TOUCH & ACCESSIBILITY ===== */
+    @media (hover: none) {
+      .ia-card:hover { transform: none; box-shadow: none; }
+      .btn-ai:hover { transform: none; }
+    }
+    @media (prefers-reduced-motion: reduce) {
+      *, *::before, *::after { animation-duration: 0.01ms !important; transition-duration: 0.01ms !important; }
+    }
+
+    /* ===== PRINT ===== */
+    @media print {
+      .top-bar, .tab-header, .side-menu, .menu-overlay, .toolbar, #toast-container { display: none !important; }
+      .tab-pane { display: block !important; padding: 0; }
+      body { padding: 0; background: white; }
+      .panel { box-shadow: none; border: 1px solid #ddd; }
+    }
+    /* ===== SPLASH SCREEN ===== */
+    #splashScreen {
+      position: fixed; inset: 0; z-index: 10000;
+      background: linear-gradient(145deg, #0f172a 0%, #1e3a8a 50%, #312e81 100%);
+      display: flex; align-items: center; justify-content: center;
+      padding: 24px; transition: opacity 0.6s ease, transform 0.6s ease;
+      cursor: pointer; /* hint it's dismissable */
+    }
+    #splashScreen.hiding { opacity: 0; transform: scale(1.03); pointer-events: none; }
+    .splash-content {
+      text-align: center; color: white; max-width: 480px; width: 100%;
+      animation: splashReveal 0.8s cubic-bezier(0.34, 1.56, 0.64, 1) forwards;
+    }
+    @keyframes splashReveal {
+      from { opacity: 0; transform: translateY(32px) scale(0.95); }
+      to   { opacity: 1; transform: translateY(0) scale(1); }
+    }
+    .splash-icon { font-size: clamp(52px, 12vw, 80px); margin-bottom: 16px; filter: drop-shadow(0 4px 20px rgba(96,165,250,0.4)); animation: pulse 2s ease-in-out infinite; }
+    @keyframes pulse { 0%,100%{transform:scale(1)} 50%{transform:scale(1.06)} }
+    .splash-title { font-size: clamp(1.4rem, 5vw, 2rem); font-weight: 800; letter-spacing: -0.02em; margin-bottom: 4px; }
+    .splash-sub { font-size: 0.82rem; opacity: 0.6; margin-bottom: 20px; letter-spacing: 0.06em; text-transform: uppercase; }
+    .splash-desc {
+      font-size: clamp(0.85rem, 2.5vw, 0.97rem); opacity: 0.85;
+      line-height: 1.7; margin-bottom: 28px;
+      background: rgba(255,255,255,0.07); border-radius: 14px;
+      padding: 16px 18px; border: 1px solid rgba(255,255,255,0.1);
+    }
+    .splash-actions { display: flex; flex-direction: column; gap: 10px; align-items: center; margin-bottom: 22px; }
+    .splash-btn-tour {
+      background: white; color: #1e3a8a; border: none;
+      padding: 13px 28px; border-radius: 50px; font-weight: 800;
+      font-size: 0.95rem; cursor: pointer; width: 100%; max-width: 280px;
+      transition: all 0.2s; font-family: inherit;
+      box-shadow: 0 4px 24px rgba(0,0,0,0.3);
+    }
+    .splash-btn-tour:hover { transform: translateY(-2px); box-shadow: 0 8px 32px rgba(0,0,0,0.4); }
+    .splash-btn-skip {
+      background: transparent; color: rgba(255,255,255,0.6);
+      border: none; font-size: 0.85rem; cursor: pointer;
+      font-family: inherit; padding: 6px 12px; transition: color 0.2s;
+    }
+    .splash-btn-skip:hover { color: white; }
+    .splash-progress { height: 3px; background: rgba(255,255,255,0.15); border-radius: 4px; overflow: hidden; }
+    .splash-bar { height: 100%; background: rgba(255,255,255,0.7); width: 0%; border-radius: 4px; transition: width linear; }
+    .splash-pills { display: flex; flex-wrap: wrap; justify-content: center; gap: 6px; margin-bottom: 20px; }
+    .splash-pill { background: rgba(255,255,255,0.12); border: 1px solid rgba(255,255,255,0.18); border-radius: 20px; padding: 4px 12px; font-size: 0.75rem; opacity: 0.85; }
+
+    /* ===== GUIDED TOUR ===== */
+    #tourOverlay {
+      display: none; position: fixed; inset: 0; z-index: 9000;
+      pointer-events: none; /* none: visual only, bubble handles events */
+    }
+    #tourOverlay.active { display: block; }
+    #tourSpotlight {
+      position: fixed; border-radius: 10px;
+      box-shadow: 0 0 0 9999px rgba(15,23,42,0.72);
+      z-index: 9001; pointer-events: none;
+      transition: all 0.45s cubic-bezier(0.4,0,0.2,1);
+      outline: 3px solid rgba(96,165,250,0.7);
+      outline-offset: 2px;
+    }
+    #tourSpotlight.pulse { animation: spotPulse 1.5s ease-in-out infinite; }
+    @keyframes spotPulse { 0%,100%{outline-color:rgba(96,165,250,0.7)} 50%{outline-color:rgba(96,165,250,1)} }
+    #tourBubble {
+      position: fixed; z-index: 9002;
+      background: white; border-radius: 18px;
+      padding: 18px 20px; width: min(300px, calc(100vw - 32px));
+      box-shadow: 0 12px 48px rgba(0,0,0,0.25), 0 2px 8px rgba(0,0,0,0.1);
+      pointer-events: all; transition: top 0.4s cubic-bezier(0.4,0,0.2,1), left 0.4s cubic-bezier(0.4,0,0.2,1), opacity 0.25s;
+    }
+    #tourBubble.entering { animation: bubbleIn 0.35s cubic-bezier(0.34,1.56,0.64,1); }
+    @keyframes bubbleIn { from{opacity:0;transform:scale(0.85)} to{opacity:1;transform:scale(1)} }
+    .tour-arrow {
+      position: absolute; width: 0; height: 0; pointer-events: none;
+    }
+    .tour-arrow.arrow-top { border-left: 10px solid transparent; border-right: 10px solid transparent; border-bottom: 12px solid white; top: -12px; left: 50%; transform: translateX(-50%); }
+    .tour-arrow.arrow-bottom { border-left: 10px solid transparent; border-right: 10px solid transparent; border-top: 12px solid white; bottom: -12px; left: 50%; transform: translateX(-50%); }
+    .tour-arrow.arrow-left { border-top: 10px solid transparent; border-bottom: 10px solid transparent; border-right: 12px solid white; left: -12px; top: 50%; transform: translateY(-50%); }
+    .tour-arrow.arrow-right { border-top: 10px solid transparent; border-bottom: 10px solid transparent; border-left: 12px solid white; right: -12px; top: 50%; transform: translateY(-50%); }
+    .tour-counter { font-size: 0.72rem; font-weight: 700; color: var(--primary); text-transform: uppercase; letter-spacing: 0.08em; margin-bottom: 6px; }
+    .tour-title { font-size: 1rem; font-weight: 800; color: var(--text); margin-bottom: 8px; line-height: 1.3; }
+    .tour-text { font-size: 0.85rem; color: var(--muted); line-height: 1.6; margin-bottom: 14px; }
+    .tour-nav { display: flex; gap: 6px; align-items: center; justify-content: space-between; }
+    .t-btn { border: none; border-radius: 10px; padding: 8px 12px; font-family: inherit; font-weight: 700; font-size: 0.8rem; cursor: pointer; transition: all 0.15s; min-height: 36px; }
+    .t-btn-prev { background: #f1f5f9; color: #475569; }
+    .t-btn-prev:hover { background: #e2e8f0; }
+    .t-btn-next { background: var(--primary); color: white; flex: 1; }
+    .t-btn-next:hover { background: #1d4ed8; }
+    .t-btn-exit { background: transparent; color: #94a3b8; font-size: 0.78rem; padding: 8px; }
+    .t-btn-exit:hover { color: #ef4444; }
+    .tour-dots { display: flex; gap: 5px; justify-content: center; margin-top: 12px; flex-wrap: wrap; }
+    .tour-dot { width: 7px; height: 7px; border-radius: 50%; background: #e2e8f0; transition: all 0.2s; cursor: pointer; }
+    .tour-dot.active { background: var(--primary); width: 18px; border-radius: 4px; }
+    .tour-dot:hover { background: #93c5fd; }
+  </style>
+</head>
+<body>
+<!-- SPLASH SCREEN -->
+<div id="splashScreen">
+  <div class="splash-content">
+    <div class="splash-icon">📊🧠</div>
+    <div class="splash-title">Perfil de Aprendizaje + IA</div>
+    <div class="splash-sub">Andrade Lab · PhD. José Alonso Andrade Salazar</div>
+    <div class="splash-pills">
+      <span class="splash-pill">🎨 Estilos de aprendizaje</span>
+      <span class="splash-pill">⏱️ Ritmos de aprendizaje</span>
+      <span class="splash-pill">🧩 Factores contextuales</span>
+      <span class="splash-pill">🤖 Estrategias con IA</span>
+      <span class="splash-pill">📄 Informes clínicos</span>
+    </div>
+    <div class="splash-desc">
+      Herramienta clínico-pedagógica para construir perfiles integrales de aprendizaje, identificar estilos, ritmos y factores contextuales, y generar estrategias personalizadas con inteligencia artificial. Diseñada para docentes, psicólogos y equipos de inclusión educativa.
+    </div>
+    <div class="splash-actions">
+      <button class="splash-btn-tour" id="splashTourBtn">🧭 Iniciar tour guiado</button>
+      <button class="splash-btn-skip" id="splashSkipBtn">Entrar directamente sin tour →</button>
+    </div>
+    <div class="splash-progress"><div class="splash-bar" id="splashBar"></div></div>
+  </div>
+</div>
+
+<!-- TOUR OVERLAY -->
+<div id="tourOverlay">
+  <div id="tourSpotlight"></div>
+</div>
+<div id="tourBubble" style="display:none;">
+  <div class="tour-arrow" id="tourArrow"></div>
+  <div class="tour-counter">Paso <span id="tourStepNum">1</span> de <span id="tourStepTotal">10</span></div>
+  <div class="tour-title" id="tourTitle">Título</div>
+  <div class="tour-text" id="tourText">Descripción</div>
+  <div class="tour-nav">
+    <button class="t-btn t-btn-prev" id="tourPrev">← Atrás</button>
+    <button class="t-btn t-btn-exit" id="tourExit">✕ Salir</button>
+    <button class="t-btn t-btn-next" id="tourNext">Siguiente →</button>
+  </div>
+  <div class="tour-dots" id="tourDots"></div>
+</div>
+
+<div id="toast-container"></div>
+
+<!-- Demo picker modal -->
+<div class="demo-modal" id="demoPickerModal">
+  <div class="demo-modal-content">
+    <button class="demo-modal-close" id="demoModalClose">✕</button>
+    <h3>🎭 Selecciona un caso demo</h3>
+    <p class="sub">Explora cómo funciona la app con casos reales preconfigurados.</p>
+    <div class="demo-cases">
+      <div class="demo-case-card" id="demoCardValentina">
+        <div class="case-emoji">🌸</div>
+        <div class="case-name">Valentina Rojas</div>
+        <div class="case-meta">11 años · 5° grado · Ciencias</div>
+        <div class="case-tags">
+          <span class="case-tag">Básica primaria</span>
+          <span class="case-tag">Ansiedad</span>
+          <span class="case-tag">Visual</span>
+        </div>
+      </div>
+      <div class="demo-case-card" id="demoCardSyriana">
+        <div class="case-emoji">🐾</div>
+        <div class="case-name">S.xxx N. T.</div>
+        <div class="case-meta">18 años · Universidad · Medicina Veterinaria</div>
+        <div class="case-tags">
+          <span class="case-tag">Universitaria</span>
+          <span class="case-tag">Bloqueo evaluativo</span>
+          <span class="case-tag">Hipoacusia (hist.)</span>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="app">
+  <div class="top-bar">
+    <div class="logo-area"><span class="logo-icon">📊🧠</span><div><div class="logo-text">Perfil de Aprendizaje + IA</div><div class="logo-sub">Estilos · Ritmos · Contexto · IA</div></div></div>
+    <div class="top-bar-actions"><button class="tour-btn" id="btnTour">🧭 <span class="tour-btn-text">Tour guiado</span></button><button class="hamburger" id="btnMenu">☰</button></div>
+  </div>
+
+  <div class="menu-overlay" id="menuOverlay"></div>
+  <div class="side-menu" id="sideMenu">
+    <div class="menu-header"><strong>📋 Menú</strong><button class="menu-close" id="closeMenu" style="background:none;border:none;font-size:20px;cursor:pointer;">✕</button></div>
+    <div class="menu-item" data-tab="casos">📂 Mis casos</div>
+    <div class="menu-item" data-tab="nuevo">✏️ Nuevo perfil / Reevaluar</div>
+    <div class="menu-item" data-tab="archivo">📚 Archivo</div>
+    <div class="menu-item" data-tab="ia">🤖 Asistente IA</div>
+    <div class="menu-item" id="menuTour">🧭 Tour guiado</div>
+    <div class="credits"><strong>🧠 PhD. José Andrade</strong><br>📧 911psicologia@gmail.com<br><span style="font-size:0.7rem;">v3.0 · Con IA integrada</span></div>
+  </div>
+
+  <div class="tabs-container">
+    <div class="tab-header">
+      <button class="tab-btn active" data-tab="casos">📋 Mis casos</button>
+      <button class="tab-btn" data-tab="nuevo">✏️ Nuevo perfil</button>
+      <button class="tab-btn" data-tab="ia">🤖 IA Asistente</button>
+      <button class="tab-btn" data-tab="archivo">📚 Archivo</button>
+    </div>
+
+    <!-- Tab Mis casos -->
+    <div class="tab-pane active" id="tab-casos">
+      <div class="panel">
+        <h2>📌 Casos recientes</h2>
+        <input type="text" id="buscadorCasos" placeholder="Buscar..." style="width:100%; margin-bottom:16px; padding:12px; border-radius:14px;">
+        <div id="recentCasesList" class="saved-list"></div>
+        <div class="toolbar">
+          <button class="btn-primary" id="btnNuevoDesdeCasos">+ Nuevo caso estudiante</button>
+          <button class="btn-secondary" id="btnDemoCasos">🎭 Cargar caso demo</button>
+        </div>
+        <p style="font-size:0.8rem; color:var(--muted); margin-top:12px;">💡 Los casos demo incluyen a <strong>Valentina Rojas</strong> (5° primaria, ansiedad evaluativa) y <strong>S.xxx (caso universitario)</strong> (universitaria, bloqueo cognitivo + antecedente auditivo). Úsalos para explorar cómo funciona la app.</p>
+      </div>
+    </div>
+
+    <!-- Tab Nuevo perfil -->
+    <div class="tab-pane" id="tab-nuevo">
+      <div class="panel">
+        <h2>📝 Datos del estudiante</h2>
+        <div class="grid-3">
+          <div class="field"><label>Nombre</label><input id="nombre" placeholder="Ej. Valentina Rojas"></div>
+          <div class="field"><label>Edad</label><input id="edad" type="number" placeholder="11"></div>
+          <div class="field"><label>Grado</label><input id="grado" placeholder="Ej. 5°"></div>
+        </div>
+        <div class="grid-3">
+          <div class="field"><label>Área</label><select id="area"><option>General</option><option>Lenguaje</option><option>Matemáticas</option><option>Ciencias</option><option>Sociales</option><option>Arte</option><option>Tecnología</option><option>Educación Física</option><option>Universidad</option></select></div>
+          <div class="field"><label>Nivel</label><select id="nivel"><option>Básica primaria</option><option>Básica secundaria</option><option>Media</option><option>Universidad</option><option>Otro</option></select></div>
+          <div class="field"><label>Docente</label><input id="docente" placeholder="Prof. Andrea Ruiz"></div>
+        </div>
+        <div class="grid-2">
+          <div class="field"><label>Contexto del aula</label><textarea id="contexto" rows="2" placeholder="Grupo numeroso, trabajo por proyectos..."></textarea></div>
+          <div class="field"><label>Fortalezas observadas</label><textarea id="fortalezas" rows="2" placeholder="Buena disposición, curiosidad..."></textarea></div>
+        </div>
+        <div class="grid-2">
+          <div class="field"><label>Barreras o alertas</label><textarea id="alertas" rows="2" placeholder="Le cuesta arrancar con consignas largas..."></textarea></div>
+          <div class="field"><label>Notas del docente</label><textarea id="notasDocente" rows="2" placeholder="Observaciones adicionales..."></textarea></div>
+        </div>
+
+        <h2 id="headEstilos">🎨 Estilos de aprendizaje (8 indicadores por estilo)</h2>
+        <div class="cards four" id="styleCards"></div>
+
+        <h2 id="headRitmos">⏱️ Ritmo de aprendizaje (8 indicadores por ritmo)</h2>
+        <div class="cards two" id="rhythmCards"></div>
+
+        <h2 id="headObservacion">✅ Lista de observación</h2>
+        <div class="mini-card"><div id="observationList" class="checklist"></div></div>
+
+        <div class="toolbar">
+          <button class="btn-primary" id="btnGenerar">Generar perfil</button>
+          <button class="btn-good" id="btnGuardar">Guardar perfil</button>
+          <button class="btn-secondary" id="btnLimpiar">Limpiar ficha</button>
+        </div>
+      </div>
+
+      <div class="panel">
+        <h2>📊 Lectura del perfil</h2>
+        <div class="grid-2">
+          <div><h3>Estilos</h3><div id="styleScores"></div></div>
+          <div><h3>Ritmos</h3><div id="rhythmScores"></div></div>
+        </div>
+        <div class="summary-badges" id="summaryBadges"></div>
+        <div id="summaryText" class="muted"></div>
+        <div id="comparisonSection" style="display:none;"></div>
+        <h3>📖 Sugerencias para enseñar mejor</h3>
+        <ul id="recommendations"></ul>
+        <h3>🔍 Observaciones clave</h3>
+        <ul id="observationSummary"></ul>
+        <div class="toolbar">
+          <button class="btn-secondary" id="btnImprimir">🖨️ Imprimir vista previa</button>
+        </div>
+        <p style="font-size:0.8rem;color:var(--muted);margin-top:10px;">📌 Para exportar el informe completo ve a la pestaña <strong>🤖 IA Asistente</strong>, genera el prompt, pega la respuesta e intégrala.</p>
+      </div>
+    </div>
+
+    <!-- Tab IA Asistente -->
+    <div class="tab-pane" id="tab-ia">
+      <div class="panel">
+        <h2>🤖 Factores contextuales y condiciones especiales</h2>
+        <p class="muted">Información que ayuda a la IA a generar estrategias personalizadas y justas.</p>
+        
+        <div class="factor-category">
+          <h3>🧠 Factores Psicológicos</h3>
+          <div class="grid-2">
+            <label class="check-item"><input type="checkbox" class="factor-psicologico" value="Ansiedad ante evaluaciones"> Ansiedad ante evaluaciones</label>
+            <label class="check-item"><input type="checkbox" class="factor-psicologico" value="Depresión"> Depresión</label>
+            <label class="check-item"><input type="checkbox" class="factor-psicologico" value="TDAH diagnosticado"> TDAH diagnosticado</label>
+            <label class="check-item"><input type="checkbox" class="factor-psicologico" value="TEA (Trastorno del espectro autista)"> TEA</label>
+            <label class="check-item"><input type="checkbox" class="factor-psicologico" value="Baja autoestima"> Baja autoestima</label>
+            <label class="check-item"><input type="checkbox" class="factor-psicologico" value="Estrés postraumático"> Estrés postraumático</label>
+            <label class="check-item"><input type="checkbox" class="factor-psicologico" value="Fobia escolar"> Fobia escolar</label>
+            <label class="check-item"><input type="checkbox" class="factor-psicologico" value="Trastorno de conducta"> Trastorno de conducta</label>
+          </div>
+          <div class="field" style="margin-top:12px;"><label>Describir condición psicológica (opcional)</label><textarea id="detallePsicologico" rows="2" placeholder="Describe detalles relevantes..."></textarea></div>
+        </div>
+
+        <div class="factor-category">
+          <h3>🩺 Factores Biológicos / Médicos</h3>
+          <div class="grid-2">
+            <label class="check-item"><input type="checkbox" class="factor-biologico" value="Condición médica diagnosticada"> Condición médica diagnosticada</label>
+            <label class="check-item"><input type="checkbox" class="factor-biologico" value="Discapacidad motriz"> Discapacidad motriz</label>
+            <label class="check-item"><input type="checkbox" class="factor-biologico" value="Discapacidad visual"> Discapacidad visual</label>
+            <label class="check-item"><input type="checkbox" class="factor-biologico" value="Discapacidad auditiva"> Discapacidad auditiva</label>
+            <label class="check-item"><input type="checkbox" class="factor-biologico" value="Enfermedad crónica"> Enfermedad crónica</label>
+            <label class="check-item"><input type="checkbox" class="factor-biologico" value="Dificultad del lenguaje"> Dificultad del lenguaje</label>
+            <label class="check-item"><input type="checkbox" class="factor-biologico" value="Tratamiento farmacológico"> Tratamiento farmacológico</label>
+            <label class="check-item"><input type="checkbox" class="factor-biologico" value="Dislexia / Discalculia"> Dislexia / Discalculia</label>
+          </div>
+          <div class="field" style="margin-top:12px;"><label>Describir condición médica (obligatorio si marcaste alguna)</label><textarea id="detalleBiologico" rows="2" placeholder="Ej. Diagnóstico médico específico, tratamiento actual, adaptaciones necesarias..."></textarea></div>
+        </div>
+
+        <div class="factor-category">
+          <h3>🏠 Factores Sociales</h3>
+          <div class="grid-2">
+            <label class="check-item"><input type="checkbox" class="factor-social" value="Situación de vulnerabilidad"> Situación de vulnerabilidad</label>
+            <label class="check-item"><input type="checkbox" class="factor-social" value="Migración reciente"> Migración reciente</label>
+            <label class="check-item"><input type="checkbox" class="factor-social" value="Falta de apoyo familiar"> Falta de apoyo familiar</label>
+            <label class="check-item"><input type="checkbox" class="factor-social" value="Sobrecarga de responsabilidades"> Sobrecarga de responsabilidades</label>
+            <label class="check-item"><input type="checkbox" class="factor-social" value="Acoso escolar"> Acoso escolar</label>
+            <label class="check-item"><input type="checkbox" class="factor-social" value="Duplicidad de turnos (trabaja y estudia)"> Duplicidad de turnos</label>
+          </div>
+          <div class="field" style="margin-top:12px;"><label>Describir situación social</label><textarea id="detalleSocial" rows="2" placeholder="Contexto familiar, apoyo disponible..."></textarea></div>
+        </div>
+
+        <div class="factor-category">
+          <h3>🌍 Factores Ambientales</h3>
+          <div class="grid-2">
+            <label class="check-item"><input type="checkbox" class="factor-ambiental" value="Aula ruidosa"> Aula ruidosa</label>
+            <label class="check-item"><input type="checkbox" class="factor-ambiental" value="Falta de materiales"> Falta de materiales</label>
+            <label class="check-item"><input type="checkbox" class="factor-ambiental" value="Grupo numeroso"> Grupo numeroso</label>
+            <label class="check-item"><input type="checkbox" class="factor-ambiental" value="Poco tiempo de clase"> Poco tiempo de clase</label>
+            <label class="check-item"><input type="checkbox" class="factor-ambiental" value="Distractores ambientales"> Distractores ambientales</label>
+            <label class="check-item"><input type="checkbox" class="factor-ambiental" value="Problemas de conectividad"> Problemas de conectividad</label>
+          </div>
+          <div class="field" style="margin-top:12px;"><label>Describir condiciones ambientales</label><textarea id="detalleAmbiental" rows="2" placeholder="Infraestructura, recursos disponibles..."></textarea></div>
+        </div>
+
+        <div class="factor-category">
+          <h3>🙏 Factores Religiosos / Espirituales</h3>
+          <div class="grid-2">
+            <label class="check-item"><input type="checkbox" class="factor-religioso" value="Creencias que afectan participación"> Creencias que afectan participación</label>
+            <label class="check-item"><input type="checkbox" class="factor-religioso" value="Festividades que interfieren"> Festividades que interfieren</label>
+            <label class="check-item"><input type="checkbox" class="factor-religioso" value="Rituales diarios"> Rituales diarios</label>
+            <label class="check-item"><input type="checkbox" class="factor-religioso" value="Dietas especiales"> Dietas especiales</label>
+            <label class="check-item"><input type="checkbox" class="factor-religioso" value="Vestimenta específica"> Vestimenta específica</label>
+          </div>
+          <div class="field" style="margin-top:12px;"><label>Describir consideraciones religiosas</label><textarea id="detalleReligioso" rows="2" placeholder="Prácticas, festividades, necesidades específicas..."></textarea></div>
+        </div>
+
+        <div class="factor-category">
+          <h3>💬 ¿Cómo aprende realmente este estudiante? (Voz del estudiante y familia)</h3>
+          <div class="field">
+            <textarea id="vozEstudiante" rows="4" placeholder="Ej. A Valentina le gusta que le expliquen con dibujos, prefiere evaluaciones orales, se siente más cómoda trabajando sola que en grupo, sus temas favoritos son los animales y la naturaleza, en casa dice que aprendió a cocinar viendo videos..."></textarea>
+          </div>
+          <div class="grid-2" style="margin-top:12px;">
+            <div class="field"><label>¿Cómo prefiere ser evaluado/a?</label><textarea id="preferenciaEvaluacion" rows="2" placeholder="Oral, escrita, con apoyo visual, con más tiempo, en privado, en grupo..."></textarea></div>
+            <div class="field"><label>Temas o áreas de mayor interés</label><textarea id="temasInteres" rows="2" placeholder="Animales, tecnología, arte, deportes, música..."></textarea></div>
+          </div>
+        </div>
+
+        <div class="toolbar" style="justify-content: center; margin-top: 24px;">
+          <button class="btn-ai" id="btnGenerarPrompt">✨ Generar prompt para IA</button>
+        </div>
+      </div>
+
+      <div class="panel">
+        <h2>🤖 Hub de Asistentes de IA</h2>
+        <p class="muted">Selecciona una IA, se abrirá con el prompt listo para pegar. Luego pega su respuesta abajo.</p>
+        <div class="ia-grid" id="iaGrid"></div>
+        
+        <div class="field" style="margin-top: 20px;">
+          <label>📋 Respuesta de la IA (pégalo aquí)</label>
+          <textarea id="respuestaIA" rows="6" placeholder="Pega aquí la respuesta de la IA con estrategias personalizadas, sugerencias de evaluación y acompañamiento..."></textarea>
+        </div>
+        
+        <div class="toolbar">
+          <button class="btn-primary" id="btnIntegrarIA">🔄 Integrar respuesta al informe</button>
+          <button class="btn-secondary" id="btnCopiarPrompt">📋 Copiar prompt</button>
+        </div>
+        <div id="iaRespuestaIntegrada" class="muted" style="margin-top: 12px; font-size:0.85rem;"></div>
+
+        <div id="exportSection" style="display:none; margin-top:20px; border-top:1px solid var(--line); padding-top:20px;">
+          <div style="background:#f0fdf4; border:1px solid #bbf7d0; border-radius:14px; padding:14px; margin-bottom:14px;">
+            <strong>✅ Respuesta de IA integrada.</strong> Ya puedes generar el informe completo con todos los elementos del caso.
+          </div>
+          <div class="toolbar">
+            <button class="btn-ai" id="btnExportarReporte">📄 Exportar informe completo HTML</button>
+            <button class="btn-secondary" id="btnImprimir2">🖨️ Imprimir</button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Tab Archivo -->
+    <div class="tab-pane" id="tab-archivo">
+      <div class="panel">
+        <h2>📚 Todos los perfiles guardados</h2>
+        <input type="text" id="buscadorArchivo" placeholder="Buscar..." style="width:100%; margin-bottom:16px; padding:12px; border-radius:14px;">
+        <div id="savedProfilesList" class="saved-list"></div>
+        <div class="toolbar">
+          <button class="btn-secondary" id="btnExportarTodo">Exportar todos</button>
+          <button class="btn-secondary" id="btnImportarTodo">Importar perfiles</button>
+          <button class="btn-warn" id="btnBorrarTodo">Borrar todos</button>
+          <input type="file" id="inputImportar" accept="application/json" hidden>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script>
+  // ========== DATOS BASE ==========
+  const styleDefinitions = [
+    { key: 'visual', title: 'Visual', indicators: ['Recuerda mejor con esquemas', 'Ubica ideas con cuadros', 'Sigue explicaciones con imágenes', 'Le sirven colores y gráficos', 'Organiza información visualmente', 'Prefiere instrucciones dibujadas', 'Disfruta infografías', 'Toma apuntes visuales'] },
+    { key: 'auditivo', title: 'Auditivo', indicators: ['Comprende escuchando', 'Recuerda conversaciones', 'Pregunta hablando', 'Aprende explicando oralmente', 'Lee en voz baja', 'Prefiere explicaciones orales', 'Beneficio con audios', 'Repite en voz alta'] },
+    { key: 'lectoescritor', title: 'Lectoescritor', indicators: ['Toma apuntes', 'Necesita leer consignas', 'Resume escribiendo', 'Se expresa mejor por escrito', 'Disfruta lectura', 'Hace listas escritas', 'Usa guías de estudio', 'Escribe preguntas'] },
+    { key: 'kinestesico', title: 'Kinestésico', indicators: ['Aprende haciendo', 'Se concentra con acción', 'Necesita ejemplos reales', 'Responde con movimiento', 'Disfruta simulaciones', 'Se inquieta quieto', 'Aprende practicando', 'Relaciona con experiencia física'] }
+  ];
+
+  const rhythmDefinitions = [
+    { key: 'agil', title: 'Ágil', indicators: ['Capta rápido', 'Necesita pocas repeticiones', 'Transfiere fácilmente', 'Tolera tareas nuevas', 'Termina antes', 'Pide retos', 'Se aburre con repetición', 'Avanza sin supervisión'] },
+    { key: 'progresivo', title: 'Progresivo', indicators: ['Necesita ejemplos', 'Requiere pasos cortos', 'Pide confirmación', 'Beneficio con apoyos', 'Avanza con retroalimentación', 'Requiere andamiaje', 'Necesita modelo', 'Gana confianza con práctica'] },
+    { key: 'sostenido', title: 'Sostenido', indicators: ['Necesita más tiempo', 'Aprende con rutinas', 'Progresa con práctica', 'Sirven pausas', 'Consolida con repetición', 'Requiere práctica espaciada', 'Beneficio con recordatorios', 'Mejora a su ritmo'] },
+    { key: 'variable', title: 'Variable', indicators: ['Cambia según interés', 'Rendimiento variable', 'Responde a conexiones', 'Se bloquea si es confuso', 'Muestra capacidad sin presión', 'Rinde inconsistente', 'Necesita propósito claro', 'Fluctúa productividad'] }
+  ];
+
+  const observationItems = [
+    'Mantiene atención con consignas breves', 'Se pierde con explicaciones largas', 'Participa más en grupo pequeño',
+    'Responde mejor con tiempo extra', 'Necesita andamiajes visibles', 'Beneficio con casos reales',
+    'Frustración rápida', 'Recupera foco con consignas cortas', 'Alterna modos de aprender', 
+    'Mayor logro con evaluaciones diversas', 'Trabaja mejor en ambientes estructurados', 'Inicia tareas con ayuda inicial',
+    'Le afecta el ruido ambiental', 'Prefiere trabajar solo', 'Solicita ayuda cuando la necesita'
+  ];
+
+  const advancedSuggestions = {
+    visual: ['Usa mapas conceptuales', 'Resalta con colores', 'Organiza el tablero', 'Provee guías gráficas'],
+    auditivo: ['Explica en voz alta', 'Permite debates', 'Usa preguntas orales', 'Graba instrucciones'],
+    lectoescritor: ['Tiempo para notas', 'Resúmenes escritos', 'Listas de verificación', 'Respuesta escrita'],
+    kinestesico: ['Manipulativos', 'Simulaciones', 'Aprendizaje por proyectos', 'Movimiento con propósito'],
+    agil: ['Retos de profundización', 'Avanzar a su ritmo', 'Actividades de ampliación'],
+    progresivo: ['Andamiaje paso a paso', 'Modelado explícito', 'Verificaciones frecuentes'],
+    sostenido: ['Práctica espaciada', 'Repaso sistemático', 'Tiempos amplios'],
+    variable: ['Conectar intereses', 'Clima positivo', 'Opciones de elección', 'Reducir presión']
+  };
+
+  // IA Hub
+  const iaList = [
+    { name: 'ChatGPT', url: 'https://chat.openai.com/', icon: '🤖', color: '#10a37f' },
+    { name: 'Gemini', url: 'https://gemini.google.com/', icon: '✨', color: '#4285f4' },
+    { name: 'Claude', url: 'https://claude.ai/', icon: '🧠', color: '#7c3aed' },
+    { name: 'Perplexity', url: 'https://www.perplexity.ai/', icon: '🔍', color: '#1a1a1a' },
+    { name: 'DeepSeek', url: 'https://chat.deepseek.com/', icon: '🐋', color: '#0066cc' },
+    { name: 'Copilot', url: 'https://copilot.microsoft.com/', icon: '🪶', color: '#00a1f1' },
+    { name: 'Mistral', url: 'https://chat.mistral.ai/', icon: '🌪️', color: '#f97316' },
+    { name: 'Groq (Llama)', url: 'https://console.groq.com/', icon: '⚡', color: '#f55036' },
+    { name: 'Pi AI', url: 'https://pi.ai/talk', icon: '💜', color: '#8b5cf6' },
+    { name: 'Poe', url: 'https://poe.com/', icon: '📚', color: '#5b21b6' },
+    { name: 'You.com', url: 'https://you.com/', icon: '🔎', color: '#0066cc' },
+    { name: 'HuggingChat', url: 'https://huggingface.co/chat/', icon: '🤗', color: '#ff9d00' }
+  ];
+
+  const STORAGE_KEY = 'app_perfiles_v4';
+  let currentEditingId = null;
+  let previousProfileData = null;
+  let currentPrompt = '';
+  let iaResponseIntegrated = false;
+
+  const $ = (id) => document.getElementById(id);
+  const uid = () => crypto.randomUUID ? crypto.randomUUID() : Date.now() + '_' + Math.random();
+
+  function renderIndicators() {
+    const styleCards = $('styleCards');
+    const rhythmCards = $('rhythmCards');
+    const observationList = $('observationList');
+    if(styleCards) styleCards.innerHTML = styleDefinitions.map(g => `<div class="mini-card"><h3>${g.title}</h3>${g.indicators.map((t, i) => `<label class="check-item"><input type="checkbox" data-kind="style" data-group="${g.key}" id="style_${g.key}_${i}"><span>${t}</span></label>`).join('')}</div>`).join('');
+    if(rhythmCards) rhythmCards.innerHTML = rhythmDefinitions.map(g => `<div class="mini-card"><h3>${g.title}</h3>${g.indicators.map((t, i) => `<label class="check-item"><input type="checkbox" data-kind="rhythm" data-group="${g.key}" id="rhythm_${g.key}_${i}"><span>${t}</span></label>`).join('')}</div>`).join('');
+    if(observationList) observationList.innerHTML = observationItems.map((t, i) => `<label class="check-item"><input type="checkbox" data-kind="observation" id="obs_${i}"><span>${t}</span></label>`).join('');
+  }
+
+  function getCheckedByKind(kind) { return [...document.querySelectorAll(`input[data-kind="${kind}"]`)].filter(c => c.checked); }
+  
+  function countScores(definitions, kind) {
+    let scores = {};
+    definitions.forEach(d => scores[d.key] = 0);
+    getCheckedByKind(kind).forEach(c => { if(scores[c.dataset.group] !== undefined) scores[c.dataset.group]++; });
+    return scores;
+  }
+
+  function maxLabel(scores, definitions) {
+    let max = Math.max(...Object.values(scores), 0);
+    if(max === 0) return ['Sin datos suficientes'];
+    return Object.entries(scores).filter(([_,v]) => v === max).map(([k]) => definitions.find(d => d.key === k)?.title || k);
+  }
+
+  function getIntensityLevel(score) {
+    const percent = (score / 8) * 100;
+    if(percent >= 70) return 'fuerte';
+    if(percent >= 40) return 'moderado';
+    return 'leve';
+  }
+
+  function renderScoreBars(targetId, definitions, scores) {
+    const container = $(targetId);
+    if(container) container.innerHTML = definitions.map(d => {
+      const score = scores[d.key] || 0;
+      const intensity = getIntensityLevel(score);
+      return `<div class="score-row"><div class="score-head"><strong>${d.title}</strong><span>${score}/8 (${intensity})</span></div><div class="bar"><span style="width:${(score/8)*100}%"></span></div></div>`;
+    }).join('');
+  }
+
+  function getAdvancedSuggestions(styleLeaders, rhythmLeaders, styleScores, rhythmScores, area, nivel) {
+    let sugg = [];
+    styleLeaders.forEach(leader => {
+      const key = leader.toLowerCase().replace('kinestésico','kinestesico');
+      if(advancedSuggestions[key]) sugg.push(...advancedSuggestions[key]);
+    });
+    rhythmLeaders.forEach(leader => {
+      const key = leader.toLowerCase().replace('ágil','agil');
+      if(advancedSuggestions[key]) sugg.push(...advancedSuggestions[key]);
+    });
+    if(area === 'Matemáticas') sugg.push('Usa representaciones múltiples');
+    if(area === 'Lenguaje') sugg.push('Alterna lectura, escritura y conversación');
+    if(nivel.includes('primaria')) sugg.push('Instrucciones con apoyo visual');
+    return [...new Set(sugg)].slice(0, 10);
+  }
+
+  function getFormData() {
+    return {
+      nombre: $('nombre')?.value || '', edad: $('edad')?.value || '', grado: $('grado')?.value || '',
+      area: $('area')?.value || 'General', nivel: $('nivel')?.value || '', docente: $('docente')?.value || '',
+      contexto: $('contexto')?.value || '', fortalezas: $('fortalezas')?.value || '',
+      alertas: $('alertas')?.value || '', notasDocente: $('notasDocente')?.value || ''
+    };
+  }
+
+  function getFactoresContextuales() {
+    const psicologicos = [...document.querySelectorAll('.factor-psicologico:checked')].map(c => c.value);
+    const biologicos = [...document.querySelectorAll('.factor-biologico:checked')].map(c => c.value);
+    const sociales = [...document.querySelectorAll('.factor-social:checked')].map(c => c.value);
+    const ambientales = [...document.querySelectorAll('.factor-ambiental:checked')].map(c => c.value);
+    const religiosos = [...document.querySelectorAll('.factor-religioso:checked')].map(c => c.value);
+    
+    return {
+      psicologicos, psicologicoDetalle: $('detallePsicologico')?.value || '',
+      biologicos, biologicoDetalle: $('detalleBiologico')?.value || '',
+      sociales, socialDetalle: $('detalleSocial')?.value || '',
+      ambientales, ambientalDetalle: $('detalleAmbiental')?.value || '',
+      religiosos, religiosoDetalle: $('detalleReligioso')?.value || '',
+      vozEstudiante: $('vozEstudiante')?.value || '',
+      preferenciaEvaluacion: $('preferenciaEvaluacion')?.value || '',
+      temasInteres: $('temasInteres')?.value || ''
+    };
+  }
+
+  function generatePrompt() {
+    const form = getFormData();
+    const styleScores = countScores(styleDefinitions, 'style');
+    const rhythmScores = countScores(rhythmDefinitions, 'rhythm');
+    const styleLeaders = maxLabel(styleScores, styleDefinitions);
+    const rhythmLeaders = maxLabel(rhythmScores, rhythmDefinitions);
+    const factores = getFactoresContextuales();
+    
+    let prompt = `=== PERFIL INTEGRAL PARA ESTRATEGIAS DE EVALUACIÓN Y ACOMPAÑAMIENTO ===\n\n`;
+    prompt += `📌 DATOS DEL ESTUDIANTE:\n`;
+    prompt += `Nombre: ${form.nombre || '[Nombre no especificado]'}\n`;
+    prompt += `Edad: ${form.edad || '?'} años | Grado: ${form.grado || '?'}\n`;
+    prompt += `Área/Materia: ${form.area} | Nivel: ${form.nivel}\n`;
+    prompt += `Docente: ${form.docente || 'No especificado'}\n\n`;
+    
+    prompt += `🎨 ESTILOS DE APRENDIZAJE (puntajes /8):\n`;
+    Object.entries(styleScores).forEach(([k,v]) => {
+      const style = styleDefinitions.find(s => s.key === k);
+      if(style) prompt += `- ${style.title}: ${v}/8 (${getIntensityLevel(v)})\n`;
+    });
+    prompt += `Predominantes: ${styleLeaders.join(', ')}\n\n`;
+    
+    prompt += `⏱️ RITMO DE APRENDIZAJE (puntajes /8):\n`;
+    Object.entries(rhythmScores).forEach(([k,v]) => {
+      const rhythm = rhythmDefinitions.find(r => r.key === k);
+      if(rhythm) prompt += `- ${rhythm.title}: ${v}/8 (${getIntensityLevel(v)})\n`;
+    });
+    prompt += `Predominantes: ${rhythmLeaders.join(', ')}\n\n`;
+    
+    prompt += `📋 CONTEXTO DEL AULA:\n${form.contexto || 'No especificado'}\n\n`;
+    prompt += `✅ FORTALEZAS OBSERVADAS:\n${form.fortalezas || 'No especificado'}\n\n`;
+    prompt += `⚠️ BARRERAS O ALERTAS:\n${form.alertas || 'No especificado'}\n\n`;
+    
+    prompt += `🧠 FACTORES CONTEXTUALES / CONDICIONES ESPECIALES:\n`;
+    if(factores.psicologicos.length) prompt += `Psicológicos: ${factores.psicologicos.join(', ')}\nDetalle: ${factores.psicologicoDetalle || 'Ninguno'}\n`;
+    if(factores.biologicos.length) prompt += `Médicos/Biológicos: ${factores.biologicos.join(', ')}\nDetalle: ${factores.biologicoDetalle || 'Ninguno'}\n`;
+    if(factores.sociales.length) prompt += `Sociales: ${factores.sociales.join(', ')}\nDetalle: ${factores.socialDetalle || 'Ninguno'}\n`;
+    if(factores.ambientales.length) prompt += `Ambientales: ${factores.ambientales.join(', ')}\nDetalle: ${factores.ambientalDetalle || 'Ninguno'}\n`;
+    if(factores.religiosos.length) prompt += `Religiosos/Espirituales: ${factores.religiosos.join(', ')}\nDetalle: ${factores.religiosoDetalle || 'Ninguno'}\n`;
+    
+    prompt += `\n💬 VOZ DEL ESTUDIANTE Y FAMILIA:\n`;
+    prompt += `¿Cómo aprende realmente?: ${factores.vozEstudiante || 'No especificado'}\n`;
+    prompt += `Preferencia de evaluación: ${factores.preferenciaEvaluacion || 'No especificado'}\n`;
+    prompt += `Temas de interés: ${factores.temasInteres || 'No especificado'}\n\n`;
+    
+    prompt += `=== SOLICITUD ===\n`;
+    
+    const isUniversity = (form.nivel || '').toLowerCase().includes('universit') || (form.area || '').toLowerCase().includes('universit');
+    
+    if(isUniversity) {
+      prompt += `Como experto en psicología educativa, educación superior inclusiva y ajustes razonables académicos, necesito que me ayudes a generar ESTRATEGIAS PERSONALIZADAS para esta estudiante universitaria.\n\n`;
+      prompt += `Por favor, responde con:\n`;
+      prompt += `1. 🎯 AJUSTES RAZONABLES EN EVALUACIÓN: ¿qué modificaciones son justificadas y viables en un entorno universitario? (formatos, tiempos, alternativas a quizzes sorpresivos, clarificación de instrucciones, sin privilegios indebidos)\n`;
+      prompt += `2. 🤝 ESTRATEGIAS DE ACOMPAÑAMIENTO UNIVERSITARIO: ¿cómo puede el docente o la coordinación apoyar su proceso sin exponer a la estudiante innecesariamente?\n`;
+      prompt += `3. 💡 CÓMO REDUCIR EL BLOQUEO EVALUATIVO: estrategias concretas para manejar la ansiedad situacional y el bloqueo cognitivo bajo presión, desde el rol docente y desde la estudiante\n`;
+      prompt += `4. 📈 INDICADORES DE PROGRESO REALISTAS: ¿cómo medir avances en contexto universitario sin generar presión adicional?\n`;
+      prompt += `5. 🏠 RECOMENDACIONES PARA LA FAMILIA: cómo acompañar sin sobreproteger, favorecer autonomía y validar sin invalidar\n`;
+      prompt += `6. ⚕️ CONSIDERACIONES ESPECIALES: a partir del antecedente de hipoacusia conductiva, el posible impacto en procesamiento auditivo bajo presión temporal, y el historial emocional (bullying, daño relacional), ¿qué consideraciones específicas debe tener el equipo docente?\n`;
+      prompt += `7. 🐾 POTENCIAL VOCACIONAL: esta estudiante tiene un vínculo genuino con los animales y vocación clara hacia la medicina veterinaria de fauna silvestre. ¿Cómo aprovechar esto como motor de motivación y regulación?\n\n`;
+      prompt += `⚠️ IMPORTANTE: El objetivo NO es facilitar artificialmente su carrera, sino garantizar que sus dificultades regulatorias específicas NO distorsionen la valoración de sus competencias reales. Sus evaluaciones neuropsicológicas previas descartan autismo, Asperger y discapacidad intelectual. La dificultad es de procesamiento bajo presión, no de capacidad.\n\n`;
+      prompt += `📐 FORMATO REQUERIDO: En cada sección, escribe un párrafo introductorio breve (máximo 3 oraciones) y luego viñetas concretas y aplicables. Sin párrafos extensos. Prioriza la practicidad. El lector es docente universitario o coordinador académico.`;
+    } else {
+      prompt += `Como experto en educación inclusiva y evaluación adaptada, necesito que me ayudes a generar ESTRATEGIAS PERSONALIZADAS para este estudiante.\n\n`;
+      prompt += `Por favor, responde con:\n`;
+      prompt += `1. 🎯 ESTRATEGIAS DE EVALUACIÓN ADAPTADA: ¿cómo evaluar a este estudiante de manera justa? (formatos, tiempos, apoyos, adecuaciones)\n`;
+      prompt += `2. 🤝 ESTRATEGIAS DE ACOMPAÑAMIENTO EN EL AULA: ¿cómo apoyar su proceso diario?\n`;
+      prompt += `3. 💡 SUGERENCIAS PARA REDUCIR ANSIEDAD Y FRUSTRACIÓN: especialmente importante por el historial de fracaso escolar o dificultades emocionales reportadas\n`;
+      prompt += `4. 📈 INDICADORES DE PROGRESO REALISTAS: ¿cómo medir avances sin generar presión?\n`;
+      prompt += `5. 🏠 RECOMENDACIONES PARA LA FAMILIA: ¿cómo pueden apoyar en casa?\n`;
+      prompt += `6. ⚕️ CONSIDERACIONES ESPECIALES: basado en los factores médicos/psicológicos reportados\n\n`;
+      prompt += `📐 FORMATO REQUERIDO: En cada sección, escribe un párrafo introductorio breve (máximo 2 oraciones) y luego viñetas concretas y aplicables. Sin párrafos extensos. Sé específico y empático. El objetivo es que este estudiante NO SIGA PERDIENDO y recupere su autoestima.`;
+    }
+    
+    currentPrompt = prompt;
+    return prompt;
+  }
+
+  function copyPrompt() {
+    navigator.clipboard.writeText(currentPrompt);
+    showToast('Prompt copiado al portapapeles', 'info');
+  }
+
+  function integrateIAResponse() {
+    const respuesta = $('respuestaIA')?.value || '';
+    if(!respuesta.trim()) {
+      showToast('Pega primero la respuesta de la IA en el campo correspondiente', 'warn');
+      return;
+    }
+    iaResponseIntegrated = true;
+    const integratedDiv = $('iaRespuestaIntegrada');
+    if(integratedDiv) {
+      integratedDiv.innerHTML = `<div class="factor-category"><strong>✅ Respuesta de IA integrada al informe</strong><br>${respuesta.substring(0, 300)}${respuesta.length > 300 ? '...' : ''}</div>`;
+    }
+    const exportSection = $('exportSection');
+    if(exportSection) exportSection.style.display = 'block';
+    showToast('Respuesta de IA integrada al informe', 'success');
+  }
+
+  function generateProfile() {
+    const form = getFormData();
+    const styleScores = countScores(styleDefinitions, 'style');
+    const rhythmScores = countScores(rhythmDefinitions, 'rhythm');
+    const styleLeaders = maxLabel(styleScores, styleDefinitions);
+    const rhythmLeaders = maxLabel(rhythmScores, rhythmDefinitions);
+    const obsTexts = getCheckedByKind('observation').map(c => c.parentElement.querySelector('span')?.innerText || '');
+    const factores = getFactoresContextuales();
+
+    renderScoreBars('styleScores', styleDefinitions, styleScores);
+    renderScoreBars('rhythmScores', rhythmDefinitions, rhythmScores);
+
+    const badgesDiv = $('summaryBadges');
+    if(badgesDiv) badgesDiv.innerHTML = `<span class="badge">Estilo: ${styleLeaders.join(' / ')}</span><span class="badge">Ritmo: ${rhythmLeaders.join(' / ')}</span><span class="badge">${form.area}</span>`;
+
+    const summaryText = $('summaryText');
+    if(summaryText) summaryText.innerText = `${form.nombre || 'Este estudiante'} muestra tendencias de aprendizaje asociadas a ${styleLeaders.join(' y ')}. Ritmo: ${rhythmLeaders.join(' y ')}. ${form.fortalezas ? `Fortalezas: ${form.fortalezas}` : ''}`;
+
+    const recs = getAdvancedSuggestions(styleLeaders, rhythmLeaders, styleScores, rhythmScores, form.area, form.nivel);
+    const recList = $('recommendations');
+    if(recList) recList.innerHTML = recs.map(r => `<li>${r}</li>`).join('');
+
+    const obsList = $('observationSummary');
+    if(obsList) obsList.innerHTML = obsTexts.length ? obsTexts.map(t => `<li>${t}</li>`).join('') : '<li>No se marcaron observaciones</li>';
+
+    return { id: currentEditingId || uid(), createdAt: new Date().toISOString(), formData: form, styleScores, rhythmScores, styleLeaders, rhythmLeaders, checkedObservations: obsTexts, recommendations: recs, summary: summaryText?.innerText || '', factoresContextuales: factores, iaResponse: iaResponseIntegrated ? $('respuestaIA')?.value : '' };
+  }
+
+  function exportReportHTML() {
+    const profile = generateProfile();
+    const form = profile.formData;
+    const fc = profile.factoresContextuales || {};
+    const fecha = new Date().toLocaleDateString('es-CO', { year:'numeric', month:'long', day:'numeric' });
+
+    // Build styles table rows
+    const styleRows = (profile.styleScores ? Object.entries(profile.styleScores) : []).map(([k, v]) => {
+      const def = styleDefinitions.find(d => d.key === k);
+      const pct = Math.round((v / 8) * 100);
+      const level = pct >= 70 ? 'Fuerte' : pct >= 40 ? 'Moderado' : 'Leve';
+      const color = pct >= 70 ? '#16a34a' : pct >= 40 ? '#d97706' : '#6b7280';
+      const isPred = (profile.styleLeaders || []).includes(def?.title);
+      return `<tr style="${isPred ? 'background:#eff6ff;font-weight:700;' : ''}">
+        <td style="padding:8px 12px;">${isPred ? '★ ' : ''}${def?.title || k}</td>
+        <td style="padding:8px 12px; text-align:center;">${v}/8</td>
+        <td style="padding:8px 12px;">
+          <div style="background:#e5e7eb;border-radius:6px;height:8px;width:120px;">
+            <div style="background:${color};height:8px;border-radius:6px;width:${pct}%;"></div>
+          </div>
+        </td>
+        <td style="padding:8px 12px;color:${color};font-size:0.85rem;">${level}</td>
+      </tr>`;
+    }).join('');
+
+    // Build rhythms table rows
+    const rhythmRows = (profile.rhythmScores ? Object.entries(profile.rhythmScores) : []).map(([k, v]) => {
+      const def = rhythmDefinitions.find(d => d.key === k);
+      const pct = Math.round((v / 8) * 100);
+      const level = pct >= 70 ? 'Fuerte' : pct >= 40 ? 'Moderado' : 'Leve';
+      const color = pct >= 70 ? '#7c3aed' : pct >= 40 ? '#d97706' : '#6b7280';
+      const isPred = (profile.rhythmLeaders || []).includes(def?.title);
+      return `<tr style="${isPred ? 'background:#faf5ff;font-weight:700;' : ''}">
+        <td style="padding:8px 12px;">${isPred ? '★ ' : ''}${def?.title || k}</td>
+        <td style="padding:8px 12px; text-align:center;">${v}/8</td>
+        <td style="padding:8px 12px;">
+          <div style="background:#e5e7eb;border-radius:6px;height:8px;width:120px;">
+            <div style="background:${color};height:8px;border-radius:6px;width:${pct}%;"></div>
+          </div>
+        </td>
+        <td style="padding:8px 12px;color:${color};font-size:0.85rem;">${level}</td>
+      </tr>`;
+    }).join('');
+
+    // Contextual factors summary
+    const factorBlocks = [];
+    if (fc.psicologicos?.length) factorBlocks.push(`<li><strong>Psicológicos:</strong> ${fc.psicologicos.join(', ')}${fc.psicologicoDetalle ? '. ' + fc.psicologicoDetalle : ''}</li>`);
+    if (fc.biologicos?.length)   factorBlocks.push(`<li><strong>Biológicos/Médicos:</strong> ${fc.biologicos.join(', ')}${fc.biologicoDetalle ? '. ' + fc.biologicoDetalle : ''}</li>`);
+    if (fc.sociales?.length)     factorBlocks.push(`<li><strong>Sociales:</strong> ${fc.sociales.join(', ')}${fc.socialDetalle ? '. ' + fc.socialDetalle : ''}</li>`);
+    if (fc.ambientales?.length)  factorBlocks.push(`<li><strong>Ambientales:</strong> ${fc.ambientales.join(', ')}${fc.ambientalDetalle ? '. ' + fc.ambientalDetalle : ''}</li>`);
+    if (fc.religiosos?.length)   factorBlocks.push(`<li><strong>Religiosos/Espirituales:</strong> ${fc.religiosos.join(', ')}${fc.religiosoDetalle ? '. ' + fc.religiosoDetalle : ''}</li>`);
+
+    // IA response: parse into sections and format as short para + bullets
+    const iaText = profile.iaResponse || '';
+    function formatIASection(text) {
+      if (!text) return '';
+      const lines = text.split('\n').filter(l => l.trim());
+      let html = '';
+      for (const line of lines) {
+        const t = line.trim();
+        if (/^[0-9]+\.\s/.test(t) || /^[🎯🤝💡📈🏠⚕️🐾✅⚠️]/.test(t)) {
+          html += `<h4 style="color:#1e40af;margin:18px 0 6px;font-size:1rem;">${t}</h4>`;
+        } else if (/^[-•–]\s/.test(t) || /^[A-Z].*:$/.test(t)) {
+          html += `<li style="margin:4px 0 4px 16px;">${t.replace(/^[-•–]\s/, '')}</li>`;
+        } else if (t.length > 0) {
+          // Paragraphs: only show first ~200 chars as intro, rest as bullets if long
+          if (t.length > 200) {
+            const sentences = t.split(/(?<=[.!?])\s+/);
+            html += `<p style="margin:6px 0;">${sentences[0]}</p>`;
+            if (sentences.length > 1) {
+              html += `<ul style="margin:4px 0 8px;">` + sentences.slice(1).map(s => `<li style="margin:3px 0 3px 16px;">${s}</li>`).join('') + `</ul>`;
+            }
+          } else {
+            html += `<p style="margin:6px 0;">${t}</p>`;
+          }
+        }
+      }
+      return html;
+    }
+
+    const iaHtml = iaText ? `
+      <div style="background:#eff6ff;border-left:4px solid #2563eb;border-radius:0 12px 12px 0;padding:20px;margin-top:8px;">
+        ${formatIASection(iaText)}
+      </div>` : '<p style="color:#9ca3af;">No se integró respuesta de IA.</p>';
+
+    const html = `<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<title>Informe – ${form.nombre || 'Estudiante'}</title>
+<style>
+  body { font-family: 'Segoe UI', sans-serif; padding: 40px; max-width: 860px; margin: auto; color: #1f2937; line-height: 1.6; }
+  h1 { color: #1e40af; font-size: 1.6rem; margin-bottom: 4px; }
+  h2 { color: #1e40af; font-size: 1.15rem; border-bottom: 2px solid #dbeafe; padding-bottom: 6px; margin-top: 32px; }
+  h3 { font-size: 1rem; color: #374151; margin: 16px 0 6px; }
+  .meta { display: flex; flex-wrap: wrap; gap: 12px; margin: 12px 0 20px; }
+  .meta span { background: #eff6ff; color: #1e40af; padding: 4px 12px; border-radius: 20px; font-size: 0.85rem; font-weight: 600; }
+  .section-box { background: #f9fafb; border: 1px solid #e5e7eb; border-radius: 12px; padding: 16px; margin: 12px 0; }
+  table { width: 100%; border-collapse: collapse; font-size: 0.9rem; }
+  th { background: #f3f4f6; padding: 8px 12px; text-align: left; font-size: 0.8rem; color: #6b7280; text-transform: uppercase; letter-spacing: 0.05em; }
+  ul { padding-left: 18px; margin: 8px 0; }
+  li { margin: 4px 0; }
+  .highlight { background: #fffbeb; border-left: 4px solid #f59e0b; padding: 10px 14px; border-radius: 0 8px 8px 0; margin: 10px 0; }
+  .footer { margin-top: 48px; padding-top: 16px; border-top: 1px solid #e5e7eb; font-size: 0.78rem; color: #9ca3af; }
+  @media print { body { padding: 20px; } }
+</style>
+</head>
+<body>
+
+<h1>📊 Informe Integral de Aprendizaje</h1>
+<p style="color:#6b7280;font-size:0.85rem;">Generado el ${fecha} · Herramienta: Perfil de Aprendizaje + IA · PhD. José Andrade</p>
+
+<div class="meta">
+  <span>👤 ${form.nombre || 'Sin nombre'}</span>
+  <span>🎂 ${form.edad ? form.edad + ' años' : 'Edad n/d'}</span>
+  <span>📚 ${form.grado || 'Grado n/d'}</span>
+  <span>🏫 ${form.nivel || ''}</span>
+  <span>📖 ${form.area || ''}</span>
+  ${form.docente ? `<span>👩‍🏫 ${form.docente}</span>` : ''}
+</div>
+
+<h2>📋 Resumen del caso</h2>
+<div class="section-box">
+  ${form.contexto ? `<p><strong>Contexto académico:</strong> ${form.contexto}</p>` : ''}
+  ${form.fortalezas ? `<div class="highlight"><strong>💪 Fortalezas observadas:</strong> ${form.fortalezas}</div>` : ''}
+  ${form.alertas ? `<p><strong>⚠️ Barreras o alertas:</strong> ${form.alertas}</p>` : ''}
+  ${form.notasDocente ? `<p><strong>📝 Notas del docente:</strong> ${form.notasDocente}</p>` : ''}
+</div>
+
+<h2>🎨 Estilos de aprendizaje evaluados</h2>
+<p style="font-size:0.88rem;color:#6b7280;">★ Indica el estilo predominante según los indicadores marcados.</p>
+<table>
+  <thead><tr><th>Estilo</th><th>Puntaje</th><th>Intensidad</th><th>Nivel</th></tr></thead>
+  <tbody>${styleRows || '<tr><td colspan="4" style="padding:12px;color:#9ca3af;">Sin datos</td></tr>'}</tbody>
+</table>
+${profile.styleLeaders?.length ? (() => {
+  const styleDesc = {
+    'Visual': `El estudiante procesa y retiene mejor la información cuando esta se presenta de forma visual: esquemas, mapas conceptuales, colores, gráficos e infografías. El predominio de este estilo indica que <strong>organiza el pensamiento a través de la imagen y la estructura espacial</strong>. Para el docente, esto significa que las explicaciones orales sin soporte visual tienen menor impacto; en cambio, un tablero organizado, guías gráficas anticipadas y recursos como diagramas de flujo o líneas de tiempo potencian significativamente su comprensión y retención.`,
+    'Auditivo': `El estudiante aprende con mayor eficacia a través del canal auditivo: escuchar explicaciones, participar en discusiones orales, repetir en voz alta o grabar y reproducir contenidos. El predominio de este estilo indica que <strong>la palabra hablada es su principal vía de construcción del conocimiento</strong>. Para el docente, resulta valioso incorporar debates, explicaciones orales detalladas, preguntas de verificación en voz alta y la posibilidad de que el estudiante explique a otros lo que aprendió.`,
+    'Lectoescritor': `El estudiante consolida mejor su aprendizaje a través de la lectura y la escritura: tomar apuntes, hacer resúmenes, consultar textos y responder por escrito. El predominio de este estilo indica que <strong>la elaboración escrita es su forma más eficaz de apropiación del conocimiento</strong>. Para el docente, conviene ofrecer guías escritas, tiempo para tomar notas, evaluaciones con respuesta escrita desarrollada y la posibilidad de usar listas de verificación o esquemas propios.`,
+    'Kinestésico': `El estudiante aprende haciendo: manipulando, experimentando, moviéndose y relacionando el contenido con situaciones físicas o prácticas reales. El predominio de este estilo indica que <strong>la experiencia directa y el aprendizaje activo son su motor cognitivo</strong>. Para el docente, esto implica privilegiar prácticas de laboratorio, simulaciones, casos reales, proyectos y actividades donde el cuerpo y la acción tengan protagonismo; las explicaciones puramente abstractas o pasivas suelen generar desconexión.`
+  };
+  const leaders = profile.styleLeaders;
+  const desc = leaders.map(l => styleDesc[l] || '').filter(Boolean).join(' ');
+  return desc ? `<div style="background:#eff6ff;border-left:4px solid #2563eb;border-radius:0 10px 10px 0;padding:14px 16px;margin-top:12px;font-size:0.9rem;line-height:1.7;">${desc}</div>` : '';
+})() : ''}
+
+<h2>⏱️ Ritmos de aprendizaje evaluados</h2>
+<p style="font-size:0.88rem;color:#6b7280;">★ Indica el ritmo predominante según los indicadores marcados.</p>
+<table>
+  <thead><tr><th>Ritmo</th><th>Puntaje</th><th>Intensidad</th><th>Nivel</th></tr></thead>
+  <tbody>${rhythmRows || '<tr><td colspan="4" style="padding:12px;color:#9ca3af;">Sin datos</td></tr>'}</tbody>
+</table>
+${profile.rhythmLeaders?.length ? (() => {
+  const rhythmDesc = {
+    'Ágil': `El estudiante capta y transfiere con rapidez, necesita pocas repeticiones y se aburre con la práctica excesiva. El predominio de este ritmo indica que <strong>su mayor riesgo no es quedarse atrás, sino subutilizarse</strong>. Para el docente, lo más beneficioso es ofrecer retos de profundización, actividades de ampliación y autonomía progresiva, evitando la sobreexplicación de contenidos que ya domina.`,
+    'Progresivo': `El estudiante avanza de forma sólida cuando cuenta con andamiaje explícito: modelos, ejemplos paso a paso, verificaciones frecuentes y retroalimentación oportuna. El predominio de este ritmo indica que <strong>su aprendizaje es más robusto cuando el proceso está estructurado y el docente actúa como guía visible</strong>. La confianza es su detonante: cuando la tiene, su desempeño mejora notablemente.`,
+    'Sostenido': `El estudiante aprende con mayor profundidad cuando dispone de tiempo suficiente, rutinas estables y práctica espaciada. El predominio de este ritmo indica que <strong>no necesita más velocidad, sino más tiempo y repetición de calidad</strong>. Para el docente, esto implica evitar la sobrecarga en periodos cortos, ofrecer pausas activas y respetar el ritmo de consolidación sin interpretarlo como dificultad o falta de esfuerzo.`,
+    'Variable': `El rendimiento del estudiante fluctúa en función del interés, el clima emocional y la claridad del propósito de la tarea. El predominio de este ritmo indica que <strong>su desempeño no es inconsistente por falta de capacidad, sino sensible al contexto</strong>. Para el docente, lo más beneficioso es conectar los contenidos con sus intereses genuinos, reducir la presión ambiental y asegurarse de que la tarea tenga sentido claro antes de iniciar.`
+  };
+  const leaders = profile.rhythmLeaders;
+  const desc = leaders.map(l => rhythmDesc[l] || '').filter(Boolean).join(' ');
+  return desc ? `<div style="background:#faf5ff;border-left:4px solid #7c3aed;border-radius:0 10px 10px 0;padding:14px 16px;margin-top:12px;font-size:0.9rem;line-height:1.7;">${desc}</div>` : '';
+})() : ''}
+
+${profile.recommendations?.length ? `
+<h2>📖 Sugerencias didácticas generales</h2>
+<div class="section-box">
+  <ul>${profile.recommendations.map(r => `<li>${r}</li>`).join('')}</ul>
+</div>` : ''}
+
+${factorBlocks.length ? `
+<h2>🧩 Factores contextuales relevantes</h2>
+<div class="section-box">
+  <ul>${factorBlocks.join('')}</ul>
+  ${fc.vozEstudiante ? `<div class="highlight"><strong>💬 Voz del estudiante/familia:</strong> ${fc.vozEstudiante}</div>` : ''}
+  ${fc.preferenciaEvaluacion ? `<p><strong>📝 Preferencia de evaluación:</strong> ${fc.preferenciaEvaluacion}</p>` : ''}
+  ${fc.temasInteres ? `<p><strong>⭐ Temas de interés:</strong> ${fc.temasInteres}</p>` : ''}
+</div>` : ''}
+
+<h2>🤖 Estrategias y recomendaciones (análisis con IA)</h2>
+${iaHtml}
+
+<div style="background:#f0fdf4;border:1px solid #bbf7d0;border-radius:14px;padding:18px 20px;margin-top:32px;">
+  <p style="font-size:0.9rem;line-height:1.75;margin:0;color:#14532d;">
+    <strong>Sobre inclusión, equidad y derecho a la educación.</strong>
+    La identificación del perfil de aprendizaje de este estudiante no responde a un criterio de clasificación, sino al principio constitucional que reconoce la educación como derecho fundamental (Const. Política, art. 67) y a la obligación del Estado y las instituciones de garantizar condiciones de equidad para su ejercicio real. La <em>Ley 115 de 1994</em> (Ley General de Educación) establece la formación integral como fin de la educación colombiana; la <em>Ley 1618 de 2013</em> y el <em>Decreto 1421 de 2017</em> consagran el derecho a la educación inclusiva y la obligación institucional de implementar ajustes razonables que remuevan barreras al aprendizaje. Evaluar a todos bajo las mismas condiciones cuando las condiciones de partida no son iguales no es equidad: es reproducción de la desigualdad. Este informe busca contribuir a una práctica pedagógica donde la diferencia no sea obstáculo, sino punto de partida para una educación de mayor calidad para todos.
+  </p>
+</div>
+
+<div class="footer">
+  <strong>Perfil de Aprendizaje + IA</strong> · PhD. José Alonso Andrade Salazar · 911psicologia@gmail.com<br>
+  Clínica Central, Consultorio 403 · Armenia – Quindío · Tel. 3156160390<br>
+  Este informe es un instrumento de apoyo clínico-pedagógico. No reemplaza valoración médica ni diagnóstico formal.
+</div>
+</body>
+</html>`;
+
+    const blob = new Blob([html], { type: 'text/html' });
+    const a = document.createElement('a');
+    a.href = URL.createObjectURL(blob);
+    a.download = `informe_${(form.nombre || 'estudiante').replace(/\s+/g,'_')}_${new Date().toISOString().slice(0,10)}.html`;
+    a.click();
+    URL.revokeObjectURL(a.href);
+    showToast('Informe HTML exportado correctamente', 'success');
+  }
+
+  // ===== TOAST SYSTEM =====
+  function showToast(msg, type = 'success', duration = 3000) {
+    const container = document.getElementById('toast-container');
+    const icons = { success: '✅', warn: '⚠️', info: 'ℹ️', error: '❌' };
+    const toast = document.createElement('div');
+    toast.className = `toast ${type}`;
+    toast.innerHTML = `<span>${icons[type]}</span><span>${msg}</span>`;
+    container.appendChild(toast);
+    setTimeout(() => {
+      toast.style.animation = 'fadeOut 0.4s ease forwards';
+      setTimeout(() => toast.remove(), 400);
+    }, duration);
+  }
+
+  // ===== DEMO: VALENTINA =====
+  function loadDemo() {
+    currentEditingId = null;
+    if($('nombre')) $('nombre').value = 'Valentina Rojas';
+    if($('edad')) $('edad').value = '11';
+    if($('grado')) $('grado').value = '5°';
+    if($('area')) $('area').value = 'Ciencias';
+    if($('nivel')) $('nivel').value = 'Básica primaria';
+    if($('docente')) $('docente').value = 'Prof. Camilo Herrera';
+    if($('contexto')) $('contexto').value = 'Grupo de 35 estudiantes. Ambiente ruidoso. Clases de 45 minutos.';
+    if($('fortalezas')) $('fortalezas').value = 'Buena disposición, curiosidad, creatividad, empatía con animales.';
+    if($('alertas')) $('alertas').value = 'Se bloquea con consignas largas. Ansiedad ante evaluaciones escritas. Ha repetido 2 años.';
+    if($('notasDocente')) $('notasDocente').value = 'Responde mejor cuando se le explica con imágenes y ejemplos concretos. Necesita validación constante.';
+
+    document.querySelectorAll('input[type="checkbox"]').forEach(cb => cb.checked = false);
+    // Estilos de aprendizaje
+    ['style_visual_0','style_visual_1','style_visual_2','style_visual_3','style_visual_4','style_visual_5',
+     'style_kinestesico_0','style_kinestesico_1','style_kinestesico_2',
+     'style_auditivo_5','style_auditivo_6'].forEach(id => { const el=$(id); if(el) el.checked = true; });
+    // Ritmo
+    ['rhythm_sostenido_0','rhythm_sostenido_1','rhythm_sostenido_2','rhythm_sostenido_3',
+     'rhythm_progresivo_0','rhythm_progresivo_1','rhythm_progresivo_2'].forEach(id => { const el=$(id); if(el) el.checked = true; });
+    // Observaciones
+    ['obs_0','obs_1','obs_3','obs_4','obs_5','obs_6','obs_7','obs_10'].forEach(id => { const el=$(id); if(el) el.checked = true; });
+    // Factores
+    document.querySelectorAll('.factor-psicologico').forEach(cb => { if(cb.value === 'Ansiedad ante evaluaciones' || cb.value === 'Baja autoestima') cb.checked = true; });
+    document.querySelectorAll('.factor-ambiental').forEach(cb => { if(cb.value === 'Aula ruidosa' || cb.value === 'Grupo numeroso') cb.checked = true; });
+    if($('detallePsicologico')) $('detallePsicologico').value = 'Ansiedad generalizada. Ha repetido dos años por reprobar evaluaciones. Baja autoestima académica.';
+    if($('vozEstudiante')) $('vozEstudiante').value = 'A Valentina le gusta que le expliquen con dibujos y colores. Prefiere evaluaciones orales. Le encantan los animales y la naturaleza. Dice que aprende mejor cuando puede tocar y hacer las cosas.';
+    if($('preferenciaEvaluacion')) $('preferenciaEvaluacion').value = 'Oral, con apoyo visual, en un espacio tranquilo, sin presión de tiempo';
+    if($('temasInteres')) $('temasInteres').value = 'Animales, naturaleza, dinosaurios, dibujo';
+    generateProfile();
+    document.querySelector('.tab-btn[data-tab="nuevo"]').click();
+    showToast('Caso demo de Valentina cargado', 'success');
+  }
+
+  // ===== DEMO: SYRIANA NICOLE TABORDA VASCO =====
+  function loadDemoSyriana() {
+    currentEditingId = null;
+    if($('nombre')) $('nombre').value = 'S.xxx N. T.V.';
+    if($('edad')) $('edad').value = '18';
+    if($('grado')) $('grado').value = 'Primer año – Semestre I/II';
+    if($('area')) $('area').value = 'Universidad';
+    if($('nivel')) $('nivel').value = 'Universidad';
+    if($('docente')) $('docente').value = 'Coordinación Medicina Veterinaria – U. La Gran Colombia, Armenia';
+    if($('contexto')) $('contexto').value = 'Programa de Medicina Veterinaria y Zootecnia. Clases magistrales, prácticas clínicas con animales pequeños y grandes, quizzes frecuentes. Ambiente académico exigente con evaluaciones sorpresivas.';
+    if($('fortalezas')) $('fortalezas').value = 'Alta reflexividad. Vocación veterinaria profunda (preferencia por fauna silvestre). Sentido ético y afectivo sólido. Vínculo genuino con animales. Humor ante situaciones difíciles. Mejora progresiva en participación académica y social. Liderazgo emergente en trabajos grupales. Sueño reparador (factor protector activo).';
+    if($('alertas')) $('alertas').value = 'Bloqueo cognitivo ante evaluaciones sorpresivas (quizzes). Baja tolerancia a la frustración con llanto involuntario. Ansiedad anticipatoria moderada. Historia de bullying con daño emocional. Antecedente de hipoacusia severa (resuelta quirúrgicamente) con posible huella funcional en procesamiento auditivo bajo presión. Tendencia a autorresponsabilizarse en exceso.';
+    if($('notasDocente')) $('notasDocente').value = 'S.xxx NO tiene incapacidad intelectual. Su dificultad es específica: se bloquea ante la sorpresa evaluativa y la presión temporal. En contextos predecibles, estructurados y con anticipación, su desempeño es óptimo. Ya ha sido valorada y se descartó TEA, Asperger y discapacidad intelectual. Requiere ajustes razonables, no privilegios.';
+
+    document.querySelectorAll('input[type="checkbox"]').forEach(cb => cb.checked = false);
+    // Estilos – Visual fuerte + Kinestésico (aprende haciendo en prácticas)
+    ['style_visual_0','style_visual_1','style_visual_2','style_visual_3','style_visual_4','style_visual_5','style_visual_6','style_visual_7',
+     'style_kinestesico_0','style_kinestesico_1','style_kinestesico_2','style_kinestesico_4','style_kinestesico_5','style_kinestesico_6',
+     'style_lectoescritor_0','style_lectoescritor_2','style_lectoescritor_3','style_lectoescritor_6'].forEach(id => { const el=$(id); if(el) el.checked = true; });
+    // Ritmo – Progresivo + Variable (necesita andamiaje y condiciones favorables)
+    ['rhythm_progresivo_0','rhythm_progresivo_1','rhythm_progresivo_2','rhythm_progresivo_3','rhythm_progresivo_4','rhythm_progresivo_5','rhythm_progresivo_6',
+     'rhythm_variable_0','rhythm_variable_3','rhythm_variable_4','rhythm_variable_5','rhythm_variable_7',
+     'rhythm_sostenido_0','rhythm_sostenido_1','rhythm_sostenido_2'].forEach(id => { const el=$(id); if(el) el.checked = true; });
+    // Observaciones
+    ['obs_1','obs_3','obs_4','obs_5','obs_6','obs_9','obs_10','obs_13'].forEach(id => { const el=$(id); if(el) el.checked = true; });
+    // Factores psicológicos
+    document.querySelectorAll('.factor-psicologico').forEach(cb => {
+      if(['Ansiedad ante evaluaciones','Baja autoestima','Estrés postraumático'].includes(cb.value)) cb.checked = true;
+    });
+    if($('detallePsicologico')) $('detallePsicologico').value = 'Ansiedad situacional asociada a evaluaciones (especialmente quizzes sorpresivos). Bloqueo cognitivo transitorio bajo presión. Baja tolerancia a la frustración. Historial de bullying y acusaciones injustas con daño emocional residual. Proceso psicoterapéutico activo con avances significativos. No hay indicadores actuales de autismo, Asperger ni discapacidad intelectual (evaluaciones realizadas en EE.UU. y Colombia).';
+    // Factores biológicos
+    document.querySelectorAll('.factor-biologico').forEach(cb => {
+      if(['Condición médica diagnosticada','Dificultad del lenguaje'].includes(cb.value)) cb.checked = true;
+    });
+    if($('detalleBiologico')) $('detalleBiologico').value = 'Antecedente: hipoacusia severa (≈95%) a los 18 meses por otitis media con efusión persistente. Resuelta con cirugía de tubos de ventilación. Durante periodo crítico del neurodesarrollo hubo deprivación auditiva fluctuante, lo que puede haber dejado huella funcional en codificación de señales rápidas bajo presión (ver Winskel, 2006). Retraso específico del lenguaje en infancia, con recuperación progresiva. Exposición bilingüe temprana (español-inglés). No está en tratamiento farmacológico actualmente.';
+    // Factores sociales
+    document.querySelectorAll('.factor-social').forEach(cb => {
+      if(cb.value === 'Acoso escolar') cb.checked = true;
+    });
+    if($('detalleSocial')) $('detalleSocial').value = 'Historia de bullying en primaria: exclusión social, acusaciones falsas, desprotección institucional. Esto dejó hipersensibilidad al juicio externo y tendencia a la hiperselectividad social. Familia nuclear funcional. Padre: figura de mayor contención emocional (viajes frecuentes por trabajo). Madre: altamente involucrada, con tendencia a la exigencia y preocupación anticipatoria. Convive con 18 mascotas (fuente primaria de regulación afectiva).';
+    if($('vozEstudiante')) $('vozEstudiante').value = 'S.xxx aprende mejor con anticipación y estructura. Responde bien en actividades preparadas y previsibles. Se bloquea si la evaluación es sorpresiva o si las instrucciones son múltiples y simultáneas. Su rendimiento es óptimo en prácticas clínicas con animales y en tareas donde puede organizar cognitivamente su respuesta. Le cuesta participar espontáneamente en clase por miedo al ridículo frente a pares (no tanto al docente). Disfruta preguntar cuando el ambiente es seguro y receptivo. Tiene humor situacional y buena introspección.';
+    if($('preferenciaEvaluacion')) $('preferenciaEvaluacion').value = 'Evaluaciones con aviso previo. Tiempo adicional razonable en escritas. Clarificación de instrucciones antes de iniciar. Posibilidad de evaluación alternativa si hubo bloqueo por ansiedad aguda. Sin exposición innecesaria ante pares.';
+    if($('temasInteres')) $('temasInteres').value = 'Medicina veterinaria de fauna silvestre, animales exóticos, bienestar animal, etología, procedimientos clínicos con animales grandes';
+    generateProfile();
+    document.querySelector('.tab-btn[data-tab="nuevo"]').click();
+    showToast('Caso demo cargado cargado', 'success');
+  }
+
+  function clearForm() {
+    currentEditingId = null;
+    document.querySelectorAll('input:not([type="file"]), textarea, select').forEach(f => { if(f.type === 'checkbox') f.checked = false; else if(f.tagName === 'SELECT') f.selectedIndex = 0; else f.value = ''; });
+    if($('area')) $('area').value = 'General';
+    if($('nivel')) $('nivel').value = 'Básica primaria';
+    iaResponseIntegrated = false;
+    if($('iaRespuestaIntegrada')) $('iaRespuestaIntegrada').innerHTML = '';
+    if($('respuestaIA')) $('respuestaIA').value = '';
+    generateProfile();
+  }
+
+  function storeCurrentProfile() {
+    const profile = generateProfile();
+    const profiles = loadProfiles();
+    const idx = profiles.findIndex(p => p.id === profile.id);
+    if(idx >= 0) profiles[idx] = profile;
+    else profiles.unshift(profile);
+    saveProfiles(profiles);
+    currentEditingId = profile.id;
+    showToast('Perfil guardado correctamente', 'success');
+  }
+
+  function loadProfiles() { try { return JSON.parse(localStorage.getItem(STORAGE_KEY)) || []; } catch { return []; } }
+  function saveProfiles(list) { localStorage.setItem(STORAGE_KEY, JSON.stringify(list)); renderAllLists(); }
+
+  function getLevelTag(nivel) {
+    if (!nivel) return '';
+    const n = nivel.toLowerCase();
+    if (n.includes('universit')) return '<span class="case-status-tag uni">🎓 Universidad</span>';
+    if (n.includes('media')) return '<span class="case-status-tag media">📘 Media</span>';
+    if (n.includes('primaria')) return '<span class="case-status-tag primaria">🌱 Primaria</span>';
+    if (n.includes('secundaria')) return '<span class="case-status-tag media">📗 Secundaria</span>';
+    return '';
+  }
+
+  function renderAllLists(filter = '') {
+    const profiles = loadProfiles();
+    const query = filter.toLowerCase();
+    const filtered = profiles.filter(p => (p.formData.nombre + p.formData.grado + p.formData.area + p.formData.nivel).toLowerCase().includes(query));
+    const recent = [...profiles].sort((a,b) => new Date(b.createdAt) - new Date(a.createdAt)).slice(0, 6);
+
+    const recentDiv = $('recentCasesList');
+    if(recentDiv) recentDiv.innerHTML = recent.length ? recent.map(p => `<div class="saved-card"><div class="saved-head"><strong>${p.formData.nombre || 'Sin nombre'}</strong>${getLevelTag(p.formData.nivel)}<span class="muted">${new Date(p.createdAt).toLocaleDateString()}</span></div><div style="font-size:0.82rem;color:var(--muted);margin:4px 0;">${p.formData.grado || ''} ${p.formData.area ? '· '+p.formData.area : ''}</div><div class="toolbar"><button class="btn-secondary" onclick="window.openProfile('${p.id}')">Abrir</button><button class="btn-warn" onclick="window.deleteProfile('${p.id}')">Eliminar</button></div></div>`).join('') : '<div class="empty">No hay casos recientes. Crea un perfil o carga un demo.</div>';
+
+    const archiveDiv = $('savedProfilesList');
+    if(archiveDiv) archiveDiv.innerHTML = filtered.length ? filtered.map(p => `<div class="saved-card"><div class="saved-head"><strong>${p.formData.nombre || 'Sin nombre'}</strong>${getLevelTag(p.formData.nivel)}<span class="muted">${p.formData.grado}</span></div><div style="font-size:0.82rem;color:var(--muted);margin:4px 0;">${p.formData.area ? p.formData.area : ''} ${p.formData.docente ? '· '+p.formData.docente : ''}</div><div class="toolbar"><button class="btn-secondary" onclick="window.openProfile('${p.id}')">Abrir</button><button class="btn-warn" onclick="window.deleteProfile('${p.id}')">Eliminar</button></div></div>`).join('') : '<div class="empty">Sin perfiles guardados</div>';
+  }
+
+  window.openProfile = function(id) {
+    const p = loadProfiles().find(i => i.id === id);
+    if(!p) return;
+    currentEditingId = p.id;
+    const f = p.formData;
+    if($('nombre')) $('nombre').value = f.nombre || '';
+    if($('edad')) $('edad').value = f.edad || '';
+    if($('grado')) $('grado').value = f.grado || '';
+    if($('area')) $('area').value = f.area || 'General';
+    if($('nivel')) $('nivel').value = f.nivel || '';
+    if($('docente')) $('docente').value = f.docente || '';
+    if($('contexto')) $('contexto').value = f.contexto || '';
+    if($('fortalezas')) $('fortalezas').value = f.fortalezas || '';
+    if($('alertas')) $('alertas').value = f.alertas || '';
+    if($('notasDocente')) $('notasDocente').value = f.notasDocente || '';
+    // Restore contextual factors if saved
+    if(p.factoresContextuales) {
+      const fc = p.factoresContextuales;
+      document.querySelectorAll('.factor-psicologico').forEach(cb => cb.checked = (fc.psicologicos||[]).includes(cb.value));
+      document.querySelectorAll('.factor-biologico').forEach(cb => cb.checked = (fc.biologicos||[]).includes(cb.value));
+      document.querySelectorAll('.factor-social').forEach(cb => cb.checked = (fc.sociales||[]).includes(cb.value));
+      document.querySelectorAll('.factor-ambiental').forEach(cb => cb.checked = (fc.ambientales||[]).includes(cb.value));
+      document.querySelectorAll('.factor-religioso').forEach(cb => cb.checked = (fc.religiosos||[]).includes(cb.value));
+      if($('detallePsicologico')) $('detallePsicologico').value = fc.psicologicoDetalle || '';
+      if($('detalleBiologico')) $('detalleBiologico').value = fc.biologicoDetalle || '';
+      if($('detalleSocial')) $('detalleSocial').value = fc.socialDetalle || '';
+      if($('detalleAmbiental')) $('detalleAmbiental').value = fc.ambientalDetalle || '';
+      if($('detalleReligioso')) $('detalleReligioso').value = fc.religiosoDetalle || '';
+      if($('vozEstudiante')) $('vozEstudiante').value = fc.vozEstudiante || '';
+      if($('preferenciaEvaluacion')) $('preferenciaEvaluacion').value = fc.preferenciaEvaluacion || '';
+      if($('temasInteres')) $('temasInteres').value = fc.temasInteres || '';
+    }
+    generateProfile();
+    document.querySelector('.tab-btn[data-tab="nuevo"]').click();
+    showToast(`Perfil de ${f.nombre || 'estudiante'} abierto`, 'info');
+  };
+
+  window.deleteProfile = function(id) {
+    if(confirm('¿Eliminar este perfil?')) { saveProfiles(loadProfiles().filter(p => p.id !== id)); showToast('Perfil eliminado', 'warn'); }
+  };
+
+  function init() {
+    renderIndicators();
+    renderAllLists();
+    generateProfile();
+
+    // Render IA Grid
+    const iaGrid = $('iaGrid');
+    if(iaGrid) {
+      iaGrid.innerHTML = iaList.map(ia => `<div class="ia-card" onclick="window.open('${ia.url}', '_blank')"><div class="ia-icon">${ia.icon}</div><div class="ia-name">${ia.name}</div></div>`).join('');
+    }
+
+    // Eventos
+    if($('btnGenerarPrompt')) $('btnGenerarPrompt').addEventListener('click', () => {
+      const prompt = generatePrompt();
+      showToast('Prompt generado — cópialo y pégalo en tu IA favorita', 'info');
+      const modal = document.createElement('div');
+      modal.className = 'modal active';
+      modal.innerHTML = `<div class="modal-content"><h3>📋 Prompt para IA</h3><div class="prompt-box">${prompt.replace(/\n/g,'<br>')}</div><div class="toolbar"><button class="btn-primary" id="modalCopyBtn">Copiar prompt</button><button class="btn-secondary" id="modalCloseBtn">Cerrar</button></div></div>`;
+      document.body.appendChild(modal);
+      document.getElementById('modalCopyBtn')?.addEventListener('click', () => { navigator.clipboard.writeText(prompt); showToast('Prompt copiado', 'success'); });
+      document.getElementById('modalCloseBtn')?.addEventListener('click', () => modal.remove());
+    });
+    if($('btnCopiarPrompt')) $('btnCopiarPrompt').addEventListener('click', copyPrompt);
+    if($('btnIntegrarIA')) $('btnIntegrarIA').addEventListener('click', integrateIAResponse);
+    if($('btnExportarReporte')) $('btnExportarReporte').addEventListener('click', exportReportHTML);
+    if($('btnGuardar')) $('btnGuardar').addEventListener('click', storeCurrentProfile);
+    if($('btnLimpiar')) $('btnLimpiar').addEventListener('click', clearForm);
+    if($('btnDemoCasos')) $('btnDemoCasos').addEventListener('click', () => { $('demoPickerModal').classList.add('active'); });
+    if($('btnNuevoDesdeCasos')) $('btnNuevoDesdeCasos').addEventListener('click', () => { clearForm(); document.querySelector('.tab-btn[data-tab="nuevo"]').click(); });
+    if($('btnExportarTodo')) $('btnExportarTodo').addEventListener('click', () => {
+      const data = loadProfiles();
+      const blob = new Blob([JSON.stringify(data,null,2)], {type:'application/json'});
+      const a = document.createElement('a');
+      a.href = URL.createObjectURL(blob);
+      a.download = 'perfiles.json';
+      a.click();
+    });
+    if($('btnImportarTodo')) $('btnImportarTodo').addEventListener('click', () => $('inputImportar').click());
+    if($('inputImportar')) $('inputImportar').addEventListener('change', e => {
+      const file = e.target.files[0];
+      if(file) {
+        const reader = new FileReader();
+        reader.onload = ev => { try { saveProfiles(JSON.parse(ev.target.result)); showToast('Perfiles importados', 'success'); } catch { showToast('Error al importar el archivo', 'error'); } };
+        reader.readAsText(file);
+      }
+    });
+    if($('btnBorrarTodo')) $('btnBorrarTodo').addEventListener('click', () => { if(confirm('¿Borrar todos los perfiles guardados? Esta acción no se puede deshacer.')) { localStorage.removeItem(STORAGE_KEY); renderAllLists(); showToast('Todos los perfiles eliminados', 'warn'); } });
+    if($('btnImprimir')) $('btnImprimir').addEventListener('click', () => window.print());
+    if($('btnImprimir2')) $('btnImprimir2').addEventListener('click', () => window.print());
+
+    // Demo picker modal
+    if($('demoModalClose')) $('demoModalClose').addEventListener('click', () => $('demoPickerModal').classList.remove('active'));
+    if($('demoPickerModal')) $('demoPickerModal').addEventListener('click', (e) => { if(e.target === $('demoPickerModal')) $('demoPickerModal').classList.remove('active'); });
+    if($('demoCardValentina')) $('demoCardValentina').addEventListener('click', () => { $('demoPickerModal').classList.remove('active'); loadDemo(); });
+    if($('demoCardSyriana')) $('demoCardSyriana').addEventListener('click', () => { $('demoPickerModal').classList.remove('active'); loadDemoSyriana(); });
+
+    // Tabs
+    document.querySelectorAll('.tab-btn').forEach(btn => {
+      btn.addEventListener('click', () => {
+        const tabId = btn.dataset.tab;
+        document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
+        btn.classList.add('active');
+        document.querySelectorAll('.tab-pane').forEach(pane => pane.classList.remove('active'));
+        const activePane = document.getElementById(`tab-${tabId}`);
+        if(activePane) activePane.classList.add('active');
+        if(tabId === 'archivo') renderAllLists($('buscadorArchivo')?.value || '');
+        if(tabId === 'casos') renderAllLists($('buscadorCasos')?.value || '');
+      });
+    });
+
+    // Buscadores
+    if($('buscadorCasos')) $('buscadorCasos').addEventListener('input', e => renderAllLists(e.target.value));
+    if($('buscadorArchivo')) $('buscadorArchivo').addEventListener('input', e => renderAllLists(e.target.value));
+
+    // Menú hamburguesa
+    if($('btnMenu')) $('btnMenu').addEventListener('click', () => { $('sideMenu').classList.add('open'); $('menuOverlay').classList.add('active'); });
+    if($('closeMenu')) $('closeMenu').addEventListener('click', () => { $('sideMenu').classList.remove('open'); $('menuOverlay').classList.remove('active'); });
+    if($('menuOverlay')) $('menuOverlay').addEventListener('click', () => { $('sideMenu').classList.remove('open'); $('menuOverlay').classList.remove('active'); });
+    document.querySelectorAll('.menu-item[data-tab]').forEach(item => {
+      item.addEventListener('click', () => { const tab = item.dataset.tab; document.querySelector(`.tab-btn[data-tab="${tab}"]`)?.click(); $('sideMenu').classList.remove('open'); $('menuOverlay').classList.remove('active'); });
+    });
+
+    // Tour buttons
+    $('tourNext')?.addEventListener('click', () => goToStep(currentStep + 1));
+    $('tourPrev')?.addEventListener('click', () => goToStep(currentStep - 1));
+    $('tourExit')?.addEventListener('click', endTour);
+    // Compass button starts tour
+    $('btnTour')?.addEventListener('click', startTour_fn);
+    // Menu tour item
+    $('menuTour')?.addEventListener('click', () => {
+      $('sideMenu').classList.remove('open'); $('menuOverlay').classList.remove('active');
+      startTour_fn();
+    });
+
+    document.addEventListener('change', e => { if(e.target.matches('input, select, textarea')) generateProfile(); });
+
+    // Start splash on load
+    initSplash();
+  }
+
+  // ========== SPLASH SCREEN ==========
+  const SPLASH_KEY = 'app_splash_seen_v1';
+  const TOUR_KEY   = 'app_tour_seen_v1';
+
+  function safeLS(op, key, val) {
+    try { return op === 'get' ? localStorage.getItem(key) : localStorage.setItem(key, val); }
+    catch(e) { return null; }
+  }
+
+  function forceDismissSplash() {
+    const splash = $('splashScreen');
+    if (!splash) return;
+    splash.style.transition = 'none';
+    splash.style.opacity = '0';
+    splash.style.pointerEvents = 'none';
+    setTimeout(() => { splash.style.display = 'none'; }, 50);
+  }
+
+  function initSplash() {
+    const splash = $('splashScreen');
+    if (!splash) return;
+
+    // Absolute failsafe: no matter what, dismiss after 5 s
+    const failsafe = setTimeout(forceDismissSplash, 5000);
+
+    let dismissed = false;
+    function doHide(startTour) {
+      if (dismissed) return;
+      dismissed = true;
+      clearTimeout(failsafe);
+      clearInterval(timer);
+      hideSplash(startTour);
+    }
+
+    // Progress bar — auto-dismiss after 4 s (first visit)
+    const bar = $('splashBar');
+    let pct = 0;
+    const timer = setInterval(() => {
+      pct += 100 / 40; // 40 ticks × 100ms = 4 s
+      if (bar) bar.style.width = Math.min(pct, 100) + '%';
+      if (pct >= 100) doHide(false);
+    }, 100);
+
+    // Button listeners
+    $('splashTourBtn')?.addEventListener('click', () => doHide(true));
+    $('splashSkipBtn')?.addEventListener('click', () => doHide(false));
+
+    // Click ANYWHERE on the splash (outside buttons) also dismisses
+    splash.addEventListener('click', (e) => {
+      if (!e.target.closest('button')) doHide(false);
+    });
+
+    // Already seen → dismiss in 400 ms
+    const seen = safeLS('get', SPLASH_KEY);
+    if (seen) {
+      if (bar) bar.style.transition = 'width 0.4s linear';
+      setTimeout(() => doHide(false), 400);
+    }
+  }
+
+  function hideSplash(startTour) {
+    safeLS('set', SPLASH_KEY, '1');
+    const splash = $('splashScreen');
+    if (!splash) return;
+    splash.classList.add('hiding');
+    setTimeout(() => {
+      splash.style.display = 'none';
+      splash.style.pointerEvents = 'none'; // extra safety
+      if (startTour) startTour_fn();
+    }, 650);
+  }
+
+  // ========== GUIDED TOUR ==========
+  const tourSteps = [
+    {
+      target: null, tab: null, pos: 'center',
+      title: '👋 Bienvenido a Perfil de Aprendizaje + IA',
+      text: 'Esta herramienta te permite construir perfiles integrales de aprendizaje, identificar estilos y ritmos, registrar factores contextuales y generar estrategias personalizadas con inteligencia artificial. Puedes navegar este tour en cualquier momento con el botón 🧭 de la barra superior.'
+    },
+    {
+      target: '.tab-btn[data-tab="casos"]', tab: 'casos', pos: 'bottom',
+      title: '📋 Mis casos',
+      text: 'Aquí se listan los estudiantes registrados. Puedes buscarlos por nombre, grado o área. Los casos más recientes aparecen primero con etiquetas de nivel educativo.'
+    },
+    {
+      target: '#btnDemoCasos', tab: 'casos', pos: 'top',
+      title: '🎭 Casos demo',
+      text: 'Carga un caso preconfigurado para explorar la app sin necesidad de crear un perfil desde cero. Incluye dos casos reales anonimizados: Valentina (primaria) y S.xxx (universidad).'
+    },
+    {
+      target: '#btnNuevoDesdeCasos', tab: 'casos', pos: 'top',
+      title: '➕ Nuevo caso',
+      text: 'Crea un perfil desde cero. Se abrirá el formulario completo donde registrarás datos del estudiante, estilos de aprendizaje, ritmos y factores contextuales.'
+    },
+    {
+      target: '.tab-btn[data-tab="nuevo"]', tab: 'nuevo', pos: 'bottom',
+      title: '✏️ Nuevo perfil',
+      text: 'En esta pestaña construyes el perfil del estudiante. Llena los datos básicos, marca los indicadores observados y genera automáticamente el perfil de aprendizaje.'
+    },
+    {
+      target: '#headEstilos', tab: 'nuevo', pos: 'top',
+      title: '🎨 Estilos de aprendizaje',
+      text: 'Marca los indicadores que observas en el estudiante. La app calcula el estilo predominante entre Visual, Auditivo, Lectoescritor y Kinestésico. Puedes marcar todos los que apliquen.'
+    },
+    {
+      target: '#headRitmos', tab: 'nuevo', pos: 'top',
+      title: '⏱️ Ritmos de aprendizaje',
+      text: 'Identifica si el estudiante aprende rápido (Ágil), necesita guía gradual (Progresivo), requiere tiempo y práctica (Sostenido) o varía según el contexto (Variable).'
+    },
+    {
+      target: '#headObservacion', tab: 'nuevo', pos: 'top',
+      title: '✅ Lista de observación',
+      text: 'Marca las observaciones clave del estudiante en el aula. Estos datos enriquecen el perfil y el prompt para la IA con información cualitativa de alta pertinencia pedagógica.'
+    },
+    {
+      target: '.tab-btn[data-tab="ia"]', tab: 'ia', pos: 'bottom',
+      title: '🤖 IA Asistente',
+      text: 'Aquí registras factores contextuales (psicológicos, biológicos, sociales, ambientales) y la voz del estudiante. Con todos estos datos se genera el prompt para la IA.'
+    },
+    {
+      target: '#btnGenerarPrompt', tab: 'ia', pos: 'top',
+      title: '✨ Generar prompt',
+      text: 'Al presionar este botón se construye un prompt estructurado con todo el perfil del estudiante. Cópialo y pégalo en ChatGPT, Claude, Gemini u otra IA para obtener estrategias personalizadas.'
+    },
+    {
+      target: '#btnIntegrarIA', tab: 'ia', pos: 'top',
+      title: '🔄 Integrar respuesta de IA',
+      text: 'Pega la respuesta de la IA en el campo de texto y presiiona este botón. La respuesta quedará integrada al perfil. Luego podrás exportar el informe completo en HTML.'
+    },
+    {
+      target: '.tab-btn[data-tab="archivo"]', tab: 'archivo', pos: 'bottom',
+      title: '📚 Archivo de perfiles',
+      text: 'Todos los perfiles guardados aparecen aquí con buscador. Puedes exportar todos en JSON para hacer copias de seguridad, importar desde otro dispositivo o eliminar perfiles específicos.'
+    },
+    {
+      target: '#btnMenu', tab: null, pos: 'left',
+      title: '☰ Menú de navegación',
+      text: 'Accede rápidamente a todas las secciones desde aquí. También puedes volver a activar este tour desde el menú lateral o desde el botón 🧭 de la barra superior. ¡Listo para trabajar!'
+    }
+  ];
+
+  let currentStep = 0;
+  let tourActive = false;
+
+  function startTour_fn() {
+    tourActive = true;
+    localStorage.setItem(TOUR_KEY, '1');
+    const overlay = $('tourOverlay');
+    const bubble = $('tourBubble');
+    if (overlay) overlay.classList.add('active');
+    if (bubble) bubble.style.display = 'block';
+    buildDots();
+    goToStep(0);
+  }
+
+  function endTour() {
+    tourActive = false;
+    const overlay = $('tourOverlay');
+    const bubble = $('tourBubble');
+    const spotlight = $('tourSpotlight');
+    if (overlay) overlay.classList.remove('active');
+    if (bubble) bubble.style.display = 'none';
+    if (spotlight) { spotlight.style.width = '0'; spotlight.style.height = '0'; }
+    showToast('Tour finalizado. Recuerda: puedes volver a activarlo con 🧭', 'info', 4000);
+  }
+
+  function buildDots() {
+    const dots = $('tourDots');
+    if (!dots) return;
+    dots.innerHTML = tourSteps.map((_, i) =>
+      `<div class="tour-dot${i === 0 ? ' active' : ''}" data-dot="${i}"></div>`
+    ).join('');
+    dots.querySelectorAll('.tour-dot').forEach(d => {
+      d.addEventListener('click', () => goToStep(parseInt(d.dataset.dot)));
+    });
+  }
+
+  async function goToStep(n) {
+    if (n < 0 || n >= tourSteps.length) { endTour(); return; }
+    currentStep = n;
+    const step = tourSteps[n];
+
+    // Switch tab if needed
+    if (step.tab) {
+      const tabBtn = document.querySelector(`.tab-btn[data-tab="${step.tab}"]`);
+      if (tabBtn && !tabBtn.classList.contains('active')) {
+        tabBtn.click();
+        await sleep(380);
+      }
+    }
+
+    // Update content
+    const el_num = $('tourStepNum'), el_tot = $('tourStepTotal');
+    const el_title = $('tourTitle'), el_text = $('tourText');
+    if (el_num) el_num.textContent = n + 1;
+    if (el_tot) el_tot.textContent = tourSteps.length;
+    if (el_title) el_title.textContent = step.title;
+    if (el_text) el_text.textContent = step.text;
+
+    // Prev button
+    const prev = $('tourPrev');
+    if (prev) { prev.disabled = n === 0; prev.style.opacity = n === 0 ? '0.4' : '1'; }
+
+    // Next button label
+    const next = $('tourNext');
+    if (next) next.textContent = n === tourSteps.length - 1 ? '✓ Finalizar' : 'Siguiente →';
+
+    // Update dots
+    document.querySelectorAll('.tour-dot').forEach((d, i) => {
+      d.classList.toggle('active', i === n);
+    });
+
+    // Position spotlight + bubble
+    const target = step.target ? document.querySelector(step.target) : null;
+    if (target) {
+      target.scrollIntoView({ behavior: 'smooth', block: 'center' });
+      await sleep(550); // longer wait for scroll + layout to settle
+      positionTour(target, step.pos);
+    } else {
+      // Center bubble, no spotlight
+      const spotlight = $('tourSpotlight');
+      if (spotlight) { spotlight.style.width = '0'; spotlight.style.height = '0'; spotlight.style.opacity = '0'; }
+      const bubble = $('tourBubble');
+      if (bubble) {
+        bubble.classList.add('entering');
+        bubble.style.top = '50%';
+        bubble.style.left = '50%';
+        bubble.style.transform = 'translate(-50%, -50%)';
+        bubble.style.width = 'min(360px, calc(100vw - 32px))';
+        setTimeout(() => bubble.classList.remove('entering'), 400);
+      }
+      const arrow = $('tourArrow');
+      if (arrow) arrow.className = 'tour-arrow';
+    }
+  }
+
+  function positionTour(target, preferredPos) {
+    const spotlight = $('tourSpotlight');
+    const bubble = $('tourBubble');
+    const arrow = $('tourArrow');
+    if (!bubble || !spotlight) return;
+
+    const pad = 8;
+    const margin = 14;
+    const arrowH = 14;
+    const bw = Math.min(300, window.innerWidth - 32);
+    const bh = bubble.offsetHeight || 200;
+    const vw = window.innerWidth;
+    const vh = window.innerHeight;
+
+    const rect = target.getBoundingClientRect();
+
+    // Spotlight
+    spotlight.style.opacity = '1';
+    spotlight.style.left   = (rect.left   - pad) + 'px';
+    spotlight.style.top    = (rect.top    - pad) + 'px';
+    spotlight.style.width  = (rect.width  + pad * 2) + 'px';
+    spotlight.style.height = (rect.height + pad * 2) + 'px';
+    spotlight.classList.add('pulse');
+
+    // Decide actual position — pick side with most room if preferred doesn't fit
+    let pos = preferredPos;
+    const spaceBelow = vh - rect.bottom - bh - arrowH - margin;
+    const spaceAbove = rect.top       - bh - arrowH - margin;
+
+    if (pos === 'bottom' && spaceBelow < 0) pos = spaceAbove > 0 ? 'top' : (spaceBelow > spaceAbove ? 'bottom' : 'top');
+    if (pos === 'top'    && spaceAbove < 0) pos = spaceBelow > 0 ? 'bottom' : (spaceAbove > spaceBelow ? 'top' : 'bottom');
+    if (pos === 'left'   && rect.left - bw - arrowH - margin < 0) pos = 'bottom';
+    if (pos === 'right'  && rect.right + bw + arrowH + margin > vw) pos = 'bottom';
+
+    let top, left;
+    const cx = rect.left + rect.width / 2;
+    const cy = rect.top + rect.height / 2;
+
+    if (pos === 'bottom') {
+      top = rect.bottom + arrowH + margin;
+      left = Math.max(margin, Math.min(cx - bw / 2, vw - bw - margin));
+      // If still off-screen vertically, clamp
+      if (top + bh > vh - margin) top = vh - bh - margin;
+    } else if (pos === 'top') {
+      top = rect.top - bh - arrowH - margin;
+      if (top < margin) top = margin;
+      left = Math.max(margin, Math.min(cx - bw / 2, vw - bw - margin));
+    } else if (pos === 'left') {
+      left = rect.left - bw - arrowH - margin;
+      top = Math.max(margin, Math.min(cy - bh / 2, vh - bh - margin));
+    } else { // right
+      left = rect.right + arrowH + margin;
+      top = Math.max(margin, Math.min(cy - bh / 2, vh - bh - margin));
+    }
+
+    bubble.style.transform = 'none';
+    bubble.style.width = bw + 'px';
+    bubble.style.top  = top + 'px';
+    bubble.style.left = left + 'px';
+    bubble.classList.add('entering');
+    setTimeout(() => bubble.classList.remove('entering'), 400);
+
+    // Arrow
+    if (arrow) {
+      const arrowLeft = cx - left;
+      const arrowTop  = cy - top;
+      arrow.className = 'tour-arrow';
+      if (pos === 'bottom') { arrow.classList.add('arrow-top'); arrow.style.left = Math.max(14, Math.min(arrowLeft - 10, bw - 34)) + 'px'; arrow.style.top = ''; arrow.style.bottom = ''; }
+      if (pos === 'top')    { arrow.classList.add('arrow-bottom'); arrow.style.left = Math.max(14, Math.min(arrowLeft - 10, bw - 34)) + 'px'; arrow.style.top = ''; arrow.style.bottom = ''; }
+      if (pos === 'left')   { arrow.classList.add('arrow-right'); arrow.style.top = Math.max(10, Math.min(arrowTop - 10, bh - 30)) + 'px'; arrow.style.left = ''; arrow.style.right = ''; }
+      if (pos === 'right')  { arrow.classList.add('arrow-left'); arrow.style.top = Math.max(10, Math.min(arrowTop - 10, bh - 30)) + 'px'; arrow.style.left = ''; arrow.style.right = ''; }
+    }
+  }
+
+  function sleep(ms) { return new Promise(r => setTimeout(r, ms)); }
+
+  // Tour keyboard navigation
+  document.addEventListener('keydown', e => {
+    if (!tourActive) return;
+    if (e.key === 'ArrowRight' || e.key === 'ArrowDown') goToStep(currentStep + 1);
+    if (e.key === 'ArrowLeft'  || e.key === 'ArrowUp')  goToStep(currentStep - 1);
+    if (e.key === 'Escape') endTour();
+  });
+
+  init();
+</script>
+</body>
+</html>

@@ -1,0 +1,27 @@
+{
+  "version": "3.3.0",
+  "validatedAt": "2026-07-26",
+  "status": "passed",
+  "counts": {
+    "cards": 980,
+    "dossiers": 980,
+    "historicalLayers": 980,
+    "collections": 24,
+    "newCards": 80,
+    "disciplinaryRelations": 8816,
+    "publishableRelations": 6347,
+    "sources": 1037
+  },
+  "checks": {
+    "uniqueIds": true,
+    "brokenConnections": 0,
+    "invalidQuizzes": 0,
+    "schemaErrorCards": 0,
+    "disciplineIndexParity": true,
+    "newCardsHaveUrls": true,
+    "domMissing": [],
+    "disciplineTab": true,
+    "jsSyntax": true
+  },
+  "errors": []
+}

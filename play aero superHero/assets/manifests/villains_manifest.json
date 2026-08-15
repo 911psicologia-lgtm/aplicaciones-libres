@@ -1,0 +1,50 @@
+[
+  {
+    "id": "villain_1",
+    "name": "Villain 1",
+    "type": "villain",
+    "plannedUse": "world_base_now",
+    "image": "assets/villains/villain_1/enemy.png",
+    "preview": "assets/villains/villain_1/enemy_preview.png",
+    "recommendedWidth": 72,
+    "recommendedHeight": 110,
+    "role": "hard_enemy",
+    "notes": "Villano muy duro y difícil de vencer (ENEMIGO 1)."
+  },
+  {
+    "id": "villain_minion_group",
+    "name": "Villain Minion Group",
+    "type": "minions",
+    "plannedUse": "world_base_now",
+    "image": "assets/minions/villain_minion_group/enemy.png",
+    "preview": "assets/minions/villain_minion_group/enemy_preview.png",
+    "recommendedWidth": 160,
+    "recommendedHeight": 130,
+    "role": "villain_minions",
+    "notes": "Grupo de secuaces del villano (ENEMIGO 2)."
+  },
+  {
+    "id": "villain_minion_unit_1",
+    "name": "Villain Minion Unit 1",
+    "type": "minions",
+    "plannedUse": "world_base_now",
+    "image": "assets/minions/villain_minion_unit_1/enemy.png",
+    "preview": "assets/minions/villain_minion_unit_1/enemy_preview.png",
+    "recommendedWidth": 48,
+    "recommendedHeight": 60,
+    "role": "villain_minions",
+    "notes": "Unidad individual reutilizable de los secuaces (ENEMIGO 2)."
+  },
+  {
+    "id": "villain_minion_unit_2",
+    "name": "Villain Minion Unit 2",
+    "type": "minions",
+    "plannedUse": "world_base_now",
+    "image": "assets/minions/villain_minion_unit_2/enemy.png",
+    "preview": "assets/minions/villain_minion_unit_2/enemy_preview.png",
+    "recommendedWidth": 48,
+    "recommendedHeight": 60,
+    "role": "villain_minions",
+    "notes": "Unidad individual reutilizable de los secuaces (ENEMIGO 2)."
+  }
+]

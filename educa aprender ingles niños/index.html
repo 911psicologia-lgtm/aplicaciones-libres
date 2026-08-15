@@ -1,0 +1,2956 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="theme-color" content="#0a0518">
+<title>🌈 PequeWorld v2 — Inglés para Niños</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;700;800;900;1000&family=Baloo+2:wght@700;800&display=swap" rel="stylesheet">
+<style>
+/* ═══════════════════════════════════════════
+   PEQUEWORLD — PREMIUM KIDS LEARNING GAME
+   Diseño para 3-7 años:
+   - Letras grandes, botones enormes
+   - Colores vibrantes sin saturación dolorosa
+   - Sin ruido visual, 1 cosa a la vez
+   ═══════════════════════════════════════════ */
+:root{
+  --bg:#0a0518;
+  --bg2:#12082b;
+  --card:#1e1340;
+  --card2:#261852;
+  --gold:#FFD700;
+  --gold2:#FFA500;
+  --green:#2ECC71;
+  --red:#E74C3C;
+  --blue:#3498DB;
+  --purple:#9B59B6;
+  --pink:#FF6B9D;
+  --teal:#1ABC9C;
+  --orange:#FF8C42;
+  --text:#F8F4FF;
+  --muted:#9E8FBB;
+  --r:22px;
+  --r2:16px;
+  --topbar-h:64px;
+  --botnav-h:68px;
+}
+*{margin:0;padding:0;box-sizing:border-box;-webkit-tap-highlight-color:transparent;touch-action:manipulation}
+html,body{height:100%;overflow:hidden;background:var(--bg);font-family:'Nunito',sans-serif;color:var(--text);user-select:none}
+
+/* ── STARS BG ── */
+#starsBg{position:fixed;inset:0;pointer-events:none;z-index:0;overflow:hidden}
+.star-dot{position:absolute;border-radius:50%;background:#fff;animation:twinkle var(--d,3s) var(--dl,0s) infinite alternate}
+@keyframes twinkle{from{opacity:.05;transform:scale(.6)}to{opacity:.85;transform:scale(1.1)}}
+
+/* ── CONFETTI CANVAS ── */
+#confCanvas{position:fixed;inset:0;pointer-events:none;z-index:9999}
+
+/* ── SCREENS ── */
+.screen{position:absolute;inset:0;display:flex;flex-direction:column;align-items:center;overflow-y:auto;padding:16px;opacity:0;pointer-events:none;transition:opacity .3s;-webkit-overflow-scrolling:touch;z-index:1}
+.screen.on{opacity:1;pointer-events:all}
+/* El gameScreen NO tiene scroll — todo cabe en pantalla */
+#gameScreen{overflow:hidden!important;padding:0!important}
+
+/* ── TOP BAR ── */
+#topbar{
+  position:fixed;top:0;left:0;right:0;height:64px;
+  background:rgba(10,5,24,.92);backdrop-filter:blur(14px);
+  border-bottom:1px solid rgba(255,215,0,.15);
+  display:none;align-items:center;justify-content:space-between;
+  padding:0 14px;z-index:200
+}
+#topbar.on{display:flex}
+.tb-logo{font-family:'Baloo 2',cursive;font-size:1.4em;color:var(--gold);display:flex;align-items:center;gap:8px}
+.tb-chips{display:flex;gap:6px;align-items:center;flex-wrap:nowrap}
+.tchip{
+  display:flex;align-items:center;gap:4px;
+  background:rgba(255,255,255,.09);border-radius:30px;
+  padding:5px 11px;font-size:.85em;font-weight:800;
+  color:var(--text);white-space:nowrap;border:1.5px solid rgba(255,255,255,.1)
+}
+.tchip span{font-size:1.1em}
+
+/* ── BOTTOM NAV ── */
+#botnav{
+  position:fixed;bottom:0;left:0;right:0;height:68px;
+  background:rgba(10,5,24,.97);backdrop-filter:blur(14px);
+  border-top:1px solid rgba(255,215,0,.12);
+  display:none;align-items:center;justify-content:space-around;z-index:200
+}
+#botnav.on{display:flex}
+.bnbtn{
+  display:flex;flex-direction:column;align-items:center;gap:2px;
+  padding:6px 14px;border-radius:16px;cursor:pointer;
+  color:var(--muted);font-size:.68em;font-weight:800;
+  background:none;border:none;transition:all .2s;font-family:inherit
+}
+.bnbtn .bi{font-size:1.6em;transition:transform .2s}
+.bnbtn.act{color:var(--gold)}
+.bnbtn.act .bi{transform:scale(1.2)}
+
+/* ══════════════════════════════════════════
+   LOGIN SCREEN
+   ══════════════════════════════════════════ */
+#loginScreen{justify-content:center;gap:0;padding-top:20px;padding-bottom:20px}
+.login-planet{font-size:6em;text-align:center;animation:float 3s ease-in-out infinite;display:block;margin-bottom:8px}
+@keyframes float{0%,100%{transform:translateY(0) rotate(-4deg)}50%{transform:translateY(-18px) rotate(4deg)}}
+.login-title{
+  font-family:'Baloo 2',cursive;font-size:2.8em;
+  color:var(--gold);text-align:center;line-height:1;
+  text-shadow:0 0 30px rgba(255,215,0,.4)
+}
+.login-sub{color:var(--muted);text-align:center;font-size:1em;margin:8px 0 22px}
+.profile-row{
+  display:flex;gap:14px;flex-wrap:wrap;justify-content:center;
+  width:100%;max-width:360px;margin:10px 0
+}
+.profile-tile{
+  flex:1;min-width:100px;max-width:140px;
+  background:var(--card);border-radius:20px;
+  border:3px solid rgba(255,255,255,.1);
+  padding:14px 10px;text-align:center;cursor:pointer;
+  transition:all .2s;position:relative
+}
+.profile-tile:active{transform:scale(.93)}
+.profile-tile.selected{border-color:var(--gold);background:rgba(255,215,0,.12);box-shadow:0 0 20px rgba(255,215,0,.25)}
+.profile-tile .pt-av{font-size:2.4em;display:block;margin-bottom:6px}
+.profile-tile .pt-name{font-weight:900;font-size:.9em;color:var(--text)}
+.profile-tile .pt-stars{font-size:.75em;color:var(--gold);margin-top:3px}
+.btn-add-profile{
+  width:100px;min-width:100px;
+  background:rgba(255,255,255,.06);border-radius:20px;
+  border:3px dashed rgba(255,255,255,.2);
+  padding:14px 10px;text-align:center;cursor:pointer;
+  font-size:2em;color:var(--muted);transition:all .2s
+}
+.btn-add-profile:hover{border-color:var(--gold);color:var(--gold)}
+
+/* BIG BUTTONS */
+.bigbtn{
+  display:inline-flex;align-items:center;justify-content:center;gap:9px;
+  padding:16px 30px;border-radius:50px;border:none;cursor:pointer;
+  font-family:'Nunito',sans-serif;font-size:1.1em;font-weight:900;
+  transition:all .18s;position:relative;overflow:hidden;
+  min-width:160px
+}
+.bigbtn::after{content:'';position:absolute;inset:0;background:rgba(255,255,255,.15);opacity:0;transition:.15s}
+.bigbtn:active::after{opacity:1}
+.bigbtn:active{transform:scale(.93)}
+.bb-gold{background:linear-gradient(135deg,var(--gold),var(--gold2));color:#1a0f3c;box-shadow:0 6px 24px rgba(255,215,0,.4)}
+.bb-green{background:linear-gradient(135deg,#2ECC71,#27AE60);color:#fff;box-shadow:0 6px 20px rgba(46,204,113,.35)}
+.bb-ghost{background:rgba(255,255,255,.09);color:var(--text);border:2.5px solid rgba(255,255,255,.18)}
+.bb-sm{padding:10px 20px;font-size:.9em;min-width:100px}
+
+/* ══════════════════════════════════════════
+   MAP SCREEN
+   ══════════════════════════════════════════ */
+#mapScreen{padding-top:78px;padding-bottom:90px;align-items:stretch;max-width:640px;margin:0 auto;width:100%}
+.map-hero{
+  background:linear-gradient(135deg,rgba(155,89,182,.18),rgba(52,152,219,.15));
+  border:1.5px solid rgba(255,215,0,.2);border-radius:var(--r);
+  padding:16px;margin-bottom:14px;display:flex;align-items:center;gap:14px
+}
+.map-hero-av{font-size:2.8em;flex-shrink:0}
+.map-hero-name{font-family:'Baloo 2',cursive;font-size:1.4em;color:var(--gold);line-height:1.1}
+.map-hero-sub{font-size:.82em;color:var(--muted);margin-top:2px}
+.map-xpbar{height:10px;background:rgba(255,255,255,.1);border-radius:20px;overflow:hidden;margin-top:8px}
+.map-xpfill{height:100%;background:linear-gradient(90deg,var(--purple),var(--gold));border-radius:20px;transition:width .8s ease}
+
+.section-lbl{
+  font-family:'Baloo 2',cursive;font-size:1em;color:var(--muted);
+  margin:14px 0 8px;padding:0 2px
+}
+.world-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:12px}
+@media(min-width:480px){.world-grid{grid-template-columns:repeat(3,1fr)}}
+
+.world-card{
+  background:var(--card);border-radius:var(--r);padding:16px 12px;
+  text-align:center;cursor:pointer;border:3px solid transparent;
+  transition:all .22s;position:relative;overflow:hidden
+}
+.world-card:active{transform:scale(.94)}
+.world-card.unlocked{border-color:rgba(255,255,255,.1)}
+.world-card.unlocked:hover{border-color:rgba(255,215,0,.5);transform:translateY(-3px);box-shadow:0 10px 28px rgba(255,215,0,.2)}
+.world-card.done{border-color:var(--green);box-shadow:0 0 0 2px rgba(46,204,113,.2)}
+.world-card.locked{opacity:.4;cursor:not-allowed}
+.wc-emoji{font-size:2.4em;display:block;margin-bottom:6px;line-height:1.1}
+.wc-name{font-weight:900;font-size:.88em;line-height:1.2;color:var(--text)}
+.wc-sub{font-size:.7em;color:var(--muted);margin-top:2px}
+.wc-stars{margin-top:5px;font-size:.9em;letter-spacing:1px}
+.wc-lock{position:absolute;top:8px;right:8px;font-size:.8em}
+/* Colored world cards */
+.wc-letters{background:linear-gradient(135deg,rgba(52,152,219,.18),rgba(26,76,109,.12));border-color:rgba(52,152,219,.25)}
+.wc-numbers{background:linear-gradient(135deg,rgba(231,76,60,.15),rgba(116,38,30,.1));border-color:rgba(231,76,60,.2)}
+.wc-colors{background:linear-gradient(135deg,rgba(155,89,182,.18),rgba(77,45,91,.1));border-color:rgba(155,89,182,.25)}
+.wc-animals{background:linear-gradient(135deg,rgba(46,204,113,.15),rgba(23,102,56,.1));border-color:rgba(46,204,113,.2)}
+.wc-family{background:linear-gradient(135deg,rgba(255,180,100,.18),rgba(180,100,40,.1));border-color:rgba(255,180,100,.25)}
+.wc-food{background:linear-gradient(135deg,rgba(255,107,157,.15),rgba(128,53,78,.1));border-color:rgba(255,107,157,.2)}
+.wc-home{background:linear-gradient(135deg,rgba(26,188,156,.15),rgba(13,94,78,.1));border-color:rgba(26,188,156,.2)}
+.wc-body{background:linear-gradient(135deg,rgba(255,140,66,.15),rgba(128,70,33,.1));border-color:rgba(255,140,66,.2)}
+.wc-weather{background:linear-gradient(135deg,rgba(52,152,219,.15),rgba(26,76,109,.1));border-color:rgba(52,152,219,.2)}
+.wc-phrases{background:linear-gradient(135deg,rgba(255,215,0,.15),rgba(128,107,0,.1));border-color:rgba(255,215,0,.2)}
+.wc-words{background:linear-gradient(135deg,rgba(155,89,182,.18),rgba(77,45,91,.1));border-color:rgba(155,89,182,.25)}
+/* v2 new worlds */
+.wc-ocean{background:linear-gradient(135deg,rgba(0,150,255,.18),rgba(0,60,120,.12));border-color:rgba(0,180,255,.3)}
+.wc-sports{background:linear-gradient(135deg,rgba(255,100,50,.18),rgba(128,50,25,.12));border-color:rgba(255,130,50,.3)}
+.wc-nature{background:linear-gradient(135deg,rgba(50,200,100,.18),rgba(25,100,50,.12));border-color:rgba(50,200,100,.3)}
+.wc-school{background:linear-gradient(135deg,rgba(200,150,50,.18),rgba(100,75,25,.12));border-color:rgba(200,150,50,.3)}
+.wc-travel{background:linear-gradient(135deg,rgba(100,200,255,.18),rgba(50,100,128,.12));border-color:rgba(100,200,255,.3)}
+
+/* Level tabs */
+.lvl-tabs{display:flex;gap:8px;margin-bottom:14px;flex-wrap:wrap}
+.lvl-tab{
+  flex:1;min-width:60px;padding:10px 8px;border-radius:14px;
+  border:2.5px solid rgba(255,255,255,.12);
+  background:rgba(255,255,255,.06);cursor:pointer;
+  font-family:'Nunito',sans-serif;font-weight:900;font-size:.85em;
+  color:var(--muted);transition:all .2s;text-align:center;line-height:1.3
+}
+.lvl-tab.active{border-color:var(--gold);background:rgba(255,215,0,.15);color:var(--gold)}
+.lvl-tab.locked{opacity:.4;cursor:not-allowed}
+.lvl-tab .lv-icon{font-size:1.3em;display:block;margin-bottom:2px}
+
+/* ══════════════════════════════════════════
+   GAME SCREEN — FIXED LAYOUT, NO SCROLL
+   Todo cabe en pantalla, el emoji SIEMPRE se ve
+   ══════════════════════════════════════════ */
+#gameScreen{
+  padding:0;
+  align-items:stretch;
+  overflow:hidden;
+  display:flex;flex-direction:column;
+  justify-content:flex-start;
+  gap:0;
+  /* Reserva espacio para la barra inferior (Continuar nunca queda oculto) */
+  padding-bottom:calc(var(--botnav-h) + env(safe-area-inset-bottom) + 10px);
+}
+
+/* Strip fijo arriba: espacio topbar + barra de progreso */
+.game-top-strip{
+  flex-shrink:0;
+  padding:calc(var(--topbar-h) + 6px) 14px 6px;
+}
+
+/* Progress bar */
+.game-prog-wrap{margin-bottom:4px}
+.game-prog-bar{height:8px;background:rgba(255,255,255,.1);border-radius:20px;overflow:hidden}
+.game-prog-fill{height:100%;background:linear-gradient(90deg,var(--teal),var(--gold));border-radius:20px;transition:width .4s}
+.game-prog-label{display:flex;justify-content:space-between;font-size:.7em;font-weight:800;color:var(--muted);margin-bottom:4px}
+
+/* Lives */
+.lives-row{display:flex;justify-content:center;gap:10px;padding:6px 0 2px;flex-shrink:0;align-items:center}
+.life-heart{font-size:1.25em;transition:all .3s}
+.life-heart.lost{opacity:.18;transform:scale(.75)}
+.life-compact{
+  display:inline-flex;align-items:center;gap:6px;
+  padding:6px 12px;border-radius:999px;
+  background:rgba(255,255,255,.08);
+  border:1.5px solid rgba(255,255,255,.12);
+  font-weight:900;font-size:.85em;color:var(--text);
+}
+.life-compact b{color:var(--pink)}
+
+/* Listen button — compacto entre corazones y tarjeta */
+.listen-btn{
+  display:flex;align-items:center;justify-content:center;gap:7px;
+  margin:4px auto 6px;
+  padding:8px 22px;border-radius:50px;
+  background:rgba(52,152,219,.2);border:2px solid rgba(52,152,219,.4);
+  color:var(--blue);font-family:inherit;font-weight:900;font-size:.85em;
+  cursor:pointer;transition:all .2s;flex-shrink:0;width:fit-content
+}
+.listen-btn:active{transform:scale(.93);background:rgba(52,152,219,.35)}
+
+/* ★★★ TARJETA PREGUNTA — el corazón del juego ★★★
+   Tamaño fijo calculado para que siempre sea visible */
+.question-card{
+  flex-shrink:0;
+  background:var(--card);
+  border-radius:22px;
+  border:2.5px solid rgba(255,215,0,.2);
+  padding:12px 16px 14px;
+  margin:0 12px 10px;
+  text-align:center;
+  box-shadow:0 8px 32px rgba(0,0,0,.5);
+  position:relative;overflow:visible;  /* NO overflow:hidden — el emoji no se corta */
+}
+.question-card::before{
+  content:'';position:absolute;inset:0;border-radius:22px;
+  background:radial-gradient(circle at 50% 10%,rgba(255,215,0,.1),transparent 60%);
+  pointer-events:none
+}
+.q-world-badge{
+  display:inline-flex;align-items:center;gap:5px;
+  border-radius:30px;padding:3px 11px;font-size:.7em;font-weight:900;
+  margin-bottom:6px;letter-spacing:.3px;
+  background:rgba(255,255,255,.08);border:1px solid rgba(255,255,255,.1)
+}
+
+/* ★★★ EMOJI GRANDE — el icono principal SIEMPRE visible ★★★ */
+.q-big-emoji{
+  font-size:4.8em;
+  display:block;
+  margin:0 auto 6px;
+  line-height:1.1;
+  filter:drop-shadow(0 6px 16px rgba(0,0,0,.5));
+  animation:popIn .4s cubic-bezier(.34,1.56,.64,1);
+  position:relative;z-index:1
+}
+@keyframes popIn{from{transform:scale(0) rotate(-12deg);opacity:0}to{transform:scale(1) rotate(0);opacity:1}}
+
+.q-instruction{
+  font-size:.68em;font-weight:800;color:var(--muted);
+  text-transform:uppercase;letter-spacing:.7px;margin-bottom:4px
+}
+.q-big-word{
+  font-family:'Baloo 2',cursive;font-size:2em;
+  color:var(--text);line-height:1.1;margin-bottom:2px;
+  text-shadow:0 2px 10px rgba(0,0,0,.3)
+}
+.q-translation{
+  font-size:.88em;color:var(--muted);font-weight:700
+}
+
+/* Answer options — BIG for little fingers, adapted height */
+.opts-grid{
+  display:grid;grid-template-columns:1fr 1fr;gap:10px;
+  flex-shrink:0;
+  padding:0 12px;
+  padding-bottom:calc(var(--botnav-h) + 96px);
+}
+.opt-btn{
+  padding:14px 10px;border-radius:18px;
+  border:3px solid rgba(255,255,255,.1);
+  background:rgba(255,255,255,.07);
+  cursor:pointer;font-family:'Nunito',sans-serif;
+  font-size:.95em;font-weight:900;color:var(--text);
+  transition:all .2s;text-align:center;
+  display:flex;flex-direction:column;align-items:center;justify-content:center;gap:5px;
+  min-height:88px;position:relative;overflow:hidden;flex-shrink:0
+}
+.opt-btn:hover{background:rgba(255,255,255,.14);border-color:rgba(255,255,255,.3)}
+.opt-btn:active{transform:scale(.93)}
+.opt-btn .ob-emoji{font-size:2em;display:block;line-height:1.1}
+.opt-btn .ob-word{font-size:.82em;font-weight:900;line-height:1.2}
+.opt-btn .ob-trans{font-size:.65em;color:var(--muted);font-weight:700}
+.opt-btn.correct{background:rgba(46,204,113,.22);border-color:var(--green);animation:bounceOk .3s ease}
+.opt-btn.wrong{background:rgba(231,76,60,.18);border-color:var(--red);animation:shakeWrong .3s ease}
+@keyframes bounceOk{0%,100%{transform:scale(1)}50%{transform:scale(1.08)}}
+@keyframes shakeWrong{0%,100%{transform:translateX(0)}25%{transform:translateX(-7px)}75%{transform:translateX(7px)}}
+
+/* Feedback bar — SIEMPRE visible (encima de la barra inferior) */
+.feedback-bar{
+  display:none;
+  border-radius:16px;padding:10px 14px;
+  align-items:center;gap:10px;
+  animation:slideUp .25s ease;
+  position:fixed;
+  left:12px;right:12px;
+  bottom:calc(var(--botnav-h) + env(safe-area-inset-bottom) + 10px);
+  z-index:260;
+  box-shadow:0 14px 40px rgba(0,0,0,.55);
+}
+.feedback-bar.on{display:flex}
+.feedback-bar.ok{background:rgba(46,204,113,.12);border:2px solid rgba(46,204,113,.4)}
+.feedback-bar.bad{background:rgba(231,76,60,.09);border:2px solid rgba(231,76,60,.35)}
+.fb-icon{font-size:1.6em;flex-shrink:0}
+.fb-text strong{font-size:.9em;font-weight:900}
+.fb-text p{font-size:.75em;color:var(--muted);margin-top:1px}
+.fb-next{margin-left:auto;flex-shrink:0}
+@keyframes slideUp{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:translateY(0)}}
+
+/* Listen button (compacto) */
+.listen-btn{
+  display:inline-flex;align-items:center;justify-content:center;gap:7px;
+  margin:0;
+  padding:8px 18px;border-radius:999px;
+  background:rgba(52,152,219,.18);border:2px solid rgba(52,152,219,.35);
+  color:var(--blue);font-family:inherit;font-weight:900;font-size:.85em;
+  cursor:pointer;transition:all .2s;white-space:nowrap
+}
+.listen-btn:active{transform:scale(.93);background:rgba(52,152,219,.3)}
+
+/* ══════════════════════════════════════════
+   RESULT SCREEN
+   ══════════════════════════════════════════ */
+#resultScreen{justify-content:center;padding-top:74px;padding-bottom:90px}
+.result-trophy{font-size:5.5em;text-align:center;display:block;animation:popIn .6s cubic-bezier(.34,1.56,.64,1)}
+.result-title{font-family:'Baloo 2',cursive;font-size:2.2em;text-align:center;margin:8px 0;color:var(--gold)}
+.stars-display{display:flex;justify-content:center;gap:8px;font-size:2.5em;margin:10px 0}
+.star-anim{animation:starPop .45s cubic-bezier(.34,1.56,.64,1) both}
+.star-anim:nth-child(1){animation-delay:.08s}
+.star-anim:nth-child(2){animation-delay:.22s}
+.star-anim:nth-child(3){animation-delay:.36s}
+@keyframes starPop{from{transform:scale(0) rotate(-25deg);opacity:0}to{transform:scale(1) rotate(0);opacity:1}}
+.result-stats{display:flex;gap:10px;flex-wrap:wrap;justify-content:center;margin:14px 0}
+.rs-card{
+  background:var(--card);border-radius:var(--r2);padding:12px 16px;
+  text-align:center;min-width:80px;border:1.5px solid rgba(255,255,255,.06)
+}
+.rs-card .rv{font-family:'Baloo 2',cursive;font-size:1.8em;color:var(--gold)}
+.rs-card .rl{font-size:.65em;color:var(--muted);font-weight:800;text-transform:uppercase;margin-top:2px}
+.new-badge-pop{
+  display:flex;align-items:center;gap:12px;
+  background:linear-gradient(135deg,rgba(255,215,0,.1),rgba(155,89,182,.1));
+  border:2px solid rgba(255,215,0,.35);border-radius:16px;
+  padding:12px 14px;margin:6px 0;width:100%;max-width:380px;
+  animation:slideFromRight .5s cubic-bezier(.34,1.56,.64,1) both
+}
+@keyframes slideFromRight{from{transform:translateX(50px);opacity:0}to{transform:translateX(0);opacity:1}}
+.nbp-icon{font-size:2.4em;flex-shrink:0}
+.nbp-text strong{color:var(--gold);font-size:.9em}
+.nbp-text p{font-size:.76em;color:var(--muted);margin-top:2px}
+.result-btns{display:flex;gap:10px;flex-wrap:wrap;justify-content:center;margin-top:12px}
+
+/* ══════════════════════════════════════════
+   TROFEOS SCREEN
+   ══════════════════════════════════════════ */
+#trophiesScreen{padding-top:78px;padding-bottom:90px;align-items:stretch;max-width:640px;margin:0 auto;width:100%}
+.tab-row{display:flex;gap:7px;margin-bottom:14px;flex-wrap:wrap}
+.tab-btn{
+  flex:1;padding:10px 8px;border-radius:14px;
+  border:2.5px solid rgba(255,255,255,.1);
+  background:rgba(255,255,255,.05);cursor:pointer;
+  font-weight:900;font-size:.82em;color:var(--muted);transition:all .2s;text-align:center;
+  font-family:inherit
+}
+.tab-btn.on{border-color:var(--gold);background:rgba(255,215,0,.15);color:var(--gold)}
+.badges-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:9px;margin-bottom:16px}
+@media(min-width:400px){.badges-grid{grid-template-columns:repeat(4,1fr)}}
+.b-tile{
+  background:var(--card);border-radius:14px;padding:13px 8px;
+  text-align:center;border:2px solid rgba(255,255,255,.06);transition:all .25s
+}
+.b-tile.earned{border-color:var(--gold);box-shadow:0 0 16px rgba(255,215,0,.22)}
+.b-tile.locked{filter:grayscale(1);opacity:.35}
+.b-tile .bt-ico{font-size:2em}
+.b-tile .bt-name{font-size:.67em;font-weight:900;margin-top:5px;color:var(--text);line-height:1.2}
+.b-tile .bt-desc{font-size:.6em;color:var(--muted);margin-top:2px;line-height:1.2}
+.rank-list{display:flex;flex-direction:column;gap:8px}
+.rank-row{
+  display:flex;align-items:center;gap:12px;
+  background:var(--card);border-radius:14px;padding:12px 14px;
+  border:1.5px solid rgba(255,255,255,.06)
+}
+.rank-row.me{border-color:var(--gold);background:rgba(255,215,0,.07)}
+.rank-pos{font-family:'Baloo 2',cursive;font-size:1.5em;width:32px;text-align:center}
+.rank-av{font-size:1.5em}
+.rank-name{flex:1;font-weight:900}
+.rank-xp{font-weight:900;color:var(--gold);font-size:.9em}
+
+/* ══════════════════════════════════════════
+   MODALS
+   ══════════════════════════════════════════ */
+.modal-overlay{
+  position:fixed;inset:0;display:none;align-items:center;justify-content:center;
+  background:rgba(0,0,0,.6);z-index:5000;padding:14px;
+  backdrop-filter:blur(8px)
+}
+.modal-overlay.on{display:flex}
+.modal-box{
+  width:100%;max-width:480px;
+  background:linear-gradient(180deg,rgba(30,19,64,.98),rgba(18,8,43,.98));
+  border:1.5px solid rgba(255,255,255,.12);border-radius:24px;
+  box-shadow:0 24px 80px rgba(0,0,0,.6);
+  overflow:hidden;display:flex;flex-direction:column;
+  max-height:calc(100dvh - 28px)
+}
+.modal-hd{
+  display:flex;align-items:center;justify-content:space-between;
+  padding:14px 16px;border-bottom:1px solid rgba(255,255,255,.08)
+}
+.modal-hd strong{font-family:'Baloo 2',cursive;font-size:1.1em}
+.modal-body{padding:16px;flex:1;overflow-y:auto;-webkit-overflow-scrolling:touch}
+.modal-ft{
+  display:flex;gap:10px;justify-content:flex-end;
+  padding:12px 16px;border-top:1px solid rgba(255,255,255,.08)
+}
+.modal-close{
+  padding:7px 12px;border-radius:12px;border:1.5px solid rgba(255,255,255,.15);
+  background:rgba(255,255,255,.08);color:var(--text);font-family:inherit;
+  font-weight:900;cursor:pointer;font-size:.9em
+}
+/* Avatar picker */
+.av-grid{display:flex;flex-wrap:wrap;gap:10px;justify-content:center;margin:12px 0}
+.av-btn{
+  font-size:2.2em;padding:10px;border-radius:16px;
+  border:3px solid rgba(255,255,255,.1);
+  background:rgba(255,255,255,.07);cursor:pointer;transition:all .2s
+}
+.av-btn.sel{border-color:var(--gold);background:rgba(255,215,0,.15)}
+/* Name input */
+.nice-input{
+  width:100%;padding:14px 16px;border-radius:14px;
+  border:2px solid rgba(255,255,255,.15);
+  background:rgba(0,0,0,.2);color:var(--text);
+  font-family:'Nunito',sans-serif;font-size:1.05em;font-weight:700;
+  outline:none;transition:border-color .2s
+}
+.nice-input:focus{border-color:var(--gold)}
+
+/* ══════════════════════════════════════════
+   CELEBRATION OVERLAY
+   ══════════════════════════════════════════ */
+#celebrationOverlay{
+  position:fixed;inset:0;display:none;align-items:center;justify-content:center;
+  z-index:8000;padding:20px;
+  background:radial-gradient(circle at 50% 40%,rgba(255,215,0,.15),rgba(0,0,0,.65) 60%)
+}
+#celebrationOverlay.on{display:flex;flex-direction:column}
+.cel-box{
+  background:linear-gradient(180deg,rgba(30,19,64,.97),rgba(18,8,43,.97));
+  border:2px solid rgba(255,215,0,.35);border-radius:28px;
+  padding:28px 24px;text-align:center;max-width:360px;width:100%;
+  animation:celPop .5s cubic-bezier(.34,1.56,.64,1);
+  box-shadow:0 30px 90px rgba(0,0,0,.7)
+}
+@keyframes celPop{from{transform:scale(.5);opacity:0}to{transform:scale(1);opacity:1}}
+.cel-icon{font-size:4.5em;display:block;margin-bottom:10px;animation:float 2s ease-in-out infinite}
+.cel-title{font-family:'Baloo 2',cursive;font-size:2em;color:var(--gold);margin-bottom:6px}
+.cel-sub{font-size:1em;color:var(--muted);margin-bottom:16px}
+.cel-rewards{display:flex;flex-wrap:wrap;gap:8px;justify-content:center;margin-bottom:18px}
+.cel-reward{
+  background:rgba(255,215,0,.12);border:1.5px solid rgba(255,215,0,.3);
+  border-radius:30px;padding:7px 14px;font-weight:900;font-size:.9em;color:var(--gold)
+}
+
+/* ══════════════════════════════════════════
+   FLOAT XP / NOTIF
+   ══════════════════════════════════════════ */
+.floatxp{
+  position:fixed;font-family:'Baloo 2',cursive;font-size:1.8em;
+  color:var(--gold);pointer-events:none;z-index:9999;
+  animation:fxp .9s ease forwards;font-weight:800
+}
+@keyframes fxp{0%{opacity:1;transform:translateY(0) scale(1)}100%{opacity:0;transform:translateY(-80px) scale(1.5)}}
+.notif-toast{
+  position:fixed;top:72px;left:50%;transform:translateX(-50%) translateY(-30px);
+  background:var(--card2);border-radius:50px;padding:10px 20px;
+  font-weight:900;font-size:.9em;z-index:7000;
+  border:2px solid;animation:notifIn .3s ease forwards;
+  white-space:nowrap;pointer-events:none
+}
+@keyframes notifIn{from{opacity:0;transform:translateX(-50%) translateY(-40px)}to{opacity:1;transform:translateX(-50%) translateY(0)}}
+
+/* shake for card */
+@keyframes cardShake{0%,100%{transform:translateX(0)}20%{transform:translateX(-8px)}40%{transform:translateX(8px)}60%{transform:translateX(-5px)}80%{transform:translateX(5px)}}
+.shake{animation:cardShake .35s ease}
+
+/* Section label */
+.section-title{font-family:'Baloo 2',cursive;font-size:1.3em;color:var(--gold);margin-bottom:12px}
+.divider{height:1px;background:rgba(255,255,255,.08);margin:12px 0}
+.small{font-size:.85em;color:var(--muted);line-height:1.45}
+</style>
+</head>
+<body>
+
+<!-- Stars background -->
+<div id="starsBg"></div>
+<!-- Confetti -->
+<canvas id="confCanvas"></canvas>
+<!-- Celebration overlay -->
+<div id="celebrationOverlay"></div>
+
+<!-- TOP BAR -->
+<div id="topbar">
+  <div class="tb-logo">🌈 PequeWorld</div>
+  <div class="tb-chips">
+    <div class="tchip"><span>⭐</span><span id="tbStars">0</span></div>
+    <div class="tchip"><span>🪙</span><span id="tbCoins">0</span></div>
+    <div class="tchip"><span>🔥</span><span id="tbStreak">0</span></div>
+    <div class="tchip" id="tbLife"><span>❤️</span><span id="tbLives">5</span></div>
+  </div>
+</div>
+
+<!-- BOTTOM NAV -->
+<div id="botnav">
+  <button class="bnbtn act" onclick="navTo(0)"><span class="bi">🏠</span><span>Mundos</span></button>
+  <button class="bnbtn" onclick="navTo(1)"><span class="bi">🎮</span><span>Jugar</span></button>
+  <button class="bnbtn" onclick="navTo(2)"><span class="bi">🏅</span><span>Premios</span></button>
+  <button class="bnbtn" onclick="openSettings()"><span class="bi">⚙️</span><span>Ajustes</span></button>
+</div>
+
+<!-- ══ LOGIN ══ -->
+<div id="loginScreen" class="screen on">
+  <span class="login-planet">🌍</span>
+  <div class="login-title">PequeWorld</div>
+  <div class="login-sub">¡Aprende inglés jugando! 🎈</div>
+
+  <div id="profileRow" class="profile-row">
+    <div class="btn-add-profile" onclick="openCreateProfile()">➕</div>
+  </div>
+
+  <button class="bigbtn bb-gold" style="margin-top:16px" id="btnEnter">¡Entrar! 🚀</button>
+  <div class="small" style="margin-top:14px;text-align:center">
+    Toca tu nombre y luego ¡Entrar!
+  </div>
+</div>
+
+<!-- ══ MAP ══ -->
+<div id="mapScreen" class="screen">
+  <div class="map-hero">
+    <div class="map-hero-av" id="mapAv">🦄</div>
+    <div style="flex:1;min-width:0">
+      <div class="map-hero-name" id="mapName">¡Hola!</div>
+      <div class="map-hero-sub" id="mapSub">Nivel 1 · Explorador</div>
+      <div class="map-xpbar"><div class="map-xpfill" id="mapXpFill" style="width:0%"></div></div>
+    </div>
+  </div>
+
+  <!-- Level tabs -->
+  <div class="lvl-tabs" id="lvlTabs"></div>
+
+  <!-- World sections -->
+  <div id="worldSections"></div>
+</div>
+
+<!-- ══ GAME ══ -->
+<div id="gameScreen" class="screen">
+
+  <!-- Tira superior: progreso + vidas -->
+  <div class="game-top-strip">
+    <div class="game-prog-wrap">
+      <div class="game-prog-label">
+        <span id="gProgLabel">Pregunta 1/10</span>
+        <span id="gWorldName">Animales</span>
+      </div>
+      <div class="game-prog-bar"><div class="game-prog-fill" id="gProgFill" style="width:0%"></div></div>
+    </div>
+    <div class="lives-row" id="livesRow"></div>
+  </div>
+
+  <!-- Botón escuchar -->
+  <button class="listen-btn" id="listenBtn" onclick="speakCurrent()">
+    🔊 Escuchar
+  </button>
+
+  <!-- Tarjeta pregunta — emoji SIEMPRE VISIBLE -->
+  <div class="question-card" id="questionCard">
+    <div class="q-world-badge" id="qBadge">🐾 Animales</div>
+    <span class="q-big-emoji" id="qEmoji">🐶</span>
+    <div class="q-instruction" id="qInstruction">¿Cuál es la imagen correcta?</div>
+    <div class="q-big-word" id="qWord">DOG</div>
+    <div class="q-translation" id="qTrans">Perro</div>
+  </div>
+
+  <!-- Opciones -->
+  <div class="opts-grid" id="optsGrid"></div>
+
+  <!-- Feedback -->
+  <div class="feedback-bar" id="feedbackBar">
+    <div class="fb-icon" id="fbIcon">✅</div>
+    <div class="fb-text">
+      <strong id="fbTitle">¡Correcto!</strong>
+      <p id="fbMsg">¡Muy bien!</p>
+    </div>
+    <button class="bigbtn bb-gold bb-sm fb-next" onclick="nextQuestion()">→</button>
+  </div>
+</div>
+
+<!-- ══ RESULT ══ -->
+<div id="resultScreen" class="screen">
+  <span class="result-trophy" id="rTrophy">🏆</span>
+  <div class="result-title" id="rTitle">¡Genial!</div>
+  <div class="stars-display" id="starsDisplay"></div>
+  <div class="result-stats">
+    <div class="rs-card"><div class="rv" id="rOk">0</div><div class="rl">Correctas</div></div>
+    <div class="rs-card"><div class="rv" id="rXP">+0</div><div class="rl">XP</div></div>
+    <div class="rs-card"><div class="rv" id="rCoins">+0</div><div class="rl">Monedas</div></div>
+    <div class="rs-card"><div class="rv" id="rStars">+0</div><div class="rl">Estrellas</div></div>
+  </div>
+  <div id="rBadgesArea" style="width:100%;max-width:380px"></div>
+  <div class="result-btns">
+    <button class="bigbtn bb-gold bb-sm" onclick="retryMission()">🔄 Repetir</button>
+    <button class="bigbtn bb-green bb-sm" onclick="navTo(0)">🏠 Mundos</button>
+  </div>
+</div>
+
+<!-- ══ TROPHIES ══ -->
+<div id="trophiesScreen" class="screen">
+  <div class="section-title">🏅 Mis Premios</div>
+  <div class="tab-row">
+    <button class="tab-btn on" id="tTab0" onclick="switchTrophyTab(0)">🏅 Insignias</button>
+    <button class="tab-btn" id="tTab1" onclick="switchTrophyTab(1)">🎖️ Medallas</button>
+    <button class="tab-btn" id="tTab2" onclick="switchTrophyTab(2)">🏆 Trofeos</button>
+    <button class="tab-btn" id="tTab3" onclick="switchTrophyTab(3)">📊 Ranking</button>
+  </div>
+  <div id="trophyContent"></div>
+</div>
+
+<!-- ══ MODAL ══ -->
+<div class="modal-overlay" id="modalOverlay">
+  <div class="modal-box">
+    <div class="modal-hd"><strong id="modalTitle">Modal</strong><button class="modal-close" onclick="closeModal()">✕</button></div>
+    <div class="modal-body" id="modalBody"></div>
+    <div class="modal-ft" id="modalFt"></div>
+  </div>
+</div>
+
+<script>
+// ═══════════════════════════════════════════════════════════════
+//   PequeWorld — Premium Kids English Learning Game
+//   Team: Senior Dev + UI/UX + Gamification + Audio + Data
+//   Corrections from v1:
+//   ✅ Chair/Table have distinct emojis (🪑 vs 🍽️ style fix)
+//   ✅ Stars appear correctly in renderMap
+//   ✅ TTS voice rate optimized for kids (slow, clear)
+//   ✅ Numbers have individual themed emojis (not 🔢🔢🔢)
+//   ✅ Letters have illustrative emojis matching sounds
+//   ✅ No info overload — clean 1-card layout
+//   ✅ Duplicate worldCupCount function removed
+//   ✅ Trophies array syntax fixed (missing ] bracket)
+// ═══════════════════════════════════════════════════════════════
+
+/* ── UTILS ── */
+const $=id=>document.getElementById(id);
+const clamp=(v,a,b)=>Math.max(a,Math.min(b,v));
+function shuffle(a){const b=[...a];for(let i=b.length-1;i>0;i--){const j=(Math.random()*(i+1))|0;[b[i],b[j]]=[b[j],b[i]];}return b;}
+function now(){return Date.now();}
+
+/* ── STORAGE ── */
+const LS='pequeworld_v1';
+let STATE=null;
+
+function defaultState(){
+  return {
+    active:'',
+    profiles:{},
+    settings:{langMode:'ENES',voiceEnabled:true,voiceRate:.82,voicePitch:1.15}
+  };
+}
+function defaultProfile(name,avatar='👧'){
+  return {
+    id:'p_'+Math.random().toString(16).slice(2),
+    name,avatar,
+    xp:0,coins:0,stars:0,level:1,
+    streak:0,maxStreak:0,streakBest:0,
+    badges:[],
+    best:{}, // worldId -> bestStars
+    stats:{
+      missions:0,perfect:0,totalCorrect:0,
+      daysPlayed:{} // date:true
+    }
+  };
+}
+
+function loadState(){
+  try{const r=localStorage.getItem(LS);if(r){STATE=JSON.parse(r);return;}}catch(e){}
+  STATE=defaultState();
+}
+function saveState(){try{localStorage.setItem(LS,JSON.stringify(STATE));}catch(e){}}
+function activeProfile(){return STATE.profiles[STATE.active]||null;}
+function updateProfile(fn){const p=activeProfile();if(!p)return;fn(p);saveState();}
+
+/* ══════════════════════════════════════════════════════════
+   VOCABULARY DATA — FULLY AUDITED
+   Rules:
+   - Every word has a UNIQUE emoji that clearly matches
+   - No two words in same world share same emoji
+   - Emojis are recognizable by 3-year-olds
+   ══════════════════════════════════════════════════════════ */
+
+const WORLDS = [
+  /* ═══════════════════════════════════════
+     NIVEL 1 (3–5): “Semilla” — lo más básico
+     Trama: El Bosque de las Vocales 🌳 y la Granja de los Primeros Números 🐥
+     ═══════════════════════════════════════ */
+
+  /* ── VOCALS ── */
+  {id:'letters_vowels', name:'Vowels', es:'Vocales', icon:'🎤', color:'wc-letters', lvl:1, kind:'letters',
+   story:'En el Bosque de las Vocales, cada sonido abre una puerta mágica. Aprende A–E–I–O–U con imágenes fáciles.',
+   items:[
+    {en:'A',es:'A', em:'🍎', hint:'A de Apple'},
+    {en:'E',es:'E', em:'🥚', hint:'E de Egg'},
+    {en:'I',es:'I', em:'🍦', hint:'I de Ice cream'},
+    {en:'O',es:'O', em:'🐙', hint:'O de Octopus'},
+    {en:'U',es:'U', em:'☂️', hint:'U de Umbrella'},
+  ]},
+
+  /* ── NUMBERS 1–10 ── */
+  {id:'numbers_1_10', name:'Numbers 1–10', es:'Números 1–10', icon:'🐥', color:'wc-numbers', lvl:1, kind:'numbers',
+   story:'En la Granja de los Números, contamos con dedos, dados y señales. Del 1 al 10, paso a paso.',
+   items:[
+    {en:'One',   es:'Uno',   em:'☝️', num:1,  hint:'1 dedo'},
+    {en:'Two',   es:'Dos',   em:'✌️', num:2,  hint:'2 dedos'},
+    {en:'Three', es:'Tres',  em:'🤟', num:3,  hint:'3 dedos'},
+    {en:'Four',  es:'Cuatro',em:'🖖', num:4,  hint:'4 dedos'},
+    {en:'Five',  es:'Cinco', em:'✋', num:5,  hint:'5 dedos'},
+    {en:'Six',   es:'Seis',  em:'🎲', num:6,  hint:'Como un dado'},
+    {en:'Seven', es:'Siete', em:'7️⃣', num:7,  hint:'Siete'},
+    {en:'Eight', es:'Ocho',  em:'🐙', num:8,  hint:'8 brazos'},
+    {en:'Nine',  es:'Nueve', em:'🎈', num:9,  hint:'Globos (9)'},
+    {en:'Ten',   es:'Diez',  em:'🔟', num:10, hint:'Diez'},
+  ]},
+
+  /* ── COLORS (basic) ── */
+  {id:'colors_basic', name:'Colors', es:'Colores básicos', icon:'🌈', color:'wc-colors', lvl:1, kind:'colors',
+   story:'El Arcoíris perdido necesita 4 colores para brillar. ¡Encuéntralos!',
+   items:[
+    {en:'Red',   es:'Rojo',     em:'🟥', color:'#e74c3c'},
+    {en:'Blue',  es:'Azul',     em:'🟦', color:'#3498db'},
+    {en:'Yellow',es:'Amarillo', em:'🟨', color:'#f1c40f'},
+    {en:'Green', es:'Verde',    em:'🟩', color:'#2ecc71'},
+  ]},
+
+  /* ── BABY ANIMALS ── */
+  {id:'animals_baby', name:'Animals', es:'Animales (bebé)', icon:'🐾', color:'wc-animals', lvl:1, kind:'words',
+   story:'En el Mini-Zoo, los animales te saludan con sus caritas. Aprende los primeros 8.',
+   items:[
+    {en:'Dog',  es:'Perro',  em:'🐶'},
+    {en:'Cat',  es:'Gato',   em:'🐱'},
+    {en:'Bird', es:'Pájaro', em:'🐦'},
+    {en:'Fish', es:'Pez',    em:'🐟'},
+    {en:'Cow',  es:'Vaca',   em:'🐮'},
+    {en:'Pig',  es:'Cerdo',  em:'🐷'},
+    {en:'Duck', es:'Pato',   em:'🦆'},
+    {en:'Frog', es:'Rana',   em:'🐸'},
+  ]},
+
+  /* ── HELLO WORLD (phrases) ── */
+  {id:'phrases_hello', name:'Hello!', es:'Saludos', icon:'👋', color:'wc-phrases', lvl:1, kind:'phrases',
+   story:'En la Plaza de Saludos, dices “hola”, “adiós” y palabras mágicas. Son frases cortitas.',
+   items:[
+    {en:'Hello!',      es:'¡Hola!',        em:'👋'},
+    {en:'Bye!',        es:'¡Chao!',        em:'🫶'},
+    {en:'Please',      es:'Por favor',     em:'🙏'},
+    {en:'Thank you!',  es:'¡Gracias!',     em:'🌟'},
+    {en:'Yes',         es:'Sí',            em:'✅'},
+    {en:'No',          es:'No',            em:'⛔'},
+  ]},
+
+
+  /* ── EMOTIONS (basic) ── */
+  {id:'emotions_basic', name:'Emotions', es:'Emociones', icon:'😊', color:'wc-phrases', lvl:1, kind:'words',
+   story:'En el Jardín de las Caritas, cada emoción tiene un color. Reconoce cómo te sientes con imágenes fáciles.',
+   items:[
+    {en:'Happy',   es:'Feliz',     em:'😄', hint:'Sonrisa grande'},
+    {en:'Sad',     es:'Triste',    em:'😢', hint:'Lágrimas'},
+    {en:'Angry',   es:'Enojado',   em:'😠', hint:'Ceño fruncido'},
+    {en:'Scared',  es:'Asustado',  em:'😱', hint:'¡Susto!'},
+    {en:'Sleepy',  es:'Con sueño', em:'😴', hint:'Zzz'},
+    {en:'Calm',    es:'Tranquilo', em:'😌', hint:'Respira'},
+    {en:'Silly',   es:'Chistoso',  em:'🤪', hint:'Bromista'},
+    {en:'Love',    es:'Amor',      em:'😍', hint:'Ojitos de amor'},
+    {en:'Hungry',  es:'Con hambre',em:'😋', hint:'Ñam'},
+    {en:'Surprised',es:'Sorprendido',em:'😮', hint:'¡Oh!'},
+  ]},
+
+  /* ── PETS (basic) ── */
+  {id:'pets_basic', name:'Pets', es:'Mascotas', icon:'🐾', color:'wc-animals', lvl:1, kind:'words',
+   story:'En la Casita de Mascotas, aprendemos nombres de amigos peludos y con plumas.',
+   items:[
+    {en:'Dog',     es:'Perro',   em:'🐶', hint:'Guau'},
+    {en:'Cat',     es:'Gato',    em:'🐱', hint:'Miau'},
+    {en:'Fish',    es:'Pez',     em:'🐠', hint:'Nada'},
+    {en:'Bird',    es:'Pájaro',  em:'🐦', hint:'Pío'},
+    {en:'Bunny',   es:'Conejo',  em:'🐰', hint:'Saltitos'},
+    {en:'Turtle',  es:'Tortuga', em:'🐢', hint:'Lento'},
+    {en:'Hamster', es:'Hámster', em:'🐹', hint:'Ruedita'},
+    {en:'Frog',    es:'Rana',    em:'🐸', hint:'Croac'},
+    {en:'Duck',    es:'Pato',    em:'🦆', hint:'Cuac'},
+    {en:'Horse',   es:'Caballo', em:'🐴', hint:'Relincha'},
+  ]},
+
+  /* ── PRINCESS (basic) ── */
+  {id:'princess_basic', name:'Princess', es:'Princesas', icon:'👑', color:'wc-home', lvl:1, kind:'words',
+   story:'En el Castillo de Brillo, aprendemos palabras mágicas de princesa con dibujos.',
+   items:[
+    {en:'Princess', es:'Princesa', em:'👸', hint:'Vestido'},
+    {en:'Crown',    es:'Corona',   em:'👑', hint:'Arriba'},
+    {en:'Castle',   es:'Castillo', em:'🏰', hint:'Torres'},
+    {en:'Dress',    es:'Vestido',  em:'👗', hint:'Ropa'},
+    {en:'Ring',     es:'Anillo',   em:'💍', hint:'Brilla'},
+    {en:'Star',     es:'Estrella', em:'⭐',  hint:'En el cielo'},
+    {en:'Magic',    es:'Magia',    em:'✨', hint:'Chispas'},
+    {en:'Fairy',    es:'Hada',     em:'🧚', hint:'Alitas'},
+    {en:'Flower',   es:'Flor',     em:'🌸', hint:'Perfume'},
+    {en:'Heart',    es:'Corazón',  em:'💖', hint:'Cariño'},
+  ]},
+
+  /* ── SUPERHERO (basic) ── */
+  {id:'superhero_basic', name:'Superheroes', es:'Superhéroes', icon:'🦸', color:'wc-words', lvl:1, kind:'words',
+   story:'En la Ciudad Valiente, practicamos palabras de superhéroes para ayudar a todos.',
+   items:[
+    {en:'Hero',    es:'Héroe',     em:'🦸', hint:'Valiente'},
+    {en:'Cape',    es:'Capa',      em:'🧣', hint:'Vuela'},
+    {en:'Mask',    es:'Máscara',   em:'🎭', hint:'Oculta'},
+    {en:'Power',   es:'Poder',     em:'💥', hint:'¡Boom!'},
+    {en:'Shield',  es:'Escudo',    em:'🛡️', hint:'Protege'},
+    {en:'Speed',   es:'Velocidad', em:'⚡', hint:'Rápido'},
+    {en:'Strong',  es:'Fuerte',    em:'💪', hint:'Músculos'},
+    {en:'Save',    es:'Salvar',    em:'🆘', hint:'Ayuda'},
+    {en:'City',    es:'Ciudad',    em:'🏙️', hint:'Edificios'},
+    {en:'Team',    es:'Equipo',    em:'🤝', hint:'Juntos'},
+  ]},
+
+  /* ── UNIVERSE (basic) ── */
+  {id:'universe_basic', name:'Universe', es:'Universo', icon:'🌙', color:'wc-weather', lvl:1, kind:'words',
+   story:'En el Mini‑Espacio, miramos el cielo: sol, luna y estrellas.',
+   items:[
+    {en:'Sun',     es:'Sol',      em:'☀️', hint:'Calienta'},
+    {en:'Moon',    es:'Luna',     em:'🌙', hint:'Noche'},
+    {en:'Star',    es:'Estrella', em:'🌟', hint:'Brilla'},
+    {en:'Planet',  es:'Planeta',  em:'🪐', hint:'Rueda'},
+    {en:'Rocket',  es:'Cohete',   em:'🚀', hint:'Despega'},
+    {en:'Space',   es:'Espacio',  em:'🌌', hint:'Oscuro'},
+    {en:'Alien',   es:'Alien',    em:'👽', hint:'Extraño'},
+    {en:'Cloud',   es:'Nube',     em:'☁️', hint:'Blanca'},
+    {en:'Light',   es:'Luz',      em:'💡', hint:'Enciende'},
+    {en:'Night',   es:'Noche',    em:'🌃', hint:'Dormir'},
+  ]},
+
+  /* ── DINOSAURS (basic) ── */
+  {id:'dinos_basic', name:'Dinosaurs', es:'Dinosaurios', icon:'🦖', color:'wc-animals', lvl:1, kind:'words',
+   story:'En el Valle Dino, aprendemos nombres simples de dinosaurios.',
+   items:[
+    {en:'Dino',        es:'Dino',         em:'🦕', hint:'Gigante'},
+    {en:'T‑Rex',       es:'T‑Rex',        em:'🦖', hint:'Fuerte'},
+    {en:'Triceratops', es:'Triceratops',  em:'🦏', hint:'Cuernos'},
+    {en:'Egg',         es:'Huevo',        em:'🥚', hint:'Nace'},
+    {en:'Fossil',      es:'Fósil',        em:'🦴', hint:'Hueso'},
+    {en:'Roar',        es:'Rugido',       em:'🗣️', hint:'¡Rooo!'},
+    {en:'Tail',        es:'Cola',         em:'🐉', hint:'Larga'},
+    {en:'Big',         es:'Grande',       em:'📏', hint:'Muy grande'},
+    {en:'Green',       es:'Verde',        em:'🟩', hint:'Color'},
+    {en:'Track',       es:'Huella',       em:'👣', hint:'Pasos'},
+  ]},
+
+  /* ── ELEMENTS (basic) ── */
+  {id:'elements_basic', name:'Elements', es:'Elementos', icon:'🌊', color:'wc-weather', lvl:1, kind:'words',
+   story:'En la Isla de los Elementos, jugamos con agua, fuego, aire y tierra.',
+   items:[
+    {en:'Water',  es:'Agua',   em:'💧', hint:'Gotas'},
+    {en:'Fire',   es:'Fuego',  em:'🔥', hint:'Caliente'},
+    {en:'Air',    es:'Aire',   em:'💨', hint:'Sopla'},
+    {en:'Earth',  es:'Tierra', em:'🌍', hint:'Planeta'},
+    {en:'Rock',   es:'Roca',   em:'🪨', hint:'Dura'},
+    {en:'Leaf',   es:'Hoja',   em:'🍃', hint:'Verde'},
+    {en:'Snow',   es:'Nieve',  em:'❄️', hint:'Fría'},
+    {en:'Rain',   es:'Lluvia', em:'🌧️', hint:'Cae'},
+    {en:'Sun',    es:'Sol',    em:'🔆', hint:'Brilla'},
+    {en:'Cloud',  es:'Nube',   em:'🌫️', hint:'Gris'},
+  ]},
+
+  /* ── TOYS (basic) ── */
+  {id:'toys_basic', name:'Toys', es:'Juguetes', icon:'🧸', color:'wc-words', lvl:1, kind:'words',
+   story:'En el Cuarto de Juegos, cada juguete tiene su nombre en inglés.',
+   items:[
+    {en:'Ball',   es:'Pelota',    em:'⚽', hint:'Rueda'},
+    {en:'Doll',   es:'Muñeca',    em:'🪆', hint:'Jugar'},
+    {en:'Car',    es:'Carro',     em:'🚗', hint:'Brrm'},
+    {en:'Blocks', es:'Bloques',   em:'🧱', hint:'Construir'},
+    {en:'Teddy',  es:'Osito',     em:'🧸', hint:'Abrazo'},
+    {en:'Puzzle', es:'Rompecabezas', em:'🧩', hint:'Encaja'},
+    {en:'Robot',  es:'Robot',     em:'🤖', hint:'Bip'},
+    {en:'Train',  es:'Tren',      em:'🚂', hint:'Choo'},
+    {en:'Kite',   es:'Cometa',    em:'🪁', hint:'Vuela'},
+    {en:'Drum',   es:'Tambor',    em:'🥁', hint:'Bum'},
+  ]},
+
+  /* ── BIRTHDAY (basic) ── */
+  {id:'birthday_basic', name:'Birthday', es:'Cumpleaños', icon:'🎉', color:'wc-food', lvl:1, kind:'words',
+   story:'En la Fiesta Feliz, aprendemos palabras de cumpleaños.',
+   items:[
+    {en:'Birthday', es:'Cumpleaños', em:'🎂', hint:'Pastel'},
+    {en:'Cake',     es:'Torta',      em:'🍰', hint:'Dulce'},
+    {en:'Candle',   es:'Vela',       em:'🕯️', hint:'Luz'},
+    {en:'Balloon',  es:'Globo',      em:'🎈', hint:'Sube'},
+    {en:'Gift',     es:'Regalo',     em:'🎁', hint:'Sorpresa'},
+    {en:'Party',    es:'Fiesta',     em:'🎉', hint:'¡Woo!'},
+    {en:'Hat',      es:'Gorro',      em:'🥳', hint:'Celebrar'},
+    {en:'Music',    es:'Música',     em:'🎵', hint:'Suena'},
+    {en:'Dance',    es:'Bailar',     em:'💃', hint:'Mover'},
+    {en:'Smile',    es:'Sonreír',    em:'😁', hint:'Feliz'},
+  ]},
+
+  /* ── JOBS (basic) ── */
+  {id:'jobs_basic', name:'Jobs', es:'Trabajos', icon:'👷', color:'wc-home', lvl:1, kind:'words',
+   story:'En la Ciudad de Oficios, conocemos profesiones con imágenes claras.',
+   items:[
+    {en:'Doctor',     es:'Doctor',      em:'🩺', hint:'Salud'},
+    {en:'Teacher',    es:'Profesor',    em:'👩‍🏫', hint:'Escuela'},
+    {en:'Chef',       es:'Chef',        em:'👨‍🍳', hint:'Cocina'},
+    {en:'Farmer',     es:'Granjero',    em:'👩‍🌾', hint:'Campo'},
+    {en:'Police',     es:'Policía',     em:'👮', hint:'Orden'},
+    {en:'Firefighter',es:'Bombero',     em:'👩‍🚒', hint:'Fuego'},
+    {en:'Driver',     es:'Conductor',   em:'🚌', hint:'Maneja'},
+    {en:'Artist',     es:'Artista',     em:'🎨', hint:'Pinta'},
+    {en:'Builder',    es:'Constructor', em:'👷', hint:'Obra'},
+    {en:'Nurse',      es:'Enfermero',   em:'🧑‍⚕️', hint:'Cuida'},
+  ]},
+
+  /* ═══════════════════════════════════════
+     NIVEL 2 (5–6): “Explorador” — consolida bases
+     Trama: El Tren de Consonantes 🚂 y el Cohete 11–20 🚀
+     ═══════════════════════════════════════ */
+
+  /* ── CONSONANTS (basic set) ── */
+  {id:'letters_basic', name:'Consonants', es:'Consonantes', icon:'🚂', color:'wc-letters', lvl:2, kind:'letters',
+   story:'El Tren de Consonantes necesita letras para avanzar. Aprendemos las más usadas primero.',
+   items:[
+    {en:'M',es:'M', em:'🌙', hint:'M de Moon'},
+    {en:'P',es:'P', em:'🐧', hint:'P de Penguin'},
+    {en:'S',es:'S', em:'☀️', hint:'S de Sun'},
+    {en:'T',es:'T', em:'🐢', hint:'T de Turtle'},
+    {en:'L',es:'L', em:'🦁', hint:'L de Lion'},
+    {en:'N',es:'N', em:'🎵', hint:'N de Note'},
+    {en:'R',es:'R', em:'🌈', hint:'R de Rainbow'},
+    {en:'B',es:'B', em:'🐝', hint:'B de Bee'},
+    {en:'C',es:'C', em:'🐱', hint:'C de Cat'},
+    {en:'D',es:'D', em:'🐶', hint:'D de Dog'},
+  ]},
+
+  /* ── NUMBERS 11–20 ── */
+  {id:'numbers_11_20', name:'Numbers 11–20', es:'Números 11–20', icon:'🚀', color:'wc-numbers', lvl:2, kind:'numbers',
+   story:'Sube al cohete: contamos del 11 al 20, uno por uno.',
+   items:[
+    {en:'Eleven',   es:'Once',      em:'🧁', num:11},
+    {en:'Twelve',   es:'Doce',      em:'🎁', num:12},
+    {en:'Thirteen', es:'Trece',     em:'🧸', num:13},
+    {en:'Fourteen', es:'Catorce',   em:'🧩', num:14},
+    {en:'Fifteen',  es:'Quince',    em:'🎈', num:15},
+    {en:'Sixteen',  es:'Dieciséis', em:'🍬', num:16},
+    {en:'Seventeen',es:'Diecisiete',em:'🎯', num:17},
+    {en:'Eighteen', es:'Dieciocho', em:'🎸', num:18},
+    {en:'Nineteen', es:'Diecinueve',em:'🛹', num:19},
+    {en:'Twenty',   es:'Veinte',    em:'🏆', num:20},
+  ]},
+
+  /* ── FAMILY ── */
+  {id:'family', name:'Family', es:'Familia', icon:'👨‍👩‍👧', color:'wc-family', lvl:2, kind:'words',
+   story:'En la Casa de la Familia, aprendemos quién es quién.',
+   items:[
+    {en:'Mom',     es:'Mamá',    em:'👩'},
+    {en:'Dad',     es:'Papá',    em:'👨'},
+    {en:'Brother', es:'Hermano', em:'👦'},
+    {en:'Sister',  es:'Hermana', em:'👧'},
+    {en:'Baby',    es:'Bebé',    em:'👶'},
+    {en:'Grandma', es:'Abuela',  em:'👵'},
+    {en:'Grandpa', es:'Abuelo',  em:'👴'},
+    {en:'Family',  es:'Familia', em:'👨‍👩‍👧‍👦'},
+  ]},
+
+  /* ── FOOD (picnic) ── */
+  {id:'food_picnic', name:'Food', es:'Comida (picnic)', icon:'🧺', color:'wc-food', lvl:2, kind:'words',
+   story:'Preparamos un picnic con 10 cosas ricas y fáciles.',
+   items:[
+    {en:'Apple',   es:'Manzana', em:'🍎'},
+    {en:'Banana',  es:'Banano',  em:'🍌'},
+    {en:'Milk',    es:'Leche',   em:'🥛'},
+    {en:'Bread',   es:'Pan',     em:'🍞'},
+    {en:'Egg',     es:'Huevo',   em:'🥚'},
+    {en:'Cookie',  es:'Galleta', em:'🍪'},
+    {en:'Candy',   es:'Dulce',   em:'🍭'},
+    {en:'Pizza',   es:'Pizza',   em:'🍕'},
+    {en:'Cake',    es:'Pastel',  em:'🎂'},
+    {en:'Ice cream',es:'Helado', em:'🍦'},
+  ]},
+
+
+  /* ── EMOTIONS (more) ── */
+  {id:'emotions_more', name:'Emotions+', es:'Emociones (más)', icon:'😃', color:'wc-phrases', lvl:2, kind:'words',
+   story:'En el Parque de Emociones, aprendemos más formas de sentir y expresarnos.',
+   items:[
+    {en:'Excited',  es:'Emocionado', em:'🤩', hint:'¡Wiii!'},
+    {en:'Bored',    es:'Aburrido',   em:'🥱', hint:'Zzz'},
+    {en:'Proud',    es:'Orgulloso',  em:'😤', hint:'Yo pude'},
+    {en:'Shy',      es:'Tímido',     em:'🫣', hint:'Me escondo'},
+    {en:'Worried',  es:'Preocupado', em:'😟', hint:'Piensa'},
+    {en:'Brave',    es:'Valiente',   em:'🦁', hint:'Como león'},
+    {en:'Friendly', es:'Amigable',   em:'😊', hint:'Buen trato'},
+    {en:'Sick',     es:'Enfermo',    em:'🤒', hint:'Fiebre'},
+    {en:'Okay',     es:'Bien',       em:'👌', hint:'Todo bien'},
+    {en:'Thankful', es:'Agradecido', em:'🙌', hint:'Gracias'},
+  ]},
+
+  /* ── PETS (care) ── */
+  {id:'pets_care', name:'Pets Care', es:'Cuidar mascotas', icon:'🦴', color:'wc-animals', lvl:2, kind:'words',
+   story:'En la Clínica de Mascotas, aprendemos cosas de cuidado y accesorios.',
+   items:[
+    {en:'Leash',  es:'Correa',   em:'🦮', hint:'Paseo'},
+    {en:'Bowl',   es:'Tazón',    em:'🥣', hint:'Comida'},
+    {en:'Bone',   es:'Hueso',    em:'🦴', hint:'Perro'},
+    {en:'Toy',    es:'Juguete',  em:'🪀', hint:'Jugar'},
+    {en:'Bath',   es:'Baño',     em:'🛁', hint:'Limpio'},
+    {en:'Fur',    es:'Pelaje',   em:'🧶', hint:'Suave'},
+    {en:'Puppy',  es:'Cachorro', em:'🐕', hint:'Pequeño'},
+    {en:'Kitten', es:'Gatito',   em:'🐈', hint:'Miau'},
+    {en:'Parrot', es:'Loro',     em:'🦜', hint:'Habla'},
+    {en:'Hamster',es:'Hámster',  em:'🐹', hint:'Rueda'},
+  ]},
+
+  /* ── PRINCESS (kingdom) ── */
+  {id:'princess_kingdom', name:'Princess Kingdom', es:'Reino de princesas', icon:'🏰', color:'wc-home', lvl:2, kind:'words',
+   story:'En el Reino Brillante, aparecen nuevos objetos del castillo.',
+   items:[
+    {en:'Queen',   es:'Reina',     em:'👑', hint:'Manda'},
+    {en:'King',    es:'Rey',       em:'🤴', hint:'Corona'},
+    {en:'Palace',  es:'Palacio',   em:'🏯', hint:'Grande'},
+    {en:'Throne',  es:'Trono',     em:'🪑', hint:'Silla real'},
+    {en:'Wand',    es:'Varita',    em:'🪄', hint:'Magia'},
+    {en:'Mirror',  es:'Espejo',    em:'🪞', hint:'Reflejo'},
+    {en:'Garden',  es:'Jardín',    em:'🌷', hint:'Flores'},
+    {en:'Horse',   es:'Caballo',   em:'🐎', hint:'Galopa'},
+    {en:'Carriage',es:'Carruaje',  em:'🚗', hint:'Viaje'},
+    {en:'Gem',     es:'Gema',      em:'💎', hint:'Brilla'},
+  ]},
+
+  /* ── SUPERHERO (gear) ── */
+  {id:'superhero_gear', name:'Super Gear', es:'Equipo super', icon:'🛡️', color:'wc-words', lvl:2, kind:'words',
+   story:'En el Taller Heroico, aprendemos cosas del equipo de héroes.',
+   items:[
+    {en:'Helmet', es:'Casco',      em:'🪖', hint:'Protege'},
+    {en:'Gadget', es:'Gadget',     em:'🧰', hint:'Herramienta'},
+    {en:'Laser',  es:'Láser',      em:'🔦', hint:'Luz fuerte'},
+    {en:'Map',    es:'Mapa',       em:'🗺️', hint:'Ruta'},
+    {en:'Signal', es:'Señal',      em:'📡', hint:'Llama'},
+    {en:'Rescue', es:'Rescate',    em:'🚑', hint:'Ayuda'},
+    {en:'Secret', es:'Secreto',    em:'🤫', hint:'Shh'},
+    {en:'Hide',   es:'Esconder',   em:'🕵️', hint:'Oculto'},
+    {en:'Jump',   es:'Saltar',     em:'🤾', hint:'Arriba'},
+    {en:'Fly',    es:'Volar',      em:'🦅', hint:'Cielo'},
+  ]},
+
+  /* ── UNIVERSE (space) ── */
+  {id:'universe_space', name:'Space', es:'Espacio', icon:'👩‍🚀', color:'wc-weather', lvl:2, kind:'words',
+   story:'En la Estación Espacial, aparecen astronautas, cometas y galaxias.',
+   items:[
+    {en:'Astronaut', es:'Astronauta', em:'👩‍🚀', hint:'Traje'},
+    {en:'Comet',     es:'Cometa',     em:'☄️', hint:'Cola'},
+    {en:'Galaxy',    es:'Galaxia',    em:'🌀', hint:'Espiral'},
+    {en:'Satellite', es:'Satélite',   em:'🛰️', hint:'Orbitando'},
+    {en:'Meteor',    es:'Meteoro',    em:'🌠', hint:'Cae'},
+    {en:'Orbit',     es:'Órbita',     em:'🔄', hint:'Vuelta'},
+    {en:'Telescope', es:'Telescopio', em:'🔭', hint:'Mirar'},
+    {en:'Moon',      es:'Luna',       em:'🌔', hint:'Fase'},
+    {en:'Rocket',    es:'Cohete',     em:'🚀', hint:'Sube'},
+    {en:'Planet',    es:'Planeta',    em:'🪐', hint:'Anillos'},
+  ]},
+
+  /* ── DINOSAURS (explorer) ── */
+  {id:'dinos_explorer', name:'Dino Explorer', es:'Exploradores Dino', icon:'🧭', color:'wc-animals', lvl:2, kind:'words',
+   story:'En el Campamento Dino, buscamos pistas y nombres nuevos.',
+   items:[
+    {en:'Claw',    es:'Garra',     em:'🦞', hint:'Araña'},
+    {en:'Teeth',   es:'Dientes',   em:'🦷', hint:'Muerde'},
+    {en:'Spike',   es:'Espina',    em:'📌', hint:'Punta'},
+    {en:'Volcano', es:'Volcán',    em:'🌋', hint:'Caliente'},
+    {en:'Jungle',  es:'Selva',     em:'🌴', hint:'Árboles'},
+    {en:'Skeleton',es:'Esqueleto', em:'💀', hint:'Huesos'},
+    {en:'Fossil',  es:'Fósil',     em:'🦴', hint:'Antiguo'},
+    {en:'Big',     es:'Grande',    em:'🦣', hint:'Gigante'},
+    {en:'Fast',    es:'Rápido',    em:'🏃', hint:'Corre'},
+    {en:'Dinosaur',es:'Dinosaurio',em:'🦖', hint:'Ruge'},
+  ]},
+
+  /* ── ELEMENTS (weather+) ── */
+  {id:'elements_weather', name:'Elements+', es:'Elementos (clima)', icon:'⛈️', color:'wc-weather', lvl:2, kind:'words',
+   story:'En la Montaña del Clima, mezclamos elementos con lluvia, tormenta e hielo.',
+   items:[
+    {en:'Storm',   es:'Tormenta', em:'⛈️', hint:'Trueno'},
+    {en:'Ice',     es:'Hielo',    em:'🧊', hint:'Frío'},
+    {en:'Lightning',es:'Rayo',    em:'🌩️', hint:'Flash'},
+    {en:'Fog',     es:'Niebla',   em:'🌁', hint:'No se ve'},
+    {en:'Wave',    es:'Ola',      em:'🌊', hint:'Mar'},
+    {en:'Sand',    es:'Arena',    em:'🏖️', hint:'Playa'},
+    {en:'Mud',     es:'Barro',    em:'🟫', hint:'Sucio'},
+    {en:'Leaf',    es:'Hoja',     em:'🍂', hint:'Cae'},
+    {en:'Sun',     es:'Sol',      em:'🌞', hint:'Sonríe'},
+    {en:'Cloud',   es:'Nube',     em:'🌥️', hint:'Tapado'},
+  ]},
+
+  /* ── TOYS (play) ── */
+  {id:'toys_play', name:'More Toys', es:'Más juguetes', icon:'🪀', color:'wc-words', lvl:2, kind:'words',
+   story:'En la Feria de Juegos, aparecen juguetes nuevos y divertidos.',
+   items:[
+    {en:'Yo‑yo',     es:'Yo‑yo',    em:'🪀', hint:'Sube/baja'},
+    {en:'Game',      es:'Juego',    em:'🎮', hint:'Control'},
+    {en:'Cards',     es:'Cartas',   em:'🃏', hint:'Baraja'},
+    {en:'Marbles',   es:'Canicas',  em:'🔵', hint:'Bolitas'},
+    {en:'Slime',     es:'Slime',    em:'🟢', hint:'Pegajoso'},
+    {en:'Sticker',   es:'Sticker',  em:'🏷️', hint:'Pega'},
+    {en:'Crayon',    es:'Crayón',   em:'🖍️', hint:'Dibuja'},
+    {en:'Book',      es:'Libro',    em:'📘', hint:'Leer'},
+    {en:'Drum',      es:'Tambor',   em:'🥁', hint:'Sonido'},
+    {en:'Ball',      es:'Pelota',   em:'🏀', hint:'Bota'},
+  ]},
+
+  /* ── BIRTHDAY (party) ── */
+  {id:'birthday_party', name:'Birthday Party', es:'Fiesta de cumple', icon:'🎈', color:'wc-food', lvl:2, kind:'words',
+   story:'En la Gran Fiesta, aprendemos palabras típicas de un cumpleaños.',
+   items:[
+    {en:'Invite',   es:'Invitación', em:'💌', hint:'Ven'},
+    {en:'Friends',  es:'Amigos',     em:'👫', hint:'Juntos'},
+    {en:'Candles',  es:'Velas',      em:'🕯️', hint:'Soplar'},
+    {en:'Surprise', es:'Sorpresa',   em:'🎁', hint:'¡Tadaa!'},
+    {en:'Song',     es:'Canción',    em:'🎶', hint:'Cantar'},
+    {en:'Cake',     es:'Pastel',     em:'🎂', hint:'Dulce'},
+    {en:'Piñata',   es:'Piñata',     em:'🪅', hint:'Golpea'},
+    {en:'Confetti', es:'Confeti',    em:'🎊', hint:'Papelitos'},
+    {en:'Smile',    es:'Sonrisa',    em:'😁', hint:'Feliz'},
+    {en:'Hug',      es:'Abrazo',     em:'🤗', hint:'Cariño'},
+  ]},
+
+  /* ── JOBS (community) ── */
+  {id:'jobs_community', name:'Jobs+', es:'Trabajos (más)', icon:'🧑‍🔧', color:'wc-home', lvl:2, kind:'words',
+   story:'En el Barrio de Oficios, conocemos profesiones nuevas.',
+   items:[
+    {en:'Pilot',      es:'Piloto',        em:'🧑‍✈️', hint:'Avión'},
+    {en:'Scientist',  es:'Científico',    em:'🧪', hint:'Experimento'},
+    {en:'Engineer',   es:'Ingeniero',     em:'📐', hint:'Diseña'},
+    {en:'Vet',        es:'Veterinario',   em:'🐾', hint:'Mascotas'},
+    {en:'Mechanic',   es:'Mecánico',      em:'🔧', hint:'Arregla'},
+    {en:'Baker',      es:'Panadero',      em:'🥖', hint:'Pan'},
+    {en:'Dentist',    es:'Dentista',      em:'🦷', hint:'Dientes'},
+    {en:'Police officer',es:'Oficial',    em:'🚓', hint:'Patrulla'},
+    {en:'Gardener',   es:'Jardinero',     em:'🪴', hint:'Plantas'},
+    {en:'Musician',   es:'Músico',        em:'🎸', hint:'Toca'},
+  ]},
+
+  /* ═══════════════════════════════════════
+     NIVEL 3 (6–7): “Héroe” — completa y combina
+     Trama: La Ciudad del Alfabeto 🏙️ y el Desafío 21–30 🧠
+     ═══════════════════════════════════════ */
+
+  /* ── FULL ALPHABET ── */
+  {id:'letters_full', name:'Alphabet', es:'Alfabeto completo', icon:'🏙️', color:'wc-letters', lvl:3, kind:'letters',
+   story:'En la Ciudad del Alfabeto, juntas todas las letras. ¡Ahora sí: de A a Z!',
+   items:[
+    {en:'A',es:'A', em:'🍎', hint:'A de Apple'},
+    {en:'B',es:'B', em:'🐝', hint:'B de Bee'},
+    {en:'C',es:'C', em:'🐱', hint:'C de Cat'},
+    {en:'D',es:'D', em:'🐶', hint:'D de Dog'},
+    {en:'E',es:'E', em:'🥚', hint:'E de Egg'},
+    {en:'F',es:'F', em:'🐸', hint:'F de Frog'},
+    {en:'G',es:'G', em:'🍇', hint:'G de Grapes'},
+    {en:'H',es:'H', em:'🏠', hint:'H de House'},
+    {en:'I',es:'I', em:'🍦', hint:'I de Ice cream'},
+    {en:'J',es:'J', em:'🕹️', hint:'J de Joystick'},
+    {en:'K',es:'K', em:'🔑', hint:'K de Key'},
+    {en:'L',es:'L', em:'🦁', hint:'L de Lion'},
+    {en:'M',es:'M', em:'🌙', hint:'M de Moon'},
+    {en:'N',es:'N', em:'🎵', hint:'N de Note'},
+    {en:'O',es:'O', em:'🐙', hint:'O de Octopus'},
+    {en:'P',es:'P', em:'🐧', hint:'P de Penguin'},
+    {en:'Q',es:'Q', em:'👑', hint:'Q de Queen'},
+    {en:'R',es:'R', em:'🌈', hint:'R de Rainbow'},
+    {en:'S',es:'S', em:'☀️', hint:'S de Sun'},
+    {en:'T',es:'T', em:'🐢', hint:'T de Turtle'},
+    {en:'U',es:'U', em:'☂️', hint:'U de Umbrella'},
+    {en:'V',es:'V', em:'🎻', hint:'V de Violin'},
+    {en:'W',es:'W', em:'🌊', hint:'W de Wave'},
+    {en:'X',es:'X', em:'🎸', hint:'X de Xylophone'},
+    {en:'Y',es:'Y', em:'🧶', hint:'Y de Yarn'},
+    {en:'Z',es:'Z', em:'⚡', hint:'Z de Zap'},
+   ]},
+
+  /* ── NUMBERS 21–30 ── */
+  {id:'numbers_21_30', name:'Numbers 21–30', es:'Números 21–30', icon:'🧠', color:'wc-numbers', lvl:3, kind:'numbers',
+   story:'Desafío final: del 21 al 30. Ya cuentas como un campeón.',
+   items:[
+    {en:'Twenty-one',  es:'Veintiuno',  em:'🌟', num:21},
+    {en:'Twenty-two',  es:'Veintidós',  em:'🎈', num:22},
+    {en:'Twenty-three',es:'Veintitrés', em:'🧸', num:23},
+    {en:'Twenty-four', es:'Veinticuatro',em:'🧩', num:24},
+    {en:'Twenty-five', es:'Veinticinco',em:'🎯', num:25},
+    {en:'Twenty-six',  es:'Veintiséis', em:'🍭', num:26},
+    {en:'Twenty-seven',es:'Veintisiete',em:'🪁', num:27},
+    {en:'Twenty-eight',es:'Veintiocho', em:'🐙', num:28},
+    {en:'Twenty-nine', es:'Veintinueve',em:'🛹', num:29},
+    {en:'Thirty',      es:'Treinta',    em:'🏁', num:30},
+  ]},
+
+  /* ── HOME ── */
+  {id:'home', name:'Home', es:'Casa', icon:'🏠', color:'wc-home', lvl:3, kind:'words',
+   story:'En la Casa Secreta, encuentras objetos. Nombres simples, muy cotidianos.',
+   items:[
+    {en:'Door',   es:'Puerta',  em:'🚪'},
+    {en:'Window', es:'Ventana', em:'🪟'},
+    {en:'Chair',  es:'Silla',   em:'🪑'},
+    {en:'Bed',    es:'Cama',    em:'🛏️'},
+    {en:'Lamp',   es:'Lámpara', em:'💡'},
+    {en:'TV',     es:'Televisor',em:'📺'},
+    {en:'Book',   es:'Libro',   em:'📘'},
+    {en:'Toy',    es:'Juguete', em:'🧸'},
+  ]},
+
+  /* ── BODY ── */
+  {id:'body', name:'Body', es:'Cuerpo', icon:'🧍', color:'wc-body', lvl:3, kind:'words',
+   story:'En el Robot Amigo, aprendes partes del cuerpo con emojis claros.',
+   items:[
+    {en:'Head',   es:'Cabeza',  em:'🙂'},
+    {en:'Eye',    es:'Ojo',     em:'👁️'},
+    {en:'Nose',   es:'Nariz',   em:'👃'},
+    {en:'Mouth',  es:'Boca',    em:'👄'},
+    {en:'Ear',    es:'Oreja',   em:'👂'},
+    {en:'Hand',   es:'Mano',    em:'✋'},
+    {en:'Foot',   es:'Pie',     em:'🦶'},
+    {en:'Heart',  es:'Corazón', em:'❤️'},
+  ]},
+
+  /* ── WEATHER ── */
+  {id:'weather', name:'Weather', es:'Clima', icon:'⛅', color:'wc-weather', lvl:3, kind:'words',
+   story:'En el Cielo Cambiante, identificas el clima con símbolos fáciles.',
+   items:[
+    {en:'Sun',    es:'Sol',     em:'☀️'},
+    {en:'Rain',   es:'Lluvia',  em:'🌧️'},
+    {en:'Cloud',  es:'Nube',    em:'☁️'},
+    {en:'Snow',   es:'Nieve',   em:'❄️'},
+    {en:'Wind',   es:'Viento',  em:'💨'},
+    {en:'Rainbow',es:'Arcoíris',em:'🌈'},
+  ]},
+  /* ── EMOTIONS (hero) ── */
+  {id:'emotions_hero', name:'Emotions Pro', es:'Emociones (pro)', icon:'🧠', color:'wc-phrases', lvl:3, kind:'words',
+   story:'En la Academia de Emociones, nombramos sensaciones más complejas.',
+   items:[
+    {en:'Grateful',   es:'Agradecido',   em:'🙏', hint:'Gracias'},
+    {en:'Confused',   es:'Confundido',   em:'😵', hint:'¿Eh?'},
+    {en:'Frustrated', es:'Frustrado',    em:'😣', hint:'No sale'},
+    {en:'Brave',      es:'Valiente',     em:'🛡️', hint:'Me animo'},
+    {en:'Lonely',     es:'Solo',         em:'🥺', hint:'Necesito'},
+    {en:'Curious',    es:'Curioso',      em:'🧐', hint:'Quiero saber'},
+    {en:'Relaxed',    es:'Relajado',     em:'🧘', hint:'Calma'},
+    {en:'Nervous',    es:'Nervioso',     em:'😬', hint:'Uff'},
+    {en:'Proud',      es:'Orgulloso',    em:'🏅', hint:'Lo logré'},
+    {en:'Kind',       es:'Amable',       em:'💗', hint:'Cuido'},
+  ]},
+
+  /* ── PETS (advanced) ── */
+  {id:'pets_advanced', name:'Pets Pro', es:'Mascotas (pro)', icon:'🏥', color:'wc-animals', lvl:3, kind:'words',
+   story:'En el Centro de Mascotas, aprendemos palabras de cuidado y rutinas.',
+   items:[
+    {en:'Vet',        es:'Veterinario', em:'🏥', hint:'Clínica'},
+    {en:'Vaccine',    es:'Vacuna',      em:'💉', hint:'Protege'},
+    {en:'Groom',      es:'Asear',       em:'🧼', hint:'Limpio'},
+    {en:'Brush',      es:'Cepillo',     em:'🪥', hint:'Peinar'},
+    {en:'Collar',     es:'Collar',      em:'📿', hint:'Cuello'},
+    {en:'Treat',      es:'Premio',      em:'🦴', hint:'Buen perro'},
+    {en:'Adopt',      es:'Adoptar',     em:'🏡', hint:'Nuevo hogar'},
+    {en:'Train',      es:'Entrenar',    em:'🎯', hint:'Aprender'},
+    {en:'Walk',       es:'Pasear',      em:'🚶', hint:'Caminar'},
+    {en:'Play',       es:'Jugar',       em:'🪀', hint:'Diversión'},
+  ]},
+
+  /* ── PRINCESS (story) ── */
+  {id:'princess_story', name:'Royal Story', es:'Historia real', icon:'📜', color:'wc-home', lvl:3, kind:'words',
+   story:'En el Libro del Castillo, armamos una mini‑historia con palabras del reino.',
+   items:[
+    {en:'Palace',   es:'Palacio',   em:'🏰', hint:'Reino'},
+    {en:'Guard',    es:'Guardia',   em:'💂', hint:'Cuida'},
+    {en:'Bridge',   es:'Puente',    em:'🌉', hint:'Cruza'},
+    {en:'Dragon',   es:'Dragón',    em:'🐲', hint:'Fantástico'},
+    {en:'Princess', es:'Princesa',  em:'👸', hint:'Real'},
+    {en:'Crown',    es:'Corona',    em:'👑', hint:'Rey/Reina'},
+    {en:'Secret',   es:'Secreto',   em:'🗝️', hint:'Llave'},
+    {en:'Treasure', es:'Tesoro',    em:'🪙', hint:'Oro'},
+    {en:'Forest',   es:'Bosque',    em:'🌲', hint:'Árboles'},
+    {en:'Spell',    es:'Hechizo',   em:'🪄', hint:'Magia'},
+  ]},
+
+  /* ── SUPERHERO (mission) ── */
+  {id:'superhero_mission', name:'Hero Mission', es:'Misión héroe', icon:'🏙️', color:'wc-words', lvl:3, kind:'words',
+   story:'En la Mega‑Ciudad, usamos palabras para describir una misión de rescate.',
+   items:[
+    {en:'Rescue',   es:'Rescatar',  em:'🚁', hint:'Heli'},
+    {en:'Climb',    es:'Escalar',   em:'🧗', hint:'Subir'},
+    {en:'Protect',  es:'Proteger',  em:'🛡️', hint:'Escudo'},
+    {en:'Help',     es:'Ayudar',    em:'🤝', hint:'Mano'},
+    {en:'Fast',     es:'Rápido',    em:'🏎️', hint:'Carrera'},
+    {en:'Quiet',    es:'Silencio',  em:'🤫', hint:'Shh'},
+    {en:'Danger',   es:'Peligro',   em:'⚠️', hint:'Cuidado'},
+    {en:'Safe',     es:'Seguro',    em:'🟢', hint:'Ok'},
+    {en:'Team',     es:'Equipo',    em:'👥', hint:'Grupo'},
+    {en:'Victory',  es:'Victoria',  em:'🏆', hint:'Ganar'},
+  ]},
+
+  /* ── UNIVERSE (science) ── */
+  {id:'universe_science', name:'Space Lab', es:'Laboratorio espacial', icon:'🔭', color:'wc-weather', lvl:3, kind:'words',
+   story:'En el Laboratorio Espacial, aparecen palabras científicas fáciles.',
+   items:[
+    {en:'Telescope', es:'Telescopio', em:'🔭', hint:'Mirar'},
+    {en:'Meteor',    es:'Meteoro',    em:'🌠', hint:'Cae'},
+    {en:'Crater',    es:'Cráter',     em:'🕳️', hint:'Hueco'},
+    {en:'Orbit',     es:'Órbita',     em:'🔄', hint:'Vuelta'},
+    {en:'Gravity',   es:'Gravedad',   em:'🧲', hint:'Jala'},
+    {en:'Planet',    es:'Planeta',    em:'🪐', hint:'Mundo'},
+    {en:'Moon',      es:'Luna',       em:'🌕', hint:'Redonda'},
+    {en:'Sun',       es:'Sol',        em:'☀️', hint:'Energía'},
+    {en:'Rocket',    es:'Cohete',     em:'🚀', hint:'Viaja'},
+    {en:'Astronaut', es:'Astronauta', em:'👨‍🚀', hint:'Traje'},
+  ]},
+
+  /* ── DINOSAURS (jurassic) ── */
+  {id:'dinos_jurassic', name:'Jurassic', es:'Jurásico', icon:'🌋', color:'wc-animals', lvl:3, kind:'words',
+   story:'En la Isla Jurásica, combinamos dinosaurios con lugares y acciones.',
+   items:[
+    {en:'Jurassic',  es:'Jurásico',  em:'🗓️', hint:'Hace mucho'},
+    {en:'Volcano',   es:'Volcán',    em:'🌋', hint:'Lava'},
+    {en:'Footprint', es:'Huella',    em:'👣', hint:'Pasos'},
+    {en:'Roar',      es:'Rugir',     em:'📣', hint:'Fuerte'},
+    {en:'Hunt',      es:'Cazar',     em:'🏹', hint:'Buscar'},
+    {en:'Hide',      es:'Esconder',  em:'🫥', hint:'Oculto'},
+    {en:'Gigantic',  es:'Gigante',   em:'🦣', hint:'Enorme'},
+    {en:'Fast',      es:'Rápido',    em:'🏃‍♂️', hint:'Corre'},
+    {en:'Dinosaur',  es:'Dinosaurio',em:'🦖', hint:'Rey'},
+    {en:'Fossil',    es:'Fósil',     em:'🦴', hint:'Antiguo'},
+  ]},
+
+  /* ── ELEMENTS (science) ── */
+  {id:'elements_science', name:'Elements Lab', es:'Elementos (ciencia)', icon:'⚡', color:'wc-weather', lvl:3, kind:'words',
+   story:'En el Laboratorio de Energía, aprendemos palabras de fuerzas y fenómenos.',
+   items:[
+    {en:'Electric',  es:'Eléctrico', em:'⚡', hint:'Chispa'},
+    {en:'Magnet',    es:'Imán',      em:'🧲', hint:'Pega'},
+    {en:'Energy',    es:'Energía',   em:'🔋', hint:'Batería'},
+    {en:'Light',     es:'Luz',       em:'🔦', hint:'Linterna'},
+    {en:'Sound',     es:'Sonido',    em:'🔊', hint:'Escuchar'},
+    {en:'Heat',      es:'Calor',     em:'🌡️', hint:'Sube'},
+    {en:'Cold',      es:'Frío',      em:'🥶', hint:'Brr'},
+    {en:'Steam',     es:'Vapor',     em:'♨️', hint:'Sale'},
+    {en:'Shadow',    es:'Sombra',    em:'🌑', hint:'Oscuro'},
+    {en:'Spark',     es:'Chispa',    em:'✨', hint:'Brilla'},
+  ]},
+
+  /* ── TOYS (games) ── */
+  {id:'toys_games', name:'Games', es:'Juegos (pro)', icon:'🎲', color:'wc-words', lvl:3, kind:'words',
+   story:'En la Sala de Juegos, practicamos palabras de juegos y objetos.',
+   items:[
+    {en:'Board game', es:'Juego de mesa', em:'🎲', hint:'Dados'},
+    {en:'Controller', es:'Control',       em:'🕹️', hint:'Palanca'},
+    {en:'Score',      es:'Puntaje',       em:'📊', hint:'Cuenta'},
+    {en:'Level',      es:'Nivel',         em:'📶', hint:'Sube'},
+    {en:'Win',        es:'Ganar',         em:'🏆', hint:'Trofeo'},
+    {en:'Lose',       es:'Perder',        em:'😞', hint:'Otra vez'},
+    {en:'Turn',       es:'Turno',         em:'🔁', hint:'Siguiente'},
+    {en:'Team',       es:'Equipo',        em:'👥', hint:'Juntos'},
+    {en:'Play',       es:'Jugar',         em:'🎮', hint:'Diversión'},
+    {en:'Cheat',      es:'Hacer trampa',  em:'🃏', hint:'¡No vale!'},
+  ]},
+
+  /* ── BIRTHDAY (story) ── */
+  {id:'birthday_story', name:'Birthday Story', es:'Historia de cumple', icon:'🪅', color:'wc-food', lvl:3, kind:'words',
+   story:'En la Fiesta Sorpresa, armamos frases con palabras de celebración.',
+   items:[
+    {en:'Surprise', es:'Sorpresa',  em:'🎊', hint:'¡Tadaa!'},
+    {en:'Wish',     es:'Deseo',     em:'🙏', hint:'Pedir'},
+    {en:'Candle',   es:'Vela',      em:'🕯️', hint:'Soplar'},
+    {en:'Cake',     es:'Torta',     em:'🎂', hint:'Dulce'},
+    {en:'Party',    es:'Fiesta',    em:'🎉', hint:'Celebrar'},
+    {en:'Friends',  es:'Amigos',    em:'🧑‍🤝‍🧑', hint:'Conmigo'},
+    {en:'Gift',     es:'Regalo',    em:'🎁', hint:'Caja'},
+    {en:'Balloon',  es:'Globo',     em:'🎈', hint:'Vuela'},
+    {en:'Music',    es:'Música',    em:'🎶', hint:'Sonar'},
+    {en:'Dance',    es:'Bailar',    em:'🕺', hint:'Mover'},
+  ]},
+
+  /* ── JOBS (future) ── */
+  {id:'jobs_future', name:'Future Jobs', es:'Trabajos del futuro', icon:'💻', color:'wc-home', lvl:3, kind:'words',
+   story:'En el Taller del Futuro, aparecen profesiones y herramientas modernas.',
+   items:[
+    {en:'Programmer', es:'Programador', em:'💻', hint:'Código'},
+    {en:'Designer',   es:'Diseñador',   em:'🎨', hint:'Crea'},
+    {en:'Doctor',     es:'Doctor',      em:'🩺', hint:'Salud'},
+    {en:'Architect',  es:'Arquitecto',  em:'🏗️', hint:'Planos'},
+    {en:'Reporter',   es:'Reportero',   em:'🎤', hint:'Noticias'},
+    {en:'Chef',       es:'Chef',        em:'👨‍🍳', hint:'Cocina'},
+    {en:'Scientist',  es:'Científico',  em:'🔬', hint:'Investiga'},
+    {en:'Mechanic',   es:'Mecánico',    em:'🔧', hint:'Arregla'},
+    {en:'Pilot',      es:'Piloto',      em:'✈️', hint:'Vuela'},
+    {en:'Teacher',    es:'Profesor',    em:'📚', hint:'Enseña'},
+  ]},
+
+  /* ══════════════════════════════════════════════
+     🆕 10 NUEVOS RETOS — PequeWorld v2
+     ══════════════════════════════════════════════ */
+
+  /* ── 🎵 MÚSICA (Nivel 1) ── */
+  {id:'music_basic', name:'Music', es:'Música', icon:'🎵', color:'wc-phrases', lvl:1, kind:'words',
+   story:'En el Estudio Musical, aprendemos instrumentos y sonidos con emojis divertidos.',
+   items:[
+    {en:'Piano',   es:'Piano',     em:'🎹', hint:'Teclas'},
+    {en:'Guitar',  es:'Guitarra',  em:'🎸', hint:'Cuerdas'},
+    {en:'Drum',    es:'Tambor',    em:'🥁', hint:'Golpea'},
+    {en:'Flute',   es:'Flauta',    em:'🎶', hint:'Sopla'},
+    {en:'Violin',  es:'Violín',    em:'🎻', hint:'Arco'},
+    {en:'Trumpet', es:'Trompeta',  em:'🎺', hint:'¡Tuuu!'},
+    {en:'Music',   es:'Música',    em:'🎵', hint:'Suena'},
+    {en:'Song',    es:'Canción',   em:'🎤', hint:'Canta'},
+    {en:'Dance',   es:'Baile',     em:'🕺', hint:'Muévete'},
+    {en:'Beat',    es:'Ritmo',     em:'👏', hint:'Aplaude'},
+  ]},
+
+  /* ── 🌊 OCEAN (Nivel 1) ── */
+  {id:'ocean_basic', name:'Ocean', es:'El Océano', icon:'🌊', color:'wc-ocean', lvl:1, kind:'words',
+   story:'Bajo el mar hay un mundo increíble. Aprende sus habitantes con imágenes fascinantes.',
+   items:[
+    {en:'Shark',     es:'Tiburón',   em:'🦈', hint:'Peligroso'},
+    {en:'Whale',     es:'Ballena',   em:'🐳', hint:'Gigante'},
+    {en:'Dolphin',   es:'Delfín',    em:'🐬', hint:'Salta'},
+    {en:'Crab',      es:'Cangrejo',  em:'🦀', hint:'Pinzas'},
+    {en:'Turtle',    es:'Tortuga',   em:'🐢', hint:'Lenta'},
+    {en:'Fish',      es:'Pez',       em:'🐠', hint:'Nada'},
+    {en:'Octopus',   es:'Pulpo',     em:'🐙', hint:'8 brazos'},
+    {en:'Star fish', es:'Estrella de mar', em:'⭐', hint:'Plana'},
+    {en:'Sea horse', es:'Caballito de mar',em:'🐴', hint:'Pequeño'},
+    {en:'Lobster',   es:'Langosta',  em:'🦞', hint:'Roja'},
+  ]},
+
+  /* ── 🎨 SHAPES & COLORS+ (Nivel 1) ── */
+  {id:'shapes_basic', name:'Shapes', es:'Formas', icon:'🔷', color:'wc-colors', lvl:1, kind:'words',
+   story:'En el Taller de Formas, aprendemos figuras y colores nuevos con dibujos simples.',
+   items:[
+    {en:'Circle',    es:'Círculo',   em:'⭕', hint:'Redondo'},
+    {en:'Square',    es:'Cuadrado',  em:'🟦', hint:'4 lados'},
+    {en:'Triangle',  es:'Triángulo', em:'🔺', hint:'3 lados'},
+    {en:'Star',      es:'Estrella',  em:'⭐', hint:'Punta'},
+    {en:'Heart',     es:'Corazón',   em:'❤️', hint:'Amor'},
+    {en:'Diamond',   es:'Diamante',  em:'💎', hint:'Brilla'},
+    {en:'Orange',    es:'Naranja',   em:'🟠', hint:'Color'},
+    {en:'Pink',      es:'Rosado',    em:'🩷', hint:'Color'},
+    {en:'Purple',    es:'Morado',    em:'🟣', hint:'Color'},
+    {en:'White',     es:'Blanco',    em:'⬜', hint:'Color'},
+  ]},
+
+  /* ── 🌍 MY WORLD (Nivel 1) ── */
+  {id:'my_world', name:'My World', es:'Mi mundo', icon:'🌍', color:'wc-animals', lvl:1, kind:'words',
+   story:'En Mi Pequeño Mundo, aprendemos las cosas que nos rodean cada día.',
+   items:[
+    {en:'House',   es:'Casa',        em:'🏠', hint:'Vivir'},
+    {en:'School',  es:'Escuela',     em:'🏫', hint:'Aprender'},
+    {en:'Park',    es:'Parque',      em:'🌳', hint:'Jugar'},
+    {en:'Store',   es:'Tienda',      em:'🏪', hint:'Comprar'},
+    {en:'Church',  es:'Iglesia',     em:'⛪', hint:'Rezar'},
+    {en:'Street',  es:'Calle',       em:'🛣️', hint:'Caminar'},
+    {en:'Sky',     es:'Cielo',       em:'🌤️', hint:'Arriba'},
+    {en:'Ground',  es:'Suelo',       em:'🌱', hint:'Abajo'},
+    {en:'Bridge',  es:'Puente',      em:'🌉', hint:'Cruza'},
+    {en:'Garden',  es:'Jardín',      em:'🌷', hint:'Flores'},
+  ]},
+
+  /* ── 🦁 WILD ANIMALS (Nivel 1) ── */
+  {id:'animals_wild', name:'Wild Animals', es:'Animales salvajes', icon:'🦁', color:'wc-animals', lvl:1, kind:'words',
+   story:'En la Selva Safari, descubrimos los animales más salvajes y maravillosos del mundo.',
+   items:[
+    {en:'Lion',     es:'León',        em:'🦁', hint:'Ruge'},
+    {en:'Elephant', es:'Elefante',    em:'🐘', hint:'Grande'},
+    {en:'Monkey',   es:'Mono',        em:'🐒', hint:'Salta'},
+    {en:'Tiger',    es:'Tigre',       em:'🐯', hint:'Rayas'},
+    {en:'Zebra',    es:'Cebra',       em:'🦓', hint:'Líneas'},
+    {en:'Giraffe',  es:'Jirafa',      em:'🦒', hint:'Cuello largo'},
+    {en:'Bear',     es:'Oso',         em:'🐻', hint:'Miel'},
+    {en:'Penguin',  es:'Pingüino',    em:'🐧', hint:'Hielo'},
+    {en:'Fox',      es:'Zorro',       em:'🦊', hint:'Astuto'},
+    {en:'Wolf',     es:'Lobo',        em:'🐺', hint:'Aúlla'},
+  ]},
+
+  /* ── 🏡 SCHOOL (Nivel 2) ── */
+  {id:'school_basic', name:'School', es:'La Escuela', icon:'🏫', color:'wc-school', lvl:2, kind:'words',
+   story:'En el Aula Mágica, aprendemos cosas que usamos todos los días en la escuela.',
+   items:[
+    {en:'Pencil',    es:'Lápiz',      em:'✏️', hint:'Escribe'},
+    {en:'Eraser',    es:'Borrador',   em:'🧹', hint:'Borra'},
+    {en:'Ruler',     es:'Regla',      em:'📏', hint:'Mide'},
+    {en:'Scissors',  es:'Tijeras',    em:'✂️', hint:'Corta'},
+    {en:'Glue',      es:'Pegamento',  em:'🧴', hint:'Pega'},
+    {en:'Backpack',  es:'Mochila',    em:'🎒', hint:'Carga'},
+    {en:'Notebook',  es:'Cuaderno',   em:'📓', hint:'Anota'},
+    {en:'Crayons',   es:'Crayones',   em:'🖍️', hint:'Colorea'},
+    {en:'Desk',      es:'Escritorio', em:'🪑', hint:'Siéntate'},
+    {en:'Board',     es:'Tablero',    em:'📋', hint:'Escribe'},
+  ]},
+
+  /* ── 🚗 TRANSPORT (Nivel 2) ── */
+  {id:'transport_basic', name:'Transport', es:'Transporte', icon:'🚗', color:'wc-numbers', lvl:2, kind:'words',
+   story:'En la Gran Autopista, conocemos todos los medios de transporte del mundo.',
+   items:[
+    {en:'Car',          es:'Carro',           em:'🚗', hint:'Brrm'},
+    {en:'Bus',          es:'Bus',             em:'🚌', hint:'Ruta'},
+    {en:'Truck',        es:'Camión',          em:'🚛', hint:'Grande'},
+    {en:'Airplane',     es:'Avión',           em:'✈️', hint:'Vuela'},
+    {en:'Helicopter',   es:'Helicóptero',     em:'🚁', hint:'Gira'},
+    {en:'Bicycle',      es:'Bicicleta',       em:'🚲', hint:'Pedalea'},
+    {en:'Boat',         es:'Bote',            em:'⛵', hint:'Navega'},
+    {en:'Train',        es:'Tren',            em:'🚂', hint:'Choo-choo'},
+    {en:'Submarine',    es:'Submarino',       em:'🛸', hint:'Bajo el agua'},
+    {en:'Motorcycle',   es:'Moto',            em:'🏍️', hint:'Rápida'},
+  ]},
+
+  /* ── 🏋️ SPORTS (Nivel 2) ── */
+  {id:'sports_basic', name:'Sports', es:'Deportes', icon:'⚽', color:'wc-sports', lvl:2, kind:'words',
+   story:'En el Gran Estadio, conocemos los deportes más emocionantes del planeta.',
+   items:[
+    {en:'Soccer',    es:'Fútbol',       em:'⚽', hint:'Gol'},
+    {en:'Basketball',es:'Baloncesto',   em:'🏀', hint:'Encesta'},
+    {en:'Swimming',  es:'Natación',     em:'🏊', hint:'Nada'},
+    {en:'Running',   es:'Correr',       em:'🏃', hint:'Rápido'},
+    {en:'Tennis',    es:'Tenis',        em:'🎾', hint:'Raqueta'},
+    {en:'Baseball',  es:'Béisbol',      em:'⚾', hint:'Batea'},
+    {en:'Cycling',   es:'Ciclismo',     em:'🚴', hint:'Pedal'},
+    {en:'Gymnastics',es:'Gimnasia',     em:'🤸', hint:'Salto'},
+    {en:'Surfing',   es:'Surf',         em:'🏄', hint:'Olas'},
+    {en:'Skating',   es:'Patinaje',     em:'⛸️', hint:'Desliza'},
+  ]},
+
+  /* ── 🌿 NATURE (Nivel 2) ── */
+  {id:'nature_basic', name:'Nature', es:'La Naturaleza', icon:'🌿', color:'wc-nature', lvl:2, kind:'words',
+   story:'En el Bosque Encantado, descubrimos plantas, insectos y fenómenos de la naturaleza.',
+   items:[
+    {en:'Tree',      es:'Árbol',      em:'🌳', hint:'Alto'},
+    {en:'Flower',    es:'Flor',       em:'🌸', hint:'Bonita'},
+    {en:'Butterfly', es:'Mariposa',   em:'🦋', hint:'Vuela'},
+    {en:'Bee',       es:'Abeja',      em:'🐝', hint:'Miel'},
+    {en:'Mushroom',  es:'Hongo',      em:'🍄', hint:'Rojo'},
+    {en:'Rainbow',   es:'Arcoíris',   em:'🌈', hint:'Colores'},
+    {en:'River',     es:'Río',        em:'🏞️', hint:'Fluye'},
+    {en:'Mountain',  es:'Montaña',    em:'⛰️', hint:'Alta'},
+    {en:'Desert',    es:'Desierto',   em:'🏜️', hint:'Arena'},
+    {en:'Forest',    es:'Bosque',     em:'🌲', hint:'Árboles'},
+  ]},
+
+  /* ── 🍳 COOKING (Nivel 2) ── */
+  {id:'cooking_basic', name:'Cooking', es:'Cocinar', icon:'🍳', color:'wc-food', lvl:2, kind:'words',
+   story:'En la Cocina Mágica, aprendemos ingredientes y acciones de cocina en inglés.',
+   items:[
+    {en:'Cook',     es:'Cocinar',   em:'🍳', hint:'Calentar'},
+    {en:'Mix',      es:'Mezclar',   em:'🥣', hint:'Revolver'},
+    {en:'Cut',      es:'Cortar',    em:'🔪', hint:'Cuchillo'},
+    {en:'Boil',     es:'Hervir',    em:'♨️', hint:'Burbuja'},
+    {en:'Bake',     es:'Hornear',   em:'🥧', hint:'Horno'},
+    {en:'Pour',     es:'Verter',    em:'🫗', hint:'Líquido'},
+    {en:'Taste',    es:'Probar',    em:'😋', hint:'Rico'},
+    {en:'Stir',     es:'Revolver',  em:'🥄', hint:'Cuchara'},
+    {en:'Chop',     es:'Picar',     em:'🥕', hint:'Pedacitos'},
+    {en:'Fry',      es:'Freír',     em:'🍟', hint:'Aceite'},
+  ]},
+
+  /* ── 🤸 ACTIONS (Nivel 2) ── */
+  {id:'actions_basic', name:'Actions', es:'Acciones', icon:'🏃', color:'wc-words', lvl:2, kind:'words',
+   story:'En el Gimnasio de Acciones, aprendemos verbos con movimientos y dibujos claros.',
+   items:[
+    {en:'Jump',    es:'Saltar',    em:'🤸', hint:'Arriba'},
+    {en:'Run',     es:'Correr',    em:'🏃', hint:'Rápido'},
+    {en:'Swim',    es:'Nadar',     em:'🏊', hint:'Agua'},
+    {en:'Fly',     es:'Volar',     em:'🦅', hint:'Cielo'},
+    {en:'Sing',    es:'Cantar',    em:'🎤', hint:'Voz'},
+    {en:'Draw',    es:'Dibujar',   em:'🖍️', hint:'Arte'},
+    {en:'Read',    es:'Leer',      em:'📖', hint:'Libro'},
+    {en:'Write',   es:'Escribir',  em:'✏️', hint:'Papel'},
+    {en:'Sleep',   es:'Dormir',    em:'😴', hint:'Zzz'},
+    {en:'Eat',     es:'Comer',     em:'🍽️', hint:'Plato'},
+  ]},
+  {id:'food_advanced', name:'World Food', es:'Comida del mundo', icon:'🍜', color:'wc-food', lvl:3, kind:'words',
+   story:'En el Festival Gastronómico, probamos platos de todo el mundo con sus nombres en inglés.',
+   items:[
+    {en:'Sushi',      es:'Sushi',       em:'🍣', hint:'Japón'},
+    {en:'Taco',       es:'Taco',        em:'🌮', hint:'México'},
+    {en:'Pasta',      es:'Pasta',       em:'🍝', hint:'Italia'},
+    {en:'Burger',     es:'Hamburguesa', em:'🍔', hint:'USA'},
+    {en:'Hot dog',    es:'Perro caliente',em:'🌭', hint:'Mostaza'},
+    {en:'Sandwich',   es:'Sándwich',    em:'🥪', hint:'Pan'},
+    {en:'Soup',       es:'Sopa',        em:'🍲', hint:'Caliente'},
+    {en:'Salad',      es:'Ensalada',    em:'🥗', hint:'Verde'},
+    {en:'Fries',      es:'Papas fritas',em:'🍟', hint:'Crujiente'},
+    {en:'Popcorn',    es:'Palomitas',   em:'🍿', hint:'Cine'},
+  ]},
+
+  /* ── 🏠 ROOMS (Nivel 3) ── */
+  {id:'rooms_advanced', name:'Rooms', es:'Los cuartos', icon:'🛋️', color:'wc-home', lvl:3, kind:'words',
+   story:'En la Casa Exploradora, conocemos cada cuarto y los objetos que hay dentro.',
+   items:[
+    {en:'Kitchen',    es:'Cocina',     em:'🍳', hint:'Cocinar'},
+    {en:'Bedroom',    es:'Dormitorio', em:'🛏️', hint:'Dormir'},
+    {en:'Bathroom',   es:'Baño',       em:'🚿', hint:'Lavar'},
+    {en:'Living room',es:'Sala',       em:'🛋️', hint:'Descansar'},
+    {en:'Garage',     es:'Garaje',     em:'🚗', hint:'Carro'},
+    {en:'Garden',     es:'Jardín',     em:'🌷', hint:'Plantas'},
+    {en:'Staircase',  es:'Escalera',   em:'🪜', hint:'Sube'},
+    {en:'Balcony',    es:'Balcón',     em:'🌅', hint:'Vista'},
+    {en:'Basement',   es:'Sótano',     em:'📦', hint:'Oscuro'},
+    {en:'Roof',       es:'Techo',      em:'🏠', hint:'Arriba'},
+  ]},
+
+  /* ── 🌎 COUNTRIES (Nivel 3) ── */
+  {id:'countries_basic', name:'Countries', es:'Países', icon:'🌎', color:'wc-travel', lvl:3, kind:'words',
+   story:'En el Globo Terráqueo, viajamos por los países más fascinantes del mundo.',
+   items:[
+    {en:'Colombia',   es:'Colombia',   em:'🇨🇴', hint:'Café'},
+    {en:'Mexico',     es:'México',     em:'🇲🇽', hint:'Tacos'},
+    {en:'USA',        es:'Estados Unidos',em:'🇺🇸', hint:'NY'},
+    {en:'France',     es:'Francia',    em:'🇫🇷', hint:'París'},
+    {en:'Japan',      es:'Japón',      em:'🇯🇵', hint:'Sushi'},
+    {en:'Brazil',     es:'Brasil',     em:'🇧🇷', hint:'Samba'},
+    {en:'Australia',  es:'Australia',  em:'🇦🇺', hint:'Canguro'},
+    {en:'Italy',      es:'Italia',     em:'🇮🇹', hint:'Pasta'},
+    {en:'Spain',      es:'España',     em:'🇪🇸', hint:'Flamenco'},
+    {en:'China',      es:'China',      em:'🇨🇳', hint:'Gran Muralla'},
+  ]},
+
+  /* ── ⏰ TIME & DAYS (Nivel 3) ── */
+  {id:'time_days', name:'Time & Days', es:'Tiempo y días', icon:'⏰', color:'wc-numbers', lvl:3, kind:'words',
+   story:'En el Reloj Mágico, aprendemos los días de la semana y las palabras del tiempo.',
+   items:[
+    {en:'Monday',    es:'Lunes',     em:'🌙', hint:'Inicio'},
+    {en:'Tuesday',   es:'Martes',    em:'🔴', hint:'Segundo'},
+    {en:'Wednesday', es:'Miércoles', em:'🌿', hint:'Mitad'},
+    {en:'Thursday',  es:'Jueves',    em:'🟡', hint:'Casi'},
+    {en:'Friday',    es:'Viernes',   em:'🎉', hint:'¡Fin!'},
+    {en:'Saturday',  es:'Sábado',    em:'⛺', hint:'Juega'},
+    {en:'Sunday',    es:'Domingo',   em:'☀️', hint:'Descanso'},
+    {en:'Today',     es:'Hoy',       em:'📅', hint:'Ahora'},
+    {en:'Tomorrow',  es:'Mañana',    em:'🌅', hint:'Después'},
+    {en:'Yesterday', es:'Ayer',      em:'🌇', hint:'Antes'},
+  ]},
+
+  /* ── 🌡️ SCIENCE WORDS (Nivel 3) ── */
+  {id:'science_words', name:'Science', es:'Ciencia', icon:'🔬', color:'wc-weather', lvl:3, kind:'words',
+   story:'En el Laboratorio Científico, aprendemos palabras de experimentos y descubrimientos asombrosos.',
+   items:[
+    {en:'Experiment', es:'Experimento', em:'🧪', hint:'Probar'},
+    {en:'Microscope',  es:'Microscopio', em:'🔬', hint:'Ver chico'},
+    {en:'Chemical',    es:'Químico',     em:'⚗️', hint:'Mezcla'},
+    {en:'Discover',    es:'Descubrir',   em:'🗺️', hint:'¡Hallazgo!'},
+    {en:'Planet',      es:'Planeta',     em:'🪐', hint:'Espacio'},
+    {en:'Fossil',      es:'Fósil',       em:'🦴', hint:'Antiguo'},
+    {en:'Robot',       es:'Robot',       em:'🤖', hint:'Máquina'},
+    {en:'Atom',        es:'Átomo',       em:'⚛️', hint:'Pequeñísimo'},
+    {en:'Nature',      es:'Naturaleza',  em:'🌿', hint:'Vida'},
+    {en:'Invention',   es:'Invención',   em:'💡', hint:'Idea nueva'},
+  ]},
+
+  /* ══ 🆕 10 MISIONES EXTRA NIVEL 3 ══ */
+
+  {id:'greetings_pro', name:'Hello & Bye!', es:'Saludos y frases', icon:'👋', color:'wc-phrases', lvl:3, kind:'phrases',
+   story:'En la Estación de Saludos, aprendemos frases cortas para hablar con todos en inglés.',
+   items:[
+    {en:'Good morning!',    es:'¡Buenos días!',       em:'🌅'},
+    {en:'Good night!',      es:'¡Buenas noches!',      em:'🌙'},
+    {en:'How are you?',     es:'¿Cómo estás?',         em:'🤔'},
+    {en:'I am fine!',       es:'¡Estoy bien!',         em:'😊'},
+    {en:'See you later!',   es:'¡Hasta luego!',        em:'👋'},
+    {en:'Nice to meet you!',es:'¡Mucho gusto!',        em:'🤝'},
+    {en:'Thank you!',       es:'¡Gracias!',            em:'🌟'},
+    {en:'You are welcome!', es:'¡De nada!',            em:'🙌'},
+    {en:'Good luck!',       es:'¡Buena suerte!',       em:'🍀'},
+    {en:'Have fun!',        es:'¡Diviértete!',         em:'🎉'},
+  ]},
+
+  {id:'at_doctor', name:'At the Doctor', es:'En el médico', icon:'🩺', color:'wc-body', lvl:3, kind:'words',
+   story:'En la Clínica Amiga, aprendemos palabras del cuerpo y la salud para hablar con el doctor.',
+   items:[
+    {en:'Headache',    es:'Dolor de cabeza', em:'🤕'},
+    {en:'Fever',       es:'Fiebre',          em:'🌡️'},
+    {en:'Cough',       es:'Tos',             em:'😷'},
+    {en:'Medicine',    es:'Medicina',        em:'💊'},
+    {en:'Bandage',     es:'Curita',          em:'🩹'},
+    {en:'Stomach ache',es:'Dolor de estómago',em:'🤢'},
+    {en:'Sneeze',      es:'Estornudo',       em:'🤧'},
+    {en:'Rest',        es:'Descansar',       em:'🛌'},
+    {en:'Healthy',     es:'Saludable',       em:'💪'},
+    {en:'Get better!', es:'¡Mejórate!',      em:'❤️‍🩹'},
+  ]},
+
+  {id:'at_beach', name:'At the Beach', es:'En la playa', icon:'🏖️', color:'wc-ocean', lvl:3, kind:'words',
+   story:'En la Playa Mágica, aprendemos todo lo que ves y haces en un día de sol.',
+   items:[
+    {en:'Sand',        es:'Arena',           em:'🏖️'},
+    {en:'Wave',        es:'Ola',             em:'🌊'},
+    {en:'Sunscreen',   es:'Bloqueador solar', em:'🧴'},
+    {en:'Towel',       es:'Toalla',          em:'🧺'},
+    {en:'Umbrella',    es:'Sombrilla',        em:'⛱️'},
+    {en:'Shell',       es:'Concha marina',   em:'🐚'},
+    {en:'Swimsuit',    es:'Traje de baño',   em:'🩱'},
+    {en:'Ice cream',   es:'Helado',          em:'🍦'},
+    {en:'Crab',        es:'Cangrejo',        em:'🦀'},
+    {en:'Sun hat',     es:'Sombrero de sol', em:'👒'},
+  ]},
+
+  {id:'camping', name:'Camping!', es:'De campamento', icon:'⛺', color:'wc-animals', lvl:3, kind:'words',
+   story:'En la Aventura del Bosque, aprendemos palabras del campamento bajo las estrellas.',
+   items:[
+    {en:'Tent',         es:'Carpa',            em:'⛺'},
+    {en:'Campfire',     es:'Fogata',           em:'🔥'},
+    {en:'Backpack',     es:'Mochila',          em:'🎒'},
+    {en:'Map',          es:'Mapa',             em:'🗺️'},
+    {en:'Flashlight',   es:'Linterna',         em:'🔦'},
+    {en:'Sleeping bag', es:'Bolsa de dormir',  em:'🥱'},
+    {en:'Insect',       es:'Insecto',          em:'🐛'},
+    {en:'Stars',        es:'Estrellas',        em:'✨'},
+    {en:'Trail',        es:'Sendero',          em:'🥾'},
+    {en:'Campsite',     es:'Campamento',       em:'🌲'},
+  ]},
+
+  {id:'feelings_situations', name:'How do you feel?', es:'¿Cómo te sientes?', icon:'🎭', color:'wc-phrases', lvl:3, kind:'phrases',
+   story:'En el Teatro de Emociones, practicamos frases para contar cómo nos sentimos.',
+   items:[
+    {en:'I am happy!',     es:'¡Estoy feliz!',        em:'😄'},
+    {en:'I am tired.',     es:'Estoy cansado.',        em:'😴'},
+    {en:'I am hungry!',    es:'¡Tengo hambre!',        em:'🍽️'},
+    {en:'I am scared.',    es:'Tengo miedo.',          em:'😱'},
+    {en:'I need help!',    es:'¡Necesito ayuda!',      em:'🆘'},
+    {en:'I want water!',   es:'¡Quiero agua!',         em:'💧'},
+    {en:'I love you!',     es:'¡Te quiero!',           em:'❤️'},
+    {en:'I am sorry.',     es:'Lo siento.',            em:'😔'},
+    {en:'I am bored.',     es:'Estoy aburrido.',       em:'🥱'},
+    {en:'Let\'s play!',    es:'¡Vamos a jugar!',       em:'🎮'},
+  ]},
+
+  {id:'circus_fun', name:'The Circus!', es:'¡El Circo!', icon:'🎪', color:'wc-words', lvl:3, kind:'words',
+   story:'Bajo la gran carpa del circo, aprendemos las palabras más divertidas del espectáculo.',
+   items:[
+    {en:'Clown',       es:'Payaso',           em:'🤡'},
+    {en:'Acrobat',     es:'Acróbata',         em:'🤸'},
+    {en:'Magician',    es:'Mago',             em:'🪄'},
+    {en:'Juggle',      es:'Malabarismo',      em:'🎪'},
+    {en:'Elephant',    es:'Elefante',         em:'🐘'},
+    {en:'Lion tamer',  es:'Domador de leones',em:'🦁'},
+    {en:'Popcorn',     es:'Palomitas',        em:'🍿'},
+    {en:'Ticket',      es:'Entrada',          em:'🎟️'},
+    {en:'Spotlight',   es:'Reflector',        em:'💡'},
+    {en:'Applause',    es:'Aplausos',         em:'👏'},
+  ]},
+
+  {id:'special_events', name:'Special Days', es:'Días especiales', icon:'🎊', color:'wc-food', lvl:3, kind:'words',
+   story:'En el Calendario Mágico, aprendemos palabras de los días más especiales del año.',
+   items:[
+    {en:'Christmas',   es:'Navidad',          em:'🎄'},
+    {en:'New Year',    es:'Año Nuevo',        em:'🥂'},
+    {en:'Halloween',   es:'Halloween',        em:'🎃'},
+    {en:'Easter',      es:'Pascua',           em:'🐣'},
+    {en:'Carnival',    es:'Carnaval',         em:'🎭'},
+    {en:'Holiday',     es:'Vacaciones',       em:'✈️'},
+    {en:'Festival',    es:'Festival',         em:'🎡'},
+    {en:'Fireworks',   es:'Fuegos artificiales',em:'🎆'},
+    {en:'Decoration',  es:'Decoración',       em:'🎀'},
+    {en:'Candle',      es:'Vela',             em:'🕯️'},
+  ]},
+
+  {id:'food_phrases', name:'Food Talk', es:'Hablar de comida', icon:'🍽️', color:'wc-food', lvl:3, kind:'phrases',
+   story:'En el Restaurante Inglés, aprendemos frases cortas para pedir y hablar de comida.',
+   items:[
+    {en:'I want a pizza!',    es:'¡Quiero una pizza!',      em:'🍕'},
+    {en:'It is delicious!',   es:'¡Está delicioso!',        em:'😋'},
+    {en:'I am full.',         es:'Estoy lleno.',            em:'😌'},
+    {en:'More please!',       es:'¡Más por favor!',         em:'🙏'},
+    {en:'It is too spicy!',   es:'¡Está muy picante!',      em:'🌶️'},
+    {en:'I do not like it.',  es:'No me gusta.',            em:'🙅'},
+    {en:'Yummy!',             es:'¡Ñami!',                  em:'🤤'},
+    {en:'I love tacos!',      es:'¡Me encantan los tacos!', em:'🌮'},
+    {en:'Let\'s eat!',        es:'¡A comer!',               em:'🍽️'},
+    {en:'Can I have juice?',  es:'¿Me das un jugo?',        em:'🥤'},
+  ]},
+
+  {id:'weather_talk', name:'Weather Talk', es:'Hablar del clima', icon:'🌤️', color:'wc-weather', lvl:3, kind:'phrases',
+   story:'En la Estación Meteorológica, aprendemos frases para hablar del tiempo que hace hoy.',
+   items:[
+    {en:'It is sunny!',      es:'¡Hay sol!',             em:'☀️'},
+    {en:'It is raining.',    es:'Está lloviendo.',        em:'🌧️'},
+    {en:'It is cold!',       es:'¡Hace frío!',            em:'🥶'},
+    {en:'It is hot!',        es:'¡Hace calor!',           em:'🥵'},
+    {en:'It is windy.',      es:'Hay viento.',            em:'💨'},
+    {en:'I see a rainbow!',  es:'¡Veo un arcoíris!',      em:'🌈'},
+    {en:'It is snowing!',    es:'¡Está nevando!',         em:'❄️'},
+    {en:'Take a jacket!',    es:'¡Lleva chaqueta!',       em:'🧥'},
+    {en:'It is cloudy.',     es:'Está nublado.',          em:'☁️'},
+    {en:'What nice weather!',es:'¡Qué buen tiempo!',      em:'🌤️'},
+  ]},
+
+  {id:'school_phrases', name:'In Class!', es:'En clase', icon:'📚', color:'wc-school', lvl:3, kind:'phrases',
+   story:'En el Aula Bilingüe, practicamos las frases más usadas en el salón de clases.',
+   items:[
+    {en:'Open your book!',     es:'¡Abre tu libro!',        em:'📖'},
+    {en:'I have a question!',  es:'¡Tengo una pregunta!',   em:'✋'},
+    {en:'Can you repeat?',     es:'¿Puedes repetir?',       em:'🔄'},
+    {en:'I do not understand.',es:'No entiendo.',           em:'😕'},
+    {en:'Very good!',          es:'¡Muy bien!',             em:'⭐'},
+    {en:'Sit down, please.',   es:'Siéntate, por favor.',   em:'🪑'},
+    {en:'Good job!',           es:'¡Buen trabajo!',         em:'👍'},
+    {en:'Let\'s learn!',       es:'¡Vamos a aprender!',     em:'🧠'},
+    {en:'Pay attention!',      es:'¡Presta atención!',      em:'👀'},
+    {en:'Raise your hand!',    es:'¡Levanta la mano!',      em:'🙋'},
+  ]},
+
+];
+
+/* ── LEVEL REQUIREMENTS ── */
+const LEVEL_NAMES=['','Semilla 🌱','Explorador 🚀','Héroe 🌟'];
+const LEVEL_AVATARS=['','🌱','🚀','🌟'];
+const LEVEL_XP=[0,0,150,400];
+
+/* ── WORLD GROUPS ── */
+const WORLD_GROUPS={
+  letters:['letters_vowels','letters_basic','letters_full'],
+  numbers:['numbers_1_10','numbers_11_20','numbers_21_30'],
+  colors:['colors_basic'],
+  animals:['animals_baby','animals_wild'],
+  phrases:['phrases_hello'],
+  food:['food_picnic','food_advanced']
+};
+function bestStars(p,id){return (p.best&&p.best[id])||0;}
+function anyWorldComplete(p,groupKey,stars=3){
+  const ids=WORLD_GROUPS[groupKey]||[];
+  return ids.some(id=>bestStars(p,id)>=stars);
+}
+
+/* ── BADGES — reorganizadas por categoría con iconos únicos ── */
+const BADGES=[
+  // ★ PRIMEROS PASOS
+  {id:'first_star',   icon:'⭐', name:'Primera Estrella', desc:'Gana tu primera estrella en cualquier misión',  c:p=>(p.stars||0)>=1},
+  {id:'first_10',     icon:'🎯', name:'10 Correctas',     desc:'Responde 10 preguntas correctas',               c:p=>(p.stats.totalCorrect||0)>=10},
+  {id:'first_50',     icon:'💪', name:'50 Correctas',     desc:'Responde 50 preguntas correctas',               c:p=>(p.stats.totalCorrect||0)>=50},
+  {id:'cent_100',     icon:'💯', name:'¡100 Correctas!',  desc:'100 respuestas correctas. ¡Campeón!',           c:p=>(p.stats.totalCorrect||0)>=100},
+  {id:'correct_250',  icon:'🏅', name:'250 Correctas',    desc:'250 respuestas correctas. ¡Imparable!',         c:p=>(p.stats.totalCorrect||0)>=250},
+  {id:'correct_500',  icon:'🔱', name:'500 Correctas',    desc:'500 respuestas. ¡Leyenda del inglés!',          c:p=>(p.stats.totalCorrect||0)>=500},
+  // ★ XP
+  {id:'xp_50',        icon:'✨', name:'50 XP',            desc:'Acumula 50 puntos de experiencia',              c:p=>(p.xp||0)>=50},
+  {id:'xp_200',       icon:'🌟', name:'200 XP',           desc:'Acumula 200 puntos de experiencia',             c:p=>(p.xp||0)>=200},
+  {id:'xp_500',       icon:'💫', name:'500 XP',           desc:'Acumula 500 puntos de experiencia',             c:p=>(p.xp||0)>=500},
+  {id:'xp_1000',      icon:'🌠', name:'¡1000 XP!',        desc:'¡1000 XP! Eres un héroe del inglés',           c:p=>(p.xp||0)>=1000},
+  {id:'xp_2000',      icon:'🏆', name:'¡2000 XP!',        desc:'¡2000 XP! Nivel de campeón supremo',           c:p=>(p.xp||0)>=2000},
+  // ★ RACHAS (persisten entre misiones)
+  {id:'streak3',      icon:'🔥', name:'Racha x3',          desc:'3 respuestas correctas seguidas',              c:p=>(p.maxStreak||0)>=3},
+  {id:'streak5',      icon:'🔥', name:'Racha x5',          desc:'5 seguidas. ¡Buen ritmo!',                    c:p=>(p.maxStreak||0)>=5},
+  {id:'streak7',      icon:'🔥', name:'Racha x7',          desc:'7 seguidas. ¡Excelente!',                     c:p=>(p.maxStreak||0)>=7},
+  {id:'streak10',     icon:'💥', name:'¡Racha x10!',       desc:'10 seguidas. ¡Imparable!',                    c:p=>(p.maxStreak||0)>=10},
+  {id:'streak15',     icon:'⚡', name:'¡Racha x15!',       desc:'15 seguidas. ¡Increíble!',                    c:p=>(p.maxStreak||0)>=15},
+  {id:'streak20',     icon:'🌪️', name:'¡Racha x20!',       desc:'20 seguidas. ¡Eres un genio!',               c:p=>(p.maxStreak||0)>=20},
+  {id:'streak30',     icon:'🌟', name:'¡Racha x30!',       desc:'30 seguidas. ¡CAMPEÓN SUPREMO!',              c:p=>(p.maxStreak||0)>=30},
+  // ★ MISIONES
+  {id:'mission1',     icon:'🎮', name:'Primera Misión',    desc:'Completa tu primera misión',                   c:p=>(p.stats.missions||0)>=1},
+  {id:'mission5',     icon:'🏃', name:'5 Misiones',        desc:'Completa 5 misiones',                          c:p=>(p.stats.missions||0)>=5},
+  {id:'mission10',    icon:'🦸', name:'10 Misiones',       desc:'Completa 10 misiones',                         c:p=>(p.stats.missions||0)>=10},
+  {id:'mission25',    icon:'🎖️', name:'25 Misiones',       desc:'Completa 25 misiones. ¡Héroe!',               c:p=>(p.stats.missions||0)>=25},
+  {id:'mission50',    icon:'👑', name:'50 Misiones',       desc:'¡50 misiones completadas!',                    c:p=>(p.stats.missions||0)>=50},
+  {id:'perfect1',     icon:'💎', name:'¡Perfecto!',        desc:'10/10 en una misión. ¡Perfecto!',              c:p=>(p.stats.perfect||0)>=1},
+  {id:'perfect3',     icon:'💠', name:'Triple Perfecto',   desc:'3 misiones perfectas',                         c:p=>(p.stats.perfect||0)>=3},
+  {id:'perfect10',    icon:'👑', name:'Maestro Perfecto',  desc:'10 misiones perfectas. ¡Extraordinario!',      c:p=>(p.stats.perfect||0)>=10},
+  // ★ MUNDOS — Nivel 1
+  {id:'world_letters', icon:'🔤', name:'Maestro Letras',    desc:'3⭐ en un mundo de Letras',                   c:p=>anyWorldComplete(p,'letters',3)},
+  {id:'world_numbers', icon:'🔢', name:'Maestro Números',   desc:'3⭐ en un mundo de Números',                  c:p=>anyWorldComplete(p,'numbers',3)},
+  {id:'world_animals', icon:'🦁', name:'Maestro Animales',  desc:'3⭐ en un mundo de Animales',                 c:p=>anyWorldComplete(p,'animals',3)},
+  {id:'world_colors',  icon:'🎨', name:'Maestro Colores',   desc:'3⭐ en Colores básicos',                      c:p=>anyWorldComplete(p,'colors',3)},
+  {id:'world_food',    icon:'🍎', name:'Maestro Comida',    desc:'3⭐ en un mundo de Comida',                   c:p=>anyWorldComplete(p,'food',3)},
+  // ★ MUNDOS — Nivel 2+
+  {id:'world_ocean',   icon:'🌊', name:'Maestro Océano',    desc:'3⭐ en Ocean',                                c:p=>bestStars(p,'ocean_basic')>=3},
+  {id:'world_music',   icon:'🎵', name:'Maestro Música',    desc:'3⭐ en Music',                                c:p=>bestStars(p,'music_basic')>=3},
+  {id:'world_sports',  icon:'⚽', name:'Maestro Deportes',  desc:'3⭐ en Sports',                               c:p=>bestStars(p,'sports_basic')>=3},
+  {id:'world_nature',  icon:'🌿', name:'Maestro Naturaleza',desc:'3⭐ en Nature',                               c:p=>bestStars(p,'nature_basic')>=3},
+  {id:'world_school',  icon:'🏫', name:'Maestro Escuela',   desc:'3⭐ en School',                               c:p=>bestStars(p,'school_basic')>=3},
+  {id:'world_travel',  icon:'🌎', name:'Viajero del Mundo', desc:'3⭐ en Countries',                            c:p=>bestStars(p,'countries_basic')>=3},
+  {id:'world_phrases', icon:'💬', name:'Maestro Frases',    desc:'3⭐ en Greetings & Phrases',                  c:p=>bestStars(p,'greetings_pro')>=3},
+  {id:'world_beach',   icon:'🏖️', name:'Maestro Playa',     desc:'3⭐ en At the Beach',                        c:p=>bestStars(p,'at_beach')>=3},
+  {id:'world_events',  icon:'🎊', name:'Maestro Eventos',   desc:'3⭐ en Special Days',                         c:p=>bestStars(p,'special_events')>=3},
+  // ★ NIVELES
+  {id:'level2',        icon:'🚀', name:'Nivel 2 — Explorador',desc:'¡Alcanzaste el Nivel 2!',                  c:p=>(p.level||1)>=2},
+  {id:'level3',        icon:'🌟', name:'Nivel 3 — Héroe',    desc:'¡Alcanzaste el Nivel 3! ¡Eres un héroe!',   c:p=>(p.level||1)>=3},
+  // ★ MONEDAS
+  {id:'coins50',       icon:'🪙', name:'50 Monedas',         desc:'Colecciona 50 monedas',                     c:p=>(p.coins||0)>=50},
+  {id:'coins200',      icon:'💰', name:'200 Monedas',        desc:'Colecciona 200 monedas',                    c:p=>(p.coins||0)>=200},
+  {id:'coins500',      icon:'💎', name:'500 Monedas',        desc:'¡500 monedas! ¡Eres rico!',                 c:p=>(p.coins||0)>=500},
+  {id:'coins1000',     icon:'🏦', name:'1000 Monedas',       desc:'¡1000 monedas! ¡Fortuna dorada!',           c:p=>(p.coins||0)>=1000},
+  // ★ EXPLORADOR
+  {id:'explorer_all',  icon:'🗺️', name:'Explorador Total',   desc:'Juega en todos los mundos al menos 1 vez',  c:p=>WORLDS.every(w=>p.best[w.id]!=null)},
+  {id:'champion_all',  icon:'🏆', name:'Campeón Absoluto',   desc:'Obtén 3⭐ en todos los mundos',             c:p=>WORLDS.every(w=>(p.best&&p.best[w.id]||0)>=3)},
+  // ★ DÍAS JUGADOS
+  {id:'days3',         icon:'📅', name:'3 Días jugados',     desc:'Juega en 3 días distintos',                 c:p=>Object.keys(p.stats.daysPlayed||{}).length>=3},
+  {id:'days7',         icon:'🗓️', name:'Semana Heroica',     desc:'Juega en 7 días distintos',                 c:p=>Object.keys(p.stats.daysPlayed||{}).length>=7},
+  {id:'days14',        icon:'📆', name:'2 Semanas',          desc:'Juega en 14 días distintos',                c:p=>Object.keys(p.stats.daysPlayed||{}).length>=14},
+];
+
+/* ══════════════════════════════════════════════════════════
+   AUDIO ENGINE — Optimized for children 3-7
+   Key fixes:
+   - Rate: 0.82 (much slower than default 1.0)
+   - Pitch: 1.15 (slightly higher = friendlier)
+   - Proper pauses between EN and ES
+   - Voice selection: prefers child-friendly voices
+   ══════════════════════════════════════════════════════════ */
+let _AC=null, _voices=[];
+const TTS={
+  ready:!!(window.speechSynthesis&&window.SpeechSynthesisUtterance),
+  _queue:[],_busy:false,
+
+  init(){
+    if(!this.ready)return;
+    const load=()=>{ _voices=window.speechSynthesis.getVoices(); };
+    load();
+    window.speechSynthesis.onvoiceschanged=load;
+  },
+
+  _bestVoice(lang){
+    if(!_voices.length)return null;
+    const lc=lang.toLowerCase();
+    // Prefer child/female voices for kids
+    const preferred=_voices.filter(v=>v.lang.toLowerCase().startsWith(lc.slice(0,2)));
+    // Try female or specific good voices first
+    const fem=preferred.find(v=>/samantha|zira|karen|moira|tessa|fiona|kate|susan|ava|allison|victoria/i.test(v.name));
+    if(fem)return fem;
+    return preferred[0]||null;
+  },
+
+  speak(steps){
+    if(!STATE.settings.voiceEnabled||!this.ready)return;
+    try{window.speechSynthesis.cancel();}catch(e){}
+    this._queue=[...steps];
+    this._busy=false;
+    this._next();
+  },
+
+  _next(){
+    if(this._queue.length===0){this._busy=false;return;}
+    this._busy=true;
+    const st=this._queue.shift();
+    const u=new SpeechSynthesisUtterance(String(st.text||''));
+    u.lang=st.lang||'en-US';
+    // CRITICAL FIX: slow, clear rate for children
+    u.rate=st.rate!=null?st.rate:(STATE.settings.voiceRate||0.82);
+    u.pitch=st.pitch!=null?st.pitch:(STATE.settings.voicePitch||1.15);
+    u.volume=1;
+    const v=this._bestVoice(u.lang);
+    if(v)u.voice=v;
+    u.onend=()=>{
+      const p=st.pauseMs||0;
+      if(p>0)setTimeout(()=>this._next(),p);
+      else this._next();
+    };
+    u.onerror=()=>this._next();
+    try{window.speechSynthesis.speak(u);}catch(e){this._next();}
+  },
+
+  sayWord(en,es,kind){
+    const m=STATE.settings.langMode;
+    const rate=STATE.settings.voiceRate||0.82;
+    const pitch=STATE.settings.voicePitch||1.15;
+
+    if(kind==='letters'){
+      // Spell the letter + say hint word
+      this.speak([
+        {text:en, lang:'en-US', rate:0.75, pitch, pauseMs:500},
+        {text:en, lang:'en-US', rate:0.7,  pitch, pauseMs:200},
+      ]);
+    }else if(m==='EN'){
+      this.speak([{text:en, lang:'en-US', rate, pitch}]);
+    }else if(m==='ES'){
+      this.speak([{text:es, lang:'es-ES', rate, pitch}]);
+    }else{
+      // EN/ES — say both with clear pause
+      this.speak([
+        {text:en, lang:'en-US', rate, pitch, pauseMs:650},
+        {text:es, lang:'es-ES', rate:rate+0.02, pitch, pauseMs:0},
+      ]);
+    }
+  },
+
+  sayFeedback(ok, name){
+    if(!STATE.settings.voiceEnabled||!this.ready)return;
+    const rate=STATE.settings.voiceRate||0.82;
+    const pitch=STATE.settings.voicePitch||1.15;
+    if(ok){
+      const phrases=['Great job!','Excellent!','Amazing!','Well done!','Fantastic!'];
+      const p=phrases[(Math.random()*phrases.length)|0];
+      this.speak([{text:p, lang:'en-US', rate:rate+0.05, pitch:pitch+0.05}]);
+    }else{
+      this.speak([{text:'Try again!', lang:'en-US', rate:rate, pitch}]);
+    }
+  }
+};
+TTS.init();
+
+/* ── AUDIO BEEPS ── */
+function beep(ok=true){
+  try{
+    if(!_AC)_AC=new(window.AudioContext||window.webkitAudioContext)();
+    if(_AC.state==='suspended')_AC.resume();
+    const t=_AC.currentTime;
+    const o=_AC.createOscillator(),g=_AC.createGain();
+    o.type=ok?'sine':'sawtooth';
+    o.frequency.value=ok?880:280;
+    g.gain.setValueAtTime(ok?.16:.12,t);
+    g.gain.exponentialRampToValueAtTime(.0001,t+(ok?.25:.35));
+    o.connect(g);g.connect(_AC.destination);
+    o.start(t);o.stop(t+(ok?.27:.37));
+    if(ok){
+      // Second note for success
+      const o2=_AC.createOscillator(),g2=_AC.createGain();
+      o2.type='sine';o2.frequency.value=1100;
+      g2.gain.setValueAtTime(.1,t+.08);g2.gain.exponentialRampToValueAtTime(.0001,t+.3);
+      o2.connect(g2);g2.connect(_AC.destination);
+      o2.start(t+.08);o2.stop(t+.32);
+    }
+  }catch(e){}
+}
+function beepWin(){
+  try{
+    if(!_AC)_AC=new(window.AudioContext||window.webkitAudioContext)();
+    if(_AC.state==='suspended')_AC.resume();
+    const t=_AC.currentTime;
+    const seq=[523,659,784,1047];
+    seq.forEach((f,i)=>{
+      const o=_AC.createOscillator(),g=_AC.createGain();
+      o.type='sine';o.frequency.value=f;
+      g.gain.setValueAtTime(.14,t+i*.12);g.gain.exponentialRampToValueAtTime(.001,t+i*.12+.2);
+      o.connect(g);g.connect(_AC.destination);
+      o.start(t+i*.12);o.stop(t+i*.12+.22);
+    });
+  }catch(e){}
+}
+
+/* ── CONFETTI ── */
+const confCvs=$('confCanvas');
+const confCtx=confCvs.getContext('2d');
+let confetti=[];
+function resizeConf(){
+  const dpr=Math.min(2,window.devicePixelRatio||1);
+  confCvs.width=innerWidth*dpr;confCvs.height=innerHeight*dpr;
+  confCvs.style.width=innerWidth+'px';confCvs.style.height=innerHeight+'px';
+  confCtx.setTransform(dpr,0,0,dpr,0,0);
+}
+window.addEventListener('resize',resizeConf,{passive:true});resizeConf();
+function burst(n=60){
+  const w=innerWidth,h=innerHeight;
+  for(let i=0;i<n;i++){
+    confetti.push({
+      x:w*.5+(Math.random()*120-60),y:h*.3+(Math.random()*40-20),
+      vx:Math.random()*8-4,vy:Math.random()*-12-4,
+      r:2+Math.random()*5,life:50+Math.random()*40|0,
+      hue:Math.random()*360|0,a:1
+    });
+  }
+}
+function tickConf(){
+  confCtx.clearRect(0,0,innerWidth,innerHeight);
+  for(let i=confetti.length-1;i>=0;i--){
+    const p=confetti[i];p.x+=p.vx;p.y+=p.vy;p.vy+=.4;p.life--;p.a=Math.max(0,p.life/80);
+    confCtx.fillStyle=`hsla(${p.hue},90%,60%,${p.a})`;
+    confCtx.beginPath();confCtx.arc(p.x,p.y,p.r,0,Math.PI*2);confCtx.fill();
+    if(p.life<=0||p.y>innerHeight+30)confetti.splice(i,1);
+  }
+  requestAnimationFrame(tickConf);
+}
+tickConf();
+
+/* ── FLOAT XP ── */
+function floatXP(txt,x,y){
+  const d=document.createElement('div');
+  d.className='floatxp';d.textContent=txt;
+  d.style.left=(x-20)+'px';d.style.top=y+'px';
+  document.body.appendChild(d);
+  setTimeout(()=>d.remove(),1000);
+}
+
+/* ── NOTIF TOAST ── */
+function notif(msg,col){
+  const old=document.querySelector('.notif-toast');if(old)old.remove();
+  const d=document.createElement('div');d.className='notif-toast';
+  d.textContent=msg;d.style.borderColor=col||'rgba(255,215,0,.5)';
+  document.body.appendChild(d);
+  setTimeout(()=>d.remove(),2800);
+}
+
+/* ── STARS BG ── */
+function initStars(){
+  const c=$('starsBg');
+  for(let i=0;i<65;i++){
+    const s=document.createElement('div');s.className='star-dot';
+    const sz=1+Math.random()*2.5;
+    s.style.cssText=`width:${sz}px;height:${sz}px;left:${Math.random()*100}%;top:${Math.random()*100}%;--d:${2+Math.random()*4}s;--dl:${Math.random()*5}s;opacity:.1`;
+    c.appendChild(s);
+  }
+}
+
+/* ── SCREEN NAVIGATION ── */
+let currentScreen='login';
+const SCREENS=['loginScreen','mapScreen','gameScreen','resultScreen','trophiesScreen'];
+function showScreen(id){
+  SCREENS.forEach(s=>$(s).classList.remove('on'));
+  $(id).classList.add('on');
+  currentScreen=id;
+}
+function navTo(i){
+  beep(true);
+  document.querySelectorAll('.bnbtn').forEach((b,j)=>b.classList.toggle('act',j===i));
+  if(i===0){renderMap();showScreen('mapScreen');}
+  else if(i===1){if(G.mtype)retryMission();else navTo(0);}
+  else if(i===2){renderTrophies();showScreen('trophiesScreen');}
+}
+function showUI(on){
+  $('topbar').classList.toggle('on',on);
+  $('botnav').classList.toggle('on',on);
+}
+
+/* ── UPDATE TOPBAR ── */
+function updateTopbar(){
+  const p=activeProfile();if(!p)return;
+  $('tbStars').textContent=p.stars||0;
+  $('tbCoins').textContent=p.coins||0;
+  const streakVal=G.active?G.streak:(p.maxStreak||0);
+  $('tbStreak').textContent=streakVal;
+  // Pulse the streak chip when on fire
+  const streakChip=$('tbStreak').closest('.tchip');
+  if(streakChip){
+    streakChip.style.background=G.active&&G.streak>=5?'rgba(255,100,0,.3)':streakVal>=10?'rgba(255,150,0,.2)':'rgba(255,255,255,.09)';
+    streakChip.style.borderColor=G.active&&G.streak>=5?'rgba(255,150,0,.6)':'rgba(255,255,255,.1)';
+  }
+  $('tbLives').textContent=G.active?G.lives:5;
+}
+
+/* ── MODAL ── */
+function openModal(title,body,footer=''){
+  $('modalTitle').textContent=title;
+  $('modalBody').innerHTML=body;
+  $('modalFt').innerHTML=footer;
+  $('modalOverlay').classList.add('on');
+  document.body.style.overflow='hidden';
+}
+function closeModal(){
+  $('modalOverlay').classList.remove('on');
+  document.body.style.overflow='';
+}
+$('modalOverlay').addEventListener('click',e=>{if(e.target===$('modalOverlay'))closeModal();});
+
+/* ── CELEBRATION ── */
+const _celQ=[];let _celRunning=false,_celTimer=null;
+function celebrate(evt){_celQ.push(evt);if(!_celRunning)_celNext();}
+function _celNext(){
+  if(!_celQ.length){_celRunning=false;return;}
+  _celRunning=true;
+  const e=_celQ.shift();
+  const rewards=(e.rewards||[]).map(r=>`<div class="cel-reward">${r}</div>`).join('');
+  $('celebrationOverlay').innerHTML=`
+    <div class="cel-box">
+      <span class="cel-icon">${e.icon||'🏆'}</span>
+      <div class="cel-title">${e.title||'¡Genial!'}</div>
+      <div class="cel-sub">${e.sub||''}</div>
+      <div class="cel-rewards">${rewards}</div>
+      <button class="bigbtn bb-gold" onclick="_celClose()" style="width:100%;max-width:260px">¡Seguir! 🚀</button>
+    </div>
+  `;
+  $('celebrationOverlay').classList.add('on');
+  if(e.confetti){burst(80);if(e.confetti>1){setTimeout(()=>burst(60),300);setTimeout(()=>burst(50),650);}}
+  _celTimer=setTimeout(_celClose,e.dur||3500);
+}
+function _celClose(){
+  clearTimeout(_celTimer);
+  $('celebrationOverlay').classList.remove('on');
+  setTimeout(_celNext,200);
+}
+$('celebrationOverlay').addEventListener('click',_celClose);
+
+/* ══════════════════════════════════════════════════════════
+   LOGIN / PROFILES
+   ══════════════════════════════════════════════════════════ */
+let selectedProfileId='';
+function renderLogin(){
+  const row=$('profileRow');
+  row.innerHTML='';
+  const ids=Object.keys(STATE.profiles);
+  ids.forEach(id=>{
+    const p=STATE.profiles[id];
+    const tile=document.createElement('div');
+    tile.className='profile-tile'+(STATE.active===id?' selected':'');
+    const totalStars=p.stars||0;
+    tile.innerHTML=`
+      <span class="pt-av">${p.avatar||'👧'}</span>
+      <div class="pt-name">${p.name||'Niño'}</div>
+      <div class="pt-stars">${'⭐'.repeat(Math.min(totalStars,5))||'☆☆☆'}</div>
+    `;
+    tile.onclick=()=>{
+      STATE.active=id;selectedProfileId=id;saveState();
+      document.querySelectorAll('.profile-tile').forEach(t=>t.classList.remove('selected'));
+      tile.classList.add('selected');
+      beep(true);
+    };
+    row.appendChild(tile);
+  });
+  const addBtn=document.createElement('div');
+  addBtn.className='btn-add-profile';
+  addBtn.innerHTML='➕';
+  addBtn.onclick=openCreateProfile;
+  row.appendChild(addBtn);
+
+  // Auto-select active
+  if(!STATE.active&&ids.length){STATE.active=ids[0];saveState();}
+}
+
+function openCreateProfile(){
+  const avatars=['👧','🧒','👦','🦄','🦖','🤖','🧙‍♀️','🧑‍🚀','🐱','🐶','🦁','🐸'];
+  let chosenAv='👧';
+  openModal('👶 Nuevo Perfil',`
+    <div style="margin-bottom:10px">
+      <label style="font-size:.8em;font-weight:800;color:var(--gold);text-transform:uppercase;letter-spacing:.5px">Nombre</label>
+      <input class="nice-input" id="profileNameIn" placeholder="Ej: Martín" maxlength="20" style="margin-top:6px" autofocus>
+    </div>
+    <div style="font-size:.8em;font-weight:800;color:var(--gold);text-transform:uppercase;letter-spacing:.5px;margin-bottom:8px">Avatar</div>
+    <div class="av-grid" id="avGrid">
+      ${avatars.map(a=>`<button class="av-btn${a===chosenAv?' sel':''}" data-av="${a}" onclick="pickAv('${a}',this)">${a}</button>`).join('')}
+    </div>
+  `,`
+    <button class="bigbtn bb-ghost bb-sm" onclick="closeModal()">Cancelar</button>
+    <button class="bigbtn bb-gold bb-sm" onclick="doCreateProfile()">Crear ✓</button>
+  `);
+}
+window.pickAv=(av,btn)=>{
+  document.querySelectorAll('.av-btn').forEach(b=>b.classList.remove('sel'));
+  btn.classList.add('sel');
+  btn.dataset.selected='1';
+  // track selection
+  window._chosenAv=av;
+};
+window._chosenAv='👧';
+function doCreateProfile(){
+  const name=($('profileNameIn')||{value:''}).value.trim()||'Niño';
+  const av=window._chosenAv||'👧';
+  const p=defaultProfile(name,av);
+  STATE.profiles[p.id]=p;
+  STATE.active=p.id;
+  saveState();
+  closeModal();
+  renderLogin();
+  notif('✅ ¡Perfil creado! Hola '+name+' '+av,'var(--green)');
+  beep(true);
+}
+
+function doEnter(){
+  const p=activeProfile();
+  if(!p){notif('👆 Elige o crea un perfil primero','var(--red)');return;}
+  showUI(true);
+  renderMap();
+  showScreen('mapScreen');
+  navTo(0);
+  updateTopbar();
+  beep(true);
+}
+
+/* ══════════════════════════════════════════════════════════
+   MAP RENDER
+   ══════════════════════════════════════════════════════════ */
+let currentLevel=1;
+function getPlayerLevel(p){
+  // Level based on XP
+  let lv=1;
+  for(let i=LEVEL_XP.length-1;i>=1;i--){if((p.xp||0)>=LEVEL_XP[i]){lv=i;break;}}
+  return Math.min(lv,3);
+}
+function xpForNextLevel(lv){return LEVEL_XP[Math.min(lv+1,3)]||LEVEL_XP[3];}
+
+function renderMap(){
+  const p=activeProfile();if(!p)return;
+  const lv=getPlayerLevel(p);
+  if(lv>p.level){
+    p.level=lv;saveState();
+    if(lv>1){
+      celebrate({
+        icon:LEVEL_AVATARS[lv],
+        title:'¡Subiste de Nivel!',
+        sub:`Ahora eres ${LEVEL_NAMES[lv]} ${LEVEL_AVATARS[lv]}`,
+        rewards:['⭐ +5 Estrellas','🪙 +20 Monedas'],
+        confetti:2,dur:4000
+      });
+      updateProfile(pp=>{pp.stars=(pp.stars||0)+5;pp.coins=(pp.coins||0)+20;});
+    }
+  }
+
+  // Hero banner
+  $('mapAv').textContent=LEVEL_AVATARS[lv]||'🚀';
+  $('mapName').textContent=`¡Hola, ${p.name}!`;
+  $('mapSub').textContent=`Nivel ${lv} · ${LEVEL_NAMES[lv]}`;
+  const xpCur=p.xp||0;const xpNext=xpForNextLevel(lv);const xpBase=LEVEL_XP[lv]||0;
+  const frac=lv>=3?1:clamp((xpCur-xpBase)/(xpNext-xpBase||1),0,1);
+  $('mapXpFill').style.width=(frac*100)+'%';
+
+  // Level tabs
+  const lvlTab=$('lvlTabs');lvlTab.innerHTML='';
+  const TABS=[
+    {L:1, icon:'🌱', name:'Inicial',   need:0},
+    {L:2, icon:'🚀', name:'Intermedio',need:100},
+    {L:3, icon:'🌟', name:'Avanzado',  need:280},
+  ];
+  TABS.forEach(t=>{
+    const locked=(p.xp||0)<t.need;
+    const tab=document.createElement('div');
+    tab.className='lvl-tab'+(t.L===currentLevel?' active':'')+(locked?' locked':'');
+    tab.innerHTML=`<span class="lv-icon">${t.icon}</span>${t.name}${locked?'<br><span style="font-size:.65em">🔒 '+t.need+' XP</span>':''}`;
+    tab.onclick=()=>{
+      if(locked){notif('🔒 Necesitas '+t.need+' XP para desbloquear','var(--red)');beep(false);return;}
+      currentLevel=t.L;renderMap();beep(true);
+    };
+    lvlTab.appendChild(tab);
+  });
+
+
+  // World cards
+  const sec=$('worldSections');sec.innerHTML='';
+  const filtered=WORLDS.filter(w=>w.lvl===(currentLevel));
+
+  filtered.forEach(w=>{
+    const card=document.createElement('div');
+    const bestStars=p.best&&p.best[w.id]||0;
+    const done=bestStars>=3;
+    card.className=`world-card ${w.color||''} ${done?'done':'unlocked'}`;
+    card.innerHTML=`
+      <span class="wc-emoji">${w.icon}</span>
+      <div class="wc-name">${w.name}</div>
+      <div class="wc-sub">${w.es}</div>
+      <div class="wc-stars">${'⭐'.repeat(bestStars)}${'☆'.repeat(3-bestStars)}</div>
+    `;
+    card.onclick=()=>{startMission(w.id);beep(true);};
+    sec.appendChild(card);
+  });
+
+  // Wrap in grid
+  const grid=document.createElement('div');
+  grid.className='world-grid';
+  while(sec.firstChild)grid.appendChild(sec.firstChild);
+  sec.appendChild(grid);
+
+  updateTopbar();
+  checkBadges();
+}
+
+/* ══════════════════════════════════════════════════════════
+   GAME ENGINE
+   ══════════════════════════════════════════════════════════ */
+const QUESTIONS_PER_MISSION=10;
+const DIFF_TIME={1:0,2:0}; // No timer for kids
+
+let G={
+  active:false,mtype:'',world:null,
+  questions:[],qi:0,ok:0,
+  lives:5,streak:0,newBadges:[],
+  lockUntil:0
+};
+
+function buildQuestions(world){
+  const items=shuffle([...world.items]);
+  const pool=world.items;
+  const qs=[];
+  const picks=items.slice(0,Math.min(QUESTIONS_PER_MISSION,items.length));
+
+  picks.forEach(item=>{
+    // 4 options including correct
+    const wrongs=shuffle(pool.filter(x=>x!==item)).slice(0,3);
+    const opts=shuffle([item,...wrongs]);
+    qs.push({item,opts,ans:item});
+  });
+  return qs;
+}
+
+function startMission(worldId,skipIntro=false){
+  const world=WORLDS.find(w=>w.id===worldId);
+  if(!world)return;
+
+  if(!skipIntro && world.story){
+    const sample=world.items.slice(0,6).map(it=>`<span style="display:inline-flex;align-items:center;gap:6px;padding:6px 10px;margin:4px;border-radius:999px;background:rgba(255,255,255,.07);border:1px solid rgba(255,255,255,.12)">${it.em||'✨'} <b style="color:var(--text)">${(world.kind==='numbers'?(it.num!=null?it.num:it.en):it.en)}</b></span>`).join(' ');
+    openModal(
+      world.icon+' '+world.name+' / '+world.es,
+      `<div class="small" style="font-size:.95em;color:var(--text);line-height:1.45">
+         <div style="margin-bottom:10px;color:var(--muted)"><b>Trama:</b> ${world.story}</div>
+         <div style="margin-bottom:8px"><b>Verás en esta misión:</b></div>
+         <div style="display:flex;flex-wrap:wrap;gap:6px">${sample}</div>
+       </div>`,
+      `<button class="bigbtn bb-gold" onclick="closeModal();startMission('${worldId}',true)">¡Jugar! 🎮</button>`
+    );
+    return;
+  }
+
+
+  // Preserve streak across missions for epic combos
+  const pp=activeProfile();
+  const prevStreak = pp?(pp.streak||0):0;
+  G={
+    active:true,mtype:worldId,world,
+    questions:buildQuestions(world),
+    qi:0,ok:0,lives:5,streak:prevStreak,newBadges:[],
+    lockUntil:0,t0:now()
+  };
+
+  $('gWorldName').textContent=world.name+' / '+world.es;
+  showScreen('gameScreen');
+  document.querySelectorAll('.bnbtn').forEach((b,j)=>b.classList.toggle('act',j===1));
+  renderQuestion();
+  updateTopbar();
+}
+
+function renderQuestion(){
+  if(!G.active||G.qi>=G.questions.length){endMission();return;}
+  const q=G.questions[G.qi];
+  const tot=G.questions.length;
+  const item=q.item;
+  const w=G.world;
+
+  // Progress
+  $('gProgLabel').textContent=`Pregunta ${G.qi+1}/${tot}`;
+  $('gProgFill').style.width=((G.qi/tot)*100)+'%';
+
+  // Lives (compacto para ahorrar espacio y no tapar botones)
+  const lr=$('livesRow');
+  lr.innerHTML = `<span class="life-compact">❤️ <b>x${G.lives}</b></span>`;
+  // Coloca el botón Escuchar junto a las vidas (mantiene el mismo id/función)
+  const lb=$('listenBtn');
+  if(lb && lb.parentElement!==lr){
+    lr.appendChild(lb);
+    lb.style.margin='0';
+    lb.style.padding='8px 16px';
+    lb.style.fontSize='.85em';
+  }
+
+  // Question card
+  $('qBadge').textContent=w.icon+' '+w.name;
+  $('qBadge').style.background=`rgba(255,255,255,.08)`;
+  $('qEmoji').textContent=item.em||'✨';
+  $('qEmoji').style.animation='none';
+  void $('qEmoji').offsetWidth;
+  $('qEmoji').style.animation='';
+
+  // What to show as the big word (based on kind)
+  if(w.kind==='letters'){
+    $('qInstruction').textContent='¿Cuál es esta letra?';
+    $('qWord').textContent=item.en;
+    $('qTrans').textContent=item.hint||'';
+  }else if(w.kind==='numbers'){
+    $('qInstruction').textContent='¿Cómo se dice este número?';
+    $('qWord').textContent=item.num!=null?String(item.num):item.en;
+    $('qTrans').textContent=item.es;
+  }else if(w.kind==='colors'){
+    $('qInstruction').textContent='¿Cómo se llama este color?';
+    $('qWord').textContent=''; // Show colored block instead
+    $('qEmoji').style.filter=`drop-shadow(0 0 20px ${item.color||'#fff'})`;
+    $('qTrans').textContent=item.es;
+  }else if(w.kind==='phrases'){
+    $('qInstruction').textContent='¿Cuál es esta frase en inglés?';
+    $('qWord').textContent=item.es; // Show Spanish, find English
+    $('qTrans').textContent='';
+  }else{
+    $('qInstruction').textContent='Toca la imagen correcta 👆';
+    $('qWord').textContent=item.en;
+    $('qTrans').textContent=item.es;
+  }
+
+  // Options
+  const og=$('optsGrid');og.innerHTML='';
+  q.opts.forEach(opt=>{
+    const b=document.createElement('button');
+    b.className='opt-btn';
+    b.dataset.correct=opt===q.ans?'1':'0';
+
+    // What to show on option card
+    let optEmoji=opt.em||'✨';
+    let optWord='';let optTrans='';
+
+    if(w.kind==='letters'){
+      optEmoji=opt.em||'📖';
+      optWord=opt.en;
+      optTrans=opt.hint||'';
+    }else if(w.kind==='numbers'){
+      optEmoji=opt.em||'🔢';
+      optWord=opt.en; // "One", "Two" etc
+      optTrans=opt.es;
+    }else if(w.kind==='colors'){
+      // Show color swatch
+      b.style.borderColor=(opt===q.ans)?'':'rgba(255,255,255,.12)';
+      b.style.background=`linear-gradient(135deg, ${opt.color||'#888'}44, ${opt.color||'#888'}22)`;
+      optEmoji=opt.em||'🎨';
+      optWord=opt.en;
+      optTrans=opt.es;
+    }else if(w.kind==='phrases'){
+      optEmoji=opt.em||'💬';
+      optWord=opt.en; // Show English phrase
+      optTrans='';
+    }else{
+      optEmoji=opt.em||'✨';
+      optWord=STATE.settings.langMode==='ES'?opt.es:opt.en;
+      optTrans=STATE.settings.langMode==='ENES'?opt.es:'';
+    }
+
+    b.innerHTML=`
+      <span class="ob-emoji">${optEmoji}</span>
+      <span class="ob-word">${optWord}</span>
+      ${optTrans?`<span class="ob-trans">${optTrans}</span>`:''}
+    `;
+    b.onclick=(e)=>chooseAnswer(b,q,e);
+    og.appendChild(b);
+  });
+
+  // Hide feedback
+  const fb=$('feedbackBar');fb.className='feedback-bar';
+
+  // Auto-speak the word
+  setTimeout(()=>TTS.sayWord(item.en,item.es,w.kind),300);
+}
+
+function speakCurrent(){
+  if(!G.active||G.qi>=G.questions.length)return;
+  const q=G.questions[G.qi];
+  TTS.sayWord(q.item.en,q.item.es,G.world.kind);
+  beep(true);
+}
+
+function chooseAnswer(el,q,evt){
+  if(Date.now()<G.lockUntil)return;
+  G.lockUntil=Date.now()+900; // lock during feedback
+
+  const ok=el.dataset.correct==='1';
+  // Disable all options
+  document.querySelectorAll('.opt-btn').forEach(b=>b.disabled=true);
+  // Highlight correct
+  document.querySelectorAll('.opt-btn').forEach(b=>{
+    if(b.dataset.correct==='1')b.classList.add('correct');
+  });
+
+  if(ok){
+    G.ok++;G.streak++;
+    el.classList.add('correct');
+    updateProfile(p=>{
+      p.stats.totalCorrect=(p.stats.totalCorrect||0)+1;
+      if(G.streak>(p.maxStreak||0))p.maxStreak=G.streak;
+      p.coins=(p.coins||0)+2;
+      p.xp=(p.xp||0)+12;
+    });
+    beep(true);
+    TTS.sayFeedback(true);
+    if(evt)floatXP('+12 XP',evt.clientX,evt.clientY);
+    // Save streak to profile for persistence
+    updateProfile(pp=>{pp.streak=G.streak;if(G.streak>(pp.maxStreak||0))pp.maxStreak=G.streak;});
+    // Streak milestones — now triggers more frequently!
+    if([3,5,7,10,15,20,25,30].includes(G.streak)){
+      const bonus=G.streak>=20?5:G.streak>=10?3:G.streak>=5?2:1;
+      const coinsBonus=G.streak*3;
+      notif(`🔥 ¡RACHA x${G.streak}! ¡Imparable!`,'var(--gold)');
+      celebrate({
+        icon: G.streak>=20?'⚡':G.streak>=10?'💥':'🔥',
+        title:`🔥 ¡RACHA x${G.streak}!`,
+        sub: G.streak>=20?'¡ERES UN GENIO ABSOLUTO! 🧠':G.streak>=10?'¡Vas imparable! 🚀':'¡Increíble ritmo! 💪',
+        rewards:[`🪙 +${coinsBonus} Monedas`,`⭐ +${bonus} Estrellas`,`✨ +${G.streak*5} XP BONUS`],
+        confetti:Math.min(G.streak>=10?3:2,3),dur:3000
+      });
+      updateProfile(pp=>{pp.coins=(pp.coins||0)+coinsBonus;pp.stars=(pp.stars||0)+bonus;pp.xp=(pp.xp||0)+G.streak*5;});
+    }
+    showFeedback(true,'¡Correcto! 🎉',`${q.item.en} = ${q.item.es}`);
+  }else{
+    el.classList.add('wrong');
+    G.streak=0;G.lives--;
+    updateProfile(pp=>{pp.streak=0;});
+    beep(false);
+    TTS.sayFeedback(false);
+    if(G.lives<=0){
+      showFeedback(false,'💔 Sin vidas',`Era: ${q.item.en} = ${q.item.es}`);
+      setTimeout(()=>endMission(),2000);
+      updateTopbar();return;
+    }
+    showFeedback(false,'¡Intenta otra vez! 💪',`Era: ${q.item.en} = ${q.item.es}`);
+  }
+  updateTopbar();
+}
+
+function showFeedback(ok,title,msg){
+  const fb=$('feedbackBar');
+  fb.className='feedback-bar on '+(ok?'ok':'bad');
+  $('fbIcon').textContent=ok?'✅':'❌';
+  $('fbTitle').textContent=title;
+  $('fbMsg').textContent=msg;
+}
+
+function nextQuestion(){
+  G.qi++;
+  G.lockUntil=0;
+  if(G.qi>=G.questions.length)endMission();
+  else renderQuestion();
+}
+
+/* ── END MISSION ── */
+function endMission(){
+  if(!G.active)return;
+  clearTimeout(G.lockUntil);
+  G.active=false;
+  const tot=G.questions.length;
+  const pct=Math.round((G.ok/tot)*100);
+  const stars=pct>=90?3:pct>=60?2:pct>=30?1:0;
+  const elapsed=Math.round((now()-G.t0)/1000);
+  const xpGained=G.ok*12+(stars*30)+(pct===100?50:0);
+  const coinsGained=G.ok*2+(stars*10)+(pct===100?25:0);
+
+  updateProfile(p=>{
+    p.xp=(p.xp||0)+xpGained;
+    p.coins=(p.coins||0)+coinsGained;
+    if(pct===100)p.stats.perfect=(p.stats.perfect||0)+1;
+    p.stats.missions=(p.stats.missions||0)+1;
+    const d=new Date().toISOString().slice(0,10);
+    p.stats.daysPlayed[d]=true;
+    // Best stars for this world
+    p.best=p.best||{};
+    p.best[G.mtype]=Math.max(p.best[G.mtype]||0,stars);
+    p.stars=(p.stars||0)+stars;
+    // Preserve streak — it carries over to next mission!
+    if(G.streak>(p.maxStreak||0))p.maxStreak=G.streak;
+    p.streak=G.streak; // keep current streak alive!
+  });
+
+  // Render result screen
+  const trophy=pct===100?'🏆':pct>=70?'🥇':pct>=40?'🥈':'🎯';
+  $('rTrophy').textContent=trophy;
+  $('rTitle').textContent=pct===100?'¡Perfecto! 🌟':pct>=70?'¡Muy bien! 🎉':pct>=40?'¡Buen intento! 💪':'¡Sigue practicando! 📚';
+
+  // Stars display
+  const sd=$('starsDisplay');sd.innerHTML='';
+  for(let i=0;i<3;i++){
+    const s=document.createElement('span');
+    s.className='star-anim';
+    s.textContent=i<stars?'⭐':'☆';
+    sd.appendChild(s);
+  }
+
+  $('rOk').textContent=`${G.ok}/${tot}`;
+  $('rXP').textContent=`+${xpGained}`;
+  $('rCoins').textContent=`+${coinsGained}`;
+  $('rStars').textContent=`+${stars}`;
+
+  // Check new badges
+  const p=activeProfile();
+  const newBadges=[];
+  BADGES.forEach(b=>{
+    if(!(p.badges||[]).includes(b.id)&&b.c(p)){
+      p.badges.push(b.id);newBadges.push(b);
+    }
+  });
+  saveState();
+
+  const ba=$('rBadgesArea');ba.innerHTML='';
+  newBadges.forEach((b,i)=>{
+    ba.innerHTML+=`<div class="new-badge-pop" style="animation-delay:${i*.15}s">
+      <span class="nbp-icon">${b.icon}</span>
+      <div class="nbp-text"><strong>¡Nueva insignia: ${b.name}!</strong><p>${b.desc}</p></div>
+    </div>`;
+  });
+
+  if(pct>=60){beepWin();burst(80);if(pct===100){setTimeout(()=>burst(60),400);}}
+  else beep(false);
+
+  if(stars>0){
+    const streakBonus=G.streak>=10?` 🔥 RACHA x${G.streak}!`:(G.streak>=3?` 🔥 Racha x${G.streak}`:'');
+    celebrate({
+      icon:trophy,
+      title:pct===100?'¡PERFECTO!':'¡Misión completada!',
+      sub:`${G.ok}/${tot} correctas · ${stars} ⭐${streakBonus}`,
+      rewards:[`⭐ +${stars}`,`🪙 +${coinsGained}`,`✨ +${xpGained} XP`,...(G.streak>=5?[`🔥 Racha x${G.streak} activa!`]:[])],
+      confetti:stars,dur:3200
+    });
+  }
+
+  showScreen('resultScreen');
+  document.querySelectorAll('.bnbtn').forEach((b,j)=>b.classList.toggle('act',j===0));
+  updateTopbar();
+  checkBadges();
+}
+
+function retryMission(){if(G.mtype)startMission(G.mtype);}
+
+/* ── CHECK BADGES ── */
+function checkBadges(){
+  const p=activeProfile();if(!p)return;
+  BADGES.forEach(b=>{
+    if(!(p.badges||[]).includes(b.id)&&b.c(p)){
+      p.badges.push(b.id);
+      notif(`🏅 ¡Nueva insignia: ${b.name}!`,'var(--gold)');
+    }
+  });
+  saveState();
+}
+
+/* ══════════════════════════════════════════════════════════
+   TROPHIES SCREEN
+   ══════════════════════════════════════════════════════════ */
+let _trophyTab=0;
+function switchTrophyTab(i){
+  _trophyTab=i;
+  [0,1,2,3].forEach(j=>{
+    $(`tTab${j}`).classList.toggle('on',j===i);
+  });
+  renderTrophyContent();
+}
+function renderTrophies(){
+  switchTrophyTab(0);
+}
+function renderTrophyContent(){
+  const p=activeProfile();
+  const host=$('trophyContent');
+  if(!p){host.innerHTML='<div class="small">Sin perfil</div>';return;}
+
+  if(_trophyTab===0){
+    // Badges
+    let html='<div class="badges-grid">';
+    BADGES.forEach(b=>{
+      const earned=(p.badges||[]).includes(b.id)||b.c(p);
+      if(earned&&!(p.badges||[]).includes(b.id)){p.badges.push(b.id);saveState();}
+      html+=`<div class="b-tile ${earned?'earned':'locked'}">
+        <div class="bt-ico">${b.icon}</div>
+        <div class="bt-name">${b.name}</div>
+        <div class="bt-desc">${earned?b.desc:'???'}</div>
+      </div>`;
+    });
+    html+='</div>';
+    host.innerHTML=html;
+  }else if(_trophyTab===1){
+    // World medals
+    let html='<div class="badges-grid">';
+    WORLDS.forEach(w=>{
+      const best=p.best&&p.best[w.id]||0;
+      const earned=best>=3;
+      html+=`<div class="b-tile ${earned?'earned':'locked'}">
+        <div class="bt-ico">${w.icon}</div>
+        <div class="bt-name">${w.name}</div>
+        <div class="bt-desc">${'⭐'.repeat(best)}${'☆'.repeat(3-best)}</div>
+      </div>`;
+    });
+    html+='</div>';
+    host.innerHTML=html;
+  }else if(_trophyTab===2){
+    // Level trophies + achievements
+    const lv=getPlayerLevel(p);
+    const missions=p.stats?.missions||0;
+    const perfect=p.stats?.perfect||0;
+    const trophyDefs=[
+      {icon:'🌱', name:'Nivel 1 — Semilla',    desc:'El viaje comienza aquí',           earned:true},
+      {icon:'🚀', name:'Nivel 2 — Explorador',  desc:`Necesitas 150 XP · Tienes ${p.xp||0} XP`, earned:lv>=2},
+      {icon:'🌟', name:'Nivel 3 — Héroe',       desc:`Necesitas 400 XP · Tienes ${p.xp||0} XP`, earned:lv>=3},
+      {icon:'🎖️', name:'25 Misiones',           desc:`Completa 25 misiones · ${missions}/25`,    earned:missions>=25},
+      {icon:'👑', name:'50 Misiones',           desc:`Completa 50 misiones · ${missions}/50`,    earned:missions>=50},
+      {icon:'💎', name:'Perfecto x1',           desc:`10/10 en una misión · ${perfect}/1`,        earned:perfect>=1},
+      {icon:'💠', name:'Triple Perfecto',       desc:`3 misiones perfectas · ${perfect}/3`,       earned:perfect>=3},
+      {icon:'🏆', name:'Campeón Absoluto',      desc:'3⭐ en todos los mundos',                  earned:WORLDS.every(w=>(p.best&&p.best[w.id]||0)>=3)},
+    ];
+    let html='<div class="badges-grid">';
+    trophyDefs.forEach(t=>{
+      html+=`<div class="b-tile ${t.earned?'earned':'locked'}">
+        <div class="bt-ico">${t.icon}</div>
+        <div class="bt-name">${t.name}</div>
+        <div class="bt-desc">${t.desc}</div>
+      </div>`;
+    });
+    html+='</div>';
+    host.innerHTML=html;
+  }else{
+    // Ranking — all profiles + AI rivals for motivation
+    const AI_RIVALS = [
+      {name:'⭐ PequeMaestro', av:'🤖', xp:2800, stars:180, coins:950, isAI:true, title:'Campeón IA'},
+      {name:'🌟 SuperSofia',   av:'👩‍🚀', xp:1850, stars:120, coins:680, isAI:true, title:'Héroe IA'},
+      {name:'🚀 MegaLucas',   av:'🦸', xp:1200, stars:85,  coins:420, isAI:true, title:'Explorador IA'},
+      {name:'💫 AstroKid',    av:'🌙', xp:750,  stars:52,  coins:290, isAI:true, title:'Aventurero IA'},
+      {name:'🌈 MiniEinstein',av:'🧠', xp:320,  stars:22,  coins:110, isAI:true, title:'Semilla IA'},
+    ];
+    const realPlayers = Object.values(STATE.profiles)
+      .map(pp=>({name:pp.name, av:pp.avatar||'👧', xp:pp.xp||0, stars:pp.stars||0, coins:pp.coins||0, me:pp.id===STATE.active, isAI:false}));
+    const all = [...realPlayers, ...AI_RIVALS].sort((a,b)=>b.xp-a.xp);
+    const medals=['🥇','🥈','🥉'];
+    const myRank = all.findIndex(r=>r.me);
+    let html=`<div style="font-size:.72em;color:var(--muted);text-align:center;margin-bottom:10px;padding:6px 12px;background:rgba(255,255,255,.05);border-radius:12px">
+      🤖 Los jugadores con robot son campeones virtuales que te desafían a superarlos
+    </div><div class="rank-list">`;
+    all.forEach((r,i)=>{
+      const rankPos = medals[i]||`#${i+1}`;
+      const isMe = r.me;
+      const bgStyle = r.isAI
+        ? 'background:rgba(100,80,200,.12);border-color:rgba(150,120,255,.2)'
+        : isMe ? 'background:rgba(255,215,0,.1);border-color:rgba(255,215,0,.3)' : '';
+      html+=`<div class="rank-row${isMe?' me':''}" style="${bgStyle}">
+        <div class="rank-pos">${rankPos}</div>
+        <div class="rank-av">${r.av}</div>
+        <div style="flex:1;min-width:0">
+          <div class="rank-name">${isMe?'👉 ':r.isAI?'':''}${r.name}${r.isAI?` <span style="font-size:.65em;color:var(--purple);background:rgba(155,89,182,.2);padding:1px 6px;border-radius:8px">${r.title}</span>`:''}</div>
+          <div style="font-size:.68em;color:var(--muted);margin-top:1px">⭐ ${r.stars} · 🪙 ${r.coins}</div>
+        </div>
+        <div class="rank-xp" style="${r.isAI?'color:var(--purple)':isMe?'color:var(--gold)':''}">${r.xp} XP</div>
+      </div>`;
+    });
+    if(myRank>=0){
+      html+=`<div style="text-align:center;margin-top:10px;font-size:.78em;color:var(--gold);font-weight:800">
+        ${myRank===0?'🏆 ¡ERES EL #1!':myRank<=2?`🥈 ¡Estás en el TOP ${myRank+1}! ¡Sigue así!`:`💪 Estás en el puesto #${myRank+1} — ¡A superar a ${all[myRank-1]?.name}!`}
+      </div>`;
+    }
+    html+='</div>';
+    host.innerHTML=html;
+  }
+}
+
+/* ── SETTINGS ── */
+function openSettings(){
+  beep(true);
+  const s=STATE.settings;
+  openModal('⚙️ Ajustes',`
+    <div style="margin-bottom:14px">
+      <div style="font-weight:900;margin-bottom:6px">🌍 Idioma</div>
+      <div style="display:flex;gap:8px;flex-wrap:wrap">
+        <button class="bigbtn bb-sm ${s.langMode==='ENES'?'bb-gold':'bb-ghost'}" onclick="setLang('ENES',this)">EN + ES</button>
+        <button class="bigbtn bb-sm ${s.langMode==='EN'?'bb-gold':'bb-ghost'}" onclick="setLang('EN',this)">Solo EN</button>
+        <button class="bigbtn bb-sm ${s.langMode==='ES'?'bb-gold':'bb-ghost'}" onclick="setLang('ES',this)">Solo ES</button>
+      </div>
+    </div>
+    <div class="divider"></div>
+    <div style="margin-bottom:14px">
+      <div style="font-weight:900;margin-bottom:6px">🔊 Velocidad de voz (para niños)</div>
+      <input type="range" min="60" max="100" value="${Math.round((s.voiceRate||.82)*100)}" step="2" id="voiceRateSlider" oninput="updateVoiceRate(this.value)" style="width:100%">
+      <div style="display:flex;justify-content:space-between;font-size:.8em;color:var(--muted);margin-top:4px">
+        <span>🐢 Lenta</span><span id="vrLabel">${Math.round((s.voiceRate||.82)*100)}%</span><span>Rápida 🐇</span>
+      </div>
+    </div>
+    <div class="divider"></div>
+    <div style="margin-bottom:14px">
+      <div style="font-weight:900;margin-bottom:6px">🔊 Voz activa</div>
+      <button class="bigbtn bb-sm ${s.voiceEnabled?'bb-green':'bb-ghost'}" id="voiceToggleBtn" onclick="toggleVoice(this)">${s.voiceEnabled?'🔊 Activada':'🔇 Silenciada'}</button>
+    </div>
+    <div class="divider"></div>
+    <div>
+      <div style="font-weight:900;margin-bottom:8px;color:var(--red)">⚠️ Zona peligrosa</div>
+      <button class="bigbtn bb-ghost bb-sm" onclick="resetProfile()">🔄 Reiniciar mi perfil</button>
+    </div>
+  `,`<button class="bigbtn bb-gold bb-sm" onclick="closeModal()">✓ Cerrar</button>`);
+}
+
+window.setLang=(m,btn)=>{
+  STATE.settings.langMode=m;saveState();
+  document.querySelectorAll('#modalBody .bigbtn').forEach(b=>{b.className=b.className.replace('bb-gold','bb-ghost');});
+  btn.className=btn.className.replace('bb-ghost','bb-gold');
+  notif('🌍 Idioma: '+m,'var(--blue)');
+};
+window.updateVoiceRate=(v)=>{
+  STATE.settings.voiceRate=v/100;saveState();
+  $('vrLabel').textContent=v+'%';
+};
+window.toggleVoice=(btn)=>{
+  STATE.settings.voiceEnabled=!STATE.settings.voiceEnabled;saveState();
+  btn.textContent=STATE.settings.voiceEnabled?'🔊 Activada':'🔇 Silenciada';
+  btn.className=btn.className.replace(STATE.settings.voiceEnabled?'bb-ghost':'bb-green',STATE.settings.voiceEnabled?'bb-green':'bb-ghost');
+};
+window.resetProfile=()=>{
+  if(!confirm('¿Seguro? Se borrarán todos los premios de este perfil.'))return;
+  updateProfile(p=>{
+    p.xp=0;p.coins=0;p.stars=0;p.level=1;
+    p.streak=0;p.maxStreak=0;p.badges=[];p.best={};
+    p.stats={missions:0,perfect:0,totalCorrect:0,daysPlayed:{}};
+  });
+  closeModal();notif('🔄 Perfil reiniciado','var(--red)');
+};
+
+/* ── BOOT ── */
+function boot(){
+  initStars();
+  loadState();
+  // Create default profile if empty
+  if(!Object.keys(STATE.profiles).length){
+    const p=defaultProfile('Niño','👧');
+    STATE.profiles[p.id]=p;STATE.active=p.id;saveState();
+  }
+  renderLogin();
+  showScreen('loginScreen');
+  showUI(false);
+}
+
+// Event listeners
+$('btnEnter').addEventListener('click',doEnter);
+document.addEventListener('keydown',e=>{if(e.key==='Escape')closeModal();});
+
+boot();
+</script>
+</body>
+</html>

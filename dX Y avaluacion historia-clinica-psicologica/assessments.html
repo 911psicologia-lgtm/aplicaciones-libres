@@ -1,0 +1,793 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Evaluaciones | Historia Clínica Psicológica Integral</title>
+    
+    <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🧠</text></svg>">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="assets/css/main.css">
+    <link rel="manifest" href="manifest.json">
+    
+    <style>
+        .assessment-card {
+            border: 1.5px solid #e2e8f0;
+            border-radius: 12px;
+            padding: 1.25rem;
+            margin-bottom: 1rem;
+            background: white;
+            transition: all 0.2s;
+        }
+        
+        .assessment-card:hover {
+            border-color: #4299e1;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.05);
+        }
+        
+        .assessment-card.pending {
+            border-left: 4px solid #d69e2e;
+        }
+        
+        .assessment-card.applied {
+            border-left: 4px solid #4299e1;
+        }
+        
+        .assessment-card.en_analisis {
+            border-left: 4px solid #805ad5;
+        }
+        
+        .assessment-card.completado {
+            border-left: 4px solid #38a169;
+        }
+        
+        .assessment-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+            margin-bottom: 0.75rem;
+        }
+        
+        .assessment-title {
+            font-weight: 600;
+            color: #2d3748;
+            font-size: 1rem;
+        }
+        
+        .assessment-meta {
+            display: flex;
+            gap: 1rem;
+            flex-wrap: wrap;
+            font-size: 0.875rem;
+            color: #718096;
+            margin-bottom: 0.75rem;
+        }
+        
+        .assessment-meta span {
+            display: flex;
+            align-items: center;
+            gap: 0.375rem;
+        }
+        
+        .assessment-scores {
+            background: #f7fafc;
+            border-radius: 8px;
+            padding: 0.75rem;
+            margin-bottom: 0.75rem;
+        }
+        
+        .assessment-scores h5 {
+            font-size: 0.8125rem;
+            color: #4a5568;
+            margin-bottom: 0.5rem;
+        }
+        
+        .assessment-interpretation {
+            font-size: 0.875rem;
+            color: #4a5568;
+            margin-bottom: 0.75rem;
+        }
+        
+        .assessment-actions {
+            display: flex;
+            gap: 0.5rem;
+        }
+        
+        .instrument-select {
+            position: relative;
+        }
+        
+        .instrument-list {
+            max-height: 200px;
+            overflow-y: auto;
+            border: 1px solid #e2e8f0;
+            border-radius: 8px;
+            background: white;
+            margin-top: 0.5rem;
+        }
+        
+        .instrument-item {
+            padding: 0.625rem 1rem;
+            cursor: pointer;
+            transition: background 0.2s;
+        }
+        
+        .instrument-item:hover {
+            background: #f7fafc;
+        }
+        
+        .instrument-item:not(:last-child) {
+            border-bottom: 1px solid #e2e8f0;
+        }
+        
+        .common-instruments {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 0.5rem;
+            margin-top: 0.75rem;
+        }
+        
+        .instrument-tag {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.375rem;
+            padding: 0.375rem 0.75rem;
+            background: #edf2f7;
+            border-radius: 9999px;
+            font-size: 0.8125rem;
+            color: #4a5568;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+        
+        .instrument-tag:hover {
+            background: #e2e8f0;
+        }
+        
+        .score-inputs {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+            gap: 0.75rem;
+        }
+        
+        .attachment-preview {
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+            padding: 0.75rem;
+            background: #f7fafc;
+            border-radius: 8px;
+            margin-top: 0.5rem;
+        }
+        
+        .attachment-preview i {
+            font-size: 1.5rem;
+            color: #e53e3e;
+        }
+        
+        .attachment-preview .info {
+            flex: 1;
+        }
+        
+        .attachment-preview .name {
+            font-weight: 500;
+            font-size: 0.875rem;
+        }
+        
+        .attachment-preview .size {
+            font-size: 0.75rem;
+            color: #718096;
+        }
+    </style>
+</head>
+<body>
+    <!-- Header -->
+    <header class="app-header">
+        <div class="header-content">
+            <div class="header-brand">
+                <i class="fas fa-brain"></i>
+                <span>Historia Clínica Psicológica</span>
+            </div>
+            
+            <nav class="header-nav">
+                <a href="dashboard.html" class="nav-link">
+                    <i class="fas fa-home"></i> Inicio
+                </a>
+                <a href="patient.html" class="nav-link">
+                    <i class="fas fa-user"></i> Paciente
+                </a>
+                <a href="settings.html" class="nav-link">
+                    <i class="fas fa-cog"></i> Configuración
+                </a>
+            </nav>
+            
+            <div class="header-actions">
+                <div class="user-menu">
+                    <i class="fas fa-user-md"></i>
+                    <span id="userName">Profesional</span>
+                </div>
+                <button class="logout-btn" onclick="Auth.logout()">
+                    <i class="fas fa-sign-out-alt"></i>
+                </button>
+            </div>
+        </div>
+    </header>
+
+    <!-- Main Content -->
+    <main class="main-content">
+        <!-- Page Header -->
+        <div class="page-header">
+            <div>
+                <h1 class="page-title">Evaluaciones e Instrumentos</h1>
+                <p class="page-subtitle" id="patientSubtitle">Gestión de evaluaciones psicológicas</p>
+            </div>
+            <div class="flex gap-2">
+                <button type="button" class="btn btn-outline" onclick="goBack()">
+                    <i class="fas fa-arrow-left"></i> Volver
+                </button>
+                <button type="button" class="btn btn-primary" onclick="showAddModal()">
+                    <i class="fas fa-plus"></i> Agregar Evaluación
+                </button>
+            </div>
+        </div>
+
+        <!-- Filtros -->
+        <div class="card" style="margin-bottom: 1.5rem;">
+            <div class="card-body">
+                <div class="flex gap-4" style="flex-wrap: wrap;">
+                    <select class="form-control" id="filterStatus" style="width: auto; min-width: 150px;" onchange="loadAssessments()">
+                        <option value="">Todos los estados</option>
+                        <option value="pendiente">Pendiente</option>
+                        <option value="aplicado">Aplicado</option>
+                        <option value="en_analisis">En análisis</option>
+                        <option value="completado">Completado</option>
+                    </select>
+                    <select class="form-control" id="filterInstrument" style="width: auto; min-width: 200px;" onchange="loadAssessments()">
+                        <option value="">Todos los instrumentos</option>
+                    </select>
+                </div>
+            </div>
+        </div>
+
+        <!-- Lista de Evaluaciones -->
+        <div id="assessmentsContainer">
+            <div class="loading">
+                <div class="spinner"></div>
+            </div>
+        </div>
+    </main>
+
+    <!-- Modal Agregar/Editar Evaluación -->
+    <div class="modal-overlay" id="assessmentModal">
+        <div class="modal" style="max-width: 700px;">
+            <div class="modal-header">
+                <h3 class="modal-title" id="modalTitle">Agregar Evaluación</h3>
+                <button class="modal-close" onclick="hideModal()">
+                    <i class="fas fa-times"></i>
+                </button>
+            </div>
+            <div class="modal-body">
+                <input type="hidden" id="assessmentId">
+                <input type="hidden" id="patientId">
+                
+                <div class="form-group">
+                    <label>Instrumento <span class="required">*</span></label>
+                    <div class="instrument-select">
+                        <input type="text" class="form-control" id="instrumentName" placeholder="Escriba para buscar o seleccione de la lista" oninput="searchInstruments(this.value)">
+                        <div class="instrument-list" id="instrumentList" style="display: none;"></div>
+                    </div>
+                    <div class="common-instruments">
+                        <span class="instrument-tag" onclick="selectInstrument('MMSE')">MMSE</span>
+                        <span class="instrument-tag" onclick="selectInstrument('Mini-Mental')">Mini-mental</span>
+                        <span class="instrument-tag" onclick="selectInstrument('WAIS-IV')">WAIS-IV</span>
+                        <span class="instrument-tag" onclick="selectInstrument('WISC-V')">WISC-V</span>
+                        <span class="instrument-tag" onclick="selectInstrument('Rorschach')">Rorschach</span>
+                        <span class="instrument-tag" onclick="selectInstrument('MMPI-2')">MMPI-2</span>
+                        <span class="instrument-tag" onclick="selectInstrument('MMPI-A')">MMPI-A</span>
+                        <span class="instrument-tag" onclick="selectInstrument('TAT')">TAT</span>
+                        <span class="instrument-tag" onclick="selectInstrument('BFQ')">BFQ</span>
+                        <span class="instrument-tag" onclick="selectInstrument('16PF')">16PF</span>
+                        <span class="instrument-tag" onclick="selectInstrument('SCL-90-R')">SCL-90-R</span>
+                        <span class="instrument-tag" onclick="selectInstrument('BDI-II')">BDI-II</span>
+                        <span class="instrument-tag" onclick="selectInstrument('BAI')">BAI</span>
+                        <span class="instrument-tag" onclick="selectInstrument('STAI')">STAI</span>
+                        <span class="instrument-tag" onclick="selectInstrument('Distorsiones cognitivas')">Distorsiones</span>
+                        <span class="instrument-tag" onclick="selectInstrument('Habilidades sociales')">H. sociales</span>
+                        <span class="instrument-tag" onclick="selectInstrument('Inteligencia emocional')">I. emocional</span>
+                        <span class="instrument-tag" onclick="selectInstrument('TRAS')">TRAS</span>
+                        <span class="instrument-tag" onclick="selectInstrument('Beck Youth')">Beck Youth</span>
+                    </div>
+                </div>
+                
+                <div class="form-grid">
+                    <div class="form-group">
+                        <label>Profesional que aplicó</label>
+                        <input type="text" class="form-control" id="professionalName" placeholder="Nombre del profesional">
+                    </div>
+                    <div class="form-group">
+                        <label>Fecha</label>
+                        <input type="date" class="form-control" id="assessmentDate">
+                    </div>
+                </div>
+                
+                <div class="form-grid">
+                    <div class="form-group">
+                        <label>Estado</label>
+                        <select class="form-control" id="assessmentStatus">
+                            <option value="pendiente">Pendiente</option>
+                            <option value="aplicado">Aplicado</option>
+                            <option value="en_analisis">En análisis</option>
+                            <option value="completado">Completado</option>
+                        </select>
+                    </div>
+                </div>
+                
+                <div class="form-group">
+                    <label>Puntajes / Resultados</label>
+                    <textarea class="form-control" id="assessmentScores" rows="3" placeholder="Ingrese los puntajes obtenidos, escalas, percentiles, etc."></textarea>
+                </div>
+                
+                <div class="form-group">
+                    <label>Interpretación</label>
+                    <textarea class="form-control" id="assessmentInterpretation" rows="4" placeholder="Interpretación clínica de los resultados"></textarea>
+                </div>
+                
+                <div class="form-group">
+                    <label>Archivo Adjunto</label>
+                    <div class="file-upload" onclick="document.getElementById('attachmentInput').click()">
+                        <i class="fas fa-cloud-upload-alt"></i>
+                        <p>Haga clic para adjuntar archivo</p>
+                        <small>PDF, imágenes (máx. 10MB)</small>
+                    </div>
+                    <input type="file" id="attachmentInput" style="display: none;" accept=".pdf,image/*" onchange="handleAttachment(this)">
+                    <input type="hidden" id="attachmentData">
+                    <div id="attachmentPreview"></div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-outline" onclick="hideModal()">Cancelar</button>
+                <button type="button" class="btn btn-primary" onclick="saveAssessment()">
+                    <i class="fas fa-save"></i> Guardar
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Scripts -->
+    <script src="assets/js/db.js"></script>
+    <script src="assets/js/utils.js"></script>
+    
+    <script>
+        let currentPatient = null;
+        const commonInstruments = [
+            'MMSE - Mini Mental State Examination',
+            'WAIS-IV - Escala de Inteligencia de Wechsler para Adultos',
+            'WISC-V - Escala de Inteligencia de Wechsler para Niños',
+            'WPPSI-IV - Escala de Inteligencia de Wechsler Preescolar',
+            'Rorschach - Test de las Manchas de Tinta',
+            'TAT - Test de Apercepción Temática',
+            'BFQ - Big Five Questionnaire',
+            '16PF - Cattell 16 Personality Factors',
+            'NEO-PI-R - Inventario de Personalidad NEO',
+            'SCL-90-R - Symptom Checklist-90-R',
+            'BDI-II - Inventario de Depresión de Beck',
+            'BAI - Inventario de Ansiedad de Beck',
+            'STAI - Inventario de Ansiedad Estado-Rasgo',
+            'Beck Youth Inventories',
+            'Conners-3',
+            'ASRS - Escala de Síntomas de TDAH para Adultos',
+            'MCMI-IV - Millon Clinical Multiaxial Inventory',
+            'PAI - Personality Assessment Inventory',
+            'MACI - Millon Adolescent Clinical Inventory',
+            'House-Tree-Person (HTP)',
+            'Draw-A-Person (DAP)',
+            'Kinetic Family Drawing (KFD)',
+            'Bender-Gestalt II',
+            'Rey-Osterrieth Complex Figure Test',
+            'Wisconsin Card Sorting Test (WCST)',
+            'Stroop Test',
+            'Trail Making Test (TMT)',
+            'Tower of London',
+            'Iowa Gambling Task',
+            'Go/No-Go Task',
+            'Test de la Figura Humana de Goodenough',
+            'Escala de Desarrollo de Denver II',
+            'Bayley-III',
+            'Vineland-3',
+            'ABAS-3',
+            'Sensory Profile-2',
+            'BOT-2 - Bruininks-Oseretsky Test',
+            'PDMS-2 - Peabody Developmental Motor Scales',
+            'M-FUN - Miller Function & Participation Scales',
+            'Test de Gestalt Visomotor de Bender',
+            'Test de Apercepción Infantil (CAT)',
+            'Roberts Apperception Test for Children',
+            'TEMAS - Tell-Me-A-Story',
+            'SSIS - Social Skills Improvement System',
+            'BASC-3 - Behavior Assessment System for Children',
+            'CBCL - Child Behavior Checklist',
+            'TRF - Teacher Report Form',
+            'YSR - Youth Self-Report',
+            'ASEBA - Achenbach System of Empirically Based Assessment'
+        ];
+
+        // Añadidos solicitados (y alias comunes)
+        commonInstruments.push(
+            'MMPI-2 - Inventario Multifásico de Personalidad de Minnesota',
+            'MMPI-A - Inventario Multifásico de Personalidad de Minnesota (Adolescentes)',
+            'Rorschach - Sistema Comprehensivo / R-PAS',
+            'Distorsiones cognitivas - Registro/Inventario',
+            'TRAS - Tamizaje/Protocolo (según institución)',
+            'Habilidades sociales - Inventario/Checklist',
+            'Inteligencia emocional - TMMS/EQ-i (según versión)',
+            'Mini-Mental - MMSE (alias)'
+        );
+
+        // Instrumentos personalizados por usuario/instalación (offline)
+        const CUSTOM_INSTRUMENTS_KEY = 'hc_custom_instruments_v1';
+        function loadCustomInstruments(){
+            try { return JSON.parse(localStorage.getItem(CUSTOM_INSTRUMENTS_KEY) || '[]'); }
+            catch(e){ return []; }
+        }
+        function saveCustomInstruments(list){
+            const clean = Array.from(new Set((list||[]).map(x=>String(x||'').trim()).filter(Boolean)));
+            localStorage.setItem(CUSTOM_INSTRUMENTS_KEY, JSON.stringify(clean.slice(0, 300)));
+        }
+        function addCustomInstrument(name){
+            const v = String(name||'').trim();
+            if(!v) return;
+            const cur = loadCustomInstruments();
+            if(!cur.some(x=>x.toLowerCase()===v.toLowerCase())){
+                cur.push(v);
+                saveCustomInstruments(cur);
+            }
+        }
+        function escapeHtml(str){
+            return String(str||'')
+                .replaceAll('&','&amp;')
+                .replaceAll('<','&lt;')
+                .replaceAll('>','&gt;')
+                .replaceAll('"','&quot;')
+                .replaceAll("'",'&#39;');
+        }
+        
+        document.addEventListener('DOMContentLoaded', async function() {
+            // Auth + DB
+            const session = Auth.requireAuth();
+            await db.init();
+            if (session) {
+                document.getElementById('userName').textContent = session.fullName || session.username;
+            }
+            
+            // Fecha por defecto
+            document.getElementById('assessmentDate').value = DateUtils.getToday();
+            
+            // Verificar parámetros
+            const urlParams = new URLSearchParams(window.location.search);
+            const patientId = urlParams.get('patient');
+            
+            if (patientId) {
+                document.getElementById('patientId').value = patientId;
+                await loadPatient(patientId);
+                await loadAssessments();
+                populateInstrumentFilter();
+            } else {
+                UI.toast('Debe seleccionar un paciente', 'error');
+                setTimeout(() => window.location.href = 'dashboard.html', 2000);
+            }
+        });
+        
+        async function loadPatient(patientId) {
+            currentPatient = await db.get(STORES.PATIENTS, parseInt(patientId));
+            if (currentPatient) {
+                document.getElementById('patientSubtitle').textContent = 
+                    `Paciente: ${currentPatient.firstName} ${currentPatient.lastName} - ${currentPatient.historyNumber}`;
+            }
+        }
+        
+        async function loadAssessments() {
+            const patientId = document.getElementById('patientId').value;
+            const container = document.getElementById('assessmentsContainer');
+            const statusFilter = document.getElementById('filterStatus').value;
+            const instrumentFilter = document.getElementById('filterInstrument').value;
+            
+            try {
+                let assessments = await db.getPatientAssessments(parseInt(patientId));
+                
+                // Aplicar filtros
+                if (statusFilter) {
+                    assessments = assessments.filter(a => a.status === statusFilter);
+                }
+                if (instrumentFilter) {
+                    assessments = assessments.filter(a => a.instrument === instrumentFilter);
+                }
+                
+                // Ordenar por fecha descendente
+                assessments.sort((a, b) => new Date(b.date || b.createdAt) - new Date(a.date || a.createdAt));
+                
+                if (assessments.length === 0) {
+                    container.innerHTML = `
+                        <div class="empty-state">
+                            <i class="fas fa-clipboard-check"></i>
+                            <h3>No hay evaluaciones registradas</h3>
+                            <p>Agregue evaluaciones usando el botón "Agregar Evaluación"</p>
+                        </div>
+                    `;
+                    return;
+                }
+                
+                container.innerHTML = assessments.map(a => renderAssessmentCard(a)).join('');
+                
+            } catch (error) {
+                console.error('Error cargando evaluaciones:', error);
+                container.innerHTML = `
+                    <div class="alert alert-danger">
+                        <i class="fas fa-exclamation-circle"></i>
+                        Error al cargar las evaluaciones
+                    </div>
+                `;
+            }
+        }
+        
+        function renderAssessmentCard(assessment) {
+            const statusLabels = {
+                pendiente: 'Pendiente',
+                aplicado: 'Aplicado',
+                en_analisis: 'En análisis',
+                completado: 'Completado'
+            };
+            
+            const statusBadges = {
+                pendiente: 'warning',
+                aplicado: 'info',
+                en_analisis: 'primary',
+                completado: 'success'
+            };
+            
+            return `
+                <div class="assessment-card ${assessment.status}">
+                    <div class="assessment-header">
+                        <div class="assessment-title">${assessment.instrument}</div>
+                        <span class="badge badge-${statusBadges[assessment.status]}">${statusLabels[assessment.status]}</span>
+                    </div>
+                    <div class="assessment-meta">
+                        <span><i class="fas fa-user-md"></i> ${assessment.professional || 'No especificado'}</span>
+                        <span><i class="fas fa-calendar"></i> ${DateUtils.formatDate(assessment.date) || 'Sin fecha'}</span>
+                        ${assessment.attachment ? '<span><i class="fas fa-paperclip"></i> Adjunto</span>' : ''}
+                    </div>
+                    ${assessment.scores ? `
+                        <div class="assessment-scores">
+                            <h5><i class="fas fa-chart-bar"></i> Puntajes / Resultados</h5>
+                            <div>${assessment.scores.replace(/\n/g, '<br>')}</div>
+                        </div>
+                    ` : ''}
+                    ${assessment.interpretation ? `
+                        <div class="assessment-interpretation">
+                            <strong>Interpretación:</strong> ${assessment.interpretation.substring(0, 150)}${assessment.interpretation.length > 150 ? '...' : ''}
+                        </div>
+                    ` : ''}
+                    <div class="assessment-actions">
+                        <button class="btn btn-outline btn-sm" onclick="editAssessment(${assessment.id})">
+                            <i class="fas fa-edit"></i> Editar
+                        </button>
+                        <button class="btn btn-danger btn-sm" onclick="deleteAssessment(${assessment.id})">
+                            <i class="fas fa-trash"></i> Eliminar
+                        </button>
+                    </div>
+                </div>
+            `;
+        }
+        
+        function populateInstrumentFilter() {
+            const select = document.getElementById('filterInstrument');
+            const instruments = [...new Set([...commonInstruments, ...loadCustomInstruments()])];
+            
+            select.innerHTML = '<option value="">Todos los instrumentos</option>' +
+                instruments.map(i => {
+                    const label = i;
+                    const value = i.includes(' - ') ? i.split(' - ')[0] : i;
+                    return `<option value="${escapeHtml(value)}">${escapeHtml(label)}</option>`;
+                }).join('');
+        }
+        
+        function searchInstruments(query) {
+            const list = document.getElementById('instrumentList');
+            
+            if (!query || query.length < 2) {
+                list.style.display = 'none';
+                return;
+            }
+            
+            const q = query.toLowerCase();
+            const filteredCommon = commonInstruments.filter(i => i.toLowerCase().includes(q));
+            const filteredCustom = loadCustomInstruments().filter(i => i.toLowerCase().includes(q));
+            const merged = [...filteredCustom, ...filteredCommon].slice(0, 30);
+            
+            if (merged.length === 0) {
+                const safe = escapeHtml(query);
+                const safeJs = query.replace(/'/g, "\\'");
+                list.innerHTML = `
+                    <div class="instrument-item" onclick="selectInstrument('${safeJs}'); addCustomInstrument('${safeJs}'); UI.toast('Instrumento agregado a tu lista', 'success');">➕ Agregar: ${safe}</div>
+                `;
+                list.style.display = 'block';
+                return;
+            }
+            
+            list.innerHTML = merged.map(i => {
+                const value = i.includes(' - ') ? i.split(' - ')[0] : i;
+                const safeValue = String(value).replace(/'/g, "\\'");
+                return `<div class="instrument-item" onclick="selectInstrument('${safeValue}')">${escapeHtml(i)}</div>`;
+            }).join('') + `
+                <div class="instrument-item" style="opacity:.75" onclick="addCustomInstrument(document.getElementById('instrumentName').value); UI.toast('Guardado en tu lista', 'success');">⭐ Guardar este instrumento</div>
+            `;
+            
+            list.style.display = 'block';
+        }
+        
+        function selectInstrument(name) {
+            document.getElementById('instrumentName').value = name;
+            document.getElementById('instrumentList').style.display = 'none';
+        }
+        
+        function handleAttachment(input) {
+            const file = input.files[0];
+            if (!file) return;
+            
+            if (file.size > 10 * 1024 * 1024) {
+                UI.toast('El archivo no debe superar 10MB', 'error');
+                return;
+            }
+            
+            const reader = new FileReader();
+            reader.onload = function(e) {
+                document.getElementById('attachmentData').value = e.target.result;
+                showAttachmentPreview(file.name, file.size, e.target.result);
+            };
+            reader.readAsDataURL(file);
+        }
+        
+        function showAttachmentPreview(name, size, dataUrl) {
+            const isPDF = name.toLowerCase().endsWith('.pdf');
+            const preview = document.getElementById('attachmentPreview');
+            
+            preview.innerHTML = `
+                <div class="attachment-preview">
+                    <i class="fas ${isPDF ? 'fa-file-pdf' : 'fa-file-image'}"></i>
+                    <div class="info">
+                        <div class="name">${name}</div>
+                        <div class="size">${(size / 1024 / 1024).toFixed(2)} MB</div>
+                    </div>
+                    <button type="button" class="btn btn-danger btn-sm" onclick="removeAttachment()">
+                        <i class="fas fa-times"></i>
+                    </button>
+                </div>
+            `;
+        }
+        
+        function removeAttachment() {
+            document.getElementById('attachmentInput').value = '';
+            document.getElementById('attachmentData').value = '';
+            document.getElementById('attachmentPreview').innerHTML = '';
+        }
+        
+        function showAddModal() {
+            editingAssessmentId = null;
+            document.getElementById('modalTitle').textContent = 'Agregar Evaluación';
+            document.getElementById('assessmentId').value = '';
+            document.getElementById('instrumentName').value = '';
+            document.getElementById('professionalName').value = '';
+            document.getElementById('assessmentDate').value = DateUtils.getToday();
+            document.getElementById('assessmentStatus').value = 'pendiente';
+            document.getElementById('assessmentScores').value = '';
+            document.getElementById('assessmentInterpretation').value = '';
+            removeAttachment();
+            UI.showModal('assessmentModal');
+        }
+        
+        async function editAssessment(id) {
+            const assessment = await db.get(STORES.ASSESSMENTS, id);
+            if (!assessment) return;
+            
+            editingAssessmentId = id;
+            document.getElementById('modalTitle').textContent = 'Editar Evaluación';
+            document.getElementById('assessmentId').value = id;
+            document.getElementById('instrumentName').value = assessment.instrument || '';
+            document.getElementById('professionalName').value = assessment.professional || '';
+            document.getElementById('assessmentDate').value = assessment.date?.split('T')[0] || '';
+            document.getElementById('assessmentStatus').value = assessment.status || 'pendiente';
+            document.getElementById('assessmentScores').value = assessment.scores || '';
+            document.getElementById('assessmentInterpretation').value = assessment.interpretation || '';
+            
+            if (assessment.attachment) {
+                document.getElementById('attachmentData').value = assessment.attachment;
+                // No podemos mostrar preview sin el nombre del archivo
+            }
+            
+            UI.showModal('assessmentModal');
+        }
+        
+        async function saveAssessment() {
+            const patientId = document.getElementById('patientId').value;
+            const instrument = document.getElementById('instrumentName').value.trim();
+            
+            if (!instrument) {
+                UI.toast('El nombre del instrumento es obligatorio', 'error');
+                return;
+            }
+            
+            const assessmentData = {
+                patientId: parseInt(patientId),
+                instrument: instrument,
+                professional: document.getElementById('professionalName').value.trim(),
+                date: document.getElementById('assessmentDate').value,
+                status: document.getElementById('assessmentStatus').value,
+                scores: document.getElementById('assessmentScores').value.trim(),
+                interpretation: document.getElementById('assessmentInterpretation').value.trim(),
+                attachment: document.getElementById('attachmentData').value || null,
+                updatedAt: DateUtils.getNow()
+            };
+            
+            try {
+                if (editingAssessmentId) {
+                    assessmentData.id = editingAssessmentId;
+                    const existing = await db.get(STORES.ASSESSMENTS, editingAssessmentId);
+                    assessmentData.createdAt = existing.createdAt;
+                    await db.put(STORES.ASSESSMENTS, assessmentData);
+                    UI.toast('Evaluación actualizada correctamente', 'success');
+                } else {
+                    assessmentData.createdAt = DateUtils.getNow();
+                    await db.add(STORES.ASSESSMENTS, assessmentData);
+                    UI.toast('Evaluación agregada correctamente', 'success');
+                }
+                
+                // Actualizar fecha del paciente
+                if (currentPatient) {
+                    currentPatient.updatedAt = DateUtils.getNow();
+                    await db.put(STORES.PATIENTS, currentPatient);
+                }
+                
+                hideModal();
+                await loadAssessments();
+                
+            } catch (error) {
+                console.error('Error guardando evaluación:', error);
+                UI.toast('Error al guardar la evaluación', 'error');
+            }
+        }
+        
+        async function deleteAssessment(id) {
+            UI.confirm('¿Está seguro de eliminar esta evaluación?', async () => {
+                try {
+                    await db.delete(STORES.ASSESSMENTS, id);
+                    UI.toast('Evaluación eliminada correctamente', 'success');
+                    await loadAssessments();
+                } catch (error) {
+                    console.error('Error eliminando evaluación:', error);
+                    UI.toast('Error al eliminar la evaluación', 'error');
+                }
+            });
+        }
+        
+        function hideModal() {
+            UI.hideModal('assessmentModal');
+        }
+        
+        function goBack() {
+            const patientId = document.getElementById('patientId').value;
+            if (patientId) {
+                window.location.href = `patient.html?id=${patientId}`;
+            } else {
+                window.location.href = 'dashboard.html';
+            }
+        }
+        
+        // Cerrar lista de instrumentos al hacer clic fuera
+        document.addEventListener('click', function(e) {
+            const instrumentSelect = document.querySelector('.instrument-select');
+            if (instrumentSelect && !instrumentSelect.contains(e.target)) {
+                document.getElementById('instrumentList').style.display = 'none';
+            }
+        });
+    </script>
+</body>
+</html>

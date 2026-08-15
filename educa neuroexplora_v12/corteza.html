@@ -1,0 +1,135 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
+  <meta name="description" content="NeuroExplora: La corteza en funcionamiento — activación coordinada, redes cerebrales y rizoma del pensamiento.">
+  <meta name="theme-color" content="#4f8ef7">
+  <title>NeuroExplora — Corteza en Funcionamiento</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800&family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,500;1,9..40,300&display=swap" rel="stylesheet">
+  <link rel="icon" type="image/svg+xml" href="assets/favicon.svg">
+  <link rel="manifest" href="manifest.json">
+  <link rel="stylesheet" href="css/styles.css">
+  <link rel="stylesheet" href="css/cortex.css">
+</head>
+<body>
+
+  <canvas id="stars-canvas"></canvas>
+
+  <!-- ══ HEADER ════════════════════════════════════════════════ -->
+  <header id="main-header">
+    <div class="header-brand">
+      <div class="logo">🧠 Neuro<span class="logo-accent">Explora</span></div>
+      <div class="logo-tagline">EXPLORADOR INTERACTIVO DEL CEREBRO HUMANO</div>
+    </div>
+    <nav class="header-nav">
+      <a class="nav-btn" href="index.html"><span class="btn-icon">🧩</span><span class="btn-text">Cerebro</span></a>
+      <a class="nav-btn" href="evolucion.html"><span class="btn-icon">🦎</span><span class="btn-text">Evolución</span></a>
+      <a class="nav-btn" href="neurona.html"><span class="btn-icon">⚡</span><span class="btn-text">Neurona</span></a>
+      <a class="nav-btn nav-btn-active" href="corteza.html"><span class="btn-icon">🌐</span><span class="btn-text">Corteza</span></a>
+      <a class="nav-btn" href="juego.html"><span class="btn-icon">🎮</span><span class="btn-text">Juego</span></a>
+      <a class="nav-btn" href="referencias.html"><span class="btn-icon">📚</span><span class="btn-text">Referencias</span></a>
+    </nav>
+  </header>
+
+  <!-- ══ HERO ══════════════════════════════════════════════════ -->
+  <section class="cortex-hero">
+    <div class="cortex-hero-badge">🌐 Corteza en Funcionamiento</div>
+    <h1 class="cortex-hero-title">El cerebro no piensa<br>en un solo lugar</h1>
+    <p class="cortex-hero-desc">
+      Observa cómo regiones distantes se coordinan en milisegundos para leer, sentir o crear.
+      Y descubre el rizoma: cómo cada pensamiento se expande de forma única e irrepetible.
+    </p>
+  </section>
+
+  <!-- ══ CONTENIDO PRINCIPAL ════════════════════════════════════ -->
+  <div class="cortex-layout">
+
+    <!-- Intro educativa -->
+    <div class="cortex-intro">
+      <span class="cortex-intro-icon">💡</span>
+      <div>
+        <p class="cortex-intro-title">Selecciona un escenario y observa la activación en tiempo real</p>
+        <p class="cortex-intro-text">
+          Cada escenario muestra la secuencia de activación de redes cerebrales reales durante esa experiencia.
+          Las líneas punteadas son conexiones funcionales activas. El modo <strong>🌿 Rizoma</strong> visualiza
+          cómo el pensamiento se expande de forma no-lineal y distribuida por todo el cerebro.
+        </p>
+      </div>
+    </div>
+
+    <!-- SVG + controles -->
+    <div class="cortex-svg-section">
+
+      <div id="cortex-svg-container" style="position:relative">
+        <div id="cortex-tooltip" class="brain-tooltip"></div>
+        <!-- SVG generado por cortex.js -->
+      </div>
+
+      <div class="cortex-controls">
+        <div id="scenario-buttons" style="display:flex;flex-wrap:wrap;gap:8px;justify-content:center">
+          <!-- Generados por buildScenarioButtons() -->
+        </div>
+        <div class="cx-speed-group">
+          <span class="cx-speed-label">Velocidad</span>
+          <button class="cx-speed-btn" data-speed="0.25">🐢</button>
+          <button class="cx-speed-btn" data-speed="0.5">Lento</button>
+          <button class="cx-speed-btn active" data-speed="1">Normal</button>
+          <button class="cx-speed-btn" data-speed="2">Rápido</button>
+        </div>
+        <button class="cx-pause-btn" id="btn-cortex-pause" disabled>⏸ Pausar</button>
+      </div>
+
+      <div class="step-info-wrap">
+        <div id="step-info-panel">
+          <p class="si-idle">Selecciona un escenario para ver la activación cerebral</p>
+        </div>
+      </div>
+
+    </div>
+
+  </div>
+
+  <!-- ══ GALERÍA CIENTÍFICA ════════════════════════════════════ -->
+  <div style="max-width:1120px;margin:0 auto;padding:0 20px 16px;position:relative;z-index:1">
+    <div class="brain-real-ref" style="max-width:100%">
+      <div class="real-img-wrap">
+        <span class="real-img-badge">🔬 Histología</span>
+        <img src="assets/cortex/cortex-layers.webp"
+             alt="Capas de la corteza cerebral al microscopio" loading="lazy">
+        <p class="real-img-caption">Las 6 capas de la neocorteza humana — tinción de Nissl · Wikimedia Commons</p>
+      </div>
+      <div class="real-img-wrap">
+        <span class="real-img-badge">🧲 Red DMN</span>
+        <img src="assets/cortex/default-mode-network.webp"
+             alt="Red neuronal por defecto fMRI" loading="lazy">
+        <p class="real-img-caption">Red por Defecto (DMN) — activa en reposo y creatividad · Wikimedia Commons</p>
+      </div>
+    </div>
+  </div>
+
+  <!-- ══ FOOTER ════════════════════════════════════════════════ -->
+  <footer class="cortex-footer">
+    <a href="neurona.html" class="footer-link">← Neurona Interactiva</a>
+    <span class="footer-sep">·</span>
+    <a href="index.html" class="footer-link">Cerebro 🧩</a>
+    <span class="footer-sep">·</span>
+    <span class="footer-hint">Próximo: <strong>Gamificación 🎮</strong></span>
+  </footer>
+</div>
+
+  <script src="js/cortex-data.js"></script>
+  <script src="js/cortex.js"></script>
+  <script>
+    // Registrar Service Worker
+    if ('serviceWorker' in navigator) {
+      navigator.serviceWorker.register('/sw.js')
+        .then(() => console.log('[NeuroExplora] SW registrado'))
+        .catch(err => console.warn('[NeuroExplora] SW error:', err));
+    }
+  </script>
+
+</body>
+</html>

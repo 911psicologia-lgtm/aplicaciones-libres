@@ -1,0 +1,1843 @@
+{
+  "note": "Materialización estructurada de la serie 2.1. Conserva núcleos, cautelas, conexiones, fuentes, capas históricas y guiones abreviados.",
+  "cards": [
+    {
+      "id": "card_vedic_oral_transmission_001",
+      "author": "Comunidades de recitación védica",
+      "title": "Los Vedas como memoria sonora",
+      "territory": "Norte del subcontinente indio y escuelas posteriores",
+      "period": "Composición antigua; transmisión continua",
+      "family": "Oralidad y preservación",
+      "statement": "Los Vedas sobrevivieron mediante técnicas de recitación que conservaron palabras, acentos y secuencias antes y después de su fijación escrita.",
+      "tags": [
+        "Vedas",
+        "oralidad",
+        "recitación",
+        "memoria"
+      ],
+      "question": "¿Cómo puede una tradición conservar un texto durante siglos sin depender inicialmente de manuscritos?",
+      "caution": "Los Vedas no forman un libro único ni fueron compuestos por una sola persona o en una sola fecha.",
+      "connections": [
+        "El Avesta",
+        "Ṛta",
+        "Sacrificio, palabra y conocimiento"
+      ],
+      "order": 111,
+      "status": "nucleo_editorial_preservado",
+      "evidence": "A–B",
+      "audio": "Comenzamos con las comunidades que preservaron los Vedas mediante recitación. Maestros y estudiantes aprendieron palabras, acentos y secuencias con técnicas rigurosas, de modo que el texto sobreviviera sin depender primero de manuscritos. Los cuatro Vedas reúnen materiales y épocas diferentes. Su continuidad muestra que la memoria puede ser corporal, sonora y colectiva, no únicamente escrita.",
+      "quiz": {
+        "prompt": "¿Cómo puede una tradición conservar un texto durante siglos sin depender inicialmente de manuscritos?",
+        "options": [
+          "Los Vedas sobrevivieron mediante técnicas de recitación que conservaron palabras, acentos y secuencias antes y después de su fijación escrita.",
+          "La tradición ofrece una respuesta única y sin controversias.",
+          "El concepto puede traducirse sin atender a su contexto histórico.",
+          "La evidencia permite eliminar toda incertidumbre."
+        ],
+        "answer": 0,
+        "feedback": "Los Vedas sobrevivieron mediante técnicas de recitación que conservaron palabras, acentos y secuencias antes y después de su fijación escrita."
+      },
+      "whyItMatters": "Abre la cartografía mostrando que la forma de transmisión también modifica qué cuenta como conocimiento.",
+      "symbol": "◌",
+      "visual": {
+        "palette": [
+          "#302648",
+          "#7a4d2b",
+          "#d6a84b"
+        ],
+        "allegory": "oralidad y preservación"
+      },
+      "seriesVersion": "2.1",
+      "materializationLevel": "dossier_structurado_v2_audio_conciso",
+      "shareFooter": "Pregunta guía: ¿Cómo puede una tradición conservar un texto durante siglos sin depender inicialmente de manuscritos?",
+      "audioVersion": "concise-listening-3.3",
+      "guideTransition": "",
+      "audioLead": "Comenzamos con las comunidades que preservaron los Vedas mediante recitación.",
+      "audioContext": "",
+      "audioBody": "Maestros y estudiantes aprendieron palabras, acentos y secuencias con técnicas rigurosas, de modo que el texto sobreviviera sin depender primero de manuscritos. Los cuatro Vedas reúnen materiales y épocas diferentes. Su continuidad muestra que la memoria puede ser corporal, sonora y colectiva, no únicamente escrita.",
+      "listeningMode": "entity_concept_limit_compact",
+      "collectionId": "south_asia_vedic_upanishadic",
+      "collection": "Sur de Asia: fundamentos védicos y upaniṣádicos",
+      "collectionOrder": 4
+    },
+    {
+      "id": "card_rta_cosmic_order_001",
+      "author": "Tradición védica de ṛta",
+      "title": "Ṛta: orden que debe sostenerse",
+      "territory": "Mundo védico del sur de Asia",
+      "period": "Periodo védico temprano",
+      "family": "Orden cósmico y ritual",
+      "statement": "Ṛta vincula regularidad cósmica, verdad, conducta y eficacia ritual dentro de un orden que humanos y dioses reconocen y sostienen.",
+      "tags": [
+        "ṛta",
+        "orden",
+        "verdad",
+        "ritual"
+      ],
+      "question": "¿Qué significa vivir en un mundo cuyo orden no depende solamente de decisiones humanas?",
+      "caution": "Ṛta no equivale exactamente a dharma, karma, ley natural ni aša, aunque mantiene relaciones históricas y comparativas con estos conceptos.",
+      "connections": [
+        "Aša",
+        "Sacrificio, palabra y conocimiento",
+        "Karma"
+      ],
+      "order": 112,
+      "status": "nucleo_editorial_preservado",
+      "evidence": "B",
+      "audio": "Seguimos con ṛta, noción védica de orden, verdad y ajuste. El amanecer, las estaciones, la palabra veraz y el ritual correcto participan de una regularidad que no crea un gobernante individual. Dioses y seres humanos deben reconocerla y sostenerla. Ṛta anticipa problemas después vinculados con dharma y karma, pero no puede traducirse sin pérdida mediante ninguno de esos términos.",
+      "quiz": {
+        "prompt": "¿Qué significa vivir en un mundo cuyo orden no depende solamente de decisiones humanas?",
+        "options": [
+          "Ṛta vincula regularidad cósmica, verdad, conducta y eficacia ritual dentro de un orden que humanos y dioses reconocen y sostienen.",
+          "La tradición ofrece una respuesta única y sin controversias.",
+          "El concepto puede traducirse sin atender a su contexto histórico.",
+          "La evidencia permite eliminar toda incertidumbre."
+        ],
+        "answer": 0,
+        "feedback": "Ṛta vincula regularidad cósmica, verdad, conducta y eficacia ritual dentro de un orden que humanos y dioses reconocen y sostienen."
+      },
+      "whyItMatters": "Permite comprender que los primeros conceptos éticos y cosmológicos no estaban separados en ámbitos independientes.",
+      "symbol": "◇",
+      "visual": {
+        "palette": [
+          "#213d52",
+          "#52777e",
+          "#d4a94c"
+        ],
+        "allegory": "orden cósmico y ritual"
+      },
+      "seriesVersion": "2.1",
+      "materializationLevel": "dossier_structurado_v2_audio_conciso",
+      "shareFooter": "Pregunta guía: ¿Qué significa vivir en un mundo cuyo orden no depende solamente de decisiones humanas?",
+      "audioVersion": "concise-listening-3.3",
+      "guideTransition": "",
+      "audioLead": "Seguimos con ṛta, noción védica de orden, verdad y ajuste.",
+      "audioContext": "",
+      "audioBody": "El amanecer, las estaciones, la palabra veraz y el ritual correcto participan de una regularidad que no crea un gobernante individual. Dioses y seres humanos deben reconocerla y sostenerla. Ṛta anticipa problemas después vinculados con dharma y karma, pero no puede traducirse sin pérdida mediante ninguno de esos términos.",
+      "listeningMode": "entity_concept_limit_compact",
+      "collectionId": "south_asia_vedic_upanishadic",
+      "collection": "Sur de Asia: fundamentos védicos y upaniṣádicos",
+      "collectionOrder": 4
+    },
+    {
+      "id": "card_nasadiya_creation_uncertainty_001",
+      "author": "Poeta o linaje anónimo del Ṛgveda",
+      "title": "Nāsadīya: preguntar por el origen",
+      "territory": "Mundo védico",
+      "period": "Ṛgveda 10.129, estrato relativamente tardío del corpus",
+      "family": "Cosmogonía e incertidumbre",
+      "statement": "El himno Nāsadīya formula una cosmogonía y termina cuestionando si alguien, incluso la instancia suprema, conoce con certeza el origen.",
+      "tags": [
+        "Nāsadīya",
+        "origen",
+        "incertidumbre",
+        "cosmos"
+      ],
+      "question": "¿Puede una tradición sagrada conservar una pregunta que no clausura mediante una respuesta definitiva?",
+      "caution": "El himno no debe equipararse con teorías científicas modernas ni reducirse a ateísmo, agnosticismo o monoteísmo contemporáneos.",
+      "connections": [
+        "Ṛta",
+        "Enūma eliš",
+        "Brahman"
+      ],
+      "order": 113,
+      "status": "nucleo_editorial_preservado",
+      "evidence": "A–B",
+      "audio": "Entramos en el himno Nāsadīya del Ṛgveda, compuesto por una voz desconocida. El poema imagina un comienzo anterior a distinciones como existencia y no existencia, y pregunta de dónde surgió todo. Su cierre no ofrece seguridad completa: quizá quien contempla desde lo alto lo sabe, o quizá tampoco. La incertidumbre se convierte así en una forma rigurosa de pensamiento.",
+      "quiz": {
+        "prompt": "¿Puede una tradición sagrada conservar una pregunta que no clausura mediante una respuesta definitiva?",
+        "options": [
+          "El himno Nāsadīya formula una cosmogonía y termina cuestionando si alguien, incluso la instancia suprema, conoce con certeza el origen.",
+          "La tradición ofrece una respuesta única y sin controversias.",
+          "El concepto puede traducirse sin atender a su contexto histórico.",
+          "La evidencia permite eliminar toda incertidumbre."
+        ],
+        "answer": 0,
+        "feedback": "El himno Nāsadīya formula una cosmogonía y termina cuestionando si alguien, incluso la instancia suprema, conoce con certeza el origen."
+      },
+      "whyItMatters": "Muestra que la reflexión cosmogónica antigua podía producir perplejidad deliberada en lugar de una explicación cerrada.",
+      "symbol": "?",
+      "visual": {
+        "palette": [
+          "#213d52",
+          "#52777e",
+          "#d4a94c"
+        ],
+        "allegory": "cosmogonía e incertidumbre"
+      },
+      "seriesVersion": "2.1",
+      "materializationLevel": "dossier_structurado_v2_audio_conciso",
+      "shareFooter": "Pregunta guía: ¿Puede una tradición sagrada conservar una pregunta que no clausura mediante una respuesta definitiva?",
+      "audioVersion": "concise-listening-3.3",
+      "guideTransition": "",
+      "audioLead": "Entramos en el himno Nāsadīya del Ṛgveda, compuesto por una voz desconocida.",
+      "audioContext": "",
+      "audioBody": "El poema imagina un comienzo anterior a distinciones como existencia y no existencia, y pregunta de dónde surgió todo. Su cierre no ofrece seguridad completa: quizá quien contempla desde lo alto lo sabe, o quizá tampoco. La incertidumbre se convierte así en una forma rigurosa de pensamiento.",
+      "listeningMode": "entity_concept_limit_compact",
+      "collectionId": "south_asia_vedic_upanishadic",
+      "collection": "Sur de Asia: fundamentos védicos y upaniṣádicos",
+      "collectionOrder": 4
+    },
+    {
+      "id": "card_vedic_sacrifice_speech_knowledge_001",
+      "author": "Tradiciones rituales védicas",
+      "title": "Sacrificio, palabra y conocimiento",
+      "territory": "Mundo védico",
+      "period": "Periodo védico",
+      "family": "Ritual, lenguaje y correspondencia",
+      "statement": "El ritual védico relacionó acción, recitación y conocimiento mediante correspondencias entre cuerpo, cosmos y ceremonia.",
+      "tags": [
+        "sacrificio",
+        "vāc",
+        "mantra",
+        "conocimiento"
+      ],
+      "question": "¿Por qué una acción ritual dependía tanto de comprender y pronunciar correctamente sus palabras?",
+      "caution": "No debe describirse el ritual como una técnica mecánica uniforme ni suponerse que todos los textos védicos compartieron una sola teoría del lenguaje.",
+      "connections": [
+        "Los Vedas como memoria sonora",
+        "Upaniṣads",
+        "Brahman"
+      ],
+      "order": 114,
+      "status": "nucleo_editorial_preservado",
+      "evidence": "B",
+      "audio": "Pasamos a las tradiciones rituales védicas y a la unión entre acción y palabra. Una fórmula no acompañaba simplemente al sacrificio: debía corresponder con el gesto, el momento y la finalidad. Los textos buscaron conexiones entre ceremonia, cuerpo y cosmos. De estas prácticas surgieron preguntas sobre la eficacia del lenguaje, el conocimiento oculto y el poder de una palabra pronunciada correctamente.",
+      "quiz": {
+        "prompt": "¿Por qué una acción ritual dependía tanto de comprender y pronunciar correctamente sus palabras?",
+        "options": [
+          "El ritual védico relacionó acción, recitación y conocimiento mediante correspondencias entre cuerpo, cosmos y ceremonia.",
+          "La tradición ofrece una respuesta única y sin controversias.",
+          "El concepto puede traducirse sin atender a su contexto histórico.",
+          "La evidencia permite eliminar toda incertidumbre."
+        ],
+        "answer": 0,
+        "feedback": "El ritual védico relacionó acción, recitación y conocimiento mediante correspondencias entre cuerpo, cosmos y ceremonia."
+      },
+      "whyItMatters": "Explica por qué varias filosofías posteriores nacieron dentro de debates rituales y lingüísticos, no fuera de ellos.",
+      "symbol": "✧",
+      "visual": {
+        "palette": [
+          "#302648",
+          "#7a4d2b",
+          "#d6a84b"
+        ],
+        "allegory": "ritual, lenguaje y correspondencia"
+      },
+      "seriesVersion": "2.1",
+      "materializationLevel": "dossier_structurado_v2_audio_conciso",
+      "shareFooter": "Pregunta guía: ¿Por qué una acción ritual dependía tanto de comprender y pronunciar correctamente sus palabras?",
+      "audioVersion": "concise-listening-3.3",
+      "guideTransition": "",
+      "audioLead": "Pasamos a las tradiciones rituales védicas y a la unión entre acción y palabra.",
+      "audioContext": "",
+      "audioBody": "Una fórmula no acompañaba simplemente al sacrificio: debía corresponder con el gesto, el momento y la finalidad. Los textos buscaron conexiones entre ceremonia, cuerpo y cosmos. De estas prácticas surgieron preguntas sobre la eficacia del lenguaje, el conocimiento oculto y el poder de una palabra pronunciada correctamente.",
+      "listeningMode": "entity_concept_limit_compact",
+      "collectionId": "south_asia_vedic_upanishadic",
+      "collection": "Sur de Asia: fundamentos védicos y upaniṣádicos",
+      "collectionOrder": 4
+    },
+    {
+      "id": "card_upanishads_inquiry_001",
+      "author": "Comunidades y maestros de las Upaniṣads",
+      "title": "Upaniṣads: del ritual a la indagación",
+      "territory": "Norte del subcontinente indio",
+      "period": "Aproximadamente 700–300 a. C. para las principales capas tempranas",
+      "family": "Indagación filosófica",
+      "statement": "Las Upaniṣads reinterpretaron el ritual y desarrollaron diálogos sobre ser, conocimiento, muerte, identidad y liberación sin formar una doctrina única.",
+      "tags": [
+        "Upaniṣads",
+        "diálogo",
+        "indagación",
+        "realidad"
+      ],
+      "question": "¿Cómo puede una tradición conservar enseñanzas diferentes y aun así abrir un campo común de problemas?",
+      "caution": "Las Upaniṣads son composiciones plurales de épocas y escuelas distintas; no deben presentarse como un sistema uniforme ni como obra de un solo autor.",
+      "connections": [
+        "Sacrificio, palabra y conocimiento",
+        "Ātman",
+        "Brahman"
+      ],
+      "order": 115,
+      "status": "nucleo_editorial_preservado",
+      "evidence": "A–B",
+      "audio": "Continuamos con las Upaniṣads, composiciones orales de múltiples maestros y escuelas. Parten de contextos rituales, pero desplazan la atención hacia preguntas sobre vida, muerte, conciencia y realidad. Utilizan diálogos, comparaciones, debates y relatos. No ofrecen una doctrina única: algunas enseñanzas coinciden y otras compiten. Precisamente esa diversidad abrió el vocabulario de gran parte de la filosofía india posterior.",
+      "quiz": {
+        "prompt": "¿Cómo puede una tradición conservar enseñanzas diferentes y aun así abrir un campo común de problemas?",
+        "options": [
+          "Las Upaniṣads reinterpretaron el ritual y desarrollaron diálogos sobre ser, conocimiento, muerte, identidad y liberación sin formar una doctrina única.",
+          "La tradición ofrece una respuesta única y sin controversias.",
+          "El concepto puede traducirse sin atender a su contexto histórico.",
+          "La evidencia permite eliminar toda incertidumbre."
+        ],
+        "answer": 0,
+        "feedback": "Las Upaniṣads reinterpretaron el ritual y desarrollaron diálogos sobre ser, conocimiento, muerte, identidad y liberación sin formar una doctrina única."
+      },
+      "whyItMatters": "Sitúa el paso desde la explicación ritual hacia formas explícitas de indagación, debate e introspección.",
+      "symbol": "⌁",
+      "visual": {
+        "palette": [
+          "#302a55",
+          "#765683",
+          "#d3a95a"
+        ],
+        "allegory": "indagación filosófica"
+      },
+      "seriesVersion": "2.1",
+      "materializationLevel": "dossier_structurado_v2_audio_conciso",
+      "shareFooter": "Pregunta guía: ¿Cómo puede una tradición conservar enseñanzas diferentes y aun así abrir un campo común de problemas?",
+      "audioVersion": "concise-listening-3.3",
+      "guideTransition": "",
+      "audioLead": "Continuamos con las Upaniṣads, composiciones orales de múltiples maestros y escuelas.",
+      "audioContext": "",
+      "audioBody": "Parten de contextos rituales, pero desplazan la atención hacia preguntas sobre vida, muerte, conciencia y realidad. Utilizan diálogos, comparaciones, debates y relatos. No ofrecen una doctrina única: algunas enseñanzas coinciden y otras compiten. Precisamente esa diversidad abrió el vocabulario de gran parte de la filosofía india posterior.",
+      "listeningMode": "entity_concept_limit_compact",
+      "collectionId": "south_asia_vedic_upanishadic",
+      "collection": "Sur de Asia: fundamentos védicos y upaniṣádicos",
+      "collectionOrder": 4
+    },
+    {
+      "id": "card_atman_self_001",
+      "author": "Maestros upaniṣádicos sobre ātman",
+      "title": "Ātman: buscar aquello que permanece",
+      "territory": "Norte del subcontinente indio",
+      "period": "Upaniṣads tempranas y posteriores",
+      "family": "Yo, conciencia e identidad",
+      "statement": "Ātman nombra distintas dimensiones del sí mismo y se convierte en objeto de indagación sobre conciencia, vida y continuidad más allá del cuerpo.",
+      "tags": [
+        "ātman",
+        "sí mismo",
+        "conciencia",
+        "identidad"
+      ],
+      "question": "¿Puede el sujeto que conoce convertirse completamente en objeto de su propio conocimiento?",
+      "caution": "Ātman no posee una definición idéntica en todas las Upaniṣads y no debe traducirse automáticamente como alma en sentido occidental.",
+      "connections": [
+        "Upaniṣads",
+        "Brahman",
+        "Saṃsāra"
+      ],
+      "order": 116,
+      "status": "nucleo_editorial_preservado",
+      "evidence": "B",
+      "audio": "Llegamos a ātman, término que en las Upaniṣads puede señalar cuerpo, aliento, esencia o conciencia. Maestros como Uddālaka y Yājñavalkya preguntan qué permanece mientras cambian las experiencias y las facultades. El sí mismo no siempre puede observarse como un objeto, porque es también aquello que conoce. Las tradiciones posteriores desarrollaron respuestas distintas y, en ocasiones, incompatibles.",
+      "quiz": {
+        "prompt": "¿Puede el sujeto que conoce convertirse completamente en objeto de su propio conocimiento?",
+        "options": [
+          "Ātman nombra distintas dimensiones del sí mismo y se convierte en objeto de indagación sobre conciencia, vida y continuidad más allá del cuerpo.",
+          "La tradición ofrece una respuesta única y sin controversias.",
+          "El concepto puede traducirse sin atender a su contexto histórico.",
+          "La evidencia permite eliminar toda incertidumbre."
+        ],
+        "answer": 0,
+        "feedback": "Ātman nombra distintas dimensiones del sí mismo y se convierte en objeto de indagación sobre conciencia, vida y continuidad más allá del cuerpo."
+      },
+      "whyItMatters": "Introduce uno de los problemas más influyentes del sur de Asia: qué constituye la identidad y quién conoce.",
+      "symbol": "◎",
+      "visual": {
+        "palette": [
+          "#302a55",
+          "#765683",
+          "#d3a95a"
+        ],
+        "allegory": "yo, conciencia e identidad"
+      },
+      "seriesVersion": "2.1",
+      "materializationLevel": "dossier_structurado_v2_audio_conciso",
+      "shareFooter": "Pregunta guía: ¿Puede el sujeto que conoce convertirse completamente en objeto de su propio conocimiento?",
+      "audioVersion": "concise-listening-3.3",
+      "guideTransition": "",
+      "audioLead": "Llegamos a ātman, término que en las Upaniṣads puede señalar cuerpo, aliento, esencia o conciencia.",
+      "audioContext": "",
+      "audioBody": "Maestros como Uddālaka y Yājñavalkya preguntan qué permanece mientras cambian las experiencias y las facultades. El sí mismo no siempre puede observarse como un objeto, porque es también aquello que conoce. Las tradiciones posteriores desarrollaron respuestas distintas y, en ocasiones, incompatibles.",
+      "listeningMode": "entity_concept_limit_compact",
+      "collectionId": "south_asia_vedic_upanishadic",
+      "collection": "Sur de Asia: fundamentos védicos y upaniṣádicos",
+      "collectionOrder": 4
+    },
+    {
+      "id": "card_brahman_ultimate_reality_001",
+      "author": "Tradiciones upaniṣádicas sobre brahman",
+      "title": "Brahman: fundamento y realidad última",
+      "territory": "Norte del subcontinente indio",
+      "period": "Upaniṣads tempranas y desarrollos posteriores",
+      "family": "Realidad última",
+      "statement": "Brahman pasa de designar una palabra o potencia ritual a nombrar, en varias enseñanzas, el fundamento del mundo y de la existencia.",
+      "tags": [
+        "brahman",
+        "realidad",
+        "fundamento",
+        "palabra"
+      ],
+      "question": "¿Qué significa buscar una realidad que no sea simplemente otro objeto dentro del mundo?",
+      "caution": "Las Upaniṣads ofrecen caracterizaciones diversas de brahman; la identificación plena entre ātman y brahman es importante, pero no unívoca en todos los textos.",
+      "connections": [
+        "Sacrificio, palabra y conocimiento",
+        "Ātman",
+        "Mokṣa"
+      ],
+      "order": 117,
+      "status": "nucleo_editorial_preservado",
+      "evidence": "B",
+      "audio": "Seguimos con brahman. En contextos tempranos, la palabra se relacionó con fórmulas y potencia ritual; en las Upaniṣads también llegó a nombrar el fundamento de la realidad. Algunas enseñanzas vinculan brahman con ātman, mientras otras hablan de espacio, ser, aliento o verdad. Las escuelas vedánticas convertirán estas diferencias en interpretaciones rivales, no en una única respuesta heredada.",
+      "quiz": {
+        "prompt": "¿Qué significa buscar una realidad que no sea simplemente otro objeto dentro del mundo?",
+        "options": [
+          "Brahman pasa de designar una palabra o potencia ritual a nombrar, en varias enseñanzas, el fundamento del mundo y de la existencia.",
+          "La tradición ofrece una respuesta única y sin controversias.",
+          "El concepto puede traducirse sin atender a su contexto histórico.",
+          "La evidencia permite eliminar toda incertidumbre."
+        ],
+        "answer": 0,
+        "feedback": "Brahman pasa de designar una palabra o potencia ritual a nombrar, en varias enseñanzas, el fundamento del mundo y de la existencia."
+      },
+      "whyItMatters": "Muestra cómo una palabra ritual se transformó en un problema metafísico sobre el fundamento de todo lo existente.",
+      "symbol": "∞",
+      "visual": {
+        "palette": [
+          "#302a55",
+          "#765683",
+          "#d3a95a"
+        ],
+        "allegory": "realidad última"
+      },
+      "seriesVersion": "2.1",
+      "materializationLevel": "dossier_structurado_v2_audio_conciso",
+      "shareFooter": "Pregunta guía: ¿Qué significa buscar una realidad que no sea simplemente otro objeto dentro del mundo?",
+      "audioVersion": "concise-listening-3.3",
+      "guideTransition": "",
+      "audioLead": "Seguimos con brahman.",
+      "audioContext": "",
+      "audioBody": "En contextos tempranos, la palabra se relacionó con fórmulas y potencia ritual; en las Upaniṣads también llegó a nombrar el fundamento de la realidad. Algunas enseñanzas vinculan brahman con ātman, mientras otras hablan de espacio, ser, aliento o verdad. Las escuelas vedánticas convertirán estas diferencias en interpretaciones rivales, no en una única respuesta heredada.",
+      "listeningMode": "entity_concept_limit_compact",
+      "collectionId": "south_asia_vedic_upanishadic",
+      "collection": "Sur de Asia: fundamentos védicos y upaniṣádicos",
+      "collectionOrder": 4
+    },
+    {
+      "id": "card_karma_action_consequence_001",
+      "author": "Maestros upaniṣádicos sobre karman",
+      "title": "Karma: la acción deja consecuencias",
+      "territory": "Norte del subcontinente indio",
+      "period": "Desarrollo upaniṣádico y tradiciones posteriores",
+      "family": "Acción y causalidad moral",
+      "statement": "Karma amplía el sentido ritual de acción hacia una causalidad moral mediante la cual las decisiones participan en condiciones futuras.",
+      "tags": [
+        "karma",
+        "acción",
+        "consecuencia",
+        "responsabilidad"
+      ],
+      "question": "¿Cómo cambia la ética cuando una acción continúa produciendo efectos más allá del momento en que termina?",
+      "caution": "Karma no significa destino fijo, castigo automático ni una teoría idéntica en hinduismo, budismo y jainismo.",
+      "connections": [
+        "Ṛta",
+        "Saṃsāra",
+        "Elección moral"
+      ],
+      "order": 118,
+      "status": "nucleo_editorial_preservado",
+      "evidence": "B",
+      "audio": "Pasamos a karma, palabra que significa acción. En el ritual védico, una ejecución correcta producía resultados; varias Upaniṣads ampliaron esa relación hacia consecuencias morales y vidas futuras. La acción configura posibilidades, pero no convierte necesariamente el futuro en un destino inmóvil. Budistas, jainas y escuelas hindúes aceptarán el problema y discutirán de manera distinta qué actúa, qué continúa y cómo madura el efecto.",
+      "quiz": {
+        "prompt": "¿Cómo cambia la ética cuando una acción continúa produciendo efectos más allá del momento en que termina?",
+        "options": [
+          "Karma amplía el sentido ritual de acción hacia una causalidad moral mediante la cual las decisiones participan en condiciones futuras.",
+          "La tradición ofrece una respuesta única y sin controversias.",
+          "El concepto puede traducirse sin atender a su contexto histórico.",
+          "La evidencia permite eliminar toda incertidumbre."
+        ],
+        "answer": 0,
+        "feedback": "Karma amplía el sentido ritual de acción hacia una causalidad moral mediante la cual las decisiones participan en condiciones futuras."
+      },
+      "whyItMatters": "Conecta conducta, temporalidad y responsabilidad sin depender necesariamente de un juez divino externo.",
+      "symbol": "↻",
+      "visual": {
+        "palette": [
+          "#35413a",
+          "#677550",
+          "#c8a85b"
+        ],
+        "allegory": "acción y causalidad moral"
+      },
+      "seriesVersion": "2.1",
+      "materializationLevel": "dossier_structurado_v2_audio_conciso",
+      "shareFooter": "Pregunta guía: ¿Cómo cambia la ética cuando una acción continúa produciendo efectos más allá del momento en que termina?",
+      "audioVersion": "concise-listening-3.3",
+      "guideTransition": "",
+      "audioLead": "Pasamos a karma, palabra que significa acción.",
+      "audioContext": "",
+      "audioBody": "En el ritual védico, una ejecución correcta producía resultados; varias Upaniṣads ampliaron esa relación hacia consecuencias morales y vidas futuras. La acción configura posibilidades, pero no convierte necesariamente el futuro en un destino inmóvil. Budistas, jainas y escuelas hindúes aceptarán el problema y discutirán de manera distinta qué actúa, qué continúa y cómo madura el efecto.",
+      "listeningMode": "entity_concept_limit_compact",
+      "collectionId": "south_asia_vedic_upanishadic",
+      "collection": "Sur de Asia: fundamentos védicos y upaniṣádicos",
+      "collectionOrder": 4
+    },
+    {
+      "id": "card_samsara_cycle_rebirth_001",
+      "author": "Tradiciones del sur de Asia sobre saṃsāra",
+      "title": "Saṃsāra: existir dentro de un ciclo",
+      "territory": "Subcontinente indio",
+      "period": "Upaniṣads posteriores y desarrollos clásicos",
+      "family": "Renacimiento y continuidad",
+      "statement": "Saṃsāra nombra el ciclo de nacimiento, muerte y nueva existencia, aunque las tradiciones discrepan sobre qué continúa y por qué.",
+      "tags": [
+        "saṃsāra",
+        "renacimiento",
+        "ciclo",
+        "continuidad"
+      ],
+      "question": "¿Qué significa hablar de continuidad cuando cada vida cambia y las escuelas no coinciden sobre un yo permanente?",
+      "caution": "Las primeras Upaniṣads no presentan una teoría completa y uniforme de saṃsāra; budismo, jainismo y escuelas hindúes ofrecen modelos diferentes.",
+      "connections": [
+        "Ātman",
+        "Karma",
+        "Mokṣa"
+      ],
+      "order": 119,
+      "status": "nucleo_editorial_preservado",
+      "evidence": "B",
+      "audio": "Continuamos con saṃsāra, el ciclo de nacimiento, muerte y renacimiento. La idea se articula gradualmente y queda vinculada con karma. Sin embargo, las tradiciones no coinciden sobre qué atraviesa las vidas: algunas sostienen un sí mismo duradero; el budismo rechaza una esencia permanente; el jainismo formula otra teoría del alma. El ciclo común no implica una metafísica común.",
+      "quiz": {
+        "prompt": "¿Qué significa hablar de continuidad cuando cada vida cambia y las escuelas no coinciden sobre un yo permanente?",
+        "options": [
+          "Saṃsāra nombra el ciclo de nacimiento, muerte y nueva existencia, aunque las tradiciones discrepan sobre qué continúa y por qué.",
+          "La tradición ofrece una respuesta única y sin controversias.",
+          "El concepto puede traducirse sin atender a su contexto histórico.",
+          "La evidencia permite eliminar toda incertidumbre."
+        ],
+        "answer": 0,
+        "feedback": "Saṃsāra nombra el ciclo de nacimiento, muerte y nueva existencia, aunque las tradiciones discrepan sobre qué continúa y por qué."
+      },
+      "whyItMatters": "Evita tratar el renacimiento como una doctrina única y muestra las diferencias sobre identidad y continuidad.",
+      "symbol": "⟳",
+      "visual": {
+        "palette": [
+          "#1f4050",
+          "#4f7a78",
+          "#d6b05b"
+        ],
+        "allegory": "renacimiento y continuidad"
+      },
+      "seriesVersion": "2.1",
+      "materializationLevel": "dossier_structurado_v2_audio_conciso",
+      "shareFooter": "Pregunta guía: ¿Qué significa hablar de continuidad cuando cada vida cambia y las escuelas no coinciden sobre un yo permanente?",
+      "audioVersion": "concise-listening-3.3",
+      "guideTransition": "",
+      "audioLead": "Continuamos con saṃsāra, el ciclo de nacimiento, muerte y renacimiento.",
+      "audioContext": "",
+      "audioBody": "La idea se articula gradualmente y queda vinculada con karma. Sin embargo, las tradiciones no coinciden sobre qué atraviesa las vidas: algunas sostienen un sí mismo duradero; el budismo rechaza una esencia permanente; el jainismo formula otra teoría del alma. El ciclo común no implica una metafísica común.",
+      "listeningMode": "entity_concept_limit_compact",
+      "collectionId": "south_asia_vedic_upanishadic",
+      "collection": "Sur de Asia: fundamentos védicos y upaniṣádicos",
+      "collectionOrder": 4
+    },
+    {
+      "id": "card_moksha_liberation_plural_001",
+      "author": "Tradiciones del sur de Asia sobre mokṣa",
+      "title": "Mokṣa: liberar no significa lo mismo",
+      "territory": "Subcontinente indio",
+      "period": "Upaniṣads posteriores y escuelas clásicas",
+      "family": "Liberación y fines de la vida",
+      "statement": "Mokṣa expresa liberación del ciclo condicionado, pero sus caminos y su estado final reciben interpretaciones profundamente distintas.",
+      "tags": [
+        "mokṣa",
+        "liberación",
+        "conocimiento",
+        "camino"
+      ],
+      "question": "¿De qué debe liberarse una persona y qué permanece cuando esa liberación se alcanza?",
+      "caution": "No existe una definición única: mokṣa puede vincularse con conocimiento, autonomía, unión, cercanía divina o transformación, según la tradición.",
+      "connections": [
+        "Saṃsāra",
+        "Ātman",
+        "Brahman"
+      ],
+      "order": 120,
+      "status": "nucleo_editorial_preservado",
+      "evidence": "B",
+      "audio": "Cerramos esta primera serie con mokṣa, liberación respecto del ciclo condicionado. Las Upaniṣads relacionan la libertad con conocimiento del sí mismo y superación de la muerte, pero no formulan una teoría única. Más tarde, Advaita hablará de no dualidad; Sāṃkhya y Yoga, de autonomía; tradiciones teístas, de relación con lo divino. Compartir la meta no elimina las diferencias sobre el camino y el resultado.",
+      "quiz": {
+        "prompt": "¿De qué debe liberarse una persona y qué permanece cuando esa liberación se alcanza?",
+        "options": [
+          "Mokṣa expresa liberación del ciclo condicionado, pero sus caminos y su estado final reciben interpretaciones profundamente distintas.",
+          "La tradición ofrece una respuesta única y sin controversias.",
+          "El concepto puede traducirse sin atender a su contexto histórico.",
+          "La evidencia permite eliminar toda incertidumbre."
+        ],
+        "answer": 0,
+        "feedback": "Mokṣa expresa liberación del ciclo condicionado, pero sus caminos y su estado final reciben interpretaciones profundamente distintas."
+      },
+      "whyItMatters": "Impide convertir “liberación” en una palabra transparente y prepara la comparación entre escuelas posteriores.",
+      "symbol": "⇧",
+      "visual": {
+        "palette": [
+          "#1f4050",
+          "#4f7a78",
+          "#d6b05b"
+        ],
+        "allegory": "liberación y fines de la vida"
+      },
+      "seriesVersion": "2.1",
+      "materializationLevel": "dossier_structurado_v2_audio_conciso",
+      "shareFooter": "Pregunta guía: ¿De qué debe liberarse una persona y qué permanece cuando esa liberación se alcanza?",
+      "audioVersion": "concise-listening-3.3",
+      "guideTransition": "",
+      "audioLead": "Cerramos esta primera serie con mokṣa, liberación respecto del ciclo condicionado.",
+      "audioContext": "",
+      "audioBody": "Las Upaniṣads relacionan la libertad con conocimiento del sí mismo y superación de la muerte, pero no formulan una teoría única. Más tarde, Advaita hablará de no dualidad; Sāṃkhya y Yoga, de autonomía; tradiciones teístas, de relación con lo divino. Compartir la meta no elimina las diferencias sobre el camino y el resultado.",
+      "listeningMode": "entity_concept_limit_compact",
+      "collectionId": "south_asia_vedic_upanishadic",
+      "collection": "Sur de Asia: fundamentos védicos y upaniṣádicos",
+      "collectionOrder": 4
+    }
+  ],
+  "dossiers": [
+    {
+      "id": "card_vedic_oral_transmission_001",
+      "seriesVersion": "2.1",
+      "author": "Comunidades de recitación védica",
+      "title": "Los Vedas como memoria sonora",
+      "territory": "Norte del subcontinente indio y escuelas posteriores",
+      "period": "Composición antigua; transmisión continua",
+      "family": "Oralidad y preservación",
+      "symbol": "◌",
+      "guidingQuestion": "¿Cómo puede una tradición conservar un texto durante siglos sin depender inicialmente de manuscritos?",
+      "documentedCore": "Los Vedas sobrevivieron mediante técnicas de recitación que conservaron palabras, acentos y secuencias antes y después de su fijación escrita.",
+      "distinctiveKey": "Los Vedas sobrevivieron mediante técnicas de recitación que conservaron palabras, acentos y secuencias antes y después de su fijación escrita.",
+      "whyItMatters": "Abre la cartografía mostrando que la forma de transmisión también modifica qué cuenta como conocimiento.",
+      "editorialCaution": "Los Vedas no forman un libro único ni fueron compuestos por una sola persona o en una sola fecha.",
+      "tags": [
+        "Vedas",
+        "oralidad",
+        "recitación",
+        "memoria"
+      ],
+      "connections": [
+        "El Avesta",
+        "Ṛta",
+        "Sacrificio, palabra y conocimiento"
+      ],
+      "audioScript": "Comenzamos con las comunidades que preservaron los Vedas mediante recitación. Maestros y estudiantes aprendieron palabras, acentos y secuencias con técnicas rigurosas, de modo que el texto sobreviviera sin depender primero de manuscritos. Los cuatro Vedas reúnen materiales y épocas diferentes. Su continuidad muestra que la memoria puede ser corporal, sonora y colectiva, no únicamente escrita.",
+      "evidence": "A–B",
+      "visual": {
+        "palette": [
+          "#302648",
+          "#7a4d2b",
+          "#d6a84b"
+        ],
+        "allegory": "oralidad y preservación"
+      },
+      "derivedCardSeeds": [
+        "Vedas: desarrollo conceptual",
+        "oralidad: desarrollo conceptual",
+        "recitación: desarrollo conceptual",
+        "Límites y debates de Los Vedas como memoria sonora"
+      ],
+      "materialization": {
+        "level": "dossier_estructurado_mas_capa_historica_v2_audio_conciso",
+        "allCoreFieldsPreserved": true,
+        "extendedProseExactArchive": "síntesis estructurada de la serie 2.1; no es transcripción literal del chat",
+        "source": "serie editorial 2.1"
+      },
+      "audioVersion": "concise-listening-3.3",
+      "audioLead": "Comenzamos con las comunidades que preservaron los Vedas mediante recitación.",
+      "audioContext": "",
+      "audioBody": "Maestros y estudiantes aprendieron palabras, acentos y secuencias con técnicas rigurosas, de modo que el texto sobreviviera sin depender primero de manuscritos. Los cuatro Vedas reúnen materiales y épocas diferentes. Su continuidad muestra que la memoria puede ser corporal, sonora y colectiva, no únicamente escrita.",
+      "collectionId": "south_asia_vedic_upanishadic",
+      "collection": "Sur de Asia: fundamentos védicos y upaniṣádicos",
+      "collectionOrder": 4,
+      "historicalLayer": {
+        "version": "historical-2.2",
+        "status": "materializada",
+        "sha256": "c2f2ff25381f2889a7da27434b997bad218d555d346f4671ea87f37774e672d0"
+      },
+      "sourceAnchors": [
+        "https://ich.unesco.org/es/RL/la-tradicion-del-canto-vedico-00062",
+        "https://iep.utm.edu/upanisad/"
+      ],
+      "sha256": "1cc503e69024d46db6398ae5fb74e6c4dfe7bcb5f70dba8629b077acccb2fd0a"
+    },
+    {
+      "id": "card_rta_cosmic_order_001",
+      "seriesVersion": "2.1",
+      "author": "Tradición védica de ṛta",
+      "title": "Ṛta: orden que debe sostenerse",
+      "territory": "Mundo védico del sur de Asia",
+      "period": "Periodo védico temprano",
+      "family": "Orden cósmico y ritual",
+      "symbol": "◇",
+      "guidingQuestion": "¿Qué significa vivir en un mundo cuyo orden no depende solamente de decisiones humanas?",
+      "documentedCore": "Ṛta vincula regularidad cósmica, verdad, conducta y eficacia ritual dentro de un orden que humanos y dioses reconocen y sostienen.",
+      "distinctiveKey": "Ṛta vincula regularidad cósmica, verdad, conducta y eficacia ritual dentro de un orden que humanos y dioses reconocen y sostienen.",
+      "whyItMatters": "Permite comprender que los primeros conceptos éticos y cosmológicos no estaban separados en ámbitos independientes.",
+      "editorialCaution": "Ṛta no equivale exactamente a dharma, karma, ley natural ni aša, aunque mantiene relaciones históricas y comparativas con estos conceptos.",
+      "tags": [
+        "ṛta",
+        "orden",
+        "verdad",
+        "ritual"
+      ],
+      "connections": [
+        "Aša",
+        "Sacrificio, palabra y conocimiento",
+        "Karma"
+      ],
+      "audioScript": "Seguimos con ṛta, noción védica de orden, verdad y ajuste. El amanecer, las estaciones, la palabra veraz y el ritual correcto participan de una regularidad que no crea un gobernante individual. Dioses y seres humanos deben reconocerla y sostenerla. Ṛta anticipa problemas después vinculados con dharma y karma, pero no puede traducirse sin pérdida mediante ninguno de esos términos.",
+      "evidence": "B",
+      "visual": {
+        "palette": [
+          "#213d52",
+          "#52777e",
+          "#d4a94c"
+        ],
+        "allegory": "orden cósmico y ritual"
+      },
+      "derivedCardSeeds": [
+        "ṛta: desarrollo conceptual",
+        "orden: desarrollo conceptual",
+        "verdad: desarrollo conceptual",
+        "Límites y debates de Ṛta: orden que debe sostenerse"
+      ],
+      "materialization": {
+        "level": "dossier_estructurado_mas_capa_historica_v2_audio_conciso",
+        "allCoreFieldsPreserved": true,
+        "extendedProseExactArchive": "síntesis estructurada de la serie 2.1; no es transcripción literal del chat",
+        "source": "serie editorial 2.1"
+      },
+      "audioVersion": "concise-listening-3.3",
+      "audioLead": "Seguimos con ṛta, noción védica de orden, verdad y ajuste.",
+      "audioContext": "",
+      "audioBody": "El amanecer, las estaciones, la palabra veraz y el ritual correcto participan de una regularidad que no crea un gobernante individual. Dioses y seres humanos deben reconocerla y sostenerla. Ṛta anticipa problemas después vinculados con dharma y karma, pero no puede traducirse sin pérdida mediante ninguno de esos términos.",
+      "collectionId": "south_asia_vedic_upanishadic",
+      "collection": "Sur de Asia: fundamentos védicos y upaniṣádicos",
+      "collectionOrder": 4,
+      "historicalLayer": {
+        "version": "historical-2.2",
+        "status": "materializada",
+        "sha256": "a1a64c5ea0d3d7f658fb15be439228deb2e9c77060a37ebcf778baffab6fcba0"
+      },
+      "sourceAnchors": [
+        "https://www.encyclopedia.com/environment/encyclopedias-almanacs-transcripts-and-maps/rta"
+      ],
+      "sha256": "7fd9ccee8ed54271a343e8b94d7dafc59c4cca3fe2c5b19d9901c9d195866a2a"
+    },
+    {
+      "id": "card_nasadiya_creation_uncertainty_001",
+      "seriesVersion": "2.1",
+      "author": "Poeta o linaje anónimo del Ṛgveda",
+      "title": "Nāsadīya: preguntar por el origen",
+      "territory": "Mundo védico",
+      "period": "Ṛgveda 10.129, estrato relativamente tardío del corpus",
+      "family": "Cosmogonía e incertidumbre",
+      "symbol": "?",
+      "guidingQuestion": "¿Puede una tradición sagrada conservar una pregunta que no clausura mediante una respuesta definitiva?",
+      "documentedCore": "El himno Nāsadīya formula una cosmogonía y termina cuestionando si alguien, incluso la instancia suprema, conoce con certeza el origen.",
+      "distinctiveKey": "El himno Nāsadīya formula una cosmogonía y termina cuestionando si alguien, incluso la instancia suprema, conoce con certeza el origen.",
+      "whyItMatters": "Muestra que la reflexión cosmogónica antigua podía producir perplejidad deliberada en lugar de una explicación cerrada.",
+      "editorialCaution": "El himno no debe equipararse con teorías científicas modernas ni reducirse a ateísmo, agnosticismo o monoteísmo contemporáneos.",
+      "tags": [
+        "Nāsadīya",
+        "origen",
+        "incertidumbre",
+        "cosmos"
+      ],
+      "connections": [
+        "Ṛta",
+        "Enūma eliš",
+        "Brahman"
+      ],
+      "audioScript": "Entramos en el himno Nāsadīya del Ṛgveda, compuesto por una voz desconocida. El poema imagina un comienzo anterior a distinciones como existencia y no existencia, y pregunta de dónde surgió todo. Su cierre no ofrece seguridad completa: quizá quien contempla desde lo alto lo sabe, o quizá tampoco. La incertidumbre se convierte así en una forma rigurosa de pensamiento.",
+      "evidence": "A–B",
+      "visual": {
+        "palette": [
+          "#213d52",
+          "#52777e",
+          "#d4a94c"
+        ],
+        "allegory": "cosmogonía e incertidumbre"
+      },
+      "derivedCardSeeds": [
+        "Nāsadīya: desarrollo conceptual",
+        "origen: desarrollo conceptual",
+        "incertidumbre: desarrollo conceptual",
+        "Límites y debates de Nāsadīya: preguntar por el origen"
+      ],
+      "materialization": {
+        "level": "dossier_estructurado_mas_capa_historica_v2_audio_conciso",
+        "allCoreFieldsPreserved": true,
+        "extendedProseExactArchive": "síntesis estructurada de la serie 2.1; no es transcripción literal del chat",
+        "source": "serie editorial 2.1"
+      },
+      "audioVersion": "concise-listening-3.3",
+      "audioLead": "Entramos en el himno Nāsadīya del Ṛgveda, compuesto por una voz desconocida.",
+      "audioContext": "",
+      "audioBody": "El poema imagina un comienzo anterior a distinciones como existencia y no existencia, y pregunta de dónde surgió todo. Su cierre no ofrece seguridad completa: quizá quien contempla desde lo alto lo sabe, o quizá tampoco. La incertidumbre se convierte así en una forma rigurosa de pensamiento.",
+      "collectionId": "south_asia_vedic_upanishadic",
+      "collection": "Sur de Asia: fundamentos védicos y upaniṣádicos",
+      "collectionOrder": 4,
+      "historicalLayer": {
+        "version": "historical-2.2",
+        "status": "materializada",
+        "sha256": "55c95be41890f12cbd031fe4cf5a1c98fe7ac7fd78ba8795e25b475c7838e60a"
+      },
+      "sourceAnchors": [
+        "https://www.jstor.org/stable/606109",
+        "https://iep.utm.edu/upanisad/"
+      ],
+      "sha256": "ce0ebea3a3b85c833945b42509f1d5e1f1efc2563f787697fdac903f6be53b31"
+    },
+    {
+      "id": "card_vedic_sacrifice_speech_knowledge_001",
+      "seriesVersion": "2.1",
+      "author": "Tradiciones rituales védicas",
+      "title": "Sacrificio, palabra y conocimiento",
+      "territory": "Mundo védico",
+      "period": "Periodo védico",
+      "family": "Ritual, lenguaje y correspondencia",
+      "symbol": "✧",
+      "guidingQuestion": "¿Por qué una acción ritual dependía tanto de comprender y pronunciar correctamente sus palabras?",
+      "documentedCore": "El ritual védico relacionó acción, recitación y conocimiento mediante correspondencias entre cuerpo, cosmos y ceremonia.",
+      "distinctiveKey": "El ritual védico relacionó acción, recitación y conocimiento mediante correspondencias entre cuerpo, cosmos y ceremonia.",
+      "whyItMatters": "Explica por qué varias filosofías posteriores nacieron dentro de debates rituales y lingüísticos, no fuera de ellos.",
+      "editorialCaution": "No debe describirse el ritual como una técnica mecánica uniforme ni suponerse que todos los textos védicos compartieron una sola teoría del lenguaje.",
+      "tags": [
+        "sacrificio",
+        "vāc",
+        "mantra",
+        "conocimiento"
+      ],
+      "connections": [
+        "Los Vedas como memoria sonora",
+        "Upaniṣads",
+        "Brahman"
+      ],
+      "audioScript": "Pasamos a las tradiciones rituales védicas y a la unión entre acción y palabra. Una fórmula no acompañaba simplemente al sacrificio: debía corresponder con el gesto, el momento y la finalidad. Los textos buscaron conexiones entre ceremonia, cuerpo y cosmos. De estas prácticas surgieron preguntas sobre la eficacia del lenguaje, el conocimiento oculto y el poder de una palabra pronunciada correctamente.",
+      "evidence": "B",
+      "visual": {
+        "palette": [
+          "#302648",
+          "#7a4d2b",
+          "#d6a84b"
+        ],
+        "allegory": "ritual, lenguaje y correspondencia"
+      },
+      "derivedCardSeeds": [
+        "sacrificio: desarrollo conceptual",
+        "vāc: desarrollo conceptual",
+        "mantra: desarrollo conceptual",
+        "Límites y debates de Sacrificio, palabra y conocimiento"
+      ],
+      "materialization": {
+        "level": "dossier_estructurado_mas_capa_historica_v2_audio_conciso",
+        "allCoreFieldsPreserved": true,
+        "extendedProseExactArchive": "síntesis estructurada de la serie 2.1; no es transcripción literal del chat",
+        "source": "serie editorial 2.1"
+      },
+      "audioVersion": "concise-listening-3.3",
+      "audioLead": "Pasamos a las tradiciones rituales védicas y a la unión entre acción y palabra.",
+      "audioContext": "",
+      "audioBody": "Una fórmula no acompañaba simplemente al sacrificio: debía corresponder con el gesto, el momento y la finalidad. Los textos buscaron conexiones entre ceremonia, cuerpo y cosmos. De estas prácticas surgieron preguntas sobre la eficacia del lenguaje, el conocimiento oculto y el poder de una palabra pronunciada correctamente.",
+      "collectionId": "south_asia_vedic_upanishadic",
+      "collection": "Sur de Asia: fundamentos védicos y upaniṣádicos",
+      "collectionOrder": 4,
+      "historicalLayer": {
+        "version": "historical-2.2",
+        "status": "materializada",
+        "sha256": "a6a0e6da204c37acd5c43114bd01423684f479eb0fcfe17a6b1c0788b80e6f9d"
+      },
+      "sourceAnchors": [
+        "https://plato.stanford.edu/archives/spr2015/entries/language-india/",
+        "https://iep.utm.edu/upanisad/"
+      ],
+      "sha256": "66ffb2c7021fe4356a074d06c69ab08eafd4f720764cf2ac38c33ff62886e7ed"
+    },
+    {
+      "id": "card_upanishads_inquiry_001",
+      "seriesVersion": "2.1",
+      "author": "Comunidades y maestros de las Upaniṣads",
+      "title": "Upaniṣads: del ritual a la indagación",
+      "territory": "Norte del subcontinente indio",
+      "period": "Aproximadamente 700–300 a. C. para las principales capas tempranas",
+      "family": "Indagación filosófica",
+      "symbol": "⌁",
+      "guidingQuestion": "¿Cómo puede una tradición conservar enseñanzas diferentes y aun así abrir un campo común de problemas?",
+      "documentedCore": "Las Upaniṣads reinterpretaron el ritual y desarrollaron diálogos sobre ser, conocimiento, muerte, identidad y liberación sin formar una doctrina única.",
+      "distinctiveKey": "Las Upaniṣads reinterpretaron el ritual y desarrollaron diálogos sobre ser, conocimiento, muerte, identidad y liberación sin formar una doctrina única.",
+      "whyItMatters": "Sitúa el paso desde la explicación ritual hacia formas explícitas de indagación, debate e introspección.",
+      "editorialCaution": "Las Upaniṣads son composiciones plurales de épocas y escuelas distintas; no deben presentarse como un sistema uniforme ni como obra de un solo autor.",
+      "tags": [
+        "Upaniṣads",
+        "diálogo",
+        "indagación",
+        "realidad"
+      ],
+      "connections": [
+        "Sacrificio, palabra y conocimiento",
+        "Ātman",
+        "Brahman"
+      ],
+      "audioScript": "Continuamos con las Upaniṣads, composiciones orales de múltiples maestros y escuelas. Parten de contextos rituales, pero desplazan la atención hacia preguntas sobre vida, muerte, conciencia y realidad. Utilizan diálogos, comparaciones, debates y relatos. No ofrecen una doctrina única: algunas enseñanzas coinciden y otras compiten. Precisamente esa diversidad abrió el vocabulario de gran parte de la filosofía india posterior.",
+      "evidence": "A–B",
+      "visual": {
+        "palette": [
+          "#302a55",
+          "#765683",
+          "#d3a95a"
+        ],
+        "allegory": "indagación filosófica"
+      },
+      "derivedCardSeeds": [
+        "Upaniṣads: desarrollo conceptual",
+        "diálogo: desarrollo conceptual",
+        "indagación: desarrollo conceptual",
+        "Límites y debates de Upaniṣads: del ritual a la indagación"
+      ],
+      "materialization": {
+        "level": "dossier_estructurado_mas_capa_historica_v2_audio_conciso",
+        "allCoreFieldsPreserved": true,
+        "extendedProseExactArchive": "síntesis estructurada de la serie 2.1; no es transcripción literal del chat",
+        "source": "serie editorial 2.1"
+      },
+      "audioVersion": "concise-listening-3.3",
+      "audioLead": "Continuamos con las Upaniṣads, composiciones orales de múltiples maestros y escuelas.",
+      "audioContext": "",
+      "audioBody": "Parten de contextos rituales, pero desplazan la atención hacia preguntas sobre vida, muerte, conciencia y realidad. Utilizan diálogos, comparaciones, debates y relatos. No ofrecen una doctrina única: algunas enseñanzas coinciden y otras compiten. Precisamente esa diversidad abrió el vocabulario de gran parte de la filosofía india posterior.",
+      "collectionId": "south_asia_vedic_upanishadic",
+      "collection": "Sur de Asia: fundamentos védicos y upaniṣádicos",
+      "collectionOrder": 4,
+      "historicalLayer": {
+        "version": "historical-2.2",
+        "status": "materializada",
+        "sha256": "e503b4eefdb6f0d5ce0ee124b2ab8d97596c393f480ea3cd4dad09c63d142a5b"
+      },
+      "sourceAnchors": [
+        "https://iep.utm.edu/upanisad/"
+      ],
+      "sha256": "42a6ccad6e3889238647ca29e4440ffb19749b6b0e3c1688fb14a380b845de6e"
+    },
+    {
+      "id": "card_atman_self_001",
+      "seriesVersion": "2.1",
+      "author": "Maestros upaniṣádicos sobre ātman",
+      "title": "Ātman: buscar aquello que permanece",
+      "territory": "Norte del subcontinente indio",
+      "period": "Upaniṣads tempranas y posteriores",
+      "family": "Yo, conciencia e identidad",
+      "symbol": "◎",
+      "guidingQuestion": "¿Puede el sujeto que conoce convertirse completamente en objeto de su propio conocimiento?",
+      "documentedCore": "Ātman nombra distintas dimensiones del sí mismo y se convierte en objeto de indagación sobre conciencia, vida y continuidad más allá del cuerpo.",
+      "distinctiveKey": "Ātman nombra distintas dimensiones del sí mismo y se convierte en objeto de indagación sobre conciencia, vida y continuidad más allá del cuerpo.",
+      "whyItMatters": "Introduce uno de los problemas más influyentes del sur de Asia: qué constituye la identidad y quién conoce.",
+      "editorialCaution": "Ātman no posee una definición idéntica en todas las Upaniṣads y no debe traducirse automáticamente como alma en sentido occidental.",
+      "tags": [
+        "ātman",
+        "sí mismo",
+        "conciencia",
+        "identidad"
+      ],
+      "connections": [
+        "Upaniṣads",
+        "Brahman",
+        "Saṃsāra"
+      ],
+      "audioScript": "Llegamos a ātman, término que en las Upaniṣads puede señalar cuerpo, aliento, esencia o conciencia. Maestros como Uddālaka y Yājñavalkya preguntan qué permanece mientras cambian las experiencias y las facultades. El sí mismo no siempre puede observarse como un objeto, porque es también aquello que conoce. Las tradiciones posteriores desarrollaron respuestas distintas y, en ocasiones, incompatibles.",
+      "evidence": "B",
+      "visual": {
+        "palette": [
+          "#302a55",
+          "#765683",
+          "#d3a95a"
+        ],
+        "allegory": "yo, conciencia e identidad"
+      },
+      "derivedCardSeeds": [
+        "ātman: desarrollo conceptual",
+        "sí mismo: desarrollo conceptual",
+        "conciencia: desarrollo conceptual",
+        "Límites y debates de Ātman: buscar aquello que permanece"
+      ],
+      "materialization": {
+        "level": "dossier_estructurado_mas_capa_historica_v2_audio_conciso",
+        "allCoreFieldsPreserved": true,
+        "extendedProseExactArchive": "síntesis estructurada de la serie 2.1; no es transcripción literal del chat",
+        "source": "serie editorial 2.1"
+      },
+      "audioVersion": "concise-listening-3.3",
+      "audioLead": "Llegamos a ātman, término que en las Upaniṣads puede señalar cuerpo, aliento, esencia o conciencia.",
+      "audioContext": "",
+      "audioBody": "Maestros como Uddālaka y Yājñavalkya preguntan qué permanece mientras cambian las experiencias y las facultades. El sí mismo no siempre puede observarse como un objeto, porque es también aquello que conoce. Las tradiciones posteriores desarrollaron respuestas distintas y, en ocasiones, incompatibles.",
+      "collectionId": "south_asia_vedic_upanishadic",
+      "collection": "Sur de Asia: fundamentos védicos y upaniṣádicos",
+      "collectionOrder": 4,
+      "historicalLayer": {
+        "version": "historical-2.2",
+        "status": "materializada",
+        "sha256": "19f584d0a32f7f8f0c878831bb79f325233bb7d7eae70f4154e7890b7f6764d5"
+      },
+      "sourceAnchors": [
+        "https://iep.utm.edu/upanisad/",
+        "https://plato.stanford.edu/archives/sum2022/entries/personhood-india/"
+      ],
+      "sha256": "624525af47e75b4b7cf3e9d7735a7131ec25caa684a05aa2f2a11824c255f2ac"
+    },
+    {
+      "id": "card_brahman_ultimate_reality_001",
+      "seriesVersion": "2.1",
+      "author": "Tradiciones upaniṣádicas sobre brahman",
+      "title": "Brahman: fundamento y realidad última",
+      "territory": "Norte del subcontinente indio",
+      "period": "Upaniṣads tempranas y desarrollos posteriores",
+      "family": "Realidad última",
+      "symbol": "∞",
+      "guidingQuestion": "¿Qué significa buscar una realidad que no sea simplemente otro objeto dentro del mundo?",
+      "documentedCore": "Brahman pasa de designar una palabra o potencia ritual a nombrar, en varias enseñanzas, el fundamento del mundo y de la existencia.",
+      "distinctiveKey": "Brahman pasa de designar una palabra o potencia ritual a nombrar, en varias enseñanzas, el fundamento del mundo y de la existencia.",
+      "whyItMatters": "Muestra cómo una palabra ritual se transformó en un problema metafísico sobre el fundamento de todo lo existente.",
+      "editorialCaution": "Las Upaniṣads ofrecen caracterizaciones diversas de brahman; la identificación plena entre ātman y brahman es importante, pero no unívoca en todos los textos.",
+      "tags": [
+        "brahman",
+        "realidad",
+        "fundamento",
+        "palabra"
+      ],
+      "connections": [
+        "Sacrificio, palabra y conocimiento",
+        "Ātman",
+        "Mokṣa"
+      ],
+      "audioScript": "Seguimos con brahman. En contextos tempranos, la palabra se relacionó con fórmulas y potencia ritual; en las Upaniṣads también llegó a nombrar el fundamento de la realidad. Algunas enseñanzas vinculan brahman con ātman, mientras otras hablan de espacio, ser, aliento o verdad. Las escuelas vedánticas convertirán estas diferencias en interpretaciones rivales, no en una única respuesta heredada.",
+      "evidence": "B",
+      "visual": {
+        "palette": [
+          "#302a55",
+          "#765683",
+          "#d3a95a"
+        ],
+        "allegory": "realidad última"
+      },
+      "derivedCardSeeds": [
+        "brahman: desarrollo conceptual",
+        "realidad: desarrollo conceptual",
+        "fundamento: desarrollo conceptual",
+        "Límites y debates de Brahman: fundamento y realidad última"
+      ],
+      "materialization": {
+        "level": "dossier_estructurado_mas_capa_historica_v2_audio_conciso",
+        "allCoreFieldsPreserved": true,
+        "extendedProseExactArchive": "síntesis estructurada de la serie 2.1; no es transcripción literal del chat",
+        "source": "serie editorial 2.1"
+      },
+      "audioVersion": "concise-listening-3.3",
+      "audioLead": "Seguimos con brahman.",
+      "audioContext": "",
+      "audioBody": "En contextos tempranos, la palabra se relacionó con fórmulas y potencia ritual; en las Upaniṣads también llegó a nombrar el fundamento de la realidad. Algunas enseñanzas vinculan brahman con ātman, mientras otras hablan de espacio, ser, aliento o verdad. Las escuelas vedánticas convertirán estas diferencias en interpretaciones rivales, no en una única respuesta heredada.",
+      "collectionId": "south_asia_vedic_upanishadic",
+      "collection": "Sur de Asia: fundamentos védicos y upaniṣádicos",
+      "collectionOrder": 4,
+      "historicalLayer": {
+        "version": "historical-2.2",
+        "status": "materializada",
+        "sha256": "991beaa728cd2e2c350e10cee8505de5454327096998150b3fd7db8343bc1cd7"
+      },
+      "sourceAnchors": [
+        "https://iep.utm.edu/upanisad/",
+        "https://plato.stanford.edu/archives/spr2025/entries/god-ultimates/"
+      ],
+      "sha256": "788d6f4a8f73ccd960b08e4d85d2ca18fe51172edbb462bd0ff56bc1f9f5f6e1"
+    },
+    {
+      "id": "card_karma_action_consequence_001",
+      "seriesVersion": "2.1",
+      "author": "Maestros upaniṣádicos sobre karman",
+      "title": "Karma: la acción deja consecuencias",
+      "territory": "Norte del subcontinente indio",
+      "period": "Desarrollo upaniṣádico y tradiciones posteriores",
+      "family": "Acción y causalidad moral",
+      "symbol": "↻",
+      "guidingQuestion": "¿Cómo cambia la ética cuando una acción continúa produciendo efectos más allá del momento en que termina?",
+      "documentedCore": "Karma amplía el sentido ritual de acción hacia una causalidad moral mediante la cual las decisiones participan en condiciones futuras.",
+      "distinctiveKey": "Karma amplía el sentido ritual de acción hacia una causalidad moral mediante la cual las decisiones participan en condiciones futuras.",
+      "whyItMatters": "Conecta conducta, temporalidad y responsabilidad sin depender necesariamente de un juez divino externo.",
+      "editorialCaution": "Karma no significa destino fijo, castigo automático ni una teoría idéntica en hinduismo, budismo y jainismo.",
+      "tags": [
+        "karma",
+        "acción",
+        "consecuencia",
+        "responsabilidad"
+      ],
+      "connections": [
+        "Ṛta",
+        "Saṃsāra",
+        "Elección moral"
+      ],
+      "audioScript": "Pasamos a karma, palabra que significa acción. En el ritual védico, una ejecución correcta producía resultados; varias Upaniṣads ampliaron esa relación hacia consecuencias morales y vidas futuras. La acción configura posibilidades, pero no convierte necesariamente el futuro en un destino inmóvil. Budistas, jainas y escuelas hindúes aceptarán el problema y discutirán de manera distinta qué actúa, qué continúa y cómo madura el efecto.",
+      "evidence": "B",
+      "visual": {
+        "palette": [
+          "#35413a",
+          "#677550",
+          "#c8a85b"
+        ],
+        "allegory": "acción y causalidad moral"
+      },
+      "derivedCardSeeds": [
+        "karma: desarrollo conceptual",
+        "acción: desarrollo conceptual",
+        "consecuencia: desarrollo conceptual",
+        "Límites y debates de Karma: la acción deja consecuencias"
+      ],
+      "materialization": {
+        "level": "dossier_estructurado_mas_capa_historica_v2_audio_conciso",
+        "allCoreFieldsPreserved": true,
+        "extendedProseExactArchive": "síntesis estructurada de la serie 2.1; no es transcripción literal del chat",
+        "source": "serie editorial 2.1"
+      },
+      "audioVersion": "concise-listening-3.3",
+      "audioLead": "Pasamos a karma, palabra que significa acción.",
+      "audioContext": "",
+      "audioBody": "En el ritual védico, una ejecución correcta producía resultados; varias Upaniṣads ampliaron esa relación hacia consecuencias morales y vidas futuras. La acción configura posibilidades, pero no convierte necesariamente el futuro en un destino inmóvil. Budistas, jainas y escuelas hindúes aceptarán el problema y discutirán de manera distinta qué actúa, qué continúa y cómo madura el efecto.",
+      "collectionId": "south_asia_vedic_upanishadic",
+      "collection": "Sur de Asia: fundamentos védicos y upaniṣádicos",
+      "collectionOrder": 4,
+      "historicalLayer": {
+        "version": "historical-2.2",
+        "status": "materializada",
+        "sha256": "0122cd196ee02f39cd985552affdead804f8204e70906613ab362394ad81f325"
+      },
+      "sourceAnchors": [
+        "https://iep.utm.edu/upanisad/",
+        "https://iep.utm.edu/hindu-ph/"
+      ],
+      "sha256": "ec3ca6372fdba70b82c1614c8760be82bef7fb2216d3db31bcdf407fb0e540fd"
+    },
+    {
+      "id": "card_samsara_cycle_rebirth_001",
+      "seriesVersion": "2.1",
+      "author": "Tradiciones del sur de Asia sobre saṃsāra",
+      "title": "Saṃsāra: existir dentro de un ciclo",
+      "territory": "Subcontinente indio",
+      "period": "Upaniṣads posteriores y desarrollos clásicos",
+      "family": "Renacimiento y continuidad",
+      "symbol": "⟳",
+      "guidingQuestion": "¿Qué significa hablar de continuidad cuando cada vida cambia y las escuelas no coinciden sobre un yo permanente?",
+      "documentedCore": "Saṃsāra nombra el ciclo de nacimiento, muerte y nueva existencia, aunque las tradiciones discrepan sobre qué continúa y por qué.",
+      "distinctiveKey": "Saṃsāra nombra el ciclo de nacimiento, muerte y nueva existencia, aunque las tradiciones discrepan sobre qué continúa y por qué.",
+      "whyItMatters": "Evita tratar el renacimiento como una doctrina única y muestra las diferencias sobre identidad y continuidad.",
+      "editorialCaution": "Las primeras Upaniṣads no presentan una teoría completa y uniforme de saṃsāra; budismo, jainismo y escuelas hindúes ofrecen modelos diferentes.",
+      "tags": [
+        "saṃsāra",
+        "renacimiento",
+        "ciclo",
+        "continuidad"
+      ],
+      "connections": [
+        "Ātman",
+        "Karma",
+        "Mokṣa"
+      ],
+      "audioScript": "Continuamos con saṃsāra, el ciclo de nacimiento, muerte y renacimiento. La idea se articula gradualmente y queda vinculada con karma. Sin embargo, las tradiciones no coinciden sobre qué atraviesa las vidas: algunas sostienen un sí mismo duradero; el budismo rechaza una esencia permanente; el jainismo formula otra teoría del alma. El ciclo común no implica una metafísica común.",
+      "evidence": "B",
+      "visual": {
+        "palette": [
+          "#1f4050",
+          "#4f7a78",
+          "#d6b05b"
+        ],
+        "allegory": "renacimiento y continuidad"
+      },
+      "derivedCardSeeds": [
+        "saṃsāra: desarrollo conceptual",
+        "renacimiento: desarrollo conceptual",
+        "ciclo: desarrollo conceptual",
+        "Límites y debates de Saṃsāra: existir dentro de un ciclo"
+      ],
+      "materialization": {
+        "level": "dossier_estructurado_mas_capa_historica_v2_audio_conciso",
+        "allCoreFieldsPreserved": true,
+        "extendedProseExactArchive": "síntesis estructurada de la serie 2.1; no es transcripción literal del chat",
+        "source": "serie editorial 2.1"
+      },
+      "audioVersion": "concise-listening-3.3",
+      "audioLead": "Continuamos con saṃsāra, el ciclo de nacimiento, muerte y renacimiento.",
+      "audioContext": "",
+      "audioBody": "La idea se articula gradualmente y queda vinculada con karma. Sin embargo, las tradiciones no coinciden sobre qué atraviesa las vidas: algunas sostienen un sí mismo duradero; el budismo rechaza una esencia permanente; el jainismo formula otra teoría del alma. El ciclo común no implica una metafísica común.",
+      "collectionId": "south_asia_vedic_upanishadic",
+      "collection": "Sur de Asia: fundamentos védicos y upaniṣádicos",
+      "collectionOrder": 4,
+      "historicalLayer": {
+        "version": "historical-2.2",
+        "status": "materializada",
+        "sha256": "206d3e5cfb466bd3caf6e2de617c071d828c4319dfec3dd9898ec9b6fa9e38c9"
+      },
+      "sourceAnchors": [
+        "https://iep.utm.edu/upanisad/",
+        "https://plato.stanford.edu/entries/dualism/"
+      ],
+      "sha256": "4b5dc51ad827caef7a42c49235bc71d419e56ac4e95c39a6edc2df354e2ce597"
+    },
+    {
+      "id": "card_moksha_liberation_plural_001",
+      "seriesVersion": "2.1",
+      "author": "Tradiciones del sur de Asia sobre mokṣa",
+      "title": "Mokṣa: liberar no significa lo mismo",
+      "territory": "Subcontinente indio",
+      "period": "Upaniṣads posteriores y escuelas clásicas",
+      "family": "Liberación y fines de la vida",
+      "symbol": "⇧",
+      "guidingQuestion": "¿De qué debe liberarse una persona y qué permanece cuando esa liberación se alcanza?",
+      "documentedCore": "Mokṣa expresa liberación del ciclo condicionado, pero sus caminos y su estado final reciben interpretaciones profundamente distintas.",
+      "distinctiveKey": "Mokṣa expresa liberación del ciclo condicionado, pero sus caminos y su estado final reciben interpretaciones profundamente distintas.",
+      "whyItMatters": "Impide convertir “liberación” en una palabra transparente y prepara la comparación entre escuelas posteriores.",
+      "editorialCaution": "No existe una definición única: mokṣa puede vincularse con conocimiento, autonomía, unión, cercanía divina o transformación, según la tradición.",
+      "tags": [
+        "mokṣa",
+        "liberación",
+        "conocimiento",
+        "camino"
+      ],
+      "connections": [
+        "Saṃsāra",
+        "Ātman",
+        "Brahman"
+      ],
+      "audioScript": "Cerramos esta primera serie con mokṣa, liberación respecto del ciclo condicionado. Las Upaniṣads relacionan la libertad con conocimiento del sí mismo y superación de la muerte, pero no formulan una teoría única. Más tarde, Advaita hablará de no dualidad; Sāṃkhya y Yoga, de autonomía; tradiciones teístas, de relación con lo divino. Compartir la meta no elimina las diferencias sobre el camino y el resultado.",
+      "evidence": "B",
+      "visual": {
+        "palette": [
+          "#1f4050",
+          "#4f7a78",
+          "#d6b05b"
+        ],
+        "allegory": "liberación y fines de la vida"
+      },
+      "derivedCardSeeds": [
+        "mokṣa: desarrollo conceptual",
+        "liberación: desarrollo conceptual",
+        "conocimiento: desarrollo conceptual",
+        "Límites y debates de Mokṣa: liberar no significa lo mismo"
+      ],
+      "materialization": {
+        "level": "dossier_estructurado_mas_capa_historica_v2_audio_conciso",
+        "allCoreFieldsPreserved": true,
+        "extendedProseExactArchive": "síntesis estructurada de la serie 2.1; no es transcripción literal del chat",
+        "source": "serie editorial 2.1"
+      },
+      "audioVersion": "concise-listening-3.3",
+      "audioLead": "Cerramos esta primera serie con mokṣa, liberación respecto del ciclo condicionado.",
+      "audioContext": "",
+      "audioBody": "Las Upaniṣads relacionan la libertad con conocimiento del sí mismo y superación de la muerte, pero no formulan una teoría única. Más tarde, Advaita hablará de no dualidad; Sāṃkhya y Yoga, de autonomía; tradiciones teístas, de relación con lo divino. Compartir la meta no elimina las diferencias sobre el camino y el resultado.",
+      "collectionId": "south_asia_vedic_upanishadic",
+      "collection": "Sur de Asia: fundamentos védicos y upaniṣádicos",
+      "collectionOrder": 4,
+      "historicalLayer": {
+        "version": "historical-2.2",
+        "status": "materializada",
+        "sha256": "56e5900e12c4f7b995fd2d26767aa1a543476df047f7d237b1e08b1e0a135e9d"
+      },
+      "sourceAnchors": [
+        "https://iep.utm.edu/upanisad/",
+        "https://plato.stanford.edu/archives/sum2022/entries/personhood-india/"
+      ],
+      "sha256": "29b7df03e40704d192f1fd6ebdccdb4c1c26d873d2320beed168decb136b7970"
+    }
+  ],
+  "historicalLayers": [
+    {
+      "id": "card_vedic_oral_transmission_001",
+      "layerVersion": "historical-2.2",
+      "seriesVersion": "2.1",
+      "author": "Comunidades de recitación védica",
+      "title": "Los Vedas como memoria sonora",
+      "historicalContext": "El corpus védico se compuso oralmente en sánscrito védico y se organizó en varias colecciones y escuelas de transmisión.",
+      "historicalDevelopment": "Las técnicas de recitación controlaron el orden de palabras, la pronunciación y los acentos; la escritura llegó después como apoyo, no como origen del corpus.",
+      "milestones": [
+        "Composición de himnos y fórmulas.",
+        "Formación de escuelas de recitación.",
+        "Desarrollo de métodos redundantes de memorización.",
+        "Fijaciones manuscritas posteriores."
+      ],
+      "conceptualSections": [
+        {
+          "title": "Śruti",
+          "text": "Conocimiento escuchado y transmitido como autoridad."
+        },
+        {
+          "title": "Recitación",
+          "text": "Tecnología oral de preservación precisa."
+        }
+      ],
+      "legacy": [
+        "Una de las tradiciones orales continuas más antiguas y una base de múltiples filosofías del sur de Asia."
+      ],
+      "anchorWorks": [
+        "Ṛgveda, Sāmaveda, Yajurveda y Atharvaveda"
+      ],
+      "guidingQuestion": "¿Cómo puede una tradición conservar un texto durante siglos sin depender inicialmente de manuscritos?",
+      "distinctiveKey": "Los Vedas sobrevivieron mediante técnicas de recitación que conservaron palabras, acentos y secuencias antes y después de su fijación escrita.",
+      "editorialCautions": [
+        "Los Vedas no forman un libro único ni fueron compuestos por una sola persona o en una sola fecha."
+      ],
+      "connections": [
+        "El Avesta",
+        "Ṛta",
+        "Sacrificio, palabra y conocimiento"
+      ],
+      "evidence": "A–B",
+      "longAudioScript": "Profundizamos en Comunidades de recitación védica: Los Vedas como memoria sonora. El corpus védico se compuso oralmente en sánscrito védico y se organizó en varias colecciones y escuelas de transmisión. Las técnicas de recitación controlaron el orden de palabras, la pronunciación y los acentos; la escritura llegó después como apoyo, no como origen del corpus. Śruti: Conocimiento escuchado y transmitido como autoridad. Recitación: Tecnología oral de preservación precisa. Precisión editorial: Los Vedas no forman un libro único ni fueron compuestos por una sola persona o en una sola fecha.",
+      "provenance": {
+        "source": "Consolidación editorial de la serie 2.1",
+        "preservationMode": "capa adicional; no sobrescribe tarjeta ni expediente",
+        "coverage": "contexto, desarrollo, hitos, conceptos, legado y cautela",
+        "materializedAt": "2026-07-24"
+      },
+      "audioVersion": "historical-entity-first-2.3",
+      "historicalAudioLead": "Profundizamos en Comunidades de recitación védica: Los Vedas como memoria sonora.",
+      "historicalAudioBody": "El corpus védico se compuso oralmente en sánscrito védico y se organizó en varias colecciones y escuelas de transmisión. Las técnicas de recitación controlaron el orden de palabras, la pronunciación y los acentos; la escritura llegó después como apoyo, no como origen del corpus.",
+      "collectionId": "south_asia_vedic_upanishadic",
+      "collection": "Sur de Asia: fundamentos védicos y upaniṣádicos",
+      "collectionOrder": 4,
+      "sourceAnchors": [
+        "https://ich.unesco.org/es/RL/la-tradicion-del-canto-vedico-00062",
+        "https://iep.utm.edu/upanisad/"
+      ],
+      "sha256": "c2f2ff25381f2889a7da27434b997bad218d555d346f4671ea87f37774e672d0"
+    },
+    {
+      "id": "card_rta_cosmic_order_001",
+      "layerVersion": "historical-2.2",
+      "seriesVersion": "2.1",
+      "author": "Tradición védica de ṛta",
+      "title": "Ṛta: orden que debe sostenerse",
+      "historicalContext": "En los himnos védicos, ṛta describe una estructura confiable del cosmos y una norma de acción asociada con divinidades como Varuṇa y Mitra.",
+      "historicalDevelopment": "La ejecución ritual, la verdad verbal y el orden social fueron vinculados con la estabilidad de un mundo que podía ser protegido o vulnerado.",
+      "milestones": [
+        "Presencia central en el Ṛgveda.",
+        "Asociación con Varuṇa y Mitra.",
+        "Transformaciones posteriores hacia vocabularios de dharma y karma."
+      ],
+      "conceptualSections": [
+        {
+          "title": "Orden",
+          "text": "Regularidad que permite que el mundo mantenga relaciones confiables."
+        },
+        {
+          "title": "Verdad",
+          "text": "Adecuación de palabra y acción a ese orden."
+        }
+      ],
+      "legacy": [
+        "Antecedente decisivo para debates del sur de Asia sobre ley, deber, causalidad y rectitud."
+      ],
+      "anchorWorks": [
+        "Himnos del Ṛgveda sobre ṛta, Varuṇa y Mitra"
+      ],
+      "guidingQuestion": "¿Qué significa vivir en un mundo cuyo orden no depende solamente de decisiones humanas?",
+      "distinctiveKey": "Ṛta vincula regularidad cósmica, verdad, conducta y eficacia ritual dentro de un orden que humanos y dioses reconocen y sostienen.",
+      "editorialCautions": [
+        "Ṛta no equivale exactamente a dharma, karma, ley natural ni aša, aunque mantiene relaciones históricas y comparativas con estos conceptos."
+      ],
+      "connections": [
+        "Aša",
+        "Sacrificio, palabra y conocimiento",
+        "Karma"
+      ],
+      "evidence": "B",
+      "longAudioScript": "Profundizamos en Tradición védica de ṛta: Ṛta: orden que debe sostenerse. En los himnos védicos, ṛta describe una estructura confiable del cosmos y una norma de acción asociada con divinidades como Varuṇa y Mitra. La ejecución ritual, la verdad verbal y el orden social fueron vinculados con la estabilidad de un mundo que podía ser protegido o vulnerado. Orden: Regularidad que permite que el mundo mantenga relaciones confiables. Verdad: Adecuación de palabra y acción a ese orden. Precisión editorial: Ṛta no equivale exactamente a dharma, karma, ley natural ni aša, aunque mantiene relaciones históricas y comparativas con estos conceptos.",
+      "provenance": {
+        "source": "Consolidación editorial de la serie 2.1",
+        "preservationMode": "capa adicional; no sobrescribe tarjeta ni expediente",
+        "coverage": "contexto, desarrollo, hitos, conceptos, legado y cautela",
+        "materializedAt": "2026-07-24"
+      },
+      "audioVersion": "historical-entity-first-2.3",
+      "historicalAudioLead": "Profundizamos en Tradición védica de ṛta: Ṛta: orden que debe sostenerse.",
+      "historicalAudioBody": "En los himnos védicos, ṛta describe una estructura confiable del cosmos y una norma de acción asociada con divinidades como Varuṇa y Mitra. La ejecución ritual, la verdad verbal y el orden social fueron vinculados con la estabilidad de un mundo que podía ser protegido o vulnerado.",
+      "collectionId": "south_asia_vedic_upanishadic",
+      "collection": "Sur de Asia: fundamentos védicos y upaniṣádicos",
+      "collectionOrder": 4,
+      "sourceAnchors": [
+        "https://www.encyclopedia.com/environment/encyclopedias-almanacs-transcripts-and-maps/rta"
+      ],
+      "sha256": "a1a64c5ea0d3d7f658fb15be439228deb2e9c77060a37ebcf778baffab6fcba0"
+    },
+    {
+      "id": "card_nasadiya_creation_uncertainty_001",
+      "layerVersion": "historical-2.2",
+      "seriesVersion": "2.1",
+      "author": "Poeta o linaje anónimo del Ṛgveda",
+      "title": "Nāsadīya: preguntar por el origen",
+      "historicalContext": "El himno 10.129 pertenece al décimo libro del Ṛgveda y utiliza negaciones, preguntas e imágenes enigmáticas para pensar el comienzo.",
+      "historicalDevelopment": "Su última pregunta desestabiliza incluso el relato ofrecido por el propio poema y obliga a la audiencia a reconocer los límites del conocimiento cosmogónico.",
+      "milestones": [
+        "Composición dentro del décimo maṇḍala.",
+        "Transmisión oral védica.",
+        "Relecturas en textos posteriores.",
+        "Debate moderno sobre su enigma final."
+      ],
+      "conceptualSections": [
+        {
+          "title": "Enigma",
+          "text": "Forma poética que provoca reflexión sin resolverla por completo."
+        },
+        {
+          "title": "Límite epistémico",
+          "text": "Reconocimiento de aquello que quizá no puede saberse."
+        }
+      ],
+      "legacy": [
+        "Referencia mundial para estudiar la duda cosmogónica y los usos filosóficos de la poesía."
+      ],
+      "anchorWorks": [
+        "Ṛgveda 10.129, Nāsadīya Sūkta"
+      ],
+      "guidingQuestion": "¿Puede una tradición sagrada conservar una pregunta que no clausura mediante una respuesta definitiva?",
+      "distinctiveKey": "El himno Nāsadīya formula una cosmogonía y termina cuestionando si alguien, incluso la instancia suprema, conoce con certeza el origen.",
+      "editorialCautions": [
+        "El himno no debe equipararse con teorías científicas modernas ni reducirse a ateísmo, agnosticismo o monoteísmo contemporáneos."
+      ],
+      "connections": [
+        "Ṛta",
+        "Enūma eliš",
+        "Brahman"
+      ],
+      "evidence": "A–B",
+      "longAudioScript": "Profundizamos en Poeta o linaje anónimo del Ṛgveda: Nāsadīya: preguntar por el origen. El himno 10.129 pertenece al décimo libro del Ṛgveda y utiliza negaciones, preguntas e imágenes enigmáticas para pensar el comienzo. Su última pregunta desestabiliza incluso el relato ofrecido por el propio poema y obliga a la audiencia a reconocer los límites del conocimiento cosmogónico. Enigma: Forma poética que provoca reflexión sin resolverla por completo. Límite epistémico: Reconocimiento de aquello que quizá no puede saberse. Precisión editorial: El himno no debe equipararse con teorías científicas modernas ni reducirse a ateísmo, agnosticismo o monoteísmo contemporáneos.",
+      "provenance": {
+        "source": "Consolidación editorial de la serie 2.1",
+        "preservationMode": "capa adicional; no sobrescribe tarjeta ni expediente",
+        "coverage": "contexto, desarrollo, hitos, conceptos, legado y cautela",
+        "materializedAt": "2026-07-24"
+      },
+      "audioVersion": "historical-entity-first-2.3",
+      "historicalAudioLead": "Profundizamos en Poeta o linaje anónimo del Ṛgveda: Nāsadīya: preguntar por el origen.",
+      "historicalAudioBody": "El himno 10.129 pertenece al décimo libro del Ṛgveda y utiliza negaciones, preguntas e imágenes enigmáticas para pensar el comienzo. Su última pregunta desestabiliza incluso el relato ofrecido por el propio poema y obliga a la audiencia a reconocer los límites del conocimiento cosmogónico.",
+      "collectionId": "south_asia_vedic_upanishadic",
+      "collection": "Sur de Asia: fundamentos védicos y upaniṣádicos",
+      "collectionOrder": 4,
+      "sourceAnchors": [
+        "https://www.jstor.org/stable/606109",
+        "https://iep.utm.edu/upanisad/"
+      ],
+      "sha256": "55c95be41890f12cbd031fe4cf5a1c98fe7ac7fd78ba8795e25b475c7838e60a"
+    },
+    {
+      "id": "card_vedic_sacrifice_speech_knowledge_001",
+      "layerVersion": "historical-2.2",
+      "seriesVersion": "2.1",
+      "author": "Tradiciones rituales védicas",
+      "title": "Sacrificio, palabra y conocimiento",
+      "historicalContext": "Las Saṃhitās y Brāhmaṇas preservan himnos, fórmulas y explicaciones rituales organizadas por escuelas especializadas.",
+      "historicalDevelopment": "En Āraṇyakas y Upaniṣads, muchas correspondencias rituales fueron reinterpretadas como conocimientos sobre el cuerpo, la vida y la estructura de la realidad.",
+      "milestones": [
+        "Consolidación de rituales védicos.",
+        "Explicaciones en los Brāhmaṇas.",
+        "Interiorización y reinterpretación en Āraṇyakas y Upaniṣads."
+      ],
+      "conceptualSections": [
+        {
+          "title": "Mantra",
+          "text": "Fórmula cuya forma sonora y contexto son significativos."
+        },
+        {
+          "title": "Bandhu",
+          "text": "Conexión entre niveles diferentes de realidad."
+        }
+      ],
+      "legacy": [
+        "Antecedente de Mīmāṃsā, Vedānta y debates indios sobre testimonio y lenguaje."
+      ],
+      "anchorWorks": [
+        "Saṃhitās, Brāhmaṇas, Āraṇyakas y primeras Upaniṣads"
+      ],
+      "guidingQuestion": "¿Por qué una acción ritual dependía tanto de comprender y pronunciar correctamente sus palabras?",
+      "distinctiveKey": "El ritual védico relacionó acción, recitación y conocimiento mediante correspondencias entre cuerpo, cosmos y ceremonia.",
+      "editorialCautions": [
+        "No debe describirse el ritual como una técnica mecánica uniforme ni suponerse que todos los textos védicos compartieron una sola teoría del lenguaje."
+      ],
+      "connections": [
+        "Los Vedas como memoria sonora",
+        "Upaniṣads",
+        "Brahman"
+      ],
+      "evidence": "B",
+      "longAudioScript": "Profundizamos en Tradiciones rituales védicas: Sacrificio, palabra y conocimiento. Las Saṃhitās y Brāhmaṇas preservan himnos, fórmulas y explicaciones rituales organizadas por escuelas especializadas. En Āraṇyakas y Upaniṣads, muchas correspondencias rituales fueron reinterpretadas como conocimientos sobre el cuerpo, la vida y la estructura de la realidad. Mantra: Fórmula cuya forma sonora y contexto son significativos. Bandhu: Conexión entre niveles diferentes de realidad. Precisión editorial: No debe describirse el ritual como una técnica mecánica uniforme ni suponerse que todos los textos védicos compartieron una sola teoría del lenguaje.",
+      "provenance": {
+        "source": "Consolidación editorial de la serie 2.1",
+        "preservationMode": "capa adicional; no sobrescribe tarjeta ni expediente",
+        "coverage": "contexto, desarrollo, hitos, conceptos, legado y cautela",
+        "materializedAt": "2026-07-24"
+      },
+      "audioVersion": "historical-entity-first-2.3",
+      "historicalAudioLead": "Profundizamos en Tradiciones rituales védicas: Sacrificio, palabra y conocimiento.",
+      "historicalAudioBody": "Las Saṃhitās y Brāhmaṇas preservan himnos, fórmulas y explicaciones rituales organizadas por escuelas especializadas. En Āraṇyakas y Upaniṣads, muchas correspondencias rituales fueron reinterpretadas como conocimientos sobre el cuerpo, la vida y la estructura de la realidad.",
+      "collectionId": "south_asia_vedic_upanishadic",
+      "collection": "Sur de Asia: fundamentos védicos y upaniṣádicos",
+      "collectionOrder": 4,
+      "sourceAnchors": [
+        "https://plato.stanford.edu/archives/spr2015/entries/language-india/",
+        "https://iep.utm.edu/upanisad/"
+      ],
+      "sha256": "a6a0e6da204c37acd5c43114bd01423684f479eb0fcfe17a6b1c0788b80e6f9d"
+    },
+    {
+      "id": "card_upanishads_inquiry_001",
+      "layerVersion": "historical-2.2",
+      "seriesVersion": "2.1",
+      "author": "Comunidades y maestros de las Upaniṣads",
+      "title": "Upaniṣads: del ritual a la indagación",
+      "historicalContext": "Las Upaniṣads forman la capa final de diferentes colecciones védicas y fueron compuestas en etapas y estilos diversos.",
+      "historicalDevelopment": "Varias enseñanzas reinterpretaron correspondencias rituales como conexiones ocultas entre cuerpo, cosmos y realidad, mientras otras se alejaron del ritual.",
+      "milestones": [
+        "Primeras Upaniṣads en prosa.",
+        "Desarrollo de textos métricos posteriores.",
+        "Debates entre maestros y escuelas.",
+        "Recepción en los darśanas."
+      ],
+      "conceptualSections": [
+        {
+          "title": "Upaniṣad",
+          "text": "Enseñanza o conexión profunda, a menudo reservada."
+        },
+        {
+          "title": "Indagación",
+          "text": "Búsqueda razonada mediante diálogo, comparación e introspección."
+        }
+      ],
+      "legacy": [
+        "Fuente central de conceptos posteriormente disputados por Vedānta, budismo, jainismo y otras escuelas."
+      ],
+      "anchorWorks": [
+        "Bṛhadāraṇyaka, Chāndogya, Taittirīya, Aitareya y otras Upaniṣads"
+      ],
+      "guidingQuestion": "¿Cómo puede una tradición conservar enseñanzas diferentes y aun así abrir un campo común de problemas?",
+      "distinctiveKey": "Las Upaniṣads reinterpretaron el ritual y desarrollaron diálogos sobre ser, conocimiento, muerte, identidad y liberación sin formar una doctrina única.",
+      "editorialCautions": [
+        "Las Upaniṣads son composiciones plurales de épocas y escuelas distintas; no deben presentarse como un sistema uniforme ni como obra de un solo autor."
+      ],
+      "connections": [
+        "Sacrificio, palabra y conocimiento",
+        "Ātman",
+        "Brahman"
+      ],
+      "evidence": "A–B",
+      "longAudioScript": "Profundizamos en Comunidades y maestros de las Upaniṣads: Upaniṣads: del ritual a la indagación. Las Upaniṣads forman la capa final de diferentes colecciones védicas y fueron compuestas en etapas y estilos diversos. Varias enseñanzas reinterpretaron correspondencias rituales como conexiones ocultas entre cuerpo, cosmos y realidad, mientras otras se alejaron del ritual. Upaniṣad: Enseñanza o conexión profunda, a menudo reservada. Indagación: Búsqueda razonada mediante diálogo, comparación e introspección. Precisión editorial: Las Upaniṣads son composiciones plurales de épocas y escuelas distintas; no deben presentarse como un sistema uniforme ni como obra de un solo autor.",
+      "provenance": {
+        "source": "Consolidación editorial de la serie 2.1",
+        "preservationMode": "capa adicional; no sobrescribe tarjeta ni expediente",
+        "coverage": "contexto, desarrollo, hitos, conceptos, legado y cautela",
+        "materializedAt": "2026-07-24"
+      },
+      "audioVersion": "historical-entity-first-2.3",
+      "historicalAudioLead": "Profundizamos en Comunidades y maestros de las Upaniṣads: Upaniṣads: del ritual a la indagación.",
+      "historicalAudioBody": "Las Upaniṣads forman la capa final de diferentes colecciones védicas y fueron compuestas en etapas y estilos diversos. Varias enseñanzas reinterpretaron correspondencias rituales como conexiones ocultas entre cuerpo, cosmos y realidad, mientras otras se alejaron del ritual.",
+      "collectionId": "south_asia_vedic_upanishadic",
+      "collection": "Sur de Asia: fundamentos védicos y upaniṣádicos",
+      "collectionOrder": 4,
+      "sourceAnchors": [
+        "https://iep.utm.edu/upanisad/"
+      ],
+      "sha256": "e503b4eefdb6f0d5ce0ee124b2ab8d97596c393f480ea3cd4dad09c63d142a5b"
+    },
+    {
+      "id": "card_atman_self_001",
+      "layerVersion": "historical-2.2",
+      "seriesVersion": "2.1",
+      "author": "Maestros upaniṣádicos sobre ātman",
+      "title": "Ātman: buscar aquello que permanece",
+      "historicalContext": "El término tenía varios sentidos desde el Ṛgveda y adquirió funciones filosóficas diversas en las Upaniṣads.",
+      "historicalDevelopment": "Unas enseñanzas describen ātman como esencia vital; otras como conciencia, controlador interno o fundamento que no se reduce a ninguna facultad.",
+      "milestones": [
+        "Usos védicos de aliento y cuerpo.",
+        "Enseñanzas de Uddālaka.",
+        "Debates de Yājñavalkya.",
+        "Reinterpretaciones hindúes y críticas budistas."
+      ],
+      "conceptualSections": [
+        {
+          "title": "Sujeto",
+          "text": "Aquello desde lo cual se experimenta y conoce."
+        },
+        {
+          "title": "Esencia",
+          "text": "Principio que algunas enseñanzas consideran estable bajo el cambio."
+        }
+      ],
+      "legacy": [
+        "Punto de partida de teorías hindúes del sí mismo y de la crítica budista de anātman."
+      ],
+      "anchorWorks": [
+        "Chāndogya Upaniṣad y Bṛhadāraṇyaka Upaniṣad"
+      ],
+      "guidingQuestion": "¿Puede el sujeto que conoce convertirse completamente en objeto de su propio conocimiento?",
+      "distinctiveKey": "Ātman nombra distintas dimensiones del sí mismo y se convierte en objeto de indagación sobre conciencia, vida y continuidad más allá del cuerpo.",
+      "editorialCautions": [
+        "Ātman no posee una definición idéntica en todas las Upaniṣads y no debe traducirse automáticamente como alma en sentido occidental."
+      ],
+      "connections": [
+        "Upaniṣads",
+        "Brahman",
+        "Saṃsāra"
+      ],
+      "evidence": "B",
+      "longAudioScript": "Profundizamos en Maestros upaniṣádicos sobre ātman: Ātman: buscar aquello que permanece. El término tenía varios sentidos desde el Ṛgveda y adquirió funciones filosóficas diversas en las Upaniṣads. Unas enseñanzas describen ātman como esencia vital; otras como conciencia, controlador interno o fundamento que no se reduce a ninguna facultad. Sujeto: Aquello desde lo cual se experimenta y conoce. Esencia: Principio que algunas enseñanzas consideran estable bajo el cambio. Precisión editorial: Ātman no posee una definición idéntica en todas las Upaniṣads y no debe traducirse automáticamente como alma en sentido occidental.",
+      "provenance": {
+        "source": "Consolidación editorial de la serie 2.1",
+        "preservationMode": "capa adicional; no sobrescribe tarjeta ni expediente",
+        "coverage": "contexto, desarrollo, hitos, conceptos, legado y cautela",
+        "materializedAt": "2026-07-24"
+      },
+      "audioVersion": "historical-entity-first-2.3",
+      "historicalAudioLead": "Profundizamos en Maestros upaniṣádicos sobre ātman: Ātman: buscar aquello que permanece.",
+      "historicalAudioBody": "El término tenía varios sentidos desde el Ṛgveda y adquirió funciones filosóficas diversas en las Upaniṣads. Unas enseñanzas describen ātman como esencia vital; otras como conciencia, controlador interno o fundamento que no se reduce a ninguna facultad.",
+      "collectionId": "south_asia_vedic_upanishadic",
+      "collection": "Sur de Asia: fundamentos védicos y upaniṣádicos",
+      "collectionOrder": 4,
+      "sourceAnchors": [
+        "https://iep.utm.edu/upanisad/",
+        "https://plato.stanford.edu/archives/sum2022/entries/personhood-india/"
+      ],
+      "sha256": "19f584d0a32f7f8f0c878831bb79f325233bb7d7eae70f4154e7890b7f6764d5"
+    },
+    {
+      "id": "card_brahman_ultimate_reality_001",
+      "layerVersion": "historical-2.2",
+      "seriesVersion": "2.1",
+      "author": "Tradiciones upaniṣádicas sobre brahman",
+      "title": "Brahman: fundamento y realidad última",
+      "historicalContext": "Brahman conserva vínculos con palabra y ritual, pero adquiere usos ontológicos en diferentes Upaniṣads.",
+      "historicalDevelopment": "Las interpretaciones posteriores de Advaita, Viśiṣṭādvaita y Dvaita organizaron de maneras distintas la relación entre brahman, mundo y seres individuales.",
+      "milestones": [
+        "Potencia verbal y ritual.",
+        "Uso como fundamento ontológico.",
+        "Relaciones diversas con ātman.",
+        "Sistemas vedánticos posteriores."
+      ],
+      "conceptualSections": [
+        {
+          "title": "Fundamento",
+          "text": "Aquello de lo que dependen otras realidades."
+        },
+        {
+          "title": "Ultimidad",
+          "text": "Condición que no se explica como un objeto ordinario más."
+        }
+      ],
+      "legacy": [
+        "Núcleo de múltiples escuelas de Vedānta y de comparaciones contemporáneas sobre lo último."
+      ],
+      "anchorWorks": [
+        "Chāndogya, Bṛhadāraṇyaka y Taittirīya Upaniṣads"
+      ],
+      "guidingQuestion": "¿Qué significa buscar una realidad que no sea simplemente otro objeto dentro del mundo?",
+      "distinctiveKey": "Brahman pasa de designar una palabra o potencia ritual a nombrar, en varias enseñanzas, el fundamento del mundo y de la existencia.",
+      "editorialCautions": [
+        "Las Upaniṣads ofrecen caracterizaciones diversas de brahman; la identificación plena entre ātman y brahman es importante, pero no unívoca en todos los textos."
+      ],
+      "connections": [
+        "Sacrificio, palabra y conocimiento",
+        "Ātman",
+        "Mokṣa"
+      ],
+      "evidence": "B",
+      "longAudioScript": "Profundizamos en Tradiciones upaniṣádicas sobre brahman: Brahman: fundamento y realidad última. Brahman conserva vínculos con palabra y ritual, pero adquiere usos ontológicos en diferentes Upaniṣads. Las interpretaciones posteriores de Advaita, Viśiṣṭādvaita y Dvaita organizaron de maneras distintas la relación entre brahman, mundo y seres individuales. Fundamento: Aquello de lo que dependen otras realidades. Ultimidad: Condición que no se explica como un objeto ordinario más. Precisión editorial: Las Upaniṣads ofrecen caracterizaciones diversas de brahman; la identificación plena entre ātman y brahman es importante, pero no unívoca en todos los textos.",
+      "provenance": {
+        "source": "Consolidación editorial de la serie 2.1",
+        "preservationMode": "capa adicional; no sobrescribe tarjeta ni expediente",
+        "coverage": "contexto, desarrollo, hitos, conceptos, legado y cautela",
+        "materializedAt": "2026-07-24"
+      },
+      "audioVersion": "historical-entity-first-2.3",
+      "historicalAudioLead": "Profundizamos en Tradiciones upaniṣádicas sobre brahman: Brahman: fundamento y realidad última.",
+      "historicalAudioBody": "Brahman conserva vínculos con palabra y ritual, pero adquiere usos ontológicos en diferentes Upaniṣads. Las interpretaciones posteriores de Advaita, Viśiṣṭādvaita y Dvaita organizaron de maneras distintas la relación entre brahman, mundo y seres individuales.",
+      "collectionId": "south_asia_vedic_upanishadic",
+      "collection": "Sur de Asia: fundamentos védicos y upaniṣádicos",
+      "collectionOrder": 4,
+      "sourceAnchors": [
+        "https://iep.utm.edu/upanisad/",
+        "https://plato.stanford.edu/archives/spr2025/entries/god-ultimates/"
+      ],
+      "sha256": "991beaa728cd2e2c350e10cee8505de5454327096998150b3fd7db8343bc1cd7"
+    },
+    {
+      "id": "card_karma_action_consequence_001",
+      "layerVersion": "historical-2.2",
+      "seriesVersion": "2.1",
+      "author": "Maestros upaniṣádicos sobre karman",
+      "title": "Karma: la acción deja consecuencias",
+      "historicalContext": "Las primeras formulaciones filosóficas aparecen en diálogos upaniṣádicos donde el carácter y las acciones afectan condiciones posteriores.",
+      "historicalDevelopment": "En tradiciones posteriores, la intención, el deseo, el ritual y la conducta recibieron pesos diferentes en la explicación de los frutos kármicos.",
+      "milestones": [
+        "Sentido ritual de karman.",
+        "Extensión moral en las Upaniṣads.",
+        "Vínculo con renacimiento.",
+        "Reformulaciones hindúes, budistas y jainas."
+      ],
+      "conceptualSections": [
+        {
+          "title": "Acción",
+          "text": "Intervención que produce una consecuencia."
+        },
+        {
+          "title": "Fruto",
+          "text": "Resultado que puede madurar más tarde y bajo otras condiciones."
+        }
+      ],
+      "legacy": [
+        "Categoría compartida y disputada por numerosas filosofías del sur de Asia."
+      ],
+      "anchorWorks": [
+        "Bṛhadāraṇyaka y Chāndogya Upaniṣads"
+      ],
+      "guidingQuestion": "¿Cómo cambia la ética cuando una acción continúa produciendo efectos más allá del momento en que termina?",
+      "distinctiveKey": "Karma amplía el sentido ritual de acción hacia una causalidad moral mediante la cual las decisiones participan en condiciones futuras.",
+      "editorialCautions": [
+        "Karma no significa destino fijo, castigo automático ni una teoría idéntica en hinduismo, budismo y jainismo."
+      ],
+      "connections": [
+        "Ṛta",
+        "Saṃsāra",
+        "Elección moral"
+      ],
+      "evidence": "B",
+      "longAudioScript": "Profundizamos en Maestros upaniṣádicos sobre karman: Karma: la acción deja consecuencias. Las primeras formulaciones filosóficas aparecen en diálogos upaniṣádicos donde el carácter y las acciones afectan condiciones posteriores. En tradiciones posteriores, la intención, el deseo, el ritual y la conducta recibieron pesos diferentes en la explicación de los frutos kármicos. Acción: Intervención que produce una consecuencia. Fruto: Resultado que puede madurar más tarde y bajo otras condiciones. Precisión editorial: Karma no significa destino fijo, castigo automático ni una teoría idéntica en hinduismo, budismo y jainismo.",
+      "provenance": {
+        "source": "Consolidación editorial de la serie 2.1",
+        "preservationMode": "capa adicional; no sobrescribe tarjeta ni expediente",
+        "coverage": "contexto, desarrollo, hitos, conceptos, legado y cautela",
+        "materializedAt": "2026-07-24"
+      },
+      "audioVersion": "historical-entity-first-2.3",
+      "historicalAudioLead": "Profundizamos en Maestros upaniṣádicos sobre karman: Karma: la acción deja consecuencias.",
+      "historicalAudioBody": "Las primeras formulaciones filosóficas aparecen en diálogos upaniṣádicos donde el carácter y las acciones afectan condiciones posteriores. En tradiciones posteriores, la intención, el deseo, el ritual y la conducta recibieron pesos diferentes en la explicación de los frutos kármicos.",
+      "collectionId": "south_asia_vedic_upanishadic",
+      "collection": "Sur de Asia: fundamentos védicos y upaniṣádicos",
+      "collectionOrder": 4,
+      "sourceAnchors": [
+        "https://iep.utm.edu/upanisad/",
+        "https://iep.utm.edu/hindu-ph/"
+      ],
+      "sha256": "0122cd196ee02f39cd985552affdead804f8204e70906613ab362394ad81f325"
+    },
+    {
+      "id": "card_samsara_cycle_rebirth_001",
+      "layerVersion": "historical-2.2",
+      "seriesVersion": "2.1",
+      "author": "Tradiciones del sur de Asia sobre saṃsāra",
+      "title": "Saṃsāra: existir dentro de un ciclo",
+      "historicalContext": "Las Upaniṣads relacionan acciones presentes con nacimientos futuros y desarrollan imágenes de recorridos después de la muerte.",
+      "historicalDevelopment": "El término y sus teorías se vuelven centrales en filosofías hindúes, budistas y jainas, cada una con mecanismos y metas diferentes.",
+      "milestones": [
+        "Primeras enseñanzas sobre renacimiento.",
+        "Vinculación con karma.",
+        "Conceptualización explícita de saṃsāra.",
+        "Debates entre escuelas."
+      ],
+      "conceptualSections": [
+        {
+          "title": "Ciclo",
+          "text": "Repetición condicionada de existencia y muerte."
+        },
+        {
+          "title": "Continuidad",
+          "text": "Problema de qué relación une vidas distintas."
+        }
+      ],
+      "legacy": [
+        "Marco compartido que permite comparar filosofías sin confundir sus teorías de la persona."
+      ],
+      "anchorWorks": [
+        "Kaṭha, Śvetāśvatara, Chāndogya y Bṛhadāraṇyaka Upaniṣads"
+      ],
+      "guidingQuestion": "¿Qué significa hablar de continuidad cuando cada vida cambia y las escuelas no coinciden sobre un yo permanente?",
+      "distinctiveKey": "Saṃsāra nombra el ciclo de nacimiento, muerte y nueva existencia, aunque las tradiciones discrepan sobre qué continúa y por qué.",
+      "editorialCautions": [
+        "Las primeras Upaniṣads no presentan una teoría completa y uniforme de saṃsāra; budismo, jainismo y escuelas hindúes ofrecen modelos diferentes."
+      ],
+      "connections": [
+        "Ātman",
+        "Karma",
+        "Mokṣa"
+      ],
+      "evidence": "B",
+      "longAudioScript": "Profundizamos en Tradiciones del sur de Asia sobre saṃsāra: Saṃsāra: existir dentro de un ciclo. Las Upaniṣads relacionan acciones presentes con nacimientos futuros y desarrollan imágenes de recorridos después de la muerte. El término y sus teorías se vuelven centrales en filosofías hindúes, budistas y jainas, cada una con mecanismos y metas diferentes. Ciclo: Repetición condicionada de existencia y muerte. Continuidad: Problema de qué relación une vidas distintas. Precisión editorial: Las primeras Upaniṣads no presentan una teoría completa y uniforme de saṃsāra; budismo, jainismo y escuelas hindúes ofrecen modelos diferentes.",
+      "provenance": {
+        "source": "Consolidación editorial de la serie 2.1",
+        "preservationMode": "capa adicional; no sobrescribe tarjeta ni expediente",
+        "coverage": "contexto, desarrollo, hitos, conceptos, legado y cautela",
+        "materializedAt": "2026-07-24"
+      },
+      "audioVersion": "historical-entity-first-2.3",
+      "historicalAudioLead": "Profundizamos en Tradiciones del sur de Asia sobre saṃsāra: Saṃsāra: existir dentro de un ciclo.",
+      "historicalAudioBody": "Las Upaniṣads relacionan acciones presentes con nacimientos futuros y desarrollan imágenes de recorridos después de la muerte. El término y sus teorías se vuelven centrales en filosofías hindúes, budistas y jainas, cada una con mecanismos y metas diferentes.",
+      "collectionId": "south_asia_vedic_upanishadic",
+      "collection": "Sur de Asia: fundamentos védicos y upaniṣádicos",
+      "collectionOrder": 4,
+      "sourceAnchors": [
+        "https://iep.utm.edu/upanisad/",
+        "https://plato.stanford.edu/entries/dualism/"
+      ],
+      "sha256": "206d3e5cfb466bd3caf6e2de617c071d828c4319dfec3dd9898ec9b6fa9e38c9"
+    },
+    {
+      "id": "card_moksha_liberation_plural_001",
+      "layerVersion": "historical-2.2",
+      "seriesVersion": "2.1",
+      "author": "Tradiciones del sur de Asia sobre mokṣa",
+      "title": "Mokṣa: liberar no significa lo mismo",
+      "historicalContext": "Las Upaniṣads introducen metas de inmortalidad, conocimiento y salida del renacimiento, desarrolladas después por los darśanas.",
+      "historicalDevelopment": "Cada escuela redefinió la causa del vínculo, la práctica adecuada y la condición alcanzada al cesar la dependencia del ciclo.",
+      "milestones": [
+        "Búsquedas de inmortalidad.",
+        "Relación con conocimiento de ātman.",
+        "Formulación de mokṣa.",
+        "Diversificación en escuelas clásicas y devocionales."
+      ],
+      "conceptualSections": [
+        {
+          "title": "Liberación",
+          "text": "Cese de una forma de dependencia o condicionamiento."
+        },
+        {
+          "title": "Camino",
+          "text": "Práctica y conocimiento requeridos según cada sistema."
+        }
+      ],
+      "legacy": [
+        "Problema central de las filosofías hindúes y término de comparación con nirvāṇa y kevala."
+      ],
+      "anchorWorks": [
+        "Upaniṣads y desarrollos posteriores de Vedānta, Sāṃkhya y Yoga"
+      ],
+      "guidingQuestion": "¿De qué debe liberarse una persona y qué permanece cuando esa liberación se alcanza?",
+      "distinctiveKey": "Mokṣa expresa liberación del ciclo condicionado, pero sus caminos y su estado final reciben interpretaciones profundamente distintas.",
+      "editorialCautions": [
+        "No existe una definición única: mokṣa puede vincularse con conocimiento, autonomía, unión, cercanía divina o transformación, según la tradición."
+      ],
+      "connections": [
+        "Saṃsāra",
+        "Ātman",
+        "Brahman"
+      ],
+      "evidence": "B",
+      "longAudioScript": "Profundizamos en Tradiciones del sur de Asia sobre mokṣa: Mokṣa: liberar no significa lo mismo. Las Upaniṣads introducen metas de inmortalidad, conocimiento y salida del renacimiento, desarrolladas después por los darśanas. Cada escuela redefinió la causa del vínculo, la práctica adecuada y la condición alcanzada al cesar la dependencia del ciclo. Liberación: Cese de una forma de dependencia o condicionamiento. Camino: Práctica y conocimiento requeridos según cada sistema. Precisión editorial: No existe una definición única: mokṣa puede vincularse con conocimiento, autonomía, unión, cercanía divina o transformación, según la tradición.",
+      "provenance": {
+        "source": "Consolidación editorial de la serie 2.1",
+        "preservationMode": "capa adicional; no sobrescribe tarjeta ni expediente",
+        "coverage": "contexto, desarrollo, hitos, conceptos, legado y cautela",
+        "materializedAt": "2026-07-24"
+      },
+      "audioVersion": "historical-entity-first-2.3",
+      "historicalAudioLead": "Profundizamos en Tradiciones del sur de Asia sobre mokṣa: Mokṣa: liberar no significa lo mismo.",
+      "historicalAudioBody": "Las Upaniṣads introducen metas de inmortalidad, conocimiento y salida del renacimiento, desarrolladas después por los darśanas. Cada escuela redefinió la causa del vínculo, la práctica adecuada y la condición alcanzada al cesar la dependencia del ciclo.",
+      "collectionId": "south_asia_vedic_upanishadic",
+      "collection": "Sur de Asia: fundamentos védicos y upaniṣádicos",
+      "collectionOrder": 4,
+      "sourceAnchors": [
+        "https://iep.utm.edu/upanisad/",
+        "https://plato.stanford.edu/archives/sum2022/entries/personhood-india/"
+      ],
+      "sha256": "56e5900e12c4f7b995fd2d26767aa1a543476df047f7d237b1e08b1e0a135e9d"
+    }
+  ]
+}

@@ -1,0 +1,22 @@
+/* tokens.css — sistema de diseño "tinta y bronce" */
+:root{
+  --serif:"Iowan Old Style","Palatino Linotype",Palatino,Georgia,"Times New Roman",serif;
+  --sans:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Helvetica,Arial,sans-serif;
+  --bronze:#c39a68; --bronze-d:#9c7a4e; --cinnabar:#c45a48; --jade:#7ba890;
+  --r:14px; --r-sm:10px; --maxw:600px;
+  --ease:cubic-bezier(.22,.61,.36,1);
+}
+[data-theme="dark"]{
+  --bg:#15171c; --bg-grad:radial-gradient(120% 80% at 50% -10%, #1c1f27 0%, #15171c 60%);
+  --surf:#1d2027; --surf-2:#232730; --line:#2c313c; --line-2:#3a4150;
+  --tx:#e9e3d4; --tx-2:#9aa0ac; --tx-3:#6f7682;
+  --accent:#c8a273; --on-accent:#15171c; --field:#1a1d24;
+  --shadow:0 10px 30px rgba(0,0,0,.35);
+}
+[data-theme="light"]{
+  --bg:#efe9dc; --bg-grad:radial-gradient(120% 80% at 50% -10%, #f6f1e6 0%, #e8e1d0 70%);
+  --surf:#fbf8f0; --surf-2:#f4eede; --line:#e0d7c2; --line-2:#d2c6a9;
+  --tx:#23201a; --tx-2:#6f685a; --tx-3:#938b79;
+  --accent:#9c7a4e; --on-accent:#fff; --field:#fffdf7;
+  --shadow:0 8px 26px rgba(60,48,24,.12);
+}

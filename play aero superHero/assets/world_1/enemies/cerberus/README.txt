@@ -1,0 +1,11 @@
+Nombre: Cerberus
+ID: cerberus
+Tipo: enemy
+Mundo: world_1
+Archivo principal: enemy.png
+Archivo preview: enemy_preview.png
+Tamano del lienzo: 512 x 512 px
+Tamano recomendado en Canvas: 96 x 84
+Rol visual: large_ground_enemy
+Notas visuales: Can de tres cabezas; conservar las tres cabezas y las cuatro patas.
+Fondo: PNG transparente, sin rotulos/cuadricula/fondo; personaje centrado y completo.

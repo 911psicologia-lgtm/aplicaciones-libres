@@ -1,0 +1,381 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover"/>
+<title>Martín y Emilia 🌼 contra los Zombies de Sausalito 🧟</title>
+<link rel="stylesheet" href="css/main.css"/>
+</head>
+<body>
+
+<!-- ══ OVERLAY ORIENTACIÓN ═══════════════════ -->
+<div id="orientation-overlay">
+  <div class="orient-inner">
+    <div class="orient-anim">📱 ↻</div>
+    <p class="orient-title">¡Gira tu dispositivo!</p>
+    <p class="orient-sub">La experiencia es mejor en 🌐 horizontal</p>
+    <button class="btn btn-ghost" id="btn-orient-ignore">Continuar de todos modos</button>
+  </div>
+</div>
+
+
+<!-- ══ TOUR INTERACTIVO ═══════════════════════════════ -->
+<div id="tour-overlay" class="overlay-screen">
+  <div class="tour-card">
+    <div class="tour-progress" id="tour-progress"></div>
+    <div class="tour-step-icon" id="tour-icon">🌱</div>
+    <h3 class="tour-step-title" id="tour-title">Bienvenido</h3>
+    <p class="tour-step-body" id="tour-body"></p>
+    <div class="tour-combo-box" id="tour-combo"></div>
+    <div class="tour-btns">
+      <button class="btn btn-ghost" id="btn-tour-skip">Saltar tour</button>
+      <button class="btn btn-danger btn-big" id="btn-tour-next">Siguiente →</button>
+    </div>
+  </div>
+</div>
+
+<!-- ══ CONFETTI ═══════════════════════════════ -->
+<div id="confetti-container" aria-hidden="true"></div>
+
+<!-- ══ COMBO POP ══════════════════════════════ -->
+<div id="combo-pop" class="combo-pop hidden"></div>
+
+<!-- ══════════════════════════════════════════════
+     PANTALLA INTRO
+══════════════════════════════════════════════ -->
+<div id="screen-intro" class="screen active">
+  <div id="intro-zombies" class="intro-bg-zombies"></div>
+  <div id="intro-plants" class="intro-plants-bg"></div>
+  <div class="intro-content">
+
+    <div class="birthday-banner">
+      <div class="bday-stars">⭐ ⭐ ⭐ ⭐ ⭐</div>
+      <div class="bday-title-row">
+        <div class="bday-title">¡Feliz cumpleaños de José (Papá) para Martín José en tus 9 años!</div>
+        <button class="bday-cake-btn" id="btn-bday-cake" type="button" title="Escuchar cumpleaños">🎂</button>
+      </div>
+      <div class="bday-from">Toca el pastel para escuchar el cumpleaños creado por algoritmo 🧡</div>
+    </div>
+
+    <div class="game-logo">
+      <div class="logo-top">🌼 Martín &amp; Emilia 🌼</div>
+      <div class="logo-main">contra los Zombies de Sausalito</div>
+      <div class="logo-sub">Estrategia · Acción · 30 niveles · Guardado real · ¡Defiende Sausalito!</div>
+    </div>
+
+    <div class="menu-btns">
+      <button class="btn btn-danger btn-big btn-pulse" id="btn-nueva-partida">🎮 Nueva Partida</button>
+      <button class="btn btn-warn btn-big" id="btn-cargar-partida">💾 Cargar Partida</button>
+      <button class="btn btn-ghost btn-big" id="btn-ranking">🏆 Ranking</button>
+      <button class="btn btn-ghost btn-big" id="btn-logros">🏅 Logros</button>
+    </div>
+
+    <div class="intro-footer">
+      <button class="btn btn-icon" id="btn-toggle-sound">🔊</button>
+      <button class="btn btn-icon" id="btn-toggle-music">🎵</button>
+      <span class="intro-version">v2.7.0 · jefes zombie mejorados · gasolina · balanceado para Martín 🎮</span>
+    </div>
+  </div>
+</div>
+
+<!-- ══════════════════════════════════════════════
+     PANTALLA NOMBRE
+══════════════════════════════════════════════ -->
+<div id="screen-username" class="screen">
+  <div class="modal-card">
+    <div class="modal-icon">👾</div>
+    <h2>¿Quién defiende Sausalito?</h2>
+    <p class="modal-desc">Escribe tu nombre para el ranking</p>
+    <input type="text" id="input-name" placeholder="Ej: Martín" maxlength="16" autocomplete="off"/>
+    <button class="btn btn-success btn-big" id="btn-empezar">✔ ¡A Defender!</button>
+    <button class="btn btn-ghost" id="btn-back-user" style="margin-top:8px;width:100%">← Volver</button>
+  </div>
+</div>
+
+<!-- ══════════════════════════════════════════════
+     PANTALLA CÓMO JUGAR
+══════════════════════════════════════════════ -->
+<div id="screen-howto" class="screen">
+  <div class="modal-card modal-wide">
+    <h2>📖 Guía de Batalla</h2>
+
+    <!-- Tabs de navegación -->
+    <div class="tour-tabs">
+      <button class="tour-tab active" data-tab="basico">🎮 Básico</button>
+      <button class="tour-tab" data-tab="plantas">🌱 Plantas</button>
+      <button class="tour-tab" data-tab="combos">⚗️ Combos</button>
+      <button class="tour-tab" data-tab="ayudantes">👧 Ayudantes</button>
+    </div>
+
+    <!-- Tab 1: Básico -->
+    <div class="tour-panel active" id="tour-basico">
+      <div class="howto-grid">
+        <div class="howto-sec"><h3>☀️ Soles</h3><p>Caen del cielo y los produce 🌼 la Margarita. ¡Tócalos rápido antes de que desaparezcan!</p></div>
+        <div class="howto-sec"><h3>🌱 Plantar</h3><p>Toca una carta de la bandeja → luego toca una casilla del tablero. Mantén pulsado para quitar una planta.</p></div>
+        <div class="howto-sec"><h3>🧟 Zombies</h3><p>Vienen de la derecha fila por fila. Si llegan al final comen la 🍞 Tostadora y luego... ¡pierdes esa fila!</p></div>
+        <div class="howto-sec"><h3>⭐ Estrellas</h3><p>Caen al matar zombies. Úsalas para invocar ayudantes. Al pasar de nivel conservas la mitad para el siguiente.</p></div>
+        <div class="howto-sec"><h3>🧲 Imán</h3><p>Cuesta 20☀️ y recoge al instante TODOS los soles y estrellas del tablero. ¡Úsalo antes de que desaparezcan!</p></div>
+        <div class="howto-sec"><h3>🍞 Tostadora</h3><p>Es tu última defensa en cada fila. Explota automáticamente al primer zombie que llegue. Hay 4, una por fila.</p></div>
+      </div>
+    </div>
+
+    <!-- Tab 2: Plantas -->
+    <div class="tour-panel" id="tour-plantas">
+      <div class="plantas-guide">
+        <div class="planta-row"><span class="p-emoji">🌼</span><div><strong>Margarita</strong> — produce ☀️ soles automáticamente. <em>Pon 2 o 3 al inicio.</em></div></div>
+        <div class="planta-row"><span class="p-emoji">🫛</span><div><strong>Alberja</strong> — dispara guisantes 🎯. Tu atacante principal barato.</div></div>
+        <div class="planta-row"><span class="p-emoji">🍆</span><div><strong>Berenjena</strong> — dispara en área, daño alto. Ideal para filas apretadas.</div></div>
+        <div class="planta-row"><span class="p-emoji">🥦</span><div><strong>Brócoli</strong> — ralentiza zombies 🐢. Combinado con atacantes es letal.</div></div>
+        <div class="planta-row"><span class="p-emoji">🌵</span><div><strong>Muro Espina</strong> — absorbe golpes 🛡️. Ponlo delante de tus atacantes.</div></div>
+        <div class="planta-row"><span class="p-emoji">🪨</span><div><strong>Gran Muro</strong> — doble resistencia 🧱. Para oleadas grandes.</div></div>
+        <div class="planta-row"><span class="p-emoji">🌶️</span><div><strong>Ají Explosivo</strong> — explota 💥 eliminando fila completa.</div></div>
+        <div class="planta-row"><span class="p-emoji">⛽</span><div><strong>Gasolina</strong> — deja rastro de fuego 🔥. Combínala con el Ají.</div></div>
+        <div class="planta-row"><span class="p-emoji">❄️</span><div><strong>Flor Escarcha</strong> — congela zombies ❄️. Les da tiempo a tus atacantes.</div></div>
+        <div class="planta-row"><span class="p-emoji">🍄</span><div><strong>Hongito</strong> — ¡GRATIS! No cuesta soles. Colócalo para combinar.</div></div>
+        <div class="planta-row"><span class="p-emoji">🌀</span><div><strong>Onda Sísmica</strong> — empuja a TODOS los zombies de vuelta 🌊.</div></div>
+        <div class="planta-row"><span class="p-emoji">🌸</span><div><strong>Narcótica</strong> — confunde zombies 🔄, se atacan entre ellos.</div></div>
+      </div>
+    </div>
+
+    <!-- Tab 3: Combos y Fusiones -->
+    <div class="tour-panel" id="tour-combos">
+      <p class="combo-intro">Pon dos plantas <strong>adyacentes</strong> del mismo tipo o compatibles y se <strong>fusionan</strong> automáticamente en una planta más poderosa:</p>
+      <div class="combos-grid">
+        <div class="combo-card">
+          <div class="combo-from">🌼 + 🌼</div>
+          <div class="combo-arrow">→</div>
+          <div class="combo-result">✨ Supermargarita</div>
+          <div class="combo-desc">Produce el doble de soles</div>
+        </div>
+        <div class="combo-card">
+          <div class="combo-from">🍄 + 🫛</div>
+          <div class="combo-arrow">→</div>
+          <div class="combo-result">🌀 Alberhongo</div>
+          <div class="combo-desc">Hongito gratis + poder de alberja</div>
+        </div>
+        <div class="combo-card">
+          <div class="combo-from">🍄 + 🍄</div>
+          <div class="combo-arrow">→</div>
+          <div class="combo-result">💀 Superhongo</div>
+          <div class="combo-desc">Dos hongitos gratis = defensor gratuito</div>
+        </div>
+        <div class="combo-card">
+          <div class="combo-from">🍆 + 🥦</div>
+          <div class="combo-arrow">→</div>
+          <div class="combo-result">🍆🥦 Berencoli</div>
+          <div class="combo-desc">Dispara lento Y ralentiza zombies</div>
+        </div>
+      </div>
+      <p class="combo-intro" style="margin-top:10px">🔥 <strong>Sinergia extra:</strong> pon 🌼 Margarita <em>junto</em> a 🍄 Hongito y la Margarita producirá soles el <strong>doble de rápido</strong> sin fusionarse.</p>
+    </div>
+
+    <!-- Tab 4: Ayudantes -->
+    <div class="tour-panel" id="tour-ayudantes">
+      <p class="combo-intro">Gana ⭐ estrellas matando zombies. Úsalas para invocar a tus ayudantes en el tablero:</p>
+      <div class="ayudantes-guide">
+        <div class="ayudante-row">
+          <span class="ay-emoji">👧</span>
+          <div><strong>Emilia</strong> — 30⭐ · Congela y daña zombies cercanos. <em>Ideal cuando hay muchos apilados.</em></div>
+        </div>
+        <div class="ayudante-row">
+          <span class="ay-emoji">🧒</span>
+          <div><strong>Martín</strong> — 50⭐ · Dispara en todas direcciones. <em>El mejor para defender varias filas a la vez.</em></div>
+        </div>
+        <div class="ayudante-row">
+          <span class="ay-emoji">🦸‍♂️</span>
+          <div><strong>Super Papá</strong> — 70⭐ · Golpe masivo que destruye todo lo que toca. <em>Guárdalo para el jefe final.</em></div>
+        </div>
+        <div class="ayudante-row">
+          <span class="ay-emoji">👽</span>
+          <div><strong>Alien</strong> — 90⭐ · Teletransporta zombies fuera del tablero. <em>Úsalo cuando estén a punto de llegar.</em></div>
+        </div>
+        <div class="ayudante-row">
+          <span class="ay-emoji">🚗</span>
+          <div><strong>Autito</strong> — 30⭐/1000pts · Arrolla toda una fila de zombies de derecha a izquierda.</div>
+        </div>
+      </div>
+    </div>
+
+    <button class="btn btn-danger btn-big" id="btn-howto-go" style="margin-top:14px">⚔️ ¡Al Campo de Batalla!</button>
+  </div>
+</div>
+
+<!-- ══════════════════════════════════════════════
+     PANTALLA SELECCIÓN DE NIVEL
+══════════════════════════════════════════════ -->
+<div id="screen-levelselect" class="screen">
+  <div class="modal-card modal-wide">
+    <h2>🗺️ Elige tu Misión</h2>
+    <div id="level-select-grid" class="level-select-grid"></div>
+    <button class="btn btn-ghost" id="btn-back-levelselect" style="margin-top:16px">← Menú</button>
+  </div>
+</div>
+
+<!-- ══════════════════════════════════════════════
+     PANTALLA RANKING
+══════════════════════════════════════════════ -->
+<div id="screen-ranking" class="screen">
+  <div class="modal-card modal-tall">
+    <h2>🏆 Hall of Fame · Sausalito</h2>
+    <div id="ranking-list"></div>
+    <button class="btn btn-ghost" id="btn-back-ranking" style="margin-top:16px;width:100%">← Volver</button>
+  </div>
+</div>
+
+<!-- ══════════════════════════════════════════════
+     PANTALLA LOGROS
+══════════════════════════════════════════════ -->
+<div id="screen-logros" class="screen">
+  <div class="modal-card modal-tall">
+    <h2>🏅 Logros</h2>
+    <div id="logros-list" class="logros-grid"></div>
+    <button class="btn btn-ghost" id="btn-back-logros" style="margin-top:16px;width:100%">← Volver</button>
+  </div>
+</div>
+
+<!-- ══════════════════════════════════════════════
+     PANTALLA JUEGO
+══════════════════════════════════════════════ -->
+<div id="screen-game" class="screen">
+  <!-- HUD -->
+  <div id="game-hud">
+    <div class="hud-left">
+      <div class="hud-pill hud-suns">☀️ <span id="hud-suns">50</span></div>
+      <div class="hud-pill hud-stars">⭐ <span id="hud-stars">0</span></div>
+    </div>
+    <div class="hud-center">
+      <div class="hud-pill hud-score">🏆 <span id="hud-score">0</span></div>
+      <div class="hud-pill hud-wave">🌊 <span id="hud-wave">—</span></div>
+      <div class="hud-pill hud-combo hidden" id="combo-hud">⚡ <span id="hud-combo-txt">×1</span></div>
+    </div>
+    <div class="hud-right">
+      <div id="helper-buttons"></div>
+      <button class="btn btn-hud" id="btn-fullscreen" title="Pantalla completa">⛶</button>
+      <button class="btn btn-hud" id="btn-pause">⏸</button>
+    </div>
+  </div>
+
+  <!-- Bandeja de semillas -->
+  <div id="seed-bank-row">
+    <div id="seed-bank"></div>
+    <div id="tray-cancel" title="Cancelar selección">✕</div>
+  </div>
+
+  <button id="mobile-seed-toggle" class="mobile-seed-toggle" title="Cartas y ayudantes">🌱</button>
+
+  <!-- Área de juego -->
+  <div id="game-area">
+    <div id="tostadoras-col"></div>
+    <div id="game-board-wrap">
+      <div id="game-board">
+        <!-- Prep overlay -->
+        <div id="prep-overlay">
+          <div class="prep-ring-wrap">
+            <svg class="prep-ring-svg" viewBox="0 0 120 120">
+              <circle class="prep-bg" cx="60" cy="60" r="54"/>
+              <circle class="prep-fg" id="prep-ring-fill" cx="60" cy="60" r="54"
+                stroke-dasharray="339.3" stroke-dashoffset="339.3"/>
+            </svg>
+            <div class="prep-num" id="prep-countdown">30</div>
+          </div>
+          <div class="prep-label">🌱 ¡Planta tus defensas!</div>
+          <div class="prep-sub">Los zombies llegan pronto...</div>
+        </div>
+        <!-- Wave banner -->
+        <div id="wave-banner" class="wave-banner hidden"></div>
+        <!-- ── PREMIOS EN PANTALLA ── -->
+        <div id="prize-tray" class="prize-tray"></div>
+        <!-- Toast in-game -->
+        <div id="game-toast" class="game-toast hidden"></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ══════════════════════════════════════════════
+     OVERLAY PAUSA
+══════════════════════════════════════════════ -->
+<div id="screen-pause" class="overlay-screen">
+  <div class="overlay-card">
+    <div class="overlay-icon">⏸</div>
+    <h2>Pausa</h2>
+    <div class="overlay-btns">
+      <button class="btn btn-success btn-big" id="btn-resume">▶ Continuar</button>
+      <button class="btn btn-ghost btn-big" id="btn-save">💾 Guardar Avance</button>
+      <button class="btn btn-warn btn-big" id="btn-restart">🔄 Reiniciar Nivel</button>
+      <button class="btn btn-danger btn-big" id="btn-quit-game">🏠 Menú Principal</button>
+    </div>
+  </div>
+</div>
+
+<!-- ══════════════════════════════════════════════
+     OVERLAY FIN DE NIVEL (estrellas)
+══════════════════════════════════════════════ -->
+<div id="screen-level-end" class="overlay-screen">
+  <div class="overlay-card level-end-card">
+    <div id="level-end-emoji" class="level-end-emoji">🏆</div>
+    <h2 id="level-end-title">¡Nivel Superado!</h2>
+    <div id="level-end-name" class="level-end-name"></div>
+    <div id="stars-display" class="stars-display"></div>
+    <div id="level-end-score" class="level-end-score"></div>
+    <div id="level-end-badges" class="level-end-badges"></div>
+    <div id="level-end-tip" class="level-end-tip hidden"></div>
+    <div class="overlay-btns">
+      <button class="btn btn-success btn-big" id="btn-level-next">▶ Siguiente Nivel</button>
+      <button class="btn btn-ghost btn-big" id="btn-level-menu">🏠 Menú</button>
+    </div>
+  </div>
+</div>
+
+<!-- ══════════════════════════════════════════════
+     OVERLAY VICTORIA TOTAL
+══════════════════════════════════════════════ -->
+<div id="screen-victory" class="overlay-screen">
+  <div class="overlay-card victory-card">
+    <div class="victory-trophy">🏆</div>
+    <h2>¡¡VICTORIA TOTAL!!</h2>
+    <p class="victory-sub">¡Sausalito está a salvo! El Dr. Zombra ha sido derrotado.</p>
+    <div id="vict-stars" class="stars-display"></div>
+    <div class="vict-score-row">Puntuación total: <strong id="vict-score">0</strong> pts</div>
+    <div class="overlay-btns">
+      <button class="btn btn-success btn-big" id="btn-vict-menu">🏠 Menú Principal</button>
+    </div>
+  </div>
+</div>
+
+<!-- ══════════════════════════════════════════════
+     OVERLAY DERROTA
+══════════════════════════════════════════════ -->
+<div id="screen-defeat" class="overlay-screen">
+  <div class="overlay-card defeat-card">
+    <div class="defeat-skull">💀</div>
+    <h2>¡Los Zombies Ganaron!</h2>
+    <p>¡Pero Martín nunca se rinde!</p>
+    <div class="def-score-row">⭐ <strong id="def-score">0</strong> pts conseguidos</div>
+    <div class="overlay-btns">
+      <button class="btn btn-danger btn-big" id="btn-def-retry">🔄 ¡Reintentar!</button>
+      <button class="btn btn-ghost btn-big" id="btn-def-menu">🏠 Menú</button>
+    </div>
+  </div>
+</div>
+
+<!-- Toast global -->
+<div id="ui-toast" class="ui-toast hidden"></div>
+
+<script src="js/data.js"></script>
+<script src="js/audio.js"></script>
+<script src="js/storage.js"></script>
+<script src="js/game.js"></script>
+<script src="js/main.js"></script>
+<script>
+document.addEventListener('DOMContentLoaded', () => {
+  const inp = document.getElementById('input-name');
+  if (inp) inp.addEventListener('keydown', e => {
+    if (e.key === 'Enter') { const b=document.getElementById('btn-empezar'); if(b)b.click(); }
+  });
+  const cancel = document.getElementById('tray-cancel');
+  if (cancel) cancel.addEventListener('click', () => { if(window.GAME) window.GAME.deselectPlant(); });
+});
+</script>
+</body>
+</html>

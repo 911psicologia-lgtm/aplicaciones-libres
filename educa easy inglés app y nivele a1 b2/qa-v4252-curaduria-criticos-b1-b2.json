@@ -1,0 +1,72 @@
+{
+  "version": "v4.25.2",
+  "focus": "Iteración 1 del informe de curaduría: cerrar Crítico 1 y Crítico 2 en B1/B2.",
+  "changes": [
+    "Regenerados 150 reading_choice B1 con respuestas correctas y distractores anclados a la lección.",
+    "Regenerados 150 listen_choice B1 con audio/resumen específico por lección.",
+    "Regenerados 150 reading_choice B2 con respuestas basadas en evidencia, límite y conclusión específica.",
+    "Regenerados 150 listen_choice B2 con audio/resumen específico por lección.",
+    "Unificada nomenclatura cosmética B2: Cierre narrativo/argumentativo B2 cuando aplica.",
+    "Añadida auditoría runtime window.IPD_QA.b1b2CriticalVariety()."
+  ],
+  "metrics": {
+    "ruta_3": {
+      "reading_choice": {
+        "items": 150,
+        "unique_prompts": 150,
+        "unique_correct": 150,
+        "max_correct_repetition": 1,
+        "unique_option_sets": 150,
+        "unique_feedback": 150
+      },
+      "listen_choice": {
+        "items": 150,
+        "unique_prompts": 1,
+        "unique_correct": 150,
+        "max_correct_repetition": 1,
+        "unique_option_sets": 150,
+        "unique_feedback": 150
+      }
+    },
+    "ruta_4": {
+      "reading_choice": {
+        "items": 150,
+        "unique_prompts": 150,
+        "unique_correct": 150,
+        "max_correct_repetition": 1,
+        "unique_option_sets": 150,
+        "unique_feedback": 150
+      },
+      "listen_choice": {
+        "items": 150,
+        "unique_prompts": 1,
+        "unique_correct": 150,
+        "max_correct_repetition": 1,
+        "unique_option_sets": 150,
+        "unique_feedback": 150
+      }
+    }
+  },
+  "summaryByRoute": {
+    "ruta_2": {
+      "exercise_count": 750,
+      "unique_prompts": 272,
+      "unique_correct": 438,
+      "unique_feedback": 126
+    },
+    "ruta_3": {
+      "exercise_count": 750,
+      "unique_prompts": 154,
+      "unique_correct": 572,
+      "unique_feedback": 303
+    },
+    "ruta_4": {
+      "exercise_count": 750,
+      "unique_prompts": 158,
+      "unique_correct": 340,
+      "unique_feedback": 307
+    }
+  },
+  "nodeCheck": 0,
+  "createdAt": "2026-06-17T01:01:02.077211+00:00"
+}

@@ -1,0 +1,280 @@
+<!DOCTYPE html>
+
+<html lang="es">
+<head>
+<meta charset="utf-8"/>
+<meta content="width=device-width,initial-scale=1,viewport-fit=cover" name="viewport"/>
+<meta content="#122a45" name="theme-color"/>
+<meta content="Historia mundial del pensamiento en 1474 ideas, con recorridos de audio, fuentes y mapas rizomáticos." name="description"/>
+<meta content="yes" name="mobile-web-app-capable"/>
+<meta content="yes" name="apple-mobile-web-app-capable"/>
+<meta content="default" name="apple-mobile-web-app-status-bar-style"/>
+<meta content="Cartografías" name="apple-mobile-web-app-title"/>
+<title>Cartografías del Pensamiento</title>
+<link href="manifest.webmanifest?v=3.9.1" rel="manifest"/>
+<link href="assets/icon-192.png" rel="icon" sizes="192x192"/>
+<link href="assets/icon-192.png" rel="apple-touch-icon"/>
+<link href="styles.css?v=3.9.1" rel="stylesheet"/>
+</head>
+<body>
+<div aria-label="Cartografías del Pensamiento" id="splash">
+<div class="splash-inner">
+<img alt="Ilustración del Guía del pensamiento." class="splash-guide" src="assets/guide-approved.png"/>
+<h1>Cartografías del Pensamiento</h1>
+<p>Ideas, territorios y caminos de la humanidad</p>
+</div>
+</div>
+<div aria-hidden="true" class="drawer" id="drawer">
+<div class="drawer-backdrop" data-close-drawer=""></div>
+<aside aria-label="Menú principal" class="drawer-panel">
+<div class="drawer-scroll">
+<div class="drawer-brand">
+<img alt="" aria-hidden="true" src="assets/guide-compact.png"/>
+<div><h2>Cartografías</h2><small>Ideas, territorios y caminos</small></div>
+</div>
+<nav aria-label="Navegación" class="drawer-nav"><button data-nav="intro"><span>◎</span> Acerca de la app</button><button data-nav="home"><span>▶</span> Elegir una escucha</button><button data-nav="explore"><span>▦</span> Explorar el corpus</button><button data-nav="favorites"><span>♡</span> Favoritas</button><button data-nav="rhizome"><span>⌘</span> Mapa de conexiones</button><button data-nav="routes"><span>≡</span> Recorridos recientes</button><button data-nav="quiz"><span>?</span> Quiz</button><button data-action="interests"><span>◈</span> Mi brújula de intereses</button><button data-action="guide"><span>◉</span> Guía contextual</button><button data-action="export"><span>⇩</span> Exportar progreso</button></nav>
+<div aria-label="Ajustes de escucha" class="drawer-settings">
+<h3>Escucha</h3>
+<label for="drawerSessionSelect">Duración de la sesión</label>
+<select id="drawerSessionSelect">
+<option value="5">5 minutos</option><option value="10">10 minutos</option><option value="15">15 minutos</option><option value="30">30 minutos</option><option value="0">Sin límite</option>
+</select>
+<label for="voiceSelect">Voz del dispositivo</label>
+<select id="voiceSelect"><option value="">Voz española automática</option></select>
+<label for="rateSelect">Velocidad</label>
+<select aria-label="Velocidad de lectura" id="rateSelect">
+<option value="0.8">0.8× · pausada</option><option value="1">1× · normal</option><option value="1.5">1.5× · ágil</option><option value="1.8">1.8× · rápida</option><option value="2">2× · muy rápida</option>
+</select>
+</div>
+<button class="drawer-close" data-close-drawer="">× Cerrar menú</button>
+</div>
+</aside>
+</div>
+<main class="app-shell">
+<header class="topbar">
+<button aria-label="Volver" class="icon-btn back-btn hidden" id="backBtn" title="Volver"><svg aria-hidden="true" viewbox="0 0 24 24"><path d="m15 18-6-6 6-6"></path></svg></button>
+<button aria-label="Abrir menú" class="icon-btn" id="menuBtn" title="Menú"><svg aria-hidden="true" viewbox="0 0 24 24"><path d="M4 7h16M4 12h16M4 17h16"></path></svg></button>
+<div class="brand-logo"><img alt="" src="assets/guide-compact.png"/></div>
+<div class="brand"><strong id="topbarTitle">Cartografías del Pensamiento</strong></div>
+<button aria-label="Instalar Cartografías" class="install-btn hidden" id="installBtn" title="Instalar aplicación"><svg aria-hidden="true" viewbox="0 0 24 24"><path d="M12 3v12M7 10l5 5 5-5M5 20h14"></path></svg><span>Instalar</span></button>
+</header>
+
+
+
+<section class="view flow-view intro-view" id="view-intro">
+<div class="intro-panel">
+<img alt="Guía del pensamiento" class="intro-guide" src="assets/guide-approved.png"/>
+<div class="intro-copy">
+<div class="eyebrow">Cartografías del Pensamiento</div>
+<h1>Una historia mundial de las ideas, hecha para escuchar</h1>
+<p>Recorre preguntas, autores, comunidades y tradiciones sin reducir la historia del pensamiento a una sola región.</p>
+<div aria-label="Características principales" class="intro-benefits">
+<span><b>1474</b> ideas breves y documentadas</span>
+<span><b>12</b> periodos conectados</span>
+<span><b>∞</b> rutas, afinidades y rizomas</span>
+</div>
+<button class="install-btn journey-primary intro-start" data-nav="home" type="button">Comenzar</button>
+</div>
+</div>
+</section><section class="view hidden flow-view choice-view" id="view-home">
+<div class="choice-shell">
+<div class="choice-heading">
+<div class="eyebrow">Tu escucha de hoy</div>
+<h1>¿Qué quieres hacer?</h1>
+<p>Elige un camino. En la siguiente pantalla decides cuánto tiempo tienes.</p>
+</div>
+<div aria-label="Formas de escucha" class="listen-choice-list">
+<button class="listen-choice featured" data-listen-mode="continue" type="button">
+<span class="choice-symbol">▶</span><span><strong>Continuar</strong><small id="continueHomeMeta">Retoma el último recorrido</small></span><em>›</em>
+</button>
+<button class="listen-choice" data-listen-mode="chronological" type="button">
+<span class="choice-symbol">◷</span><span><strong>Recorrido cronológico</strong><small>Desde las primeras huellas hasta hoy</small></span><em>›</em>
+</button>
+<button class="listen-choice" data-listen-mode="mixed" type="button">
+<span class="choice-symbol">⤨</span><span><strong>De todo un poco</strong><small>Saltos diversos entre épocas y tradiciones</small></span><em>›</em>
+</button>
+<button class="listen-choice" data-listen-mode="personalized" type="button">
+<span class="choice-symbol">✧</span><span><strong>Para ti</strong><small>Una ruta orientada por tu brújula</small></span><em>›</em>
+</button>
+<button class="listen-choice" data-listen-mode="surprise" type="button">
+<span class="choice-symbol">✦</span><span><strong>Sorpresa</strong><small>Una combinación inesperada con criterio</small></span><em>›</em>
+</button>
+</div>
+<div aria-label="Tus herramientas" class="choice-tools choice-tool-list">
+<button class="choice-tool-row" data-nav="explore" type="button"><span class="tool-icon">⌕</span><span><strong>Explorar ideas</strong><small id="toolExploreMeta">1474 ideas · 12 periodos</small></span><em>›</em></button>
+<button class="choice-tool-row" data-nav="favorites" type="button"><span class="tool-icon">♡</span><span><strong>Favoritas</strong><small id="toolFavoritesMeta">Tus ideas guardadas</small></span><em>›</em></button>
+<button class="choice-tool-row" data-nav="rhizome" type="button"><span class="tool-icon">◎</span><span><strong>Conexiones</strong><small id="toolConnectionsMeta">Abrir o construir un rizoma</small></span><em>›</em></button>
+<button class="choice-tool-row" data-action="interests" type="button"><span class="tool-icon">✦</span><span><strong>Intereses</strong><small id="toolInterestsMeta">Configurar tu brújula</small></span><em>›</em></button>
+</div>
+</div>
+</section><section class="view hidden flow-view duration-view" id="view-duration">
+<div class="duration-panel">
+<div class="duration-topline">
+<div><div class="eyebrow">Duración</div><small id="durationModeLabel">Recorrido elegido</small></div>
+<button aria-label="Cómo funciona la duración" class="info-dot" data-duration-info="" type="button">i</button>
+</div>
+<h1>¿Cuánto tiempo?</h1>
+<div aria-label="Duración de la sesión" class="session-chips session-chips-compact" id="sessionChips" role="radiogroup"></div>
+<button class="text-back" data-nav="home" type="button">Cambiar recorrido</button>
+</div>
+</section><section class="view hidden flow-view ready-view" id="view-ready">
+<div class="ready-panel">
+<span class="ready-play-icon">▶</span>
+<div class="eyebrow">Todo listo</div>
+<h1 id="readyModeTitle">Recorrido cronológico</h1>
+<p id="readySessionTitle">Sin límite</p>
+<button class="install-btn journey-primary ready-play" data-launch-pending="" type="button">Play</button>
+<div class="ready-edits">
+<button data-nav="home" type="button">Cambiar recorrido</button>
+<button data-nav="duration" type="button">Cambiar tiempo</button>
+</div>
+</div>
+</section><section class="view hidden" id="view-explore">
+<div class="screen-intro explore-intro">
+<div class="eyebrow">Corpus unificado</div>
+<h1>Explorar el pensamiento</h1>
+<p>Una sola biblioteca, cuatro formas de entrada. Selecciona tarjetas para construir tu propia lista de escucha.</p>
+</div>
+<div aria-label="Formas de explorar" class="explore-tabs" role="tablist">
+<button class="active" data-explore-tab="history" role="tab">Historia</button>
+<button data-explore-tab="fields" role="tab">Campos y problemas</button>
+<button data-explore-tab="disciplines" role="tab">Disciplinas y cruces</button>
+<button data-explore-tab="authors" role="tab">Autores y tradiciones</button>
+</div>
+<div class="explore-toolbar">
+<input id="exploreSearch" placeholder="Buscar autor, tradición, lugar o concepto" type="search"/>
+<select aria-label="Filtrar por periodo" id="explorePeriodSelect"><option value="">Todos los periodos</option></select>
+<button class="context-help" data-context-guide="">Orientación</button>
+</div>
+<div id="exploreHost"></div>
+<div class="selection-bar hidden" id="selectionBar">
+<div><strong id="selectionCount">0 ideas seleccionadas</strong><small id="selectionEstimate"></small></div>
+<div><button id="clearSelection" type="button">Limpiar</button><button class="install-btn" id="playSelection" type="button">Escuchar selección</button></div>
+</div>
+</section>
+<section class="view hidden" id="view-favorites">
+<div class="screen-intro"><div class="eyebrow">Tu biblioteca</div><h1>Favoritas y afinidades</h1><p>Reproduce exactamente tus favoritas o descubre ideas relacionadas y contrastantes.</p></div>
+<div class="favorites-actions">
+<button class="action-panel" id="playFavorites"><strong>♡ Mis favoritas</strong><small>Escuchar en el orden en que las guardaste</small></button>
+<button class="action-panel" id="playAffinities"><strong>✧ Ideas afines</strong><small>Analogías, extensiones y contrastes</small></button>
+</div>
+<div id="favoritesHost"></div>
+</section>
+<section class="view hidden" id="view-routes">
+<div class="screen-intro"><div class="eyebrow">Continuidad</div><h1>Mis recorridos recientes</h1><p>Retoma diferentes caminos sin perder el punto alcanzado en cada uno.</p></div>
+<div class="routes-list" id="routesHost"></div>
+</section>
+<section class="view hidden" id="view-card">
+<div class="section-head">
+<div><div class="eyebrow" id="cardFamily">Familia</div><h2 id="routeTitle">Recorrido activo</h2></div>
+<p id="cardPosition">1 del recorrido</p>
+</div>
+<div class="card-stage">
+<article class="thought-card" id="thoughtCard">
+<div class="card-orbit orbit-one"></div><div class="card-orbit orbit-two"></div>
+<div class="card-symbol" id="cardSymbol">◎</div><div class="card-index" id="cardIndex">Tarjeta 01</div>
+<h1 id="cardAuthor"></h1><h2 id="cardTitle"></h2><p class="card-statement" id="cardStatement"></p>
+<div class="tag-row" id="cardTags"></div>
+<div class="card-lower"><div class="card-question"><span>Pregunta guía</span><p id="cardQuestionMini"></p></div><div class="card-meaning"><span>Por qué importa</span><p id="cardWhyMini"></p></div></div>
+<div class="card-meta"><span id="cardTerritory"></span><span id="cardPeriod"></span><span>Evidencia <strong id="cardEvidenceMini"></strong></span></div>
+</article>
+<aside class="detail-panel">
+<div class="detail-title"><div><div class="eyebrow">Profundización</div><h3>Más sobre la idea</h3></div><span class="dossier-badge" id="dossierSeries"></span></div>
+<div class="detail-block"><div class="detail-label">Pregunta</div><p id="cardQuestion"></p></div>
+<div class="detail-block"><div class="detail-label">Idea central</div><p id="cardCore"></p></div>
+<div class="detail-block"><div class="detail-label">Por qué importa</div><p id="cardWhy"></p></div>
+<div class="detail-block"><div class="detail-label">Precisión</div><p id="cardCaution"></p></div>
+<div class="detail-block"><div class="detail-label">Conexiones</div><div class="connections" id="cardConnections"></div><button class="inline-route-btn" id="openConnectionsBtn" type="button">Ver y escuchar esta red</button></div>
+<div class="detail-block audio-script-block"><div class="detail-label">Guion de escucha</div><div class="audio-identity"><span aria-hidden="true">◉</span><div><strong id="audioIdentity"></strong><small>La lectura comienza identificando al autor, obra, lugar o tradición.</small></div></div><p id="cardAudio"></p></div>
+<div class="detail-block historical-entry">
+<button aria-expanded="false" class="historical-toggle" id="historicalToggle" type="button"><span>⌛ Historia ampliada</span><small id="historicalStatus"></small></button>
+<div class="historical-layer hidden" id="historicalLayer">
+<div class="historical-actions"><button id="speakHistorical" type="button">Escuchar historia ampliada</button></div>
+<section><div class="detail-label">Contexto histórico</div><p id="historicalContext"></p></section><section><div class="detail-label">Desarrollo de la idea</div><p id="historicalDevelopment"></p></section>
+<section><div class="detail-label">Hitos</div><ol id="historicalMilestones"></ol></section><section><div class="detail-label">Conceptos históricos</div><div id="historicalConcepts"></div></section>
+<section><div class="detail-label">Recepción y legado</div><ul id="historicalLegacy"></ul></section><section><div class="detail-label">Obras ancla</div><ul id="historicalWorks"></ul></section>
+<section class="technical-provenance"><div class="detail-label">Procedencia editorial</div><p id="historicalProvenance"></p></section>
+</div>
+</div>
+<span class="hidden" id="cardEvidence"></span>
+</aside>
+</div>
+</section>
+<section class="view hidden" id="view-rhizome">
+<div class="section-head"><div><div class="eyebrow">Conexiones</div><h2>Mapa rizomático de ideas</h2></div><button class="context-help" data-context-guide="">Orientación</button></div>
+<div class="connection-picker">
+<input id="connectionSearch" placeholder="Busca una idea, autor o concepto para ponerlo en el centro" type="search"/>
+<button id="useLastConnection" type="button">Usar última escuchada</button>
+</div>
+<div class="connection-suggestions" id="connectionSuggestions"></div>
+<div class="rhizome-wrap" id="rhizome"></div>
+<div class="connection-playbar hidden" id="connectionPlaybar"><span id="connectionRouteMeta"></span><button class="install-btn" id="playConstellation" type="button">Escuchar este rizoma</button></div>
+</section>
+<section class="view hidden" id="view-quiz">
+<div class="quiz-box"><div class="eyebrow">Quiz</div><h2 id="quizTitle"></h2><p id="quizContext"></p><div id="quizOptions"></div><div id="quizFeedback"></div><button class="install-btn" id="nextQuiz">Otra pregunta</button></div>
+</section>
+</main>
+<div aria-label="Reproductor de tarjetas" class="card-controls hidden" id="cardControls">
+<div class="player-status-row">
+<div aria-live="polite" class="player-now"><strong id="playerNowAuthor">Autor</strong><small id="playerNowTitle">Título de la idea</small><em id="playerSessionStatus"></em></div>
+<div class="player-audio-settings">
+<label class="player-select voice-player-select" title="Elegir voz"><svg aria-hidden="true" viewbox="0 0 24 24"><path d="M11 5 6.8 8.5H3v7h3.8L11 19V5Z"></path><path d="M15 9.2a4 4 0 0 1 0 5.6M17.8 6.5a8 8 0 0 1 0 11"></path></svg><select aria-label="Voz de lectura" id="playerVoiceSelect"><option value="">Voz automática</option></select></label>
+<label class="player-select speed-player-select" title="Velocidad"><svg aria-hidden="true" viewbox="0 0 24 24"><path d="M4 14a8 8 0 1 1 16 0"></path><path d="m12 14 4-4"></path><circle cx="12" cy="14" r="1.4"></circle></svg><select aria-label="Velocidad" id="playerRateSelect"><option value="0.8">0.8×</option><option value="1">1×</option><option value="1.5">1.5×</option><option value="1.8">1.8×</option><option value="2">2×</option></select></label>
+</div>
+</div>
+<div aria-label="Controles de reproducción" class="player-transport-row" role="toolbar">
+<button aria-label="Inicio" class="control-btn player-action" id="homeBtn" title="Inicio"><svg aria-hidden="true" viewbox="0 0 24 24"><path d="m3 11 9-8 9 8"></path><path d="M5.5 9.5V21h13V9.5"></path><path d="M9.5 21v-6h5v6"></path></svg><span>Inicio</span></button>
+<button aria-label="Anterior" class="control-btn player-action" id="prevBtn" title="Anterior"><svg aria-hidden="true" viewbox="0 0 24 24"><path d="M19 5 9 12l10 7V5Z"></path><path d="M5 5v14"></path></svg><span>Anterior</span></button>
+<button aria-label="Reproducir" aria-pressed="false" class="control-btn primary player-play" id="speakBtn" title="Reproducir"><svg aria-hidden="true" viewbox="0 0 24 24"><path d="m8 5 11 7-11 7V5Z"></path></svg><span class="sr-only">Reproducir</span></button>
+<button aria-label="Siguiente" class="control-btn player-action" id="nextBtn" title="Siguiente"><svg aria-hidden="true" viewbox="0 0 24 24"><path d="m5 5 10 7-10 7V5Z"></path><path d="M19 5v14"></path></svg><span>Siguiente</span></button>
+<button aria-label="Exportar tarjeta" class="control-btn player-action share-control" id="shareBtn" title="Exportar tarjeta"><svg aria-hidden="true" viewbox="0 0 24 24"><circle cx="18" cy="5" r="2.5"></circle><circle cx="6" cy="12" r="2.5"></circle><circle cx="18" cy="19" r="2.5"></circle><path d="M8.2 10.9 15.7 6.2M8.2 13.1l7.5 4.7"></path></svg><span>Exportar</span></button>
+<button aria-label="Favorita" aria-pressed="false" class="control-btn player-action" id="favBtn" title="Favorita"><svg aria-hidden="true" viewbox="0 0 24 24"><path d="M12 20.5S4.5 16 4.5 9.7A4.2 4.2 0 0 1 12 7.1a4.2 4.2 0 0 1 7.5 2.6C19.5 16 12 20.5 12 20.5Z"></path></svg><span>Favorita</span></button>
+</div>
+</div>
+<div aria-labelledby="interestTitle" aria-modal="true" class="modal hidden" id="interestModal" role="dialog">
+<div class="modal-backdrop"></div>
+<section class="modal-card interest-dialog">
+<button aria-label="Cerrar" class="modal-close" id="closeInterest">×</button>
+<div class="eyebrow">Tu brújula de escucha</div>
+<h2 id="interestTitle">¿Qué te llama más la atención?</h2>
+<p>Elige periodos y temas en el orden que prefieras. Puedes desmarcarlos y cambiarlos después. Esta selección orienta recomendaciones, pero no limita el corpus.</p>
+<div class="interest-group"><h3>Periodos</h3><div class="interest-options" id="interestPeriods"></div></div>
+<div class="interest-group"><h3>Temas</h3><div class="interest-options" id="interestFields"></div></div>
+<div class="interest-order"><strong>Orden de interés</strong><div id="interestOrderList"></div></div>
+<div class="interest-actions"><button id="skipInterests" type="button">Explorar sin preferencias</button><button class="install-btn" id="saveInterests" type="button">Guardar mi brújula</button></div>
+</section>
+</div>
+<div aria-labelledby="guideModalTitle" aria-modal="true" class="modal hidden" id="guideModal" role="dialog">
+<div class="modal-backdrop" data-close-guide=""></div>
+<section class="modal-card guide-dialog">
+<button aria-label="Cerrar" class="modal-close" data-close-guide="">×</button>
+<img alt="Guía del pensamiento" class="modal-guide" src="assets/guide-approved.png"/>
+<div class="eyebrow">Guía del pensamiento</div><h2 id="guideModalTitle">Orientación</h2><p id="guideModalText"></p>
+<div class="guide-topic-row hidden" id="guideTopicRow"></div><button class="install-btn" id="guidePrimaryAction">Cerrar</button>
+</section>
+</div>
+
+<div aria-labelledby="exportTitle" aria-modal="true" class="modal hidden" id="exportModal" role="dialog">
+<div class="modal-backdrop" data-close-export=""></div>
+<section class="modal-card export-dialog">
+<button aria-label="Cerrar" class="modal-close" data-close-export="">×</button>
+<div class="eyebrow">Exportar tarjeta</div><h2 id="exportTitle">Tu tarjeta está lista</h2>
+<p id="exportDescription">Descarga la imagen, compártela o copia su texto.</p>
+<div class="export-preview-wrap"><img alt="Vista previa de la tarjeta exportada" id="exportPreview"/></div>
+<p aria-live="polite" class="export-status" id="exportStatus"></p>
+<div class="export-actions">
+<button class="install-btn" id="downloadCardBtn" type="button">Descargar PNG</button>
+<button id="openExportImageBtn" type="button">Abrir imagen</button>
+<button id="nativeShareCardBtn" type="button">Compartir imagen</button>
+<button id="copyCardTextBtn" type="button">Copiar texto</button>
+</div>
+</section>
+</div>
+<div aria-labelledby="installTitle" aria-modal="true" class="modal hidden" id="installModal" role="dialog">
+<div class="modal-backdrop" data-close-install=""></div><section class="modal-card install-dialog"><button aria-label="Cerrar" class="modal-close" data-close-install="">×</button><img alt="Icono de Cartografías" class="install-logo" src="assets/icon-192.png"/><div class="eyebrow">Instalación</div><h2 id="installTitle">Instalar Cartografías</h2><div id="installInstructions"></div><button class="install-btn" data-close-install="">Entendido</button></section>
+</div>
+<button aria-label="Actualizar aplicación" class="update-fab hidden" id="updateFab"><svg aria-hidden="true" viewbox="0 0 24 24"><path d="M20 7v5h-5"></path><path d="M4 17v-5h5"></path><path d="M6.1 8.1A7 7 0 0 1 18.7 9M17.9 15.9A7 7 0 0 1 5.3 15"></path></svg><span>Nueva versión</span></button>
+<div aria-live="polite" class="toast hidden" id="toast" role="status"></div>
+<script src="app.js?v=3.9.1"></script>
+</body>
+</html>

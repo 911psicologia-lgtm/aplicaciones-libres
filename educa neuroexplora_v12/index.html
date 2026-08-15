@@ -1,0 +1,196 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
+  <meta name="description" content="NeuroExplora: aprende sobre el cerebro humano de forma interactiva. Para niños, jóvenes y adultos.">
+  <meta name="author" content="José Alonso Andrade Salazar">
+  <title>NeuroExplora — Explora tu Cerebro</title>
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800&family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,500;1,9..40,300&display=swap" rel="stylesheet">
+  <link rel="icon" type="image/svg+xml" href="assets/favicon.svg">
+  <link rel="manifest" href="manifest.json">
+  <meta name="theme-color" content="#4f8ef7">
+  <link rel="stylesheet" href="css/styles.css">
+  <link rel="stylesheet" href="css/cortex.css">
+</head>
+<body>
+
+  <canvas id="stars-canvas"></canvas>
+
+  <!-- ══ HEADER ══════════════════════════════════════════════════ -->
+  <header id="main-header">
+    <div class="header-brand">
+      <div class="logo">🧠 Neuro<span class="logo-accent">Explora</span></div>
+      <div class="logo-tagline">EXPLORADOR INTERACTIVO DEL CEREBRO HUMANO</div>
+    </div>
+    <nav class="header-nav">
+      <a class="nav-btn nav-btn-active" href="index.html">
+        <span class="btn-icon">🧩</span>
+        <span class="btn-text">Cerebro</span>
+      </a>
+      <a class="nav-btn" href="evolucion.html">
+        <span class="btn-icon">🦎</span>
+        <span class="btn-text">Evolución</span>
+      </a>
+      <a class="nav-btn" href="neurona.html">
+        <span class="btn-icon">⚡</span>
+        <span class="btn-text">Neurona</span>
+      </a>
+      <a class="nav-btn nav-btn-soon" href="#" title="Próximamente">
+        <span class="btn-icon">🎮</span>
+        <span class="btn-text">Juego</span>
+      </a>
+      <button class="nav-btn" id="btn-tour" title="Tour">
+        <span class="btn-icon">📖</span>
+        <span class="btn-text">Tour</span>
+      </button>
+      <button class="nav-btn" id="btn-random" title="Región al azar">
+        <span class="btn-icon">🎲</span>
+        <span class="btn-text">Sorpresa</span>
+      </button>
+      <button class="nav-btn" id="btn-credits" title="Acerca de">
+        <span class="btn-icon">ℹ️</span>
+        <span class="btn-text">Info</span>
+      </button>
+    </nav>
+  </header>
+
+  <!-- ══ APP ═════════════════════════════════════════════════════ -->
+  <main class="app-layout" id="app">
+
+    <section class="brain-section">
+
+      <div class="brain-hint">
+        <span class="hint-icon">✨</span>
+        <span>Toca o haz clic en cualquier zona del cerebro para explorar</span>
+      </div>
+
+      <!-- Controles de zoom y rotación -->
+      <div class="brain-controls">
+        <div class="control-group">
+          <button class="ctrl-btn" id="btn-zoom-in"    title="Acercar (también: tecla +)">＋</button>
+          <button class="ctrl-btn" id="btn-zoom-reset" title="Tamaño original (tecla 0)">⌀</button>
+          <button class="ctrl-btn" id="btn-zoom-out"   title="Alejar (también: tecla −)">－</button>
+        </div>
+        <div class="ctrl-divider"></div>
+        <div class="control-group">
+          <button class="ctrl-btn flip-btn" id="btn-flip" title="Ver hemisferio derecho">
+            <span>🔄</span>
+            <span class="btn-flip-label">Hemis. izquierdo</span>
+          </button>
+        </div>
+        <div class="ctrl-hint">Arrastra · Rueda = zoom · Pellizca en móvil</div>
+      </div>
+
+      <!-- SVG del cerebro -->
+      <div class="brain-container" id="brain-container">
+        <div id="svg-transform-wrapper">
+          <svg
+            id="brain-svg"
+            viewBox="0 0 560 440"
+            xmlns="http://www.w3.org/2000/svg"
+            role="img"
+            aria-label="Diagrama interactivo del cerebro humano en vista lateral"
+          ></svg>
+        </div>
+        <div class="brain-tooltip" id="brain-tooltip" role="tooltip"></div>
+      </div>
+
+      <!-- Leyenda -->
+      <nav class="region-legend" id="region-legend" aria-label="Regiones cerebrales"></nav>
+
+      <!-- Imágenes reales de referencia -->
+      <div class="brain-real-ref">
+        <div class="real-img-wrap">
+          <span class="real-img-badge">🔬 Real</span>
+          <img src="assets/brain-lateral-real.webp" alt="Cerebro humano vista lateral real" loading="lazy">
+          <p class="real-img-caption">Vista lateral del hemisferio cerebral humano · Wikimedia Commons</p>
+        </div>
+        <div class="real-img-wrap">
+          <span class="real-img-badge">🧲 MRI</span>
+          <img src="assets/brain-mri-axial.jpg" alt="Resonancia magnética cerebral corte axial" loading="lazy">
+          <p class="real-img-caption">Resonancia magnética — corte axial · NIH</p>
+        </div>
+      </div>
+
+      <!-- Cerebro en Acción — Live Mode -->
+      <div id="live-controls" class="live-controls-wrap"></div>
+
+    </section>
+
+    <!-- Estado vacío -->
+    <aside class="empty-state" id="empty-state">
+      <div class="empty-icon">🔬</div>
+      <p class="empty-text">Haz clic en cualquier zona del cerebro para descubrir su nombre, función y datos curiosos</p>
+      <p class="empty-hint">¿No sabes por dónde empezar?</p>
+      <button class="explore-btn" id="btn-random-2">Explorar región aleatoria 🎲</button>
+    </aside>
+
+    <!-- Panel de información -->
+    <aside class="info-panel hidden" id="info-panel" role="complementary">
+      <button class="panel-close" id="panel-close" aria-label="Cerrar panel">✕</button>
+      <div class="panel-content" id="panel-content"></div>
+    </aside>
+
+  </main>
+
+  <!-- ══ TOUR ═════════════════════════════════════════════════════ -->
+  <div class="overlay tour-overlay hidden" id="tour-overlay" role="dialog" aria-modal="true">
+    <div class="overlay-card tour-card">
+      <span class="tour-icon">🧠</span>
+      <h2 class="overlay-title">¡Bienvenido a NeuroExplora!</h2>
+      <p class="overlay-subtitle">Tu guía interactiva para descubrir el cerebro humano. Aquí aprenderás jugando y explorando.</p>
+      <div class="tour-steps">
+        <div class="tour-step"><div class="step-num">1</div><p>Haz clic o toca cualquier zona del cerebro para ver su función</p></div>
+        <div class="tour-step"><div class="step-num">2</div><p>Cada región tiene 3 datos curiosos — desliza entre ellos en la pestaña <strong>Datos ✨</strong></p></div>
+        <div class="tour-step"><div class="step-num">3</div><p>Usa <strong>＋ / －</strong> para acercar o alejar el cerebro. Arrastra para inclinar la vista</p></div>
+        <div class="tour-step"><div class="step-num">4</div><p>Pulsa <strong>🔄</strong> para cambiar entre hemisferio izquierdo y derecho</p></div>
+        <div class="tour-step"><div class="step-num">5</div><p>Pulsa <strong>Sorpresa 🎲</strong> para explorar una región al azar</p></div>
+      </div>
+      <button class="overlay-btn primary-btn" id="tour-start-btn">¡Empezar a explorar! 🚀</button>
+    </div>
+  </div>
+
+  <!-- ══ CRÉDITOS ══════════════════════════════════════════════════ -->
+  <div class="overlay credits-overlay hidden" id="credits-overlay" role="dialog" aria-modal="true">
+    <div class="overlay-card credits-card">
+      <button class="card-close" id="credits-close">✕</button>
+      <span class="credits-icon">🧬</span>
+      <h2 class="overlay-title">NeuroExplora</h2>
+      <p class="credits-version">Versión 1.1 · Módulo: Cerebro Interactivo</p>
+      <div class="credits-divider"></div>
+      <p class="credits-desc">
+        Aplicación web para el aprendizaje visual e interactivo del cerebro humano, diseñada para niños desde 7 años, jóvenes y adultos en contextos familiares y educativos. Totalmente gratuita y accesible desde cualquier dispositivo.
+      </p>
+      <div class="credits-author-box">
+        <p class="credits-label">Desarrollado por</p>
+        <p class="credits-name">José Alonso Andrade Salazar</p>
+      </div>
+      <p class="credits-footer">
+        Información científica adaptada con fines pedagógicos.<br>
+        Próximamente: neurona interactiva · evolución cerebral · gamificación.
+      </p>
+    </div>
+  </div>
+
+  <script src="js/data.js"></script>
+  <script src="js/brain.js"></script>
+  <script src="js/main.js"></script>
+  <script src="js/brain-live.js"></script>
+  <script>
+    // Inicializar Live Mode después de que BrainRenderer esté listo
+    document.addEventListener('DOMContentLoaded', () => {
+      setTimeout(() => {
+        const svgEl = document.getElementById('brain-svg');
+        if (svgEl) initBrainLive(svgEl);
+      }, 300);
+    }, { once: true });
+    if ("serviceWorker" in navigator) {
+      navigator.serviceWorker.register("/sw.js").catch(()=>{});
+    }
+  </script>
+</body>
+</html>

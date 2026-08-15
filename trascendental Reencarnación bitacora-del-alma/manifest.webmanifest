@@ -1,0 +1,27 @@
+{
+  "name": "Bitácora del alma",
+  "short_name": "Bitácora",
+  "description": "Ejercicio simbólico de introspección, memoria narrativa y lectura del alma.",
+  "lang": "es-CO",
+  "start_url": "./index.html",
+  "scope": "./",
+  "display": "standalone",
+  "orientation": "portrait-primary",
+  "background_color": "#0F0E0D",
+  "theme_color": "#0F0E0D",
+  "categories": ["lifestyle", "education", "productivity"],
+  "icons": [
+    {
+      "src": "assets/icons/icon-192.png",
+      "sizes": "192x192",
+      "type": "image/png",
+      "purpose": "any maskable"
+    },
+    {
+      "src": "assets/icons/icon-512.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "any maskable"
+    }
+  ]
+}

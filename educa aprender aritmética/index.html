@@ -1,0 +1,1713 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
+<title>🚀 Martín Academy</title>
+<link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;700;800;900&family=Fredoka+One&display=swap" rel="stylesheet">
+<style>
+:root {
+  --bg1:#667eea; --bg2:#764ba2;
+  --yellow:#fbbf24; --green:#22c55e; --red:#ef4444;
+  --purple:#a855f7; --blue:#0ea5e9; --dark:#1e1b4b;
+}
+*{margin:0;padding:0;box-sizing:border-box;}
+html,body{width:100%;overflow-x:hidden;}
+body{
+  font-family:'Nunito',sans-serif;
+  background:linear-gradient(135deg,var(--bg1) 0%,var(--bg2) 100%);
+  min-height:100vh;
+}
+
+/* ── STARS ── */
+.stars{position:fixed;inset:0;pointer-events:none;z-index:0;overflow:hidden;}
+.star{position:absolute;background:#fff;border-radius:50%;animation:twinkle 2s infinite alternate;}
+@keyframes twinkle{from{opacity:.15}to{opacity:1}}
+
+/* ── SCREENS ── */
+.screen{display:none;position:relative;z-index:10;
+  min-height:100vh;padding:clamp(15px,3vw,30px);
+  flex-direction:column;align-items:center;justify-content:center;}
+.screen.active{display:flex;}
+
+/* ── LANG SWITCHER ── */
+.lang-bar{
+  position:fixed;top:12px;right:12px;z-index:9999;
+  display:flex;gap:6px;align-items:center;
+  background:rgba(255,255,255,0.18);
+  border:2px solid rgba(255,255,255,0.35);
+  border-radius:50px;padding:5px 10px;
+  backdrop-filter:blur(8px);
+}
+.lang-btn{
+  background:transparent;border:none;cursor:pointer;
+  font-size:clamp(1.1rem,3vw,1.4rem);
+  padding:2px 5px;border-radius:50%;transition:all .2s;
+  line-height:1;
+}
+.lang-btn.active{background:rgba(255,255,255,0.5);transform:scale(1.2);}
+.lang-btn:hover:not(.active){transform:scale(1.1);}
+.lang-sep{color:rgba(255,255,255,0.5);font-weight:900;font-size:0.9rem;}
+
+/* ── BUTTONS ── */
+.btn{
+  font-family:'Fredoka One',cursive;border:none;cursor:pointer;
+  border-radius:50px;padding:clamp(12px,2.5vw,18px) clamp(22px,5vw,40px);
+  font-size:clamp(0.95rem,2.5vw,1.35rem);
+  transition:all .15s;position:relative;top:0;
+  box-shadow:0 6px 0 rgba(0,0,0,0.28);
+  white-space:nowrap;
+}
+.btn:active{top:4px;box-shadow:0 2px 0 rgba(0,0,0,0.28);}
+.btn-yellow{background:linear-gradient(135deg,#fbbf24,#f59e0b);color:#1e1b4b;}
+.btn-yellow:hover{background:linear-gradient(135deg,#fcd34d,#fbbf24);transform:scale(1.04);}
+.btn-green{background:linear-gradient(135deg,#22c55e,#16a34a);color:#fff;}
+.btn-purple{background:linear-gradient(135deg,#a855f7,#7c3aed);color:#fff;}
+.btn-gray{background:rgba(255,255,255,0.85);color:#374151;}
+
+/* ── WELCOME ── */
+#welcome{text-align:center;}
+.rocket{font-size:clamp(55px,11vw,110px);animation:float 2.2s ease-in-out infinite;display:block;margin-bottom:8px;}
+@keyframes float{0%,100%{transform:translateY(0) rotate(-5deg)}50%{transform:translateY(-18px) rotate(5deg)}}
+.title-main{
+  font-family:'Fredoka One',cursive;
+  font-size:clamp(2rem,8vw,4.5rem);color:#fff;
+  text-shadow:4px 4px 0 #1e1b4b,0 0 30px rgba(255,200,0,.8);
+  line-height:1.1;margin-bottom:6px;
+}
+.title-sub{font-size:clamp(0.9rem,2.5vw,1.4rem);color:#fde68a;font-weight:800;margin-bottom:24px;}
+.hero-card{
+  background:rgba(255,255,255,0.14);backdrop-filter:blur(10px);
+  border:3px solid rgba(255,255,255,0.38);border-radius:28px;
+  padding:clamp(18px,4vw,34px) clamp(18px,5vw,40px);
+  max-width:480px;width:100%;margin-bottom:24px;
+}
+.player-info{display:flex;align-items:center;gap:14px;margin-bottom:16px;flex-wrap:wrap;}
+.avatar{font-size:clamp(44px,10vw,64px);}
+.player-text h2{color:#fff;font-size:clamp(1.2rem,4vw,1.6rem);font-weight:900;}
+.player-text p{color:#fde68a;font-size:clamp(0.8rem,2vw,1rem);}
+.stats-row{display:flex;gap:10px;justify-content:center;flex-wrap:wrap;}
+.stat-chip{
+  background:rgba(255,255,255,0.2);border-radius:50px;padding:6px 14px;
+  color:#fff;font-weight:800;font-size:clamp(0.75rem,2vw,0.9rem);
+  border:2px solid rgba(255,255,255,0.28);
+}
+.welcome-btns{display:flex;gap:14px;flex-wrap:wrap;justify-content:center;}
+
+/* ── CATEGORIES ── */
+#categories .section-title{
+  font-family:'Fredoka One',cursive;
+  font-size:clamp(1.3rem,4.5vw,2.4rem);color:#fff;
+  text-shadow:3px 3px 0 #1e1b4b;margin-bottom:20px;text-align:center;
+}
+.cat-grid{
+  display:grid;
+  grid-template-columns:repeat(auto-fit,minmax(clamp(140px,35vw,200px),1fr));
+  gap:clamp(12px,2.5vw,20px);max-width:780px;width:100%;
+}
+.cat-card{
+  background:rgba(255,255,255,0.95);border-radius:22px;
+  padding:clamp(18px,3.5vw,26px) clamp(12px,2.5vw,20px);
+  text-align:center;cursor:pointer;transition:all .2s;
+  border:4px solid transparent;box-shadow:0 8px 0 rgba(0,0,0,0.18);
+  position:relative;top:0;
+}
+.cat-card:hover{top:-6px;box-shadow:0 14px 0 rgba(0,0,0,0.18);border-color:#fbbf24;}
+.cat-card:active{top:2px;box-shadow:0 3px 0 rgba(0,0,0,0.18);}
+.cat-icon{font-size:clamp(36px,8vw,54px);margin-bottom:8px;display:block;}
+.cat-name{font-family:'Fredoka One',cursive;font-size:clamp(0.9rem,2.5vw,1.15rem);color:#1e1b4b;margin-bottom:4px;}
+.cat-desc{font-size:clamp(0.7rem,1.8vw,0.8rem);color:#6b7280;font-weight:700;}
+.cat-badge{
+  position:absolute;top:-8px;right:-8px;background:#ef4444;color:#fff;
+  border-radius:50%;width:26px;height:26px;font-size:0.7rem;font-weight:900;
+  display:flex;align-items:center;justify-content:center;border:3px solid #fff;
+}
+.learn-row{margin-top:18px;text-align:center;}
+.learn-row p{color:rgba(255,255,255,0.8);font-weight:800;font-size:clamp(0.8rem,2vw,0.95rem);margin-bottom:10px;}
+.learn-btns{display:flex;gap:8px;flex-wrap:wrap;justify-content:center;}
+.learn-btn{
+  background:rgba(255,255,255,0.18);border:2px solid rgba(255,255,255,0.45);
+  border-radius:50px;padding:7px 16px;color:#fff;font-weight:800;cursor:pointer;
+  font-family:'Nunito',sans-serif;font-size:clamp(0.75rem,2vw,0.9rem);
+  transition:all .2s;
+}
+.learn-btn:hover{background:rgba(255,255,255,0.32);}
+
+/* ── GAME ── */
+#game{padding:clamp(10px,2vw,18px);justify-content:flex-start;padding-top:clamp(55px,10vw,75px);}
+.game-header{
+  position:fixed;top:0;left:0;right:0;z-index:200;
+  display:flex;align-items:center;justify-content:space-between;
+  padding:clamp(8px,1.5vw,12px) clamp(10px,2.5vw,20px);
+  background:rgba(80,30,160,0.85);backdrop-filter:blur(10px);
+  border-bottom:2px solid rgba(255,255,255,0.2);
+  flex-wrap:nowrap;gap:8px;
+}
+.lives-display{display:flex;gap:3px;flex-shrink:0;}
+.heart{font-size:clamp(20px,4.5vw,28px);transition:all .3s;}
+.heart.lost{filter:grayscale(1);opacity:.28;transform:scale(.7);}
+.score-display{
+  background:rgba(255,255,255,0.18);border-radius:50px;
+  padding:5px 14px;color:#fff;font-weight:900;
+  font-size:clamp(0.8rem,2vw,1.05rem);
+  border:2px solid rgba(255,255,255,0.35);flex-shrink:0;
+}
+.pause-btn{
+  background:rgba(255,255,255,0.92);border:2px solid rgba(255,255,255,0.5);
+  border-radius:50px;padding:6px 14px;
+  font-family:'Fredoka One',cursive;font-size:clamp(0.75rem,2vw,0.95rem);
+  color:#1e1b4b;cursor:pointer;transition:all .2s;
+  box-shadow:0 3px 0 rgba(0,0,0,0.18);position:relative;top:0;flex-shrink:0;
+}
+.pause-btn:active{top:2px;box-shadow:0 1px 0 rgba(0,0,0,0.18);}
+.pause-btn.paused{background:linear-gradient(135deg,#fbbf24,#f59e0b);animation:pulse 1s infinite;}
+.timer-ring{width:clamp(44px,8vw,54px);height:clamp(44px,8vw,54px);position:relative;flex-shrink:0;}
+.timer-ring svg{transform:rotate(-90deg);width:100%;height:100%;}
+.timer-circle{stroke-dasharray:138;stroke-dashoffset:0;transition:stroke-dashoffset 1s linear;}
+.timer-text{
+  position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);
+  font-family:'Fredoka One',cursive;font-size:clamp(0.6rem,1.5vw,0.72rem);color:#fff;font-weight:900;
+}
+.streak-badge{
+  display:inline-flex;align-items:center;gap:4px;
+  background:linear-gradient(135deg,#fef3c7,#fde68a);
+  border:2px solid #f59e0b;border-radius:50px;padding:4px 12px;
+  font-weight:900;color:#92400e;font-size:clamp(0.7rem,1.8vw,0.88rem);
+  animation:pulse 1s infinite;flex-shrink:0;
+}
+@keyframes pulse{0%,100%{transform:scale(1)}50%{transform:scale(1.05)}}
+
+.progress-wrap{
+  width:100%;max-width:680px;background:rgba(255,255,255,0.18);
+  border-radius:50px;height:12px;margin-bottom:clamp(12px,2.5vw,18px);
+  overflow:hidden;border:2px solid rgba(255,255,255,0.28);flex-shrink:0;
+}
+.progress-bar{height:100%;background:linear-gradient(90deg,#22c55e,#fbbf24);border-radius:50px;transition:width .5s ease;}
+
+.question-card{
+  background:#fff;border-radius:clamp(18px,3.5vw,28px);
+  padding:clamp(16px,3.5vw,34px);
+  max-width:680px;width:100%;
+  box-shadow:0 10px 40px rgba(0,0,0,0.18);
+  margin-bottom:clamp(10px,2vw,18px);
+  border:4px solid rgba(255,255,255,0.75);
+}
+.q-cat-label{
+  display:inline-block;border-radius:50px;padding:4px 14px;
+  font-size:clamp(0.75rem,2vw,0.85rem);font-weight:900;margin-bottom:10px;color:#fff;
+}
+.q-number{font-size:clamp(0.75rem,2vw,0.88rem);color:#9ca3af;font-weight:700;margin-bottom:7px;}
+.question-text{
+  font-family:'Fredoka One',cursive;
+  font-size:clamp(1rem,3.2vw,1.6rem);color:#1e1b4b;line-height:1.4;margin-bottom:16px;
+}
+.options-grid{display:grid;grid-template-columns:1fr 1fr;gap:clamp(8px,2vw,12px);}
+@media(max-width:380px){.options-grid{grid-template-columns:1fr;}}
+.option-btn{
+  background:linear-gradient(135deg,#f8fafc,#e2e8f0);border:3px solid #e2e8f0;
+  border-radius:clamp(12px,2.5vw,18px);padding:clamp(10px,2.5vw,14px) clamp(10px,2.5vw,16px);
+  font-family:'Nunito',sans-serif;font-size:clamp(0.82rem,2.2vw,1.05rem);font-weight:800;
+  color:#1e1b4b;cursor:pointer;transition:all .15s;text-align:center;
+  position:relative;top:0;box-shadow:0 4px 0 rgba(0,0,0,0.13);line-height:1.3;
+}
+.option-btn:hover:not(:disabled){border-color:#a855f7;background:linear-gradient(135deg,#faf5ff,#ede9fe);top:-3px;box-shadow:0 7px 0 rgba(0,0,0,0.13);}
+.option-btn:active:not(:disabled){top:2px;box-shadow:0 2px 0 rgba(0,0,0,0.13);}
+.option-btn.correct{background:linear-gradient(135deg,#dcfce7,#bbf7d0)!important;border-color:#22c55e!important;color:#15803d!important;animation:correctPop .4s ease;}
+.option-btn.wrong{background:linear-gradient(135deg,#fee2e2,#fecaca)!important;border-color:#ef4444!important;color:#dc2626!important;animation:shake .4s ease;}
+@keyframes correctPop{0%{transform:scale(1)}50%{transform:scale(1.1)}100%{transform:scale(1)}}
+@keyframes shake{0%,100%{transform:translateX(0)}25%{transform:translateX(-8px)}75%{transform:translateX(8px)}}
+
+.feedback-msg{
+  text-align:center;font-family:'Fredoka One',cursive;
+  font-size:clamp(0.95rem,2.5vw,1.35rem);margin-top:12px;padding:10px;border-radius:14px;display:none;
+}
+.feedback-msg.show{display:block;animation:fadeIn .3s;}
+.feedback-msg.correct-fb{background:#dcfce7;color:#15803d;}
+.feedback-msg.wrong-fb{background:#fee2e2;color:#dc2626;}
+@keyframes fadeIn{from{opacity:0;transform:translateY(-8px)}to{opacity:1;transform:translateY(0)}}
+
+/* ════════════════════════════════════════════
+   EXPLANATION MODAL — FULL SCREEN, MAX IMPACT
+   ════════════════════════════════════════════ */
+#expOverlay{
+  position:fixed;inset:0;z-index:9985;display:none;
+  align-items:stretch;justify-content:center;
+  overflow-y:auto;
+}
+#expOverlay.open{ display:flex; }
+
+/* full-bleed background changes color by result */
+#expOverlay.correct-bg{
+  background:linear-gradient(160deg,#064e3b 0%,#065f46 40%,#047857 100%);
+}
+#expOverlay.wrong-bg{
+  background:linear-gradient(160deg,#7c2d12 0%,#9a3412 40%,#c2410c 100%);
+}
+
+.exp-modal{
+  width:100%; max-width:720px;
+  margin:auto;
+  padding:clamp(20px,5vw,48px) clamp(18px,5vw,44px);
+  display:flex; flex-direction:column; gap:0;
+  min-height:100vh;
+}
+
+/* ── RESULT STAMP ── */
+.exp-stamp{
+  text-align:center;
+  padding-bottom:clamp(18px,4vw,28px);
+  border-bottom:3px solid rgba(255,255,255,.2);
+  margin-bottom:clamp(18px,4vw,28px);
+}
+.exp-stamp-emoji{
+  font-size:clamp(56px,15vw,96px);
+  display:block;
+  animation:stampDrop .5s cubic-bezier(.175,.885,.32,1.275);
+  line-height:1;
+  margin-bottom:10px;
+}
+@keyframes stampDrop{
+  from{transform:scale(0) rotate(-20deg);opacity:0}
+  to{transform:scale(1) rotate(0);opacity:1}
+}
+.exp-stamp-title{
+  font-family:'Fredoka One',cursive;
+  font-size:clamp(1.8rem,7vw,3.2rem);
+  color:#fff;
+  text-shadow:3px 3px 0 rgba(0,0,0,.25);
+  line-height:1.1;
+  margin-bottom:6px;
+}
+.exp-stamp-sub{
+  font-size:clamp(0.95rem,2.8vw,1.2rem);
+  color:rgba(255,255,255,.88);
+  font-weight:800;
+  line-height:1.4;
+}
+
+/* ── STEPS HEADER ── */
+.exp-steps-header{
+  font-family:'Fredoka One',cursive;
+  font-size:clamp(1.1rem,3.5vw,1.5rem);
+  color:#fff;
+  margin-bottom:clamp(14px,3vw,20px);
+  display:flex;align-items:center;gap:10px;
+  letter-spacing:.3px;
+}
+
+/* ── EACH STEP CARD ── */
+.exp-step-row{
+  display:flex;
+  gap:clamp(12px,3vw,18px);
+  align-items:flex-start;
+  background:rgba(255,255,255,.14);
+  border:2px solid rgba(255,255,255,.25);
+  border-radius:clamp(14px,3vw,20px);
+  padding:clamp(14px,3vw,20px) clamp(14px,3.5vw,22px);
+  margin-bottom:clamp(10px,2.5vw,14px);
+  backdrop-filter:blur(4px);
+  transition:transform .15s;
+}
+.exp-step-row:hover{ transform:translateX(4px); }
+
+/* step number bubble */
+.exp-dot{
+  background:#fff;
+  border-radius:50%;
+  min-width:clamp(36px,7vw,48px);
+  height:clamp(36px,7vw,48px);
+  font-family:'Fredoka One',cursive;
+  font-size:clamp(1rem,3vw,1.4rem);
+  font-weight:900;
+  display:flex;align-items:center;justify-content:center;
+  flex-shrink:0;
+  box-shadow:0 4px 12px rgba(0,0,0,.2);
+}
+/* correct = green number, wrong = orange number */
+#expOverlay.correct-bg .exp-dot{ color:#047857; }
+#expOverlay.wrong-bg   .exp-dot{ color:#c2410c; }
+
+/* step text */
+.exp-body-text{
+  font-size:clamp(1rem,3vw,1.25rem);
+  color:#fff;
+  font-weight:800;
+  line-height:1.55;
+  padding-top:clamp(6px,1.5vw,10px);
+  letter-spacing:.2px;
+}
+
+/* ── VERIFY / CHECKPOINT BOX ── */
+.exp-verify{
+  display:flex;
+  gap:clamp(12px,3vw,16px);
+  align-items:flex-start;
+  margin-top:clamp(12px,3vw,18px);
+  padding:clamp(16px,4vw,22px) clamp(16px,4vw,24px);
+  border-radius:clamp(14px,3vw,20px);
+  border:3px solid rgba(255,255,255,.5);
+  background:rgba(255,255,255,.18);
+  backdrop-filter:blur(6px);
+}
+.exp-verify-icon{
+  font-size:clamp(1.8rem,5vw,2.4rem);
+  flex-shrink:0;
+  line-height:1;
+}
+.exp-verify-label{
+  font-family:'Fredoka One',cursive;
+  font-size:clamp(0.9rem,2.5vw,1.1rem);
+  color:rgba(255,255,255,.75);
+  margin-bottom:4px;
+}
+.exp-verify-value{
+  font-size:clamp(1rem,3vw,1.2rem);
+  color:#fff;
+  font-weight:800;
+  line-height:1.5;
+}
+
+/* ── NEXT BUTTON — unmissable ── */
+.exp-next-btn{
+  display:block;width:100%;
+  margin-top:clamp(20px,4vw,28px);
+  font-family:'Fredoka One',cursive;
+  font-size:clamp(1.15rem,4vw,1.6rem);
+  padding:clamp(16px,3.5vw,22px);
+  border:none;border-radius:50px;cursor:pointer;
+  background:#fff;
+  transition:all .15s;
+  position:relative;top:0;
+  box-shadow:0 8px 0 rgba(0,0,0,.22), 0 0 40px rgba(255,255,255,.15);
+  letter-spacing:.5px;
+}
+.exp-next-btn:hover{transform:scale(1.03);box-shadow:0 10px 0 rgba(0,0,0,.22),0 0 50px rgba(255,255,255,.2);}
+.exp-next-btn:active{top:5px;box-shadow:0 3px 0 rgba(0,0,0,.22);}
+#expOverlay.correct-bg .exp-next-btn{ color:#064e3b; }
+#expOverlay.wrong-bg   .exp-next-btn{ color:#7c2d12; }
+
+/* powerups */
+.powerups-row{display:flex;gap:clamp(6px,1.5vw,10px);margin-top:clamp(8px,2vw,14px);justify-content:center;flex-wrap:wrap;}
+.powerup-btn{
+  background:rgba(255,255,255,0.92);border:3px solid #e2e8f0;border-radius:14px;
+  padding:clamp(6px,1.5vw,8px) clamp(10px,2.5vw,15px);cursor:pointer;
+  font-size:clamp(0.82rem,2vw,1rem);font-weight:800;transition:all .2s;
+  font-family:'Nunito',sans-serif;color:#1e1b4b;display:flex;align-items:center;gap:5px;
+}
+.powerup-btn:hover:not(:disabled){border-color:#a855f7;transform:scale(1.04);}
+.powerup-btn:disabled{opacity:.38;cursor:not-allowed;}
+.pu-count{background:#ef4444;color:#fff;border-radius:50%;width:18px;height:18px;font-size:0.65rem;display:flex;align-items:center;justify-content:center;}
+
+/* floating pts */
+.float-pt{position:fixed;font-family:'Fredoka One',cursive;font-size:clamp(1.4rem,4vw,2rem);font-weight:900;pointer-events:none;z-index:9998;animation:floatUp 1.2s ease forwards;}
+@keyframes floatUp{0%{opacity:1;transform:translateY(0) scale(1)}100%{opacity:0;transform:translateY(-110px) scale(1.4)}}
+
+/* confetti */
+.confetti-piece{position:fixed;border-radius:2px;animation:confettiFall linear forwards;pointer-events:none;z-index:9999;}
+@keyframes confettiFall{0%{transform:translateY(-100px) rotate(0deg);opacity:1}100%{transform:translateY(100vh) rotate(720deg);opacity:0}}
+
+/* result */
+#result{text-align:center;}
+.result-card{
+  background:rgba(255,255,255,0.96);border-radius:clamp(22px,4vw,34px);
+  padding:clamp(22px,4.5vw,46px);max-width:520px;width:100%;
+  box-shadow:0 15px 55px rgba(0,0,0,0.28);border:5px solid #fbbf24;
+}
+.result-emoji{font-size:clamp(55px,12vw,80px);margin-bottom:8px;animation:float 2s infinite;}
+.result-title{font-family:'Fredoka One',cursive;font-size:clamp(1.5rem,5.5vw,2.8rem);color:#1e1b4b;margin-bottom:4px;}
+.result-stars{font-size:clamp(1.8rem,7vw,3.8rem);margin:12px 0;animation:starDrop .6s ease;}
+@keyframes starDrop{from{transform:scale(0) rotate(-180deg)}to{transform:scale(1) rotate(0)}}
+.score-big{font-family:'Fredoka One',cursive;font-size:clamp(2rem,7vw,4.5rem);color:#f59e0b;text-shadow:3px 3px 0 #1e1b4b;}
+.prize-box{background:linear-gradient(135deg,#fef3c7,#fde68a);border:3px solid #f59e0b;border-radius:18px;padding:clamp(12px,3vw,20px);margin:16px 0;}
+.prize-title{font-family:'Fredoka One',cursive;color:#92400e;font-size:clamp(0.9rem,2.5vw,1.15rem);margin-bottom:8px;}
+.prize-list{display:flex;gap:8px;justify-content:center;flex-wrap:wrap;}
+.prize-item{background:#fff;border-radius:13px;padding:6px 13px;font-size:clamp(1rem,3vw,1.25rem);border:2px solid #f59e0b;animation:prizeFloat 1.5s ease-in-out infinite alternate;}
+@keyframes prizeFloat{from{transform:translateY(0)}to{transform:translateY(-7px)}}
+.result-btns{display:flex;gap:12px;justify-content:center;flex-wrap:wrap;margin-top:18px;}
+
+/* ranking */
+#ranking{text-align:center;}
+.ranking-card{background:rgba(255,255,255,0.96);border-radius:clamp(20px,3.5vw,30px);padding:clamp(18px,3.5vw,36px);max-width:520px;width:100%;box-shadow:0 10px 40px rgba(0,0,0,0.18);}
+.ranking-title{font-family:'Fredoka One',cursive;font-size:clamp(1.3rem,4.5vw,2.3rem);color:#1e1b4b;margin-bottom:18px;}
+.rank-item{display:flex;align-items:center;gap:10px;padding:10px 14px;border-radius:14px;margin-bottom:8px;font-weight:800;transition:all .2s;}
+.rank-item.gold{background:linear-gradient(135deg,#fef3c7,#fde68a);border:2px solid #f59e0b;}
+.rank-item.silver{background:linear-gradient(135deg,#f1f5f9,#e2e8f0);border:2px solid #94a3b8;}
+.rank-item.bronze{background:linear-gradient(135deg,#fff7ed,#fed7aa);border:2px solid #f97316;}
+.rank-item.normal{background:#f8fafc;border:2px solid #e2e8f0;}
+.rank-item.current{border-color:#a855f7!important;background:linear-gradient(135deg,#faf5ff,#ede9fe)!important;}
+.rank-pos{font-family:'Fredoka One',cursive;font-size:clamp(1.1rem,3vw,1.4rem);min-width:32px;}
+.rank-name{flex:1;text-align:left;font-size:clamp(0.82rem,2vw,1rem);color:#1e1b4b;}
+.rank-score{font-family:'Fredoka One',cursive;color:#7c3aed;font-size:clamp(0.88rem,2vw,1.05rem);}
+
+/* back btn */
+.back-btn{
+  position:fixed;top:clamp(10px,2vw,16px);left:clamp(10px,2vw,16px);z-index:300;
+  background:rgba(255,255,255,0.18);border:2px solid rgba(255,255,255,0.38);
+  border-radius:50px;padding:7px 16px;color:#fff;font-weight:900;cursor:pointer;
+  font-family:'Nunito',sans-serif;font-size:clamp(0.78rem,2vw,0.92rem);
+  backdrop-filter:blur(5px);transition:all .2s;
+}
+.back-btn:hover{background:rgba(255,255,255,0.32);}
+
+/* ── INTRO MODAL ── */
+.modal-overlay{
+  position:fixed;inset:0;z-index:9990;display:none;
+  align-items:center;justify-content:center;
+  background:rgba(15,10,60,.87);backdrop-filter:blur(7px);padding:16px;overflow-y:auto;
+}
+.modal-overlay.open{display:flex;}
+.modal-box{
+  background:#fff;border-radius:clamp(18px,3.5vw,30px);
+  padding:clamp(20px,4vw,38px);max-width:600px;width:100%;
+  box-shadow:0 20px 60px rgba(0,0,0,.38);border:5px solid #fbbf24;
+  animation:popIn .4s cubic-bezier(.175,.885,.32,1.275);
+  max-height:90vh;overflow-y:auto;
+}
+@keyframes popIn{from{transform:scale(0) rotate(-8deg)}to{transform:scale(1) rotate(0)}}
+.modal-header{display:flex;align-items:center;gap:13px;margin-bottom:16px;}
+.modal-icon{font-size:clamp(36px,7vw,56px);}
+.modal-title{font-family:'Fredoka One',cursive;font-size:clamp(1.2rem,3.5vw,1.85rem);color:#1e1b4b;line-height:1.2;}
+.modal-subtitle{font-size:clamp(0.75rem,2vw,0.88rem);color:#7c3aed;font-weight:800;margin-top:3px;}
+.intro-def{
+  background:linear-gradient(135deg,#ede9fe,#ddd6fe);border-left:5px solid #7c3aed;
+  border-radius:0 14px 14px 0;padding:12px 16px;margin-bottom:16px;
+  font-size:clamp(0.8rem,2.2vw,0.96rem);color:#3b0764;font-weight:700;line-height:1.6;
+}
+.intro-steps-title{font-family:'Fredoka One',cursive;color:#1e1b4b;font-size:clamp(0.9rem,2.5vw,1.08rem);margin-bottom:9px;}
+.intro-step{display:flex;gap:10px;align-items:flex-start;margin-bottom:9px;}
+.step-num{background:#fbbf24;color:#1e1b4b;border-radius:50%;min-width:27px;height:27px;font-weight:900;font-size:0.85rem;display:flex;align-items:center;justify-content:center;flex-shrink:0;margin-top:2px;}
+.step-text{font-size:clamp(0.78rem,2.2vw,0.93rem);color:#374151;font-weight:700;line-height:1.5;}
+.intro-ex{background:linear-gradient(135deg,#f0fdf4,#dcfce7);border:3px solid #22c55e;border-radius:16px;padding:clamp(12px,2.5vw,16px);margin:14px 0;}
+.intro-ex-title{font-family:'Fredoka One',cursive;color:#15803d;font-size:clamp(0.85rem,2.2vw,1rem);margin-bottom:9px;}
+.ex-line{font-size:clamp(0.76rem,2vw,0.92rem);color:#166534;font-weight:700;margin-bottom:5px;line-height:1.5;display:flex;gap:8px;align-items:baseline;}
+.ex-line .el{color:#6b7280;font-weight:600;font-size:0.76rem;min-width:22px;flex-shrink:0;}
+.intro-tip{background:linear-gradient(135deg,#fef3c7,#fde68a);border-radius:13px;padding:11px 15px;font-size:clamp(0.78rem,2vw,0.88rem);color:#92400e;font-weight:700;margin-top:13px;display:flex;gap:8px;align-items:flex-start;}
+.modal-btns{text-align:center;margin-top:20px;display:flex;gap:12px;justify-content:center;flex-wrap:wrap;}
+
+/* pause overlay */
+#pauseOverlay{
+  position:fixed;inset:0;z-index:9980;display:none;
+  align-items:center;justify-content:center;
+  background:rgba(15,10,60,.9);backdrop-filter:blur(8px);
+}
+#pauseOverlay.open{display:flex;}
+.pause-box{background:#fff;border-radius:clamp(22px,4vw,34px);padding:clamp(28px,5vw,44px) clamp(28px,6vw,54px);text-align:center;border:5px solid #fbbf24;animation:popIn .4s cubic-bezier(.175,.885,.32,1.275);max-width:370px;width:90%;}
+.pause-icon{font-size:clamp(50px,12vw,72px);margin-bottom:8px;}
+.pause-title{font-family:'Fredoka One',cursive;font-size:clamp(1.5rem,5vw,2.1rem);color:#1e1b4b;margin-bottom:7px;}
+.pause-sub{font-size:clamp(0.82rem,2vw,0.97rem);color:#6b7280;font-weight:700;margin-bottom:20px;}
+.pause-tip{background:linear-gradient(135deg,#fef3c7,#fde68a);border-radius:16px;padding:13px 16px;margin-bottom:20px;font-size:clamp(0.78rem,2vw,0.9rem);color:#92400e;font-weight:800;}
+</style>
+</head>
+<body>
+
+<div class="stars" id="starsContainer"></div>
+
+<!-- LANG SWITCHER -->
+<div class="lang-bar">
+  <button class="lang-btn active" id="btnEs" onclick="setLang('es')" title="Español">🇨🇴</button>
+  <span class="lang-sep">|</span>
+  <button class="lang-btn" id="btnEn" onclick="setLang('en')" title="English">🇺🇸</button>
+</div>
+
+<!-- ══════════ WELCOME ══════════ -->
+<div class="screen active" id="welcome">
+  <span class="rocket">🚀</span>
+  <h1 class="title-main" id="txt-appName">Martín<br>Academy</h1>
+  <p class="title-sub" id="txt-appSub">¡Estudia, gana y sé el campeón! 🏆</p>
+  <div class="hero-card">
+    <div class="player-info">
+      <span class="avatar">🦸</span>
+      <div class="player-text">
+        <h2 id="txt-hello">¡Hola, Martín!</h2>
+        <p id="txt-ready">Listo para la aventura matemática 🎮</p>
+      </div>
+    </div>
+    <div class="stats-row">
+      <span class="stat-chip" id="totalStarsDisplay">⭐ 0</span>
+      <span class="stat-chip" id="levelDisplay">🏅 Nivel 1</span>
+      <span class="stat-chip" id="gamesPlayedDisplay">🎯 0</span>
+    </div>
+  </div>
+  <div class="welcome-btns">
+    <button class="btn btn-yellow" onclick="showScreen('categories')" id="txt-playBtn">¡JUGAR! 🎮</button>
+    <button class="btn btn-purple" onclick="showScreen('ranking')" id="txt-rankBtn">🏆 RANKING</button>
+  </div>
+</div>
+
+<!-- ══════════ CATEGORIES ══════════ -->
+<div class="screen" id="categories">
+  <button class="back-btn" onclick="showScreen('welcome')" id="txt-back1">← Atrás</button>
+  <h2 class="section-title" id="txt-pickTopic">¿Qué quieres practicar?</h2>
+  <div class="cat-grid">
+    <div class="cat-card" onclick="startGame('lcm')">
+      <span class="cat-icon">🔢</span>
+      <div class="cat-name" id="txt-catLcm">Mínimo Común Múltiplo</div>
+      <div class="cat-desc">MCM · LCM</div>
+      <div class="cat-badge">8</div>
+    </div>
+    <div class="cat-card" onclick="startGame('gcf')">
+      <span class="cat-icon">🔍</span>
+      <div class="cat-name" id="txt-catGcf">Máximo Común Factor</div>
+      <div class="cat-desc">MCD · GCF</div>
+      <div class="cat-badge">8</div>
+    </div>
+    <div class="cat-card" onclick="startGame('fractions')">
+      <span class="cat-icon">🍕</span>
+      <div class="cat-name" id="txt-catFrac">Fracciones</div>
+      <div class="cat-desc" id="txt-catFracSub">Tipos y definiciones</div>
+      <div class="cat-badge">15</div>
+    </div>
+    <div class="cat-card" onclick="startGame('mixed')">
+      <span class="cat-icon">🎲</span>
+      <div class="cat-name" id="txt-catMix">¡Todo Mezclado!</div>
+      <div class="cat-desc" id="txt-catMixSub">Modo desafío épico</div>
+      <div class="cat-badge">🔥</div>
+    </div>
+  </div>
+  <div class="learn-row">
+    <p id="txt-learnFirst">📖 ¿Quieres repasar el tema antes de jugar?</p>
+    <div class="learn-btns">
+      <button class="learn-btn" onclick="showIntro('lcm')">🔢 <span id="txt-learnLcm">Ver MCM</span></button>
+      <button class="learn-btn" onclick="showIntro('gcf')">🔍 <span id="txt-learnGcf">Ver MCD</span></button>
+      <button class="learn-btn" onclick="showIntro('fractions')">🍕 <span id="txt-learnFrac">Ver Fracciones</span></button>
+    </div>
+  </div>
+</div>
+
+<!-- ══════════ GAME ══════════ -->
+<div class="screen" id="game">
+  <div class="game-header">
+    <div class="lives-display">
+      <span class="heart" id="h1">❤️</span>
+      <span class="heart" id="h2">❤️</span>
+      <span class="heart" id="h3">❤️</span>
+    </div>
+    <div id="streakArea"></div>
+    <div class="score-display">⭐ <span id="currentScore">0</span></div>
+    <button class="pause-btn" id="pauseBtn" onclick="togglePause()" id="txt-pauseBtn">⏸️ Pausa</button>
+    <div class="timer-ring">
+      <svg viewBox="0 0 55 55">
+        <circle cx="27.5" cy="27.5" r="22" fill="rgba(255,255,255,0.18)" stroke="rgba(255,255,255,0.28)" stroke-width="4"/>
+        <circle class="timer-circle" id="timerCircle" cx="27.5" cy="27.5" r="22" fill="none" stroke="#fbbf24" stroke-width="4" stroke-linecap="round"/>
+      </svg>
+      <div class="timer-text" id="timerText">2:00</div>
+    </div>
+  </div>
+
+  <div style="width:100%;max-width:680px;">
+    <div class="progress-wrap">
+      <div class="progress-bar" id="progressBar" style="width:0%"></div>
+    </div>
+    <div class="question-card">
+      <div id="catLabel" class="q-cat-label">MCM</div>
+      <div class="q-number" id="qNumber">Pregunta 1 de 10</div>
+      <div class="question-text" id="questionText">Cargando...</div>
+      <div class="options-grid" id="optionsGrid"></div>
+      <div class="feedback-msg" id="feedbackMsg"></div>
+
+    </div>
+    <div class="powerups-row">
+      <button class="powerup-btn" id="puHint" onclick="useHint()">
+        💡 <span id="txt-puHint">Pista</span> <span class="pu-count" id="hintCount">2</span>
+      </button>
+      <button class="powerup-btn" id="puTime" onclick="useExtraTime()">
+        ⏱️ <span id="txt-puTime">+Tiempo</span> <span class="pu-count" id="timeCount">2</span>
+      </button>
+      <button class="powerup-btn" id="puSkip" onclick="useSkip()">
+        ⏭️ <span id="txt-puSkip">Saltar</span> <span class="pu-count" id="skipCount">1</span>
+      </button>
+    </div>
+    <div style="text-align:center;margin-top:10px;">
+      <button class="back-btn" style="position:static;display:inline-block;" onclick="confirmExit()" id="txt-exitBtn">← Salir</button>
+    </div>
+  </div>
+</div>
+
+<!-- ══════════ RESULT ══════════ -->
+<div class="screen" id="result">
+  <div class="result-card">
+    <div class="result-emoji" id="resultEmoji">🎉</div>
+    <div class="result-title" id="resultTitle">¡Genial!</div>
+    <div class="result-stars" id="resultStars">⭐⭐⭐</div>
+    <div class="score-big" id="finalScore">0 pts</div>
+    <div style="margin:8px 0;color:#6b7280;font-weight:800;font-size:clamp(0.8rem,2vw,0.95rem);">
+      ✅ <span id="correctCount">0</span> &nbsp;❌ <span id="wrongCount">0</span>
+    </div>
+    <div class="prize-box" id="prizeBox">
+      <div class="prize-title" id="txt-prizeTitle">🎁 ¡Ganaste estos premios!</div>
+      <div class="prize-list" id="prizeList"></div>
+    </div>
+    <div class="result-btns">
+      <button class="btn btn-yellow" onclick="restartSameCategory()" id="txt-playAgain">🔄 Jugar Otra Vez</button>
+      <button class="btn btn-green" onclick="showScreen('categories')" id="txt-changeTopic">📚 Cambiar Tema</button>
+      <button class="btn btn-purple" onclick="showScreen('ranking')" id="txt-seeRanking">🏆 Ranking</button>
+    </div>
+  </div>
+</div>
+
+<!-- ══════════ RANKING ══════════ -->
+<div class="screen" id="ranking">
+  <button class="back-btn" onclick="showScreen('welcome')" id="txt-back2">← Atrás</button>
+  <div class="ranking-card">
+    <div class="ranking-title" id="txt-rankTitle">🏆 Tabla de Campeones</div>
+    <div id="rankingList"></div>
+    <div style="margin-top:18px;text-align:center;">
+      <button class="btn btn-yellow" onclick="showScreen('categories')" id="txt-rankPlay">¡JUGAR! 🚀</button>
+    </div>
+  </div>
+</div>
+
+<!-- ══════════ INTRO MODAL ══════════ -->
+<div class="modal-overlay" id="introOverlay">
+  <div class="modal-box" id="introBox"></div>
+</div>
+
+<!-- ══════════ EXPLANATION MODAL — FULL SCREEN ══════════ -->
+<div id="expOverlay">
+  <div class="exp-modal" id="expModal">
+
+    <!-- Big result stamp -->
+    <div class="exp-stamp">
+      <span class="exp-stamp-emoji" id="expStampEmoji">🎉</span>
+      <div class="exp-stamp-title" id="expBannerTitle"></div>
+      <div class="exp-stamp-sub" id="expBannerSub"></div>
+    </div>
+
+    <!-- Steps header -->
+    <div class="exp-steps-header" id="expStepsHeader"></div>
+
+    <!-- Steps injected here -->
+    <div id="expSteps"></div>
+
+    <!-- Verify / checkpoint -->
+    <div class="exp-verify" id="expVerify" style="display:none">
+      <span class="exp-verify-icon" id="expVerifyIcon"></span>
+      <div>
+        <div class="exp-verify-label" id="expVerifyLabel"></div>
+        <div class="exp-verify-value" id="expVerifyText"></div>
+      </div>
+    </div>
+
+    <!-- Continue button -->
+    <button class="exp-next-btn" id="expNextBtn" onclick="closeExpAndNext()"></button>
+
+  </div>
+</div>
+
+<!-- ══════════ PAUSE OVERLAY ══════════ -->
+<div id="pauseOverlay">
+  <div class="pause-box">
+    <div class="pause-icon">⏸️</div>
+    <div class="pause-title" id="txt-pauseTitle">¡Juego en Pausa!</div>
+    <div class="pause-sub" id="txt-pauseSub">Tómate el tiempo que necesites para pensar 🧠✏️</div>
+    <div class="pause-tip" id="txt-pauseTip">💡 Puedes hacer tus cuentas en papel mientras piensas la respuesta</div>
+    <button class="btn btn-yellow" onclick="togglePause()" id="txt-resumeBtn" style="font-size:clamp(1rem,3vw,1.3rem);">▶️ ¡Continuar!</button>
+  </div>
+</div>
+
+<script>
+// ════════════════════════════════════════════
+// LANGUAGE SYSTEM
+// ════════════════════════════════════════════
+var currentLang = 'es';
+
+var LANGS = {
+  es: {
+    appName: 'Martín<br>Academy',
+    appSub: '¡Estudia, gana y sé el campeón! 🏆',
+    hello: '¡Hola, Martín!',
+    ready: 'Listo para la aventura matemática 🎮',
+    playBtn: '¡JUGAR! 🎮',
+    rankBtn: '🏆 RANKING',
+    back1: '← Atrás', back2: '← Atrás',
+    pickTopic: '¿Qué quieres practicar?',
+    catLcm: 'Mínimo Común Múltiplo',
+    catGcf: 'Máximo Común Factor',
+    catFrac: 'Fracciones',
+    catFracSub: 'Tipos y definiciones',
+    catMix: '¡Todo Mezclado!',
+    catMixSub: 'Modo desafío épico',
+    learnFirst: '📖 ¿Quieres repasar el tema antes de jugar?',
+    learnLcm: 'Ver MCM', learnGcf: 'Ver MCD', learnFrac: 'Ver Fracciones',
+    puHint: 'Pista', puTime: '+Tiempo', puSkip: 'Saltar',
+    exitBtn: '← Salir',
+    pauseBtn: '⏸️ Pausa',
+    pauseTitle: '¡Juego en Pausa!',
+    pauseSub: 'Tómate el tiempo que necesites para pensar 🧠✏️',
+    pauseTip: '💡 Puedes hacer tus cuentas en papel mientras piensas la respuesta',
+    resumeBtn: '▶️ ¡Continuar!',
+    prizeTitle: '🎁 ¡Ganaste estos premios!',
+    playAgain: '🔄 Jugar Otra Vez',
+    changeTopic: '📚 Cambiar Tema',
+    seeRanking: '🏆 Ranking',
+    rankTitle: '🏆 Tabla de Campeones',
+    rankPlay: '¡JUGAR! 🚀',
+    qLabel: function(n,t){ return 'Pregunta '+n+' de '+t; },
+    timeoutMsg: '⏰ ¡Se acabó el tiempo!',
+    expCorrect: '🧠 ¡Así se resuelve! Repasa el procedimiento:',
+    expWrong: '📚 ¡Aprendamos juntos! Así se resuelve correctamente:',
+    expVerifyC: '✅ Verificación: ',
+    expVerifyW: '🔎 ',
+    expGenOk: '¡Muy bien! Recuerda siempre verificar tu respuesta. 🎉',
+    expGenFail: '¡No te rindas! Vuelve a revisar el método de esta categoría. 💪',
+    streakLabel: 'Racha x',
+    introPlay: '¡Entendido! ¡A jugar! 🚀',
+    introBack: '← Volver',
+    prizeNoWin: '¡Sigue practicando para ganar premios! 💪',
+    levelLabel: 'Nivel',
+    gamesLabel: 'partidas',
+    youLabel: '(¡TÚ!)',
+    lastGames: '📜 Tus últimas partidas:',
+    confirmExit: '¿Seguro que quieres salir? 😢',
+    hintToast: function(h){ return '💡 ' + h; },
+    timeToast: '⏱️ +30 segundos!',
+    skipToast: '⏭️ ¡Pregunta saltada!',
+    msgsCorrect: ['¡GENIAL! 🔥','¡SÚPER! ⚡','¡PERFECTO! 💥','¡INCREÍBLE! 🌟','¡BRILLANTE! ✨','¡CAMPEÓN! 🏆'],
+    msgsWrong: ['¡Casi! Inténtalo 💪','¡Tú puedes! 🦾','¡Sigue adelante! 🚀','¡La próxima! ⭐'],
+    msgsStreak: ['🔥 ¡RACHA x2!','🔥🔥 ¡RACHA x3!','🔥🔥🔥 ¡COMBO!','💥 ¡IMPARABLE!'],
+    resultTitles: ['¡No te rindas!','¡Buen intento!','¡Muy bien!','¡Excelente!','¡CAMPEÓN!'],
+    defaultHint: '¡Piénsalo bien! Lee la pregunta de nuevo 🤔',
+    expBannerTitleCorrect: '¡Respuesta Correcta!',
+    expBannerSubCorrect: 'Excelente trabajo. Así se resuelve paso a paso:',
+    expBannerTitleWrong: '¡Casi lo logras!',
+    expBannerSubWrong: 'No te preocupes. Aprendamos juntos cómo resolverlo:',
+    expStepsHeaderCorrect: 'Así se resuelve — ¡memoriza el método!',
+    expStepsHeaderWrong: 'El procedimiento correcto paso a paso:',
+    expVerifyC: 'Verificación: ',
+    expVerifyW: 'Recuerda: ',
+    expNextQuestion: '¡Siguiente pregunta! →',
+    expNextFinish: '¡Ver mis resultados! 🏆',
+    expNextEnd: '¡Ver resultados finales! 🏆'
+  },
+  en: {
+    appName: 'Martín<br>Academy',
+    appSub: 'Study, win and be the champion! 🏆',
+    hello: 'Hello, Martín!',
+    ready: 'Ready for the math adventure 🎮',
+    playBtn: 'PLAY! 🎮',
+    rankBtn: '🏆 RANKING',
+    back1: '← Back', back2: '← Back',
+    pickTopic: 'What do you want to practice?',
+    catLcm: 'Least Common Multiple',
+    catGcf: 'Greatest Common Factor',
+    catFrac: 'Fractions',
+    catFracSub: 'Types and definitions',
+    catMix: 'Everything Mixed!',
+    catMixSub: 'Epic challenge mode',
+    learnFirst: '📖 Want to review the topic before playing?',
+    learnLcm: 'See LCM', learnGcf: 'See GCF', learnFrac: 'See Fractions',
+    puHint: 'Hint', puTime: '+Time', puSkip: 'Skip',
+    exitBtn: '← Exit',
+    pauseBtn: '⏸️ Pause',
+    pauseTitle: 'Game Paused!',
+    pauseSub: 'Take all the time you need to think 🧠✏️',
+    pauseTip: '💡 You can do your calculations on paper while you think',
+    resumeBtn: '▶️ Continue!',
+    prizeTitle: '🎁 You won these prizes!',
+    playAgain: '🔄 Play Again',
+    changeTopic: '📚 Change Topic',
+    seeRanking: '🏆 Ranking',
+    rankTitle: '🏆 Champions Table',
+    rankPlay: 'PLAY! 🚀',
+    qLabel: function(n,t){ return 'Question '+n+' of '+t; },
+    timeoutMsg: '⏰ Time is up!',
+    expCorrect: '🧠 This is how to solve it! Review the steps:',
+    expWrong: '📚 Let\'s learn together! Here is how to solve it:',
+    expVerifyC: '✅ Check: ',
+    expVerifyW: '🔎 ',
+    expGenOk: 'Great job! Always remember to check your answer. 🎉',
+    expGenFail: 'Don\'t give up! Review the method for this category. 💪',
+    streakLabel: 'Streak x',
+    introPlay: 'Got it! Let\'s play! 🚀',
+    introBack: '← Back',
+    prizeNoWin: 'Keep practicing to win prizes! 💪',
+    levelLabel: 'Level',
+    gamesLabel: 'games',
+    youLabel: '(YOU!)',
+    lastGames: '📜 Your latest games:',
+    confirmExit: 'Are you sure you want to exit? 😢',
+    hintToast: function(h){ return '💡 ' + h; },
+    timeToast: '⏱️ +30 seconds!',
+    skipToast: '⏭️ Question skipped!',
+    msgsCorrect: ['GREAT! 🔥','SUPER! ⚡','PERFECT! 💥','AMAZING! 🌟','BRILLIANT! ✨','CHAMPION! 🏆'],
+    msgsWrong: ['Almost! Try again 💪','You can do it! 🦾','Keep going! 🚀','Next time! ⭐'],
+    msgsStreak: ['🔥 STREAK x2!','🔥🔥 STREAK x3!','🔥🔥🔥 COMBO!','💥 UNSTOPPABLE!'],
+    resultTitles: ['Don\'t give up!','Good try!','Well done!','Excellent!','CHAMPION!'],
+    defaultHint: 'Think carefully! Re-read the question 🤔',
+    expBannerTitleCorrect: 'Correct Answer!',
+    expBannerSubCorrect: 'Excellent work. Here is how to solve it step by step:',
+    expBannerTitleWrong: 'Almost there!',
+    expBannerSubWrong: "Don't worry. Let's learn together how to solve it:",
+    expStepsHeaderCorrect: 'How to solve it — memorize the method!',
+    expStepsHeaderWrong: 'The correct procedure step by step:',
+    expVerifyC: 'Check: ',
+    expVerifyW: 'Remember: ',
+    expNextQuestion: 'Next question! →',
+    expNextFinish: 'See my results! 🏆',
+    expNextEnd: 'See final results! 🏆'
+  }
+};
+
+function L(key){ return LANGS[currentLang][key]; }
+
+function setLang(lang) {
+  currentLang = lang;
+  document.getElementById('btnEs').classList.toggle('active', lang==='es');
+  document.getElementById('btnEn').classList.toggle('active', lang==='en');
+  applyLang();
+}
+
+function applyLang() {
+  var keys = ['appName','appSub','hello','ready','playBtn','rankBtn','back1','back2',
+    'pickTopic','catLcm','catGcf','catFrac','catFracSub','catMix','catMixSub',
+    'learnFirst','learnLcm','learnGcf','learnFrac','puHint','puTime','puSkip',
+    'exitBtn','pauseBtn','pauseTitle','pauseSub','pauseTip','resumeBtn',
+    'prizeTitle','playAgain','changeTopic','seeRanking','rankTitle','rankPlay'];
+  keys.forEach(function(k) {
+    var el = document.getElementById('txt-'+k);
+    if(el && typeof L(k) === 'string') el.innerHTML = L(k);
+  });
+  updateWelcomeStats();
+}
+
+// ════════════════════════════════════════════
+// QUESTION BANK (bilingual labels, same logic)
+// ════════════════════════════════════════════
+var QUESTIONS = {
+  lcm: [
+    {q:'¿Cuál es el MCM de 8 y 10? / LCM of 8 and 10?', opts:['40','20','80','10'], ans:0},
+    {q:'¿Cuál es el MCM de 12 y 20? / LCM of 12 and 20?', opts:['60','40','24','120'], ans:0},
+    {q:'¿Cuál es el MCM de 30 y 36? / LCM of 30 and 36?', opts:['180','90','60','360'], ans:0},
+    {q:'¿Cuál es el MCM de 57 y 38? / LCM of 57 and 38?', opts:['114','228','570','38'], ans:0},
+    {q:'¿Cuál es el MCM de 4 y 6? / LCM of 4 and 6?', opts:['12','24','8','6'], ans:0},
+    {q:'¿Cuál es el MCM de 5 y 7? / LCM of 5 and 7?', opts:['35','14','25','70'], ans:0},
+    {q:'¿Cuál es el MCM de 125 y 150? / LCM of 125 and 150?', opts:['750','450','1250','150'], ans:0},
+    {q:'¿Cuál es el MCM de 3 y 9? / LCM of 3 and 9?', opts:['9','27','18','3'], ans:0},
+    {q:'¿El MCM de 14 y 19 es 38? / Is LCM of 14 and 19 equal to 38?', opts:['No (es 266)','Sí / Yes'], ans:0},
+    {q:'¿Cuál es el MCM de 6 y 8? / LCM of 6 and 8?', opts:['24','16','12','48'], ans:0},
+  ],
+  gcf: [
+    {q:'¿Cuál es el MCD de 18 y 27? / GCF of 18 and 27?', opts:['9','3','6','18'], ans:0},
+    {q:'¿Cuál es el MCD de 24 y 48? / GCF of 24 and 48?', opts:['24','12','6','48'], ans:0},
+    {q:'¿Cuál es el MCD de 32 y 80? / GCF of 32 and 80?', opts:['16','8','32','4'], ans:0},
+    {q:'¿Cuál es el MCD de 90 y 120? / GCF of 90 and 120?', opts:['30','10','15','60'], ans:0},
+    {q:'¿Cuál es el MCD de 180 y 240? / GCF of 180 and 240?', opts:['60','30','120','20'], ans:0},
+    {q:'¿El MCD de 22 y 55 es 11? / Is GCF of 22 and 55 equal to 11?', opts:['Sí / Yes','No'], ans:0},
+    {q:'¿Cuál es el MCD de 12 y 18? / GCF of 12 and 18?', opts:['6','3','12','9'], ans:0},
+    {q:'¿Cuál es el MCD de 15 y 25? / GCF of 15 and 25?', opts:['5','15','25','10'], ans:0},
+  ],
+  fractions: [
+    {q:'8/3 es una fracción... / 8/3 is a fraction...', opts:['Impropia / Improper','Propia / Proper','Unitaria / Unit','Mixta / Mixed'], ans:0, hint:'Numerador > Denominador → Impropia'},
+    {q:'5/8 es una fracción... / 5/8 is a fraction...', opts:['Propia / Proper','Impropia / Improper','Unitaria / Unit','Mixta / Mixed'], ans:0, hint:'Numerador < Denominador → Propia'},
+    {q:'15/6 es una fracción... / 15/6 is a fraction...', opts:['Impropia / Improper','Propia / Proper','Unitaria / Unit','Mixta / Mixed'], ans:0},
+    {q:'10/10 es una fracción... / 10/10 is a fraction...', opts:['Unitaria / Unit','Propia / Proper','Impropia / Improper','Mixta / Mixed'], ans:0, hint:'Numerador = Denominador → Unitaria'},
+    {q:'¿Cómo se lee 12/9 en inglés? / How do you read 12/9 in English?', opts:['twelve ninths','nine over twelve','twelve over ninth','twelfth ninth'], ans:0},
+    {q:'¿Cómo se lee 4/5 en inglés? / How do you read 4/5 in English?', opts:['four fifths','four fifth','five fourths','four over five'], ans:0},
+    {q:'¿Cuál es homogénea con 9/13? / Which is homogeneous with 9/13?', opts:['12/13','13/9','9/9','13/8'], ans:0, hint:'Mismo denominador = Homogénea'},
+    {q:'19/10 es una fracción... / 19/10 is a fraction...', opts:['Impropia / Improper','Propia / Proper','Unitaria / Unit','Homogénea / Homogeneous'], ans:0},
+    {q:'8/12 es una fracción... / 8/12 is a fraction...', opts:['Propia / Proper','Impropia / Improper','Unitaria / Unit','Mixta / Mixed'], ans:0},
+    {q:'8/8 es una fracción... / 8/8 is a fraction...', opts:['Unitaria / Unit','Propia / Proper','Impropia / Improper','Mixta / Mixed'], ans:0},
+    {q:'5/13 y 7/13 son fracciones... / 5/13 and 7/13 are... fractions', opts:['Homogéneas / Homogeneous','Heterogéneas / Heterogeneous','Propias / Proper','Impropias / Improper'], ans:0, hint:'Mismo denominador = Homogéneas'},
+    {q:'10/4 y 4/10 son fracciones... / 10/4 and 4/10 are... fractions', opts:['Heterogéneas / Heterogeneous','Homogéneas / Homogeneous','Unitarias / Unit','Mixtas / Mixed'], ans:0},
+    {q:'¿Cuál es IMPROPIA? / Which one is IMPROPER?', opts:['12/9','12/13','4/5','21/30'], ans:0, hint:'Numerador mayor que denominador'},
+    {q:'Three Halves en fracción / Three Halves as a fraction:', opts:['3/2','3/4','2/3','4/3'], ans:0},
+    {q:'En 8/10, el numerador es... / In 8/10, the numerator is...', opts:['8','10','18','1'], ans:0},
+  ],
+};
+
+// ════════════════════════════════════════════
+// EXPLANATIONS (by question index per category)
+// ════════════════════════════════════════════
+var Q_EXP = {
+  lcm: [
+    {s:['8 = 2³','10 = 2 × 5','Factores mayores: 2³ y 5','MCM = 8 × 5 = 40'], v:'8→16→24→32→40 ✓ | 10→20→30→40 ✓'},
+    {s:['12 = 2² × 3','20 = 2² × 5','Factores: 2², 3, 5','MCM = 4×3×5 = 60'], v:'12×5=60 ✓ | 20×3=60 ✓'},
+    {s:['30 = 2×3×5','36 = 2²×3²','Mayores: 2², 3², 5','MCM = 4×9×5 = 180'], v:'180÷30=6 ✓ | 180÷36=5 ✓'},
+    {s:['57 = 3×19','38 = 2×19','Factores: 2, 3, 19','MCM = 2×3×19 = 114'], v:'114÷57=2 ✓ | 114÷38=3 ✓'},
+    {s:['4 = 2²','6 = 2×3','Mayores: 2² y 3','MCM = 4×3 = 12'], v:'4→8→12 ✓ | 6→12 ✓'},
+    {s:['5 y 7 son primos entre sí','Sin factores comunes → MCM = producto','MCM = 5×7 = 35'], v:'5→10→15→20→25→30→35 ✓'},
+    {s:['125 = 5³','150 = 2×3×5²','Mayores: 2, 3, 5³','MCM = 2×3×125 = 750'], v:'750÷125=6 ✓ | 750÷150=5 ✓'},
+    {s:['3 = 3¹','9 = 3²','Mayor exponente: 3²','MCM = 9 (¡9 ya es múltiplo de 3!)'], v:'3→6→9 ✓ | 9 ✓'},
+    {s:['14 = 2×7','19 = 19 (primo)','MCM = 2×7×19 = 266','38÷14 = 2.7... ✗ No es exacto'], v:'38 NO es múltiplo de 14. MCM real = 266'},
+    {s:['6 = 2×3','8 = 2³','Mayores: 2³ y 3','MCM = 8×3 = 24'], v:'6→12→18→24 ✓ | 8→16→24 ✓'},
+  ],
+  gcf: [
+    {s:['18 = 2×3²','27 = 3³','Factor común: 3 (exp menor: 3²)','MCD = 9'], v:'18÷9=2 ✓ | 27÷9=3 ✓'},
+    {s:['24 = 2³×3','48 = 2⁴×3','Comunes: 2³ y 3¹','MCD = 8×3 = 24'], v:'24÷24=1 ✓ | 48÷24=2 ✓'},
+    {s:['32 = 2⁵','80 = 2⁴×5','Común: 2 (exp menor: 2⁴)','MCD = 16'], v:'32÷16=2 ✓ | 80÷16=5 ✓'},
+    {s:['90 = 2×3²×5','120 = 2³×3×5','Comunes: 2¹, 3¹, 5¹','MCD = 2×3×5 = 30'], v:'90÷30=3 ✓ | 120÷30=4 ✓'},
+    {s:['180 = 2²×3²×5','240 = 2⁴×3×5','Comunes: 2², 3¹, 5¹','MCD = 4×3×5 = 60'], v:'180÷60=3 ✓ | 240÷60=4 ✓'},
+    {s:['22 = 2×11','55 = 5×11','Factor común: 11','MCD = 11 ✅'], v:'22÷11=2 ✓ | 55÷11=5 ✓'},
+    {s:['12 = 2²×3','18 = 2×3²','Comunes: 2¹ y 3¹','MCD = 2×3 = 6'], v:'12÷6=2 ✓ | 18÷6=3 ✓'},
+    {s:['15 = 3×5','25 = 5²','Común: 5 (exp menor: 5¹)','MCD = 5'], v:'15÷5=3 ✓ | 25÷5=5 ✓'},
+  ],
+  fractions: [
+    {s:['Numerador=8, Denominador=3','8 > 3 → IMPROPIA','Vale más de 1 entero','Se lee: eight thirds'], v:'8÷3 = 2 enteros y 2/3 extra'},
+    {s:['Numerador=5, Denominador=8','5 < 8 → PROPIA','Vale menos de 1 entero','Se lee: five eighths'], v:'Solo 5 de 8 partes = menos de 1'},
+    {s:['Numerador=15, Denominador=6','15 > 6 → IMPROPIA','15÷6 = 2 enteros y 3/6 extra'], v:'Mayor que 1 → siempre impropia'},
+    {s:['Numerador=10, Denominador=10','10 = 10 → UNITARIA','Igual a 1 entero completo'], v:'10/10 = 1 pizza entera 🍕'},
+    {s:['Numerador 12 → twelve','Denominador 9 → ninth + s = ninths','Fracción: twelve ninths','Regla: num + ordinal + s'], v:'nine over twelve estaría al revés ❌'},
+    {s:['Numerador 4 → four','Denominador 5 → fifth + s = fifths','Fracción: four fifths'], v:'half=2, third=3, fourth=4, fifth=5...'},
+    {s:['Homogénea = mismo DENOMINADOR','9/13 tiene denominador 13','Busca fracción con 13 abajo','12/13 ✅'], v:'Solo importa el número de abajo sea igual'},
+    {s:['Numerador=19, Denominador=10','19 > 10 → IMPROPIA'], v:'Número de arriba mayor → siempre impropia'},
+    {s:['Numerador=8, Denominador=12','8 < 12 → PROPIA'], v:'eight twelfths — menos de 1 pizza'},
+    {s:['Numerador=8, Denominador=8','8 = 8 → UNITARIA = 1 completo'], v:'Tomaste TODAS las partes → entero'},
+    {s:['5/13: denominador=13','7/13: denominador=13','Mismo denominador → HOMOGÉNEAS'], v:'Mismo denominador abajo = homogéneas'},
+    {s:['10/4: denominador=4','4/10: denominador=10','4 ≠ 10 → HETEROGÉNEAS'], v:'Denominadores distintos → heterogéneas'},
+    {s:['Impropia: numerador MAYOR','12/9 → 12>9 ✅ IMPROPIA','12/13→propia, 20/20→unitaria, 21/30→propia'], v:'Solo 12/9 tiene numerador > denominador'},
+    {s:['Three = 3 (numerador)','Halves = mitades → denominador 2','Three Halves = 3/2','3>2 → es impropia'], v:'Half=2, Third=3, Fourth=4, Fifth=5'},
+    {s:['Fracción: 8/10','Numerador = número de ARRIBA','Numerador = 8'], v:'Nu-me-RA-dor → arriba siempre'},
+  ],
+};
+
+// ════════════════════════════════════════════
+// CATEGORY INTROS (bilingual)
+// ════════════════════════════════════════════
+var INTROS = {
+  lcm: {
+    icon:'🔢',
+    title:{es:'Mínimo Común Múltiplo (MCM)',en:'Least Common Multiple (LCM)'},
+    sub:{es:'LCM — Least Common Multiple',en:'MCM — Mínimo Común Múltiplo'},
+    def:{es:'El MCM es el número MÁS PEQUEÑO que es múltiplo de dos números al mismo tiempo. ¡Como el primer escalón donde dos ranas saltan juntas!',
+         en:'The LCM is the SMALLEST number that is a multiple of two numbers at the same time. Like the first step where two frogs jump together!'},
+    stepsT:{es:'¿Cómo se calcula? Método de factores primos:',en:'How to calculate it? Prime factorization method:'},
+    steps:[
+      {es:'Descompón cada número en factores primos (2, 3, 5, 7...)',en:'Break each number into prime factors (2, 3, 5, 7...)'},
+      {es:'Anota TODOS los factores con el MAYOR exponente de cada uno',en:'Write ALL factors using the HIGHEST exponent of each'},
+      {es:'Multiplica todos esos factores → ¡ese es el MCM!',en:'Multiply all those factors → that is the LCM!'},
+    ],
+    exT:{es:'📖 Ejemplo: MCM de 4 y 6',en:'📖 Example: LCM of 4 and 6'},
+    exLines:[
+      {l:'①',es:'4 = 2 × 2 = 2²',en:'4 = 2 × 2 = 2²'},
+      {l:'②',es:'6 = 2 × 3 = 2¹ × 3¹',en:'6 = 2 × 3 = 2¹ × 3¹'},
+      {l:'③',es:'Tomo el mayor: 2² y 3¹',en:'Take the highest: 2² and 3¹'},
+      {l:'④',es:'MCM = 4 × 3 = 12 ✅',en:'LCM = 4 × 3 = 12 ✅'},
+      {l:'✓',es:'4,8,12... | 6,12... ¡El primero en común es 12!',en:'4,8,12... | 6,12... First in common is 12!'},
+    ],
+    tip:{es:'🧠 Truco: Si no comparten factores, multiplícalos. Ej: MCM(5,7)=35',
+         en:'🧠 Tip: If they share no factors, multiply them. Ex: LCM(5,7)=35'},
+  },
+  gcf: {
+    icon:'🔍',
+    title:{es:'Máximo Común Factor (MCD)',en:'Greatest Common Factor (GCF)'},
+    sub:{es:'GCF — Greatest Common Factor',en:'MCD — Máximo Común Factor'},
+    def:{es:'El MCD es el número MÁS GRANDE que divide exactamente a dos números sin sobrar nada. ¡Como el trozo más grande para cortar igual dos cintas!',
+         en:'The GCF is the LARGEST number that divides two numbers exactly without remainder. Like the biggest piece to cut two ribbons equally!'},
+    stepsT:{es:'¿Cómo se calcula?',en:'How to calculate it?'},
+    steps:[
+      {es:'Descompón cada número en factores primos',en:'Break each number into prime factors'},
+      {es:'Busca los factores que aparecen en AMBOS números',en:'Find factors that appear in BOTH numbers'},
+      {es:'Usa el MENOR exponente de cada factor común → ¡ese es el MCD!',en:'Use the LOWEST exponent of each common factor → that is the GCF!'},
+    ],
+    exT:{es:'📖 Ejemplo: MCD de 12 y 18',en:'📖 Example: GCF of 12 and 18'},
+    exLines:[
+      {l:'①',es:'12 = 2² × 3',en:'12 = 2² × 3'},
+      {l:'②',es:'18 = 2 × 3²',en:'18 = 2 × 3²'},
+      {l:'③',es:'Comunes: 2 (exp 1) y 3 (exp 1)',en:'Common: 2 (exp 1) and 3 (exp 1)'},
+      {l:'④',es:'MCD = 2 × 3 = 6 ✅',en:'GCF = 2 × 3 = 6 ✅'},
+      {l:'✓',es:'12÷6=2 ✓ y 18÷6=3 ✓',en:'12÷6=2 ✓ and 18÷6=3 ✓'},
+    ],
+    tip:{es:'🧠 Truco: Los factores COMUNES son los que se repiten en ambos números.',
+         en:'🧠 Tip: COMMON factors are those that appear in both numbers.'},
+  },
+  fractions: {
+    icon:'🍕',
+    title:{es:'Fracciones',en:'Fractions'},
+    sub:{es:'Tipos y cómo leerlas en inglés',en:'Types and how to read them'},
+    def:{es:'Una fracción tiene NUMERADOR (arriba = cuántas partes tomas) y DENOMINADOR (abajo = en cuántas partes está dividido el todo).',
+         en:'A fraction has a NUMERATOR (top = how many parts you take) and a DENOMINATOR (bottom = how many parts the whole is divided into).'},
+    stepsT:{es:'¿Cómo identificar cada tipo?',en:'How to identify each type?'},
+    steps:[
+      {es:'PROPIA (Proper): Numerador < Denominador. Ej: 3/5 → menos de 1 🟢',en:'PROPER: Numerator < Denominator. Ex: 3/5 → less than 1 🟢'},
+      {es:'IMPROPIA (Improper): Numerador > Denominador. Ej: 7/4 → más de 1 🔴',en:'IMPROPER: Numerator > Denominator. Ex: 7/4 → more than 1 🔴'},
+      {es:'UNITARIA (Unit): Numerador = Denominador. Ej: 8/8 = 1 🟡',en:'UNIT: Numerator = Denominator. Ex: 8/8 = 1 🟡'},
+      {es:'HOMOGÉNEAS: Dos fracciones con el MISMO denominador 🔵',en:'HOMOGENEOUS: Two fractions with the SAME denominator 🔵'},
+    ],
+    exT:{es:'📖 ¿Cómo se leen en inglés?',en:'📖 How to read fractions in English?'},
+    exLines:[
+      {l:'1/2',es:'"one half"',en:'"one half"'},
+      {l:'3/4',es:'"three fourths" o "three quarters"',en:'"three fourths" or "three quarters"'},
+      {l:'5/8',es:'"five eighths" → num + ordinal + s',en:'"five eighths" → num + ordinal + s'},
+      {l:'12/9',es:'"twelve ninths"',en:'"twelve ninths"'},
+    ],
+    tip:{es:'🧠 Para leer: numerador (número normal) + denominador (ordinal + s si num>1)',
+         en:'🧠 To read: numerator (normal number) + denominator (ordinal + s if num>1)'},
+  },
+  mixed: {
+    icon:'🎲',
+    title:{es:'¡Modo Desafío Total!',en:'Total Challenge Mode!'},
+    sub:{es:'MCM + MCD + Fracciones — todo junto',en:'LCM + GCF + Fractions — all together'},
+    def:{es:'¡Este modo mezcla todo! Necesitas usar tu cerebro para MCM, MCD y Fracciones. Lee la etiqueta de color de cada pregunta para saber qué método usar.',
+         en:'This mode mixes everything! Use your brain for LCM, GCF and Fractions. Read the color label on each question to know which method to use.'},
+    stepsT:{es:'Recuerda rápido:',en:'Quick review:'},
+    steps:[
+      {es:'MCM → número más PEQUEÑO múltiplo de ambos. Usa exponentes MAYORES.',en:'LCM → SMALLEST number that is multiple of both. Use HIGHER exponents.'},
+      {es:'MCD → número más GRANDE que divide a ambos. Usa exponentes MENORES.',en:'GCF → LARGEST number that divides both. Use LOWER exponents.'},
+      {es:'Fracción PROPIA: num<den. IMPROPIA: num>den. UNITARIA: num=den.',en:'PROPER fraction: num<den. IMPROPER: num>den. UNIT: num=den.'},
+    ],
+    exT:{es:'💡 Mini repaso express:',en:'💡 Quick mini review:'},
+    exLines:[
+      {l:'MCM',es:'de 6 y 9 = 18 (6×3=18 ✓ y 9×2=18 ✓)',en:'of 6 and 9 = 18 (6×3=18 ✓ and 9×2=18 ✓)'},
+      {l:'MCD',es:'de 12 y 8 = 4 (12÷4=3 ✓ y 8÷4=2 ✓)',en:'of 12 and 8 = 4 (12÷4=3 ✓ and 8÷4=2 ✓)'},
+      {l:'5/9',es:'→ PROPIA (5 < 9)',en:'→ PROPER (5 < 9)'},
+      {l:'11/4',es:'→ IMPROPIA (11 > 4)',en:'→ IMPROPER (11 > 4)'},
+    ],
+    tip:{es:'🔥 Lee la etiqueta de color de cada pregunta — te indica el tema.',
+         en:'🔥 Read the color label on each question — it tells you the topic.'},
+  },
+};
+
+// ════════════════════════════════════════════
+// GAMIFICATION & PLAYER DATA
+// ════════════════════════════════════════════
+var PRIZES = [
+  {score:0,items:[]},
+  {score:50,items:['⭐']},
+  {score:100,items:['⭐','🍭']},
+  {score:150,items:['⭐','🍭','🎮']},
+  {score:200,items:['⭐','🍭','🎮','🏆']},
+  {score:250,items:['⭐','🍭','🎮','🏆','👑']},
+  {score:300,items:['⭐','🍭','🎮','🏆','👑','🚀']},
+];
+
+var CAT_CFG = {
+  lcm:{label:'MCM / LCM',color:'#0ea5e9'},
+  gcf:{label:'MCD / GCF',color:'#22c55e'},
+  fractions:{label:'Fracciones / Fractions',color:'#a855f7'},
+  mixed:{label:'Mixed / Mixto',color:'#ef4444'},
+};
+
+var playerData = loadPlayerData();
+
+function loadPlayerData() {
+  try {
+    var d = localStorage.getItem('martinAcademy3');
+    if(d) return JSON.parse(d);
+  } catch(e){}
+  return {totalStars:0,level:1,gamesPlayed:0,highScore:0,history:[]};
+}
+function savePlayerData() {
+  try { localStorage.setItem('martinAcademy3', JSON.stringify(playerData)); } catch(e){}
+}
+function calcStars(score, total) {
+  var pct = score / (total * 30);
+  if(pct >= .9) return 3;
+  if(pct >= .6) return 2;
+  if(pct >= .3) return 1;
+  return 0;
+}
+function getPrizes(score) {
+  var best = [];
+  for(var i=0;i<PRIZES.length;i++){if(score>=PRIZES[i].score) best=PRIZES[i].items;}
+  return best;
+}
+
+// ════════════════════════════════════════════
+// GAME STATE
+// ════════════════════════════════════════════
+var gs = { // gameState
+  cat:'', questions:[], current:0, score:0, lives:3,
+  streak:0, correct:0, wrong:0, timer:120,
+  timerInterval:null, answered:false, paused:false,
+  powerups:{hint:2, time:2, skip:1},
+};
+var currentCat = '';
+
+function shuffle(arr) {
+  var a = arr.slice();
+  for(var i=a.length-1;i>0;i--){var j=Math.floor(Math.random()*(i+1));var t=a[i];a[i]=a[j];a[j]=t;}
+  return a;
+}
+function buildMixed() {
+  var all = [];
+  var cats = ['lcm','gcf','fractions'];
+  for(var c=0;c<cats.length;c++){
+    var cat = cats[c];
+    for(var i=0;i<QUESTIONS[cat].length;i++){
+      var q = QUESTIONS[cat][i];
+      all.push({q:q.q,opts:q.opts,ans:q.ans,hint:q.hint,_cat:cat,_idx:i});
+    }
+  }
+  return shuffle(all).slice(0,15);
+}
+
+// ════════════════════════════════════════════
+// SCREENS
+// ════════════════════════════════════════════
+function showScreen(id) {
+  var screens = document.querySelectorAll('.screen');
+  for(var i=0;i<screens.length;i++) screens[i].classList.remove('active');
+  document.getElementById(id).classList.add('active');
+  if(id==='welcome') updateWelcomeStats();
+  if(id==='ranking') renderRanking();
+}
+
+function updateWelcomeStats() {
+  var lang = LANGS[currentLang];
+  document.getElementById('totalStarsDisplay').textContent = '⭐ ' + playerData.totalStars;
+  document.getElementById('levelDisplay').textContent = '🏅 ' + lang.levelLabel + ' ' + playerData.level;
+  document.getElementById('gamesPlayedDisplay').textContent = '🎯 ' + playerData.gamesPlayed + ' ' + lang.gamesLabel;
+}
+
+// ════════════════════════════════════════════
+// INTRO MODAL
+// ════════════════════════════════════════════
+function showIntro(cat) {
+  var info = INTROS[cat];
+  if(!info) { launchGame(cat); return; }
+  var lang = currentLang;
+  var box = document.getElementById('introBox');
+  var stepsHtml = info.steps.map(function(s,i){
+    return '<div class="intro-step"><div class="step-num">'+(i+1)+'</div><div class="step-text">'+s[lang]+'</div></div>';
+  }).join('');
+  var exLinesHtml = info.exLines.map(function(l){
+    return '<div class="ex-line"><span class="el">'+l.l+'</span><span>'+l[lang]+'</span></div>';
+  }).join('');
+  box.innerHTML =
+    '<div class="modal-header">'+
+      '<span class="modal-icon">'+info.icon+'</span>'+
+      '<div><div class="modal-title">'+info.title[lang]+'</div>'+
+      '<div class="modal-subtitle">'+info.sub[lang]+'</div></div>'+
+    '</div>'+
+    '<div class="intro-def">'+info.def[lang]+'</div>'+
+    '<div class="intro-steps-title">📋 '+info.stepsT[lang]+'</div>'+
+    stepsHtml+
+    '<div class="intro-ex"><div class="intro-ex-title">'+info.exT[lang]+'</div>'+exLinesHtml+'</div>'+
+    '<div class="intro-tip"><span>💡</span><span>'+info.tip[lang]+'</span></div>'+
+    '<div class="modal-btns">'+
+      '<button class="btn btn-yellow" onclick="closeIntroAndPlay(\''+cat+'\')" style="font-size:clamp(0.9rem,2.5vw,1.2rem)">'+L('introPlay')+'</button>'+
+      '<button class="btn btn-gray" onclick="closeIntro()" style="font-size:clamp(0.85rem,2vw,1rem);padding:12px 22px;">'+L('introBack')+'</button>'+
+    '</div>';
+  document.getElementById('introOverlay').classList.add('open');
+}
+function closeIntro() { document.getElementById('introOverlay').classList.remove('open'); }
+function closeIntroAndPlay(cat) { closeIntro(); launchGame(cat); }
+
+function startGame(cat) {
+  currentCat = cat;
+  showIntro(cat);
+}
+
+function launchGame(cat) {
+  var qs;
+  if(cat==='mixed'){
+    qs = buildMixed();
+  } else {
+    var pool = QUESTIONS[cat].map(function(q,i){ return {q:q.q,opts:q.opts,ans:q.ans,hint:q.hint,_cat:cat,_idx:i}; });
+    qs = shuffle(pool).slice(0, Math.min(10, pool.length));
+  }
+  gs = {
+    cat:cat, questions:qs, current:0, score:0, lives:3,
+    streak:0, correct:0, wrong:0, timer:120,
+    timerInterval:null, answered:false, paused:false,
+    powerups:{hint:2, time:2, skip:1},
+  };
+  updatePowerupUI();
+  showScreen('game');
+  loadQuestion();
+}
+
+function restartSameCategory() { launchGame(currentCat); }
+
+// ════════════════════════════════════════════
+// QUESTION LOADING
+// ════════════════════════════════════════════
+function loadQuestion() {
+  if(gs.current >= gs.questions.length) { endGame(); return; }
+  gs.answered = false;
+  gs.paused = false;
+
+  // Reset pause UI
+  var po = document.getElementById('pauseOverlay');
+  if(po) po.classList.remove('open');
+  var pb = document.getElementById('pauseBtn');
+  if(pb) { pb.textContent = L('pauseBtn'); pb.classList.remove('paused'); }
+
+  // Hide feedback; explanation is now a full modal — just close it if open
+  document.getElementById('feedbackMsg').className = 'feedback-msg';
+  document.getElementById('feedbackMsg').textContent = '';
+  document.getElementById('expOverlay').classList.remove('open');
+  document.getElementById('expSteps').innerHTML = '';
+
+  var qObj = gs.questions[gs.current];
+  var cat = qObj._cat || gs.cat;
+  var cfg = CAT_CFG[cat] || CAT_CFG.lcm;
+
+  // Label
+  document.getElementById('catLabel').textContent = cfg.label;
+  document.getElementById('catLabel').style.background = cfg.color;
+
+  // Number
+  document.getElementById('qNumber').textContent = L('qLabel')(gs.current+1, gs.questions.length);
+
+  // Question text
+  document.getElementById('questionText').textContent = qObj.q;
+
+  // Progress
+  document.getElementById('progressBar').style.width = ((gs.current / gs.questions.length)*100) + '%';
+
+  // Options — shuffle display order but track correct by value
+  var correctVal = qObj.opts[qObj.ans];
+  var displayOpts = shuffle(qObj.opts.slice());
+  var grid = document.getElementById('optionsGrid');
+  grid.innerHTML = '';
+  for(var i=0;i<displayOpts.length;i++){
+    (function(optVal){
+      var btn = document.createElement('button');
+      btn.className = 'option-btn';
+      btn.textContent = optVal;
+      btn.dataset.correct = (optVal === correctVal) ? '1' : '0';
+      btn.onclick = function(){ answerQuestion(btn, correctVal, qObj); };
+      grid.appendChild(btn);
+    })(displayOpts[i]);
+  }
+
+  updateLives();
+  document.getElementById('currentScore').textContent = gs.score;
+  updateStreakDisplay();
+  startTimer();
+}
+
+// ════════════════════════════════════════════
+// ANSWER — THE FIXED CORE FUNCTION
+// ════════════════════════════════════════════
+function answerQuestion(btn, correctVal, qObj) {
+  if(gs.answered) return;         // guard double-click
+  clearInterval(gs.timerInterval);
+  gs.answered = true;
+
+  var allBtns = document.querySelectorAll('.option-btn');
+  for(var i=0;i<allBtns.length;i++) allBtns[i].disabled = true;
+
+  var isCorrect = btn.dataset.correct === '1';
+
+  if(isCorrect) {
+    btn.classList.add('correct');
+    var timeBonus = Math.floor(gs.timer / 4);
+    var streakBonus = gs.streak >= 2 ? gs.streak * 5 : 0;
+    var pts = 20 + timeBonus + streakBonus;
+    gs.score += pts;
+    gs.streak++;
+    gs.correct++;
+    document.getElementById('currentScore').textContent = gs.score;
+    var msg = L('msgsCorrect')[Math.floor(Math.random()*L('msgsCorrect').length)];
+    showFeedback(true, msg + ' +' + pts + ' pts');
+    showFloatingPoints('+' + pts, btn, false);
+    if(gs.streak >= 2) showToast(L('msgsStreak')[Math.min(gs.streak-2, L('msgsStreak').length-1)], '#f59e0b');
+  } else {
+    btn.classList.add('wrong');
+    for(var j=0;j<allBtns.length;j++){
+      if(allBtns[j].dataset.correct === '1') allBtns[j].classList.add('correct');
+    }
+    gs.lives--;
+    gs.streak = 0;
+    gs.wrong++;
+    updateLives();
+    var msgW = L('msgsWrong')[Math.floor(Math.random()*L('msgsWrong').length)];
+    showFeedback(false, msgW);
+    showFloatingPoints('-5', btn, true);
+    gs.score = Math.max(0, gs.score - 5);
+    document.getElementById('currentScore').textContent = gs.score;
+  }
+
+  updateStreakDisplay();
+  // Show big explanation modal — it drives the next action via button
+  showExplanation(isCorrect, qObj);
+}
+
+function nextQuestion() {
+  gs.current++;
+  loadQuestion();
+}
+
+function timeOut() {
+  if(gs.answered) return;
+  gs.answered = true;
+  clearInterval(gs.timerInterval);
+  gs.lives--;
+  gs.streak = 0;
+  gs.wrong++;
+  updateLives();
+  updateStreakDisplay();
+  showFeedback(false, L('timeoutMsg'));
+  // Show explanation even on timeout
+  var qObj = gs.questions[gs.current];
+  showExplanation(false, qObj);
+  // Show explanation modal (with 0 pts context) — button drives next
+  var qObj = gs.questions[gs.current];
+  showExplanation(false, qObj);
+}
+
+// ════════════════════════════════════════════
+// EXPLANATION MODAL — big, prominent, blocks until dismissed
+// ════════════════════════════════════════════
+var _pendingAfterExp = null; // 'next' or 'end'
+
+function showExplanation(isCorrect, qObj) {
+  var cat = qObj._cat || gs.cat;
+  var idx = (typeof qObj._idx !== 'undefined') ? qObj._idx : -1;
+  var exp = (idx >= 0 && Q_EXP[cat]) ? Q_EXP[cat][idx] : null;
+
+  // What happens after modal closes
+  _pendingAfterExp = (gs.lives <= 0) ? 'end' : 'next';
+
+  var overlay   = document.getElementById('expOverlay');
+  var stampEmoji  = document.getElementById('expStampEmoji');
+  var bannerTitle = document.getElementById('expBannerTitle');
+  var bannerSub   = document.getElementById('expBannerSub');
+  var stepsHeader = document.getElementById('expStepsHeader');
+  var stepsEl     = document.getElementById('expSteps');
+  var verifyEl    = document.getElementById('expVerify');
+  var verifyIcon  = document.getElementById('expVerifyIcon');
+  var verifyLabel = document.getElementById('expVerifyLabel');
+  var verifyText  = document.getElementById('expVerifyText');
+  var nextBtn     = document.getElementById('expNextBtn');
+
+  // ── Set overlay background & stamp ──
+  if (isCorrect) {
+    overlay.className = 'open correct-bg';
+    stampEmoji.textContent  = '🎉';
+    bannerTitle.textContent = L('expBannerTitleCorrect');
+    bannerSub.textContent   = L('expBannerSubCorrect');
+    stepsHeader.innerHTML   = '🧠 ' + L('expStepsHeaderCorrect');
+  } else {
+    overlay.className = 'open wrong-bg';
+    stampEmoji.textContent  = '💡';
+    bannerTitle.textContent = L('expBannerTitleWrong');
+    bannerSub.textContent   = L('expBannerSubWrong');
+    stepsHeader.innerHTML   = '📚 ' + L('expStepsHeaderWrong');
+  }
+
+  // ── Build step cards ──
+  stepsEl.innerHTML = '';
+  if (exp && exp.s && exp.s.length) {
+    for (var i = 0; i < exp.s.length; i++) {
+      var row = document.createElement('div');
+      row.className = 'exp-step-row';
+      row.innerHTML =
+        '<div class="exp-dot">' + (i + 1) + '</div>' +
+        '<div class="exp-body-text">' + exp.s[i] + '</div>';
+      stepsEl.appendChild(row);
+    }
+  } else {
+    var fallback = document.createElement('div');
+    fallback.className = 'exp-step-row';
+    fallback.innerHTML =
+      '<div class="exp-dot">★</div>' +
+      '<div class="exp-body-text">' + (isCorrect ? L('expGenOk') : L('expGenFail')) + '</div>';
+    stepsEl.appendChild(fallback);
+  }
+
+  // ── Verify box ──
+  if (exp && exp.v) {
+    verifyEl.style.display = 'flex';
+    verifyIcon.textContent  = isCorrect ? '✅' : '🔎';
+    verifyLabel.textContent = isCorrect ? L('expVerifyC') : L('expVerifyW');
+    verifyText.textContent  = exp.v;
+  } else {
+    verifyEl.style.display = 'none';
+  }
+
+  // ── Next button label ──
+  if (_pendingAfterExp === 'end') {
+    nextBtn.textContent = L('expNextEnd');
+  } else {
+    var remaining = gs.questions.length - gs.current - 1;
+    nextBtn.textContent = remaining > 0 ? L('expNextQuestion') : L('expNextFinish');
+  }
+
+  // Scroll to top of modal & show
+  document.getElementById('expModal').scrollTop = 0;
+}
+
+function closeExpAndNext() {
+  document.getElementById('expOverlay').classList.remove('open');
+  if(_pendingAfterExp === 'end'){
+    endGame();
+  } else {
+    nextQuestion();
+  }
+}
+
+// ════════════════════════════════════════════
+// TIMER & PAUSE
+// ════════════════════════════════════════════
+function startTimer() {
+  clearInterval(gs.timerInterval);
+  gs.timer = 120;
+  updateTimerUI();
+  gs.timerInterval = setInterval(function(){
+    if(gs.paused || gs.answered) return;
+    gs.timer--;
+    updateTimerUI();
+    if(gs.timer <= 0){
+      clearInterval(gs.timerInterval);
+      timeOut();
+    }
+  }, 1000);
+}
+
+function updateTimerUI() {
+  var t = gs.timer;
+  var m = Math.floor(t/60);
+  var s = t % 60;
+  document.getElementById('timerText').textContent = m + ':' + (s<10?'0':'') + s;
+  var off = 138 * (1 - t/120);
+  var circ = document.getElementById('timerCircle');
+  circ.style.strokeDashoffset = off;
+  circ.style.stroke = t<=15 ? '#ef4444' : (t<=30 ? '#f97316' : '#fbbf24');
+}
+
+function togglePause() {
+  if(gs.answered) return;
+  gs.paused = !gs.paused;
+  var overlay = document.getElementById('pauseOverlay');
+  var btn = document.getElementById('pauseBtn');
+  if(gs.paused){
+    clearInterval(gs.timerInterval);
+    overlay.classList.add('open');
+    if(btn){ btn.textContent='▶️'; btn.classList.add('paused'); }
+  } else {
+    overlay.classList.remove('open');
+    if(btn){ btn.textContent=L('pauseBtn'); btn.classList.remove('paused'); }
+    // Re-start interval from where we left off
+    gs.timerInterval = setInterval(function(){
+      if(gs.paused || gs.answered) return;
+      gs.timer--;
+      updateTimerUI();
+      if(gs.timer <= 0){
+        clearInterval(gs.timerInterval);
+        timeOut();
+      }
+    }, 1000);
+  }
+}
+
+// ════════════════════════════════════════════
+// UI HELPERS
+// ════════════════════════════════════════════
+function showFeedback(ok, msg) {
+  var el = document.getElementById('feedbackMsg');
+  el.textContent = msg;
+  el.className = 'feedback-msg show ' + (ok ? 'correct-fb' : 'wrong-fb');
+}
+
+function updateLives() {
+  var ids = ['h1','h2','h3'];
+  for(var i=0;i<ids.length;i++){
+    var h = document.getElementById(ids[i]);
+    if(i < gs.lives) h.classList.remove('lost');
+    else h.classList.add('lost');
+  }
+}
+
+function updateStreakDisplay() {
+  var area = document.getElementById('streakArea');
+  if(gs.streak >= 2){
+    area.innerHTML = '<div class="streak-badge">🔥 ' + L('streakLabel') + gs.streak + '</div>';
+  } else {
+    area.innerHTML = '';
+  }
+}
+
+function updatePowerupUI() {
+  document.getElementById('hintCount').textContent = gs.powerups.hint;
+  document.getElementById('timeCount').textContent = gs.powerups.time;
+  document.getElementById('skipCount').textContent = gs.powerups.skip;
+  document.getElementById('puHint').disabled = gs.powerups.hint <= 0;
+  document.getElementById('puTime').disabled = gs.powerups.time <= 0;
+  document.getElementById('puSkip').disabled = gs.powerups.skip <= 0;
+}
+
+function showFloatingPoints(text, refEl, bad) {
+  var rect = refEl.getBoundingClientRect();
+  var fp = document.createElement('div');
+  fp.className = 'float-pt';
+  fp.textContent = text;
+  fp.style.left = (rect.left + rect.width/2 - 25) + 'px';
+  fp.style.top = (rect.top - 10) + 'px';
+  fp.style.color = bad ? '#ef4444' : '#22c55e';
+  document.body.appendChild(fp);
+  setTimeout(function(){ fp.remove(); }, 1300);
+}
+
+function showToast(msg, color) {
+  color = color || '#a855f7';
+  var t = document.createElement('div');
+  t.textContent = msg;
+  t.style.cssText = 'position:fixed;top:75px;left:50%;transform:translateX(-50%);' +
+    'background:'+color+';color:#fff;padding:10px 24px;border-radius:50px;' +
+    'font-family:\'Fredoka One\',cursive;font-size:clamp(1rem,3vw,1.3rem);z-index:9999;' +
+    'box-shadow:0 4px 20px rgba(0,0,0,.28);pointer-events:none;white-space:nowrap;';
+  document.body.appendChild(t);
+  setTimeout(function(){ t.style.opacity='0';t.style.transition='opacity .3s'; },1200);
+  setTimeout(function(){ t.remove(); },1600);
+}
+
+// ════════════════════════════════════════════
+// POWERUPS
+// ════════════════════════════════════════════
+function useHint() {
+  if(gs.powerups.hint<=0 || gs.answered) return;
+  gs.powerups.hint--;
+  updatePowerupUI();
+  var qObj = gs.questions[gs.current];
+  var hint = qObj.hint || L('defaultHint');
+  showToast(L('hintToast')(hint), '#3b82f6');
+}
+function useExtraTime() {
+  if(gs.powerups.time<=0) return;
+  gs.powerups.time--;
+  updatePowerupUI();
+  gs.timer = Math.min(gs.timer+30, 180);
+  updateTimerUI();
+  showToast(L('timeToast'), '#22c55e');
+}
+function useSkip() {
+  if(gs.powerups.skip<=0 || gs.answered) return;
+  gs.powerups.skip--;
+  gs.answered = true;
+  clearInterval(gs.timerInterval);
+  updatePowerupUI();
+  showToast(L('skipToast'), '#6b7280');
+  setTimeout(nextQuestion, 800);
+}
+function confirmExit() {
+  if(confirm(L('confirmExit'))){
+    clearInterval(gs.timerInterval);
+    showScreen('categories');
+  }
+}
+
+// ════════════════════════════════════════════
+// END GAME
+// ════════════════════════════════════════════
+function endGame() {
+  clearInterval(gs.timerInterval);
+  var total = gs.questions.length;
+  var score = gs.score;
+  var stars = calcStars(score, total);
+  var prizes = getPrizes(score);
+
+  playerData.gamesPlayed++;
+  playerData.totalStars += stars;
+  playerData.highScore = Math.max(playerData.highScore, score);
+  playerData.level = Math.max(1, Math.floor(playerData.totalStars/5)+1);
+  playerData.history.unshift({score:score,cat:currentCat,stars:stars,
+    date:new Date().toLocaleDateString('es-CO'),correct:gs.correct,wrong:gs.wrong});
+  if(playerData.history.length>20) playerData.history.pop();
+  savePlayerData();
+
+  var emojis=['😢','😐','😊','🥳','🎉'];
+  var titles = L('resultTitles');
+  var lvl = Math.min(stars, 4);
+  document.getElementById('resultEmoji').textContent = emojis[lvl];
+  document.getElementById('resultTitle').textContent = titles[lvl];
+  document.getElementById('resultStars').textContent = stars>0 ? '⭐'.repeat(stars) : '💪';
+  document.getElementById('finalScore').textContent = score + ' pts';
+  document.getElementById('correctCount').textContent = gs.correct;
+  document.getElementById('wrongCount').textContent = gs.wrong;
+
+  var prizeList = document.getElementById('prizeList');
+  prizeList.innerHTML = '';
+  if(prizes.length>0){
+    for(var i=0;i<prizes.length;i++){
+      var el = document.createElement('div');
+      el.className = 'prize-item';
+      el.textContent = prizes[i];
+      el.style.animationDelay = (i*.18)+'s';
+      prizeList.appendChild(el);
+    }
+  } else {
+    prizeList.innerHTML = '<span style="color:#92400e;font-weight:800">'+L('prizeNoWin')+'</span>';
+  }
+
+  showScreen('result');
+  if(stars>=2) launchConfetti();
+}
+
+// ════════════════════════════════════════════
+// RANKING
+// ════════════════════════════════════════════
+function renderRanking() {
+  var list = document.getElementById('rankingList');
+  var rivals = [
+    {name:'🤖 RoboMath', score:285, stars:3},
+    {name:'🦊 FoxCalc',  score:220, stars:3},
+    {name:'🐉 DragonNum',score:175, stars:2},
+    {name:'🐼 PandaPlus',score:130, stars:2},
+    {name:'🐸 FrogFrac', score:80,  stars:1},
+  ];
+  var entries = rivals.concat([{name:'🦸 Martín', score:playerData.highScore, stars:calcStars(playerData.highScore,10), isMe:true}]);
+  entries.sort(function(a,b){ return b.score-a.score; });
+  var medals=['🥇','🥈','🥉'];
+  var cls=['gold','silver','bronze'];
+  list.innerHTML='';
+  for(var i=0;i<entries.length;i++){
+    var e=entries[i];
+    var d=document.createElement('div');
+    d.className='rank-item '+(i<3?cls[i]:'normal')+(e.isMe?' current':'');
+    d.innerHTML='<span class="rank-pos">'+(medals[i]||(i+1))+'</span>'+
+      '<span class="rank-name">'+e.name+(e.isMe?' '+L('youLabel'):'')+'</span>'+
+      '<span>'+'⭐'.repeat(e.stars)+'</span>'+
+      '<span class="rank-score">'+e.score+' pts</span>';
+    list.appendChild(d);
+  }
+  if(playerData.history.length>0){
+    var h=document.createElement('div');
+    h.style.cssText='margin-top:18px;text-align:left;';
+    h.innerHTML='<div style="font-family:\'Fredoka One\',cursive;color:#1e1b4b;font-size:clamp(0.9rem,2.5vw,1.05rem);margin-bottom:9px">'+L('lastGames')+'</div>';
+    var recent=playerData.history.slice(0,5);
+    for(var j=0;j<recent.length;j++){
+      var r=recent[j];
+      var rd=document.createElement('div');
+      rd.style.cssText='display:flex;gap:8px;align-items:center;padding:8px 12px;background:#f8fafc;border-radius:10px;margin-bottom:5px;font-size:clamp(0.75rem,2vw,0.88rem);font-weight:700;color:#374151;flex-wrap:wrap;';
+      rd.innerHTML='<span>'+(CAT_CFG[r.cat]?CAT_CFG[r.cat].label:r.cat)+'</span><span style="flex:1"></span><span>✅'+r.correct+' ❌'+r.wrong+'</span><span style="color:#f59e0b">'+'⭐'.repeat(r.stars)+'</span><span style="color:#7c3aed">'+r.score+'pts</span>';
+      h.appendChild(rd);
+    }
+    list.appendChild(h);
+  }
+}
+
+// ════════════════════════════════════════════
+// CONFETTI
+// ════════════════════════════════════════════
+function launchConfetti() {
+  var colors=['#fbbf24','#ef4444','#22c55e','#a855f7','#0ea5e9','#ec4899','#fff'];
+  for(var i=0;i<90;i++){
+    (function(){
+      var c=document.createElement('div');
+      c.className='confetti-piece';
+      c.style.left=Math.random()*100+'vw';
+      c.style.background=colors[Math.floor(Math.random()*colors.length)];
+      var sz=7+Math.random()*9;
+      c.style.width=c.style.height=sz+'px';
+      c.style.borderRadius=Math.random()>.5?'50%':'2px';
+      c.style.animationDuration=(1.4+Math.random()*2)+'s';
+      c.style.animationDelay=Math.random()*.9+'s';
+      document.body.appendChild(c);
+      setTimeout(function(){ c.remove(); },4000);
+    })();
+  }
+}
+
+// ════════════════════════════════════════════
+// STARS BG + INIT
+// ════════════════════════════════════════════
+function initStars() {
+  var cont = document.getElementById('starsContainer');
+  for(var i=0;i<60;i++){
+    var s=document.createElement('div');
+    s.className='star';
+    var sz=1.5+Math.random()*3;
+    s.style.cssText='width:'+sz+'px;height:'+sz+'px;left:'+Math.random()*100+'%;top:'+Math.random()*100+'%;animation-delay:'+Math.random()*2+'s;animation-duration:'+(1.5+Math.random()*2)+'s;';
+    cont.appendChild(s);
+  }
+}
+
+initStars();
+applyLang();
+updateWelcomeStats();
+</script>
+</body>
+</html>

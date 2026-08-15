@@ -1,0 +1,1843 @@
+{
+  "note": "Materialización estructurada de la serie 2.2. Conserva núcleos, cautelas, conexiones, fuentes, capas históricas y guiones abreviados.",
+  "cards": [
+    {
+      "id": "card_sramana_renunciant_world_001",
+      "author": "Comunidades śramaṇa",
+      "title": "Renunciar para investigar otra forma de vida",
+      "territory": "Llanura gangética y regiones del norte de India",
+      "period": "Mediados del primer milenio a. C.",
+      "family": "Renuncia y experimentación espiritual",
+      "statement": "Las comunidades śramaṇa convirtieron la renuncia, la disciplina corporal y el debate en vías para examinar karma, renacimiento y liberación fuera de la vida doméstica ordinaria.",
+      "tags": [
+        "śramaṇa",
+        "renuncia",
+        "debate",
+        "liberación"
+      ],
+      "question": "¿Qué sucede cuando la búsqueda de conocimiento exige abandonar temporal o permanentemente la vida doméstica?",
+      "caution": "No formaron un movimiento único ni deben describirse simplemente como una reacción homogénea contra el mundo védico.",
+      "connections": [
+        "Saṃsāra",
+        "Karma",
+        "El Buddha histórico",
+        "Mahāvīra"
+      ],
+      "order": 121,
+      "status": "nucleo_editorial_preservado",
+      "evidence": "B",
+      "audio": "Comenzamos con las comunidades śramaṇa del norte de India. Renunciantes de orientaciones distintas dejaron la vida doméstica para practicar disciplina, meditación, ayuno y debate. Compartieron preguntas sobre karma, renacimiento y liberación, pero ofrecieron respuestas incompatibles. Este mundo hizo posibles el budismo y el jainismo, aunque no fue una escuela única ni una simple oposición homogénea a la tradición védica.",
+      "quiz": {
+        "prompt": "¿Qué sucede cuando la búsqueda de conocimiento exige abandonar temporal o permanentemente la vida doméstica?",
+        "options": [
+          "Las comunidades śramaṇa convirtieron la renuncia, la disciplina corporal y el debate en vías para examinar karma, renacimiento y liberación fuera de la vida doméstica ordinaria.",
+          "La tradición ofrece una respuesta única y sin controversias.",
+          "El concepto puede traducirse sin atender a su contexto histórico.",
+          "La evidencia permite eliminar toda incertidumbre."
+        ],
+        "answer": 0,
+        "feedback": "Las comunidades śramaṇa convirtieron la renuncia, la disciplina corporal y el debate en vías para examinar karma, renacimiento y liberación fuera de la vida doméstica ordinaria."
+      },
+      "whyItMatters": "Introduce el escenario plural en el que surgieron varias filosofías no védicas y evita reducirlas a un solo fundador.",
+      "symbol": "⌂",
+      "visual": {
+        "palette": [
+          "#3a2f45",
+          "#7b5a41",
+          "#d2ad63"
+        ],
+        "allegory": "renuncia y experimentación espiritual"
+      },
+      "seriesVersion": "2.2",
+      "materializationLevel": "dossier_structurado_v2_audio_conciso",
+      "shareFooter": "Pregunta guía: ¿Qué sucede cuando la búsqueda de conocimiento exige abandonar temporal o permanentemente la vida doméstica?",
+      "audioVersion": "concise-listening-3.4",
+      "guideTransition": "",
+      "audioLead": "Comenzamos con las comunidades śramaṇa del norte de India.",
+      "audioContext": "",
+      "audioBody": "Renunciantes de orientaciones distintas dejaron la vida doméstica para practicar disciplina, meditación, ayuno y debate. Compartieron preguntas sobre karma, renacimiento y liberación, pero ofrecieron respuestas incompatibles. Este mundo hizo posibles el budismo y el jainismo, aunque no fue una escuela única ni una simple oposición homogénea a la tradición védica.",
+      "listeningMode": "entity_concept_limit_compact",
+      "collectionId": "south_asia_vedic_upanishadic",
+      "collection": "Sur de Asia: fundamentos y primeras controversias",
+      "collectionOrder": 4
+    },
+    {
+      "id": "card_historical_buddha_001",
+      "author": "Siddhārtha Gautama, el Buddha histórico",
+      "title": "Despertar y enseñar un camino verificable",
+      "territory": "Norte del subcontinente indio",
+      "period": "Probablemente siglo V a. C.; cronología discutida",
+      "family": "Vida, enseñanza y transmisión",
+      "statement": "Gautama enseñó un camino para comprender y cesar dukkha; sus palabras se conservaron en colecciones orales redactadas y organizadas después de su muerte.",
+      "tags": [
+        "Buddha",
+        "despertar",
+        "Dhamma",
+        "transmisión"
+      ],
+      "question": "¿Cómo distinguir una figura histórica de las biografías religiosas que crecieron alrededor de ella?",
+      "caution": "Las fechas exactas, numerosos episodios biográficos y la formulación literal de cada discurso no pueden establecerse con plena certeza.",
+      "connections": [
+        "Comunidades śramaṇa",
+        "Cuatro nobles verdades",
+        "Camino medio"
+      ],
+      "order": 122,
+      "status": "nucleo_editorial_preservado",
+      "evidence": "B",
+      "audio": "Seguimos con Siddhārtha Gautama, el Buddha histórico. Probablemente vivió en el siglo quinto antes de nuestra era y enseñó un camino para comprender y cesar dukkha. Sus discursos fueron preservados oralmente y organizados después en Nikāyas y Āgamas. Las biografías posteriores amplían su vida con episodios religiosos; por eso distinguimos la enseñanza temprana de los detalles cuya historicidad permanece incierta.",
+      "quiz": {
+        "prompt": "¿Cómo distinguir una figura histórica de las biografías religiosas que crecieron alrededor de ella?",
+        "options": [
+          "Gautama enseñó un camino para comprender y cesar dukkha; sus palabras se conservaron en colecciones orales redactadas y organizadas después de su muerte.",
+          "La tradición ofrece una respuesta única y sin controversias.",
+          "El concepto puede traducirse sin atender a su contexto histórico.",
+          "La evidencia permite eliminar toda incertidumbre."
+        ],
+        "answer": 0,
+        "feedback": "Gautama enseñó un camino para comprender y cesar dukkha; sus palabras se conservaron en colecciones orales redactadas y organizadas después de su muerte."
+      },
+      "whyItMatters": "Permite escuchar al fundador sin confundir historia, memoria comunitaria y elaboración religiosa posterior.",
+      "symbol": "☸",
+      "visual": {
+        "palette": [
+          "#243e4a",
+          "#487986",
+          "#d5ae57"
+        ],
+        "allegory": "vida, enseñanza y transmisión"
+      },
+      "seriesVersion": "2.2",
+      "materializationLevel": "dossier_structurado_v2_audio_conciso",
+      "shareFooter": "Pregunta guía: ¿Cómo distinguir una figura histórica de las biografías religiosas que crecieron alrededor de ella?",
+      "audioVersion": "concise-listening-3.4",
+      "guideTransition": "",
+      "audioLead": "Seguimos con Siddhārtha Gautama, el Buddha histórico.",
+      "audioContext": "",
+      "audioBody": "Probablemente vivió en el siglo quinto antes de nuestra era y enseñó un camino para comprender y cesar dukkha. Sus discursos fueron preservados oralmente y organizados después en Nikāyas y Āgamas. Las biografías posteriores amplían su vida con episodios religiosos; por eso distinguimos la enseñanza temprana de los detalles cuya historicidad permanece incierta.",
+      "listeningMode": "entity_concept_limit_compact",
+      "collectionId": "south_asia_vedic_upanishadic",
+      "collection": "Sur de Asia: fundamentos y primeras controversias",
+      "collectionOrder": 4
+    },
+    {
+      "id": "card_four_noble_truths_tasks_001",
+      "author": "Enseñanza budista temprana",
+      "title": "Cuatro verdades como diagnóstico y tarea",
+      "territory": "Norte de India",
+      "period": "Primeras colecciones budistas",
+      "family": "Dukkha y liberación",
+      "statement": "Las cuatro verdades relacionan dukkha, su origen, su cesación y un camino; cada una exige una tarea y no solo aceptación intelectual.",
+      "tags": [
+        "dukkha",
+        "ansia",
+        "cesación",
+        "camino"
+      ],
+      "question": "¿Por qué comprender el sufrimiento no basta si no cambia la relación con sus causas?",
+      "caution": "Dukkha no significa que toda experiencia sea únicamente dolor, y las cuatro verdades no deben reducirse a cuatro afirmaciones pesimistas.",
+      "connections": [
+        "El Buddha histórico",
+        "Camino medio",
+        "Origen dependiente"
+      ],
+      "order": 123,
+      "status": "nucleo_editorial_preservado",
+      "evidence": "A–B",
+      "audio": "Pasamos a las cuatro verdades de la enseñanza budista temprana. Dukkha debe comprenderse; su origen, ligado al ansia y al apego, debe abandonarse; la cesación debe realizarse; y el camino debe cultivarse. No afirman que cada instante sea dolor. Señalan que una vida dependiente de lo cambiante no ofrece seguridad permanente y requiere una práctica transformadora.",
+      "quiz": {
+        "prompt": "¿Por qué comprender el sufrimiento no basta si no cambia la relación con sus causas?",
+        "options": [
+          "Las cuatro verdades relacionan dukkha, su origen, su cesación y un camino; cada una exige una tarea y no solo aceptación intelectual.",
+          "La tradición ofrece una respuesta única y sin controversias.",
+          "El concepto puede traducirse sin atender a su contexto histórico.",
+          "La evidencia permite eliminar toda incertidumbre."
+        ],
+        "answer": 0,
+        "feedback": "Las cuatro verdades relacionan dukkha, su origen, su cesación y un camino; cada una exige una tarea y no solo aceptación intelectual."
+      },
+      "whyItMatters": "Convierte una fórmula conocida en un método de diagnóstico, intervención y verificación.",
+      "symbol": "✥",
+      "visual": {
+        "palette": [
+          "#243e4a",
+          "#487986",
+          "#d5ae57"
+        ],
+        "allegory": "dukkha y liberación"
+      },
+      "seriesVersion": "2.2",
+      "materializationLevel": "dossier_structurado_v2_audio_conciso",
+      "shareFooter": "Pregunta guía: ¿Por qué comprender el sufrimiento no basta si no cambia la relación con sus causas?",
+      "audioVersion": "concise-listening-3.4",
+      "guideTransition": "",
+      "audioLead": "Pasamos a las cuatro verdades de la enseñanza budista temprana.",
+      "audioContext": "",
+      "audioBody": "Dukkha debe comprenderse; su origen, ligado al ansia y al apego, debe abandonarse; la cesación debe realizarse; y el camino debe cultivarse. No afirman que cada instante sea dolor. Señalan que una vida dependiente de lo cambiante no ofrece seguridad permanente y requiere una práctica transformadora.",
+      "listeningMode": "entity_concept_limit_compact",
+      "collectionId": "south_asia_vedic_upanishadic",
+      "collection": "Sur de Asia: fundamentos y primeras controversias",
+      "collectionOrder": 4
+    },
+    {
+      "id": "card_dependent_arising_001",
+      "author": "Enseñanza budista de pratītyasamutpāda",
+      "title": "Nada surge aislado",
+      "territory": "Norte de India y tradiciones budistas posteriores",
+      "period": "Budismo temprano",
+      "family": "Causalidad y condicionamiento",
+      "statement": "El origen dependiente explica que experiencias y procesos aparecen cuando confluyen condiciones y cesan cuando esas condiciones dejan de sostenerlos.",
+      "tags": [
+        "pratītyasamutpāda",
+        "condiciones",
+        "causalidad",
+        "cesación"
+      ],
+      "question": "¿Cómo cambia la comprensión de una experiencia cuando dejamos de buscar una causa única o una esencia independiente?",
+      "caution": "No equivale a decir que todo causa todo ni debe identificarse sin precisión con cualquier teoría moderna de sistemas o interdependencia.",
+      "connections": [
+        "Cuatro nobles verdades",
+        "Anātman",
+        "Karma"
+      ],
+      "order": 124,
+      "status": "nucleo_editorial_preservado",
+      "evidence": "A–B",
+      "audio": "Continuamos con pratītyasamutpāda, el origen dependiente. Una experiencia aparece cuando ciertas condiciones se reúnen y puede cesar cuando dejan de sostenerla. La enseñanza permite analizar dukkha sin recurrir a una causa única ni a una esencia inmutable. No significa que todo dependa de todo por igual: exige identificar relaciones concretas de surgimiento y cesación.",
+      "quiz": {
+        "prompt": "¿Cómo cambia la comprensión de una experiencia cuando dejamos de buscar una causa única o una esencia independiente?",
+        "options": [
+          "El origen dependiente explica que experiencias y procesos aparecen cuando confluyen condiciones y cesan cuando esas condiciones dejan de sostenerlos.",
+          "La tradición ofrece una respuesta única y sin controversias.",
+          "El concepto puede traducirse sin atender a su contexto histórico.",
+          "La evidencia permite eliminar toda incertidumbre."
+        ],
+        "answer": 0,
+        "feedback": "El origen dependiente explica que experiencias y procesos aparecen cuando confluyen condiciones y cesan cuando esas condiciones dejan de sostenerlos."
+      },
+      "whyItMatters": "Ofrece una herramienta causal para comprender cómo se forman y pueden transformarse los patrones de sufrimiento.",
+      "symbol": "⛓",
+      "visual": {
+        "palette": [
+          "#243e4a",
+          "#487986",
+          "#d5ae57"
+        ],
+        "allegory": "causalidad y condicionamiento"
+      },
+      "seriesVersion": "2.2",
+      "materializationLevel": "dossier_structurado_v2_audio_conciso",
+      "shareFooter": "Pregunta guía: ¿Cómo cambia la comprensión de una experiencia cuando dejamos de buscar una causa única o una esencia independiente?",
+      "audioVersion": "concise-listening-3.4",
+      "guideTransition": "",
+      "audioLead": "Continuamos con pratītyasamutpāda, el origen dependiente.",
+      "audioContext": "",
+      "audioBody": "Una experiencia aparece cuando ciertas condiciones se reúnen y puede cesar cuando dejan de sostenerla. La enseñanza permite analizar dukkha sin recurrir a una causa única ni a una esencia inmutable. No significa que todo dependa de todo por igual: exige identificar relaciones concretas de surgimiento y cesación.",
+      "listeningMode": "entity_concept_limit_compact",
+      "collectionId": "south_asia_vedic_upanishadic",
+      "collection": "Sur de Asia: fundamentos y primeras controversias",
+      "collectionOrder": 4
+    },
+    {
+      "id": "card_anatman_five_aggregates_001",
+      "author": "Enseñanza budista temprana",
+      "title": "Anātman: no apropiarse de los agregados como un yo",
+      "territory": "Norte de India",
+      "period": "Budismo temprano",
+      "family": "Persona y no-yo",
+      "statement": "El análisis de los cinco agregados muestra que cuerpo, sensación, percepción, formaciones y conciencia no ofrecen un yo permanente, controlable e independiente.",
+      "tags": [
+        "anātman",
+        "agregados",
+        "identidad",
+        "apego"
+      ],
+      "question": "¿Qué queda de la persona cuando ninguna de sus experiencias puede poseerse como una esencia permanente?",
+      "caution": "Anātman no afirma simplemente que las personas sean inexistentes ni convierte la práctica budista en nihilismo.",
+      "connections": [
+        "Origen dependiente",
+        "Ātman",
+        "Dukkha"
+      ],
+      "order": 125,
+      "status": "nucleo_editorial_preservado",
+      "evidence": "A–B",
+      "audio": "Llegamos a anātman, la enseñanza budista del no-yo. El cuerpo, las sensaciones, las percepciones, las disposiciones y la conciencia cambian, producen aflicción y no obedecen plenamente al deseo. Por eso no conviene apropiarse de ellos como “esto soy yo” o “esto es mío”. La enseñanza cuestiona una esencia permanente, pero no niega la continuidad práctica de la persona.",
+      "quiz": {
+        "prompt": "¿Qué queda de la persona cuando ninguna de sus experiencias puede poseerse como una esencia permanente?",
+        "options": [
+          "El análisis de los cinco agregados muestra que cuerpo, sensación, percepción, formaciones y conciencia no ofrecen un yo permanente, controlable e independiente.",
+          "La tradición ofrece una respuesta única y sin controversias.",
+          "El concepto puede traducirse sin atender a su contexto histórico.",
+          "La evidencia permite eliminar toda incertidumbre."
+        ],
+        "answer": 0,
+        "feedback": "El análisis de los cinco agregados muestra que cuerpo, sensación, percepción, formaciones y conciencia no ofrecen un yo permanente, controlable e independiente."
+      },
+      "whyItMatters": "Permite comparar el budismo con las teorías upaniṣádicas y evita la falsa alternativa entre alma eterna y desaparición absoluta.",
+      "symbol": "∅",
+      "visual": {
+        "palette": [
+          "#243e4a",
+          "#487986",
+          "#d5ae57"
+        ],
+        "allegory": "persona y no-yo"
+      },
+      "seriesVersion": "2.2",
+      "materializationLevel": "dossier_structurado_v2_audio_conciso",
+      "shareFooter": "Pregunta guía: ¿Qué queda de la persona cuando ninguna de sus experiencias puede poseerse como una esencia permanente?",
+      "audioVersion": "concise-listening-3.4",
+      "guideTransition": "",
+      "audioLead": "Llegamos a anātman, la enseñanza budista del no-yo.",
+      "audioContext": "",
+      "audioBody": "El cuerpo, las sensaciones, las percepciones, las disposiciones y la conciencia cambian, producen aflicción y no obedecen plenamente al deseo. Por eso no conviene apropiarse de ellos como “esto soy yo” o “esto es mío”. La enseñanza cuestiona una esencia permanente, pero no niega la continuidad práctica de la persona.",
+      "listeningMode": "entity_concept_limit_compact",
+      "collectionId": "south_asia_vedic_upanishadic",
+      "collection": "Sur de Asia: fundamentos y primeras controversias",
+      "collectionOrder": 4
+    },
+    {
+      "id": "card_middle_way_eightfold_path_001",
+      "author": "Enseñanza budista temprana",
+      "title": "Camino medio y sendero óctuple",
+      "territory": "Norte de India",
+      "period": "Budismo temprano",
+      "family": "Práctica y formación",
+      "statement": "El camino medio evita tanto la complacencia sensual como la mortificación extrema y organiza la transformación mediante ocho dimensiones relacionadas.",
+      "tags": [
+        "camino medio",
+        "sendero óctuple",
+        "ética",
+        "meditación"
+      ],
+      "question": "¿Cómo puede una práctica integrar comprensión, conducta y atención sin convertirlas en etapas aisladas?",
+      "caution": "El camino medio no significa elegir siempre una posición aritméticamente intermedia ni evitar todo compromiso firme.",
+      "connections": [
+        "Cuatro nobles verdades",
+        "Comunidades śramaṇa",
+        "Nirvāṇa"
+      ],
+      "order": 126,
+      "status": "nucleo_editorial_preservado",
+      "evidence": "A–B",
+      "audio": "Volvemos al Buddha y al camino medio. No propone un promedio entre cualquier par de opiniones, sino evitar dos prácticas que había experimentado: complacencia sensual y mortificación extrema. El sendero óctuple articula visión, intención, palabra, acción, sustento, esfuerzo, atención y concentración. Sus factores se cultivan juntos, de modo que comprender, vivir y observar se transformen mutuamente.",
+      "quiz": {
+        "prompt": "¿Cómo puede una práctica integrar comprensión, conducta y atención sin convertirlas en etapas aisladas?",
+        "options": [
+          "El camino medio evita tanto la complacencia sensual como la mortificación extrema y organiza la transformación mediante ocho dimensiones relacionadas.",
+          "La tradición ofrece una respuesta única y sin controversias.",
+          "El concepto puede traducirse sin atender a su contexto histórico.",
+          "La evidencia permite eliminar toda incertidumbre."
+        ],
+        "answer": 0,
+        "feedback": "El camino medio evita tanto la complacencia sensual como la mortificación extrema y organiza la transformación mediante ocho dimensiones relacionadas."
+      },
+      "whyItMatters": "Presenta la filosofía budista como entrenamiento integrado y no solo como teoría sobre el sufrimiento.",
+      "symbol": "☸",
+      "visual": {
+        "palette": [
+          "#243e4a",
+          "#487986",
+          "#d5ae57"
+        ],
+        "allegory": "práctica y formación"
+      },
+      "seriesVersion": "2.2",
+      "materializationLevel": "dossier_structurado_v2_audio_conciso",
+      "shareFooter": "Pregunta guía: ¿Cómo puede una práctica integrar comprensión, conducta y atención sin convertirlas en etapas aisladas?",
+      "audioVersion": "concise-listening-3.4",
+      "guideTransition": "",
+      "audioLead": "Volvemos al Buddha y al camino medio.",
+      "audioContext": "",
+      "audioBody": "No propone un promedio entre cualquier par de opiniones, sino evitar dos prácticas que había experimentado: complacencia sensual y mortificación extrema. El sendero óctuple articula visión, intención, palabra, acción, sustento, esfuerzo, atención y concentración. Sus factores se cultivan juntos, de modo que comprender, vivir y observar se transformen mutuamente.",
+      "listeningMode": "entity_concept_limit_compact",
+      "collectionId": "south_asia_vedic_upanishadic",
+      "collection": "Sur de Asia: fundamentos y primeras controversias",
+      "collectionOrder": 4
+    },
+    {
+      "id": "card_mahavira_jina_001",
+      "author": "Mahāvīra y las comunidades jainas",
+      "title": "Un Jina dentro de una tradición anterior",
+      "territory": "Magadha y regiones vecinas del norte de India",
+      "period": "Probablemente primer milenio a. C.; fechas tradicionales discutidas",
+      "family": "Jainismo y liberación",
+      "statement": "Mahāvīra fue reconocido como el vigesimocuarto Jina del ciclo actual y organizó una comunidad de renunciantes y laicos orientada a liberar el alma del karma.",
+      "tags": [
+        "Mahāvīra",
+        "Jina",
+        "jīva",
+        "karma"
+      ],
+      "question": "¿Cómo cambia la imagen de un fundador cuando la propia tradición lo presenta como continuador de una enseñanza anterior?",
+      "caution": "Mahāvīra no debe describirse sin más como inventor único del jainismo, y sus fechas tradicionales no equivalen a una cronología históricamente demostrada.",
+      "connections": [
+        "Comunidades śramaṇa",
+        "Ahiṃsā",
+        "Anekāntavāda"
+      ],
+      "order": 127,
+      "status": "nucleo_editorial_preservado",
+      "evidence": "B",
+      "audio": "Seguimos con Mahāvīra, reconocido por los jainas como el vigesimocuarto Jina del ciclo actual. No aparece como creador absoluto, sino como renovador de una enseñanza anterior. Su comunidad reunió renunciantes y laicos comprometidos con disciplina, no violencia y desapego. Las fechas tradicionales varían y no pueden asumirse como una cronología histórica exacta.",
+      "quiz": {
+        "prompt": "¿Cómo cambia la imagen de un fundador cuando la propia tradición lo presenta como continuador de una enseñanza anterior?",
+        "options": [
+          "Mahāvīra fue reconocido como el vigesimocuarto Jina del ciclo actual y organizó una comunidad de renunciantes y laicos orientada a liberar el alma del karma.",
+          "La tradición ofrece una respuesta única y sin controversias.",
+          "El concepto puede traducirse sin atender a su contexto histórico.",
+          "La evidencia permite eliminar toda incertidumbre."
+        ],
+        "answer": 0,
+        "feedback": "Mahāvīra fue reconocido como el vigesimocuarto Jina del ciclo actual y organizó una comunidad de renunciantes y laicos orientada a liberar el alma del karma."
+      },
+      "whyItMatters": "Sitúa el jainismo como tradición propia, antigua y plural, no como derivación del budismo o del hinduismo posterior.",
+      "symbol": "✋",
+      "visual": {
+        "palette": [
+          "#344238",
+          "#68805f",
+          "#d3ae5d"
+        ],
+        "allegory": "jainismo y liberación"
+      },
+      "seriesVersion": "2.2",
+      "materializationLevel": "dossier_structurado_v2_audio_conciso",
+      "shareFooter": "Pregunta guía: ¿Cómo cambia la imagen de un fundador cuando la propia tradición lo presenta como continuador de una enseñanza anterior?",
+      "audioVersion": "concise-listening-3.4",
+      "guideTransition": "",
+      "audioLead": "Seguimos con Mahāvīra, reconocido por los jainas como el vigesimocuarto Jina del ciclo actual.",
+      "audioContext": "",
+      "audioBody": "No aparece como creador absoluto, sino como renovador de una enseñanza anterior. Su comunidad reunió renunciantes y laicos comprometidos con disciplina, no violencia y desapego. Las fechas tradicionales varían y no pueden asumirse como una cronología histórica exacta.",
+      "listeningMode": "entity_concept_limit_compact",
+      "collectionId": "south_asia_vedic_upanishadic",
+      "collection": "Sur de Asia: fundamentos y primeras controversias",
+      "collectionOrder": 4
+    },
+    {
+      "id": "card_jaina_ahimsa_001",
+      "author": "Tradiciones jainas de ahiṃsā",
+      "title": "No violencia como disciplina de percepción",
+      "territory": "Subcontinente indio",
+      "period": "Jainismo antiguo y desarrollos posteriores",
+      "family": "Ética de la no violencia",
+      "statement": "Ahiṃsā exige reducir el daño a seres vivientes mediante atención a movimientos, palabras, alimentos, posesiones y formas de subsistencia.",
+      "tags": [
+        "ahiṃsā",
+        "vida",
+        "cuidado",
+        "autocontrol"
+      ],
+      "question": "¿Cómo cambia la ética cuando incluso los daños pequeños y no intencionales deben hacerse visibles?",
+      "caution": "La práctica jaina distingue obligaciones monásticas y laicas; no puede reducirse a una prohibición abstracta idéntica para todas las personas.",
+      "connections": [
+        "Mahāvīra",
+        "Karma",
+        "Aparigraha"
+      ],
+      "order": 128,
+      "status": "nucleo_editorial_preservado",
+      "evidence": "A–B",
+      "audio": "Pasamos a ahiṃsā, la no violencia jaina. No consiste solo en evitar agresiones evidentes. Exige observar cómo caminar, hablar, alimentarse, trabajar y poseer puede dañar a otros seres. Los renunciantes asumen restricciones más rigurosas que los laicos. La meta no es una pureza instantánea, sino reducir el daño y el ingreso de karma mediante atención y autocontrol continuos.",
+      "quiz": {
+        "prompt": "¿Cómo cambia la ética cuando incluso los daños pequeños y no intencionales deben hacerse visibles?",
+        "options": [
+          "Ahiṃsā exige reducir el daño a seres vivientes mediante atención a movimientos, palabras, alimentos, posesiones y formas de subsistencia.",
+          "La tradición ofrece una respuesta única y sin controversias.",
+          "El concepto puede traducirse sin atender a su contexto histórico.",
+          "La evidencia permite eliminar toda incertidumbre."
+        ],
+        "answer": 0,
+        "feedback": "Ahiṃsā exige reducir el daño a seres vivientes mediante atención a movimientos, palabras, alimentos, posesiones y formas de subsistencia."
+      },
+      "whyItMatters": "Muestra una ética donde la percepción cuidadosa de consecuencias forma parte de la acción moral.",
+      "symbol": "🪶",
+      "visual": {
+        "palette": [
+          "#344238",
+          "#68805f",
+          "#d3ae5d"
+        ],
+        "allegory": "ética de la no violencia"
+      },
+      "seriesVersion": "2.2",
+      "materializationLevel": "dossier_structurado_v2_audio_conciso",
+      "shareFooter": "Pregunta guía: ¿Cómo cambia la ética cuando incluso los daños pequeños y no intencionales deben hacerse visibles?",
+      "audioVersion": "concise-listening-3.4",
+      "guideTransition": "",
+      "audioLead": "Pasamos a ahiṃsā, la no violencia jaina.",
+      "audioContext": "",
+      "audioBody": "No consiste solo en evitar agresiones evidentes. Exige observar cómo caminar, hablar, alimentarse, trabajar y poseer puede dañar a otros seres. Los renunciantes asumen restricciones más rigurosas que los laicos. La meta no es una pureza instantánea, sino reducir el daño y el ingreso de karma mediante atención y autocontrol continuos.",
+      "listeningMode": "entity_concept_limit_compact",
+      "collectionId": "south_asia_vedic_upanishadic",
+      "collection": "Sur de Asia: fundamentos y primeras controversias",
+      "collectionOrder": 4
+    },
+    {
+      "id": "card_anekantavada_many_sidedness_001",
+      "author": "Filosofías jainas de anekāntavāda",
+      "title": "La realidad tiene más lados que una sola afirmación",
+      "territory": "Subcontinente indio",
+      "period": "Desarrollos canónicos y sistemáticos del jainismo",
+      "family": "Perspectivas y predicación",
+      "statement": "Anekāntavāda sostiene que los objetos poseen múltiples aspectos y que una afirmación debe declarar el punto de vista y las condiciones desde los que resulta válida.",
+      "tags": [
+        "anekāntavāda",
+        "naya",
+        "syādvāda",
+        "perspectiva"
+      ],
+      "question": "¿Cómo afirmar algo verdadero sin convertir una perspectiva parcial en descripción absoluta?",
+      "caution": "No significa que toda opinión sea igualmente correcta ni elimina la posibilidad de error, contradicción o conocimiento objetivo.",
+      "connections": [
+        "Ahiṃsā",
+        "Diálogo filosófico",
+        "Cārvāka"
+      ],
+      "order": 129,
+      "status": "nucleo_editorial_preservado",
+      "evidence": "B",
+      "audio": "Continuamos con anekāntavāda, la doctrina jaina de los múltiples aspectos. Un objeto puede permanecer bajo cierta descripción y cambiar bajo otra; por eso una afirmación requiere condiciones y perspectiva. Syādvāda ayuda a formular esa cautela. No enseña que todas las opiniones sean verdaderas. Exige distinguir mejor para evitar que una descripción parcial se presente como absoluta.",
+      "quiz": {
+        "prompt": "¿Cómo afirmar algo verdadero sin convertir una perspectiva parcial en descripción absoluta?",
+        "options": [
+          "Anekāntavāda sostiene que los objetos poseen múltiples aspectos y que una afirmación debe declarar el punto de vista y las condiciones desde los que resulta válida.",
+          "La tradición ofrece una respuesta única y sin controversias.",
+          "El concepto puede traducirse sin atender a su contexto histórico.",
+          "La evidencia permite eliminar toda incertidumbre."
+        ],
+        "answer": 0,
+        "feedback": "Anekāntavāda sostiene que los objetos poseen múltiples aspectos y que una afirmación debe declarar el punto de vista y las condiciones desde los que resulta válida."
+      },
+      "whyItMatters": "Introduce una epistemología de precisión contextual que puede reducir dogmatismo sin caer en relativismo.",
+      "symbol": "◈",
+      "visual": {
+        "palette": [
+          "#344238",
+          "#68805f",
+          "#d3ae5d"
+        ],
+        "allegory": "perspectivas y predicación"
+      },
+      "seriesVersion": "2.2",
+      "materializationLevel": "dossier_structurado_v2_audio_conciso",
+      "shareFooter": "Pregunta guía: ¿Cómo afirmar algo verdadero sin convertir una perspectiva parcial en descripción absoluta?",
+      "audioVersion": "concise-listening-3.4",
+      "guideTransition": "",
+      "audioLead": "Continuamos con anekāntavāda, la doctrina jaina de los múltiples aspectos.",
+      "audioContext": "",
+      "audioBody": "Un objeto puede permanecer bajo cierta descripción y cambiar bajo otra; por eso una afirmación requiere condiciones y perspectiva. Syādvāda ayuda a formular esa cautela. No enseña que todas las opiniones sean verdaderas. Exige distinguir mejor para evitar que una descripción parcial se presente como absoluta.",
+      "listeningMode": "entity_concept_limit_compact",
+      "collectionId": "south_asia_vedic_upanishadic",
+      "collection": "Sur de Asia: fundamentos y primeras controversias",
+      "collectionOrder": 4
+    },
+    {
+      "id": "card_carvaka_lokayata_fragments_001",
+      "author": "Tradiciones asociadas con Cārvāka y Lokāyata",
+      "title": "Pensar desde los fragmentos de una filosofía perdida",
+      "territory": "Subcontinente indio",
+      "period": "Antigüedad y periodo clásico; cronología discutida",
+      "family": "Materialismo y crítica de la inferencia",
+      "statement": "Cārvāka o Lokāyata privilegió la percepción y cuestionó alma separada, renacimiento y autoridad ritual, pero su doctrina debe reconstruirse principalmente desde adversarios.",
+      "tags": [
+        "Cārvāka",
+        "Lokāyata",
+        "percepción",
+        "materialismo"
+      ],
+      "question": "¿Cómo reconstruir con justicia una filosofía cuyos textos propios casi no sobrevivieron?",
+      "caution": "No existe un corpus fundacional conservado; atribuciones de hedonismo extremo o rechazo absoluto de toda inferencia pueden reflejar caricaturas polémicas.",
+      "connections": [
+        "Anekāntavāda",
+        "Karma",
+        "Comunidades śramaṇa"
+      ],
+      "order": 130,
+      "status": "nucleo_editorial_preservado",
+      "evidence": "C",
+      "audio": "Cerramos la serie con Cārvāka o Lokāyata, nombres vinculados con corrientes materialistas del sur de Asia. Sus textos propios casi no sobrevivieron y gran parte de lo conocido procede de críticos. Se les atribuye confianza en la percepción y rechazo de alma separada, renacimiento y autoridad ritual. Debemos distinguir las posiciones plausibles de las caricaturas creadas para refutarlas.",
+      "quiz": {
+        "prompt": "¿Cómo reconstruir con justicia una filosofía cuyos textos propios casi no sobrevivieron?",
+        "options": [
+          "Cārvāka o Lokāyata privilegió la percepción y cuestionó alma separada, renacimiento y autoridad ritual, pero su doctrina debe reconstruirse principalmente desde adversarios.",
+          "La tradición ofrece una respuesta única y sin controversias.",
+          "El concepto puede traducirse sin atender a su contexto histórico.",
+          "La evidencia permite eliminar toda incertidumbre."
+        ],
+        "answer": 0,
+        "feedback": "Cārvāka o Lokāyata privilegió la percepción y cuestionó alma separada, renacimiento y autoridad ritual, pero su doctrina debe reconstruirse principalmente desde adversarios."
+      },
+      "whyItMatters": "Incorpora la disidencia materialista y enseña a leer doctrinas conservadas por voces hostiles.",
+      "symbol": "◉",
+      "visual": {
+        "palette": [
+          "#4a372f",
+          "#8a6650",
+          "#d1a35b"
+        ],
+        "allegory": "materialismo y crítica de la inferencia"
+      },
+      "seriesVersion": "2.2",
+      "materializationLevel": "dossier_structurado_v2_audio_conciso",
+      "shareFooter": "Pregunta guía: ¿Cómo reconstruir con justicia una filosofía cuyos textos propios casi no sobrevivieron?",
+      "audioVersion": "concise-listening-3.4",
+      "guideTransition": "",
+      "audioLead": "Cerramos la serie con Cārvāka o Lokāyata, nombres vinculados con corrientes materialistas del sur de Asia.",
+      "audioContext": "",
+      "audioBody": "Sus textos propios casi no sobrevivieron y gran parte de lo conocido procede de críticos. Se les atribuye confianza en la percepción y rechazo de alma separada, renacimiento y autoridad ritual. Debemos distinguir las posiciones plausibles de las caricaturas creadas para refutarlas.",
+      "listeningMode": "entity_concept_limit_compact",
+      "collectionId": "south_asia_vedic_upanishadic",
+      "collection": "Sur de Asia: fundamentos y primeras controversias",
+      "collectionOrder": 4
+    }
+  ],
+  "dossiers": [
+    {
+      "id": "card_sramana_renunciant_world_001",
+      "seriesVersion": "2.2",
+      "author": "Comunidades śramaṇa",
+      "title": "Renunciar para investigar otra forma de vida",
+      "territory": "Llanura gangética y regiones del norte de India",
+      "period": "Mediados del primer milenio a. C.",
+      "family": "Renuncia y experimentación espiritual",
+      "symbol": "⌂",
+      "guidingQuestion": "¿Qué sucede cuando la búsqueda de conocimiento exige abandonar temporal o permanentemente la vida doméstica?",
+      "documentedCore": "Las comunidades śramaṇa convirtieron la renuncia, la disciplina corporal y el debate en vías para examinar karma, renacimiento y liberación fuera de la vida doméstica ordinaria.",
+      "distinctiveKey": "Las comunidades śramaṇa convirtieron la renuncia, la disciplina corporal y el debate en vías para examinar karma, renacimiento y liberación fuera de la vida doméstica ordinaria.",
+      "whyItMatters": "Introduce el escenario plural en el que surgieron varias filosofías no védicas y evita reducirlas a un solo fundador.",
+      "editorialCaution": "No formaron un movimiento único ni deben describirse simplemente como una reacción homogénea contra el mundo védico.",
+      "tags": [
+        "śramaṇa",
+        "renuncia",
+        "debate",
+        "liberación"
+      ],
+      "connections": [
+        "Saṃsāra",
+        "Karma",
+        "El Buddha histórico",
+        "Mahāvīra"
+      ],
+      "audioScript": "Comenzamos con las comunidades śramaṇa del norte de India. Renunciantes de orientaciones distintas dejaron la vida doméstica para practicar disciplina, meditación, ayuno y debate. Compartieron preguntas sobre karma, renacimiento y liberación, pero ofrecieron respuestas incompatibles. Este mundo hizo posibles el budismo y el jainismo, aunque no fue una escuela única ni una simple oposición homogénea a la tradición védica.",
+      "evidence": "B",
+      "visual": {
+        "palette": [
+          "#3a2f45",
+          "#7b5a41",
+          "#d2ad63"
+        ],
+        "allegory": "renuncia y experimentación espiritual"
+      },
+      "derivedCardSeeds": [
+        "śramaṇa: desarrollo conceptual",
+        "renuncia: desarrollo conceptual",
+        "debate: desarrollo conceptual",
+        "Límites y debates de Renunciar para investigar otra forma de vida"
+      ],
+      "materialization": {
+        "level": "dossier_estructurado_mas_capa_historica_v2_audio_conciso",
+        "allCoreFieldsPreserved": true,
+        "extendedProseExactArchive": "síntesis estructurada de la serie 2.2; no es transcripción literal del chat",
+        "source": "serie editorial 2.2"
+      },
+      "audioVersion": "concise-listening-3.4",
+      "audioLead": "Comenzamos con las comunidades śramaṇa del norte de India.",
+      "audioContext": "",
+      "audioBody": "Renunciantes de orientaciones distintas dejaron la vida doméstica para practicar disciplina, meditación, ayuno y debate. Compartieron preguntas sobre karma, renacimiento y liberación, pero ofrecieron respuestas incompatibles. Este mundo hizo posibles el budismo y el jainismo, aunque no fue una escuela única ni una simple oposición homogénea a la tradición védica.",
+      "collectionId": "south_asia_vedic_upanishadic",
+      "collection": "Sur de Asia: fundamentos y primeras controversias",
+      "collectionOrder": 4,
+      "historicalLayer": {
+        "version": "historical-2.3",
+        "status": "materializada",
+        "sha256": "698f5eff198e32e186618f4d03ca00b1df9fa72ca45f89e21d04a16898d6443c"
+      },
+      "sourceAnchors": [
+        "https://plato.stanford.edu/archives/spr2020/entries/buddha/",
+        "https://plato.stanford.edu/archives/sum2024/entries/jaina-philosophy/"
+      ],
+      "sha256": "72624aa3f19bc1785ec541d2e289463324e942804ff044c005762e7de4f91772"
+    },
+    {
+      "id": "card_historical_buddha_001",
+      "seriesVersion": "2.2",
+      "author": "Siddhārtha Gautama, el Buddha histórico",
+      "title": "Despertar y enseñar un camino verificable",
+      "territory": "Norte del subcontinente indio",
+      "period": "Probablemente siglo V a. C.; cronología discutida",
+      "family": "Vida, enseñanza y transmisión",
+      "symbol": "☸",
+      "guidingQuestion": "¿Cómo distinguir una figura histórica de las biografías religiosas que crecieron alrededor de ella?",
+      "documentedCore": "Gautama enseñó un camino para comprender y cesar dukkha; sus palabras se conservaron en colecciones orales redactadas y organizadas después de su muerte.",
+      "distinctiveKey": "Gautama enseñó un camino para comprender y cesar dukkha; sus palabras se conservaron en colecciones orales redactadas y organizadas después de su muerte.",
+      "whyItMatters": "Permite escuchar al fundador sin confundir historia, memoria comunitaria y elaboración religiosa posterior.",
+      "editorialCaution": "Las fechas exactas, numerosos episodios biográficos y la formulación literal de cada discurso no pueden establecerse con plena certeza.",
+      "tags": [
+        "Buddha",
+        "despertar",
+        "Dhamma",
+        "transmisión"
+      ],
+      "connections": [
+        "Comunidades śramaṇa",
+        "Cuatro nobles verdades",
+        "Camino medio"
+      ],
+      "audioScript": "Seguimos con Siddhārtha Gautama, el Buddha histórico. Probablemente vivió en el siglo quinto antes de nuestra era y enseñó un camino para comprender y cesar dukkha. Sus discursos fueron preservados oralmente y organizados después en Nikāyas y Āgamas. Las biografías posteriores amplían su vida con episodios religiosos; por eso distinguimos la enseñanza temprana de los detalles cuya historicidad permanece incierta.",
+      "evidence": "B",
+      "visual": {
+        "palette": [
+          "#243e4a",
+          "#487986",
+          "#d5ae57"
+        ],
+        "allegory": "vida, enseñanza y transmisión"
+      },
+      "derivedCardSeeds": [
+        "Buddha: desarrollo conceptual",
+        "despertar: desarrollo conceptual",
+        "Dhamma: desarrollo conceptual",
+        "Límites y debates de Despertar y enseñar un camino verificable"
+      ],
+      "materialization": {
+        "level": "dossier_estructurado_mas_capa_historica_v2_audio_conciso",
+        "allCoreFieldsPreserved": true,
+        "extendedProseExactArchive": "síntesis estructurada de la serie 2.2; no es transcripción literal del chat",
+        "source": "serie editorial 2.2"
+      },
+      "audioVersion": "concise-listening-3.4",
+      "audioLead": "Seguimos con Siddhārtha Gautama, el Buddha histórico.",
+      "audioContext": "",
+      "audioBody": "Probablemente vivió en el siglo quinto antes de nuestra era y enseñó un camino para comprender y cesar dukkha. Sus discursos fueron preservados oralmente y organizados después en Nikāyas y Āgamas. Las biografías posteriores amplían su vida con episodios religiosos; por eso distinguimos la enseñanza temprana de los detalles cuya historicidad permanece incierta.",
+      "collectionId": "south_asia_vedic_upanishadic",
+      "collection": "Sur de Asia: fundamentos y primeras controversias",
+      "collectionOrder": 4,
+      "historicalLayer": {
+        "version": "historical-2.3",
+        "status": "materializada",
+        "sha256": "0d1a18a6ae8e34e56a66baf88d2a152ad112186dee48de71e684f7d60f1ce518"
+      },
+      "sourceAnchors": [
+        "https://plato.stanford.edu/archives/spr2020/entries/buddha/"
+      ],
+      "sha256": "34fa831534b5268b5bc84727afbc2597f09887a2065cad83d211e249eb3c3328"
+    },
+    {
+      "id": "card_four_noble_truths_tasks_001",
+      "seriesVersion": "2.2",
+      "author": "Enseñanza budista temprana",
+      "title": "Cuatro verdades como diagnóstico y tarea",
+      "territory": "Norte de India",
+      "period": "Primeras colecciones budistas",
+      "family": "Dukkha y liberación",
+      "symbol": "✥",
+      "guidingQuestion": "¿Por qué comprender el sufrimiento no basta si no cambia la relación con sus causas?",
+      "documentedCore": "Las cuatro verdades relacionan dukkha, su origen, su cesación y un camino; cada una exige una tarea y no solo aceptación intelectual.",
+      "distinctiveKey": "Las cuatro verdades relacionan dukkha, su origen, su cesación y un camino; cada una exige una tarea y no solo aceptación intelectual.",
+      "whyItMatters": "Convierte una fórmula conocida en un método de diagnóstico, intervención y verificación.",
+      "editorialCaution": "Dukkha no significa que toda experiencia sea únicamente dolor, y las cuatro verdades no deben reducirse a cuatro afirmaciones pesimistas.",
+      "tags": [
+        "dukkha",
+        "ansia",
+        "cesación",
+        "camino"
+      ],
+      "connections": [
+        "El Buddha histórico",
+        "Camino medio",
+        "Origen dependiente"
+      ],
+      "audioScript": "Pasamos a las cuatro verdades de la enseñanza budista temprana. Dukkha debe comprenderse; su origen, ligado al ansia y al apego, debe abandonarse; la cesación debe realizarse; y el camino debe cultivarse. No afirman que cada instante sea dolor. Señalan que una vida dependiente de lo cambiante no ofrece seguridad permanente y requiere una práctica transformadora.",
+      "evidence": "A–B",
+      "visual": {
+        "palette": [
+          "#243e4a",
+          "#487986",
+          "#d5ae57"
+        ],
+        "allegory": "dukkha y liberación"
+      },
+      "derivedCardSeeds": [
+        "dukkha: desarrollo conceptual",
+        "ansia: desarrollo conceptual",
+        "cesación: desarrollo conceptual",
+        "Límites y debates de Cuatro verdades como diagnóstico y tarea"
+      ],
+      "materialization": {
+        "level": "dossier_estructurado_mas_capa_historica_v2_audio_conciso",
+        "allCoreFieldsPreserved": true,
+        "extendedProseExactArchive": "síntesis estructurada de la serie 2.2; no es transcripción literal del chat",
+        "source": "serie editorial 2.2"
+      },
+      "audioVersion": "concise-listening-3.4",
+      "audioLead": "Pasamos a las cuatro verdades de la enseñanza budista temprana.",
+      "audioContext": "",
+      "audioBody": "Dukkha debe comprenderse; su origen, ligado al ansia y al apego, debe abandonarse; la cesación debe realizarse; y el camino debe cultivarse. No afirman que cada instante sea dolor. Señalan que una vida dependiente de lo cambiante no ofrece seguridad permanente y requiere una práctica transformadora.",
+      "collectionId": "south_asia_vedic_upanishadic",
+      "collection": "Sur de Asia: fundamentos y primeras controversias",
+      "collectionOrder": 4,
+      "historicalLayer": {
+        "version": "historical-2.3",
+        "status": "materializada",
+        "sha256": "bf7d2a571f5df7f86e5656e6414b60454b33a0dd06f708591d7b481950106788"
+      },
+      "sourceAnchors": [
+        "https://suttacentral.net/sn56.11/es/baron",
+        "https://suttacentral.net/sn56.11/en/bodhi"
+      ],
+      "sha256": "4df0132f4fed0255f659fe37fa3bc3263dcf00d8a443e3212b08e1c92779fd03"
+    },
+    {
+      "id": "card_dependent_arising_001",
+      "seriesVersion": "2.2",
+      "author": "Enseñanza budista de pratītyasamutpāda",
+      "title": "Nada surge aislado",
+      "territory": "Norte de India y tradiciones budistas posteriores",
+      "period": "Budismo temprano",
+      "family": "Causalidad y condicionamiento",
+      "symbol": "⛓",
+      "guidingQuestion": "¿Cómo cambia la comprensión de una experiencia cuando dejamos de buscar una causa única o una esencia independiente?",
+      "documentedCore": "El origen dependiente explica que experiencias y procesos aparecen cuando confluyen condiciones y cesan cuando esas condiciones dejan de sostenerlos.",
+      "distinctiveKey": "El origen dependiente explica que experiencias y procesos aparecen cuando confluyen condiciones y cesan cuando esas condiciones dejan de sostenerlos.",
+      "whyItMatters": "Ofrece una herramienta causal para comprender cómo se forman y pueden transformarse los patrones de sufrimiento.",
+      "editorialCaution": "No equivale a decir que todo causa todo ni debe identificarse sin precisión con cualquier teoría moderna de sistemas o interdependencia.",
+      "tags": [
+        "pratītyasamutpāda",
+        "condiciones",
+        "causalidad",
+        "cesación"
+      ],
+      "connections": [
+        "Cuatro nobles verdades",
+        "Anātman",
+        "Karma"
+      ],
+      "audioScript": "Continuamos con pratītyasamutpāda, el origen dependiente. Una experiencia aparece cuando ciertas condiciones se reúnen y puede cesar cuando dejan de sostenerla. La enseñanza permite analizar dukkha sin recurrir a una causa única ni a una esencia inmutable. No significa que todo dependa de todo por igual: exige identificar relaciones concretas de surgimiento y cesación.",
+      "evidence": "A–B",
+      "visual": {
+        "palette": [
+          "#243e4a",
+          "#487986",
+          "#d5ae57"
+        ],
+        "allegory": "causalidad y condicionamiento"
+      },
+      "derivedCardSeeds": [
+        "pratītyasamutpāda: desarrollo conceptual",
+        "condiciones: desarrollo conceptual",
+        "causalidad: desarrollo conceptual",
+        "Límites y debates de Nada surge aislado"
+      ],
+      "materialization": {
+        "level": "dossier_estructurado_mas_capa_historica_v2_audio_conciso",
+        "allCoreFieldsPreserved": true,
+        "extendedProseExactArchive": "síntesis estructurada de la serie 2.2; no es transcripción literal del chat",
+        "source": "serie editorial 2.2"
+      },
+      "audioVersion": "concise-listening-3.4",
+      "audioLead": "Continuamos con pratītyasamutpāda, el origen dependiente.",
+      "audioContext": "",
+      "audioBody": "Una experiencia aparece cuando ciertas condiciones se reúnen y puede cesar cuando dejan de sostenerla. La enseñanza permite analizar dukkha sin recurrir a una causa única ni a una esencia inmutable. No significa que todo dependa de todo por igual: exige identificar relaciones concretas de surgimiento y cesación.",
+      "collectionId": "south_asia_vedic_upanishadic",
+      "collection": "Sur de Asia: fundamentos y primeras controversias",
+      "collectionOrder": 4,
+      "historicalLayer": {
+        "version": "historical-2.3",
+        "status": "materializada",
+        "sha256": "3c237a9d5b4e09ddbd82de4fe38394b2ef9f584a3b306ead51f5bf625b0395d8"
+      },
+      "sourceAnchors": [
+        "https://suttacentral.net/sn12.15/en/suddhaso",
+        "https://plato.stanford.edu/archives/spr2019/entries/mind-indian-buddhism/"
+      ],
+      "sha256": "857739ce50e51723aa6d8f0fe85b45ed386d801a199687cabd9e73ea9112fd23"
+    },
+    {
+      "id": "card_anatman_five_aggregates_001",
+      "seriesVersion": "2.2",
+      "author": "Enseñanza budista temprana",
+      "title": "Anātman: no apropiarse de los agregados como un yo",
+      "territory": "Norte de India",
+      "period": "Budismo temprano",
+      "family": "Persona y no-yo",
+      "symbol": "∅",
+      "guidingQuestion": "¿Qué queda de la persona cuando ninguna de sus experiencias puede poseerse como una esencia permanente?",
+      "documentedCore": "El análisis de los cinco agregados muestra que cuerpo, sensación, percepción, formaciones y conciencia no ofrecen un yo permanente, controlable e independiente.",
+      "distinctiveKey": "El análisis de los cinco agregados muestra que cuerpo, sensación, percepción, formaciones y conciencia no ofrecen un yo permanente, controlable e independiente.",
+      "whyItMatters": "Permite comparar el budismo con las teorías upaniṣádicas y evita la falsa alternativa entre alma eterna y desaparición absoluta.",
+      "editorialCaution": "Anātman no afirma simplemente que las personas sean inexistentes ni convierte la práctica budista en nihilismo.",
+      "tags": [
+        "anātman",
+        "agregados",
+        "identidad",
+        "apego"
+      ],
+      "connections": [
+        "Origen dependiente",
+        "Ātman",
+        "Dukkha"
+      ],
+      "audioScript": "Llegamos a anātman, la enseñanza budista del no-yo. El cuerpo, las sensaciones, las percepciones, las disposiciones y la conciencia cambian, producen aflicción y no obedecen plenamente al deseo. Por eso no conviene apropiarse de ellos como “esto soy yo” o “esto es mío”. La enseñanza cuestiona una esencia permanente, pero no niega la continuidad práctica de la persona.",
+      "evidence": "A–B",
+      "visual": {
+        "palette": [
+          "#243e4a",
+          "#487986",
+          "#d5ae57"
+        ],
+        "allegory": "persona y no-yo"
+      },
+      "derivedCardSeeds": [
+        "anātman: desarrollo conceptual",
+        "agregados: desarrollo conceptual",
+        "identidad: desarrollo conceptual",
+        "Límites y debates de Anātman: no apropiarse de los agregados como un yo"
+      ],
+      "materialization": {
+        "level": "dossier_estructurado_mas_capa_historica_v2_audio_conciso",
+        "allCoreFieldsPreserved": true,
+        "extendedProseExactArchive": "síntesis estructurada de la serie 2.2; no es transcripción literal del chat",
+        "source": "serie editorial 2.2"
+      },
+      "audioVersion": "concise-listening-3.4",
+      "audioLead": "Llegamos a anātman, la enseñanza budista del no-yo.",
+      "audioContext": "",
+      "audioBody": "El cuerpo, las sensaciones, las percepciones, las disposiciones y la conciencia cambian, producen aflicción y no obedecen plenamente al deseo. Por eso no conviene apropiarse de ellos como “esto soy yo” o “esto es mío”. La enseñanza cuestiona una esencia permanente, pero no niega la continuidad práctica de la persona.",
+      "collectionId": "south_asia_vedic_upanishadic",
+      "collection": "Sur de Asia: fundamentos y primeras controversias",
+      "collectionOrder": 4,
+      "historicalLayer": {
+        "version": "historical-2.3",
+        "status": "materializada",
+        "sha256": "e80b3683ca815403fe0fa2f6c5ddb2e866bf8a8685ce0a97c82970e64cd2fc09"
+      },
+      "sourceAnchors": [
+        "https://suttacentral.net/sn22.59/en/bodhi",
+        "https://plato.stanford.edu/archives/spr2020/entries/buddha/"
+      ],
+      "sha256": "6d16c7c88d46815d93b97a3dafcdf013045b422d7c0c5a80ae76e7ee85286401"
+    },
+    {
+      "id": "card_middle_way_eightfold_path_001",
+      "seriesVersion": "2.2",
+      "author": "Enseñanza budista temprana",
+      "title": "Camino medio y sendero óctuple",
+      "territory": "Norte de India",
+      "period": "Budismo temprano",
+      "family": "Práctica y formación",
+      "symbol": "☸",
+      "guidingQuestion": "¿Cómo puede una práctica integrar comprensión, conducta y atención sin convertirlas en etapas aisladas?",
+      "documentedCore": "El camino medio evita tanto la complacencia sensual como la mortificación extrema y organiza la transformación mediante ocho dimensiones relacionadas.",
+      "distinctiveKey": "El camino medio evita tanto la complacencia sensual como la mortificación extrema y organiza la transformación mediante ocho dimensiones relacionadas.",
+      "whyItMatters": "Presenta la filosofía budista como entrenamiento integrado y no solo como teoría sobre el sufrimiento.",
+      "editorialCaution": "El camino medio no significa elegir siempre una posición aritméticamente intermedia ni evitar todo compromiso firme.",
+      "tags": [
+        "camino medio",
+        "sendero óctuple",
+        "ética",
+        "meditación"
+      ],
+      "connections": [
+        "Cuatro nobles verdades",
+        "Comunidades śramaṇa",
+        "Nirvāṇa"
+      ],
+      "audioScript": "Volvemos al Buddha y al camino medio. No propone un promedio entre cualquier par de opiniones, sino evitar dos prácticas que había experimentado: complacencia sensual y mortificación extrema. El sendero óctuple articula visión, intención, palabra, acción, sustento, esfuerzo, atención y concentración. Sus factores se cultivan juntos, de modo que comprender, vivir y observar se transformen mutuamente.",
+      "evidence": "A–B",
+      "visual": {
+        "palette": [
+          "#243e4a",
+          "#487986",
+          "#d5ae57"
+        ],
+        "allegory": "práctica y formación"
+      },
+      "derivedCardSeeds": [
+        "camino medio: desarrollo conceptual",
+        "sendero óctuple: desarrollo conceptual",
+        "ética: desarrollo conceptual",
+        "Límites y debates de Camino medio y sendero óctuple"
+      ],
+      "materialization": {
+        "level": "dossier_estructurado_mas_capa_historica_v2_audio_conciso",
+        "allCoreFieldsPreserved": true,
+        "extendedProseExactArchive": "síntesis estructurada de la serie 2.2; no es transcripción literal del chat",
+        "source": "serie editorial 2.2"
+      },
+      "audioVersion": "concise-listening-3.4",
+      "audioLead": "Volvemos al Buddha y al camino medio.",
+      "audioContext": "",
+      "audioBody": "No propone un promedio entre cualquier par de opiniones, sino evitar dos prácticas que había experimentado: complacencia sensual y mortificación extrema. El sendero óctuple articula visión, intención, palabra, acción, sustento, esfuerzo, atención y concentración. Sus factores se cultivan juntos, de modo que comprender, vivir y observar se transformen mutuamente.",
+      "collectionId": "south_asia_vedic_upanishadic",
+      "collection": "Sur de Asia: fundamentos y primeras controversias",
+      "collectionOrder": 4,
+      "historicalLayer": {
+        "version": "historical-2.3",
+        "status": "materializada",
+        "sha256": "f9a2fc94b751f5610b7e63620a74fd8d4fb1543937351c275761360c7bab7533"
+      },
+      "sourceAnchors": [
+        "https://suttacentral.net/sn56.11/en/bodhi",
+        "https://suttacentral.net/sn56.11/es/baron"
+      ],
+      "sha256": "c218af5da8611445cbdb63a64bb8fce396cdb607d9e6309dbf46140961d1f87e"
+    },
+    {
+      "id": "card_mahavira_jina_001",
+      "seriesVersion": "2.2",
+      "author": "Mahāvīra y las comunidades jainas",
+      "title": "Un Jina dentro de una tradición anterior",
+      "territory": "Magadha y regiones vecinas del norte de India",
+      "period": "Probablemente primer milenio a. C.; fechas tradicionales discutidas",
+      "family": "Jainismo y liberación",
+      "symbol": "✋",
+      "guidingQuestion": "¿Cómo cambia la imagen de un fundador cuando la propia tradición lo presenta como continuador de una enseñanza anterior?",
+      "documentedCore": "Mahāvīra fue reconocido como el vigesimocuarto Jina del ciclo actual y organizó una comunidad de renunciantes y laicos orientada a liberar el alma del karma.",
+      "distinctiveKey": "Mahāvīra fue reconocido como el vigesimocuarto Jina del ciclo actual y organizó una comunidad de renunciantes y laicos orientada a liberar el alma del karma.",
+      "whyItMatters": "Sitúa el jainismo como tradición propia, antigua y plural, no como derivación del budismo o del hinduismo posterior.",
+      "editorialCaution": "Mahāvīra no debe describirse sin más como inventor único del jainismo, y sus fechas tradicionales no equivalen a una cronología históricamente demostrada.",
+      "tags": [
+        "Mahāvīra",
+        "Jina",
+        "jīva",
+        "karma"
+      ],
+      "connections": [
+        "Comunidades śramaṇa",
+        "Ahiṃsā",
+        "Anekāntavāda"
+      ],
+      "audioScript": "Seguimos con Mahāvīra, reconocido por los jainas como el vigesimocuarto Jina del ciclo actual. No aparece como creador absoluto, sino como renovador de una enseñanza anterior. Su comunidad reunió renunciantes y laicos comprometidos con disciplina, no violencia y desapego. Las fechas tradicionales varían y no pueden asumirse como una cronología histórica exacta.",
+      "evidence": "B",
+      "visual": {
+        "palette": [
+          "#344238",
+          "#68805f",
+          "#d3ae5d"
+        ],
+        "allegory": "jainismo y liberación"
+      },
+      "derivedCardSeeds": [
+        "Mahāvīra: desarrollo conceptual",
+        "Jina: desarrollo conceptual",
+        "jīva: desarrollo conceptual",
+        "Límites y debates de Un Jina dentro de una tradición anterior"
+      ],
+      "materialization": {
+        "level": "dossier_estructurado_mas_capa_historica_v2_audio_conciso",
+        "allCoreFieldsPreserved": true,
+        "extendedProseExactArchive": "síntesis estructurada de la serie 2.2; no es transcripción literal del chat",
+        "source": "serie editorial 2.2"
+      },
+      "audioVersion": "concise-listening-3.4",
+      "audioLead": "Seguimos con Mahāvīra, reconocido por los jainas como el vigesimocuarto Jina del ciclo actual.",
+      "audioContext": "",
+      "audioBody": "No aparece como creador absoluto, sino como renovador de una enseñanza anterior. Su comunidad reunió renunciantes y laicos comprometidos con disciplina, no violencia y desapego. Las fechas tradicionales varían y no pueden asumirse como una cronología histórica exacta.",
+      "collectionId": "south_asia_vedic_upanishadic",
+      "collection": "Sur de Asia: fundamentos y primeras controversias",
+      "collectionOrder": 4,
+      "historicalLayer": {
+        "version": "historical-2.3",
+        "status": "materializada",
+        "sha256": "e537bb191741f56515243d9b1cac6de61acdb40bb1ba3557753189fa36c2ff14"
+      },
+      "sourceAnchors": [
+        "https://plato.stanford.edu/archives/sum2024/entries/jaina-philosophy/"
+      ],
+      "sha256": "c61810c1bedc1f1fbd134a164a832201cfabf20e756b1085cbf4b3903be16e6e"
+    },
+    {
+      "id": "card_jaina_ahimsa_001",
+      "seriesVersion": "2.2",
+      "author": "Tradiciones jainas de ahiṃsā",
+      "title": "No violencia como disciplina de percepción",
+      "territory": "Subcontinente indio",
+      "period": "Jainismo antiguo y desarrollos posteriores",
+      "family": "Ética de la no violencia",
+      "symbol": "🪶",
+      "guidingQuestion": "¿Cómo cambia la ética cuando incluso los daños pequeños y no intencionales deben hacerse visibles?",
+      "documentedCore": "Ahiṃsā exige reducir el daño a seres vivientes mediante atención a movimientos, palabras, alimentos, posesiones y formas de subsistencia.",
+      "distinctiveKey": "Ahiṃsā exige reducir el daño a seres vivientes mediante atención a movimientos, palabras, alimentos, posesiones y formas de subsistencia.",
+      "whyItMatters": "Muestra una ética donde la percepción cuidadosa de consecuencias forma parte de la acción moral.",
+      "editorialCaution": "La práctica jaina distingue obligaciones monásticas y laicas; no puede reducirse a una prohibición abstracta idéntica para todas las personas.",
+      "tags": [
+        "ahiṃsā",
+        "vida",
+        "cuidado",
+        "autocontrol"
+      ],
+      "connections": [
+        "Mahāvīra",
+        "Karma",
+        "Aparigraha"
+      ],
+      "audioScript": "Pasamos a ahiṃsā, la no violencia jaina. No consiste solo en evitar agresiones evidentes. Exige observar cómo caminar, hablar, alimentarse, trabajar y poseer puede dañar a otros seres. Los renunciantes asumen restricciones más rigurosas que los laicos. La meta no es una pureza instantánea, sino reducir el daño y el ingreso de karma mediante atención y autocontrol continuos.",
+      "evidence": "A–B",
+      "visual": {
+        "palette": [
+          "#344238",
+          "#68805f",
+          "#d3ae5d"
+        ],
+        "allegory": "ética de la no violencia"
+      },
+      "derivedCardSeeds": [
+        "ahiṃsā: desarrollo conceptual",
+        "vida: desarrollo conceptual",
+        "cuidado: desarrollo conceptual",
+        "Límites y debates de No violencia como disciplina de percepción"
+      ],
+      "materialization": {
+        "level": "dossier_estructurado_mas_capa_historica_v2_audio_conciso",
+        "allCoreFieldsPreserved": true,
+        "extendedProseExactArchive": "síntesis estructurada de la serie 2.2; no es transcripción literal del chat",
+        "source": "serie editorial 2.2"
+      },
+      "audioVersion": "concise-listening-3.4",
+      "audioLead": "Pasamos a ahiṃsā, la no violencia jaina.",
+      "audioContext": "",
+      "audioBody": "No consiste solo en evitar agresiones evidentes. Exige observar cómo caminar, hablar, alimentarse, trabajar y poseer puede dañar a otros seres. Los renunciantes asumen restricciones más rigurosas que los laicos. La meta no es una pureza instantánea, sino reducir el daño y el ingreso de karma mediante atención y autocontrol continuos.",
+      "collectionId": "south_asia_vedic_upanishadic",
+      "collection": "Sur de Asia: fundamentos y primeras controversias",
+      "collectionOrder": 4,
+      "historicalLayer": {
+        "version": "historical-2.3",
+        "status": "materializada",
+        "sha256": "a4aa6234b9de0fc188cfa585214d1d244ecc0e394f43ca61b4c4af50935dafd3"
+      },
+      "sourceAnchors": [
+        "https://plato.stanford.edu/archives/sum2024/entries/jaina-philosophy/"
+      ],
+      "sha256": "dfca57afa64b2042966bf709bdf46acf5639af4b08276142671ca2876f847e65"
+    },
+    {
+      "id": "card_anekantavada_many_sidedness_001",
+      "seriesVersion": "2.2",
+      "author": "Filosofías jainas de anekāntavāda",
+      "title": "La realidad tiene más lados que una sola afirmación",
+      "territory": "Subcontinente indio",
+      "period": "Desarrollos canónicos y sistemáticos del jainismo",
+      "family": "Perspectivas y predicación",
+      "symbol": "◈",
+      "guidingQuestion": "¿Cómo afirmar algo verdadero sin convertir una perspectiva parcial en descripción absoluta?",
+      "documentedCore": "Anekāntavāda sostiene que los objetos poseen múltiples aspectos y que una afirmación debe declarar el punto de vista y las condiciones desde los que resulta válida.",
+      "distinctiveKey": "Anekāntavāda sostiene que los objetos poseen múltiples aspectos y que una afirmación debe declarar el punto de vista y las condiciones desde los que resulta válida.",
+      "whyItMatters": "Introduce una epistemología de precisión contextual que puede reducir dogmatismo sin caer en relativismo.",
+      "editorialCaution": "No significa que toda opinión sea igualmente correcta ni elimina la posibilidad de error, contradicción o conocimiento objetivo.",
+      "tags": [
+        "anekāntavāda",
+        "naya",
+        "syādvāda",
+        "perspectiva"
+      ],
+      "connections": [
+        "Ahiṃsā",
+        "Diálogo filosófico",
+        "Cārvāka"
+      ],
+      "audioScript": "Continuamos con anekāntavāda, la doctrina jaina de los múltiples aspectos. Un objeto puede permanecer bajo cierta descripción y cambiar bajo otra; por eso una afirmación requiere condiciones y perspectiva. Syādvāda ayuda a formular esa cautela. No enseña que todas las opiniones sean verdaderas. Exige distinguir mejor para evitar que una descripción parcial se presente como absoluta.",
+      "evidence": "B",
+      "visual": {
+        "palette": [
+          "#344238",
+          "#68805f",
+          "#d3ae5d"
+        ],
+        "allegory": "perspectivas y predicación"
+      },
+      "derivedCardSeeds": [
+        "anekāntavāda: desarrollo conceptual",
+        "naya: desarrollo conceptual",
+        "syādvāda: desarrollo conceptual",
+        "Límites y debates de La realidad tiene más lados que una sola afirmación"
+      ],
+      "materialization": {
+        "level": "dossier_estructurado_mas_capa_historica_v2_audio_conciso",
+        "allCoreFieldsPreserved": true,
+        "extendedProseExactArchive": "síntesis estructurada de la serie 2.2; no es transcripción literal del chat",
+        "source": "serie editorial 2.2"
+      },
+      "audioVersion": "concise-listening-3.4",
+      "audioLead": "Continuamos con anekāntavāda, la doctrina jaina de los múltiples aspectos.",
+      "audioContext": "",
+      "audioBody": "Un objeto puede permanecer bajo cierta descripción y cambiar bajo otra; por eso una afirmación requiere condiciones y perspectiva. Syādvāda ayuda a formular esa cautela. No enseña que todas las opiniones sean verdaderas. Exige distinguir mejor para evitar que una descripción parcial se presente como absoluta.",
+      "collectionId": "south_asia_vedic_upanishadic",
+      "collection": "Sur de Asia: fundamentos y primeras controversias",
+      "collectionOrder": 4,
+      "historicalLayer": {
+        "version": "historical-2.3",
+        "status": "materializada",
+        "sha256": "f85ec5c1d95dd61cac0929c4f76d3c013979c0c13fbcd0bf6bfce11afc0c2cb7"
+      },
+      "sourceAnchors": [
+        "https://plato.stanford.edu/archives/sum2024/entries/jaina-philosophy/",
+        "https://plato.stanford.edu/entries/literal-nonliteral-india/index.html"
+      ],
+      "sha256": "c2e8fcd1488b32ff72535390f78dfe41a25675cdb18b1ea3a8c342054e458c31"
+    },
+    {
+      "id": "card_carvaka_lokayata_fragments_001",
+      "seriesVersion": "2.2",
+      "author": "Tradiciones asociadas con Cārvāka y Lokāyata",
+      "title": "Pensar desde los fragmentos de una filosofía perdida",
+      "territory": "Subcontinente indio",
+      "period": "Antigüedad y periodo clásico; cronología discutida",
+      "family": "Materialismo y crítica de la inferencia",
+      "symbol": "◉",
+      "guidingQuestion": "¿Cómo reconstruir con justicia una filosofía cuyos textos propios casi no sobrevivieron?",
+      "documentedCore": "Cārvāka o Lokāyata privilegió la percepción y cuestionó alma separada, renacimiento y autoridad ritual, pero su doctrina debe reconstruirse principalmente desde adversarios.",
+      "distinctiveKey": "Cārvāka o Lokāyata privilegió la percepción y cuestionó alma separada, renacimiento y autoridad ritual, pero su doctrina debe reconstruirse principalmente desde adversarios.",
+      "whyItMatters": "Incorpora la disidencia materialista y enseña a leer doctrinas conservadas por voces hostiles.",
+      "editorialCaution": "No existe un corpus fundacional conservado; atribuciones de hedonismo extremo o rechazo absoluto de toda inferencia pueden reflejar caricaturas polémicas.",
+      "tags": [
+        "Cārvāka",
+        "Lokāyata",
+        "percepción",
+        "materialismo"
+      ],
+      "connections": [
+        "Anekāntavāda",
+        "Karma",
+        "Comunidades śramaṇa"
+      ],
+      "audioScript": "Cerramos la serie con Cārvāka o Lokāyata, nombres vinculados con corrientes materialistas del sur de Asia. Sus textos propios casi no sobrevivieron y gran parte de lo conocido procede de críticos. Se les atribuye confianza en la percepción y rechazo de alma separada, renacimiento y autoridad ritual. Debemos distinguir las posiciones plausibles de las caricaturas creadas para refutarlas.",
+      "evidence": "C",
+      "visual": {
+        "palette": [
+          "#4a372f",
+          "#8a6650",
+          "#d1a35b"
+        ],
+        "allegory": "materialismo y crítica de la inferencia"
+      },
+      "derivedCardSeeds": [
+        "Cārvāka: desarrollo conceptual",
+        "Lokāyata: desarrollo conceptual",
+        "percepción: desarrollo conceptual",
+        "Límites y debates de Pensar desde los fragmentos de una filosofía perdida"
+      ],
+      "materialization": {
+        "level": "dossier_estructurado_mas_capa_historica_v2_audio_conciso",
+        "allCoreFieldsPreserved": true,
+        "extendedProseExactArchive": "síntesis estructurada de la serie 2.2; no es transcripción literal del chat",
+        "source": "serie editorial 2.2"
+      },
+      "audioVersion": "concise-listening-3.4",
+      "audioLead": "Cerramos la serie con Cārvāka o Lokāyata, nombres vinculados con corrientes materialistas del sur de Asia.",
+      "audioContext": "",
+      "audioBody": "Sus textos propios casi no sobrevivieron y gran parte de lo conocido procede de críticos. Se les atribuye confianza en la percepción y rechazo de alma separada, renacimiento y autoridad ritual. Debemos distinguir las posiciones plausibles de las caricaturas creadas para refutarlas.",
+      "collectionId": "south_asia_vedic_upanishadic",
+      "collection": "Sur de Asia: fundamentos y primeras controversias",
+      "collectionOrder": 4,
+      "historicalLayer": {
+        "version": "historical-2.3",
+        "status": "materializada",
+        "sha256": "ed333b1eef2aba74c28c9d29c589a475a74ded3e96b21430155f1205986cc4da"
+      },
+      "sourceAnchors": [
+        "https://iep.utm.edu/indmat/"
+      ],
+      "sha256": "3cca336b956eb9608df59859f79431f839ab0eb4907d6cb8e0a4307968a4da13"
+    }
+  ],
+  "historicalLayers": [
+    {
+      "id": "card_sramana_renunciant_world_001",
+      "layerVersion": "historical-2.3",
+      "seriesVersion": "2.2",
+      "author": "Comunidades śramaṇa",
+      "title": "Renunciar para investigar otra forma de vida",
+      "historicalContext": "Durante el primer milenio a. C., la urbanización, los nuevos reinos y la movilidad intelectual acompañaron la expansión de grupos de renunciantes y maestros itinerantes.",
+      "historicalDevelopment": "Las fuentes budistas, jainas y brahmánicas describen numerosas posiciones sobre acción, destino, alma, conocimiento y ascetismo. Cada tradición reconstruyó a sus interlocutores desde su propio punto de vista.",
+      "milestones": [
+        "Expansión de comunidades itinerantes.",
+        "Debates sobre karma y renacimiento.",
+        "Formación de órdenes budistas y jainas.",
+        "Interacción continuada con tradiciones brahmánicas."
+      ],
+      "conceptualSections": [
+        {
+          "title": "Śramaṇa",
+          "text": "Renunciante o practicante dedicado a una disciplina de liberación."
+        },
+        {
+          "title": "Pluralidad",
+          "text": "Convivencia de doctrinas y prácticas incompatibles dentro de un mismo espacio intelectual."
+        }
+      ],
+      "legacy": [
+        "Marco indispensable para comprender el carácter polémico y experimental de la filosofía antigua del sur de Asia."
+      ],
+      "anchorWorks": [
+        "Nikāyas y Āgamas budistas; cánones jainas; primeras fuentes brahmánicas"
+      ],
+      "guidingQuestion": "¿Qué sucede cuando la búsqueda de conocimiento exige abandonar temporal o permanentemente la vida doméstica?",
+      "distinctiveKey": "Las comunidades śramaṇa convirtieron la renuncia, la disciplina corporal y el debate en vías para examinar karma, renacimiento y liberación fuera de la vida doméstica ordinaria.",
+      "editorialCautions": [
+        "No formaron un movimiento único ni deben describirse simplemente como una reacción homogénea contra el mundo védico."
+      ],
+      "connections": [
+        "Saṃsāra",
+        "Karma",
+        "El Buddha histórico",
+        "Mahāvīra"
+      ],
+      "evidence": "B",
+      "longAudioScript": "Profundizamos en Comunidades śramaṇa: Renunciar para investigar otra forma de vida. Durante el primer milenio a. C., la urbanización, los nuevos reinos y la movilidad intelectual acompañaron la expansión de grupos de renunciantes y maestros itinerantes. Las fuentes budistas, jainas y brahmánicas describen numerosas posiciones sobre acción, destino, alma, conocimiento y ascetismo. Cada tradición reconstruyó a sus interlocutores desde su propio punto de vista. Śramaṇa: Renunciante o practicante dedicado a una disciplina de liberación. Pluralidad: Convivencia de doctrinas y prácticas incompatibles dentro de un mismo espacio intelectual. Precisión editorial: No formaron un movimiento único ni deben describirse simplemente como una reacción homogénea contra el mundo védico.",
+      "provenance": {
+        "source": "Consolidación editorial de la serie 2.2",
+        "preservationMode": "capa adicional; no sobrescribe tarjeta ni expediente",
+        "coverage": "contexto, desarrollo, hitos, conceptos, legado y cautela",
+        "materializedAt": "2026-07-24"
+      },
+      "audioVersion": "historical-entity-first-2.4",
+      "historicalAudioLead": "Profundizamos en Comunidades śramaṇa: Renunciar para investigar otra forma de vida.",
+      "historicalAudioBody": "Durante el primer milenio a. C., la urbanización, los nuevos reinos y la movilidad intelectual acompañaron la expansión de grupos de renunciantes y maestros itinerantes. Las fuentes budistas, jainas y brahmánicas describen numerosas posiciones sobre acción, destino, alma, conocimiento y ascetismo. Cada tradición reconstruyó a sus interlocutores desde su propio punto de vista.",
+      "collectionId": "south_asia_vedic_upanishadic",
+      "collection": "Sur de Asia: fundamentos y primeras controversias",
+      "collectionOrder": 4,
+      "sourceAnchors": [
+        "https://plato.stanford.edu/archives/spr2020/entries/buddha/",
+        "https://plato.stanford.edu/archives/sum2024/entries/jaina-philosophy/"
+      ],
+      "sha256": "698f5eff198e32e186618f4d03ca00b1df9fa72ca45f89e21d04a16898d6443c"
+    },
+    {
+      "id": "card_historical_buddha_001",
+      "layerVersion": "historical-2.3",
+      "seriesVersion": "2.2",
+      "author": "Siddhārtha Gautama, el Buddha histórico",
+      "title": "Despertar y enseñar un camino verificable",
+      "historicalContext": "Gautama actuó dentro de un mundo de renunciantes, ciudades y reinos del norte de India. El título Buddha significa “despierto”.",
+      "historicalDevelopment": "Las colecciones tempranas presentan enseñanzas prácticas, análisis de la persona, reglas monásticas y debates. Las tradiciones posteriores desarrollaron múltiples biografías y doctrinas sobre la naturaleza de los Buddhas.",
+      "milestones": [
+        "Vida probable en el siglo V a. C.",
+        "Formación de una comunidad monástica.",
+        "Transmisión oral de discursos y reglas.",
+        "Diversificación de escuelas budistas."
+      ],
+      "conceptualSections": [
+        {
+          "title": "Buddha",
+          "text": "Título de quien descubre y enseña el camino al nirvāṇa."
+        },
+        {
+          "title": "Dhamma",
+          "text": "Enseñanza, práctica y orden de comprensión comunicado por el Buddha."
+        }
+      ],
+      "legacy": [
+        "Origen de una familia filosófica que desarrolló metafísica, ética, lógica, epistemología y filosofía de la mente."
+      ],
+      "anchorWorks": [
+        "Nikāyas en pali y Āgamas conservados en otras lenguas"
+      ],
+      "guidingQuestion": "¿Cómo distinguir una figura histórica de las biografías religiosas que crecieron alrededor de ella?",
+      "distinctiveKey": "Gautama enseñó un camino para comprender y cesar dukkha; sus palabras se conservaron en colecciones orales redactadas y organizadas después de su muerte.",
+      "editorialCautions": [
+        "Las fechas exactas, numerosos episodios biográficos y la formulación literal de cada discurso no pueden establecerse con plena certeza."
+      ],
+      "connections": [
+        "Comunidades śramaṇa",
+        "Cuatro nobles verdades",
+        "Camino medio"
+      ],
+      "evidence": "B",
+      "longAudioScript": "Profundizamos en Siddhārtha Gautama, el Buddha histórico: Despertar y enseñar un camino verificable. Gautama actuó dentro de un mundo de renunciantes, ciudades y reinos del norte de India. El título Buddha significa “despierto”. Las colecciones tempranas presentan enseñanzas prácticas, análisis de la persona, reglas monásticas y debates. Las tradiciones posteriores desarrollaron múltiples biografías y doctrinas sobre la naturaleza de los Buddhas. Buddha: Título de quien descubre y enseña el camino al nirvāṇa. Dhamma: Enseñanza, práctica y orden de comprensión comunicado por el Buddha. Precisión editorial: Las fechas exactas, numerosos episodios biográficos y la formulación literal de cada discurso no pueden establecerse con plena certeza.",
+      "provenance": {
+        "source": "Consolidación editorial de la serie 2.2",
+        "preservationMode": "capa adicional; no sobrescribe tarjeta ni expediente",
+        "coverage": "contexto, desarrollo, hitos, conceptos, legado y cautela",
+        "materializedAt": "2026-07-24"
+      },
+      "audioVersion": "historical-entity-first-2.4",
+      "historicalAudioLead": "Profundizamos en Siddhārtha Gautama, el Buddha histórico: Despertar y enseñar un camino verificable.",
+      "historicalAudioBody": "Gautama actuó dentro de un mundo de renunciantes, ciudades y reinos del norte de India. El título Buddha significa “despierto”. Las colecciones tempranas presentan enseñanzas prácticas, análisis de la persona, reglas monásticas y debates. Las tradiciones posteriores desarrollaron múltiples biografías y doctrinas sobre la naturaleza de los Buddhas.",
+      "collectionId": "south_asia_vedic_upanishadic",
+      "collection": "Sur de Asia: fundamentos y primeras controversias",
+      "collectionOrder": 4,
+      "sourceAnchors": [
+        "https://plato.stanford.edu/archives/spr2020/entries/buddha/"
+      ],
+      "sha256": "0d1a18a6ae8e34e56a66baf88d2a152ad112186dee48de71e684f7d60f1ce518"
+    },
+    {
+      "id": "card_four_noble_truths_tasks_001",
+      "layerVersion": "historical-2.3",
+      "seriesVersion": "2.2",
+      "author": "Enseñanza budista temprana",
+      "title": "Cuatro verdades como diagnóstico y tarea",
+      "historicalContext": "El discurso de la puesta en movimiento de la rueda presenta las verdades junto con el camino medio y el noble sendero óctuple.",
+      "historicalDevelopment": "La tradición interpreta cada verdad mediante tres momentos: reconocerla, comprender la tarea correspondiente y completar esa tarea. Esto une conocimiento y práctica.",
+      "milestones": [
+        "Enseñanza a los cinco ascetas.",
+        "Organización en cuatro verdades.",
+        "Desarrollo de comentarios y sistemas de práctica."
+      ],
+      "conceptualSections": [
+        {
+          "title": "Dukkha",
+          "text": "Insatisfacción, vulnerabilidad y tensión de aquello que depende de condiciones."
+        },
+        {
+          "title": "Tarea",
+          "text": "Acción específica exigida por cada verdad."
+        }
+      ],
+      "legacy": [
+        "Estructura central de múltiples tradiciones budistas, reinterpretada de manera diferente en cada escuela."
+      ],
+      "anchorWorks": [
+        "Saṃyutta Nikāya 56.11 y paralelos"
+      ],
+      "guidingQuestion": "¿Por qué comprender el sufrimiento no basta si no cambia la relación con sus causas?",
+      "distinctiveKey": "Las cuatro verdades relacionan dukkha, su origen, su cesación y un camino; cada una exige una tarea y no solo aceptación intelectual.",
+      "editorialCautions": [
+        "Dukkha no significa que toda experiencia sea únicamente dolor, y las cuatro verdades no deben reducirse a cuatro afirmaciones pesimistas."
+      ],
+      "connections": [
+        "El Buddha histórico",
+        "Camino medio",
+        "Origen dependiente"
+      ],
+      "evidence": "A–B",
+      "longAudioScript": "Profundizamos en Enseñanza budista temprana: Cuatro verdades como diagnóstico y tarea. El discurso de la puesta en movimiento de la rueda presenta las verdades junto con el camino medio y el noble sendero óctuple. La tradición interpreta cada verdad mediante tres momentos: reconocerla, comprender la tarea correspondiente y completar esa tarea. Esto une conocimiento y práctica. Dukkha: Insatisfacción, vulnerabilidad y tensión de aquello que depende de condiciones. Tarea: Acción específica exigida por cada verdad. Precisión editorial: Dukkha no significa que toda experiencia sea únicamente dolor, y las cuatro verdades no deben reducirse a cuatro afirmaciones pesimistas.",
+      "provenance": {
+        "source": "Consolidación editorial de la serie 2.2",
+        "preservationMode": "capa adicional; no sobrescribe tarjeta ni expediente",
+        "coverage": "contexto, desarrollo, hitos, conceptos, legado y cautela",
+        "materializedAt": "2026-07-24"
+      },
+      "audioVersion": "historical-entity-first-2.4",
+      "historicalAudioLead": "Profundizamos en Enseñanza budista temprana: Cuatro verdades como diagnóstico y tarea.",
+      "historicalAudioBody": "El discurso de la puesta en movimiento de la rueda presenta las verdades junto con el camino medio y el noble sendero óctuple. La tradición interpreta cada verdad mediante tres momentos: reconocerla, comprender la tarea correspondiente y completar esa tarea. Esto une conocimiento y práctica.",
+      "collectionId": "south_asia_vedic_upanishadic",
+      "collection": "Sur de Asia: fundamentos y primeras controversias",
+      "collectionOrder": 4,
+      "sourceAnchors": [
+        "https://suttacentral.net/sn56.11/es/baron",
+        "https://suttacentral.net/sn56.11/en/bodhi"
+      ],
+      "sha256": "bf7d2a571f5df7f86e5656e6414b60454b33a0dd06f708591d7b481950106788"
+    },
+    {
+      "id": "card_dependent_arising_001",
+      "layerVersion": "historical-2.3",
+      "seriesVersion": "2.2",
+      "author": "Enseñanza budista de pratītyasamutpāda",
+      "title": "Nada surge aislado",
+      "historicalContext": "Los discursos tempranos presentan fórmulas generales de condicionalidad y cadenas más desarrolladas, entre ellas la secuencia de doce factores.",
+      "historicalDevelopment": "La noción fue reinterpretada por Abhidharma, Madhyamaka, Yogācāra y otras escuelas, que discutieron el estatuto de causas, condiciones y fenómenos.",
+      "milestones": [
+        "Formulaciones tempranas de condicionalidad.",
+        "Articulación con dukkha y renacimiento.",
+        "Sistemas causales del Abhidharma.",
+        "Relecturas de Nāgārjuna y escuelas posteriores."
+      ],
+      "conceptualSections": [
+        {
+          "title": "Condición",
+          "text": "Factor sin el cual un proceso no aparece del mismo modo."
+        },
+        {
+          "title": "Cesación",
+          "text": "Transformación producida al interrumpir condiciones relevantes."
+        }
+      ],
+      "legacy": [
+        "Concepto central para las filosofías budistas de causalidad, mente, identidad y vacuidad."
+      ],
+      "anchorWorks": [
+        "Saṃyutta Nikāya 12.15 y otros discursos del Nidāna-saṃyutta"
+      ],
+      "guidingQuestion": "¿Cómo cambia la comprensión de una experiencia cuando dejamos de buscar una causa única o una esencia independiente?",
+      "distinctiveKey": "El origen dependiente explica que experiencias y procesos aparecen cuando confluyen condiciones y cesan cuando esas condiciones dejan de sostenerlos.",
+      "editorialCautions": [
+        "No equivale a decir que todo causa todo ni debe identificarse sin precisión con cualquier teoría moderna de sistemas o interdependencia."
+      ],
+      "connections": [
+        "Cuatro nobles verdades",
+        "Anātman",
+        "Karma"
+      ],
+      "evidence": "A–B",
+      "longAudioScript": "Profundizamos en Enseñanza budista de pratītyasamutpāda: Nada surge aislado. Los discursos tempranos presentan fórmulas generales de condicionalidad y cadenas más desarrolladas, entre ellas la secuencia de doce factores. La noción fue reinterpretada por Abhidharma, Madhyamaka, Yogācāra y otras escuelas, que discutieron el estatuto de causas, condiciones y fenómenos. Condición: Factor sin el cual un proceso no aparece del mismo modo. Cesación: Transformación producida al interrumpir condiciones relevantes. Precisión editorial: No equivale a decir que todo causa todo ni debe identificarse sin precisión con cualquier teoría moderna de sistemas o interdependencia.",
+      "provenance": {
+        "source": "Consolidación editorial de la serie 2.2",
+        "preservationMode": "capa adicional; no sobrescribe tarjeta ni expediente",
+        "coverage": "contexto, desarrollo, hitos, conceptos, legado y cautela",
+        "materializedAt": "2026-07-24"
+      },
+      "audioVersion": "historical-entity-first-2.4",
+      "historicalAudioLead": "Profundizamos en Enseñanza budista de pratītyasamutpāda: Nada surge aislado.",
+      "historicalAudioBody": "Los discursos tempranos presentan fórmulas generales de condicionalidad y cadenas más desarrolladas, entre ellas la secuencia de doce factores. La noción fue reinterpretada por Abhidharma, Madhyamaka, Yogācāra y otras escuelas, que discutieron el estatuto de causas, condiciones y fenómenos.",
+      "collectionId": "south_asia_vedic_upanishadic",
+      "collection": "Sur de Asia: fundamentos y primeras controversias",
+      "collectionOrder": 4,
+      "sourceAnchors": [
+        "https://suttacentral.net/sn12.15/en/suddhaso",
+        "https://plato.stanford.edu/archives/spr2019/entries/mind-indian-buddhism/"
+      ],
+      "sha256": "3c237a9d5b4e09ddbd82de4fe38394b2ef9f584a3b306ead51f5bf625b0395d8"
+    },
+    {
+      "id": "card_anatman_five_aggregates_001",
+      "layerVersion": "historical-2.3",
+      "seriesVersion": "2.2",
+      "author": "Enseñanza budista temprana",
+      "title": "Anātman: no apropiarse de los agregados como un yo",
+      "historicalContext": "El discurso sobre la característica de no-yo examina los cinco agregados y vincula impermanencia, aflicción y falta de control.",
+      "historicalDevelopment": "Las escuelas budistas debatieron después cómo explicar memoria, responsabilidad y renacimiento sin afirmar un yo sustancial.",
+      "milestones": [
+        "Enseñanza a los primeros discípulos.",
+        "Análisis de los cinco agregados.",
+        "Debates sobre persona y continuidad.",
+        "Desarrollos de Abhidharma y Madhyamaka."
+      ],
+      "conceptualSections": [
+        {
+          "title": "Agregado",
+          "text": "Conjunto dinámico de procesos usados para describir la experiencia personal."
+        },
+        {
+          "title": "Apropiación",
+          "text": "Acto de convertir un proceso cambiante en identidad fija o posesión."
+        }
+      ],
+      "legacy": [
+        "Una de las contribuciones más distintivas del budismo a la filosofía de la persona."
+      ],
+      "anchorWorks": [
+        "Saṃyutta Nikāya 22.59 y paralelos"
+      ],
+      "guidingQuestion": "¿Qué queda de la persona cuando ninguna de sus experiencias puede poseerse como una esencia permanente?",
+      "distinctiveKey": "El análisis de los cinco agregados muestra que cuerpo, sensación, percepción, formaciones y conciencia no ofrecen un yo permanente, controlable e independiente.",
+      "editorialCautions": [
+        "Anātman no afirma simplemente que las personas sean inexistentes ni convierte la práctica budista en nihilismo."
+      ],
+      "connections": [
+        "Origen dependiente",
+        "Ātman",
+        "Dukkha"
+      ],
+      "evidence": "A–B",
+      "longAudioScript": "Profundizamos en Enseñanza budista temprana: Anātman: no apropiarse de los agregados como un yo. El discurso sobre la característica de no-yo examina los cinco agregados y vincula impermanencia, aflicción y falta de control. Las escuelas budistas debatieron después cómo explicar memoria, responsabilidad y renacimiento sin afirmar un yo sustancial. Agregado: Conjunto dinámico de procesos usados para describir la experiencia personal. Apropiación: Acto de convertir un proceso cambiante en identidad fija o posesión. Precisión editorial: Anātman no afirma simplemente que las personas sean inexistentes ni convierte la práctica budista en nihilismo.",
+      "provenance": {
+        "source": "Consolidación editorial de la serie 2.2",
+        "preservationMode": "capa adicional; no sobrescribe tarjeta ni expediente",
+        "coverage": "contexto, desarrollo, hitos, conceptos, legado y cautela",
+        "materializedAt": "2026-07-24"
+      },
+      "audioVersion": "historical-entity-first-2.4",
+      "historicalAudioLead": "Profundizamos en Enseñanza budista temprana: Anātman: no apropiarse de los agregados como un yo.",
+      "historicalAudioBody": "El discurso sobre la característica de no-yo examina los cinco agregados y vincula impermanencia, aflicción y falta de control. Las escuelas budistas debatieron después cómo explicar memoria, responsabilidad y renacimiento sin afirmar un yo sustancial.",
+      "collectionId": "south_asia_vedic_upanishadic",
+      "collection": "Sur de Asia: fundamentos y primeras controversias",
+      "collectionOrder": 4,
+      "sourceAnchors": [
+        "https://suttacentral.net/sn22.59/en/bodhi",
+        "https://plato.stanford.edu/archives/spr2020/entries/buddha/"
+      ],
+      "sha256": "e80b3683ca815403fe0fa2f6c5ddb2e866bf8a8685ce0a97c82970e64cd2fc09"
+    },
+    {
+      "id": "card_middle_way_eightfold_path_001",
+      "layerVersion": "historical-2.3",
+      "seriesVersion": "2.2",
+      "author": "Enseñanza budista temprana",
+      "title": "Camino medio y sendero óctuple",
+      "historicalContext": "El primer discurso vincula el camino medio con el noble sendero óctuple y con la cuarta verdad.",
+      "historicalDevelopment": "Las tradiciones posteriores organizaron los ocho factores en sabiduría, ética y concentración, desarrollando métodos monásticos y laicos diversos.",
+      "milestones": [
+        "Rechazo de los dos extremos.",
+        "Formulación del sendero óctuple.",
+        "Organización en tres entrenamientos.",
+        "Diversificación de prácticas budistas."
+      ],
+      "conceptualSections": [
+        {
+          "title": "Camino medio",
+          "text": "Orientación que evita extremos improductivos definidos por el problema concreto."
+        },
+        {
+          "title": "Entrenamiento",
+          "text": "Cultivo reiterado de capacidades cognitivas, éticas y atencionales."
+        }
+      ],
+      "legacy": [
+        "Matriz práctica compartida por corrientes budistas muy diferentes."
+      ],
+      "anchorWorks": [
+        "Saṃyutta Nikāya 56.11 y paralelos"
+      ],
+      "guidingQuestion": "¿Cómo puede una práctica integrar comprensión, conducta y atención sin convertirlas en etapas aisladas?",
+      "distinctiveKey": "El camino medio evita tanto la complacencia sensual como la mortificación extrema y organiza la transformación mediante ocho dimensiones relacionadas.",
+      "editorialCautions": [
+        "El camino medio no significa elegir siempre una posición aritméticamente intermedia ni evitar todo compromiso firme."
+      ],
+      "connections": [
+        "Cuatro nobles verdades",
+        "Comunidades śramaṇa",
+        "Nirvāṇa"
+      ],
+      "evidence": "A–B",
+      "longAudioScript": "Profundizamos en Enseñanza budista temprana: Camino medio y sendero óctuple. El primer discurso vincula el camino medio con el noble sendero óctuple y con la cuarta verdad. Las tradiciones posteriores organizaron los ocho factores en sabiduría, ética y concentración, desarrollando métodos monásticos y laicos diversos. Camino medio: Orientación que evita extremos improductivos definidos por el problema concreto. Entrenamiento: Cultivo reiterado de capacidades cognitivas, éticas y atencionales. Precisión editorial: El camino medio no significa elegir siempre una posición aritméticamente intermedia ni evitar todo compromiso firme.",
+      "provenance": {
+        "source": "Consolidación editorial de la serie 2.2",
+        "preservationMode": "capa adicional; no sobrescribe tarjeta ni expediente",
+        "coverage": "contexto, desarrollo, hitos, conceptos, legado y cautela",
+        "materializedAt": "2026-07-24"
+      },
+      "audioVersion": "historical-entity-first-2.4",
+      "historicalAudioLead": "Profundizamos en Enseñanza budista temprana: Camino medio y sendero óctuple.",
+      "historicalAudioBody": "El primer discurso vincula el camino medio con el noble sendero óctuple y con la cuarta verdad. Las tradiciones posteriores organizaron los ocho factores en sabiduría, ética y concentración, desarrollando métodos monásticos y laicos diversos.",
+      "collectionId": "south_asia_vedic_upanishadic",
+      "collection": "Sur de Asia: fundamentos y primeras controversias",
+      "collectionOrder": 4,
+      "sourceAnchors": [
+        "https://suttacentral.net/sn56.11/en/bodhi",
+        "https://suttacentral.net/sn56.11/es/baron"
+      ],
+      "sha256": "f9a2fc94b751f5610b7e63620a74fd8d4fb1543937351c275761360c7bab7533"
+    },
+    {
+      "id": "card_mahavira_jina_001",
+      "layerVersion": "historical-2.3",
+      "seriesVersion": "2.2",
+      "author": "Mahāvīra y las comunidades jainas",
+      "title": "Un Jina dentro de una tradición anterior",
+      "historicalContext": "Las fuentes jainas presentan a Mahāvīra en una genealogía de veinticuatro Tīrthaṅkaras. La investigación histórica acepta su ubicación general en el norte de India, pero discute fechas y detalles biográficos.",
+      "historicalDevelopment": "La comunidad jaina desarrolló órdenes monásticas y redes laicas. Con el tiempo surgieron diferencias canónicas, rituales y doctrinales entre tradiciones como Digambara y Śvetāmbara.",
+      "milestones": [
+        "Actividad de Mahāvīra.",
+        "Consolidación de la comunidad cuádruple.",
+        "Transmisión y redacción de cánones.",
+        "Diversificación histórica del jainismo."
+      ],
+      "conceptualSections": [
+        {
+          "title": "Jina",
+          "text": "Vencedor de las pasiones y del vínculo kármico."
+        },
+        {
+          "title": "Tīrthaṅkara",
+          "text": "Figura que abre un paso hacia la liberación y organiza una comunidad."
+        }
+      ],
+      "legacy": [
+        "Fuente de una tradición filosófica con contribuciones mayores a ética, metafísica y epistemología."
+      ],
+      "anchorWorks": [
+        "Cánones jainas y tratados posteriores"
+      ],
+      "guidingQuestion": "¿Cómo cambia la imagen de un fundador cuando la propia tradición lo presenta como continuador de una enseñanza anterior?",
+      "distinctiveKey": "Mahāvīra fue reconocido como el vigesimocuarto Jina del ciclo actual y organizó una comunidad de renunciantes y laicos orientada a liberar el alma del karma.",
+      "editorialCautions": [
+        "Mahāvīra no debe describirse sin más como inventor único del jainismo, y sus fechas tradicionales no equivalen a una cronología históricamente demostrada."
+      ],
+      "connections": [
+        "Comunidades śramaṇa",
+        "Ahiṃsā",
+        "Anekāntavāda"
+      ],
+      "evidence": "B",
+      "longAudioScript": "Profundizamos en Mahāvīra y las comunidades jainas: Un Jina dentro de una tradición anterior. Las fuentes jainas presentan a Mahāvīra en una genealogía de veinticuatro Tīrthaṅkaras. La investigación histórica acepta su ubicación general en el norte de India, pero discute fechas y detalles biográficos. La comunidad jaina desarrolló órdenes monásticas y redes laicas. Con el tiempo surgieron diferencias canónicas, rituales y doctrinales entre tradiciones como Digambara y Śvetāmbara. Jina: Vencedor de las pasiones y del vínculo kármico. Tīrthaṅkara: Figura que abre un paso hacia la liberación y organiza una comunidad. Precisión editorial: Mahāvīra no debe describirse sin más como inventor único del jainismo, y sus fechas tradicionales no equivalen a una cronología históricamente demostrada.",
+      "provenance": {
+        "source": "Consolidación editorial de la serie 2.2",
+        "preservationMode": "capa adicional; no sobrescribe tarjeta ni expediente",
+        "coverage": "contexto, desarrollo, hitos, conceptos, legado y cautela",
+        "materializedAt": "2026-07-24"
+      },
+      "audioVersion": "historical-entity-first-2.4",
+      "historicalAudioLead": "Profundizamos en Mahāvīra y las comunidades jainas: Un Jina dentro de una tradición anterior.",
+      "historicalAudioBody": "Las fuentes jainas presentan a Mahāvīra en una genealogía de veinticuatro Tīrthaṅkaras. La investigación histórica acepta su ubicación general en el norte de India, pero discute fechas y detalles biográficos. La comunidad jaina desarrolló órdenes monásticas y redes laicas. Con el tiempo surgieron diferencias canónicas, rituales y doctrinales entre tradiciones como Digambara y Śvetāmbara.",
+      "collectionId": "south_asia_vedic_upanishadic",
+      "collection": "Sur de Asia: fundamentos y primeras controversias",
+      "collectionOrder": 4,
+      "sourceAnchors": [
+        "https://plato.stanford.edu/archives/sum2024/entries/jaina-philosophy/"
+      ],
+      "sha256": "e537bb191741f56515243d9b1cac6de61acdb40bb1ba3557753189fa36c2ff14"
+    },
+    {
+      "id": "card_jaina_ahimsa_001",
+      "layerVersion": "historical-2.3",
+      "seriesVersion": "2.2",
+      "author": "Tradiciones jainas de ahiṃsā",
+      "title": "No violencia como disciplina de percepción",
+      "historicalContext": "La no violencia ocupa un lugar central en los votos jainas y se relaciona con una cosmología poblada por múltiples formas de vida.",
+      "historicalDevelopment": "Las prácticas se graduaron para renunciantes y laicos. Ahiṃsā se vinculó con verdad, no apropiación, castidad y desapego, y ejerció influencia más allá del jainismo.",
+      "milestones": [
+        "Formulación de votos monásticos.",
+        "Adaptación para comunidades laicas.",
+        "Desarrollo de reglas minuciosas de conducta.",
+        "Influencia ética moderna."
+      ],
+      "conceptualSections": [
+        {
+          "title": "Ahiṃsā",
+          "text": "Compromiso de no lesionar y de reducir cuidadosamente el daño."
+        },
+        {
+          "title": "Autocontrol",
+          "text": "Disciplina que limita impulsos y hábitos capaces de producir violencia."
+        }
+      ],
+      "legacy": [
+        "Una de las formulaciones más exigentes de la no violencia en la historia de la ética."
+      ],
+      "anchorWorks": [
+        "Ācārāṅga Sūtra, Uttarādhyayana y tratados jainas"
+      ],
+      "guidingQuestion": "¿Cómo cambia la ética cuando incluso los daños pequeños y no intencionales deben hacerse visibles?",
+      "distinctiveKey": "Ahiṃsā exige reducir el daño a seres vivientes mediante atención a movimientos, palabras, alimentos, posesiones y formas de subsistencia.",
+      "editorialCautions": [
+        "La práctica jaina distingue obligaciones monásticas y laicas; no puede reducirse a una prohibición abstracta idéntica para todas las personas."
+      ],
+      "connections": [
+        "Mahāvīra",
+        "Karma",
+        "Aparigraha"
+      ],
+      "evidence": "A–B",
+      "longAudioScript": "Profundizamos en Tradiciones jainas de ahiṃsā: No violencia como disciplina de percepción. La no violencia ocupa un lugar central en los votos jainas y se relaciona con una cosmología poblada por múltiples formas de vida. Las prácticas se graduaron para renunciantes y laicos. Ahiṃsā se vinculó con verdad, no apropiación, castidad y desapego, y ejerció influencia más allá del jainismo. Ahiṃsā: Compromiso de no lesionar y de reducir cuidadosamente el daño. Autocontrol: Disciplina que limita impulsos y hábitos capaces de producir violencia. Precisión editorial: La práctica jaina distingue obligaciones monásticas y laicas; no puede reducirse a una prohibición abstracta idéntica para todas las personas.",
+      "provenance": {
+        "source": "Consolidación editorial de la serie 2.2",
+        "preservationMode": "capa adicional; no sobrescribe tarjeta ni expediente",
+        "coverage": "contexto, desarrollo, hitos, conceptos, legado y cautela",
+        "materializedAt": "2026-07-24"
+      },
+      "audioVersion": "historical-entity-first-2.4",
+      "historicalAudioLead": "Profundizamos en Tradiciones jainas de ahiṃsā: No violencia como disciplina de percepción.",
+      "historicalAudioBody": "La no violencia ocupa un lugar central en los votos jainas y se relaciona con una cosmología poblada por múltiples formas de vida. Las prácticas se graduaron para renunciantes y laicos. Ahiṃsā se vinculó con verdad, no apropiación, castidad y desapego, y ejerció influencia más allá del jainismo.",
+      "collectionId": "south_asia_vedic_upanishadic",
+      "collection": "Sur de Asia: fundamentos y primeras controversias",
+      "collectionOrder": 4,
+      "sourceAnchors": [
+        "https://plato.stanford.edu/archives/sum2024/entries/jaina-philosophy/"
+      ],
+      "sha256": "a4aa6234b9de0fc188cfa585214d1d244ecc0e394f43ca61b4c4af50935dafd3"
+    },
+    {
+      "id": "card_anekantavada_many_sidedness_001",
+      "layerVersion": "historical-2.3",
+      "seriesVersion": "2.2",
+      "author": "Filosofías jainas de anekāntavāda",
+      "title": "La realidad tiene más lados que una sola afirmación",
+      "historicalContext": "Los filósofos jainas desarrollaron teorías de perspectivas, predicación condicionada y cambio para defender una realidad compleja pero cognoscible.",
+      "historicalDevelopment": "Las formulaciones sistemáticas aparecieron en debates con budistas y brahmanes. El esquema de siete predicaciones se consolidó en textos posteriores y no debe proyectarse íntegramente sobre las capas más antiguas.",
+      "milestones": [
+        "Primeras doctrinas de perspectivas.",
+        "Desarrollo de anekāntavāda.",
+        "Sistematización de syādvāda.",
+        "Debates medievales interfilosóficos."
+      ],
+      "conceptualSections": [
+        {
+          "title": "Naya",
+          "text": "Punto de vista parcial y metodológicamente delimitado."
+        },
+        {
+          "title": "Syādvāda",
+          "text": "Predicación condicionada que explicita bajo qué aspecto se afirma algo."
+        }
+      ],
+      "legacy": [
+        "Contribución jaina decisiva a la lógica, la epistemología y la filosofía del pluralismo."
+      ],
+      "anchorWorks": [
+        "Tattvārthasūtra y tratados jainas posteriores"
+      ],
+      "guidingQuestion": "¿Cómo afirmar algo verdadero sin convertir una perspectiva parcial en descripción absoluta?",
+      "distinctiveKey": "Anekāntavāda sostiene que los objetos poseen múltiples aspectos y que una afirmación debe declarar el punto de vista y las condiciones desde los que resulta válida.",
+      "editorialCautions": [
+        "No significa que toda opinión sea igualmente correcta ni elimina la posibilidad de error, contradicción o conocimiento objetivo."
+      ],
+      "connections": [
+        "Ahiṃsā",
+        "Diálogo filosófico",
+        "Cārvāka"
+      ],
+      "evidence": "B",
+      "longAudioScript": "Profundizamos en Filosofías jainas de anekāntavāda: La realidad tiene más lados que una sola afirmación. Los filósofos jainas desarrollaron teorías de perspectivas, predicación condicionada y cambio para defender una realidad compleja pero cognoscible. Las formulaciones sistemáticas aparecieron en debates con budistas y brahmanes. El esquema de siete predicaciones se consolidó en textos posteriores y no debe proyectarse íntegramente sobre las capas más antiguas. Naya: Punto de vista parcial y metodológicamente delimitado. Syādvāda: Predicación condicionada que explicita bajo qué aspecto se afirma algo. Precisión editorial: No significa que toda opinión sea igualmente correcta ni elimina la posibilidad de error, contradicción o conocimiento objetivo.",
+      "provenance": {
+        "source": "Consolidación editorial de la serie 2.2",
+        "preservationMode": "capa adicional; no sobrescribe tarjeta ni expediente",
+        "coverage": "contexto, desarrollo, hitos, conceptos, legado y cautela",
+        "materializedAt": "2026-07-24"
+      },
+      "audioVersion": "historical-entity-first-2.4",
+      "historicalAudioLead": "Profundizamos en Filosofías jainas de anekāntavāda: La realidad tiene más lados que una sola afirmación.",
+      "historicalAudioBody": "Los filósofos jainas desarrollaron teorías de perspectivas, predicación condicionada y cambio para defender una realidad compleja pero cognoscible. Las formulaciones sistemáticas aparecieron en debates con budistas y brahmanes. El esquema de siete predicaciones se consolidó en textos posteriores y no debe proyectarse íntegramente sobre las capas más antiguas.",
+      "collectionId": "south_asia_vedic_upanishadic",
+      "collection": "Sur de Asia: fundamentos y primeras controversias",
+      "collectionOrder": 4,
+      "sourceAnchors": [
+        "https://plato.stanford.edu/archives/sum2024/entries/jaina-philosophy/",
+        "https://plato.stanford.edu/entries/literal-nonliteral-india/index.html"
+      ],
+      "sha256": "f85ec5c1d95dd61cac0929c4f76d3c013979c0c13fbcd0bf6bfce11afc0c2cb7"
+    },
+    {
+      "id": "card_carvaka_lokayata_fragments_001",
+      "layerVersion": "historical-2.3",
+      "seriesVersion": "2.2",
+      "author": "Tradiciones asociadas con Cārvāka y Lokāyata",
+      "title": "Pensar desde los fragmentos de una filosofía perdida",
+      "historicalContext": "Las referencias a Lokāyata y Cārvāka cambian de sentido a lo largo del tiempo. No existe acuerdo pleno sobre fundadores, cronología ni unidad doctrinal.",
+      "historicalDevelopment": "Autores budistas, jainas y brahmánicos atribuyeron a estas corrientes posiciones sobre percepción, inferencia, conciencia y placer. La pérdida de textos obliga a comparar testimonios y detectar construcciones polémicas.",
+      "milestones": [
+        "Primeras menciones de posiciones naturalistas.",
+        "Debates con escuelas religiosas.",
+        "Atribución de un sistema Cārvāka.",
+        "Reconstrucciones modernas a partir de fragmentos y testimonios."
+      ],
+      "conceptualSections": [
+        {
+          "title": "Percepción",
+          "text": "Fuente de conocimiento considerada especialmente segura."
+        },
+        {
+          "title": "Testimonio hostil",
+          "text": "Descripción producida por un adversario que requiere control crítico."
+        }
+      ],
+      "legacy": [
+        "Contrapeso imprescindible para comprender la diversidad y la crítica interna de la filosofía india."
+      ],
+      "anchorWorks": [
+        "Fragmentos atribuidos y doxografías de escuelas rivales"
+      ],
+      "guidingQuestion": "¿Cómo reconstruir con justicia una filosofía cuyos textos propios casi no sobrevivieron?",
+      "distinctiveKey": "Cārvāka o Lokāyata privilegió la percepción y cuestionó alma separada, renacimiento y autoridad ritual, pero su doctrina debe reconstruirse principalmente desde adversarios.",
+      "editorialCautions": [
+        "No existe un corpus fundacional conservado; atribuciones de hedonismo extremo o rechazo absoluto de toda inferencia pueden reflejar caricaturas polémicas."
+      ],
+      "connections": [
+        "Anekāntavāda",
+        "Karma",
+        "Comunidades śramaṇa"
+      ],
+      "evidence": "C",
+      "longAudioScript": "Profundizamos en Tradiciones asociadas con Cārvāka y Lokāyata: Pensar desde los fragmentos de una filosofía perdida. Las referencias a Lokāyata y Cārvāka cambian de sentido a lo largo del tiempo. No existe acuerdo pleno sobre fundadores, cronología ni unidad doctrinal. Autores budistas, jainas y brahmánicos atribuyeron a estas corrientes posiciones sobre percepción, inferencia, conciencia y placer. La pérdida de textos obliga a comparar testimonios y detectar construcciones polémicas. Percepción: Fuente de conocimiento considerada especialmente segura. Testimonio hostil: Descripción producida por un adversario que requiere control crítico. Precisión editorial: No existe un corpus fundacional conservado; atribuciones de hedonismo extremo o rechazo absoluto de toda inferencia pueden reflejar caricaturas polémicas.",
+      "provenance": {
+        "source": "Consolidación editorial de la serie 2.2",
+        "preservationMode": "capa adicional; no sobrescribe tarjeta ni expediente",
+        "coverage": "contexto, desarrollo, hitos, conceptos, legado y cautela",
+        "materializedAt": "2026-07-24"
+      },
+      "audioVersion": "historical-entity-first-2.4",
+      "historicalAudioLead": "Profundizamos en Tradiciones asociadas con Cārvāka y Lokāyata: Pensar desde los fragmentos de una filosofía perdida.",
+      "historicalAudioBody": "Las referencias a Lokāyata y Cārvāka cambian de sentido a lo largo del tiempo. No existe acuerdo pleno sobre fundadores, cronología ni unidad doctrinal. Autores budistas, jainas y brahmánicos atribuyeron a estas corrientes posiciones sobre percepción, inferencia, conciencia y placer. La pérdida de textos obliga a comparar testimonios y detectar construcciones polémicas.",
+      "collectionId": "south_asia_vedic_upanishadic",
+      "collection": "Sur de Asia: fundamentos y primeras controversias",
+      "collectionOrder": 4,
+      "sourceAnchors": [
+        "https://iep.utm.edu/indmat/"
+      ],
+      "sha256": "ed333b1eef2aba74c28c9d29c589a475a74ded3e96b21430155f1205986cc4da"
+    }
+  ]
+}

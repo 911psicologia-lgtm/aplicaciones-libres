@@ -1,0 +1,1571 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>SYNAPSE | V6 NEURAL ARCHITECT PRO</title>
+
+    <meta name="theme-color" content="#000810">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    <meta name="apple-mobile-web-app-title" content="SYNAPSE">
+    <link rel="manifest" href="data:application/manifest+json,%7B%22name%22%3A%20%22SYNAPSE%20%7C%20Neural%20Architect%20Pro%22%2C%20%22short_name%22%3A%20%22SYNAPSE%22%2C%20%22start_url%22%3A%20%22.%22%2C%20%22scope%22%3A%20%22.%22%2C%20%22display%22%3A%20%22standalone%22%2C%20%22background_color%22%3A%20%22%23000810%22%2C%20%22theme_color%22%3A%20%22%2300d2ff%22%2C%20%22description%22%3A%20%22Estimulaci%C3%B3n%20audiovisual%20y%20protocolo%20de%20enfoque%20%28uso%20educativo/bienestar%29.%22%2C%20%22icons%22%3A%20%5B%7B%22src%22%3A%20%22data%3Aimage/svg%2Bxml%2C%253Csvg%2520xmlns%253D%2527http%253A//www.w3.org/2000/svg%2527%2520viewBox%253D%25270%25200%2520512%2520512%2527%253E%253Cdefs%253E%253ClinearGradient%2520id%253D%2527g%2527%2520x1%253D%25270%2527%2520y1%253D%25270%2527%2520x2%253D%25271%2527%2520y2%253D%25271%2527%253E%253Cstop%2520offset%253D%25270%2527%2520stop-color%253D%2527%252300d2ff%2527/%253E%253Cstop%2520offset%253D%25271%2527%2520stop-color%253D%2527%2523FFD700%2527/%253E%253C/linearGradient%253E%253C/defs%253E%253Crect%2520width%253D%2527512%2527%2520height%253D%2527512%2527%2520rx%253D%252796%2527%2520fill%253D%2527%2523000810%2527/%253E%253Ccircle%2520cx%253D%2527256%2527%2520cy%253D%2527256%2527%2520r%253D%2527170%2527%2520fill%253D%2527none%2527%2520stroke%253D%2527url%2528%2523g%2529%2527%2520stroke-width%253D%252722%2527/%253E%253Cpath%2520d%253D%2527M160%2520310c35-90%252070-130%252096-130s61%252040%252096%2520130%2527%2520fill%253D%2527none%2527%2520stroke%253D%2527%252300f2ff%2527%2520stroke-width%253D%252718%2527%2520stroke-linecap%253D%2527round%2527/%253E%253Ccircle%2520cx%253D%2527256%2527%2520cy%253D%2527256%2527%2520r%253D%252710%2527%2520fill%253D%2527%2523FFD700%2527/%253E%253C/svg%253E%22%2C%20%22sizes%22%3A%20%22512x512%22%2C%20%22type%22%3A%20%22image/svg%2Bxml%22%2C%20%22purpose%22%3A%20%22any%20maskable%22%7D%5D%7D">
+
+    <style>
+        :root {
+            --bg: #000810;
+            --bg-gradient: linear-gradient(135deg, #000810 0%, #001420 100%);
+            --electric: #00d2ff;
+            --neural: #00f2ff;
+            --gold: #FFD700;
+            --gold-dark: #B8860B;
+            --glass: rgba(0, 210, 255, 0.08);
+            --glass-gold: rgba(255, 215, 0, 0.1);
+            --glass-border: rgba(255, 255, 255, 0.1);
+            --text-primary: #ffffff;
+            --text-secondary: #88ccdd;
+        }
+
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+
+        body {
+            background: var(--bg-gradient);
+            color: var(--text-primary);
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, sans-serif;
+            height: 100%;
+            min-height: 100svh;
+            overflow: hidden; /* evitamos scroll del documento; usamos scroll interno en pantallas */
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: flex-start;
+            padding-top: env(safe-area-inset-top);
+        }
+
+        /* Partículas de fondo */
+        #particles-bg {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: 1;
+            pointer-events: none;
+            opacity: 0.15;
+        }
+
+        .screen {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            transition: opacity 0.8s, transform 0.8s;
+            z-index: 100;
+            padding: 20px;
+        }
+
+        
+        /* Setup: scroll interno real en pantallas bajas (Android/iOS) */
+        #setup-ui{
+            justify-content: flex-start;
+            overflow-y: auto;
+            -webkit-overflow-scrolling: touch;
+            padding-bottom: calc(160px + env(safe-area-inset-bottom));
+        }
+        /* Reduce “saltos” por barras del navegador móvil */
+        @supports (height: 100svh){
+            #setup-ui{ height: 100svh; }
+        }
+/* Título mejorado */
+        h1 {
+            font-weight: 900;
+            letter-spacing: 14px;
+            font-size: 3.5rem;
+            margin: 0;
+            background: linear-gradient(135deg, var(--electric), var(--gold));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            text-shadow: 0 0 40px rgba(0, 210, 255, 0.5);
+            animation: titlePulse 4s ease-in-out infinite;
+        }
+
+        @keyframes titlePulse {
+            0%, 100% { opacity: 0.95; transform: scale(1); }
+            50% { opacity: 1; transform: scale(1.02); }
+        }
+
+        .tagline {
+            font-size: 0.85rem;
+            letter-spacing: 6px;
+            opacity: 0.7;
+            margin-bottom: 35px;
+            color: var(--text-secondary);
+            font-weight: 300;
+            text-transform: uppercase;
+        }
+
+        /* Cards modernos */
+        .selector-box {
+            background: rgba(0, 20, 30, 0.6);
+            border: 1px solid var(--glass-border);
+            padding: 20px;
+            width: 100%;
+            max-width: 420px;
+            border-radius: 16px;
+            margin-bottom: 18px;
+            transition: all 0.3s;
+            backdrop-filter: blur(10px);
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
+        }
+
+        .selector-box:hover {
+            border-color: rgba(0, 210, 255, 0.3);
+            transform: translateY(-2px);
+            box-shadow: 0 12px 40px rgba(0, 210, 255, 0.15);
+        }
+
+        .label {
+            font-size: 0.7rem;
+            letter-spacing: 3px;
+            opacity: 0.8;
+            margin-bottom: 12px;
+            text-transform: uppercase;
+            color: var(--electric);
+            font-weight: 600;
+        }
+
+        /* Toggle de modos mejorado */
+        .mode-toggle {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 8px;
+        }
+
+        .mode-btn {
+            padding: 14px 8px;
+            font-size: 0.7rem;
+            border: 2px solid rgba(255, 255, 255, 0.1);
+            background: rgba(0, 0, 0, 0.4);
+            color: var(--text-secondary);
+            cursor: pointer;
+            transition: all 0.3s;
+            font-weight: 600;
+            border-radius: 10px;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .mode-btn::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.1), transparent);
+            transition: left 0.5s;
+        }
+
+        .mode-btn:hover::before {
+            left: 100%;
+        }
+
+        .mode-btn:hover {
+            transform: translateY(-2px);
+            border-color: rgba(255, 255, 255, 0.2);
+        }
+
+        .mode-btn.active {
+            border-color: var(--electric);
+            color: var(--text-primary);
+            background: var(--glass);
+            box-shadow: 0 0 20px rgba(0, 210, 255, 0.3), inset 0 0 20px rgba(0, 210, 255, 0.1);
+        }
+
+        .mode-btn#m-phi.active {
+            border-color: var(--gold);
+            color: var(--gold);
+            background: var(--glass-gold);
+            box-shadow: 0 0 25px rgba(255, 215, 0, 0.4), inset 0 0 20px rgba(255, 215, 0, 0.1);
+        }
+
+        /* Iconos de modo */
+        .mode-btn::after {
+            content: '';
+            display: block;
+            font-size: 1.2rem;
+            margin-top: 4px;
+        }
+
+        #m-sub::after { content: '📚'; }
+        #m-act::after { content: '⚡'; }
+        #m-phi::after { content: '✨'; }
+
+        /* Presets rápidos */
+        .presets-container {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 10px;
+            margin-top: 10px;
+        }
+
+        .preset-btn {
+            padding: 12px;
+            font-size: 0.7rem;
+            border: 1px solid rgba(255, 255, 255, 0.15);
+            background: rgba(0, 0, 0, 0.3);
+            color: var(--text-secondary);
+            cursor: pointer;
+            transition: all 0.3s;
+            border-radius: 8px;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            font-weight: 500;
+        }
+
+        .preset-btn:hover {
+            border-color: var(--electric);
+            color: var(--text-primary);
+            background: rgba(0, 210, 255, 0.1);
+        }
+
+        /* Select mejorado */
+        select {
+            width: 100%;
+            background: rgba(0, 0, 0, 0.5);
+            color: var(--text-primary);
+            border: 1px solid rgba(255, 255, 255, 0.15);
+            padding: 14px 16px;
+            font-size: 0.95rem;
+            outline: none;
+            border-radius: 10px;
+            cursor: pointer;
+            transition: all 0.3s;
+            font-weight: 500;
+        }
+
+        select:hover, select:focus {
+            border-color: var(--electric);
+            background: rgba(0, 210, 255, 0.05);
+        }
+
+        select option {
+            background: #001420;
+            color: var(--text-primary);
+            padding: 10px;
+        }
+
+        /* Controles PHI mejorados */
+        #phi-controls {
+            display: none;
+            animation: slideIn 0.5s ease-out;
+        }
+
+        @keyframes slideIn {
+            from { opacity: 0; transform: translateY(-10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .phi-slider-container {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+
+        .phi-value {
+            font-family: 'Courier New', monospace;
+            font-size: 1.1rem;
+            color: var(--gold);
+            font-weight: bold;
+            min-width: 80px;
+            text-align: right;
+        }
+
+        /* Range slider mejorado */
+        input[type=range] {
+            -webkit-appearance: none;
+            width: 100%;
+            height: 6px;
+            background: linear-gradient(to right, rgba(255, 215, 0, 0.2), rgba(255, 215, 0, 0.4));
+            border-radius: 3px;
+            outline: none;
+        }
+
+        input[type=range]::-webkit-slider-thumb {
+            -webkit-appearance: none;
+            width: 20px;
+            height: 20px;
+            border-radius: 50%;
+            background: var(--gold);
+            cursor: pointer;
+            box-shadow: 0 0 15px rgba(255, 215, 0, 0.6);
+            transition: all 0.2s;
+        }
+
+        input[type=range]::-webkit-slider-thumb:hover {
+            transform: scale(1.2);
+            box-shadow: 0 0 25px rgba(255, 215, 0, 0.8);
+        }
+
+        input[type=range]::-moz-range-thumb {
+            width: 20px;
+            height: 20px;
+            border-radius: 50%;
+            background: var(--gold);
+            cursor: pointer;
+            border: none;
+            box-shadow: 0 0 15px rgba(255, 215, 0, 0.6);
+        }
+
+        /* Control de intensidad */
+        .intensity-control {
+            margin-top: 15px;
+        }
+
+        .intensity-labels {
+            display: flex;
+            justify-content: space-between;
+            font-size: 0.65rem;
+            color: var(--text-secondary);
+            margin-top: 5px;
+            opacity: 0.7;
+        }
+
+        /* Botón de lanzamiento mejorado */
+        .btn-launch {
+            background: linear-gradient(135deg, var(--electric), #0099cc);
+            color: #000;
+            border: none;
+            padding: 20px 70px;
+            font-size: 1.1rem;
+            cursor: pointer;
+            border-radius: 50px;
+            text-transform: uppercase;
+            letter-spacing: 5px;
+            font-weight: 900;
+            margin-top: 25px;
+            transition: all 0.3s;
+            box-shadow: 0 8px 30px rgba(0, 210, 255, 0.4);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .btn-launch::before {
+            content: '';
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            width: 0;
+            height: 0;
+            background: rgba(255, 255, 255, 0.3);
+            border-radius: 50%;
+            transform: translate(-50%, -50%);
+            transition: width 0.6s, height 0.6s;
+        }
+
+        .btn-launch:hover::before {
+            width: 300px;
+            height: 300px;
+        }
+
+        .btn-launch:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 12px 40px rgba(0, 210, 255, 0.6);
+        }
+
+        .btn-launch:active {
+            transform: translateY(-1px);
+        }
+
+        /* Zona activa mejorada */
+        #active-zone {
+            z-index: 50;
+            opacity: 0;
+            pointer-events: none;
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            background: var(--bg);
+        }
+
+        #flicker-layer {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            background: #fff;
+            opacity: 0;
+            z-index: 55;
+            pointer-events: none;
+        }
+
+        canvas {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: 52;
+        }
+
+        /* HUD mejorado */
+        #hud {
+            position: absolute;
+            width: 100%;
+            text-align: center;
+            top: 50%;
+            transform: translateY(-50%);
+            z-index: 60;
+            pointer-events: none;
+        }
+
+        #status-text {
+            font-size: 0.8rem;
+            letter-spacing: 6px;
+            opacity: 0.7;
+            margin-bottom: 15px;
+            text-transform: uppercase;
+            font-weight: 300;
+        }
+
+        #freq-display {
+            font-size: 6rem;
+            font-weight: 900;
+            color: var(--text-primary);
+            text-shadow: 0 0 40px var(--electric);
+            animation: freqPulse 2s ease-in-out infinite;
+            font-variant-numeric: tabular-nums;
+        }
+
+        @keyframes freqPulse {
+            0%, 100% { text-shadow: 0 0 40px var(--electric); }
+            50% { text-shadow: 0 0 60px var(--electric), 0 0 80px var(--electric); }
+        }
+
+        /* Indicador circular de progreso */
+        #progress-ring {
+            position: fixed;
+            top: 30px;
+            right: 30px;
+            width: 80px;
+            height: 80px;
+            z-index: 65;
+        }
+
+        .progress-circle {
+            transform: rotate(-90deg);
+        }
+
+        .progress-circle-bg {
+            fill: none;
+            stroke: rgba(255, 255, 255, 0.1);
+            stroke-width: 4;
+        }
+
+        .progress-circle-fill {
+            fill: none;
+            stroke: var(--electric);
+            stroke-width: 4;
+            stroke-linecap: round;
+            stroke-dasharray: 226;
+            stroke-dashoffset: 226;
+            transition: stroke-dashoffset 1s linear;
+            filter: drop-shadow(0 0 5px var(--electric));
+        }
+
+        #progress-text {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            font-size: 0.7rem;
+            font-weight: bold;
+            color: var(--text-primary);
+        }
+
+        /* Timer de sesión */
+        #session-timer {
+            position: fixed;
+            top: 30px;
+            left: 30px;
+            font-size: 1.2rem;
+            font-weight: 600;
+            color: var(--text-primary);
+            font-variant-numeric: tabular-nums;
+            z-index: 65;
+            background: rgba(0, 0, 0, 0.5);
+            padding: 10px 20px;
+            border-radius: 20px;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(10px);
+        }
+
+        /* Controles en vivo */
+        #live-controls {
+            position: fixed;
+            bottom: 30px;
+            left: 50%;
+            transform: translateX(-50%);
+            display: flex;
+            gap: 15px;
+            z-index: 65;
+            opacity: 0;
+            transition: opacity 0.3s;
+        }
+
+        #live-controls.visible {
+            opacity: 1;
+        }
+
+        .live-btn {
+            background: rgba(0, 0, 0, 0.6);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            color: var(--text-primary);
+            padding: 10px 20px;
+            border-radius: 20px;
+            cursor: pointer;
+            font-size: 0.8rem;
+            backdrop-filter: blur(10px);
+            transition: all 0.3s;
+            font-weight: 600;
+        }
+
+        .live-btn:hover {
+            background: rgba(0, 210, 255, 0.2);
+            border-color: var(--electric);
+            transform: translateY(-2px);
+        }
+
+        #exit-hint {
+            position: absolute;
+            bottom: 8%;
+            width: 100%;
+            text-align: center;
+            font-size: 0.7rem;
+            opacity: 0.4;
+            letter-spacing: 4px;
+            z-index: 60;
+            color: var(--text-primary);
+            text-transform: uppercase;
+            transition: opacity 0.3s;
+        }
+
+        #exit-hint:hover {
+            opacity: 0.8;
+        }
+
+        /* Botón info mejorado */
+        #info-btn {
+            margin-top: 25px;
+            font-size: 0.75rem;
+            color: var(--text-secondary);
+            cursor: pointer;
+            border-bottom: 1px dotted rgba(136, 204, 221, 0.5);
+            padding-bottom: 3px;
+            transition: all 0.3s;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+        }
+
+        #info-btn:hover {
+            color: var(--electric);
+            border-bottom-color: var(--electric);
+        }
+
+        /* Modal mejorado */
+        #science-modal {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 8, 16, 0.95);
+            z-index: 1000;
+            display: none;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            padding: 30px;
+            backdrop-filter: blur(10px);
+        
+            justify-content: flex-start;
+            padding-top: calc(18px + env(safe-area-inset-top));
+            padding-bottom: calc(18px + env(safe-area-inset-bottom));
+        }
+
+        .modal-content {
+            max-width: 600px;
+            background: rgba(0, 20, 30, 0.8);
+            border: 1px solid var(--glass-border);
+            border-radius: 20px;
+            padding: 40px;
+            backdrop-filter: blur(20px);
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.5);
+        
+            max-height: calc(100svh - 140px);
+            overflow: auto;
+            -webkit-overflow-scrolling: touch;
+        }
+
+        .modal-content h3 {
+            color: var(--electric);
+            margin-bottom: 25px;
+            font-size: 1.8rem;
+            letter-spacing: 3px;
+            text-align: center;
+        }
+
+        .modal-content p {
+            color: var(--text-secondary);
+            line-height: 1.8;
+            margin-bottom: 20px;
+            font-size: 1rem;
+        }
+
+        .modal-content b {
+            color: var(--text-primary);
+        }
+
+        .close-modal-btn {
+            background: transparent;
+            border: 2px solid var(--electric);
+            color: var(--electric);
+            padding: 12px 40px;
+            border-radius: 25px;
+            cursor: pointer;
+            font-size: 0.9rem;
+            font-weight: 600;
+            letter-spacing: 2px;
+            transition: all 0.3s;
+            text-transform: uppercase;
+            margin-top: 20px;
+        }
+
+        .close-modal-btn:hover {
+            background: var(--electric);
+            color: #000;
+            box-shadow: 0 0 20px var(--electric);
+        }
+
+        /* Estadísticas de sesión */
+        .session-stats {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 15px;
+            margin-top: 20px;
+        }
+
+        .stat-item {
+            background: rgba(0, 0, 0, 0.3);
+            padding: 15px;
+            border-radius: 10px;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            text-align: center;
+        }
+
+        .stat-value {
+            font-size: 1.5rem;
+            font-weight: bold;
+            color: var(--electric);
+            margin-bottom: 5px;
+        }
+
+        .stat-label {
+            font-size: 0.7rem;
+            color: var(--text-secondary);
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            h1 { font-size: 2.5rem; letter-spacing: 10px; }
+            .tagline { font-size: 0.7rem; }
+            .selector-box { max-width: 100%; }
+            .mode-toggle { grid-template-columns: 1fr; }
+            #freq-display { font-size: 4rem; }
+            .btn-launch { padding: 18px 50px; font-size: 1rem; }
+            .session-stats { grid-template-columns: 1fr; }
+            #progress-ring, #session-timer { display: none; }
+        }
+
+        /* Animación de entrada */
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .selector-box {
+            animation: fadeInUp 0.6s ease-out backwards;
+        }
+
+        .selector-box:nth-child(2) { animation-delay: 0.1s; }
+        .selector-box:nth-child(3) { animation-delay: 0.2s; }
+        .selector-box:nth-child(4) { animation-delay: 0.3s; }
+    
+        /* ====== FIX MOBILE: botón INICIAR siempre visible + scroll interno ====== */
+        body {
+            background: var(--bg-gradient);
+            color: var(--text-primary);
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, sans-serif;
+            height: 100%;
+            min-height: 100svh;
+            overflow: hidden; /* evitamos scroll del documento; usamos scroll interno en pantallas */
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: flex-start;
+            padding-top: env(safe-area-inset-top);
+        }
+        .screen {
+            overflow-y: auto;
+            -webkit-overflow-scrolling: touch;
+            justify-content: flex-start;
+            padding-top: max(18px, env(safe-area-inset-top));
+            padding-bottom: max(24px, env(safe-area-inset-bottom));
+        }
+        /* En pantallas bajas, reduce márgenes para evitar recorte */
+        @media (max-height: 740px) {
+            .tagline { margin-bottom: 22px; }
+            .btn-launch { margin-top: 18px; }
+        }
+        /* Botón sticky dentro del scroll del setup para que no desaparezca */
+        #setup-ui #intensity-box{ margin-bottom: calc(120px + env(safe-area-inset-bottom)); }
+
+        #setup-ui .btn-launch{
+            position: sticky;
+            bottom: calc(14px + env(safe-area-inset-bottom));
+            z-index: 120;
+        }
+        #setup-ui .btn-launch{ box-shadow: 0 10px 35px rgba(0,0,0,0.55); }
+
+        /* ====== Banner instalación PWA ====== */
+        #pwa-install {
+            position: fixed;
+            left: 14px;
+            right: 14px;
+            bottom: calc(14px + env(safe-area-inset-bottom));
+            z-index: 2000;
+            display: none;
+        }
+        #pwa-install .card{
+            background: rgba(0, 20, 30, 0.82);
+            border: 1px solid rgba(255,255,255,0.14);
+            backdrop-filter: blur(14px);
+            border-radius: 16px;
+            padding: 14px 14px;
+            box-shadow: 0 18px 60px rgba(0,0,0,0.55);
+            display: grid;
+            grid-template-columns: 1fr auto;
+            gap: 12px;
+            align-items: center;
+        }
+        #pwa-install .t{
+            font-size: 0.82rem;
+            letter-spacing: 1px;
+            color: var(--text-primary);
+            font-weight: 700;
+        }
+        #pwa-install .s{
+            margin-top: 4px;
+            font-size: 0.72rem;
+            color: var(--text-secondary);
+            opacity: 0.92;
+            line-height: 1.35;
+        }
+        #pwa-install .actions{
+            display:flex;
+            gap:10px;
+            align-items:center;
+            justify-content:flex-end;
+            flex-wrap: wrap;
+        }
+        .pwa-btn{
+            border: 1px solid rgba(255,255,255,0.18);
+            background: rgba(0,0,0,0.35);
+            color: var(--text-primary);
+            padding: 10px 14px;
+            border-radius: 999px;
+            cursor: pointer;
+            font-size: 0.72rem;
+            letter-spacing: 1px;
+            font-weight: 800;
+            text-transform: uppercase;
+            transition: all .25s;
+        }
+        .pwa-btn.primary{
+            border-color: rgba(0,210,255,0.55);
+            background: rgba(0,210,255,0.12);
+            color: var(--electric);
+        }
+        .pwa-btn:hover{ transform: translateY(-1px); border-color: rgba(0,210,255,0.6); }
+        .pwa-x{
+            width: 36px;
+            height: 36px;
+            border-radius: 50%;
+            border: 1px solid rgba(255,255,255,0.14);
+            background: rgba(0,0,0,0.25);
+            color: var(--text-primary);
+            cursor:pointer;
+            font-weight: 900;
+        }
+
+    </style>
+</head>
+<body>
+
+    <canvas id="particles-bg"></canvas>
+
+    <div id="setup-ui" class="screen">
+        <h1>SYNAPSE</h1>
+        <div class="tagline">Neural Architect Pro V6</div>
+
+        <div class="selector-box">
+            <div class="label">🧠 Modo de Estimulación</div>
+            <div class="mode-toggle">
+                <button class="mode-btn active" onclick="setMode('sub')" id="m-sub">Estudio</button>
+                <button class="mode-btn" onclick="setMode('act')" id="m-act">Inmersión</button>
+                <button class="mode-btn" onclick="setMode('phi')" id="m-phi">Phi (Φ)</button>
+            </div>
+            <div class="presets-container">
+                <button class="preset-btn" onclick="setPreset('focus')">⚡ Focus Intenso</button>
+                <button class="preset-btn" onclick="setPreset('learn')">📚 Aprendizaje</button>
+                <button class="preset-btn" onclick="setPreset('creative')">🎨 Creatividad</button>
+                <button class="preset-btn" onclick="setPreset('meditate')">🧘 Meditación</button>
+            </div>
+        </div>
+
+        <div class="selector-box" id="standard-controls">
+            <div class="label">⏱️ Duración de la Sesión</div>
+            <select id="timer-select">
+                <option value="10">10 Minutos (Quick Boost)</option>
+                <option value="15">15 Minutos (Flash Focus)</option>
+                <option value="30" selected>30 Minutos (Deep Work)</option>
+                <option value="45">45 Minutos (Extended Session)</option>
+                <option value="60">60 Minutos (Mastery Block)</option>
+                <option value="999">∞ Infinito (Manual)</option>
+            </select>
+        </div>
+
+        <div class="selector-box" id="phi-controls">
+            <div class="label" style="color:var(--gold)">✨ Frecuencia Base (Fibonacci)</div>
+            <div class="phi-slider-container">
+                <input type="range" id="phi-slider" min="0" max="5" step="1" value="2">
+                <div class="phi-value" id="phi-val-display">144 Hz</div>
+            </div>
+            <div class="label" style="margin-top:12px; font-size:0.65rem; opacity:0.6; color: var(--gold);">
+                → Armónico Áureo: <span id="phi-golden-display">233</span> Hz
+            </div>
+        </div>
+
+        <div class="selector-box" id="intensity-box">
+            <div class="label">🎚️ Intensidad de Estimulación</div>
+            <input type="range" id="intensity-slider" min="1" max="10" step="1" value="5" style="background: linear-gradient(to right, rgba(0, 210, 255, 0.2), rgba(0, 210, 255, 0.5));">
+            <div class="intensity-labels">
+                <span>Suave</span>
+                <span id="intensity-value">5</span>
+                <span>Máxima</span>
+            </div>
+        </div>
+
+        <button class="btn-launch" id="launch-btn" onclick="launch()">
+            <span style="position: relative; z-index: 1;">▶ INICIAR PROTOCOLO</span>
+        </button>
+        
+        <div id="info-btn" onclick="toggleScience(true)">◆ Evidencia Científica</div>
+    </div>
+
+    <div id="active-zone">
+        <div id="flicker-layer"></div>
+        <canvas id="neural-canvas"></canvas>
+        
+        <!-- Timer de sesión -->
+        <div id="session-timer">00:00</div>
+        
+        <!-- Progreso circular -->
+        <div id="progress-ring">
+            <svg width="80" height="80">
+                <circle class="progress-circle progress-circle-bg" cx="40" cy="40" r="36"/>
+                <circle class="progress-circle progress-circle-fill" id="progress-circle" cx="40" cy="40" r="36"/>
+            </svg>
+            <div id="progress-text">0%</div>
+        </div>
+        
+        <!-- HUD central -->
+        <div id="hud">
+            <div id="status-text">SYNCHRONIZING...</div>
+            <div id="freq-display">40Hz</div>
+        </div>
+        
+        <!-- Controles en vivo -->
+        <div id="live-controls">
+            <button class="live-btn" onclick="adjustIntensity(-1)">🔉 −</button>
+            <button class="live-btn" onclick="togglePause()">⏸️ Pausa</button>
+            <button class="live-btn" onclick="adjustIntensity(1)">🔊 +</button>
+        </div>
+        
+        <div id="exit-hint">Mantén presionado para desconectar</div>
+    </div>
+
+    <div id="science-modal">
+        <div class="modal-content">
+            <h3>⚡ EVIDENCIA CIENTÍFICA</h3>
+            
+            <p><b>🔬 Estimulación Gamma (40Hz):</b><br>
+            Investigaciones del MIT demuestran que la estimulación a 40Hz activa la microglía, mejora la neuroplasticidad y potencia la función cognitiva. El protocolo utiliza parpadeo lumínico sincronizado con clicks auditivos para máxima eficacia.</p>
+            
+            <p><b>🌊 Ruido Rosa Neuronal:</b><br>
+            El espectro 1/f del ruido rosa replica patrones naturales del cerebro, optimizando la concentración y reduciendo la fatiga mental. Filtrado bajo 2000Hz para evitar interferencia con frecuencias de trabajo.</p>
+            
+            <p><b>✨ Resonancia Phi (Φ ≈ 1.618):</b><br>
+            El modo Phi utiliza la Proporción Áurea para generar frecuencias binaurales que buscan estados de "mínima entropía neuronal". Las frecuencias de Fibonacci (89, 144, 233, 377 Hz) crean patrones armónicos naturales que el cerebro procesa con mayor eficiencia.</p>
+            
+            <p><b>🎯 Visualización Neural:</b><br>
+            Las ramificaciones visuales simulan crecimiento dendrítico y sinapsis, proporcionando anclaje visual que refuerza el estado mental deseado. El modo Phi utiliza espirales áureas para inducir estados meditativos profundos.</p>
+            
+            <p><b>📊 Adaptación Progresiva:</b><br>
+            El sistema implementa transiciones suaves (ramping) de frecuencias para evitar shock neuronal y maximizar la efectividad de la estimulación.</p>
+            
+            <center>
+                <button class="close-modal-btn" onclick="toggleScience(false)">Cerrar</button>
+            </center>
+        </div>
+    </div>
+
+
+    <!-- ====== INSTALL PROMPT (PWA) ====== -->
+    <div id="pwa-install" aria-live="polite">
+        <div class="card">
+            <div>
+                <div class="t">Instalar SYNAPSE como app</div>
+                <div class="s" id="pwa-sub">Crea un acceso directo en tu pantalla para abrirlo a pantalla completa.</div>
+            </div>
+            <div class="actions">
+                <button class="pwa-btn primary" id="pwa-install-btn">Instalar</button>
+                <button class="pwa-btn" id="pwa-later-btn">Luego</button>
+                <button class="pwa-x" id="pwa-close-btn" title="Cerrar">✕</button>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // ==================== CONFIGURACIÓN GLOBAL ====================
+        const PHI = 1.618033988749895;
+        const fibTones = [89, 144, 233, 377, 610, 987];
+        
+        let audioCtx, masterGain;
+        let pinkNoiseNode, oscPhiL, oscPhiR;
+        let isRunning = false;
+        let isPaused = false;
+        let currentMode = 'sub';
+        let phiIndex = 2;
+        let intensityLevel = 5;
+        let sessionStartTime = 0;
+        let sessionDuration = 0;
+        let timerInterval = null;
+        let progressInterval = null;
+
+        // Estadísticas de sesión
+        let sessionStats = {
+            totalSessions: parseInt(localStorage.getItem('synapse_total_sessions') || '0'),
+            totalMinutes: parseInt(localStorage.getItem('synapse_total_minutes') || '0'),
+            lastMode: localStorage.getItem('synapse_last_mode') || 'sub'
+        };
+
+        // ==================== INICIALIZACIÓN ====================
+        function initParticles() {
+            const canvas = document.getElementById('particles-bg');
+            const ctx = canvas.getContext('2d');
+            canvas.width = window.innerWidth;
+            canvas.height = window.innerHeight;
+            
+            const particles = [];
+            for(let i = 0; i < 50; i++) {
+                particles.push({
+                    x: Math.random() * canvas.width,
+                    y: Math.random() * canvas.height,
+                    vx: (Math.random() - 0.5) * 0.5,
+                    vy: (Math.random() - 0.5) * 0.5,
+                    size: Math.random() * 2
+                });
+            }
+            
+            function animate() {
+                ctx.clearRect(0, 0, canvas.width, canvas.height);
+                ctx.fillStyle = 'rgba(0, 210, 255, 0.3)';
+                
+                particles.forEach(p => {
+                    p.x += p.vx;
+                    p.y += p.vy;
+                    
+                    if(p.x < 0 || p.x > canvas.width) p.vx *= -1;
+                    if(p.y < 0 || p.y > canvas.height) p.vy *= -1;
+                    
+                    ctx.beginPath();
+                    ctx.arc(p.x, p.y, p.size, 0, Math.PI * 2);
+                    ctx.fill();
+                });
+                
+                requestAnimationFrame(animate);
+            }
+            animate();
+        }
+        
+        window.onload = initParticles;
+
+        // ==================== CONTROL DE MODOS ====================
+        function setMode(mode) {
+            currentMode = mode;
+            document.querySelectorAll('.mode-btn').forEach(b => b.classList.remove('active'));
+            document.getElementById('m-' + mode).classList.add('active');
+            
+            const phiControls = document.getElementById('phi-controls');
+            const standardControls = document.getElementById('standard-controls');
+            
+            if(mode === 'phi') {
+                phiControls.style.display = 'block';
+                standardControls.style.display = 'none';
+                updateColorScheme('gold');
+            } else {
+                phiControls.style.display = 'none';
+                standardControls.style.display = 'block';
+                updateColorScheme('electric');
+            }
+        }
+
+        function updateColorScheme(scheme) {
+            const tagline = document.querySelector('.tagline');
+            if(scheme === 'gold') {
+                tagline.style.color = 'var(--gold)';
+            } else {
+                tagline.style.color = 'var(--text-secondary)';
+            }
+        }
+
+        // ==================== PRESETS ====================
+        function setPreset(type) {
+            const presets = {
+                focus: { mode: 'act', duration: 30, intensity: 7 },
+                learn: { mode: 'sub', duration: 45, intensity: 5 },
+                creative: { mode: 'phi', duration: 30, intensity: 4 },
+                meditate: { mode: 'phi', duration: 20, intensity: 3 }
+            };
+            
+            const preset = presets[type];
+            setMode(preset.mode);
+            document.getElementById('timer-select').value = preset.duration;
+            document.getElementById('intensity-slider').value = preset.intensity;
+            intensityLevel = preset.intensity;
+            document.getElementById('intensity-value').innerText = preset.intensity;
+        }
+
+        // ==================== CONTROLES PHI ====================
+        function updatePhiLabels() {
+            const baseFreq = fibTones[phiIndex];
+            const goldenFreq = Math.round(baseFreq * PHI);
+            document.getElementById('phi-val-display').innerText = baseFreq + ' Hz';
+            document.getElementById('phi-golden-display').innerText = goldenFreq;
+        }
+
+        document.getElementById('phi-slider').oninput = function() {
+            phiIndex = parseInt(this.value);
+            updatePhiLabels();
+            if(isRunning && currentMode === 'phi') updatePhiAudio();
+        };
+
+        // ==================== CONTROL DE INTENSIDAD ====================
+        document.getElementById('intensity-slider').oninput = function() {
+            intensityLevel = parseInt(this.value);
+            document.getElementById('intensity-value').innerText = intensityLevel;
+            if(isRunning) applyIntensityChange();
+        };
+
+        function adjustIntensity(delta) {
+            intensityLevel = Math.max(1, Math.min(10, intensityLevel + delta));
+            document.getElementById('intensity-value').innerText = intensityLevel;
+            if(isRunning) applyIntensityChange();
+        }
+
+        function applyIntensityChange() {
+            if(!masterGain) return;
+            const volume = intensityLevel / 10;
+            masterGain.gain.linearRampToValueAtTime(volume, audioCtx.currentTime + 0.5);
+        }
+
+        // ==================== LANZAMIENTO ====================
+        async function launch() {
+            audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+            await audioCtx.resume();
+            
+            masterGain = audioCtx.createGain();
+            masterGain.gain.value = intensityLevel / 10;
+            masterGain.connect(audioCtx.destination);
+            
+            sessionDuration = parseInt(document.getElementById('timer-select').value) * 60;
+            sessionStartTime = Date.now();
+            
+            if(currentMode === 'phi') startPhiAudio();
+            else startSynapseAudio();
+            
+            initVisuals();
+            showActiveZone();
+            startSessionTimer();
+            startProgressIndicator();
+            
+            // Actualizar estadísticas
+            sessionStats.totalSessions++;
+            sessionStats.lastMode = currentMode;
+            localStorage.setItem('synapse_total_sessions', sessionStats.totalSessions);
+            localStorage.setItem('synapse_last_mode', currentMode);
+        }
+
+        function showActiveZone() {
+            document.getElementById('setup-ui').style.opacity = 0;
+            setTimeout(() => {
+                document.getElementById('setup-ui').style.display = 'none';
+                const zone = document.getElementById('active-zone');
+                zone.style.opacity = 1;
+                zone.style.pointerEvents = 'auto';
+                isRunning = true;
+                
+                // Mostrar controles en vivo después de 2 segundos
+                setTimeout(() => {
+                    document.getElementById('live-controls').classList.add('visible');
+                }, 2000);
+            }, 800);
+        }
+
+        // ==================== AUDIO PHI ====================
+        function startPhiAudio() {
+            const baseFreq = fibTones[phiIndex];
+            const goldenFreq = baseFreq * PHI;
+            
+            document.getElementById('freq-display').innerText = baseFreq + 'Hz';
+            document.getElementById('status-text').innerText = 'RESONANCIA ÁUREA ACTIVA';
+            
+            oscPhiL = audioCtx.createOscillator();
+            oscPhiL.type = 'sine';
+            oscPhiL.frequency.value = baseFreq;
+            const panL = audioCtx.createStereoPanner();
+            panL.pan.value = -1;
+            
+            oscPhiR = audioCtx.createOscillator();
+            oscPhiR.type = 'sine';
+            oscPhiR.frequency.value = goldenFreq;
+            const panR = audioCtx.createStereoPanner();
+            panR.pan.value = 1;
+            
+            oscPhiL.connect(panL);
+            panL.connect(masterGain);
+            oscPhiR.connect(panR);
+            panR.connect(masterGain);
+            
+            oscPhiL.start();
+            oscPhiR.start();
+        }
+
+        function updatePhiAudio() {
+            if(!oscPhiL || !oscPhiR) return;
+            const baseFreq = fibTones[phiIndex];
+            const goldenFreq = baseFreq * PHI;
+            const t = audioCtx.currentTime;
+            oscPhiL.frequency.exponentialRampToValueAtTime(baseFreq, t + 0.5);
+            oscPhiR.frequency.exponentialRampToValueAtTime(goldenFreq, t + 0.5);
+            document.getElementById('freq-display').innerText = baseFreq + 'Hz';
+        }
+
+        // ==================== AUDIO SYNAPSE ====================
+        function startSynapseAudio() {
+            document.getElementById('freq-display').innerText = '40Hz';
+            document.getElementById('status-text').innerText = currentMode === 'act' ? 'INMERSIÓN TOTAL' : 'MODO ESTUDIO ACTIVO';
+            
+            // Ruido Rosa
+            const bufferSize = audioCtx.sampleRate * 2;
+            const buffer = audioCtx.createBuffer(1, bufferSize, audioCtx.sampleRate);
+            const data = buffer.getChannelData(0);
+            let b0, b1, b2, b3, b4, b5, b6;
+            b0=b1=b2=b3=b4=b5=b6=0.0;
+            
+            for(let i = 0; i < bufferSize; i++) {
+                let white = Math.random() * 2 - 1;
+                b0 = 0.99886 * b0 + white * 0.0555179;
+                b1 = 0.99332 * b1 + white * 0.0750759;
+                b2 = 0.96900 * b2 + white * 0.1538520;
+                b3 = 0.86650 * b3 + white * 0.3104856;
+                b4 = 0.55000 * b4 + white * 0.5329522;
+                b5 = -0.7616 * b5 - white * 0.0168980;
+                data[i] = (b0 + b1 + b2 + b3 + b4 + b5 + b6 + white * 0.5362) * 0.11;
+                b6 = white * 0.11592;
+            }
+            
+            pinkNoiseNode = audioCtx.createBufferSource();
+            pinkNoiseNode.buffer = buffer;
+            pinkNoiseNode.loop = true;
+            const lp = audioCtx.createBiquadFilter();
+            lp.type = 'lowpass';
+            lp.frequency.value = 2000;
+            pinkNoiseNode.connect(lp);
+            lp.connect(masterGain);
+            pinkNoiseNode.start();
+            
+            // Clicks 40Hz
+            const rate = 1 / 40;
+            function tick() {
+                if(!isRunning || isPaused) return;
+                const osc = audioCtx.createOscillator();
+                const g = audioCtx.createGain();
+                const p = audioCtx.createStereoPanner();
+                osc.type = 'sine';
+                osc.frequency.setValueAtTime(3000, audioCtx.currentTime);
+                osc.frequency.exponentialRampToValueAtTime(100, audioCtx.currentTime + 0.005);
+                g.gain.setValueAtTime(currentMode === 'act' ? 0.12 : 0.02, audioCtx.currentTime);
+                g.gain.exponentialRampToValueAtTime(0.001, audioCtx.currentTime + 0.005);
+                p.pan.value = (Math.random() * 2 - 1);
+                osc.connect(g);
+                g.connect(p);
+                p.connect(masterGain);
+                osc.start();
+                osc.stop(audioCtx.currentTime + 0.005);
+                setTimeout(tick, (rate + (Math.random() - 0.5) * 0.003) * 1000);
+            }
+            tick();
+        }
+
+        // ==================== VISUALIZACIÓN ====================
+        function initVisuals() {
+            const canvas = document.getElementById('neural-canvas');
+            const ctx = canvas.getContext('2d');
+            const flicker = document.getElementById('flicker-layer');
+            canvas.width = window.innerWidth;
+            canvas.height = window.innerHeight;
+            
+            let mainColor = (currentMode === 'phi') ? '#FFD700' : '#00f2ff';
+            let bgColor = (currentMode === 'phi') ? 'rgba(26, 21, 0, 0.04)' : 'rgba(0, 8, 16, 0.03)';
+            let limit = (currentMode === 'phi') ? 4000 : 25000;
+            let probBranch = (currentMode === 'phi') ? 0.02 : 0.08;
+            
+            let tips = [];
+            let segments = 0;
+            
+            function reset() {
+                tips = [];
+                segments = 0;
+                if(currentMode === 'phi') {
+                    for(let i = 0; i < 3; i++) {
+                        tips.push({
+                            x: canvas.width / 2,
+                            y: canvas.height / 2,
+                            a: (Math.PI * 2 / 3) * i,
+                            s: 2
+                        });
+                    }
+                } else {
+                    for(let i = 0; i < 30; i++) {
+                        tips.push({
+                            x: Math.random() * canvas.width,
+                            y: Math.random() * canvas.height,
+                            a: Math.random() * Math.PI * 2,
+                            s: 3 + Math.random() * 3
+                        });
+                    }
+                }
+                ctx.fillStyle = '#000810';
+                ctx.fillRect(0, 0, canvas.width, canvas.height);
+            }
+            reset();
+            
+            let frame = 0;
+            function animate() {
+                if(!isRunning) return;
+                
+                // Flicker solo en modos Synapse
+                if(currentMode !== 'phi' && !isPaused) {
+                    if(frame % 2 === 0) flicker.style.opacity = currentMode === 'act' ? 0.07 : 0.01;
+                    else flicker.style.opacity = 0;
+                }
+                
+                ctx.fillStyle = bgColor;
+                ctx.fillRect(0, 0, canvas.width, canvas.height);
+                
+                ctx.beginPath();
+                ctx.strokeStyle = mainColor;
+                ctx.lineWidth = (currentMode === 'phi') ? 2 : 1.2;
+                ctx.shadowBlur = (currentMode === 'phi') ? 15 : 6;
+                ctx.shadowColor = mainColor;
+                
+                tips.forEach(t => {
+                    const ox = t.x;
+                    const oy = t.y;
+                    
+                    if(currentMode === 'phi') {
+                        t.a += 0.05;
+                        t.s *= 1.001;
+                    } else {
+                        t.a += (Math.random() - 0.5) * 0.5;
+                    }
+                    
+                    t.x += Math.cos(t.a) * t.s;
+                    t.y += Math.sin(t.a) * t.s;
+                    ctx.moveTo(ox, oy);
+                    ctx.lineTo(t.x, t.y);
+                    segments++;
+                    
+                    if(Math.random() < probBranch && tips.length < 500) {
+                        tips.push({x: t.x, y: t.y, a: t.a + 0.5, s: t.s * 0.9});
+                        if(currentMode !== 'phi') {
+                            tips.push({x: t.x, y: t.y, a: t.a - 0.5, s: t.s * 0.9});
+                        }
+                    }
+                    
+                    if(t.x < 0) t.x = canvas.width;
+                    if(t.x > canvas.width) t.x = 0;
+                    if(t.y < 0) t.y = canvas.height;
+                    if(t.y > canvas.height) t.y = 0;
+                });
+                ctx.stroke();
+                
+                if(segments > limit) reset();
+                frame++;
+                requestAnimationFrame(animate);
+            }
+            animate();
+        }
+
+        // ==================== TIMER Y PROGRESO ====================
+        function startSessionTimer() {
+            const timerEl = document.getElementById('session-timer');
+            
+            timerInterval = setInterval(() => {
+                const elapsed = Math.floor((Date.now() - sessionStartTime) / 1000);
+                const mins = Math.floor(elapsed / 60);
+                const secs = elapsed % 60;
+                timerEl.innerText = `${String(mins).padStart(2, '0')}:${String(secs).padStart(2, '0')}`;
+            }, 1000);
+            
+            // Auto-stop
+            if(sessionDuration < 9999) {
+                setTimeout(() => {
+                    if(isRunning) stopSession();
+                }, sessionDuration * 1000);
+            }
+        }
+
+        function startProgressIndicator() {
+            if(sessionDuration >= 9999) return;
+            
+            const circle = document.getElementById('progress-circle');
+            const text = document.getElementById('progress-text');
+            const circumference = 2 * Math.PI * 36;
+            
+            progressInterval = setInterval(() => {
+                const elapsed = (Date.now() - sessionStartTime) / 1000;
+                const percent = Math.min(100, (elapsed / sessionDuration) * 100);
+                const offset = circumference - (percent / 100) * circumference;
+                circle.style.strokeDashoffset = offset;
+                text.innerText = Math.round(percent) + '%';
+            }, 1000);
+        }
+
+        // ==================== CONTROLES EN VIVO ====================
+        function togglePause() {
+            isPaused = !isPaused;
+            const btn = event.target;
+            if(isPaused) {
+                audioCtx.suspend();
+                btn.innerText = '▶️ Reanudar';
+                document.getElementById('status-text').innerText = 'PAUSADO';
+            } else {
+                audioCtx.resume();
+                btn.innerText = '⏸️ Pausa';
+                document.getElementById('status-text').innerText = currentMode === 'phi' ? 'RESONANCIA ÁUREA ACTIVA' : (currentMode === 'act' ? 'INMERSIÓN TOTAL' : 'MODO ESTUDIO ACTIVO');
+            }
+        }
+
+        function stopSession() {
+            isRunning = false;
+            if(audioCtx) audioCtx.close();
+            if(timerInterval) clearInterval(timerInterval);
+            if(progressInterval) clearInterval(progressInterval);
+            
+            // Actualizar estadísticas
+            const sessionMinutes = Math.floor((Date.now() - sessionStartTime) / 60000);
+            sessionStats.totalMinutes += sessionMinutes;
+            localStorage.setItem('synapse_total_minutes', sessionStats.totalMinutes);
+            
+            location.reload();
+        }
+
+        // ==================== MODAL ====================
+        function toggleScience(show) {
+            document.getElementById('science-modal').style.display = show ? 'flex' : 'none';
+        }
+
+        // ==================== SALIDA SEGURA ====================
+        let hold;
+        document.body.onmousedown = document.body.ontouchstart = () => {
+            if(!isRunning) return;
+            hold = setTimeout(() => stopSession(), 2000);
+        };
+        document.body.onmouseup = document.body.ontouchend = () => clearTimeout(hold);
+
+        // ==================== INICIALIZACIÓN ====================
+        updatePhiLabels();
+    
+
+        // ==================== PWA (Instalación) ====================
+        let deferredInstallPrompt = null;
+
+        function isIOS() {
+            return /iphone|ipad|ipod/i.test(navigator.userAgent);
+        }
+        function isStandalone() {
+            return (window.matchMedia && window.matchMedia('(display-mode: standalone)').matches) || window.navigator.standalone === true;
+        }
+
+        function showInstallBanner(mode) {
+            const banner = document.getElementById('pwa-install');
+            const btnInstall = document.getElementById('pwa-install-btn');
+            const sub = document.getElementById('pwa-sub');
+
+            if (!banner) return;
+
+            // Si ya lo cerró manualmente, no insistir
+            const dismissed = localStorage.getItem('synapse_pwa_dismissed') === '1';
+            if (dismissed) return;
+
+            if (isStandalone()) return;
+
+            banner.style.display = 'block';
+
+            if (mode === 'ios') {
+                btnInstall.style.display = 'none';
+                sub.innerHTML = "En iPhone/iPad: toca <b>Compartir</b> → <b>Añadir a pantalla de inicio</b>.";
+            } else {
+                btnInstall.style.display = 'inline-flex';
+                sub.textContent = "Crea un acceso directo en tu pantalla para abrirlo a pantalla completa.";
+            }
+        }
+
+        function hideInstallBanner(remember) {
+            const banner = document.getElementById('pwa-install');
+            if (banner) banner.style.display = 'none';
+            if (remember) localStorage.setItem('synapse_pwa_dismissed', '1');
+        }
+
+        function initPWAInstall() {
+            const btnInstall = document.getElementById('pwa-install-btn');
+            const btnLater = document.getElementById('pwa-later-btn');
+            const btnClose = document.getElementById('pwa-close-btn');
+
+            if (btnLater) btnLater.onclick = () => hideInstallBanner(true);
+            if (btnClose) btnClose.onclick = () => hideInstallBanner(true);
+
+            // Android/Chrome: beforeinstallprompt
+            window.addEventListener('beforeinstallprompt', (e) => {
+                e.preventDefault();
+                deferredInstallPrompt = e;
+                showInstallBanner('a2hs');
+            });
+
+            if (btnInstall) {
+                btnInstall.onclick = async () => {
+                    if (!deferredInstallPrompt) return;
+                    hideInstallBanner(false);
+                    deferredInstallPrompt.prompt();
+                    try {
+                        await deferredInstallPrompt.userChoice;
+                    } catch (_) {}
+                    deferredInstallPrompt = null;
+                };
+            }
+
+            // iOS: mostrar instrucción (no hay prompt)
+            if (isIOS() && !isStandalone()) {
+                // Espera mínima para no interrumpir entrada
+                setTimeout(() => showInstallBanner('ios'), 900);
+            }
+        }
+
+        // ==================== SERVICE WORKER (mínimo, cache del shell) ====================
+        async function initServiceWorker() {
+            if (!('serviceWorker' in navigator)) return;
+            // Para que sea instalable en Chrome, se requiere SW con fetch handler.
+            const swCode = `
+                const CACHE = 'synapse_v6_shell_v1';
+                const ASSETS = ['./'];
+                self.addEventListener('install', (e) => {
+                    e.waitUntil((async ()=>{
+                        const c = await caches.open(CACHE);
+                        await c.addAll(ASSETS);
+                        self.skipWaiting();
+                    })());
+                });
+                self.addEventListener('activate', (e) => {
+                    e.waitUntil((async ()=>{
+                        const keys = await caches.keys();
+                        await Promise.all(keys.map(k => (k===CACHE?null:caches.delete(k))));
+                        self.clients.claim();
+                    })());
+                });
+                self.addEventListener('fetch', (e) => {
+                    const req = e.request;
+                    // Cache-first para navegación y el propio HTML
+                    e.respondWith((async ()=>{
+                        const cache = await caches.open(CACHE);
+                        const cached = await cache.match(req, {ignoreSearch:true});
+                        if (cached) return cached;
+                        try{
+                            const res = await fetch(req);
+                            // Solo cachear GET same-origin
+                            if (req.method === 'GET' && new URL(req.url).origin === self.location.origin) {
+                                cache.put(req, res.clone());
+                            }
+                            return res;
+                        }catch(err){
+                            // fallback navegación
+                            if (req.mode === 'navigate') {
+                                const fallback = await cache.match('./', {ignoreSearch:true});
+                                if (fallback) return fallback;
+                            }
+                            throw err;
+                        }
+                    })());
+                });
+            `;
+            try{
+                const blob = new Blob([swCode], {type:'text/javascript'});
+                const swUrl = URL.createObjectURL(blob);
+                await navigator.serviceWorker.register(swUrl, {scope:'./'});
+            }catch(e){
+                // Silencioso: la app funciona igual sin SW si se abre como archivo local
+            }
+        }
+
+        // Run
+        window.addEventListener('load', () => {
+            initPWAInstall();
+            initServiceWorker();
+        });
+
+        // Reajuste canvas al rotar/cambiar tamaño (evita “pantalla cortada”)
+        window.addEventListener('resize', () => {
+            const c = document.getElementById('neural-canvas');
+            if (c) { c.width = window.innerWidth; c.height = window.innerHeight; }
+            const p = document.getElementById('particles-bg');
+            if (p) { p.width = window.innerWidth; p.height = window.innerHeight; }
+        });
+
+</script>
+</body>
+</html>

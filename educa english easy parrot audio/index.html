@@ -1,0 +1,369 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+<title>Easy Parrot</title>
+<meta name="theme-color" content="#0d1320">
+<link rel="manifest" href="manifest.json">
+<link rel="icon" href="icons/icon-192.png" type="image/png">
+<link rel="apple-touch-icon" href="icons/icon-192.png">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Nunito:ital,wght@0,500;0,600;0,700;0,800;1,500;1,600;1,700&family=Inter:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="css/styles.css">
+</head>
+<body>
+
+<!-- ============ SPLASH / IDENTIDAD ============ -->
+<div class="screen active" id="screen-splash" aria-label="Easy Parrot">
+  <div class="splash-wrap">
+    <div class="brand-mark splash"><img src="icons/icon-192.png" alt="Easy Parrot"></div>
+    <h1 class="splash-title">Easy Parrot</h1>
+    <p class="splash-copy">Escucha. Repite. Aprende.</p>
+  </div>
+</div>
+
+<!-- ============ ONBOARDING ============ -->
+<div class="screen" id="screen-onboarding">
+  <div class="onboard-wrap">
+
+    <div class="onboard-step active" data-step="1">
+      <div class="brand-mark"><img src="icons/icon-192.png" alt=""></div>
+      <p class="ob-eyebrow">Easy Parrot</p>
+      <h1 class="ob-title">Frases reales para practicar</h1>
+      <p class="ob-help">Inglés, francés y portugués a tu ritmo.</p>
+      <button class="about-trigger" id="about-trigger" type="button">🧭 ¿Para qué sirve?</button>
+      <input class="ob-input" id="input-nombre" type="text" maxlength="20" placeholder="Tu nombre (opcional para practicar rápido)" autocomplete="given-name">
+      <button class="ob-start" id="btn-quick-start">Practicar · 5 min</button>
+      <button class="ob-next" data-next="2">Personalizar</button>
+    </div>
+
+    <div class="onboard-step" data-step="2">
+      <p class="ob-eyebrow">Paso 2 de 6</p>
+      <h1 class="ob-title">¿A qué te dedicas?</h1>
+      <p class="ob-help">Opcional. Nos ayuda a priorizar algunos temas.</p>
+      <input class="ob-input" id="input-profesion" type="text" maxlength="40" placeholder="Ej. enfermera, estudiante, ventas…">
+      <div class="ob-buttons-row">
+        <button class="ob-back" data-back="1">Atrás</button>
+        <button class="ob-next" data-next="3">Continuar</button>
+      </div>
+    </div>
+
+    <div class="onboard-step" data-step="3">
+      <p class="ob-eyebrow">Paso 3 de 6</p>
+      <h1 class="ob-title">¿Qué temas quieres repasar más?</h1>
+      <p class="ob-help">Se practicarán primero, en este orden. Si no marcas ninguno, aparecen los 13.</p>
+      <button class="mark-all-btn" id="btn-mark-all">Marcar todos</button>
+      <div class="chip-grid" id="chip-grid">
+        <button class="chip" data-kw="trabajo">Trabajo</button>
+        <button class="chip" data-kw="viajes">Viajes</button>
+        <button class="chip" data-kw="familia">Familia</button>
+        <button class="chip" data-kw="amigos">Amigos</button>
+        <button class="chip" data-kw="amor">Amor</button>
+        <button class="chip" data-kw="mascotas">Mascotas</button>
+        <button class="chip" data-kw="salud">Salud</button>
+        <button class="chip" data-kw="dinero">Dinero</button>
+        <button class="chip" data-kw="tecnologia">Tecnología</button>
+        <button class="chip" data-kw="comida">Comida</button>
+        <button class="chip" data-kw="estudio">Estudio</button>
+        <button class="chip" data-kw="negocios">Negocios</button>
+        <button class="chip" data-kw="deportes">Deportes</button>
+        <button class="chip" data-kw="cotidiano">Expresiones cotidianas</button>
+        <button class="chip" data-kw="phrasal">Phrasal verbs</button>
+        <button class="chip" data-kw="comunicacion">Comunicación</button>
+        <button class="chip" data-kw="ninos">Niños y crianza</button>
+        <button class="chip" data-kw="reflexion">Reflexión y vida</button>
+      </div>
+      <div class="ob-buttons-row">
+        <button class="ob-back" data-back="2">Atrás</button>
+        <button class="ob-next" data-next="4">Continuar</button>
+      </div>
+    </div>
+
+    <div class="onboard-step" data-step="4">
+      <p class="ob-eyebrow">Paso 4 de 6</p>
+      <h1 class="ob-title">¿Cuántas veces quieres escuchar cada frase?</h1>
+      <p class="ob-help">Repetirla ayuda a afianzarla antes de pasar a la siguiente.</p>
+      <div class="pace-grid" id="rep-grid">
+        <button class="pace-btn" data-rep="1">1 vez</button>
+        <button class="pace-btn" data-rep="2">2 veces</button>
+        <button class="pace-btn" data-rep="3">3 veces</button>
+        <button class="pace-btn" data-rep="4">4 veces</button>
+      </div>
+      <div class="ob-buttons-row">
+        <button class="ob-back" data-back="3">Atrás</button>
+        <button class="ob-next" data-next="5">Continuar</button>
+      </div>
+    </div>
+
+    <div class="onboard-step" data-step="5">
+      <p class="ob-eyebrow">Paso 5 de 6</p>
+      <h1 class="ob-title">¿Cuántas veces quieres repasar cada tema completo?</h1>
+      <p class="ob-help">Antes de pasar a la siguiente familia de frases.</p>
+      <div class="pace-grid" id="topic-rep-grid">
+        <button class="pace-btn" data-trep="1">1 vez</button>
+        <button class="pace-btn" data-trep="2">2 veces</button>
+        <button class="pace-btn" data-trep="3">3 veces</button>
+      </div>
+      <div class="ob-buttons-row">
+        <button class="ob-back" data-back="4">Atrás</button>
+        <button class="ob-next" data-next="6">Continuar</button>
+      </div>
+    </div>
+
+    <div class="onboard-step" data-step="6">
+      <p class="ob-eyebrow">Paso 6 de 6</p>
+      <h1 class="ob-title">¿Cuánto tiempo quieres practicar?</h1>
+      <p class="ob-help">Puedes parar cuando quieras.</p>
+      <div class="pace-grid" id="pace-grid">
+        <button class="pace-btn" data-pace="5">5 min</button>
+        <button class="pace-btn" data-pace="10">10 min</button>
+        <button class="pace-btn" data-pace="15">15 min</button>
+        <button class="pace-btn" data-pace="0">Indefinido</button>
+      </div>
+      <div class="ob-buttons-row">
+        <button class="ob-back" data-back="5">Atrás</button>
+        <button class="ob-start" id="btn-start" disabled>Empezar</button>
+      </div>
+    </div>
+
+  </div>
+</div>
+
+<!-- ============ DASHBOARD / RETOMAR ============ -->
+<div class="screen" id="screen-dashboard">
+  <div class="dashboard-wrap">
+    <div class="brand-mark small"><img src="icons/icon-192.png" alt=""></div>
+    <p class="ob-eyebrow" id="dashboard-greeting">Hola de nuevo</p>
+    <h1 class="ob-title">Tu práctica de hoy</h1>
+    <p class="ob-help" id="dashboard-detail">Escucha, repite, marca lo difícil y vuelve a reforzar.</p>
+
+    <div class="dash-stats" aria-label="Resumen de progreso">
+      <div class="dash-stat"><strong id="stat-today">0</strong><span>hoy</span></div>
+      <div class="dash-stat"><strong id="stat-total">0</strong><span>total</span></div>
+      <div class="dash-stat"><strong id="stat-difficult">0</strong><span>difíciles</span></div>
+      <div class="dash-stat"><strong id="stat-favorites">0</strong><span>favoritas</span></div>
+    </div>
+
+    <button class="ob-start" id="btn-dashboard-quick">Practicar ahora</button>
+    <button class="ob-start soft" id="btn-dashboard-resume">Retomar donde quedé</button>
+    <div class="dashboard-actions">
+      <button id="btn-dashboard-smart">🧠 Repaso inteligente</button>
+      <button id="btn-dashboard-mix">🔀 Todo un poco</button>
+      <button id="btn-dashboard-customize">⚙️ Personalizar</button>
+    </div>
+    <button class="ob-back-wide" id="btn-dashboard-reset">Borrar datos y volver al inicio</button>
+  </div>
+</div>
+
+<!-- Pantalla antigua conservada como respaldo interno -->
+<div class="screen" id="screen-resume">
+  <div class="resume-wrap">
+    <div class="brand-mark small"><img src="icons/icon-192.png" alt=""></div>
+    <p class="ob-eyebrow" id="resume-greeting">Hola de nuevo</p>
+    <h1 class="ob-title">¿Retomas donde quedaste?</h1>
+    <p class="ob-help" id="resume-detail">Tenías una sesión guardada.</p>
+    <button class="ob-start" id="btn-resume">Retomar donde quedé</button>
+    <button class="ob-back-wide" id="btn-restart">Empezar de nuevo</button>
+  </div>
+</div>
+
+<!-- ============ EL CAJÓN (pantalla de control) ============ -->
+<div class="screen" id="screen-control">
+  <div class="phone">
+    <div class="screen-inner" data-theme="manana" id="cajon">
+      <div class="notch"></div>
+
+      <div class="corner-icons" aria-label="Acciones rápidas">
+        <button class="topic-chip topic-icon-btn" id="topic-chip" aria-label="Siguiente tema" title="Siguiente tema">📌</button>
+        <button class="icon-btn" id="install-btn" aria-label="Instalar app" title="Instalar app">
+          <svg viewBox="0 0 24 24"><path d="M19 9h-4V3H9v6H5l7 7 7-7zM5 18v2h14v-2H5z"/></svg>
+        </button>
+        <button class="icon-btn" id="settings-btn" aria-label="Ajustes" title="Ajustes">
+          <svg viewBox="0 0 24 24"><path d="M19.43 12.98c.04-.32.07-.65.07-.98s-.02-.66-.07-.98l2.11-1.65c.19-.15.24-.42.12-.64l-2-3.46c-.12-.22-.37-.31-.6-.22l-2.49 1a7.28 7.28 0 0 0-1.69-.98L14.5 2.42A.49.49 0 0 0 14.02 2h-4.04a.49.49 0 0 0-.48.42L9.12 5.07c-.61.24-1.18.57-1.69.98l-2.49-1c-.23-.08-.48 0-.6.22l-2 3.46c-.13.22-.07.49.12.64l2.11 1.65c-.05.32-.08.65-.08.98s.03.66.08.98l-2.11 1.65c-.19.15-.24.42-.12.64l2 3.46c.12.22.37.31.6.22l2.49-1c.51.4 1.08.73 1.69.98l.38 2.65c.04.24.24.42.48.42h4.04c.24 0 .44-.18.48-.42l.38-2.65c.61-.24 1.18-.57 1.69-.98l2.49 1c.23.08.48 0 .6-.22l2-3.46c.12-.22.07-.49-.12-.64l-2.11-1.65zM12 15.5A3.5 3.5 0 1 1 12 8a3.5 3.5 0 0 1 0 7.5z"/></svg>
+        </button>
+        <button class="icon-btn" id="logout-btn" aria-label="Volver a la pantalla inicial" title="Volver al inicio">
+          <svg viewBox="0 0 24 24"><path d="M16 13v-2H7V8l-5 4 5 4v-3z"/><path d="M20 3h-9c-1.1 0-2 .9-2 2v4h2V5h9v14h-9v-4H9v4c0 1.1.9 2 2 2h9c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2z"/></svg>
+        </button>
+      </div>
+
+      <div class="topbar">
+        <div class="greeting">
+          <p class="eyebrow" id="hora-label">—</p>
+          <p class="name" id="greeting-label">Hola</p>
+        </div>
+      </div>
+
+      <div class="phrase-zone">
+        <p class="en" id="en-text">…</p>
+        <span class="dash" id="dash-sep">—</span>
+        <p class="es" id="es-text">…</p>
+        <div class="poly-zone" id="poly-zone" hidden></div>
+        <p class="vocab-ej" id="vocab-ej" hidden></p>
+        <div class="progress-dots" id="progress-dots"></div>
+        <p class="rep-indicator" id="rep-indicator"></p>
+        <div class="phrase-actions" aria-label="Marcar frase actual">
+          <button id="mark-favorite-btn" aria-label="Marcar como favorita" title="Favorita">⭐</button>
+          <button id="mark-difficult-btn" aria-label="Marcar como difícil" title="Difícil">⚠️</button>
+          <button id="mark-mastered-btn" aria-label="Marcar como dominada" title="Dominada">✓</button>
+        </div>
+      </div>
+
+      <div class="transport-wrap">
+        <div class="ring" id="ring">
+          <button class="play-btn" id="play-btn" aria-label="Reproducir" title="Reproducir / pausar">
+            <svg id="play-icon" viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg>
+          </button>
+        </div>
+        <div class="transport-row">
+          <button class="skip-btn" id="prev-btn" aria-label="Frase anterior" title="Frase anterior">
+            <svg viewBox="0 0 24 24"><path d="M11 18V6l-8.5 6 8.5 6zm.5-6l8.5 6V6l-8.5 6z"/></svg>
+          </button>
+          <button class="skip-btn" id="next-btn" aria-label="Frase siguiente" title="Frase siguiente">
+            <svg viewBox="0 0 24 24"><path d="M13 6v12l8.5-6L13 6zM4 6v12l8.5-6L4 6z"/></svg>
+          </button>
+        </div>
+      </div>
+
+      <div class="control-row">
+        <div class="lang-toggle" id="lang-toggle" aria-label="Idioma que practico">
+          <button class="active" data-lang="en">EN</button>
+          <button data-lang="fr">FR</button>
+          <button data-lang="pt">PT</button>
+        </div>
+        <div class="mode-toggle">
+          <button class="active" id="btn-bilingue">EN+ES</button>
+          <button id="btn-mono">EN</button>
+        </div>
+        <button class="shuffle-btn" id="shuffle-btn" aria-label="Modo todo un poco (aleatorio)" title="Todo un poco: aleatoriza las 13 familias">
+          <svg viewBox="0 0 24 24"><path d="M10.59 9.17L5.41 4 4 5.41l5.17 5.17 1.42-1.41zM14.5 4l2.04 2.04L4 18.59 5.41 20 17.96 7.46 20 9.5V4h-5.5zm.33 9.41l-1.41 1.41 3.13 3.13L14.5 20H20v-5.5l-2.04 2.04-3.13-3.13z"/></svg>
+        </button>
+        <button class="poly-btn" id="poly-btn" aria-label="Modo Políglota" title="Modo Políglota: escucha la frase en varios idiomas">🌍</button>
+        <button class="poly-btn" id="vocab-btn" aria-label="Ruta A1 a B2" title="Ruta A1–B2: niveles MCER con frases funcionales">🧭</button>
+        <div class="speed">
+          <input type="range" min="0" max="12" step="1" value="3" id="speed-range" aria-label="Velocidad de voz" title="Velocidad de voz">
+          <span class="val" id="speed-val">1x</span>
+        </div>
+      </div>
+      <div class="poly-chain-row" id="poly-chain-row" hidden aria-label="Idiomas a encadenar">
+        <span class="poly-chain-label">ENCADENAR</span>
+        <div class="poly-chain" id="poly-chain">
+          <button class="active" data-poly="en">EN</button>
+          <button class="active" data-poly="es">ES</button>
+          <button class="active" data-poly="fr">FR</button>
+          <button class="active" data-poly="pt">PT</button>
+        </div>
+      </div>
+      <div class="poly-chain-row" id="vocab-level-row" hidden aria-label="Nivel MCER">
+        <span class="poly-chain-label">NIVEL</span>
+        <div class="poly-chain" id="vocab-levels">
+          <button class="active" data-level="A1">A1</button>
+          <button data-level="A2">A2</button>
+          <button data-level="B1">B1</button>
+          <button data-level="B2">B2</button>
+        </div>
+      </div>
+    </div>
+  </div>
+  <p class="session-status" id="session-status"></p>
+</div>
+
+<!-- ============ AJUSTES RÁPIDOS ============ -->
+<div class="settings-panel" id="settings-panel" aria-hidden="true">
+  <div class="settings-card" role="dialog" aria-modal="true" aria-labelledby="settings-title">
+    <div class="settings-head">
+      <div>
+        <p class="settings-eyebrow">Easy Parrot</p>
+        <h2 id="settings-title">Ajustes rápidos</h2>
+      </div>
+      <button class="settings-close" id="settings-close-btn" aria-label="Cerrar ajustes" title="Cerrar">×</button>
+    </div>
+
+    <div class="settings-section">
+      <label for="settings-rep">Repeticiones por frase</label>
+      <select id="settings-rep">
+        <option value="1">1 vez</option>
+        <option value="2">2 veces</option>
+        <option value="3">3 veces</option>
+        <option value="4">4 veces</option>
+      </select>
+    </div>
+
+    <div class="settings-section">
+      <label for="settings-topic-rep">Repeticiones por tema</label>
+      <select id="settings-topic-rep">
+        <option value="1">1 vuelta</option>
+        <option value="2">2 vueltas</option>
+        <option value="3">3 vueltas</option>
+      </select>
+    </div>
+
+    <div class="settings-section">
+      <label for="settings-pace">Tiempo de práctica</label>
+      <select id="settings-pace">
+        <option value="5">5 min</option>
+        <option value="10">10 min</option>
+        <option value="15">15 min</option>
+        <option value="0">Indefinido</option>
+      </select>
+    </div>
+
+    <div class="voice-status" id="voice-status" aria-live="polite"></div>
+    <button class="settings-primary" id="settings-apply-btn">Aplicar ajustes</button>
+    <button class="settings-secondary" id="settings-dashboard-btn">Ver mi progreso</button>
+    <button class="settings-secondary" id="settings-about-btn">Acerca de Easy Parrot</button>
+    <button class="settings-secondary" id="settings-reset-progress-btn">Reiniciar progreso, conservar mi perfil</button>
+    <button class="settings-danger" id="settings-reset-app-btn">Borrar datos y volver al inicio</button>
+    <p class="settings-note" id="settings-note">Privacidad: tus datos se guardan solo en este dispositivo. Puedes reiniciar progreso o borrar datos cuando quieras.</p>
+  </div>
+</div>
+
+
+<!-- ============ ACERCA DE EASY PARROT ============ -->
+<div class="about-panel" id="about-panel" aria-hidden="true">
+  <div class="about-card" role="dialog" aria-modal="true" aria-labelledby="about-title">
+    <button class="about-close" id="about-close-btn" aria-label="Cerrar">×</button>
+    <div class="brand-mark small"><img src="icons/icon-192.png" alt=""></div>
+    <p class="settings-eyebrow">Easy Parrot</p>
+    <h2 id="about-title">¿Para qué sirve?</h2>
+    <p>Practica frases reales en EN, FR y PT. Escucha, repite y guarda lo que quieres dominar.</p>
+    <button class="settings-primary" id="about-start-btn">Empezar</button>
+  </div>
+</div>
+
+<!-- ============ RESUMEN DE SESIÓN ============ -->
+<div class="summary-panel" id="summary-panel" aria-hidden="true">
+  <div class="summary-card" role="dialog" aria-modal="true" aria-labelledby="summary-title">
+    <p class="settings-eyebrow">Sesión completa</p>
+    <h2 id="summary-title">Buen trabajo</h2>
+    <p class="summary-copy" id="summary-copy">Hoy practicaste inglés real.</p>
+    <div class="summary-stats">
+      <span id="summary-listened">0 frases</span>
+      <span id="summary-topics">0 temas</span>
+      <span id="summary-marks">0 marcas</span>
+    </div>
+    <button class="settings-primary" id="summary-continue-btn">Seguir practicando</button>
+    <button class="settings-secondary" id="summary-dashboard-btn">Ver progreso</button>
+  </div>
+</div>
+
+<!-- ============ MENSAJE BREVE DE CONFIRMACIÓN ============ -->
+<div class="app-toast" id="app-toast" role="status" aria-live="polite"></div>
+
+<!-- ============ AVISO DE ACTUALIZACIÓN ============ -->
+<div class="update-toast" id="update-toast">
+  <span>Hay una nueva versión</span>
+  <button id="update-reload-btn">Actualizar</button>
+</div>
+
+<audio id="silent-loop" loop preload="auto"
+  src="data:audio/wav;base64,UklGRiQAAABXQVZFZm10IBAAAAABAAEAQB8AAEAfAAABAAgAZGF0YQAAAAA="></audio>
+
+<script src="data/topics-data.js"></script>
+<script src="data/vocab-data.js"></script>
+<script src="js/storage.js"></script>
+<script src="js/datetime-context.js"></script>
+<script src="js/audio-engine.js"></script>
+<script src="js/app.js"></script>
+</body>
+</html>

@@ -1,0 +1,20 @@
+[
+  {
+    "id": "gas_cloud_effect",
+    "name": "Gas Cloud Effect",
+    "sourceLabel": "GAS SPITTER",
+    "world": "world_5",
+    "category": "attack_effect",
+    "family": "toxic_atmosphere",
+    "role": "attack_effect",
+    "image": "assets/world_5/effects/gas_cloud_effect/effect.png",
+    "preview": "assets/world_5/effects/gas_cloud_effect/effect_preview.png",
+    "recommendedWidth": 64,
+    "recommendedHeight": 49,
+    "canvasSize": 256,
+    "movementSuggestion": "trayectoria/expansion",
+    "powerSuggestion": "efecto de ataque",
+    "difficultySuggestion": "none",
+    "notes": "Efecto separable extraido del sprite origen."
+  }
+]

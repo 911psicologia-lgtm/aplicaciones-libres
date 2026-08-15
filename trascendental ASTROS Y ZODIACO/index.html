@@ -1,0 +1,1609 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    <meta name="theme-color" content="#0b0014">
+    <link rel="apple-touch-icon" href="https://img.icons8.com/color/96/sparkling.png"> 
+    
+    <title>AstraDaily | Experiencia Zodiacal Premium</title>
+    <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;700&family=Quicksand:wght@300;400;600&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --bg-deep: #0b0014; --bg-nebula: #240b36; --gold: #ffed4e; --text: #e0e0e0;
+            --glass: rgba(255, 255, 255, 0.05); --glass-border: rgba(255, 255, 255, 0.1);
+            --font-title: 'Cinzel', serif; --font-body: 'Quicksand', sans-serif;
+            --bio-phys: #ff4757; --bio-emo: #2ed573; --bio-int: #1e90ff;
+        }
+        * { box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
+        body { margin: 0; background: radial-gradient(circle at 50% 0%, var(--bg-nebula), var(--bg-deep)); color: var(--text); font-family: var(--font-body); min-height: 100vh; display: flex; flex-direction: column; align-items: center; overflow-x: hidden; }
+        
+        .stars { position: fixed; top: 0; left: 0; width: 100%; height: 100%; pointer-events: none; z-index: -1; background-image: radial-gradient(white, rgba(255,255,255,.2) 2px, transparent 3px); background-size: 550px 550px; animation: starMove 100s linear infinite; }
+        @keyframes starMove { from { transform: translateY(0); } to { transform: translateY(-550px); } }
+
+        header { width: 100%; padding: 20px; text-align: center; background: linear-gradient(to bottom, rgba(0,0,0,0.8), transparent); }
+        .logo { font-family: var(--font-title); font-size: 1.8rem; color: var(--gold); text-shadow: 0 0 10px rgba(255, 215, 0, 0.5); }
+        .container { width: 100%; max-width: 500px; padding: 20px; flex: 1; display: flex; flex-direction: column; gap: 20px; padding-bottom: 50px; }
+        
+        .card { background: var(--glass); border: 1px solid var(--glass-border); border-radius: 20px; padding: 25px; backdrop-filter: blur(10px); transition: opacity 0.5s ease; animation: slideInUp 0.6s ease-out; }
+        @keyframes slideInUp { from { opacity: 0; transform: translateY(20px); } to { opacity: 1; transform: translateY(0); } }
+        .hidden { display: none !important; opacity: 0; }
+        
+        /* Inputs & Buttons */
+        .form-group { margin-bottom: 20px; }
+        .label { display: block; color: var(--gold); font-size: 0.9rem; margin-bottom: 8px; font-weight: bold; }
+        input, select { width: 100%; background: rgba(0,0,0,0.3); border: 1px solid var(--glass-border); color: #fff; padding: 15px; border-radius: 10px; font-size: 1rem; font-family: var(--font-body); }
+        input:focus, select:focus { outline: none; border-color: var(--gold); }
+        .btn-cosmic { background: linear-gradient(45deg, #c31432, #240b36); color: #fff; border: none; padding: 18px; width: 100%; border-radius: 50px; font-size: 1.1rem; font-weight: bold; cursor: pointer; font-family: var(--font-title); letter-spacing: 1px; transition: 0.3s; }
+        .btn-cosmic:hover { transform: scale(1.02); }
+
+        /* Login */
+        .welcome-back { text-align: center; padding: 40px 20px; }
+        .wb-avatar { font-size: 4rem; margin-bottom: 10px; display:block; animation: float 4s infinite ease-in-out; }
+        @keyframes float { 0%, 100% { transform: translateY(0); } 50% { transform: translateY(-10px); } }
+
+        /* Dashboard Elements */
+        .zodiac-badge { text-align: center; }
+        .sign-icon { font-size: 4rem; display: block; margin-bottom: 5px; }
+        .sign-title { font-family: var(--font-title); font-size: 1.8rem; color: var(--gold); margin: 0; }
+        .sign-desc { font-size: 0.95rem; color: #ddd; margin-top: 10px; line-height: 1.6; text-align: justify; }
+        .btn-details { background: transparent; border: 1px solid var(--gold); color: var(--gold); padding: 8px 20px; border-radius: 20px; font-size: 0.8rem; margin-top: 15px; cursor: pointer; text-transform: uppercase; transition: 0.3s; }
+        .btn-details:hover { background: rgba(255, 237, 74, 0.1); }
+
+        .moon-widget { display: flex; align-items: center; justify-content: center; gap: 10px; background: rgba(0,0,0,0.3); padding: 10px; border-radius: 50px; margin-bottom: 15px; border: 1px solid rgba(255,255,255,0.05); }
+        .moon-icon { font-size: 1.5rem; }
+        .moon-text { font-size: 0.85rem; color: #ccc; font-weight: bold; }
+
+        .advice-box { background: rgba(0,0,0,0.4); border-left: 3px solid var(--gold); padding: 20px; border-radius: 0 10px 10px 0; margin: 20px 0; position: relative; }
+        .advice-text { font-size: 1.1rem; line-height: 1.5; font-weight: 600; text-align: center; font-style: italic; margin-bottom: 15px; color: #fff; }
+        .advice-date { position: absolute; top: 5px; right: 10px; font-size: 0.7rem; color: #888; }
+        .btn-share { display: block; margin: 0 auto; background: rgba(255, 237, 74, 0.2); color: var(--gold); border: 1px solid var(--gold); padding: 8px 15px; border-radius: 15px; font-size: 0.8rem; cursor: pointer; transition: 0.3s; }
+        .btn-share:hover { background: rgba(255, 237, 74, 0.3); }
+
+        .lucky-grid { display: flex; gap: 10px; margin-top: 20px; border-top: 1px solid var(--glass-border); padding-top: 15px; }
+        .lucky-item { flex: 1; text-align: center; background: rgba(255,255,255,0.03); padding: 10px; border-radius: 10px; }
+        .lucky-val { font-family: var(--font-title); font-size: 1rem; color: var(--gold); }
+
+        .bio-section { margin-top: 25px; }
+        .bio-row { display: flex; align-items: center; margin-bottom: 8px; font-size: 0.8rem; }
+        .bio-label { width: 80px; color: #ccc; }
+        .bio-bar-bg { flex: 1; height: 8px; background: rgba(255,255,255,0.1); border-radius: 4px; overflow: hidden; }
+        .bio-bar-fill { height: 100%; transition: width 1s ease-out; }
+        .bio-val { width: 40px; text-align: right; color: #fff; font-weight: bold; }
+
+        .tarot-section { margin-top: 30px; text-align: center; }
+        .tarot-scene { width: 200px; height: 300px; margin: 20px auto; perspective: 1000px; cursor: pointer; }
+        .tarot-card { width: 100%; height: 100%; position: relative; transition: transform 0.8s; transform-style: preserve-3d; }
+        .tarot-card.flipped { transform: rotateY(180deg); }
+        .tarot-face { position: absolute; width: 100%; height: 100%; backface-visibility: hidden; border-radius: 15px; display: flex; flex-direction: column; justify-content: center; align-items: center; box-shadow: 0 10px 20px rgba(0,0,0,0.5); }
+        .tarot-front { background: linear-gradient(135deg, #1a0b2e, #000); border: 2px solid var(--gold); }
+        .tarot-back { background: #111; border: 2px solid var(--gold); transform: rotateY(180deg); padding: 15px; }
+        .arcana-icon { font-size: 4rem; margin-bottom: 10px; }
+        .arcana-name { font-family: var(--font-title); color: var(--gold); font-size: 1.2rem; margin-bottom: 5px; }
+
+        /* HISTORIAL SCROLLABLE */
+        .history-container { max-height: 400px; overflow-y: auto; padding-right: 5px; }
+        .history-container::-webkit-scrollbar { width: 5px; }
+        .history-container::-webkit-scrollbar-thumb { background: var(--gold); border-radius: 10px; }
+        .history-item { background: rgba(255,255,255,0.03); padding: 15px; border-radius: 10px; margin-bottom: 10px; font-size: 0.9rem; border-left: 2px solid transparent; transition: 0.2s; }
+        .history-item:hover { border-left-color: var(--gold); background: rgba(255,255,255,0.06); }
+
+        /* PREMIUM QUESTIONS */
+        .questions-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-top: 15px; }
+        .question-btn { background: rgba(255, 237, 74, 0.1); border: 1px solid var(--gold); color: var(--gold); padding: 12px; border-radius: 10px; font-size: 0.75rem; cursor: pointer; transition: 0.3s; }
+        .question-btn:hover { background: rgba(255, 237, 74, 0.2); transform: scale(1.05); }
+        .question-answer { background: rgba(0,0,0,0.4); border-left: 3px solid var(--gold); padding: 15px; border-radius: 0 10px 10px 0; margin-top: 15px; font-size: 0.95rem; line-height: 1.6; }
+
+        /* COMPATIBILITY */
+        .compat-percentage { font-family: var(--font-title); font-size: 2.5rem; color: var(--gold); margin-bottom: 10px; }
+        .compat-bar { width: 100%; height: 12px; background: rgba(255,255,255,0.1); border-radius: 10px; overflow: hidden; }
+        .compat-bar-fill { height: 100%; transition: width 0.5s ease; }
+
+        /* AFIRMACIONES */
+        .affirmations-container { display: grid; grid-template-columns: 1fr; gap: 12px; margin-top: 15px; }
+        .affirmation-card { background: rgba(255, 237, 74, 0.08); border: 1px solid rgba(255, 237, 74, 0.3); padding: 15px; border-radius: 12px; cursor: pointer; transition: 0.3s; position: relative; }
+        .affirmation-card:hover { background: rgba(255, 237, 74, 0.15); transform: translateY(-2px); }
+        .affirmation-text { font-size: 0.95rem; line-height: 1.5; color: #fff; font-weight: 500; }
+        .affirmation-star { position: absolute; top: 10px; right: 10px; font-size: 1.2rem; cursor: pointer; transition: 0.2s; }
+        .affirmation-star.favorited { color: var(--gold); }
+        .affirmation-share { display: inline-block; margin-top: 10px; background: rgba(255, 237, 74, 0.2); color: var(--gold); border: none; padding: 6px 12px; border-radius: 8px; font-size: 0.75rem; cursor: pointer; transition: 0.2s; }
+        .affirmation-share:hover { background: rgba(255, 237, 74, 0.3); }
+
+        /* NOTIFICACIONES */
+        .notification-setup { background: rgba(0,0,0,0.3); padding: 15px; border-radius: 12px; margin-top: 15px; }
+        .notification-time { display: flex; gap: 10px; align-items: center; }
+        .notification-time input { flex: 1; }
+        .btn-notify { background: rgba(46, 213, 115, 0.2); color: #2ed573; border: 1px solid #2ed573; padding: 8px 15px; border-radius: 8px; font-size: 0.8rem; cursor: pointer; transition: 0.3s; }
+        .btn-notify:hover { background: rgba(46, 213, 115, 0.3); }
+        .btn-notify.active { background: rgba(46, 213, 115, 0.5); }
+
+        /* MODAL STYLES */
+        .modal-overlay { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.9); display: flex; justify-content: center; align-items: center; z-index: 1000; opacity: 0; pointer-events: none; transition: opacity 0.3s; }
+        .modal-overlay.active { opacity: 1; pointer-events: auto; }
+        .modal-content { background: linear-gradient(135deg, #1a0b2e, #240b36); border: 1px solid var(--glass-border); border-radius: 20px; padding: 30px; max-width: 90%; max-height: 80vh; overflow-y: auto; position: relative; }
+        .close-modal { position: absolute; top: 15px; right: 15px; background: transparent; border: none; color: var(--gold); font-size: 1.5rem; cursor: pointer; }
+        .info-card { background: rgba(255,255,255,0.03); border: 1px solid var(--glass-border); padding: 15px; border-radius: 12px; margin-bottom: 15px; }
+        .info-title { color: var(--gold); font-weight: bold; margin-bottom: 8px; font-family: var(--font-title); }
+        .info-text { font-size: 0.9rem; line-height: 1.6; color: #ddd; }
+        .info-highlight { color: var(--gold); font-weight: bold; }
+
+        /* FOOTER */
+        .footer-actions { position: fixed; bottom: 0; left: 0; right: 0; display: flex; gap: 10px; padding: 15px; background: linear-gradient(to top, rgba(0,0,0,0.9), transparent); z-index: 100; }
+        .btn-exit { flex: 1; background: rgba(46, 213, 115, 0.2); color: #2ed573; border: 1px solid #2ed573; padding: 12px; border-radius: 10px; font-weight: bold; cursor: pointer; transition: 0.3s; }
+        .btn-exit:hover { background: rgba(46, 213, 115, 0.3); }
+        .btn-danger { flex: 1; background: rgba(255, 71, 87, 0.2); color: #ff4757; border: 1px solid #ff4757; padding: 12px; border-radius: 10px; font-weight: bold; cursor: pointer; transition: 0.3s; }
+        .btn-danger:hover { background: rgba(255, 71, 87, 0.3); }
+
+        /* TOAST */
+        .toast { position: fixed; bottom: 100px; left: 50%; transform: translateX(-50%); background: rgba(46, 213, 115, 0.9); color: #fff; padding: 12px 20px; border-radius: 50px; font-size: 0.9rem; z-index: 2000; animation: slideInUp 0.3s ease-out; }
+
+        /* FAREWELL */
+        .farewell-overlay { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.95); display: flex; justify-content: center; align-items: center; z-index: 2000; opacity: 0; pointer-events: none; transition: opacity 0.3s; }
+        .farewell-overlay.active { opacity: 1; }
+        .farewell-text { font-family: var(--font-title); font-size: 1.5rem; color: var(--gold); text-align: center; }
+
+        /* ONBOARDING */
+        .onboarding { width: 100%; max-width: 500px; padding: 20px; }
+        .onboarding-card { background: var(--glass); border: 1px solid var(--glass-border); border-radius: 20px; padding: 40px 25px; backdrop-filter: blur(10px); text-align: center; }
+        .onboarding-title { font-family: var(--font-title); font-size: 2rem; color: var(--gold); margin-bottom: 20px; }
+        .onboarding-subtitle { font-size: 0.95rem; color: #aaa; margin-bottom: 30px; }
+        .fast-login { width: 100%; max-width: 500px; padding: 20px; }
+        .welcome-back { text-align: center; padding: 40px 20px; }
+        .wb-name { font-family: var(--font-title); font-size: 1.5rem; color: var(--gold); margin: 20px 0; }
+        .wb-buttons { display: flex; flex-direction: column; gap: 15px; margin-top: 30px; }
+        .btn-enter { background: linear-gradient(45deg, #c31432, #240b36); color: #fff; border: none; padding: 15px; border-radius: 50px; font-size: 1rem; font-weight: bold; cursor: pointer; font-family: var(--font-title); transition: 0.3s; }
+        .btn-enter:hover { transform: scale(1.02); }
+
+        /* RESPONSIVE */
+        @media (max-width: 480px) {
+            .container { max-width: 100%; }
+            .modal-content { max-width: 95%; padding: 20px; }
+            .questions-grid { grid-template-columns: 1fr; }
+        }
+    </style>
+</head>
+<body>
+    <div class="stars"></div>
+    <header>
+        <div class="logo">✨ AstraDaily Pro ✨</div>
+    </header>
+
+    <!-- ONBOARDING -->
+    <div id="onboarding" class="onboarding hidden">
+        <div class="onboarding-card">
+            <div class="onboarding-title">Bienvenido</div>
+            <div class="onboarding-subtitle">Descubre tu destino cósmico</div>
+            <div class="form-group">
+                <label class="label">Tu Nombre</label>
+                <input type="text" id="username" placeholder="Ej: María">
+            </div>
+            <div class="form-group">
+                <label class="label">Fecha de Nacimiento</label>
+                <input type="date" id="birthdate">
+            </div>
+            <div class="form-group">
+                <label class="label">Hora de Nacimiento (opcional)</label>
+                <input type="time" id="birthtime">
+            </div>
+            <div class="form-group">
+                <label class="label">País</label>
+                <select id="country">
+                    <option value="">Selecciona tu país...</option>
+                    <option value="CO">Colombia</option>
+                    <option value="MX">México</option>
+                    <option value="AR">Argentina</option>
+                    <option value="ES">España</option>
+                    <option value="PE">Perú</option>
+                    <option value="CL">Chile</option>
+                    <option value="VE">Venezuela</option>
+                    <option value="EC">Ecuador</option>
+                    <option value="BO">Bolivia</option>
+                    <option value="PY">Paraguay</option>
+                    <option value="UY">Uruguay</option>
+                    <option value="BR">Brasil</option>
+                    <option value="US">Estados Unidos</option>
+                    <option value="CA">Canadá</option>
+                    <option value="GB">Reino Unido</option>
+                    <option value="FR">Francia</option>
+                    <option value="DE">Alemania</option>
+                    <option value="IT">Italia</option>
+                    <option value="JP">Japón</option>
+                    <option value="CN">China</option>
+                    <option value="IN">India</option>
+                    <option value="AU">Australia</option>
+                </select>
+            </div>
+            <button class="btn-cosmic" onclick="createProfile()">INICIAR LECTURA</button>
+        </div>
+    </div>
+
+    <!-- FAST LOGIN -->
+    <div id="fast-login" class="fast-login hidden">
+        <div class="welcome-back">
+            <div class="wb-avatar">✨</div>
+            <div class="wb-name" id="wb-name">Bienvenido</div>
+            <p style="color:#aaa; margin-bottom:30px;">Tu lectura cósmica te espera</p>
+            <div class="wb-buttons">
+                <button class="btn-enter" onclick="loadDashboard()">📖 VER MI LECTURA</button>
+                <button class="btn-danger" onclick="openProfileEdit()">✏️ EDITAR PERFIL</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- DASHBOARD -->
+    <div id="dashboard" class="hidden">
+        <div class="container">
+            <!-- ZODIAC BADGE -->
+            <div class="card zodiac-badge">
+                <div class="sign-icon" id="signIcon">♈</div>
+                <h2 class="sign-title" id="signName">Aries</h2>
+                <p class="sign-desc" id="signDesc">Energético y audaz...</p>
+                <button class="btn-details" onclick="openDetails()">📋 VER DETALLES</button>
+            </div>
+
+            <!-- MOON PHASE -->
+            <div class="card">
+                <div class="moon-widget">
+                    <div class="moon-icon" id="moonIcon">🌕</div>
+                    <div class="moon-text" id="moonPhase">Luna Llena</div>
+                </div>
+            </div>
+
+            <!-- DAILY ADVICE -->
+            <div class="card">
+                <h3 style="text-align:center; color:var(--gold); font-family:var(--font-title);">💫 CONSEJO DEL DÍA</h3>
+                <div class="advice-box">
+                    <div class="advice-text" id="dailyAdvice">Tu consejo aparecerá aquí...</div>
+                </div>
+                <button class="btn-share" onclick="shareDestiny()">📋 COPIAR CONSEJO</button>
+                <div class="lucky-grid">
+                    <div class="lucky-item">
+                        <div style="font-size:0.8rem; color:#aaa;">Color</div>
+                        <div class="lucky-val" id="luckyColor">Oro</div>
+                    </div>
+                    <div class="lucky-item">
+                        <div style="font-size:0.8rem; color:#aaa;">Número</div>
+                        <div class="lucky-val" id="luckyNumber">7</div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- TAROT -->
+            <div class="card tarot-section">
+                <h3 style="text-align:center; color:var(--gold); font-family:var(--font-title);">🃏 ARCANO DEL DÍA</h3>
+                <div class="tarot-scene" onclick="toggleTarot(this)">
+                    <div class="tarot-card">
+                        <div class="tarot-face tarot-front">
+                            <div class="arcana-icon" id="tarotIcon">🤡</div>
+                            <div class="arcana-name" id="tarotName">El Loco</div>
+                            <div style="font-size:0.7rem; color:#aaa;">Haz clic para revelar</div>
+                        </div>
+                        <div class="tarot-face tarot-back">
+                            <div id="tarotDesc" style="font-size:0.85rem; text-align:center; color:#ccc;">Significado...</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- AFIRMACIONES DIARIAS -->
+            <div class="card">
+                <h3 style="text-align:center; color:var(--gold); font-family:var(--font-title);">🌟 AFIRMACIONES DIARIAS</h3>
+                <p style="text-align:center; font-size:0.85rem; color:#aaa;">Haz clic en una afirmación para guardarla como favorita</p>
+                <div class="affirmations-container" id="affirmationsContainer"></div>
+                <button class="btn-share" onclick="showFavoriteAffirmations()" style="margin-top:15px;">❤️ VER MIS FAVORITAS</button>
+            </div>
+
+            <!-- NOTIFICACIONES -->
+            <div class="card">
+                <h3 style="text-align:center; color:var(--gold); font-family:var(--font-title);">🔔 RECORDATORIO DIARIO</h3>
+                <div class="notification-setup">
+                    <p style="font-size:0.9rem; color:#aaa; margin-bottom:12px;">Recibe tu consejo a la hora que prefieras</p>
+                    <div class="notification-time">
+                        <input type="time" id="notificationTime" value="08:00">
+                        <button class="btn-notify" id="notifyBtn" onclick="toggleNotifications()">Activar</button>
+                    </div>
+                    <div id="notifyStatus" style="font-size:0.8rem; color:#aaa; margin-top:8px;"></div>
+                </div>
+            </div>
+
+            <!-- 10 PREGUNTAS PREMIUM -->
+            <div class="card">
+                <h3 style="text-align:center; color:var(--gold); font-family:var(--font-title);">⭐ LAS 10 PREGUNTAS DEL DESTINO</h3>
+                <p style="text-align:center; font-size:0.85rem; color:#aaa;">Haz clic en cada pregunta para revelar tu respuesta</p>
+                <div class="questions-grid" id="questionsGrid"></div>
+                <div class="question-answer hidden" id="answerBox"></div>
+            </div>
+
+            <!-- COMPATIBILIDAD -->
+            <div class="card">
+                <h3 style="text-align:center; color:var(--gold); font-family:var(--font-title);">💕 COMPATIBILIDAD DE SIGNOS</h3>
+                <label class="label">Selecciona otro signo:</label>
+                <select id="compatSignSelect" onchange="showCompatibility()" style="margin-bottom:15px;">
+                    <option value="">Elige un signo...</option>
+                    <option value="Aries">Aries</option>
+                    <option value="Tauro">Tauro</option>
+                    <option value="Géminis">Géminis</option>
+                    <option value="Cáncer">Cáncer</option>
+                    <option value="Leo">Leo</option>
+                    <option value="Virgo">Virgo</option>
+                    <option value="Libra">Libra</option>
+                    <option value="Escorpio">Escorpio</option>
+                    <option value="Sagitario">Sagitario</option>
+                    <option value="Capricornio">Capricornio</option>
+                    <option value="Acuario">Acuario</option>
+                    <option value="Piscis">Piscis</option>
+                </select>
+                <div id="compatResult" class="hidden">
+                    <div style="text-align:center; margin:20px 0;">
+                        <div class="compat-percentage" id="compatPercent">85%</div>
+                        <div class="compat-bar"><div class="compat-bar-fill" id="compatBarFill" style="background: linear-gradient(90deg, #2ed573, #ffed4e); width:85%;"></div></div>
+                        <p id="compatDesc" style="margin-top:15px; font-size:0.9rem; line-height:1.6;"></p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- BIORHYTHMS -->
+            <div class="card">
+                <h3 style="text-align:center; color:var(--gold); font-family:var(--font-title);">📊 RITMOS BIOLÓGICOS</h3>
+                <div class="bio-section">
+                    <div class="bio-row">
+                        <div class="bio-label">Físico</div>
+                        <div class="bio-bar-bg"><div class="bio-bar-fill" id="bioPhys" style="background:var(--bio-phys);"></div></div>
+                        <div class="bio-val" id="valPhys">0%</div>
+                    </div>
+                    <div class="bio-row">
+                        <div class="bio-label">Emocional</div>
+                        <div class="bio-bar-bg"><div class="bio-bar-fill" id="bioEmo" style="background:var(--bio-emo);"></div></div>
+                        <div class="bio-val" id="valEmo">0%</div>
+                    </div>
+                    <div class="bio-row">
+                        <div class="bio-label">Intelectual</div>
+                        <div class="bio-bar-bg"><div class="bio-bar-fill" id="bioInt" style="background:var(--bio-int);"></div></div>
+                        <div class="bio-val" id="valInt">0%</div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- HISTORIAL EXPANDIDO -->
+            <div class="card">
+                <h3 style="text-align:center; color:var(--gold); font-family:var(--font-title);">📜 HISTORIAL COMPLETO</h3>
+                <p style="text-align:center; font-size:0.85rem; color:#aaa;">Últimas 100 consultas guardadas</p>
+                <div style="margin-bottom:12px; display:flex; gap:8px;">
+                    <input type="date" id="filterDate" style="flex:1; font-size:0.85rem; padding:8px;" onchange="filterHistory()">
+                    <button class="btn-share" onclick="exportHistory()">📥 EXPORTAR</button>
+                </div>
+                <div class="history-container" id="historyList"></div>
+            </div>
+
+            <!-- FOOTER -->
+            <div class="footer-actions">
+                <button class="btn-exit" onclick="exitToHome()">🌙 DESCANSAR</button>
+                <button class="btn-danger" onclick="openProfileEdit()">✏️ Editar Perfil</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- DETAILS MODAL -->
+    <div id="detailsModal" class="modal-overlay">
+        <div class="modal-content">
+            <div class="info-card">
+                <div class="info-title">☀️ SOL (Tu Esencia)</div>
+                <div class="info-text"><span class="info-highlight" id="m_sun">Aries</span> - Tu signo solar define tu identidad central.</div>
+            </div>
+            <div class="info-card">
+                <div class="info-title">📋 CARACTERÍSTICAS</div>
+                <div class="info-text" id="m_traits">Energético, audaz, impulsivo...</div>
+            </div>
+            <div class="info-card">
+                <div class="info-title">🌟 PERSONAJES HISTÓRICOS</div>
+                <div class="info-text" id="m_famous">Grandes figuras que comparten tu signo...</div>
+            </div>
+            <div class="info-card" id="ascendantCard">
+                <div class="info-title">🌅 ASCENDENTE</div>
+                <div class="info-text"><span class="info-highlight" id="m_asc">-</span><br><span id="m_asc_meaning">-</span></div>
+            </div>
+            <div class="info-card">
+                <div class="info-title">🔢 NÚMERO DE VIDA</div>
+                <div class="info-text"><span class="info-highlight" id="m_lifepath">7</span><br><span id="m_lifepath_desc">Tu camino numerológico...</span></div>
+            </div>
+            <div class="info-card">
+                <div class="info-title">🐉 ANIMAL CHINO</div>
+                <div class="info-text"><span class="info-highlight" id="m_chinese_animal">Dragón</span><br><span id="m_chinese_desc">Descripción del animal...</span></div>
+            </div>
+        </div>
+        <button class="close-modal" onclick="closeDetails()">✕</button>
+    </div>
+
+    <!-- FAVORITES MODAL -->
+    <div id="favoritesModal" class="modal-overlay">
+        <div class="modal-content">
+            <h2 style="color:var(--gold); text-align:center; margin-bottom:20px;">❤️ MIS AFIRMACIONES FAVORITAS</h2>
+            <div id="favoritesList" style="display:grid; grid-template-columns:1fr; gap:12px;"></div>
+            <button class="btn-share" onclick="closeFavorites()" style="width:100%; margin-top:20px;">Cerrar</button>
+        </div>
+        <button class="close-modal" onclick="closeFavorites()">✕</button>
+    </div>
+
+    <div id="farewell-overlay"><div class="farewell-text" id="farewell-msg">Hasta pronto, viajero cósmico...</div></div>
+
+    <script>
+        // ============ DATOS ASTROLÓGICOS ============
+        const ZODIAC_SIGNS = [
+            { name: 'Aries', icon: '♈', dates: '21 mar - 19 abr', traits: 'Aries es el pionero del zodiaco, gobernado por Marte, el planeta de la acción y la pasión. Tu energía es inagotable y tu espíritu aventurero te impulsa a conquistar nuevos territorios. Eres un líder natural, audaz y directo, que no teme enfrentarse a los desafíos más grandes. Tu capacidad para tomar iniciativas y tu valentía te hacen inspirador para otros. Sin embargo, tu impulsividad a veces puede llevarte a actuar sin reflexionar. Tu pasión es contagiosa y tu determinación inquebrantable. Eres competitivo, ambicioso y siempre buscas ser el primero. Tu coraje es tu mayor fortaleza, pero aprender paciencia te hará aún más poderoso.', famous: '🎨 ARTISTAS: Leonardo da Vinci, Vincent van Gogh | 🔬 CIENTÍFICOS: Marie Curie, Max Planck, James Clerk Maxwell, Joseph Lister | 📚 ESCRITORES: Émile Zola, Octavio Paz | 🏛️ PENSADORES: Thomas Jefferson, Simone de Beauvoir', element: 'Fuego', modality: 'Cardinal', ruler: 'Marte', index: 0 },
+            { name: 'Tauro', icon: '♉', dates: '20 abr - 20 may', traits: 'Tauro es la encarnación de la estabilidad y la sensualidad, gobernado por Venus, el planeta del amor y la belleza. Tu naturaleza es profundamente práctica y confiable, lo que te convierte en la roca sobre la que otros pueden apoyarse. Eres sensual, disfrutas de los placeres de la vida y tienes un excelente gusto estético. Tu lealtad es inquebrantable y tu compromiso con tus objetivos es inquebrantable. Valoras la seguridad material y trabajas incansablemente para construir una vida cómoda. Tu terquedad es legendaria, pero también es lo que te permite alcanzar tus metas. Eres paciente, confiable y tienes una capacidad extraordinaria para ver el valor en las cosas. Tu amor es profundo y duradero, y tu presencia transmite paz y seguridad.', famous: 'William Shakespeare, Sigmund Freud, Max Weber, Nicolaus Copernicus, Honoré de Balzac, Salvador Dalí, Carl Linnaeus, Karl Marx, Enrico Fermi, George Lucas', element: 'Tierra', modality: 'Fijo', ruler: 'Venus', index: 1 },
+            { name: 'Géminis', icon: '♊', dates: '21 may - 20 jun', traits: 'Géminis es el comunicador del zodiaco, gobernado por Mercurio, el planeta de la inteligencia y el intercambio. Tu mente es ágil, curiosa y siempre está buscando nuevas conexiones y conocimientos. Eres versátil y adaptable, capaz de prosperar en cualquier situación. Tu ingenio es legendario y tu capacidad para ver múltiples perspectivas te hace un pensador excepcional. Eres sociable, comunicativo y tienes el don de conectar con personas de todos los ámbitos. Tu curiosidad es insaciable y tu amor por el aprendizaje te impulsa a explorar constantemente. Sin embargo, tu tendencia a dispersarte puede hacerte parecer superficial a veces. Tu verdadera fuerza está en tu capacidad para sintetizar información compleja y comunicarla de manera clara. Eres el puente entre ideas y personas.', famous: 'Alan Turing, Jorge Luis Borges, Richard Feynman, Blaise Pascal, José Saramago, John F. Kennedy, Carl Jung, Fernando Pessoa, Ivan Pavlov, Paul McCartney', element: 'Aire', modality: 'Mutable', ruler: 'Mercurio', index: 2 },
+            { name: 'Cáncer', icon: '♋', dates: '21 jun - 22 jul', traits: 'Cáncer es el guardián emocional del zodiaco, gobernado por la Luna, el planeta de los sentimientos y la intuición. Tu mundo interior es profundo y complejo, lleno de emociones intensas y una intuición casi mágica. Eres profundamente conectado con tu familia y tus raíces, y tu lealtad hacia los seres queridos es absoluta. Tu sensibilidad te permite percibir lo que otros no ven, lo que te convierte en un empático extraordinario. Eres imaginativo, soñador y tienes una creatividad que surge de tus emociones más profundas. Tu necesidad de seguridad emocional es fundamental para tu bienestar. A veces tu melancolía puede ser abrumadora, pero es parte de tu profundidad. Tu capacidad para nutrir y proteger a otros es tu mayor regalo. Eres el corazón emocional de cualquier círculo al que pertenezcas.', famous: 'Nikola Tesla, Franz Kafka, Nelson Mandela, Pablo Neruda, Ernst Mach, Frida Kahlo, Hermann Hesse, Gregor Mendel, George Orwell, Rosalind Franklin', element: 'Agua', modality: 'Cardinal', ruler: 'Luna', index: 3 },
+            { name: 'Leo', icon: '♌', dates: '23 jul - 22 ago', traits: 'Leo es el rey del zodiaco, gobernado por el Sol, el planeta de la creatividad y el poder. Tu presencia es luminosa y magnética, atrayendo la atención naturalmente dondequiera que vayas. Eres creativo, generoso y tienes una confianza en ti mismo que es inspiradora. Tu liderazgo es carismático y apasionado, y los demás te siguen porque creen en ti. Tu corazón es grande y tu generosidad es legendaria con aquellos que amas. Eres dramático en tu expresión, lo que hace que todo lo que haces tenga un toque de grandeza. Tu lealtad con tus amigos es inquebrantable y tu amor es profundo. Tu necesidad de reconocimiento es natural, pues sabes que tienes talento. Tu orgullo puede ser tu mayor fortaleza o tu mayor debilidad, dependiendo de cómo lo manejes. Eres el fuego que ilumina el mundo.', famous: 'Isaac Newton, Gabriela Mistral, Napoleón Bonaparte, Alexandre Dumas, Louis Pasteur, Andy Warhol, Alfred Hitchcock, J. K. Rowling, Erwin Schrödinger, Benito Juárez', element: 'Fuego', modality: 'Fijo', ruler: 'Sol', index: 4 },
+            { name: 'Virgo', icon: '♍', dates: '23 ago - 22 sep', traits: 'Virgo es el perfeccionista del zodiaco, gobernado por Mercurio, el planeta de la inteligencia y el análisis. Tu mente es extraordinariamente analítica y tu capacidad para ver detalles que otros pasan por alto es asombrosa. Eres meticuloso, práctico y tienes un sistema para todo en tu vida. Tu búsqueda de la excelencia es incesante y tu dedicación al trabajo es inquebrantable. Eres servicial y humilde, encontrando satisfacción en ayudar a otros a mejorar. Tu crítica es constructiva y tu intención siempre es mejorar las cosas. Tu ansiedad surge de tu perfeccionismo, pero también es lo que te impulsa a alcanzar grandes cosas. Eres el sanador del zodiaco, capaz de identificar problemas y encontrar soluciones prácticas. Tu inteligencia y tu dedicación te hacen invaluable en cualquier proyecto. Tu verdadera fuerza está en tu capacidad para transformar caos en orden.', famous: 'Michael Faraday, Carl Friedrich Gauss, Jean Piaget, Agatha Christie, Alexander von Humboldt, Freddie Mercury, Stephen Jay Gould, Leo Tolstói, Maria Montessori, Jorge Luis Borges', element: 'Tierra', modality: 'Mutable', ruler: 'Mercurio', index: 5 },
+            { name: 'Libra', icon: '♎', dates: '23 sep - 22 oct', traits: 'Libra es el diplomático del zodiaco, gobernado por Venus, el planeta del amor y la belleza. Tu naturaleza es fundamentalmente armoniosa y buscas equilibrio en todas las cosas. Eres sociable, elegante y tienes un don natural para conectar con las personas. Tu sentido de la justicia es profundo y tu capacidad para ver ambos lados de una situación te hace un mediador excepcional. Eres artístico y tienes un gusto estético refinado, rodeándote de belleza. Tu indecisión surge de tu capacidad para ver múltiples perspectivas, no de debilidad. Eres intelectual, conversador y tienes la capacidad de hacer que otros se sientan cómodos. Tu búsqueda de armonía en las relaciones es tu mayor fortaleza. Eres el equilibrador del zodiaco, trayendo paz y comprensión donde hay conflicto. Tu verdadera fuerza está en tu capacidad para ver la belleza en todas las cosas y en todas las personas.', famous: 'Niels Bohr, Mahatma Gandhi, Oscar Wilde, Max Born, Friedrich Nietzsche, James Watson, Miguel de Cervantes, Edmond Halley, John Lennon, Hannah Arendt', element: 'Aire', modality: 'Cardinal', ruler: 'Venus', index: 6 },
+            { name: 'Escorpio', icon: '♏', dates: '23 oct - 21 nov', traits: 'Escorpio es el transformador del zodiaco, gobernado por Plutón, el planeta del poder y la transformación. Tu intensidad es legendaria y tu profundidad emocional es abismal. Eres misterioso, magnético y tienes una presencia que otros no pueden ignorar. Tu determinación es inquebrantable y tu pasión es ardiente. Eres un investigador natural, capaz de ver a través de las apariencias hacia la verdad oculta. Tu lealtad es absoluta y tu amor es profundo y transformador. Tu capacidad para renacer de las cenizas es tu mayor poder. Tu tendencia vengativa surge de tu profundidad, pero tu verdadera fuerza está en tu capacidad para perdonar y transformar. Eres el psicólogo del zodiaco, comprendiendo los misterios del alma humana. Tu poder está en tu capacidad para ver la verdad y transformar lo oscuro en luz. Eres el fénix que renace constantemente.', famous: 'Fiódor Dostoievski, Marie Curie, Ernesto "Che" Guevara, Francis Bacon, Albert Camus, Robert Oppenheimer, Pablo Picasso, Barbara McClintock, Bram Stoker, Marie Stopes', element: 'Agua', modality: 'Fijo', ruler: 'Plutón', index: 7 },
+            { name: 'Sagitario', icon: '♐', dates: '22 nov - 21 dic', traits: 'Sagitario es el aventurero del zodiaco, gobernado por Júpiter, el planeta de la expansión y la sabiduría. Tu espíritu es inquieto y tu sed de aventura es insaciable. Eres un buscador de verdad, siempre cuestionando y explorando los misterios de la vida. Tu optimismo es contagioso y tu entusiasmo es inspirador. Eres expansivo, generoso y tienes una visión amplia de la vida. Tu amor por la libertad es sagrado y no toleras las restricciones. Eres un filósofo natural, reflexionando sobre el significado de la existencia. Tu imprudencia surge de tu confianza en el universo, pero también es lo que te permite tomar riesgos extraordinarios. Eres el maestro del zodiaco, enseñando a otros a través de tu ejemplo. Tu verdadera fuerza está en tu capacidad para inspirar a otros a soñar en grande. Eres el viajero que nunca deja de explorar.', famous: 'Charles Darwin, Ludwig van Beethoven, Mark Twain, Noam Chomsky, Édith Piaf, Jane Goodall, José Martí, Tycho Brahe, Samuel Beckett, Winston Churchill', element: 'Fuego', modality: 'Mutable', ruler: 'Júpiter', index: 8 },
+            { name: 'Capricornio', icon: '♑', dates: '22 dic - 19 ene', traits: 'Capricornio es el ejecutivo del zodiaco, gobernado por Saturno, el planeta de la disciplina y la responsabilidad. Tu naturaleza es seria, responsable y profundamente ambiciosa. Eres un trabajador incansable que no se detiene hasta alcanzar tus objetivos. Tu practicidad y realismo te permiten construir imperios duraderos. Respetas las tradiciones y entiendes el valor de la estructura y el orden. Tu pesimismo es en realidad prudencia, una capacidad para anticipar problemas y prevenirlos. Tu búsqueda de estabilidad es fundamental para tu bienestar. Eres el constructor del zodiaco, creando estructuras que perduran. Tu paciencia es legendaria y tu dedicación es inquebrantable. Tu verdadera fuerza está en tu capacidad para transformar sueños en realidad a través del trabajo constante. Eres el sabio que entiende que el éxito verdadero requiere tiempo y esfuerzo.', famous: 'Isaac Asimov, Simón Bolívar, Stephen Hawking, George Orwell, Louis Braille, J. R. R. Tolkien, Richard Dawkins, David Bowie, Johannes Kepler, Angela Merkel', element: 'Tierra', modality: 'Cardinal', ruler: 'Saturno', index: 9 },
+            { name: 'Acuario', icon: '♒', dates: '20 ene - 18 feb', traits: 'Acuario es el visionario del zodiaco, gobernado por Urano, el planeta de la innovación y la revolución. Tu mente es extraordinariamente inteligente y tu pensamiento es siempre adelantado a su tiempo. Eres un innovador natural, cuestionando el status quo y buscando formas nuevas de hacer las cosas. Tu humanitarismo es profundo y tu deseo de cambio social es genuino. Valoras la libertad por encima de todas las cosas y no toleras la conformidad. Eres un pensador independiente que no teme ser diferente. Tu distancia emocional a veces puede parecer frialdad, pero en realidad es tu forma de mantener la objetividad. Eres el revolucionario del zodiaco, trayendo cambio y progreso. Tu verdadera fuerza está en tu capacidad para ver el futuro y trabajar hacia él. Eres el soñador que transforma el mundo a través de ideas radicales.', famous: 'Galileo Galilei, Virginia Woolf, Thomas Edison, James Joyce, Bob Marley, Jules Verne, Wolfgang Pauli, Charles Lindbergh, Ernst Mayr, Francis Galton', element: 'Aire', modality: 'Fijo', ruler: 'Urano', index: 10 },
+            { name: 'Piscis', icon: '♓', dates: '19 feb - 20 mar', traits: 'Piscis es el místico del zodiaco, gobernado por Neptuno, el planeta de la espiritualidad y la imaginación. Tu empatía es extraordinaria y tu capacidad para sentir las emociones de otros es casi mágica. Eres un soñador profundo, viviendo en un mundo de imaginación sin límites. Tu naturaleza artística es expresiva y tu creatividad surge de las profundidades de tu alma. Tu intuición es tu brújula y raramente te engaña. Eres compasivo y sacrificado, dispuesto a ayudar a otros incluso a costa de ti mismo. Tu conexión con lo espiritual es profunda y natural. Tu tendencia a ser evasivo surge de tu sensibilidad, una forma de protegerte del dolor del mundo. Eres el sanador espiritual del zodiaco, capaz de transformar el sufrimiento en arte y sabiduría. Tu verdadera fuerza está en tu capacidad para conectar con lo invisible y lo sagrado. Eres el poeta que transforma el mundo en belleza.', famous: 'Albert Einstein, Wolfgang Amadeus Mozart, Gabriel García Márquez, Víctor Jara, Rudolf Steiner, Anaïs Nin, Michel Foucault, Jack Kerouac, Rihanna, Nikolaus Harnoncourt', element: 'Agua', modality: 'Mutable', ruler: 'Neptuno', index: 11 }
+        ];
+
+        const TAROT_DECK = [
+            { icon: '🤡', name: 'El Loco', desc: 'Un viajero se lanza al vacío con fe absoluta. Nuevos comienzos, libertad, espontaneidad. Tu camino requiere fe en lo desconocido.' },
+            { icon: '✨', name: 'El Mago', desc: 'Las manos del mago tocan cielo y tierra. Tu poder creativo, manifestación. Tienes todo lo que necesitas para crear tu realidad.' },
+            { icon: '🌙', name: 'La Sacerdotisa', desc: 'Velada en luz de luna, sabiduría antigua habla. Tu intuición, misterio, sabiduría interior. Confía en tu voz interna hoy.' },
+            { icon: '👑', name: 'La Emperatriz', desc: 'La naturaleza florece bajo su toque. Abundancia, abundancia, creatividad. Tu energía es fecunda y generosa.' },
+            { icon: '🏛️', name: 'El Emperador', desc: 'Trono de poder, cetro de autoridad. Tu liderazgo, poder, liderazgo. Toma control de tu destino con confianza.' },
+            { icon: '⛪', name: 'El Hierofante', desc: 'Tradición, espiritualidad, enseñanza. Busca sabiduría en lo establecido.' },
+            { icon: '💕', name: 'Los Enamorados', desc: 'Amor, elección, armonía. Tus decisiones del corazón son acertadas.' },
+            { icon: '🏇', name: 'El Carro', desc: 'Determinación, control, victoria. Avanza con propósito y confianza.' },
+            { icon: '💪', name: 'La Fuerza', desc: 'Fuerza interior, paciencia, control. Tu poder viene de la calma.' },
+            { icon: '🕯️', name: 'El Ermitaño', desc: 'Introspección, búsqueda, soledad productiva. Necesitas tiempo para reflexionar.' },
+            { icon: '🎡', name: 'La Rueda', desc: 'Destino, ciclos, cambio. Todo gira, nada es permanente.' },
+            { icon: '⚖️', name: 'La Justicia', desc: 'Equilibrio, verdad, consecuencias. Tus acciones tienen peso.' },
+            { icon: '🪂', name: 'El Colgado', desc: 'Suspensión, perspectiva, sacrificio. A veces hay que soltar para ganar.' },
+            { icon: '💀', name: 'La Muerte', desc: 'Transformación, fin, renacimiento. No es fin, es cambio profundo.' },
+            { icon: '⚗️', name: 'La Templanza', desc: 'Equilibrio, moderación, armonía. Busca el balance en todo.' },
+            { icon: '😈', name: 'El Diablo', desc: 'Atadura, materialismo, tentación. Cuidado con lo que te encadena.' },
+            { icon: '🏚️', name: 'La Torre', desc: 'Destrucción, revelación, crisis. Después de la tormenta, claridad.' },
+            { icon: '⭐', name: 'La Estrella', desc: 'Esperanza, inspiración, guía. Tu luz brilla en la oscuridad.' },
+            { icon: '🌕', name: 'La Luna', desc: 'Ilusión, intuición, lo inconsciente. Confía en tus sueños.' },
+            { icon: '☀️', name: 'El Sol', desc: 'Éxito, alegría, vitalidad. Tu día es brillante.' },
+            { icon: '📯', name: 'El Juicio', desc: 'Despertar, llamada, evaluación. Es tiempo de responder a tu propósito.' },
+            { icon: '🌍', name: 'El Mundo', desc: 'Completitud, cumplimiento, viaje. Has llegado a un ciclo de conclusión.' }
+        ];
+
+
+        // ARCANO "ACORDE A TU SIGNO": selección por elemento (Fuego/Tierra/Aire/Agua)
+        // Nota: la carta exacta cambia cada día y además es única por instalación (semilla personal).
+        const ARCANA_POOL_BY_ELEMENT = {
+            'Fuego': [0, 1, 4, 7, 8, 10, 16, 19, 20],
+            'Tierra': [3, 5, 9, 11, 13, 14, 15, 21, 10],
+            'Aire':  [0, 1, 6, 10, 11, 14, 17, 20, 19],
+            'Agua':  [2, 6, 9, 12, 13, 14, 18, 17, 21]
+        };
+
+        // Consejo del día: sesgo suave por elemento (sin romper el estilo del oráculo)
+        const ADVICE_CATEGORIES_BY_ELEMENT = {
+            'Fuego': ['actions', 'focus', 'wisdom'],
+            'Tierra': ['focus', 'warnings', 'wisdom'],
+            'Aire':  ['wisdom', 'actions', 'focus'],
+            'Agua':  ['wisdom', 'warnings', 'focus']
+        };
+        const PREMIUM_QUESTIONS = [
+            '¿Qué me deparará hoy?',
+            '¿Cómo estará el amor?',
+            '¿Irá bien en el trabajo?',
+            '¿Estaré tomando la mejor decisión?',
+            '¿Debo dar el siguiente paso?',
+            '¿Qué dicen los astros sobre mi familia?',
+            '¿Tendré buena fortuna?',
+            '¿Cuál es mi mayor fortaleza hoy?',
+            '¿Qué debo soltar?',
+            '¿Cuál es mi propósito?'
+        ];
+                // AFIRMACIONES GENERALES + POR SIGNO (banco ampliado, cambia a diario)
+        const AFFIRMATIONS_GENERAL = [
+            "Hoy elijo paz mental antes que prisa.",
+            "Mi respiración me devuelve al centro.",
+            "Lo que necesito, llega con claridad.",
+            "Pongo límites sin culpa y con amor propio.",
+            "Me trato con respeto incluso cuando dudo.",
+            "Transformo la ansiedad en enfoque práctico.",
+            "Mi intuición es una aliada: la escucho.",
+            "Suelto el control y confío en el proceso.",
+            "Merezco descanso; no tengo que ganármelo.",
+            "Mi energía vale: la invierto con intención.",
+            "Doy un paso pequeño y eso ya es avance.",
+            "Agradezco lo que tengo y abro espacio a más.",
+            "Me permito cambiar de opinión si es sabio.",
+            "Elijo conversaciones honestas y cuidadosas.",
+            "Mi disciplina hoy construye mi libertad.",
+            "No compito: construyo mi propio camino.",
+            "Mis decisiones nacen de mi claridad, no del miedo.",
+            "Donde pongo atención, allí crece mi vida.",
+            "Mi cuerpo me guía: lo escucho y lo cuido.",
+            "La calma también es una forma de poder.",
+            "Me perdono y sigo: el pasado no manda hoy.",
+            "Puedo decir no sin cerrar mi corazón.",
+            "Mi creatividad abre puertas inesperadas.",
+            "Acepto lo que no controlo y actúo en lo que sí.",
+            "Mi voz tiene valor: me expreso con dignidad.",
+            "Hoy elijo lo simple y eso me fortalece.",
+            "Confío en mis tiempos; no me atraso, maduro.",
+            "Vuelvo a mí: mi centro no depende del ruido.",
+            "Lo que es para mí, no me pasa de largo.",
+            "Soy más fuerte de lo que pienso cuando estoy tranquilo.",
+            "Mi presencia aporta: no necesito demostrar.",
+            "La constancia vence la duda.",
+            "Hoy cierro ciclos con gratitud, no con rabia.",
+            "Mi amor propio es mi primera alianza.",
+            "Me abro a recibir ayuda sin sentirme menos.",
+            "Mi mente aprende; mi corazón también.",
+            "Actúo con paciencia: lo valioso toma tiempo.",
+            "No todo es urgente: priorizo lo importante.",
+            "Elijo ser amable sin dejar de ser firme.",
+            "El éxito se construye: un hábito a la vez.",
+            "Mi vida tiene sentido en lo cotidiano.",
+            "Suelto la comparación y abrazo mi singularidad.",
+            "La claridad llega cuando dejo de forzar.",
+            "Hoy cuido mi energía como un tesoro.",
+            "Tengo derecho a empezar de nuevo.",
+            "Mis límites protegen mi paz.",
+            "Me enfoco en lo posible y eso expande mi día.",
+            "Mi esperanza es práctica: hoy hago algo por mí."
+        ];
+
+        // AFIRMACIONES POR SIGNO (incluye las originales + nuevas)
+        const AFFIRMATIONS_BY_SIGN = {
+            "Aries": [
+                "Soy valiente y capaz de conquistar mis metas hoy.",
+                "Mi energía es contagiosa y atrae oportunidades.",
+                "Confío en mi instinto y actúo con decisión.",
+                "Soy un líder natural que inspira a otros.",
+                "Mi coraje me abre caminos imposibles.",
+                "Dirijo mi impulso con sabiduría y logro más.",
+                "Hoy elijo actuar con valentía y también con estrategia.",
+                "Mis límites son claros; mi corazón, firme.",
+                "Canalizo mi fuego en una sola meta y avanzo.",
+                "La paciencia potencia mi fuerza.",
+                "Convierto la presión en potencia creativa.",
+                "Mi iniciativa abre rutas para mí y para otros.",
+                "Hago pausas breves para decidir mejor.",
+                "Mi determinación es estable; mi mente, clara.",
+                "Hoy gano por constancia, no por prisa.",
+                "Transformo obstáculos en entrenamiento."
+            ],
+            "Tauro": [
+                "Soy estable, confiable y merezco abundancia.",
+                "Mi paciencia trae resultados duraderos.",
+                "Valoro mi trabajo y el universo lo reconoce.",
+                "Soy digno de comodidad y seguridad material.",
+                "Mi lealtad es mi mayor fortaleza.",
+                "Cuido mi ritmo y eso sostiene mis logros.",
+                "Hoy construyo con calma lo que deseo para siempre.",
+                "Pongo mi energía en lo que sí da fruto.",
+                "Mi constancia atrae estabilidad y oportunidades.",
+                "Disfruto sin culpa lo que he trabajado.",
+                "Mi cuerpo merece cuidado y placer consciente.",
+                "Suelto la terquedad cuando ya no me sirve.",
+                "La gratitud multiplica mi prosperidad.",
+                "Elijo calidad sobre cantidad en todo.",
+                "Mis decisiones son firmes y serenas.",
+                "Soy paciente con mis procesos y mis cambios."
+            ],
+            "Géminis": [
+                "Mi mente es brillante y mis palabras tienen poder.",
+                "Comunico con claridad y los demás me entienden.",
+                "Soy versátil y me adapto a cualquier desafío.",
+                "Mi curiosidad me lleva a descubrimientos valiosos.",
+                "Soy ingenioso y encuentro soluciones creativas.",
+                "Hoy ordeno mis ideas y las convierto en acción.",
+                "Escucho con atención antes de responder.",
+                "Mi curiosidad se vuelve foco cuando decido una prioridad.",
+                "Digo lo que siento con tacto y verdad.",
+                "Mi mente aprende rápido y también descansa.",
+                "Conecto personas e ideas con facilidad.",
+                "Elijo una conversación clave y la llevo con calma.",
+                "Mi humor me salva: lo uso con respeto.",
+                "Puedo cerrar pestañas mentales y respirar.",
+                "Mi flexibilidad es mi ventaja, no mi dispersión.",
+                "Transformo información en sabiduría práctica."
+            ],
+            "Cáncer": [
+                "Soy intuitivo y confío en mis sentimientos.",
+                "Mi empatía me hace especial y necesario.",
+                "Protejo a los que amo con todo mi corazón.",
+                "Mis emociones son mi brújula hacia la verdad.",
+                "Soy sensible pero también increíblemente fuerte.",
+                "Hoy me cuido sin aislarme del mundo.",
+                "Puedo sentir profundo y seguir avanzando.",
+                "Mi hogar interior es mi lugar seguro.",
+                "Expreso lo que necesito sin miedo a incomodar.",
+                "La ternura también pone límites.",
+                "Mi intuición ve lo que la lógica ignora.",
+                "Suelto culpas antiguas y recupero energía.",
+                "Elijo compañía nutritiva, no obligación.",
+                "Me permito pedir apoyo y recibirlo.",
+                "Honro mi historia sin quedarme atrapado en ella.",
+                "Mi sensibilidad guía mi fortaleza."
+            ],
+            "Leo": [
+                "Brillo con luz propia y merezco admiración.",
+                "Soy generoso y mi amor transforma el mundo.",
+                "Mi creatividad no tiene límites.",
+                "Soy un líder carismático que inspira confianza.",
+                "Mi presencia es magnética y atrae lo mejor.",
+                "Hoy brillo sin competir; inspiro desde mi autenticidad.",
+                "Mi orgullo se vuelve noble cuando escucho.",
+                "Uso mi voz para elevar, no para imponerse.",
+                "La alegría es mi medicina y también mi aporte.",
+                "Mi creatividad encuentra un escenario correcto.",
+                "Reconozco a otros y eso amplía mi reino.",
+                "Mi corazón es grande y mi paciencia también.",
+                "Me muestro con valentía, sin máscaras.",
+                "Celebro avances pequeños: eso sostiene el fuego.",
+                "Elijo coherencia entre lo que digo y hago.",
+                "Mi liderazgo nace del cuidado y la visión."
+            ],
+            "Virgo": [
+                "Soy perfeccionista pero también compasivo.",
+                "Mi atención al detalle trae excelencia.",
+                "Soy práctico y mis soluciones funcionan.",
+                "Mi servicio a otros es mi mayor propósito.",
+                "Soy inteligente y mis análisis son valiosos.",
+                "Hoy suelto la autoexigencia innecesaria.",
+                "Mi orden interno crea paz en mi entorno.",
+                "Transformo preocupación en plan y acción.",
+                "Elijo progreso real, no perfección imposible.",
+                "Mi mirada crítica es un regalo cuando es amable.",
+                "Cuido mi cuerpo con hábitos simples y constantes.",
+                "Acepto errores como parte del aprendizaje.",
+                "Mi claridad organiza lo complejo.",
+                "Hago una cosa a la vez y la hago bien.",
+                "Mi disciplina es flexible, no rígida.",
+                "Me doy permiso de descansar sin culpa."
+            ],
+            "Libra": [
+                "Soy diplomático y encuentro armonía en todo.",
+                "Mi belleza interior brilla hacia afuera.",
+                "Soy justo y mis decisiones son sabias.",
+                "Atraigo relaciones equilibradas y amorosas.",
+                "Soy el equilibrio que el mundo necesita.",
+                "Hoy elijo claridad antes que complacer.",
+                "Puedo decir mi verdad con elegancia.",
+                "Mis acuerdos son sanos cuando mis límites son claros.",
+                "La paz no exige silencio: exige honestidad.",
+                "Decido sin culpas: mi intuición también cuenta.",
+                "Atraigo vínculos que respetan mi esencia.",
+                "Mi estética es expresión; mi ética es guía.",
+                "Elijo compañía que suma, no que drena.",
+                "Mi armonía empieza por mi orden interno.",
+                "Puedo cerrar ciclos con gratitud y firmeza.",
+                "Hoy el equilibrio se llama prioridad."
+            ],
+            "Escorpio": [
+                "Soy intenso y profundamente transformador.",
+                "Mi poder viene de mi verdadera esencia.",
+                "Soy leal y protejo a los que amo.",
+                "Mi misterio es mi fortaleza.",
+                "Soy resiliente y renazco más fuerte.",
+                "Hoy convierto la intensidad en claridad.",
+                "Suelto el control cuando el amor lo pide.",
+                "Mi verdad es profunda y la comunico con cuidado.",
+                "La confianza se construye: doy pasos reales.",
+                "Mi intuición detecta señales y también elige paz.",
+                "No todo merece mi energía: selecciono con sabiduría.",
+                "Perdono para liberarme, no para olvidar.",
+                "Mis límites protegen mi corazón.",
+                "Transmuto celos en presencia y compromiso.",
+                "Abrazo cambios radicales sin miedo al vacío.",
+                "Mi poder se vuelve luz cuando actúo con ética."
+            ],
+            "Sagitario": [
+                "Soy aventurero y el mundo es mi hogar.",
+                "Mi optimismo atrae bendiciones.",
+                "Soy buscador de verdad y la encuentro.",
+                "Mi libertad es sagrada y la protejo.",
+                "Soy expansivo y mis sueños son posibles.",
+                "Hoy pongo dirección a mi entusiasmo.",
+                "Mi verdad es honesta y también compasiva.",
+                "Elijo una meta grande y avanzo con constancia.",
+                "Mi curiosidad se vuelve aprendizaje y sentido.",
+                "Me permito disfrutar sin perder el rumbo.",
+                "La aventura también puede ser interior.",
+                "Mi fe se fortalece con acciones pequeñas.",
+                "Escucho antes de enseñar.",
+                "Mi alegría contagia y también acompaña.",
+                "Suelto la impulsividad y gano profundidad.",
+                "Mi visión amplia se concreta con un plan."
+            ],
+            "Capricornio": [
+                "Soy disciplinado y mis esfuerzos dan fruto.",
+                "Soy ambicioso pero también sabio.",
+                "Mi responsabilidad me hace confiable.",
+                "Construyo imperios que duran.",
+                "Soy realista y alcanzo mis objetivos.",
+                "Hoy mi disciplina incluye descanso.",
+                "Mis metas son claras y mis pasos, firmes.",
+                "Dejo de cargar solo: delego con inteligencia.",
+                "Mi paciencia construye futuro.",
+                "La estructura me sirve; no me encierra.",
+                "Mi esfuerzo merece reconocimiento y gratitud.",
+                "Elijo consistencia antes que perfeccionismo.",
+                "Mi autoridad nace de mi coherencia.",
+                "Me permito disfrutar lo logrado.",
+                "Aprendo a ser flexible sin perder dirección.",
+                "Soy estratega: elijo batallas que valen."
+            ],
+            "Acuario": [
+                "Soy innovador y visionario.",
+                "Mi independencia me hace libre.",
+                "Soy humanitario y cambio el mundo.",
+                "Mi originalidad es mi poder.",
+                "Pienso diferente y eso es mi genialidad.",
+                "Hoy convierto ideas en prototipos reales.",
+                "Mi diferencia es puente, no muro.",
+                "Elijo comunidad sin perder mi esencia.",
+                "Mi mente futurista también respeta el presente.",
+                "Me permito sentir: no todo es lógica.",
+                "Mi creatividad resuelve problemas humanos.",
+                "Cuestiono con respeto y argumento con claridad.",
+                "Mi libertad incluye responsabilidad afectiva.",
+                "Soy flexible: adapto sin traicionarme.",
+                "Mi visión se fortalece con acción cotidiana.",
+                "Hoy conecto con alguien clave y construyo alianza."
+            ],
+            "Piscis": [
+                "Soy empático y comprendo el alma humana.",
+                "Mi imaginación crea mundos hermosos.",
+                "Soy espiritual y conectado con lo infinito.",
+                "Mi compasión sana a otros y a mí mismo.",
+                "Soy artista de mi propia vida.",
+                "Hoy pongo límites amorosos para proteger mi energía.",
+                "Mi sensibilidad es guía, no carga.",
+                "Transformo emociones en arte y sentido.",
+                "Mi intuición me lleva a decisiones suaves y firmes.",
+                "Suelto fantasías que me quitan paz.",
+                "Elijo realidad con ternura.",
+                "Mi espiritualidad se expresa en acciones simples.",
+                "Me cuido primero para poder cuidar.",
+                "Mi creatividad me sostiene cuando el mundo aprieta.",
+                "Puedo decir no sin perder la bondad.",
+                "Hoy descanso y me renuevo: eso también es fe."
+            ]
+        };
+
+        // RESPUESTAS PREMIUM POR PREGUNTA (banco ampliado, cambia a diario)
+        const PREMIUM_ANSWERS_BY_QUESTION = [
+            [
+                "Hoy traerá sorpresas positivas. Mantén los ojos abiertos.",
+                "Una oportunidad pequeña abrirá una puerta grande si respondes con calma.",
+                "El día se ordena cuando eliges una sola prioridad y la sostienes.",
+                "⚠️ Advertencia: no te disperses en mil pendientes. ✅ Oportunidad: enfócate en una acción clave y verás avance.",
+                "Algo que parecía lento se acelera si pones un primer paso concreto.",
+                "Tu intuición te dará una señal clara: escucha el cuerpo, no solo la mente.",
+                "Un encuentro breve te deja una idea valiosa: anótala y úsala hoy mismo.",
+                "⚠️ Advertencia: evita reaccionar por orgullo. ✅ Oportunidad: respira, responde y ganas respeto.",
+                "La energía mejora cuando cierras un pendiente sencillo que vienes aplazando.",
+                "Hoy se favorecen los comienzos: inicia aunque sea en pequeño.",
+                "La suerte aparece cuando te mueves: una gestión activa trae respuesta.",
+                "⚠️ Advertencia: no prometas más de lo que puedes. ✅ Oportunidad: comprométete con lo real y sosténlo.",
+                "Un cambio de plan te beneficiará: sé flexible sin perder tu meta.",
+                "La claridad llega al final del día: confía en el proceso y no fuerces.",
+                "Tu mejor versión hoy es ser constante, no perfecto.",
+                "Recibirás una confirmación: lo que vienes construyendo tiene sentido."
+            ],
+            [
+                "El amor fluye con naturalidad. Abre tu corazón.",
+                "Hoy el amor se muestra en detalles: presencia, escucha y un gesto sencillo.",
+                "⚠️ Advertencia: evita suposiciones. ✅ Oportunidad: pregunta con calma y aclara con ternura.",
+                "La conexión mejora cuando bajas el ritmo y miras a los ojos.",
+                "Si estás soltero, una conversación casual puede volverse significativa.",
+                "Si estás en pareja, un acuerdo pequeño traerá paz y complicidad.",
+                "⚠️ Advertencia: no uses el silencio como castigo. ✅ Oportunidad: nombra lo que sientes sin atacar.",
+                "Hoy conviene reparar: una disculpa honesta vale más que una explicación larga.",
+                "Tu encanto está en la autenticidad: no actúes, sé.",
+                "El amor propio es la llave: cuando te tratas bien, eliges mejor.",
+                "Un límite claro fortalece el vínculo: decir no también es cuidar.",
+                "⚠️ Advertencia: no revivas un tema viejo sin propósito. ✅ Oportunidad: conversa para construir, no para ganar.",
+                "Hay ternura disponible: permítete recibirla sin desconfianza.",
+                "La atracción se enciende con humor y complicidad.",
+                "Hoy el amor pide paciencia: menos conclusiones, más observación.",
+                "Un mensaje o gesto a tiempo cambia el clima emocional del día."
+            ],
+            [
+                "Tu dedicación será reconocida. Continúa adelante.",
+                "Hoy el trabajo se ordena si priorizas lo urgente y lo importante por separado.",
+                "⚠️ Advertencia: evita el multitasking excesivo. ✅ Oportunidad: haz bloques de enfoque y ganarás tiempo.",
+                "Una conversación con alguien clave destraba un proceso.",
+                "Tu creatividad te distingue: propone una mejora concreta.",
+                "Si lideras, escucha primero: la gente coopera cuando se siente vista.",
+                "⚠️ Advertencia: no te sobrecargues por quedar bien. ✅ Oportunidad: negocia plazos y protege tu energía.",
+                "Hoy es buen día para cerrar pendientes: eso te dará libertad mental.",
+                "Una oportunidad aparece si te muestras disponible y claro.",
+                "Tu disciplina vence la duda: avanza aunque no sea perfecto.",
+                "⚠️ Advertencia: cuida el tono en mensajes. ✅ Oportunidad: escribe con claridad y evita malentendidos.",
+                "La productividad mejora con orden físico: limpia tu espacio y verás foco.",
+                "Una tarea repetitiva se vuelve fácil si la sistematizas.",
+                "Reconoce tu progreso: lo que haces sí suma.",
+                "Hoy se favorecen acuerdos: pide lo que necesitas con respeto.",
+                "Tu esfuerzo se nota: sostén el ritmo sin sacrificar tu bienestar."
+            ],
+            [
+                "Sí, es el momento correcto. Confía en tu instinto.",
+                "Tu decisión será mejor si te das 10 minutos de silencio antes de actuar.",
+                "⚠️ Advertencia: no decidas desde el enojo. ✅ Oportunidad: espera a la calma y verás la respuesta.",
+                "Compara dos opciones: elige la que te dé paz sostenida, no solo emoción.",
+                "La mejor decisión hoy es la más coherente con tus valores.",
+                "Si dudas, pregunta: la información correcta aclara el camino.",
+                "⚠️ Advertencia: evitar decidir también es decidir. ✅ Oportunidad: elige un paso mínimo y prueba.",
+                "Confía en tu experiencia: ya has superado situaciones parecidas.",
+                "Tu intuición apunta a lo simple: no compliques.",
+                "Hoy conviene decidir con criterio práctico: costo, tiempo y energía.",
+                "⚠️ Advertencia: no busques aprobación. ✅ Oportunidad: escucha opiniones, pero elige tú.",
+                "Tu decisión puede ser reversible: baja la presión y actúa.",
+                "La claridad llega cuando nombras tu miedo principal.",
+                "Elige el camino que te haga crecer, aunque asuste un poco.",
+                "Si tu cuerpo se tensa demasiado, revisa la opción.",
+                "Tu criterio está afinado: confía y avanza."
+            ],
+            [
+                "Definitivamente. Los astros te apoyan en este camino.",
+                "Sí, pero con un plan simple: paso corto, evaluación rápida, ajuste.",
+                "⚠️ Advertencia: no te lances sin medir recursos. ✅ Oportunidad: prepara lo básico y luego avanza.",
+                "El siguiente paso es una conversación pendiente: atrévete a tenerla.",
+                "Da el paso si lo haces por deseo auténtico, no por presión.",
+                "Hoy conviene avanzar, aunque sea con una versión 1.0.",
+                "⚠️ Advertencia: no esperes el momento perfecto. ✅ Oportunidad: empieza pequeño y mejora en el camino.",
+                "Si te sientes listo, es señal. Si sientes pánico total, prepara y luego ve.",
+                "El universo premia la acción consciente: muévete con intención.",
+                "Lo que te frena no es falta de capacidad, es exceso de duda.",
+                "⚠️ Advertencia: cuidado con la prisa ajena. ✅ Oportunidad: respeta tu ritmo y sostén tu meta.",
+                "Este paso requiere disciplina: hazlo y mantén constancia.",
+                "La puerta está abierta: cruza con calma.",
+                "Hoy es buen día para pedir apoyo y dar el paso acompañado.",
+                "Tu próximo paso te acerca a tu versión más libre.",
+                "Sí: lo que construyes merece continuidad."
+            ],
+            [
+                "Tu familia está protegida y amada. Todo está bien.",
+                "Hoy la familia necesita presencia más que soluciones.",
+                "⚠️ Advertencia: evita discutir por detalles. ✅ Oportunidad: prioriza el vínculo y el tono.",
+                "Un gesto de cuidado (llamada, mensaje, ayuda) ordena el ambiente.",
+                "Si hay tensión, escucha primero: baja la defensa y sube la comprensión.",
+                "Hoy conviene poner límites con respeto: claridad sin dureza.",
+                "⚠️ Advertencia: no cargues con todo. ✅ Oportunidad: reparte tareas y pide colaboración.",
+                "La calma llega si se acuerdan reglas simples y realistas.",
+                "Una conversación pendiente puede ser sanadora si la haces con ternura.",
+                "Honrar tu historia familiar no significa repetirla.",
+                "⚠️ Advertencia: no revivas viejos reproches. ✅ Oportunidad: habla de lo que necesitas hoy.",
+                "La familia se fortalece con rituales pequeños: comida, saludo, tiempo.",
+                "Hoy se favorece la reconciliación: un paso humilde vale mucho.",
+                "Si estás lejos, tu presencia puede ser un mensaje afectivo.",
+                "Tu sensibilidad detecta lo que falta: actúa sin dramatizar.",
+                "La unión crece cuando cada quien se siente respetado."
+            ],
+            [
+                "La fortuna te sonríe. Aprovecha las oportunidades.",
+                "Tu fortuna hoy está en una decisión inteligente y oportuna.",
+                "⚠️ Advertencia: no te confíes. ✅ Oportunidad: revisa detalles y aseguras el resultado.",
+                "La suerte aparece cuando te mueves: una llamada o mensaje abre camino.",
+                "Hoy es buen día para ahorrar algo, aunque sea poco: eso atrae estabilidad.",
+                "Un gesto generoso te devuelve algo valioso.",
+                "⚠️ Advertencia: evita gastos impulsivos. ✅ Oportunidad: compra solo lo que sostiene tu plan.",
+                "Tu fortuna está en tu constancia, no en lo instantáneo.",
+                "Se favorecen acuerdos: negocia con calma y gana.",
+                "Una coincidencia te guía: observa señales sin obsesionarte.",
+                "⚠️ Advertencia: no cuentes tus planes a cualquiera. ✅ Oportunidad: comparte solo con aliados reales.",
+                "La abundancia se activa con gratitud y acción.",
+                "Hoy tu suerte es mental: claridad para elegir lo mejor.",
+                "Una oportunidad llega por alguien cercano: responde con respeto.",
+                "La fortuna se multiplica cuando administras tu energía.",
+                "Tu día tiene buena vibra: actúa con confianza."
+            ],
+            [
+                "Tu creatividad y determinación. Úsalas sabiamente.",
+                "Tu fortaleza hoy es tu calma: responde, no reacciones.",
+                "Tu habilidad para organizar lo complejo te dará ventaja.",
+                "Tu valentía para decir la verdad con respeto te liberará.",
+                "⚠️ Advertencia: no subestimes tu poder. ✅ Oportunidad: confía y toma iniciativa.",
+                "Tu capacidad de aprender rápido te abre un atajo.",
+                "Tu empatía será una llave para resolver un conflicto.",
+                "Tu disciplina te sostiene: un hábito hoy te salva mañana.",
+                "Tu intuición está fina: úsala para elegir bien.",
+                "⚠️ Advertencia: no te desgastes intentando convencer. ✅ Oportunidad: muestra resultados y listo.",
+                "Tu paciencia te hace invencible en lo importante.",
+                "Tu humor te ayuda a desactivar tensión sin negar la realidad.",
+                "Tu capacidad de escucha te dará información clave.",
+                "Tu resiliencia: ya has superado mucho y lo sabes.",
+                "Tu creatividad práctica: ideas que se vuelven acciones.",
+                "Tu coherencia: haces lo que dices y eso pesa."
+            ],
+            [
+                "Lo que no te sirve. Libérate con amor.",
+                "Suelta la necesidad de controlar todo: te roba paz.",
+                "⚠️ Advertencia: aferrarte a lo viejo drena energía. ✅ Oportunidad: suelta y recuperas ligereza.",
+                "Suelta la comparación: tu proceso es único.",
+                "Deja ir el resentimiento: perdonar te libera a ti primero.",
+                "Suelta la prisa: no todo se resuelve hoy.",
+                "⚠️ Advertencia: no sostengas lo que te hiere por costumbre. ✅ Oportunidad: elige lo que te cuida.",
+                "Suelta una conversación que solo te desgasta; elige silencio sano.",
+                "Deja ir un hábito pequeño que te quita foco.",
+                "Suelta la culpa por descansar: tu energía también se cuida.",
+                "⚠️ Advertencia: no te castigues por un error. ✅ Oportunidad: aprende, ajusta y sigue.",
+                "Suelta el miedo a decepcionar: tu vida no es para complacer.",
+                "Deja ir la idea de que debes hacerlo todo solo.",
+                "Suelta el pasado cuando aparezca: vuelve al presente.",
+                "Suelta expectativas rígidas y abre espacio a lo inesperado.",
+                "Libérate de la duda repetitiva: decide y avanza."
+            ],
+            [
+                "Servir a otros y crecer espiritualmente. Ese es tu camino.",
+                "Tu propósito hoy es simple: hacer lo correcto aunque nadie aplauda.",
+                "Tu propósito se revela en lo que te da paz y sentido a la vez.",
+                "⚠️ Advertencia: no busques un propósito perfecto. ✅ Oportunidad: vive el propósito en acciones pequeñas.",
+                "Hoy tu propósito es aprender una lección y aplicarla con humildad.",
+                "Tu propósito incluye cuidarte: no puedes dar desde el vacío.",
+                "Tu propósito se activa cuando eliges coherencia sobre apariencia.",
+                "⚠️ Advertencia: evitar tu llamado te inquieta. ✅ Oportunidad: da un paso mínimo hacia eso que te mueve.",
+                "Tu propósito hoy es construir: hábito, relación o proyecto con sentido.",
+                "Tu propósito también es disfrutar: la vida no es solo tarea.",
+                "Hoy tu propósito es decir la verdad con amor.",
+                "Tu propósito se fortalece cuando ayudas sin salvar.",
+                "⚠️ Advertencia: no confundas aprobación con propósito. ✅ Oportunidad: busca significado, no likes.",
+                "Tu propósito es crear algo que permanezca: una idea, un cuidado, una obra.",
+                "Hoy tu propósito es elegir paz y sostenerla.",
+                "Tu propósito es ser puente: entre personas, ideas y caminos."
+            ]
+        ];
+
+        // UTILIDADES: semilla diaria determinista (sin dependencias)
+        function localISODate(d = new Date()) {
+            const y = d.getFullYear();
+            const m = String(d.getMonth() + 1).padStart(2, '0');
+            const day = String(d.getDate()).padStart(2, '0');
+            return `${y}-${m}-${day}`;
+        }
+
+        function hash32(str) {
+            let h = 2166136261;
+            for (let i = 0; i < str.length; i++) {
+                h ^= str.charCodeAt(i);
+                h = Math.imul(h, 16777619);
+            }
+            return (h >>> 0);
+        }
+
+        function mulberry32(a) {
+            return function() {
+                let t = a += 0x6D2B79F5;
+                t = Math.imul(t ^ (t >>> 15), t | 1);
+                t ^= t + Math.imul(t ^ (t >>> 7), t | 61);
+                return (((t ^ (t >>> 14)) >>> 0) / 4294967296);
+            };
+        }
+
+        function pickDailyItems(list, count, seedStr) {
+            if (!Array.isArray(list) || list.length === 0) return [];
+            const seed = hash32(String(seedStr));
+            const rand = mulberry32(seed);
+            const idx = Array.from({ length: list.length }, (_, i) => i);
+            for (let i = idx.length - 1; i > 0; i--) {
+                const j = Math.floor(rand() * (i + 1));
+                [idx[i], idx[j]] = [idx[j], idx[i]];
+            }
+            const n = Math.min(count, list.length);
+            return idx.slice(0, n).map(i => list[i]);
+        }
+
+        function escJS(str) {
+            return String(str)
+                .replace(/\\/g, '\\\\')
+                .replace(/'/g, "\\'")
+                .replace(/\n/g, '\\n')
+                .replace(/\r/g, '');
+        }
+
+        // SEMILLA PERSONAL (offline, por instalación): hace único el Consejo/Arcano por usuario
+        const PERSONAL_SEED_KEY = 'astraPersonalSeed_v1';
+        function generatePersonalSeed() {
+            try {
+                const bytes = new Uint8Array(16);
+                if (window.crypto && window.crypto.getRandomValues) {
+                    window.crypto.getRandomValues(bytes);
+                } else {
+                    for (let i = 0; i < bytes.length; i++) bytes[i] = Math.floor(Math.random() * 256);
+                }
+                return Array.from(bytes).map(b => b.toString(16).padStart(2, '0')).join('');
+            } catch (e) {
+                return String(Math.random()).slice(2) + String(Date.now());
+            }
+        }
+        function getPersonalSeed() {
+            let seed = null;
+            try { seed = localStorage.getItem(PERSONAL_SEED_KEY); } catch(e) { seed = null; }
+            if (!seed) {
+                seed = generatePersonalSeed();
+                try { localStorage.setItem(PERSONAL_SEED_KEY, seed); } catch(e) {}
+            }
+            return seed || 'seed';
+        }
+
+
+        const SEMANTIC_ADVICE_BASE = {
+            actions: ['Toma la iniciativa en un proyecto que has estado posponiendo. La acción es el primer paso hacia el cambio que deseas.', 'Es momento de comunicar lo que has estado guardando. Tu voz tiene poder y merece ser escuchada.', 'Atrévete a soñar en grande hoy. Los sueños audaces son los que transforman vidas.', 'Busca una conversación importante con alguien cercano. La honestidad abre puertas que el silencio mantiene cerradas.', 'Dedica tiempo a reflexionar sobre tus metas reales. La claridad es el primer paso hacia la acción.', 'Actúa con confianza en tus decisiones. Tu intuición te guía hacia donde necesitas estar.', 'Expresa tu creatividad sin miedo al qué dirán. El mundo necesita tu perspectiva única.', 'Conecta con personas que comparten tus valores. Las alianzas correctas multiplican tu poder.', 'Invierte en tu crecimiento personal hoy. El mejor regalo que puedes hacerte es mejorar.', 'Sé valiente y sal de tu zona de confort. El crecimiento siempre vive en los bordes.', 'Crea algo nuevo hoy, aunque sea pequeño. Cada creación es un acto de poder.', 'Tu voz merece ser escuchada. No minimices tu mensaje por miedo al rechazo.', 'Toma el primer paso hacia tu sueño. Los viajes más largos comienzan con un solo paso.', 'Confía en tu capacidad de crear cambio. Eres más poderoso de lo que crees.', 'Hoy es el día para nuevos comienzos. El universo te invita a reinventarte.', 'Tu potencial está esperando ser liberado. No dejes que el miedo sea tu carcelero.', 'Actúa como si ya hubieras triunfado. La confianza atrae el éxito hacia ti.', 'La vida recompensa a los valientes. Tu coraje es tu mayor activo.', 'Mueve montañas con tu determinación. Nada es imposible para quien se atreve.', 'Crea el cambio que quieres ver. Tu acción hoy es tu voto para el mañana.'],
+            warnings: ['Evita tomar decisiones impulsivas. La pausa es más sabia que la prisa.', 'Presta atención a lo que sientes en tu cuerpo. Tu cuerpo habla verdades que tu mente ignora.', 'Cuidado con la sobreexigencia. Descansar es un acto de poder, no de debilidad.', 'No dejes que el miedo controle tus acciones. El miedo es un consejero, no un dictador.', 'Evita conflictos innecesarios hoy. La paz es más valiosa que tener la razón.', 'No descuides tu bienestar emocional. Tu salud mental es tu riqueza verdadera.', 'Cuidado con las promesas que no puedas cumplir. Tu palabra es tu honor.', 'No te compares con otros. Su viaje no es tu viaje.', 'Evita la procrastinación en decisiones importantes. El tiempo es tu aliado solo si lo usas.', 'No ignores lo que tu intuición te dice. Tu instinto es tu brújula invisible.', 'Reflexiona antes de hablar. Las palabras no se pueden recoger una vez lanzadas.', 'La prisa trae errores. La paciencia trae precisión.', 'Protege tu energía de negatividad. Tu vibración es tu responsabilidad.', 'No compartas secretos hoy. Algunos tesoros deben guardarse en el cofre del silencio.', 'Sé selectivo con tus palabras. No todas las verdades necesitan ser dichas.', 'Mantén tus límites personales. Decir no es un acto de amor propio.', 'La cautela es sabiduría. No confundas prudencia con cobardía.', 'Observa más, habla menos. La información es poder.', 'Tu intuición te advierte de algo. Escucha el susurro antes de que se convierta en grito.', 'No ignores las señales de alerta. El universo te está protegiendo.'],
+            focus: ['Tu energía está enfocada en relaciones. Cultiva las conexiones que nutren tu alma.', 'El trabajo requiere tu atención especial. Tu dedicación hoy trae recompensas mañana.', 'Tu corazón busca sanación emocional. Permítete sentir para poder sanar.', 'La creatividad es tu mayor fortaleza ahora. Deja que fluya sin juzgarla.', 'Tu intuición es tu mejor brújula. Confía en lo que sientes más que en lo que ves.', 'La comunicación es clave en todo. Habla desde el corazón y escucha con el alma.', 'Tu crecimiento personal está en primer plano. Invierte en ti como lo harías con alguien amado.', 'La familia necesita tu presencia. Tu amor es su mayor riqueza.', 'Tu salud es prioridad hoy. Cuida tu cuerpo como el templo que es.', 'La abundancia está llegando a ti. Abre tus manos para recibirla.', 'Enfócate en lo que realmente importa. Lo demás es ruido.', 'Tu mente está clara para decidir. Confía en tu claridad.', 'La claridad es tu mejor herramienta. Úsala para cortar lo innecesario.', 'Tu propósito te guía. Sigue la brújula de tu alma.', 'Concentra tu poder en una dirección. La dispersión es la muerte del poder.', 'Lo que enfocas, crece. Elige bien dónde pones tu atención.', 'Tu objetivo está más cerca. Persevera un poco más.', 'La precisión trae resultados. Sé específico en tus intenciones.', 'Mira hacia adelante con esperanza. El futuro es tuyo para crear.', 'Tu visión es tu brújula. No pierdas de vista el destino.'],
+            wisdom: ['Todo lo que sube baja, pero también puede volver a subir. Los ciclos son la naturaleza de la vida.', 'El cambio es lo único constante en la vida. Abraza la transformación como tu aliada.', 'Tu mayor poder está en aceptar lo que no puedes cambiar. La paz viene de la aceptación.', 'La verdadera fuerza viene de la vulnerabilidad. Mostrar tu verdad es un acto de poder.', 'Lo que resistes tiende a persistir. La aceptación es el camino hacia la liberación.', 'Tu pasado no define quién eres hoy. Cada día es una oportunidad para reinventarte.', 'La gratitud abre puertas a la abundancia. Agradece lo que tienes y recibirás más.', 'El perdón es el mejor regalo que te haces. Libérate del peso del resentimiento.', 'Tu intuición nunca te engaña. Es la voz de tu verdadera sabiduría.', 'Lo que das es lo que recibes. El universo responde a tu generosidad.', 'La sabiduría viene de las experiencias difíciles. Cada dolor es un maestro.', 'Cada lección es un regalo disfrazado. Busca el aprendizaje en cada desafío.', 'La vida es tu mejor maestra. Aprende de todo lo que te sucede.', 'Tu experiencia es tu mayor activo. Úsala para crecer y ayudar a otros.', 'El conocimiento es poder. Nunca dejes de aprender.', 'La reflexión trae claridad. Tómate tiempo para pensar profundamente.', 'La madurez es aceptar lo que no puedes cambiar. La sabiduría es saber la diferencia.', 'Tu perspectiva es única y valiosa. El mundo necesita tu visión.', 'La vida fluye cuando sueltas el control. Confía en el proceso.', 'La verdadera riqueza está en el aprendizaje. Invierte en tu crecimiento.'],
+            emotional: ['Tu corazón necesita ser escuchado hoy. Deja que tus emociones fluyan sin resistencia.', 'Las emociones que sientes son completamente válidas. No necesitas justificarlas.', 'Tu vulnerabilidad es tu verdadera fortaleza. Mostrar tu corazón es un acto de coraje.', 'Permite que las lágrimas fluyan si es necesario. El llanto es la medicina del alma.', 'Tu amor es un regalo valioso para el mundo. No lo retengas por miedo.', 'La compasión comienza contigo mismo. Sé tan amable contigo como lo serías con un amigo.', 'Tus sentimientos merecen ser honrados. No los minimices ni los ignores.', 'La alegría está más cerca de lo que crees. Busca los pequeños momentos de felicidad.', 'Tu corazón sabe el camino correcto. Escúchalo por encima de todo lo demás.', 'Las emociones son mensajes importantes. Pregúntate qué te están enseñando.', 'Tu sensibilidad es tu superpoder. Te permite conectar profundamente con otros.', 'Siéntete sin culpa, eres humano. Las emociones son parte de ser vivo.', 'La empatía te hace especial. Tu capacidad para sentir con otros es un don.', 'Tu corazón es más fuerte de lo que crees. Ha sobrevivido a todo hasta ahora.', 'Honra tus sentimientos sin juzgarte. La aceptación es el primer paso hacia la paz.', 'La ternura es fortaleza. La gentileza es poder.', 'Tu amor es transformador. Cambia el mundo de quienes lo reciben.', 'Las emociones fluyen, no las retengas. Permítete sentir plenamente.', 'Tu compasión cambia el mundo. Sigue siendo el corazón que eres.', 'Siente profundamente, vive plenamente. La vida es para ser experimentada, no solo vivida.'],
+            hope: ['Lo mejor está por venir para ti. Prepárate para recibir bendiciones.', 'Tus sueños son mucho más posibles de lo que crees. El universo está conspirando a tu favor.', 'La vida tiene planes hermosos para ti. Confía en el proceso.', 'Tu historia está lejos de terminar. Los mejores capítulos aún están por escribirse.', 'La luz siempre vence la oscuridad. Tu luz es más fuerte de lo que sabes.', 'Cada final trae un nuevo comienzo. Lo que termina hace espacio para lo nuevo.', 'Tu capacidad de resilencia es inspiradora. Has superado todo lo que se te ha presentado.', 'Los milagros suceden más de lo que crees. Mantén los ojos abiertos.', 'Tu fe es tu mayor fortaleza. Confía en lo que no puedes ver.', 'La esperanza es tu mejor compañera. Nunca la abandones.', 'Brilla con la luz que llevas dentro. El mundo te necesita radiante.', 'Tu futuro es brillante y prometedor. Estás en el camino correcto.', 'Cree en ti, el universo cree en ti. Tu fe es tu poder.', 'La magia existe para quienes la buscan. Abre tu corazón a lo extraordinario.', 'Tu potencial es infinito. No hay límites para lo que puedes lograr.', 'Lo imposible es solo el comienzo. Atrévete a soñar más grande.', 'Tus sueños merecen ser vividos. No son fantasías, son tu destino.', 'La vida te sorprenderá gratamente. Mantén la esperanza encendida.', 'Tu destino es extraordinario. Estás aquí por una razón.', 'La esperanza es tu verdad. Vive como si ya hubieras ganado.']
+        };
+
+        const CHINESE_ANIMALS = [
+            { animal: 'Rata', desc: 'Inteligente, adaptable y sociable. Observador agudo con capacidad para ver detalles. Ingenioso y rápido. Prospera en ambientes urbanos. Leal con su círculo cercano. Ambicioso y determinado.' },
+            { animal: 'Buey', desc: 'Fuerte, confiable y trabajador incansable. Paciente y determinado, nunca se rinde. Leal y honesto. Construye su vida sobre bases sólidas. Inspira confianza. Lento pero seguro.' },
+            { animal: 'Tigre', desc: 'Valiente, apasionado e impulsivo. Carismático y aventurero. Protector natural. Independiente y rebelde. Magnetismo natural. Vive intensamente cada momento.' },
+            { animal: 'Conejo', desc: 'Gentil, sensible y artístico. Diplomático y amable, evita conflictos. Intuitivo y perceptivo. Valora la paz y la armonía. Creativo y soñador. Busca seguridad emocional.' },
+            { animal: 'Dragón', desc: 'Poderoso, carismático y ambicioso. Afortunado en la vida. Generoso y magnánimo. Inspirador natural. Legendario en su presencia. Transforma todo lo que toca.' },
+            { animal: 'Serpiente', desc: 'Sabio, misterioso y reflexivo. Intuitivo y profundo. Elegante y sofisticado. Observador silencioso. Transformación constante. Magnetismo enigmático.' },
+            { animal: 'Caballo', desc: 'Energético, libre y aventurero. Apasionado y entusiasta. Sociable y amigable. Ama la libertad. Dinámico y optimista. Viajero del alma.' },
+            { animal: 'Cabra', desc: 'Creativo, sensible y artístico. Gentil y compasivo. Imaginativo y soñador. Busca belleza en todo. Vulnerable pero resiliente. Alma sensible.' },
+            { animal: 'Mono', desc: 'Inteligente, travieso e ingenioso. Divertido y sociable. Rápido de mente y adaptable. Juguetón y bromista. Versátil en múltiples talentos. Energía contagiosa.' },
+            { animal: 'Gallo', desc: 'Honesto, directo y confiado. Trabajador y dedicado. Leal a sus principios. Despierta a otros con su voz. Vigilante natural. Orgulloso de sus logros.' },
+            { animal: 'Perro', desc: 'Leal, honesto y protector. Confiable y devoto. Amigable y accesible. Defiende a los débiles. Compañero incondicional. Fidelidad inquebrantable.' },
+            { animal: 'Cerdo', desc: 'Generoso, compasivo y sincero. Diligente y honesto. Amable y tolerante. Disfruta de los placeres simples. Buen corazón. Bondad genuina.' }
+        ];
+
+        const LIFEPATH_DATA = {
+            1: 'Líder natural, innovador, independiente. Tu camino es crear y liderar.',
+            2: 'Diplomático, mediador, cooperativo. Tu camino es traer armonía.',
+            3: 'Creativo, expresivo, comunicativo. Tu camino es inspirar a otros.',
+            4: 'Trabajador, práctico, estable. Tu camino es construir bases sólidas.',
+            5: 'Aventurero, versátil, curioso. Tu camino es explorar y cambiar.',
+            6: 'Responsable, cuidador, amoroso. Tu camino es servir y sanar.',
+            7: 'Buscador, analítico, espiritual. Tu camino es buscar la verdad.',
+            8: 'Ambicioso, ejecutivo, poderoso. Tu camino es manifestar abundancia.',
+            9: 'Humanitario, compasivo, universal. Tu camino es servir a la humanidad.'
+        };
+
+        const COMPATIBILITY_MATRIX = {
+            'Aries': { 'Aries': 75, 'Tauro': 65, 'Géminis': 80, 'Cáncer': 60, 'Leo': 85, 'Virgo': 70, 'Libra': 75, 'Escorpio': 70, 'Sagitario': 90, 'Capricornio': 65, 'Acuario': 80, 'Piscis': 65 },
+            'Tauro': { 'Aries': 65, 'Tauro': 80, 'Géminis': 60, 'Cáncer': 85, 'Leo': 70, 'Virgo': 85, 'Libra': 75, 'Escorpio': 80, 'Sagitario': 60, 'Capricornio': 85, 'Acuario': 60, 'Piscis': 80 },
+            'Géminis': { 'Aries': 80, 'Tauro': 60, 'Géminis': 75, 'Cáncer': 65, 'Leo': 80, 'Virgo': 80, 'Libra': 90, 'Escorpio': 65, 'Sagitario': 75, 'Capricornio': 70, 'Acuario': 85, 'Piscis': 70 },
+            'Cáncer': { 'Aries': 60, 'Tauro': 85, 'Géminis': 65, 'Cáncer': 80, 'Leo': 70, 'Virgo': 80, 'Libra': 70, 'Escorpio': 90, 'Sagitario': 65, 'Capricornio': 75, 'Acuario': 65, 'Piscis': 85 },
+            'Leo': { 'Aries': 85, 'Tauro': 70, 'Géminis': 80, 'Cáncer': 70, 'Leo': 80, 'Virgo': 75, 'Libra': 85, 'Escorpio': 70, 'Sagitario': 90, 'Capricornio': 70, 'Acuario': 75, 'Piscis': 70 },
+            'Virgo': { 'Aries': 70, 'Tauro': 85, 'Géminis': 80, 'Cáncer': 80, 'Leo': 75, 'Virgo': 80, 'Libra': 75, 'Escorpio': 80, 'Sagitario': 70, 'Capricornio': 85, 'Acuario': 75, 'Piscis': 80 },
+            'Libra': { 'Aries': 75, 'Tauro': 75, 'Géminis': 90, 'Cáncer': 70, 'Leo': 85, 'Virgo': 75, 'Libra': 80, 'Escorpio': 70, 'Sagitario': 80, 'Capricornio': 70, 'Acuario': 85, 'Piscis': 75 },
+            'Escorpio': { 'Aries': 70, 'Tauro': 80, 'Géminis': 65, 'Cáncer': 90, 'Leo': 70, 'Virgo': 80, 'Libra': 70, 'Escorpio': 85, 'Sagitario': 70, 'Capricornio': 80, 'Acuario': 65, 'Piscis': 90 },
+            'Sagitario': { 'Aries': 90, 'Tauro': 60, 'Géminis': 75, 'Cáncer': 65, 'Leo': 90, 'Virgo': 70, 'Libra': 80, 'Escorpio': 70, 'Sagitario': 80, 'Capricornio': 65, 'Acuario': 85, 'Piscis': 70 },
+            'Capricornio': { 'Aries': 65, 'Tauro': 85, 'Géminis': 70, 'Cáncer': 75, 'Leo': 70, 'Virgo': 85, 'Libra': 70, 'Escorpio': 80, 'Sagitario': 65, 'Capricornio': 80, 'Acuario': 70, 'Piscis': 75 },
+            'Acuario': { 'Aries': 80, 'Tauro': 60, 'Géminis': 85, 'Cáncer': 65, 'Leo': 75, 'Virgo': 75, 'Libra': 85, 'Escorpio': 65, 'Sagitario': 85, 'Capricornio': 70, 'Acuario': 80, 'Piscis': 70 },
+            'Piscis': { 'Aries': 65, 'Tauro': 80, 'Géminis': 70, 'Cáncer': 85, 'Leo': 70, 'Virgo': 80, 'Libra': 75, 'Escorpio': 90, 'Sagitario': 70, 'Capricornio': 75, 'Acuario': 70, 'Piscis': 85 }
+        };
+
+        // ============ FUNCIONES PRINCIPALES ============
+        let currentUser = null;
+        let readingHistory = [];
+        let favoriteAffirmations = [];
+        let notificationEnabled = false;
+
+        function init() {
+            const saved = localStorage.getItem('astraUser_v7_5');
+            const savedHistory = localStorage.getItem('astraHistory_v16');
+            const savedFavorites = localStorage.getItem('astraFavorites_v16');
+            const savedNotify = localStorage.getItem('astraNotify_v16');
+            
+            if(saved) {
+                currentUser = JSON.parse(saved);
+                readingHistory = savedHistory ? JSON.parse(savedHistory) : [];
+                favoriteAffirmations = savedFavorites ? JSON.parse(savedFavorites) : [];
+                notificationEnabled = savedNotify ? JSON.parse(savedNotify).enabled : false;
+                
+                document.getElementById('onboarding').classList.add('hidden');
+                document.getElementById('fast-login').classList.remove('hidden');
+                document.getElementById('wb-name').innerText = `Bienvenido, ${currentUser.name}`;
+                
+                if(savedNotify) {
+                    const notifyData = JSON.parse(savedNotify);
+                    document.getElementById('notificationTime').value = notifyData.time || '08:00';
+                }
+            } else {
+                document.getElementById('onboarding').classList.remove('hidden');
+                document.getElementById('fast-login').classList.add('hidden');
+            }
+        }
+
+        function createProfile() {
+            const name = document.getElementById('username').value.trim();
+            const birthdate = document.getElementById('birthdate').value;
+            const birthtime = document.getElementById('birthtime').value;
+            const country = document.getElementById('country').value;
+
+            if(!name || !birthdate) {
+                alert('Por favor completa nombre y fecha de nacimiento');
+                return;
+            }
+
+            const date = new Date(birthdate);
+            const sunSign = getSunSign(date);
+            const ascendantSign = getAscendant(date, birthtime);
+            const lifePath = getLifePath(date);
+            const chineseInfo = getChineseAnimal(date);
+
+            currentUser = { name, birthdate, birthtime, country, sunSign, ascendantSign, lifePath, chineseInfo };
+            localStorage.setItem('astraUser_v7_5', JSON.stringify(currentUser));
+
+            document.getElementById('onboarding').classList.add('hidden');
+            document.getElementById('fast-login').classList.remove('hidden');
+            document.getElementById('wb-name').innerText = `Bienvenido, ${name}`;
+        }
+
+        function getSunSign(date) {
+            const month = date.getMonth() + 1;
+            const day = date.getDate();
+            let sign = ZODIAC_SIGNS[0];
+            if((month === 3 && day >= 21) || (month === 4 && day <= 19)) sign = ZODIAC_SIGNS[0];
+            else if((month === 4 && day >= 20) || (month === 5 && day <= 20)) sign = ZODIAC_SIGNS[1];
+            else if((month === 5 && day >= 21) || (month === 6 && day <= 20)) sign = ZODIAC_SIGNS[2];
+            else if((month === 6 && day >= 21) || (month === 7 && day <= 22)) sign = ZODIAC_SIGNS[3];
+            else if((month === 7 && day >= 23) || (month === 8 && day <= 22)) sign = ZODIAC_SIGNS[4];
+            else if((month === 8 && day >= 23) || (month === 9 && day <= 22)) sign = ZODIAC_SIGNS[5];
+            else if((month === 9 && day >= 23) || (month === 10 && day <= 22)) sign = ZODIAC_SIGNS[6];
+            else if((month === 10 && day >= 23) || (month === 11 && day <= 21)) sign = ZODIAC_SIGNS[7];
+            else if((month === 11 && day >= 22) || (month === 12 && day <= 21)) sign = ZODIAC_SIGNS[8];
+            else if((month === 12 && day >= 22) || (month === 1 && day <= 19)) sign = ZODIAC_SIGNS[9];
+            else if((month === 1 && day >= 20) || (month === 2 && day <= 18)) sign = ZODIAC_SIGNS[10];
+            else if((month === 2 && day >= 19) || (month === 3 && day <= 20)) sign = ZODIAC_SIGNS[11];
+            return sign;
+        }
+
+        function getAscendant(date, time) {
+            if(!time) return null;
+            const [hours, minutes] = time.split(':').map(Number);
+            const totalMinutes = hours * 60 + minutes;
+            const ascendantIndex = Math.floor((totalMinutes / 1440) * 12) % 12;
+            return ZODIAC_SIGNS[ascendantIndex];
+        }
+
+        function getLifePath(date) {
+            const d = date.getDate();
+            const m = date.getMonth() + 1;
+            const y = date.getFullYear();
+            let sum = d + m + y;
+            while(sum > 9) sum = Math.floor(sum / 10) + (sum % 10);
+            return sum;
+        }
+
+        function getChineseAnimal(date) {
+            const year = date.getFullYear();
+            const animalIndex = (year - 1900) % 12;
+            return CHINESE_ANIMALS[animalIndex];
+        }
+
+        function getMoonPhase(date) {
+            const phases = ['🌑 Luna Nueva', '🌒 Luna Creciente', '🌓 Cuarto Creciente', '🌔 Luna Gibosa', '🌕 Luna Llena', '🌖 Luna Gibosa Menguante', '🌗 Cuarto Menguante', '🌘 Luna Menguante'];
+            const dayOfYear = Math.floor((date - new Date(date.getFullYear(), 0, 0)) / 86400000);
+            return phases[dayOfYear % 8];
+        }
+
+        function generateDynamicAdvice(signIndex, dayOffset) {
+            const categories = Object.keys(SEMANTIC_ADVICE_BASE);
+            const categoryIndex = (signIndex + dayOffset) % categories.length;
+            const category = categories[categoryIndex];
+            const advices = SEMANTIC_ADVICE_BASE[category];
+            const adviceIndex = (signIndex * 7 + dayOffset) % advices.length;
+            return advices[adviceIndex];
+        }
+
+        
+        function getOracle(signIndex, date) {
+            const sign = (ZODIAC_SIGNS && ZODIAC_SIGNS[signIndex]) ? ZODIAC_SIGNS[signIndex] : ZODIAC_SIGNS[0];
+            const element = sign && sign.element ? sign.element : '';
+            const dayOfYear = Math.floor((date - new Date(date.getFullYear(), 0, 0)) / 86400000);
+
+            // Semilla única por usuario (instalación) + día local + signo => resultados personales y estables por día
+            const dateKey = localISODate(date);
+            const personalSeed = getPersonalSeed();
+            const baseSeed = `${dateKey}|${sign.name}|${signIndex}|${personalSeed}|ORACLE`;
+
+            const rand = mulberry32(hash32(baseSeed));
+
+            // Tarot: pool por elemento (acorde al signo) + selección diaria personal
+            const pool = (ARCANA_POOL_BY_ELEMENT[element] && ARCANA_POOL_BY_ELEMENT[element].length)
+                ? ARCANA_POOL_BY_ELEMENT[element]
+                : Array.from({ length: TAROT_DECK.length }, (_, i) => i);
+
+            const tarotIndex = pool[Math.floor(rand() * pool.length)];
+            const tarot = TAROT_DECK[tarotIndex] || TAROT_DECK[dayOfYear % TAROT_DECK.length];
+
+            // Color y número: se mantienen por signo (no rompe la lógica previa)
+            const colors = ['Oro', 'Plata', 'Rojo', 'Azul', 'Verde', 'Púrpura', 'Rosa', 'Blanco'];
+            const color = colors[signIndex % colors.length];
+            const numbers = [1, 3, 5, 7, 9, 11, 13, 15, 17, 19, 21, 23, 25, 27, 29];
+            const number = numbers[signIndex % numbers.length];
+
+            // Consejo: sesgo por elemento + selección diaria personal
+            const categories = Object.keys(SEMANTIC_ADVICE_BASE);
+            const catPool = (ADVICE_CATEGORIES_BY_ELEMENT[element] && ADVICE_CATEGORIES_BY_ELEMENT[element].length)
+                ? ADVICE_CATEGORIES_BY_ELEMENT[element]
+                : categories;
+
+            const category = catPool[Math.floor(rand() * catPool.length)] || categories[0];
+            const advices = SEMANTIC_ADVICE_BASE[category] || SEMANTIC_ADVICE_BASE[categories[0]] || [];
+            let text = advices[Math.floor(rand() * advices.length)];
+
+            // Fallback ultra-seguro (no debería activarse)
+            if (!text) text = generateDynamicAdvice(signIndex, dayOfYear % 20);
+
+            return { text, color, number, tarot };
+        }
+
+        function loadDashboard() {
+            document.getElementById('fast-login').classList.add('hidden');
+            document.getElementById('dashboard').classList.remove('hidden');
+
+            const sign = currentUser.sunSign;
+            document.getElementById('signIcon').innerText = sign.icon;
+            document.getElementById('signName').innerText = sign.name;
+            document.getElementById('signDesc').innerText = sign.traits.substring(0, 60) + '...';
+
+            const today = new Date();
+            const moonPhase = getMoonPhase(today);
+            document.getElementById('moonIcon').innerText = moonPhase.split(' ')[0];
+            document.getElementById('moonPhase').innerText = moonPhase;
+
+            const oracle = getOracle(sign.index, today);
+            document.getElementById('dailyAdvice').innerText = `"${oracle.text}"`;
+            document.getElementById('luckyColor').innerText = oracle.color;
+            document.getElementById('luckyNumber').innerText = oracle.number;
+            document.getElementById('tarotIcon').innerText = oracle.tarot.icon;
+            document.getElementById('tarotName').innerText = oracle.tarot.name;
+            document.getElementById('tarotDesc').innerText = oracle.tarot.desc;
+
+            // Guardar en historial
+            const reading = {
+                date: today.toISOString(),
+                sign: sign.name,
+                advice: oracle.text,
+                tarot: oracle.tarot.name,
+                color: oracle.color,
+                number: oracle.number
+            };
+            readingHistory.unshift(reading);
+            if(readingHistory.length > 100) readingHistory.pop();
+            localStorage.setItem('astraHistory_v16', JSON.stringify(readingHistory));
+
+            // Historial 7 Días
+            const historyContainer = document.getElementById('historyList');
+            historyContainer.innerHTML = '';
+            for(let i=0; i<Math.min(7, readingHistory.length); i++) {
+                const hist = readingHistory[i];
+                const div = document.createElement('div'); 
+                div.className = 'history-item';
+                const histDate = new Date(hist.date);
+                div.innerHTML = `<strong style="color:var(--gold)">${histDate.toLocaleDateString()}</strong><br>${hist.advice}`;
+                historyContainer.appendChild(div);
+            }
+
+            // Biorhythms
+            const bio = { phys: 60 + Math.random() * 40, emo: 40 + Math.random() * 60, int: 50 + Math.random() * 50 };
+            updateBioBar('bioPhys', 'valPhys', Math.round(bio.phys));
+            updateBioBar('bioEmo', 'valEmo', Math.round(bio.emo));
+            updateBioBar('bioInt', 'valInt', Math.round(bio.int));
+
+            // 10 Preguntas
+            const questionsGrid = document.getElementById('questionsGrid');
+            questionsGrid.innerHTML = '';
+            PREMIUM_QUESTIONS.forEach((q, i) => {
+                const btn = document.createElement('button');
+                btn.className = 'question-btn';
+                btn.innerText = q;
+                btn.onclick = () => showQuestionAnswer(q, i);
+                questionsGrid.appendChild(btn);
+            });
+
+            // Afirmaciones
+            loadAffirmations();
+
+            // Notificaciones
+            updateNotificationStatus();
+        }
+
+        function loadAffirmations() {
+            const signName = currentUser.sunSign.name;
+            const bank = [
+                ...(Array.isArray(AFFIRMATIONS_GENERAL) ? AFFIRMATIONS_GENERAL : []),
+                ...((AFFIRMATIONS_BY_SIGN && AFFIRMATIONS_BY_SIGN[signName]) ? AFFIRMATIONS_BY_SIGN[signName] : [])
+            ];
+
+            const container = document.getElementById('affirmationsContainer');
+            container.innerHTML = '';
+
+            if (!bank.length) {
+                container.innerHTML = '<p style="text-align:center; color:#aaa;">Aún no hay afirmaciones disponibles.</p>';
+                return;
+            }
+
+            const dailySeed = `${localISODate(new Date())}|${signName}|AFFIRMATIONS`;
+            const dailyAffirmations = pickDailyItems(bank, 7, dailySeed);
+
+            dailyAffirmations.forEach((aff) => {
+                const card = document.createElement('div');
+                card.className = 'affirmation-card';
+                const isFavorited = favoriteAffirmations.includes(aff);
+                const safeAff = escJS(aff);
+                card.innerHTML = `
+                    <div class="affirmation-text">"${aff}"</div>
+                    <div class="affirmation-star ${isFavorited ? 'favorited' : ''}" onclick="toggleFavorite('${safeAff}', this)">⭐</div>
+                    <button class="affirmation-share" onclick="shareAffirmation('${safeAff}')">📤 Compartir</button>
+                `;
+                container.appendChild(card);
+            });
+        }
+
+        function toggleFavorite(affirmation, element) {
+            const idx = favoriteAffirmations.indexOf(affirmation);
+            if(idx > -1) {
+                favoriteAffirmations.splice(idx, 1);
+                element.classList.remove('favorited');
+            } else {
+                favoriteAffirmations.push(affirmation);
+                element.classList.add('favorited');
+            }
+            localStorage.setItem('astraFavorites_v16', JSON.stringify(favoriteAffirmations));
+            showToast('❤️ Actualizado');
+        }
+
+        function shareAffirmation(affirmation) {
+            const text = affirmation;
+            if(navigator.clipboard) {
+                navigator.clipboard.writeText(text).then(() => {
+                    showToast('✅ ¡Copiada!');
+                }).catch(() => fallbackCopy(text));
+            } else {
+                fallbackCopy(text);
+            }
+        }
+
+        function showFavoriteAffirmations() {
+            const list = document.getElementById('favoritesList');
+            if (favoriteAffirmations.length === 0) {
+                list.innerHTML = '<p style="text-align:center; color:#aaa;">Aún no tienes favoritas. ¡Agrega algunas!</p>';
+            } else {
+                list.innerHTML = favoriteAffirmations.map(aff => {
+                    const safeAff = escJS(aff);
+                    return `
+                    <div class="affirmation-card">
+                        <div class="affirmation-text">"${aff}"</div>
+                        <button class="affirmation-share" onclick="shareAffirmation('${safeAff}')">📤 Compartir</button>
+                    </div>
+                `;
+                }).join('');
+            }
+            document.getElementById('favoritesModal').classList.add('active');
+        }
+
+        function closeFavorites() {
+            document.getElementById('favoritesModal').classList.remove('active');
+        }
+
+        function toggleNotifications() {
+            const time = document.getElementById('notificationTime').value;
+            notificationEnabled = !notificationEnabled;
+            const btn = document.getElementById('notifyBtn');
+            
+            if(notificationEnabled) {
+                btn.classList.add('active');
+                btn.innerText = 'Desactivar';
+                localStorage.setItem('astraNotify_v16', JSON.stringify({ enabled: true, time }));
+                showToast('🔔 Notificaciones activadas');
+                scheduleNotification(time);
+            } else {
+                btn.classList.remove('active');
+                btn.innerText = 'Activar';
+                localStorage.setItem('astraNotify_v16', JSON.stringify({ enabled: false, time }));
+                showToast('🔔 Notificaciones desactivadas');
+            }
+        }
+
+        function scheduleNotification(time) {
+            if(!('Notification' in window)) return;
+            if(Notification.permission === 'granted') {
+                const [hours, minutes] = time.split(':').map(Number);
+                const now = new Date();
+                const notifyTime = new Date();
+                notifyTime.setHours(hours, minutes, 0);
+                
+                if(notifyTime < now) {
+                    notifyTime.setDate(notifyTime.getDate() + 1);
+                }
+                
+                const timeUntilNotify = notifyTime - now;
+                setTimeout(() => {
+                    new Notification('AstraDaily - Tu Lectura Diaria', {
+                        body: 'Tu consejo cósmico te espera. Abre AstraDaily para tu lectura.',
+                        icon: 'https://img.icons8.com/color/96/sparkling.png'
+                    });
+                }, timeUntilNotify);
+            } else if(Notification.permission !== 'denied') {
+                Notification.requestPermission();
+            }
+        }
+
+        function updateNotificationStatus() {
+            const btn = document.getElementById('notifyBtn');
+            const status = document.getElementById('notifyStatus');
+            
+            if(notificationEnabled) {
+                btn.classList.add('active');
+                btn.innerText = 'Desactivar';
+                const time = document.getElementById('notificationTime').value;
+                status.innerText = `✅ Recordatorio activo a las ${time}`;
+            } else {
+                btn.classList.remove('active');
+                btn.innerText = 'Activar';
+                status.innerText = 'Recordatorio desactivado';
+            }
+        }
+
+        function filterHistory() {
+            const filterDate = document.getElementById('filterDate').value;
+            const historyContainer = document.getElementById('historyList');
+            historyContainer.innerHTML = '';
+            
+            if(!filterDate) {
+                for(let i=0; i<Math.min(7, readingHistory.length); i++) {
+                    const hist = readingHistory[i];
+                    const div = document.createElement('div'); 
+                    div.className = 'history-item';
+                    const histDate = new Date(hist.date);
+                    div.innerHTML = `<strong style="color:var(--gold)">${histDate.toLocaleDateString()}</strong><br>${hist.advice}`;
+                    historyContainer.appendChild(div);
+                }
+            } else {
+                const filtered = readingHistory.filter(h => h.date.startsWith(filterDate));
+                if(filtered.length === 0) {
+                    historyContainer.innerHTML = '<p style="text-align:center; color:#aaa;">Sin lecturas en esta fecha.</p>';
+                } else {
+                    filtered.forEach(hist => {
+                        const div = document.createElement('div'); 
+                        div.className = 'history-item';
+                        const histDate = new Date(hist.date);
+                        div.innerHTML = `<strong style="color:var(--gold)">${histDate.toLocaleDateString()}</strong><br>${hist.advice}`;
+                        historyContainer.appendChild(div);
+                    });
+                }
+            }
+        }
+
+        function exportHistory() {
+            const csv = readingHistory.map(h => {
+                const date = new Date(h.date).toLocaleDateString();
+                return `${date},"${h.sign}","${h.advice}","${h.tarot}"`;
+            }).join('\n');
+            
+            const header = 'Fecha,Signo,Consejo,Arcano\n';
+            const blob = new Blob([header + csv], { type: 'text/csv' });
+            const url = URL.createObjectURL(blob);
+            const a = document.createElement('a');
+            a.href = url;
+            a.download = `AstraDaily-Historial-${new Date().toLocaleDateString()}.csv`;
+            a.click();
+            showToast('📥 Historial exportado');
+        }
+
+        function showQuestionAnswer(question, index) {
+            const answerBox = document.getElementById('answerBox');
+            const signName = (currentUser && currentUser.sunSign && currentUser.sunSign.name) ? currentUser.sunSign.name : 'Aries';
+            const pool = (Array.isArray(PREMIUM_ANSWERS_BY_QUESTION) && Array.isArray(PREMIUM_ANSWERS_BY_QUESTION[index]))
+                ? PREMIUM_ANSWERS_BY_QUESTION[index]
+                : [];
+
+            let answer = 'Hoy observa con calma: la respuesta aparece cuando no la fuerzas.';
+            if (pool.length) {
+                const seed = `${localISODate(new Date())}|${signName}|QUESTION_${index}`;
+                const pick = hash32(seed) % pool.length;
+                answer = pool[pick];
+            }
+
+            answerBox.innerHTML = `
+                <p style="font-weight:bold; color:var(--gold); margin-bottom:10px;">${question}</p>
+                <p style="line-height:1.6; font-size:0.95rem;">${answer}</p>
+                <p style="margin-top:10px; font-size:0.8rem; opacity:0.7;">🔁 Respuestas rotan cada día.</p>
+            `;
+            answerBox.classList.remove('hidden');
+        }
+
+        function showCompatibility() {
+            const selectedSign = document.getElementById('compatSignSelect').value;
+            if(!selectedSign) return;
+            const compat = COMPATIBILITY_MATRIX[currentUser.sunSign.name][selectedSign];
+            document.getElementById('compatPercent').innerText = compat + '%';
+            document.getElementById('compatBarFill').style.width = compat + '%';
+            const color = compat >= 80 ? '#2ed573' : compat >= 70 ? '#ffed4e' : '#ff4757';
+            document.getElementById('compatBarFill').style.background = color;
+            document.getElementById('compatDesc').innerText = `Tu compatibilidad con ${selectedSign} es de ${compat}%. ${compat >= 80 ? 'Excelente conexión.' : compat >= 70 ? 'Buena compatibilidad.' : 'Requiere esfuerzo.'}`;
+            document.getElementById('compatResult').classList.remove('hidden');
+        }
+
+        function updateBioBar(barId, valId, val) { setTimeout(() => { document.getElementById(barId).style.width = val + '%'; document.getElementById(valId).innerText = val + '%'; }, 100); }
+        function toggleTarot(el) { el.querySelector('.tarot-card').classList.toggle('flipped'); }
+        
+        function shareDestiny() {
+            const text = document.getElementById('dailyAdvice').innerText;
+            if(navigator.clipboard) {
+                navigator.clipboard.writeText(text).then(() => {
+                    showToast('✅ ¡Copiado!');
+                }).catch(() => fallbackCopy(text));
+            } else {
+                fallbackCopy(text);
+            }
+        }
+
+        function fallbackCopy(text) {
+            const textarea = document.createElement('textarea');
+            textarea.value = text;
+            document.body.appendChild(textarea);
+            textarea.select();
+            document.execCommand('copy');
+            document.body.removeChild(textarea);
+            showToast('✅ ¡Copiado!');
+        }
+
+        function showToast(msg) {
+            const toast = document.createElement('div');
+            toast.className = 'toast';
+            toast.innerText = msg;
+            document.body.appendChild(toast);
+            setTimeout(() => toast.remove(), 2000);
+        }
+
+        function openDetails() {
+            document.getElementById('m_sun').innerText = currentUser.sunSign.name;
+            document.getElementById('m_traits').innerText = currentUser.sunSign.traits;
+            document.getElementById('m_famous').innerText = currentUser.sunSign.famous;
+            if(currentUser.ascendantSign) {
+                document.getElementById('ascendantCard').classList.remove('hidden');
+                document.getElementById('m_asc').innerText = currentUser.ascendantSign.name;
+                const ascInterpretations = {
+                    'Aries': 'Tu ascendente Aries te hace parecer audaz, energético y directo. Los demás te ven como alguien con iniciativa y coraje. Tu presencia es fuerte y tu carácter parece impulsivo pero honesto.',
+                    'Tauro': 'Tu ascendente Tauro te da una apariencia sólida, confiable y serena. Los demás te perciben como alguien estable, paciente y con buen gusto. Tu presencia transmite seguridad y calma.',
+                    'Géminis': 'Tu ascendente Géminis te hace parecer curioso, comunicativo y adaptable. Los demás te ven como alguien inteligente, versátil y fácil de llevar. Tu presencia es ligera y comunicativa.',
+                    'Cáncer': 'Tu ascendente Cáncer te da una apariencia sensible, protectora y familiar. Los demás te perciben como alguien empatético, intuitivo y cálido. Tu presencia invita confianza emocional.',
+                    'Leo': 'Tu ascendente Leo te hace parecer confiado, creativo y carismático. Los demás te ven como alguien generoso, valiente y con presencia natural. Tu aura es luminosa y atraes atención.',
+                    'Virgo': 'Tu ascendente Virgo te da una apariencia ordenada, analítica y meticulosa. Los demás te perciben como alguien práctico, inteligente y confiable. Tu presencia inspira orden y claridad.',
+                    'Libra': 'Tu ascendente Libra te hace parecer armónico, diplomático y elegante. Los demás te ven como alguien justo, sociable y con buen gusto estético. Tu presencia es equilibrada y atraente.',
+                    'Escorpio': 'Tu ascendente Escorpio te da una apariencia intensa, misteriosa y magnética. Los demás te perciben como alguien profundo, apasionado y enigmático. Tu presencia es poderosa y cautivadora.',
+                    'Sagitario': 'Tu ascendente Sagitario te hace parecer optimista, aventurero y expansivo. Los demás te ven como alguien franco, viajero y con visión amplia. Tu presencia es entusiasta y contagiosa.',
+                    'Capricornio': 'Tu ascendente Capricornio te da una apariencia seria, responsable y ambiciosa. Los demás te perciben como alguien profesional, disciplinado y con autoridad natural. Tu presencia inspira respeto.',
+                    'Acuario': 'Tu ascendente Acuario te hace parecer innovador, independiente y excéntrico. Los demás te ven como alguien original, intelectual y poco convencional. Tu presencia es única e impredecible.',
+                    'Piscis': 'Tu ascendente Piscis te da una apariencia soñadora, sensible y mística. Los demás te perciben como alguien imaginativo, empatético y espiritual. Tu presencia es suave y etérea.'
+                };
+                document.getElementById('m_asc_meaning').innerText = ascInterpretations[currentUser.ascendantSign.name] || 'Tu ascendente define cómo te perciben los demás.';
+            } else {
+                document.getElementById('ascendantCard').classList.add('hidden');
+            }
+            document.getElementById('m_lifepath').innerText = currentUser.lifePath;
+            document.getElementById('m_lifepath_desc').innerText = LIFEPATH_DATA[currentUser.lifePath] || 'Tu camino único.';
+            document.getElementById('m_chinese_animal').innerText = currentUser.chineseInfo.animal;
+            document.getElementById('m_chinese_desc').innerText = currentUser.chineseInfo.desc;
+            document.getElementById('detailsModal').classList.add('active');
+        }
+
+        function closeDetails() { document.getElementById('detailsModal').classList.remove('active'); }
+        function openProfileEdit() { if(confirm("¿Editar datos? Se reiniciará la sesión.")) { localStorage.removeItem('astraUser_v7_5'); location.reload(); } }
+        function logout() { if(confirm("¿Borrar todos los datos y salir?")) { localStorage.removeItem('astraUser_v7_5'); location.reload(); } }
+        function exitToHome() {
+            const farewells = ["Los astros seguirán girando mientras descansas.", "Tu destino por hoy está trazado. Paz.", "El universo trabajará en tus sueños esta noche.", "Vuelve mañana, cuando el sol renazca."];
+            document.getElementById('farewell-msg').innerText = farewells[Math.floor(Math.random() * farewells.length)];
+            document.getElementById('farewell-overlay').classList.add('active');
+            setTimeout(() => {
+                document.getElementById('dashboard').classList.add('hidden');
+                document.getElementById('fast-login').classList.remove('hidden');
+                document.getElementById('farewell-overlay').classList.remove('active');
+            }, 3500);
+        }
+
+        init();
+    </script>
+</body>
+</html>

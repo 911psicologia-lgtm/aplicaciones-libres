@@ -1,0 +1,178 @@
+[
+  {
+    "id": "shadow_emblem",
+    "type": "emblem",
+    "image": "assets/story_core/ship_parts/common_shadow_emblem/shadow_emblem.png",
+    "preview": "assets/story_core/ship_parts/common_shadow_emblem/shadow_emblem_preview.png",
+    "recommendedUse": "brand_overlay",
+    "notes": "Emblema comun del Doctor Sombra."
+  },
+  {
+    "id": "cracked_panel",
+    "type": "damage_fx",
+    "image": "assets/story_core/ship_parts/damaged_ship_parts/cracked_panel.png",
+    "preview": "assets/story_core/ship_parts/damaged_ship_parts/cracked_panel.png",
+    "recommendedUse": "ship_damage_overlay",
+    "notes": "Overlay de dano: cracked_panel."
+  },
+  {
+    "id": "broken_wing",
+    "type": "damage_fx",
+    "image": "assets/story_core/ship_parts/damaged_ship_parts/broken_wing.png",
+    "preview": "assets/story_core/ship_parts/damaged_ship_parts/broken_wing.png",
+    "recommendedUse": "ship_damage_overlay",
+    "notes": "Overlay de dano: broken_wing."
+  },
+  {
+    "id": "smoke_damage",
+    "type": "damage_fx",
+    "image": "assets/story_core/ship_parts/damaged_ship_parts/smoke_damage.png",
+    "preview": "assets/story_core/ship_parts/damaged_ship_parts/smoke_damage.png",
+    "recommendedUse": "ship_damage_overlay",
+    "notes": "Overlay de dano: smoke_damage."
+  },
+  {
+    "id": "sparks_damage",
+    "type": "damage_fx",
+    "image": "assets/story_core/ship_parts/damaged_ship_parts/sparks_damage.png",
+    "preview": "assets/story_core/ship_parts/damaged_ship_parts/sparks_damage.png",
+    "recommendedUse": "ship_damage_overlay",
+    "notes": "Overlay de dano: sparks_damage."
+  },
+  {
+    "id": "purple_thruster",
+    "type": "thruster",
+    "image": "assets/story_core/ship_parts/thrusters/purple_thruster.png",
+    "preview": "assets/story_core/ship_parts/thrusters/purple_thruster_preview.png",
+    "recommendedUse": "ship_animation_fx",
+    "notes": "Propulsor purple de las naves del Doctor Sombra."
+  },
+  {
+    "id": "cyan_thruster",
+    "type": "thruster",
+    "image": "assets/story_core/ship_parts/thrusters/cyan_thruster.png",
+    "preview": "assets/story_core/ship_parts/thrusters/cyan_thruster_preview.png",
+    "recommendedUse": "ship_animation_fx",
+    "notes": "Propulsor cyan de las naves del Doctor Sombra."
+  },
+  {
+    "id": "toxic_thruster",
+    "type": "thruster",
+    "image": "assets/story_core/ship_parts/thrusters/toxic_thruster.png",
+    "preview": "assets/story_core/ship_parts/thrusters/toxic_thruster_preview.png",
+    "recommendedUse": "ship_animation_fx",
+    "notes": "Propulsor toxic de las naves del Doctor Sombra."
+  },
+  {
+    "id": "swamp_thruster",
+    "type": "thruster",
+    "image": "assets/story_core/ship_parts/thrusters/swamp_thruster.png",
+    "preview": "assets/story_core/ship_parts/thrusters/swamp_thruster_preview.png",
+    "recommendedUse": "ship_animation_fx",
+    "notes": "Propulsor swamp de las naves del Doctor Sombra."
+  },
+  {
+    "id": "crystal_thruster",
+    "type": "thruster",
+    "image": "assets/story_core/ship_parts/thrusters/crystal_thruster.png",
+    "preview": "assets/story_core/ship_parts/thrusters/crystal_thruster_preview.png",
+    "recommendedUse": "ship_animation_fx",
+    "notes": "Propulsor crystal de las naves del Doctor Sombra."
+  },
+  {
+    "id": "shadow_trail",
+    "type": "energy_trail",
+    "image": "assets/story_core/ship_parts/energy_trails/shadow_trail.png",
+    "preview": "assets/story_core/ship_parts/energy_trails/shadow_trail_preview.png",
+    "recommendedUse": "ship_escape_fx",
+    "notes": "Estela de energia shadow."
+  },
+  {
+    "id": "mecha_trail",
+    "type": "energy_trail",
+    "image": "assets/story_core/ship_parts/energy_trails/mecha_trail.png",
+    "preview": "assets/story_core/ship_parts/energy_trails/mecha_trail_preview.png",
+    "recommendedUse": "ship_escape_fx",
+    "notes": "Estela de energia mecha."
+  },
+  {
+    "id": "crystal_trail",
+    "type": "energy_trail",
+    "image": "assets/story_core/ship_parts/energy_trails/crystal_trail.png",
+    "preview": "assets/story_core/ship_parts/energy_trails/crystal_trail_preview.png",
+    "recommendedUse": "ship_escape_fx",
+    "notes": "Estela de energia crystal."
+  },
+  {
+    "id": "swamp_trail",
+    "type": "energy_trail",
+    "image": "assets/story_core/ship_parts/energy_trails/swamp_trail.png",
+    "preview": "assets/story_core/ship_parts/energy_trails/swamp_trail_preview.png",
+    "recommendedUse": "ship_escape_fx",
+    "notes": "Estela de energia swamp."
+  },
+  {
+    "id": "toxic_trail",
+    "type": "energy_trail",
+    "image": "assets/story_core/ship_parts/energy_trails/toxic_trail.png",
+    "preview": "assets/story_core/ship_parts/energy_trails/toxic_trail_preview.png",
+    "recommendedUse": "ship_escape_fx",
+    "notes": "Estela de energia toxic."
+  },
+  {
+    "id": "capsule_empty",
+    "type": "capsule",
+    "image": "assets/story_core/ship_parts/capture_capsule/capsule_empty.png",
+    "preview": "assets/story_core/ship_parts/capture_capsule/capsule_empty.png",
+    "recommendedUse": "aurora_containment",
+    "notes": "Capsula de contencion: capsule_empty."
+  },
+  {
+    "id": "capsule_with_aurora",
+    "type": "capsule",
+    "image": "assets/story_core/ship_parts/capture_capsule/capsule_with_aurora.png",
+    "preview": "assets/story_core/ship_parts/capture_capsule/capsule_with_aurora.png",
+    "recommendedUse": "aurora_containment",
+    "notes": "Capsula de contencion: capsule_with_aurora."
+  },
+  {
+    "id": "capsule_glow",
+    "type": "capsule",
+    "image": "assets/story_core/ship_parts/capture_capsule/capsule_glow.png",
+    "preview": "assets/story_core/ship_parts/capture_capsule/capsule_glow.png",
+    "recommendedUse": "aurora_containment",
+    "notes": "Capsula de contencion: capsule_glow."
+  },
+  {
+    "id": "capsule_cracked",
+    "type": "capsule",
+    "image": "assets/story_core/ship_parts/capture_capsule/capsule_cracked.png",
+    "preview": "assets/story_core/ship_parts/capture_capsule/capsule_cracked.png",
+    "recommendedUse": "aurora_containment",
+    "notes": "Capsula de contencion: capsule_cracked."
+  },
+  {
+    "id": "aurora_light_trail",
+    "type": "aurora_fx",
+    "image": "assets/story_core/ship_parts/aurora_light_trail/aurora_light_trail.png",
+    "preview": "assets/story_core/ship_parts/aurora_light_trail/aurora_light_trail.png",
+    "recommendedUse": "aurora_signal_fx",
+    "notes": "Efecto de luz de Aurora: aurora_light_trail."
+  },
+  {
+    "id": "aurora_signal_spark",
+    "type": "aurora_fx",
+    "image": "assets/story_core/ship_parts/aurora_light_trail/aurora_signal_spark.png",
+    "preview": "assets/story_core/ship_parts/aurora_light_trail/aurora_signal_spark.png",
+    "recommendedUse": "aurora_signal_fx",
+    "notes": "Efecto de luz de Aurora: aurora_signal_spark."
+  },
+  {
+    "id": "aurora_rescue_glow",
+    "type": "aurora_fx",
+    "image": "assets/story_core/ship_parts/aurora_light_trail/aurora_rescue_glow.png",
+    "preview": "assets/story_core/ship_parts/aurora_light_trail/aurora_rescue_glow.png",
+    "recommendedUse": "aurora_signal_fx",
+    "notes": "Efecto de luz de Aurora: aurora_rescue_glow."
+  }
+]

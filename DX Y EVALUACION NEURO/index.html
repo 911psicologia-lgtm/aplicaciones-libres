@@ -1,0 +1,2869 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>OMNI 7.3: Cognitive Interference Master</title>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/three@0.128.0/examples/js/controls/OrbitControls.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700&family=Roboto:wght@300;400;700&display=swap');
+
+        :root {
+            --primary: #00f2ff;
+            --accent: #7000ff;
+            --bg-deep: #020205;
+            --glass: rgba(255, 255, 255, 0.05);
+            --glass-border: rgba(255, 255, 255, 0.15);
+        }
+
+        body, html { margin: 0; padding: 0; width: 100%; height: 100%; overflow: auto; background-color: var(--bg-deep); font-family: 'Roboto', sans-serif; color: white; }
+@media (max-width: 900px){ body, html { overflow: hidden; } }
+        
+        #canvas-container { position: absolute; top: 0; left: 0; width: 100%; height: 100%; z-index: 1; }
+        
+        .screen { 
+            position: absolute; top: 0; left: 0; width: 100%; height: 100%; 
+            background: radial-gradient(circle at center, rgba(10,10,45,0.95) 0%, rgba(2,2,5,1) 100%);
+            display: flex; flex-direction: column; align-items: center; justify-content: center; 
+            pointer-events: auto; backdrop-filter: blur(15px); transition: 0.5s; z-index: 100;
+        }
+        .hidden { display: none !important; }
+        
+        .panel { 
+            background: var(--glass); padding: 40px; border-radius: 20px; border: 1px solid var(--glass-border); 
+            text-align: center; max-width: 1200px; width: 95%; max-height: 90vh; overflow-y: auto;
+            box-shadow: 0 20px 60px 0 rgba(0, 0, 0, 0.9);
+        }
+
+        h1 { font-family: 'Orbitron', sans-serif; font-size: 1.8rem; color: var(--primary); text-shadow: 0 0 15px var(--primary); margin-bottom: 20px; letter-spacing: 3px; }
+        .section-title { color: var(--primary); font-family: 'Orbitron'; font-size: 0.75rem; margin: 20px 0 10px; text-transform: uppercase; letter-spacing: 2px; border-bottom: 1px solid var(--glass-border); padding-bottom: 5px; text-align: left; }
+
+        .form-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 15px; margin-bottom: 20px; }
+        .input-box { display: flex; flex-direction: column; text-align: left; }
+        .input-box.wide { grid-column: span 3; }
+        label { font-size: 0.6rem; color: var(--primary); font-family: 'Orbitron'; margin-bottom: 6px; text-transform: uppercase; opacity: 0.8; }
+        input, select, textarea { padding: 10px; font-size: 0.9rem; background: rgba(0,0,0,0.6); border: 1px solid var(--glass-border); color: white; border-radius: 8px; font-family: 'Roboto'; outline: none; }
+        
+        #plan-list { background: rgba(0,0,0,0.4); padding: 15px; border-radius: 10px; border: 1px dashed var(--glass-border); margin-bottom: 15px; text-align: left; min-height: 40px; }
+        .plan-tag { background: linear-gradient(90deg, var(--accent), #4400aa); color: white; padding: 5px 12px; border-radius: 5px; margin: 3px; display: inline-block; font-family: 'Orbitron'; font-size: 0.6rem; }
+
+        .action-btn { padding: 12px 35px; font-size: 0.9rem; cursor: pointer; background: linear-gradient(90deg, var(--primary), var(--accent)); border: none; color: white; border-radius: 50px; font-weight: bold; text-transform: uppercase; letter-spacing: 2px; margin: 5px; transition: 0.3s; box-shadow: 0 5px 15px rgba(0,0,0,0.5); z-index: 10; }
+.small-btn { cursor:pointer; background: rgba(255,255,255,0.06); border:1px solid rgba(255,255,255,0.18); color:#fff; border-radius: 12px; font-family:'Orbitron'; letter-spacing:1px; }
+.small-btn:hover { background: rgba(255,255,255,0.10); }
+        .btn-opt { background: rgba(255,255,255,0.05); border: 1px solid var(--glass-border); color: #aaa; padding: 10px 20px; cursor: pointer; border-radius: 8px; font-family: 'Orbitron'; font-size: 0.6rem; margin-right: 5px; }
+        
+        /* BOTÓN ESCOBITA (LIMPIEZA) */
+        .btn-broom { background: transparent; border: none; font-size: 1.5rem; cursor: pointer; transition: 0.2s; padding: 0 10px; }
+        .btn-broom:hover { transform: scale(1.2) rotate(-10deg); filter: drop-shadow(0 0 5px var(--primary)); }
+
+        #hud { position: absolute; top: 0; left: 0; width: 100%; padding: 25px; box-sizing: border-box; display: flex; justify-content: space-between; pointer-events: none; z-index: 50; }
+        .hud-box { background: rgba(0,0,0,0.85); border: 1px solid var(--glass-border); padding: 15px 25px; border-radius: 15px; font-family: 'Orbitron'; color: var(--primary); pointer-events: auto; display: flex; flex-direction: column; align-items: center; min-width: 200px; }
+        
+        /* BARRA DE INTERFERENCIA (STROOP DINÁMICO) */
+        #hud-interference { width: 100%; height: 10px; margin-top: 10px; border-radius: 5px; transition: background-color 0.2s; opacity: 0; 
+    display:none;
+    height:0px;
+    opacity:0;
+}
+
+        #feedback { position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); font-size: 6rem; opacity: 0; transition: 0.3s; z-index: 60; font-family: 'Orbitron'; font-weight: bold; pointer-events: none; text-shadow: 0 0 20px black; }
+
+        /* Reporte Final */
+        .report-card { background: white; color: #1a1a1a; padding: 50px; text-align: left; max-width: 1000px; width: 95%; margin: 20px auto; overflow-y: auto; box-shadow: 0 0 50px rgba(0,0,0,0.5); font-family: 'Roboto'; }
+        
+        .report-header { display: flex; justify-content: space-between; align-items: flex-end; border-bottom: 4px solid var(--accent); padding-bottom: 20px; margin-bottom: 30px; }
+        .report-header h2 { margin: 0; color: var(--accent); font-family: 'Orbitron'; font-size: 1.5rem; }
+        .report-header p { margin: 3px 0; color: #555; font-size: 0.85rem; }
+        .header-right { text-align: right; }
+
+        .chart-container { width: 100%; height: 350px; margin: 30px 0; background: #fff; padding: 10px; border: 1px solid #eee; }
+        .interp-box { background: #f4f7ff; padding: 30px; border-left: 8px solid var(--accent); border-radius: 8px; margin-top: 30px; font-size: 1rem; line-height: 1.6; text-align: justify; }
+        .category-badge { font-weight: bold; color: var(--accent); text-transform: uppercase; font-size: 0.85rem; display: block; margin-top: 15px; border-bottom: 1px solid #ddd; padding-bottom: 5px; }
+        
+        .historical-box { background: #eef2f5; padding: 15px; border-radius: 8px; border: 1px solid #ccc; max-height: 150px; overflow-y: auto; font-size: 0.8rem; margin-bottom: 20px; }
+        .historical-item { border-bottom: 1px solid #ddd; padding: 5px 0; display: flex; justify-content: space-between; }
+
+        .patient-note { background: #fff8e1; padding: 20px; border: 1px solid #ffe0b2; border-radius: 8px; margin-top: 20px; color: #795548; font-style: italic; }
+
+        /* Modal de IA */
+        #ai-modal .panel { background: rgba(10, 10, 20, 0.98); border: 2px solid var(--primary); width: 80%; max-width: 900px; }
+        textarea.ai-box { width: 100%; height: 300px; background: #050510; color: #00f2ff; font-family: 'Courier New', monospace; font-size: 0.8rem; padding: 15px; border: 1px solid #333; border-radius: 10px; margin-bottom: 20px; resize: vertical; }
+        .ai-links { display: flex; gap: 10px; justify-content: center; flex-wrap: wrap; margin-top: 15px; }
+        .ai-btn { text-decoration: none; padding: 12px 25px; border-radius: 5px; font-family: 'Orbitron'; font-size: 0.7rem; color: white; transition: 0.3s; display: inline-block; cursor: pointer; }
+        .ai-gpt { background: #10a37f; } .ai-gemini { background: linear-gradient(90deg, #4285f4, #d96570); } 
+        .ai-claude { background: #d97757; } .ai-copilot { background: #24292f; }
+
+        /* Acordeón */
+        .accordion-item { border: 1px solid var(--glass-border); border-radius: 10px; margin-bottom: 8px; text-align: left; background: rgba(0,0,0,0.3); }
+        .accordion-header { padding: 10px 14px; display:flex; align-items:center; gap:10px; color: var(--primary); font-family: 'Orbitron'; font-size: 0.65rem; }
+.acc-title { flex:1; cursor: pointer; user-select:none; }
+.acc-toggle { width:34px; height:34px; border-radius:10px; border:1px solid rgba(255,255,255,0.15); background: rgba(0,0,0,0.25); color: #fff; cursor:pointer; font-family: 'Orbitron'; }
+.acc-toggle:active { transform: scale(0.98); }
+        .accordion-content { padding: 0 20px; max-height: 0; overflow: hidden; transition: 0.4s; font-size: 0.8rem; color: #ccc; line-height: 1.6; }
+        .accordion-item.active .accordion-content { padding-bottom: 15px; max-height: 500px; }
+
+        /* FIX IMPRESIÓN PDF COMPLETA */
+        @media print {
+            body * { visibility: hidden; }
+            #report-screen, #report-screen * { visibility: visible; }
+            #report-screen { position: absolute; left: 0; top: 0; width: 100%; height: auto; margin: 0; padding: 0; background: white; overflow: visible !important; }
+            .report-card { box-shadow: none; border: none; width: 100%; max-width: 100%; margin: 0; padding: 20px; overflow: visible !important; }
+            .no-print { display: none !important; }
+            .screen { position: static; height: auto; overflow: visible; display: block; }
+            ::-webkit-scrollbar { display: none; }
+            @page { margin: 2cm; size: auto; }
+        }
+    
+#hud-target{padding:2px 10px;border-radius:10px;}
+</style>
+</head>
+<body>
+
+    <div id="canvas-container"></div>
+    <div id="feedback"></div>
+
+    <div id="ui-layer">
+        <div id="hud" class="hidden">
+            <div class="hud-box">
+                <span id="hud-step-info" style="font-size: 0.5rem; opacity: 0.7;">OBJETIVO</span>
+                <div id="hud-target" style="color:white; font-size: 2.2rem; margin-top: 5px; text-shadow: 0 2px 10px rgba(0,0,0,0.5);"></div>
+                <div id="hud-interference"></div>
+            </div>
+            <div class="hud-box" style="text-align: right; align-items: flex-end;">
+                <div style="font-size: 0.6rem;">LATENCIA: <span id="hud-latency" style="color:white">0</span> ms</div>
+                <div style="font-size: 0.9rem; margin-top: 5px;">TIEMPO: <span id="hud-time" style="color:white">0.00</span>s</div>
+
+                <div style="margin-top: 10px; display:flex; flex-direction:column; align-items:flex-end; gap:6px;">
+                    <div style="font-size:0.55rem; color:var(--primary); opacity:0.85; font-family:Orbitron;">VELOCIDAD</div>
+                    <input id="speed-slider" type="range" min="0" max="100" value="25" style="width: 170px;">
+                    <button id="btn-cancel" class="btn-opt" style="border-color:#ff3b30; color:#ff3b30;">CANCELAR</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div id="start-screen" class="screen">
+        <div class="panel">
+            <h1>OMNI 7.3 <span style="font-weight:300; opacity:0.6">Cognitive Interference Master</span></h1>
+            
+            <div class="section-title">Datos del Especialista</div>
+            <div class="form-grid" style="grid-template-columns: 1fr 1fr 1fr;">
+                <div class="input-box"><label>Nombre del Profesional</label><input type="text" id="prof-name" value="Dr. José Alonso Andrade Salazar"></div>
+                <div class="input-box"><label>Cargo / Especialidad</label><input type="text" id="prof-title" value="Neuropsicólogo - PhD. Pensamiento Complejo"></div>
+                <div class="input-box"><label>Email de Contacto</label><input type="text" id="prof-email" value="andrade@clinical.com"></div>
+            </div>
+
+            <div class="section-title">Ficha Clínica del Paciente</div>
+            <div class="form-grid">
+                <div class="input-box">
+                    <label>ID Historia Clínica / Búsqueda</label>
+                    <div style="display:flex; gap:5px; align-items:center;">
+                        <input type="text" id="pat-id" placeholder="Ej: 001_Juan..." list="patients-list">
+                        <datalist id="patients-list"></datalist>
+                        <button class="btn-opt" onclick="game.loadPatientProfile()">BUSCAR</button>
+                        <button class="btn-opt" onclick="game.savePatientProfile()" title="Guardar/Actualizar ficha del paciente">💾</button>
+                        <button class="btn-broom" onclick="game.clearForm()" title="Limpiar formulario (Nuevo Registro)">🧹</button>
+                    </div>
+                </div>
+                <div class="input-box"><label>Nombre Completo</label><input type="text" id="pat-name"></div>
+                <div class="input-box"><label>Lateralidad</label>
+                    <select id="pat-lat">
+                        <option value="">(seleccionar)</option>
+                        <option value="derecha">derecha</option>
+                        <option value="izquierda">izquierda</option>
+                        <option value="ambidiestro">ambidiestro</option>
+                    </select>
+                </div>
+                <div class="input-box"><label>Edad</label><input type="number" id="pat-age"></div>
+                
+                <div class="input-box"><label>Teléfono</label><input type="text" id="pat-tel"></div>
+                <div class="input-box"><label>Email</label><input type="text" id="pat-email"></div>
+                <div class="input-box"><label>Medicación</label><input type="text" id="pat-meds"></div>
+                
+                <div class="input-box wide"><label>Motivo de Consulta / Diagnóstico Presuntivo</label><input type="text" id="pat-diag"></div>
+                <div class="input-box wide"><label>Antecedentes Relevantes</label><textarea id="pat-history" rows="4"></textarea></div>
+            </div>
+
+            
+<div class="section-title" id="start-history-header" style="display:flex; align-items:center; justify-content:space-between; gap:12px; cursor:pointer;"><div style="display:flex; align-items:baseline; gap:10px;">Historial de sesiones del paciente <span id="start-history-count" style="opacity:0.7;"></span></div><button id="start-history-close" type="button" title="Cerrar historial" style="display:none; width:34px; height:34px; border-radius:10px; border:1px solid rgba(255,255,255,0.15); background:rgba(0,0,0,0.25); color:#e7f7ff; font-weight:800; line-height:1; cursor:pointer;">✕</button></div>
+<div id="start-history-container" style="display:none; margin-bottom: 20px;"><div id="start-history-accordion"></div></div>
+
+<div class="section-title">Diseño del Protocolo Transmetodológico</div>
+            <div id="plan-list"><span style="color:#777; font-size: 0.75rem;">Configure la secuencia de intervención.</span></div>
+            <div style="display:flex; gap:10px; justify-content:center; margin-bottom: 25px;">
+                <select id="sel-mode">
+                    <option value="SECUENCIAL">ATENCIÓN SOSTENIDA</option>
+                    <option value="RIZOMA">FLEXIBILIDAD (SHIFTING)</option>
+                    <option value="STROOP">INHIBICIÓN (STROOP)</option>
+                    <option value="FANTASMA">MEMORIA (UPDATING)</option>
+                </select>
+                <select id="sel-serie"></select>
+                <select id="sel-grid">
+                    <option value="1">1x1</option><option value="2">2x2</option><option value="3" selected>3x3</option><option value="4">4x4</option>
+                </select>
+                <button class="btn-opt" onclick="game.addToPlan()" style="background:var(--accent); color:white;">+ AÑADIR FASE</button>
+                <button class="btn-opt" onclick="game.resetPlan()">RESETEAR</button>
+            </div>
+
+            
+            <div id="attn-settings" style="margin: 8px auto 18px; max-width: 860px; padding: 14px 16px; border: 1px solid rgba(255,255,255,0.14); border-radius: 14px; background: rgba(255,255,255,0.03);">
+                <div style="display:flex; justify-content:space-between; align-items:center; gap:12px; flex-wrap:wrap;">
+                    <div style="font-family:Orbitron; color:var(--primary); font-size:0.92rem; letter-spacing:0.04em;">Ajustes de Atención</div>
+                    <div style="font-size:0.72rem; color:#aaa;">(Se aplican cuando la fase es <b>ATENCIÓN SOSTENIDA</b>)</div>
+                </div>
+                <div class="form-grid" style="grid-template-columns: repeat(3, 1fr); gap: 10px; margin-top: 10px;">
+                    <div class="form-field">
+                        <label>Tipo de tarea</label>
+                        <select id="attn-task">
+                            <option value="SEARCH_ORDER" selected>Buscar en orden (actual)</option>
+                            <option value="GO_NOGO">Go/No-Go (vigilancia)</option>
+                        </select>
+                    </div>
+                    <div class="form-field">
+                        <label>% Objetivos (Go)</label>
+                        <input id="attn-targetrate" type="number" min="5" max="80" value="20" />
+                        <div style="font-size:0.70rem; color:#888; margin-top:6px;">Sugerido 10–25% para vigilancia.</div>
+                    </div>
+                    <div class="form-field">
+                        <label>Ventana de respuesta (ms)</label>
+                        <input id="attn-window" type="number" min="300" max="4000" value="1400" />
+                        <div style="font-size:0.70rem; color:#888; margin-top:6px;">Adulto mayor: 1600–2200 ms.</div>
+                    </div>
+
+                    <div class="form-field">
+                        <label>ITI mínimo (ms)</label>
+                        <input id="attn-itimin" type="number" min="0" max="4000" value="650" />
+                    </div>
+                    <div class="form-field">
+                        <label>ITI máximo (ms)</label>
+                        <input id="attn-itimax" type="number" min="0" max="6000" value="1400" />
+                        <div style="font-size:0.70rem; color:#888; margin-top:6px;">Con jitter evita ritmo automático.</div>
+                    </div>
+                    <div class="form-field">
+                        <label>Jitter</label>
+                        <select id="attn-jitter">
+                            <option value="on" selected>Activado</option>
+                            <option value="off">Fijo (usa ITI mínimo)</option>
+                        </select>
+                    </div>
+                </div>
+            </div>
+<button class="action-btn" onclick="game.startMatch()">INICIAR SESIÓN</button>
+
+            <div class="manual-container" style="margin-top: 30px;">
+                <div class="accordion-item">
+                    <div class="accordion-header" onclick="game.toggleAccordion(this)">Gestión de Datos y Privacidad <span>+</span></div>
+                    <div class="accordion-content">
+                        <b>Limpieza 🧹:</b> Borra el formulario para un nuevo ingreso sin afectar la base de datos.<br>
+                        <b>Eliminar ID:</b> Borra solo al paciente actual y sus registros.<br>
+                        <b>Reset Fábrica:</b> Borra TODA la base de datos.<br>
+                        <b>Importar/Exportar:</b> Utilice el formato JSON para respaldar.
+                    </div>
+                </div>
+            </div>
+
+            <div style="margin-top:20px;">
+                <input type="file" id="import-json" style="display:none" onchange="game.importBackup(event)">
+                <button class="btn-opt" onclick="document.getElementById('import-json').click()">IMPORTAR BACKUP</button>
+                <button class="btn-opt" onclick="game.exportBackup()">EXPORTAR BACKUP</button>
+                <button class="btn-opt" onclick="game.deleteCurrentPatient()" style="color:#ff3b30; border-color:#ff3b30; margin-left: 20px;">ELIMINAR ESTE ID</button>
+                <button class="btn-opt" onclick="game.clearHistory()" style="color:#666; border-color:#666;">RESET FÁBRICA</button>
+            </div>
+        </div>
+    </div>
+
+    <div id="instruction-modal" class="screen hidden">
+        <div class="panel" style="max-width: 500px; border: 2px solid var(--primary);">
+            <h2 id="inst-title" style="color:var(--primary); font-family:Orbitron;">PREPARACIÓN</h2>
+            <p id="inst-text" style="font-size: 1.2rem; line-height: 1.6; margin: 30px 0;"></p>
+            <button class="action-btn" onclick="game.closeInstructions()">COMENZAR</button>
+        </div>
+    </div>
+
+    <div id="ai-modal" class="screen hidden" style="z-index: 200;">
+        <div class="panel">
+            <h2 style="color:var(--primary); font-family:Orbitron; margin-bottom:10px;">CENTRO DE ANÁLISIS IA</h2>
+            <p style="color:#aaa; font-size:0.8rem; margin-bottom:20px;">
+                El sistema ha generado un Prompt Maestro con todos los datos.
+                <br>1. Copia el prompt. 2. Elige tu motor IA favorito. 3. Pega y recibe el análisis.
+            </p>
+            <textarea id="ai-prompt-box" class="ai-box" readonly></textarea>
+            
+            <div style="display:flex; justify-content:center; gap:15px; margin-bottom:20px;">
+                <button class="action-btn" onclick="game.copyPrompt()">COPIAR PROMPT</button>
+                <button class="btn-opt" onclick="document.getElementById('ai-modal').classList.add('hidden')">CERRAR</button>
+            </div>
+
+            <div style="border-top: 1px solid #333; padding-top:20px;">
+                <p style="font-size:0.7rem; color:#666; text-transform:uppercase; margin-bottom:10px;">EJECUTAR EN:</p>
+                <div class="ai-links">
+                    <a href="https://chat.openai.com/" target="_blank" class="ai-btn ai-gpt">ChatGPT</a>
+                    <a href="https://gemini.google.com/" target="_blank" class="ai-btn ai-gemini">Google Gemini</a>
+                    <a href="https://claude.ai/" target="_blank" class="ai-btn ai-claude">Claude AI</a>
+                    <a href="https://copilot.microsoft.com/" target="_blank" class="ai-btn ai-copilot">MS Copilot</a>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    
+<div id="trial-complete" class="screen hidden" style="z-index: 180;">
+    <div class="panel" style="max-width: 620px; border: 2px solid var(--primary);">
+        <h2 style="color:var(--primary); font-family:Orbitron; margin-bottom:10px;">✅ ENSAYO COMPLETADO</h2>
+        <p style="font-size: 1.02rem; line-height: 1.6; margin: 18px 0; color:#ddd;">
+            Este fue un <b>ensayo</b> para reconocer el estímulo. <span style="color:#aaa;">No genera informe.</span>
+        </p>
+
+        <div style="display:flex; gap:12px; justify-content:center; flex-wrap:wrap; margin-top:14px;">
+            <button class="action-btn" style="min-width:260px;" onclick="game.startProgrammedStep()">CONTINUAR A LA PRUEBA</button>
+            <button class="action-btn" style="min-width:260px; background:rgba(255,255,255,0.08); border:1px solid rgba(255,255,255,0.2);" onclick="game.finishTrialExit()">TERMINAR ENSAYO · SALIR A INICIO</button>
+        </div>
+    </div>
+</div>
+
+
+<div id="memory-round-complete" class="screen hidden" style="z-index: 181;">
+    <div class="panel" style="max-width: 720px; border: 2px solid var(--primary);">
+        <h2 id="mem-round-title" style="color:var(--primary); font-family:Orbitron; margin-bottom:10px;">✅ SECUENCIA COMPLETADA</h2>
+        <p id="mem-round-desc" style="font-size: 1.02rem; line-height: 1.6; margin: 18px 0; color:#ddd;">
+            Mantén la secuencia en mente y búscala en el cubo en el orden indicado.
+        </p>
+        <div style="display:flex; gap:12px; justify-content:center; flex-wrap:wrap; margin-top:14px;">
+            <button class="action-btn" style="min-width:260px;" onclick="window.game && window.game.memoryContinue && window.game.memoryContinue()">CONTINUAR · MÁS DIFÍCIL</button>
+            <button class="action-btn" style="min-width:260px; background:rgba(255,255,255,0.08); border:1px solid rgba(255,255,255,0.2);" onclick="window.game && window.game.memoryFinish && window.game.memoryFinish()">TERMINAR · GUARDAR RESULTADO</button>
+        </div>
+    </div>
+</div>
+
+<div id="cancel-drawer" class="hidden" style="position:absolute; top:0; right:0; width:380px; height:100%;
+    background: rgba(0,0,0,0.94); border-left: 2px solid var(--glass-border); z-index: 190;
+    padding: 22px; box-sizing: border-box; pointer-events: auto; backdrop-filter: blur(10px);">
+    <h2 style="font-family:Orbitron; color:#ff3b30; margin: 10px 0 8px; font-size: 1.1rem;">Cancelar ejercicio</h2>
+    <p style="font-size:0.78rem; color:#bbb; margin-top:0; line-height:1.5;">
+        Registra el motivo (fatiga, tiempo, malestar, etc.). Quedará integrado al reporte y al análisis expandido.
+    </p>
+
+    <div class="input-box" style="margin-top: 12px;">
+        <label>Motivo</label>
+        <select id="cancel-reason">
+            <option value="fatiga">fatiga</option>
+            <option value="tiempo">tiempo / sesión termina</option>
+            <option value="malestar">malestar</option>
+            <option value="dificultad">dificultad / frustración</option>
+            <option value="distracción">distracción / entorno</option>
+            <option value="otro">otro</option>
+        </select>
+    </div>
+
+    <div class="input-box" style="margin-top: 12px;">
+        <label>Nota (opcional)</label>
+        <textarea id="cancel-note" rows="5" placeholder="Descripción breve..."></textarea>
+    </div>
+
+    <div style="display:flex; gap:10px; margin-top: 16px; justify-content:flex-end;">
+        <button class="btn-opt" id="cancel-close">VOLVER</button>
+        <button class="action-btn" id="cancel-confirm" style="background:#ff3b30;">CONFIRMAR</button>
+    </div>
+</div>
+
+
+
+    <div id="trial-cancelled" class="screen hidden" style="z-index: 181;">
+        <div class="panel" style="max-width: 620px; border: 2px solid rgba(255,59,48,0.6);">
+            <h2 style="color:#ff3b30; font-family:Orbitron; margin-bottom:10px;">ENSAYO CANCELADO</h2>
+            <p style="font-size: 1.05rem; line-height: 1.6; margin: 16px 0; color:#ddd;">
+                El ensayo se canceló antes de iniciar la evaluación. <b>No se registró sesión</b> ni se generó informe.
+            </p>
+            <div style="display:flex; gap:12px; justify-content:flex-end; flex-wrap:wrap;">
+                <button class="btn-opt" onclick="game.returnToHomeFromTrialCancel()">SALIR A PANTALLA PRINCIPAL</button>
+                <button class="action-btn" onclick="game.startProgrammedStep()">CONTINUAR A LA PRUEBA</button>
+            </div>
+        </div>
+    </div>
+
+
+    <div id="victory-screen" class="screen hidden">
+        <h1 id="victory-title" style="font-size: 4rem; color: gold; text-shadow: 0 0 40px orange;">¡EXCELENTE!</h1>
+        <p id="victory-text" style="font-size: 1.5rem;">Protocolo completado satisfactoriamente.</p>
+        <button class="action-btn" onclick="game.showReport()">GENERAR REPORTE CLÍNICO</button>
+    </div>
+
+    <div id="report-screen" class="screen hidden">
+        <div class="report-card" id="printable-report">
+            <div class="report-header">
+                <div>
+                    <h2 id="r-prof"></h2>
+                    <p id="r-title"></p>
+                    <p id="r-email" style="font-size:0.8rem; color:#888;"></p>
+                </div>
+                <div class="header-right">
+                    <p><strong>PACIENTE:</strong> <span id="r-pat"></span></p>
+                    <p><strong>ID:</strong> <span id="r-id"></span> | <strong>EDAD:</strong> <span id="r-age"></span></p>
+                    <p><strong>FECHA:</strong> <span id="r-date"></span></p>
+                    <p><strong>DX:</strong> <span id="r-diag"></span></p>
+                </div>
+            </div>
+            
+            <div style="background:#f9f9f9; padding:15px; border-radius:8px; margin-bottom:20px;">
+                <p style="margin:5px 0;"><strong>MEDICACIÓN:</strong> <span id="r-meds"></span></p>
+                <p style="margin:5px 0;"><strong>ANTECEDENTES:</strong> <span id="r-history"></span></p>
+            </div>
+
+            <div class="section-title" style="color:#444; margin-bottom:10px;">Bitácora de Sesiones Previas</div>
+            <div class="historical-box" id="r-historical-list"></div>
+
+            <h3 style="border-bottom: 2px solid #eee; padding-bottom:10px;">Evolución Histórica (Latencia de Respuesta)</h3>
+            <div class="chart-container">
+                <canvas id="latencyChart"></canvas>
+                <img id="chartImg" style="display:none; width:100%;" />
+            </div>
+
+            <table style="width:100%; border-collapse: collapse; margin-top: 20px;">
+                <thead style="background:#eee;">
+                    <tr>
+                        <th style="padding:10px; border:1px solid #ddd; text-align:left;">FECHA</th>
+                        <th style="padding:10px; border:1px solid #ddd; text-align:left;">DOMINIO / SERIE</th>
+                        <th style="padding:10px; border:1px solid #ddd;">GRILLA</th>
+                        <th style="padding:10px; border:1px solid #ddd;">LATENCIA (ms)</th>
+                        <th style="padding:10px; border:1px solid #ddd;">PRECISIÓN</th>
+                    </tr>
+                </thead>
+                <tbody id="history-body"></tbody>
+            </table>
+
+            <div class="section-title" style="color:#333; margin-top:30px;">Análisis Clínico Detallado de la Sesión</div>
+            <div id="r-interpretation" class="interp-box"></div>
+<div style="margin-top: 40px; border-top: 1px solid #ddd; padding-top: 20px; display:flex; flex-wrap:wrap; gap:10px;" class="no-print">
+                <button class="action-btn" onclick="game.generateAIPrompt()" style="background: linear-gradient(90deg, #ff00cc, #333399);">✨ IMPULSAR ANÁLISIS CON IA</button>
+                <button class="action-btn" onclick="window.print()" style="background:#444;">IMPRIMIR PDF</button>
+                <button class="action-btn" onclick="game.exportToWord()" style="background:#2b5797;">EXPORTAR WORD</button>
+                <button class="action-btn" onclick="game.endSession()" style="background:#555;">FINALIZAR SESIÓN</button>
+            </div>
+        </div>
+    </div>
+
+    <script>
+function initStartHistoryToggle(){
+    const header = document.getElementById('start-history-header');
+    const wrap = document.getElementById('start-history-container');
+    const closeBtn = document.getElementById('start-history-close');
+    if(!header || !wrap || !closeBtn) return;
+
+    const open = () => {
+        wrap.style.display = 'block';
+        closeBtn.style.display = 'inline-flex';
+    };
+    const close = () => {
+        wrap.style.display = 'none';
+        closeBtn.style.display = 'none';
+    };
+
+    // Inicia CERRADO (como pediste)
+    close();
+
+    // Click en el título SOLO ABRE (no cierra)
+    header.addEventListener('click', (e)=>{
+        // Si se hizo click en el botón de cerrar, no abrir aquí
+        if(e.target && (e.target.id === 'start-history-close')) return;
+        if(wrap.style.display === 'none' || !wrap.style.display) open();
+    });
+
+    // Click arriba derecha CIERRA
+    closeBtn.addEventListener('click', (e)=>{
+        e.preventDefault();
+        e.stopPropagation();
+        close();
+    });
+}
+
+
+// Toggle Historial (pantalla inicio): seguro para PC/móvil
+window.addEventListener('load', () => {
+    try { initStartHistoryToggle(); } catch(e) {}
+});
+
+
+        class GameApp {
+            constructor() {
+                this.sessionCancellations = [];
+                this.uiLock = false;
+                this.trial = { active: false, targets: [], goal: 4 };
+                // INHIBICIÓN (pausas NO-GO entre aciertos)
+                this.inhib = { pause: false, pauseUntil: 0, commissions: 0, pauses: 0, level2: true, colorCapture: 0 };
+                // MEMORIA (secuencia tipo Corsi 3D sobre el cubo)
+                this.mem = { active: false, phase: 'IDLE', seq: [], idx: 0 };
+
+                this.plan = [];
+                this.currentIdx = 0;
+                this.sessionResults = [];
+
+                // Estado de sesión (incluye ensayo)
+                this.state = {
+                    isPlaying: false,
+                    isTrial: false,
+                    mode: '',
+                    serieKey: 'números',
+                    gridDim: 2,
+                    currentIndex: 0,
+                    foundCount: 0,
+                    errors: 0,
+                    latencies: [],
+                    startTime: 0,
+                    lastClickTime: 0
+                };
+                this.pointerStart = new THREE.Vector2();
+                this.chartInstance = null;
+                // COLORES DE FONDO PARA DISOCIACIÓN (Pasteles y Neones suaves)
+                this.bgColors = ['#FF5733', '#33FF57', '#3357FF', '#FF33A1', '#F3FF33', '#33FFF5', '#8E44AD', '#E67E22'];
+
+                this.series = {
+                    'números': Array.from({length:50}, (_,i)=> (i+1).toString()),
+                    'alfabeto': "ABCDEFGHIJKLMNOPQRSTUVWXYZ".split(""),
+                    'letras': "ABCDEFGHIJKLMNÑOPQRSTUVWXYZ".split(""),
+                    'íconos': ['⭐','🔥','⚡','🌙','☀️','🌧','❄️','💧','🌿','🍃','🧠','🧩','⚙️','🔒','🛑','✅','❌','🔺','🔻','🔷','🔶','🔸','🔹','🌀','♾️','⚖️','🕳️','🪨','🧱','📌'],
+                    'colores': ['🔴','🟠','🟡','🟢','🔵','🟣','🟤','⚫','⚪','🟥','🟧','🟨','🟩','🟦','🟪','🟫','⬛','⬜','🔺','🔻','🔶','🔷','🔸','🔹'],
+                    'griego': ['α','β','γ','δ','ε','ζ','η','θ','ι','κ','λ','μ','ν','ξ','ο','π','ρ','σ','τ','υ','φ','χ','ψ','ω'],
+                    'romanos': ['I','II','III','IV','V','VI','VII','VIII','IX','X','XI','XII','XIII','XIV','XV','XVI','XVII','XVIII','XIX','XX','XXI','XXII','XXIII','XXIV'],
+                    'fibonacci': ['1','1','2','3','5','8','13','21','34','55','89','144','233','377','610','987','1597','2584','4181','6765','10946','17711','28657','46368'],
+                    'cuadrados': Array.from({length:30}, (_,i)=> ((i+1)**2).toString()),
+                    'primos': ['2','3','5','7','11','13','17','19','23','29','31','37','41','43','47','53','59','61','67','71','73','79','83','89'],
+                    'meses': ['Ene','Feb','Mar','Abr','May','Jun','Jul','Ago','Sep','Oct','Nov','Dic'],
+                    'semana': ['L','M','X','J','V','S','D'],
+                    'día_noche': ['🌅','☀️','🌤','☁️','🌦','🌧','🌇','🌆','🌃','🌙','🌌','🌑','🌒','🌓','🌔','🌕','🌖','🌗','🌘','🌠','✨','💫','⚡','🌪','❄️','🔥'],
+                    'tamaños': ['·','•','●','⬤','⬤⬤','⬤⬤⬤','⬤⬤⬤⬤','⬤⬤⬤⬤⬤','▫','▪','◽','◾','◻','◼','⬜','⬛','□','■','◯','⬡','⬢','⬣','⬟'],
+                    'elementos': ['🌱','🌿','🍃','🌾','🌳','🪴','🍄','💧','💦','🌊','🧊','☔','🔥','⚡','💥','🌋','☀️','🧨','🌬','🌪️','🪨','🗿','⛰️','🧱','⚙️','🛑','🔒','🧠','🕳️','♾️','⚖️','🧩'],
+                    'emociones': ['🙂','😐','😶','🙁','😟','😠','😡','🤯','😵','😴','😀','😁','😂','🤣','😊','😍','🥰','😘','😎','🤔','😳','😨','😱','😭','😢','🥲','😤','😮','😲','😬','😑','😒','😕','😖','😞','🫠'],
+                    'planetas': ['☿','♀','🌍','♂','♃','♄','♅','♆','🪐','☀️','🌑','🌒','🌓','🌔','🌕','🌖','🌗','🌘','⭐','🌟','✨','💫','🌠','☄️','🌌','🌀','🌫','🔥','❄️','⚡'],
+                    'fases': ['●','◔','◑','◕','○','■','□','▣','▤','▲','△','▶','◆','◇','⬢','⬡','⬠','⬟','◯','⬤','⬛','⬜','🔺','🔻','🔶','🔷','🔸','🔹','⬆️','➡️','⬇️','⬅️','⟳','⟲'],
+                    'caos': ['A','7','●','γ','🍎','⚡','III','🐍','∆','?','Ω','9','■','🌪','λ','🍄','♠','5','🔥','π','∞','∅','≠','≈','±','⊗','⊕','⊘','∇','∂','Σ','Ξ','Ψ','Φ','💥','🌀','🕳','⚠️'],
+                    'complejidad': ['Bucle','Fractal','Azar','Nodo','Flujo','Caos','Orden','Red','Salto','Nivel','Hito','Fase'],
+                    'sagrada': ['Flower','Seed','Tree','Metatron','Vesica','Torus','Spiral','Pent','Hex','Octa'],
+                    'alquimia': ['🜁','🜂','🜃','🜄','🜍','🜔','☿','☉','☽','♂','♃','♄','🜚','🜛','🜜','🜝','🜞','🜟','🜠','🜡','⚗️','🔥','💧','🌬','🪨','🌑','🌕','⭐','✨','🌀'],
+                    'vitalis': ['Piel','Alma','Vida','Salud','Pura','Esencia','Bio','Vital','Glow','Zen','Nutri','Fresco','Selva','Muzgo','Vitalis','Amor','Eros'],
+                    'cromática': ['🔴','🟠','🟡','🟢','🔵','🟣','🟤','⚫','⚪','🟥','🟧','🟨','🟩','🟦','🟪','🟫','⬛','⬜','🔺','🔻','🔶','🔷','🔸','🔹']
+                };
+
+                window.addEventListener('load', () => { this.populateSeries(); this.initThree(); this.refreshPatientAutocomplete(); this.renderStartHistoryAccordion(''); });
+            }
+
+            populateSeries() {
+                const sel = document.getElementById('sel-serie');
+                const preferred = ['números','letras','íconos','colores','alfabeto','cromática'];
+                const keys = Object.keys(this.series);
+                const ordered = [];
+                preferred.forEach(k => { if(keys.includes(k) && !ordered.includes(k)) ordered.push(k); });
+                keys.forEach(k => { if(!ordered.includes(k)) ordered.push(k); });
+
+                ordered.forEach(k => {
+                    const op = document.createElement('option');
+                    op.value = k;
+                    op.innerText = k.toUpperCase();
+                    sel.appendChild(op);
+                });
+            }
+
+            refreshPatientAutocomplete() {
+                const h = JSON.parse(localStorage.getItem('omni_history_v7_final') || "[]");
+                const uniqueEntries = {};
+                h.forEach(entry => { uniqueEntries[entry.patId] = entry.patName; });
+                const patients = JSON.parse(localStorage.getItem('omni_patients_v7') || '{}');
+                Object.keys(patients).forEach(pid => { uniqueEntries[pid] = patients[pid].patName || uniqueEntries[pid] || '' });
+                document.getElementById('patients-list').innerHTML = Object.entries(uniqueEntries).map(([id, name]) => `<option value="${id}_${name}">`).join('');
+            }
+
+
+savePatientProfile() {
+    const id = (document.getElementById('pat-id').value || '').trim();
+    if(!id) { alert('Ingrese un ID antes de guardar.'); return; }
+
+    const patients = JSON.parse(localStorage.getItem('omni_patients_v7') || '{}');
+    patients[id] = {
+        patId: id,
+        patName: document.getElementById('pat-name').value || '',
+        patAge: document.getElementById('pat-age').value || '',
+        patLat: document.getElementById('pat-lat').value || '',
+        patTel: document.getElementById('pat-tel').value || '',
+        patEmail: document.getElementById('pat-email').value || '',
+        patMeds: document.getElementById('pat-meds').value || '',
+        patDiag: document.getElementById('pat-diag').value || '',
+        patHistory: document.getElementById('pat-history').value || '',
+        updatedAt: Date.now()
+    };
+    localStorage.setItem('omni_patients_v7', JSON.stringify(patients));
+    this.refreshPatientAutocomplete();
+    this.renderStartHistoryAccordion(id);
+    alert('💾 Paciente guardado/actualizado.');
+}
+
+renderStartHistoryAccordion(patId) {
+    const container = document.getElementById('start-history-accordion');
+    const countEl = document.getElementById('start-history-count');
+    if(!container || !countEl) return;
+
+    if(!patId) {
+        container.innerHTML = '<div style="color:#777; font-size:0.78rem;">Cargue un paciente para ver su historial.</div>';
+        countEl.innerText = '';
+        return;
+    }
+
+    const allHistory = JSON.parse(localStorage.getItem('omni_history_v7_final') || '[]');
+    const patHistory = allHistory.filter(h => h.patId === patId).sort((a,b)=> (b.timestamp||0)-(a.timestamp||0));
+
+    countEl.innerText = `(${patHistory.length})`;
+
+    if(patHistory.length === 0) {
+        container.innerHTML = '<div style="color:#777; font-size:0.78rem;">Sin sesiones previas registradas para este ID.</div>';
+        return;
+    }
+
+    const fmtTime = (ts) => {
+        try {
+            const d = new Date(ts);
+            return d.toLocaleTimeString([], {hour:'2-digit', minute:'2-digit', second:'2-digit'});
+        } catch(e){ return ''; }
+    };
+
+    container.innerHTML = patHistory.map((s) => {
+        const avgLat = this.calcAvgLatency(s.results);
+        const title = `${s.date}${s.timestamp ? (', ' + fmtTime(s.timestamp)) : ''}`;
+        const phases = (s.results||[]).map(r => {
+            return `<div style="display:flex; justify-content:space-between; gap:10px; border-bottom:1px dashed rgba(255,255,255,0.08); padding:6px 0;">
+                <div style="color:#ddd;"><b>${r.mode}</b> · ${r.serie}</div>
+                <div style="color:#aaa; text-align:right;">${r.grid}x${r.grid} · ${r.mRT}ms · ${r.acc}%</div>
+            </div>`;
+        }).join('');
+
+        const cancels = (s.cancellations && s.cancellations.length)
+            ? `<div style="margin-top:10px; padding:10px; border:1px solid rgba(255,59,48,0.35); border-radius:10px; background:rgba(255,59,48,0.08);">
+                <div style="color:#ff3b30; font-family:Orbitron; font-size:0.6rem; letter-spacing:1px; text-transform:uppercase;">Cancelaciones registradas</div>
+                ${(s.cancellations||[]).map(c => `<div style="color:#ddd; font-size:0.8rem; margin-top:6px;">
+                    • <b>${c.mode}</b> (${c.grid}x${c.grid}) — motivo: <b>${c.reason}</b>${c.note ? ` · <span style="color:#bbb;">${c.note}</span>` : ''}
+                </div>`).join('')}
+            </div>` : '';
+
+        return `<div class="accordion-item">
+            <div class="accordion-header">
+                <div class="acc-title" onclick="event.stopPropagation(); game.openHistoryReport(${s.timestamp||0});">${title} · fases: ${(s.results||[]).length} · latencia prom.: ${avgLat}ms</div>
+                <button class="acc-toggle" onclick="event.stopPropagation(); game.toggleAccordion(this.parentElement)">+</button>
+            </div>
+            <div class="accordion-content">
+${phases}
+                ${cancels}
+            </div>
+        </div>`;
+    }).join('');
+}
+
+calcAvgLatency(results) {
+    if(!results || results.length === 0) return 0;
+    const vals = results.map(r => parseFloat(r.mRT)).filter(v => !isNaN(v));
+    if(vals.length === 0) return 0;
+    return Math.round(vals.reduce((a,b)=>a+b,0)/vals.length);
+}
+
+// --- UI helpers: acordeones e informe desde historial ---
+toggleAccordion(headerEl) {
+    try {
+        const item = headerEl.closest('.accordion-item');
+        if(!item) return;
+        const content = item.querySelector('.accordion-content');
+        const sign = headerEl.querySelector('.acc-toggle') || headerEl.querySelector('span');
+        if(!content) return;
+
+        const isOpen = content.classList.contains('open');
+        // cerrar otros para evitar pantalla eterna
+        document.querySelectorAll('.accordion-content.open').forEach(el => {
+            if(el !== content) { el.classList.remove('open'); el.style.maxHeight = '0px'; const h = el.parentElement.querySelector('.accordion-header .acc-toggle') || el.parentElement.querySelector('.accordion-header span'); if(h) h.textContent = '+'; }
+        });
+
+        if(isOpen) {
+            content.classList.remove('open');
+            content.style.maxHeight = '0px';
+            if(sign) sign.textContent = '+';
+        } else {
+            content.classList.add('open');
+            content.style.maxHeight = content.scrollHeight + 'px';
+            if(sign) sign.textContent = '−';
+        }
+    } catch(e) {}
+}
+
+openHistoryReport(ts) {
+    try {
+        const allHistory = JSON.parse(localStorage.getItem('omni_history_v7_final') || '[]');
+        let entry = allHistory.find(h => (h.timestamp||0) === ts);
+        if(!entry) {
+            alert('No se encontró el informe seleccionado.');
+            return;
+        }
+        this.renderReportFromEntry(entry);
+    } catch(e) {
+        alert('No se pudo abrir el informe.');
+    }
+}
+
+renderReportFromEntry(entry) {
+    // Mostrar pantalla de informe sin volver a guardar (no duplicar historial)
+    document.getElementById('victory-screen').classList.add('hidden');
+    document.getElementById('start-screen').classList.add('hidden');
+    document.getElementById('report-screen').classList.remove('hidden');
+
+    // Sincronizar formulario (por si se quiere seguir trabajando con el mismo paciente)
+    if(entry && entry.patId) document.getElementById('pat-id').value = entry.patId;
+    if(entry && entry.patName) document.getElementById('pat-name').value = entry.patName;
+    if(entry && entry.patAge) document.getElementById('pat-age').value = entry.patAge;
+    if(entry && entry.patTel) document.getElementById('pat-tel').value = entry.patTel || '';
+    if(entry && entry.patEmail) document.getElementById('pat-email').value = entry.patEmail || '';
+    if(entry && entry.patMeds) document.getElementById('pat-meds').value = entry.patMeds || '';
+    if(entry && entry.patDiag) document.getElementById('pat-diag').value = entry.patDiag || '';
+    if(entry && entry.patHistory) document.getElementById('pat-history').value = entry.patHistory || '';
+
+    // Cargar resultados a la vista
+    this.sessionResults = entry.results || [];
+    this.sessionCancellations = entry.cancellations || [];
+
+    const dateStr = entry.date || new Date(entry.timestamp || Date.now()).toLocaleDateString();
+    this.currentReportTimestamp = (entry.timestamp || 0);
+
+
+    document.getElementById('r-prof').innerText = document.getElementById('prof-name').value;
+    document.getElementById('r-title').innerText = document.getElementById('prof-title').value;
+    document.getElementById('r-email').innerText = document.getElementById('prof-email').value;
+
+    document.getElementById('r-pat').innerText = entry.patName || '';
+    document.getElementById('r-id').innerText = entry.patId || '';
+    document.getElementById('r-age').innerText = entry.patAge || '';
+    document.getElementById('r-date').innerText = dateStr;
+    document.getElementById('r-meds').innerText = entry.patMeds || '';
+    document.getElementById('r-diag').innerText = entry.patDiag || '';
+    document.getElementById('r-history').innerText = entry.patHistory || '';
+
+    document.getElementById('history-body').innerHTML = (this.sessionResults || []).map(r => `<tr>
+        <td style="padding:10px; border:1px solid #ddd;">${dateStr}</td>
+        <td style="padding:10px; border:1px solid #ddd;">${r.mode} / ${r.serie}</td>
+        <td style="padding:10px; border:1px solid #ddd;">${r.grid}x${r.grid}</td>
+        <td style="padding:10px; border:1px solid #ddd;">${r.mRT} ms</td>
+        <td style="padding:10px; border:1px solid #ddd;">${r.acc}%</td>
+    </tr>`).join('');
+
+    // Re-render de paneles del informe
+    this.renderHistoricalList(entry.patId || '');
+    this.renderClinicalInterpretation();
+    this.renderPatientNote();
+    this.renderHistoricalChart(entry.patId || '');
+
+    // al volver al inicio, el acordeón debe reflejar el mismo paciente
+    this.renderStartHistoryAccordion(entry.patId || '');
+}
+
+finishTrialExit() {
+    // Termina el ensayo sin generar informe y vuelve a la pantalla principal
+    this.state.isPlaying = false;
+    this.state.isTrial = false;
+    if(this.trial) this.trial.active = false;
+
+    try {
+        document.getElementById('trial-complete').classList.add('hidden');
+        document.getElementById('hud').classList.add('hidden');
+        document.getElementById('cancel-drawer').classList.add('hidden');
+    } catch(e) {}
+
+    // No borrar plan; solo permitir continuar o reiniciar después
+    this.state.foundCount = 0;
+    this.state.currentIndex = 0;
+
+    document.getElementById('start-screen').classList.remove('hidden');
+}
+
+
+returnToHomeFromTrialCancel() {
+    // Salir limpio desde la pantalla "ENSAYO CANCELADO" a pantalla principal
+    try { 
+        const tc = document.getElementById('trial-cancelled');
+        if(tc) tc.classList.add('hidden');
+    } catch(e) {}
+
+    // Asegurar que no quede nada del ensayo activo
+    this.sessionCancellations = [];
+    this._trialCancelEvent = null;
+
+    // Reutilizar salida estándar de ensayo
+    try { this.finishTrialExit(); } catch(e) {
+        // fallback mínimo
+        try {
+            this.state.isPlaying = false;
+            this.state.isTrial = false;
+            if(this.trial) this.trial.active = false;
+            document.getElementById('hud').classList.add('hidden');
+            document.getElementById('start-screen').classList.remove('hidden');
+        } catch(err) {}
+    }
+}
+
+
+            loadPatientProfile() {
+                let val = document.getElementById('pat-id').value;
+                if(!val) return;
+                const id = val.split('_')[0]; 
+                const h = JSON.parse(localStorage.getItem('omni_history_v7_final') || "[]").filter(i => i.patId === id);
+                if(h.length > 0) {
+                    const l = h[h.length - 1];
+                    document.getElementById('pat-id').value = l.patId; 
+                    document.getElementById('pat-name').value = l.patName || "";
+                    document.getElementById('pat-age').value = l.patAge || "";
+                    document.getElementById('pat-lat').value = l.patLat || "";
+                    document.getElementById('pat-tel').value = l.patTel || "";
+                    document.getElementById('pat-email').value = l.patEmail || "";
+                    document.getElementById('pat-meds').value = l.patMeds || "";
+                    document.getElementById('pat-diag').value = l.patDiag || "";
+                    document.getElementById('pat-history').value = l.patHistory || "";
+                    this.renderStartHistoryAccordion(id);
+                    alert("Datos cargados.");
+
+} else {
+    // Si existe ficha guardada, cargarla
+    const patients = JSON.parse(localStorage.getItem('omni_patients_v7') || '{}');
+    if(patients[id]) {
+        const p = patients[id];
+        document.getElementById('pat-id').value = p.patId;
+        document.getElementById('pat-name').value = p.patName || '';
+        document.getElementById('pat-age').value = p.patAge || '';
+        document.getElementById('pat-lat').value = p.patLat || '';
+        document.getElementById('pat-tel').value = p.patTel || '';
+        document.getElementById('pat-email').value = p.patEmail || '';
+        document.getElementById('pat-meds').value = p.patMeds || '';
+        document.getElementById('pat-diag').value = p.patDiag || '';
+        document.getElementById('pat-history').value = p.patHistory || '';
+        this.renderStartHistoryAccordion(id);
+        alert("Datos cargados desde ficha guardada.");
+    } else {
+        this.renderStartHistoryAccordion(id);
+        alert("🟢 ID NUEVO. Puede registrar al paciente.");
+    }
+}
+            }
+
+            clearForm() {
+                ['pat-id', 'pat-name', 'pat-age', 'pat-lat', 'pat-tel', 'pat-email', 'pat-meds', 'pat-diag', 'pat-history'].forEach(f => document.getElementById(f).value = '');
+                this.renderStartHistoryAccordion('');
+            }
+
+            deleteCurrentPatient() {
+                const id = document.getElementById('pat-id').value;
+                if(!id) { alert("Ingrese un ID para eliminar."); return; }
+                if(confirm(`⚠️ ¿Eliminar registros del ID: ${id}?`)) {
+                    let h = JSON.parse(localStorage.getItem('omni_history_v7_final') || "[]");
+                    const newH = h.filter(i => i.patId !== id);
+                    localStorage.setItem('omni_history_v7_final', JSON.stringify(newH));
+                    alert("Eliminado.");
+                    this.clearForm();
+                    this.refreshPatientAutocomplete();
+                }
+            }
+
+            
+initThree() {
+    this.scene = new THREE.Scene();
+    this.camera = new THREE.PerspectiveCamera(60, window.innerWidth/window.innerHeight, 0.1, 1000);
+    this.camera.position.z = 8;
+    this.renderer = new THREE.WebGLRenderer({ antialias: true, alpha: true });
+    this.renderer.setSize(window.innerWidth, window.innerHeight);
+    document.getElementById('canvas-container').appendChild(this.renderer.domElement);
+
+    this.controls = new THREE.OrbitControls(this.camera, this.renderer.domElement);
+    this.controls.autoRotate = true;
+    this.controls.autoRotateSpeed = 0.5;
+
+    this.scene.add(new THREE.AmbientLight(0xffffff, 1.2));
+    this.animate();
+
+    // --- Tap/Click robusto (PC + móvil): SOLO canvas (evita que la UI "se coma" el evento) ---
+    const canvas = this.renderer.domElement;
+    canvas.style.touchAction = 'none';
+    canvas.style.cursor = 'pointer';
+
+    let isDown = false;
+    let pointerType = 'mouse';
+    let down = { x:0, y:0, t:0, id:null };
+    let moved = 0;
+    let lastRotateAt = 0;
+
+    const getPoint = (e) => ({ x: e.clientX, y: e.clientY });
+
+    const onDown = (e) => {
+        if(this.uiLock) return;
+        isDown = true;
+        pointerType = e.pointerType || 'mouse';
+        down.id = e.pointerId || null;
+        const p = getPoint(e);
+        down.x = p.x; down.y = p.y; down.t = Date.now();
+        moved = 0;
+
+        // Captura: asegura UP aunque el puntero salga del canvas (clave en PC)
+        try { if(down.id !== null) canvas.setPointerCapture(down.id); } catch(err) {}
+    };
+
+    const onMove = (e) => {
+        if(!isDown) return;
+        const p = getPoint(e);
+        const dx = (p.x - down.x);
+        const dy = (p.y - down.y);
+        moved = Math.sqrt(dx*dx + dy*dy);
+
+        // Si hay movimiento real con botón presionado, se interpreta como rotación (no click)
+        const buttons = (typeof e.buttons === 'number') ? e.buttons : 1;
+        if((pointerType !== 'mouse' || (buttons & 1)) && moved > 10) lastRotateAt = Date.now();
+    };
+
+    const onUp = (e) => {
+        if(this.uiLock) return;
+        if(!isDown) return;
+        isDown = false;
+
+        const now = Date.now();
+        const pressMs = now - down.t;
+
+        // Umbrales por tipo: mouse tolera un poco más (evita "no clickea" por micro-movimientos)
+        const maxPress = (pointerType === 'mouse') ? 520 : 420;
+        const maxMove  = (pointerType === 'mouse') ? 14  : 10;
+        const antiAfterRotate = 140;
+
+        if(pressMs <= maxPress && moved <= maxMove && (now - lastRotateAt) > antiAfterRotate) {
+            const p = getPoint(e);
+            this.onCubeClick({ clientX: p.x, clientY: p.y });
+        }
+
+        try { if(down.id !== null) canvas.releasePointerCapture(down.id); } catch(err) {}
+    };
+
+    canvas.addEventListener('pointerdown', onDown, { passive:true });
+    canvas.addEventListener('pointermove', onMove, { passive:true });
+    canvas.addEventListener('pointerup', onUp, { passive:true });
+    canvas.addEventListener('pointercancel', onUp, { passive:true });
+
+    // --- Controles UI (velocidad / cancelar) ---
+    const speed = document.getElementById('speed-slider');
+    if(speed) {
+        speed.addEventListener('input', () => {
+            // rango perceptible: 0..3.2 (base 0.5)
+            const v = parseInt(speed.value, 10) || 0;
+            const auto = 0.2 + (v/100)*3.0; // 0.2..3.2
+            this.controls.autoRotateSpeed = auto;
+            // sensibilidad manual: escalado suave
+            this.controls.rotateSpeed = 0.35 + (v/100)*1.4; // 0.35..1.75
+        });
+        // inicial
+        speed.dispatchEvent(new Event('input'));
+    }
+
+    const btnCancel = document.getElementById('btn-cancel');
+    if(btnCancel) btnCancel.addEventListener('click', () => this.openCancelDrawer());
+    const close = document.getElementById('cancel-close');
+    if(close) close.addEventListener('click', () => this.closeCancelDrawer());
+    const confirm = document.getElementById('cancel-confirm');
+    if(confirm) confirm.addEventListener('click', () => this.confirmCancelExercise());
+}
+
+addToPlan() {
+                const mode = document.getElementById('sel-mode').value;
+                const serie = document.getElementById('sel-serie').value;
+                const grid = parseInt(document.getElementById('sel-grid').value);
+
+                // Ajustes específicos de ATENCIÓN (no afectan otros módulos)
+                const step = { mode, serie, grid };
+                if(mode === 'SECUENCIAL') {
+                    const taskEl = document.getElementById('attn-task');
+                    const trEl   = document.getElementById('attn-targetrate');
+                    const wEl    = document.getElementById('attn-window');
+                    const minEl  = document.getElementById('attn-itimin');
+                    const maxEl  = document.getElementById('attn-itimax');
+                    const jitEl  = document.getElementById('attn-jitter');
+
+                    step.attnTask = taskEl ? taskEl.value : 'SEARCH_ORDER';
+                    step.attnTargetRate = trEl ? Math.max(5, Math.min(80, parseInt(trEl.value||'20',10)||20)) : 20;
+                    step.attnWindowMs = wEl ? Math.max(300, Math.min(4000, parseInt(wEl.value||'1400',10)||1400)) : 1400;
+                    step.attnItiMin = minEl ? Math.max(0, Math.min(4000, parseInt(minEl.value||'650',10)||650)) : 650;
+                    step.attnItiMax = maxEl ? Math.max(0, Math.min(6000, parseInt(maxEl.value||'1400',10)||1400)) : 1400;
+                    step.attnJitter = jitEl ? (jitEl.value || 'on') : 'on';
+                    if(step.attnItiMax < step.attnItiMin) step.attnItiMax = step.attnItiMin;
+                }
+
+                this.plan.push(step);
+                this.renderPlan();
+            }
+
+            resetPlan() { this.plan = []; this.renderPlan(); }
+
+            renderPlan() {
+                const list = document.getElementById('plan-list');
+                if(this.plan.length === 0) { list.innerHTML = 'Sin fases.'; return; }
+                list.innerHTML = this.plan.map((p, i) => {
+                    const extra = (p.mode === 'SECUENCIAL' && p.attnTask && p.attnTask !== 'SEARCH_ORDER') ? ` · ${p.attnTask.replace('_','/')}` : '';
+                    return `<span class="plan-tag">${i+1}. ${p.mode}${extra} (${p.grid}x${p.grid})</span>`;
+                }).join('');
+            }
+
+            startMatch() {
+                if(this.plan.length === 0) return;
+                this.currentIdx = 0; this.sessionResults = []; this.sessionCancellations = [];
+                document.getElementById('start-screen').classList.add('hidden');
+                this.showInstructions();
+            }
+
+            showInstructions() {
+                const step = this.plan[this.currentIdx];
+                let inst = '';
+                if(step.mode === 'SECUENCIAL') {
+                    const t = step.attnTask || 'SEARCH_ORDER';
+                    if(t === 'GO_NOGO') {
+                        inst = 'ATENCIÓN SOSTENIDA (GO/NO-GO): Responde SOLO cuando el estímulo indique GO. Si aparece NO-GO, no toques nada. Mantén el foco y controla impulsos.';
+                    } else {
+                        inst = 'ATENCIÓN SOSTENIDA: Encuentra los elementos en el orden de la serie. Mantén el foco.';
+                    }
+                } else if(step.mode === 'RIZOMA') {
+                    inst = 'FLEXIBILIDAD COGNITIVA: Los elementos saltan aleatoriamente. Adapta tu foco.';
+                } else if(step.mode === 'STROOP') {
+                    inst = 'INHIBICIÓN: El símbolo aparecerá junto a una BARRA DE COLOR DISTRACTOR. IGNORA EL COLOR DE LA BARRA y busca el símbolo en el cubo.';
+                } else if(step.mode === 'FANTASMA') {
+                    inst = 'MEMORIA: Memoriza la SECUENCIA objetivo (p. ej., 1, 3, 7). Luego encuentra cada estímulo en el cubo y haz click/tap en el ORDEN indicado.';
+                }
+                document.getElementById('inst-text').innerText = inst;
+                document.getElementById('instruction-modal').classList.remove('hidden');
+            }
+
+            closeInstructions() {
+                document.getElementById('instruction-modal').classList.add('hidden');
+                document.getElementById('hud').classList.remove('hidden');
+                this.startTrial();
+            }
+
+startTrial() {
+    const step = this.plan[this.currentIdx];
+    if(!step) return;
+
+    // Ensayo obligatorio: MISMA SERIE + MISMO MODO, pero grilla fija 2x2 y meta corta
+    this.state.isTrial = true;
+    this.trial.active = true;
+    this.trial.goal = 4; // 4 aciertos para reconocer estímulos
+    this.state.mode = step.mode;
+    this.state.serieKey = step.serie;
+    this.state.gridDim = 2;
+
+    this.state.currentIndex = 0;
+    this.state.foundCount = 0;
+    this.state.errors = 0;
+    this.state.latencies = [];
+    this.state.startTime = Date.now();
+    this.state.lastClickTime = Date.now();
+    this.state.isPlaying = true;
+
+    this.buildCube();
+    this.updateHUD();
+}
+
+completeTrial() {
+    this.state.isPlaying = false;
+    document.getElementById('hud').classList.add('hidden');
+    document.getElementById('trial-complete').classList.remove('hidden');
+}
+
+startProgrammedStep() {
+    // Cierra pantalla de ensayo y pasa al ejercicio real programado
+    document.getElementById('trial-complete').classList.add('hidden');
+    document.getElementById('hud').classList.remove('hidden');
+
+    this.state.isTrial = false;
+    this.trial.active = false;
+    this.runStep();
+}
+
+
+
+            runStep() {
+                const step = this.plan[this.currentIdx];
+                this.state.mode = step.mode; this.state.serieKey = step.serie; this.state.gridDim = step.grid;
+
+                // reset base counters
+                this.state.currentIndex = 0; this.state.foundCount = 0; this.state.errors = 0;
+                this.state.latencies = []; this.state.startTime = Date.now();
+                this.state.lastClickTime = Date.now(); this.state.isPlaying = true;
+
+                // reset mode-specific
+                this.inhib.pause = false; this.inhib.pauseUntil = 0; this.inhib.commissions = 0; this.inhib.pauses = 0; this.inhib.colorCapture = 0;
+                this.mem.active = false;
+                // atención (GO/NO-GO)
+                if(!this.attn) this.attn = {};
+                this._clearAttnTimers && this._clearAttnTimers();
+                this.attn.active = false;
+                this.attn.task = 'SEARCH_ORDER';
+                this.attn.idx = 0;
+                this.attn.trials = [];
+                this.attn.current = null;
+                this.attn.awaiting = false;
+                this.attn.responded = false;
+                this.attn.hits = 0;
+                this.attn.correctRej = 0;
+                this.attn.omissions = 0;
+                this.attn.commissions = 0;
+                this.attn.wrong = 0;
+                this.attn.rtTimeline = [];
+                this.attn._timers = [];
+ this.mem.phase = 'IDLE'; this.mem.seq = []; this.mem.idx = 0;
+
+                this.buildCube();
+                this.updateHUD();
+
+
+                // ATENCIÓN (GO/NO-GO): si se configuró en el plan, iniciar secuencia temporizada
+                if(this.state.mode === 'SECUENCIAL' && step.attnTask === 'GO_NOGO') {
+                    this.startAttentionGoNoGo(step);
+                }
+
+
+                // MEMORIA: mostrar una secuencia y luego pedir reproducción (solo en ejercicio real, no en ensayo)
+                if(this.state.mode === 'FANTASMA') {
+                    this.startMemorySequence();
+                }
+            }
+
+            buildCube() {
+                if(this.cube) this.scene.remove(this.cube);
+                const perFace = this.state.gridDim ** 2;
+                const bS = this.series[this.state.serieKey];
+                
+                // ASIGNAR COLOR DE FONDO ALEATORIO A CADA CELDA
+                const content = []; 
+                for(let i=0; i < perFace*6; i++) {
+                    const bgColor = this.bgColors[Math.floor(Math.random() * this.bgColors.length)];
+                    content.push({ 
+                        v: ((this.state.mode==='FANTASMA' && this.mem && this.mem.active && this.mem.cubeVals && this.mem.cubeVals[i]!==undefined) ? this.mem.cubeVals[i] : bS[i % bS.length]), 
+                        found: false, 
+                        bg: bgColor 
+                    });
+                }
+                
+                if(!(this.state.mode==='FANTASMA' && this.mem && this.mem.lockLayout)) {
+                    content.sort(() => Math.random() - 0.5);
+                }
+                this.logicalCube = [];
+                for(let f=0; f<6; f++) this.logicalCube.push(content.slice(f * perFace, (f + 1) * perFace));
+                const mats = this.logicalCube.map((_, f) => new THREE.MeshStandardMaterial({ map: this.genTex(f) }));
+                this.cube = new THREE.Mesh(new THREE.BoxGeometry(3.5, 3.5, 3.5), mats);
+                this.scene.add(this.cube);
+            }
+
+            genTex(fIdx) {
+                const canvas = document.createElement('canvas'); canvas.width = 512; canvas.height = 512;
+                const ctx = canvas.getContext('2d'); const dim = this.state.gridDim; const step = 512/dim;
+                
+                ctx.fillStyle = '#0a0a1a'; 
+                ctx.fillRect(0, 0, 512, 512); // Fondo base seguro
+
+                this.logicalCube[fIdx].forEach((cell, i) => {
+                    const x = (i % dim) * step; const y = Math.floor(i / dim) * step;
+                    
+                    // FONDO: Si ya fue encontrado se oscurece, si no, usa su color asignado
+                    ctx.fillStyle = cell.found ? '#112211' : cell.bg;
+                    ctx.fillRect(x+4, y+4, step-8, step-8);
+
+                    // RESALTE TEMPORAL (MEMORIA): borde luminoso cuando cell.flash === true
+                    if(cell.flash) {
+                        ctx.strokeStyle = 'rgba(255,255,255,0.95)';
+                        ctx.lineWidth = Math.max(6, step/18);
+                        ctx.shadowColor = 'rgba(255,255,255,0.8)';
+                        ctx.shadowBlur = 18;
+                        ctx.strokeRect(x+10, y+10, step-20, step-20);
+                        ctx.shadowBlur = 0;
+                    }
+
+                    if(!cell.found || this.state.mode !== 'FANTASMA') {
+                        // TEXTO: Siempre blanco con sombra negra para contraste máximo sobre el color
+                        ctx.shadowColor = "black"; ctx.shadowBlur = 4;
+                        ctx.fillStyle = '#FFFFFF';
+                        ctx.font = `bold ${step / 2.5}px Orbitron`; ctx.textAlign = 'center'; ctx.textBaseline = 'middle';
+                        ctx.fillText(cell.v, x + step / 2, y + step / 2);
+                        ctx.shadowBlur = 0;
+                    }
+                });
+                return new THREE.CanvasTexture(canvas);
+            }
+
+            onCubeClick(e) {
+                if(!this.state.isPlaying) return;
+
+                const rect = this.renderer.domElement.getBoundingClientRect();
+                const nx = ((e.clientX - rect.left) / rect.width) * 2 - 1;
+                const ny = -(((e.clientY - rect.top) / rect.height) * 2 - 1);
+
+                const mouse = new THREE.Vector2(nx, ny);
+                const rc = new THREE.Raycaster();
+                rc.setFromCamera(mouse, this.camera);
+
+                const hits = rc.intersectObject(this.cube, false);
+                if(!hits || hits.length === 0) return;
+
+                const hit = hits[0];
+
+                // materialIndex robusto (Three puede no traer face en algunos casos)
+                let faceMat = null;
+                if(hit.face && typeof hit.face.materialIndex === 'number') {
+                    faceMat = hit.face.materialIndex;
+                } else if(typeof hit.faceIndex === 'number') {
+                    faceMat = Math.max(0, Math.min(5, Math.floor(hit.faceIndex / 2)));
+                } else {
+                    faceMat = 0;
+                }
+
+                // celda robusta: preferir UV; fallback a coordenadas locales si UV no está disponible
+                const dim = this.state.gridDim || 1;
+                let u = hit.uv ? hit.uv.x : null;
+                let v = hit.uv ? hit.uv.y : null;
+
+                if(u === null || v === null) {
+                    // fallback: proyectar punto en la cara (local space)
+                    const lp = this.cube.worldToLocal(hit.point.clone());
+                    const half = 3.5 / 2;
+                    // determinar cara por materialIndex y mapear coordenadas a u/v 0..1
+                    // Nota: BoxGeometry ordena caras: +x, -x, +y, -y, +z, -z (típico)
+                    switch(faceMat) {
+                        case 0: // +x
+                            u = (lp.z + half) / (2*half); v = (lp.y + half) / (2*half); break;
+                        case 1: // -x
+                            u = (half - lp.z) / (2*half); v = (lp.y + half) / (2*half); break;
+                        case 2: // +y
+                            u = (lp.x + half) / (2*half); v = (half - lp.z) / (2*half); break;
+                        case 3: // -y
+                            u = (lp.x + half) / (2*half); v = (lp.z + half) / (2*half); break;
+                        case 4: // +z
+                            u = (lp.x + half) / (2*half); v = (lp.y + half) / (2*half); break;
+                        case 5: // -z
+                            u = (half - lp.x) / (2*half); v = (lp.y + half) / (2*half); break;
+                        default:
+                            u = 0.5; v = 0.5;
+                    }
+                }
+
+                // clamp + convertir a celda (y=0 arriba en canvas)
+                u = Math.max(0, Math.min(0.999999, u));
+                v = Math.max(0, Math.min(0.999999, v));
+
+                const col = Math.min(dim-1, Math.max(0, Math.floor(u * dim)));
+                const row = Math.min(dim-1, Math.max(0, Math.floor((1 - v) * dim)));
+                const cell = col + (row * dim);
+
+                // INHIBICIÓN: durante pausa NO-GO cualquier click cuenta como comisión
+                if(this.state.mode === 'STROOP' && this.inhib && this.inhib.pause && Date.now() < this.inhib.pauseUntil) {
+                    this.inhib.commissions += 1;
+                    this.state.errors += 1;
+                    this.showFeedback('⛔', '#ff3b30');
+                    this.updateHUD();
+                    return;
+                }
+
+                this.validate(faceMat, cell);
+            }
+
+
+            getPatientAge() {
+                try {
+                    const el = document.getElementById('p-age');
+                    const v = el ? parseInt(el.value || '', 10) : NaN;
+                    return Number.isFinite(v) ? v : null;
+                } catch(e) { return null; }
+            }
+
+            getMemoryTimings() {
+                // Default (Corsi computerized typical): 500ms ON + 1000ms OFF
+                // Soft age scaling: increase OFF primarily to support encoding.
+                const age = this.getPatientAge();
+                let flashMs = 500;
+                let gapMs = 1000;
+                // Ritmo por sesión (default estándar). Se aplica sobre el valor ya ajustado por edad.
+                const paceEl = document.getElementById('mem-pace');
+                const pace = paceEl ? (paceEl.value || 'standard') : 'standard';
+
+                if(age !== null) {
+                    if(age >= 60) gapMs = 1200;
+                    if(age >= 70) gapMs = 1400;
+                    if(age >= 80) gapMs = 1600;
+                    if(age >= 75) flashMs = 550;
+                    if(age >= 85) flashMs = 600;
+                }
+                let multOn = 1.0, multOff = 1.0;
+                if(pace === 'slow') { multOn = 1.10; multOff = 1.20; }
+                if(pace === 'veryslow') { multOn = 1.20; multOff = 1.40; }
+                flashMs = Math.round(flashMs * multOn);
+                gapMs = Math.round(gapMs * multOff);
+                return { flashMs, gapMs, age, pace };
+            }
+
+            
+startMemorySequence() {
+                // MEMORIA (secuencia a buscar): el sistema muestra la secuencia objetivo en texto,
+                // y el paciente debe encontrarla y hacer click/tap en el cubo en el ORDEN indicado.
+                if(!this.mem) this.mem = {};
+                this.mem.active = true;
+                this.mem.phase = 'ENCODE';
+                this.mem.fadeRemoved = 0;
+                this.mem.lockLayout = true; // mismo cubo durante ensayo y prueba (evita reordenamientos inesperados)
+
+                // Timers/animaciones (evita solapes entre rondas)
+                this.mem._timers = [];
+                this.mem._blinkInterval = null;
+                this.mem._playToken = (this.mem._playToken || 0) + 1;
+
+                // reiniciar métricas del ejercicio (solo real, el ensayo se filtra por lógica de sesión)
+                this.state.foundCount = 0;
+                this.state.errors = 0;
+                this.state.latencies = [];
+                this.state.lastClickTime = Date.now();
+                this.state.isPlaying = true;
+
+                const diff = this.getMemoryDifficultyDefaults();
+                this.mem.age = diff.age;
+                this.mem.len = diff.baseLen;
+                this.mem.maxLen = diff.maxLen;
+
+                // ENSAYO (trial): 3 micro-secuencias obligatorias (1, 2 y 3 ítems). No genera informe.
+                if(this.state.isTrial) {
+                    this.mem.trialStage = 1;
+                    this.mem.len = 1;
+                    this.mem.maxLen = 3;
+                    this.mem.bestLen = 0;
+                }
+
+                this.mem.attempt = 1;
+                this.mem.bestLen = 0;
+                this.mem.rounds = 0;
+                this.mem.clickOK = 0;
+                this.mem.clickTotal = 0;
+
+                this.setupMemoryRound();
+            }
+
+            
+getMemoryDifficultyDefaults() {
+    const age = parseInt((document.getElementById('pat-age') || {}).value || '0', 10) || 0;
+
+    // Rehabilitación: progresión gradual por defecto (2 → 3 → 4 → ...)
+    // El evaluador decide si continúa aumentando o termina y guarda.
+    let baseLen = 2;
+    let maxLen  = 7;
+
+    // Mantener el tope por edad (solo ajusta el techo; el inicio se mantiene en 2)
+    if(age > 0 && age <= 7)       { maxLen = 6; }
+    else if(age <= 12)            { maxLen = 7; }
+    else if(age <= 17)            { maxLen = 8; }
+    else if(age <= 44)            { maxLen = 9; }
+    else if(age <= 59)            { maxLen = 8; }
+    else if(age <= 74)            { maxLen = 7; }
+    else                          { maxLen = 6; }
+
+    return { age, baseLen, maxLen };
+}
+
+            _shuffle(arr) {
+                const a = arr.slice();
+                for(let i=a.length-1; i>0; i--){
+                    const j = Math.floor(Math.random()*(i+1));
+                    [a[i], a[j]] = [a[j], a[i]];
+                }
+                return a;
+            }
+
+            _unique(arr) {
+                const out = [];
+                const seen = new Set();
+                (arr||[]).forEach(v => {
+                    const k = String(v);
+                    if(!seen.has(k)) { seen.add(k); out.push(v); }
+                });
+                return out;
+            }
+
+            _formatSeqForHUD(vals) {
+                return (vals || []).map(v => String(v)).join(', ');
+            }
+
+            setupMemoryRound() {
+                const perFace = this.state.gridDim ** 2;
+                const totalCells = perFace * 6;
+
+                const pool = this._unique(this.series[this.state.serieKey] || []);
+
+                // Mantener el MISMO cubo durante todo el módulo de memoria (incluye ENSAYO 1→2→3)
+                let cubeVals = [];
+                if(this.mem && this.mem.lockLayout && Array.isArray(this.mem.cubeVals) && this.mem.cubeVals.length === totalCells) {
+                    cubeVals = this.mem.cubeVals.slice();
+                }
+
+                // Si no hay cubo aún, construye uno viable con la serie seleccionada
+                if(cubeVals.length === 0) {
+                    if(pool.length >= totalCells) {
+                        cubeVals = this._shuffle(pool).slice(0, totalCells);
+                    } else if(pool.length > 0) {
+                        let last = null;
+                        while(cubeVals.length < totalCells) {
+                            this._shuffle(pool).forEach(v => {
+                                if(cubeVals.length >= totalCells) return;
+                                if(pool.length > 1 && String(v) === String(last)) return;
+                                cubeVals.push(v);
+                                last = v;
+                            });
+                        }
+                    }
+                }
+
+                this.mem.cubeVals = cubeVals;
+
+                // Secuencia se toma de lo que está efectivamente en el cubo (garantiza viabilidad)
+                const uniqOnCube = this._unique(cubeVals);
+                const hardCap = Math.max(2, uniqOnCube.length);
+
+                this.mem.maxLen = Math.min(this.mem.maxLen || hardCap, hardCap);
+                this.mem.len = Math.min(this.mem.len || 2, this.mem.maxLen);
+
+                const seq = this._shuffle(uniqOnCube).slice(0, this.mem.len);
+                this.mem.seqVals = seq;
+                this.mem.idx = 0;
+                this.mem.errThisLen = 0;
+                this.mem.rounds = (this.mem.rounds || 0) + 1;
+
+                // FADING progresivo (rehabilitación): rondas 1 y 2 con pista completa;
+                // desde la 3ª se oculta 1 ítem adicional al final en cada ronda.
+                const removeCount = Math.max(0, (this.mem.rounds || 1) - 2);
+                this.mem.fadeRemoved = Math.min(removeCount, this.mem.len);
+
+                // Arranca en modo memorización; los clicks NO penalizan hasta RECALL.
+                this.mem.phase = 'ENCODE';
+
+                this.resetAllFound();
+                this.buildCube();
+                this.updateHUD();
+                this.beginMemoryPhases();
+                }
+
+            
+            clearMemoryTimers() {
+                try {
+                    if(this.mem && Array.isArray(this.mem._timers)) {
+                        this.mem._timers.forEach(t => clearTimeout(t));
+                    }
+                    if(this.mem && this.mem._blinkInterval) {
+                        clearInterval(this.mem._blinkInterval);
+                        this.mem._blinkInterval = null;
+                    }
+                    if(this.mem) this.mem._timers = [];
+                } catch(e) {}
+            }
+
+            _findFirstCellByVal(val) {
+                try {
+                    for(let f=0; f<6; f++){
+                        for(let c=0; c<(this.logicalCube[f]||[]).length; c++){
+                            const cell = this.logicalCube[f][c];
+                            if(cell && String(cell.v) === String(val)) return {f, c};
+                        }
+                    }
+                } catch(e) {}
+                return null;
+            }
+
+            _blinkHudTarget(ms=4000) {
+                const tgt = document.getElementById('hud-target');
+                if(!tgt) return;
+                let on = true;
+                const start = Date.now();
+                // Parpadeo titilante (4s) sin depender de CSS
+                this.mem._blinkInterval = setInterval(() => {
+                    if(Date.now() - start >= ms) {
+                        clearInterval(this.mem._blinkInterval);
+                        this.mem._blinkInterval = null;
+                        tgt.style.opacity = '1';
+                        return;
+                    }
+                    on = !on;
+                    tgt.style.opacity = on ? '1' : '0.25';
+                }, 250);
+            }
+
+            playMemoryFlashes(seqVals, token) {
+                // Destellos en el cubo en el orden de la secuencia (Corsi-like)
+                const timings = this.getMemoryTimings();
+                this.mem.flashMs = timings.flashMs;
+                this.mem.gapMs = timings.gapMs;
+                this.mem.pace = timings.pace;
+
+                const steps = (seqVals || []).slice();
+                let i = 0;
+
+                const stepOnce = () => {
+                    if(!this.mem || !this.mem.active) return;
+                    if(token !== this.mem._playToken) return;
+                    if(i >= steps.length) return;
+
+                    const pos = this._findFirstCellByVal(steps[i]);
+                    if(pos) {
+                        this._flashCell(pos.f, pos.c, true);
+                        const t1 = setTimeout(() => {
+                            if(token !== this.mem._playToken) return;
+                            if(pos) this._flashCell(pos.f, pos.c, false);
+                        }, this.mem.flashMs);
+                        this.mem._timers.push(t1);
+                    }
+
+                    const t2 = setTimeout(() => {
+                        if(token !== this.mem._playToken) return;
+                        i += 1;
+                        stepOnce();
+                    }, this.mem.flashMs + this.mem.gapMs);
+                    this.mem._timers.push(t2);
+                };
+
+                stepOnce();
+            }
+
+            beginMemoryPhases() {
+                if(!this.mem || !this.mem.active) return;
+                this.clearMemoryTimers();
+
+                const seq = (this.mem.seqVals || []);
+                const len = seq.length || 0;
+                const age = (this.mem.age !== undefined) ? this.mem.age : (this.getPatientAge() || 0);
+
+                // Tiempo de ENCODE: 2 ítems ≈ 5s; 4 ítems ≈ 8s (como acordamos), escalado suave por edad
+                let encodeMs = 2000 + (1500 * Math.max(1, len));
+                if(age >= 60) encodeMs = Math.round(encodeMs * 1.15);
+                if(age >= 75) encodeMs = Math.round(encodeMs * 1.30);
+
+                const warnMs = 4000; // parpadeo titilante requerido
+
+                // ENCODE: mostrar secuencia completa + destellos en cubo
+                this.mem.phase = 'ENCODE';
+                this.updateHUD();
+
+                const token = (this.mem._playToken || 0);
+                this.playMemoryFlashes(seq, token);
+
+                const tEncode = setTimeout(() => {
+                    if(!this.mem || !this.mem.active) return;
+                    if(token !== this.mem._playToken) return;
+
+                    // WARN: parpadeo 4s antes de ocultar parte/todo del texto
+                    this.mem.phase = 'WARN';
+                    this.updateHUD();
+                    this._blinkHudTarget(warnMs);
+
+                    const tWarn = setTimeout(() => {
+                        if(!this.mem || !this.mem.active) return;
+                        if(token !== this.mem._playToken) return;
+
+                        // RECALL: ahora sí se valida la selección
+                        this.mem.phase = 'RECALL';
+                        this.updateHUD();
+                    }, warnMs);
+                    this.mem._timers.push(tWarn);
+                }, encodeMs);
+
+                this.mem._timers.push(tEncode);
+            }
+
+            resetAllFound() {
+                try {
+                    if(!this.logicalCube) return;
+                    for(let f=0; f<this.logicalCube.length; f++){
+                        for(let c=0; c<this.logicalCube[f].length; c++){
+                            if(!this.logicalCube[f][c]) continue;
+                            this.logicalCube[f][c].found = false;
+                            this.logicalCube[f][c].flash = false;
+                        }
+                        if(this.cube && this.cube.material && this.cube.material[f]) {
+                            this.cube.material[f].map = this.genTex(f);
+                            this.cube.material[f].map.needsUpdate = true;
+                            this.cube.material[f].needsUpdate = true;
+                        }
+                    }
+                } catch(e) {}
+            }
+
+openMemoryRoundOverlay(status) {
+                const scr = document.getElementById('memory-round-complete');
+                const title = document.getElementById('mem-round-title');
+                const desc = document.getElementById('mem-round-desc');
+                if(!scr) return;
+
+                if(status === 'success') {
+                    if(title) title.innerText = '✅ SECUENCIA COMPLETADA';
+                    if(desc) desc.innerText = 'Puedes aumentar la dificultad o terminar y guardar el resultado.';
+                } else {
+                    if(title) title.innerText = '⚠️ LÍMITE ALCANZADO';
+                    if(desc) desc.innerText = 'Se alcanzó el criterio de detención para esta longitud. Recomendado: terminar y guardar.';
+                }
+                scr.classList.remove('hidden');
+                this.state.isPlaying = false;
+            }
+
+            memoryContinue() {
+                if(!this.mem || !this.mem.active) return;
+                                this.clearMemoryTimers();
+const scr = document.getElementById('memory-round-complete');
+                if(scr) scr.classList.add('hidden');
+
+                if(this.mem.len < this.mem.maxLen) this.mem.len += 1;
+                this.mem.attempt = 1;
+                this.mem.errThisLen = 0;
+                this.state.isPlaying = true;
+                this.setupMemoryRound();
+            }
+
+            memoryFinish() {
+                this.clearMemoryTimers();
+                const scr = document.getElementById('memory-round-complete');
+if(scr) scr.classList.add('hidden');
+
+                // Cierra el ejercicio y guarda (completeStep ya integra al reporte)
+                this.state.isPlaying = true;
+                if(this.mem) this.mem.active = false;
+                this.completeStep();
+            }
+
+
+            _flashCell(f, c, on) {
+                try {
+                    if(!this.logicalCube || !this.logicalCube[f] || !this.logicalCube[f][c]) return;
+                    this.logicalCube[f][c].flash = !!on;
+                    this.cube.material[f].map = this.genTex(f);
+                    this.cube.material[f].map.needsUpdate = true;
+                    this.cube.material[f].needsUpdate = true;
+                } catch(e) {}
+            }
+
+            maybeStartInhibPause() {
+                if(this.state.mode !== 'STROOP') return;
+                if(this.state.isTrial) return; // no afectar ensayo
+                if(this.inhib.pause) return;
+
+                // probabilidad moderada de pausa inhibidora
+                const p = 0.33;
+                if(Math.random() > p) return;
+
+                const speed = parseInt((document.getElementById('speed-slider')||{}).value || 25, 10);
+                const base = 650; // ms
+                const extra = 750 * (1 - Math.min(1, Math.max(0, speed/100))); // a mayor velocidad, pausa un poco más corta
+                const dur = Math.round(base + (extra * Math.random()));
+
+                this.inhib.pause = true;
+                this.inhib.pauses += 1;
+                this.inhib.pauseUntil = Date.now() + dur;
+
+                // feedback visual: barra roja intensa
+                const bar = document.getElementById('hud-interference');
+                if(bar) {
+                    bar.style.backgroundColor = '#ff3b30';
+                    bar.style.boxShadow = '0 0 18px rgba(255,59,48,0.9)';
+                    bar.style.opacity = 1;
+                }
+                this.updateHUD();
+
+                setTimeout(() => {
+                    // terminar pausa
+                    this.inhib.pause = false;
+                    this.updateHUD();
+                }, dur);
+            }
+
+            validate(f, c) {
+                // MEMORIA: reproducción de secuencia (tipo Corsi 3D)
+                if(this.state.mode === 'FANTASMA' && this.mem && this.mem.active) {
+                    const cell = this.logicalCube[f][c];
+                    if(!cell) return;
+
+                    // Durante ENCODE/WARN no se penaliza ni se valida (solo se permite rotar/explorar).
+                    if((this.mem.phase || 'RECALL') !== 'RECALL') {
+                        return;
+                    }
+                    const expectedVal = (this.mem.seqVals || [])[this.mem.idx];
+                    this.mem.clickTotal += 1;
+
+                    if(String(cell.v) === String(expectedVal)) {
+                        this.state.latencies.push(Date.now() - this.state.lastClickTime);
+                        this.state.lastClickTime = Date.now();
+
+                        if(!cell.found) {
+                            cell.found = true;
+                            this.cube.material[f].map = this.genTex(f);
+                            this.cube.material[f].map.needsUpdate = true;
+                            this.cube.material[f].needsUpdate = true;
+                        }
+
+                        this.state.foundCount += 1;
+                        this.mem.clickOK += 1;
+                        this.mem.idx += 1;
+                        this.updateHUD();
+                        this.showFeedback('✓', '#00ff88');
+
+                        if(this.mem.idx >= (this.mem.seqVals || []).length) {
+                            this.mem.bestLen = Math.max(this.mem.bestLen || 0, this.mem.len);
+                            if(this.state.isTrial) {
+                                // Ensayo: avanzar 1→2→3 y finalizar mostrando pantalla de ensayo completado
+                                if((this.mem.trialStage||1) < 3) {
+                                    this.mem.trialStage = (this.mem.trialStage||1) + 1;
+                                    this.mem.len = this.mem.trialStage;
+                                    this.mem.attempt = 1;
+                                    this.mem.errThisLen = 0;
+                                    this.mem.idx = 0;
+                                    this.resetAllFound();
+                                    this.state.isPlaying = true;
+                                    this.setupMemoryRound();
+                                    this.showFeedback(`ENSAYO ${this.mem.trialStage}/3`, '#00f2ff');
+                                } else {
+                                    // Cierra el ensayo y delega a completeStep (abrirá el modal ENSAYO COMPLETADO)
+                                    if(this.mem) this.mem.active = false;
+                                    this.completeStep();
+                                }
+                            } else {
+                                this.openMemoryRoundOverlay('success');
+                            }
+                        }
+                    } else {
+                        this.state.errors += 1;
+                        this.showFeedback('X', '#ff3b30');
+
+                        this.mem.errThisLen = (this.mem.errThisLen || 0) + 1;
+
+                        // 2 errores = falla del intento; 2 intentos por longitud
+                        if(this.mem.errThisLen >= 2) {
+                            this.mem.attempt = (this.mem.attempt || 1) + 1;
+                            this.mem.errThisLen = 0;
+                            this.mem.idx = 0;
+                            this.resetAllFound();
+                            this.updateHUD();
+
+                            if(this.mem.attempt > 2) {
+                                this.openMemoryRoundOverlay('fail');
+                            } else {
+                                this.showFeedback('REINTENTO', '#ffd166');
+                            }
+                        }
+                    }
+                    return;
+                }
+
+                
+                // ATENCIÓN (GO/NO-GO): el estímulo está en HUD; se responde SOLO si es GO.
+                if(this.state.mode === 'SECUENCIAL' && this.attn && this.attn.active && this.attn.task === 'GO_NOGO') {
+                    if(!this.attn.awaiting) return;
+
+                    const cell = this.logicalCube[f][c];
+                    if(!cell) return;
+
+                    const stim = this.attn.current;
+                    const wasGo = !!(stim && stim.go);
+
+                    // cualquier click durante NO-GO = comisión
+                    if(!wasGo) {
+                        this.attn.commissions += 1;
+                        this.state.errors += 1;
+                        this.attn.responded = true;
+                        this.showFeedback('⛔', '#ff3b30');
+                        this._attnEndStimulus('response');
+                        return;
+                    }
+
+                    // GO: validar si coincide con el valor objetivo
+                    const expected = String(stim.val);
+                    const got = String(cell.v);
+
+                    this.attn.responded = true;
+                    const rt = Date.now() - (this.attn.trialStart || Date.now());
+
+                    if(got === expected) {
+                        this.attn.hits += 1;
+                        this.state.foundCount += 1;
+                        this.state.latencies.push(rt);
+                        this.attn.rtTimeline.push({ i: this.attn.idx, rt, t: Date.now() - this.state.startTime });
+                        this.showFeedback('✓', '#00ff88');
+                    } else {
+                        this.attn.wrong += 1;
+                        this.state.errors += 1;
+                        this.showFeedback('X', '#ff3b30');
+                    }
+
+                    this.updateHUD();
+                    this._attnEndStimulus('response');
+                    return;
+                }
+
+// LÓGICA BASE (atención / flexibilidad / inhibición)
+                const cell = this.logicalCube[f][c]; if(cell.found) return;
+                const bS = this.series[this.state.serieKey];
+
+                if(cell.v === bS[this.state.currentIndex % bS.length]) {
+                    this.state.latencies.push(Date.now() - this.state.lastClickTime);
+                    this.state.lastClickTime = Date.now();
+                    cell.found = true;
+                    this.state.foundCount++;
+                    this.state.currentIndex++;
+
+                    if(this.state.mode === 'RIZOMA') this.buildCube();
+
+                    this.cube.material[f].map = this.genTex(f);
+                    this.cube.material[f].map.needsUpdate = true;
+                    this.cube.material[f].needsUpdate = true;
+
+                    this.updateHUD();
+                    this.showFeedback(cell.v, '#00ff88');
+
+                    // Si estamos en ENSAYO, NO se registra en informe: solo se valida reconocimiento y se ofrece continuar / salir
+                    if(this.state.isTrial && this.trial && this.trial.active) {
+                        if(this.state.foundCount >= (this.trial.goal || 4)) {
+                            this.completeTrial();
+                        }
+                        return;
+                    }
+
+                    // INHIBICIÓN: insertar pausas NO-GO entre aciertos (para medir comisiones)
+                    if(this.state.mode === 'STROOP') this.maybeStartInhibPause();
+
+                    if(this.state.foundCount >= (this.state.gridDim**2*6)) this.completeStep();
+                } else {
+                    this.state.errors++;
+                    // STROOP Nivel 2: si el error coincide con el color distractor, marcar captura por color
+                    if(this.state.mode === 'STROOP' && this.inhib && this.inhib.level2) {
+                        try {
+                            const dc = (this.inhib._distractorColor||'').toLowerCase();
+                            const cb = (cell && cell.bg ? cell.bg : '').toLowerCase();
+                            if(dc && cb && dc === cb) this.inhib.colorCapture += 1;
+                        } catch(e) {}
+                    }
+                    this.showFeedback('X', '#ff3b30');
+                }
+            }
+
+            completeStep() {
+                this.state.isPlaying = false;
+                // limpiar timers de atención (si aplica)
+                try { this._clearAttnTimers && this._clearAttnTimers(); } catch(e) {}
+
+                const mRT = this.state.latencies.length
+                    ? (this.state.latencies.reduce((a,b)=>a+b,0)/this.state.latencies.length).toFixed(0)
+                    : 0;
+
+                const denom = (this.state.foundCount + this.state.errors);
+                const acc = denom ? ((this.state.foundCount / denom) * 100).toFixed(1) : '0.0';
+
+                const res = { mode: this.state.mode, serie: this.state.serieKey, grid: this.state.gridDim, mRT: parseInt(mRT), acc: parseFloat(acc) };
+
+                // extras por módulo (no rompen tabla, pero quedan en historial + IA)
+                if(this.state.mode === 'SECUENCIAL' && this.attn && this.attn.task === 'GO_NOGO') {
+                    res.task = 'GO_NOGO';
+                    res.targetRate = (this.attn.cfg && this.attn.cfg.rate) ? this.attn.cfg.rate : null;
+                    res.windowMs = (this.attn.cfg && this.attn.cfg.windowMs) ? this.attn.cfg.windowMs : null;
+                    res.itiMin = (this.attn.cfg && this.attn.cfg.itiMin) ? this.attn.cfg.itiMin : null;
+                    res.itiMax = (this.attn.cfg && this.attn.cfg.itiMax) ? this.attn.cfg.itiMax : null;
+                    res.jitter = (this.attn.cfg && this.attn.cfg.jitter) ? true : false;
+
+                    res.omissions = this.attn.omissions || 0;
+                    res.commissions = this.attn.commissions || 0;
+                    res.wrong = this.attn.wrong || 0;
+                    res.hits = this.attn.hits || 0;
+                    res.correctRej = this.attn.correctRej || 0;
+
+                    // Variabilidad y lapsos (sobre RT de aciertos)
+                    try {
+                        const rts = (this.state.latencies || []).map(x => Number(x)).filter(x => Number.isFinite(x));
+                        if(rts.length >= 2) {
+                            const mean = rts.reduce((a,b)=>a+b,0)/rts.length;
+                            const variance = rts.reduce((a,b)=>a+Math.pow(b-mean,2),0)/(rts.length-1);
+                            const sd = Math.sqrt(variance);
+                            res.rtSD = Math.round(sd);
+                            res.rtCV = mean ? Math.round((sd/mean)*1000)/1000 : null;
+                            const thr = mean + 2.5*sd;
+                            res.lapses = rts.filter(rt => rt > thr).length;
+                        } else {
+                            res.rtSD = null; res.rtCV = null; res.lapses = 0;
+                        }
+                    } catch(e) {}
+
+                    // Fatiga simple por cuartiles (RT medio por bloque de ensayos)
+                    try {
+                        const tl = (this.attn.rtTimeline || []).slice();
+                        const n = (this.attn.trials||[]).length || 0;
+                        const q = [[],[],[],[]];
+                        tl.forEach(pt => {
+                            const i = (pt && pt.i !== undefined) ? pt.i : 0;
+                            const qi = n ? Math.min(3, Math.max(0, Math.floor((i / n) * 4))) : 0;
+                            q[qi].push(pt.rt);
+                        });
+                        const means = q.map(arr => arr.length ? Math.round(arr.reduce((a,b)=>a+b,0)/arr.length) : null);
+                        res.fatigueQ = means; // [Q1,Q2,Q3,Q4]
+                    } catch(e) {}
+                }
+
+                if(this.state.mode === 'STROOP') {
+                    res.commissions = this.inhib ? this.inhib.commissions : 0;
+                    res.nogoPauses = this.inhib ? this.inhib.pauses : 0;
+                    res.colorCapture = (this.inhib && this.inhib.level2) ? (this.inhib.colorCapture||0) : 0;
+                }
+                if(this.state.mode === 'FANTASMA') {
+                    res.span = (this.mem && this.mem.seq) ? this.mem.seq.length : this.state.foundCount;
+                    res.seqErrors = this.state.errors;
+                    res.flashMs = (this.mem && this.mem.flashMs) ? this.mem.flashMs : 500;
+                    res.gapMs = (this.mem && this.mem.gapMs) ? this.mem.gapMs : 1000;
+                    res.age = (this.mem && this.mem.age !== undefined) ? this.mem.age : null;
+                    res.pace = (this.mem && this.mem.pace) ? this.mem.pace : 'standard';
+                }
+
+                this.sessionResults.push(res);
+
+                this.currentIdx++;
+                if(this.currentIdx < this.plan.length) this.showInstructions();
+                else {
+                    document.getElementById('hud').classList.add('hidden');
+                    document.getElementById('victory-screen').classList.remove('hidden');
+                }
+            }
+
+openCancelDrawer() {
+    if(!this.state.isPlaying) return;
+    this.uiLock = true;
+    const d = document.getElementById('cancel-drawer');
+    if(d) d.classList.remove('hidden');
+}
+
+closeCancelDrawer() {
+    this.uiLock = false;
+    const d = document.getElementById('cancel-drawer');
+    if(d) d.classList.add('hidden');
+    const note = document.getElementById('cancel-note');
+    if(note) note.value = '';
+    const reason = document.getElementById('cancel-reason');
+    if(reason) reason.value = 'fatiga';
+}
+
+confirmCancelExercise() {
+                const drawer = document.getElementById('cancel-drawer');
+                const reason = (document.getElementById('cancel-reason') || {}).value || 'otro';
+                const note = (document.getElementById('cancel-note') || {}).value || '';
+
+                const closeDrawerSilently = () => {
+                    if(drawer) drawer.classList.add('hidden');
+                    this.uiLock = false;
+                };
+
+                if(!this.state.isPlaying) { closeDrawerSilently(); return; }
+
+                const isTrialCancel = !!this.state.isTrial;
+
+                const ev = {
+                    timestamp: Date.now(),
+                    stepIndex: this.currentIdx,
+                    mode: this.state.mode,
+                    serie: this.state.serieKey,
+                    grid: this.state.gridDim,
+                    elapsedMs: Date.now() - (this.state.startTime || Date.now()),
+                    reason,
+                    note,
+                    found: this.state.foundCount || 0,
+                    errors: this.state.errors || 0,
+                    attempts: (this.state.foundCount || 0) + (this.state.errors || 0),
+                    duringTrial: isTrialCancel
+                };
+
+                // En ensayo: NO se registra sesión ni se genera informe.
+                if(isTrialCancel) {
+                    closeDrawerSilently();
+                    this.state.isPlaying = false;
+                    document.getElementById('hud').classList.add('hidden');
+
+                    // Mostrar pantalla de ensayo cancelado
+                    const tc = document.getElementById('trial-cancelled');
+                    if(tc) tc.classList.remove('hidden');
+
+                    // No persistir cancelaciones de ensayo
+                    this.sessionCancellations = [];
+                    this._trialCancelEvent = ev;
+                    return;
+                }
+
+                // En evaluación real: sí se registra el evento.
+                this.sessionCancellations.push(ev);
+
+                closeDrawerSilently();
+
+                // Detener ejercicio y pasar a pantalla de cierre para generar reporte
+                this.state.isPlaying = false;
+                document.getElementById('hud').classList.add('hidden');
+
+                const vt = document.getElementById('victory-title');
+                const vx = document.getElementById('victory-text');
+                if(vt) vt.innerText = 'SESIÓN PAUSADA';
+                if(vx) vx.innerText = 'Ejercicio cancelado y registrado. Puede generar el reporte clínico con lo completado.';
+                document.getElementById('victory-screen').classList.remove('hidden');
+            }
+
+            showReport() {
+                document.getElementById('victory-screen').classList.add('hidden');
+                document.getElementById('report-screen').classList.remove('hidden');
+                this.finalize();
+            }
+
+            finalize() {
+                const currentDate = new Date().toLocaleDateString();
+                const patId = document.getElementById('pat-id').value;
+
+                const entry = {
+                    date: currentDate,
+                    timestamp: Date.now(),
+                    patId: patId,
+                    patName: document.getElementById('pat-name').value,
+                    patAge: document.getElementById('pat-age').value,
+                    patTel: document.getElementById('pat-tel').value,
+                    patEmail: document.getElementById('pat-email').value,
+                    patMeds: document.getElementById('pat-meds').value,
+                    patDiag: document.getElementById('pat-diag').value,
+                    patHistory: document.getElementById('pat-history').value,
+                    results: this.sessionResults,
+                    cancellations: this.sessionCancellations
+                };
+                
+                let h = JSON.parse(localStorage.getItem('omni_history_v7_final') || "[]");
+                h.push(entry); localStorage.setItem('omni_history_v7_final', JSON.stringify(h));
+
+                document.getElementById('r-prof').innerText = document.getElementById('prof-name').value;
+                document.getElementById('r-title').innerText = document.getElementById('prof-title').value;
+                document.getElementById('r-email').innerText = document.getElementById('prof-email').value;
+                document.getElementById('r-pat').innerText = entry.patName; 
+                document.getElementById('r-id').innerText = entry.patId;
+                document.getElementById('r-age').innerText = entry.patAge; 
+                document.getElementById('r-date').innerText = entry.date;
+                document.getElementById('r-meds').innerText = entry.patMeds; 
+                document.getElementById('r-diag').innerText = entry.patDiag;
+                document.getElementById('r-history').innerText = entry.patHistory;
+
+                document.getElementById('history-body').innerHTML = this.sessionResults.map(r => `<tr>
+                    <td style="padding:10px; border:1px solid #ddd;">${currentDate}</td>
+                    <td style="padding:10px; border:1px solid #ddd;">${r.mode} / ${r.serie}</td>
+                    <td style="padding:10px; border:1px solid #ddd;">${r.grid}x${r.grid}</td>
+                    <td style="padding:10px; border:1px solid #ddd;">${r.mRT} ms</td>
+                    <td style="padding:10px; border:1px solid #ddd;">${r.acc}%</td>
+                </tr>`).join('');
+                
+                this.renderHistoricalList(patId); 
+                this.renderClinicalInterpretation();
+                this.renderHistoricalChart(patId); 
+            }
+
+            renderHistoricalList(patId) {
+                const allHistory = JSON.parse(localStorage.getItem('omni_history_v7_final') || "[]");
+                const patHistory = allHistory.filter(h => h.patId === patId);
+                const container = document.getElementById('r-historical-list');
+                
+                if(patHistory.length === 0) {
+                    container.innerHTML = "<div>Sin registros previos.</div>";
+                    return;
+                }
+
+                let html = "";
+                const sessionsByDate = {};
+                patHistory.forEach(s => {
+                    if(!sessionsByDate[s.date]) sessionsByDate[s.date] = 0;
+                    sessionsByDate[s.date]++;
+                    const count = sessionsByDate[s.date];
+                    const suffix = count > 1 ? ` (${count})` : '';
+                    html += `<div class="historical-item"><span><strong>${s.date}${suffix}:</strong> ${s.results.length} fases completadas.</span><span style="color:#666;">Promedio Latencia: ${this.calcAvgLatency(s.results)}ms</span></div>`;
+                });
+                container.innerHTML = html;
+            }
+
+            calcAvgLatency(results) {
+                if(!results || results.length === 0) return 0;
+                return (results.reduce((acc, curr) => acc + curr.mRT, 0) / results.length).toFixed(0);
+            }
+
+            renderHistoricalChart(patId) {
+                const canvas = document.getElementById('latencyChart');
+                const img = document.getElementById('chartImg');
+                if(!canvas) return;
+
+                // Destruir gráfico previo si existe
+                try {
+                    if(this.latencyChartInstance) {
+                        this.latencyChartInstance.destroy();
+                        this.latencyChartInstance = null;
+                    }
+                } catch(e) {}
+
+                const allHistory = JSON.parse(localStorage.getItem('omni_history_v7_final') || "[]");
+                const patHistory = allHistory.filter(h => h.patId === patId && h.results && h.results.length > 0);
+
+                const ctx = canvas.getContext('2d');
+
+                if(patHistory.length === 0) {
+                    // Limpiar canvas y mostrar mensaje
+                    try { ctx.clearRect(0, 0, canvas.width, canvas.height); } catch(e) {}
+                    try {
+                        ctx.save();
+                        ctx.font = '16px Arial';
+                        ctx.fillStyle = '#666';
+                        ctx.textAlign = 'center';
+                        ctx.textBaseline = 'middle';
+                        ctx.fillText('Sin datos históricos para graficar.', canvas.width/2, canvas.height/2);
+                        ctx.restore();
+                    } catch(e) {}
+                    if(img) img.src = '';
+                    return;
+                }
+
+                // Construir puntos (promedio de latencia por sesión)
+                const points = patHistory.map(s => {
+                    const ts = (typeof s.timestamp === 'number' ? s.timestamp : Date.parse(s.date)) || Date.now();
+                    const avg = this.calcAvgLatency(s.results);
+                    const label = s.date || new Date(ts).toLocaleDateString();
+                    return { ts, label, avg: Number(avg) };
+                }).sort((a,b) => a.ts - b.ts);
+
+                // Etiquetas con sufijo si hay múltiples sesiones el mismo día
+                const seen = {};
+                const labels = points.map(p => {
+                    const k = p.label;
+                    seen[k] = (seen[k] || 0) + 1;
+                    return seen[k] > 1 ? `${k} (${seen[k]})` : k;
+                });
+                const data = points.map(p => p.avg);
+
+                this.latencyChartInstance = new Chart(ctx, {
+                    type: 'line',
+                    data: {
+                        labels,
+                        datasets: [{
+                            label: 'Latencia promedio (ms)',
+                            data,
+                            borderWidth: 2,
+                            pointRadius: 3,
+                            tension: 0.25,
+                            fill: false
+                        }]
+                    },
+                    options: {
+                        responsive: true,
+                        maintainAspectRatio: false,
+                        plugins: {
+                            legend: { display: true }
+                        },
+                        scales: {
+                            y: {
+                                ticks: { callback: (v) => `${v}` }
+                            }
+                        }
+                    }
+                });
+
+                // Preparar imagen para exportación a Word
+                if(img) {
+                    setTimeout(() => {
+                        try { img.src = canvas.toDataURL('image/png'); } catch(e) {}
+                    }, 250);
+                }
+            }
+
+
+            generateAIPrompt() {
+                const patName = document.getElementById('pat-name').value;
+                const patAge = document.getElementById('pat-age').value;
+                const patDiag = document.getElementById('pat-diag').value;
+                const patHistory = document.getElementById('pat-history').value;
+                const patMeds = document.getElementById('pat-meds').value;
+                const patId = document.getElementById('pat-id').value;
+                const allHistory = JSON.parse(localStorage.getItem('omni_history_v7_final') || "[]");
+                const specificHistory = allHistory.filter(h => h.patId === patId);
+                const historyJSON = JSON.stringify(specificHistory, null, 2);
+
+                const masterPrompt = `🧠 PROMPT MAESTRO – APOYO IA CLÍNICO-NEUROPSICOLÓGICO
+Rol y posicionamiento profesional: Actúa como neuropsicólogo clínico...
+1. ANÁLISIS INTEGRAL DEL CASO: ${patName}, ${patAge}, ${patDiag}, ${patMeds}
+2. DATOS HISTÓRICOS Y EVOLUTIVOS (JSON COMPLETO): ${historyJSON}
+3. INSTRUCCIONES DE SALIDA: Analiza momento evolutivo, latencias (mRT), precisión, fatiga y redacta informe.`;
+
+                document.getElementById('ai-prompt-box').value = masterPrompt;
+                document.getElementById('ai-modal').classList.remove('hidden');
+            }
+
+            copyPrompt() {
+                const copyText = document.getElementById("ai-prompt-box");
+                copyText.select();
+                document.execCommand("copy");
+                alert("Prompt copiado al portapapeles. Pégalo en tu IA de preferencia.");
+            }
+
+            // =========================
+            // Reglas de lectura clínica (resumen cotidiano + tendencia por módulo)
+            // - Sesión 1-2 por módulo: SOLO perfil actual (sin hablar de mejora/deterioro).
+            // - Desde sesión 3 por módulo: se activa tendencia comparando con el promedio de las 2 sesiones previas.
+            // =========================
+            getAllHistory() {
+                try { return JSON.parse(localStorage.getItem('omni_history_v7_final') || '[]'); } catch(e){ return []; }
+            }
+
+            getPatientId() {
+                const id = (document.getElementById('pat-id')?.value || '').trim();
+                return id || '';
+            }
+
+            getPatientHistory(patId) {
+                const all = this.getAllHistory();
+                return all.filter(h => h && h.patId === patId).sort((a,b)=> (a.timestamp||0)-(b.timestamp||0));
+            }
+
+            // Observaciones por módulo: una por sesión donde ese módulo se ejecutó (agregado si hubo varias fases).
+            getModuleObservations(patId, mode, excludeTs=0) {
+                const hist = this.getPatientHistory(patId);
+                const obs = [];
+                const mean = (arr) => {
+                    const vals = (arr||[]).map(v => (typeof v === 'number' ? v : parseFloat(v))).filter(v => !isNaN(v));
+                    return vals.length ? (vals.reduce((a,b)=>a+b,0)/vals.length) : null;
+                };
+
+                hist.forEach(s => {
+                    const ts = s.timestamp || 0;
+                    if(excludeTs && ts === excludeTs) return;
+                    const results = (s.results || []).filter(r => r && r.mode === mode);
+                    if(!results.length) return;
+
+                    const accs = results.map(r => parseFloat(r.acc)).filter(v=>!isNaN(v));
+                    const rts  = results.map(r => parseFloat(r.mRT)).filter(v=>!isNaN(v));
+
+                    const errs = results.map(r => (typeof r.errors === 'number' ? r.errors : null)).filter(v=>v!==null);
+                    const com  = results.map(r => (typeof r.commissions === 'number' ? r.commissions : null)).filter(v=>v!==null);
+                    const om   = results.map(r => (typeof r.omissions === 'number' ? r.omissions : null)).filter(v=>v!==null);
+                    const span = results.map(r => (typeof r.span === 'number' ? r.span : null)).filter(v=>v!==null);
+                    const seqE = results.map(r => (typeof r.seqErrors === 'number' ? r.seqErrors : null)).filter(v=>v!==null);
+
+                    obs.push({
+                        ts,
+                        acc: mean(accs),
+                        mRT: mean(rts),
+                        errors: mean(errs),
+                        commissions: mean(com),
+                        omissions: mean(om),
+                        span: mean(span),
+                        seqErrors: mean(seqE)
+                    });
+                });
+
+                return obs.sort((a,b)=> (a.ts||0)-(b.ts||0));
+            }
+
+            classifyCurrentPattern(res){
+                const acc = parseFloat(res.acc);
+                const rt  = parseFloat(res.mRT);
+                const errs = (typeof res.errors === 'number') ? res.errors : null;
+
+                if(!isNaN(acc) && acc >= 90 && !isNaN(rt) && rt > 3500) return 'slow_accurate';
+                if(!isNaN(acc) && acc < 75) return 'low_accuracy';
+                if(errs !== null && errs >= 3) return 'error_prone';
+                return 'balanced';
+            }
+
+            getModuleRehabState(patId, mode, currentRes){
+                const exclude = this.currentReportTimestamp || 0;
+                const obs = this.getModuleObservations(patId, mode, exclude);
+                const countPrev = obs.length;
+
+                const cancellations = (this.sessionCancellations || []);
+                const hasFatigueCancel = cancellations.some(c => {
+                    const rr = String(c?.reason||'').toLowerCase();
+                    return rr.includes('fat') || rr.includes('cans') || rr.includes('agot');
+                });
+
+                // Sesión 1-2 por módulo: SOLO perfil actual
+                if(countPrev < 2){
+                    return { stage: 'baseline', firstTime: true, pattern: this.classifyCurrentPattern(currentRes), countPrev };
+                }
+
+                // Desde sesión 3: tendencia con promedio de las 2 previas
+                const last2 = obs.slice(-2);
+                const mean = (arr, k) => {
+                    const vals = arr.map(x => x[k]).filter(v => typeof v === 'number' && !isNaN(v));
+                    return vals.length ? (vals.reduce((a,b)=>a+b,0)/vals.length) : null;
+                };
+                const accPrev = mean(last2, 'acc');
+                const rtPrev  = mean(last2, 'mRT');
+
+                const accNow = parseFloat(currentRes.acc);
+                const rtNow  = parseFloat(currentRes.mRT);
+
+                const dAcc = (accPrev===null || isNaN(accNow)) ? 0 : (accNow - accPrev);
+                const dRt  = (rtPrev===null  || isNaN(rtNow))  ? 0 : (rtNow - rtPrev);
+
+                const rtRel = (rtPrev && rtPrev>0) ? (dRt/rtPrev) : 0;
+
+                // Fluctuación si hay señales de fatiga/cancelación + cambio notable
+                if(hasFatigueCancel && (Math.abs(dAcc) >= 5 || Math.abs(rtRel) >= 0.12)){
+                    return { stage: 'fluctuating', firstTime:false, pattern:this.classifyCurrentPattern(currentRes), dAcc, dRt, accPrev, rtPrev, countPrev };
+                }
+
+                // Mejoría
+                if(dAcc >= 5 && rtRel <= 0.12) return { stage: 'improving', firstTime:false, pattern:this.classifyCurrentPattern(currentRes), dAcc, dRt, accPrev, rtPrev, countPrev };
+                if(dAcc >= 2 && rtRel <= -0.10) return { stage: 'improving', firstTime:false, pattern:this.classifyCurrentPattern(currentRes), dAcc, dRt, accPrev, rtPrev, countPrev };
+
+                // Deterioro
+                if(dAcc <= -5) return { stage: 'declining', firstTime:false, pattern:this.classifyCurrentPattern(currentRes), dAcc, dRt, accPrev, rtPrev, countPrev };
+                if(rtRel >= 0.18 && dAcc < 2) return { stage: 'declining', firstTime:false, pattern:this.classifyCurrentPattern(currentRes), dAcc, dRt, accPrev, rtPrev, countPrev };
+
+                // Estable / meseta
+                if(Math.abs(dAcc) < 5 && Math.abs(rtRel) < 0.12) return { stage: 'stable', firstTime:false, pattern:this.classifyCurrentPattern(currentRes), dAcc, dRt, accPrev, rtPrev, countPrev };
+
+                return { stage: 'stable', firstTime:false, pattern:this.classifyCurrentPattern(currentRes), dAcc, dRt, accPrev, rtPrev, countPrev };
+            }
+
+            formatStageLabel(stage){
+                const map = {
+                    baseline: 'Perfil actual (línea base)',
+                    improving: 'Tendencia: mejoría',
+                    stable: 'Tendencia: estabilidad',
+                    fluctuating: 'Tendencia: fluctuación situacional',
+                    declining: 'Tendencia: descenso'
+                };
+                return map[stage] || 'Perfil actual';
+            }
+
+            buildPlainModuleSummary(res, state){
+                const mode = res.mode;
+                const stage = state.stage || 'baseline';
+                const pattern = state.pattern || 'balanced';
+
+                const head = `<div style="margin:10px 0 6px; font-family:Orbitron; letter-spacing:1px; font-size:0.62rem; text-transform:uppercase; color:#444;">Lectura cotidiana · ${this.formatStageLabel(stage)}</div>`;
+                const wrapOpen = `<div style="border:1px solid rgba(0,0,0,0.10); background:rgba(0,0,0,0.03); border-radius:12px; padding:10px 12px; color:#333; font-size:0.92rem; line-height:1.45;">`;
+                const wrapClose = `</div>`;
+
+                const isInhib = (mode === 'STROOP' || mode === 'INHIBICION' || mode === 'GO-NOGO');
+                const isMem   = (mode === 'FANTASMA' || mode === 'MEMORIA' || mode === 'CORSI');
+                const isFlex  = (mode === 'RIZOMA' || mode === 'FLEXIBILIDAD');
+
+                const mk = (a,b,c) => `<div>1) ${a}</div><div>2) ${b}</div><div>3) ${c}</div>`;
+
+                if(stage === 'baseline'){
+                    if(pattern === 'slow_accurate'){
+                        return head + wrapOpen + mk(
+                            'logró responder correctamente, pero necesitó más tiempo para organizar la respuesta.',
+                            'esto suele indicar un estilo cuidadoso: prioriza precisión antes que rapidez.',
+                            'este resultado nos sirve como punto de partida para ajustar dificultad y ritmo sin saturación.'
+                        ) + wrapClose;
+                    }
+                    if(pattern === 'low_accuracy' || pattern === 'error_prone'){
+                        return head + wrapOpen + mk(
+                            'en algunos momentos la complejidad o las distracciones hicieron que aparecieran más errores.',
+                            'esto puede pasar por efecto de novedad, carga mental o ansiedad del ejercicio.',
+                            'con dos sesiones más podremos distinguir mejor entre “efecto del primer contacto” y un patrón estable.'
+                        ) + wrapClose;
+                    }
+                    return head + wrapOpen + mk(
+                        'mantuvo un desempeño funcional para completar la consigna principal.',
+                        'respondió con un equilibrio razonable entre velocidad y precisión.',
+                        'tomamos este resultado como línea base para comparar cambios a partir de la sesión 3.'
+                    ) + wrapClose;
+                }
+
+                if(stage === 'improving'){
+                    if(isInhib) return head + wrapOpen + mk(
+                        'está logrando frenar mejor las distracciones y elegir el estímulo correcto con más consistencia.',
+                        'su “freno mental” se ve más firme, incluso cuando hay interferencias.',
+                        'siguiente paso: subir un poco la dificultad o el ritmo, sin perder precisión.'
+                    ) + wrapClose;
+                    if(isMem) return head + wrapOpen + mk(
+                        'está reteniendo y recuperando mejor la información del estímulo.',
+                        'se nota más orden para seguir secuencias sin confusiones.',
+                        'siguiente paso: aumentar progresivamente longitud de secuencia o reducir ayudas.'
+                    ) + wrapClose;
+                    if(isFlex) return head + wrapOpen + mk(
+                        'cambia de regla/ubicación con menos costo de tiempo y menos desorganización.',
+                        'se ve más agilidad para “soltar” una respuesta y construir otra.',
+                        'siguiente paso: aumentar variabilidad o reducir pistas.'
+                    ) + wrapClose;
+                    return head + wrapOpen + mk(
+                        'sostuvo mejor el foco y la estabilidad de respuesta.',
+                        'hubo menos pérdidas atencionales o ajustes tardíos.',
+                        'siguiente paso: mantener continuidad y aumentar demanda gradualmente.'
+                    ) + wrapClose;
+                }
+
+                if(stage === 'declining'){
+                    if(isInhib) return head + wrapOpen + mk(
+                        'hoy las distracciones tuvieron más peso y le costó frenar respuestas impulsivas.',
+                        'esto puede ser del día (fatiga/estrés), pero si se repite conviene ajustar el protocolo.',
+                        'siguiente paso: bajar ritmo, priorizar precisión y revisar condiciones de sesión.'
+                    ) + wrapClose;
+                    if(isMem) return head + wrapOpen + mk(
+                        'hoy retener la secuencia fue más difícil y aparecieron más confusiones.',
+                        'puede ser un efecto del día o un indicador de sobrecarga del nivel.',
+                        'siguiente paso: ajustar ritmo (más pausas) o reducir longitud para recuperar estabilidad.'
+                    ) + wrapClose;
+                    if(isFlex) return head + wrapOpen + mk(
+                        'hoy el cambio de regla/posición costó más y hubo más errores de reenganche.',
+                        'esto suele aparecer cuando la tarea supera el nivel de energía disponible.',
+                        'siguiente paso: reducir interferencias o segmentar el entrenamiento.'
+                    ) + wrapClose;
+                    return head + wrapOpen + mk(
+                        'hoy fue más difícil sostener el foco sin pérdidas o errores.',
+                        'puede ser situacional; si se repite, indica necesidad de ajustar carga.',
+                        'siguiente paso: simplificar y volver a medir en condiciones comparables.'
+                    ) + wrapClose;
+                }
+
+                if(stage === 'fluctuating'){
+                    return head + wrapOpen + mk(
+                        'el rendimiento cambió más de lo esperable respecto a sesiones recientes.',
+                        'por el contexto reportado (cansancio/tiempo), esto se interpreta como variación situacional más que cambio estable.',
+                        'siguiente paso: repetir en condiciones comparables para validar tendencia.'
+                    ) + wrapClose;
+                }
+
+                // stable
+                return head + wrapOpen + mk(
+                    'su desempeño se mantuvo parecido a sesiones previas: ni subió ni bajó de forma clara.',
+                    'esto suele indicar estabilidad: sostiene el rendimiento aunque aún no hay un salto de mejora.',
+                    'siguiente paso: subir dificultad gradualmente o variar distractores para estimular progreso.'
+                ) + wrapClose;
+            }
+
+            buildGlobalPlainSummary(states){
+                const cnt = { improving:0, stable:0, fluctuating:0, declining:0, baseline:0 };
+                (states||[]).forEach(s => { const k = s.stage || 'baseline'; cnt[k] = (cnt[k]||0) + 1; });
+                const total = (states||[]).length || 1;
+
+                const head = `<div style="margin:16px 0 6px; font-family:Orbitron; letter-spacing:1px; font-size:0.62rem; text-transform:uppercase; color:#444;">Resumen global (lenguaje cotidiano)</div>`;
+                const wrapOpen = `<div style="border:1px solid rgba(0,0,0,0.10); background:rgba(0,0,0,0.03); border-radius:12px; padding:10px 12px; color:#333; font-size:0.92rem; line-height:1.45;">`;
+                const wrapClose = `</div>`;
+
+                if(cnt.baseline >= Math.ceil(total*0.6)){
+                    return head + wrapOpen +
+                        `<div>1) esta sesión aporta una línea base para entender cómo rinde hoy en cada dominio.</div>` +
+                        `<div>2) aún es temprano para hablar de mejora o descenso; desde la sesión 3 por módulo podremos validar tendencia.</div>` +
+                        `<div>3) el foco inmediato es estabilidad: mismo ritmo, condiciones similares y progresión gradual.</div>` +
+                        wrapClose;
+                }
+
+                if(cnt.improving >= Math.ceil(total*0.5)){
+                    return head + wrapOpen +
+                        `<div>1) en conjunto, el rendimiento muestra avances consistentes en varios dominios.</div>` +
+                        `<div>2) esto se traduce en mayor control del foco y menos interferencia de distractores.</div>` +
+                        `<div>3) conviene mantener continuidad y subir dificultad gradualmente para consolidar la ganancia.</div>` +
+                        wrapClose;
+                }
+
+                if(cnt.declining >= Math.ceil(total*0.5)){
+                    return head + wrapOpen +
+                        `<div>1) hoy hubo más dificultad para sostener el rendimiento en varios dominios.</div>` +
+                        `<div>2) lo más probable es sobrecarga o factores del día; si se repite, amerita ajuste del protocolo.</div>` +
+                        `<div>3) sugerencia: bajar ritmo, priorizar precisión y revisar condiciones (sueño, dolor, estrés).</div>` +
+                        wrapClose;
+                }
+
+                return head + wrapOpen +
+                    `<div>1) el perfil global está relativamente estable, con variaciones puntuales según el dominio.</div>` +
+                    `<div>2) esto indica que el proceso va bien si se sostiene continuidad y se controla la carga.</div>` +
+                    `<div>3) siguiente paso: ajustar dificultad por módulo (subir donde mejora, sostener donde está estable).</div>` +
+                    wrapClose;
+            }
+
+            renderClinicalInterpretation() {
+                const hasResults = (this.sessionResults && this.sessionResults.length);
+                const hasCancels = (this.sessionCancellations && this.sessionCancellations.length);
+                const safe = (s) => (String(s||'').replaceAll('&','&amp;').replaceAll('<','&lt;').replaceAll('>','&gt;'));
+
+                // Si no hay ejercicios completados, NO hay datos interpretables.
+                if(!hasResults) {
+                    let txt = `<h4>Reporte de Sesión (sin datos evaluables)</h4>`;
+                    txt += `<span class="category-badge">SESIÓN CANCELADA</span>`;
+                    txt += `<p>La sesión fue cancelada antes de obtener medidas evaluables. Por criterio clínico, no se emiten interpretaciones ni síntesis conclusiva.</p>`;
+
+                    if(hasCancels) {
+                        const lines = this.sessionCancellations.map(c => {
+                            const note = c.note ? (' · <span style="color:#bbb;">' + safe(c.note) + '</span>') : '';
+                            const trial = c.duringTrial ? ' <i style="color:#bbb;">(durante ensayo)</i>' : '';
+                            const att = (typeof c.attempts === 'number') ? (` · intentos: <b>${c.attempts}</b>`) : '';
+                            return '• <b>' + safe(c.mode) + '</b> [Serie: ' + safe(c.serie) + ' | ' + safe(c.grid) + 'x' + safe(c.grid) + '] — motivo: <b>' + safe(c.reason) + '</b>' + att + note + trial;
+                        }).join('<br>');
+
+                        txt += `<div style="margin:12px 0; padding:10px; border:1px solid rgba(255,59,48,0.35); border-radius:12px; background:rgba(255,59,48,0.08);">
+                            <div style="font-family:Orbitron; font-size:0.65rem; letter-spacing:1px; color:#ff3b30; margin-bottom:6px;">EVENTOS DE SESIÓN</div>
+                            <div style="font-size:0.92rem; color:#ddd; line-height:1.6;">${lines}</div>
+                        </div>`;
+                    }
+
+                    document.getElementById('r-interpretation').innerHTML = txt;
+                    return;
+                }
+
+                let txt = `<h4>Análisis de la Dinámica Neuropsicológica y Rendimiento (Sesión Actual):</h4>`;
+
+                const __moduleStates = [];
+
+
+if(this.sessionCancellations && this.sessionCancellations.length) {
+    const safe = (s) => (String(s||'').replaceAll('&','&amp;').replaceAll('<','&lt;').replaceAll('>','&gt;'));
+    const lines = this.sessionCancellations.map(c => {
+        const note = c.note ? (' · <span style="color:#bbb;">' + safe(c.note) + '</span>') : '';
+        const trial = c.duringTrial ? ' <i style="color:#bbb;">(durante ensayo)</i>' : '';
+        return '• <b>' + safe(c.mode) + '</b> [Serie: ' + safe(c.serie) + ' | ' + safe(c.grid) + 'x' + safe(c.grid) + '] — motivo: <b>' + safe(c.reason) + '</b>' + note + trial;
+    }).join('<br>');
+
+    txt += `<div style="margin:12px 0; padding:10px; border:1px solid rgba(255,59,48,0.35); border-radius:10px; background:rgba(255,59,48,0.08);">
+        <div style="color:#ff3b30; font-family:Orbitron; font-size:0.6rem; letter-spacing:1px; text-transform:uppercase;">Cancelaciones registradas en sesión</div>
+        <div style="color:#ddd; font-size:0.85rem; line-height:1.6; margin-top:8px;">${lines}</div>
+    </div>`;
+}
+
+                this.sessionResults.forEach(res => {
+                    txt += `<span class="category-badge">${res.mode} [Serie: ${res.serie} | Grilla: ${res.grid}x${res.grid}]</span>`;
+                    const __patId = this.getPatientId();
+                    const __state = (__patId ? this.getModuleRehabState(__patId, res.mode, res) : {stage:'baseline', firstTime:true, pattern:this.classifyCurrentPattern(res)});
+                    __moduleStates.push({ mode: res.mode, stage: __state.stage });
+                    
+                    if(res.mode === 'STROOP') {
+                        txt += `<p>Se evaluó la capacidad de <b>Control Inhibitorio</b> y gestión del conflicto cognitivo mediante el paradigma de <b>Disociación Fondo-Figura</b>. Con un mRT de ${res.mRT}ms y precisión del ${res.acc}%, el paciente demuestra una movilización efectiva de la <b>Corteza Cingulada Anterior (ACC)</b>. La tarea exigió inhibir la interferencia cromática exógena (barra distractora en el HUD) para priorizar el procesamiento semántico-visual del símbolo objetivo, lo que sugiere integridad en los circuitos fronto-estriatales y un robusto control atencional Top-Down.</p>`;
+                    } else if(res.mode === 'RIZOMA') {
+                        txt += `<p>La evaluación de <b>Flexibilidad Cognitiva (Set-Shifting)</b> indica una latencia de ${res.mRT}ms. Este desempeño sugiere agilidad operativa en la reconfiguración de esquemas mentales mediada por la <b>Corteza Prefrontal Dorsolateral</b>, permitiendo transiciones eficientes ante la incertidumbre posicional. El desenganche atencional de la ubicación previa y el re-enganche en la nueva coordenada espacial fue fluido.</p>`;
+                    } else if(res.mode === 'FANTASMA') {
+                        txt += `<p>En el dominio de <b>Actualización (Updating)</b> de Memoria de Trabajo, la precisión del ${res.acc}% confirma la fidelidad de la <b>Agenda Visoespacial (Visuospatial Sketchpad)</b>. El paciente logró mantener representaciones mentales activas y manipularlas online sin soporte perceptual externo, lo que indica una alta resiliencia ejecutiva y capacidad de buffering temporal en la corteza parietal posterior.</p>`;
+                    } else {
+                        txt += `<p>La tarea de <b>Atención Sostenida</b> muestra estabilidad en la alerta tónica y el mantenimiento del foco atencional (latencia: ${res.mRT}ms). Esto sugiere un funcionamiento óptimo de la red atencional posterior (sistema dorsal) y una regulación adecuada del arousal mediada por sistemas reticulares ascendentes.</p>`;
+                    }
+                    // Bloque cotidiano por módulo (sesión 1-2: perfil; desde sesión 3: tendencia)
+                    txt += this.buildPlainModuleSummary(res, __state);
+                });
+                txt += `<br><p><strong>SÍNTESIS CONCLUSIVA:</strong> El perfil neurocognitivo consolidado sugiere una optimización progresiva de la conectividad en las redes frontoparietales. La adecuada adaptación a la complejidad simbólica del sistema y la estabilidad en los tiempos de reacción indican una reserva cognitiva funcional capaz de soportar la demanda metabólica de la tarea.</p>`;
+                txt += this.buildGlobalPlainSummary(__moduleStates);
+
+                document.getElementById('r-interpretation').innerHTML = txt;
+            }
+
+            renderPatientNote() { return ''; }
+
+            exportBackup() {
+                const h = localStorage.getItem('omni_history_v7_final');
+                const b = new Blob([h], {type: "application/json"});
+                const a = document.createElement('a'); a.href = URL.createObjectURL(b); a.download = "OMNI_FULL_BACKUP.json"; a.click();
+            }
+
+            importBackup(e) {
+                const reader = new FileReader();
+                reader.onload = (ev) => { localStorage.setItem('omni_history_v7_final', ev.target.result); location.reload(); };
+                reader.readAsText(e.target.files[0]);
+            }
+
+            exportToWord() {
+                const canvas = document.getElementById('latencyChart'); const img = document.getElementById('chartImg');
+                canvas.style.display = 'none'; img.style.display = 'block';
+                const content = document.getElementById('printable-report').innerHTML;
+                canvas.style.display = 'block'; img.style.display = 'none';
+                const blob = new Blob(['<html xmlns:o="urn:schemas-microsoft-com:office:office" xmlns:w="urn:schemas-microsoft-com:office:word" xmlns="http://www.w3.org/TR/REC-html40"><head><meta charset="utf-8"></head><body>' + content + '</body></html>'], { type: 'application/msword' });
+                const a = document.createElement('a'); a.href = URL.createObjectURL(blob); a.download = `Reporte_${document.getElementById('pat-id').value}.doc`; a.click();
+            }
+
+            endSession() { if(confirm("¿Finalizar sesión y volver al inicio?")) location.reload(); }
+
+            updateHUD() {
+                const bS = this.series[this.state.serieKey];
+                const tgt = document.getElementById('hud-target');
+                const info = document.getElementById('hud-step-info');
+
+                // TARGET por modo
+                if(this.state.mode === 'FANTASMA' && this.mem && this.mem.active) {
+                    const seq = (this.mem.seqVals || []);
+                    const fullTxt = this._formatSeqForHUD(seq);
+
+                    const phase = (this.mem.phase || 'RECALL');
+                    const len = seq.length || 0;
+                    const idx = (this.mem.idx || 0);
+
+                    // Progresive fading (rehabilitación): ocultar la cola de la secuencia en RECALL
+                    const hideTail = Math.max(0, Math.min(this.mem.fadeRemoved || 0, len));
+                    let shownTxt = '';
+                    if(phase === 'RECALL') {
+                        if(hideTail >= len) {
+                            shownTxt = '';
+                        } else {
+                            const keep = Math.max(0, len - hideTail);
+                            const head = seq.slice(0, keep).map(v => String(v));
+                            const tail = Array.from({length: hideTail}, () => '—');
+                            shownTxt = head.concat(tail).join(', ');
+                        }
+                    }
+
+                    if(info) {
+                        if(phase === 'ENCODE') info.innerText = `MEMORIA · MEMORIZA (${len})`;
+                        else if(phase === 'WARN') info.innerText = `MEMORIA · ATENCIÓN (se ocultará)`;
+                        else info.innerText = `MEMORIA · RECUERDA (${Math.min(idx+1, len)}/${len})`;
+                    }
+
+                    if(tgt) {
+                        if(phase === 'ENCODE') tgt.innerText = `MEMORIZA ESTA SECUENCIA: ${fullTxt}`;
+                        else if(phase === 'WARN') tgt.innerText = `MEMORIZA (PARPADEA Y DESAPARECE): ${fullTxt}`;
+                        else {
+                            tgt.innerText = shownTxt ? `RECUERDA Y SELECCIONA EN ORDEN: ${shownTxt}` : `RECUERDA LA SECUENCIA Y SELECCIONA EN ORDEN`;
+                        }
+                    }
+                } else if(this.state.mode === 'SECUENCIAL' && this.attn && this.attn.active && this.attn.task === 'GO_NOGO') {
+                    // HUD para GO/NO-GO (vigilancia)
+                    const stim = (this.attn.current || {});
+                    const total = (this.attn.trials || []).length || 0;
+                    const k = Math.min((this.attn.idx||0)+1, total);
+                    if(info) info.innerText = `ATENCIÓN · GO/NO-GO (${k}/${total})`;
+                    if(tgt) {
+                        if(stim.go) tgt.innerText = `GO: busca y selecciona ${String(stim.val)}`;
+                        else tgt.innerText = `NO-GO: no toques nada`;
+                    }
+                } else if(this.state.mode === 'STROOP') {
+                    if(this.inhib && this.inhib.pause && Date.now() < this.inhib.pauseUntil) {
+                        if(info) info.innerText = `INHIBICIÓN · NO RESPONDER (comisiones: ${this.inhib.commissions})`;
+                        if(tgt) tgt.innerText = '⛔';
+                    } else {
+                        if(info) info.innerText = 'INHIBICIÓN · RESPONDER';
+                        if(tgt) tgt.innerText = bS[this.state.currentIndex % bS.length];
+                    }
+                } else {
+                    if(info) info.innerText = 'OBJETIVO';
+                    if(tgt) tgt.innerText = bS[this.state.currentIndex % bS.length];
+                }
+
+                const avg = this.state.latencies.length > 0 ? (this.state.latencies.reduce((a,b)=>a+b,0)/this.state.latencies.length).toFixed(0) : 0;
+                document.getElementById('hud-latency').innerText = avg;
+
+                // Distractor central (Nivel 1): fondo de color en el estímulo superior (sin barra inferior)
+                if(this.state.mode === 'STROOP') {
+                    const isPause = (this.inhib && this.inhib.pause && Date.now() < this.inhib.pauseUntil);
+                    if(!this.inhib) this.inhib = { pause:false, pauseUntil:0, commissions:0, pauses:0 };
+                    if(typeof this.inhib._lastIdx !== 'number') this.inhib._lastIdx = -1;
+
+                    if(isPause) {
+                        if(tgt) {
+                            tgt.style.backgroundColor = '#ff3b30';
+                            tgt.style.boxShadow = '0 0 16px rgba(255,59,48,0.85)';
+                        }
+                    } else {
+                        if(this.state.currentIndex !== this.inhib._lastIdx) {
+                            this.inhib._lastIdx = this.state.currentIndex;
+                            const randomColor = this.bgColors[Math.floor(Math.random() * this.bgColors.length)];
+                            this.inhib._distractorColor = randomColor;
+                        }
+                        const col = this.inhib._distractorColor || this.bgColors[0];
+                        if(tgt) {
+                            tgt.style.backgroundColor = col;
+                            tgt.style.boxShadow = `0 0 14px ${col}`;
+                        }
+                    }
+
+                    const bar = document.getElementById('hud-interference');
+                    if(bar) bar.style.opacity = 0;
+                } else {
+                    if(tgt) { tgt.style.backgroundColor = 'transparent'; tgt.style.boxShadow = 'none'; }
+                    const bar = document.getElementById('hud-interference');
+                    if(bar) bar.style.opacity = 0;
+                }
+            }
+            animate() {
+                requestAnimationFrame(() => this.animate());
+                if(this.state.isPlaying) document.getElementById('hud-time').innerText = ((Date.now() - this.state.startTime)/1000).toFixed(2);
+                if(this.controls) this.controls.update();
+                this.renderer.render(this.scene, this.camera);
+            }
+
+            showFeedback(t, c) {
+                const f = document.getElementById('feedback'); f.innerText = t; f.style.color = c; f.style.opacity = 1;
+                setTimeout(() => f.style.opacity = 0, 400);
+            }
+            toggleAccordion(h) { h.parentElement.classList.toggle('active'); }
+            clearHistory() { if(confirm("ADVERTENCIA: ¿Borrar TODA la base de datos?")) { localStorage.removeItem('omni_history_v7_final'); location.reload(); } }
+
+            _clearAttnTimers() {
+                try {
+                    if(this.attn && this.attn._timers) {
+                        this.attn._timers.forEach(t => { try{ clearTimeout(t); } catch(e){} });
+                    }
+                    if(this.attn) { this.attn._timers = []; }
+                } catch(e) {}
+            }
+
+            startAttentionGoNoGo(stepCfg) {
+                if(!this.attn) this.attn = {};
+                this._clearAttnTimers();
+
+                this.attn.active = true;
+                this.attn.task = 'GO_NOGO';
+                this.attn.idx = 0;
+                this.attn.awaiting = false;
+                this.attn.responded = false;
+
+                const rate = Math.max(5, Math.min(80, parseInt(stepCfg.attnTargetRate||20,10)||20));
+                const windowMs = Math.max(300, Math.min(4000, parseInt(stepCfg.attnWindowMs||1400,10)||1400));
+                const itiMin = Math.max(0, Math.min(4000, parseInt(stepCfg.attnItiMin||650,10)||650));
+                const itiMax = Math.max(0, Math.min(6000, parseInt(stepCfg.attnItiMax||1400,10)||1400));
+                const jitter = (stepCfg.attnJitter||'on') !== 'off';
+
+                // edad: ventana un poco más amplia si >= 65 (sin forzar; el rehabilitador puede editar)
+                const age = this.getPatientAge();
+                const ageBoost = (age !== null && age >= 65) ? 250 : 0;
+
+                this.attn.cfg = { rate, windowMs: windowMs + ageBoost, itiMin, itiMax, jitter };
+
+                // construir pool de estímulos a partir del cubo (garantiza que existan)
+                const allVals = [];
+                try {
+                    for(let f=0; f<6; f++){
+                        (this.logicalCube[f]||[]).forEach(cell => { if(cell && cell.v !== undefined) allVals.push(String(cell.v)); });
+                    }
+                } catch(e) {}
+                const pool = (allVals.length ? allVals : (this.series[this.state.serieKey]||[]).map(v=>String(v)));
+
+                const nTrials = Math.max(18, Math.min(120, (this.state.gridDim**2*6))); // acotado clínico
+                this.attn.trials = [];
+                for(let i=0; i<nTrials; i++){
+                    const isGo = (Math.random() * 100) < rate;
+                    const val = pool[Math.floor(Math.random()*pool.length)];
+                    this.attn.trials.push({ go: isGo, val });
+                }
+
+                // reset estado base (para acc estándar)
+                this.state.foundCount = 0;
+                this.state.errors = 0;
+                this.state.latencies = [];
+                this.state.lastClickTime = Date.now();
+                this.state.startTime = Date.now();
+
+                // primer estímulo
+                this._attnNextStimulus();
+            }
+
+            _attnNextStimulus() {
+                if(!this.attn || !this.attn.active) return;
+                this._clearAttnTimers();
+
+                if(this.attn.idx >= (this.attn.trials||[]).length) {
+                    // fin del bloque
+                    try { const el = document.getElementById('hud-target'); if(el) el.innerText = '✓'; } catch(e) {}
+                    this.completeStep();
+                    return;
+                }
+
+                const stim = this.attn.trials[this.attn.idx];
+                this.attn.current = stim;
+                this.attn.responded = false;
+                this.attn.awaiting = true;
+                this.attn.trialStart = Date.now();
+
+                // HUD: valor GO o etiqueta NO-GO (updateHUD mostrará instrucciones extendidas)
+                try {
+                    const hud = document.getElementById('hud-target');
+                    const wrap = document.getElementById('hud-left');
+                    if(hud) hud.innerText = stim.go ? String(stim.val) : 'NO-GO';
+                    if(wrap) wrap.style.borderColor = stim.go ? 'var(--glass-border)' : '#ff3b30';
+                } catch(e) {}
+
+                this.updateHUD();
+
+                const ms = (this.attn.cfg && this.attn.cfg.windowMs) ? this.attn.cfg.windowMs : 1400;
+                const t1 = setTimeout(() => this._attnEndStimulus('timeout'), ms);
+                this.attn._timers = [t1];
+            }
+
+            _attnEndStimulus(reason) {
+                if(!this.attn || !this.attn.active) return;
+                if(!this.attn.awaiting && reason !== 'timeout') {
+                    // si ya se cerró por respuesta, aún programamos el ITI y avanzamos
+                }
+
+                const stim = this.attn.current;
+                const wasGo = !!(stim && stim.go);
+
+                if(reason === 'timeout') {
+                    // no hubo respuesta dentro de ventana
+                    if(wasGo) {
+                        this.attn.omissions += 1;
+                        this.state.errors += 1;
+                        this.showFeedback('⏱', '#ffd166');
+                    } else {
+                        this.attn.correctRej += 1;
+                        this.state.foundCount += 1;
+                        this.showFeedback('•', '#00ff88');
+                    }
+                }
+
+                this.attn.awaiting = false;
+                this.attn.idx += 1;
+                this.updateHUD();
+
+                const cfg = this.attn.cfg || { itiMin: 650, itiMax: 1400, jitter: true };
+                let iti = cfg.itiMin;
+                if(cfg.jitter) {
+                    const min = Math.min(cfg.itiMin, cfg.itiMax);
+                    const max = Math.max(cfg.itiMin, cfg.itiMax);
+                    iti = Math.floor(min + Math.random() * (max - min + 1));
+                }
+                const t2 = setTimeout(() => this._attnNextStimulus(), iti);
+                (this.attn._timers || (this.attn._timers=[])).push(t2);
+            }
+
+        }
+        const game = new GameApp();
+        window.game = game;
+    
+// --- Atajos de teclado (PC) ---
+document.addEventListener('keydown', (e) => {
+    const k = e.key;
+    const ae = document.activeElement;
+    const isTyping = ae && (ae.tagName === 'INPUT' || ae.tagName === 'TEXTAREA' || ae.isContentEditable);
+    if(isTyping) return;
+    const startScreen = document.getElementById('start-screen');
+    const trial = document.getElementById('trial-cancelled');
+    const cancelDrawer = document.getElementById('cancel-drawer');
+
+    // Enter / Espacio: acciones principales
+    if(k === 'Enter' || k === ' ') {
+        // Evitar scroll por barra espaciadora
+        if(k === ' ') e.preventDefault();
+
+        // Si está el overlay de ensayo/fin de ensayo visible
+        if(trial && !trial.classList.contains('hidden')) {
+            // Preferir continuar a prueba
+            try { game.startProgrammedStep(); } catch(err) {}
+            return;
+        }
+
+        // Si estamos en la pantalla de inicio
+        if(startScreen && !startScreen.classList.contains('hidden')) {
+            try { game.startMatch(); } catch(err) {}
+            return;
+        }
+
+        // Si hay un botón visible con "CONTINUAR" (otros overlays)
+        const btn = Array.from(document.querySelectorAll('button')).find(b => {
+            const t = (b.innerText||'').trim().toUpperCase();
+            const r = b.getBoundingClientRect();
+            return t.includes('CONTINUAR') && r.width > 0 && r.height > 0 && !b.disabled;
+        });
+        if(btn) { btn.click(); return; }
+    }
+
+    // Escape: cancelar / cerrar drawer
+    if(k === 'Escape') {
+        if(cancelDrawer && !cancelDrawer.classList.contains('hidden')) {
+            // cerrar drawer
+            try { document.getElementById('cancel-close')?.click(); } catch(err) {}
+            return;
+        }
+        // Si el juego está corriendo, abrir cancelación
+        try {
+            if(window.game && game.state && game.state.isPlaying) {
+                game.openCancelDrawer();
+                return;
+            }
+        } catch(err) {}
+    }
+});
+</script>
+</body>
+</html>

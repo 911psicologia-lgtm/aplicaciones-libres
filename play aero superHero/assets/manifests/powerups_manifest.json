@@ -1,0 +1,15 @@
+[
+  {
+    "id": "reward_powerup_1",
+    "name": "Reward Power-up 1",
+    "type": "powerup",
+    "plannedUse": "world_base_now",
+    "image": "assets/powerups/reward_powerup_1/item.png",
+    "preview": "assets/powerups/reward_powerup_1/item_preview.png",
+    "glow": "assets/powerups/reward_powerup_1/item_glow.png",
+    "recommendedWidth": 40,
+    "recommendedHeight": 48,
+    "role": "reward_pickup",
+    "notes": "Premio emergente ganado al cumplir cierto % de avance o puntos (RECOGIBLE 1)."
+  }
+]

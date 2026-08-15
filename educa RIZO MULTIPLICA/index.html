@@ -1,0 +1,1506 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+    <meta name="theme-color" content="#6366f1">
+    <title>RizoMultiplica - Aventura 1×12</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        :root {
+            --primary: #6366f1;
+            --secondary: #ec4899;
+            --success: #10b981;
+            --warning: #f59e0b;
+            --danger: #ef4444;
+            --bg-light: #f8fafc;
+            --bg-white: #ffffff;
+            --text-dark: #1e293b;
+            --text-gray: #64748b;
+            --border-light: #e2e8f0;
+        }
+
+        html, body {
+            width: 100%;
+            height: 100%;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: var(--bg-light);
+            color: var(--text-dark);
+            overflow: hidden;
+        }
+
+        .app {
+            display: flex;
+            flex-direction: column;
+            height: 100vh;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        }
+
+        .header {
+            background: linear-gradient(135deg, var(--primary) 0%, var(--secondary) 100%);
+            color: white;
+            padding: 1rem;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .header-left {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .header-title {
+            font-size: 1.25rem;
+            font-weight: 700;
+        }
+
+        .header-stats {
+            display: flex;
+            gap: 1rem;
+            font-size: 0.875rem;
+        }
+
+        .stat-item {
+            display: flex;
+            align-items: center;
+            gap: 0.25rem;
+        }
+
+        .main-content {
+            flex: 1;
+            overflow-y: auto;
+            overflow-x: hidden;
+            padding: 1rem;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .screen {
+            display: none;
+            animation: fadeIn 0.3s ease-in;
+        }
+
+        .screen.active {
+            display: flex;
+            flex-direction: column;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+
+        @keyframes slideUp {
+            from { transform: translateY(20px); opacity: 0; }
+            to { transform: translateY(0); opacity: 1; }
+        }
+
+        @keyframes pulse {
+            0%, 100% { transform: scale(1); }
+            50% { transform: scale(1.1); }
+        }
+
+        /* INSTRUCTIONS MODAL */
+        .instructions-modal {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: rgba(0,0,0,0.7);
+            display: none;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            z-index: 1000;
+            padding: 1rem;
+        }
+
+        .instructions-modal.active {
+            display: flex;
+        }
+
+        .instructions-box {
+            background: white;
+            border-radius: 1.5rem;
+            padding: 2rem;
+            max-width: 500px;
+            width: 100%;
+            box-shadow: 0 20px 60px rgba(0,0,0,0.3);
+            animation: slideUp 0.3s ease-out;
+        }
+
+        .instructions-title {
+            font-size: 1.75rem;
+            font-weight: 700;
+            margin-bottom: 1rem;
+            text-align: center;
+        }
+
+        .instructions-icon {
+            font-size: 3rem;
+            text-align: center;
+            margin-bottom: 1rem;
+        }
+
+        .instruction-step {
+            background: var(--bg-light);
+            border-left: 4px solid var(--primary);
+            padding: 1rem;
+            margin-bottom: 1rem;
+            border-radius: 0.5rem;
+        }
+
+        .instruction-step-number {
+            background: var(--primary);
+            color: white;
+            width: 30px;
+            height: 30px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 700;
+            margin-bottom: 0.5rem;
+        }
+
+        .instruction-step-text {
+            font-size: 1rem;
+            line-height: 1.5;
+        }
+
+        .example-box {
+            background: linear-gradient(135deg, var(--primary) 0%, var(--secondary) 100%);
+            color: white;
+            padding: 1.5rem;
+            border-radius: 1rem;
+            margin-bottom: 1rem;
+            text-align: center;
+        }
+
+        .example-title {
+            font-weight: 700;
+            margin-bottom: 0.5rem;
+            font-size: 0.875rem;
+            opacity: 0.9;
+        }
+
+        .example-equation {
+            font-size: 1.5rem;
+            font-weight: 700;
+            margin-bottom: 0.5rem;
+        }
+
+        .example-answer {
+            font-size: 1.25rem;
+            background: rgba(255,255,255,0.2);
+            padding: 0.5rem 1rem;
+            border-radius: 0.5rem;
+            display: inline-block;
+        }
+
+        .instructions-buttons {
+            display: flex;
+            gap: 1rem;
+            margin-top: 1.5rem;
+        }
+
+        .btn {
+            padding: 0.75rem 1.5rem;
+            border: none;
+            border-radius: 0.5rem;
+            font-size: 1rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            gap: 0.5rem;
+            flex: 1;
+        }
+
+        .btn-primary {
+            background: var(--primary);
+            color: white;
+        }
+
+        .btn-primary:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(99, 102, 241, 0.4);
+        }
+
+        .btn-secondary {
+            background: rgba(0,0,0,0.05);
+            color: var(--text-dark);
+            border: 2px solid var(--border-light);
+        }
+
+        .btn-secondary:hover {
+            background: var(--bg-light);
+        }
+
+        .btn-small {
+            padding: 0.5rem 1rem;
+            font-size: 0.875rem;
+        }
+
+        /* WELCOME SCREEN */
+        .welcome-container {
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            height: 100%;
+            gap: 2rem;
+            text-align: center;
+            color: white;
+        }
+
+        .welcome-logo {
+            font-size: 4rem;
+            animation: pulse 2s infinite;
+        }
+
+        .welcome-title {
+            font-size: 2rem;
+            font-weight: 700;
+        }
+
+        .welcome-subtitle {
+            font-size: 1rem;
+            opacity: 0.9;
+        }
+
+        .form-group {
+            width: 100%;
+            max-width: 300px;
+            margin: 0.5rem 0;
+        }
+
+        .form-label {
+            display: block;
+            font-weight: 600;
+            margin-bottom: 0.5rem;
+            color: white;
+            font-size: 0.875rem;
+        }
+
+        .form-input, .form-select {
+            width: 100%;
+            padding: 0.75rem;
+            border: 2px solid rgba(255,255,255,0.3);
+            border-radius: 0.5rem;
+            font-size: 1rem;
+            background: rgba(255,255,255,0.1);
+            color: white;
+        }
+
+        .form-input::placeholder, .form-select {
+            color: rgba(255,255,255,0.7);
+        }
+
+        .form-input:focus, .form-select:focus {
+            outline: none;
+            border-color: white;
+            background: rgba(255,255,255,0.2);
+        }
+
+        .toggle-group {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            background: rgba(255,255,255,0.1);
+            padding: 1rem;
+            border-radius: 0.5rem;
+            margin: 1rem 0;
+        }
+
+        .toggle-label {
+            flex: 1;
+            color: white;
+            font-weight: 600;
+        }
+
+        .toggle-switch {
+            width: 50px;
+            height: 28px;
+            background: rgba(255,255,255,0.3);
+            border-radius: 14px;
+            cursor: pointer;
+            position: relative;
+            transition: background 0.3s;
+        }
+
+        .toggle-switch.active {
+            background: var(--success);
+        }
+
+        .toggle-switch::after {
+            content: '';
+            position: absolute;
+            width: 24px;
+            height: 24px;
+            background: white;
+            border-radius: 50%;
+            top: 2px;
+            left: 2px;
+            transition: left 0.3s;
+        }
+
+        .toggle-switch.active::after {
+            left: 24px;
+        }
+
+        /* MENU SCREEN */
+        .menu-container {
+            display: grid;
+            grid-template-columns: 1fr;
+            gap: 1rem;
+            max-width: 600px;
+            margin: 0 auto;
+        }
+
+        .card {
+            background: white;
+            border-radius: 1rem;
+            padding: 1.5rem;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+            cursor: pointer;
+            transition: all 0.3s;
+            animation: slideUp 0.5s ease-out;
+        }
+
+        .card:hover {
+            transform: translateY(-4px);
+            box-shadow: 0 12px 24px rgba(0,0,0,0.15);
+        }
+
+        .card-icon {
+            font-size: 2.5rem;
+            margin-bottom: 0.5rem;
+        }
+
+        .card-title {
+            font-size: 1.25rem;
+            font-weight: 700;
+            margin-bottom: 0.5rem;
+        }
+
+        .card-description {
+            color: var(--text-gray);
+            font-size: 0.875rem;
+            margin-bottom: 1rem;
+        }
+
+        .progress-panel {
+            background: white;
+            border-radius: 1rem;
+            padding: 1.5rem;
+            margin-bottom: 1rem;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+        }
+
+        .progress-title {
+            font-weight: 700;
+            margin-bottom: 1rem;
+        }
+
+        .progress-row {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 0.5rem 0;
+            border-bottom: 1px solid var(--border-light);
+        }
+
+        .progress-row:last-child {
+            border-bottom: none;
+        }
+
+        .progress-label {
+            font-size: 0.875rem;
+            color: var(--text-gray);
+        }
+
+        .progress-value {
+            font-weight: 700;
+            color: var(--primary);
+        }
+
+        /* LEARN SCREEN */
+        .learn-container {
+            display: flex;
+            flex-direction: column;
+            gap: 1rem;
+        }
+
+        .table-selector {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(50px, 1fr));
+            gap: 0.5rem;
+            margin-bottom: 1rem;
+        }
+
+        .table-btn {
+            padding: 0.75rem;
+            border: 2px solid var(--border-light);
+            background: white;
+            border-radius: 0.5rem;
+            cursor: pointer;
+            font-weight: 600;
+            transition: all 0.3s;
+        }
+
+        .table-btn:hover {
+            border-color: var(--primary);
+        }
+
+        .table-btn.active {
+            background: var(--primary);
+            color: white;
+            border-color: var(--primary);
+        }
+
+        .table-display {
+            background: white;
+            border-radius: 1rem;
+            padding: 1.5rem;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+        }
+
+        .table-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(100px, 1fr));
+            gap: 0.75rem;
+            margin-bottom: 1.5rem;
+        }
+
+        .table-item {
+            background: linear-gradient(135deg, var(--primary) 0%, var(--secondary) 100%);
+            color: white;
+            padding: 1rem;
+            border-radius: 0.5rem;
+            text-align: center;
+            font-weight: 600;
+        }
+
+        .mini-game {
+            background: var(--bg-light);
+            border: 2px dashed var(--primary);
+            border-radius: 0.5rem;
+            padding: 1rem;
+            margin-top: 1rem;
+        }
+
+        .mini-game-title {
+            font-weight: 700;
+            margin-bottom: 0.75rem;
+        }
+
+        .equation-display {
+            background: white;
+            border-radius: 0.75rem;
+            padding: 1.5rem;
+            margin-bottom: 1rem;
+            text-align: center;
+            border: 3px solid var(--primary);
+        }
+
+        .equation-part {
+            display: inline-block;
+            margin: 0 0.5rem;
+            font-size: 1.5rem;
+            font-weight: 700;
+        }
+
+        .blank-space {
+            background: var(--primary);
+            color: white;
+            padding: 0.5rem 1rem;
+            border-radius: 0.5rem;
+            display: inline-block;
+            min-width: 60px;
+            text-align: center;
+        }
+
+        .input-group {
+            display: flex;
+            gap: 0.5rem;
+            margin-bottom: 1rem;
+        }
+
+        .input-group input {
+            flex: 1;
+            padding: 0.75rem;
+            border: 2px solid var(--border-light);
+            border-radius: 0.5rem;
+            font-size: 1rem;
+            font-weight: 600;
+            text-align: center;
+        }
+
+        .input-group input:focus {
+            outline: none;
+            border-color: var(--primary);
+            box-shadow: 0 0 0 3px rgba(99, 102, 241, 0.1);
+        }
+
+        .input-label {
+            font-weight: 700;
+            color: var(--primary);
+            margin-bottom: 0.5rem;
+            display: block;
+        }
+
+        /* QUESTION CONTAINER */
+        .question-container {
+            background: white;
+            border-radius: 1rem;
+            padding: 2rem;
+            text-align: center;
+            margin-bottom: 1rem;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+        }
+
+        .question-instruction {
+            background: linear-gradient(135deg, var(--primary) 0%, var(--secondary) 100%);
+            color: white;
+            padding: 1rem;
+            border-radius: 0.75rem;
+            margin-bottom: 1rem;
+            font-weight: 600;
+            font-size: 0.875rem;
+        }
+
+        .question {
+            font-size: 2.5rem;
+            font-weight: 700;
+            margin-bottom: 1.5rem;
+            color: var(--primary);
+        }
+
+        .answer-options {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 0.75rem;
+            margin-bottom: 1rem;
+        }
+
+        .answer-btn {
+            padding: 1rem;
+            border: 2px solid var(--border-light);
+            background: white;
+            border-radius: 0.5rem;
+            cursor: pointer;
+            font-size: 1.25rem;
+            font-weight: 700;
+            transition: all 0.3s;
+        }
+
+        .answer-btn:hover {
+            border-color: var(--primary);
+            background: var(--bg-light);
+        }
+
+        .answer-btn.correct {
+            background: var(--success);
+            color: white;
+            border-color: var(--success);
+        }
+
+        .answer-btn.incorrect {
+            background: var(--danger);
+            color: white;
+            border-color: var(--danger);
+        }
+
+        .feedback {
+            padding: 1rem;
+            border-radius: 0.5rem;
+            margin-bottom: 1rem;
+            font-weight: 600;
+            text-align: center;
+            display: none;
+        }
+
+        .feedback.correct {
+            background: rgba(16, 185, 129, 0.1);
+            color: var(--success);
+        }
+
+        .feedback.incorrect {
+            background: rgba(239, 68, 68, 0.1);
+            color: var(--danger);
+        }
+
+        .feedback.active {
+            display: block;
+        }
+
+        /* RESULTS SCREEN */
+        .results-container {
+            background: white;
+            border-radius: 1rem;
+            padding: 2rem;
+            text-align: center;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+        }
+
+        .results-title {
+            font-size: 1.75rem;
+            font-weight: 700;
+            margin-bottom: 1rem;
+        }
+
+        .results-stats {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 1rem;
+            margin-bottom: 1.5rem;
+        }
+
+        .stat-box {
+            background: var(--bg-light);
+            padding: 1rem;
+            border-radius: 0.5rem;
+        }
+
+        .stat-value {
+            font-size: 1.75rem;
+            font-weight: 700;
+            color: var(--primary);
+        }
+
+        .stat-label {
+            font-size: 0.875rem;
+            color: var(--text-gray);
+            margin-top: 0.5rem;
+        }
+
+        /* RESPONSIVE */
+        @media (max-width: 640px) {
+            .header {
+                padding: 0.75rem;
+            }
+
+            .header-title {
+                font-size: 1rem;
+            }
+
+            .header-stats {
+                font-size: 0.75rem;
+                gap: 0.5rem;
+            }
+
+            .main-content {
+                padding: 0.75rem;
+            }
+
+            .card {
+                padding: 1rem;
+            }
+
+            .question-container {
+                padding: 1.5rem;
+            }
+
+            .question {
+                font-size: 2rem;
+            }
+
+            .answer-options {
+                grid-template-columns: 1fr;
+            }
+
+            .results-stats {
+                grid-template-columns: 1fr;
+            }
+
+            .instructions-box {
+                padding: 1.5rem;
+            }
+
+            .instructions-title {
+                font-size: 1.5rem;
+            }
+        }
+
+        .button-group {
+            display: flex;
+            gap: 0.75rem;
+            margin-top: 1rem;
+        }
+
+        .button-group .btn {
+            flex: 1;
+        }
+
+        .back-btn {
+            background: var(--border-light);
+            color: var(--text-dark);
+            margin-bottom: 1rem;
+        }
+
+        .back-btn:hover {
+            background: var(--bg-light);
+        }
+
+        .hint-box {
+            background: var(--warning);
+            color: white;
+            padding: 1rem;
+            border-radius: 0.75rem;
+            margin-bottom: 1rem;
+            font-weight: 600;
+        }
+
+        .difficulty-indicator {
+            display: inline-block;
+            background: var(--primary);
+            color: white;
+            padding: 0.25rem 0.75rem;
+            border-radius: 1rem;
+            font-size: 0.75rem;
+            margin-top: 0.5rem;
+        }
+    </style>
+</head>
+<body>
+    <div class="app">
+        <!-- HEADER -->
+        <div class="header">
+            <div class="header-left">
+                <span>🧬</span>
+                <span class="header-title">RizoMultiplica</span>
+            </div>
+            <div class="header-stats">
+                <div class="stat-item">
+                    <span>📊</span>
+                    <span id="headerLevel">Nivel 1</span>
+                </div>
+                <div class="stat-item">
+                    <span>⭐</span>
+                    <span id="headerStars">0</span>
+                </div>
+                <div class="stat-item">
+                    <span>🔥</span>
+                    <span id="headerStreak">0</span>
+                </div>
+            </div>
+        </div>
+
+        <!-- INSTRUCTIONS MODAL -->
+        <div class="instructions-modal" id="instructionsModal">
+            <div class="instructions-box">
+                <div class="instructions-icon" id="instructionIcon">📚</div>
+                <div class="instructions-title" id="instructionTitle">Cómo Jugar</div>
+                
+                <div id="instructionContent"></div>
+
+                <div class="instructions-buttons">
+                    <button class="btn btn-secondary" onclick="closeInstructions()">Volver</button>
+                    <button class="btn btn-primary" onclick="closeInstructions()">¡Entendido!</button>
+                </div>
+            </div>
+        </div>
+
+        <!-- MAIN CONTENT -->
+        <div class="main-content">
+            <!-- WELCOME SCREEN -->
+            <div id="screen_welcome" class="screen active">
+                <div class="welcome-container">
+                    <div class="welcome-logo">🧬</div>
+                    <div class="welcome-title">RizoMultiplica</div>
+                    <div class="welcome-subtitle">Aventura 1×12</div>
+
+                    <div style="width: 100%; max-width: 300px;">
+                        <div class="form-group">
+                            <label class="form-label">Tu nombre:</label>
+                            <input type="text" id="playerName" class="form-input" placeholder="Escribe tu nombre" value="Aventurero">
+                        </div>
+
+                        <div class="form-group">
+                            <label class="form-label">Tu edad (opcional):</label>
+                            <select id="playerAge" class="form-select">
+                                <option value="">Selecciona tu edad</option>
+                                <option value="6">6 años</option>
+                                <option value="7">7 años</option>
+                                <option value="8">8 años</option>
+                                <option value="9">9 años</option>
+                                <option value="10">10 años</option>
+                                <option value="11">11 años</option>
+                                <option value="12">12 años</option>
+                                <option value="13">13+ años</option>
+                            </select>
+                        </div>
+
+                        <div class="toggle-group">
+                            <span class="toggle-label">🔊 Sonido</span>
+                            <div class="toggle-switch active" id="soundToggle" onclick="toggleSound()"></div>
+                        </div>
+
+                        <button class="btn btn-primary" style="width: 100%; margin-top: 1rem;" onclick="startGame()">Empezar Aventura</button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- MENU SCREEN -->
+            <div id="screen_menu" class="screen">
+                <div class="menu-container">
+                    <div class="progress-panel">
+                        <div class="progress-title">📊 Tu Progreso</div>
+                        <div class="progress-row">
+                            <span class="progress-label">Nombre</span>
+                            <span class="progress-value" id="menuPlayerName">-</span>
+                        </div>
+                        <div class="progress-row">
+                            <span class="progress-label">Nivel</span>
+                            <span class="progress-value" id="menuLevel">1</span>
+                        </div>
+                        <div class="progress-row">
+                            <span class="progress-label">Puntos</span>
+                            <span class="progress-value" id="menuPoints">0</span>
+                        </div>
+                        <div class="progress-row">
+                            <span class="progress-label">Racha 🔥</span>
+                            <span class="progress-value" id="menuStreak">0</span>
+                        </div>
+                        <div class="progress-row">
+                            <span class="progress-label">Estrellas ⭐</span>
+                            <span class="progress-value" id="menuStars">0</span>
+                        </div>
+                    </div>
+
+                    <div class="card" onclick="showInstructions('learn'); setTimeout(() => goToScreen('screen_learn'), 500)">
+                        <div class="card-icon">📚</div>
+                        <div class="card-title">Explorar Tablas</div>
+                        <div class="card-description">Aprende las tablas de forma visual</div>
+                        <button class="btn btn-primary btn-small">Empezar</button>
+                    </div>
+
+                    <div class="card" onclick="showInstructions('train'); setTimeout(() => goToScreen('screen_train'), 500)">
+                        <div class="card-icon">🎯</div>
+                        <div class="card-title">Entrenar</div>
+                        <div class="card-description">Práctica adaptativa personalizada</div>
+                        <button class="btn btn-primary btn-small">Empezar</button>
+                    </div>
+
+                    <div class="card" onclick="showInstructions('challenge'); setTimeout(() => goToScreen('screen_challenge_map'), 500)">
+                        <div class="card-icon">🗺️</div>
+                        <div class="card-title">Desafío</div>
+                        <div class="card-description">Conquista los 12 biomas</div>
+                        <button class="btn btn-primary btn-small">Empezar</button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- LEARN SCREEN -->
+            <div id="screen_learn" class="screen">
+                <button class="btn btn-secondary back-btn" onclick="goToScreen('screen_menu')">← Volver</button>
+                <div class="learn-container">
+                    <h2>📚 Explorar Tablas</h2>
+                    <div class="table-selector" id="tableSelector"></div>
+                    <div class="table-display" id="tableDisplay"></div>
+                </div>
+            </div>
+
+            <!-- TRAIN SCREEN -->
+            <div id="screen_train" class="screen">
+                <button class="btn btn-secondary back-btn" onclick="goToScreen('screen_menu')">← Volver</button>
+                <div style="max-width: 600px; margin: 0 auto; width: 100%;">
+                    <h2>🎯 Entrenar</h2>
+                    <div id="trainOptions"></div>
+                </div>
+            </div>
+
+            <!-- CHALLENGE MAP -->
+            <div id="screen_challenge_map" class="screen">
+                <button class="btn btn-secondary back-btn" onclick="goToScreen('screen_menu')">← Volver</button>
+                <h2>🗺️ Mapa de Desafíos</h2>
+                <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(80px, 1fr)); gap: 1rem;" id="biomeMap"></div>
+            </div>
+
+            <!-- LEVEL PLAY -->
+            <div id="screen_level_play" class="screen">
+                <button class="btn btn-secondary back-btn" onclick="goToScreen('screen_challenge_map')">← Volver</button>
+                <div style="max-width: 600px; margin: 0 auto; width: 100%;">
+                    <div class="question-container">
+                        <div class="question-instruction" id="questionInstruction">
+                            👇 Selecciona la respuesta correcta
+                        </div>
+                        <div class="question" id="question">7 × 8 = ?</div>
+                        <div class="feedback" id="feedback"></div>
+                        <div class="answer-options" id="answerOptions"></div>
+                        <button class="btn btn-primary" id="nextBtn" style="display: none;" onclick="nextQuestion()">Siguiente</button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- RESULTS SCREEN -->
+            <div id="screen_results" class="screen">
+                <button class="btn btn-secondary back-btn" onclick="goToScreen('screen_menu')">← Volver</button>
+                <div style="max-width: 600px; margin: 0 auto; width: 100%;">
+                    <div class="results-container">
+                        <div class="results-title" id="resultsTitle">¡Excelente!</div>
+                        <div class="results-stats">
+                            <div class="stat-box">
+                                <div class="stat-value" id="resultsCorrect">0</div>
+                                <div class="stat-label">Correctas</div>
+                            </div>
+                            <div class="stat-box">
+                                <div class="stat-value" id="resultsWrong">0</div>
+                                <div class="stat-label">Errores</div>
+                            </div>
+                            <div class="stat-box">
+                                <div class="stat-value" id="resultsAccuracy">0%</div>
+                                <div class="stat-label">Precisión</div>
+                            </div>
+                            <div class="stat-box">
+                                <div class="stat-value" id="resultsTime">0s</div>
+                                <div class="stat-label">Tiempo Promedio</div>
+                            </div>
+                        </div>
+                        <div id="resultsRecommendation" style="background: var(--bg-light); padding: 1rem; border-radius: 0.5rem; margin-bottom: 1rem;"></div>
+                        <button class="btn btn-primary" onclick="goToScreen('screen_menu')">Volver al Menú</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // ============ GAME STATE ============
+        const gameState = {
+            player: {
+                name: 'Aventurero',
+                age: null,
+                level: 1,
+                points: 0,
+                streak: 0,
+                totalStars: 0,
+                lastPlayDate: null
+            },
+            settings: {
+                sound: true,
+                vibrate: true,
+                includeZero: true,
+                fontSize: 'normal',
+                contrast: false
+            },
+            progress: {},
+            stats: {},
+            achievements: [],
+            currentQuestion: null,
+            currentMode: null,
+            sessionStats: {
+                correct: 0,
+                wrong: 0,
+                startTime: null,
+                questionTimes: []
+            }
+        };
+
+        // ============ INITIALIZATION ============
+        window.addEventListener('load', () => {
+            initializeGame();
+            loadAllData();
+            updateHeader();
+        });
+
+        function initializeGame() {
+            for (let i = 1; i <= 12; i++) {
+                if (!gameState.progress[`table_${i}`]) {
+                    gameState.progress[`table_${i}`] = {
+                        stars: 0,
+                        completed: false,
+                        levels: {}
+                    };
+                }
+            }
+        }
+
+        // ============ STORAGE ============
+        function saveAllData() {
+            localStorage.setItem('rm_player', JSON.stringify(gameState.player));
+            localStorage.setItem('rm_progress', JSON.stringify(gameState.progress));
+            localStorage.setItem('rm_stats', JSON.stringify(gameState.stats));
+            localStorage.setItem('rm_achievements', JSON.stringify(gameState.achievements));
+            localStorage.setItem('rm_settings', JSON.stringify(gameState.settings));
+        }
+
+        function loadAllData() {
+            const player = localStorage.getItem('rm_player');
+            const progress = localStorage.getItem('rm_progress');
+            const stats = localStorage.getItem('rm_stats');
+            const achievements = localStorage.getItem('rm_achievements');
+            const settings = localStorage.getItem('rm_settings');
+
+            if (player) gameState.player = JSON.parse(player);
+            if (progress) gameState.progress = JSON.parse(progress);
+            if (stats) gameState.stats = JSON.parse(stats);
+            if (achievements) gameState.achievements = JSON.parse(achievements);
+            if (settings) gameState.settings = JSON.parse(settings);
+        }
+
+        // ============ INSTRUCTIONS ============
+        function showInstructions(mode) {
+            const modal = document.getElementById('instructionsModal');
+            const content = document.getElementById('instructionContent');
+            const title = document.getElementById('instructionTitle');
+            const icon = document.getElementById('instructionIcon');
+
+            if (mode === 'learn') {
+                icon.textContent = '📚';
+                title.textContent = 'Explorar Tablas';
+                content.innerHTML = `
+                    <div class="instruction-step">
+                        <div class="instruction-step-number">1</div>
+                        <div class="instruction-step-text">Elige una tabla del 1 al 12</div>
+                    </div>
+                    <div class="instruction-step">
+                        <div class="instruction-step-number">2</div>
+                        <div class="instruction-step-text">Verás toda la tabla: 1×1, 1×2, 1×3... hasta 1×12</div>
+                    </div>
+                    <div class="instruction-step">
+                        <div class="instruction-step-number">3</div>
+                        <div class="instruction-step-text">Juega el mini-juego: completa el número que falta</div>
+                    </div>
+                    <div class="example-box">
+                        <div class="example-title">EJEMPLO:</div>
+                        <div class="example-equation">3 × __ = 15</div>
+                        <div class="example-answer">Respuesta: 5</div>
+                    </div>
+                `;
+            } else if (mode === 'train') {
+                icon.textContent = '🎯';
+                title.textContent = 'Entrenar';
+                content.innerHTML = `
+                    <div class="instruction-step">
+                        <div class="instruction-step-number">1</div>
+                        <div class="instruction-step-text">Elige una tabla o mezcla de todas</div>
+                    </div>
+                    <div class="instruction-step">
+                        <div class="instruction-step-number">2</div>
+                        <div class="instruction-step-text">Selecciona cuántas preguntas quieres: 10, 20 o 40</div>
+                    </div>
+                    <div class="instruction-step">
+                        <div class="instruction-step-number">3</div>
+                        <div class="instruction-step-text">Responde todas las preguntas lo más rápido que puedas</div>
+                    </div>
+                    <div class="example-box">
+                        <div class="example-title">PREGUNTA:</div>
+                        <div class="example-equation">7 × 8 = ?</div>
+                        <div class="example-answer">Selecciona: 56</div>
+                    </div>
+                `;
+            } else if (mode === 'challenge') {
+                icon.textContent = '🗺️';
+                title.textContent = 'Desafío';
+                content.innerHTML = `
+                    <div class="instruction-step">
+                        <div class="instruction-step-number">1</div>
+                        <div class="instruction-step-text">Cada número es un bioma con su tabla</div>
+                    </div>
+                    <div class="instruction-step">
+                        <div class="instruction-step-number">2</div>
+                        <div class="instruction-step-text">Resuelve preguntas para ganar estrellas ⭐</div>
+                    </div>
+                    <div class="instruction-step">
+                        <div class="instruction-step-number">3</div>
+                        <div class="instruction-step-text">Domina todos los biomas para ser una LEYENDA</div>
+                    </div>
+                    <div class="example-box">
+                        <div class="example-title">OBJETIVO:</div>
+                        <div style="font-size: 1.25rem; margin-top: 0.5rem;">Conquista los 12 biomas 🏆</div>
+                    </div>
+                `;
+            }
+
+            modal.classList.add('active');
+        }
+
+        function closeInstructions() {
+            document.getElementById('instructionsModal').classList.remove('active');
+        }
+
+        // ============ NAVIGATION ============
+        function goToScreen(screenId) {
+            document.querySelectorAll('.screen').forEach(s => s.classList.remove('active'));
+            document.getElementById(screenId).classList.add('active');
+
+            if (screenId === 'screen_menu') {
+                updateMenuDisplay();
+            } else if (screenId === 'screen_learn') {
+                renderLearnScreen();
+            } else if (screenId === 'screen_train') {
+                renderTrainScreen();
+            } else if (screenId === 'screen_challenge_map') {
+                renderChallengeMap();
+            }
+        }
+
+        // ============ WELCOME & LOGIN ============
+        function startGame() {
+            const name = document.getElementById('playerName').value || 'Aventurero';
+            const age = document.getElementById('playerAge').value;
+
+            gameState.player.name = name;
+            gameState.player.age = age;
+            gameState.settings.sound = document.getElementById('soundToggle').classList.contains('active');
+
+            saveAllData();
+            goToScreen('screen_menu');
+        }
+
+        function toggleSound() {
+            document.getElementById('soundToggle').classList.toggle('active');
+        }
+
+        // ============ HEADER & DISPLAY ============
+        function updateHeader() {
+            document.getElementById('headerLevel').textContent = `Nivel ${gameState.player.level}`;
+            document.getElementById('headerStars').textContent = gameState.player.totalStars;
+            document.getElementById('headerStreak').textContent = gameState.player.streak;
+        }
+
+        function updateMenuDisplay() {
+            document.getElementById('menuPlayerName').textContent = gameState.player.name;
+            document.getElementById('menuLevel').textContent = gameState.player.level;
+            document.getElementById('menuPoints').textContent = gameState.player.points;
+            document.getElementById('menuStreak').textContent = gameState.player.streak;
+            document.getElementById('menuStars').textContent = gameState.player.totalStars;
+        }
+
+        // ============ LEARN MODE ============
+        function renderLearnScreen() {
+            const selector = document.getElementById('tableSelector');
+            selector.innerHTML = '';
+            for (let i = 1; i <= 12; i++) {
+                const btn = document.createElement('button');
+                btn.className = 'table-btn' + (i === 1 ? ' active' : '');
+                btn.textContent = i;
+                btn.onclick = () => selectTable(i);
+                selector.appendChild(btn);
+            }
+            selectTable(1);
+        }
+
+        function selectTable(tableNum) {
+            document.querySelectorAll('.table-btn').forEach((btn, idx) => {
+                btn.classList.toggle('active', idx + 1 === tableNum);
+            });
+
+            const display = document.getElementById('tableDisplay');
+            let html = '<div class="table-grid">';
+            for (let i = 1; i <= 12; i++) {
+                html += `<div class="table-item">${tableNum} × ${i} = ${tableNum * i}</div>`;
+            }
+            html += '</div>';
+
+            html += `
+                <div class="mini-game">
+                    <div class="mini-game-title">🎮 Completa el número que falta:</div>
+                    <div class="equation-display">
+                        <span class="equation-part">${tableNum} ×</span>
+                        <span class="blank-space" id="blank">?</span>
+                        <span class="equation-part">=</span>
+                        <span class="equation-part" id="result">?</span>
+                    </div>
+                    <label class="input-label">Escribe el número que falta en el recuadro azul 👇</label>
+                    <div class="input-group">
+                        <input type="number" id="gapInput" placeholder="Tu respuesta" min="0" max="12">
+                        <button class="btn btn-primary" onclick="checkGap(${tableNum})">Verificar</button>
+                    </div>
+                    <button class="btn btn-secondary btn-small" onclick="showHint(${tableNum})">💡 Pista</button>
+                </div>
+            `;
+
+            display.innerHTML = html;
+            generateGapQuestion(tableNum);
+        }
+
+        function generateGapQuestion(tableNum) {
+            const num = Math.floor(Math.random() * 13);
+            document.getElementById('blank').textContent = num;
+            document.getElementById('result').textContent = tableNum * num;
+            document.getElementById('gapInput').value = '';
+            document.getElementById('gapInput').dataset.answer = num;
+        }
+
+        function checkGap(tableNum) {
+            const input = document.getElementById('gapInput');
+            const answer = parseInt(input.dataset.answer);
+            const userAnswer = parseInt(input.value);
+
+            if (userAnswer === answer) {
+                alert('✅ ¡Correcto! El número que faltaba es ' + answer);
+                generateGapQuestion(tableNum);
+            } else {
+                alert('❌ Intenta de nuevo. Recuerda: ' + tableNum + ' × ' + answer + ' = ' + (tableNum * answer));
+            }
+        }
+
+        function showHint(tableNum) {
+            alert('💡 Pista: Piensa en la tabla del ' + tableNum);
+        }
+
+        // ============ TRAIN MODE ============
+        function renderTrainScreen() {
+            const options = document.getElementById('trainOptions');
+            options.innerHTML = `
+                <h3 style="margin-bottom: 1rem;">Elige una tabla o mezcla:</h3>
+                <div class="table-selector" id="singleTableSelect"></div>
+                
+                <h3 style="margin-top: 1.5rem; margin-bottom: 1rem;">Elige cuántas preguntas:</h3>
+                <div style="display: grid; grid-template-columns: 1fr; gap: 0.75rem;">
+                    <button class="btn btn-primary" onclick="startTrainingSession('quick', 10)">⚡ Rápida (10 preguntas)</button>
+                    <button class="btn btn-primary" onclick="startTrainingSession('normal', 20)">🎯 Normal (20 preguntas)</button>
+                    <button class="btn btn-primary" onclick="startTrainingSession('pro', 40)">🚀 Pro (40 preguntas)</button>
+                </div>
+            `;
+
+            const tableSelect = document.getElementById('singleTableSelect');
+            let html = '';
+            for (let i = 1; i <= 12; i++) {
+                html += `<button class="table-btn" onclick="startTrainingSession('single', 20, ${i})">${i}</button>`;
+            }
+            html += '<button class="table-btn" onclick="startTrainingSession(\'mix\', 20)">MIX</button>';
+            tableSelect.innerHTML = html;
+        }
+
+        function startTrainingSession(mode, count, table = null) {
+            gameState.currentMode = mode;
+            gameState.sessionStats = {
+                correct: 0,
+                wrong: 0,
+                startTime: Date.now(),
+                questionTimes: [],
+                selectedTable: table,
+                totalQuestions: count
+            };
+
+            generateQuestion(mode, table);
+            goToScreen('screen_level_play');
+        }
+
+        function generateQuestion(mode, table = null) {
+            let a, b;
+
+            if (mode === 'single' || table) {
+                a = table || gameState.sessionStats.selectedTable;
+                b = Math.floor(Math.random() * 13);
+            } else {
+                a = Math.floor(Math.random() * 12) + 1;
+                b = Math.floor(Math.random() * 13);
+            }
+
+            if (!gameState.settings.includeZero && b === 0) {
+                b = Math.floor(Math.random() * 12) + 1;
+            }
+
+            const answer = a * b;
+            const options = [answer];
+
+            while (options.length < 4) {
+                const wrong = Math.floor(Math.random() * 145);
+                if (!options.includes(wrong)) options.push(wrong);
+            }
+
+            options.sort(() => Math.random() - 0.5);
+
+            gameState.currentQuestion = {
+                a, b, answer, options,
+                startTime: Date.now()
+            };
+
+            displayQuestion();
+        }
+
+        function displayQuestion() {
+            const q = gameState.currentQuestion;
+            document.getElementById('question').textContent = `${q.a} × ${q.b} = ?`;
+            document.getElementById('questionInstruction').textContent = '👇 Selecciona la respuesta correcta';
+            document.getElementById('feedback').style.display = 'none';
+            document.getElementById('feedback').classList.remove('active');
+            document.getElementById('nextBtn').style.display = 'none';
+
+            const answerContainer = document.getElementById('answerOptions');
+            answerContainer.innerHTML = '';
+
+            q.options.forEach(opt => {
+                const btn = document.createElement('button');
+                btn.className = 'answer-btn';
+                btn.textContent = opt;
+                btn.onclick = () => checkAnswer(opt);
+                answerContainer.appendChild(btn);
+            });
+        }
+
+        function checkAnswer(userAnswer) {
+            const q = gameState.currentQuestion;
+            const isCorrect = userAnswer === q.answer;
+            const timeMs = Date.now() - q.startTime;
+
+            gameState.sessionStats.questionTimes.push(timeMs);
+
+            if (isCorrect) {
+                gameState.sessionStats.correct++;
+                gameState.player.points += 10;
+                if (timeMs < 3000) gameState.player.points += 5;
+
+                document.getElementById('feedback').textContent = '✅ ¡Correcto! ' + q.a + ' × ' + q.b + ' = ' + q.answer;
+                document.getElementById('feedback').className = 'feedback correct active';
+            } else {
+                gameState.sessionStats.wrong++;
+                gameState.player.points -= 2;
+
+                document.getElementById('feedback').textContent = `❌ La respuesta correcta es ${q.answer}. ${q.a} × ${q.b} = ${q.answer}`;
+                document.getElementById('feedback').className = 'feedback incorrect active';
+            }
+
+            const totalQuestions = gameState.sessionStats.correct + gameState.sessionStats.wrong;
+            const maxQuestions = gameState.sessionStats.totalQuestions || 10;
+
+            if (totalQuestions >= maxQuestions) {
+                setTimeout(finishSession, 1500);
+            } else {
+                document.getElementById('nextBtn').style.display = 'block';
+            }
+
+            updateHeader();
+            saveAllData();
+        }
+
+        function nextQuestion() {
+            generateQuestion(gameState.currentMode, gameState.sessionStats.selectedTable);
+        }
+
+        function finishSession() {
+            const stats = gameState.sessionStats;
+            const total = stats.correct + stats.wrong;
+            const accuracy = Math.round((stats.correct / total) * 100);
+            const avgTime = Math.round(stats.questionTimes.reduce((a, b) => a + b, 0) / total);
+
+            document.getElementById('resultsCorrect').textContent = stats.correct;
+            document.getElementById('resultsWrong').textContent = stats.wrong;
+            document.getElementById('resultsAccuracy').textContent = accuracy + '%';
+            document.getElementById('resultsTime').textContent = (avgTime / 1000).toFixed(1) + 's';
+
+            let recommendation = '¡Excelente trabajo! 🎉';
+            if (accuracy < 50) {
+                recommendation = '💪 Sigue practicando, ¡lo estás logrando!';
+            } else if (accuracy < 80) {
+                recommendation = '👍 Buen progreso, practica un poco más';
+            }
+
+            document.getElementById('resultsRecommendation').textContent = recommendation;
+            document.getElementById('resultsTitle').textContent = accuracy >= 80 ? '¡Excelente!' : 'Buen intento';
+
+            saveAllData();
+            goToScreen('screen_results');
+        }
+
+        // ============ CHALLENGE MODE ============
+        const biomeData = [
+            { emoji: '🌲', name: 'Bosque', color: '#10b981', desc: 'Tabla del 1' },
+            { emoji: '🌊', name: 'Océano', color: '#0ea5e9', desc: 'Tabla del 2' },
+            { emoji: '🔥', name: 'Volcán', color: '#ef4444', desc: 'Tabla del 3' },
+            { emoji: '❄️', name: 'Glaciar', color: '#06b6d4', desc: 'Tabla del 4' },
+            { emoji: '⚡', name: 'Tormenta', color: '#f59e0b', desc: 'Tabla del 5' },
+            { emoji: '🌸', name: 'Jardín', color: '#ec4899', desc: 'Tabla del 6' },
+            { emoji: '🏜️', name: 'Desierto', color: '#d97706', desc: 'Tabla del 7' },
+            { emoji: '🌙', name: 'Noche', color: '#6366f1', desc: 'Tabla del 8' },
+            { emoji: '☀️', name: 'Día', color: '#fbbf24', desc: 'Tabla del 9' },
+            { emoji: '🌈', name: 'Arcoíris', color: '#a855f7', desc: 'Tabla del 10' },
+            { emoji: '⭐', name: 'Galaxia', color: '#1e293b', desc: 'Tabla del 11' },
+            { emoji: '🎆', name: 'Fuegos', color: '#ec4899', desc: 'Tabla del 12' }
+        ];
+
+        function renderChallengeMap() {
+            const map = document.getElementById('biomeMap');
+            map.innerHTML = '';
+
+            for (let i = 1; i <= 12; i++) {
+                const biome = document.createElement('div');
+                const biomeInfo = biomeData[i - 1];
+                const progress = gameState.progress[`table_${i}`];
+                const stars = progress ? progress.stars : 0;
+                const isCompleted = progress ? progress.completed : false;
+
+                biome.style.cssText = `
+                    background: linear-gradient(135deg, ${biomeInfo.color} 0%, ${biomeInfo.color}dd 100%);
+                    border-radius: 1rem;
+                    padding: 1.5rem;
+                    text-align: center;
+                    cursor: pointer;
+                    transition: all 0.3s;
+                    box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+                    color: white;
+                    position: relative;
+                    overflow: hidden;
+                `;
+
+                let starsHtml = '';
+                for (let s = 0; s < 3; s++) {
+                    starsHtml += s < stars ? '⭐' : '☆';
+                }
+
+                biome.innerHTML = `
+                    <div style="font-size: 3rem; margin-bottom: 0.5rem; animation: pulse 2s infinite;">${biomeInfo.emoji}</div>
+                    <div style="font-weight: 700; font-size: 1.1rem; margin-bottom: 0.25rem;">${biomeInfo.name}</div>
+                    <div style="font-size: 0.8rem; opacity: 0.9; margin-bottom: 0.5rem;">${biomeInfo.desc}</div>
+                    <div style="font-size: 1rem; margin-top: 0.5rem;">${starsHtml}</div>
+                    ${isCompleted ? '<div style="margin-top: 0.5rem; font-size: 0.9rem; font-weight: 700;">✅ DOMINADO</div>' : ''}
+                `;
+
+                biome.onmouseover = () => {
+                    biome.style.transform = 'scale(1.08) rotate(2deg)';
+                    biome.style.boxShadow = '0 8px 16px rgba(0,0,0,0.2)';
+                };
+                biome.onmouseout = () => {
+                    biome.style.transform = 'scale(1) rotate(0deg)';
+                    biome.style.boxShadow = '0 4px 6px rgba(0,0,0,0.1)';
+                };
+                biome.onclick = () => startChallenge(i);
+                map.appendChild(biome);
+            }
+        }
+
+        function startChallenge(tableNum) {
+            gameState.currentMode = 'challenge';
+            gameState.sessionStats = {
+                correct: 0,
+                wrong: 0,
+                startTime: Date.now(),
+                questionTimes: [],
+                selectedTable: tableNum,
+                level: 1,
+                totalQuestions: 10,
+                streak: 0,
+                maxStreak: 0
+            };
+
+            const biomeInfo = biomeData[tableNum - 1];
+            const instruction = document.getElementById('questionInstruction');
+            instruction.innerHTML = 'Conquista el bioma: <strong>' + biomeInfo.name + '</strong> - Tabla del ' + tableNum;
+
+            generateQuestion('single', tableNum);
+            goToScreen('screen_level_play');
+        }
+
+        // Auto-save periodically
+        setInterval(() => {
+            saveAllData();
+        }, 30000);
+    </script>
+</body>
+</html>

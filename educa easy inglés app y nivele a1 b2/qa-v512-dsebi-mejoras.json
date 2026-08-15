@@ -1,0 +1,14 @@
+{
+  "id":"qa-v512-dsebi-mejoras","fecha":"2026-06-18","version":"5.0.12","base":"5.0.11-exercise-fixes",
+  "modo":"DSEBI antialucinación · primero no dañes",
+  "mejoras_implementadas":[
+    {"prioridad":"ALTA","dimension":"8 Calidad formativa","archivo":"content.v1.json+FALLBACK","cambio":"A2 complete_text: respuestas constantes 'practical'(30×) y 'today'(30×) diversificadas a ≤6× con audio EN/ES coherente. Elimina respuesta adivinable por repetición.","riesgo":"bajo"},
+    {"prioridad":"ALTA","dimension":"9 Traducibilidad sin autor","archivo":"app.js getExerciseTranslationText()","cambio":"En multiple_choice/scenario_choice se prefiere scenarioEs (traducción real de la situación) antes que el promptEs genérico. Evita mostrar un hint como si fuera traducción.","riesgo":"bajo, localizado"}
+  ],
+  "no_implementado_por_diseno":[
+    "Distractores del mismo mundo (38): se conservan; son pedagógicamente válidos (mismo tema, no correctos para la escena).",
+    "optionsEs (traducción por opción): no se autogenera (6000 cadenas; riesgo de calidad). Queda como tarea de generación.",
+    "Distractores 'cartoon' en Decisión guiada de mundos iniciales: reescritura subjetiva; se deja como mejora de contenido."
+  ],
+  "verificacion":{"node_check":"OK","fallback_igual_content":true,"versiones_coherentes":"5.0.12","correctIndex_invalidos":0,"the_speaker":0,"mezcla_idioma":0,"dict_sin_routeId":0}
+}

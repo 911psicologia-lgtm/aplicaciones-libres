@@ -1,0 +1,1279 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Alianzas Culturales · Edición Premium</title>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,600;0,800;1,400&family=DM+Sans:wght@300;400;500;600&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet">
+
+<style>
+/* ═══════════════════════════════════════════════
+   DESIGN TOKENS
+═══════════════════════════════════════════════ */
+:root{
+  --ink:#1a1410;
+  --ink2:#3d2e1e;
+  --ink3:#6b5240;
+  --sand:#f7f3ec;
+  --sand2:#ede6da;
+  --sand3:#dfd5c5;
+  --gold:#b8933a;
+  --gold2:#d4aa50;
+  --gold3:#f0cc7a;
+  --accent:#7c4b2e;
+  --accent2:#a86640;
+  --teal:#2d6a72;
+  --teal2:#3d8a94;
+  --white:#fffef9;
+
+  --r-lg:16px;
+  --r-xl:24px;
+  --r-2xl:36px;
+  --shadow-sm:0 2px 12px rgba(26,20,16,.07);
+  --shadow-md:0 8px 32px rgba(26,20,16,.10);
+  --shadow-lg:0 20px 60px rgba(26,20,16,.15);
+  --shadow-gold:0 8px 32px rgba(184,147,58,.25);
+  --transition:.28s cubic-bezier(.4,0,.2,1);
+}
+
+*{margin:0;padding:0;box-sizing:border-box;}
+html{scroll-behavior:smooth;}
+
+body{
+  font-family:'DM Sans',sans-serif;
+  background:var(--sand);
+  color:var(--ink);
+  min-height:100vh;
+  overflow-x:hidden;
+}
+
+/* ── GRAIN OVERLAY ── */
+body::before{
+  content:'';
+  position:fixed;inset:0;
+  background-image:url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='.035'/%3E%3C/svg%3E");
+  pointer-events:none;z-index:9999;opacity:.6;
+}
+
+/* ── ANIMATED BG GRADIENT ── */
+.bg-anim{
+  position:fixed;inset:0;z-index:-1;
+  background:linear-gradient(135deg,#f7f3ec 0%,#ede6da 40%,#f0e8d8 70%,#e8dece 100%);
+  animation:bgShift 12s ease-in-out infinite alternate;
+}
+@keyframes bgShift{
+  0%{background:linear-gradient(135deg,#f7f3ec,#ede6da,#f0e8d8,#e8dece);}
+  33%{background:linear-gradient(200deg,#ede6da,#f7f3ec,#e8dece,#f0e8d8);}
+  66%{background:linear-gradient(280deg,#f0e8d8,#e8dece,#f7f3ec,#ede6da);}
+  100%{background:linear-gradient(135deg,#e8dece,#f0e8d8,#ede6da,#f7f3ec);}
+}
+
+/* ── LAYOUT ── */
+.app{
+  max-width:900px;
+  margin:0 auto;
+  padding:clamp(20px,5vw,60px) clamp(16px,4vw,40px);
+  position:relative;
+}
+
+/* ══════════════════════
+   SCREENS
+══════════════════════ */
+.screen{display:none;}
+.screen.active{display:block;animation:fadeUp .55s var(--transition) both;}
+@keyframes fadeUp{
+  from{opacity:0;transform:translateY(28px);}
+  to{opacity:1;transform:translateY(0);}
+}
+
+/* ══════════════════════
+   SCREEN 1 — HERO
+══════════════════════ */
+#s1{text-align:center;padding:clamp(30px,8vw,90px) 0;}
+
+.hero-eyebrow{
+  font-family:'DM Mono',monospace;
+  font-size:.72rem;letter-spacing:.18em;
+  color:var(--gold);text-transform:uppercase;
+  margin-bottom:18px;opacity:.85;
+}
+.hero-title{
+  font-family:'Playfair Display',serif;
+  font-size:clamp(2.4rem,6vw,4.2rem);
+  font-weight:800;line-height:1.08;
+  color:var(--ink);
+  margin-bottom:12px;
+}
+.hero-title em{color:var(--gold);font-style:italic;}
+.hero-subtitle{
+  font-size:clamp(.9rem,2vw,1.05rem);
+  color:var(--ink3);line-height:1.7;
+  max-width:560px;margin:0 auto 40px;
+  font-weight:300;
+}
+
+/* advisor ribbon */
+.advisor-ribbon{
+  display:inline-flex;align-items:center;gap:12px;
+  background:var(--white);
+  border:1.5px solid var(--sand3);
+  border-radius:50px;
+  padding:10px 22px;
+  margin-bottom:40px;
+  box-shadow:var(--shadow-sm);
+  font-size:.82rem;color:var(--ink2);font-weight:500;
+}
+.advisor-dot{
+  width:10px;height:10px;border-radius:50%;
+  background:var(--teal);
+  animation:pulse 2s ease-in-out infinite;
+}
+@keyframes pulse{0%,100%{box-shadow:0 0 0 0 rgba(45,106,114,.4);}50%{box-shadow:0 0 0 6px rgba(45,106,114,0);}}
+
+.btn-primary{
+  display:inline-flex;align-items:center;gap:10px;
+  background:var(--ink);
+  color:var(--white);
+  border:none;border-radius:12px;
+  padding:16px 36px;
+  font-family:'DM Sans',sans-serif;
+  font-size:1rem;font-weight:600;letter-spacing:.01em;
+  cursor:pointer;
+  box-shadow:0 4px 24px rgba(26,20,16,.22);
+  transition:var(--transition);
+  position:relative;overflow:hidden;
+}
+.btn-primary::before{
+  content:'';position:absolute;inset:0;
+  background:linear-gradient(135deg,rgba(255,255,255,.08),transparent);
+  opacity:0;transition:var(--transition);
+}
+.btn-primary:hover{
+  transform:translateY(-2px);
+  box-shadow:0 8px 36px rgba(26,20,16,.28);
+}
+.btn-primary:hover::before{opacity:1;}
+.btn-primary:active{transform:translateY(0);}
+
+.btn-secondary{
+  display:inline-flex;align-items:center;gap:8px;
+  background:transparent;
+  color:var(--ink2);
+  border:1.5px solid var(--sand3);
+  border-radius:12px;
+  padding:13px 28px;
+  font-family:'DM Sans',sans-serif;
+  font-size:.9rem;font-weight:500;
+  cursor:pointer;
+  transition:var(--transition);
+}
+.btn-secondary:hover{background:var(--sand2);border-color:var(--sand3);}
+
+.btn-gold{
+  display:inline-flex;align-items:center;gap:10px;
+  background:linear-gradient(135deg,var(--gold),var(--gold2));
+  color:var(--ink);
+  border:none;border-radius:12px;
+  padding:15px 32px;
+  font-family:'DM Sans',sans-serif;
+  font-size:.95rem;font-weight:700;
+  cursor:pointer;
+  box-shadow:var(--shadow-gold);
+  transition:var(--transition);
+}
+.btn-gold:hover{transform:translateY(-2px);box-shadow:0 12px 40px rgba(184,147,58,.35);}
+
+/* agent cards on hero */
+.agents-preview{
+  display:flex;flex-wrap:wrap;justify-content:center;gap:10px;margin-top:48px;
+}
+.agent-chip{
+  display:flex;align-items:center;gap:8px;
+  background:var(--white);border:1.5px solid var(--sand3);
+  border-radius:50px;padding:7px 16px;
+  font-size:.78rem;color:var(--ink2);font-weight:500;
+  box-shadow:var(--shadow-sm);
+}
+.agent-chip .icon{font-size:1rem;}
+
+/* ══════════════════════
+   SCREEN 2 — FORM
+══════════════════════ */
+.form-header{margin-bottom:36px;}
+.section-eyebrow{
+  font-family:'DM Mono',monospace;
+  font-size:.68rem;letter-spacing:.16em;
+  color:var(--gold);text-transform:uppercase;
+  margin-bottom:10px;
+}
+.section-title{
+  font-family:'Playfair Display',serif;
+  font-size:clamp(1.6rem,4vw,2.4rem);
+  font-weight:700;color:var(--ink);
+  line-height:1.15;
+}
+
+.form-grid{
+  display:grid;grid-template-columns:1fr 1fr;
+  gap:20px;margin-bottom:28px;
+}
+@media(max-width:600px){.form-grid{grid-template-columns:1fr;}}
+
+.field{display:flex;flex-direction:column;gap:8px;}
+.field label{
+  font-size:.8rem;font-weight:600;
+  color:var(--ink2);letter-spacing:.04em;text-transform:uppercase;
+}
+.field input,.field select{
+  width:100%;
+  padding:13px 16px;
+  border:1.5px solid var(--sand3);
+  border-radius:10px;
+  font-family:'DM Sans',sans-serif;
+  font-size:.95rem;color:var(--ink);
+  background:var(--white);
+  transition:var(--transition);
+  appearance:none;-webkit-appearance:none;
+  background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' fill='%236b5240' viewBox='0 0 16 16'%3E%3Cpath d='M7.247 11.14 2.451 5.658C1.885 5.013 2.345 4 3.204 4h9.592a1 1 0 0 1 .753 1.659l-4.796 5.48a1 1 0 0 1-1.506 0z'/%3E%3C/svg%3E");
+  background-repeat:no-repeat;background-position:right 14px center;
+  padding-right:36px;
+}
+.field input[type=date]{background-image:none;padding-right:16px;}
+.field input:focus,.field select:focus{
+  outline:none;border-color:var(--gold);
+  box-shadow:0 0 0 3px rgba(184,147,58,.12);
+}
+
+/* advisor note in form */
+.advisor-note{
+  background:linear-gradient(135deg,rgba(45,106,114,.06),rgba(45,106,114,.03));
+  border:1.5px solid rgba(45,106,114,.2);
+  border-radius:var(--r-lg);
+  padding:20px 24px;
+  margin-bottom:28px;
+  display:flex;gap:16px;align-items:flex-start;
+}
+.advisor-avatar{
+  width:44px;height:44px;border-radius:50%;
+  background:linear-gradient(135deg,var(--teal),var(--teal2));
+  display:flex;align-items:center;justify-content:center;
+  font-size:1.3rem;flex-shrink:0;
+}
+.advisor-text{font-size:.85rem;color:var(--ink2);line-height:1.65;}
+.advisor-name{font-weight:600;color:var(--teal);font-size:.78rem;text-transform:uppercase;letter-spacing:.06em;margin-bottom:4px;}
+
+.form-actions{display:flex;gap:14px;align-items:center;flex-wrap:wrap;}
+
+/* ══════════════════════
+   SCREEN 3 — RESULTS
+══════════════════════ */
+.results-header{
+  display:flex;align-items:flex-start;justify-content:space-between;
+  gap:20px;flex-wrap:wrap;margin-bottom:36px;
+}
+.results-meta{flex:1;}
+.export-area{display:flex;gap:10px;align-items:center;flex-wrap:wrap;}
+
+/* dominant culture banner */
+.dominant-banner{
+  border-radius:var(--r-xl);
+  padding:28px 32px;
+  margin-bottom:36px;
+  position:relative;overflow:hidden;
+  color:var(--white);
+}
+.dominant-banner::before{
+  content:'';position:absolute;inset:0;
+  background:linear-gradient(135deg,rgba(0,0,0,.15),transparent);
+}
+.dominant-banner .eyebrow{
+  font-family:'DM Mono',monospace;
+  font-size:.68rem;letter-spacing:.16em;text-transform:uppercase;
+  opacity:.75;margin-bottom:8px;
+}
+.dominant-banner h3{
+  font-family:'Playfair Display',serif;
+  font-size:clamp(1.4rem,3.5vw,2rem);
+  font-weight:700;margin-bottom:6px;
+  position:relative;
+}
+.dominant-banner p{font-size:.9rem;opacity:.85;line-height:1.6;position:relative;}
+
+/* ── CHART SECTION ── */
+.chart-section{
+  background:var(--white);
+  border:1.5px solid var(--sand3);
+  border-radius:var(--r-xl);
+  padding:28px 28px 24px;
+  margin-bottom:28px;
+  box-shadow:var(--shadow-sm);
+}
+.chart-title{
+  font-family:'Playfair Display',serif;
+  font-size:1.1rem;font-weight:600;color:var(--ink);
+  margin-bottom:4px;
+}
+.chart-subtitle{font-size:.78rem;color:var(--ink3);margin-bottom:24px;font-weight:400;}
+.chart-wrap{position:relative;width:100%;overflow:hidden;}
+canvas#chart{
+  width:100%!important;
+  display:block;
+  border-radius:8px;
+}
+
+/* ── CULTURE CARDS GRID ── */
+.cards-grid{
+  display:grid;
+  grid-template-columns:repeat(auto-fill,minmax(260px,1fr));
+  gap:16px;
+  margin-bottom:28px;
+}
+.culture-card{
+  background:var(--white);
+  border:1.5px solid var(--sand3);
+  border-radius:var(--r-lg);
+  padding:22px;
+  box-shadow:var(--shadow-sm);
+  transition:var(--transition);
+  position:relative;overflow:hidden;
+}
+.culture-card::before{
+  content:'';position:absolute;top:0;left:0;right:0;height:3px;
+}
+.culture-card:hover{
+  transform:translateY(-3px);
+  box-shadow:var(--shadow-md);
+  border-color:var(--sand3);
+}
+.card-header{display:flex;align-items:center;gap:12px;margin-bottom:14px;}
+.card-dot{width:14px;height:14px;border-radius:50%;flex-shrink:0;}
+.card-name{
+  font-family:'Playfair Display',serif;
+  font-size:1.05rem;font-weight:700;color:var(--ink);
+}
+.card-pct{
+  margin-left:auto;
+  font-family:'DM Mono',monospace;
+  font-size:.82rem;font-weight:500;
+  color:var(--ink3);
+}
+.card-value{
+  font-family:'Playfair Display',serif;
+  font-size:1.55rem;font-weight:700;color:var(--ink);
+  margin-bottom:6px;line-height:1;
+}
+.card-unit{
+  font-size:.78rem;color:var(--ink3);font-weight:400;
+  margin-bottom:14px;
+}
+.card-cop{
+  font-size:.82rem;font-weight:600;color:var(--accent);
+  background:rgba(168,102,64,.08);
+  border-radius:6px;padding:4px 10px;
+  display:inline-block;margin-bottom:14px;
+}
+.card-toggle-btn{
+  font-size:.75rem;color:var(--teal);
+  background:none;border:1px solid rgba(45,106,114,.25);
+  border-radius:6px;padding:5px 10px;
+  cursor:pointer;font-family:'DM Sans',sans-serif;
+  transition:var(--transition);font-weight:500;
+}
+.card-toggle-btn:hover{background:rgba(45,106,114,.06);}
+.card-info-panel{
+  display:none;
+  margin-top:14px;
+  padding-top:14px;
+  border-top:1px solid var(--sand3);
+}
+.card-info-panel.open{display:block;animation:fadeUp .3s ease both;}
+.card-info-text{font-size:.82rem;color:var(--ink2);line-height:1.7;margin-bottom:10px;}
+.card-ref{
+  font-size:.74rem;color:var(--ink3);font-style:italic;line-height:1.6;
+  padding:8px 12px;background:var(--sand);border-radius:6px;
+}
+
+/* ── ANTHROPOLOGIST PANEL ── */
+.anthro-panel{
+  background:linear-gradient(135deg,var(--teal),#1e5059);
+  border-radius:var(--r-xl);
+  padding:30px 32px;
+  color:var(--white);
+  margin-bottom:28px;
+  position:relative;overflow:hidden;
+}
+.anthro-panel::after{
+  content:'🏛';
+  position:absolute;right:-10px;bottom:-20px;
+  font-size:90px;opacity:.08;transform:rotate(-15deg);
+}
+.anthro-header{display:flex;align-items:center;gap:16px;margin-bottom:20px;}
+.anthro-avatar{
+  width:54px;height:54px;border-radius:50%;
+  background:rgba(255,255,255,.15);
+  display:flex;align-items:center;justify-content:center;
+  font-size:1.5rem;
+  border:2px solid rgba(255,255,255,.25);
+  flex-shrink:0;
+}
+.anthro-meta{}
+.anthro-name{
+  font-family:'Playfair Display',serif;
+  font-size:1.05rem;font-weight:700;margin-bottom:2px;
+}
+.anthro-role{font-size:.74rem;opacity:.7;letter-spacing:.06em;text-transform:uppercase;font-weight:500;}
+.anthro-commentary{
+  font-size:.92rem;line-height:1.8;opacity:.92;
+  border-left:3px solid rgba(255,255,255,.3);
+  padding-left:18px;font-weight:300;
+  font-style:italic;
+}
+.anthro-tags{display:flex;gap:8px;flex-wrap:wrap;margin-top:18px;}
+.anthro-tag{
+  font-size:.72rem;font-weight:600;letter-spacing:.04em;
+  background:rgba(255,255,255,.12);border:1px solid rgba(255,255,255,.2);
+  border-radius:50px;padding:4px 12px;
+}
+
+/* ── AGENTS BAR ── */
+.agents-bar{
+  display:flex;flex-wrap:wrap;gap:10px;
+  margin-bottom:28px;
+}
+.agent-badge{
+  display:flex;align-items:center;gap:8px;
+  background:var(--white);border:1.5px solid var(--sand3);
+  border-radius:50px;padding:8px 16px;
+  font-size:.78rem;font-weight:500;color:var(--ink2);
+  box-shadow:var(--shadow-sm);
+}
+.agent-badge .dot{width:7px;height:7px;border-radius:50%;background:var(--teal);}
+
+/* ── SOURCES SECTION ── */
+.sources-section{
+  background:var(--sand2);border-radius:var(--r-lg);
+  padding:22px 24px;margin-bottom:28px;
+  border:1px solid var(--sand3);
+}
+.sources-title{
+  font-size:.75rem;font-weight:700;letter-spacing:.08em;text-transform:uppercase;
+  color:var(--ink3);margin-bottom:14px;
+}
+.source-item{
+  font-size:.78rem;color:var(--ink2);line-height:1.8;
+  padding:8px 0;border-bottom:1px solid var(--sand3);font-style:italic;
+}
+.source-item:last-child{border-bottom:none;}
+
+/* ── FOOTER NOTE ── */
+.footer-note{
+  text-align:center;font-size:.74rem;color:var(--ink3);
+  line-height:1.7;padding:20px 0 10px;
+}
+
+/* ── DIVIDER ── */
+.divider{height:1px;background:var(--sand3);margin:28px 0;}
+
+/* PDF export watermark (hidden normally, shown in print) */
+@media print{
+  .no-print{display:none!important;}
+  body{background:white;padding:0;}
+  .bg-anim{display:none;}
+  body::before{display:none;}
+  .app{max-width:100%;padding:20px;}
+  .culture-card{break-inside:avoid;}
+  .anthro-panel{background:#1e5059!important;-webkit-print-color-adjust:exact;print-color-adjust:exact;}
+  .dominant-banner{-webkit-print-color-adjust:exact;print-color-adjust:exact;}
+  .chart-section{break-inside:avoid;}
+}
+
+/* Skeleton / loading */
+.loading-overlay{
+  position:fixed;inset:0;z-index:1000;
+  background:var(--sand);
+  display:flex;flex-direction:column;
+  align-items:center;justify-content:center;
+  gap:20px;
+  transition:opacity .5s ease;
+}
+.loading-overlay.hide{opacity:0;pointer-events:none;}
+.loading-spinner{
+  width:42px;height:42px;border-radius:50%;
+  border:3px solid var(--sand3);
+  border-top-color:var(--gold);
+  animation:spin .8s linear infinite;
+}
+@keyframes spin{to{transform:rotate(360deg);}}
+.loading-text{
+  font-family:'Playfair Display',serif;
+  font-size:1rem;color:var(--ink2);letter-spacing:.02em;
+}
+
+/* Progress bar for calculation */
+.progress-bar-wrap{
+  height:2px;background:var(--sand3);border-radius:2px;
+  margin:24px 0 0;overflow:hidden;
+}
+.progress-bar-fill{
+  height:100%;width:0%;background:linear-gradient(90deg,var(--gold),var(--gold2));
+  transition:width .4s ease;border-radius:2px;
+}
+</style>
+</head>
+<body>
+
+<div class="bg-anim"></div>
+
+<!-- LOADING -->
+<div class="loading-overlay" id="loadingOverlay">
+  <div class="loading-spinner"></div>
+  <div class="loading-text">Iniciando sistema de análisis cultural…</div>
+</div>
+
+<div class="app">
+
+  <!-- ══════════════════════════════
+       SCREEN 1 — BIENVENIDA
+  ══════════════════════════════ -->
+  <div class="screen" id="s1">
+
+    <div class="hero-eyebrow">Sistema de análisis etnográfico · v2.0 Premium</div>
+
+    <h1 class="hero-title">
+      Alianzas<br><em>Culturales</em>
+    </h1>
+
+    <p class="hero-subtitle">
+      Experiencia antropológica comparativa de alta fidelidad académica.
+      Analiza la movilización simbólica de capital social en cinco tradiciones culturales del mundo.
+    </p>
+
+    <div class="advisor-ribbon">
+      <span class="advisor-dot"></span>
+      <span>Socioantropólogo Asesor · IA</span>
+    </div>
+
+    <button class="btn-primary" onclick="startApp()">
+      <span>Iniciar análisis</span>
+      <span>→</span>
+    </button>
+
+    <div class="agents-preview">
+      <div class="agent-chip"><span class="icon">🔬</span> Agente Etnográfico</div>
+      <div class="agent-chip"><span class="icon">📊</span> Agente de Visualización</div>
+      <div class="agent-chip"><span class="icon">🏛</span> Socioantropólogo IA</div>
+      <div class="agent-chip"><span class="icon">📄</span> Agente PDF</div>
+      <div class="agent-chip"><span class="icon">✦</span> Motor de Comparación</div>
+    </div>
+
+  </div>
+
+  <!-- ══════════════════════════════
+       SCREEN 2 — FORMULARIO
+  ══════════════════════════════ -->
+  <div class="screen" id="s2">
+
+    <button class="btn-secondary no-print" onclick="goTo('s1')" style="margin-bottom:28px;">← Volver</button>
+
+    <div class="form-header">
+      <div class="section-eyebrow">Paso 1 de 1 · Perfil</div>
+      <h2 class="section-title">Configura tu<br>perfil cultural</h2>
+    </div>
+
+    <div class="advisor-note">
+      <div class="advisor-avatar">🏛</div>
+      <div class="advisor-text">
+        <div class="advisor-name">Socioantropólogo Asesor · IA</div>
+        Cada variable que ingresas corresponde a un indicador real de capital social y simbólico.
+        Tu perfil será comparado con cinco tradiciones etnográficas documentadas en la literatura académica.
+        Los resultados son de carácter analítico-comparativo, no normativo.
+      </div>
+    </div>
+
+    <div class="form-grid">
+      <div class="field">
+        <label>Fecha de nacimiento</label>
+        <input type="date" id="birthDate">
+      </div>
+      <div class="field">
+        <label>Nivel educativo</label>
+        <select id="education">
+          <option value="4">Básico</option>
+          <option value="6">Técnico / Vocacional</option>
+          <option value="8" selected>Profesional universitario</option>
+          <option value="10">Posgrado / Doctorado</option>
+        </select>
+      </div>
+      <div class="field">
+        <label>Fuerza del linaje familiar</label>
+        <select id="lineage">
+          <option value="4">Independencia total</option>
+          <option value="6" selected>Familia estable</option>
+          <option value="9">Clan fuerte / cohesionado</option>
+        </select>
+      </div>
+      <div class="field">
+        <label>Habilidades productivas</label>
+        <select id="productivity">
+          <option value="5">Moderadas</option>
+          <option value="8" selected>Altas</option>
+          <option value="10">Liderazgo productivo</option>
+        </select>
+      </div>
+      <div class="field">
+        <label>Prestigio social</label>
+        <select id="prestige">
+          <option value="5">Perfil privado</option>
+          <option value="8" selected>Influencia media</option>
+          <option value="10">Alta influencia pública</option>
+        </select>
+      </div>
+    </div>
+
+    <div class="progress-bar-wrap" id="calcProgress" style="display:none;">
+      <div class="progress-bar-fill" id="calcFill"></div>
+    </div>
+
+    <div class="form-actions">
+      <button class="btn-primary" onclick="calculate()" id="calcBtn">
+        <span>Generar informe completo</span>
+        <span>→</span>
+      </button>
+    </div>
+
+  </div>
+
+  <!-- ══════════════════════════════
+       SCREEN 3 — RESULTADOS
+  ══════════════════════════════ -->
+  <div class="screen" id="s3">
+
+    <!-- Header -->
+    <div class="results-header">
+      <div class="results-meta">
+        <div class="section-eyebrow">Informe etnográfico comparativo</div>
+        <h2 class="section-title" style="font-size:clamp(1.4rem,3.5vw,2rem);">Análisis de<br>Capital Simbólico</h2>
+      </div>
+      <div class="export-area no-print">
+        <button class="btn-gold" onclick="exportPDF()">
+          <span>⬇</span>
+          <span>Exportar PDF</span>
+        </button>
+        <button class="btn-secondary" onclick="goTo('s2')">Editar perfil</button>
+      </div>
+    </div>
+
+    <!-- Active Agents Bar -->
+    <div class="agents-bar no-print">
+      <div class="agent-badge"><span class="dot"></span> Agente Etnográfico · Activo</div>
+      <div class="agent-badge"><span class="dot"></span> Agente de Visualización · Activo</div>
+      <div class="agent-badge"><span class="dot"></span> Socioantropólogo IA · Activo</div>
+      <div class="agent-badge"><span class="dot"></span> Agente PDF · Listo</div>
+      <div class="agent-badge"><span class="dot"></span> Motor Comparativo · Activo</div>
+    </div>
+
+    <!-- Dominant Banner (color injected by JS) -->
+    <div class="dominant-banner" id="dominantBanner">
+      <div class="eyebrow">Mayor movilización simbólica detectada</div>
+      <h3 id="dominantTitle">—</h3>
+      <p id="dominantDesc">—</p>
+    </div>
+
+    <!-- CHART -->
+    <div class="chart-section">
+      <div class="chart-title">Comparativa de capital simbólico por tradición</div>
+      <div class="chart-subtitle">Equivalencia monetaria aproximada en COP · porcentaje relativo al máximo</div>
+      <div class="chart-wrap">
+        <canvas id="chart"></canvas>
+      </div>
+    </div>
+
+    <!-- Culture Cards -->
+    <div class="cards-grid" id="cardsGrid"></div>
+
+    <!-- Socioanthropologist Panel -->
+    <div class="anthro-panel" id="anthroPanel">
+      <div class="anthro-header">
+        <div class="anthro-avatar">🏛</div>
+        <div class="anthro-meta">
+          <div class="anthro-name">Socioantropólogo Asesor · IA</div>
+          <div class="anthro-role">Socioantropólogo Asesor · IA</div>
+        </div>
+      </div>
+      <div class="anthro-commentary" id="anthroCommentary">
+        Analizando perfil cultural…
+      </div>
+      <div class="anthro-tags" id="anthroTags"></div>
+    </div>
+
+    <!-- Academic Sources -->
+    <div class="sources-section">
+      <div class="sources-title">Referencias etnográficas académicas</div>
+      <div class="source-item">Evans-Pritchard, E.E. (1951). <em>Kinship and Marriage among the Nuer.</em> Oxford University Press.</div>
+      <div class="source-item">Perrin, M. (1987). <em>The Way of the Dead Indians.</em> University of Texas Press.</div>
+      <div class="source-item">Humphrey, C. & Sneath, D. (1999). <em>The End of Nomadism?</em> Duke University Press.</div>
+      <div class="source-item">Strathern, A. (1971). <em>The Rope of Moka.</em> Cambridge University Press.</div>
+      <div class="source-item">Tambiah, S.J. (1973) & Srinivas, M.N. (1984). Cambridge & Oxford University Press.</div>
+      <div class="source-item">Mauss, M. (1925). <em>Essai sur le don.</em> Sociologie et Anthropologie.</div>
+      <div class="source-item">Lévi-Strauss, C. (1949). <em>Les Structures élémentaires de la parenté.</em> PUF.</div>
+      <div class="source-item">Kuper, A. (1982). <em>Wives for Cattle: Bridewealth and Marriage in Southern Africa.</em> Routledge & Kegan Paul.</div>
+      <div class="source-item">Rudwick, S. & Posel, D. (2015). Zulu bridewealth (ilobolo) and womanhood in South Africa. <em>Social Dynamics, 41</em>(2), 289–306.</div>
+      <div class="source-item">Lydall, J. & Strecker, I. (1979). <em>The Hamar of Southern Ethiopia</em> (3 vols.). Klaus Renner Verlag, Göttingen.</div>
+      <div class="source-item">Yan, Y. (2003). <em>Private Life Under Socialism: Love, Intimacy, and Family Change in a Chinese Village, 1949–1999.</em> Stanford University Press.</div>
+      <div class="source-item">Murdock, G.P. (1967). <em>Ethnographic Atlas.</em> University of Pittsburgh Press. [Registra a los Kuria de Tanzania como practicantes de bridewealth substantial].</div>
+      <div class="source-item">Volkman, T. (1982). Tana Toraja: A Decade of Tourism. <em>Cultural Survival Quarterly, 6</em>(3), 30–31.</div>
+      <div class="source-item">Adams, K.M. (1995). Making-up the Toraja? The Appropriation of Tourism, Anthropology, and Museums for Politics in Upland Sulawesi. <em>Ethnology, 34</em>(2), 143–153.</div>
+      <div class="source-item">Goody, J. & Tambiah, S.J. (1973). <em>Bridewealth and Dowry.</em> Cambridge University Press. [Marco comparativo global fundamental].</div>
+    </div>
+
+    <div class="footer-note">
+      Esta herramienta es de carácter analítico-comparativo con fines académicos y de divulgación cultural.
+      No promueve ninguna forma de cosificación de personas. Los valores monetarios son equivalencias simbólicas
+      etnográficas, no transaccionales. · Alianzas Culturales v2.0 Premium
+    </div>
+
+    <div class="no-print" style="margin-top:20px;">
+      <button class="btn-secondary" onclick="location.reload()">↺ Nuevo análisis</button>
+    </div>
+
+  </div><!-- /s3 -->
+
+</div><!-- /app -->
+
+<script>
+// ═══════════════════════════════════════════════════════════════
+// ▓▓▓  AGENTE 1: SISTEMA DE NAVEGACIÓN  ▓▓▓
+// ═══════════════════════════════════════════════════════════════
+function goTo(id){
+  document.querySelectorAll('.screen').forEach(s=>s.classList.remove('active'));
+  document.getElementById(id).classList.add('active');
+  window.scrollTo({top:0,behavior:'smooth'});
+}
+function startApp(){goTo('s2');}
+
+// Dismiss loading overlay
+window.addEventListener('load',()=>{
+  setTimeout(()=>{
+    document.getElementById('loadingOverlay').classList.add('hide');
+    setTimeout(()=>{
+      document.getElementById('loadingOverlay').style.display='none';
+      goTo('s1');
+    },500);
+  },900);
+});
+
+// ═══════════════════════════════════════════════════════════════
+// ▓▓▓  AGENTE 2: DATOS CULTURALES  ▓▓▓
+// ═══════════════════════════════════════════════════════════════
+const PRECIOS={vaca:3500000,cabra:450000,caballo:5000000,cerdo:800000,oro:250000};
+
+const CULTURAS={
+  'África Subsahariana':{
+    color:'#c2913a',
+    colorLight:'rgba(194,145,58,.12)',
+    emoji:'🐄',
+    info:'Entre los Nuer y otros pueblos ganaderos del este africano, el ganado simboliza la alianza entre linajes. El "bridewealth" (dote nupcial en ganado) no es una compra sino una transferencia de valor que crea vínculos de obligación recíproca entre familias. Evans-Pritchard documentó que el número de cabezas refleja el estatus social del linaje donante.',
+    ref:'Evans-Pritchard, E.E. (1951). Kinship and Marriage among the Nuer. Oxford University Press.',
+    commentary:'La tradición africana subsahariana revela cómo el ganado funciona como moneda simbólica: cada transacción nupcial es un acto político que reordena el tejido social del clan.',
+    calc:(ips)=>Math.round(10+ips*2)*PRECIOS.vaca,
+    texto:(ips)=>Math.round(10+ips*2)+' cabezas de ganado bovino',
+  },
+  'Pueblo Wayuu':{
+    color:'#a8522e',
+    colorLight:'rgba(168,82,46,.12)',
+    emoji:'🐐',
+    info:'El paünaa Wayuu (dote nupcial) fortalece los vínculos entre clanes maternos. La sociedad Wayuu es matrilineal: la identidad, los bienes y los derechos se transmiten por línea materna. Michel Perrin documentó cómo el intercambio de bienes en las alianzas matrimoniales determina la posición del individuo dentro de la red de clanes.',
+    ref:'Perrin, M. (1987). The Way of the Dead Indians. University of Texas Press.',
+    commentary:'El Wayuu representa un caso excepcional en América: la matrilinealidad como eje organizador del capital simbólico. El paünaa no se negocia, se teje entre generaciones.',
+    calc:(ips)=>Math.round(20+ips*3)*PRECIOS.cabra,
+    texto:(ips)=>Math.round(20+ips*3)+' cabras tradicionales',
+  },
+  'Mongolia Nómada':{
+    color:'#4a7a8a',
+    colorLight:'rgba(74,122,138,.12)',
+    emoji:'🐎',
+    info:'En las sociedades nómadas mongolas, los caballos representan la unidad fundamental de riqueza y estabilidad económica. Humphrey y Sneath documentaron que el número de caballos de una familia determina su capacidad de migración, supervivencia y prestigio. Las alianzas matrimoniales refuerzan las rutas de pastoreo y acceso al agua.',
+    ref:'Humphrey, C. & Sneath, D. (1999). The End of Nomadism? Duke University Press.',
+    commentary:'La estepa mongola nos enseña que la riqueza es movimiento: los caballos son tanto capital económico como libertad. Las alianzas aquí no son contratos, son geografías compartidas.',
+    calc:(ips)=>Math.round(3+ips/2)*PRECIOS.caballo,
+    texto:(ips)=>Math.round(3+ips/2)+' caballos de crianza',
+  },
+  'Papua Melanesia':{
+    color:'#6e3d2c',
+    colorLight:'rgba(110,61,44,.12)',
+    emoji:'🐷',
+    info:'En Melanesia, los cerdos tienen un valor ceremonial central en el sistema de intercambio conocido como "moka". Andrew Strathern documentó cómo los líderes ("big men") acumulan y redistribuyen cerdos para construir redes de obligación social. Un hombre sin cerdos no puede organizar fiestas, hacer alianzas ni mantener su posición.',
+    ref:'Strathern, A. (1971). The Rope of Moka. Cambridge University Press.',
+    commentary:'Papua ilustra la tesis de Mauss sobre el don: dar cerdos no es generosidad, es una afirmación de poder. El que más da, más domina. El moka es política hecha carne.',
+    calc:(ips)=>Math.round(5+ips*1.5)*PRECIOS.cerdo,
+    texto:(ips)=>Math.round(5+ips*1.5)+' cerdos ceremoniales',
+  },
+  'India Clásica':{
+    color:'#8a6520',
+    colorLight:'rgba(138,101,32,.12)',
+    emoji:'✨',
+    info:'La dote histórica en India (dahej) implicaba la transferencia de bienes materiales —incluido oro— de la familia de la novia a la del novio, como mecanismo de reproducción de jerarquías de casta y familia. Tambiah y Srinivas analizaron cómo este sistema codifica el estatus social y las aspiraciones de movilidad entre castas.',
+    ref:'Tambiah (1973) & Srinivas (1984). Cambridge & Oxford University Press.',
+    commentary:'India clásica nos confronta con la dote como tecnología de reproducción social: el oro no solo compra estatus, lo crea. Es el caso más documentado de capital simbólico materializado en metal.',
+    calc:(ips)=>Math.round(50+ips*5)*PRECIOS.oro,
+    texto:(ips)=>Math.round(50+ips*5)+' gramos de oro',
+  },
+
+  // ── CULTURA 6: Zulú, Sudáfrica ──
+  'Pueblo Zulú':{
+    color:'#2e7d52',
+    colorLight:'rgba(46,125,82,.12)',
+    emoji:'🐂',
+    info:'El ilobolo (lobola) es la práctica de bridewealth más documentada del sur de África. Entre los zulúes de KwaZulu-Natal, la familia del novio transfiere tradicionalmente 11 cabezas de ganado a la familia de la novia —número estandarizado bajo la colonia britànica en 1869—. Kuper (1982) documenta que el ganado no es precio sino vínculo: el intercambio crea una red de obligaciones cosmológicas entre familias vivas y ancestros. El ilobolo legitima el matrimonio, transfiere derechos reproductivos y activa la protección ancestral sobre la nueva unión.',
+    ref:'Kuper, A. (1982). Wives for Cattle: Bridewealth and Marriage in Southern Africa. Routledge & Kegan Paul. / Rudwick & Posel (2015). Zulu bridewealth and womanhood in South Africa. Social Dynamics, 41(2).',
+    commentary:'El ilobolo zulú es el caso más estudiado del sur de África: demuestra que el ganado funciona como lenguaje jurídico, espiritual y político simultáneamente. Rudwick y Posel documentaron que las propias mujeres zulúes defienden el ilobolo como fuente de dignidad y protección ancestral, no como subordinación.',
+    calc:(ips)=>Math.round(8+ips*1.5)*PRECIOS.vaca,
+    texto:(ips)=>Math.round(8+ips*1.5)+' cabezas de ganado (ilobolo)',
+  },
+
+  // ── CULTURA 7: Hamar, Etiopía ──
+  'Pueblo Hamar':{
+    color:'#8b3a1e',
+    colorLight:'rgba(139,58,30,.12)',
+    emoji:'🐐',
+    info:'Los Hamar del valle del Omo, Etiopía, vinculan el matrimonio a una dote en ganado menor y mayor: típicamente 30 cabras y 20 cabezas de ganado. El rito de iniciación del "salto de los toros" (Ukuli Bula) es el umbral que autoriza al joven a casarse: solo quien completa los cuatro saltos sobre el lomo de los bueyes puede acceder al matrimonio, al ganado y a la paternidad. Jean Lydall e Ivo Strecker documentaron durante más de cuatro décadas que el ganado hamar circula como capital simbólico entre linajes y crea redes de deuda y reciprocidad permanentes entre clanes.',
+    ref:'Lydall, J. & Strecker, I. (1979). The Hamar of Southern Ethiopia (3 vols.). Klaus Renner Verlag, Göttingen.',
+    commentary:'El caso Hamar es etnográficamente único: el acceso al matrimonio está gateado por un rito de iniciación corporal —el salto sobre los toros— que fusiona capital simbólico, valentía y capacidad productiva en un solo acto. Es el ejemplo más claro de cómo la alianza matrimonial es también una declaración de virilidad productiva.',
+    calc:(ips)=>Math.round(15+ips*2)*PRECIOS.cabra + Math.round(8+ips)*PRECIOS.vaca,
+    texto:(ips)=>Math.round(15+ips*2)+' cabras + '+Math.round(8+ips)+' reses (bridewealth Hamar)',
+  },
+
+  // ── CULTURA 8: China Rural ──
+  'China Rural':{
+    color:'#b5360a',
+    colorLight:'rgba(181,54,10,.12)',
+    emoji:'🏮',
+    info:'El caili (彩礼) es la práctica de bridewealth de más de 2.500 años de historia en China. La familia del novio entrega dinero, bienes y en la modernidad también casas y vehículos a la familia de la novia. Yan Yunxiang (2003) documenta su resurgimiento post-maoísta: prohibido entre 1949 y 1978, el caili retornó con la apertura económica y hoy es practicado en más del 70% de los matrimonios chinos. En zonas rurales el monto promedio supera los 69.000 RMB (~33 millones COP), siendo un marcador crítico de mianzi (dignidad social) y estatus familiar.',
+    ref:'Yan, Y. (2003). Private Life Under Socialism: Love, Intimacy, and Family Change in a Chinese Village. Stanford University Press. / Goody & Tambiah (1973). Bridewealth and Dowry. Cambridge University Press.',
+    commentary:'El caili chino es el caso más contemporáneo y masivo de bridewealth: afecta a cientos de millones de familias y está en plena tensión con la modernidad. Yan Yunxiang demostró que su resurgencia no es un residuo feudal sino una respuesta adaptativa a nuevas desigualdades económicas. Es capital simbólico funcionando como cobertura contra la incertidumbre.',
+    calc:(ips)=>Math.round(30000+ips*8000)*430, // COP aprox desde RMB
+    texto:(ips)=>Math.round(30000+ips*8000).toLocaleString()+' RMB en caili',
+  },
+
+  // ── CULTURA 9: Kuria, Tanzania ──
+  'Pueblo Kuria':{
+    color:'#1a6b4a',
+    colorLight:'rgba(26,107,74,.12)',
+    emoji:'🐄',
+    info:'Los Kuria de Tanzania son uno de los casos mejor documentados de bridewealth en ganado bovino del África Oriental. El ganado es fundamental para su subsistencia y el pago de la dote —llamado "riika"— oscila entre 5 y 20 cabezas según el estatus de la novia y su familia. El Ethnographic Atlas de Murdock registra a los Kuria como practicantes de bridewealth substantial. A diferencia de otros sistemas, los Kuria permiten que el ganado del bridewealth se use inmediatamente para financiar el matrimonio de los hermanos de la novia, creando cadenas de alianza entre patrilinajes.',
+    ref:'Murdock, G.P. (1967). Ethnographic Atlas. University of Pittsburgh Press. / Goody, J. & Tambiah, S.J. (1973). Bridewealth and Dowry. Cambridge University Press.',
+    commentary:'Los Kuria ilustran la lógica sistémica del bridewealth: el ganado no se acumula sino que circula. Cada matrimonio activa el siguiente. Es la demostración más pura de lo que Lévi-Strauss llamó "intercambio generalizado": las mujeres y el ganado fluyen en circuitos complementarios que tejen el tejido social.',
+    calc:(ips)=>Math.round(6+ips*1.2)*PRECIOS.vaca,
+    texto:(ips)=>Math.round(6+ips*1.2)+' cabezas de ganado (riika)',
+  },
+
+  // ── CULTURA 10: Tora, Indonesia ──
+  'Toraja, Indonesia':{
+    color:'#5c3370',
+    colorLight:'rgba(92,51,112,.12)',
+    emoji:'🐃',
+    info:'Los Toraja del Sulawesi central (Indonesia) son célebres por sus elaborados rituales fúnebres y matrimoniales, en los que el búfalo de agua (tedong) es la moneda simbólica suprema. Volkman (1982) documentó que el número de búfalos sacrificados y entregados en una alianza matrimonial determina el rango social del linaje. Un búfalo toraja puede valer entre 5 y 50 millones de rupias según sus características. El sistema de alianzas matrimoniales Toraja (aluk rampanan kapa) vincula clanes nobles (puang) a través de intercambios de búfalos que pueden extenderse por generaciones.',
+    ref:'Volkman, T. (1982). Tana Toraja: A Decade of Tourism. Cultural Survival Quarterly, 6(3). / Adams, K. (1995). Making-up the Toraja? Ethnology, 34(2), 143-153. JSTOR.',
+    commentary:'Los Toraja revelan que el bridewealth puede ser también una inversión en la inmortalidad social: los búfalos sacrificados en los rituales garantizan el prestigio del linaje en la memoria colectiva durante generaciones. Es el capital simbólico más duradero, literalmente grabado en piedra en los acantilados funerarios de Tana Toraja.',
+    calc:(ips)=>Math.round(2+ips/3)*8500000, // COP valor búfalo toraja
+    texto:(ips)=>Math.round(2+ips/3)+' búfalos de agua ceremoniales (tedong)',
+  }
+};
+
+// ═══════════════════════════════════════════════════════════════
+// ▓▓▓  AGENTE 3: MOTOR DE CÁLCULO  ▓▓▓
+// ═══════════════════════════════════════════════════════════════
+function calculateAgeScore(age){
+  if(age>=18&&age<=28)return 10;
+  if(age<=35)return 8;
+  if(age<=45)return 6;
+  return 3;
+}
+
+let lastResults=[];
+
+function calculate(){
+  const birth=document.getElementById('birthDate').value;
+  if(!birth){showError('Ingresa una fecha de nacimiento válida.');return;}
+
+  const age=new Date().getFullYear()-new Date(birth).getFullYear();
+  if(age<18){showError('El análisis está disponible solo para mayores de 18 años.');return;}
+
+  // Animate progress
+  const btn=document.getElementById('calcBtn');
+  btn.disabled=true;btn.innerHTML='<span>Analizando…</span>';
+  document.getElementById('calcProgress').style.display='block';
+  let pct=0;
+  const interval=setInterval(()=>{
+    pct=Math.min(pct+12,95);
+    document.getElementById('calcFill').style.width=pct+'%';
+  },80);
+
+  setTimeout(()=>{
+    clearInterval(interval);
+    document.getElementById('calcFill').style.width='100%';
+
+    const profile={
+      age,
+      education:+document.getElementById('education').value,
+      lineage:+document.getElementById('lineage').value,
+      productivity:+document.getElementById('productivity').value,
+      prestige:+document.getElementById('prestige').value,
+    };
+
+    const EF=calculateAgeScore(profile.age);
+    const ips=EF*0.3+profile.lineage*0.25+profile.productivity*0.2
+             +profile.education*0.15+profile.prestige*0.1;
+
+    lastResults=[];
+    for(const name in CULTURAS){
+      const c=CULTURAS[name];
+      lastResults.push({
+        name,
+        color:c.color,
+        colorLight:c.colorLight,
+        emoji:c.emoji,
+        valor:c.calc(ips),
+        texto:c.texto(ips),
+        info:c.info,
+        ref:c.ref,
+        commentary:c.commentary,
+      });
+    }
+
+    // Sort descending for chart clarity
+    lastResults.sort((a,b)=>b.valor-a.valor);
+
+    setTimeout(()=>{
+      btn.disabled=false;
+      btn.innerHTML='<span>Generar informe completo</span><span>→</span>';
+      document.getElementById('calcProgress').style.display='none';
+      document.getElementById('calcFill').style.width='0%';
+      renderResults(lastResults,profile,ips);
+      goTo('s3');
+    },350);
+  },900);
+}
+
+function showError(msg){alert(msg);}
+
+// ═══════════════════════════════════════════════════════════════
+// ▓▓▓  AGENTE 4: RENDERIZADO DE RESULTADOS  ▓▓▓
+// ═══════════════════════════════════════════════════════════════
+function renderResults(results, profile, ips){
+  const maxVal=results[0].valor;
+  const dominant=results[0];
+
+  // Dominant banner
+  document.getElementById('dominantBanner').style.background=
+    `linear-gradient(135deg,${dominant.color},${shadeColor(dominant.color,-30)})`;
+  document.getElementById('dominantTitle').textContent=
+    dominant.emoji+' '+dominant.name;
+  document.getElementById('dominantDesc').textContent=
+    'IPS calculado: '+ips.toFixed(2)+' · Valor máximo: '+dominant.valor.toLocaleString('es-CO')+' COP · '+dominant.texto;
+
+  // Culture cards
+  const grid=document.getElementById('cardsGrid');
+  grid.innerHTML='';
+  results.forEach((r,idx)=>{
+    const pct=Math.round((r.valor/maxVal)*100);
+    const card=document.createElement('div');
+    card.className='culture-card';
+    card.style.setProperty('--card-accent',r.color);
+    card.querySelector?.('::before');
+    card.innerHTML=`
+      <div style="position:absolute;top:0;left:0;right:0;height:3px;background:${r.color};border-radius:var(--r-lg) var(--r-lg) 0 0;"></div>
+      <div class="card-header">
+        <div class="card-dot" style="background:${r.color};"></div>
+        <span class="card-name">${r.emoji} ${r.name}</span>
+        <span class="card-pct">${pct}%</span>
+      </div>
+      <div class="card-value">${r.texto.split(' ').slice(0,1).join(' ')}</div>
+      <div class="card-unit">${r.texto.split(' ').slice(1).join(' ')}</div>
+      <div class="card-cop">≈ ${r.valor.toLocaleString('es-CO')} COP</div>
+      <button class="card-toggle-btn" onclick="toggleCard('ci-${idx}',this)">
+        + Ver contexto cultural
+      </button>
+      <div class="card-info-panel" id="ci-${idx}">
+        <div class="card-info-text">${r.info}</div>
+        <div class="card-ref">📚 ${r.ref}</div>
+      </div>
+    `;
+    grid.appendChild(card);
+  });
+
+  // Chart
+  drawPremiumChart(results, maxVal);
+
+  // Anthropologist commentary
+  renderAnthropologist(results, profile, ips, dominant);
+}
+
+function toggleCard(id,btn){
+  const panel=document.getElementById(id);
+  const isOpen=panel.classList.contains('open');
+  panel.classList.toggle('open',!isOpen);
+  btn.textContent=isOpen?'+ Ver contexto cultural':'− Ocultar contexto';
+}
+
+// ═══════════════════════════════════════════════════════════════
+// ▓▓▓  AGENTE 5: VISUALIZACIÓN — CHART PREMIUM  ▓▓▓
+// ═══════════════════════════════════════════════════════════════
+function drawPremiumChart(data, maxVal){
+  const canvas=document.getElementById('chart');
+
+  // Set pixel dimensions explicitly — this is the critical fix for the bars
+  const containerW=canvas.parentElement.offsetWidth||800;
+  const DPR=window.devicePixelRatio||1;
+  const W=containerW;
+  const H=320;
+
+  canvas.width=W*DPR;
+  canvas.height=H*DPR;
+  canvas.style.width=W+'px';
+  canvas.style.height=H+'px';
+
+  const ctx=canvas.getContext('2d');
+  ctx.scale(DPR,DPR);
+  ctx.clearRect(0,0,W,H);
+
+  const n=data.length;
+  const padL=52, padR=20, padT=20, padB=80;
+  const chartW=W-padL-padR;
+  const chartH=H-padT-padB;
+
+  const barGap=14;
+  const barW=(chartW-(n-1)*barGap)/n;
+
+  // Grid lines + % labels on Y axis
+  ctx.strokeStyle='rgba(26,20,16,.07)';
+  ctx.lineWidth=1;
+  ctx.setLineDash([4,4]);
+  ctx.font=`500 11px 'DM Sans',sans-serif`;
+  ctx.fillStyle='rgba(107,82,64,.55)';
+  ctx.textAlign='right';
+
+  const gridLines=5;
+  for(let g=0;g<=gridLines;g++){
+    const yRatio=g/gridLines;
+    const y=padT+chartH-(yRatio*chartH);
+    ctx.beginPath();
+    ctx.moveTo(padL,y);ctx.lineTo(W-padR,y);ctx.stroke();
+    ctx.fillText(Math.round(yRatio*100)+'%',padL-6,y+4);
+  }
+  ctx.setLineDash([]);
+
+  // Bars with gradient + shadow + % labels
+  data.forEach((d,i)=>{
+    const pct=d.valor/maxVal;
+    const barH=pct*chartH;
+    const x=padL+i*(barW+barGap);
+    const y=padT+chartH-barH;
+
+    // Shadow
+    ctx.shadowColor='rgba(0,0,0,.12)';
+    ctx.shadowBlur=8;
+    ctx.shadowOffsetY=3;
+
+    // Gradient bar
+    const grad=ctx.createLinearGradient(x,y,x,padT+chartH);
+    grad.addColorStop(0,d.color);
+    grad.addColorStop(1,shadeColor(d.color,30));
+    ctx.fillStyle=grad;
+
+    // Rounded top corners
+    const r=6;
+    ctx.beginPath();
+    ctx.moveTo(x+r,y);
+    ctx.lineTo(x+barW-r,y);
+    ctx.quadraticCurveTo(x+barW,y,x+barW,y+r);
+    ctx.lineTo(x+barW,padT+chartH);
+    ctx.lineTo(x,padT+chartH);
+    ctx.lineTo(x,y+r);
+    ctx.quadraticCurveTo(x,y,x+r,y);
+    ctx.closePath();
+    ctx.fill();
+    ctx.shadowColor='transparent';
+
+    // % label on top of bar
+    const pctLabel=Math.round(pct*100)+'%';
+    ctx.font=`700 12px 'DM Sans',sans-serif`;
+    ctx.fillStyle='#1a1410';
+    ctx.textAlign='center';
+    ctx.fillText(pctLabel,x+barW/2,y-8);
+
+    // Value below % (COP abbreviated)
+    const valLabel=formatCOP(d.valor);
+    ctx.font=`500 10px 'DM Mono',monospace`;
+    ctx.fillStyle='rgba(107,82,64,.7)';
+    ctx.fillText(valLabel,x+barW/2,y-20);
+
+    // Culture name below bar
+    const nameParts=d.name.split(' ');
+    ctx.font=`500 11px 'DM Sans',sans-serif`;
+    ctx.fillStyle='#3d2e1e';
+    ctx.textAlign='center';
+
+    // Multi-line name
+    const line1=nameParts.slice(0,Math.ceil(nameParts.length/2)).join(' ');
+    const line2=nameParts.slice(Math.ceil(nameParts.length/2)).join(' ');
+    ctx.fillText(line1,x+barW/2,padT+chartH+18);
+    if(line2) ctx.fillText(line2,x+barW/2,padT+chartH+32);
+
+    // Emoji
+    ctx.font='16px serif';
+    ctx.fillText(d.emoji,x+barW/2,padT+chartH+52);
+  });
+}
+
+function formatCOP(val){
+  if(val>=1000000) return (val/1000000).toFixed(1)+'M';
+  if(val>=1000) return (val/1000).toFixed(0)+'K';
+  return val.toLocaleString();
+}
+
+function shadeColor(hex,pct){
+  const num=parseInt(hex.replace('#',''),16);
+  const r=Math.min(255,Math.max(0,(num>>16)+(pct*2.55)|0));
+  const g=Math.min(255,Math.max(0,((num>>8)&0x00FF)+(pct*2.55)|0));
+  const b=Math.min(255,Math.max(0,(num&0x0000FF)+(pct*2.55)|0));
+  return '#'+(r.toString(16).padStart(2,'0'))+(g.toString(16).padStart(2,'0'))+(b.toString(16).padStart(2,'0'));
+}
+
+// Redraw on resize
+window.addEventListener('resize',()=>{
+  if(lastResults.length) drawPremiumChart(lastResults,lastResults[0].valor);
+});
+
+// ═══════════════════════════════════════════════════════════════
+// ▓▓▓  AGENTE 6: SOCIOANTROPÓLOGO IA  ▓▓▓
+// ═══════════════════════════════════════════════════════════════
+const ANTHRO_COMMENTARY={
+  'África Subsahariana': (profile,ips)=>`
+    Su perfil revela una notable afinidad con las sociedades de alianza por ganado del África Subsahariana.
+    En términos de Bourdieu, su capital social se orienta hacia la reproducción de redes de reciprocidad
+    estructurada. Con un IPS de ${ips.toFixed(2)}, el sistema Nuer identificaría en usted un individuo
+    con capacidad de movilizar alianzas intergeneracionales. Evans-Pritchard diría que su linaje
+    ${profile.lineage>=9?'"cohesionado" es el eje de su posición social':'funciona como ancla identitaria sin ser hegemónico'}.
+    La tradición africana valoriza especialmente la estabilidad familiar como capital acumulado.
+  `,
+  'Pueblo Wayuu': (profile,ips)=>`
+    La resonancia con el sistema Wayuu es significativa. Su perfil sugiere una lógica de capital social
+    construida sobre redes de obligación recíproca, lo que Perrin denominó "la deuda que crea mundo".
+    El paünaa Wayuu no es transacción sino tejido: cada cabra entregada es un hilo más en la red de
+    parentesco. Su nivel educativo ${profile.education>=8?'profesional posiciona su perfil en la categoría de linajes con movilidad ascendente':'sugiere un capital simbólico en construcción activa'}.
+    En la sociología Wayuu, usted sería lo que se llama un "apüshi" en crecimiento.
+  `,
+  'Mongolia Nómada': (profile,ips)=>`
+    Mongolia emerge en su perfil como la tradición de mayor resonancia con su habilidad productiva
+    declarada. En las estepas, el capital simbólico es literalmente móvil: quien controla caballos,
+    controla territorios. Humphrey y Sneath documentaron que la transición post-soviética destruyó
+    este sistema, pero su lógica persiste. Su productividad ${profile.productivity>=8?'alta es el equivalente mongol de tener una manada bien criada':'moderada se corresponde con la figura del pastor autosuficiente'}.
+    La alianza aquí es geografía compartida, no contrato.
+  `,
+  'Papua Melanesia': (profile,ips)=>`
+    El sistema moka de Papua Melanesia tiene una lógica paradójica que Strathern capturó brillantemente:
+    el poder no se acumula, se distribuye. El "big man" melanesio no es el que más tiene, sino el que
+    más ha dado. Su prestigio social ${profile.prestige>=8?'"alto" lo coloca en la categoría de potencial organizador de feasts ceremoniales':'medio sugiere una posición de aliado estratégico más que de líder central'}.
+    Mauss habría visto en su perfil a alguien que comprende que el don crea obligación, y la obligación, poder.
+  `,
+  'India Clásica': (profile,ips)=>`
+    La resonancia con el sistema de dote de la India clásica revela algo profundo sobre la naturaleza
+    del capital simbólico en sociedades estratificadas. Srinivas documentó cómo el oro funciona
+    como tecnología de posicionamiento en redes de casta. Su nivel educativo ${profile.education>=8?'universitario o superior es, en términos indios clásicos, el equivalente moderno del brahmanismo intelectual':'en desarrollo representa un vector de movilidad ascendente en el sistema de castas funcional'}.
+    Tambiah diría que su perfil participa de lo que llamó "la gran tradición": el esfuerzo por
+    materializar el estatus en formas duraderas y transmisibles.
+  `,
+  'Pueblo Zulú': (profile,ips)=>`
+    El ilobolo zulú emerge como tradición dominante en su perfil: una de las prácticas de bridewealth
+    más robustas y persistentes del mundo. Kuper demostró que el ganado no es precio sino idioma:
+    cada vaca transferida es una palabra en un contrato cosmológico que incluye a los ancestros como
+    testigos. Con un IPS de ${ips.toFixed(2)}, su linaje ${profile.lineage>=9?'cohesionado lo posiciona en la categoría de familias con alta capacidad de movilización de ilobolo':'representa una red de solidaridad activa pero selectiva'}.
+    Rudwick y Posel descubrieron algo contracultural: las mujeres zulúes son las principales
+    defensoras del ilobolo, pues lo viven como reconocimiento de su dignidad, no como subordinación.
+  `,
+  'Pueblo Hamar': (profile,ips)=>`
+    Los Hamar del valle del Omo representan el caso más dramático de fusión entre rito de paso
+    e intercambio matrimonial. Lydall y Strecker documentaron durante 44 años que entre los Hamar
+    no hay separación entre demostrar valentía y demostrar capacidad de alianza: el salto sobre
+    los toros es simultáneamente una declaración de madurez productiva y una promesa de ganado
+    a entregar. Su habilidad productiva ${profile.productivity>=8?'alta lo inscribiría en la categoría de los Hamar capaces de completar el ukuli bula y acumular el ganado suficiente para el bridewealth':'moderada correspond con la figura del joven Hamar en proceso de acumulación de capital ganadero'}.
+    Es el sistema donde el cuerpo mismo funciona como garantía del bridewealth.
+  `,
+  'China Rural': (profile,ips)=>`
+    El caili chino es el fenómeno de bridewealth más masivo y contemporáneo del planeta: afecta
+    a cientos de millones de familias y está en plena tensión con la modernidad. Yan Yunxiang
+    demostró en su etnografía de una aldea del norte de China que el resurgimiento post-maoísta
+    del caili no es un residuo feudal sino una respuesta adaptativa: en un contexto de
+    desequilibrio demográfico por la política del hijo único, el caili se convirtió en un
+    mecanismo de compensación. Su educación ${profile.education>=8?'universitaria es, en el sistema chino contemporáneo, el factor que más infla el monto del caili requerido —las familias con hijas educadas piden más':'básica corresponde a la categoría de familias rurales donde el caili opera como igualador social'}.
+    El concepto clave es mianzi: el caili no paga una novia, paga la cara de dos familias ante su comunidad.
+  `,
+  'Pueblo Kuria': (profile,ips)=>`
+    Los Kuria de Tanzania ilustran con precisión matemática la tesis de Lévi-Strauss sobre el
+    intercambio generalizado: el ganado del bridewealth no se acumula, circula. Cada matrimonio
+    produce el ganado que financia el siguiente. Es un sistema de alianzas en cadena donde
+    cada patrilinaje es simultáneamente donante y receptor. Murdock los registró en el Ethnographic
+    Atlas como practicantes de bridewealth substantial, y su documentación revela que el riika
+    no es solo transacción sino certificado de afiliación al sistema de alianzas interclanes.
+    Su linaje ${profile.lineage>=9?'fuerte lo posicionaría como un "hombre de riika" con capacidad de activar múltiples cadenas de alianza':'estable corresponde a la figura del Kuria que mantiene sus obligaciones de bridewealth sin expansión activa'}.
+  `,
+  'Toraja, Indonesia': (profile,ips)=>`
+    Los Toraja de Sulawesi nos confrontan con la dimensión más monumental del capital simbólico:
+    el búfalo de agua como arquitectura social. Volkman documentó que el número de búfalos
+    en un funeral o una alianza matrimonial es leído como un texto público sobre el rango del linaje.
+    Adams analizó cómo el turismo global ha resignificado estos rituales sin extinguirlos: hoy
+    los Toraja negocian identidad étnica y bridewealth simultáneamente ante audiencias locales
+    e internacionales. Su prestigio ${profile.prestige>=8?'alto lo inscribe en la categoría Toraja de puang —nobleza con capacidad de movilizar búfalos y crear eventos que sean recordados por generaciones':'moderado corresponde a la figura del Toraja de rango medio que mantiene sus obligaciones sin aspirar a la monumentalidad'}.
+    Es el único sistema donde el bridewealth es literalmente inmortalizado en acantilados de piedra.
+  `,
+};
+
+function renderAnthropologist(results, profile, ips, dominant){
+  const commentary=ANTHRO_COMMENTARY[dominant.name]
+    ? ANTHRO_COMMENTARY[dominant.name](profile,ips)
+    : `Con un IPS de ${ips.toFixed(2)}, su perfil muestra una distribución equilibrada del capital simbólico entre tradiciones.`;
+
+  document.getElementById('anthroCommentary').textContent=commentary.trim().replace(/\s+/g,' ');
+
+  // Tags
+  const tags=[];
+  if(ips>8) tags.push('Capital simbólico alto');
+  if(profile.lineage>=9) tags.push('Linaje cohesionado');
+  if(profile.productivity>=8) tags.push('Alta productividad');
+  if(profile.prestige>=8) tags.push('Influencia social');
+  if(profile.education>=8) tags.push('Capital educativo');
+  tags.push('IPS: '+ips.toFixed(2));
+  tags.push(dominant.emoji+' '+dominant.name);
+
+  const tagsEl=document.getElementById('anthroTags');
+  tagsEl.innerHTML=tags.map(t=>`<span class="anthro-tag">${t}</span>`).join('');
+}
+
+// ═══════════════════════════════════════════════════════════════
+// ▓▓▓  AGENTE 7: EXPORTACIÓN PDF  ▓▓▓
+// ═══════════════════════════════════════════════════════════════
+function exportPDF(){
+  // Temporarily hide no-print elements and trigger browser print dialog
+  // which handles PDF generation natively and with full fidelity
+  const btn=document.querySelector('.btn-gold');
+  const originalText=btn.innerHTML;
+  btn.innerHTML='<span>⏳</span><span>Preparando…</span>';
+  btn.disabled=true;
+
+  // Open all card panels for print
+  document.querySelectorAll('.card-info-panel').forEach(p=>p.classList.add('open'));
+
+  setTimeout(()=>{
+    window.print();
+    btn.innerHTML=originalText;
+    btn.disabled=false;
+    // Re-close panels after print
+    setTimeout(()=>{
+      document.querySelectorAll('.card-info-panel').forEach(p=>p.classList.remove('open'));
+    },500);
+  },400);
+}
+</script>
+</body>
+</html>

@@ -1,0 +1,971 @@
+{
+  "schemaVersion": "1.0",
+  "packId": "pack_cartography_g_hellenistic_roman_late_antiquity_20_v1",
+  "title": "Cartografía G · Series 3–4 · Helenismo, Roma y Antigüedad tardía",
+  "status": "research_consolidated_pending_app_integration",
+  "createdAt": "2026-07-25",
+  "recordCount": 20,
+  "editorialRule": "Lotes de 20 unidades. Audio breve, entidad al inicio, idea central y cautela; filosofía como forma de vida, traducción, institución, ciencia y práctica pública.",
+  "records": [
+    {
+      "id": "card_hellenistic_roman_worlds_001",
+      "series": "cartography-g-series-3-4",
+      "order": 21,
+      "entity": "Mundos helenísticos y romanos",
+      "title": "Filosofías que viajaron entre imperios, escuelas y lenguas",
+      "period": "Siglos IV a. C.–V d. C.",
+      "territory": "Mediterráneo, norte de África y Asia occidental",
+      "cardType": "portal_metodologica",
+      "question": "¿Qué cambió cuando las escuelas griegas se extendieron por reinos helenísticos y el Imperio romano?",
+      "visibleText": "La filosofía se organizó como forma de vida, terapia, educación y comentario, y circuló entre griego, latín y comunidades regionales muy diversas.",
+      "coreIdea": "El periodo no fue decadencia posterior a los clásicos: produjo nuevas lógicas, éticas, ciencias y síntesis religiosas y filosóficas.",
+      "distinctiveKey": "escuelas + imperios + circulación",
+      "audio": "Abrimos los mundos helenísticos y romanos. Tras Alejandro y durante Roma, las escuelas se extendieron por un Mediterráneo políticamente cambiante. Epicúreos, estoicos, escépticos, cínicos y platónicos discutieron cómo vivir, conocer y actuar dentro de comunidades más amplias. La filosofía fue argumento, disciplina cotidiana, enseñanza y comentario. Roma no se limitó a copiar Grecia: tradujo y reorganizó sus problemas.",
+      "caution": "No presentar el periodo como simple decadencia, romanización uniforme o colección de consejos individuales separados de instituciones y política.",
+      "tags": [
+        "helenismo",
+        "Roma",
+        "escuelas",
+        "forma de vida"
+      ],
+      "connections": [
+        "card_cynics_parrhesia_freedom_001",
+        "card_epicurus_pleasure_freedom_001"
+      ],
+      "quiz": {
+        "question": "¿Qué caracteriza a este periodo?",
+        "options": [
+          "La desaparición de la filosofía",
+          "Circulación de escuelas y nuevas formas de vida filosófica",
+          "Una doctrina imperial única",
+          "El abandono de la ciencia"
+        ],
+        "correctIndex": 1,
+        "explanation": "Las tradiciones se expandieron, compitieron y cambiaron en contextos plurales."
+      },
+      "evidenceLevel": "A",
+      "sources": [
+        {
+          "title": "Ancient Ethical Theory",
+          "url": "https://plato.stanford.edu/entries/ethics-ancient/"
+        },
+        {
+          "title": "Stoicism",
+          "url": "https://plato.stanford.edu/entries/stoicism/"
+        }
+      ]
+    },
+    {
+      "id": "card_cynics_parrhesia_freedom_001",
+      "series": "cartography-g-series-3-4",
+      "order": 22,
+      "entity": "Cinismo antiguo",
+      "title": "Vivir con menos para hablar con mayor libertad",
+      "period": "Siglos IV–III a. C. y recepciones posteriores",
+      "territory": "Atenas, Corinto y mundo helenístico",
+      "cardType": "tradicion_concepto",
+      "question": "¿Por qué una vida deliberadamente incómoda podía convertirse en crítica política?",
+      "visibleText": "Los cínicos cuestionaron riqueza, prestigio y convenciones mediante austeridad, entrenamiento corporal, provocación y franqueza pública.",
+      "coreIdea": "La libertad cínica depende de reducir necesidades y exponerse a la prueba pública, no de simple insolencia ni desprecio por otros.",
+      "distinctiveKey": "askesis + parrhesía + convención",
+      "audio": "Comenzamos con los cínicos, asociados con Antístenes, Diógenes y Crates. Al vivir con pocas posesiones y desafiar normas de prestigio, hacían visible cuánto depende la obediencia de deseos socialmente fabricados. La parrhesía, hablar con franqueza, exigía también entrenarse para soportar rechazo. Las anécdotas son abundantes y tardías, por lo que no todas describen hechos seguros.",
+      "caution": "No reducir el cinismo antiguo al significado moderno de desconfianza egoísta ni imitar provocaciones fuera de su contexto ético.",
+      "tags": [
+        "cinismo",
+        "parrhesía",
+        "askesis",
+        "convención"
+      ],
+      "connections": [
+        "card_hellenistic_roman_worlds_001",
+        "card_epictetus_prohairesis_001"
+      ],
+      "quiz": {
+        "question": "¿Cómo relacionan los cínicos austeridad y libertad?",
+        "options": [
+          "Acumulando bienes para ganar prestigio",
+          "Reduciendo dependencias que limitan la franqueza",
+          "Evitando toda vida pública",
+          "Obedeciendo cualquier costumbre"
+        ],
+        "correctIndex": 1,
+        "explanation": "La disciplina de necesidades sostiene independencia y crítica."
+      },
+      "evidenceLevel": "B",
+      "sources": [
+        {
+          "title": "Cynics",
+          "url": "https://iep.utm.edu/cynics/"
+        },
+        {
+          "title": "Ancient Ethical Theory",
+          "url": "https://plato.stanford.edu/entries/ethics-ancient/"
+        }
+      ]
+    },
+    {
+      "id": "card_epicurus_pleasure_freedom_001",
+      "series": "cartography-g-series-3-4",
+      "order": 23,
+      "entity": "Epicuro",
+      "title": "El placer estable requiere límites, amistad y comprensión de la naturaleza",
+      "period": "341–270 a. C.",
+      "territory": "Samos, Lampsaco y Atenas",
+      "cardType": "autor_concepto",
+      "question": "¿Por qué buscar placer no significa acumular estímulos sin límite?",
+      "visibleText": "Epicuro distinguió deseos y sostuvo que la ausencia de dolor y perturbación permite un placer estable, apoyado en amistad y pensamiento naturalista.",
+      "coreIdea": "La ética epicúrea reduce miedos y deseos innecesarios; el placer se vuelve criterio de equilibrio, no consumo ilimitado.",
+      "distinctiveKey": "placer + ataraxia + amistad",
+      "audio": "Seguimos con Epicuro. El placer más seguro no consiste en exceso, sino en un cuerpo sin dolor intenso y una mente liberada de temores innecesarios. Distinguir deseos naturales, necesarios y vacíos permite vivir con poco y valorar la amistad. La física atomista ayuda a disminuir el miedo a dioses y muerte, mostrando la unidad práctica del sistema.",
+      "caution": "No confundir epicureísmo con lujo, fiesta permanente o indiferencia moral; su comunidad practicó sobriedad y disciplina.",
+      "tags": [
+        "Epicuro",
+        "placer",
+        "ataraxia",
+        "amistad"
+      ],
+      "connections": [
+        "card_democritus_atom_void_001",
+        "card_lucretius_nature_fear_001"
+      ],
+      "quiz": {
+        "question": "¿Qué placer prioriza Epicuro?",
+        "options": [
+          "La acumulación ilimitada de estímulos",
+          "La estabilidad libre de dolor y perturbación",
+          "El dominio político",
+          "La competencia pública"
+        ],
+        "correctIndex": 1,
+        "explanation": "La serenidad depende de limitar deseos y comprender sus causas."
+      },
+      "evidenceLevel": "A",
+      "sources": [
+        {
+          "title": "Epicurus",
+          "url": "https://plato.stanford.edu/entries/epicurus/"
+        },
+        {
+          "title": "Ancient Ethical Theory",
+          "url": "https://plato.stanford.edu/entries/ethics-ancient/"
+        }
+      ]
+    },
+    {
+      "id": "card_lucretius_nature_fear_001",
+      "series": "cartography-g-series-3-4",
+      "order": 24,
+      "entity": "Lucrecio",
+      "title": "Comprender la naturaleza puede desactivar el miedo",
+      "period": "Siglo I a. C.",
+      "territory": "República romana",
+      "cardType": "autor_obra",
+      "question": "¿Cómo puede un poema filosófico cambiar la relación con muerte, dioses y deseo?",
+      "visibleText": "De rerum natura presenta en latín la física epicúrea para mostrar que fenómenos naturales no requieren castigo divino y que la muerte termina la sensación.",
+      "coreIdea": "La explicación de la naturaleza tiene una función terapéutica: liberar la vida de temores que alimentan violencia y deseos sin límite.",
+      "distinctiveKey": "poesía + naturaleza + terapia",
+      "audio": "Llegamos a Lucrecio y su poema De rerum natura. Átomos, vacío, alma mortal y procesos cósmicos se explican mediante imágenes poéticas destinadas a transformar al lector. Si la muerte es ausencia de sensación, temer el estado de estar muerto confunde una experiencia que nunca tendremos. El poema no opone poesía y razón: utiliza la forma poética para hacer practicable una filosofía.",
+      "caution": "No reducir la obra a divulgación científica ni repetir como hecho biográfico las leyendas tardías sobre locura y suicidio de Lucrecio.",
+      "tags": [
+        "Lucrecio",
+        "Epicureísmo",
+        "muerte",
+        "poesía"
+      ],
+      "connections": [
+        "card_epicurus_pleasure_freedom_001",
+        "card_cicero_translation_republic_001"
+      ],
+      "quiz": {
+        "question": "¿Qué función cumple la física en Lucrecio?",
+        "options": [
+          "Aumentar el temor religioso",
+          "Liberar de miedos mediante explicaciones naturales",
+          "Probar inmortalidad personal",
+          "Reemplazar toda ética"
+        ],
+        "correctIndex": 1,
+        "explanation": "El conocimiento del mundo sirve a la serenidad y a la crítica del miedo."
+      },
+      "evidenceLevel": "A",
+      "sources": [
+        {
+          "title": "Lucretius",
+          "url": "https://plato.stanford.edu/entries/lucretius/"
+        },
+        {
+          "title": "Epicurus",
+          "url": "https://plato.stanford.edu/entries/epicurus/"
+        }
+      ]
+    },
+    {
+      "id": "card_stoicism_cosmos_judgment_001",
+      "series": "cartography-g-series-3-4",
+      "order": 25,
+      "entity": "Estoicismo",
+      "title": "Vivir de acuerdo con naturaleza es revisar los propios juicios",
+      "period": "Desde ca. 300 a. C.",
+      "territory": "Atenas, Mediterráneo y mundo romano",
+      "cardType": "tradicion_concepto",
+      "question": "¿Por qué las emociones intensas podían analizarse como juicios y no solo como fuerzas irracionales?",
+      "visibleText": "Los estoicos integraron lógica, física y ética: un cosmos racional y causal exige aprender a asentir correctamente y orientar la acción hacia la virtud.",
+      "coreIdea": "La libertad estoica no elimina acontecimientos externos; transforma la relación entre impresión, juicio, deseo y responsabilidad.",
+      "distinctiveKey": "logos + asentimiento + virtud",
+      "audio": "Entramos en el estoicismo, fundado por Zenón de Citio y sistematizado por Crisipo. Lógica, física y ética forman un conjunto: comprender el cosmos ayuda a juzgar impresiones y actuar con virtud. Las pasiones se vinculan con juicios valorativos, pero esto no significa reprimir toda emoción. Los estoicos distinguieron respuestas iniciales, afectos desordenados y buenos sentimientos racionales.",
+      "caution": "No reducir el estoicismo a aguantar en silencio, negar emociones o aceptar pasivamente la injusticia.",
+      "tags": [
+        "estoicismo",
+        "logos",
+        "asentimiento",
+        "virtud"
+      ],
+      "connections": [
+        "card_epictetus_prohairesis_001",
+        "card_seneca_anger_time_001"
+      ],
+      "quiz": {
+        "question": "¿Qué conecta las partes del estoicismo?",
+        "options": [
+          "Una ética separada del cosmos",
+          "Lógica, física y ética como sistema interdependiente",
+          "El rechazo de todo sentimiento",
+          "La búsqueda de riqueza"
+        ],
+        "correctIndex": 1,
+        "explanation": "La forma de juzgar y actuar se relaciona con una comprensión global de naturaleza y razón."
+      },
+      "evidenceLevel": "A",
+      "sources": [
+        {
+          "title": "Stoicism",
+          "url": "https://plato.stanford.edu/entries/stoicism/"
+        },
+        {
+          "title": "Ancient Ethical Theory",
+          "url": "https://plato.stanford.edu/entries/ethics-ancient/"
+        }
+      ]
+    },
+    {
+      "id": "card_epictetus_prohairesis_001",
+      "series": "cartography-g-series-3-4",
+      "order": 26,
+      "entity": "Epicteto",
+      "title": "Distinguir lo que depende de nosotros sin retirarnos del mundo",
+      "period": "Ca. 50–135 d. C.",
+      "territory": "Hierápolis, Roma y Nicópolis",
+      "cardType": "autor_concepto",
+      "question": "¿Qué permanece bajo nuestra responsabilidad cuando no controlamos resultados externos?",
+      "visibleText": "Epicteto centra la libertad en la prohairesis: capacidad de examinar impresiones, elegir y orientar deseos, mientras roles y acontecimientos contienen condiciones externas.",
+      "coreIdea": "La distinción de control organiza responsabilidad, pero no convierte toda desgracia en culpa individual ni elimina deberes hacia otras personas.",
+      "distinctiveKey": "prohairesis + impresión + responsabilidad",
+      "audio": "Seguimos con Epicteto. Algunas cosas dependen de nosotros, especialmente cómo examinamos impresiones y orientamos la elección; salud, reputación y resultados no están completamente bajo control. Esta distinción no ordena abandonar vínculos o política. Cada persona actúa dentro de roles y obligaciones, y debe responder bien aunque el resultado final dependa también de otros y de circunstancias.",
+      "caution": "No usar la distinción de control para culpabilizar a víctimas, tolerar abusos o negar condiciones sociales y materiales.",
+      "tags": [
+        "Epicteto",
+        "prohairesis",
+        "control",
+        "roles"
+      ],
+      "connections": [
+        "card_cynics_parrhesia_freedom_001",
+        "card_marcus_aurelius_cosmopolis_role_001"
+      ],
+      "quiz": {
+        "question": "¿Qué depende principalmente de nosotros según Epicteto?",
+        "options": [
+          "Todos los acontecimientos externos",
+          "El uso que hacemos de impresiones y elecciones",
+          "La conducta de otras personas",
+          "La duración de la vida"
+        ],
+        "correctIndex": 1,
+        "explanation": "La responsabilidad se concentra en el juicio y la orientación de la acción."
+      },
+      "evidenceLevel": "A",
+      "sources": [
+        {
+          "title": "Epictetus",
+          "url": "https://iep.utm.edu/epictetu/"
+        },
+        {
+          "title": "Stoicism",
+          "url": "https://plato.stanford.edu/entries/stoicism/"
+        }
+      ]
+    },
+    {
+      "id": "card_seneca_anger_time_001",
+      "series": "cartography-g-series-3-4",
+      "order": 27,
+      "entity": "Séneca",
+      "title": "La ira se prepara antes de explotar",
+      "period": "Ca. 1 a. C.–65 d. C.",
+      "territory": "Córdoba y Roma",
+      "cardType": "autor_concepto",
+      "question": "¿Puede una emoción destructiva intervenirse antes de convertirse en acción?",
+      "visibleText": "Séneca analiza la ira como proceso que incluye impresión inicial, asentimiento, escalada e imaginación de ofensa.",
+      "coreIdea": "La filosofía funciona como práctica preventiva: revisar expectativas, demorar respuestas y reconocer la propia vulnerabilidad.",
+      "distinctiveKey": "ira + tiempo + práctica",
+      "audio": "Llegamos a Séneca. La ira no aparece como una fuerza completamente ajena a la razón: crece cuando aceptamos que fuimos ofendidos y que la venganza es apropiada. Por eso recomienda anticipar desencadenantes, retrasar la acción y revisar expectativas imposibles. Su vida próxima al poder imperial también plantea tensiones entre enseñanza moral, riqueza y responsabilidad política.",
+      "caution": "No convertir sus ejercicios en supresión emocional ni separar sus ideas de las contradicciones de su trayectoria pública.",
+      "tags": [
+        "Séneca",
+        "ira",
+        "tiempo",
+        "ejercicios"
+      ],
+      "connections": [
+        "card_stoicism_cosmos_judgment_001",
+        "card_marcus_aurelius_cosmopolis_role_001"
+      ],
+      "quiz": {
+        "question": "¿Dónde interviene la práctica filosófica frente a la ira?",
+        "options": [
+          "Solo después de causar daño",
+          "En impresiones, asentimiento y escalada antes de la acción",
+          "Eliminando toda sensibilidad",
+          "Confirmando cualquier ofensa"
+        ],
+        "correctIndex": 1,
+        "explanation": "Séneca propone reconocer y modificar el proceso que alimenta la ira."
+      },
+      "evidenceLevel": "A",
+      "sources": [
+        {
+          "title": "Seneca",
+          "url": "https://plato.stanford.edu/entries/seneca/"
+        },
+        {
+          "title": "Stoicism",
+          "url": "https://plato.stanford.edu/entries/stoicism/"
+        }
+      ]
+    },
+    {
+      "id": "card_marcus_aurelius_cosmopolis_role_001",
+      "series": "cartography-g-series-3-4",
+      "order": 28,
+      "entity": "Marco Aurelio",
+      "title": "Recordarse a sí mismo dentro de una comunidad mayor",
+      "period": "121–180 d. C.",
+      "territory": "Imperio romano",
+      "cardType": "autor_obra",
+      "question": "¿Cómo funciona una escritura privada destinada a corregir la propia atención?",
+      "visibleText": "Las Meditaciones registran ejercicios de Marco Aurelio para recordar impermanencia, deber, interdependencia y pertenencia a una comunidad racional.",
+      "coreIdea": "El diario filosófico no es autobiografía completa ni doctrina nueva: es una tecnología de autoexamen situada en el poder imperial.",
+      "distinctiveKey": "autoexamen + rol + cosmópolis",
+      "audio": "Continuamos con Marco Aurelio. Sus notas personales repiten ideas porque su función era ejercitar, no impresionar a lectores futuros. Recordar la brevedad de la vida, distinguir juicios y actuar para el bien común ayudaba a sostener el rol imperial. Esa práctica no borra la necesidad de examinar críticamente guerras, jerarquías y decisiones tomadas durante su gobierno.",
+      "caution": "No convertir las Meditaciones en frases motivacionales sin contexto ni idealizar al emperador como encarnación perfecta del estoicismo.",
+      "tags": [
+        "Marco Aurelio",
+        "Meditaciones",
+        "cosmópolis",
+        "autoexamen"
+      ],
+      "connections": [
+        "card_epictetus_prohairesis_001",
+        "card_cicero_translation_republic_001"
+      ],
+      "quiz": {
+        "question": "¿Qué tipo de texto son principalmente las Meditaciones?",
+        "options": [
+          "Un tratado sistemático para publicación",
+          "Ejercicios privados de recordación y corrección",
+          "Una crónica militar completa",
+          "Un código jurídico"
+        ],
+        "correctIndex": 1,
+        "explanation": "La repetición responde a su función práctica de autoformación."
+      },
+      "evidenceLevel": "B",
+      "sources": [
+        {
+          "title": "Marcus Aurelius",
+          "url": "https://iep.utm.edu/marcus-aurelius/"
+        },
+        {
+          "title": "Stoicism",
+          "url": "https://plato.stanford.edu/entries/stoicism/"
+        }
+      ]
+    },
+    {
+      "id": "card_pyrrhonian_skepticism_epoch_001",
+      "series": "cartography-g-series-3-4",
+      "order": 29,
+      "entity": "Escepticismo pirrónico",
+      "title": "Suspender el juicio para continuar investigando",
+      "period": "Desde Pirrón hasta Sexto Empírico",
+      "territory": "Grecia y mundo romano",
+      "cardType": "tradicion_concepto",
+      "question": "¿Suspender el juicio significa afirmar que nada puede conocerse?",
+      "visibleText": "El pirronismo enfrenta argumentos de fuerza comparable y evita asentir dogmáticamente, buscando tranquilidad sin declarar imposible toda verdad.",
+      "coreIdea": "El escepticismo antiguo es práctica de investigación: la epoché detiene afirmaciones no justificadas y mantiene abierta la indagación.",
+      "distinctiveKey": "investigación + epoché + equipolencia",
+      "audio": "Entramos en el escepticismo pirrónico. Cuando razones opuestas parecen equilibradas, el investigador suspende el juicio en lugar de inventar certeza. Esa suspensión puede traer tranquilidad, pero no es una doctrina que afirme nada es verdadero. Sexto Empírico describe cómo la persona escéptica sigue apariencias, costumbres y habilidades prácticas sin convertirlas en teorías incuestionables.",
+      "caution": "No confundir escepticismo con cinismo, indiferencia, negación de hechos o rechazo de toda acción cotidiana.",
+      "tags": [
+        "pirronismo",
+        "epoché",
+        "investigación",
+        "Sexto Empírico"
+      ],
+      "connections": [
+        "card_academic_skepticism_probability_001",
+        "card_cicero_translation_republic_001"
+      ],
+      "quiz": {
+        "question": "¿Qué hace la epoché?",
+        "options": [
+          "Demuestra que nada existe",
+          "Suspende asentimiento cuando faltan razones decisivas",
+          "Impide toda vida práctica",
+          "Declara falsa cada apariencia"
+        ],
+        "correctIndex": 1,
+        "explanation": "La suspensión evita el dogmatismo y permite continuar investigando."
+      },
+      "evidenceLevel": "A",
+      "sources": [
+        {
+          "title": "Ancient Skepticism",
+          "url": "https://plato.stanford.edu/entries/skepticism-ancient/"
+        },
+        {
+          "title": "Sextus Empiricus",
+          "url": "https://plato.stanford.edu/entries/sextus-empiricus/"
+        }
+      ]
+    },
+    {
+      "id": "card_academic_skepticism_probability_001",
+      "series": "cartography-g-series-3-4",
+      "order": 30,
+      "entity": "Academia escéptica",
+      "title": "Actuar razonablemente sin certeza absoluta",
+      "period": "Siglos III–I a. C.",
+      "territory": "Academia platónica y Mediterráneo",
+      "cardType": "tradicion_concepto",
+      "question": "¿Cómo decidir si ninguna impresión garantiza por sí sola la verdad?",
+      "visibleText": "Arcesilao y Carnéades criticaron criterios estoicos de certeza y desarrollaron maneras de orientar la acción mediante lo persuasivo o probable.",
+      "coreIdea": "La falta de certeza infalible no obliga a paralizarse: puede sostener decisiones revisables y argumentos comparativos.",
+      "distinctiveKey": "falibilidad + persuasión + acción",
+      "audio": "Seguimos con la Academia escéptica. Arcesilao cuestionó que una impresión lleve una marca infalible de verdad. Carnéades mostró que la vida práctica puede orientarse por impresiones persuasivas, examinadas y contrastadas, sin convertirlas en conocimiento seguro. Las reconstrucciones dependen de adversarios y de Cicero, por lo que sus diferencias internas no deben borrarse.",
+      "caution": "No equiparar lo persuasivo antiguo con probabilidad matemática moderna ni fusionar sin matices la Academia con el pirronismo.",
+      "tags": [
+        "Academia",
+        "Carnéades",
+        "falibilidad",
+        "persuasión"
+      ],
+      "connections": [
+        "card_pyrrhonian_skepticism_epoch_001",
+        "card_cicero_translation_republic_001"
+      ],
+      "quiz": {
+        "question": "¿Qué respuesta ofrece la Academia al problema de actuar sin certeza?",
+        "options": [
+          "La inacción total",
+          "Criterios falibles y revisables de persuasión",
+          "La obediencia automática",
+          "Una intuición infalible"
+        ],
+        "correctIndex": 1,
+        "explanation": "La deliberación puede continuar sin pretender garantía absoluta."
+      },
+      "evidenceLevel": "B",
+      "sources": [
+        {
+          "title": "Ancient Skepticism",
+          "url": "https://plato.stanford.edu/entries/skepticism-ancient/"
+        },
+        {
+          "title": "Carneades",
+          "url": "https://iep.utm.edu/carneades/"
+        }
+      ]
+    },
+    {
+      "id": "card_cicero_translation_republic_001",
+      "series": "cartography-g-series-3-4",
+      "order": 31,
+      "entity": "Cicerón",
+      "title": "Traducir filosofía es crear vocabulario para una república en crisis",
+      "period": "106–43 a. C.",
+      "territory": "República romana",
+      "cardType": "autor_concepto",
+      "question": "¿Qué ocurre cuando problemas griegos se reescriben para instituciones y públicos romanos?",
+      "visibleText": "Cicerón adaptó debates estoicos, epicúreos y académicos al latín y los relacionó con oratoria, ley, deber y formas republicanas.",
+      "coreIdea": "La recepción romana fue creativa: traducir implicó seleccionar conceptos, compararlos y convertir la filosofía en intervención pública.",
+      "distinctiveKey": "traducción + república + deliberación",
+      "audio": "Llegamos a Cicerón. Sus diálogos no son simples resúmenes: organizan voces rivales y crean vocabulario latino para ética, conocimiento, teología y política. En La república y Las leyes, las instituciones romanas modifican preguntas heredadas de Platón. Su escepticismo moderado permite comparar argumentos, aunque su defensa republicana también refleja jerarquías de su época.",
+      "caution": "No tratarlo solo como fuente secundaria de escuelas griegas ni identificar la república romana con democracia igualitaria moderna.",
+      "tags": [
+        "Cicerón",
+        "traducción",
+        "república",
+        "escepticismo"
+      ],
+      "connections": [
+        "card_academic_skepticism_probability_001",
+        "card_polybius_mixed_constitution_001"
+      ],
+      "quiz": {
+        "question": "¿Qué hace filosóficamente Cicerón al traducir?",
+        "options": [
+          "Copia palabras sin transformarlas",
+          "Reformula problemas para instituciones y públicos romanos",
+          "Elimina el desacuerdo",
+          "Abandona la política"
+        ],
+        "correctIndex": 1,
+        "explanation": "La traducción produce vocabulario, selección y nuevas relaciones conceptuales."
+      },
+      "evidenceLevel": "A",
+      "sources": [
+        {
+          "title": "Cicero",
+          "url": "https://plato.stanford.edu/entries/cicero/"
+        },
+        {
+          "title": "Ancient Political Philosophy",
+          "url": "https://plato.stanford.edu/entries/ancient-political/"
+        }
+      ]
+    },
+    {
+      "id": "card_polybius_mixed_constitution_001",
+      "series": "cartography-g-series-3-4",
+      "order": 32,
+      "entity": "Polibio",
+      "title": "Las constituciones cambian y pueden equilibrar poderes",
+      "period": "Ca. 200–118 a. C.",
+      "territory": "Grecia, Roma y Mediterráneo",
+      "cardType": "autor_concepto",
+      "question": "¿Cómo explicar la estabilidad relativa de Roma dentro de ciclos de transformación política?",
+      "visibleText": "Polibio describió ciclos de regímenes y vio en la constitución romana una combinación de elementos monárquicos, aristocráticos y populares.",
+      "coreIdea": "El gobierno mixto intenta limitar degeneraciones mediante contrapesos, aunque su análisis está ligado a una república expansiva y desigual.",
+      "distinctiveKey": "ciclo + mezcla + contrapeso",
+      "audio": "Pasamos a Polibio, historiador griego que vivió de cerca la expansión romana. Su anaciclosis describe transformaciones entre monarquía, tiranía, aristocracia, oligarquía, democracia y gobierno de masas. Roma parecía más estable porque cónsules, Senado y pueblo se limitaban mutuamente. Esta explicación no debe ocultar esclavitud, dominación imperial y conflictos sociales.",
+      "caution": "No convertir el gobierno mixto en modelo eterno ni confundir la participación romana con ciudadanía universal.",
+      "tags": [
+        "Polibio",
+        "gobierno mixto",
+        "ciclos",
+        "Roma"
+      ],
+      "connections": [
+        "card_cicero_translation_republic_001",
+        "card_plutarch_ethical_formation_001"
+      ],
+      "quiz": {
+        "question": "¿Qué busca el gobierno mixto?",
+        "options": [
+          "Concentrar todo poder en una persona",
+          "Equilibrar componentes para limitar degeneraciones",
+          "Eliminar instituciones",
+          "Impedir cualquier cambio histórico"
+        ],
+        "correctIndex": 1,
+        "explanation": "La mezcla distribuye funciones y crea controles recíprocos."
+      },
+      "evidenceLevel": "B",
+      "sources": [
+        {
+          "title": "Ancient Political Philosophy",
+          "url": "https://plato.stanford.edu/entries/ancient-political/"
+        },
+        {
+          "title": "Polybius",
+          "url": "https://www.britannica.com/biography/Polybius"
+        }
+      ]
+    },
+    {
+      "id": "card_plutarch_ethical_formation_001",
+      "series": "cartography-g-series-3-4",
+      "order": 33,
+      "entity": "Plutarco",
+      "title": "Biografías que comparan caracteres, decisiones y poder",
+      "period": "Ca. 46–120 d. C.",
+      "territory": "Queronea y mundo romano",
+      "cardType": "autor_metodo",
+      "question": "¿Puede narrar una vida ayudar a pensar la virtud sin convertirla en modelo perfecto?",
+      "visibleText": "Plutarco combinó platonismo, ética práctica y biografías paralelas para examinar cómo hábitos y decisiones forman carácter.",
+      "coreIdea": "La comparación biográfica funciona como laboratorio moral: muestra tensiones, no recetas ni héroes sin contradicciones.",
+      "distinctiveKey": "biografía + carácter + comparación",
+      "audio": "Seguimos con Plutarco. Las Vidas paralelas emparejan figuras griegas y romanas para observar ambición, generosidad, ira y uso del poder. Los pequeños gestos pueden revelar carácter mejor que una gran batalla. Sus tratados morales también analizan educación y emociones desde un platonismo abierto a otras escuelas. La biografía no es historia neutral ni veneración automática.",
+      "caution": "No leer las Vidas como documentación exacta de cada episodio ni convertir sus comparaciones en jerarquías simples entre pueblos.",
+      "tags": [
+        "Plutarco",
+        "biografía",
+        "carácter",
+        "platonismo"
+      ],
+      "connections": [
+        "card_polybius_mixed_constitution_001",
+        "card_galen_method_body_soul_001"
+      ],
+      "quiz": {
+        "question": "¿Qué permite la comparación biográfica?",
+        "options": [
+          "Probar que una persona fue perfecta",
+          "Examinar carácter y decisiones mediante semejanzas y contrastes",
+          "Reemplazar toda investigación histórica",
+          "Eliminar el contexto político"
+        ],
+        "correctIndex": 1,
+        "explanation": "Las vidas funcionan como escenarios para pensar virtud, poder y formación."
+      },
+      "evidenceLevel": "A",
+      "sources": [
+        {
+          "title": "Plutarch",
+          "url": "https://plato.stanford.edu/entries/plutarch/"
+        },
+        {
+          "title": "Ancient Ethical Theory",
+          "url": "https://plato.stanford.edu/entries/ethics-ancient/"
+        }
+      ]
+    },
+    {
+      "id": "card_galen_method_body_soul_001",
+      "series": "cartography-g-series-3-4",
+      "order": 34,
+      "entity": "Galeno",
+      "title": "La medicina necesita observar, razonar y discutir sus pruebas",
+      "period": "129–ca. 216 d. C.",
+      "territory": "Pérgamo, Alejandría y Roma",
+      "cardType": "autor_metodo",
+      "question": "¿Cómo relacionar experiencia clínica, anatomía y argumentación sin reducir una a otra?",
+      "visibleText": "Galeno combinó observación, disección animal, teoría humoral y lógica para explicar funciones corporales y evaluar escuelas médicas rivales.",
+      "coreIdea": "El conocimiento médico surge de métodos múltiples y controversias; sus logros deben distinguirse de errores anatómicos y supuestos históricos.",
+      "distinctiveKey": "medicina + demostración + método",
+      "audio": "Llegamos a Galeno. Como médico y filósofo, defendió que una afirmación clínica debía apoyarse en experiencia, anatomía y razonamiento demostrativo. Sus disecciones, realizadas principalmente en animales, produjeron hallazgos y también errores al trasladarlos al cuerpo humano. Además, relacionó temperamentos corporales y facultades del alma, sin disponer de las categorías biomédicas actuales.",
+      "caution": "No presentar su medicina humoral como válida hoy ni juzgar todo su método únicamente por errores corregidos siglos después.",
+      "tags": [
+        "Galeno",
+        "medicina",
+        "método",
+        "cuerpo"
+      ],
+      "connections": [
+        "card_plutarch_ethical_formation_001",
+        "card_plotinus_one_intellect_soul_001"
+      ],
+      "quiz": {
+        "question": "¿Qué caracteriza el método de Galeno?",
+        "options": [
+          "Depender de una única autoridad",
+          "Combinar experiencia, anatomía y razonamiento",
+          "Rechazar toda controversia",
+          "Usar anatomía humana moderna"
+        ],
+        "correctIndex": 1,
+        "explanation": "Su medicina integra fuentes y procedimientos diferentes dentro de un marco histórico."
+      },
+      "evidenceLevel": "B",
+      "sources": [
+        {
+          "title": "Galen",
+          "url": "https://plato.stanford.edu/entries/galen/"
+        },
+        {
+          "title": "Ancient and Medieval Empiricism",
+          "url": "https://plato.stanford.edu/entries/empiricism-ancient-medieval/"
+        }
+      ]
+    },
+    {
+      "id": "card_plotinus_one_intellect_soul_001",
+      "series": "cartography-g-series-3-4",
+      "order": 35,
+      "entity": "Plotino",
+      "title": "La realidad desborda las formas sin abandonar su fuente",
+      "period": "204/205–270 d. C.",
+      "territory": "Egipto y Roma",
+      "cardType": "autor_concepto",
+      "question": "¿Cómo puede lo múltiple proceder de una unidad que no se divide?",
+      "visibleText": "Plotino articuló Uno, Intelecto y Alma como niveles de dependencia y retorno, no como acontecimientos temporales de creación.",
+      "coreIdea": "La procesión explica cómo la multiplicidad depende de principios más unificados; el retorno filosófico reorganiza atención, conocimiento y vida.",
+      "distinctiveKey": "Uno + procesión + retorno",
+      "audio": "Entramos en Plotino. El Uno no es un objeto entre otros ni una mente que planifica; desborda toda determinación. Del Uno depende el Intelecto, donde se articulan formas, y del Intelecto el Alma. Procesión no significa que algo ocurrió en un primer momento: nombra dependencia permanente. El retorno interior busca reconocer esa fuente sin despreciar automáticamente el mundo sensible.",
+      "caution": "No traducir procesión como creación temporal, panteísmo simple o desprecio absoluto del cuerpo y del cosmos.",
+      "tags": [
+        "Plotino",
+        "Uno",
+        "Intelecto",
+        "Alma"
+      ],
+      "connections": [
+        "card_galen_method_body_soul_001",
+        "card_porphyry_commentary_classification_001"
+      ],
+      "quiz": {
+        "question": "¿Qué describe la procesión en Plotino?",
+        "options": [
+          "Una fabricación temporal desde materiales",
+          "Dependencia de lo múltiple respecto de principios más unitarios",
+          "La división física del Uno",
+          "Una evolución biológica"
+        ],
+        "correctIndex": 1,
+        "explanation": "Los niveles proceden como relaciones de dependencia, no como episodios cronológicos."
+      },
+      "evidenceLevel": "A",
+      "sources": [
+        {
+          "title": "Plotinus",
+          "url": "https://plato.stanford.edu/entries/plotinus/"
+        },
+        {
+          "title": "Ancient Platonism",
+          "url": "https://iep.utm.edu/neoplato/"
+        }
+      ]
+    },
+    {
+      "id": "card_porphyry_commentary_classification_001",
+      "series": "cartography-g-series-3-4",
+      "order": 36,
+      "entity": "Porfirio",
+      "title": "Clasificar conceptos abre problemas sobre lo universal",
+      "period": "Ca. 234–305 d. C.",
+      "territory": "Tiro, Sicilia y Roma",
+      "cardType": "autor_obra",
+      "question": "¿Qué preguntas aparecen al ordenar género, especie y diferencia?",
+      "visibleText": "La Isagoge de Porfirio introdujo categorías para estudiar predicación y dejó abiertas preguntas sobre el modo de existencia de géneros y especies.",
+      "coreIdea": "Un manual lógico puede generar siglos de debate cuando distingue niveles del lenguaje sin resolver su estatuto metafísico.",
+      "distinctiveKey": "género + especie + comentario",
+      "audio": "Seguimos con Porfirio, editor de las Enéadas de Plotino y autor de la Isagoge. Al presentar género, especie, diferencia, propiedad y accidente, preparó la lectura de las Categorías de Aristóteles. Decidió no resolver si los universales existen separados, en las cosas o solo en el pensamiento. Esa suspensión alimentó debates medievales en varias lenguas.",
+      "caution": "No atribuir a Porfirio la solución medieval del problema de universales ni reducir su obra a un diagrama taxonómico.",
+      "tags": [
+        "Porfirio",
+        "Isagoge",
+        "universales",
+        "comentario"
+      ],
+      "connections": [
+        "card_plotinus_one_intellect_soul_001",
+        "card_iamblichus_theurgy_education_001"
+      ],
+      "quiz": {
+        "question": "¿Qué hace Porfirio con el problema de universales?",
+        "options": [
+          "Lo resuelve definitivamente",
+          "Formula distinciones y deja abierta la cuestión ontológica",
+          "Niega toda clasificación",
+          "Lo convierte en cálculo moderno"
+        ],
+        "correctIndex": 1,
+        "explanation": "La Isagoge organiza conceptos sin cerrar su estatuto metafísico."
+      },
+      "evidenceLevel": "A",
+      "sources": [
+        {
+          "title": "Porphyry",
+          "url": "https://plato.stanford.edu/entries/porphyry/"
+        },
+        {
+          "title": "The Medieval Problem of Universals",
+          "url": "https://plato.stanford.edu/entries/universals-medieval/"
+        }
+      ]
+    },
+    {
+      "id": "card_iamblichus_theurgy_education_001",
+      "series": "cartography-g-series-3-4",
+      "order": 37,
+      "entity": "Jámblico",
+      "title": "La transformación filosófica incluye prácticas y símbolos",
+      "period": "Ca. 245–325 d. C.",
+      "territory": "Siria y mundo romano oriental",
+      "cardType": "autor_concepto",
+      "question": "¿Por qué el razonamiento discursivo no sería suficiente para la unión con lo divino?",
+      "visibleText": "Jámblico amplió el platonismo con jerarquías metafísicas, currículo filosófico y teúrgia, entendida como práctica ritual dependiente de acción divina.",
+      "coreIdea": "La filosofía tardía integra exégesis, matemáticas, ética y ritual; no coincide con una separación moderna entre razón y religión.",
+      "distinctiveKey": "teúrgia + currículo + participación",
+      "audio": "Llegamos a Jámblico. Frente a Porfirio, sostuvo que el alma encarnada no asciende únicamente mediante contemplación intelectual. La teúrgia utiliza símbolos y ritos cuya eficacia depende de los dioses, no de control mágico humano. También organizó lecturas de Platón, Aristóteles y tradiciones pitagóricas dentro de un programa educativo que influyó en escuelas posteriores.",
+      "caution": "No reducir teúrgia a superstición, magia instrumental o abandono del razonamiento filosófico.",
+      "tags": [
+        "Jámblico",
+        "teúrgia",
+        "educación",
+        "platonismo"
+      ],
+      "connections": [
+        "card_porphyry_commentary_classification_001",
+        "card_hypatia_teaching_mathematics_001"
+      ],
+      "quiz": {
+        "question": "¿Qué añade Jámblico al camino filosófico?",
+        "options": [
+          "La autosuficiencia exclusiva del intelecto humano",
+          "Prácticas simbólicas y rituales dentro de una formación integral",
+          "El rechazo de Platón",
+          "La eliminación de matemáticas"
+        ],
+        "correctIndex": 1,
+        "explanation": "Su propuesta une estudio, práctica y participación religiosa."
+      },
+      "evidenceLevel": "A",
+      "sources": [
+        {
+          "title": "Iamblichus",
+          "url": "https://plato.stanford.edu/entries/iamblichus/"
+        },
+        {
+          "title": "Neoplatonism",
+          "url": "https://iep.utm.edu/neoplato/"
+        }
+      ]
+    },
+    {
+      "id": "card_hypatia_teaching_mathematics_001",
+      "series": "cartography-g-series-3-4",
+      "order": 38,
+      "entity": "Hipatia de Alejandría",
+      "title": "Enseñar filosofía y matemáticas en una ciudad conflictiva",
+      "period": "Ca. 355–415 d. C.",
+      "territory": "Alejandría, Egipto romano",
+      "cardType": "autor_contexto",
+      "question": "¿Qué puede afirmarse con seguridad sobre una pensadora cuya obra se conserva de manera indirecta?",
+      "visibleText": "Hipatia enseñó matemáticas y filosofía platónica, participó en redes cívicas y murió en una violencia política y religiosa ampliamente documentada.",
+      "coreIdea": "Su importancia debe reconstruirse desde testimonios limitados, sin convertirla en símbolo simplificado de una guerra absoluta entre ciencia y religión.",
+      "distinctiveKey": "enseñanza + matemática + testimonio",
+      "audio": "Seguimos con Hipatia de Alejandría. Fue reconocida como maestra de filosofía y matemáticas y mantuvo vínculos con estudiantes cristianos y autoridades civiles. Sus escritos no sobreviven de forma segura, aunque se le atribuyen trabajos editoriales y comentarios. Su asesinato por una multitud vinculada a conflictos eclesiásticos y políticos no se explica adecuadamente como una escena simple de ciencia contra religión.",
+      "caution": "No inventar doctrinas, descubrimientos o detalles biográficos sin apoyo documental ni reducir su muerte a una sola oposición cultural.",
+      "tags": [
+        "Hipatia",
+        "Alejandría",
+        "enseñanza",
+        "matemáticas"
+      ],
+      "connections": [
+        "card_iamblichus_theurgy_education_001",
+        "card_augustine_memory_time_001"
+      ],
+      "quiz": {
+        "question": "¿Qué cautela principal exige estudiar a Hipatia?",
+        "options": [
+          "Completar libremente las obras perdidas",
+          "Distinguir testimonios históricos de símbolos posteriores",
+          "Negar su actividad docente",
+          "Separarla de Alejandría"
+        ],
+        "correctIndex": 1,
+        "explanation": "La evidencia es indirecta y debe manejarse sin reconstrucciones ficticias."
+      },
+      "evidenceLevel": "B",
+      "sources": [
+        {
+          "title": "Hypatia",
+          "url": "https://www.britannica.com/biography/Hypatia"
+        },
+        {
+          "title": "Hypatia of Alexandria",
+          "url": "https://mathshistory.st-andrews.ac.uk/Biographies/Hypatia/"
+        }
+      ]
+    },
+    {
+      "id": "card_roman_law_natural_reason_001",
+      "series": "cartography-g-series-3-4",
+      "order": 39,
+      "entity": "Jurisprudencia romana y ley natural",
+      "title": "Razonar con casos, reglas y equidad",
+      "period": "República tardía–Imperio romano",
+      "territory": "Roma y provincias imperiales",
+      "cardType": "tradicion_concepto",
+      "question": "¿Cómo cambia el pensamiento normativo cuando debe resolver casos diversos dentro de un imperio?",
+      "visibleText": "Juristas romanos desarrollaron distinciones sobre persona, propiedad, obligación y equidad mediante interpretación de casos y autoridades.",
+      "coreIdea": "La racionalidad jurídica combina reglas, precedentes, analogías y prudencia; sus categorías influyeron ampliamente, aunque nacieron en una sociedad desigual y esclavista.",
+      "distinctiveKey": "casos + reglas + equidad",
+      "audio": "Antes de cerrar, observamos la jurisprudencia romana. Los juristas no elaboraron un código único desde el comienzo: respondieron consultas, distinguieron casos y ajustaron reglas mediante analogía y equidad. Conceptos de obligación, posesión y persona tuvieron una larga recepción. Sin embargo, el derecho romano también organizó esclavitud, patriarcado y ciudadanía desigual, por lo que su legado exige evaluación crítica.",
+      "caution": "No presentar el derecho romano como origen puro de derechos humanos ni separar su sofisticación técnica de las jerarquías que regulaba.",
+      "tags": [
+        "derecho romano",
+        "equidad",
+        "casuística",
+        "persona"
+      ],
+      "connections": [
+        "card_cicero_translation_republic_001",
+        "card_augustine_memory_time_001"
+      ],
+      "quiz": {
+        "question": "¿Cómo razonan principalmente los juristas romanos?",
+        "options": [
+          "Solo mediante axiomas abstractos",
+          "Combinando casos, reglas, analogías y equidad",
+          "Ignorando instituciones",
+          "Eliminando diferencias de estatus"
+        ],
+        "correctIndex": 1,
+        "explanation": "La práctica jurídica desarrolló razonamiento casuístico e interpretativo."
+      },
+      "evidenceLevel": "B",
+      "sources": [
+        {
+          "title": "Roman Law",
+          "url": "https://www.britannica.com/topic/Roman-law"
+        },
+        {
+          "title": "Natural Law Theories",
+          "url": "https://plato.stanford.edu/entries/natural-law-theories/"
+        }
+      ]
+    },
+    {
+      "id": "card_augustine_memory_time_001",
+      "series": "cartography-g-series-3-4",
+      "order": 40,
+      "entity": "Agustín de Hipona",
+      "title": "El tiempo se vive como memoria, atención y expectativa",
+      "period": "354–430 d. C.",
+      "territory": "Norte de África romana",
+      "cardType": "autor_concepto",
+      "question": "¿Dónde se encuentra el tiempo si pasado ya no es y futuro todavía no es?",
+      "visibleText": "Agustín analiza la experiencia temporal mediante distensión del ánimo: memoria del pasado, atención al presente y expectativa del futuro.",
+      "coreIdea": "La interioridad no es aislamiento privado; es un campo donde lenguaje, voluntad, creación, comunidad y búsqueda de verdad se vuelven problemas.",
+      "distinctiveKey": "tiempo + memoria + interioridad",
+      "audio": "Cerramos con Agustín, pensador cristiano de la Antigüedad tardía formado en retórica y platonismo. Al preguntar qué es el tiempo, observa que medimos huellas presentes: recordamos, atendemos y esperamos. La distensión del ánimo explica la experiencia temporal sin convertir la mente en creadora del cosmos. Su pensamiento conecta mundo antiguo y debates medievales sobre voluntad, lenguaje y gracia.",
+      "caution": "No clasificarlo únicamente como medieval ni separar artificialmente filosofía y teología en una obra donde ambas están entrelazadas.",
+      "tags": [
+        "Agustín",
+        "tiempo",
+        "memoria",
+        "interioridad"
+      ],
+      "connections": [
+        "card_hypatia_teaching_mathematics_001",
+        "card_plotinus_one_intellect_soul_001"
+      ],
+      "quiz": {
+        "question": "¿Cómo analiza Agustín la experiencia del tiempo?",
+        "options": [
+          "Como tres objetos igualmente presentes",
+          "Mediante memoria, atención y expectativa",
+          "Como ilusión sin experiencia",
+          "Solo mediante movimiento astronómico"
+        ],
+        "correctIndex": 1,
+        "explanation": "El tiempo vivido aparece en la distensión de la mente entre tres orientaciones presentes."
+      },
+      "evidenceLevel": "A",
+      "sources": [
+        {
+          "title": "Augustine of Hippo",
+          "url": "https://plato.stanford.edu/entries/augustine/"
+        },
+        {
+          "title": "Augustine",
+          "url": "https://iep.utm.edu/augustine/"
+        }
+      ]
+    }
+  ]
+}

@@ -1,0 +1,10 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 128 128" role="img" aria-label="Texto Vivo">
+  <defs>
+    <linearGradient id="g" x1="0" x2="1" y1="0" y2="1"><stop offset="0" stop-color="#f7e7c7"/><stop offset="1" stop-color="#6f4e37"/></linearGradient>
+  </defs>
+  <rect x="10" y="8" width="108" height="112" rx="24" fill="url(#g)"/>
+  <path d="M39 31h42c7 0 12 5 12 12v54c0 3-2 5-5 5H40c-7 0-12-5-12-12V42c0-6 5-11 11-11z" fill="#fffaf0" opacity=".96"/>
+  <path d="M43 48h39M43 62h30M43 76h37" stroke="#6f4e37" stroke-width="6" stroke-linecap="round"/>
+  <path d="M35 93c14-21 30-21 43-3 5 7 10 9 17 4" fill="none" stroke="#1f5b55" stroke-width="7" stroke-linecap="round"/>
+  <circle cx="91" cy="94" r="5" fill="#1f5b55"/>
+</svg>

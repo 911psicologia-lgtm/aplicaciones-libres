@@ -1,0 +1,1985 @@
+<!doctype html>
+<html lang="es">
+<head>
+  <meta charset="utf-8"/>
+  <meta name="viewport" content="width=device-width,initial-scale=1"/>
+  <title>TriviaLab — v0.4</title>
+  <style>
+    :root{
+      --bg0:#f7f8fc;
+      --bg1:#ffffff;
+      --line: rgba(0,0,0,.12);
+      --txt:#111827;
+      --muted:#374151;
+      --muted2:#6b7280;
+      --a:#7c3aed;
+      --b:#16a34a;
+      --c:#d97706;
+      --d:#0891b2;
+      --shadow: 0 18px 60px rgba(17,24,39,.10);
+      --r:22px;
+    }
+    *{box-sizing:border-box}
+    body{
+      margin:0;
+      font-family: ui-rounded, system-ui, -apple-system, Segoe UI, Roboto, Arial;
+      color: var(--txt);
+      background:
+        radial-gradient(900px 520px at 14% 10%, rgba(124,58,237,.10), transparent 60%),
+        radial-gradient(980px 640px at 90% 30%, rgba(6,182,212,.08), transparent 60%),
+        radial-gradient(840px 520px at 50% 105%, rgba(245,158,11,.06), transparent 58%),
+        linear-gradient(180deg, var(--bg0), var(--bg1));
+      min-height:100vh;
+    }
+    .wrap{max-width:1100px;margin:0 auto;padding:16px 16px 22px}
+    header{
+      display:flex;align-items:center;justify-content:space-between;gap:12px;
+      padding:14px 14px;
+      border:1px solid var(--line);
+      border-radius: 26px;
+      background: rgba(255,255,255,.88);
+      box-shadow: var(--shadow);
+      backdrop-filter: blur(10px);
+      position: sticky; top: 10px; z-index: 6;
+    }
+    @media (max-width: 900px){ header{position:relative; top:0} }
+
+    .brand{display:flex;align-items:center;gap:12px}
+    .logo{
+      width:42px;height:42px;border-radius:16px;
+      display:grid;place-items:center;
+      font-weight:1000;
+      background:
+        radial-gradient(18px 18px at 25% 25%, rgba(255,255,255,.65), transparent 60%),
+        linear-gradient(135deg, rgba(124,58,237,.95), rgba(6,182,212,.55));
+      border:1px solid rgba(0,0,0,.12);
+    }
+    .brand h1{margin:0;font-size:16px;letter-spacing:.2px}
+    .sub{margin-top:2px;font-size:12px;color:var(--muted2);font-weight:800}
+    .topActions{display:flex;gap:8px;flex-wrap:wrap;justify-content:flex-end}
+    .pill{
+      border:1px solid var(--line);
+      background: rgba(255,255,255,.92);
+      color: var(--txt);
+      border-radius: 999px;
+      padding:9px 12px;
+      font-weight:1000;
+      cursor:pointer;
+      user-select:none;
+      display:inline-flex;align-items:center;gap:8px;
+    }
+    .pill:hover{border-color: rgba(6,182,212,.45)}
+    .pill.primary{
+      background: linear-gradient(135deg, rgba(124,58,237,.22), rgba(6,182,212,.14));
+      border-color: rgba(124,58,237,.40);
+    }
+
+    .grid{display:grid;grid-template-columns:1.25fr .75fr; gap:14px; margin-top:14px}
+    @media (max-width: 980px){ .grid{grid-template-columns:1fr} }
+
+    .card{
+      border:1px solid var(--line);
+      border-radius: var(--r);
+      background: rgba(255,255,255,.88);
+      box-shadow: var(--shadow);
+      overflow:hidden;
+    }
+    .cardHead{
+      padding:13px 14px;
+      display:flex;align-items:center;justify-content:space-between;gap:10px;
+      border-bottom:1px solid rgba(0,0,0,.10);
+      background: rgba(255,255,255,.94);
+    }
+    .cardHead b{font-size:14px}
+    .cardBody{padding:14px}
+
+    .two{display:grid;grid-template-columns:1fr 1fr; gap:10px}
+    @media (max-width: 680px){ .two{grid-template-columns:1fr} }
+
+    .stat{
+      border:1px solid rgba(0,0,0,.10);
+      background: rgba(255,255,255,.94);
+      border-radius: 18px;
+      padding:12px;
+    }
+    .k{font-size:12px;color:var(--muted2);font-weight:900}
+    .v{font-size:24px;font-weight:1100;letter-spacing:.2px;margin-top:4px}
+
+    .chips{display:flex;gap:8px;flex-wrap:wrap;margin-top:10px}
+    .chip{
+      border:1px solid rgba(0,0,0,.12);
+      background: rgba(255,255,255,.94);
+      color: var(--muted);
+      padding:7px 10px;
+      border-radius:999px;
+      font-weight:1000;
+      font-size:12px;
+      cursor:pointer;
+      user-select:none;
+    }
+    .chip.on{
+      color: var(--txt);
+      border-color: rgba(124,58,237,.45);
+      background: rgba(124,58,237,.16);
+    }
+
+    .big{font-size:24px;font-weight:1100;margin:4px 0 8px}
+    .q{
+      font-size:18px;font-weight:1050;line-height:1.25;margin:2px 0 12px;
+    }
+    .metaRow{display:flex;gap:10px;flex-wrap:wrap;align-items:center}
+    .badge{
+      border:1px solid rgba(0,0,0,.12);
+      background: rgba(255,255,255,.94);
+      padding:6px 10px;
+      border-radius: 999px;
+      font-weight:1000;
+      font-size:12px;
+      color: var(--muted);
+    }
+    .badge.a{border-color: rgba(124,58,237,.35); color:#4c1d95; background: rgba(124,58,237,.10)}
+    .badge.c{border-color: rgba(245,158,11,.45); color:#92400e; background: rgba(245,158,11,.10)}
+    .badge.d{border-color: rgba(6,182,212,.35); color:#0e7490; background: rgba(6,182,212,.10)}
+
+    .opt{
+      width:100%;
+      display:flex;align-items:flex-start;gap:10px;
+      padding:12px 12px;
+      border-radius: 18px;
+      border:1px solid rgba(0,0,0,.12);
+      background: rgba(255,255,255,.94);
+      cursor:pointer;
+      font-weight:1000;
+      margin-top:10px;
+      text-align:left;
+    }
+    .opt:hover{border-color: rgba(6,182,212,.45)}
+    .opt .key{
+      width:30px;height:30px;border-radius:12px;
+      display:grid;place-items:center;
+      border:1px solid rgba(0,0,0,.12);
+      background: rgba(255,255,255,.92);
+      color: var(--muted);
+      font-weight:1200;
+      flex:0 0 auto;
+    }
+    .opt.good{
+      border-color: rgba(34,197,94,.60);
+      background: rgba(34,197,94,.10);
+    }
+    .opt.bad{
+      border-color: rgba(239,68,68,.60);
+      background: rgba(239,68,68,.10);
+    }
+    .opt.disabled{opacity:.78;cursor:default}
+    .hint{
+      margin-top:10px;
+      border:1px dashed rgba(0,0,0,.16);
+      background: rgba(255,255,255,.96);
+      border-radius: 18px;
+      padding:10px 12px;
+      color: var(--muted);
+      font-weight:850;
+      font-size:13px;
+      line-height:1.35;
+    }
+
+    .btnRow{display:flex;gap:10px;justify-content:space-between;flex-wrap:wrap;margin-top:12px}
+    .btn{
+      padding:12px 12px;
+      border-radius: 18px;
+      border:1px solid rgba(0,0,0,.12);
+      background: rgba(255,255,255,.92);
+      color: var(--txt);
+      font-weight:1200;
+      cursor:pointer;
+      display:inline-flex;align-items:center;gap:8px;
+    }
+    .btn:hover{border-color: rgba(124,58,237,.45)}
+    .btn.primary{
+      background: linear-gradient(135deg, rgba(124,58,237,.22), rgba(6,182,212,.14));
+      border-color: rgba(124,58,237,.45);
+    }
+    .btn:disabled{opacity:.5;cursor:default}
+
+    details.acc{
+      border:1px solid rgba(0,0,0,.12);
+      border-radius: 18px;
+      background: rgba(255,255,255,.94);
+      overflow:hidden;
+    }
+    summary.accSum{
+      list-style:none;
+      cursor:pointer;
+      user-select:none;
+      padding:12px 12px;
+      display:flex;align-items:center;justify-content:space-between;gap:10px;
+      font-weight:1200;
+      color: var(--txt);
+    }
+    summary.accSum::-webkit-details-marker{display:none}
+    .accBody{padding: 10px 12px 12px}
+    textarea,input,select{
+      width:100%;
+      padding:10px 10px;
+      border-radius: 14px;
+      border:1px solid rgba(0,0,0,.12);
+      background: rgba(255,255,255,.94);
+      color: var(--txt);
+      outline:none;
+      font-weight:950;
+    }
+
+    .sep{height:1px;background: rgba(0,0,0,.10); margin:12px 0}
+    .mini{font-size:12px;color:var(--muted2);font-weight:900}
+
+    .toast{
+      position: fixed; left: 50%; transform: translateX(-50%);
+      bottom: 16px; z-index: 80;
+      background: rgba(255,255,255,.95);
+      border:1px solid rgba(0,0,0,.12);
+      color:var(--txt);
+      padding:10px 12px; border-radius: 16px;
+      box-shadow: var(--shadow);
+      display:none;
+      max-width: 92vw;
+      font-weight:1100;
+      text-align:center;
+    }
+    .kbd{font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+      background: rgba(17,24,39,.08); border:1px solid rgba(0,0,0,.12);
+      padding:2px 6px; border-radius: 8px; font-size:12px; color: var(--txt);
+    }
+
+    .backdrop{
+      position: fixed; inset: 0; z-index: 90;
+      background: rgba(17,24,39,.35);
+      display:none;
+      align-items:center; justify-content:center;
+      padding: 16px;
+    }
+    .modal{
+      max-width: 540px; width: 100%;
+      border-radius: 24px;
+      border:1px solid rgba(0,0,0,.12);
+      background:
+        radial-gradient(700px 360px at 20% 0%, rgba(124,58,237,.10), transparent 60%),
+        radial-gradient(700px 360px at 95% 30%, rgba(6,182,212,.08), transparent 60%),
+        rgba(255,255,255,.96);
+      box-shadow: var(--shadow);
+      overflow:hidden;
+    }
+    .modalHead{
+      padding:14px 14px;
+      display:flex;align-items:center;justify-content:space-between;gap:10px;
+      border-bottom:1px solid rgba(0,0,0,.10);
+    }
+    .modalHead h3{margin:0;font-size:15px}
+    .iconBtn{
+      width:40px;height:40px;border-radius: 14px;
+      border:1px solid rgba(0,0,0,.12);
+      background: rgba(255,255,255,.92);
+      color: var(--txt);
+      cursor:pointer;
+      font-weight:1200;
+    }
+    .modalBody{padding:14px}
+    .spark{
+      display:flex; gap:10px; flex-wrap:wrap;
+      margin-top:10px;
+    }
+    .spark .p{
+      border:1px solid rgba(0,0,0,.12);
+      background: rgba(255,255,255,.94);
+      padding:8px 10px;
+      border-radius: 999px;
+      font-weight:1100;
+      color: var(--muted);
+    }
+    @keyframes fadeSlideIn{0%{opacity:0;transform:translateY(14px)}100%{opacity:1;transform:translateY(0)}}
+    @keyframes pulseGlow{0%{box-shadow:0 0 0 0 rgba(34,197,94,.45)}70%{box-shadow:0 0 0 16px rgba(34,197,94,0)}100%{box-shadow:0 0 0 0 rgba(34,197,94,0)}}
+    @keyframes pulseGlowWrong{0%{box-shadow:0 0 0 0 rgba(239,68,68,.45)}70%{box-shadow:0 0 0 16px rgba(239,68,68,0)}100%{box-shadow:0 0 0 0 rgba(239,68,68,0)}}
+    @keyframes popWrong{0%{transform:translateX(0)}20%{transform:translateX(-8px)}40%{transform:translateX(8px)}60%{transform:translateX(-5px)}80%{transform:translateX(5px)}100%{transform:translateX(0)}}
+    @keyframes floatUp{0%{opacity:1;transform:translateY(0) scale(1)}100%{opacity:0;transform:translateY(-70px) scale(1.5)}}
+    @keyframes confettiFall{0%{transform:translateY(0) rotate(0deg) scale(1);opacity:1}100%{transform:translateY(140px) rotate(720deg) scale(.4);opacity:0}}
+    @keyframes trophyBounce{0%{transform:scale(0) rotate(-15deg)}60%{transform:scale(1.15) rotate(5deg)}100%{transform:scale(1) rotate(0)}}
+    @keyframes streakPulse{0%{transform:scale(1)}50%{transform:scale(1.12)}100%{transform:scale(1)}}
+    .fadeSlideIn{animation:fadeSlideIn .32s ease-out both}
+    .opt.good{animation:pulseGlow .6s ease-out}
+    .opt.good::after{content:" ✓";color:#16a34a;font-weight:1200;margin-left:auto;font-size:16px}
+    .opt.bad{animation:popWrong .45s ease-out}
+    .opt.bad::after{content:" ✗";color:#ef4444;font-weight:1200;margin-left:auto;font-size:16px}
+    .prizeFloat{position:fixed;pointer-events:none;z-index:100;font-size:24px;font-weight:1200;animation:floatUp 1.3s ease-out forwards;text-shadow:0 2px 8px rgba(0,0,0,.15)}
+    .confetti{position:fixed;width:8px;height:8px;border-radius:2px;z-index:100;pointer-events:none;animation:confettiFall 1.5s ease-in forwards}
+    .trophyPop{display:inline-block;animation:trophyBounce .5s ease-out both;font-size:28px}
+    .badgeTrophy{display:inline-flex;align-items:center;gap:4px;padding:5px 11px;border-radius:12px;font-weight:1100;font-size:13px;border:1px solid rgba(245,158,11,.45);background:rgba(245,158,11,.12);color:#92400e}
+    .streakFire{display:inline-block;animation:streakPulse .8s ease-in-out infinite}
+    .statIcon{font-size:18px;margin-bottom:2px}
+  </style>
+</head>
+<body>
+  <div class="wrap">
+    <header>
+      <div class="brand">
+        <div class="logo">🎲</div>
+        <div>
+          <h1>TriviaLab</h1>
+          <div class="sub" id="subtitle">v0.4 · más categorías · premios animados · preguntas intercaladas</div>
+        </div>
+      </div>
+      <div class="topActions">
+        <button class="pill" id="btnHome">🏠 Inicio</button>
+        <button class="pill primary" id="btnPlay">▶️ Jugar</button>
+        <button class="pill" id="btnDuel">⚔️ Duelo</button>
+        <button class="pill" id="btnBank">🧠 Banco</button>
+      </div>
+    </header>
+
+    <div class="grid">
+      <section class="card" id="mainCard">
+        <div class="cardHead">
+          <b id="mainTitle">Modo</b>
+          <div class="mini" id="mainMeta">—</div>
+        </div>
+        <div class="cardBody" id="mainBody"></div>
+      </section>
+
+      <aside class="card">
+        <div class="cardHead">
+          <b>Panel</b>
+          <div class="mini" id="clock">—</div>
+        </div>
+        <div class="cardBody">
+          <div class="two">
+            <div class="stat">
+              <div class="statIcon">🎯</div>
+              <div class="k">Puntos</div>
+              <div class="v" id="points">0</div>
+              <div class="mini">bonus por rachas</div>
+            </div>
+            <div class="stat">
+              <div class="statIcon">🔥</div>
+              <div class="k">Racha (correctas)</div>
+              <div class="v"><span id="streak">0</span></div>
+              <div class="mini">mejor: <b id="bestStreak">0</b></div>
+            </div>
+          </div>
+
+          <div class="sep"></div>
+
+          <div class="two">
+            <div class="stat">
+              <div class="statIcon">📊</div>
+              <div class="k">Precisión</div>
+              <div class="v"><span id="acc">0</span>%</div>
+              <div class="mini"><span id="correct">0</span>/<span id="answered">0</span></div>
+            </div>
+            <div class="stat">
+              <div class="statIcon">⭐</div>
+              <div class="k">Nivel actual</div>
+              <div class="v" id="lvl">1</div>
+              <div class="mini">sube levemente por racha</div>
+            </div>
+          </div>
+
+          <div class="sep"></div>
+
+          <div class="mini">Modo de edad</div>
+          <div class="chips" id="chipsAge"></div>
+
+          <div class="sep"></div>
+
+          <div class="mini">Filtros (pool de preguntas)</div>
+          <div class="chips" id="chipsCats"></div>
+          <div class="chips" id="chipsDiff"></div>
+          <div class="chips" id="chipsType"></div>
+
+          <div class="sep"></div>
+
+          <div class="btnRow">
+            <button class="btn" id="btnResetStats">♻️ Reiniciar</button>
+            <button class="btn" id="btnExportStats">⬇️ Exportar</button>
+          </div>
+
+          <div class="hint">
+            Atajos: <span class="kbd">1</span>..<span class="kbd">4</span> responde ·
+            <span class="kbd">Enter</span> siguiente ·
+            <span class="kbd">Esc</span> salir.
+          </div>
+        </div>
+      </aside>
+    </div>
+  </div>
+
+  <div class="toast" id="toast"></div>
+
+  <div class="backdrop" id="celeBackdrop" role="dialog" aria-modal="true">
+    <div class="modal">
+      <div class="modalHead">
+        <h3 id="celeTitle">¡Felicidades!</h3>
+        <button class="iconBtn" id="celeClose" title="Cerrar">✖️</button>
+      </div>
+      <div class="modalBody" id="celeBody"></div>
+    </div>
+  </div>
+
+<script>
+(() => {
+  "use strict";
+
+  const APP = { version:"0.4", storageKey:"trivialab_v0_4" };
+  const $ = (sel, root=document) => root.querySelector(sel);
+  const $$ = (sel, root=document) => Array.from(root.querySelectorAll(sel));
+  const nowISO = () => new Date().toISOString();
+  const clamp = (n,a,b)=>Math.max(a,Math.min(b,n));
+  const escapeHTML = (s) => String(s).replace(/[&<>"']/g, c => ({
+    "&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#039;"
+  }[c]));
+  const toast = (msg) => {
+    const t = $("#toast");
+    t.innerHTML = msg;
+    t.style.display = "block";
+    clearTimeout(toast._tm);
+    toast._tm = setTimeout(()=>t.style.display="none", 1700);
+  };
+
+  function spawnConfetti(count=24){
+    $$(".confetti").forEach(el=>el.remove());
+    const colors = ["#7c3aed","#16a34a","#d97706","#0891b2","#ef4444","#f59e0b","#ec4899"];
+    for(let i=0;i<count;i++){
+      const el = document.createElement("div");
+      el.className = "confetti";
+      el.style.left = (Math.random()*90+5)+"vw";
+      el.style.top = (Math.random()*30+10)+"vh";
+      el.style.background = colors[Math.floor(Math.random()*colors.length)];
+      el.style.animationDuration = (1+Math.random()*1)+"s";
+      el.style.animationDelay = (Math.random()*.3)+"s";
+      el.style.width = (6+Math.random()*6)+"px";
+      el.style.height = (6+Math.random()*6)+"px";
+      document.body.appendChild(el);
+      setTimeout(()=>el.remove(), 2800);
+    }
+  }
+  function floatPrize(text, x, y){
+    const el = document.createElement("div");
+    el.className = "prizeFloat";
+    el.textContent = text;
+    el.style.left = x+"px";
+    el.style.top = y+"px";
+    document.body.appendChild(el);
+    setTimeout(()=>el.remove(), 1500);
+  }
+
+  const MILESTONES = [20,40,80,100,120,160,200,260,320,400,500,650,800,1000,1200,1500];
+
+  function seedFromCrypto(){
+    const a = new Uint32Array(2);
+    (crypto?.getRandomValues ? crypto.getRandomValues(a) : (a[0]=Math.floor(Math.random()*2**32), a[1]=Math.floor(Math.random()*2**32)));
+    return (a[0] ^ (a[1] << 1)) >>> 0;
+  }
+  function mulberry32(seed){
+    let t = seed >>> 0;
+    return function(){
+      t += 0x6D2B79F5;
+      let r = Math.imul(t ^ (t >>> 15), 1 | t);
+      r ^= r + Math.imul(r ^ (r >>> 7), 61 | r);
+      return ((r ^ (r >>> 14)) >>> 0) / 4294967296;
+    };
+  }
+  function shuffleWithRng(arr, rng){
+    const a = arr.slice();
+    for(let i=a.length-1;i>0;i--){
+      const j = Math.floor(rng()*(i+1));
+      [a[i],a[j]]=[a[j],a[i]];
+    }
+    return a;
+  }
+  function pickWithRng(arr, rng){
+    return arr[Math.floor(rng()*arr.length)];
+  }
+
+  function buildKidsBank(n=520){
+    const bank = [];
+    let id = 1;
+    const add = (q) => bank.push({ id: id++, age:"kids", type:q.type||"base", diff: clamp(q.diff||1,1,3), ...q });
+
+    const dinos = [
+      ["T. rex","carnívoro"],["Triceratops","herbívoro"],["Velociraptor","carnívoro"],["Brachiosaurus","herbívoro"],
+      ["Stegosaurus","herbívoro"],["Spinosaurus","carnívoro"],["Ankylosaurus","herbívoro"],["Pteranodon","volador"]
+    ];
+    dinos.forEach(([d, tag])=>{
+      const opts = shuffleWithRng([tag,"omnívoro","anfibio","insectívoro"], mulberry32(id*999));
+      add({ cat:"Dinosaurios 🦖", q:`${d} fue principalmente…`, opts, a: opts.indexOf(tag), exp:`Dato general: ${d} se asocia a dieta ${tag}.`, diff:1 });
+    });
+
+    const planets = [
+      ["Mercurio","más cerca del Sol"],["Venus","muy caliente"],["Tierra","donde vivimos"],["Marte","planeta rojo"],
+      ["Júpiter","el más grande"],["Saturno","tiene anillos"],["Urano","gira “de lado”"],["Neptuno","muy lejano"]
+    ];
+    planets.forEach(([p, fact])=>{
+      const opts = shuffleWithRng([fact,"tiene dos soles","es de queso","no existe"], mulberry32(id*777));
+      add({ cat:"Espacio 🚀", q:`Sobre ${p}:`, opts, a: opts.indexOf(fact), exp: fact, diff:1 });
+    });
+
+    const animals = [
+      ["Perro","mamífero"],["Gato","mamífero"],["Delfín","mamífero"],["Tiburón","pez"],["Rana","anfibio"],
+      ["Águila","ave"],["Serpiente","reptil"],["Mariposa","insecto"]
+    ];
+    animals.forEach(([a, group])=>{
+      const opts = shuffleWithRng([group,"planeta","roca","planta"], mulberry32(id*333));
+      add({ cat:"Animales 🐾", q:`${a} es un…`, opts, a: opts.indexOf(group), exp:`${a} pertenece al grupo: ${group}.`, diff:1 });
+    });
+
+    const colors = [["rojo","🍎"],["azul","🌊"],["verde","🌿"],["amarillo","🌟"],["morado","🍇"],["naranja","🍊"]];
+    colors.forEach(([c, ex])=>{
+      const opts = shuffleWithRng([c,"blanco","negro","gris"], mulberry32(id*111));
+      add({ cat:"Colores 🎨", q:`¿De qué color es esto? ${ex}`, opts, a: opts.indexOf(c), exp:`Es ${c}.`, diff:1 });
+    });
+
+    const shapes = [["círculo","⚪"],["cuadrado","🟥"],["triángulo","🔺"],["rectángulo","▭"]];
+    shapes.forEach(([name, icon])=>{
+      const opts = shuffleWithRng([name,"estrella","corazón","nube"], mulberry32(id*222));
+      add({ cat:"Formas 🔷", q:`¿Qué forma es esta? ${icon}`, opts, a: opts.indexOf(name), exp:`Es un ${name}.`, diff:1 });
+    });
+
+    const body = [
+      ["corazón","bombea sangre"],["pulmones","ayudan a respirar"],["cerebro","ayuda a pensar"],["estómago","ayuda a digerir"],
+      ["ojos","sirven para ver"],["oídos","sirven para oír"]
+    ];
+    body.forEach(([o, f])=>{
+      const opts = shuffleWithRng([f,"sirve para volar","sirve para brillar","sirve para nadar"], mulberry32(id*444));
+      add({ cat:"Cuerpo 🧠", q:`¿Qué hace el/la ${o}?`, opts, a: opts.indexOf(f), exp:f, diff:1 });
+    });
+
+    const safety = [
+      ["Al cruzar la calle, miro a ambos lados.", true],
+      ["Tocar enchufes con manos mojadas es seguro.", false],
+      ["Lavarse las manos ayuda a evitar enfermedades.", true],
+      ["Usar casco en bici ayuda a proteger.", true],
+      ["Si me pierdo, me alejo más para buscar.", false]
+    ];
+    safety.forEach(([s, truth])=>{
+      const opts = shuffleWithRng(["Verdadero","Falso","No sé","Depende"], mulberry32(id*555));
+      const ans = truth ? "Verdadero" : "Falso";
+      add({ cat:"Vida diaria 🧩", q:s, opts, a: opts.indexOf(ans), exp: truth ? "Correcto." : "No es seguro.", diff:2 });
+    });
+
+    const oceans = [
+      {q:"¿Qué animal del océano tiene 8 brazos?",opts:["Pulpo","Medusa","Delfín","Tiburón"],a:0,exp:"El pulpo tiene 8 tentáculos."},
+      {q:"¿Cuál es el océano más grande del mundo?",opts:["Pacífico","Atlántico","Índico","Ártico"],a:0,exp:"El océano Pacífico es el más grande."},
+      {q:"¿Qué animal marino es el más grande que existe?",opts:["Ballena azul","Tiburón blanco","Manta raya","Delfín"],a:0,exp:"La ballena azul es el animal más grande del mundo."},
+      {q:"¿Cómo respiran los peces bajo el agua?",opts:["Con branquias","Con pulmones","Con la nariz","Con las aletas"],a:0,exp:"Los peces respiran con branquias."},
+      {q:"¿Los delfines son peces o mamíferos?",opts:["Mamíferos","Peces","Reptiles","Anfibios"],a:0,exp:"Los delfines son mamíferos marinos."},
+      {q:"¿Qué animal del mar tiene forma de estrella?",opts:["Estrella de mar","Medusa","Camarón","Caballito de mar"],a:0,exp:"La estrella de mar tiene forma de estrella."},
+      {q:"¿Cuántos océanos hay en la Tierra?",opts:["5","3","7","1"],a:0,exp:"Hay 5 océanos: Pacífico, Atlántico, Índico, Ártico y Antártico."},
+      {q:"¿Qué animal marino tiene caparazón duro?",opts:["Tortuga marina","Pulpo","Delfín","Medusa"],a:0,exp:"La tortuga marina tiene caparazón."},
+      {q:"¿Dónde viven los cangrejos?",opts:["En la playa y el mar","En el desierto","En la montaña","En los árboles"],a:0,exp:"Los cangrejos viven cerca del agua."},
+      {q:"¿Qué pez tiene una luz en la cabeza?",opts:["Pez linterna","Tiburón","Salmón","Atún"],a:0,exp:"El pez linterna tiene un órgano luminoso."}
+    ];
+    oceans.forEach(o=>add({cat:"Océanos 🐬",diff:1,...o}));
+
+    const sports = [
+      {q:"¿Con qué parte del cuerpo se juega al fútbol?",opts:["Con los pies","Con las manos","Con la cabeza","Con los codos"],a:0,exp:"En el fútbol se usan principalmente los pies."},
+      {q:"¿En qué deporte se anota en una canasta?",opts:["Baloncesto","Fútbol","Natación","Tenis"],a:0,exp:"El baloncesto usa canastas para anotar."},
+      {q:"¿Cuántos jugadores tiene un equipo de fútbol en la cancha?",opts:["11","9","7","5"],a:0,exp:"Son 11 jugadores por equipo en fútbol."},
+      {q:"¿Qué deporte se juega en una piscina?",opts:["Natación","Fútbol","Baloncesto","Golf"],a:0,exp:"La natación se practica en piscinas."},
+      {q:"¿En qué deporte se golpea una pelota con raqueta?",opts:["Tenis","Fútbol","Boxeo","Ciclismo"],a:0,exp:"El tenis se juega con raqueta."},
+      {q:"¿Qué deporte se juega sobre hielo con patines?",opts:["Hockey sobre hielo","Fútbol","Natación","Atletismo"],a:0,exp:"El hockey sobre hielo usa patines."},
+      {q:"¿Qué significa la tarjeta roja en fútbol?",opts:["Expulsión del jugador","Gol","Tiempo fuera","Falta leve"],a:0,exp:"La tarjeta roja significa expulsión."},
+      {q:"¿En qué deporte se lanza una jabalina?",opts:["Atletismo","Natación","Fútbol","Baloncesto"],a:0,exp:"La jabalina es una prueba de atletismo."},
+      {q:"¿Cuántos puntos vale un gol en fútbol?",opts:["1","2","3","5"],a:0,exp:"Un gol vale 1 punto."},
+      {q:"¿Qué deporte se juega con una red en medio?",opts:["Voleibol","Fútbol","Boxeo","Carreras"],a:0,exp:"El voleibol se juega con red en medio."}
+    ];
+    sports.forEach(o=>add({cat:"Deportes ⚽",diff:1,...o}));
+
+    const musicK = [
+      {q:"¿Qué instrumento se toca con un arco?",opts:["Violín","Piano","Tambor","Flauta"],a:0,exp:"El violín se toca con arco."},
+      {q:"¿Cuántas notas musicales básicas hay?",opts:["7","5","10","3"],a:0,exp:"Las 7 notas: Do, Re, Mi, Fa, Sol, La, Si."},
+      {q:"¿Cómo se llama la persona que dirige una orquesta?",opts:["Director","Presidente","Capitán","Entrenador"],a:0,exp:"El director dirige la orquesta."},
+      {q:"¿Qué instrumento es de percusión?",opts:["Tambor","Violín","Trompeta","Flauta"],a:0,exp:"El tambor es de percusión."},
+      {q:"¿Qué instrumento tiene cuerdas y se toca con los dedos?",opts:["Guitarra","Tambor","Trompeta","Clarinete"],a:0,exp:"La guitarra se toca con los dedos."},
+      {q:"¿Cómo se llama un grupo de personas que cantan juntas?",opts:["Coro","Banda","Equipo","Orquesta"],a:0,exp:"Un coro es un grupo que canta junto."},
+      {q:"¿Qué instrumento de viento es dorado y brilla?",opts:["Trompeta","Violín","Tambor","Piano"],a:0,exp:"La trompeta es un instrumento de viento dorado."},
+      {q:"¿Cómo se llama una canción de Navidad?",opts:["Villancico","Sinfonía","Ópera","Balada"],a:0,exp:"Los villancicos se cantan en Navidad."},
+      {q:"¿Cuántas teclas tiene un piano estándar?",opts:["88","44","100","50"],a:0,exp:"Un piano tiene 88 teclas."},
+      {q:"¿Qué significa la palabra 'piano' en italiano?",opts:["Suave","Rápido","Fuerte","Lento"],a:0,exp:"Piano significa 'suave' en italiano."}
+    ];
+    musicK.forEach(o=>add({cat:"Música 🎵",diff:1,...o}));
+
+    const foodK = [
+      {q:"¿De qué animal viene la leche que bebemos?",opts:["Vaca","Gallina","Cerdo","Oveja"],a:0,exp:"La leche de vaca es la más común."},
+      {q:"¿De qué planta viene el chocolate?",opts:["Cacao","Trigo","Maíz","Café"],a:0,exp:"El chocolate viene del cacao."},
+      {q:"¿Qué fruta es amarilla y curva?",opts:["Plátano","Manzana","Naranja","Fresa"],a:0,exp:"El plátano es amarillo y curvo."},
+      {q:"¿Cuántas comidas principales se hacen al día?",opts:["3","1","5","7"],a:0,exp:"Desayuno, almuerzo y cena: 3 comidas."},
+      {q:"¿Qué alimento se hace con trigo y agua?",opts:["Pan","Queso","Huevo","Carne"],a:0,exp:"El pan se hace con harina de trigo."},
+      {q:"¿Cuál es la fruta que tiene 'agua' en su nombre?",opts:["Sandía","Manzana","Pera","Uva"],a:0,exp:"Sandía: tiene 'agua' en su nombre."},
+      {q:"¿Qué alimento es típico en un cumpleaños?",opts:["Pastel","Sopa","Ensalada","Arroz"],a:0,exp:"El pastel es típico en cumpleaños."},
+      {q:"¿Qué vitamina nos da la naranja?",opts:["Vitamina C","Vitamina A","Vitamina D","Vitamina B12"],a:0,exp:"La naranja es rica en vitamina C."},
+      {q:"¿Qué verdura es verde y parece un arbolito?",opts:["Brócoli","Zanahoria","Tomate","Papa"],a:0,exp:"El brócoli parece un arbolito."},
+      {q:"¿Qué bebida se hace con café y leche?",opts:["Café con leche","Té","Jugo","Agua"],a:0,exp:"El café con leche lleva café y leche."}
+    ];
+    foodK.forEach(o=>add({cat:"Comida 🍎",diff:1,...o}));
+
+    const natureK = [
+      {q:"¿Qué necesitan las plantas para crecer?",opts:["Sol, agua y tierra","Solo oscuridad","Solo viento","Solo rocas"],a:0,exp:"Las plantas necesitan sol, agua y tierra."},
+      {q:"¿Qué animal produce la miel?",opts:["Abeja","Avispa","Hormiga","Mariposa"],a:0,exp:"Las abejas producen miel."},
+      {q:"¿Cómo se llama la casa de un pájaro?",opts:["Nido","Cueva","Madriguera","Cabaña"],a:0,exp:"Los pájaros viven en nidos."},
+      {q:"¿Cuántas estaciones tiene el año?",opts:["4","2","6","3"],a:0,exp:"Primavera, verano, otoño e invierno: 4."},
+      {q:"¿Qué animal es conocido por ser muy lento?",opts:["Tortuga","Leopardo","Halcón","Conejo"],a:0,exp:"La tortuga es muy lenta."},
+      {q:"¿Qué hacen las hojas de los árboles en otoño?",opts:["Se caen","Crecen más","Se vuelven azules","Brillan"],a:0,exp:"En otoño las hojas se caen."},
+      {q:"¿Cómo se llama el proceso donde las plantas hacen su comida?",opts:["Fotosíntesis","Respiración","Dormir","Crecer"],a:0,exp:"La fotosíntesis es cómo las plantas hacen comida."},
+      {q:"¿Qué insecto hace telarañas?",opts:["Araña","Abeja","Hormiga","Escarabajo"],a:0,exp:"Las arañas tejen telarañas."},
+      {q:"¿Cuál es el animal terrestre más grande?",opts:["Elefante","Jirafa","Oso","Rinoceronte"],a:0,exp:"El elefante es el animal terrestre más grande."},
+      {q:"¿Qué parte de la planta va bajo la tierra?",opts:["Raíz","Hoja","Flor","Fruto"],a:0,exp:"Las raíces van bajo la tierra."}
+    ];
+    natureK.forEach(o=>add({cat:"Naturaleza 🌳",diff:1,...o}));
+
+    const transportK = [
+      {q:"¿Qué transporte vuela por el cielo?",opts:["Avión","Barco","Tren","Bicicleta"],a:0,exp:"El avión vuela por el cielo."},
+      {q:"¿Cómo se llama el tren que va bajo la tierra?",opts:["Metro","Avión","Taxi","Tractor"],a:0,exp:"El metro va bajo la tierra."},
+      {q:"¿Qué transporte navega por el mar?",opts:["Barco","Avión","Autobús","Tren"],a:0,exp:"El barco navega por el mar."},
+      {q:"¿Cuántas ruedas tiene una bicicleta?",opts:["2","4","3","1"],a:0,exp:"La bicicleta tiene 2 ruedas."},
+      {q:"¿Qué transporte tiene dos ruedas y motor?",opts:["Motocicleta","Bicicleta","Autobús","Avión"],a:0,exp:"La motocicleta tiene 2 ruedas y motor."},
+      {q:"¿De qué color suelen ser los taxis en muchas ciudades?",opts:["Amarillo","Rojo","Verde","Azul"],a:0,exp:"Los taxis suelen ser amarillos."},
+      {q:"¿Qué transporte va sobre rieles?",opts:["Tren","Autobús","Avión","Barco"],a:0,exp:"El tren va sobre rieles."},
+      {q:"¿Cómo se llama el lugar donde aterrizan los aviones?",opts:["Aeropuerto","Estación","Puerto","Terminal"],a:0,exp:"Los aviones aterrizan en aeropuertos."},
+      {q:"¿Qué señal de tránsito te dice que debes detenerte?",opts:["STOP / Pare","Ceda el paso","Siga recto","Gire a la derecha"],a:0,exp:"La señal STOP significa detenerse."},
+      {q:"¿Qué transporte usan los astronautas?",opts:["Cohete","Barco","Tren","Bicicleta"],a:0,exp:"Los astronautas viajan en cohete."}
+    ];
+    transportK.forEach(o=>add({cat:"Transporte 🚗",diff:1,...o}));
+
+    const rng = mulberry32(123456);
+    while(bank.length < n){
+      const op = rng() < 0.55 ? "+" : "-";
+      let a = Math.floor(rng()*21);
+      let b = Math.floor(rng()*21);
+      let ans = op==="+" ? a+b : a-b;
+      if(op==="-" && ans<0){ [a,b]=[b,a]; ans=a-b; }
+      const opts = new Set([ans]);
+      while(opts.size<4){
+        const v = ans + (Math.floor(rng()*9)-4);
+        if(v<0) continue;
+        opts.add(v);
+      }
+      const arr = shuffleWithRng(Array.from(opts), rng);
+      add({ cat:"Números 🔢", q:`${a} ${op} ${b} = ?`, opts: arr.map(String), a: arr.indexOf(ans), exp:`Resultado: ${ans}.`, diff:2, type:"gen" });
+    }
+    return bank;
+  }
+
+  function buildTeensBank(n=820){
+    const bank = [];
+    let id = 1;
+    const add = (q) => bank.push({ id: id++, age:"teens", type:q.type||"base", diff: clamp(q.diff||1,1,3), ...q });
+
+    const base = [
+      {cat:"Ciencia", diff:1, q:"¿Qué célula transmite información en el sistema nervioso?", opts:["Neurona","Glóbulo rojo","Plaqueta","Bacteria"], a:0, exp:"Neurona."},
+      {cat:"Tecnología", diff:1, q:"¿Qué significa 'URL'?", opts:["Uniform Resource Locator","Universal Robot Language","User Random List","Unreal Render Light"], a:0, exp:"Uniform Resource Locator."},
+      {cat:"Historia", diff:2, q:"¿Qué revolución comenzó en 1789 en Francia?", opts:["Revolución Francesa","Revolución Industrial","Revolución Rusa","Reforma Protestante"], a:0, exp:"Revolución Francesa."},
+      {cat:"Geografía", diff:2, q:"¿Cuál cordillera atraviesa Colombia?", opts:["Andes","Alpes","Himalaya","Urales"], a:0, exp:"Los Andes."},
+      {cat:"Lenguaje", diff:2, q:"¿Qué figura literaria exagera de forma intencional?", opts:["Hipérbole","Metáfora","Ironía","Anáfora"], a:0, exp:"Hipérbole."},
+      {cat:"Ciencia", diff:2, q:"¿Qué gas está más asociado al efecto invernadero?", opts:["CO₂","Helio","Neón","Argón"], a:0, exp:"CO₂ (entre otros)."},
+      {cat:"Matemáticas", diff:2, q:"¿Cuánto es 7×8?", opts:["54","56","48","64"], a:1, exp:"56."},
+      {cat:"Ciudadanía", diff:2, q:"En un debate, ¿qué es un argumento?", opts:["Razón con evidencia","Insulto","Rumor","Un meme"], a:0, exp:"Razón + evidencia."},
+      {cat:"Cultura", diff:1, q:"¿Qué instrumento tiene teclas?", opts:["Piano","Tambor","Flauta","Maracas"], a:0, exp:"Piano."}
+    ];
+    base.forEach(add);
+
+    const space = [
+      ["Marte","tiene dos lunas"],["Júpiter","tiene la Gran Mancha Roja"],["Saturno","sus anillos son principalmente hielo y roca"],
+      ["La Luna","influye en las mareas"],["La Vía Láctea","es nuestra galaxia"],["La luz","viaja más rápido que el sonido"]
+    ];
+    space.forEach(([k,f])=>{
+      const opts = shuffleWithRng([f,"es un mito","no se sabe","solo ocurre en la Tierra"], mulberry32(id*888));
+      add({cat:"Espacio", diff:1, q:`Sobre ${k}:`, opts, a: opts.indexOf(f), exp:f});
+    });
+
+    const artT = [
+      {cat:"Arte 🎨",diff:1,q:"¿Quién pintó la Mona Lisa?",opts:["Leonardo da Vinci","Picasso","Miguel Ángel","Van Gogh"],a:0,exp:"Da Vinci pintó la Mona Lisa."},
+      {cat:"Arte 🎨",diff:1,q:"¿Qué colores se mezclan para hacer verde?",opts:["Azul y amarillo","Rojo y azul","Rojo y amarillo","Blanco y negro"],a:0,exp:"Azul + amarillo = verde."},
+      {cat:"Arte 🎨",diff:2,q:"¿Qué movimiento artístico pintó relojes derretidos?",opts:["Surrealismo","Impresionismo","Cubismo","Realismo"],a:0,exp:"Dalí, surrealismo: relojes derretidos."},
+      {cat:"Arte 🎨",diff:2,q:"¿De qué país era el pintor Vincent van Gogh?",opts:["Países Bajos","Francia","Italia","España"],a:0,exp:"Van Gogh era holandés."},
+      {cat:"Arte 🎨",diff:1,q:"¿Qué instrumento se usa para medir ángulos en dibujo técnico?",opts:["Transportador","Regla","Compás","Escuadra"],a:0,exp:"El transportador mide ángulos."},
+      {cat:"Arte 🎨",diff:2,q:"¿Qué artista mexicana pintó muchos autorretratos?",opts:["Frida Kahlo","Diego Rivera","Botero","Siqueiros"],a:0,exp:"Frida Kahlo es famosa por sus autorretratos."},
+      {cat:"Arte 🎨",diff:1,q:"¿Qué tipo de arte se hace con arcilla?",opts:["Cerámica","Fotografía","Grafiti","Música"],a:0,exp:"La cerámica se hace con arcilla."},
+      {cat:"Arte 🎨",diff:2,q:"¿Qué significa la palabra 'renacimiento'?",opts:["Renacer","Terminar","Dormir","Volar"],a:0,exp:"Renacimiento significa renacer."},
+      {cat:"Arte 🎨",diff:1,q:"¿Qué color resulta de mezclar rojo y blanco?",opts:["Rosa","Naranja","Morado","Gris"],a:0,exp:"Rojo + blanco = rosa."},
+      {cat:"Arte 🎨",diff:2,q:"¿Qué escultura de Miguel Ángel está en Florencia?",opts:["El David","La Piedad","Moisés","El Pensador"],a:0,exp:"El David de Miguel Ángel está en Florencia."}
+    ];
+    artT.forEach(add);
+
+    const musicT = [
+      {cat:"Música 🎵",diff:1,q:"¿Cuántas sinfonías compuso Beethoven?",opts:["9","5","12","20"],a:0,exp:"Beethoven compuso 9 sinfonías."},
+      {cat:"Música 🎵",diff:1,q:"¿Qué género musical se originó en Nueva Orleans?",opts:["Jazz","Rock","Salsa","Ópera"],a:0,exp:"El jazz se originó en Nueva Orleans."},
+      {cat:"Música 🎵",diff:2,q:"¿Qué compositor escribió 'Las Cuatro Estaciones'?",opts:["Vivaldi","Mozart","Bach","Beethoven"],a:0,exp:"Vivaldi escribió Las Cuatro Estaciones."},
+      {cat:"Música 🎵",diff:2,q:"¿Cuántas cuerdas tiene una guitarra estándar?",opts:["6","4","8","5"],a:0,exp:"La guitarra estándar tiene 6 cuerdas."},
+      {cat:"Música 🎵",diff:1,q:"¿Qué familia de instrumentos incluye el violín y el cello?",opts:["Cuerdas","Viento","Percusión","Teclas"],a:0,exp:"Violín y cello son de cuerda."},
+      {cat:"Música 🎵",diff:2,q:"¿Qué significa 'allegro' en música?",opts:["Rápido","Lento","Suave","Fuerte"],a:0,exp:"Allegro significa rápido."},
+      {cat:"Música 🎵",diff:2,q:"¿De qué país es originaria la salsa?",opts:["Cuba","Brasil","España","México"],a:0,exp:"La salsa tiene raíces cubanas."},
+      {cat:"Música 🎵",diff:1,q:"¿Qué instrumento tiene pedales y teclas grandes?",opts:["Órgano","Violín","Flauta","Tambor"],a:0,exp:"El órgano tiene pedales y teclas."},
+      {cat:"Música 🎵",diff:2,q:"¿Quién compuso 'El Cascanueces'?",opts:["Tchaikovsky","Mozart","Bach","Chopin"],a:0,exp:"Tchaikovsky compuso El Cascanueces."},
+      {cat:"Música 🎵",diff:1,q:"¿Qué tipo de voz es la más aguda en el canto?",opts:["Soprano","Alto","Tenor","Bajo"],a:0,exp:"La soprano es la voz más aguda."}
+    ];
+    musicT.forEach(add);
+
+    const sportsT = [
+      {cat:"Deportes ⚽",diff:1,q:"¿En qué país se celebraron los primeros Juegos Olímpicos modernos?",opts:["Grecia","Francia","Estados Unidos","Italia"],a:0,exp:"Atenas 1896, Grecia."},
+      {cat:"Deportes ⚽",diff:2,q:"¿Cada cuántos años se celebran los Juegos Olímpicos?",opts:["4","2","3","5"],a:0,exp:"Cada 4 años."},
+      {cat:"Deportes ⚽",diff:1,q:"¿En qué deporte se usa un disco de goma sobre hielo?",opts:["Hockey sobre hielo","Curling","Patinaje","Esquí"],a:0,exp:"El hockey sobre hielo usa un puck."},
+      {cat:"Deportes ⚽",diff:2,q:"¿Cuántos sets se juega máximo en tenis Grand Slam masculino?",opts:["5","3","7","4"],a:0,exp:"Al mejor de 5 sets."},
+      {cat:"Deportes ⚽",diff:1,q:"¿Qué país ha ganado más Mundiales de fútbol?",opts:["Brasil","Alemania","Argentina","Italia"],a:0,exp:"Brasil tiene 5 Mundiales."},
+      {cat:"Deportes ⚽",diff:2,q:"¿En qué deporte se compite en 'rally'?",opts:["Automovilismo","Ciclismo","Atletismo","Natación"],a:0,exp:"Los rallies son competiciones de automovilismo."},
+      {cat:"Deportes ⚽",diff:1,q:"¿Qué deporte practica un gimnasta?",opts:["Gimnasia","Atletismo","Natación","Esgrima"],a:0,exp:"La gimnasia es el deporte del gimnasta."},
+      {cat:"Deportes ⚽",diff:2,q:"¿Cuánto mide una piscina olímpica en metros?",opts:["50","25","100","75"],a:0,exp:"50 metros de largo."},
+      {cat:"Deportes ⚽",diff:1,q:"¿Qué deporte usa una raqueta y un volante?",opts:["Bádminton","Tenis","Squash","Raquetbol"],a:0,exp:"El bádminton usa un volante."},
+      {cat:"Deportes ⚽",diff:2,q:"¿En qué deporte existe el 'try'?",opts:["Rugby","Fútbol","Baloncesto","Hockey"],a:0,exp:"El try es la forma de anotar en rugby."}
+    ];
+    sportsT.forEach(add);
+
+    const cinema = [
+      {cat:"Cine 🎬",diff:1,q:"¿Qué premio se entrega en el festival de Cannes?",opts:["Palma de Oro","Oscar","Goya","BAFTA"],a:0,exp:"La Palma de Oro se entrega en Cannes."},
+      {cat:"Cine 🎬",diff:2,q:"¿Quién dirigió la película 'Titanic' de 1997?",opts:["James Cameron","Steven Spielberg","Christopher Nolan","Quentin Tarantino"],a:0,exp:"James Cameron dirigió Titanic."},
+      {cat:"Cine 🎬",diff:1,q:"¿Cómo se llama la persona que actúa en una película?",opts:["Actor/Actriz","Director","Productor","Guionista"],a:0,exp:"El actor/la actriz actúa en la película."},
+      {cat:"Cine 🎬",diff:2,q:"¿Qué tipo de película busca asustar al espectador?",opts:["Terror","Comedia","Drama","Documental"],a:0,exp:"Las películas de terror buscan asustar."},
+      {cat:"Cine 🎬",diff:1,q:"¿Qué dibujo animado tiene a un ratón llamado Mickey?",opts:["Mickey Mouse","Tom y Jerry","Shrek","Toy Story"],a:0,exp:"Mickey Mouse es de Disney."},
+      {cat:"Cine 🎬",diff:2,q:"¿Qué película de animación tiene a un ogro verde?",opts:["Shrek","Frozen","Toy Story","Coco"],a:0,exp:"Shrek es un ogro verde."},
+      {cat:"Cine 🎬",diff:2,q:"¿Cuál fue la primera película de Pixar?",opts:["Toy Story","Cars","Frozen","Shrek"],a:0,exp:"Toy Story (1995) fue la primera de Pixar."},
+      {cat:"Cine 🎬",diff:1,q:"¿Qué es un documental?",opts:["Una película basada en hechos reales","Una película de ficción","Una comedia","Una obra de teatro"],a:0,exp:"Un documental muestra hechos reales."},
+      {cat:"Cine 🎬",diff:2,q:"¿De qué país es el cine Bollywood?",opts:["India","Estados Unidos","China","Japón"],a:0,exp:"Bollywood es el cine de India."},
+      {cat:"Cine 🎬",diff:2,q:"¿Qué película de Corea del Sur ganó el Oscar a Mejor Película en 2020?",opts:["Parásitos","Roma","1917","Joker"],a:0,exp:"Parásitos ganó el Oscar a Mejor Película en 2020."}
+    ];
+    cinema.forEach(add);
+
+    const env = [
+      {cat:"Medio Ambiente 🌍",diff:1,q:"¿Qué gas respiramos para vivir?",opts:["Oxígeno","CO₂","Nitrógeno","Hidrógeno"],a:0,exp:"Respiramos oxígeno."},
+      {cat:"Medio Ambiente 🌍",diff:2,q:"¿Qué es el reciclaje?",opts:["Reutilizar materiales como nuevos","Quemar basura","Tirar al río","Enterrar desechos"],a:0,exp:"El reciclaje transforma materiales usados."},
+      {cat:"Medio Ambiente 🌍",diff:2,q:"¿Qué es el calentamiento global?",opts:["Aumento de la temperatura del planeta","Enfriamiento de los polos","Lluvia ácida","Agujero en la capa de ozono"],a:0,exp:"Es el aumento de temperatura global."},
+      {cat:"Medio Ambiente 🌍",diff:1,q:"¿Qué recurso natural usamos para beber y bañarnos?",opts:["Agua","Petróleo","Carbón","Aire"],a:0,exp:"El agua es esencial para la vida."},
+      {cat:"Medio Ambiente 🌍",diff:2,q:"¿Qué son las energías renovables?",opts:["Energías que no se agotan","Energías que contaminan mucho","Energías nucleares","Energías fósiles"],a:0,exp:"Las renovables no se agotan (sol, viento)."},
+      {cat:"Medio Ambiente 🌍",diff:1,q:"¿Qué debemos hacer con la basura?",opts:["Separarla para reciclar","Quemarla","Tirarla al mar","Dejarla en la calle"],a:0,exp:"Separar la basura ayuda a reciclar."},
+      {cat:"Medio Ambiente 🌍",diff:2,q:"¿Qué capa de la atmósfera nos protege del sol?",opts:["Capa de ozono","Troposfera","Ionosfera","Mesosfera"],a:0,exp:"La capa de ozono filtra rayos UV."},
+      {cat:"Medio Ambiente 🌍",diff:2,q:"¿Qué es la deforestación?",opts:["Cortar bosques sin reforestar","Plantar árboles","Proteger animales","Limpiar ríos"],a:0,exp:"La deforestación destruye bosques."},
+      {cat:"Medio Ambiente 🌍",diff:1,q:"¿Qué animal está en peligro de extinción?",opts:["Panda rojo","Gato doméstico","Perro","Gallina"],a:0,exp:"El panda rojo está en peligro de extinción."},
+      {cat:"Medio Ambiente 🌍",diff:2,q:"¿Qué es la huella ecológica?",opts:["Impacto de nuestras actividades en la naturaleza","Una pisada en el barro","Un tipo de zapato","Un animal"],a:0,exp:"Mide el impacto ambiental de nuestras actividades."}
+    ];
+    env.forEach(add);
+
+    const litT = [
+      {cat:"Literatura 📚",diff:1,q:"¿Quién escribió 'Don Quijote de la Mancha'?",opts:["Miguel de Cervantes","Gabriel García Márquez","Pablo Neruda","Jorge Luis Borges"],a:0,exp:"Cervantes escribió Don Quijote."},
+      {cat:"Literatura 📚",diff:2,q:"¿Qué género literario cuenta hechos imaginarios?",opts:["Ficción","Ensayo","Biografía","Diccionario"],a:0,exp:"La ficción narra hechos imaginarios."},
+      {cat:"Literatura 📚",diff:2,q:"¿Quién escribió 'Cien años de soledad'?",opts:["Gabriel García Márquez","Mario Vargas Llosa","Pablo Neruda","Jorge Luis Borges"],a:0,exp:"Gabo escribió Cien años de soledad."},
+      {cat:"Literatura 📚",diff:1,q:"¿Qué es un poema?",opts:["Un texto escrito en verso","Una receta","Un mapa","Un contrato"],a:0,exp:"Un poema se escribe en verso."},
+      {cat:"Literatura 📚",diff:2,q:"¿Qué es una metáfora?",opts:["Comparar algo con otro sin usar 'como'","Exagerar","Repetir palabras","Poner signos de exclamación"],a:0,exp:"La metáfora compara sin 'como'."},
+      {cat:"Literatura 📚",diff:1,q:"¿Quién escribió 'Romeo y Julieta'?",opts:["Shakespeare","Cervantes","Homero","Dante"],a:0,exp:"Shakespeare escribió Romeo y Julieta."},
+      {cat:"Literatura 📚",diff:2,q:"¿Qué es un haiku?",opts:["Poema japonés de 3 versos","Novela larga","Obra de teatro","Canción popular"],a:0,exp:"El haiku es un poema japonés de 5-7-5 sílabas."},
+      {cat:"Literatura 📚",diff:1,q:"¿Cómo se llama la persona que escribe libros?",opts:["Escritor/a","Pintor/a","Músico/a","Actor/actriz"],a:0,exp:"El escritor es quien escribe libros."},
+      {cat:"Literatura 📚",diff:2,q:"¿Qué premio literario es muy famoso en el mundo hispánico?",opts:["Premio Cervantes","Premio Nobel de Física","Premio Óscar","Premio Grammy"],a:0,exp:"El Premio Cervantes es el más importante en español."},
+      {cat:"Literatura 📚",diff:1,q:"¿Qué es una fábula?",opts:["Un cuento con moraleja","Una novela de terror","Un poema épico","Una biografía"],a:0,exp:"La fábula es un cuento con moraleja."}
+    ];
+    litT.forEach(add);
+
+    const healthT = [
+      {cat:"Salud 🩺",diff:1,q:"¿Cuántos vasos de agua se recomienda beber al día?",opts:["8","2","15","1"],a:0,exp:"Se recomiendan unos 8 vasos de agua al día."},
+      {cat:"Salud 🩺",diff:2,q:"¿Qué vitamina nos ayuda a absorber el calcio?",opts:["Vitamina D","Vitamina C","Vitamina A","Vitamina K"],a:0,exp:"La vitamina D ayuda a absorber calcio."},
+      {cat:"Salud 🩺",diff:1,q:"¿Por qué es importante dormir bien?",opts:["Para que el cuerpo descanse y repare","Para comer más","Para no trabajar","Para jugar toda la noche"],a:0,exp:"El sueño permite al cuerpo descansar."},
+      {cat:"Salud 🩺",diff:2,q:"¿Qué tipo de alimentos dan energía al cuerpo?",opts:["Carbohidratos","Grasas saturadas","Azúcar refinado","Sal"],a:0,exp:"Los carbohidratos son la principal fuente de energía."},
+      {cat:"Salud 🩺",diff:1,q:"¿Cuántas horas de sueño necesita un adolescente?",opts:["8 a 10","3 a 4","12 a 14","5 a 6"],a:0,exp:"Los adolescentes necesitan 8-10 horas."},
+      {cat:"Salud 🩺",diff:2,q:"¿Qué hace el sistema inmunológico?",opts:["Defiende al cuerpo de enfermedades","Digiere los alimentos","Bombea sangre","Mueve los músculos"],a:0,exp:"El sistema inmune defiende de enfermedades."},
+      {cat:"Salud 🩺",diff:1,q:"¿Qué debe hacer una persona antes de comer?",opts:["Lavarse las manos","Correr","Dormir","Ver televisión"],a:0,exp:"Lavarse las manos antes de comer es importante."},
+      {cat:"Salud 🩺",diff:2,q:"¿Qué es una alergia?",opts:["Reacción del sistema inmune a algo inofensivo","Un resfriado","Una fractura","Una infección"],a:0,exp:"La alergia es una reacción exagerada del sistema inmune."},
+      {cat:"Salud 🩺",diff:1,q:"¿Qué deporte ayuda a mantener el corazón sano?",opts:["Cualquier ejercicio aeróbico","Ajedrez","Videojuegos","Dormir"],a:0,exp:"El ejercicio aeróbico fortalece el corazón."},
+      {cat:"Salud 🩺",diff:2,q:"¿Qué es la presión arterial?",opts:["La fuerza con que la sangre circula","La velocidad del corazón","La temperatura del cuerpo","El peso de la sangre"],a:0,exp:"Es la fuerza de la sangre en las paredes de las arterias."}
+    ];
+    healthT.forEach(add);
+
+    const rng = mulberry32(seedFromCrypto() ^ 0xA5A5A5A5);
+
+    while(bank.length < n){
+      const roll = rng();
+      if(roll < 0.55){
+        const x = Math.floor(rng()*19)+2;
+        const a1 = Math.floor(rng()*9)+2;
+        const b1 = Math.floor(rng()*15)+1;
+        const c = a1*x + b1;
+        const q = `Si ${a1}x + ${b1} = ${c}, entonces x = ?`;
+        const ans = x;
+        const opts = new Set([ans]);
+        while(opts.size<4){
+          const v = ans + (Math.floor(rng()*9)-4);
+          if(v<=0) continue;
+          opts.add(v);
+        }
+        const arr = shuffleWithRng(Array.from(opts), rng);
+        add({cat:"Matemáticas", diff:2, type:"gen", q, opts: arr.map(String), a: arr.indexOf(ans), exp:`Despeje: x = ${(c-b1)}/${a1} = ${ans}.`});
+      }else if(roll < 0.80){
+        const items = [
+          ["ADN","contiene información genética"],
+          ["Fotosíntesis","produce glucosa y oxígeno"],
+          ["Mitosis","es división celular"],
+          ["Vacunas","entrenan al sistema inmune"],
+          ["Energía","no se crea ni se destruye, se transforma"]
+        ];
+        const [k,f] = pickWithRng(items, rng);
+        const opts = shuffleWithRng([f,"es un planeta","es un metal","es un idioma"], rng);
+        add({cat:"Ciencia", diff:2, type:"gen", q:`${k}:`, opts, a: opts.indexOf(f), exp:f});
+      }else{
+        const items = [
+          ["¿Qué es un 'phishing'?","Un engaño para robar datos"],
+          ["¿Para qué sirve un firewall?","Filtra tráfico y protege redes"],
+          ["¿Qué significa '2FA'?","Autenticación de dos factores"],
+          ["¿Qué es un algoritmo?","Pasos para resolver una tarea"]
+        ];
+        const [q, ans] = pickWithRng(items, rng);
+        const opts = shuffleWithRng([ans,"Un videojuego","Un tipo de virus","Una red social"], rng);
+        add({cat:"Tecnología", diff:2, type:"gen", q, opts, a: opts.indexOf(ans), exp:ans});
+      }
+    }
+    return bank;
+  }
+
+  function buildAdultsBank1000(){
+    const capitals = [
+      ["Colombia","Bogotá"],["Argentina","Buenos Aires"],["Chile","Santiago"],["Perú","Lima"],["Ecuador","Quito"],
+      ["México","Ciudad de México"],["España","Madrid"],["Francia","París"],["Italia","Roma"],["Portugal","Lisboa"],
+      ["Canadá","Ottawa"],["Estados Unidos","Washington D. C."],["Brasil","Brasilia"],["Uruguay","Montevideo"],
+      ["Paraguay","Asunción"],["Bolivia","Sucre"],["Venezuela","Caracas"],["Cuba","La Habana"],["R. Dominicana","Santo Domingo"],
+      ["Costa Rica","San José"],["Panamá","Ciudad de Panamá"],["Guatemala","Ciudad de Guatemala"],["Honduras","Tegucigalpa"],
+      ["El Salvador","San Salvador"],["Nicaragua","Managua"],["Reino Unido","Londres"],["Alemania","Berlín"],
+      ["Suiza","Berna"],["Austria","Viena"],["Países Bajos","Ámsterdam"],["Bélgica","Bruselas"],["Suecia","Estocolmo"],
+      ["Noruega","Oslo"],["Dinamarca","Copenhague"],["Finlandia","Helsinki"],["Polonia","Varsovia"],
+      ["Grecia","Atenas"],["Turquía","Ankara"],["Rusia","Moscú"],["China","Pekín"],["Japón","Tokio"],
+      ["Corea del Sur","Seúl"],["India","Nueva Delhi"],["Australia","Canberra"],["Nueva Zelanda","Wellington"],
+      ["Sudáfrica","Pretoria"],["Egipto","El Cairo"],["Marruecos","Rabat"],["Nigeria","Abuya"],["Kenia","Nairobi"]
+    ];
+    const vocab = [
+      ["efímero","pasajero"],["resiliencia","fortaleza"],["precario","inestable"],["plácido","tranquilo"],["nítido","claro"],
+      ["inminente","cercano"],["denso","espeso"],["sutil","delicado"],["coherente","consistente"],["ambiguo","confuso"],
+      ["austero","sobrio"],["tenaz","persistente"],["sereno","calmado"],["lúcido","claro"],["íntegro","honesto"],
+      ["elocuente","expresivo"],["frugal","moderado"],["fértil","productivo"],["articular","conectar"],["esbozar","bocetar"]
+    ];
+    const facts = [
+      {cat:"Ciencia",diff:1,type:"base",q:"¿Qué órgano bombea la sangre?",opts:["Pulmón","Corazón","Hígado","Riñón"],a:1,exp:"El corazón impulsa la sangre."},
+      {cat:"Ciencia",diff:1,type:"base",q:"¿Cuál es el planeta más cercano al Sol?",opts:["Venus","Tierra","Mercurio","Marte"],a:2,exp:"Mercurio."},
+      {cat:"Historia",diff:2,type:"base",q:"¿En qué año se suele ubicar la llegada de Colón a América?",opts:["1492","1502","1510","1600"],a:0,exp:"1492 (fecha tradicional)."},
+      {cat:"General",diff:1,type:"base",q:"¿Cuántos minutos tiene una hora?",opts:["45","50","60","90"],a:2,exp:"60 minutos."},
+      {cat:"Geografía",diff:2,type:"base",q:"¿Cuál océano bordea la costa pacífica de Colombia?",opts:["Índico","Atlántico","Pacífico","Ártico"],a:2,exp:"Océano Pacífico."},
+      {cat:"Cultura",diff:2,type:"base",q:"¿Quién pintó la Mona Lisa?",opts:["Monet","Da Vinci","Picasso","Dalí"],a:1,exp:"Leonardo da Vinci."},
+      {cat:"Ciencia",diff:2,type:"base",q:"¿Qué gas es más abundante en la atmósfera terrestre?",opts:["Oxígeno","Nitrógeno","CO₂","Hidrógeno"],a:1,exp:"Nitrógeno (~78%)."},
+      {cat:"Lenguaje",diff:1,type:"base",q:"Sinónimo de “rápido”:",opts:["Lento","Veloz","Torpe","Rígido"],a:1,exp:"Veloz."},
+      {cat:"Deporte",diff:1,type:"base",q:"En fútbol, ¿cuántos jugadores por equipo están en cancha?",opts:["10","11","12","9"],a:1,exp:"11."},
+      {cat:"Ciencia",diff:3,type:"base",q:"¿Qué partícula tiene carga negativa?",opts:["Protón","Neutrón","Electrón","Positrón"],a:2,exp:"Electrón."}
+    ];
+
+    const bank = [];
+    let id = 1;
+    const addQ = (q) => bank.push({ id: id++, age:"adult", ...q });
+    facts.forEach(addQ);
+
+    const allCaps = capitals.map(x=>x[1]);
+    capitals.forEach(([country,cap])=>{
+      const wrong = shuffleWithRng(allCaps.filter(x=>x!==cap), mulberry32(id*17)).slice(0,3);
+      const opts = shuffleWithRng([cap, ...wrong], mulberry32(id*19));
+      addQ({cat:"Geografía", diff:2, type:"base", q:`¿Cuál es la capital de ${country}?`, opts, a: opts.indexOf(cap), exp:`Capital: ${cap}.`});
+    });
+
+    vocab.forEach(([w, syn])=>{
+      const wrong = shuffleWithRng(vocab.map(x=>x[1]).filter(x=>x!==syn), mulberry32(id*23)).slice(0,3);
+      const opts = shuffleWithRng([syn, ...wrong], mulberry32(id*29));
+      addQ({cat:"Lenguaje", diff:1, type:"base", q:`Sinónimo de “${w}”:`, opts, a: opts.indexOf(syn), exp:`Una opción cercana es “${syn}”.`});
+    });
+
+    function randInt(min,max){ return Math.floor(Math.random()*(max-min+1))+min; }
+    function buildNumericOptions(ans, diff){
+      const set = new Set([ans]);
+      const span = diff===1?8:diff===2?18:30;
+      while(set.size<4){
+        const delta = randInt(-span, span);
+        const v = ans + delta;
+        if(v===ans) continue;
+        if(v<0) continue;
+        set.add(v);
+      }
+      return shuffleWithRng(Array.from(set), mulberry32(ans*13));
+    }
+
+    const genMath = (n, diff) => {
+      for(let i=0;i<n;i++){
+        const op = diff===1 ? (Math.random()<0.5?"+":"-") : diff===2 ? pickWithRng(["+","-","×"], mulberry32(i+diff)) : pickWithRng(["+","-","×","÷"], mulberry32(i+diff+9));
+        let a,b,ans;
+        if(op==="×"){
+          a = randInt(2, diff===2?12:18);
+          b = randInt(2, diff===2?12:18);
+          ans = a*b;
+        }else if(op==="÷"){
+          b = randInt(2, 12);
+          ans = randInt(2, 18);
+          a = ans*b;
+        }else if(op==="+"){
+          a = randInt(diff===1?5:20, diff===1?40:120);
+          b = randInt(diff===1?5:20, diff===1?40:120);
+          ans = a+b;
+        }else{
+          a = randInt(diff===1?10:30, diff===1?60:150);
+          b = randInt(diff===1?1:10, diff===1?40:120);
+          if(b>a) [a,b]=[b,a];
+          ans = a-b;
+        }
+        const opts = buildNumericOptions(ans, diff);
+        addQ({cat:"Matemáticas", diff, type:"gen", q:`${a} ${op} ${b} = ?`, opts: opts.map(String), a: opts.indexOf(ans), exp:`Resultado: ${ans}.`});
+      }
+    };
+
+    const genLogic = (n) => {
+      for(let i=0;i<n;i++){
+        const a = randInt(10, 999);
+        const b = randInt(10, 999);
+        const rel = a>b ? ">" : a<b ? "<" : "=";
+        const opts = shuffleWithRng([">","<","=","≠"], mulberry32((a<<1) ^ b));
+        addQ({cat:"Lógica", diff:1, type:"gen", q:`Completa: ${a} __ ${b}`, opts, a: opts.indexOf(rel), exp:`Porque ${a} ${rel} ${b}.`});
+      }
+    };
+
+    const genTF = (n) => {
+      const statements = [
+        ["El agua hierve a 100°C al nivel del mar.", true, "Ciencia", 1],
+        ["La Tierra tiene dos polos: norte y sur.", true, "Ciencia", 1],
+        ["Un triángulo tiene cuatro lados.", false, "Matemáticas", 1],
+        ["El Amazonas está en Sudamérica.", true, "Geografía", 1],
+        ["La fotosíntesis ocurre en plantas.", true, "Ciencia", 2],
+        ["El hierro es un gas.", false, "Ciencia", 2],
+        ["La suma de ángulos interiores de un triángulo es 180°.", true, "Matemáticas", 2],
+        ["La capital de Francia es Lyon.", false, "Geografía", 2],
+        ["Un byte equivale a 8 bits.", true, "Tecnología", 2]
+      ];
+      for(let i=0;i<n;i++){
+        const [s, truth, cat, diff] = statements[Math.floor(Math.random()*statements.length)];
+        const opts = shuffleWithRng(["Verdadero","Falso","Depende","No se sabe"], mulberry32(i*97+diff));
+        const ans = truth ? "Verdadero" : "Falso";
+        addQ({cat, diff, type:"gen", q: s, opts, a: opts.indexOf(ans), exp: truth ? "Es correcto." : "Es incorrecto."});
+      }
+    };
+
+    const artA = [
+      {cat:"Arte 🎨",diff:1,type:"base",q:"¿Quién esculpió el David de Florencia?",opts:["Miguel Ángel","Donatello","Bernini","Rodin"],a:0,exp:"Miguel Ángel esculpió el David."},
+      {cat:"Arte 🎨",diff:2,type:"base",q:"¿Qué movimiento artístico fundó Pablo Picasso?",opts:["Cubismo","Surrealismo","Impresionismo","Barroco"],a:0,exp:"Picasso cofundó el cubismo."},
+      {cat:"Arte 🎨",diff:2,type:"base",q:"¿En qué museo se encuentra la Mona Lisa?",opts:["Museo del Louvre","Museo del Prado","Museo Británico","Galería Uffizi"],a:0,exp:"La Mona Lisa está en el Louvre, París."},
+      {cat:"Arte 🎨",diff:3,type:"base",q:"¿Qué artista es conocido por sus litografías de ojos y manos?",opts:["M. C. Escher","Dalí","Warhol","Kandinsky"],a:0,exp:"Escher es famoso por sus ilusiones ópticas."},
+      {cat:"Arte 🎨",diff:2,type:"base",q:"¿Qué país originó el Impresionismo?",opts:["Francia","Italia","España","Alemania"],a:0,exp:"El Impresionismo nació en Francia."},
+      {cat:"Arte 🎨",diff:1,type:"base",q:"¿Qué colores son primarios en pintura?",opts:["Rojo, amarillo y azul","Rojo, verde y azul","Negro, blanco y gris","Naranja, morado y verde"],a:0,exp:"Rojo, amarillo y azul son primarios."},
+      {cat:"Arte 🎨",diff:3,type:"base",q:"¿Qué técnica usa pigmento sobre yeso húmedo?",opts:["Fresco","Óleo","Acuarela","Tempera"],a:0,exp:"El fresco se pinta sobre yeso húmedo."},
+      {cat:"Arte 🎨",diff:2,type:"base",q:"¿Qué artista colombiano es famoso por sus figuras voluminosas?",opts:["Fernando Botero","Diego Rivera","Orozco","Siqueiros"],a:0,exp:"Botero es conocido por el volumen en sus figuras."},
+      {cat:"Arte 🎨",diff:3,type:"base",q:"¿Quién pintó 'La noche estrellada'?",opts:["Van Gogh","Monet","Rembrandt","Cézanne"],a:0,exp:"Van Gogh pintó La noche estrellada."},
+      {cat:"Arte 🎨",diff:2,type:"base",q:"¿Qué tipo de arte produjo Andy Warhol?",opts:["Pop Art","Expresionismo","Dadaísmo","Minimalismo"],a:0,exp:"Warhol fue líder del Pop Art."},
+      {cat:"Arte 🎨",diff:2,type:"base",q:"¿En qué siglo se desarrolló el Barroco?",opts:["Siglo XVII","Siglo XV","Siglo XIX","Siglo XX"],a:0,exp:"El Barroco se desarrolló en el siglo XVII."},
+      {cat:"Arte 🎨",diff:1,type:"base",q:"¿Qué es una escultura?",opts:["Una obra tridimensional","Una canción","Un poema","Una fotografía"],a:0,exp:"La escultura es arte en tres dimensiones."}
+    ];
+    artA.forEach(addQ);
+
+    const philo = [
+      {cat:"Filosofía 🤔",diff:2,type:"base",q:"¿Quién dijo 'Solo sé que nada sé'?",opts:["Sócrates","Platón","Aristóteles","Descartes"],a:0,exp:"Sócrates: 'Solo sé que nada sé'."},
+      {cat:"Filosofía 🤔",diff:3,type:"base",q:"¿Qué filósofo propuso el mito de la caverna?",opts:["Platón","Aristóteles","Sócrates","Kant"],a:0,exp:"Platón describió el mito de la caverna."},
+      {cat:"Filosofía 🤔",diff:2,type:"base",q:"¿Qué filósofo dijo 'Pienso, luego existo'?",opts:["Descartes","Kant","Hume","Nietzsche"],a:0,exp:"Descartes: Cogito ergo sum."},
+      {cat:"Filosofía 🤔",diff:3,type:"base",q:"¿Qué corriente busca la mayor felicidad para el mayor número?",opts:["Utilitarismo","Estoicismo","Existencialismo","Pragmatismo"],a:0,exp:"El utilitarismo busca la mayor felicidad colectiva."},
+      {cat:"Filosofía 🤔",diff:2,type:"base",q:"¿Qué filósofo alemán escribió 'Crítica de la razón pura'?",opts:["Kant","Hegel","Schopenhauer","Marx"],a:0,exp:"Kant escribió Crítica de la razón pura."},
+      {cat:"Filosofía 🤔",diff:3,type:"base",q:"¿Qué es el solipsismo?",opts:["La idea de que solo existe la propia mente","Creer en muchos dioses","Negar la ciencia","Seguir la tradición"],a:0,exp:"El solipsismo duda de todo fuera de la propia mente."},
+      {cat:"Filosofía 🤔",diff:2,type:"base",q:"¿Qué es la ética?",opts:["Reflexión sobre lo correcto e incorrecto","El estudio de los números","La ciencia de los astros","El arte de la guerra"],a:0,exp:"La ética reflexiona sobre el bien y el mal."},
+      {cat:"Filosofía 🤔",diff:3,type:"base",q:"¿Qué filósofo dijo 'Dios ha muerto'?",opts:["Nietzsche","Kant","Descartes","Sócrates"],a:0,exp:"Nietzsche pronunció 'Dios ha muerto'."},
+      {cat:"Filosofía 🤔",diff:2,type:"base",q:"¿Qué escuela filosófica enseñaba a controlar las emociones?",opts:["Estoicismo","Epicureísmo","Cinismo","Escepticismo"],a:0,exp:"El estoicismo busca el control de las emociones."},
+      {cat:"Filosofía 🤔",diff:3,type:"base",q:"¿Qué filósofo escribió 'El ser y la nada'?",opts:["Sartre","Heidegger","Camus","Merleau-Ponty"],a:0,exp:"Sartre escribió El ser y la nada."},
+      {cat:"Filosofía 🤔",diff:2,type:"base",q:"¿Qué rama de la filosofía estudia el conocimiento?",opts:["Epistemología","Ontología","Lógica","Estética"],a:0,exp:"La epistemología estudia el conocimiento."},
+      {cat:"Filosofía 🤔",diff:2,type:"base",q:"¿Quién fue el autor de 'El origen de las especies'?",opts:["Charles Darwin","Karl Marx","Sigmund Freud","Albert Einstein"],a:0,exp:"Darwin escribió El origen de las especies."}
+    ];
+    philo.forEach(addQ);
+
+    const econ = [
+      {cat:"Economía 💰",diff:1,type:"base",q:"¿Qué es la inflación?",opts:["Aumento generalizado de precios","Disminución de precios","Aumento del empleo","Caída del dólar"],a:0,exp:"La inflación es el aumento generalizado de precios."},
+      {cat:"Economía 💰",diff:2,type:"base",q:"¿Qué es el PIB?",opts:["Producto Interno Bruto","Precio Internacional Base","Programa de Inversión Bancaria","Paquete de Ingresos Básicos"],a:0,exp:"PIB = Producto Interno Bruto."},
+      {cat:"Economía 💰",diff:2,type:"base",q:"¿Qué es la oferta y la demanda?",opts:["Principio que determina los precios en el mercado","Un impuesto","Un tipo de empresa","Una bolsa de valores"],a:0,exp:"Oferta y demanda determinan los precios."},
+      {cat:"Economía 💰",diff:1,type:"base",q:"¿Qué moneda se usa en la Unión Europea?",opts:["Euro","Dólar","Libra","Yen"],a:0,exp:"El euro es la moneda de la Unión Europea."},
+      {cat:"Economía 💰",diff:3,type:"base",q:"¿Quién escribió 'La riqueza de las naciones'?",opts:["Adam Smith","Karl Marx","John Keynes","Milton Friedman"],a:0,exp:"Adam Smith escribió La riqueza de las naciones."},
+      {cat:"Economía 💰",diff:2,type:"base",q:"¿Qué es un monopolio?",opts:["Una empresa que domina todo un mercado","Un mercado con mucha competencia","Un tipo de banco","Un impuesto al consumo"],a:0,exp:"Un monopolio domina todo un mercado."},
+      {cat:"Economía 💰",diff:1,type:"base",q:"¿Qué es un presupuesto?",opts:["Un plan de ingresos y gastos","Un préstamo bancario","Una factura","Una deuda"],a:0,exp:"Un presupuesto planifica ingresos y gastos."},
+      {cat:"Economía 💰",diff:3,type:"base",q:"¿Qué teoría económica propuso Keynes?",opts:["Intervención del Estado en la economía","Libre mercado absoluto","Comunismo","Anarcocapitalismo"],a:0,exp:"Keynes propuso la intervención estatal en crisis."},
+      {cat:"Economía 💰",diff:2,type:"base",q:"¿Qué es la bolsa de valores?",opts:["Mercado donde se compran y venden acciones","Un almacén","Un tipo de banco","Una casa de cambio"],a:0,exp:"La bolsa es un mercado de acciones."},
+      {cat:"Economía 💰",diff:2,type:"base",q:"¿Qué significa 'exportar'?",opts:["Vender productos a otros países","Comprar productos del extranjero","Guardar dinero","Producir localmente"],a:0,exp:"Exportar es vender al extranjero."},
+      {cat:"Economía 💰",diff:1,type:"base",q:"¿Qué es el ahorro?",opts:["Guardar parte de los ingresos para el futuro","Gastar todo lo que se gana","Pedir un préstamo","Comprar acciones"],a:0,exp:"Ahorrar es guardar parte de los ingresos."},
+      {cat:"Economía 💰",diff:3,type:"base",q:"¿Qué es la devaluación?",opts:["Pérdida de valor de una moneda frente a otra","Aumento del valor de una moneda","Un tipo de inversión","Un impuesto"],a:0,exp:"La devaluación reduce el valor de la moneda."}
+    ];
+    econ.forEach(addQ);
+
+    const cinemaA = [
+      {cat:"Cine 🎬",diff:1,type:"base",q:"¿Quién dirigió 'El Padrino'?",opts:["Francis Ford Coppola","Steven Spielberg","Martin Scorsese","Stanley Kubrick"],a:0,exp:"Coppola dirigió El Padrino."},
+      {cat:"Cine 🎬",diff:2,type:"base",q:"¿Qué película de 1994 narra la historia de un banquero en prisión?",opts:["Cadena Perpetua","El Padrino","Pulp Fiction","Forrest Gump"],a:0,exp:"Cadena Perpetua (The Shawshank Redemption)."},
+      {cat:"Cine 🎬",diff:1,type:"base",q:"¿Qué es un guion cinematográfico?",opts:["El texto donde se escribe la historia de la película","La música de la película","Los efectos especiales","El vestuario"],a:0,exp:"El guion contiene la historia y los diálogos."},
+      {cat:"Cine 🎬",diff:2,type:"base",q:"¿Qué director es conocido como el 'Rey del Suspense'?",opts:["Alfred Hitchcock","Steven Spielberg","Tim Burton","Woody Allen"],a:0,exp:"Hitchcock es el maestro del suspense."},
+      {cat:"Cine 🎬",diff:2,type:"base",q:"¿Qué película de Corea del Sur ganó el Oscar a Mejor Película?",opts:["Parásitos","Roma","1917","Joker"],a:0,exp:"Parásitos ganó el Oscar a Mejor Película en 2020."},
+      {cat:"Cine 🎬",diff:1,type:"base",q:"¿Qué estudio de animación creó a Mickey Mouse?",opts:["Disney","Pixar","DreamWorks","Studio Ghibli"],a:0,exp:"Disney creó a Mickey Mouse."},
+      {cat:"Cine 🎬",diff:2,type:"base",q:"¿Cuál es una de las películas más taquilleras de la historia?",opts:["Avatar","Titanic","Avengers: Endgame","Star Wars"],a:0,exp:"Avatar está entre las más taquilleras."},
+      {cat:"Cine 🎬",diff:3,type:"base",q:"¿Qué realizador japonés dirigió 'Los siete samuráis'?",opts:["Akira Kurosawa","Hayao Miyazaki","Takeshi Kitano","Nagisa Oshima"],a:0,exp:"Kurosawa dirigió Los siete samuráis."},
+      {cat:"Cine 🎬",diff:2,type:"base",q:"¿Qué es el montaje en cine?",opts:["La edición y unión de planos","El vestuario","La banda sonora","El guion"],a:0,exp:"El montaje es la edición de los planos."},
+      {cat:"Cine 🎬",diff:3,type:"base",q:"¿Qué movimiento cinematográfico usó la cámara en mano y luz natural?",opts:["Dogma 95","Noir","Expresionismo","Neorrealismo"],a:0,exp:"Dogma 95 usó cámara en mano y luz natural."},
+      {cat:"Cine 🎬",diff:1,type:"base",q:"¿Qué género de cine presenta historias que asustan?",opts:["Terror","Comedia","Romance","Documental"],a:0,exp:"El género de terror busca asustar."},
+      {cat:"Cine 🎬",diff:2,type:"base",q:"¿De qué país es el director Pedro Almodóvar?",opts:["España","México","Argentina","Colombia"],a:0,exp:"Almodóvar es director español."}
+    ];
+    cinemaA.forEach(addQ);
+
+    const litA = [
+      {cat:"Literatura 📚",diff:1,type:"base",q:"¿Quién escribió 'La Odisea'?",opts:["Homero","Virgilio","Sófocles","Eurípides"],a:0,exp:"Homero escribió La Odisea."},
+      {cat:"Literatura 📚",diff:2,type:"base",q:"¿Qué movimiento literario representa 'Cien años de soledad'?",opts:["Realismo mágico","Naturalismo","Romanticismo","Modernismo"],a:0,exp:"Cien años de soledad es Realismo mágico."},
+      {cat:"Literatura 📚",diff:2,type:"base",q:"¿Quién escribió '1984'?",opts:["George Orwell","Aldous Huxley","Ray Bradbury","H. G. Wells"],a:0,exp:"Orwell escribió 1984."},
+      {cat:"Literatura 📚",diff:3,type:"base",q:"¿Qué autor peruano ganó el Premio Nobel de Literatura?",opts:["Mario Vargas Llosa","Pablo Neruda","Gabriel García Márquez","Jorge Luis Borges"],a:0,exp:"Vargas Llosa ganó el Nobel en 2010."},
+      {cat:"Literatura 📚",diff:1,type:"base",q:"¿Qué es una novela?",opts:["Una narración larga de ficción","Un poema corto","Una obra de teatro","Un ensayo académico"],a:0,exp:"La novela es una narración extensa de ficción."},
+      {cat:"Literatura 📚",diff:2,type:"base",q:"¿Quién escribió 'El principito'?",opts:["Antoine de Saint-Exupéry","J. K. Rowling","C. S. Lewis","Lewis Carroll"],a:0,exp:"Saint-Exupéry escribió El principito."},
+      {cat:"Literatura 📚",diff:3,type:"base",q:"¿Qué obra de Dostoievski trata sobre un crimen y la culpa?",opts:["Crimen y castigo","Los hermanos Karamazov","El idiota","Memorias del subsuelo"],a:0,exp:"Crimen y castigo trata sobre culpa y redención."},
+      {cat:"Literatura 📚",diff:2,type:"base",q:"¿Qué escritora chilena ganó el Nobel de Literatura en 1945?",opts:["Gabriela Mistral","Pablo Neruda","Isabel Allende","Violeta Parra"],a:0,exp:"Gabriela Mistral ganó el Nobel en 1945."},
+      {cat:"Literatura 📚",diff:1,type:"base",q:"¿Qué es un ensayo?",opts:["Un texto que expone y reflexiona sobre un tema","Un cuento de hadas","Un poema épico","Una receta de cocina"],a:0,exp:"El ensayo expone y reflexiona sobre un tema."},
+      {cat:"Literatura 📚",diff:2,type:"base",q:"¿Quién escribió 'Hamlet'?",opts:["Shakespeare","Molière","Ibsen","Sófocles"],a:0,exp:"Shakespeare escribió Hamlet."},
+      {cat:"Literatura 📚",diff:3,type:"base",q:"¿Qué es la narrativa en segunda persona?",opts:["El narrador usa 'tú'","El narrador usa 'yo'","El narrador usa 'él'","No hay narrador"],a:0,exp:"La segunda persona usa 'tú' como narrador."},
+      {cat:"Literatura 📚",diff:2,type:"base",q:"¿Qué autor argentino escribió 'Ficciones'?",opts:["Jorge Luis Borges","Julio Cortázar","Roberto Arlt","Adolfo Bioy Casares"],a:0,exp:"Borges escribió Ficciones."}
+    ];
+    litA.forEach(addQ);
+
+    const natA = [
+      {cat:"Naturaleza 🌿",diff:1,type:"base",q:"¿Cuál es el río más largo del mundo?",opts:["Nilo","Amazonas","Misisipi","Yangtsé"],a:0,exp:"El Nilo es el río más largo (~6650 km)."},
+      {cat:"Naturaleza 🌿",diff:2,type:"base",q:"¿Qué tipo de bosque tiene la mayor biodiversidad?",opts:["Bosque tropical lluvioso","Bosque boreal","Sabana","Tundra"],a:0,exp:"El bosque tropical tiene la mayor biodiversidad."},
+      {cat:"Naturaleza 🌿",diff:1,type:"base",q:"¿Cuál es el continente más grande?",opts:["Asia","África","América","Europa"],a:0,exp:"Asia es el continente más grande."},
+      {cat:"Naturaleza 🌿",diff:2,type:"base",q:"¿Qué es un ecosistema?",opts:["Un conjunto de seres vivos y su entorno","Un tipo de clima","Un parque natural","Un animal extinto"],a:0,exp:"Un ecosistema es la comunidad de seres vivos y su medio."},
+      {cat:"Naturaleza 🌿",diff:3,type:"base",q:"¿Qué es la biomasa?",opts:["Materia orgánica total de un ecosistema","Un tipo de energía fósil","Un gas contaminante","Un mineral"],a:0,exp:"La biomasa es la materia orgánica de los seres vivos."},
+      {cat:"Naturaleza 🌿",diff:2,type:"base",q:"¿Qué animal es el depredador terrestre más grande?",opts:["Oso polar","León","Tigre","Lobo"],a:0,exp:"El oso polar es el depredador terrestre más grande."},
+      {cat:"Naturaleza 🌿",diff:1,type:"base",q:"¿Cuál es el desierto cálido más grande del mundo?",opts:["Sáhara","Gobi","Kalahari","Atacama"],a:0,exp:"El Sáhara es el desierto cálido más grande."},
+      {cat:"Naturaleza 🌿",diff:3,type:"base",q:"¿Qué es la biodiversidad?",opts:["Variedad de vida en la Tierra","Un tipo de clima","Un ecosistema específico","Un mineral"],a:0,exp:"La biodiversidad es la variedad de formas de vida."},
+      {cat:"Naturaleza 🌿",diff:1,type:"base",q:"¿Cuál es la montaña más alta del mundo?",opts:["Everest","K2","Kilimanjaro","Mont Blanc"],a:0,exp:"El Everest mide 8849 m."},
+      {cat:"Naturaleza 🌿",diff:2,type:"base",q:"¿Qué son los arrecifes de coral?",opts:["Estructuras vivas que albergan gran biodiversidad","Rocas volcánicas","Montañas submarinas","Tipos de algas"],a:0,exp:"Los arrecifes son estructuras vivas muy biodiversas."},
+      {cat:"Naturaleza 🌿",diff:3,type:"base",q:"¿Qué fenómeno causa El Niño?",opts:["Calentamiento anómalo del Pacífico","Enfriamiento del Atlántico","Sequía en Asia","Inundaciones en Europa"],a:0,exp:"El Niño es el calentamiento del Pacífico ecuatorial."},
+      {cat:"Naturaleza 🌿",diff:2,type:"base",q:"¿Qué océano baña las costas de Australia?",opts:["Índico y Pacífico","Solo Atlántico","Solo Ártico","Solo Índico"],a:0,exp:"Australia está bañada por el Índico y el Pacífico."}
+    ];
+    natA.forEach(addQ);
+
+    const healthA = [
+      {cat:"Salud 🩺",diff:1,type:"base",q:"¿Cuál es el órgano más grande del cuerpo humano?",opts:["Piel","Hígado","Pulmón","Corazón"],a:0,exp:"La piel es el órgano más grande."},
+      {cat:"Salud 🩺",diff:2,type:"base",q:"¿Qué es la hipertensión?",opts:["Presión arterial alta","Presión arterial baja","Falta de hierro","Exceso de azúcar"],a:0,exp:"La hipertensión es presión arterial elevada."},
+      {cat:"Salud 🩺",diff:2,type:"base",q:"¿Qué tipo de grasa es perjudicial en exceso?",opts:["Grasas trans","Grasas insaturadas","Omega-3","Grasas monoinsaturadas"],a:0,exp:"Las grasas trans son perjudiciales para la salud."},
+      {cat:"Salud 🩺",diff:1,type:"base",q:"¿Cuántos huesos tiene el cuerpo humano adulto?",opts:["206","150","300","100"],a:0,exp:"El cuerpo adulto tiene 206 huesos."},
+      {cat:"Salud 🩺",diff:3,type:"base",q:"¿Qué es la insulina?",opts:["Hormona que regula el azúcar en la sangre","Un tipo de vitamina","Un antibiótico","Un mineral"],a:0,exp:"La insulina regula la glucosa en sangre."},
+      {cat:"Salud 🩺",diff:2,type:"base",q:"¿Qué es el colesterol HDL?",opts:["Colesterol 'bueno'","Colesterol 'malo'","Un tipo de azúcar","Una proteína muscular"],a:0,exp:"El HDL se conoce como colesterol 'bueno'."},
+      {cat:"Salud 🩺",diff:1,type:"base",q:"¿Qué medida ayuda a prevenir enfermedades cardíacas?",opts:["Ejercicio regular","Dormir poco","Comer mucha sal","Evitar el agua"],a:0,exp:"El ejercicio regular previene enfermedades cardíacas."},
+      {cat:"Salud 🩺",diff:3,type:"base",q:"¿Qué es la diabetes tipo 2?",opts:["Resistencia del cuerpo a la insulina","Falta de insulina desde la infancia","Un tipo de alergia","Una infección"],a:0,exp:"La diabetes tipo 2 implica resistencia a la insulina."},
+      {cat:"Salud 🩺",diff:2,type:"base",q:"¿Qué vacuna previene la tuberculosis?",opts:["BCG","Sarampión","Tétanos","Hepatitis B"],a:0,exp:"La vacuna BCG previene la tuberculosis."},
+      {cat:"Salud 🩺",diff:1,type:"base",q:"¿Qué es el IMC?",opts:["Índice de Masa Corporal","Índice de Metabolismo Celular","Ingreso Médico Continuo","Índice de Movimiento Corporal"],a:0,exp:"IMC = Índice de Masa Corporal."},
+      {cat:"Salud 🩺",diff:2,type:"base",q:"¿Cuál es la principal causa de muerte en el mundo?",opts:["Enfermedades cardiovasculares","Cáncer","Accidentes","Infecciones"],a:0,exp:"Las enfermedades cardiovasculares son la principal causa."},
+      {cat:"Salud 🩺",diff:3,type:"base",q:"¿Qué es un placebo?",opts:["Sustancia sin efecto terapéutico usada como control","Un fármaco fuerte","Un tipo de cirugía","Una vacuna"],a:0,exp:"El placebo es una sustancia inactiva usada como control."}
+    ];
+    healthA.forEach(addQ);
+
+    const polA = [
+      {cat:"Política 🏛️",diff:1,type:"base",q:"¿Qué es una democracia?",opts:["Gobierno del pueblo","Gobierno de un rey","Gobierno militar","Gobierno de un solo partido"],a:0,exp:"Democracia = gobierno del pueblo."},
+      {cat:"Política 🏛️",diff:2,type:"base",q:"¿Cuántos poderes del Estado existen en una democracia?",opts:["3","2","5","1"],a:0,exp:"Ejecutivo, Legislativo y Judicial: 3 poderes."},
+      {cat:"Política 🏛️",diff:2,type:"base",q:"¿Qué es una constitución?",opts:["La ley fundamental de un país","Un tipo de impuesto","Un tratado internacional","Un partido político"],a:0,exp:"La constitución es la ley suprema de un país."},
+      {cat:"Política 🏛️",diff:1,type:"base",q:"¿Qué es un referendo?",opts:["Votación directa sobre un tema específico","Una elección presidencial","Un debate televisivo","Un tipo de ley"],a:0,exp:"El referendo es una consulta directa al pueblo."},
+      {cat:"Política 🏛️",diff:3,type:"base",q:"¿Qué teoría política defendió John Locke?",opts:["El contrato social","El absolutismo","El comunismo","El anarquismo"],a:0,exp:"Locke defendió la teoría del contrato social."},
+      {cat:"Política 🏛️",diff:2,type:"base",q:"¿Qué es la separación de poderes?",opts:["Dividir el Estado en poderes independientes","Dividir el territorio","Separar los partidos","Dividir los impuestos"],a:0,exp:"La separación de poderes evita la concentración de poder."},
+      {cat:"Política 🏛️",diff:1,type:"base",q:"¿Qué es el sufragio?",opts:["El derecho a votar","Un tipo de impuesto","Un cargo político","Una ley electoral"],a:0,exp:"El sufragio es el derecho a votar."},
+      {cat:"Política 🏛️",diff:2,type:"base",q:"¿Qué es un Estado de derecho?",opts:["Un país donde todos obedecen la ley","Un país sin leyes","Una dictadura","Una monarquía absoluta"],a:0,exp:"Estado de derecho: la ley está por encima de todos."},
+      {cat:"Política 🏛️",diff:3,type:"base",q:"¿Qué es el populismo?",opts:["Discurso que busca apoyo popular con promesas simples","Una ideología de centro","Un sistema económico","Un tipo de constitución"],a:0,exp:"El populismo busca apoyo popular con discursos simples."},
+      {cat:"Política 🏛️",diff:2,type:"base",q:"¿Qué organismo internacional promueve la paz mundial?",opts:["ONU","FMI","Banco Mundial","OMC"],a:0,exp:"La ONU promueve la paz y la cooperación."},
+      {cat:"Política 🏛️",diff:1,type:"base",q:"¿Qué es un parlamento?",opts:["Asamblea legislativa de un país","Un tribunal","Un ministerio","Una embajada"],a:0,exp:"El parlamento es la asamblea legislativa."},
+      {cat:"Política 🏛️",diff:3,type:"base",q:"¿Qué es el federalismo?",opts:["Sistema donde el poder se comparte entre centro y regiones","Gobierno centralizado","Monarquía absoluta","Dictadura militar"],a:0,exp:"El federalismo distribuye poder entre centro y regiones."}
+    ];
+    polA.forEach(addQ);
+
+    genMath(360,1);
+    genMath(280,2);
+    genMath(120,3);
+    genLogic(120);
+    genTF(80);
+
+    while(bank.length < 1000){
+      genMath(20, 2);
+      if(bank.length > 1000) break;
+    }
+    return bank.slice(0, 1000);
+  }
+
+  const defaultState = () => ({
+    mode:"adult",
+    banks:{
+      kids: buildKidsBank(),
+      teens: buildTeensBank(),
+      adult: buildAdultsBank1000()
+    },
+    filters: { cats:["Todos"], diffs:["Auto"], types:["Todos"] },
+    view:"home",
+    play:{ mode:"quick10", total:10, idx:0, active:null, locked:false, startedAt:null, endedAt:null, pointsThisRun:0, seed:0, order:[], orderPos:0 },
+    duel:{
+      on:false,
+      players:[
+        { name:"Jugador 1", score:0, streak:0, bestStreak:0, answered:0, correct:0, level:1 },
+        { name:"Jugador 2", score:0, streak:0, bestStreak:0, answered:0, correct:0, level:1 }
+      ],
+      turn:0, rounds:10, roundIdx:0
+    },
+    statsByMode:{
+      kids:{ answered:0, correct:0, streak:0, bestStreak:0, points:0, level:1, byCat:{}, milestoneSeen:0 },
+      teens:{ answered:0, correct:0, streak:0, bestStreak:0, points:0, level:1, byCat:{}, milestoneSeen:0 },
+      adult:{ answered:0, correct:0, streak:0, bestStreak:0, points:0, level:1, byCat:{}, milestoneSeen:0 }
+    }
+  });
+
+  function load(){
+    try{
+      const raw = localStorage.getItem(APP.storageKey);
+      if(!raw) return defaultState();
+      const s = JSON.parse(raw);
+
+      if(!s.mode) s.mode="adult";
+      if(!s.banks) s.banks = defaultState().banks;
+      if(!s.banks.kids || !Array.isArray(s.banks.kids) || s.banks.kids.length < 200) s.banks.kids = buildKidsBank();
+      if(!s.banks.teens || !Array.isArray(s.banks.teens) || s.banks.teens.length < 200) s.banks.teens = buildTeensBank();
+      if(!s.banks.adult || !Array.isArray(s.banks.adult) || s.banks.adult.length < 200) s.banks.adult = buildAdultsBank1000();
+
+      if(!s.filters) s.filters = defaultState().filters;
+      if(!s.statsByMode) s.statsByMode = defaultState().statsByMode;
+      for(const k of ["kids","teens","adult"]){
+        if(!s.statsByMode[k]) s.statsByMode[k] = defaultState().statsByMode[k];
+      }
+      if(!s.play) s.play = defaultState().play;
+      if(!s.duel) s.duel = defaultState().duel;
+      if(!s.view) s.view = "home";
+
+      return s;
+    }catch(e){
+      return defaultState();
+    }
+  }
+  let state = load();
+  const save = () => localStorage.setItem(APP.storageKey, JSON.stringify(state));
+
+  function curBank(){ return state.banks[state.mode]; }
+  function curStats(){ return state.statsByMode[state.mode]; }
+
+  const diffLabels = { "1":"Fácil", "2":"Media", "3":"Difícil", "Auto":"Auto" };
+  const ageLabels = {
+    kids: { label:"Niños (5–8)", icon:"🧒" },
+    teens:{ label:"Adolescentes (12–18)", icon:"🧑‍🎓" },
+    adult:{ label:"Adultos", icon:"🧠" }
+  };
+
+  const cats = () => Array.from(new Set(curBank().map(x=>x.cat))).sort();
+  const types = () => ["base","gen"];
+
+  function poolFiltered(){
+    const bank = curBank();
+    const csel = state.filters.cats, dsel = state.filters.diffs, tsel = state.filters.types;
+    return bank.filter(q=>{
+      const okC = csel.includes("Todos") ? true : csel.includes(q.cat);
+      const okT = tsel.includes("Todos") ? true : tsel.includes(q.type || "base");
+      const okD = dsel.includes("Auto") ? true : dsel.includes(String(q.diff));
+      return okC && okT && okD;
+    });
+  }
+
+  function computeLevelFromStreak(streak){
+    const lvl = 1 + Math.floor(streak/4);
+    return clamp(lvl, 1, 6);
+  }
+  function levelToDiff(level){
+    if(level <= 2) return 1;
+    if(level <= 4) return 2;
+    return 3;
+  }
+
+  function basePoints(diff){
+    if(state.mode==="kids") return diff===1 ? 8 : diff===2 ? 14 : 22;
+    if(state.mode==="teens") return diff===1 ? 10 : diff===2 ? 18 : 30;
+    return diff===1 ? 10 : diff===2 ? 20 : 35;
+  }
+  function streakBonusMultiplier(streak){ return 1 + Math.min(.40, (streak*0.02)); }
+  function milestoneBonus(answeredTotal){
+    if(!MILESTONES.includes(answeredTotal)) return 0;
+    if(answeredTotal>=1000) return 1200;
+    if(answeredTotal>=800) return 800;
+    if(answeredTotal>=500) return 450;
+    if(answeredTotal>=200) return 220;
+    if(answeredTotal>=120) return 140;
+    if(answeredTotal>=80) return 90;
+    if(answeredTotal>=40) return 45;
+    if(answeredTotal>=20) return 20;
+    return 0;
+  }
+
+  function buildInterleavedOrder(pool, seed){
+    const rng = mulberry32(seed);
+    const groups = new Map();
+    for(const q of pool){
+      const k = q.cat || "General";
+      if(!groups.has(k)) groups.set(k, []);
+      groups.get(k).push(q.id);
+    }
+    const keys = shuffleWithRng(Array.from(groups.keys()), rng);
+    for(const k of keys){
+      groups.set(k, shuffleWithRng(groups.get(k), rng));
+    }
+    const order = [];
+    let added = true;
+    while(added){
+      added = false;
+      for(const k of keys){
+        const arr = groups.get(k);
+        if(arr && arr.length){
+          order.push(arr.shift());
+          added = true;
+        }
+      }
+    }
+    const chunks = [];
+    const chunkSize = 16;
+    for(let i=0;i<order.length;i+=chunkSize) chunks.push(order.slice(i,i+chunkSize));
+    const mixed = chunks.flatMap(c => shuffleWithRng(c, rng));
+    return mixed;
+  }
+
+  function renderAgeChips(){
+    const box = $("#chipsAge");
+    box.innerHTML = "";
+    const mk = (key) => {
+      const on = (state.mode===key);
+      const s = document.createElement("span");
+      s.className = "chip" + (on?" on":"");
+      s.textContent = `${ageLabels[key].icon} ${ageLabels[key].label}`;
+      s.addEventListener("click", ()=>{
+        if(state.mode===key) return;
+        state.mode = key;
+        state.filters = { cats:["Todos"], diffs:["Auto"], types:["Todos"] };
+        state.view = "home";
+        state.duel.on = false;
+        save(); render();
+        toast(`Modo: ${ageLabels[key].label}`);
+      });
+      return s;
+    };
+    box.appendChild(mk("kids"));
+    box.appendChild(mk("teens"));
+    box.appendChild(mk("adult"));
+  }
+
+  function renderFilterChips(){
+    const catsBox = $("#chipsCats"), diffsBox = $("#chipsDiff"), typeBox = $("#chipsType");
+    const mk = (label, on, cb) => {
+      const s = document.createElement("span");
+      s.className = "chip" + (on?" on":"");
+      s.textContent = label;
+      s.addEventListener("click", cb);
+      return s;
+    };
+
+    catsBox.innerHTML = "";
+    const allC = state.filters.cats.includes("Todos");
+    catsBox.appendChild(mk("Todos", allC, ()=>{ state.filters.cats=["Todos"]; save(); render(); }));
+    cats().forEach(c=>{
+      const on = !allC && state.filters.cats.includes(c);
+      catsBox.appendChild(mk(c, on, ()=>{
+        const all = state.filters.cats.includes("Todos");
+        let cur = all ? [] : state.filters.cats.slice();
+        if(cur.includes(c)) cur = cur.filter(x=>x!==c); else cur.push(c);
+        if(cur.length===0) cur=["Todos"];
+        state.filters.cats = cur; save(); render();
+      }));
+    });
+
+    diffsBox.innerHTML = "";
+    const allD = state.filters.diffs.includes("Auto");
+    diffsBox.appendChild(mk("Auto", allD, ()=>{ state.filters.diffs=["Auto"]; save(); render(); }));
+    ["1","2","3"].forEach(d=>{
+      const on = !allD && state.filters.diffs.includes(d);
+      diffsBox.appendChild(mk(diffLabels[d], on, ()=>{
+        const auto = state.filters.diffs.includes("Auto");
+        let cur = auto ? [] : state.filters.diffs.slice();
+        if(cur.includes(d)) cur = cur.filter(x=>x!==d); else cur.push(d);
+        if(cur.length===0) cur=["Auto"];
+        state.filters.diffs = cur; save(); render();
+      }));
+    });
+
+    typeBox.innerHTML = "";
+    const allT = state.filters.types.includes("Todos");
+    typeBox.appendChild(mk("Todos", allT, ()=>{ state.filters.types=["Todos"]; save(); render(); }));
+    types().forEach(t=>{
+      const label = (t==="base") ? "Curadas" : "Generadas";
+      const on = !allT && state.filters.types.includes(t);
+      typeBox.appendChild(mk(label, on, ()=>{
+        const all = state.filters.types.includes("Todos");
+        let cur = all ? [] : state.filters.types.slice();
+        if(cur.includes(t)) cur = cur.filter(x=>x!==t); else cur.push(t);
+        if(cur.length===0) cur=["Todos"];
+        state.filters.types = cur; save(); render();
+      }));
+    });
+  }
+
+  function updateStatsUI(){
+    const st = curStats();
+    $("#answered").textContent = String(st.answered||0);
+    $("#correct").textContent = String(st.correct||0);
+    const acc = st.answered ? Math.round((st.correct/st.answered)*100) : 0;
+    $("#acc").textContent = String(acc);
+    $("#streak").textContent = String(st.streak||0);
+    $("#bestStreak").textContent = String(st.bestStreak||0);
+    $("#points").textContent = String(st.points||0);
+    $("#lvl").textContent = String(st.level||1);
+  }
+
+  function bumpCat(q, ok){
+    const st = curStats();
+    const cat = q.cat;
+    if(!st.byCat[cat]) st.byCat[cat] = { a:0, c:0 };
+    st.byCat[cat].a += 1;
+    if(ok) st.byCat[cat].c += 1;
+  }
+
+  function openCelebration(title, html){
+    $("#celeTitle").textContent = title;
+    $("#celeBody").innerHTML = html;
+    $("#celeBackdrop").style.display = "flex";
+  }
+  function closeCelebration(){
+    $("#celeBackdrop").style.display = "none";
+    $("#celeBody").innerHTML = "";
+  }
+  $("#celeClose").addEventListener("click", closeCelebration);
+  $("#celeBackdrop").addEventListener("click", (e)=>{ if(e.target===$("#celeBackdrop")) closeCelebration(); });
+
+  function maybeCelebrateMilestone(){
+    const st = curStats();
+    const a = st.answered;
+    const bonus = milestoneBonus(a);
+    if(bonus<=0) return;
+    if(st.milestoneSeen === a) return;
+    st.milestoneSeen = a;
+
+    st.points += bonus;
+    save();
+    updateStatsUI();
+
+    spawnConfetti(30);
+    const title = `¡Felicidades! 🎉`;
+    const modeLabel = ageLabels[state.mode].label;
+    const body = `
+      <div class="trophyPop">🏆</div>
+      <div class="big">Hito: <b>${a}</b> respuestas (${modeLabel})</div>
+      <div class="mini">Bonus de puntos: <b>+${bonus}</b></div>
+      <div class="spark">
+        <span class="badgeTrophy">🏆 Hito ${a}</span>
+        <span class="badgeTrophy">+${bonus} pts</span>
+        <span class="badgeTrophy">💪 Sigue así</span>
+      </div>
+      <div class="hint" style="margin-top:12px">Tip: cambia categorías para mantener variedad.</div>
+    `;
+    openCelebration(title, body);
+  }
+
+  function newGame(mode){
+    const pool = poolFiltered();
+    if(pool.length < 12){ toast("Filtros muy estrechos. Usa 'Todos' o 'Auto'."); return; }
+
+    const seed = seedFromCrypto() ^ (Date.now() & 0xffffffff);
+
+    state.duel.on = false;
+
+    const order = buildInterleavedOrder(pool, seed);
+
+    state.play = {
+      mode,
+      total: (mode==="quick25"?25:mode==="quick10"?10:999999),
+      idx:0,
+      active:null,
+      locked:false,
+      startedAt: nowISO(),
+      endedAt:null,
+      pointsThisRun:0,
+      seed,
+      order,
+      orderPos:0
+    };
+    state.view = "play";
+    save();
+    nextQuestionSolo();
+  }
+
+  function pickQuestionSolo(){
+    const bank = curBank();
+    const pool = poolFiltered();
+    if(pool.length < 4) return bank[0];
+
+    const st = curStats();
+    const auto = state.filters.diffs.includes("Auto");
+    const targetDiff = auto ? (st.level<=2?1:st.level<=4?2:3) : null;
+
+    for(let tries=0; tries<80; tries++){
+      const id = state.play.order[state.play.orderPos % state.play.order.length];
+      state.play.orderPos += 1;
+      const q = bank.find(x=>x.id===id);
+      if(!q) continue;
+      if(auto){
+        if(q.diff === targetDiff) return q;
+      }else{
+        return q;
+      }
+    }
+    return pool[Math.floor(Math.random()*pool.length)];
+  }
+
+  function nextQuestionSolo(){
+    const q = pickQuestionSolo();
+    state.play.active = { qid: q.id, picked:null, ok:null, at: nowISO(), diff:q.diff };
+    state.play.locked = false;
+    save();
+    render();
+  }
+
+  function scoreSolo(q, ok){
+    const st = curStats();
+    st.answered += 1;
+    bumpCat(q, ok);
+
+    if(ok){
+      st.correct += 1;
+      st.streak += 1;
+      st.bestStreak = Math.max(st.bestStreak, st.streak);
+    }else{
+      st.streak = 0;
+    }
+
+    st.level = computeLevelFromStreak(st.streak);
+
+    if(ok){
+      const mult = streakBonusMultiplier(st.streak);
+      const pts = Math.round(basePoints(q.diff) * mult);
+      st.points += pts;
+      state.play.pointsThisRun += pts;
+
+      if(st.streak>0 && st.streak % 5 === 0){
+        toast(`🔥 ¡Racha de <b>${st.streak}</b>! +${pts} pts 🎯`);
+        spawnConfetti(18);
+      }
+      if(ok && st.streak >= 3){
+        const labels = {3:"¡Buen inicio! ⭐",5:"¡En llamas! 🔥",8:"¡Imparable! 💪",10:"¡Maestro! 🏆",15:"¡Leyenda! 👑",20:"¡Dios del trivia! 🌟"};
+        const label = Object.entries(labels).reverse().find(([n])=>st.streak>=Number(n));
+        if(label){
+          const rect = document.getElementById("streak")?.getBoundingClientRect();
+          if(rect) floatPrize(label[1], rect.left, rect.top - 20);
+        }
+      }
+    }
+    maybeCelebrateMilestone();
+    save();
+  }
+
+  function answerSolo(idx){
+    if(state.view!=="play" || state.duel.on) return;
+    if(state.play.locked) return;
+    const q = curBank().find(x=>x.id===state.play.active.qid);
+    if(!q) return;
+
+    state.play.locked = true;
+    state.play.active.picked = idx;
+    state.play.active.ok = (idx === q.a);
+
+    scoreSolo(q, idx===q.a);
+    save();
+    render();
+
+    if(state.play.mode==="quick10" || state.play.mode==="quick25"){
+      if(state.play.idx + 1 >= state.play.total){ endSolo(); return; }
+    }
+  }
+
+  function goNextSolo(){
+    if(state.view!=="play" || state.duel.on) return;
+    if(!state.play.locked){ toast("Responde primero."); return; }
+    state.play.idx += 1;
+    save();
+    nextQuestionSolo();
+  }
+
+  function endSolo(){
+    state.play.endedAt = nowISO();
+    state.view = "end";
+    save();
+    render();
+  }
+
+  function startDuel(){
+    const pool = poolFiltered();
+    if(pool.length < 12){ toast("Filtros muy estrechos para Duelo."); return; }
+
+    const seed = seedFromCrypto() ^ (Date.now() & 0xffffffff);
+    const order = buildInterleavedOrder(pool, seed);
+
+    state.duel.on = true;
+    state.view = "duel";
+    state.duel.roundIdx = 0;
+    state.duel.turn = 0;
+    state.duel.players = [
+      { name: state.duel.players?.[0]?.name || "Jugador 1", score:0, streak:0, bestStreak:0, answered:0, correct:0, level:1 },
+      { name: state.duel.players?.[1]?.name || "Jugador 2", score:0, streak:0, bestStreak:0, answered:0, correct:0, level:1 }
+    ];
+
+    state.play = { mode:"duel", total: state.duel.rounds, idx:0, active:null, locked:false, startedAt: nowISO(), endedAt:null, pointsThisRun:0, seed, order, orderPos:0 };
+    save();
+    nextQuestionDuel();
+  }
+
+  function pickQuestionDuel(){
+    const bank = curBank();
+    const pool = poolFiltered();
+    if(pool.length < 4) return bank[0];
+
+    const p = state.duel.players[state.duel.turn];
+    const auto = state.filters.diffs.includes("Auto");
+    const targetDiff = auto ? (p.level<=2?1:p.level<=4?2:3) : null;
+
+    for(let tries=0; tries<80; tries++){
+      const id = state.play.order[state.play.orderPos % state.play.order.length];
+      state.play.orderPos += 1;
+      const q = bank.find(x=>x.id===id);
+      if(!q) continue;
+      if(auto){
+        if(q.diff === targetDiff) return q;
+      }else{
+        return q;
+      }
+    }
+    return pool[Math.floor(Math.random()*pool.length)];
+  }
+
+  function nextQuestionDuel(){
+    const q = pickQuestionDuel();
+    state.play.active = { qid: q.id, picked:null, ok:null, at: nowISO(), diff:q.diff };
+    state.play.locked = false;
+    save();
+    render();
+  }
+
+  function scoreDuel(q, ok){
+    const p = state.duel.players[state.duel.turn];
+    p.answered += 1;
+    if(ok){
+      p.correct += 1;
+      p.streak += 1;
+      p.bestStreak = Math.max(p.bestStreak, p.streak);
+    }else{
+      p.streak = 0;
+    }
+    p.level = computeLevelFromStreak(p.streak);
+
+    if(ok){
+      const mult = streakBonusMultiplier(p.streak);
+      const pts = Math.round(basePoints(q.diff) * mult);
+      p.score += pts;
+      if(p.streak>0 && p.streak % 5 === 0){
+        toast(`⚔️ ${escapeHTML(p.name)} racha <b>${p.streak}</b>: +${pts} pts`);
+      }
+    }
+    save();
+  }
+
+  function answerDuel(idx){
+    if(state.view!=="duel" || !state.duel.on) return;
+    if(state.play.locked) return;
+    const q = curBank().find(x=>x.id===state.play.active.qid);
+    if(!q) return;
+
+    state.play.locked = true;
+    state.play.active.picked = idx;
+    state.play.active.ok = (idx === q.a);
+
+    scoreDuel(q, idx===q.a);
+    save();
+    render();
+  }
+
+  function goNextDuel(){
+    if(state.view!=="duel" || !state.duel.on) return;
+    if(!state.play.locked){ toast("Responde primero."); return; }
+
+    state.duel.roundIdx += 1;
+    state.play.idx = state.duel.roundIdx;
+
+    if(state.duel.roundIdx >= state.duel.rounds){ endDuel(); return; }
+
+    state.duel.turn = (state.duel.turn === 0) ? 1 : 0;
+    save();
+    nextQuestionDuel();
+  }
+
+  function endDuel(){
+    state.play.endedAt = nowISO();
+    state.view = "duelEnd";
+    save();
+    render();
+  }
+
+  function renderQuestionBlock(q, locked, picked, modeLabel){
+    const diffLabel = q.diff===1 ? "Fácil" : q.diff===2 ? "Media" : "Difícil";
+    const keys = ["1","2","3","4"];
+    const optsHtml = q.opts.map((t,i)=>{
+      let cls = "opt";
+      if(locked){
+        cls += " disabled";
+        if(i===q.a) cls += " good";
+        if(picked===i && i!==q.a) cls += " bad";
+      }
+      return `<button class="${cls}" data-i="${i}">
+        <span class="key">${keys[i]}</span>
+        <span>${escapeHTML(t)}</span>
+      </button>`;
+    }).join("");
+    return `
+      <div class="fadeSlideIn">
+      <div class="metaRow">
+        <span class="badge a">${escapeHTML(q.cat)}</span>
+        <span class="badge d">${diffLabel}</span>
+        <span class="badge c">${escapeHTML(modeLabel)}</span>
+      </div>
+      <div class="q">${escapeHTML(q.q)}</div>
+      ${optsHtml}
+      <div class="hint" style="display:${locked?'block':'none'}">${q.exp ? escapeHTML(q.exp) : "—"}</div>
+      </div>
+    `;
+  }
+
+  function viewHome(){
+    $("#mainTitle").textContent = "Inicio";
+    $("#mainMeta").textContent = `${ageLabels[state.mode].icon} ${ageLabels[state.mode].label} · banco: ${curBank().length}`;
+    const modeHint = state.mode==="kids"
+      ? "En Niños, las preguntas son más concretas y amigables (dinos, espacio, vida diaria, números)."
+      : state.mode==="teens"
+        ? "En Adolescentes, sube un poco el reto (escuela, ciencia, tecnología, lógica)."
+        : "En Adultos queda el modo actual (curadas + generadas, adaptativo).";
+
+    $("#mainBody").innerHTML = `
+      <div class="big">Una pregunta. Un pulso. 🎯</div>
+      <div class="mini">${modeHint}</div>
+
+      <div class="sep"></div>
+
+      <div class="mini">Juego individual</div>
+      <div class="btnRow" style="justify-content:flex-start">
+        <button class="btn primary" id="go10">⚡ Rápido (10)</button>
+        <button class="btn" id="go25">🎯 Rápido (25)</button>
+        <button class="btn" id="goInf">♾️ Infinito</button>
+      </div>
+
+      <div class="sep"></div>
+
+      <div class="mini">Duelo</div>
+      <div class="btnRow" style="justify-content:flex-start">
+        <button class="btn" id="goDuel">⚔️ Duelo (2 jugadores)</button>
+      </div>
+
+      <div class="hint">
+        🎛️ Reinicia el juego cuando quieras: el orden se <b>intercala</b> por categorías y usa un <b>seed nuevo</b>, así nunca entra igual.
+        Hitos de felicitación: <b>20, 40, 80, 100, 120…</b>
+      </div>
+    `;
+    $("#go10").addEventListener("click", ()=>newGame("quick10"));
+    $("#go25").addEventListener("click", ()=>newGame("quick25"));
+    $("#goInf").addEventListener("click", ()=>newGame("infinite"));
+    $("#goDuel").addEventListener("click", ()=>{ state.view="duelSetup"; save(); render(); });
+  }
+
+  function viewPlay(){
+    const q = curBank().find(x=>x.id===state.play.active?.qid);
+    if(!q){ viewHome(); return; }
+    const totalLabel = (state.play.mode==="quick10"||state.play.mode==="quick25") ? `${state.play.idx+1}/${state.play.total}` : `#${state.play.idx+1}`;
+    $("#mainTitle").textContent = "Juego";
+    $("#mainMeta").textContent = `individual · ${totalLabel} · ${ageLabels[state.mode].label}`;
+
+    $("#mainBody").innerHTML = `
+      ${renderQuestionBlock(q, state.play.locked, state.play.active.picked, "Individual")}
+      <div class="btnRow">
+        <button class="btn" id="btnQuit">⟵ Salir</button>
+        <button class="btn primary" id="btnNext" ${state.play.locked?'':'disabled'}>Siguiente ⏎</button>
+      </div>
+    `;
+    $$(".opt").forEach(btn=>btn.addEventListener("click", ()=>answerSolo(Number(btn.dataset.i))));
+    $("#btnQuit").addEventListener("click", ()=>{ state.view="home"; save(); render(); });
+    $("#btnNext").addEventListener("click", ()=>goNextSolo());
+  }
+
+  function viewEnd(){
+    $("#mainTitle").textContent = "Fin";
+    const started = state.play.startedAt ? new Date(state.play.startedAt) : null;
+    const ended = state.play.endedAt ? new Date(state.play.endedAt) : null;
+    const seconds = (started && ended) ? Math.max(1, Math.round((ended-started)/1000)) : 0;
+    $("#mainMeta").textContent = `${ageLabels[state.mode].label} · tiempo: ${seconds}s`;
+    const pts = state.play.pointsThisRun || 0;
+    const st = curStats();
+
+    $("#mainBody").innerHTML = `
+      <div class="big">¡Listo! ✅</div>
+      <div class="mini">Puntos en esta partida: <b>${pts}</b> · total modo: <b>${st.points}</b></div>
+      <div class="sep"></div>
+      <div class="btnRow" style="justify-content:flex-start">
+        <button class="btn primary" id="playAgain">▶️ Otra vez</button>
+        <button class="btn" id="backHome">🏠 Inicio</button>
+      </div>
+    `;
+    $("#playAgain").addEventListener("click", ()=>newGame(state.play.mode==="quick25"?"quick25":state.play.mode==="quick10"?"quick10":"infinite"));
+    $("#backHome").addEventListener("click", ()=>{ state.view="home"; save(); render(); });
+  }
+
+  function viewDuelSetup(){
+    $("#mainTitle").textContent = "Duelo";
+    $("#mainMeta").textContent = `${ageLabels[state.mode].label} · turnos alternos`;
+    const p1 = state.duel.players?.[0]?.name || "Jugador 1";
+    const p2 = state.duel.players?.[1]?.name || "Jugador 2";
+    const rounds = state.duel.rounds || 10;
+
+    $("#mainBody").innerHTML = `
+      <div class="big">⚔️ Duelo (2 jugadores)</div>
+      <div class="mini">Cada turno responde una pregunta. Gana quien sume más puntos.</div>
+      <div class="sep"></div>
+      <div class="two">
+        <div><div class="mini">Jugador 1</div><input id="p1name" value="${escapeHTML(p1)}" /></div>
+        <div><div class="mini">Jugador 2</div><input id="p2name" value="${escapeHTML(p2)}" /></div>
+      </div>
+      <div style="margin-top:10px">
+        <div class="mini">Rondas</div>
+        <select id="rounds">${[6,10,14,20].map(n=>`<option value="${n}" ${n===rounds?'selected':''}>${n}</option>`).join("")}</select>
+      </div>
+      <div class="sep"></div>
+      <div class="btnRow" style="justify-content:flex-start">
+        <button class="btn" id="backHome">⟵ Volver</button>
+        <button class="btn primary" id="startDuel">⚔️ Iniciar duelo</button>
+      </div>
+      <div class="hint">Con dificultad en <b>Auto</b>, cada jugador sube suave con su propia racha.</div>
+    `;
+    $("#backHome").addEventListener("click", ()=>{ state.view="home"; save(); render(); });
+    $("#startDuel").addEventListener("click", ()=>{
+      state.duel.players[0].name = ($("#p1name").value || "Jugador 1").trim().slice(0,28);
+      state.duel.players[1].name = ($("#p2name").value || "Jugador 2").trim().slice(0,28);
+      state.duel.rounds = Number($("#rounds").value || 10);
+      save();
+      startDuel();
+    });
+  }
+
+  function viewDuel(){
+    const q = curBank().find(x=>x.id===state.play.active?.qid);
+    if(!q){ state.view="home"; state.duel.on=false; save(); return render(); }
+
+    const p = state.duel.players[state.duel.turn];
+    const modeLabel = `Turno: ${p.name} · Ronda ${state.duel.roundIdx+1}/${state.duel.rounds}`;
+
+    $("#mainTitle").textContent = "Duelo";
+    $("#mainMeta").textContent = `⚔️ ${state.duel.players[0].name} vs ${state.duel.players[1].name} · ${ageLabels[state.mode].label}`;
+
+    $("#mainBody").innerHTML = `
+      <div class="two">
+        <div class="stat">
+          <div class="k">${escapeHTML(state.duel.players[0].name)}</div>
+          <div class="v">${state.duel.players[0].score}</div>
+          <div class="mini">racha: ${state.duel.players[0].streak} · nivel: ${state.duel.players[0].level}</div>
+        </div>
+        <div class="stat">
+          <div class="k">${escapeHTML(state.duel.players[1].name)}</div>
+          <div class="v">${state.duel.players[1].score}</div>
+          <div class="mini">racha: ${state.duel.players[1].streak} · nivel: ${state.duel.players[1].level}</div>
+        </div>
+      </div>
+
+      <div class="sep"></div>
+
+      ${renderQuestionBlock(q, state.play.locked, state.play.active.picked, modeLabel)}
+
+      <div class="btnRow">
+        <button class="btn" id="quitDuel">⟵ Salir</button>
+        <button class="btn primary" id="nextDuel" ${state.play.locked?'':'disabled'}>Siguiente ⏎</button>
+      </div>
+    `;
+    $$(".opt").forEach(btn=>btn.addEventListener("click", ()=>answerDuel(Number(btn.dataset.i))));
+    $("#quitDuel").addEventListener("click", ()=>{ state.view="home"; state.duel.on=false; save(); render(); });
+    $("#nextDuel").addEventListener("click", ()=>goNextDuel());
+  }
+
+  function viewDuelEnd(){
+    $("#mainTitle").textContent = "Resultado del duelo";
+    $("#mainMeta").textContent = `${ageLabels[state.mode].label} · puntos + racha`;
+    const a = state.duel.players[0], b = state.duel.players[1];
+    const winner = (a.score>b.score) ? a.name : (b.score>a.score) ? b.name : "Empate";
+
+    $("#mainBody").innerHTML = `
+      <div class="big">🏁 ${escapeHTML(winner)}</div>
+      <div class="mini">${winner==="Empate" ? "Quedaron iguales. Buen duelo." : "Gana por puntos acumulados."}</div>
+      <div class="sep"></div>
+      <div class="two">
+        <div class="stat">
+          <div class="k">${escapeHTML(a.name)}</div>
+          <div class="v">${a.score}</div>
+          <div class="mini">precisión: ${a.answered?Math.round((a.correct/a.answered)*100):0}% · mejor racha: ${a.bestStreak}</div>
+        </div>
+        <div class="stat">
+          <div class="k">${escapeHTML(b.name)}</div>
+          <div class="v">${b.score}</div>
+          <div class="mini">precisión: ${b.answered?Math.round((b.correct/b.answered)*100):0}% · mejor racha: ${b.bestStreak}</div>
+        </div>
+      </div>
+      <div class="sep"></div>
+      <div class="btnRow" style="justify-content:flex-start">
+        <button class="btn primary" id="again">⚔️ Otro duelo</button>
+        <button class="btn" id="home">🏠 Inicio</button>
+      </div>
+    `;
+    $("#again").addEventListener("click", ()=>{ state.view="duelSetup"; save(); render(); });
+    $("#home").addEventListener("click", ()=>{ state.view="home"; state.duel.on=false; save(); render(); });
+  }
+
+  function viewBank(){
+    $("#mainTitle").textContent = "Banco";
+    $("#mainMeta").textContent = `${ageLabels[state.mode].label} · ${curBank().length} preguntas`;
+    const sample = curBank().slice(0, 8);
+
+    $("#mainBody").innerHTML = `
+      <details class="acc" open>
+        <summary class="accSum"><span>🧠 Banco de preguntas (${ageLabels[state.mode].label})</span><span class="mini">toca para plegar</span></summary>
+        <div class="accBody">
+          <div class="mini">Estructura: {id, age, cat, diff(1-3), type(base/gen), q, opts[4], a, exp?}</div>
+          <div class="sep"></div>
+          <div class="two">
+            <button class="btn primary" id="exportBank">⬇️ Exportar banco</button>
+            <button class="btn" id="restoreBank">↩️ Restaurar banco</button>
+          </div>
+          <div class="sep"></div>
+          <div class="mini">Pegar JSON para importar (reemplaza el banco del modo actual)</div>
+          <textarea id="bankArea" rows="10" placeholder='[{"id":1,"age":"kids","cat":"General","diff":1,"type":"base","q":"...","opts":["A","B","C","D"],"a":2,"exp":"..."}]'></textarea>
+          <div class="btnRow" style="justify-content:flex-start">
+            <button class="btn primary" id="importBank">⬆️ Importar</button>
+            <button class="btn" id="pasteExample">🧩 Pegar ejemplo</button>
+          </div>
+        </div>
+      </details>
+
+      <div class="sep"></div>
+
+      <details class="acc">
+        <summary class="accSum"><span>👀 Muestra rápida</span><span class="mini">${sample.length} ítems</span></summary>
+        <div class="accBody">
+          <div class="hint" style="max-height:260px; overflow:auto">
+            ${sample.map(x=>`<div style="margin:8px 0">
+              <span class="badge a">${escapeHTML(x.cat)}</span>
+              <span class="badge d">d${x.diff}</span>
+              <div style="margin-top:6px;font-weight:1050">${escapeHTML(x.q)}</div>
+            </div>`).join("")}
+          </div>
+        </div>
+      </details>
+    `;
+
+    $("#exportBank").addEventListener("click", ()=>{
+      const blob = new Blob([JSON.stringify(curBank(),null,2)], {type:"application/json"});
+      const a = document.createElement("a");
+      a.href = URL.createObjectURL(blob);
+      a.download = `trivialab_bank_${state.mode}.json`;
+      a.click();
+      URL.revokeObjectURL(a.href);
+      toast("Banco exportado");
+    });
+
+    $("#restoreBank").addEventListener("click", ()=>{
+      if(!confirm("¿Restaurar el banco del modo actual? Reemplaza el actual.")) return;
+      if(state.mode==="kids") state.banks.kids = buildKidsBank();
+      else if(state.mode==="teens") state.banks.teens = buildTeensBank();
+      else state.banks.adult = buildAdultsBank1000();
+      state.filters = { cats:["Todos"], diffs:["Auto"], types:["Todos"] };
+      save(); render();
+      toast("Banco restaurado");
+    });
+
+    $("#pasteExample").addEventListener("click", ()=>{
+      $("#bankArea").value = JSON.stringify(curBank().slice(0,20), null, 2);
+      toast("Ejemplo pegado (20)");
+    });
+
+    $("#importBank").addEventListener("click", ()=>{
+      const raw = ($("#bankArea").value||"").trim();
+      if(!raw) return toast("Pega un JSON primero");
+      try{
+        const arr = JSON.parse(raw);
+        if(!Array.isArray(arr) || arr.length < 50) return toast("JSON inválido o muy corto (<50)");
+        for(const q of arr){
+          if(typeof q.id!=="number" || !q.cat || !q.q || !Array.isArray(q.opts) || q.opts.length!==4 || typeof q.a!=="number"){
+            return toast("Falta estructura en alguna pregunta");
+          }
+          q.diff = clamp(Number(q.diff||1),1,3);
+          q.a = clamp(Number(q.a),0,3);
+          q.type = (q.type==="gen"||q.type==="base") ? q.type : "base";
+          q.age = (q.age==="kids"||q.age==="teens"||q.age==="adult") ? q.age : state.mode;
+        }
+        state.banks[state.mode] = arr;
+        state.filters = { cats:["Todos"], diffs:["Auto"], types:["Todos"] };
+        save(); render();
+        toast("Banco importado");
+      }catch(e){
+        toast("JSON inválido");
+      }
+    });
+  }
+
+  function render(){
+    renderAgeChips();
+    renderFilterChips();
+    updateStatsUI();
+
+    if(state.view==="home") viewHome();
+    else if(state.view==="play") viewPlay();
+    else if(state.view==="end") viewEnd();
+    else if(state.view==="bank") viewBank();
+    else if(state.view==="duelSetup") viewDuelSetup();
+    else if(state.view==="duel") viewDuel();
+    else if(state.view==="duelEnd") viewDuelEnd();
+    else { state.view="home"; save(); viewHome(); }
+  }
+
+  $("#btnHome").addEventListener("click", ()=>{ state.view="home"; state.duel.on=false; save(); render(); });
+  $("#btnPlay").addEventListener("click", ()=>{ state.view="home"; state.duel.on=false; save(); render(); });
+  $("#btnDuel").addEventListener("click", ()=>{ state.view="duelSetup"; state.duel.on=false; save(); render(); });
+  $("#btnBank").addEventListener("click", ()=>{ state.view="bank"; state.duel.on=false; save(); render(); });
+
+  $("#btnResetStats").addEventListener("click", ()=>{
+    if(!confirm("¿Reiniciar estadísticas SOLO del modo actual?")) return;
+    state.statsByMode[state.mode] = { answered:0, correct:0, streak:0, bestStreak:0, points:0, level:1, byCat:{}, milestoneSeen:0 };
+    save(); render();
+    toast("Reiniciado (modo actual)");
+  });
+  $("#btnExportStats").addEventListener("click", ()=>{
+    const blob = new Blob([JSON.stringify(state.statsByMode,null,2)], {type:"application/json"});
+    const a = document.createElement("a");
+    a.href = URL.createObjectURL(blob);
+    a.download = "trivialab_stats_por_modo.json";
+    a.click();
+    URL.revokeObjectURL(a.href);
+    toast("Stats exportadas");
+  });
+
+  window.addEventListener("keydown", (e)=>{
+    if(e.key==="Escape"){
+      if($("#celeBackdrop").style.display==="flex") return closeCelebration();
+      if(state.view==="play" || state.view==="duel"){ state.view="home"; state.duel.on=false; save(); render(); return; }
+    }
+    if(state.view==="play" && !state.duel.on){
+      if(["1","2","3","4"].includes(e.key)) answerSolo(Number(e.key)-1);
+      else if(e.key==="Enter") goNextSolo();
+    }else if(state.view==="duel" && state.duel.on){
+      if(["1","2","3","4"].includes(e.key)) answerDuel(Number(e.key)-1);
+      else if(e.key==="Enter") goNextDuel();
+    }
+  });
+
+  setInterval(()=>{ $("#clock").textContent = new Date().toLocaleTimeString(); }, 1000);
+
+  render();
+})();
+</script>
+</body>
+</html>

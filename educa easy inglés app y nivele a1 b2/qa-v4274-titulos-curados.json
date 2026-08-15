@@ -1,0 +1,108 @@
+{
+  "version": "v4.27.4",
+  "toolbarRemoved": "guided listen top mini toolbar removed",
+  "titlePattern": "<tema corto> <fase>",
+  "samples": [
+    [
+      "lesson_151",
+      "Mañana hábitos Rutina",
+      "Hábitos Rutina"
+    ],
+    [
+      "lesson_152",
+      "Mañana hábitos Uso",
+      "Hábitos Uso"
+    ],
+    [
+      "lesson_153",
+      "Mañana hábitos Contexto",
+      "Hábitos Contexto"
+    ],
+    [
+      "lesson_154",
+      "Mañana hábitos Razón",
+      "Hábitos Razón"
+    ],
+    [
+      "lesson_155",
+      "Mañana hábitos Secuencia",
+      "Hábitos Secuencia"
+    ],
+    [
+      "lesson_156",
+      "Responsabilidades diarias Rutina",
+      "Deberes Rutina"
+    ],
+    [
+      "lesson_157",
+      "Responsabilidades diarias Uso",
+      "Deberes Uso"
+    ],
+    [
+      "lesson_158",
+      "Responsabilidades diarias Contexto",
+      "Deberes Contexto"
+    ],
+    [
+      "lesson_159",
+      "Responsabilidades diarias Razón",
+      "Deberes Razón"
+    ],
+    [
+      "lesson_160",
+      "Responsabilidades diarias Secuencia",
+      "Deberes Secuencia"
+    ],
+    [
+      "lesson_161",
+      "Horarios frecuencia Rutina",
+      "Horarios Rutina"
+    ],
+    [
+      "lesson_162",
+      "Horarios frecuencia Uso",
+      "Horarios Uso"
+    ],
+    [
+      "lesson_163",
+      "Horarios frecuencia Contexto",
+      "Horarios Contexto"
+    ],
+    [
+      "lesson_164",
+      "Horarios frecuencia Razón",
+      "Horarios Razón"
+    ],
+    [
+      "lesson_165",
+      "Horarios frecuencia Secuencia",
+      "Horarios Secuencia"
+    ],
+    [
+      "lesson_166",
+      "Comidas preferencias Rutina",
+      "Comidas Rutina"
+    ],
+    [
+      "lesson_167",
+      "Comidas preferencias Uso",
+      "Comidas Uso"
+    ],
+    [
+      "lesson_168",
+      "Comidas preferencias Contexto",
+      "Comidas Contexto"
+    ],
+    [
+      "lesson_169",
+      "Comidas preferencias Razón",
+      "Comidas Razón"
+    ],
+    [
+      "lesson_170",
+      "Comidas preferencias Secuencia",
+      "Comidas Secuencia"
+    ]
+  ],
+  "violations": []
+}

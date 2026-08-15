@@ -1,0 +1,14 @@
+{
+  "version": "v4.27.1",
+  "checks": {
+    "guided_helpers": true,
+    "route_station_title_usage": 1,
+    "review_station_title_usage": 1,
+    "compact_two_lines_css": true,
+    "content_version": "2.12.1 / v4.27.1"
+  },
+  "notes": [
+    "Guided reading/listening now show only two visible situation lines plus optional collapsible support/transcription.",
+    "Route station cards now prefer subtitle when the lesson title repeats the world title."
+  ]
+}

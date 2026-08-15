@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Easy English Go · Inglés para la vida real</title>
+  <meta name="theme-color" content="#5b5bd6" />
+  <meta name="description" content="Easy English Go: Inglés para la vida real. Aplicación web instalable para aprender inglés cotidiano y útil desde situaciones reales." />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;500;600;700;800;900&display=swap" rel="stylesheet" />
+  <!-- Íconos PWA — Easy English Go -->
+  <link rel="icon" href="assets/icons/icon-192x192.png" type="image/png" />
+  <link rel="apple-touch-icon" href="assets/icons/apple-touch-icon.png" />
+  <link rel="apple-touch-icon" sizes="152x152" href="assets/icons/icon-152x152.png" />
+  <link rel="apple-touch-icon" sizes="192x192" href="assets/icons/icon-192x192.png" />
+  <link rel="stylesheet" href="app.css?v=5.0.55-manual-nav-fix" />
+</head>
+<body>
+  <div id="app-splash" aria-hidden="true" role="presentation">
+    <div class="splash-logo-wrap">
+      <img
+        class="splash-logo-img"
+        src="assets/images/logo_ipd.png"
+        alt="Easy English Go — Inglés para la vida real"
+        draggable="false"
+      />
+    </div>
+  </div>
+
+  <div id="app-shell">
+    <header id="app-header"></header>
+    <main id="app-main"></main>
+    <div id="app-toast-layer" class="toast-layer" aria-live="polite" aria-atomic="true"></div>
+    <div id="app-spotlight-layer" aria-live="polite" aria-atomic="true"></div>
+    <div id="app-modal-layer"></div>
+  </div>
+
+  <script>
+    if (location.protocol !== 'file:') {
+      const manifestLink = document.createElement('link');
+      manifestLink.rel = 'manifest';
+      manifestLink.href = 'manifest.json?v=5.0.55-manual-nav-fix';
+      document.head.appendChild(manifestLink);
+    }
+  </script>
+  <script src="app.js?v=5.0.69-ajustes-configuracion-responsive"></script>
+</body>
+</html>

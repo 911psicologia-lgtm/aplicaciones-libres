@@ -1,0 +1,933 @@
+{
+  "schemaVersion": "1.0",
+  "packId": "pack_cartography_f_jewish_christian_medieval_20_v1",
+  "title": "Cartografía F · Series 3–4 · Filosofías judías y cristianas medievales: lenguaje, creación, libertad y conocimiento",
+  "status": "research_consolidated_pending_app_integration",
+  "createdAt": "2026-07-25",
+  "recordCount": 20,
+  "editorialRule": "Audios breves con entidad inicial, idea central, aporte y cautela; relaciones judías, cristianas e islámicas explícitas sin borrar diferencias doctrinales.",
+  "records": [
+    {
+      "id": "card_saadya_reason_revelation_001",
+      "series": "cartography-f-series-3-4",
+      "order": 21,
+      "entity": "Saadia Gaon",
+      "title": "Razón y revelación como vías que se corrigen",
+      "period": "882–942",
+      "territory": "Egipto y Bagdad",
+      "cardType": "autor_concepto",
+      "question": "¿Por qué sería necesaria la revelación si la razón puede conocer verdades morales y religiosas?",
+      "visibleText": "Saadia articuló conocimientos racionales, tradición y revelación, distinguiendo leyes comprensibles por razón y mandatos conocidos por revelación.",
+      "coreIdea": "La revelación acelera, guía y estabiliza una búsqueda racional vulnerable al error, sin volver inútil la investigación.",
+      "distinctiveKey": "razón + revelación + ley",
+      "audio": "Comenzamos el segundo lote con Saadia Gaon. Algunas obligaciones, como hacer justicia, pueden comprenderse racionalmente; otras dependen de una revelación específica. Aun donde la razón puede avanzar, las personas se equivocan, tardan o discrepan. La tradición revelada orienta la práctica y la investigación. Saadia dialoga con el kalām, pero construye una posición judía propia.",
+      "caution": "No reducirlo a portavoz judío del muʿtazilismo ni presentar razón y revelación como fuentes idénticas.",
+      "tags": [
+        "Saadia",
+        "razón",
+        "revelación",
+        "ley"
+      ],
+      "connections": [
+        "card_mutazila_justice_freedom_001",
+        "card_judeo_arabic_shared_world_001"
+      ],
+      "quiz": {
+        "question": "¿Qué función puede cumplir la revelación en Saadia?",
+        "options": [
+          "Eliminar la razón",
+          "Orientar y estabilizar conocimientos y prácticas",
+          "Negar toda ley racional",
+          "Sustituir la comunidad"
+        ],
+        "correctIndex": 1,
+        "explanation": "La revelación coopera con la razón sin confundirse con ella."
+      },
+      "evidenceLevel": "A",
+      "sources": [
+        {
+          "title": "Saadya [Saadiah]",
+          "url": "https://plato.stanford.edu/archives/spr2022/entries/saadya/"
+        },
+        {
+          "title": "Influence of Arabic and Islamic Philosophy on Judaic Thought",
+          "url": "https://plato.stanford.edu/entries/arabic-islamic-judaic/"
+        }
+      ]
+    },
+    {
+      "id": "card_ibngabirol_universal_hylomorphism_001",
+      "series": "cartography-f-series-3-4",
+      "order": 22,
+      "entity": "Ibn Gabirol / Avicebrón",
+      "title": "Materia y forma más allá de los cuerpos",
+      "period": "ca. 1021–1058",
+      "territory": "Al-Ándalus",
+      "cardType": "autor_concepto",
+      "question": "¿Puede una realidad espiritual estar compuesta sin ser corporal?",
+      "visibleText": "Ibn Gabirol sostuvo que todas las criaturas, incluidas almas e intelectos, poseen materia y forma en sentido universal.",
+      "coreIdea": "La hilemorfía universal explica composición y dependencia creadas, mientras Dios permanece absolutamente simple.",
+      "distinctiveKey": "materia universal + forma + voluntad",
+      "audio": "Seguimos con Ibn Gabirol y la hilemorfía universal. La materia no significa aquí solamente cuerpo visible: funciona como principio receptivo de forma en todos los seres creados, incluso espirituales. Esta estructura distingue a las criaturas del Dios simple y se articula con la voluntad divina. En el mundo latino, Avicebrón fue leído durante siglos sin reconocerse claramente su identidad judía.",
+      "caution": "No traducir materia universal como sustancia física ni atribuir su recepción latina a una identidad cristiana real.",
+      "tags": [
+        "Ibn Gabirol",
+        "hilemorfismo",
+        "neoplatonismo",
+        "voluntad"
+      ],
+      "connections": [
+        "card_judeo_arabic_shared_world_001",
+        "card_bonaventure_illumination_001"
+      ],
+      "quiz": {
+        "question": "¿Qué afirma la hilemorfía universal?",
+        "options": [
+          "Solo los cuerpos tienen composición",
+          "Todas las criaturas poseen materia y forma en sentido amplio",
+          "Dios tiene materia",
+          "La forma no existe"
+        ],
+        "correctIndex": 1,
+        "explanation": "La composición se extiende a seres creados no corporales."
+      },
+      "evidenceLevel": "A",
+      "sources": [
+        {
+          "title": "Solomon Ibn Gabirol [Avicebron]",
+          "url": "https://plato.stanford.edu/archives/spr2024/entries/ibn-gabirol/"
+        },
+        {
+          "title": "Influence of Arabic and Islamic Philosophy on Judaic Thought",
+          "url": "https://plato.stanford.edu/entries/arabic-islamic-judaic/"
+        }
+      ]
+    },
+    {
+      "id": "card_judahhalevi_experience_tradition_001",
+      "series": "cartography-f-series-3-4",
+      "order": 23,
+      "entity": "Judah Halevi",
+      "title": "La verdad religiosa no comienza en una abstracción",
+      "period": "ca. 1075–1141",
+      "territory": "Al-Ándalus y Mediterráneo",
+      "cardType": "autor_obra",
+      "question": "¿Puede una tradición histórica ofrecer un tipo de conocimiento que una demostración abstracta no sustituye?",
+      "visibleText": "En el Kuzari, Halevi privilegia experiencia histórica, práctica comunitaria y profecía frente a sistemas filosóficos autosuficientes.",
+      "coreIdea": "La razón es valiosa, pero no agota formas de conocimiento ligadas a memoria, vida colectiva y revelación concreta.",
+      "distinctiveKey": "experiencia histórica + comunidad + profecía",
+      "audio": "Llegamos a Judah Halevi y el Kuzari. Su diálogo examina filosofía, cristianismo, islam, interpretaciones caraítas y judaísmo rabínico. Halevi desconfía de una religión construida solo desde principios universales: subraya acontecimientos, transmisión y prácticas de una comunidad. Esto no equivale a rechazar toda razón; cuestiona que la demostración filosófica sustituya completamente una forma histórica de vida.",
+      "caution": "No convertir su defensa del judaísmo en desprecio simple de la filosofía ni abstraerla de conflictos medievales concretos.",
+      "tags": [
+        "Judah Halevi",
+        "Kuzari",
+        "tradición",
+        "experiencia"
+      ],
+      "connections": [
+        "card_saadya_reason_revelation_001",
+        "card_maimonides_negative_theology_001"
+      ],
+      "quiz": {
+        "question": "¿Qué enfatiza Halevi?",
+        "options": [
+          "Una religión sin historia",
+          "Experiencia, comunidad y transmisión histórica",
+          "La inutilidad de toda razón",
+          "Una ética individualista"
+        ],
+        "correctIndex": 1,
+        "explanation": "El conocimiento religioso se vincula con una tradición vivida."
+      },
+      "evidenceLevel": "B",
+      "sources": [
+        {
+          "title": "Judah Halevi",
+          "url": "https://plato.stanford.edu/archives/sum2020/entries/halevi/"
+        },
+        {
+          "title": "Influence of Arabic and Islamic Philosophy on Judaic Thought",
+          "url": "https://plato.stanford.edu/entries/arabic-islamic-judaic/"
+        }
+      ]
+    },
+    {
+      "id": "card_maimonides_negative_theology_001",
+      "series": "cartography-f-series-3-4",
+      "order": 24,
+      "entity": "Maimónides",
+      "title": "Conocer a Dios exige retirar predicados engañosos",
+      "period": "1138–1204",
+      "territory": "Córdoba, norte de África y Egipto",
+      "cardType": "autor_concepto",
+      "question": "¿Decir que Dios es sabio significa atribuirle una cualidad comparable con la sabiduría humana?",
+      "visibleText": "Maimónides defendió una teología negativa: las afirmaciones positivas sobre la esencia divina introducen comparaciones y composiciones inadecuadas.",
+      "coreIdea": "El lenguaje teológico orienta mejor cuando niega limitaciones o describe efectos, reconociendo los límites del conocimiento humano.",
+      "distinctiveKey": "negación + trascendencia + límites del lenguaje",
+      "audio": "Escuchamos a Maimónides y la vía negativa. Decir que Dios es poderoso no significa colocarlo en una escala junto con poderes humanos. Las afirmaciones positivas pueden antropomorfizar y dividir lo absolutamente uno. Por eso Maimónides prefiere negar limitaciones y hablar de los efectos de la acción divina. El punto no es abandonar la razón, sino usarla para reconocer sus fronteras.",
+      "caution": "No confundir teología negativa con ateísmo, silencio absoluto inmediato o negación de toda práctica religiosa.",
+      "tags": [
+        "Maimónides",
+        "teología negativa",
+        "lenguaje",
+        "trascendencia"
+      ],
+      "connections": [
+        "card_judahhalevi_experience_tradition_001",
+        "card_pseudodionysius_apophatic_001"
+      ],
+      "quiz": {
+        "question": "¿Qué busca la vía negativa?",
+        "options": [
+          "Describir la esencia divina con más adjetivos",
+          "Evitar comparaciones y composiciones engañosas",
+          "Negar la existencia de Dios",
+          "Rechazar toda interpretación"
+        ],
+        "correctIndex": 1,
+        "explanation": "La negación protege la trascendencia y reconoce límites cognitivos."
+      },
+      "evidenceLevel": "A",
+      "sources": [
+        {
+          "title": "Maimonides",
+          "url": "https://plato.stanford.edu/entries/maimonides/index.html"
+        },
+        {
+          "title": "The Influence of Islamic Thought on Maimonides",
+          "url": "https://plato.stanford.edu/entries/maimonides-islamic/"
+        }
+      ]
+    },
+    {
+      "id": "card_maimonides_prophecy_intellect_001",
+      "series": "cartography-f-series-3-4",
+      "order": 25,
+      "entity": "Maimónides",
+      "title": "La profecía articula intelecto, imaginación y preparación",
+      "period": "1138–1204",
+      "territory": "Egipto y Mediterráneo",
+      "cardType": "autor_concepto",
+      "question": "¿La profecía elimina las capacidades humanas o las lleva a una forma excepcional de realización?",
+      "visibleText": "Maimónides relacionó profecía con perfección intelectual, imaginación y un influjo mediado por el intelecto activo.",
+      "coreIdea": "La profecía posee dimensión naturalizada y política, aunque depende también de voluntad divina y no se reduce a genialidad humana.",
+      "distinctiveKey": "intelecto + imaginación + profecía",
+      "audio": "Seguimos con Maimónides y la profecía. El profeta requiere formación intelectual, disposición moral e imaginación capaz de traducir verdades en imágenes, leyes y orientaciones públicas. El influjo del intelecto activo actualiza capacidades humanas, aunque Maimónides conserva tensiones sobre la intervención divina. Así explica diferencias entre demostración filosófica, visión profética y legislación.",
+      "caution": "No reducir profecía a predicción, enfermedad, talento poético o proceso enteramente automático.",
+      "tags": [
+        "Maimónides",
+        "profecía",
+        "intelecto activo",
+        "imaginación"
+      ],
+      "connections": [
+        "card_maimonides_negative_theology_001",
+        "card_gersonides_reason_providence_001"
+      ],
+      "quiz": {
+        "question": "¿Qué facultades articula la profecía maimonidiana?",
+        "options": [
+          "Solo memoria",
+          "Intelecto e imaginación dentro de una preparación moral",
+          "Únicamente percepción visual",
+          "Azar y emoción"
+        ],
+        "correctIndex": 1,
+        "explanation": "La teoría integra perfección cognitiva, imaginación y vida moral."
+      },
+      "evidenceLevel": "B",
+      "sources": [
+        {
+          "title": "Maimonides",
+          "url": "https://plato.stanford.edu/entries/maimonides/index.html"
+        },
+        {
+          "title": "The Influence of Islamic Thought on Maimonides",
+          "url": "https://plato.stanford.edu/entries/maimonides-islamic/"
+        }
+      ]
+    },
+    {
+      "id": "card_gersonides_reason_providence_001",
+      "series": "cartography-f-series-3-4",
+      "order": 26,
+      "entity": "Gersonides / Levi ben Gershom",
+      "title": "La razón puede examinar incluso los problemas más difíciles de la fe",
+      "period": "1288–1344",
+      "territory": "Provenza",
+      "cardType": "autor_concepto",
+      "question": "¿Debe una tradición religiosa impedir aceptar una conclusión racional bien establecida?",
+      "visibleText": "Gersonides sostuvo una confianza amplia en la razón y discutió creación, providencia, conocimiento divino, alma y astronomía.",
+      "coreIdea": "La ley y la razón no pueden contradecirse verdaderamente, aunque su conciliación produzca tesis controvertidas.",
+      "distinctiveKey": "racionalismo religioso + providencia + controversia",
+      "audio": "Llegamos a Gersonides, también llamado Levi ben Gershom. En Las guerras del Señor aborda preguntas que otros preferían dejar abiertas: qué conoce Dios, cómo opera la providencia, qué sobrevive del alma y cómo entender creación y astronomía. Su confianza en la razón generó críticas internas. No intenta abandonar la Torá, sino interpretarla desde conclusiones que considera demostradas.",
+      "caution": "No presentar sus tesis como consenso judío ni reducir su providencia a una fórmula sencilla de determinismo astrológico.",
+      "tags": [
+        "Gersonides",
+        "razón",
+        "providencia",
+        "astronomía"
+      ],
+      "connections": [
+        "card_maimonides_prophecy_intellect_001",
+        "card_crescas_critique_aristotle_001"
+      ],
+      "quiz": {
+        "question": "¿Qué caracteriza a Gersonides?",
+        "options": [
+          "Evitar toda cuestión difícil",
+          "Amplia confianza en la capacidad racional dentro de la tradición",
+          "Rechazar astronomía",
+          "Negar toda revelación"
+        ],
+        "correctIndex": 1,
+        "explanation": "Su proyecto intenta extender la investigación racional a problemas teológicos complejos."
+      },
+      "evidenceLevel": "A",
+      "sources": [
+        {
+          "title": "Gersonides",
+          "url": "https://plato.stanford.edu/entries/gersonides/"
+        }
+      ]
+    },
+    {
+      "id": "card_crescas_critique_aristotle_001",
+      "series": "cartography-f-series-3-4",
+      "order": 27,
+      "entity": "Hasdai Crescas",
+      "title": "Criticar a Aristóteles también desde razón y experiencia",
+      "period": "ca. 1340–1410/11",
+      "territory": "Corona de Aragón",
+      "cardType": "autor_concepto",
+      "question": "¿Puede una filosofía dominante limitar lo que consideramos posible en física y teología?",
+      "visibleText": "Crescas cuestionó definiciones aristotélicas de infinito, espacio, materia, causalidad y libertad, además de revisar el papel del amor divino.",
+      "coreIdea": "La crítica filosófica puede defender una tradición religiosa sin renunciar a argumentación, observación y diálogo con otras escuelas.",
+      "distinctiveKey": "crítica aristotélica + infinito + amor",
+      "audio": "Seguimos con Hasdai Crescas. En Or Hashem discute pruebas y conceptos aristotélicos aceptados por muchos filósofos judíos. Explora infinito, vacío, atributos, libertad y determinación, y coloca el amor de Dios en el centro de la perfección religiosa. Su pensamiento surgió durante crisis políticas y persecuciones, pero no puede reducirse a una reacción conservadora contra la filosofía.",
+      "caution": "No atribuirle directamente descubrimientos de la física moderna ni presentar toda su obra como rechazo uniforme de Maimónides.",
+      "tags": [
+        "Crescas",
+        "Aristóteles",
+        "infinito",
+        "libertad"
+      ],
+      "connections": [
+        "card_gersonides_reason_providence_001",
+        "card_dunsscotus_univocity_freedom_001"
+      ],
+      "quiz": {
+        "question": "¿Qué hace Crescas con el aristotelismo?",
+        "options": [
+          "Lo repite sin cambios",
+          "Lo critica mediante argumentos filosóficos y fuentes diversas",
+          "Lo prohíbe políticamente",
+          "Lo desconoce por completo"
+        ],
+        "correctIndex": 1,
+        "explanation": "Su obra construye una crítica racional y teológica original."
+      },
+      "evidenceLevel": "A",
+      "sources": [
+        {
+          "title": "Hasdai Crescas",
+          "url": "https://plato.stanford.edu/entries/crescas/"
+        }
+      ]
+    },
+    {
+      "id": "card_kabbalah_sefirot_001",
+      "series": "cartography-f-series-3-4",
+      "order": 28,
+      "entity": "Cábala medieval",
+      "title": "Las sefirot articulan unidad, manifestación y práctica",
+      "period": "Siglos XII–XIV",
+      "territory": "Provenza y península ibérica",
+      "cardType": "tradicion_concepto",
+      "question": "¿Cómo representar relaciones dentro de una divinidad que también se afirma como infinita?",
+      "visibleText": "Diversas corrientes cabalísticas describieron sefirot como aspectos o emanaciones mediante los cuales lo divino se manifiesta y se relaciona con el mundo.",
+      "coreIdea": "La estructura sefirotica enlaza exégesis, simbolismo y práctica, pero no constituye una doctrina única ni una división literal de Dios.",
+      "distinctiveKey": "sefirot + simbolismo + exégesis",
+      "audio": "Entramos en la cábala medieval y las sefirot. Los textos cabalísticos interpretan nombres, letras y relatos bíblicos para pensar modos de manifestación divina y relaciones entre lo infinito, el cosmos y la acción humana. Las diez sefirot pueden presentarse como atributos, emanaciones o configuraciones simbólicas según cada escuela. No deben leerse como partes físicas ni como un diagrama universal inmutable.",
+      "caution": "No reducir toda cábala al Árbol de la Vida moderno ni tratar las sefirot como diez dioses separados.",
+      "tags": [
+        "Cábala",
+        "sefirot",
+        "exégesis",
+        "simbolismo"
+      ],
+      "connections": [
+        "card_maimonides_negative_theology_001",
+        "card_ibnarabi_divine_names_001"
+      ],
+      "quiz": {
+        "question": "¿Qué cautela corresponde a las sefirot?",
+        "options": [
+          "Son partes corporales de Dios",
+          "Sus interpretaciones varían y son simbólico-relacionales",
+          "Solo tienen sentido matemático",
+          "Representan una doctrina idéntica en toda época"
+        ],
+        "correctIndex": 1,
+        "explanation": "La cábala medieval fue plural y su lenguaje no es literalista."
+      },
+      "evidenceLevel": "B",
+      "sources": [
+        {
+          "title": "Giovanni Pico della Mirandola",
+          "url": "https://plato.stanford.edu/entries/pico-della-mirandola/"
+        },
+        {
+          "title": "Medieval Philosophy",
+          "url": "https://plato.stanford.edu/archives/fall2025/entries/medieval-philosophy/"
+        }
+      ]
+    },
+    {
+      "id": "card_pseudodionysius_apophatic_001",
+      "series": "cartography-f-series-3-4",
+      "order": 29,
+      "entity": "Pseudo-Dionisio Areopagita",
+      "title": "Nombrar, negar y superar los nombres",
+      "period": "Finales del siglo V–inicios del VI",
+      "territory": "Mediterráneo cristiano oriental",
+      "cardType": "autor_concepto",
+      "question": "¿Cómo puede el lenguaje acercarse a lo divino sin creer que lo contiene?",
+      "visibleText": "Pseudo-Dionisio combinó nombres afirmativos, negaciones y una vía de superación que reconoce la trascendencia divina.",
+      "coreIdea": "La teología apofática usa símbolos y negaciones como ejercicios de orientación, no como descripciones exhaustivas de Dios.",
+      "distinctiveKey": "afirmación + negación + trascendencia",
+      "audio": "Llegamos a Pseudo-Dionisio. Podemos llamar a Dios bien, luz o vida porque esos nombres orientan desde los efectos conocidos; luego debemos negar que se apliquen del mismo modo que a las criaturas. Finalmente, incluso afirmación y negación quedan superadas. Su autor escribió bajo una identidad apostólica ficticia y adaptó profundamente el neoplatonismo a un contexto cristiano.",
+      "caution": "No confundir apofatismo con puro irracionalismo ni aceptar como histórica la identidad de Dionisio convertido por Pablo.",
+      "tags": [
+        "Pseudo-Dionisio",
+        "apofatismo",
+        "neoplatonismo",
+        "nombres divinos"
+      ],
+      "connections": [
+        "card_maimonides_negative_theology_001",
+        "card_bonaventure_illumination_001"
+      ],
+      "quiz": {
+        "question": "¿Qué movimiento propone la teología apofática?",
+        "options": [
+          "Solo afirmar nombres",
+          "Afirmar, negar y reconocer la trascendencia de ambos",
+          "No usar símbolos nunca",
+          "Describir físicamente a Dios"
+        ],
+        "correctIndex": 1,
+        "explanation": "Los nombres orientan, pero deben ser negados como descripciones literales."
+      },
+      "evidenceLevel": "A",
+      "sources": [
+        {
+          "title": "Pseudo-Dionysius the Areopagite",
+          "url": "https://plato.stanford.edu/archives/fall2021/entries/pseudo-dionysius-areopagite/"
+        }
+      ]
+    },
+    {
+      "id": "card_boethius_fortune_happiness_001",
+      "series": "cartography-f-series-3-4",
+      "order": 30,
+      "entity": "Boecio",
+      "title": "La fortuna no puede garantizar el bien que buscamos",
+      "period": "ca. 475–526",
+      "territory": "Italia ostrogoda",
+      "cardType": "autor_obra",
+      "question": "¿Qué permanece cuando poder, riqueza y prestigio cambian de manera imprevisible?",
+      "visibleText": "La Consolación de la filosofía examina la inestabilidad de la fortuna y desplaza la felicidad hacia bienes no dependientes del azar externo.",
+      "coreIdea": "La pérdida revela que los bienes de fortuna son frágiles y que una vida buena requiere un orden más estable de deseo y comprensión.",
+      "distinctiveKey": "fortuna + pérdida + felicidad",
+      "audio": "Escuchamos a Boecio en prisión y a la figura de la Filosofía que lo visita. Poder, honores y riqueza parecen bienes mientras permanecen, pero su pérdida muestra que nunca estuvieron plenamente bajo nuestro control. La Consolación busca una felicidad menos vulnerable a la fortuna y examina providencia, libertad y mal. No es simple resignación: reorganiza qué merece ser deseado.",
+      "caution": "No convertir la obra en consejo para aceptar pasivamente injusticias ni ignorar su compleja discusión metafísica.",
+      "tags": [
+        "Boecio",
+        "fortuna",
+        "felicidad",
+        "Consolación"
+      ],
+      "connections": [
+        "card_boethius_foreknowledge_freedom_001",
+        "card_anselm_faith_understanding_001"
+      ],
+      "quiz": {
+        "question": "¿Qué enseña la inestabilidad de la fortuna?",
+        "options": [
+          "Que riqueza y poder garantizan felicidad",
+          "Que los bienes externos no son plenamente seguros",
+          "Que toda acción es inútil",
+          "Que el sufrimiento siempre es merecido"
+        ],
+        "correctIndex": 1,
+        "explanation": "La fragilidad externa obliga a revisar el objeto de la felicidad."
+      },
+      "evidenceLevel": "A",
+      "sources": [
+        {
+          "title": "Anicius Manlius Severinus Boethius",
+          "url": "https://plato.stanford.edu/archives/spr2025/entries/boethius/"
+        },
+        {
+          "title": "Medieval Philosophy",
+          "url": "https://plato.stanford.edu/archives/fall2025/entries/medieval-philosophy/"
+        }
+      ]
+    },
+    {
+      "id": "card_boethius_foreknowledge_freedom_001",
+      "series": "cartography-f-series-3-4",
+      "order": 31,
+      "entity": "Boecio",
+      "title": "Conocer eternamente no significa causar necesariamente",
+      "period": "ca. 475–526",
+      "territory": "Italia ostrogoda",
+      "cardType": "autor_problema",
+      "question": "¿Si Dios conoce una acción futura, todavía puede ser libre?",
+      "visibleText": "Boecio distinguió el modo eterno del conocimiento divino y la necesidad propia del acontecimiento conocido.",
+      "coreIdea": "La presciencia no causa la acción; el problema exige distinguir necesidad de la consecuencia y necesidad del consecuente.",
+      "distinctiveKey": "eternidad + presciencia + contingencia",
+      "audio": "Seguimos con Boecio y la presciencia. Dios no anticiparía el futuro como quien espera que llegue mañana: conocería toda la historia desde una eternidad no temporal. Que una acción sea conocida infaliblemente no significa que sea causada como necesaria en su propio modo. La solución depende de distinciones lógicas discutidas durante siglos y no elimina todas las dificultades.",
+      "caution": "No resumir la propuesta como “Dios está fuera del tiempo” sin explicar la diferencia entre conocer y causar.",
+      "tags": [
+        "Boecio",
+        "presciencia",
+        "libertad",
+        "eternidad"
+      ],
+      "connections": [
+        "card_boethius_fortune_happiness_001",
+        "card_gersonides_reason_providence_001"
+      ],
+      "quiz": {
+        "question": "¿Qué distingue Boecio?",
+        "options": [
+          "Conocimiento y causación necesaria",
+          "Pasado y memoria solamente",
+          "Fe y política",
+          "Cuerpo y materia"
+        ],
+        "correctIndex": 0,
+        "explanation": "Ser conocido no equivale a ser producido por ese conocimiento."
+      },
+      "evidenceLevel": "A",
+      "sources": [
+        {
+          "title": "Anicius Manlius Severinus Boethius",
+          "url": "https://plato.stanford.edu/archives/spr2025/entries/boethius/"
+        }
+      ]
+    },
+    {
+      "id": "card_anselm_faith_understanding_001",
+      "series": "cartography-f-series-3-4",
+      "order": 32,
+      "entity": "Anselmo de Canterbury",
+      "title": "La fe busca comprender lo que afirma",
+      "period": "1033–1109",
+      "territory": "Aosta, Bec y Canterbury",
+      "cardType": "autor_concepto",
+      "question": "¿Razonar sobre una creencia religiosa significa abandonar la fe o profundizarla?",
+      "visibleText": "Anselmo formuló una investigación en la que la fe antecede y motiva la búsqueda racional de comprensión.",
+      "coreIdea": "La argumentación teológica intenta hacer inteligible un compromiso previo, sin presentarse simplemente como prueba neutral para cualquier público.",
+      "distinctiveKey": "fe + comprensión + argumento",
+      "audio": "Llegamos a Anselmo y la fe que busca comprensión. Sus argumentos sobre Dios, libertad y verdad nacen dentro de una práctica creyente, pero aspiran a una forma rigurosa de necesidad racional. El famoso razonamiento del Proslogion no resume toda su filosofía ni funciona como fórmula indiscutible. Su método pregunta qué puede comprender la mente acerca de aquello que ya confiesa.",
+      "caution": "No reducir a Anselmo al “argumento ontológico” ni separar ese argumento de su contexto meditativo y teológico.",
+      "tags": [
+        "Anselmo",
+        "fe",
+        "comprensión",
+        "argumento"
+      ],
+      "connections": [
+        "card_boethius_fortune_happiness_001",
+        "card_abelard_universals_001"
+      ],
+      "quiz": {
+        "question": "¿Qué expresa “fe que busca comprensión”?",
+        "options": [
+          "La renuncia a razonar",
+          "Una búsqueda racional motivada por la fe",
+          "La prueba de que toda creencia es verdadera",
+          "La separación absoluta de teología y lógica"
+        ],
+        "correctIndex": 1,
+        "explanation": "La fe funciona como punto de partida de una investigación argumentada."
+      },
+      "evidenceLevel": "A",
+      "sources": [
+        {
+          "title": "Anselm of Canterbury",
+          "url": "https://plato.stanford.edu/archives/fall2025/entries/anselm/index.html"
+        }
+      ]
+    },
+    {
+      "id": "card_abelard_universals_001",
+      "series": "cartography-f-series-3-4",
+      "order": 33,
+      "entity": "Pedro Abelardo",
+      "title": "Los universales no son cosas repetidas dentro de cada individuo",
+      "period": "1079–1142",
+      "territory": "Francia",
+      "cardType": "autor_concepto",
+      "question": "¿Qué comparten dos seres humanos si no existe una cosa universal completa dentro de ambos?",
+      "visibleText": "Abelardo criticó el realismo fuerte sobre universales y analizó cómo palabras y conceptos pueden predicarse de muchos individuos.",
+      "coreIdea": "La generalidad pertenece al funcionamiento semántico y conceptual, no a una entidad universal que exista como individuo adicional.",
+      "distinctiveKey": "universales + lenguaje + individuos",
+      "audio": "Escuchamos a Pedro Abelardo y el problema de los universales. “Humanidad” puede decirse de muchas personas, pero eso no obliga a imaginar una misma cosa completa presente en cada una. Abelardo examina palabras, conceptos, significación y semejanzas para explicar la predicación común. Su posición suele llamarse nominalista, aunque es más compleja que afirmar que los universales son sonidos vacíos.",
+      "caution": "No reducir su teoría a “solo existen palabras” ni confundirla con el nominalismo de Ockham dos siglos después.",
+      "tags": [
+        "Abelardo",
+        "universales",
+        "nominalismo",
+        "lenguaje"
+      ],
+      "connections": [
+        "card_anselm_faith_understanding_001",
+        "card_ockham_nominalism_001"
+      ],
+      "quiz": {
+        "question": "¿Qué rechaza Abelardo?",
+        "options": [
+          "La existencia de individuos",
+          "Un universal como cosa completa compartida literalmente",
+          "El uso de palabras generales",
+          "Toda semejanza"
+        ],
+        "correctIndex": 1,
+        "explanation": "Su crítica apunta al realismo fuerte, no a la generalidad del lenguaje."
+      },
+      "evidenceLevel": "A",
+      "sources": [
+        {
+          "title": "Peter Abelard",
+          "url": "https://plato.stanford.edu/archives/fall2020/entries/abelard/"
+        },
+        {
+          "title": "Medieval Philosophy",
+          "url": "https://plato.stanford.edu/archives/fall2025/entries/medieval-philosophy/"
+        }
+      ]
+    },
+    {
+      "id": "card_abelard_intention_ethics_001",
+      "series": "cartography-f-series-3-4",
+      "order": 34,
+      "entity": "Pedro Abelardo",
+      "title": "La valoración moral atiende a intención y consentimiento",
+      "period": "1079–1142",
+      "territory": "Francia",
+      "cardType": "autor_concepto",
+      "question": "¿Una acción exterior basta para saber si alguien actuó moralmente mal?",
+      "visibleText": "Abelardo destacó el consentimiento de la voluntad y la intención, distinguiéndolos de impulsos involuntarios y resultados externos.",
+      "coreIdea": "La ética debe examinar cómo el agente comprende y consiente su acción, aunque ello no vuelva irrelevantes sus consecuencias.",
+      "distinctiveKey": "intención + consentimiento + responsabilidad",
+      "audio": "Volvemos a Abelardo y la intención. Sentir un impulso no equivale todavía a consentirlo, y dos acciones exteriormente iguales pueden tener sentidos morales distintos según lo que el agente pretende y acepta. Esta atención a la interioridad transformó la ética medieval. Sin embargo, no significa que cualquier buena intención justifique daños ni que solo el individuo decida qué es correcto.",
+      "caution": "No convertir su teoría en la fórmula “la intención es lo único que importa” ni borrar normas, conocimiento y responsabilidad.",
+      "tags": [
+        "Abelardo",
+        "intención",
+        "consentimiento",
+        "ética"
+      ],
+      "connections": [
+        "card_abelard_universals_001",
+        "card_aquinas_natural_law_001"
+      ],
+      "quiz": {
+        "question": "¿Qué distingue Abelardo?",
+        "options": [
+          "Impulso involuntario y consentimiento",
+          "Cuerpo y alma como enemigos",
+          "Ley y lenguaje",
+          "Poder y riqueza"
+        ],
+        "correctIndex": 0,
+        "explanation": "La responsabilidad moral exige atender al consentimiento de la voluntad."
+      },
+      "evidenceLevel": "A",
+      "sources": [
+        {
+          "title": "Peter Abelard",
+          "url": "https://plato.stanford.edu/archives/fall2020/entries/abelard/"
+        }
+      ]
+    },
+    {
+      "id": "card_bonaventure_illumination_001",
+      "series": "cartography-f-series-3-4",
+      "order": 35,
+      "entity": "Buenaventura",
+      "title": "Conocer es recorrer huellas, interioridad y trascendencia",
+      "period": "1217/1221–1274",
+      "territory": "Italia y París",
+      "cardType": "autor_concepto",
+      "question": "¿Cómo pueden las cosas sensibles conducir hacia principios que no derivan solo de los sentidos?",
+      "visibleText": "Buenaventura integró conocimiento del mundo, autoconocimiento e iluminación divina dentro de un itinerario intelectual y espiritual.",
+      "coreIdea": "La razón investiga criaturas y signos, pero su certeza y orientación última remiten a una fuente de verdad que la excede.",
+      "distinctiveKey": "itinerario + iluminación + ejemplaridad",
+      "audio": "Llegamos a Buenaventura. El mundo sensible ofrece huellas; la mente descubre imágenes y principios; la reflexión se orienta hacia la fuente de verdad y bien. Su pensamiento no separa filosofía, teología y transformación espiritual del modo moderno. La iluminación no reemplaza los sentidos ni la argumentación: explica su posibilidad y su dirección dentro de una visión agustiniana y franciscana.",
+      "caution": "No reducir la iluminación a revelación privada ni enfrentar a Buenaventura con Aristóteles como si ignorara toda filosofía natural.",
+      "tags": [
+        "Buenaventura",
+        "iluminación",
+        "ejemplaridad",
+        "itinerario"
+      ],
+      "connections": [
+        "card_ibngabirol_universal_hylomorphism_001",
+        "card_aquinas_essence_exist_001"
+      ],
+      "quiz": {
+        "question": "¿Qué integra el itinerario bonaventuriano?",
+        "options": [
+          "Mundo, interioridad y trascendencia",
+          "Solo sensación",
+          "Solo autoridad externa",
+          "Matemática sin ética"
+        ],
+        "correctIndex": 0,
+        "explanation": "El conocimiento progresa por varios niveles relacionados."
+      },
+      "evidenceLevel": "B",
+      "sources": [
+        {
+          "title": "Bonaventure",
+          "url": "https://plato.stanford.edu/archives/sum2024/entries/bonaventure/"
+        },
+        {
+          "title": "Pseudo-Dionysius the Areopagite",
+          "url": "https://plato.stanford.edu/archives/fall2021/entries/pseudo-dionysius-areopagite/"
+        }
+      ]
+    },
+    {
+      "id": "card_aquinas_essence_exist_001",
+      "series": "cartography-f-series-3-4",
+      "order": 36,
+      "entity": "Tomás de Aquino",
+      "title": "Existir actualiza lo que una criatura puede ser",
+      "period": "ca. 1225–1274",
+      "territory": "Italia, París y Colonia",
+      "cardType": "autor_concepto",
+      "question": "¿Por qué una esencia creada no contiene por sí sola su acto de existir?",
+      "visibleText": "Tomás reelaboró la distinción aviceniana entre esencia y existencia dentro de una metafísica de participación y creación.",
+      "coreIdea": "Las criaturas tienen existencia recibida y limitada; solo en Dios no se distinguen esencia y acto de ser.",
+      "distinctiveKey": "acto de ser + participación + creación",
+      "audio": "Escuchamos a Tomás de Aquino y el acto de ser. Saber qué es una criatura no explica todavía que exista. Su esencia recibe un acto de existir y participa de manera limitada en el ser; Dios no recibe existencia, sino que es subsistente. Tomás dialoga con Aristóteles, Avicena, Averroes, Pseudo-Dionisio y otros autores, creando una síntesis propia.",
+      "caution": "No presentar su metafísica como copia de Aristóteles ni identificar sin mediaciones su distinción con la formulación de Avicena.",
+      "tags": [
+        "Tomás de Aquino",
+        "esencia",
+        "existencia",
+        "participación"
+      ],
+      "connections": [
+        "card_avicenna_essence_exist_001",
+        "card_ibnrushd_natures_causality_001",
+        "card_aquinas_natural_law_001"
+      ],
+      "quiz": {
+        "question": "¿Cómo existe una criatura para Tomás?",
+        "options": [
+          "Por esencia propia necesariamente",
+          "Mediante un acto de ser recibido",
+          "Como parte física de Dios",
+          "Solo como concepto"
+        ],
+        "correctIndex": 1,
+        "explanation": "La existencia creada es recibida y limitada por una esencia."
+      },
+      "evidenceLevel": "A",
+      "sources": [
+        {
+          "title": "Thomas Aquinas",
+          "url": "https://plato.stanford.edu/entries/aquinas/"
+        },
+        {
+          "title": "The Influence of Islamic Thought on Maimonides",
+          "url": "https://plato.stanford.edu/entries/maimonides-islamic/"
+        }
+      ]
+    },
+    {
+      "id": "card_aquinas_natural_law_001",
+      "series": "cartography-f-series-3-4",
+      "order": 37,
+      "entity": "Tomás de Aquino",
+      "title": "La ley natural comienza en bienes humanos reconocibles",
+      "period": "ca. 1225–1274",
+      "territory": "Europa latina",
+      "cardType": "autor_concepto",
+      "question": "¿Cómo puede una norma moral participar de la razón sin depender de una lista arbitraria?",
+      "visibleText": "La ley natural expresa participación racional en un orden práctico y parte de inclinaciones hacia bienes como vida, conocimiento y convivencia.",
+      "coreIdea": "La razón práctica formula preceptos desde bienes humanos, pero su aplicación requiere prudencia y atención a circunstancias.",
+      "distinctiveKey": "bienes + razón práctica + prudencia",
+      "audio": "Seguimos con Tomás de Aquino y la ley natural. El primer principio práctico orienta a buscar el bien y evitar el mal; otras normas se articulan desde bienes vinculados con vida, conocimiento, comunidad y virtud. Esto no produce automáticamente una respuesta detallada para cada situación. La prudencia, las leyes humanas y el análisis de circunstancias siguen siendo necesarios.",
+      "caution": "No convertir la ley natural en una lista ahistórica de conclusiones evidentes ni asumir unanimidad sobre cada aplicación.",
+      "tags": [
+        "Tomás de Aquino",
+        "ley natural",
+        "razón práctica",
+        "prudencia"
+      ],
+      "connections": [
+        "card_abelard_intention_ethics_001",
+        "card_dunsscotus_univocity_freedom_001"
+      ],
+      "quiz": {
+        "question": "¿Qué necesita la aplicación de la ley natural?",
+        "options": [
+          "Solo repetición literal",
+          "Razón práctica y prudencia ante circunstancias",
+          "Ignorar bienes humanos",
+          "Eliminar leyes humanas"
+        ],
+        "correctIndex": 1,
+        "explanation": "Los principios generales requieren juicio práctico situado."
+      },
+      "evidenceLevel": "A",
+      "sources": [
+        {
+          "title": "Thomas Aquinas",
+          "url": "https://plato.stanford.edu/entries/aquinas/"
+        }
+      ]
+    },
+    {
+      "id": "card_dunsscotus_univocity_freedom_001",
+      "series": "cartography-f-series-3-4",
+      "order": 38,
+      "entity": "Juan Duns Escoto",
+      "title": "Un concepto común de ser permite argumentar sobre Dios y criaturas",
+      "period": "ca. 1265/66–1308",
+      "territory": "Escocia, Oxford, París y Colonia",
+      "cardType": "autor_concepto",
+      "question": "¿Cómo razonar desde seres creados hacia Dios si la palabra ser cambia totalmente de significado?",
+      "visibleText": "Escoto defendió un concepto unívoco de ser suficientemente común para sostener inferencias, sin igualar el modo de existir divino y creado.",
+      "coreIdea": "La univocidad es semántico-conceptual, no una afirmación de que Dios y criaturas pertenezcan al mismo nivel de realidad.",
+      "distinctiveKey": "univocidad + inferencia + diferencia modal",
+      "audio": "Llegamos a Juan Duns Escoto y la univocidad del ser. Si “ser” no conservara ningún núcleo común al hablar de Dios y criaturas, una demostración no podría avanzar entre ambos ámbitos. Escoto propone un concepto común, mientras mantiene una diferencia infinita en el modo de existir. Su pensamiento también destaca contingencia y libertad de la voluntad frente a modelos excesivamente necesarios.",
+      "caution": "No interpretar univocidad como igualdad ontológica entre Dios y criaturas ni reducir a Escoto a oponente de Tomás.",
+      "tags": [
+        "Duns Escoto",
+        "univocidad",
+        "ser",
+        "libertad"
+      ],
+      "connections": [
+        "card_crescas_critique_aristotle_001",
+        "card_aquinas_natural_law_001",
+        "card_ockham_nominalism_001"
+      ],
+      "quiz": {
+        "question": "¿Qué permite la univocidad?",
+        "options": [
+          "Igualar a Dios y criaturas",
+          "Realizar inferencias con un concepto común de ser",
+          "Negar toda analogía",
+          "Eliminar la trascendencia"
+        ],
+        "correctIndex": 1,
+        "explanation": "El concepto común sostiene razonamientos sin borrar diferencias de modo."
+      },
+      "evidenceLevel": "A",
+      "sources": [
+        {
+          "title": "John Duns Scotus",
+          "url": "https://plato.stanford.edu/entries/duns-scotus/"
+        }
+      ]
+    },
+    {
+      "id": "card_ockham_nominalism_001",
+      "series": "cartography-f-series-3-4",
+      "order": 39,
+      "entity": "Guillermo de Ockham",
+      "title": "No multiplicar entidades cuando bastan individuos y signos",
+      "period": "ca. 1287–1347",
+      "territory": "Inglaterra, Aviñón y Múnich",
+      "cardType": "autor_concepto",
+      "question": "¿Necesitamos entidades universales reales para explicar que un término se aplique a muchas cosas?",
+      "visibleText": "Ockham desarrolló un nominalismo donde existen individuos y los conceptos funcionan como signos naturales capaces de representar muchos.",
+      "coreIdea": "La economía ontológica elimina entidades innecesarias, pero no equivale a elegir siempre la explicación más simple.",
+      "distinctiveKey": "individuos + signos + economía",
+      "audio": "Seguimos con Guillermo de Ockham. Para explicar que “humano” se predique de muchas personas no hace falta una humanidad universal existente fuera de la mente. Los conceptos son signos mentales y las palabras signos convencionales. La llamada navaja de Ockham recomienda no postular entidades sin necesidad argumentativa; no garantiza que la teoría más sencilla sea siempre verdadera.",
+      "caution": "No convertir la navaja en eslogan científico universal ni identificar el nominalismo de Ockham con el de Abelardo.",
+      "tags": [
+        "Ockham",
+        "nominalismo",
+        "signos",
+        "navaja"
+      ],
+      "connections": [
+        "card_abelard_universals_001",
+        "card_dunsscotus_univocity_freedom_001"
+      ],
+      "quiz": {
+        "question": "¿Qué elimina la economía ockhamista?",
+        "options": [
+          "Todo concepto",
+          "Entidades postuladas sin necesidad",
+          "Los individuos",
+          "La lógica"
+        ],
+        "correctIndex": 1,
+        "explanation": "La parsimonia exige justificación para cada entidad teórica."
+      },
+      "evidenceLevel": "A",
+      "sources": [
+        {
+          "title": "William of Ockham",
+          "url": "https://plato.stanford.edu/archives/fall2025/entries/ockham/"
+        }
+      ]
+    },
+    {
+      "id": "card_meistereckhart_detachment_001",
+      "series": "cartography-f-series-3-4",
+      "order": 40,
+      "entity": "Meister Eckhart",
+      "title": "Desasirse no es huir del mundo, sino actuar sin apropiación",
+      "period": "ca. 1260–1328",
+      "territory": "Alemania, París y Estrasburgo",
+      "cardType": "autor_concepto",
+      "question": "¿Qué forma de libertad aparece cuando una persona deja de convertir todo en posesión del yo?",
+      "visibleText": "Eckhart vinculó desasimiento, pobreza espiritual, intelecto y nacimiento de la Palabra en una ética de acción sin apego.",
+      "coreIdea": "La interioridad no culmina en aislamiento: busca una disponibilidad que permita actuar fecundamente sin posesión egocéntrica.",
+      "distinctiveKey": "desasimiento + intelecto + acción",
+      "audio": "Cerramos con Meister Eckhart y el desasimiento. Dejar el apego no significa despreciar las cosas ni abandonar responsabilidades, sino soltar la apropiación del yo que quiere dominar resultados e imágenes. Eckhart combina lenguaje filosófico universitario, exégesis y predicación. Varias proposiciones fueron investigadas y algunas condenadas después de su muerte; sus frases requieren contexto.",
+      "caution": "No convertir a Eckhart en maestro new age, defensor de pasividad o autor de una identidad simple entre alma y Dios.",
+      "tags": [
+        "Meister Eckhart",
+        "desasimiento",
+        "intelecto",
+        "mística"
+      ],
+      "connections": [
+        "card_pseudodionysius_apophatic_001",
+        "card_aquinas_essence_exist_001"
+      ],
+      "quiz": {
+        "question": "¿Qué significa desasimiento en Eckhart?",
+        "options": [
+          "Abandonar toda acción",
+          "Actuar sin apropiación egocéntrica",
+          "Negar el mundo material",
+          "Eliminar la inteligencia"
+        ],
+        "correctIndex": 1,
+        "explanation": "El desasimiento busca libertad interior y acción fecunda."
+      },
+      "evidenceLevel": "B",
+      "sources": [
+        {
+          "title": "Meister Eckhart",
+          "url": "https://plato.stanford.edu/entries/meister-eckhart/"
+        }
+      ]
+    }
+  ]
+}

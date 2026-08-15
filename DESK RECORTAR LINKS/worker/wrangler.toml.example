@@ -1,0 +1,10 @@
+name = "rizolink"
+main = "worker.js"
+compatibility_date = "2026-04-28"
+
+[[kv_namespaces]]
+binding = "RIZOLINK_KV"
+id = "REEMPLAZA_CON_TU_KV_NAMESPACE_ID"
+
+[vars]
+ADMIN_KEY = "cambia-esta-clave"

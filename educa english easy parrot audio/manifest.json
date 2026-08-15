@@ -1,0 +1,26 @@
+{
+  "name": "Easy Parrot — Easy English Go",
+  "short_name": "Easy Parrot",
+  "description": "Complemento de audio de Easy English Go: practica inglés cotidiano escuchando y repitiendo frases, según tus intereses y la hora del día.",
+  "id": "./",
+  "start_url": "./?source=pwa",
+  "scope": "./",
+  "display": "standalone",
+  "orientation": "portrait",
+  "background_color": "#0d1320",
+  "theme_color": "#0d1320",
+  "icons": [
+    {
+      "src": "icons/icon-192.png",
+      "sizes": "192x192",
+      "type": "image/png",
+      "purpose": "any maskable"
+    },
+    {
+      "src": "icons/icon-512.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "any maskable"
+    }
+  ]
+}

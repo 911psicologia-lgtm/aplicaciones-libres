@@ -1,0 +1,627 @@
+{
+  "version": "2.6",
+  "collectionId": "classical_china",
+  "title": "Cartografía D · Serie 1: cambio, cultivo, legitimidad y primeras controversias",
+  "createdAt": "2026-07-24",
+  "status": "materialización estructurada",
+  "pronunciationPolicy": "Las ayudas son aproximaciones para síntesis de voz en español y no sustituyen reconstrucciones históricas especializadas.",
+  "records": [
+    {
+      "id": "card_yijing_change_relations_001",
+      "author": "Tradición del Yijing",
+      "title": "Cambiar exige leer relaciones, no adivinar destinos fijos",
+      "territory": "China antigua",
+      "period": "Del Zhou occidental a los Reinos Combatientes",
+      "family": "Filosofía del cambio y tradición del Yijing",
+      "symbol": "☰",
+      "statement": "El Yijing organiza situaciones mediante hexagramas y líneas móviles para pensar cómo una configuración puede transformarse sin quedar reducida a un destino inmutable.",
+      "tags": [
+        "Yijing",
+        "Cambio",
+        "Hexagramas",
+        "Relación",
+        "Decisión"
+      ],
+      "question": "¿Cómo actuar cuando una situación cambia y ninguna regla permanece idéntica en todos los contextos?",
+      "caution": "El Yijing es un texto compuesto y estratificado. No debe reducirse a manual de predicción ni presentarse como obra exclusiva del daoísmo.",
+      "connections": [
+        "Mandato del Cielo",
+        "Dao",
+        "Yin y yang",
+        "Wang Bi",
+        "Zhu Xi"
+      ],
+      "audio": "Comenzamos con la tradición del Yijing, el Libro de los Cambios. Sus hexagramas no describen un destino inmóvil, sino configuraciones que pueden transformarse. La consulta relaciona momento, posición y respuesta posible. El texto reunió capas de épocas distintas y luego recibió comentarios filosóficos. No pertenece de manera exclusiva al daoísmo ni toda lectura del cambio equivale a predecir el futuro.",
+      "why": "Introduce una filosofía situacional donde comprender significa reconocer relaciones, transiciones y límites de la acción.",
+      "histContext": "El Yijing se formó mediante capas distintas. Los hexagramas y sus enunciados se vinculan con prácticas de adivinación del Zhou occidental; los comentarios conocidos como Diez Alas fueron compuestos y reunidos mucho después, principalmente entre los Reinos Combatientes y comienzos del imperio. Con el tiempo fue canonizado como clásico y leído por corrientes confucianas, daoístas y cosmológicas.",
+      "histDevelopment": "Los sesenta y cuatro hexagramas combinan líneas enteras y partidas para representar configuraciones. Los comentarios ampliaron su función: ya no solo orientaban consultas, sino que discutían transformación, tiempo, posición, correspondencia entre humanidad y naturaleza y prudencia en la decisión. Su historia muestra cómo una tecnología ritual puede convertirse en archivo filosófico.",
+      "milestones": [
+        "Uso de signos y enunciados adivinatorios durante el Zhou occidental.",
+        "Composición de comentarios filosóficos entre los siglos V y II a. C.",
+        "Canonización e interpretación continua en la historia intelectual china."
+      ],
+      "sections": [
+        [
+          "Configuración",
+          "Cada hexagrama presenta una estructura relacional, no una sustancia aislada."
+        ],
+        [
+          "Cambio",
+          "Las líneas móviles permiten pensar transiciones y no solo estados."
+        ],
+        [
+          "Decisión",
+          "La lectura vincula circunstancias, posición y respuesta prudente."
+        ]
+      ],
+      "legacy": [
+        "Influyó en cosmología, ética, medicina, política y comentarios confucianos y daoístas."
+      ],
+      "works": [
+        "Yijing o Libro de los Cambios"
+      ],
+      "sources": [
+        "https://plato.stanford.edu/archives/sum2023/entries/chinese-change/",
+        "https://ctext.org/book-of-changes"
+      ],
+      "evidence": "A–B",
+      "pronunciation": "Yijing → yi-yíng"
+    },
+    {
+      "id": "card_mandate_heaven_conditional_rule_001",
+      "author": "Tradición política del Zhou",
+      "title": "El poder puede perder el Mandato del Cielo",
+      "territory": "China del Zhou",
+      "period": "Desde el siglo XI a. C.",
+      "family": "Pensamiento político y legitimidad",
+      "symbol": "天",
+      "statement": "El Mandato del Cielo legitimó el gobierno Zhou afirmando que la autoridad dependía de una conducta capaz de sostener orden y bienestar, y podía retirarse ante el fracaso.",
+      "tags": [
+        "Tianming",
+        "Cielo",
+        "Legitimidad",
+        "Gobierno",
+        "Zhou"
+      ],
+      "question": "¿Puede una autoridad seguir siendo legítima cuando destruye las condiciones que debía proteger?",
+      "caution": "El Mandato no fue una constitución ni un mecanismo popular de destitución. A menudo se reconocía retrospectivamente después de una victoria política.",
+      "connections": [
+        "Yijing",
+        "Confucio",
+        "Mencio",
+        "Realeza",
+        "Dinastías"
+      ],
+      "audio": "Seguimos con el Mandato del Cielo, formulado por la tradición política del Zhou. El gobierno no quedaba legitimado solo por linaje: debía conservar orden y bienestar. Una dinastía podía perder el mandato si gobernaba de forma destructiva. Sin embargo, no era una constitución ni una votación popular; con frecuencia, la victoria del nuevo poder se interpretaba después como prueba de aprobación celeste.",
+      "why": "Introduce una legitimidad condicional y permite entender por qué la moral del gobernante se convirtió en un problema político central.",
+      "histContext": "Tras derrotar a la dinastía Shang, los Zhou explicaron su victoria mediante el Mandato del Cielo, tianming. La nueva narrativa sostenía que Heaven o Tian podía retirar su respaldo a una casa gobernante que hubiera perdido virtud y capacidad de ordenar el reino. Esta idea se convirtió en un lenguaje duradero para explicar cambios dinásticos.",
+      "histDevelopment": "El Mandato unió cosmología, memoria histórica y legitimación. Desastres, rebeliones y desorden podían interpretarse como señales de pérdida del favor celeste. Al mismo tiempo, los vencedores podían usar el concepto para justificar una conquista. Pensadores posteriores, especialmente Mencio, desarrollaron su dimensión moral y la relación entre bienestar del pueblo y gobierno legítimo.",
+      "milestones": [
+        "Justificación Zhou de la conquista de Shang en el siglo XI a. C.",
+        "Uso del Mandato para interpretar ciclos dinásticos.",
+        "Relecturas confucianas sobre virtud, pueblo y responsabilidad del gobernante."
+      ],
+      "sections": [
+        [
+          "Tian",
+          "Cielo como fuente de orden y legitimidad, no simplemente cielo físico."
+        ],
+        [
+          "Mandato",
+          "Autorización condicional para gobernar."
+        ],
+        [
+          "Retrospección",
+          "La victoria política solía convertirse en evidencia de que el mandato había cambiado."
+        ]
+      ],
+      "legacy": [
+        "Marcó la teoría política imperial y la evaluación moral de los gobernantes."
+      ],
+      "works": [
+        "Shujing o Libro de los Documentos"
+      ],
+      "sources": [
+        "https://www.cambridge.org/highereducation/books/a-history-of-east-asia/D9593A4CF27E8D1FF255956188E1A749/the-formative-era/45CF72D4664B56DE4DAFBDC75562B5A0",
+        "https://ctext.org/shang-shu"
+      ],
+      "evidence": "A–B",
+      "pronunciation": "Tianming → tién-míng"
+    },
+    {
+      "id": "card_confucius_ren_relational_humanity_001",
+      "author": "Confucio",
+      "title": "Ren se aprende en la relación con otros",
+      "territory": "Estado de Lu, China",
+      "period": "551–479 a. C.",
+      "family": "Confucianismo temprano",
+      "symbol": "仁",
+      "statement": "Ren nombra una humanidad cultivada que se manifiesta en el trato, la responsabilidad y la capacidad de responder apropiadamente a otras personas.",
+      "tags": [
+        "Confucio",
+        "Ren",
+        "Humanidad",
+        "Relación",
+        "Cultivo"
+      ],
+      "question": "¿Puede alguien considerarse virtuoso al margen de la manera concreta en que trata a otras personas?",
+      "caution": "Ren no posee una traducción única. “Benevolencia”, “humanidad” y “cohumanidad” iluminan aspectos distintos y ninguna agota su sentido.",
+      "connections": [
+        "Li",
+        "Junzi",
+        "Mencio",
+        "Cuidado con distinciones",
+        "Analectas"
+      ],
+      "audio": "Pasamos a Confucio y al concepto de ren. Ren puede traducirse como humanidad o benevolencia, pero se reconoce en relaciones concretas: escuchar, responder, cuidar y limitar el propio egoísmo. No es una emoción privada ni una virtud aislada. Las Analectas fueron compiladas por generaciones posteriores, por lo que no cada formulación puede atribuirse con certeza literal al Confucio histórico.",
+      "why": "Coloca la formación ética dentro de relaciones vividas y no en una conciencia separada del mundo social.",
+      "histContext": "Confucio vivió durante la decadencia del orden Zhou y enseñó a discípulos en un contexto de competencia entre estados. Las Analectas reúnen conversaciones y recuerdos editados durante generaciones. En ellas, ren aparece como un hilo central, aunque sus definiciones varían según la situación y el interlocutor.",
+      "histDevelopment": "Ren pasó de asociaciones aristocráticas anteriores a un ideal de humanidad cultivada. Se vincula con reciprocidad, autocontrol, cuidado y capacidad de realizar los roles de manera ética. Confucio evita una definición cerrada: muestra cómo la virtud debe aparecer en decisiones, palabras y relaciones concretas.",
+      "milestones": [
+        "Actividad docente de Confucio en los siglos VI–V a. C.",
+        "Formación gradual de las Analectas después de su muerte.",
+        "Conversión de ren en concepto central de tradiciones confucianas posteriores."
+      ],
+      "sections": [
+        [
+          "Relación",
+          "La virtud se prueba en la respuesta a otras personas."
+        ],
+        [
+          "Cultivo",
+          "Ren requiere práctica, reflexión y corrección."
+        ],
+        [
+          "Traducción",
+          "Ninguna palabra española reproduce todos sus matices."
+        ]
+      ],
+      "legacy": [
+        "Fue reinterpretado por Mencio, Xunzi, Zhu Xi, Wang Yangming y corrientes confucianas modernas."
+      ],
+      "works": [
+        "Lunyu o Analectas"
+      ],
+      "sources": [
+        "https://plato.stanford.edu/archives/spr2026/entries/confucius/",
+        "https://plato.stanford.edu/entries/ethics-chinese/",
+        "https://ctext.org/analects"
+      ],
+      "evidence": "A–B",
+      "pronunciation": "Ren → ren, con r suave"
+    },
+    {
+      "id": "card_confucius_li_formative_ritual_001",
+      "author": "Confucio",
+      "title": "Li convierte la forma en educación de la atención",
+      "territory": "Estado de Lu, China",
+      "period": "Siglos VI–V a. C.",
+      "family": "Confucianismo temprano",
+      "symbol": "禮",
+      "statement": "Li comprende ritos, modales y formas sociales que, cuando se practican con sentido, ordenan emociones, distribuyen responsabilidades y entrenan la consideración.",
+      "tags": [
+        "Confucio",
+        "Li",
+        "Ritual",
+        "Forma",
+        "Educación"
+      ],
+      "question": "¿Puede una forma social educar el carácter sin convertirse en obediencia vacía?",
+      "caution": "Li no significa solo ceremonia religiosa ni etiqueta superficial. Tampoco toda costumbre heredada es automáticamente justa por ser ritual.",
+      "connections": [
+        "Ren",
+        "Junzi",
+        "Música",
+        "Xunzi",
+        "Roles sociales"
+      ],
+      "audio": "Ahora, Confucio y li, la práctica ritual. Li incluye ceremonias, modales y formas de relación que enseñan cuándo hablar, ceder, agradecer o asumir una responsabilidad. Su valor no está en repetir gestos sin pensar, sino en educar la atención y armonizar emociones. Confucio tampoco afirma que cualquier costumbre sea correcta: el rito necesita estar animado por ren y sinceridad.",
+      "why": "Permite pensar cómo las formas compartidas moldean disposiciones y cómo una práctica externa puede convertirse en carácter.",
+      "histContext": "En la China del Zhou tardío, li designaba ritos de corte, sacrificios, protocolos y distinciones sociales. Confucio recuperó esas formas como recursos para la formación moral. La crisis política no se resolvería solo mediante castigos, sino reconstruyendo hábitos de respeto y responsabilidad.",
+      "histDevelopment": "Li ordena cuerpo, lenguaje, emoción y posición social. La repetición puede volver espontánea una respuesta considerada. Pero las Analectas también critican el rito vacío: sin reverencia, duelo o humanidad, la corrección externa pierde su sentido. Pensadores posteriores discutieron cuánto debía conservarse y cómo adaptar las formas a nuevas épocas.",
+      "milestones": [
+        "Relectura confuciana de rituales Zhou como formación moral.",
+        "Integración de li con ren y música en las Analectas.",
+        "Desarrollo sistemático de la función del ritual en Xunzi."
+      ],
+      "sections": [
+        [
+          "Forma",
+          "Gestos y procedimientos organizan la interacción."
+        ],
+        [
+          "Atención",
+          "El rito puede enseñar a percibir necesidades y límites."
+        ],
+        [
+          "Sentido",
+          "La ejecución externa no basta sin disposición ética."
+        ]
+      ],
+      "legacy": [
+        "Influyó en educación, familia, política, ceremonia y teorías del cultivo en Asia oriental."
+      ],
+      "works": [
+        "Lunyu o Analectas; Liji o Registro de los Ritos"
+      ],
+      "sources": [
+        "https://plato.stanford.edu/entries/ethics-chinese/",
+        "https://plato.stanford.edu/archives/spr2026/entries/confucius/",
+        "https://ctext.org/analects"
+      ],
+      "evidence": "A–B",
+      "pronunciation": "Li → li"
+    },
+    {
+      "id": "card_confucius_junzi_cultivated_person_001",
+      "author": "Confucio",
+      "title": "El junzi vale por su formación, no por su nacimiento",
+      "territory": "Estado de Lu, China",
+      "period": "Siglos VI–V a. C.",
+      "family": "Confucianismo temprano",
+      "symbol": "君",
+      "statement": "Confucio transforma el junzi, antes asociado con rango aristocrático, en una persona que cultiva criterio, confiabilidad, humanidad y responsabilidad pública.",
+      "tags": [
+        "Confucio",
+        "Junzi",
+        "Carácter",
+        "Ejemplo",
+        "Gobierno"
+      ],
+      "question": "¿Qué distingue a una persona ejemplar cuando el linaje deja de ser suficiente?",
+      "caution": "Junzi suele traducirse como “caballero” o “persona noble”, pero no designa simplemente una clase social ni una figura moral infalible.",
+      "connections": [
+        "Ren",
+        "Li",
+        "Gobierno por virtud",
+        "Educación",
+        "Mencio"
+      ],
+      "audio": "Seguimos con Confucio y el junzi, la persona ejemplar. Un término antes ligado al rango aristocrático se convierte en ideal de formación. El junzi aprende, revisa su conducta y busca armonía sin exigir uniformidad. No es una persona perfecta ni un miembro automático de la élite: su autoridad depende del carácter, la confiabilidad y la forma en que asume responsabilidades públicas.",
+      "why": "Desplaza el valor desde el nacimiento hacia la formación y vincula ética personal con responsabilidad política.",
+      "histContext": "Junzi significó originalmente “hijo del gobernante” o persona de rango. En las Analectas, el término se redefine moralmente. El contraste con xiaoren, la persona pequeña, no depende solo de clase, sino de orientación: beneficio inmediato frente a justicia, apariencia frente a formación.",
+      "histDevelopment": "El junzi estudia, practica li, cultiva ren, cuida su palabra y aprende a gobernar mediante ejemplo. La autoridad moral se construye gradualmente. El ideal conserva rasgos de la cultura aristocrática, pero abre la excelencia a quienes se forman, cuestión que impulsó la importancia confuciana de la educación.",
+      "milestones": [
+        "Reorientación del vocabulario aristocrático hacia un ideal ético.",
+        "Contraste entre junzi y xiaoren en las Analectas.",
+        "Centralidad posterior del ideal en educación y servicio público."
+      ],
+      "sections": [
+        [
+          "Formación",
+          "El carácter se adquiere mediante estudio y práctica."
+        ],
+        [
+          "Ejemplo",
+          "La conducta del dirigente influye antes que el castigo."
+        ],
+        [
+          "Armonía",
+          "El junzi busca cooperación sin borrar diferencias."
+        ]
+      ],
+      "legacy": [
+        "Se convirtió en modelo del estudioso, funcionario y gobernante cultivado."
+      ],
+      "works": [
+        "Lunyu o Analectas"
+      ],
+      "sources": [
+        "https://plato.stanford.edu/archives/spr2023/entries/confucius/",
+        "https://plato.stanford.edu/entries/ethics-chinese/",
+        "https://ctext.org/analects"
+      ],
+      "evidence": "A–B",
+      "pronunciation": "Junzi → yün-dz"
+    },
+    {
+      "id": "card_mencius_moral_sprouts_001",
+      "author": "Mencio",
+      "title": "La bondad comienza como brote, no como virtud terminada",
+      "territory": "China de los Reinos Combatientes",
+      "period": "Siglo IV a. C.",
+      "family": "Confucianismo menciano",
+      "symbol": "芽",
+      "statement": "Mencio sostiene que todas las personas poseen comienzos de compasión, vergüenza moral, deferencia y discernimiento, pero esos brotes necesitan cultivo y condiciones favorables.",
+      "tags": [
+        "Mencio",
+        "Naturaleza humana",
+        "Brotes",
+        "Compasión",
+        "Cultivo"
+      ],
+      "question": "¿Cómo puede la naturaleza humana orientarse hacia el bien si tantas personas actúan de manera injusta?",
+      "caution": "Decir que la naturaleza es buena no significa que todos nazcan virtuosos ni que el ambiente, la necesidad y la educación sean irrelevantes.",
+      "connections": [
+        "Confucio",
+        "Ren",
+        "Xunzi",
+        "Corazón-mente",
+        "Gobierno humano"
+      ],
+      "audio": "Pasamos a Mencio y a los brotes morales. La compasión, la vergüenza ante lo indigno, la deferencia y el juicio entre lo correcto y lo incorrecto aparecen como comienzos compartidos. No son virtudes completas: pueden debilitarse por abandono, hambre o instituciones injustas. La naturaleza buena significa orientación cultivable, no garantía automática de que cada persona actuará bien.",
+      "why": "Ofrece una psicología moral donde la educación desarrolla disposiciones internas sin ignorar las condiciones sociales.",
+      "histContext": "Mencio actuó durante los Reinos Combatientes y defendió la tradición de Confucio frente a rivales como Mozi y Yang Zhu. El texto que lleva su nombre reúne diálogos, debates y consejos a gobernantes. Su teoría de la naturaleza humana se apoya en respuestas afectivas y capacidades del corazón-mente.",
+      "histDevelopment": "Los cuatro brotes corresponden a compasión, vergüenza o rechazo de lo indigno, deferencia y discriminación moral. Al desarrollarse, sostienen ren, justicia, ritual y sabiduría. La metáfora vegetal subraya que la capacidad inicial requiere cuidado; arrancarla para acelerar su crecimiento también puede destruirla.",
+      "milestones": [
+        "Debates de Mencio con gobernantes y rivales en el siglo IV a. C.",
+        "Formulación de los cuatro brotes en el Mengzi.",
+        "Canonización medieval del Mengzi como uno de los Cuatro Libros."
+      ],
+      "sections": [
+        [
+          "Brote",
+          "Una disposición inicial todavía frágil."
+        ],
+        [
+          "Cultivo",
+          "La virtud exige práctica y entorno adecuado."
+        ],
+        [
+          "Política",
+          "Un gobierno cruel puede dañar las condiciones del desarrollo moral."
+        ]
+      ],
+      "legacy": [
+        "Influyó decisivamente en el neoconfucianismo y en teorías contemporáneas de emoción y virtud."
+      ],
+      "works": [
+        "Mengzi o Mencio"
+      ],
+      "sources": [
+        "https://plato.stanford.edu/entries/mencius/",
+        "https://ctext.org/mengzi"
+      ],
+      "evidence": "A–B",
+      "pronunciation": "Mengzi → meng-dz; Mencio → men-sio"
+    },
+    {
+      "id": "card_xunzi_deliberate_effort_ritual_001",
+      "author": "Xunzi",
+      "title": "La bondad es una obra de esfuerzo deliberado",
+      "territory": "China de los Reinos Combatientes",
+      "period": "Siglo III a. C.",
+      "family": "Confucianismo xunziano",
+      "symbol": "矩",
+      "statement": "Xunzi distingue las tendencias espontáneas de la formación adquirida y sostiene que ritual, enseñanza y práctica transforman deseos competitivos en una vida social ordenada.",
+      "tags": [
+        "Xunzi",
+        "Naturaleza humana",
+        "Esfuerzo",
+        "Ritual",
+        "Educación"
+      ],
+      "question": "¿Cómo puede una persona llegar a ser buena si sus impulsos espontáneos no ofrecen por sí solos una guía moral suficiente?",
+      "caution": "La frase “la naturaleza humana es mala” no afirma que las personas sean irremediables. En Xunzi, precisamente la capacidad de aprender hace posible la transformación.",
+      "connections": [
+        "Mencio",
+        "Li",
+        "Música",
+        "Nombres",
+        "Mohismo"
+      ],
+      "audio": "Ahora, Xunzi y el esfuerzo deliberado. Para él, los deseos espontáneos pueden producir competencia y desorden si carecen de límites. La bondad surge mediante maestros, ritual, música y práctica sostenida. Su frase sobre una naturaleza “mala” no significa condena irreversible: destaca que la virtud no aparece sola. Mencio cultiva brotes internos; Xunzi enfatiza formas aprendidas que transforman la conducta.",
+      "why": "Muestra una teoría constructiva de la moral: las instituciones y prácticas humanas pueden crear capacidades que la espontaneidad no garantiza.",
+      "histContext": "Xunzi vivió al final de los Reinos Combatientes y reunió influencias confucianas, mohistas y daoístas. Su obra discute naturaleza humana, ritual, música, lenguaje, conocimiento y gobierno. Se enfrentó explícitamente a la tesis menciana de que la naturaleza es buena.",
+      "histDevelopment": "Xunzi distingue xing, lo espontáneo o innato, de wei, actividad consciente y adquirida. Los deseos no deben eliminarse, sino ordenarse mediante rituales que distribuyen recursos, expresan emociones y establecen distinciones. La práctica prolongada puede volver espontánea una conducta inicialmente aprendida.",
+      "milestones": [
+        "Composición de los ensayos del Xunzi en el siglo III a. C.",
+        "Crítica a Mencio en el capítulo sobre naturaleza humana.",
+        "Influencia sobre teorías del lenguaje, gobierno y formación en la China imperial."
+      ],
+      "sections": [
+        [
+          "Xing",
+          "Tendencias que aparecen sin aprendizaje deliberado."
+        ],
+        [
+          "Wei",
+          "Actividad construida mediante reflexión y práctica."
+        ],
+        [
+          "Ritual",
+          "Tecnología social para ordenar deseos y relaciones."
+        ]
+      ],
+      "legacy": [
+        "Influyó en Han Fei, Li Si y corrientes confucianas interesadas en instituciones y educación."
+      ],
+      "works": [
+        "Xunzi, especialmente capítulos 19 y 23"
+      ],
+      "sources": [
+        "https://plato.stanford.edu/archives/fall2024/entries/xunzi/",
+        "https://plato.stanford.edu/entries/ethics-chinese/",
+        "https://ctext.org/xunzi"
+      ],
+      "evidence": "A–B",
+      "pronunciation": "Xunzi → shün-dz"
+    },
+    {
+      "id": "card_mozi_inclusive_care_001",
+      "author": "Mozi y la escuela mohista",
+      "title": "Cuidar inclusivamente para reducir daño y agresión",
+      "territory": "China de los Reinos Combatientes",
+      "period": "Siglos V–IV a. C.",
+      "family": "Mohismo temprano",
+      "symbol": "兼",
+      "statement": "El mohismo propone jian ai, cuidado inclusivo, como norma pública para que personas y gobiernos consideren el beneficio y el daño de todos, no solo del propio grupo.",
+      "tags": [
+        "Mozi",
+        "Jian ai",
+        "Cuidado inclusivo",
+        "Consecuencias",
+        "Paz"
+      ],
+      "question": "¿Cómo cambiarían las decisiones políticas si el daño a otras familias y estados contara tanto como el daño al propio grupo?",
+      "caution": "Jian ai no exige sentir idéntico afecto por cada persona. Se refiere principalmente a una orientación práctica e imparcial del cuidado y el beneficio.",
+      "connections": [
+        "Confucio",
+        "Mencio",
+        "Utilidad pública",
+        "Contra la agresión",
+        "Fa"
+      ],
+      "audio": "Seguimos con Mozi y el cuidado inclusivo, jian ai. Los mohistas preguntan qué ocurriría si familias y estados buscaran beneficio mutuo sin privilegiar siempre al propio grupo. La propuesta sostiene críticas a la guerra ofensiva, el lujo y el favoritismo. No exige sentir el mismo afecto íntimo por todos; exige que la política no trate el sufrimiento ajeno como irrelevante.",
+      "why": "Formula una ética pública orientada por consecuencias colectivas y cuestiona la parcialidad que convierte la lealtad interna en daño externo.",
+      "histContext": "Mozi o Mo Di fue la figura fundacional de un movimiento organizado durante los Reinos Combatientes. Los mohistas formaron comunidades disciplinadas, asesoraron en defensa y elaboraron argumentos sobre ética, gobierno, conocimiento y lenguaje. Fueron rivales centrales de los confucianos.",
+      "histDevelopment": "Jian ai se tradujo durante mucho tiempo como amor universal, pero cuidado inclusivo refleja mejor su variedad. La norma busca que cada persona y gobierno considere el bienestar de todos. Se vincula con la promoción de riqueza básica, población, orden y oposición a daños evitables, especialmente la agresión militar.",
+      "milestones": [
+        "Actividad de Mozi aproximadamente en el siglo V a. C.",
+        "Expansión del movimiento mohista durante los siglos IV–III a. C.",
+        "Declive después de la unificación Qin y recuperación intelectual en la época moderna."
+      ],
+      "sections": [
+        [
+          "Inclusión",
+          "El grupo propio no posee monopolio del valor moral."
+        ],
+        [
+          "Beneficio",
+          "Las políticas se juzgan por efectos sobre el bienestar colectivo."
+        ],
+        [
+          "Antiguerra",
+          "La agresión entre estados se critica como daño ampliado e incoherente."
+        ]
+      ],
+      "legacy": [
+        "Influyó en debates sobre ética, política, lógica y argumentación en la China clásica."
+      ],
+      "works": [
+        "Mozi, capítulos sobre cuidado inclusivo y contra la agresión"
+      ],
+      "sources": [
+        "https://plato.stanford.edu/entries/mohism/",
+        "https://plato.stanford.edu/entries/emotions-chinese/",
+        "https://ctext.org/mozi"
+      ],
+      "evidence": "A–B",
+      "pronunciation": "Mozi → mo-dz; jian ai → chién ai"
+    },
+    {
+      "id": "card_mohist_fa_standards_reasoning_001",
+      "author": "Mohistas posteriores",
+      "title": "Los estándares deben permitir comparar afirmaciones y acciones",
+      "territory": "China de los Reinos Combatientes",
+      "period": "Siglos IV–III a. C.",
+      "family": "Epistemología y razonamiento mohistas",
+      "symbol": "法",
+      "statement": "Los mohistas emplean fa, modelos o estándares, para distinguir, comparar y justificar juicios mediante antecedentes, evidencia accesible y consecuencias observables.",
+      "tags": [
+        "Mohismo",
+        "Fa",
+        "Estándares",
+        "Lenguaje",
+        "Argumentación"
+      ],
+      "question": "¿Qué vuelve una norma justificable más allá de la autoridad de quien la pronuncia?",
+      "caution": "La reflexión mohista no equivale a lógica simbólica moderna. Sus cánones combinan lenguaje, percepción, analogía, clasificación y práctica.",
+      "connections": [
+        "Jian ai",
+        "Xunzi",
+        "Escuela de los Nombres",
+        "Consecuencialismo",
+        "Han Fei"
+      ],
+      "audio": "Pasamos a los mohistas posteriores y a fa, los modelos o estándares. Una afirmación debía compararse con antecedentes, evidencia disponible y efectos sobre la vida colectiva. Los cánones analizaron nombres, diferencias y analogías para mejorar el razonamiento. Esto no es lógica simbólica moderna: es una investigación práctica sobre cómo distinguir correctamente y evitar que la autoridad sustituya toda justificación.",
+      "why": "Hace visible una tradición temprana de argumentación explícita, estándares públicos y crítica de afirmaciones mediante razones.",
+      "histContext": "Los capítulos llamados Cánones y Explicaciones del Mozi proceden de comunidades mohistas posteriores. Su lenguaje es compacto y difícil, y la transmisión textual sufrió pérdidas. Aun así, muestran una investigación sofisticada sobre nombres, conocimiento, inferencia, percepción y clasificación.",
+      "histDevelopment": "Fa puede significar modelo, medida o estándar. Los mohistas buscaban criterios que otras personas pudieran aplicar, no solo ejemplos prestigiosos. Su método de tres pruebas apelaba a precedentes de los antiguos, evidencia de los sentidos y consecuencias en el gobierno y el pueblo. Los cánones posteriores ampliaron problemas de analogía, distinción y uso del lenguaje.",
+      "milestones": [
+        "Desarrollo del movimiento mohista después de Mozi.",
+        "Composición de Cánones y Explicaciones durante los Reinos Combatientes.",
+        "Redescubrimiento y reconstrucción filológica desde finales de la dinastía Qing."
+      ],
+      "sections": [
+        [
+          "Fa",
+          "Modelo o estándar aplicable a casos."
+        ],
+        [
+          "Distinción",
+          "Reconocer semejanzas y diferencias relevantes."
+        ],
+        [
+          "Prueba",
+          "Confrontar una doctrina con evidencia y consecuencias."
+        ]
+      ],
+      "legacy": [
+        "Estimuló respuestas de Xunzi, Zhuangzi y pensadores políticos asociados después con el legalismo."
+      ],
+      "works": [
+        "Mozi, Cánones, Explicaciones y Modelos y estándares"
+      ],
+      "sources": [
+        "https://plato.stanford.edu/entries/mohism/",
+        "https://plato.stanford.edu/entries/chinese-logic-language/",
+        "https://ctext.org/mozi"
+      ],
+      "evidence": "B",
+      "pronunciation": "Fa → fa"
+    },
+    {
+      "id": "card_laozi_wuwei_noncoercive_action_001",
+      "author": "Tradición textual del Laozi",
+      "title": "Wuwei actúa sin imponer una forma excesiva",
+      "territory": "China de los Reinos Combatientes",
+      "period": "Composición discutida, principalmente siglos IV–III a. C.",
+      "family": "Pensamiento del Laozi",
+      "symbol": "道",
+      "statement": "Wuwei propone una acción no coercitiva que evita la intervención excesiva, reduce deseos competitivos y permite que procesos y comunidades desarrollen su propia capacidad.",
+      "tags": [
+        "Laozi",
+        "Dao",
+        "Wuwei",
+        "Ziran",
+        "No coerción"
+      ],
+      "question": "¿Cuándo la voluntad de controlar produce más desorden que la situación que intentaba corregir?",
+      "caution": "Wuwei no significa inactividad absoluta. El Laozi es probablemente un texto compuesto y la biografía tradicional de un único autor histórico es incierta.",
+      "connections": [
+        "Yijing",
+        "Zhuangzi",
+        "Gobierno",
+        "Deseo",
+        "Naturalidad"
+      ],
+      "audio": "Cerramos esta serie con la tradición textual del Laozi y wuwei. La expresión no ordena quedarse inmóvil, sino actuar sin forzar, dominar ni multiplicar intervenciones innecesarias. Un gobierno puede producir desorden cuando controla cada detalle y estimula deseos competitivos. El Laozi es probablemente una obra compuesta; por eso conviene distinguir el texto de la biografía legendaria de un único autor.",
+      "why": "Ofrece una crítica de la coerción y permite pensar formas de acción cuya eficacia depende de no ocupar todo el espacio.",
+      "histContext": "El Laozi o Daodejing es una colección breve de pasajes sobre dao, de, deseo, gobierno, naturalidad y wuwei. Manuscritos excavados muestran variantes y órdenes distintos. La tradición atribuyó el texto a Lao Dan, pero gran parte de la investigación lo entiende como composición y edición acumulativa.",
+      "histDevelopment": "Wuwei se traduce como no acción, pero describe una forma de actuar sin imposición artificial. Se relaciona con ziran, aquello que ocurre por sí mismo, y con una política de reducción de coerción, ostentación y deseo competitivo. La paradoja es central: a veces, cuanto más intenta una autoridad dominar un proceso, más lo desorganiza.",
+      "milestones": [
+        "Circulación de materiales del Laozi durante los Reinos Combatientes.",
+        "Manuscritos de Guodian y Mawangdui con versiones tempranas y órdenes distintos.",
+        "Canonización como Daodejing y desarrollo de interpretaciones filosóficas y religiosas."
+      ],
+      "sections": [
+        [
+          "Wuwei",
+          "Acción que no fuerza ni sobrecontrola."
+        ],
+        [
+          "Ziran",
+          "Desarrollo propio o naturalidad de los procesos."
+        ],
+        [
+          "Gobierno",
+          "Crítica a la intervención excesiva y a la producción política del deseo."
+        ]
+      ],
+      "legacy": [
+        "Influyó en daoísmo filosófico y religioso, pensamiento político, arte, medicina y budismo chino."
+      ],
+      "works": [
+        "Laozi o Daodejing"
+      ],
+      "sources": [
+        "https://plato.stanford.edu/archives/sum2026/entries/laozi/",
+        "https://plato.stanford.edu/entries/emotions-chinese/",
+        "https://ctext.org/dao-de-jing"
+      ],
+      "evidence": "A–B",
+      "pronunciation": "Laozi → lao-dz; wuwei → wu-uéi; ziran → dz-ran"
+    }
+  ]
+}

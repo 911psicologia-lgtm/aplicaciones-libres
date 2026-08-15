@@ -1,0 +1,38 @@
+[
+  {
+    "id": "mech_squad",
+    "name": "Mech Squad",
+    "sourceLabel": "MECH SQUAD",
+    "world": "world_2",
+    "category": "minion",
+    "family": "space_robotics",
+    "role": "ground_patrol",
+    "image": "assets/world_2/minions/mech_squad/enemy.png",
+    "preview": "assets/world_2/minions/mech_squad/enemy_preview.png",
+    "recommendedWidth": 64,
+    "recommendedHeight": 46,
+    "canvasSize": 256,
+    "movementSuggestion": "patrulla corta de suelo",
+    "powerSuggestion": "contacto",
+    "difficultySuggestion": "low",
+    "notes": "Mech Squad: rol ground_patrol. Conservar silueta completa y efectos propios."
+  },
+  {
+    "id": "cyber_dog_aggressive_pack",
+    "name": "Cyber Dog Aggressive Pack",
+    "sourceLabel": "AGGRESSIVE PACK",
+    "world": "world_2",
+    "category": "minion",
+    "family": "space_robotics",
+    "role": "ground_fast",
+    "image": "assets/world_2/minions/cyber_dog_aggressive_pack/enemy.png",
+    "preview": "assets/world_2/minions/cyber_dog_aggressive_pack/enemy_preview.png",
+    "recommendedWidth": 64,
+    "recommendedHeight": 40,
+    "canvasSize": 256,
+    "movementSuggestion": "avance rapido de suelo",
+    "powerSuggestion": "embate veloz",
+    "difficultySuggestion": "low",
+    "notes": "Cyber Dog Aggressive Pack: rol ground_fast. Conservar silueta completa y efectos propios."
+  }
+]

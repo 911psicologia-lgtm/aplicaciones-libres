@@ -1,0 +1,38 @@
+[
+  {
+    "id": "tundra_boss_crawler",
+    "name": "Tundra Boss Crawler",
+    "sourceLabel": "TUNDRA BOSS CRAWLER",
+    "world": "world_3",
+    "category": "mini_boss",
+    "family": "tundra_beasts",
+    "role": "boss_variant",
+    "image": "assets/world_3/bosses/tundra_boss_crawler/boss.png",
+    "preview": "assets/world_3/bosses/tundra_boss_crawler/boss_preview.png",
+    "recommendedWidth": 128,
+    "recommendedHeight": 84,
+    "canvasSize": 512,
+    "movementSuggestion": "patron de jefe alterno",
+    "powerSuggestion": "ataque especial",
+    "difficultySuggestion": "high",
+    "notes": "Tundra Boss Crawler: rol boss_variant. Conservar silueta completa y efectos propios."
+  },
+  {
+    "id": "geode_titan_boss",
+    "name": "Geode Titan Boss",
+    "sourceLabel": "GEDEA TITAN BOSS",
+    "world": "world_3",
+    "category": "boss",
+    "family": "geode_abyss",
+    "role": "boss_main",
+    "image": "assets/world_3/bosses/geode_titan_boss/boss.png",
+    "preview": "assets/world_3/bosses/geode_titan_boss/boss_preview.png",
+    "recommendedWidth": 160,
+    "recommendedHeight": 99,
+    "canvasSize": 768,
+    "movementSuggestion": "patron de jefe multifase",
+    "powerSuggestion": "ataques combinados",
+    "difficultySuggestion": "very_high",
+    "notes": "Geode Titan Boss: rol boss_main. Conservar silueta completa y efectos propios."
+  }
+]

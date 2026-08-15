@@ -1,0 +1,26 @@
+[
+  {
+    "id": "superhero_2",
+    "name": "Superhero 2",
+    "type": "avatar",
+    "plannedUse": "world_base_now",
+    "image": "assets/avatars/superhero_2/avatar.png",
+    "preview": "assets/avatars/superhero_2/avatar_preview.png",
+    "recommendedWidth": 72,
+    "recommendedHeight": 110,
+    "role": "playable_form",
+    "notes": "Nueva forma jugable de Aero. Aspecto musculoso con emblema; potencial de nuevos poderes."
+  },
+  {
+    "id": "superhero_3",
+    "name": "Superhero 3",
+    "type": "avatar",
+    "plannedUse": "world_base_now",
+    "image": "assets/avatars/superhero_3/avatar.png",
+    "preview": "assets/avatars/superhero_3/avatar_preview.png",
+    "recommendedWidth": 110,
+    "recommendedHeight": 90,
+    "role": "playable_form",
+    "notes": "Nueva forma jugable de Aero. Heroína con lazo/cuerda brillante; potencial de nuevos poderes."
+  }
+]

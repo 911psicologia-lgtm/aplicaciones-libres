@@ -1,0 +1,17 @@
+{
+  "version": "5.0.64-refuerzo-v2-escenas-semanticas",
+  "centro_refuerzo": [
+    "Se elimina el dropdown Cambiar mundo en móvil.",
+    "Móvil usa acordeón por mundo con recursos dentro del mundo desplegado.",
+    "PC conserva panel doble y agrupa los 30 mundos por tercios: Fundamentos, Desarrollo, Dominio.",
+    "Se preserva encabezado, pestañas A1-B2 y playlist por nivel."
+  ],
+  "escenas": [
+    "Se refuerza la biblioteca SVG de microescenas: ciudad, casa, escuela, biblioteca, oficina, reunión, viaje, bus, hotel, restaurante, parque, animales, río, bienestar, debate, presentación y tecnología.",
+    "La matriz A1/A2/B1/B2 usa escena principal y familias secundarias según el mundo.",
+    "Se agregan variaciones de composición y densidad por número de mundo."
+  ],
+  "validation": [
+    "node --check app.js"
+  ]
+}

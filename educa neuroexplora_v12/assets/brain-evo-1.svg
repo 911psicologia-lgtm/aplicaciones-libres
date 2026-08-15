@@ -1,0 +1,37 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 200" font-family="'Outfit','DM Sans',sans-serif">
+  <defs>
+    <radialGradient id="bg1" cx="50%" cy="50%" r="60%">
+      <stop offset="0%" stop-color="#1a2e4a"/>
+      <stop offset="100%" stop-color="#060d1a"/>
+    </radialGradient>
+    <radialGradient id="trunk" cx="40%" cy="35%" r="65%">
+      <stop offset="0%" stop-color="#fb7185"/>
+      <stop offset="100%" stop-color="#be123c"/>
+    </radialGradient>
+  </defs>
+  <rect width="200" height="200" rx="16" fill="url(#bg1)"/>
+
+  <!-- Tronco encefálico — estructura central vertical -->
+  <ellipse cx="100" cy="105" rx="28" ry="52" fill="url(#trunk)" opacity="0.88"/>
+  <ellipse cx="100" cy="105" rx="28" ry="52" fill="none" stroke="#fb7185" stroke-width="1.5" opacity="0.5"/>
+
+  <!-- Surcos decorativos -->
+  <path d="M 84,72 C 84,90 84,115 84,138" stroke="rgba(255,255,255,0.15)" stroke-width="1" fill="none" stroke-linecap="round"/>
+  <path d="M 116,72 C 116,90 116,115 116,138" stroke="rgba(255,255,255,0.12)" stroke-width="1" fill="none" stroke-linecap="round"/>
+
+  <!-- Núcleo -->
+  <ellipse cx="100" cy="105" rx="12" ry="20" fill="rgba(255,255,255,0.12)"/>
+
+  <!-- Médula espinal -->
+  <rect x="92" y="155" width="16" height="30" rx="8" fill="#f472b6" opacity="0.6"/>
+  <!-- Conexiones -->
+  <path d="M 88,130 C 72,135 60,148 55,162" stroke="#fb7185" stroke-width="2" fill="none" stroke-linecap="round" opacity="0.4"/>
+  <path d="M 112,130 C 128,135 140,148 145,162" stroke="#fb7185" stroke-width="2" fill="none" stroke-linecap="round" opacity="0.4"/>
+
+  <!-- Etiqueta -->
+  <text x="100" y="24" text-anchor="middle" fill="rgba(221,238,255,0.9)" font-size="12" font-weight="700">Etapa 1</text>
+  <text x="100" y="40" text-anchor="middle" fill="#fb7185" font-size="11" font-weight="600">Tronco Encefálico</text>
+  <text x="100" y="185" text-anchor="middle" fill="rgba(107,138,184,0.7)" font-size="9">~500 mill. años</text>
+  <!-- Punto de tiempo -->
+  <circle cx="100" cy="193" r="3" fill="#fb7185" opacity="0.7"/>
+</svg>

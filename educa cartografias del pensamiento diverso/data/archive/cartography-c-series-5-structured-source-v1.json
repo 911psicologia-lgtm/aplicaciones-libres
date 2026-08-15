@@ -1,0 +1,612 @@
+{
+  "version": "2.5",
+  "collectionId": "south_asia_vedic_upanishadic",
+  "title": "Cartografía C · Serie 5: Bhedābheda, Cachemira, bhakti y crítica social",
+  "createdAt": "2026-07-24",
+  "status": "materialización estructurada",
+  "records": [
+    {
+      "id": "card_bhedabheda_difference_nondifference_001",
+      "author": "Tradiciones Bhedābheda",
+      "title": "Diferencia y no diferencia",
+      "territory": "India · tradiciones Vedānta",
+      "period": "Desde los primeros siglos e.c. hasta la modernidad",
+      "family": "Bhedābheda Vedānta",
+      "symbol": "≍",
+      "statement": "Las almas y el mundo son realmente diferentes de Brahman y, al mismo tiempo, no están separados de su fundamento último.",
+      "tags": [
+        "Bhedābheda",
+        "Brahman",
+        "Diferencia",
+        "No diferencia",
+        "Realismo"
+      ],
+      "question": "¿Cómo puede algo pertenecer a una unidad sin perder por completo su diferencia?",
+      "caution": "Bhedābheda es una familia de posiciones, no una doctrina uniforme; cada autor define de manera distinta la relación entre diferencia y no diferencia.",
+      "connections": [
+        "Bādarāyaṇa",
+        "Bhāskara",
+        "Śaṅkara",
+        "Rāmānuja",
+        "Madhva"
+      ],
+      "audio": "Comenzamos con las tradiciones Bhedābheda, cuyo nombre significa diferencia y no diferencia. Las almas y el mundo son reales y proceden de Brahman, pero no quedan separados de él como sustancias independientes. La relación puede pensarse como parte y totalidad o como transformación real. No existe una sola escuela Bhedābheda: sus autores discrepan sobre cómo equilibrar unidad y pluralidad.",
+      "why": "Abre una vía distinta del monismo absoluto y del dualismo completo, mostrando que unidad y diferencia pueden pensarse conjuntamente.",
+      "histContext": "Bhedābheda es una familia amplia de interpretaciones de Vedānta. Sus antecedentes pueden rastrearse en lecturas tempranas del Brahma-sūtra y en autores anteriores a Śaṅkara cuyas obras se perdieron o sobreviven mediante citas críticas.",
+      "histDevelopment": "Sus pensadores sostienen que Brahman se relaciona realmente con almas y mundo. Frente a Advaita, suelen afirmar que la multiplicidad no es mera apariencia. Frente a Dvaita, rechazan una separación absoluta. Las versiones difieren: algunas explican la diferencia mediante condiciones limitantes; otras la consideran natural y permanente.",
+      "milestones": [
+        "Antecedentes en interpretaciones tempranas del Brahma-sūtra.",
+        "Críticas de Śaṅkara a Bhartṛprapañca.",
+        "Desarrollos de Bhāskara, Nimbārka, Vallabha y otras corrientes."
+      ],
+      "sections": [
+        [
+          "Diferencia",
+          "Las almas y el mundo poseen realidad y rasgos propios."
+        ],
+        [
+          "No diferencia",
+          "Nada existe independientemente de Brahman."
+        ],
+        [
+          "Transformación",
+          "Muchas corrientes consideran el mundo una manifestación real de Brahman."
+        ]
+      ],
+      "legacy": [
+        "Influyó en varias teologías devocionales y amplió la pluralidad interna de Vedānta."
+      ],
+      "works": [
+        "Brahma-sūtra y comentarios Bhedābheda"
+      ],
+      "sources": [
+        "https://iep.utm.edu/bhedabheda-vedanta/",
+        "https://iep.utm.edu/hindu-ph/"
+      ],
+      "evidence": "A–B"
+    },
+    {
+      "id": "card_bhaskara_real_transformation_001",
+      "author": "Bhāskara",
+      "title": "Conocimiento y acción en una realidad transformada",
+      "territory": "India · Vedānta",
+      "period": "Siglos VIII–IX e.c.",
+      "family": "Bhedābheda Vedānta",
+      "symbol": "↭",
+      "statement": "Bhāskara defiende que el mundo es una transformación real de Brahman y que la liberación exige articular conocimiento y acción, no desechar toda práctica.",
+      "tags": [
+        "Bhāskara",
+        "Transformación",
+        "Acción",
+        "Conocimiento",
+        "Vedānta"
+      ],
+      "question": "¿Puede el conocimiento liberar si se separa por completo de la acción y de las obligaciones?",
+      "caution": "Bhāskara no representa todas las formas de Bhedābheda y su pensamiento se conoce principalmente por su comentario al Brahma-sūtra.",
+      "connections": [
+        "Bhedābheda",
+        "Śaṅkara",
+        "Mīmāṃsā",
+        "Ritual",
+        "Brahma-sūtra"
+      ],
+      "audio": "Seguimos con Bhāskara, comentarista del Brahma-sūtra. Defendió que el mundo es una transformación real de Brahman y criticó la idea de que la multiplicidad sea solo apariencia. También sostuvo que la liberación requiere conocimiento unido a la acción ritual y moral. Su posición no resume todo Bhedābheda, pero muestra una temprana resistencia a separar sabiduría, práctica y orden social.",
+      "why": "Permite comprender que los debates vedánticos también discutían el valor de la acción, el ritual y el mundo cotidiano.",
+      "histContext": "Bhāskara vivió probablemente entre los siglos VIII y IX y fue contemporáneo posterior o cercano de Śaṅkara. Su obra conservada es un comentario al Brahma-sūtra que polemiza con interpretaciones no dualistas.",
+      "histDevelopment": "Propone una forma de diferencia y no diferencia basada en condiciones limitantes. Brahman se vuelve múltiple sin que el mundo sea irreal. También defiende jñāna-karmasamuccaya: la combinación de conocimiento y acción como camino de liberación.",
+      "milestones": [
+        "Comentario al Brahma-sūtra.",
+        "Crítica temprana de Advaita.",
+        "Defensa de transformación real y continuidad ritual."
+      ],
+      "sections": [
+        [
+          "Pariṇāma",
+          "El mundo es una transformación real, no una ilusión sin consistencia."
+        ],
+        [
+          "Conocimiento y acción",
+          "La liberación no se reduce al conocimiento aislado."
+        ],
+        [
+          "Polémica",
+          "Su comentario responde a interpretaciones que considera distorsionadoras."
+        ]
+      ],
+      "legacy": [
+        "Muchos argumentos posteriores contra Advaita encuentran antecedentes en Bhāskara."
+      ],
+      "works": [
+        "Brahmasūtrabhāṣya"
+      ],
+      "sources": [
+        "https://iep.utm.edu/bhedabheda-vedanta/"
+      ],
+      "evidence": "A–B"
+    },
+    {
+      "id": "card_utpaladeva_recognition_001",
+      "author": "Utpaladeva",
+      "title": "Reconocer la conciencia que ya actúa",
+      "territory": "Cachemira · India",
+      "period": "Siglo X e.c.",
+      "family": "Pratyabhijñā",
+      "symbol": "◉",
+      "statement": "Utpaladeva entiende la liberación como reconocimiento: la conciencia individual descubre su identidad profunda con la libertad creadora de Śiva.",
+      "tags": [
+        "Utpaladeva",
+        "Pratyabhijñā",
+        "Reconocimiento",
+        "Conciencia",
+        "Śiva"
+      ],
+      "question": "¿Qué ocurre cuando la liberación no añade una realidad nueva, sino que reconoce aquello que siempre hacía posible la experiencia?",
+      "caution": "El reconocimiento no es una simple afirmación psicológica de autoestima; pertenece a una metafísica y práctica śaiva no dual desarrollada en Cachemira.",
+      "connections": [
+        "Abhinavagupta",
+        "Śiva",
+        "Conciencia",
+        "Lenguaje",
+        "No dualidad"
+      ],
+      "audio": "Continuamos con Utpaladeva y la filosofía del reconocimiento, Pratyabhijñā. La conciencia cotidiana parece limitada, pero cada acto de conocer presupone una capacidad activa de iluminar y relacionar la experiencia. Liberarse significa reconocer esa conciencia como expresión de la libertad de Śiva. No se trata de repetir que todo es uno, sino de transformar la manera en que el sujeto comprende su propio poder de conocer.",
+      "why": "Ofrece una filosofía donde conocer, actuar y reconocerse forman parte de una misma conciencia dinámica.",
+      "histContext": "Utpaladeva floreció en Cachemira durante el siglo X. Sistematizó la escuela Pratyabhijñā dentro de un conjunto más amplio de tradiciones śaivas y śāktas no duales.",
+      "histDevelopment": "Sus versos y comentarios argumentan que el sujeto no es una entidad pasiva. La conciencia posee reflexividad, lenguaje y capacidad de acción. El desconocimiento consiste en no reconocer su identidad con Śiva; la liberación es una recuperación argumentada y práctica de esa identidad.",
+      "milestones": [
+        "Composición de Īśvarapratyabhijñākārikā.",
+        "Desarrollo de pruebas sobre sujeto, relación y divinidad.",
+        "Influencia decisiva en Abhinavagupta y Kṣemarāja."
+      ],
+      "sections": [
+        [
+          "Reconocimiento",
+          "La liberación reconoce una identidad ya operante."
+        ],
+        [
+          "Conciencia activa",
+          "Conocer implica iluminar, articular y actuar."
+        ],
+        [
+          "Libertad",
+          "La conciencia se comprende como potencia creadora."
+        ]
+      ],
+      "legacy": [
+        "Fundamento filosófico del śaivismo no dual de Cachemira."
+      ],
+      "works": [
+        "Īśvarapratyabhijñākārikā; Siddhitrayī"
+      ],
+      "sources": [
+        "https://iep.utm.edu/kashmiri/"
+      ],
+      "evidence": "A–B"
+    },
+    {
+      "id": "card_abhinavagupta_aesthetic_consciousness_001",
+      "author": "Abhinavagupta",
+      "title": "La experiencia estética amplía el yo",
+      "territory": "Cachemira · India",
+      "period": "Siglos X–XI e.c.",
+      "family": "Filosofía estética y śaivismo de Cachemira",
+      "symbol": "✺",
+      "statement": "Abhinavagupta relaciona la experiencia estética con una conciencia capaz de superar temporalmente intereses privados y saborear emociones universalizadas.",
+      "tags": [
+        "Abhinavagupta",
+        "Rasa",
+        "Estética",
+        "Conciencia",
+        "Teatro"
+      ],
+      "question": "¿Por qué una emoción representada puede conmover sin quedar reducida al problema privado de un individuo?",
+      "caution": "Rasa no equivale simplemente a emoción personal ni la experiencia estética se identifica sin más con la liberación religiosa.",
+      "connections": [
+        "Utpaladeva",
+        "Bharata",
+        "Rasa",
+        "Teatro",
+        "Conciencia"
+      ],
+      "audio": "Pasamos a Abhinavagupta, filósofo de Cachemira y comentarista de la estética del rasa. En el teatro o la poesía, una emoción deja de pertenecer solo a un personaje y puede ser saboreada por quienes contemplan. Esa experiencia suspende intereses privados y amplía la conciencia. Abhinavagupta la acercó a la realización no dual, sin afirmar que toda emoción artística produzca automáticamente liberación.",
+      "why": "Integra estética, filosofía de la conciencia y teoría de la interpretación sin reducir el arte a entretenimiento o propaganda.",
+      "histContext": "Abhinavagupta vivió entre los siglos X y XI en el ambiente intelectual de Cachemira. Fue filósofo, teólogo, exegeta tántrico y teórico de la poesía y el teatro.",
+      "histDevelopment": "Elaboró la Pratyabhijñā de Utpaladeva y sistematizó múltiples tradiciones śaivas en el Tantrāloka. En estética, interpretó rasa como una experiencia impersonalizada o universalizada: el espectador saborea una emoción sin quedar encerrado en el interés práctico inmediato.",
+      "milestones": [
+        "Comentarios a Utpaladeva.",
+        "Sistematización del Trika en Tantrāloka.",
+        "Comentario Abhinavabhāratī al Nāṭyaśāstra."
+      ],
+      "sections": [
+        [
+          "Rasa",
+          "Sabor estético de una emoción configurada artísticamente."
+        ],
+        [
+          "Universalización",
+          "La emoción se libera de circunstancias privadas inmediatas."
+        ],
+        [
+          "Conciencia",
+          "La contemplación revela una capacidad más amplia de experiencia."
+        ]
+      ],
+      "legacy": [
+        "Figura central de la estética sánscrita y del śaivismo no dual."
+      ],
+      "works": [
+        "Tantrāloka; Abhinavabhāratī; comentarios de Pratyabhijñā"
+      ],
+      "sources": [
+        "https://iep.utm.edu/kashmiri/"
+      ],
+      "evidence": "A–B"
+    },
+    {
+      "id": "card_alvars_vernacular_bhakti_001",
+      "author": "Los Āḻvārs",
+      "title": "La devoción habla en lengua tamil",
+      "territory": "Tamil Nadu · sur de India",
+      "period": "Aproximadamente siglos VI–IX e.c.",
+      "family": "Bhakti vaiṣṇava tamil",
+      "symbol": "♫",
+      "statement": "Los poetas Āḻvārs expresaron devoción a Viṣṇu en tamil mediante voces de deseo, entrega, protesta y cercanía, ampliando los lenguajes de la reflexión religiosa.",
+      "tags": [
+        "Āḻvārs",
+        "Tamil",
+        "Bhakti",
+        "Viṣṇu",
+        "Poesía"
+      ],
+      "question": "¿Qué cambia cuando la experiencia religiosa se formula en una lengua cercana a la vida cotidiana y no solo en idiomas eruditos?",
+      "caution": "Los Āḻvārs no constituyeron una voz uniforme; sus biografías tradicionales y cronologías se desarrollaron durante siglos.",
+      "connections": [
+        "Rāmānuja",
+        "Viṣṇu",
+        "Tamil",
+        "Bhakti",
+        "Nāyaṉmārs"
+      ],
+      "audio": "Entramos con los Āḻvārs, poetas devocionales tamiles vinculados con Viṣṇu. Sus himnos hablan mediante deseo, alabanza, separación y entrega, y acercan lo divino a paisajes, cuerpos y relaciones cotidianas. La lengua tamil amplió el acceso a la expresión religiosa y después influyó en el vaiṣṇavismo de Rāmānuja. No fueron una voz única ni eliminaron por sí solos las jerarquías sociales.",
+      "why": "Muestra que la filosofía religiosa también puede desarrollarse mediante poesía, lengua vernácula y experiencia afectiva.",
+      "histContext": "Los Āḻvārs son un conjunto tradicional de santos-poetas vaiṣṇavas del sur de India. Sus himnos fueron reunidos posteriormente en el Nālāyira Divya Prabandham.",
+      "histDevelopment": "La poesía combina teología, paisaje, emoción y prácticas de peregrinación. La devoción se expresa como intimidad, separación o servicio. Siglos después, la tradición Śrīvaiṣṇava articuló estos himnos tamiles con textos sánscritos y sistemas filosóficos.",
+      "milestones": [
+        "Composición de himnos tamiles.",
+        "Recopilación del Divya Prabandham.",
+        "Integración en el Śrīvaiṣṇavismo."
+      ],
+      "sections": [
+        [
+          "Lengua vernácula",
+          "La reflexión religiosa se expresa en tamil."
+        ],
+        [
+          "Afecto",
+          "Deseo, ausencia y entrega se vuelven categorías de conocimiento."
+        ],
+        [
+          "Lugar",
+          "Templos y paisajes forman parte de la experiencia devocional."
+        ]
+      ],
+      "legacy": [
+        "Influencia decisiva en la bhakti vaiṣṇava del sur de India."
+      ],
+      "works": [
+        "Nālāyira Divya Prabandham"
+      ],
+      "sources": [
+        "https://www.metmuseum.org/art/collection/search/39332",
+        "https://www.metmuseum.org/es/met-publications/divine-pleasures"
+      ],
+      "evidence": "B"
+    },
+    {
+      "id": "card_nayanars_embodied_service_001",
+      "author": "Los Nāyaṉmārs",
+      "title": "Devoción, servicio y presencia de Śiva",
+      "territory": "Tamil Nadu · sur de India",
+      "period": "Aproximadamente siglos VI–IX e.c.",
+      "family": "Bhakti śaiva tamil",
+      "symbol": "♨",
+      "statement": "Los poetas y santos Nāyaṉmārs convirtieron el servicio, el canto y la peregrinación en formas de relación con Śiva que unieron cuerpo, lugar y comunidad.",
+      "tags": [
+        "Nāyaṉmārs",
+        "Śiva",
+        "Tamil",
+        "Servicio",
+        "Peregrinación"
+      ],
+      "question": "¿Puede una práctica corporal y comunitaria producir conocimiento religioso sin adoptar la forma de un tratado?",
+      "caution": "Las historias de los santos contienen capas hagiográficas y no todos los miembros de la tradición sostuvieron las mismas posiciones sociales o teológicas.",
+      "connections": [
+        "Āḻvārs",
+        "Śiva",
+        "Bhakti",
+        "Tamil",
+        "Templo"
+      ],
+      "audio": "Seguimos con los Nāyaṉmārs, santos y poetas tamiles dedicados a Śiva. Sus himnos vinculan canto, peregrinación, servicio y presencia divina en lugares concretos. La devoción no queda encerrada en una doctrina abstracta: se practica con el cuerpo y dentro de comunidades. Sus relatos incluyen figuras de distintos orígenes, pero no deben presentarse como una abolición completa y uniforme de la jerarquía social.",
+      "why": "Amplía la noción de pensamiento al mostrar cómo canto, servicio y peregrinación organizan una comprensión del mundo.",
+      "histContext": "Los Nāyaṉmārs forman una comunidad tradicional de santos śaivas tamiles. Sus himnos y biografías adquirieron gran importancia en la vida de los templos del periodo Chola.",
+      "histDevelopment": "La poesía relaciona a Śiva con lugares específicos y prácticas de servicio. Las imágenes de santos, las procesiones y el canto incorporaron sus vidas a la memoria pública. La tradición dialogó y compitió con otras religiones del sur de India.",
+      "milestones": [
+        "Himnos de Appar, Campantar y Cuntarar.",
+        "Compilación del Tēvāram.",
+        "Cultos de santos en templos Chola."
+      ],
+      "sections": [
+        [
+          "Servicio",
+          "La acción dedicada forma parte de la devoción."
+        ],
+        [
+          "Lugar",
+          "El templo y el paisaje hacen visible la presencia divina."
+        ],
+        [
+          "Memoria",
+          "Poesía, imagen y procesión conservan vidas ejemplares."
+        ]
+      ],
+      "legacy": [
+        "Configuración duradera del śaivismo tamil y de sus prácticas templarias."
+      ],
+      "works": [
+        "Tēvāram; Periya Purāṇam"
+      ],
+      "sources": [
+        "https://www.metmuseum.org/art/collection/search/39332"
+      ],
+      "evidence": "B"
+    },
+    {
+      "id": "card_basava_work_equality_001",
+      "author": "Basava",
+      "title": "El trabajo digno no depende del nacimiento",
+      "territory": "Karnataka · sur de India",
+      "period": "Siglo XII e.c.",
+      "family": "Vīraśaiva–Liṅgāyat",
+      "symbol": "⚒",
+      "statement": "Basava relaciona trabajo, devoción y dignidad, y cuestiona privilegios rituales y jerarquías heredadas mediante breves composiciones llamadas vacanas.",
+      "tags": [
+        "Basava",
+        "Kayaka",
+        "Vacana",
+        "Liṅgāyat",
+        "Igualdad"
+      ],
+      "question": "¿Qué ocurre cuando el valor de una persona se vincula con su trabajo y su experiencia, no con su nacimiento?",
+      "caution": "La historia de Basava combina documentos, poemas atribuidos y hagiografías posteriores; tampoco toda la historia liṅgāyat puede reducirse a un programa moderno de igualdad.",
+      "connections": [
+        "Bhakti",
+        "Śiva",
+        "Trabajo",
+        "Casta",
+        "Vacana"
+      ],
+      "audio": "Continuamos con Basava, reformador y poeta de Karnataka. Sus vacanas relacionan devoción a Śiva, trabajo digno y crítica de privilegios heredados. El principio de kayaka afirma el valor espiritual del trabajo, mientras la comunidad ideal debía reconocer experiencia antes que nacimiento. Las biografías posteriores ampliaron su figura, y las sociedades liṅgāyat históricas no siempre realizaron plenamente esa aspiración igualitaria.",
+      "why": "Sitúa el trabajo y la dignidad social dentro de una reflexión religiosa crítica de la herencia y el privilegio.",
+      "histContext": "Basava floreció en el siglo XII y estuvo asociado con la corte de Kalyāṇa y con el movimiento Vīraśaiva o Liṅgāyat. Las fuentes combinan vacanas, inscripciones y hagiografías posteriores.",
+      "histDevelopment": "La tradición le atribuye una comunidad de discusión y práctica que reunió participantes de diversos oficios y orígenes. Kayaka dignifica el trabajo; dāsoha vincula producción y servicio. Los vacanas critican ritual vacío, autoridad heredada y separación entre vida cotidiana y espiritualidad.",
+      "milestones": [
+        "Actividad en Kalyāṇa.",
+        "Composición y circulación de vacanas.",
+        "Consolidación posterior de la tradición Liṅgāyat."
+      ],
+      "sections": [
+        [
+          "Kayaka",
+          "El trabajo puede ser una práctica espiritual digna."
+        ],
+        [
+          "Vacana",
+          "Forma breve en lengua kannada para pensamiento y crítica."
+        ],
+        [
+          "Comunidad",
+          "La experiencia y el servicio cuestionan el privilegio de nacimiento."
+        ]
+      ],
+      "legacy": [
+        "Referente de movimientos liṅgāyat y de debates sobre trabajo, género y casta."
+      ],
+      "works": [
+        "Vacanas atribuidos a Basava"
+      ],
+      "sources": [
+        "https://www.encyclopedia.com/religion/dictionaries-thesauruses-pictures-and-press-releases/basava",
+        "https://www.britannica.com/biography/Basava"
+      ],
+      "evidence": "B–C"
+    },
+    {
+      "id": "card_kabir_beyond_labels_001",
+      "author": "Kabir",
+      "title": "La verdad no cabe en una frontera religiosa",
+      "territory": "Norte de India",
+      "period": "Siglo XV e.c.",
+      "family": "Sant y bhakti nirguṇa",
+      "symbol": "◇",
+      "statement": "Kabir cuestiona rituales, jerarquías de casta y exclusividades religiosas, y dirige la búsqueda hacia una verdad divina que no pertenece en exclusiva a hindúes ni musulmanes.",
+      "tags": [
+        "Kabir",
+        "Sant",
+        "Nirguṇa",
+        "Casta",
+        "Crítica ritual"
+      ],
+      "question": "¿Puede una tradición religiosa reconocer la verdad si convierte su nombre y sus rituales en fronteras absolutas?",
+      "caution": "Los poemas de Kabir circulan en colecciones diversas y no siempre puede determinarse cuáles versos proceden del poeta histórico.",
+      "connections": [
+        "Bhakti",
+        "Islam",
+        "Sijismo",
+        "Casta",
+        "Poesía oral"
+      ],
+      "audio": "Pasamos a Kabir, poeta del norte de India asociado con la tradición sant. Sus versos critican el ritual sin transformación, la soberbia de casta y la pretensión de poseer a Dios mediante una etiqueta religiosa. La verdad debe verificarse en la vida y en la relación con otros. Como sus poemas circularon oralmente en varias comunidades, no toda composición atribuida puede asignarse con seguridad al Kabir histórico.",
+      "why": "Ofrece una crítica poética de la identidad religiosa cuando esta reemplaza la verdad, la justicia y la transformación.",
+      "histContext": "Kabir vivió probablemente en el siglo XV en el norte de India y suele vincularse con comunidades artesanas y con el ambiente sant. Sus poemas aparecen en el Bījak, el Guru Granth Sahib y otras colecciones.",
+      "histDevelopment": "Su poesía utiliza imágenes del trabajo, el cuerpo y la vida doméstica para cuestionar diferencias religiosas y de casta. Rechaza tanto el ritualismo brahmánico como la religiosidad musulmana vacía, sin construir una mezcla doctrinal simple entre ambas.",
+      "milestones": [
+        "Circulación oral de dohas y canciones.",
+        "Inclusión de composiciones en varias colecciones.",
+        "Influencia en tradiciones sant, sij y bhakti."
+      ],
+      "sections": [
+        [
+          "Nirguṇa",
+          "La divinidad no queda limitada por una forma o institución."
+        ],
+        [
+          "Crítica",
+          "Ritual y nombre religioso se juzgan por sus efectos."
+        ],
+        [
+          "Experiencia",
+          "La verdad debe hacerse visible en la vida concreta."
+        ]
+      ],
+      "legacy": [
+        "Una de las voces poéticas más influyentes de la crítica religiosa en el sur de Asia."
+      ],
+      "works": [
+        "Bījak; composiciones en Guru Granth Sahib"
+      ],
+      "sources": [
+        "https://www.britannica.com/biography/Kabir-Indian-mystic-and-poet",
+        "https://www.poetryfoundation.org/poets/kabir"
+      ],
+      "evidence": "B–C"
+    },
+    {
+      "id": "card_mirabai_devotion_social_refusal_001",
+      "author": "Mīrābāī",
+      "title": "La devoción también puede rechazar un papel impuesto",
+      "territory": "Rajasthan y norte de India",
+      "period": "Siglo XVI e.c.",
+      "family": "Bhakti de Kṛṣṇa",
+      "symbol": "❈",
+      "statement": "La voz poética de Mīrābāī coloca la relación con Kṛṣṇa por encima de expectativas familiares y cortesanas, convirtiendo la devoción en lenguaje de agencia.",
+      "tags": [
+        "Mīrābāī",
+        "Kṛṣṇa",
+        "Bhakti",
+        "Género",
+        "Poesía"
+      ],
+      "question": "¿Qué poder adquiere una voz cuando afirma que su relación más profunda no puede ser administrada por la familia o la corte?",
+      "caution": "La Mīrā histórica y la santa construida por poemas y hagiografías posteriores no pueden separarse por completo; muchas canciones fueron añadidas a su repertorio con el tiempo.",
+      "connections": [
+        "Kṛṣṇa",
+        "Bhakti",
+        "Género",
+        "Poesía",
+        "Rajasthan"
+      ],
+      "audio": "Seguimos con Mīrābāī, poeta devocional asociada con Kṛṣṇa. Su voz coloca el amor divino por encima de obligaciones familiares, reputación y autoridad cortesana. Esa negativa convirtió su figura en símbolo de agencia para muchas mujeres. Sin embargo, su biografía está formada por historia y hagiografía, y numerosas canciones atribuidas a ella pertenecen a una tradición que continuó creciendo después de su vida.",
+      "why": "Permite estudiar cómo una voz devocional puede disputar expectativas de género y autoridad sin reducirse a una autobiografía literal.",
+      "histContext": "Mīrābāī es situada tradicionalmente en el siglo XVI y vinculada con una familia rajput. Las fuentes cercanas son escasas; su figura se consolida en canciones, memorias de santos y hagiografías posteriores.",
+      "histDevelopment": "Los poemas expresan separación, deseo, entrega y rechazo de presiones familiares. La relación con Kṛṣṇa crea una autoridad que no depende de la aprobación doméstica o política. La tradición posterior la convirtió en santa, poeta nacional y referente de resistencia, con interpretaciones múltiples.",
+      "milestones": [
+        "Circulación de canciones devocionales.",
+        "Aparición en hagiografías de bhakti.",
+        "Relecturas modernas sobre género, nación y espiritualidad."
+      ],
+      "sections": [
+        [
+          "Devoción",
+          "Kṛṣṇa se vuelve centro de una relación exclusiva."
+        ],
+        [
+          "Agencia",
+          "La voz rechaza funciones sociales que contradicen su compromiso."
+        ],
+        [
+          "Memoria",
+          "La santa histórica fue construida por generaciones de transmisión."
+        ]
+      ],
+      "legacy": [
+        "Figura central de la poesía bhakti y de debates sobre género y autonomía."
+      ],
+      "works": [
+        "Canciones atribuidas a Mīrābāī"
+      ],
+      "sources": [
+        "https://academic.oup.com/book/46612",
+        "https://academic.oup.com/reference/62357/reference-article-abstract/554520367"
+      ],
+      "evidence": "B–C"
+    },
+    {
+      "id": "card_ambedkar_annihilation_caste_001",
+      "author": "B. R. Ambedkar",
+      "title": "La casta no se reforma: debe ser desmantelada",
+      "territory": "India",
+      "period": "1891–1956",
+      "family": "Pensamiento anticastas y Navayāna",
+      "symbol": "⚖",
+      "statement": "Ambedkar sostiene que la casta es un sistema estructural de desigualdad sostenido por autoridad social y religiosa; la democracia exige libertad, igualdad y fraternidad efectivas.",
+      "tags": [
+        "Ambedkar",
+        "Casta",
+        "Democracia",
+        "Navayāna",
+        "Igualdad"
+      ],
+      "question": "¿Puede existir democracia política cuando la vida social organiza a las personas mediante desigualdades hereditarias?",
+      "caution": "Ambedkar no puede reducirse a autor constitucional ni a reformador religioso; su pensamiento integra derecho, economía, historia, política y una reinterpretación propia del budismo.",
+      "connections": [
+        "Budismo",
+        "Casta",
+        "Democracia",
+        "Constitución",
+        "Justicia social"
+      ],
+      "audio": "Cerramos con Bhimrao Ramji Ambedkar y su exigencia de aniquilar la casta. Para él, no era una costumbre aislada, sino un sistema de desigualdad hereditaria sostenido por normas sociales y religiosas. La democracia necesitaba libertad, igualdad y fraternidad también en la vida cotidiana. En 1956 adoptó el budismo y formuló Navayāna como camino ético y colectivo de emancipación.",
+      "why": "Conecta crítica filosófica, transformación institucional y experiencia histórica de la opresión de casta.",
+      "histContext": "Ambedkar nació en 1891 en una familia Mahar sometida a la intocabilidad. Se formó en Bombay, Columbia y Londres, y trabajó como jurista, economista, líder político y principal referente dalit.",
+      "histDevelopment": "En Annihilation of Caste argumentó que la jerarquía no podía eliminarse con gestos morales aislados mientras conservara sus fundamentos normativos. Participó en la redacción de la Constitución india y defendió derechos políticos, laborales y educativos. En 1956 se convirtió al budismo y presentó una interpretación orientada hacia justicia social, racionalidad y fraternidad.",
+      "milestones": [
+        "Publicación de Annihilation of Caste en 1936.",
+        "Participación central en la Constitución de India.",
+        "Conversión budista y surgimiento de Navayāna en 1956."
+      ],
+      "sections": [
+        [
+          "Casta",
+          "Sistema hereditario y estructural de desigualdad."
+        ],
+        [
+          "Democracia social",
+          "La igualdad jurídica requiere relaciones sociales transformadas."
+        ],
+        [
+          "Navayāna",
+          "Relectura budista vinculada con emancipación colectiva."
+        ]
+      ],
+      "legacy": [
+        "Fundamento del pensamiento dalit contemporáneo y de movimientos budistas anticastas."
+      ],
+      "works": [
+        "Annihilation of Caste; The Buddha and His Dhamma"
+      ],
+      "sources": [
+        "https://ccnmtl.columbia.edu/projects/mmt/ambedkar/about.html",
+        "https://academic.oup.com/reference/62340/reference-article-abstract/554139264",
+        "https://www.britishmuseum.org/collection/term/BIOG215020"
+      ],
+      "evidence": "A–B"
+    }
+  ],
+  "editorialRules": [
+    "Audio principal entre 45 y 75 palabras.",
+    "Autor, tradición o comunidad nombrada desde el inicio.",
+    "Hagiografía, historia y recepción diferenciadas.",
+    "Críticas de casta y género no se atribuyen homogéneamente a movimientos enteros."
+  ]
+}

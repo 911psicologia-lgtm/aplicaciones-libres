@@ -1,0 +1,73 @@
+[
+  {
+    "id": "minion_lanzador",
+    "name": "Minion Lanzador",
+    "type": "enemy",
+    "role": "ranged",
+    "image": "assets/enemies/minion_lanzador/enemy.png",
+    "preview": "assets/enemies/minion_lanzador/enemy_preview.png",
+    "recommendedWidth": 44,
+    "recommendedHeight": 50,
+    "hp": 2,
+    "states": [
+      "idle",
+      "aim",
+      "throw",
+      "recover"
+    ],
+    "notes": "Enemigo a distancia que lanza proyectiles."
+  },
+  {
+    "id": "minion_lanza",
+    "name": "Minion de Lanza",
+    "type": "enemy",
+    "role": "melee_reach",
+    "image": "assets/enemies/minion_lanza/enemy.png",
+    "preview": "assets/enemies/minion_lanza/enemy_preview.png",
+    "recommendedWidth": 40,
+    "recommendedHeight": 46,
+    "hp": 2,
+    "states": [
+      "idle",
+      "advance",
+      "thrust",
+      "recover"
+    ],
+    "notes": "Cuerpo a cuerpo de alcance medio con lanza."
+  },
+  {
+    "id": "minion_trampa",
+    "name": "Minion de Trampa",
+    "type": "enemy",
+    "role": "trap",
+    "image": "assets/enemies/minion_trampa/enemy.png",
+    "preview": "assets/enemies/minion_trampa/enemy_preview.png",
+    "recommendedWidth": 50,
+    "recommendedHeight": 36,
+    "hp": 1,
+    "states": [
+      "idle",
+      "place_trap",
+      "trigger"
+    ],
+    "notes": "Coloca trampas de pinchos en el suelo."
+  },
+  {
+    "id": "invocador",
+    "name": "Invocador",
+    "type": "enemy",
+    "role": "summoner",
+    "image": "assets/enemies/invocador/enemy.png",
+    "preview": "assets/enemies/invocador/enemy_preview.png",
+    "recommendedWidth": 50,
+    "recommendedHeight": 56,
+    "hp": 3,
+    "states": [
+      "idle",
+      "cast",
+      "summon",
+      "channel"
+    ],
+    "notes": "Soporte que invoca minions y canaliza magia."
+  }
+]
