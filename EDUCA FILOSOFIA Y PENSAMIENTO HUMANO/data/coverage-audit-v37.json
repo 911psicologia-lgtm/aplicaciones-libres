@@ -1,0 +1,97 @@
+{
+  "version": "3.7.0",
+  "generatedAt": "2026-07-26",
+  "cards": 1300,
+  "collections": 32,
+  "periods": {
+    "first_symbolic_traces": 30,
+    "ancestral_cosmogonies_memories": 30,
+    "medieval_translation_routes": 118,
+    "revolutions_critiques_modernity": 189,
+    "ancient_asia_africa_america": 95,
+    "renaissances_humanisms_encounters": 53,
+    "science_rationalism_empiricism_enlightenment": 96,
+    "twentieth_philosophies_human_sciences": 306,
+    "decolonial_emergent_algorithmic": 168,
+    "greek_mediterranean_philosophies": 62,
+    "hellenistic_imperial_worlds": 66,
+    "systems_complexity_transdisciplinarity": 87
+  },
+  "uniqueEntities": 969,
+  "singleCardEntities": 819,
+  "deepAuthors": {
+    "Edgar Morin": 9,
+    "Denise Najmanovich": 9,
+    "Basarab Nicolescu": 9,
+    "Ilya Prigogine": 9,
+    "Gilles Deleuze y Félix Guattari": 9,
+    "Paulo Freire": 9,
+    "Sigmund Freud": 8,
+    "Achille Mbembe": 6,
+    "Gottfried Wilhelm Leibniz": 6,
+    "Jacques Lacan": 6,
+    "Enrique Dussel": 6,
+    "Lev Vygotsky": 6,
+    "Jean Piaget": 6,
+    "Frantz Fanon": 5,
+    "Platón": 5,
+    "Aristóteles": 5,
+    "Arturo Escobar": 5,
+    "René Descartes": 5,
+    "Baruch Spinoza": 5,
+    "John Locke": 5,
+    "David Hume": 5,
+    "Immanuel Kant": 5,
+    "Søren Kierkegaard": 5,
+    "Friedrich Nietzsche": 5,
+    "Émile Durkheim": 5,
+    "Max Weber": 5,
+    "Carl Gustav Jung": 5,
+    "Aníbal Quijano": 5,
+    "B. F. Skinner": 5,
+    "Viktor Frankl": 5,
+    "Carl Rogers": 5,
+    "Maria Montessori": 5,
+    "Orlando Fals Borda": 4,
+    "Silvia Rivera Cusicanqui": 4,
+    "John Dewey": 4,
+    "Michel Foucault": 4,
+    "José Carlos Mariátegui": 4,
+    "Walter Mignolo": 4,
+    "María Lugones": 4,
+    "Rodolfo Kusch": 4,
+    "Alfred Adler": 4,
+    "Abraham Maslow": 4,
+    "Fritz Perls": 4,
+    "David Ausubel": 4,
+    "Johann Heinrich Pestalozzi": 4
+  },
+  "newCartographies": [
+    {
+      "id": "global_science_enlightenment",
+      "title": "Ciencia e Ilustraciones en perspectiva global",
+      "cards": 40
+    },
+    {
+      "id": "byzantine_syriac_asian_medieval",
+      "title": "Bizancio, mundo siríaco, India medieval, Japón y Corea",
+      "cards": 40
+    },
+    {
+      "id": "structural_authors_deepening",
+      "title": "Profundización de autores estructurales",
+      "cards": 40
+    },
+    {
+      "id": "ethics_political_posthuman",
+      "title": "Ética política contemporánea, justicia y poshumanismos",
+      "cards": 40
+    }
+  ],
+  "nextPriorities": [
+    "Pensamiento africano precolonial y regional",
+    "Sudeste Asiático y Oceanía",
+    "Profundización de ética y filosofía de la ciencia",
+    "Revisión manual de metadatos disciplinares y fuentes antiguas"
+  ]
+}

@@ -1,0 +1,335 @@
+[
+  {
+    "id": "symbolic_beginnings",
+    "title": "Primeras simbolizaciones y surgimiento del mundo humano",
+    "short": "Primeras simbolizaciones",
+    "symbol": "◌",
+    "description": "Evidencias materiales, técnica, cuidado, imagen, memoria, navegación y límites de la interpretación arqueológica.",
+    "order": 1,
+    "cards": 30
+  },
+  {
+    "id": "early_written_wisdoms",
+    "title": "Mesopotamia, Egipto, mundo iranio y primeras sabidurías escritas",
+    "short": "Primeras sabidurías escritas",
+    "symbol": "▤",
+    "description": "Escritura, archivos, cosmologías, sabiduría, sufrimiento, Maat y tradición avéstica.",
+    "order": 2,
+    "cards": 30
+  },
+  {
+    "id": "south_asia_vedic_upanishadic",
+    "title": "Sur de Asia: fundamentos, escuelas, devociones y críticas sociales",
+    "short": "Sur de Asia",
+    "symbol": "☸",
+    "description": "Fundamentos védicos, mundo śramaṇa, escuelas clásicas, Vedānta, filosofías de Cachemira, bhakti y críticas de casta.",
+    "order": 3,
+    "cards": 50
+  },
+  {
+    "id": "classical_china",
+    "title": "Filosofías chinas: cambio, cultivo, traducción y orden",
+    "short": "Filosofías chinas",
+    "symbol": "☰",
+    "description": "Yijing, Confucio, Mohismo, daoísmo, disputadores, fa, cosmologías Han, xuanxue, traducción budista, Guo Xiang, Huiyuan, Daosheng, Tiantai, Huayan y Chan.",
+    "order": 4,
+    "cards": 60
+  },
+  {
+    "id": "african_philosophies",
+    "title": "Filosofías africanas y afrodiaspóricas",
+    "short": "Filosofías africanas",
+    "symbol": "◈",
+    "description": "Pluralidad, oralidad, persona, comunidad, descolonización, identidad, feminismos y libertad epistémica.",
+    "order": 5,
+    "cards": 40
+  },
+  {
+    "id": "greco_roman_worlds",
+    "title": "Mundos griegos, helenísticos, romanos y Antigüedad tardía",
+    "short": "Mundo grecorromano",
+    "symbol": "Φ",
+    "description": "Mundos griegos plurales, presocráticos, Sócrates, Platón, Aristóteles, escuelas helenísticas, Roma y Antigüedad tardía.",
+    "order": 6,
+    "cards": 40
+  },
+  {
+    "id": "greek_mediterranean_expansion",
+    "title": "Grecia y Mediterráneo · ampliación de matrices, escuelas y contextos",
+    "short": "Grecia y Mediterráneo ampliado",
+    "symbol": "Φ",
+    "description": "Matrices mítico-poéticas, condiciones de la polis, presocráticos, sofistas, escuelas socráticas, tragedia e historiografía.",
+    "order": 7,
+    "cards": 40
+  },
+  {
+    "id": "hellenistic_imperial_expansion",
+    "title": "Helenismo, Roma y Antigüedad tardía · ampliación de escuelas y circulaciones",
+    "short": "Helenismo e imperios ampliado",
+    "symbol": "Ω",
+    "description": "Escuelas helenísticas, Roma, Alejandría, platonismos, cristianismos antiguos y rutas de transmisión.",
+    "order": 8,
+    "cards": 40
+  },
+  {
+    "id": "medieval_connected_worlds",
+    "title": "Mundos medievales conectados: traducciones, falsafa, kalām, filosofías judías y cristianas",
+    "short": "Mundos medievales",
+    "symbol": "✦",
+    "description": "Circulaciones greco-siríaco-árabes, falsafa, kalām, sufismo, filosofía judía, escolástica y redes de traducción.",
+    "order": 9,
+    "cards": 40
+  },
+  {
+    "id": "indigenous_americas_arctic",
+    "title": "Filosofías indígenas de Abya Yala, Norteamérica y el Ártico",
+    "short": "Pueblos indígenas de América",
+    "symbol": "◈",
+    "description": "Cuarenta recorridos por Mesoamérica, Andes, Amazonía, Norteamérica, Inuit Nunaat y debates indígenas contemporáneos sobre territorio, método, clima y datos.",
+    "order": 10,
+    "cards": 40
+  },
+  {
+    "id": "renaissance_global",
+    "title": "Renacimientos y primeras modernidades globales",
+    "short": "Renacimientos globales",
+    "symbol": "✦",
+    "description": "Cuarenta recorridos por humanismos, reformas, encuentros coloniales, mundos mogoles, otomanos y asiáticos orientales.",
+    "order": 11,
+    "cards": 40
+  },
+  {
+    "id": "science_enlightenments",
+    "title": "Ciencias, racionalismos, empirismos e Ilustraciones",
+    "short": "Ciencia e Ilustraciones",
+    "symbol": "⌬",
+    "description": "Cuarenta recorridos por astronomía, experimentación, filosofía moderna, Ilustraciones plurales y ciencia colonial.",
+    "order": 12,
+    "cards": 40
+  },
+  {
+    "id": "revolutions_emancipations",
+    "title": "Revoluciones, ciudadanías, aboliciones y emancipaciones",
+    "short": "Revoluciones y emancipaciones",
+    "symbol": "⚑",
+    "description": "Cuarenta recorridos por derechos, revolución haitiana, abolicionismos, independencias, educación y reformas anticoloniales.",
+    "order": 13,
+    "cards": 40
+  },
+  {
+    "id": "nineteenth_philosophies_human_sciences",
+    "title": "Filosofías, ciencias humanas y críticas sociales del siglo XIX",
+    "short": "Pensamiento social del XIX",
+    "symbol": "◈",
+    "description": "Cuarenta recorridos por idealismos, liberalismos, socialismos, evolución, pragmatismos y formación de las ciencias humanas.",
+    "order": 14,
+    "cards": 40
+  },
+  {
+    "id": "experience_interpretation_twentieth",
+    "title": "Fenomenologías, pragmatismos, hermenéuticas y existencialismos",
+    "short": "Experiencia e interpretación",
+    "symbol": "◐",
+    "description": "Cuarenta recorridos por conciencia, cuerpo, existencia, pragmatismo, filosofía japonesa, historia y hermenéutica.",
+    "order": 15,
+    "cards": 40
+  },
+  {
+    "id": "unconscious_critical_feminisms",
+    "title": "Psicoanálisis, teoría crítica, estructuralismos y feminismos",
+    "short": "Inconsciente, poder y diferencia",
+    "symbol": "✦",
+    "description": "Cuarenta recorridos por inconsciente, cultura, ideología, lenguaje, poder, feminismos y epistemologías situadas.",
+    "order": 16,
+    "cards": 40
+  },
+  {
+    "id": "science_language_mind",
+    "title": "Filosofía de la ciencia, lenguaje y mente",
+    "short": "Ciencia, lenguaje y mente",
+    "symbol": "◇",
+    "description": "Cuarenta recorridos por método científico, significado, referencia, conciencia, cognición y epistemología social.",
+    "order": 17,
+    "cards": 40
+  },
+  {
+    "id": "technology_media_algorithms",
+    "title": "Tecnologías, medios y mundo algorítmico",
+    "short": "Tecnología y algoritmos",
+    "symbol": "⌘",
+    "description": "Cuarenta recorridos por técnica, medios, computación, datos, plataformas, inteligencia artificial y justicia algorítmica.",
+    "order": 18,
+    "cards": 40
+  },
+  {
+    "id": "systems_complexities",
+    "title": "Sistemas, cibernéticas, complejidades y transdisciplinariedades",
+    "short": "Sistemas y complejidades",
+    "symbol": "◎",
+    "description": "Organización, retroalimentación, observación, redes, vida, intervención y conocimiento complejo.",
+    "order": 19,
+    "cards": 50
+  },
+  {
+    "id": "complexity_preferred_authors",
+    "title": "Complejidad, transdisciplinariedad, devenir y subjetividad entramada",
+    "short": "Autores de complejidad y multiplicidad",
+    "symbol": "✺",
+    "description": "Cuarenta desarrollos dedicados a Morin, Nicolescu, Prigogine, Deleuze–Guattari y Najmanovich.",
+    "order": 20,
+    "cards": 40
+  },
+  {
+    "id": "latin_american_caribbean_decolonial",
+    "title": "Pensamiento latinoamericano, caribeño y decolonial",
+    "short": "América Latina, Caribe y liberaciones",
+    "symbol": "◈",
+    "description": "Cuarenta unidades verificadas y conectadas rizomáticamente.",
+    "order": 21,
+    "cards": 40
+  },
+  {
+    "id": "ecologies_planetary_futures",
+    "title": "Ecologías, territorio, cuidado y futuros planetarios",
+    "short": "Ecologías y futuros comunes",
+    "symbol": "♧",
+    "description": "Cuarenta unidades verificadas y conectadas rizomáticamente.",
+    "order": 22,
+    "cards": 40
+  },
+  {
+    "id": "modernity_coloniality_anticolonial",
+    "title": "Modernidad/Colonialidad y genealogías anticoloniales",
+    "short": "Colonialidad y genealogías anticoloniales",
+    "symbol": "◉",
+    "description": "Cuarenta unidades verificadas, contextualizadas y conectadas rizomáticamente.",
+    "order": 23,
+    "cards": 40
+  },
+  {
+    "id": "decolonial_feminisms_pedagogies",
+    "title": "Feminismos decoloniales, indianismos y pedagogías liberadoras",
+    "short": "Feminismos, comunidades y pedagogías",
+    "symbol": "✹",
+    "description": "Cuarenta unidades verificadas, contextualizadas y conectadas rizomáticamente.",
+    "order": 24,
+    "cards": 40
+  },
+  {
+    "id": "psychologies_clinical_subjectivity",
+    "title": "Psicologías, clínica y subjetividad",
+    "short": "Psicologías y clínica",
+    "symbol": "Ψ",
+    "description": "Cuarenta ideas sobre inconsciente, conducta, sentido, experiencia terapéutica y formación de la subjetividad.",
+    "order": 25,
+    "cards": 40
+  },
+  {
+    "id": "education_learning_development",
+    "title": "Educación, aprendizaje y desarrollo humano",
+    "short": "Educación y desarrollo",
+    "symbol": "✎",
+    "description": "Cuarenta ideas sobre enseñanza, aprendizaje, desarrollo, mediación, autonomía y formación democrática.",
+    "order": 26,
+    "cards": 40
+  },
+  {
+    "id": "mathematics_logic_demonstration",
+    "title": "Matemáticas, lógica y formas de demostración",
+    "short": "Matemáticas y demostración",
+    "symbol": "∑",
+    "description": "Cuarenta ideas sobre número, prueba, forma, inferencia, probabilidad, computabilidad y estructuras matemáticas.",
+    "order": 27,
+    "cards": 40
+  },
+  {
+    "id": "medicine_body_public_health_bioethics",
+    "title": "Medicina, cuerpo, salud pública y bioética",
+    "short": "Medicina, salud y bioética",
+    "symbol": "✚",
+    "description": "Cuarenta ideas sobre clínica, cuerpo, epidemiología, salud pública, cuidado y deliberación bioética.",
+    "order": 28,
+    "cards": 40
+  },
+  {
+    "id": "global_science_enlightenment",
+    "title": "Ciencia e Ilustraciones en perspectiva global",
+    "short": "Ciencia e Ilustraciones globales",
+    "symbol": "✺",
+    "description": "Cuarenta ideas sobre crítica ilustrada, medición, instituciones, traducciones y circulaciones científicas globales.",
+    "order": 29,
+    "cards": 40
+  },
+  {
+    "id": "byzantine_syriac_asian_medieval",
+    "title": "Bizancio, mundo siríaco, India medieval, Japón y Corea",
+    "short": "Mundos medievales orientales",
+    "symbol": "☸",
+    "description": "Cuarenta ideas sobre Bizancio, traducciones siríacas, filosofías medievales de India y desarrollos de Japón y Corea.",
+    "order": 30,
+    "cards": 40
+  },
+  {
+    "id": "structural_authors_deepening",
+    "title": "Profundización de autores estructurales",
+    "short": "Autores estructurales",
+    "symbol": "◇",
+    "description": "Cuarenta ideas que profundizan problemas centrales en Descartes, Spinoza, Leibniz, Locke, Hume, Kant, Nietzsche, Kierkegaard, Durkheim y Weber.",
+    "order": 31,
+    "cards": 40
+  },
+  {
+    "id": "ethics_political_posthuman",
+    "title": "Ética política contemporánea, justicia y poshumanismos",
+    "short": "Justicia y poshumanismos",
+    "symbol": "⚭",
+    "description": "Cuarenta ideas sobre justicia, democracia, ética contemporánea, mediaciones tecnológicas y futuros poshumanos.",
+    "order": 32,
+    "cards": 40
+  },
+  {
+    "id": "latin_medieval_scholastic_mystical",
+    "title": "Medievo latino: escolásticas, místicas y universidades",
+    "short": "Medievo latino",
+    "symbol": "✦",
+    "description": "Cuarenta ideas sobre autores, instituciones, mujeres filósofas, derecho, universidades y debates del mundo latino medieval.",
+    "order": 33,
+    "cards": 40
+  },
+  {
+    "id": "islamic_persian_jewish_medieval",
+    "title": "Mundos islámicos, persas y judíos medievales",
+    "short": "Islam, Persia y judaísmo",
+    "symbol": "☾",
+    "description": "Cuarenta ideas sobre falsafa, kalām, sufismo, ciencias, ética y filosofías judías en árabe y hebreo.",
+    "order": 34,
+    "cards": 40
+  },
+  {
+    "id": "precolonial_regional_africa",
+    "title": "África precolonial y regional: instituciones, oralidades y filosofías",
+    "short": "África precolonial",
+    "symbol": "◉",
+    "description": "Cuarenta ideas sobre Etiopía, Sahel, África occidental, central, oriental y austral, con cautelas sobre fuentes orales y arqueológicas.",
+    "order": 35,
+    "cards": 40
+  },
+  {
+    "id": "southeast_asia_oceania_pacific",
+    "title": "Sudeste Asiático, Oceanía y filosofías del Pacífico",
+    "short": "Sudeste Asiático y Pacífico",
+    "symbol": "≈",
+    "description": "Cuarenta ideas sobre Java, Birmania, Vietnam, Filipinas, mātauranga Māori y conocimientos oceánicos.",
+    "order": 36,
+    "cards": 40
+  },
+  {
+    "id": "latin_critical_complexity_referents",
+    "title": "Cartografía AJ · Complejidad, bioética e investigación latinoamericana",
+    "short": "Complejidad, bioética e investigación",
+    "symbol": "⟷",
+    "description": "Catorce ideas —dos por autor— sobre pensamiento crítico, bioética compleja, transmétodos, neguentropía, ciencias de la complejidad, educación y pertinencia planetaria.",
+    "order": 37,
+    "cards": 14
+  }
+]

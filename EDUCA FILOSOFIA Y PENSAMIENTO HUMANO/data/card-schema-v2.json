@@ -1,0 +1,349 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "cartografias-card-schema-v2.json",
+  "title": "Cartografías del Pensamiento · Tarjeta v2",
+  "type": "object",
+  "required": [
+    "id",
+    "schemaVersion",
+    "contentVersion",
+    "entryType",
+    "title",
+    "author",
+    "dateMetadata",
+    "editorialPeriodId",
+    "navigationStageId",
+    "geography",
+    "question",
+    "statement",
+    "audio",
+    "evidenceGrade",
+    "evidenceNature",
+    "sourcesNormalized",
+    "visualFamilyId",
+    "editorialStatus",
+    "reviewStatus",
+    "entityType",
+    "entityMetadata",
+    "questionPhilosophical",
+    "coreIdea",
+    "distinctiveContribution",
+    "visualSystem",
+    "contentReview",
+    "sourceIds"
+  ],
+  "properties": {
+    "id": {
+      "type": "string",
+      "pattern": "^card_[a-z0-9_]+$"
+    },
+    "schemaVersion": {
+      "const": "2.0"
+    },
+    "contentVersion": {
+      "type": "string"
+    },
+    "entryType": {
+      "enum": [
+        "portal",
+        "author_concept",
+        "author_method",
+        "author_work",
+        "author_problem",
+        "author_program",
+        "author_movement",
+        "author_epistemology",
+        "tradition_concept",
+        "tradition_institution",
+        "school",
+        "debate",
+        "comparison",
+        "translation_route",
+        "epistemic_break",
+        "intercultural_encounter",
+        "method",
+        "collective_practice",
+        "work",
+        "concept",
+        "event"
+      ]
+    },
+    "title": {
+      "type": "string",
+      "minLength": 1
+    },
+    "author": {
+      "type": "string",
+      "minLength": 1
+    },
+    "dateStart": {
+      "type": [
+        "integer",
+        "null"
+      ]
+    },
+    "dateEnd": {
+      "type": [
+        "integer",
+        "null"
+      ]
+    },
+    "datePrecision": {
+      "type": "string"
+    },
+    "editorialPeriodId": {
+      "enum": [
+        "first_symbolic_traces",
+        "ancestral_cosmogonies_memories",
+        "ancient_asia_africa_america",
+        "greek_mediterranean_philosophies",
+        "hellenistic_imperial_worlds",
+        "medieval_translation_routes",
+        "renaissances_humanisms_encounters",
+        "science_rationalism_empiricism_enlightenment",
+        "revolutions_critiques_modernity",
+        "twentieth_philosophies_human_sciences",
+        "systems_complexity_transdisciplinarity",
+        "decolonial_emergent_algorithmic"
+      ]
+    },
+    "navigationStageId": {
+      "enum": [
+        "origins",
+        "first_writings",
+        "classical_antiquities",
+        "medieval_connected",
+        "modern_colonial",
+        "contemporary",
+        "transversal"
+      ]
+    },
+    "visualFamilyId": {
+      "enum": [
+        "symbolic_human_origins",
+        "mesopotamia_egypt_iran",
+        "south_asia",
+        "east_asia",
+        "africa_afrodiaspora",
+        "indigenous_americas",
+        "greek_mediterranean",
+        "hellenistic_roman",
+        "medieval_connected",
+        "renaissance_encounters",
+        "modern_science_enlightenment",
+        "nineteenth_social",
+        "twentieth_philosophies",
+        "systems_complexity",
+        "decolonial_emergent",
+        "technology_algorithms",
+        "psychologies_clinical",
+        "education_development",
+        "mathematics_logic",
+        "medicine_bioethics",
+        "global_science_enlightenment",
+        "byzantine_syriac_asian_medieval",
+        "structural_authors",
+        "ethics_political_posthuman",
+        "southeast_asia_pacific",
+        "latin_critical_complexity"
+      ]
+    },
+    "editorialStatus": {
+      "enum": [
+        "candidate",
+        "researching",
+        "verification_pending",
+        "editorially_approved",
+        "integration_pending",
+        "published",
+        "revision_required",
+        "reserved",
+        "discarded"
+      ]
+    },
+    "evidenceGrade": {
+      "enum": [
+        "A",
+        "A-B",
+        "B",
+        "B-C",
+        "C"
+      ]
+    },
+    "fields": {
+      "type": "array",
+      "items": {
+        "enum": [
+          "cosmos_reality",
+          "knowledge_method",
+          "ethics_care",
+          "society_power",
+          "mind_language",
+          "systems_complexity",
+          "education_learning",
+          "spirituality_practice",
+          "decolonial_liberation",
+          "life_ecology",
+          "aesthetics_symbolism",
+          "technology_mediation"
+        ]
+      }
+    },
+    "sourcesNormalized": {
+      "type": "array",
+      "minItems": 1,
+      "items": {
+        "type": "object",
+        "required": [
+          "title",
+          "sourceType",
+          "role",
+          "origin",
+          "verificationStatus"
+        ]
+      }
+    },
+    "relations": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": [
+          "targetId",
+          "type",
+          "label",
+          "evidence"
+        ]
+      }
+    },
+    "entityType": {
+      "enum": [
+        "person",
+        "person_group",
+        "community_or_tradition",
+        "editorial_portal",
+        "work",
+        "historical_process",
+        "conceptual_entry"
+      ]
+    },
+    "entityMetadata": {
+      "type": "object",
+      "required": [
+        "displayName",
+        "entityType",
+        "originalLanguages"
+      ]
+    },
+    "questionPhilosophical": {
+      "type": "string"
+    },
+    "coreIdea": {
+      "type": "string"
+    },
+    "distinctiveContribution": {
+      "type": "string"
+    },
+    "visualSystem": {
+      "type": "object",
+      "required": [
+        "familyId",
+        "symbol",
+        "palette",
+        "authorizedSymbols"
+      ]
+    },
+    "contentReview": {
+      "type": "object",
+      "required": [
+        "status",
+        "version",
+        "reviewedAt",
+        "dimensions"
+      ]
+    },
+    "sourceIds": {
+      "type": "array",
+      "minItems": 1,
+      "items": {
+        "type": "string"
+      }
+    },
+    "influences": {
+      "type": "array"
+    },
+    "continuities": {
+      "type": "array"
+    },
+    "critiquesAndBreaks": {
+      "type": "array"
+    },
+    "conceptualResonances": {
+      "type": "array"
+    },
+    "disciplinaryRelations": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": [
+          "disciplineId",
+          "relationType",
+          "relevance",
+          "rationale",
+          "reviewStatus",
+          "publishable"
+        ],
+        "properties": {
+          "disciplineId": {
+            "enum": [
+              "philosophy",
+              "psychology_subjectivity",
+              "anthropology_cultures",
+              "education_pedagogy",
+              "sociology_collective",
+              "politics_government",
+              "law_justice",
+              "economics_exchange",
+              "natural_sciences",
+              "medicine_body",
+              "mathematics_logic",
+              "language_communication",
+              "art_aesthetics",
+              "religions_theologies",
+              "technology_knowledge"
+            ]
+          },
+          "relationType": {
+            "enum": [
+              "direct_contribution",
+              "historical_antecedent",
+              "later_influence",
+              "shared_problem",
+              "interdisciplinary_crossing",
+              "contemporary_reading"
+            ]
+          },
+          "relevance": {
+            "type": "number",
+            "minimum": 0,
+            "maximum": 1
+          },
+          "rationale": {
+            "type": "string"
+          },
+          "reviewStatus": {
+            "enum": [
+              "explicit_editorial_assignment",
+              "rule_high_confidence",
+              "manual_review_required"
+            ]
+          },
+          "publishable": {
+            "type": "boolean"
+          }
+        }
+      }
+    }
+  },
+  "additionalProperties": true,
+  "version": "3.9.1"
+}

@@ -1,0 +1,991 @@
+{
+  "schemaVersion": "1.0",
+  "packId": "pack_cartography_e_african_philosophies_decolonial_feminist_20_v1",
+  "title": "Cartografía E · Serie 3–4 · Filosofías africanas: descolonización, identidad, feminismos y libertad epistémica",
+  "status": "research_consolidated_pending_app_integration",
+  "createdAt": "2026-07-25",
+  "recordCount": 20,
+  "editorialRule": "Audios breves con entidad inicial, una idea central y una cautela; distinción entre concepto, implementación histórica y controversia.",
+  "records": [
+    {
+      "id": "card_fanon_sociogeny_racialized_body_001",
+      "series": "cartography-e-series-3-4",
+      "order": 21,
+      "entity": "Frantz Fanon",
+      "title": "La raza se aprende también sobre el cuerpo",
+      "period": "1925–1961",
+      "territory": "Martinica, Francia y Argelia",
+      "cardType": "autor_concepto",
+      "question": "¿Cómo puede una clasificación social llegar a sentirse como destino corporal?",
+      "visibleText": "Fanon muestra que el racismo no solo describe cuerpos: organiza miradas, lenguaje y expectativas que moldean la experiencia de quienes son racializados.",
+      "coreIdea": "La sociogenia fanoniana estudia cómo el mundo colonial produce subjetividades racializadas mediante instituciones, lenguaje y relaciones sociales.",
+      "distinctiveKey": "sociogenia + cuerpo vivido + racialización",
+      "audio": "Comenzamos con Frantz Fanon y la sociogenia. Para él, el racismo no nace simplemente de la piel ni de una psicología individual: se organiza en lenguaje, instituciones y miradas que convierten el cuerpo en signo social. La persona racializada aprende a verse desde categorías impuestas. Fanon busca desmontar esa fabricación histórica sin reemplazarla por una esencia racial permanente.",
+      "caution": "No reducir sociogenia a psicología individual ni presentar la identidad racial como esencia biológica inmutable.",
+      "tags": [
+        "Fanon",
+        "sociogenia",
+        "racialización",
+        "cuerpo vivido"
+      ],
+      "connections": [
+        "card_cesaire_colonial_dehumanization_001",
+        "card_biko_black_consciousness_001",
+        "card_senghor_negritude_001"
+      ],
+      "quiz": {
+        "question": "¿Qué añade la sociogenia al análisis del racismo?",
+        "options": [
+          "Una explicación exclusivamente genética",
+          "El estudio de cómo relaciones e instituciones producen experiencia racializada",
+          "La idea de que toda identidad es voluntaria",
+          "Una clasificación fija de pueblos"
+        ],
+        "correctIndex": 1,
+        "explanation": "Fanon examina cómo el mundo social forma la experiencia del cuerpo y de la identidad."
+      },
+      "evidenceLevel": "A",
+      "sources": [
+        {
+          "title": "Frantz Fanon",
+          "url": "https://plato.stanford.edu/entries/frantz-fanon/"
+        },
+        {
+          "title": "Frantz Fanon",
+          "url": "https://iep.utm.edu/fanon/"
+        }
+      ]
+    },
+    {
+      "id": "card_fanon_decolonization_new_humanism_001",
+      "series": "cartography-e-series-3-4",
+      "order": 22,
+      "entity": "Frantz Fanon",
+      "title": "Descolonizar es rehacer instituciones y humanidad",
+      "period": "Décadas de 1950–1960",
+      "territory": "Argelia, África y Caribe",
+      "cardType": "autor_problema",
+      "question": "¿Basta con reemplazar a quienes gobiernan para terminar una relación colonial?",
+      "visibleText": "Fanon advierte que la independencia puede reproducir jerarquías si no transforma economía, cultura, instituciones y la idea misma de humanidad.",
+      "coreIdea": "La descolonización fanoniana exige desmontar estructuras materiales y subjetivas, movilizar a la población y crear formas políticas no subordinadas al modelo colonial.",
+      "distinctiveKey": "descolonización + masas + nuevo humanismo",
+      "audio": "Seguimos con Frantz Fanon y la descolonización. Cambiar una bandera o sustituir funcionarios no basta si continúan la economía dependiente, las jerarquías y la medida colonial de lo humano. Fanon reclama participación popular y nuevas instituciones capaces de evitar que una élite local ocupe el lugar del antiguo poder. Su nuevo humanismo no copia Europa ni idealiza un pasado inmóvil.",
+      "caution": "No reducir su teoría a una celebración abstracta de la confrontación; analiza un orden colonial ya estructurado por coerción y advierte sobre los fracasos posteriores.",
+      "tags": [
+        "Fanon",
+        "descolonización",
+        "humanismo",
+        "instituciones"
+      ],
+      "connections": [
+        "card_fanon_sociogeny_racialized_body_001",
+        "card_cabral_culture_resistance_001",
+        "card_nyerere_ujamaa_self_reliance_001"
+      ],
+      "quiz": {
+        "question": "¿Qué considera insuficiente Fanon?",
+        "options": [
+          "Transformar también las instituciones",
+          "Una independencia limitada al reemplazo de élites",
+          "La participación popular",
+          "La crítica de la dependencia"
+        ],
+        "correctIndex": 1,
+        "explanation": "La descolonización debe modificar estructuras y subjetividades, no solo cambiar gobernantes."
+      },
+      "evidenceLevel": "B",
+      "sources": [
+        {
+          "title": "Frantz Fanon",
+          "url": "https://plato.stanford.edu/entries/frantz-fanon/"
+        },
+        {
+          "title": "Colonialism",
+          "url": "https://plato.stanford.edu/entries/colonialism/"
+        }
+      ]
+    },
+    {
+      "id": "card_cesaire_colonial_dehumanization_001",
+      "series": "cartography-e-series-3-4",
+      "order": 23,
+      "entity": "Aimé Césaire",
+      "title": "Colonizar deshumaniza también a quien domina",
+      "period": "1913–2008",
+      "territory": "Martinica, Francia y mundo anticolonial",
+      "cardType": "autor_obra",
+      "question": "¿Puede una civilización proclamarse humanista mientras normaliza la dominación colonial?",
+      "visibleText": "Césaire denuncia que el colonialismo convierte personas en objetos y acostumbra a la sociedad colonizadora a justificar el abuso como civilización.",
+      "coreIdea": "El Discurso sobre el colonialismo desmonta la equivalencia entre colonización y progreso y muestra sus efectos deshumanizadores en ambos lados de la relación.",
+      "distinctiveKey": "colonialismo + cosificación + hipocresía civilizatoria",
+      "audio": "Llegamos a Aimé Césaire y su Discurso sobre el colonialismo. Césaire rechaza que conquistar, explotar y administrar pueblos sea una misión civilizadora. La colonización convierte a las personas dominadas en objetos y acostumbra a la sociedad colonizadora a aceptar prácticas incompatibles con su propio humanismo. Su crítica no idealiza toda sociedad precolonial: desenmascara una falsa universalidad construida sobre desigualdad.",
+      "caution": "No presentar a Césaire como defensor de un retorno puro al pasado ni confundir su crítica con rechazo de todo intercambio cultural.",
+      "tags": [
+        "Césaire",
+        "colonialismo",
+        "cosificación",
+        "Négritude"
+      ],
+      "connections": [
+        "card_fanon_sociogeny_racialized_body_001",
+        "card_senghor_negritude_001",
+        "card_cabral_culture_resistance_001"
+      ],
+      "quiz": {
+        "question": "¿Qué contradicción denuncia Césaire?",
+        "options": [
+          "La coexistencia de varias lenguas",
+          "Defender valores humanistas mientras se justifica la dominación colonial",
+          "La existencia de culturas híbridas",
+          "La crítica interna de Europa"
+        ],
+        "correctIndex": 1,
+        "explanation": "El colonialismo contradice las pretensiones universales de dignidad y civilización."
+      },
+      "evidenceLevel": "A",
+      "sources": [
+        {
+          "title": "Discourse on Colonialism",
+          "url": "https://nyupress.org/9781583670248/discourse-on-colonialism/"
+        },
+        {
+          "title": "Colonialism",
+          "url": "https://plato.stanford.edu/entries/colonialism/"
+        }
+      ]
+    },
+    {
+      "id": "card_cabral_culture_resistance_001",
+      "series": "cartography-e-series-3-4",
+      "order": 24,
+      "entity": "Amílcar Cabral",
+      "title": "La cultura puede convertirse en resistencia organizada",
+      "period": "1924–1973",
+      "territory": "Guinea-Bisáu, Cabo Verde y redes tricontinentales",
+      "cardType": "autor_concepto",
+      "question": "¿Por qué dominar un territorio exige intervenir también en la memoria y la cultura?",
+      "visibleText": "Cabral entiende la cultura como proceso histórico donde un pueblo reconoce su experiencia, organiza resistencia y transforma lo heredado.",
+      "coreIdea": "La liberación cultural no consiste en conservar costumbres intactas, sino en recuperar capacidad colectiva para interpretar, criticar y dirigir la propia historia.",
+      "distinctiveKey": "cultura + historia + resistencia",
+      "audio": "Seguimos con Amílcar Cabral y la cultura como resistencia. Una dominación duradera intenta desvalorizar la memoria, las lenguas y las formas de vida del pueblo sometido. Cabral responde que la cultura puede sostener conciencia y organización política. Pero recuperarla no significa congelar costumbres ni declarar valioso todo lo heredado: la lucha también debe criticar desigualdades internas y producir nuevas prácticas.",
+      "caution": "No convertir cultura en esencia nacional homogénea ni suponer que toda costumbre tradicional sea liberadora.",
+      "tags": [
+        "Cabral",
+        "cultura",
+        "resistencia",
+        "liberación nacional"
+      ],
+      "connections": [
+        "card_cesaire_colonial_dehumanization_001",
+        "card_fanon_decolonization_new_humanism_001",
+        "card_nkrumah_consciencism_001"
+      ],
+      "quiz": {
+        "question": "¿Cómo entiende Cabral la recuperación cultural?",
+        "options": [
+          "Como conservación inmóvil de toda costumbre",
+          "Como capacidad de reinterpretar la historia y organizar resistencia",
+          "Como sustitución de política por folclor",
+          "Como rechazo de cualquier cambio"
+        ],
+        "correctIndex": 1,
+        "explanation": "La cultura es histórica, crítica y vinculada con la acción colectiva."
+      },
+      "evidenceLevel": "A",
+      "sources": [
+        {
+          "title": "National Liberation and Culture",
+          "url": "https://www.marxists.org/subject/africa/cabral/1970/cabral-nat-lib-culture.htm"
+        },
+        {
+          "title": "Return to the Source: Selected Speeches",
+          "url": "https://www.jstor.org/stable/j.ctv12pnpsp"
+        }
+      ]
+    },
+    {
+      "id": "card_cabral_truth_accountability_001",
+      "series": "cartography-e-series-3-4",
+      "order": 25,
+      "entity": "Amílcar Cabral",
+      "title": "Sin verdad crítica, la liberación puede repetir dominaciones",
+      "period": "Décadas de 1960–1970",
+      "territory": "Guinea-Bisáu, Cabo Verde y movimientos anticoloniales",
+      "cardType": "autor_problema",
+      "question": "¿Cómo evitar que una organización liberadora convierta sus deseos en informes falsos sobre la realidad?",
+      "visibleText": "Cabral exige estudiar condiciones concretas, reconocer errores y evitar victorias imaginarias que separen a la dirigencia de la población.",
+      "coreIdea": "La teoría revolucionaria debe nacer del análisis de cada sociedad y someter a sus dirigentes a verdad, autocrítica y responsabilidad práctica.",
+      "distinctiveKey": "verdad + análisis concreto + responsabilidad",
+      "audio": "Continuamos con Amílcar Cabral y la responsabilidad de decir la verdad. Un movimiento no avanza exagerando logros ni ocultando errores: necesita estudiar clases, territorio, cultura y condiciones concretas. Cabral desconfía de fórmulas importadas y de dirigentes que hablan por el pueblo sin rendir cuentas. La teoría sirve cuando corrige la práctica; se vuelve dogma cuando reemplaza la realidad.",
+      "caution": "No presentar su pensamiento como manual universal; insistía precisamente en analizar las condiciones específicas de cada lucha.",
+      "tags": [
+        "Cabral",
+        "teoría",
+        "autocrítica",
+        "responsabilidad"
+      ],
+      "connections": [
+        "card_cabral_culture_resistance_001",
+        "card_hountondji_ethnophilosophy_001",
+        "card_nyerere_ujamaa_self_reliance_001"
+      ],
+      "quiz": {
+        "question": "¿Qué función asigna Cabral a la teoría?",
+        "options": [
+          "Sustituir el conocimiento del contexto",
+          "Orientar y corregir la práctica mediante análisis concreto",
+          "Justificar cualquier decisión de la dirigencia",
+          "Repetir modelos externos sin modificación"
+        ],
+        "correctIndex": 1,
+        "explanation": "La teoría debe confrontarse con las condiciones reales y con sus resultados."
+      },
+      "evidenceLevel": "A",
+      "sources": [
+        {
+          "title": "The Weapon of Theory",
+          "url": "https://www.marxists.org/subject/africa/cabral/1966/weapon-theory.htm"
+        },
+        {
+          "title": "Amilcar Cabral Archive",
+          "url": "https://www.marxists.org/subject/africa/cabral/"
+        }
+      ]
+    },
+    {
+      "id": "card_nyerere_ujamaa_self_reliance_001",
+      "series": "cartography-e-series-3-4",
+      "order": 26,
+      "entity": "Julius Nyerere",
+      "title": "Ujamaa: igualdad, comunidad y autosuficiencia",
+      "period": "1922–1999",
+      "territory": "Tanzania y África oriental",
+      "cardType": "autor_programa",
+      "question": "¿Cómo construir igualdad política cuando la economía continúa dependiendo de estructuras coloniales?",
+      "visibleText": "Nyerere vinculó ujamaa con comunidad, propiedad social, educación y autosuficiencia, buscando un desarrollo dirigido por la población.",
+      "coreIdea": "Ujamaa propuso un socialismo africano centrado en igualdad, trabajo compartido y reducción de dependencia exterior, pero su aplicación estatal produjo resultados y coerciones discutidos.",
+      "distinctiveKey": "ujamaa + autosuficiencia + igualdad",
+      "audio": "Llegamos a Julius Nyerere y ujamaa, palabra asociada con familia extensa y comunidad. Nyerere propuso una sociedad igualitaria, autosuficiente y menos dependiente del capital exterior, apoyada en educación, cooperación y propiedad social. El ideal no debe confundirse con sus resultados: la concentración administrativa y la reorganización forzada de poblaciones rurales generaron costos y críticas que también pertenecen a su evaluación histórica.",
+      "caution": "Distinguir el ideal normativo de ujamaa de las políticas concretas de villagización y de sus efectos económicos y políticos.",
+      "tags": [
+        "Nyerere",
+        "ujamaa",
+        "autosuficiencia",
+        "socialismo africano"
+      ],
+      "connections": [
+        "card_cabral_truth_accountability_001",
+        "card_nkrumah_consciencism_001",
+        "card_wiredu_consensus_democracy_001"
+      ],
+      "quiz": {
+        "question": "¿Qué exige una evaluación responsable de ujamaa?",
+        "options": [
+          "Atender solo a sus ideales",
+          "Distinguir principios, implementación y consecuencias",
+          "Reducirlo a una costumbre precolonial",
+          "Ignorar la educación y la dependencia exterior"
+        ],
+        "correctIndex": 1,
+        "explanation": "El programa debe estudiarse tanto por sus fines como por sus políticas y resultados."
+      },
+      "evidenceLevel": "B",
+      "sources": [
+        {
+          "title": "Ujamaa - The Basis of African Socialism",
+          "url": "https://juliusnyerere.org/resources/view/ujamaa_-_the_basis_of_african_socialism_julius_k._nyerere"
+        },
+        {
+          "title": "The Arusha Declaration",
+          "url": "https://www.marxists.org/subject/africa/nyerere/1967/arusha-declaration.htm"
+        }
+      ]
+    },
+    {
+      "id": "card_biko_black_consciousness_001",
+      "series": "cartography-e-series-3-4",
+      "order": 27,
+      "entity": "Steve Biko",
+      "title": "La conciencia negra comienza rechazando la inferioridad aprendida",
+      "period": "1946–1977",
+      "territory": "Sudáfrica",
+      "cardType": "autor_movimiento",
+      "question": "¿Cómo resistir una estructura política que también ocupa la imagen que una comunidad tiene de sí misma?",
+      "visibleText": "Biko entiende la conciencia negra como recuperación de dignidad, iniciativa y solidaridad frente a una sociedad que presenta lo blanco como medida de humanidad.",
+      "coreIdea": "La liberación política requiere desactivar la inferioridad interiorizada y fortalecer organizaciones capaces de actuar desde la experiencia de la población oprimida.",
+      "distinctiveKey": "conciencia + dignidad + autoorganización",
+      "audio": "Seguimos con Steve Biko y la Conciencia Negra. El apartheid no gobernaba solo mediante leyes: enseñaba que lo blanco era normal y que la población negra debía verse como inferior. Biko propone recuperar dignidad, cultura e iniciativa colectiva para dejar de depender de la aprobación del dominador. Su concepto de negro es político y solidario; no una teoría de superioridad biológica ni aislamiento permanente.",
+      "caution": "No confundir conciencia negra con supremacismo racial; su horizonte era una sociedad más humana sin jerarquía blanca.",
+      "tags": [
+        "Biko",
+        "conciencia negra",
+        "dignidad",
+        "apartheid"
+      ],
+      "connections": [
+        "card_fanon_sociogeny_racialized_body_001",
+        "card_cesaire_colonial_dehumanization_001",
+        "card_nkrumah_consciencism_001"
+      ],
+      "quiz": {
+        "question": "¿Qué dimensión añade Biko a la liberación?",
+        "options": [
+          "Aceptar los valores jerárquicos existentes",
+          "Recuperar dignidad y capacidad de autoorganización",
+          "Defender una superioridad biológica negra",
+          "Esperar pasivamente reformas externas"
+        ],
+        "correctIndex": 1,
+        "explanation": "La transformación política exige también desactivar la inferioridad interiorizada."
+      },
+      "evidenceLevel": "A",
+      "sources": [
+        {
+          "title": "Defining Black Consciousness",
+          "url": "https://sahistory.org.za/article/defining-black-consciousness"
+        },
+        {
+          "title": "Black Consciousness",
+          "url": "https://www.saha.org.za/youth/black_consciousness.htm"
+        }
+      ]
+    },
+    {
+      "id": "card_mbiti_time_controversy_001",
+      "series": "cartography-e-series-3-4",
+      "order": 28,
+      "entity": "John S. Mbiti",
+      "title": "El tiempo africano como tesis influyente y discutida",
+      "period": "1931–2019",
+      "territory": "Kenia y estudios africanos",
+      "cardType": "autor_controversia",
+      "question": "¿Puede una sola descripción del tiempo representar a sociedades africanas muy distintas?",
+      "visibleText": "Mbiti relacionó el tiempo con experiencia, acontecimientos y comunidad, pero su afirmación sobre un futuro limitado recibió críticas por generalizar África.",
+      "coreIdea": "La obra de Mbiti abrió debates sobre temporalidad y religión africanas, aunque sus fórmulas continentales deben leerse como propuestas históricas discutibles, no hechos etnográficos universales.",
+      "distinctiveKey": "tiempo vivido + generalización + crítica",
+      "audio": "Llegamos a John Mbiti y su controvertida descripción del tiempo africano. Mbiti destacó un tiempo ligado a acontecimientos vividos, memoria y comunidad, y sostuvo que muchas tradiciones concedían poco espacio a un futuro distante. Filósofos posteriores mostraron que esa tesis generaliza sociedades muy diferentes y subestima planificación y anticipación. Su valor actual está también en el debate crítico que provocó.",
+      "caution": "No repetir que “los africanos no tienen futuro” como hecho; es una tesis disputada y excesivamente general.",
+      "tags": [
+        "Mbiti",
+        "tiempo",
+        "religión",
+        "controversia"
+      ],
+      "connections": [
+        "card_african_philosophies_plural_001",
+        "card_hountondji_ethnophilosophy_001",
+        "card_wiredu_conceptual_decolonization_001"
+      ],
+      "quiz": {
+        "question": "¿Cómo debe presentarse hoy la tesis de Mbiti?",
+        "options": [
+          "Como descripción indiscutible de toda África",
+          "Como propuesta influyente sometida a fuertes críticas",
+          "Como prueba de incapacidad para planificar",
+          "Como doctrina compartida por cada lengua africana"
+        ],
+        "correctIndex": 1,
+        "explanation": "Su formulación abrió un debate, pero no representa universalmente al continente."
+      },
+      "evidenceLevel": "C",
+      "sources": [
+        {
+          "title": "Event Horizon: African Philosophy of Time",
+          "url": "https://academic.oup.com/book/59842/chapter-abstract/511345854"
+        },
+        {
+          "title": "Polychronous and Existential Mode of Time in Africa",
+          "url": "https://journals.sagepub.com/doi/10.1177/00219347221103607"
+        }
+      ]
+    },
+    {
+      "id": "card_oluwole_oral_philosophy_001",
+      "series": "cartography-e-series-3-4",
+      "order": 29,
+      "entity": "Sophie B. Olúwọlé",
+      "title": "La oralidad puede conservar tesis, razones y crítica",
+      "period": "1935–2018",
+      "territory": "Nigeria y pensamiento yorùbá",
+      "cardType": "autor_metodo",
+      "question": "¿Por qué la ausencia de un libro no elimina la posibilidad de filosofía?",
+      "visibleText": "Olúwọlé estudia relatos, cantos y versos de Ifá como textos capaces de formular problemas, razones y revisiones dentro de una tradición oral.",
+      "coreIdea": "La filosofía debe evaluarse por sus operaciones de pensamiento, no por depender exclusivamente de escritura alfabética o géneros académicos europeos.",
+      "distinctiveKey": "oralidad + argumento + soberanía conceptual",
+      "audio": "Seguimos con Sophie Olúwọlé y la filosofía oral. Canciones, proverbios y versos de Ifá no son filosóficos por ser antiguos, sino cuando formulan tesis, ofrecen razones y permiten crítica. Olúwọlé cuestiona que la escritura sea requisito universal del pensamiento riguroso. Su método exige estudiar los textos en yorùbá y su contexto, sin convertir automáticamente toda tradición oral en doctrina filosófica.",
+      "caution": "No identificar toda narración oral con filosofía ni borrar el trabajo de interpretación y traducción necesario para reconstruir argumentos.",
+      "tags": [
+        "Olúwọlé",
+        "oralidad",
+        "Ifá",
+        "metafilosofía"
+      ],
+      "connections": [
+        "card_ifa_signs_interpretation_001",
+        "card_oral_argumentation_africa_001",
+        "card_african_proverbs_interpretation_001"
+      ],
+      "quiz": {
+        "question": "¿Qué criterio propone Olúwọlé?",
+        "options": [
+          "Solo la escritura produce filosofía",
+          "Las operaciones críticas y argumentativas importan más que el soporte",
+          "Toda historia oral es una teoría completa",
+          "La traducción no altera ningún concepto"
+        ],
+        "correctIndex": 1,
+        "explanation": "La filosofía puede transmitirse oralmente si conserva problemas, razones y crítica."
+      },
+      "evidenceLevel": "B",
+      "sources": [
+        {
+          "title": "Sophie Olúwọlé’s Major Contributions to African Philosophy",
+          "url": "https://www.cambridge.org/core/journals/hypatia/article/abs/sophie-oluwoles-major-contributions-to-african-philosophy/4CC0A123381A4EFE19BB6473E1FD9804"
+        },
+        {
+          "title": "African philosophy as illustrated in Ifá corpus",
+          "url": "https://www.africabib.org/rec.php?RID=191809268"
+        }
+      ]
+    },
+    {
+      "id": "card_oluwole_orunmila_socrates_001",
+      "series": "cartography-e-series-3-4",
+      "order": 30,
+      "entity": "Sophie B. Olúwọlé",
+      "title": "Òrúnmìlà y Sócrates amplían el mapa de la filosofía",
+      "period": "Comparación desarrollada en los siglos XX–XXI",
+      "territory": "Yorùbáland y Grecia antigua",
+      "cardType": "comparacion_intercultural",
+      "question": "¿Qué revela comparar dos tradiciones que conservaron sabiduría sin escritos directos de sus figuras centrales?",
+      "visibleText": "Olúwọlé compara a Òrúnmìlà y Sócrates para cuestionar por qué la oralidad descalifica al primero mientras no impide reconocer al segundo.",
+      "coreIdea": "La comparación intercultural puede revelar criterios desiguales del canon y explorar diferencias entre diálogo adversarial y complementariedad yorùbá.",
+      "distinctiveKey": "comparación + canon + complementariedad",
+      "audio": "Continuamos con Sophie Olúwọlé comparando a Òrúnmìlà y Sócrates. Ninguno dejó escritos directos y ambos fueron preservados por comunidades posteriores, pero el canon reconoció al griego y relegó al yorùbá. Olúwọlé examina semejanzas éticas y diferencias metodológicas, destacando diálogo y complementariedad. La comparación no prueba fechas ni biografías exactas de Òrúnmìlà: cuestiona criterios desiguales de reconocimiento filosófico.",
+      "caution": "No presentar la historicidad ni la cronología de Òrúnmìlà como demostradas; distinguir figura religiosa, corpus oral y reconstrucción filosófica.",
+      "tags": [
+        "Olúwọlé",
+        "Òrúnmìlà",
+        "Sócrates",
+        "comparación"
+      ],
+      "connections": [
+        "card_oluwole_oral_philosophy_001",
+        "card_ifa_signs_interpretation_001",
+        "card_african_philosophies_plural_001"
+      ],
+      "quiz": {
+        "question": "¿Cuál es el objetivo principal de la comparación?",
+        "options": [
+          "Demostrar que ambos vivieron exactamente al mismo tiempo",
+          "Cuestionar criterios del canon y comparar métodos filosóficos",
+          "Afirmar que sus doctrinas eran idénticas",
+          "Sustituir historia por leyenda"
+        ],
+        "correctIndex": 1,
+        "explanation": "Olúwọlé usa la comparación para ampliar el canon sin borrar diferencias ni incertidumbres."
+      },
+      "evidenceLevel": "C",
+      "sources": [
+        {
+          "title": "Sophie Olúwọlé’s Major Contributions to African Philosophy",
+          "url": "https://www.cambridge.org/core/journals/hypatia/article/abs/sophie-oluwoles-major-contributions-to-african-philosophy/4CC0A123381A4EFE19BB6473E1FD9804"
+        },
+        {
+          "title": "Socrates and Ọ̀rúnmìlà",
+          "url": "https://search.worldcat.org/fr/title/954199589"
+        }
+      ]
+    },
+    {
+      "id": "card_ramose_ubuntu_being_becoming_001",
+      "series": "cartography-e-series-3-4",
+      "order": 31,
+      "entity": "Mogobe B. Ramose",
+      "title": "Ubuntu une existencia, devenir y justicia",
+      "period": "Siglos XX–XXI",
+      "territory": "Sudáfrica y filosofía panafricana",
+      "cardType": "autor_concepto",
+      "question": "¿Qué cambia cuando el ser se comprende como movimiento relacional y no como sustancia aislada?",
+      "visibleText": "Ramose interpreta ubuntu como una filosofía donde humanidad, conocimiento y justicia surgen en relaciones dinámicas de ser y devenir.",
+      "coreIdea": "Ubuntu no es solo amabilidad comunitaria: en Ramose articula ontología, ética y reparación frente a las consecuencias de conquista y racismo.",
+      "distinctiveKey": "ubuntu + ser-devenir + justicia histórica",
+      "audio": "Llegamos a Mogobe Ramose y ubuntu como filosofía. Ramose descompone umuntu y ubuntu para pensar una realidad en movimiento, donde ser significa también llegar a ser en relación. La humanidad se verifica mediante reconocimiento y justicia, no solo mediante cordialidad. Por eso vincula ubuntu con reparación de la conquista colonial. Su formulación es una interpretación filosófica específica, no la voz unánime de África.",
+      "caution": "No reducir ubuntu a un eslogan armonioso ni atribuir la ontología de Ramose a todas las lenguas y sociedades africanas.",
+      "tags": [
+        "Ramose",
+        "ubuntu",
+        "ontología",
+        "justicia"
+      ],
+      "connections": [
+        "card_ubuntu_relational_humanity_001",
+        "card_gyekye_moderate_communitarianism_001",
+        "card_nyerere_ujamaa_self_reliance_001"
+      ],
+      "quiz": {
+        "question": "¿Qué añade Ramose a una lectura ética de ubuntu?",
+        "options": [
+          "Una ontología relacional y una exigencia de justicia histórica",
+          "La negación de toda individualidad",
+          "Una descripción uniforme de África",
+          "La idea de que no existen conflictos sociales"
+        ],
+        "correctIndex": 0,
+        "explanation": "Ramose relaciona ser, devenir, humanidad y reparación."
+      },
+      "evidenceLevel": "B",
+      "sources": [
+        {
+          "title": "African Philosophy through Ubuntu",
+          "url": "https://research.tilburguniversity.edu/en/publications/african-philosophy-through-ubuntu/"
+        },
+        {
+          "title": "Ubuntu’s Ontological Account in African Philosophy",
+          "url": "https://scholarworks.sjsu.edu/comparativephilosophy/vol14/iss1/9/"
+        }
+      ]
+    },
+    {
+      "id": "card_mudimbe_colonial_library_001",
+      "series": "cartography-e-series-3-4",
+      "order": 32,
+      "entity": "V. Y. Mudimbe",
+      "title": "La biblioteca colonial inventó una idea administrable de África",
+      "period": "1941–",
+      "territory": "República Democrática del Congo, Europa y Estados Unidos",
+      "cardType": "autor_epistemologia",
+      "question": "¿Cómo puede un conjunto de saberes producir el objeto que afirma describir?",
+      "visibleText": "Mudimbe examina cómo exploradores, misioneros y ciencias coloniales organizaron “África” mediante categorías que todavía condicionan el conocimiento.",
+      "coreIdea": "La biblioteca colonial no solo acumuló información: construyó oposiciones entre África y Occidente que también pueden persistir en discursos africanos posteriores.",
+      "distinctiveKey": "biblioteca colonial + representación + orden del saber",
+      "audio": "Seguimos con V. Y. Mudimbe y la invención de África. Exploradores, misioneros, administradores y antropólogos no se limitaron a describir un continente: organizaron una biblioteca de categorías que lo presentó como opuesto de Occidente. Mudimbe pregunta cómo pensar desde África sin repetir ese archivo, incluso al combatirlo. Su crítica no declara falso todo conocimiento europeo; examina las condiciones que hicieron ciertas descripciones dominantes.",
+      "caution": "No interpretar “invención” como inexistencia de África o de sus sociedades; se refiere a la producción histórica de un objeto de conocimiento.",
+      "tags": [
+        "Mudimbe",
+        "epistemología",
+        "colonialidad",
+        "representación"
+      ],
+      "connections": [
+        "card_hountondji_ethnophilosophy_001",
+        "card_wiredu_conceptual_decolonization_001",
+        "card_ndlovu_gatsheni_epistemic_freedom_001"
+      ],
+      "quiz": {
+        "question": "¿Qué significa aquí “inventar África”?",
+        "options": [
+          "Afirmar que el continente no existe",
+          "Construir categorías dominantes para representarlo y administrarlo",
+          "Negar toda investigación histórica",
+          "Proponer una identidad africana única"
+        ],
+        "correctIndex": 1,
+        "explanation": "Mudimbe analiza la producción colonial de un objeto discursivo llamado África."
+      },
+      "evidenceLevel": "A",
+      "sources": [
+        {
+          "title": "The Invention of Africa",
+          "url": "https://iupress.org/9780253204684/the-invention-of-africa/"
+        },
+        {
+          "title": "The Idea of Africa",
+          "url": "https://iupress.org/9780253208729/the-idea-of-africa/"
+        }
+      ]
+    },
+    {
+      "id": "card_appiah_cosmopolitanism_difference_001",
+      "series": "cartography-e-series-3-4",
+      "order": 33,
+      "entity": "Kwame Anthony Appiah",
+      "title": "Obligaciones universales sin borrar vidas particulares",
+      "period": "1954–",
+      "territory": "Ghana, Reino Unido, Estados Unidos y redes globales",
+      "cardType": "autor_etica",
+      "question": "¿Cómo reconocer deberes hacia desconocidos sin exigir que todas las culturas vivan de la misma manera?",
+      "visibleText": "Appiah combina obligaciones hacia toda persona con respeto por formas particulares de vida, identidades y conversaciones entre diferencias.",
+      "coreIdea": "El cosmopolitismo propone preocupación universal y valoración de la diferencia, evitando tanto el relativismo cerrado como la imposición uniforme.",
+      "distinctiveKey": "cosmopolitismo + conversación + diferencia",
+      "audio": "Llegamos a Kwame Anthony Appiah y el cosmopolitismo. Compartimos obligaciones con personas lejanas, pero esas obligaciones no exigen uniformar culturas ni vidas individuales. Appiah propone conversación entre diferencias, incluso cuando no alcanzamos acuerdo completo. Las identidades son recursos históricos y múltiples, no prisiones absolutas. Su cosmopolitismo tampoco promete resolver cada conflicto: nombra el desafío de convivir en un mundo interdependiente.",
+      "caution": "No confundir cosmopolitismo con turismo de élite, indiferencia hacia comunidades locales o una moral mundial completamente homogénea.",
+      "tags": [
+        "Appiah",
+        "cosmopolitismo",
+        "identidad",
+        "diferencia"
+      ],
+      "connections": [
+        "card_african_philosophies_plural_001",
+        "card_gyekye_moderate_communitarianism_001",
+        "card_mbembe_afropolitanism_001"
+      ],
+      "quiz": {
+        "question": "¿Qué dos compromisos combina Appiah?",
+        "options": [
+          "Uniformidad cultural y aislamiento",
+          "Obligaciones universales y valor de vidas particulares",
+          "Nacionalismo cerrado y relativismo",
+          "Tradición inmóvil y obediencia"
+        ],
+        "correctIndex": 1,
+        "explanation": "El cosmopolitismo articula preocupación por todos con respeto a diferencias concretas."
+      },
+      "evidenceLevel": "A",
+      "sources": [
+        {
+          "title": "Cosmopolitanism",
+          "url": "https://appiah.net/books/cosmopolitanism/"
+        },
+        {
+          "title": "Cosmopolitanism",
+          "url": "https://www.newyorker.com/magazine/2006/03/06/cosmopolitanism"
+        }
+      ]
+    },
+    {
+      "id": "card_mbembe_necropolitics_001",
+      "series": "cartography-e-series-3-4",
+      "order": 34,
+      "entity": "Achille Mbembe",
+      "title": "Necropolítica: poder que distribuye exposición a la muerte",
+      "period": "1957–",
+      "territory": "Camerún, Sudáfrica y pensamiento global",
+      "cardType": "autor_concepto",
+      "question": "¿Qué forma de poder aparece cuando algunas poblaciones son tratadas como prescindibles?",
+      "visibleText": "Mbembe llama necropolítica a formas de soberanía que asignan valor desigual a las vidas y mantienen poblaciones bajo amenaza o abandono.",
+      "coreIdea": "La necropolítica amplía la crítica del biopoder para examinar colonialismo, fronteras, guerra y regímenes que producen mundos donde ciertas vidas cuentan menos.",
+      "distinctiveKey": "soberanía + vidas desiguales + abandono",
+      "audio": "Seguimos con Achille Mbembe y la necropolítica. Algunos poderes no solo administran la vida: deciden qué poblaciones recibirán protección y cuáles permanecerán expuestas al abandono, la precariedad o la destrucción. Mbembe conecta esa distribución desigual con historias coloniales, fronteras y militarización. El concepto no afirma que toda política sea idéntica; permite comparar mecanismos concretos que vuelven algunas vidas prescindibles.",
+      "caution": "Usar el concepto con precisión y sin convertir cualquier desigualdad en necropolítica; debe analizarse cómo instituciones producen exposición diferencial extrema.",
+      "tags": [
+        "Mbembe",
+        "necropolítica",
+        "soberanía",
+        "colonialidad"
+      ],
+      "connections": [
+        "card_fanon_decolonization_new_humanism_001",
+        "card_cesaire_colonial_dehumanization_001",
+        "card_mudimbe_colonial_library_001"
+      ],
+      "quiz": {
+        "question": "¿Qué pregunta central plantea la necropolítica?",
+        "options": [
+          "Cómo se distribuye el gusto estético",
+          "Qué vidas son protegidas y cuáles tratadas como prescindibles",
+          "Cómo traducir proverbios",
+          "Por qué toda comunidad es idéntica"
+        ],
+        "correctIndex": 1,
+        "explanation": "Mbembe estudia la distribución política desigual de protección, abandono y exposición."
+      },
+      "evidenceLevel": "A",
+      "sources": [
+        {
+          "title": "Necropolitics",
+          "url": "https://www.dukeupress.edu/necropolitics"
+        },
+        {
+          "title": "Colonialism",
+          "url": "https://plato.stanford.edu/entries/colonialism/"
+        }
+      ]
+    },
+    {
+      "id": "card_mbembe_afropolitanism_001",
+      "series": "cartography-e-series-3-4",
+      "order": 35,
+      "entity": "Achille Mbembe",
+      "title": "Afropolitanismo: África hecha también de circulaciones",
+      "period": "Siglos XX–XXI",
+      "territory": "África, diásporas y ciudades transnacionales",
+      "cardType": "autor_concepto",
+      "question": "¿Cómo pensar identidades africanas formadas por viajes, mezclas y pertenencias múltiples?",
+      "visibleText": "Mbembe usa afropolitanismo para destacar movilidades, diásporas y composiciones culturales que impiden definir África como territorio cerrado y puro.",
+      "coreIdea": "La identidad africana puede comprenderse como experiencia histórica de circulación y composición, sin negar desigualdades ni convertir movilidad privilegiada en norma continental.",
+      "distinctiveKey": "movilidad + mezcla + pertenencia múltiple",
+      "audio": "Continuamos con Achille Mbembe y el afropolitanismo. África no es un espacio puro separado del mundo: migraciones, comercio, exilios y diásporas han producido pertenencias múltiples. El afropolitano reconoce esas mezclas sin dejar de situarse históricamente. La idea ha sido criticada cuando parece describir solo a élites urbanas móviles. Por eso debe incluir también fronteras desiguales y desplazamientos no elegidos.",
+      "caution": "No presentar afropolitanismo como experiencia de todas las personas africanas ni confundir movilidad cosmopolita con igualdad de acceso al mundo.",
+      "tags": [
+        "Mbembe",
+        "afropolitanismo",
+        "diáspora",
+        "identidad"
+      ],
+      "connections": [
+        "card_appiah_cosmopolitanism_difference_001",
+        "card_african_philosophies_plural_001",
+        "card_mudimbe_colonial_library_001"
+      ],
+      "quiz": {
+        "question": "¿Qué cautela acompaña al afropolitanismo?",
+        "options": [
+          "Toda movilidad es voluntaria y privilegiada",
+          "Puede invisibilizar desigualdades de movilidad si se universaliza",
+          "África nunca tuvo intercambios externos",
+          "Las identidades múltiples son imposibles"
+        ],
+        "correctIndex": 1,
+        "explanation": "La circulación existe, pero no todas las personas pueden moverse en las mismas condiciones."
+      },
+      "evidenceLevel": "B",
+      "sources": [
+        {
+          "title": "Afropolitanismo",
+          "url": "https://www.revistaaskesis.ufscar.br/index.php/askesis/article/view/74"
+        },
+        {
+          "title": "Cosmopolitanisms",
+          "url": "https://academic.oup.com/nyu-press-scholarship-online/book/15531"
+        }
+      ]
+    },
+    {
+      "id": "card_amadiume_gender_roles_nobi_001",
+      "series": "cartography-e-series-3-4",
+      "order": 36,
+      "entity": "Ifi Amadiume",
+      "title": "Las funciones sociales no siempre siguieron un binario fijo de género",
+      "period": "1947–",
+      "territory": "Nnobi, Igboland y diáspora académica",
+      "cardType": "autor_investigacion",
+      "question": "¿Qué ocurre cuando categorías occidentales de género se aplican como si fueran universales?",
+      "visibleText": "Amadiume muestra que en Nnobi títulos, autoridad y parentesco permitían funciones como “hijas varón” y “maridos mujer”, transformadas por el colonialismo.",
+      "coreIdea": "Las posiciones sociales igbo podían organizarse mediante edad, maternidad, riqueza y linaje, sin coincidir plenamente con un binario occidental rígido.",
+      "distinctiveKey": "género + parentesco + colonialismo",
+      "audio": "Llegamos a Ifi Amadiume y su estudio de Nnobi, una sociedad igbo. Allí ciertas mujeres podían ocupar posiciones llamadas hija varón o marido mujer, relacionadas con herencia, linaje y autoridad, no simplemente con identidad individual moderna. Amadiume muestra que el colonialismo reforzó jerarquías y categorías binarias. Su caso no describe toda África ni elimina diferencias corporales: cuestiona su traducción automática en roles universales.",
+      "caution": "No convertir estas instituciones en equivalentes directos de identidades contemporáneas ni generalizarlas a todas las sociedades igbo o africanas.",
+      "tags": [
+        "Amadiume",
+        "género",
+        "Igbo",
+        "parentesco"
+      ],
+      "connections": [
+        "card_oyewumi_gender_categories_001",
+        "card_nzegwu_family_gender_001",
+        "card_nnaemeka_nego_feminism_001"
+      ],
+      "quiz": {
+        "question": "¿Qué demuestra el estudio de Amadiume?",
+        "options": [
+          "Que toda África carecía de género",
+          "Que las funciones sociales no coincidían necesariamente con categorías occidentales rígidas",
+          "Que colonialismo no afectó el parentesco",
+          "Que todas las personas podían ocupar cualquier cargo sin condiciones"
+        ],
+        "correctIndex": 1,
+        "explanation": "El caso de Nnobi muestra una organización distinta, histórica y localizada."
+      },
+      "evidenceLevel": "A",
+      "sources": [
+        {
+          "title": "Male Daughters, Female Husbands",
+          "url": "https://www.bloomsbury.com/uk/male-daughters-female-husbands-9781350507784/"
+        },
+        {
+          "title": "Male Daughters, Female Husbands",
+          "url": "https://philpapers.org/rec/AMAMDF"
+        }
+      ]
+    },
+    {
+      "id": "card_nnaemeka_nego_feminism_001",
+      "series": "cartography-e-series-3-4",
+      "order": 37,
+      "entity": "Obioma Nnaemeka",
+      "title": "Nego-feminismo: negociar sin abandonar la transformación",
+      "period": "Siglos XX–XXI",
+      "territory": "Nigeria, África y diásporas",
+      "cardType": "autor_concepto",
+      "question": "¿Puede la negociación ser estrategia feminista sin convertirse en conformismo?",
+      "visibleText": "Nnaemeka propone un feminismo de negociación y “sin ego” que trabaja con relaciones concretas, alianzas y rutas situadas frente al patriarcado.",
+      "coreIdea": "El nego-feminismo reconoce agencia en estrategias contextuales que negocian, rodean o confrontan obstáculos sin imponer una táctica universal.",
+      "distinctiveKey": "negociación + contexto + agencia",
+      "audio": "Seguimos con Obioma Nnaemeka y el nego-feminismo: feminismo de negociación y también sin ego. La transformación no siempre adopta confrontación frontal; puede construir alianzas, negociar espacios o rodear obstáculos según el contexto. Esto no significa aceptar la injusticia ni que toda negociación sea libre. Nnaemeka insiste en la agencia de mujeres africanas y en evitar recetas externas que ignoran relaciones locales de poder.",
+      "caution": "No romantizar la negociación cuando existe coacción ni convertir el nego-feminismo en estrategia única para todas las mujeres africanas.",
+      "tags": [
+        "Nnaemeka",
+        "nego-feminismo",
+        "negociación",
+        "agencia"
+      ],
+      "connections": [
+        "card_amadiume_gender_roles_nobi_001",
+        "card_nzegwu_family_gender_001",
+        "card_tamale_decolonial_afrofeminism_001"
+      ],
+      "quiz": {
+        "question": "¿Qué rechaza el nego-feminismo?",
+        "options": [
+          "Toda negociación",
+          "Una táctica universal impuesta sin atender al contexto",
+          "La agencia de las mujeres",
+          "La posibilidad de confrontar"
+        ],
+        "correctIndex": 1,
+        "explanation": "Nnaemeka propone estrategias situadas, no una obligación de negociar siempre."
+      },
+      "evidenceLevel": "A",
+      "sources": [
+        {
+          "title": "Nego-Feminism: Theorizing, Practicing, and Pruning Africa’s Way",
+          "url": "https://www.journals.uchicago.edu/doi/abs/10.1086/378553"
+        },
+        {
+          "title": "Nego-Feminism repository record",
+          "url": "https://awdflibrary.org/index.php?id=438&p=show_detail"
+        }
+      ]
+    },
+    {
+      "id": "card_nzegwu_family_gender_001",
+      "series": "cartography-e-series-3-4",
+      "order": 38,
+      "entity": "Nkiru Uwechia Nzegwu",
+      "title": "La familia también es una institución política del conocimiento",
+      "period": "Siglos XX–XXI",
+      "territory": "Igboland, Nigeria y Estados Unidos",
+      "cardType": "autor_feminismo",
+      "question": "¿Cómo alteraron las leyes coloniales la autoridad de mujeres y hombres en la sociedad igbo?",
+      "visibleText": "Nzegwu reconstruye sistemas políticos interdependientes de mujeres y hombres y muestra cómo instituciones coloniales ayudaron a producir desigualdad de género.",
+      "coreIdea": "Las categorías feministas deben confrontarse con historias locales de familia, autoridad y colonialismo, en lugar de asumir patriarcados idénticos en todas partes.",
+      "distinctiveKey": "familia + colonialismo jurídico + epistemología feminista",
+      "audio": "Llegamos a Nkiru Nzegwu y la familia como problema filosófico y político. Al estudiar Igboland, reconstruye sistemas de autoridad de mujeres y hombres que eran separados e interdependientes. Leyes, tribunales y jueces coloniales reinterpretaron esas relaciones mediante supuestos patriarcales. Nzegwu cuestiona tanto la tradición inventada por el colonialismo como teorías feministas que aplican una misma estructura de género a cualquier sociedad.",
+      "caution": "No idealizar el periodo precolonial ni presentar Igboland como sociedad sin conflictos, jerarquías o variación histórica.",
+      "tags": [
+        "Nzegwu",
+        "familia",
+        "Igbo",
+        "feminismo"
+      ],
+      "connections": [
+        "card_amadiume_gender_roles_nobi_001",
+        "card_oyewumi_gender_categories_001",
+        "card_nnaemeka_nego_feminism_001"
+      ],
+      "quiz": {
+        "question": "¿Qué papel atribuye Nzegwu al colonialismo?",
+        "options": [
+          "Ninguno en las relaciones de género",
+          "Reorganizó instituciones y reforzó interpretaciones patriarcales",
+          "Eliminó toda autoridad masculina",
+          "Conservó intactas todas las estructuras familiares"
+        ],
+        "correctIndex": 1,
+        "explanation": "El orden colonial modificó leyes, autoridad y maneras de interpretar la sociedad igbo."
+      },
+      "evidenceLevel": "A",
+      "sources": [
+        {
+          "title": "Family Matters",
+          "url": "https://sunypress.edu/Books/F/Family-Matters"
+        },
+        {
+          "title": "Family Matters",
+          "url": "https://www.degruyter.com/document/doi/10.1515/9780791481820/html"
+        }
+      ]
+    },
+    {
+      "id": "card_tamale_decolonial_afrofeminism_001",
+      "series": "cartography-e-series-3-4",
+      "order": 39,
+      "entity": "Sylvia Tamale",
+      "title": "Descolonizar exige transformar poder y filtros mentales",
+      "period": "Siglos XX–XXI",
+      "territory": "Uganda, África y redes panafricanas",
+      "cardType": "autor_feminismo",
+      "question": "¿Por qué la independencia formal no elimina colonialidad, patriarcado y desigualdad?",
+      "visibleText": "Tamale articula descolonización y afro-feminismo para estudiar cómo derecho, conocimiento, economía y vida cotidiana mantienen jerarquías heredadas.",
+      "coreIdea": "La reconstrucción de África requiere una transformación política y psicológica que integre género, clase, sexualidad, ecología y colonialidad.",
+      "distinctiveKey": "descolonización + interseccionalidad + afro-feminismo",
+      "audio": "Seguimos con Sylvia Tamale y el afro-feminismo decolonial. Bajar una bandera colonial no elimina categorías jurídicas, económicas y mentales que continúan organizando desigualdad. Tamale propone desaprender esos filtros y reconstruir Pan-africanismo, derechos y justicia desde experiencias africanas atravesadas por género, clase y otras relaciones de poder. Su enfoque no sustituye un universalismo por una esencia africana única: exige crítica interna permanente.",
+      "caution": "No presentar “lo africano” como categoría pura ni reducir las desigualdades a una sola relación de poder.",
+      "tags": [
+        "Tamale",
+        "afro-feminismo",
+        "decolonización",
+        "interseccionalidad"
+      ],
+      "connections": [
+        "card_nnaemeka_nego_feminism_001",
+        "card_nzegwu_family_gender_001",
+        "card_ndlovu_gatsheni_epistemic_freedom_001"
+      ],
+      "quiz": {
+        "question": "¿Qué distingue la propuesta de Tamale?",
+        "options": [
+          "Separar feminismo de colonialismo",
+          "Relacionar descolonización con múltiples estructuras de poder",
+          "Reemplazar toda crítica por tradición",
+          "Limitar la transformación al Estado"
+        ],
+        "correctIndex": 1,
+        "explanation": "Tamale integra dimensiones políticas, epistémicas y sociales de la descolonización."
+      },
+      "evidenceLevel": "B",
+      "sources": [
+        {
+          "title": "Decolonization and Afro-Feminism",
+          "url": "https://books.google.com/books/about/Decolonization_and_Afro_feminism.html?id=UmDSzgEACAAJ"
+        },
+        {
+          "title": "Review: Decolonization and Afro-Feminism",
+          "url": "https://www.cambridge.org/core/journals/international-review-of-social-history/article/sylvia-tamale-decolonization-and-afrofeminism-daraja-press-ottawa-2020-xv-411-pp-ill-cad-4000-ebook-cad-1000/D7DDF731B0CDEA2829F3815ECF4D4774"
+        }
+      ]
+    },
+    {
+      "id": "card_ndlovu_gatsheni_epistemic_freedom_001",
+      "series": "cartography-e-series-3-4",
+      "order": 40,
+      "entity": "Sabelo J. Ndlovu-Gatsheni",
+      "title": "La libertad epistémica precede a otras liberaciones incompletas",
+      "period": "Siglos XX–XXI",
+      "territory": "Zimbabue, Sudáfrica y redes globales",
+      "cardType": "autor_epistemologia",
+      "question": "¿Puede una sociedad ser plenamente libre si solo interpreta el mundo mediante categorías que la colocan en posición inferior?",
+      "visibleText": "Ndlovu-Gatsheni llama libertad epistémica a la capacidad de pensar desde localizaciones africanas y participar en un mundo plural de conocimientos.",
+      "coreIdea": "Desprovincializar África, provincializar Europa y descolonizar el conocimiento son procesos conectados para alcanzar justicia cognitiva sin aislamiento intelectual.",
+      "distinctiveKey": "libertad epistémica + desprovincialización + ecología de saberes",
+      "audio": "Cerramos con Sabelo Ndlovu-Gatsheni y la libertad epistémica. Una independencia política permanece limitada cuando universidades y teorías siguen tratando Europa como medida universal y África como objeto local. Desprovincializar África significa reconocerla como lugar legítimo de teoría; provincializar Europa, situar sus conceptos históricamente. La meta no es aislamiento, sino una ecología de conocimientos capaces de dialogar sin jerarquía colonial.",
+      "caution": "No confundir descolonización del conocimiento con rechazo automático de autores europeos ni con nacionalismo epistemológico cerrado.",
+      "tags": [
+        "Ndlovu-Gatsheni",
+        "libertad epistémica",
+        "decolonialidad",
+        "universidad"
+      ],
+      "connections": [
+        "card_mudimbe_colonial_library_001",
+        "card_wiredu_conceptual_decolonization_001",
+        "card_tamale_decolonial_afrofeminism_001"
+      ],
+      "quiz": {
+        "question": "¿Qué busca la libertad epistémica?",
+        "options": [
+          "Aislar saberes africanos",
+          "Permitir producción y diálogo de conocimientos sin jerarquía colonial",
+          "Eliminar toda comparación filosófica",
+          "Conservar Europa como medida universal"
+        ],
+        "correctIndex": 1,
+        "explanation": "La propuesta combina legitimidad situada, crítica del eurocentrismo y diálogo plural."
+      },
+      "evidenceLevel": "A",
+      "sources": [
+        {
+          "title": "Epistemic Freedom in Africa",
+          "url": "https://www.routledge.com/Epistemic-Freedom-in-Africa-Deprovincialization-and-Decolonization/Ndlovu-Gatsheni/p/book/9781138588592"
+        },
+        {
+          "title": "Epistemic freedom in Africa review",
+          "url": "https://academic.oup.com/ia/article-abstract/96/5/1423/5901377"
+        }
+      ]
+    }
+  ]
+}

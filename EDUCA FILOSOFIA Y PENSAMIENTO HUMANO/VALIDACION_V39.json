@@ -1,0 +1,65 @@
+{
+  "version": "3.9.1",
+  "validatedAt": "2026-07-26",
+  "status": "passed_with_visual_validation_unavailable",
+  "counts": {
+    "cards": 1474,
+    "dossiers": 1474,
+    "historicalLayers": 1474,
+    "collections": 37,
+    "newCards": 14,
+    "newAuthors": 7,
+    "disciplinaryRelations": 10296,
+    "publishableRelations": 7827,
+    "sources": 1230,
+    "jsonAndManifestFilesParsed": 87
+  },
+  "checks": {
+    "uniqueIds": true,
+    "brokenConnections": 0,
+    "invalidQuizzes": 0,
+    "schemaErrorCards": 0,
+    "disciplineIndexParity": true,
+    "cardDossierHistoricalParity": true,
+    "newCardsHaveUrls": true,
+    "newAuthorCounts": {
+      "Estanislao Zuleta": 2,
+      "Carlos Jesús Delgado Díaz": 2,
+      "José Alonso Andrade Salazar": 2,
+      "Roberto Rivera Pérez": 2,
+      "Carlos Eduardo Maldonado": 2,
+      "Emilio Roger Ciurana": 2,
+      "Raúl Domingo Motta": 2
+    },
+    "collectionOrdersContinuous": true,
+    "visibleCountsSynchronized": true,
+    "projectSnapshotParity": true,
+    "inventoryParity": true,
+    "bibliographyRegistryParity": true,
+    "jsSyntax": true,
+    "domNullGuardsReinforced": true,
+    "httpResources": true,
+    "httpResourcesChecked": 9,
+    "zipRootIndex": true,
+    "serviceWorkerCacheUpdated": true,
+    "activeVersionReferences": true,
+    "structuredSourcePack": true
+  },
+  "validationTypes": {
+    "structural": "passed",
+    "programmatic": "passed",
+    "bibliographic": "passed_with_one_manual_attribution_caution",
+    "http": "passed",
+    "visual": "not_executed_environment_blocked"
+  },
+  "manualConfirmationRequired": [
+    {
+      "author": "Roberto Rivera Pérez",
+      "item": "Confirmar en fuente primaria si ‘Modelo Neguentrópico’ es una denominación formal del autor.",
+      "currentTreatment": "La expresión se registra como reconstrucción editorial; la tarjeta usa evidencia B y cautela explícita."
+    }
+  ],
+  "visualValidationNote": "Chromium fue bloqueado por la política administrativa del entorno con ERR_BLOCKED_BY_ADMINISTRATOR. No se declara validación visual ni se presentan capturas como si hubieran sido realizadas.",
+  "errors": [],
+  "brokenConnectionExamples": []
+}

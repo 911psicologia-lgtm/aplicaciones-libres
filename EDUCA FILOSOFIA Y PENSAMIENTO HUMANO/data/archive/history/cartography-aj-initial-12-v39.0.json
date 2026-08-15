@@ -1,0 +1,3961 @@
+{
+  "version": "3.9.0",
+  "generatedAt": "2026-07-26",
+  "packId": "pack_cartography_aj_latin_critical_complexity_12_v39",
+  "cartography": {
+    "id": "cartography_aj",
+    "label": "Referentes latinoiberoamericanos de crítica, complejidad y transmétodo",
+    "cards": 12
+  },
+  "editorialCriteria": [
+    "Dos tarjetas diferenciadas por autor.",
+    "Fuentes explícitas y verificables.",
+    "Cautelas de atribución cuando el concepto tiene genealogía compartida.",
+    "Sin retratos ni imágenes de autor."
+  ],
+  "cards": [
+    {
+      "id": "card_estanislao_zuleta_difficulty_001",
+      "author": "Estanislao Zuleta",
+      "title": "Pensar exige atravesar la dificultad, no abolirla",
+      "territory": "Colombia",
+      "period": "Década de 1980 y recepción posterior",
+      "family": "Crítica y complejidad latinoiberoamericana",
+      "statement": "La dificultad no es un defecto que deba desaparecer: puede abrir preguntas, autonomía y creación cuando se la asume sin idealizar soluciones fáciles.",
+      "tags": [
+        "dificultad",
+        "pensamiento crítico",
+        "autonomía"
+      ],
+      "question": "¿Qué aprendemos cuando dejamos de tratar toda dificultad como una falla que debe eliminarse?",
+      "caution": "Elogiar la dificultad no significa glorificar el sufrimiento ni negar apoyos; significa resistir la fantasía de una vida o educación sin conflicto, esfuerzo ni incertidumbre.",
+      "connections": [
+        "La educación democrática enseña a pensar y a vivir el conflicto",
+        "Los valores tienen historias, luchas y funciones",
+        "La educación problematizadora convierte la realidad en pregunta"
+      ],
+      "order": 1,
+      "status": "integrado_v3_9",
+      "evidence": "A-B",
+      "audio": "En Estanislao Zuleta, pensar comienza cuando se abandona la ilusión de una respuesta fácil. La dificultad no es un defecto que deba desaparecer: puede abrir preguntas, autonomía y creación cuando se la asume sin idealizar soluciones fáciles. Conecta formación, pensamiento crítico y deseo de saber sin convertir el aprendizaje en obediencia o consumo de respuestas. Elogiar la dificultad no significa glorificar el sufrimiento ni negar apoyos; significa resistir la fantasía de una vida o educación sin conflicto, esfuerzo ni incertidumbre.",
+      "quiz": {
+        "prompt": "¿Qué aprendemos cuando dejamos de tratar toda dificultad como una falla que debe eliminarse?",
+        "options": [
+          "La dificultad no es un defecto que deba desaparecer: puede abrir preguntas, autonomía y creación cuando se la asume sin idealizar soluciones fáciles.",
+          "Elogiar la dificultad no significa glorificar el sufrimiento ni negar apoyos; significa resistir la fantasía de una vida o educación sin conflicto, esfuerzo ni incertidumbre.",
+          "La propuesta elimina la necesidad de contexto y evidencia.",
+          "Todas las tradiciones sostienen exactamente la misma posición."
+        ],
+        "answer": 0,
+        "feedback": "La dificultad no es un defecto que deba desaparecer: puede abrir preguntas, autonomía y creación cuando se la asume sin idealizar soluciones fáciles."
+      },
+      "whyItMatters": "Conecta formación, pensamiento crítico y deseo de saber sin convertir el aprendizaje en obediencia o consumo de respuestas.",
+      "symbol": "⟷",
+      "visual": {
+        "palette": [
+          "#163c52",
+          "#7a4d64",
+          "#d3ad66"
+        ],
+        "allegory": "Tramas críticas latinoiberoamericanas donde educación, bioética, complejidad, investigación y resistencia se conectan sin un centro único."
+      },
+      "seriesVersion": "3.9",
+      "materializationLevel": "dossier_structurado_v3.9",
+      "shareFooter": "Pregunta guía: ¿Qué aprendemos cuando dejamos de tratar toda dificultad como una falla que debe eliminarse?",
+      "audioVersion": "concise-listening-3.9",
+      "guideTransition": "",
+      "audioLead": "En Estanislao Zuleta, pensar comienza cuando se abandona la ilusión de una respuesta fácil.",
+      "audioContext": "Colombia",
+      "audioBody": "La dificultad no es un defecto que deba desaparecer: puede abrir preguntas, autonomía y creación cuando se la asume sin idealizar soluciones fáciles. Conecta formación, pensamiento crítico y deseo de saber sin convertir el aprendizaje en obediencia o consumo de respuestas. Elogiar la dificultad no significa glorificar el sufrimiento ni negar apoyos; significa resistir la fantasía de una vida o educación sin conflicto, esfuerzo ni incertidumbre.",
+      "listeningMode": "author_concept_limit_compact",
+      "collectionId": "latin_critical_complexity_referents",
+      "collection": "Referentes latinoiberoamericanos de crítica, complejidad y transmétodo",
+      "collectionOrder": 37,
+      "chronologyRank": 1980.001,
+      "chronologyStageId": "contemporary",
+      "fields": [
+        "knowledge_method",
+        "education_learning",
+        "ethics_care",
+        "mind_language"
+      ],
+      "orientations": [
+        "Pensamiento crítico colombiano",
+        "Educación filosófica"
+      ],
+      "connectionIds": [
+        "card_estanislao_zuleta_education_democracy_001",
+        "card_nietzsche_genealogy_values_001",
+        "card_y_paulo_freire_problem_posing_001"
+      ],
+      "collectionSequence": 1,
+      "chronologyApproxYear": 1980,
+      "chronologyRole": "documented_intellectual_formulation",
+      "schemaVersion": "2.0",
+      "contentVersion": "3.9.0",
+      "legacyFamily": "Crítica y complejidad latinoiberoamericana",
+      "entryType": "author_problem",
+      "dateStart": 1980,
+      "dateEnd": 1990,
+      "datePrecision": "documented_intellectual_period",
+      "dateMetadata": {
+        "startYear": 1980,
+        "endYear": 1990,
+        "precision": "documented_intellectual_period",
+        "display": "Década de 1980 y recepción posterior",
+        "calendar": "proleptic_gregorian",
+        "isApproximate": true,
+        "isOpenEnded": false,
+        "note": "Periodo de formulación, publicación y recepción principal del aporte."
+      },
+      "editorialPeriodId": "twentieth_philosophies_human_sciences",
+      "navigationStageId": "contemporary",
+      "visualFamilyId": "latin_critical_complexity",
+      "geography": {
+        "historicalRegionId": "colombia_contemporary",
+        "historicalRegionLabel": "Colombia contemporánea",
+        "territoryDisplay": "Colombia",
+        "currentTerritories": [
+          "Colombia"
+        ],
+        "coordinates": null,
+        "circulationRegions": [
+          "América Latina",
+          "Iberoamérica"
+        ],
+        "verificationStatus": "editorially_normalized"
+      },
+      "historicalRegion": "Colombia contemporánea",
+      "currentTerritories": [
+        "Colombia"
+      ],
+      "coordinates": null,
+      "originalLanguages": [
+        "Spanish"
+      ],
+      "transliteration": null,
+      "pronunciation": null,
+      "evidenceGrade": "A-B",
+      "evidenceNature": [
+        "primary_or_authoritative_source",
+        "academic_interpretation"
+      ],
+      "controversyStatus": "explicit_caution_included",
+      "sourcesNormalized": [
+        {
+          "title": "Estanislao Zuleta · Elogio de la dificultad",
+          "url": "https://repository.unab.edu.co/handle/20.500.12749/23227",
+          "sourceType": "institutional_repository",
+          "id": "src_282f137131fc",
+          "role": "supports_context_and_core_idea",
+          "origin": "pack_cartography_aj_latin_critical_complexity_12_v39",
+          "verificationStatus": "verified_or_curated_url_2026_07_26"
+        },
+        {
+          "title": "Universidad del Valle · Estanislao Zuleta, 30 años después",
+          "url": "https://www.univalle.edu.co/arte-y-cultura/estanislao-zuleta-30-anos-despues",
+          "sourceType": "institutional_reference",
+          "id": "src_ca740529458a",
+          "role": "supports_context_and_core_idea",
+          "origin": "pack_cartography_aj_latin_critical_complexity_12_v39",
+          "verificationStatus": "verified_or_curated_url_2026_07_26"
+        }
+      ],
+      "sourceCompleteness": "explicit_url",
+      "contextHistorical": "En el pensamiento colombiano de finales del siglo XX, Zuleta vinculó filosofía, psicoanálisis, educación y democracia mediante conferencias y ensayos de amplia circulación.",
+      "contribution": "La dificultad no es un defecto que deba desaparecer: puede abrir preguntas, autonomía y creación cuando se la asume sin idealizar soluciones fáciles.",
+      "conceptsExplained": [
+        "dificultad",
+        "pensamiento crítico",
+        "autonomía"
+      ],
+      "worksRelated": [
+        "Elogio de la dificultad"
+      ],
+      "verifiedCuriosity": null,
+      "editorialStatus": "published",
+      "reviewStatus": {
+        "content": "reviewed_v3_9",
+        "chronology": "reviewed",
+        "taxonomy": "reviewed",
+        "sources": "explicit_urls",
+        "geography": "editorially_normalized"
+      },
+      "provenanceV2": {
+        "migratedFrom": null,
+        "normalizedAt": "2026-07-26",
+        "normalizationVersion": "3.9.0",
+        "sourcePackId": "pack_cartography_aj_latin_critical_complexity_12_v39",
+        "sourceOrder": 1
+      },
+      "relations": [
+        {
+          "targetId": "card_estanislao_zuleta_education_democracy_001",
+          "type": "conceptual_connection",
+          "label": "La educación democrática enseña a pensar y a vivir el conflicto",
+          "evidence": "editorial_or_documented_connection"
+        },
+        {
+          "targetId": "card_nietzsche_genealogy_values_001",
+          "type": "conceptual_connection",
+          "label": "Los valores tienen historias, luchas y funciones",
+          "evidence": "editorial_or_documented_connection"
+        },
+        {
+          "targetId": "card_y_paulo_freire_problem_posing_001",
+          "type": "conceptual_connection",
+          "label": "La educación problematizadora convierte la realidad en pregunta",
+          "evidence": "editorial_or_documented_connection"
+        }
+      ],
+      "entityType": "person",
+      "entityMetadata": {
+        "displayName": "Estanislao Zuleta",
+        "entityType": "person",
+        "originalNames": [],
+        "originalLanguages": [
+          "Spanish"
+        ],
+        "transliteration": null,
+        "pronunciation": null
+      },
+      "questionPhilosophical": "¿Qué aprendemos cuando dejamos de tratar toda dificultad como una falla que debe eliminarse?",
+      "coreIdea": "La dificultad no es un defecto que deba desaparecer: puede abrir preguntas, autonomía y creación cuando se la asume sin idealizar soluciones fáciles.",
+      "distinctiveContribution": "Conecta formación, pensamiento crítico y deseo de saber sin convertir el aprendizaje en obediencia o consumo de respuestas.",
+      "historicalContext": "En el pensamiento colombiano de finales del siglo XX, Zuleta vinculó filosofía, psicoanálisis, educación y democracia mediante conferencias y ensayos de amplia circulación.",
+      "regionHistorical": "Colombia contemporánea",
+      "currentTerritory": [
+        "Colombia"
+      ],
+      "relatedWorks": [
+        "Elogio de la dificultad"
+      ],
+      "authorizedSymbols": [
+        "⟷"
+      ],
+      "visualSystem": {
+        "familyId": "latin_critical_complexity",
+        "familyLabel": "Crítica y complejidad latinoiberoamericana",
+        "symbol": "⟷",
+        "palette": [
+          "#163c52",
+          "#7a4d64",
+          "#d3ad66"
+        ],
+        "allegory": "Tramas críticas latinoiberoamericanas donde educación, bioética, complejidad, investigación y resistencia se conectan sin un centro único.",
+        "authorizedSymbols": [
+          "⟷"
+        ]
+      },
+      "contentReview": {
+        "status": "published",
+        "version": "3.9.0",
+        "reviewedAt": "2026-07-26",
+        "dimensions": {
+          "content": "reviewed_v3_9",
+          "chronology": "reviewed",
+          "taxonomy": "reviewed",
+          "sources": "explicit_urls",
+          "geography": "editorially_normalized"
+        }
+      },
+      "influences": [],
+      "continuities": [],
+      "critiquesAndBreaks": [],
+      "conceptualResonances": [
+        {
+          "targetId": "card_estanislao_zuleta_education_democracy_001",
+          "type": "conceptual_connection",
+          "label": "La educación democrática enseña a pensar y a vivir el conflicto",
+          "evidence": "editorial_or_documented_connection"
+        },
+        {
+          "targetId": "card_nietzsche_genealogy_values_001",
+          "type": "conceptual_connection",
+          "label": "Los valores tienen historias, luchas y funciones",
+          "evidence": "editorial_or_documented_connection"
+        },
+        {
+          "targetId": "card_y_paulo_freire_problem_posing_001",
+          "type": "conceptual_connection",
+          "label": "La educación problematizadora convierte la realidad en pregunta",
+          "evidence": "editorial_or_documented_connection"
+        }
+      ],
+      "sourceIds": [
+        "src_282f137131fc",
+        "src_ca740529458a"
+      ],
+      "sources": [
+        {
+          "title": "Estanislao Zuleta · Elogio de la dificultad",
+          "url": "https://repository.unab.edu.co/handle/20.500.12749/23227",
+          "sourceType": "institutional_repository",
+          "id": "src_282f137131fc",
+          "role": "supports_context_and_core_idea",
+          "origin": "pack_cartography_aj_latin_critical_complexity_12_v39",
+          "verificationStatus": "verified_or_curated_url_2026_07_26"
+        },
+        {
+          "title": "Universidad del Valle · Estanislao Zuleta, 30 años después",
+          "url": "https://www.univalle.edu.co/arte-y-cultura/estanislao-zuleta-30-anos-despues",
+          "sourceType": "institutional_reference",
+          "id": "src_ca740529458a",
+          "role": "supports_context_and_core_idea",
+          "origin": "pack_cartography_aj_latin_critical_complexity_12_v39",
+          "verificationStatus": "verified_or_curated_url_2026_07_26"
+        }
+      ],
+      "disciplinaryRelations": [
+        {
+          "disciplineId": "philosophy",
+          "relationType": "direct_contribution",
+          "relevance": 0.94,
+          "rationale": "Relaciona filosofía con el problema: La dificultad no es un defecto que deba desaparecer: puede abrir preguntas, autonomía y creación cuando se la asume sin idealizar soluciones fáciles.",
+          "reviewStatus": "explicit_editorial_assignment",
+          "publishable": true
+        },
+        {
+          "disciplineId": "education_pedagogy",
+          "relationType": "direct_contribution",
+          "relevance": 0.91,
+          "rationale": "Relaciona educación y pedagogía con el problema: La dificultad no es un defecto que deba desaparecer: puede abrir preguntas, autonomía y creación cuando se la asume sin idealizar soluciones fáciles.",
+          "reviewStatus": "explicit_editorial_assignment",
+          "publishable": true
+        },
+        {
+          "disciplineId": "psychology_subjectivity",
+          "relationType": "shared_problem",
+          "relevance": 0.78,
+          "rationale": "Relaciona psicología y subjetividad con el problema: La dificultad no es un defecto que deba desaparecer: puede abrir preguntas, autonomía y creación cuando se la asume sin idealizar soluciones fáciles.",
+          "reviewStatus": "explicit_editorial_assignment",
+          "publishable": true
+        },
+        {
+          "disciplineId": "language_communication",
+          "relationType": "interdisciplinary_crossing",
+          "relevance": 0.75,
+          "rationale": "Relaciona lenguaje y comunicación con el problema: La dificultad no es un defecto que deba desaparecer: puede abrir preguntas, autonomía y creación cuando se la asume sin idealizar soluciones fáciles.",
+          "reviewStatus": "explicit_editorial_assignment",
+          "publishable": true
+        }
+      ],
+      "sha256": "0cf74375f50ecbc70bb64a2fbe80d97db2c527bf996025a69a9c0b6c53d1d36c"
+    },
+    {
+      "id": "card_estanislao_zuleta_education_democracy_001",
+      "author": "Estanislao Zuleta",
+      "title": "La educación democrática enseña a pensar y a vivir el conflicto",
+      "territory": "Colombia",
+      "period": "Décadas de 1980 y 1990",
+      "family": "Crítica y complejidad latinoiberoamericana",
+      "statement": "Educar democráticamente no consiste solo en transmitir contenidos: exige formar capacidad de preguntar, argumentar, disentir y reconocer el conflicto sin convertirlo en enemistad.",
+      "tags": [
+        "educación",
+        "democracia",
+        "conflicto"
+      ],
+      "question": "¿Puede una escuela llamarse democrática si no permite preguntar, disentir y participar?",
+      "caution": "La educación democrática no elimina la autoridad pedagógica ni supone que todas las afirmaciones valen lo mismo; exige una autoridad justificable, abierta a razones y revisión.",
+      "connections": [
+        "Pensar exige atravesar la dificultad, no abolirla",
+        "La democracia es una forma de vida aprendida en común",
+        "El diálogo educativo exige sujetos, no recipientes"
+      ],
+      "order": 2,
+      "status": "integrado_v3_9",
+      "evidence": "A-B",
+      "audio": "En Estanislao Zuleta, pensar comienza cuando se abandona la ilusión de una respuesta fácil. Educar democráticamente no consiste solo en transmitir contenidos: exige formar capacidad de preguntar, argumentar, disentir y reconocer el conflicto sin convertirlo en enemistad. Une educación, ciudadanía y democracia como prácticas cotidianas y no como asignaturas separadas. La educación democrática no elimina la autoridad pedagógica ni supone que todas las afirmaciones valen lo mismo; exige una autoridad justificable, abierta a razones y revisión.",
+      "quiz": {
+        "prompt": "¿Puede una escuela llamarse democrática si no permite preguntar, disentir y participar?",
+        "options": [
+          "Educar democráticamente no consiste solo en transmitir contenidos: exige formar capacidad de preguntar, argumentar, disentir y reconocer el conflicto sin convertirlo en enemistad.",
+          "La educación democrática no elimina la autoridad pedagógica ni supone que todas las afirmaciones valen lo mismo; exige una autoridad justificable, abierta a razones y revisión.",
+          "La propuesta elimina la necesidad de contexto y evidencia.",
+          "Todas las tradiciones sostienen exactamente la misma posición."
+        ],
+        "answer": 0,
+        "feedback": "Educar democráticamente no consiste solo en transmitir contenidos: exige formar capacidad de preguntar, argumentar, disentir y reconocer el conflicto sin convertirlo en enemistad."
+      },
+      "whyItMatters": "Une educación, ciudadanía y democracia como prácticas cotidianas y no como asignaturas separadas.",
+      "symbol": "⟷",
+      "visual": {
+        "palette": [
+          "#163c52",
+          "#7a4d64",
+          "#d3ad66"
+        ],
+        "allegory": "Tramas críticas latinoiberoamericanas donde educación, bioética, complejidad, investigación y resistencia se conectan sin un centro único."
+      },
+      "seriesVersion": "3.9",
+      "materializationLevel": "dossier_structurado_v3.9",
+      "shareFooter": "Pregunta guía: ¿Puede una escuela llamarse democrática si no permite preguntar, disentir y participar?",
+      "audioVersion": "concise-listening-3.9",
+      "guideTransition": "",
+      "audioLead": "En Estanislao Zuleta, pensar comienza cuando se abandona la ilusión de una respuesta fácil.",
+      "audioContext": "Colombia",
+      "audioBody": "Educar democráticamente no consiste solo en transmitir contenidos: exige formar capacidad de preguntar, argumentar, disentir y reconocer el conflicto sin convertirlo en enemistad. Une educación, ciudadanía y democracia como prácticas cotidianas y no como asignaturas separadas. La educación democrática no elimina la autoridad pedagógica ni supone que todas las afirmaciones valen lo mismo; exige una autoridad justificable, abierta a razones y revisión.",
+      "listeningMode": "author_concept_limit_compact",
+      "collectionId": "latin_critical_complexity_referents",
+      "collection": "Referentes latinoiberoamericanos de crítica, complejidad y transmétodo",
+      "collectionOrder": 37,
+      "chronologyRank": 1985.002,
+      "chronologyStageId": "contemporary",
+      "fields": [
+        "education_learning",
+        "society_power",
+        "ethics_care",
+        "knowledge_method"
+      ],
+      "orientations": [
+        "Pensamiento crítico colombiano",
+        "Democracia y educación"
+      ],
+      "connectionIds": [
+        "card_estanislao_zuleta_difficulty_001",
+        "card_dewey_democracy_education_001",
+        "card_t_paulo_freire_dialogical_education_001"
+      ],
+      "collectionSequence": 2,
+      "chronologyApproxYear": 1985,
+      "chronologyRole": "documented_intellectual_formulation",
+      "schemaVersion": "2.0",
+      "contentVersion": "3.9.0",
+      "legacyFamily": "Crítica y complejidad latinoiberoamericana",
+      "entryType": "author_program",
+      "dateStart": 1985,
+      "dateEnd": 1995,
+      "datePrecision": "documented_intellectual_period",
+      "dateMetadata": {
+        "startYear": 1985,
+        "endYear": 1995,
+        "precision": "documented_intellectual_period",
+        "display": "Décadas de 1980 y 1990",
+        "calendar": "proleptic_gregorian",
+        "isApproximate": true,
+        "isOpenEnded": false,
+        "note": "Periodo de formulación, publicación y recepción principal del aporte."
+      },
+      "editorialPeriodId": "twentieth_philosophies_human_sciences",
+      "navigationStageId": "contemporary",
+      "visualFamilyId": "latin_critical_complexity",
+      "geography": {
+        "historicalRegionId": "colombia_contemporary",
+        "historicalRegionLabel": "Colombia contemporánea",
+        "territoryDisplay": "Colombia",
+        "currentTerritories": [
+          "Colombia"
+        ],
+        "coordinates": null,
+        "circulationRegions": [
+          "América Latina",
+          "Iberoamérica"
+        ],
+        "verificationStatus": "editorially_normalized"
+      },
+      "historicalRegion": "Colombia contemporánea",
+      "currentTerritories": [
+        "Colombia"
+      ],
+      "coordinates": null,
+      "originalLanguages": [
+        "Spanish"
+      ],
+      "transliteration": null,
+      "pronunciation": null,
+      "evidenceGrade": "A-B",
+      "evidenceNature": [
+        "primary_or_authoritative_source",
+        "academic_interpretation"
+      ],
+      "controversyStatus": "explicit_caution_included",
+      "sourcesNormalized": [
+        {
+          "title": "Estanislao Zuleta · Educación y democracia",
+          "url": "https://books.google.com.co/books?id=NYv1DwAAQBAJ",
+          "sourceType": "book_catalog_or_preview",
+          "id": "src_bbd55f026d1b",
+          "role": "supports_context_and_core_idea",
+          "origin": "pack_cartography_aj_latin_critical_complexity_12_v39",
+          "verificationStatus": "verified_or_curated_url_2026_07_26"
+        },
+        {
+          "title": "Universidad del Valle · Estanislao Zuleta, 30 años después",
+          "url": "https://www.univalle.edu.co/arte-y-cultura/estanislao-zuleta-30-anos-despues",
+          "sourceType": "institutional_reference",
+          "id": "src_ca740529458a",
+          "role": "supports_context_and_core_idea",
+          "origin": "pack_cartography_aj_latin_critical_complexity_12_v39",
+          "verificationStatus": "verified_or_curated_url_2026_07_26"
+        }
+      ],
+      "sourceCompleteness": "explicit_url",
+      "contextHistorical": "Zuleta intervino en debates colombianos sobre universidad, formación y democracia durante una época marcada por desigualdad, autoritarismo y violencia política.",
+      "contribution": "Educar democráticamente no consiste solo en transmitir contenidos: exige formar capacidad de preguntar, argumentar, disentir y reconocer el conflicto sin convertirlo en enemistad.",
+      "conceptsExplained": [
+        "educación",
+        "democracia",
+        "conflicto"
+      ],
+      "worksRelated": [
+        "Educación y democracia: un campo de combate"
+      ],
+      "verifiedCuriosity": null,
+      "editorialStatus": "published",
+      "reviewStatus": {
+        "content": "reviewed_v3_9",
+        "chronology": "reviewed",
+        "taxonomy": "reviewed",
+        "sources": "explicit_urls",
+        "geography": "editorially_normalized"
+      },
+      "provenanceV2": {
+        "migratedFrom": null,
+        "normalizedAt": "2026-07-26",
+        "normalizationVersion": "3.9.0",
+        "sourcePackId": "pack_cartography_aj_latin_critical_complexity_12_v39",
+        "sourceOrder": 2
+      },
+      "relations": [
+        {
+          "targetId": "card_estanislao_zuleta_difficulty_001",
+          "type": "conceptual_connection",
+          "label": "Pensar exige atravesar la dificultad, no abolirla",
+          "evidence": "editorial_or_documented_connection"
+        },
+        {
+          "targetId": "card_dewey_democracy_education_001",
+          "type": "conceptual_connection",
+          "label": "La democracia es una forma de vida aprendida en común",
+          "evidence": "editorial_or_documented_connection"
+        },
+        {
+          "targetId": "card_t_paulo_freire_dialogical_education_001",
+          "type": "conceptual_connection",
+          "label": "El diálogo educativo exige sujetos, no recipientes",
+          "evidence": "editorial_or_documented_connection"
+        }
+      ],
+      "entityType": "person",
+      "entityMetadata": {
+        "displayName": "Estanislao Zuleta",
+        "entityType": "person",
+        "originalNames": [],
+        "originalLanguages": [
+          "Spanish"
+        ],
+        "transliteration": null,
+        "pronunciation": null
+      },
+      "questionPhilosophical": "¿Puede una escuela llamarse democrática si no permite preguntar, disentir y participar?",
+      "coreIdea": "Educar democráticamente no consiste solo en transmitir contenidos: exige formar capacidad de preguntar, argumentar, disentir y reconocer el conflicto sin convertirlo en enemistad.",
+      "distinctiveContribution": "Une educación, ciudadanía y democracia como prácticas cotidianas y no como asignaturas separadas.",
+      "historicalContext": "Zuleta intervino en debates colombianos sobre universidad, formación y democracia durante una época marcada por desigualdad, autoritarismo y violencia política.",
+      "regionHistorical": "Colombia contemporánea",
+      "currentTerritory": [
+        "Colombia"
+      ],
+      "relatedWorks": [
+        "Educación y democracia: un campo de combate"
+      ],
+      "authorizedSymbols": [
+        "⟷"
+      ],
+      "visualSystem": {
+        "familyId": "latin_critical_complexity",
+        "familyLabel": "Crítica y complejidad latinoiberoamericana",
+        "symbol": "⟷",
+        "palette": [
+          "#163c52",
+          "#7a4d64",
+          "#d3ad66"
+        ],
+        "allegory": "Tramas críticas latinoiberoamericanas donde educación, bioética, complejidad, investigación y resistencia se conectan sin un centro único.",
+        "authorizedSymbols": [
+          "⟷"
+        ]
+      },
+      "contentReview": {
+        "status": "published",
+        "version": "3.9.0",
+        "reviewedAt": "2026-07-26",
+        "dimensions": {
+          "content": "reviewed_v3_9",
+          "chronology": "reviewed",
+          "taxonomy": "reviewed",
+          "sources": "explicit_urls",
+          "geography": "editorially_normalized"
+        }
+      },
+      "influences": [],
+      "continuities": [],
+      "critiquesAndBreaks": [],
+      "conceptualResonances": [
+        {
+          "targetId": "card_estanislao_zuleta_difficulty_001",
+          "type": "conceptual_connection",
+          "label": "Pensar exige atravesar la dificultad, no abolirla",
+          "evidence": "editorial_or_documented_connection"
+        },
+        {
+          "targetId": "card_dewey_democracy_education_001",
+          "type": "conceptual_connection",
+          "label": "La democracia es una forma de vida aprendida en común",
+          "evidence": "editorial_or_documented_connection"
+        },
+        {
+          "targetId": "card_t_paulo_freire_dialogical_education_001",
+          "type": "conceptual_connection",
+          "label": "El diálogo educativo exige sujetos, no recipientes",
+          "evidence": "editorial_or_documented_connection"
+        }
+      ],
+      "sourceIds": [
+        "src_bbd55f026d1b",
+        "src_ca740529458a"
+      ],
+      "sources": [
+        {
+          "title": "Estanislao Zuleta · Educación y democracia",
+          "url": "https://books.google.com.co/books?id=NYv1DwAAQBAJ",
+          "sourceType": "book_catalog_or_preview",
+          "id": "src_bbd55f026d1b",
+          "role": "supports_context_and_core_idea",
+          "origin": "pack_cartography_aj_latin_critical_complexity_12_v39",
+          "verificationStatus": "verified_or_curated_url_2026_07_26"
+        },
+        {
+          "title": "Universidad del Valle · Estanislao Zuleta, 30 años después",
+          "url": "https://www.univalle.edu.co/arte-y-cultura/estanislao-zuleta-30-anos-despues",
+          "sourceType": "institutional_reference",
+          "id": "src_ca740529458a",
+          "role": "supports_context_and_core_idea",
+          "origin": "pack_cartography_aj_latin_critical_complexity_12_v39",
+          "verificationStatus": "verified_or_curated_url_2026_07_26"
+        }
+      ],
+      "disciplinaryRelations": [
+        {
+          "disciplineId": "education_pedagogy",
+          "relationType": "direct_contribution",
+          "relevance": 0.96,
+          "rationale": "Relaciona educación y pedagogía con el problema: Educar democráticamente no consiste solo en transmitir contenidos: exige formar capacidad de preguntar, argumentar, disentir y reconocer el conflicto sin convertirlo en enemistad.",
+          "reviewStatus": "explicit_editorial_assignment",
+          "publishable": true
+        },
+        {
+          "disciplineId": "politics_government",
+          "relationType": "direct_contribution",
+          "relevance": 0.89,
+          "rationale": "Relaciona política y gobierno con el problema: Educar democráticamente no consiste solo en transmitir contenidos: exige formar capacidad de preguntar, argumentar, disentir y reconocer el conflicto sin convertirlo en enemistad.",
+          "reviewStatus": "explicit_editorial_assignment",
+          "publishable": true
+        },
+        {
+          "disciplineId": "sociology_collective",
+          "relationType": "interdisciplinary_crossing",
+          "relevance": 0.84,
+          "rationale": "Relaciona sociología y vida colectiva con el problema: Educar democráticamente no consiste solo en transmitir contenidos: exige formar capacidad de preguntar, argumentar, disentir y reconocer el conflicto sin convertirlo en enemistad.",
+          "reviewStatus": "explicit_editorial_assignment",
+          "publishable": true
+        },
+        {
+          "disciplineId": "philosophy",
+          "relationType": "direct_contribution",
+          "relevance": 0.9,
+          "rationale": "Relaciona filosofía con el problema: Educar democráticamente no consiste solo en transmitir contenidos: exige formar capacidad de preguntar, argumentar, disentir y reconocer el conflicto sin convertirlo en enemistad.",
+          "reviewStatus": "explicit_editorial_assignment",
+          "publishable": true
+        }
+      ],
+      "sha256": "75bdb1289df702e5db12fd331a34978772ae12646ca13f29b4255f7737b13783"
+    },
+    {
+      "id": "card_carlos_delgado_bioethics_new_knowledge_001",
+      "author": "Carlos Jesús Delgado Díaz",
+      "title": "La bioética puede convertirse en un nuevo saber sobre la vida",
+      "territory": "Cuba y redes latinoamericanas de bioética",
+      "period": "Primeras décadas del siglo XXI",
+      "family": "Crítica y complejidad latinoiberoamericana",
+      "statement": "La bioética no se reduce a aplicar reglas clínicas: puede articular ciencia, tecnología, ambiente, cultura y responsabilidad para comprender decisiones que transforman la vida.",
+      "tags": [
+        "bioética",
+        "vida",
+        "revolución del saber"
+      ],
+      "question": "¿Qué cambia cuando la bioética deja de ser un listado de prohibiciones y se vuelve una forma de conocimiento?",
+      "caution": "Ampliar la bioética no elimina la necesidad de normas, derechos ni procedimientos clínicos; evita que esos instrumentos agoten la deliberación sobre la vida.",
+      "connections": [
+        "La bioética de la complejidad relaciona decisiones, contextos y planeta",
+        "Cuatro principios ofrecen un lenguaje común para deliberar en bioética",
+        "La Tierra puede pensarse como patria común"
+      ],
+      "order": 3,
+      "status": "integrado_v3_9",
+      "evidence": "A-B",
+      "audio": "Carlos Jesús Delgado Díaz sitúa este problema entre bioética, complejidad y transformación del saber. La bioética no se reduce a aplicar reglas clínicas: puede articular ciencia, tecnología, ambiente, cultura y responsabilidad para comprender decisiones que transforman la vida. Sitúa la bioética dentro de la revolución contemporánea del saber y de los efectos sociales de la tecnociencia. Ampliar la bioética no elimina la necesidad de normas, derechos ni procedimientos clínicos; evita que esos instrumentos agoten la deliberación sobre la vida.",
+      "quiz": {
+        "prompt": "¿Qué cambia cuando la bioética deja de ser un listado de prohibiciones y se vuelve una forma de conocimiento?",
+        "options": [
+          "La bioética no se reduce a aplicar reglas clínicas: puede articular ciencia, tecnología, ambiente, cultura y responsabilidad para comprender decisiones que transforman la vida.",
+          "Ampliar la bioética no elimina la necesidad de normas, derechos ni procedimientos clínicos; evita que esos instrumentos agoten la deliberación sobre la vida.",
+          "La propuesta elimina la necesidad de contexto y evidencia.",
+          "Todas las tradiciones sostienen exactamente la misma posición."
+        ],
+        "answer": 0,
+        "feedback": "La bioética no se reduce a aplicar reglas clínicas: puede articular ciencia, tecnología, ambiente, cultura y responsabilidad para comprender decisiones que transforman la vida."
+      },
+      "whyItMatters": "Sitúa la bioética dentro de la revolución contemporánea del saber y de los efectos sociales de la tecnociencia.",
+      "symbol": "⟷",
+      "visual": {
+        "palette": [
+          "#163c52",
+          "#7a4d64",
+          "#d3ad66"
+        ],
+        "allegory": "Tramas críticas latinoiberoamericanas donde educación, bioética, complejidad, investigación y resistencia se conectan sin un centro único."
+      },
+      "seriesVersion": "3.9",
+      "materializationLevel": "dossier_structurado_v3.9",
+      "shareFooter": "Pregunta guía: ¿Qué cambia cuando la bioética deja de ser un listado de prohibiciones y se vuelve una forma de conocimiento?",
+      "audioVersion": "concise-listening-3.9",
+      "guideTransition": "",
+      "audioLead": "Carlos Jesús Delgado Díaz sitúa este problema entre bioética, complejidad y transformación del saber.",
+      "audioContext": "Cuba y redes latinoamericanas de bioética",
+      "audioBody": "La bioética no se reduce a aplicar reglas clínicas: puede articular ciencia, tecnología, ambiente, cultura y responsabilidad para comprender decisiones que transforman la vida. Sitúa la bioética dentro de la revolución contemporánea del saber y de los efectos sociales de la tecnociencia. Ampliar la bioética no elimina la necesidad de normas, derechos ni procedimientos clínicos; evita que esos instrumentos agoten la deliberación sobre la vida.",
+      "listeningMode": "author_concept_limit_compact",
+      "collectionId": "latin_critical_complexity_referents",
+      "collection": "Referentes latinoiberoamericanos de crítica, complejidad y transmétodo",
+      "collectionOrder": 37,
+      "chronologyRank": 2005.003,
+      "chronologyStageId": "contemporary",
+      "fields": [
+        "ethics_care",
+        "life_ecology",
+        "systems_complexity",
+        "technology_mediation"
+      ],
+      "orientations": [
+        "Bioética global",
+        "Pensamiento complejo"
+      ],
+      "connectionIds": [
+        "card_carlos_delgado_bioethics_complexity_001",
+        "card_aa_tom_beauchamp_y_james_childress_cuatro_principios_ofrecen_un_lenguaje_comun_para_del_001",
+        "card_edgar_morin_earth_homeland_001"
+      ],
+      "collectionSequence": 3,
+      "chronologyApproxYear": 2005,
+      "chronologyRole": "documented_intellectual_formulation",
+      "schemaVersion": "2.0",
+      "contentVersion": "3.9.0",
+      "legacyFamily": "Crítica y complejidad latinoiberoamericana",
+      "entryType": "author_epistemology",
+      "dateStart": 2005,
+      "dateEnd": 2011,
+      "datePrecision": "documented_intellectual_period",
+      "dateMetadata": {
+        "startYear": 2005,
+        "endYear": 2011,
+        "precision": "documented_intellectual_period",
+        "display": "Primeras décadas del siglo XXI",
+        "calendar": "proleptic_gregorian",
+        "isApproximate": true,
+        "isOpenEnded": false,
+        "note": "Periodo de formulación, publicación y recepción principal del aporte."
+      },
+      "editorialPeriodId": "systems_complexity_transdisciplinarity",
+      "navigationStageId": "contemporary",
+      "visualFamilyId": "latin_critical_complexity",
+      "geography": {
+        "historicalRegionId": "latin_america_contemporary",
+        "historicalRegionLabel": "América Latina contemporánea",
+        "territoryDisplay": "Cuba y redes latinoamericanas de bioética",
+        "currentTerritories": [
+          "Cuba",
+          "México"
+        ],
+        "coordinates": null,
+        "circulationRegions": [
+          "América Latina",
+          "Iberoamérica"
+        ],
+        "verificationStatus": "editorially_normalized"
+      },
+      "historicalRegion": "América Latina contemporánea",
+      "currentTerritories": [
+        "Cuba",
+        "México"
+      ],
+      "coordinates": null,
+      "originalLanguages": [
+        "Spanish"
+      ],
+      "transliteration": null,
+      "pronunciation": null,
+      "evidenceGrade": "A-B",
+      "evidenceNature": [
+        "primary_or_authoritative_source",
+        "academic_interpretation"
+      ],
+      "controversyStatus": "explicit_caution_included",
+      "sourcesNormalized": [
+        {
+          "title": "Carlos Jesús Delgado Díaz · La bioética como nuevo saber ético",
+          "url": "https://carlosjdelgado.org/wp-content/uploads/2020/12/art22.pdf",
+          "sourceType": "author_archived_primary_text",
+          "id": "src_e4efa85a1fb6",
+          "role": "supports_context_and_core_idea",
+          "origin": "pack_cartography_aj_latin_critical_complexity_12_v39",
+          "verificationStatus": "verified_or_curated_url_2026_07_26"
+        },
+        {
+          "title": "Carlos Jesús Delgado Díaz · La complejidad y el nuevo ideal de racionalidad",
+          "url": "https://biblioteca-repositorio.clacso.edu.ar/handle/CLACSO/14716",
+          "sourceType": "institutional_repository",
+          "id": "src_64534b9f3daa",
+          "role": "supports_context_and_core_idea",
+          "origin": "pack_cartography_aj_latin_critical_complexity_12_v39",
+          "verificationStatus": "verified_or_curated_url_2026_07_26"
+        }
+      ],
+      "sourceCompleteness": "explicit_url",
+      "contextHistorical": "Delgado Díaz desarrolla su obra en la convergencia entre filosofía, bioética, estudios de ciencia y tecnología y pensamiento complejo latinoamericano.",
+      "contribution": "La bioética no se reduce a aplicar reglas clínicas: puede articular ciencia, tecnología, ambiente, cultura y responsabilidad para comprender decisiones que transforman la vida.",
+      "conceptsExplained": [
+        "bioética",
+        "vida",
+        "revolución del saber"
+      ],
+      "worksRelated": [
+        "La bioética como nuevo saber ético",
+        "Hacia un nuevo saber: la bioética en la revolución contemporánea del saber"
+      ],
+      "verifiedCuriosity": null,
+      "editorialStatus": "published",
+      "reviewStatus": {
+        "content": "reviewed_v3_9",
+        "chronology": "reviewed",
+        "taxonomy": "reviewed",
+        "sources": "explicit_urls",
+        "geography": "editorially_normalized"
+      },
+      "provenanceV2": {
+        "migratedFrom": null,
+        "normalizedAt": "2026-07-26",
+        "normalizationVersion": "3.9.0",
+        "sourcePackId": "pack_cartography_aj_latin_critical_complexity_12_v39",
+        "sourceOrder": 3
+      },
+      "relations": [
+        {
+          "targetId": "card_carlos_delgado_bioethics_complexity_001",
+          "type": "conceptual_connection",
+          "label": "La bioética de la complejidad relaciona decisiones, contextos y planeta",
+          "evidence": "editorial_or_documented_connection"
+        },
+        {
+          "targetId": "card_aa_tom_beauchamp_y_james_childress_cuatro_principios_ofrecen_un_lenguaje_comun_para_del_001",
+          "type": "conceptual_connection",
+          "label": "Cuatro principios ofrecen un lenguaje común para deliberar en bioética",
+          "evidence": "editorial_or_documented_connection"
+        },
+        {
+          "targetId": "card_edgar_morin_earth_homeland_001",
+          "type": "conceptual_connection",
+          "label": "La Tierra puede pensarse como patria común",
+          "evidence": "editorial_or_documented_connection"
+        }
+      ],
+      "entityType": "person",
+      "entityMetadata": {
+        "displayName": "Carlos Jesús Delgado Díaz",
+        "entityType": "person",
+        "originalNames": [],
+        "originalLanguages": [
+          "Spanish"
+        ],
+        "transliteration": null,
+        "pronunciation": null
+      },
+      "questionPhilosophical": "¿Qué cambia cuando la bioética deja de ser un listado de prohibiciones y se vuelve una forma de conocimiento?",
+      "coreIdea": "La bioética no se reduce a aplicar reglas clínicas: puede articular ciencia, tecnología, ambiente, cultura y responsabilidad para comprender decisiones que transforman la vida.",
+      "distinctiveContribution": "Sitúa la bioética dentro de la revolución contemporánea del saber y de los efectos sociales de la tecnociencia.",
+      "historicalContext": "Delgado Díaz desarrolla su obra en la convergencia entre filosofía, bioética, estudios de ciencia y tecnología y pensamiento complejo latinoamericano.",
+      "regionHistorical": "América Latina contemporánea",
+      "currentTerritory": [
+        "Cuba",
+        "México"
+      ],
+      "relatedWorks": [
+        "La bioética como nuevo saber ético",
+        "Hacia un nuevo saber: la bioética en la revolución contemporánea del saber"
+      ],
+      "authorizedSymbols": [
+        "⟷"
+      ],
+      "visualSystem": {
+        "familyId": "latin_critical_complexity",
+        "familyLabel": "Crítica y complejidad latinoiberoamericana",
+        "symbol": "⟷",
+        "palette": [
+          "#163c52",
+          "#7a4d64",
+          "#d3ad66"
+        ],
+        "allegory": "Tramas críticas latinoiberoamericanas donde educación, bioética, complejidad, investigación y resistencia se conectan sin un centro único.",
+        "authorizedSymbols": [
+          "⟷"
+        ]
+      },
+      "contentReview": {
+        "status": "published",
+        "version": "3.9.0",
+        "reviewedAt": "2026-07-26",
+        "dimensions": {
+          "content": "reviewed_v3_9",
+          "chronology": "reviewed",
+          "taxonomy": "reviewed",
+          "sources": "explicit_urls",
+          "geography": "editorially_normalized"
+        }
+      },
+      "influences": [],
+      "continuities": [],
+      "critiquesAndBreaks": [],
+      "conceptualResonances": [
+        {
+          "targetId": "card_carlos_delgado_bioethics_complexity_001",
+          "type": "conceptual_connection",
+          "label": "La bioética de la complejidad relaciona decisiones, contextos y planeta",
+          "evidence": "editorial_or_documented_connection"
+        },
+        {
+          "targetId": "card_aa_tom_beauchamp_y_james_childress_cuatro_principios_ofrecen_un_lenguaje_comun_para_del_001",
+          "type": "conceptual_connection",
+          "label": "Cuatro principios ofrecen un lenguaje común para deliberar en bioética",
+          "evidence": "editorial_or_documented_connection"
+        },
+        {
+          "targetId": "card_edgar_morin_earth_homeland_001",
+          "type": "conceptual_connection",
+          "label": "La Tierra puede pensarse como patria común",
+          "evidence": "editorial_or_documented_connection"
+        }
+      ],
+      "sourceIds": [
+        "src_e4efa85a1fb6",
+        "src_64534b9f3daa"
+      ],
+      "sources": [
+        {
+          "title": "Carlos Jesús Delgado Díaz · La bioética como nuevo saber ético",
+          "url": "https://carlosjdelgado.org/wp-content/uploads/2020/12/art22.pdf",
+          "sourceType": "author_archived_primary_text",
+          "id": "src_e4efa85a1fb6",
+          "role": "supports_context_and_core_idea",
+          "origin": "pack_cartography_aj_latin_critical_complexity_12_v39",
+          "verificationStatus": "verified_or_curated_url_2026_07_26"
+        },
+        {
+          "title": "Carlos Jesús Delgado Díaz · La complejidad y el nuevo ideal de racionalidad",
+          "url": "https://biblioteca-repositorio.clacso.edu.ar/handle/CLACSO/14716",
+          "sourceType": "institutional_repository",
+          "id": "src_64534b9f3daa",
+          "role": "supports_context_and_core_idea",
+          "origin": "pack_cartography_aj_latin_critical_complexity_12_v39",
+          "verificationStatus": "verified_or_curated_url_2026_07_26"
+        }
+      ],
+      "disciplinaryRelations": [
+        {
+          "disciplineId": "philosophy",
+          "relationType": "direct_contribution",
+          "relevance": 0.94,
+          "rationale": "Relaciona filosofía con el problema: La bioética no se reduce a aplicar reglas clínicas: puede articular ciencia, tecnología, ambiente, cultura y responsabilidad para comprender decisiones que transforman la vida.",
+          "reviewStatus": "explicit_editorial_assignment",
+          "publishable": true
+        },
+        {
+          "disciplineId": "medicine_body",
+          "relationType": "direct_contribution",
+          "relevance": 0.91,
+          "rationale": "Relaciona medicina y cuerpo con el problema: La bioética no se reduce a aplicar reglas clínicas: puede articular ciencia, tecnología, ambiente, cultura y responsabilidad para comprender decisiones que transforman la vida.",
+          "reviewStatus": "explicit_editorial_assignment",
+          "publishable": true
+        },
+        {
+          "disciplineId": "natural_sciences",
+          "relationType": "interdisciplinary_crossing",
+          "relevance": 0.83,
+          "rationale": "Relaciona ciencias naturales con el problema: La bioética no se reduce a aplicar reglas clínicas: puede articular ciencia, tecnología, ambiente, cultura y responsabilidad para comprender decisiones que transforman la vida.",
+          "reviewStatus": "explicit_editorial_assignment",
+          "publishable": true
+        },
+        {
+          "disciplineId": "technology_knowledge",
+          "relationType": "interdisciplinary_crossing",
+          "relevance": 0.86,
+          "rationale": "Relaciona tecnología y conocimiento con el problema: La bioética no se reduce a aplicar reglas clínicas: puede articular ciencia, tecnología, ambiente, cultura y responsabilidad para comprender decisiones que transforman la vida.",
+          "reviewStatus": "explicit_editorial_assignment",
+          "publishable": true
+        }
+      ],
+      "sha256": "1a9e748d8870de9baa242d51ce9bbe2ab276458be89b12ae56332a649936c12f"
+    },
+    {
+      "id": "card_carlos_delgado_bioethics_complexity_001",
+      "author": "Carlos Jesús Delgado Díaz",
+      "title": "La bioética de la complejidad relaciona decisiones, contextos y planeta",
+      "territory": "Cuba, México y redes latinoamericanas",
+      "period": "Siglo XXI",
+      "family": "Crítica y complejidad latinoiberoamericana",
+      "statement": "Una decisión bioética cambia de sentido cuando se reconocen sus interdependencias sociales, tecnológicas, ambientales y planetarias, además de sus efectos inciertos.",
+      "tags": [
+        "bioética global",
+        "complejidad",
+        "responsabilidad planetaria"
+      ],
+      "question": "¿Cómo deliberar responsablemente cuando una decisión tecnológica afecta varios niveles de la vida?",
+      "caution": "Relacionar múltiples dimensiones no permite posponer indefinidamente las decisiones ni reemplaza la responsabilidad por una descripción general de la complejidad.",
+      "connections": [
+        "La bioética puede convertirse en un nuevo saber sobre la vida",
+        "La Tierra puede pensarse como patria común",
+        "Atravesar disciplinas sin mezclarlas"
+      ],
+      "order": 4,
+      "status": "integrado_v3_9",
+      "evidence": "A-B",
+      "audio": "Carlos Jesús Delgado Díaz sitúa este problema entre bioética, complejidad y transformación del saber. Una decisión bioética cambia de sentido cuando se reconocen sus interdependencias sociales, tecnológicas, ambientales y planetarias, además de sus efectos inciertos. Ofrece un marco para pensar biotecnología, ambiente y justicia sin fragmentar sus consecuencias. Relacionar múltiples dimensiones no permite posponer indefinidamente las decisiones ni reemplaza la responsabilidad por una descripción general de la complejidad.",
+      "quiz": {
+        "prompt": "¿Cómo deliberar responsablemente cuando una decisión tecnológica afecta varios niveles de la vida?",
+        "options": [
+          "Una decisión bioética cambia de sentido cuando se reconocen sus interdependencias sociales, tecnológicas, ambientales y planetarias, además de sus efectos inciertos.",
+          "Relacionar múltiples dimensiones no permite posponer indefinidamente las decisiones ni reemplaza la responsabilidad por una descripción general de la complejidad.",
+          "La propuesta elimina la necesidad de contexto y evidencia.",
+          "Todas las tradiciones sostienen exactamente la misma posición."
+        ],
+        "answer": 0,
+        "feedback": "Una decisión bioética cambia de sentido cuando se reconocen sus interdependencias sociales, tecnológicas, ambientales y planetarias, además de sus efectos inciertos."
+      },
+      "whyItMatters": "Ofrece un marco para pensar biotecnología, ambiente y justicia sin fragmentar sus consecuencias.",
+      "symbol": "⟷",
+      "visual": {
+        "palette": [
+          "#163c52",
+          "#7a4d64",
+          "#d3ad66"
+        ],
+        "allegory": "Tramas críticas latinoiberoamericanas donde educación, bioética, complejidad, investigación y resistencia se conectan sin un centro único."
+      },
+      "seriesVersion": "3.9",
+      "materializationLevel": "dossier_structurado_v3.9",
+      "shareFooter": "Pregunta guía: ¿Cómo deliberar responsablemente cuando una decisión tecnológica afecta varios niveles de la vida?",
+      "audioVersion": "concise-listening-3.9",
+      "guideTransition": "",
+      "audioLead": "Carlos Jesús Delgado Díaz sitúa este problema entre bioética, complejidad y transformación del saber.",
+      "audioContext": "Cuba, México y redes latinoamericanas",
+      "audioBody": "Una decisión bioética cambia de sentido cuando se reconocen sus interdependencias sociales, tecnológicas, ambientales y planetarias, además de sus efectos inciertos. Ofrece un marco para pensar biotecnología, ambiente y justicia sin fragmentar sus consecuencias. Relacionar múltiples dimensiones no permite posponer indefinidamente las decisiones ni reemplaza la responsabilidad por una descripción general de la complejidad.",
+      "listeningMode": "author_concept_limit_compact",
+      "collectionId": "latin_critical_complexity_referents",
+      "collection": "Referentes latinoiberoamericanos de crítica, complejidad y transmétodo",
+      "collectionOrder": 37,
+      "chronologyRank": 2007.004,
+      "chronologyStageId": "contemporary",
+      "fields": [
+        "ethics_care",
+        "life_ecology",
+        "systems_complexity",
+        "technology_mediation",
+        "society_power"
+      ],
+      "orientations": [
+        "Bioética global",
+        "Complejidad social"
+      ],
+      "connectionIds": [
+        "card_carlos_delgado_bioethics_new_knowledge_001",
+        "card_edgar_morin_earth_homeland_001",
+        "card_nicolescu_transdisciplinarity_001"
+      ],
+      "collectionSequence": 4,
+      "chronologyApproxYear": 2007,
+      "chronologyRole": "documented_intellectual_formulation",
+      "schemaVersion": "2.0",
+      "contentVersion": "3.9.0",
+      "legacyFamily": "Crítica y complejidad latinoiberoamericana",
+      "entryType": "author_program",
+      "dateStart": 2007,
+      "dateEnd": 2021,
+      "datePrecision": "documented_intellectual_period",
+      "dateMetadata": {
+        "startYear": 2007,
+        "endYear": 2021,
+        "precision": "documented_intellectual_period",
+        "display": "Siglo XXI",
+        "calendar": "proleptic_gregorian",
+        "isApproximate": true,
+        "isOpenEnded": false,
+        "note": "Periodo de formulación, publicación y recepción principal del aporte."
+      },
+      "editorialPeriodId": "systems_complexity_transdisciplinarity",
+      "navigationStageId": "contemporary",
+      "visualFamilyId": "latin_critical_complexity",
+      "geography": {
+        "historicalRegionId": "latin_america_contemporary",
+        "historicalRegionLabel": "América Latina contemporánea",
+        "territoryDisplay": "Cuba, México y redes latinoamericanas",
+        "currentTerritories": [
+          "Cuba",
+          "México"
+        ],
+        "coordinates": null,
+        "circulationRegions": [
+          "América Latina",
+          "Iberoamérica"
+        ],
+        "verificationStatus": "editorially_normalized"
+      },
+      "historicalRegion": "América Latina contemporánea",
+      "currentTerritories": [
+        "Cuba",
+        "México"
+      ],
+      "coordinates": null,
+      "originalLanguages": [
+        "Spanish"
+      ],
+      "transliteration": null,
+      "pronunciation": null,
+      "evidenceGrade": "A-B",
+      "evidenceNature": [
+        "primary_or_authoritative_source",
+        "academic_interpretation"
+      ],
+      "controversyStatus": "explicit_caution_included",
+      "sourcesNormalized": [
+        {
+          "title": "Carlos Jesús Delgado Díaz · Para qué sirve la bioética global",
+          "url": "https://carlosjdelgado.org/publicaciones-de-carlos-j-delgado/libros/para-que-sirve-la-bioetica-global/",
+          "sourceType": "author_official_site",
+          "id": "src_6d405f181a3d",
+          "role": "supports_context_and_core_idea",
+          "origin": "pack_cartography_aj_latin_critical_complexity_12_v39",
+          "verificationStatus": "verified_or_curated_url_2026_07_26"
+        },
+        {
+          "title": "Carlos Jesús Delgado Díaz · La complejidad y el nuevo ideal de racionalidad",
+          "url": "https://biblioteca-repositorio.clacso.edu.ar/handle/CLACSO/14716",
+          "sourceType": "institutional_repository",
+          "id": "src_64534b9f3daa",
+          "role": "supports_context_and_core_idea",
+          "origin": "pack_cartography_aj_latin_critical_complexity_12_v39",
+          "verificationStatus": "verified_or_curated_url_2026_07_26"
+        }
+      ],
+      "sourceCompleteness": "explicit_url",
+      "contextHistorical": "La bioética global se formula frente a desafíos donde las decisiones tecnocientíficas desbordan fronteras profesionales y nacionales.",
+      "contribution": "Una decisión bioética cambia de sentido cuando se reconocen sus interdependencias sociales, tecnológicas, ambientales y planetarias, además de sus efectos inciertos.",
+      "conceptsExplained": [
+        "bioética global",
+        "complejidad",
+        "responsabilidad planetaria"
+      ],
+      "worksRelated": [
+        "Para qué sirve la bioética global",
+        "La revolución contemporánea del saber y la complejidad social"
+      ],
+      "verifiedCuriosity": null,
+      "editorialStatus": "published",
+      "reviewStatus": {
+        "content": "reviewed_v3_9",
+        "chronology": "reviewed",
+        "taxonomy": "reviewed",
+        "sources": "explicit_urls",
+        "geography": "editorially_normalized"
+      },
+      "provenanceV2": {
+        "migratedFrom": null,
+        "normalizedAt": "2026-07-26",
+        "normalizationVersion": "3.9.0",
+        "sourcePackId": "pack_cartography_aj_latin_critical_complexity_12_v39",
+        "sourceOrder": 4
+      },
+      "relations": [
+        {
+          "targetId": "card_carlos_delgado_bioethics_new_knowledge_001",
+          "type": "conceptual_connection",
+          "label": "La bioética puede convertirse en un nuevo saber sobre la vida",
+          "evidence": "editorial_or_documented_connection"
+        },
+        {
+          "targetId": "card_edgar_morin_earth_homeland_001",
+          "type": "conceptual_connection",
+          "label": "La Tierra puede pensarse como patria común",
+          "evidence": "editorial_or_documented_connection"
+        },
+        {
+          "targetId": "card_nicolescu_transdisciplinarity_001",
+          "type": "conceptual_connection",
+          "label": "Atravesar disciplinas sin mezclarlas",
+          "evidence": "editorial_or_documented_connection"
+        }
+      ],
+      "entityType": "person",
+      "entityMetadata": {
+        "displayName": "Carlos Jesús Delgado Díaz",
+        "entityType": "person",
+        "originalNames": [],
+        "originalLanguages": [
+          "Spanish"
+        ],
+        "transliteration": null,
+        "pronunciation": null
+      },
+      "questionPhilosophical": "¿Cómo deliberar responsablemente cuando una decisión tecnológica afecta varios niveles de la vida?",
+      "coreIdea": "Una decisión bioética cambia de sentido cuando se reconocen sus interdependencias sociales, tecnológicas, ambientales y planetarias, además de sus efectos inciertos.",
+      "distinctiveContribution": "Ofrece un marco para pensar biotecnología, ambiente y justicia sin fragmentar sus consecuencias.",
+      "historicalContext": "La bioética global se formula frente a desafíos donde las decisiones tecnocientíficas desbordan fronteras profesionales y nacionales.",
+      "regionHistorical": "América Latina contemporánea",
+      "currentTerritory": [
+        "Cuba",
+        "México"
+      ],
+      "relatedWorks": [
+        "Para qué sirve la bioética global",
+        "La revolución contemporánea del saber y la complejidad social"
+      ],
+      "authorizedSymbols": [
+        "⟷"
+      ],
+      "visualSystem": {
+        "familyId": "latin_critical_complexity",
+        "familyLabel": "Crítica y complejidad latinoiberoamericana",
+        "symbol": "⟷",
+        "palette": [
+          "#163c52",
+          "#7a4d64",
+          "#d3ad66"
+        ],
+        "allegory": "Tramas críticas latinoiberoamericanas donde educación, bioética, complejidad, investigación y resistencia se conectan sin un centro único.",
+        "authorizedSymbols": [
+          "⟷"
+        ]
+      },
+      "contentReview": {
+        "status": "published",
+        "version": "3.9.0",
+        "reviewedAt": "2026-07-26",
+        "dimensions": {
+          "content": "reviewed_v3_9",
+          "chronology": "reviewed",
+          "taxonomy": "reviewed",
+          "sources": "explicit_urls",
+          "geography": "editorially_normalized"
+        }
+      },
+      "influences": [],
+      "continuities": [],
+      "critiquesAndBreaks": [],
+      "conceptualResonances": [
+        {
+          "targetId": "card_carlos_delgado_bioethics_new_knowledge_001",
+          "type": "conceptual_connection",
+          "label": "La bioética puede convertirse en un nuevo saber sobre la vida",
+          "evidence": "editorial_or_documented_connection"
+        },
+        {
+          "targetId": "card_edgar_morin_earth_homeland_001",
+          "type": "conceptual_connection",
+          "label": "La Tierra puede pensarse como patria común",
+          "evidence": "editorial_or_documented_connection"
+        },
+        {
+          "targetId": "card_nicolescu_transdisciplinarity_001",
+          "type": "conceptual_connection",
+          "label": "Atravesar disciplinas sin mezclarlas",
+          "evidence": "editorial_or_documented_connection"
+        }
+      ],
+      "sourceIds": [
+        "src_6d405f181a3d",
+        "src_64534b9f3daa"
+      ],
+      "sources": [
+        {
+          "title": "Carlos Jesús Delgado Díaz · Para qué sirve la bioética global",
+          "url": "https://carlosjdelgado.org/publicaciones-de-carlos-j-delgado/libros/para-que-sirve-la-bioetica-global/",
+          "sourceType": "author_official_site",
+          "id": "src_6d405f181a3d",
+          "role": "supports_context_and_core_idea",
+          "origin": "pack_cartography_aj_latin_critical_complexity_12_v39",
+          "verificationStatus": "verified_or_curated_url_2026_07_26"
+        },
+        {
+          "title": "Carlos Jesús Delgado Díaz · La complejidad y el nuevo ideal de racionalidad",
+          "url": "https://biblioteca-repositorio.clacso.edu.ar/handle/CLACSO/14716",
+          "sourceType": "institutional_repository",
+          "id": "src_64534b9f3daa",
+          "role": "supports_context_and_core_idea",
+          "origin": "pack_cartography_aj_latin_critical_complexity_12_v39",
+          "verificationStatus": "verified_or_curated_url_2026_07_26"
+        }
+      ],
+      "disciplinaryRelations": [
+        {
+          "disciplineId": "philosophy",
+          "relationType": "direct_contribution",
+          "relevance": 0.93,
+          "rationale": "Relaciona filosofía con el problema: Una decisión bioética cambia de sentido cuando se reconocen sus interdependencias sociales, tecnológicas, ambientales y planetarias, además de sus efectos inciertos.",
+          "reviewStatus": "explicit_editorial_assignment",
+          "publishable": true
+        },
+        {
+          "disciplineId": "medicine_body",
+          "relationType": "direct_contribution",
+          "relevance": 0.88,
+          "rationale": "Relaciona medicina y cuerpo con el problema: Una decisión bioética cambia de sentido cuando se reconocen sus interdependencias sociales, tecnológicas, ambientales y planetarias, además de sus efectos inciertos.",
+          "reviewStatus": "explicit_editorial_assignment",
+          "publishable": true
+        },
+        {
+          "disciplineId": "technology_knowledge",
+          "relationType": "interdisciplinary_crossing",
+          "relevance": 0.89,
+          "rationale": "Relaciona tecnología y conocimiento con el problema: Una decisión bioética cambia de sentido cuando se reconocen sus interdependencias sociales, tecnológicas, ambientales y planetarias, además de sus efectos inciertos.",
+          "reviewStatus": "explicit_editorial_assignment",
+          "publishable": true
+        },
+        {
+          "disciplineId": "natural_sciences",
+          "relationType": "interdisciplinary_crossing",
+          "relevance": 0.84,
+          "rationale": "Relaciona ciencias naturales con el problema: Una decisión bioética cambia de sentido cuando se reconocen sus interdependencias sociales, tecnológicas, ambientales y planetarias, además de sus efectos inciertos.",
+          "reviewStatus": "explicit_editorial_assignment",
+          "publishable": true
+        },
+        {
+          "disciplineId": "politics_government",
+          "relationType": "shared_problem",
+          "relevance": 0.77,
+          "rationale": "Relaciona política y gobierno con el problema: Una decisión bioética cambia de sentido cuando se reconocen sus interdependencias sociales, tecnológicas, ambientales y planetarias, además de sus efectos inciertos.",
+          "reviewStatus": "explicit_editorial_assignment",
+          "publishable": true
+        }
+      ],
+      "sha256": "2812c83323350e51a2b4d7db930d2e107b7e0b553bde8429f51bf34d5d9a3e3c"
+    },
+    {
+      "id": "card_jose_alonso_andrade_transmethod_rhizome_001",
+      "author": "José Alonso Andrade Salazar",
+      "title": "El transmétodo y el rizoma investigativo abren trayectos sin método único",
+      "territory": "Colombia y redes latinoamericanas de investigación",
+      "period": "Siglo XXI",
+      "family": "Crítica y complejidad latinoiberoamericana",
+      "statement": "El transmétodo articula métodos, saberes y niveles de realidad según el problema; el rizoma investigativo organiza conexiones múltiples sin imponer una secuencia única y rígida.",
+      "tags": [
+        "transmétodo",
+        "rizoma investigativo",
+        "transdisciplinariedad"
+      ],
+      "question": "¿Cómo investigar un problema complejo sin encerrarlo en un solo método ni convertir la apertura en improvisación?",
+      "caution": "La apertura transmetódica no autoriza mezclar técnicas sin justificación; exige coherencia, trazabilidad, reflexividad y adecuación entre problema, decisiones y evidencias.",
+      "connections": [
+        "Violencias y resistencias pueden organizarse de forma lineal y no lineal",
+        "Un rizoma crece por conexiones múltiples sin centro único",
+        "Atravesar disciplinas sin mezclarlas",
+        "Conocimiento participativo y transformador"
+      ],
+      "order": 5,
+      "status": "integrado_v3_9",
+      "evidence": "A-B",
+      "audio": "José Alonso Andrade Salazar propone una lectura investigativa y social desde relaciones, bifurcaciones y transdisciplina. El transmétodo articula métodos, saberes y niveles de realidad según el problema; el rizoma investigativo organiza conexiones múltiples sin imponer una secuencia única y rígida. Propone una arquitectura investigativa inter y transdisciplinaria capaz de reorganizarse durante el proceso. La apertura transmetódica no autoriza mezclar técnicas sin justificación; exige coherencia, trazabilidad, reflexividad y adecuación entre problema, decisiones y evidencias.",
+      "quiz": {
+        "prompt": "¿Cómo investigar un problema complejo sin encerrarlo en un solo método ni convertir la apertura en improvisación?",
+        "options": [
+          "El transmétodo articula métodos, saberes y niveles de realidad según el problema; el rizoma investigativo organiza conexiones múltiples sin imponer una secuencia única y rígida.",
+          "La apertura transmetódica no autoriza mezclar técnicas sin justificación; exige coherencia, trazabilidad, reflexividad y adecuación entre problema, decisiones y evidencias.",
+          "La propuesta elimina la necesidad de contexto y evidencia.",
+          "Todas las tradiciones sostienen exactamente la misma posición."
+        ],
+        "answer": 0,
+        "feedback": "El transmétodo articula métodos, saberes y niveles de realidad según el problema; el rizoma investigativo organiza conexiones múltiples sin imponer una secuencia única y rígida."
+      },
+      "whyItMatters": "Propone una arquitectura investigativa inter y transdisciplinaria capaz de reorganizarse durante el proceso.",
+      "symbol": "⟷",
+      "visual": {
+        "palette": [
+          "#163c52",
+          "#7a4d64",
+          "#d3ad66"
+        ],
+        "allegory": "Tramas críticas latinoiberoamericanas donde educación, bioética, complejidad, investigación y resistencia se conectan sin un centro único."
+      },
+      "seriesVersion": "3.9",
+      "materializationLevel": "dossier_structurado_v3.9",
+      "shareFooter": "Pregunta guía: ¿Cómo investigar un problema complejo sin encerrarlo en un solo método ni convertir la apertura en improvisación?",
+      "audioVersion": "concise-listening-3.9",
+      "guideTransition": "",
+      "audioLead": "José Alonso Andrade Salazar propone una lectura investigativa y social desde relaciones, bifurcaciones y transdisciplina.",
+      "audioContext": "Colombia y redes latinoamericanas de investigación",
+      "audioBody": "El transmétodo articula métodos, saberes y niveles de realidad según el problema; el rizoma investigativo organiza conexiones múltiples sin imponer una secuencia única y rígida. Propone una arquitectura investigativa inter y transdisciplinaria capaz de reorganizarse durante el proceso. La apertura transmetódica no autoriza mezclar técnicas sin justificación; exige coherencia, trazabilidad, reflexividad y adecuación entre problema, decisiones y evidencias.",
+      "listeningMode": "author_concept_limit_compact",
+      "collectionId": "latin_critical_complexity_referents",
+      "collection": "Referentes latinoiberoamericanos de crítica, complejidad y transmétodo",
+      "collectionOrder": 37,
+      "chronologyRank": 2019.005,
+      "chronologyStageId": "contemporary",
+      "fields": [
+        "knowledge_method",
+        "systems_complexity",
+        "education_learning",
+        "decolonial_liberation"
+      ],
+      "orientations": [
+        "Transmétodo",
+        "Rizoma investigativo",
+        "Investigación relacional"
+      ],
+      "connectionIds": [
+        "card_jose_alonso_andrade_violence_resistance_nonlinear_001",
+        "card_deleuze_guattari_rhizome_001",
+        "card_nicolescu_transdisciplinarity_001",
+        "card_falsborda_participatory_action_001"
+      ],
+      "collectionSequence": 5,
+      "chronologyApproxYear": 2019,
+      "chronologyRole": "documented_intellectual_formulation",
+      "schemaVersion": "2.0",
+      "contentVersion": "3.9.0",
+      "legacyFamily": "Crítica y complejidad latinoiberoamericana",
+      "entryType": "author_method",
+      "dateStart": 2019,
+      "dateEnd": 2024,
+      "datePrecision": "documented_intellectual_period",
+      "dateMetadata": {
+        "startYear": 2019,
+        "endYear": 2024,
+        "precision": "documented_intellectual_period",
+        "display": "Siglo XXI",
+        "calendar": "proleptic_gregorian",
+        "isApproximate": true,
+        "isOpenEnded": false,
+        "note": "Periodo de formulación, publicación y recepción principal del aporte."
+      },
+      "editorialPeriodId": "systems_complexity_transdisciplinarity",
+      "navigationStageId": "contemporary",
+      "visualFamilyId": "latin_critical_complexity",
+      "geography": {
+        "historicalRegionId": "latin_america_contemporary",
+        "historicalRegionLabel": "América Latina contemporánea",
+        "territoryDisplay": "Colombia y redes latinoamericanas de investigación",
+        "currentTerritories": [
+          "Colombia"
+        ],
+        "coordinates": null,
+        "circulationRegions": [
+          "América Latina",
+          "Iberoamérica"
+        ],
+        "verificationStatus": "editorially_normalized"
+      },
+      "historicalRegion": "América Latina contemporánea",
+      "currentTerritories": [
+        "Colombia"
+      ],
+      "coordinates": null,
+      "originalLanguages": [
+        "Spanish"
+      ],
+      "transliteration": null,
+      "pronunciation": null,
+      "evidenceGrade": "A-B",
+      "evidenceNature": [
+        "primary_or_authoritative_source",
+        "academic_interpretation"
+      ],
+      "controversyStatus": "explicit_caution_included",
+      "sourcesNormalized": [
+        {
+          "title": "José Alonso Andrade Salazar · Los transmétodos, la complejidad y la investigación inter y transdisciplinaria",
+          "url": "https://gestiones.pe/index.php/revista/article/view/38",
+          "sourceType": "peer_reviewed_article",
+          "id": "src_b5aeb91d3b57",
+          "role": "supports_context_and_core_idea",
+          "origin": "pack_cartography_aj_latin_critical_complexity_12_v39",
+          "verificationStatus": "verified_or_curated_url_2026_07_26"
+        },
+        {
+          "title": "José Alonso Andrade Salazar · Investigación relacional y rizoma investigativo",
+          "url": "https://www.researchgate.net/publication/396845908_Investigacion_relacional_y_rizoma_investigativo_apuntes_para_su_aplicacion_metodologica",
+          "sourceType": "author_uploaded_academic_work",
+          "id": "src_b1e586c925e1",
+          "role": "supports_context_and_core_idea",
+          "origin": "pack_cartography_aj_latin_critical_complexity_12_v39",
+          "verificationStatus": "verified_or_curated_url_2026_07_26"
+        }
+      ],
+      "sourceCompleteness": "explicit_url",
+      "contextHistorical": "La propuesta surge en debates latinoamericanos sobre investigación integrativa, complejidad, transdisciplinariedad y crítica de metodologías lineales.",
+      "contribution": "El transmétodo articula métodos, saberes y niveles de realidad según el problema; el rizoma investigativo organiza conexiones múltiples sin imponer una secuencia única y rígida.",
+      "conceptsExplained": [
+        "transmétodo",
+        "rizoma investigativo",
+        "transdisciplinariedad"
+      ],
+      "worksRelated": [
+        "Los transmétodos, la complejidad y la investigación inter y transdisciplinaria",
+        "Investigación relacional y rizoma investigativo"
+      ],
+      "verifiedCuriosity": null,
+      "editorialStatus": "published",
+      "reviewStatus": {
+        "content": "reviewed_v3_9",
+        "chronology": "reviewed",
+        "taxonomy": "reviewed",
+        "sources": "explicit_urls",
+        "geography": "editorially_normalized"
+      },
+      "provenanceV2": {
+        "migratedFrom": null,
+        "normalizedAt": "2026-07-26",
+        "normalizationVersion": "3.9.0",
+        "sourcePackId": "pack_cartography_aj_latin_critical_complexity_12_v39",
+        "sourceOrder": 5
+      },
+      "relations": [
+        {
+          "targetId": "card_jose_alonso_andrade_violence_resistance_nonlinear_001",
+          "type": "conceptual_connection",
+          "label": "Violencias y resistencias pueden organizarse de forma lineal y no lineal",
+          "evidence": "editorial_or_documented_connection"
+        },
+        {
+          "targetId": "card_deleuze_guattari_rhizome_001",
+          "type": "conceptual_connection",
+          "label": "Un rizoma crece por conexiones múltiples sin centro único",
+          "evidence": "editorial_or_documented_connection"
+        },
+        {
+          "targetId": "card_nicolescu_transdisciplinarity_001",
+          "type": "conceptual_connection",
+          "label": "Atravesar disciplinas sin mezclarlas",
+          "evidence": "editorial_or_documented_connection"
+        },
+        {
+          "targetId": "card_falsborda_participatory_action_001",
+          "type": "conceptual_connection",
+          "label": "Conocimiento participativo y transformador",
+          "evidence": "editorial_or_documented_connection"
+        }
+      ],
+      "entityType": "person",
+      "entityMetadata": {
+        "displayName": "José Alonso Andrade Salazar",
+        "entityType": "person",
+        "originalNames": [],
+        "originalLanguages": [
+          "Spanish"
+        ],
+        "transliteration": null,
+        "pronunciation": null
+      },
+      "questionPhilosophical": "¿Cómo investigar un problema complejo sin encerrarlo en un solo método ni convertir la apertura en improvisación?",
+      "coreIdea": "El transmétodo articula métodos, saberes y niveles de realidad según el problema; el rizoma investigativo organiza conexiones múltiples sin imponer una secuencia única y rígida.",
+      "distinctiveContribution": "Propone una arquitectura investigativa inter y transdisciplinaria capaz de reorganizarse durante el proceso.",
+      "historicalContext": "La propuesta surge en debates latinoamericanos sobre investigación integrativa, complejidad, transdisciplinariedad y crítica de metodologías lineales.",
+      "regionHistorical": "América Latina contemporánea",
+      "currentTerritory": [
+        "Colombia"
+      ],
+      "relatedWorks": [
+        "Los transmétodos, la complejidad y la investigación inter y transdisciplinaria",
+        "Investigación relacional y rizoma investigativo"
+      ],
+      "authorizedSymbols": [
+        "⟷"
+      ],
+      "visualSystem": {
+        "familyId": "latin_critical_complexity",
+        "familyLabel": "Crítica y complejidad latinoiberoamericana",
+        "symbol": "⟷",
+        "palette": [
+          "#163c52",
+          "#7a4d64",
+          "#d3ad66"
+        ],
+        "allegory": "Tramas críticas latinoiberoamericanas donde educación, bioética, complejidad, investigación y resistencia se conectan sin un centro único.",
+        "authorizedSymbols": [
+          "⟷"
+        ]
+      },
+      "contentReview": {
+        "status": "published",
+        "version": "3.9.0",
+        "reviewedAt": "2026-07-26",
+        "dimensions": {
+          "content": "reviewed_v3_9",
+          "chronology": "reviewed",
+          "taxonomy": "reviewed",
+          "sources": "explicit_urls",
+          "geography": "editorially_normalized"
+        }
+      },
+      "influences": [],
+      "continuities": [],
+      "critiquesAndBreaks": [],
+      "conceptualResonances": [
+        {
+          "targetId": "card_jose_alonso_andrade_violence_resistance_nonlinear_001",
+          "type": "conceptual_connection",
+          "label": "Violencias y resistencias pueden organizarse de forma lineal y no lineal",
+          "evidence": "editorial_or_documented_connection"
+        },
+        {
+          "targetId": "card_deleuze_guattari_rhizome_001",
+          "type": "conceptual_connection",
+          "label": "Un rizoma crece por conexiones múltiples sin centro único",
+          "evidence": "editorial_or_documented_connection"
+        },
+        {
+          "targetId": "card_nicolescu_transdisciplinarity_001",
+          "type": "conceptual_connection",
+          "label": "Atravesar disciplinas sin mezclarlas",
+          "evidence": "editorial_or_documented_connection"
+        },
+        {
+          "targetId": "card_falsborda_participatory_action_001",
+          "type": "conceptual_connection",
+          "label": "Conocimiento participativo y transformador",
+          "evidence": "editorial_or_documented_connection"
+        }
+      ],
+      "sourceIds": [
+        "src_b5aeb91d3b57",
+        "src_b1e586c925e1"
+      ],
+      "sources": [
+        {
+          "title": "José Alonso Andrade Salazar · Los transmétodos, la complejidad y la investigación inter y transdisciplinaria",
+          "url": "https://gestiones.pe/index.php/revista/article/view/38",
+          "sourceType": "peer_reviewed_article",
+          "id": "src_b5aeb91d3b57",
+          "role": "supports_context_and_core_idea",
+          "origin": "pack_cartography_aj_latin_critical_complexity_12_v39",
+          "verificationStatus": "verified_or_curated_url_2026_07_26"
+        },
+        {
+          "title": "José Alonso Andrade Salazar · Investigación relacional y rizoma investigativo",
+          "url": "https://www.researchgate.net/publication/396845908_Investigacion_relacional_y_rizoma_investigativo_apuntes_para_su_aplicacion_metodologica",
+          "sourceType": "author_uploaded_academic_work",
+          "id": "src_b1e586c925e1",
+          "role": "supports_context_and_core_idea",
+          "origin": "pack_cartography_aj_latin_critical_complexity_12_v39",
+          "verificationStatus": "verified_or_curated_url_2026_07_26"
+        }
+      ],
+      "disciplinaryRelations": [
+        {
+          "disciplineId": "philosophy",
+          "relationType": "direct_contribution",
+          "relevance": 0.92,
+          "rationale": "Relaciona filosofía con el problema: El transmétodo articula métodos, saberes y niveles de realidad según el problema; el rizoma investigativo organiza conexiones múltiples sin imponer una secuencia única y rígida.",
+          "reviewStatus": "explicit_editorial_assignment",
+          "publishable": true
+        },
+        {
+          "disciplineId": "education_pedagogy",
+          "relationType": "direct_contribution",
+          "relevance": 0.88,
+          "rationale": "Relaciona educación y pedagogía con el problema: El transmétodo articula métodos, saberes y niveles de realidad según el problema; el rizoma investigativo organiza conexiones múltiples sin imponer una secuencia única y rígida.",
+          "reviewStatus": "explicit_editorial_assignment",
+          "publishable": true
+        },
+        {
+          "disciplineId": "sociology_collective",
+          "relationType": "interdisciplinary_crossing",
+          "relevance": 0.84,
+          "rationale": "Relaciona sociología y vida colectiva con el problema: El transmétodo articula métodos, saberes y niveles de realidad según el problema; el rizoma investigativo organiza conexiones múltiples sin imponer una secuencia única y rígida.",
+          "reviewStatus": "explicit_editorial_assignment",
+          "publishable": true
+        },
+        {
+          "disciplineId": "anthropology_cultures",
+          "relationType": "interdisciplinary_crossing",
+          "relevance": 0.82,
+          "rationale": "Relaciona antropología y culturas con el problema: El transmétodo articula métodos, saberes y niveles de realidad según el problema; el rizoma investigativo organiza conexiones múltiples sin imponer una secuencia única y rígida.",
+          "reviewStatus": "explicit_editorial_assignment",
+          "publishable": true
+        },
+        {
+          "disciplineId": "technology_knowledge",
+          "relationType": "shared_problem",
+          "relevance": 0.74,
+          "rationale": "Relaciona tecnología y conocimiento con el problema: El transmétodo articula métodos, saberes y niveles de realidad según el problema; el rizoma investigativo organiza conexiones múltiples sin imponer una secuencia única y rígida.",
+          "reviewStatus": "explicit_editorial_assignment",
+          "publishable": true
+        }
+      ],
+      "sha256": "54fe5ebfd3e71a7f94b2b43e46ce1f44d25019ef0eab57d66c62289f8199ef1a"
+    },
+    {
+      "id": "card_jose_alonso_andrade_violence_resistance_nonlinear_001",
+      "author": "José Alonso Andrade Salazar",
+      "title": "Violencias y resistencias pueden organizarse de forma lineal y no lineal",
+      "territory": "Colombia y América Latina",
+      "period": "Siglo XXI",
+      "family": "Crítica y complejidad latinoiberoamericana",
+      "statement": "La violencia no siempre sigue cadenas previsibles, y la resistencia puede producir bifurcaciones, reorganización y nuevas capacidades colectivas en condiciones alejadas del equilibrio.",
+      "tags": [
+        "violencia no lineal",
+        "resistencia complejatermodinámica",
+        "bifurcación"
+      ],
+      "question": "¿Qué se pierde cuando violencia y resistencia se explican como ciclos homogéneos de causa y efecto?",
+      "caution": "La no linealidad no vuelve inevitable ni deseable la violencia, ni convierte toda protesta en resistencia transformadora; exige analizar poder, contexto, daños y responsabilidades.",
+      "connections": [
+        "El transmétodo y el rizoma investigativo abren trayectos sin método único",
+        "Lejos del equilibrio aparecen nuevas posibilidades",
+        "La colonialidad continúa después del colonialismo"
+      ],
+      "order": 6,
+      "status": "integrado_v3_9",
+      "evidence": "A-B",
+      "audio": "José Alonso Andrade Salazar propone una lectura investigativa y social desde relaciones, bifurcaciones y transdisciplina. La violencia no siempre sigue cadenas previsibles, y la resistencia puede producir bifurcaciones, reorganización y nuevas capacidades colectivas en condiciones alejadas del equilibrio. Permite distinguir respuestas repetitivas de resistencias complejatermodinámicas capaces de reorganizar vínculos y acción colectiva. La no linealidad no vuelve inevitable ni deseable la violencia, ni convierte toda protesta en resistencia transformadora; exige analizar poder, contexto, daños y responsabilidades.",
+      "quiz": {
+        "prompt": "¿Qué se pierde cuando violencia y resistencia se explican como ciclos homogéneos de causa y efecto?",
+        "options": [
+          "La violencia no siempre sigue cadenas previsibles, y la resistencia puede producir bifurcaciones, reorganización y nuevas capacidades colectivas en condiciones alejadas del equilibrio.",
+          "La no linealidad no vuelve inevitable ni deseable la violencia, ni convierte toda protesta en resistencia transformadora; exige analizar poder, contexto, daños y responsabilidades.",
+          "La propuesta elimina la necesidad de contexto y evidencia.",
+          "Todas las tradiciones sostienen exactamente la misma posición."
+        ],
+        "answer": 0,
+        "feedback": "La violencia no siempre sigue cadenas previsibles, y la resistencia puede producir bifurcaciones, reorganización y nuevas capacidades colectivas en condiciones alejadas del equilibrio."
+      },
+      "whyItMatters": "Permite distinguir respuestas repetitivas de resistencias complejatermodinámicas capaces de reorganizar vínculos y acción colectiva.",
+      "symbol": "⟷",
+      "visual": {
+        "palette": [
+          "#163c52",
+          "#7a4d64",
+          "#d3ad66"
+        ],
+        "allegory": "Tramas críticas latinoiberoamericanas donde educación, bioética, complejidad, investigación y resistencia se conectan sin un centro único."
+      },
+      "seriesVersion": "3.9",
+      "materializationLevel": "dossier_structurado_v3.9",
+      "shareFooter": "Pregunta guía: ¿Qué se pierde cuando violencia y resistencia se explican como ciclos homogéneos de causa y efecto?",
+      "audioVersion": "concise-listening-3.9",
+      "guideTransition": "",
+      "audioLead": "José Alonso Andrade Salazar propone una lectura investigativa y social desde relaciones, bifurcaciones y transdisciplina.",
+      "audioContext": "Colombia y América Latina",
+      "audioBody": "La violencia no siempre sigue cadenas previsibles, y la resistencia puede producir bifurcaciones, reorganización y nuevas capacidades colectivas en condiciones alejadas del equilibrio. Permite distinguir respuestas repetitivas de resistencias complejatermodinámicas capaces de reorganizar vínculos y acción colectiva. La no linealidad no vuelve inevitable ni deseable la violencia, ni convierte toda protesta en resistencia transformadora; exige analizar poder, contexto, daños y responsabilidades.",
+      "listeningMode": "author_concept_limit_compact",
+      "collectionId": "latin_critical_complexity_referents",
+      "collection": "Referentes latinoiberoamericanos de crítica, complejidad y transmétodo",
+      "collectionOrder": 37,
+      "chronologyRank": 2018.006,
+      "chronologyStageId": "contemporary",
+      "fields": [
+        "society_power",
+        "systems_complexity",
+        "decolonial_liberation",
+        "ethics_care"
+      ],
+      "orientations": [
+        "Complejidad social",
+        "Pensamiento decolonial",
+        "Estudios de violencia y resistencia"
+      ],
+      "connectionIds": [
+        "card_jose_alonso_andrade_transmethod_rhizome_001",
+        "card_ilya_prigogine_far_equilibrium_001",
+        "card_t_anbal_quijano_coloniality_power_001"
+      ],
+      "collectionSequence": 6,
+      "chronologyApproxYear": 2018,
+      "chronologyRole": "documented_intellectual_formulation",
+      "schemaVersion": "2.0",
+      "contentVersion": "3.9.0",
+      "legacyFamily": "Crítica y complejidad latinoiberoamericana",
+      "entryType": "author_problem",
+      "dateStart": 2018,
+      "dateEnd": 2023,
+      "datePrecision": "documented_intellectual_period",
+      "dateMetadata": {
+        "startYear": 2018,
+        "endYear": 2023,
+        "precision": "documented_intellectual_period",
+        "display": "Siglo XXI",
+        "calendar": "proleptic_gregorian",
+        "isApproximate": true,
+        "isOpenEnded": false,
+        "note": "Periodo de formulación, publicación y recepción principal del aporte."
+      },
+      "editorialPeriodId": "decolonial_emergent_algorithmic",
+      "navigationStageId": "contemporary",
+      "visualFamilyId": "latin_critical_complexity",
+      "geography": {
+        "historicalRegionId": "latin_america_contemporary",
+        "historicalRegionLabel": "América Latina contemporánea",
+        "territoryDisplay": "Colombia y América Latina",
+        "currentTerritories": [
+          "Colombia"
+        ],
+        "coordinates": null,
+        "circulationRegions": [
+          "América Latina",
+          "Iberoamérica"
+        ],
+        "verificationStatus": "editorially_normalized"
+      },
+      "historicalRegion": "América Latina contemporánea",
+      "currentTerritories": [
+        "Colombia"
+      ],
+      "coordinates": null,
+      "originalLanguages": [
+        "Spanish"
+      ],
+      "transliteration": null,
+      "pronunciation": null,
+      "evidenceGrade": "A-B",
+      "evidenceNature": [
+        "primary_or_authoritative_source",
+        "academic_interpretation"
+      ],
+      "controversyStatus": "explicit_caution_included",
+      "sourcesNormalized": [
+        {
+          "title": "José Alonso Andrade Salazar · Violencia lineal, complejidad y decolonialidad",
+          "url": "https://doi.org/10.36314/revistavida.v4i1.15",
+          "sourceType": "peer_reviewed_article",
+          "id": "src_ddaea19705f5",
+          "role": "supports_context_and_core_idea",
+          "origin": "pack_cartography_aj_latin_critical_complexity_12_v39",
+          "verificationStatus": "verified_or_curated_url_2026_07_26"
+        },
+        {
+          "title": "José Alonso Andrade Salazar · La resistencia social como resistencia complejatermodinámica",
+          "url": "https://www.ojs.kavilando.org/index.php/kavilando/article/view/392",
+          "sourceType": "peer_reviewed_article",
+          "id": "src_b63b5faa9ca8",
+          "role": "supports_context_and_core_idea",
+          "origin": "pack_cartography_aj_latin_critical_complexity_12_v39",
+          "verificationStatus": "verified_or_curated_url_2026_07_26"
+        }
+      ],
+      "sourceCompleteness": "explicit_url",
+      "contextHistorical": "La formulación responde a la historia colombiana de violencias, resistencias y paz, y dialoga con pensamiento complejo, termodinámica de no equilibrio y crítica decolonial.",
+      "contribution": "La violencia no siempre sigue cadenas previsibles, y la resistencia puede producir bifurcaciones, reorganización y nuevas capacidades colectivas en condiciones alejadas del equilibrio.",
+      "conceptsExplained": [
+        "violencia no lineal",
+        "resistencia complejatermodinámica",
+        "bifurcación"
+      ],
+      "worksRelated": [
+        "¿Es la violencia lineal?",
+        "La resistencia social como resistencia complejatermodinámica"
+      ],
+      "verifiedCuriosity": null,
+      "editorialStatus": "published",
+      "reviewStatus": {
+        "content": "reviewed_v3_9",
+        "chronology": "reviewed",
+        "taxonomy": "reviewed",
+        "sources": "explicit_urls",
+        "geography": "editorially_normalized"
+      },
+      "provenanceV2": {
+        "migratedFrom": null,
+        "normalizedAt": "2026-07-26",
+        "normalizationVersion": "3.9.0",
+        "sourcePackId": "pack_cartography_aj_latin_critical_complexity_12_v39",
+        "sourceOrder": 6
+      },
+      "relations": [
+        {
+          "targetId": "card_jose_alonso_andrade_transmethod_rhizome_001",
+          "type": "conceptual_connection",
+          "label": "El transmétodo y el rizoma investigativo abren trayectos sin método único",
+          "evidence": "editorial_or_documented_connection"
+        },
+        {
+          "targetId": "card_ilya_prigogine_far_equilibrium_001",
+          "type": "conceptual_connection",
+          "label": "Lejos del equilibrio aparecen nuevas posibilidades",
+          "evidence": "editorial_or_documented_connection"
+        },
+        {
+          "targetId": "card_t_anbal_quijano_coloniality_power_001",
+          "type": "conceptual_connection",
+          "label": "La colonialidad continúa después del colonialismo",
+          "evidence": "editorial_or_documented_connection"
+        }
+      ],
+      "entityType": "person",
+      "entityMetadata": {
+        "displayName": "José Alonso Andrade Salazar",
+        "entityType": "person",
+        "originalNames": [],
+        "originalLanguages": [
+          "Spanish"
+        ],
+        "transliteration": null,
+        "pronunciation": null
+      },
+      "questionPhilosophical": "¿Qué se pierde cuando violencia y resistencia se explican como ciclos homogéneos de causa y efecto?",
+      "coreIdea": "La violencia no siempre sigue cadenas previsibles, y la resistencia puede producir bifurcaciones, reorganización y nuevas capacidades colectivas en condiciones alejadas del equilibrio.",
+      "distinctiveContribution": "Permite distinguir respuestas repetitivas de resistencias complejatermodinámicas capaces de reorganizar vínculos y acción colectiva.",
+      "historicalContext": "La formulación responde a la historia colombiana de violencias, resistencias y paz, y dialoga con pensamiento complejo, termodinámica de no equilibrio y crítica decolonial.",
+      "regionHistorical": "América Latina contemporánea",
+      "currentTerritory": [
+        "Colombia"
+      ],
+      "relatedWorks": [
+        "¿Es la violencia lineal?",
+        "La resistencia social como resistencia complejatermodinámica"
+      ],
+      "authorizedSymbols": [
+        "⟷"
+      ],
+      "visualSystem": {
+        "familyId": "latin_critical_complexity",
+        "familyLabel": "Crítica y complejidad latinoiberoamericana",
+        "symbol": "⟷",
+        "palette": [
+          "#163c52",
+          "#7a4d64",
+          "#d3ad66"
+        ],
+        "allegory": "Tramas críticas latinoiberoamericanas donde educación, bioética, complejidad, investigación y resistencia se conectan sin un centro único.",
+        "authorizedSymbols": [
+          "⟷"
+        ]
+      },
+      "contentReview": {
+        "status": "published",
+        "version": "3.9.0",
+        "reviewedAt": "2026-07-26",
+        "dimensions": {
+          "content": "reviewed_v3_9",
+          "chronology": "reviewed",
+          "taxonomy": "reviewed",
+          "sources": "explicit_urls",
+          "geography": "editorially_normalized"
+        }
+      },
+      "influences": [],
+      "continuities": [],
+      "critiquesAndBreaks": [],
+      "conceptualResonances": [
+        {
+          "targetId": "card_jose_alonso_andrade_transmethod_rhizome_001",
+          "type": "conceptual_connection",
+          "label": "El transmétodo y el rizoma investigativo abren trayectos sin método único",
+          "evidence": "editorial_or_documented_connection"
+        },
+        {
+          "targetId": "card_ilya_prigogine_far_equilibrium_001",
+          "type": "conceptual_connection",
+          "label": "Lejos del equilibrio aparecen nuevas posibilidades",
+          "evidence": "editorial_or_documented_connection"
+        },
+        {
+          "targetId": "card_t_anbal_quijano_coloniality_power_001",
+          "type": "conceptual_connection",
+          "label": "La colonialidad continúa después del colonialismo",
+          "evidence": "editorial_or_documented_connection"
+        }
+      ],
+      "sourceIds": [
+        "src_ddaea19705f5",
+        "src_b63b5faa9ca8"
+      ],
+      "sources": [
+        {
+          "title": "José Alonso Andrade Salazar · Violencia lineal, complejidad y decolonialidad",
+          "url": "https://doi.org/10.36314/revistavida.v4i1.15",
+          "sourceType": "peer_reviewed_article",
+          "id": "src_ddaea19705f5",
+          "role": "supports_context_and_core_idea",
+          "origin": "pack_cartography_aj_latin_critical_complexity_12_v39",
+          "verificationStatus": "verified_or_curated_url_2026_07_26"
+        },
+        {
+          "title": "José Alonso Andrade Salazar · La resistencia social como resistencia complejatermodinámica",
+          "url": "https://www.ojs.kavilando.org/index.php/kavilando/article/view/392",
+          "sourceType": "peer_reviewed_article",
+          "id": "src_b63b5faa9ca8",
+          "role": "supports_context_and_core_idea",
+          "origin": "pack_cartography_aj_latin_critical_complexity_12_v39",
+          "verificationStatus": "verified_or_curated_url_2026_07_26"
+        }
+      ],
+      "disciplinaryRelations": [
+        {
+          "disciplineId": "sociology_collective",
+          "relationType": "direct_contribution",
+          "relevance": 0.94,
+          "rationale": "Relaciona sociología y vida colectiva con el problema: La violencia no siempre sigue cadenas previsibles, y la resistencia puede producir bifurcaciones, reorganización y nuevas capacidades colectivas en condiciones alejadas del equilibrio.",
+          "reviewStatus": "explicit_editorial_assignment",
+          "publishable": true
+        },
+        {
+          "disciplineId": "politics_government",
+          "relationType": "direct_contribution",
+          "relevance": 0.9,
+          "rationale": "Relaciona política y gobierno con el problema: La violencia no siempre sigue cadenas previsibles, y la resistencia puede producir bifurcaciones, reorganización y nuevas capacidades colectivas en condiciones alejadas del equilibrio.",
+          "reviewStatus": "explicit_editorial_assignment",
+          "publishable": true
+        },
+        {
+          "disciplineId": "law_justice",
+          "relationType": "shared_problem",
+          "relevance": 0.82,
+          "rationale": "Relaciona derecho y justicia con el problema: La violencia no siempre sigue cadenas previsibles, y la resistencia puede producir bifurcaciones, reorganización y nuevas capacidades colectivas en condiciones alejadas del equilibrio.",
+          "reviewStatus": "explicit_editorial_assignment",
+          "publishable": true
+        },
+        {
+          "disciplineId": "psychology_subjectivity",
+          "relationType": "interdisciplinary_crossing",
+          "relevance": 0.8,
+          "rationale": "Relaciona psicología y subjetividad con el problema: La violencia no siempre sigue cadenas previsibles, y la resistencia puede producir bifurcaciones, reorganización y nuevas capacidades colectivas en condiciones alejadas del equilibrio.",
+          "reviewStatus": "explicit_editorial_assignment",
+          "publishable": true
+        },
+        {
+          "disciplineId": "philosophy",
+          "relationType": "direct_contribution",
+          "relevance": 0.88,
+          "rationale": "Relaciona filosofía con el problema: La violencia no siempre sigue cadenas previsibles, y la resistencia puede producir bifurcaciones, reorganización y nuevas capacidades colectivas en condiciones alejadas del equilibrio.",
+          "reviewStatus": "explicit_editorial_assignment",
+          "publishable": true
+        }
+      ],
+      "sha256": "0edc3b8caf8d59f50944cf8cfecd0239cb1acd6249534b79d80fa813539c2f7b"
+    },
+    {
+      "id": "card_roberto_rivera_negentropic_model_001",
+      "author": "Roberto Rivera Pérez",
+      "title": "El modelo neguentrópico piensa evolución y sociedad como organización abierta",
+      "territory": "México y redes latinoamericanas de complejidad",
+      "period": "Siglo XXI",
+      "family": "Crítica y complejidad latinoiberoamericana",
+      "statement": "La neguentropía permite analizar cómo sistemas humanos abiertos sostienen organización mediante intercambios de energía, información y recursos en procesos evolutivos no lineales.",
+      "tags": [
+        "modelo neguentrópico",
+        "evolución humana",
+        "sistemas abiertos"
+      ],
+      "question": "¿Cómo cambia la explicación de la evolución humana cuando se estudia también la producción de organización?",
+      "caution": "Neguentropía no significa inversión mágica de la segunda ley ni progreso inevitable; es una herramienta para estudiar organización local en sistemas abiertos.",
+      "connections": [
+        "Los modelos sociales no lineales incorporan incertidumbre y caoticidad",
+        "Orden lejos del equilibrio",
+        "El devenir no es una apariencia secundaria"
+      ],
+      "order": 7,
+      "status": "integrado_v3_9",
+      "evidence": "A-B",
+      "audio": "Roberto Rivera Pérez enlaza antropología y procesos irreversibles para estudiar organización y cambio. La neguentropía permite analizar cómo sistemas humanos abiertos sostienen organización mediante intercambios de energía, información y recursos en procesos evolutivos no lineales. Construye un diálogo entre antropología, termodinámica irreversible y teorías de la complejidad. Neguentropía no significa inversión mágica de la segunda ley ni progreso inevitable; es una herramienta para estudiar organización local en sistemas abiertos.",
+      "quiz": {
+        "prompt": "¿Cómo cambia la explicación de la evolución humana cuando se estudia también la producción de organización?",
+        "options": [
+          "La neguentropía permite analizar cómo sistemas humanos abiertos sostienen organización mediante intercambios de energía, información y recursos en procesos evolutivos no lineales.",
+          "Neguentropía no significa inversión mágica de la segunda ley ni progreso inevitable; es una herramienta para estudiar organización local en sistemas abiertos.",
+          "La propuesta elimina la necesidad de contexto y evidencia.",
+          "Todas las tradiciones sostienen exactamente la misma posición."
+        ],
+        "answer": 0,
+        "feedback": "La neguentropía permite analizar cómo sistemas humanos abiertos sostienen organización mediante intercambios de energía, información y recursos en procesos evolutivos no lineales."
+      },
+      "whyItMatters": "Construye un diálogo entre antropología, termodinámica irreversible y teorías de la complejidad.",
+      "symbol": "⟷",
+      "visual": {
+        "palette": [
+          "#163c52",
+          "#7a4d64",
+          "#d3ad66"
+        ],
+        "allegory": "Tramas críticas latinoiberoamericanas donde educación, bioética, complejidad, investigación y resistencia se conectan sin un centro único."
+      },
+      "seriesVersion": "3.9",
+      "materializationLevel": "dossier_structurado_v3.9",
+      "shareFooter": "Pregunta guía: ¿Cómo cambia la explicación de la evolución humana cuando se estudia también la producción de organización?",
+      "audioVersion": "concise-listening-3.9",
+      "guideTransition": "",
+      "audioLead": "Roberto Rivera Pérez enlaza antropología y procesos irreversibles para estudiar organización y cambio.",
+      "audioContext": "México y redes latinoamericanas de complejidad",
+      "audioBody": "La neguentropía permite analizar cómo sistemas humanos abiertos sostienen organización mediante intercambios de energía, información y recursos en procesos evolutivos no lineales. Construye un diálogo entre antropología, termodinámica irreversible y teorías de la complejidad. Neguentropía no significa inversión mágica de la segunda ley ni progreso inevitable; es una herramienta para estudiar organización local en sistemas abiertos.",
+      "listeningMode": "author_concept_limit_compact",
+      "collectionId": "latin_critical_complexity_referents",
+      "collection": "Referentes latinoiberoamericanos de crítica, complejidad y transmétodo",
+      "collectionOrder": 37,
+      "chronologyRank": 2018.007,
+      "chronologyStageId": "contemporary",
+      "fields": [
+        "systems_complexity",
+        "cosmos_reality",
+        "life_ecology",
+        "society_power"
+      ],
+      "orientations": [
+        "Antropología compleja",
+        "Termodinámica social"
+      ],
+      "connectionIds": [
+        "card_roberto_rivera_nonlinear_social_models_001",
+        "card_prigogine_dissipative_structures_001",
+        "card_ilya_prigogine_time_becoming_001"
+      ],
+      "collectionSequence": 7,
+      "chronologyApproxYear": 2018,
+      "chronologyRole": "documented_intellectual_formulation",
+      "schemaVersion": "2.0",
+      "contentVersion": "3.9.0",
+      "legacyFamily": "Crítica y complejidad latinoiberoamericana",
+      "entryType": "author_concept",
+      "dateStart": 2018,
+      "dateEnd": 2020,
+      "datePrecision": "documented_intellectual_period",
+      "dateMetadata": {
+        "startYear": 2018,
+        "endYear": 2020,
+        "precision": "documented_intellectual_period",
+        "display": "Siglo XXI",
+        "calendar": "proleptic_gregorian",
+        "isApproximate": true,
+        "isOpenEnded": false,
+        "note": "Periodo de formulación, publicación y recepción principal del aporte."
+      },
+      "editorialPeriodId": "systems_complexity_transdisciplinarity",
+      "navigationStageId": "contemporary",
+      "visualFamilyId": "latin_critical_complexity",
+      "geography": {
+        "historicalRegionId": "latin_america_contemporary",
+        "historicalRegionLabel": "América Latina contemporánea",
+        "territoryDisplay": "México y redes latinoamericanas de complejidad",
+        "currentTerritories": [
+          "México"
+        ],
+        "coordinates": null,
+        "circulationRegions": [
+          "América Latina",
+          "Iberoamérica"
+        ],
+        "verificationStatus": "editorially_normalized"
+      },
+      "historicalRegion": "América Latina contemporánea",
+      "currentTerritories": [
+        "México"
+      ],
+      "coordinates": null,
+      "originalLanguages": [
+        "Spanish"
+      ],
+      "transliteration": null,
+      "pronunciation": null,
+      "evidenceGrade": "A-B",
+      "evidenceNature": [
+        "primary_or_authoritative_source",
+        "academic_interpretation"
+      ],
+      "controversyStatus": "explicit_caution_included",
+      "sourcesNormalized": [
+        {
+          "title": "Roberto Rivera Pérez · La neguentropía en el proceso de la evolución humana",
+          "url": "https://www.researchgate.net/publication/368329914_La_neguentropia_en_el_proceso_de_la_evolucion_humana",
+          "sourceType": "author_uploaded_academic_chapter",
+          "id": "src_f9fc902bdab2",
+          "role": "supports_context_and_core_idea",
+          "origin": "pack_cartography_aj_latin_critical_complexity_12_v39",
+          "verificationStatus": "verified_or_curated_url_2026_07_26"
+        }
+      ],
+      "sourceCompleteness": "explicit_url",
+      "contextHistorical": "Rivera Pérez trabaja en la convergencia entre antropología social y física de procesos irreversibles para discutir evolución, organización y supervivencia humana.",
+      "contribution": "La neguentropía permite analizar cómo sistemas humanos abiertos sostienen organización mediante intercambios de energía, información y recursos en procesos evolutivos no lineales.",
+      "conceptsExplained": [
+        "modelo neguentrópico",
+        "evolución humana",
+        "sistemas abiertos"
+      ],
+      "worksRelated": [
+        "La neguentropía en el proceso de la evolución humana",
+        "Manifestación del Orden-Rey en la evolución humana"
+      ],
+      "verifiedCuriosity": null,
+      "editorialStatus": "published",
+      "reviewStatus": {
+        "content": "reviewed_v3_9",
+        "chronology": "reviewed",
+        "taxonomy": "reviewed",
+        "sources": "explicit_urls",
+        "geography": "editorially_normalized"
+      },
+      "provenanceV2": {
+        "migratedFrom": null,
+        "normalizedAt": "2026-07-26",
+        "normalizationVersion": "3.9.0",
+        "sourcePackId": "pack_cartography_aj_latin_critical_complexity_12_v39",
+        "sourceOrder": 7
+      },
+      "relations": [
+        {
+          "targetId": "card_roberto_rivera_nonlinear_social_models_001",
+          "type": "conceptual_connection",
+          "label": "Los modelos sociales no lineales incorporan incertidumbre y caoticidad",
+          "evidence": "editorial_or_documented_connection"
+        },
+        {
+          "targetId": "card_prigogine_dissipative_structures_001",
+          "type": "conceptual_connection",
+          "label": "Orden lejos del equilibrio",
+          "evidence": "editorial_or_documented_connection"
+        },
+        {
+          "targetId": "card_ilya_prigogine_time_becoming_001",
+          "type": "conceptual_connection",
+          "label": "El devenir no es una apariencia secundaria",
+          "evidence": "editorial_or_documented_connection"
+        }
+      ],
+      "entityType": "person",
+      "entityMetadata": {
+        "displayName": "Roberto Rivera Pérez",
+        "entityType": "person",
+        "originalNames": [],
+        "originalLanguages": [
+          "Spanish"
+        ],
+        "transliteration": null,
+        "pronunciation": null
+      },
+      "questionPhilosophical": "¿Cómo cambia la explicación de la evolución humana cuando se estudia también la producción de organización?",
+      "coreIdea": "La neguentropía permite analizar cómo sistemas humanos abiertos sostienen organización mediante intercambios de energía, información y recursos en procesos evolutivos no lineales.",
+      "distinctiveContribution": "Construye un diálogo entre antropología, termodinámica irreversible y teorías de la complejidad.",
+      "historicalContext": "Rivera Pérez trabaja en la convergencia entre antropología social y física de procesos irreversibles para discutir evolución, organización y supervivencia humana.",
+      "regionHistorical": "América Latina contemporánea",
+      "currentTerritory": [
+        "México"
+      ],
+      "relatedWorks": [
+        "La neguentropía en el proceso de la evolución humana",
+        "Manifestación del Orden-Rey en la evolución humana"
+      ],
+      "authorizedSymbols": [
+        "⟷"
+      ],
+      "visualSystem": {
+        "familyId": "latin_critical_complexity",
+        "familyLabel": "Crítica y complejidad latinoiberoamericana",
+        "symbol": "⟷",
+        "palette": [
+          "#163c52",
+          "#7a4d64",
+          "#d3ad66"
+        ],
+        "allegory": "Tramas críticas latinoiberoamericanas donde educación, bioética, complejidad, investigación y resistencia se conectan sin un centro único.",
+        "authorizedSymbols": [
+          "⟷"
+        ]
+      },
+      "contentReview": {
+        "status": "published",
+        "version": "3.9.0",
+        "reviewedAt": "2026-07-26",
+        "dimensions": {
+          "content": "reviewed_v3_9",
+          "chronology": "reviewed",
+          "taxonomy": "reviewed",
+          "sources": "explicit_urls",
+          "geography": "editorially_normalized"
+        }
+      },
+      "influences": [],
+      "continuities": [],
+      "critiquesAndBreaks": [],
+      "conceptualResonances": [
+        {
+          "targetId": "card_roberto_rivera_nonlinear_social_models_001",
+          "type": "conceptual_connection",
+          "label": "Los modelos sociales no lineales incorporan incertidumbre y caoticidad",
+          "evidence": "editorial_or_documented_connection"
+        },
+        {
+          "targetId": "card_prigogine_dissipative_structures_001",
+          "type": "conceptual_connection",
+          "label": "Orden lejos del equilibrio",
+          "evidence": "editorial_or_documented_connection"
+        },
+        {
+          "targetId": "card_ilya_prigogine_time_becoming_001",
+          "type": "conceptual_connection",
+          "label": "El devenir no es una apariencia secundaria",
+          "evidence": "editorial_or_documented_connection"
+        }
+      ],
+      "sourceIds": [
+        "src_f9fc902bdab2"
+      ],
+      "sources": [
+        {
+          "title": "Roberto Rivera Pérez · La neguentropía en el proceso de la evolución humana",
+          "url": "https://www.researchgate.net/publication/368329914_La_neguentropia_en_el_proceso_de_la_evolucion_humana",
+          "sourceType": "author_uploaded_academic_chapter",
+          "id": "src_f9fc902bdab2",
+          "role": "supports_context_and_core_idea",
+          "origin": "pack_cartography_aj_latin_critical_complexity_12_v39",
+          "verificationStatus": "verified_or_curated_url_2026_07_26"
+        }
+      ],
+      "disciplinaryRelations": [
+        {
+          "disciplineId": "anthropology_cultures",
+          "relationType": "direct_contribution",
+          "relevance": 0.94,
+          "rationale": "Relaciona antropología y culturas con el problema: La neguentropía permite analizar cómo sistemas humanos abiertos sostienen organización mediante intercambios de energía, información y recursos en procesos evolutivos no lineales.",
+          "reviewStatus": "explicit_editorial_assignment",
+          "publishable": true
+        },
+        {
+          "disciplineId": "sociology_collective",
+          "relationType": "interdisciplinary_crossing",
+          "relevance": 0.84,
+          "rationale": "Relaciona sociología y vida colectiva con el problema: La neguentropía permite analizar cómo sistemas humanos abiertos sostienen organización mediante intercambios de energía, información y recursos en procesos evolutivos no lineales.",
+          "reviewStatus": "explicit_editorial_assignment",
+          "publishable": true
+        },
+        {
+          "disciplineId": "natural_sciences",
+          "relationType": "interdisciplinary_crossing",
+          "relevance": 0.86,
+          "rationale": "Relaciona ciencias naturales con el problema: La neguentropía permite analizar cómo sistemas humanos abiertos sostienen organización mediante intercambios de energía, información y recursos en procesos evolutivos no lineales.",
+          "reviewStatus": "explicit_editorial_assignment",
+          "publishable": true
+        },
+        {
+          "disciplineId": "philosophy",
+          "relationType": "direct_contribution",
+          "relevance": 0.85,
+          "rationale": "Relaciona filosofía con el problema: La neguentropía permite analizar cómo sistemas humanos abiertos sostienen organización mediante intercambios de energía, información y recursos en procesos evolutivos no lineales.",
+          "reviewStatus": "explicit_editorial_assignment",
+          "publishable": true
+        }
+      ],
+      "sha256": "3e82bc4cd17beb6244b98f8b24007670ec45915fa77af5119f3d8b8a7bce0e45"
+    },
+    {
+      "id": "card_roberto_rivera_nonlinear_social_models_001",
+      "author": "Roberto Rivera Pérez",
+      "title": "Los modelos sociales no lineales incorporan incertidumbre y caoticidad",
+      "territory": "México y América Latina",
+      "period": "Siglo XXI",
+      "family": "Crítica y complejidad latinoiberoamericana",
+      "statement": "Investigar procesos sociales no lineales exige atender emergencias, retroacciones y cambios de trayectoria que los modelos deterministas y parcializadores tienden a ocultar.",
+      "tags": [
+        "modelos no lineales",
+        "incertidumbre",
+        "investigación social"
+      ],
+      "question": "¿Cuándo un modelo lineal deja de ser suficiente para comprender un proceso social?",
+      "caution": "No linealidad no equivale a ausencia de patrones ni a renunciar a la explicación; requiere modelos adecuados, evidencia y delimitación de escalas.",
+      "connections": [
+        "El modelo neguentrópico piensa evolución y sociedad como organización abierta",
+        "Distinguir sin separar",
+        "Conocimiento participativo y transformador"
+      ],
+      "order": 8,
+      "status": "integrado_v3_9",
+      "evidence": "A-B",
+      "audio": "Roberto Rivera Pérez enlaza antropología y procesos irreversibles para estudiar organización y cambio. Investigar procesos sociales no lineales exige atender emergencias, retroacciones y cambios de trayectoria que los modelos deterministas y parcializadores tienden a ocultar. Ayuda a tender puentes entre ciencias sociales, antropología y ciencias de la complejidad sin reducir un campo al otro. No linealidad no equivale a ausencia de patrones ni a renunciar a la explicación; requiere modelos adecuados, evidencia y delimitación de escalas.",
+      "quiz": {
+        "prompt": "¿Cuándo un modelo lineal deja de ser suficiente para comprender un proceso social?",
+        "options": [
+          "Investigar procesos sociales no lineales exige atender emergencias, retroacciones y cambios de trayectoria que los modelos deterministas y parcializadores tienden a ocultar.",
+          "No linealidad no equivale a ausencia de patrones ni a renunciar a la explicación; requiere modelos adecuados, evidencia y delimitación de escalas.",
+          "La propuesta elimina la necesidad de contexto y evidencia.",
+          "Todas las tradiciones sostienen exactamente la misma posición."
+        ],
+        "answer": 0,
+        "feedback": "Investigar procesos sociales no lineales exige atender emergencias, retroacciones y cambios de trayectoria que los modelos deterministas y parcializadores tienden a ocultar."
+      },
+      "whyItMatters": "Ayuda a tender puentes entre ciencias sociales, antropología y ciencias de la complejidad sin reducir un campo al otro.",
+      "symbol": "⟷",
+      "visual": {
+        "palette": [
+          "#163c52",
+          "#7a4d64",
+          "#d3ad66"
+        ],
+        "allegory": "Tramas críticas latinoiberoamericanas donde educación, bioética, complejidad, investigación y resistencia se conectan sin un centro único."
+      },
+      "seriesVersion": "3.9",
+      "materializationLevel": "dossier_structurado_v3.9",
+      "shareFooter": "Pregunta guía: ¿Cuándo un modelo lineal deja de ser suficiente para comprender un proceso social?",
+      "audioVersion": "concise-listening-3.9",
+      "guideTransition": "",
+      "audioLead": "Roberto Rivera Pérez enlaza antropología y procesos irreversibles para estudiar organización y cambio.",
+      "audioContext": "México y América Latina",
+      "audioBody": "Investigar procesos sociales no lineales exige atender emergencias, retroacciones y cambios de trayectoria que los modelos deterministas y parcializadores tienden a ocultar. Ayuda a tender puentes entre ciencias sociales, antropología y ciencias de la complejidad sin reducir un campo al otro. No linealidad no equivale a ausencia de patrones ni a renunciar a la explicación; requiere modelos adecuados, evidencia y delimitación de escalas.",
+      "listeningMode": "author_concept_limit_compact",
+      "collectionId": "latin_critical_complexity_referents",
+      "collection": "Referentes latinoiberoamericanos de crítica, complejidad y transmétodo",
+      "collectionOrder": 37,
+      "chronologyRank": 2021.008,
+      "chronologyStageId": "contemporary",
+      "fields": [
+        "knowledge_method",
+        "systems_complexity",
+        "society_power"
+      ],
+      "orientations": [
+        "Investigación social no lineal",
+        "Antropología compleja"
+      ],
+      "connectionIds": [
+        "card_roberto_rivera_negentropic_model_001",
+        "card_morin_reform_thought_001",
+        "card_falsborda_participatory_action_001"
+      ],
+      "collectionSequence": 8,
+      "chronologyApproxYear": 2021,
+      "chronologyRole": "documented_intellectual_formulation",
+      "schemaVersion": "2.0",
+      "contentVersion": "3.9.0",
+      "legacyFamily": "Crítica y complejidad latinoiberoamericana",
+      "entryType": "author_method",
+      "dateStart": 2021,
+      "dateEnd": 2023,
+      "datePrecision": "documented_intellectual_period",
+      "dateMetadata": {
+        "startYear": 2021,
+        "endYear": 2023,
+        "precision": "documented_intellectual_period",
+        "display": "Siglo XXI",
+        "calendar": "proleptic_gregorian",
+        "isApproximate": true,
+        "isOpenEnded": false,
+        "note": "Periodo de formulación, publicación y recepción principal del aporte."
+      },
+      "editorialPeriodId": "systems_complexity_transdisciplinarity",
+      "navigationStageId": "contemporary",
+      "visualFamilyId": "latin_critical_complexity",
+      "geography": {
+        "historicalRegionId": "latin_america_contemporary",
+        "historicalRegionLabel": "América Latina contemporánea",
+        "territoryDisplay": "México y América Latina",
+        "currentTerritories": [
+          "México"
+        ],
+        "coordinates": null,
+        "circulationRegions": [
+          "América Latina",
+          "Iberoamérica"
+        ],
+        "verificationStatus": "editorially_normalized"
+      },
+      "historicalRegion": "América Latina contemporánea",
+      "currentTerritories": [
+        "México"
+      ],
+      "coordinates": null,
+      "originalLanguages": [
+        "Spanish"
+      ],
+      "transliteration": null,
+      "pronunciation": null,
+      "evidenceGrade": "A-B",
+      "evidenceNature": [
+        "primary_or_authoritative_source",
+        "academic_interpretation"
+      ],
+      "controversyStatus": "explicit_caution_included",
+      "sourcesNormalized": [
+        {
+          "title": "Roberto Rivera Pérez · Modelos lineales y no lineales para la investigación en ciencias sociales",
+          "url": "https://www.researchgate.net/publication/368330039_Modelos_lineales_y_no_lineales_para_la_investigacion_en_Ciencias_Sociales",
+          "sourceType": "author_uploaded_academic_chapter",
+          "id": "src_9880d3afd044",
+          "role": "supports_context_and_core_idea",
+          "origin": "pack_cartography_aj_latin_critical_complexity_12_v39",
+          "verificationStatus": "verified_or_curated_url_2026_07_26"
+        }
+      ],
+      "sourceCompleteness": "explicit_url",
+      "contextHistorical": "La propuesta discute la persistencia de modelos deterministas en ciencias sociales y la necesidad de estudiar incertidumbre y emergencia.",
+      "contribution": "Investigar procesos sociales no lineales exige atender emergencias, retroacciones y cambios de trayectoria que los modelos deterministas y parcializadores tienden a ocultar.",
+      "conceptsExplained": [
+        "modelos no lineales",
+        "incertidumbre",
+        "investigación social"
+      ],
+      "worksRelated": [
+        "Modelos lineales y no lineales para la investigación en ciencias sociales",
+        "La complejidad: límites y desafíos en la investigación contemporánea"
+      ],
+      "verifiedCuriosity": null,
+      "editorialStatus": "published",
+      "reviewStatus": {
+        "content": "reviewed_v3_9",
+        "chronology": "reviewed",
+        "taxonomy": "reviewed",
+        "sources": "explicit_urls",
+        "geography": "editorially_normalized"
+      },
+      "provenanceV2": {
+        "migratedFrom": null,
+        "normalizedAt": "2026-07-26",
+        "normalizationVersion": "3.9.0",
+        "sourcePackId": "pack_cartography_aj_latin_critical_complexity_12_v39",
+        "sourceOrder": 8
+      },
+      "relations": [
+        {
+          "targetId": "card_roberto_rivera_negentropic_model_001",
+          "type": "conceptual_connection",
+          "label": "El modelo neguentrópico piensa evolución y sociedad como organización abierta",
+          "evidence": "editorial_or_documented_connection"
+        },
+        {
+          "targetId": "card_morin_reform_thought_001",
+          "type": "conceptual_connection",
+          "label": "Distinguir sin separar",
+          "evidence": "editorial_or_documented_connection"
+        },
+        {
+          "targetId": "card_falsborda_participatory_action_001",
+          "type": "conceptual_connection",
+          "label": "Conocimiento participativo y transformador",
+          "evidence": "editorial_or_documented_connection"
+        }
+      ],
+      "entityType": "person",
+      "entityMetadata": {
+        "displayName": "Roberto Rivera Pérez",
+        "entityType": "person",
+        "originalNames": [],
+        "originalLanguages": [
+          "Spanish"
+        ],
+        "transliteration": null,
+        "pronunciation": null
+      },
+      "questionPhilosophical": "¿Cuándo un modelo lineal deja de ser suficiente para comprender un proceso social?",
+      "coreIdea": "Investigar procesos sociales no lineales exige atender emergencias, retroacciones y cambios de trayectoria que los modelos deterministas y parcializadores tienden a ocultar.",
+      "distinctiveContribution": "Ayuda a tender puentes entre ciencias sociales, antropología y ciencias de la complejidad sin reducir un campo al otro.",
+      "historicalContext": "La propuesta discute la persistencia de modelos deterministas en ciencias sociales y la necesidad de estudiar incertidumbre y emergencia.",
+      "regionHistorical": "América Latina contemporánea",
+      "currentTerritory": [
+        "México"
+      ],
+      "relatedWorks": [
+        "Modelos lineales y no lineales para la investigación en ciencias sociales",
+        "La complejidad: límites y desafíos en la investigación contemporánea"
+      ],
+      "authorizedSymbols": [
+        "⟷"
+      ],
+      "visualSystem": {
+        "familyId": "latin_critical_complexity",
+        "familyLabel": "Crítica y complejidad latinoiberoamericana",
+        "symbol": "⟷",
+        "palette": [
+          "#163c52",
+          "#7a4d64",
+          "#d3ad66"
+        ],
+        "allegory": "Tramas críticas latinoiberoamericanas donde educación, bioética, complejidad, investigación y resistencia se conectan sin un centro único.",
+        "authorizedSymbols": [
+          "⟷"
+        ]
+      },
+      "contentReview": {
+        "status": "published",
+        "version": "3.9.0",
+        "reviewedAt": "2026-07-26",
+        "dimensions": {
+          "content": "reviewed_v3_9",
+          "chronology": "reviewed",
+          "taxonomy": "reviewed",
+          "sources": "explicit_urls",
+          "geography": "editorially_normalized"
+        }
+      },
+      "influences": [],
+      "continuities": [],
+      "critiquesAndBreaks": [],
+      "conceptualResonances": [
+        {
+          "targetId": "card_roberto_rivera_negentropic_model_001",
+          "type": "conceptual_connection",
+          "label": "El modelo neguentrópico piensa evolución y sociedad como organización abierta",
+          "evidence": "editorial_or_documented_connection"
+        },
+        {
+          "targetId": "card_morin_reform_thought_001",
+          "type": "conceptual_connection",
+          "label": "Distinguir sin separar",
+          "evidence": "editorial_or_documented_connection"
+        },
+        {
+          "targetId": "card_falsborda_participatory_action_001",
+          "type": "conceptual_connection",
+          "label": "Conocimiento participativo y transformador",
+          "evidence": "editorial_or_documented_connection"
+        }
+      ],
+      "sourceIds": [
+        "src_9880d3afd044"
+      ],
+      "sources": [
+        {
+          "title": "Roberto Rivera Pérez · Modelos lineales y no lineales para la investigación en ciencias sociales",
+          "url": "https://www.researchgate.net/publication/368330039_Modelos_lineales_y_no_lineales_para_la_investigacion_en_Ciencias_Sociales",
+          "sourceType": "author_uploaded_academic_chapter",
+          "id": "src_9880d3afd044",
+          "role": "supports_context_and_core_idea",
+          "origin": "pack_cartography_aj_latin_critical_complexity_12_v39",
+          "verificationStatus": "verified_or_curated_url_2026_07_26"
+        }
+      ],
+      "disciplinaryRelations": [
+        {
+          "disciplineId": "sociology_collective",
+          "relationType": "direct_contribution",
+          "relevance": 0.94,
+          "rationale": "Relaciona sociología y vida colectiva con el problema: Investigar procesos sociales no lineales exige atender emergencias, retroacciones y cambios de trayectoria que los modelos deterministas y parcializadores tienden a ocultar.",
+          "reviewStatus": "explicit_editorial_assignment",
+          "publishable": true
+        },
+        {
+          "disciplineId": "anthropology_cultures",
+          "relationType": "direct_contribution",
+          "relevance": 0.91,
+          "rationale": "Relaciona antropología y culturas con el problema: Investigar procesos sociales no lineales exige atender emergencias, retroacciones y cambios de trayectoria que los modelos deterministas y parcializadores tienden a ocultar.",
+          "reviewStatus": "explicit_editorial_assignment",
+          "publishable": true
+        },
+        {
+          "disciplineId": "philosophy",
+          "relationType": "direct_contribution",
+          "relevance": 0.85,
+          "rationale": "Relaciona filosofía con el problema: Investigar procesos sociales no lineales exige atender emergencias, retroacciones y cambios de trayectoria que los modelos deterministas y parcializadores tienden a ocultar.",
+          "reviewStatus": "explicit_editorial_assignment",
+          "publishable": true
+        },
+        {
+          "disciplineId": "mathematics_logic",
+          "relationType": "interdisciplinary_crossing",
+          "relevance": 0.77,
+          "rationale": "Relaciona matemáticas y lógica con el problema: Investigar procesos sociales no lineales exige atender emergencias, retroacciones y cambios de trayectoria que los modelos deterministas y parcializadores tienden a ocultar.",
+          "reviewStatus": "explicit_editorial_assignment",
+          "publishable": true
+        }
+      ],
+      "sha256": "36a8e46df230bc7388f572ff4993518a1a778cb0b7eca407384b5035d4fce8d8"
+    },
+    {
+      "id": "card_carlos_eduardo_maldonado_social_sciences_complexity_001",
+      "author": "Carlos Eduardo Maldonado",
+      "title": "Las ciencias sociales son complejas cuando estudian sistemas que producen novedad",
+      "territory": "Colombia y circulación internacional",
+      "period": "Siglo XXI",
+      "family": "Crítica y complejidad latinoiberoamericana",
+      "statement": "Los sistemas sociales cambian, aprenden, se autoorganizan y generan emergencias; por eso no pueden comprenderse únicamente mediante equilibrio, continuidad y predicción lineal.",
+      "tags": [
+        "complejidad social",
+        "emergencia",
+        "no linealidad"
+      ],
+      "question": "¿Qué exige demostrar que las ciencias sociales son complejas y no solo afirmar que sus objetos son complicados?",
+      "caution": "Complejizar las ciencias sociales no significa importar metáforas físicas sin mediación ni desconocer historia, sentido, poder y agencia.",
+      "connections": [
+        "La complejidad restringida no agota el problema de la complejidad",
+        "Distinguir sin separar",
+        "Una bifurcación abre historias posibles"
+      ],
+      "order": 9,
+      "status": "integrado_v3_9",
+      "evidence": "A-B",
+      "audio": "Carlos Eduardo Maldonado formula este problema desde la filosofía de las ciencias de la complejidad. Los sistemas sociales cambian, aprenden, se autoorganizan y generan emergencias; por eso no pueden comprenderse únicamente mediante equilibrio, continuidad y predicción lineal. Reformula el estatuto de las ciencias sociales desde problemas de no linealidad, emergencia y organización. Complejizar las ciencias sociales no significa importar metáforas físicas sin mediación ni desconocer historia, sentido, poder y agencia.",
+      "quiz": {
+        "prompt": "¿Qué exige demostrar que las ciencias sociales son complejas y no solo afirmar que sus objetos son complicados?",
+        "options": [
+          "Los sistemas sociales cambian, aprenden, se autoorganizan y generan emergencias; por eso no pueden comprenderse únicamente mediante equilibrio, continuidad y predicción lineal.",
+          "Complejizar las ciencias sociales no significa importar metáforas físicas sin mediación ni desconocer historia, sentido, poder y agencia.",
+          "La propuesta elimina la necesidad de contexto y evidencia.",
+          "Todas las tradiciones sostienen exactamente la misma posición."
+        ],
+        "answer": 0,
+        "feedback": "Los sistemas sociales cambian, aprenden, se autoorganizan y generan emergencias; por eso no pueden comprenderse únicamente mediante equilibrio, continuidad y predicción lineal."
+      },
+      "whyItMatters": "Reformula el estatuto de las ciencias sociales desde problemas de no linealidad, emergencia y organización.",
+      "symbol": "⟷",
+      "visual": {
+        "palette": [
+          "#163c52",
+          "#7a4d64",
+          "#d3ad66"
+        ],
+        "allegory": "Tramas críticas latinoiberoamericanas donde educación, bioética, complejidad, investigación y resistencia se conectan sin un centro único."
+      },
+      "seriesVersion": "3.9",
+      "materializationLevel": "dossier_structurado_v3.9",
+      "shareFooter": "Pregunta guía: ¿Qué exige demostrar que las ciencias sociales son complejas y no solo afirmar que sus objetos son complicados?",
+      "audioVersion": "concise-listening-3.9",
+      "guideTransition": "",
+      "audioLead": "Carlos Eduardo Maldonado formula este problema desde la filosofía de las ciencias de la complejidad.",
+      "audioContext": "Colombia y circulación internacional",
+      "audioBody": "Los sistemas sociales cambian, aprenden, se autoorganizan y generan emergencias; por eso no pueden comprenderse únicamente mediante equilibrio, continuidad y predicción lineal. Reformula el estatuto de las ciencias sociales desde problemas de no linealidad, emergencia y organización. Complejizar las ciencias sociales no significa importar metáforas físicas sin mediación ni desconocer historia, sentido, poder y agencia.",
+      "listeningMode": "author_concept_limit_compact",
+      "collectionId": "latin_critical_complexity_referents",
+      "collection": "Referentes latinoiberoamericanos de crítica, complejidad y transmétodo",
+      "collectionOrder": 37,
+      "chronologyRank": 2009.009,
+      "chronologyStageId": "contemporary",
+      "fields": [
+        "systems_complexity",
+        "society_power",
+        "knowledge_method"
+      ],
+      "orientations": [
+        "Ciencias de la complejidad",
+        "Filosofía de la ciencia"
+      ],
+      "connectionIds": [
+        "card_carlos_eduardo_maldonado_restricted_complexity_001",
+        "card_morin_reform_thought_001",
+        "card_ilya_prigogine_bifurcations_001"
+      ],
+      "collectionSequence": 9,
+      "chronologyApproxYear": 2009,
+      "chronologyRole": "documented_intellectual_formulation",
+      "schemaVersion": "2.0",
+      "contentVersion": "3.9.0",
+      "legacyFamily": "Crítica y complejidad latinoiberoamericana",
+      "entryType": "author_program",
+      "dateStart": 2009,
+      "dateEnd": 2016,
+      "datePrecision": "documented_intellectual_period",
+      "dateMetadata": {
+        "startYear": 2009,
+        "endYear": 2016,
+        "precision": "documented_intellectual_period",
+        "display": "Siglo XXI",
+        "calendar": "proleptic_gregorian",
+        "isApproximate": true,
+        "isOpenEnded": false,
+        "note": "Periodo de formulación, publicación y recepción principal del aporte."
+      },
+      "editorialPeriodId": "systems_complexity_transdisciplinarity",
+      "navigationStageId": "contemporary",
+      "visualFamilyId": "latin_critical_complexity",
+      "geography": {
+        "historicalRegionId": "latin_america_contemporary",
+        "historicalRegionLabel": "América Latina contemporánea",
+        "territoryDisplay": "Colombia y circulación internacional",
+        "currentTerritories": [
+          "Colombia"
+        ],
+        "coordinates": null,
+        "circulationRegions": [
+          "América Latina",
+          "Iberoamérica"
+        ],
+        "verificationStatus": "editorially_normalized"
+      },
+      "historicalRegion": "América Latina contemporánea",
+      "currentTerritories": [
+        "Colombia"
+      ],
+      "coordinates": null,
+      "originalLanguages": [
+        "Spanish"
+      ],
+      "transliteration": null,
+      "pronunciation": null,
+      "evidenceGrade": "A-B",
+      "evidenceNature": [
+        "primary_or_authoritative_source",
+        "academic_interpretation"
+      ],
+      "controversyStatus": "explicit_caution_included",
+      "sourcesNormalized": [
+        {
+          "title": "Carlos Eduardo Maldonado · Complejidad de las ciencias sociales y de otras ciencias y disciplinas",
+          "url": "https://pure.urosario.edu.co/es/publications/complejidad-de-las-ciencias-sociales-y-otras-ciencias-y-disciplin/",
+          "sourceType": "institutional_research_record",
+          "id": "src_cdfafb856961",
+          "role": "supports_context_and_core_idea",
+          "origin": "pack_cartography_aj_latin_critical_complexity_12_v39",
+          "verificationStatus": "verified_or_curated_url_2026_07_26"
+        }
+      ],
+      "sourceCompleteness": "explicit_url",
+      "contextHistorical": "Maldonado desarrolla una filosofía latinoamericana de las ciencias de la complejidad y discute su impacto en ciencias sociales y humanas.",
+      "contribution": "Los sistemas sociales cambian, aprenden, se autoorganizan y generan emergencias; por eso no pueden comprenderse únicamente mediante equilibrio, continuidad y predicción lineal.",
+      "conceptsExplained": [
+        "complejidad social",
+        "emergencia",
+        "no linealidad"
+      ],
+      "worksRelated": [
+        "Complejidad de las ciencias sociales y de otras ciencias y disciplinas",
+        "Complejidad de los sistemas sociales"
+      ],
+      "verifiedCuriosity": null,
+      "editorialStatus": "published",
+      "reviewStatus": {
+        "content": "reviewed_v3_9",
+        "chronology": "reviewed",
+        "taxonomy": "reviewed",
+        "sources": "explicit_urls",
+        "geography": "editorially_normalized"
+      },
+      "provenanceV2": {
+        "migratedFrom": null,
+        "normalizedAt": "2026-07-26",
+        "normalizationVersion": "3.9.0",
+        "sourcePackId": "pack_cartography_aj_latin_critical_complexity_12_v39",
+        "sourceOrder": 9
+      },
+      "relations": [
+        {
+          "targetId": "card_carlos_eduardo_maldonado_restricted_complexity_001",
+          "type": "conceptual_connection",
+          "label": "La complejidad restringida no agota el problema de la complejidad",
+          "evidence": "editorial_or_documented_connection"
+        },
+        {
+          "targetId": "card_morin_reform_thought_001",
+          "type": "conceptual_connection",
+          "label": "Distinguir sin separar",
+          "evidence": "editorial_or_documented_connection"
+        },
+        {
+          "targetId": "card_ilya_prigogine_bifurcations_001",
+          "type": "conceptual_connection",
+          "label": "Una bifurcación abre historias posibles",
+          "evidence": "editorial_or_documented_connection"
+        }
+      ],
+      "entityType": "person",
+      "entityMetadata": {
+        "displayName": "Carlos Eduardo Maldonado",
+        "entityType": "person",
+        "originalNames": [],
+        "originalLanguages": [
+          "Spanish"
+        ],
+        "transliteration": null,
+        "pronunciation": null
+      },
+      "questionPhilosophical": "¿Qué exige demostrar que las ciencias sociales son complejas y no solo afirmar que sus objetos son complicados?",
+      "coreIdea": "Los sistemas sociales cambian, aprenden, se autoorganizan y generan emergencias; por eso no pueden comprenderse únicamente mediante equilibrio, continuidad y predicción lineal.",
+      "distinctiveContribution": "Reformula el estatuto de las ciencias sociales desde problemas de no linealidad, emergencia y organización.",
+      "historicalContext": "Maldonado desarrolla una filosofía latinoamericana de las ciencias de la complejidad y discute su impacto en ciencias sociales y humanas.",
+      "regionHistorical": "América Latina contemporánea",
+      "currentTerritory": [
+        "Colombia"
+      ],
+      "relatedWorks": [
+        "Complejidad de las ciencias sociales y de otras ciencias y disciplinas",
+        "Complejidad de los sistemas sociales"
+      ],
+      "authorizedSymbols": [
+        "⟷"
+      ],
+      "visualSystem": {
+        "familyId": "latin_critical_complexity",
+        "familyLabel": "Crítica y complejidad latinoiberoamericana",
+        "symbol": "⟷",
+        "palette": [
+          "#163c52",
+          "#7a4d64",
+          "#d3ad66"
+        ],
+        "allegory": "Tramas críticas latinoiberoamericanas donde educación, bioética, complejidad, investigación y resistencia se conectan sin un centro único.",
+        "authorizedSymbols": [
+          "⟷"
+        ]
+      },
+      "contentReview": {
+        "status": "published",
+        "version": "3.9.0",
+        "reviewedAt": "2026-07-26",
+        "dimensions": {
+          "content": "reviewed_v3_9",
+          "chronology": "reviewed",
+          "taxonomy": "reviewed",
+          "sources": "explicit_urls",
+          "geography": "editorially_normalized"
+        }
+      },
+      "influences": [],
+      "continuities": [],
+      "critiquesAndBreaks": [],
+      "conceptualResonances": [
+        {
+          "targetId": "card_carlos_eduardo_maldonado_restricted_complexity_001",
+          "type": "conceptual_connection",
+          "label": "La complejidad restringida no agota el problema de la complejidad",
+          "evidence": "editorial_or_documented_connection"
+        },
+        {
+          "targetId": "card_morin_reform_thought_001",
+          "type": "conceptual_connection",
+          "label": "Distinguir sin separar",
+          "evidence": "editorial_or_documented_connection"
+        },
+        {
+          "targetId": "card_ilya_prigogine_bifurcations_001",
+          "type": "conceptual_connection",
+          "label": "Una bifurcación abre historias posibles",
+          "evidence": "editorial_or_documented_connection"
+        }
+      ],
+      "sourceIds": [
+        "src_cdfafb856961"
+      ],
+      "sources": [
+        {
+          "title": "Carlos Eduardo Maldonado · Complejidad de las ciencias sociales y de otras ciencias y disciplinas",
+          "url": "https://pure.urosario.edu.co/es/publications/complejidad-de-las-ciencias-sociales-y-otras-ciencias-y-disciplin/",
+          "sourceType": "institutional_research_record",
+          "id": "src_cdfafb856961",
+          "role": "supports_context_and_core_idea",
+          "origin": "pack_cartography_aj_latin_critical_complexity_12_v39",
+          "verificationStatus": "verified_or_curated_url_2026_07_26"
+        }
+      ],
+      "disciplinaryRelations": [
+        {
+          "disciplineId": "sociology_collective",
+          "relationType": "direct_contribution",
+          "relevance": 0.96,
+          "rationale": "Relaciona sociología y vida colectiva con el problema: Los sistemas sociales cambian, aprenden, se autoorganizan y generan emergencias; por eso no pueden comprenderse únicamente mediante equilibrio, continuidad y predicción lineal.",
+          "reviewStatus": "explicit_editorial_assignment",
+          "publishable": true
+        },
+        {
+          "disciplineId": "philosophy",
+          "relationType": "direct_contribution",
+          "relevance": 0.93,
+          "rationale": "Relaciona filosofía con el problema: Los sistemas sociales cambian, aprenden, se autoorganizan y generan emergencias; por eso no pueden comprenderse únicamente mediante equilibrio, continuidad y predicción lineal.",
+          "reviewStatus": "explicit_editorial_assignment",
+          "publishable": true
+        },
+        {
+          "disciplineId": "natural_sciences",
+          "relationType": "interdisciplinary_crossing",
+          "relevance": 0.84,
+          "rationale": "Relaciona ciencias naturales con el problema: Los sistemas sociales cambian, aprenden, se autoorganizan y generan emergencias; por eso no pueden comprenderse únicamente mediante equilibrio, continuidad y predicción lineal.",
+          "reviewStatus": "explicit_editorial_assignment",
+          "publishable": true
+        },
+        {
+          "disciplineId": "mathematics_logic",
+          "relationType": "interdisciplinary_crossing",
+          "relevance": 0.79,
+          "rationale": "Relaciona matemáticas y lógica con el problema: Los sistemas sociales cambian, aprenden, se autoorganizan y generan emergencias; por eso no pueden comprenderse únicamente mediante equilibrio, continuidad y predicción lineal.",
+          "reviewStatus": "explicit_editorial_assignment",
+          "publishable": true
+        }
+      ],
+      "sha256": "eeaabda0434fbbfd54c456f567bd3fa1f6a8b4cd6f854af3589f1adedce58cf8"
+    },
+    {
+      "id": "card_carlos_eduardo_maldonado_restricted_complexity_001",
+      "author": "Carlos Eduardo Maldonado",
+      "title": "La complejidad restringida no agota el problema de la complejidad",
+      "territory": "Colombia y circulación internacional",
+      "period": "Siglo XXI",
+      "family": "Crítica y complejidad latinoiberoamericana",
+      "statement": "Las herramientas formales para estudiar sistemas complejos son decisivas, pero la complejidad también exige discutir problemas de frontera, fundamentos, lenguaje y consecuencias del conocimiento.",
+      "tags": [
+        "complejidad restringida",
+        "problemas de frontera",
+        "filosofía de la ciencia"
+      ],
+      "question": "¿Cómo combinar rigor formal y apertura filosófica sin reducir la complejidad a una cosmovisión vaga?",
+      "caution": "La distinción entre complejidad restringida y general tiene una genealogía amplia —especialmente asociada a Edgar Morin—; Maldonado la trabaja dentro de un debate propio entre método, cosmovisión y ciencias de la complejidad.",
+      "connections": [
+        "Las ciencias sociales son complejas cuando estudian sistemas que producen novedad",
+        "La dialogía mantiene tensiones fecundas",
+        "Atravesar disciplinas sin mezclarlas"
+      ],
+      "order": 10,
+      "status": "integrado_v3_9",
+      "evidence": "A-B",
+      "audio": "Carlos Eduardo Maldonado formula este problema desde la filosofía de las ciencias de la complejidad. Las herramientas formales para estudiar sistemas complejos son decisivas, pero la complejidad también exige discutir problemas de frontera, fundamentos, lenguaje y consecuencias del conocimiento. Evita tanto el reduccionismo técnico como el uso impreciso de la palabra complejidad para explicar cualquier cosa. La distinción entre complejidad restringida y general tiene una genealogía amplia —especialmente asociada a Edgar Morin—; Maldonado la trabaja dentro de un debate propio entre método, cosmovisión y ciencias de la complejidad.",
+      "quiz": {
+        "prompt": "¿Cómo combinar rigor formal y apertura filosófica sin reducir la complejidad a una cosmovisión vaga?",
+        "options": [
+          "Las herramientas formales para estudiar sistemas complejos son decisivas, pero la complejidad también exige discutir problemas de frontera, fundamentos, lenguaje y consecuencias del conocimiento.",
+          "La distinción entre complejidad restringida y general tiene una genealogía amplia —especialmente asociada a Edgar Morin—; Maldonado la trabaja dentro de un debate propio entre método, cosmovisión y ciencias de la complejidad.",
+          "La propuesta elimina la necesidad de contexto y evidencia.",
+          "Todas las tradiciones sostienen exactamente la misma posición."
+        ],
+        "answer": 0,
+        "feedback": "Las herramientas formales para estudiar sistemas complejos son decisivas, pero la complejidad también exige discutir problemas de frontera, fundamentos, lenguaje y consecuencias del conocimiento."
+      },
+      "whyItMatters": "Evita tanto el reduccionismo técnico como el uso impreciso de la palabra complejidad para explicar cualquier cosa.",
+      "symbol": "⟷",
+      "visual": {
+        "palette": [
+          "#163c52",
+          "#7a4d64",
+          "#d3ad66"
+        ],
+        "allegory": "Tramas críticas latinoiberoamericanas donde educación, bioética, complejidad, investigación y resistencia se conectan sin un centro único."
+      },
+      "seriesVersion": "3.9",
+      "materializationLevel": "dossier_structurado_v3.9",
+      "shareFooter": "Pregunta guía: ¿Cómo combinar rigor formal y apertura filosófica sin reducir la complejidad a una cosmovisión vaga?",
+      "audioVersion": "concise-listening-3.9",
+      "guideTransition": "",
+      "audioLead": "Carlos Eduardo Maldonado formula este problema desde la filosofía de las ciencias de la complejidad.",
+      "audioContext": "Colombia y circulación internacional",
+      "audioBody": "Las herramientas formales para estudiar sistemas complejos son decisivas, pero la complejidad también exige discutir problemas de frontera, fundamentos, lenguaje y consecuencias del conocimiento. Evita tanto el reduccionismo técnico como el uso impreciso de la palabra complejidad para explicar cualquier cosa. La distinción entre complejidad restringida y general tiene una genealogía amplia —especialmente asociada a Edgar Morin—; Maldonado la trabaja dentro de un debate propio entre método, cosmovisión y ciencias de la complejidad.",
+      "listeningMode": "author_concept_limit_compact",
+      "collectionId": "latin_critical_complexity_referents",
+      "collection": "Referentes latinoiberoamericanos de crítica, complejidad y transmétodo",
+      "collectionOrder": 37,
+      "chronologyRank": 2009.01,
+      "chronologyStageId": "contemporary",
+      "fields": [
+        "systems_complexity",
+        "knowledge_method",
+        "technology_mediation"
+      ],
+      "orientations": [
+        "Ciencias de la complejidad",
+        "Filosofía de la ciencia"
+      ],
+      "connectionIds": [
+        "card_carlos_eduardo_maldonado_social_sciences_complexity_001",
+        "card_edgar_morin_dialogic_principle_001",
+        "card_nicolescu_transdisciplinarity_001"
+      ],
+      "collectionSequence": 10,
+      "chronologyApproxYear": 2009,
+      "chronologyRole": "documented_intellectual_formulation",
+      "schemaVersion": "2.0",
+      "contentVersion": "3.9.0",
+      "legacyFamily": "Crítica y complejidad latinoiberoamericana",
+      "entryType": "author_epistemology",
+      "dateStart": 2009,
+      "dateEnd": 2016,
+      "datePrecision": "documented_intellectual_period",
+      "dateMetadata": {
+        "startYear": 2009,
+        "endYear": 2016,
+        "precision": "documented_intellectual_period",
+        "display": "Siglo XXI",
+        "calendar": "proleptic_gregorian",
+        "isApproximate": true,
+        "isOpenEnded": false,
+        "note": "Periodo de formulación, publicación y recepción principal del aporte."
+      },
+      "editorialPeriodId": "systems_complexity_transdisciplinarity",
+      "navigationStageId": "contemporary",
+      "visualFamilyId": "latin_critical_complexity",
+      "geography": {
+        "historicalRegionId": "latin_america_contemporary",
+        "historicalRegionLabel": "América Latina contemporánea",
+        "territoryDisplay": "Colombia y circulación internacional",
+        "currentTerritories": [
+          "Colombia"
+        ],
+        "coordinates": null,
+        "circulationRegions": [
+          "América Latina",
+          "Iberoamérica"
+        ],
+        "verificationStatus": "editorially_normalized"
+      },
+      "historicalRegion": "América Latina contemporánea",
+      "currentTerritories": [
+        "Colombia"
+      ],
+      "coordinates": null,
+      "originalLanguages": [
+        "Spanish"
+      ],
+      "transliteration": null,
+      "pronunciation": null,
+      "evidenceGrade": "A-B",
+      "evidenceNature": [
+        "primary_or_authoritative_source",
+        "academic_interpretation"
+      ],
+      "controversyStatus": "explicit_caution_included",
+      "sourcesNormalized": [
+        {
+          "title": "Carlos Eduardo Maldonado · La complejidad es un problema, no una cosmovisión",
+          "url": "https://revistas.ucm.edu.co/index.php/revista/article/view/173",
+          "sourceType": "peer_reviewed_article",
+          "id": "src_969579b7c180",
+          "role": "supports_context_and_core_idea",
+          "origin": "pack_cartography_aj_latin_critical_complexity_12_v39",
+          "verificationStatus": "verified_or_curated_url_2026_07_26"
+        },
+        {
+          "title": "Carlos Eduardo Maldonado · Complejidad de las ciencias sociales y de otras ciencias y disciplinas",
+          "url": "https://pure.urosario.edu.co/es/publications/complejidad-de-las-ciencias-sociales-y-otras-ciencias-y-disciplin/",
+          "sourceType": "institutional_research_record",
+          "id": "src_cdfafb856961",
+          "role": "supports_context_and_core_idea",
+          "origin": "pack_cartography_aj_latin_critical_complexity_12_v39",
+          "verificationStatus": "verified_or_curated_url_2026_07_26"
+        }
+      ],
+      "sourceCompleteness": "explicit_url",
+      "contextHistorical": "El debate diferencia aproximaciones metodológicas, cosmovisionales y científicas a la complejidad, y busca precisar qué problemas puede abordar cada una.",
+      "contribution": "Las herramientas formales para estudiar sistemas complejos son decisivas, pero la complejidad también exige discutir problemas de frontera, fundamentos, lenguaje y consecuencias del conocimiento.",
+      "conceptsExplained": [
+        "complejidad restringida",
+        "problemas de frontera",
+        "filosofía de la ciencia"
+      ],
+      "worksRelated": [
+        "La complejidad es un problema, no una cosmovisión",
+        "¿Qué son las ciencias de la complejidad?"
+      ],
+      "verifiedCuriosity": null,
+      "editorialStatus": "published",
+      "reviewStatus": {
+        "content": "reviewed_v3_9",
+        "chronology": "reviewed",
+        "taxonomy": "reviewed",
+        "sources": "explicit_urls",
+        "geography": "editorially_normalized"
+      },
+      "provenanceV2": {
+        "migratedFrom": null,
+        "normalizedAt": "2026-07-26",
+        "normalizationVersion": "3.9.0",
+        "sourcePackId": "pack_cartography_aj_latin_critical_complexity_12_v39",
+        "sourceOrder": 10
+      },
+      "relations": [
+        {
+          "targetId": "card_carlos_eduardo_maldonado_social_sciences_complexity_001",
+          "type": "conceptual_connection",
+          "label": "Las ciencias sociales son complejas cuando estudian sistemas que producen novedad",
+          "evidence": "editorial_or_documented_connection"
+        },
+        {
+          "targetId": "card_edgar_morin_dialogic_principle_001",
+          "type": "conceptual_connection",
+          "label": "La dialogía mantiene tensiones fecundas",
+          "evidence": "editorial_or_documented_connection"
+        },
+        {
+          "targetId": "card_nicolescu_transdisciplinarity_001",
+          "type": "conceptual_connection",
+          "label": "Atravesar disciplinas sin mezclarlas",
+          "evidence": "editorial_or_documented_connection"
+        }
+      ],
+      "entityType": "person",
+      "entityMetadata": {
+        "displayName": "Carlos Eduardo Maldonado",
+        "entityType": "person",
+        "originalNames": [],
+        "originalLanguages": [
+          "Spanish"
+        ],
+        "transliteration": null,
+        "pronunciation": null
+      },
+      "questionPhilosophical": "¿Cómo combinar rigor formal y apertura filosófica sin reducir la complejidad a una cosmovisión vaga?",
+      "coreIdea": "Las herramientas formales para estudiar sistemas complejos son decisivas, pero la complejidad también exige discutir problemas de frontera, fundamentos, lenguaje y consecuencias del conocimiento.",
+      "distinctiveContribution": "Evita tanto el reduccionismo técnico como el uso impreciso de la palabra complejidad para explicar cualquier cosa.",
+      "historicalContext": "El debate diferencia aproximaciones metodológicas, cosmovisionales y científicas a la complejidad, y busca precisar qué problemas puede abordar cada una.",
+      "regionHistorical": "América Latina contemporánea",
+      "currentTerritory": [
+        "Colombia"
+      ],
+      "relatedWorks": [
+        "La complejidad es un problema, no una cosmovisión",
+        "¿Qué son las ciencias de la complejidad?"
+      ],
+      "authorizedSymbols": [
+        "⟷"
+      ],
+      "visualSystem": {
+        "familyId": "latin_critical_complexity",
+        "familyLabel": "Crítica y complejidad latinoiberoamericana",
+        "symbol": "⟷",
+        "palette": [
+          "#163c52",
+          "#7a4d64",
+          "#d3ad66"
+        ],
+        "allegory": "Tramas críticas latinoiberoamericanas donde educación, bioética, complejidad, investigación y resistencia se conectan sin un centro único.",
+        "authorizedSymbols": [
+          "⟷"
+        ]
+      },
+      "contentReview": {
+        "status": "published",
+        "version": "3.9.0",
+        "reviewedAt": "2026-07-26",
+        "dimensions": {
+          "content": "reviewed_v3_9",
+          "chronology": "reviewed",
+          "taxonomy": "reviewed",
+          "sources": "explicit_urls",
+          "geography": "editorially_normalized"
+        }
+      },
+      "influences": [],
+      "continuities": [],
+      "critiquesAndBreaks": [],
+      "conceptualResonances": [
+        {
+          "targetId": "card_carlos_eduardo_maldonado_social_sciences_complexity_001",
+          "type": "conceptual_connection",
+          "label": "Las ciencias sociales son complejas cuando estudian sistemas que producen novedad",
+          "evidence": "editorial_or_documented_connection"
+        },
+        {
+          "targetId": "card_edgar_morin_dialogic_principle_001",
+          "type": "conceptual_connection",
+          "label": "La dialogía mantiene tensiones fecundas",
+          "evidence": "editorial_or_documented_connection"
+        },
+        {
+          "targetId": "card_nicolescu_transdisciplinarity_001",
+          "type": "conceptual_connection",
+          "label": "Atravesar disciplinas sin mezclarlas",
+          "evidence": "editorial_or_documented_connection"
+        }
+      ],
+      "sourceIds": [
+        "src_969579b7c180",
+        "src_cdfafb856961"
+      ],
+      "sources": [
+        {
+          "title": "Carlos Eduardo Maldonado · La complejidad es un problema, no una cosmovisión",
+          "url": "https://revistas.ucm.edu.co/index.php/revista/article/view/173",
+          "sourceType": "peer_reviewed_article",
+          "id": "src_969579b7c180",
+          "role": "supports_context_and_core_idea",
+          "origin": "pack_cartography_aj_latin_critical_complexity_12_v39",
+          "verificationStatus": "verified_or_curated_url_2026_07_26"
+        },
+        {
+          "title": "Carlos Eduardo Maldonado · Complejidad de las ciencias sociales y de otras ciencias y disciplinas",
+          "url": "https://pure.urosario.edu.co/es/publications/complejidad-de-las-ciencias-sociales-y-otras-ciencias-y-disciplin/",
+          "sourceType": "institutional_research_record",
+          "id": "src_cdfafb856961",
+          "role": "supports_context_and_core_idea",
+          "origin": "pack_cartography_aj_latin_critical_complexity_12_v39",
+          "verificationStatus": "verified_or_curated_url_2026_07_26"
+        }
+      ],
+      "disciplinaryRelations": [
+        {
+          "disciplineId": "philosophy",
+          "relationType": "direct_contribution",
+          "relevance": 0.96,
+          "rationale": "Relaciona filosofía con el problema: Las herramientas formales para estudiar sistemas complejos son decisivas, pero la complejidad también exige discutir problemas de frontera, fundamentos, lenguaje y consecuencias del conocimiento.",
+          "reviewStatus": "explicit_editorial_assignment",
+          "publishable": true
+        },
+        {
+          "disciplineId": "natural_sciences",
+          "relationType": "direct_contribution",
+          "relevance": 0.88,
+          "rationale": "Relaciona ciencias naturales con el problema: Las herramientas formales para estudiar sistemas complejos son decisivas, pero la complejidad también exige discutir problemas de frontera, fundamentos, lenguaje y consecuencias del conocimiento.",
+          "reviewStatus": "explicit_editorial_assignment",
+          "publishable": true
+        },
+        {
+          "disciplineId": "mathematics_logic",
+          "relationType": "interdisciplinary_crossing",
+          "relevance": 0.82,
+          "rationale": "Relaciona matemáticas y lógica con el problema: Las herramientas formales para estudiar sistemas complejos son decisivas, pero la complejidad también exige discutir problemas de frontera, fundamentos, lenguaje y consecuencias del conocimiento.",
+          "reviewStatus": "explicit_editorial_assignment",
+          "publishable": true
+        },
+        {
+          "disciplineId": "technology_knowledge",
+          "relationType": "interdisciplinary_crossing",
+          "relevance": 0.8,
+          "rationale": "Relaciona tecnología y conocimiento con el problema: Las herramientas formales para estudiar sistemas complejos son decisivas, pero la complejidad también exige discutir problemas de frontera, fundamentos, lenguaje y consecuencias del conocimiento.",
+          "reviewStatus": "explicit_editorial_assignment",
+          "publishable": true
+        }
+      ],
+      "sha256": "bd4382afa6978fa06fb2b7e1e14156444bba78a2ab34c375f79ff8084927b879"
+    },
+    {
+      "id": "card_emilio_roger_ciurana_democracy_knowledge_001",
+      "author": "Emilio Roger Ciurana",
+      "title": "La democracia del conocimiento exige aprender a pensar relaciones e incertidumbre",
+      "territory": "España y redes iberoamericanas",
+      "period": "Finales del siglo XX y siglo XXI",
+      "family": "Crítica y complejidad latinoiberoamericana",
+      "statement": "Una sociedad del conocimiento solo puede ser democrática cuando el saber circula, dialoga y forma ciudadanos capaces de comprender contextos complejos sin refugiarse en verdades cerradas.",
+      "tags": [
+        "democracia del conocimiento",
+        "educación",
+        "pensamiento complejo"
+      ],
+      "question": "¿Qué tipo de educación necesita una democracia atravesada por incertidumbre, pluralidad y problemas interdependientes?",
+      "caution": "Democratizar el conocimiento no significa eliminar la especialización ni tratar toda opinión como saber equivalente; exige acceso, diálogo, rigor y traducción entre campos.",
+      "connections": [
+        "Toda acción educativa entra en una ecología de efectos",
+        "Educar para la incertidumbre y la comprensión",
+        "La democracia es una forma de vida aprendida en común"
+      ],
+      "order": 11,
+      "status": "integrado_v3_9",
+      "evidence": "A-B",
+      "audio": "Emilio Roger Ciurana lleva el pensamiento complejo hacia educación, ciudadanía y era planetaria. Una sociedad del conocimiento solo puede ser democrática cuando el saber circula, dialoga y forma ciudadanos capaces de comprender contextos complejos sin refugiarse en verdades cerradas. Relaciona desarrollo humano, ciudadanía, currículo y pensamiento complejo. Democratizar el conocimiento no significa eliminar la especialización ni tratar toda opinión como saber equivalente; exige acceso, diálogo, rigor y traducción entre campos.",
+      "quiz": {
+        "prompt": "¿Qué tipo de educación necesita una democracia atravesada por incertidumbre, pluralidad y problemas interdependientes?",
+        "options": [
+          "Una sociedad del conocimiento solo puede ser democrática cuando el saber circula, dialoga y forma ciudadanos capaces de comprender contextos complejos sin refugiarse en verdades cerradas.",
+          "Democratizar el conocimiento no significa eliminar la especialización ni tratar toda opinión como saber equivalente; exige acceso, diálogo, rigor y traducción entre campos.",
+          "La propuesta elimina la necesidad de contexto y evidencia.",
+          "Todas las tradiciones sostienen exactamente la misma posición."
+        ],
+        "answer": 0,
+        "feedback": "Una sociedad del conocimiento solo puede ser democrática cuando el saber circula, dialoga y forma ciudadanos capaces de comprender contextos complejos sin refugiarse en verdades cerradas."
+      },
+      "whyItMatters": "Relaciona desarrollo humano, ciudadanía, currículo y pensamiento complejo.",
+      "symbol": "⟷",
+      "visual": {
+        "palette": [
+          "#163c52",
+          "#7a4d64",
+          "#d3ad66"
+        ],
+        "allegory": "Tramas críticas latinoiberoamericanas donde educación, bioética, complejidad, investigación y resistencia se conectan sin un centro único."
+      },
+      "seriesVersion": "3.9",
+      "materializationLevel": "dossier_structurado_v3.9",
+      "shareFooter": "Pregunta guía: ¿Qué tipo de educación necesita una democracia atravesada por incertidumbre, pluralidad y problemas interdependientes?",
+      "audioVersion": "concise-listening-3.9",
+      "guideTransition": "",
+      "audioLead": "Emilio Roger Ciurana lleva el pensamiento complejo hacia educación, ciudadanía y era planetaria.",
+      "audioContext": "España y redes iberoamericanas",
+      "audioBody": "Una sociedad del conocimiento solo puede ser democrática cuando el saber circula, dialoga y forma ciudadanos capaces de comprender contextos complejos sin refugiarse en verdades cerradas. Relaciona desarrollo humano, ciudadanía, currículo y pensamiento complejo. Democratizar el conocimiento no significa eliminar la especialización ni tratar toda opinión como saber equivalente; exige acceso, diálogo, rigor y traducción entre campos.",
+      "listeningMode": "author_concept_limit_compact",
+      "collectionId": "latin_critical_complexity_referents",
+      "collection": "Referentes latinoiberoamericanos de crítica, complejidad y transmétodo",
+      "collectionOrder": 37,
+      "chronologyRank": 2001.011,
+      "chronologyStageId": "contemporary",
+      "fields": [
+        "education_learning",
+        "systems_complexity",
+        "society_power",
+        "knowledge_method"
+      ],
+      "orientations": [
+        "Pensamiento complejo",
+        "Educación planetaria"
+      ],
+      "connectionIds": [
+        "card_emilio_roger_ciurana_ecology_action_001",
+        "card_edgar_morin_education_future_001",
+        "card_dewey_democracy_education_001"
+      ],
+      "collectionSequence": 11,
+      "chronologyApproxYear": 2001,
+      "chronologyRole": "documented_intellectual_formulation",
+      "schemaVersion": "2.0",
+      "contentVersion": "3.9.0",
+      "legacyFamily": "Crítica y complejidad latinoiberoamericana",
+      "entryType": "author_program",
+      "dateStart": 2001,
+      "dateEnd": 2019,
+      "datePrecision": "documented_intellectual_period",
+      "dateMetadata": {
+        "startYear": 2001,
+        "endYear": 2019,
+        "precision": "documented_intellectual_period",
+        "display": "Finales del siglo XX y siglo XXI",
+        "calendar": "proleptic_gregorian",
+        "isApproximate": true,
+        "isOpenEnded": false,
+        "note": "Periodo de formulación, publicación y recepción principal del aporte."
+      },
+      "editorialPeriodId": "systems_complexity_transdisciplinarity",
+      "navigationStageId": "contemporary",
+      "visualFamilyId": "latin_critical_complexity",
+      "geography": {
+        "historicalRegionId": "iberoamerica_contemporary",
+        "historicalRegionLabel": "Iberoamérica contemporánea",
+        "territoryDisplay": "España y redes iberoamericanas",
+        "currentTerritories": [
+          "España"
+        ],
+        "coordinates": null,
+        "circulationRegions": [
+          "América Latina",
+          "Iberoamérica"
+        ],
+        "verificationStatus": "editorially_normalized"
+      },
+      "historicalRegion": "Iberoamérica contemporánea",
+      "currentTerritories": [
+        "España"
+      ],
+      "coordinates": null,
+      "originalLanguages": [
+        "Spanish"
+      ],
+      "transliteration": null,
+      "pronunciation": null,
+      "evidenceGrade": "A-B",
+      "evidenceNature": [
+        "primary_or_authoritative_source",
+        "academic_interpretation"
+      ],
+      "controversyStatus": "explicit_caution_included",
+      "sourcesNormalized": [
+        {
+          "title": "Emilio Roger Ciurana · Educación y desarrollo humano",
+          "url": "https://dialnet.unirioja.es/servlet/articulo?codigo=743582",
+          "sourceType": "academic_index_record",
+          "id": "src_1d8d82315e32",
+          "role": "supports_context_and_core_idea",
+          "origin": "pack_cartography_aj_latin_critical_complexity_12_v39",
+          "verificationStatus": "verified_or_curated_url_2026_07_26"
+        },
+        {
+          "title": "Emilio Roger Ciurana · Currículo para sociedades democráticamente complejas",
+          "url": "https://www.redalyc.org/journal/5886/588661549015/html/",
+          "sourceType": "peer_reviewed_article",
+          "id": "src_e4f7f3914057",
+          "role": "supports_context_and_core_idea",
+          "origin": "pack_cartography_aj_latin_critical_complexity_12_v39",
+          "verificationStatus": "verified_or_curated_url_2026_07_26"
+        }
+      ],
+      "sourceCompleteness": "explicit_url",
+      "contextHistorical": "Ciurana desarrolla el pensamiento complejo en relación con educación, democracia, ciudadanía y era planetaria, en diálogo cercano con Edgar Morin y Raúl Motta.",
+      "contribution": "Una sociedad del conocimiento solo puede ser democrática cuando el saber circula, dialoga y forma ciudadanos capaces de comprender contextos complejos sin refugiarse en verdades cerradas.",
+      "conceptsExplained": [
+        "democracia del conocimiento",
+        "educación",
+        "pensamiento complejo"
+      ],
+      "worksRelated": [
+        "Educación y desarrollo humano",
+        "Pautas para un currículo en sociedades democráticamente complejas"
+      ],
+      "verifiedCuriosity": null,
+      "editorialStatus": "published",
+      "reviewStatus": {
+        "content": "reviewed_v3_9",
+        "chronology": "reviewed",
+        "taxonomy": "reviewed",
+        "sources": "explicit_urls",
+        "geography": "editorially_normalized"
+      },
+      "provenanceV2": {
+        "migratedFrom": null,
+        "normalizedAt": "2026-07-26",
+        "normalizationVersion": "3.9.0",
+        "sourcePackId": "pack_cartography_aj_latin_critical_complexity_12_v39",
+        "sourceOrder": 11
+      },
+      "relations": [
+        {
+          "targetId": "card_emilio_roger_ciurana_ecology_action_001",
+          "type": "conceptual_connection",
+          "label": "Toda acción educativa entra en una ecología de efectos",
+          "evidence": "editorial_or_documented_connection"
+        },
+        {
+          "targetId": "card_edgar_morin_education_future_001",
+          "type": "conceptual_connection",
+          "label": "Educar para la incertidumbre y la comprensión",
+          "evidence": "editorial_or_documented_connection"
+        },
+        {
+          "targetId": "card_dewey_democracy_education_001",
+          "type": "conceptual_connection",
+          "label": "La democracia es una forma de vida aprendida en común",
+          "evidence": "editorial_or_documented_connection"
+        }
+      ],
+      "entityType": "person",
+      "entityMetadata": {
+        "displayName": "Emilio Roger Ciurana",
+        "entityType": "person",
+        "originalNames": [],
+        "originalLanguages": [
+          "Spanish"
+        ],
+        "transliteration": null,
+        "pronunciation": null
+      },
+      "questionPhilosophical": "¿Qué tipo de educación necesita una democracia atravesada por incertidumbre, pluralidad y problemas interdependientes?",
+      "coreIdea": "Una sociedad del conocimiento solo puede ser democrática cuando el saber circula, dialoga y forma ciudadanos capaces de comprender contextos complejos sin refugiarse en verdades cerradas.",
+      "distinctiveContribution": "Relaciona desarrollo humano, ciudadanía, currículo y pensamiento complejo.",
+      "historicalContext": "Ciurana desarrolla el pensamiento complejo en relación con educación, democracia, ciudadanía y era planetaria, en diálogo cercano con Edgar Morin y Raúl Motta.",
+      "regionHistorical": "Iberoamérica contemporánea",
+      "currentTerritory": [
+        "España"
+      ],
+      "relatedWorks": [
+        "Educación y desarrollo humano",
+        "Pautas para un currículo en sociedades democráticamente complejas"
+      ],
+      "authorizedSymbols": [
+        "⟷"
+      ],
+      "visualSystem": {
+        "familyId": "latin_critical_complexity",
+        "familyLabel": "Crítica y complejidad latinoiberoamericana",
+        "symbol": "⟷",
+        "palette": [
+          "#163c52",
+          "#7a4d64",
+          "#d3ad66"
+        ],
+        "allegory": "Tramas críticas latinoiberoamericanas donde educación, bioética, complejidad, investigación y resistencia se conectan sin un centro único.",
+        "authorizedSymbols": [
+          "⟷"
+        ]
+      },
+      "contentReview": {
+        "status": "published",
+        "version": "3.9.0",
+        "reviewedAt": "2026-07-26",
+        "dimensions": {
+          "content": "reviewed_v3_9",
+          "chronology": "reviewed",
+          "taxonomy": "reviewed",
+          "sources": "explicit_urls",
+          "geography": "editorially_normalized"
+        }
+      },
+      "influences": [],
+      "continuities": [],
+      "critiquesAndBreaks": [],
+      "conceptualResonances": [
+        {
+          "targetId": "card_emilio_roger_ciurana_ecology_action_001",
+          "type": "conceptual_connection",
+          "label": "Toda acción educativa entra en una ecología de efectos",
+          "evidence": "editorial_or_documented_connection"
+        },
+        {
+          "targetId": "card_edgar_morin_education_future_001",
+          "type": "conceptual_connection",
+          "label": "Educar para la incertidumbre y la comprensión",
+          "evidence": "editorial_or_documented_connection"
+        },
+        {
+          "targetId": "card_dewey_democracy_education_001",
+          "type": "conceptual_connection",
+          "label": "La democracia es una forma de vida aprendida en común",
+          "evidence": "editorial_or_documented_connection"
+        }
+      ],
+      "sourceIds": [
+        "src_1d8d82315e32",
+        "src_e4f7f3914057"
+      ],
+      "sources": [
+        {
+          "title": "Emilio Roger Ciurana · Educación y desarrollo humano",
+          "url": "https://dialnet.unirioja.es/servlet/articulo?codigo=743582",
+          "sourceType": "academic_index_record",
+          "id": "src_1d8d82315e32",
+          "role": "supports_context_and_core_idea",
+          "origin": "pack_cartography_aj_latin_critical_complexity_12_v39",
+          "verificationStatus": "verified_or_curated_url_2026_07_26"
+        },
+        {
+          "title": "Emilio Roger Ciurana · Currículo para sociedades democráticamente complejas",
+          "url": "https://www.redalyc.org/journal/5886/588661549015/html/",
+          "sourceType": "peer_reviewed_article",
+          "id": "src_e4f7f3914057",
+          "role": "supports_context_and_core_idea",
+          "origin": "pack_cartography_aj_latin_critical_complexity_12_v39",
+          "verificationStatus": "verified_or_curated_url_2026_07_26"
+        }
+      ],
+      "disciplinaryRelations": [
+        {
+          "disciplineId": "education_pedagogy",
+          "relationType": "direct_contribution",
+          "relevance": 0.96,
+          "rationale": "Relaciona educación y pedagogía con el problema: Una sociedad del conocimiento solo puede ser democrática cuando el saber circula, dialoga y forma ciudadanos capaces de comprender contextos complejos sin refugiarse en verdades cerradas.",
+          "reviewStatus": "explicit_editorial_assignment",
+          "publishable": true
+        },
+        {
+          "disciplineId": "philosophy",
+          "relationType": "direct_contribution",
+          "relevance": 0.91,
+          "rationale": "Relaciona filosofía con el problema: Una sociedad del conocimiento solo puede ser democrática cuando el saber circula, dialoga y forma ciudadanos capaces de comprender contextos complejos sin refugiarse en verdades cerradas.",
+          "reviewStatus": "explicit_editorial_assignment",
+          "publishable": true
+        },
+        {
+          "disciplineId": "sociology_collective",
+          "relationType": "interdisciplinary_crossing",
+          "relevance": 0.84,
+          "rationale": "Relaciona sociología y vida colectiva con el problema: Una sociedad del conocimiento solo puede ser democrática cuando el saber circula, dialoga y forma ciudadanos capaces de comprender contextos complejos sin refugiarse en verdades cerradas.",
+          "reviewStatus": "explicit_editorial_assignment",
+          "publishable": true
+        },
+        {
+          "disciplineId": "politics_government",
+          "relationType": "direct_contribution",
+          "relevance": 0.86,
+          "rationale": "Relaciona política y gobierno con el problema: Una sociedad del conocimiento solo puede ser democrática cuando el saber circula, dialoga y forma ciudadanos capaces de comprender contextos complejos sin refugiarse en verdades cerradas.",
+          "reviewStatus": "explicit_editorial_assignment",
+          "publishable": true
+        }
+      ],
+      "sha256": "8acc7bd58c7b509ce5a52d986068d117b5ea42415c5b4ac9b5afc16d365246d8"
+    },
+    {
+      "id": "card_emilio_roger_ciurana_ecology_action_001",
+      "author": "Emilio Roger Ciurana",
+      "title": "Toda acción educativa entra en una ecología de efectos",
+      "territory": "España y redes iberoamericanas",
+      "period": "Finales del siglo XX y siglo XXI",
+      "family": "Crítica y complejidad latinoiberoamericana",
+      "statement": "Una acción cambia cuando entra en redes de interacciones; educar y gobernar exigen observar efectos inesperados, revisar decisiones y aprender durante el proceso.",
+      "tags": [
+        "ecología de la acción",
+        "incertidumbre",
+        "educación planetaria"
+      ],
+      "question": "¿Cómo actuar responsablemente cuando ninguna intención controla por completo sus consecuencias?",
+      "caution": "La ecología de la acción es un concepto desarrollado por Edgar Morin; Ciurana contribuye a su elaboración educativa y política, no debe presentarse como su creador exclusivo.",
+      "connections": [
+        "La democracia del conocimiento exige aprender a pensar relaciones e incertidumbre",
+        "Toda acción entra en una ecología",
+        "La praxis une reflexión y acción transformadora"
+      ],
+      "order": 12,
+      "status": "integrado_v3_9",
+      "evidence": "A-B",
+      "audio": "Emilio Roger Ciurana lleva el pensamiento complejo hacia educación, ciudadanía y era planetaria. Una acción cambia cuando entra en redes de interacciones; educar y gobernar exigen observar efectos inesperados, revisar decisiones y aprender durante el proceso. Convierte incertidumbre y retroacción en criterios para una pedagogía y ciudadanía reflexivas. La ecología de la acción es un concepto desarrollado por Edgar Morin; Ciurana contribuye a su elaboración educativa y política, no debe presentarse como su creador exclusivo.",
+      "quiz": {
+        "prompt": "¿Cómo actuar responsablemente cuando ninguna intención controla por completo sus consecuencias?",
+        "options": [
+          "Una acción cambia cuando entra en redes de interacciones; educar y gobernar exigen observar efectos inesperados, revisar decisiones y aprender durante el proceso.",
+          "La ecología de la acción es un concepto desarrollado por Edgar Morin; Ciurana contribuye a su elaboración educativa y política, no debe presentarse como su creador exclusivo.",
+          "La propuesta elimina la necesidad de contexto y evidencia.",
+          "Todas las tradiciones sostienen exactamente la misma posición."
+        ],
+        "answer": 0,
+        "feedback": "Una acción cambia cuando entra en redes de interacciones; educar y gobernar exigen observar efectos inesperados, revisar decisiones y aprender durante el proceso."
+      },
+      "whyItMatters": "Convierte incertidumbre y retroacción en criterios para una pedagogía y ciudadanía reflexivas.",
+      "symbol": "⟷",
+      "visual": {
+        "palette": [
+          "#163c52",
+          "#7a4d64",
+          "#d3ad66"
+        ],
+        "allegory": "Tramas críticas latinoiberoamericanas donde educación, bioética, complejidad, investigación y resistencia se conectan sin un centro único."
+      },
+      "seriesVersion": "3.9",
+      "materializationLevel": "dossier_structurado_v3.9",
+      "shareFooter": "Pregunta guía: ¿Cómo actuar responsablemente cuando ninguna intención controla por completo sus consecuencias?",
+      "audioVersion": "concise-listening-3.9",
+      "guideTransition": "",
+      "audioLead": "Emilio Roger Ciurana lleva el pensamiento complejo hacia educación, ciudadanía y era planetaria.",
+      "audioContext": "España y redes iberoamericanas",
+      "audioBody": "Una acción cambia cuando entra en redes de interacciones; educar y gobernar exigen observar efectos inesperados, revisar decisiones y aprender durante el proceso. Convierte incertidumbre y retroacción en criterios para una pedagogía y ciudadanía reflexivas. La ecología de la acción es un concepto desarrollado por Edgar Morin; Ciurana contribuye a su elaboración educativa y política, no debe presentarse como su creador exclusivo.",
+      "listeningMode": "author_concept_limit_compact",
+      "collectionId": "latin_critical_complexity_referents",
+      "collection": "Referentes latinoiberoamericanos de crítica, complejidad y transmétodo",
+      "collectionOrder": 37,
+      "chronologyRank": 1997.012,
+      "chronologyStageId": "contemporary",
+      "fields": [
+        "systems_complexity",
+        "education_learning",
+        "society_power",
+        "ethics_care"
+      ],
+      "orientations": [
+        "Pensamiento complejo",
+        "Ecología de la acción"
+      ],
+      "connectionIds": [
+        "card_emilio_roger_ciurana_democracy_knowledge_001",
+        "card_edgar_morin_ecology_action_001",
+        "card_y_paulo_freire_praxis_reflection_action_001"
+      ],
+      "collectionSequence": 12,
+      "chronologyApproxYear": 1997,
+      "chronologyRole": "documented_intellectual_formulation",
+      "schemaVersion": "2.0",
+      "contentVersion": "3.9.0",
+      "legacyFamily": "Crítica y complejidad latinoiberoamericana",
+      "entryType": "author_concept",
+      "dateStart": 1997,
+      "dateEnd": 2019,
+      "datePrecision": "documented_intellectual_period",
+      "dateMetadata": {
+        "startYear": 1997,
+        "endYear": 2019,
+        "precision": "documented_intellectual_period",
+        "display": "Finales del siglo XX y siglo XXI",
+        "calendar": "proleptic_gregorian",
+        "isApproximate": true,
+        "isOpenEnded": false,
+        "note": "Periodo de formulación, publicación y recepción principal del aporte."
+      },
+      "editorialPeriodId": "systems_complexity_transdisciplinarity",
+      "navigationStageId": "contemporary",
+      "visualFamilyId": "latin_critical_complexity",
+      "geography": {
+        "historicalRegionId": "iberoamerica_contemporary",
+        "historicalRegionLabel": "Iberoamérica contemporánea",
+        "territoryDisplay": "España y redes iberoamericanas",
+        "currentTerritories": [
+          "España"
+        ],
+        "coordinates": null,
+        "circulationRegions": [
+          "América Latina",
+          "Iberoamérica"
+        ],
+        "verificationStatus": "editorially_normalized"
+      },
+      "historicalRegion": "Iberoamérica contemporánea",
+      "currentTerritories": [
+        "España"
+      ],
+      "coordinates": null,
+      "originalLanguages": [
+        "Spanish"
+      ],
+      "transliteration": null,
+      "pronunciation": null,
+      "evidenceGrade": "A-B",
+      "evidenceNature": [
+        "primary_or_authoritative_source",
+        "academic_interpretation"
+      ],
+      "controversyStatus": "explicit_caution_included",
+      "sourcesNormalized": [
+        {
+          "title": "Emilio Roger Ciurana · Currículo para sociedades democráticamente complejas",
+          "url": "https://www.redalyc.org/journal/5886/588661549015/html/",
+          "sourceType": "peer_reviewed_article",
+          "id": "src_e4f7f3914057",
+          "role": "supports_context_and_core_idea",
+          "origin": "pack_cartography_aj_latin_critical_complexity_12_v39",
+          "verificationStatus": "verified_or_curated_url_2026_07_26"
+        },
+        {
+          "title": "Emilio Roger Ciurana · Edgar Morin: introducción al pensamiento complejo",
+          "url": "https://philpapers.org/rec/CIUEMI",
+          "sourceType": "academic_bibliographic_record",
+          "id": "src_461d88e637b0",
+          "role": "supports_context_and_core_idea",
+          "origin": "pack_cartography_aj_latin_critical_complexity_12_v39",
+          "verificationStatus": "verified_or_curated_url_2026_07_26"
+        }
+      ],
+      "sourceCompleteness": "explicit_url",
+      "contextHistorical": "La ecología de la acción se integra en propuestas de educación para la era planetaria y gestión democrática de contextos complejos.",
+      "contribution": "Una acción cambia cuando entra en redes de interacciones; educar y gobernar exigen observar efectos inesperados, revisar decisiones y aprender durante el proceso.",
+      "conceptsExplained": [
+        "ecología de la acción",
+        "incertidumbre",
+        "educación planetaria"
+      ],
+      "worksRelated": [
+        "Educar en la era planetaria",
+        "Edgar Morin: introducción al pensamiento complejo"
+      ],
+      "verifiedCuriosity": null,
+      "editorialStatus": "published",
+      "reviewStatus": {
+        "content": "reviewed_v3_9",
+        "chronology": "reviewed",
+        "taxonomy": "reviewed",
+        "sources": "explicit_urls",
+        "geography": "editorially_normalized"
+      },
+      "provenanceV2": {
+        "migratedFrom": null,
+        "normalizedAt": "2026-07-26",
+        "normalizationVersion": "3.9.0",
+        "sourcePackId": "pack_cartography_aj_latin_critical_complexity_12_v39",
+        "sourceOrder": 12
+      },
+      "relations": [
+        {
+          "targetId": "card_emilio_roger_ciurana_democracy_knowledge_001",
+          "type": "conceptual_connection",
+          "label": "La democracia del conocimiento exige aprender a pensar relaciones e incertidumbre",
+          "evidence": "editorial_or_documented_connection"
+        },
+        {
+          "targetId": "card_edgar_morin_ecology_action_001",
+          "type": "conceptual_connection",
+          "label": "Toda acción entra en una ecología",
+          "evidence": "editorial_or_documented_connection"
+        },
+        {
+          "targetId": "card_y_paulo_freire_praxis_reflection_action_001",
+          "type": "conceptual_connection",
+          "label": "La praxis une reflexión y acción transformadora",
+          "evidence": "editorial_or_documented_connection"
+        }
+      ],
+      "entityType": "person",
+      "entityMetadata": {
+        "displayName": "Emilio Roger Ciurana",
+        "entityType": "person",
+        "originalNames": [],
+        "originalLanguages": [
+          "Spanish"
+        ],
+        "transliteration": null,
+        "pronunciation": null
+      },
+      "questionPhilosophical": "¿Cómo actuar responsablemente cuando ninguna intención controla por completo sus consecuencias?",
+      "coreIdea": "Una acción cambia cuando entra en redes de interacciones; educar y gobernar exigen observar efectos inesperados, revisar decisiones y aprender durante el proceso.",
+      "distinctiveContribution": "Convierte incertidumbre y retroacción en criterios para una pedagogía y ciudadanía reflexivas.",
+      "historicalContext": "La ecología de la acción se integra en propuestas de educación para la era planetaria y gestión democrática de contextos complejos.",
+      "regionHistorical": "Iberoamérica contemporánea",
+      "currentTerritory": [
+        "España"
+      ],
+      "relatedWorks": [
+        "Educar en la era planetaria",
+        "Edgar Morin: introducción al pensamiento complejo"
+      ],
+      "authorizedSymbols": [
+        "⟷"
+      ],
+      "visualSystem": {
+        "familyId": "latin_critical_complexity",
+        "familyLabel": "Crítica y complejidad latinoiberoamericana",
+        "symbol": "⟷",
+        "palette": [
+          "#163c52",
+          "#7a4d64",
+          "#d3ad66"
+        ],
+        "allegory": "Tramas críticas latinoiberoamericanas donde educación, bioética, complejidad, investigación y resistencia se conectan sin un centro único.",
+        "authorizedSymbols": [
+          "⟷"
+        ]
+      },
+      "contentReview": {
+        "status": "published",
+        "version": "3.9.0",
+        "reviewedAt": "2026-07-26",
+        "dimensions": {
+          "content": "reviewed_v3_9",
+          "chronology": "reviewed",
+          "taxonomy": "reviewed",
+          "sources": "explicit_urls",
+          "geography": "editorially_normalized"
+        }
+      },
+      "influences": [],
+      "continuities": [],
+      "critiquesAndBreaks": [],
+      "conceptualResonances": [
+        {
+          "targetId": "card_emilio_roger_ciurana_democracy_knowledge_001",
+          "type": "conceptual_connection",
+          "label": "La democracia del conocimiento exige aprender a pensar relaciones e incertidumbre",
+          "evidence": "editorial_or_documented_connection"
+        },
+        {
+          "targetId": "card_edgar_morin_ecology_action_001",
+          "type": "conceptual_connection",
+          "label": "Toda acción entra en una ecología",
+          "evidence": "editorial_or_documented_connection"
+        },
+        {
+          "targetId": "card_y_paulo_freire_praxis_reflection_action_001",
+          "type": "conceptual_connection",
+          "label": "La praxis une reflexión y acción transformadora",
+          "evidence": "editorial_or_documented_connection"
+        }
+      ],
+      "sourceIds": [
+        "src_e4f7f3914057",
+        "src_461d88e637b0"
+      ],
+      "sources": [
+        {
+          "title": "Emilio Roger Ciurana · Currículo para sociedades democráticamente complejas",
+          "url": "https://www.redalyc.org/journal/5886/588661549015/html/",
+          "sourceType": "peer_reviewed_article",
+          "id": "src_e4f7f3914057",
+          "role": "supports_context_and_core_idea",
+          "origin": "pack_cartography_aj_latin_critical_complexity_12_v39",
+          "verificationStatus": "verified_or_curated_url_2026_07_26"
+        },
+        {
+          "title": "Emilio Roger Ciurana · Edgar Morin: introducción al pensamiento complejo",
+          "url": "https://philpapers.org/rec/CIUEMI",
+          "sourceType": "academic_bibliographic_record",
+          "id": "src_461d88e637b0",
+          "role": "supports_context_and_core_idea",
+          "origin": "pack_cartography_aj_latin_critical_complexity_12_v39",
+          "verificationStatus": "verified_or_curated_url_2026_07_26"
+        }
+      ],
+      "disciplinaryRelations": [
+        {
+          "disciplineId": "education_pedagogy",
+          "relationType": "direct_contribution",
+          "relevance": 0.93,
+          "rationale": "Relaciona educación y pedagogía con el problema: Una acción cambia cuando entra en redes de interacciones; educar y gobernar exigen observar efectos inesperados, revisar decisiones y aprender durante el proceso.",
+          "reviewStatus": "explicit_editorial_assignment",
+          "publishable": true
+        },
+        {
+          "disciplineId": "philosophy",
+          "relationType": "direct_contribution",
+          "relevance": 0.9,
+          "rationale": "Relaciona filosofía con el problema: Una acción cambia cuando entra en redes de interacciones; educar y gobernar exigen observar efectos inesperados, revisar decisiones y aprender durante el proceso.",
+          "reviewStatus": "explicit_editorial_assignment",
+          "publishable": true
+        },
+        {
+          "disciplineId": "sociology_collective",
+          "relationType": "interdisciplinary_crossing",
+          "relevance": 0.82,
+          "rationale": "Relaciona sociología y vida colectiva con el problema: Una acción cambia cuando entra en redes de interacciones; educar y gobernar exigen observar efectos inesperados, revisar decisiones y aprender durante el proceso.",
+          "reviewStatus": "explicit_editorial_assignment",
+          "publishable": true
+        },
+        {
+          "disciplineId": "politics_government",
+          "relationType": "interdisciplinary_crossing",
+          "relevance": 0.8,
+          "rationale": "Relaciona política y gobierno con el problema: Una acción cambia cuando entra en redes de interacciones; educar y gobernar exigen observar efectos inesperados, revisar decisiones y aprender durante el proceso.",
+          "reviewStatus": "explicit_editorial_assignment",
+          "publishable": true
+        }
+      ],
+      "sha256": "09042cd43db8260a5076694b8940a9a40a7b74e8ac4b33a5be85b3a5125c38fa"
+    }
+  ]
+}

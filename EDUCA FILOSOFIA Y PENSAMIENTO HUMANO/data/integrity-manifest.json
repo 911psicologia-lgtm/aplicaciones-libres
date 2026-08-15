@@ -1,0 +1,685 @@
+{
+  "version": "3.9.1",
+  "generatedAt": "2026-07-26",
+  "algorithm": "SHA-256",
+  "excludes": [
+    "data/integrity-manifest.json"
+  ],
+  "files": [
+    {
+      "path": "AUDITORIA_V38_CONTENIDOS_Y_RUTA.md",
+      "sha256": "0204511028b54983f4b7f5aec2a34e92642e30c701b00451ec8ba38c92826ca0",
+      "size": 1153
+    },
+    {
+      "path": "AUDITORIA_V39_CONTENIDOS_Y_RUTA.md",
+      "sha256": "4628caf7afb893bd586c5dce73a36aa030ffb68c5c0f7c63cd77776afe653a27",
+      "size": 1977
+    },
+    {
+      "path": "CHANGELOG.md",
+      "sha256": "28e9298694cee331b0c3fb7195a3d1631b3e8934385349a2b60caf11c27d9e3b",
+      "size": 1980
+    },
+    {
+      "path": "DEPLOY_CLOUDFLARE.md",
+      "sha256": "4b931b54946ceefac6a31f6ec79966a62f18b57f047fee7073fda48b35d38cd2",
+      "size": 374
+    },
+    {
+      "path": "INTEGRIDAD.md",
+      "sha256": "4c072773a2a8adb4c3832680fe2ca536c510b71a68704909621c8ce8b6628e2a",
+      "size": 533
+    },
+    {
+      "path": "MIGRACION_V36.md",
+      "sha256": "e3e8efda670fa13d26fd4c10caaabea1551b43e4204b1fc5c0ed3a7247791896",
+      "size": 575
+    },
+    {
+      "path": "MIGRACION_V37.md",
+      "sha256": "143d2721e61ff165fdf6f7227811f20c1e89b437fabac5e6803354fb3a0beea6",
+      "size": 304
+    },
+    {
+      "path": "MIGRACION_V38.md",
+      "sha256": "4de4323d776ce40d40de3919bc78ba6c60873ea2e45cdf1991288036684d2440",
+      "size": 439
+    },
+    {
+      "path": "MIGRACION_V39.md",
+      "sha256": "40d42144b59acda8deee9d9f0d20a1c29096675332b033d40c2c142d4f3d5da0",
+      "size": 1586
+    },
+    {
+      "path": "README.md",
+      "sha256": "95a23fd31bb676a42fe1470eb5f9b9c00470b4b89572334a6e3b0e7c51b8a7fc",
+      "size": 883
+    },
+    {
+      "path": "VALIDACION_V39.json",
+      "sha256": "dc073ca7167348464db83f9d39ab16eb8813b877f26a1da97eb2a944f99dba9a",
+      "size": 2175
+    },
+    {
+      "path": "_headers",
+      "sha256": "b4fcb47a9890cf724447eba84714d903d52a8db78d4ac0a541f4726efeb03865",
+      "size": 384
+    },
+    {
+      "path": "app.js",
+      "sha256": "19169554edad3ff9543ab15db8051ba486de036ae05e894d64fe528c845596bc",
+      "size": 90517
+    },
+    {
+      "path": "index.html",
+      "sha256": "7c59ea466b4dead3cf7835a6436dae24292bc2fb8fc45c0e301780b41c3e0aab",
+      "size": 21932
+    },
+    {
+      "path": "manifest.webmanifest",
+      "sha256": "d66a343d04b5dcab4653d01504004102c63ea854a67bf5bd4c90456cf91b1c63",
+      "size": 1467
+    },
+    {
+      "path": "service-worker.js",
+      "sha256": "393ef38976ef83f41d76b49627ba48beb2593c19d62ac9812a57c9daa00dfc7e",
+      "size": 1851
+    },
+    {
+      "path": "styles.css",
+      "sha256": "de1632cec9b92dbc64b7441eb0da3cbd6dd00009bb6f06bde440157a8f94ad6c",
+      "size": 71864
+    },
+    {
+      "path": "assets/guide-approved.png",
+      "sha256": "73d6e7fb9f7942eeaaf841ec8b900adb8d31fe4bd39b4b3c5e71b0a2b7790db8",
+      "size": 1661320
+    },
+    {
+      "path": "assets/guide-compact.png",
+      "sha256": "bdf9965acdd91d14b93ff29dbae2aa673faf8e0cd1103d8141e65f76c4e961f0",
+      "size": 118030
+    },
+    {
+      "path": "assets/icon-192.png",
+      "sha256": "47d23141d042d75101ffcbf44f9d074ce3c57e87da8a6640cd3deb0e9068f118",
+      "size": 45131
+    },
+    {
+      "path": "assets/icon-512.png",
+      "sha256": "7228161723c05859e03c6d652ad00328649c1de5b8b5702a91b13c3dda1719f7",
+      "size": 242461
+    },
+    {
+      "path": "assets/icon-maskable-512.png",
+      "sha256": "5d4f004517024b43e97d327dcaf5dc9d289b6d5ca856f7de457e19ff2f6517ba",
+      "size": 199339
+    },
+    {
+      "path": "data/bibliography-registry.json",
+      "sha256": "8cb4989203772affcbbbdf40907185265e5b1a961c965b79a54c2c54462d1317",
+      "size": 573514
+    },
+    {
+      "path": "data/card-schema-v2.json",
+      "sha256": "a18e5a35e1968c3d018cb203e601e3fdf74dffcd2355760f004fed4f44da07f2",
+      "size": 7900
+    },
+    {
+      "path": "data/cards-v01-preserved.json",
+      "sha256": "32a0b73ea797067997d602e21b17548326b24954d6f9b132c771b0f5ba79e6c9",
+      "size": 101107
+    },
+    {
+      "path": "data/cards.json",
+      "sha256": "ab699e40f306985aa5f5441bb491939bf5b3f8b499d2d74971e5b1984631551d",
+      "size": 20138365
+    },
+    {
+      "path": "data/collections.json",
+      "sha256": "02cfa3fef37e272c5ff1b968e74a0f24bf2c52724ebf2cc92aa67fe48aedca6a",
+      "size": 13278
+    },
+    {
+      "path": "data/coverage-audit-v35.json",
+      "sha256": "293764a8a42ee965fdc4e10d5558d9ca0c494f3881de07a898b96a3015a02bf7",
+      "size": 9848
+    },
+    {
+      "path": "data/coverage-audit-v36.json",
+      "sha256": "ff216e54239aa3d9e2c442ae4d6c969296eb4f53d5e49ff343372f1a6efece95",
+      "size": 8358
+    },
+    {
+      "path": "data/coverage-audit-v37.json",
+      "sha256": "1468200750ff8dccbf94c9ffaa9c03e958ba3e15a70a6fac7c9d359b285476fb",
+      "size": 2722
+    },
+    {
+      "path": "data/coverage-audit-v38.json",
+      "sha256": "a7a13354bc4c984af1256bd82eedc25a441fed0a65908a050685f14bd800618a",
+      "size": 3014
+    },
+    {
+      "path": "data/coverage-audit-v39.json",
+      "sha256": "fd6e5b40bbd9c29b461262008994f6353149f0b57c6c60aea8631d841d8adaa0",
+      "size": 2962
+    },
+    {
+      "path": "data/discipline-index.json",
+      "sha256": "603d46771dea9e9e364edc54650255614f414e2d50838e8bacf6e95a870c2130",
+      "size": 4668270
+    },
+    {
+      "path": "data/dossiers.json",
+      "sha256": "34959c43547c5dd0e034a566215d4b71b65b9533c1d7fd22d19aeaa9864e0a7d",
+      "size": 13992435
+    },
+    {
+      "path": "data/editorial-review-queue.json",
+      "sha256": "cba1062a834a586e553c544ed0699605c03884fd4ea27830ad96becf5fbbdee2",
+      "size": 742172
+    },
+    {
+      "path": "data/guide-messages.json",
+      "sha256": "65db8e3a6a4a610170755548e31bc6107f762f0319fe73132c9492c94950a09a",
+      "size": 3066
+    },
+    {
+      "path": "data/historical-layer.json",
+      "sha256": "edb8a0038072ffbcfcc8a2dd4cd7e4f2023d3b56bf249e0dabe03a9596667866",
+      "size": 13469979
+    },
+    {
+      "path": "data/inventory-master.json",
+      "sha256": "12789e5fb8b2521a5863ff2bd1f8fe28e69c1d7b555758811f84152707f0fe2b",
+      "size": 408013
+    },
+    {
+      "path": "data/project-snapshot.json",
+      "sha256": "9f0f307dfa7497a71a52307f5e6c8ad03113779bd1ebef51abc78ab176312e01",
+      "size": 9279
+    },
+    {
+      "path": "data/source-policy.json",
+      "sha256": "0ef0acce63d9c93deea27e3567c5d058445f6b99926ffe7f04aaf0a21d62ad2c",
+      "size": 1292
+    },
+    {
+      "path": "data/taxonomy.json",
+      "sha256": "c9544edcb6d6ca67a7e7297dc0a5ba3ba799462cb94ca3c10d1461ac62dc9a92",
+      "size": 25345
+    },
+    {
+      "path": "data/archive/audio-v01.json",
+      "sha256": "de2fd1a8a9d49b4f756de103e4c0089cad9058dfc73aabe1564126963bb9793e",
+      "size": 29473
+    },
+    {
+      "path": "data/archive/audio-v04-author-openings.json",
+      "sha256": "1c684690cacd8f28142b78610a13a836b59492de47176d183c1d2d7cc0bc66bc",
+      "size": 147394
+    },
+    {
+      "path": "data/archive/audio-v06-long.json",
+      "sha256": "4a5d79efd0c24961b87ba8c18ccd0f41721986591b62da92c415ad975cf97b3f",
+      "size": 92811
+    },
+    {
+      "path": "data/archive/cartographies-ab-ae-batch-160-structured-source-v37.json",
+      "sha256": "ea6aedabe71c29e8958f011f5ad89c341c40ebef5121f8ec816d1e9ea29ed525",
+      "size": 1791788
+    },
+    {
+      "path": "data/archive/cartographies-k-l-batch-80-structured-source-v2.json",
+      "sha256": "a924525a0f7df9f7264e11b0a7d20ee89bc4eb032b375da8a5285fcb0ca525dd",
+      "size": 1008242
+    },
+    {
+      "path": "data/archive/cartographies-m-n-batch-80-structured-source-v2.json",
+      "sha256": "46914582038e07f8d7532252c9cf033178970620a4954107b41fb7a05bf2afb6",
+      "size": 974266
+    },
+    {
+      "path": "data/archive/cartographies-o-p-batch-80-structured-source-v2.json",
+      "sha256": "2aacc841b408200f44091039785e3b471162e8f901a51acec54e3338b09f5464",
+      "size": 981634
+    },
+    {
+      "path": "data/archive/cartography-a-structured-source-v2.json",
+      "sha256": "7e52375ff09ef62368ed7248607c85905b3ff2427265cd5db60b2b81faceba6b",
+      "size": 287089
+    },
+    {
+      "path": "data/archive/cartography-aa-batch-40-medicine-bioethics-structured-source-v36.json",
+      "sha256": "b712b0d3611407a2f9649a063463a6aad90eb6acd6c3e591975ee9bb500179b8",
+      "size": 498546
+    },
+    {
+      "path": "data/archive/cartography-ab-batch-40-structured-source-v37.json",
+      "sha256": "bcaf7c2b5cdb2af54d6a31b1f312e0c6b367aea0f64674cc4cb8bce37a3e5c1f",
+      "size": 456974
+    },
+    {
+      "path": "data/archive/cartography-ac-batch-40-structured-source-v37.json",
+      "sha256": "3f5314e5c0e2ce2cecc2ff3401f2bf1a91d3a98a78cf10879cf6387dc00a77ad",
+      "size": 443374
+    },
+    {
+      "path": "data/archive/cartography-ad-batch-40-structured-source-v37.json",
+      "sha256": "6a80a2ff3f4261fb0fb458bcf8d26dbb002a91699db82a55dab7175293676da5",
+      "size": 437875
+    },
+    {
+      "path": "data/archive/cartography-ae-batch-40-structured-source-v37.json",
+      "sha256": "8a4dd514fe4eb9b1f2e0194f476c3d40254d0772e854514e309fc7ca6e1bfd2f",
+      "size": 453571
+    },
+    {
+      "path": "data/archive/cartography-aj-batch-14-complexity-bioethics-research-structured-source-v39.json",
+      "sha256": "8fc8054c4852ced9aa573aabafbedadd021f8a8c4c1d5959c4a2cfe132eaab0d",
+      "size": 229130
+    },
+    {
+      "path": "data/archive/cartography-b-structured-source-v2.json",
+      "sha256": "14df0fc59466943cac9b93d22e8416f30d4850687a91f5f4bfdc34ca30ccdd58",
+      "size": 302240
+    },
+    {
+      "path": "data/archive/cartography-c-series-1-structured-source-v1.json",
+      "sha256": "46e7bed720c7e94d253a316034b9340c3a6c330d89745c5da7820065ffa7bbc2",
+      "size": 110085
+    },
+    {
+      "path": "data/archive/cartography-c-series-2-structured-source-v1.json",
+      "sha256": "7ba220abf12fc1ceb988b9ae152f379f6fd8745796afee7546c2a8219119d810",
+      "size": 113374
+    },
+    {
+      "path": "data/archive/cartography-c-series-3-structured-source-v1.json",
+      "sha256": "07441f5975d369e4b6349905bff066c7fdd8f61edb8fdd68f0b0052bdadb6c8e",
+      "size": 119218
+    },
+    {
+      "path": "data/archive/cartography-c-series-4-structured-source-v1.json",
+      "sha256": "57c39adbf1117d7450791871fcfdd059ea7e0345968e03d715e810f983bb04ac",
+      "size": 124174
+    },
+    {
+      "path": "data/archive/cartography-c-series-5-structured-source-v1.json",
+      "sha256": "42bc4eca4e07a55080491ba5b55389fe517a17742b8065b7b84703866ea63ae7",
+      "size": 31496
+    },
+    {
+      "path": "data/archive/cartography-d-batch-20-structured-source-v1.json",
+      "sha256": "d4fc6962c4fdc58d3f38e50e1ba2f44f709d1a403e28d15dffd06277f1a46305",
+      "size": 43961
+    },
+    {
+      "path": "data/archive/cartography-d-series-1-structured-source-v1.json",
+      "sha256": "1465da4699ba1bf6313541a487f741e3bfe052cd5b8aec2dcade850a0dd9478c",
+      "size": 34804
+    },
+    {
+      "path": "data/archive/cartography-d-series-2-structured-source-v1.json",
+      "sha256": "3bc6f4342d96d711e8d099de2f1012f9741685cdb49f5457153a99ac81435092",
+      "size": 32949
+    },
+    {
+      "path": "data/archive/cartography-d-series-3-structured-source-v1.json",
+      "sha256": "1523d102fd7d86ecb5f3fcbe8ec6050414bc4d310ad8fdece127ed5a6fdd5544",
+      "size": 35565
+    },
+    {
+      "path": "data/archive/cartography-d-series-4-structured-source-v1.json",
+      "sha256": "9f057e5ef5db5543a384dc1a701e3cb4380a19ffcf5847464290b23c841a16ef",
+      "size": 34610
+    },
+    {
+      "path": "data/archive/cartography-e-batch-20-part2-structured-source-v1.json",
+      "sha256": "668126cbb724743125c47047fd3296fbba68c0dfcb327e1e042d98029e932285",
+      "size": 54151
+    },
+    {
+      "path": "data/archive/cartography-e-batch-20-structured-source-v1.json",
+      "sha256": "09635a69c38cdc7c7ac8ec77f8e2803d4fe4939d6f35b1c5d8b3cf544949d30a",
+      "size": 50501
+    },
+    {
+      "path": "data/archive/cartography-f-batch-20-jewish-christian-structured-source-v1.json",
+      "sha256": "62447c5270ec434fa2960ccc6540da5a1b90b45a9a05000e8bf8f750b6144ba7",
+      "size": 46847
+    },
+    {
+      "path": "data/archive/cartography-f-batch-20-medieval-circulations-structured-source-v1.json",
+      "sha256": "1d6ec3b339b1725f81ec058037aca5e0cfd9ea3530f3e9357b55672a26454d05",
+      "size": 49343
+    },
+    {
+      "path": "data/archive/cartography-g-batch-20-greek-archaic-classical-structured-source-v1.json",
+      "sha256": "2e0d81a133ca80d2ef43b41ad7f484a76f65d1381a9870277b01767d39c32547",
+      "size": 48617
+    },
+    {
+      "path": "data/archive/cartography-g-batch-20-hellenistic-roman-late-antiquity-structured-source-v1.json",
+      "sha256": "04e04c1a8eec2a5640cc9e5b76e2da26e6293000f0c0cd0865ebc58f4d845309",
+      "size": 48426
+    },
+    {
+      "path": "data/archive/cartography-h-batch-40-indigenous-americas-arctic-structured-source-v2.json",
+      "sha256": "a7494c5dd3ae441306f80b973302556d3635fff58dd41a3c070b75d350febcfa",
+      "size": 464151
+    },
+    {
+      "path": "data/archive/cartography-i-batch-40-structured-source-v2.json",
+      "sha256": "ab7c116986a339866617cbf000d19853ea8026a94565653c15379c74416d6753",
+      "size": 434766
+    },
+    {
+      "path": "data/archive/cartography-j-batch-40-structured-source-v2.json",
+      "sha256": "688bdceea7ab5c1d4fce78c312dbe32b490acfd28d5b8ea3cc51a94a9ca102a4",
+      "size": 431783
+    },
+    {
+      "path": "data/archive/cartography-k-batch-40-structured-source-v2.json",
+      "sha256": "114bac8496ea8135b32de6f98140661c30c06de5777683922697d7cf868447f1",
+      "size": 467000
+    },
+    {
+      "path": "data/archive/cartography-l-batch-40-structured-source-v2.json",
+      "sha256": "5c2fcef5880220fd639818d6a6ed583ddbd1e81752a2ceae768e95aa540efe19",
+      "size": 453084
+    },
+    {
+      "path": "data/archive/cartography-m-batch-40-structured-source-v2.json",
+      "sha256": "99d9564f54cc3119c5c7b2d1fd91ed7a64f5af764ffcc963115f84559c4a807a",
+      "size": 441149
+    },
+    {
+      "path": "data/archive/cartography-n-batch-40-structured-source-v2.json",
+      "sha256": "90861aa4ee3d311d711615ae22005aa71f5dac4f0ce44b152522a19c15b0be9b",
+      "size": 446255
+    },
+    {
+      "path": "data/archive/cartography-o-batch-40-structured-source-v2.json",
+      "sha256": "f36932b523a9bdf15d50fde07305ab54fb2e96109d9deda89032687606f319fb",
+      "size": 446653
+    },
+    {
+      "path": "data/archive/cartography-p-batch-40-structured-source-v2.json",
+      "sha256": "c3af22169cc1031cfcf2231ea76edd5aed3c2a8585dd3c8ded3b72241355fa23",
+      "size": 447991
+    },
+    {
+      "path": "data/archive/cartography-q-batch-40-greek-expansion-structured-source-v3.json",
+      "sha256": "1da105fdce941560ca3056946f096aec6111693b42938a17120525f1085456b0",
+      "size": 440731
+    },
+    {
+      "path": "data/archive/cartography-r-batch-40-hellenistic-expansion-structured-source-v3.json",
+      "sha256": "e90b57623333bb49d704bc3604d406efe9b833bcb4021092da4640898ed3a366",
+      "size": 441393
+    },
+    {
+      "path": "data/archive/cartography-s-batch-40-complexity-preferred-authors-structured-source-v3.json",
+      "sha256": "e41c38065e549d9a5d0d9ee583e137ea93d5e774dcc6453b67f5a211abfb0b5c",
+      "size": 672608
+    },
+    {
+      "path": "data/archive/cartography-t-batch-40-structured-source-v3.json",
+      "sha256": "118ccd0461ad8997b1a0f7fa8e1baeded9d54a0355b1991d8c8616c42eda2fc8",
+      "size": 499742
+    },
+    {
+      "path": "data/archive/cartography-u-batch-40-structured-source-v3.json",
+      "sha256": "1967bfc0f0b61b598ef1d5f167e7fea869dcce60b5259939f30fca8f15cafc44",
+      "size": 510080
+    },
+    {
+      "path": "data/archive/cartography-v-batch-40-modernity-coloniality-structured-source-v3.json",
+      "sha256": "c7735b53c957a42711a26b25d895e67c2a101e482a3f7ad07073dd674a116c1e",
+      "size": 528633
+    },
+    {
+      "path": "data/archive/cartography-w-batch-40-decolonial-feminisms-pedagogies-structured-source-v3.json",
+      "sha256": "fc90e5428fae43fe578c26b248d8a86ec6c1eee588f2cf6dcd3e47e471d5eca2",
+      "size": 516032
+    },
+    {
+      "path": "data/archive/cartography-x-batch-40-psychologies-clinical-structured-source-v34.json",
+      "sha256": "b1e8e741f5d1775e79c8dbe55616c1fb91bfc9a155a30966b794cd857f586110",
+      "size": 471933
+    },
+    {
+      "path": "data/archive/cartography-y-batch-40-education-learning-structured-source-v34.json",
+      "sha256": "22388eaebe4d09417ee304e5d916e35d4dd44cb82452c8feb51196da0862d48f",
+      "size": 476241
+    },
+    {
+      "path": "data/archive/cartography-z-batch-40-mathematics-logic-structured-source-v36.json",
+      "sha256": "036e3e10be6d8c2646a1a9c9136e59b4daf245d0a75ae9c9890a04e953706c1c",
+      "size": 500613
+    },
+    {
+      "path": "data/archive/extended-dossiers-v03.json",
+      "sha256": "6b908aca932b8458ef42859f65137c4e828e63cc60f2577960873d95e74d716f",
+      "size": 71586
+    },
+    {
+      "path": "data/archive/islamic_persian_jewish_medieval_40_v38.json",
+      "sha256": "0900fa2db465c7c7b9fad6b82d27461910911aa0eda9f8e0a49a3737570a5688",
+      "size": 465671
+    },
+    {
+      "path": "data/archive/latin_medieval_scholastic_mystical_40_v38.json",
+      "sha256": "9f7f06d525dff5ed6720e5365666cf1d6f36973a0eefca5359f44ac6b8c49816",
+      "size": 474665
+    },
+    {
+      "path": "data/archive/precolonial_regional_africa_40_v38.json",
+      "sha256": "a88de73864685f19c32723a8efce6cf5b43b08be745b0a5688c5fa09d7d4310e",
+      "size": 472566
+    },
+    {
+      "path": "data/archive/southeast_asia_oceania_pacific_40_v38.json",
+      "sha256": "497bc131688e793a9892968ef4f3305181a2e3c84432d08d6388ac36e37c9ba5",
+      "size": 465720
+    },
+    {
+      "path": "data/archive/history/cartography-aj-initial-12-v39.0.json",
+      "sha256": "1d5b924e82a813a80a9ffab499230076f017fda2986cf8990bfe754c211ceb88",
+      "size": 194187
+    },
+    {
+      "path": "docs/AUDITORIA_V36_CONTENIDOS_Y_RUTA.md",
+      "sha256": "d22137b2381907bae7e4a8c020870c9d8b9ae88f845c7c6273b111b52e9ad9b8",
+      "size": 2792
+    },
+    {
+      "path": "docs/CONFIRMACIONES_MANUALES_V39.md",
+      "sha256": "b90d265144f104f7204c539befafdcb53fba14749b9d26f4ec2964a5aec6c352",
+      "size": 1121
+    },
+    {
+      "path": "docs/GUIA_EDITORIAL_V2.md",
+      "sha256": "81aa9334ddf80b2f6b5cfc95071087beb29147c6b14efa74ee0096b081d4e608",
+      "size": 1267
+    },
+    {
+      "path": "docs/INFORME_AUTORES_CONCEPTOS_FUENTES_V39.md",
+      "sha256": "1216973d8324c08a9afd5eb84a18d6f770825cfe177ef3f5c489ebb4cb076586",
+      "size": 3150
+    },
+    {
+      "path": "docs/NOTA_EDITORIAL_CARTOGRAFIA_AJ.md",
+      "sha256": "202ed15682a9acc2cc9750fb291fd64d5a9f89882ee6c444babe3fc6fcacb1c5",
+      "size": 1259
+    },
+    {
+      "path": "docs/NOTA_EDITORIAL_CARTOGRAFIA_S.md",
+      "sha256": "f6d69e969b838dff9b6b9d2d27e5b5c57df385a7b3fa3ee6d68e021b6644f371",
+      "size": 731
+    },
+    {
+      "path": "docs/NOTA_EDITORIAL_Z_AA.md",
+      "sha256": "0a93da941de6309c5269aa327dab0e0293672385cfe6eb26bd661a0fdb4b3a12",
+      "size": 622
+    },
+    {
+      "path": "docs/PREVIA_MOVIL_DURACION_V27.png",
+      "sha256": "fd9e129c7eea2490f0284ae8c6cc624ebd2d018182febd0dc3a006f51fbe8301",
+      "size": 122408
+    },
+    {
+      "path": "docs/PREVIA_MOVIL_INICIO_V27.png",
+      "sha256": "e6cd1f3644d97a0e256d333c5a37d0e10ec5e31a32190128844bee250a883edc",
+      "size": 145258
+    },
+    {
+      "path": "docs/VALIDACION_EXPORTACION_ESCRITORIO_V30.png",
+      "sha256": "b2ccb7d339b971659e0b8577f6c61f5848f1b46c2bef084ee5459c9d0856790d",
+      "size": 329765
+    },
+    {
+      "path": "docs/VALIDACION_FAVORITAS_MOVIL_V30.png",
+      "sha256": "c8fbb29bab62213810e9f9ba6ec2945f133c74b10dc8c8ec4f4f0e050a9f253d",
+      "size": 225740
+    },
+    {
+      "path": "docs/arquitectura-guia-aprobada.txt",
+      "sha256": "30ac81151e6604b831038d08cdc51c5523d7d84749d0134020c25e3bfa978053",
+      "size": 14823
+    },
+    {
+      "path": "docs/evidence-v39/HTTP_200_PRINCIPALES.json",
+      "sha256": "28f39dbbac024e4db788535cddf6ff87d53aed29666ef86653e9cb280b8efe28",
+      "size": 1305
+    },
+    {
+      "path": "docs/evidence-v39/VALIDACION_VISUAL_NO_EJECUTADA.md",
+      "sha256": "3728377d5d1dd5577b0b54d567aabcb49a86394058929262f3ebe16f9a5b4377",
+      "size": 648
+    },
+    {
+      "path": "docs/history/AUDITORIA_DISCIPLINAR_V31.md",
+      "sha256": "04895b1a144d4e240811aa20b2cbb230a80efca7cf652e288e9fe815181300be",
+      "size": 2439
+    },
+    {
+      "path": "docs/history/AUDITORIA_DISCIPLINAR_V35.md",
+      "sha256": "a4f09f61bb5d4509e27ed72eb8962c7fb12421118fe63616974ac744379c8c20",
+      "size": 1454
+    },
+    {
+      "path": "docs/history/AUDITORIA_V35_CONTENIDOS_Y_RUTA.md",
+      "sha256": "c889ecf96ca82c6f15456b14fb7a55f120087948a22426b1ea5c98deab7dacae",
+      "size": 7767
+    },
+    {
+      "path": "docs/history/MIGRACION_V27.md",
+      "sha256": "c926b6a329420239da0bbe884f12c2c6cd115c7773c1667b890f0ba65a51d93c",
+      "size": 651
+    },
+    {
+      "path": "docs/history/MIGRACION_V28.md",
+      "sha256": "6b21ac65fc299d18f1c50a6d682eabd8a6fff44e353fe376dbb0a0903ecafc99",
+      "size": 387
+    },
+    {
+      "path": "docs/history/MIGRACION_V29.md",
+      "sha256": "edd0e4e60557392a7e7bd5f10066928c80fea9f1d36a12a38e20339984ee38d9",
+      "size": 519
+    },
+    {
+      "path": "docs/history/MIGRACION_V30.md",
+      "sha256": "3eba3b5507ae686a1d11adb77b5a34f935f5daa5060fa30b6c9b709706ea4e45",
+      "size": 2287
+    },
+    {
+      "path": "docs/history/MIGRACION_V31.md",
+      "sha256": "792bf086b762bb7a9c0df5fe66d5bdb038e3284a16d4e93d1b1e80edb8b78951",
+      "size": 1186
+    },
+    {
+      "path": "docs/history/MIGRACION_V32.md",
+      "sha256": "cce4c8208f97047ba2a7f3c003fc9d02c879a903f5f78257ccab75a12d1b4f31",
+      "size": 253
+    },
+    {
+      "path": "docs/history/MIGRACION_V33.md",
+      "sha256": "b80bd62cb0924dd32811ee0d370a93ce56f0b292bdc338dfb1555d4e18adc37b",
+      "size": 351
+    },
+    {
+      "path": "docs/history/MIGRACION_V34.md",
+      "sha256": "5431d134fda9cb0cf29853bac6451443f8f3c49164be657b67366e0cd1a0181d",
+      "size": 789
+    },
+    {
+      "path": "docs/history/MIGRACION_V35.md",
+      "sha256": "89d149d9a6f350130070e9dde7cde17fdfe289f0b909ac74575eb2b126697c11",
+      "size": 504
+    },
+    {
+      "path": "docs/history/VALIDACION_V30.json",
+      "sha256": "a1969ec2776f659b7fb5e020b8f48f86c42dbeb73c1e4bc871de7db8c0b65d8f",
+      "size": 4968
+    },
+    {
+      "path": "docs/history/VALIDACION_V31.json",
+      "sha256": "b202fbb14392f7a1c087e256a45327cc9ad5b2c03414a8381b50f8c9ad0c18eb",
+      "size": 2863
+    },
+    {
+      "path": "docs/history/VALIDACION_V32.json",
+      "sha256": "344084a1c68a10634104a5b02115b22e4d592d424b94916971b3e5e556a181a9",
+      "size": 498
+    },
+    {
+      "path": "docs/history/VALIDACION_V33.json",
+      "sha256": "728d9597183da641e2e52dd154b8c356f0dddd1541af6fc3a2950ace7694354f",
+      "size": 569
+    },
+    {
+      "path": "docs/history/VALIDACION_V34.json",
+      "sha256": "fc8f5d5758c139e551bff64554fbdc1df2922849bbf3017724fca7988f543a39",
+      "size": 1422
+    },
+    {
+      "path": "docs/history/VALIDACION_V35.json",
+      "sha256": "96044abaea97ea484585cd83f3c40203f4aa225e2b769afa33635fdbcf7c4852",
+      "size": 1091
+    },
+    {
+      "path": "docs/previous-validations/MIGRACION_V25.md",
+      "sha256": "1a1b56f39e5c2c5b1427c82a43d59c8e6d90981714947b5cabea97e4baa5bf15",
+      "size": 919
+    },
+    {
+      "path": "docs/previous-validations/MIGRACION_V27.md",
+      "sha256": "c926b6a329420239da0bbe884f12c2c6cd115c7773c1667b890f0ba65a51d93c",
+      "size": 651
+    },
+    {
+      "path": "docs/previous-validations/MIGRACION_V28.md",
+      "sha256": "6b21ac65fc299d18f1c50a6d682eabd8a6fff44e353fe376dbb0a0903ecafc99",
+      "size": 387
+    },
+    {
+      "path": "docs/previous-validations/MIGRACION_V29.md",
+      "sha256": "edd0e4e60557392a7e7bd5f10066928c80fea9f1d36a12a38e20339984ee38d9",
+      "size": 519
+    },
+    {
+      "path": "docs/previous-validations/VALIDACION_V25.json",
+      "sha256": "bb106a14430a3ba6b827798d25381b5e42a1203fa2014237d1f9e90c843ecf13",
+      "size": 1741
+    },
+    {
+      "path": "docs/previous-validations/VALIDACION_V29.json",
+      "sha256": "fc8cdeb5f5ec62ba29bcc3e46cb54979a70c0f7bc7357daa981cfd7f36055744",
+      "size": 999
+    }
+  ]
+}

@@ -1,0 +1,380 @@
+{
+  "version": "3.5.0",
+  "generatedAt": "2026-07-26",
+  "corpus": {
+    "cards": 1060,
+    "collections": 26,
+    "authorsTraditionsEntities": 809,
+    "oneCardEntities": 701,
+    "oneCardEntityPercentage": 86.7,
+    "sourcesWithDirectUrl": 910,
+    "sourcesWithoutDirectUrl": 150,
+    "disciplinaryRelations": 9042,
+    "publishableDisciplinaryRelations": 6573,
+    "manualDisciplineReviewCards": 808
+  },
+  "periods": [
+    {
+      "id": "first_symbolic_traces",
+      "label": "Primeras huellas simbólicas humanas",
+      "ideas": 30
+    },
+    {
+      "id": "ancestral_cosmogonies_memories",
+      "label": "Cosmogonías y memorias ancestrales",
+      "ideas": 30
+    },
+    {
+      "id": "ancient_asia_africa_america",
+      "label": "Pensamientos antiguos de Asia, África y América",
+      "ideas": 88
+    },
+    {
+      "id": "greek_mediterranean_philosophies",
+      "label": "Filosofías griegas y mediterráneas",
+      "ideas": 60
+    },
+    {
+      "id": "hellenistic_imperial_worlds",
+      "label": "Escuelas helenísticas y mundos imperiales",
+      "ideas": 60
+    },
+    {
+      "id": "medieval_translation_routes",
+      "label": "Filosofías medievales y rutas de traducción",
+      "ideas": 71
+    },
+    {
+      "id": "renaissances_humanisms_encounters",
+      "label": "Renacimientos, humanismos y encuentros culturales",
+      "ideas": 53
+    },
+    {
+      "id": "science_rationalism_empiricism_enlightenment",
+      "label": "Ciencia, racionalismo, empirismo e Ilustración",
+      "ideas": 47
+    },
+    {
+      "id": "revolutions_critiques_modernity",
+      "label": "Revoluciones y críticas de la modernidad",
+      "ideas": 130
+    },
+    {
+      "id": "twentieth_philosophies_human_sciences",
+      "label": "Filosofías y ciencias humanas del siglo XX",
+      "ideas": 236
+    },
+    {
+      "id": "systems_complexity_transdisciplinarity",
+      "label": "Pensamiento sistémico, complejo y transdisciplinario",
+      "ideas": 87
+    },
+    {
+      "id": "decolonial_emergent_algorithmic",
+      "label": "Decolonialidad, epistemologías emergentes y mundo algorítmico",
+      "ideas": 168
+    }
+  ],
+  "disciplines": [
+    {
+      "id": "philosophy",
+      "label": "Filosofía",
+      "publishedIdeas": 1019,
+      "manualReviewIdeas": 0
+    },
+    {
+      "id": "psychology_subjectivity",
+      "label": "Psicología y subjetividad",
+      "publishedIdeas": 676,
+      "manualReviewIdeas": 153
+    },
+    {
+      "id": "anthropology_cultures",
+      "label": "Antropología y culturas",
+      "publishedIdeas": 545,
+      "manualReviewIdeas": 171
+    },
+    {
+      "id": "education_pedagogy",
+      "label": "Educación y pedagogía",
+      "publishedIdeas": 558,
+      "manualReviewIdeas": 276
+    },
+    {
+      "id": "sociology_collective",
+      "label": "Sociología y vida colectiva",
+      "publishedIdeas": 605,
+      "manualReviewIdeas": 102
+    },
+    {
+      "id": "politics_government",
+      "label": "Política y gobierno",
+      "publishedIdeas": 561,
+      "manualReviewIdeas": 0
+    },
+    {
+      "id": "law_justice",
+      "label": "Derecho y justicia",
+      "publishedIdeas": 443,
+      "manualReviewIdeas": 226
+    },
+    {
+      "id": "economics_exchange",
+      "label": "Economía e intercambio",
+      "publishedIdeas": 114,
+      "manualReviewIdeas": 274
+    },
+    {
+      "id": "natural_sciences",
+      "label": "Ciencias naturales",
+      "publishedIdeas": 575,
+      "manualReviewIdeas": 53
+    },
+    {
+      "id": "medicine_body",
+      "label": "Medicina y cuerpo",
+      "publishedIdeas": 181,
+      "manualReviewIdeas": 442
+    },
+    {
+      "id": "mathematics_logic",
+      "label": "Matemáticas y lógica",
+      "publishedIdeas": 85,
+      "manualReviewIdeas": 354
+    },
+    {
+      "id": "language_communication",
+      "label": "Lenguaje y comunicación",
+      "publishedIdeas": 523,
+      "manualReviewIdeas": 209
+    },
+    {
+      "id": "art_aesthetics",
+      "label": "Arte y estética",
+      "publishedIdeas": 160,
+      "manualReviewIdeas": 0
+    },
+    {
+      "id": "religions_theologies",
+      "label": "Religiones y teologías",
+      "publishedIdeas": 269,
+      "manualReviewIdeas": 172
+    },
+    {
+      "id": "technology_knowledge",
+      "label": "Tecnología y conocimiento",
+      "publishedIdeas": 259,
+      "manualReviewIdeas": 37
+    }
+  ],
+  "authorDepth": {
+    "distribution": {
+      "1": 701,
+      "2": 53,
+      "3": 20,
+      "4": 13,
+      "5": 11,
+      "6": 4,
+      "8": 1,
+      "9": 6
+    },
+    "top": [
+      {
+        "author": "Edgar Morin",
+        "ideas": 9
+      },
+      {
+        "author": "Denise Najmanovich",
+        "ideas": 9
+      },
+      {
+        "author": "Basarab Nicolescu",
+        "ideas": 9
+      },
+      {
+        "author": "Ilya Prigogine",
+        "ideas": 9
+      },
+      {
+        "author": "Gilles Deleuze y Félix Guattari",
+        "ideas": 9
+      },
+      {
+        "author": "Paulo Freire",
+        "ideas": 9
+      },
+      {
+        "author": "Sigmund Freud",
+        "ideas": 8
+      },
+      {
+        "author": "Jacques Lacan",
+        "ideas": 6
+      },
+      {
+        "author": "Enrique Dussel",
+        "ideas": 6
+      },
+      {
+        "author": "Lev Vygotsky",
+        "ideas": 6
+      },
+      {
+        "author": "Jean Piaget",
+        "ideas": 6
+      },
+      {
+        "author": "Frantz Fanon",
+        "ideas": 5
+      },
+      {
+        "author": "Achille Mbembe",
+        "ideas": 5
+      },
+      {
+        "author": "Platón",
+        "ideas": 5
+      },
+      {
+        "author": "Aristóteles",
+        "ideas": 5
+      },
+      {
+        "author": "Arturo Escobar",
+        "ideas": 5
+      },
+      {
+        "author": "Carl Gustav Jung",
+        "ideas": 5
+      },
+      {
+        "author": "Aníbal Quijano",
+        "ideas": 5
+      },
+      {
+        "author": "B. F. Skinner",
+        "ideas": 5
+      },
+      {
+        "author": "Viktor Frankl",
+        "ideas": 5
+      },
+      {
+        "author": "Carl Rogers",
+        "ideas": 5
+      },
+      {
+        "author": "Maria Montessori",
+        "ideas": 5
+      },
+      {
+        "author": "Orlando Fals Borda",
+        "ideas": 4
+      },
+      {
+        "author": "Silvia Rivera Cusicanqui",
+        "ideas": 4
+      },
+      {
+        "author": "John Dewey",
+        "ideas": 4
+      },
+      {
+        "author": "Michel Foucault",
+        "ideas": 4
+      },
+      {
+        "author": "José Carlos Mariátegui",
+        "ideas": 4
+      },
+      {
+        "author": "Walter Mignolo",
+        "ideas": 4
+      },
+      {
+        "author": "María Lugones",
+        "ideas": 4
+      },
+      {
+        "author": "Rodolfo Kusch",
+        "ideas": 4
+      }
+    ],
+    "structuralAuthorsStillAtOneIdea": [
+      "René Descartes",
+      "Baruch Spinoza",
+      "Gottfried Wilhelm Leibniz",
+      "John Locke",
+      "George Berkeley",
+      "David Hume",
+      "Immanuel Kant",
+      "Jean-Jacques Rousseau",
+      "Friedrich Nietzsche",
+      "Søren Kierkegaard",
+      "John Stuart Mill",
+      "Charles Darwin",
+      "Émile Durkheim",
+      "Max Weber",
+      "Hannah Arendt",
+      "Emmanuel Levinas",
+      "Maurice Merleau-Ponty",
+      "Georges Canguilhem"
+    ]
+  },
+  "resolvedSinceV33": [
+    "Psicología y subjetividad cuenta con una cartografía propia de 40 ideas y mayor profundidad en Freud, Lacan, Jung, Adler, Skinner, Maslow, Perls, Frankl y Rogers.",
+    "Educación y pedagogía cuenta con una cartografía propia de 40 ideas y mayor profundidad en Freire, Vygotsky, Piaget, Ausubel, Montessori y Pestalozzi.",
+    "La portada incorpora accesos compactos y equivalentes a Explorar ideas, Favoritas, Conexiones e Intereses.",
+    "El corpus decolonial, de complejidad, Grecia y Helenismo ya tiene una densidad fuerte."
+  ],
+  "priorityRoadmap": [
+    {
+      "id": "cartography_z",
+      "title": "Matemáticas, lógica y formas de demostración",
+      "status": "planned",
+      "plannedRecords": 40,
+      "priority": 1,
+      "rationale": "Es el campo disciplinar con menor densidad directa y requiere una genealogía propia de prueba, infinito, formalización, probabilidad y computabilidad."
+    },
+    {
+      "id": "cartography_aa",
+      "title": "Medicina, cuerpo, salud pública y bioética",
+      "status": "planned",
+      "plannedRecords": 40,
+      "priority": 2,
+      "rationale": "La cobertura actual es mayoritariamente transversal; faltan historia clínica, fisiología, normalidad, salud pública, bioética y justicia sanitaria."
+    },
+    {
+      "id": "cartography_ab",
+      "title": "Ciencia e Ilustraciones · ampliación global",
+      "status": "planned",
+      "plannedRecords": 40,
+      "priority": 3,
+      "rationale": "El periodo conserva solo 47 ideas y necesita instituciones científicas, probabilidad, medición, Ilustraciones plurales y circulación colonial del conocimiento."
+    },
+    {
+      "id": "cartography_ac",
+      "title": "Bizancio, mundo siríaco, India medieval, Japón y Corea",
+      "status": "planned",
+      "plannedRecords": 40,
+      "priority": 4,
+      "rationale": "Completa zonas medievales y asiáticas todavía subordinadas a rutas occidentales o tratadas de manera fragmentaria."
+    },
+    {
+      "id": "cartography_ad",
+      "title": "Profundización de autores estructurales modernos y contemporáneos",
+      "status": "planned",
+      "plannedRecords": 40,
+      "priority": 5,
+      "rationale": "Reduce la dependencia de tarjetas únicas en Descartes, Spinoza, Leibniz, Hume, Kant, Nietzsche, Durkheim, Weber, Arendt, Levinas y otros."
+    }
+  ],
+  "editorialDebt": {
+    "manualDisciplineClassification": 792,
+    "geographyReview": 514,
+    "bibliographicCompletion": 340,
+    "cardsWithoutDirectUrl": 150,
+    "languageMetadataOptional": 177,
+    "specialistChronologyReview": 39
+  }
+}

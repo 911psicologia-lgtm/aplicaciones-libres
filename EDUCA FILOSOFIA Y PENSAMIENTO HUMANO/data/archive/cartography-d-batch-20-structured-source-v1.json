@@ -1,0 +1,919 @@
+{
+  "schemaVersion": "1.0",
+  "packId": "pack_cartography_d_song_chan_song_ming_qing_20_v1",
+  "title": "Cartografía D · Serie doble 6–7 · Chan Song y confucianismos Song–Ming–Qing",
+  "status": "research_consolidated_pending_app_integration",
+  "createdAt": "2026-07-24",
+  "recordCount": 20,
+  "editorialRule": "Lotes de 20 unidades. Audio principal breve, entidad al inicio, idea central, aporte y cautela.",
+  "records": [
+    {
+      "id": "card_hongzhi_silent_illumination_001",
+      "series": "cartography-d-series-6-7",
+      "order": 1,
+      "entity": "Hongzhi Zhengjue",
+      "title": "Silencio que permanece despierto",
+      "period": "1091–1157",
+      "territory": "China, dinastía Song",
+      "cardType": "autor_concepto",
+      "question": "¿Cómo puede una práctica ser silenciosa sin convertirse en pasividad?",
+      "visibleText": "La iluminación silenciosa une quietud y claridad: no suprime la atención, sino que evita forzarla.",
+      "coreIdea": "Hongzhi presentó la iluminación silenciosa como una práctica de quietud alerta, no como adormecimiento ni ausencia de discernimiento.",
+      "distinctiveKey": "silencio + claridad + presencia",
+      "audio": "Comenzamos con Hongzhi Zhengjue y la iluminación silenciosa. La práctica no busca fabricar una experiencia extraordinaria, sino permanecer quieta, lúcida y disponible. El silencio no equivale a dormir la mente: exige claridad sin aferrarse a objetos. Su formulación influyó en Caodong, aunque no debe proyectarse como método idéntico sobre toda la historia de esa tradición.",
+      "caution": "No equiparar iluminación silenciosa con pasividad, supresión mental o toda la tradición Caodong anterior y posterior.",
+      "tags": [
+        "Chan",
+        "Caodong",
+        "meditación",
+        "lucidez"
+      ],
+      "connections": [
+        "card_dahui_kanhua_001",
+        "card_song_chan_comparison_001"
+      ],
+      "quiz": {
+        "question": "¿Qué evita la iluminación silenciosa según Hongzhi?",
+        "options": [
+          "Toda forma de atención",
+          "Forzar la mente y caer en embotamiento",
+          "La práctica meditativa",
+          "La claridad"
+        ],
+        "correctIndex": 1,
+        "explanation": "La quietud debe permanecer alerta y clara."
+      },
+      "evidenceLevel": "B",
+      "sources": [
+        {
+          "title": "Mozhao Chan (Silent Illumination Chan)",
+          "url": "https://www.encyclopedia.com/religion/encyclopedias-almanacs-transcripts-and-maps/mozhao-chan-silent-illumination-chan"
+        }
+      ]
+    },
+    {
+      "id": "card_dahui_kanhua_001",
+      "series": "cartography-d-series-6-7",
+      "order": 2,
+      "entity": "Dahui Zonggao",
+      "title": "La frase crítica como problema vivo",
+      "period": "1089–1163",
+      "territory": "China, dinastía Song",
+      "cardType": "autor_metodo",
+      "question": "¿Por qué una sola frase puede reorganizar toda la atención?",
+      "visibleText": "Dahui concentró la práctica en una frase crítica que debía convertirse en una pregunta existencial, no en un acertijo intelectual.",
+      "coreIdea": "Kanhua Chan dirige la atención hacia una frase crítica extraída de un caso Chan para atravesar hábitos conceptuales mediante duda concentrada.",
+      "distinctiveKey": "frase crítica + gran duda + ruptura",
+      "audio": "Seguimos con Dahui Zonggao y la contemplación de la frase crítica. En lugar de analizar historias completas, el practicante concentra la atención en una expresión que no admite solución discursiva fácil. La duda debe volverse intensa y sostenida hasta quebrar respuestas automáticas. Dahui criticó el quietismo, pero su método tampoco fue una invitación a la agitación mental ni al simple ingenio verbal.",
+      "caution": "No presentar huatou como adivinanza, técnica instantánea o única forma legítima de Chan.",
+      "tags": [
+        "Chan",
+        "Linji",
+        "kanhua",
+        "huatou"
+      ],
+      "connections": [
+        "card_hongzhi_silent_illumination_001",
+        "card_gongan_huatou_001"
+      ],
+      "quiz": {
+        "question": "¿Qué función cumple la frase crítica?",
+        "options": [
+          "Ofrecer una respuesta doctrinal",
+          "Concentrar la duda y romper automatismos",
+          "Memorizar un poema",
+          "Reemplazar toda disciplina"
+        ],
+        "correctIndex": 1,
+        "explanation": "La frase no se resuelve como acertijo, sino que concentra la práctica."
+      },
+      "evidenceLevel": "B",
+      "sources": [
+        {
+          "title": "Chan School",
+          "url": "https://www.encyclopedia.com/religion/encyclopedias-almanacs-transcripts-and-maps/chan-school"
+        },
+        {
+          "title": "Korean Buddhism",
+          "url": "https://plato.stanford.edu/entries/korean-buddhism/"
+        }
+      ]
+    },
+    {
+      "id": "card_gongan_huatou_001",
+      "series": "cartography-d-series-6-7",
+      "order": 3,
+      "entity": "Tradiciones Chan",
+      "title": "Gong’an y huatou no son lo mismo",
+      "period": "Dinastías Tang y Song",
+      "territory": "China",
+      "cardType": "tradicion_concepto",
+      "question": "¿Qué diferencia existe entre un caso público y su frase crítica?",
+      "visibleText": "El gong’an conserva una escena de enseñanza; el huatou extrae de ella una frase para convertirla en foco de práctica.",
+      "coreIdea": "Los gong’an son casos o encuentros preservados; el huatou es una expresión breve tomada de ellos y usada como foco contemplativo.",
+      "distinctiveKey": "caso completo ≠ frase crítica",
+      "audio": "Entramos en la diferencia entre gong’an y huatou. El gong’an conserva un encuentro, una respuesta o una escena transmitida por la tradición Chan. El huatou selecciona una frase decisiva de ese caso y la convierte en foco de atención. Ninguno funciona bien como rompecabezas literario aislado: su sentido depende de práctica, comentario, comunidad y contexto de transmisión.",
+      "caution": "Evitar traducir gong’an únicamente como “acertijo” y huatou como contraseña universal.",
+      "tags": [
+        "gong’an",
+        "huatou",
+        "Chan",
+        "transmisión"
+      ],
+      "connections": [
+        "card_dahui_kanhua_001",
+        "card_song_chan_comparison_001"
+      ],
+      "quiz": {
+        "question": "¿Qué caracteriza al huatou?",
+        "options": [
+          "Es siempre un caso completo",
+          "Es una frase crítica extraída para la práctica",
+          "Es un texto legal moderno",
+          "Es un poema cortesano"
+        ],
+        "correctIndex": 1,
+        "explanation": "El huatou concentra un punto decisivo del caso."
+      },
+      "evidenceLevel": "B",
+      "sources": [
+        {
+          "title": "Chan School",
+          "url": "https://www.encyclopedia.com/religion/encyclopedias-almanacs-transcripts-and-maps/chan-school"
+        },
+        {
+          "title": "Korean Buddhism",
+          "url": "https://plato.stanford.edu/entries/korean-buddhism/"
+        }
+      ]
+    },
+    {
+      "id": "card_song_chan_comparison_001",
+      "series": "cartography-d-series-6-7",
+      "order": 4,
+      "entity": "Chan de la dinastía Song",
+      "title": "Caodong y Linji: diferencias sin caricatura",
+      "period": "Siglos XI–XIII",
+      "territory": "China",
+      "cardType": "comparativa",
+      "question": "¿Las dos grandes orientaciones Chan fueron opuestos absolutos?",
+      "visibleText": "Iluminación silenciosa y contemplación de frases críticas marcaron diferencias reales, pero las comunidades Chan también compartieron textos, instituciones y metas.",
+      "coreIdea": "La competencia entre métodos no debe ocultar intercambios, superposiciones y objetivos comunes de sabiduría y compasión.",
+      "distinctiveKey": "diferencia histórica sin binarismo rígido",
+      "audio": "Comparamos ahora Caodong y Linji durante la dinastía Song. Hongzhi destacó la quietud lúcida; Dahui defendió la investigación de frases críticas y atacó formas de quietismo. La controversia fue real, pero no creó dos mundos incomunicados. Las escuelas compartieron instituciones, genealogías y vocabularios, y sus prácticas cambiaron con el tiempo. La diferencia histórica no autoriza un contraste absoluto entre pasividad y acción.",
+      "caution": "No proyectar directamente la oposición japonesa Sōtō–Rinzai sobre toda la historia china.",
+      "tags": [
+        "Caodong",
+        "Linji",
+        "Song",
+        "comparación"
+      ],
+      "connections": [
+        "card_hongzhi_silent_illumination_001",
+        "card_dahui_kanhua_001"
+      ],
+      "quiz": {
+        "question": "¿Cuál es la interpretación más rigurosa?",
+        "options": [
+          "Fueron tradiciones totalmente aisladas",
+          "Tuvieron diferencias y también intercambios",
+          "Una eliminó por completo a la otra",
+          "No existió ninguna controversia"
+        ],
+        "correctIndex": 1,
+        "explanation": "La oposición fue significativa, pero no absoluta."
+      },
+      "evidenceLevel": "C",
+      "sources": [
+        {
+          "title": "Mozhao Chan (Silent Illumination Chan)",
+          "url": "https://www.encyclopedia.com/religion/encyclopedias-almanacs-transcripts-and-maps/mozhao-chan-silent-illumination-chan"
+        },
+        {
+          "title": "Chan School",
+          "url": "https://www.encyclopedia.com/religion/encyclopedias-almanacs-transcripts-and-maps/chan-school"
+        }
+      ]
+    },
+    {
+      "id": "card_zhou_dunyi_supreme_polarity_001",
+      "series": "cartography-d-series-6-7",
+      "order": 5,
+      "entity": "Zhou Dunyi",
+      "title": "Cosmos y cultivo en la Suprema Polaridad",
+      "period": "1017–1073",
+      "territory": "China, Song del Norte",
+      "cardType": "autor_concepto",
+      "question": "¿Cómo puede una cosmología orientar la formación moral?",
+      "visibleText": "Zhou relacionó Suprema Polaridad, yin-yang, cinco fases y vida humana dentro de una misma dinámica creadora y ética.",
+      "coreIdea": "El Taijitu shuo conecta transformación cósmica y cultivo humano, sin separar metafísica y vida moral.",
+      "distinctiveKey": "cosmología convertida en orientación ética",
+      "audio": "Seguimos con Zhou Dunyi y la Explicación del Diagrama de la Suprema Polaridad. El texto enlaza quietud, movimiento, yin-yang, cinco fases y generación de los seres. La persona participa en esa dinámica mediante cultivo, sinceridad y discernimiento. Zhou no propone contemplar el cosmos desde fuera: busca mostrar que la formación moral pertenece al mismo proceso de transformación que organiza la naturaleza.",
+      "caution": "No reducir su diagrama al símbolo moderno del yin-yang ni atribuirle una escuela institucional ya formada.",
+      "tags": [
+        "Taiji",
+        "yin-yang",
+        "cinco fases",
+        "cultivo"
+      ],
+      "connections": [
+        "card_shao_yong_images_numbers_001",
+        "card_zhuxi_li_qi_001"
+      ],
+      "quiz": {
+        "question": "¿Qué integra Zhou Dunyi?",
+        "options": [
+          "Cosmología y cultivo moral",
+          "Solo astronomía",
+          "Solo política legalista",
+          "Una teoría atomista"
+        ],
+        "correctIndex": 0,
+        "explanation": "Su cosmología tiene consecuencias éticas y formativas."
+      },
+      "evidenceLevel": "B",
+      "sources": [
+        {
+          "title": "Zhou Dunyi",
+          "url": "https://iep.utm.edu/zhou-dun/"
+        }
+      ]
+    },
+    {
+      "id": "card_shao_yong_images_numbers_001",
+      "series": "cartography-d-series-6-7",
+      "order": 6,
+      "entity": "Shao Yong",
+      "title": "Imágenes y números para leer el cambio",
+      "period": "1011–1077",
+      "territory": "China, Song del Norte",
+      "cardType": "autor_concepto",
+      "question": "¿Qué puede mostrar un número cuando no funciona solo como cantidad?",
+      "visibleText": "Shao Yong utilizó imágenes y números para representar regularidades del cambio, ciclos y configuraciones del Yijing.",
+      "coreIdea": "La tradición xiangshu trata imágenes y números como esquemas de transformación, no simplemente como medición cuantitativa.",
+      "distinctiveKey": "número como figura del cambio",
+      "audio": "Pasamos a Shao Yong y la tradición de imágenes y números. Sus diagramas y secuencias buscaban representar patrones del cambio descritos por el Yijing. El número no funcionaba solamente como cantidad, sino como forma de ordenar ciclos y relaciones. Su trabajo influyó en la cosmología posterior, pero no debe presentarse como anticipación directa de la informática, la física matemática o el código binario moderno.",
+      "caution": "Evitar anacronismos sobre computación, ciencia moderna o predicción exacta.",
+      "tags": [
+        "Yijing",
+        "xiangshu",
+        "número",
+        "cosmología"
+      ],
+      "connections": [
+        "card_zhou_dunyi_supreme_polarity_001",
+        "card_zhang_zai_qi_001"
+      ],
+      "quiz": {
+        "question": "¿Cómo utiliza Shao Yong los números?",
+        "options": [
+          "Solo para medir objetos",
+          "Como esquemas de patrones y ciclos",
+          "Como moneda",
+          "Para negar el cambio"
+        ],
+        "correctIndex": 1,
+        "explanation": "Los números articulan configuraciones del cambio."
+      },
+      "evidenceLevel": "B",
+      "sources": [
+        {
+          "title": "Shao Yong",
+          "url": "https://www.rep.routledge.com/articles/biographical/shao-yong-1012-77/v-1"
+        }
+      ]
+    },
+    {
+      "id": "card_zhang_zai_qi_001",
+      "series": "cartography-d-series-6-7",
+      "order": 7,
+      "entity": "Zhang Zai",
+      "title": "Qi: condensación, dispersión y continuidad",
+      "period": "1020–1077",
+      "territory": "China, Song del Norte",
+      "cardType": "autor_concepto",
+      "question": "¿Qué significa que nacimiento y muerte sean transformaciones del qi?",
+      "visibleText": "Para Zhang Zai, las cosas aparecen cuando el qi se condensa y cambian cuando se dispersa; el vacío no es una nada separada.",
+      "coreIdea": "La realidad es transformación continua del qi, sin necesidad de un creador externo ni de una separación absoluta entre materia y espíritu.",
+      "distinctiveKey": "continuidad transformativa del qi",
+      "audio": "Seguimos con Zhang Zai y el qi. Todo lo existente surge mediante condensaciones y dispersiones de una misma realidad dinámica. El Gran Vacío no es una nada exterior al mundo, sino el qi en estado sutil y disperso. Nacer y morir son transformaciones, no saltos entre ser y no ser. La traducción como materia o energía resulta útil, pero ninguna palabra moderna agota el concepto.",
+      "caution": "No traducir qi como materia, energía o espíritu de forma exclusiva.",
+      "tags": [
+        "qi",
+        "Gran Vacío",
+        "transformación",
+        "cosmología"
+      ],
+      "connections": [
+        "card_zhang_zai_western_inscription_001",
+        "card_wang_fuzhi_qi_history_001"
+      ],
+      "quiz": {
+        "question": "¿Qué es el Gran Vacío para Zhang Zai?",
+        "options": [
+          "Una nada absoluta",
+          "Qi sutil y disperso",
+          "Un dios creador",
+          "Un espacio geométrico vacío"
+        ],
+        "correctIndex": 1,
+        "explanation": "El vacío pertenece a la transformación del qi."
+      },
+      "evidenceLevel": "B",
+      "sources": [
+        {
+          "title": "Zhang Zai",
+          "url": "https://iep.utm.edu/zhang-zai-chang-tsai/"
+        }
+      ]
+    },
+    {
+      "id": "card_zhang_zai_western_inscription_001",
+      "series": "cartography-d-series-6-7",
+      "order": 8,
+      "entity": "Zhang Zai",
+      "title": "Cielo y tierra como parentesco moral",
+      "period": "1020–1077",
+      "territory": "China, Song del Norte",
+      "cardType": "autor_obra",
+      "question": "¿Qué deberes surgen si compartimos una misma realidad cósmica?",
+      "visibleText": "La Inscripción Occidental convierte la continuidad del qi en una imagen de parentesco entre cielo, tierra, personas y seres.",
+      "coreIdea": "La unidad cosmológica sustenta una ética de participación, cuidado y responsabilidad dentro de una comunidad más amplia.",
+      "distinctiveKey": "cosmología convertida en parentesco",
+      "audio": "Escuchamos ahora la Inscripción Occidental de Zhang Zai. Cielo y tierra aparecen como fuentes de la existencia, y las personas como integrantes de una misma familia cósmica. La imagen transforma la continuidad del qi en responsabilidad moral hacia otros seres. No equivale sin más a igualdad política moderna ni a una ética ambiental completa, pero amplía la comunidad moral más allá del interés individual.",
+      "caution": "No convertir la metáfora familiar en una teoría moderna de derechos o ecología sin mediaciones.",
+      "tags": [
+        "Inscripción Occidental",
+        "parentesco",
+        "ética",
+        "cosmos"
+      ],
+      "connections": [
+        "card_zhang_zai_qi_001",
+        "card_cheng_hao_one_body_001"
+      ],
+      "quiz": {
+        "question": "¿Qué función cumple la metáfora familiar?",
+        "options": [
+          "Justificar aislamiento",
+          "Ampliar la responsabilidad moral",
+          "Negar la naturaleza",
+          "Reemplazar toda política"
+        ],
+        "correctIndex": 1,
+        "explanation": "La continuidad cósmica se vuelve deber de cuidado."
+      },
+      "evidenceLevel": "B",
+      "sources": [
+        {
+          "title": "Zhang Zai",
+          "url": "https://iep.utm.edu/zhang-zai-chang-tsai/"
+        }
+      ]
+    },
+    {
+      "id": "card_cheng_hao_one_body_001",
+      "series": "cartography-d-series-6-7",
+      "order": 9,
+      "entity": "Cheng Hao",
+      "title": "Ren como sensibilidad de un solo cuerpo",
+      "period": "1032–1085",
+      "territory": "China, Song del Norte",
+      "cardType": "autor_concepto",
+      "question": "¿Qué significa sentir que los seres forman un solo cuerpo?",
+      "visibleText": "Cheng Hao entendió ren como una sensibilidad que reconoce continuidad entre la propia vida y la de otros seres.",
+      "coreIdea": "La humanidad moral no es una regla externa, sino una capacidad de responder a la vida compartida sin endurecer la sensibilidad.",
+      "distinctiveKey": "ren como sensibilidad relacional",
+      "audio": "Seguimos con Cheng Hao y la idea de formar un solo cuerpo con los seres. Ren no designa solamente una virtud añadida desde fuera, sino una sensibilidad capaz de reconocer continuidad entre la propia vida y la de otros. El egoísmo endurece esa respuesta. La unidad no borra diferencias ni elimina deberes concretos: exige actuar desde una relación más amplia con aquello que vive.",
+      "caution": "No confundir “un solo cuerpo” con identidad física literal o ausencia de distinciones morales.",
+      "tags": [
+        "ren",
+        "un solo cuerpo",
+        "sensibilidad",
+        "relación"
+      ],
+      "connections": [
+        "card_zhang_zai_western_inscription_001",
+        "card_cheng_yi_li_investigation_001"
+      ],
+      "quiz": {
+        "question": "¿Qué expresa ren en Cheng Hao?",
+        "options": [
+          "Indiferencia",
+          "Sensibilidad hacia la vida compartida",
+          "Aislamiento interior",
+          "Obediencia mecánica"
+        ],
+        "correctIndex": 1,
+        "explanation": "Ren se manifiesta como respuesta relacional y compasiva."
+      },
+      "evidenceLevel": "B",
+      "sources": [
+        {
+          "title": "Cheng Hao",
+          "url": "https://iep.utm.edu/chenghao/"
+        }
+      ]
+    },
+    {
+      "id": "card_cheng_yi_li_investigation_001",
+      "series": "cartography-d-series-6-7",
+      "order": 10,
+      "entity": "Cheng Yi",
+      "title": "Compostura e investigación de los asuntos",
+      "period": "1033–1107",
+      "territory": "China, Song del Norte",
+      "cardType": "autor_metodo",
+      "question": "¿Cómo se conoce el patrón moral dentro de situaciones concretas?",
+      "visibleText": "Cheng Yi relacionó compostura interior e investigación gradual de asuntos para reconocer el li que orienta naturaleza y conducta.",
+      "coreIdea": "El cultivo exige atención sostenida, estudio y contacto con asuntos concretos, no una intuición aislada ni acumulación mecánica de datos.",
+      "distinctiveKey": "jing + gewu + aprendizaje gradual",
+      "audio": "Pasamos a Cheng Yi y la investigación de los asuntos. Cada situación posee un patrón que puede examinarse mediante estudio, experiencia y reflexión. La compostura mantiene la mente disponible para reconocerlo sin quedar dominada por impulsos parciales. El proceso es gradual y acumulativo. No equivale a un experimento científico moderno ni a reunir datos externos: busca formar discernimiento moral en contacto con casos concretos.",
+      "caution": "No traducir gewu como método científico ni li como ley física universal.",
+      "tags": [
+        "li",
+        "gewu",
+        "jing",
+        "cultivo"
+      ],
+      "connections": [
+        "card_cheng_hao_one_body_001",
+        "card_zhuxi_investigation_001"
+      ],
+      "quiz": {
+        "question": "¿Qué combina Cheng Yi?",
+        "options": [
+          "Compostura e investigación gradual",
+          "Adivinación y guerra",
+          "Pura intuición sin aprendizaje",
+          "Acumulación de datos sin reflexión"
+        ],
+        "correctIndex": 0,
+        "explanation": "La atención interior acompaña el examen de situaciones."
+      },
+      "evidenceLevel": "B",
+      "sources": [
+        {
+          "title": "Cheng Yi",
+          "url": "https://iep.utm.edu/chengyi/"
+        }
+      ]
+    },
+    {
+      "id": "card_zhuxi_li_qi_001",
+      "series": "cartography-d-series-6-7",
+      "order": 11,
+      "entity": "Zhu Xi",
+      "title": "Li y qi en una síntesis inseparable",
+      "period": "1130–1200",
+      "territory": "China, Song del Sur",
+      "cardType": "autor_concepto",
+      "question": "¿Cómo distinguir patrón y concreción sin separarlos?",
+      "visibleText": "Zhu Xi distinguió li y qi para explicar forma, regularidad y diferencia, pero sostuvo que nunca aparecen realmente aislados.",
+      "coreIdea": "Li expresa patrón o coherencia; qi constituye la realidad concreta y dinámica mediante la cual ese patrón se manifiesta.",
+      "distinctiveKey": "distinción conceptual sin separación real",
+      "audio": "Seguimos con Zhu Xi y la relación entre li y qi. Li nombra el patrón que hace inteligible una cosa y orienta su realización; qi es la realidad concreta, dinámica y desigual mediante la cual aparece. Zhu los distingue, pero no permite encontrarlos separados. Su síntesis organizó el neoconfucianismo posterior, aunque describirla simplemente como dualismo puede ocultar la inseparabilidad que él defendía.",
+      "caution": "Evitar traducir li como forma platónica y qi como materia pasiva sin matices.",
+      "tags": [
+        "Zhu Xi",
+        "li",
+        "qi",
+        "síntesis"
+      ],
+      "connections": [
+        "card_zhou_dunyi_supreme_polarity_001",
+        "card_wang_fuzhi_qi_history_001"
+      ],
+      "quiz": {
+        "question": "¿Cómo se relacionan li y qi?",
+        "options": [
+          "Existen completamente separados",
+          "Son distinguibles pero inseparables en las cosas",
+          "Uno elimina al otro",
+          "Carecen de relación"
+        ],
+        "correctIndex": 1,
+        "explanation": "La distinción explica aspectos de una realidad concreta unida."
+      },
+      "evidenceLevel": "B",
+      "sources": [
+        {
+          "title": "Zhu Xi",
+          "url": "https://iep.utm.edu/zhu-xi-chu-hsi-chinese-philosopher/"
+        },
+        {
+          "title": "Metaphysics in Chinese Philosophy",
+          "url": "https://plato.stanford.edu/entries/chinese-metaphysics/"
+        }
+      ]
+    },
+    {
+      "id": "card_zhuxi_investigation_001",
+      "series": "cartography-d-series-6-7",
+      "order": 12,
+      "entity": "Zhu Xi",
+      "title": "Investigar para ampliar el discernimiento",
+      "period": "1130–1200",
+      "territory": "China, Song del Sur",
+      "cardType": "autor_metodo",
+      "question": "¿Por qué comprender una situación exige aprendizaje acumulativo?",
+      "visibleText": "Zhu Xi convirtió la investigación de las cosas en una disciplina de lectura, observación, reflexión y acción sostenida.",
+      "coreIdea": "El conocimiento moral crece al examinar patrones en textos, relaciones y asuntos, formando una atención capaz de responder adecuadamente.",
+      "distinctiveKey": "aprendizaje acumulativo + respuesta situada",
+      "audio": "Escuchamos ahora a Zhu Xi sobre investigar las cosas. El aprendizaje combina lectura de clásicos, observación de relaciones, conversación, reflexión y práctica. Ningún objeto aislado revela toda la verdad; el discernimiento se profundiza mediante encuentros acumulados con situaciones diversas. El método no reduce la ética a erudición ni a introspección privada. Busca formar una mente capaz de reconocer qué importa en cada caso.",
+      "caution": "No reducir gewu a estudio de objetos físicos ni a memorización escolar.",
+      "tags": [
+        "Zhu Xi",
+        "gewu",
+        "aprendizaje",
+        "discernimiento"
+      ],
+      "connections": [
+        "card_cheng_yi_li_investigation_001",
+        "card_lu_jiuyuan_mind_principle_001"
+      ],
+      "quiz": {
+        "question": "¿Qué pretende el método de Zhu Xi?",
+        "options": [
+          "Memorizar sin actuar",
+          "Formar discernimiento mediante aprendizaje acumulativo",
+          "Rechazar los textos",
+          "Evitar toda observación"
+        ],
+        "correctIndex": 1,
+        "explanation": "La investigación integra estudio, práctica y atención situada."
+      },
+      "evidenceLevel": "B",
+      "sources": [
+        {
+          "title": "Zhu Xi",
+          "url": "https://iep.utm.edu/zhu-xi-chu-hsi-chinese-philosopher/"
+        }
+      ]
+    },
+    {
+      "id": "card_lu_jiuyuan_mind_principle_001",
+      "series": "cartography-d-series-6-7",
+      "order": 13,
+      "entity": "Lu Jiuyuan",
+      "title": "El corazón-mente contiene el principio",
+      "period": "1139–1193",
+      "territory": "China, Song del Sur",
+      "cardType": "autor_concepto",
+      "question": "¿Por qué buscar fuera aquello que ya estructura la conciencia moral?",
+      "visibleText": "Lu Jiuyuan sostuvo que los diez mil asuntos están completos en el corazón-mente y deben aclararse mediante reflexión y cultivo.",
+      "coreIdea": "El principio no es un objeto externo añadido al sujeto; se reconoce al despejar obstrucciones de la propia conciencia moral.",
+      "distinctiveKey": "interioridad sin subjetivismo arbitrario",
+      "audio": "Pasamos a Lu Jiuyuan y la afirmación de que el corazón-mente es principio. Los innumerables asuntos no exigen una búsqueda interminable de reglas externas: su orientación puede reconocerse al clarificar la conciencia moral. Esto no convierte cualquier sentimiento privado en verdad. Lu exige reflexión, rectificación y responsabilidad. Su desacuerdo con Zhu Xi fue de énfasis y método, no una ruptura completa con el mundo compartido.",
+      "caution": "No presentar su posición como subjetivismo donde toda opinión personal sea correcta.",
+      "tags": [
+        "Lu Jiuyuan",
+        "corazón-mente",
+        "li",
+        "interioridad"
+      ],
+      "connections": [
+        "card_zhuxi_investigation_001",
+        "card_wang_yangming_knowledge_action_001"
+      ],
+      "quiz": {
+        "question": "¿Qué significa que el corazón-mente sea principio?",
+        "options": [
+          "Toda preferencia es moral",
+          "La orientación moral debe aclararse en la propia conciencia",
+          "El mundo externo no existe",
+          "No hace falta cultivo"
+        ],
+        "correctIndex": 1,
+        "explanation": "La interioridad exige clarificación, no capricho."
+      },
+      "evidenceLevel": "B",
+      "sources": [
+        {
+          "title": "Neo-Confucian Philosophy",
+          "url": "https://iep.utm.edu/neo-confucian-philosophy/"
+        },
+        {
+          "title": "Zhu Xi",
+          "url": "https://iep.utm.edu/zhu-xi-chu-hsi-chinese-philosopher/"
+        }
+      ]
+    },
+    {
+      "id": "card_wang_yangming_knowledge_action_001",
+      "series": "cartography-d-series-6-7",
+      "order": 14,
+      "entity": "Wang Yangming",
+      "title": "Conocer y actuar forman un solo proceso",
+      "period": "1472–1529",
+      "territory": "China, dinastía Ming",
+      "cardType": "autor_concepto",
+      "question": "¿Puede llamarse conocimiento moral a algo que nunca transforma la conducta?",
+      "visibleText": "Wang Yangming sostuvo que conocer el bien incluye una orientación efectiva hacia realizarlo.",
+      "coreIdea": "La unidad de conocimiento y acción critica la separación entre saber verbal y práctica moral.",
+      "distinctiveKey": "el conocimiento comienza y se completa en la acción",
+      "audio": "Seguimos con Wang Yangming y la unidad de conocimiento y acción. Saber que una conducta es injusta no consiste únicamente en formular una frase correcta: incluye reconocerla de un modo que orienta la respuesta. La acción completa y verifica ese conocimiento. Wang no niega que existan planificación o aprendizaje previo; critica un saber moral que permanece separado de la transformación efectiva de la conducta.",
+      "caution": "No interpretar la unidad como actuar sin reflexión o negar toda diferencia temporal entre aprender y ejecutar.",
+      "tags": [
+        "Wang Yangming",
+        "conocimiento",
+        "acción",
+        "ética"
+      ],
+      "connections": [
+        "card_lu_jiuyuan_mind_principle_001",
+        "card_wang_yangming_liangzhi_001"
+      ],
+      "quiz": {
+        "question": "¿Qué critica Wang Yangming?",
+        "options": [
+          "Toda reflexión",
+          "El saber moral separado de la conducta",
+          "La acción responsable",
+          "El aprendizaje"
+        ],
+        "correctIndex": 1,
+        "explanation": "Conocer moralmente implica una orientación práctica real."
+      },
+      "evidenceLevel": "A-B",
+      "sources": [
+        {
+          "title": "Wang Yangming",
+          "url": "https://plato.stanford.edu/entries/wang-yangming/"
+        },
+        {
+          "title": "Neo-Confucian Philosophy",
+          "url": "https://iep.utm.edu/neo-confucian-philosophy/"
+        }
+      ]
+    },
+    {
+      "id": "card_wang_yangming_liangzhi_001",
+      "series": "cartography-d-series-6-7",
+      "order": 15,
+      "entity": "Wang Yangming",
+      "title": "Liangzhi: reconocer el bien sin convertir el impulso en ley",
+      "period": "1472–1529",
+      "territory": "China, dinastía Ming",
+      "cardType": "autor_concepto",
+      "question": "¿Qué distingue el conocimiento moral innato de una preferencia espontánea?",
+      "visibleText": "Liangzhi nombra una capacidad moral básica que debe extenderse y liberarse de intereses egoístas.",
+      "coreIdea": "El conocimiento innato orienta hacia lo correcto, pero requiere cultivo para no confundirse con deseo parcial o autoengaño.",
+      "distinctiveKey": "capacidad innata + depuración del egoísmo",
+      "audio": "Escuchamos ahora a Wang Yangming sobre liangzhi, el conocimiento moral innato. Las personas poseen una capacidad básica para reconocer lo correcto, visible en respuestas espontáneas de cuidado y rechazo del daño. Sin embargo, esa capacidad puede quedar oscurecida por intereses y hábitos. Liangzhi no vuelve infalible cualquier impulso. El cultivo consiste en extender su claridad dentro de decisiones concretas y relaciones difíciles.",
+      "caution": "No equiparar liangzhi con intuición subjetiva infalible ni con emoción inmediata sin examen.",
+      "tags": [
+        "liangzhi",
+        "Wang Yangming",
+        "moralidad",
+        "cultivo"
+      ],
+      "connections": [
+        "card_wang_yangming_knowledge_action_001",
+        "card_dai_zhen_desires_sympathy_001"
+      ],
+      "quiz": {
+        "question": "¿Qué exige liangzhi además de capacidad innata?",
+        "options": [
+          "Ausencia total de práctica",
+          "Cultivo y examen del egoísmo",
+          "Obediencia ciega",
+          "Rechazo de las relaciones"
+        ],
+        "correctIndex": 1,
+        "explanation": "La capacidad moral debe aclararse y extenderse."
+      },
+      "evidenceLevel": "B",
+      "sources": [
+        {
+          "title": "Wang Yangming",
+          "url": "https://plato.stanford.edu/entries/wang-yangming/"
+        }
+      ]
+    },
+    {
+      "id": "card_chen_liang_public_benefit_001",
+      "series": "cartography-d-series-6-7",
+      "order": 16,
+      "entity": "Chen Liang",
+      "title": "Instituciones orientadas al beneficio público",
+      "period": "1143–1194",
+      "territory": "China, Song del Sur",
+      "cardType": "autor_politica",
+      "question": "¿Basta la virtud personal para producir un gobierno justo?",
+      "visibleText": "Chen Liang defendió leyes e instituciones capaces de orientar intereses privados hacia beneficios compartidos.",
+      "coreIdea": "La política requiere evaluar resultados, normas e instituciones, no confiar exclusivamente en la perfección moral de los gobernantes.",
+      "distinctiveKey": "virtud personal + diseño institucional",
+      "audio": "Pasamos a Chen Liang y el beneficio público. Un gobierno no puede depender únicamente de que sus funcionarios sean sabios. Leyes, incentivos y regulaciones deben ayudar a convertir intereses privados en resultados compartidos. Su posición cuestionó una filosofía demasiado concentrada en cultivo interior. Chen no anticipa sin más el constitucionalismo moderno, pero obliga a examinar cómo las instituciones producen consecuencias reales.",
+      "caution": "No traducir gongli y fa directamente como utilidad liberal o Estado de derecho contemporáneo.",
+      "tags": [
+        "Chen Liang",
+        "instituciones",
+        "beneficio público",
+        "política"
+      ],
+      "connections": [
+        "card_zhuxi_investigation_001",
+        "card_wang_fuzhi_qi_history_001"
+      ],
+      "quiz": {
+        "question": "¿Qué añade Chen Liang a la virtud personal?",
+        "options": [
+          "Instituciones y leyes orientadas al bien común",
+          "Aislamiento político",
+          "Rechazo de toda norma",
+          "Poder sin evaluación"
+        ],
+        "correctIndex": 0,
+        "explanation": "La estructura institucional importa para los resultados públicos."
+      },
+      "evidenceLevel": "B-C",
+      "sources": [
+        {
+          "title": "Neo-Confucian Philosophy",
+          "url": "https://iep.utm.edu/neo-confucian-philosophy/"
+        }
+      ]
+    },
+    {
+      "id": "card_wang_fuzhi_qi_history_001",
+      "series": "cartography-d-series-6-7",
+      "order": 17,
+      "entity": "Wang Fuzhi",
+      "title": "Qi, cambio histórico y normas situadas",
+      "period": "1619–1692",
+      "territory": "China, transición Ming-Qing",
+      "cardType": "autor_concepto",
+      "question": "¿Cómo puede existir orden moral dentro de una realidad siempre cambiante?",
+      "visibleText": "Wang Fuzhi situó el li dentro del movimiento del qi y examinó instituciones según tiempos, lugares y condiciones.",
+      "coreIdea": "Los patrones no existen fuera de la realidad concreta; emergen en procesos naturales e históricos que deben interpretarse situadamente.",
+      "distinctiveKey": "inmanencia del qi + sensibilidad histórica",
+      "audio": "Seguimos con Wang Fuzhi, pensador de la transición Ming-Qing. Para él, el li no habita fuera del mundo: aparece dentro de las transformaciones del qi. La historia tampoco repite fórmulas inmóviles; cada institución debe juzgarse según condiciones, efectos y posibilidades concretas. Su lealtad Ming marcó su obra, pero su filosofía del cambio supera una simple defensa nostálgica del pasado.",
+      "caution": "No reducirlo a materialista moderno ni separar su filosofía de su contexto político de conquista y lealtad.",
+      "tags": [
+        "Wang Fuzhi",
+        "qi",
+        "historia",
+        "inmanencia"
+      ],
+      "connections": [
+        "card_zhang_zai_qi_001",
+        "card_dai_zhen_pattern_concrete_001"
+      ],
+      "quiz": {
+        "question": "¿Dónde sitúa Wang Fuzhi el li?",
+        "options": [
+          "Fuera del mundo",
+          "Dentro de las transformaciones del qi",
+          "En una nada trascendente",
+          "Solo en los libros"
+        ],
+        "correctIndex": 1,
+        "explanation": "El patrón es inmanente a la realidad dinámica."
+      },
+      "evidenceLevel": "B",
+      "sources": [
+        {
+          "title": "Qing Philosophy",
+          "url": "https://plato.stanford.edu/entries/qing-philosophy/"
+        }
+      ]
+    },
+    {
+      "id": "card_dai_zhen_pattern_concrete_001",
+      "series": "cartography-d-series-6-7",
+      "order": 18,
+      "entity": "Dai Zhen",
+      "title": "El patrón está en las cosas concretas",
+      "period": "1724–1777",
+      "territory": "China, dinastía Qing",
+      "cardType": "autor_concepto",
+      "question": "¿Cómo se descubre una norma sin convertirla en entidad separada?",
+      "visibleText": "Dai Zhen entendió li como orden discernible en relaciones, prácticas y objetos concretos mediante investigación rigurosa.",
+      "coreIdea": "El patrón no es una realidad trascendente, sino la organización adecuada de la vida cotidiana y del mundo observable.",
+      "distinctiveKey": "filología + evidencia + vida concreta",
+      "audio": "Pasamos a Dai Zhen y el patrón de las cosas concretas. Li no es una entidad separada que desciende sobre la realidad; nombra distinciones, relaciones y formas de organización que pueden examinarse. Dai combinó filosofía, filología, matemáticas e historia para corregir interpretaciones heredadas. Su giro hacia la evidencia no elimina la ética: intenta fundamentarla mejor en la vida cotidiana y en textos cuidadosamente estudiados.",
+      "caution": "No identificar su investigación evidencial con empirismo moderno simple ni negar toda normatividad.",
+      "tags": [
+        "Dai Zhen",
+        "li",
+        "evidencia",
+        "filología"
+      ],
+      "connections": [
+        "card_wang_fuzhi_qi_history_001",
+        "card_dai_zhen_desires_sympathy_001"
+      ],
+      "quiz": {
+        "question": "¿Qué es li para Dai Zhen?",
+        "options": [
+          "Una entidad separada",
+          "Un patrón discernible en lo concreto",
+          "Una emoción privada",
+          "Una doctrina revelada"
+        ],
+        "correctIndex": 1,
+        "explanation": "El patrón se reconoce en la organización de las cosas y prácticas."
+      },
+      "evidenceLevel": "A-B",
+      "sources": [
+        {
+          "title": "Dai Zhen",
+          "url": "https://plato.stanford.edu/entries/dai-zhen/"
+        }
+      ]
+    },
+    {
+      "id": "card_dai_zhen_desires_sympathy_001",
+      "series": "cartography-d-series-6-7",
+      "order": 19,
+      "entity": "Dai Zhen",
+      "title": "Deseos, sentimientos y consideración compartida",
+      "period": "1724–1777",
+      "territory": "China, dinastía Qing",
+      "cardType": "autor_etica",
+      "question": "¿Por qué reprimir deseos no equivale automáticamente a actuar bien?",
+      "visibleText": "Dai Zhen defendió que deseos y sentimientos pertenecen a la vida humana y deben ordenarse considerando también a los demás.",
+      "coreIdea": "La ética no elimina las necesidades, sino que busca formas de satisfacción compatibles con el florecimiento compartido.",
+      "distinctiveKey": "deseo reconocido + consideración simétrica",
+      "audio": "Seguimos con Dai Zhen y el valor moral de deseos y sentimientos. Comer, protegerse, vincularse y buscar bienestar no son obstáculos externos a la humanidad. El problema aparece cuando una persona satisface sus deseos dañando o ignorando los de otros. La norma debe poder afirmarse desde perspectivas compartidas. Dai critica tanto el egoísmo como una moral que usa el principio para silenciar necesidades reales.",
+      "caution": "No confundir la valoración de los deseos con indulgencia ilimitada ni con rechazo del autocultivo.",
+      "tags": [
+        "Dai Zhen",
+        "deseo",
+        "sentimiento",
+        "simpatía"
+      ],
+      "connections": [
+        "card_wang_yangming_liangzhi_001",
+        "card_li_zhi_childlike_heart_001"
+      ],
+      "quiz": {
+        "question": "¿Qué critica Dai Zhen?",
+        "options": [
+          "Toda necesidad corporal",
+          "El egoísmo y la represión abstracta de necesidades",
+          "La consideración de otros",
+          "La vida cotidiana"
+        ],
+        "correctIndex": 1,
+        "explanation": "Los deseos deben ordenarse sin negar su valor humano."
+      },
+      "evidenceLevel": "B",
+      "sources": [
+        {
+          "title": "Dai Zhen",
+          "url": "https://plato.stanford.edu/entries/dai-zhen/"
+        }
+      ]
+    },
+    {
+      "id": "card_li_zhi_childlike_heart_001",
+      "series": "cartography-d-series-6-7",
+      "order": 20,
+      "entity": "Li Zhi",
+      "title": "El corazón infantil y la autenticidad",
+      "period": "1527–1602",
+      "territory": "China, dinastía Ming tardía",
+      "cardType": "autor_concepto",
+      "question": "¿Qué se pierde cuando aprender significa únicamente imitar voces autorizadas?",
+      "visibleText": "Li Zhi llamó corazón infantil a una disposición genuina no deformada por dogmas, poses y repetición literaria.",
+      "coreIdea": "La autenticidad exige recuperar una voz propia capaz de examinar la tradición en lugar de reproducirla mecánicamente.",
+      "distinctiveKey": "genuinidad frente a dogma e imitación",
+      "audio": "Terminamos con Li Zhi y el corazón infantil. La expresión nombra una disposición genuina anterior a la falsedad producida por imitación, prestigio y dogma. En literatura y pensamiento, esa autenticidad permite hablar desde la experiencia en vez de repetir modelos consagrados. Li Zhi no propone ignorancia infantil ni rechazo total de la tradición: critica cuando el aprendizaje destruye la capacidad de juzgar y expresarse con verdad.",
+      "caution": "No reducir el corazón infantil a espontaneidad ingenua, sentimentalismo o individualismo moderno.",
+      "tags": [
+        "Li Zhi",
+        "corazón infantil",
+        "autenticidad",
+        "crítica"
+      ],
+      "connections": [
+        "card_wang_yangming_liangzhi_001",
+        "card_dai_zhen_desires_sympathy_001"
+      ],
+      "quiz": {
+        "question": "¿Qué combate el corazón infantil?",
+        "options": [
+          "Toda educación",
+          "La imitación dogmática y la falsedad",
+          "La experiencia propia",
+          "La escritura"
+        ],
+        "correctIndex": 1,
+        "explanation": "Busca preservar una voz genuina frente a convenciones vacías."
+      },
+      "evidenceLevel": "B-C",
+      "sources": [
+        {
+          "title": "Childlike Heart Image",
+          "url": "https://www.chinesethought.cn/EN/shuyu_show.aspx?shuyu_id=4659"
+        },
+        {
+          "title": "Moral Knowledge and Empirical Verification in Late Ming China",
+          "url": "https://eprints.lse.ac.uk/122511/1/Li_Zhi_and_Jiao_Hong_Proceedings_of_Aris_Society.pdf"
+        }
+      ]
+    }
+  ]
+}

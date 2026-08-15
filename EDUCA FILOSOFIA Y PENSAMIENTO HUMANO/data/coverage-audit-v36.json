@@ -1,0 +1,256 @@
+{
+  "version": "3.6.0",
+  "generatedAt": "2026-07-26",
+  "corpus": {
+    "cards": 1140,
+    "collections": 28,
+    "sources": 1121,
+    "disciplinaryRelations": 9286,
+    "publishableRelations": 6817
+  },
+  "resolvedInV36": [
+    "Matemáticas y lógica dejan de ser un vacío disciplinar crítico y alcanzan 125 ideas publicables relacionadas.",
+    "Medicina y cuerpo dejan de ser un vacío crítico y alcanzan 221 ideas publicables relacionadas.",
+    "Se incorporan secuencias históricas propias de demostración, cálculo, clínica, epidemiología, salud pública y bioética."
+  ],
+  "periods": [
+    {
+      "id": "first_symbolic_traces",
+      "label": "Primeras huellas simbólicas humanas",
+      "short": "Huellas simbólicas",
+      "order": 1,
+      "description": "Evidencias materiales, técnica, cuidado y primeras mediaciones simbólicas.",
+      "cards": 30
+    },
+    {
+      "id": "ancestral_cosmogonies_memories",
+      "label": "Cosmogonías y memorias ancestrales",
+      "short": "Cosmogonías ancestrales",
+      "order": 2,
+      "description": "Relatos, archivos y memorias que organizan cosmos, sociedad y continuidad.",
+      "cards": 30
+    },
+    {
+      "id": "ancient_asia_africa_america",
+      "label": "Pensamientos antiguos de Asia, África y América",
+      "short": "Antigüedades plurales",
+      "order": 3,
+      "description": "Tradiciones antiguas no reducibles a una sola línea civilizatoria.",
+      "cards": 95
+    },
+    {
+      "id": "greek_mediterranean_philosophies",
+      "label": "Filosofías griegas y mediterráneas",
+      "short": "Grecia y Mediterráneo",
+      "order": 4,
+      "description": "Mundos griegos arcaicos, presocráticos y clásicos.",
+      "cards": 62
+    },
+    {
+      "id": "hellenistic_imperial_worlds",
+      "label": "Escuelas helenísticas y mundos imperiales",
+      "short": "Helenismo e imperios",
+      "order": 5,
+      "description": "Escuelas helenísticas, Roma y transformaciones de la Antigüedad tardía.",
+      "cards": 66
+    },
+    {
+      "id": "medieval_translation_routes",
+      "label": "Filosofías medievales y rutas de traducción",
+      "short": "Medievo y traducciones",
+      "order": 6,
+      "description": "Redes multilingües, disputas religiosas y transformaciones del legado antiguo.",
+      "cards": 78
+    },
+    {
+      "id": "renaissances_humanisms_encounters",
+      "label": "Renacimientos, humanismos y encuentros culturales",
+      "short": "Renacimientos y encuentros",
+      "order": 7,
+      "description": "Relecturas de tradiciones, humanismos y encuentros interculturales tempranomodernos.",
+      "cards": 53
+    },
+    {
+      "id": "science_rationalism_empiricism_enlightenment",
+      "label": "Ciencia, racionalismo, empirismo e Ilustración",
+      "short": "Ciencia e Ilustraciones",
+      "order": 8,
+      "description": "Nuevos métodos, ciencias, filosofías de la mente y proyectos ilustrados.",
+      "cards": 56
+    },
+    {
+      "id": "revolutions_critiques_modernity",
+      "label": "Revoluciones y críticas de la modernidad",
+      "short": "Revoluciones y críticas",
+      "order": 9,
+      "description": "Emancipaciones, colonialismo, capitalismo, raza, nación y resistencias.",
+      "cards": 149
+    },
+    {
+      "id": "twentieth_philosophies_human_sciences",
+      "label": "Filosofías y ciencias humanas del siglo XX",
+      "short": "Siglo XX y ciencias humanas",
+      "order": 10,
+      "description": "Subjetividad, sociedad, lenguaje, política, cultura y conocimiento.",
+      "cards": 266
+    },
+    {
+      "id": "systems_complexity_transdisciplinarity",
+      "label": "Pensamiento sistémico, complejo y transdisciplinario",
+      "short": "Sistemas y complejidad",
+      "order": 11,
+      "description": "Sistemas, cibernética, redes, emergencia, complejidad y transdisciplinariedad.",
+      "cards": 87
+    },
+    {
+      "id": "decolonial_emergent_algorithmic",
+      "label": "Decolonialidad, epistemologías emergentes y mundo algorítmico",
+      "short": "Emergencias y algoritmos",
+      "order": 12,
+      "description": "Pluriversos, libertades epistémicas, ecologías, tecnologías e inteligencia algorítmica.",
+      "cards": 168
+    }
+  ],
+  "disciplines": [
+    {
+      "id": "philosophy",
+      "label": "Filosofía",
+      "publishedIdeas": 1099,
+      "manualReviewIdeas": 0
+    },
+    {
+      "id": "psychology_subjectivity",
+      "label": "Psicología y subjetividad",
+      "publishedIdeas": 676,
+      "manualReviewIdeas": 153
+    },
+    {
+      "id": "anthropology_cultures",
+      "label": "Antropología y culturas",
+      "publishedIdeas": 545,
+      "manualReviewIdeas": 171
+    },
+    {
+      "id": "education_pedagogy",
+      "label": "Educación y pedagogía",
+      "publishedIdeas": 558,
+      "manualReviewIdeas": 276
+    },
+    {
+      "id": "sociology_collective",
+      "label": "Sociología y vida colectiva",
+      "publishedIdeas": 616,
+      "manualReviewIdeas": 102
+    },
+    {
+      "id": "politics_government",
+      "label": "Política y gobierno",
+      "publishedIdeas": 572,
+      "manualReviewIdeas": 0
+    },
+    {
+      "id": "law_justice",
+      "label": "Derecho y justicia",
+      "publishedIdeas": 451,
+      "manualReviewIdeas": 226
+    },
+    {
+      "id": "economics_exchange",
+      "label": "Economía e intercambio",
+      "publishedIdeas": 114,
+      "manualReviewIdeas": 274
+    },
+    {
+      "id": "natural_sciences",
+      "label": "Ciencias naturales",
+      "publishedIdeas": 589,
+      "manualReviewIdeas": 53
+    },
+    {
+      "id": "medicine_body",
+      "label": "Medicina y cuerpo",
+      "publishedIdeas": 221,
+      "manualReviewIdeas": 442
+    },
+    {
+      "id": "mathematics_logic",
+      "label": "Matemáticas y lógica",
+      "publishedIdeas": 125,
+      "manualReviewIdeas": 354
+    },
+    {
+      "id": "language_communication",
+      "label": "Lenguaje y comunicación",
+      "publishedIdeas": 523,
+      "manualReviewIdeas": 209
+    },
+    {
+      "id": "art_aesthetics",
+      "label": "Arte y estética",
+      "publishedIdeas": 160,
+      "manualReviewIdeas": 0
+    },
+    {
+      "id": "religions_theologies",
+      "label": "Religiones y teologías",
+      "publishedIdeas": 269,
+      "manualReviewIdeas": 172
+    },
+    {
+      "id": "technology_knowledge",
+      "label": "Tecnología y conocimiento",
+      "publishedIdeas": 299,
+      "manualReviewIdeas": 37
+    }
+  ],
+  "authorDepth": {
+    "entities": 876,
+    "singleCardEntities": 755,
+    "singleCardPercentage": 86.2,
+    "twoOrMore": 121,
+    "threeOrMore": 55,
+    "fiveOrMore": 22
+  },
+  "priorityRoadmap": [
+    {
+      "id": "cartography_ab",
+      "title": "Ciencia e Ilustraciones · ampliación global",
+      "status": "planned",
+      "plannedRecords": 40,
+      "priority": 1,
+      "rationale": "Con 56 ideas, el periodo todavía requiere instituciones científicas, probabilidad, medición, materialismos ilustrados, Ilustraciones plurales y circulación colonial del conocimiento."
+    },
+    {
+      "id": "cartography_ac",
+      "title": "Bizancio, mundo siríaco, India medieval, Japón y Corea",
+      "status": "planned",
+      "plannedRecords": 40,
+      "priority": 2,
+      "rationale": "Completa zonas medievales y asiáticas todavía subordinadas a rutas occidentales o tratadas de forma fragmentaria."
+    },
+    {
+      "id": "cartography_ad",
+      "title": "Profundización de autores estructurales modernos y contemporáneos",
+      "status": "planned",
+      "plannedRecords": 40,
+      "priority": 3,
+      "rationale": "Reduce la dependencia de tarjetas únicas en Descartes, Spinoza, Leibniz, Locke, Hume, Kant, Nietzsche, Kierkegaard, Durkheim, Weber, Arendt, Levinas y otros."
+    },
+    {
+      "id": "cartography_ae",
+      "title": "Ética contemporánea, filosofía política y teorías de la justicia",
+      "status": "planned",
+      "plannedRecords": 40,
+      "priority": 4,
+      "rationale": "Fortalece debates sobre virtud, justicia distributiva, reconocimiento, capacidades, democracia, cuidado, derechos y responsabilidad."
+    }
+  ],
+  "editorialDebt": {
+    "reviewQueueItems": 815,
+    "cardsRequiringReview": 815,
+    "manualDisciplinaryReviewCards": 808,
+    "completeBibliographicReference": 340,
+    "refineGeography": 514,
+    "specialistChronologyReview": 39
+  }
+}

@@ -1,0 +1,41 @@
+{
+  "version": "2.9.0",
+  "validatedAt": "2026-07-26",
+  "cards": 700,
+  "dossiers": 700,
+  "historicalLayers": 700,
+  "collections": 17,
+  "newCards": 80,
+  "cartographyO": 40,
+  "cartographyP": 40,
+  "uniqueIds": 700,
+  "duplicateIds": 0,
+  "brokenConnections": [],
+  "invalidQuizzes": [],
+  "newCardsWithoutExplicitUrl": [],
+  "schemaErrorsNewCards": [],
+  "technologyAlgorithmCards": 40,
+  "foucaultCards": [
+    "card_foucault_archaeology_discourse_001",
+    "card_foucault_discipline_001",
+    "card_foucault_problematization_truth_games_001",
+    "card_foucault_governmentality_biopolitics_001"
+  ],
+  "derridaCards": [
+    "card_derrida_differance_001",
+    "card_derrida_archive_fever_001"
+  ],
+  "exportModule": {
+    "previewModal": true,
+    "download": true,
+    "nativeShare": true,
+    "copyText": true,
+    "shareLock": true
+  },
+  "accessibility": {
+    "unboundContentLabels": 0,
+    "detailLabelsConverted": true
+  },
+  "exclusiveScreenFlowPreserved": true,
+  "status": "passed"
+}

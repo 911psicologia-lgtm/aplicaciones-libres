@@ -1,0 +1,170 @@
+{
+  "version": "3.0.0",
+  "date": "2026-07-26",
+  "status": "passed",
+  "checks": {
+    "cards_780": true,
+    "dossiers_780": true,
+    "historical_layers_780": true,
+    "collections_19": true,
+    "ids_unique": true,
+    "connections_valid": true,
+    "quizzes_valid": true,
+    "schema_valid": true,
+    "new_cards_80": true,
+    "new_sources_have_url": true,
+    "greek_period_60": true,
+    "hellenistic_period_60": true,
+    "repeated_formulae_removed": true,
+    "opening_formula_max_12_or_less": true,
+    "labels_associated": true,
+    "javascript_syntax_valid": true,
+    "cache_v3": true,
+    "manifest_v3": true,
+    "browser_no_errors": true,
+    "exclusive_views": true,
+    "period_accordion_collapsed": true,
+    "period_actions_visible": true,
+    "period_select_and_deselect": true,
+    "search_route_correct": true,
+    "author_rhizome_correct": true,
+    "favorites_responsive": true,
+    "desktop_export_png": true
+  },
+  "counts": {
+    "cards": 780,
+    "dossiers": 780,
+    "historicalLayers": 780,
+    "collections": 19,
+    "bibliographySources": 978,
+    "newCards": 80,
+    "greekPeriod": 60,
+    "hellenisticPeriod": 60
+  },
+  "contentAudit": {
+    "phraseCounts": {
+      "cards_escuchamos_a": 0,
+      "cards_cautela_formula": 0,
+      "dossiers_escuchamos_a": 0,
+      "historical_escuchamos_a": 0
+    },
+    "mostFrequentFourWordOpenings": [
+      [
+        "La ruta se desplaza",
+        12
+      ],
+      [
+        "La ruta continúa con",
+        12
+      ],
+      [
+        "El trayecto conduce a",
+        12
+      ],
+      [
+        "La secuencia incorpora a",
+        9
+      ],
+      [
+        "La indagación se encuentra",
+        8
+      ],
+      [
+        "La cartografía reserva un",
+        8
+      ],
+      [
+        "La atención se dirige",
+        8
+      ],
+      [
+        "En este tramo aparece",
+        8
+      ],
+      [
+        "El recorrido se abre",
+        8
+      ],
+      [
+        "Conviene entrar en el",
+        8
+      ],
+      [
+        "El mapa incorpora a",
+        8
+      ],
+      [
+        "El análisis se mueve",
+        6
+      ],
+      [
+        "La ruta conduce hacia",
+        6
+      ],
+      [
+        "La siguiente escala es",
+        6
+      ],
+      [
+        "El hilo argumental prosigue",
+        6
+      ]
+    ]
+  },
+  "errors": {
+    "schema": [],
+    "brokenConnections": [],
+    "invalidQuizzes": [],
+    "unassociatedLabels": [],
+    "javascript": ""
+  },
+  "browserValidation": {
+    "results": {
+      "loaded": true,
+      "visible_views_intro": 1,
+      "visible_views_explore": 1,
+      "periods": 12,
+      "period_actions_visible": true,
+      "period_body_initial_hidden": true,
+      "greek_period_cards_label": "Grecia y Mediterráneo · 60 ideas",
+      "greek_accordion_count": 1,
+      "selection_60": true,
+      "greek_body_visible": true,
+      "greek_compact_cards": 60,
+      "selection_cleared": true,
+      "foucault_results": 4,
+      "foucault_rhizome_button": 1,
+      "search_route_title": "Búsqueda: foucault",
+      "search_route_position": "3 de 4 · Siglo XX y ciencias humanas",
+      "search_target_id": "card_foucault_problematization_truth_games_001",
+      "search_card_author": "Michel Foucault",
+      "rhizome_center": "Michel Foucault",
+      "rhizome_nodes": 9,
+      "favorite_cards": 5,
+      "favorites_no_overflow": true,
+      "favorite_actions_inside": true,
+      "export_ready": true,
+      "export_preview_src": true,
+      "download_filename": "cartografia-michel-foucault-un-discurso-define-que-objetos-sujetos-y-enunciados-pu.png",
+      "download_ok": true,
+      "mobile_no_overflow": true
+    },
+    "errors": []
+  },
+  "coreHashes": {
+    "index.html": "fc90035fceab48eeba60ecfa0df7baaf65e757b1882892fe2b7639048a5282eb",
+    "styles.css": "eb945ecd772f75b4afdcbf11aaeef3b2adcf304a3ac5163ab5413cb05dc7c3e4",
+    "app.js": "0475cdbac177726d9fb1b8140eb14eade43fa34a6a04f0f95b51c6818dae8100",
+    "service-worker.js": "38691373ee8f0ba16e06dac1ed44a300944a4d520bf0b47167e943fb1f2c0ca6",
+    "manifest.webmanifest": "1e3383036a32aa01a92bc589ceef8dcf93a0de869e7e4b206e43a8e7506257c6",
+    "data/cards.json": "679578ed1b842788fa88d6c60ab036de38d62f676cd24b6310776caa8f27ac54",
+    "data/dossiers.json": "a16ebda14e47d7fec7bd8cf52f375bca14e46ca583361c7a9e46aaf5387531e1",
+    "data/historical-layer.json": "5ad93fa55fb4a80b8b0688176f7ff9dbce242c88117af0315bba4acfd609f39d",
+    "data/collections.json": "0e8e022a9eefedb4eac32b4a4efc17ac36f73b21b9bc55bcc9a4dbe2a163ceab",
+    "data/taxonomy.json": "ca9a5015337d3962659fd7a776523e67bf52df1b034bbf7459d4daf91dd9d1c3"
+  },
+  "notes": [
+    "La prueba de interfaz se ejecutó en Chromium con datos embebidos porque la política del entorno bloquea las direcciones locales. Se ejercitaron el mismo HTML, CSS, JavaScript y JSON del paquete final.",
+    "La prueba de exportación generó un Blob PNG, mostró la vista previa y produjo una descarga con nombre de archivo válido."
+  ]
+}

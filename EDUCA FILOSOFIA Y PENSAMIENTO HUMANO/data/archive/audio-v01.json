@@ -1,0 +1,302 @@
+[
+  {
+    "id": "card_bertalanffy_open_system_001",
+    "author": "Ludwig von Bertalanffy",
+    "title": "El organismo como sistema abierto",
+    "audioLegacyV01": "Ludwig von Bertalanffy aborda una pregunta precisa: ¿Cómo conserva su organización un ser vivo que intercambia continuamente con el entorno? Un organismo conserva su organización no porque permanezca cerrado, sino porque intercambia continuamente con su entorno. La precaución editorial es igualmente importante: Sistema abierto no significa sistema sin límites ni autoriza trasladar directamente leyes biológicas a la sociedad."
+  },
+  {
+    "id": "card_wiener_feedback_001",
+    "author": "Norbert Wiener",
+    "title": "La retroalimentación convierte el resultado en información",
+    "audioLegacyV01": "Norbert Wiener aborda una pregunta precisa: ¿Cómo pueden los efectos de una acción modificar las acciones posteriores? Un sistema puede corregir su conducta cuando los efectos de su acción regresan como nueva información. La precaución editorial es igualmente importante: Retroalimentación positiva y negativa describen funciones del circuito, no valoraciones morales."
+  },
+  {
+    "id": "card_shannon_information_meaning_001",
+    "author": "Claude Shannon",
+    "title": "Medir información no es interpretar significado",
+    "audioLegacyV01": "Claude Shannon aborda una pregunta precisa: ¿Qué puede medir una teoría técnica de la comunicación sin convertirse en teoría completa del significado? La información matemática mide incertidumbre y posibilidades de transmisión; no determina por sí sola el significado del mensaje. La precaución editorial es igualmente importante: Shannon no negó la importancia del significado: lo dejó fuera de un problema técnico delimitado."
+  },
+  {
+    "id": "card_ashby_requisite_variety_001",
+    "author": "W. Ross Ashby",
+    "title": "Regular exige variedad de respuestas",
+    "audioLegacyV01": "W. Ross Ashby aborda una pregunta precisa: ¿Qué diversidad necesita un regulador para responder a perturbaciones distintas? Un regulador necesita respuestas suficientemente diversas para enfrentar la diversidad de perturbaciones relevantes. La precaución editorial es igualmente importante: Más control no equivale a mejor regulación; la variedad relevante depende de metas y condiciones definidas."
+  },
+  {
+    "id": "card_vonfoerster_observer_001",
+    "author": "Heinz von Foerster",
+    "title": "La observación pertenece al problema",
+    "audioLegacyV01": "Heinz von Foerster aborda una pregunta precisa: ¿Qué cambia cuando el observador reconoce que participa en la descripción? Observar no es mirar desde ninguna parte: es construir distinciones dentro del mundo que intentamos conocer. La precaución editorial es igualmente importante: Incluir al observador no vuelve equivalentes todas las afirmaciones ni elimina la evidencia."
+  },
+  {
+    "id": "card_prigogine_dissipative_structures_001",
+    "author": "Ilya Prigogine",
+    "title": "Orden lejos del equilibrio",
+    "audioLegacyV01": "Ilya Prigogine aborda una pregunta precisa: ¿Cómo puede aparecer organización en sistemas atravesados por flujos y disipación? Algunos sistemas abiertos forman orden lejos del equilibrio gracias a los flujos que atraviesan y sostienen su organización. La precaución editorial es igualmente importante: La teoría físico-química no demuestra que toda crisis social produzca espontáneamente un orden mejor."
+  },
+  {
+    "id": "card_bateson_ecology_difference_001",
+    "author": "Gregory Bateson",
+    "title": "Una diferencia que produce otra diferencia",
+    "audioLegacyV01": "Gregory Bateson aborda una pregunta precisa: ¿Cuándo una diferencia se vuelve informativa para un sistema? Una diferencia se convierte en información cuando entra en una relación capaz de producir otra diferencia. La precaución editorial es igualmente importante: No toda diferencia es información; el doble vínculo no debe usarse como explicación causal única ni diagnóstico informal."
+  },
+  {
+    "id": "card_beer_viable_system_001",
+    "author": "Stafford Beer",
+    "title": "Viabilidad sin control total",
+    "audioLegacyV01": "Stafford Beer aborda una pregunta precisa: ¿Cómo coordinar una organización sin destruir la autonomía local necesaria? Una organización viable combina autonomía operativa, coordinación, atención al presente, inteligencia sobre el entorno e identidad compartida. La precaución editorial es igualmente importante: Las cinco funciones no son cinco oficinas y la viabilidad no garantiza justicia o legitimidad."
+  },
+  {
+    "id": "card_maturana_varela_autopoiesis_001",
+    "author": "Humberto Maturana y Francisco Varela",
+    "title": "La vida produce su propia organización",
+    "audioLegacyV01": "Humberto Maturana y Francisco Varela aborda una pregunta precisa: ¿Qué organización distingue a un ser vivo? Vivir consiste en regenerar continuamente la red de procesos que produce los componentes y límites de la propia unidad. La precaución editorial es igualmente importante: Autopoiesis no significa autosuficiencia; las extensiones sociales del concepto son posteriores y discutidas."
+  },
+  {
+    "id": "card_holland_complex_adaptive_systems_001",
+    "author": "John Holland",
+    "title": "Agentes que adaptan sus reglas",
+    "audioLegacyV01": "John Holland aborda una pregunta precisa: ¿Cómo producen patrones colectivos los agentes que aprenden y cambian? Agentes diversos que modifican sus reglas al interactuar pueden producir patrones colectivos que nadie diseñó por completo. La precaución editorial es igualmente importante: Emergencia no significa magia ni beneficio; una simulación no demuestra automáticamente el funcionamiento del fenómeno real."
+  },
+  {
+    "id": "card_morin_reform_thought_001",
+    "author": "Edgar Morin",
+    "title": "Distinguir sin separar",
+    "audioLegacyV01": "Edgar Morin aborda una pregunta precisa: ¿Cómo conocer sin reducir las partes ni disolverlas en una totalidad vaga? Conocer exige distinguir los componentes y, al mismo tiempo, reconstruir las relaciones que hacen posible el fenómeno. La precaución editorial es igualmente importante: Pensamiento complejo no es sinónimo de ciencias de la complejidad ni una metodología empírica única."
+  },
+  {
+    "id": "card_nicolescu_transdisciplinarity_001",
+    "author": "Basarab Nicolescu",
+    "title": "Atravesar disciplinas sin mezclarlas",
+    "audioLegacyV01": "Basarab Nicolescu aborda una pregunta precisa: ¿Cómo relacionar niveles y disciplinas sin reducirlos a una sola explicación? Atravesar las disciplinas exige conservar su rigor y construir relaciones entre niveles que ninguna de ellas puede agotar aisladamente. La precaución editorial es igualmente importante: Nicolescu representa una genealogía específica; el tercero incluido no vuelve idénticos A y no-A."
+  },
+  {
+    "id": "card_boulding_system_levels_001",
+    "author": "Kenneth Boulding",
+    "title": "No todos los sistemas exigen el mismo lenguaje",
+    "audioLegacyV01": "Kenneth Boulding aborda una pregunta precisa: ¿Qué niveles de organización requieren conceptos diferentes? Llamar sistemas a una célula, una máquina y una sociedad no autoriza a explicarlas mediante el mismo modelo. La precaución editorial es igualmente importante: La jerarquía es una guía histórica y heurística, no una escala moral o evolutiva universal."
+  },
+  {
+    "id": "card_rapoport_conflict_modes_001",
+    "author": "Anatol Rapoport",
+    "title": "Lucha, juego y debate",
+    "audioLegacyV01": "Anatol Rapoport aborda una pregunta precisa: ¿Qué relación construimos con el adversario en cada forma de conflicto? En una lucha el otro es una amenaza; en un juego es un estratega; en un debate es un interlocutor capaz de responder. La precaución editorial es igualmente importante: No todo conflicto puede resolverse conversando y los tres modos pueden coexistir o mezclarse."
+  },
+  {
+    "id": "card_pask_conversation_learning_001",
+    "author": "Gordon Pask",
+    "title": "Comprender es reconstruir en conversación",
+    "audioLegacyV01": "Gordon Pask aborda una pregunta precisa: ¿Cómo demostramos que comprendimos y no solo repetimos? Comprender una idea implica poder reconstruirla, relacionarla y enseñarla de vuelta dentro de una conversación. La precaución editorial es igualmente importante: Pask no propuso estilos fijos visuales, auditivos o cinestésicos; estudió estrategias de comprensión."
+  },
+  {
+    "id": "card_meadows_leverage_points_001",
+    "author": "Donella Meadows",
+    "title": "Intervenir donde se reproduce el sistema",
+    "audioLegacyV01": "Donella Meadows aborda una pregunta precisa: ¿En qué lugares una intervención puede transformar el comportamiento del sistema? Los cambios más profundos suelen ocurrir al transformar información, reglas, metas y paradigmas, no solo cantidades visibles. La precaución editorial es igualmente importante: Los puntos de intervención no son una receta universal ni garantizan resultados moralmente deseables."
+  },
+  {
+    "id": "card_kauffman_selforganization_landscapes_001",
+    "author": "Stuart Kauffman",
+    "title": "La selección actúa sobre posibilidades estructuradas",
+    "audioLegacyV01": "Stuart Kauffman aborda una pregunta precisa: ¿Cómo estructuran las interacciones el espacio de posibilidades evolutivas? La selección no actúa sobre posibilidades sin forma: las interacciones del sistema ya facilitan algunos órdenes y dificultan otros. La precaución editorial es igualmente importante: Autoorganización no reemplaza la selección y el “borde del caos” no es una ley universal."
+  },
+  {
+    "id": "card_rolando_garcia_complex_systems_001",
+    "author": "Rolando García",
+    "title": "Construir el sistema desde una problemática",
+    "audioLegacyV01": "Rolando García aborda una pregunta precisa: ¿Cómo construir interdisciplinariamente un sistema desde un problema real? Un sistema complejo se construye al delimitar procesos interdependientes que ninguna disciplina puede explicar aisladamente. La precaución editorial es igualmente importante: Complejidad no significa incluirlo todo ni sumar informes disciplinares al final."
+  },
+  {
+    "id": "card_pohl_hirsch_transdisciplinary_research_001",
+    "author": "Christian Pohl y Gertrude Hirsch Hadorn",
+    "title": "Sistema, objetivos y transformación",
+    "audioLegacyV01": "Christian Pohl y Gertrude Hirsch Hadorn aborda una pregunta precisa: ¿Cómo relacionar explicación, futuros deseados y estrategias de transformación? Comprender un problema, deliberar sus metas y construir su transformación son formas de conocimiento distintas pero interdependientes. La precaución editorial es igualmente importante: Participación no es automáticamente democrática y los actores sociales no forman una voz única."
+  },
+  {
+    "id": "card_maxneef_transdisciplinary_levels_001",
+    "author": "Manfred Max-Neef",
+    "title": "Hechos, acción, objetivos y valores",
+    "audioLegacyV01": "Manfred Max-Neef aborda una pregunta precisa: ¿Cómo conectar capacidad técnica, decisión política y responsabilidad ética? Conocer un problema exige relacionar lo que existe, lo que podemos hacer, lo que queremos y lo que deberíamos hacer. La precaución editorial es igualmente importante: La transdisciplinariedad no reemplaza el trabajo disciplinario ni resuelve automáticamente conflictos de valor."
+  },
+  {
+    "id": "card_bogdanov_tektology_001",
+    "author": "Alexander Bogdanov",
+    "title": "Tectología: ciencia de la organización",
+    "audioLegacyV01": "Alexander Bogdanov aborda una pregunta precisa: ¿Qué procesos organizativos pueden compararse entre campos distintos? La tectología estudia cómo se forman, se sostienen y se desintegran organizaciones en campos materialmente diferentes. La precaución editorial es igualmente importante: Bogdanov es un antecedente con proyecto propio, no una versión prematura de toda teoría sistémica posterior."
+  },
+  {
+    "id": "card_churchman_systems_ethics_001",
+    "author": "C. West Churchman",
+    "title": "La frontera sistémica es una decisión ética",
+    "audioLegacyV01": "C. West Churchman aborda una pregunta precisa: ¿Quién define la frontera y quién soporta las consecuencias que quedan fuera? Definir un sistema también significa decidir qué voces, consecuencias y valores quedarán dentro o fuera de la explicación. La precaución editorial es igualmente importante: Ampliar el sistema no elimina el conflicto ni garantiza una decisión ética."
+  },
+  {
+    "id": "card_checkland_soft_systems_001",
+    "author": "Peter Checkland",
+    "title": "El sistema como herramienta para aprender",
+    "audioLegacyV01": "Peter Checkland aborda una pregunta precisa: ¿Cómo investigar una situación cuando no existe una meta o definición única del problema? En los problemas humanos, los modelos sistémicos no describen una verdad final: organizan el aprendizaje entre perspectivas diferentes. La precaución editorial es igualmente importante: “Blando” no significa impreciso; CATWOE y los modelos no producen automáticamente una solución correcta."
+  },
+  {
+    "id": "card_mead_cybernetics_reflexivity_001",
+    "author": "Margaret Mead",
+    "title": "La comunidad cibernética debe observarse",
+    "audioLegacyV01": "Margaret Mead aborda una pregunta precisa: ¿Cómo cambia una ciencia cuando examina su propia organización y autoridad? Quienes estudian sistemas también forman sistemas: deben examinar cómo se organizan, comunican y responden a sus efectos. La precaución editorial es igualmente importante: Mead contribuyó a la reflexividad cibernética, pero no fue la única creadora de la segunda cibernética."
+  },
+  {
+    "id": "card_mcculloch_pitts_neural_logic_001",
+    "author": "Warren McCulloch y Walter Pitts",
+    "title": "La lógica puede emerger de una red formal",
+    "audioLegacyV01": "Warren McCulloch y Walter Pitts aborda una pregunta precisa: ¿Cómo puede una configuración de unidades simples realizar operaciones colectivas? Redes de unidades neuronales idealizadas pueden realizar operaciones lógicas mediante la organización de sus conexiones. La precaución editorial es igualmente importante: La neurona formal no describe toda la biología y capacidad de cálculo no equivale a conciencia o comprensión."
+  },
+  {
+    "id": "card_vonneumann_self_reproduction_001",
+    "author": "John von Neumann",
+    "title": "Construir y transmitir una descripción",
+    "audioLegacyV01": "John von Neumann aborda una pregunta precisa: ¿Qué relación doble con la información requiere la autorreproducción? Un autómata puede reproducirse cuando interpreta una descripción para construir y, al mismo tiempo, la copia para transmitirla. La precaución editorial es igualmente importante: El modelo no equivale a una célula viva ni demuestra conciencia, evolución abierta o identidad entre vida y máquina."
+  },
+  {
+    "id": "card_haken_synergetics_001",
+    "author": "Hermann Haken",
+    "title": "Parámetros colectivos que organizan muchas partes",
+    "audioLegacyV01": "Hermann Haken aborda una pregunta precisa: ¿Cómo pueden pocas variables colectivas describir y organizar muchos componentes? Muchas partes pueden generar un patrón colectivo que, a su vez, organiza el comportamiento de esas mismas partes. La precaución editorial es igualmente importante: El principio de subordinación es una relación dinámica formal y no justifica jerarquías sociales o liderazgo."
+  },
+  {
+    "id": "card_bak_self_organized_criticality_001",
+    "author": "Per Bak, Chao Tang y Kurt Wiesenfeld",
+    "title": "Criticidad autoorganizada",
+    "audioLegacyV01": "Per Bak, Chao Tang y Kurt Wiesenfeld aborda una pregunta precisa: ¿Cómo puede una dinámica local conducir a eventos distribuidos en múltiples escalas? Algunos sistemas pueden aproximarse espontáneamente a un régimen crítico donde ocurren eventos de muchas escalas. La precaución editorial es igualmente importante: Una ley de potencia no demuestra por sí sola criticidad autoorganizada ni autoriza extrapolaciones sociales automáticas."
+  },
+  {
+    "id": "card_klein_boundary_work_001",
+    "author": "Julie Thompson Klein",
+    "title": "El trabajo de cruzar fronteras",
+    "audioLegacyV01": "Julie Thompson Klein aborda una pregunta precisa: ¿Cómo cooperar entre disciplinas sin borrar sus lenguajes, métodos y autoridades? Integrar conocimientos exige comprender cómo se construyen, negocian y atraviesan las fronteras entre disciplinas y sectores. La precaución editorial es igualmente importante: No toda frontera debe desaparecer y colaboración no garantiza integración."
+  },
+  {
+    "id": "card_falsborda_participatory_action_001",
+    "author": "Orlando Fals Borda",
+    "title": "Conocimiento participativo y transformador",
+    "audioLegacyV01": "Orlando Fals Borda aborda una pregunta precisa: ¿Quién formula, interpreta y utiliza el conocimiento producido por una investigación? Investigar con las comunidades significa compartir la construcción de preguntas, interpretaciones y usos transformadores del conocimiento. La precaución editorial es igualmente importante: Consulta, taller o recolección de datos no equivalen por sí solos a IAP; participación no significa unanimidad."
+  },
+  {
+    "id": "card_ulrich_boundary_critique_001",
+    "author": "Werner Ulrich",
+    "title": "Hacer discutibles los juicios de frontera",
+    "audioLegacyV01": "Werner Ulrich aborda una pregunta precisa: ¿Qué juicios de motivación, control, conocimiento y legitimidad sostienen una intervención? Toda intervención define quién se beneficia, quién decide, qué conocimiento cuenta y quién queda sin voz. La precaución editorial es igualmente importante: Las doce preguntas no producen automáticamente justicia ni permiten incluir toda la realidad."
+  },
+  {
+    "id": "card_jackson_critical_systems_pluralism_001",
+    "author": "Michael C. Jackson",
+    "title": "Pluralismo metodológico crítico",
+    "audioLegacyV01": "Michael C. Jackson aborda una pregunta precisa: ¿Cómo elegir y combinar métodos sin convertir el pluralismo en mezcla arbitraria? Una situación compleja puede exigir varios enfoques, pero cada combinación debe justificar qué revela, qué limita y qué consecuencias produce. La precaución editorial es igualmente importante: Acumular métodos no garantiza holismo; deben conocerse sus supuestos e incompatibilidades."
+  },
+  {
+    "id": "card_forrester_system_dynamics_001",
+    "author": "Jay W. Forrester",
+    "title": "La estructura genera comportamiento",
+    "audioLegacyV01": "Jay W. Forrester aborda una pregunta precisa: ¿Qué estructuras producen crecimiento, oscilación, saturación o colapso? Los patrones persistentes de un sistema suelen surgir de acumulaciones, flujos, demoras y circuitos de retroalimentación. La precaución editorial es igualmente importante: La simulación hace explícitas hipótesis; no es una predicción automática ni una copia total de la realidad."
+  },
+  {
+    "id": "card_miller_living_systems_001",
+    "author": "James Grier Miller",
+    "title": "Procesos recurrentes en sistemas vivientes",
+    "audioLegacyV01": "James Grier Miller aborda una pregunta precisa: ¿Qué procesos pueden compararse desde células hasta organizaciones sin biologizar la sociedad? La vida presenta procesos recurrentes de materia, energía e información, pero cada nivel los realiza mediante estructuras diferentes. La precaución editorial es igualmente importante: Semejanza funcional no significa identidad biológica literal ni justifica naturalizar jerarquías sociales."
+  },
+  {
+    "id": "card_luhmann_communication_systems_001",
+    "author": "Niklas Luhmann",
+    "title": "La comunicación reproduce sistemas sociales",
+    "audioLegacyV01": "Niklas Luhmann aborda una pregunta precisa: ¿Qué operación elemental permite la continuidad de un sistema social? Los sistemas sociales continúan cuando una comunicación enlaza con otra, incluso mientras cambian las personas participantes. La precaución editorial es igualmente importante: La afirmación no niega la existencia o dignidad de las personas; la extensión social de autopoiesis es discutida."
+  },
+  {
+    "id": "card_vonglasersfeld_viability_001",
+    "author": "Ernst von Glasersfeld",
+    "title": "El conocimiento como construcción viable",
+    "audioLegacyV01": "Ernst von Glasersfeld aborda una pregunta precisa: ¿Cómo evaluar una construcción sin afirmar que copia la realidad tal como es en sí misma? Conocer no es copiar una realidad independiente: es construir formas de actuar y pensar que permanezcan viables en la experiencia. La precaución editorial es igualmente importante: Viabilidad no significa capricho, relativismo absoluto o irrelevancia de la evidencia y las restricciones."
+  },
+  {
+    "id": "card_varela_thompson_rosch_enaction_001",
+    "author": "Francisco Varela, Evan Thompson y Eleanor Rosch",
+    "title": "Conocer como acción encarnada",
+    "audioLegacyV01": "Francisco Varela, Evan Thompson y Eleanor Rosch aborda una pregunta precisa: ¿Cómo emerge el significado mediante la actividad situada de un organismo? Conocer es participar corporalmente en una relación donde organismo y entorno hacen emerger un mundo significativo. La precaución editorial es igualmente importante: Enacción no significa inventar la realidad, rechazar toda representación o sustituir la ciencia por introspección."
+  },
+  {
+    "id": "card_brianarthur_path_dependence_001",
+    "author": "W. Brian Arthur",
+    "title": "La historia abre y cierra trayectorias",
+    "audioLegacyV01": "W. Brian Arthur aborda una pregunta precisa: ¿Cómo pueden las primeras elecciones transformar las opciones económicas futuras? Cuando una elección aumenta su propio atractivo, pequeños acontecimientos históricos pueden consolidar trayectorias difíciles de abandonar. La precaución editorial es igualmente importante: Dependencia de trayectoria no significa determinismo ni demuestra que toda opción dominante sea inferior o inevitable."
+  },
+  {
+    "id": "card_axelrod_cooperation_001",
+    "author": "Robert Axelrod",
+    "title": "Cooperación mediante repetición y reparación",
+    "audioLegacyV01": "Robert Axelrod aborda una pregunta precisa: ¿Qué condiciones permiten que la cooperación emerja sin una autoridad central? La cooperación puede estabilizarse cuando las relaciones continúan, las respuestas son recíprocas y existe posibilidad de volver a cooperar. La precaución editorial es igualmente importante: Tit for Tat no es una receta moral universal y puede fallar bajo ruido, desigualdad o interacciones breves."
+  },
+  {
+    "id": "card_najmanovich_dynamic_configurations_001",
+    "author": "Denise Najmanovich",
+    "title": "Cartografías dinámicas y subjetividad entramada",
+    "audioLegacyV01": "Denise Najmanovich aborda una pregunta precisa: ¿Cómo conocer desde dentro de configuraciones históricas, corporales y territoriales? Pensamos desde vínculos y territorios: nuestras cartografías organizan la experiencia mientras la experiencia también nos transforma. La precaución editorial es igualmente importante: Lo situado no equivale a opinión privada y “complejidades” no elimina evidencia, criterios o conflictos."
+  },
+  {
+    "id": "card_midgley_systemic_intervention_001",
+    "author": "Gerald Midgley",
+    "title": "Intervención, fronteras y marginalización",
+    "audioLegacyV01": "Gerald Midgley aborda una pregunta precisa: ¿Cómo afecta la selección de fronteras y métodos a quienes quedan en el centro o el margen? Intervenir exige examinar qué fronteras definen el problema, qué voces quedan marginadas y qué métodos permiten actuar responsablemente. La precaución editorial es igualmente importante: Utilizar muchos métodos no vuelve sistémica una intervención si no examina valores, exclusiones y consecuencias."
+  },
+  {
+    "id": "card_sterman_learning_complex_systems_001",
+    "author": "John D. Sterman",
+    "title": "Aprender de nuestras decisiones y modelos mentales",
+    "audioLegacyV01": "John D. Sterman aborda una pregunta precisa: ¿Por qué la experiencia puede repetir errores cuando existen demoras y efectos indirectos? Aprender exige revisar las decisiones y también los modelos mentales que hicieron que esas decisiones parecieran correctas. La precaución editorial es igualmente importante: Simular no equivale a predecir ni el modelo formal contiene toda la realidad."
+  },
+  {
+    "id": "card_ostrom_commons_governance_001",
+    "author": "Elinor Ostrom",
+    "title": "Gobernanza de los bienes comunes",
+    "audioLegacyV01": "Elinor Ostrom aborda una pregunta precisa: ¿Cómo pueden los usuarios construir instituciones duraderas para recursos compartidos? Los usuarios pueden sostener un recurso compartido cuando construyen reglas legítimas, vigilancia, resolución de conflictos y capacidad de autogobierno. La precaución editorial es igualmente importante: La comunidad no siempre funciona; los principios de diseño son patrones comparativos, no una receta universal."
+  },
+  {
+    "id": "card_granovetter_weak_ties_embeddedness_001",
+    "author": "Mark Granovetter",
+    "title": "La fuerza estructural de los vínculos débiles",
+    "audioLegacyV01": "Mark Granovetter aborda una pregunta precisa: ¿Cómo puede una relación poco cercana conectar mundos sociales y oportunidades distintas? Un vínculo poco intenso puede resultar estructuralmente poderoso cuando conecta grupos que comparten poca información entre sí. La precaución editorial es igualmente importante: No todo vínculo débil es puente y las redes también reproducen exclusión, fraude, favoritismo y desigualdad."
+  },
+  {
+    "id": "card_watts_strogatz_small_world_001",
+    "author": "Duncan Watts y Steven Strogatz",
+    "title": "Redes de mundo pequeño",
+    "audioLegacyV01": "Duncan Watts y Steven Strogatz aborda una pregunta precisa: ¿Cómo combinar cohesión local y cercanía global en una red? Pocos enlaces entre regiones distantes pueden reducir enormemente las separaciones y conservar, al mismo tiempo, grupos locales densos. La precaución editorial es igualmente importante: No todas las redes son mundos pequeños y una distancia corta no implica confianza o efectos beneficiosos."
+  },
+  {
+    "id": "card_barabasi_albert_preferential_attachment_001",
+    "author": "Albert-László Barabási y Réka Albert",
+    "title": "Crecimiento y conexión preferencial",
+    "audioLegacyV01": "Albert-László Barabási y Réka Albert aborda una pregunta precisa: ¿Cómo pueden reglas locales de crecimiento producir concentración global? Cuando los nodos ya conectados atraen más enlaces, el crecimiento de la red puede producir hubs y desigualdades acumulativas. La precaución editorial es igualmente importante: No toda red es libre de escala y la centralidad acumulada no demuestra mérito, necesidad o legitimidad."
+  },
+  {
+    "id": "card_newman_network_structure_001",
+    "author": "Mark Newman",
+    "title": "Varios centros y comunidades posibles",
+    "audioLegacyV01": "Mark Newman aborda una pregunta precisa: ¿Qué significa ser central y cómo cambia según la métrica elegida? Una red posee varios centros posibles y distintas divisiones, según la pregunta, la métrica y la escala de observación. La precaución editorial es igualmente importante: Una comunidad algorítmica no es automáticamente una comunidad social y ninguna métrica es neutral o absoluta."
+  },
+  {
+    "id": "card_thompson_mind_in_life_001",
+    "author": "Evan Thompson",
+    "title": "La mente hunde sus raíces en la vida",
+    "audioLegacyV01": "Evan Thompson aborda una pregunta precisa: ¿Qué continuidad puede existir entre organización vital y capacidades mentales? La capacidad de producir sentido hunde sus raíces en organismos autónomos para los cuales ciertas interacciones favorecen o amenazan la vida. La precaución editorial es igualmente importante: Continuidad vida-mente no significa que toda célula tenga conciencia humana o que normatividad vital equivalga a ética."
+  },
+  {
+    "id": "card_stengers_cosmopolitics_001",
+    "author": "Isabelle Stengers",
+    "title": "Desacelerar para que el problema resista",
+    "audioLegacyV01": "Isabelle Stengers aborda una pregunta precisa: ¿Cómo impedir que una definición dominante cierre prematuramente una controversia? Pensar despacio impide que la urgencia, la experticia o el consenso definan demasiado pronto qué importa y quién puede hablar. La precaución editorial es igualmente importante: Desacelerar no significa ignorar emergencias, rechazar ciencia o aceptar todas las perspectivas como verdaderas."
+  },
+  {
+    "id": "card_escobar_design_pluriverse_001",
+    "author": "Arturo Escobar",
+    "title": "Diseños para el pluriverso",
+    "audioLegacyV01": "Arturo Escobar aborda una pregunta precisa: ¿Qué sujetos, relaciones, dependencias y mundos produce cada diseño? Diseñar es intervenir en la creación de relaciones y mundos; por eso las comunidades deben participar en aquello que configurará sus vidas. La precaución editorial es igualmente importante: Pluriverso no es relativismo absoluto, marca estética o idea de mundos incomunicables; autonomía no significa aislamiento."
+  }
+]

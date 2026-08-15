@@ -1,0 +1,83 @@
+[
+  {
+    "id": "guide_welcome_01",
+    "category": "welcome",
+    "screen": "home",
+    "moment": "first_visit",
+    "title": "Bienvenido a Cartografías del Pensamiento",
+    "text": "Primero puedes ordenar los periodos y temas que más te interesan. Esta brújula orienta recomendaciones, pero nunca limita lo que puedes escuchar.",
+    "actionLabel": "Comenzar",
+    "frequency": "once",
+    "autoAudio": false
+  },
+  {
+    "id": "guide_home_01",
+    "category": "orientation",
+    "screen": "home",
+    "moment": "requested",
+    "title": "Elige el tipo de recorrido",
+    "text": "Cronológico sigue las etapas históricas; Para ti usa tu brújula; De todo un poco alterna épocas y tradiciones; Sorpresa adapta una ruta a favoritas, historial o una introducción plural.",
+    "frequency": "requested",
+    "autoAudio": false
+  },
+  {
+    "id": "guide_explore_01",
+    "category": "orientation",
+    "screen": "explore",
+    "moment": "requested",
+    "title": "Una biblioteca, varias entradas",
+    "text": "Historia organiza el corpus mediante doce territorios temporales; campos y autores ofrecen entradas alternativas. Puedes escuchar un periodo o marcar ideas en el orden que quieras para crear una lista.",
+    "frequency": "requested",
+    "autoAudio": false
+  },
+  {
+    "id": "guide_routes_01",
+    "category": "orientation",
+    "screen": "routes",
+    "moment": "requested",
+    "title": "Continuar varios caminos",
+    "text": "Cada recorrido conserva su propia lista y posición. Continuar retoma el último y Mis recorridos permite volver a rutas anteriores.",
+    "frequency": "requested",
+    "autoAudio": false
+  },
+  {
+    "id": "guide_random_01",
+    "category": "orientation",
+    "screen": "random",
+    "moment": "requested",
+    "title": "Azar con diversidad",
+    "text": "De todo un poco evita repeticiones cercanas de autor, periodo y colección. Sorpresa incorpora afinidades y también ideas contrastantes.",
+    "frequency": "requested",
+    "autoAudio": false
+  },
+  {
+    "id": "guide_rhizome_01",
+    "category": "orientation",
+    "screen": "rhizome",
+    "moment": "requested",
+    "title": "Conexiones reproducibles",
+    "text": "Escucha una idea, colócala en el centro o convierte la constelación visible en un recorrido continuo.",
+    "frequency": "requested",
+    "autoAudio": false
+  },
+  {
+    "id": "guide_play_01",
+    "category": "help",
+    "screen": "card",
+    "moment": "requested",
+    "title": "Escucha orientada y continua",
+    "text": "La reproducción avanza dentro del recorrido elegido. El límite de tiempo termina siempre la idea activa antes de pausar y guardar el punto.",
+    "frequency": "requested",
+    "autoAudio": false
+  },
+  {
+    "id": "guide_install_01",
+    "category": "help",
+    "screen": "global",
+    "moment": "requested",
+    "title": "Instala la aplicación",
+    "text": "La PWA se instala desde el sitio publicado por HTTPS en Cloudflare Pages. El proyecto no requiere ejecutables de Windows ni servidores propios.",
+    "frequency": "requested",
+    "autoAudio": false
+  }
+]

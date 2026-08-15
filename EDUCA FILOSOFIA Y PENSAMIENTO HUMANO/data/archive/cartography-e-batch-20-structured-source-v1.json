@@ -1,0 +1,959 @@
+{
+  "schemaVersion": "1.0",
+  "packId": "pack_cartography_e_african_philosophies_foundations_20_v1",
+  "title": "Cartografía E · Serie 1–2 · Filosofías africanas: fuentes, persona, oralidad y debates modernos",
+  "status": "research_consolidated_pending_app_integration",
+  "createdAt": "2026-07-24",
+  "recordCount": 20,
+  "editorialRule": "Audios breves con entidad inicial, una idea central y una cautela; pluralidad regional y controversias explícitas.",
+  "records": [
+    {
+      "id": "card_african_philosophies_plural_001",
+      "series": "cartography-e-series-1-2",
+      "order": 1,
+      "entity": "Filosofías africanas",
+      "title": "Un continente no piensa con una sola voz",
+      "period": "Antigüedad–actualidad",
+      "territory": "África y diásporas africanas",
+      "cardType": "portal_metodologica",
+      "question": "¿Qué perdemos cuando hablamos de una única filosofía africana?",
+      "visibleText": "África reúne historias, lenguas, problemas y tradiciones distintas; ninguna fórmula única puede representarlas sin borrar diferencias.",
+      "coreIdea": "La filosofía africana es un campo plural de prácticas críticas y tradiciones, no un sistema uniforme ni una esencia continental.",
+      "distinctiveKey": "pluralidad + historia + debate",
+      "audio": "Comenzamos con las filosofías africanas, en plural. El continente reúne lenguas, archivos, tradiciones orales, escuelas religiosas y debates modernos muy diferentes. Hablar de un único sistema africano puede ocultar conflictos y cambios internos. La unidad útil no es una doctrina común, sino un campo de preguntas sobre vida, conocimiento, poder, persona y comunidad construido desde historias africanas y diaspóricas.",
+      "caution": "No convertir «África» en una cultura homogénea ni suponer que toda filosofía africana comparte una misma metafísica o ética.",
+      "tags": [
+        "pluralidad",
+        "historiografía",
+        "África",
+        "diáspora"
+      ],
+      "connections": [
+        "card_oral_argumentation_africa_001",
+        "card_hountondji_ethnophilosophy_001"
+      ],
+      "quiz": {
+        "question": "¿Qué significa usar aquí el plural «filosofías africanas»?",
+        "options": [
+          "Que no existe reflexión filosófica en África",
+          "Que hay múltiples tradiciones y debates históricos",
+          "Que todas las comunidades sostienen la misma doctrina",
+          "Que solo cuentan los textos universitarios"
+        ],
+        "correctIndex": 1,
+        "explanation": "El plural evita reducir un continente diverso a una sola voz."
+      },
+      "evidenceLevel": "A",
+      "sources": [
+        {
+          "title": "Africana Philosophy",
+          "url": "https://plato.stanford.edu/entries/africana/"
+        },
+        {
+          "title": "Contemporary Africana Philosophy",
+          "url": "https://plato.stanford.edu/archives/sum2026/entries/africana-contemporary/"
+        }
+      ]
+    },
+    {
+      "id": "card_oral_argumentation_africa_001",
+      "series": "cartography-e-series-1-2",
+      "order": 2,
+      "entity": "Oralidad y argumentación",
+      "title": "Pensar sin depender del libro",
+      "period": "Diversos periodos",
+      "territory": "Múltiples sociedades africanas",
+      "cardType": "metodologica",
+      "question": "¿La ausencia de escritura impide conservar crítica, razones y desacuerdos?",
+      "visibleText": "La oralidad puede transmitir argumentos, controversias y voces individuales; no equivale a pensamiento anónimo ni inmóvil.",
+      "coreIdea": "Las prácticas orales permiten memoria, crítica y discusión, aunque exigen métodos cuidadosos para distinguir interpretación, transmisión y autoría.",
+      "distinctiveKey": "oralidad + crítica + transmisión",
+      "audio": "Seguimos con la oralidad como medio filosófico. Un pensamiento transmitido mediante conversación, proverbios o entrevistas no es necesariamente anónimo ni unánime. Puede contener objeciones, revisiones y voces reconocibles. El desafío está en reconstruir quién afirmó qué, cómo cambió la formulación y qué parte pertenece al intérprete. La escritura facilita rastrear versiones, pero no posee el monopolio de la reflexión crítica.",
+      "caution": "No romantizar la oralidad ni tratar toda tradición oral como filosofía; deben identificarse razones, problemas y posibilidades de crítica.",
+      "tags": [
+        "oralidad",
+        "argumentación",
+        "memoria",
+        "autoría"
+      ],
+      "connections": [
+        "card_african_sage_oruka_001",
+        "card_african_proverbs_interpretation_001"
+      ],
+      "quiz": {
+        "question": "¿Qué error corrige esta unidad?",
+        "options": [
+          "Que la escritura pueda conservar argumentos",
+          "Que la oralidad sea siempre colectiva y acrítica",
+          "Que las conversaciones cambien con el tiempo",
+          "Que exista interpretación"
+        ],
+        "correctIndex": 1,
+        "explanation": "La oralidad puede contener crítica e individualidad filosófica."
+      },
+      "evidenceLevel": "B",
+      "sources": [
+        {
+          "title": "African Sage Philosophy",
+          "url": "https://plato.stanford.edu/archives/fall2014/entries/african-sage/"
+        },
+        {
+          "title": "Contemporary Africana Philosophy",
+          "url": "https://plato.stanford.edu/archives/sum2026/entries/africana-contemporary/"
+        }
+      ]
+    },
+    {
+      "id": "card_african_proverbs_interpretation_001",
+      "series": "cartography-e-series-1-2",
+      "order": 3,
+      "entity": "Proverbios y razonamiento",
+      "title": "Una frase breve no contiene una doctrina completa",
+      "period": "Diversos periodos",
+      "territory": "Múltiples tradiciones africanas",
+      "cardType": "metodologica",
+      "question": "¿Cómo puede un proverbio servir al pensamiento sin convertirse en una respuesta automática?",
+      "visibleText": "El proverbio condensa experiencia, pero su sentido depende de la situación, de quien lo emplea y de la discusión que provoca.",
+      "coreIdea": "Los proverbios son recursos argumentativos y pedagógicos que requieren interpretación contextual; no constituyen por sí solos sistemas filosóficos cerrados.",
+      "distinctiveKey": "condensación + contexto + disputa",
+      "audio": "Entramos en los proverbios como herramientas de pensamiento. Una frase breve puede recordar una experiencia, advertir un riesgo o sostener una razón dentro de una discusión. Sin embargo, el mismo proverbio cambia de sentido según la situación y puede encontrar otro proverbio que lo contradiga. Su valor filosófico aparece en el uso crítico, no en reunir expresiones y presentarlas como doctrina eterna de todo un pueblo.",
+      "caution": "No extraer máximas de su contexto ni atribuirlas automáticamente a una comunidad entera como visión unánime.",
+      "tags": [
+        "proverbios",
+        "contexto",
+        "argumento",
+        "interpretación"
+      ],
+      "connections": [
+        "card_oral_argumentation_africa_001",
+        "card_hountondji_ethnophilosophy_001"
+      ],
+      "quiz": {
+        "question": "¿Cuándo adquiere valor filosófico un proverbio?",
+        "options": [
+          "Cuando se repite sin discusión",
+          "Cuando se interpreta y se somete a razones en contexto",
+          "Cuando se atribuye a todo un continente",
+          "Cuando reemplaza cualquier argumento"
+        ],
+        "correctIndex": 1,
+        "explanation": "Su fuerza depende del uso crítico y contextual."
+      },
+      "evidenceLevel": "B",
+      "sources": [
+        {
+          "title": "Contemporary Africana Philosophy",
+          "url": "https://plato.stanford.edu/archives/sum2026/entries/africana-contemporary/"
+        },
+        {
+          "title": "African Sage Philosophy",
+          "url": "https://plato.stanford.edu/archives/fall2014/entries/african-sage/"
+        }
+      ]
+    },
+    {
+      "id": "card_ifa_signs_interpretation_001",
+      "series": "cartography-e-series-1-2",
+      "order": 4,
+      "entity": "Ifá",
+      "title": "Signos, relatos y decisión",
+      "period": "Tradición viva",
+      "territory": "Comunidades yorùbá y diásporas",
+      "cardType": "tradicion_concepto",
+      "question": "¿Cómo puede una práctica adivinatoria funcionar también como archivo de conocimiento?",
+      "visibleText": "Ifá relaciona configuraciones de signos con un amplio corpus oral que orienta decisiones mediante interpretación especializada.",
+      "coreIdea": "Ifá es un sistema de signos y recitaciones que conserva historia, ética, medicina y cosmología dentro de una práctica interpretativa viva.",
+      "distinctiveKey": "signos + corpus oral + interpretación",
+      "audio": "Llegamos a Ifá, tradición yorùbá vinculada con Òrúnmìlà y con especialistas llamados babaláwo. La consulta no depende simplemente de una persona poseída: una configuración de signos conduce a poemas y relatos que deben interpretarse para una situación concreta. El corpus conserva conocimientos históricos, éticos y religiosos. No debe reducirse a superstición ni presentarse como un computador binario antiguo.",
+      "caution": "No traducir Ifá como ciencia moderna, algoritmo digital o filosofía uniforme; es una práctica religiosa e interpretativa con variaciones históricas.",
+      "tags": [
+        "Ifá",
+        "Yorùbá",
+        "oralidad",
+        "interpretación"
+      ],
+      "connections": [
+        "card_oral_argumentation_africa_001",
+        "card_oyewumi_gender_categories_001"
+      ],
+      "quiz": {
+        "question": "¿Qué papel cumple el babaláwo en Ifá?",
+        "options": [
+          "Inventar cualquier respuesta",
+          "Interpretar signos mediante un corpus aprendido",
+          "Eliminar la tradición oral",
+          "Actuar solo como médium poseído"
+        ],
+        "correctIndex": 1,
+        "explanation": "La práctica exige formación e interpretación del corpus."
+      },
+      "evidenceLevel": "A",
+      "sources": [
+        {
+          "title": "Ifa divination system",
+          "url": "https://ich.unesco.org/en/RL/ifa-divination-system-00146?lang=en"
+        },
+        {
+          "title": "Safeguarding of the Ifa Divination system",
+          "url": "https://f5vip11.unesco.org/en/projects/safeguarding-of-the-ifa-divination-system-00036"
+        }
+      ]
+    },
+    {
+      "id": "card_wiredu_akan_personhood_001",
+      "series": "cartography-e-series-1-2",
+      "order": 5,
+      "entity": "Kwasi Wiredu y filosofía akan",
+      "title": "Llegar a ser persona mediante la conducta",
+      "period": "Siglo XX",
+      "territory": "Ghana y tradición akan",
+      "cardType": "autor_concepto",
+      "question": "¿Ser humano y alcanzar plena personhood significan exactamente lo mismo?",
+      "visibleText": "Wiredu interpreta la personhood akan como un logro moral y social gradual, apoyado sobre una humanidad que conserva valor básico.",
+      "coreIdea": "La vida comunitaria puede reconocer grados de madurez moral sin negar que todo ser humano posea un valor que no depende del éxito social.",
+      "distinctiveKey": "humanidad + logro moral + responsabilidad",
+      "audio": "Seguimos con Kwasi Wiredu y su interpretación de la persona en la tradición akan. Ser humano es una condición básica; llegar a ser plenamente persona implica madurez, responsabilidad y contribución al bienestar común. El reconocimiento puede crecer con la conducta. Esta lectura no autoriza negar dignidad a quienes no cumplen expectativas sociales y ha sido discutida por otros filósofos akan, especialmente Kwame Gyekye.",
+      "caution": "No convertir los grados de personhood en licencia para retirar derechos básicos ni tratarlos como posición unánime de todos los Akan.",
+      "tags": [
+        "Akan",
+        "persona",
+        "responsabilidad",
+        "Wiredu"
+      ],
+      "connections": [
+        "card_gyekye_moderate_communitarianism_001",
+        "card_wiredu_conceptual_decolonization_001"
+      ],
+      "quiz": {
+        "question": "¿Qué distingue Wiredu en su lectura de la personhood akan?",
+        "options": [
+          "Humanidad biológica y logro moral-social",
+          "Cuerpo y máquina",
+          "Riqueza y verdad",
+          "Lengua y escritura"
+        ],
+        "correctIndex": 0,
+        "explanation": "La personhood plena se entiende como logro, sobre una humanidad básica."
+      },
+      "evidenceLevel": "B",
+      "sources": [
+        {
+          "title": "Akan Philosophy of the Person",
+          "url": "https://plato.stanford.edu/entries/akan-person/"
+        }
+      ]
+    },
+    {
+      "id": "card_gyekye_moderate_communitarianism_001",
+      "series": "cartography-e-series-1-2",
+      "order": 6,
+      "entity": "Kwame Gyekye",
+      "title": "Comunidad sin disolver al individuo",
+      "period": "1939–2019",
+      "territory": "Ghana",
+      "cardType": "autor_concepto",
+      "question": "¿Puede una ética comunitaria reconocer autonomía y derechos individuales?",
+      "visibleText": "Gyekye defiende una comunidad fuerte, pero rechaza que la identidad y el valor de la persona procedan completamente del grupo.",
+      "coreIdea": "El comunalismo moderado intenta equilibrar obligaciones comunitarias con dignidad, iniciativa y derechos que corresponden a la persona.",
+      "distinctiveKey": "comunidad + autonomía + derechos",
+      "audio": "Continuamos con Kwame Gyekye y el comunalismo moderado. La comunidad influye profundamente en la identidad y crea obligaciones de solidaridad, pero no fabrica por completo a la persona. Los individuos conservan iniciativa, valor moral y derechos capaces de limitar demandas colectivas. La propuesta busca evitar dos extremos: el aislamiento individualista y una comunidad que absorba toda diferencia. Su equilibrio preciso continúa siendo debatido.",
+      "caution": "No presentar el comunalismo moderado como solución definitiva ni como descripción uniforme de todas las sociedades africanas.",
+      "tags": [
+        "Gyekye",
+        "comunidad",
+        "derechos",
+        "autonomía"
+      ],
+      "connections": [
+        "card_wiredu_akan_personhood_001",
+        "card_ubuntu_relational_humanity_001"
+      ],
+      "quiz": {
+        "question": "¿Qué intenta conservar el comunalismo moderado?",
+        "options": [
+          "Solo la obediencia al grupo",
+          "Comunidad junto con autonomía y derechos",
+          "La eliminación de responsabilidades",
+          "Una persona sin relaciones"
+        ],
+        "correctIndex": 1,
+        "explanation": "Gyekye busca equilibrar pertenencia comunitaria e individualidad."
+      },
+      "evidenceLevel": "B",
+      "sources": [
+        {
+          "title": "Person and Community: In Defense of Moderate Communitarianism",
+          "url": "https://academic.oup.com/book/7594/chapter-abstract/152597659"
+        },
+        {
+          "title": "Akan Philosophy of the Person",
+          "url": "https://plato.stanford.edu/entries/akan-person/"
+        }
+      ]
+    },
+    {
+      "id": "card_ubuntu_relational_humanity_001",
+      "series": "cartography-e-series-1-2",
+      "order": 7,
+      "entity": "Ubuntu / Botho",
+      "title": "La humanidad se realiza en relación",
+      "period": "Tradición viva y filosofía contemporánea",
+      "territory": "África austral",
+      "cardType": "tradicion_concepto",
+      "question": "¿Qué significa afirmar que una vida humana se forma mediante relaciones?",
+      "visibleText": "Ubuntu vincula humanidad, reconocimiento y convivencia; la persona florece creando relaciones de identificación y solidaridad.",
+      "coreIdea": "Ubuntu ofrece recursos para una ética relacional, pero sus formulaciones contemporáneas son diversas y no representan a toda África.",
+      "distinctiveKey": "relación + humanidad + armonía",
+      "audio": "Llegamos a ubuntu, o botho, una familia de ideas de África austral sobre humanidad y relación. Diversos filósofos la interpretan como obligación de identificarse con otras personas y participar solidariamente en la vida común. No significa obedecer siempre al grupo ni eliminar derechos individuales. Tampoco es una esencia compartida por toda África: su uso académico, jurídico y político ha generado interpretaciones y críticas diferentes.",
+      "caution": "Evitar la frase simplificada «yo soy porque nosotros somos» como definición completa y no universalizar una tradición regional.",
+      "tags": [
+        "ubuntu",
+        "Botho",
+        "relacionalidad",
+        "ética"
+      ],
+      "connections": [
+        "card_gyekye_moderate_communitarianism_001",
+        "card_african_philosophies_plural_001"
+      ],
+      "quiz": {
+        "question": "¿Qué cautela acompaña a ubuntu?",
+        "options": [
+          "Debe tratarse como esencia única de toda África",
+          "Es una tradición regional con interpretaciones diversas",
+          "Niega toda individualidad",
+          "Solo se refiere a cortesía"
+        ],
+        "correctIndex": 1,
+        "explanation": "Ubuntu es influyente, pero regional y filosóficamente discutido."
+      },
+      "evidenceLevel": "B",
+      "sources": [
+        {
+          "title": "Ubuntu as a moral theory and human rights in South Africa",
+          "url": "https://www.ahrlj.up.ac.za/metz-t"
+        },
+        {
+          "title": "Contemporary Africana Philosophy",
+          "url": "https://plato.stanford.edu/archives/sum2026/entries/africana-contemporary/"
+        }
+      ]
+    },
+    {
+      "id": "card_zera_yacob_reason_inquiry_001",
+      "series": "cartography-e-series-1-2",
+      "order": 8,
+      "entity": "Zärʾa Yaʿǝqob",
+      "title": "Investigar la religión mediante la razón",
+      "period": "Siglo XVII; autoría discutida",
+      "territory": "Etiopía",
+      "cardType": "autor_obra_controversia",
+      "question": "¿Cómo juzgar tradiciones rivales cuando todas reclaman autoridad divina?",
+      "visibleText": "La Hatäta atribuida a Zärʾa Yaʿǝqob usa la razón para examinar creación, religión, violencia y normas sociales.",
+      "coreIdea": "La ləbbuna o razón permite contrastar mandatos religiosos con la bondad de la creación y con obligaciones éticas comprensibles.",
+      "distinctiveKey": "investigación + razón + crítica religiosa",
+      "audio": "Escuchamos a Zärʾa Yaʿǝqob, voz de una Hatäta etíope del siglo diecisiete. Frente a religiones enfrentadas, propone examinar sus mandatos mediante ləbbuna, la razón, y mediante la bondad de la creación. Critica normas que producen violencia o sufrimiento injustificado. La obra posee gran importancia filosófica, aunque su autoría y su historia textual continúan siendo objeto de una controversia académica centenaria.",
+      "caution": "Presentar siempre la disputa de autoría; no afirmar como hecho cerrado que el texto fue escrito por una figura histórica perfectamente documentada.",
+      "tags": [
+        "Etiopía",
+        "Hatäta",
+        "razón",
+        "religión"
+      ],
+      "connections": [
+        "card_walda_heywat_social_ethics_001",
+        "card_hountondji_ethnophilosophy_001"
+      ],
+      "quiz": {
+        "question": "¿Qué criterio ocupa un lugar central en la Hatäta atribuida a Zärʾa Yaʿǝqob?",
+        "options": [
+          "La obediencia ciega a una secta",
+          "La investigación racional de las afirmaciones",
+          "La riqueza del gobernante",
+          "La antigüedad de una costumbre"
+        ],
+        "correctIndex": 1,
+        "explanation": "La obra somete tradiciones y mandatos al examen de la razón."
+      },
+      "evidenceLevel": "C",
+      "sources": [
+        {
+          "title": "The Hatata Inquiries",
+          "url": "https://www.degruyterbrill.com/document/doi/10.1515/9783110781922/html?lang=en"
+        },
+        {
+          "title": "Hegel and the Hatäta Zär'a Ya‛ǝqob",
+          "url": "https://www.cambridge.org/core/journals/hegel-bulletin/article/hegel-and-the-hatata-zara-yaeqob-africa-in-the-philosophy-of-history-and-the-history-of-philosophy/84406A55A4A91EA580F022985A3862CB"
+        }
+      ]
+    },
+    {
+      "id": "card_walda_heywat_social_ethics_001",
+      "series": "cartography-e-series-1-2",
+      "order": 9,
+      "entity": "Wäldä Həywät",
+      "title": "La razón convertida en ética social",
+      "period": "Finales del siglo XVII; autoría discutida",
+      "territory": "Etiopía",
+      "cardType": "autor_obra_controversia",
+      "question": "¿Qué obligaciones surgen del hecho de que nadie puede vivir solo?",
+      "visibleText": "La Hatäta atribuida a Wäldä Həywät desarrolla una ética sistemática de igualdad, trabajo, educación y dependencia mutua.",
+      "coreIdea": "La razón ética debe organizar relaciones concretas porque la vida humana depende de cooperación, formación y responsabilidades compartidas.",
+      "distinctiveKey": "igualdad + dependencia mutua + vida práctica",
+      "audio": "Seguimos con Wäldä Həywät, discípulo presentado por la tradición de las Hatäta. Su tratado amplía la investigación de Zärʾa Yaʿǝqob hacia una ética social: nadie nace, crece ni sostiene su vida sin ayuda de otras personas. Por eso la igualdad exige trabajo, educación y responsabilidad recíproca. Como ocurre con la primera Hatäta, la autoría histórica del texto continúa debatida.",
+      "caution": "No separar el contenido filosófico de la controversia filológica ni convertir su ética social en descripción completa de la Etiopía del siglo XVII.",
+      "tags": [
+        "Etiopía",
+        "Hatäta",
+        "ética social",
+        "igualdad"
+      ],
+      "connections": [
+        "card_zera_yacob_reason_inquiry_001",
+        "card_ubuntu_relational_humanity_001"
+      ],
+      "quiz": {
+        "question": "¿Qué idea organiza la ética atribuida a Wäldä Həywät?",
+        "options": [
+          "La autosuficiencia absoluta",
+          "La dependencia humana y las obligaciones recíprocas",
+          "La superioridad hereditaria",
+          "El rechazo de toda educación"
+        ],
+        "correctIndex": 1,
+        "explanation": "La vida humana requiere cooperación y responsabilidades compartidas."
+      },
+      "evidenceLevel": "C",
+      "sources": [
+        {
+          "title": "The Hatata Inquiries: review",
+          "url": "https://academic.oup.com/mind/advance-article/doi/10.1093/mind/fzae059/7831566"
+        },
+        {
+          "title": "The Hatata Inquiries",
+          "url": "https://www.degruyterbrill.com/document/doi/10.1515/9783110781922/html?lang=en"
+        }
+      ]
+    },
+    {
+      "id": "card_timbuktu_manuscript_networks_001",
+      "series": "cartography-e-series-1-2",
+      "order": 10,
+      "entity": "Manuscritos de Tombuctú",
+      "title": "Una ciudad hecha también de archivos",
+      "period": "Siglos XIII–XX",
+      "territory": "Tombuctú y redes transaharianas",
+      "cardType": "tradicion_institucion",
+      "question": "¿Qué revela un archivo sobre la vida intelectual de una región?",
+      "visibleText": "Los manuscritos de Tombuctú conservan derecho, teología, lengua, astronomía y correspondencia dentro de redes familiares y transaharianas.",
+      "coreIdea": "Tombuctú fue un nodo de producción, copia y circulación de conocimiento, no un depósito aislado ni una única escuela filosófica.",
+      "distinctiveKey": "archivo + circulación + instituciones",
+      "audio": "Entramos en Tombuctú y en sus colecciones manuscritas. Familias, juristas, docentes y comerciantes conservaron textos de derecho, teología, lengua, astronomía y correspondencia. Los documentos muestran redes de estudio que atravesaban ciudades y rutas transaharianas. No forman una sola filosofía ni pertenecen todos a un centro oficial. Su preservación depende también de bibliotecas familiares y de decisiones comunitarias frente a guerras y saqueos.",
+      "caution": "No describir Tombuctú como la única fuente escrita de África occidental ni atribuir todos sus manuscritos al Instituto Ahmed Baba.",
+      "tags": [
+        "Tombuctú",
+        "manuscritos",
+        "archivo",
+        "Islam"
+      ],
+      "connections": [
+        "card_ahmed_baba_slavery_law_001",
+        "card_mesopotamia_city_temple_archive_001"
+      ],
+      "quiz": {
+        "question": "¿Qué muestran los manuscritos de Tombuctú?",
+        "options": [
+          "Una única doctrina secreta",
+          "Redes diversas de estudio, copia y circulación",
+          "La ausencia de escritura en África occidental",
+          "Solo relatos religiosos"
+        ],
+        "correctIndex": 1,
+        "explanation": "El archivo documenta múltiples disciplinas y redes intelectuales."
+      },
+      "evidenceLevel": "A",
+      "sources": [
+        {
+          "title": "Manuscripts of the Ahmed Baba Centre, Timbuktu",
+          "url": "https://whc.unesco.org/en/documents/139085/"
+        },
+        {
+          "title": "Timbuktu World Heritage",
+          "url": "https://whc.unesco.org/en/list/119/"
+        }
+      ]
+    },
+    {
+      "id": "card_ahmed_baba_slavery_law_001",
+      "series": "cartography-e-series-1-2",
+      "order": 11,
+      "entity": "Aḥmad Bābā al-Timbuktī",
+      "title": "La piel negra no demuestra esclavitud",
+      "period": "1556–1627",
+      "territory": "Tombuctú, Marrakech y redes islámicas",
+      "cardType": "autor_concepto",
+      "question": "¿Puede una clasificación racial justificar jurídicamente la esclavitud?",
+      "visibleText": "Aḥmad Bābā rechazó que la negritud implicara esclavitud natural y usó el derecho islámico para proteger a personas libres capturadas.",
+      "coreIdea": "La condición jurídica debía depender de captura y libertad previas, no del color de piel; su argumento, sin embargo, no abolía toda esclavitud.",
+      "distinctiveKey": "derecho + raza + libertad previa",
+      "audio": "Seguimos con Aḥmad Bābā, jurista y docente de Tombuctú. Frente a mercados que trataban la piel negra como señal de esclavitud, sostuvo que los pueblos del Bilād al-Sūdān no eran esclavos por naturaleza y que una persona musulmana libre no podía ser capturada legítimamente. Su intervención limitó argumentos racializantes, pero permaneció dentro de un derecho que todavía permitía esclavizar en otras circunstancias.",
+      "caution": "No presentarlo como abolicionista moderno: cuestionó esclavitud racial y capturas ilícitas dentro de categorías jurídicas premodernas.",
+      "tags": [
+        "Ahmed Baba",
+        "esclavitud",
+        "derecho islámico",
+        "raza"
+      ],
+      "connections": [
+        "card_timbuktu_manuscript_networks_001",
+        "card_amo_mind_body_001"
+      ],
+      "quiz": {
+        "question": "¿Qué rechazó Aḥmad Bābā?",
+        "options": [
+          "Que existiera derecho islámico",
+          "Que la piel negra demostrara esclavitud natural",
+          "Que hubiera personas libres en África occidental",
+          "Que los juristas emitieran opiniones"
+        ],
+        "correctIndex": 1,
+        "explanation": "Separó la negritud de una supuesta condición servil natural."
+      },
+      "evidenceLevel": "A",
+      "sources": [
+        {
+          "title": "Ahmed Bâba at-Timbuktî",
+          "url": "https://academic.oup.com/edited-volume/61663/chapter-abstract/553390046"
+        },
+        {
+          "title": "La doctrina malikí sobre esclavitud y el Miray de Ahmad Baba",
+          "url": "https://revistas.uned.es/index.php/ETFIII/article/view/1655"
+        }
+      ]
+    },
+    {
+      "id": "card_amo_mind_body_001",
+      "series": "cartography-e-series-1-2",
+      "order": 12,
+      "entity": "Anton Wilhelm Amo",
+      "title": "La mente no siente; el cuerpo es afectado",
+      "period": "c. 1703–después de 1752",
+      "territory": "Axim, Países Bajos y universidades alemanas",
+      "cardType": "autor_concepto",
+      "question": "¿A qué parte del ser humano pertenece la sensación?",
+      "visibleText": "Amo sostiene que sentir implica ser afectado por un objeto; por eso la sensación pertenece al cuerpo y no a una mente impasible.",
+      "coreIdea": "La distinción entre actividad mental y afección corporal reorganiza el problema moderno de mente, cuerpo y conocimiento sensible.",
+      "distinctiveKey": "impasibilidad + sensación + cuerpo",
+      "audio": "Escuchamos a Anton Wilhelm Amo y su tesis sobre la impasibilidad de la mente. Sentir significa ser afectado por un objeto, mientras la mente, según Amo, actúa y no puede ser padecida. Por eso la sensación pertenece al cuerpo vivo. La propuesta discute contradicciones de autores modernos y no debe reducirse a una curiosidad biográfica: constituye una posición filosófica precisa sobre mente, cuerpo y conocimiento.",
+      "caution": "No presentar a Amo solo como «primer filósofo africano en Europa» ni identificar su teoría sin matices con el dualismo cartesiano.",
+      "tags": [
+        "Amo",
+        "mente",
+        "cuerpo",
+        "sensación"
+      ],
+      "connections": [
+        "card_amo_intentions_representation_001",
+        "card_ahmed_baba_slavery_law_001"
+      ],
+      "quiz": {
+        "question": "¿Por qué Amo sitúa la sensación en el cuerpo?",
+        "options": [
+          "Porque la mente carece de actividad",
+          "Porque sentir implica ser afectado",
+          "Porque el cuerpo no recibe estímulos",
+          "Porque niega el conocimiento"
+        ],
+        "correctIndex": 1,
+        "explanation": "La sensación es una afección producida por el objeto sensible."
+      },
+      "evidenceLevel": "A",
+      "sources": [
+        {
+          "title": "Anton Wilhelm Amo's Philosophical Dissertations on Mind and Body",
+          "url": "https://academic.oup.com/book/36618"
+        },
+        {
+          "title": "Anton Wilhelm Amo’s Philosophy of Mind",
+          "url": "https://research-portal.uu.nl/en/publications/anton-wilhelm-amos-philosophy-of-mind/"
+        }
+      ]
+    },
+    {
+      "id": "card_amo_intentions_representation_001",
+      "series": "cartography-e-series-1-2",
+      "order": 13,
+      "entity": "Anton Wilhelm Amo",
+      "title": "Actuar mediante el cuerpo sin confundir mente y sensación",
+      "period": "1734",
+      "territory": "Universidades alemanas",
+      "cardType": "autor_concepto",
+      "question": "¿Cómo conoce y actúa una mente que no recibe sensaciones directamente?",
+      "visibleText": "Amo explica que la mente entiende y quiere mediante intenciones que orientan movimientos corporales hacia objetos externos.",
+      "coreIdea": "Su representacionalismo intenta preservar actividad mental y relación corporal, aunque enfrenta el problema de cómo alcanzar conocimiento del mundo sensible.",
+      "distinctiveKey": "intención + representación + acción corporal",
+      "audio": "Continuamos con Anton Wilhelm Amo y la relación entre mente y cuerpo. Si la mente no siente directamente, debe conocer mediante representaciones y actuar a través de intenciones que orientan el organismo hacia objetos externos. Amo busca distinguir qué corresponde a cada dimensión sin aislarlas por completo. Su solución conserva una dificultad: explicar cómo la mente alcanza conocimiento fiable a partir de afecciones corporales.",
+      "caution": "No afirmar que Amo resolvió definitivamente el problema mente-cuerpo; su teoría mantiene tensiones epistemológicas discutidas.",
+      "tags": [
+        "Amo",
+        "representación",
+        "intencionalidad",
+        "conocimiento"
+      ],
+      "connections": [
+        "card_amo_mind_body_001",
+        "card_wiredu_conceptual_decolonization_001"
+      ],
+      "quiz": {
+        "question": "¿Qué función cumplen las intenciones en Amo?",
+        "options": [
+          "Separar por completo mente y cuerpo",
+          "Orientar acciones corporales hacia objetos",
+          "Convertir sensaciones en materia",
+          "Eliminar la voluntad"
+        ],
+        "correctIndex": 1,
+        "explanation": "Las intenciones permiten que la mente actúe mediante el cuerpo."
+      },
+      "evidenceLevel": "A",
+      "sources": [
+        {
+          "title": "Philosophical Disputation Containing a Distinct Idea",
+          "url": "https://academic.oup.com/book/36618/chapter-abstract/321604813"
+        },
+        {
+          "title": "Anton Wilhelm Amo’s Philosophy of Mind",
+          "url": "https://compass.onlinelibrary.wiley.com/doi/10.1111/phc3.12571"
+        }
+      ]
+    },
+    {
+      "id": "card_african_sage_oruka_001",
+      "series": "cartography-e-series-1-2",
+      "order": 14,
+      "entity": "Henry Odera Oruka",
+      "title": "Sabios que argumentan con voz propia",
+      "period": "1944–1995",
+      "territory": "Kenia",
+      "cardType": "autor_metodo",
+      "question": "¿Cómo reconocer reflexión individual dentro de una tradición oral?",
+      "visibleText": "Oruka entrevistó a sabios comunitarios y distinguió la repetición de creencias de la reflexión personal capaz de ofrecer razones y críticas.",
+      "coreIdea": "La filosofía de los sabios documenta pensadores orales individualizables sin convertir toda creencia comunitaria en filosofía.",
+      "distinctiveKey": "entrevista + individualidad + crítica",
+      "audio": "Seguimos con Henry Odera Oruka y su proyecto de filosofía de los sabios. Mediante diálogos con personas reconocidas por su comunidad, buscó distinguir entre quien conserva una tradición y quien examina críticamente sus ideas. El método mostró voces individuales dentro de sociedades orales. También abrió preguntas sobre traducción, edición y participación del entrevistador en la forma final del argumento.",
+      "caution": "No tratar cada persona sabia como filósofa crítica ni olvidar que las entrevistas están mediadas por selección, traducción y edición.",
+      "tags": [
+        "Oruka",
+        "sabios",
+        "oralidad",
+        "método"
+      ],
+      "connections": [
+        "card_oral_argumentation_africa_001",
+        "card_hountondji_ethnophilosophy_001"
+      ],
+      "quiz": {
+        "question": "¿Qué distinción buscaba Oruka?",
+        "options": [
+          "Entre sabiduría popular y reflexión crítica individual",
+          "Entre África y filosofía",
+          "Entre escritura y verdad",
+          "Entre edad y conocimiento"
+        ],
+        "correctIndex": 0,
+        "explanation": "El proyecto documentó personas capaces de justificar y revisar sus ideas."
+      },
+      "evidenceLevel": "A",
+      "sources": [
+        {
+          "title": "African Sage Philosophy",
+          "url": "https://plato.stanford.edu/archives/fall2014/entries/african-sage/"
+        }
+      ]
+    },
+    {
+      "id": "card_hountondji_ethnophilosophy_001",
+      "series": "cartography-e-series-1-2",
+      "order": 15,
+      "entity": "Paulin Hountondji",
+      "title": "Contra una filosofía colectiva sin autores",
+      "period": "1942–2024",
+      "territory": "Benín y redes académicas africanas",
+      "cardType": "autor_concepto",
+      "question": "¿Qué ocurre cuando un intérprete atribuye sus propias ideas a todo un pueblo?",
+      "visibleText": "Hountondji llamó etnofilosofía a la construcción de sistemas colectivos, estables y anónimos que dejan poco espacio para desacuerdo y autoría.",
+      "coreIdea": "La filosofía requiere posiciones públicamente discutibles y responsables de sus argumentos, no una supuesta unanimidad cultural reconstruida desde fuera.",
+      "distinctiveKey": "autoría + debate + crítica del unanimismo",
+      "audio": "Llegamos a Paulin Hountondji y su crítica de la etnofilosofía. Le preocupaba que investigadores reconstruyeran una visión del mundo colectiva, inmóvil y anónima, y luego la llamaran filosofía de todo un pueblo. Ese procedimiento borra diferencias y evita que alguien responda por los argumentos. Su propuesta privilegió debate público y autoría, aunque recibió críticas por acercar demasiado la filosofía a modelos académicos escritos.",
+      "caution": "No convertir su crítica en rechazo de toda tradición oral o de todo estudio filosófico de ideas comunitarias.",
+      "tags": [
+        "Hountondji",
+        "etnofilosofía",
+        "autoría",
+        "debate"
+      ],
+      "connections": [
+        "card_african_proverbs_interpretation_001",
+        "card_wiredu_conceptual_decolonization_001"
+      ],
+      "quiz": {
+        "question": "¿Qué objeta Hountondji a la etnofilosofía?",
+        "options": [
+          "Que reconozca autores individuales",
+          "Que atribuya sistemas anónimos y estables a pueblos enteros",
+          "Que permita críticas",
+          "Que use argumentos escritos"
+        ],
+        "correctIndex": 1,
+        "explanation": "La supuesta unanimidad cultural borra debate y responsabilidad autoral."
+      },
+      "evidenceLevel": "A",
+      "sources": [
+        {
+          "title": "African Philosophy, Second Edition",
+          "url": "https://iupress.org/9780253210968/african-philosophy-second-edition/"
+        },
+        {
+          "title": "African Sage Philosophy",
+          "url": "https://plato.stanford.edu/archives/fall2014/entries/african-sage/"
+        }
+      ]
+    },
+    {
+      "id": "card_wiredu_conceptual_decolonization_001",
+      "series": "cartography-e-series-1-2",
+      "order": 16,
+      "entity": "Kwasi Wiredu",
+      "title": "Examinar los conceptos antes de heredarlos",
+      "period": "1931–2022",
+      "territory": "Ghana y filosofía internacional",
+      "cardType": "autor_concepto",
+      "question": "¿Cómo pensar con conceptos recibidos de lenguas coloniales sin aceptarlos de forma automática?",
+      "visibleText": "La descolonización conceptual revisa categorías importadas mediante lenguas y experiencias africanas, sin abandonar el diálogo filosófico universal.",
+      "coreIdea": "Traducir filosóficamente exige detectar presupuestos ocultos y aprovechar recursos conceptuales locales para reformular problemas compartidos.",
+      "distinctiveKey": "lengua + traducción + autocrítica",
+      "audio": "Continuamos con Kwasi Wiredu y la descolonización conceptual. Pensar en una lengua heredada del colonialismo puede introducir categorías que parecen universales sin haber sido examinadas. Wiredu propone contrastarlas con lenguas africanas y con sus maneras de distinguir mente, verdad, persona o comunidad. No busca aislar el pensamiento africano, sino entrar al diálogo universal con mayor conciencia de los supuestos incorporados en cada vocabulario.",
+      "caution": "No confundir descolonización conceptual con purismo lingüístico, rechazo de toda influencia extranjera o búsqueda de conceptos culturalmente incontaminados.",
+      "tags": [
+        "Wiredu",
+        "descolonización",
+        "lengua",
+        "conceptos"
+      ],
+      "connections": [
+        "card_hountondji_ethnophilosophy_001",
+        "card_wiredu_consensus_democracy_001"
+      ],
+      "quiz": {
+        "question": "¿Qué propone la descolonización conceptual?",
+        "options": [
+          "Eliminar toda traducción",
+          "Examinar conceptos importados mediante recursos lingüísticos propios",
+          "Aislarse del debate internacional",
+          "Declarar que cada cultura posee una verdad incomunicable"
+        ],
+        "correctIndex": 1,
+        "explanation": "La revisión crítica permite dialogar sin asimilar marcos ajenos automáticamente."
+      },
+      "evidenceLevel": "A",
+      "sources": [
+        {
+          "title": "Wiredu, Kwasi",
+          "url": "https://iep.utm.edu/wiredu/"
+        },
+        {
+          "title": "African Sage Philosophy: conceptual decolonization",
+          "url": "https://plato.stanford.edu/archives/sum2015/entries/african-sage/"
+        }
+      ]
+    },
+    {
+      "id": "card_wiredu_consensus_democracy_001",
+      "series": "cartography-e-series-1-2",
+      "order": 17,
+      "entity": "Kwasi Wiredu",
+      "title": "Consenso sin exigir una verdad compartida",
+      "period": "Siglos XX–XXI",
+      "territory": "Ghana y filosofía política africana",
+      "cardType": "autor_concepto",
+      "question": "¿Puede una decisión común proteger a minorías mejor que una victoria de mayoría?",
+      "visibleText": "Wiredu propone buscar compromisos sobre qué hacer, aunque los participantes mantengan desacuerdos sobre verdad, moralidad e intereses.",
+      "coreIdea": "La democracia por consenso intenta evitar que ganar una votación permita excluir sistemáticamente a minorías, pero enfrenta problemas de escala y oposición.",
+      "distinctiveKey": "compromiso + minorías + decisión",
+      "audio": "Seguimos con Kwasi Wiredu y la democracia por consenso. El acuerdo que propone no exige pensar igual sobre verdad o moralidad; busca una decisión práctica aceptable mediante discusión y compromiso. Su objetivo es impedir que una mayoría convierta la victoria electoral en exclusión permanente. La propuesta ha generado críticas sobre partidos, oposición, diversidad y viabilidad en Estados contemporáneos de gran escala.",
+      "caution": "No identificar consenso con unanimidad forzada ni presentarlo como práctica uniforme de todas las sociedades africanas tradicionales.",
+      "tags": [
+        "Wiredu",
+        "consenso",
+        "democracia",
+        "minorías"
+      ],
+      "connections": [
+        "card_wiredu_conceptual_decolonization_001",
+        "card_nkrumah_consciencism_001"
+      ],
+      "quiz": {
+        "question": "¿Sobre qué busca acuerdo el consenso de Wiredu?",
+        "options": [
+          "Sobre toda verdad moral",
+          "Sobre qué decisión práctica adoptar",
+          "Sobre eliminar la oposición",
+          "Sobre una identidad cultural única"
+        ],
+        "correctIndex": 1,
+        "explanation": "El consenso puede surgir por compromiso sin acuerdo total en creencias."
+      },
+      "evidenceLevel": "B",
+      "sources": [
+        {
+          "title": "Democracy by Consensus: Some Conceptual Considerations",
+          "url": "https://www.tandfonline.com/doi/abs/10.1080/05568640109485087"
+        },
+        {
+          "title": "Kwasi Wiredu’s consensual democracy",
+          "url": "https://pure.ug.edu.gh/en/publications/kwasi-wiredus-consensual-democracy-prospects-for-practice-in-afri-3/"
+        }
+      ]
+    },
+    {
+      "id": "card_nkrumah_consciencism_001",
+      "series": "cartography-e-series-1-2",
+      "order": 18,
+      "entity": "Kwame Nkrumah",
+      "title": "Una filosofía para descolonizar la sociedad",
+      "period": "1909–1972",
+      "territory": "Ghana y proyecto panafricano",
+      "cardType": "autor_concepto",
+      "question": "¿Cómo reorganizar una sociedad formada por herencias históricas en conflicto?",
+      "visibleText": "El consciencismo busca integrar herencias africanas, islámicas y eurocristianas dentro de un proyecto materialista de descolonización y transformación social.",
+      "coreIdea": "Nkrumah vinculó metafísica, ideología y revolución para convertir independencia política en cambio económico y cultural.",
+      "distinctiveKey": "triple herencia + materialismo + descolonización",
+      "audio": "Llegamos a Kwame Nkrumah y su consciencismo. La sociedad africana moderna, según él, reúne herencias indígenas, islámicas y eurocristianas que el colonialismo dejó en tensión. La filosofía debía reorganizarlas dentro de un proyecto materialista, socialista y panafricano. El consciencismo no fue solo teoría: justificó una estrategia política cuyo ideal emancipador debe estudiarse junto con los rasgos autoritarios del gobierno de Nkrumah.",
+      "caution": "Distinguir el proyecto filosófico de su aplicación estatal y no omitir las críticas al partido único y a la concentración de poder.",
+      "tags": [
+        "Nkrumah",
+        "consciencismo",
+        "panafricanismo",
+        "descolonización"
+      ],
+      "connections": [
+        "card_wiredu_consensus_democracy_001",
+        "card_senghor_negritude_001"
+      ],
+      "quiz": {
+        "question": "¿Qué intenta integrar el consciencismo?",
+        "options": [
+          "Una sola tradición africana inmutable",
+          "Herencias históricas diferentes dentro de un proyecto descolonizador",
+          "Solo filosofía europea",
+          "Religión sin política"
+        ],
+        "correctIndex": 1,
+        "explanation": "Nkrumah busca una síntesis transformadora de la triple herencia."
+      },
+      "evidenceLevel": "B",
+      "sources": [
+        {
+          "title": "Disentangling Consciencism",
+          "url": "https://pure.ug.edu.gh/en/publications/disentangling-consciencism-essays-on-kwame-nkrumahs-philosophy/"
+        },
+        {
+          "title": "O consciencismo de Kwame Nkrumah",
+          "url": "https://revistas.ufrj.br/index.php/Itaca/article/view/31976"
+        }
+      ]
+    },
+    {
+      "id": "card_senghor_negritude_001",
+      "series": "cartography-e-series-1-2",
+      "order": 19,
+      "entity": "Léopold Sédar Senghor",
+      "title": "Négritude, ritmo y recuperación de iniciativa",
+      "period": "1906–2001",
+      "territory": "Senegal, Francia y mundo negro francófono",
+      "cardType": "autor_movimiento",
+      "question": "¿Cómo responder a una cultura colonial que presenta lo negro como ausencia o inferioridad?",
+      "visibleText": "Senghor convirtió la Négritude en afirmación cultural, estética y filosófica, destacando ritmo, relación y fuerza vital.",
+      "coreIdea": "La recuperación de herencias negras podía restaurar iniciativa histórica, aunque sus generalizaciones sobre sensibilidad africana fueron acusadas de esencialismo.",
+      "distinctiveKey": "afirmación + estética + riesgo esencialista",
+      "audio": "Seguimos con Léopold Sédar Senghor y la Négritude. Frente a la asimilación colonial, defendió la capacidad creadora de las culturas negras y elaboró una filosofía estética del ritmo y de las fuerzas vitales. La afirmación permitió recuperar iniciativa y dignidad. Sin embargo, sus contrastes entre razón europea y sensibilidad africana fueron criticados por fijar diferencias históricas como rasgos culturales demasiado generales.",
+      "caution": "Distinguir la posición de Senghor de las de Césaire y Damas; Négritude no fue una doctrina única ni exenta de tensiones esencialistas.",
+      "tags": [
+        "Senghor",
+        "Négritude",
+        "estética",
+        "colonialismo"
+      ],
+      "connections": [
+        "card_nkrumah_consciencism_001",
+        "card_hountondji_ethnophilosophy_001"
+      ],
+      "quiz": {
+        "question": "¿Qué tensión acompaña a la Négritude de Senghor?",
+        "options": [
+          "Afirma culturas negras, pero puede generalizarlas demasiado",
+          "Rechaza toda estética",
+          "Niega el colonialismo",
+          "Elimina la historia"
+        ],
+        "correctIndex": 0,
+        "explanation": "Su afirmación emancipadora convive con riesgos de esencialización."
+      },
+      "evidenceLevel": "A",
+      "sources": [
+        {
+          "title": "Négritude",
+          "url": "https://plato.stanford.edu/archives/fall2023/entries/negritude/"
+        }
+      ]
+    },
+    {
+      "id": "card_oyewumi_gender_categories_001",
+      "series": "cartography-e-series-1-2",
+      "order": 20,
+      "entity": "Oyèrónkẹ́ Oyěwùmí",
+      "title": "Cuando una categoría importada reorganiza la historia",
+      "period": "1957–actualidad",
+      "territory": "Nigeria, diáspora y estudios de género",
+      "cardType": "autora_concepto",
+      "question": "¿Puede la categoría occidental de género describir sin cambios todas las sociedades?",
+      "visibleText": "Oyěwùmí sostiene que el colonialismo proyectó una organización social centrada en el cuerpo sobre instituciones yorùbá donde la antigüedad tenía otro peso.",
+      "coreIdea": "Las categorías analíticas deben demostrar su pertinencia histórica en lugar de presentarse como universales antes de investigar.",
+      "distinctiveKey": "género + colonialidad + categorías",
+      "audio": "Cerramos con Oyèrónkẹ́ Oyěwùmí y su crítica a la universalización del género. Al estudiar la sociedad oyó-yorùbá, sostiene que administradores y académicos coloniales impusieron categorías corporales occidentales sobre relaciones donde la antigüedad y la posición social funcionaban de otra manera. Su tesis no afirma que África carezca siempre de diferencias sexuales; exige investigar cómo cada sociedad organiza esas diferencias antes de nombrarlas.",
+      "caution": "La reconstrucción histórica de Oyěwùmí es influyente y discutida; no debe extenderse automáticamente a todas las sociedades yorùbá o africanas.",
+      "tags": [
+        "Oyěwùmí",
+        "género",
+        "colonialidad",
+        "Yorùbá"
+      ],
+      "connections": [
+        "card_ifa_signs_interpretation_001",
+        "card_african_philosophies_plural_001"
+      ],
+      "quiz": {
+        "question": "¿Qué exige la crítica de Oyěwùmí?",
+        "options": [
+          "Usar género como categoría universal sin investigación",
+          "Examinar cómo cada sociedad organiza cuerpo, edad y autoridad",
+          "Negar toda diferencia sexual",
+          "Aceptar categorías coloniales por comodidad"
+        ],
+        "correctIndex": 1,
+        "explanation": "Las categorías deben justificarse histórica y culturalmente."
+      },
+      "evidenceLevel": "B",
+      "sources": [
+        {
+          "title": "The Invention of Women",
+          "url": "https://www.upress.umn.edu/9781452903255/invention-of-women/"
+        },
+        {
+          "title": "Making History, Creating Gender",
+          "url": "https://www.cambridge.org/core/journals/history-in-africa/article/abs/making-history-creating-gender-some-methodological-and-interpretive-questions-in-the-writing-of-oyo-oral-traditions1/E1A508509997CA57B5A8BB98CCFF0C17"
+        }
+      ]
+    }
+  ]
+}

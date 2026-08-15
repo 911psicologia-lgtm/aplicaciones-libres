@@ -1,0 +1,48 @@
+{
+  "version": "3.5.0",
+  "validatedAt": "2026-07-26",
+  "status": "passed",
+  "counts": {
+    "cards": 1060,
+    "dossiers": 1060,
+    "historicalLayers": 1060,
+    "collections": 26,
+    "newCards": 0,
+    "disciplinaryRelations": 9042,
+    "publishableRelations": 6573,
+    "sourcesWithDirectUrl": 910,
+    "sourcesWithoutDirectUrl": 150
+  },
+  "checks": {
+    "uniqueIds": true,
+    "brokenConnections": 0,
+    "invalidQuizzes": 0,
+    "schemaErrorCards": 0,
+    "disciplineIndexParity": true,
+    "jsSyntax": true,
+    "collectionOrderContinuous": true,
+    "englishTerritoryAliasesRemaining": 0,
+    "auditGenerated": true,
+    "inventoryRoadmapUpdated": true,
+    "httpCoreResources": true,
+    "zipIntegrity": true
+  },
+  "audit": {
+    "oneCardEntities": 701,
+    "oneCardEntityPercentage": 86.7,
+    "priorityNext": [
+      "cartography_z",
+      "cartography_aa",
+      "cartography_ab",
+      "cartography_ac",
+      "cartography_ad"
+    ]
+  },
+  "errors": {
+    "brokenConnections": [],
+    "invalidQuizzes": [],
+    "schema": [],
+    "territoryAliases": [],
+    "js": ""
+  }
+}

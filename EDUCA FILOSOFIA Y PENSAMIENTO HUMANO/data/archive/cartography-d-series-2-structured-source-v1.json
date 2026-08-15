@@ -1,0 +1,622 @@
+{
+  "version": "2.7",
+  "collectionId": "classical_china",
+  "title": "Cartografía D · Serie 2: perspectiva, lenguaje, instituciones y cosmologías correlativas",
+  "createdAt": "2026-07-24",
+  "status": "materialización estructurada",
+  "pronunciationPolicy": "Las ayudas son aproximaciones para síntesis de voz en español y no sustituyen reconstrucciones históricas especializadas.",
+  "records": [
+    {
+      "id": "card_zhuangzi_perspective_transformation_001",
+      "author": "Tradición textual del Zhuangzi",
+      "title": "Cambiar de perspectiva transforma lo evidente",
+      "territory": "China de los Reinos Combatientes",
+      "period": "Composición estratificada, principalmente siglos IV–III a. C.",
+      "family": "Zhuangzi: perspectiva y transformación",
+      "symbol": "蝶",
+      "statement": "Los juicios dependen de posiciones, lenguajes y hábitos; cambiar de perspectiva revela límites que una mirada única suele ocultar.",
+      "tags": [
+        "Zhuangzi",
+        "Perspectiva",
+        "Transformación",
+        "Lenguaje",
+        "Identidad"
+      ],
+      "question": "¿Qué cambia cuando advertimos que nuestras clasificaciones nacen desde una perspectiva limitada?",
+      "caution": "El Zhuangzi es una obra compuesta. Su crítica de perspectivas rígidas no significa que todas las opiniones tengan el mismo valor ni que ninguna decisión sea posible.",
+      "connections": [
+        "Laozi",
+        "Hui Shi",
+        "Mariposa",
+        "Lenguaje",
+        "Transformación"
+      ],
+      "audio": "Comenzamos con la tradición textual del Zhuangzi y el cambio de perspectiva. Sus relatos muestran que cada juicio nace desde una posición, un lenguaje y una historia de hábitos. El sueño de la mariposa vuelve inestable una identidad demasiado segura. Zhuangzi no afirma que todas las opiniones valgan igual; cuestiona la pretensión de una mirada absoluta.",
+      "why": "Enseña a revisar los límites de nuestras clasificaciones sin abandonar la necesidad de decidir y actuar.",
+      "histContext": "El Zhuangzi reúne treinta y tres capítulos y varias capas autorales. La tradición distingue capítulos interiores, exteriores y misceláneos; la figura histórica de Zhuang Zhou se asocia especialmente con los interiores, pero la composición completa proviene de comunidades y momentos diferentes.",
+      "histDevelopment": "La obra emplea parábolas, humor, paradojas y diálogos imaginarios para desestabilizar clasificaciones rígidas. Relatos como el sueño de la mariposa, los debates con Hui Shi y la transformación de los seres preguntan desde qué posición nombramos identidad, conocimiento y valor.",
+      "milestones": [
+        "Actividad de Zhuang Zhou durante los Reinos Combatientes.",
+        "Formación progresiva del corpus Zhuangzi.",
+        "Edición de Guo Xiang en la forma de treinta y tres capítulos transmitida hasta hoy."
+      ],
+      "sections": [
+        [
+          "Perspectiva",
+          "Cada juicio surge desde una posición y una trayectoria."
+        ],
+        [
+          "Transformación",
+          "La identidad no permanece inmóvil a través de todos los cambios."
+        ],
+        [
+          "Lenguaje",
+          "Los nombres orientan, pero también pueden fijar distinciones demasiado estrechas."
+        ]
+      ],
+      "legacy": [
+        "Influyó en daoísmo, budismo chino, poesía, pintura y debates sobre lenguaje, identidad y libertad."
+      ],
+      "works": [
+        "Zhuangzi, especialmente Qiwulun"
+      ],
+      "sources": [
+        "https://plato.stanford.edu/entries/zhuangzi/",
+        "https://ctext.org/zhuangzi"
+      ],
+      "evidence": "A–B",
+      "pronunciation": "Zhuangzi → chuáng-dz"
+    },
+    {
+      "id": "card_zhuangzi_cook_ding_skill_001",
+      "author": "Tradición textual del Zhuangzi",
+      "title": "La destreza madura cuando deja de forzar",
+      "territory": "China de los Reinos Combatientes",
+      "period": "Capítulo Yangsheng zhu, tradición del Zhuangzi",
+      "family": "Zhuangzi: habilidad y espontaneidad",
+      "symbol": "刀",
+      "statement": "El cocinero Ding actúa con fluidez porque percibe relaciones y espacios del cuerpo del animal en vez de imponer cortes mediante fuerza bruta.",
+      "tags": [
+        "Zhuangzi",
+        "Cocinero Ding",
+        "Habilidad",
+        "Espontaneidad",
+        "Cuerpo"
+      ],
+      "question": "¿Cómo cambia una práctica cuando el cuerpo reconoce relaciones que una regla general no alcanza a describir?",
+      "caution": "La historia no desprecia el aprendizaje ni recomienda actuar sin preparación. La aparente facilidad surge después de una práctica prolongada y atenta.",
+      "connections": [
+        "Wuwei",
+        "Aprendizaje",
+        "Artesanía",
+        "Conocimiento tácito",
+        "Cuidado de la vida"
+      ],
+      "audio": "Seguimos con el Zhuangzi y el cocinero Ding. Al principio veía el animal completo; después de años de práctica reconoce articulaciones y espacios por donde el cuchillo puede avanzar sin violencia innecesaria. Su destreza parece espontánea, pero nació del aprendizaje. La historia no rechaza la técnica: muestra cómo una práctica madura deja de depender de reglas rígidas.",
+      "why": "Permite comprender el conocimiento corporal y situado que aparece cuando percepción, práctica y entorno se coordinan.",
+      "histContext": "El relato del cocinero Ding aparece en el capítulo dedicado a nutrir la vida. Un artesano explica al gobernante cómo su cuchillo conserva el filo porque sigue las articulaciones y los intersticios en lugar de chocar contra los huesos.",
+      "histDevelopment": "La narración transforma una tarea manual en reflexión sobre habilidad. La acción experta no es automatismo ciego: percibe diferencias finas, se detiene ante lo difícil y ajusta el movimiento. El saber hacer excede lo que una instrucción verbal puede describir por completo.",
+      "milestones": [
+        "Composición del relato dentro de los capítulos interiores.",
+        "Lecturas posteriores sobre autocultivo, espontaneidad y arte.",
+        "Recepción contemporánea en estudios de conocimiento tácito y desempeño experto."
+      ],
+      "sections": [
+        [
+          "Práctica",
+          "La fluidez se forma mediante experiencia prolongada."
+        ],
+        [
+          "Atención",
+          "El experto reconoce relaciones que el principiante no distingue."
+        ],
+        [
+          "No forzar",
+          "La eficacia surge al seguir la estructura de la situación."
+        ]
+      ],
+      "legacy": [
+        "Se convirtió en una imagen clásica de maestría, espontaneidad y conocimiento incorporado."
+      ],
+      "works": [
+        "Zhuangzi, Yangsheng zhu"
+      ],
+      "sources": [
+        "https://plato.stanford.edu/entries/zhuangzi/",
+        "https://ctext.org/zhuangzi/nourishing-the-lord-of-life"
+      ],
+      "evidence": "A–B",
+      "pronunciation": "Ding → ding"
+    },
+    {
+      "id": "card_school_names_distinctions_001",
+      "author": "Disputadores de los Reinos Combatientes",
+      "title": "Nombrar también es trazar distinciones",
+      "territory": "China de los Reinos Combatientes",
+      "period": "Siglos IV–III a. C.",
+      "family": "Disputación, nombres y realidades",
+      "symbol": "名",
+      "statement": "Los disputadores examinaron cómo los nombres seleccionan, agrupan y separan aspectos de las cosas, y cómo esas distinciones orientan razonamientos y decisiones.",
+      "tags": [
+        "Escuela de los Nombres",
+        "Ming",
+        "Shi",
+        "Disputación",
+        "Lenguaje"
+      ],
+      "question": "¿Qué ocurre cuando una diferencia verbal modifica la forma en que clasificamos una situación?",
+      "caution": "“Escuela de los Nombres” es una clasificación retrospectiva de la dinastía Han. Hui Shi, Gongsun Long y otros no formaron necesariamente una escuela unificada.",
+      "connections": [
+        "Mohistas posteriores",
+        "Hui Shi",
+        "Gongsun Long",
+        "Xunzi",
+        "Zhuangzi"
+      ],
+      "audio": "Entramos en los disputadores de los Reinos Combatientes, llamados después Escuela de los Nombres. Examinaron cómo los nombres distinguen cosas, situaciones y clases, y cómo una diferencia verbal puede cambiar un argumento. No formaron una escuela uniforme: la etiqueta reúne figuras diversas, conocidas muchas veces por textos de adversarios o relatos posteriores.",
+      "why": "Muestra que clasificar no es una operación neutral: las palabras determinan qué semejanzas y diferencias se vuelven relevantes.",
+      "histContext": "Durante los Reinos Combatientes circularon especialistas en bian, la disputación o trazado de distinciones. Aconsejaban a gobernantes y discutían relaciones entre ming, nombres, y shi, realidades, objetos o situaciones.",
+      "histDevelopment": "Los historiadores Han reunieron a varias figuras bajo la etiqueta Mingjia. La clasificación es útil, pero puede ocultar diferencias profundas. Sus problemas se cruzan con el Mohismo posterior, Xunzi y el Zhuangzi.",
+      "milestones": [
+        "Florecimiento de disputadores itinerantes durante los Reinos Combatientes.",
+        "Debates sobre lo mismo y lo diferente, lo duro y lo blanco, nombres y objetos.",
+        "Clasificación retrospectiva como una de las escuelas antiguas durante la dinastía Han."
+      ],
+      "sections": [
+        [
+          "Nombre",
+          "Selecciona un aspecto y guía una clasificación."
+        ],
+        [
+          "Realidad",
+          "Aquello a lo que se aplica o pretende aplicarse el nombre."
+        ],
+        [
+          "Disputación",
+          "Procedimiento para defender o cuestionar una distinción."
+        ]
+      ],
+      "legacy": [
+        "Sus problemas influyeron en la filosofía china del lenguaje, la lógica mohista y las críticas de Xunzi y Zhuangzi."
+      ],
+      "works": [
+        "Fragmentos y testimonios sobre Hui Shi, Gongsun Long y otros disputadores"
+      ],
+      "sources": [
+        "https://plato.stanford.edu/entries/school-names/",
+        "https://plato.stanford.edu/entries/chinese-logic-language/"
+      ],
+      "evidence": "A–B",
+      "pronunciation": "Mingjia → ming-yia"
+    },
+    {
+      "id": "card_hui_shi_relational_scale_001",
+      "author": "Hui Shi",
+      "title": "La escala modifica lo que parece igual o diferente",
+      "territory": "Estado de Wei y otros territorios de China",
+      "period": "Aproximadamente 370–310 a. C.",
+      "family": "Hui Shi: perspectiva, escala y paradoja",
+      "symbol": "惠",
+      "statement": "Las tesis atribuidas a Hui Shi exploran cómo tamaño, duración, ubicación y semejanza cambian según la relación y la escala desde las que se consideran.",
+      "tags": [
+        "Hui Shi",
+        "Escala",
+        "Relación",
+        "Paradoja",
+        "Perspectiva"
+      ],
+      "question": "¿Una cosa sigue siendo grande o pequeña cuando cambia el marco de comparación?",
+      "caution": "Las obras de Hui Shi se perdieron. Sus diez tesis sobreviven principalmente en el Zhuangzi, una fuente valiosa pero posiblemente crítica, selectiva o literariamente elaborada.",
+      "connections": [
+        "Zhuangzi",
+        "Escuela de los Nombres",
+        "Mismo y diferente",
+        "Infinito",
+        "Relación"
+      ],
+      "audio": "Pasamos a Hui Shi, ministro y disputador de los Reinos Combatientes. Las tesis que se le atribuyen alteran escalas de espacio, tiempo y semejanza para mostrar que grande, pequeño, cerca o lejos dependen de relaciones. Sus escritos no sobrevivieron; conocemos estas ideas principalmente por el Zhuangzi, que pudo resumirlas con intención crítica o literaria.",
+      "why": "Abre una reflexión sobre conceptos relacionales y sobre la dependencia de los juicios respecto del marco de comparación.",
+      "histContext": "Hui Shi fue una figura política e intelectual asociada con el estado de Wei y amigo o rival literario de Zhuangzi. La bibliografía antigua le atribuía numerosos escritos, hoy perdidos.",
+      "histDevelopment": "El capítulo Tianxia del Zhuangzi conserva diez tesis paradójicas. Algunas exploran dimensiones sin grosor, infinitud, simultaneidad y la relación entre semejanza y diferencia. Su interpretación sigue siendo debatida porque carecemos de explicaciones propias extensas.",
+      "milestones": [
+        "Actividad política e intelectual de Hui Shi.",
+        "Pérdida de las obras que le atribuían los catálogos antiguos.",
+        "Conservación de las diez tesis en el capítulo Tianxia del Zhuangzi."
+      ],
+      "sections": [
+        [
+          "Escala",
+          "Grande y pequeño dependen del marco comparativo."
+        ],
+        [
+          "Relación",
+          "Lo mismo y lo diferente pueden coexistir según el aspecto considerado."
+        ],
+        [
+          "Fuente indirecta",
+          "La reconstrucción depende de testimonios posteriores."
+        ]
+      ],
+      "legacy": [
+        "Es una referencia central para estudiar paradoja, relatividad conceptual y disputación en China antigua."
+      ],
+      "works": [
+        "Diez tesis de Hui Shi conservadas en el Zhuangzi"
+      ],
+      "sources": [
+        "https://plato.stanford.edu/entries/school-names/",
+        "https://ctext.org/zhuangzi/tian-xia"
+      ],
+      "evidence": "A–B",
+      "pronunciation": "Hui Shi → juéi sh"
+    },
+    {
+      "id": "card_gongsun_long_white_horse_001",
+      "author": "Gongsun Long",
+      "title": "“Caballo blanco” prueba los límites de una clasificación",
+      "territory": "Estado de Zhao, China",
+      "period": "Aproximadamente 320–250 a. C.",
+      "family": "Gongsun Long: nombres, clases y propiedades",
+      "symbol": "馬",
+      "statement": "El argumento del caballo blanco distingue la clase general de los caballos de la clase más restringida definida además por el color blanco.",
+      "tags": [
+        "Gongsun Long",
+        "Caballo blanco",
+        "Nombre",
+        "Clase",
+        "Propiedad"
+      ],
+      "question": "¿Añadir una propiedad conserva el mismo nombre o crea una clasificación más estrecha?",
+      "caution": "“Un caballo blanco no es un caballo” admite interpretaciones semánticas y lógicas rivales. No debe tratarse como un simple error ni como equivalente exacto de una teoría lógica moderna.",
+      "connections": [
+        "Hui Shi",
+        "Escuela de los Nombres",
+        "Mohismo",
+        "Xunzi",
+        "Referencia"
+      ],
+      "audio": "Ahora, Gongsun Long y el argumento del caballo blanco. Buscar un caballo admite animales de cualquier color; buscar uno blanco restringe la clase. El diálogo explora cómo un nombre general y una propiedad adicional modifican aquello que cuenta como respuesta adecuada. Su sentido exacto continúa debatido y no equivale sin más a una teoría lógica moderna.",
+      "why": "Permite analizar cómo propiedades, clases y contextos de uso modifican la referencia de los nombres.",
+      "histContext": "Gongsun Long fue un disputador y consejero político del estado de Zhao. Un pequeño conjunto de textos se conservó bajo su nombre, aunque la historia textual de la colección es compleja.",
+      "histDevelopment": "El diálogo del caballo blanco examina la relación entre el término caballo y la expresión caballo blanco. Algunas lecturas destacan la diferencia entre clase y subclase; otras, entre nombre, designación y criterio de selección. La paradoja fue criticada por Xunzi y discutida durante siglos.",
+      "milestones": [
+        "Actividad de Gongsun Long como consejero y disputador.",
+        "Circulación del diálogo Bai ma lun.",
+        "Recepción crítica en Xunzi y en estudios modernos de semántica y lógica."
+      ],
+      "sections": [
+        [
+          "Clase general",
+          "Caballo no especifica color."
+        ],
+        [
+          "Propiedad",
+          "Blanco restringe el conjunto relevante."
+        ],
+        [
+          "Contexto",
+          "La tarea de buscar o admitir modifica la fuerza de la expresión."
+        ]
+      ],
+      "legacy": [
+        "Es uno de los casos más estudiados de filosofía temprana del lenguaje en China."
+      ],
+      "works": [
+        "Gongsun Longzi, Bai ma lun"
+      ],
+      "sources": [
+        "https://plato.stanford.edu/entries/school-names/",
+        "https://ctext.org/gongsunlongzi/white-horse"
+      ],
+      "evidence": "A–B",
+      "pronunciation": "Gongsun Long → gong-suen long"
+    },
+    {
+      "id": "card_shang_yang_fa_institutional_change_001",
+      "author": "Shang Yang y la tradición del Libro del Señor Shang",
+      "title": "Instituciones nuevas para circunstancias nuevas",
+      "territory": "Estado de Qin, China",
+      "period": "Siglo IV a. C.; texto compuesto posteriormente",
+      "family": "Tradición de fa: reforma e instituciones",
+      "symbol": "法",
+      "statement": "El orden político no debe copiar mecánicamente la antigüedad: leyes, incentivos y responsabilidades deben responder a circunstancias históricas cambiantes.",
+      "tags": [
+        "Shang Yang",
+        "Fa",
+        "Instituciones",
+        "Reforma",
+        "Qin"
+      ],
+      "question": "¿Cuándo conservar una institución antigua impide responder a una sociedad que ya cambió?",
+      "caution": "El Libro del Señor Shang es compuesto y promueve un Estado militarizado con castigos severos. Fa no equivale exactamente al Estado de derecho moderno.",
+      "connections": [
+        "Han Fei",
+        "Qin",
+        "Ley",
+        "Incentivos",
+        "Cambio histórico"
+      ],
+      "audio": "Seguimos con Shang Yang y la tradición del Libro del Señor Shang. Su programa sostiene que gobernar no consiste en imitar siempre la antigüedad: circunstancias nuevas requieren instituciones nuevas. Fa reúne normas, recompensas, castigos y procedimientos públicos. La propuesta fortaleció Qin, pero también defendió coerción intensa; por eso no debe confundirse con el Estado de derecho moderno.",
+      "why": "Introduce una teoría institucional del cambio y permite examinar tanto la eficacia como los costos humanos de la centralización política.",
+      "histContext": "Shang Yang fue un reformador del estado de Qin y murió en 338 a. C. El libro asociado con su nombre contiene capas posteriores, probablemente producidas por seguidores y administradores vinculados con su programa.",
+      "histDevelopment": "La tradición critica la imitación ritual del pasado, busca agricultura y guerra eficientes y promueve normas impersonales, recompensas y castigos. Su objetivo es un Estado rico y un ejército fuerte, no la protección liberal de derechos individuales.",
+      "milestones": [
+        "Reformas de Shang Yang en Qin.",
+        "Muerte del reformador en 338 a. C.",
+        "Continuación y edición de su programa en el Libro del Señor Shang."
+      ],
+      "sections": [
+        [
+          "Cambio histórico",
+          "Las instituciones deben ajustarse a nuevas condiciones."
+        ],
+        [
+          "Fa",
+          "Normas y estándares públicos que orientan conducta y administración."
+        ],
+        [
+          "Coerción",
+          "La eficacia estatal se persigue mediante controles y castigos severos."
+        ]
+      ],
+      "legacy": [
+        "Influyó en la transformación de Qin y en debates posteriores sobre instituciones, ley y poder estatal."
+      ],
+      "works": [
+        "Libro del Señor Shang"
+      ],
+      "sources": [
+        "https://plato.stanford.edu/entries/chinese-legalism/",
+        "https://ctext.org/shang-jun-shu"
+      ],
+      "evidence": "A–B",
+      "pronunciation": "Shang Yang → shang yang"
+    },
+    {
+      "id": "card_han_fei_performance_titles_001",
+      "author": "Han Fei y la tradición textual del Han Feizi",
+      "title": "Promesas, cargos y resultados deben coincidir",
+      "territory": "Estado de Han y reino de Qin, China",
+      "period": "Siglo III a. C.",
+      "family": "Han Fei: administración, poder y estándares",
+      "symbol": "刑",
+      "statement": "El gobernante debe comparar lo que un funcionario promete, la tarea asignada y el resultado efectivo, evitando depender solo de reputación o elocuencia.",
+      "tags": [
+        "Han Fei",
+        "Xingming",
+        "Fa",
+        "Shu",
+        "Administración"
+      ],
+      "question": "¿Cómo evaluar a una autoridad cuando sus palabras y sus resultados no coinciden?",
+      "caution": "El Han Feizi puede contener materiales de varios autores. La etiqueta “legalismo” es retrospectiva y fa no debe traducirse automáticamente como ley en sentido moderno.",
+      "connections": [
+        "Shang Yang",
+        "Shen Buhai",
+        "Burocracia",
+        "Desempeño",
+        "Poder posicional"
+      ],
+      "audio": "Pasamos a Han Fei y la correspondencia entre nombres y desempeño. Un funcionario formula una propuesta, recibe una tarea y debe ser evaluado por el resultado, no por su prestigio. Han Fei combina estándares, técnicas administrativas y poder del cargo para controlar la burocracia. Su solución limita arbitrariedades ministeriales, pero concentra una autoridad muy difícil de vigilar.",
+      "why": "Permite estudiar la rendición de cuentas burocrática y, al mismo tiempo, el problema de controlar a quien controla.",
+      "histContext": "Han Fei perteneció a la casa gobernante del estado de Han y murió en Qin en 233 a. C. El Han Feizi conserva cincuenta y cinco capítulos; la atribución completa a un único autor es debatida.",
+      "histDevelopment": "El texto integra ideas asociadas con Shang Yang, Shen Buhai y Shen Dao. Xingming compara propuestas, cargos y desempeño. Fa aporta estándares; shu, técnicas administrativas; shi, poder asociado con la posición. La teoría desconfía tanto de ministros como de moralistas independientes.",
+      "milestones": [
+        "Actividad de Han Fei durante la fase final de los Reinos Combatientes.",
+        "Muerte en Qin en 233 a. C.",
+        "Conservación de los cincuenta y cinco capítulos registrados en catálogos Han."
+      ],
+      "sections": [
+        [
+          "Xingming",
+          "Comparación entre palabras, tareas y resultados."
+        ],
+        [
+          "Shu",
+          "Técnicas para supervisar la administración."
+        ],
+        [
+          "Shi",
+          "Capacidad de mando derivada de la posición institucional."
+        ]
+      ],
+      "legacy": [
+        "Influyó en la administración imperial y en debates duraderos sobre burocracia, estándares y concentración del poder."
+      ],
+      "works": [
+        "Han Feizi"
+      ],
+      "sources": [
+        "https://plato.stanford.edu/entries/chinese-legalism/",
+        "https://ctext.org/hanfeizi"
+      ],
+      "evidence": "A–B",
+      "pronunciation": "Han Fei → jan fei"
+    },
+    {
+      "id": "card_yinyang_dynamic_polarity_001",
+      "author": "Tradiciones yinyang",
+      "title": "Los opuestos producen cambio al relacionarse",
+      "territory": "China antigua",
+      "period": "Desarrollo desde el Zhou hasta la dinastía Han",
+      "family": "Yinyang: polaridad, alternancia y armonización",
+      "symbol": "陰",
+      "statement": "Yin y yang son aspectos relacionales que se alternan, contienen posibilidades de transformación mutua y generan configuraciones dinámicas.",
+      "tags": [
+        "Yin",
+        "Yang",
+        "Polaridad",
+        "Cambio",
+        "Armonización"
+      ],
+      "question": "¿Cómo pensar una diferencia que no necesita destruir a su contrario para producir transformación?",
+      "caution": "Yin y yang no equivalen a bien y mal. Sus asociaciones con género, luz, temperatura u otras cualidades cambian según el contexto y no deben fijarse como esencias humanas.",
+      "connections": [
+        "Yijing",
+        "Qi",
+        "Cinco fases",
+        "Ciclos",
+        "Medicina china"
+      ],
+      "audio": "Entramos en las tradiciones yinyang. Yin y yang no son dos sustancias enemigas, sino aspectos relacionales que alternan, crecen, disminuyen y se transforman. La noche prepara el amanecer y una posición puede volverse su contraria al llegar al extremo. No equivalen a bien y mal ni convierten las asociaciones de género en esencias fijas.",
+      "why": "Ofrece una forma procesual de comprender diferencias que se oponen y, al mismo tiempo, dependen entre sí.",
+      "histContext": "Yin y yang fueron términos antiguos vinculados inicialmente con lados sombreados y soleados, y después se convirtieron en categorías ampliamente utilizadas para describir ciclos naturales, cuerpos, estaciones, política y cosmología.",
+      "histDevelopment": "Las tradiciones correlativas los interpretaron como modalidades de qi cuya interacción produce cambio. Su relación no es estática: incluye alternancia, complementariedad, exceso, reversión y búsqueda de armonización.",
+      "milestones": [
+        "Usos tempranos de yin y yang en textos Zhou.",
+        "Integración creciente con teorías de qi y cambio.",
+        "Articulación con las cinco fases durante los Reinos Combatientes y la dinastía Han."
+      ],
+      "sections": [
+        [
+          "Relacionalidad",
+          "Algo es yin o yang respecto de una relación concreta."
+        ],
+        [
+          "Alternancia",
+          "Cada polo puede crecer, disminuir y transformarse."
+        ],
+        [
+          "Armonización",
+          "El equilibrio es dinámico y no una inmovilidad perfecta."
+        ]
+      ],
+      "legacy": [
+        "Influyó en cosmología, medicina, artes, política y filosofías confucianas y daoístas."
+      ],
+      "works": [
+        "Yijing y textos cosmológicos de los Reinos Combatientes y Han"
+      ],
+      "sources": [
+        "https://iep.utm.edu/yinyang/",
+        "https://plato.stanford.edu/entries/chinese-metaphysics/"
+      ],
+      "evidence": "A–B",
+      "pronunciation": "Yinyang → yin-yang"
+    },
+    {
+      "id": "card_wuxing_five_phases_001",
+      "author": "Tradiciones de las cinco fases",
+      "title": "Cinco procesos, no cinco bloques inmóviles",
+      "territory": "China antigua",
+      "period": "Del primer milenio a. C. a la sistematización Han",
+      "family": "Wuxing: ciclos y correspondencias",
+      "symbol": "五",
+      "statement": "Agua, fuego, madera, metal y tierra funcionan como fases o procesos cuyas relaciones de generación y control explican ciclos y transformaciones.",
+      "tags": [
+        "Wuxing",
+        "Cinco fases",
+        "Ciclos",
+        "Correspondencia",
+        "Transformación"
+      ],
+      "question": "¿Qué se gana al describir un fenómeno por su función y transformación en vez de tratarlo como una sustancia fija?",
+      "caution": "Wuxing no equivale a cinco elementos químicos. Las correspondencias variaron entre textos y algunas aplicaciones posteriores fueron normativas o adivinatorias, no observaciones científicas modernas.",
+      "connections": [
+        "Yinyang",
+        "Zou Yan",
+        "Qi",
+        "Estaciones",
+        "Medicina china"
+      ],
+      "audio": "Seguimos con wuxing, las cinco fases: agua, fuego, madera, metal y tierra. No son cinco ladrillos materiales del universo, sino modelos de función y transformación. Sus ciclos de generación y control relacionaron estaciones, cuerpos, sonidos y gobierno. Las correspondencias cambiaron históricamente y no deben confundirse con elementos químicos ni con una ciencia experimental moderna.",
+      "why": "Permite reconocer una cosmología de procesos y también examinar los riesgos de extender correlaciones más allá de la evidencia.",
+      "histContext": "Wuxing aparece en textos antiguos con sentidos vinculados a actividades o procesos. El Gran Plan del Libro de Documentos describe cualidades funcionales de agua, fuego, madera, metal y tierra.",
+      "histDevelopment": "Durante los Reinos Combatientes y la dinastía Han se desarrollaron ciclos de generación y conquista o control. Las cinco fases se correlacionaron con estaciones, direcciones, colores, órganos, dinastías y otros dominios.",
+      "milestones": [
+        "Formulaciones tempranas en el Libro de Documentos.",
+        "Sistematización de ciclos durante los Reinos Combatientes.",
+        "Integración con yinyang y cosmologías correlativas en la dinastía Han."
+      ],
+      "sections": [
+        [
+          "Fase",
+          "Patrón funcional y transformativo, no sustancia elemental fija."
+        ],
+        [
+          "Generación",
+          "Secuencia mediante la cual una fase favorece otra."
+        ],
+        [
+          "Control",
+          "Relación mediante la cual una fase limita o vence a otra."
+        ]
+      ],
+      "legacy": [
+        "Influyó en medicina, música, calendarios, política, adivinación y teorías de la historia."
+      ],
+      "works": [
+        "Shangshu, Hongfan; textos cosmológicos Han"
+      ],
+      "sources": [
+        "https://iep.utm.edu/yinyang/",
+        "https://ctext.org/shang-shu/great-plan",
+        "https://plato.stanford.edu/entries/chinese-metaphysics/"
+      ],
+      "evidence": "A–B",
+      "pronunciation": "Wuxing → wu-shing"
+    },
+    {
+      "id": "card_zou_yan_correlative_cycles_001",
+      "author": "Zou Yan y las tradiciones correlativas posteriores",
+      "title": "Correlacionar ciclos naturales y transformaciones políticas",
+      "territory": "Estado de Qi, China",
+      "period": "Aproximadamente 305–240 a. C.",
+      "family": "Zou Yan: yinyang, cinco fases e historia",
+      "symbol": "鄒",
+      "statement": "Zou Yan fue asociado con la articulación de yinyang y cinco fases para interpretar ciclos cósmicos, territoriales y políticos.",
+      "tags": [
+        "Zou Yan",
+        "Yinyang",
+        "Cinco fases",
+        "Historia",
+        "Cosmología correlativa"
+      ],
+      "question": "¿Cuándo una correspondencia ayuda a comprender un patrón y cuándo comienza a imponer relaciones que no han sido demostradas?",
+      "caution": "Las obras de Zou Yan se perdieron y lo conocemos por fuentes posteriores. No debe atribuírsele automáticamente cada detalle de las cosmologías yinyang-wuxing desarrolladas en épocas Han.",
+      "connections": [
+        "Jixia",
+        "Yinyang",
+        "Wuxing",
+        "Dinastías",
+        "Dong Zhongshu"
+      ],
+      "audio": "Cerramos esta serie con Zou Yan, pensador del estado de Qi. Fuentes posteriores lo relacionan con la combinación de yinyang y cinco fases para interpretar ciclos naturales, territorios y cambios dinásticos. Sus obras se perdieron, de modo que la reconstrucción depende de testimonios posteriores. No todo el sistema correlativo de la época Han puede atribuirse directamente a él.",
+      "why": "Muestra el poder explicativo y político de las correspondencias, junto con la necesidad de distinguir patrones documentados de asociaciones impuestas.",
+      "histContext": "Zou Yan estuvo vinculado con el ambiente intelectual de Jixia en el estado de Qi. Sima Qian lo describe como un especialista en yinyang y amplias secuencias geográficas e históricas, pero ninguno de sus escritos se conserva.",
+      "histDevelopment": "La tradición le atribuyó teorías de ciclos mediante las cinco potencias o virtudes, usadas después para interpretar sucesiones dinásticas. En época Han, yinyang y wuxing se fusionaron en sistemas correlativos mucho más desarrollados.",
+      "milestones": [
+        "Actividad de Zou Yan durante el siglo III a. C.",
+        "Pérdida de las obras que le atribuyeron los catálogos.",
+        "Expansión de cosmologías correlativas y teorías dinásticas durante la época Han."
+      ],
+      "sections": [
+        [
+          "Correlación",
+          "Vincula procesos de dominios diferentes mediante patrones compartidos."
+        ],
+        [
+          "Ciclo político",
+          "Interpreta ascenso y caída de dinastías dentro de secuencias cosmológicas."
+        ],
+        [
+          "Fuente indirecta",
+          "La reconstrucción depende de testimonios posteriores y puede proyectar desarrollos tardíos."
+        ]
+      ],
+      "legacy": [
+        "Influyó en cosmología Han, teorías dinásticas, calendarios, medicina y pensamiento político."
+      ],
+      "works": [
+        "Testimonios de Shiji y tradiciones yinyang-wuxing"
+      ],
+      "sources": [
+        "https://iep.utm.edu/yinyang/",
+        "https://plato.stanford.edu/entries/chinese-phil-medicine/",
+        "https://iep.utm.edu/chinese-philosophy-overview-of-topics/"
+      ],
+      "evidence": "A–B",
+      "pronunciation": "Zou Yan → dzou yen"
+    }
+  ]
+}

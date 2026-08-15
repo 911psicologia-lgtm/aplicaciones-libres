@@ -1,0 +1,67 @@
+{
+  "id": "./",
+  "name": "Cartografías del Pensamiento",
+  "short_name": "Cartografías",
+  "description": "Historia mundial del pensamiento en 1474 ideas, con disciplinas, cruces, audio continuo y mapas rizomáticos.",
+  "start_url": "./index.html",
+  "scope": "./",
+  "display": "standalone",
+  "display_override": [
+    "window-controls-overlay",
+    "standalone",
+    "minimal-ui"
+  ],
+  "orientation": "any",
+  "background_color": "#f6f0e2",
+  "theme_color": "#122a45",
+  "categories": [
+    "education",
+    "books",
+    "reference"
+  ],
+  "icons": [
+    {
+      "src": "assets/icon-192.png",
+      "sizes": "192x192",
+      "type": "image/png",
+      "purpose": "any"
+    },
+    {
+      "src": "assets/icon-512.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "any"
+    },
+    {
+      "src": "assets/icon-maskable-512.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "maskable"
+    }
+  ],
+  "shortcuts": [
+    {
+      "name": "Continuar recorrido",
+      "short_name": "Continuar",
+      "url": "./index.html?preview=card",
+      "icons": [
+        {
+          "src": "assets/icon-192.png",
+          "sizes": "192x192"
+        }
+      ]
+    },
+    {
+      "name": "De todo un poco",
+      "short_name": "Diverso",
+      "url": "./index.html?mode=random",
+      "icons": [
+        {
+          "src": "assets/icon-192.png",
+          "sizes": "192x192"
+        }
+      ]
+    }
+  ],
+  "version": "3.9.1"
+}

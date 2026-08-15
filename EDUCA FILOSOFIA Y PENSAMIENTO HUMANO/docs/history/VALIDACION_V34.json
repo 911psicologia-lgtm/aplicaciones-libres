@@ -1,0 +1,56 @@
+{
+  "version": "3.4.0",
+  "validatedAt": "2026-07-26",
+  "status": "passed",
+  "counts": {
+    "cards": 1060,
+    "dossiers": 1060,
+    "historicalLayers": 1060,
+    "collections": 26,
+    "newCards": 80,
+    "psychologyClinicalCards": 40,
+    "educationDevelopmentCards": 40,
+    "disciplinaryRelations": 9042,
+    "publishableRelations": 6573,
+    "sources": 1053,
+    "visualFamilies": 18
+  },
+  "authorDepth": {
+    "Sigmund Freud": 8,
+    "Jacques Lacan": 6,
+    "Carl Gustav Jung": 5,
+    "Alfred Adler": 4,
+    "B. F. Skinner": 5,
+    "Abraham Maslow": 4,
+    "Fritz Perls": 4,
+    "Viktor Frankl": 5,
+    "Carl Rogers": 5,
+    "Paulo Freire": 9,
+    "Lev Vygotsky": 6,
+    "David Ausubel": 4,
+    "Maria Montessori": 5,
+    "Jean Piaget": 6,
+    "Johann Heinrich Pestalozzi": 4
+  },
+  "checks": {
+    "uniqueIds": true,
+    "brokenConnections": 0,
+    "invalidQuizzes": 0,
+    "schemaErrorCards": 0,
+    "disciplineIndexParity": true,
+    "newCardsHaveUrls": true,
+    "jsSyntax": true,
+    "jsonSyntax": true,
+    "httpCoreResources": true,
+    "compactHomeTools": true,
+    "deprecatedRepeatedPhrases": {
+      "Escuchamos a": 0,
+      "La cautela histórica es importante": 0
+    }
+  },
+  "browserInspection": {
+    "status": "not_completed",
+    "reason": "Chromium headless did not terminate within the environment timeout; static DOM, JavaScript syntax and HTTP loading were validated."
+  },
+  "errors": []
+}

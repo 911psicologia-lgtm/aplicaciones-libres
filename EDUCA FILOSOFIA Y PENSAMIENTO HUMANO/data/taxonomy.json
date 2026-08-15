@@ -1,0 +1,891 @@
+{
+  "version": "3.9.1",
+  "stages": [
+    {
+      "id": "origins",
+      "label": "Orígenes y primeras simbolizaciones",
+      "short": "Orígenes",
+      "order": 1,
+      "description": "Técnica, cuidado, fuego, imagen, memoria y surgimiento de mundos humanos.",
+      "cards": 29
+    },
+    {
+      "id": "first_writings",
+      "label": "Primeras escrituras y cosmologías",
+      "short": "Primeras escrituras",
+      "order": 2,
+      "description": "Archivos, ciudades, rituales, sabidurías y primeras cosmologías documentadas.",
+      "cards": 30
+    },
+    {
+      "id": "classical_antiquities",
+      "label": "Filosofías clásicas y antigüedades",
+      "short": "Antigüedades",
+      "order": 3,
+      "description": "Escuelas, debates y tradiciones antiguas en distintos territorios.",
+      "cards": 200
+    },
+    {
+      "id": "medieval_connected",
+      "label": "Tradiciones medievales y mundos conectados",
+      "short": "Mundos medievales",
+      "order": 4,
+      "description": "Filosofías, religiones, traducciones y circulaciones entre los siglos V y XV.",
+      "cards": 70
+    },
+    {
+      "id": "modern_colonial",
+      "label": "Modernidades, colonialidades y emancipaciones",
+      "short": "Modernidades",
+      "order": 5,
+      "description": "Renacimientos, ciencia, expansión colonial, resistencias y reorganizaciones.",
+      "cards": 192
+    },
+    {
+      "id": "contemporary",
+      "label": "Pensamiento contemporáneo y complejidades",
+      "short": "Contemporáneo",
+      "order": 6,
+      "description": "Debates de los siglos XX y XXI, ciencias humanas, complejidad y nuevas epistemologías.",
+      "cards": 524
+    },
+    {
+      "id": "transversal",
+      "label": "Portales y tradiciones de larga duración",
+      "short": "Larga duración",
+      "order": 7,
+      "description": "Entradas metodológicas y tradiciones que atraviesan varios periodos.",
+      "cards": 15
+    }
+  ],
+  "navigationStages": [
+    {
+      "id": "origins",
+      "label": "Orígenes y primeras simbolizaciones",
+      "short": "Orígenes",
+      "order": 1,
+      "description": "Técnica, cuidado, fuego, imagen, memoria y surgimiento de mundos humanos.",
+      "cards": 29
+    },
+    {
+      "id": "first_writings",
+      "label": "Primeras escrituras y cosmologías",
+      "short": "Primeras escrituras",
+      "order": 2,
+      "description": "Archivos, ciudades, rituales, sabidurías y primeras cosmologías documentadas.",
+      "cards": 30
+    },
+    {
+      "id": "classical_antiquities",
+      "label": "Filosofías clásicas y antigüedades",
+      "short": "Antigüedades",
+      "order": 3,
+      "description": "Escuelas, debates y tradiciones antiguas en distintos territorios.",
+      "cards": 216
+    },
+    {
+      "id": "medieval_connected",
+      "label": "Tradiciones medievales y mundos conectados",
+      "short": "Mundos medievales",
+      "order": 4,
+      "description": "Filosofías, religiones, traducciones y circulaciones entre los siglos V y XV.",
+      "cards": 259
+    },
+    {
+      "id": "modern_colonial",
+      "label": "Modernidades, colonialidades y emancipaciones",
+      "short": "Modernidades",
+      "order": 5,
+      "description": "Renacimientos, ciencia, expansión colonial, resistencias y reorganizaciones.",
+      "cards": 314
+    },
+    {
+      "id": "contemporary",
+      "label": "Pensamiento contemporáneo y complejidades",
+      "short": "Contemporáneo",
+      "order": 6,
+      "description": "Debates de los siglos XX y XXI, ciencias humanas, complejidad y nuevas epistemologías.",
+      "cards": 609
+    },
+    {
+      "id": "transversal",
+      "label": "Portales y tradiciones de larga duración",
+      "short": "Larga duración",
+      "order": 7,
+      "description": "Entradas metodológicas y tradiciones que atraviesan varios periodos.",
+      "cards": 15
+    }
+  ],
+  "editorialPeriods": [
+    {
+      "id": "first_symbolic_traces",
+      "label": "Primeras huellas simbólicas humanas",
+      "short": "Huellas simbólicas",
+      "order": 1,
+      "description": "Evidencias materiales, técnica, cuidado y primeras mediaciones simbólicas.",
+      "cards": 30
+    },
+    {
+      "id": "ancestral_cosmogonies_memories",
+      "label": "Cosmogonías y memorias ancestrales",
+      "short": "Cosmogonías ancestrales",
+      "order": 2,
+      "description": "Relatos, archivos y memorias que organizan cosmos, sociedad y continuidad.",
+      "cards": 30
+    },
+    {
+      "id": "ancient_asia_africa_america",
+      "label": "Pensamientos antiguos de Asia, África y América",
+      "short": "Antigüedades plurales",
+      "order": 3,
+      "description": "Tradiciones antiguas no reducibles a una sola línea civilizatoria.",
+      "cards": 96
+    },
+    {
+      "id": "greek_mediterranean_philosophies",
+      "label": "Filosofías griegas y mediterráneas",
+      "short": "Grecia y Mediterráneo",
+      "order": 4,
+      "description": "Mundos griegos arcaicos, presocráticos y clásicos.",
+      "cards": 62
+    },
+    {
+      "id": "hellenistic_imperial_worlds",
+      "label": "Escuelas helenísticas y mundos imperiales",
+      "short": "Helenismo e imperios",
+      "order": 5,
+      "description": "Escuelas helenísticas, Roma y transformaciones de la Antigüedad tardía.",
+      "cards": 66
+    },
+    {
+      "id": "medieval_translation_routes",
+      "label": "Filosofías medievales y rutas de traducción",
+      "short": "Medievo y traducciones",
+      "order": 6,
+      "description": "Redes multilingües, disputas religiosas y transformaciones del legado antiguo.",
+      "cards": 260
+    },
+    {
+      "id": "renaissances_humanisms_encounters",
+      "label": "Renacimientos, humanismos y encuentros culturales",
+      "short": "Renacimientos y encuentros",
+      "order": 7,
+      "description": "Relecturas de tradiciones, humanismos y encuentros interculturales tempranomodernos.",
+      "cards": 61
+    },
+    {
+      "id": "science_rationalism_empiricism_enlightenment",
+      "label": "Ciencia, racionalismo, empirismo e Ilustración",
+      "short": "Ciencia e Ilustraciones",
+      "order": 8,
+      "description": "Nuevos métodos, ciencias, filosofías de la mente y proyectos ilustrados.",
+      "cards": 97
+    },
+    {
+      "id": "revolutions_critiques_modernity",
+      "label": "Revoluciones y críticas de la modernidad",
+      "short": "Revoluciones y críticas",
+      "order": 9,
+      "description": "Emancipaciones, colonialismo, capitalismo, raza, nación y resistencias.",
+      "cards": 194
+    },
+    {
+      "id": "twentieth_philosophies_human_sciences",
+      "label": "Filosofías y ciencias humanas del siglo XX",
+      "short": "Siglo XX y ciencias humanas",
+      "order": 10,
+      "description": "Subjetividad, sociedad, lenguaje, política, cultura y conocimiento.",
+      "cards": 309
+    },
+    {
+      "id": "systems_complexity_transdisciplinarity",
+      "label": "Pensamiento sistémico, complejo y transdisciplinario",
+      "short": "Sistemas y complejidad",
+      "order": 11,
+      "description": "Sistemas, cibernética, redes, emergencia, complejidad y transdisciplinariedad.",
+      "cards": 96
+    },
+    {
+      "id": "decolonial_emergent_algorithmic",
+      "label": "Decolonialidad, epistemologías emergentes y mundo algorítmico",
+      "short": "Emergencias y algoritmos",
+      "order": 12,
+      "description": "Pluriversos, libertades epistémicas, ecologías, tecnologías e inteligencia algorítmica.",
+      "cards": 171
+    }
+  ],
+  "fields": [
+    {
+      "id": "cosmos_reality",
+      "label": "Cosmos, realidad y transformación",
+      "short": "Cosmos y realidad",
+      "order": 1,
+      "cards": 213
+    },
+    {
+      "id": "knowledge_method",
+      "label": "Conocimiento, método e interpretación",
+      "short": "Conocimiento y método",
+      "order": 2,
+      "cards": 736
+    },
+    {
+      "id": "ethics_care",
+      "label": "Ética, cuidado y formas de vida",
+      "short": "Ética y cuidado",
+      "order": 3,
+      "cards": 495
+    },
+    {
+      "id": "society_power",
+      "label": "Sociedad, poder e instituciones",
+      "short": "Sociedad y poder",
+      "order": 4,
+      "cards": 595
+    },
+    {
+      "id": "mind_language",
+      "label": "Mente, lenguaje y experiencia",
+      "short": "Mente y lenguaje",
+      "order": 5,
+      "cards": 457
+    },
+    {
+      "id": "systems_complexity",
+      "label": "Sistemas, redes y complejidad",
+      "short": "Sistemas y complejidad",
+      "order": 6,
+      "cards": 151
+    },
+    {
+      "id": "education_learning",
+      "label": "Educación, aprendizaje y cultivo",
+      "short": "Educación y cultivo",
+      "order": 7,
+      "cards": 327
+    },
+    {
+      "id": "spirituality_practice",
+      "label": "Espiritualidades, rituales y prácticas",
+      "short": "Espiritualidad y práctica",
+      "order": 8,
+      "cards": 244
+    },
+    {
+      "id": "decolonial_liberation",
+      "label": "Colonialidad, identidad y liberación",
+      "short": "Colonialidad y liberación",
+      "order": 9,
+      "cards": 205
+    },
+    {
+      "id": "life_ecology",
+      "label": "Vida, naturaleza y ecologías",
+      "short": "Vida y ecologías",
+      "order": 10,
+      "cards": 208
+    },
+    {
+      "id": "aesthetics_symbolism",
+      "label": "Imagen, estética, símbolo y memoria",
+      "short": "Símbolo y estética",
+      "order": 11,
+      "cards": 137
+    },
+    {
+      "id": "technology_mediation",
+      "label": "Técnica, tecnología y mediaciones",
+      "short": "Técnica y tecnología",
+      "order": 12,
+      "cards": 181
+    }
+  ],
+  "visualFamilies": [
+    {
+      "id": "symbolic_human_origins",
+      "label": "Primeras simbolizaciones",
+      "order": 1,
+      "cards": 30
+    },
+    {
+      "id": "mesopotamia_egypt_iran",
+      "label": "Mesopotamia, Egipto y mundo iranio",
+      "order": 2,
+      "cards": 30
+    },
+    {
+      "id": "south_asia",
+      "label": "India y Sur de Asia",
+      "order": 3,
+      "cards": 50
+    },
+    {
+      "id": "east_asia",
+      "label": "China y Asia oriental",
+      "order": 4,
+      "cards": 60
+    },
+    {
+      "id": "africa_afrodiaspora",
+      "label": "África y diásporas",
+      "order": 5,
+      "cards": 22
+    },
+    {
+      "id": "indigenous_americas",
+      "label": "Pueblos indígenas de América",
+      "order": 6,
+      "cards": 40
+    },
+    {
+      "id": "greek_mediterranean",
+      "label": "Grecia y Mediterráneo",
+      "order": 7,
+      "cards": 60
+    },
+    {
+      "id": "hellenistic_roman",
+      "label": "Helenismo y Roma",
+      "order": 8,
+      "cards": 60
+    },
+    {
+      "id": "medieval_connected",
+      "label": "Mundos medievales conectados",
+      "order": 9,
+      "cards": 40
+    },
+    {
+      "id": "renaissance_encounters",
+      "label": "Renacimientos y encuentros",
+      "order": 10,
+      "cards": 40
+    },
+    {
+      "id": "modern_science_enlightenment",
+      "label": "Modernidad, ciencia e Ilustraciones",
+      "order": 11,
+      "cards": 40
+    },
+    {
+      "id": "nineteenth_social",
+      "label": "Pensamiento social del siglo XIX",
+      "order": 12,
+      "cards": 80
+    },
+    {
+      "id": "twentieth_philosophies",
+      "label": "Filosofías del siglo XX",
+      "order": 13,
+      "cards": 120
+    },
+    {
+      "id": "systems_complexity",
+      "label": "Sistemas y complejidad",
+      "order": 14,
+      "cards": 127
+    },
+    {
+      "id": "decolonial_emergent",
+      "label": "Decolonialidad y epistemologías emergentes",
+      "order": 15,
+      "cards": 141
+    },
+    {
+      "id": "technology_algorithms",
+      "label": "Tecnologías y algoritmos",
+      "order": 16,
+      "cards": 40
+    },
+    {
+      "id": "psychologies_clinical",
+      "label": "Psicologías, clínica y subjetividad",
+      "order": 17,
+      "cards": 40
+    },
+    {
+      "id": "education_development",
+      "label": "Educación, aprendizaje y desarrollo humano",
+      "order": 18,
+      "cards": 40
+    },
+    {
+      "id": "mathematics_logic",
+      "label": "Matemáticas, lógica y demostración",
+      "order": 19,
+      "cards": 40
+    },
+    {
+      "id": "medicine_bioethics",
+      "label": "Medicina, salud pública y bioética",
+      "order": 20,
+      "cards": 40
+    },
+    {
+      "id": "global_science_enlightenment",
+      "label": "Ciencia e Ilustraciones globales",
+      "symbol": "✺",
+      "palette": [
+        "#173f5f",
+        "#d49a36",
+        "#f0e4c8"
+      ],
+      "status": "active"
+    },
+    {
+      "id": "byzantine_syriac_asian_medieval",
+      "label": "Bizancio y filosofías medievales de Asia",
+      "symbol": "☸",
+      "palette": [
+        "#44305f",
+        "#a76849",
+        "#e4cf9e"
+      ],
+      "status": "active"
+    },
+    {
+      "id": "structural_authors",
+      "label": "Autores estructurales de la modernidad",
+      "symbol": "◇",
+      "palette": [
+        "#263a59",
+        "#9a6950",
+        "#e5d1aa"
+      ],
+      "status": "active"
+    },
+    {
+      "id": "ethics_political_posthuman",
+      "label": "Ética, política y poshumanismos",
+      "symbol": "⚭",
+      "palette": [
+        "#1f4451",
+        "#8c5b70",
+        "#e0c894"
+      ],
+      "status": "active"
+    },
+    {
+      "id": "southeast_asia_pacific",
+      "label": "Sudeste Asiático, Oceanía y Pacífico",
+      "status": "active",
+      "description": "Familia para tradiciones del Sudeste Asiático y sistemas de conocimiento del Pacífico."
+    },
+    {
+      "id": "latin_critical_complexity",
+      "label": "Crítica y complejidad latinoiberoamericana",
+      "symbol": "⟷",
+      "palette": [
+        "#163c52",
+        "#7a4d64",
+        "#d3ad66"
+      ],
+      "status": "active",
+      "description": "Familia visual para referentes latinoiberoamericanos de crítica, complejidad, bioética e investigación."
+    }
+  ],
+  "entryTypes": [
+    {
+      "id": "portal",
+      "label": "Portal"
+    },
+    {
+      "id": "author_concept",
+      "label": "Author Concept"
+    },
+    {
+      "id": "author_method",
+      "label": "Author Method"
+    },
+    {
+      "id": "author_work",
+      "label": "Author Work"
+    },
+    {
+      "id": "author_problem",
+      "label": "Author Problem"
+    },
+    {
+      "id": "author_program",
+      "label": "Author Program"
+    },
+    {
+      "id": "author_movement",
+      "label": "Author Movement"
+    },
+    {
+      "id": "author_epistemology",
+      "label": "Author Epistemology"
+    },
+    {
+      "id": "tradition_concept",
+      "label": "Tradition Concept"
+    },
+    {
+      "id": "tradition_institution",
+      "label": "Tradition Institution"
+    },
+    {
+      "id": "school",
+      "label": "School"
+    },
+    {
+      "id": "debate",
+      "label": "Debate"
+    },
+    {
+      "id": "comparison",
+      "label": "Comparison"
+    },
+    {
+      "id": "translation_route",
+      "label": "Translation Route"
+    },
+    {
+      "id": "epistemic_break",
+      "label": "Epistemic Break"
+    },
+    {
+      "id": "intercultural_encounter",
+      "label": "Intercultural Encounter"
+    },
+    {
+      "id": "method",
+      "label": "Method"
+    },
+    {
+      "id": "collective_practice",
+      "label": "Collective Practice"
+    },
+    {
+      "id": "work",
+      "label": "Work"
+    },
+    {
+      "id": "concept",
+      "label": "Concept"
+    },
+    {
+      "id": "event",
+      "label": "Event"
+    }
+  ],
+  "evidenceScale": [
+    {
+      "id": "A",
+      "meaning": "Documentación directa o convergencia académica muy sólida."
+    },
+    {
+      "id": "A-B",
+      "meaning": "Base fuerte con mediaciones interpretativas explícitas."
+    },
+    {
+      "id": "B",
+      "meaning": "Reconstrucción académica razonablemente sustentada."
+    },
+    {
+      "id": "B-C",
+      "meaning": "Interpretación plausible con discusión o evidencia parcial."
+    },
+    {
+      "id": "C",
+      "meaning": "Hipótesis, atribución o reconstrucción altamente discutida."
+    }
+  ],
+  "interestSurvey": {
+    "maxSelections": 8,
+    "selectionIsOrdered": true,
+    "editable": true,
+    "nonRestrictive": true,
+    "periodDimension": "navigationStages",
+    "recommendationDimensions": [
+      "navigationStageId",
+      "editorialPeriodId",
+      "fields",
+      "orientations",
+      "favorites",
+      "history"
+    ]
+  },
+  "cartographies": [
+    {
+      "id": "cartography_q",
+      "title": "Grecia y Mediterráneo · ampliación",
+      "status": "published",
+      "plannedRecords": 40,
+      "integratedRecords": 40,
+      "contentVersion": "3.0.0"
+    },
+    {
+      "id": "cartography_r",
+      "title": "Helenismo, Roma y Antigüedad tardía · ampliación",
+      "status": "published",
+      "plannedRecords": 40,
+      "integratedRecords": 40,
+      "contentVersion": "3.0.0"
+    },
+    {
+      "id": "latin_american_caribbean_decolonial",
+      "label": "Pensamiento latinoamericano, caribeño y decolonial",
+      "cards": 40,
+      "status": "published"
+    },
+    {
+      "id": "ecologies_planetary_futures",
+      "label": "Ecologías, territorio, cuidado y futuros planetarios",
+      "cards": 40,
+      "status": "published"
+    },
+    {
+      "id": "modernity_coloniality_anticolonial",
+      "label": "Modernidad/Colonialidad y genealogías anticoloniales",
+      "cards": 40,
+      "status": "published"
+    },
+    {
+      "id": "decolonial_feminisms_pedagogies",
+      "label": "Feminismos decoloniales, indianismos y pedagogías liberadoras",
+      "cards": 40,
+      "status": "published"
+    },
+    {
+      "id": "psychologies_clinical_subjectivity",
+      "label": "Psicologías, clínica y subjetividad",
+      "cards": 40,
+      "status": "published"
+    },
+    {
+      "id": "education_learning_development",
+      "label": "Educación, aprendizaje y desarrollo humano",
+      "cards": 40,
+      "status": "published"
+    },
+    {
+      "id": "cartography_z",
+      "label": "Matemáticas, lógica y formas de demostración",
+      "cards": 40,
+      "collectionId": "mathematics_logic_demonstration",
+      "status": "published"
+    },
+    {
+      "id": "cartography_aa",
+      "label": "Medicina, cuerpo, salud pública y bioética",
+      "cards": 40,
+      "collectionId": "medicine_body_public_health_bioethics",
+      "status": "published"
+    },
+    {
+      "id": "cartography_latin_medieval_scholastic_mystical",
+      "label": "Medievo latino: escolásticas, místicas y universidades",
+      "cards": 40,
+      "collectionId": "latin_medieval_scholastic_mystical",
+      "status": "published"
+    },
+    {
+      "id": "cartography_islamic_persian_jewish_medieval",
+      "label": "Mundos islámicos, persas y judíos medievales",
+      "cards": 40,
+      "collectionId": "islamic_persian_jewish_medieval",
+      "status": "published"
+    },
+    {
+      "id": "cartography_precolonial_regional_africa",
+      "label": "África precolonial y regional: instituciones, oralidades y filosofías",
+      "cards": 40,
+      "collectionId": "precolonial_regional_africa",
+      "status": "published"
+    },
+    {
+      "id": "cartography_southeast_asia_oceania_pacific",
+      "label": "Sudeste Asiático, Oceanía y filosofías del Pacífico",
+      "cards": 40,
+      "collectionId": "southeast_asia_oceania_pacific",
+      "status": "published"
+    },
+    {
+      "id": "cartography_aj",
+      "label": "Cartografía AJ · Complejidad, bioética e investigación latinoamericana",
+      "cards": 14,
+      "collectionId": "latin_critical_complexity_referents",
+      "status": "published"
+    }
+  ],
+  "disciplines": [
+    {
+      "id": "philosophy",
+      "label": "Filosofía",
+      "short": "Filosofía",
+      "icon": "◇",
+      "order": 1,
+      "description": "Preguntas sobre ser, conocimiento, verdad, valor, sentido, realidad, lenguaje y existencia.",
+      "publishedIdeas": 1280,
+      "manualReviewIdeas": 0
+    },
+    {
+      "id": "psychology_subjectivity",
+      "label": "Psicología y subjetividad",
+      "short": "Psicología y subjetividad",
+      "icon": "Ψ",
+      "order": 2,
+      "description": "Ideas sobre alma, conciencia, emoción, deseo, memoria, identidad, conducta, sufrimiento y cuidado de sí.",
+      "publishedIdeas": 759,
+      "manualReviewIdeas": 153
+    },
+    {
+      "id": "anthropology_cultures",
+      "label": "Antropología y culturas",
+      "short": "Antropología y culturas",
+      "icon": "◉",
+      "order": 3,
+      "description": "Concepciones del ser humano, diversidad cultural, parentesco, ritual, comunidad, alteridad y formas de vida.",
+      "publishedIdeas": 592,
+      "manualReviewIdeas": 171
+    },
+    {
+      "id": "education_pedagogy",
+      "label": "Educación y pedagogía",
+      "short": "Educación y pedagogía",
+      "icon": "◆",
+      "order": 4,
+      "description": "Formación, aprendizaje, enseñanza, virtud, diálogo, disciplina, emancipación y transmisión del conocimiento.",
+      "publishedIdeas": 629,
+      "manualReviewIdeas": 276
+    },
+    {
+      "id": "sociology_collective",
+      "label": "Sociología y vida colectiva",
+      "short": "Sociología y vida colectiva",
+      "icon": "⌘",
+      "order": 5,
+      "description": "Vida social, instituciones, normas, clases, movimientos, cultura y vínculos colectivos.",
+      "publishedIdeas": 686,
+      "manualReviewIdeas": 102
+    },
+    {
+      "id": "politics_government",
+      "label": "Política y gobierno",
+      "short": "Política y gobierno",
+      "icon": "▰",
+      "order": 6,
+      "description": "Poder, Estado, soberanía, ciudadanía, democracia, obediencia, resistencia y gobierno.",
+      "publishedIdeas": 674,
+      "manualReviewIdeas": 0
+    },
+    {
+      "id": "law_justice",
+      "label": "Derecho y justicia",
+      "short": "Derecho y justicia",
+      "icon": "⚖",
+      "order": 7,
+      "description": "Normas, leyes, derechos, responsabilidad, juicio, equidad y orden jurídico.",
+      "publishedIdeas": 503,
+      "manualReviewIdeas": 226
+    },
+    {
+      "id": "economics_exchange",
+      "label": "Economía e intercambio",
+      "short": "Economía e intercambio",
+      "icon": "◫",
+      "order": 8,
+      "description": "Producción, trabajo, distribución, valor, mercado, riqueza, propiedad e intercambio.",
+      "publishedIdeas": 139,
+      "manualReviewIdeas": 274
+    },
+    {
+      "id": "natural_sciences",
+      "label": "Ciencias naturales",
+      "short": "Ciencias naturales",
+      "icon": "✦",
+      "order": 9,
+      "description": "Materia, vida, cosmos, causalidad, observación, experimentación y transformación de la naturaleza.",
+      "publishedIdeas": 653,
+      "manualReviewIdeas": 53
+    },
+    {
+      "id": "medicine_body",
+      "label": "Medicina y cuerpo",
+      "short": "Medicina y cuerpo",
+      "icon": "✚",
+      "order": 10,
+      "description": "Cuerpo, salud, enfermedad, cuidado, diagnóstico, sufrimiento, percepción y prácticas médicas.",
+      "publishedIdeas": 245,
+      "manualReviewIdeas": 442
+    },
+    {
+      "id": "mathematics_logic",
+      "label": "Matemáticas y lógica",
+      "short": "Matemáticas y lógica",
+      "icon": "∑",
+      "order": 11,
+      "description": "Número, demostración, forma, inferencia, cálculo, probabilidad y estructuras formales.",
+      "publishedIdeas": 165,
+      "manualReviewIdeas": 354
+    },
+    {
+      "id": "language_communication",
+      "label": "Lenguaje y comunicación",
+      "short": "Lenguaje y comunicación",
+      "icon": "¶",
+      "order": 12,
+      "description": "Significado, signo, retórica, escritura, diálogo, interpretación, medios y comunicación.",
+      "publishedIdeas": 598,
+      "manualReviewIdeas": 209
+    },
+    {
+      "id": "art_aesthetics",
+      "label": "Arte y estética",
+      "short": "Arte y estética",
+      "icon": "✺",
+      "order": 13,
+      "description": "Imagen, belleza, creación, poética, música, representación, sensibilidad y experiencia estética.",
+      "publishedIdeas": 188,
+      "manualReviewIdeas": 0
+    },
+    {
+      "id": "religions_theologies",
+      "label": "Religiones y teologías",
+      "short": "Religiones y teologías",
+      "icon": "✧",
+      "order": 14,
+      "description": "Cosmologías religiosas, rituales, revelación, fe, divinidad, espiritualidad y teologías.",
+      "publishedIdeas": 379,
+      "manualReviewIdeas": 172
+    },
+    {
+      "id": "technology_knowledge",
+      "label": "Tecnología y conocimiento",
+      "short": "Tecnología y conocimiento",
+      "icon": "⚙",
+      "order": 15,
+      "description": "Técnica, instrumentos, medios, datos, sistemas, plataformas, algoritmos y mediaciones del saber.",
+      "publishedIdeas": 337,
+      "manualReviewIdeas": 37
+    }
+  ],
+  "disciplinaryRelationTypes": [
+    {
+      "id": "direct_contribution",
+      "label": "Aporte directo al campo"
+    },
+    {
+      "id": "historical_antecedent",
+      "label": "Antecedente histórico"
+    },
+    {
+      "id": "later_influence",
+      "label": "Influencia posterior"
+    },
+    {
+      "id": "shared_problem",
+      "label": "Problema compartido"
+    },
+    {
+      "id": "interdisciplinary_crossing",
+      "label": "Cruce interdisciplinario"
+    },
+    {
+      "id": "contemporary_reading",
+      "label": "Lectura contemporánea posible"
+    }
+  ]
+}

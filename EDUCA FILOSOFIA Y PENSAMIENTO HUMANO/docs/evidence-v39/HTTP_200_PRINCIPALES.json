@@ -1,0 +1,56 @@
+[
+  {
+    "url": "http://127.0.0.1:8765/",
+    "status": 200,
+    "contentType": "text/html",
+    "bytesSampled": 1024
+  },
+  {
+    "url": "http://127.0.0.1:8765/index.html",
+    "status": 200,
+    "contentType": "text/html",
+    "bytesSampled": 1024
+  },
+  {
+    "url": "http://127.0.0.1:8765/app.js?v=3.9.1",
+    "status": 200,
+    "contentType": "text/javascript",
+    "bytesSampled": 1024
+  },
+  {
+    "url": "http://127.0.0.1:8765/styles.css?v=3.9.1",
+    "status": 200,
+    "contentType": "text/css",
+    "bytesSampled": 1024
+  },
+  {
+    "url": "http://127.0.0.1:8765/manifest.webmanifest?v=3.9.1",
+    "status": 200,
+    "contentType": "application/manifest+json",
+    "bytesSampled": 1024
+  },
+  {
+    "url": "http://127.0.0.1:8765/data/cards.json",
+    "status": 200,
+    "contentType": "application/json",
+    "bytesSampled": 1024
+  },
+  {
+    "url": "http://127.0.0.1:8765/data/dossiers.json",
+    "status": 200,
+    "contentType": "application/json",
+    "bytesSampled": 1024
+  },
+  {
+    "url": "http://127.0.0.1:8765/data/historical-layer.json",
+    "status": 200,
+    "contentType": "application/json",
+    "bytesSampled": 1024
+  },
+  {
+    "url": "http://127.0.0.1:8765/data/discipline-index.json",
+    "status": 200,
+    "contentType": "application/json",
+    "bytesSampled": 1024
+  }
+]
