@@ -5,6 +5,17 @@
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>Aplicaciones Libres · Catálogo</title>
   <meta name="description" content="Catálogo de aplicaciones HTML5 propias, organizadas por categoría, con acceso directo a cada una." />
+
+  <!-- PWA: manifest, iconos y comportamiento como app instalada -->
+  <link rel="manifest" href="/manifest.json" />
+  <meta name="theme-color" content="#c40014" />
+  <link rel="icon" type="image/png" sizes="192x192" href="/icons/icon-192.png" />
+  <link rel="icon" type="image/png" sizes="512x512" href="/icons/icon-512.png" />
+  <link rel="apple-touch-icon" href="/icons/icon-192.png" />
+  <meta name="apple-mobile-web-app-capable" content="yes" />
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
+  <meta name="apple-mobile-web-app-title" content="Apps Libres" />
+  <meta name="mobile-web-app-capable" content="yes" />
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,500;9..144,600;9..144,700&family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
@@ -95,6 +106,8 @@
       cursor:pointer;transition:.18s ease;
     }
     .icon-btn:hover,.select-chip:hover{transform:translateY(-1px);box-shadow:var(--shadow-soft);border-color:var(--line-strong)}
+    .install-btn{background:var(--brand);border-color:var(--brand);color:#fff;font-weight:700}
+    .install-btn:hover{background:#a3000f;border-color:#a3000f}
     .select-chip select{border:0;background:transparent;outline:0;color:var(--ink);cursor:pointer;font-weight:700}
 
     /* =========================================================
@@ -272,6 +285,7 @@
             <option value="pt">PT</option>
           </select>
         </label>
+        <button class="icon-btn install-btn" id="installBtn" type="button" title="Instalar Aplicaciones Libres" hidden>⬇ <span class="install-text">Instalar</span></button>
         <button class="icon-btn" id="copyLink" type="button" title="Copiar enlace del catálogo">🔗 <span class="copy-text">Copiar</span></button>
         <button class="icon-btn" id="goTop" type="button" title="Volver arriba">⬆ <span class="top-text">Arriba</span></button>
       </div>
@@ -354,6 +368,9 @@
     { cat:"Mind", icon:"😴", name:{es:"HYPNOS · Inductor de Sueño",en:"HYPNOS · Sleep Inducer",pt:"HYPNOS · Indutor de Sono"}, href:"mind inductor de sueño/index.html",
       desc:{es:"Rutinas y recursos simples para favorecer el descanso nocturno.",en:"Simple routines and resources to support nighttime rest.",pt:"Rotinas e recursos simples para favorecer o descanso noturno."},
       tags:["sueño","bienestar"] },
+    { cat:"Mind", icon:"🕊️", name:{es:"Mensaje sin Pelea",en:"Message Without a Fight",pt:"Mensagem sem Briga"}, href:"mind mensaje sin pelea/index.html",
+      desc:{es:"Formula mensajes familiares claros que reducen el conflicto en la comunicación diaria.",en:"Draft clear family messages that reduce everyday conflict.",pt:"Formule mensagens familiares claras que reduzem o conflito na comunicação diária."},
+      tags:["familia","comunicación"] },
     { cat:"Mind", icon:"🤝", name:{es:"Mensajes y Tareas sin Pelea",en:"Messages & Tasks Without a Fight",pt:"Mensagens e Tarefas sem Briga"}, href:"mind mensajes y tareas sin pelea/index.html",
       desc:{es:"Organiza acuerdos y tareas del hogar con una comunicación más serena.",en:"Organize household agreements and tasks with calmer communication.",pt:"Organize acordos e tarefas domésticas com uma comunicação mais serena."},
       tags:["familia","tareas"] },
@@ -399,7 +416,7 @@
     { cat:"Educa", icon:"⛏️", name:{es:"Cartilla Craft · Minecraft",en:"Craft Booklet · Minecraft",pt:"Cartilha Craft · Minecraft"}, href:"educa cartilla-minecraft/index.html",
       desc:{es:"Cartilla gamificada estilo Minecraft: 5 biomas, 100 preguntas, logros y certificado final.",en:"Minecraft-style gamified booklet: 5 biomes, 100 questions, achievements and a final certificate.",pt:"Cartilha gamificada estilo Minecraft: 5 biomas, 100 perguntas, conquistas e certificado final."},
       tags:["minecraft","gamificada"] },
-    { cat:"Educa", icon:"🧭", name:{es:"Cartografías del Pensamiento Diverso",en:"Cartographies of Diverse Thinking",pt:"Cartografias do Pensamento Diverso"}, href:"EDUCA FILOSOFIA Y PENSAMIENTO HUMANO/index.html",
+    { cat:"Educa", icon:"🧭", name:{es:"Cartografías del Pensamiento Diverso",en:"Cartographies of Diverse Thinking",pt:"Cartografias do Pensamento Diverso"}, href:"educa cartografias del pensamiento diverso/index.html",
       desc:{es:"Mapa interactivo para reconocer distintos estilos y enfoques de pensamiento.",en:"Interactive map to recognize different thinking styles and approaches.",pt:"Mapa interativo para reconhecer diferentes estilos e abordagens de pensamento."},
       tags:["pensamiento","diversidad"] },
     { cat:"Educa", icon:"🇬🇧", name:{es:"Easy Inglés A1-B2",en:"Easy English A1-B2",pt:"Easy Inglês A1-B2"}, href:"educa easy inglés app y nivele a1 b2/index.html",
@@ -579,7 +596,7 @@
     { cat:"Play", icon:"🧟", name:{es:"Rizoma Zombie Strike",en:"Rizoma Zombie Strike",pt:"Rizoma Zombie Strike"}, href:"play rizoma_zombie_strike_v0_1/index.html",
       desc:{es:"Arcade minimalista de acción zombie: supervivencia, poderes y oleadas.",en:"Minimalist zombie action arcade: survival, powers and waves.",pt:"Arcade minimalista de ação zumbi: sobrevivência, poderes e ondas."},
       tags:["zombis","arcade"] },
-    { cat:"Play", icon:"🌼", name:{es:"Martín & Emilia vs. Zombies de Sausalito",en:"Martin & Emilia vs. the Zombies of Sausalito",pt:"Martín & Emilia vs. os Zumbis de Sausalito"}, href:"play sausalito/index.html",
+    { cat:"Play", icon:"🌼", name:{es:"Martín & Emilia vs. Zombies de Sausalito",en:"Martin & Emilia vs. the Zombies of Sausalito",pt:"Martín & Emilia vs. os Zumbis de Sausalito"}, href:"play CAZA ZOMBIES EN sausalito/index.html",
       desc:{es:"Aventura familiar de defensa estratégica contra los zombis de Sausalito.",en:"Family strategic-defense adventure against the zombies of Sausalito.",pt:"Aventura em família de defesa estratégica contra os zumbis de Sausalito."},
       tags:["familia","zombis"] },
     { cat:"Play", icon:"🧠", name:{es:"TriviaLab",en:"TriviaLab",pt:"TriviaLab"}, href:"PLAY TRIVIAS/index.html",
@@ -761,6 +778,52 @@
       if(e.key === '/' && document.activeElement !== $('#search')){ e.preventDefault(); $('#search').focus(); }
       if(e.key === 'Escape' && state.q){ state.q=''; $('#search').value=''; render(); }
     });
+
+    // ---------------------------------------------------------------
+    // PWA: instalación como app + service worker
+    // ---------------------------------------------------------------
+    const installBtn = $('#installBtn');
+    let deferredInstallPrompt = null;
+
+    const isIOS = /iphone|ipad|ipod/i.test(navigator.userAgent) && !window.MSStream;
+    const isStandalone =
+      window.matchMedia('(display-mode: standalone)').matches ||
+      window.navigator.standalone === true;
+
+    if (!isStandalone) {
+      if (isIOS) {
+        // iOS/Safari no dispara beforeinstallprompt: no hay instalación
+        // con un clic. Mostramos el botón igual, pero con instrucciones.
+        installBtn.hidden = false;
+        installBtn.title = 'En iPhone/iPad: toca Compartir → Añadir a pantalla de inicio';
+        installBtn.addEventListener('click', () => {
+          toast('En iPhone/iPad: toca el botón Compartir y elige "Añadir a pantalla de inicio"');
+        });
+      } else {
+        window.addEventListener('beforeinstallprompt', (e) => {
+          e.preventDefault();
+          deferredInstallPrompt = e;
+          installBtn.hidden = false;
+        });
+        installBtn.addEventListener('click', async () => {
+          if (!deferredInstallPrompt) return;
+          installBtn.hidden = true;
+          deferredInstallPrompt.prompt();
+          try { await deferredInstallPrompt.userChoice; } catch (err) {}
+          deferredInstallPrompt = null;
+        });
+        window.addEventListener('appinstalled', () => {
+          installBtn.hidden = true;
+          toast('Aplicaciones Libres quedó instalada');
+        });
+      }
+    }
+
+    if ('serviceWorker' in navigator) {
+      window.addEventListener('load', () => {
+        navigator.serviceWorker.register('/service-worker.js').catch(() => {});
+      });
+    }
 
     render();
   </script>
