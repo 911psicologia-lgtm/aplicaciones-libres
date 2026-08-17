@@ -1,0 +1,259 @@
+<!doctype html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+  <meta name="theme-color" content="#d72655" />
+  <meta name="description" content="SUPER-SCANNER: escanea, organiza, combina y convierte documentos desde cámara o archivos." />
+  <meta name="mobile-web-app-capable" content="yes" />
+  <meta name="apple-mobile-web-app-capable" content="yes" />
+  <meta name="apple-mobile-web-app-status-bar-style" content="default" />
+  <meta name="apple-mobile-web-app-title" content="SUPER-SCANNER" />
+  <title>SUPER-SCANNER</title>
+  <link rel="manifest" href="./manifest.webmanifest" />
+  <link rel="stylesheet" href="./styles.css" />
+  <script defer src="https://cdnjs.cloudflare.com/ajax/libs/pdf-lib/1.17.1/pdf-lib.min.js"></script>
+  <script type="module" src="./js/app.js"></script>
+</head>
+<body>
+  <div id="app">
+    <section id="splash" class="splash screen active" aria-label="Bienvenida">
+      <div class="splash-mark" aria-hidden="true">
+        <div class="logo-symbol"><span></span><span></span><span></span></div>
+      </div>
+      <p class="eyebrow">DOCUMENTOS, SIN COMPLICACIONES</p>
+      <h1>SUPER-SCANNER</h1>
+      <p class="splash-copy">Escanea, organiza, convierte y descarga.</p>
+      <button id="enterApp" class="btn btn-primary btn-large">Comenzar</button>
+      <button id="skipSplash" class="text-btn">Ir directamente a las herramientas</button>
+    </section>
+
+    <main id="mainShell" class="main-shell hidden">
+      <header class="topbar">
+        <button id="brandHome" class="brand" aria-label="Volver al inicio">
+          <span class="mini-logo"><i></i><i></i><i></i></span>
+          <span>SUPER-SCANNER</span>
+        </button>
+        <div class="topbar-actions">
+          <button id="installBtn" class="icon-btn hidden" title="Instalar aplicación">⬇</button>
+          <button id="globalCameraBtn" class="btn btn-ghost"><span>📷</span><span class="desktop-label">Usar cámara</span></button>
+          <button id="globalUploadBtn" class="btn btn-primary"><span>＋</span><span class="desktop-label">Subir archivos</span></button>
+        </div>
+      </header>
+
+      <section id="homeScreen" class="content-screen active">
+        <div class="hero">
+          <p class="eyebrow">TODO EN UN SOLO LUGAR</p>
+          <h2>¿Qué quieres hacer?</h2>
+          <p>Selecciona una tarea. Puedes trabajar con <strong>varios archivos a la vez</strong> y mezclarlos en una sola salida.</p>
+          <div class="hero-actions">
+            <button class="btn btn-primary btn-large" data-action="upload">＋ Subir archivos</button>
+            <button class="btn btn-secondary btn-large" data-action="camera">📷 Usar cámara</button>
+          </div>
+        </div>
+
+        <section class="tool-section" aria-labelledby="primaryToolsTitle">
+          <div class="section-heading">
+            <div>
+              <p class="eyebrow">PRINCIPALES</p>
+              <h3 id="primaryToolsTitle">Herramientas rápidas</h3>
+            </div>
+            <span class="pill">Multiarchivo</span>
+          </div>
+          <div class="tool-grid primary-grid">
+            <button class="tool-card featured" data-tool="scan">
+              <span class="tool-icon">📷</span>
+              <span class="tool-text"><strong>Escanear</strong><small>Cámara → PDF / imagen</small></span>
+              <span class="arrow">→</span>
+            </button>
+            <button class="tool-card" data-tool="image-pdf">
+              <span class="tool-icon">🖼️</span>
+              <span class="tool-text"><strong>Imagen a PDF</strong><small>Una o muchas imágenes</small></span>
+              <span class="arrow">→</span>
+            </button>
+            <button class="tool-card" data-tool="merge">
+              <span class="tool-icon">🔗</span>
+              <span class="tool-text"><strong>Unir / PDF mixto</strong><small>PDF + fotos + cámara</small></span>
+              <span class="arrow">→</span>
+            </button>
+            <button class="tool-card" data-tool="organize">
+              <span class="tool-icon">▦</span>
+              <span class="tool-text"><strong>Organizar</strong><small>Ordena, elimina y prepara</small></span>
+              <span class="arrow">→</span>
+            </button>
+          </div>
+        </section>
+
+        <section class="tool-section compact-section">
+          <button id="moreToolsToggle" class="more-toggle" aria-expanded="false">
+            <span><strong>Más herramientas</strong><small>Conversión, compresión, OCR y firma</small></span>
+            <span id="moreChevron">⌄</span>
+          </button>
+          <div id="moreTools" class="tool-grid secondary-grid collapsed">
+            <button class="tool-card" data-tool="document-pdf">
+              <span class="tool-icon">📄</span><span class="tool-text"><strong>Documento a PDF</strong><small>Word / Excel / PPT</small></span><span class="badge-soon">Fase 2</span>
+            </button>
+            <button class="tool-card" data-tool="split">
+              <span class="tool-icon">✂️</span><span class="tool-text"><strong>Dividir PDF</strong><small>Extraer páginas y rangos</small></span><span class="badge-soon">Fase 2</span>
+            </button>
+            <button class="tool-card" data-tool="compress">
+              <span class="tool-icon">🗜️</span><span class="tool-text"><strong>Comprimir PDF</strong><small>Optimiza tamaño</small></span><span class="arrow">→</span>
+            </button>
+            <button class="tool-card" data-tool="convert">
+              <span class="tool-icon">🔄</span><span class="tool-text"><strong>Convertir PDF</strong><small>PDF → imagen / texto</small></span><span class="arrow">→</span>
+            </button>
+            <button class="tool-card" data-tool="ocr">
+              <span class="tool-icon">🔎</span><span class="tool-text"><strong>OCR</strong><small>Texto reconocible</small></span><span class="badge-soon">Fase 2</span>
+            </button>
+            <button class="tool-card" data-tool="sign">
+              <span class="tool-icon">✍️</span><span class="tool-text"><strong>Editar / Firmar</strong><small>Firma, texto, fecha</small></span><span class="badge-soon">Beta</span>
+            </button>
+          </div>
+        </section>
+
+        <section class="mixed-banner">
+          <div class="mixed-icon">✨</div>
+          <div>
+            <p class="eyebrow">FUNCIÓN DIFERENCIAL</p>
+            <h3>Crear PDF mixto</h3>
+            <p>Mezcla PDF, imágenes y nuevas capturas de cámara. Reordena todo y genera un solo PDF.</p>
+          </div>
+          <button class="btn btn-dark" data-tool="merge">Crear ahora</button>
+        </section>
+      </section>
+
+      <section id="workspaceScreen" class="content-screen workspace-screen">
+        <div class="workspace-top">
+          <button id="workspaceBack" class="back-btn">← Inicio</button>
+          <div class="workspace-title-wrap">
+            <span id="workspaceIcon" class="workspace-icon">🔗</span>
+            <div><p class="eyebrow" id="workspaceEyebrow">ESPACIO DE TRABAJO</p><h2 id="workspaceTitle">Crear PDF mixto</h2></div>
+          </div>
+          <div id="queueBadge" class="queue-badge">0 archivos</div>
+        </div>
+
+        <div class="workspace-layout">
+          <section class="workspace-main">
+            <div id="dropZone" class="drop-zone">
+              <div class="drop-icon">＋</div>
+              <h3>Arrastra tus archivos aquí</h3>
+              <p id="dropHint">PDF, JPG, PNG y WEBP. Puedes seleccionar varios al mismo tiempo.</p>
+              <div class="drop-actions">
+                <button class="btn btn-primary" data-action="upload">Elegir archivos</button>
+                <button class="btn btn-secondary" data-action="camera">📷 Añadir desde cámara</button>
+              </div>
+            </div>
+
+            <div id="fileArea" class="file-area hidden">
+              <div class="file-toolbar">
+                <div>
+                  <h3>Archivos y capturas</h3>
+                  <p>Arrastra para reordenar. El orden mostrado será el orden del PDF final.</p>
+                </div>
+                <div class="toolbar-actions">
+                  <button class="btn btn-ghost" data-action="camera">📷 Cámara</button>
+                  <button class="btn btn-ghost" data-action="upload">＋ Añadir</button>
+                </div>
+              </div>
+              <div id="fileList" class="file-list" aria-live="polite"></div>
+              <button id="addMoreTile" class="add-more-tile" data-action="upload"><span>＋</span><strong>Añadir más archivos</strong></button>
+            </div>
+          </section>
+
+          <aside class="workspace-panel" id="workspacePanel">
+            <button id="mobilePanelToggle" class="mobile-panel-toggle" aria-expanded="false">
+              <span>Opciones de salida</span><span>⌃</span>
+            </button>
+            <div class="panel-body">
+              <div class="panel-block">
+                <label class="panel-label" for="outputName">Nombre del archivo</label>
+                <div class="input-suffix"><input id="outputName" value="super-scanner" autocomplete="off" /><span>.pdf</span></div>
+              </div>
+              <div class="panel-block">
+                <span class="panel-label">Formato de salida</span>
+                <div class="segmented segmented-3" id="outputFormatGroup">
+                  <button class="selected" data-output-format="pdf">PDF</button>
+                  <button data-output-format="jpg">JPG</button>
+                  <button data-output-format="png">PNG</button>
+                </div>
+              </div>
+              <div class="panel-block">
+                <span class="panel-label">Tamaño de página para imágenes</span>
+                <div class="segmented" id="pageSizeGroup">
+                  <button class="selected" data-page-size="a4">A4</button>
+                  <button data-page-size="original">Original</button>
+                </div>
+              </div>
+              <div class="panel-block">
+                <span class="panel-label">Ajuste</span>
+                <label class="toggle-row"><span><strong>Autoajuste</strong><small>Centra y adapta la imagen</small></span><input id="autoFit" type="checkbox" checked /><i></i></label>
+                <label class="toggle-row"><span><strong>Margen seguro</strong><small>Evita cortes al imprimir</small></span><input id="safeMargin" type="checkbox" checked /><i></i></label>
+              </div>
+              <div class="panel-block stats-block">
+                <div><span>Elementos</span><strong id="statItems">0</strong></div>
+                <div><span>Tamaño</span><strong id="statSize">0 MB</strong></div>
+              </div>
+              <button id="exportBtn" class="btn btn-primary btn-full btn-export" disabled>
+                <span id="exportLabel">Crear PDF</span><span>→</span>
+              </button>
+              <p id="panelNote" class="panel-note">El procesamiento se realiza en tu navegador siempre que sea posible.</p>
+            </div>
+          </aside>
+        </div>
+      </section>
+    </main>
+  </div>
+
+  <input id="fileInput" type="file" multiple accept=".pdf,.jpg,.jpeg,.png,.webp,image/*,application/pdf" hidden />
+
+  <div id="cameraModal" class="modal hidden" role="dialog" aria-modal="true" aria-labelledby="cameraTitle">
+    <div class="camera-shell">
+      <div class="camera-header">
+        <div><p class="eyebrow">CAPTURA MULTIPÁGINA</p><h2 id="cameraTitle">Escanear con cámara</h2></div>
+        <button id="closeCamera" class="round-btn" aria-label="Cerrar">×</button>
+      </div>
+      <div class="camera-stage">
+        <video id="cameraVideo" autoplay playsinline muted></video>
+        <canvas id="cameraCanvas" hidden></canvas>
+        <div class="document-guide"><span></span><span></span><span></span><span></span></div>
+        <div id="cameraStatus" class="camera-status">Preparando cámara…</div>
+      </div>
+      <div class="camera-controls">
+        <div class="camera-option">
+          <label class="toggle-row compact"><span><strong>Autoajuste</strong><small>Mejora brillo y contraste</small></span><input id="cameraAutoEnhance" type="checkbox" checked /><i></i></label>
+        </div>
+        <button id="captureBtn" class="capture-btn" aria-label="Capturar"><span></span></button>
+        <button id="switchCameraBtn" class="camera-switch" title="Cambiar cámara">↻</button>
+      </div>
+      <div class="camera-footer">
+        <div><strong id="captureCount">0 páginas</strong><small>Puedes seguir capturando antes de cerrar</small></div>
+        <button id="finishCamera" class="btn btn-primary">Listo</button>
+      </div>
+    </div>
+  </div>
+
+  <div id="progressModal" class="modal progress-modal hidden" role="status" aria-live="polite">
+    <div class="progress-card">
+      <div class="spinner"></div>
+      <h3 id="progressTitle">Creando documento…</h3>
+      <p id="progressText">Procesando tus archivos en el orden elegido.</p>
+      <div class="progress-track"><div id="progressBar"></div></div>
+    </div>
+  </div>
+
+  <div id="toast" class="toast hidden" role="status"></div>
+
+  <template id="fileCardTemplate">
+    <article class="file-card" draggable="true">
+      <div class="drag-handle" title="Arrastrar">⋮⋮</div>
+      <div class="file-preview"></div>
+      <div class="file-meta"><strong class="file-name"></strong><span class="file-sub"></span><div class="file-tags"></div></div>
+      <div class="file-actions">
+        <button class="small-btn move-up" title="Subir">↑</button>
+        <button class="small-btn move-down" title="Bajar">↓</button>
+        <button class="small-btn danger remove-file" title="Eliminar">×</button>
+      </div>
+    </article>
+  </template>
+</body>
+</html>
