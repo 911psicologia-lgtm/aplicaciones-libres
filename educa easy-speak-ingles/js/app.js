@@ -1,6 +1,6 @@
 (()=> {
   'use strict';
-  const APP_VERSION='0.4.5';
+  const APP_VERSION='0.4.6';
   const $=id=>document.getElementById(id),$$=sel=>Array.from(document.querySelectorAll(sel));
   const Storage=window.EasySpeakStorage,Speech=window.EasySpeakSpeech,Scoring=window.EasySpeakScoring,Engine=window.EasySpeakEngine,Pron=window.EasySpeakPronunciation,Spanish=window.EasySpeakSpanish;
   const S={
@@ -230,6 +230,7 @@
     await configureSpeechForSession();const caps=Speech.supported(),prep=await Speech.prepare();S.audioReady=!!prep.ok;S.audioDenied=!!prep.permissionDenied;
     if(!prep.ok)toast(prep.permissionDenied?'Microphone not allowed — manual speaking mode will be used.':'Voice input is unavailable — manual speaking mode will be used.',3000);
     else if(prep.recordOnly)toast('Mobile compatibility mode: voice recording is ready; automatic recognition is unavailable here.',3200);
+    else if(!prep.reused)toast('Microphone ready for this session · one permission only',2200);
     S.conversationIndex=0;S.turnIndex=0;S.session=newSession(reinforcement?'REVIEW':S.profile.level,S.profile.mode);$('practicePoints').textContent='0';$('practiceMultiplier').textContent='x1';showScreen('practice');requestWakeLock();await runTurn();
   }
   function currentConversation(){return S.queue[S.conversationIndex]}

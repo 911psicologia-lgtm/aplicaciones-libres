@@ -1,59 +1,29 @@
-# Easy Speak v0.4.5 — Bilingual Meaning Support
+# Easy Speak v0.4.6 — Single Mic Session
 
-Mobile-first, multi-file CEFR A1–B2 English speaking practice app for GitHub + Cloudflare Pages. Plain HTML/CSS/JS; no build command, account, Firebase or cloud progress sync.
+This build preserves the v0.4.5 bilingual UI and adds a microphone stability redesign for mobile, local-file testing and Cloudflare/PWA use.
 
+## v0.4.6 microphone stability
 
-## v0.4.5
-- Adds optional **English–Spanish meaning support** without turning Easy Speak into a translation app.
-- One discreet capsule cycles through **EN → EN+ES → EN·ES**.
-  - **EN**: English only.
-  - **EN+ES**: contextual Spanish meaning is shown below the English.
-  - **EN·ES**: Spanish stays hidden and is revealed by tapping the English line.
-- English remains visually dominant; Spanish appears smaller, muted and italic.
-- Text-to-speech always reads **English only**. Spanish never enters microphone recognition or Training Score.
-- The same support is available in prompts, the 3 model answers + Everyday English, and Pronunciation Boost.
-- Pronunciation fragments use contextual equivalents; when a single word has no safe one-word equivalent, Easy Speak shows the meaning in its source sentence rather than fabricating a literal translation.
-- Language preference is stored locally and included in backup/restore.
-- All 470 conversation turns have local/offline Spanish support; no translation API or cloud synchronisation is required.
-- PWA cache updated to `easy-speak-v0.4.5` and includes the four Spanish data files plus `js/spanish.js`.
+- `getUserMedia()` is acquired once and its live audio track is reused for the whole page/session.
+- `listen()` no longer calls a fresh microphone acquisition for every exercise.
+- Speech recognition is no longer auto-restarted from `onend`.
+- Where supported, `SpeechRecognition.start(audioTrack)` uses the already-authorized microphone track.
+- On mobile browsers that do not support recognition from an existing track, Easy Speak attempts that path once and then remains in record / My Voice / guided self-check mode instead of repeatedly opening microphone permission UI.
+- TTS never starts speech recognition; recognition is opened only inside the learner's response window, so the parrot is less likely to be transcribed.
+- `pause()` stops processing but deliberately keeps the granted microphone stream available between app screens and exercises.
+- The stream is fully released when the page is actually closed/unloaded.
+- A brief “Microphone ready for this session · one permission only” confirmation appears after the first successful acquisition.
 
-## v0.4.3
-- Adds **Pronunciation Boost** as a contextual reinforcement layer rather than another large home-screen mode.
-- Difficult spoken turns can generate short practice units: **Word → Chunk → Phrase**.
-- Candidates are based on extra repetitions and browser recognition difficulty; Easy Speak does **not** claim phoneme-level diagnosis.
-- Pronunciation practice flow: **Model → Repeat → recognition estimate → retry/slow model → automatic next item**.
-- Up to 3 attempts; the best reviewed result is stored without trapping the learner.
-- **My Voice** is available where browser recording is supported and remains temporary only.
-- **Shadow** rehearsal lets the learner speak along with the model without scoring, then try the phrase alone.
-- Pronunciation uses the same discreet voice-speed control: **0.5× · 0.8× · 1× · 1.2× · 1.5×**.
-- Reinforcements now have two compact tabs: **Conversation** and **Pronunciation**.
-- Session summaries show a short **Pronunciation Boost · about 2 min** card only when relevant.
-- Pronunciation items progress through **New → Practising → Improving → Strong**.
-- In mobile/browser modes without reliable automatic recognition, Pronunciation Boost falls back to **listen · record · My Voice · compare · repeat**, without fabricating an automatic score.
-- Pronunciation history is included in local JSON backup/restore.
-- Service worker cache updated to `easy-speak-v0.4.3` and includes `js/pronunciation.js`.
+## Bilingual support retained
 
-## Preserved from v0.4.2
-- 40 conversations / 470 turns across A1, A2, B1 and B2.
-- 3 model answers + 1 Everyday English option per turn.
-- Learn and continuous Flow.
-- CEFR Can-Do metadata, branching conversations and local personalisation.
-- Training score, points, flow streaks, My Progress and conversation reinforcements.
-- Mobile microphone compatibility architecture.
-- Temporary My Voice playback where supported.
-- Voice-speed selector and compact mobile home/practice layouts.
-- `MORE ›` / swipe cue for additional route buttons on mobile.
-- Optional PWA installation and user-controlled `↻•` update indicator.
-- Local-first progress, JSON backup/restore, CSV export and Print/PDF.
+- `EN`: English only.
+- `EN+ES`: Spanish meaning visible under English.
+- `EN·ES`: Spanish appears on tap.
+- The parrot always speaks English only.
+- Spanish remains offline and does not enter microphone recognition or Training Score.
 
-## Deploy
-Upload the contents of this folder as the Cloudflare Pages site root or replace the current app folder in GitHub. HTTPS is required for microphone access.
+## Deployment
 
-Replace the **whole previous app folder**, not only `index.html`, because v0.4.5 changes `index.html`, `styles.css`, `app.js`, `storage.js`, `service-worker.js`, `manifest.json` and adds the Spanish support files (`data/es-*.js` and `js/spanish.js`).
+Replace the whole previous app folder in GitHub / Cloudflare Pages. The service-worker cache is versioned as `easy-speak-v0.4.6`.
 
-
-## v0.4.5 bilingual visibility fix
-- EN+ES is now the default for new users.
-- Existing v0.4.4 profiles are migrated once to EN+ES so the new translation layer is actually visible.
-- After migration, explicit EN / EN+ES / EN·ES choices are preserved.
-- Spanish support text has slightly stronger mobile contrast while remaining secondary to English.
+Direct `file://` testing is browser-dependent. The app now avoids repeated permission requests inside one open page, but a browser may still ask again after the local file is closed/reopened because permission persistence belongs to the browser, not to Easy Speak.
