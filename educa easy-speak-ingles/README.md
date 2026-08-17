@@ -36,3 +36,11 @@ For microphone access, the site must run on HTTPS (Cloudflare Pages provides thi
 
 ## Important scoring note
 The score is a training estimate. It does not reproduce the British Council scoring engine and is not an official CEFR assessment. Pronunciation is represented only indirectly through recognition confidence / clarity in this prototype.
+
+## v0.4.1 — Mobile voice compatibility
+
+- Mobile audio is primed directly from the user's Start tap before asynchronous setup.
+- The microphone MediaStream is no longer physically disabled/re-enabled between turns; Easy Speak gates recording in software instead.
+- iOS prioritizes native SpeechRecognition without a simultaneous getUserMedia stream when recognition is available, avoiding a known WebKit interaction between both capture paths.
+- If an installed/mobile browser does not expose SpeechRecognition but does expose microphone capture, Easy Speak enters an honest record-only compatibility mode: the learner can record, stop, replay My Voice, repeat, hear models and self-check against the closest model. No fabricated automatic score is produced.
+- The route selector now includes mobile-only MORE/previous controls plus a swipe hint, and the hints disappear contextually as the rail is scrolled.

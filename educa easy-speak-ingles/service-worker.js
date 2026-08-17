@@ -1,4 +1,4 @@
-const CACHE='easy-speak-v0.4.0';
+const CACHE='easy-speak-v0.4.1';
 const ASSETS=[
   './','./index.html','./css/styles.css',
   './js/storage.js','./js/scoring.js','./js/speech.js','./js/conversation-engine.js','./js/app.js',

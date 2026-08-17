@@ -71,14 +71,19 @@
             <div><small>02</small><h3>Choose your route</h3></div>
             <button id="cefrInfoBtn" class="text-btn">CEFR guide</button>
           </div>
-          <div id="levelRail" class="level-rail">
-            <button class="level-tile" data-level="A1"><b>A1</b><span>Start</span><small>Everyday basics</small></button>
-            <button class="level-tile" data-level="A2"><b>A2</b><span>Connect</span><small>Daily situations</small></button>
-            <button class="level-tile selected" data-level="B1"><b>B1</b><span>Explain</span><small>Experience & opinion</small></button>
-            <button class="level-tile" data-level="B2"><b>B2</b><span>Discuss</span><small>Nuance & argument</small></button>
-            <button class="level-tile special" data-level="SCALAR"><b>↗</b><span>Scale</span><small>2 from each level</small></button>
-            <button class="level-tile special" data-level="RANDOM"><b>⤨</b><span>Surprise</span><small>Mixed conversation</small></button>
+          <div class="level-rail-wrap">
+            <div id="levelRail" class="level-rail" aria-label="Choose CEFR route">
+              <button class="level-tile" data-level="A1"><b>A1</b><span>Start</span><small>Everyday basics</small></button>
+              <button class="level-tile" data-level="A2"><b>A2</b><span>Connect</span><small>Daily situations</small></button>
+              <button class="level-tile selected" data-level="B1"><b>B1</b><span>Explain</span><small>Experience & opinion</small></button>
+              <button class="level-tile" data-level="B2"><b>B2</b><span>Discuss</span><small>Nuance & argument</small></button>
+              <button class="level-tile special" data-level="SCALAR"><b>↗</b><span>Scale</span><small>2 from each level</small></button>
+              <button class="level-tile special" data-level="RANDOM"><b>⤨</b><span>Surprise</span><small>Mixed conversation</small></button>
+            </div>
+            <button id="levelPrevHint" class="rail-nav rail-prev hidden" aria-label="See previous routes">‹</button>
+            <button id="levelNextHint" class="rail-nav rail-next" aria-label="See more routes"><small>MORE</small><span>›</span></button>
           </div>
+          <div id="levelSwipeHint" class="rail-swipe-hint"><span>Swipe to see more routes</span><b>→</b></div>
         </section>
 
         <section class="setup-card">
@@ -147,6 +152,7 @@
             <div id="volumeBars" class="volume-bars" aria-hidden="true"><i></i><i></i><i></i><i></i></div>
           </div>
           <p id="transcript" class="transcript hidden"></p>
+          <div id="voiceCompatNote" class="voice-compat-note hidden"></div>
           <button id="manualDoneBtn" class="secondary-btn hidden">I said my answer</button>
         </section>
 

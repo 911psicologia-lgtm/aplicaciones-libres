@@ -1,6 +1,6 @@
 (()=> {
   'use strict';
-  const APP_VERSION='0.4.0';
+  const APP_VERSION='0.4.1';
   const $=id=>document.getElementById(id),$$=sel=>Array.from(document.querySelectorAll(sel));
   const Storage=window.EasySpeakStorage,Speech=window.EasySpeakSpeech,Scoring=window.EasySpeakScoring,Engine=window.EasySpeakEngine;
   const S={
@@ -29,7 +29,7 @@
 
   async function boot(){
     S.profile=Storage.profile();S.stats=Storage.stats();bind();applyProfile();renderHome();await setupSpeechPrivacy();setupPWA();
-    setTimeout(()=>{showScreen('home');if(!S.profile.tourSeen)setTimeout(()=>openSheet('tourSheet'),320)},850);
+    setTimeout(()=>{showScreen('home');requestAnimationFrame(updateRouteHints);if(!S.profile.tourSeen)setTimeout(()=>openSheet('tourSheet'),320)},850);
   }
   function bind(){
     $('brandBtn').onclick=()=>{closeSheet();showScreen('home');renderHome()};
@@ -39,6 +39,7 @@
     $$('.sheet-close').forEach(b=>b.onclick=closeSheet);$('sheetBackdrop').onclick=closeSheet;
     $('durationChips').onclick=e=>{const b=e.target.closest('[data-duration]');if(!b)return;S.profile.duration=Number(b.dataset.duration);Storage.saveProfile(S.profile);applyProfile()};
     $('levelRail').onclick=e=>{const b=e.target.closest('[data-level]');if(!b)return;S.profile.level=b.dataset.level;Storage.saveProfile(S.profile);applyProfile()};
+    $('levelRail').addEventListener('scroll',updateRouteHints,{passive:true});$('levelNextHint').onclick=()=>scrollRoute(1);$('levelPrevHint').onclick=()=>scrollRoute(-1);window.addEventListener('resize',updateRouteHints);
     $('modeSwitch').onclick=e=>{const b=e.target.closest('[data-mode]');if(!b)return;S.profile.mode=b.dataset.mode;Storage.saveProfile(S.profile);applyProfile()};
     const saveText=(id,key)=>$(id).oninput=e=>{S.profile[key]=e.target.value.trim();Storage.saveProfile(S.profile)};
     saveText('nameInput','name');saveText('cityInput','city');saveText('countryInput','country');saveText('roleInput','role');
@@ -50,7 +51,7 @@
     $('backupBtn').onclick=backupProgress;$('restoreBtn').onclick=()=>$('restoreFileInput').click();$('restoreFileInput').onchange=restoreProgress;
     $('resetBtn').onclick=()=>{if(confirm('Delete all Easy Speak progress and settings stored on this device?')){Storage.reset();S.profile=Storage.profile();S.stats=Storage.stats();applyProfile();renderHome();closeSheet();toast('Local Easy Speak data deleted')}};
     $('exportCsvBtn').onclick=exportCsv;$('printProgressBtn').onclick=printProgress;
-    $('startBtn').onclick=()=>startPractice(false);$('startReinforcementBtn').onclick=()=>{closeSheet();startPractice(true)};
+    $('startBtn').onclick=()=>startPracticeFromGesture(false);$('startReinforcementBtn').onclick=()=>{closeSheet();startPracticeFromGesture(true)};
     $('clearReinforcementsBtn').onclick=()=>{Storage.clearReinforcements();S.stats=Storage.stats();renderReinforcements();renderHome();toast('Saved reinforcements cleared')};
     $('exitPracticeBtn').onclick=exitPractice;$('repeatPromptBtn').onclick=repeatPrompt;
     $('micBtn').onclick=()=>{cancelAutoAction();if(!S.listening)beginListening(true);else Speech.stopListening()};
@@ -71,17 +72,23 @@
     $('nameInput').value=S.profile.name||'';$('cityInput').value=S.profile.city||'';$('countryInput').value=S.profile.country||'';$('roleInput').value=S.profile.role||'';
     $('voiceRateInput').value=S.profile.voiceRate||1;$('voiceRateLabel').textContent=Number(S.profile.voiceRate||1).toFixed(2).replace(/0$/,'')+'×';
     $('transcriptToggle').checked=S.profile.showTranscript!==false;$('autoReinforceToggle').checked=S.profile.autoReinforce!==false;
-    $('weeklyGoalInput').value=S.profile.weeklyGoal||3;$('localSpeechToggle').checked=!!S.profile.preferLocalSpeech;$('appVersionLabel').textContent='v'+APP_VERSION;
+    $('weeklyGoalInput').value=S.profile.weeklyGoal||3;$('localSpeechToggle').checked=!!S.profile.preferLocalSpeech;$('appVersionLabel').textContent='v'+APP_VERSION;requestAnimationFrame(updateRouteHints);
   }
   function renderHome(){
     S.stats=Storage.stats();const score=S.stats.scoreCount?Math.round(S.stats.scoreSum/S.stats.scoreCount):null;
     $('homeScore').textContent=score??'—';$('homePoints').textContent=Number(S.stats.points||0).toLocaleString();$('homeStreak').textContent='x'+(S.stats.bestMultiplier||1);
     const n=Storage.activeReinforcements().length;$('reinforcementCount').textContent=n;$('reinforcementCard').classList.toggle('hidden',!n);
   }
+  function updateRouteHints(){
+    const rail=$('levelRail');if(!rail)return;const desktop=window.matchMedia('(min-width:720px)').matches;if(desktop){$('levelPrevHint').classList.add('hidden');$('levelNextHint').classList.add('hidden');$('levelSwipeHint').classList.add('hidden');return}
+    const max=Math.max(0,rail.scrollWidth-rail.clientWidth),left=rail.scrollLeft,atStart=left<8,atEnd=max-left<8;$('levelPrevHint').classList.toggle('hidden',atStart);$('levelNextHint').classList.toggle('hidden',atEnd);$('levelSwipeHint').classList.toggle('hidden',atEnd||left>24);
+  }
+  function scrollRoute(dir){const rail=$('levelRail');if(!rail)return;rail.scrollBy({left:dir*Math.max(130,Math.round(rail.clientWidth*.72)),behavior:'smooth'});setTimeout(updateRouteHints,380)}
+  function startPracticeFromGesture(reinforcement=false){Speech.unlockFromGesture?.();startPractice(reinforcement)}
 
   async function setupSpeechPrivacy(){
     const caps=Speech.supported();$('localSpeechRow').classList.toggle('hidden',!caps.localRecognition);$('localSpeechToggle').checked=!!S.profile.preferLocalSpeech;
-    if(!caps.recognition){$('speechPrivacyText').textContent='Speech recognition is not available in this browser; manual speaking fallback will be used.';return}
+    if(!caps.recognition){$('speechPrivacyText').textContent=caps.recordOnlyPossible?'Automatic speech recognition is unavailable in this browser mode. Easy Speak can still capture your voice for guided self-check.':'Speech recognition and microphone capture are not available in this browser mode; manual speaking fallback will be used.';return}
     if(!caps.localRecognition){$('speechPrivacyText').textContent='Progress is local. Speech-to-text may be processed by your browser’s recognition service.';return}
     const info=await Speech.localAvailability();
     const status=String(info.status||'unknown');$('localSpeechStatus').textContent=status==='available'?'On-device English is ready':status==='downloadable'?'On-device English can be prepared':status==='downloading'?'Language pack is downloading':'Availability depends on this browser';
@@ -173,8 +180,9 @@
     if(reinforcement){const items=Storage.activeReinforcements();if(!items.length){toast('No active reinforcements waiting');return}S.queue=[Engine.reinforcementConversation(items.slice(0,20),S.profile)]}
     else S.queue=Engine.queueFor(S.profile.level,S.profile);
     if(!S.queue.length){toast('No conversations available');return}
-    await configureSpeechForSession();const caps=Speech.supported(),prep=caps.recognition?await Speech.prepare():{ok:false,unsupported:true};S.audioReady=!!prep.ok;S.audioDenied=!!prep.permissionDenied;
-    if(!prep.ok)toast(prep.permissionDenied?'Microphone not allowed — manual speaking mode will be used.':'Voice recognition is unavailable — manual speaking mode will be used.',3000);
+    await configureSpeechForSession();const caps=Speech.supported(),prep=await Speech.prepare();S.audioReady=!!prep.ok;S.audioDenied=!!prep.permissionDenied;
+    if(!prep.ok)toast(prep.permissionDenied?'Microphone not allowed — manual speaking mode will be used.':'Voice input is unavailable — manual speaking mode will be used.',3000);
+    else if(prep.recordOnly)toast('Mobile compatibility mode: voice recording is ready; automatic recognition is unavailable here.',3200);
     S.conversationIndex=0;S.turnIndex=0;S.session=newSession(reinforcement?'REVIEW':S.profile.level,S.profile.mode);$('practicePoints').textContent='0';$('practiceMultiplier').textContent='x1';showScreen('practice');requestWakeLock();await runTurn();
   }
   function currentConversation(){return S.queue[S.conversationIndex]}
@@ -193,7 +201,7 @@
 
   async function runTurn(){
     if(S.ended)return;const c=currentConversation(),t=currentTurn();if(!c||!t)return endSession();cancelAutoAction();revokeVoice();const serial=++S.turnSerial;S.playbackSerial++;S.listenAttempts=0;S.manualMode=false;S.lastResult=null;S.turnAttempts=[];S.turnCommitted=false;
-    $('turnResult').classList.add('hidden');$('learningActions').classList.add('hidden');$('manualDoneBtn').classList.add('hidden');$('transcript').classList.add('hidden');$('transcript').textContent='';
+    $('turnResult').classList.add('hidden');$('learningActions').classList.add('hidden');$('manualDoneBtn').classList.add('hidden');$('transcript').classList.add('hidden');$('transcript').textContent='';$('voiceCompatNote').classList.add('hidden');$('voiceCompatNote').textContent='';
     $('conversationEmoji').textContent=c.emoji||'💬';$('conversationTitle').textContent=c.title;$('conversationMeta').textContent=`${currentLevel()} · Turn ${S.turnIndex+1} of ${c.turns.length}`;$('conversationCanDo').textContent=c.canDo?`Can-do · ${c.canDo}`:'';$('promptText').textContent=displayPrompt();
     if(c.canDo&&!S.session.canDos.includes(c.canDo))S.session.canDos.push(c.canDo);
     renderIdeas(!isFlow());$('toggleIdeasBtn').classList.toggle('hidden',!isFlow());updateProgress();setAvatar('speaking','Speaking');$('listenStatus').textContent='Listen first';$('listenHint').textContent=isFlow()?'Answer when the parrot finishes. Flow continues automatically.':'Your turn opens when the parrot finishes.';setListeningUI(false);
@@ -209,10 +217,13 @@
   async function repeatPrompt(){if(S.ended)return;cancelAutoAction();Speech.stopListening();S.listening=false;setListeningUI(false);const turnSerial=S.turnSerial,playback=++S.playbackSerial;setAvatar('speaking','Again');await Speech.speak(displayPrompt(),{rate:S.profile.voiceRate});if(playback!==S.playbackSerial||turnSerial!==S.turnSerial||S.ended)return;if(!S.manualMode)beginListening(true,turnSerial)}
   async function beginListening(userInitiated=false,expectedSerial=S.turnSerial){
     if(S.ended||S.listening||!currentTurn()||expectedSerial!==S.turnSerial)return;cancelAutoAction();S.listening=true;setAvatar('listening','Listening');setListeningUI(true);$('listenStatus').textContent=S.turnAttempts.length?'Try again':'Your turn';$('listenHint').textContent=userInitiated?'Speak now.':'Speak naturally. I’m listening.';
-    if(S.profile.showTranscript!==false){$('transcript').classList.remove('hidden');$('transcript').textContent='…'}
+    const voiceCaps=Speech.supported();if(!voiceCaps.recognition&&voiceCaps.recordOnlyPossible){$('listenHint').textContent='Speak, then tap the microphone when you finish.';$('transcript').classList.add('hidden')}
+    else if(S.profile.showTranscript!==false){$('transcript').classList.remove('hidden');$('transcript').textContent='…'}
     const res=await Speech.listen({maxMs:12000,onInterim:text=>{if(S.profile.showTranscript!==false)$('transcript').textContent=text||'…'},onVolume:updateVolume});S.listening=false;setListeningUI(false);updateVolume(0);if(S.ended||expectedSerial!==S.turnSerial)return;
     if(res.audioUrl)setVoice(res.audioUrl);
+    if(res.recordOnly){S.manualMode=true;setAvatar('idle','Voice captured');$('listenStatus').textContent='Voice captured';$('listenHint').textContent='Listen to My Voice if you want, then tap “I said my answer” to self-check against the models.';$('voiceCompatNote').innerHTML='<b>Mobile compatibility mode.</b> This browser is not exposing automatic speech recognition here, so Easy Speak records your attempt but does not invent an automatic score.';$('voiceCompatNote').classList.remove('hidden');$('manualDoneBtn').classList.remove('hidden');$('learningActions').classList.remove('hidden');renderIdeas(true);return}
     if(res.localUnavailable){toast('On-device recognition was not ready. Use browser recognition or prepare the local model.',3200);enableManualFallback('On-device recognition is unavailable.');return}
+    if(res.audioCaptureError){enableManualFallback('The mobile browser could not open its audio input.');return}
     if(res.unsupported||res.permissionDenied){enableManualFallback(res.permissionDenied?'Microphone permission is unavailable.':'Speech recognition is not available in this browser.');return}
     if(!res.transcript?.trim()){S.listenAttempts++;if(S.listenAttempts<2){$('listenStatus').textContent="I didn’t catch that";$('listenHint').textContent='Try once more. Speak a little closer to the phone.';setAvatar('idle','Try again');scheduleAuto(()=>beginListening(true,expectedSerial),650)}else{$('listenStatus').textContent='Ready to try again';$('listenHint').textContent='Tap the microphone or hear a model phrase.';setAvatar('idle','Ready');$('learningActions').classList.remove('hidden')}return}
     S.listenAttempts=0;if(S.profile.showTranscript!==false)$('transcript').textContent=res.transcript;setAvatar('thinking','Checking');setTimeout(()=>{if(expectedSerial===S.turnSerial&&!S.ended)handleAttempt(Scoring.evaluate(scoringTurn(),res,currentLevel()))},240);
@@ -220,7 +231,7 @@
   function setAvatar(state,label){const a=$('parrotAvatar');a.classList.remove('idle','speaking','listening','thinking');a.classList.add(state||'idle');$('avatarState').textContent=label||'Ready'}
   function setListeningUI(on){$('micBtn').classList.toggle('active',on);$('micBtn').setAttribute('aria-pressed',on?'true':'false')}
   function updateVolume(rms){const bars=$('volumeBars').querySelectorAll('i'),strength=clamp((rms||0)*1000,0,100);bars.forEach((b,i)=>b.style.height=(5+Math.min(20,strength*(.08+i*.045)))+'px')}
-  function enableManualFallback(message){S.manualMode=true;setAvatar('idle','Speak aloud');$('listenStatus').textContent='Speak it aloud';$('listenHint').textContent=message+' Then tap below.';$('manualDoneBtn').classList.remove('hidden');renderIdeas(true);$('toggleIdeasBtn').classList.add('hidden');toast('Manual speaking fallback is active',2600)}
+  function enableManualFallback(message){S.manualMode=true;setAvatar('idle','Speak aloud');$('listenStatus').textContent='Speak it aloud';$('listenHint').textContent=message+' Then tap below.';$('manualDoneBtn').classList.remove('hidden');if(S.lastVoiceUrl)$('learningActions').classList.remove('hidden');renderIdeas(true);$('toggleIdeasBtn').classList.add('hidden');toast('Manual speaking fallback is active',2600)}
   function enableManualChoice(){S.manualMode=true;$('manualDoneBtn').classList.add('hidden');$('listenStatus').textContent='Which model is closest?';$('listenHint').textContent='Tap the phrase closest to what you said.';renderIdeas(true);makeIdeasManual()}
   function coachingModel(score=S.lastResult){const options=modelOptions();if(!options.length)return '';const idx=Number.isInteger(score?.bestOptionIndex)&&options[score.bestOptionIndex]?score.bestOptionIndex:0;return options[idx]||options[0]}
   async function hearCoachingModel(factor=.82){
