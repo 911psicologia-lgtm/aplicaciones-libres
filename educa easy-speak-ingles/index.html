@@ -1,0 +1,324 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+  <meta name="theme-color" content="#0d1320">
+  <meta name="description" content="Easy Speak: local-first CEFR A1–B2 speaking practice with Learn, continuous Flow, progress, reinforcement and optional PWA installation.">
+  <title>Easy Speak</title>
+  <link rel="manifest" href="manifest.json">
+  <link rel="icon" href="icons/icon-192.png">
+  <link rel="apple-touch-icon" href="icons/icon-192.png">
+  <link rel="stylesheet" href="css/styles.css">
+</head>
+<body>
+  <div id="app" class="app-shell">
+    <section id="splash" class="screen splash active" aria-label="Easy Speak loading">
+      <div class="splash-mark">
+        <div class="parrot-orbit"><img src="icons/icon-512.png" alt="Easy Speak parrot"></div>
+        <p class="eyebrow">EASY FAMILY</p>
+        <h1>Easy Speak</h1>
+        <p>Listen · Speak · Improve</p>
+      </div>
+    </section>
+
+    <section id="home" class="screen" aria-label="Home">
+      <header class="topbar">
+        <button class="brand compact" id="brandBtn" aria-label="Easy Speak home">
+          <img src="icons/icon-192.png" alt="">
+          <span><strong>Easy Speak</strong><small>Conversation trainer</small></span>
+        </button>
+        <div class="top-actions">
+          <button class="icon-btn latent-action hidden" id="installIcon" aria-label="Install Easy Speak" title="Install Easy Speak">⇩</button>
+          <button class="icon-btn latent-action hidden update-action" id="updateIcon" aria-label="Easy Speak update available" title="Update available">↻<i></i></button>
+          <button class="icon-btn" id="settingsBtn" aria-label="Settings">⚙</button>
+        </div>
+      </header>
+
+      <main class="home-main">
+        <section class="hero">
+          <span class="eyebrow">SPEAKING · A1 → B2</span>
+          <h2>Make English come out <em>naturally.</em></h2>
+          <p>Short conversations. Real speaking. One turn at a time.</p>
+        </section>
+
+        <section class="stats-strip" aria-label="Progress">
+          <button class="stat" id="scoreStat"><span class="stat-icon">◎</span><span><b id="homeScore">—</b><small>Training score</small></span></button>
+          <div class="stat"><span class="stat-icon">✦</span><span><b id="homePoints">0</b><small>Points</small></span></div>
+          <div class="stat"><span class="stat-icon">🔥</span><span><b id="homeStreak">x1</b><small>Best flow</small></span></div>
+        </section>
+
+        <button id="reinforcementCard" class="reinforcement-card hidden">
+          <span class="reinforcement-icon">↻</span>
+          <span class="reinforcement-copy"><b><span id="reinforcementCount">0</span> phrases waiting</b><small>Strengthen what was difficult last time</small></span>
+          <span>›</span>
+        </button>
+
+        <section class="setup-card">
+          <div class="section-head">
+            <div><small>01</small><h3>How long today?</h3></div>
+          </div>
+          <div id="durationChips" class="segmented" role="group" aria-label="Practice duration">
+            <button data-duration="5">5 min</button>
+            <button class="selected" data-duration="10">10 min</button>
+            <button data-duration="15">15 min</button>
+            <button data-duration="20">20 min</button>
+          </div>
+        </section>
+
+        <section class="setup-card level-card">
+          <div class="section-head">
+            <div><small>02</small><h3>Choose your route</h3></div>
+            <button id="cefrInfoBtn" class="text-btn">CEFR guide</button>
+          </div>
+          <div id="levelRail" class="level-rail">
+            <button class="level-tile" data-level="A1"><b>A1</b><span>Start</span><small>Everyday basics</small></button>
+            <button class="level-tile" data-level="A2"><b>A2</b><span>Connect</span><small>Daily situations</small></button>
+            <button class="level-tile selected" data-level="B1"><b>B1</b><span>Explain</span><small>Experience & opinion</small></button>
+            <button class="level-tile" data-level="B2"><b>B2</b><span>Discuss</span><small>Nuance & argument</small></button>
+            <button class="level-tile special" data-level="SCALAR"><b>↗</b><span>Scale</span><small>2 from each level</small></button>
+            <button class="level-tile special" data-level="RANDOM"><b>⤨</b><span>Surprise</span><small>Mixed conversation</small></button>
+          </div>
+        </section>
+
+        <section class="setup-card">
+          <div class="section-head">
+            <div><small>03</small><h3>Conversation mode</h3></div>
+          </div>
+          <div id="modeSwitch" class="mode-grid">
+            <button class="mode-option selected" data-mode="guided">
+              <span class="mode-icon">🎓</span><span><b>Learn</b><small>Correct · repeat · improve</small></span>
+            </button>
+            <button class="mode-option" data-mode="handsfree">
+              <span class="mode-icon">∞</span><span><b>Flow</b><small>Continuous · no Continue button</small></span>
+            </button>
+          </div>
+        </section>
+
+        <button id="startBtn" class="primary-cta"><span>▶</span> Start speaking</button>
+        <p class="privacy-note">🔒 Progress stays on this device. Voice recognition follows your browser settings. No account required.</p>
+      </main>
+    </section>
+
+    <section id="practice" class="screen practice-screen" aria-label="Speaking practice">
+      <header class="practice-topbar">
+        <button id="exitPracticeBtn" class="icon-btn ghost" aria-label="Exit practice">←</button>
+        <div class="progress-wrap" aria-label="Session progress"><div id="sessionProgress" class="progress-bar"></div></div>
+        <div class="practice-mini-stats">
+          <span>✦ <b id="practicePoints">0</b></span>
+          <span class="streak-pill">🔥 <b id="practiceMultiplier">x1</b></span>
+        </div>
+      </header>
+
+      <main class="practice-main">
+        <div class="context-line">
+          <span id="conversationEmoji">👋</span>
+          <span><b id="conversationTitle">Meeting someone</b><small id="conversationMeta">A1 · Turn 1 of 5</small><small id="conversationCanDo" class="can-do-line"></small></span>
+        </div>
+
+        <section class="speaker-zone">
+          <div id="parrotAvatar" class="parrot-avatar idle">
+            <span class="status-ring"></span>
+            <img src="icons/icon-512.png" alt="Easy Speak parrot">
+            <span id="avatarState" class="avatar-state">Ready</span>
+          </div>
+        </section>
+
+        <section id="promptCard" class="prompt-card">
+          <div class="prompt-label"><span id="promptRole">LISTEN</span><button id="repeatPromptBtn" class="mini-icon-btn" aria-label="Repeat prompt">🔊</button></div>
+          <p id="promptText">Good morning! How are you today?</p>
+        </section>
+
+        <section id="responseSection" class="response-section">
+          <div class="response-head">
+            <span>WAYS TO SAY IT <em>3 models + everyday</em></span>
+            <button id="toggleIdeasBtn" class="text-btn hidden">Show ideas</button>
+          </div>
+          <div id="answerIdeas" class="answer-ideas"></div>
+        </section>
+
+        <section id="listeningCard" class="listening-card">
+          <div class="mic-row">
+            <button id="micBtn" class="mic-orb" aria-label="Microphone"><span>🎙</span><i></i></button>
+            <div>
+              <b id="listenStatus">Your turn</b>
+              <small id="listenHint">Speak naturally. I'm listening.</small>
+            </div>
+            <div id="volumeBars" class="volume-bars" aria-hidden="true"><i></i><i></i><i></i><i></i></div>
+          </div>
+          <p id="transcript" class="transcript hidden"></p>
+          <button id="manualDoneBtn" class="secondary-btn hidden">I said my answer</button>
+        </section>
+
+        <section id="turnResult" class="turn-result hidden">
+          <div class="turn-score"><span id="turnScoreNumber">82</span><small>training</small></div>
+          <div class="turn-feedback">
+            <b id="feedbackTitle">Good communication</b>
+            <small id="feedbackText">Your answer was clear and connected to the question.</small>
+            <div class="metric-row">
+              <span>Communication <b id="mComm">—</b></span>
+              <span>Fluency <b id="mFluency">—</b></span>
+              <span>Recognition <b id="mClarity">—</b></span>
+              <span>Voice <b id="mVoice">—</b></span>
+            </div>
+          </div>
+        </section>
+
+        <div id="learningActions" class="learning-actions hidden" aria-label="Speaking controls">
+          <button id="hearModelBtn" class="learning-action"><span>🔊</span><b>Model</b></button>
+          <button id="slowModelBtn" class="learning-action"><span>🐢</span><b>Slow</b></button>
+          <button id="myVoiceBtn" class="learning-action hidden"><span>◉</span><b>My voice</b></button>
+          <button id="retryBtn" class="learning-action primary"><span>🎙</span><b>Repeat</b></button>
+          <button id="skipTurnBtn" class="learning-action subtle"><span>→</span><b>Skip</b></button>
+        </div>
+      </main>
+
+      <div id="streakPop" class="streak-pop hidden" aria-live="polite">
+        <img src="icons/icon-192.png" alt="">
+        <span><small>Streak up</small><b id="streakPopValue">x2</b></span>
+      </div>
+    </section>
+
+    <section id="summary" class="screen summary-screen" aria-label="Session summary">
+      <header class="topbar"><span></span><button id="summaryCloseBtn" class="icon-btn">×</button></header>
+      <main class="summary-main">
+        <img class="summary-parrot" src="icons/icon-512.png" alt="Easy Speak parrot">
+        <p class="eyebrow">SESSION COMPLETE</p>
+        <h2>Nice work. You spoke English.</h2>
+
+        <div class="score-ring" id="scoreRing"><div><strong id="summaryScore">0</strong><small>Training score</small></div></div>
+
+        <div class="summary-stats">
+          <div><b id="summaryPoints">+0</b><small>Points</small></div>
+          <div><b id="summaryStreak">x1</b><small>Best flow</small></div>
+          <div><b id="summaryTurns">0</b><small>Turns</small></div>
+        </div>
+
+        <section class="breakdown-card">
+          <h3>Your speaking today</h3>
+          <div class="breakdown"><span>Communication</span><div><i id="barComm"></i></div><b id="sumComm">0</b></div>
+          <div class="breakdown"><span>Fluency</span><div><i id="barFluency"></i></div><b id="sumFluency">0</b></div>
+          <div class="breakdown"><span>Recognition</span><div><i id="barClarity"></i></div><b id="sumClarity">0</b></div>
+          <div class="breakdown"><span>Voice energy</span><div><i id="barVoice"></i></div><b id="sumVoice">0</b></div>
+        </section>
+
+        <section id="improvementCard" class="improvement-card hidden">
+          <span>↗</span><span><b id="improvementTitle">Improved today</b><small id="improvementText"></small></span>
+        </section>
+
+        <div id="autoReinforcementNote" class="auto-reinforcement-note hidden"></div>
+        <button id="saveReinforcementsBtn" class="reinforcement-save hidden">
+          <span>↻</span><span><b>Save <span id="pendingCount">0</span> reinforcements</b><small>Practise these difficult turns next time</small></span><span>+</span>
+        </button>
+
+        <div class="summary-actions">
+          <button id="practiceAgainBtn" class="secondary-btn">Practise again</button>
+          <button id="homeBtn" class="primary-cta">Back home</button>
+        </div>
+        <p class="assessment-note">Training estimates help you notice patterns. They are not an official CEFR, EnglishScore or British Council result.</p>
+      </main>
+    </section>
+  </div>
+
+  <div id="sheetBackdrop" class="sheet-backdrop hidden"></div>
+
+  <aside id="settingsSheet" class="bottom-sheet hidden" aria-label="Settings">
+    <div class="sheet-grip"></div>
+    <div class="sheet-head"><div><small>SETTINGS</small><h2>Make it yours</h2></div><button class="icon-btn sheet-close">×</button></div>
+    <div class="profile-grid">
+      <label class="field"><span>Your name <small>optional</small></span><input id="nameInput" type="text" maxlength="24" placeholder="Your name"></label>
+      <label class="field"><span>City <small>optional</small></span><input id="cityInput" type="text" maxlength="32" placeholder="Your city"></label>
+      <label class="field"><span>Country <small>optional</small></span><input id="countryInput" type="text" maxlength="32" placeholder="Your country"></label>
+      <label class="field"><span>Work / studies <small>optional</small></span><input id="roleInput" type="text" maxlength="40" placeholder="teacher, student, designer..."></label>
+    </div>
+    <label class="field"><span>Voice speed <b id="voiceRateLabel">1.0×</b></span><input id="voiceRateInput" type="range" min=".75" max="1.2" step=".05" value="1"></label>
+    <label class="switch-row"><span><b>Show transcript</b><small>See what the browser understood</small></span><input id="transcriptToggle" type="checkbox" checked></label>
+    <label class="switch-row"><span><b>Automatic reinforcements</b><small>Save difficult turns without asking at the end</small></span><input id="autoReinforceToggle" type="checkbox" checked></label>
+    <label class="field compact-field"><span>Weekly speaking goal <small>sessions</small></span><input id="weeklyGoalInput" type="number" min="1" max="7" step="1" value="3"></label>
+    <section class="privacy-box">
+      <div><b>Voice privacy</b><small id="speechPrivacyText">Recognition mode depends on your browser.</small></div>
+      <label id="localSpeechRow" class="switch-row compact-switch hidden"><span><b>Prefer on-device recognition</b><small id="localSpeechStatus">Experimental where supported</small></span><input id="localSpeechToggle" type="checkbox"></label>
+      <button id="installLocalSpeechBtn" class="text-btn hidden">Prepare on-device English recognition</button>
+      <small>“My voice” recordings are temporary and are not saved in history or backups.</small>
+    </section>
+    <div class="settings-actions-grid">
+      <button id="backupBtn" class="secondary-btn">↓ Backup JSON</button>
+      <button id="restoreBtn" class="secondary-btn">↑ Restore backup</button>
+    </div>
+    <button id="installBtn" class="secondary-btn hidden">＋ Install Easy Speak</button>
+    <p class="version-line">Easy Speak <b id="appVersionLabel">v0.4</b> · local-first · no account sync</p>
+    <button id="resetBtn" class="danger-text-btn">Delete local progress</button>
+    <input id="restoreFileInput" type="file" accept="application/json,.json" class="hidden">
+  </aside>
+
+  <aside id="cefrSheet" class="bottom-sheet hidden" aria-label="CEFR guide">
+    <div class="sheet-grip"></div>
+    <div class="sheet-head"><div><small>YOUR ROUTE</small><h2>What changes by level?</h2></div><button class="icon-btn sheet-close">×</button></div>
+    <div class="cefr-list">
+      <div><b>A1</b><span><strong>Respond</strong><small>Simple personal information and familiar needs · 5 turns</small></span></div>
+      <div><b>A2</b><span><strong>Connect</strong><small>Routine exchanges and everyday situations · 10 turns</small></span></div>
+      <div><b>B1</b><span><strong>Explain</strong><small>Experiences, reasons, plans and opinions · 14 turns</small></span></div>
+      <div><b>B2</b><span><strong>Discuss</strong><small>Arguments, contrasts, hypotheses and nuance · 18 turns</small></span></div>
+    </div>
+  </aside>
+
+  <aside id="progressSheet" class="bottom-sheet progress-sheet hidden" aria-label="My progress">
+    <div class="sheet-grip"></div>
+    <div class="sheet-head"><div><small>MY PROGRESS</small><h2>Your speaking, over time</h2></div><button class="icon-btn sheet-close">×</button></div>
+    <section class="progress-hero"><div><strong id="progressScore">—</strong><small>Training score</small></div><span><b id="progressTotalMinutes">0 min</b><small>speaking practice</small></span></section>
+    <section class="weekly-card"><div><b>This week</b><small id="weeklyGoalText">0 of 3 sessions</small></div><div class="weekly-track"><i id="weeklyGoalBar"></i></div></section>
+    <section class="trend-card"><div class="section-mini-head"><b>Recent trend</b><small>latest sessions</small></div><div id="trendBars" class="trend-bars"></div></section>
+    <section class="breakdown-card progress-breakdown">
+      <h3>Recent speaking pattern</h3>
+      <div class="breakdown"><span>Communication</span><div><i id="progressCommBar"></i></div><b id="progressComm">0</b></div>
+      <div class="breakdown"><span>Fluency</span><div><i id="progressFluencyBar"></i></div><b id="progressFluency">0</b></div>
+      <div class="breakdown"><span>Recognition</span><div><i id="progressClarityBar"></i></div><b id="progressClarity">0</b></div>
+    </section>
+    <section><div class="section-mini-head"><b>Recent sessions</b><small id="progressSessionCount"></small></div><div id="recentSessionsList" class="recent-sessions"></div></section>
+    <div class="export-actions">
+      <button id="exportCsvBtn" class="secondary-btn">Export CSV</button>
+      <button id="printProgressBtn" class="secondary-btn">Print / PDF</button>
+    </div>
+  </aside>
+
+  <aside id="pwaSheet" class="bottom-sheet hidden" aria-label="Easy Speak app status">
+    <div class="sheet-grip"></div>
+    <div class="sheet-head"><div><small>APP</small><h2 id="pwaSheetTitle">Easy Speak</h2></div><button class="icon-btn sheet-close">×</button></div>
+    <div id="pwaSheetBody" class="pwa-message"></div>
+    <button id="pwaPrimaryBtn" class="primary-cta hidden"></button>
+  </aside>
+
+  <aside id="tourSheet" class="bottom-sheet tour-sheet hidden" aria-label="Welcome to Easy Speak">
+    <div class="sheet-grip"></div>
+    <div class="sheet-head"><div><small>FIRST TIME</small><h2>Speak from the first minute</h2></div><button id="tourSkipBtn" class="text-btn">Skip</button></div>
+    <div class="tour-steps">
+      <div><span>1</span><b>Listen</b><small>The parrot opens a real situation.</small></div>
+      <div><span>2</span><b>Speak</b><small>Use a model, Everyday English or your own words.</small></div>
+      <div><span>3</span><b>Improve</b><small>If a turn is weak, repair it and keep the best attempt.</small></div>
+    </div>
+    <p>Your progress stays on this device. You can install Easy Speak later if you want.</p>
+    <button id="tourDoneBtn" class="primary-cta">Got it — let’s speak</button>
+  </aside>
+
+  <aside id="reinforcementSheet" class="bottom-sheet hidden" aria-label="Reinforcements">
+    <div class="sheet-grip"></div>
+    <div class="sheet-head"><div><small>REINFORCEMENT</small><h2>Turn difficulty into progress</h2></div><button class="icon-btn sheet-close">×</button></div>
+    <div id="reinforcementList" class="reinforcement-list"></div>
+    <button id="startReinforcementBtn" class="primary-cta">Practise reinforcements</button>
+    <button id="clearReinforcementsBtn" class="danger-text-btn">Clear saved reinforcements</button>
+  </aside>
+
+  <div id="toast" class="toast hidden" role="status"></div>
+
+  <script>window.EASY_SPEAK_DATA = window.EASY_SPEAK_DATA || {};</script>
+  <script src="data/a1.js"></script>
+  <script src="data/a2.js"></script>
+  <script src="data/b1.js"></script>
+  <script src="data/b2.js"></script>
+  <script src="js/storage.js"></script>
+  <script src="js/scoring.js"></script>
+  <script src="js/speech.js"></script>
+  <script src="js/conversation-engine.js"></script>
+  <script src="js/app.js"></script>
+</body>
+</html>
