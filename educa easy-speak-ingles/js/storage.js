@@ -5,7 +5,7 @@
   const SCHEMA_VERSION=4;
   const defaultProfile={
     name:'',city:'',country:'',role:'',duration:10,level:'B1',mode:'guided',voiceRate:1,
-    showTranscript:true,autoReinforce:true,weeklyGoal:3,preferLocalSpeech:false,tourSeen:false,pronunciationAutoSave:true,languageSupport:'off'
+    showTranscript:true,autoReinforce:true,weeklyGoal:3,preferLocalSpeech:false,tourSeen:false,pronunciationAutoSave:true,languageSupport:'visible',languageSupportVersion:2
   };
   const defaultStats={
     points:0,scoreSum:0,scoreCount:0,bestMultiplier:1,conversations:0,turns:0,minutes:0,
@@ -21,7 +21,20 @@
     try{const raw=safeGet(key);return raw?{...fallback,...JSON.parse(raw)}:{...fallback,...memory}}
     catch{return {...fallback,...memory}}
   };
-  const profile=()=>parse(PROFILE_KEY,defaultProfile,memoryProfile);
+  const profile=()=>{
+    const raw=safeGet(PROFILE_KEY);
+    let p=parse(PROFILE_KEY,defaultProfile,memoryProfile);
+    // v0.4.5 migration: bilingual support was introduced hidden in v0.4.4.
+    // Existing profiles that never had a language-support version should see
+    // EN+ES once by default; after that, the user's explicit choice is preserved.
+    let stored=null;
+    try{stored=raw?JSON.parse(raw):null}catch{}
+    if(!stored||Number(stored.languageSupportVersion||0)<2){
+      p={...p,languageSupport:'visible',languageSupportVersion:2};
+      memoryProfile={...p};safeSet(PROFILE_KEY,JSON.stringify(p));
+    }
+    return p;
+  };
   const stats=()=>{
     const s=parse(STATS_KEY,defaultStats,memoryStats);
     if(!Array.isArray(s.reinforcements))s.reinforcements=[];

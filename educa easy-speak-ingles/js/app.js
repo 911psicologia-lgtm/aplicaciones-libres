@@ -1,6 +1,6 @@
 (()=> {
   'use strict';
-  const APP_VERSION='0.4.4';
+  const APP_VERSION='0.4.5';
   const $=id=>document.getElementById(id),$$=sel=>Array.from(document.querySelectorAll(sel));
   const Storage=window.EasySpeakStorage,Speech=window.EasySpeakSpeech,Scoring=window.EasySpeakScoring,Engine=window.EasySpeakEngine,Pron=window.EasySpeakPronunciation,Spanish=window.EasySpeakSpanish;
   const S={

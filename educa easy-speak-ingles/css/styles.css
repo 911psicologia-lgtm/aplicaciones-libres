@@ -396,10 +396,10 @@ button{-webkit-tap-highlight-color:transparent}
   cursor:pointer;transition:.18s ease;white-space:nowrap
 }
 .lang-mode-btn.active{color:#ddd6ff;border-color:rgba(157,130,255,.46);background:rgba(122,92,255,.13)}
-.support-translation{display:block;color:rgba(224,220,239,.64);font-style:italic;font-weight:450;letter-spacing:0;line-height:1.35}
-.prompt-translation{font-size:.72rem;margin:.34rem 0 0;padding-top:.3rem;border-top:1px solid rgba(255,255,255,.055)}
-.answer-translation{font-size:.68rem;margin-top:.2rem;color:rgba(218,214,232,.57)}
-.pron-translation{font-size:.72rem;margin:.2rem 0 .35rem;color:rgba(225,220,239,.63)}
+.support-translation{display:block;color:rgba(232,228,248,.76);font-style:italic;font-weight:470;letter-spacing:0;line-height:1.35}
+.prompt-translation{font-size:.78rem;margin:.34rem 0 0;padding:.32rem .42rem 0;border-top:1px solid rgba(157,130,255,.16);color:rgba(235,231,250,.8)}
+.answer-translation{font-size:.72rem;margin-top:.2rem;color:rgba(225,221,241,.68)}
+.pron-translation{font-size:.75rem;margin:.2rem 0 .35rem;color:rgba(232,227,247,.74)}
 .translation-tap #promptText,.translation-tap-target{cursor:pointer}
 .translation-tap #promptText::after,.translation-tap-target>span:last-of-type::after,#pronunciationText.translation-tap-target::after{
   content:'  ES';font-size:.54rem;font-style:normal;font-weight:800;letter-spacing:.06em;color:rgba(169,153,235,.55);vertical-align:middle
@@ -408,9 +408,9 @@ button{-webkit-tap-highlight-color:transparent}
 @keyframes translationReveal{from{opacity:0;transform:translateY(-2px)}to{opacity:1;transform:none}}
 @media (max-width:520px){
   .lang-mode-btn{height:27px;min-width:42px;padding:0 6px;font-size:.61rem}
-  .prompt-translation{font-size:.68rem;margin-top:.24rem;padding-top:.24rem}
-  .answer-translation{font-size:.64rem;margin-top:.14rem;line-height:1.28}
-  .pron-translation{font-size:.67rem;margin-top:.14rem;margin-bottom:.25rem}
+  .prompt-translation{font-size:.72rem;margin-top:.24rem;padding:.26rem .34rem 0}
+  .answer-translation{font-size:.67rem;margin-top:.14rem;line-height:1.28}
+  .pron-translation{font-size:.69rem;margin-top:.14rem;margin-bottom:.25rem}
 }
 
 .pron-head-tools{display:flex;align-items:center;gap:6px}

@@ -1,9 +1,9 @@
-# Easy Speak v0.4.4 — Bilingual Meaning Support
+# Easy Speak v0.4.5 — Bilingual Meaning Support
 
 Mobile-first, multi-file CEFR A1–B2 English speaking practice app for GitHub + Cloudflare Pages. Plain HTML/CSS/JS; no build command, account, Firebase or cloud progress sync.
 
 
-## v0.4.4
+## v0.4.5
 - Adds optional **English–Spanish meaning support** without turning Easy Speak into a translation app.
 - One discreet capsule cycles through **EN → EN+ES → EN·ES**.
   - **EN**: English only.
@@ -15,7 +15,7 @@ Mobile-first, multi-file CEFR A1–B2 English speaking practice app for GitHub +
 - Pronunciation fragments use contextual equivalents; when a single word has no safe one-word equivalent, Easy Speak shows the meaning in its source sentence rather than fabricating a literal translation.
 - Language preference is stored locally and included in backup/restore.
 - All 470 conversation turns have local/offline Spanish support; no translation API or cloud synchronisation is required.
-- PWA cache updated to `easy-speak-v0.4.4` and includes the four Spanish data files plus `js/spanish.js`.
+- PWA cache updated to `easy-speak-v0.4.5` and includes the four Spanish data files plus `js/spanish.js`.
 
 ## v0.4.3
 - Adds **Pronunciation Boost** as a contextual reinforcement layer rather than another large home-screen mode.
@@ -49,4 +49,11 @@ Mobile-first, multi-file CEFR A1–B2 English speaking practice app for GitHub +
 ## Deploy
 Upload the contents of this folder as the Cloudflare Pages site root or replace the current app folder in GitHub. HTTPS is required for microphone access.
 
-Replace the **whole previous app folder**, not only `index.html`, because v0.4.4 changes `index.html`, `styles.css`, `app.js`, `storage.js`, `service-worker.js`, `manifest.json` and adds the Spanish support files (`data/es-*.js` and `js/spanish.js`).
+Replace the **whole previous app folder**, not only `index.html`, because v0.4.5 changes `index.html`, `styles.css`, `app.js`, `storage.js`, `service-worker.js`, `manifest.json` and adds the Spanish support files (`data/es-*.js` and `js/spanish.js`).
+
+
+## v0.4.5 bilingual visibility fix
+- EN+ES is now the default for new users.
+- Existing v0.4.4 profiles are migrated once to EN+ES so the new translation layer is actually visible.
+- After migration, explicit EN / EN+ES / EN·ES choices are preserved.
+- Spanish support text has slightly stronger mobile contrast while remaining secondary to English.
