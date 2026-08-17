@@ -132,7 +132,7 @@
         <section id="promptCard" class="prompt-card">
           <div class="prompt-label"><span id="promptRole">LISTEN</span><div class="prompt-tools"><button id="languageModeBtn" class="lang-mode-btn" type="button" aria-label="Language support" title="English / Spanish support">EN</button><label class="speed-select-wrap" title="Voice speed"><span class="sr-only">Voice speed</span><select id="practiceVoiceRateSelect" class="speed-select" aria-label="Voice speed"><option value="0.5">0.5×</option><option value="0.8">0.8×</option><option value="1" selected>1×</option><option value="1.2">1.2×</option><option value="1.5">1.5×</option></select></label><button id="repeatPromptBtn" class="mini-icon-btn" aria-label="Repeat prompt">🔊</button></div></div>
           <p id="promptText">Good morning! How are you today?</p>
-          <p id="promptTranslation" class="support-translation prompt-translation hidden"></p>
+          <p id="promptTranslation" class="support-translation prompt-translation hidden" lang="es"></p>
         </section>
 
         <section id="responseSection" class="response-section">
@@ -146,7 +146,7 @@
         <section id="listeningCard" class="listening-card">
           <div class="mic-row">
             <button id="micBtn" class="mic-orb" aria-label="Microphone"><span>🎙</span><i></i></button>
-            <div>
+            <div aria-live="polite" aria-atomic="true">
               <b id="listenStatus">Your turn</b>
               <small id="listenHint">Speak naturally. I'm listening.</small>
             </div>
@@ -154,10 +154,11 @@
           </div>
           <p id="transcript" class="transcript hidden"></p>
           <div id="voiceCompatNote" class="voice-compat-note hidden"></div>
+          <button id="micRetryBtn" class="secondary-btn hidden">🎙 Try microphone again</button>
           <button id="manualDoneBtn" class="secondary-btn hidden">I said my answer</button>
         </section>
 
-        <section id="turnResult" class="turn-result hidden">
+        <section id="turnResult" class="turn-result hidden" aria-live="polite" aria-atomic="true">
           <div class="turn-score"><span id="turnScoreNumber">82</span><small>training</small></div>
           <div class="turn-feedback">
             <b id="feedbackTitle">Good communication</b>
@@ -198,7 +199,7 @@
         <section class="pron-target-card">
           <div class="pron-target-head"><span id="pronunciationType" class="pron-type">WORD</span><div class="pron-head-tools"><button id="pronLanguageModeBtn" class="lang-mode-btn" type="button" aria-label="Language support" title="English / Spanish support">EN</button><label class="speed-select-wrap" title="Voice speed"><span class="sr-only">Voice speed</span><select id="pronVoiceRateSelect" class="speed-select" aria-label="Pronunciation voice speed"><option value="0.5">0.5×</option><option value="0.8">0.8×</option><option value="1">1×</option><option value="1.2">1.2×</option><option value="1.5">1.5×</option></select></label></div></div>
           <p id="pronunciationText">looking forward to</p>
-          <p id="pronunciationTranslation" class="support-translation pron-translation hidden"></p>
+          <p id="pronunciationTranslation" class="support-translation pron-translation hidden" lang="es"></p>
           <small id="pronunciationReason">This phrase needed extra practice.</small>
         </section>
         <div class="pron-model-actions">
@@ -208,7 +209,7 @@
         </div>
         <section class="pron-coach-card">
           <div class="pron-coach-icon"><img src="icons/icon-192.png" alt=""></div>
-          <div><b id="pronStatus">Listen first</b><small id="pronHint">Hear the whole unit, then repeat it naturally.</small></div>
+          <div aria-live="polite" aria-atomic="true"><b id="pronStatus">Listen first</b><small id="pronHint">Hear the whole unit, then repeat it naturally.</small></div>
         </section>
         <section class="listening-card pron-listening-card">
           <div class="mic-row">
@@ -218,8 +219,9 @@
           </div>
           <p id="pronTranscript" class="transcript hidden"></p>
           <div id="pronCompatNote" class="voice-compat-note hidden"></div>
+          <button id="pronMicRetryBtn" class="secondary-btn hidden">🎙 Try microphone again</button>
         </section>
-        <section id="pronResult" class="pron-result hidden">
+        <section id="pronResult" class="pron-result hidden" aria-live="polite" aria-atomic="true">
           <div><strong id="pronScore">—</strong><small>recognition estimate</small></div>
           <span><b id="pronFeedbackTitle">Much clearer</b><small id="pronFeedbackText">Repeat once more if you want to make it easier to retrieve.</small></span>
         </section>

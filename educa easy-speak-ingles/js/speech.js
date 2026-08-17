@@ -28,6 +28,15 @@
   };
 
   const localSupported=()=>!!SR&&('processLocally' in SR.prototype||typeof SR.available==='function');
+  // start(audioTrack) is an experimental, non-Baseline overload (spec: webaudio.github.io/web-speech-api).
+  // Browsers that do not implement it simply IGNORE the extra argument (JS does not error on
+  // extra arguments) and fall back to their own internal capture inside start() — exactly the
+  // duplicate microphone acquisition this app is built to avoid. There is no synchronous way to
+  // detect after the fact whether a given start(track) call actually reused the track, so the only
+  // trustworthy signal is a correlated, testable capability: browsers that ship
+  // SpeechRecognition.available()/processLocally (the on-device speech spec) are the ones known to
+  // ship start(audioTrack) in the same spec effort. Anything else must not be trusted with it.
+  const trackStartLikelySupported=()=>!!SR&&typeof SR.available==='function'&&'processLocally'in SR.prototype;
   const configure=opts=>{preferLocal=!!opts?.preferLocal};
   async function localAvailability(lang='en-GB'){
     if(!SR||typeof SR.available!=='function')return {supported:false,status:'unsupported'};
@@ -58,6 +67,13 @@
       }
     }catch{}
   }
+
+  // Explicit, user-initiated recovery from an accidental "Block". Browsers require a fresh
+  // user gesture to show the permission UI again after a denial; this only clears our own
+  // internal latch so the next prepare() (called from that gesture) is allowed to try again.
+  // If the browser itself is remembering a hard block, getUserMedia will simply reject again
+  // and permissionDenied is re-armed — no infinite retry loop, no repeated silent prompting.
+  function retryPermission(){permissionDenied=false;preparePromise=null;return prepare()}
 
   async function prepare(){
     if(permissionDenied)return {ok:false,permissionDenied:true};
@@ -147,9 +163,17 @@
 
   function startRecognitionWindow(){
     if(!SR||trackRecognitionUnsupported)return false;
+    const track=audioTrack();
+    // On mobile, only gamble on track-reuse when this browser exposes the correlated on-device
+    // speech capability. Everywhere else on mobile, calling start(track) is a silent risk of
+    // re-opening microphone capture, so we degrade straight to record-only/self-check instead —
+    // "estabilidad móvil por encima de la sofisticación", per the product's own principle.
+    if(isMobile&&track&&!trackStartLikelySupported()){
+      trackRecognitionUnsupported=true;
+      return false;
+    }
     const r=buildRecognition();if(!r)return false;
     recognitionStarting=true;
-    const track=audioTrack();
     try{
       if(track){
         // Preferred path: recognition consumes the already-authorized microphone track.
@@ -226,5 +250,5 @@
   const supported=()=>({recognition:!!SR&&!trackRecognitionUnsupported,synthesis:'speechSynthesis'in window,microphone:!!navigator.mediaDevices?.getUserMedia,recording:'MediaRecorder'in window,localRecognition:localSupported(),ios:isIOS,mobile:isMobile,standalone,recordOnlyPossible:!!navigator.mediaDevices?.getUserMedia});
   const isPrepared=()=>prepared&&liveStream();
   const recognitionMode=()=>recognitionLocal?'local-track':recognitionTrackMode?'browser-service-shared-track':trackRecognitionUnsupported&&liveStream()?'record-only':SR?'browser-service':liveStream()?'record-only':'unavailable';
-  window.EasySpeakSpeech={speak,listen,stopListening,stopSpeaking,pause,shutdown,supported,prepare,isPrepared,configure,localAvailability,installLocal,recognitionMode,unlockFromGesture};
+  window.EasySpeakSpeech={speak,listen,stopListening,stopSpeaking,pause,shutdown,supported,prepare,isPrepared,configure,localAvailability,installLocal,recognitionMode,unlockFromGesture,retryPermission};
 })();
