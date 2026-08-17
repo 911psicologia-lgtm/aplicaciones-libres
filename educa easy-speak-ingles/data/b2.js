@@ -4969,5 +4969,1974 @@ window.EASY_SPEAK_DATA.B2 = [
       "argument"
     ],
     "cefrFocus": "Independent spoken interaction and production"
-  }
+  },
+{
+  "id": "B2-C11",
+  "level": "B2",
+  "emoji": "🧭",
+  "title": "A difficult personal decision",
+  "topic": "Personal life",
+  "estimatedMinutes": 8,
+  "turns": [
+    {
+      "prompt": "Let’s examine a difficult personal decision. What is your starting position?",
+      "options": [
+        "My starting position is that a difficult personal decision is easier to live with when it is guided by clear values rather than short-term comfort.",
+        "I would argue that a difficult personal decision is easier to live with when it is guided by clear values rather than short-term comfort.",
+        "Overall, I think a difficult personal decision is easier to live with when it is guided by clear values rather than short-term comfort."
+      ],
+      "keywords": [
+        "starting",
+        "position",
+        "difficult",
+        "personal",
+        "decision",
+        "easier",
+        "live",
+        "when",
+        "guided",
+        "clear"
+      ],
+      "tip": "",
+      "id": "B2-C11-T01",
+      "targetWords": 14,
+      "everyday": "I think a difficult personal decision is easier to live with when it is guided by clear values rather than short-term comfort.",
+      "reactive": false,
+      "openAnswer": true
+    },
+    {
+      "prompt": "What is the strongest reason supporting your view on a difficult personal decision?",
+      "options": [
+        "The strongest reason is that decisions made under short-term pressure often ignore consequences that only appear later.",
+        "I support that view mainly because decisions made under short-term pressure often ignore consequences that only appear later.",
+        "For me, the central point is that decisions made under short-term pressure often ignore consequences that only appear later."
+      ],
+      "keywords": [
+        "strongest",
+        "reason",
+        "decisions",
+        "made",
+        "short",
+        "term",
+        "pressure",
+        "often",
+        "ignore",
+        "consequences"
+      ],
+      "tip": "",
+      "id": "B2-C11-T02",
+      "targetWords": 18,
+      "everyday": "The main reason is that decisions made under short-term pressure often ignore consequences that only appear later.",
+      "reactive": false,
+      "openAnswer": true
+    },
+    {
+      "prompt": "Compare two realistic approaches to personal decisions and tell me which one you would favour.",
+      "options": [
+        "Deciding quickly to reduce discomfort has advantages, but I would generally favour taking time to weigh the decision against long-term priorities.",
+        "The first option may work in some cases, whereas taking time to weigh the decision against long-term priorities addresses a broader set of needs.",
+        "I would compare them by asking which option produces better outcomes, not simply which feels easier."
+      ],
+      "keywords": [
+        "deciding",
+        "quickly",
+        "reduce",
+        "discomfort",
+        "advantages",
+        "generally",
+        "favour",
+        "taking",
+        "time",
+        "weigh"
+      ],
+      "tip": "",
+      "id": "B2-C11-T03",
+      "targetWords": 17,
+      "everyday": "I'd compare them by asking which option produces better outcomes, not simply which feels easier.",
+      "reactive": true,
+      "openAnswer": true
+    },
+    {
+      "prompt": "Give a concrete example that makes your argument about a difficult personal decision more convincing.",
+      "options": [
+        "For example, someone who stayed in a comfortable but unfulfilling situation because change felt too uncertain.",
+        "A concrete case would be someone who stayed in a comfortable but unfulfilling situation because change felt too uncertain.",
+        "We can see the issue in a situation like someone who stayed in a comfortable but unfulfilling situation because change felt too uncertain."
+      ],
+      "keywords": [
+        "example",
+        "someone",
+        "who",
+        "stayed",
+        "comfortable",
+        "unfulfilling",
+        "situation",
+        "change",
+        "felt",
+        "too"
+      ],
+      "tip": "",
+      "id": "B2-C11-T04",
+      "targetWords": 15,
+      "everyday": "For instance, someone who stayed in a comfortable but unfulfilling situation because change felt too uncertain.",
+      "reactive": false,
+      "openAnswer": true
+    },
+    {
+      "prompt": "A critic challenges your position on personal decisions. How would you respond without dismissing the concern?",
+      "options": [
+        "I understand that concern. However, waiting too long can also have a cost, especially when the situation itself is causing harm.",
+        "That objection points to a real risk, but waiting too long can also have a cost, especially when the situation itself is causing harm.",
+        "I would not dismiss that argument; still, waiting too long can also have a cost, especially when the situation itself is causing harm."
+      ],
+      "keywords": [
+        "understand",
+        "concern",
+        "however",
+        "waiting",
+        "too",
+        "long",
+        "also",
+        "cost",
+        "especially",
+        "when"
+      ],
+      "tip": "",
+      "id": "B2-C11-T05",
+      "targetWords": 21,
+      "everyday": "I wouldn't dismiss that argument; still, waiting too long can also have a cost, especially when the situation itself is causing harm.",
+      "reactive": false,
+      "openAnswer": true,
+      "branches": [
+        {
+          "minWords": 14,
+          "prompt": "You’ve developed that point. Now push the discussion further: What qualification or nuance would you add so your position on a difficult personal decision is not too absolute?"
+        }
+      ]
+    },
+    {
+      "prompt": "What qualification or nuance would you add so your position on a difficult personal decision is not too absolute?",
+      "options": [
+        "Yes, the right amount of reflection depends on how reversible the decision actually is.",
+        "The issue is not absolute because the right amount of reflection depends on how reversible the decision actually is.",
+        "I'd qualify my position by saying that the right amount of reflection depends on how reversible the decision actually is."
+      ],
+      "keywords": [
+        "yes",
+        "right",
+        "amount",
+        "reflection",
+        "depends",
+        "how",
+        "reversible",
+        "decision",
+        "actually"
+      ],
+      "tip": "",
+      "id": "B2-C11-T06",
+      "targetWords": 17,
+      "everyday": "The right amount of reflection depends on how reversible the decision actually is.",
+      "reactive": true,
+      "openAnswer": true
+    },
+    {
+      "prompt": "What deeper problem sits underneath the debate about a difficult personal decision?",
+      "options": [
+        "One underlying problem is the fear of regretting a decision either way.",
+        "I think the deeper issue is the fear of regretting a decision either way.",
+        "A key problem beneath the debate is the fear of regretting a decision either way."
+      ],
+      "keywords": [
+        "one",
+        "underlying",
+        "problem",
+        "fear",
+        "regretting",
+        "decision",
+        "either",
+        "way"
+      ],
+      "tip": "",
+      "id": "B2-C11-T07",
+      "targetWords": 10,
+      "everyday": "The real issue is the fear of regretting a decision either way.",
+      "reactive": false,
+      "openAnswer": true
+    },
+    {
+      "prompt": "What factor or cause helps explain that underlying problem in personal decisions?",
+      "options": [
+        "One important cause is uncertainty about which values should matter most in that specific situation.",
+        "It can emerge when there is uncertainty about which values should matter most in that specific situation.",
+        "A major factor is uncertainty about which values should matter most in that specific situation."
+      ],
+      "keywords": [
+        "one",
+        "important",
+        "cause",
+        "uncertainty",
+        "which",
+        "values",
+        "matter",
+        "most",
+        "specific",
+        "situation"
+      ],
+      "tip": "",
+      "id": "B2-C11-T08",
+      "targetWords": 10,
+      "everyday": "A big reason is uncertainty about which values should matter most in that specific situation.",
+      "reactive": false,
+      "openAnswer": true
+    },
+    {
+      "prompt": "If that problem continues, what consequence could follow for people or institutions involved in personal decisions?",
+      "options": [
+        "That can lead to a decision driven mainly by the fear of one type of regret.",
+        "A likely consequence is a decision driven mainly by the fear of one type of regret.",
+        "Over time, it may produce a decision driven mainly by the fear of one type of regret."
+      ],
+      "keywords": [
+        "lead",
+        "decision",
+        "driven",
+        "mainly",
+        "fear",
+        "one",
+        "type",
+        "regret"
+      ],
+      "tip": "",
+      "id": "B2-C11-T09",
+      "targetWords": 9,
+      "everyday": "Personally, that can lead to a decision driven mainly by the fear of one type of regret.",
+      "reactive": false,
+      "openAnswer": true
+    },
+    {
+      "prompt": "What kind of evidence would you want before making a strong judgement about a difficult personal decision?",
+      "options": [
+        "I'd look for comparative data, real outcomes and evidence from different contexts.",
+        "We need evidence that goes beyond anecdotes and measures actual consequences.",
+        "I would combine quantitative results with people's experience of how the policy or practice works."
+      ],
+      "keywords": [
+        "i'd",
+        "look",
+        "comparative",
+        "data",
+        "real",
+        "outcomes",
+        "evidence",
+        "different",
+        "contexts"
+      ],
+      "tip": "",
+      "id": "B2-C11-T10",
+      "targetWords": 13,
+      "everyday": "I'd combine quantitative results with people's experience of how the policy or practice works.",
+      "reactive": true,
+      "openAnswer": true
+    },
+    {
+      "prompt": "Which groups are affected differently by a difficult personal decision, and in what way?",
+      "options": [
+        "For the person deciding and the people close to them, the effects could be both beneficial and difficult depending on implementation.",
+        "We should ask how costs and benefits are distributed among the person deciding and the people close to them.",
+        "The impact on the person deciding and the people close to them matters because aggregate results can hide unequal effects."
+      ],
+      "keywords": [
+        "person",
+        "deciding",
+        "people",
+        "close",
+        "them",
+        "effects",
+        "both",
+        "beneficial",
+        "difficult",
+        "depending"
+      ],
+      "tip": "",
+      "id": "B2-C11-T11",
+      "targetWords": 14,
+      "everyday": "Personally, for the person deciding and the people close to them, the effects could be both beneficial and difficult depending on implementation.",
+      "reactive": false,
+      "openAnswer": true
+    },
+    {
+      "prompt": "What important trade-off should be acknowledged when discussing a difficult personal decision?",
+      "options": [
+        "The challenge is to protect short-term comfort without sacrificing long-term alignment with what actually matters to the person.",
+        "We should not assume that maximising short-term comfort automatically produces the best result if it damages long-term alignment with what actually matters to the person.",
+        "A balanced approach would make the trade-off explicit and look for ways to reduce it."
+      ],
+      "keywords": [
+        "challenge",
+        "protect",
+        "short",
+        "term",
+        "comfort",
+        "without",
+        "sacrificing",
+        "long",
+        "alignment",
+        "what"
+      ],
+      "tip": "",
+      "id": "B2-C11-T12",
+      "targetWords": 14,
+      "everyday": "Personally, the challenge is to protect short-term comfort without sacrificing long-term alignment with what actually matters to the person.",
+      "reactive": false,
+      "openAnswer": true,
+      "branches": [
+        {
+          "minWords": 14,
+          "prompt": "You’ve developed that point. Now push the discussion further: Imagine a realistic change in this area of personal decisions. What might happen next?"
+        }
+      ]
+    },
+    {
+      "prompt": "Imagine a realistic change in this area of personal decisions. What might happen next?",
+      "options": [
+        "In that case, the decision could still turn out well if it were revisited honestly as circumstances changed.",
+        "If that happened, I would expect that the decision could still turn out well if it were revisited honestly as circumstances changed.",
+        "The result could be that the decision could still turn out well if it were revisited honestly as circumstances changed, although other effects would depend on the context."
+      ],
+      "keywords": [
+        "case",
+        "decision",
+        "still",
+        "turn",
+        "out",
+        "well",
+        "revisited",
+        "honestly",
+        "circumstances",
+        "changed"
+      ],
+      "tip": "",
+      "id": "B2-C11-T13",
+      "targetWords": 19,
+      "everyday": "If that happened, I’d expect that the decision could still turn out well if it were revisited honestly as circumstances changed.",
+      "reactive": false,
+      "openAnswer": true
+    },
+    {
+      "prompt": "What solution would be realistic rather than idealised for the issue in a difficult personal decision?",
+      "options": [
+        "A realistic step would be to separate what is reversible from what is not, and give the irreversible part more time.",
+        "I would start by trying to separate what is reversible from what is not, and give the irreversible part more time.",
+        "Rather than seeking one perfect answer, we could separate what is reversible from what is not, and give the irreversible part more time."
+      ],
+      "keywords": [
+        "realistic",
+        "step",
+        "separate",
+        "what",
+        "reversible",
+        "give",
+        "irreversible",
+        "part",
+        "more",
+        "time"
+      ],
+      "tip": "",
+      "id": "B2-C11-T14",
+      "targetWords": 16,
+      "everyday": "I’d start by trying to separate what is reversible from what is not, and give the irreversible part more time.",
+      "reactive": true,
+      "openAnswer": true
+    },
+    {
+      "prompt": "What limitation or unintended effect could that solution have in the context of a difficult personal decision?",
+      "options": [
+        "One limitation is that no amount of reflection removes all uncertainty from a genuinely difficult decision.",
+        "It would help, but we should recognise that no amount of reflection removes all uncertainty from a genuinely difficult decision.",
+        "The proposal is not sufficient on its own because no amount of reflection removes all uncertainty from a genuinely difficult decision."
+      ],
+      "keywords": [
+        "one",
+        "limitation",
+        "amount",
+        "reflection",
+        "removes",
+        "all",
+        "uncertainty",
+        "genuinely",
+        "difficult",
+        "decision"
+      ],
+      "tip": "",
+      "id": "B2-C11-T15",
+      "targetWords": 14,
+      "everyday": "The catch is that no amount of reflection removes all uncertainty from a genuinely difficult decision.",
+      "reactive": false,
+      "openAnswer": true
+    },
+    {
+      "prompt": "How would you know whether your proposed approach to a difficult personal decision was actually working?",
+      "options": [
+        "I would evaluate whether the decision still feels aligned with the person's values months later.",
+        "Success should be judged by whether the decision still feels aligned with the person's values months later, not only by whether the policy was implemented.",
+        "I'd monitor whether the decision still feels aligned with the person's values months later over time and compare different groups or contexts."
+      ],
+      "keywords": [
+        "evaluate",
+        "whether",
+        "decision",
+        "still",
+        "feels",
+        "aligned",
+        "person's",
+        "values",
+        "months",
+        "later"
+      ],
+      "tip": "",
+      "id": "B2-C11-T16",
+      "targetWords": 16,
+      "everyday": "I’d look at whether the decision still feels aligned with the person's values months later.",
+      "reactive": false,
+      "openAnswer": true
+    },
+    {
+      "prompt": "Looking ahead, how might this debate about personal decisions change over the next few years?",
+      "options": [
+        "I think people will likely keep facing this tension, but talking about it openly can make it feel less isolating.",
+        "Over the next few years, people will likely keep facing this tension, but talking about it openly can make it feel less isolating.",
+        "My expectation is that people will likely keep facing this tension, but talking about it openly can make it feel less isolating, although the direction will depend on policy and social choices."
+      ],
+      "keywords": [
+        "think",
+        "people",
+        "likely",
+        "keep",
+        "facing",
+        "tension",
+        "talking",
+        "openly",
+        "make",
+        "feel"
+      ],
+      "tip": "",
+      "id": "B2-C11-T17",
+      "targetWords": 19,
+      "everyday": "Personally, I think people will likely keep facing this tension, but talking about it openly can make it feel less isolating.",
+      "reactive": false,
+      "openAnswer": true
+    },
+    {
+      "prompt": "After considering arguments and limitations, give your refined final position on a difficult personal decision.",
+      "options": [
+        "My refined position is that A difficult personal decision rarely has one clearly right answer. It becomes more bearable when it reflects the person's own values rather than only the wish to avoid short-term discomfort.",
+        "After considering the trade-offs, I would say that A difficult personal decision rarely has one clearly right answer. It becomes more bearable when it reflects the person's own values rather than only the wish to avoid short-term discomfort.",
+        "I still support my initial direction, but more carefully: A difficult personal decision rarely has one clearly right answer. It becomes more bearable when it reflects the person's own values rather than only the wish to avoid short-term discomfort."
+      ],
+      "keywords": [
+        "refined",
+        "position",
+        "difficult",
+        "personal",
+        "decision",
+        "rarely",
+        "one",
+        "clearly",
+        "right",
+        "answer"
+      ],
+      "tip": "",
+      "id": "B2-C11-T18",
+      "targetWords": 36,
+      "everyday": "At the end of the day, I think A difficult personal decision rarely has one clearly right answer. It becomes more bearable when it reflects the person's own values rather than only the wish to avoid short-term discomfort.",
+      "reactive": false,
+      "openAnswer": true
+    }
+  ],
+  "canDo": "Justify a difficult personal decision with reasoned, qualified argument",
+  "functions": [
+    "personal",
+    "reasoning",
+    "values"
+  ],
+  "cefrFocus": "Independent spoken interaction and production"
+},
+{
+  "id": "B2-C12",
+  "level": "B2",
+  "emoji": "🤝",
+  "title": "Negotiating a pay rise",
+  "topic": "Work",
+  "estimatedMinutes": 8,
+  "turns": [
+    {
+      "prompt": "Let’s examine negotiating a pay rise. What is your starting position?",
+      "options": [
+        "My starting position is that a pay rise conversation works best when it is based on evidence of contribution, not only on personal need.",
+        "I would argue that a pay rise conversation works best when it is based on evidence of contribution, not only on personal need.",
+        "Overall, I think a pay rise conversation works best when it is based on evidence of contribution, not only on personal need."
+      ],
+      "keywords": [
+        "starting",
+        "position",
+        "pay",
+        "rise",
+        "conversation",
+        "works",
+        "best",
+        "when",
+        "based",
+        "evidence"
+      ],
+      "tip": "",
+      "id": "B2-C12-T01",
+      "targetWords": 14,
+      "everyday": "I think a pay rise conversation works best when it is based on evidence of contribution, not only on personal need.",
+      "reactive": false,
+      "openAnswer": true
+    },
+    {
+      "prompt": "What is the strongest reason supporting your view on negotiating a pay rise?",
+      "options": [
+        "The strongest reason is that employers usually respond more to demonstrated impact than to a general request for more money.",
+        "I support that view mainly because employers usually respond more to demonstrated impact than to a general request for more money.",
+        "For me, the central point is that employers usually respond more to demonstrated impact than to a general request for more money."
+      ],
+      "keywords": [
+        "strongest",
+        "reason",
+        "employers",
+        "usually",
+        "respond",
+        "more",
+        "demonstrated",
+        "impact",
+        "general",
+        "request"
+      ],
+      "tip": "",
+      "id": "B2-C12-T02",
+      "targetWords": 18,
+      "everyday": "The main reason is that employers usually respond more to demonstrated impact than to a general request for more money.",
+      "reactive": false,
+      "openAnswer": true
+    },
+    {
+      "prompt": "Compare two realistic approaches to workplace negotiation and tell me which one you would favour.",
+      "options": [
+        "Asking for a raise based mainly on personal expenses has advantages, but I would generally favour asking for a raise based on documented contribution and market comparison.",
+        "The first option may work in some cases, whereas asking for a raise based on documented contribution and market comparison addresses a broader set of needs.",
+        "I would compare them by asking which option produces better outcomes, not simply which feels easier."
+      ],
+      "keywords": [
+        "asking",
+        "raise",
+        "based",
+        "mainly",
+        "personal",
+        "expenses",
+        "advantages",
+        "generally",
+        "favour",
+        "documented"
+      ],
+      "tip": "",
+      "id": "B2-C12-T03",
+      "targetWords": 17,
+      "everyday": "I'd compare them by asking which option produces better outcomes, not simply which feels easier.",
+      "reactive": true,
+      "openAnswer": true
+    },
+    {
+      "prompt": "Give a concrete example that makes your argument about negotiating a pay rise more convincing.",
+      "options": [
+        "For example, someone who prepared specific examples of completed projects before asking for a raise.",
+        "A concrete case would be someone who prepared specific examples of completed projects before asking for a raise.",
+        "We can see the issue in a situation like someone who prepared specific examples of completed projects before asking for a raise."
+      ],
+      "keywords": [
+        "example",
+        "someone",
+        "who",
+        "prepared",
+        "specific",
+        "examples",
+        "completed",
+        "projects",
+        "asking",
+        "raise"
+      ],
+      "tip": "",
+      "id": "B2-C12-T04",
+      "targetWords": 15,
+      "everyday": "For instance, someone who prepared specific examples of completed projects before asking for a raise.",
+      "reactive": false,
+      "openAnswer": true
+    },
+    {
+      "prompt": "A critic challenges your position on workplace negotiation. How would you respond without dismissing the concern?",
+      "options": [
+        "I understand that concern. However, personal circumstances do matter to some employers, but they rarely replace evidence of value in a formal negotiation.",
+        "That objection points to a real risk, but personal circumstances do matter to some employers, but they rarely replace evidence of value in a formal negotiation.",
+        "I would not dismiss that argument; still, personal circumstances do matter to some employers, but they rarely replace evidence of value in a formal negotiation."
+      ],
+      "keywords": [
+        "understand",
+        "concern",
+        "however",
+        "personal",
+        "circumstances",
+        "matter",
+        "some",
+        "employers",
+        "rarely",
+        "replace"
+      ],
+      "tip": "",
+      "id": "B2-C12-T05",
+      "targetWords": 21,
+      "everyday": "I wouldn't dismiss that argument; still, personal circumstances do matter to some employers, but they rarely replace evidence of value in a formal negotiation.",
+      "reactive": false,
+      "openAnswer": true,
+      "branches": [
+        {
+          "minWords": 14,
+          "prompt": "You’ve developed that point. Now push the discussion further: What qualification or nuance would you add so your position on negotiating a pay rise is not too absolute?"
+        }
+      ]
+    },
+    {
+      "prompt": "What qualification or nuance would you add so your position on negotiating a pay rise is not too absolute?",
+      "options": [
+        "Yes, the right approach also depends on the company's current situation, not only on individual performance.",
+        "The issue is not absolute because the right approach also depends on the company's current situation, not only on individual performance.",
+        "I'd qualify my position by saying that the right approach also depends on the company's current situation, not only on individual performance."
+      ],
+      "keywords": [
+        "yes",
+        "right",
+        "approach",
+        "also",
+        "depends",
+        "company's",
+        "current",
+        "situation",
+        "only",
+        "individual"
+      ],
+      "tip": "",
+      "id": "B2-C12-T06",
+      "targetWords": 17,
+      "everyday": "The right approach also depends on the company's current situation, not only on individual performance.",
+      "reactive": true,
+      "openAnswer": true
+    },
+    {
+      "prompt": "What deeper problem sits underneath the debate about negotiating a pay rise?",
+      "options": [
+        "One underlying problem is the discomfort many people feel around discussing money directly.",
+        "I think the deeper issue is the discomfort many people feel around discussing money directly.",
+        "A key problem beneath the debate is the discomfort many people feel around discussing money directly."
+      ],
+      "keywords": [
+        "one",
+        "underlying",
+        "problem",
+        "discomfort",
+        "many",
+        "people",
+        "feel",
+        "around",
+        "discussing",
+        "money"
+      ],
+      "tip": "",
+      "id": "B2-C12-T07",
+      "targetWords": 10,
+      "everyday": "The real issue is the discomfort many people feel around discussing money directly.",
+      "reactive": false,
+      "openAnswer": true
+    },
+    {
+      "prompt": "What factor or cause helps explain that underlying problem in workplace negotiation?",
+      "options": [
+        "One important cause is a lack of clear, ongoing conversation about expectations and contribution before the negotiation happens.",
+        "It can emerge when there is a lack of clear, ongoing conversation about expectations and contribution before the negotiation happens.",
+        "A major factor is a lack of clear, ongoing conversation about expectations and contribution before the negotiation happens."
+      ],
+      "keywords": [
+        "one",
+        "important",
+        "cause",
+        "lack",
+        "clear",
+        "ongoing",
+        "conversation",
+        "expectations",
+        "contribution",
+        "negotiation"
+      ],
+      "tip": "",
+      "id": "B2-C12-T08",
+      "targetWords": 10,
+      "everyday": "A big reason is a lack of clear, ongoing conversation about expectations and contribution before the negotiation happens.",
+      "reactive": false,
+      "openAnswer": true
+    },
+    {
+      "prompt": "If that problem continues, what consequence could follow for people or institutions involved in workplace negotiation?",
+      "options": [
+        "That can lead to employees who wait too long to raise the topic and then feel that it is overdue.",
+        "A likely consequence is employees who wait too long to raise the topic and then feel that it is overdue.",
+        "Over time, it may produce employees who wait too long to raise the topic and then feel that it is overdue."
+      ],
+      "keywords": [
+        "lead",
+        "employees",
+        "who",
+        "wait",
+        "too",
+        "long",
+        "raise",
+        "topic",
+        "feel",
+        "overdue"
+      ],
+      "tip": "",
+      "id": "B2-C12-T09",
+      "targetWords": 9,
+      "everyday": "Personally, that can lead to employees who wait too long to raise the topic and then feel that it is overdue.",
+      "reactive": false,
+      "openAnswer": true
+    },
+    {
+      "prompt": "What kind of evidence would you want before making a strong judgement about negotiating a pay rise?",
+      "options": [
+        "I'd look for comparative data, real outcomes and evidence from different contexts.",
+        "We need evidence that goes beyond anecdotes and measures actual consequences.",
+        "I would combine quantitative results with people's experience of how the policy or practice works."
+      ],
+      "keywords": [
+        "i'd",
+        "look",
+        "comparative",
+        "data",
+        "real",
+        "outcomes",
+        "evidence",
+        "different",
+        "contexts"
+      ],
+      "tip": "",
+      "id": "B2-C12-T10",
+      "targetWords": 13,
+      "everyday": "I'd combine quantitative results with people's experience of how the policy or practice works.",
+      "reactive": true,
+      "openAnswer": true
+    },
+    {
+      "prompt": "Which groups are affected differently by negotiating a pay rise, and in what way?",
+      "options": [
+        "For employees and managers, the effects could be both beneficial and difficult depending on implementation.",
+        "We should ask how costs and benefits are distributed among employees and managers.",
+        "The impact on employees and managers matters because aggregate results can hide unequal effects."
+      ],
+      "keywords": [
+        "employees",
+        "managers",
+        "effects",
+        "both",
+        "beneficial",
+        "difficult",
+        "depending",
+        "implementation"
+      ],
+      "tip": "",
+      "id": "B2-C12-T11",
+      "targetWords": 14,
+      "everyday": "Personally, for employees and managers, the effects could be both beneficial and difficult depending on implementation.",
+      "reactive": false,
+      "openAnswer": true
+    },
+    {
+      "prompt": "What important trade-off should be acknowledged when discussing negotiating a pay rise?",
+      "options": [
+        "The challenge is to protect the company's budget and internal pay structure without sacrificing employee trust, if contribution is consistently underrecognised.",
+        "We should not assume that maximising the company's budget and internal pay structure automatically produces the best result if it damages employee trust, if contribution is consistently underrecognised.",
+        "A balanced approach would make the trade-off explicit and look for ways to reduce it."
+      ],
+      "keywords": [
+        "challenge",
+        "protect",
+        "company's",
+        "budget",
+        "internal",
+        "pay",
+        "structure",
+        "without",
+        "sacrificing",
+        "employee"
+      ],
+      "tip": "",
+      "id": "B2-C12-T12",
+      "targetWords": 14,
+      "everyday": "Personally, the challenge is to protect the company's budget and internal pay structure without sacrificing employee trust, if contribution is consistently underrecognised.",
+      "reactive": false,
+      "openAnswer": true,
+      "branches": [
+        {
+          "minWords": 14,
+          "prompt": "You’ve developed that point. Now push the discussion further: Imagine a realistic change in this area of workplace negotiation. What might happen next?"
+        }
+      ]
+    },
+    {
+      "prompt": "Imagine a realistic change in this area of workplace negotiation. What might happen next?",
+      "options": [
+        "In that case, the request could still be declined even with good preparation, and having a clear next step matters.",
+        "If that happened, I would expect that the request could still be declined even with good preparation, and having a clear next step matters.",
+        "The result could be that the request could still be declined even with good preparation, and having a clear next step matters, although other effects would depend on the context."
+      ],
+      "keywords": [
+        "case",
+        "request",
+        "still",
+        "declined",
+        "even",
+        "good",
+        "preparation",
+        "having",
+        "clear",
+        "next"
+      ],
+      "tip": "",
+      "id": "B2-C12-T13",
+      "targetWords": 19,
+      "everyday": "If that happened, I’d expect that the request could still be declined even with good preparation, and having a clear next step matters.",
+      "reactive": false,
+      "openAnswer": true
+    },
+    {
+      "prompt": "What solution would be realistic rather than idealised for the issue in negotiating a pay rise?",
+      "options": [
+        "A realistic step would be to prepare specific examples, research typical pay for the role, and ask directly and calmly.",
+        "I would start by trying to prepare specific examples, research typical pay for the role, and ask directly and calmly.",
+        "Rather than seeking one perfect answer, we could prepare specific examples, research typical pay for the role, and ask directly and calmly."
+      ],
+      "keywords": [
+        "realistic",
+        "step",
+        "prepare",
+        "specific",
+        "examples",
+        "research",
+        "typical",
+        "pay",
+        "role",
+        "ask"
+      ],
+      "tip": "",
+      "id": "B2-C12-T14",
+      "targetWords": 16,
+      "everyday": "I’d start by trying to prepare specific examples, research typical pay for the role, and ask directly and calmly.",
+      "reactive": true,
+      "openAnswer": true
+    },
+    {
+      "prompt": "What limitation or unintended effect could that solution have in the context of negotiating a pay rise?",
+      "options": [
+        "One limitation is that some companies have limited budgets no matter how strong the individual case is.",
+        "It would help, but we should recognise that some companies have limited budgets no matter how strong the individual case is.",
+        "The proposal is not sufficient on its own because some companies have limited budgets no matter how strong the individual case is."
+      ],
+      "keywords": [
+        "one",
+        "limitation",
+        "some",
+        "companies",
+        "limited",
+        "budgets",
+        "matter",
+        "how",
+        "strong",
+        "individual"
+      ],
+      "tip": "",
+      "id": "B2-C12-T15",
+      "targetWords": 14,
+      "everyday": "The catch is that some companies have limited budgets no matter how strong the individual case is.",
+      "reactive": false,
+      "openAnswer": true
+    },
+    {
+      "prompt": "How would you know whether your proposed approach to negotiating a pay rise was actually working?",
+      "options": [
+        "I would evaluate whether pay conversations happen regularly rather than only when an employee is close to leaving.",
+        "Success should be judged by whether pay conversations happen regularly rather than only when an employee is close to leaving, not only by whether the policy was implemented.",
+        "I'd monitor whether pay conversations happen regularly rather than only when an employee is close to leaving over time and compare different groups or contexts."
+      ],
+      "keywords": [
+        "evaluate",
+        "whether",
+        "pay",
+        "conversations",
+        "happen",
+        "regularly",
+        "rather",
+        "only",
+        "when",
+        "employee"
+      ],
+      "tip": "",
+      "id": "B2-C12-T16",
+      "targetWords": 16,
+      "everyday": "I’d look at whether pay conversations happen regularly rather than only when an employee is close to leaving.",
+      "reactive": false,
+      "openAnswer": true
+    },
+    {
+      "prompt": "Looking ahead, how might this debate about workplace negotiation change over the next few years?",
+      "options": [
+        "I think pay transparency will likely keep increasing, which should make these conversations more evidence-based over time.",
+        "Over the next few years, pay transparency will likely keep increasing, which should make these conversations more evidence-based over time.",
+        "My expectation is that pay transparency will likely keep increasing, which should make these conversations more evidence-based over time, although the direction will depend on policy and social choices."
+      ],
+      "keywords": [
+        "think",
+        "pay",
+        "transparency",
+        "likely",
+        "keep",
+        "increasing",
+        "which",
+        "make",
+        "conversations",
+        "more"
+      ],
+      "tip": "",
+      "id": "B2-C12-T17",
+      "targetWords": 19,
+      "everyday": "Personally, I think pay transparency will likely keep increasing, which should make these conversations more evidence-based over time.",
+      "reactive": false,
+      "openAnswer": true
+    },
+    {
+      "prompt": "After considering arguments and limitations, give your refined final position on negotiating a pay rise.",
+      "options": [
+        "My refined position is that A pay rise conversation is strongest when it is treated as a normal, evidence-based discussion rather than an uncomfortable exception. Preparation reduces the discomfort, even when the outcome is uncertain.",
+        "After considering the trade-offs, I would say that A pay rise conversation is strongest when it is treated as a normal, evidence-based discussion rather than an uncomfortable exception. Preparation reduces the discomfort, even when the outcome is uncertain.",
+        "I still support my initial direction, but more carefully: A pay rise conversation is strongest when it is treated as a normal, evidence-based discussion rather than an uncomfortable exception. Preparation reduces the discomfort, even when the outcome is uncertain."
+      ],
+      "keywords": [
+        "refined",
+        "position",
+        "pay",
+        "rise",
+        "conversation",
+        "strongest",
+        "when",
+        "treated",
+        "normal",
+        "evidence"
+      ],
+      "tip": "",
+      "id": "B2-C12-T18",
+      "targetWords": 36,
+      "everyday": "At the end of the day, I think A pay rise conversation is strongest when it is treated as a normal, evidence-based discussion rather than an uncomfortable exception. Preparation reduces the discomfort, even when the outcome is uncertain.",
+      "reactive": false,
+      "openAnswer": true
+    }
+  ],
+  "canDo": "Build and qualify an evidence-based case in a workplace negotiation",
+  "functions": [
+    "work",
+    "negotiation",
+    "argument"
+  ],
+  "cefrFocus": "Independent spoken interaction and production"
+},
+{
+  "id": "B2-C13",
+  "level": "B2",
+  "emoji": "🎓",
+  "title": "Defending an academic argument",
+  "topic": "Education",
+  "estimatedMinutes": 8,
+  "turns": [
+    {
+      "prompt": "Let’s examine an academic argument. What is your starting position?",
+      "options": [
+        "My starting position is that a strong academic argument can hold a clear position while still taking counterevidence seriously.",
+        "I would argue that a strong academic argument can hold a clear position while still taking counterevidence seriously.",
+        "Overall, I think a strong academic argument can hold a clear position while still taking counterevidence seriously."
+      ],
+      "keywords": [
+        "starting",
+        "position",
+        "strong",
+        "academic",
+        "argument",
+        "hold",
+        "clear",
+        "while",
+        "still",
+        "taking"
+      ],
+      "tip": "",
+      "id": "B2-C13-T01",
+      "targetWords": 14,
+      "everyday": "I think a strong academic argument can hold a clear position while still taking counterevidence seriously.",
+      "reactive": false,
+      "openAnswer": true
+    },
+    {
+      "prompt": "What is the strongest reason supporting your view on an academic argument?",
+      "options": [
+        "The strongest reason is that ignoring counterevidence usually weakens an argument rather than protecting it.",
+        "I support that view mainly because ignoring counterevidence usually weakens an argument rather than protecting it.",
+        "For me, the central point is that ignoring counterevidence usually weakens an argument rather than protecting it."
+      ],
+      "keywords": [
+        "strongest",
+        "reason",
+        "ignoring",
+        "counterevidence",
+        "usually",
+        "weakens",
+        "argument",
+        "rather",
+        "protecting"
+      ],
+      "tip": "",
+      "id": "B2-C13-T02",
+      "targetWords": 18,
+      "everyday": "The main reason is that ignoring counterevidence usually weakens an argument rather than protecting it.",
+      "reactive": false,
+      "openAnswer": true
+    },
+    {
+      "prompt": "Compare two realistic approaches to academic discussion and tell me which one you would favour.",
+      "options": [
+        "Defending a position by repeating it more forcefully has advantages, but I would generally favour defending a position by directly addressing the strongest objection to it.",
+        "The first option may work in some cases, whereas defending a position by directly addressing the strongest objection to it addresses a broader set of needs.",
+        "I would compare them by asking which option produces better outcomes, not simply which feels easier."
+      ],
+      "keywords": [
+        "defending",
+        "position",
+        "repeating",
+        "more",
+        "forcefully",
+        "advantages",
+        "generally",
+        "favour",
+        "directly",
+        "addressing"
+      ],
+      "tip": "",
+      "id": "B2-C13-T03",
+      "targetWords": 17,
+      "everyday": "I'd compare them by asking which option produces better outcomes, not simply which feels easier.",
+      "reactive": true,
+      "openAnswer": true
+    },
+    {
+      "prompt": "Give a concrete example that makes your argument about an academic argument more convincing.",
+      "options": [
+        "For example, a student who strengthened an essay by including and then answering the best opposing argument.",
+        "A concrete case would be a student who strengthened an essay by including and then answering the best opposing argument.",
+        "We can see the issue in a situation like a student who strengthened an essay by including and then answering the best opposing argument."
+      ],
+      "keywords": [
+        "example",
+        "student",
+        "who",
+        "strengthened",
+        "essay",
+        "including",
+        "answering",
+        "best",
+        "opposing",
+        "argument"
+      ],
+      "tip": "",
+      "id": "B2-C13-T04",
+      "targetWords": 15,
+      "everyday": "For instance, a student who strengthened an essay by including and then answering the best opposing argument.",
+      "reactive": false,
+      "openAnswer": true
+    },
+    {
+      "prompt": "A critic challenges your position on academic discussion. How would you respond without dismissing the concern?",
+      "options": [
+        "I understand that concern. However, engaging with counterarguments can feel like weakening your own position, but it usually does the opposite.",
+        "That objection points to a real risk, but engaging with counterarguments can feel like weakening your own position, but it usually does the opposite.",
+        "I would not dismiss that argument; still, engaging with counterarguments can feel like weakening your own position, but it usually does the opposite."
+      ],
+      "keywords": [
+        "understand",
+        "concern",
+        "however",
+        "engaging",
+        "counterarguments",
+        "feel",
+        "like",
+        "weakening",
+        "own",
+        "position"
+      ],
+      "tip": "",
+      "id": "B2-C13-T05",
+      "targetWords": 21,
+      "everyday": "I wouldn't dismiss that argument; still, engaging with counterarguments can feel like weakening your own position, but it usually does the opposite.",
+      "reactive": false,
+      "openAnswer": true,
+      "branches": [
+        {
+          "minWords": 14,
+          "prompt": "You’ve developed that point. Now push the discussion further: What qualification or nuance would you add so your position on an academic argument is not too absolute?"
+        }
+      ]
+    },
+    {
+      "prompt": "What qualification or nuance would you add so your position on an academic argument is not too absolute?",
+      "options": [
+        "Yes, not every objection deserves equal space; the argument should focus on the strongest ones.",
+        "The issue is not absolute because not every objection deserves equal space; the argument should focus on the strongest ones.",
+        "I'd qualify my position by saying that not every objection deserves equal space; the argument should focus on the strongest ones."
+      ],
+      "keywords": [
+        "yes",
+        "every",
+        "objection",
+        "deserves",
+        "equal",
+        "space",
+        "argument",
+        "focus",
+        "strongest",
+        "ones"
+      ],
+      "tip": "",
+      "id": "B2-C13-T06",
+      "targetWords": 17,
+      "everyday": "Not every objection deserves equal space; the argument should focus on the strongest ones.",
+      "reactive": true,
+      "openAnswer": true
+    },
+    {
+      "prompt": "What deeper problem sits underneath the debate about an academic argument?",
+      "options": [
+        "One underlying problem is the pressure to sound completely certain in academic writing.",
+        "I think the deeper issue is the pressure to sound completely certain in academic writing.",
+        "A key problem beneath the debate is the pressure to sound completely certain in academic writing."
+      ],
+      "keywords": [
+        "one",
+        "underlying",
+        "problem",
+        "pressure",
+        "sound",
+        "completely",
+        "certain",
+        "academic",
+        "writing"
+      ],
+      "tip": "",
+      "id": "B2-C13-T07",
+      "targetWords": 10,
+      "everyday": "The real issue is the pressure to sound completely certain in academic writing.",
+      "reactive": false,
+      "openAnswer": true
+    },
+    {
+      "prompt": "What factor or cause helps explain that underlying problem in academic discussion?",
+      "options": [
+        "One important cause is treating disagreement as a personal challenge rather than part of normal academic discussion.",
+        "It can emerge when there is treating disagreement as a personal challenge rather than part of normal academic discussion.",
+        "A major factor is treating disagreement as a personal challenge rather than part of normal academic discussion."
+      ],
+      "keywords": [
+        "one",
+        "important",
+        "cause",
+        "treating",
+        "disagreement",
+        "personal",
+        "challenge",
+        "rather",
+        "part",
+        "normal"
+      ],
+      "tip": "",
+      "id": "B2-C13-T08",
+      "targetWords": 10,
+      "everyday": "A big reason is treating disagreement as a personal challenge rather than part of normal academic discussion.",
+      "reactive": false,
+      "openAnswer": true
+    },
+    {
+      "prompt": "If that problem continues, what consequence could follow for people or institutions involved in academic discussion?",
+      "options": [
+        "That can lead to arguments that sound confident but collapse under the first serious question.",
+        "A likely consequence is arguments that sound confident but collapse under the first serious question.",
+        "Over time, it may produce arguments that sound confident but collapse under the first serious question."
+      ],
+      "keywords": [
+        "lead",
+        "arguments",
+        "sound",
+        "confident",
+        "collapse",
+        "first",
+        "serious",
+        "question"
+      ],
+      "tip": "",
+      "id": "B2-C13-T09",
+      "targetWords": 9,
+      "everyday": "Personally, that can lead to arguments that sound confident but collapse under the first serious question.",
+      "reactive": false,
+      "openAnswer": true
+    },
+    {
+      "prompt": "What kind of evidence would you want before making a strong judgement about an academic argument?",
+      "options": [
+        "I'd look for comparative data, real outcomes and evidence from different contexts.",
+        "We need evidence that goes beyond anecdotes and measures actual consequences.",
+        "I would combine quantitative results with people's experience of how the policy or practice works."
+      ],
+      "keywords": [
+        "i'd",
+        "look",
+        "comparative",
+        "data",
+        "real",
+        "outcomes",
+        "evidence",
+        "different",
+        "contexts"
+      ],
+      "tip": "",
+      "id": "B2-C13-T10",
+      "targetWords": 13,
+      "everyday": "I'd combine quantitative results with people's experience of how the policy or practice works.",
+      "reactive": true,
+      "openAnswer": true
+    },
+    {
+      "prompt": "Which groups are affected differently by an academic argument, and in what way?",
+      "options": [
+        "For students and instructors, the effects could be both beneficial and difficult depending on implementation.",
+        "We should ask how costs and benefits are distributed among students and instructors.",
+        "The impact on students and instructors matters because aggregate results can hide unequal effects."
+      ],
+      "keywords": [
+        "students",
+        "instructors",
+        "effects",
+        "both",
+        "beneficial",
+        "difficult",
+        "depending",
+        "implementation"
+      ],
+      "tip": "",
+      "id": "B2-C13-T11",
+      "targetWords": 14,
+      "everyday": "Personally, for students and instructors, the effects could be both beneficial and difficult depending on implementation.",
+      "reactive": false,
+      "openAnswer": true
+    },
+    {
+      "prompt": "What important trade-off should be acknowledged when discussing an academic argument?",
+      "options": [
+        "The challenge is to protect the clarity of the original position without sacrificing some simplicity, since acknowledging complexity takes more space and care.",
+        "We should not assume that maximising the clarity of the original position automatically produces the best result if it damages some simplicity, since acknowledging complexity takes more space and care.",
+        "A balanced approach would make the trade-off explicit and look for ways to reduce it."
+      ],
+      "keywords": [
+        "challenge",
+        "protect",
+        "clarity",
+        "original",
+        "position",
+        "without",
+        "sacrificing",
+        "some",
+        "simplicity",
+        "since"
+      ],
+      "tip": "",
+      "id": "B2-C13-T12",
+      "targetWords": 14,
+      "everyday": "Personally, the challenge is to protect the clarity of the original position without sacrificing some simplicity, since acknowledging complexity takes more space and care.",
+      "reactive": false,
+      "openAnswer": true,
+      "branches": [
+        {
+          "minWords": 14,
+          "prompt": "You’ve developed that point. Now push the discussion further: Imagine a realistic change in this area of academic discussion. What might happen next?"
+        }
+      ]
+    },
+    {
+      "prompt": "Imagine a realistic change in this area of academic discussion. What might happen next?",
+      "options": [
+        "In that case, the argument could become more convincing precisely because it shows awareness of its own limits.",
+        "If that happened, I would expect that the argument could become more convincing precisely because it shows awareness of its own limits.",
+        "The result could be that the argument could become more convincing precisely because it shows awareness of its own limits, although other effects would depend on the context."
+      ],
+      "keywords": [
+        "case",
+        "argument",
+        "become",
+        "more",
+        "convincing",
+        "precisely",
+        "shows",
+        "awareness",
+        "its",
+        "own"
+      ],
+      "tip": "",
+      "id": "B2-C13-T13",
+      "targetWords": 19,
+      "everyday": "If that happened, I’d expect that the argument could become more convincing precisely because it shows awareness of its own limits.",
+      "reactive": false,
+      "openAnswer": true
+    },
+    {
+      "prompt": "What solution would be realistic rather than idealised for the issue in an academic argument?",
+      "options": [
+        "A realistic step would be to identify the strongest counterargument first, then explain clearly why the original position still holds, fully or partly.",
+        "I would start by trying to identify the strongest counterargument first, then explain clearly why the original position still holds, fully or partly.",
+        "Rather than seeking one perfect answer, we could identify the strongest counterargument first, then explain clearly why the original position still holds, fully or partly."
+      ],
+      "keywords": [
+        "realistic",
+        "step",
+        "identify",
+        "strongest",
+        "counterargument",
+        "first",
+        "explain",
+        "clearly",
+        "why",
+        "original"
+      ],
+      "tip": "",
+      "id": "B2-C13-T14",
+      "targetWords": 16,
+      "everyday": "I’d start by trying to identify the strongest counterargument first, then explain clearly why the original position still holds, fully or partly.",
+      "reactive": true,
+      "openAnswer": true
+    },
+    {
+      "prompt": "What limitation or unintended effect could that solution have in the context of an academic argument?",
+      "options": [
+        "One limitation is that some academic questions do not have a single argument that resolves them completely.",
+        "It would help, but we should recognise that some academic questions do not have a single argument that resolves them completely.",
+        "The proposal is not sufficient on its own because some academic questions do not have a single argument that resolves them completely."
+      ],
+      "keywords": [
+        "one",
+        "limitation",
+        "some",
+        "academic",
+        "questions",
+        "single",
+        "argument",
+        "resolves",
+        "them",
+        "completely"
+      ],
+      "tip": "",
+      "id": "B2-C13-T15",
+      "targetWords": 14,
+      "everyday": "The catch is that some academic questions do not have a single argument that resolves them completely.",
+      "reactive": false,
+      "openAnswer": true
+    },
+    {
+      "prompt": "How would you know whether your proposed approach to an academic argument was actually working?",
+      "options": [
+        "I would evaluate whether the argument still holds up after a genuinely critical reading, not just a friendly one.",
+        "Success should be judged by whether the argument still holds up after a genuinely critical reading, not just a friendly one, not only by whether the policy was implemented.",
+        "I'd monitor whether the argument still holds up after a genuinely critical reading, not just a friendly one over time and compare different groups or contexts."
+      ],
+      "keywords": [
+        "evaluate",
+        "whether",
+        "argument",
+        "still",
+        "holds",
+        "genuinely",
+        "critical",
+        "reading",
+        "friendly",
+        "one"
+      ],
+      "tip": "",
+      "id": "B2-C13-T16",
+      "targetWords": 16,
+      "everyday": "I’d look at whether the argument still holds up after a genuinely critical reading, not just a friendly one.",
+      "reactive": false,
+      "openAnswer": true
+    },
+    {
+      "prompt": "Looking ahead, how might this debate about academic discussion change over the next few years?",
+      "options": [
+        "I think academic norms will likely keep rewarding arguments that engage with complexity rather than avoid it.",
+        "Over the next few years, academic norms will likely keep rewarding arguments that engage with complexity rather than avoid it.",
+        "My expectation is that academic norms will likely keep rewarding arguments that engage with complexity rather than avoid it, although the direction will depend on policy and social choices."
+      ],
+      "keywords": [
+        "think",
+        "academic",
+        "norms",
+        "likely",
+        "keep",
+        "rewarding",
+        "arguments",
+        "engage",
+        "complexity",
+        "rather"
+      ],
+      "tip": "",
+      "id": "B2-C13-T17",
+      "targetWords": 19,
+      "everyday": "Personally, I think academic norms will likely keep rewarding arguments that engage with complexity rather than avoid it.",
+      "reactive": false,
+      "openAnswer": true
+    },
+    {
+      "prompt": "After considering arguments and limitations, give your refined final position on an academic argument.",
+      "options": [
+        "My refined position is that A convincing academic argument is not the one that ignores objections, but the one that survives them. Intellectual honesty about a position's limits usually makes it more persuasive, not less.",
+        "After considering the trade-offs, I would say that A convincing academic argument is not the one that ignores objections, but the one that survives them. Intellectual honesty about a position's limits usually makes it more persuasive, not less.",
+        "I still support my initial direction, but more carefully: A convincing academic argument is not the one that ignores objections, but the one that survives them. Intellectual honesty about a position's limits usually makes it more persuasive, not less."
+      ],
+      "keywords": [
+        "refined",
+        "position",
+        "convincing",
+        "academic",
+        "argument",
+        "one",
+        "ignores",
+        "objections",
+        "survives",
+        "them"
+      ],
+      "tip": "",
+      "id": "B2-C13-T18",
+      "targetWords": 36,
+      "everyday": "At the end of the day, I think A convincing academic argument is not the one that ignores objections, but the one that survives them. Intellectual honesty about a position's limits usually makes it more persuasive, not less.",
+      "reactive": false,
+      "openAnswer": true
+    }
+  ],
+  "canDo": "Defend an academic position while engaging seriously with counterarguments",
+  "functions": [
+    "education",
+    "argument",
+    "critical thinking"
+  ],
+  "cefrFocus": "Independent spoken interaction and production"
+},
+{
+  "id": "B2-C14",
+  "level": "B2",
+  "emoji": "⚖️",
+  "title": "A whistleblowing dilemma",
+  "topic": "Ethics at work",
+  "estimatedMinutes": 8,
+  "turns": [
+    {
+      "prompt": "Let’s examine a whistleblowing dilemma. What is your starting position?",
+      "options": [
+        "My starting position is that reporting serious wrongdoing is usually justified when the harm to others outweighs the personal risk of speaking up.",
+        "I would argue that reporting serious wrongdoing is usually justified when the harm to others outweighs the personal risk of speaking up.",
+        "Overall, I think reporting serious wrongdoing is usually justified when the harm to others outweighs the personal risk of speaking up."
+      ],
+      "keywords": [
+        "starting",
+        "position",
+        "reporting",
+        "serious",
+        "wrongdoing",
+        "usually",
+        "justified",
+        "when",
+        "harm",
+        "others"
+      ],
+      "tip": "",
+      "id": "B2-C14-T01",
+      "targetWords": 14,
+      "everyday": "I think reporting serious wrongdoing is usually justified when the harm to others outweighs the personal risk of speaking up.",
+      "reactive": false,
+      "openAnswer": true
+    },
+    {
+      "prompt": "What is the strongest reason supporting your view on a whistleblowing dilemma?",
+      "options": [
+        "The strongest reason is that staying silent can make a person complicit in ongoing harm, even without directly causing it.",
+        "I support that view mainly because staying silent can make a person complicit in ongoing harm, even without directly causing it.",
+        "For me, the central point is that staying silent can make a person complicit in ongoing harm, even without directly causing it."
+      ],
+      "keywords": [
+        "strongest",
+        "reason",
+        "staying",
+        "silent",
+        "make",
+        "person",
+        "complicit",
+        "ongoing",
+        "harm",
+        "even"
+      ],
+      "tip": "",
+      "id": "B2-C14-T02",
+      "targetWords": 18,
+      "everyday": "The main reason is that staying silent can make a person complicit in ongoing harm, even without directly causing it.",
+      "reactive": false,
+      "openAnswer": true
+    },
+    {
+      "prompt": "Compare two realistic approaches to ethical dilemmas at work and tell me which one you would favour.",
+      "options": [
+        "Reporting the problem immediately through public channels has advantages, but I would generally favour raising the concern internally first, through the appropriate channels.",
+        "The first option may work in some cases, whereas raising the concern internally first, through the appropriate channels addresses a broader set of needs.",
+        "I would compare them by asking which option produces better outcomes, not simply which feels easier."
+      ],
+      "keywords": [
+        "reporting",
+        "problem",
+        "immediately",
+        "through",
+        "public",
+        "channels",
+        "advantages",
+        "generally",
+        "favour",
+        "raising"
+      ],
+      "tip": "",
+      "id": "B2-C14-T03",
+      "targetWords": 17,
+      "everyday": "I'd compare them by asking which option produces better outcomes, not simply which feels easier.",
+      "reactive": true,
+      "openAnswer": true
+    },
+    {
+      "prompt": "Give a concrete example that makes your argument about a whistleblowing dilemma more convincing.",
+      "options": [
+        "For example, an employee who first reported a safety issue internally before it was addressed only after external pressure.",
+        "A concrete case would be an employee who first reported a safety issue internally before it was addressed only after external pressure.",
+        "We can see the issue in a situation like an employee who first reported a safety issue internally before it was addressed only after external pressure."
+      ],
+      "keywords": [
+        "example",
+        "employee",
+        "who",
+        "first",
+        "reported",
+        "safety",
+        "issue",
+        "internally",
+        "addressed",
+        "only"
+      ],
+      "tip": "",
+      "id": "B2-C14-T04",
+      "targetWords": 15,
+      "everyday": "For instance, an employee who first reported a safety issue internally before it was addressed only after external pressure.",
+      "reactive": false,
+      "openAnswer": true
+    },
+    {
+      "prompt": "A critic challenges your position on ethical dilemmas at work. How would you respond without dismissing the concern?",
+      "options": [
+        "I understand that concern. However, internal reporting can be safer, but it sometimes fails when the organisation is unwilling or unable to act.",
+        "That objection points to a real risk, but internal reporting can be safer, but it sometimes fails when the organisation is unwilling or unable to act.",
+        "I would not dismiss that argument; still, internal reporting can be safer, but it sometimes fails when the organisation is unwilling or unable to act."
+      ],
+      "keywords": [
+        "understand",
+        "concern",
+        "however",
+        "internal",
+        "reporting",
+        "safer",
+        "sometimes",
+        "fails",
+        "when",
+        "organisation"
+      ],
+      "tip": "",
+      "id": "B2-C14-T05",
+      "targetWords": 21,
+      "everyday": "I wouldn't dismiss that argument; still, internal reporting can be safer, but it sometimes fails when the organisation is unwilling or unable to act.",
+      "reactive": false,
+      "openAnswer": true,
+      "branches": [
+        {
+          "minWords": 14,
+          "prompt": "You’ve developed that point. Now push the discussion further: What qualification or nuance would you add so your position on a whistleblowing dilemma is not too absolute?"
+        }
+      ]
+    },
+    {
+      "prompt": "What qualification or nuance would you add so your position on a whistleblowing dilemma is not too absolute?",
+      "options": [
+        "Yes, the right first step depends on the severity of the harm and whether internal channels are genuinely independent.",
+        "The issue is not absolute because the right first step depends on the severity of the harm and whether internal channels are genuinely independent.",
+        "I'd qualify my position by saying that the right first step depends on the severity of the harm and whether internal channels are genuinely independent."
+      ],
+      "keywords": [
+        "yes",
+        "right",
+        "first",
+        "step",
+        "depends",
+        "severity",
+        "harm",
+        "whether",
+        "internal",
+        "channels"
+      ],
+      "tip": "",
+      "id": "B2-C14-T06",
+      "targetWords": 17,
+      "everyday": "The right first step depends on the severity of the harm and whether internal channels are genuinely independent.",
+      "reactive": true,
+      "openAnswer": true
+    },
+    {
+      "prompt": "What deeper problem sits underneath the debate about a whistleblowing dilemma?",
+      "options": [
+        "One underlying problem is the personal risk of retaliation that most whistleblowers face.",
+        "I think the deeper issue is the personal risk of retaliation that most whistleblowers face.",
+        "A key problem beneath the debate is the personal risk of retaliation that most whistleblowers face."
+      ],
+      "keywords": [
+        "one",
+        "underlying",
+        "problem",
+        "personal",
+        "risk",
+        "retaliation",
+        "most",
+        "whistleblowers",
+        "face"
+      ],
+      "tip": "",
+      "id": "B2-C14-T07",
+      "targetWords": 10,
+      "everyday": "The real issue is the personal risk of retaliation that most whistleblowers face.",
+      "reactive": false,
+      "openAnswer": true
+    },
+    {
+      "prompt": "What factor or cause helps explain that underlying problem in ethical dilemmas at work?",
+      "options": [
+        "One important cause is organisations that protect their reputation more than the people affected by the wrongdoing.",
+        "It can emerge when there is organisations that protect their reputation more than the people affected by the wrongdoing.",
+        "A major factor is organisations that protect their reputation more than the people affected by the wrongdoing."
+      ],
+      "keywords": [
+        "one",
+        "important",
+        "cause",
+        "organisations",
+        "protect",
+        "reputation",
+        "more",
+        "people",
+        "affected",
+        "wrongdoing"
+      ],
+      "tip": "",
+      "id": "B2-C14-T08",
+      "targetWords": 10,
+      "everyday": "A big reason is organisations that protect their reputation more than the people affected by the wrongdoing.",
+      "reactive": false,
+      "openAnswer": true
+    },
+    {
+      "prompt": "If that problem continues, what consequence could follow for people or institutions involved in ethical dilemmas at work?",
+      "options": [
+        "That can lead to serious problems that stay hidden until the harm becomes too large to ignore.",
+        "A likely consequence is serious problems that stay hidden until the harm becomes too large to ignore.",
+        "Over time, it may produce serious problems that stay hidden until the harm becomes too large to ignore."
+      ],
+      "keywords": [
+        "lead",
+        "serious",
+        "problems",
+        "stay",
+        "hidden",
+        "until",
+        "harm",
+        "becomes",
+        "too",
+        "large"
+      ],
+      "tip": "",
+      "id": "B2-C14-T09",
+      "targetWords": 9,
+      "everyday": "Personally, that can lead to serious problems that stay hidden until the harm becomes too large to ignore.",
+      "reactive": false,
+      "openAnswer": true
+    },
+    {
+      "prompt": "What kind of evidence would you want before making a strong judgement about a whistleblowing dilemma?",
+      "options": [
+        "I'd look for comparative data, real outcomes and evidence from different contexts.",
+        "We need evidence that goes beyond anecdotes and measures actual consequences.",
+        "I would combine quantitative results with people's experience of how the policy or practice works."
+      ],
+      "keywords": [
+        "i'd",
+        "look",
+        "comparative",
+        "data",
+        "real",
+        "outcomes",
+        "evidence",
+        "different",
+        "contexts"
+      ],
+      "tip": "",
+      "id": "B2-C14-T10",
+      "targetWords": 13,
+      "everyday": "I'd combine quantitative results with people's experience of how the policy or practice works.",
+      "reactive": true,
+      "openAnswer": true
+    },
+    {
+      "prompt": "Which groups are affected differently by a whistleblowing dilemma, and in what way?",
+      "options": [
+        "For the whistleblower and the people affected by the wrongdoing, the effects could be both beneficial and difficult depending on implementation.",
+        "We should ask how costs and benefits are distributed among the whistleblower and the people affected by the wrongdoing.",
+        "The impact on the whistleblower and the people affected by the wrongdoing matters because aggregate results can hide unequal effects."
+      ],
+      "keywords": [
+        "whistleblower",
+        "people",
+        "affected",
+        "wrongdoing",
+        "effects",
+        "both",
+        "beneficial",
+        "difficult",
+        "depending",
+        "implementation"
+      ],
+      "tip": "",
+      "id": "B2-C14-T11",
+      "targetWords": 14,
+      "everyday": "Personally, for the whistleblower and the people affected by the wrongdoing, the effects could be both beneficial and difficult depending on implementation.",
+      "reactive": false,
+      "openAnswer": true
+    },
+    {
+      "prompt": "What important trade-off should be acknowledged when discussing a whistleblowing dilemma?",
+      "options": [
+        "The challenge is to protect the organisation's short-term reputation without sacrificing the safety or wellbeing of the people harmed by the wrongdoing.",
+        "We should not assume that maximising the organisation's short-term reputation automatically produces the best result if it damages the safety or wellbeing of the people harmed by the wrongdoing.",
+        "A balanced approach would make the trade-off explicit and look for ways to reduce it."
+      ],
+      "keywords": [
+        "challenge",
+        "protect",
+        "organisation's",
+        "short",
+        "term",
+        "reputation",
+        "without",
+        "sacrificing",
+        "safety",
+        "wellbeing"
+      ],
+      "tip": "",
+      "id": "B2-C14-T12",
+      "targetWords": 14,
+      "everyday": "Personally, the challenge is to protect the organisation's short-term reputation without sacrificing the safety or wellbeing of the people harmed by the wrongdoing.",
+      "reactive": false,
+      "openAnswer": true,
+      "branches": [
+        {
+          "minWords": 14,
+          "prompt": "You’ve developed that point. Now push the discussion further: Imagine a realistic change in this area of ethical dilemmas at work. What might happen next?"
+        }
+      ]
+    },
+    {
+      "prompt": "Imagine a realistic change in this area of ethical dilemmas at work. What might happen next?",
+      "options": [
+        "In that case, the situation could improve if legal protections for whistleblowers were stronger and better enforced.",
+        "If that happened, I would expect that the situation could improve if legal protections for whistleblowers were stronger and better enforced.",
+        "The result could be that the situation could improve if legal protections for whistleblowers were stronger and better enforced, although other effects would depend on the context."
+      ],
+      "keywords": [
+        "case",
+        "situation",
+        "improve",
+        "legal",
+        "protections",
+        "whistleblowers",
+        "stronger",
+        "better",
+        "enforced"
+      ],
+      "tip": "",
+      "id": "B2-C14-T13",
+      "targetWords": 19,
+      "everyday": "If that happened, I’d expect that the situation could improve if legal protections for whistleblowers were stronger and better enforced.",
+      "reactive": false,
+      "openAnswer": true
+    },
+    {
+      "prompt": "What solution would be realistic rather than idealised for the issue in a whistleblowing dilemma?",
+      "options": [
+        "A realistic step would be to document the evidence carefully, seek legal advice if possible, and use internal channels first when they are genuinely independent.",
+        "I would start by trying to document the evidence carefully, seek legal advice if possible, and use internal channels first when they are genuinely independent.",
+        "Rather than seeking one perfect answer, we could document the evidence carefully, seek legal advice if possible, and use internal channels first when they are genuinely independent."
+      ],
+      "keywords": [
+        "realistic",
+        "step",
+        "document",
+        "evidence",
+        "carefully",
+        "seek",
+        "legal",
+        "advice",
+        "possible",
+        "use"
+      ],
+      "tip": "",
+      "id": "B2-C14-T14",
+      "targetWords": 16,
+      "everyday": "I’d start by trying to document the evidence carefully, seek legal advice if possible, and use internal channels first when they are genuinely independent.",
+      "reactive": true,
+      "openAnswer": true
+    },
+    {
+      "prompt": "What limitation or unintended effect could that solution have in the context of a whistleblowing dilemma?",
+      "options": [
+        "One limitation is that even strong legal protections cannot fully remove the personal and professional risk involved.",
+        "It would help, but we should recognise that even strong legal protections cannot fully remove the personal and professional risk involved.",
+        "The proposal is not sufficient on its own because even strong legal protections cannot fully remove the personal and professional risk involved."
+      ],
+      "keywords": [
+        "one",
+        "limitation",
+        "even",
+        "strong",
+        "legal",
+        "protections",
+        "cannot",
+        "fully",
+        "remove",
+        "personal"
+      ],
+      "tip": "",
+      "id": "B2-C14-T15",
+      "targetWords": 14,
+      "everyday": "The catch is that even strong legal protections cannot fully remove the personal and professional risk involved.",
+      "reactive": false,
+      "openAnswer": true
+    },
+    {
+      "prompt": "How would you know whether your proposed approach to a whistleblowing dilemma was actually working?",
+      "options": [
+        "I would evaluate whether the wrongdoing actually stops and whether the people who reported it are protected afterwards.",
+        "Success should be judged by whether the wrongdoing actually stops and whether the people who reported it are protected afterwards, not only by whether the policy was implemented.",
+        "I'd monitor whether the wrongdoing actually stops and whether the people who reported it are protected afterwards over time and compare different groups or contexts."
+      ],
+      "keywords": [
+        "evaluate",
+        "whether",
+        "wrongdoing",
+        "actually",
+        "stops",
+        "people",
+        "who",
+        "reported",
+        "protected",
+        "afterwards"
+      ],
+      "tip": "",
+      "id": "B2-C14-T16",
+      "targetWords": 16,
+      "everyday": "I’d look at whether the wrongdoing actually stops and whether the people who reported it are protected afterwards.",
+      "reactive": false,
+      "openAnswer": true
+    },
+    {
+      "prompt": "Looking ahead, how might this debate about ethical dilemmas at work change over the next few years?",
+      "options": [
+        "I think stronger legal protections and more transparent organisations will likely make whistleblowing somewhat less risky over time.",
+        "Over the next few years, stronger legal protections and more transparent organisations will likely make whistleblowing somewhat less risky over time.",
+        "My expectation is that stronger legal protections and more transparent organisations will likely make whistleblowing somewhat less risky over time, although the direction will depend on policy and social choices."
+      ],
+      "keywords": [
+        "think",
+        "stronger",
+        "legal",
+        "protections",
+        "more",
+        "transparent",
+        "organisations",
+        "likely",
+        "make",
+        "whistleblowing"
+      ],
+      "tip": "",
+      "id": "B2-C14-T17",
+      "targetWords": 19,
+      "everyday": "Personally, I think stronger legal protections and more transparent organisations will likely make whistleblowing somewhat less risky over time.",
+      "reactive": false,
+      "openAnswer": true
+    },
+    {
+      "prompt": "After considering arguments and limitations, give your refined final position on a whistleblowing dilemma.",
+      "options": [
+        "My refined position is that Whistleblowing is rarely simple, because it weighs personal risk against harm to others. It is most defensible when the harm is serious, the evidence is solid, and appropriate channels have genuinely been considered.",
+        "After considering the trade-offs, I would say that Whistleblowing is rarely simple, because it weighs personal risk against harm to others. It is most defensible when the harm is serious, the evidence is solid, and appropriate channels have genuinely been considered.",
+        "I still support my initial direction, but more carefully: Whistleblowing is rarely simple, because it weighs personal risk against harm to others. It is most defensible when the harm is serious, the evidence is solid, and appropriate channels have genuinely been considered."
+      ],
+      "keywords": [
+        "refined",
+        "position",
+        "whistleblowing",
+        "rarely",
+        "simple",
+        "weighs",
+        "personal",
+        "risk",
+        "against",
+        "harm"
+      ],
+      "tip": "",
+      "id": "B2-C14-T18",
+      "targetWords": 36,
+      "everyday": "At the end of the day, I think Whistleblowing is rarely simple, because it weighs personal risk against harm to others. It is most defensible when the harm is serious, the evidence is solid, and appropriate channels have genuinely been considered.",
+      "reactive": false,
+      "openAnswer": true
+    }
+  ],
+  "canDo": "Reason through a hypothetical ethical dilemma with conditional, qualified argument",
+  "functions": [
+    "ethics",
+    "hypothetical reasoning",
+    "argument"
+  ],
+  "cefrFocus": "Independent spoken interaction and production"
+}
 ];

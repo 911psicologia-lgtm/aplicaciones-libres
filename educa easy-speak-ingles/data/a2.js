@@ -3165,5 +3165,1159 @@ window.EASY_SPEAK_DATA.A2 = [
       "requests"
     ],
     "cefrFocus": "Routine spoken interaction"
-  }
+  },
+{
+  "id": "A2-C11",
+  "level": "A2",
+  "emoji": "🏫",
+  "title": "Joining a class",
+  "topic": "Education",
+  "estimatedMinutes": 4,
+  "canDo": "Enrol in a course and ask about schedule and level",
+  "functions": [
+    "education",
+    "enrolling",
+    "requests"
+  ],
+  "cefrFocus": "Routine spoken interaction",
+  "turns": [
+    {
+      "prompt": "Good morning. How can I help you?",
+      "options": [
+        "Hi, I'd like to join an English class.",
+        "Hello, I want to sign up for a class.",
+        "Hi, I'm interested in an English course."
+      ],
+      "keywords": [
+        "hi",
+        "i'd",
+        "like",
+        "to",
+        "join",
+        "an",
+        "english",
+        "class",
+        "hello",
+        "i",
+        "want",
+        "sign"
+      ],
+      "tip": "",
+      "id": "A2-C11-T01",
+      "targetWords": 7,
+      "everyday": "Hey, I want to sign up for English classes.",
+      "reactive": false
+    },
+    {
+      "prompt": "What level are you at the moment?",
+      "options": [
+        "I think I'm at an intermediate level.",
+        "I'm not sure, maybe pre-intermediate.",
+        "I'm a beginner, I think."
+      ],
+      "keywords": [
+        "i",
+        "think",
+        "i'm",
+        "at",
+        "an",
+        "intermediate",
+        "level",
+        "not",
+        "sure",
+        "maybe",
+        "pre",
+        "a"
+      ],
+      "tip": "",
+      "id": "A2-C11-T02",
+      "targetWords": 8,
+      "everyday": "Somewhere around pre-intermediate, I think.",
+      "reactive": false,
+      "openAnswer": true
+    },
+    {
+      "prompt": "We can also do a short test to check your level. Is that okay?",
+      "options": [
+        "Yes, that's a good idea.",
+        "Sure, no problem at all.",
+        "Yes, that sounds useful."
+      ],
+      "keywords": [
+        "yes",
+        "that's",
+        "a",
+        "good",
+        "idea",
+        "sure",
+        "no",
+        "problem",
+        "at",
+        "all",
+        "that",
+        "sounds"
+      ],
+      "tip": "",
+      "id": "A2-C11-T03",
+      "targetWords": 6,
+      "everyday": "Yeah, sounds good.",
+      "reactive": false
+    },
+    {
+      "prompt": "What days would work best for you?",
+      "options": [
+        "Evenings would be best for me.",
+        "I prefer weekday mornings.",
+        "Weekends work better for me."
+      ],
+      "keywords": [
+        "evenings",
+        "would",
+        "be",
+        "best",
+        "for",
+        "me",
+        "i",
+        "prefer",
+        "weekday",
+        "mornings",
+        "weekends",
+        "work"
+      ],
+      "tip": "",
+      "id": "A2-C11-T04",
+      "targetWords": 7,
+      "everyday": "Evenings work best, honestly.",
+      "reactive": false,
+      "openAnswer": true
+    },
+    {
+      "prompt": "Classes are on Tuesdays and Thursdays at seven. Does that suit you?",
+      "options": [
+        "Yes, that suits me perfectly.",
+        "That should be fine for me.",
+        "Yes, I can manage that."
+      ],
+      "keywords": [
+        "yes",
+        "that",
+        "suits",
+        "me",
+        "perfectly",
+        "should",
+        "be",
+        "fine",
+        "for",
+        "i",
+        "can",
+        "manage"
+      ],
+      "tip": "",
+      "id": "A2-C11-T05",
+      "targetWords": 6,
+      "everyday": "Perfect, that works.",
+      "reactive": true
+    },
+    {
+      "prompt": "How many people are usually in a class?",
+      "options": [
+        "Around eight or ten people, I think.",
+        "I imagine about ten students.",
+        "Not sure, maybe a small group."
+      ],
+      "keywords": [
+        "around",
+        "eight",
+        "or",
+        "ten",
+        "people",
+        "i",
+        "think",
+        "imagine",
+        "about",
+        "students",
+        "not",
+        "sure"
+      ],
+      "tip": "",
+      "id": "A2-C11-T06",
+      "targetWords": 8,
+      "everyday": "Maybe eight or ten, not sure exactly.",
+      "reactive": false,
+      "openAnswer": true
+    },
+    {
+      "prompt": "Do you need any materials for the first class?",
+      "options": [
+        "Just a notebook and a pen, I think.",
+        "I'm not sure, could you tell me?",
+        "Maybe a notebook, right?"
+      ],
+      "keywords": [
+        "just",
+        "a",
+        "notebook",
+        "and",
+        "pen",
+        "i",
+        "think",
+        "i'm",
+        "not",
+        "sure",
+        "could",
+        "you"
+      ],
+      "tip": "",
+      "id": "A2-C11-T07",
+      "targetWords": 8,
+      "everyday": "Not sure, actually — what do I need?",
+      "reactive": true
+    },
+    {
+      "prompt": "The first class is next Tuesday. Can you come?",
+      "options": [
+        "Yes, I can come next Tuesday.",
+        "Yes, that works for me.",
+        "Yes, I'll be there."
+      ],
+      "keywords": [
+        "yes",
+        "i",
+        "can",
+        "come",
+        "next",
+        "tuesday",
+        "that",
+        "works",
+        "for",
+        "me",
+        "i'll",
+        "be"
+      ],
+      "tip": "",
+      "id": "A2-C11-T08",
+      "targetWords": 6,
+      "everyday": "Yep, Tuesday's fine.",
+      "reactive": false
+    },
+    {
+      "prompt": "Would you like to receive updates by email?",
+      "options": [
+        "Yes, please, that would help.",
+        "Yes, my email is fine for that.",
+        "No, thank you, that's fine."
+      ],
+      "keywords": [
+        "yes",
+        "please",
+        "that",
+        "would",
+        "help",
+        "my",
+        "email",
+        "is",
+        "fine",
+        "for",
+        "no",
+        "thank"
+      ],
+      "tip": "",
+      "id": "A2-C11-T09",
+      "targetWords": 7,
+      "everyday": "Sure, that'd be handy.",
+      "reactive": false
+    },
+    {
+      "prompt": "Great, welcome to the class! Anything else you'd like to ask?",
+      "options": [
+        "No, thank you for your help.",
+        "Just one thing — where is the classroom?",
+        "No, I think that's everything."
+      ],
+      "keywords": [
+        "no",
+        "thank",
+        "you",
+        "for",
+        "your",
+        "help",
+        "just",
+        "one",
+        "thing",
+        "where",
+        "is",
+        "the"
+      ],
+      "tip": "",
+      "id": "A2-C11-T10",
+      "targetWords": 7,
+      "everyday": "Just one thing — where's the classroom?",
+      "reactive": true
+    }
+  ]
+},
+{
+  "id": "A2-C12",
+  "level": "A2",
+  "emoji": "📞",
+  "title": "Calling in sick to work",
+  "topic": "Work situations",
+  "estimatedMinutes": 4,
+  "canDo": "Make a simple work call about being unwell and confirm next steps",
+  "functions": [
+    "work",
+    "phone",
+    "explaining"
+  ],
+  "cefrFocus": "Routine spoken interaction",
+  "turns": [
+    {
+      "prompt": "Hello, this is the office. How can I help?",
+      "options": [
+        "Hi, I'm calling because I'm feeling unwell.",
+        "Hello, I'm not feeling well today.",
+        "Hi, I need to talk about today."
+      ],
+      "keywords": [
+        "hi",
+        "i'm",
+        "calling",
+        "because",
+        "feeling",
+        "unwell",
+        "hello",
+        "not",
+        "well",
+        "today",
+        "i",
+        "need"
+      ],
+      "tip": "",
+      "id": "A2-C12-T01",
+      "targetWords": 7,
+      "everyday": "Hi, just calling to say I'm not feeling great.",
+      "reactive": false
+    },
+    {
+      "prompt": "I'm sorry to hear that. What's wrong?",
+      "options": [
+        "I have a bad headache and a fever.",
+        "I think I have a cold.",
+        "I'm feeling very tired and unwell."
+      ],
+      "keywords": [
+        "i",
+        "have",
+        "a",
+        "bad",
+        "headache",
+        "and",
+        "fever",
+        "think",
+        "cold",
+        "i'm",
+        "feeling",
+        "very"
+      ],
+      "tip": "",
+      "id": "A2-C12-T02",
+      "targetWords": 7,
+      "everyday": "Think I'm coming down with something.",
+      "reactive": false,
+      "openAnswer": true
+    },
+    {
+      "prompt": "Do you think you'll be able to come in tomorrow?",
+      "options": [
+        "I hope so, I'll let you know.",
+        "I'm not sure yet, honestly.",
+        "I think I'll be fine tomorrow."
+      ],
+      "keywords": [
+        "i",
+        "hope",
+        "so",
+        "i'll",
+        "let",
+        "you",
+        "know",
+        "i'm",
+        "not",
+        "sure",
+        "yet",
+        "honestly"
+      ],
+      "tip": "",
+      "id": "A2-C12-T03",
+      "targetWords": 7,
+      "everyday": "Not sure yet, honestly, I'll see how it goes.",
+      "reactive": true,
+      "openAnswer": true
+    },
+    {
+      "prompt": "No problem. Do you have any meetings today?",
+      "options": [
+        "Yes, I have a meeting at ten.",
+        "No, I don't have any today.",
+        "Yes, but it can wait."
+      ],
+      "keywords": [
+        "yes",
+        "i",
+        "have",
+        "a",
+        "meeting",
+        "at",
+        "ten",
+        "no",
+        "don't",
+        "any",
+        "today",
+        "but"
+      ],
+      "tip": "",
+      "id": "A2-C12-T04",
+      "targetWords": 6,
+      "everyday": "Yeah, one at ten.",
+      "reactive": false,
+      "openAnswer": true
+    },
+    {
+      "prompt": "I can move that meeting for you. Is that okay?",
+      "options": [
+        "Yes, that would really help.",
+        "Yes, please, thank you.",
+        "That's very kind, thank you."
+      ],
+      "keywords": [
+        "yes",
+        "that",
+        "would",
+        "really",
+        "help",
+        "please",
+        "thank",
+        "you",
+        "that's",
+        "very",
+        "kind"
+      ],
+      "tip": "",
+      "id": "A2-C12-T05",
+      "targetWords": 6,
+      "everyday": "That'd really help, thanks.",
+      "reactive": false
+    },
+    {
+      "prompt": "Do you need anything from us while you rest?",
+      "options": [
+        "No, I just need some rest.",
+        "No, I think I'm okay, thanks.",
+        "Just some time to recover, thanks."
+      ],
+      "keywords": [
+        "no",
+        "i",
+        "just",
+        "need",
+        "some",
+        "rest",
+        "think",
+        "i'm",
+        "okay",
+        "thanks",
+        "time",
+        "to"
+      ],
+      "tip": "",
+      "id": "A2-C12-T06",
+      "targetWords": 6,
+      "everyday": "Just need to rest, that's all.",
+      "reactive": false
+    },
+    {
+      "prompt": "Should I tell the rest of the team?",
+      "options": [
+        "Yes, please, that would help.",
+        "Yes, could you let them know?",
+        "Yes, that would be great, thanks."
+      ],
+      "keywords": [
+        "yes",
+        "please",
+        "that",
+        "would",
+        "help",
+        "could",
+        "you",
+        "let",
+        "them",
+        "know",
+        "be",
+        "great"
+      ],
+      "tip": "",
+      "id": "A2-C12-T07",
+      "targetWords": 6,
+      "everyday": "Yeah, could you tell them for me?",
+      "reactive": false
+    },
+    {
+      "prompt": "Take care, and rest well.",
+      "options": [
+        "Thank you, I really appreciate it.",
+        "Thanks a lot, see you soon.",
+        "Thank you, I will."
+      ],
+      "keywords": [
+        "thank",
+        "you",
+        "i",
+        "really",
+        "appreciate",
+        "it",
+        "thanks",
+        "a",
+        "lot",
+        "see",
+        "soon",
+        "will"
+      ],
+      "tip": "",
+      "id": "A2-C12-T08",
+      "targetWords": 5,
+      "everyday": "Cheers, see you soon.",
+      "reactive": false
+    },
+    {
+      "prompt": "Let us know how you feel tomorrow morning.",
+      "options": [
+        "I will, thank you.",
+        "Sure, I'll send a message.",
+        "Of course, I'll call in the morning."
+      ],
+      "keywords": [
+        "i",
+        "will",
+        "thank",
+        "you",
+        "sure",
+        "i'll",
+        "send",
+        "a",
+        "message",
+        "of",
+        "course",
+        "call"
+      ],
+      "tip": "",
+      "id": "A2-C12-T09",
+      "targetWords": 6,
+      "everyday": "Sure, I'll text you.",
+      "reactive": false
+    },
+    {
+      "prompt": "Feel better soon!",
+      "options": [
+        "Thank you very much.",
+        "Thanks, I hope so too.",
+        "Thank you, bye for now."
+      ],
+      "keywords": [
+        "thank",
+        "you",
+        "very",
+        "much",
+        "thanks",
+        "i",
+        "hope",
+        "so",
+        "too",
+        "bye",
+        "for",
+        "now"
+      ],
+      "tip": "",
+      "id": "A2-C12-T10",
+      "targetWords": 5,
+      "everyday": "Thanks, hope so too.",
+      "reactive": false
+    }
+  ]
+},
+{
+  "id": "A2-C13",
+  "level": "A2",
+  "emoji": "🧾",
+  "title": "A mix-up with a booking",
+  "topic": "Problem solving",
+  "estimatedMinutes": 4,
+  "canDo": "Cope with a mix-up over a booking and ask for it to be corrected",
+  "functions": [
+    "problem solving",
+    "clarifying",
+    "requests"
+  ],
+  "cefrFocus": "Routine spoken interaction",
+  "turns": [
+    {
+      "prompt": "Hello, how can I help you today?",
+      "options": [
+        "Hi, I think there's a problem with my booking.",
+        "Hello, my booking doesn't look right.",
+        "Hi, I need to check something about my reservation."
+      ],
+      "keywords": [
+        "hi",
+        "i",
+        "think",
+        "there's",
+        "a",
+        "problem",
+        "with",
+        "my",
+        "booking",
+        "hello",
+        "doesn't",
+        "look"
+      ],
+      "tip": "",
+      "id": "A2-C13-T01",
+      "targetWords": 8,
+      "everyday": "Hi, something's off with my booking.",
+      "reactive": false
+    },
+    {
+      "prompt": "I'm sorry to hear that. What seems to be wrong?",
+      "options": [
+        "The date on my booking is wrong.",
+        "I booked for two people, not one.",
+        "The booking shows the wrong room."
+      ],
+      "keywords": [
+        "the",
+        "date",
+        "on",
+        "my",
+        "booking",
+        "is",
+        "wrong",
+        "i",
+        "booked",
+        "for",
+        "two",
+        "people"
+      ],
+      "tip": "",
+      "id": "A2-C13-T02",
+      "targetWords": 7,
+      "everyday": "The date's wrong on it.",
+      "reactive": false,
+      "openAnswer": true
+    },
+    {
+      "prompt": "Let me check that for you. Do you have a booking number?",
+      "options": [
+        "Yes, one moment, please.",
+        "Yes, I have it here.",
+        "Yes, let me find it."
+      ],
+      "keywords": [
+        "yes",
+        "one",
+        "moment",
+        "please",
+        "i",
+        "have",
+        "it",
+        "here",
+        "let",
+        "me",
+        "find"
+      ],
+      "tip": "",
+      "id": "A2-C13-T03",
+      "targetWords": 5,
+      "everyday": "Yep, got it right here.",
+      "reactive": false
+    },
+    {
+      "prompt": "Thanks. I can see the mistake now. I'll fix it for you.",
+      "options": [
+        "Thank you so much for checking.",
+        "That's a big help, thank you.",
+        "Great, thank you very much."
+      ],
+      "keywords": [
+        "thank",
+        "you",
+        "so",
+        "much",
+        "for",
+        "checking",
+        "that's",
+        "a",
+        "big",
+        "help",
+        "great",
+        "very"
+      ],
+      "tip": "",
+      "id": "A2-C13-T04",
+      "targetWords": 6,
+      "everyday": "That's a huge help, thanks.",
+      "reactive": true
+    },
+    {
+      "prompt": "Is there anything else that isn't correct?",
+      "options": [
+        "No, I think that was the only thing.",
+        "Actually, yes, one more detail.",
+        "No, that's everything, thank you."
+      ],
+      "keywords": [
+        "no",
+        "i",
+        "think",
+        "that",
+        "was",
+        "the",
+        "only",
+        "thing",
+        "actually",
+        "yes",
+        "one",
+        "more"
+      ],
+      "tip": "",
+      "id": "A2-C13-T05",
+      "targetWords": 7,
+      "everyday": "Nope, that was the only thing.",
+      "reactive": true
+    },
+    {
+      "prompt": "It's fixed now. Can you check the details, please?",
+      "options": [
+        "Yes, that looks correct now.",
+        "Yes, everything looks fine now.",
+        "Yes, this is right, thank you."
+      ],
+      "keywords": [
+        "yes",
+        "that",
+        "looks",
+        "correct",
+        "now",
+        "everything",
+        "fine",
+        "this",
+        "is",
+        "right",
+        "thank",
+        "you"
+      ],
+      "tip": "",
+      "id": "A2-C13-T06",
+      "targetWords": 6,
+      "everyday": "Yep, looks right now.",
+      "reactive": false
+    },
+    {
+      "prompt": "Would you like a confirmation by email?",
+      "options": [
+        "Yes, please, that would help.",
+        "Yes, that would be useful, thanks.",
+        "No, that's not necessary, thanks."
+      ],
+      "keywords": [
+        "yes",
+        "please",
+        "that",
+        "would",
+        "help",
+        "be",
+        "useful",
+        "thanks",
+        "no",
+        "that's",
+        "not",
+        "necessary"
+      ],
+      "tip": "",
+      "id": "A2-C13-T07",
+      "targetWords": 6,
+      "everyday": "Sure, that'd be great, thanks.",
+      "reactive": false
+    },
+    {
+      "prompt": "I'm sorry again for the confusion.",
+      "options": [
+        "That's okay, thank you for fixing it.",
+        "No problem, thank you for your help.",
+        "It's fine, thanks for sorting it out."
+      ],
+      "keywords": [
+        "that's",
+        "okay",
+        "thank",
+        "you",
+        "for",
+        "fixing",
+        "it",
+        "no",
+        "problem",
+        "your",
+        "help",
+        "it's"
+      ],
+      "tip": "",
+      "id": "A2-C13-T08",
+      "targetWords": 7,
+      "everyday": "No worries, thanks for sorting it.",
+      "reactive": false
+    },
+    {
+      "prompt": "Is there anything else I can help you with?",
+      "options": [
+        "No, that's everything, thank you.",
+        "No, that's all for now, thanks.",
+        "Just one more small question."
+      ],
+      "keywords": [
+        "no",
+        "that's",
+        "everything",
+        "thank",
+        "you",
+        "all",
+        "for",
+        "now",
+        "thanks",
+        "just",
+        "one",
+        "more"
+      ],
+      "tip": "",
+      "id": "A2-C13-T09",
+      "targetWords": 6,
+      "everyday": "Nope, all good, thanks.",
+      "reactive": true
+    },
+    {
+      "prompt": "Have a great day, and sorry again!",
+      "options": [
+        "Thank you, you too.",
+        "Thanks, no problem at all.",
+        "Thank you, take care."
+      ],
+      "keywords": [
+        "thank",
+        "you",
+        "too",
+        "thanks",
+        "no",
+        "problem",
+        "at",
+        "all",
+        "take",
+        "care"
+      ],
+      "tip": "",
+      "id": "A2-C13-T10",
+      "targetWords": 5,
+      "everyday": "Cheers, no worries at all.",
+      "reactive": false
+    }
+  ]
+},
+{
+  "id": "A2-C14",
+  "level": "A2",
+  "emoji": "🎬",
+  "title": "Talking about a film or book",
+  "topic": "Opinions",
+  "estimatedMinutes": 4,
+  "canDo": "Give a simple opinion about a film or book and explain why",
+  "functions": [
+    "opinion",
+    "describing",
+    "recommending"
+  ],
+  "cefrFocus": "Routine spoken interaction",
+  "turns": [
+    {
+      "prompt": "Have you watched or read anything good recently?",
+      "options": [
+        "Yes, I watched a good film last week.",
+        "Yes, I'm reading an interesting book.",
+        "Yes, I saw a great film recently."
+      ],
+      "keywords": [
+        "yes",
+        "i",
+        "watched",
+        "a",
+        "good",
+        "film",
+        "last",
+        "week",
+        "i'm",
+        "reading",
+        "an",
+        "interesting"
+      ],
+      "tip": "",
+      "id": "A2-C14-T01",
+      "targetWords": 8,
+      "everyday": "Yeah, caught a good film last week.",
+      "reactive": false,
+      "openAnswer": true
+    },
+    {
+      "prompt": "What was it about?",
+      "options": [
+        "It was about a family and their problems.",
+        "It was about a journey to a new city.",
+        "It was about someone starting a new life."
+      ],
+      "keywords": [
+        "it",
+        "was",
+        "about",
+        "a",
+        "family",
+        "and",
+        "their",
+        "problems",
+        "journey",
+        "to",
+        "new",
+        "city"
+      ],
+      "tip": "",
+      "id": "A2-C14-T02",
+      "targetWords": 8,
+      "everyday": "Basically about a family and their problems.",
+      "reactive": true,
+      "openAnswer": true
+    },
+    {
+      "prompt": "Did you like it?",
+      "options": [
+        "Yes, I really enjoyed it.",
+        "Yes, I liked it a lot.",
+        "It was good, but a bit long."
+      ],
+      "keywords": [
+        "yes",
+        "i",
+        "really",
+        "enjoyed",
+        "it",
+        "liked",
+        "a",
+        "lot",
+        "was",
+        "good",
+        "but",
+        "bit"
+      ],
+      "tip": "",
+      "id": "A2-C14-T03",
+      "targetWords": 6,
+      "everyday": "Yeah, really enjoyed it.",
+      "reactive": false,
+      "openAnswer": true
+    },
+    {
+      "prompt": "What did you like most about it?",
+      "options": [
+        "I liked the characters the most.",
+        "I liked the story the most.",
+        "I liked how it ended."
+      ],
+      "keywords": [
+        "i",
+        "liked",
+        "the",
+        "characters",
+        "most",
+        "story",
+        "how",
+        "it",
+        "ended"
+      ],
+      "tip": "",
+      "id": "A2-C14-T04",
+      "targetWords": 6,
+      "everyday": "Mainly the characters, honestly.",
+      "reactive": true,
+      "openAnswer": true
+    },
+    {
+      "prompt": "Was there anything you didn't like?",
+      "options": [
+        "It was a little slow at times.",
+        "The ending was a bit confusing.",
+        "No, I liked everything, actually."
+      ],
+      "keywords": [
+        "it",
+        "was",
+        "a",
+        "little",
+        "slow",
+        "at",
+        "times",
+        "the",
+        "ending",
+        "bit",
+        "confusing",
+        "no"
+      ],
+      "tip": "",
+      "id": "A2-C14-T05",
+      "targetWords": 7,
+      "everyday": "Dragged a bit in places.",
+      "reactive": false,
+      "openAnswer": true
+    },
+    {
+      "prompt": "Would you recommend it to a friend?",
+      "options": [
+        "Yes, I would recommend it.",
+        "Yes, definitely, it's very good.",
+        "Maybe, if they like that type of story."
+      ],
+      "keywords": [
+        "yes",
+        "i",
+        "would",
+        "recommend",
+        "it",
+        "definitely",
+        "it's",
+        "very",
+        "good",
+        "maybe",
+        "if",
+        "they"
+      ],
+      "tip": "",
+      "id": "A2-C14-T06",
+      "targetWords": 6,
+      "everyday": "Yeah, definitely worth watching.",
+      "reactive": false,
+      "openAnswer": true
+    },
+    {
+      "prompt": "What type of films or books do you usually like?",
+      "options": [
+        "I usually like comedies.",
+        "I prefer real stories.",
+        "I like mysteries and thrillers."
+      ],
+      "keywords": [
+        "i",
+        "usually",
+        "like",
+        "comedies",
+        "prefer",
+        "real",
+        "stories",
+        "mysteries",
+        "and",
+        "thrillers"
+      ],
+      "tip": "",
+      "id": "A2-C14-T07",
+      "targetWords": 6,
+      "everyday": "Mostly comedies, to be honest.",
+      "reactive": false,
+      "openAnswer": true
+    },
+    {
+      "prompt": "Do you prefer watching films or reading books?",
+      "options": [
+        "I prefer watching films.",
+        "I prefer reading books.",
+        "It depends on my mood."
+      ],
+      "keywords": [
+        "i",
+        "prefer",
+        "watching",
+        "films",
+        "reading",
+        "books",
+        "it",
+        "depends",
+        "on",
+        "my",
+        "mood"
+      ],
+      "tip": "",
+      "id": "A2-C14-T08",
+      "targetWords": 6,
+      "everyday": "Films, definitely.",
+      "reactive": false,
+      "openAnswer": true
+    },
+    {
+      "prompt": "How often do you watch films or read books?",
+      "options": [
+        "I watch a film every week.",
+        "I read a little every day.",
+        "Not very often, honestly."
+      ],
+      "keywords": [
+        "i",
+        "watch",
+        "a",
+        "film",
+        "every",
+        "week",
+        "read",
+        "little",
+        "day",
+        "not",
+        "very",
+        "often"
+      ],
+      "tip": "",
+      "id": "A2-C14-T09",
+      "targetWords": 7,
+      "everyday": "Pretty much every week.",
+      "reactive": false,
+      "openAnswer": true
+    },
+    {
+      "prompt": "Thanks for sharing! Any final thoughts?",
+      "options": [
+        "No, that's everything, thanks.",
+        "I'd just say it's worth watching.",
+        "No, I think that's all, thank you."
+      ],
+      "keywords": [
+        "no",
+        "that's",
+        "everything",
+        "thanks",
+        "i'd",
+        "just",
+        "say",
+        "it's",
+        "worth",
+        "watching",
+        "i",
+        "think"
+      ],
+      "tip": "",
+      "id": "A2-C14-T10",
+      "targetWords": 6,
+      "everyday": "Just that it's worth watching, really.",
+      "reactive": true
+    }
+  ]
+}
 ];

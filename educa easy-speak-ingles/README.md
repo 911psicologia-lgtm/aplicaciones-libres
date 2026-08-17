@@ -1,4 +1,4 @@
-# Easy Speak v0.4.7 — Single Mic Session (audited)
+# Easy Speak v0.4.8 — Single Mic Session + Expanded Content (audited)
 
 This build preserves the v0.4.5 bilingual UI and revises the v0.4.6 microphone stability design after a DSEBI audit found that its central claim — automatic recognition safely reusing one authorized track everywhere — could not actually be guaranteed on most real mobile browsers.
 
@@ -40,6 +40,32 @@ Practice and Pronunciation Boost feedback (status text, transcript, scores) is a
 
 ## Deployment
 
-Replace the whole previous app folder in GitHub / Cloudflare Pages. The service-worker cache is versioned as `easy-speak-v0.4.7`.
+Replace the whole previous app folder in GitHub / Cloudflare Pages. The service-worker cache is versioned as `easy-speak-v0.4.8`.
 
 Direct `file://` testing is browser-dependent. The app now avoids repeated permission requests inside one open page, but a browser may still ask again after the local file is closed/reopened because permission persistence belongs to the browser, not to Easy Speak.
+
+## v0.4.8: content expansion (4 new conversations per CEFR level)
+
+Added 16 new conversations (4 per level, A1–B2) targeting domain gaps found in a content audit: the original set leaned heavily on the personal domain at A1 and on public/argumentative discourse at B2, with almost no situational coverage of the educational or occupational domains at any level, and no B2 conversation grounded in personal or hypothetical-ethical reasoning.
+
+New conversations by level:
+- **A1** (+4, 5 turns each): asking for help in a shop (public domain), an English class (educational), a day at work (occupational), talking about a friend (personal/relationships).
+- **A2** (+4, 10 turns each): joining a class (educational), calling in sick to work (occupational), a mix-up with a booking (repair scenario — explicit A2 can-do), talking about a film or book (opinion, bridging toward B1).
+- **B1** (+4, 14 turns each): job interviews (occupational), everyday disagreements (personal/conflict), dreams and ambitions (personal, explicit B1 can-do), feedback and mentoring (educational).
+- **B2** (+4, 18 turns each): a difficult personal decision (personal domain, previously absent at B2), negotiating a pay rise (occupational negotiation), defending an academic argument (educational), a whistleblowing dilemma (hypothetical/ethical reasoning).
+
+B1 and B2 conversations were generated from the same recipe-based template already used for the original ten conversations per level (visible in `es-b1.js`/`es-b2.js`), so English and Spanish stay structurally consistent with the existing dataset. A1 and A2 conversations were hand-authored to match the situational, non-templated style of the original content in those levels.
+
+Verified before release: EN/ES turn-id parity (658/658, zero gaps), zero duplicate turn or conversation ids, valid JS syntax across all 8 data files, and a live run of `Engine.queueFor`, `Scoring.evaluate`, `Pronunciation.deriveItems` and the auto-translated branch logic in `spanish.js` against the new content — all completed without errors.
+
+### Fix: the "Everyday" option was silently disabled on the first draft
+
+A follow-up quality pass found that the first draft of the 16 new conversations set `turn.everyday` to text identical to one of the three scripted options in 60 of 60 new A1/A2 turns and 8 of 128 new B1/B2 turns. `modelOptions()` in `app.js` deduplicates by normalized text before rendering the "Ways to say it" cards, so an `everyday` value identical to an existing option is silently dropped — the turn quietly loses its fourth, "EVERYDAY"-tagged card instead of erroring.
+
+Measured against the original ten conversations per level: English duplication was 2% in A1 and 0% in A2/B1/B2 — meaning the first draft was a real, measurable regression from the dataset's own established convention, not a stylistic nitpick. (Spanish is different: the original translations already reuse an option verbatim as `e` in 78% of A1/A2 turns, so that duplication is the existing norm there, not a defect — Spanish was improved opportunistically but not treated as broken.)
+
+All 60 new English `everyday` fields were rewritten as genuinely distinct casual variants (contractions, dropped openers, interjections — e.g. "Just looking for the bags, please." instead of repeating "Yes, please. Where are the bags?"), and the 8 templated B1/B2 duplicates were fixed by reapplying the exact prefix pattern the original template already used for those turn positions ("Personally, ..." for T09/T14, "For instance, ..." for T04). Re-verified after the fix: 0/188 new turns have an `everyday` value identical to a scripted option.
+
+### Still not done
+
+A native-speaker pedagogical review of the new English content, and a Spanish-speaker review of the new translations. Everything verified so far is structural (parity, syntax, engine behaviour, the specific "everyday" defect above) — it confirms the content **works**, not that every sentence **reads naturally** to a native ear. Recommended before wide release.

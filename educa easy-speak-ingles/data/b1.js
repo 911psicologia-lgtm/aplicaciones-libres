@@ -3869,5 +3869,1500 @@ window.EASY_SPEAK_DATA.B1 = [
       "advice"
     ],
     "cefrFocus": "Independent spoken interaction and production"
-  }
+  },
+{
+  "id": "B1-C11",
+  "level": "B1",
+  "emoji": "💼",
+  "title": "Job interviews",
+  "topic": "Work situations",
+  "estimatedMinutes": 6,
+  "turns": [
+    {
+      "prompt": "Let’s start with interview preparation. What experience or connection do you have with this topic?",
+      "options": [
+        "Yes. I have some experience with this topic, and I can connect it to everyday life.",
+        "Yes. I can think of situations where this topic has affected me or people close to me.",
+        "I know the topic well enough to describe an example and give my opinion."
+      ],
+      "keywords": [
+        "yes",
+        "some",
+        "experience",
+        "topic",
+        "connect",
+        "everyday",
+        "life"
+      ],
+      "tip": "",
+      "id": "B1-C11-T01",
+      "targetWords": 12,
+      "everyday": "Yes, I've got some experience with this and can connect it to everyday life.",
+      "reactive": false,
+      "openAnswer": true
+    },
+    {
+      "prompt": "Why can job interviews matter in everyday life?",
+      "options": [
+        "I think it is important because a good interview helps me show my real skills, not just my qualifications on paper.",
+        "For me, it matters because a good interview helps me show my real skills, not just my qualifications on paper.",
+        "I value it because a good interview helps me show my real skills, not just my qualifications on paper."
+      ],
+      "keywords": [
+        "think",
+        "important",
+        "good",
+        "interview",
+        "helps",
+        "show",
+        "real",
+        "skills",
+        "qualifications",
+        "paper"
+      ],
+      "tip": "",
+      "id": "B1-C11-T02",
+      "targetWords": 14,
+      "everyday": "It matters to me because a good interview helps me show my real skills, not just my qualifications on paper.",
+      "reactive": false,
+      "openAnswer": true,
+      "branches": [
+        {
+          "minWords": 10,
+          "prompt": "You gave a fairly developed answer. Let’s make it more concrete: Give me one concrete situation that shows what interview preparation looks like in practice."
+        }
+      ]
+    },
+    {
+      "prompt": "Give me one concrete situation that shows what interview preparation looks like in practice.",
+      "options": [
+        "A typical example for me is an interview where I had to explain a mistake I made and what I learned from it.",
+        "I often think about an interview where I had to explain a mistake I made and what I learned from it.",
+        "One common situation is an interview where I had to explain a mistake I made and what I learned from it."
+      ],
+      "keywords": [
+        "typical",
+        "example",
+        "interview",
+        "where",
+        "explain",
+        "mistake",
+        "made",
+        "what",
+        "learned"
+      ],
+      "tip": "",
+      "id": "B1-C11-T03",
+      "targetWords": 14,
+      "everyday": "A common example for me is an interview where I had to explain a mistake I made and what I learned from it.",
+      "reactive": true,
+      "openAnswer": true
+    },
+    {
+      "prompt": "Think back to a real experience connected with job interviews. What happened?",
+      "options": [
+        "Yes, I remember an interview where I felt nervous at the start but became more confident once I started giving examples.",
+        "I once experienced an interview where I felt nervous at the start but became more confident once I started giving examples, and I learned from it.",
+        "A useful example from my own experience is an interview where I felt nervous at the start but became more confident once I started giving examples."
+      ],
+      "keywords": [
+        "yes",
+        "remember",
+        "interview",
+        "where",
+        "felt",
+        "nervous",
+        "start",
+        "became",
+        "more",
+        "confident"
+      ],
+      "tip": "",
+      "id": "B1-C11-T04",
+      "targetWords": 14,
+      "everyday": "Yeah, I remember an interview where I felt nervous at the start but became more confident once I started giving examples.",
+      "reactive": false,
+      "openAnswer": true
+    },
+    {
+      "prompt": "What is one difficulty people may face when dealing with interview preparation?",
+      "options": [
+        "One difficulty is answering questions I did not prepare for.",
+        "The main challenge can be answering questions I did not prepare for.",
+        "I think a common problem is answering questions I did not prepare for."
+      ],
+      "keywords": [
+        "one",
+        "difficulty",
+        "answering",
+        "questions",
+        "prepare"
+      ],
+      "tip": "",
+      "id": "B1-C11-T05",
+      "targetWords": 10,
+      "everyday": "The hard part can be answering questions I did not prepare for.",
+      "reactive": false,
+      "openAnswer": true
+    },
+    {
+      "prompt": "If that difficulty appeared in job interviews, how would you respond step by step?",
+      "options": [
+        "I would take a short pause, think about a real example, and answer calmly.",
+        "A practical response would be to take a short pause, think about a real example, and answer calmly.",
+        "I'd probably take a short pause, think about a real example, and answer calmly."
+      ],
+      "keywords": [
+        "take",
+        "short",
+        "pause",
+        "think",
+        "real",
+        "example",
+        "answer",
+        "calmly"
+      ],
+      "tip": "",
+      "id": "B1-C11-T06",
+      "targetWords": 13,
+      "everyday": "I’d take a short pause, think about a real example, and answer calmly.",
+      "reactive": false,
+      "openAnswer": true
+    },
+    {
+      "prompt": "When you think about job interviews, what option or approach do you personally prefer, and why?",
+      "options": [
+        "I usually prefer preparing a few flexible examples rather than memorising fixed answers because it works better for me.",
+        "It depends, but I would generally choose preparing a few flexible examples rather than memorising fixed answers.",
+        "Both can work, although I tend to prefer preparing a few flexible examples rather than memorising fixed answers."
+      ],
+      "keywords": [
+        "usually",
+        "prefer",
+        "preparing",
+        "few",
+        "flexible",
+        "examples",
+        "rather",
+        "memorising",
+        "fixed",
+        "answers"
+      ],
+      "tip": "",
+      "id": "B1-C11-T07",
+      "targetWords": 12,
+      "everyday": "I’d usually go with preparing a few flexible examples rather than memorising fixed answers because it works better for me.",
+      "reactive": true,
+      "openAnswer": true,
+      "branches": [
+        {
+          "minWords": 10,
+          "prompt": "You gave a fairly developed answer. Let’s make it more concrete: What is your current opinion about the main issue in job interviews?"
+        }
+      ]
+    },
+    {
+      "prompt": "What is your current opinion about the main issue in job interviews?",
+      "options": [
+        "My view is that confidence matters less than being able to explain your experience clearly.",
+        "I think confidence matters less than being able to explain your experience clearly.",
+        "In my experience, confidence matters less than being able to explain your experience clearly."
+      ],
+      "keywords": [
+        "view",
+        "confidence",
+        "matters",
+        "less",
+        "able",
+        "explain",
+        "experience",
+        "clearly"
+      ],
+      "tip": "",
+      "id": "B1-C11-T08",
+      "targetWords": 13,
+      "everyday": "Personally, I think confidence matters less than being able to explain your experience clearly.",
+      "reactive": false,
+      "openAnswer": true
+    },
+    {
+      "prompt": "Can you support that opinion with a specific example from interview preparation?",
+      "options": [
+        "For example, an interview where I felt nervous at the start but became more confident once I started giving examples.",
+        "One example would be an interview where I felt nervous at the start but became more confident once I started giving examples.",
+        "A situation that illustrates this is an interview where I felt nervous at the start but became more confident once I started giving examples."
+      ],
+      "keywords": [
+        "example",
+        "interview",
+        "where",
+        "felt",
+        "nervous",
+        "start",
+        "became",
+        "more",
+        "confident",
+        "once"
+      ],
+      "tip": "",
+      "id": "B1-C11-T09",
+      "targetWords": 12,
+      "everyday": "Personally, for example, an interview where I felt nervous at the start but became more confident once I started giving examples.",
+      "reactive": false,
+      "openAnswer": true
+    },
+    {
+      "prompt": "What could go wrong if this issue in interview preparation were handled badly?",
+      "options": [
+        "A risk is giving vague answers without any real examples.",
+        "It can become a problem when people end up giving vague answers without any real examples.",
+        "One possible consequence is giving vague answers without any real examples."
+      ],
+      "keywords": [
+        "risk",
+        "giving",
+        "vague",
+        "answers",
+        "without",
+        "any",
+        "real",
+        "examples"
+      ],
+      "tip": "",
+      "id": "B1-C11-T10",
+      "targetWords": 10,
+      "everyday": "One risk is giving vague answers without any real examples.",
+      "reactive": false,
+      "openAnswer": true
+    },
+    {
+      "prompt": "What would you personally like to improve or do differently in relation to job interviews?",
+      "options": [
+        "I would like to practise explaining my experience out loud before the interview.",
+        "I want to get better at this by trying to practise explaining my experience out loud before the interview.",
+        "One change I would like to make is to practise explaining my experience out loud before the interview."
+      ],
+      "keywords": [
+        "like",
+        "practise",
+        "explaining",
+        "experience",
+        "out",
+        "loud",
+        "interview"
+      ],
+      "tip": "",
+      "id": "B1-C11-T11",
+      "targetWords": 15,
+      "everyday": "I’d like to practise explaining my experience out loud before the interview.",
+      "reactive": true,
+      "openAnswer": true
+    },
+    {
+      "prompt": "What practical advice would you give someone facing a similar situation in interview preparation?",
+      "options": [
+        "I'd suggest they prepare two or three real examples that can answer several different questions.",
+        "My advice would be to prepare two or three real examples that can answer several different questions.",
+        "I would tell them to prepare two or three real examples that can answer several different questions."
+      ],
+      "keywords": [
+        "i'd",
+        "suggest",
+        "prepare",
+        "two",
+        "three",
+        "real",
+        "examples",
+        "answer",
+        "several",
+        "different"
+      ],
+      "tip": "",
+      "id": "B1-C11-T12",
+      "targetWords": 10,
+      "everyday": "I’d tell them to prepare two or three real examples that can answer several different questions.",
+      "reactive": false,
+      "openAnswer": true
+    },
+    {
+      "prompt": "Suppose your first plan for this interview preparation situation failed. What would you try next?",
+      "options": [
+        "I would review what happened and try a different approach.",
+        "I would keep the goal, but change the strategy.",
+        "I would ask for feedback and adjust the plan."
+      ],
+      "keywords": [
+        "review",
+        "what",
+        "happened",
+        "try",
+        "different",
+        "approach"
+      ],
+      "tip": "",
+      "id": "B1-C11-T13",
+      "targetWords": 9,
+      "everyday": "I'd keep the goal, but change the strategy.",
+      "reactive": false,
+      "openAnswer": true
+    },
+    {
+      "prompt": "To close, summarise your view on job interviews in one or two connected sentences.",
+      "options": [
+        "A good interview is less about perfect answers and more about explaining real experience clearly and calmly.",
+        "For me, the key idea is this: A good interview is less about perfect answers and more about explaining real experience clearly and calmly.",
+        "Overall, I would say that a good interview is less about perfect answers and more about explaining real experience clearly and calmly."
+      ],
+      "keywords": [
+        "good",
+        "interview",
+        "less",
+        "perfect",
+        "answers",
+        "more",
+        "explaining",
+        "real",
+        "experience",
+        "clearly"
+      ],
+      "tip": "",
+      "id": "B1-C11-T14",
+      "targetWords": 12,
+      "everyday": "Personally, a good interview is less about perfect answers and more about explaining real experience clearly and calmly.",
+      "reactive": false,
+      "openAnswer": true
+    }
+  ],
+  "canDo": "Reflect on job-interview experience and explain how to prepare and respond under pressure",
+  "functions": [
+    "work",
+    "preparation",
+    "confidence"
+  ],
+  "cefrFocus": "Independent spoken interaction and production"
+},
+{
+  "id": "B1-C12",
+  "level": "B1",
+  "emoji": "🏠",
+  "title": "Everyday disagreements",
+  "topic": "Relationships",
+  "estimatedMinutes": 6,
+  "turns": [
+    {
+      "prompt": "Let’s start with everyday conflict. What experience or connection do you have with this topic?",
+      "options": [
+        "Yes. I have some experience with this topic, and I can connect it to everyday life.",
+        "Yes. I can think of situations where this topic has affected me or people close to me.",
+        "I know the topic well enough to describe an example and give my opinion."
+      ],
+      "keywords": [
+        "yes",
+        "some",
+        "experience",
+        "topic",
+        "connect",
+        "everyday",
+        "life"
+      ],
+      "tip": "",
+      "id": "B1-C12-T01",
+      "targetWords": 12,
+      "everyday": "Yes, I've got some experience with this and can connect it to everyday life.",
+      "reactive": false,
+      "openAnswer": true
+    },
+    {
+      "prompt": "Why can everyday disagreements matter in everyday life?",
+      "options": [
+        "I think it is important because small disagreements are normal, and how we handle them affects the relationship afterwards.",
+        "For me, it matters because small disagreements are normal, and how we handle them affects the relationship afterwards.",
+        "I value it because small disagreements are normal, and how we handle them affects the relationship afterwards."
+      ],
+      "keywords": [
+        "think",
+        "important",
+        "small",
+        "disagreements",
+        "normal",
+        "how",
+        "handle",
+        "them",
+        "affects",
+        "relationship"
+      ],
+      "tip": "",
+      "id": "B1-C12-T02",
+      "targetWords": 14,
+      "everyday": "It matters to me because small disagreements are normal, and how we handle them affects the relationship afterwards.",
+      "reactive": false,
+      "openAnswer": true,
+      "branches": [
+        {
+          "minWords": 10,
+          "prompt": "You gave a fairly developed answer. Let’s make it more concrete: Give me one concrete situation that shows what everyday conflict looks like in practice."
+        }
+      ]
+    },
+    {
+      "prompt": "Give me one concrete situation that shows what everyday conflict looks like in practice.",
+      "options": [
+        "A typical example for me is a disagreement about sharing chores or responsibilities at home.",
+        "I often think about a disagreement about sharing chores or responsibilities at home.",
+        "One common situation is a disagreement about sharing chores or responsibilities at home."
+      ],
+      "keywords": [
+        "typical",
+        "example",
+        "disagreement",
+        "sharing",
+        "chores",
+        "responsibilities",
+        "home"
+      ],
+      "tip": "",
+      "id": "B1-C12-T03",
+      "targetWords": 14,
+      "everyday": "A common example for me is a disagreement about sharing chores or responsibilities at home.",
+      "reactive": true,
+      "openAnswer": true
+    },
+    {
+      "prompt": "Think back to a real experience connected with everyday disagreements. What happened?",
+      "options": [
+        "Yes, I remember a disagreement that became easier once both people explained what they actually needed.",
+        "I once experienced a disagreement that became easier once both people explained what they actually needed, and I learned from it.",
+        "A useful example from my own experience is a disagreement that became easier once both people explained what they actually needed."
+      ],
+      "keywords": [
+        "yes",
+        "remember",
+        "disagreement",
+        "became",
+        "easier",
+        "once",
+        "both",
+        "people",
+        "explained",
+        "what"
+      ],
+      "tip": "",
+      "id": "B1-C12-T04",
+      "targetWords": 14,
+      "everyday": "Yeah, I remember a disagreement that became easier once both people explained what they actually needed.",
+      "reactive": false,
+      "openAnswer": true
+    },
+    {
+      "prompt": "What is one difficulty people may face when dealing with everyday conflict?",
+      "options": [
+        "One difficulty is staying calm when the other person seems to blame you.",
+        "The main challenge can be staying calm when the other person seems to blame you.",
+        "I think a common problem is staying calm when the other person seems to blame you."
+      ],
+      "keywords": [
+        "one",
+        "difficulty",
+        "staying",
+        "calm",
+        "when",
+        "other",
+        "person",
+        "seems",
+        "blame"
+      ],
+      "tip": "",
+      "id": "B1-C12-T05",
+      "targetWords": 10,
+      "everyday": "The hard part can be staying calm when the other person seems to blame you.",
+      "reactive": false,
+      "openAnswer": true
+    },
+    {
+      "prompt": "If that difficulty appeared in everyday disagreements, how would you respond step by step?",
+      "options": [
+        "I would listen first, repeat what I understood, and then explain my own point calmly.",
+        "A practical response would be to listen first, repeat what I understood, and then explain my own point calmly.",
+        "I'd probably listen first, repeat what I understood, and then explain my own point calmly."
+      ],
+      "keywords": [
+        "listen",
+        "first",
+        "repeat",
+        "what",
+        "understood",
+        "explain",
+        "own",
+        "point",
+        "calmly"
+      ],
+      "tip": "",
+      "id": "B1-C12-T06",
+      "targetWords": 13,
+      "everyday": "I’d listen first, repeat what I understood, and then explain my own point calmly.",
+      "reactive": false,
+      "openAnswer": true
+    },
+    {
+      "prompt": "When you think about everyday disagreements, what option or approach do you personally prefer, and why?",
+      "options": [
+        "I usually prefer talking about a problem directly instead of waiting for it to disappear because it works better for me.",
+        "It depends, but I would generally choose talking about a problem directly instead of waiting for it to disappear.",
+        "Both can work, although I tend to prefer talking about a problem directly instead of waiting for it to disappear."
+      ],
+      "keywords": [
+        "usually",
+        "prefer",
+        "talking",
+        "problem",
+        "directly",
+        "instead",
+        "waiting",
+        "disappear",
+        "works",
+        "better"
+      ],
+      "tip": "",
+      "id": "B1-C12-T07",
+      "targetWords": 12,
+      "everyday": "I’d usually go with talking about a problem directly instead of waiting for it to disappear because it works better for me.",
+      "reactive": true,
+      "openAnswer": true,
+      "branches": [
+        {
+          "minWords": 10,
+          "prompt": "You gave a fairly developed answer. Let’s make it more concrete: What is your current opinion about the main issue in everyday disagreements?"
+        }
+      ]
+    },
+    {
+      "prompt": "What is your current opinion about the main issue in everyday disagreements?",
+      "options": [
+        "My view is that most disagreements are less about the actual problem and more about feeling unheard.",
+        "I think most disagreements are less about the actual problem and more about feeling unheard.",
+        "In my experience, most disagreements are less about the actual problem and more about feeling unheard."
+      ],
+      "keywords": [
+        "view",
+        "most",
+        "disagreements",
+        "less",
+        "actual",
+        "problem",
+        "more",
+        "feeling",
+        "unheard"
+      ],
+      "tip": "",
+      "id": "B1-C12-T08",
+      "targetWords": 13,
+      "everyday": "Personally, I think most disagreements are less about the actual problem and more about feeling unheard.",
+      "reactive": false,
+      "openAnswer": true
+    },
+    {
+      "prompt": "Can you support that opinion with a specific example from everyday conflict?",
+      "options": [
+        "For example, a disagreement that became easier once both people explained what they actually needed.",
+        "One example would be a disagreement that became easier once both people explained what they actually needed.",
+        "A situation that illustrates this is a disagreement that became easier once both people explained what they actually needed."
+      ],
+      "keywords": [
+        "example",
+        "disagreement",
+        "became",
+        "easier",
+        "once",
+        "both",
+        "people",
+        "explained",
+        "what",
+        "actually"
+      ],
+      "tip": "",
+      "id": "B1-C12-T09",
+      "targetWords": 12,
+      "everyday": "Personally, for example, a disagreement that became easier once both people explained what they actually needed.",
+      "reactive": false,
+      "openAnswer": true
+    },
+    {
+      "prompt": "What could go wrong if this issue in everyday conflict were handled badly?",
+      "options": [
+        "A risk is letting a small issue grow into a bigger conflict by ignoring it.",
+        "It can become a problem when people end up letting a small issue grow into a bigger conflict by ignoring it.",
+        "One possible consequence is letting a small issue grow into a bigger conflict by ignoring it."
+      ],
+      "keywords": [
+        "risk",
+        "letting",
+        "small",
+        "issue",
+        "grow",
+        "bigger",
+        "conflict",
+        "ignoring"
+      ],
+      "tip": "",
+      "id": "B1-C12-T10",
+      "targetWords": 10,
+      "everyday": "One risk is letting a small issue grow into a bigger conflict by ignoring it.",
+      "reactive": false,
+      "openAnswer": true
+    },
+    {
+      "prompt": "What would you personally like to improve or do differently in relation to everyday disagreements?",
+      "options": [
+        "I would like to raise small issues earlier, before they build up.",
+        "I want to get better at this by trying to raise small issues earlier, before they build up.",
+        "One change I would like to make is to raise small issues earlier, before they build up."
+      ],
+      "keywords": [
+        "like",
+        "raise",
+        "small",
+        "issues",
+        "earlier",
+        "build"
+      ],
+      "tip": "",
+      "id": "B1-C12-T11",
+      "targetWords": 15,
+      "everyday": "I’d like to raise small issues earlier, before they build up.",
+      "reactive": true,
+      "openAnswer": true
+    },
+    {
+      "prompt": "What practical advice would you give someone facing a similar situation in everyday conflict?",
+      "options": [
+        "I'd suggest they focus on describing the situation, not attacking the other person's character.",
+        "My advice would be to focus on describing the situation, not attacking the other person's character.",
+        "I would tell them to focus on describing the situation, not attacking the other person's character."
+      ],
+      "keywords": [
+        "i'd",
+        "suggest",
+        "focus",
+        "describing",
+        "situation",
+        "attacking",
+        "other",
+        "person's",
+        "character"
+      ],
+      "tip": "",
+      "id": "B1-C12-T12",
+      "targetWords": 10,
+      "everyday": "I’d tell them to focus on describing the situation, not attacking the other person's character.",
+      "reactive": false,
+      "openAnswer": true
+    },
+    {
+      "prompt": "Suppose your first plan for this everyday conflict situation failed. What would you try next?",
+      "options": [
+        "I would review what happened and try a different approach.",
+        "I would keep the goal, but change the strategy.",
+        "I would ask for feedback and adjust the plan."
+      ],
+      "keywords": [
+        "review",
+        "what",
+        "happened",
+        "try",
+        "different",
+        "approach"
+      ],
+      "tip": "",
+      "id": "B1-C12-T13",
+      "targetWords": 9,
+      "everyday": "I'd keep the goal, but change the strategy.",
+      "reactive": false,
+      "openAnswer": true
+    },
+    {
+      "prompt": "To close, summarise your view on everyday disagreements in one or two connected sentences.",
+      "options": [
+        "Everyday disagreements become easier to manage when both people feel heard before a solution is discussed.",
+        "For me, the key idea is this: Everyday disagreements become easier to manage when both people feel heard before a solution is discussed.",
+        "Overall, I would say that everyday disagreements become easier to manage when both people feel heard before a solution is discussed."
+      ],
+      "keywords": [
+        "everyday",
+        "disagreements",
+        "become",
+        "easier",
+        "manage",
+        "when",
+        "both",
+        "people",
+        "feel",
+        "heard"
+      ],
+      "tip": "",
+      "id": "B1-C12-T14",
+      "targetWords": 12,
+      "everyday": "Personally, everyday disagreements become easier to manage when both people feel heard before a solution is discussed.",
+      "reactive": false,
+      "openAnswer": true
+    }
+  ],
+  "canDo": "Describe an everyday disagreement and explain how to communicate through it constructively",
+  "functions": [
+    "relationships",
+    "conflict",
+    "communication"
+  ],
+  "cefrFocus": "Independent spoken interaction and production"
+},
+{
+  "id": "B1-C13",
+  "level": "B1",
+  "emoji": "🌱",
+  "title": "Dreams and ambitions",
+  "topic": "Future plans",
+  "estimatedMinutes": 6,
+  "turns": [
+    {
+      "prompt": "Let’s start with long-term motivation. What experience or connection do you have with this topic?",
+      "options": [
+        "Yes. I have some experience with this topic, and I can connect it to everyday life.",
+        "Yes. I can think of situations where this topic has affected me or people close to me.",
+        "I know the topic well enough to describe an example and give my opinion."
+      ],
+      "keywords": [
+        "yes",
+        "some",
+        "experience",
+        "topic",
+        "connect",
+        "everyday",
+        "life"
+      ],
+      "tip": "",
+      "id": "B1-C13-T01",
+      "targetWords": 12,
+      "everyday": "Yes, I've got some experience with this and can connect it to everyday life.",
+      "reactive": false,
+      "openAnswer": true
+    },
+    {
+      "prompt": "Why can dreams and ambitions matter in everyday life?",
+      "options": [
+        "I think it is important because having a direction gives everyday effort more meaning, even when progress feels slow.",
+        "For me, it matters because having a direction gives everyday effort more meaning, even when progress feels slow.",
+        "I value it because having a direction gives everyday effort more meaning, even when progress feels slow."
+      ],
+      "keywords": [
+        "think",
+        "important",
+        "having",
+        "direction",
+        "gives",
+        "everyday",
+        "effort",
+        "more",
+        "meaning",
+        "even"
+      ],
+      "tip": "",
+      "id": "B1-C13-T02",
+      "targetWords": 14,
+      "everyday": "It matters to me because having a direction gives everyday effort more meaning, even when progress feels slow.",
+      "reactive": false,
+      "openAnswer": true,
+      "branches": [
+        {
+          "minWords": 10,
+          "prompt": "You gave a fairly developed answer. Let’s make it more concrete: Give me one concrete situation that shows what long-term motivation looks like in practice."
+        }
+      ]
+    },
+    {
+      "prompt": "Give me one concrete situation that shows what long-term motivation looks like in practice.",
+      "options": [
+        "A typical example for me is a long-term goal that started as a small personal interest.",
+        "I often think about a long-term goal that started as a small personal interest.",
+        "One common situation is a long-term goal that started as a small personal interest."
+      ],
+      "keywords": [
+        "typical",
+        "example",
+        "long",
+        "term",
+        "goal",
+        "started",
+        "small",
+        "personal",
+        "interest"
+      ],
+      "tip": "",
+      "id": "B1-C13-T03",
+      "targetWords": 14,
+      "everyday": "A common example for me is a long-term goal that started as a small personal interest.",
+      "reactive": true,
+      "openAnswer": true
+    },
+    {
+      "prompt": "Think back to a real experience connected with dreams and ambitions. What happened?",
+      "options": [
+        "Yes, I remember a moment when a small step actually moved me closer to a bigger goal.",
+        "I once experienced a moment when a small step actually moved me closer to a bigger goal, and I learned from it.",
+        "A useful example from my own experience is a moment when a small step actually moved me closer to a bigger goal."
+      ],
+      "keywords": [
+        "yes",
+        "remember",
+        "moment",
+        "when",
+        "small",
+        "step",
+        "actually",
+        "moved",
+        "closer",
+        "bigger"
+      ],
+      "tip": "",
+      "id": "B1-C13-T04",
+      "targetWords": 14,
+      "everyday": "Yeah, I remember a moment when a small step actually moved me closer to a bigger goal.",
+      "reactive": false,
+      "openAnswer": true
+    },
+    {
+      "prompt": "What is one difficulty people may face when dealing with long-term motivation?",
+      "options": [
+        "One difficulty is keeping motivation when progress is slow or invisible.",
+        "The main challenge can be keeping motivation when progress is slow or invisible.",
+        "I think a common problem is keeping motivation when progress is slow or invisible."
+      ],
+      "keywords": [
+        "one",
+        "difficulty",
+        "keeping",
+        "motivation",
+        "when",
+        "progress",
+        "slow",
+        "invisible"
+      ],
+      "tip": "",
+      "id": "B1-C13-T05",
+      "targetWords": 10,
+      "everyday": "The hard part can be keeping motivation when progress is slow or invisible.",
+      "reactive": false,
+      "openAnswer": true
+    },
+    {
+      "prompt": "If that difficulty appeared in dreams and ambitions, how would you respond step by step?",
+      "options": [
+        "I would break the goal into smaller steps and celebrate small progress.",
+        "A practical response would be to break the goal into smaller steps and celebrate small progress.",
+        "I'd probably break the goal into smaller steps and celebrate small progress."
+      ],
+      "keywords": [
+        "break",
+        "goal",
+        "smaller",
+        "steps",
+        "celebrate",
+        "small",
+        "progress"
+      ],
+      "tip": "",
+      "id": "B1-C13-T06",
+      "targetWords": 13,
+      "everyday": "I’d break the goal into smaller steps and celebrate small progress.",
+      "reactive": false,
+      "openAnswer": true
+    },
+    {
+      "prompt": "When you think about dreams and ambitions, what option or approach do you personally prefer, and why?",
+      "options": [
+        "I usually prefer having one clear long-term goal instead of many smaller uncertain ones because it works better for me.",
+        "It depends, but I would generally choose having one clear long-term goal instead of many smaller uncertain ones.",
+        "Both can work, although I tend to prefer having one clear long-term goal instead of many smaller uncertain ones."
+      ],
+      "keywords": [
+        "usually",
+        "prefer",
+        "having",
+        "one",
+        "clear",
+        "long",
+        "term",
+        "goal",
+        "instead",
+        "many"
+      ],
+      "tip": "",
+      "id": "B1-C13-T07",
+      "targetWords": 12,
+      "everyday": "I’d usually go with having one clear long-term goal instead of many smaller uncertain ones because it works better for me.",
+      "reactive": true,
+      "openAnswer": true,
+      "branches": [
+        {
+          "minWords": 10,
+          "prompt": "You gave a fairly developed answer. Let’s make it more concrete: What is your current opinion about the main issue in dreams and ambitions?"
+        }
+      ]
+    },
+    {
+      "prompt": "What is your current opinion about the main issue in dreams and ambitions?",
+      "options": [
+        "My view is that ambitions do not need to be realistic from day one, but plans to reach them should become more realistic over time.",
+        "I think ambitions do not need to be realistic from day one, but plans to reach them should become more realistic over time.",
+        "In my experience, ambitions do not need to be realistic from day one, but plans to reach them should become more realistic over time."
+      ],
+      "keywords": [
+        "view",
+        "ambitions",
+        "need",
+        "realistic",
+        "day",
+        "one",
+        "plans",
+        "reach",
+        "them",
+        "become"
+      ],
+      "tip": "",
+      "id": "B1-C13-T08",
+      "targetWords": 13,
+      "everyday": "Personally, I think ambitions do not need to be realistic from day one, but plans to reach them should become more realistic over time.",
+      "reactive": false,
+      "openAnswer": true
+    },
+    {
+      "prompt": "Can you support that opinion with a specific example from long-term motivation?",
+      "options": [
+        "For example, a moment when a small step actually moved me closer to a bigger goal.",
+        "One example would be a moment when a small step actually moved me closer to a bigger goal.",
+        "A situation that illustrates this is a moment when a small step actually moved me closer to a bigger goal."
+      ],
+      "keywords": [
+        "example",
+        "moment",
+        "when",
+        "small",
+        "step",
+        "actually",
+        "moved",
+        "closer",
+        "bigger",
+        "goal"
+      ],
+      "tip": "",
+      "id": "B1-C13-T09",
+      "targetWords": 12,
+      "everyday": "Personally, for example, a moment when a small step actually moved me closer to a bigger goal.",
+      "reactive": false,
+      "openAnswer": true
+    },
+    {
+      "prompt": "What could go wrong if this issue in long-term motivation were handled badly?",
+      "options": [
+        "A risk is comparing my own progress too closely with other people's.",
+        "It can become a problem when people end up comparing my own progress too closely with other people's.",
+        "One possible consequence is comparing my own progress too closely with other people's."
+      ],
+      "keywords": [
+        "risk",
+        "comparing",
+        "own",
+        "progress",
+        "too",
+        "closely",
+        "other",
+        "people's"
+      ],
+      "tip": "",
+      "id": "B1-C13-T10",
+      "targetWords": 10,
+      "everyday": "One risk is comparing my own progress too closely with other people's.",
+      "reactive": false,
+      "openAnswer": true
+    },
+    {
+      "prompt": "What would you personally like to improve or do differently in relation to dreams and ambitions?",
+      "options": [
+        "I would like to write down small, specific steps instead of only thinking about the final goal.",
+        "I want to get better at this by trying to write down small, specific steps instead of only thinking about the final goal.",
+        "One change I would like to make is to write down small, specific steps instead of only thinking about the final goal."
+      ],
+      "keywords": [
+        "like",
+        "write",
+        "down",
+        "small",
+        "specific",
+        "steps",
+        "instead",
+        "only",
+        "thinking",
+        "final"
+      ],
+      "tip": "",
+      "id": "B1-C13-T11",
+      "targetWords": 15,
+      "everyday": "I’d like to write down small, specific steps instead of only thinking about the final goal.",
+      "reactive": true,
+      "openAnswer": true
+    },
+    {
+      "prompt": "What practical advice would you give someone facing a similar situation in long-term motivation?",
+      "options": [
+        "I'd suggest they focus on the next small step, not the whole distance to the goal.",
+        "My advice would be to focus on the next small step, not the whole distance to the goal.",
+        "I would tell them to focus on the next small step, not the whole distance to the goal."
+      ],
+      "keywords": [
+        "i'd",
+        "suggest",
+        "focus",
+        "next",
+        "small",
+        "step",
+        "whole",
+        "distance",
+        "goal"
+      ],
+      "tip": "",
+      "id": "B1-C13-T12",
+      "targetWords": 10,
+      "everyday": "I’d tell them to focus on the next small step, not the whole distance to the goal.",
+      "reactive": false,
+      "openAnswer": true
+    },
+    {
+      "prompt": "Suppose your first plan for this long-term motivation situation failed. What would you try next?",
+      "options": [
+        "I would review what happened and try a different approach.",
+        "I would keep the goal, but change the strategy.",
+        "I would ask for feedback and adjust the plan."
+      ],
+      "keywords": [
+        "review",
+        "what",
+        "happened",
+        "try",
+        "different",
+        "approach"
+      ],
+      "tip": "",
+      "id": "B1-C13-T13",
+      "targetWords": 9,
+      "everyday": "I'd keep the goal, but change the strategy.",
+      "reactive": false,
+      "openAnswer": true
+    },
+    {
+      "prompt": "To close, summarise your view on dreams and ambitions in one or two connected sentences.",
+      "options": [
+        "Dreams stay motivating when they are connected to small, realistic steps taken regularly.",
+        "For me, the key idea is this: Dreams stay motivating when they are connected to small, realistic steps taken regularly.",
+        "Overall, I would say that dreams stay motivating when they are connected to small, realistic steps taken regularly."
+      ],
+      "keywords": [
+        "dreams",
+        "stay",
+        "motivating",
+        "when",
+        "connected",
+        "small",
+        "realistic",
+        "steps",
+        "taken",
+        "regularly"
+      ],
+      "tip": "",
+      "id": "B1-C13-T14",
+      "targetWords": 12,
+      "everyday": "Personally, dreams stay motivating when they are connected to small, realistic steps taken regularly.",
+      "reactive": false,
+      "openAnswer": true
+    }
+  ],
+  "canDo": "Describe personal dreams and ambitions and explain how to stay motivated toward them",
+  "functions": [
+    "future",
+    "motivation",
+    "goals"
+  ],
+  "cefrFocus": "Independent spoken interaction and production"
+},
+{
+  "id": "B1-C14",
+  "level": "B1",
+  "emoji": "🗣️",
+  "title": "Feedback and mentoring",
+  "topic": "Learning",
+  "estimatedMinutes": 6,
+  "turns": [
+    {
+      "prompt": "Let’s start with feedback. What experience or connection do you have with this topic?",
+      "options": [
+        "Yes. I have some experience with this topic, and I can connect it to everyday life.",
+        "Yes. I can think of situations where this topic has affected me or people close to me.",
+        "I know the topic well enough to describe an example and give my opinion."
+      ],
+      "keywords": [
+        "yes",
+        "some",
+        "experience",
+        "topic",
+        "connect",
+        "everyday",
+        "life"
+      ],
+      "tip": "",
+      "id": "B1-C14-T01",
+      "targetWords": 12,
+      "everyday": "Yes, I've got some experience with this and can connect it to everyday life.",
+      "reactive": false,
+      "openAnswer": true
+    },
+    {
+      "prompt": "Why can feedback and mentoring matter in everyday life?",
+      "options": [
+        "I think it is important because honest feedback helps me see blind spots I cannot notice by myself.",
+        "For me, it matters because honest feedback helps me see blind spots I cannot notice by myself.",
+        "I value it because honest feedback helps me see blind spots I cannot notice by myself."
+      ],
+      "keywords": [
+        "think",
+        "important",
+        "honest",
+        "feedback",
+        "helps",
+        "see",
+        "blind",
+        "spots",
+        "cannot",
+        "notice"
+      ],
+      "tip": "",
+      "id": "B1-C14-T02",
+      "targetWords": 14,
+      "everyday": "It matters to me because honest feedback helps me see blind spots I cannot notice by myself.",
+      "reactive": false,
+      "openAnswer": true,
+      "branches": [
+        {
+          "minWords": 10,
+          "prompt": "You gave a fairly developed answer. Let’s make it more concrete: Give me one concrete situation that shows what feedback looks like in practice."
+        }
+      ]
+    },
+    {
+      "prompt": "Give me one concrete situation that shows what feedback looks like in practice.",
+      "options": [
+        "A typical example for me is feedback from a teacher or mentor that changed how I approached a task.",
+        "I often think about feedback from a teacher or mentor that changed how I approached a task.",
+        "One common situation is feedback from a teacher or mentor that changed how I approached a task."
+      ],
+      "keywords": [
+        "typical",
+        "example",
+        "feedback",
+        "teacher",
+        "mentor",
+        "changed",
+        "how",
+        "approached",
+        "task"
+      ],
+      "tip": "",
+      "id": "B1-C14-T03",
+      "targetWords": 14,
+      "everyday": "A common example for me is feedback from a teacher or mentor that changed how I approached a task.",
+      "reactive": true,
+      "openAnswer": true
+    },
+    {
+      "prompt": "Think back to a real experience connected with feedback and mentoring. What happened?",
+      "options": [
+        "Yes, I remember feedback that felt difficult to hear at first but turned out to be useful.",
+        "I once experienced feedback that felt difficult to hear at first but turned out to be useful, and I learned from it.",
+        "A useful example from my own experience is feedback that felt difficult to hear at first but turned out to be useful."
+      ],
+      "keywords": [
+        "yes",
+        "remember",
+        "feedback",
+        "felt",
+        "difficult",
+        "hear",
+        "first",
+        "turned",
+        "out",
+        "useful"
+      ],
+      "tip": "",
+      "id": "B1-C14-T04",
+      "targetWords": 14,
+      "everyday": "Yeah, I remember feedback that felt difficult to hear at first but turned out to be useful.",
+      "reactive": false,
+      "openAnswer": true
+    },
+    {
+      "prompt": "What is one difficulty people may face when dealing with feedback?",
+      "options": [
+        "One difficulty is hearing criticism without feeling personally attacked.",
+        "The main challenge can be hearing criticism without feeling personally attacked.",
+        "I think a common problem is hearing criticism without feeling personally attacked."
+      ],
+      "keywords": [
+        "one",
+        "difficulty",
+        "hearing",
+        "criticism",
+        "without",
+        "feeling",
+        "personally",
+        "attacked"
+      ],
+      "tip": "",
+      "id": "B1-C14-T05",
+      "targetWords": 10,
+      "everyday": "The hard part can be hearing criticism without feeling personally attacked.",
+      "reactive": false,
+      "openAnswer": true
+    },
+    {
+      "prompt": "If that difficulty appeared in feedback and mentoring, how would you respond step by step?",
+      "options": [
+        "I would listen fully first, ask a clarifying question, and then decide what to change.",
+        "A practical response would be to listen fully first, ask a clarifying question, and then decide what to change.",
+        "I'd probably listen fully first, ask a clarifying question, and then decide what to change."
+      ],
+      "keywords": [
+        "listen",
+        "fully",
+        "first",
+        "ask",
+        "clarifying",
+        "question",
+        "decide",
+        "what",
+        "change"
+      ],
+      "tip": "",
+      "id": "B1-C14-T06",
+      "targetWords": 13,
+      "everyday": "I’d listen fully first, ask a clarifying question, and then decide what to change.",
+      "reactive": false,
+      "openAnswer": true
+    },
+    {
+      "prompt": "When you think about feedback and mentoring, what option or approach do you personally prefer, and why?",
+      "options": [
+        "I usually prefer receiving direct feedback rather than feedback that avoids the real issue because it works better for me.",
+        "It depends, but I would generally choose receiving direct feedback rather than feedback that avoids the real issue.",
+        "Both can work, although I tend to prefer receiving direct feedback rather than feedback that avoids the real issue."
+      ],
+      "keywords": [
+        "usually",
+        "prefer",
+        "receiving",
+        "direct",
+        "feedback",
+        "rather",
+        "avoids",
+        "real",
+        "issue",
+        "works"
+      ],
+      "tip": "",
+      "id": "B1-C14-T07",
+      "targetWords": 12,
+      "everyday": "I’d usually go with receiving direct feedback rather than feedback that avoids the real issue because it works better for me.",
+      "reactive": true,
+      "openAnswer": true,
+      "branches": [
+        {
+          "minWords": 10,
+          "prompt": "You gave a fairly developed answer. Let’s make it more concrete: What is your current opinion about the main issue in feedback and mentoring?"
+        }
+      ]
+    },
+    {
+      "prompt": "What is your current opinion about the main issue in feedback and mentoring?",
+      "options": [
+        "My view is that feedback is most useful when it focuses on specific actions, not general judgements about a person.",
+        "I think feedback is most useful when it focuses on specific actions, not general judgements about a person.",
+        "In my experience, feedback is most useful when it focuses on specific actions, not general judgements about a person."
+      ],
+      "keywords": [
+        "view",
+        "feedback",
+        "most",
+        "useful",
+        "when",
+        "focuses",
+        "specific",
+        "actions",
+        "general",
+        "judgements"
+      ],
+      "tip": "",
+      "id": "B1-C14-T08",
+      "targetWords": 13,
+      "everyday": "Personally, I think feedback is most useful when it focuses on specific actions, not general judgements about a person.",
+      "reactive": false,
+      "openAnswer": true
+    },
+    {
+      "prompt": "Can you support that opinion with a specific example from feedback?",
+      "options": [
+        "For example, feedback that felt difficult to hear at first but turned out to be useful.",
+        "One example would be feedback that felt difficult to hear at first but turned out to be useful.",
+        "A situation that illustrates this is feedback that felt difficult to hear at first but turned out to be useful."
+      ],
+      "keywords": [
+        "example",
+        "feedback",
+        "felt",
+        "difficult",
+        "hear",
+        "first",
+        "turned",
+        "out",
+        "useful"
+      ],
+      "tip": "",
+      "id": "B1-C14-T09",
+      "targetWords": 12,
+      "everyday": "Personally, for example, feedback that felt difficult to hear at first but turned out to be useful.",
+      "reactive": false,
+      "openAnswer": true
+    },
+    {
+      "prompt": "What could go wrong if this issue in feedback were handled badly?",
+      "options": [
+        "A risk is reacting defensively before really understanding the feedback.",
+        "It can become a problem when people end up reacting defensively before really understanding the feedback.",
+        "One possible consequence is reacting defensively before really understanding the feedback."
+      ],
+      "keywords": [
+        "risk",
+        "reacting",
+        "defensively",
+        "understanding",
+        "feedback"
+      ],
+      "tip": "",
+      "id": "B1-C14-T10",
+      "targetWords": 10,
+      "everyday": "One risk is reacting defensively before really understanding the feedback.",
+      "reactive": false,
+      "openAnswer": true
+    },
+    {
+      "prompt": "What would you personally like to improve or do differently in relation to feedback and mentoring?",
+      "options": [
+        "I would like to ask for feedback more often, instead of waiting for it to be offered.",
+        "I want to get better at this by trying to ask for feedback more often, instead of waiting for it to be offered.",
+        "One change I would like to make is to ask for feedback more often, instead of waiting for it to be offered."
+      ],
+      "keywords": [
+        "like",
+        "ask",
+        "feedback",
+        "more",
+        "often",
+        "instead",
+        "waiting",
+        "offered"
+      ],
+      "tip": "",
+      "id": "B1-C14-T11",
+      "targetWords": 15,
+      "everyday": "I’d like to ask for feedback more often, instead of waiting for it to be offered.",
+      "reactive": true,
+      "openAnswer": true
+    },
+    {
+      "prompt": "What practical advice would you give someone facing a similar situation in feedback?",
+      "options": [
+        "I'd suggest they ask for one specific example when feedback feels too general.",
+        "My advice would be to ask for one specific example when feedback feels too general.",
+        "I would tell them to ask for one specific example when feedback feels too general."
+      ],
+      "keywords": [
+        "i'd",
+        "suggest",
+        "ask",
+        "one",
+        "specific",
+        "example",
+        "when",
+        "feedback",
+        "feels",
+        "too"
+      ],
+      "tip": "",
+      "id": "B1-C14-T12",
+      "targetWords": 10,
+      "everyday": "I’d tell them to ask for one specific example when feedback feels too general.",
+      "reactive": false,
+      "openAnswer": true
+    },
+    {
+      "prompt": "Suppose your first plan for this feedback situation failed. What would you try next?",
+      "options": [
+        "I would review what happened and try a different approach.",
+        "I would keep the goal, but change the strategy.",
+        "I would ask for feedback and adjust the plan."
+      ],
+      "keywords": [
+        "review",
+        "what",
+        "happened",
+        "try",
+        "different",
+        "approach"
+      ],
+      "tip": "",
+      "id": "B1-C14-T13",
+      "targetWords": 9,
+      "everyday": "I'd keep the goal, but change the strategy.",
+      "reactive": false,
+      "openAnswer": true
+    },
+    {
+      "prompt": "To close, summarise your view on feedback and mentoring in one or two connected sentences.",
+      "options": [
+        "Feedback works best when it is specific, honest and followed by a real conversation, not just a comment.",
+        "For me, the key idea is this: Feedback works best when it is specific, honest and followed by a real conversation, not just a comment.",
+        "Overall, I would say that feedback works best when it is specific, honest and followed by a real conversation, not just a comment."
+      ],
+      "keywords": [
+        "feedback",
+        "works",
+        "best",
+        "when",
+        "specific",
+        "honest",
+        "followed",
+        "real",
+        "conversation",
+        "comment"
+      ],
+      "tip": "",
+      "id": "B1-C14-T14",
+      "targetWords": 12,
+      "everyday": "Personally, feedback works best when it is specific, honest and followed by a real conversation, not just a comment.",
+      "reactive": false,
+      "openAnswer": true
+    }
+  ],
+  "canDo": "Discuss the experience of giving and receiving feedback and explain how to use it well",
+  "functions": [
+    "learning",
+    "feedback",
+    "growth"
+  ],
+  "cefrFocus": "Independent spoken interaction and production"
+}
 ];

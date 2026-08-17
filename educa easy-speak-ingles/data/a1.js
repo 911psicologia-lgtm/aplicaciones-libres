@@ -1321,5 +1321,608 @@ window.EASY_SPEAK_DATA.A1 = [
       "future"
     ],
     "cefrFocus": "Spoken interaction and production"
-  }
+  },
+{
+  "id": "A1-C11",
+  "level": "A1",
+  "emoji": "🙋",
+  "title": "Asking for help in a shop",
+  "topic": "Public services",
+  "estimatedMinutes": 2,
+  "canDo": "Ask for simple help and directions inside a shop",
+  "functions": [
+    "requests",
+    "directions"
+  ],
+  "cefrFocus": "Spoken interaction and production",
+  "turns": [
+    {
+      "prompt": "Hello! Are you looking for something?",
+      "options": [
+        "Yes, please. Where are the bags?",
+        "Yes, can you help me, please?",
+        "Yes, I'm looking for the toilets."
+      ],
+      "keywords": [
+        "yes",
+        "please",
+        "where",
+        "are",
+        "the",
+        "bags",
+        "can",
+        "you",
+        "help",
+        "me",
+        "i'm",
+        "looking"
+      ],
+      "tip": "",
+      "id": "A1-C11-T01",
+      "targetWords": 6,
+      "everyday": "Just looking for the bags, please.",
+      "reactive": false
+    },
+    {
+      "prompt": "Sure. It's over there, on the left.",
+      "options": [
+        "Thank you very much.",
+        "Thanks a lot.",
+        "Oh, thank you!"
+      ],
+      "keywords": [
+        "thank",
+        "you",
+        "very",
+        "much",
+        "thanks",
+        "a",
+        "lot",
+        "oh"
+      ],
+      "tip": "",
+      "id": "A1-C11-T02",
+      "targetWords": 4,
+      "everyday": "Great, thanks!",
+      "reactive": true
+    },
+    {
+      "prompt": "Do you need anything else?",
+      "options": [
+        "No, that's all, thanks.",
+        "Yes, one more thing, please.",
+        "No, I'm fine, thank you."
+      ],
+      "keywords": [
+        "no",
+        "that's",
+        "all",
+        "thanks",
+        "yes",
+        "one",
+        "more",
+        "thing",
+        "please",
+        "i'm",
+        "fine",
+        "thank"
+      ],
+      "tip": "",
+      "id": "A1-C11-T03",
+      "targetWords": 5,
+      "everyday": "Nope, that's everything.",
+      "reactive": false
+    },
+    {
+      "prompt": "Is this your first time in this shop?",
+      "options": [
+        "Yes, it's my first time here.",
+        "No, I come here sometimes.",
+        "No, I often come here."
+      ],
+      "keywords": [
+        "yes",
+        "it's",
+        "my",
+        "first",
+        "time",
+        "here",
+        "no",
+        "i",
+        "come",
+        "sometimes",
+        "often"
+      ],
+      "tip": "",
+      "id": "A1-C11-T04",
+      "targetWords": 6,
+      "everyday": "Nah, I come here quite a bit.",
+      "reactive": false,
+      "openAnswer": true
+    },
+    {
+      "prompt": "Have a nice day!",
+      "options": [
+        "Thank you, you too!",
+        "Thanks, bye!",
+        "You too, goodbye!"
+      ],
+      "keywords": [
+        "thank",
+        "you",
+        "too",
+        "thanks",
+        "bye",
+        "goodbye"
+      ],
+      "tip": "",
+      "id": "A1-C11-T05",
+      "targetWords": 5,
+      "everyday": "Cheers, bye!",
+      "reactive": false
+    }
+  ]
+},
+{
+  "id": "A1-C12",
+  "level": "A1",
+  "emoji": "📚",
+  "title": "My English class",
+  "topic": "Learning",
+  "estimatedMinutes": 2,
+  "canDo": "Talk simply about a class and how you feel about learning",
+  "functions": [
+    "education",
+    "preferences"
+  ],
+  "cefrFocus": "Spoken interaction and production",
+  "turns": [
+    {
+      "prompt": "Do you go to an English class?",
+      "options": [
+        "Yes, I go to a class every week.",
+        "Yes, I study English online.",
+        "No, I study by myself at home."
+      ],
+      "keywords": [
+        "yes",
+        "i",
+        "go",
+        "to",
+        "a",
+        "class",
+        "every",
+        "week",
+        "study",
+        "english",
+        "online",
+        "no"
+      ],
+      "tip": "",
+      "id": "A1-C12-T01",
+      "targetWords": 6,
+      "everyday": "Yeah, I do a bit of English online.",
+      "reactive": false,
+      "openAnswer": true
+    },
+    {
+      "prompt": "What do you like about learning English?",
+      "options": [
+        "I like speaking with new people.",
+        "I like learning new words.",
+        "I like watching English films."
+      ],
+      "keywords": [
+        "i",
+        "like",
+        "speaking",
+        "with",
+        "new",
+        "people",
+        "learning",
+        "words",
+        "watching",
+        "english",
+        "films"
+      ],
+      "tip": "",
+      "id": "A1-C12-T02",
+      "targetWords": 6,
+      "everyday": "Mostly picking up new words, I guess.",
+      "reactive": true,
+      "openAnswer": true
+    },
+    {
+      "prompt": "Is speaking easy or difficult for you?",
+      "options": [
+        "Speaking is a bit difficult for me.",
+        "Speaking is easy for me now.",
+        "Speaking is difficult, but I practise."
+      ],
+      "keywords": [
+        "speaking",
+        "is",
+        "a",
+        "bit",
+        "difficult",
+        "for",
+        "me",
+        "easy",
+        "now",
+        "but",
+        "i",
+        "practise"
+      ],
+      "tip": "",
+      "id": "A1-C12-T03",
+      "targetWords": 6,
+      "everyday": "Honestly, speaking's the tricky part.",
+      "reactive": false,
+      "openAnswer": true
+    },
+    {
+      "prompt": "How often do you practise speaking?",
+      "options": [
+        "I practise every day.",
+        "I practise two or three times a week.",
+        "I don't practise very often."
+      ],
+      "keywords": [
+        "i",
+        "practise",
+        "every",
+        "day",
+        "two",
+        "or",
+        "three",
+        "times",
+        "a",
+        "week",
+        "don't",
+        "very"
+      ],
+      "tip": "",
+      "id": "A1-C12-T04",
+      "targetWords": 6,
+      "everyday": "Pretty much every day.",
+      "reactive": false,
+      "openAnswer": true
+    },
+    {
+      "prompt": "What do you want to say better in English?",
+      "options": [
+        "I want to speak more quickly.",
+        "I want to talk about my job.",
+        "I want to understand people better."
+      ],
+      "keywords": [
+        "i",
+        "want",
+        "to",
+        "speak",
+        "more",
+        "quickly",
+        "talk",
+        "about",
+        "my",
+        "job",
+        "understand",
+        "people"
+      ],
+      "tip": "",
+      "id": "A1-C12-T05",
+      "targetWords": 6,
+      "everyday": "Mainly just speak faster, really.",
+      "reactive": true,
+      "openAnswer": true
+    }
+  ]
+},
+{
+  "id": "A1-C13",
+  "level": "A1",
+  "emoji": "🧰",
+  "title": "A day at work",
+  "topic": "Work",
+  "estimatedMinutes": 2,
+  "canDo": "Describe a simple work day and basic daily tasks",
+  "functions": [
+    "work",
+    "daily routine"
+  ],
+  "cefrFocus": "Spoken interaction and production",
+  "turns": [
+    {
+      "prompt": "What time do you start work?",
+      "options": [
+        "I start at nine o'clock.",
+        "I start work at eight.",
+        "I usually start in the morning."
+      ],
+      "keywords": [
+        "i",
+        "start",
+        "at",
+        "nine",
+        "o'clock",
+        "work",
+        "eight",
+        "usually",
+        "in",
+        "the",
+        "morning"
+      ],
+      "tip": "",
+      "id": "A1-C13-T01",
+      "targetWords": 5,
+      "everyday": "Nine-ish, usually.",
+      "reactive": false,
+      "openAnswer": true
+    },
+    {
+      "prompt": "What do you do at work?",
+      "options": [
+        "I work as {{role}}.",
+        "I answer emails and calls.",
+        "I talk to people and help them."
+      ],
+      "keywords": [
+        "i",
+        "work",
+        "as",
+        "role",
+        "answer",
+        "emails",
+        "and",
+        "calls",
+        "talk",
+        "to",
+        "people",
+        "help"
+      ],
+      "tip": "",
+      "id": "A1-C13-T02",
+      "targetWords": 6,
+      "everyday": "I'm {{role}}, basically.",
+      "reactive": true,
+      "openAnswer": true
+    },
+    {
+      "prompt": "Do you work with other people?",
+      "options": [
+        "Yes, I work with a small team.",
+        "Yes, I work with many people.",
+        "No, I usually work alone."
+      ],
+      "keywords": [
+        "yes",
+        "i",
+        "work",
+        "with",
+        "a",
+        "small",
+        "team",
+        "many",
+        "people",
+        "no",
+        "usually",
+        "alone"
+      ],
+      "tip": "",
+      "id": "A1-C13-T03",
+      "targetWords": 6,
+      "everyday": "Yeah, small team, just a few of us.",
+      "reactive": false,
+      "openAnswer": true
+    },
+    {
+      "prompt": "What is difficult about your work day?",
+      "options": [
+        "Sometimes I have too many tasks.",
+        "The mornings are very busy.",
+        "It's difficult to finish everything."
+      ],
+      "keywords": [
+        "sometimes",
+        "i",
+        "have",
+        "too",
+        "many",
+        "tasks",
+        "the",
+        "mornings",
+        "are",
+        "very",
+        "busy",
+        "it's"
+      ],
+      "tip": "",
+      "id": "A1-C13-T04",
+      "targetWords": 6,
+      "everyday": "Too much on some days, honestly.",
+      "reactive": false,
+      "openAnswer": true
+    },
+    {
+      "prompt": "What time do you finish work?",
+      "options": [
+        "I finish at five o'clock.",
+        "I usually finish in the evening.",
+        "I finish work at six."
+      ],
+      "keywords": [
+        "i",
+        "finish",
+        "at",
+        "five",
+        "o'clock",
+        "usually",
+        "in",
+        "the",
+        "evening",
+        "work",
+        "six"
+      ],
+      "tip": "",
+      "id": "A1-C13-T05",
+      "targetWords": 5,
+      "everyday": "Around five, most days.",
+      "reactive": false,
+      "openAnswer": true
+    }
+  ]
+},
+{
+  "id": "A1-C14",
+  "level": "A1",
+  "emoji": "🧑‍🤝‍🧑",
+  "title": "Talking about a friend",
+  "topic": "Relationships",
+  "estimatedMinutes": 2,
+  "canDo": "Describe a friend using simple language",
+  "functions": [
+    "describing people",
+    "relationships"
+  ],
+  "cefrFocus": "Spoken interaction and production",
+  "turns": [
+    {
+      "prompt": "Do you have a good friend?",
+      "options": [
+        "Yes, I have a good friend.",
+        "Yes, I have a few close friends.",
+        "Yes, my best friend is very important to me."
+      ],
+      "keywords": [
+        "yes",
+        "i",
+        "have",
+        "a",
+        "good",
+        "friend",
+        "few",
+        "close",
+        "friends",
+        "my",
+        "best",
+        "is"
+      ],
+      "tip": "",
+      "id": "A1-C14-T01",
+      "targetWords": 6,
+      "everyday": "Yeah, a really good one.",
+      "reactive": false,
+      "openAnswer": true
+    },
+    {
+      "prompt": "What is your friend like?",
+      "options": [
+        "My friend is very kind.",
+        "My friend is funny and friendly.",
+        "My friend is quiet, but very kind."
+      ],
+      "keywords": [
+        "my",
+        "friend",
+        "is",
+        "very",
+        "kind",
+        "funny",
+        "and",
+        "friendly",
+        "quiet",
+        "but"
+      ],
+      "tip": "",
+      "id": "A1-C14-T02",
+      "targetWords": 6,
+      "everyday": "Really kind, honestly.",
+      "reactive": true,
+      "openAnswer": true
+    },
+    {
+      "prompt": "How often do you see your friend?",
+      "options": [
+        "I see my friend every week.",
+        "I see my friend sometimes.",
+        "We usually talk online."
+      ],
+      "keywords": [
+        "i",
+        "see",
+        "my",
+        "friend",
+        "every",
+        "week",
+        "sometimes",
+        "we",
+        "usually",
+        "talk",
+        "online"
+      ],
+      "tip": "",
+      "id": "A1-C14-T03",
+      "targetWords": 6,
+      "everyday": "Pretty much every week.",
+      "reactive": false,
+      "openAnswer": true
+    },
+    {
+      "prompt": "What do you like doing together?",
+      "options": [
+        "We like talking and having coffee.",
+        "We like walking in the park.",
+        "We like watching films together."
+      ],
+      "keywords": [
+        "we",
+        "like",
+        "talking",
+        "and",
+        "having",
+        "coffee",
+        "walking",
+        "in",
+        "the",
+        "park",
+        "watching",
+        "films"
+      ],
+      "tip": "",
+      "id": "A1-C14-T04",
+      "targetWords": 6,
+      "everyday": "Mostly just grab a coffee, really.",
+      "reactive": true,
+      "openAnswer": true
+    },
+    {
+      "prompt": "Why is this friendship important to you?",
+      "options": [
+        "My friend always listens to me.",
+        "My friend makes me feel happy.",
+        "My friend helps me when I need it."
+      ],
+      "keywords": [
+        "my",
+        "friend",
+        "always",
+        "listens",
+        "to",
+        "me",
+        "makes",
+        "feel",
+        "happy",
+        "helps",
+        "when",
+        "i"
+      ],
+      "tip": "",
+      "id": "A1-C14-T05",
+      "targetWords": 6,
+      "everyday": "Always there when I need to talk.",
+      "reactive": false,
+      "openAnswer": true
+    }
+  ]
+}
 ];
