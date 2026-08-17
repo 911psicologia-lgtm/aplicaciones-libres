@@ -351,3 +351,40 @@ button{-webkit-tap-highlight-color:transparent}
   .speaker-zone{height:80px}
   .answer-copy>span,.answer-idea>span{font-size:.68rem}
 }
+
+/* Pronunciation Boost · v0.4.3 */
+.reinforcement-tabs{display:grid;grid-template-columns:1fr 1fr;gap:6px;padding:4px;background:rgba(255,255,255,.035);border:1px solid var(--line);border-radius:15px;margin:-4px 0 12px}
+.reinforcement-tabs button{min-height:39px;border:0;border-radius:11px;background:transparent;color:var(--muted);font-size:.67rem;font-weight:800;cursor:pointer}
+.reinforcement-tabs button span{display:inline-grid;place-items:center;min-width:20px;height:20px;margin-left:4px;padding:0 5px;border-radius:10px;background:rgba(255,255,255,.05);font-size:.56rem}
+.reinforcement-tabs button.selected{background:rgba(123,108,255,.14);color:#eef1ff}.reinforcement-tabs button.selected span{background:rgba(123,108,255,.18);color:var(--violet2)}
+.pronunciation-item p{font-size:.79rem;font-weight:750;color:#edf2f8}.pronunciation-item .reinforcement-label>b{color:var(--violet2)}
+
+.pronunciation-boost-card{display:grid;grid-template-columns:42px 1fr auto;gap:10px;align-items:center;text-align:left;margin-top:11px;padding:11px 12px;border:1px solid rgba(123,108,255,.22);background:linear-gradient(120deg,rgba(123,108,255,.08),rgba(32,199,201,.035));border-radius:18px}
+.pron-boost-icon{width:40px;height:40px;display:grid;place-items:center;border-radius:13px;background:rgba(123,108,255,.13);font-size:1.05rem}
+.pronunciation-boost-card>span:nth-child(2){display:flex;flex-direction:column;min-width:0}.pronunciation-boost-card b{font-size:.72rem}.pronunciation-boost-card small{font-size:.55rem;line-height:1.3;color:var(--muted);margin-top:3px}
+.pronunciation-boost-card .secondary-btn{min-height:38px;margin:0;padding:0 12px;font-size:.64rem}
+
+.pronunciation-screen{background:radial-gradient(circle at 50% -10%,rgba(123,108,255,.13),transparent 34rem),var(--bg)}
+.pronunciation-main{width:min(100%,620px);margin:auto;padding:10px 16px calc(var(--safe-bottom) + 22px)}
+.pron-mini-count{font-size:.63rem;font-weight:850;color:var(--muted);white-space:nowrap}
+.pron-kicker{display:flex;justify-content:space-between;align-items:center;gap:10px;margin:7px 2px 9px}.pron-kicker>span{font-size:.57rem;letter-spacing:.13em;color:var(--violet2);font-weight:900}.pron-kicker small{font-size:.54rem;color:var(--muted);white-space:nowrap;overflow:hidden;text-overflow:ellipsis;max-width:55%}
+.pron-target-card{border:1px solid rgba(123,108,255,.2);background:linear-gradient(145deg,rgba(123,108,255,.09),rgba(255,255,255,.022));border-radius:22px;padding:16px 16px 14px;text-align:center}
+.pron-target-head{display:flex;align-items:center;justify-content:space-between;margin-bottom:8px}.pron-type{font-size:.55rem;letter-spacing:.12em;color:var(--teal);font-weight:950;background:rgba(32,199,201,.07);border:1px solid rgba(32,199,201,.14);border-radius:9px;padding:5px 8px}
+.pron-target-card>p{font-size:clamp(1.35rem,6vw,2rem);font-weight:860;letter-spacing:-.035em;line-height:1.12;margin:11px 0 8px;color:#f4f6fb}.pron-target-card>small{font-size:.6rem;line-height:1.35;color:var(--muted)}
+.pron-model-actions{display:grid;grid-template-columns:repeat(3,1fr);gap:7px;margin-top:9px}.pron-model-actions .learning-action{min-height:45px}
+.pron-coach-card{display:grid;grid-template-columns:42px 1fr;gap:10px;align-items:center;margin-top:9px;border:1px solid var(--line);border-radius:17px;padding:9px 11px;background:rgba(255,255,255,.025)}
+.pron-coach-icon{width:40px;height:40px;border-radius:13px;background:rgba(123,108,255,.09);display:grid;place-items:center}.pron-coach-icon img{width:34px;height:34px;object-fit:contain}.pron-coach-card>div:last-child{display:flex;flex-direction:column}.pron-coach-card b{font-size:.72rem}.pron-coach-card small{font-size:.57rem;color:var(--muted);line-height:1.35;margin-top:2px}
+.pron-listening-card{margin-top:9px}
+.pron-result{margin-top:9px;display:grid;grid-template-columns:70px 1fr;gap:10px;align-items:center;border:1px solid rgba(167,222,77,.16);background:rgba(167,222,77,.035);border-radius:18px;padding:10px}
+.pron-result>div{height:58px;border-radius:16px;border:1px solid rgba(167,222,77,.22);display:flex;flex-direction:column;align-items:center;justify-content:center}.pron-result strong{font-size:1.3rem;color:var(--lime)}.pron-result>div small{font-size:.43rem;color:var(--muted);text-align:center;line-height:1.05;max-width:56px}.pron-result>span{display:flex;flex-direction:column}.pron-result>span b{font-size:.74rem}.pron-result>span small{font-size:.57rem;color:var(--muted);line-height:1.35;margin-top:3px}
+.pron-actions{display:grid;grid-template-columns:repeat(3,1fr);gap:7px;margin-top:9px}.pron-actions .learning-action{min-height:47px}
+
+@media (max-width:480px){
+  .pronunciation-main{padding:5px 12px calc(var(--safe-bottom) + 14px)}
+  .pronunciation-topbar{min-height:44px}
+  .pron-kicker{margin:3px 2px 6px}.pron-target-card{padding:11px 12px 10px;border-radius:18px}.pron-target-card>p{font-size:1.42rem;margin:7px 0 5px}.pron-target-head{margin-bottom:3px}
+  .pron-model-actions,.pron-actions{gap:5px;margin-top:6px}.pron-model-actions .learning-action,.pron-actions .learning-action{min-height:41px;padding:5px 3px}.pron-model-actions .learning-action span,.pron-actions .learning-action span{font-size:.84rem}.pron-model-actions .learning-action b,.pron-actions .learning-action b{font-size:.53rem}
+  .pron-coach-card{margin-top:6px;padding:7px 9px}.pron-coach-icon{width:35px;height:35px}.pron-coach-icon img{width:30px;height:30px}.pron-listening-card{margin-top:6px;padding:9px}.pron-listening-card .mic-row{grid-template-columns:44px 1fr auto}.pron-listening-card .mic-orb{width:44px;height:44px;border-radius:14px}
+  .pron-result{margin-top:6px;padding:8px;grid-template-columns:62px 1fr}.pron-result>div{height:51px}.pronunciation-main>.assessment-note{margin-top:8px}
+  .pronunciation-boost-card{grid-template-columns:36px 1fr auto;padding:9px}.pron-boost-icon{width:34px;height:34px}.pronunciation-boost-card .secondary-btn{min-height:34px;padding:0 9px}
+}

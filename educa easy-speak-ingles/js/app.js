@@ -1,13 +1,14 @@
 (()=> {
   'use strict';
-  const APP_VERSION='0.4.2';
+  const APP_VERSION='0.4.3';
   const $=id=>document.getElementById(id),$$=sel=>Array.from(document.querySelectorAll(sel));
-  const Storage=window.EasySpeakStorage,Speech=window.EasySpeakSpeech,Scoring=window.EasySpeakScoring,Engine=window.EasySpeakEngine;
+  const Storage=window.EasySpeakStorage,Speech=window.EasySpeakSpeech,Scoring=window.EasySpeakScoring,Engine=window.EasySpeakEngine,Pron=window.EasySpeakPronunciation;
   const S={
     profile:null,stats:null,queue:[],conversationIndex:0,turnIndex:0,session:null,listening:false,manualMode:false,
     listenAttempts:0,lastResult:null,wakeLock:null,installPrompt:null,registration:null,waitingWorker:null,refreshing:false,
     activeSheet:null,reinfMode:false,ended:false,audioReady:false,audioDenied:false,turnSerial:0,playbackSerial:0,
-    turnAttempts:[],turnCommitted:false,autoTimer:null,promptOverrides:new Map(),lastVoiceUrl:null
+    turnAttempts:[],turnCommitted:false,autoTimer:null,promptOverrides:new Map(),lastVoiceUrl:null,reinfTab:'conversation',
+    pronActive:false,pronListening:false,pronQueue:[],pronIndex:0,pronAttempts:[],pronCommitted:false,pronTimer:null,pronReturn:'home',pronVoiceUrl:null,pronPoints:0
   };
   const clamp=(n,a=0,b=100)=>Math.max(a,Math.min(b,n));
   const avg=(arr,key)=>arr.length?Math.round(arr.reduce((n,x)=>n+(Number(x[key])||0),0)/arr.length):0;
@@ -19,7 +20,7 @@
   const VOICE_RATES=[0.5,0.8,1,1.2,1.5];
   const normalizeVoiceRate=value=>VOICE_RATES.reduce((best,x)=>Math.abs(x-Number(value||1))<Math.abs(best-Number(value||1))?x:best,1);
   const voiceRateLabel=value=>`${Number(value).toFixed(1).replace(/\.0$/,'')}×`;
-  function setVoiceRate(value,announce=false){S.profile.voiceRate=normalizeVoiceRate(value);Storage.saveProfile(S.profile);const val=String(S.profile.voiceRate);if($('voiceRateSelect'))$('voiceRateSelect').value=val;if($('practiceVoiceRateSelect'))$('practiceVoiceRateSelect').value=val;if($('voiceRateLabel'))$('voiceRateLabel').textContent=voiceRateLabel(S.profile.voiceRate);if(announce)toast(`Voice speed ${voiceRateLabel(S.profile.voiceRate)}`)}
+  function setVoiceRate(value,announce=false){S.profile.voiceRate=normalizeVoiceRate(value);Storage.saveProfile(S.profile);const val=String(S.profile.voiceRate);if($('voiceRateSelect'))$('voiceRateSelect').value=val;if($('practiceVoiceRateSelect'))$('practiceVoiceRateSelect').value=val;if($('pronVoiceRateSelect'))$('pronVoiceRateSelect').value=val;if($('voiceRateLabel'))$('voiceRateLabel').textContent=voiceRateLabel(S.profile.voiceRate);if(announce)toast(`Voice speed ${voiceRateLabel(S.profile.voiceRate)}`)}
 
   function showScreen(id){$$('.screen').forEach(x=>x.classList.remove('active'));$(id).classList.add('active');window.scrollTo({top:0,behavior:'instant'})}
   function toast(msg,ms=2200){const t=$('toast');t.textContent=msg;t.classList.remove('hidden');clearTimeout(t._timer);t._timer=setTimeout(()=>t.classList.add('hidden'),ms)}
@@ -30,6 +31,10 @@
   function scheduleAuto(fn,ms){cancelAutoAction();const serial=S.turnSerial;S.autoTimer=setTimeout(()=>{S.autoTimer=null;if(!S.ended&&serial===S.turnSerial)fn()},ms)}
   function revokeVoice(){if(S.lastVoiceUrl){try{URL.revokeObjectURL(S.lastVoiceUrl)}catch{}S.lastVoiceUrl=null}$('myVoiceBtn')?.classList.add('hidden')}
   function setVoice(url){if(S.lastVoiceUrl&&S.lastVoiceUrl!==url)try{URL.revokeObjectURL(S.lastVoiceUrl)}catch{}S.lastVoiceUrl=url||null;$('myVoiceBtn').classList.toggle('hidden',!S.lastVoiceUrl)}
+  function revokePronVoice(){if(S.pronVoiceUrl){try{URL.revokeObjectURL(S.pronVoiceUrl)}catch{}S.pronVoiceUrl=null}$('pronMyVoiceBtn')?.classList.add('hidden')}
+  function setPronVoice(url){if(S.pronVoiceUrl&&S.pronVoiceUrl!==url)try{URL.revokeObjectURL(S.pronVoiceUrl)}catch{}S.pronVoiceUrl=url||null;$('pronMyVoiceBtn')?.classList.toggle('hidden',!S.pronVoiceUrl)}
+  function cancelPronTimer(){if(S.pronTimer){clearTimeout(S.pronTimer);S.pronTimer=null}}
+  function schedulePron(fn,ms){cancelPronTimer();S.pronTimer=setTimeout(()=>{S.pronTimer=null;if(S.pronActive)fn()},ms)}
 
   async function boot(){
     S.profile=Storage.profile();S.stats=Storage.stats();bind();applyProfile();renderHome();await setupSpeechPrivacy();setupPWA();
@@ -40,6 +45,7 @@
     $('settingsBtn').onclick=()=>{applyProfile();setupSpeechPrivacy();openSheet('settingsSheet')};
     $('cefrInfoBtn').onclick=()=>openSheet('cefrSheet');$('scoreStat').onclick=()=>{renderProgress();openSheet('progressSheet')};
     $('reinforcementCard').onclick=()=>{renderReinforcements();openSheet('reinforcementSheet')};
+    $('reinforcementTabs').onclick=e=>{const b=e.target.closest('[data-reinf-tab]');if(!b)return;S.reinfTab=b.dataset.reinfTab;renderReinforcements()};
     $$('.sheet-close').forEach(b=>b.onclick=closeSheet);$('sheetBackdrop').onclick=closeSheet;
     $('durationChips').onclick=e=>{const b=e.target.closest('[data-duration]');if(!b)return;S.profile.duration=Number(b.dataset.duration);Storage.saveProfile(S.profile);applyProfile()};
     $('levelRail').onclick=e=>{const b=e.target.closest('[data-level]');if(!b)return;S.profile.level=b.dataset.level;Storage.saveProfile(S.profile);applyProfile()};
@@ -47,41 +53,45 @@
     $('modeSwitch').onclick=e=>{const b=e.target.closest('[data-mode]');if(!b)return;S.profile.mode=b.dataset.mode;Storage.saveProfile(S.profile);applyProfile()};
     const saveText=(id,key)=>$(id).oninput=e=>{S.profile[key]=e.target.value.trim();Storage.saveProfile(S.profile)};
     saveText('nameInput','name');saveText('cityInput','city');saveText('countryInput','country');saveText('roleInput','role');
-    $('voiceRateSelect').onchange=e=>setVoiceRate(e.target.value,true);$('practiceVoiceRateSelect').onchange=e=>setVoiceRate(e.target.value,true);
+    $('voiceRateSelect').onchange=e=>setVoiceRate(e.target.value,true);$('practiceVoiceRateSelect').onchange=e=>setVoiceRate(e.target.value,true);$('pronVoiceRateSelect').onchange=e=>setVoiceRate(e.target.value,true);
     $('transcriptToggle').onchange=e=>{S.profile.showTranscript=e.target.checked;Storage.saveProfile(S.profile)};
     $('autoReinforceToggle').onchange=e=>{S.profile.autoReinforce=e.target.checked;Storage.saveProfile(S.profile)};
+    $('pronunciationAutoSaveToggle').onchange=e=>{S.profile.pronunciationAutoSave=e.target.checked;Storage.saveProfile(S.profile)};
     $('weeklyGoalInput').onchange=e=>{S.profile.weeklyGoal=clamp(Number(e.target.value)||3,1,7);Storage.saveProfile(S.profile);applyProfile()};
     $('localSpeechToggle').onchange=handleLocalSpeechToggle;$('installLocalSpeechBtn').onclick=prepareLocalSpeech;
     $('backupBtn').onclick=backupProgress;$('restoreBtn').onclick=()=>$('restoreFileInput').click();$('restoreFileInput').onchange=restoreProgress;
     $('resetBtn').onclick=()=>{if(confirm('Delete all Easy Speak progress and settings stored on this device?')){Storage.reset();S.profile=Storage.profile();S.stats=Storage.stats();applyProfile();renderHome();closeSheet();toast('Local Easy Speak data deleted')}};
     $('exportCsvBtn').onclick=exportCsv;$('printProgressBtn').onclick=printProgress;
-    $('startBtn').onclick=()=>startPracticeFromGesture(false);$('startReinforcementBtn').onclick=()=>{closeSheet();startPracticeFromGesture(true)};
-    $('clearReinforcementsBtn').onclick=()=>{Storage.clearReinforcements();S.stats=Storage.stats();renderReinforcements();renderHome();toast('Saved reinforcements cleared')};
+    $('startBtn').onclick=()=>startPracticeFromGesture(false);$('startReinforcementBtn').onclick=()=>{if(S.reinfTab==='pronunciation'){startPronunciationFromGesture(null,'home');return}closeSheet();startPracticeFromGesture(true)};
+    $('clearReinforcementsBtn').onclick=()=>{if(S.reinfTab==='pronunciation'){Storage.clearPronunciation();toast('Pronunciation boosts cleared')}else{Storage.clearReinforcements();toast('Conversation reinforcements cleared')}S.stats=Storage.stats();renderReinforcements();renderHome()};
     $('exitPracticeBtn').onclick=exitPractice;$('repeatPromptBtn').onclick=repeatPrompt;
     $('micBtn').onclick=()=>{cancelAutoAction();if(!S.listening)beginListening(true);else Speech.stopListening()};
     $('manualDoneBtn').onclick=enableManualChoice;$('toggleIdeasBtn').onclick=()=>{renderIdeas(true);$('toggleIdeasBtn').classList.add('hidden')};
     $('hearModelBtn').onclick=()=>hearCoachingModel(1);$('slowModelBtn').onclick=()=>hearCoachingModel(.67);$('myVoiceBtn').onclick=playMyVoice;
     $('retryBtn').onclick=()=>{cancelAutoAction();beginListening(true)};$('skipTurnBtn').onclick=()=>{cancelAutoAction();commitTurnAndAdvance()};
     $('summaryCloseBtn').onclick=finishToHome;$('homeBtn').onclick=finishToHome;$('practiceAgainBtn').onclick=()=>startPractice(S.reinfMode);$('saveReinforcementsBtn').onclick=savePendingReinforcements;
+    $('startPronunciationSummary').onclick=()=>startPronunciationFromGesture(S.session?.pronunciationItemIds||[],'summary');
+    $('exitPronunciationBtn').onclick=exitPronunciation;$('pronModelBtn').onclick=()=>pronPlayModel(1,true);$('pronSlowBtn').onclick=()=>pronPlayModel(.65,true);$('pronShadowBtn').onclick=pronShadow;
+    $('pronMicBtn').onclick=()=>{cancelPronTimer();if(!S.pronActive)return;if(S.pronListening){Speech.stopListening();return}beginPronListening(true)};$('pronRepeatBtn').onclick=()=>{cancelPronTimer();beginPronListening(true)};$('pronSkipBtn').onclick=pronSkip;$('pronMyVoiceBtn').onclick=playPronVoice;
     $('tourSkipBtn').onclick=finishTour;$('tourDoneBtn').onclick=finishTour;
     window.addEventListener('beforeinstallprompt',e=>{e.preventDefault();S.installPrompt=e;refreshInstallState()});
     window.addEventListener('appinstalled',()=>{S.installPrompt=null;refreshInstallState();toast('Easy Speak installed')});
     $('installIcon').onclick=openInstallSheet;$('installBtn').onclick=openInstallSheet;$('updateIcon').onclick=openUpdateSheet;$('pwaPrimaryBtn').onclick=handlePwaPrimary;
-    document.addEventListener('visibilitychange',()=>{if(document.hidden){cancelAutoAction();Speech.pause()}});window.addEventListener('pagehide',()=>{revokeVoice();Speech.shutdown()});
+    document.addEventListener('visibilitychange',()=>{if(document.hidden){cancelAutoAction();cancelPronTimer();Speech.pause()}});window.addEventListener('pagehide',()=>{revokeVoice();revokePronVoice();Speech.shutdown()});
   }
   function finishTour(){S.profile.tourSeen=true;Storage.saveProfile(S.profile);closeSheet()}
   function applyProfile(){
     $$('[data-duration]').forEach(b=>b.classList.toggle('selected',Number(b.dataset.duration)===Number(S.profile.duration)));
     $$('[data-level]').forEach(b=>b.classList.toggle('selected',b.dataset.level===S.profile.level));$$('[data-mode]').forEach(b=>b.classList.toggle('selected',b.dataset.mode===S.profile.mode));
     $('nameInput').value=S.profile.name||'';$('cityInput').value=S.profile.city||'';$('countryInput').value=S.profile.country||'';$('roleInput').value=S.profile.role||'';
-    S.profile.voiceRate=normalizeVoiceRate(S.profile.voiceRate);const rate=String(S.profile.voiceRate);$('voiceRateSelect').value=rate;$('practiceVoiceRateSelect').value=rate;$('voiceRateLabel').textContent=voiceRateLabel(S.profile.voiceRate);
-    $('transcriptToggle').checked=S.profile.showTranscript!==false;$('autoReinforceToggle').checked=S.profile.autoReinforce!==false;
+    S.profile.voiceRate=normalizeVoiceRate(S.profile.voiceRate);const rate=String(S.profile.voiceRate);$('voiceRateSelect').value=rate;$('practiceVoiceRateSelect').value=rate;$('pronVoiceRateSelect').value=rate;$('voiceRateLabel').textContent=voiceRateLabel(S.profile.voiceRate);
+    $('transcriptToggle').checked=S.profile.showTranscript!==false;$('autoReinforceToggle').checked=S.profile.autoReinforce!==false;$('pronunciationAutoSaveToggle').checked=S.profile.pronunciationAutoSave!==false;
     $('weeklyGoalInput').value=S.profile.weeklyGoal||3;$('localSpeechToggle').checked=!!S.profile.preferLocalSpeech;$('appVersionLabel').textContent='v'+APP_VERSION;requestAnimationFrame(updateRouteHints);
   }
   function renderHome(){
     S.stats=Storage.stats();const score=S.stats.scoreCount?Math.round(S.stats.scoreSum/S.stats.scoreCount):null;
     $('homeScore').textContent=score??'—';$('homePoints').textContent=Number(S.stats.points||0).toLocaleString();$('homeStreak').textContent='x'+(S.stats.bestMultiplier||1);
-    const n=Storage.activeReinforcements().length;$('reinforcementCount').textContent=n;$('reinforcementCard').classList.toggle('hidden',!n);
+    const conv=Storage.activeReinforcements().length,pron=Storage.activePronunciation().length,n=conv+pron;$('reinforcementCount').textContent=n;$('reinforcementSubtext').textContent=conv&&pron?`${conv} conversation · ${pron} pronunciation`:pron?`${pron} pronunciation boost${pron===1?'':'s'}`:`${conv} conversation reinforcement${conv===1?'':'s'}`;$('reinforcementCard').classList.toggle('hidden',!n);
   }
   function updateRouteHints(){
     const rail=$('levelRail');if(!rail)return;const desktop=window.matchMedia('(min-width:720px)').matches;if(desktop){$('levelPrevHint').classList.add('hidden');$('levelNextHint').classList.add('hidden');$('levelSwipeHint').classList.add('hidden');return}
@@ -171,13 +181,22 @@
   }
 
   function renderReinforcements(){
-    const all=Storage.stats().reinforcements||[],active=all.filter(x=>!x.mastered),box=$('reinforcementList');
-    if(!all.length){box.innerHTML='<div class="reinforcement-item"><b>ALL CLEAR</b><p>No saved reinforcements yet.</p><small>Difficult turns can be saved automatically after a session.</small></div>';$('startReinforcementBtn').disabled=true;return}
-    $('startReinforcementBtn').disabled=!active.length;box.innerHTML=all.slice(0,30).map(x=>`<div class="reinforcement-item ${x.mastered?'mastered':''}"><div class="reinforcement-label"><b>${esc(x.level||'REVIEW')} · ${esc(x.topic||'Practice')}</b><span class="stage-badge stage-${String(x.stage||'New').toLowerCase()}">${esc(x.stage||'New')}</span></div><p>${esc(x.prompt)}</p><small>${x.mastered?'Strong after repeated successful reviews':`Seen ${x.count||1}× · last ${x.lastScore??'—'}`}</small></div>`).join('');
+    const convAll=Storage.stats().reinforcements||[],convActive=convAll.filter(x=>!x.mastered),pronAll=Storage.stats().pronunciationItems||[],pronActive=pronAll.filter(x=>!x.mastered);
+    $('conversationReinfCount').textContent=convActive.length;$('pronunciationReinfCount').textContent=pronActive.length;
+    $$('#reinforcementTabs [data-reinf-tab]').forEach(b=>b.classList.toggle('selected',b.dataset.reinfTab===S.reinfTab));
+    const box=$('reinforcementList');
+    if(S.reinfTab==='pronunciation'){
+      $('startReinforcementBtn').textContent=pronActive.length?`Pronunciation boost · ~${Math.max(1,Math.ceil(Math.min(8,pronActive.length)*.35))} min`:'No pronunciation boosts';$('startReinforcementBtn').disabled=!pronActive.length;$('clearReinforcementsBtn').textContent='Clear pronunciation boosts';
+      if(!pronAll.length){box.innerHTML='<div class="reinforcement-item"><b>NO BOOSTS YET</b><p>Words and short phrases will appear here when recognition or repetition suggests extra practice.</p><small>Easy Speak does not diagnose phonemes; it only turns recurring difficulty into practice.</small></div>';return}
+      box.innerHTML=pronAll.slice(0,40).map(x=>`<div class="reinforcement-item pronunciation-item ${x.mastered?'mastered':''}"><div class="reinforcement-label"><b>${esc(String(x.type||'phrase').toUpperCase())} · ${esc(x.level||'')}</b><span class="stage-badge stage-${String(x.stage||'New').toLowerCase()}">${esc(x.stage||'New')}</span></div><p>${esc(x.text)}</p><small>${x.mastered?'Strong after repeated successful reviews':`${esc(x.reason||'Extra practice')} · best ${x.bestScore??x.lastScore??'—'}`}</small></div>`).join('');return
+    }
+    $('startReinforcementBtn').textContent=convActive.length?'Practise conversations':'No conversation reinforcements';$('startReinforcementBtn').disabled=!convActive.length;$('clearReinforcementsBtn').textContent='Clear conversation reinforcements';
+    if(!convAll.length){box.innerHTML='<div class="reinforcement-item"><b>ALL CLEAR</b><p>No saved conversation reinforcements yet.</p><small>Difficult turns can be saved automatically after a session.</small></div>';return}
+    box.innerHTML=convAll.slice(0,30).map(x=>`<div class="reinforcement-item ${x.mastered?'mastered':''}"><div class="reinforcement-label"><b>${esc(x.level||'REVIEW')} · ${esc(x.topic||'Practice')}</b><span class="stage-badge stage-${String(x.stage||'New').toLowerCase()}">${esc(x.stage||'New')}</span></div><p>${esc(x.prompt)}</p><small>${x.mastered?'Strong after repeated successful reviews':`Seen ${x.count||1}× · last ${x.lastScore??'—'}`}</small></div>`).join('');
   }
   async function requestWakeLock(){try{if('wakeLock'in navigator)S.wakeLock=await navigator.wakeLock.request('screen')}catch{}}
   async function releaseWakeLock(){try{await S.wakeLock?.release()}catch{}S.wakeLock=null}
-  function newSession(level,mode){return {startedAt:Date.now(),level,mode,points:0,streak:0,bestMultiplier:1,turns:0,conversations:0,scores:[],pendingReinforcements:[],repairedTurns:0,totalImprovement:0,canDos:[],elapsedTarget:Number(S.profile.duration||10)*60000}}
+  function newSession(level,mode){return {startedAt:Date.now(),level,mode,points:0,streak:0,bestMultiplier:1,turns:0,conversations:0,scores:[],pendingReinforcements:[],pronunciationItemIds:[],repairedTurns:0,totalImprovement:0,canDos:[],elapsedTarget:Number(S.profile.duration||10)*60000}}
 
   async function startPractice(reinforcement=false){
     cancelAutoAction();Speech.pause();revokeVoice();closeSheet();S.reinfMode=reinforcement;S.ended=false;S.manualMode=false;S.listening=false;S.listenAttempts=0;S.turnSerial++;S.playbackSerial++;S.promptOverrides.clear();
@@ -264,6 +283,7 @@
     const imp=improvement(),improvementBonus=imp>=8?Math.min(8,Math.floor(imp/4)):0,earned=Math.max(4,Math.round(score.total/10))*mult+improvementBonus;S.session.points+=earned;S.session.turns++;S.session.scores.push({...score,audioUrl:null});S.session.totalImprovement+=imp;if(imp>=8)S.session.repairedTurns++;
     if(S.reinfMode&&t.reinforcement)Storage.reviewReinforcement(t.id,score.total);
     if(!S.reinfMode&&(Scoring.needsRepair(score)||score.total<70))S.session.pendingReinforcements.push({id:t.id,prompt:t.prompt,options:modelOptions(t),everyday:t.everyday,keywords:t.keywords,targetWords:t.targetWords,openAnswer:t.openAnswer,level:currentLevel(),topic:c.topic,title:c.title,lastScore:score.total});
+    if(S.profile.pronunciationAutoSave!==false&&!S.manualMode&&score.transcript&&(score.clarity<82||(firstAttempt()?.clarity||100)<80)){const diagnostic=(firstAttempt()?.clarity||100)<80?firstAttempt():score;const items=Pron.deriveItems(t,diagnostic,{models:modelOptions(t),attemptCount:S.turnAttempts.length,level:currentLevel(),topic:c.topic});if(items.length){Storage.addPronunciationItems(items);S.session.pronunciationItemIds=[...new Set([...S.session.pronunciationItemIds,...items.map(x=>x.id)])].slice(0,12)}}
     const next=c.turns?.[S.turnIndex+1];if(next){const branched=Engine.branchPrompt(t,score,next);if(branched)S.promptOverrides.set(next.id,branched)}
     $('practicePoints').textContent=S.session.points;$('practiceMultiplier').textContent='x'+mult;if(mult>oldMult)showStreakPop(mult);const [title,text]=Scoring.feedback(score);$('turnScoreNumber').textContent=score.total;$('feedbackTitle').textContent=imp>=8?`Improved +${imp}`:title;$('feedbackText').textContent=`${text} +${earned} points`;$('learningActions').classList.add('hidden');S.lastResult=score;updateProgress();scheduleAuto(()=>advanceTurn(),isFlow()?650:850);
   }
@@ -279,8 +299,44 @@
     const saved={...S.session,score,communication:comm,fluency:flu,clarity:clar,voice,minutes};S.stats=Storage.addSession(saved);
     $('summaryScore').textContent=score;$('scoreRing').style.setProperty('--score',score);$('summaryPoints').textContent='+'+S.session.points;$('summaryStreak').textContent='x'+S.session.bestMultiplier;$('summaryTurns').textContent=S.session.turns;$('sumComm').textContent=comm;$('sumFluency').textContent=flu;$('sumClarity').textContent=clar;$('sumVoice').textContent=voice;$('barComm').style.width=comm+'%';$('barFluency').style.width=flu+'%';$('barClarity').style.width=clar+'%';$('barVoice').style.width=voice+'%';
     if(S.session.repairedTurns||S.session.totalImprovement){$('improvementCard').classList.remove('hidden');$('improvementTitle').textContent=`Improved ${S.session.repairedTurns} turn${S.session.repairedTurns===1?'':'s'}`;$('improvementText').textContent=`Best attempts gained +${S.session.totalImprovement} points across repeated turns.`}else if(S.session.canDos.length){$('improvementCard').classList.remove('hidden');$('improvementTitle').textContent='Can-do practised';$('improvementText').textContent=S.session.canDos[0]}else $('improvementCard').classList.add('hidden');
+    const activePronIds=new Set(Storage.activePronunciation().map(x=>x.id)),sessionPron=[...new Set(S.session.pronunciationItemIds||[])].filter(id=>activePronIds.has(id));S.session.pronunciationItemIds=sessionPron;$('summaryPronCount').textContent=sessionPron.length;$('pronunciationBoostCard').classList.toggle('hidden',!sessionPron.length);
     $('sessionProgress').style.width='100%';showScreen('summary');if(S.session.repairedTurns)toast(`${S.session.repairedTurns} turn${S.session.repairedTurns===1?'':'s'} improved through repetition`,2800);
   }
+  function startPronunciationFromGesture(ids=null,returnTo='home'){Speech.unlockFromGesture?.();startPronunciationBoost(ids,returnTo)}
+  async function startPronunciationBoost(ids=null,returnTo='home'){
+    cancelAutoAction();cancelPronTimer();Speech.pause();revokePronVoice();closeSheet();const all=Storage.activePronunciation();const wanted=Array.isArray(ids)&&ids.length?all.filter(x=>ids.includes(x.id)):all;
+    if(!wanted.length){toast('No pronunciation boosts are waiting');return}
+    const order={word:0,chunk:1,phrase:2};S.pronQueue=[...wanted].sort((a,b)=>(order[a.type]??2)-(order[b.type]??2)||((a.bestScore||0)-(b.bestScore||0))).slice(0,8);S.pronIndex=0;S.pronAttempts=[];S.pronCommitted=false;S.pronActive=true;S.pronReturn=returnTo;S.pronPoints=0;
+    await configureSpeechForSession();const prep=await Speech.prepare();if(!prep.ok)toast(prep.permissionDenied?'Microphone not allowed — listen-and-compare mode is still available.':'Automatic recognition is unavailable — listen-and-compare mode is still available.',3000);
+    showScreen('pronunciation');requestWakeLock();runPronunciationItem();
+  }
+  function currentPronunciation(){return S.pronQueue[S.pronIndex]}
+  function pronUpdateVolume(rms){const bars=$('pronVolumeBars').querySelectorAll('i'),strength=clamp((rms||0)*1000,0,100);bars.forEach((b,i)=>b.style.height=(5+Math.min(20,strength*(.08+i*.045)))+'px')}
+  function setPronMic(on){$('pronMicBtn').classList.toggle('active',!!on);$('pronMicBtn').setAttribute('aria-pressed',on?'true':'false')}
+  async function runPronunciationItem(){
+    if(!S.pronActive)return;cancelPronTimer();revokePronVoice();S.pronAttempts=[];S.pronCommitted=false;const item=currentPronunciation();if(!item)return finishPronunciation();
+    $('pronunciationCount').textContent=`${S.pronIndex+1} / ${S.pronQueue.length}`;$('pronunciationProgress').style.width=`${Math.round(S.pronIndex/S.pronQueue.length*100)}%`;$('pronunciationType').textContent=String(item.type||'phrase').toUpperCase();$('pronunciationText').textContent=item.text;$('pronunciationReason').textContent=item.reason||'This unit is worth another clear repetition.';$('pronunciationSource').textContent=item.topic?`${item.level||''} · ${item.topic}`:'From your speaking practice';
+    $('pronResult').classList.add('hidden');$('pronTranscript').classList.add('hidden');$('pronTranscript').textContent='';$('pronCompatNote').classList.add('hidden');$('pronMyVoiceBtn').classList.add('hidden');$('pronStatus').textContent='Listen first';$('pronHint').textContent=item.type==='word'?'Hear the whole word, then repeat it naturally.':'Keep the words connected as one speaking unit.';$('pronListenStatus').textContent='Your turn';$('pronListenHint').textContent='Repeat after the model.';setPronMic(false);
+    await pronPlayModel(1,false);if(S.pronActive)beginPronListening(false);
+  }
+  async function pronPlayModel(factor=1,relisten=true){const item=currentPronunciation();if(!S.pronActive||!item)return;cancelPronTimer();Speech.stopListening();setPronMic(false);$('pronStatus').textContent=factor<.8?'Slow model':'Listen to the model';$('pronHint').textContent='Copy the sound shape and rhythm, not just the spelling.';await Speech.speak(item.text,{rate:Math.max(.35,(S.profile.voiceRate||1)*factor)});if(relisten&&S.pronActive)beginPronListening(false)}
+  async function pronShadow(){const item=currentPronunciation();if(!S.pronActive||!item)return;cancelPronTimer();Speech.stopListening();setPronMic(false);$('pronStatus').textContent='Shadow';$('pronHint').textContent='Speak along with the model. This rehearsal is not scored.';$('pronListenStatus').textContent='Speak along';$('pronListenHint').textContent='Join after the first word and keep moving.';await Speech.speak(item.text,{rate:Math.max(.55,Math.min(1,S.profile.voiceRate||1))});if(S.pronActive){$('pronStatus').textContent='Now try it alone';schedulePron(()=>beginPronListening(false),600)}}
+  async function beginPronListening(userInitiated=false){
+    if(!S.pronActive||S.pronListening)return;cancelPronTimer();Speech.stopSpeaking();S.pronListening=true;setPronMic(true);$('pronListenStatus').textContent=S.pronAttempts.length?'One more time':'Your turn';$('pronListenHint').textContent=userInitiated?'Speak now.':'Repeat the whole unit naturally.';const caps=Speech.supported();if(caps.recognition){$('pronTranscript').classList.remove('hidden');$('pronTranscript').textContent='…'}
+    const res=await Speech.listen({maxMs:7500,onInterim:t=>{$('pronTranscript').textContent=t||'…'},onVolume:pronUpdateVolume});S.pronListening=false;setPronMic(false);pronUpdateVolume(0);if(!S.pronActive)return;if(res.audioUrl)setPronVoice(res.audioUrl);
+    if(res.recordOnly||res.unsupported||res.permissionDenied){$('pronCompatNote').innerHTML='<b>Listen-and-compare mode.</b> This browser is not providing reliable automatic recognition here. Use Model and My Voice, then repeat or move on.';$('pronCompatNote').classList.remove('hidden');$('pronStatus').textContent='Compare your voice';$('pronHint').textContent='Listen to the model and to yourself. Repeat if you want another try.';return}
+    if(!res.transcript?.trim()){$('pronListenStatus').textContent="I didn't catch that";$('pronListenHint').textContent='Try again a little closer to the microphone.';return}
+    $('pronTranscript').textContent=`Heard: “${res.transcript}”`;const result=Pron.evaluate(currentPronunciation(),res);S.pronAttempts.push(result);renderPronResult(result);handlePronResult(result)
+  }
+  function renderPronResult(result){const [title,text]=Pron.feedback(result.score);$('pronScore').textContent=result.score??'—';$('pronFeedbackTitle').textContent=title;$('pronFeedbackText').textContent=text;$('pronResult').classList.remove('hidden');$('pronStatus').textContent=result.score>=82?'Good recognition':'Keep shaping it';$('pronHint').textContent=result.score>=82?'The browser heard this consistently.':'A slower model can help you keep the unit connected.'}
+  function handlePronResult(result){const n=result.score??0;if(n>=82){commitPronunciationItem(n);schedulePron(advancePronunciationItem,1050);return}if(S.pronAttempts.length>=3){commitPronunciationItem(n);$('pronStatus').textContent='Saved for later';schedulePron(advancePronunciationItem,1450);return}if(n<65){schedulePron(()=>pronPlayModel(.68,true),800);return}schedulePron(()=>beginPronListening(false),850)}
+  function commitPronunciationItem(score){if(S.pronCommitted||!currentPronunciation()||score==null)return;S.pronCommitted=true;Storage.reviewPronunciation(currentPronunciation().id,score);const earned=Math.max(3,Math.round(score/20)),stats=Storage.stats();stats.points=(stats.points||0)+earned;Storage.saveStats(stats);S.pronPoints+=earned}
+  function pronSkip(){cancelPronTimer();S.pronListening=false;Speech.stopListening();const best=S.pronAttempts.reduce((m,x)=>!m||x.score>m.score?x:m,null);if(best&&!S.pronCommitted)commitPronunciationItem(best.score);else if(!best&&currentPronunciation())Storage.touchPronunciation(currentPronunciation().id);advancePronunciationItem()}
+  function advancePronunciationItem(){if(!S.pronActive)return;cancelPronTimer();S.pronIndex++;if(S.pronIndex>=S.pronQueue.length){finishPronunciation();return}runPronunciationItem()}
+  async function playPronVoice(){if(!S.pronVoiceUrl)return;cancelPronTimer();Speech.stopListening();Speech.stopSpeaking();setPronMic(false);$('pronStatus').textContent='Your voice';$('pronHint').textContent='Compare rhythm, continuity and whether the whole unit sounds complete.';try{const a=new Audio(S.pronVoiceUrl);await a.play()}catch{toast('Your recording could not be played')}}
+  function finishPronunciation(){cancelPronTimer();Speech.pause();revokePronVoice();releaseWakeLock();S.pronActive=false;S.pronListening=false;S.stats=Storage.stats();renderHome();const back=S.pronReturn==='summary'&&S.session?'summary':'home';showScreen(back);if(back==='summary'){const remaining=new Set(Storage.activePronunciation().map(x=>x.id)),ids=(S.session?.pronunciationItemIds||[]).filter(id=>remaining.has(id));S.session.pronunciationItemIds=ids;$('summaryPronCount').textContent=ids.length;$('pronunciationBoostCard').classList.toggle('hidden',!ids.length)}toast(`Pronunciation boost complete${S.pronPoints?` · +${S.pronPoints} points`:''}`,2600)}
+  function exitPronunciation(){if(!S.pronActive)return;cancelPronTimer();Speech.pause();revokePronVoice();releaseWakeLock();S.pronActive=false;S.pronListening=false;showScreen(S.pronReturn==='summary'&&S.session?'summary':'home');renderHome()}
+
   function savePendingReinforcements(){const items=S.session?.pendingReinforcements||[];if(!items.length)return;Storage.addReinforcements(items);S.stats=Storage.stats();S.session.pendingReinforcements=[];$('saveReinforcementsBtn').classList.add('hidden');toast(`${items.length} reinforcement${items.length===1?'':'s'} saved`)}
   async function exitPractice(){if(S.ended)return;cancelAutoAction();if(S.session?.turns&&!confirm('End this speaking session and keep the progress so far?'))return;if(S.session?.turns){endSession();return}S.ended=true;Speech.pause();revokeVoice();releaseWakeLock();showScreen('home');renderHome()}
   function finishToHome(){cancelAutoAction();Speech.pause();revokeVoice();releaseWakeLock();S.ended=true;showScreen('home');renderHome()}

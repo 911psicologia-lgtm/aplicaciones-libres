@@ -1,7 +1,7 @@
-const CACHE='easy-speak-v0.4.2';
+const CACHE='easy-speak-v0.4.3';
 const ASSETS=[
   './','./index.html','./css/styles.css',
-  './js/storage.js','./js/scoring.js','./js/speech.js','./js/conversation-engine.js','./js/app.js',
+  './js/storage.js','./js/scoring.js','./js/speech.js','./js/conversation-engine.js','./js/pronunciation.js','./js/app.js',
   './data/a1.js','./data/a2.js','./data/b1.js','./data/b2.js',
   './icons/icon-192.png','./icons/icon-512.png','./manifest.json'
 ];
