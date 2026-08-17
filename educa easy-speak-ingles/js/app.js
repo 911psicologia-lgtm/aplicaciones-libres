@@ -1,8 +1,8 @@
 (()=> {
   'use strict';
-  const APP_VERSION='0.4.3';
+  const APP_VERSION='0.4.4';
   const $=id=>document.getElementById(id),$$=sel=>Array.from(document.querySelectorAll(sel));
-  const Storage=window.EasySpeakStorage,Speech=window.EasySpeakSpeech,Scoring=window.EasySpeakScoring,Engine=window.EasySpeakEngine,Pron=window.EasySpeakPronunciation;
+  const Storage=window.EasySpeakStorage,Speech=window.EasySpeakSpeech,Scoring=window.EasySpeakScoring,Engine=window.EasySpeakEngine,Pron=window.EasySpeakPronunciation,Spanish=window.EasySpeakSpanish;
   const S={
     profile:null,stats:null,queue:[],conversationIndex:0,turnIndex:0,session:null,listening:false,manualMode:false,
     listenAttempts:0,lastResult:null,wakeLock:null,installPrompt:null,registration:null,waitingWorker:null,refreshing:false,
@@ -21,6 +21,30 @@
   const normalizeVoiceRate=value=>VOICE_RATES.reduce((best,x)=>Math.abs(x-Number(value||1))<Math.abs(best-Number(value||1))?x:best,1);
   const voiceRateLabel=value=>`${Number(value).toFixed(1).replace(/\.0$/,'')}×`;
   function setVoiceRate(value,announce=false){S.profile.voiceRate=normalizeVoiceRate(value);Storage.saveProfile(S.profile);const val=String(S.profile.voiceRate);if($('voiceRateSelect'))$('voiceRateSelect').value=val;if($('practiceVoiceRateSelect'))$('practiceVoiceRateSelect').value=val;if($('pronVoiceRateSelect'))$('pronVoiceRateSelect').value=val;if($('voiceRateLabel'))$('voiceRateLabel').textContent=voiceRateLabel(S.profile.voiceRate);if(announce)toast(`Voice speed ${voiceRateLabel(S.profile.voiceRate)}`)}
+
+  const LANGUAGE_MODES=['off','visible','tap'];
+  const normalizeLanguageMode=v=>LANGUAGE_MODES.includes(v)?v:'off';
+  const languageLabel=v=>v==='visible'?'EN+ES':v==='tap'?'EN·ES':'EN';
+  const languageMessage=v=>v==='visible'?'Spanish support visible':v==='tap'?'Tap a phrase to reveal Spanish':'English only';
+  function setLanguageSupport(value,announce=false){
+    S.profile.languageSupport=normalizeLanguageMode(value);Storage.saveProfile(S.profile);applyLanguageControl();
+    if(document.getElementById('practice')?.classList.contains('active')&&currentTurn()){renderPromptTranslation();renderIdeas(!isFlow()||!$('answerIdeas').classList.contains('hidden'))}
+    if(S.pronActive)renderPronTranslation();
+    if(announce)toast(languageMessage(S.profile.languageSupport));
+  }
+  function applyLanguageControl(){
+    const mode=normalizeLanguageMode(S.profile?.languageSupport);['languageModeBtn','pronLanguageModeBtn'].forEach(id=>{const btn=$(id);if(btn){btn.textContent=languageLabel(mode);btn.classList.toggle('active',mode!=='off');btn.setAttribute('aria-label',`Language support: ${languageMessage(mode)}`)}});if($('languageSupportSelect'))$('languageSupportSelect').value=mode;
+  }
+  function cycleLanguageSupport(){const mode=normalizeLanguageMode(S.profile.languageSupport),idx=LANGUAGE_MODES.indexOf(mode);setLanguageSupport(LANGUAGE_MODES[(idx+1)%LANGUAGE_MODES.length],true)}
+  function currentSpanish(){const t=currentTurn();return t?Spanish?.get?.(t,S.profile):null}
+  function renderPromptTranslation(){
+    const el=$('promptTranslation'),card=$('promptCard');if(!el||!currentTurn())return;const mode=normalizeLanguageMode(S.profile.languageSupport),text=Spanish?.prompt?.(currentTurn(),S.profile,displayPrompt())||'';el.textContent=text;el.classList.toggle('hidden',mode!=='visible'||!text);el.classList.remove('revealed');card?.classList.toggle('translation-tap',mode==='tap'&&!!text);
+  }
+  function revealPromptTranslation(){if(normalizeLanguageMode(S.profile.languageSupport)!=='tap'||!currentTurn())return;const el=$('promptTranslation'),text=Spanish?.prompt?.(currentTurn(),S.profile,displayPrompt())||'';if(!text)return;el.textContent=text;el.classList.toggle('hidden');el.classList.toggle('revealed',!el.classList.contains('hidden'))}
+  function renderPronTranslation(){
+    const el=$('pronunciationTranslation'),item=currentPronunciation?.();if(!el||!item)return;const mode=normalizeLanguageMode(S.profile.languageSupport),text=item.translation||Spanish?.translateFragment?.(item.text,item.sourceTurnId,item.sourceOptionIndex||0,S.profile)||'';el.textContent=text;el.classList.toggle('hidden',mode!=='visible'||!text);el.classList.remove('revealed');$('pronunciationText')?.classList.toggle('translation-tap-target',mode==='tap'&&!!text);
+  }
+  function revealPronTranslation(){if(normalizeLanguageMode(S.profile.languageSupport)!=='tap')return;const el=$('pronunciationTranslation'),item=currentPronunciation?.();if(!el||!item)return;const text=item.translation||Spanish?.translateFragment?.(item.text,item.sourceTurnId,item.sourceOptionIndex||0,S.profile)||'';if(!text)return;el.textContent=text;el.classList.toggle('hidden');el.classList.toggle('revealed',!el.classList.contains('hidden'))}
 
   function showScreen(id){$$('.screen').forEach(x=>x.classList.remove('active'));$(id).classList.add('active');window.scrollTo({top:0,behavior:'instant'})}
   function toast(msg,ms=2200){const t=$('toast');t.textContent=msg;t.classList.remove('hidden');clearTimeout(t._timer);t._timer=setTimeout(()=>t.classList.add('hidden'),ms)}
@@ -53,7 +77,7 @@
     $('modeSwitch').onclick=e=>{const b=e.target.closest('[data-mode]');if(!b)return;S.profile.mode=b.dataset.mode;Storage.saveProfile(S.profile);applyProfile()};
     const saveText=(id,key)=>$(id).oninput=e=>{S.profile[key]=e.target.value.trim();Storage.saveProfile(S.profile)};
     saveText('nameInput','name');saveText('cityInput','city');saveText('countryInput','country');saveText('roleInput','role');
-    $('voiceRateSelect').onchange=e=>setVoiceRate(e.target.value,true);$('practiceVoiceRateSelect').onchange=e=>setVoiceRate(e.target.value,true);$('pronVoiceRateSelect').onchange=e=>setVoiceRate(e.target.value,true);
+    $('voiceRateSelect').onchange=e=>setVoiceRate(e.target.value,true);$('practiceVoiceRateSelect').onchange=e=>setVoiceRate(e.target.value,true);$('pronVoiceRateSelect').onchange=e=>setVoiceRate(e.target.value,true);$('languageSupportSelect').onchange=e=>setLanguageSupport(e.target.value,true);$('languageModeBtn').onclick=cycleLanguageSupport;$('pronLanguageModeBtn').onclick=cycleLanguageSupport;$('promptText').onclick=revealPromptTranslation;$('promptTranslation').onclick=revealPromptTranslation;$('pronunciationText').onclick=revealPronTranslation;$('pronunciationTranslation').onclick=revealPronTranslation;
     $('transcriptToggle').onchange=e=>{S.profile.showTranscript=e.target.checked;Storage.saveProfile(S.profile)};
     $('autoReinforceToggle').onchange=e=>{S.profile.autoReinforce=e.target.checked;Storage.saveProfile(S.profile)};
     $('pronunciationAutoSaveToggle').onchange=e=>{S.profile.pronunciationAutoSave=e.target.checked;Storage.saveProfile(S.profile)};
@@ -86,7 +110,7 @@
     $('nameInput').value=S.profile.name||'';$('cityInput').value=S.profile.city||'';$('countryInput').value=S.profile.country||'';$('roleInput').value=S.profile.role||'';
     S.profile.voiceRate=normalizeVoiceRate(S.profile.voiceRate);const rate=String(S.profile.voiceRate);$('voiceRateSelect').value=rate;$('practiceVoiceRateSelect').value=rate;$('pronVoiceRateSelect').value=rate;$('voiceRateLabel').textContent=voiceRateLabel(S.profile.voiceRate);
     $('transcriptToggle').checked=S.profile.showTranscript!==false;$('autoReinforceToggle').checked=S.profile.autoReinforce!==false;$('pronunciationAutoSaveToggle').checked=S.profile.pronunciationAutoSave!==false;
-    $('weeklyGoalInput').value=S.profile.weeklyGoal||3;$('localSpeechToggle').checked=!!S.profile.preferLocalSpeech;$('appVersionLabel').textContent='v'+APP_VERSION;requestAnimationFrame(updateRouteHints);
+    $('weeklyGoalInput').value=S.profile.weeklyGoal||3;$('localSpeechToggle').checked=!!S.profile.preferLocalSpeech;S.profile.languageSupport=normalizeLanguageMode(S.profile.languageSupport);applyLanguageControl();$('appVersionLabel').textContent='v'+APP_VERSION;requestAnimationFrame(updateRouteHints);
   }
   function renderHome(){
     S.stats=Storage.stats();const score=S.stats.scoreCount?Math.round(S.stats.scoreSum/S.stats.scoreCount):null;
@@ -184,15 +208,15 @@
     const convAll=Storage.stats().reinforcements||[],convActive=convAll.filter(x=>!x.mastered),pronAll=Storage.stats().pronunciationItems||[],pronActive=pronAll.filter(x=>!x.mastered);
     $('conversationReinfCount').textContent=convActive.length;$('pronunciationReinfCount').textContent=pronActive.length;
     $$('#reinforcementTabs [data-reinf-tab]').forEach(b=>b.classList.toggle('selected',b.dataset.reinfTab===S.reinfTab));
-    const box=$('reinforcementList');
+    const box=$('reinforcementList'),showSpanish=normalizeLanguageMode(S.profile.languageSupport)==='visible';
     if(S.reinfTab==='pronunciation'){
       $('startReinforcementBtn').textContent=pronActive.length?`Pronunciation boost · ~${Math.max(1,Math.ceil(Math.min(8,pronActive.length)*.35))} min`:'No pronunciation boosts';$('startReinforcementBtn').disabled=!pronActive.length;$('clearReinforcementsBtn').textContent='Clear pronunciation boosts';
       if(!pronAll.length){box.innerHTML='<div class="reinforcement-item"><b>NO BOOSTS YET</b><p>Words and short phrases will appear here when recognition or repetition suggests extra practice.</p><small>Easy Speak does not diagnose phonemes; it only turns recurring difficulty into practice.</small></div>';return}
-      box.innerHTML=pronAll.slice(0,40).map(x=>`<div class="reinforcement-item pronunciation-item ${x.mastered?'mastered':''}"><div class="reinforcement-label"><b>${esc(String(x.type||'phrase').toUpperCase())} · ${esc(x.level||'')}</b><span class="stage-badge stage-${String(x.stage||'New').toLowerCase()}">${esc(x.stage||'New')}</span></div><p>${esc(x.text)}</p><small>${x.mastered?'Strong after repeated successful reviews':`${esc(x.reason||'Extra practice')} · best ${x.bestScore??x.lastScore??'—'}`}</small></div>`).join('');return
+      box.innerHTML=pronAll.slice(0,40).map(x=>{const tr=x.translation||Spanish?.translateFragment?.(x.text,x.sourceTurnId,x.sourceOptionIndex||0,S.profile)||'';return `<div class="reinforcement-item pronunciation-item ${x.mastered?'mastered':''}"><div class="reinforcement-label"><b>${esc(String(x.type||'phrase').toUpperCase())} · ${esc(x.level||'')}</b><span class="stage-badge stage-${String(x.stage||'New').toLowerCase()}">${esc(x.stage||'New')}</span></div><p>${esc(x.text)}</p>${showSpanish&&tr?`<em class="support-translation answer-translation">${esc(tr)}</em>`:''}<small>${x.mastered?'Strong after repeated successful reviews':`${esc(x.reason||'Extra practice')} · best ${x.bestScore??x.lastScore??'—'}`}</small></div>`}).join('');return
     }
     $('startReinforcementBtn').textContent=convActive.length?'Practise conversations':'No conversation reinforcements';$('startReinforcementBtn').disabled=!convActive.length;$('clearReinforcementsBtn').textContent='Clear conversation reinforcements';
     if(!convAll.length){box.innerHTML='<div class="reinforcement-item"><b>ALL CLEAR</b><p>No saved conversation reinforcements yet.</p><small>Difficult turns can be saved automatically after a session.</small></div>';return}
-    box.innerHTML=convAll.slice(0,30).map(x=>`<div class="reinforcement-item ${x.mastered?'mastered':''}"><div class="reinforcement-label"><b>${esc(x.level||'REVIEW')} · ${esc(x.topic||'Practice')}</b><span class="stage-badge stage-${String(x.stage||'New').toLowerCase()}">${esc(x.stage||'New')}</span></div><p>${esc(x.prompt)}</p><small>${x.mastered?'Strong after repeated successful reviews':`Seen ${x.count||1}× · last ${x.lastScore??'—'}`}</small></div>`).join('');
+    box.innerHTML=convAll.slice(0,30).map(x=>{const tr=Spanish?.get?.({id:x.id},S.profile)?.p||'';return `<div class="reinforcement-item ${x.mastered?'mastered':''}"><div class="reinforcement-label"><b>${esc(x.level||'REVIEW')} · ${esc(x.topic||'Practice')}</b><span class="stage-badge stage-${String(x.stage||'New').toLowerCase()}">${esc(x.stage||'New')}</span></div><p>${esc(x.prompt)}</p>${showSpanish&&tr?`<em class="support-translation answer-translation">${esc(tr)}</em>`:''}<small>${x.mastered?'Strong after repeated successful reviews':`Seen ${x.count||1}× · last ${x.lastScore??'—'}`}</small></div>`}).join('');
   }
   async function requestWakeLock(){try{if('wakeLock'in navigator)S.wakeLock=await navigator.wakeLock.request('screen')}catch{}}
   async function releaseWakeLock(){try{await S.wakeLock?.release()}catch{}S.wakeLock=null}
@@ -225,14 +249,15 @@
   async function runTurn(){
     if(S.ended)return;const c=currentConversation(),t=currentTurn();if(!c||!t)return endSession();cancelAutoAction();revokeVoice();const serial=++S.turnSerial;S.playbackSerial++;S.listenAttempts=0;S.manualMode=false;S.lastResult=null;S.turnAttempts=[];S.turnCommitted=false;
     $('turnResult').classList.add('hidden');$('learningActions').classList.add('hidden');$('manualDoneBtn').classList.add('hidden');$('transcript').classList.add('hidden');$('transcript').textContent='';$('voiceCompatNote').classList.add('hidden');$('voiceCompatNote').textContent='';
-    $('conversationEmoji').textContent=c.emoji||'💬';$('conversationTitle').textContent=c.title;$('conversationMeta').textContent=`${currentLevel()} · Turn ${S.turnIndex+1} of ${c.turns.length}`;$('conversationCanDo').textContent=c.canDo?`Can-do · ${c.canDo}`:'';$('promptText').textContent=displayPrompt();
+    $('conversationEmoji').textContent=c.emoji||'💬';$('conversationTitle').textContent=c.title;$('conversationMeta').textContent=`${currentLevel()} · Turn ${S.turnIndex+1} of ${c.turns.length}`;$('conversationCanDo').textContent=c.canDo?`Can-do · ${c.canDo}`:'';$('promptText').textContent=displayPrompt();renderPromptTranslation();
     if(c.canDo&&!S.session.canDos.includes(c.canDo))S.session.canDos.push(c.canDo);
     renderIdeas(!isFlow());$('toggleIdeasBtn').classList.toggle('hidden',!isFlow());updateProgress();setAvatar('speaking','Speaking');$('listenStatus').textContent='Listen first';$('listenHint').textContent=isFlow()?'Answer when the parrot finishes. Flow continues automatically.':'Your turn opens when the parrot finishes.';setListeningUI(false);
     await Speech.speak(displayPrompt(),{rate:S.profile.voiceRate,onstart:()=>setAvatar('speaking','Speaking')});if(S.ended||serial!==S.turnSerial)return;if(S.audioDenied){enableManualFallback('Microphone access was not granted.');return}await beginListening(false,serial);
   }
   function renderIdeas(force=false){
     const t=currentTurn(),box=$('answerIdeas');if(!t)return;if(isFlow()&&!force){box.innerHTML='';box.classList.add('hidden');return}
-    const options=modelOptions(t);box.classList.remove('hidden');box.innerHTML=options.map((o,i)=>`<div class="answer-idea${i===3?' everyday-answer':''}" data-choice="${i}"><div class="answer-copy">${i===3?'<small class="everyday-tag">EVERYDAY</small>':''}<span>${esc(o)}</span></div><button data-speak-choice="${i}" aria-label="Hear this answer">🔊</button></div>`).join('');
+    const options=modelOptions(t),savedMode=normalizeLanguageMode(S.profile.languageSupport),mode=S.manualMode&&savedMode==='tap'?'visible':savedMode,esOptions=Spanish?.options?.(t,S.profile)||[];box.classList.remove('hidden');box.innerHTML=options.map((o,i)=>{const tr=esOptions[i]||'';return `<div class="answer-idea${i===3?' everyday-answer':''}" data-choice="${i}"><div class="answer-copy${mode==='tap'&&tr?' translation-tap-target':''}">${i===3?'<small class="everyday-tag">EVERYDAY</small>':''}<span>${esc(o)}</span>${tr?`<em class="support-translation answer-translation${mode==='visible'?'':' hidden'}">${esc(tr)}</em>`:''}</div><button data-speak-choice="${i}" aria-label="Hear this answer">🔊</button></div>`}).join('');
+    box.querySelectorAll('.answer-copy.translation-tap-target').forEach(copy=>copy.onclick=e=>{if(e.target.closest('button'))return;const tr=copy.querySelector('.answer-translation');if(tr){tr.classList.toggle('hidden');tr.classList.toggle('revealed',!tr.classList.contains('hidden'))}});
     box.querySelectorAll('[data-speak-choice]').forEach(b=>b.onclick=async e=>{e.stopPropagation();cancelAutoAction();Speech.stopListening();S.listening=false;setListeningUI(false);const idx=Number(b.dataset.speakChoice),turnSerial=S.turnSerial,playback=++S.playbackSerial;await Speech.speak(options[idx],{rate:(S.profile.voiceRate||1),onstart:()=>setAvatar('speaking',idx===3?'Everyday':'Model')});if(playback!==S.playbackSerial||turnSerial!==S.turnSerial||S.ended)return;if(!S.manualMode)beginListening(true,turnSerial)});
     if(S.manualMode)makeIdeasManual();
   }
@@ -283,7 +308,7 @@
     const imp=improvement(),improvementBonus=imp>=8?Math.min(8,Math.floor(imp/4)):0,earned=Math.max(4,Math.round(score.total/10))*mult+improvementBonus;S.session.points+=earned;S.session.turns++;S.session.scores.push({...score,audioUrl:null});S.session.totalImprovement+=imp;if(imp>=8)S.session.repairedTurns++;
     if(S.reinfMode&&t.reinforcement)Storage.reviewReinforcement(t.id,score.total);
     if(!S.reinfMode&&(Scoring.needsRepair(score)||score.total<70))S.session.pendingReinforcements.push({id:t.id,prompt:t.prompt,options:modelOptions(t),everyday:t.everyday,keywords:t.keywords,targetWords:t.targetWords,openAnswer:t.openAnswer,level:currentLevel(),topic:c.topic,title:c.title,lastScore:score.total});
-    if(S.profile.pronunciationAutoSave!==false&&!S.manualMode&&score.transcript&&(score.clarity<82||(firstAttempt()?.clarity||100)<80)){const diagnostic=(firstAttempt()?.clarity||100)<80?firstAttempt():score;const items=Pron.deriveItems(t,diagnostic,{models:modelOptions(t),attemptCount:S.turnAttempts.length,level:currentLevel(),topic:c.topic});if(items.length){Storage.addPronunciationItems(items);S.session.pronunciationItemIds=[...new Set([...S.session.pronunciationItemIds,...items.map(x=>x.id)])].slice(0,12)}}
+    if(S.profile.pronunciationAutoSave!==false&&!S.manualMode&&score.transcript&&(score.clarity<82||(firstAttempt()?.clarity||100)<80)){const diagnostic=(firstAttempt()?.clarity||100)<80?firstAttempt():score;const items=Pron.deriveItems(t,diagnostic,{models:modelOptions(t),attemptCount:S.turnAttempts.length,level:currentLevel(),topic:c.topic,profile:S.profile});if(items.length){Storage.addPronunciationItems(items);S.session.pronunciationItemIds=[...new Set([...S.session.pronunciationItemIds,...items.map(x=>x.id)])].slice(0,12)}}
     const next=c.turns?.[S.turnIndex+1];if(next){const branched=Engine.branchPrompt(t,score,next);if(branched)S.promptOverrides.set(next.id,branched)}
     $('practicePoints').textContent=S.session.points;$('practiceMultiplier').textContent='x'+mult;if(mult>oldMult)showStreakPop(mult);const [title,text]=Scoring.feedback(score);$('turnScoreNumber').textContent=score.total;$('feedbackTitle').textContent=imp>=8?`Improved +${imp}`:title;$('feedbackText').textContent=`${text} +${earned} points`;$('learningActions').classList.add('hidden');S.lastResult=score;updateProgress();scheduleAuto(()=>advanceTurn(),isFlow()?650:850);
   }
@@ -315,7 +340,7 @@
   function setPronMic(on){$('pronMicBtn').classList.toggle('active',!!on);$('pronMicBtn').setAttribute('aria-pressed',on?'true':'false')}
   async function runPronunciationItem(){
     if(!S.pronActive)return;cancelPronTimer();revokePronVoice();S.pronAttempts=[];S.pronCommitted=false;const item=currentPronunciation();if(!item)return finishPronunciation();
-    $('pronunciationCount').textContent=`${S.pronIndex+1} / ${S.pronQueue.length}`;$('pronunciationProgress').style.width=`${Math.round(S.pronIndex/S.pronQueue.length*100)}%`;$('pronunciationType').textContent=String(item.type||'phrase').toUpperCase();$('pronunciationText').textContent=item.text;$('pronunciationReason').textContent=item.reason||'This unit is worth another clear repetition.';$('pronunciationSource').textContent=item.topic?`${item.level||''} · ${item.topic}`:'From your speaking practice';
+    $('pronunciationCount').textContent=`${S.pronIndex+1} / ${S.pronQueue.length}`;$('pronunciationProgress').style.width=`${Math.round(S.pronIndex/S.pronQueue.length*100)}%`;$('pronunciationType').textContent=String(item.type||'phrase').toUpperCase();$('pronunciationText').textContent=item.text;renderPronTranslation();$('pronunciationReason').textContent=item.reason||'This unit is worth another clear repetition.';$('pronunciationSource').textContent=item.topic?`${item.level||''} · ${item.topic}`:'From your speaking practice';
     $('pronResult').classList.add('hidden');$('pronTranscript').classList.add('hidden');$('pronTranscript').textContent='';$('pronCompatNote').classList.add('hidden');$('pronMyVoiceBtn').classList.add('hidden');$('pronStatus').textContent='Listen first';$('pronHint').textContent=item.type==='word'?'Hear the whole word, then repeat it naturally.':'Keep the words connected as one speaking unit.';$('pronListenStatus').textContent='Your turn';$('pronListenHint').textContent='Repeat after the model.';setPronMic(false);
     await pronPlayModel(1,false);if(S.pronActive)beginPronListening(false);
   }

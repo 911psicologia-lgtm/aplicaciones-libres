@@ -130,8 +130,9 @@
         </section>
 
         <section id="promptCard" class="prompt-card">
-          <div class="prompt-label"><span id="promptRole">LISTEN</span><div class="prompt-tools"><label class="speed-select-wrap" title="Voice speed"><span class="sr-only">Voice speed</span><select id="practiceVoiceRateSelect" class="speed-select" aria-label="Voice speed"><option value="0.5">0.5×</option><option value="0.8">0.8×</option><option value="1" selected>1×</option><option value="1.2">1.2×</option><option value="1.5">1.5×</option></select></label><button id="repeatPromptBtn" class="mini-icon-btn" aria-label="Repeat prompt">🔊</button></div></div>
+          <div class="prompt-label"><span id="promptRole">LISTEN</span><div class="prompt-tools"><button id="languageModeBtn" class="lang-mode-btn" type="button" aria-label="Language support" title="English / Spanish support">EN</button><label class="speed-select-wrap" title="Voice speed"><span class="sr-only">Voice speed</span><select id="practiceVoiceRateSelect" class="speed-select" aria-label="Voice speed"><option value="0.5">0.5×</option><option value="0.8">0.8×</option><option value="1" selected>1×</option><option value="1.2">1.2×</option><option value="1.5">1.5×</option></select></label><button id="repeatPromptBtn" class="mini-icon-btn" aria-label="Repeat prompt">🔊</button></div></div>
           <p id="promptText">Good morning! How are you today?</p>
+          <p id="promptTranslation" class="support-translation prompt-translation hidden"></p>
         </section>
 
         <section id="responseSection" class="response-section">
@@ -195,8 +196,9 @@
       <main class="pronunciation-main">
         <div class="pron-kicker"><span>PRONUNCIATION BOOST</span><small id="pronunciationSource">From your speaking practice</small></div>
         <section class="pron-target-card">
-          <div class="pron-target-head"><span id="pronunciationType" class="pron-type">WORD</span><label class="speed-select-wrap" title="Voice speed"><span class="sr-only">Voice speed</span><select id="pronVoiceRateSelect" class="speed-select" aria-label="Pronunciation voice speed"><option value="0.5">0.5×</option><option value="0.8">0.8×</option><option value="1">1×</option><option value="1.2">1.2×</option><option value="1.5">1.5×</option></select></label></div>
+          <div class="pron-target-head"><span id="pronunciationType" class="pron-type">WORD</span><div class="pron-head-tools"><button id="pronLanguageModeBtn" class="lang-mode-btn" type="button" aria-label="Language support" title="English / Spanish support">EN</button><label class="speed-select-wrap" title="Voice speed"><span class="sr-only">Voice speed</span><select id="pronVoiceRateSelect" class="speed-select" aria-label="Pronunciation voice speed"><option value="0.5">0.5×</option><option value="0.8">0.8×</option><option value="1">1×</option><option value="1.2">1.2×</option><option value="1.5">1.5×</option></select></label></div></div>
           <p id="pronunciationText">looking forward to</p>
+          <p id="pronunciationTranslation" class="support-translation pron-translation hidden"></p>
           <small id="pronunciationReason">This phrase needed extra practice.</small>
         </section>
         <div class="pron-model-actions">
@@ -289,6 +291,7 @@
       <label class="field"><span>Country <small>optional</small></span><input id="countryInput" type="text" maxlength="32" placeholder="Your country"></label>
       <label class="field"><span>Work / studies <small>optional</small></span><input id="roleInput" type="text" maxlength="40" placeholder="teacher, student, designer..."></label>
     </div>
+    <label class="field"><span>Language support</span><select id="languageSupportSelect" class="settings-select" aria-label="Language support"><option value="off">English only</option><option value="visible">English + Spanish</option><option value="tap">Spanish on tap</option></select></label>
     <label class="field"><span>Voice speed <b id="voiceRateLabel">1×</b></span><select id="voiceRateSelect" class="settings-select" aria-label="Voice speed"><option value="0.5">0.5× · very slow</option><option value="0.8">0.8× · relaxed</option><option value="1" selected>1× · normal</option><option value="1.2">1.2× · brisk</option><option value="1.5">1.5× · fast</option></select></label>
     <label class="switch-row"><span><b>Show transcript</b><small>See what the browser understood</small></span><input id="transcriptToggle" type="checkbox" checked></label>
     <label class="switch-row"><span><b>Automatic reinforcements</b><small>Save difficult turns without asking at the end</small></span><input id="autoReinforceToggle" type="checkbox" checked></label>
@@ -378,6 +381,11 @@
   <script src="data/a2.js"></script>
   <script src="data/b1.js"></script>
   <script src="data/b2.js"></script>
+  <script src="data/es-a1.js"></script>
+  <script src="data/es-a2.js"></script>
+  <script src="data/es-b1.js"></script>
+  <script src="data/es-b2.js"></script>
+  <script src="js/spanish.js"></script>
   <script src="js/storage.js"></script>
   <script src="js/scoring.js"></script>
   <script src="js/speech.js"></script>

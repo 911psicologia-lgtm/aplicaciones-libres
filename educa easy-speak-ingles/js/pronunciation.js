@@ -1,6 +1,6 @@
 (()=> {
   'use strict';
-  const Scoring=window.EasySpeakScoring;
+  const Scoring=window.EasySpeakScoring,Spanish=window.EasySpeakSpanish;
   const STOP=new Set("a an the and or but i you he she it we they my your his her our their to of in on at for from with is are am was were be been being do does did have has had can could would should will just very really about this that these those there here then than into over under after before because so if not yeah yes well okay ok".split(' '));
   const clamp=(n,a=0,b=100)=>Math.max(a,Math.min(b,n));
   const clean=t=>String(t||'').trim().replace(/\s+/g,' ');
@@ -30,11 +30,11 @@
     focus=[...new Set(focus)].filter(w=>w.length>=4).slice(0,2);
     if(!focus.length)return [];
     const primary=focus[0],base={sourceTurnId:turn.id,sourcePrompt:turn.prompt,level:meta.level||'B1',topic:meta.topic||'Practice',lastScore:score.clarity||score.total||0,reason:meta.attemptCount>1?'Needed extra repetition':'Needed extra recognition'};
-    const out=[];
-    out.push({...base,id:idFor(turn.id,'word',primary),type:'word',text:primary,focus:primary});
-    const chunk=chunkAround(target,primary);if(words(chunk).length>=2)out.push({...base,id:idFor(turn.id,'chunk',chunk),type:'chunk',text:chunk,focus:primary});
-    const phrase=shortPhrase(target,primary);if(words(phrase).length>=5&&keyText(phrase)!==keyText(chunk))out.push({...base,id:idFor(turn.id,'phrase',phrase),type:'phrase',text:phrase,focus:primary});
-    if(focus[1]&&out.length<3)out.push({...base,id:idFor(turn.id,'word',focus[1]),type:'word',text:focus[1],focus:focus[1]});
+    const out=[],withTranslation=(item)=>({...item,sourceOptionIndex:idx,translation:Spanish?.translateFragment?.(item.text,turn.id,idx,meta.profile||{})||''});
+    out.push(withTranslation({...base,id:idFor(turn.id,'word',primary),type:'word',text:primary,focus:primary}));
+    const chunk=chunkAround(target,primary);if(words(chunk).length>=2)out.push(withTranslation({...base,id:idFor(turn.id,'chunk',chunk),type:'chunk',text:chunk,focus:primary}));
+    const phrase=shortPhrase(target,primary);if(words(phrase).length>=5&&keyText(phrase)!==keyText(chunk))out.push(withTranslation({...base,id:idFor(turn.id,'phrase',phrase),type:'phrase',text:phrase,focus:primary}));
+    if(focus[1]&&out.length<3)out.push(withTranslation({...base,id:idFor(turn.id,'word',focus[1]),type:'word',text:focus[1],focus:focus[1]}));
     return out.slice(0,3);
   };
   const evaluate=(item,result)=>{

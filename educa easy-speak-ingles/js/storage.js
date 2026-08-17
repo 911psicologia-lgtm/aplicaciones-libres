@@ -2,10 +2,10 @@
   'use strict';
   const PROFILE_KEY='easySpeak.profile.v1';
   const STATS_KEY='easySpeak.stats.v1';
-  const SCHEMA_VERSION=3;
+  const SCHEMA_VERSION=4;
   const defaultProfile={
     name:'',city:'',country:'',role:'',duration:10,level:'B1',mode:'guided',voiceRate:1,
-    showTranscript:true,autoReinforce:true,weeklyGoal:3,preferLocalSpeech:false,tourSeen:false,pronunciationAutoSave:true
+    showTranscript:true,autoReinforce:true,weeklyGoal:3,preferLocalSpeech:false,tourSeen:false,pronunciationAutoSave:true,languageSupport:'off'
   };
   const defaultStats={
     points:0,scoreSum:0,scoreCount:0,bestMultiplier:1,conversations:0,turns:0,minutes:0,
