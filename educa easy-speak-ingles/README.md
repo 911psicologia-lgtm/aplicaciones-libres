@@ -1,46 +1,24 @@
-# Easy Speak v0.2.2
+# Easy Speak v0.4.2
 
-Mobile-first, multi-file English speaking practice app for static hosting (GitHub + Cloudflare Pages).
+Mobile-first, multi-file CEFR A1–B2 English speaking practice app for GitHub + Cloudflare Pages. Plain HTML/CSS/JS; no build command, account, Firebase or cloud progress sync.
 
-## What is included
-- 40 structured conversations: 10 each for A1, A2, B1 and B2.
-- 470 conversation turns in total.
-- Three standard answer models plus one **Everyday English** model per turn.
-- Guided and Hands-free modes.
-- A1 / A2 / B1 / B2 / Scale / Surprise routes.
-- 5 / 10 / 15 / 20 minute sessions.
-- Browser speech synthesis and speech recognition when supported.
-- Microphone permission is requested once from the Start action. A single continuous speech-recognition session is then reused across turns; the app only accepts recognition results during the user's speaking window, so it does not restart recognition for every exercise.
-- Approximate training metrics for communication, fluency, clarity and voice activity.
-- Points, streak multipliers (x1–x5), session score and saved reinforcements.
-- LocalStorage progress; no backend required.
-- Installable PWA with offline fallback after the first successful load.
-- Network-first service worker so new GitHub/Cloudflare deployments are less likely to remain stuck on an old cached version.
+## v0.4.2
+- Discreet voice-speed selector visible during practice: **0.5× · 0.8× · 1× · 1.2× · 1.5×**.
+- The chosen speed is saved locally and reused for prompts and models.
+- **Slow** remains an additional temporary slowdown for a specific model.
+- Settings use the same five discrete speed choices instead of a continuous range.
+- Mobile home is denser: reduced vertical whitespace, shorter setup cards and smaller A1–B2 route tiles.
+- Mobile practice is denser: smaller parrot zone, prompt, answer cards, microphone block, results and learning actions so more of the exercise fits on one screen.
+- Preserves the `MORE ›` / swipe route cue from v0.4.1.
+- Preserves the v0.4.1 mobile microphone compatibility architecture.
 
-## v0.2.2 interaction fixes
-- **Critical mobile microphone fix:** one persistent `SpeechRecognition` instance is started for the app session instead of creating/restarting recognition on every turn.
-- While the parrot speaks, recognition results are ignored; when the user turn opens, the same recognizer begins accepting the answer without a new `start()` call.
-- A turn has one active prompt and one listening cycle; stale audio/listening callbacks from the previous turn are discarded.
-- Each answer model occupies its own card; model strings are de-duplicated before rendering.
-- Short patterns such as `Yes. ...` are normalized as one spoken response (`Yes, ...`).
-- The fourth model is intentionally more conversational and less classroom-like, marked **EVERYDAY**.
-- Previously saved v0.1 reinforcements with only three options receive a fourth conversational fallback at runtime.
+## Core
+- 40 conversations / 470 turns across A1, A2, B1 and B2.
+- 3 model answers + 1 Everyday English option per turn.
+- Learn and continuous Flow.
+- Training score, points, streaks, CEFR Can-Do, reinforcements, My Progress and local backup/restore.
+- Optional PWA installation and user-controlled update indicator.
+- Temporary My Voice playback where browser recording is supported.
 
 ## Deploy
-Upload the contents of this folder as the site root, or point the existing Cloudflare Pages project to this directory. It uses plain HTML/CSS/JS and requires no build command.
-
-## Browser notes
-Speech recognition support varies by browser and operating system. Chromium-based browsers generally provide the best experience. If recognition is unavailable, Easy Speak switches to a manual speaking fallback: speak aloud, then choose the closest model response to continue.
-
-For microphone access, the site must run on HTTPS (Cloudflare Pages provides this) or localhost during development. Opening the app directly with `file://` is not a reliable way to test microphone permissions.
-
-## Important scoring note
-The score is a training estimate. It does not reproduce the British Council scoring engine and is not an official CEFR assessment. Pronunciation is represented only indirectly through recognition confidence / clarity in this prototype.
-
-## v0.4.1 — Mobile voice compatibility
-
-- Mobile audio is primed directly from the user's Start tap before asynchronous setup.
-- The microphone MediaStream is no longer physically disabled/re-enabled between turns; Easy Speak gates recording in software instead.
-- iOS prioritizes native SpeechRecognition without a simultaneous getUserMedia stream when recognition is available, avoiding a known WebKit interaction between both capture paths.
-- If an installed/mobile browser does not expose SpeechRecognition but does expose microphone capture, Easy Speak enters an honest record-only compatibility mode: the learner can record, stop, replay My Voice, repeat, hear models and self-check against the closest model. No fabricated automatic score is produced.
-- The route selector now includes mobile-only MORE/previous controls plus a swipe hint, and the hints disappear contextually as the rail is scrolled.
+Upload the contents of this folder as the Cloudflare Pages site root or replace the current app folder in GitHub. HTTPS is required for microphone access.

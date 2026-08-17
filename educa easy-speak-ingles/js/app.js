@@ -1,6 +1,6 @@
 (()=> {
   'use strict';
-  const APP_VERSION='0.4.1';
+  const APP_VERSION='0.4.2';
   const $=id=>document.getElementById(id),$$=sel=>Array.from(document.querySelectorAll(sel));
   const Storage=window.EasySpeakStorage,Speech=window.EasySpeakSpeech,Scoring=window.EasySpeakScoring,Engine=window.EasySpeakEngine;
   const S={
@@ -16,6 +16,10 @@
   const esc=s=>String(s??'').replace(/[&<>"']/g,m=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[m]));
   const isStandalone=()=>matchMedia('(display-mode: standalone)').matches||navigator.standalone===true;
   const isIOS=()=>/iphone|ipad|ipod/i.test(navigator.userAgent||'');
+  const VOICE_RATES=[0.5,0.8,1,1.2,1.5];
+  const normalizeVoiceRate=value=>VOICE_RATES.reduce((best,x)=>Math.abs(x-Number(value||1))<Math.abs(best-Number(value||1))?x:best,1);
+  const voiceRateLabel=value=>`${Number(value).toFixed(1).replace(/\.0$/,'')}×`;
+  function setVoiceRate(value,announce=false){S.profile.voiceRate=normalizeVoiceRate(value);Storage.saveProfile(S.profile);const val=String(S.profile.voiceRate);if($('voiceRateSelect'))$('voiceRateSelect').value=val;if($('practiceVoiceRateSelect'))$('practiceVoiceRateSelect').value=val;if($('voiceRateLabel'))$('voiceRateLabel').textContent=voiceRateLabel(S.profile.voiceRate);if(announce)toast(`Voice speed ${voiceRateLabel(S.profile.voiceRate)}`)}
 
   function showScreen(id){$$('.screen').forEach(x=>x.classList.remove('active'));$(id).classList.add('active');window.scrollTo({top:0,behavior:'instant'})}
   function toast(msg,ms=2200){const t=$('toast');t.textContent=msg;t.classList.remove('hidden');clearTimeout(t._timer);t._timer=setTimeout(()=>t.classList.add('hidden'),ms)}
@@ -43,7 +47,7 @@
     $('modeSwitch').onclick=e=>{const b=e.target.closest('[data-mode]');if(!b)return;S.profile.mode=b.dataset.mode;Storage.saveProfile(S.profile);applyProfile()};
     const saveText=(id,key)=>$(id).oninput=e=>{S.profile[key]=e.target.value.trim();Storage.saveProfile(S.profile)};
     saveText('nameInput','name');saveText('cityInput','city');saveText('countryInput','country');saveText('roleInput','role');
-    $('voiceRateInput').oninput=e=>{S.profile.voiceRate=Number(e.target.value);$('voiceRateLabel').textContent=S.profile.voiceRate.toFixed(2).replace(/0$/,'')+'×';Storage.saveProfile(S.profile)};
+    $('voiceRateSelect').onchange=e=>setVoiceRate(e.target.value,true);$('practiceVoiceRateSelect').onchange=e=>setVoiceRate(e.target.value,true);
     $('transcriptToggle').onchange=e=>{S.profile.showTranscript=e.target.checked;Storage.saveProfile(S.profile)};
     $('autoReinforceToggle').onchange=e=>{S.profile.autoReinforce=e.target.checked;Storage.saveProfile(S.profile)};
     $('weeklyGoalInput').onchange=e=>{S.profile.weeklyGoal=clamp(Number(e.target.value)||3,1,7);Storage.saveProfile(S.profile);applyProfile()};
@@ -56,7 +60,7 @@
     $('exitPracticeBtn').onclick=exitPractice;$('repeatPromptBtn').onclick=repeatPrompt;
     $('micBtn').onclick=()=>{cancelAutoAction();if(!S.listening)beginListening(true);else Speech.stopListening()};
     $('manualDoneBtn').onclick=enableManualChoice;$('toggleIdeasBtn').onclick=()=>{renderIdeas(true);$('toggleIdeasBtn').classList.add('hidden')};
-    $('hearModelBtn').onclick=()=>hearCoachingModel(.9);$('slowModelBtn').onclick=()=>hearCoachingModel(.67);$('myVoiceBtn').onclick=playMyVoice;
+    $('hearModelBtn').onclick=()=>hearCoachingModel(1);$('slowModelBtn').onclick=()=>hearCoachingModel(.67);$('myVoiceBtn').onclick=playMyVoice;
     $('retryBtn').onclick=()=>{cancelAutoAction();beginListening(true)};$('skipTurnBtn').onclick=()=>{cancelAutoAction();commitTurnAndAdvance()};
     $('summaryCloseBtn').onclick=finishToHome;$('homeBtn').onclick=finishToHome;$('practiceAgainBtn').onclick=()=>startPractice(S.reinfMode);$('saveReinforcementsBtn').onclick=savePendingReinforcements;
     $('tourSkipBtn').onclick=finishTour;$('tourDoneBtn').onclick=finishTour;
@@ -70,7 +74,7 @@
     $$('[data-duration]').forEach(b=>b.classList.toggle('selected',Number(b.dataset.duration)===Number(S.profile.duration)));
     $$('[data-level]').forEach(b=>b.classList.toggle('selected',b.dataset.level===S.profile.level));$$('[data-mode]').forEach(b=>b.classList.toggle('selected',b.dataset.mode===S.profile.mode));
     $('nameInput').value=S.profile.name||'';$('cityInput').value=S.profile.city||'';$('countryInput').value=S.profile.country||'';$('roleInput').value=S.profile.role||'';
-    $('voiceRateInput').value=S.profile.voiceRate||1;$('voiceRateLabel').textContent=Number(S.profile.voiceRate||1).toFixed(2).replace(/0$/,'')+'×';
+    S.profile.voiceRate=normalizeVoiceRate(S.profile.voiceRate);const rate=String(S.profile.voiceRate);$('voiceRateSelect').value=rate;$('practiceVoiceRateSelect').value=rate;$('voiceRateLabel').textContent=voiceRateLabel(S.profile.voiceRate);
     $('transcriptToggle').checked=S.profile.showTranscript!==false;$('autoReinforceToggle').checked=S.profile.autoReinforce!==false;
     $('weeklyGoalInput').value=S.profile.weeklyGoal||3;$('localSpeechToggle').checked=!!S.profile.preferLocalSpeech;$('appVersionLabel').textContent='v'+APP_VERSION;requestAnimationFrame(updateRouteHints);
   }
@@ -210,7 +214,7 @@
   function renderIdeas(force=false){
     const t=currentTurn(),box=$('answerIdeas');if(!t)return;if(isFlow()&&!force){box.innerHTML='';box.classList.add('hidden');return}
     const options=modelOptions(t);box.classList.remove('hidden');box.innerHTML=options.map((o,i)=>`<div class="answer-idea${i===3?' everyday-answer':''}" data-choice="${i}"><div class="answer-copy">${i===3?'<small class="everyday-tag">EVERYDAY</small>':''}<span>${esc(o)}</span></div><button data-speak-choice="${i}" aria-label="Hear this answer">🔊</button></div>`).join('');
-    box.querySelectorAll('[data-speak-choice]').forEach(b=>b.onclick=async e=>{e.stopPropagation();cancelAutoAction();Speech.stopListening();S.listening=false;setListeningUI(false);const idx=Number(b.dataset.speakChoice),turnSerial=S.turnSerial,playback=++S.playbackSerial;await Speech.speak(options[idx],{rate:Math.max(.76,(S.profile.voiceRate||1)*.9),onstart:()=>setAvatar('speaking',idx===3?'Everyday':'Model')});if(playback!==S.playbackSerial||turnSerial!==S.turnSerial||S.ended)return;if(!S.manualMode)beginListening(true,turnSerial)});
+    box.querySelectorAll('[data-speak-choice]').forEach(b=>b.onclick=async e=>{e.stopPropagation();cancelAutoAction();Speech.stopListening();S.listening=false;setListeningUI(false);const idx=Number(b.dataset.speakChoice),turnSerial=S.turnSerial,playback=++S.playbackSerial;await Speech.speak(options[idx],{rate:(S.profile.voiceRate||1),onstart:()=>setAvatar('speaking',idx===3?'Everyday':'Model')});if(playback!==S.playbackSerial||turnSerial!==S.turnSerial||S.ended)return;if(!S.manualMode)beginListening(true,turnSerial)});
     if(S.manualMode)makeIdeasManual();
   }
   function makeIdeasManual(){$('answerIdeas').classList.remove('hidden');$('answerIdeas').querySelectorAll('.answer-idea').forEach(el=>{el.classList.add('manual-choice');el.onclick=e=>{if(e.target.closest('[data-speak-choice]'))return;handleAttempt(Scoring.manual(scoringTurn(),Number(el.dataset.choice)))}})}
@@ -236,7 +240,7 @@
   function coachingModel(score=S.lastResult){const options=modelOptions();if(!options.length)return '';const idx=Number.isInteger(score?.bestOptionIndex)&&options[score.bestOptionIndex]?score.bestOptionIndex:0;return options[idx]||options[0]}
   async function hearCoachingModel(factor=.82){
     if(S.ended)return;cancelAutoAction();Speech.stopListening();S.listening=false;setListeningUI(false);const text=coachingModel(),turnSerial=S.turnSerial,playback=++S.playbackSerial;if(!text)return beginListening(true,turnSerial);
-    $('listenStatus').textContent=factor<.75?'Slow model':'Listen to the model';$('listenHint').textContent='Keep the meaning. You do not need to copy every word.';setAvatar('speaking',factor<.75?'Slow model':'Model');await Speech.speak(text,{rate:Math.max(.58,(S.profile.voiceRate||1)*factor)});if(playback!==S.playbackSerial||turnSerial!==S.turnSerial||S.ended)return;beginListening(true,turnSerial);
+    $('listenStatus').textContent=factor<.75?'Slow model':'Listen to the model';$('listenHint').textContent='Keep the meaning. You do not need to copy every word.';setAvatar('speaking',factor<.75?'Slow model':'Model');await Speech.speak(text,{rate:Math.max(.35,(S.profile.voiceRate||1)*factor)});if(playback!==S.playbackSerial||turnSerial!==S.turnSerial||S.ended)return;beginListening(true,turnSerial);
   }
   async function playMyVoice(){
     if(!S.lastVoiceUrl)return;cancelAutoAction();Speech.stopListening();Speech.stopSpeaking();S.listening=false;setListeningUI(false);setAvatar('idle','Your voice');$('listenStatus').textContent='Listen to yourself';$('listenHint').textContent='Notice rhythm, pauses and whether the message sounds complete.';

@@ -130,7 +130,7 @@
         </section>
 
         <section id="promptCard" class="prompt-card">
-          <div class="prompt-label"><span id="promptRole">LISTEN</span><button id="repeatPromptBtn" class="mini-icon-btn" aria-label="Repeat prompt">🔊</button></div>
+          <div class="prompt-label"><span id="promptRole">LISTEN</span><div class="prompt-tools"><label class="speed-select-wrap" title="Voice speed"><span class="sr-only">Voice speed</span><select id="practiceVoiceRateSelect" class="speed-select" aria-label="Voice speed"><option value="0.5">0.5×</option><option value="0.8">0.8×</option><option value="1" selected>1×</option><option value="1.2">1.2×</option><option value="1.5">1.5×</option></select></label><button id="repeatPromptBtn" class="mini-icon-btn" aria-label="Repeat prompt">🔊</button></div></div>
           <p id="promptText">Good morning! How are you today?</p>
         </section>
 
@@ -237,7 +237,7 @@
       <label class="field"><span>Country <small>optional</small></span><input id="countryInput" type="text" maxlength="32" placeholder="Your country"></label>
       <label class="field"><span>Work / studies <small>optional</small></span><input id="roleInput" type="text" maxlength="40" placeholder="teacher, student, designer..."></label>
     </div>
-    <label class="field"><span>Voice speed <b id="voiceRateLabel">1.0×</b></span><input id="voiceRateInput" type="range" min=".75" max="1.2" step=".05" value="1"></label>
+    <label class="field"><span>Voice speed <b id="voiceRateLabel">1×</b></span><select id="voiceRateSelect" class="settings-select" aria-label="Voice speed"><option value="0.5">0.5× · very slow</option><option value="0.8">0.8× · relaxed</option><option value="1" selected>1× · normal</option><option value="1.2">1.2× · brisk</option><option value="1.5">1.5× · fast</option></select></label>
     <label class="switch-row"><span><b>Show transcript</b><small>See what the browser understood</small></span><input id="transcriptToggle" type="checkbox" checked></label>
     <label class="switch-row"><span><b>Automatic reinforcements</b><small>Save difficult turns without asking at the end</small></span><input id="autoReinforceToggle" type="checkbox" checked></label>
     <label class="field compact-field"><span>Weekly speaking goal <small>sessions</small></span><input id="weeklyGoalInput" type="number" min="1" max="7" step="1" value="3"></label>
