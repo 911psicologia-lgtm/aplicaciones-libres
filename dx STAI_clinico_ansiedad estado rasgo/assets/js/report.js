@@ -1,83 +1,227 @@
-const esc = (v='') => String(v ?? '').replace(/[&<>'"]/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;',"'":'&#39;','"':'&quot;'}[c]));
+(function () {
+  'use strict';
+  const STAI = window.STAI = window.STAI || {};
 
-function pct(score){ return Math.max(0, Math.min(100, (Number(score || 0) / 60) * 100)); }
+  function esc(value) {
+    return String(value === null || value === undefined ? '' : value)
+      .replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;')
+      .replace(/"/g, '&quot;').replace(/'/g, '&#039;');
+  }
 
-function radarSvg(dimensions=[]) {
-  const dims = Array.isArray(dimensions) ? dimensions.filter(d => d && d.nombre && Number.isFinite(Number(d.valor))).slice(0,8) : [];
-  if (dims.length < 3) return '<div class="emptyviz">El mapa radial requiere al menos 3 dimensiones contextuales producidas por la IA.</div>';
-  const w=640,h=460,cx=320,cy=215,r=155,n=dims.length;
-  const point=(i, rr)=>{ const a=(-Math.PI/2)+(i*2*Math.PI/n); return [cx+Math.cos(a)*rr, cy+Math.sin(a)*rr]; };
-  const rings=[.25,.5,.75,1].map(f=>`<polygon points="${dims.map((_,i)=>point(i,r*f).join(',')).join(' ')}" class="grid"/>`).join('');
-  const axes=dims.map((d,i)=>{ const [x,y]=point(i,r); const [lx,ly]=point(i,r+35); return `<line x1="${cx}" y1="${cy}" x2="${x}" y2="${y}" class="axis"/><text x="${lx}" y="${ly}" text-anchor="middle" class="lbl">${esc(d.nombre)}</text>`; }).join('');
-  const values=dims.map((d,i)=>point(i,r*Math.max(0,Math.min(100,Number(d.valor)))/100).join(',')).join(' ');
-  const dots=dims.map((d,i)=>{ const [x,y]=point(i,r*Math.max(0,Math.min(100,Number(d.valor)))/100); return `<circle cx="${x}" cy="${y}" r="4" class="dot"><title>${esc(d.nombre)}: ${esc(d.valor)}/100</title></circle>`; }).join('');
-  return `<svg class="radar" viewBox="0 0 ${w} ${h}" role="img" aria-label="Mapa radial de dimensiones contextuales">${rings}${axes}<polygon points="${values}" class="area"/>${dots}<circle cx="${cx}" cy="${cy}" r="3" class="dot"/></svg>`;
-}
+  function nl2br(value) { return esc(value).replace(/\n/g, '<br>'); }
+  function yes(value) { return value ? 'Sí' : 'No'; }
+  function fmtDate(value) {
+    if (!value) return 'No registrada';
+    const p = String(value).split('-');
+    return p.length === 3 ? p[2] + '/' + p[1] + '/' + p[0] : esc(value);
+  }
 
-function networkSvg(ai={}) {
-  const factors = Array.isArray(ai.factores_contextuales) ? ai.factores_contextuales.slice(0,8) : [];
-  if (!factors.length) return '<div class="emptyviz">No hay factores contextuales estructurados para construir la red.</div>';
-  const w=760,h=480,cx=380,cy=235;
-  const nodes=[{id:'STAI',label:'Perfil STAI',type:'central'}, ...factors.map((f,i)=>({id:`f${i}`,label:f.factor||`Factor ${i+1}`,type:f.tipo||'factor',weight:Number(f.peso)||50}))];
-  const edges=factors.map((f,i)=>({a:'STAI',b:`f${i}`,strength:Math.max(1,Math.min(5, Math.round((Number(f.peso)||50)/20))) }));
-  const relations=Array.isArray(ai.relaciones)?ai.relaciones.slice(0,10):[];
-  const lookup = new Map(factors.map((f,i)=>[String(f.factor||'').trim().toLowerCase(),`f${i}`]));
-  relations.forEach(r=>{
-    const a=lookup.get(String(r.origen||'').trim().toLowerCase());
-    const b=lookup.get(String(r.destino||'').trim().toLowerCase());
-    if(a&&b&&a!==b) edges.push({a,b,strength:Math.max(1,Math.min(5,Number(r.intensidad)||2))});
-  });
-  const pos=new Map([['STAI',[cx,cy]]]);
-  factors.forEach((f,i)=>{ const a=(-Math.PI/2)+(i*2*Math.PI/factors.length); const rr=165 + (i%2)*35; pos.set(`f${i}`,[cx+Math.cos(a)*rr,cy+Math.sin(a)*rr]); });
-  const edgeSvg=edges.map(e=>{ const [x1,y1]=pos.get(e.a),[x2,y2]=pos.get(e.b); return `<line x1="${x1}" y1="${y1}" x2="${x2}" y2="${y2}" class="netedge" style="stroke-width:${1+e.strength*.45}"/>`; }).join('');
-  const nodeSvg=nodes.map(n=>{ const [x,y]=pos.get(n.id); const rr=n.id==='STAI'?46:Math.max(25,Math.min(38,24+(n.weight||50)/7)); return `<g><circle cx="${x}" cy="${y}" r="${rr}" class="netnode ${esc(n.type)}"/><foreignObject x="${x-rr+5}" y="${y-rr+8}" width="${(rr-5)*2}" height="${(rr-5)*2}"><div xmlns="http://www.w3.org/1999/xhtml" class="netlabel">${esc(n.label)}</div></foreignObject></g>`; }).join('');
-  return `<svg class="network" viewBox="0 0 ${w} ${h}" role="img" aria-label="Red de factores contextuales">${edgeSvg}${nodeSvg}</svg>`;
-}
+  function item(label, value) {
+    if (value === '' || value === null || value === undefined) return '';
+    return '<div class="kv"><span>' + esc(label) + '</span><b>' + esc(value) + '</b></div>';
+  }
 
-function list(items, empty='No registrado') {
-  const arr = Array.isArray(items) ? items.filter(Boolean) : [];
-  if (!arr.length) return `<p class="muted">${esc(empty)}</p>`;
-  return `<ul>${arr.map(x=>`<li>${esc(typeof x === 'string' ? x : JSON.stringify(x))}</li>`).join('')}</ul>`;
-}
+  function list(values, emptyText) {
+    if (!Array.isArray(values) || !values.length) return '<p class="muted">' + esc(emptyText || 'Sin información estructurada.') + '</p>';
+    return '<ul>' + values.map(function (v) {
+      const text = typeof v === 'string' ? v : (v && (v.texto || v.nombre || v.factor || JSON.stringify(v)));
+      return '<li>' + esc(text || '') + '</li>';
+    }).join('') + '</ul>';
+  }
 
-function factorsTable(ai={}) {
-  const rows=Array.isArray(ai.factores_contextuales)?ai.factores_contextuales:[];
-  if(!rows.length) return '<p class="muted">No se registraron factores contextuales estructurados.</p>';
-  return `<div class="tablewrap"><table><thead><tr><th>Factor</th><th>Tipo</th><th>Evidencia</th><th>Relación</th><th>Peso</th></tr></thead><tbody>${rows.map(r=>`<tr><td>${esc(r.factor)}</td><td><span class="pill">${esc(r.tipo)}</span></td><td>${esc(r.evidencia)}</td><td>${esc(r.relacion)}</td><td>${esc(r.peso ?? '')}</td></tr>`).join('')}</tbody></table></div>`;
-}
+  function factorsTable(ai) {
+    const rows = ai && Array.isArray(ai.factores_contextuales) ? ai.factores_contextuales : [];
+    if (!rows.length) return '<p class="muted">No se recibieron factores contextuales estructurados.</p>';
+    return '<div class="table-wrap"><table><thead><tr><th>Factor</th><th>Tipo</th><th>Evidencia</th><th>Relación propuesta</th></tr></thead><tbody>' +
+      rows.map(function (r) {
+        return '<tr><td><b>' + esc(r.factor) + '</b></td><td>' + esc(r.tipo) + '</td><td>' + esc(r.evidencia) + '</td><td>' + esc(r.relacion) + '</td></tr>';
+      }).join('') + '</tbody></table></div>';
+  }
 
-function hypotheses(ai={}) {
-  const rows=Array.isArray(ai.hipotesis_clinicas)?ai.hipotesis_clinicas:[];
-  if(!rows.length) return '<p class="muted">No se generaron hipótesis de trabajo.</p>';
-  return rows.map((h,i)=>`<details ${i===0?'open':''}><summary>${esc(h.hipotesis || `Hipótesis ${i+1}`)} <span class="pill">confianza ${esc(h.nivel_confianza||'no indicada')}</span></summary><div class="detailgrid"><div><b>Evidencia a favor</b>${list(h.evidencia_a_favor)}</div><div><b>Evidencia en contra / faltante</b>${list(h.evidencia_en_contra)}</div></div></details>`).join('');
-}
+  function hypotheses(ai) {
+    const rows = ai && Array.isArray(ai.hipotesis_clinicas) ? ai.hipotesis_clinicas : [];
+    if (!rows.length) return '<p class="muted">No se recibieron hipótesis clínicas estructuradas.</p>';
+    return '<div class="cards">' + rows.map(function (h, i) {
+      return '<article class="card"><div class="pill">Hipótesis ' + (i + 1) + '</div><h3>' + esc(h.hipotesis) + '</h3>' +
+        '<h4>Evidencia a favor</h4>' + list(h.evidencia_a_favor, 'No registrada.') +
+        '<h4>Evidencia que limita o contradice</h4>' + list(h.evidencia_en_contra, 'No registrada.') +
+        '<h4>Cómo contrastarla</h4><p>' + esc(h.como_contrastar || 'No indicado.') + '</p></article>';
+    }).join('') + '</div>';
+  }
 
-function contextDimensions(ai={}) {
-  const rows=Array.isArray(ai.dimensiones_contextuales)?ai.dimensiones_contextuales:[];
-  if(!rows.length) return '<p class="muted">Sin dimensiones contextuales añadidas.</p>';
-  return rows.map(d=>`<div class="dim"><div><b>${esc(d.nombre)}</b><span>${esc(d.valor)}/100</span></div><div class="meter"><i style="width:${Math.max(0,Math.min(100,Number(d.valor)||0))}%"></i></div><small>${esc(d.fundamento||'')}</small></div>`).join('');
-}
+  function radarSvg(dimensions) {
+    if (!Array.isArray(dimensions) || dimensions.length < 3) return '<div class="empty-visual">La IA no devolvió suficientes dimensiones para construir el radar.</div>';
+    const dims = dimensions.slice(0, 9).map(function (d) {
+      return { nombre: String(d.nombre || 'Dimensión'), valor: Math.max(0, Math.min(10, Number(d.valor) || 0)) };
+    });
+    const size = 520, cx = 260, cy = 250, radius = 150, n = dims.length;
+    function point(i, rr) {
+      const a = -Math.PI / 2 + (Math.PI * 2 * i / n);
+      return [cx + Math.cos(a) * rr, cy + Math.sin(a) * rr];
+    }
+    let grid = '';
+    [2,4,6,8,10].forEach(function (level) {
+      const pts = dims.map(function (_, i) { const p = point(i, radius * level / 10); return p[0].toFixed(1) + ',' + p[1].toFixed(1); }).join(' ');
+      grid += '<polygon points="' + pts + '" fill="none" stroke="#dfe7ef" stroke-width="1"/>';
+    });
+    let axes = '', labels = '';
+    dims.forEach(function (d, i) {
+      const p = point(i, radius);
+      const lp = point(i, radius + 42);
+      const anchor = lp[0] < cx - 20 ? 'end' : (lp[0] > cx + 20 ? 'start' : 'middle');
+      axes += '<line x1="' + cx + '" y1="' + cy + '" x2="' + p[0].toFixed(1) + '" y2="' + p[1].toFixed(1) + '" stroke="#d6e0ea"/>';
+      labels += '<text x="' + lp[0].toFixed(1) + '" y="' + lp[1].toFixed(1) + '" text-anchor="' + anchor + '" dominant-baseline="middle" font-size="12" fill="#43556c">' + esc(d.nombre).slice(0, 22) + '</text>';
+    });
+    const valuePts = dims.map(function (d, i) { const p = point(i, radius * d.valor / 10); return p[0].toFixed(1) + ',' + p[1].toFixed(1); }).join(' ');
+    return '<svg viewBox="0 0 ' + size + ' ' + size + '" role="img" aria-label="Radar de dimensiones contextuales">' + grid + axes + '<polygon points="' + valuePts + '" fill="rgba(61,90,128,.18)" stroke="#3d5a80" stroke-width="3"/>' + labels + '</svg>';
+  }
 
-function buildReportHtml(payload) {
-  const { patient, results, ai, generatedAt } = payload;
-  const hasAI = !!ai && typeof ai === 'object' && Object.keys(ai).length > 0;
-  const stateFinal = results.stateDecatypeBand || results.stateBand;
-  const traitFinal = results.traitDecatypeBand || results.traitBand;
-  const patientLabel = patient.name || patient.code || 'Persona evaluada';
-  const reportData = JSON.stringify(payload).replace(/</g,'\\u003c');
-  return `<!doctype html><html lang="es"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Informe STAI - ${esc(patientLabel)}</title><style>
-:root{--ink:#142033;--muted:#5b6779;--line:#dce3ec;--soft:#f4f7fb;--accent:#3d5a80;--accent2:#6c8eaa;--good:#2e7d61;--warn:#a66a11;--danger:#a63f43}*{box-sizing:border-box}body{margin:0;font-family:Inter,ui-sans-serif,system-ui,-apple-system,Segoe UI,Roboto,Arial;color:var(--ink);background:#eef2f7;line-height:1.5}.page{max-width:1180px;margin:28px auto;background:white;border:1px solid var(--line);border-radius:22px;box-shadow:0 18px 55px rgba(23,37,61,.11);overflow:hidden}.hero{padding:34px 40px;background:linear-gradient(135deg,#eef4fb,#fff)}.eyebrow{text-transform:uppercase;letter-spacing:.14em;font-size:12px;font-weight:800;color:var(--accent)}h1{margin:.35rem 0 .4rem;font-size:34px;line-height:1.1}h2{font-size:22px;margin:0 0 14px}h3{font-size:17px}.sub{color:var(--muted);max-width:820px}.toolbar{display:flex;gap:8px;flex-wrap:wrap;margin-top:20px}.toolbar button{border:1px solid var(--line);background:#fff;border-radius:10px;padding:9px 13px;font-weight:700;cursor:pointer}.section{padding:28px 40px;border-top:1px solid var(--line)}.grid{display:grid;grid-template-columns:repeat(12,1fr);gap:16px}.card{border:1px solid var(--line);border-radius:16px;padding:18px;background:#fff}.span6{grid-column:span 6}.span4{grid-column:span 4}.span8{grid-column:span 8}.span12{grid-column:1/-1}.metric{font-size:38px;font-weight:850;line-height:1}.metric small{font-size:14px;color:var(--muted);font-weight:700}.meter{height:10px;background:#e8edf3;border-radius:999px;overflow:hidden}.meter i{display:block;height:100%;background:linear-gradient(90deg,var(--accent2),var(--accent));border-radius:inherit}.scoreline{display:flex;justify-content:space-between;align-items:center;margin-bottom:9px}.muted{color:var(--muted)}.pill{display:inline-block;background:#eef3f8;border:1px solid #dbe5ef;border-radius:999px;padding:2px 8px;font-size:12px;font-weight:700}.callout{padding:15px 17px;border-left:4px solid var(--accent);background:var(--soft);border-radius:10px}.radar,.network{width:100%;height:auto}.grid,.axis{fill:none;stroke:#cdd8e5;stroke-width:1}.area{fill:rgba(61,90,128,.2);stroke:#3d5a80;stroke-width:2}.dot{fill:#3d5a80}.lbl{font-size:12px;fill:#354155}.netedge{stroke:#aebdd0;opacity:.75}.netnode{fill:#eaf1f8;stroke:#6f8eaa;stroke-width:2}.netnode.central{fill:#dceaf7;stroke:#3d5a80}.netnode.protector,.netnode.recurso{fill:#e7f4ef;stroke:#5b927f}.netnode.desencadenante,.netnode.vulnerabilidad{fill:#f9ecec;stroke:#b96a6d}.netlabel{display:flex;align-items:center;justify-content:center;text-align:center;width:100%;height:100%;font-size:11px;font-weight:700;line-height:1.15;color:#25354a}.emptyviz{padding:28px;text-align:center;color:var(--muted);background:var(--soft);border-radius:12px}.dim{margin-bottom:14px}.dim>div:first-child{display:flex;justify-content:space-between;gap:12px}.dim small{display:block;color:var(--muted);margin-top:4px}.tablewrap{overflow:auto}table{width:100%;border-collapse:collapse;font-size:14px}th,td{padding:10px 12px;border-bottom:1px solid var(--line);vertical-align:top;text-align:left}th{background:#f6f8fb}details{border:1px solid var(--line);border-radius:12px;padding:10px 13px;margin:9px 0}summary{cursor:pointer;font-weight:800}.detailgrid{display:grid;grid-template-columns:1fr 1fr;gap:14px;padding-top:10px}.foot{font-size:12px;color:var(--muted);padding:20px 40px 34px}.hide-print{}@media(max-width:820px){.page{margin:0;border-radius:0}.hero,.section,.foot{padding-left:20px;padding-right:20px}.span4,.span6,.span8{grid-column:1/-1}.detailgrid{grid-template-columns:1fr}h1{font-size:28px}}@media print{body{background:#fff}.page{box-shadow:none;border:none;margin:0;max-width:none}.hide-print{display:none!important}.section{break-inside:avoid}.page{border-radius:0}}
-</style></head><body><main class="page" id="top"><header class="hero"><div class="eyebrow">Informe clínico de apoyo · STAI</div><h1>${esc(patientLabel)}</h1><p class="sub">Inventario de Ansiedad Estado-Rasgo. Resultados cuantitativos y, cuando se utilizó, contextualización clínica asistida por IA. El STAI aporta indicadores de ansiedad actual y predisposición ansiosa; no constituye por sí solo un diagnóstico.</p><div class="toolbar hide-print"><button onclick="window.print()">Imprimir / Guardar PDF</button><button onclick="downloadJson()">Descargar JSON</button><button onclick="location.hash='tecnica'">Nota técnica</button></div></header>
-<section class="section"><h2>Identificación y contexto</h2><div class="grid"><div class="card span4"><b>Paciente / código</b><div>${esc(patientLabel)}</div></div><div class="card span4"><b>Edad</b><div>${esc(patient.age || 'No registrada')}</div></div><div class="card span4"><b>Sexo de baremación</b><div>${esc(patient.sex || 'No registrado')}</div></div><div class="card span6"><b>Grupo normativo</b><div>${esc(patient.normGroup || 'No registrado')}</div></div><div class="card span6"><b>Fecha de aplicación</b><div>${esc(patient.applicationDate || 'No registrada')}</div></div><div class="card span12"><b>Motivo / contexto de evaluación</b><div>${esc(patient.context || 'No especificado')}</div></div></div></section>
-<section class="section"><h2>Resultados STAI</h2><div class="grid"><div class="card span6"><div class="scoreline"><div><b>Ansiedad-Estado</b><div class="muted">activación ansiosa en el momento de responder</div></div><div class="metric">${esc(results.stateScore)}<small>/60</small></div></div><div class="meter"><i style="width:${pct(results.stateScore)}%"></i></div><p><span class="pill">${esc(stateFinal)}</span>${results.stateDecatype ? ` <span class="pill">decatipo ${esc(results.stateDecatype)}</span>` : ''}</p></div><div class="card span6"><div class="scoreline"><div><b>Ansiedad-Rasgo</b><div class="muted">predisposición relativamente estable a responder con ansiedad</div></div><div class="metric">${esc(results.traitScore)}<small>/60</small></div></div><div class="meter"><i style="width:${pct(results.traitScore)}%"></i></div><p><span class="pill">${esc(traitFinal)}</span>${results.traitDecatype ? ` <span class="pill">decatipo ${esc(results.traitDecatype)}</span>` : ''}</p></div><div class="card span12"><div class="callout"><b>Perfil integrado:</b> ${esc(results.integrated)}</div></div></div></section>
-${hasAI ? `<section class="section"><h2>Contextualización multicausal e interrelacional</h2><div class="grid"><div class="card span12"><h3>Síntesis integrada</h3><p>${esc(ai.resumen_integrado || 'Sin síntesis general.')}</p></div><div class="card span6"><h3>Lectura de Ansiedad-Estado</h3><p>${esc(ai.lectura_estado || 'No registrada.')}</p></div><div class="card span6"><h3>Lectura de Ansiedad-Rasgo</h3><p>${esc(ai.lectura_rasgo || 'No registrada.')}</p></div><div class="card span12"><h3>Relación Estado-Rasgo</h3><p>${esc(ai.relacion_estado_rasgo || 'No registrada.')}</p></div></div></section>
-<section class="section"><h2>Mapa de dimensiones contextuales</h2><div class="grid"><div class="card span7">${radarSvg(ai.dimensiones_contextuales)}</div><div class="card span5"><h3>Dimensiones</h3>${contextDimensions(ai)}</div></div></section>
-<section class="section"><h2>Red de factores relacionados</h2><div class="grid"><div class="card span8">${networkSvg(ai)}</div><div class="card span4"><h3>Lectura de red</h3><p class="muted">El tamaño y la proximidad visual ayudan a explorar la trama de factores descrita por la IA. Es una representación clínica de apoyo, no una métrica psicométrica.</p>${list(ai.recursos_protectores,'Sin recursos protectores estructurados.')}</div></div></section>
-<section class="section"><h2>Factores contextuales</h2>${factorsTable(ai)}</section>
-<section class="section"><h2>Hipótesis de trabajo</h2>${hypotheses(ai)}</section>
-<section class="section"><div class="grid"><div class="card span6"><h2>Alertas clínicas para explorar</h2>${list(ai.alertas,'Sin alertas estructuradas.')}</div><div class="card span6"><h2>Preguntas sugeridas para entrevista</h2>${list(ai.preguntas_clinicas_sugeridas,'Sin preguntas sugeridas.')}</div><div class="card span12"><h2>Próximos focos de evaluación</h2>${list(ai.recomendaciones_evaluacion,'Sin recomendaciones estructuradas.')}</div><div class="card span12"><h2>Límites interpretativos</h2><p>${esc(ai.limites_interpretativos || 'La lectura debe contrastarse con entrevista, observación, antecedentes y otras fuentes de evaluación.')}</p></div></div></section>` : `<section class="section"><div class="callout"><b>Informe sin contextualización IA.</b> Se presenta únicamente la lectura STAI y la información clínica básica ingresada en la aplicación.</div></section>`}
-<section class="section" id="tecnica"><h2>Nota técnica</h2><div class="grid"><div class="card span6"><h3>Corrección</h3><p>Los ítems se puntúan de 0 a 3. Los ítems invertidos se recodifican como 3 - respuesta original. Cada escala alcanza de 0 a 60 puntos.</p></div><div class="card span6"><h3>Uso de niveles</h3><p>Las etiquetas bajo/medio/alto que aparecen sin decatipo son una división descriptiva del rango teórico, no una clasificación normativa. Los decatipos, si se ingresan, deben provenir del manual autorizado y del grupo normativo pertinente.</p></div><div class="card span12"><h3>Advertencia</h3><p>El STAI no establece por sí solo un diagnóstico. La integración con IA no reemplaza el juicio clínico; sus hipótesis deben contrastarse y pueden contener errores, omisiones o inferencias no sustentadas.</p></div></div></section>
-<div class="foot">Generado el ${esc(generatedAt)}. Aplicación STAI Clínico · procesamiento local. El texto de historia clínica no se incorpora íntegramente al informe salvo lo que haya sido sintetizado explícitamente en la respuesta de IA.</div></main><script>const reportData=${reportData};function downloadJson(){const b=new Blob([JSON.stringify(reportData,null,2)],{type:'application/json'});const a=document.createElement('a');a.href=URL.createObjectURL(b);a.download='stai-datos-${Date.now()}.json';a.click();setTimeout(()=>URL.revokeObjectURL(a.href),1000)}</script></body></html>`;
-}
+  function networkSvg(ai) {
+    const factors = ai && Array.isArray(ai.factores_contextuales) ? ai.factores_contextuales.slice(0, 10) : [];
+    const rels = ai && Array.isArray(ai.relaciones) ? ai.relaciones.slice(0, 16) : [];
+    if (factors.length < 2) return '<div class="empty-visual">La IA no devolvió suficientes factores para construir la red relacional.</div>';
+    const nodes = factors.map(function (f) { return { name: String(f.factor || 'Factor'), type: String(f.tipo || 'contexto') }; });
+    const width = 720, height = 420, cx = width / 2, cy = height / 2, r = 150;
+    const coords = {};
+    nodes.forEach(function (node, i) {
+      const a = -Math.PI/2 + Math.PI*2*i/nodes.length;
+      coords[node.name] = { x: cx + Math.cos(a)*r, y: cy + Math.sin(a)*r };
+    });
+    let edges = '';
+    rels.forEach(function (rel) {
+      const a = coords[String(rel.origen || '')], b = coords[String(rel.destino || '')];
+      if (!a || !b) return;
+      edges += '<line x1="' + a.x.toFixed(1) + '" y1="' + a.y.toFixed(1) + '" x2="' + b.x.toFixed(1) + '" y2="' + b.y.toFixed(1) + '" stroke="#aab9c9" stroke-width="1.6" marker-end="url(#arrow)"/>';
+    });
+    if (!rels.length) {
+      nodes.forEach(function (node, i) {
+        const next = nodes[(i + 1) % nodes.length];
+        const a = coords[node.name], b = coords[next.name];
+        edges += '<line x1="' + a.x.toFixed(1) + '" y1="' + a.y.toFixed(1) + '" x2="' + b.x.toFixed(1) + '" y2="' + b.y.toFixed(1) + '" stroke="#d1dae4" stroke-width="1"/>';
+      });
+    }
+    let circles = '';
+    nodes.forEach(function (node) {
+      const p = coords[node.name];
+      circles += '<circle cx="' + p.x.toFixed(1) + '" cy="' + p.y.toFixed(1) + '" r="40" fill="#f4f7fb" stroke="#5d7896" stroke-width="2"/>' +
+        '<text x="' + p.x.toFixed(1) + '" y="' + (p.y - 5).toFixed(1) + '" text-anchor="middle" font-size="11" font-weight="700" fill="#263950">' + esc(node.name).slice(0,18) + '</text>' +
+        '<text x="' + p.x.toFixed(1) + '" y="' + (p.y + 12).toFixed(1) + '" text-anchor="middle" font-size="9" fill="#718096">' + esc(node.type).slice(0,18) + '</text>';
+    });
+    return '<svg viewBox="0 0 ' + width + ' ' + height + '" role="img" aria-label="Red relacional de factores"><defs><marker id="arrow" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="5" markerHeight="5" orient="auto-start-reverse"><path d="M 0 0 L 10 5 L 0 10 z" fill="#aab9c9"/></marker></defs>' + edges + circles + '</svg>';
+  }
 
-window.STAI_REPORT = { buildReportHtml };
+  function evaluatorSection(evaluator) {
+    evaluator = evaluator || {};
+    const hasData = Object.keys(evaluator).some(function (k) { return evaluator[k]; });
+    if (!hasData) return '';
+    const signature = evaluator.signatureDataUrl ? '<img class="signature" src="' + esc(evaluator.signatureDataUrl) + '" alt="Firma del evaluador">' : '<div class="signature-placeholder">Firma no registrada</div>';
+    return '<section class="section page-break-avoid"><h2>Profesional evaluador</h2><div class="professional-card">' +
+      '<div class="signature-first"><div class="mini-label">Firma</div>' + signature + '</div>' +
+      '<div class="professional-data">' +
+      item('Nombre', evaluator.name) + item('Profesión', evaluator.profession) + item('Tarjeta profesional', evaluator.license) +
+      item('Celular', evaluator.phone) + item('Correo electrónico', evaluator.email) + item('Consultorio / institución', evaluator.workplace) +
+      item('Dirección', evaluator.address) + item('Ciudad / país', evaluator.cityCountry) +
+      '</div></div></section>';
+  }
+
+  function consentSection(consent) {
+    consent = consent || {};
+    return '<section class="section page-break-avoid"><h2>Registro de consentimiento informado</h2><div class="consent-card"><div class="consent-mark">✓</div><div><b>Aceptación registrada por la persona evaluada</b><p>' + esc(consent.text || '') + '</p><div class="consent-meta">Aceptación: ' + yes(consent.accepted) + ' · Fecha y hora: ' + esc(consent.acceptedAt || 'No registrada') + ' · Modalidad: registro electrónico dentro de la aplicación.</div></div></div></section>';
+  }
+
+  function aiSections(ai) {
+    if (!ai) return '<section class="section"><div class="callout"><b>Informe sin contextualización mediante IA.</b> Se presentan los resultados STAI y la información básica registrada en la aplicación.</div></section>';
+    return '<section class="section"><h2>Contextualización clínica asistida por IA</h2><div class="callout caution"><b>Lectura auxiliar.</b> Este contenido organiza relaciones e hipótesis a partir de los datos suministrados; debe contrastarse con el juicio profesional y no reemplaza la evaluación clínica.</div>' +
+      '<div class="grid"><div class="card span12"><h3>Síntesis integrada</h3><p>' + esc(ai.resumen_integrado || 'No registrada.') + '</p></div><div class="card span6"><h3>Ansiedad-Estado</h3><p>' + esc(ai.lectura_estado || 'No registrada.') + '</p></div><div class="card span6"><h3>Ansiedad-Rasgo</h3><p>' + esc(ai.lectura_rasgo || 'No registrada.') + '</p></div><div class="card span12"><h3>Relación Estado-Rasgo</h3><p>' + esc(ai.relacion_estado_rasgo || 'No registrada.') + '</p></div></div></section>' +
+      '<section class="section"><h2>Mapa de dimensiones contextuales</h2><div class="grid"><div class="card span7 visual">' + radarSvg(ai.dimensiones_contextuales) + '</div><div class="card span5"><h3>Clave de lectura</h3><p>El radar representa dimensiones contextuales propuestas por la IA en una escala auxiliar 0–10. <b>No son subescalas oficiales del STAI</b> ni resultados psicométricos.</p>' + list((ai.dimensiones_contextuales || []).map(function(d){return (d.nombre || 'Dimensión') + ': ' + (d.valor === undefined ? '—' : d.valor) + '/10';}), 'Sin dimensiones.') + '</div></div></section>' +
+      '<section class="section"><h2>Red relacional hipotética</h2><div class="grid"><div class="card span8 visual">' + networkSvg(ai) + '</div><div class="card span4"><h3>Recursos y factores protectores</h3>' + list(ai.recursos_protectores, 'Sin recursos protectores estructurados.') + '<p class="muted">Las conexiones representan relaciones propuestas para exploración; no demuestran causalidad.</p></div></div></section>' +
+      '<section class="section"><h2>Factores contextuales</h2>' + factorsTable(ai) + '</section>' +
+      '<section class="section"><h2>Hipótesis de trabajo</h2>' + hypotheses(ai) + '</section>' +
+      '<section class="section"><div class="grid"><div class="card span6"><h2>Alertas para explorar</h2>' + list(ai.alertas, 'Sin alertas estructuradas.') + '</div><div class="card span6"><h2>Preguntas clínicas sugeridas</h2>' + list(ai.preguntas_clinicas_sugeridas, 'Sin preguntas sugeridas.') + '</div><div class="card span12"><h2>Próximos focos de evaluación</h2>' + list(ai.recomendaciones_evaluacion, 'Sin focos estructurados.') + '</div><div class="card span12"><h2>Límites interpretativos</h2><p>' + esc(ai.limites_interpretativos || 'La lectura debe contrastarse con entrevista, observación, antecedentes y otras fuentes de evaluación.') + '</p></div></div></section>';
+  }
+
+  function buildReportHtml(payload, options) {
+    options = options || {};
+    const p = payload.patient || {};
+    const r = payload.results || {};
+    const c = payload.consent || {};
+    const e = payload.evaluator || {};
+    const ai = payload.aiJson || null;
+    const generatedAt = payload.generatedAt || new Date().toLocaleString('es-CO');
+    const demoBadge = payload.demoMode ? '<div class="demo-banner">MODO DEMOSTRACIÓN · DATOS COMPLETAMENTE FICTICIOS</div>' : '';
+    const safeData = JSON.stringify(payload).replace(/</g, '\\u003c');
+    const autoPrint = options.autoPrint ? 'window.addEventListener("load",function(){setTimeout(function(){window.print();},350);});' : '';
+
+    return '<!doctype html><html lang="es"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Informe STAI</title><style>' +
+      ':root{--ink:#18283e;--muted:#657388;--line:#dce5ee;--soft:#f5f8fb;--accent:#3d5a80;--green:#2f7f65}*{box-sizing:border-box}body{margin:0;background:#edf2f7;color:var(--ink);font-family:Arial,Helvetica,sans-serif;line-height:1.5}.toolbar{position:sticky;top:0;z-index:20;display:flex;gap:8px;justify-content:center;flex-wrap:wrap;padding:10px;background:#17253a}.toolbar button{border:0;border-radius:8px;padding:9px 12px;font-weight:700;cursor:pointer}.paper{max-width:1020px;margin:24px auto;background:#fff;box-shadow:0 18px 60px rgba(20,35,55,.15);padding:42px}.hero{border-bottom:3px solid var(--accent);padding-bottom:22px}.hero h1{font-size:34px;margin:0 0 6px}.hero p{margin:0;color:var(--muted)}.demo-banner{background:#fff4d9;border:1px solid #ead18b;padding:10px 14px;border-radius:10px;font-weight:800;margin-bottom:18px}.section{padding:26px 0;border-bottom:1px solid var(--line)}h2{font-size:22px;margin:0 0 14px}h3{font-size:16px;margin:0 0 8px}h4{font-size:13px;margin:15px 0 6px}.grid{display:grid;grid-template-columns:repeat(12,1fr);gap:12px}.span12{grid-column:1/-1}.span8{grid-column:span 8}.span7{grid-column:span 7}.span6{grid-column:span 6}.span5{grid-column:span 5}.span4{grid-column:span 4}.card,.professional-card,.consent-card{border:1px solid var(--line);border-radius:14px;background:#fff;padding:17px}.score{font-size:42px;font-weight:900}.score small{font-size:15px;color:var(--muted)}.muted{color:var(--muted)}.kv{display:grid;grid-template-columns:180px 1fr;gap:10px;padding:8px 0;border-bottom:1px solid #edf1f5}.kv span{color:var(--muted);font-size:13px}.callout{padding:14px 16px;background:#f2f6fa;border-left:4px solid var(--accent);border-radius:9px;margin-bottom:14px}.callout.caution{background:#fff8e8;border-color:#b47b18}.pill{display:inline-block;padding:4px 8px;border-radius:999px;background:#edf3f8;color:#3d5a80;font-size:11px;font-weight:800}.table-wrap{overflow:auto}table{width:100%;border-collapse:collapse;font-size:13px}th,td{border:1px solid var(--line);padding:9px;vertical-align:top;text-align:left}th{background:#f4f7fa}.visual svg{display:block;width:100%;height:auto;max-height:500px}.empty-visual{min-height:220px;display:grid;place-items:center;text-align:center;color:var(--muted);background:var(--soft);border-radius:10px;padding:20px}.consent-card{display:flex;gap:14px;background:#f7fbf9}.consent-mark{flex:0 0 40px;height:40px;border-radius:50%;background:#e6f4ee;color:var(--green);display:grid;place-items:center;font-size:23px;font-weight:900}.consent-card p{margin:8px 0}.consent-meta{font-size:12px;color:var(--muted)}.professional-card{background:#fafcfe}.signature-first{padding-bottom:16px;border-bottom:1px solid var(--line);margin-bottom:10px}.mini-label{text-transform:uppercase;font-size:10px;letter-spacing:.12em;color:var(--muted);font-weight:800;margin-bottom:8px}.signature{display:block;max-width:260px;max-height:115px;object-fit:contain;object-position:left center}.signature-placeholder{height:60px;display:flex;align-items:end;color:#8792a1;font-style:italic}.foot{padding:24px 0 0;color:var(--muted);font-size:12px}.cards{display:grid;grid-template-columns:1fr 1fr;gap:12px}ul{padding-left:20px}.page-break-avoid{break-inside:avoid}@media(max-width:760px){.paper{margin:0;padding:22px}.span8,.span7,.span6,.span5,.span4{grid-column:1/-1}.cards{grid-template-columns:1fr}.kv{grid-template-columns:1fr}.toolbar{position:static}}@media print{body{background:#fff}.toolbar{display:none}.paper{max-width:none;margin:0;box-shadow:none;padding:0 8mm}.section{break-inside:auto}.card,.professional-card,.consent-card{break-inside:avoid}.demo-banner{break-inside:avoid}@page{size:A4;margin:12mm}}' +
+      '</style></head><body><div class="toolbar"><button onclick="window.print()">Imprimir / Guardar PDF</button><button onclick="downloadJson()">Descargar JSON</button><button onclick="downloadTxt()">Descargar TXT</button></div><main class="paper">' + demoBadge +
+      '<header class="hero"><div class="pill">Informe psicológico · STAI</div><h1>Inventario de Ansiedad Estado-Rasgo</h1><p>Resultados psicométricos y contextualización clínica opcional</p></header>' +
+      '<section class="section"><h2>Identificación y aplicación</h2><div class="grid"><div class="card span6">' + item('Nombre', p.name || 'No registrado') + item('Código / historia', p.code) + item('Edad', p.age !== '' ? p.age + ' años' : '') + item('Fecha de nacimiento', fmtDate(p.birthDate)) + item('Sexo para baremación', p.sex) + item('Identidad de género', p.gender) + '</div><div class="card span6">' + item('Grupo normativo', p.normGroup) + item('Escolaridad', p.education) + item('Ocupación', p.occupation) + item('País / región', p.country) + item('Fecha de aplicación', fmtDate(p.applicationDate)) + item('Hora', p.applicationTime) + item('Modalidad', p.modality) + '</div><div class="card span12">' + item('Motivo / contexto', p.context) + (p.observations ? '<div class="kv"><span>Observaciones</span><b>' + nl2br(p.observations) + '</b></div>' : '') + '</div></div></section>' +
+      consentSection(c) +
+      '<section class="section"><h2>Resultados psicométricos</h2><div class="grid"><div class="card span6"><div class="score">' + esc(r.stateScore) + '<small>/60</small></div><h3>Ansiedad-Estado</h3><p>' + esc(r.statePosition || '') + '</p>' + (r.stateDecatype ? '<p><b>Decatipo ingresado:</b> ' + esc(r.stateDecatype) + ' · ' + esc(r.stateDecatypeBand || '') + '</p>' : '') + '</div><div class="card span6"><div class="score">' + esc(r.traitScore) + '<small>/60</small></div><h3>Ansiedad-Rasgo</h3><p>' + esc(r.traitPosition || '') + '</p>' + (r.traitDecatype ? '<p><b>Decatipo ingresado:</b> ' + esc(r.traitDecatype) + ' · ' + esc(r.traitDecatypeBand || '') + '</p>' : '') + '</div><div class="card span12"><h3>Lectura integrada de base</h3><p>' + esc(r.integrated || '') + '</p><p class="muted">Las posiciones por tercios describen únicamente el rango teórico de puntuaciones directas. Para una interpretación normativa deben emplearse baremos autorizados pertinentes a edad, sexo y grupo de referencia.</p></div></div></section>' +
+      aiSections(ai) +
+      '<section class="section"><h2>Nota técnica y alcance</h2><div class="grid"><div class="card span6"><h3>Corrección</h3><p>Los ítems se puntúan de 0 a 3. Los ítems invertidos se recodifican como 3 menos la respuesta original. Cada escala produce una puntuación directa de 0 a 60.</p></div><div class="card span6"><h3>Interpretación</h3><p>Ansiedad-Estado describe la activación ansiosa en el momento de responder; Ansiedad-Rasgo estima una predisposición relativamente estable. El STAI no constituye por sí solo un diagnóstico.</p></div></div></section>' +
+      evaluatorSection(e) +
+      '<div class="foot">Generado el ' + esc(generatedAt) + '. Aplicación STAI Clínico. Los datos profesionales son opcionales y solo aparecen cuando fueron registrados.</div></main>' +
+      '<script>const reportData=' + safeData + ';function dl(c,n,t){const b=new Blob([c],{type:t});const a=document.createElement("a");a.href=URL.createObjectURL(b);a.download=n;document.body.appendChild(a);a.click();a.remove();setTimeout(function(){URL.revokeObjectURL(a.href)},1000)}function downloadJson(){dl(JSON.stringify(reportData,null,2),"STAI_datos_"+Date.now()+".json","application/json;charset=utf-8")}function downloadTxt(){dl(reportData.textReport||"","STAI_informe_"+Date.now()+".txt","text/plain;charset=utf-8")}' + autoPrint + '<\/script></body></html>';
+  }
+
+  function buildTextReport(payload) {
+    const p = payload.patient || {}, r = payload.results || {}, c = payload.consent || {}, e = payload.evaluator || {}, ai = payload.aiJson;
+    const lines = [];
+    lines.push('INFORME STAI — INVENTARIO DE ANSIEDAD ESTADO-RASGO');
+    if (payload.demoMode) lines.push('MODO DEMOSTRACIÓN — DATOS COMPLETAMENTE FICTICIOS');
+    lines.push('');
+    lines.push('IDENTIFICACIÓN');
+    lines.push('Nombre: ' + (p.name || 'No registrado'));
+    if (p.code) lines.push('Código / historia: ' + p.code);
+    if (p.age !== '' && p.age !== undefined) lines.push('Edad: ' + p.age + ' años');
+    if (p.birthDate) lines.push('Fecha de nacimiento: ' + p.birthDate);
+    if (p.sex) lines.push('Sexo para baremación: ' + p.sex);
+    if (p.normGroup) lines.push('Grupo normativo: ' + p.normGroup);
+    if (p.occupation) lines.push('Ocupación: ' + p.occupation);
+    if (p.applicationDate) lines.push('Fecha de aplicación: ' + p.applicationDate + (p.applicationTime ? ' ' + p.applicationTime : ''));
+    lines.push('');
+    lines.push('CONSENTIMIENTO INFORMADO');
+    lines.push('Aceptación registrada por la persona evaluada: ' + yes(c.accepted));
+    lines.push('Fecha y hora: ' + (c.acceptedAt || 'No registrada'));
+    lines.push(c.text || '');
+    lines.push('');
+    lines.push('RESULTADOS');
+    lines.push('Ansiedad-Estado: ' + r.stateScore + '/60. ' + (r.statePosition || ''));
+    lines.push('Ansiedad-Rasgo: ' + r.traitScore + '/60. ' + (r.traitPosition || ''));
+    lines.push('Lectura integrada: ' + (r.integrated || ''));
+    if (ai) {
+      lines.push(''); lines.push('CONTEXTUALIZACIÓN CLÍNICA ASISTIDA POR IA');
+      lines.push(ai.resumen_integrado || '');
+      lines.push('Ansiedad-Estado: ' + (ai.lectura_estado || ''));
+      lines.push('Ansiedad-Rasgo: ' + (ai.lectura_rasgo || ''));
+      lines.push('Relación Estado-Rasgo: ' + (ai.relacion_estado_rasgo || ''));
+      if (Array.isArray(ai.recursos_protectores) && ai.recursos_protectores.length) {
+        lines.push('Recursos / protectores:'); ai.recursos_protectores.forEach(function(v){ lines.push('- ' + v); });
+      }
+      if (Array.isArray(ai.alertas) && ai.alertas.length) { lines.push('Alertas para explorar:'); ai.alertas.forEach(function(v){ lines.push('- ' + v); }); }
+      lines.push('Límites: ' + (ai.limites_interpretativos || ''));
+    }
+    const hasEvaluator = Object.keys(e).some(function(k){return e[k];});
+    if (hasEvaluator) {
+      lines.push(''); lines.push('PROFESIONAL EVALUADOR');
+      lines.push('[Firma incorporada en las versiones visuales, si fue registrada]');
+      if (e.name) lines.push('Nombre: ' + e.name);
+      if (e.profession) lines.push('Profesión: ' + e.profession);
+      if (e.license) lines.push('Tarjeta profesional: ' + e.license);
+      if (e.phone) lines.push('Celular: ' + e.phone);
+      if (e.email) lines.push('Correo: ' + e.email);
+      if (e.workplace) lines.push('Consultorio / institución: ' + e.workplace);
+      if (e.address) lines.push('Dirección: ' + e.address);
+      if (e.cityCountry) lines.push('Ciudad / país: ' + e.cityCountry);
+    }
+    lines.push(''); lines.push('El STAI no constituye por sí solo un diagnóstico. La contextualización con IA es auxiliar y requiere contraste profesional.');
+    return lines.join('\n');
+  }
+
+  STAI.report = {
+    buildReportHtml: buildReportHtml,
+    buildTextReport: buildTextReport
+  };
+}());

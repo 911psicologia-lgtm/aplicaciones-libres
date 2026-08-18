@@ -4,77 +4,140 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width,initial-scale=1">
   <meta name="theme-color" content="#3d5a80">
-  <meta name="description" content="Aplicación local para aplicación, corrección y contextualización clínica del STAI con apoyo opcional de IA.">
-  <link rel="manifest" href="./manifest.webmanifest">
+  <meta name="description" content="Aplicación local para aplicación, corrección y contextualización clínica opcional del STAI.">
   <link rel="icon" href="./assets/img/logo.svg" type="image/svg+xml">
   <link rel="stylesheet" href="./assets/css/styles.css">
-  <title>STAI Clínico · Evaluación y contextualización IA</title>
+  <title>STAI Clínico · Estado y Rasgo</title>
 </head>
 <body>
 <div class="app-shell">
   <header class="topbar">
-    <div class="brand"><img src="./assets/img/logo.svg" alt=""><div><h1>STAI Clínico</h1><p>Estado · Rasgo · Contextualización IA · Informe HTML</p></div></div>
-    <div class="privacy-badge">Procesamiento local</div>
+    <div class="brand">
+      <img src="./assets/img/logo.svg" alt="">
+      <div><h1>STAI Clínico</h1><p>Estado · Rasgo · Contextualización IA · Informe</p></div>
+    </div>
+    <div class="top-actions">
+      <span class="privacy-badge">Procesamiento local</span>
+      <button class="btn btn-ghost compact" id="openEvaluator" type="button">⚙ Evaluador</button>
+    </div>
   </header>
+
+  <div class="demo-strip" id="demoStrip">MODO DEMOSTRACIÓN · DATOS COMPLETAMENTE FICTICIOS</div>
 
   <main class="wizard">
     <div class="progress-wrap"><div class="progress-line"><i id="progressFill"></i></div></div>
-    <nav class="steps" aria-label="Progreso">
-      <div class="step-chip active">1 · Datos</div>
-      <div class="step-chip">2 · Estado</div>
-      <div class="step-chip">3 · Rasgo</div>
-      <div class="step-chip">4 · IA</div>
-      <div class="step-chip">5 · Informe</div>
+    <nav class="steps" aria-label="Progreso de la evaluación">
+      <button type="button" class="step-chip active" data-target="intro">Inicio</button>
+      <button type="button" class="step-chip" data-target="demo">A · Demo</button>
+      <button type="button" class="step-chip" data-target="data">1 · Datos</button>
+      <button type="button" class="step-chip" data-target="state">2 · Estado</button>
+      <button type="button" class="step-chip" data-target="trait">3 · Rasgo</button>
+      <button type="button" class="step-chip" data-target="ai">4 · IA</button>
+      <button type="button" class="step-chip" data-target="report">5 · Informe</button>
     </nav>
 
     <form onsubmit="return false">
-      <section class="screen active" data-screen="1">
+      <section class="screen active" data-screen="intro">
+        <div class="hero-grid">
+          <div>
+            <div class="eyebrow">Inventario de Ansiedad Estado-Rasgo</div>
+            <h2>Una evaluación breve de dos formas de experimentar la ansiedad</h2>
+            <p class="lead">El STAI explora dos dimensiones relacionadas pero distintas: <b>Ansiedad-Estado</b>, que describe cómo se siente la persona en el momento actual, y <b>Ansiedad-Rasgo</b>, que estima una tendencia relativamente estable a experimentar situaciones como amenazantes. Sus resultados aportan información para la evaluación psicológica y no constituyen, por sí solos, un diagnóstico.</p>
+            <div class="feature-row">
+              <div><b>40</b><span>ítems</span></div>
+              <div><b>2</b><span>escalas</span></div>
+              <div><b>7–10</b><span>minutos aprox.</span></div>
+              <div><b>Local</b><span>procesamiento</span></div>
+            </div>
+          </div>
+          <div class="intro-card">
+            <h3>¿Qué ocurrirá?</h3>
+            <ol>
+              <li>Registrarás los datos básicos necesarios.</li>
+              <li>Responderás Estado y Rasgo en bloques cortos.</li>
+              <li>La aplicación calculará las puntuaciones directas.</li>
+              <li>Podrás contextualizar, opcionalmente, mediante una IA externa.</li>
+              <li>Generarás un informe en varios formatos.</li>
+            </ol>
+          </div>
+        </div>
+
+        <div class="consent-box">
+          <div class="consent-icon">i</div>
+          <div>
+            <h3>Consentimiento informado resumido</h3>
+            <p id="consentText">He recibido información sobre el propósito general del STAI, comprendo que evalúa ansiedad Estado y Rasgo, que mis respuestas serán utilizadas con fines de evaluación psicológica y que el resultado no constituye por sí mismo un diagnóstico. Comprendo que puedo preguntar sobre el procedimiento y decidir no continuar antes de completar la aplicación. Autorizo voluntariamente el registro y análisis de mis respuestas para la elaboración del informe correspondiente.</p>
+            <label class="consent-check"><input type="checkbox" id="consentAccepted"><span><b>Soy la persona evaluada y he leído la información anterior. Acepto participar voluntariamente.</b><small>La aceptación queda registrada dentro del informe como constancia electrónica de este proceso; no se presenta como firma electrónica certificada.</small></span></label>
+          </div>
+        </div>
+        <div class="nav"><div></div><div class="nav-right"><button class="btn btn-primary" id="acceptStart" type="button" disabled>Aceptar e iniciar</button></div></div>
+      </section>
+
+      <section class="screen" data-screen="demo">
+        <div class="eyebrow">Antes de 1 · Datos</div>
+        <h2>A · Demo — Ejemplo</h2>
+        <p class="lead">Puedes recorrer toda la aplicación con un caso sintético o comenzar una evaluación en blanco. El demo nunca usa historias clínicas reales.</p>
+        <div class="choice-grid">
+          <article class="choice-card featured">
+            <div class="choice-icon">▶</div><h3>Cargar demostración ficticia</h3>
+            <p>Carga datos, 40 respuestas, una historia clínica inventada y una contextualización IA de ejemplo. Sirve para comprobar el flujo completo y las exportaciones.</p>
+            <button class="btn btn-primary" id="loadDemo" type="button">Cargar Demo</button>
+          </article>
+          <article class="choice-card">
+            <div class="choice-icon">＋</div><h3>Comenzar evaluación nueva</h3>
+            <p>Inicia con campos vacíos. Los datos del evaluador son opcionales y se gestionan desde el botón ⚙ Evaluador.</p>
+            <button class="btn btn-secondary" id="newBlank" type="button">Ir a Datos</button>
+          </article>
+        </div>
+        <div class="nav"><button class="btn btn-ghost" data-go="intro" type="button">Volver al inicio</button><div></div></div>
+      </section>
+
+      <section class="screen" data-screen="data">
         <div class="eyebrow">Paso 1 de 5</div>
         <h2>Datos del protocolo</h2>
-        <p class="lead">Registra solo lo necesario. La aplicación calcula y organiza el protocolo en este dispositivo. La historia clínica no se solicita aquí: podrá añadirse más adelante, únicamente si deseas contextualizar el informe con una IA externa.</p>
+        <p class="lead">Registra solo lo necesario. Los datos profesionales del evaluador son <b>opcionales</b> y pueden añadirse desde ⚙ Evaluador; si no se registran, esa sección simplemente no aparecerá en el informe.</p>
         <div class="grid">
           <div class="field span6"><label for="patientName">Nombre completo <span class="tiny">(opcional)</span></label><input id="patientName" autocomplete="off"></div>
-          <div class="field span6"><label for="patientCode">Código / historia</label><input id="patientCode" autocomplete="off"></div>
+          <div class="field span6"><label for="patientCode">Código / historia <span class="tiny">(opcional)</span></label><input id="patientCode" autocomplete="off"></div>
           <div class="field span4"><label for="birthDate">Fecha de nacimiento</label><input id="birthDate" type="date"></div>
           <div class="field span4"><label for="agePreview">Edad calculada</label><input id="agePreview" readonly placeholder="—"></div>
           <div class="field span4"><label for="sex">Sexo para baremación</label><select id="sex"><option value="">Seleccionar</option><option>Varón</option><option>Mujer</option></select></div>
           <div class="field span4"><label for="gender">Identidad de género <span class="tiny">(opcional)</span></label><input id="gender"></div>
           <div class="field span4"><label for="normGroup">Grupo normativo</label><select id="normGroup"><option value="">Seleccionar</option><option>Adulto/a</option><option>Adolescente</option></select></div>
-          <div class="field span4"><label for="country">País / región</label><input id="country" value="Colombia"></div>
-          <div class="field span6"><label for="education">Escolaridad</label><input id="education"></div>
-          <div class="field span6"><label for="occupation">Ocupación</label><input id="occupation"></div>
+          <div class="field span4"><label for="country">País / región <span class="tiny">(opcional)</span></label><input id="country" value="Colombia"></div>
+          <div class="field span6"><label for="education">Escolaridad <span class="tiny">(opcional)</span></label><input id="education"></div>
+          <div class="field span6"><label for="occupation">Ocupación <span class="tiny">(opcional)</span></label><input id="occupation"></div>
           <div class="field span4"><label for="applicationDate">Fecha de aplicación</label><input id="applicationDate" type="date"></div>
           <div class="field span4"><label for="applicationTime">Hora</label><input id="applicationTime" type="time"></div>
           <div class="field span4"><label for="modality">Modalidad</label><select id="modality"><option>Individual presencial</option><option>Individual remota</option><option>Autoaplicada supervisada</option><option>Otra</option></select></div>
-          <div class="field span6"><label for="evaluator">Evaluador/a</label><input id="evaluator"></div>
-          <div class="field span6"><label for="context">Motivo o contexto de evaluación</label><input id="context"></div>
-          <div class="field span12"><label for="observations">Observaciones relevantes</label><textarea id="observations" placeholder="Opcional. No pegues todavía la historia clínica extensa."></textarea></div>
+          <div class="field span12"><label for="context">Motivo o contexto de evaluación <span class="tiny">(opcional)</span></label><input id="context"></div>
+          <div class="field span12"><label for="observations">Observaciones relevantes <span class="tiny">(opcional)</span></label><textarea id="observations" placeholder="Observaciones breves. La historia clínica extensa se añade, si se desea, en la etapa de contextualización IA."></textarea></div>
         </div>
-        <div class="nav"><div></div><div class="nav-right"><button class="btn btn-primary" id="toState" type="button">Comenzar Ansiedad-Estado</button></div></div>
+        <div class="nav"><button class="btn btn-ghost" data-go="demo" type="button">A · Demo</button><div class="nav-right"><button class="btn btn-primary" id="toState" type="button">Comenzar Ansiedad-Estado</button></div></div>
       </section>
 
-      <section class="screen" data-screen="2">
+      <section class="screen" data-screen="state">
         <div class="eyebrow">Paso 2 de 5 · Ansiedad-Estado</div>
         <h2>¿Cómo se siente ahora mismo?</h2>
         <p class="lead">Seleccione la opción que mejor describa su situación presente. No hay respuestas buenas ni malas.</p>
         <div class="micro-progress"><b id="statePageLabel"></b><div class="micro-bar"><i id="stateMicroFill"></i></div></div>
         <div id="stateQuestions"></div>
-        <div class="nav"><button class="btn btn-ghost" id="backData" type="button">Datos</button><div class="nav-right"><button class="btn btn-secondary" id="statePrev" type="button">Bloque anterior</button><button class="btn btn-primary" id="stateNext" type="button">Siguiente bloque</button></div></div>
+        <div class="nav"><button class="btn btn-ghost" data-go="data" type="button">Datos</button><div class="nav-right"><button class="btn btn-secondary" id="statePrev" type="button">Bloque anterior</button><button class="btn btn-primary" id="stateNext" type="button">Siguiente bloque</button></div></div>
       </section>
 
-      <section class="screen" data-screen="3">
+      <section class="screen" data-screen="trait">
         <div class="eyebrow">Paso 3 de 5 · Ansiedad-Rasgo</div>
         <h2>¿Cómo se siente en general?</h2>
         <p class="lead">Seleccione la opción que mejor describa cómo suele sentirse en la mayoría de las ocasiones.</p>
         <div class="micro-progress"><b id="traitPageLabel"></b><div class="micro-bar"><i id="traitMicroFill"></i></div></div>
         <div id="traitQuestions"></div>
-        <div class="nav"><button class="btn btn-ghost" id="backState" type="button">Ansiedad-Estado</button><div class="nav-right"><button class="btn btn-secondary" id="traitPrev" type="button">Bloque anterior</button><button class="btn btn-primary" id="traitNext" type="button">Siguiente bloque</button></div></div>
+        <div class="nav"><button class="btn btn-ghost" data-go="state" type="button">Ansiedad-Estado</button><div class="nav-right"><button class="btn btn-secondary" id="traitPrev" type="button">Bloque anterior</button><button class="btn btn-primary" id="traitNext" type="button">Siguiente bloque</button></div></div>
       </section>
 
-      <section class="screen" data-screen="4">
+      <section class="screen" data-screen="ai">
         <div class="eyebrow">Paso 4 de 5</div>
-        <h2>Resultados base + contextualización IA</h2>
-        <p class="lead">Primero se conserva el resultado psicométrico. Luego, de manera opcional, puedes aportar historia clínica o notas para que una IA proponga una lectura multicausal e interrelacionada. El prompt se copia directamente y no se muestra en pantalla.</p>
+        <h2>Resultados base y contextualización</h2>
+        <p class="lead">El resultado psicométrico se conserva como núcleo de la evaluación. La contextualización mediante IA es opcional y se mantiene claramente diferenciada de la medición del instrumento.</p>
         <div class="summary-grid">
           <div class="score-card"><div class="value"><span id="stateScore">—</span><small>/60</small></div><b>Ansiedad-Estado</b><div class="meter"><i id="stateMeter"></i></div><p id="stateBand"></p></div>
           <div class="score-card"><div class="value"><span id="traitScore">—</span><small>/60</small></div><b>Ansiedad-Rasgo</b><div class="meter"><i id="traitMeter"></i></div><p id="traitBand"></p></div>
@@ -84,32 +147,63 @@
         <div class="grid" style="margin-top:18px">
           <div class="field span6"><label for="stateDecatype">Decatipo Ansiedad-Estado <span class="tiny">(opcional, manual autorizado)</span></label><input id="stateDecatype" type="number" min="1" max="10" step="1" placeholder="1–10"></div>
           <div class="field span6"><label for="traitDecatype">Decatipo Ansiedad-Rasgo <span class="tiny">(opcional, manual autorizado)</span></label><input id="traitDecatype" type="number" min="1" max="10" step="1" placeholder="1–10"></div>
-          <div class="field span12"><label for="clinicalHistory">Historia clínica / notas para contextualizar <span class="tiny">(opcional)</span></label><textarea id="clinicalHistory" placeholder="Pega aquí antecedentes, notas de sesión, motivo de consulta, eventos relevantes, observaciones, etc. Si lo dejas vacío, la IA trabajará solo con los datos STAI y el contexto básico."></textarea><small>Este texto no se envía automáticamente. Solo se incorpora al contenido que tú copies y pegues en la IA externa elegida.</small></div>
-          <div class="span12 softbox">
-            <label class="checkrow"><input id="includeIdentifiers" type="checkbox"><span><b>Incluir nombre en el prompt de IA</b><br><span class="tiny">Por defecto se omite el nombre y se prioriza el código. Actívalo solo si es necesario.</span></span></label>
+        </div>
+
+        <div class="ai-choice-row">
+          <button class="ai-choice active" id="chooseNoAi" type="button"><b>Sin IA</b><span>Generar informe con resultados STAI.</span></button>
+          <button class="ai-choice" id="chooseAi" type="button"><b>Contextualizar con IA</b><span>Incorporar historia clínica o notas si lo deseas.</span></button>
+        </div>
+
+        <div id="aiPanel" class="ai-panel">
+          <div class="field"><label for="clinicalHistory">Historia clínica / notas de contexto <span class="tiny">(opcional)</span></label><textarea id="clinicalHistory" placeholder="Pega aquí solo la información que consideres pertinente. Si lo dejas vacío, la IA trabajará con los resultados y los datos básicos disponibles."></textarea><small>Este contenido no se envía automáticamente. Evita compartir identificadores innecesarios con servicios externos.</small></div>
+          <div class="softbox">
+            <label class="checkrow"><input id="includeIdentifiers" type="checkbox"><span><b>Incluir nombre en el prompt de IA</b><br><span class="tiny">Por defecto se omite el nombre y se prioriza el código.</span></span></label>
             <button class="btn btn-primary" id="aiGenerate" type="button">Generar y copiar prompt clínico</button>
-            <div class="copy-state callout success" id="copyState"><b>Prompt copiado.</b> Abre una de las IA, pega el contenido, espera la respuesta y vuelve aquí. La aplicación no mostrará ni enviará el prompt por sí sola.</div>
+            <div class="copy-state callout success" id="copyState"><b>Prompt clínico copiado.</b> Abre una de las IA, pega el contenido y trae aquí únicamente la respuesta JSON.</div>
             <div class="ai-buttons" id="aiButtons"></div>
           </div>
-          <div class="field span12"><label for="aiResponse">Pega aquí la respuesta JSON de la IA</label><textarea class="jsonbox" id="aiResponse" spellcheck="false" placeholder='{ "version": "STAI-IA-1.0", ... }'></textarea><div class="status" id="jsonStatus"></div></div>
+          <div class="field"><label for="aiResponse">Pega aquí la respuesta JSON de la IA</label><textarea class="jsonbox" id="aiResponse" spellcheck="false" placeholder='{ "version": "STAI-IA-1.0", ... }'></textarea><div class="status" id="jsonStatus"></div></div>
         </div>
-        <div class="nav"><button class="btn btn-ghost" id="backTrait" type="button">Ansiedad-Rasgo</button><div class="nav-right"><button class="btn btn-secondary" id="validateJson" type="button">Validar JSON</button><button class="btn btn-ghost" id="skipAi" type="button">Continuar sin IA</button><button class="btn btn-primary" id="goFinalWithAi" type="button" disabled>Continuar con IA</button></div></div>
+
+        <div class="nav"><button class="btn btn-ghost" data-go="trait" type="button">Ansiedad-Rasgo</button><div class="nav-right"><button class="btn btn-secondary" id="validateJson" type="button">Validar JSON</button><button class="btn btn-primary" id="toReport" type="button">Continuar a Informe</button></div></div>
       </section>
 
-      <section class="screen" data-screen="5">
+      <section class="screen" data-screen="report">
         <div class="eyebrow">Paso 5 de 5</div>
-        <h2>Informe listo para generar</h2>
-        <p class="lead">Se descargará como un archivo HTML autónomo, visual e interactivo. Puede abrirse en cualquier navegador, imprimirse o guardarse como PDF.</p>
+        <h2>Informe preparado</h2>
+        <p class="lead">El informe integra el consentimiento, resultados, contextualización opcional y datos profesionales si fueron registrados. En la sección del evaluador, <b>la firma aparece primero y debajo los datos profesionales</b>.</p>
         <div class="report-actions">
           <div class="action-card"><h3 id="finalPatient">Persona evaluada</h3><p id="finalScores">A/E — · A/R —</p><div class="callout" id="finalAi"></div></div>
-          <div class="action-card"><h3>Contenido del informe</h3><p>Resultados STAI, lectura integrada, relaciones contextuales, cuadros, factores, hipótesis contrastables y —si la IA aportó dimensiones suficientes— gráfico radial y red de relaciones.</p><button class="btn btn-primary" id="downloadReport" type="button">Generar y descargar informe HTML</button></div>
+          <div class="action-card"><h3>Exportar informe</h3><p>HTML conserva la presentación completa; PDF abre la versión de impresión para guardar como PDF; DOC es compatible con Word; TXT ofrece una copia clínica limpia.</p><div class="export-grid"><button class="btn btn-primary" id="downloadHtml" type="button">HTML</button><button class="btn btn-secondary" id="downloadPdf" type="button">PDF</button><button class="btn btn-secondary" id="downloadDoc" type="button">DOC</button><button class="btn btn-secondary" id="downloadTxt" type="button">TXT</button><button class="btn btn-ghost" id="downloadJson" type="button">JSON</button><button class="btn btn-ghost" id="previewReport" type="button">Vista previa</button></div></div>
         </div>
-        <div class="nav"><button class="btn btn-ghost" id="backAi" type="button">Volver a contextualización</button><div class="nav-right"><button class="btn btn-secondary" id="previewReport" type="button">Vista previa</button><button class="btn btn-danger" id="resetAll" type="button">Nuevo protocolo</button></div></div>
+        <div class="nav"><button class="btn btn-ghost" data-go="ai" type="button">Volver a contextualización</button><div class="nav-right"><button class="btn btn-danger" id="resetAll" type="button">Nuevo protocolo</button></div></div>
       </section>
     </form>
   </main>
-  <div class="footer-note">Aplicación estática para uso profesional. Los datos permanecen en el navegador salvo cuando el usuario decide copiarlos a una IA externa.</div>
+  <div class="footer-note">Aplicación estática. El procesamiento principal ocurre en este dispositivo; la IA externa solo recibe contenido cuando el usuario decide copiar y pegar el prompt.</div>
 </div>
+
+<div class="drawer-backdrop" id="drawerBackdrop"></div>
+<aside class="drawer" id="evaluatorDrawer" aria-hidden="true">
+  <div class="drawer-head"><div><div class="eyebrow">Configuración opcional</div><h2>Datos del evaluador</h2></div><button class="icon-btn" id="closeEvaluator" type="button">×</button></div>
+  <p class="drawer-lead"><b>No es obligatorio completar esta sección.</b> La prueba puede aplicarse sin datos profesionales. Si los registras, se incorporarán al informe; si no, la sección no aparecerá.</p>
+  <div class="drawer-scroll">
+    <div class="grid">
+      <div class="field span12"><label for="evalName">Nombre</label><input id="evalName"></div>
+      <div class="field span6"><label for="evalProfession">Profesión</label><input id="evalProfession"></div>
+      <div class="field span6"><label for="evalLicense">Tarjeta profesional</label><input id="evalLicense"></div>
+      <div class="field span6"><label for="evalPhone">Celular</label><input id="evalPhone"></div>
+      <div class="field span6"><label for="evalEmail">Correo electrónico</label><input id="evalEmail" type="email"></div>
+      <div class="field span12"><label for="evalWorkplace">Consultorio / institución</label><input id="evalWorkplace"></div>
+      <div class="field span12"><label for="evalAddress">Dirección</label><input id="evalAddress"></div>
+      <div class="field span12"><label for="evalCityCountry">Ciudad / país</label><input id="evalCityCountry"></div>
+      <div class="field span12"><label>Firma</label><p class="tiny" style="margin-top:-2px">Puedes dibujarla o cargar una imagen. En el informe aparecerá <b>primero la firma y después los datos del evaluador</b>.</p><canvas id="signatureCanvas" width="760" height="220" aria-label="Área para dibujar firma"></canvas><div class="signature-actions"><button class="btn btn-ghost" id="clearSignature" type="button">Limpiar firma</button><label class="btn btn-secondary file-btn">Cargar imagen<input id="signatureFile" type="file" accept="image/*"></label></div></div>
+      <div class="span12 softbox"><label class="checkrow"><input type="checkbox" id="saveEvaluator"><span><b>Guardar estos datos en este dispositivo</b><br><span class="tiny">Se almacenan en el navegador mediante almacenamiento local para reutilizarlos en próximos protocolos.</span></span></label></div>
+    </div>
+  </div>
+  <div class="drawer-footer"><button class="btn btn-ghost" id="clearEvaluator" type="button">Borrar datos</button><button class="btn btn-primary" id="saveEvaluatorBtn" type="button">Aplicar configuración</button></div>
+</aside>
+
 <div class="toast" id="toast" role="status" aria-live="polite"></div>
 <script defer src="./assets/js/stai-data.js"></script>
 <script defer src="./assets/js/scoring.js"></script>
