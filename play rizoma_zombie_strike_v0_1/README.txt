@@ -1,4 +1,4 @@
-Rizoma Zombie Strike v1.4.0 — flujo corregido, progresión por mundos y hangar retirado
+Rizoma Zombie Strike v1.5.7 — 5 vidas + Mundo 2: Colonia Alfa / Nexo biotecnológico
 
 Versión SAFE para Cloudflare Pages, sin archivo _headers.
 
@@ -63,7 +63,7 @@ Novedades v1.1.0:
 - Menos saturación de pickups y obstáculos, con pickups de poder más visibles.
 
 
-Novedades v1.4.0:
+Novedades v1.4.1:
 - Hangar evolutivo retirado del flujo jugable.
 - Tienda de monedas queda temporalmente fuera de navegación; monedas y puntos siguen acumulándose para una decisión posterior.
 - Derrota: Reintentar nivel conserva Mundo/Nivel; Inicio siempre vuelve al portal.
@@ -73,7 +73,7 @@ Novedades v1.4.0:
 - El jefe entrega un poder/reliquia persistente para el mundo siguiente.
 
 
-Novedades v1.4.0 — Mundo 1 Director's Cut:
+Novedades v1.4.1 — Mundo 1 Director's Cut:
 - Assets visuales optimizados a resolución de uso real; reducción fuerte de peso y memoria.
 - Movimiento inicial más responsivo y movilidad progresiva al completar mundos.
 - Mundo 1 dividido en cinco actos diferenciados.
@@ -84,3 +84,55 @@ Novedades v1.4.0 — Mundo 1 Director's Cut:
 - Poder principal único por nivel con núcleo luminoso; drops aleatorios reducidos.
 - Experiencia del Mundo 1 mejora silenciosamente la nave base en lugar de mostrar cartas constantemente.
 - Familias enemigas usan assets realistas de forma más consistente.
+
+
+Novedades v1.4.1 — Boss Swarm:
+- El Acto I ofrece inmediatamente un núcleo Triple garantizado durante 16 segundos y un dron de apoyo de entrada.
+- Al alcanzar 12 eliminaciones aparece Perforación cinética durante 14 segundos.
+- La secuencia de recompensas posteriores queda: Dron → Láser → Torpedos → Spark.
+- El primer jefe aumenta su vida aproximadamente un 38% respecto a Director's Cut y su escudo pasa a 680.
+- El jefe entra acompañado por seis esbirros: dos representantes de cada una de sus tres familias.
+- Mientras existen esbirros, el jefe recibe protección dinámica y regenera gradualmente su escudo.
+- Las oleadas de séquito aparecen con mayor frecuencia y pueden mantener hasta más unidades alrededor del jefe.
+- Eliminar esbirros reduce directamente el escudo del jefe, carga la sobrecarga anti-jefe y, si se limpia el séquito, abre una ventana vulnerable ampliada.
+- El HUD del jefe muestra la cantidad de protección activa para reforzar la lectura táctica.
+
+Novedades v1.5.7:
+- 5 vidas al iniciar cada mundo (1 activa + 4 reservas).
+- Al perder las 5 vidas se puede comprar 1 vida con monedas, puntos o experiencia.
+- Escudo temporal de entrada reforzado y visible; se recarga al comenzar cada nivel.
+- Poder heredado del jefe del Mundo 1: Núcleo Meteórico, activo en Mundo 2 con impactos automáticos cada 18 s.
+- Mundo 2 reconstruido en 5 actos: Cuarentena exterior, Nebulosa tóxica, Anillos fragmentados, Estación abisal y Nexo de convergencia.
+- Tres familias nuevas de 5 esbirros cada una: Vorácidos, Errantes del Vacío y Devoradores de Metal.
+- Nuevo jefe del Mundo 2 con asset realista, escudo y protección basada en esbirros.
+- Nuevos poderes del Mundo 2: Rayo de vacío, Minas gravíticas, Pulso disruptor, Escuadrón fantasma y Tornado de plasma.
+- Nuevos fondos y atmósfera visual del Mundo 2, con arena final diferenciada.
+- Sonidos procedurales propios para disparos, pulsos y entrada del jefe del Mundo 2.
+- Guardado ampliado para estado del Mundo 2, vidas y temporizadores heredados.
+
+
+Novedades v1.5.4:
+- Esbirros del Mundo 2 recortados y reescalados para igualar la presencia visual del Mundo 1.
+- Chatarra espacial y meteoritos visibles desde los primeros actos del Mundo 2.
+- Planetas errantes y tormentas orbitales aumentan hacia la antesala y el jefe.
+- Nuevo Archivo de misiones: permite repetir niveles ya superados sin reemplazar la partida principal.
+- Las repeticiones conservan score, monedas y experiencia, pero no duplican el poder único del jefe.
+
+
+Novedades v1.5.7:
+- Mundo 2 recibe una cadencia mayor pero controlada de premios tácticos.
+- Nuevo Impulsor vectorial: +48% movilidad durante 10 segundos.
+- Nuevo Ralentizador temporal: reduce movimiento enemigo y proyectiles hostiles durante 10 segundos.
+- Nueva Nave auxiliar: dura 12 segundos; pueden coexistir máximo 2. Heredan temporalmente el disparo de la nave principal.
+- Los premios tácticos aparecen dentro de círculos luminosos, pulsantes y con icono/etiqueta visible.
+- Mayor probabilidad de shield y reparación cuando la nave está dañada.
+- Mundo 2 inicia además con un Impulsor visible, junto al Rayo de vacío y el shield.
+- Los eventos del Mundo 2 pueden dejar premios adicionales sin saturar la pantalla.
+
+
+Novedades v1.5.7:
+- Indicador permanente 👑 JEFE XX% en el HUD.
+- Mundo 2 Nivel 5 deja de generar una horda infinita: tres prefectos secuenciales abren directamente al Patriarca Bacilo Omega.
+- Prefectos mucho más visibles, grandes, marcados y acompañados por dos esbirros de su familia.
+- Fail-safe para garantizar la aparición del siguiente prefecto y del jefe.
+- Nivel 2 alterna cuatro formaciones enemigas y evita repetir continuamente el mismo esbirro.

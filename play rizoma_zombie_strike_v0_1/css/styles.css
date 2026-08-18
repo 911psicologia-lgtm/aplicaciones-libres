@@ -852,7 +852,7 @@ body.game-mode .power-chip.overflow{font-size:.66rem!important;font-weight:950!i
 @media (max-width:760px){.toast-stack{width:min(220px,calc(100% - 92px))}.toast.micro{font-size:.65rem;padding:3px 7px}.boss-intro-card{min-width:min(76vw,250px);padding:10px 12px;border-radius:16px}.boss-intro-icon{font-size:26px}.boss-intro-card h2{font-size:.95rem}.boss-intro-card p{font-size:.68rem}}
 
 
-/* v1.4.0 DSEBI F10: progresión por mundos, flujo de reintento y hangar retirado */
+/* v1.5.0 DSEBI F10: progresión por mundos, flujo de reintento y hangar retirado */
 body.game-mode .toast-stack{left:auto!important;right:14px!important;top:calc(62px + var(--safe-top))!important;transform:none!important;width:min(230px,calc(100% - 96px))!important;justify-items:end!important;gap:3px!important;z-index:13!important}
 body.game-mode .toast.micro{max-width:230px!important;padding:3px 8px!important;border-radius:999px!important;background:rgba(2,12,10,.20)!important;border:1px solid rgba(97,255,200,.10)!important;font-size:.66rem!important;line-height:1.1!important;box-shadow:none!important;backdrop-filter:blur(2px)!important}
 body.game-mode .toast.micro strong{font-size:.68rem!important;color:#b9ffe8!important}
@@ -876,7 +876,7 @@ body.game-mode .toast.micro small{display:inline!important;margin-left:5px!impor
 .entry-shield-note{color:#9fd4ff;}
 
 
-/* v1.4.0 DSEBI F10: intro poster y menú reducido */
+/* v1.5.0 DSEBI F10: intro poster y menú reducido */
 body[data-screen="screenIntro"] .topbar{display:none;}
 .intro-screen{padding:0!important;background:#020611;}
 .intro-poster-wrap{position:relative;width:100%;height:calc(100dvh - 0px);overflow:hidden;}
@@ -902,13 +902,62 @@ body[data-screen="screenIntro"] .topbar{display:none;}
 .saved-games-list{margin-top:10px;}
 @media (max-width:760px){.intro-overlay-panel{bottom:2vh;padding:14px 16px;border-radius:18px;width:min(94vw,620px)}.redesigned-menu{padding:12px}.menu-hero-concept{aspect-ratio:16/8}.portal-rank-row{grid-template-columns:30px 1fr auto;font-size:.84rem}}
 
-/* v1.4.0 DSEBI F11: fix local init y menú más sobrio */
+/* v1.5.0 DSEBI F11: fix local init y menú más sobrio */
 body[data-screen="screenPortal"] .topbar{display:none;}
 body[data-screen="screenPortal"] main, body[data-screen="screenIntro"] main{height:100%;}
 body[data-screen="screenPortal"] .simple-start-screen{padding-top:18px;}
 .menu-hero-concept{display:none!important;}
 .redesigned-menu{padding-top:22px;}
 
-/* v1.4.0 Director Cut Mundo 1 */
+/* v1.5.0 Director Cut Mundo 1 */
 body.game-mode #xpWrap{box-shadow:0 0 14px rgba(120,200,255,.08);}
 body.game-mode #xpLabel{letter-spacing:.02em;}
+
+
+/* v1.5.0: 5 vidas, compra de vida, Mundo 2 */
+.life-shop{display:grid;gap:8px;margin:10px 0 2px;padding:12px;border-radius:18px;border:1px solid rgba(195,145,255,.22);background:rgba(16,9,28,.58);}
+.life-shop>strong{text-align:center;color:#e9dcff}.life-shop>small{text-align:center;color:var(--muted);font-size:.72rem}.life-shop-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:7px}.life-buy{border:1px solid rgba(255,255,255,.12);background:rgba(255,255,255,.045);color:var(--text);border-radius:13px;padding:8px 6px;display:grid;gap:3px;place-items:center;font:inherit;cursor:pointer}.life-buy span{font-size:.7rem}.life-buy b{font-size:.85rem;color:#ffd56a}.life-buy:disabled{opacity:.38;cursor:not-allowed}.power-chip.relic{border-color:rgba(255,213,106,.42)!important;box-shadow:0 0 14px rgba(255,157,77,.24)!important}.boss-intro-overlay[data-family="bacteria"] .boss-intro-card{box-shadow:0 0 46px rgba(195,145,255,.18),0 22px 60px rgba(0,0,0,.44)}
+@media(max-width:620px){.life-shop-grid{grid-template-columns:1fr}.life-buy{grid-template-columns:1fr auto;place-items:center stretch;text-align:left;padding:8px 10px}}
+
+/* v1.5.4 ranking sci-fi */
+.portal-ranking-preview{margin-top:14px;padding:12px;border-radius:20px;background:linear-gradient(180deg,rgba(8,14,26,.78),rgba(4,8,18,.88));border:1px solid rgba(130,155,255,.14)}
+.portal-rank-board,.ranking-board{border:1px solid rgba(121,136,255,.16);border-radius:18px;padding:10px 12px;background:linear-gradient(180deg,rgba(6,12,24,.8),rgba(3,7,18,.9))}
+.portal-rank-logo{text-align:center;font-weight:900;letter-spacing:.18em;color:#c892ff;margin-bottom:10px;text-shadow:0 0 12px rgba(200,146,255,.28)}
+.portal-rank-head,.ranking-board-head{display:grid;grid-template-columns:64px 1fr 120px;gap:10px;padding:0 6px 8px;color:#68b8ff;font-size:.78rem;letter-spacing:.18em;border-bottom:1px solid rgba(104,184,255,.12)}
+.portal-rank-row,.ranking-board .rank-row{display:grid;grid-template-columns:64px 1fr 120px;gap:10px;align-items:center;padding:9px 6px;border-bottom:1px solid rgba(255,255,255,.05);border-radius:0;background:transparent!important}
+.portal-rank-row:last-child,.ranking-board .rank-row:last-child{border-bottom:none}.portal-rank-row.top,.ranking-board .rank-row.top{background:linear-gradient(90deg,rgba(96,86,255,.06),transparent)!important}
+.portal-rank-no,.ranking-board .rank-no{width:42px;height:42px;border-radius:14px;display:grid;place-items:center;background:linear-gradient(180deg,rgba(25,43,83,.9),rgba(11,19,37,.92));border:1px solid rgba(120,161,255,.18);color:#7bc2ff;font-weight:800}
+.portal-rank-namewrap,.rank-main{display:grid;grid-template-columns:40px 1fr;gap:10px;align-items:center}.portal-rank-ship,.rank-ship{display:grid;place-items:center;width:36px;height:36px;border-radius:12px;background:rgba(128,183,255,.08);border:1px solid rgba(136,166,255,.14)}
+.portal-rank-name,.rank-main div:last-child{display:flex;flex-direction:column;line-height:1.05}.portal-rank-name small,.rank-main small{margin-top:2px;opacity:.62;letter-spacing:.06em}.portal-rank-score,.rank-score{justify-self:end;color:#6cc7ff;font-size:1.08rem}
+@media(max-width:760px){.portal-rank-head,.ranking-board-head,.portal-rank-row,.ranking-board .rank-row{grid-template-columns:48px 1fr 92px;gap:8px}}
+
+
+/* v1.5.4 Mundo 2 escala visual + repetición de niveles */
+.replay-entry-btn{grid-column:1/-1}
+.replay-world-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:16px;margin-top:18px}
+.replay-world-card{padding:16px;border-radius:20px;border:1px solid rgba(123,194,255,.14);background:linear-gradient(180deg,rgba(7,15,28,.86),rgba(3,8,17,.92));box-shadow:0 16px 38px rgba(0,0,0,.2)}
+.replay-world-card.locked{opacity:.42;filter:saturate(.55)}
+.replay-world-head{display:flex;align-items:center;gap:12px;margin-bottom:12px}
+.replay-world-icon{width:44px;height:44px;border-radius:14px;display:grid;place-items:center;background:rgba(123,194,255,.08);border:1px solid rgba(123,194,255,.16);font-size:1.25rem}
+.replay-world-head h3{margin:0}.replay-world-head small{display:block;margin-top:2px;opacity:.62}
+.replay-levels{display:grid;grid-template-columns:repeat(5,1fr);gap:8px}
+.replay-level-btn{min-height:58px;border-radius:14px;border:1px solid rgba(124,160,255,.16);background:rgba(255,255,255,.035);color:var(--text);display:flex;flex-direction:column;align-items:center;justify-content:center;gap:2px;cursor:pointer;font:inherit}
+.replay-level-btn b{font-size:.9rem}.replay-level-btn small{font-size:.68rem;opacity:.65;max-width:66px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.replay-level-btn:hover:not(:disabled){border-color:rgba(97,255,200,.5);box-shadow:0 0 18px rgba(97,255,200,.08);transform:translateY(-1px)}
+.replay-level-btn.done{background:linear-gradient(180deg,rgba(31,82,100,.22),rgba(15,40,52,.18));border-color:rgba(97,255,200,.22)}
+.replay-level-btn.boss{border-color:rgba(255,179,92,.28);background:linear-gradient(180deg,rgba(84,49,15,.2),rgba(35,18,8,.18))}
+.replay-level-btn:disabled{opacity:.28;cursor:not-allowed}
+@media(max-width:700px){.replay-world-grid{grid-template-columns:1fr}.replay-levels{gap:5px}.replay-level-btn{min-height:54px;padding:4px}.replay-level-btn small{display:none}}
+
+/* v1.5.5 Mundo 2: premios tácticos, impulsor, ralentizador y naves auxiliares */
+
+/* v1.5.7 progression: arma base persistente, vidas por mundo/puntaje y compra con poder */
+
+
+/* v1.5.7 Jefe visible: progreso y prefectos destacados */
+.hud-pill.boss-approach{border-color:rgba(195,145,255,.26);background:linear-gradient(180deg,rgba(37,20,56,.86),rgba(11,12,27,.84));min-width:74px}
+.hud-pill.boss-approach strong{color:#d6afff;text-shadow:0 0 10px rgba(195,145,255,.35)}
+.hud-pill.boss-approach.boss-ready{border-color:rgba(255,213,106,.52);box-shadow:0 0 16px rgba(255,213,106,.12)}
+.hud-pill.boss-approach.boss-ready strong{color:#ffd56a}
+.hud-pill.boss-approach.boss-live{border-color:rgba(255,92,92,.55);animation:bossHudPulse .85s ease-in-out infinite alternate}
+@keyframes bossHudPulse{from{box-shadow:0 0 6px rgba(255,92,92,.08)}to{box-shadow:0 0 18px rgba(255,92,92,.28)}}

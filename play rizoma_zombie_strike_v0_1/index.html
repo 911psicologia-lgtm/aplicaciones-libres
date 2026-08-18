@@ -8,8 +8,8 @@
   <meta name="apple-mobile-web-app-title" content="Niebla Verde" />
   <script>if(location.protocol !== "file:"){const m=document.createElement("link");m.rel="manifest";m.href="manifest.json";document.head.appendChild(m);}</script>
   <link rel="icon" href="assets/icon.svg" type="image/svg+xml" />
-  <title>Rizoma Zombie Strike — Niebla Verde v1.4.0</title>
-  <link rel="stylesheet" href="css/styles.css?v=1.4.0" />
+  <title>Rizoma Zombie Strike — Niebla Verde v1.5.7</title>
+  <link rel="stylesheet" href="css/styles.css?v=1.5.7" />
 </head>
 <body>
   <div id="app" class="app-shell">
@@ -22,7 +22,7 @@
         <span class="brand-mark">⬢</span>
         <div>
           <strong>Rizoma Zombie Strike</strong>
-          <small>Niebla Verde · v1.4.0</small>
+          <small>Niebla Verde · v1.5.7</small>
         </div>
       </div>
       <button id="btnSettings" class="icon-btn" title="Ajustes" aria-label="Ajustes">⚙</button>
@@ -174,6 +174,7 @@
           <div class="hud-pill"><span>🗺️</span><strong id="hudMap">1</strong></div>
           <div class="hud-pill"><span>⭐</span><strong id="hudScore">0</strong></div>
           <div class="hud-pill"><span>🪙</span><strong id="hudCoins">0</strong></div>
+          <div class="hud-pill boss-approach" id="hudBossApproach" title="Progreso hacia el jefe"><span>👑</span><strong id="hudBossPercent">0%</strong></div>
           <div class="hud-pill"><span>❤️‍🩹</span><strong id="hudLives">0</strong></div>
           <button id="btnPause" class="pause-btn" title="Pausa">⏸</button>
         </div>
@@ -222,6 +223,15 @@
             <h2 id="resultTitle">Misión terminada</h2>
             <p id="resultText"></p>
             <div id="resultRewards" class="reward-row"></div>
+            <div id="lifeShop" class="life-shop hidden">
+              <strong>Comprar 1 vida</strong>
+              <small>Elige un recurso como requisito. No se descuentan monedas, puntos ni experiencia. Cada compra reactiva además un poder.</small>
+              <div class="life-shop-grid">
+                <button id="btnBuyLifeCoins" class="life-buy" data-life-currency="coins"><span>🪙 Monedas</span><b id="lifeCostCoins">150</b></button>
+                <button id="btnBuyLifeScore" class="life-buy" data-life-currency="score"><span>⭐ Puntos</span><b id="lifeCostScore">1000</b></button>
+                <button id="btnBuyLifeXp" class="life-buy" data-life-currency="xp"><span>✦ Experiencia</span><b id="lifeCostXp">180</b></button>
+              </div>
+            </div>
             <div class="modal-actions">
               <button id="btnResultContinue" class="primary-btn">Continuar</button>
               <button id="btnResultHome" class="soft-btn">Inicio</button>
@@ -255,6 +265,6 @@
     </div>
   </div>
 
-  <script src="js/game.js?v=1.4.0"></script>
+  <script src="js/game.js?v=1.5.7"></script>
 </body>
 </html>
