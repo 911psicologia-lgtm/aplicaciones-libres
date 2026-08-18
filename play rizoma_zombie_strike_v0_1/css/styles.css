@@ -852,7 +852,7 @@ body.game-mode .power-chip.overflow{font-size:.66rem!important;font-weight:950!i
 @media (max-width:760px){.toast-stack{width:min(220px,calc(100% - 92px))}.toast.micro{font-size:.65rem;padding:3px 7px}.boss-intro-card{min-width:min(76vw,250px);padding:10px 12px;border-radius:16px}.boss-intro-icon{font-size:26px}.boss-intro-card h2{font-size:.95rem}.boss-intro-card p{font-size:.68rem}}
 
 
-/* v0.7.17 DSEBI F5: microavisos y jefe táctico */
+/* v1.3.1 DSEBI F10: progresión por mundos, flujo de reintento y hangar retirado */
 body.game-mode .toast-stack{left:auto!important;right:14px!important;top:calc(62px + var(--safe-top))!important;transform:none!important;width:min(230px,calc(100% - 96px))!important;justify-items:end!important;gap:3px!important;z-index:13!important}
 body.game-mode .toast.micro{max-width:230px!important;padding:3px 8px!important;border-radius:999px!important;background:rgba(2,12,10,.20)!important;border:1px solid rgba(97,255,200,.10)!important;font-size:.66rem!important;line-height:1.1!important;box-shadow:none!important;backdrop-filter:blur(2px)!important}
 body.game-mode .toast.micro strong{font-size:.68rem!important;color:#b9ffe8!important}
@@ -864,3 +864,47 @@ body.game-mode .toast.micro small{display:inline!important;margin-left:5px!impor
 .boss-intro-overlay.micro-intro .boss-intro-card .eyebrow{font-size:.55rem!important;line-height:1!important;margin:0!important;position:absolute;left:44px;top:-11px;opacity:.65!important}
 .boss-intro-overlay.micro-intro .boss-intro-card .muted{font-size:.62rem!important;margin:0!important;max-width:120px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
 @media(max-width:760px){body.game-mode .toast-stack{right:8px!important;top:calc(52px + var(--safe-top))!important;width:min(190px,calc(100% - 86px))!important}.boss-intro-overlay.micro-intro{padding-top:calc(72px + var(--safe-top))!important}.boss-intro-overlay.micro-intro .boss-intro-card{max-width:72vw!important;padding:7px 10px!important}.boss-intro-overlay.micro-intro .boss-intro-card h2{max-width:128px!important;font-size:.72rem!important}.boss-intro-overlay.micro-intro .boss-intro-card .muted{display:none!important}}
+
+.power-chip{appearance:none;color:inherit;padding:0;cursor:pointer;}
+.power-chip.active-power.selected{border-color:#ffd56a!important;box-shadow:0 0 14px rgba(255,213,106,.26)!important;transform:translateY(-1px);}
+
+/* progresion-v12 */
+#screenHangar,[data-screen="screenHangar"],#btnResultHangar{display:none!important;}
+/* Monedas y puntos quedan acumulándose; su uso se definirá en una fase posterior. */
+[data-screen="screenShop"],#btnPauseShop{display:none!important;}
+#resultOverlay .modal-actions{grid-template-columns:minmax(150px,1fr) minmax(90px,.55fr);}
+.entry-shield-note{color:#9fd4ff;}
+
+
+/* v1.3.1 DSEBI F10: intro poster y menú reducido */
+body[data-screen="screenIntro"] .topbar{display:none;}
+.intro-screen{padding:0!important;background:#020611;}
+.intro-poster-wrap{position:relative;width:100%;height:calc(100dvh - 0px);overflow:hidden;}
+.intro-poster-img{width:100%;height:100%;object-fit:cover;display:block;filter:saturate(1.06) contrast(1.02);}
+.intro-overlay-panel{position:absolute;left:50%;bottom:4.5vh;transform:translateX(-50%);width:min(92vw,720px);padding:18px 22px;border-radius:24px;background:linear-gradient(180deg,rgba(4,10,18,.22),rgba(4,10,18,.72));border:1px solid rgba(130,185,255,.2);box-shadow:0 18px 60px rgba(0,0,0,.42);backdrop-filter:blur(6px);text-align:center;}
+.intro-overlay-panel .eyebrow{font-size:.8rem;}
+.intro-title-hidden{position:absolute;left:-9999px;}
+.intro-overlay-panel .subcopy{margin:10px auto 14px;max-width:56ch;color:#d6e9ff;}
+.redesigned-menu{max-width:min(92vw,640px);padding:18px 18px 14px;background:linear-gradient(180deg,rgba(5,10,22,.82),rgba(6,10,19,.74));border-color:rgba(117,145,255,.18);box-shadow:0 24px 80px rgba(0,0,0,.35);}
+.simple-start-screen{background:radial-gradient(circle at top right,rgba(110,76,196,.16),transparent 30%),radial-gradient(circle at bottom left,rgba(70,143,255,.11),transparent 25%),#030813;}
+.simple-start-screen::before{content:"";position:absolute;inset:0;background:url("../assets/ui/menu_concept.png") center top/cover no-repeat;opacity:.14;pointer-events:none;filter:saturate(.82) blur(1px);}
+.portal-screen{position:relative;}
+.menu-hero-concept{width:100%;aspect-ratio:16/6.2;border-radius:18px;overflow:hidden;border:1px solid rgba(145,181,255,.12);background:rgba(255,255,255,.03);margin-bottom:10px;}
+.menu-hero-concept img{width:100%;height:100%;object-fit:cover;object-position:center top;display:block;}
+.portal-ranking-preview{margin-top:14px;padding:10px 12px;border-radius:18px;background:rgba(255,255,255,.03);border:1px solid rgba(136,166,255,.12);}
+.portal-ranking-preview h3{margin:0 0 8px;font-size:1rem;}
+.portal-rank-row{display:grid;grid-template-columns:34px 1fr auto;gap:8px;align-items:center;padding:7px 0;border-bottom:1px solid rgba(255,255,255,.06);font-size:.92rem;}
+.portal-rank-row:last-child{border-bottom:none;}
+.portal-rank-ship{display:grid;place-items:center;width:30px;height:30px;border-radius:10px;background:rgba(128,183,255,.08);font-size:1rem;}
+.portal-rank-name{display:flex;flex-direction:column;line-height:1.05;}
+.portal-rank-name small{opacity:.62;}
+.start-card .start-mini-actions{display:none!important;}
+.saved-games-list{margin-top:10px;}
+@media (max-width:760px){.intro-overlay-panel{bottom:2vh;padding:14px 16px;border-radius:18px;width:min(94vw,620px)}.redesigned-menu{padding:12px}.menu-hero-concept{aspect-ratio:16/8}.portal-rank-row{grid-template-columns:30px 1fr auto;font-size:.84rem}}
+
+/* v1.3.1 DSEBI F11: fix local init y menú más sobrio */
+body[data-screen="screenPortal"] .topbar{display:none;}
+body[data-screen="screenPortal"] main, body[data-screen="screenIntro"] main{height:100%;}
+body[data-screen="screenPortal"] .simple-start-screen{padding-top:18px;}
+.menu-hero-concept{display:none!important;}
+.redesigned-menu{padding-top:22px;}

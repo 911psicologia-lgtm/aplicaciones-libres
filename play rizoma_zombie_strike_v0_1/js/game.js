@@ -1,7 +1,7 @@
 (() => {
   'use strict';
 
-  const VERSION = '0.7.17';
+  const VERSION = '1.3.1';
   const STORAGE_KEY = 'rizoma_zombie_strike_v0_3_state';
   const SAVE_KEY = 'rizoma_zombie_strike_v0_3_save';
   const clamp = (v, a, b) => Math.max(a, Math.min(b, v));
@@ -136,7 +136,7 @@
         specialName: f.specialName
       }));
     });
-    return maps.slice(0, 30);
+    return ['zombie_1','bacteria_1','demon_1','witch_1','spirit_1'].map(id => maps.find(m => m.id === id)).filter(Boolean);
   })();
 
   const SHOP = [
@@ -179,6 +179,58 @@
     triple: 10, laser: 10, orbs: 8, pierce: 9, ice: 9, fire: 8, drone: 12, ring: 8,
     bounce: 8, pulse: 6, opem: 6, nuke: 7, spark: 10, torpedo: 6, virus: 7, kamikaze: 6
   };
+
+  const WEAPON_POWER_IDS = ['triple', 'laser', 'fire', 'drone', 'torpedo', 'spark', 'kamikaze', 'bounce', 'pulse'];
+  const WORLD_ONE_CONFIG = {
+    bossWave: 7,
+    maxPhase: 6,
+    rewardPowers: ['triple', 'laser', 'drone', 'fire', 'torpedo', 'spark', 'kamikaze'],
+    waveDurations: [24, 27, 29, 31, 33, 35, 37]
+  };
+  const WORLD_TWO_CONFIG = {
+    bossWave: 6,
+    maxPhase: 5,
+    rewardPowers: ['ice', 'virus', 'opem', 'ring', 'bounce', 'pulse'],
+    waveDurations: [25, 28, 31, 34, 36, 39]
+  };
+  const WORLD_STAGE_TARGETS = {
+    0: [18, 26, 34, 42, 54],
+    1: [20, 28, 36, 44, 56],
+    2: [22, 30, 40, 48, 60],
+    3: [20, 30, 38, 46, 58],
+    4: [24, 32, 40, 50, 62]
+  };
+  const WORLD_ONE_MINION_FAMILIES = [
+    ['errante','larva','mosquito','corredor','esquivo'],
+    ['cazador','sombra','toxico','blindado','griton'],
+    ['divisor','nave_espejo','mosquito','corredor','cazador']
+  ];
+  const GAME_ASSET_SOURCES = {
+    world1BgOrbit: 'assets/world1/bg_orbit.jpg',
+    world1BgStation: 'assets/world1/bg_station.jpg',
+    world1BgApocalypse: 'assets/world1/bg_apocalypse.jpg',
+    world1BossBg: 'assets/world1/bg_world1_boss.jpg',
+    meteor: 'assets/world1/meteor.png',
+    bossBiomech: 'assets/world1/boss_biomech.png',
+    mirrorShip: 'assets/world1/mirror_ship.png',
+    enemyBiomechBlue: 'assets/world1/enemy_biomech_blue.png',
+    enemyToxicCruiser: 'assets/world1/enemy_toxic_cruiser.png',
+    enemySiegeMolten: 'assets/world1/enemy_siege_molten.png',
+    meteorRealistic: 'assets/world1/meteor_realistic.png',
+    planetRinged: 'assets/world1/planet_ringed.png',
+    moonShattered: 'assets/world1/moon_shattered.png'
+  };
+  const GAME_ASSETS = (() => {
+    const images = {};
+    for (const [key, src] of Object.entries(GAME_ASSET_SOURCES)) {
+      const img = new Image();
+      img.decoding = 'async';
+      img.loading = 'eager';
+      img.src = src;
+      images[key] = img;
+    }
+    return { images };
+  })();
 
   const FUSIONS = [
     { id: 'prisma', requires: ['triple', 'laser'], icon: '✷', name: 'Prisma fragmentado', desc: 'Tres rayos finos en abanico.' },
@@ -237,6 +289,8 @@
       stats: { bestScore: 0, runs: 0, totalKills: 0, bosses: 0, highestWave: 1, bestMap: 1, totalCoins: 0 },
       avatarTier: 1,
       shipParts: { core: 0, wings: 0, cannon: 0, engine: 0 },
+      relics: {},
+      worldProgression: { shotTier: 0, projectileSpeedTier: 0, accuracyTier: 0, bossPowers: {} },
       ranking: [],
       lastSave: null
     }]
@@ -282,6 +336,9 @@
       p.stats = { bestScore: 0, runs: 0, totalKills: 0, bosses: 0, highestWave: 1, bestMap: 1, totalCoins: 0, ...(p.stats || {}) };
       p.avatarTier = p.avatarTier || 1;
       p.shipParts = { core: 0, wings: 0, cannon: 0, engine: 0, ...(p.shipParts || {}) };
+      p.relics = p.relics || {};
+      p.worldProgression = { shotTier: 0, projectileSpeedTier: 0, accuracyTier: 0, bossPowers: {}, ...(p.worldProgression || {}) };
+      p.worldProgression.bossPowers = p.worldProgression.bossPowers || {};
       p.hangarFocus = p.hangarFocus || 'engine';
       p.ranking = p.ranking || [];
       p.lastSave = p.lastSave || null;
@@ -433,7 +490,8 @@
       this.drones = [];
       this.zones = [];
       this.meteors = [];
-      this.worldOneState = { meteorTimer: 2.6, insectTimer: 1.1, mirrorCount: 0, rainTimer: 7.5, burstTimer: 1.6 };
+      this.worldOneState = { meteorTimer: 2.6, insectTimer: 1.1, mirrorCount: 0, rainTimer: 7.5, burstTimer: 1.6, bombTimer: 2.8, planetTimer: 8.2, hunterTimer: 1.8, rewardSteps: [], backgroundPhase: 0 };
+      this.worldTwoState = { sporeTimer: 1.2, fogTimer: 4.4, splitTimer: 2.4, rewardSteps: [], backgroundPhase: 0, labPulse: 0, colonyTimer: 6.2, toxicZoneTimer: 5.4 };
       this.toasts = [];
       this.powerLevels = {};
       this.powerActivity = {};
@@ -540,6 +598,76 @@
       }
     }
 
+    getWorldOneWaveDuration(wave = this.wave) {
+      const arr = WORLD_ONE_CONFIG.waveDurations;
+      return arr[Math.min(arr.length - 1, Math.max(0, wave - 1))] || 30;
+    }
+
+    getWorldOneProgress() {
+      if (this.mapIndex !== 0) return 0;
+      const stage = this.worldStage || { level: this.wave || 1, kills: 0, targets: WORLD_STAGE_TARGETS[0] };
+      const need = this.getWorldStageTarget(stage.level);
+      return clamp(((stage.level - 1) + clamp((stage.kills || 0) / need, 0, 1)) / Math.max(1, stage.totalLevels || 5), 0, 1);
+    }
+
+    getWorldTwoWaveDuration(wave = this.wave) {
+      const arr = WORLD_TWO_CONFIG.waveDurations;
+      return arr[Math.min(arr.length - 1, Math.max(0, wave - 1))] || 32;
+    }
+
+    getWorldTwoProgress() {
+      if (this.mapIndex !== 1) return 0;
+      const base = Math.max(1, WORLD_TWO_CONFIG.bossWave - 1);
+      const duration = this.getWorldTwoWaveDuration(this.wave);
+      return clamp(((this.wave - 1) + clamp(this.waveTime / duration, 0, 1)) / base, 0, 1);
+    }
+
+    getWorldStageTarget(level = this.worldStage?.level || this.wave || 1) {
+      const targets = this.worldStage?.targets || WORLD_STAGE_TARGETS[this.mapIndex] || [20, 30, 40, 50, 60];
+      return targets[Math.max(0, Math.min(targets.length - 1, level - 1))] || 30;
+    }
+
+    trackWorldKill(count = 1) {
+      if (this.mapIndex >= 5 || this.bossIntroduced || this.run?.mapComplete) return;
+      this.worldStage = this.worldStage || { level: this.wave || 1, kills: 0, targets: WORLD_STAGE_TARGETS[this.mapIndex] || [20,30,40,50,60], totalLevels: 5, bossLevel: 5 };
+      this.worldStage.kills += count;
+      const need = this.getWorldStageTarget(this.worldStage.level);
+      if (this.worldStage.kills < need) return;
+      this.worldStage.kills = 0;
+      if (this.worldStage.level >= this.worldStage.bossLevel) {
+        this.toast('👑 Jefe detectado', `Mundo ${this.mapIndex + 1} · arena final`);
+        this.spawnBoss();
+        return;
+      }
+      this.worldStage.level += 1;
+      this.wave = this.worldStage.level;
+      currentProfile().stats.highestWave = Math.max(currentProfile().stats.highestWave, this.wave);
+      if (this.mapIndex === 0) this.spawnWorldOneReward();
+      else if (this.mapIndex === 1) this.spawnWorldTwoReward();
+      this.toast('🧭 Nivel superado', `Mundo ${this.mapIndex + 1} · Nivel ${this.worldStage.level}/${this.worldStage.totalLevels}`);
+    }
+
+    getAsset(key) {
+      const img = GAME_ASSETS.images[key];
+      return img && img.complete && img.naturalWidth ? img : null;
+    }
+
+    drawImageCover(ctx, img, dx, dy, dw, dh, opts = {}) {
+      if (!img || !img.complete || !img.naturalWidth) return;
+      const scale = opts.scale || 1;
+      const sw = dw * scale;
+      const sh = dh * scale;
+      const ratio = Math.max(sw / img.naturalWidth, sh / img.naturalHeight);
+      const w = img.naturalWidth * ratio;
+      const h = img.naturalHeight * ratio;
+      const x = dx + (dw - w) / 2 + (opts.offsetX || 0);
+      const y = dy + (dh - h) / 2 + (opts.offsetY || 0);
+      ctx.save();
+      ctx.globalAlpha = opts.alpha ?? 1;
+      ctx.drawImage(img, x, y, w, h);
+      ctx.restore();
+    }
+
     start(mapIndex = 0, save = null) {
       AudioFX.ensure();
       AudioFX.startMelody();
@@ -560,19 +688,29 @@
       this.drones = [];
       this.zones = [];
       this.meteors = [];
-      this.worldOneState = { meteorTimer: 2.6, insectTimer: 1.1, mirrorCount: 0, rainTimer: 7.5, burstTimer: 1.6 };
+      this.worldOneState = { meteorTimer: 2.6, insectTimer: 1.1, mirrorCount: 0, rainTimer: 7.5, burstTimer: 1.6, bombTimer: 2.8, planetTimer: 8.2, hunterTimer: 1.8, rewardSteps: [], backgroundPhase: 0 };
+      this.worldTwoState = { sporeTimer: 1.2, fogTimer: 4.4, splitTimer: 2.4, rewardSteps: [], backgroundPhase: 0, labPulse: 0, colonyTimer: 6.2, toxicZoneTimer: 5.4 };
       this.powerLevels = save?.powerLevels || {};
-      this.powerActivity = {};
+      this.powerActivity = save?.powerActivity || {};
+      this.activePowerSlots = save?.activePowerSlots || { weaponMode: null };
       this.fusions = save?.fusions || {};
       this.run = save?.run || { score: 0, coins: 0, kills: 0, bosses: 0, start: Date.now(), mapComplete: false };
+      this.worldStage = save?.worldStage || { level: Math.max(1, save?.wave || 1), kills: 0, targets: (WORLD_STAGE_TARGETS[this.mapIndex] || [20,30,40,50,60]), totalLevels: 5, bossLevel: 5 };
+      this.worldStage.targets = WORLD_STAGE_TARGETS[this.mapIndex] || this.worldStage.targets || [20,30,40,50,60];
+      this.worldStage.totalLevels = this.worldStage.targets.length;
+      this.worldStage.bossLevel = this.worldStage.targets.length;
+      if (this.mapIndex < 5) this.wave = this.worldStage.level;
       this.extraLives = save?.extraLives || 0;
       this.nextLifeScore = save?.nextLifeScore || 2500;
       this.outcomeFinalized = false;
       this.createPlayer(save?.player);
+      this.applyProfileRelics(save);
       this.applyPerformanceMode();
+      this.grantWorldEntrySupport(!!save);
       this.updateOrientationHint();
       if (this.player.avatar.mod.drone && !this.drones.length) this.spawnDrone(9999, true);
       if (!save && this.mapIndex === 0) this.setupWorldOneIntro();
+      if (!save && this.mapIndex === 1) this.setupWorldTwoIntro();
       this.running = true;
       this.paused = false;
       this.cardPause = false;
@@ -618,8 +756,12 @@
         kamiTimer: 2.5,
         bossDrive: 0,
         cloak: 0,
+        entryShieldTimer: saved?.entryShieldTimer ?? 0,
         avatar,
-        shipParts: { core: 0, wings: 0, cannon: 0, engine: 0, ...(p.shipParts || {}) }
+        shipParts: { core: 0, wings: 0, cannon: 0, engine: 0 },
+        shotTier: 0,
+        projectileSpeedBonus: 1,
+        aimAssist: 0
       };
       SHOP.forEach(item => {
         const lvl = p.upgrades[item.id] || 0;
@@ -630,22 +772,13 @@
       player.speed *= avatar.mod.speed || 1;
       player.damage *= avatar.mod.dmg || 1;
       player.regen += avatar.mod.regen || 0;
-      const avatarTier = p.avatarTier || 1;
-      player.morphTier = avatarTier;
-      player.r += Math.min((avatarTier - 1) * .42, 2.2);
-      player.maxHp *= 1 + (avatarTier - 1) * .03;
-      player.maxShield *= 1 + (avatarTier - 1) * .025;
-      player.speed *= 1 + (avatarTier - 1) * .01;
-      player.damage *= 1 + (avatarTier - 1) * .035;
-      const parts = player.shipParts;
-      player.maxHp += parts.core * 8;
-      player.maxShield += parts.core * 6;
-      player.speed += parts.engine * 10 + parts.wings * 6;
-      player.damage += parts.cannon * 2.5;
-      player.fireDelay = Math.max(180, player.fireDelay - parts.cannon * 12);
-      player.magnet += parts.engine * 6;
-      player.crit += parts.cannon * 0.008;
-      player.regen += parts.core * 0.04;
+      const progression = { shotTier: 0, projectileSpeedTier: 0, accuracyTier: 0, ...(p.worldProgression || {}) };
+      player.shotTier = Math.max(0, progression.shotTier || 0);
+      player.damage *= 1 + player.shotTier * .12;
+      player.projectileSpeedBonus = 1 + Math.max(0, progression.projectileSpeedTier || 0) * .09;
+      player.aimAssist = Math.min(.28, Math.max(0, progression.accuracyTier || 0) * .045);
+      player.crit += Math.min(.08, Math.max(0, progression.accuracyTier || 0) * .012);
+      player.fireDelay = Math.max(245, player.fireDelay * (1 - Math.min(.22, player.shotTier * .035)));
       player.hp = clamp(player.hp, 1, player.maxHp);
       player.shield = clamp(player.shield, 0, player.maxShield);
       this.player = player;
@@ -670,6 +803,7 @@
       p.phaseTimer -= dt;
       p.bossDrive = Math.max(0, (p.bossDrive || 0) - dt);
       p.cloak = Math.max(0, (p.cloak || 0) - dt);
+      p.entryShieldTimer = Math.max(0, (p.entryShieldTimer || 0) - dt);
       this.shake = Math.max(0, this.shake - dt * 30);
       this.flash = Math.max(0, this.flash - dt * 2);
       this.updatePowerActivity(dt);
@@ -706,6 +840,71 @@
       if (!id) return;
       const next = seconds || POWER_ACTIVE_SECONDS[id] || 6;
       this.powerActivity[id] = Math.max(this.powerActivity[id] || 0, next);
+      this.activatePowerSlot(id);
+    }
+
+    isPowerActive(id) {
+      return !!((this.powerLevels?.[id] || 0) > 0 && (this.powerActivity?.[id] || 0) > 0.04);
+    }
+
+    getPowerLevel(id, activeOnly = false) {
+      const lvl = this.powerLevels?.[id] || 0;
+      if (!lvl) return 0;
+      return activeOnly ? (this.isPowerActive(id) ? lvl : 0) : lvl;
+    }
+
+    activatePowerSlot(id) {
+      const pow = POWERS.find(p => p.id === id);
+      if (!pow) return;
+      if (pow.id === 'triple' || pow.id === 'laser') this.activePowerSlots.weaponMode = pow.id;
+    }
+
+    resolvePowerSlots() {
+      if (!this.activePowerSlots) this.activePowerSlots = { weaponMode: null };
+      const current = this.activePowerSlots.weaponMode;
+      if (current && this.isPowerActive(current)) return;
+      const candidates = ['laser','triple'].filter(id => this.isPowerActive(id));
+      if (!candidates.length) { this.activePowerSlots.weaponMode = null; return; }
+      candidates.sort((a,b) => (this.powerActivity[b]||0) - (this.powerActivity[a]||0));
+      this.activePowerSlots.weaponMode = candidates[0];
+    }
+
+    applyProfileRelics(save = null) {
+      const p = currentProfile();
+      p.relics = p.relics || {};
+      const relic = p.relics.world1Core;
+      if (!relic || this.mapIndex === 0) return;
+      this.player.maxShield += 10;
+      this.player.shield = Math.min(this.player.maxShield, this.player.shield + 10);
+      this.player.damage *= 1.1;
+      this.player.fireDelay *= .94;
+      if (!save) {
+        this.spawnDrone(18, false, { support: true, radius: 126, fireRate: .21, damageScale: .96, color: '#ffd56a' });
+        this.toast('☄️ Núcleo relicario', 'Refuerzo del mundo anterior activo');
+      }
+    }
+
+
+    grantWorldEntrySupport(fromSave = false) {
+      const p = currentProfile();
+      if (!this.player) return;
+      const completed = (p.completedMaps || []).length;
+      const duration = fromSave ? 4.2 : (7.2 + Math.min(3, this.mapIndex) * .8);
+      this.player.entryShieldTimer = Math.max(this.player.entryShieldTimer || 0, duration);
+      this.player.shield = this.player.maxShield;
+      if (!fromSave && this.mapIndex > 0) {
+        const count = Math.min(4, Math.max(1, completed));
+        this.spawnDrone(11 + this.mapIndex * 1.5, false, {
+          support: true,
+          inheritPower: true,
+          count,
+          radius: 105 + count * 9,
+          fireRate: .25,
+          damageScale: .82 + Math.min(.18, this.mapIndex * .04),
+          color: '#9fd4ff'
+        });
+        this.toast('🛡️ Entrada protegida', `${Math.ceil(duration)}s · ${count} nave${count > 1 ? 's' : ''} aliada${count > 1 ? 's' : ''}`);
+      }
     }
 
     updatePowerActivity(dt) {
@@ -714,6 +913,7 @@
         this.powerActivity[id] = Math.max(0, this.powerActivity[id] - dt);
         if (this.powerActivity[id] <= 0.04) delete this.powerActivity[id];
       });
+      this.resolvePowerSlots();
     }
 
     updateOfferState(dt) {
@@ -788,8 +988,12 @@
       if (f.minionTimer <= 0) {
         const nonBoss = this.enemies.filter(e => !e.boss).length;
         if (nonBoss < 5 + b.phase * 2) {
-          const count = this.mapIndex === 0 ? Math.min(2, 1 + Math.floor(b.phase / 2)) : Math.min(3, 1 + Math.floor((b.phase + 1) / 2));
-          for (let i = 0; i < count; i++) this.spawnEnemy(pick(b.summons || ['corredor','sombra']), true);
+          const count = this.mapIndex === 0 ? Math.min(3, 1 + Math.floor(b.phase / 1.7)) : Math.min(3, 1 + Math.floor((b.phase + 1) / 2));
+          for (let i = 0; i < count; i++) {
+            const fams = b.minionFamilies || [];
+            const fam = fams.length ? fams[(f.addsKilled + i) % fams.length] : null;
+            this.spawnEnemy(pick(fam || b.summons || ['corredor','sombra']), true);
+          }
         }
         f.minionTimer = Math.max(2.8, 5.1 - b.phase * .42 - this.mapIndex * .06);
       }
@@ -807,7 +1011,11 @@
         } else if (b.family === 'spirit' || b.family === 'witch') {
           for (let i = 0; i < 2; i++) this.zones.push({ x: p.x + rand(110,-110), y: p.y + rand(90,-90), r: 20 + b.phase * 2, life: 2.4, max: 2.4, type: 'root' });
         } else {
-          for (let i = 0; i < 1 + Math.min(2, b.phase); i++) this.spawnEnemy(pick(b.summons || ['corredor','sombra']), true);
+          for (let i = 0; i < 1 + Math.min(2, b.phase); i++) {
+            const fams = b.minionFamilies || [];
+            const fam = fams.length ? fams[(f.addsKilled + i + 1) % fams.length] : null;
+            this.spawnEnemy(pick(fam || b.summons || ['corredor','sombra']), true);
+          }
         }
         f.hazardTimer = Math.max(4.0, 6.2 - b.phase * .5 - this.mapIndex * .05);
       }
@@ -1059,13 +1267,14 @@
       const dx = target.x - p.x;
       const dy = target.y - p.y;
       const a = Math.atan2(dy, dx);
-      const triple = this.powerLevels.triple || 0;
-      const laser = this.powerLevels.laser || 0;
-      const pierce = this.powerLevels.pierce || 0;
-      const fire = this.powerLevels.fire || 0;
-      const ice = this.powerLevels.ice || 0;
-      const bounce = this.powerLevels.bounce || 0;
-      const virus = this.powerLevels.virus || 0;
+      const weaponMode = this.activePowerSlots?.weaponMode || null;
+      const triple = weaponMode === 'triple' ? this.getPowerLevel('triple', true) : 0;
+      const laser = weaponMode === 'laser' ? this.getPowerLevel('laser', true) : 0;
+      const pierce = this.getPowerLevel('pierce', true);
+      const fire = this.getPowerLevel('fire', true);
+      const ice = this.getPowerLevel('ice', true);
+      const bounce = this.getPowerLevel('bounce', true);
+      const virus = this.getPowerLevel('virus', true);
       const drive = p.bossDrive > 0 ? 1.42 : 1;
       const bossBonus = target.boss ? 1.22 : 1;
       const dmg = p.damage * (1 + triple * .05 + pierce * .04) * drive * bossBonus;
@@ -1073,7 +1282,7 @@
       const shots = triple ? [-0.18, 0, 0.18] : [0];
       if (this.fusions.prisma) shots.push(-0.32, 0.32);
       if (this.fusions.lanza) shots.push(-0.08, 0.08);
-      shots.forEach(off => this.addBullet(p.x, p.y, a + off, speed, dmg, { pierce: 1 + pierce + (this.fusions.lanza ? 2 : 0), fire, ice, bounce, virus, color: p.avatar.color }));
+      shots.forEach(off => this.addBullet(p.x, p.y, a + off, speed * (p.projectileSpeedBonus || 1), dmg, { pierce: 1 + pierce + (this.fusions.lanza ? 2 : 0), fire, ice, bounce, virus, color: p.avatar.color, homing: Math.random() < (p.aimAssist || 0), glow: p.shotTier || 0 }));
       if (laser || this.fusions.prisma) this.fireLaser(a, dmg * (.42 + laser * .16), this.fusions.prisma ? 3 : 1);
       p.fireTimer = Math.max(60, (p.fireDelay - triple * 12 - laser * 8) * (p.bossDrive > 0 ? .72 : 1));
       AudioFX.shoot();
@@ -1085,7 +1294,7 @@
         x, y,
         vx: Math.cos(angle) * speed,
         vy: Math.sin(angle) * speed,
-        r: meta.big ? 8 : 5,
+        r: meta.big ? 8 : (5 + Math.min(3.4, (meta.glow || this.player?.shotTier || 0) * .7)),
         damage: damage * (crit ? 1.9 : 1),
         life: 1.6,
         pierce: meta.pierce || 1,
@@ -1094,6 +1303,7 @@
         bounce: meta.bounce || 0,
         virus: meta.virus || 0,
         homing: !!meta.homing,
+        glow: meta.glow || this.player?.shotTier || 0,
         type: meta.type || 'bullet',
         color: crit ? '#ffd56a' : (meta.color || '#61ffc8')
       });
@@ -1121,18 +1331,35 @@
       });
     }
 
+
+    fireLaserFrom(x, y, angle, damage, color = '#83eaff') {
+      const cos = Math.cos(angle), sin = Math.sin(angle);
+      let hit = 0;
+      for (const e of this.enemies) {
+        const px = e.x - x;
+        const py = e.y - y;
+        const proj = px * cos + py * sin;
+        if (proj < 0 || proj > 520) continue;
+        const perp = Math.abs(px * sin - py * cos);
+        if (perp < e.r + 8) {
+          this.damageEnemy(e, damage, { laser: true, color });
+          if (++hit > 3) break;
+        }
+      }
+      this.particles.push({ type:'laser', x, y, a:angle, life:.1, max:.1, color });
+    }
+
     handlePowers(dt) {
       const p = this.player;
-      const orbs = this.powerLevels.orbs || 0;
-      const ring = this.powerLevels.ring || 0;
-      const pulse = this.powerLevels.pulse || 0;
-      const opem = this.powerLevels.opem || 0;
-      const nuke = this.powerLevels.nuke || 0;
-      const spark = this.powerLevels.spark || 0;
-      const torpedo = this.powerLevels.torpedo || 0;
-      const kamikaze = this.powerLevels.kamikaze || 0;
+      const orbs = this.getPowerLevel('orbs', true);
+      const ring = this.getPowerLevel('ring', true);
+      const pulse = this.getPowerLevel('pulse', true);
+      const opem = this.getPowerLevel('opem', true);
+      const nuke = this.getPowerLevel('nuke', true);
+      const spark = this.getPowerLevel('spark', true);
+      const torpedo = this.getPowerLevel('torpedo', true);
+      const kamikaze = this.getPowerLevel('kamikaze', true);
       if (orbs || this.fusions.gravedad) {
-        if (orbs) this.markPowerActive('orbs', .55);
         const radius = 68 + orbs * 14 + (this.fusions.gravedad ? 48 : 0);
         for (const e of this.enemies) {
           const d = Math.hypot(e.x - p.x, e.y - p.y);
@@ -1140,7 +1367,6 @@
         }
       }
       if (ring || this.fusions.gravedad) {
-        if (ring) this.markPowerActive('ring', .55);
         const radius = 104 + ring * 12;
         for (const e of this.enemies) {
           const d = Math.hypot(e.x - p.x, e.y - p.y);
@@ -1153,7 +1379,6 @@
         }
       }
       if ((pulse || this.fusions.resonante) && p.pulseTimer <= 0) {
-        if (pulse) this.markPowerActive('pulse', 5.5);
         const radius = 130 + pulse * 30;
         for (const e of this.enemies) {
           const d = Math.hypot(e.x - p.x, e.y - p.y);
@@ -1164,7 +1389,6 @@
         AudioFX.tone(260, .12, 'triangle', .035, 260);
       }
       if (spark && p.sparkTimer > 0) {
-        this.markPowerActive('spark', Math.min(10, Math.max(1.2, p.sparkTimer)));
         p.sparkTimer -= dt;
         p.sparkTick -= dt;
         if (p.sparkTick <= 0 && this.enemies.length) {
@@ -1178,7 +1402,6 @@
         }
       }
       if (opem) {
-        this.markPowerActive('opem', Math.min(6.5, Math.max(1.2, p.opemTimer || 0)));
         p.opemTimer -= dt;
         if (p.opemTimer <= 0) {
           const radius = 150 + opem * 24;
@@ -1192,7 +1415,6 @@
         }
       }
       if (nuke) {
-        this.markPowerActive('nuke', Math.min(7, Math.max(1.2, p.nukeTimer || 0)));
         p.nukeTimer -= dt;
         if (p.nukeTimer <= 0) {
           let removed = 0;
@@ -1208,7 +1430,6 @@
         }
       }
       if (torpedo) {
-        this.markPowerActive('torpedo', Math.min(6, Math.max(1.1, p.torpedoTimer || 0)));
         p.torpedoTimer -= dt;
         if (p.torpedoTimer <= 0 && this.enemies.length) {
           const count = 1 + Math.floor(torpedo / 2);
@@ -1221,7 +1442,6 @@
         }
       }
       if (kamikaze) {
-        this.markPowerActive('kamikaze', Math.min(6, Math.max(1.1, p.kamiTimer || 0)));
         p.kamiTimer -= dt;
         if (p.kamiTimer <= 0 && this.enemies.length) {
           const count = 1 + Math.floor(kamikaze / 2);
@@ -1237,37 +1457,42 @@
 
     setupWorldOneIntro() {
       const p = this.player;
-      this.powerLevels.triple = Math.max(this.powerLevels.triple || 0, 1);
-      this.powerLevels.pierce = Math.max(this.powerLevels.pierce || 0, 1);
-      this.spawnDrone(24, false, { support: true, radius: 136, fireRate: .18, damageScale: 1.02, color: '#72ffc7' });
-      const rewards = [
-        ['power', 1, -80, -58], ['shield', 34, 84, -44], ['xp', 90, -60, 64], ['coin', 90, 70, 72], ['life', 20, 0, -100], ['nuke', 1, 120, 18]
-      ];
-      for (const [type, value, ox, oy] of rewards) this.spawnPickup(p.x + ox, p.y + oy, type, value);
-      // Horda inicial triplicada pero frágil: acción inmediata, no pared de dificultad.
-      const introCount = this.w >= 1100 ? 10 : (this.w >= 760 ? 8 : 6);
-      for (let i = 0; i < introCount; i++) {
-        const type = i < introCount*.36 ? 'errante' : (i < introCount*.68 ? 'larva' : (i < introCount*.9 ? 'mosquito' : 'corredor'));
-        this.spawnEnemy(type, true);
-      }
-      this.spawnWorldOneVisibleSwarm(this.w >= 1100 ? 4 : (this.w >= 760 ? 3 : 2));
-      this.spawnWorldOneThreatMarkers();
-      this.spawnMirrorShip(true, true);
-      setTimeout(() => this.spawnMirrorShip(true, true), 2600);
-      this.spawnMeteorRain(this.w >= 760 ? 4 : 3, true);
-      this.spawnFallingBomb(this.w >= 760 ? 2 : 1);
-      this.spawnPlanetObstacle(1);
-      this.spawnMeteor(this.w >= 760 ? 2 : 1, true);
-      // Evento pesado desactivado en arranque: evita saturación y lag.
-      // this.spawnMeteorLaneShowcase();
-      this.toast('🧟', 'Entrada activa');
+      this.spawnPickup(p.x - 72, p.y - 44, 'power', 1);
+      this.spawnPickup(p.x + 78, p.y - 26, 'shield', 24);
+      this.spawnPickup(p.x + 18, p.y + 84, 'coin', 70);
+      this.spawnDrone(14, false, { support: true, radius: 124, fireRate: .22, damageScale: .9, color: '#72ffc7' });
+      const families = ['cazador','toxico','blindado','nave_espejo'];
+      const introCount = this.w >= 1100 ? 6 : (this.w >= 760 ? 5 : 4);
+      for (let i = 0; i < introCount; i++) this.spawnEnemy(families[i % families.length], true);
+      this.spawnMeteor(1, true);
+      this.toast('🌌', 'Mundo 1 · patrulla biomecánica');
+    }
+
+    setupWorldTwoIntro() {
+      const p = this.player;
+      this.powerLevels.ice = Math.max(this.powerLevels.ice || 0, 1);
+      this.powerLevels.virus = Math.max(this.powerLevels.virus || 0, 1);
+      this.spawnPickup(p.x - 88, p.y - 58, 'shield', 28);
+      this.spawnPickup(p.x + 94, p.y - 28, 'power', 1);
+      this.spawnPickup(p.x - 52, p.y + 74, 'coin', 110);
+      this.spawnPickup(p.x + 40, p.y + 96, 'life', 18);
+      this.spawnDrone(18, false, { support: true, radius: 118, fireRate: .24, damageScale: .9, color: '#98fff1' });
+      const introTypes = ['toxico','divisor','niebla','larva','sombra'];
+      const count = this.w >= 1100 ? 8 : (this.w >= 760 ? 6 : 4);
+      for (let i = 0; i < count; i++) this.spawnEnemy(introTypes[i % introTypes.length], true);
+      this.spawnWorldTwoVisibleColony(this.w >= 1100 ? 4 : (this.w >= 760 ? 3 : 2));
+      this.spawnWorldTwoHazards();
+      this.toast('🦠', 'Colonia alfa activa');
     }
 
     worldOneEnemyId() {
-      if (this.wave <= 1) return pick(['errante','larva','mosquito','corredor','esquivo','cazador']);
-      if (this.wave === 2) return pick(['errante','larva','mosquito','corredor','sombra','esquivo','cazador','cazador']);
-      if (this.wave === 3) return pick(['corredor','mosquito','larva','toxico','sombra','esquivo','cazador','blindado']);
-      return pick(['corredor','mosquito','larva','toxico','sombra','griton','divisor','esquivo','cazador','blindado']);
+      const familyA = ['cazador','corredor','esquivo'];
+      const familyB = ['toxico','sombra','divisor'];
+      const familyC = ['blindado','griton','nave_espejo'];
+      if (this.wave <= 1) return pick([...familyA, ...familyB]);
+      if (this.wave === 2) return pick([...familyA, ...familyB, 'blindado']);
+      if (this.wave <= 4) return pick([...familyA, ...familyB, ...familyC]);
+      return pick([...familyA, ...familyB, ...familyC, 'mosquito']);
     }
 
     spawnEnemyNearPlayer(type = 'errante', angle = 0, distance = 260, mini = true, speedBoost = 1) {
@@ -1316,41 +1541,93 @@
     }
 
 
+    grantWorldOneWeaponReward(step = this.wave) {
+      const w1 = this.worldOneState || (this.worldOneState = { rewardSteps: [] });
+      w1.rewardSteps = w1.rewardSteps || [];
+      const idx = Math.max(0, Math.min(WORLD_ONE_CONFIG.rewardPowers.length - 1, step - 1));
+      const id = WORLD_ONE_CONFIG.rewardPowers[idx];
+      if (!id || w1.rewardSteps.includes(id)) return id;
+      w1.rewardSteps.push(id);
+      this.empowerPower(id, {
+        toastTitle: 'Arma ganada',
+        droneLife: 16,
+        droneOptions: { support: id === 'drone', radius: 118, fireRate: .22, damageScale: .92, color: '#9ac7ff' }
+      });
+      return id;
+    }
+
     spawnWorldOneReward() {
       const p = this.player;
-      const phase = clamp(this.wave, 1, 4);
-      if (phase === 2) {
-        this.spawnPickup(p.x + rand(120,-120), p.y + rand(120,-120), 'power', 1);
-        this.spawnPickup(p.x + rand(100,-100), p.y + rand(100,-100), 'shield', 24);
-        this.spawnDrone(12, false, { support: true, radius: 122, fireRate: .25, damageScale: .86, color: '#72ffc7' });
-        this.spawnMeteorRain(3, true);
-        if ((this.worldOneState?.mirrorCount || 0) < 2) this.spawnMirrorShip(true, true);
-        this.toast('⚡', 'Poder de entrada');
-      } else if (phase === 3) {
-        this.spawnPickup(p.x + rand(130,-130), p.y + rand(130,-130), 'power', 1);
-        this.spawnPickup(p.x + rand(120,-120), p.y + rand(120,-120), 'life', 18);
-        this.spawnPickup(p.x + rand(120,-120), p.y + rand(120,-120), 'coin', 85);
-        this.spawnMeteorRain(4, true);
-        this.toast('🦠', 'Mutación leve');
-      } else if (phase === 4) {
-        this.spawnPickup(p.x + rand(130,-130), p.y + rand(130,-130), 'nuke', 1);
-        this.spawnPickup(p.x + rand(130,-130), p.y + rand(130,-130), 'shield', 34);
-        this.spawnDrone(14, false, { support: true, radius: 130, fireRate: .21, damageScale: 1, color: '#ffd56a' });
-        if ((this.worldOneState?.mirrorCount || 0) < 3) this.spawnMirrorShip(true, true);
-        this.spawnMeteorRain(5, true);
-        this.toast('🎁', 'Antesala del jefe');
+      const phase = clamp(this.wave, 1, WORLD_ONE_CONFIG.maxPhase);
+      const weaponId = this.grantWorldOneWeaponReward(phase);
+      this.spawnPickup(p.x + rand(110,-110), p.y + rand(110,-110), 'power', 1);
+      if (phase % 2 === 0) this.spawnPickup(p.x + rand(96,-96), p.y + rand(96,-96), 'shield', 18 + phase * 2);
+      if (phase >= 3) this.spawnDrone(8 + phase, false, { support: true, radius: 120 + phase * 3, fireRate: .25 - Math.min(.06, phase * .01), damageScale: .84 + phase * .03, color: phase >= 5 ? '#ffd56a' : '#72ffc7' });
+      if (phase >= 4 && (this.worldOneState?.mirrorCount || 0) < phase - 1) this.spawnMirrorShip(true, true);
+      const weaponName = POWERS.find(pw => pw.id === weaponId)?.name || 'Arma táctica';
+      this.toast('⚡ Núcleo de poder', weaponName);
+    }
+
+    worldTwoEnemyId() {
+      if (this.wave <= 1) return pick(['toxico','larva','niebla','errante']);
+      if (this.wave <= 2) return pick(['toxico','niebla','divisor','larva','sombra']);
+      if (this.wave <= 4) return pick(['toxico','niebla','divisor','griton','sombra','blindado']);
+      return pick(['toxico','niebla','divisor','griton','sombra','blindado','nucleo','explosivo']);
+    }
+
+    grantWorldTwoPowerReward(step = this.wave) {
+      const w2 = this.worldTwoState || (this.worldTwoState = { rewardSteps: [] });
+      w2.rewardSteps = w2.rewardSteps || [];
+      const idx = Math.max(0, Math.min(WORLD_TWO_CONFIG.rewardPowers.length - 1, step - 1));
+      const id = WORLD_TWO_CONFIG.rewardPowers[idx];
+      if (!id || w2.rewardSteps.includes(id)) return id;
+      w2.rewardSteps.push(id);
+      this.empowerPower(id, { toastTitle: 'Tecnología biológica', droneLife: 14, droneOptions: { support: true, radius: 124, fireRate: .22, damageScale: .92, color: '#98fff1' } });
+      return id;
+    }
+
+    spawnWorldTwoReward() {
+      const p = this.player;
+      const phase = clamp(this.wave, 1, WORLD_TWO_CONFIG.maxPhase);
+      const powerId = this.grantWorldTwoPowerReward(phase);
+      this.spawnPickup(p.x + rand(130,-130), p.y + rand(130,-130), 'power', 1);
+      this.spawnPickup(p.x + rand(120,-120), p.y + rand(120,-120), 'shield', 24 + phase * 4);
+      this.spawnPickup(p.x + rand(120,-120), p.y + rand(120,-120), phase >= 4 ? 'life' : 'coin', phase >= 4 ? (18 + phase * 2) : (90 + phase * 16));
+      if (phase >= 2) this.spawnWorldTwoHazards();
+      if (phase >= 3) this.spawnDrone(10 + phase, false, { support: true, radius: 128, fireRate: .24 - Math.min(.06, phase * .01), damageScale: .88 + phase * .03, color: '#c8fff0' });
+      if (phase >= 4) this.spawnEnemy('divisor', true);
+      if (phase >= 5) this.spawnEnemy('nucleo', true);
+      const powerName = POWERS.find(pw => pw.id === powerId)?.name || 'Mutación táctica';
+      this.toast('🧫 Recompensa de colonia', powerName);
+    }
+
+    spawnWorldTwoVisibleColony(count = 3) {
+      for (let i = 0; i < count; i++) {
+        const a = (Math.PI * 2 / count) * i + rand(.28, -.28);
+        const d = rand(300, 150);
+        const type = ['toxico','niebla','larva','divisor'][i % 4];
+        this.spawnEnemyNearPlayer(type, a, d, true, i % 2 === 0 ? 1.18 : 1.06);
       }
+    }
+
+    spawnWorldTwoHazards() {
+      if (!this.player) return;
+      const p = this.player;
+      this.zones.push({ type: 'toxic', x: clamp(p.x + rand(220,-220), 90, this.w - 90), y: clamp(p.y + rand(160,-160), 100, this.h - 100), r: rand(92, 58), life: 7.5, max: 7.5 });
+      if (this.zones.length > 8) this.zones.splice(0, this.zones.length - 8);
     }
 
     spawnLogic(dt) {
       if (this.bossActive) return;
       this.spawnTime -= dt;
       if (this.mapIndex === 0) {
-        const phase = clamp(this.wave, 1, 4);
-        const pcBoost = this.w >= 1100 ? .78 : (this.w >= 760 ? .62 : .42);
-        const targetCount = this.w >= 1100 ? (16 + phase * 4) : (this.w >= 760 ? (13 + phase * 3) : (8 + phase * 2));
-        const interval = Math.max(.30, .62 - phase * .04);
-        const w1 = this.worldOneState || (this.worldOneState = { meteorTimer: .25, insectTimer: .22, mirrorCount: 0, rainTimer: 4.5, burstTimer: .8, bombTimer: 2.4, planetTimer: 6.5, hunterTimer: 1.2 });
+        const phase = clamp(this.wave, 1, WORLD_ONE_CONFIG.maxPhase);
+        const progress = this.getWorldOneProgress();
+        const pcBoost = this.w >= 1100 ? .82 : (this.w >= 760 ? .66 : .48);
+        const targetCount = this.w >= 1100 ? Math.round(10 + phase * 2 + progress * 5) : (this.w >= 760 ? Math.round(8 + phase * 1.6 + progress * 4) : Math.round(6 + phase * 1.2 + progress * 3));
+        const interval = Math.max(.34, .86 - phase * .04 - progress * .08);
+        const w1 = this.worldOneState || (this.worldOneState = { meteorTimer: .25, insectTimer: .22, mirrorCount: 0, rainTimer: 4.5, burstTimer: .8, bombTimer: 2.8, planetTimer: 8.2, hunterTimer: 1.8, rewardSteps: [], backgroundPhase: 0 });
+        w1.backgroundPhase = phase;
         w1.meteorTimer -= dt;
         w1.insectTimer -= dt;
         w1.rainTimer -= dt;
@@ -1359,41 +1636,83 @@
         w1.planetTimer -= dt;
         w1.hunterTimer -= dt;
         if (w1.meteorTimer <= 0) {
-          if ((this.meteors?.length || 0) < (this.maxMeteors || 6)) this.spawnMeteor(1, false);
-          w1.meteorTimer = Math.max(4.2, 7.2 - phase * .4);
+          if ((this.meteors?.length || 0) < (this.maxMeteors || 6)) this.spawnMeteor(1 + (phase >= 5 ? 1 : 0), false);
+          w1.meteorTimer = Math.max(4.6, 8.2 - phase * .36 - progress * .8);
         }
         if (w1.rainTimer <= 0) {
-          this.spawnMeteorRain(phase >= 3 ? 4 : 3, false);
+          this.spawnMeteorRain(Math.min(4, 1 + Math.ceil(phase * .5)), false);
           this.toast('☄️', 'Lluvia de meteoros');
-          w1.rainTimer = Math.max(8.0, 13.0 - phase * 1.0);
+          w1.rainTimer = Math.max(8.6, 14.4 - phase * .7 - progress * 1.1);
         }
         if (w1.bombTimer <= 0) {
-          this.spawnFallingBomb(phase >= 3 ? 2 : 1);
-          w1.bombTimer = Math.max(3.5, 6.5 - phase * .55);
+          this.spawnFallingBomb(1);
+          w1.bombTimer = Math.max(4.4, 8.0 - phase * .32);
         }
-        if (w1.planetTimer <= 0) {
+        if (w1.planetTimer <= 0 && phase >= 4) {
           this.spawnPlanetObstacle(1);
           this.toast('🪐', 'Objeto orbital');
-          w1.planetTimer = Math.max(8.0, 14.0 - phase * 1.2);
+          w1.planetTimer = Math.max(8.4, 14.2 - phase * .75);
         }
         if (w1.hunterTimer <= 0 && this.enemies.filter(e => e.id === 'cazador').length < (phase + 1)) {
-          for (let i=0;i<Math.max(1, Math.floor(phase/2)+1);i++) this.spawnEnemy('cazador', true);
-          w1.hunterTimer = Math.max(3.0, 5.3 - phase * .45);
+          for (let i = 0; i < Math.max(1, Math.floor(phase / 2) + 1); i++) this.spawnEnemy('cazador', true);
+          w1.hunterTimer = Math.max(2.3, 5.1 - phase * .38);
         }
         if (w1.burstTimer <= 0 && this.enemies.length < targetCount) {
-          for (let i = 0; i < Math.max(1, Math.floor(3 * pcBoost + phase * .8)); i++) this.spawnEnemy(this.worldOneEnemyId(), true);
-          this.spawnWorldOneVisibleSwarm(Math.max(1, Math.floor(2 * pcBoost)));
-          w1.burstTimer = Math.max(3.1, 5.2 - phase * .35);
+          for (let i = 0; i < Math.max(1, Math.floor(2.4 * pcBoost + phase * .75)); i++) this.spawnEnemy(this.worldOneEnemyId(), true);
+          this.spawnWorldOneVisibleSwarm(Math.max(1, Math.floor(1.6 * pcBoost + progress * 1.5)));
+          w1.burstTimer = Math.max(2.6, 4.9 - phase * .28 - progress * .35);
         }
-        if (w1.insectTimer <= 0 && this.enemies.filter(e => ['mosquito','larva'].includes(e.id)).length < (this.w >= 1100 ? 10 : (this.w >= 760 ? 8 : 5))) {
-          for (let i = 0; i < Math.max(1, Math.floor(2 * pcBoost + phase * .7)); i++) this.spawnEnemy(pick(['mosquito','larva','corredor']), true);
-          w1.insectTimer = Math.max(2.2, 4.6 - phase * .25);
+        if (w1.insectTimer <= 0 && this.enemies.filter(e => ['mosquito','larva'].includes(e.id)).length < (this.w >= 1100 ? 10 : (this.w >= 760 ? 8 : 6))) {
+          for (let i = 0; i < Math.max(1, Math.floor(1.1 * pcBoost + phase * .35)); i++) this.spawnEnemy(pick(['cazador','toxico','blindado']), true);
+          w1.insectTimer = Math.max(1.8, 4.4 - phase * .22);
         }
         if ((w1.mirrorCount || 0) < 1 && this.waveTime > .45) this.spawnMirrorShip(true, true);
         if (this.wave >= 2 && (w1.mirrorCount || 0) < 2 && this.waveTime > 8.5) this.spawnMirrorShip(true, true);
+        if (this.wave >= 4 && (w1.mirrorCount || 0) < 3 && this.waveTime > 16.5) this.spawnMirrorShip(true, true);
         if (this.spawnTime <= 0 && this.enemies.length < targetCount) {
-          const amount = Math.max(1, Math.floor((2.4 + phase * .9) * pcBoost));
+          const amount = Math.max(1, Math.floor((2 + phase * .8 + progress * 1.4) * pcBoost));
           for (let i = 0; i < amount; i++) this.spawnEnemy(this.worldOneEnemyId(), true);
+          this.spawnTime = interval;
+        }
+        return;
+      }
+      if (this.mapIndex === 1) {
+        const phase = clamp(this.wave, 1, WORLD_TWO_CONFIG.maxPhase);
+        const progress = this.getWorldTwoProgress();
+        const targetCount = this.w >= 1100 ? Math.round(12 + phase * 2.6 + progress * 7) : (this.w >= 760 ? Math.round(10 + phase * 2.2 + progress * 5) : Math.round(8 + phase * 1.6 + progress * 4));
+        const interval = Math.max(.32, .86 - phase * .05 - progress * .08);
+        const w2 = this.worldTwoState || (this.worldTwoState = { sporeTimer: 1.2, fogTimer: 4.4, splitTimer: 2.4, rewardSteps: [], backgroundPhase: 0, labPulse: 0, colonyTimer: 6.2, toxicZoneTimer: 5.4 });
+        w2.backgroundPhase = phase;
+        w2.sporeTimer -= dt;
+        w2.fogTimer -= dt;
+        w2.splitTimer -= dt;
+        w2.colonyTimer -= dt;
+        w2.toxicZoneTimer -= dt;
+        if (w2.sporeTimer <= 0 && this.enemies.filter(e => ['toxico','niebla'].includes(e.id)).length < (this.w >= 1100 ? 9 : 7)) {
+          for (let i = 0; i < Math.max(1, Math.floor(1.5 + phase * .55)); i++) this.spawnEnemy(pick(['toxico','niebla','larva']), true);
+          w2.sporeTimer = Math.max(1.4, 3.8 - phase * .22);
+        }
+        if (w2.splitTimer <= 0 && this.enemies.filter(e => ['divisor','nucleo'].includes(e.id)).length < Math.max(2, phase)) {
+          for (let i = 0; i < Math.max(1, Math.floor(phase / 2)); i++) this.spawnEnemy(phase >= 4 && Math.random() < .35 ? 'nucleo' : 'divisor', true);
+          w2.splitTimer = Math.max(2.2, 5.8 - phase * .38);
+        }
+        if (w2.fogTimer <= 0) {
+          this.spawnWorldTwoVisibleColony(Math.max(2, Math.floor(phase / 2) + 1));
+          this.toast('🫧', 'Frente de esporas');
+          w2.fogTimer = Math.max(4.8, 8.8 - phase * .55);
+        }
+        if (w2.colonyTimer <= 0) {
+          this.spawnEnemy('griton', true);
+          if (phase >= 3) this.spawnEnemy('blindado', true);
+          w2.colonyTimer = Math.max(4.0, 7.6 - phase * .42);
+        }
+        if (w2.toxicZoneTimer <= 0) {
+          this.spawnWorldTwoHazards();
+          w2.toxicZoneTimer = Math.max(4.6, 7.2 - phase * .35);
+        }
+        if (this.spawnTime <= 0 && this.enemies.length < targetCount) {
+          const amount = Math.max(1, Math.floor(1.8 + phase * .65 + progress * 1.2));
+          for (let i = 0; i < amount; i++) this.spawnEnemy(this.worldTwoEnemyId(), true);
           this.spawnTime = interval;
         }
         return;
@@ -1411,10 +1730,17 @@
 
     enemyPool() {
       if (this.mapIndex === 0) {
-        const pool = ['errante','larva','mosquito','mosquito','corredor','esquivo','cazador'];
-        if (this.wave >= 2) pool.push('sombra','mosquito','larva','esquivo','cazador');
-        if (this.wave >= 3) pool.push('toxico','mosquito');
-        if (this.wave >= 4) pool.push('griton','divisor','nave_espejo');
+        const pool = ['cazador','corredor','esquivo','toxico'];
+        if (this.wave >= 2) pool.push('sombra','blindado','cazador');
+        if (this.wave >= 3) pool.push('divisor','toxico','nave_espejo');
+        if (this.wave >= 4) pool.push('griton','blindado','nave_espejo');
+        return pool;
+      }
+      if (this.mapIndex === 1) {
+        const pool = ['toxico','niebla','larva','errante'];
+        if (this.wave >= 2) pool.push('divisor','sombra','toxico');
+        if (this.wave >= 3) pool.push('griton','blindado','niebla');
+        if (this.wave >= 4) pool.push('nucleo','divisor','explosivo');
         return pool;
       }
       const pool = ['errante'];
@@ -1478,7 +1804,7 @@
         }
         const a = Math.atan2(targetY - y, targetX - x);
         const sp = gentle ? rand(240, 175) : rand(330, 235);
-        this.meteors.push({ x, y, vx: Math.cos(a) * sp, vy: Math.sin(a) * sp, r, life: gentle ? 5.8 : 4.7, dmg: gentle ? 9 : 15, color: gentle ? '#ffd56a' : '#ff7b32', trail: [], spin: rand(2, -2), fireball: true });
+        this.meteors.push({ kind:'meteor', x, y, vx: Math.cos(a) * sp, vy: Math.sin(a) * sp, r, life: gentle ? 5.8 : 4.7, dmg: gentle ? 9 : 15, color: gentle ? '#ffd56a' : '#ff7b32', trail: [], spin: rand(2, -2), fireball: true, hp: (gentle ? 18 : 28) + this.wave * 4, score: gentle ? 12 : 18, coins: gentle ? 4 : 6 });
       }
     }
 
@@ -1546,11 +1872,11 @@
       }
     }
 
-    // DSEBI gameplay balance v0.7.17: presión real con menor saturación visual.
+    // DSEBI gameplay balance v0.9.0: mundos 1 y 2 con progresión diferenciada.
     // Enemigos elite: esquivan, persiguen, resisten y obligan a moverse.
     hardEnemyRate() {
-      // Oleada 1 ya es peligrosa: 32%; luego 42%, 52%, 62% y techo del 78%.
-      return Math.min(0.78, 0.32 + Math.max(0, this.wave - 1) * 0.10 + this.mapIndex * 0.018);
+      if (this.mapIndex === 0) return Math.min(.58, .14 + Math.max(0, this.wave - 1) * .095);
+      return Math.min(0.78, 0.28 + Math.max(0, this.wave - 1) * 0.10 + this.mapIndex * 0.018);
     }
 
     makeEnemyHard(e) {
@@ -1604,7 +1930,7 @@
       for (let i=0;i<count && this.meteors.length < cap;i++) {
         const targetX = this.player ? this.player.x + rand(190,-190) : rand(this.w);
         const r = rand(24, 16) + this.wave * 1.2;
-        this.meteors.push({ kind:'bomb', x:clamp(targetX, 40, this.w-40), y:-70-rand(160,0), vx:rand(34,-34), vy:250 + this.wave*22, r, life:5.2, dmg:18 + this.wave*3, color:'#ff4e4e', trail:[], spin:rand(3,-3), warning:true });
+        this.meteors.push({ kind:'bomb', x:clamp(targetX, 40, this.w-40), y:-70-rand(160,0), vx:rand(34,-34), vy:250 + this.wave*22, r, life:5.2, dmg:18 + this.wave*3, color:'#ff4e4e', trail:[], spin:rand(3,-3), warning:true, hp: 32 + this.wave * 6, score: 24, coins: 8 });
       }
     }
 
@@ -1616,7 +1942,7 @@
         const y = rand(this.h*.82, this.h*.20);
         const r = rand(48, 34) + Math.min(24, this.wave*3);
         const sp = 115 + this.wave * 14;
-        this.meteors.push({ kind:'planet', x:fromLeft ? -90 : this.w+90, y, vx:(fromLeft?1:-1)*sp, vy:rand(28,-28), r, life:9.5, dmg:26 + this.wave*4, color:'#9fd4ff', trail:[], spin:rand(1.2,-1.2), planet:true });
+        this.meteors.push({ kind: Math.random() < .55 ? 'planet' : 'moon', x:fromLeft ? -90 : this.w+90, y, vx:(fromLeft?1:-1)*sp, vy:rand(28,-28), r, life:9.5, dmg:26 + this.wave*4, color:'#9fd4ff', trail:[], spin:rand(1.2,-1.2), planet:true, hp: 68 + this.wave * 9, score: 46, coins: 18 });
       }
     }
 
@@ -1640,6 +1966,7 @@
         speed: cfg.speed * (1 + this.wave * .018 + this.mapIndex * .012) * (this.mapIndex === 0 ? 1.28 : 1) * (isMirror ? 1.05 : (worldOneMini ? 1.16 : (mini ? 1.2 : 1))),
         r: cfg.r * (isMirror ? 1.05 : (worldOneMini ? .72 : (mini ? .82 : 1))),
         mirrorFire: isMirror ? rand(1.4, .7) : 0,
+        familyFire: this.mapIndex === 0 ? rand(3.4, 1.4) : 0,
         t: Math.random() * 10,
         slow: 0,
         burn: 0,
@@ -1657,12 +1984,12 @@
     spawnBoss() {
       const map = MAPS[this.mapIndex];
       const p = currentProfile();
-      const campaignScale = 1 + ((p.avatarTier || 1) - 1) * .1;
+      const campaignScale = 1 + this.mapIndex * .08;
       let hp = (1120 + this.mapIndex * 270 + this.wave * 118) * campaignScale;
-      hp *= this.mapIndex === 0 ? 2.85 : (2.25 + this.mapIndex * 0.095);
+      hp *= this.mapIndex === 0 ? 3.15 : (2.25 + this.mapIndex * 0.095);
       const x = this.w / 2;
       const y = -80;
-      const shieldBase = this.mapIndex === 0 ? 360 : 310 + this.mapIndex * 42;
+      const shieldBase = this.mapIndex === 0 ? 440 : 310 + this.mapIndex * 42;
       this.bossActive = {
         id: 'boss_' + map.id,
         name: map.boss,
@@ -1677,8 +2004,8 @@
         targetY: this.h * .18,
         hp,
         baseHp: hp,
-        speed: (this.mapIndex === 0 ? 34 : 40) + this.mapIndex * 1.5 + (p.avatarTier || 1) * .5,
-        r: (31 + this.mapIndex * .36) * 0.64,
+        speed: (this.mapIndex === 0 ? 33 : 40) + this.mapIndex * 1.5,
+        r: (this.mapIndex === 0 ? 31 : (31 + this.mapIndex * .36) * 0.64),
         t: 0,
         attack: this.mapIndex === 0 ? 2.55 : 1.95,
         specialCd: this.mapIndex === 0 ? 6.6 : 5.3,
@@ -1688,7 +2015,8 @@
         shieldMax: shieldBase,
         vulnerable: 0,
         summonPressure: 0,
-        boss: true
+        boss: true,
+        minionFamilies: this.mapIndex === 0 ? WORLD_ONE_MINION_FAMILIES : []
       };
       this.bossFight = { active: true, charge: 0, minionTimer: this.mapIndex === 0 ? 3.0 : 2.15, phaseNotified: 1, cinematic: 1.15, addsKilled: 0, supportTimer: this.mapIndex === 0 ? 1.5 : 1.9, escortTimer: this.mapIndex === 0 ? 4.8 : 3.9, hazardTimer: this.mapIndex === 0 ? 5.4 : 4.2 };
       this.enemies.push(this.bossActive);
@@ -1702,6 +2030,10 @@
       els.bossName.textContent = `${map.boss} · ${this.bossActive.specialName}`;
       this.updateBossUi();
       this.showBossIntro(map, this.bossActive);
+      if (this.mapIndex === 0) {
+        const escortFamilies = [['cazador','corredor'], ['toxico','divisor'], ['blindado','nave_espejo']];
+        escortFamilies.forEach(fam => this.spawnEnemy(pick(fam), true));
+      }
     }
 
     updateEnemies(dt) {
@@ -1757,6 +2089,18 @@
             e.mirrorFire = this.mapIndex === 0 ? rand(2.2, 1.3) : rand(1.6, .9);
           }
         }
+        if (this.mapIndex === 0 && !e.boss && e.behavior !== 'mirror' && ['cazador','corredor','esquivo','toxico','sombra','divisor','blindado','griton'].includes(e.id)) {
+          e.familyFire = (e.familyFire || 2.4) - dt;
+          if (e.familyFire <= 0 && d < 720) {
+            const a = Math.atan2(p.y - e.y, p.x - e.x);
+            const familyB = ['toxico','sombra','divisor'].includes(e.id);
+            const familyC = ['blindado','griton'].includes(e.id);
+            const speed = familyC ? 180 : (familyB ? 205 : 235);
+            const damage = familyC ? 7 : (familyB ? 5.5 : 5);
+            this.addEnemyBullet(e.x, e.y, a + rand(.07,-.07), speed, damage, familyC ? '#ff8b32' : (familyB ? '#b7ff69' : '#83eaff'));
+            e.familyFire = familyC ? rand(3.7,2.6) : (familyB ? rand(3.2,2.1) : rand(2.9,1.8));
+          }
+        }
         if (e.behavior === 'evader' || e.eliteKind === 'evader') {
           const orbit = Math.sin(e.t * 4.7 + (e.evadePulse || 0));
           mx = (dx / d) * .62 + (-dy / d) * orbit * 1.05;
@@ -1797,7 +2141,7 @@
         if (e.behavior === 'toxic' && Math.random() < .012) this.zones.push({ x: e.x, y: e.y, r: 28, life: 3.5, max: 3.5, type: 'toxic' });
 
         if (d < p.r + e.r && !(e.boss && (e.alpha || 1) < 0.32)) {
-          this.playerHit(e.boss ? ((this.mapIndex === 0 ? 14 : 20) + e.phase * (this.mapIndex === 0 ? 2 : 4)) : (e.behavior === 'explosive' ? 28 : 12));
+          this.playerHit(e.boss ? ((this.mapIndex === 0 ? 14 : 20) + e.phase * (this.mapIndex === 0 ? 2 : 4)) : (e.behavior === 'explosive' ? 24 : (this.mapIndex === 0 ? 8 : 12)));
           if (e.behavior === 'explosive' || e.behavior === 'kamikaze' || e.eliteKind === 'kamikaze') {
             this.explode(e.x, e.y, e.behavior === 'kamikaze' ? 118 : 92, e.behavior === 'kamikaze' ? 34 : 28);
             e.hp = 0;
@@ -1900,7 +2244,21 @@
     addEnemyBullet(x, y, angle, speed, damage, color) {
       const enemyCount = this.bullets.filter(b => b.enemy).length;
       if (enemyCount > Math.floor((this.maxBullets || 180) * .35)) return;
-      this.bullets.push({ x, y, vx: Math.cos(angle) * speed, vy: Math.sin(angle) * speed, r: 7, damage, life: 3.2, enemy: true, color });
+      this.bullets.push({ x, y, vx: Math.cos(angle) * speed, vy: Math.sin(angle) * speed, r: 5, damage, life: 3.2, enemy: true, type:'enemyBolt', color });
+    }
+
+    destroyHazard(m) {
+      if (!m) return;
+      const idx = this.meteors.indexOf(m);
+      if (idx >= 0) this.meteors.splice(idx, 1);
+      this.explode(m.x, m.y, m.r * (m.kind === 'planet' || m.kind === 'moon' ? 2.8 : 2.1), (m.dmg || 12) * .9);
+      this.emit(m.x, m.y, m.kind === 'bomb' ? '#ff7b32' : '#ffd56a', 14, 120, .65);
+      this.run.score += m.score || 12;
+      this.run.coins += m.coins || 4;
+      this.player.xp += Math.max(6, Math.ceil((m.score || 12) * .4));
+      if (Math.random() < .18) this.spawnPickup(m.x, m.y, 'coin', Math.max(4, Math.ceil((m.coins || 4) * .8)));
+      if (Math.random() < .09) this.spawnPickup(m.x + rand(18,-18), m.y + rand(18,-18), 'xp', Math.max(6, Math.ceil((m.score || 12) * .35)));
+      this.toast('☄️ Obstáculo destruido', `+${m.score || 12} puntos`);
     }
 
     updateBullets(dt) {
@@ -1929,7 +2287,18 @@
             continue;
           }
         } else {
-          for (const e of this.enemies) {
+          if (this.meteors?.length) {
+            for (const m of [...this.meteors]) {
+              if (Math.hypot(b.x - m.x, b.y - m.y) < b.r + m.r) {
+                m.hp = Math.max(0, (m.hp || 20) - b.damage * (b.type === 'torpedo' ? 1.35 : 1));
+                this.emit(b.x, b.y, m.kind === 'bomb' ? '#ff7b32' : '#ffd56a', 3, 70, .22);
+                b.pierce -= 1;
+                if (m.hp <= 0) this.destroyHazard(m);
+                if (b.pierce <= 0) break;
+              }
+            }
+          }
+          if (b.pierce > 0) for (const e of this.enemies) {
             if (Math.hypot(b.x - e.x, b.y - e.y) < b.r + e.r) {
               this.damageEnemy(e, b.damage, b);
               b.pierce -= 1;
@@ -1951,18 +2320,18 @@
     damageEnemy(e, amount, meta = {}) {
       if (!e || e.hp <= 0) return;
       if (e.boss && this.bossActive === e) {
-        const cap = e.baseHp * (0.014 + (e.phase || 1) * 0.0028);
+        const cap = e.baseHp * ((this.mapIndex === 0 ? 0.0105 : 0.014) + (e.phase || 1) * (this.mapIndex === 0 ? 0.0022 : 0.0028));
         amount = Math.min(amount, cap);
       }
       if (e.boss && this.bossActive === e && (e.shield || 0) > 0 && (e.vulnerable || 0) <= 0) {
-        e.shield = Math.max(0, e.shield - amount * 0.58);
+        e.shield = Math.max(0, e.shield - amount * (this.mapIndex === 0 ? 0.46 : 0.58));
         if (Math.random() < .5) this.emit(e.x, e.y, '#9fd4ff', 1, 34, .28);
         if (e.shield <= 0) {
           this.toast('🧨', 'Escudo roto');
-          e.vulnerable = Math.max(2.4, 3.9 - e.phase * .18);
+          e.vulnerable = Math.max(this.mapIndex === 0 ? 2.0 : 2.4, (this.mapIndex === 0 ? 3.4 : 3.9) - e.phase * .18);
         }
       } else {
-        if (e.boss && this.bossActive === e) amount *= (e.vulnerable > 0 ? .82 : .55);
+        if (e.boss && this.bossActive === e) amount *= (e.vulnerable > 0 ? (this.mapIndex === 0 ? .72 : .82) : .55);
         e.hp -= amount;
       }
       if (!meta.silent && Math.random() < .28) AudioFX.hit();
@@ -2029,25 +2398,26 @@
       this.run.kills += 1;
       this.run.score += e.boss ? 650 + this.mapIndex * 100 : e.score;
       this.player.xp += e.boss ? 110 : e.xp;
-      this.spawnPickup(e.x, e.y, 'xp', e.boss ? 70 : e.xp);
-      if (Math.random() < (e.boss ? 1 : .72)) this.spawnPickup(e.x + rand(20, -20), e.y + rand(20, -20), 'coin', e.boss ? 180 + this.mapIndex * 30 : Math.ceil(e.coin * (this.mapIndex === 0 ? 2.4 : 1.7)));
+      this.player.xp += (e.boss ? 70 : e.xp) * .35;
+      this.run.coins += e.boss ? (180 + this.mapIndex * 30) : Math.ceil(e.coin * (this.mapIndex === 0 ? 1.55 : 1.2));
+      if (e.boss || Math.random() < .12) this.spawnPickup(e.x + rand(16, -16), e.y + rand(16, -16), 'coin', e.boss ? 120 : Math.ceil(e.coin * .9));
+      if (e.boss || Math.random() < .08) this.spawnPickup(e.x, e.y, 'xp', e.boss ? 42 : Math.max(5, Math.ceil(e.xp * .65)));
+      if (!e.boss) this.trackWorldKill(1);
       if (e.boss) {
         this.bossDeathExplosion(e);
-        this.spawnPickup(e.x + rand(42,-42), e.y + rand(42,-42), 'power', 1);
-        this.spawnPickup(e.x + rand(42,-42), e.y + rand(42,-42), 'nuke', 1);
-        this.spawnPickup(e.x + rand(42,-42), e.y + rand(42,-42), 'shield', 34);
-        this.spawnPickup(e.x + rand(42,-42), e.y + rand(42,-42), 'life', 28);
+        this.particles.push({ type:'ring', x:e.x, y:e.y, r:20, maxR:160, life:1.1, max:1.1, color:'#ffd56a' });
+        this.toast('✦ Poder del jefe', 'Recompensa asegurada al completar el mundo');
       } else {
         const roll = Math.random();
         const starter = this.mapIndex === 0;
-        if (starter && roll < .018 && this.wave >= 4) this.spawnPickup(e.x + rand(26,-26), e.y + rand(26,-26), 'nuke', 1);
-        else if (starter && roll < .105) this.spawnPickup(e.x + rand(26,-26), e.y + rand(26,-26), 'power', 1);
-        else if (starter && roll < .18) this.spawnPickup(e.x + rand(24,-24), e.y + rand(24,-24), 'shield', 20);
-        else if (starter && roll < .235) this.spawnPickup(e.x + rand(24,-24), e.y + rand(24,-24), 'life', 16);
-        else if (roll < .012 && this.wave >= 3) this.spawnPickup(e.x + rand(26,-26), e.y + rand(26,-26), 'nuke', 1);
-        else if (roll < .06) this.spawnPickup(e.x + rand(26,-26), e.y + rand(26,-26), 'power', 1);
-        else if (roll < .11) this.spawnPickup(e.x + rand(24,-24), e.y + rand(24,-24), 'shield', 18);
-        else if (roll < .14) this.spawnPickup(e.x + rand(24,-24), e.y + rand(24,-24), 'life', 14);
+        if (starter && roll < .008 && this.wave >= 4) this.spawnPickup(e.x + rand(26,-26), e.y + rand(26,-26), 'nuke', 1);
+        else if (starter && roll < .05) this.spawnPickup(e.x + rand(26,-26), e.y + rand(26,-26), 'power', 1);
+        else if (starter && roll < .09) this.spawnPickup(e.x + rand(24,-24), e.y + rand(24,-24), 'shield', 20);
+        else if (starter && roll < .12) this.spawnPickup(e.x + rand(24,-24), e.y + rand(24,-24), 'life', 16);
+        else if (roll < .008 && this.wave >= 3) this.spawnPickup(e.x + rand(26,-26), e.y + rand(26,-26), 'nuke', 1);
+        else if (roll < .035) this.spawnPickup(e.x + rand(26,-26), e.y + rand(26,-26), 'power', 1);
+        else if (roll < .06) this.spawnPickup(e.x + rand(24,-24), e.y + rand(24,-24), 'shield', 18);
+        else if (roll < .08) this.spawnPickup(e.x + rand(24,-24), e.y + rand(24,-24), 'life', 14);
       }
       if (e.behavior === 'splitter' && !e.mini) for (let i = 0; i < 2; i++) this.spawnEnemy('corredor', true);
       if (e.virus > 0) for (const other of this.enemies) if (other !== e && Math.hypot(other.x - e.x, other.y - e.y) < 130) other.virus = Math.max(other.virus || 0, 1.2);
@@ -2071,6 +2441,9 @@
         els.bossBar.classList.remove('vulnerable');
         this.run.bosses += 1;
         this.run.mapComplete = true;
+        const prof = currentProfile();
+        prof.relics = prof.relics || {};
+        if (this.mapIndex === 0) prof.relics.world1Core = true;
         this.completeMap();
       }
       this.checkLevelUp();
@@ -2078,14 +2451,14 @@
 
     spawnPickup(x, y, type, value) {
       const meta = {
-        coin: { icon: '🪙', color: '#ffd56a', r: 12 },
-        xp: { icon: '✦', color: '#83eaff', r: 11 },
-        power: { icon: '⚡', color: '#c391ff', r: 15 },
-        shield: { icon: '🛡️', color: '#9fd4ff', r: 14 },
-        life: { icon: '❤️‍🩹', color: '#ff8b8b', r: 14 },
-        nuke: { icon: '☢️', color: '#ffd56a', r: 15 }
+        coin: { icon: '◈', color: '#ffd56a', r: 7 },
+        xp: { icon: '✦', color: '#83eaff', r: 6 },
+        power: { icon: '⚡', color: '#c391ff', r: 10 },
+        shield: { icon: '🛡️', color: '#9fd4ff', r: 9 },
+        life: { icon: '✚', color: '#ff8b8b', r: 9 },
+        nuke: { icon: '☢', color: '#ffd56a', r: 10 }
       }[type] || { icon: '🎁', color: '#eafff8', r: 12 };
-      const limit = this.maxPickups || 110;
+      const limit = this.maxPickups || 42;
       if (this.pickups.length >= limit) this.pickups.splice(0, this.pickups.length - limit + 1);
       this.pickups.push({
         x: clamp(x, 24, Math.max(24, this.w - 24)),
@@ -2096,8 +2469,8 @@
         icon: meta.icon,
         color: meta.color,
         r: meta.r,
-        life: state.settings.lowPerformance ? 14 : 20,
-        maxLife: state.settings.lowPerformance ? 14 : 20,
+        life: state.settings.lowPerformance ? 10 : 14,
+        maxLife: state.settings.lowPerformance ? 10 : 14,
         autoDelay: type === 'power' ? .65 : .9,
         born: now() + Math.random() * 100
       });
@@ -2149,8 +2522,15 @@
           if (target) {
             const a = Math.atan2(target.y - d.y, target.x - d.x);
             const dmg = this.player.damage * (this.fusions.resonante ? .92 : .62) * (d.damageScale || 1);
-            this.addBullet(d.x, d.y, a, d.support ? 620 : 520, dmg, { color: d.color || '#9ac7ff', pierce: this.fusions.resonante ? 2 : 1, homing: !!d.support });
-            if (d.support) this.addBullet(d.x, d.y, a + .1, 610, dmg * .75, { color: d.color || '#ffd56a', pierce: 1 });
+            const inherited = d.inheritPower ? (this.activePowerSlots?.weaponMode || null) : null;
+            if (inherited === 'laser' && this.isPowerActive('laser')) {
+              this.fireLaserFrom(d.x, d.y, a, dmg * .72, d.color || '#9fd4ff');
+            } else if (inherited === 'triple' && this.isPowerActive('triple')) {
+              [-.14, 0, .14].forEach(off => this.addBullet(d.x, d.y, a + off, 620 * (this.player.projectileSpeedBonus || 1), dmg * .72, { color: d.color || '#9fd4ff', pierce: 1, homing: true, glow: this.player.shotTier || 0 }));
+            } else {
+              this.addBullet(d.x, d.y, a, (d.support ? 620 : 520) * (this.player.projectileSpeedBonus || 1), dmg, { color: d.color || '#9fd4ff', pierce: this.fusions.resonante ? 2 : 1, homing: !!d.support, glow: this.player.shotTier || 0 });
+              if (d.support) this.addBullet(d.x, d.y, a + .1, 610 * (this.player.projectileSpeedBonus || 1), dmg * .75, { color: d.color || '#ffd56a', pierce: 1, glow: this.player.shotTier || 0 });
+            }
             if (this.fusions.resonante && Math.random() < .25) this.particles.push({ type: 'ring', x: d.x, y: d.y, r: 8, maxR: 70, life: .22, max: .22, color: d.color || '#9ac7ff' });
             d.fire = d.support ? .24 : (this.fusions.resonante ? .32 : .48);
           }
@@ -2190,6 +2570,7 @@
       if (p.avatar.mod.phase && p.phaseTimer <= 0) p.phaseTimer = 5.5;
       if (p.bossDrive > 0) mod *= .74;
       if (p.cloak > 0) mod *= .6;
+      if (p.entryShieldTimer > 0) mod *= .38;
       amount *= mod;
       if (p.shield > 0) {
         const absorbed = Math.min(p.shield, amount);
@@ -2212,13 +2593,21 @@
     }
 
     checkWave() {
-      if (this.waveTime < 24) return;
+      if (this.mapIndex < 5) return;
+      const targetDuration = this.mapIndex === 0 ? this.getWorldOneWaveDuration(this.wave) : (this.mapIndex === 1 ? this.getWorldTwoWaveDuration(this.wave) : 24);
+      if (this.waveTime < targetDuration) return;
       this.waveTime = 0;
       this.wave += 1;
       currentProfile().stats.highestWave = Math.max(currentProfile().stats.highestWave, this.wave);
-      if (this.mapIndex === 0 && this.wave <= 4) this.spawnWorldOneReward();
-      if (this.wave >= 5 && !this.bossIntroduced) this.spawnBoss();
-      else this.toast(this.mapIndex === 0 ? '🌊' : 'Oleada superada', `Oleada ${this.wave}`);
+      if (this.mapIndex === 0 && this.wave <= WORLD_ONE_CONFIG.bossWave - 1) this.spawnWorldOneReward();
+      if (this.mapIndex === 1 && this.wave <= WORLD_TWO_CONFIG.bossWave - 1) this.spawnWorldTwoReward();
+      const bossWave = this.mapIndex === 0 ? WORLD_ONE_CONFIG.bossWave : (this.mapIndex === 1 ? WORLD_TWO_CONFIG.bossWave : 5);
+      if (this.wave >= bossWave && !this.bossIntroduced) this.spawnBoss();
+      else {
+        const title = this.mapIndex === 0 ? '🌌 Oleada' : (this.mapIndex === 1 ? '🧫 Sector bacteriano' : 'Oleada superada');
+        const subtitle = this.mapIndex === 0 ? `Sector ${this.wave}/${WORLD_ONE_CONFIG.bossWave}` : (this.mapIndex === 1 ? `Sector ${this.wave}/${WORLD_TWO_CONFIG.bossWave}` : `Oleada ${this.wave}`);
+        this.toast(title, subtitle);
+      }
       if (this.wave >= 5) unlockAchievement('wave_5');
       this.checkLevelUp();
     }
@@ -2273,6 +2662,18 @@
     generateCards() {
       const pool = POWERS.filter(p => !['nuke','pulse'].includes(p.id) || this.wave >= 3 || this.mapIndex > 0);
       const cards = [];
+      const guaranteeWeapon = this.mapIndex === 0 || this.player.level <= 5;
+      if (guaranteeWeapon) {
+        const candidate = WEAPON_POWER_IDS
+          .map(id => POWERS.find(p => p.id === id))
+          .filter(Boolean)
+          .sort((a, b) => (this.powerLevels[a.id] || 0) - (this.powerLevels[b.id] || 0))[0];
+        if (candidate) {
+          cards.push(candidate);
+          const idx = pool.findIndex(p => p.id === candidate.id);
+          if (idx >= 0) pool.splice(idx, 1);
+        }
+      }
       while (cards.length < 2 && pool.length) {
         const idx = Math.floor(Math.random() * pool.length);
         const card = pool.splice(idx, 1)[0];
@@ -2280,24 +2681,36 @@
         const weight = card.rarity === 'legendary' ? .45 : card.rarity === 'epic' ? .7 : 1;
         if (lvl < 5 && Math.random() < weight + .2) cards.push(card);
       }
-      while (cards.length < 3) cards.push(pick(POWERS));
+      while (cards.length < 3) {
+        const next = pick(POWERS.filter(p => !cards.some(card => card.id === p.id)));
+        cards.push(next || pick(POWERS));
+      }
       return cards;
     }
 
-    applyPower(id, autoChosen = false) {
+    empowerPower(id, options = {}) {
       const pow = POWERS.find(p => p.id === id);
-      if (!pow) return;
+      if (!pow) return null;
       this.powerLevels[id] = (this.powerLevels[id] || 0) + 1;
       this.markPowerActive(id, POWER_ACTIVE_SECONDS[id] || 8);
+      this.activatePowerSlot(id);
       currentProfile().collection.powers[id] = true;
-      if (id === 'drone') this.spawnDrone(10 + (this.powerLevels.drone || 0) * 2);
-      if (id === 'spark') { this.player.sparkTimer = Math.min(18, this.player.sparkTimer + 10); this.player.sparkTick = 0; }
+      if (id === 'drone') this.spawnDrone(options.droneLife || (10 + (this.powerLevels.drone || 0) * 2), false, options.droneOptions || {});
+      if (id === 'spark') { this.player.sparkTimer = Math.min(20, this.player.sparkTimer + 10); this.player.sparkTick = 0; }
       if (id === 'kamikaze') this.player.kamiTimer = .4;
       if (id === 'torpedo') this.player.torpedoTimer = .2;
       if (id === 'nuke') this.player.nukeTimer = Math.min(this.player.nukeTimer, 6);
       if (id === 'opem') this.player.opemTimer = Math.min(this.player.opemTimer, 1.4);
       this.checkFusions();
-      this.toast(autoChosen ? 'Autoactivado' : 'Poder activado', pow.name);
+      if (options.toastTitle !== false) this.toast(options.toastTitle || 'Poder activado', pow.name);
+      saveState();
+      this.updateHud();
+      return pow;
+    }
+
+    applyPower(id, autoChosen = false) {
+      const pow = this.empowerPower(id, { toastTitle: autoChosen ? 'Autoactivado' : 'Poder activado' });
+      if (!pow) return;
       if (this.pendingLevelChoices > 0) {
         this.pendingLevelChoices -= 1;
         this.showCards();
@@ -2310,8 +2723,6 @@
       }
       this.updatePendingBadge();
       this.cardPause = false;
-      saveState();
-      this.updateHud();
     }
 
     checkFusions() {
@@ -2340,37 +2751,52 @@
           support: !!options.support,
           radius: options.radius || (permanent ? 82 : 104),
           color: options.color || '#9ac7ff',
-          damageScale: options.damageScale || 1
+          damageScale: options.damageScale || 1,
+          inheritPower: !!options.inheritPower
         });
       }
     }
 
-    grantShipPartUpgrade() {
+    grantWorldCompletionProgress() {
       const p = currentProfile();
-      p.shipParts = { core: 0, wings: 0, cannon: 0, engine: 0, ...(p.shipParts || {}) };
-      const order = ['engine', 'wings', 'cannon', 'core'];
-      const partId = order[this.mapIndex % order.length];
-      p.shipParts[partId] = Math.min(6, (p.shipParts[partId] || 0) + 1);
-      return partId;
+      p.worldProgression = { shotTier: 0, projectileSpeedTier: 0, accuracyTier: 0, bossPowers: {}, ...(p.worldProgression || {}) };
+      p.worldProgression.bossPowers = p.worldProgression.bossPowers || {};
+      const worldNo = this.mapIndex + 1;
+      const firstClear = !(p.completedMaps || []).includes(worldNo);
+      if (firstClear) {
+        p.worldProgression.shotTier = Math.min(5, (p.worldProgression.shotTier || 0) + 1);
+        p.worldProgression.projectileSpeedTier = Math.min(5, (p.worldProgression.projectileSpeedTier || 0) + 1);
+        p.worldProgression.accuracyTier = Math.min(5, (p.worldProgression.accuracyTier || 0) + 1);
+      }
+      const rewards = [
+        { id:'world1Core', name:'Núcleo Meteórico', desc:'Refuerza el escudo de entrada y el disparo base.' },
+        { id:'world2Spore', name:'Matriz de Esporas', desc:'Tecnología biológica persistente.' },
+        { id:'world3Inferno', name:'Corazón Ígneo', desc:'Potencia ofensiva del siguiente mundo.' },
+        { id:'world4Hex', name:'Sello Astral', desc:'Mejora de precisión y defensa.' },
+        { id:'world5Spirit', name:'Fragmento del Vacío', desc:'Recompensa final de esta campaña.' }
+      ];
+      const reward = rewards[this.mapIndex] || rewards[0];
+      p.relics = p.relics || {};
+      p.relics[reward.id] = true;
+      p.worldProgression.bossPowers[reward.id] = true;
+      return { ...reward, firstClear };
     }
 
     completeMap() {
       const p = currentProfile();
       p.stats.bosses += 1;
       p.stats.bestMap = Math.max(p.stats.bestMap, this.mapIndex + 1);
+      const progressionReward = this.grantWorldCompletionProgress();
       p.completedMaps = Array.from(new Set([...(p.completedMaps || []), this.mapIndex + 1]));
       p.unlockedMap = Math.max(p.unlockedMap, Math.min(MAPS.length, this.mapIndex + 2));
       p.collection.bosses[MAPS[this.mapIndex].boss] = true;
-      const gainedPart = this.grantShipPartUpgrade();
-      p.avatarTier = Math.min(7, (p.avatarTier || 1) + 1);
-      const unlockByTier = {2:'medula',3:'orbita',4:'fragmento',5:'sombra'};
-      if (unlockByTier[p.avatarTier] && !p.unlockedAvatars.includes(unlockByTier[p.avatarTier])) p.unlockedAvatars.push(unlockByTier[p.avatarTier]);
+      this.lastWorldReward = progressionReward;
       const mapBonus = 140 + this.mapIndex * 25;
       p.coins += mapBonus;
       p.stats.totalCoins += mapBonus;
       unlockAchievement('boss_1');
       if (p.unlockedMap >= 3) unlockAchievement('map_3');
-      this.toast('Victoria', `${MAPS[this.mapIndex].name} liberado`);
+      this.toast('👑 Mundo completado', `${this.lastWorldReward?.name || 'Poder del jefe'} obtenido`);
       AudioFX.win();
       setTimeout(() => this.showResult(true), 1700);
     }
@@ -2423,20 +2849,46 @@
       this.paused = true;
       this.resultMode = victory ? 'victory' : (this.extraLives > 0 ? 'defeat_revive' : 'defeat');
       if (victory) this.finalizeRun(true);
-      els.resultEyebrow.textContent = victory ? '✔' : '☠';
-      els.resultTitle.textContent = victory ? `${MAPS[this.mapIndex].icon} Nivel ${this.mapIndex + 1}` : 'Horda';
-      els.resultText.textContent = victory ? `${MAPS[this.mapIndex].boss} · pieza de nave desbloqueada` : (this.extraLives > 0 ? `❤️‍🩹 ${this.extraLives} disponible` : 'reiniciar');
+      els.resultEyebrow.textContent = victory ? '✔ MUNDO COMPLETADO' : '⚠ MISIÓN INTERRUMPIDA';
+      els.resultTitle.textContent = victory ? `${MAPS[this.mapIndex].icon} Mundo ${this.mapIndex + 1} superado` : `Mundo ${this.mapIndex + 1} · Nivel ${this.wave}`;
+      if (victory) {
+        const reward = this.lastWorldReward || { name: 'Poder del jefe' };
+        els.resultText.textContent = `${reward.name} obtenido · disparo base, velocidad y precisión mejorados para el siguiente mundo.`;
+      } else {
+        els.resultText.textContent = this.extraLives > 0 ? `Segunda oportunidad disponible. Conservas Mundo ${this.mapIndex + 1}, Nivel ${this.wave}.` : `La nave fue destruida. Puedes reintentar este nivel sin volver al inicio del mundo.`;
+      }
       els.resultRewards.innerHTML = `
         <span class="reward-pill">⭐ ${this.run.score}</span>
         <span class="reward-pill">🪙 ${this.run.coins}</span>
-        <span class="reward-pill">🧟 ${this.run.kills}</span>
-        <span class="reward-pill">🌊 ${this.wave}</span>
+        <span class="reward-pill">🎯 ${this.run.kills}</span>
+        <span class="reward-pill">M${this.mapIndex + 1} · L${this.wave}</span>
         <span class="reward-pill">❤️‍🩹 ${this.extraLives}</span>`;
-      els.btnResultContinue.textContent = victory ? 'Seguir' : (this.extraLives > 0 ? 'Revive' : 'Reiniciar');
-      els.btnResultHome.textContent = '🏠';
+      els.btnResultContinue.textContent = victory ? (this.mapIndex + 1 < MAPS.length ? 'Siguiente mundo' : 'Finalizar') : (this.extraLives > 0 ? 'Reactivar nave' : 'Reintentar nivel');
+      els.btnResultHome.textContent = 'Inicio';
       els.resultOverlay.classList.remove('hidden');
       renderAll();
     }
+
+    retryCurrentLevel() {
+      const stageLevel = Math.max(1, this.worldStage?.level || this.wave || 1);
+      const retrySave = {
+        mapIndex: this.mapIndex,
+        wave: stageLevel,
+        worldStage: { ...(this.worldStage || {}), level: stageLevel, kills: 0 },
+        powerLevels: { ...(this.powerLevels || {}) },
+        powerActivity: {},
+        activePowerSlots: { weaponMode: null },
+        fusions: { ...(this.fusions || {}) },
+        run: { ...(this.run || {}), mapComplete: false },
+        extraLives: this.extraLives,
+        nextLifeScore: this.nextLifeScore
+      };
+      hideOverlays();
+      this.start(this.mapIndex, retrySave);
+      this.player.entryShieldTimer = Math.max(this.player.entryShieldTimer || 0, 5.5);
+      this.toast('↻ Nivel reintentado', `Mundo ${this.mapIndex + 1} · Nivel ${stageLevel}`);
+    }
+
 
     saveRun() {
       const p = currentProfile();
@@ -2444,15 +2896,18 @@
         savedAt: new Date().toISOString(),
         mapIndex: this.mapIndex,
         wave: this.wave,
-        player: { x: this.player.x, y: this.player.y, hp: this.player.hp, shield: this.player.shield, xp: this.player.xp, level: this.player.level, xpNext: this.player.xpNext },
+        player: { x: this.player.x, y: this.player.y, hp: this.player.hp, shield: this.player.shield, xp: this.player.xp, level: this.player.level, xpNext: this.player.xpNext, entryShieldTimer: this.player.entryShieldTimer || 0 },
         powerLevels: this.powerLevels,
+        powerActivity: this.powerActivity,
+        activePowerSlots: this.activePowerSlots,
         fusions: this.fusions,
         run: this.run,
+        worldStage: this.worldStage,
         extraLives: this.extraLives,
         nextLifeScore: this.nextLifeScore
       };
       saveState();
-      this.toast('Partida guardada', `${MAPS[this.mapIndex].name} · oleada ${this.wave}`);
+      this.toast('Partida guardada', `${MAPS[this.mapIndex].name} · mundo ${this.mapIndex + 1} nivel ${this.wave}`);
     }
 
     togglePause(force) {
@@ -2468,8 +2923,8 @@
 
     updatePauseStats() {
       els.pauseStats.innerHTML = `
-        <div><strong>${MAPS[this.mapIndex].name}</strong><small class="muted">Mapa actual</small></div>
-        <div><strong>Oleada ${this.wave}</strong><small class="muted">Progreso</small></div>
+        <div><strong>${MAPS[this.mapIndex].name}</strong><small class="muted">Mundo actual</small></div>
+        <div><strong>Nivel ${this.wave}</strong><small class="muted">Progreso</small></div>
         <div><strong>${this.run.kills}</strong><small class="muted">Zombies vencidos</small></div>
         <div><strong>${Object.keys(this.powerLevels).length}</strong><small class="muted">Poderes activos</small></div>`;
     }
@@ -2478,23 +2933,40 @@
       if (!this.player || !els.hudHp) return;
       els.hudHp.textContent = Math.max(0, Math.round(this.player.hp));
       els.hudShield.textContent = Math.max(0, Math.round(this.player.shield));
-      els.hudWave.textContent = this.wave;
-      els.hudMap.textContent = this.mapIndex + 1;
+      const totalLevels = this.worldStage?.totalLevels || 5;
+      els.hudWave.textContent = `L${this.wave}/${totalLevels}`;
+      els.hudMap.textContent = `M${this.mapIndex + 1}/${MAPS.length}`;
       els.hudScore.textContent = this.run.score;
       els.hudCoins.textContent = this.run.coins;
+      if (els.xpLabel && this.mapIndex < 5 && !this.bossActive) els.xpLabel.textContent = `Nivel ${this.player.level} · eliminados ${this.worldStage?.kills || 0}/${this.getWorldStageTarget(this.wave)}`;
       if (els.hudLives) els.hudLives.textContent = this.extraLives;
       els.xpFill.style.width = `${clamp(this.player.xp / this.player.xpNext * 100, 0, 100)}%`;
-      els.xpLabel.textContent = `Nivel ${this.player.level}`;
+      if (!(this.mapIndex < 5 && !this.bossActive)) els.xpLabel.textContent = `Nivel ${this.player.level}`;
       this.updatePendingBadge();
       const activePowers = Object.entries(this.powerActivity || {}).sort((a, b) => b[1] - a[1]);
       const visibleLimit = this.isSmallScreen ? 4 : 6;
       const visible = activePowers.slice(0, visibleLimit);
       const overflow = Math.max(0, activePowers.length - visible.length);
-      els.powerDock.innerHTML = visible.map(([id, secs]) => {
+      const statusChips = [];
+      if ((this.player.entryShieldTimer || 0) > 0) statusChips.push(`<div class="power-chip active-power selected" title="Escudo de entrada"><span>🛡️</span><small>${Math.ceil(this.player.entryShieldTimer)}</small></div>`);
+      const inheritedAllies = this.drones.filter(d => d.inheritPower && !d.permanent);
+      if (inheritedAllies.length) {
+        const allyLife = Math.max(...inheritedAllies.map(d => d.life || 0));
+        statusChips.push(`<div class="power-chip active-power" title="Naves aliadas heredando el poder activo"><span>🛸${inheritedAllies.length}</span><small>${Math.max(1,Math.ceil(allyLife))}</small></div>`);
+      }
+      els.powerDock.innerHTML = statusChips.join('') + visible.map(([id, secs]) => {
         const pow = POWERS.find(p => p.id === id);
         const time = Math.max(1, Math.ceil(secs));
-        return `<div class="power-chip active-power" title="${pow?.name || id} · ${time}s activas">${pow?.icon || '✦'}<small>${time}</small></div>`;
+        const selected = this.activePowerSlots?.weaponMode === id ? 'selected' : '';
+        return `<button class="power-chip active-power ${selected}" data-power="${id}" title="${pow?.name || id} · ${time}s activas">${pow?.icon || '✦'}<small>${time}</small></button>`;
       }).join('') + (overflow ? `<div class="power-chip overflow" title="${overflow} poderes activos más">+${overflow}</div>` : '');
+      els.powerDock.querySelectorAll('[data-power]').forEach(btn => btn.onclick = () => {
+        const id = btn.dataset.power;
+        if ((id === 'triple' || id === 'laser') && this.isPowerActive(id)) {
+          this.activePowerSlots.weaponMode = id;
+          this.toast('🎛️ Modo de disparo', POWERS.find(p => p.id === id)?.name || id);
+        }
+      });
     }
 
     updatePendingBadge() {
@@ -2548,6 +3020,7 @@
       grd.addColorStop(1, '#020807');
       ctx.fillStyle = grd;
       ctx.fillRect(0, 0, this.w, this.h);
+      this.drawWorldBackdrop(ctx, map);
       this.drawMapAtmosphere(ctx, map, dt);
       this.drawMeteors(ctx);
       this.drawZones(ctx);
@@ -2562,6 +3035,112 @@
         ctx.fillRect(0, 0, this.w, this.h);
       }
       ctx.restore();
+    }
+
+    drawWorldBackdrop(ctx, map) {
+      if (this.mapIndex === 0) {
+        const progress = this.getWorldOneProgress();
+        const drift = now() * .00035;
+        const bg1 = this.getAsset('world1BgOrbit');
+        const bg2 = this.getAsset('world1BgStation');
+        const alpha1 = this.bossActive ? .08 : clamp(1 - Math.max(0, progress - .42) / .34, 0, .92);
+        const alpha2 = this.bossActive ? .12 : clamp(progress < .18 ? progress / .18 : Math.min(.88, .26 + progress * .7), 0, .88);
+        if (bg1) this.drawImageCover(ctx, bg1, 0, 0, this.w, this.h, { alpha: alpha1, scale: 1.08, offsetX: Math.sin(drift) * 18, offsetY: Math.cos(drift * .8) * 10 });
+        if (bg2) this.drawImageCover(ctx, bg2, 0, 0, this.w, this.h, { alpha: alpha2, scale: 1.12, offsetX: Math.cos(drift * .7) * 16, offsetY: Math.sin(drift) * 8 });
+        if (this.bossActive) {
+          const bossBg = this.getAsset('world1BossBg');
+          if (bossBg) this.drawImageCover(ctx, bossBg, 0, 0, this.w, this.h, { alpha: .86, scale: 1.08, offsetX: Math.sin(drift * .3) * 10, offsetY: Math.cos(drift * .2) * 5 });
+        }
+        ctx.save();
+        ctx.globalAlpha = .16 + progress * .12;
+        const tint = ctx.createLinearGradient(0, 0, 0, this.h);
+        tint.addColorStop(0, 'rgba(110,180,255,.18)');
+        tint.addColorStop(.5, 'rgba(10,18,34,.08)');
+        tint.addColorStop(1, 'rgba(255,110,60,.18)');
+        ctx.fillStyle = tint;
+        ctx.fillRect(0, 0, this.w, this.h);
+        ctx.restore();
+        const fleet = this.getAsset('mirrorShip');
+        if (fleet) {
+          ctx.save();
+          ctx.globalAlpha = .08 + progress * .06;
+          const width = this.w * (.26 + progress * .04);
+          const height = width * (fleet.naturalHeight / fleet.naturalWidth);
+          ctx.drawImage(fleet, this.w * .62, this.h * (.12 + Math.sin(drift) * .02), width, height);
+          ctx.restore();
+        }
+        return;
+      }
+      if (this.mapIndex === 1) {
+        const progress = this.getWorldTwoProgress();
+        const t = now() * .001;
+        const glow = ctx.createRadialGradient(this.w * .5, this.h * .42, 0, this.w * .5, this.h * .42, this.w * .68);
+        glow.addColorStop(0, 'rgba(152,255,241,.12)');
+        glow.addColorStop(.45, 'rgba(71,144,129,.08)');
+        glow.addColorStop(1, 'transparent');
+        ctx.save(); ctx.fillStyle = glow; ctx.fillRect(0, 0, this.w, this.h); ctx.restore();
+        const colonyX = this.w * (.2 + progress * .16 + Math.sin(t * .12) * .02);
+        const colonyY = this.h * (.2 + Math.cos(t * .1) * .03);
+        const colonyR = Math.min(this.w, this.h) * (.16 + progress * .05);
+        const petri = ctx.createRadialGradient(colonyX - colonyR * .18, colonyY - colonyR * .2, 0, colonyX, colonyY, colonyR);
+        petri.addColorStop(0, 'rgba(229,255,250,.32)');
+        petri.addColorStop(.32, 'rgba(130,255,228,.18)');
+        petri.addColorStop(1, 'rgba(8,20,20,.02)');
+        ctx.save();
+        ctx.globalAlpha = .5;
+        ctx.fillStyle = petri;
+        ctx.beginPath(); ctx.arc(colonyX, colonyY, colonyR, 0, Math.PI * 2); ctx.fill();
+        ctx.strokeStyle = 'rgba(216,255,246,.28)'; ctx.lineWidth = 2; ctx.stroke();
+        for (let i = 0; i < 14; i++) {
+          const a = i * (Math.PI * 2 / 14) + t * .08;
+          const rx = colonyX + Math.cos(a) * colonyR * rand(.12,.82);
+          const ry = colonyY + Math.sin(a) * colonyR * rand(.12,.76);
+          ctx.fillStyle = i % 2 ? 'rgba(120,255,223,.18)' : 'rgba(94,210,188,.15)';
+          ctx.beginPath(); ctx.arc(rx, ry, rand(colonyR * .14, colonyR * .05), 0, Math.PI * 2); ctx.fill();
+        }
+        ctx.restore();
+        const tubeCount = this.w >= 900 ? 4 : 3;
+        for (let i = 0; i < tubeCount; i++) {
+          const x = this.w * (.58 + i * .08);
+          const y = this.h * (.14 + Math.sin(t * .5 + i) * .01);
+          const h = this.h * (.38 + i * .03);
+          const w = this.w * .038;
+          ctx.save();
+          ctx.globalAlpha = .12 + i * .02;
+          ctx.fillStyle = 'rgba(215,255,248,.14)';
+          ctx.strokeStyle = 'rgba(202,255,244,.22)';
+          ctx.lineWidth = 2;
+          ctx.beginPath();
+          ctx.roundRect(x, y, w, h, 18);
+          ctx.fill(); ctx.stroke();
+          ctx.fillStyle = i % 2 ? 'rgba(110,255,212,.16)' : 'rgba(152,255,241,.18)';
+          ctx.fillRect(x + 6, y + h * (.28 + (i % 3) * .09), w - 12, h * (.54 - i * .04));
+          ctx.restore();
+        }
+        for (let i = 0; i < 24; i++) {
+          const sx = (i * 97 + (t * 38)) % (this.w + 100) - 50;
+          const sy = (Math.sin(i * 1.7 + t * .7) * .5 + .5) * this.h * .7 + this.h * .05;
+          const sr = 4 + (i % 4) * 3 + progress * 6;
+          ctx.save();
+          ctx.globalAlpha = .08 + (i % 3) * .03;
+          ctx.fillStyle = i % 2 ? 'rgba(210,255,247,.20)' : 'rgba(123,255,219,.16)';
+          ctx.beginPath(); ctx.arc(sx, sy, sr, 0, Math.PI * 2); ctx.fill();
+          ctx.globalAlpha *= .8;
+          ctx.beginPath(); ctx.arc(sx + 2, sy - 1, sr * .42, 0, Math.PI * 2); ctx.fill();
+          ctx.restore();
+        }
+        ctx.save();
+        ctx.globalAlpha = .1 + progress * .08;
+        ctx.strokeStyle = 'rgba(145,255,235,.24)';
+        for (let i = 0; i < 5; i++) {
+          const sy = this.h * (.18 + i * .13);
+          ctx.beginPath();
+          ctx.moveTo(-40, sy);
+          ctx.bezierCurveTo(this.w * .22, sy + Math.sin(t + i) * 18, this.w * .5, sy - 28, this.w + 40, sy + Math.cos(t * .8 + i) * 16);
+          ctx.stroke();
+        }
+        ctx.restore();
+      }
     }
 
     drawMapAtmosphere(ctx, map) {
@@ -2805,41 +3384,55 @@
 
     drawMeteors(ctx) {
       if (!this.meteors) return;
+      const meteorSprite = this.getAsset('meteorRealistic') || this.getAsset('meteor');
+      const ringedSprite = this.getAsset('planetRinged');
+      const moonSprite = this.getAsset('moonShattered');
       for (const m of this.meteors) {
         ctx.save();
         const angle = Math.atan2(m.vy, m.vx);
         ctx.translate(m.x, m.y);
-        ctx.rotate(angle);
-        ctx.globalAlpha = .72;
-        ctx.shadowBlur = 12;
-        ctx.shadowColor = m.kind === 'planet' ? '#9fd4ff' : (m.kind === 'bomb' ? '#ff4e4e' : '#ff8b32');
-        const tail = Math.max(34, m.r * (m.kind === 'planet' ? 1.05 : 3.2));
-        ctx.fillStyle = m.kind === 'planet' ? 'rgba(159,212,255,.18)' : (m.kind === 'bomb' ? 'rgba(255,78,78,.30)' : 'rgba(255,116,38,.34)');
-        ctx.beginPath();
-        ctx.moveTo(-tail, -m.r * .42);
-        ctx.lineTo(0, -m.r * .78);
-        ctx.lineTo(m.r * .8, 0);
-        ctx.lineTo(0, m.r * .78);
-        ctx.closePath();
-        ctx.fill();
-        ctx.rotate(now() * .002 + (m.spin || 0));
-        ctx.globalAlpha = .88;
-        ctx.fillStyle = m.kind === 'planet' ? 'rgba(130,190,255,.82)' : (m.kind === 'bomb' ? 'rgba(255,75,75,.88)' : 'rgba(255,132,52,.82)');
-        ctx.beginPath();
-        for (let i = 0; i < 8; i++) {
-          const a = (Math.PI * 2 / 8) * i;
-          const rr = m.r * (0.78 + ((i % 3) * .09));
-          const x = Math.cos(a) * rr;
-          const y = Math.sin(a) * rr;
-          i ? ctx.lineTo(x, y) : ctx.moveTo(x, y);
+        ctx.rotate(angle * (m.kind === 'planet' || m.kind === 'moon' ? .2 : 1));
+        ctx.globalAlpha = .9;
+        ctx.shadowBlur = 14;
+        ctx.shadowColor = m.kind === 'bomb' ? '#ff5f38' : '#ffd56a';
+        if (m.kind === 'meteor' || m.kind === 'bomb') {
+          const tail = Math.max(26, m.r * 2.4);
+          ctx.fillStyle = m.kind === 'bomb' ? 'rgba(255,90,48,.22)' : 'rgba(255,160,72,.18)';
+          ctx.beginPath();
+          ctx.moveTo(-tail, -m.r * .34);
+          ctx.lineTo(0, -m.r * .62);
+          ctx.lineTo(m.r * .72, 0);
+          ctx.lineTo(0, m.r * .62);
+          ctx.closePath();
+          ctx.fill();
         }
-        ctx.closePath(); ctx.fill();
-        ctx.strokeStyle = m.kind === 'planet' ? 'rgba(230,248,255,.70)' : 'rgba(255,230,150,.55)';
-        ctx.lineWidth = 1.4;
-        ctx.stroke();
+        ctx.rotate(now() * .0015 + (m.spin || 0));
+        let sprite = meteorSprite;
+        if (m.kind === 'planet') sprite = ringedSprite || moonSprite || meteorSprite;
+        if (m.kind === 'moon') sprite = moonSprite || ringedSprite || meteorSprite;
+        if (sprite) {
+          const scale = m.kind === 'planet' ? 5.6 : (m.kind === 'moon' ? 5.0 : 4.2);
+          const w = m.r * scale;
+          const h = w * (sprite.naturalHeight / sprite.naturalWidth);
+          ctx.drawImage(sprite, -w * .5, -h * .5, w, h);
+          if (m.kind === 'bomb') {
+            ctx.globalAlpha = .26;
+            ctx.fillStyle = '#ff5f38';
+            ctx.beginPath(); ctx.arc(0, 0, m.r * 1.25, 0, Math.PI * 2); ctx.fill();
+          }
+        }
+        if (m.hp) {
+          const hp = clamp(m.hp / ((m.kind === 'planet' || m.kind === 'moon') ? (68 + this.wave * 9) : ((m.kind === 'bomb' ? 32 : 28) + this.wave * (m.kind === 'bomb' ? 6 : 4))), 0, 1);
+          ctx.globalAlpha = .82;
+          ctx.fillStyle = 'rgba(0,0,0,.36)';
+          ctx.fillRect(-m.r, m.r + 8, m.r * 2, 3);
+          ctx.fillStyle = m.kind === 'planet' || m.kind === 'moon' ? '#9fd4ff' : '#ffd56a';
+          ctx.fillRect(-m.r, m.r + 8, m.r * 2 * hp, 3);
+        }
         ctx.restore();
       }
     }
+
 
     drawZones(ctx) {
       for (const z of this.zones) {
@@ -2857,27 +3450,36 @@
     drawPickups(ctx) {
       for (const it of this.pickups) {
         ctx.save();
-        const pulse = 1 + Math.sin((now() + (it.born || 0)) * .006) * .08;
-        const alpha = clamp(it.life / (it.maxLife || 20), .22, 1);
+        const pulse = 1 + Math.sin((now() + (it.born || 0)) * .008) * .12;
+        const alpha = clamp(it.life / (it.maxLife || 14), .24, 1);
         ctx.globalAlpha = alpha;
         ctx.translate(it.x, it.y);
         ctx.scale(pulse, pulse);
-        ctx.shadowBlur = it.type === 'power' ? 28 : 18;
+        ctx.shadowBlur = it.type === 'power' ? 18 : 12;
         ctx.shadowColor = it.color;
-        ctx.fillStyle = 'rgba(255,255,255,.05)';
         ctx.strokeStyle = it.color;
-        ctx.lineWidth = 2;
-        ctx.beginPath(); ctx.arc(0, 0, it.r + 7, 0, Math.PI * 2); ctx.stroke();
-        ctx.globalAlpha = alpha * .55;
-        ctx.beginPath(); ctx.arc(0, 0, it.r + 10, -Math.PI / 2, -Math.PI / 2 + Math.PI * 2 * clamp(it.life / (it.maxLife || 20), 0, 1)); ctx.stroke();
+        ctx.lineWidth = 1.6;
+        ctx.beginPath(); ctx.arc(0, 0, it.r + (it.type === 'power' ? 5 : 3), 0, Math.PI * 2); ctx.stroke();
+        ctx.globalAlpha = alpha * .2;
+        ctx.fillStyle = it.color;
+        ctx.beginPath(); ctx.arc(0, 0, it.r + 1, 0, Math.PI * 2); ctx.fill();
         ctx.globalAlpha = alpha;
-        ctx.font = `${Math.max(18, it.r * 1.7)}px system-ui, Apple Color Emoji, Segoe UI Emoji`;
+        ctx.fillStyle = '#081216';
+        ctx.beginPath(); ctx.arc(0, 0, Math.max(3, it.r - 2), 0, Math.PI * 2); ctx.fill();
+        ctx.fillStyle = it.color;
+        ctx.font = `${Math.max(10, it.r * 1.3)}px system-ui, Apple Color Emoji, Segoe UI Emoji`;
         ctx.textAlign = 'center';
         ctx.textBaseline = 'middle';
-        ctx.fillText(it.icon || '🎁', 0, 1);
-        if (it.type === 'power') {
-          ctx.globalAlpha = alpha * .24;
-          ctx.beginPath(); ctx.arc(0, 0, it.r + 15, 0, Math.PI * 2); ctx.stroke();
+        ctx.fillText(it.icon || '•', 0, .6);
+        if (it.type === 'power' || it.type === 'nuke') {
+          ctx.globalAlpha = alpha * .42;
+          ctx.beginPath(); ctx.arc(0, 0, it.r + 7, 0, Math.PI * 2); ctx.stroke();
+          ctx.rotate(now() * .0024);
+          ctx.globalAlpha = alpha * .92;
+          ctx.strokeStyle = '#ffffff';
+          ctx.beginPath();
+          ctx.moveTo(0, -it.r - 8); ctx.lineTo(it.r + 8, 0); ctx.lineTo(0, it.r + 8); ctx.lineTo(-it.r - 8, 0); ctx.closePath();
+          ctx.stroke();
         }
         ctx.restore();
       }
@@ -2887,7 +3489,7 @@
       for (const b of this.bullets) {
         if (b.type === 'laser') continue;
         ctx.save();
-        ctx.shadowBlur = 18;
+        ctx.shadowBlur = 18 + (b.glow || 0) * 5;
         ctx.shadowColor = b.color;
         ctx.fillStyle = b.color;
         if (b.type === 'torpedo' || b.type === 'kamikaze') {
@@ -2896,8 +3498,26 @@
           ctx.rotate(ang);
           ctx.beginPath(); ctx.moveTo(10, 0); ctx.lineTo(-8, 6); ctx.lineTo(-3,0); ctx.lineTo(-8,-6); ctx.closePath(); ctx.fill();
           ctx.globalAlpha = .28; ctx.fillRect(-14,-2,10,4);
+        } else if (b.enemy) {
+          const ang = Math.atan2(b.vy, b.vx);
+          ctx.translate(b.x, b.y);
+          ctx.rotate(ang);
+          ctx.globalAlpha = .9;
+          ctx.beginPath();
+          ctx.moveTo(8, 0); ctx.lineTo(-5, 3.2); ctx.lineTo(-9, 0); ctx.lineTo(-5, -3.2); ctx.closePath(); ctx.fill();
+          ctx.globalAlpha = .72;
+          ctx.fillStyle = '#ffffff';
+          ctx.fillRect(-1.5, -1, 5, 2);
+          ctx.globalAlpha = .22;
+          ctx.fillStyle = b.color;
+          ctx.fillRect(-14, -1.5, 8, 3);
         } else {
           ctx.beginPath(); ctx.arc(b.x, b.y, b.r, 0, Math.PI * 2); ctx.fill();
+          if ((b.glow || 0) > 0) {
+            ctx.globalAlpha = .84;
+            ctx.fillStyle = '#ffffff';
+            ctx.beginPath(); ctx.arc(b.x, b.y, Math.max(1.4, b.r * .34), 0, Math.PI * 2); ctx.fill();
+          }
           ctx.globalAlpha = .34;
           ctx.beginPath(); ctx.moveTo(b.x, b.y); ctx.lineTo(b.x - b.vx * .035, b.y - b.vy * .035); ctx.lineWidth = b.r * 1.2; ctx.strokeStyle = b.color; ctx.stroke();
         }
@@ -2936,13 +3556,29 @@
         ctx.lineWidth = 3;
         ctx.globalAlpha = e.boss ? (e.alpha ?? 1) : (e.behavior === 'sombra' ? .76 : 1);
         if (e.boss) {
-          const sides = ({spider:8,tick:7,rat:6,scorpion:10,leech:5,puffer:11,wasp:9,centipede:12,roach:8,chimera:13})[e.beast] || 9;
-          this.drawPolygon(ctx, 0, 0, e.r + Math.sin(e.t * 3) * 3, sides, true);
-          ctx.globalAlpha = .18 + (e.alpha ?? 1) * .12; this.drawPolygon(ctx, 0, 0, e.r * 1.45, sides, false);
-          if ((e.alpha ?? 1) < .7) { ctx.globalAlpha = .12; this.drawPolygon(ctx, 0, 0, e.r * 1.72, sides, false); }
-          ctx.globalAlpha = .45 + (e.alpha ?? 1) * .2;
-          for (let j=0;j<Math.min(8,sides);j++) { const a = (Math.PI*2/sides)*j + e.t*.4; ctx.beginPath(); ctx.moveTo(Math.cos(a)*e.r*.45, Math.sin(a)*e.r*.45); ctx.lineTo(Math.cos(a)*(e.r*1.35), Math.sin(a)*(e.r*1.35)); ctx.stroke(); }
-        } else if (e.behavior === 'mirror') this.drawEnemyShip(ctx, e);
+          const bossSprite = this.mapIndex === 0 ? this.getAsset('bossBiomech') : null;
+          if (bossSprite) {
+            ctx.globalAlpha = .96 * (e.alpha ?? 1);
+            const w = e.r * 5.6;
+            const h = w * (bossSprite.naturalHeight / bossSprite.naturalWidth);
+            ctx.drawImage(bossSprite, -w * .52, -h * .5, w, h);
+            ctx.globalAlpha = .18 + (e.alpha ?? 1) * .18;
+            ctx.beginPath(); ctx.arc(0, 0, e.r * 1.6, 0, Math.PI * 2); ctx.stroke();
+          } else if (this.mapIndex === 1) {
+            this.drawBacteriaBoss(ctx, e);
+          } else {
+            const sides = ({spider:8,tick:7,rat:6,scorpion:10,leech:5,puffer:11,wasp:9,centipede:12,roach:8,chimera:13})[e.beast] || 9;
+            this.drawPolygon(ctx, 0, 0, e.r + Math.sin(e.t * 3) * 3, sides, true);
+            ctx.globalAlpha = .18 + (e.alpha ?? 1) * .12; this.drawPolygon(ctx, 0, 0, e.r * 1.45, sides, false);
+            if ((e.alpha ?? 1) < .7) { ctx.globalAlpha = .12; this.drawPolygon(ctx, 0, 0, e.r * 1.72, sides, false); }
+            ctx.globalAlpha = .45 + (e.alpha ?? 1) * .2;
+            for (let j=0;j<Math.min(8,sides);j++) { const a = (Math.PI*2/sides)*j + e.t*.4; ctx.beginPath(); ctx.moveTo(Math.cos(a)*e.r*.45, Math.sin(a)*e.r*.45); ctx.lineTo(Math.cos(a)*(e.r*1.35), Math.sin(a)*(e.r*1.35)); ctx.stroke(); }
+          }
+        } else if (e.behavior === 'mirror') this.drawEnemyShip(ctx, e, 'mirrorShip');
+        else if (this.mapIndex === 0 && ['cazador','corredor','esquivo'].includes(e.id)) this.drawEnemyShip(ctx, e, 'enemyBiomechBlue');
+        else if (this.mapIndex === 0 && ['toxico','sombra','divisor'].includes(e.id)) this.drawEnemyShip(ctx, e, 'enemyToxicCruiser');
+        else if (this.mapIndex === 0 && ['blindado','griton'].includes(e.id)) this.drawEnemyShip(ctx, e, 'enemySiegeMolten');
+        else if (e.behavior === 'toxic' || e.id === 'nucleo') this.drawEnemyShip(ctx, e, 'enemyToxicCruiser');
         else if (e.id === 'mosquito') {
           ctx.beginPath(); ctx.moveTo(0,-e.r*1.2); ctx.lineTo(e.r*.55, e.r*.55); ctx.lineTo(0,e.r*.22); ctx.lineTo(-e.r*.55,e.r*.55); ctx.closePath(); ctx.fill();
           ctx.globalAlpha = .55;
@@ -3011,30 +3647,69 @@
       for (let i=0;i<3;i++){ const a=(Math.PI*2/3)*i-Math.PI/2+Math.sin(e.t*2)*.12; ctx.beginPath(); ctx.arc(Math.cos(a)*e.r*.36,Math.sin(a)*e.r*.3,e.r*.47,0,Math.PI*2);ctx.fill(); }
     }
 
-    drawEnemyShip(ctx, e) {
+    drawEnemyShip(ctx, e, spriteKey = 'mirrorShip') {
       ctx.save();
       ctx.rotate(Math.sin(e.t * 2.5) * .12);
       ctx.shadowBlur = 24;
       ctx.shadowColor = e.color;
-      ctx.strokeStyle = e.color;
-      ctx.fillStyle = e.color;
-      ctx.lineWidth = 2.6;
-      ctx.globalAlpha = .18;
-      ctx.beginPath(); ctx.arc(0, 0, e.r + 12, 0, Math.PI * 2); ctx.stroke();
-      ctx.globalAlpha = .94;
+      const sprite = this.getAsset(spriteKey);
+      if (sprite) {
+        const w = e.r * 4.8;
+        const h = w * (sprite.naturalHeight / sprite.naturalWidth);
+        ctx.globalAlpha = .92;
+        ctx.drawImage(sprite, -w * .56, -h * .5, w, h);
+        ctx.globalAlpha = .18;
+        ctx.strokeStyle = e.color;
+        ctx.lineWidth = 2.2;
+        ctx.beginPath(); ctx.arc(0, 0, e.r + 12, 0, Math.PI * 2); ctx.stroke();
+      } else {
+        ctx.strokeStyle = e.color;
+        ctx.fillStyle = e.color;
+        ctx.lineWidth = 2.6;
+        ctx.globalAlpha = .18;
+        ctx.beginPath(); ctx.arc(0, 0, e.r + 12, 0, Math.PI * 2); ctx.stroke();
+        ctx.globalAlpha = .94;
+        ctx.beginPath();
+        ctx.moveTo(0, -e.r - 4);
+        ctx.lineTo(e.r * .7, e.r * .25);
+        ctx.lineTo(e.r * .25, e.r * .85);
+        ctx.lineTo(0, e.r * .46);
+        ctx.lineTo(-e.r * .25, e.r * .85);
+        ctx.lineTo(-e.r * .7, e.r * .25);
+        ctx.closePath();
+        ctx.globalAlpha = .22; ctx.fill();
+        ctx.globalAlpha = .95; ctx.stroke();
+        ctx.globalAlpha = .8;
+        ctx.fillStyle = '#fff2f7';
+        ctx.beginPath(); ctx.arc(0, -e.r*.18, e.r*.22, 0, Math.PI*2); ctx.fill();
+      }
+      ctx.restore();
+    }
+
+    drawBacteriaBoss(ctx, e) {
+      ctx.save();
+      ctx.globalAlpha = .9 * (e.alpha ?? 1);
+      ctx.fillStyle = '#98fff1';
+      ctx.strokeStyle = '#dffff7';
+      ctx.lineWidth = 2.2;
       ctx.beginPath();
-      ctx.moveTo(0, -e.r - 4);
-      ctx.lineTo(e.r * .7, e.r * .25);
-      ctx.lineTo(e.r * .25, e.r * .85);
-      ctx.lineTo(0, e.r * .46);
-      ctx.lineTo(-e.r * .25, e.r * .85);
-      ctx.lineTo(-e.r * .7, e.r * .25);
-      ctx.closePath();
-      ctx.globalAlpha = .22; ctx.fill();
-      ctx.globalAlpha = .95; ctx.stroke();
-      ctx.globalAlpha = .8;
-      ctx.fillStyle = '#fff2f7';
-      ctx.beginPath(); ctx.arc(0, -e.r*.18, e.r*.22, 0, Math.PI*2); ctx.fill();
+      for (let i = 0; i < 24; i++) {
+        const a = (Math.PI * 2 / 24) * i;
+        const rr = e.r * (1.05 + Math.sin(e.t * 2 + i) * .12 + (i % 3 === 0 ? .14 : 0));
+        const x = Math.cos(a) * rr;
+        const y = Math.sin(a) * rr;
+        i ? ctx.lineTo(x, y) : ctx.moveTo(x, y);
+      }
+      ctx.closePath(); ctx.fill(); ctx.stroke();
+      ctx.globalAlpha = .22;
+      ctx.beginPath(); ctx.arc(0, 0, e.r * 1.65, 0, Math.PI * 2); ctx.stroke();
+      for (let i = 0; i < 9; i++) {
+        const a = i * (Math.PI * 2 / 9) + e.t * .35;
+        const rr = e.r * (.34 + (i % 3) * .18);
+        ctx.globalAlpha = .18 + (i % 2) * .08;
+        ctx.fillStyle = i % 2 ? 'rgba(206,255,245,.9)' : 'rgba(100,220,195,.9)';
+        ctx.beginPath(); ctx.arc(Math.cos(a) * rr, Math.sin(a) * rr, e.r * (.13 + (i % 3) * .03), 0, Math.PI * 2); ctx.fill();
+      }
       ctx.restore();
     }
 
@@ -3081,6 +3756,24 @@
       ctx.strokeStyle = color;
       ctx.fillStyle = color;
       ctx.lineWidth = 2.8;
+
+      // escudo de entrada: protección temporal al comenzar/reintentar un mundo
+      if (p.entryShieldTimer > 0) {
+        const pulse = 1 + Math.sin(t * 9) * .05;
+        ctx.save();
+        ctx.scale(pulse, pulse);
+        ctx.globalAlpha = .26 + Math.sin(t * 12) * .06;
+        ctx.strokeStyle = '#9fd4ff';
+        ctx.lineWidth = 4;
+        ctx.shadowBlur = 22;
+        ctx.shadowColor = '#83eaff';
+        ctx.beginPath(); ctx.arc(0, 0, p.r + 15, 0, Math.PI * 2); ctx.stroke();
+        ctx.globalAlpha = .12;
+        ctx.beginPath(); ctx.arc(0, 0, p.r + 21, 0, Math.PI * 2); ctx.stroke();
+        ctx.restore();
+        ctx.strokeStyle = color;
+        ctx.shadowColor = color;
+      }
 
       // outer aura
       if (p.bossDrive > 0) {
@@ -3271,15 +3964,27 @@
     return profile;
   }
 
+  function renderPortalRankingPreview() {
+    if (!els.portalRankingPreview) return;
+    const rows = state.profiles.slice().sort((a,b) => (b.stats?.bestScore || 0) - (a.stats?.bestScore || 0)).slice(0,5);
+    const ships = ['🚀','🛸','✦','🚁','☄️'];
+    els.portalRankingPreview.innerHTML = `<h3>Tabla de scores</h3>` + (rows.length ? rows.map((p, idx) => `
+      <div class="portal-rank-row">
+        <div class="portal-rank-ship">${ships[idx] || '✦'}</div>
+        <div class="portal-rank-name"><strong>${p.name || 'Jugador'}</strong><small>#${idx + 1}</small></div>
+        <strong>${p.stats?.bestScore || 0}</strong>
+      </div>`).join('') : '<small class="muted">Aún no hay puntajes guardados.</small>');
+  }
+
   function renderSavedGamesList() {
     if (!els.savedGamesList) return;
     const rows = state.profiles.slice().sort((a,b) => (b.stats?.bestScore || 0) - (a.stats?.bestScore || 0));
     els.savedGamesList.innerHTML = rows.map(p => {
       const hasSave = !!p.lastSave;
       const level = hasSave ? (p.lastSave.mapIndex + 1) : (p.unlockedMap || 1);
-      const wave = hasSave ? ` · oleada ${p.lastSave.wave}` : '';
+      const wave = hasSave ? ` · nivel ${p.lastSave.wave}` : '';
       return `<button class="saved-game-row" data-load-profile="${p.id}">
-        <span><b>${p.name || 'Jugador'}</b><small>Nivel ${level}${wave} · récord ${p.stats?.bestScore || 0}</small></span>
+        <span><b>${p.name || 'Jugador'}</b><small>Mundo ${level}${wave} · récord ${p.stats?.bestScore || 0}</small></span>
         <strong>${hasSave ? 'Continuar' : 'Nueva'}</strong>
       </button>`;
     }).join('') || '<small class="muted">No hay partidas guardadas todavía.</small>';
@@ -3304,9 +4009,9 @@
     if (els.homeMap) els.homeMap.textContent = p.unlockedMap || 1;
     if (els.homeAchievements) els.homeAchievements.textContent = Object.keys(p.achievements || {}).length;
     const avatar = AVATARS.find(a => a.id === p.avatar) || AVATARS[0];
-    const parts = p.shipParts || {};
+    const prog = p.worldProgression || { shotTier:0, projectileSpeedTier:0, accuracyTier:0 };
     if (els.portalAvatarOrb) {
-      els.portalAvatarOrb.title = `Motor ${parts.engine || 0} · Alerones ${parts.wings || 0} · Cañón ${parts.cannon || 0} · Núcleo ${parts.core || 0}`;
+      els.portalAvatarOrb.title = `Disparo ${prog.shotTier || 0} · Velocidad ${prog.projectileSpeedTier || 0} · Precisión ${prog.accuracyTier || 0}`;
       els.portalAvatarOrb.innerHTML = `<span style="color:${avatar.color}">${avatar.icon}</span>`;
     }
     if (els.btnContinue) {
@@ -3318,17 +4023,18 @@
     if (els.simpleStartHint) {
       const score = p.stats?.bestScore || 0;
       const map = p.unlockedMap || 1;
-      els.simpleStartHint.textContent = `${p.name || 'Jugador'} · récord ${score} · nivel ${map}/${MAPS.length}`;
+      els.simpleStartHint.textContent = `${p.name || 'Jugador'} · récord ${score} · mundo ${map}/${MAPS.length}`;
     }
     document.body.classList.toggle('reduced-motion', !!state.settings.reducedMotion);
     document.body.classList.toggle('low-performance', !!state.settings.lowPerformance);
     renderSavedGamesList();
+    renderPortalRankingPreview();
   }
 
   function renderProfiles() {
     els.profileList.innerHTML = state.profiles.map(p => `
       <div class="list-item">
-        <div><b>${p.name}</b><small>Récord ${p.stats.bestScore || 0} · mapa ${p.unlockedMap || 1}</small></div>
+        <div><b>${p.name}</b><small>Récord ${p.stats.bestScore || 0}  · mundo ${p.unlockedMap || 1}</small></div>
         <div>
           <button class="soft-btn small" data-profile="${p.id}">Usar</button>
           ${state.profiles.length > 1 ? `<button class="danger-btn small" data-delete-profile="${p.id}">Borrar</button>` : ''}
@@ -3355,7 +4061,7 @@
         <p class="muted">${a.desc}</p>
         <span class="tag">${a.passive}</span>
         <footer class="mt">
-          ${unlocked ? `<button class="primary-btn small" data-avatar="${a.id}">${p.avatar === a.id ? 'Activo' : 'Elegir'}</button>` : `<button class="soft-btn small" data-buy-avatar="${a.id}" data-cost="${cost}">Desbloquear · 🪙 ${cost}</button>`}
+          ${unlocked ? `<button class="primary-btn small" data-avatar="${a.id}">${p.avatar === a.id ? 'Activo' : 'Elegir'}</button>` : `<button class="soft-btn small" disabled title="Sistema de desbloqueo pendiente">Disponible más adelante</button>`}
         </footer>
       </article>`;
     }).join('');
@@ -3371,6 +4077,7 @@
   }
 
   function renderHangarDetail(partId = 'engine') {
+    if (!els.hangarDetail || !els.hangarPartsGrid) return;
     const p = currentProfile();
     const parts = { core: 0, wings: 0, cannon: 0, engine: 0, ...(p.shipParts || {}) };
     const info = HANGAR_PART_INFO[partId];
@@ -3381,6 +4088,7 @@
   }
 
   function renderHangar() {
+    if (!els.hangarShipPreview || !els.hangarPartsGrid || !els.hangarTierLabel) return;
     const p = currentProfile();
     const avatar = AVATARS.find(a => a.id === p.avatar) || AVATARS[0];
     const parts = { core: 0, wings: 0, cannon: 0, engine: 0, ...(p.shipParts || {}) };
@@ -3412,6 +4120,7 @@
   }
 
   function renderMaps() {
+    if (!els.mapRoad) return;
     const p = currentProfile();
     els.mapRoad.innerHTML = MAPS.map((m, i) => {
       const unlocked = i + 1 <= p.unlockedMap;
@@ -3462,7 +4171,7 @@
     const rows = all.sort((a, b) => b.score - a.score).slice(0, 20);
     els.rankingList.innerHTML = rows.length ? rows.map((r, i) => {
       const avatar = AVATARS.find(a => a.id === r.avatar) || AVATARS[0];
-      return `<div class="rank-row"><div class="rank-no">${i + 1}</div><div><b>${avatar.icon} ${r.player}</b><small class="muted">Mapa ${r.map} · oleada ${r.wave} · ${r.kills} zombies</small></div><strong>${r.score}</strong></div>`;
+      return `<div class="rank-row"><div class="rank-no">${i + 1}</div><div><b>${avatar.icon} ${r.player}</b><small class="muted">Mundo ${r.map} · nivel ${r.wave} · ${r.kills} zombies</small></div><strong>${r.score}</strong></div>`;
     }).join('') : '<p class="muted">Todavía no hay partidas registradas. Inicia una misión para crear el ranking local.</p>';
   }
 
@@ -3536,7 +4245,7 @@
       monedas: p.coins,
       mejores_partidas: ranking,
       estadisticas: p.stats,
-      nave: p.shipParts,
+      progresion_mundos: p.worldProgression || {},
       logros: Object.keys(p.achievements || {}).length,
       jefes_vencidos: Object.keys(p.collection?.bosses || {}).length
     };
@@ -3608,6 +4317,7 @@ ${JSON.stringify(snapshot, null, 2)}`;
     els.btnHome.addEventListener('click', () => showScreen('screenPortal'));
     els.btnSettings.addEventListener('click', () => els.settingsDrawer.classList.remove('hidden'));
     els.btnCloseSettings.addEventListener('click', () => els.settingsDrawer.classList.add('hidden'));
+    els.btnOpenPortal?.addEventListener('click', () => showScreen('screenPortal'));
     els.btnManageProfiles?.addEventListener('click', () => showScreen('screenProfiles'));
     els.btnSaveProfileName.addEventListener('click', () => {
       const p = findOrCreateProfileByName(els.playerNameInput.value || 'Jugador');
@@ -3636,7 +4346,7 @@ ${JSON.stringify(snapshot, null, 2)}`;
     els.btnResume.addEventListener('click', () => game.togglePause(false));
     els.btnSaveRun.addEventListener('click', () => { game.saveRun(); game.updatePauseStats(); });
     els.btnPauseShop.addEventListener('click', () => { game.saveRun(); showScreen('screenShop'); });
-    els.btnRestartMap.addEventListener('click', () => { if (confirm('¿Reiniciar este mapa desde cero?')) game.start(game.mapIndex); });
+    els.btnRestartMap.addEventListener('click', () => { if (confirm('¿Reiniciar este mundo desde cero?')) game.start(game.mapIndex); });
     els.btnExitRun.addEventListener('click', () => { game.saveRun(); game.running = false; AudioFX.stopMusic(); hideOverlays(); showScreen('screenPortal'); });
     els.btnResultContinue.addEventListener('click', () => {
       if (game.resultMode === 'victory') {
@@ -3646,22 +4356,15 @@ ${JSON.stringify(snapshot, null, 2)}`;
       } else if (game.resultMode === 'defeat_revive') {
         game.reviveRun();
       } else {
-        game.finalizeRun(false);
-        hideOverlays();
-        game.start(game.mapIndex);
+        game.retryCurrentLevel();
       }
     });
-    els.btnResultHangar?.addEventListener('click', () => { hideOverlays(); showScreen('screenHangar'); });
     els.btnResultHome.addEventListener('click', () => {
-      if (game.resultMode === 'defeat_revive') {
-        game.finalizeRun(false);
-        hideOverlays();
-        game.start(game.mapIndex);
-      } else {
-        if (game.resultMode !== 'victory') game.finalizeRun(false);
-        hideOverlays();
-        showScreen('screenPortal');
-      }
+      if (game.resultMode !== 'victory') game.finalizeRun(false);
+      game.running = false;
+      AudioFX.stopMusic();
+      hideOverlays();
+      showScreen('screenIntro');
     });
 
     ['toggleSound', 'toggleMusic', 'toggleShake', 'toggleReduced', 'toggleLowPerformance'].forEach(id => {
@@ -3688,7 +4391,7 @@ ${JSON.stringify(snapshot, null, 2)}`;
       state = DEFAULT_STATE();
       saveState();
       renderAll();
-      showScreen('screenPortal');
+      showScreen('screenIntro');
     });
   }
 
@@ -3697,7 +4400,7 @@ ${JSON.stringify(snapshot, null, 2)}`;
     game.init(els.gameCanvas);
     wire();
     renderAll();
-    showScreen('screenPortal');
+    showScreen('screenIntro');
     saveState();
     if ('serviceWorker' in navigator && location.protocol !== 'file:') {
       navigator.serviceWorker.getRegistrations?.().then(regs => regs.forEach(r => r.unregister())).catch(() => {});

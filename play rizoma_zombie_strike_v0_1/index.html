@@ -6,10 +6,10 @@
   <meta name="theme-color" content="#071b17" />
   <meta name="apple-mobile-web-app-capable" content="yes" />
   <meta name="apple-mobile-web-app-title" content="Niebla Verde" />
-  <link rel="manifest" href="manifest.json" />
+  <script>if(location.protocol !== "file:"){const m=document.createElement("link");m.rel="manifest";m.href="manifest.json";document.head.appendChild(m);}</script>
   <link rel="icon" href="assets/icon.svg" type="image/svg+xml" />
-  <title>Rizoma Zombie Strike — Niebla Verde v0.7.17</title>
-  <link rel="stylesheet" href="css/styles.css?v=0.7.17" />
+  <title>Rizoma Zombie Strike — Niebla Verde v1.3.1</title>
+  <link rel="stylesheet" href="css/styles.css?v=1.2.0" />
 </head>
 <body>
   <div id="app" class="app-shell">
@@ -22,41 +22,47 @@
         <span class="brand-mark">⬢</span>
         <div>
           <strong>Rizoma Zombie Strike</strong>
-          <small>Niebla Verde · v0.7.17</small>
+          <small>Niebla Verde · v1.3.1</small>
         </div>
       </div>
       <button id="btnSettings" class="icon-btn" title="Ajustes" aria-label="Ajustes">⚙</button>
     </header>
 
     <main>
-      <section id="screenPortal" class="screen active portal-screen simple-start-screen">
-        <div class="start-card glass start-card-minimal">
-          <div class="start-mark" aria-hidden="true">⬢</div>
-          <p class="eyebrow">Niebla Verde</p>
-          <h1>Rizoma Zombie Strike</h1>
+      <section id="screenIntro" class="screen active intro-screen">
+        <div class="intro-poster-wrap">
+          <img class="intro-poster-img" src="assets/ui/intro_poster.png" alt="Presentación de Zombie Strike" />
+          <div class="intro-overlay-panel">
+            <p class="eyebrow">Shmup apocalíptico espacial</p>
+            <h1 class="intro-title-hidden">Zombie Strike</h1>
+            <p class="subcopy">Sobrevive a la caída estelar, enfrenta jefes biomecánicos y conquista cinco mundos.</p>
+            <button id="btnOpenPortal" class="primary-btn wide neon">Iniciar misión</button>
+          </div>
+        </div>
+      </section>
+
+      <section id="screenPortal" class="screen portal-screen simple-start-screen">
+        <div class="start-card glass start-card-minimal redesigned-menu">
+          <div class="menu-hero-concept">
+            <img src="assets/ui/menu_concept.png" alt="Concepto del menú Zombie Strike" />
+          </div>
+          <p class="eyebrow">Centro de mando</p>
           <p id="startGreeting" class="subcopy">Escribe tu nombre para entrar.</p>
 
           <div class="start-name-box">
-            <label for="playerNameInput">Nombre de jugador</label>
+            <label for="playerNameInput">Nickname</label>
             <div class="compact-form start-name-form">
-              <input id="playerNameInput" maxlength="18" placeholder="Tu nombre" autocomplete="off" />
-              <button id="btnSaveProfileName" class="primary-btn small">Entrar</button>
+              <input id="playerNameInput" maxlength="18" placeholder="Tu nickname" autocomplete="off" />
+              <button id="btnSaveProfileName" class="primary-btn small">Jugar</button>
             </div>
           </div>
 
           <div class="start-actions-main minimal">
-            <button id="btnContinue" class="soft-btn wide">▾ Cargar partida</button>
-            <button class="soft-btn wide" data-screen="screenRanking">🏆 Ranking</button>
+            <button id="btnContinue" class="soft-btn wide">▾ Continuar partida</button>
+            <button class="soft-btn wide" data-screen="screenRanking">🏆 Tabla de scores</button>
           </div>
           <div id="savedGamesList" class="saved-games-list hidden"></div>
-
-          <div class="start-mini-actions compact" aria-label="Opciones secundarias">
-            <button data-screen="screenShop">🛒 Tienda</button>
-            <button data-screen="screenHangar">🛠️ Hangar</button>
-            <button data-screen="screenAvatar">🚀 Naves</button>
-            <button data-screen="screenMap">🗺️ Niveles</button>
-          </div>
-
+          <div id="portalRankingPreview" class="portal-ranking-preview"></div>
           <small id="simpleStartHint" class="start-hint">Progreso local guardado en este dispositivo.</small>
         </div>
       </section>
@@ -88,46 +94,6 @@
             <button class="soft-btn" data-screen="screenPortal">Volver</button>
           </div>
           <div id="avatarGrid" class="card-grid avatars"></div>
-        </div>
-      </section>
-
-      <section id="screenHangar" class="screen">
-        <div class="panel glass">
-          <div class="section-head">
-            <div>
-              <p class="eyebrow">Evolución persistente</p>
-              <h2>Hangar evolutivo</h2>
-            </div>
-            <button class="soft-btn" data-screen="screenPortal">Volver</button>
-          </div>
-          <div class="hangar-grid">
-            <article class="hangar-stage glass">
-              <div id="hangarShipPreview" class="hangar-ship-preview"></div>
-              <div class="hangar-copy">
-                <p class="eyebrow" id="hangarTierLabel">Tier 1</p>
-                <h3 id="hangarShipName">Nave base</h3>
-                <p class="muted" id="hangarShipSummary">Sin módulos persistentes todavía.</p>
-              </div>
-            </article>
-            <article class="hangar-panel">
-              <div id="hangarPartsGrid" class="hangar-parts-grid"></div>
-              <div id="hangarDetail" class="hangar-detail"></div>
-              <div id="hangarHistory" class="hangar-history mt"></div>
-            </article>
-          </div>
-        </div>
-      </section>
-
-      <section id="screenMap" class="screen">
-        <div class="panel glass">
-          <div class="section-head">
-            <div>
-              <p class="eyebrow">Ruta principal</p>
-              <h2>30 territorios de la Niebla Verde</h2>
-            </div>
-            <button class="soft-btn" data-screen="screenPortal">Volver</button>
-          </div>
-          <div id="mapRoad" class="map-road"></div>
         </div>
       </section>
 
@@ -245,7 +211,7 @@
               <button id="btnResume" class="primary-btn">Continuar</button>
               <button id="btnSaveRun" class="soft-btn">Guardar</button>
               <button id="btnPauseShop" class="soft-btn">Tienda</button>
-              <button id="btnRestartMap" class="soft-btn">Reiniciar mapa</button>
+              <button id="btnRestartMap" class="soft-btn">Reiniciar mundo</button>
               <button id="btnExitRun" class="danger-btn">Salir al inicio</button>
             </div>
           </div>
@@ -258,7 +224,6 @@
             <div id="resultRewards" class="reward-row"></div>
             <div class="modal-actions">
               <button id="btnResultContinue" class="primary-btn">Continuar</button>
-              <button id="btnResultHangar" class="soft-btn">🛠️ Hangar</button>
               <button id="btnResultHome" class="soft-btn">Inicio</button>
             </div>
           </div>
@@ -290,6 +255,6 @@
     </div>
   </div>
 
-  <script src="js/game.js?v=0.7.17"></script>
+  <script src="js/game.js?v=1.2.0"></script>
 </body>
 </html>
