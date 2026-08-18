@@ -1,4 +1,4 @@
-Rizoma Zombie Strike v1.3.1 — flujo corregido, progresión por mundos y hangar retirado
+Rizoma Zombie Strike v1.4.0 — flujo corregido, progresión por mundos y hangar retirado
 
 Versión SAFE para Cloudflare Pages, sin archivo _headers.
 
@@ -63,7 +63,7 @@ Novedades v1.1.0:
 - Menos saturación de pickups y obstáculos, con pickups de poder más visibles.
 
 
-Novedades v1.3.1:
+Novedades v1.4.0:
 - Hangar evolutivo retirado del flujo jugable.
 - Tienda de monedas queda temporalmente fuera de navegación; monedas y puntos siguen acumulándose para una decisión posterior.
 - Derrota: Reintentar nivel conserva Mundo/Nivel; Inicio siempre vuelve al portal.
@@ -71,3 +71,16 @@ Novedades v1.3.1:
 - Naves aliadas de entrada en mundos posteriores; heredan temporalmente Triple o Láser activo.
 - Cada mundo superado mejora permanentemente potencia, velocidad y asistencia de puntería del disparo base.
 - El jefe entrega un poder/reliquia persistente para el mundo siguiente.
+
+
+Novedades v1.4.0 — Mundo 1 Director's Cut:
+- Assets visuales optimizados a resolución de uso real; reducción fuerte de peso y memoria.
+- Movimiento inicial más responsivo y movilidad progresiva al completar mundos.
+- Mundo 1 dividido en cinco actos diferenciados.
+- Acto V se supera derrotando tres capitanes familiares, no por bajas genéricas.
+- Transición cinematográfica de 4,8 s hacia la arena apocalíptica del jefe.
+- Presagio visual del jefe desde el Acto II.
+- Microeventos ambientales: patrullas, corredor meteórico, emboscada y frontera rota.
+- Poder principal único por nivel con núcleo luminoso; drops aleatorios reducidos.
+- Experiencia del Mundo 1 mejora silenciosamente la nave base en lugar de mostrar cartas constantemente.
+- Familias enemigas usan assets realistas de forma más consistente.

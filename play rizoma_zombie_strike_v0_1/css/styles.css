@@ -852,7 +852,7 @@ body.game-mode .power-chip.overflow{font-size:.66rem!important;font-weight:950!i
 @media (max-width:760px){.toast-stack{width:min(220px,calc(100% - 92px))}.toast.micro{font-size:.65rem;padding:3px 7px}.boss-intro-card{min-width:min(76vw,250px);padding:10px 12px;border-radius:16px}.boss-intro-icon{font-size:26px}.boss-intro-card h2{font-size:.95rem}.boss-intro-card p{font-size:.68rem}}
 
 
-/* v1.3.1 DSEBI F10: progresión por mundos, flujo de reintento y hangar retirado */
+/* v1.4.0 DSEBI F10: progresión por mundos, flujo de reintento y hangar retirado */
 body.game-mode .toast-stack{left:auto!important;right:14px!important;top:calc(62px + var(--safe-top))!important;transform:none!important;width:min(230px,calc(100% - 96px))!important;justify-items:end!important;gap:3px!important;z-index:13!important}
 body.game-mode .toast.micro{max-width:230px!important;padding:3px 8px!important;border-radius:999px!important;background:rgba(2,12,10,.20)!important;border:1px solid rgba(97,255,200,.10)!important;font-size:.66rem!important;line-height:1.1!important;box-shadow:none!important;backdrop-filter:blur(2px)!important}
 body.game-mode .toast.micro strong{font-size:.68rem!important;color:#b9ffe8!important}
@@ -876,7 +876,7 @@ body.game-mode .toast.micro small{display:inline!important;margin-left:5px!impor
 .entry-shield-note{color:#9fd4ff;}
 
 
-/* v1.3.1 DSEBI F10: intro poster y menú reducido */
+/* v1.4.0 DSEBI F10: intro poster y menú reducido */
 body[data-screen="screenIntro"] .topbar{display:none;}
 .intro-screen{padding:0!important;background:#020611;}
 .intro-poster-wrap{position:relative;width:100%;height:calc(100dvh - 0px);overflow:hidden;}
@@ -887,7 +887,7 @@ body[data-screen="screenIntro"] .topbar{display:none;}
 .intro-overlay-panel .subcopy{margin:10px auto 14px;max-width:56ch;color:#d6e9ff;}
 .redesigned-menu{max-width:min(92vw,640px);padding:18px 18px 14px;background:linear-gradient(180deg,rgba(5,10,22,.82),rgba(6,10,19,.74));border-color:rgba(117,145,255,.18);box-shadow:0 24px 80px rgba(0,0,0,.35);}
 .simple-start-screen{background:radial-gradient(circle at top right,rgba(110,76,196,.16),transparent 30%),radial-gradient(circle at bottom left,rgba(70,143,255,.11),transparent 25%),#030813;}
-.simple-start-screen::before{content:"";position:absolute;inset:0;background:url("../assets/ui/menu_concept.png") center top/cover no-repeat;opacity:.14;pointer-events:none;filter:saturate(.82) blur(1px);}
+.simple-start-screen::before{content:"";position:absolute;inset:0;background:url("../assets/ui/menu_concept.webp") center top/cover no-repeat;opacity:.14;pointer-events:none;filter:saturate(.82) blur(1px);}
 .portal-screen{position:relative;}
 .menu-hero-concept{width:100%;aspect-ratio:16/6.2;border-radius:18px;overflow:hidden;border:1px solid rgba(145,181,255,.12);background:rgba(255,255,255,.03);margin-bottom:10px;}
 .menu-hero-concept img{width:100%;height:100%;object-fit:cover;object-position:center top;display:block;}
@@ -902,9 +902,13 @@ body[data-screen="screenIntro"] .topbar{display:none;}
 .saved-games-list{margin-top:10px;}
 @media (max-width:760px){.intro-overlay-panel{bottom:2vh;padding:14px 16px;border-radius:18px;width:min(94vw,620px)}.redesigned-menu{padding:12px}.menu-hero-concept{aspect-ratio:16/8}.portal-rank-row{grid-template-columns:30px 1fr auto;font-size:.84rem}}
 
-/* v1.3.1 DSEBI F11: fix local init y menú más sobrio */
+/* v1.4.0 DSEBI F11: fix local init y menú más sobrio */
 body[data-screen="screenPortal"] .topbar{display:none;}
 body[data-screen="screenPortal"] main, body[data-screen="screenIntro"] main{height:100%;}
 body[data-screen="screenPortal"] .simple-start-screen{padding-top:18px;}
 .menu-hero-concept{display:none!important;}
 .redesigned-menu{padding-top:22px;}
+
+/* v1.4.0 Director Cut Mundo 1 */
+body.game-mode #xpWrap{box-shadow:0 0 14px rgba(120,200,255,.08);}
+body.game-mode #xpLabel{letter-spacing:.02em;}

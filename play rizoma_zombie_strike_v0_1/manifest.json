@@ -1,10 +1,10 @@
 {
-  "name": "Rizoma Zombie Strike: Niebla Verde",
-  "short_name": "Niebla Verde",
+  "name": "Zombie Strike: Apocalyptic Starfall Odyssey",
+  "short_name": "Zombie Strike",
   "start_url": "./index.html",
   "display": "standalone",
-  "background_color": "#061713",
-  "theme_color": "#071b17",
+  "background_color": "#020611",
+  "theme_color": "#07101b",
   "orientation": "any",
   "icons": [
     {
