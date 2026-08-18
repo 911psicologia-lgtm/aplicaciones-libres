@@ -63,7 +63,7 @@
           <div class="tool-grid primary-grid">
             <button class="tool-card featured" data-tool="scan">
               <span class="tool-icon">📷</span>
-              <span class="tool-text"><strong>Escanear</strong><small>Cámara → PDF / imagen</small></span>
+              <span class="tool-text"><strong>Escanear</strong><small>Foto completa + ajuste de 4 esquinas</small></span>
               <span class="arrow">→</span>
             </button>
             <button class="tool-card" data-tool="image-pdf">
@@ -227,25 +227,57 @@
   <div id="cameraModal" class="modal hidden" role="dialog" aria-modal="true" aria-labelledby="cameraTitle">
     <div class="camera-shell">
       <div class="camera-header">
-        <div><p class="eyebrow">CAPTURA MULTIPÁGINA</p><h2 id="cameraTitle">Escanear con cámara</h2></div>
-        <button id="closeCamera" class="round-btn" aria-label="Cerrar">×</button>
+        <div><p class="eyebrow" id="cameraEyebrow">CAPTURA MULTIPÁGINA</p><h2 id="cameraTitle">Escanear con cámara</h2></div>
+        <div class="camera-header-actions"><span id="cameraModeBadge" class="camera-mode-badge">Captura</span><button id="closeCamera" class="round-btn" aria-label="Cerrar">×</button></div>
       </div>
-      <div class="camera-stage">
-        <video id="cameraVideo" autoplay playsinline muted></video>
-        <canvas id="cameraCanvas" hidden></canvas>
-        <div class="document-guide"><span></span><span></span><span></span><span></span></div>
-        <div id="cameraStatus" class="camera-status">Preparando cámara…</div>
-      </div>
-      <div class="camera-controls">
-        <div class="camera-option">
-          <label class="toggle-row compact"><span><strong>Autoajuste</strong><small>Mejora brillo y contraste</small></span><input id="cameraAutoEnhance" type="checkbox" checked /><i></i></label>
+
+      <div id="cameraCaptureView">
+        <div class="camera-stage">
+          <video id="cameraVideo" autoplay playsinline muted></video>
+          <canvas id="cameraCanvas" hidden></canvas>
+          <div class="document-guide"><span></span><span></span><span></span><span></span></div>
+          <div class="camera-guide-note">La guía orienta, pero <strong>no recorta</strong>: se guarda la foto completa.</div>
+          <div id="cameraStatus" class="camera-status">Preparando cámara…</div>
         </div>
-        <button id="captureBtn" class="capture-btn" aria-label="Capturar"><span></span></button>
-        <button id="switchCameraBtn" class="camera-switch" title="Cambiar cámara">↻</button>
+        <div class="camera-controls">
+          <div class="camera-option">
+            <label class="toggle-row compact"><span><strong>Captura rápida</strong><small>Fotografía varias hojas y ajústalas después</small></span><input id="cameraQuickMode" type="checkbox" /><i></i></label>
+          </div>
+          <button id="captureBtn" class="capture-btn" aria-label="Capturar"><span></span></button>
+          <button id="switchCameraBtn" class="camera-switch" title="Cambiar cámara">↻</button>
+        </div>
+        <div id="captureStrip" class="capture-strip" aria-label="Páginas capturadas"></div>
+        <div class="camera-footer">
+          <div><strong id="captureCount">0 páginas</strong><small>Modo normal: después de cada foto puedes ajustar las cuatro esquinas.</small></div>
+          <button id="finishCamera" class="btn btn-primary">Listo</button>
+        </div>
       </div>
-      <div class="camera-footer">
-        <div><strong id="captureCount">0 páginas</strong><small>Puedes seguir capturando antes de cerrar</small></div>
-        <button id="finishCamera" class="btn btn-primary">Listo</button>
+
+      <div id="scanAdjustView" class="scan-adjust-view hidden">
+        <div class="scan-adjust-head">
+          <div><strong id="scanAdjustTitle">Ajustar página</strong><small>Arrastra los cuatro puntos hasta las esquinas reales del papel.</small></div>
+          <span id="scanAdjustStatus">Detectando bordes…</span>
+        </div>
+        <div class="scan-adjust-stage">
+          <canvas id="scanAdjustCanvas" aria-label="Editor de bordes del documento"></canvas>
+          <canvas id="scanMagnifier" class="scan-magnifier hidden" width="150" height="150" aria-hidden="true"></canvas>
+        </div>
+        <div class="scan-adjust-toolbar">
+          <div class="scan-adjust-actions">
+            <button id="autoEdgesBtn" class="scan-tool-btn" type="button">✨ Auto</button>
+            <button id="rotateScanBtn" class="scan-tool-btn" type="button">↻ Rotar</button>
+          </div>
+          <div id="scanFilterGroup" class="scan-filter-group" aria-label="Filtro del documento">
+            <button type="button" data-scan-filter="original">Original</button>
+            <button type="button" data-scan-filter="document" class="selected">Documento</button>
+            <button type="button" data-scan-filter="gray">Grises</button>
+            <button type="button" data-scan-filter="bw">B/N</button>
+          </div>
+        </div>
+        <div class="scan-adjust-footer">
+          <button id="retakeScanBtn" class="btn btn-ghost scan-dark-ghost" type="button">↶ Repetir foto</button>
+          <button id="confirmScanBtn" class="btn btn-primary" type="button">✓ Usar página</button>
+        </div>
       </div>
     </div>
   </div>
@@ -267,6 +299,7 @@
       <div class="file-preview"></div>
       <div class="file-meta"><strong class="file-name"></strong><span class="file-sub"></span><div class="file-tags"></div></div>
       <div class="file-actions">
+        <button class="small-btn adjust-file" title="Ajustar bordes">⌗</button>
         <button class="small-btn rotate-file" title="Rotar 90°">↻</button>
         <button class="small-btn duplicate-file" title="Duplicar">⧉</button>
         <button class="small-btn move-up" title="Subir">↑</button>

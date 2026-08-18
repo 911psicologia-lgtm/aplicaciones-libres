@@ -1,27 +1,59 @@
-# SUPER-SCANNER · v0.2
+# SUPER-SCANNER · v0.3
 
-Aplicación web responsive orientada a **GitHub → Cloudflare Pages**. No guarda proyectos: la sesión vive en memoria del navegador y el flujo es **cargar/capturar → organizar → crear → descargar**.
+Aplicación web responsive orientada a **GitHub → Cloudflare Pages**. No guarda proyectos: la sesión vive en memoria del navegador y el flujo es **cargar/capturar → ajustar/organizar → crear → descargar**.
 
-## Funciones operativas en v0.2
+## Novedad principal v0.3: cámara sin pérdida de contenido
+
+La cámara ya **no recorta automáticamente el centro del video**. Cada disparo conserva el encuadre completo y después permite ajustar la hoja mediante **cuatro esquinas móviles**.
+
+Flujo normal:
+
+1. Capturar foto completa.
+2. Detección aproximada de bordes.
+3. Ajuste manual de las cuatro esquinas mediante táctil o mouse.
+4. Lupa de precisión al mover una esquina.
+5. Corrección de perspectiva.
+6. Filtro: Original / Documento / Grises / B&N.
+7. Añadir la página a la sesión multiarchivo.
+
+La guía visible durante la cámara es únicamente una referencia: **no destruye ni descarta las zonas que quedan fuera del rectángulo**.
+
+### Captura rápida
+
+Existe un modo opcional **Captura rápida** para fotografiar varias hojas sin detenerse en cada ajuste. Las páginas se guardan completas y quedan marcadas con **⚠ Revisar bordes**. Después pueden ajustarse individualmente desde la tira de capturas o desde la lista de archivos.
+
+## Funciones operativas
 
 - Carga **multiarchivo** y arrastrar/soltar.
 - Cámara multipágina en móvil, tablet y PC.
+- Ajuste manual de cuatro esquinas y corrección de perspectiva.
+- Detección aproximada de bordes como punto de partida, siempre corregible manualmente.
+- Rotación dentro del editor de captura.
+- Filtros Original, Documento, Grises y Blanco/Negro.
 - Imagen → PDF.
 - PDF + imágenes + capturas → PDF mixto.
-- **Organizador por páginas:** al cargar un PDF se muestran sus páginas individualmente.
+- Organizador por páginas: al cargar un PDF se muestran sus páginas individualmente.
 - Reordenar, rotar, duplicar y eliminar páginas antes de crear el PDF final.
-- **Dividir / extraer PDF:** selección por rango (`1,3,5-8`), todas, pares o impares.
-- **Quitar contraseña de PDF con clave válida:** el usuario carga el PDF, escribe su contraseña y obtiene una copia nueva sin contraseña.
+- Dividir / extraer PDF por rango (`1,3,5-8`), todas, pares o impares.
+- Quitar contraseña de PDF con clave válida y generar una copia visual sin clave.
 - Salida JPG/PNG para imágenes y capturas.
 - PWA con manifest y service worker.
 
+## Importante sobre el autoajuste
+
+En v0.3 la detección automática es **una sugerencia**, no una promesa de recorte perfecto. Fondos blancos, sombras, documentos doblados o poco contraste pueden confundir cualquier detector. Por eso el mecanismo fiable es la combinación:
+
+**foto completa → sugerencia automática → corrección manual de cuatro puntos → perspectiva**.
+
+De esta manera, aunque el automático falle, el usuario conserva toda la fotografía y puede corregirla sin repetir la toma.
+
 ## Importante sobre “Quitar contraseña”
 
-La versión 0.2 funciona completamente en el navegador usando PDF.js para abrir el documento con la contraseña aportada por el usuario y reconstruye cada página dentro de un PDF nuevo sin cifrado. La contraseña **no se guarda**.
+La función usa la contraseña aportada por el usuario para abrir el documento y reconstruir una copia nueva sin cifrado. No intenta adivinar ni romper contraseñas. La contraseña no se guarda.
 
-Esta estrategia produce una copia visual/flattened de alta calidad. El texto del resultado puede dejar de ser seleccionable y algunos elementos interactivos (formularios, enlaces o firmas digitales) no se conservan. Una futura versión con backend `qpdf` permitirá una transformación estructural preservando el contenido cuando se necesite fidelidad total.
+La copia actual es visual/flattened: texto seleccionable, formularios, enlaces o firmas digitales pueden no conservarse. Una futura versión con backend `qpdf` permitirá transformación estructural.
 
-## Funciones que deliberadamente NO se muestran como operativas
+## Funciones todavía marcadas como Próximamente
 
 - Word / DOCX → PDF.
 - Excel / XLSX → PDF.
@@ -31,27 +63,18 @@ Esta estrategia produce una copia visual/flattened de alta calidad. El texto del
 - Firma y edición avanzada.
 - Compresión estructural profunda de PDF existente.
 
-Estas opciones aparecen como **Próximamente**, para evitar botones que aparenten funcionar sin tener todavía un motor real. La conversión Office fiel se recomienda mediante un backend (por ejemplo, LibreOffice en un servicio/Container).
-
-## Dependencias de navegador
-
-- `pdf-lib 1.17.1` desde cdnjs para crear y reorganizar PDF.
-- `PDF.js 6.2.108` desde jsDelivr para lectura, miniaturas, páginas y PDF con contraseña.
-
-Para producción se puede vendorizar ambas dependencias dentro del repositorio si se desea funcionamiento más independiente de CDN.
-
 ## Publicar en Cloudflare Pages desde GitHub
 
-1. Sube **todo el contenido de esta carpeta a la raíz** del repositorio de la app.
+1. Conserva la carpeta/ruta usada por el catálogo o sube su contenido a la raíz del repositorio correspondiente.
 2. En Cloudflare: **Workers & Pages → Create application → Pages → Import an existing Git repository**.
-3. Selecciona el repositorio y la rama `main`.
-4. Build command: `exit 0`.
-5. Publica el directorio raíz (donde está `index.html`).
-6. Cada push nuevo en GitHub desplegará la nueva versión.
+3. Selecciona la rama `main`.
+4. Si el repositorio es estático, build command: `exit 0`.
+5. Publica el directorio donde se encuentra `index.html`.
+6. Cada push nuevo despliega la nueva versión.
 
 ## Prueba local
 
-No abras `index.html` con doble clic. Usa un servidor local:
+No abras `index.html` con doble clic si quieres probar todas las APIs. Usa un servidor local:
 
 ```bash
 python -m http.server 8080
@@ -62,7 +85,7 @@ Luego abre `http://localhost:8080`.
 ## Estructura
 
 ```text
-super-scanner/
+Desk SACN super-scanner-prototype/
 ├─ index.html
 ├─ styles.css
 ├─ manifest.webmanifest
@@ -75,6 +98,7 @@ super-scanner/
 └─ js/
    ├─ app.js
    ├─ camera.js
+   ├─ scan-editor.js
    ├─ pdf-engine.js
    ├─ pdf-tools.js
    ├─ store.js

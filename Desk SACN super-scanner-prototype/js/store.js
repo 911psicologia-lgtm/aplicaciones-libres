@@ -49,6 +49,21 @@ export class SessionStore {
     this.items.splice(index + 1, 0, copy);
     this.emit();
   }
+
+  update(id, patch = {}) {
+    const item = this.items.find(i => i.id === id);
+    if (!item) return null;
+    const oldPreview = item.previewUrl;
+    Object.assign(item, patch);
+    if (patch.file && item.kind === 'image') {
+      if (oldPreview?.startsWith('blob:')) URL.revokeObjectURL(oldPreview);
+      item.previewUrl = URL.createObjectURL(patch.file);
+      item.size = patch.file.size || item.size || 0;
+      item.name = patch.file.name || item.name;
+    }
+    this.emit();
+    return item;
+  }
   clear() {
     this.items.forEach(i => { if (i.previewUrl?.startsWith('blob:')) URL.revokeObjectURL(i.previewUrl); });
     this.items = [];

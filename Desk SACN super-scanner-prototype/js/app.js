@@ -3,12 +3,13 @@ import { fileToItem, formatBytes, sanitizeFileName, downloadBlob, isPdf, isImage
 import { createMixedPdf, exportImages } from './pdf-engine.js';
 import { inspectPdfFile, pdfFileToPageItems, parsePageRange, unlockPdfByRendering } from './pdf-tools.js';
 import { CameraController } from './camera.js';
+import { ScanEditor } from './scan-editor.js';
 
 const $ = (sel, root = document) => root.querySelector(sel);
 const $$ = (sel, root = document) => [...root.querySelectorAll(sel)];
 
 const TOOL_CONFIG = {
-  scan: { icon: '📷', eyebrow: 'ESCÁNER MULTIPÁGINA', title: 'Escanear con cámara', hint: 'Captura una o varias páginas y combínalas en PDF o imágenes.', accept: 'image/*,.pdf' },
+  scan: { icon: '📷', eyebrow: 'ESCÁNER MULTIPÁGINA', title: 'Escanear con cámara', hint: 'Captura la foto completa, ajusta las 4 esquinas y crea PDF o imágenes sin perder texto.', accept: 'image/*,.pdf' },
   'image-pdf': { icon: '🖼️', eyebrow: 'CONVERSIÓN MULTIARCHIVO', title: 'Imagen a PDF', hint: 'JPG, PNG y WEBP. Selecciona muchas imágenes y ordénalas antes de crear.', accept: 'image/*,.jpg,.jpeg,.png,.webp' },
   merge: { icon: '🔗', eyebrow: 'PDF MIXTO', title: 'Unir y crear PDF mixto', hint: 'Mezcla PDF, imágenes y capturas nuevas en un único documento.', accept: '.pdf,image/*,.jpg,.jpeg,.png,.webp' },
   organize: { icon: '▦', eyebrow: 'ORGANIZADOR POR PÁGINAS', title: 'Organizar PDF y documentos', hint: 'Los PDF se abren por páginas para reordenar, rotar, duplicar o eliminar.', accept: '.pdf,image/*,.jpg,.jpeg,.png,.webp' },
@@ -24,12 +25,14 @@ const state = {
   cameraCaptures: 0,
   installPrompt: null,
   splashDone: false,
-  processingFiles: false
+  processingFiles: false,
+  adjustContext: null
 };
 
 const store = new SessionStore();
 const els = {};
 let camera;
+let scanEditor;
 
 function cacheEls() {
   Object.assign(els, {
@@ -44,11 +47,15 @@ function cacheEls() {
     outputFormatBlock: $('#outputFormatBlock'), pageSizeBlock: $('#pageSizeBlock'), adjustBlock: $('#adjustBlock'), splitOptions: $('#splitOptions'), unlockOptions: $('#unlockOptions'),
     pageRange: $('#pageRange'), pdfPassword: $('#pdfPassword'), togglePassword: $('#togglePassword'),
     cameraModal: $('#cameraModal'), cameraVideo: $('#cameraVideo'), cameraCanvas: $('#cameraCanvas'), cameraStatus: $('#cameraStatus'),
-    closeCamera: $('#closeCamera'), finishCamera: $('#finishCamera'), captureBtn: $('#captureBtn'), switchCameraBtn: $('#switchCameraBtn'), cameraAutoEnhance: $('#cameraAutoEnhance'), captureCount: $('#captureCount'),
+    cameraCaptureView: $('#cameraCaptureView'), cameraEyebrow: $('#cameraEyebrow'), cameraTitle: $('#cameraTitle'), cameraModeBadge: $('#cameraModeBadge'),
+    closeCamera: $('#closeCamera'), finishCamera: $('#finishCamera'), captureBtn: $('#captureBtn'), switchCameraBtn: $('#switchCameraBtn'), cameraQuickMode: $('#cameraQuickMode'), captureCount: $('#captureCount'), captureStrip: $('#captureStrip'),
+    scanAdjustView: $('#scanAdjustView'), scanAdjustCanvas: $('#scanAdjustCanvas'), scanMagnifier: $('#scanMagnifier'), scanAdjustStatus: $('#scanAdjustStatus'), scanAdjustTitle: $('#scanAdjustTitle'),
+    autoEdgesBtn: $('#autoEdgesBtn'), rotateScanBtn: $('#rotateScanBtn'), scanFilterGroup: $('#scanFilterGroup'), retakeScanBtn: $('#retakeScanBtn'), confirmScanBtn: $('#confirmScanBtn'),
     progressModal: $('#progressModal'), progressTitle: $('#progressTitle'), progressText: $('#progressText'), progressBar: $('#progressBar'),
     toast: $('#toast'), installBtn: $('#installBtn'), template: $('#fileCardTemplate')
   });
   camera = new CameraController({ video: els.cameraVideo, canvas: els.cameraCanvas, statusEl: els.cameraStatus });
+  scanEditor = new ScanEditor({ canvas: els.scanAdjustCanvas, magnifier: els.scanMagnifier, statusEl: els.scanAdjustStatus });
 }
 
 function completeSplash() {
@@ -299,8 +306,12 @@ function renderFiles(items) {
     if (item.pageCount && item.kind !== 'pdf-page') { const t = document.createElement('span'); t.className = 'file-tag'; t.textContent = `${item.pageCount} pág.`; tags.appendChild(t); }
     if (item.kind === 'pdf-page') { const t = document.createElement('span'); t.className = 'file-tag page'; t.textContent = `Pág. ${item.pageNumber}`; tags.appendChild(t); }
     if (item.source === 'camera') { const t = document.createElement('span'); t.className = 'file-tag camera'; t.textContent = 'Cámara'; tags.appendChild(t); }
+    if (item.needsReview) { const t = document.createElement('span'); t.className = 'file-tag review'; t.textContent = '⚠ Revisar bordes'; tags.appendChild(t); node.classList.add('needs-review'); }
     if (item.rotation) { const t = document.createElement('span'); t.className = 'file-tag'; t.textContent = `${item.rotation}°`; tags.appendChild(t); }
 
+    const adjustBtn = $('.adjust-file', node);
+    if (item.kind === 'image') adjustBtn.addEventListener('click', () => openImageAdjust(item));
+    else adjustBtn.classList.add('hidden');
     $('.remove-file', node).addEventListener('click', () => store.remove(item.id));
     $('.move-up', node).addEventListener('click', () => store.move(item.id, -1));
     $('.move-down', node).addEventListener('click', () => store.move(item.id, 1));
@@ -308,7 +319,7 @@ function renderFiles(items) {
     $('.duplicate-file', node).addEventListener('click', () => store.duplicate(item.id));
 
     if (state.currentTool === 'unlock') {
-      $$('.rotate-file,.duplicate-file,.move-up,.move-down', node).forEach(btn => btn.classList.add('hidden'));
+      $$('.adjust-file,.rotate-file,.duplicate-file,.move-up,.move-down', node).forEach(btn => btn.classList.add('hidden'));
     }
 
     node.addEventListener('dragstart', e => {
@@ -331,33 +342,172 @@ async function openCamera() {
     showToast('Esta herramienta trabaja con PDF cargados; la cámara no se usa en este modo.');
     return;
   }
+  state.adjustContext = null;
   els.cameraModal.classList.remove('hidden');
+  showCameraCaptureView();
   state.cameraCaptures = 0;
   updateCaptureCount();
+  renderCaptureStrip();
   try { await camera.open(); }
   catch (error) { showToast(error.message || 'No se pudo abrir la cámara.'); }
 }
 
+function showCameraCaptureView() {
+  els.cameraCaptureView.classList.remove('hidden');
+  els.scanAdjustView.classList.add('hidden');
+  els.cameraEyebrow.textContent = 'CAPTURA MULTIPÁGINA';
+  els.cameraTitle.textContent = 'Escanear con cámara';
+  els.cameraModeBadge.textContent = 'Captura';
+  state.adjustContext = null;
+  if (camera.stream) els.cameraVideo.play().catch(() => {});
+}
+
+async function showScanAdjustView(file, context) {
+  state.adjustContext = context;
+  els.cameraModal.classList.remove('hidden');
+  els.cameraCaptureView.classList.add('hidden');
+  els.scanAdjustView.classList.remove('hidden');
+  els.cameraEyebrow.textContent = context.type === 'item' ? 'REVISIÓN DE PÁGINA' : 'AJUSTE DESPUÉS DE CAPTURA';
+  els.cameraTitle.textContent = 'Ajustar escaneo';
+  els.cameraModeBadge.textContent = '4 esquinas';
+  els.scanAdjustTitle.textContent = context.type === 'item' ? 'Reajustar página' : 'Ajustar página capturada';
+  els.retakeScanBtn.textContent = context.type === 'item' ? '← Cancelar' : '↶ Repetir foto';
+  $$('[data-scan-filter]').forEach(btn => btn.classList.toggle('selected', btn.dataset.scanFilter === 'document'));
+  scanEditor.setFilter('document');
+  if (context.returnTo === 'camera') els.cameraVideo.pause?.();
+  try { await scanEditor.load(file); }
+  catch (error) {
+    showToast(error.message || 'No se pudo abrir la foto para ajustarla.');
+    if (context.returnTo === 'camera') showCameraCaptureView();
+    else await closeCamera();
+  }
+}
+
 async function closeCamera() {
+  scanEditor.destroy();
+  state.adjustContext = null;
   await camera.stop();
   els.cameraModal.classList.add('hidden');
+  els.scanAdjustView.classList.add('hidden');
+  els.cameraCaptureView.classList.remove('hidden');
 }
 
 function updateCaptureCount() {
   els.captureCount.textContent = `${state.cameraCaptures} ${state.cameraCaptures === 1 ? 'página' : 'páginas'}`;
 }
 
+function cameraItems() { return store.items.filter(item => item.source === 'camera' && item.kind === 'image'); }
+
+function renderCaptureStrip() {
+  if (!els.captureStrip) return;
+  els.captureStrip.innerHTML = '';
+  const items = cameraItems().slice(-10);
+  if (!items.length) { els.captureStrip.classList.add('hidden'); return; }
+  els.captureStrip.classList.remove('hidden');
+  items.forEach((item, idx) => {
+    const btn = document.createElement('button');
+    btn.type = 'button';
+    btn.className = `capture-thumb${item.needsReview ? ' needs-review' : ''}`;
+    btn.title = item.needsReview ? 'Esta página necesita revisar bordes' : 'Revisar esta página';
+    if (item.previewUrl) {
+      const img = new Image(); img.src = item.previewUrl; img.alt = ''; btn.appendChild(img);
+    }
+    const badge = document.createElement('span'); badge.textContent = item.needsReview ? '!' : String(Math.max(1, cameraItems().indexOf(item) + 1)); btn.appendChild(badge);
+    btn.addEventListener('click', () => openImageAdjust(item, { returnTo: 'camera' }));
+    els.captureStrip.appendChild(btn);
+  });
+}
+
 async function capturePage() {
   try {
     els.captureBtn.disabled = true;
-    const file = await camera.capture({ autoEnhance: els.cameraAutoEnhance.checked });
-    const item = await fileToItem(file, 'camera');
-    store.add(item);
-    state.cameraCaptures += 1;
-    updateCaptureCount();
-    if (navigator.vibrate) navigator.vibrate(40);
+    const rawFile = await camera.captureRaw();
+    if (navigator.vibrate) navigator.vibrate(35);
+
+    if (els.cameraQuickMode.checked) {
+      const item = await fileToItem(rawFile, 'camera');
+      item.originalFile = rawFile;
+      item.needsReview = true;
+      store.add(item);
+      state.cameraCaptures += 1;
+      updateCaptureCount();
+      renderCaptureStrip();
+      camera.setStatus('Página guardada completa. Queda marcada para revisar bordes.');
+      return;
+    }
+
+    await showScanAdjustView(rawFile, { type: 'capture', returnTo: 'camera', rawFile });
   } catch (error) { showToast(error.message || 'No se pudo capturar la página.'); }
   finally { els.captureBtn.disabled = false; }
+}
+
+async function openImageAdjust(item, { returnTo = 'workspace' } = {}) {
+  if (!item || item.kind !== 'image') return;
+  const sourceFile = item.needsReview && item.originalFile ? item.originalFile : item.file;
+  if (returnTo === 'workspace') {
+    await camera.stop();
+    els.cameraModal.classList.remove('hidden');
+  }
+  await showScanAdjustView(sourceFile, { type: 'item', itemId: item.id, returnTo, rawFile: sourceFile });
+}
+
+async function confirmScanAdjustment() {
+  const context = state.adjustContext;
+  if (!context) return;
+  try {
+    els.confirmScanBtn.disabled = true;
+    els.retakeScanBtn.disabled = true;
+    const adjusted = await scanEditor.process({
+      fileName: context.type === 'item' ? `scan-ajustado-${Date.now()}.jpg` : `scan-${new Date().toISOString().replace(/[:.]/g, '-')}.jpg`
+    });
+    if (context.type === 'capture') {
+      const item = await fileToItem(adjusted, 'camera');
+      item.originalFile = adjusted;
+      item.needsReview = false;
+      store.add(item);
+      state.cameraCaptures += 1;
+      updateCaptureCount();
+      renderCaptureStrip();
+      if (navigator.vibrate) navigator.vibrate(45);
+    } else {
+      store.update(context.itemId, { file: adjusted, originalFile: adjusted, needsReview: false, rotation: 0 });
+      renderCaptureStrip();
+    }
+
+    if (context.returnTo === 'camera') {
+      scanEditor.destroy();
+      showCameraCaptureView();
+      camera.setStatus('Página lista. Puedes capturar otra.');
+    } else {
+      scanEditor.destroy();
+      state.adjustContext = null;
+      els.cameraModal.classList.add('hidden');
+      els.scanAdjustView.classList.add('hidden');
+      els.cameraCaptureView.classList.remove('hidden');
+      showToast('Página ajustada y corregida.');
+    }
+  } catch (error) {
+    console.error(error);
+    showToast(error.message || 'No se pudo corregir la perspectiva.');
+  } finally {
+    els.confirmScanBtn.disabled = false;
+    els.retakeScanBtn.disabled = false;
+  }
+}
+
+async function cancelScanAdjustment() {
+  const context = state.adjustContext;
+  if (!context) return;
+  scanEditor.destroy();
+  if (context.returnTo === 'camera') {
+    showCameraCaptureView();
+    camera.setStatus(context.type === 'capture' ? 'Repite la fotografía cuando estés listo.' : 'Continúa capturando.');
+  } else {
+    state.adjustContext = null;
+    els.cameraModal.classList.add('hidden');
+    els.scanAdjustView.classList.add('hidden');
+    els.cameraCaptureView.classList.remove('hidden');
+  }
 }
 
 function setProgress(percent, text) {
@@ -499,6 +649,19 @@ function bindEvents() {
   els.switchCameraBtn.addEventListener('click', async () => {
     try { await camera.switchCamera(); } catch (error) { showToast(error.message || 'No se pudo cambiar la cámara.'); }
   });
+  els.cameraQuickMode.addEventListener('change', () => {
+    camera.setStatus(els.cameraQuickMode.checked
+      ? 'Captura rápida activa: las fotos completas quedarán marcadas para revisar.'
+      : 'Modo normal: después de disparar ajustarás las cuatro esquinas.');
+  });
+  els.autoEdgesBtn.addEventListener('click', () => scanEditor.autoDetect().catch(error => showToast(error.message || 'No se pudieron detectar los bordes.')));
+  els.rotateScanBtn.addEventListener('click', () => scanEditor.rotate90().catch(error => showToast(error.message || 'No se pudo rotar la página.')));
+  $$('[data-scan-filter]').forEach(btn => btn.addEventListener('click', () => {
+    $$('[data-scan-filter]').forEach(b => b.classList.toggle('selected', b === btn));
+    scanEditor.setFilter(btn.dataset.scanFilter);
+  }));
+  els.retakeScanBtn.addEventListener('click', cancelScanAdjustment);
+  els.confirmScanBtn.addEventListener('click', confirmScanAdjustment);
   els.cameraModal.addEventListener('click', e => { if (e.target === els.cameraModal) closeCamera(); });
   els.exportBtn.addEventListener('click', exportCurrent);
 
@@ -522,8 +685,9 @@ function registerPwa() {
 function init() {
   cacheEls();
   bindEvents();
-  store.subscribe(renderFiles);
+  store.subscribe(items => { renderFiles(items); renderCaptureStrip(); });
   renderFiles(store.items);
+  renderCaptureStrip();
   registerPwa();
   setTimeout(completeSplash, 1900);
 }

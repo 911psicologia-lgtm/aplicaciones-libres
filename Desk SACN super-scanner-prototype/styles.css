@@ -363,3 +363,103 @@ button:focus-visible, input:focus-visible { outline: 3px solid rgba(215,38,85,.2
   .quick-range { grid-template-columns: 1fr; }
   .file-card.page-card { min-height: 86px; }
 }
+
+/* ===== SUPER-SCANNER v0.3 · cámara con ajuste manual de 4 esquinas ===== */
+.camera-stage video { object-fit: contain; background: #050608; }
+.camera-header-actions { display: flex; align-items: center; gap: 10px; }
+.camera-mode-badge {
+  display: inline-flex; align-items: center; min-height: 28px; padding: 0 10px;
+  border: 1px solid rgba(255,255,255,.13); border-radius: 999px;
+  background: rgba(255,255,255,.08); color: #dfe4ef; font-size: 10px; font-weight: 900;
+  text-transform: uppercase; letter-spacing: .08em;
+}
+.camera-guide-note {
+  position: absolute; top: 12px; left: 50%; transform: translateX(-50%); z-index: 3;
+  max-width: calc(100% - 34px); padding: 7px 11px; border-radius: 999px;
+  background: rgba(0,0,0,.58); color: #dfe4ef; font-size: 10px; text-align: center; white-space: nowrap;
+  backdrop-filter: blur(8px);
+}
+.capture-strip {
+  display: flex; gap: 8px; overflow-x: auto; padding: 4px 20px 12px; scrollbar-width: thin;
+  border-top: 1px solid rgba(255,255,255,.06);
+}
+.capture-thumb {
+  position: relative; flex: 0 0 62px; width: 62px; height: 72px; overflow: hidden;
+  border: 2px solid rgba(255,255,255,.15); border-radius: 11px; padding: 0; background: #20232d; cursor: pointer;
+}
+.capture-thumb img { width: 100%; height: 100%; object-fit: cover; display: block; }
+.capture-thumb span {
+  position: absolute; right: 4px; bottom: 4px; width: 20px; height: 20px; display: grid; place-items: center;
+  border-radius: 50%; background: rgba(15,17,23,.82); color: #fff; font-size: 10px; font-weight: 950;
+}
+.capture-thumb.needs-review { border-color: #f2b544; box-shadow: 0 0 0 2px rgba(242,181,68,.12); }
+.capture-thumb.needs-review span { background: #f2b544; color: #17191f; }
+.file-card.needs-review { border-color: #efd28f; background: linear-gradient(180deg,#fff,#fffaf0); }
+.file-tag.review { color: #8a5b00; background: #fff5d7; border-color: #f0d996; }
+
+.scan-adjust-view { min-height: 620px; }
+.scan-adjust-head {
+  display: flex; align-items: flex-start; justify-content: space-between; gap: 16px;
+  padding: 0 20px 12px; color: #fff;
+}
+.scan-adjust-head > div { display: grid; gap: 3px; }
+.scan-adjust-head strong { font-size: 15px; }
+.scan-adjust-head small { color: #aeb4c2; line-height: 1.35; }
+.scan-adjust-head > span {
+  max-width: 46%; padding: 7px 10px; border-radius: 10px; background: rgba(255,255,255,.07);
+  color: #cdd3df; font-size: 10px; line-height: 1.3; text-align: right;
+}
+.scan-adjust-stage {
+  position: relative; min-height: 360px; margin: 0 18px; border-radius: 18px; overflow: hidden;
+  display: grid; place-items: center; background: #050608; border: 1px solid rgba(255,255,255,.08);
+}
+.scan-adjust-stage > canvas#scanAdjustCanvas {
+  display: block; max-width: 100%; max-height: 62svh; width: auto; height: auto; touch-action: none; cursor: crosshair;
+}
+.scan-magnifier {
+  position: absolute; left: 50%; top: 14px; transform: translateX(-50%); width: 112px; height: 112px;
+  border-radius: 50%; border: 4px solid #fff; box-shadow: 0 12px 32px rgba(0,0,0,.45); pointer-events: none;
+}
+.scan-adjust-toolbar {
+  padding: 14px 20px 12px; display: flex; align-items: center; justify-content: space-between; gap: 12px; flex-wrap: wrap;
+}
+.scan-adjust-actions { display: flex; gap: 8px; }
+.scan-tool-btn {
+  min-height: 38px; padding: 0 12px; border-radius: 999px; border: 1px solid rgba(255,255,255,.13);
+  background: rgba(255,255,255,.08); color: #fff; font: inherit; font-size: 11px; font-weight: 850; cursor: pointer;
+}
+.scan-tool-btn:hover { background: rgba(255,255,255,.14); }
+.scan-filter-group {
+  display: grid; grid-template-columns: repeat(4,minmax(66px,1fr)); gap: 5px; padding: 4px;
+  border-radius: 13px; background: rgba(255,255,255,.07); border: 1px solid rgba(255,255,255,.08);
+}
+.scan-filter-group button {
+  min-height: 34px; border: 0; border-radius: 9px; padding: 0 9px; background: transparent; color: #b7bdc9;
+  font: inherit; font-size: 10px; font-weight: 850; cursor: pointer;
+}
+.scan-filter-group button.selected { background: #fff; color: #161820; }
+.scan-adjust-footer {
+  display: flex; align-items: center; justify-content: space-between; gap: 12px;
+  padding: 14px 20px max(18px, env(safe-area-inset-bottom)); border-top: 1px solid rgba(255,255,255,.08);
+}
+.scan-dark-ghost { color: #fff; border-color: rgba(255,255,255,.18); background: rgba(255,255,255,.06); }
+.scan-dark-ghost:hover { background: rgba(255,255,255,.12); }
+.scan-adjust-footer .btn { min-width: 150px; }
+
+@media (max-width: 600px) {
+  .camera-guide-note { top: 10px; max-width: calc(100% - 20px); font-size: 9px; white-space: normal; }
+  .camera-mode-badge { display: none; }
+  .capture-strip { padding-inline: 12px; }
+  .scan-adjust-view { min-height: auto; flex: 1; display: flex; flex-direction: column; }
+  .scan-adjust-head { padding: 0 12px 10px; }
+  .scan-adjust-head > span { display: none; }
+  .scan-adjust-stage { margin: 0; border-radius: 0; min-height: 0; flex: 1; max-height: 58svh; }
+  .scan-adjust-stage > canvas#scanAdjustCanvas { max-height: 58svh; max-width: 100%; }
+  .scan-magnifier { width: 94px; height: 94px; top: 10px; }
+  .scan-adjust-toolbar { padding: 10px 12px; display: grid; gap: 9px; }
+  .scan-adjust-actions { justify-content: center; }
+  .scan-filter-group { width: 100%; }
+  .scan-filter-group button { padding: 0 5px; }
+  .scan-adjust-footer { padding-inline: 12px; }
+  .scan-adjust-footer .btn { flex: 1; min-width: 0; }
+}

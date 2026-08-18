@@ -22,7 +22,7 @@ export class CameraController {
       });
       this.video.srcObject = this.stream;
       await this.video.play();
-      this.setStatus('Alinea el documento dentro de la guía');
+      this.setStatus('La guía orienta: se capturará la foto completa y podrás ajustar después.');
       return true;
     } catch (error) {
       this.setStatus('No se pudo abrir la cámara');
@@ -47,34 +47,35 @@ export class CameraController {
 
   setStatus(text) { if (this.statusEl) this.statusEl.textContent = text; }
 
-  async capture({ autoEnhance = true } = {}) {
+  async captureRaw() {
     const videoW = this.video.videoWidth;
     const videoH = this.video.videoHeight;
     if (!videoW || !videoH) throw new Error('La cámara todavía no está lista.');
 
-    // Usa el área central de la guía como recorte inicial. Es un autoencuadre simple
-    // y estable para el prototipo; la corrección de cuatro esquinas se incorpora en la siguiente fase.
-    const cropX = Math.round(videoW * 0.08);
-    const cropY = Math.round(videoH * 0.08);
-    const cropW = Math.round(videoW * 0.84);
-    const cropH = Math.round(videoH * 0.84);
-
-    const maxLongSide = 2200;
-    const scale = Math.min(1, maxLongSide / Math.max(cropW, cropH));
-    this.canvas.width = Math.round(cropW * scale);
-    this.canvas.height = Math.round(cropH * scale);
-    const ctx = this.canvas.getContext('2d', { alpha: false, willReadFrequently: autoEnhance });
+    // v0.3: se conserva el encuadre COMPLETO de la cámara. La guía en pantalla
+    // es solo una referencia; el recorte definitivo se hace después de disparar.
+    // Así nunca se pierde texto por quedar fuera del rectángulo visual.
+    const maxLongSide = 2600;
+    const scale = Math.min(1, maxLongSide / Math.max(videoW, videoH));
+    this.canvas.width = Math.max(1, Math.round(videoW * scale));
+    this.canvas.height = Math.max(1, Math.round(videoH * scale));
+    const ctx = this.canvas.getContext('2d', { alpha: false });
     ctx.fillStyle = '#fff';
     ctx.fillRect(0, 0, this.canvas.width, this.canvas.height);
-    ctx.drawImage(this.video, cropX, cropY, cropW, cropH, 0, 0, this.canvas.width, this.canvas.height);
+    ctx.drawImage(this.video, 0, 0, videoW, videoH, 0, 0, this.canvas.width, this.canvas.height);
 
-    if (autoEnhance) this.enhance(ctx, this.canvas.width, this.canvas.height);
-
-    const blob = await new Promise((resolve, reject) => this.canvas.toBlob(b => b ? resolve(b) : reject(new Error('No se pudo capturar la página.')), 'image/jpeg', 0.92));
-    const file = new File([blob], `scan-${new Date().toISOString().replace(/[:.]/g, '-')}.jpg`, { type: 'image/jpeg' });
-    this.setStatus('Página capturada. Puedes añadir otra.');
+    const blob = await new Promise((resolve, reject) => this.canvas.toBlob(
+      b => b ? resolve(b) : reject(new Error('No se pudo capturar la página.')),
+      'image/jpeg',
+      0.95
+    ));
+    const file = new File([blob], `scan-original-${new Date().toISOString().replace(/[:.]/g, '-')}.jpg`, { type: 'image/jpeg' });
+    this.setStatus('Foto completa capturada. Ajusta las cuatro esquinas.');
     return file;
   }
+
+  // Compatibilidad con llamadas antiguas: ya no recorta la zona central.
+  async capture() { return this.captureRaw(); }
 
   enhance(ctx, width, height) {
     // Mejora local ligera: expansión de contraste y leve aclarado, evitando un filtro agresivo.
