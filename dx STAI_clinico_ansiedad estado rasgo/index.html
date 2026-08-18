@@ -1,0 +1,119 @@
+<!doctype html>
+<html lang="es">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <meta name="theme-color" content="#3d5a80">
+  <meta name="description" content="Aplicación local para aplicación, corrección y contextualización clínica del STAI con apoyo opcional de IA.">
+  <link rel="manifest" href="./manifest.webmanifest">
+  <link rel="icon" href="./assets/img/logo.svg" type="image/svg+xml">
+  <link rel="stylesheet" href="./assets/css/styles.css">
+  <title>STAI Clínico · Evaluación y contextualización IA</title>
+</head>
+<body>
+<div class="app-shell">
+  <header class="topbar">
+    <div class="brand"><img src="./assets/img/logo.svg" alt=""><div><h1>STAI Clínico</h1><p>Estado · Rasgo · Contextualización IA · Informe HTML</p></div></div>
+    <div class="privacy-badge">Procesamiento local</div>
+  </header>
+
+  <main class="wizard">
+    <div class="progress-wrap"><div class="progress-line"><i id="progressFill"></i></div></div>
+    <nav class="steps" aria-label="Progreso">
+      <div class="step-chip active">1 · Datos</div>
+      <div class="step-chip">2 · Estado</div>
+      <div class="step-chip">3 · Rasgo</div>
+      <div class="step-chip">4 · IA</div>
+      <div class="step-chip">5 · Informe</div>
+    </nav>
+
+    <form onsubmit="return false">
+      <section class="screen active" data-screen="1">
+        <div class="eyebrow">Paso 1 de 5</div>
+        <h2>Datos del protocolo</h2>
+        <p class="lead">Registra solo lo necesario. La aplicación calcula y organiza el protocolo en este dispositivo. La historia clínica no se solicita aquí: podrá añadirse más adelante, únicamente si deseas contextualizar el informe con una IA externa.</p>
+        <div class="grid">
+          <div class="field span6"><label for="patientName">Nombre completo <span class="tiny">(opcional)</span></label><input id="patientName" autocomplete="off"></div>
+          <div class="field span6"><label for="patientCode">Código / historia</label><input id="patientCode" autocomplete="off"></div>
+          <div class="field span4"><label for="birthDate">Fecha de nacimiento</label><input id="birthDate" type="date"></div>
+          <div class="field span4"><label for="agePreview">Edad calculada</label><input id="agePreview" readonly placeholder="—"></div>
+          <div class="field span4"><label for="sex">Sexo para baremación</label><select id="sex"><option value="">Seleccionar</option><option>Varón</option><option>Mujer</option></select></div>
+          <div class="field span4"><label for="gender">Identidad de género <span class="tiny">(opcional)</span></label><input id="gender"></div>
+          <div class="field span4"><label for="normGroup">Grupo normativo</label><select id="normGroup"><option value="">Seleccionar</option><option>Adulto/a</option><option>Adolescente</option></select></div>
+          <div class="field span4"><label for="country">País / región</label><input id="country" value="Colombia"></div>
+          <div class="field span6"><label for="education">Escolaridad</label><input id="education"></div>
+          <div class="field span6"><label for="occupation">Ocupación</label><input id="occupation"></div>
+          <div class="field span4"><label for="applicationDate">Fecha de aplicación</label><input id="applicationDate" type="date"></div>
+          <div class="field span4"><label for="applicationTime">Hora</label><input id="applicationTime" type="time"></div>
+          <div class="field span4"><label for="modality">Modalidad</label><select id="modality"><option>Individual presencial</option><option>Individual remota</option><option>Autoaplicada supervisada</option><option>Otra</option></select></div>
+          <div class="field span6"><label for="evaluator">Evaluador/a</label><input id="evaluator"></div>
+          <div class="field span6"><label for="context">Motivo o contexto de evaluación</label><input id="context"></div>
+          <div class="field span12"><label for="observations">Observaciones relevantes</label><textarea id="observations" placeholder="Opcional. No pegues todavía la historia clínica extensa."></textarea></div>
+        </div>
+        <div class="nav"><div></div><div class="nav-right"><button class="btn btn-primary" id="toState" type="button">Comenzar Ansiedad-Estado</button></div></div>
+      </section>
+
+      <section class="screen" data-screen="2">
+        <div class="eyebrow">Paso 2 de 5 · Ansiedad-Estado</div>
+        <h2>¿Cómo se siente ahora mismo?</h2>
+        <p class="lead">Seleccione la opción que mejor describa su situación presente. No hay respuestas buenas ni malas.</p>
+        <div class="micro-progress"><b id="statePageLabel"></b><div class="micro-bar"><i id="stateMicroFill"></i></div></div>
+        <div id="stateQuestions"></div>
+        <div class="nav"><button class="btn btn-ghost" id="backData" type="button">Datos</button><div class="nav-right"><button class="btn btn-secondary" id="statePrev" type="button">Bloque anterior</button><button class="btn btn-primary" id="stateNext" type="button">Siguiente bloque</button></div></div>
+      </section>
+
+      <section class="screen" data-screen="3">
+        <div class="eyebrow">Paso 3 de 5 · Ansiedad-Rasgo</div>
+        <h2>¿Cómo se siente en general?</h2>
+        <p class="lead">Seleccione la opción que mejor describa cómo suele sentirse en la mayoría de las ocasiones.</p>
+        <div class="micro-progress"><b id="traitPageLabel"></b><div class="micro-bar"><i id="traitMicroFill"></i></div></div>
+        <div id="traitQuestions"></div>
+        <div class="nav"><button class="btn btn-ghost" id="backState" type="button">Ansiedad-Estado</button><div class="nav-right"><button class="btn btn-secondary" id="traitPrev" type="button">Bloque anterior</button><button class="btn btn-primary" id="traitNext" type="button">Siguiente bloque</button></div></div>
+      </section>
+
+      <section class="screen" data-screen="4">
+        <div class="eyebrow">Paso 4 de 5</div>
+        <h2>Resultados base + contextualización IA</h2>
+        <p class="lead">Primero se conserva el resultado psicométrico. Luego, de manera opcional, puedes aportar historia clínica o notas para que una IA proponga una lectura multicausal e interrelacionada. El prompt se copia directamente y no se muestra en pantalla.</p>
+        <div class="summary-grid">
+          <div class="score-card"><div class="value"><span id="stateScore">—</span><small>/60</small></div><b>Ansiedad-Estado</b><div class="meter"><i id="stateMeter"></i></div><p id="stateBand"></p></div>
+          <div class="score-card"><div class="value"><span id="traitScore">—</span><small>/60</small></div><b>Ansiedad-Rasgo</b><div class="meter"><i id="traitMeter"></i></div><p id="traitBand"></p></div>
+        </div>
+        <div class="callout" id="profileText"></div>
+
+        <div class="grid" style="margin-top:18px">
+          <div class="field span6"><label for="stateDecatype">Decatipo Ansiedad-Estado <span class="tiny">(opcional, manual autorizado)</span></label><input id="stateDecatype" type="number" min="1" max="10" step="1" placeholder="1–10"></div>
+          <div class="field span6"><label for="traitDecatype">Decatipo Ansiedad-Rasgo <span class="tiny">(opcional, manual autorizado)</span></label><input id="traitDecatype" type="number" min="1" max="10" step="1" placeholder="1–10"></div>
+          <div class="field span12"><label for="clinicalHistory">Historia clínica / notas para contextualizar <span class="tiny">(opcional)</span></label><textarea id="clinicalHistory" placeholder="Pega aquí antecedentes, notas de sesión, motivo de consulta, eventos relevantes, observaciones, etc. Si lo dejas vacío, la IA trabajará solo con los datos STAI y el contexto básico."></textarea><small>Este texto no se envía automáticamente. Solo se incorpora al contenido que tú copies y pegues en la IA externa elegida.</small></div>
+          <div class="span12 softbox">
+            <label class="checkrow"><input id="includeIdentifiers" type="checkbox"><span><b>Incluir nombre en el prompt de IA</b><br><span class="tiny">Por defecto se omite el nombre y se prioriza el código. Actívalo solo si es necesario.</span></span></label>
+            <button class="btn btn-primary" id="aiGenerate" type="button">Generar y copiar prompt clínico</button>
+            <div class="copy-state callout success" id="copyState"><b>Prompt copiado.</b> Abre una de las IA, pega el contenido, espera la respuesta y vuelve aquí. La aplicación no mostrará ni enviará el prompt por sí sola.</div>
+            <div class="ai-buttons" id="aiButtons"></div>
+          </div>
+          <div class="field span12"><label for="aiResponse">Pega aquí la respuesta JSON de la IA</label><textarea class="jsonbox" id="aiResponse" spellcheck="false" placeholder='{ "version": "STAI-IA-1.0", ... }'></textarea><div class="status" id="jsonStatus"></div></div>
+        </div>
+        <div class="nav"><button class="btn btn-ghost" id="backTrait" type="button">Ansiedad-Rasgo</button><div class="nav-right"><button class="btn btn-secondary" id="validateJson" type="button">Validar JSON</button><button class="btn btn-ghost" id="skipAi" type="button">Continuar sin IA</button><button class="btn btn-primary" id="goFinalWithAi" type="button" disabled>Continuar con IA</button></div></div>
+      </section>
+
+      <section class="screen" data-screen="5">
+        <div class="eyebrow">Paso 5 de 5</div>
+        <h2>Informe listo para generar</h2>
+        <p class="lead">Se descargará como un archivo HTML autónomo, visual e interactivo. Puede abrirse en cualquier navegador, imprimirse o guardarse como PDF.</p>
+        <div class="report-actions">
+          <div class="action-card"><h3 id="finalPatient">Persona evaluada</h3><p id="finalScores">A/E — · A/R —</p><div class="callout" id="finalAi"></div></div>
+          <div class="action-card"><h3>Contenido del informe</h3><p>Resultados STAI, lectura integrada, relaciones contextuales, cuadros, factores, hipótesis contrastables y —si la IA aportó dimensiones suficientes— gráfico radial y red de relaciones.</p><button class="btn btn-primary" id="downloadReport" type="button">Generar y descargar informe HTML</button></div>
+        </div>
+        <div class="nav"><button class="btn btn-ghost" id="backAi" type="button">Volver a contextualización</button><div class="nav-right"><button class="btn btn-secondary" id="previewReport" type="button">Vista previa</button><button class="btn btn-danger" id="resetAll" type="button">Nuevo protocolo</button></div></div>
+      </section>
+    </form>
+  </main>
+  <div class="footer-note">Aplicación estática para uso profesional. Los datos permanecen en el navegador salvo cuando el usuario decide copiarlos a una IA externa.</div>
+</div>
+<div class="toast" id="toast" role="status" aria-live="polite"></div>
+<script defer src="./assets/js/stai-data.js"></script>
+<script defer src="./assets/js/scoring.js"></script>
+<script defer src="./assets/js/report.js"></script>
+<script defer src="./assets/js/app.js"></script>
+</body>
+</html>

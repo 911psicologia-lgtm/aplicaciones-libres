@@ -1,0 +1,12 @@
+{
+  "name": "STAI Clínico",
+  "short_name": "STAI Clínico",
+  "start_url": "./index.html",
+  "display": "standalone",
+  "background_color": "#eef3f8",
+  "theme_color": "#3d5a80",
+  "description": "Aplicación local para STAI, contextualización clínica opcional con IA e informe HTML.",
+  "icons": [
+    {"src":"./assets/img/logo.svg","sizes":"any","type":"image/svg+xml","purpose":"any maskable"}
+  ]
+}
