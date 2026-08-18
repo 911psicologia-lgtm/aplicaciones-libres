@@ -46,7 +46,7 @@ function cacheEls() {
     exportBtn: $('#exportBtn'), exportLabel: $('#exportLabel'), panelNote: $('#panelNote'), panel: $('#workspacePanel'), mobilePanelToggle: $('#mobilePanelToggle'),
     outputFormatBlock: $('#outputFormatBlock'), pageSizeBlock: $('#pageSizeBlock'), adjustBlock: $('#adjustBlock'), splitOptions: $('#splitOptions'), unlockOptions: $('#unlockOptions'),
     pageRange: $('#pageRange'), pdfPassword: $('#pdfPassword'), togglePassword: $('#togglePassword'),
-    cameraModal: $('#cameraModal'), cameraVideo: $('#cameraVideo'), cameraCanvas: $('#cameraCanvas'), cameraStatus: $('#cameraStatus'),
+    cameraModal: $('#cameraModal'), cameraStage: $('#cameraStage'), cameraVideo: $('#cameraVideo'), cameraCanvas: $('#cameraCanvas'), cameraStatus: $('#cameraStatus'),
     cameraCaptureView: $('#cameraCaptureView'), cameraEyebrow: $('#cameraEyebrow'), cameraTitle: $('#cameraTitle'), cameraModeBadge: $('#cameraModeBadge'),
     closeCamera: $('#closeCamera'), finishCamera: $('#finishCamera'), captureBtn: $('#captureBtn'), switchCameraBtn: $('#switchCameraBtn'), cameraQuickMode: $('#cameraQuickMode'), captureCount: $('#captureCount'), captureStrip: $('#captureStrip'),
     scanAdjustView: $('#scanAdjustView'), scanAdjustCanvas: $('#scanAdjustCanvas'), scanMagnifier: $('#scanMagnifier'), scanAdjustStatus: $('#scanAdjustStatus'), scanAdjustTitle: $('#scanAdjustTitle'),
@@ -54,7 +54,7 @@ function cacheEls() {
     progressModal: $('#progressModal'), progressTitle: $('#progressTitle'), progressText: $('#progressText'), progressBar: $('#progressBar'),
     toast: $('#toast'), installBtn: $('#installBtn'), template: $('#fileCardTemplate')
   });
-  camera = new CameraController({ video: els.cameraVideo, canvas: els.cameraCanvas, statusEl: els.cameraStatus });
+  camera = new CameraController({ video: els.cameraVideo, canvas: els.cameraCanvas, statusEl: els.cameraStatus, stage: els.cameraStage });
   scanEditor = new ScanEditor({ canvas: els.scanAdjustCanvas, magnifier: els.scanMagnifier, statusEl: els.scanAdjustStatus });
 }
 
@@ -359,7 +359,7 @@ function showCameraCaptureView() {
   els.cameraTitle.textContent = 'Escanear con cámara';
   els.cameraModeBadge.textContent = 'Captura';
   state.adjustContext = null;
-  if (camera.stream) els.cameraVideo.play().catch(() => {});
+  if (camera.stream) els.cameraVideo.play().then(() => camera.syncPreviewGeometry()).catch(() => {});
 }
 
 async function showScanAdjustView(file, context) {

@@ -1,7 +1,7 @@
 {
   "name": "SUPER-SCANNER",
   "short_name": "SUPER-SCANNER",
-  "description": "Escanea con ajuste de cuatro esquinas, organiza, combina y convierte documentos desde cámara o archivos.",
+  "description": "Escanea el fotograma completo de la cámara, ajusta cuatro esquinas después de capturar, organiza y combina documentos.",
   "start_url": "./",
   "scope": "./",
   "display": "standalone",

@@ -1,4 +1,4 @@
-const CACHE = 'super-scanner-v0.3.0';
+const CACHE = 'super-scanner-v0.4.0';
 const CORE = [
   './', './index.html', './styles.css', './manifest.webmanifest',
   './js/app.js', './js/store.js', './js/utils.js', './js/pdf-engine.js', './js/pdf-tools.js', './js/camera.js', './js/scan-editor.js',

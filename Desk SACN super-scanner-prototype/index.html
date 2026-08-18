@@ -232,13 +232,12 @@
       </div>
 
       <div id="cameraCaptureView">
-        <div class="camera-stage">
+        <div id="cameraStage" class="camera-stage">
           <video id="cameraVideo" autoplay playsinline muted></video>
           <canvas id="cameraCanvas" hidden></canvas>
-          <div class="document-guide"><span></span><span></span><span></span><span></span></div>
-          <div class="camera-guide-note">La guía orienta, pero <strong>no recorta</strong>: se guarda la foto completa.</div>
           <div id="cameraStatus" class="camera-status">Preparando cámara…</div>
         </div>
+        <p class="camera-capture-hint">📷 Se capturará <strong>toda la imagen visible</strong>. Después podrás ajustar exactamente los bordes del documento.</p>
         <div class="camera-controls">
           <div class="camera-option">
             <label class="toggle-row compact"><span><strong>Captura rápida</strong><small>Fotografía varias hojas y ajústalas después</small></span><input id="cameraQuickMode" type="checkbox" /><i></i></label>

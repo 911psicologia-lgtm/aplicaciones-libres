@@ -1,8 +1,19 @@
-# SUPER-SCANNER · v0.3
+# SUPER-SCANNER · v0.4
 
 Aplicación web responsive orientada a **GitHub → Cloudflare Pages**. No guarda proyectos: la sesión vive en memoria del navegador y el flujo es **cargar/capturar → ajustar/organizar → crear → descargar**.
 
-## Novedad principal v0.3: cámara sin pérdida de contenido
+## Novedad principal v0.4: el visor completo ES la captura
+
+### Cambio UX de cámara
+
+- Se eliminó por completo el rectángulo/guía interior que podía interpretarse como zona de corte.
+- El visor adopta la proporción real (`videoWidth/videoHeight`) del stream cuando la cámara queda lista.
+- El video usa `object-fit: contain`; nunca se recorta mediante `cover`.
+- `captureRaw()` conserva el fotograma completo del stream.
+- Un único mensaje bajo el visor explica: **se captura toda la imagen visible y el recorte se hace después**.
+- Los cuatro puntos aparecen únicamente en la pantalla posterior de **Ajustar página**, donde sí determinan el recorte y la perspectiva.
+- El estado dentro del visor es breve y desaparece automáticamente para no competir con el documento.
+
 
 La cámara ya **no recorta automáticamente el centro del video**. Cada disparo conserva el encuadre completo y después permite ajustar la hoja mediante **cuatro esquinas móviles**.
 
@@ -16,7 +27,7 @@ Flujo normal:
 6. Filtro: Original / Documento / Grises / B&N.
 7. Añadir la página a la sesión multiarchivo.
 
-La guía visible durante la cámara es únicamente una referencia: **no destruye ni descarta las zonas que quedan fuera del rectángulo**.
+Durante la captura **no existe ningún rectángulo interior**: el visor completo representa el fotograma conservado. El recorte aparece únicamente después de disparar.
 
 ### Captura rápida
 
@@ -41,7 +52,7 @@ Existe un modo opcional **Captura rápida** para fotografiar varias hojas sin de
 
 ## Importante sobre el autoajuste
 
-En v0.3 la detección automática es **una sugerencia**, no una promesa de recorte perfecto. Fondos blancos, sombras, documentos doblados o poco contraste pueden confundir cualquier detector. Por eso el mecanismo fiable es la combinación:
+En v0.4 la detección automática es **una sugerencia**, no una promesa de recorte perfecto. Fondos blancos, sombras, documentos doblados o poco contraste pueden confundir cualquier detector. Por eso el mecanismo fiable es la combinación:
 
 **foto completa → sugerencia automática → corrección manual de cuatro puntos → perspectiva**.
 

@@ -204,15 +204,12 @@ button:focus-visible, input:focus-visible { outline: 3px solid rgba(215,38,85,.2
 .camera-header { padding: 18px 20px; display: flex; align-items: center; justify-content: space-between; }
 .camera-header h2 { margin: 0; font-size: 22px; }
 .camera-header .round-btn { background: rgba(255,255,255,.1); color: #fff; font-size: 24px; }
-.camera-stage { position: relative; margin: 0 18px; border-radius: 20px; overflow: hidden; background: #050608; aspect-ratio: 16 / 10; min-height: 280px; }
-.camera-stage video { width: 100%; height: 100%; object-fit: cover; display: block; }
-.document-guide { position: absolute; inset: 10% 12%; border: 1px solid rgba(255,255,255,.45); border-radius: 8px; box-shadow: 0 0 0 100vmax rgba(0,0,0,.18); pointer-events: none; }
-.document-guide span { position: absolute; width: 30px; height: 30px; border-color: #fff; border-style: solid; }
-.document-guide span:nth-child(1) { left: -2px; top: -2px; border-width: 3px 0 0 3px; border-radius: 8px 0 0; }
-.document-guide span:nth-child(2) { right: -2px; top: -2px; border-width: 3px 3px 0 0; border-radius: 0 8px 0 0; }
-.document-guide span:nth-child(3) { right: -2px; bottom: -2px; border-width: 0 3px 3px 0; border-radius: 0 0 8px; }
-.document-guide span:nth-child(4) { left: -2px; bottom: -2px; border-width: 0 0 3px 3px; border-radius: 0 0 0 8px; }
-.camera-status { position: absolute; left: 50%; bottom: 14px; transform: translateX(-50%); padding: 8px 12px; border-radius: 999px; background: rgba(0,0,0,.55); color: #fff; font-size: 11px; white-space: nowrap; }
+.camera-stage { position: relative; margin: 0 auto; border-radius: 20px; overflow: hidden; background: #050608; aspect-ratio: 16 / 9; min-height: 0; max-width: calc(100% - 36px); transition: width .18s ease, height .18s ease; }
+.camera-stage video { width: 100%; height: 100%; object-fit: contain; display: block; background: #050608; }
+.camera-status { position: absolute; left: 50%; bottom: 12px; transform: translateX(-50%); z-index: 3; padding: 7px 11px; border-radius: 999px; background: rgba(0,0,0,.58); color: #fff; font-size: 10px; white-space: nowrap; transition: opacity .2s ease, transform .2s ease; pointer-events: none; }
+.camera-status.camera-status-hidden { opacity: 0; transform: translateX(-50%) translateY(5px); }
+.camera-capture-hint { margin: 10px auto 0; padding: 0 18px; max-width: 760px; color: #c4cad6; font-size: 11px; line-height: 1.4; text-align: center; }
+.camera-capture-hint strong { color: #fff; }
 .camera-controls { min-height: 112px; display: grid; grid-template-columns: 1fr auto 1fr; align-items: center; padding: 12px 25px; }
 .camera-option { justify-self: start; min-width: 190px; }
 .toggle-row.compact { margin: 0; color: #fff; }
@@ -284,8 +281,8 @@ button:focus-visible, input:focus-visible { outline: 3px solid rgba(215,38,85,.2
   .move-up, .move-down { display: none; }
   .camera-shell { max-height: 100svh; border-radius: 0; width: 100%; min-height: 100svh; display: flex; flex-direction: column; }
   .modal { padding: 0; }
-  .camera-stage { margin: 0; border-radius: 0; aspect-ratio: auto; flex: 1; min-height: 420px; }
-  .document-guide { inset: 9% 7%; }
+  .camera-stage { margin-inline: auto; border-radius: 0; max-width: 100%; min-height: 0; flex: 0 0 auto; }
+  .camera-capture-hint { margin-top: 8px; padding-inline: 14px; font-size: 10px; }
   .camera-controls { grid-template-columns: 1fr auto 1fr; padding-inline: 15px; }
   .camera-option { min-width: 0; }
   .camera-option small { display: none; }
@@ -364,20 +361,13 @@ button:focus-visible, input:focus-visible { outline: 3px solid rgba(215,38,85,.2
   .file-card.page-card { min-height: 86px; }
 }
 
-/* ===== SUPER-SCANNER v0.3 · cámara con ajuste manual de 4 esquinas ===== */
-.camera-stage video { object-fit: contain; background: #050608; }
+/* ===== SUPER-SCANNER v0.4 · captura completa + ajuste manual de 4 esquinas ===== */
 .camera-header-actions { display: flex; align-items: center; gap: 10px; }
 .camera-mode-badge {
   display: inline-flex; align-items: center; min-height: 28px; padding: 0 10px;
   border: 1px solid rgba(255,255,255,.13); border-radius: 999px;
   background: rgba(255,255,255,.08); color: #dfe4ef; font-size: 10px; font-weight: 900;
   text-transform: uppercase; letter-spacing: .08em;
-}
-.camera-guide-note {
-  position: absolute; top: 12px; left: 50%; transform: translateX(-50%); z-index: 3;
-  max-width: calc(100% - 34px); padding: 7px 11px; border-radius: 999px;
-  background: rgba(0,0,0,.58); color: #dfe4ef; font-size: 10px; text-align: center; white-space: nowrap;
-  backdrop-filter: blur(8px);
 }
 .capture-strip {
   display: flex; gap: 8px; overflow-x: auto; padding: 4px 20px 12px; scrollbar-width: thin;
@@ -447,7 +437,6 @@ button:focus-visible, input:focus-visible { outline: 3px solid rgba(215,38,85,.2
 .scan-adjust-footer .btn { min-width: 150px; }
 
 @media (max-width: 600px) {
-  .camera-guide-note { top: 10px; max-width: calc(100% - 20px); font-size: 9px; white-space: normal; }
   .camera-mode-badge { display: none; }
   .capture-strip { padding-inline: 12px; }
   .scan-adjust-view { min-height: auto; flex: 1; display: flex; flex-direction: column; }
