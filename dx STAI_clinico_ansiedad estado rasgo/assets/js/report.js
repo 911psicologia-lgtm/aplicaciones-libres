@@ -140,6 +140,126 @@
       '<section class="section"><div class="grid"><div class="card span6"><h2>Alertas para explorar</h2>' + list(ai.alertas, 'Sin alertas estructuradas.') + '</div><div class="card span6"><h2>Preguntas clínicas sugeridas</h2>' + list(ai.preguntas_clinicas_sugeridas, 'Sin preguntas sugeridas.') + '</div><div class="card span12"><h2>Próximos focos de evaluación</h2>' + list(ai.recomendaciones_evaluacion, 'Sin focos estructurados.') + '</div><div class="card span12"><h2>Límites interpretativos</h2><p>' + esc(ai.limites_interpretativos || 'La lectura debe contrastarse con entrevista, observación, antecedentes y otras fuentes de evaluación.') + '</p></div></div></section>';
   }
 
+
+  function briefContent(payload) {
+    const p = payload.patient || {};
+    const r = payload.results || {};
+    const ai = payload.aiJson || null;
+    const ib = ai && ai.informe_sencillo && typeof ai.informe_sencillo === 'object' ? ai.informe_sencillo : {};
+
+    let interpretation = String(ib.interpretacion_instrumento || '').trim();
+    if (!interpretation && ai) {
+      const parts = [];
+      if (ai.lectura_estado) parts.push('Ansiedad-Estado: ' + ai.lectura_estado);
+      if (ai.lectura_rasgo) parts.push('Ansiedad-Rasgo: ' + ai.lectura_rasgo);
+      if (ai.relacion_estado_rasgo) parts.push('Lectura conjunta: ' + ai.relacion_estado_rasgo);
+      interpretation = parts.join(' ');
+    }
+    if (!interpretation) {
+      interpretation = 'La puntuación de Ansiedad-Estado fue ' + r.stateScore + '/60 (' + (r.stateDecatypeBand || r.statePosition || 'posición descriptiva no disponible') + ') y describe el nivel de activación ansiosa presente al momento de responder. La puntuación de Ansiedad-Rasgo fue ' + r.traitScore + '/60 (' + (r.traitDecatypeBand || r.traitPosition || 'posición descriptiva no disponible') + ') y aporta información sobre la tendencia relativamente estable a experimentar ansiedad. La lectura conjunta disponible es: ' + (r.integrated || 'no registrada') + '.';
+    }
+
+    let relations = Array.isArray(ib.relaciones_estado_actual) ? ib.relaciones_estado_actual.filter(Boolean).map(String) : [];
+    if (!relations.length && ai && Array.isArray(ai.factores_contextuales)) {
+      relations = ai.factores_contextuales.slice(0, 6).map(function (f) {
+        const factor = f && f.factor ? String(f.factor) : 'Factor contextual';
+        const relacion = f && f.relacion ? String(f.relacion) : '';
+        const evidencia = f && f.evidencia ? String(f.evidencia) : '';
+        return factor + (relacion ? ': ' + relacion : '') + (evidencia ? ' Sustento registrado: ' + evidencia + '.' : '');
+      });
+    }
+    if (!relations.length) {
+      relations = [
+        'La puntuación de Ansiedad-Estado describe la activación ansiosa existente en el momento específico de la aplicación; por sí sola no identifica la causa de esa activación.',
+        'La puntuación de Ansiedad-Rasgo aporta una referencia sobre la disposición habitual a responder con ansiedad y permite contextualizar si la activación actual parece más situacional o congruente con una tendencia estable.',
+        'Sin información clínica o contextual adicional validada, no es posible establecer relaciones causales específicas respecto del estado actual únicamente a partir del STAI.'
+      ];
+    }
+
+    let conclusion = String(ib.conclusion_final || '').trim();
+    if (!conclusion && ai && ai.resumen_integrado) conclusion = String(ai.resumen_integrado);
+    if (!conclusion) {
+      conclusion = 'Los resultados del STAI deben leerse como una descripción de la ansiedad actual y de la tendencia ansiosa informada por la persona evaluada. La puntuación obtenida no constituye por sí sola un diagnóstico ni permite atribuir causalidad a hechos específicos. Su alcance debe integrarse con la finalidad de la evaluación y con las demás fuentes clínicas o documentales disponibles.';
+    }
+
+    return {
+      interpretation: interpretation,
+      relations: relations,
+      conclusion: conclusion,
+      source: ai ? 'Contextualización asistida por IA y revisable por el profesional.' : 'Lectura instrumental generada sin contextualización mediante IA.'
+    };
+  }
+
+  function buildBriefReportHtml(payload, options) {
+    options = options || {};
+    const p = payload.patient || {};
+    const r = payload.results || {};
+    const e = payload.evaluator || {};
+    const b = briefContent(payload);
+    const generatedAt = payload.generatedAt || new Date().toLocaleString('es-CO');
+    const demoBadge = payload.demoMode ? '<div class="demo-banner">MODO DEMOSTRACIÓN · DATOS COMPLETAMENTE FICTICIOS</div>' : '';
+    const autoPrint = options.autoPrint ? 'window.addEventListener("load",function(){setTimeout(function(){window.print();},350);});' : '';
+
+    return '<!doctype html><html lang="es"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Informe breve STAI</title><style>' +
+      ':root{--ink:#17263a;--muted:#657388;--line:#dce5ee;--soft:#f6f8fb;--accent:#3d5a80}*{box-sizing:border-box}body{margin:0;background:#edf2f7;color:var(--ink);font-family:Arial,Helvetica,sans-serif;line-height:1.55}.toolbar{position:sticky;top:0;z-index:20;display:flex;gap:8px;justify-content:center;padding:10px;background:#17253a}.toolbar button{border:0;border-radius:8px;padding:9px 13px;font-weight:700;cursor:pointer}.paper{max-width:900px;margin:24px auto;background:#fff;box-shadow:0 18px 60px rgba(20,35,55,.14);padding:44px}.hero{border-bottom:3px solid var(--accent);padding-bottom:18px}.hero h1{font-size:30px;margin:0 0 5px}.hero p{margin:0;color:var(--muted)}.pill{display:inline-block;padding:4px 8px;border-radius:999px;background:#edf3f8;color:#3d5a80;font-size:11px;font-weight:800}.section{padding:22px 0;border-bottom:1px solid var(--line)}h2{font-size:20px;margin:0 0 12px}h3{font-size:15px;margin:0 0 8px}.grid{display:grid;grid-template-columns:1fr 1fr;gap:12px}.card,.professional-card{border:1px solid var(--line);border-radius:12px;padding:16px;background:#fff}.score{font-size:36px;font-weight:900}.score small{font-size:14px;color:var(--muted)}.kv{display:grid;grid-template-columns:165px 1fr;gap:10px;padding:7px 0;border-bottom:1px solid #edf1f5}.kv span{font-size:12px;color:var(--muted)}ul{margin:6px 0;padding-left:22px}li{margin:7px 0}.note{padding:12px 14px;border-left:4px solid var(--accent);background:var(--soft);border-radius:8px;color:#33465e}.muted{color:var(--muted)}.signature-first{padding-bottom:15px;border-bottom:1px solid var(--line);margin-bottom:10px}.mini-label{text-transform:uppercase;font-size:10px;letter-spacing:.12em;color:var(--muted);font-weight:800;margin-bottom:8px}.signature{display:block;max-width:260px;max-height:110px;object-fit:contain;object-position:left center}.signature-placeholder{height:55px;display:flex;align-items:end;color:#8792a1;font-style:italic}.demo-banner{background:#fff4d9;border:1px solid #ead18b;padding:10px 14px;border-radius:10px;font-weight:800;margin-bottom:18px}.foot{padding-top:22px;color:var(--muted);font-size:11px}@media(max-width:700px){.paper{margin:0;padding:22px}.grid{grid-template-columns:1fr}.kv{grid-template-columns:1fr}.toolbar{position:static}}@media print{body{background:#fff}.toolbar{display:none}.paper{max-width:none;margin:0;box-shadow:none;padding:0 7mm}.section,.card,.professional-card{break-inside:avoid}@page{size:A4;margin:12mm}}' +
+      '</style></head><body><div class="toolbar"><button onclick="window.print()">Imprimir / Guardar PDF</button></div><main class="paper">' + demoBadge +
+      '<header class="hero"><div class="pill">Informe breve · STAI</div><h1>Inventario de Ansiedad Estado-Rasgo</h1><p>Versión sintética para remisión, soporte documental o contexto jurídico</p></header>' +
+      '<section class="section"><h2>1. Identificación y aplicación</h2><div class="grid"><div class="card">' + item('Nombre', p.name || 'No registrado') + item('Código / historia', p.code) + item('Edad', p.age !== '' ? p.age + ' años' : '') + item('Sexo para baremación', p.sex) + item('Ocupación', p.occupation) + '</div><div class="card">' + item('Fecha de aplicación', fmtDate(p.applicationDate)) + item('Hora', p.applicationTime) + item('Modalidad', p.modality) + item('País / región', p.country) + item('Motivo / contexto', p.context) + '</div></div></section>' +
+      '<section class="section"><h2>2. Resultados</h2><div class="grid"><div class="card"><div class="score">' + esc(r.stateScore) + '<small>/60</small></div><h3>Ansiedad-Estado</h3><p>' + esc(r.stateDecatypeBand || r.statePosition || '') + (r.stateDecatype ? ' · Decatipo ' + esc(r.stateDecatype) : '') + '</p></div><div class="card"><div class="score">' + esc(r.traitScore) + '<small>/60</small></div><h3>Ansiedad-Rasgo</h3><p>' + esc(r.traitDecatypeBand || r.traitPosition || '') + (r.traitDecatype ? ' · Decatipo ' + esc(r.traitDecatype) : '') + '</p></div></div></section>' +
+      '<section class="section"><h2>3. Interpretación a la luz del instrumento</h2><p>' + esc(b.interpretation) + '</p></section>' +
+      '<section class="section"><h2>4. Relaciones relevantes con el estado actual</h2>' + list(b.relations, 'No se identificaron relaciones contextuales suficientes.') + '<div class="note"><b>Alcance:</b> estas viñetas describen relaciones causales, contribuyentes o asociativas solo cuando la información aportada las sustenta. La coincidencia temporal o correlacional no se presenta como causalidad demostrada.</div></section>' +
+      '<section class="section"><h2>5. Conclusión final</h2><p>' + esc(b.conclusion) + '</p><p class="muted">' + esc(b.source) + '</p></section>' +
+      evaluatorSection(e) +
+      '<div class="foot">Generado el ' + esc(generatedAt) + '. Este informe breve omite deliberadamente hipótesis clínicas y visualizaciones. El STAI no constituye por sí solo un diagnóstico.</div></main><script>' + autoPrint + '<\/script></body></html>';
+  }
+
+  function buildBriefTextReport(payload) {
+    const p = payload.patient || {}, r = payload.results || {}, e = payload.evaluator || {}, b = briefContent(payload);
+    const lines = [];
+    lines.push('INFORME BREVE STAI — REMISIÓN / SOPORTE DOCUMENTAL / CONTEXTO JURÍDICO');
+    if (payload.demoMode) lines.push('MODO DEMOSTRACIÓN — DATOS COMPLETAMENTE FICTICIOS');
+    lines.push('');
+    lines.push('1. IDENTIFICACIÓN Y APLICACIÓN');
+    lines.push('Nombre: ' + (p.name || 'No registrado'));
+    if (p.code) lines.push('Código / historia: ' + p.code);
+    if (p.age !== '' && p.age !== undefined) lines.push('Edad: ' + p.age + ' años');
+    if (p.sex) lines.push('Sexo para baremación: ' + p.sex);
+    if (p.occupation) lines.push('Ocupación: ' + p.occupation);
+    if (p.applicationDate) lines.push('Fecha de aplicación: ' + p.applicationDate + (p.applicationTime ? ' ' + p.applicationTime : ''));
+    if (p.modality) lines.push('Modalidad: ' + p.modality);
+    if (p.context) lines.push('Motivo / contexto: ' + p.context);
+    lines.push('');
+    lines.push('2. RESULTADOS');
+    lines.push('Ansiedad-Estado: ' + r.stateScore + '/60. ' + (r.stateDecatypeBand || r.statePosition || '') + (r.stateDecatype ? ' · Decatipo ' + r.stateDecatype : ''));
+    lines.push('Ansiedad-Rasgo: ' + r.traitScore + '/60. ' + (r.traitDecatypeBand || r.traitPosition || '') + (r.traitDecatype ? ' · Decatipo ' + r.traitDecatype : ''));
+    lines.push('');
+    lines.push('3. INTERPRETACIÓN A LA LUZ DEL INSTRUMENTO');
+    lines.push(b.interpretation);
+    lines.push('');
+    lines.push('4. RELACIONES RELEVANTES CON EL ESTADO ACTUAL');
+    b.relations.forEach(function (v) { lines.push('- ' + v); });
+    lines.push('Alcance: las relaciones causales, contribuyentes o asociativas se expresan únicamente cuando la información disponible las sustenta; no se equipara correlación con causalidad demostrada.');
+    lines.push('');
+    lines.push('5. CONCLUSIÓN FINAL');
+    lines.push(b.conclusion);
+    lines.push('Fuente de contextualización: ' + b.source);
+    const hasEvaluator = Object.keys(e).some(function(k){ return e[k]; });
+    if (hasEvaluator) {
+      lines.push(''); lines.push('PROFESIONAL EVALUADOR');
+      lines.push('[Firma incorporada primero en las versiones visuales, si fue registrada]');
+      if (e.name) lines.push('Nombre: ' + e.name);
+      if (e.profession) lines.push('Profesión: ' + e.profession);
+      if (e.license) lines.push('Tarjeta profesional: ' + e.license);
+      if (e.phone) lines.push('Celular: ' + e.phone);
+      if (e.email) lines.push('Correo: ' + e.email);
+      if (e.workplace) lines.push('Consultorio / institución: ' + e.workplace);
+      if (e.address) lines.push('Dirección: ' + e.address);
+      if (e.cityCountry) lines.push('Ciudad / país: ' + e.cityCountry);
+    }
+    lines.push(''); lines.push('El STAI no constituye por sí solo un diagnóstico. Este formato breve omite deliberadamente hipótesis clínicas.');
+    return lines.join('\n');
+  }
+
   function buildReportHtml(payload, options) {
     options = options || {};
     const p = payload.patient || {};
@@ -222,6 +342,8 @@
 
   STAI.report = {
     buildReportHtml: buildReportHtml,
-    buildTextReport: buildTextReport
+    buildTextReport: buildTextReport,
+    buildBriefReportHtml: buildBriefReportHtml,
+    buildBriefTextReport: buildBriefTextReport
   };
 }());

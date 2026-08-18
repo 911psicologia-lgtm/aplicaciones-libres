@@ -1,6 +1,15 @@
-Rizoma Zombie Strike v0.7.16 — Balance REAL de dificultad
+Rizoma Zombie Strike v0.7.17 — Continuidad y balance visual
 
 Versión SAFE para Cloudflare Pages, sin archivo _headers.
+
+
+Ajustes v0.7.17:
+- Versión unificada en HTML, JavaScript, caché y recursos para evitar mezclas de archivos antiguos.
+- Rayo continuo ajustado a 10 segundos de actividad.
+- Menos saturación simultánea en el primer mundo, manteniendo aparición rápida y élites peligrosos desde la oleada 1.
+- Aviso de jefe compacto con familia temática y mutación.
+- Dock de poderes limitado a 6 visibles en escritorio y 4 en pantallas pequeñas; los adicionales se agrupan.
+- Limpieza de inicializaciones duplicadas del estado de meteoros/primer mundo.
 
 Cambios principales:
 - Enemigos difíciles desde la oleada 1 con tasa alta real: 32% inicial, 42% oleada 2, 52% oleada 3, hasta 78%.

@@ -1,4 +1,4 @@
-# STAI Clínico IA · versión 2.0
+# STAI Clínico IA · versión 3.0
 
 Aplicación web estática multiarchivo para aplicar el Inventario de Ansiedad Estado-Rasgo, calcular las puntuaciones directas, incorporar contextualización clínica opcional mediante una IA externa y generar un informe reutilizable.
 
@@ -122,3 +122,9 @@ El cálculo del STAI y la generación del informe se realizan localmente en el n
 ## Nota de uso profesional
 
 El STAI no constituye por sí solo un diagnóstico. Las posiciones descriptivas del rango teórico no sustituyen los baremos normativos autorizados. La contextualización generada por IA es auxiliar y debe contrastarse con entrevista, antecedentes, observación clínica y otras fuentes de evaluación.
+
+## Versión 3.0 — Informe breve adicional
+
+La pantalla final incorpora un segundo formato de salida denominado **Informe breve · remisión / jurídico**. Puede generarse con o sin contextualización mediante IA y omite deliberadamente hipótesis clínicas, visualizaciones y recomendaciones terapéuticas. Incluye identificación, resultados A/E y A/R, interpretación a la luz del STAI, relaciones relevantes con el estado actual en viñetas, conclusión final y profesional evaluador. Cuando existe firma, esta aparece primero y debajo los datos profesionales.
+
+Si se utiliza IA, el mismo prompt solicita un bloque `informe_sencillo` dentro del JSON. En ese bloque la IA debe diferenciar relaciones causales sustentadas, factores contribuyentes y asociaciones, evitando presentar correlación o coincidencia temporal como causalidad demostrada. Si no se utiliza IA, la aplicación genera una lectura instrumental prudente y deja explícito que el STAI por sí solo no permite establecer causas específicas.

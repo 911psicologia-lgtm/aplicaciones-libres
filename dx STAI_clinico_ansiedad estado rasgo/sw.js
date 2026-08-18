@@ -1,4 +1,4 @@
-const CACHE='stai-clinico-v2.0.0';
+const CACHE='stai-clinico-v3.0.0';
 const ASSETS=['./','./index.html','./manifest.webmanifest','./assets/css/styles.css','./assets/js/app.js','./assets/js/stai-data.js','./assets/js/scoring.js','./assets/js/report.js','./assets/img/logo.svg'];
 self.addEventListener('install',event=>event.waitUntil(caches.open(CACHE).then(cache=>cache.addAll(ASSETS)).then(()=>self.skipWaiting())));
 self.addEventListener('activate',event=>event.waitUntil(caches.keys().then(keys=>Promise.all(keys.filter(key=>key!==CACHE).map(key=>caches.delete(key)))).then(()=>self.clients.claim())));

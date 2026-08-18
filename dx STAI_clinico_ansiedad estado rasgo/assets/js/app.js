@@ -258,7 +258,10 @@
       '6. Explora relaciones recíprocas: desencadenantes, mantenedores, vulnerabilidades, contexto, recursos y protectores.',
       '7. Evita lenguaje determinista. Usa formulaciones prudentes como “podría”, “sugiere explorar” o “hipótesis a contrastar”.',
       '8. Si aparecen alertas relevantes en la historia, señálalas para exploración profesional sin convertirlas en diagnóstico.',
-      '9. Devuelve SOLO JSON válido, sin Markdown ni texto fuera del objeto.',
+      '9. Además del análisis clínico ampliado, genera un bloque informe_sencillo para remisión, soporte documental o contexto jurídico. Ese bloque NO debe contener hipótesis clínicas, diagnósticos nuevos ni recomendaciones terapéuticas.',
+      '10. En informe_sencillo, interpreta únicamente a la luz del STAI y de los datos explícitos aportados. En relaciones_estado_actual distingue causalidad sustentada, factores contribuyentes y asociaciones. No presentes correlación o coincidencia temporal como causalidad demostrada.',
+      '11. Si la información no permite afirmar una relación causal específica, dilo de manera expresa y sobria.',
+      '12. Devuelve SOLO JSON válido, sin Markdown ni texto fuera del objeto.',
       '',
       'DATOS DEL CASO:',
       JSON.stringify(caseData, null, 2),
@@ -278,7 +281,12 @@
         recomendaciones_evaluacion: ['siguiente foco de evaluación, no tratamiento automático'],
         limites_interpretativos: 'límites y datos faltantes',
         dimensiones_contextuales: [{ nombre: 'dimensión clínica contextual', valor: 0 }],
-        relaciones: [{ origen: 'factor existente', destino: 'factor existente', tipo: 'relación hipotética' }]
+        relaciones: [{ origen: 'factor existente', destino: 'factor existente', tipo: 'relación hipotética' }],
+        informe_sencillo: {
+          interpretacion_instrumento: 'interpretación breve de A/E y A/R a la luz del STAI, sin hipótesis',
+          relaciones_estado_actual: ['viñeta factual o relacional sobre el estado actual; indicar si es causal, contribuyente o asociativa solo cuando esté sustentado'],
+          conclusion_final: 'conclusión breve, objetiva y no diagnóstica, útil para remisión o soporte documental'
+        }
       }, null, 2),
       '',
       'Para dimensiones_contextuales usa de 3 a 9 dimensiones y valores enteros de 0 a 10 solo como representación auxiliar del contexto, nunca como subescalas STAI. En relaciones utiliza nombres que coincidan con factores_contextuales cuando sea posible.'
@@ -366,7 +374,7 @@
     const p = getPatient();
     const r = currentResults();
     const payload = {
-      appVersion: '2.0.0',
+      appVersion: '3.0.0',
       generatedAt: new Date().toLocaleString('es-CO'),
       demoMode: app.demoMode,
       patient: p,
@@ -398,6 +406,11 @@
     return { payload: payload, html: report.buildReportHtml(payload, { autoPrint: !!autoPrint }) };
   }
 
+  function briefReportHtml(autoPrint) {
+    const payload = currentPayload();
+    return { payload: payload, html: report.buildBriefReportHtml(payload, { autoPrint: !!autoPrint }) };
+  }
+
   function openHtml(html) {
     const url = URL.createObjectURL(new Blob([html], { type: 'text/html;charset=utf-8' }));
     const win = window.open(url, '_blank');
@@ -412,6 +425,8 @@
     byId('finalPatient').textContent = p.name || p.code || 'Persona evaluada';
     byId('finalScores').textContent = 'A/E ' + (r.stateScore === null ? '—' : r.stateScore) + '/60 · A/R ' + (r.traitScore === null ? '—' : r.traitScore) + '/60';
     byId('finalAi').textContent = app.aiMode && app.aiJson ? 'Contextualización IA validada e integrada.' : 'Informe preparado sin contextualización IA.';
+    const briefStatus = byId('briefAiStatus');
+    if (briefStatus) briefStatus.textContent = app.aiMode && app.aiJson ? 'Informe breve: se utilizará el bloque sintético generado por la IA, sin hipótesis clínicas.' : 'Informe breve: se generará directamente desde los resultados STAI, sin hipótesis clínicas ni causalidad no sustentada.';
   }
 
   function clearPatientAndProtocol() {
@@ -638,6 +653,13 @@
     byId('downloadTxt').addEventListener('click', function () { const p = currentPayload(); downloadBlob('\uFEFF' + p.textReport, fileBase(p) + '.txt', 'text/plain;charset=utf-8'); toast('Informe TXT generado.'); });
     byId('downloadJson').addEventListener('click', function () { const p = currentPayload(); downloadBlob(JSON.stringify(p, null, 2), fileBase(p) + '.json', 'application/json;charset=utf-8'); toast('JSON clínico generado.'); });
     byId('previewReport').addEventListener('click', function () { const r = reportHtml(false); openHtml(r.html); });
+
+    byId('briefDownloadHtml').addEventListener('click', function () { const r = briefReportHtml(false); downloadBlob(r.html, fileBase(r.payload) + '_BREVE.html', 'text/html;charset=utf-8'); toast('Informe breve HTML generado.'); });
+    byId('briefDownloadPdf').addEventListener('click', function () { const r = briefReportHtml(true); if (openHtml(r.html)) toast('Se abrió el informe breve para guardar como PDF.'); });
+    byId('briefDownloadDoc').addEventListener('click', function () { const r = briefReportHtml(false); downloadBlob(r.html, fileBase(r.payload) + '_BREVE.doc', 'application/msword;charset=utf-8'); toast('Informe breve DOC generado.'); });
+    byId('briefDownloadTxt').addEventListener('click', function () { const p = currentPayload(); downloadBlob('\uFEFF' + report.buildBriefTextReport(p), fileBase(p) + '_BREVE.txt', 'text/plain;charset=utf-8'); toast('Informe breve TXT generado.'); });
+    byId('briefPreview').addEventListener('click', function () { const r = briefReportHtml(false); openHtml(r.html); });
+
     byId('resetAll').addEventListener('click', resetProtocol);
 
     byId('openEvaluator').addEventListener('click', openDrawer);

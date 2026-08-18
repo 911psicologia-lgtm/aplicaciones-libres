@@ -128,7 +128,17 @@
         {origen:'Sueño irregular',destino:'Activación actual',tipo:'puede aumentar'},
         {origen:'Apoyo de pareja',destino:'Activación actual',tipo:'puede amortiguar'},
         {origen:'Ejercicio regular',destino:'Regulación',tipo:'favorece'}
-      ]
+      ],
+      informe_sencillo: {
+        interpretacion_instrumento: 'Los resultados del STAI muestran una activación ansiosa actual que requiere ser leída en relación con el momento de aplicación, junto con una tendencia de preocupación que aporta contexto sobre la forma habitual de responder ante exigencias. La diferencia entre Estado y Rasgo orienta a considerar que una parte importante de la activación observada se vincula con condiciones recientes, sin que el instrumento permita establecer por sí solo un diagnóstico.',
+        relaciones_estado_actual: [
+          'Factor contribuyente: el aumento reciente de responsabilidades laborales y familiares coincide temporalmente con el incremento de tensión referido y ofrece un contexto relevante para comprender la Ansiedad-Estado.',
+          'Factor mantenedor plausible sustentado en la historia aportada: el sueño irregular puede contribuir a sostener fatiga, vigilancia y reactividad durante el periodo evaluado.',
+          'Relación asociativa: la anticipación frecuente de problemas y la revisión repetida de decisiones aparecen vinculadas al patrón de preocupación descrito, sin que el STAI demuestre causalidad entre estos elementos.',
+          'Factores moduladores: el apoyo de pareja, el ejercicio regular y la capacidad de reconocer límites pueden amortiguar la sobrecarga y favorecer regulación.'
+        ],
+        conclusion_final: 'En conjunto, el perfil obtenido es compatible con una elevación de la activación ansiosa actual en un contexto de demandas recientes y preocupación sostenida. La información disponible permite describir factores contribuyentes y moduladores, pero no atribuir una causa única ni formular diagnóstico a partir del STAI. Los resultados deben integrarse con entrevista y demás fuentes disponibles según la finalidad de la evaluación.'
+      }
     }
   };
 

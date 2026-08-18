@@ -1,7 +1,7 @@
 (() => {
   'use strict';
 
-  const VERSION = '0.7.14';
+  const VERSION = '0.7.17';
   const STORAGE_KEY = 'rizoma_zombie_strike_v0_3_state';
   const SAVE_KEY = 'rizoma_zombie_strike_v0_3_save';
   const clamp = (v, a, b) => Math.max(a, Math.min(b, v));
@@ -176,7 +176,7 @@
   ];
 
   const POWER_ACTIVE_SECONDS = {
-    triple: 10, laser: 9, orbs: 8, pierce: 9, ice: 9, fire: 8, drone: 12, ring: 8,
+    triple: 10, laser: 10, orbs: 8, pierce: 9, ice: 9, fire: 8, drone: 12, ring: 8,
     bounce: 8, pulse: 6, opem: 6, nuke: 7, spark: 10, torpedo: 6, virus: 7, kamikaze: 6
   };
 
@@ -434,8 +434,6 @@
       this.zones = [];
       this.meteors = [];
       this.worldOneState = { meteorTimer: 2.6, insectTimer: 1.1, mirrorCount: 0, rainTimer: 7.5, burstTimer: 1.6 };
-      this.meteors = [];
-      this.worldOneState = { meteorTimer: 2.6, insectTimer: 1.1, mirrorCount: 0, rainTimer: 7.5, burstTimer: 1.6 };
       this.toasts = [];
       this.powerLevels = {};
       this.powerActivity = {};
@@ -561,8 +559,6 @@
       this.pickups = [];
       this.drones = [];
       this.zones = [];
-      this.meteors = [];
-      this.worldOneState = { meteorTimer: 2.6, insectTimer: 1.1, mirrorCount: 0, rainTimer: 7.5, burstTimer: 1.6 };
       this.meteors = [];
       this.worldOneState = { meteorTimer: 2.6, insectTimer: 1.1, mirrorCount: 0, rainTimer: 7.5, burstTimer: 1.6 };
       this.powerLevels = save?.powerLevels || {};
@@ -759,10 +755,10 @@
 
     showBossIntro(map, boss) {
       if (!els.bossIntroOverlay) return;
-      els.bossIntroFamily.textContent = BEAST_LABELS[boss.beast] || 'jefe';
+      els.bossIntroFamily.textContent = BOSS_FAMILY_LABELS[boss.family] || BEAST_LABELS[boss.beast] || 'Jefe';
       els.bossIntroIcon.textContent = BEAST_ICONS[boss.beast] || map.icon || '👹';
       els.bossIntroName.textContent = boss.name;
-      els.bossIntroText.textContent = boss.specialName || '';
+      els.bossIntroText.textContent = `${boss.specialName || 'Mutación'} · ${BEAST_LABELS[boss.beast] || 'entidad'}`;
       els.bossIntroOverlay.classList.add('micro-intro');
       els.bossIntroOverlay.dataset.family = map.family || '';
       els.bossIntroOverlay.classList.remove('hidden');
@@ -1249,12 +1245,12 @@
       ];
       for (const [type, value, ox, oy] of rewards) this.spawnPickup(p.x + ox, p.y + oy, type, value);
       // Horda inicial triplicada pero frágil: acción inmediata, no pared de dificultad.
-      const introCount = this.w >= 1100 ? 16 : (this.w >= 760 ? 12 : 8);
+      const introCount = this.w >= 1100 ? 10 : (this.w >= 760 ? 8 : 6);
       for (let i = 0; i < introCount; i++) {
         const type = i < introCount*.36 ? 'errante' : (i < introCount*.68 ? 'larva' : (i < introCount*.9 ? 'mosquito' : 'corredor'));
         this.spawnEnemy(type, true);
       }
-      this.spawnWorldOneVisibleSwarm(this.w >= 1100 ? 6 : (this.w >= 760 ? 5 : 4));
+      this.spawnWorldOneVisibleSwarm(this.w >= 1100 ? 4 : (this.w >= 760 ? 3 : 2));
       this.spawnWorldOneThreatMarkers();
       this.spawnMirrorShip(true, true);
       setTimeout(() => this.spawnMirrorShip(true, true), 2600);
@@ -1303,7 +1299,7 @@
       if (!this.player) return;
       const p = this.player;
       // Enemy lanes visible immediately: forces the first seconds to feel occupied on PC/tablet.
-      const laneCount = this.w >= 1100 ? 8 : (this.w >= 760 ? 6 : 4);
+      const laneCount = this.w >= 1100 ? 5 : (this.w >= 760 ? 4 : 3);
       for (let i = 0; i < laneCount; i++) {
         const side = i % 4;
         const type = i % 3 === 0 ? 'mosquito' : (i % 3 === 1 ? 'larva' : 'errante');
@@ -1352,8 +1348,8 @@
       if (this.mapIndex === 0) {
         const phase = clamp(this.wave, 1, 4);
         const pcBoost = this.w >= 1100 ? .78 : (this.w >= 760 ? .62 : .42);
-        const targetCount = this.w >= 1100 ? (22 + phase * 5) : (this.w >= 760 ? (17 + phase * 4) : (10 + phase * 3));
-        const interval = Math.max(.34, .72 - phase * .045);
+        const targetCount = this.w >= 1100 ? (16 + phase * 4) : (this.w >= 760 ? (13 + phase * 3) : (8 + phase * 2));
+        const interval = Math.max(.30, .62 - phase * .04);
         const w1 = this.worldOneState || (this.worldOneState = { meteorTimer: .25, insectTimer: .22, mirrorCount: 0, rainTimer: 4.5, burstTimer: .8, bombTimer: 2.4, planetTimer: 6.5, hunterTimer: 1.2 });
         w1.meteorTimer -= dt;
         w1.insectTimer -= dt;
@@ -1550,7 +1546,7 @@
       }
     }
 
-    // DSEBI gameplay balance v0.7.16: presión real desde el nivel 1.
+    // DSEBI gameplay balance v0.7.17: presión real con menor saturación visual.
     // Enemigos elite: esquivan, persiguen, resisten y obligan a moverse.
     hardEnemyRate() {
       // Oleada 1 ya es peligrosa: 32%; luego 42%, 52%, 62% y techo del 78%.
@@ -2491,7 +2487,7 @@
       els.xpLabel.textContent = `Nivel ${this.player.level}`;
       this.updatePendingBadge();
       const activePowers = Object.entries(this.powerActivity || {}).sort((a, b) => b[1] - a[1]);
-      const visibleLimit = this.isSmallScreen ? 5 : 8;
+      const visibleLimit = this.isSmallScreen ? 4 : 6;
       const visible = activePowers.slice(0, visibleLimit);
       const overflow = Math.max(0, activePowers.length - visible.length);
       els.powerDock.innerHTML = visible.map(([id, secs]) => {

@@ -852,7 +852,7 @@ body.game-mode .power-chip.overflow{font-size:.66rem!important;font-weight:950!i
 @media (max-width:760px){.toast-stack{width:min(220px,calc(100% - 92px))}.toast.micro{font-size:.65rem;padding:3px 7px}.boss-intro-card{min-width:min(76vw,250px);padding:10px 12px;border-radius:16px}.boss-intro-icon{font-size:26px}.boss-intro-card h2{font-size:.95rem}.boss-intro-card p{font-size:.68rem}}
 
 
-/* v0.7.14 DSEBI F4: microavisos y jefe táctico */
+/* v0.7.17 DSEBI F5: microavisos y jefe táctico */
 body.game-mode .toast-stack{left:auto!important;right:14px!important;top:calc(62px + var(--safe-top))!important;transform:none!important;width:min(230px,calc(100% - 96px))!important;justify-items:end!important;gap:3px!important;z-index:13!important}
 body.game-mode .toast.micro{max-width:230px!important;padding:3px 8px!important;border-radius:999px!important;background:rgba(2,12,10,.20)!important;border:1px solid rgba(97,255,200,.10)!important;font-size:.66rem!important;line-height:1.1!important;box-shadow:none!important;backdrop-filter:blur(2px)!important}
 body.game-mode .toast.micro strong{font-size:.68rem!important;color:#b9ffe8!important}
