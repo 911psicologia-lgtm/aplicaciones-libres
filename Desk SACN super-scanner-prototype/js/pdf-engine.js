@@ -7,15 +7,21 @@ function ensurePdfLib() {
   return window.PDFLib;
 }
 
-async function imageFileToJpegBytes(file, quality = 0.9) {
+async function imageFileToJpegBytes(file, quality = 0.9, rotation = 0) {
   const bitmap = await createImageBitmap(file);
+  const turn = ((rotation || 0) % 360 + 360) % 360;
+  const swap = turn === 90 || turn === 270;
   const canvas = document.createElement('canvas');
-  canvas.width = bitmap.width;
-  canvas.height = bitmap.height;
+  canvas.width = swap ? bitmap.height : bitmap.width;
+  canvas.height = swap ? bitmap.width : bitmap.height;
   const ctx = canvas.getContext('2d', { alpha: false });
   ctx.fillStyle = '#ffffff';
   ctx.fillRect(0, 0, canvas.width, canvas.height);
-  ctx.drawImage(bitmap, 0, 0);
+  ctx.save();
+  ctx.translate(canvas.width / 2, canvas.height / 2);
+  ctx.rotate(turn * Math.PI / 180);
+  ctx.drawImage(bitmap, -bitmap.width / 2, -bitmap.height / 2);
+  ctx.restore();
   bitmap.close?.();
   const blob = await new Promise((resolve, reject) => canvas.toBlob(b => b ? resolve(b) : reject(new Error('No se pudo procesar la imagen.')), 'image/jpeg', quality));
   return { bytes: await blob.arrayBuffer(), width: canvas.width, height: canvas.height, blob };
@@ -27,25 +33,48 @@ function contain(srcW, srcH, boxW, boxH) {
 }
 
 export async function createMixedPdf(items, options = {}, onProgress = () => {}) {
-  const { PDFDocument } = ensurePdfLib();
+  const { PDFDocument, degrees } = ensurePdfLib();
   const out = await PDFDocument.create();
   const total = Math.max(items.length, 1);
   const margin = options.safeMargin ? 24 : 0;
+  const sourceCache = new Map();
+
+  async function loadSource(file) {
+    if (sourceCache.has(file)) return sourceCache.get(file);
+    try {
+      const doc = await PDFDocument.load(await file.arrayBuffer());
+      sourceCache.set(file, doc);
+      return doc;
+    } catch (error) {
+      if (/encrypt/i.test(String(error?.message || error))) throw new Error(`“${file.name}” está protegido. Usa primero Quitar contraseña.`);
+      throw error;
+    }
+  }
 
   for (let index = 0; index < items.length; index++) {
     const item = items[index];
     onProgress(Math.round((index / total) * 90), `Procesando ${item.name}`);
 
     if (item.kind === 'pdf') {
-      const srcBytes = await item.file.arrayBuffer();
-      const src = await PDFDocument.load(srcBytes, { ignoreEncryption: true });
+      const src = await loadSource(item.file);
       const copied = await out.copyPages(src, src.getPageIndices());
       copied.forEach(page => out.addPage(page));
       continue;
     }
 
+    if (item.kind === 'pdf-page') {
+      const src = await loadSource(item.sourceFile || item.file);
+      const [copied] = await out.copyPages(src, [item.pageIndex]);
+      if (item.rotation) {
+        const current = copied.getRotation()?.angle || 0;
+        copied.setRotation(degrees((current + item.rotation) % 360));
+      }
+      out.addPage(copied);
+      continue;
+    }
+
     if (item.kind === 'image') {
-      const image = await imageFileToJpegBytes(item.file, options.imageQuality ?? 0.9);
+      const image = await imageFileToJpegBytes(item.file, options.imageQuality ?? 0.9, item.rotation || 0);
       const embedded = await out.embedJpg(image.bytes);
       let pageW, pageH;
       if (options.pageSize === 'original') {
@@ -81,15 +110,18 @@ export async function exportImages(items, format = 'jpg', baseName = 'super-scan
     const item = images[i];
     onProgress(Math.round((i / images.length) * 95), `Preparando ${i + 1} de ${images.length}`);
     const bitmap = await createImageBitmap(item.file);
+    const turn = ((item.rotation || 0) % 360 + 360) % 360;
+    const swap = turn === 90 || turn === 270;
     const canvas = document.createElement('canvas');
-    canvas.width = bitmap.width;
-    canvas.height = bitmap.height;
+    canvas.width = swap ? bitmap.height : bitmap.width;
+    canvas.height = swap ? bitmap.width : bitmap.height;
     const ctx = canvas.getContext('2d', { alpha: format === 'png' });
-    if (format !== 'png') {
-      ctx.fillStyle = '#fff';
-      ctx.fillRect(0, 0, canvas.width, canvas.height);
-    }
-    ctx.drawImage(bitmap, 0, 0);
+    if (format !== 'png') { ctx.fillStyle = '#fff'; ctx.fillRect(0, 0, canvas.width, canvas.height); }
+    ctx.save();
+    ctx.translate(canvas.width / 2, canvas.height / 2);
+    ctx.rotate(turn * Math.PI / 180);
+    ctx.drawImage(bitmap, -bitmap.width / 2, -bitmap.height / 2);
+    ctx.restore();
     bitmap.close?.();
     const blob = await new Promise((resolve, reject) => canvas.toBlob(b => b ? resolve(b) : reject(new Error('No se pudo exportar la imagen.')), mime, 0.92));
     const suffix = images.length > 1 ? `-${String(i + 1).padStart(2, '0')}` : '';

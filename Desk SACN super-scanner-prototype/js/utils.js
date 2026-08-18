@@ -21,20 +21,14 @@ export function isImage(file) {
 }
 
 export async function fileToItem(file, source = 'archivo') {
-  let kind = isPdf(file) ? 'pdf' : isImage(file) ? 'image' : 'unsupported';
-  let pageCount = null;
-  if (kind === 'pdf' && window.PDFLib?.PDFDocument) {
-    try {
-      const bytes = await file.arrayBuffer();
-      const pdf = await window.PDFLib.PDFDocument.load(bytes, { ignoreEncryption: true });
-      pageCount = pdf.getPageCount();
-    } catch (_) { pageCount = null; }
-  }
+  const kind = isPdf(file) ? 'pdf' : isImage(file) ? 'image' : 'unsupported';
   return {
     id: uid(), file, kind, source,
     name: file.name || `captura-${Date.now()}.jpg`,
     size: file.size || 0,
-    pageCount,
+    pageCount: null,
+    encrypted: false,
+    rotation: 0,
     previewUrl: kind === 'image' ? URL.createObjectURL(file) : null
   };
 }
@@ -51,5 +45,5 @@ export function downloadBlob(blob, filename) {
   document.body.appendChild(a);
   a.click();
   a.remove();
-  setTimeout(() => URL.revokeObjectURL(url), 1200);
+  setTimeout(() => URL.revokeObjectURL(url), 1800);
 }

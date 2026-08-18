@@ -1,3 +1,5 @@
+const newId = () => crypto.randomUUID ? crypto.randomUUID() : `${Date.now()}-${Math.random().toString(16).slice(2)}`;
+
 export class SessionStore {
   constructor() {
     this.items = [];
@@ -29,6 +31,22 @@ export class SessionStore {
     if (from < 0 || to < 0) return;
     const [item] = this.items.splice(from, 1);
     this.items.splice(to, 0, item);
+    this.emit();
+  }
+  rotate(id, delta = 90) {
+    const item = this.items.find(i => i.id === id);
+    if (!item) return;
+    item.rotation = ((item.rotation || 0) + delta + 360) % 360;
+    this.emit();
+  }
+  duplicate(id) {
+    const index = this.items.findIndex(i => i.id === id);
+    if (index < 0) return;
+    const source = this.items[index];
+    const copy = { ...source, id: newId(), name: source.name.replace(/(\.[^.]+)?$/, ' · copia$1') };
+    if (source.kind === 'image' && source.file) copy.previewUrl = URL.createObjectURL(source.file);
+    if (source.kind === 'pdf-page' && source.previewBlob) copy.previewUrl = URL.createObjectURL(source.previewBlob);
+    this.items.splice(index + 1, 0, copy);
     this.emit();
   }
   clear() {
