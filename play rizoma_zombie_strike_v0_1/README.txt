@@ -1,4 +1,4 @@
-Rizoma Zombie Strike v1.5.7 — 5 vidas + Mundo 2: Colonia Alfa / Nexo biotecnológico
+Rizoma Zombie Strike v1.6.1 — 5 vidas + Mundo 2: Colonia Alfa / Nexo biotecnológico
 
 Versión SAFE para Cloudflare Pages, sin archivo _headers.
 
@@ -97,7 +97,7 @@ Novedades v1.4.1 — Boss Swarm:
 - Eliminar esbirros reduce directamente el escudo del jefe, carga la sobrecarga anti-jefe y, si se limpia el séquito, abre una ventana vulnerable ampliada.
 - El HUD del jefe muestra la cantidad de protección activa para reforzar la lectura táctica.
 
-Novedades v1.5.7:
+Novedades v1.6.1:
 - 5 vidas al iniciar cada mundo (1 activa + 4 reservas).
 - Al perder las 5 vidas se puede comprar 1 vida con monedas, puntos o experiencia.
 - Escudo temporal de entrada reforzado y visible; se recarga al comenzar cada nivel.
@@ -119,7 +119,7 @@ Novedades v1.5.4:
 - Las repeticiones conservan score, monedas y experiencia, pero no duplican el poder único del jefe.
 
 
-Novedades v1.5.7:
+Novedades v1.6.1:
 - Mundo 2 recibe una cadencia mayor pero controlada de premios tácticos.
 - Nuevo Impulsor vectorial: +48% movilidad durante 10 segundos.
 - Nuevo Ralentizador temporal: reduce movimiento enemigo y proyectiles hostiles durante 10 segundos.
@@ -130,7 +130,7 @@ Novedades v1.5.7:
 - Los eventos del Mundo 2 pueden dejar premios adicionales sin saturar la pantalla.
 
 
-Novedades v1.5.7:
+Novedades v1.6.1:
 - Indicador permanente 👑 JEFE XX% en el HUD.
 - Mundo 2 Nivel 5 deja de generar una horda infinita: tres prefectos secuenciales abren directamente al Patriarca Bacilo Omega.
 - Prefectos mucho más visibles, grandes, marcados y acompañados por dos esbirros de su familia.

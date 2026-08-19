@@ -1,4 +1,4 @@
-const CACHE_NAME = 'rizoma-zombie-strike-v1-5-7-world2-tactical-rewards';
+const CACHE_NAME = 'rizoma-zombie-strike-v1-6-1-world2-tactical-rewards';
 self.addEventListener('install', event => { self.skipWaiting(); });
 self.addEventListener('activate', event => {
   event.waitUntil(caches.keys().then(keys => Promise.all(keys.map(k => caches.delete(k)))).then(() => self.clients.claim()));

@@ -1,7 +1,7 @@
 (() => {
   'use strict';
 
-  const VERSION = '1.5.7';
+  const VERSION = '1.6.1';
   const STORAGE_KEY = 'rizoma_zombie_strike_v0_3_state';
   const SAVE_KEY = 'rizoma_zombie_strike_v0_3_save';
   const clamp = (v, a, b) => Math.max(a, Math.min(b, v));
@@ -192,6 +192,8 @@
   const MAX_TOTAL_LIVES = 100;
   const SCORE_LIFE_STEP = 2500;
   const WEAPON_POWER_IDS = ['triple', 'laser', 'voidray', 'fire', 'drone', 'torpedo', 'spark', 'kamikaze', 'bounce', 'pulse'];
+  const BOSS_LOOT_POWER_IDS = ['spark', 'stasis', 'plasma', 'phantom', 'voidray'];
+  const HORDE_SIZE_BANDS = [3, 6, 9];
   const WORLD_ONE_CONFIG = {
     bossWave: 5,
     maxPhase: 5,
@@ -254,7 +256,7 @@
     world2BgBattlefield: 'assets/world2/bg_battlefield.webp',
     world2BgFortress: 'assets/world2/bg_vortex_fortress.webp',
     world2BossChaos: 'assets/world2/bg_boss_chaos.webp',
-    bossBaciloOmega: 'assets/world2/boss_bacilo_omega.webp',
+    bossBaciloOmega: 'assets/world2/boss_bacilo_omega_final.png',
     world2Voracid1: 'assets/world2/voracid_1.webp', world2Voracid2: 'assets/world2/voracid_2.webp', world2Voracid3: 'assets/world2/voracid_3.webp', world2Voracid4: 'assets/world2/voracid_4.webp', world2Voracid5: 'assets/world2/voracid_5.webp',
     world2Void1: 'assets/world2/void_1.webp', world2Void2: 'assets/world2/void_2.webp', world2Void3: 'assets/world2/void_3.webp', world2Void4: 'assets/world2/void_4.webp', world2Void5: 'assets/world2/void_5.webp',
     world2Metal1: 'assets/world2/metal_1.webp', world2Metal2: 'assets/world2/metal_2.webp', world2Metal3: 'assets/world2/metal_3.webp', world2Metal4: 'assets/world2/metal_4.webp', world2Metal5: 'assets/world2/metal_5.webp',
@@ -565,13 +567,15 @@
       this.drones = [];
       this.zones = [];
       this.meteors = [];
-      this.worldOneState = { meteorTimer: 5.2, insectTimer: 3.6, mirrorCount: 0, rainTimer: 9.5, burstTimer: 3.2, bombTimer: 6.4, planetTimer: 10.8, hunterTimer: 4.2, rewardSteps: [], backgroundPhase: 0, eventTimer: 8.5, actSeen: 0, captainsSpawned: 0, captainsKilled: 0, captainTimer: 2.4, bossPrelude: 0, bossPreludeMax: 4.8, bossPreludeStarted: false };
-      this.worldTwoState = { sporeTimer: 3.8, fogTimer: 7.2, splitTimer: 5.0, rewardSteps: [], backgroundPhase: 0, labPulse: 0, colonyTimer: 8.2, toxicZoneTimer: 7.0, junkTimer: 4.8, meteorTimer: 5.8, planetTimer: 10.8, chaosTimer: 8.6, rewardTimer: 7.0, eventTimer: 8.5, formationIndex: 0, enemyHistory: [], actSeen: 0, captainsSpawned: 0, captainsKilled: 0, captainTimer: 1.0, level5Elapsed: 0, bossPrelude: 0, bossPreludeMax: 5.3, bossPreludeStarted: false };
+      this.worldOneState = { meteorTimer: 5.2, insectTimer: 3.6, mirrorCount: 0, rainTimer: 9.5, burstTimer: 3.2, bombTimer: 6.4, planetTimer: 10.8, hunterTimer: 4.2, rewardSteps: [], backgroundPhase: 0, eventTimer: 8.5, hordeTimer: 15.5, hordeSeen: 0, actSeen: 0, captainsSpawned: 0, captainsKilled: 0, captainTimer: 2.4, bossPrelude: 0, bossPreludeMax: 4.8, bossPreludeStarted: false };
+      this.worldTwoState = { sporeTimer: 3.8, fogTimer: 7.2, splitTimer: 5.0, rewardSteps: [], backgroundPhase: 0, labPulse: 0, colonyTimer: 8.2, toxicZoneTimer: 7.0, junkTimer: 4.8, meteorTimer: 5.8, planetTimer: 10.8, chaosTimer: 8.6, rewardTimer: 7.0, eventTimer: 8.5, hordeTimer: 13.2, hordeSeen: 0, formationIndex: 0, enemyHistory: [], actSeen: 0, captainsSpawned: 0, captainsKilled: 0, captainTimer: 1.0, level5Elapsed: 0, bossPrelude: 0, bossPreludeMax: 5.3, bossPreludeStarted: false };
       this.toasts = [];
       this.powerLevels = {};
       this.powerActivity = {};
       this.fusions = {};
       this.run = { score: 0, coins: 0, experience: 0, kills: 0, bosses: 0, start: Date.now(), mapComplete: false, lifePurchases: 0 };
+      this.defeatPowerDropsIssued = false;
+      this.lastBossLootPower = null;
       this.extraLives = 4;
       this.nextLifeScore = 2500;
       this.resultMode = 'victory';
@@ -714,11 +718,23 @@
     updateBossApproachHud() {
       if (!els.hudBossApproach || !els.hudBossPercent) return;
       const pct = this.getBossApproachPercent();
-      els.hudBossApproach.classList.toggle('boss-ready', pct >= 80);
-      els.hudBossApproach.classList.toggle('boss-live', !!this.bossActive);
-      els.hudBossPercent.textContent = this.bossActive ? 'JEFE' : `${pct}%`;
       const bossName = MAPS[this.mapIndex]?.boss || 'Jefe';
-      els.hudBossApproach.title = this.bossActive ? `${bossName} en combate` : `${bossName}: ${pct}% de aproximación`;
+      if (this.bossActive) {
+        const b = this.bossActive;
+        const totalBase = Math.max(1, (b.baseHp || 1) + (b.shieldMax || 0));
+        const totalNow = Math.max(0, (b.hp || 0) + Math.max(0, b.shield || 0));
+        const remain = Math.round(clamp(totalNow / totalBase * 100, 0, 100));
+        els.hudBossApproach.classList.add('boss-live');
+        els.hudBossApproach.classList.toggle('boss-critical', remain <= 35);
+        els.hudBossApproach.classList.remove('boss-ready');
+        els.hudBossPercent.textContent = `-${remain}%`;
+        els.hudBossApproach.title = `${bossName}: ${remain}% restante`;
+      } else {
+        els.hudBossApproach.classList.toggle('boss-ready', pct >= 80);
+        els.hudBossApproach.classList.remove('boss-live','boss-critical');
+        els.hudBossPercent.textContent = `${pct}%`;
+        els.hudBossApproach.title = `${bossName}: ${pct}% de aproximación`;
+      }
     }
 
     getWorldStageTarget(level = this.worldStage?.level || this.wave || 1) {
@@ -858,6 +874,11 @@
         const act = WORLD_ONE_ACTS[this.wave - 1];
         w1.eventTimer = (act?.eventEvery || 12) + rand(2.4, -1.4);
       }
+      w1.hordeTimer = (w1.hordeTimer || 15.5) - dt;
+      if (w1.hordeTimer <= 0 && this.wave >= 2 && this.wave < 5) {
+        this.triggerWorldOneHorde();
+        w1.hordeTimer = rand(this.wave >= 4 ? 18 : 22, this.wave >= 4 ? 14 : 17);
+      }
       return false;
     }
 
@@ -921,6 +942,8 @@
       if (this.wave===5) {
         w2.level5Elapsed=(w2.level5Elapsed||0)+dt;
         w2.captainTimer=(w2.captainTimer||0)-dt;
+        w2.chaosTimer=(w2.chaosTimer||6.2)-dt;
+        w2.eventTimer=(w2.eventTimer||4.8)-dt;
         const alive=this.enemies.some(e=>e.world2Captain);
         if ((w2.captainsKilled||0)>=3 && !w2.bossPreludeStarted) {
           this.beginWorldTwoBossPrelude();
@@ -931,6 +954,19 @@
           this.spawnWorldTwoCaptain(idx);
           w2.captainsSpawned=idx+1;
           w2.captainTimer=2.2;
+          this.toast(`☣️ PREFECTO ${idx+1}/3`,`${['abre el cerco','presiona desde la niebla','protege el nido'][idx] || 'protege al Patriarca'}`);
+        }
+        if (w2.eventTimer<=0 && !w2.bossPreludeStarted) {
+          const support=[['vora_aguja','vora_colmillo'],['void_orbe','void_sifon'],['nest_guard','nest_stinger']][Math.min(2,w2.captainsKilled||0)] || ['vora_aguja','void_orbe'];
+          support.forEach((id,i)=>this.spawnEnemyNearPlayer(id,-.8+i*.9,280+i*18,true,1.02));
+          if (Math.random()<.5) this.spawnWorldTwoTacticalPrize();
+          w2.eventTimer=rand(8.4,6.2);
+        }
+        if (w2.chaosTimer<=0 && !w2.bossPreludeStarted) {
+          this.spawnMeteorRain(2,true);
+          this.spawnOrbitalWreck(1,false);
+          if (Math.random()<.55) this.spawnPlanetObstacle(1);
+          w2.chaosTimer=rand(9.2,6.8);
         }
         // Fail-safe: nunca permitir que la antesala quede eternamente sin el siguiente prefecto.
         if (!alive && (w2.captainsSpawned||0)>=3 && (w2.captainsKilled||0)<3 && w2.captainTimer<=-4) {
@@ -951,6 +987,11 @@
         if (Math.random() < .42) this.spawnWorldTwoTacticalPrize();
         const act=WORLD_TWO_ACTS[this.wave-1];
         w2.eventTimer=(act?.eventEvery||12)+rand(2.2,-1.2);
+      }
+      w2.hordeTimer = (w2.hordeTimer || 13.2) - dt;
+      if (w2.hordeTimer <= 0 && this.wave >= 2 && this.wave < 5) {
+        this.triggerWorldTwoHorde();
+        w2.hordeTimer = rand(this.wave >= 4 ? 15 : 18, this.wave >= 4 ? 12 : 14);
       }
       return false;
     }
@@ -1052,8 +1093,8 @@
       this.drones = [];
       this.zones = [];
       this.meteors = [];
-      this.worldOneState = { meteorTimer: 5.2, insectTimer: 3.6, mirrorCount: 0, rainTimer: 9.5, burstTimer: 3.2, bombTimer: 6.4, planetTimer: 10.8, hunterTimer: 4.2, rewardSteps: [], backgroundPhase: 0, eventTimer: 8.5, actSeen: 0, captainsSpawned: 0, captainsKilled: 0, captainTimer: 2.4, bossPrelude: 0, bossPreludeMax: 4.8, bossPreludeStarted: false };
-      this.worldTwoState = { sporeTimer: 3.8, fogTimer: 7.2, splitTimer: 5.0, rewardSteps: [], backgroundPhase: 0, labPulse: 0, colonyTimer: 8.2, toxicZoneTimer: 7.0, junkTimer: 4.8, meteorTimer: 5.8, planetTimer: 10.8, chaosTimer: 8.6, rewardTimer: 7.0, eventTimer: 8.5, formationIndex: 0, enemyHistory: [], actSeen: 0, captainsSpawned: 0, captainsKilled: 0, captainTimer: 1.0, level5Elapsed: 0, bossPrelude: 0, bossPreludeMax: 5.3, bossPreludeStarted: false };
+      this.worldOneState = { meteorTimer: 5.2, insectTimer: 3.6, mirrorCount: 0, rainTimer: 9.5, burstTimer: 3.2, bombTimer: 6.4, planetTimer: 10.8, hunterTimer: 4.2, rewardSteps: [], backgroundPhase: 0, eventTimer: 8.5, hordeTimer: 15.5, hordeSeen: 0, actSeen: 0, captainsSpawned: 0, captainsKilled: 0, captainTimer: 2.4, bossPrelude: 0, bossPreludeMax: 4.8, bossPreludeStarted: false };
+      this.worldTwoState = { sporeTimer: 3.8, fogTimer: 7.2, splitTimer: 5.0, rewardSteps: [], backgroundPhase: 0, labPulse: 0, colonyTimer: 8.2, toxicZoneTimer: 7.0, junkTimer: 4.8, meteorTimer: 5.8, planetTimer: 10.8, chaosTimer: 8.6, rewardTimer: 7.0, eventTimer: 8.5, hordeTimer: 13.2, hordeSeen: 0, formationIndex: 0, enemyHistory: [], actSeen: 0, captainsSpawned: 0, captainsKilled: 0, captainTimer: 1.0, level5Elapsed: 0, bossPrelude: 0, bossPreludeMax: 5.3, bossPreludeStarted: false };
       if (save?.worldOneState && this.mapIndex === 0) this.worldOneState = { ...this.worldOneState, ...save.worldOneState };
       if (save?.worldTwoState && this.mapIndex === 1) this.worldTwoState = { ...this.worldTwoState, ...save.worldTwoState };
       this.powerLevels = save?.powerLevels || {};
@@ -1061,6 +1102,8 @@
       this.activePowerSlots = save?.activePowerSlots || { weaponMode: null };
       this.fusions = save?.fusions || {};
       this.run = save?.run || { score: 0, coins: 0, experience: 0, kills: 0, bosses: 0, start: Date.now(), mapComplete: false, lifePurchases: 0 };
+      this.defeatPowerDropsIssued = false;
+      this.lastBossLootPower = null;
       this.worldStage = save?.worldStage || { level: Math.max(1, save?.wave || 1), kills: 0, targets: (WORLD_STAGE_TARGETS[this.mapIndex] || [20,30,40,50,60]), totalLevels: 5, bossLevel: 5 };
       this.worldStage.targets = WORLD_STAGE_TARGETS[this.mapIndex] || this.worldStage.targets || [20,30,40,50,60];
       this.worldStage.totalLevels = this.worldStage.targets.length;
@@ -1405,28 +1448,33 @@
 
     showBossIntro(map, boss) {
       if (!els.bossIntroOverlay) return;
-      els.bossIntroFamily.textContent = BOSS_FAMILY_LABELS[boss.family] || BEAST_LABELS[boss.beast] || 'Jefe';
+      const cinematic = this.mapIndex === 1;
+      els.bossIntroFamily.textContent = cinematic ? 'CONTACTO DE AMENAZA · MUNDO 2' : (BOSS_FAMILY_LABELS[boss.family] || BEAST_LABELS[boss.beast] || 'Jefe');
       els.bossIntroIcon.textContent = BEAST_ICONS[boss.beast] || map.icon || '👹';
       els.bossIntroName.textContent = boss.name;
-      els.bossIntroText.textContent = `${boss.specialName || 'Mutación'} · ${BEAST_LABELS[boss.beast] || 'entidad'}`;
-      els.bossIntroOverlay.classList.add('micro-intro');
+      els.bossIntroText.textContent = cinematic
+        ? `${boss.specialName || 'Mutación'} · fase de irrupción biotóxica`
+        : `${boss.specialName || 'Mutación'} · ${BEAST_LABELS[boss.beast] || 'entidad'}`;
+      els.bossIntroOverlay.classList.toggle('micro-intro', !cinematic);
+      els.bossIntroOverlay.classList.toggle('cinematic-full', cinematic);
       els.bossIntroOverlay.dataset.family = map.family || '';
       els.bossIntroOverlay.classList.remove('hidden');
       clearTimeout(this.bossIntroTimeout);
-      this.bossIntroTimeout = setTimeout(() => { if (els.bossIntroOverlay) { els.bossIntroOverlay.classList.add('hidden'); els.bossIntroOverlay.classList.remove('micro-intro'); els.bossIntroOverlay.dataset.family = ''; } }, 1250);
+      const timeout = cinematic ? 2100 : 1250;
+      this.bossIntroTimeout = setTimeout(() => {
+        if (els.bossIntroOverlay) {
+          els.bossIntroOverlay.classList.add('hidden');
+          els.bossIntroOverlay.classList.remove('micro-intro','cinematic-full');
+          els.bossIntroOverlay.dataset.family = '';
+        }
+      }, timeout);
     }
 
 
     updateBossUi() {
       const b = this.bossActive;
-      if (!b || !els.bossHpFill) return;
-      els.bossHpFill.style.width = `${clamp(b.hp / b.baseHp * 100, 0, 100)}%`;
-      if (els.bossShieldFill) els.bossShieldFill.style.width = `${clamp((b.shield || 0) / (b.shieldMax || 1) * 100, 0, 100)}%`;
-      if (els.bossPhaseLabel) els.bossPhaseLabel.textContent = `Fase ${b.phase}`;
-      if (els.bossShieldLabel) els.bossShieldLabel.textContent = `Escudo ${Math.max(0, Math.round(b.shield || 0))}`;
-      if (els.bossAddsLabel) { const adds = this.enemies.filter(e => !e.boss).length; els.bossAddsLabel.textContent = (this.mapIndex === 0 || this.mapIndex === 1) && adds > 0 ? `Protección ${adds}` : `Séquito ${adds}`; }
-      if (els.bossVulnLabel) els.bossVulnLabel.textContent = b.vulnerable > 0 ? `Vulnerable ${b.vulnerable.toFixed(1)}s` : (b.shield > 0 ? 'Blindado' : 'Abierto');
-      els.bossBar?.classList.toggle('vulnerable', b.vulnerable > 0);
+      if (!b) return;
+      if (els.bossBar) els.bossBar.classList.add('hidden');
     }
 
     updateBossFight(dt) {
@@ -1494,6 +1542,15 @@
         b.shieldMax += 18;
         b.shield = Math.min(b.shieldMax, b.shield + b.shieldMax * .38);
         this.grantBossAid(`Fase ${b.phase}`);
+        if (this.mapIndex === 1) {
+          const phaseLines = {
+            2:'el Patriarca acelera sus enjambres',
+            3:'el núcleo biotóxico entra en furia',
+            4:'máxima presión: ruptura del cerco'
+          };
+          this.toast(`☣️ FASE ${b.phase}`, phaseLines[b.phase] || 'el jefe intensifica su patrón');
+          this.spawnMeteorRain(1,true);
+        }
         AudioFX.setBossPhase(b.family, b.phase, true);
       }
       if (f.charge >= 100) {
@@ -2190,6 +2247,125 @@
       AudioFX.tone(740,.08,'sine',.025,90);
     }
 
+    spawnCrossWorldTacticalPrize(force = null) {
+      if (this.mapIndex === 1) return this.spawnWorldTwoTacticalPrize(force);
+      if (!this.player || this.bossActive) return;
+      const p = this.player;
+      let choice = force;
+      if (!choice) {
+        const shieldLow = p.shield < p.maxShield * .42;
+        const lifeLow = p.hp < p.maxHp * .56;
+        const pool = [];
+        if (shieldLow) pool.push('shield', 'shield');
+        if (lifeLow) pool.push('life', 'life');
+        pool.push('afterburner', 'afterburner', 'stasis', 'stasis', 'shield', 'life');
+        choice = pick(pool);
+      }
+      const x = clamp(p.x + rand(170, -170), 55, this.w - 55);
+      const y = clamp(p.y + rand(145, -145), 62, this.h - 62);
+      if (choice === 'shield') this.spawnPickup(x, y, 'shield', 26, { rewardGlow: true, label: 'SHIELD +26' });
+      else if (choice === 'life') this.spawnPickup(x, y, 'life', 22, { rewardGlow: true, label: 'REPARACIÓN' });
+      else if (choice === 'afterburner') this.spawnPickup(x, y, 'power', 1, { powerId: 'afterburner', rewardGlow: true, label: 'IMPULSOR 10s', powerDuration: 10 });
+      else if (choice === 'stasis') this.spawnPickup(x, y, 'power', 1, { powerId: 'stasis', rewardGlow: true, label: 'RALENTIZADOR 10s', powerDuration: 10 });
+      else if (choice === 'wingman') this.spawnPickup(x, y, 'power', 1, { powerId: 'wingman', rewardGlow: true, label: 'NAVE AUXILIAR 12s', powerDuration: 12 });
+      AudioFX.tone(720, .08, 'triangle', .025, 80);
+    }
+
+    spawnCrossWorldPrizeBurst(count = 2) {
+      const plan = ['afterburner', 'stasis', 'shield', 'life', 'wingman'];
+      for (let i = 0; i < count; i++) this.spawnCrossWorldTacticalPrize(plan[(i + this.wave + this.mapIndex) % plan.length]);
+    }
+
+    getBossLootPowerId() {
+      return BOSS_LOOT_POWER_IDS[this.mapIndex] || BOSS_LOOT_POWER_IDS[BOSS_LOOT_POWER_IDS.length - 1];
+    }
+
+    spawnBossLootBurst(e) {
+      if (!e) return null;
+      const powerId = this.getBossLootPowerId();
+      const power = POWERS.find(pw => pw.id === powerId) || POWERS[0];
+      this.lastBossLootPower = power;
+      this.spawnPickup(e.x, e.y - e.r * .45, 'power', 1, { powerId, major: true, rewardGlow: true, label: `BOTÍN ${power.name.toUpperCase()}`, powerDuration: Math.max(12, POWER_ACTIVE_SECONDS[powerId] || 12) });
+      for (let i = 0; i < 5; i++) this.spawnPickup(e.x + rand(120, -120), e.y + rand(95, -95), 'coin', 30 + i * 8, { rewardGlow: i < 2 });
+      for (let i = 0; i < 4; i++) this.spawnPickup(e.x + rand(105, -105), e.y + rand(88, -88), 'xp', 14 + i * 6, { rewardGlow: i < 2 });
+      if (Math.random() < .8) this.spawnPickup(e.x + rand(86, -86), e.y + rand(64, -64), 'life', 26 + this.mapIndex * 4, { rewardGlow: true, label: 'VIDA DE BOTÍN' });
+      this.toast('🎁 Botín del jefe', `${power.name} · XP · monedas${Math.random() < .5 ? ' · vida' : ''}`);
+      return power;
+    }
+
+    dropActivePowersOnDefeat() {
+      if (this.defeatPowerDropsIssued || !this.player) return 0;
+      const activeIds = Object.keys(this.powerActivity || {}).filter(id => (this.powerLevels?.[id] || 0) > 0 && (this.powerActivity?.[id] || 0) > 0.28);
+      if (!activeIds.length) return 0;
+      this.defeatPowerDropsIssued = true;
+      const p = this.player;
+      activeIds.slice(0, 8).forEach((id, idx, arr) => {
+        const pow = POWERS.find(meta => meta.id === id);
+        const angle = (Math.PI * 2 / Math.max(1, arr.length)) * idx - Math.PI / 2;
+        this.spawnPickup(p.x + Math.cos(angle) * 88, p.y + Math.sin(angle) * 60, 'power', 1, {
+          powerId: id,
+          major: true,
+          rewardGlow: true,
+          reclaimPower: true,
+          restoreLevel: this.powerLevels?.[id] || 1,
+          label: `RECUPERA ${pow?.name?.toUpperCase() || 'PODER'}`,
+          powerDuration: Math.max(6, Math.ceil(this.powerActivity?.[id] || POWER_ACTIVE_SECONDS[id] || 8))
+        });
+      });
+      this.powerActivity = {};
+      this.activePowerSlots = { weaponMode: null };
+      this.player.sparkTimer = 0;
+      this.player.sparkTick = 0;
+      this.drones = this.drones.filter(d => d.permanent);
+      this.toast('✦ Poderes dispersos', `${activeIds.length} módulo${activeIds.length > 1 ? 's' : ''} flotando para recuperar`);
+      return activeIds.length;
+    }
+
+    triggerWorldOneHorde() {
+      if (this.wave < 2 || this.wave >= 5) return;
+      const wide = this.w >= 1100;
+      const count = wide ? 5 : 4;
+      this.spawnWorldOneVisibleSwarm(count);
+      if (this.wave >= 3) this.spawnWorldOneVisibleSwarm(wide ? 3 : 2);
+      this.spawnCrossWorldPrizeBurst(this.wave >= 4 ? 3 : 2);
+      this.worldOneState.hordeSeen = (this.worldOneState.hordeSeen || 0) + 1;
+      this.toast('⚠️ HORDA ABIERTA', `Mundo 1 · oleada ${this.wave} · más premios en pantalla`);
+    }
+
+    spawnWorldTwoVFormation(size = 3, diagonal = false, rightToLeft = false) {
+      const pool = ['vora_aguja', 'vora_colmillo', 'vora_cuchilla', 'void_orbe', 'void_sifon', 'void_niebla'];
+      const leadX = rightToLeft ? this.w + 40 : -40;
+      const dir = rightToLeft ? -1 : 1;
+      const baseY = clamp(this.player.y + rand(155, -155), 88, this.h - 120);
+      for (let i = 0; i < size; i++) {
+        const id = pick(pool);
+        this.spawnEnemy(id, true);
+        const e = this.enemies[this.enemies.length - 1];
+        if (!e) continue;
+        const row = i === 0 ? 0 : Math.ceil(i / 2);
+        const wing = i === 0 ? 0 : (i % 2 ? -1 : 1);
+        e.x = leadX - dir * row * 46;
+        e.y = clamp(baseY + wing * row * 28 + (diagonal ? row * 12 * (rightToLeft ? -1 : 1) : 0), 54, this.h - 54);
+        e.speed *= 1.08;
+        e.r *= .92;
+        e.onScreenSpawn = true;
+        e.formationVX = dir * rand(86, 64);
+        e.formationVY = diagonal ? wing * rand(24, 12) : wing * rand(8, -8);
+        e.formationTime = 7.8;
+      }
+    }
+
+    triggerWorldTwoHorde() {
+      if (this.wave < 2 || this.wave >= 5) return;
+      const idx = Math.min(HORDE_SIZE_BANDS.length - 1, Math.max(0, this.wave - 2));
+      const size = HORDE_SIZE_BANDS[idx];
+      this.spawnWorldTwoVFormation(size, Math.random() < .68, Math.random() < .5);
+      if (size >= 6) this.spawnWorldTwoVFormation(3, Math.random() < .5, Math.random() < .5);
+      this.spawnCrossWorldPrizeBurst(size >= 6 ? 3 : 2);
+      this.worldTwoState.hordeSeen = (this.worldTwoState.hordeSeen || 0) + 1;
+      this.toast('☣️ HORDA DEL NEXO', `Formación en V x${size} · premios tácticos liberados`);
+    }
+
     spawnWorldTwoVisibleColony(count=3) {
       const pool=[...WORLD_TWO_MINION_FAMILIES[0],...WORLD_TWO_MINION_FAMILIES[1]];
       for(let i=0;i<count;i++) {
@@ -2207,7 +2383,7 @@
     }
 
     spawnLogic(dt) {
-      if (this.bossActive) return;
+      if (this.bossActive || this.run?.mapComplete) return;
       this.spawnTime -= dt;
       if (this.mapIndex === 0) {
         const phase = clamp(this.wave, 1, 5);
@@ -2589,7 +2765,7 @@
       const p = currentProfile();
       const campaignScale = 1 + this.mapIndex * .08;
       let hp = (1120 + this.mapIndex * 270 + this.wave * 118) * campaignScale;
-      hp *= this.mapIndex === 0 ? 4.35 : (this.mapIndex === 1 ? 3.55 : (2.25 + this.mapIndex * 0.095));
+      hp *= this.mapIndex === 0 ? 4.35 : (this.mapIndex === 1 ? 3.82 : (2.25 + this.mapIndex * 0.095));
       const x = this.w / 2;
       const y = -80;
       const shieldBase = this.mapIndex === 0 ? 680 : (this.mapIndex === 1 ? 560 : 310 + this.mapIndex * 42);
@@ -2604,11 +2780,11 @@
         summons: this.mapIndex === 1 ? WORLD_TWO_MINION_FAMILIES.flat() : (map.summons || []),
         specialName: map.specialName || 'Mutación',
         x, y,
-        targetY: this.h * .18,
+        targetY: this.mapIndex === 1 ? this.h * .22 : this.h * .18,
         hp,
         baseHp: hp,
         speed: (this.mapIndex === 0 ? 33 : (this.mapIndex === 1 ? 34 : 40)) + this.mapIndex * 1.5,
-        r: (this.mapIndex === 0 ? 36 : (this.mapIndex === 1 ? 42 : (31 + this.mapIndex * .36) * 0.64)),
+        r: (this.mapIndex === 0 ? 36 : (this.mapIndex === 1 ? 54 : (31 + this.mapIndex * .36) * 0.64)),
         t: 0,
         attack: this.mapIndex === 0 ? 2.55 : (this.mapIndex === 1 ? 2.28 : 1.95),
         specialCd: this.mapIndex === 0 ? 6.6 : (this.mapIndex === 1 ? 6.0 : 5.3),
@@ -2621,7 +2797,7 @@
         boss: true,
         minionFamilies: this.mapIndex === 0 ? WORLD_ONE_MINION_FAMILIES : (this.mapIndex === 1 ? WORLD_TWO_MINION_FAMILIES : [])
       };
-      this.bossFight = { active: true, charge: 0, minionTimer: this.mapIndex === 0 ? 1.6 : (this.mapIndex === 1 ? 1.85 : 2.15), phaseNotified: 1, cinematic: 1.15, addsKilled: 0, supportTimer: this.mapIndex === 0 ? 2.2 : 1.9, escortTimer: this.mapIndex === 0 ? 3.4 : (this.mapIndex === 1 ? 3.2 : 3.9), hazardTimer: this.mapIndex === 0 ? 5.0 : (this.mapIndex === 1 ? 4.8 : 4.2), guardianPulse: 0 };
+      this.bossFight = { active: true, charge: 0, minionTimer: this.mapIndex === 0 ? 1.6 : (this.mapIndex === 1 ? 1.85 : 2.15), phaseNotified: 1, cinematic: this.mapIndex === 1 ? 1.95 : 1.15, addsKilled: 0, supportTimer: this.mapIndex === 0 ? 2.2 : 1.9, escortTimer: this.mapIndex === 0 ? 3.4 : (this.mapIndex === 1 ? 3.2 : 3.9), hazardTimer: this.mapIndex === 0 ? 5.0 : (this.mapIndex === 1 ? 4.8 : 4.2), guardianPulse: 0 };
       this.enemies.push(this.bossActive);
       this.bossIntroduced = true;
       this.grantBossAid('Duelo de jefe');
@@ -2630,7 +2806,7 @@
       if (this.mapIndex === 1) AudioFX.world2BossCue();
       this.shake = 12;
       this.flash = 1;
-      els.bossBar.classList.remove('hidden');
+      els.bossBar.classList.add('hidden');
       els.bossName.textContent = `${map.boss} · ${this.bossActive.specialName}`;
       this.updateBossUi();
       this.showBossIntro(map, this.bossActive);
@@ -2776,6 +2952,13 @@
         if (!bossHandled) {
           e.x += mx * e.speed * slow * speedBuff * dt;
           e.y += my * e.speed * slow * speedBuff * dt;
+        }
+        if (!e.boss && (e.formationVX || e.formationVY)) {
+          e.formationTime = Math.max(0, (e.formationTime || 0) - dt);
+          const driftMul = e.formationTime > 0 ? 1 : .35;
+          e.x += (e.formationVX || 0) * driftMul * dt;
+          e.y += (e.formationVY || 0) * driftMul * dt;
+          if (e.formationTime <= 0) { e.formationVX *= .985; e.formationVY *= .985; }
         }
 
         if (e.behavior === 'mist' && Math.random() < .018) this.emit(e.x, e.y, '#ffffff', 2, 80, .8, 'mist');
@@ -3051,7 +3234,8 @@
       if (e.boss) {
         this.bossDeathExplosion(e);
         this.particles.push({ type:'ring', x:e.x, y:e.y, r:20, maxR:160, life:1.1, max:1.1, color:'#ffd56a' });
-        this.toast('✦ Poder del jefe', 'Recompensa asegurada al completar el mundo');
+        this.spawnBossLootBurst(e);
+        this.toast('✦ Poder del jefe', 'Recoge botín, XP, monedas y una posible vida');
       } else {
         const roll = Math.random();
         const starter = this.mapIndex === 0;
@@ -3128,6 +3312,8 @@
         rewardGlow: !!options.rewardGlow,
         label: options.label || '',
         powerDuration: options.powerDuration || 0,
+        reclaimPower: !!options.reclaimPower,
+        restoreLevel: options.restoreLevel || 0,
         icon: meta.icon,
         color: meta.color,
         r: meta.r,
@@ -3162,8 +3348,10 @@
           if (item.type === 'shield') { p.shield = Math.min(p.maxShield, p.shield + item.value); AudioFX.pickup(); }
           if (item.type === 'life') { p.hp = Math.min(p.maxHp, p.hp + item.value); AudioFX.pickup(); }
           if (item.type === 'power') {
-            if (item.powerId) this.empowerPower(item.powerId, { toastTitle: item.major ? '✦ Poder adquirido' : 'Poder activado', duration: item.powerDuration || 0 });
-            else this.applyScreenPowerPickup();
+            if (item.powerId) {
+              if (item.reclaimPower) this.empowerPower(item.powerId, { skipLevelGain: true, toastTitle: '♻ Poder recuperado', duration: item.powerDuration || 0 });
+              else this.empowerPower(item.powerId, { toastTitle: item.major ? '✦ Poder adquirido' : 'Poder activado', duration: item.powerDuration || 0 });
+            } else this.applyScreenPowerPickup();
             AudioFX.level();
           }
           if (item.type === 'nuke') { this.triggerScreenNuke(); AudioFX.level(); }
@@ -3387,7 +3575,8 @@
     empowerPower(id, options = {}) {
       const pow = POWERS.find(p => p.id === id);
       if (!pow) return null;
-      this.powerLevels[id] = (this.powerLevels[id] || 0) + 1;
+      if (options.skipLevelGain) this.powerLevels[id] = Math.max(1, this.powerLevels[id] || 0);
+      else this.powerLevels[id] = (this.powerLevels[id] || 0) + 1;
       this.markPowerActive(id, options.duration || POWER_ACTIVE_SECONDS[id] || 8);
       this.activatePowerSlot(id);
       currentProfile().collection.powers[id] = true;
@@ -3511,15 +3700,18 @@
       p.stats.totalCoins += mapBonus;
       unlockAchievement('boss_1');
       if (p.unlockedMap >= 3) unlockAchievement('map_3');
-      this.toast('👑 Mundo completado', `${this.lastWorldReward?.name || 'Poder del jefe'} obtenido`);
+      this.toast('👑 Mundo completado', `${this.lastWorldReward?.name || 'Poder del jefe'} obtenido · botín ${this.lastBossLootPower?.name || 'del jefe'}`);
       AudioFX.win();
-      setTimeout(() => this.showResult(true), 1700);
+      setTimeout(() => this.showResult(true), 2600);
     }
 
     end(victory) {
       this.running = false;
       AudioFX.stopMusic();
-      if (!victory) AudioFX.lose();
+      if (!victory) {
+        this.dropActivePowersOnDefeat();
+        AudioFX.lose();
+      }
       this.showResult(victory);
     }
 
@@ -3594,6 +3786,7 @@
       this.zones = [];
       this.flash = .8;
       this.toast('Segunda oportunidad', `Vidas disponibles: ${this.extraLives + 1}`);
+      this.defeatPowerDropsIssued = false;
       this.paused = false;
       this.running = true;
       hideOverlays();
@@ -3613,7 +3806,8 @@
         els.resultText.textContent = 'La repetición terminó. Tu progreso principal y tu partida guardada permanecen intactos.';
       } else if (victory) {
         const reward = this.lastWorldReward || { name: 'Poder del jefe' };
-        els.resultText.textContent = `${reward.name} obtenido · arma base mejorada de forma permanente en daño, alcance, velocidad y precisión · +${this.lastWorldLifeBonus || 0} vidas.`;
+        const loot = this.lastBossLootPower?.name ? ` Botín recogible: ${this.lastBossLootPower.name}.` : '';
+        els.resultText.textContent = `${reward.name} obtenido · arma base mejorada de forma permanente en daño, alcance, velocidad y precisión · +${this.lastWorldLifeBonus || 0} vidas.${loot}`;
       } else {
         els.resultText.textContent = this.extraLives > 0 ? `Te quedan ${this.extraLives} vidas de reserva. Conservas Mundo ${this.mapIndex + 1}, Nivel ${this.wave}.` : `Has perdido las 5 vidas. Compra una vida con monedas, puntos o experiencia para continuar este nivel.`;
       }
@@ -4474,13 +4668,14 @@
           } else if (this.mapIndex === 1) {
             const boss2=this.getAsset('bossBaciloOmega');
             if(boss2){
-              ctx.globalAlpha=.98*(e.alpha??1);
-              const w=e.r*8.4;
+              ctx.globalAlpha=.99*(e.alpha??1);
+              const w=e.r*8.25;
               const h=w*(boss2.naturalHeight/boss2.naturalWidth);
-              ctx.drawImage(boss2,-w*.5,-h*.48,w,h);
-              ctx.globalAlpha=.22;
-              ctx.strokeStyle='#c391ff';ctx.lineWidth=2.4;
-              ctx.beginPath();ctx.arc(0,0,e.r*1.75,0,Math.PI*2);ctx.stroke();
+              ctx.save();
+              ctx.shadowBlur = 18;
+              ctx.shadowColor = 'rgba(180,120,255,.28)';
+              ctx.drawImage(boss2,-w*.5,-h*.52,w,h);
+              ctx.restore();
             } else this.drawBacteriaBoss(ctx,e);
           } else {
             const sides = ({spider:8,tick:7,rat:6,scorpion:10,leech:5,puffer:11,wasp:9,centipede:12,roach:8,chimera:13})[e.beast] || 9;
@@ -4535,11 +4730,13 @@
           ctx.fillText(`PREFECTO ${Math.min(3,(e.captainIndex||0)+1)}/3`,0,-e.r*2.45);
           ctx.restore();
         }
-        const barY = realisticWorld2 ? e.r * (e.world2Captain ? 3.25 : 2.8) + 6 : e.r + 8;
-        const barW = realisticWorld2 ? e.r * 2.45 : e.r * 2;
-        ctx.globalAlpha = .85;
-        ctx.fillStyle = 'rgba(0,0,0,.42)'; ctx.fillRect(-barW/2, barY, barW, 4);
-        ctx.fillStyle = e.boss ? '#ff6b73' : '#61ffc8'; ctx.fillRect(-barW/2, barY, barW * hp, 4);
+        if (!e.boss) {
+          const barY = realisticWorld2 ? e.r * (e.world2Captain ? 3.25 : 2.8) + 6 : e.r + 8;
+          const barW = realisticWorld2 ? e.r * 2.45 : e.r * 2;
+          ctx.globalAlpha = .85;
+          ctx.fillStyle = 'rgba(0,0,0,.42)'; ctx.fillRect(-barW/2, barY, barW, 4);
+          ctx.fillStyle = '#61ffc8'; ctx.fillRect(-barW/2, barY, barW * hp, 4);
+        }
         ctx.restore();
       }
     }
