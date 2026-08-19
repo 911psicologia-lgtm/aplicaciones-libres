@@ -1,4 +1,4 @@
-Rizoma Zombie Strike v1.6.1 — 5 vidas + Mundo 2: Colonia Alfa / Nexo biotecnológico
+Rizoma Zombie Strike v1.7.1 — 5 vidas + Mundo 2: Colonia Alfa / Nexo biotecnológico
 
 Versión SAFE para Cloudflare Pages, sin archivo _headers.
 
@@ -97,7 +97,7 @@ Novedades v1.4.1 — Boss Swarm:
 - Eliminar esbirros reduce directamente el escudo del jefe, carga la sobrecarga anti-jefe y, si se limpia el séquito, abre una ventana vulnerable ampliada.
 - El HUD del jefe muestra la cantidad de protección activa para reforzar la lectura táctica.
 
-Novedades v1.6.1:
+Novedades v1.6.2:
 - 5 vidas al iniciar cada mundo (1 activa + 4 reservas).
 - Al perder las 5 vidas se puede comprar 1 vida con monedas, puntos o experiencia.
 - Escudo temporal de entrada reforzado y visible; se recarga al comenzar cada nivel.
@@ -119,7 +119,7 @@ Novedades v1.5.4:
 - Las repeticiones conservan score, monedas y experiencia, pero no duplican el poder único del jefe.
 
 
-Novedades v1.6.1:
+Novedades v1.6.2:
 - Mundo 2 recibe una cadencia mayor pero controlada de premios tácticos.
 - Nuevo Impulsor vectorial: +48% movilidad durante 10 segundos.
 - Nuevo Ralentizador temporal: reduce movimiento enemigo y proyectiles hostiles durante 10 segundos.
@@ -130,9 +130,56 @@ Novedades v1.6.1:
 - Los eventos del Mundo 2 pueden dejar premios adicionales sin saturar la pantalla.
 
 
-Novedades v1.6.1:
+Novedades v1.6.2:
 - Indicador permanente 👑 JEFE XX% en el HUD.
 - Mundo 2 Nivel 5 deja de generar una horda infinita: tres prefectos secuenciales abren directamente al Patriarca Bacilo Omega.
 - Prefectos mucho más visibles, grandes, marcados y acompañados por dos esbirros de su familia.
 - Fail-safe para garantizar la aparición del siguiente prefecto y del jefe.
 - Nivel 2 alterna cuatro formaciones enemigas y evita repetir continuamente el mismo esbirro.
+
+
+Novedades v1.6.2:
+- Mundo 3 Corredor Viridiano implementado con fondo híbrido y 60-100 estrellas procedurales en 3 planos.
+- 3 familias de 5 esbirros verdes, jefe Soberano de la Energía Tóxica y peligros propios.
+- Hordas en V de 3, 6 y 9 con aceleración visual y premios adicionales.
+- Nuevos poderes: Cadena voltaica, Sobrecarga del reactor, Fase espectral, Nanorreparación e Imán gravitacional.
+- Poderes temporales mejoran levemente por cada mundo superado; arma base mantiene el aumento principal.
+- Armas principales incompatibles entran en cola automática en vez de desperdiciarse.
+- Combos solo se activan cuando los poderes requeridos conviven simultáneamente.
+- Al derrotar un jefe, el juego espera a que se recoja todo el botín antes del resumen final.
+- Resumen de mundo centrado, sin cuadro invasivo, con botón Continuar.
+- Cada jefe derrotado queda registrado como Nave-Jefe; soporte activable desde Mundo 4.
+
+
+Novedades v1.6.4 — Recuperación táctica:
+- Corregido el bug que degradaba permanentemente la velocidad al entrar en zonas de ralentización.
+- Al morir se conserva una instantánea de hasta 8 poderes activos/en cola.
+- Al reactivar, esos poderes reaparecen alrededor de la nave como premios recuperables.
+- Cada reactivación añade un Impulsor vectorial de 10 s y un combo de emergencia de 5 s según mundo/nivel.
+- La nave recupera su velocidad base y recibe 5,2 s de protección/reacción para recoger el paquete.
+- Todos los poderes temporales ganan +3% de efecto y duración por cada nivel del mundo (L1=base, L2=+3%, L3=+6%, L4=+9%, L5=+12%).
+- El arma básica mantiene su progresión propia por mundo, sin ser alterada por esta regla.
+
+
+Novedades v1.6.4 — Recolección espacial y combos:
+- Corregido el resultado de mundo que podía persistir sobre el mundo siguiente.
+- Eliminada la selección emergente de poderes durante el combate.
+- Las mejoras de nivel aparecen ahora como tres cápsulas flotantes; se elige una moviendo la nave.
+- Las hordas de Mundos 1, 2 y 3 garantizan un kit flotante: Bomba antihorda + Impulsor + Ralentizador.
+- Corregida la cola de armas principales: un poder en cola ya no sustituye accidentalmente al arma activa.
+- Las armas principales compatibles con un combo pueden coexistir temporalmente.
+- Combos reforzados visualmente y con efectos reales; nuevos combos de Mundo 3: Tempestad del reactor, Hiperfase vectorial y Bastión regenerativo.
+- Impulsor, Ralentizador, Fase espectral y Naves auxiliares respetan mejor la mejora de +3% por nivel.
+
+
+Novedades v1.7.1 — Preparación Táctica Exprés:
+- Compra opcional antes de iniciar/reanudar misión, al comenzar cada nivel y tras reactivar una vida.
+- Límites por nivel: M1 3, M2 5, M3 7, M4 9, M5 10; preparado hasta M10 con máximo 20.
+- Monedas, XP y puntos disponibles se calculan en tiempo real; la compra descuenta el recurso elegido. El score histórico no disminuye.
+- Poderes, bomba antihorda, shield, combos y sobrecarga del arsenal aparecen flotando y se recogen con la nave.
+- Entregas en lotes de hasta 5 objetos para evitar saturación.
+- Asesor táctico resalta opciones según horda, defensa, movilidad y combos posibles.
+- Compras realizadas se conservan al morir dentro del mismo nivel y el límite se reinicia al cambiar de nivel.
+
+
+Novedades v1.7.2 — carrito táctico no invasivo, entrega gradual, combos secuenciales y kits antihorda en Mundos 4–5.

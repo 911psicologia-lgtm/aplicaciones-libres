@@ -1,7 +1,7 @@
 (() => {
   'use strict';
 
-  const VERSION = '1.6.1';
+  const VERSION = '1.7.2';
   const STORAGE_KEY = 'rizoma_zombie_strike_v0_3_state';
   const SAVE_KEY = 'rizoma_zombie_strike_v0_3_save';
   const clamp = (v, a, b) => Math.max(a, Math.min(b, v));
@@ -180,20 +180,34 @@
     { id: 'plasma', icon: '↻', name: 'Tornado de plasma', rarity: 'legendary', desc: 'Vórtice móvil que atrapa y destruye.', type: 'ultimate' },
     { id: 'afterburner', icon: '»', name: 'Impulsor vectorial', rarity: 'rare', desc: 'Aumenta mucho la velocidad de la nave durante unos segundos.', type: 'mobility' },
     { id: 'stasis', icon: '⌛', name: 'Ralentizador temporal', rarity: 'rare', desc: 'Reduce la velocidad de enemigos y proyectiles hostiles.', type: 'control' },
-    { id: 'wingman', icon: '🛸', name: 'Nave auxiliar', rarity: 'epic', desc: 'Invoca una nave aliada durante 12 segundos. Máximo dos simultáneas.', type: 'ally' }
+    { id: 'wingman', icon: '🛸', name: 'Nave auxiliar', rarity: 'epic', desc: 'Invoca una nave aliada durante 12 segundos. Máximo dos simultáneas.', type: 'ally' },
+    { id: 'voltaic', icon: '⚡', name: 'Cadena voltaica', rarity: 'epic', desc: 'Una descarga salta entre varios enemigos.', type: 'control' },
+    { id: 'overdrive', icon: '✹', name: 'Sobrecarga del reactor', rarity: 'epic', desc: 'Aumenta temporalmente daño y cadencia.', type: 'modifier' },
+    { id: 'phase', icon: '👻', name: 'Fase espectral', rarity: 'legendary', desc: 'Reduce mucho el daño recibido durante unos segundos.', type: 'defense' },
+    { id: 'nanorepair', icon: '✚', name: 'Nanorreparación', rarity: 'rare', desc: 'Regenera vida progresivamente.', type: 'defense' },
+    { id: 'magnetism', icon: '🧲', name: 'Imán gravitacional', rarity: 'rare', desc: 'Atrae premios desde mayor distancia.', type: 'utility' }
   ];
 
   const POWER_ACTIVE_SECONDS = {
     triple: 10, laser: 10, orbs: 8, pierce: 9, ice: 9, fire: 8, drone: 12, ring: 8,
     bounce: 8, pulse: 6, opem: 6, nuke: 7, spark: 10, torpedo: 6, virus: 7, kamikaze: 6,
-    voidray: 12, gravmine: 12, disruptor: 10, phantom: 14, plasma: 10, afterburner: 10, stasis: 10, wingman: 12
+    voidray: 12, gravmine: 12, disruptor: 10, phantom: 14, plasma: 10, afterburner: 10, stasis: 10, wingman: 12,
+    voltaic: 11, overdrive: 10, phase: 8, nanorepair: 12, magnetism: 12
   };
 
   const MAX_TOTAL_LIVES = 100;
   const SCORE_LIFE_STEP = 2500;
+  const TACTICAL_PURCHASE_LIMITS = [3,5,7,9,10,12,14,16,18,20];
   const WEAPON_POWER_IDS = ['triple', 'laser', 'voidray', 'fire', 'drone', 'torpedo', 'spark', 'kamikaze', 'bounce', 'pulse'];
-  const BOSS_LOOT_POWER_IDS = ['spark', 'stasis', 'plasma', 'phantom', 'voidray'];
+  const BOSS_LOOT_POWER_IDS = ['fire','virus','plasma','phantom','voidray'];
   const HORDE_SIZE_BANDS = [3, 6, 9];
+  const RECOVERY_COMBOS_BY_WORLD = [
+    ['tridente','resonante','criotemporal','tormenta','bastion'],
+    ['criotemporal','pozo','nulidad','tormenta','bastion'],
+    ['tridente','tormenta','criotemporal','enjambre','nulidad'],
+    ['bastion','criotemporal','resonante','blackout','nulidad'],
+    ['nulidad','pozo','enjambre','tormenta','blackout']
+  ];
   const WORLD_ONE_CONFIG = {
     bossWave: 5,
     maxPhase: 5,
@@ -220,10 +234,34 @@
     { id:'station', name:'Estación abisal', cue:'Devoradores de Metal cierran el paso', eventEvery:11.8 },
     { id:'convergence', name:'Nexo de convergencia', cue:'Tres prefectos protegen al Patriarca', eventEvery:15.5 }
   ];
+  const WORLD_THREE_CONFIG = { bossWave:5, rewardPowers:['voltaic','overdrive','phase','nanorepair'], waveDurations:[44,52,60,68,78] };
+  const WORLD_THREE_ACTS = [
+    { id:'launch', name:'Corredor viridiano', cue:'La velocidad del vacío despierta', eventEvery:11.8 },
+    { id:'vectors', name:'Vectores tóxicos', cue:'Formaciones en V cortan la ruta', eventEvery:9.8 },
+    { id:'surge', name:'Tormenta de reactor', cue:'La energía acelera cada encuentro', eventEvery:9.2 },
+    { id:'rupture', name:'Ruptura esmeralda', cue:'Cristálidos y Segadores convergen', eventEvery:10.4 },
+    { id:'throne', name:'Umbral del Soberano', cue:'La velocidad se comprime antes del jefe', eventEvery:12.5 }
+  ];
+  const WORLD_FOUR_CONFIG = { bossWave:5, rewardPowers:['magnetism','stasis','wingman','phase'], waveDurations:[48,56,64,72,86] };
+  const WORLD_FOUR_ACTS = [
+    { id:'smoke', name:'Ruinas orbitales', cue:'Metralla ardiente cae sobre la ciudadela', eventEvery:11.0 },
+    { id:'cinder', name:'Lluvia de brasas', cue:'La basura espacial corta la ruta', eventEvery:9.4 },
+    { id:'forge', name:'Forja escarlata', cue:'Las alas carmesí ganan velocidad', eventEvery:8.8 },
+    { id:'citadel', name:'Murallas del eclipse', cue:'Aparecen guardianes blindados', eventEvery:9.2 },
+    { id:'gate', name:'Portal del Arconte', cue:'El cielo se pliega antes del jefe', eventEvery:10.8 }
+  ];
+  const WORLD_FIVE_CONFIG = { bossWave:5, rewardPowers:['afterburner','plasma','overdrive','nanorepair'], waveDurations:[52,60,68,76,92] };
+  const WORLD_FIVE_ACTS = [
+    { id:'cave', name:'Galería del núcleo negro', cue:'La caverna vibra con singularidades', eventEvery:10.6 },
+    { id:'rift', name:'Falla del vacío', cue:'Meteoros violeta desgarran el túnel', eventEvery:9.0 },
+    { id:'hollow', name:'Cámara de estallido', cue:'Los centinelas del vacío rodean la nave', eventEvery:8.4 },
+    { id:'abyss', name:'Abismo del reactor', cue:'Aparecen colosos con artillería pesada', eventEvery:8.8 },
+    { id:'heart', name:'Corazón del coloso', cue:'El interior del asteroide despierta', eventEvery:10.0 }
+  ];
   const WORLD_STAGE_TARGETS = {
     0: [34, 44, 52, 60, 3],
     1: [30, 40, 50, 60, 3],
-    2: [22, 30, 40, 48, 60],
+    2: [28, 36, 44, 52, 36],
     3: [20, 30, 38, 46, 58],
     4: [24, 32, 40, 50, 62]
   };
@@ -237,6 +275,22 @@
     ['void_orbe','void_sifon','void_niebla','void_nodo','void_reactor'],
     ['metal_ariete','metal_tanque','metal_sierra','metal_guardian','metal_mamut']
   ];
+  const WORLD_THREE_MINION_FAMILIES = [
+    ['w3_viridian_1','w3_viridian_2','w3_viridian_3','w3_viridian_4','w3_viridian_5'],
+    ['w3_crystal_1','w3_crystal_2','w3_crystal_3','w3_crystal_4','w3_crystal_5'],
+    ['w3_reaper_1','w3_reaper_2','w3_reaper_3','w3_reaper_4','w3_reaper_5']
+  ];
+  const WORLD_FOUR_MINION_FAMILIES = [
+    ['w4_eclipse_1','w4_eclipse_2','w4_eclipse_3'],
+    ['w4_eclipse_4','w4_eclipse_5','w4_eclipse_6']
+  ];
+  const WORLD_FIVE_MINION_FAMILIES = [
+    ['w5_void_1','w5_void_2','w5_void_3'],
+    ['w5_void_4','w5_void_5','w5_void_6']
+  ];
+  Object.assign(MAPS[2], { name:'Corredor Viridiano', boss:'Soberano de la Energía Tóxica', specialName:'Sobrecarga viridiana', theme:['#020d0a','#0c2d20','#74ff73'], lore:'El vacío se acelera: cada estrella parece huir de tu nave.' });
+  Object.assign(MAPS[3], { name:'Ciudadela Carmesí', boss:'Arconte Mecánico del Eclipse Carmesí', specialName:'Convergencia ígnea', theme:['#120607','#4a1715','#ff6a63'], lore:'La metrópolis industrial arde bajo una lluvia de roca y metal.' });
+  Object.assign(MAPS[4], { name:'Caverna del Núcleo Negro', boss:'Coloso Mecánico del Vacío Estelar', specialName:'Singularidad volcánica', theme:['#080710','#2c1b40','#c391ff'], lore:'Dentro del asteroide, la roca viva palpita como un reactor del vacío.' });
   const GAME_ASSET_SOURCES = {
     world1BgOrbit: 'assets/world1/bg_orbit.jpg',
     world1BgStation: 'assets/world1/bg_station.jpg',
@@ -261,12 +315,26 @@
     world2Void1: 'assets/world2/void_1.webp', world2Void2: 'assets/world2/void_2.webp', world2Void3: 'assets/world2/void_3.webp', world2Void4: 'assets/world2/void_4.webp', world2Void5: 'assets/world2/void_5.webp',
     world2Metal1: 'assets/world2/metal_1.webp', world2Metal2: 'assets/world2/metal_2.webp', world2Metal3: 'assets/world2/metal_3.webp', world2Metal4: 'assets/world2/metal_4.webp', world2Metal5: 'assets/world2/metal_5.webp',
     world2Debris1: 'assets/world2/debris_extra_1.webp', world2Debris2: 'assets/world2/debris_extra_2.webp', world2Debris3: 'assets/world2/debris_extra_3.webp', world2Debris4: 'assets/world2/debris_extra_4.webp', world2Debris5: 'assets/world2/debris_extra_5.webp', world2Debris6: 'assets/world2/debris_extra_6.webp', world2Debris7: 'assets/world2/debris_extra_7.webp', world2Debris8: 'assets/world2/debris_extra_8.webp',
-    world2Meteor1: 'assets/world2/meteor_extra_1.webp', world2Meteor2: 'assets/world2/meteor_extra_2.webp', world2Meteor3: 'assets/world2/meteor_extra_3.webp', world2Meteor4: 'assets/world2/meteor_extra_4.webp', world2Meteor5: 'assets/world2/meteor_extra_5.webp', world2Meteor6: 'assets/world2/meteor_extra_6.webp', world2Meteor7: 'assets/world2/meteor_extra_7.webp', world2Meteor8: 'assets/world2/meteor_extra_8.webp'
+    world2Meteor1: 'assets/world2/meteor_extra_1.webp', world2Meteor2: 'assets/world2/meteor_extra_2.webp', world2Meteor3: 'assets/world2/meteor_extra_3.webp', world2Meteor4: 'assets/world2/meteor_extra_4.webp', world2Meteor5: 'assets/world2/meteor_extra_5.webp', world2Meteor6: 'assets/world2/meteor_extra_6.webp', world2Meteor7: 'assets/world2/meteor_extra_7.webp', world2Meteor8: 'assets/world2/meteor_extra_8.webp',
+    world3BgSpeed:'assets/world3/bg_world3_speed.webp', world3BossBg:'assets/world3/bg_world3_boss.webp', bossWorld3:'assets/world3/boss_soberano_toxico.png',
+    world3Viridian1:'assets/world3/viridian_1.webp', world3Viridian2:'assets/world3/viridian_2.webp', world3Viridian3:'assets/world3/viridian_3.webp', world3Viridian4:'assets/world3/viridian_4.webp', world3Viridian5:'assets/world3/viridian_5.webp',
+    world3Crystal1:'assets/world3/crystal_1.webp', world3Crystal2:'assets/world3/crystal_2.webp', world3Crystal3:'assets/world3/crystal_3.webp', world3Crystal4:'assets/world3/crystal_4.webp', world3Crystal5:'assets/world3/crystal_5.webp',
+    world3Reaper1:'assets/world3/reaper_1.webp', world3Reaper2:'assets/world3/reaper_2.webp', world3Reaper3:'assets/world3/reaper_3.webp', world3Reaper4:'assets/world3/reaper_4.webp', world3Reaper5:'assets/world3/reaper_5.webp',
+    world3Hazard1:'assets/world3/hazard_1.webp',world3Hazard2:'assets/world3/hazard_2.webp',world3Hazard3:'assets/world3/hazard_3.webp',world3Hazard4:'assets/world3/hazard_4.webp',world3Hazard5:'assets/world3/hazard_5.webp',world3Hazard6:'assets/world3/hazard_6.webp',world3Hazard7:'assets/world3/hazard_7.webp',world3Hazard8:'assets/world3/hazard_8.webp',world3Hazard9:'assets/world3/hazard_9.webp',world3Hazard10:'assets/world3/hazard_10.webp',
+    world4BgCity:'assets/world4/bg_world4_city.png', world4BossBg:'assets/world4/bg_world4_boss.png', bossWorld4:'assets/world4/boss_world4.png',
+    world4Enemy1:'assets/world4/enemy_1.png', world4Enemy2:'assets/world4/enemy_2.png', world4Enemy3:'assets/world4/enemy_3.png', world4Enemy4:'assets/world4/enemy_4.png', world4Enemy5:'assets/world4/enemy_5.png', world4Enemy6:'assets/world4/enemy_6.png',
+    world4Hazard1:'assets/world4/hazard_1.png', world4Hazard2:'assets/world4/hazard_2.png', world4Hazard3:'assets/world4/hazard_3.png', world4Hazard4:'assets/world4/hazard_4.png', world4Hazard5:'assets/world4/hazard_5.png', world4Hazard6:'assets/world4/hazard_6.png', world4Hazard7:'assets/world4/hazard_7.png', world4Hazard8:'assets/world4/hazard_8.png', world4Hazard9:'assets/world4/hazard_9.png',
+    world5BgCave:'assets/world5/bg_world5_cave.png', world5BossBg:'assets/world5/bg_world5_boss.png', bossWorld5:'assets/world5/boss_world5.png',
+    world5Enemy1:'assets/world5/enemy_1.png', world5Enemy2:'assets/world5/enemy_2.png', world5Enemy3:'assets/world5/enemy_3.png', world5Enemy4:'assets/world5/enemy_4.png', world5Enemy5:'assets/world5/enemy_5.png', world5Enemy6:'assets/world5/enemy_6.png',
+    world5Hazard1:'assets/world5/hazard_1.png', world5Hazard2:'assets/world5/hazard_2.png', world5Hazard3:'assets/world5/hazard_3.png', world5Hazard4:'assets/world5/hazard_4.png', world5Hazard5:'assets/world5/hazard_5.png', world5Hazard6:'assets/world5/hazard_6.png', world5Hazard7:'assets/world5/hazard_7.png', world5Hazard8:'assets/world5/hazard_8.png', world5Hazard9:'assets/world5/hazard_9.png'
   };
   const WORLD_TWO_EXTRA_SPRITES = {
     debris: ['world2Debris1','world2Debris2','world2Debris3','world2Debris4','world2Debris5','world2Debris6','world2Debris7','world2Debris8'],
     meteors: ['world2Meteor1','world2Meteor2','world2Meteor3','world2Meteor4','world2Meteor5','world2Meteor6','world2Meteor7','world2Meteor8']
   };
+  const WORLD_THREE_HAZARDS=['world3Hazard1','world3Hazard2','world3Hazard3','world3Hazard4','world3Hazard5','world3Hazard6','world3Hazard7','world3Hazard8','world3Hazard9','world3Hazard10'];
+  const WORLD_FOUR_HAZARDS=['world4Hazard1','world4Hazard2','world4Hazard3','world4Hazard4','world4Hazard5','world4Hazard6','world4Hazard7','world4Hazard8','world4Hazard9'];
+  const WORLD_FIVE_HAZARDS=['world5Hazard1','world5Hazard2','world5Hazard3','world5Hazard4','world5Hazard5','world5Hazard6','world5Hazard7','world5Hazard8','world5Hazard9'];
   const GAME_ASSETS = (() => {
     const images = {};
     for (const [key, src] of Object.entries(GAME_ASSET_SOURCES)) {
@@ -283,8 +351,19 @@
     { id: 'prisma', requires: ['triple', 'laser'], icon: '✷', name: 'Prisma fragmentado', desc: 'Tres rayos finos en abanico.' },
     { id: 'chispa', requires: ['fire', 'bounce'], icon: '☄', name: 'Chispa errante', desc: 'Fuego que salta entre enemigos.' },
     { id: 'lanza', requires: ['ice', 'pierce'], icon: '❖', name: 'Lanza criogénica', desc: 'Proyectiles veloces que ralentizan y atraviesan.' },
-    { id: 'gravedad', requires: ['orbs', 'ring'], icon: '◍', name: 'Anillo gravitacional', desc: 'Zona orbital que retiene la horda.' },
-    { id: 'resonante', requires: ['drone', 'pulse'], icon: '◈', name: 'Dron resonante', desc: 'Los drones descargan ondas cortas.' }
+    { id: 'gravedad', requires: ['orbs', 'gravmine'], icon: '◍', name: 'Anillo gravitacional', desc: 'Órbitas y minas crean un campo de atracción.' },
+    { id: 'resonante', requires: ['drone', 'pulse'], icon: '◈', name: 'Dron resonante', desc: 'Los drones descargan ondas cortas.' },
+    { id: 'tridente', requires: ['triple', 'pierce'], icon: '🔱', name: 'Tridente penetrante', desc: 'Triple pulso con penetración reforzada.' },
+    { id: 'criotemporal', requires: ['laser', 'stasis'], icon: '❄', name: 'Rayo criotemporal', desc: 'El láser ralentiza lo que atraviesa.' },
+    { id: 'enjambre', requires: ['torpedo', 'virus'], icon: '☣', name: 'Enjambre infeccioso', desc: 'Torpedos que propagan infección.' },
+    { id: 'tormenta', requires: ['drone', 'spark'], icon: '⚡', name: 'Escuadrón tormenta', desc: 'Los drones sincronizan descargas eléctricas.' },
+    { id: 'bastion', requires: ['orbs', 'ring'], icon: '🛡️', name: 'Bastión orbital', desc: 'Los orbes refuerzan el anillo y bloquean proyectiles.' },
+    { id: 'pozo', requires: ['gravmine', 'plasma'], icon: '◉', name: 'Pozo de plasma', desc: 'El vórtice arrastra enemigos hacia minas gravíticas.' },
+    { id: 'nulidad', requires: ['voidray', 'disruptor'], icon: '⟋', name: 'Lanza de nulidad', desc: 'Rayo de vacío que desintegra proyectiles cercanos.' },
+    { id: 'blackout', requires: ['opem', 'pulse'], icon: '⟁', name: 'Nova blackout', desc: 'Pulso radial con apagón electromagnético.' },
+    { id: 'tempestad', requires: ['voltaic', 'overdrive'], icon: '🌩️', name: 'Tempestad del reactor', desc: 'La cadena voltaica se expande bajo sobrecarga.' },
+    { id: 'hiperfase', requires: ['phase', 'afterburner'], icon: '👻', name: 'Hiperfase vectorial', desc: 'Aceleración extrema con protección espectral.' },
+    { id: 'regenerativo', requires: ['nanorepair', 'ring'], icon: '✚', name: 'Bastión regenerativo', desc: 'Nanorreparación reforzada dentro del anillo.' }
   ];
 
   const ENEMY_TYPES = [
@@ -317,7 +396,34 @@
     { id:'metal_tanque', name:'Devorador Tanque', color:'#ffc16b', hp:138, speed:42, r:23, xp:28, score:64, coin:10, behavior:'blindado', world2Family:'metal', spriteKey:'world2Metal2' },
     { id:'metal_sierra', name:'Devorador Sierra', color:'#ffcf7d', hp:74, speed:116, r:18, xp:23, score:52, coin:8, behavior:'kamikaze', world2Family:'metal', spriteKey:'world2Metal3' },
     { id:'metal_guardian', name:'Guardián de Chatarra', color:'#ffdb91', hp:152, speed:38, r:24, xp:31, score:72, coin:11, behavior:'buffer', world2Family:'metal', spriteKey:'world2Metal4' },
-    { id:'metal_mamut', name:'Mamut de Metal', color:'#ffe2a3', hp:190, speed:31, r:27, xp:36, score:84, coin:13, behavior:'blindado', world2Family:'metal', spriteKey:'world2Metal5' }
+    { id:'metal_mamut', name:'Mamut de Metal', color:'#ffe2a3', hp:190, speed:31, r:27, xp:36, score:84, coin:13, behavior:'blindado', world2Family:'metal', spriteKey:'world2Metal5' },
+    { id:'w3_viridian_1', name:'Viridiano Aguja', color:'#74ff73', hp:46, speed:178, r:15, xp:18, score:42, coin:6, behavior:'zigzag', world3Family:'viridian', spriteKey:'world3Viridian1' },
+    { id:'w3_viridian_2', name:'Viridiano Vector', color:'#82ff7d', hp:52, speed:190, r:15, xp:19, score:45, coin:6, behavior:'evader', world3Family:'viridian', spriteKey:'world3Viridian2' },
+    { id:'w3_viridian_3', name:'Viridiano Filo', color:'#93ff8b', hp:58, speed:166, r:16, xp:20, score:48, coin:7, behavior:'kamikaze', world3Family:'viridian', spriteKey:'world3Viridian3' },
+    { id:'w3_viridian_4', name:'Viridiano Pulsar', color:'#a2ff96', hp:66, speed:150, r:17, xp:22, score:52, coin:7, behavior:'chase', world3Family:'viridian', spriteKey:'world3Viridian4' },
+    { id:'w3_viridian_5', name:'Viridiano Alfa', color:'#bcffab', hp:88, speed:138, r:19, xp:26, score:62, coin:9, behavior:'buffer', world3Family:'viridian', spriteKey:'world3Viridian5' },
+    { id:'w3_crystal_1', name:'Cristálido Prisma', color:'#74ffd1', hp:62, speed:128, r:17, xp:21, score:50, coin:7, behavior:'zigzag', world3Family:'crystal', spriteKey:'world3Crystal1' },
+    { id:'w3_crystal_2', name:'Cristálido Sifón', color:'#65f5c1', hp:72, speed:116, r:18, xp:23, score:55, coin:8, behavior:'toxic', world3Family:'crystal', spriteKey:'world3Crystal2' },
+    { id:'w3_crystal_3', name:'Cristálido Espejo', color:'#80ffe0', hp:68, speed:132, r:18, xp:24, score:58, coin:8, behavior:'evader', world3Family:'crystal', spriteKey:'world3Crystal3' },
+    { id:'w3_crystal_4', name:'Cristálido Nodo', color:'#9affdf', hp:96, speed:86, r:21, xp:28, score:66, coin:10, behavior:'buffer', world3Family:'crystal', spriteKey:'world3Crystal4' },
+    { id:'w3_crystal_5', name:'Cristálido Reactor', color:'#b4ffe8', hp:124, speed:72, r:23, xp:32, score:76, coin:11, behavior:'core', world3Family:'crystal', spriteKey:'world3Crystal5' },
+    { id:'w3_reaper_1', name:'Segador Garra', color:'#c5ff62', hp:92, speed:102, r:20, xp:26, score:62, coin:9, behavior:'chase', world3Family:'reaper', spriteKey:'world3Reaper1' },
+    { id:'w3_reaper_2', name:'Segador Bastión', color:'#d2ff73', hp:154, speed:58, r:25, xp:34, score:80, coin:12, behavior:'blindado', world3Family:'reaper', spriteKey:'world3Reaper2' },
+    { id:'w3_reaper_3', name:'Segador Fauce', color:'#dfff84', hp:102, speed:124, r:21, xp:29, score:70, coin:10, behavior:'kamikaze', world3Family:'reaper', spriteKey:'world3Reaper3' },
+    { id:'w3_reaper_4', name:'Segador Guardián', color:'#e8ff94', hp:168, speed:52, r:26, xp:37, score:88, coin:13, behavior:'buffer', world3Family:'reaper', spriteKey:'world3Reaper4' },
+    { id:'w3_reaper_5', name:'Segador Coloso', color:'#f1ffa8', hp:210, speed:45, r:29, xp:42, score:98, coin:15, behavior:'blindado', world3Family:'reaper', spriteKey:'world3Reaper5' },
+    { id:'w4_eclipse_1', name:'Ala Carmesí', color:'#ff7d76', hp:92, speed:186, r:17, xp:24, score:58, coin:8, behavior:'zigzag', spriteKey:'world4Enemy1' },
+    { id:'w4_eclipse_2', name:'Centella Solar', color:'#ff9686', hp:104, speed:172, r:18, xp:26, score:62, coin:9, behavior:'evader', spriteKey:'world4Enemy2' },
+    { id:'w4_eclipse_3', name:'Acechador Escarlata', color:'#ffb391', hp:116, speed:162, r:19, xp:28, score:68, coin:10, behavior:'chase', spriteKey:'world4Enemy3' },
+    { id:'w4_eclipse_4', name:'Guardián Carmesí', color:'#ffcf9e', hp:154, speed:132, r:22, xp:33, score:80, coin:12, behavior:'blindado', spriteKey:'world4Enemy4' },
+    { id:'w4_eclipse_5', name:'Nexo Rubí', color:'#ffd7aa', hp:166, speed:122, r:23, xp:35, score:86, coin:12, behavior:'buffer', spriteKey:'world4Enemy5' },
+    { id:'w4_eclipse_6', name:'Desgarrador Ígneo', color:'#ffe3bb', hp:178, speed:148, r:24, xp:38, score:92, coin:13, behavior:'kamikaze', spriteKey:'world4Enemy6' },
+    { id:'w5_void_1', name:'Vigía del Vacío', color:'#b982ff', hp:110, speed:176, r:18, xp:28, score:66, coin:9, behavior:'zigzag', spriteKey:'world5Enemy1' },
+    { id:'w5_void_2', name:'Orbe Singular', color:'#cc95ff', hp:126, speed:162, r:19, xp:30, score:72, coin:10, behavior:'toxic', spriteKey:'world5Enemy2' },
+    { id:'w5_void_3', name:'Mantis del Abismo', color:'#d9a7ff', hp:138, speed:156, r:20, xp:31, score:76, coin:10, behavior:'evader', spriteKey:'world5Enemy3' },
+    { id:'w5_void_4', name:'Artillero del Núcleo', color:'#e2bbff', hp:186, speed:118, r:24, xp:38, score:94, coin:13, behavior:'blindado', spriteKey:'world5Enemy4' },
+    { id:'w5_void_5', name:'Segador del Reactor', color:'#ecc8ff', hp:172, speed:138, r:23, xp:36, score:90, coin:13, behavior:'chase', spriteKey:'world5Enemy5' },
+    { id:'w5_void_6', name:'Coloso de Singularidad', color:'#f6daff', hp:214, speed:102, r:27, xp:44, score:108, coin:15, behavior:'buffer', spriteKey:'world5Enemy6' }
   ];
 
   const ACHIEVEMENTS = [
@@ -352,6 +458,8 @@
       avatarTier: 1,
       shipParts: { core: 0, wings: 0, cannon: 0, engine: 0 },
       relics: {},
+      bossShips: {},
+      activeBossShip: null,
       campaignExtraLives: 4,
       worldProgression: { shotTier: 0, projectileSpeedTier: 0, accuracyTier: 0, mobilityTier: 0, rangeTier: 0, bossPowers: {} },
       levelProgress: { 1: 1 },
@@ -401,6 +509,8 @@
       p.avatarTier = p.avatarTier || 1;
       p.shipParts = { core: 0, wings: 0, cannon: 0, engine: 0, ...(p.shipParts || {}) };
       p.relics = p.relics || {};
+      p.bossShips = p.bossShips || {};
+      p.activeBossShip = p.activeBossShip || null;
       p.campaignExtraLives = Math.min(MAX_TOTAL_LIVES - 1, Math.max(0, Number.isFinite(p.campaignExtraLives) ? p.campaignExtraLives : 4));
       p.worldProgression = { shotTier: 0, projectileSpeedTier: 0, accuracyTier: 0, mobilityTier: 0, rangeTier: 0, bossPowers: {}, ...(p.worldProgression || {}) };
       p.worldProgression.bossPowers = p.worldProgression.bossPowers || {};
@@ -569,12 +679,18 @@
       this.meteors = [];
       this.worldOneState = { meteorTimer: 5.2, insectTimer: 3.6, mirrorCount: 0, rainTimer: 9.5, burstTimer: 3.2, bombTimer: 6.4, planetTimer: 10.8, hunterTimer: 4.2, rewardSteps: [], backgroundPhase: 0, eventTimer: 8.5, hordeTimer: 15.5, hordeSeen: 0, actSeen: 0, captainsSpawned: 0, captainsKilled: 0, captainTimer: 2.4, bossPrelude: 0, bossPreludeMax: 4.8, bossPreludeStarted: false };
       this.worldTwoState = { sporeTimer: 3.8, fogTimer: 7.2, splitTimer: 5.0, rewardSteps: [], backgroundPhase: 0, labPulse: 0, colonyTimer: 8.2, toxicZoneTimer: 7.0, junkTimer: 4.8, meteorTimer: 5.8, planetTimer: 10.8, chaosTimer: 8.6, rewardTimer: 7.0, eventTimer: 8.5, hordeTimer: 13.2, hordeSeen: 0, formationIndex: 0, enemyHistory: [], actSeen: 0, captainsSpawned: 0, captainsKilled: 0, captainTimer: 1.0, level5Elapsed: 0, bossPrelude: 0, bossPreludeMax: 5.3, bossPreludeStarted: false };
+      this.worldThreeState={rewardSteps:[],eventTimer:7.5,rewardTimer:8.5,hordeTimer:13.5,hazardTimer:6.5,speedBurst:0,hordeSeen:0,enemyHistory:[]};
+      this.worldFourState={rewardSteps:[],eventTimer:7.0,rewardTimer:8.0,hazardTimer:7.4,hordeTimer:12.5,enemyHistory:[]};
+      this.worldFiveState={rewardSteps:[],eventTimer:6.5,rewardTimer:7.5,hazardTimer:6.8,hordeTimer:11.8,enemyHistory:[]};
+      this.world3Stars=[];
       this.toasts = [];
       this.powerLevels = {};
       this.powerActivity = {};
+      this.powerQueue=[]; this.activeCombos={};
       this.fusions = {};
       this.run = { score: 0, coins: 0, experience: 0, kills: 0, bosses: 0, start: Date.now(), mapComplete: false, lifePurchases: 0 };
       this.defeatPowerDropsIssued = false;
+      this.recoveryLoadout = [];
       this.lastBossLootPower = null;
       this.extraLives = 4;
       this.nextLifeScore = 2500;
@@ -707,8 +823,8 @@
       const level = clamp(this.worldStage.level || this.wave || 1, 1, 5);
       let within = 0;
       if (level === 5) {
-        const specialKills = this.mapIndex === 0 ? (this.worldOneState?.captainsKilled || 0) : (this.mapIndex === 1 ? (this.worldTwoState?.captainsKilled || 0) : (this.worldStage.kills || 0));
-        within = clamp(specialKills / 3, 0, 1);
+        if(this.mapIndex===0||this.mapIndex===1){const specialKills=this.mapIndex===0?(this.worldOneState?.captainsKilled||0):(this.worldTwoState?.captainsKilled||0);within=clamp(specialKills/3,0,1);}
+        else within=clamp((this.worldStage.kills||0)/Math.max(1,this.getWorldStageTarget(level)),0,1);
       } else {
         within = clamp((this.worldStage.kills || 0) / Math.max(1, this.getWorldStageTarget(level)), 0, 1);
       }
@@ -790,7 +906,7 @@
         this.worldOneState.actSeen = this.wave;
         this.spawnWorldOneReward();
         this.grantLevelShield(7.5);
-        this.toast(`ACTO ${['I','II','III','IV','V'][this.wave-1]}`, act?.name || `Nivel ${this.wave}`);
+        this.toast(`ACTO ${['I','II','III','IV','V'][this.wave-1]}`, `${act?.name || `Nivel ${this.wave}`} · poderes +${(this.wave-1)*3}%`);
       } else if (this.mapIndex === 1) {
         const act = WORLD_TWO_ACTS[this.wave - 1];
         this.worldTwoState.eventTimer = Math.min(7, act?.eventEvery || 11);
@@ -802,9 +918,13 @@
         }
         this.spawnWorldTwoReward();
         this.grantLevelShield(8.5);
-        this.toast(`ACTO 2-${this.wave}`, act?.name || `Nivel ${this.wave}`);
+        this.toast(`ACTO 2-${this.wave}`, `${act?.name || `Nivel ${this.wave}`} · poderes +${(this.wave-1)*3}%`);
         AudioFX.world2Pulse();
-      } else this.toast('🧭 Nivel superado', `Mundo ${this.mapIndex + 1} · Nivel ${this.worldStage.level}/${this.worldStage.totalLevels}`);
+      } else if(this.mapIndex===2){const act=WORLD_THREE_ACTS[this.wave-1];this.worldThreeState.eventTimer=Math.min(6.5,act?.eventEvery||10);this.worldThreeState.speedBurst=3.2;this.spawnWorldThreeReward();this.grantLevelShield(8.5);this.toast(`ACTO 3-${this.wave}`,`${act?.name||`Nivel ${this.wave}`} · poderes +${(this.wave-1)*3}%`);}
+      else if(this.mapIndex===3){const act=WORLD_FOUR_ACTS[this.wave-1];this.worldFourState.eventTimer=Math.min(6.5,act?.eventEvery||9.5);this.spawnWorldFourReward();this.grantLevelShield(8.5);this.toast(`ACTO 4-${this.wave}`,`${act?.name||`Nivel ${this.wave}`} · presión orbital +${(this.wave-1)*3}%`);}
+      else if(this.mapIndex===4){const act=WORLD_FIVE_ACTS[this.wave-1];this.worldFiveState.eventTimer=Math.min(6.2,act?.eventEvery||9);this.spawnWorldFiveReward();this.grantLevelShield(9.0);this.toast(`ACTO 5-${this.wave}`,`${act?.name||`Nivel ${this.wave}`} · singularidad +${(this.wave-1)*3}%`);}
+      else this.toast('🧭 Nivel superado', `Mundo ${this.mapIndex + 1} · Nivel ${this.worldStage.level}/${this.worldStage.totalLevels}`);
+      this.requestTacticalPrep('level');
     }
 
     grantLevelShield(seconds = 7.5) {
@@ -1095,13 +1215,29 @@
       this.meteors = [];
       this.worldOneState = { meteorTimer: 5.2, insectTimer: 3.6, mirrorCount: 0, rainTimer: 9.5, burstTimer: 3.2, bombTimer: 6.4, planetTimer: 10.8, hunterTimer: 4.2, rewardSteps: [], backgroundPhase: 0, eventTimer: 8.5, hordeTimer: 15.5, hordeSeen: 0, actSeen: 0, captainsSpawned: 0, captainsKilled: 0, captainTimer: 2.4, bossPrelude: 0, bossPreludeMax: 4.8, bossPreludeStarted: false };
       this.worldTwoState = { sporeTimer: 3.8, fogTimer: 7.2, splitTimer: 5.0, rewardSteps: [], backgroundPhase: 0, labPulse: 0, colonyTimer: 8.2, toxicZoneTimer: 7.0, junkTimer: 4.8, meteorTimer: 5.8, planetTimer: 10.8, chaosTimer: 8.6, rewardTimer: 7.0, eventTimer: 8.5, hordeTimer: 13.2, hordeSeen: 0, formationIndex: 0, enemyHistory: [], actSeen: 0, captainsSpawned: 0, captainsKilled: 0, captainTimer: 1.0, level5Elapsed: 0, bossPrelude: 0, bossPreludeMax: 5.3, bossPreludeStarted: false };
+      this.worldThreeState={rewardSteps:[],eventTimer:7.5,rewardTimer:8.5,hordeTimer:13.5,hazardTimer:6.5,speedBurst:0,hordeSeen:0,enemyHistory:[]};
+      this.worldFourState={rewardSteps:[],eventTimer:7.0,rewardTimer:8.0,hazardTimer:7.4,hordeTimer:12.5,enemyHistory:[]};
+      this.worldFiveState={rewardSteps:[],eventTimer:6.5,rewardTimer:7.5,hazardTimer:6.8,hordeTimer:11.8,enemyHistory:[]}; this.world3Stars=[];
       if (save?.worldOneState && this.mapIndex === 0) this.worldOneState = { ...this.worldOneState, ...save.worldOneState };
       if (save?.worldTwoState && this.mapIndex === 1) this.worldTwoState = { ...this.worldTwoState, ...save.worldTwoState };
+      if (save?.worldThreeState && this.mapIndex === 2) this.worldThreeState = { ...this.worldThreeState, ...save.worldThreeState };
+      if (save?.worldFourState && this.mapIndex === 3) this.worldFourState = { ...this.worldFourState, ...save.worldFourState };
+      if (save?.worldFiveState && this.mapIndex === 4) this.worldFiveState = { ...this.worldFiveState, ...save.worldFiveState };
       this.powerLevels = save?.powerLevels || {};
       this.powerActivity = save?.powerActivity || {};
+      this.powerQueue=save?.powerQueue||[]; this.activeCombos={};
       this.activePowerSlots = save?.activePowerSlots || { weaponMode: null };
       this.fusions = save?.fusions || {};
       this.run = save?.run || { score: 0, coins: 0, experience: 0, kills: 0, bosses: 0, start: Date.now(), mapComplete: false, lifePurchases: 0 };
+      this.run.spendableScore = Number.isFinite(this.run.spendableScore) ? this.run.spendableScore : Math.round(this.run.score || 0);
+      this.run.tacticalPurchases = this.run.tacticalPurchases || {};
+      this.run.tacticalBoosts = this.run.tacticalBoosts || {};
+      this.run.tacticalDeliveryQueue = this.run.tacticalDeliveryQueue || [];
+      this.tacticalOffers = [];
+      this.tacticalPrepReason = null;
+      this.tacticalDeliveryDelay = 0;
+      this.tacticalComboLockUntil = 0;
+      this.tacticalComboLockedId = null;
       this.defeatPowerDropsIssued = false;
       this.lastBossLootPower = null;
       this.worldStage = save?.worldStage || { level: Math.max(1, save?.wave || 1), kills: 0, targets: (WORLD_STAGE_TARGETS[this.mapIndex] || [20,30,40,50,60]), totalLevels: 5, bossLevel: 5 };
@@ -1126,6 +1262,9 @@
       if (this.player.avatar.mod.drone && !this.drones.length) this.spawnDrone(9999, true);
       if (!save && this.mapIndex === 0) this.setupWorldOneIntro();
       if (!save && this.mapIndex === 1) this.setupWorldTwoIntro();
+      if (!save && this.mapIndex === 2) this.setupWorldThreeIntro();
+      if (!save && this.mapIndex === 3) this.setupWorldFourIntro();
+      if (!save && this.mapIndex === 4) this.setupWorldFiveIntro();
       this.running = true;
       this.paused = false;
       this.cardPause = false;
@@ -1138,6 +1277,7 @@
       this.toast(MAPS[this.mapIndex].name, MAPS[this.mapIndex].lore);
       requestAnimationFrame(t => this.loop(t));
       saveState();
+      setTimeout(()=>this.requestTacticalPrep(save?'resume':'start'),70);
     }
 
     createPlayer(saved) {
@@ -1205,6 +1345,8 @@
       player.aimAssist = Math.min(.28, Math.max(0, progression.accuracyTier || 0) * .045);
       player.crit += Math.min(.08, Math.max(0, progression.accuracyTier || 0) * .012);
       player.fireDelay = Math.max(245, player.fireDelay * (1 - Math.min(.22, player.shotTier * .035)));
+      player.baseSpeed = player.speed;
+      const clearedPowerWorlds=Math.min(5,(p.completedMaps||[]).length); player.powerEffectScale=1+clearedPowerWorlds*.04; player.powerDurationScale=1+clearedPowerWorlds*.03;
       player.hp = clamp(player.hp, 1, player.maxHp);
       player.shield = clamp(player.shield, 0, player.maxShield);
       this.player = player;
@@ -1230,16 +1372,18 @@
       p.bossDrive = Math.max(0, (p.bossDrive || 0) - dt);
       p.cloak = Math.max(0, (p.cloak || 0) - dt);
       p.entryShieldTimer = Math.max(0, (p.entryShieldTimer || 0) - dt);
+      p.recoveryGraceTimer = Math.max(0, (p.recoveryGraceTimer || 0) - dt);
       this.shake = Math.max(0, this.shake - dt * 30);
       this.flash = Math.max(0, this.flash - dt * 2);
       this.updatePowerActivity(dt);
+      this.updateBossLootPhase(dt);
 
       const regen = p.regen * dt;
       if (regen > 0 && p.hp < p.maxHp) p.hp = Math.min(p.maxHp, p.hp + regen);
       p.shield = Math.min(p.maxShield, p.shield + dt * (3 + (this.powerLevels.ring || 0) * 2));
 
       this.handleMovement(dt);
-      if (this.updateWorldOneDirector(dt) || this.updateWorldTwoDirector(dt)) {
+      if (this.updateWorldOneDirector(dt) || this.updateWorldTwoDirector(dt) || this.updateWorldThreeDirector(dt)) {
         this.updateDrones(dt);
         this.updateParticles(dt);
         this.updateHud();
@@ -1259,6 +1403,7 @@
       this.updateEnemies(dt);
       this.updateBullets(dt);
       this.updatePickups(dt);
+      this.updateTacticalDeliveries(dt);
       this.updateDrones(dt);
       this.updateZones(dt);
       this.updateParticles(dt);
@@ -1270,53 +1415,338 @@
       if (p.hp <= 0) this.end(false);
     }
 
+    getStagePowerScale() {
+      const level = clamp(this.worldStage?.level || this.wave || 1, 1, 5);
+      const key = this.getTacticalLevelKey();
+      const tactical = Math.max(0, Math.min(.32, Number(this.run?.tacticalBoosts?.[key] || 0)));
+      return (1 + Math.max(0, level - 1) * .03) * (1 + tactical);
+    }
+
+    getTacticalLevelKey() {
+      return `m${Math.max(1,(this.mapIndex||0)+1)}l${Math.max(1,this.worldStage?.level||this.wave||1)}`;
+    }
+
+    getTacticalPurchaseLimit() {
+      const world = Math.max(1, Math.min(10, (this.mapIndex || 0) + 1));
+      return TACTICAL_PURCHASE_LIMITS[world - 1] || 20;
+    }
+
+    getTacticalPurchasesUsed() {
+      const key = this.getTacticalLevelKey();
+      return Math.max(0, Number(this.run?.tacticalPurchases?.[key] || 0));
+    }
+
+    getTacticalPurchasesRemaining() {
+      return Math.max(0, this.getTacticalPurchaseLimit() - this.getTacticalPurchasesUsed());
+    }
+
+    getTacticalWallet() {
+      return {
+        coins: Math.max(0, Math.round((this.run?.coins || 0) + (currentProfile().coins || 0))),
+        xp: Math.max(0, Math.round(this.run?.experience || 0)),
+        points: Math.max(0, Math.round(this.run?.spendableScore || 0))
+      };
+    }
+
+    tacticalRound(value) { return Math.max(5, Math.round(value / 5) * 5); }
+
+    getTacticalCosts(offer) {
+      const used = this.getTacticalPurchasesUsed();
+      const worldFactor = 1 + Math.max(0, this.mapIndex) * .16;
+      const levelFactor = 1 + Math.max(0, (this.wave || 1) - 1) * .05;
+      const repeatFactor = 1 + used * .08;
+      const mult = worldFactor * levelFactor * repeatFactor;
+      const base = offer.base || { coins: 150, xp: 190, points: 1000 };
+      return {
+        coins: this.tacticalRound(base.coins * mult),
+        xp: this.tacticalRound(base.xp * mult),
+        points: this.tacticalRound(base.points * mult)
+      };
+    }
+
+    getBestTacticalComboOffer() {
+      const known = id => (this.powerLevels?.[id] || 0) > 0;
+      const ranked = FUSIONS.map(f => {
+        const owned = f.requires.filter(known);
+        return { fusion:f, owned, score:owned.length * 20 + (this.activeCombos?.[f.id] ? 4 : 0) };
+      }).filter(x => x.owned.length > 0).sort((a,b)=>b.score-a.score);
+      if (!ranked.length) return null;
+      const best = ranked[0];
+      if (best.owned.length === best.fusion.requires.length) {
+        return {
+          id:`combo_${best.fusion.id}`, kind:'combo', comboId:best.fusion.id, units:2,
+          icon:best.fusion.icon, name:`Combo · ${best.fusion.name}`,
+          desc:'Reactiva la combinación completa durante 8 segundos.',
+          base:{coins:290,xp:370,points:2050}, recommended:true,
+          reason:'Ya posees los poderes compatibles.'
+        };
+      }
+      const missing = best.fusion.requires.find(id => !known(id));
+      const pow = POWERS.find(p => p.id === missing);
+      if (!missing || !pow) return null;
+      return {
+        id:`complete_${best.fusion.id}_${missing}`, kind:'power', powerId:missing, units:1,
+        icon:pow.icon, name:`Completar ${best.fusion.name}`,
+        desc:`Añade ${pow.name} para habilitar la confluencia.`,
+        base:{coins:175,xp:225,points:1250}, recommended:true,
+        reason:`Te falta ${pow.name} para el combo.`
+      };
+    }
+
+    buildTacticalOffers() {
+      const crowded = (this.enemies?.filter(e=>!e.boss).length || 0) >= 8 || (this.wave || 1) >= 3;
+      const fragile = this.player && (this.player.hp < this.player.maxHp * .72 || this.player.shield < this.player.maxShield * .58);
+      const currentBoost = Math.max(0, Number(this.run?.tacticalBoosts?.[this.getTacticalLevelKey()] || 0));
+      const pendingBoost = (this.run?.tacticalDeliveryQueue || []).filter(x=>x?.type==='boost').reduce((sum,x)=>sum+Number(x.boostValue||.08),0);
+      const effectiveBoost = Math.min(.24,currentBoost+pendingBoost);
+      const offers = [
+        {id:'nuke',kind:'nuke',units:1,icon:'☢',name:'Bomba antihorda',desc:'Limpia gran parte de la pantalla y daña objetivos mayores.',base:{coins:185,xp:255,points:1400},recommended:crowded,reason:'Alta densidad u horda probable.'},
+        {id:'afterburner',kind:'power',powerId:'afterburner',units:1,icon:'»',name:'Impulsor vectorial',desc:'Recupera movilidad y velocidad durante 10 segundos.',base:{coins:135,xp:175,points:930},recommended:this.mapIndex>=2,reason:'La velocidad es crítica en mundos avanzados.'},
+        {id:'stasis',kind:'power',powerId:'stasis',units:1,icon:'⌛',name:'Ralentizador temporal',desc:'Reduce durante 10 segundos la presión de enemigos y proyectiles.',base:{coins:145,xp:185,points:980},recommended:crowded,reason:'Ayuda a controlar hordas.'},
+        {id:'shield',kind:'shield',units:1,icon:'🛡️',name:'Escudo de refuerzo',desc:'Cápsula de shield para entrar con margen defensivo.',base:{coins:110,xp:145,points:760},recommended:!!fragile,reason:'Tus reservas defensivas están bajas.'},
+        {id:'nanorepair',kind:'power',powerId:'nanorepair',units:1,icon:'✚',name:'Nanorreparación',desc:'Regeneración temporal para estabilizar la nave.',base:{coins:150,xp:205,points:1080},recommended:!!fragile,reason:'Recuperación sostenida.'},
+        {id:'wingman',kind:'power',powerId:'wingman',units:1,icon:'🛸',name:'Nave auxiliar',desc:'Añade apoyo de fuego temporal; puede convivir con otros poderes.',base:{coins:165,xp:215,points:1160},recommended:false},
+        {id:'phase',kind:'power',powerId:'phase',units:1,icon:'👻',name:'Fase espectral',desc:'Ventana breve de evasión para atravesar presión enemiga.',base:{coins:160,xp:210,points:1130},recommended:this.mapIndex>=3,reason:'Útil en patrones cerrados.'},
+        {id:'arsenal',kind:'boost',boostValue:.08,units:1,icon:'⬆',name:'Sobrecarga de arsenal +8%',desc:`Mejora todos los poderes de este nivel. Acumulado/pendiente: +${Math.round(effectiveBoost*100)}% (máx. +24%).`,base:{coins:195,xp:270,points:1480},recommended:effectiveBoost<.08,reason:'Potencia simultáneamente tu construcción actual.',disabled:effectiveBoost>=.24}
+      ];
+      const combo = this.getBestTacticalComboOffer();
+      if (combo) offers.push(combo);
+      offers.sort((a,b)=>(b.recommended?1:0)-(a.recommended?1:0));
+      this.tacticalOffers = offers.slice(0,9);
+      return this.tacticalOffers;
+    }
+
+    getTacticalAdvisorText() {
+      const reasons = (this.tacticalOffers || []).filter(o=>o.recommended && o.reason).slice(0,3).map(o=>o.reason);
+      if (!reasons.length) return 'Compra solo si quieres reforzar la nave. Puedes continuar sin gastar recursos.';
+      return reasons.join(' ');
+    }
+
+    renderTacticalShop() {
+      if (!els.tacticalShopGrid) return;
+      const offers = this.buildTacticalOffers();
+      const wallet = this.getTacticalWallet();
+      const used = this.getTacticalPurchasesUsed(), limit = this.getTacticalPurchaseLimit(), remaining = Math.max(0,limit-used);
+      if (els.tacticalShopTitle) els.tacticalShopTitle.textContent = `Mundo ${this.mapIndex+1} · Nivel ${this.wave}`;
+      if (els.tacticalShopLimit) els.tacticalShopLimit.textContent = `${used}/${limit} compras usadas · ${remaining} disponibles`;
+      if (els.tacticalWallet) els.tacticalWallet.innerHTML = `<span>🪙 <b>${wallet.coins}</b></span><span>✦ <b>${wallet.xp} XP</b></span><span>⭐ <b>${wallet.points}</b> puntos disponibles</span>`;
+      if (els.tacticalAdvisor) els.tacticalAdvisor.innerHTML = `<strong>Asesor táctico:</strong> ${this.getTacticalAdvisorText()}`;
+      els.tacticalShopGrid.innerHTML = offers.map(offer => {
+        const costs=this.getTacticalCosts(offer), units=offer.units||1, slotsOk=remaining>=units && !offer.disabled;
+        const buttons=[['coins','🪙',costs.coins],['xp','✦',costs.xp],['points','⭐',costs.points]].map(([cur,ic,cost])=>{
+          const can = slotsOk && wallet[cur] >= cost;
+          return `<button class="tactical-buy" data-tactical-buy="${offer.id}" data-tactical-currency="${cur}" ${can?'':'disabled'}>${ic} ${cost}</button>`;
+        }).join('');
+        return `<article class="tactical-offer ${offer.recommended?'recommended':''}"><div class="tactical-offer-icon">${offer.icon||'✦'}</div><div class="tactical-offer-body"><div class="tactical-offer-title">${offer.name}${units>1?` · ${units} compras`:''}</div><small class="tactical-offer-desc">${offer.desc}</small><div class="tactical-costs">${buttons}</div></div></article>`;
+      }).join('');
+    }
+
+    spendTacticalCurrency(currency, amount) {
+      amount = Math.max(0, Math.round(amount || 0));
+      if (!amount) return true;
+      const wallet = this.getTacticalWallet();
+      if ((wallet[currency] || 0) < amount) return false;
+      if (currency === 'coins') {
+        const fromRun = Math.min(this.run.coins || 0, amount);
+        this.run.coins = Math.max(0, (this.run.coins || 0) - fromRun);
+        const rest = amount - fromRun;
+        if (rest > 0) currentProfile().coins = Math.max(0, (currentProfile().coins || 0) - rest);
+      } else if (currency === 'xp') this.run.experience = Math.max(0, (this.run.experience || 0) - amount);
+      else if (currency === 'points') this.run.spendableScore = Math.max(0, (this.run.spendableScore || 0) - amount);
+      return true;
+    }
+
+    queueTacticalDelivery(offer) {
+      this.run.tacticalDeliveryQueue = this.run.tacticalDeliveryQueue || [];
+      if (offer.kind === 'nuke') this.run.tacticalDeliveryQueue.push({type:'nuke',label:'☢ BOMBA ANTIHORDA'});
+      else if (offer.kind === 'shield') this.run.tacticalDeliveryQueue.push({type:'shield',value:32+this.mapIndex*3,label:`SHIELD +${32+this.mapIndex*3}`});
+      else if (offer.kind === 'boost') this.run.tacticalDeliveryQueue.push({type:'boost',boostValue:offer.boostValue||.08,label:'⬆ SOBRECARGA DE PODERES'});
+      else if (offer.kind === 'combo') this.run.tacticalDeliveryQueue.push({type:'combo',comboId:offer.comboId,label:`⚡ ${offer.name.toUpperCase()}`,powerDuration:8});
+      else if (offer.kind === 'power') {
+        const pow=POWERS.find(p=>p.id===offer.powerId);
+        this.run.tacticalDeliveryQueue.push({type:'power',powerId:offer.powerId,label:(pow?.name||offer.name).toUpperCase(),powerDuration:Math.max(10,POWER_ACTIVE_SECONDS[offer.powerId]||10)});
+      }
+    }
+
+    buyTacticalOffer(offerId, currency) {
+      const offer=(this.tacticalOffers||[]).find(o=>o.id===offerId); if(!offer)return false;
+      const units=offer.units||1, remaining=this.getTacticalPurchasesRemaining();
+      if(offer.disabled || remaining<units)return false;
+      const costs=this.getTacticalCosts(offer), cost=costs[currency]; if(!cost)return false;
+      if(!this.spendTacticalCurrency(currency,cost))return false;
+      const key=this.getTacticalLevelKey(); this.run.tacticalPurchases[key]=(this.run.tacticalPurchases[key]||0)+units;
+      this.queueTacticalDelivery(offer);
+      this.toast('🛒 Compra táctica',`${offer.name} · añadido a la entrega gradual`);
+      this.tacticalDeliveryDelay=Math.min(this.tacticalDeliveryDelay||0,.25);
+      saveState(); this.renderTacticalShop(); this.updateTacticalCart(false); this.deployNextTacticalBatch(); this.updateHud();
+      return true;
+    }
+
+    applyTacticalPowerBoost(value=.08) {
+      const key=this.getTacticalLevelKey(); this.run.tacticalBoosts=this.run.tacticalBoosts||{};
+      this.run.tacticalBoosts[key]=Math.min(.24,(this.run.tacticalBoosts[key]||0)+Math.max(.01,value));
+      this.toast('⬆ SOBRECARGA DE ARSENAL',`Poderes +${Math.round(this.run.tacticalBoosts[key]*100)}% durante este nivel`);
+      saveState();
+    }
+
+    deployNextTacticalBatch() {
+      if (!this.player || !this.run?.tacticalDeliveryQueue?.length) return false;
+      if (this.pickups?.some(pk=>pk.tacticalPurchase)) return false;
+      if ((this.tacticalDeliveryDelay || 0) > 0) return false;
+      if (this.tacticalComboLockedId && this.comboActive(this.tacticalComboLockedId)) return false;
+      if ((this.tacticalComboLockUntil || 0) > now()) return false;
+      this.tacticalComboLockedId=null;
+      const queue=this.run.tacticalDeliveryQueue;
+      const first=queue[0];
+      const batch=[];
+      if(first?.type==='combo') batch.push(queue.shift());
+      else {
+        while(queue.length && batch.length<3 && queue[0]?.type!=='combo') batch.push(queue.shift());
+      }
+      if(!batch.length)return false;
+      const p=this.player,total=batch.length;
+      batch.forEach((entry,i)=>{
+        const a=-Math.PI/2+(Math.PI*2/Math.max(1,total))*i, radius=128+(i%2)*28;
+        const x=clamp(p.x+Math.cos(a)*radius,46,this.w-46), y=clamp(p.y+Math.sin(a)*radius,46,this.h-46);
+        const opts={tacticalPurchase:true,rewardGlow:true,major:true,label:entry.label||'COMPRA TÁCTICA',life:999,autoDelay:999};
+        if(entry.type==='power')this.spawnPickup(x,y,'power',1,{...opts,powerId:entry.powerId,powerDuration:entry.powerDuration||10});
+        else if(entry.type==='combo')this.spawnPickup(x,y,'combo',1,{...opts,comboId:entry.comboId,powerDuration:entry.powerDuration||8});
+        else if(entry.type==='shield')this.spawnPickup(x,y,'shield',entry.value||35,opts);
+        else if(entry.type==='boost')this.spawnPickup(x,y,'boost',1,{...opts,boostValue:entry.boostValue||.08});
+        else if(entry.type==='nuke')this.spawnPickup(x,y,'nuke',1,opts);
+      });
+      saveState();
+      if(first?.type==='combo') this.toast('⚡ COMBO EN ESPERA',`${batch[0].label||'Combo táctico'} · recógelo cuando estés listo`);
+      else this.toast('✦ ENTREGA TÁCTICA',`${batch.length} elemento${batch.length>1?'s compatibles':''} flotando para recoger`);
+      return true;
+    }
+
+    updateTacticalDeliveries(dt) {
+      this.tacticalDeliveryDelay=Math.max(0,(this.tacticalDeliveryDelay||0)-dt);
+      if(!this.running||this.run?.mapComplete)return;
+      if(this.pickups?.some(pk=>pk.tacticalPurchase))return;
+      if(!this.run?.tacticalDeliveryQueue?.length)return;
+      if(this.tacticalComboLockedId&&this.comboActive(this.tacticalComboLockedId))return;
+      if((this.tacticalComboLockUntil||0)>now())return;
+      this.tacticalComboLockedId=null;
+      this.deployNextTacticalBatch();
+    }
+
+    updateTacticalCart(pulse=false) {
+      if(!els.btnTacticalCart||!els.tacticalCartCount)return;
+      const remaining=this.getTacticalPurchasesRemaining();
+      els.tacticalCartCount.textContent=String(remaining);
+      els.btnTacticalCart.classList.toggle('sold-out',remaining<=0);
+      els.btnTacticalCart.title=remaining>0?`Compra Exprés · ${remaining} compras disponibles`:'Compra Exprés · límite del nivel alcanzado';
+      if(pulse&&remaining>0){els.btnTacticalCart.classList.remove('cart-pulse');void els.btnTacticalCart.offsetWidth;els.btnTacticalCart.classList.add('cart-pulse');setTimeout(()=>els.btnTacticalCart?.classList.remove('cart-pulse'),2600);}
+    }
+
+    requestTacticalPrep(reason='level') {
+      if (!this.running || this.run?.mapComplete) return false;
+      const remaining=this.getTacticalPurchasesRemaining();
+      this.tacticalPrepReason=reason;
+      els.tacticalPrepPrompt?.classList.add('hidden');
+      this.updateTacticalCart(true);
+      if(remaining<=0)return false;
+      return true;
+    }
+
+    openTacticalShop() {
+      if(!this.running||this.run?.mapComplete)return;
+      if(this.getTacticalPurchasesRemaining()<=0){this.toast('🛒 Compra Exprés',`Límite del nivel alcanzado · ${this.getTacticalPurchaseLimit()} compras`);return;}
+      this.renderTacticalShop();
+      els.tacticalShopOverlay?.classList.toggle('hidden');
+      this.updateTacticalCart(false);
+    }
+
+    closeTacticalPrep() {
+      els.tacticalPrepPrompt?.classList.add('hidden');
+      els.tacticalShopOverlay?.classList.add('hidden');
+      this.updateTacticalCart(false);
+      this.deployNextTacticalBatch();
+    }
+
+    startTacticalCountdown() {
+      els.tacticalCountdown?.classList.add('hidden');
+    }
+
+    isPrimaryWeaponPower(id) { return ['triple','laser','voidray'].includes(id); }
+
+    powersHaveDirectCombo(a,b) {
+      if (!a || !b || a === b) return false;
+      return FUSIONS.some(f => f.requires?.length === 2 && f.requires.includes(a) && f.requires.includes(b));
+    }
+
     markPowerActive(id, seconds) {
       if (!id) return;
-      const next = seconds || POWER_ACTIVE_SECONDS[id] || 6;
-      this.powerActivity[id] = Math.max(this.powerActivity[id] || 0, next);
-      this.activatePowerSlot(id);
+      const next=(seconds||POWER_ACTIVE_SECONDS[id]||6)*(this.player?.powerDurationScale||1)*this.getStagePowerScale();
+      const primary=this.isPrimaryWeaponPower(id);
+      if(primary){
+        this.powerQueue=this.powerQueue||[];
+        const current=this.activePowerSlots?.weaponMode;
+        if(current && current!==id && this.isPowerActive(current)){
+          if (!this.powersHaveDirectCombo(current,id)) {
+            const q=this.powerQueue.find(x=>x.id===id);
+            if(q)q.seconds=Math.min(30,Math.max(q.seconds,next)+next*.45); else this.powerQueue.push({id,seconds:next});
+            this.toast('⏳ Poder en cola',`${POWERS.find(p=>p.id===id)?.name||id} · se activará después`);
+            return 'queued';
+          }
+          this.toast('⚡ CONFLUENCIA',`${POWERS.find(p=>p.id===current)?.name||current} + ${POWERS.find(p=>p.id===id)?.name||id}`);
+        }
+      }
+      this.powerActivity[id]=Math.min(36,Math.max(this.powerActivity[id]||0,next)+((this.powerActivity[id]||0)>0?next*.28:0));
+      this.activatePowerSlot(id); return 'active';
     }
 
-    isPowerActive(id) {
-      return !!((this.powerLevels?.[id] || 0) > 0 && (this.powerActivity?.[id] || 0) > 0.04);
+    isPowerActive(id) { return !!((this.powerLevels?.[id]||0)>0&&(this.powerActivity?.[id]||0)>.04); }
+
+    getPowerLevel(id, activeOnly=false) {
+      const lvl=this.powerLevels?.[id]||0; if(!lvl)return 0;
+      const scaled=lvl*(this.player?.powerEffectScale||1)*this.getStagePowerScale();
+      return activeOnly?(this.isPowerActive(id)?scaled:0):scaled;
     }
 
-    getPowerLevel(id, activeOnly = false) {
-      const lvl = this.powerLevels?.[id] || 0;
-      if (!lvl) return 0;
-      return activeOnly ? (this.isPowerActive(id) ? lvl : 0) : lvl;
-    }
-
-    activatePowerSlot(id) {
-      const pow = POWERS.find(p => p.id === id);
-      if (!pow) return;
-      if (['triple','laser','voidray'].includes(pow.id)) this.activePowerSlots.weaponMode = pow.id;
-    }
+    activatePowerSlot(id) { const pow=POWERS.find(p=>p.id===id); if(pow&&['triple','laser','voidray'].includes(pow.id))this.activePowerSlots.weaponMode=pow.id; }
 
     resolvePowerSlots() {
-      if (!this.activePowerSlots) this.activePowerSlots = { weaponMode: null };
-      const current = this.activePowerSlots.weaponMode;
-      if (current && this.isPowerActive(current)) return;
-      const candidates = ['voidray','laser','triple'].filter(id => this.isPowerActive(id));
-      if (!candidates.length) { this.activePowerSlots.weaponMode = null; return; }
-      candidates.sort((a,b) => (this.powerActivity[b]||0) - (this.powerActivity[a]||0));
-      this.activePowerSlots.weaponMode = candidates[0];
+      if(!this.activePowerSlots)this.activePowerSlots={weaponMode:null};
+      const current=this.activePowerSlots.weaponMode;
+      if(current&&this.isPowerActive(current))return;
+      this.activePowerSlots.weaponMode=null; this.powerQueue=this.powerQueue||[];
+      while(this.powerQueue.length){const q=this.powerQueue.shift();if(!q?.id)continue;this.powerActivity[q.id]=Math.max(this.powerActivity[q.id]||0,q.seconds||POWER_ACTIVE_SECONDS[q.id]||8);this.activePowerSlots.weaponMode=q.id;this.toast('▶ Cola activada',POWERS.find(p=>p.id===q.id)?.name||q.id);return;}
+      const candidates=['voidray','laser','triple'].filter(id=>this.isPowerActive(id));
+      if(candidates.length){candidates.sort((a,b)=>(this.powerActivity[b]||0)-(this.powerActivity[a]||0));this.activePowerSlots.weaponMode=candidates[0];}
+    }
+
+    comboActive(id){return !!this.activeCombos?.[id];}
+    syncActiveCombos(){
+      const prev=this.activeCombos||{},next={};
+      for(const f of FUSIONS)if(f.requires.every(id=>this.isPowerActive(id)))next[f.id]=true;
+      for(const id of Object.keys(next))if(!prev[id]){
+        const f=FUSIONS.find(x=>x.id===id);
+        this.toast('⚡ COMBO ACTIVO',`${f?.icon||'⚡'} ${f?.name||id}`);
+        if (this.player) this.particles.push({type:'ring',x:this.player.x,y:this.player.y,r:18,maxR:118,life:.46,max:.46,color:'#ffd56a'});
+        this.flash=Math.max(this.flash,.38);this.shake=Math.max(this.shake,3);
+        AudioFX.chord([523.25,659.25,783.99],.16,.04);
+      }
+      this.activeCombos=next;
     }
 
     applyProfileRelics(save = null) {
-      const p = currentProfile();
-      p.relics = p.relics || {};
-      const relic = p.relics.world1Core;
-      if (!relic || this.mapIndex === 0) return;
-      this.player.maxShield += 14;
-      this.player.shield = Math.min(this.player.maxShield, this.player.shield + 14);
-      this.player.damage *= 1.1;
-      this.player.fireDelay *= .94;
-      this.player.relicMeteorTimer = save ? Math.max(3, this.player.relicMeteorTimer || 0) : 4.5;
-      if (!save) {
-        this.spawnDrone(18, false, { support: true, radius: 126, fireRate: .21, damageScale: .96, color: '#ffd56a' });
-        this.toast('☄️ NÚCLEO METEÓRICO HEREDADO', 'Impacto automático cada 18s');
+      const profile=currentProfile();profile.relics=profile.relics||{};const p=this.player;if(!p)return;
+      if(this.mapIndex>0&&profile.relics.world1Core){
+        p.maxShield+=14;p.shield=Math.min(p.maxShield,p.shield+14);p.damage*=1.10;p.fireDelay*=.94;p.relicMeteorTimer=save?Math.max(3,p.relicMeteorTimer||0):4.5;
+        if(!save){this.spawnDrone(18,false,{support:true,radius:126,fireRate:.21,damageScale:.96,color:'#ffd56a'});this.toast('☄️ NÚCLEO METEÓRICO HEREDADO','Impacto automático cada 18s');}
       }
+      if(this.mapIndex>1&&profile.relics.world2Spore){
+        p.powerEffectScale=(p.powerEffectScale||1)*1.06;p.powerDurationScale=(p.powerDurationScale||1)*1.04;p.maxShield+=8;p.shield=Math.min(p.maxShield,p.shield+8);
+        if(!save){this.spawnDrone(14,false,{support:true,inheritPower:true,count:1,radius:142,fireRate:.20,damageScale:.92,color:'#74ffd1'});this.toast('🧬 MATRIZ DE CONVERGENCIA','Poderes +6% · duración +4%');}
+      }
+      if(this.mapIndex>2&&profile.relics.world3Inferno){
+        p.damage*=1.08;p.fireDelay=Math.max(180,p.fireDelay*.97);p.powerEffectScale=(p.powerEffectScale||1)*1.04;
+        if(!save)this.toast('🔥 CORAZÓN ÍGNEO','Daño reforzado · poderes ofensivos mejorados');
+      }
+      if(this.mapIndex>3&&profile.relics.world4Hex){p.aimAssist=Math.min(.35,(p.aimAssist||0)+.05);p.maxShield+=10;p.shield=Math.min(p.maxShield,p.shield+10);if(!save)this.toast('🔮 SELLO ASTRAL','Precisión y defensa heredadas');}
     }
 
 
@@ -1345,7 +1775,8 @@
           damageScale: .82 + Math.min(.18, this.mapIndex * .04),
           color: '#9fd4ff'
         });
-        this.toast('🛸 Escolta heredada', `${count} nave${count > 1 ? 's' : ''} aliada${count > 1 ? 's' : ''}`);
+        this.toast('🛸 Escolta heredada',`${count} nave${count>1?'s':''} aliada${count>1?'s':''}`);
+        if(this.mapIndex>=3&&p.activeBossShip&&p.bossShips?.[p.activeBossShip]){this.spawnDrone(22,false,{support:true,inheritPower:true,count:1,radius:158,fireRate:.17,damageScale:1.24,color:'#ffd56a'});this.toast('👑 NAVE-JEFE ACTIVADA',p.bossShips[p.activeBossShip].name);}
       }
     }
 
@@ -1407,14 +1838,14 @@
         if (this.powerActivity[id] <= 0.04) delete this.powerActivity[id];
       });
       this.resolvePowerSlots();
+      this.syncActiveCombos();
     }
 
     updateOfferState(dt) {
-      if (!this.offerActive) return;
-      this.offerAutoAt -= dt;
-      if (this.offerAutoAt <= 0 && this.currentOfferChoices?.length) {
-        const best = this.selectRecommendedPower(this.currentOfferChoices);
-        if (best) this.applyPower(best.id, true);
+      // v1.6.4: no se interrumpe el combate con cartas. Toda mejora se recoge físicamente.
+      if (this.offerActive) {
+        this.offerActive=false;this.currentOfferChoices=[];this.offerAutoAt=0;this.pendingLevelChoices=0;
+        els.cardOverlay?.classList.add('hidden');
       }
     }
 
@@ -1753,7 +2184,16 @@
       if (this.keys.s || this.keys.arrowdown) dy += 1;
       if (this.keys.a || this.keys.arrowleft) dx -= 1;
       if (this.keys.d || this.keys.arrowright) dx += 1;
-      const moveSpeed = p.speed * (p.bossDrive > 0 ? 1.22 : 1) * (this.isPowerActive('afterburner') ? 1.48 : 1);
+      let zoneSlow = 1;
+      for (const z of (this.zones || [])) {
+        if (z.type !== 'slow') continue;
+        if (Math.hypot(z.x - p.x, z.y - p.y) < z.r + p.r) zoneSlow = Math.min(zoneSlow, .68);
+      }
+      const stableSpeed = Math.max(p.speed || 0, p.baseSpeed || 0);
+      const recoveryBoost = (p.recoveryGraceTimer || 0) > 0 ? 1.12 : 1;
+      const stagePowerScale=this.getStagePowerScale();
+      const afterburnerMult=this.isPowerActive('afterburner')?(1+.48*stagePowerScale*(this.comboActive('hiperfase')?1.12:1)):1;
+      const moveSpeed = stableSpeed * zoneSlow * recoveryBoost * (p.bossDrive > 0 ? 1.22 : 1) * afterburnerMult;
       if (dx || dy) {
         const l = Math.hypot(dx, dy) || 1;
         const tx = (dx / l) * moveSpeed;
@@ -1817,17 +2257,20 @@
       const ice = this.getPowerLevel('ice', true);
       const bounce = this.getPowerLevel('bounce', true);
       const virus = this.getPowerLevel('virus', true);
-      const drive = p.bossDrive > 0 ? 1.42 : 1;
+      const overdrive=this.getPowerLevel('overdrive',true);
+      const drive=(p.bossDrive>0?1.42:1)*(overdrive?(1.16+overdrive*.018):1);
       const bossBonus = target.boss ? 1.22 : 1;
       const dmg = p.damage * (1 + triple * .05 + pierce * .04 + voidray * .045) * drive * bossBonus;
       const speed = 560 + pierce * 45;
       const shots = triple ? [-0.18, 0, 0.18] : [0];
-      if (this.fusions.prisma) shots.push(-0.32, 0.32);
-      if (this.fusions.lanza) shots.push(-0.08, 0.08);
-      shots.forEach(off => this.addBullet(p.x, p.y, a + off, speed * (p.projectileSpeedBonus || 1), dmg, { pierce: 1 + pierce + (this.fusions.lanza ? 2 : 0), fire, ice, bounce, virus, color: p.avatar.color, homing: Math.random() < (p.aimAssist || 0), glow: p.shotTier || 0 }));
-      if (laser || this.fusions.prisma) this.fireLaser(a, dmg * (.42 + laser * .16), this.fusions.prisma ? 3 : 1);
-      if (voidray) this.fireLaserFrom(p.x, p.y, a, dmg * (.58 + voidray * .13), '#c391ff');
-      p.fireTimer = Math.max(60, (p.fireDelay - triple * 12 - laser * 8 - voidray * 6) * (p.bossDrive > 0 ? .72 : 1));
+      if (this.comboActive('prisma')) shots.push(-0.32, 0.32);
+      if (this.comboActive('lanza')) shots.push(-0.08, 0.08);
+      const comboFire=this.comboActive('chispa')?Math.max(1,fire+1):fire;
+      const comboBounce=this.comboActive('chispa')?Math.max(1,bounce+1):bounce;
+      shots.forEach(off => this.addBullet(p.x, p.y, a + off, speed * (p.projectileSpeedBonus || 1), dmg*(this.comboActive('chispa')?1.12:1), { pierce: 1 + pierce + (this.comboActive('lanza') ? 2 : 0) + (this.comboActive('tridente') ? 2 : 0), fire:comboFire, ice, bounce:comboBounce, virus, color: p.avatar.color, homing: Math.random() < (p.aimAssist || 0), glow: p.shotTier || 0 }));
+      if (laser || this.comboActive('prisma')) this.fireLaser(a, dmg * (.42 + laser * .16), this.comboActive('prisma') ? 3 : 1, this.comboActive('criotemporal'));
+      if (voidray) this.fireLaserFrom(p.x, p.y, a, dmg * (.58 + voidray * .13)*(this.comboActive('nulidad')?1.28:1), '#c391ff');
+      p.fireTimer = Math.max(55,(p.fireDelay-triple*12-laser*8-voidray*6)*(p.bossDrive>0?.72:1)*(overdrive?.78:1));
       AudioFX.shoot();
     }
 
@@ -1852,7 +2295,7 @@
       });
     }
 
-    fireLaser(angle, damage, count = 1) {
+    fireLaser(angle, damage, count = 1, slowBeam = false) {
       const p = this.player;
       const angles = count === 3 ? [angle - .16, angle, angle + .16] : [angle];
       angles.forEach(a => {
@@ -1865,7 +2308,7 @@
           if (proj < 0 || proj > 560 * (p.projectileRangeBonus || 1)) continue;
           const perp = Math.abs(px * sin - py * cos);
           if (perp < e.r + 10) {
-            this.damageEnemy(e, damage, { laser: true });
+            this.damageEnemy(e, damage, { laser: true, slow: slowBeam ? .75 : 0 });
             hit++;
             if (hit > 5) break;
           }
@@ -1926,32 +2369,40 @@
       const gravmine = this.getPowerLevel('gravmine', true);
       const disruptor = this.getPowerLevel('disruptor', true);
       const plasma = this.getPowerLevel('plasma', true);
-      if (orbs || this.fusions.gravedad) {
-        const radius = 68 + orbs * 14 + (this.fusions.gravedad ? 48 : 0);
+      const voltaic=this.getPowerLevel('voltaic',true);
+      const nanorepair=this.getPowerLevel('nanorepair',true);
+      if (orbs || this.comboActive('gravedad') || this.comboActive('bastion')) {
+        const radius = 68 + orbs * 14 + (this.comboActive('gravedad') ? 48 : 0) + (this.comboActive('bastion') ? 22 : 0);
         for (const e of this.enemies) {
           const d = Math.hypot(e.x - p.x, e.y - p.y);
-          if (d < radius + e.r) this.damageEnemy(e, (7 + orbs * 2) * dt, { orbital: true, slow: this.fusions.gravedad ? .4 : 0 });
+          if (d < radius + e.r) this.damageEnemy(e, (7 + orbs * 2) * dt, { orbital: true, slow: this.comboActive('gravedad') ? .4 : 0 });
         }
       }
-      if (ring || this.fusions.gravedad) {
+      if (ring || this.comboActive('gravedad') || this.comboActive('bastion')) {
         const radius = 104 + ring * 12;
         for (const e of this.enemies) {
           const d = Math.hypot(e.x - p.x, e.y - p.y);
           if (d < radius && d > 0) {
-            const push = (this.fusions.gravedad ? -18 : 26) * dt;
+            const push = (this.comboActive('gravedad') ? -24 : 26) * dt;
             e.x += ((e.x - p.x) / d) * push;
             e.y += ((e.y - p.y) / d) * push;
-            if (this.fusions.gravedad) e.slow = Math.max(e.slow || 0, .5);
+            if (this.comboActive('gravedad')) e.slow = Math.max(e.slow || 0, .5);
           }
         }
+        if(this.comboActive('bastion')){
+          const blockR=132+orbs*8+ring*7;
+          for(let i=this.bullets.length-1;i>=0;i--){const b=this.bullets[i];if(b.enemy&&Math.hypot(b.x-p.x,b.y-p.y)<blockR)this.bullets.splice(i,1);}
+          p.shield=Math.min(p.maxShield,p.shield+dt*(1.1+ring*.22));
+        }
       }
-      if ((pulse || this.fusions.resonante) && p.pulseTimer <= 0) {
-        const radius = 130 + pulse * 30;
+      if ((pulse || this.comboActive('resonante') || this.comboActive('blackout')) && p.pulseTimer <= 0) {
+        const radius = 130 + pulse * 30 + (this.comboActive('blackout')?72:0);
         for (const e of this.enemies) {
           const d = Math.hypot(e.x - p.x, e.y - p.y);
           if (d < radius) this.damageEnemy(e, p.damage * (1.3 + pulse * .25), { pulse: true });
         }
-        this.particles.push({ type: 'ring', x: p.x, y: p.y, r: 20, maxR: radius, life: .32, max: .32, color: '#ffd56a' });
+        if(this.comboActive('blackout'))for(let i=this.bullets.length-1;i>=0;i--){if(this.bullets[i].enemy)this.bullets.splice(i,1);}
+        this.particles.push({ type: 'ring', x: p.x, y: p.y, r: 20, maxR: radius, life: .32, max: .32, color: this.comboActive('blackout')?'#83eaff':'#ffd56a' });
         p.pulseTimer = Math.max(2.8, 5.4 - pulse * .45);
         AudioFX.tone(260, .12, 'triangle', .035, 260);
       }
@@ -2003,7 +2454,7 @@
           for (let i=0;i<count;i++) {
             const target = this.enemies[(i + Math.floor(Math.random()*this.enemies.length)) % this.enemies.length];
             const ang = Math.atan2(target.y - p.y, target.x - p.x) + rand(.08,-.08);
-            this.addBullet(p.x, p.y, ang, 420 + torpedo * 30, p.damage * (1.2 + torpedo * .16), { pierce: 1, homing: true, type: 'torpedo', big: true, color: '#ffd56a' });
+            this.addBullet(p.x, p.y, ang, 420 + torpedo * 30, p.damage * (1.2 + torpedo * .16), { pierce: 1, homing: true, type: 'torpedo', big: true, virus: this.comboActive('enjambre') ? 1 : 0, color: '#ffd56a' });
           }
           p.torpedoTimer = Math.max(1.2, 2.8 - torpedo * .14);
         }
@@ -2013,7 +2464,7 @@
         if (p.gravMineTimer <= 0 && this.enemies.length) {
           const target = this.nearestEnemy();
           if (target) {
-            this.zones.push({ type:'gravityMine', x:target.x, y:target.y, r:76 + gravmine*10, life:3.2, max:3.2, damage:p.damage*(.22+gravmine*.05) });
+            this.zones.push({ type:'gravityMine', x:target.x, y:target.y, r:76 + gravmine*10 + (this.comboActive('pozo')?38:0), life:this.comboActive('pozo')?4.2:3.2, max:this.comboActive('pozo')?4.2:3.2, damage:p.damage*(.22+gravmine*.05)*(this.comboActive('pozo')?1.45:1) });
             this.particles.push({ type:'ring', x:target.x, y:target.y, r:12, maxR:92 + gravmine*10, life:.38, max:.38, color:'#c391ff' });
           }
           p.gravMineTimer = Math.max(1.8, 3.1 - gravmine*.18);
@@ -2025,11 +2476,11 @@
           let cleared = 0;
           for (let i=this.bullets.length-1;i>=0;i--) {
             const b=this.bullets[i];
-            if (b.enemy && Math.hypot(b.x-p.x,b.y-p.y) < 300 + disruptor*22) { this.bullets.splice(i,1); cleared++; }
+            if (b.enemy && Math.hypot(b.x-p.x,b.y-p.y) < 300 + disruptor*22 + (this.comboActive('nulidad')?120:0)) { this.bullets.splice(i,1); cleared++; }
           }
           for (const e of this.enemies) {
             const d=Math.hypot(e.x-p.x,e.y-p.y);
-            if (d < 220 + disruptor*20) this.damageEnemy(e,p.damage*(.62+disruptor*.12),{slow:.65,color:'#83eaff'});
+            if (d < 220 + disruptor*20 + (this.comboActive('nulidad')?80:0)) this.damageEnemy(e,p.damage*(.62+disruptor*.12)*(this.comboActive('nulidad')?1.4:1),{slow:.65,color:this.comboActive('nulidad')?'#c391ff':'#83eaff'});
           }
           this.particles.push({type:'ring',x:p.x,y:p.y,r:18,maxR:270+disruptor*18,life:.46,max:.46,color:'#83eaff'});
           AudioFX.world2Pulse();
@@ -2042,13 +2493,14 @@
         if (p.plasmaTimer <= 0 && this.enemies.length) {
           const target=this.nearestEnemy();
           if (target) {
-            const radius=88+plasma*12;
+            const radius=88+plasma*12+(this.comboActive('pozo')?46:0);
             for (const e of this.enemies) {
               const d=Math.hypot(e.x-target.x,e.y-target.y)||1;
               if (d<radius) {
                 this.damageEnemy(e,p.damage*(.42+plasma*.08),{fire:1,color:'#d879ff'});
-                e.x += ((target.x-e.x)/d)*5;
-                e.y += ((target.y-e.y)/d)*5;
+                const pull=this.comboActive('pozo')?10:5;
+                e.x += ((target.x-e.x)/d)*pull;
+                e.y += ((target.y-e.y)/d)*pull;
               }
             }
             this.particles.push({type:'ring',x:target.x,y:target.y,r:10,maxR:radius,life:.34,max:.34,color:'#d879ff'});
@@ -2068,6 +2520,17 @@
           p.kamiTimer = Math.max(1.4, 3.4 - kamikaze * .16);
         }
       }
+      if (voltaic) {
+        p.voltaicTimer=(p.voltaicTimer??.25)-dt;
+        if(p.voltaicTimer<=0&&this.enemies.length){
+          const storm=this.comboActive('tempestad');
+          const chain=this.enemies.slice().sort((a,b)=>dist2(a,p)-dist2(b,p)).slice(0,Math.min(storm?8:5,(storm?4:2)+Math.floor(voltaic)));
+          chain.forEach((e,idx)=>{this.damageEnemy(e,p.damage*(.32+voltaic*.07)*(storm?1.38:1),{color:storm?'#d7ff72':'#93ff8b',slow:storm?.22:.12});if(idx<chain.length-1)this.particles.push({type:'laser',x:e.x,y:e.y,a:Math.atan2(chain[idx+1].y-e.y,chain[idx+1].x-e.x),life:.1,max:.1,range:Math.hypot(chain[idx+1].x-e.x,chain[idx+1].y-e.y),color:storm?'#d7ff72':'#93ff8b'});});
+          p.voltaicTimer=Math.max(.34,.76-voltaic*.05);
+        }
+      }
+      if(nanorepair&&p.hp<p.maxHp)p.hp=Math.min(p.maxHp,p.hp+dt*(1.8+nanorepair*.65)*(this.comboActive('regenerativo')?1.75:1));
+      if(this.comboActive('regenerativo'))p.shield=Math.min(p.maxShield,p.shield+dt*1.35);
     }
 
     setupWorldOneIntro() {
@@ -2099,6 +2562,175 @@
       this.spawnMeteor(1, true);
       this.toast('MUNDO 2 · ACTO 2-1','Cuarentena exterior');
       AudioFX.world2Pulse();
+    }
+
+
+    setupWorldThreeIntro() {
+      const p=this.player,w3=this.worldThreeState;
+      w3.eventTimer=7;w3.rewardTimer=9;w3.hordeTimer=12;w3.hazardTimer=5.5;w3.speedBurst=3.5;
+      this.spawnPickup(p.x+50,clamp(p.y-92,64,this.h-64),'power',1,{powerId:'afterburner',major:true,rewardGlow:true,label:'IMPULSOR VECTORIAL',powerDuration:12});
+      this.spawnPickup(p.x-70,p.y-36,'power',1,{powerId:'pierce',major:true,rewardGlow:true,label:'PERFORANTE MK-3',powerDuration:12});
+      this.spawnPickup(p.x+106,p.y+34,'shield',30,{rewardGlow:true,label:'SHIELD +30'});
+      this.spawnDrone(15,false,{support:true,inheritPower:true,count:2,radius:128,fireRate:.21,damageScale:.9,color:'#74ff73'});
+      ['w3_viridian_1','w3_viridian_2','w3_crystal_1','w3_viridian_3'].forEach((id,i)=>this.spawnEnemyNearPlayer(id,-1+i*.65,310+i*18,true,1.03));
+      this.toast('MUNDO 3 · ACTO 3-1','Corredor Viridiano · velocidad espacial activa');
+    }
+
+    setupWorldFourIntro() {
+      const p=this.player,w4=this.worldFourState;
+      w4.eventTimer=6.8;w4.rewardTimer=8.0;w4.hordeTimer=11.6;w4.hazardTimer=6.0;
+      this.spawnPickup(p.x+58,clamp(p.y-92,64,this.h-64),'power',1,{powerId:'magnetism',major:true,rewardGlow:true,label:'IMÁN GRAVITACIONAL',powerDuration:12});
+      this.spawnPickup(p.x-74,p.y-24,'power',1,{powerId:'stasis',major:true,rewardGlow:true,label:'RALENTIZADOR TEMPORAL',powerDuration:10});
+      this.spawnPickup(p.x+104,p.y+34,'shield',35,{rewardGlow:true,label:'SHIELD +35'});
+      ['w4_eclipse_1','w4_eclipse_2','w4_eclipse_4'].forEach((id,i)=>this.spawnEnemyNearPlayer(id,-.9+i*.75,295+i*18,true,1.02));
+      this.toast('MUNDO 4 · ACTO 4-1','Ciudadela Carmesí · presión orbital activa');
+    }
+
+    setupWorldFiveIntro() {
+      const p=this.player,w5=this.worldFiveState;
+      w5.eventTimer=6.4;w5.rewardTimer=7.6;w5.hordeTimer=10.8;w5.hazardTimer=5.8;
+      this.spawnPickup(p.x+42,clamp(p.y-94,64,this.h-64),'power',1,{powerId:'afterburner',major:true,rewardGlow:true,label:'IMPULSOR ABISAL',powerDuration:12});
+      this.spawnPickup(p.x-82,p.y-28,'power',1,{powerId:'plasma',major:true,rewardGlow:true,label:'VÓRTICE DE PLASMA',powerDuration:10});
+      this.spawnPickup(p.x+112,p.y+36,'shield',40,{rewardGlow:true,label:'SHIELD +40'});
+      this.spawnDrone(14,false,{support:true,inheritPower:true,count:1,radius:136,fireRate:.22,damageScale:.95,color:'#c391ff'});
+      ['w5_void_1','w5_void_2','w5_void_4'].forEach((id,i)=>this.spawnEnemyNearPlayer(id,-1+i*.82,310+i*22,true,1.04));
+      this.toast('MUNDO 5 · ACTO 5-1','Caverna del Núcleo Negro · singularidad activa');
+    }
+
+    grantWorldThreePowerReward(step=Math.max(1,this.wave-1)) {
+      const w3=this.worldThreeState||(this.worldThreeState={rewardSteps:[]});w3.rewardSteps=w3.rewardSteps||[];
+      const idx=Math.max(0,Math.min(WORLD_THREE_CONFIG.rewardPowers.length-1,step-1)),id=WORLD_THREE_CONFIG.rewardPowers[idx];
+      if(!id||w3.rewardSteps.includes(id))return null;w3.rewardSteps.push(id);return id;
+    }
+
+    spawnWorldThreeReward() {
+      const id=this.grantWorldThreePowerReward();if(!id)return;const pow=POWERS.find(p=>p.id===id),p=this.player;
+      this.spawnPickup(p.x+rand(120,-120),clamp(p.y-108,62,this.h-62),'power',1,{powerId:id,major:true,rewardGlow:true,label:pow?.name||'Poder Mundo 3',powerDuration:POWER_ACTIVE_SECONDS[id]||11});
+      this.toast('✦ TECNOLOGÍA VIRIDIANA',pow?.name||id);
+    }
+
+    grantWorldFourPowerReward(step=Math.max(1,this.wave-1)) {
+      const w4=this.worldFourState||(this.worldFourState={rewardSteps:[]});w4.rewardSteps=w4.rewardSteps||[];
+      const idx=Math.max(0,Math.min(WORLD_FOUR_CONFIG.rewardPowers.length-1,step-1)),id=WORLD_FOUR_CONFIG.rewardPowers[idx];
+      if(!id||w4.rewardSteps.includes(id))return null;w4.rewardSteps.push(id);return id;
+    }
+
+    spawnWorldFourReward() {
+      const id=this.grantWorldFourPowerReward();if(!id)return;const pow=POWERS.find(p=>p.id===id),p=this.player;
+      this.spawnPickup(p.x+rand(120,-120),clamp(p.y-108,62,this.h-62),'power',1,{powerId:id,major:true,rewardGlow:true,label:pow?.name||'Tecnología Carmesí',powerDuration:POWER_ACTIVE_SECONDS[id]||11});
+      this.toast('✦ TECNOLOGÍA CARMESÍ',pow?.name||id);
+    }
+
+    grantWorldFivePowerReward(step=Math.max(1,this.wave-1)) {
+      const w5=this.worldFiveState||(this.worldFiveState={rewardSteps:[]});w5.rewardSteps=w5.rewardSteps||[];
+      const idx=Math.max(0,Math.min(WORLD_FIVE_CONFIG.rewardPowers.length-1,step-1)),id=WORLD_FIVE_CONFIG.rewardPowers[idx];
+      if(!id||w5.rewardSteps.includes(id))return null;w5.rewardSteps.push(id);return id;
+    }
+
+    spawnWorldFiveReward() {
+      const id=this.grantWorldFivePowerReward();if(!id)return;const pow=POWERS.find(p=>p.id===id),p=this.player;
+      this.spawnPickup(p.x+rand(120,-120),clamp(p.y-108,62,this.h-62),'power',1,{powerId:id,major:true,rewardGlow:true,label:pow?.name||'Tecnología del Vacío',powerDuration:POWER_ACTIVE_SECONDS[id]||11});
+      this.toast('✦ TECNOLOGÍA DEL VACÍO',pow?.name||id);
+    }
+
+    worldThreeEnemyId() {
+      const A=WORLD_THREE_MINION_FAMILIES[0],B=WORLD_THREE_MINION_FAMILIES[1],C=WORLD_THREE_MINION_FAMILIES[2];
+      let pool=this.wave===1?[...A]:this.wave===2?[...A,...B.slice(0,3)]:this.wave===3?[...A.slice(1),...B]:this.wave===4?[...B,...C]:[A[4],B[3],B[4],...C];
+      const hist=this.worldThreeState?.enemyHistory||[],cand=pool.filter(id=>!hist.slice(-3).includes(id)),id=pick(cand.length?cand:pool);
+      this.worldThreeState.enemyHistory=[...hist,id].slice(-5);return id;
+    }
+
+    worldFourEnemyId() {
+      const A=WORLD_FOUR_MINION_FAMILIES[0],B=WORLD_FOUR_MINION_FAMILIES[1];
+      const pool=this.wave===1?[...A]:this.wave===2?[...A,...B.slice(0,1)]:this.wave===3?[...A,...B.slice(0,2)]:[...A,...B];
+      const hist=this.worldFourState?.enemyHistory||[],cand=pool.filter(id=>!hist.slice(-2).includes(id)),id=pick(cand.length?cand:pool);
+      this.worldFourState.enemyHistory=[...hist,id].slice(-4);return id;
+    }
+
+    worldFiveEnemyId() {
+      const A=WORLD_FIVE_MINION_FAMILIES[0],B=WORLD_FIVE_MINION_FAMILIES[1];
+      const pool=this.wave===1?[...A]:this.wave===2?[...A,...B.slice(0,1)]:this.wave===3?[...A,...B.slice(0,2)]:[...A,...B];
+      const hist=this.worldFiveState?.enemyHistory||[],cand=pool.filter(id=>!hist.slice(-2).includes(id)),id=pick(cand.length?cand:pool);
+      this.worldFiveState.enemyHistory=[...hist,id].slice(-4);return id;
+    }
+
+    spawnWorldThreeHazard(count=1,fast=false) {
+      if(!this.meteors)this.meteors=[];const cap=this.isSmallScreen?5:9;
+      for(let i=0;i<count&&this.meteors.length<cap;i++){
+        const left=Math.random()<.5,x=left?-90:this.w+90,y=rand(this.h*.78,this.h*.16),tx=left?this.w+120:-120,ty=clamp(y+rand(150,-150),45,this.h-45),a=Math.atan2(ty-y,tx-x),sp=fast?rand(255,190):rand(185,125),r=rand(26,16);
+        this.meteors.push({kind:'w3hazard',x,y,vx:Math.cos(a)*sp,vy:Math.sin(a)*sp,r,life:fast?6.4:8.5,dmg:fast?14:18,color:'#74ff73',trail:[],spin:rand(1.8,-1.8),hp:44+this.wave*6,score:26,coins:8,spriteKey:pick(WORLD_THREE_HAZARDS)});
+      }
+    }
+
+    spawnWorldFourHazard(count=1,fast=false) {
+      if(!this.meteors)this.meteors=[];const cap=this.isSmallScreen?5:9;
+      for(let i=0;i<count&&this.meteors.length<cap;i++){
+        const left=Math.random()<.5,x=left?-90:this.w+90,y=rand(this.h*.8,this.h*.14),tx=left?this.w+120:-120,ty=clamp(y+rand(170,-170),45,this.h-45),a=Math.atan2(ty-y,tx-x),sp=fast?rand(280,210):rand(210,145),r=rand(28,17);
+        this.meteors.push({kind:'w4hazard',x,y,vx:Math.cos(a)*sp,vy:Math.sin(a)*sp,r,life:fast?6.2:8.0,dmg:fast?16:20,color:'#ff6a63',trail:[],spin:rand(2.0,-2.0),hp:54+this.wave*7,score:30,coins:9,spriteKey:pick(WORLD_FOUR_HAZARDS)});
+      }
+    }
+
+    spawnWorldFiveHazard(count=1,fast=false) {
+      if(!this.meteors)this.meteors=[];const cap=this.isSmallScreen?5:9;
+      for(let i=0;i<count&&this.meteors.length<cap;i++){
+        const left=Math.random()<.5,x=left?-90:this.w+90,y=rand(this.h*.82,this.h*.14),tx=left?this.w+120:-120,ty=clamp(y+rand(185,-185),45,this.h-45),a=Math.atan2(ty-y,tx-x),sp=fast?rand(305,225):rand(225,155),r=rand(30,18);
+        this.meteors.push({kind:'w5hazard',x,y,vx:Math.cos(a)*sp,vy:Math.sin(a)*sp,r,life:fast?6.0:7.8,dmg:fast?18:22,color:'#c391ff',trail:[],spin:rand(2.0,-2.0),hp:58+this.wave*8,score:34,coins:10,spriteKey:pick(WORLD_FIVE_HAZARDS)});
+      }
+    }
+
+    spawnWorldThreeVFormation(size=3,diagonal=true) {
+      const pool=this.wave>=4?WORLD_THREE_MINION_FAMILIES.flat():[...WORLD_THREE_MINION_FAMILIES[0],...WORLD_THREE_MINION_FAMILIES[1]],fromLeft=Math.random()<.5,dir=fromLeft?1:-1,baseX=fromLeft?-50:this.w+50,baseY=clamp(this.player.y+rand(170,-170),80,this.h-120);
+      for(let i=0;i<size;i++){this.spawnEnemy(pick(pool),true);const e=this.enemies[this.enemies.length-1];if(!e)continue;const row=i===0?0:Math.ceil(i/2),wing=i===0?0:(i%2?-1:1);e.x=baseX-dir*row*48;e.y=clamp(baseY+wing*row*30+(diagonal?row*10:0),55,this.h-55);e.formationVX=dir*rand(118,88);e.formationVY=diagonal?wing*rand(26,13):0;e.formationTime=8.5;e.speed*=1.08;e.r*=.94;}
+    }
+
+    triggerWorldThreeHorde() {
+      if(this.wave<2||this.wave>=5)return;const size=[3,6,9][Math.min(2,this.wave-2)];this.spawnWorldThreeVFormation(size,true);this.spawnCrossWorldPrizeBurst(size>=6?2:1);this.spawnHordeEmergencyKit();this.worldThreeState.speedBurst=Math.max(this.worldThreeState.speedBurst||0,5.2);this.worldThreeState.hordeSeen=(this.worldThreeState.hordeSeen||0)+1;this.toast('⚡ HORDA VIRIDIANA',`Formación en V x${size} · kit antihorda disponible`);
+    }
+
+    spawnAdvancedWorldVFormation(worldIndex,size=3,diagonal=true) {
+      const pool=worldIndex===3?WORLD_FOUR_MINION_FAMILIES.flat():WORLD_FIVE_MINION_FAMILIES.flat();
+      const fromLeft=Math.random()<.5,dir=fromLeft?1:-1,baseX=fromLeft?-55:this.w+55,baseY=clamp(this.player.y+rand(175,-175),78,this.h-118);
+      for(let i=0;i<size;i++){
+        this.spawnEnemy(pick(pool),true);const e=this.enemies[this.enemies.length-1];if(!e)continue;
+        const row=i===0?0:Math.ceil(i/2),wing=i===0?0:(i%2?-1:1);
+        e.x=baseX-dir*row*50;e.y=clamp(baseY+wing*row*31+(diagonal?row*11:0),55,this.h-55);
+        e.formationVX=dir*rand(worldIndex===4?132:122,92);e.formationVY=diagonal?wing*rand(28,14):0;e.formationTime=8.8;e.speed*=1.08;e.r*=.93;
+      }
+    }
+
+    triggerWorldFourHorde() {
+      if(this.wave<2||this.wave>5)return;const size=this.wave>=4?9:(this.wave===3?6:3);
+      this.spawnAdvancedWorldVFormation(3,size,true);if(size>=6)this.spawnAdvancedWorldVFormation(3,3,Math.random()<.6);
+      this.spawnCrossWorldPrizeBurst(size>=6?2:1);this.spawnHordeEmergencyKit();
+      this.worldFourState.hordeSeen=(this.worldFourState.hordeSeen||0)+1;
+      this.toast('🔥 HORDA CARMESÍ',`Formación x${size} · bomba, impulsor y ralentizador en los bordes`);
+    }
+
+    triggerWorldFiveHorde() {
+      if(this.wave<2||this.wave>5)return;const size=this.wave>=4?9:(this.wave===3?6:3);
+      this.spawnAdvancedWorldVFormation(4,size,true);if(size>=6)this.spawnAdvancedWorldVFormation(4,3,true);
+      this.spawnCrossWorldPrizeBurst(size>=6?2:1);this.spawnHordeEmergencyKit();
+      this.worldFiveState.hordeSeen=(this.worldFiveState.hordeSeen||0)+1;
+      this.toast('🕳️ HORDA DEL VACÍO',`Formación x${size} · kit de emergencia disponible`);
+    }
+
+    triggerWorldThreeMicroEvent(level=this.wave) {
+      if(level===1){this.spawnWorldThreeVFormation(3,false);this.spawnWorldThreeHazard(1,true);}
+      else if(level===2){this.spawnWorldThreeVFormation(3,true);this.spawnWorldThreeHazard(2,true);}
+      else if(level===3){this.spawnWorldThreeHazard(2,false);this.spawnEnemyNearPlayer('w3_crystal_4',-.6,330,false,1.08);this.spawnEnemyNearPlayer('w3_viridian_5',.6,340,false,1.06);}
+      else if(level===4){this.spawnWorldThreeVFormation(6,true);this.spawnWorldThreeHazard(2,true);}
+      this.worldThreeState.speedBurst=Math.max(this.worldThreeState.speedBurst||0,3.4);
+    }
+
+    updateWorldThreeDirector(dt) {
+      if(this.mapIndex!==2||this.bossActive||this.run?.mapComplete)return false;const w3=this.worldThreeState;if(!w3)return false;
+      w3.speedBurst=Math.max(0,(w3.speedBurst||0)-dt);w3.rewardTimer=(w3.rewardTimer??9)-dt;
+      if(w3.rewardTimer<=0&&this.wave<5){this.spawnCrossWorldTacticalPrize();w3.rewardTimer=rand(16,12);}
+      w3.hazardTimer=(w3.hazardTimer??6)-dt;if(w3.hazardTimer<=0&&this.wave>=2){this.spawnWorldThreeHazard(this.wave>=4?2:1,this.wave>=3);w3.hazardTimer=rand(9.5,6.2);}
+      w3.eventTimer=(w3.eventTimer??8)-dt;if(w3.eventTimer<=0&&this.wave<5){this.triggerWorldThreeMicroEvent(this.wave);w3.eventTimer=(WORLD_THREE_ACTS[this.wave-1]?.eventEvery||10)+rand(2,-1);}
+      w3.hordeTimer=(w3.hordeTimer??13)-dt;if(w3.hordeTimer<=0&&this.wave>=2&&this.wave<5){this.triggerWorldThreeHorde();w3.hordeTimer=rand(this.wave>=4?15:19,this.wave>=4?11:14);}
+      if(this.wave===5){w3.speedBurst=Math.max(w3.speedBurst||0,.8);w3.hordeTimer=(w3.hordeTimer||8)-dt;if(w3.hordeTimer<=0){this.spawnWorldThreeVFormation(6,true);this.spawnCrossWorldPrizeBurst(1);this.spawnHordeEmergencyKit();w3.hordeTimer=rand(11,8);}}
+      return false;
     }
 
     worldOneEnemyId() {
@@ -2258,7 +2890,7 @@
         const pool = [];
         if (shieldLow) pool.push('shield', 'shield');
         if (lifeLow) pool.push('life', 'life');
-        pool.push('afterburner', 'afterburner', 'stasis', 'stasis', 'shield', 'life');
+        pool.push('afterburner','afterburner','stasis','stasis','wingman','nanorepair','magnetism','shield','life');
         choice = pick(pool);
       }
       const x = clamp(p.x + rand(170, -170), 55, this.w - 55);
@@ -2268,12 +2900,29 @@
       else if (choice === 'afterburner') this.spawnPickup(x, y, 'power', 1, { powerId: 'afterburner', rewardGlow: true, label: 'IMPULSOR 10s', powerDuration: 10 });
       else if (choice === 'stasis') this.spawnPickup(x, y, 'power', 1, { powerId: 'stasis', rewardGlow: true, label: 'RALENTIZADOR 10s', powerDuration: 10 });
       else if (choice === 'wingman') this.spawnPickup(x, y, 'power', 1, { powerId: 'wingman', rewardGlow: true, label: 'NAVE AUXILIAR 12s', powerDuration: 12 });
+      else if(choice==='nanorepair') this.spawnPickup(x,y,'power',1,{powerId:'nanorepair',rewardGlow:true,label:'NANORREPARACIÓN 12s',powerDuration:12});
+      else if(choice==='magnetism') this.spawnPickup(x,y,'power',1,{powerId:'magnetism',rewardGlow:true,label:'IMÁN GRAVITACIONAL 12s',powerDuration:12});
       AudioFX.tone(720, .08, 'triangle', .025, 80);
     }
 
     spawnCrossWorldPrizeBurst(count = 2) {
       const plan = ['afterburner', 'stasis', 'shield', 'life', 'wingman'];
       for (let i = 0; i < count; i++) this.spawnCrossWorldTacticalPrize(plan[(i + this.wave + this.mapIndex) % plan.length]);
+    }
+
+    spawnHordeEmergencyKit() {
+      if(!this.player)return;
+      this.pickups=this.pickups.filter(p=>!p.hordeKit);
+      const p=this.player,margin=this.isSmallScreen?42:62;
+      const positions=[
+        [margin,clamp(this.h*.26,64,this.h-64)],
+        [this.w-margin,clamp(this.h*.28,64,this.h-64)],
+        [this.w-margin,clamp(this.h*.76,64,this.h-64)]
+      ];
+      this.spawnPickup(positions[0][0],positions[0][1],'nuke',1,{hordeKit:true,rewardGlow:true,label:'☢ BOMBA ANTIHORDA',life:22,autoDelay:999});
+      this.spawnPickup(positions[1][0],positions[1][1],'power',1,{powerId:'afterburner',hordeKit:true,rewardGlow:true,label:'» IMPULSOR 10s',powerDuration:10,life:22,autoDelay:999});
+      this.spawnPickup(positions[2][0],positions[2][1],'power',1,{powerId:'stasis',hordeKit:true,rewardGlow:true,label:'⌛ RALENTIZADOR 10s',powerDuration:10,life:22,autoDelay:999});
+      this.toast('🎁 KIT DE HORDA','Bomba · Impulsor · Ralentizador flotando en los bordes');
     }
 
     getBossLootPowerId() {
@@ -2285,40 +2934,94 @@
       const powerId = this.getBossLootPowerId();
       const power = POWERS.find(pw => pw.id === powerId) || POWERS[0];
       this.lastBossLootPower = power;
-      this.spawnPickup(e.x, e.y - e.r * .45, 'power', 1, { powerId, major: true, rewardGlow: true, label: `BOTÍN ${power.name.toUpperCase()}`, powerDuration: Math.max(12, POWER_ACTIVE_SECONDS[powerId] || 12) });
-      for (let i = 0; i < 5; i++) this.spawnPickup(e.x + rand(120, -120), e.y + rand(95, -95), 'coin', 30 + i * 8, { rewardGlow: i < 2 });
-      for (let i = 0; i < 4; i++) this.spawnPickup(e.x + rand(105, -105), e.y + rand(88, -88), 'xp', 14 + i * 6, { rewardGlow: i < 2 });
-      if (Math.random() < .8) this.spawnPickup(e.x + rand(86, -86), e.y + rand(64, -64), 'life', 26 + this.mapIndex * 4, { rewardGlow: true, label: 'VIDA DE BOTÍN' });
+      this.spawnPickup(e.x, e.y - e.r * .45, 'power', 1, { powerId, major: true, rewardGlow: true, bossLoot:true, label: `BOTÍN ${power.name.toUpperCase()}`, powerDuration: Math.max(12, POWER_ACTIVE_SECONDS[powerId] || 12) });
+      for (let i = 0; i < 5; i++) this.spawnPickup(e.x + rand(120, -120), e.y + rand(95, -95), 'coin', 30 + i * 8, { rewardGlow: i < 2, bossLoot:true });
+      for (let i = 0; i < 4; i++) this.spawnPickup(e.x + rand(105, -105), e.y + rand(88, -88), 'xp', 14 + i * 6, { rewardGlow: i < 2, bossLoot:true });
+      if (Math.random() < .8) this.spawnPickup(e.x + rand(86, -86), e.y + rand(64, -64), 'life', 26 + this.mapIndex * 4, { rewardGlow: true, bossLoot:true, label: 'VIDA DE BOTÍN' });
       this.toast('🎁 Botín del jefe', `${power.name} · XP · monedas${Math.random() < .5 ? ' · vida' : ''}`);
       return power;
     }
 
     dropActivePowersOnDefeat() {
       if (this.defeatPowerDropsIssued || !this.player) return 0;
-      const activeIds = Object.keys(this.powerActivity || {}).filter(id => (this.powerLevels?.[id] || 0) > 0 && (this.powerActivity?.[id] || 0) > 0.28);
-      if (!activeIds.length) return 0;
+      const activeIds = Object.keys(this.powerActivity || {})
+        .filter(id => (this.powerLevels?.[id] || 0) > 0 && (this.powerActivity?.[id] || 0) > 0.28)
+        .sort((a,b)=>(this.powerActivity?.[b]||0)-(this.powerActivity?.[a]||0));
+      const queuedIds = (this.powerQueue || []).map(q=>q?.id).filter(Boolean);
+      const ids = [...new Set([...activeIds, ...queuedIds])].slice(0, 8);
+      this.recoveryLoadout = ids.map(id => ({
+        id,
+        level: Math.max(1, this.powerLevels?.[id] || 1),
+        duration: Math.max(6, Math.ceil(this.powerActivity?.[id] || (this.powerQueue||[]).find(q=>q.id===id)?.seconds || POWER_ACTIVE_SECONDS[id] || 8))
+      }));
       this.defeatPowerDropsIssued = true;
-      const p = this.player;
-      activeIds.slice(0, 8).forEach((id, idx, arr) => {
-        const pow = POWERS.find(meta => meta.id === id);
-        const angle = (Math.PI * 2 / Math.max(1, arr.length)) * idx - Math.PI / 2;
-        this.spawnPickup(p.x + Math.cos(angle) * 88, p.y + Math.sin(angle) * 60, 'power', 1, {
-          powerId: id,
-          major: true,
-          rewardGlow: true,
-          reclaimPower: true,
-          restoreLevel: this.powerLevels?.[id] || 1,
-          label: `RECUPERA ${pow?.name?.toUpperCase() || 'PODER'}`,
-          powerDuration: Math.max(6, Math.ceil(this.powerActivity?.[id] || POWER_ACTIVE_SECONDS[id] || 8))
-        });
-      });
       this.powerActivity = {};
+      this.powerQueue = [];
       this.activePowerSlots = { weaponMode: null };
+      this.activeCombos = {};
       this.player.sparkTimer = 0;
       this.player.sparkTick = 0;
       this.drones = this.drones.filter(d => d.permanent);
-      this.toast('✦ Poderes dispersos', `${activeIds.length} módulo${activeIds.length > 1 ? 's' : ''} flotando para recuperar`);
-      return activeIds.length;
+      return this.recoveryLoadout.length;
+    }
+
+    getRecoveryComboId() {
+      const world = RECOVERY_COMBOS_BY_WORLD[this.mapIndex] || RECOVERY_COMBOS_BY_WORLD[0];
+      const level = clamp(this.worldStage?.level || this.wave || 1, 1, 5);
+      return world[level - 1] || world[0] || 'tridente';
+    }
+
+    activateRecoveryCombo(comboId, seconds = 5) {
+      const combo = FUSIONS.find(f => f.id === comboId) || FUSIONS.find(f => f.id === 'tridente');
+      if (!combo) return false;
+      const duration = Math.max(1, seconds);
+      combo.requires.forEach(id => {
+        this.powerLevels[id] = Math.max(1, this.powerLevels?.[id] || 0);
+        this.powerActivity[id] = Math.max(this.powerActivity?.[id] || 0, duration);
+      });
+      const primary = combo.requires.find(id => ['triple','laser','voidray'].includes(id));
+      if (primary) this.activePowerSlots.weaponMode = primary;
+      this.syncActiveCombos();
+      this.toast('⚡ COMBO DE RECUPERACIÓN', `${combo.name} · ${duration}s`);
+      AudioFX.chord([440,554.37,659.25],.16,.04);
+      return true;
+    }
+
+    spawnRecoveryPackage() {
+      if (!this.player) return;
+      const p = this.player;
+      const loadout = (this.recoveryLoadout || []).slice(0, 8);
+      const total = Math.max(1, loadout.length);
+      loadout.forEach((entry, idx) => {
+        const pow = POWERS.find(meta => meta.id === entry.id);
+        const a = -Math.PI / 2 + (Math.PI * 2 / total) * idx;
+        const radius = 82 + (idx % 2) * 24;
+        this.spawnPickup(p.x + Math.cos(a)*radius, p.y + Math.sin(a)*radius, 'power', 1, {
+          powerId: entry.id,
+          major: true,
+          rewardGlow: true,
+          reclaimPower: true,
+          recoveryDrop: true,
+          restoreLevel: entry.level,
+          label: `RECUPERA ${pow?.name?.toUpperCase() || 'PODER'}`,
+          powerDuration: Math.max(6, entry.duration),
+          life: 24,
+          autoDelay: 1.15
+        });
+      });
+      // El impulsor siempre vuelve como salvavidas de movilidad, aunque ya estuviera entre los poderes previos.
+      this.spawnPickup(clamp(p.x + 118, 42, this.w-42), clamp(p.y - 58, 42, this.h-42), 'power', 1, {
+        powerId: 'afterburner', major: true, rewardGlow: true, recoveryDrop: true,
+        label: 'IMPULSOR DE RECUPERACIÓN · 10s', powerDuration: 10, life: 24, autoDelay: .75
+      });
+      const comboId = this.getRecoveryComboId();
+      const combo = FUSIONS.find(f => f.id === comboId);
+      this.spawnPickup(clamp(p.x - 118, 42, this.w-42), clamp(p.y - 58, 42, this.h-42), 'combo', 1, {
+        comboId, major: true, rewardGlow: true, recoveryDrop: true,
+        label: `COMBO ${combo?.name?.toUpperCase() || 'RECUPERACIÓN'} · 5s`, life: 24, autoDelay: .9
+      });
+      this.recoveryLoadout = [];
+      this.toast('♻ PAQUETE DE RECUPERACIÓN', `${loadout.length} poderes previos + Impulsor + Combo 5s`);
     }
 
     triggerWorldOneHorde() {
@@ -2327,7 +3030,8 @@
       const count = wide ? 5 : 4;
       this.spawnWorldOneVisibleSwarm(count);
       if (this.wave >= 3) this.spawnWorldOneVisibleSwarm(wide ? 3 : 2);
-      this.spawnCrossWorldPrizeBurst(this.wave >= 4 ? 3 : 2);
+      this.spawnCrossWorldPrizeBurst(this.wave >= 4 ? 2 : 1);
+      this.spawnHordeEmergencyKit();
       this.worldOneState.hordeSeen = (this.worldOneState.hordeSeen || 0) + 1;
       this.toast('⚠️ HORDA ABIERTA', `Mundo 1 · oleada ${this.wave} · más premios en pantalla`);
     }
@@ -2361,7 +3065,8 @@
       const size = HORDE_SIZE_BANDS[idx];
       this.spawnWorldTwoVFormation(size, Math.random() < .68, Math.random() < .5);
       if (size >= 6) this.spawnWorldTwoVFormation(3, Math.random() < .5, Math.random() < .5);
-      this.spawnCrossWorldPrizeBurst(size >= 6 ? 3 : 2);
+      this.spawnCrossWorldPrizeBurst(size >= 6 ? 2 : 1);
+      this.spawnHordeEmergencyKit();
       this.worldTwoState.hordeSeen = (this.worldTwoState.hordeSeen || 0) + 1;
       this.toast('☣️ HORDA DEL NEXO', `Formación en V x${size} · premios tácticos liberados`);
     }
@@ -2477,6 +3182,9 @@
         }
         return;
       }
+      if(this.mapIndex===2){const wide=this.w>=1100,mid=this.w>=760,targetCount=wide?[9,10,11,12,9][this.wave-1]:(mid?[8,9,10,11,8][this.wave-1]:[6,7,8,9,7][this.wave-1]),interval=[.94,.88,.82,.78,.92][this.wave-1]||.86;if(this.spawnTime<=0&&this.enemies.length<targetCount){let amount=(this.wave>=3&&this.enemies.length<targetCount*.45)?2:1;for(let i=0;i<amount;i++)this.spawnEnemy(this.worldThreeEnemyId(),this.wave<5);this.spawnTime=interval+rand(.14,-.08);}return;}
+      if(this.mapIndex===3){const wide=this.w>=1100,mid=this.w>=760,targetCount=wide?[10,11,12,13,10][this.wave-1]:(mid?[9,10,11,12,9][this.wave-1]:[7,8,9,10,8][this.wave-1]),interval=[.92,.86,.82,.78,.90][this.wave-1]||.84;const w4=this.worldFourState||{};w4.hazardTimer=(w4.hazardTimer??7)-dt;w4.hordeTimer=(w4.hordeTimer??12.5)-dt;this.worldFourState=w4;if(w4.hazardTimer<=0){this.spawnWorldFourHazard(this.wave>=4?2:1,this.wave>=3);w4.hazardTimer=rand(this.wave>=4?7.4:9.4,this.wave>=4?5.0:6.6);}if(w4.hordeTimer<=0&&this.wave>=2){this.triggerWorldFourHorde();w4.hordeTimer=rand(this.wave>=4?15:19,this.wave>=4?11:14);}if(this.spawnTime<=0&&this.enemies.length<targetCount){let amount=(this.wave>=3&&this.enemies.length<targetCount*.45)?2:1;for(let i=0;i<amount;i++)this.spawnEnemy(this.worldFourEnemyId(),this.wave<5);this.spawnTime=interval+rand(.14,-.08);}return;}
+      if(this.mapIndex===4){const wide=this.w>=1100,mid=this.w>=760,targetCount=wide?[10,11,13,14,11][this.wave-1]:(mid?[9,10,12,13,10][this.wave-1]:[7,8,10,11,8][this.wave-1]),interval=[.90,.84,.80,.74,.88][this.wave-1]||.82;const w5=this.worldFiveState||{};w5.hazardTimer=(w5.hazardTimer??6.8)-dt;w5.hordeTimer=(w5.hordeTimer??11.8)-dt;this.worldFiveState=w5;if(w5.hazardTimer<=0){this.spawnWorldFiveHazard(this.wave>=4?2:1,true);w5.hazardTimer=rand(this.wave>=4?6.8:8.6,this.wave>=4?4.8:6.0);}if(w5.hordeTimer<=0&&this.wave>=2){this.triggerWorldFiveHorde();w5.hordeTimer=rand(this.wave>=4?14:18,this.wave>=4?10:13);}if(this.spawnTime<=0&&this.enemies.length<targetCount){let amount=(this.wave>=2&&this.enemies.length<targetCount*.48)?2:1;if(this.wave>=4&&this.enemies.length<targetCount*.32)amount=3;for(let i=0;i<amount;i++)this.spawnEnemy(this.worldFiveEnemyId(),this.wave<5);this.spawnTime=interval+rand(.12,-.08);}return;}
       const targetCount = 6 + this.wave * 3 + Math.floor(this.mapIndex * 1.5);
       const interval = Math.max(.42, 1.45 - this.wave * .05 - this.mapIndex * .02);
       if (this.spawnTime <= 0 && this.enemies.length < targetCount) {
@@ -2503,6 +3211,9 @@
         if(this.wave>=4)pool.push(...WORLD_TWO_MINION_FAMILIES[2]);
         return pool;
       }
+      if(this.mapIndex===2){const A=WORLD_THREE_MINION_FAMILIES[0],B=WORLD_THREE_MINION_FAMILIES[1],C=WORLD_THREE_MINION_FAMILIES[2];if(this.wave===1)return[...A];if(this.wave===2)return[...A,...B.slice(0,3)];if(this.wave===3)return[...A.slice(1),...B];if(this.wave===4)return[...B,...C];return[A[4],B[3],B[4],...C];}
+      if(this.mapIndex===3){const A=WORLD_FOUR_MINION_FAMILIES[0],B=WORLD_FOUR_MINION_FAMILIES[1];if(this.wave===1)return[...A];if(this.wave===2)return[...A,...B.slice(0,1)];if(this.wave===3)return[...A,...B.slice(0,2)];return[...A,...B];}
+      if(this.mapIndex===4){const A=WORLD_FIVE_MINION_FAMILIES[0],B=WORLD_FIVE_MINION_FAMILIES[1];if(this.wave===1)return[...A];if(this.wave===2)return[...A,...B.slice(0,1)];if(this.wave===3)return[...A,...B.slice(0,2)];return[...A,...B];}
       const pool = ['errante'];
       if (this.wave > 1) pool.push('corredor','esquivo','cazador');
       if (this.wave > 2) pool.push('blindado');
@@ -2564,7 +3275,7 @@
         }
         const a = Math.atan2(targetY - y, targetX - x);
         const sp = gentle ? rand(240, 175) : rand(330, 235);
-        const spriteKey = this.mapIndex === 1 ? pick(WORLD_TWO_EXTRA_SPRITES.meteors) : null;
+        const spriteKey = this.mapIndex === 1 ? pick(WORLD_TWO_EXTRA_SPRITES.meteors) : (this.mapIndex===3 ? pick(WORLD_FOUR_HAZARDS) : (this.mapIndex===4 ? pick(WORLD_FIVE_HAZARDS) : null));
         this.meteors.push({ kind:'meteor', x, y, vx: Math.cos(a) * sp, vy: Math.sin(a) * sp, r, life: gentle ? 5.8 : 4.7, dmg: gentle ? 9 : 15, color: gentle ? '#ffd56a' : '#ff7b32', trail: [], spin: rand(2, -2), fireball: true, hp: (gentle ? 18 : 28) + this.wave * 4, score: gentle ? 12 : 18, coins: gentle ? 4 : 6, spriteKey });
       }
     }
@@ -2765,7 +3476,7 @@
       const p = currentProfile();
       const campaignScale = 1 + this.mapIndex * .08;
       let hp = (1120 + this.mapIndex * 270 + this.wave * 118) * campaignScale;
-      hp *= this.mapIndex === 0 ? 4.35 : (this.mapIndex === 1 ? 3.82 : (2.25 + this.mapIndex * 0.095));
+      hp *= this.mapIndex===0?4.35:(this.mapIndex===1?3.82:(this.mapIndex===2?4.05:(2.25+this.mapIndex*.095)));
       const x = this.w / 2;
       const y = -80;
       const shieldBase = this.mapIndex === 0 ? 680 : (this.mapIndex === 1 ? 560 : 310 + this.mapIndex * 42);
@@ -2777,17 +3488,17 @@
         family: map.family,
         pattern: map.pattern,
         variant: map.variant || 1,
-        summons: this.mapIndex === 1 ? WORLD_TWO_MINION_FAMILIES.flat() : (map.summons || []),
+        summons: this.mapIndex===1?WORLD_TWO_MINION_FAMILIES.flat():(this.mapIndex===2?WORLD_THREE_MINION_FAMILIES.flat():(this.mapIndex===3?WORLD_FOUR_MINION_FAMILIES.flat():(this.mapIndex===4?WORLD_FIVE_MINION_FAMILIES.flat():(map.summons||[])))),
         specialName: map.specialName || 'Mutación',
         x, y,
-        targetY: this.mapIndex === 1 ? this.h * .22 : this.h * .18,
+        targetY:this.mapIndex===1?this.h*.22:(this.mapIndex===2?this.h*.20:(this.mapIndex===3?this.h*.21:(this.mapIndex===4?this.h*.22:this.h*.18))),
         hp,
         baseHp: hp,
-        speed: (this.mapIndex === 0 ? 33 : (this.mapIndex === 1 ? 34 : 40)) + this.mapIndex * 1.5,
-        r: (this.mapIndex === 0 ? 36 : (this.mapIndex === 1 ? 54 : (31 + this.mapIndex * .36) * 0.64)),
+        speed: (this.mapIndex === 0 ? 33 : (this.mapIndex === 1 ? 34 : (this.mapIndex===2?40:(this.mapIndex===3?43:46)))) + this.mapIndex * 1.5,
+        r:(this.mapIndex===0?36:(this.mapIndex===1?54:(this.mapIndex===2?58:(this.mapIndex===3?62:(this.mapIndex===4?68:(31+this.mapIndex*.36)*.64))))),
         t: 0,
-        attack: this.mapIndex === 0 ? 2.55 : (this.mapIndex === 1 ? 2.28 : 1.95),
-        specialCd: this.mapIndex === 0 ? 6.6 : (this.mapIndex === 1 ? 6.0 : 5.3),
+        attack: this.mapIndex === 0 ? 2.55 : (this.mapIndex === 1 ? 2.28 : (this.mapIndex===2?1.95:(this.mapIndex===3?1.88:1.82))),
+        specialCd: this.mapIndex === 0 ? 6.6 : (this.mapIndex === 1 ? 6.0 : (this.mapIndex===2?5.3:(this.mapIndex===3?5.0:4.6))),
         phase: 1,
         alpha: 1,
         shield: shieldBase,
@@ -2795,7 +3506,7 @@
         vulnerable: 0,
         summonPressure: 0,
         boss: true,
-        minionFamilies: this.mapIndex === 0 ? WORLD_ONE_MINION_FAMILIES : (this.mapIndex === 1 ? WORLD_TWO_MINION_FAMILIES : [])
+        minionFamilies:this.mapIndex===0?WORLD_ONE_MINION_FAMILIES:(this.mapIndex===1?WORLD_TWO_MINION_FAMILIES:(this.mapIndex===2?WORLD_THREE_MINION_FAMILIES:(this.mapIndex===3?WORLD_FOUR_MINION_FAMILIES:(this.mapIndex===4?WORLD_FIVE_MINION_FAMILIES:[]))))
       };
       this.bossFight = { active: true, charge: 0, minionTimer: this.mapIndex === 0 ? 1.6 : (this.mapIndex === 1 ? 1.85 : 2.15), phaseNotified: 1, cinematic: this.mapIndex === 1 ? 1.95 : 1.15, addsKilled: 0, supportTimer: this.mapIndex === 0 ? 2.2 : 1.9, escortTimer: this.mapIndex === 0 ? 3.4 : (this.mapIndex === 1 ? 3.2 : 3.9), hazardTimer: this.mapIndex === 0 ? 5.0 : (this.mapIndex === 1 ? 4.8 : 4.2), guardianPulse: 0 };
       this.enemies.push(this.bossActive);
@@ -2835,7 +3546,9 @@
           }
         });
         this.toast('🦠 Tríada del Patriarca','Tres familias sostienen su escudo');
-      }
+      } else if(this.mapIndex===2){WORLD_THREE_MINION_FAMILIES.forEach((fam,fi)=>{for(let i=0;i<2;i++){this.spawnEnemy(pick(fam),true);const escort=this.enemies[this.enemies.length-1];if(escort&&!escort.boss){escort.bossEscort=true;escort.bossFamilyIndex=fi;escort.hp*=1.25;escort.baseHp=escort.hp;escort.r*=1.04;}}});this.worldThreeState.speedBurst=6;this.spawnWorldThreeHazard(2,true);this.toast('⚡ TRÍADA VIRIDIANA','Tres familias protegen al Soberano');}
+      else if(this.mapIndex===3){WORLD_FOUR_MINION_FAMILIES.forEach((fam,fi)=>{for(let i=0;i<2;i++){this.spawnEnemy(pick(fam),true);const escort=this.enemies[this.enemies.length-1];if(escort&&!escort.boss){escort.bossEscort=true;escort.bossFamilyIndex=fi;escort.hp*=1.22;escort.baseHp=escort.hp;escort.r*=1.02;}}});this.spawnWorldFourHazard(2,true);this.toast('🔥 ÉLITE DEL ECLIPSE','Dos alas protegen al Arconte');}
+      else if(this.mapIndex===4){WORLD_FIVE_MINION_FAMILIES.forEach((fam,fi)=>{for(let i=0;i<2;i++){this.spawnEnemy(pick(fam),true);const escort=this.enemies[this.enemies.length-1];if(escort&&!escort.boss){escort.bossEscort=true;escort.bossFamilyIndex=fi;escort.hp*=1.24;escort.baseHp=escort.hp;escort.r*=1.04;}}});this.spawnWorldFiveHazard(2,true);this.toast('🕳️ GUARDIA DE SINGULARIDAD','El Coloso convoca dos familias del vacío');}
     }
 
     updateEnemies(dt) {
@@ -2862,7 +3575,8 @@
         if (e.boss && e.y < e.targetY) e.y += e.speed * dt;
         const dx = p.x - e.x, dy = p.y - e.y;
         const d = Math.hypot(dx, dy) || 1;
-        const slow = (e.slow ? .55 : 1) * (this.isPowerActive('stasis') ? (e.boss ? .82 : .58) : 1);
+        const stasisScale=this.getStagePowerScale();
+        const slow = (e.slow ? .55 : 1) * (this.isPowerActive('stasis') ? (e.boss ? Math.max(.72,.82/stasisScale) : Math.max(.46,.58/stasisScale)) : 1);
         e.slow = Math.max(0, (e.slow || 0) - dt);
         if (e.burn) {
           e.burn -= dt;
@@ -2918,6 +3632,7 @@
             e.familyFire=e.world2Captain?rand(1.45,1.0):(fam==='voracid'?rand(2.6,1.7):(fam==='void'?rand(3.1,2.0):rand(3.7,2.6)));
           }
         }
+        if(this.mapIndex===2&&!e.boss&&e.world3Family){e.familyFire=(e.familyFire||rand(2.7,1.5))-dt;if(e.familyFire<=0&&d<780){const a=Math.atan2(p.y-e.y,p.x-e.x),fam=e.world3Family,speed=fam==='viridian'?285:(fam==='crystal'?235:195),damage=fam==='viridian'?6.2:(fam==='crystal'?7.4:9.2),spread=fam==='viridian'?.045:(fam==='crystal'?.075:.04);this.addEnemyBullet(e.x,e.y,a+rand(spread,-spread),speed,damage,fam==='viridian'?'#74ff73':(fam==='crystal'?'#74ffd1':'#dfff84'));e.familyFire=fam==='viridian'?rand(2.2,1.35):(fam==='crystal'?rand(2.8,1.7):rand(3.5,2.3));}}
         if (e.behavior === 'evader' || e.eliteKind === 'evader') {
           const orbit = Math.sin(e.t * 4.7 + (e.evadePulse || 0));
           mx = (dx / d) * .62 + (-dy / d) * orbit * 1.05;
@@ -3078,6 +3793,7 @@
       this.explode(m.x, m.y, m.r * (m.kind === 'planet' || m.kind === 'moon' ? 2.8 : 2.1), (m.dmg || 12) * .9);
       this.emit(m.x, m.y, m.kind === 'bomb' ? '#ff7b32' : '#ffd56a', 14, 120, .65);
       this.run.score += m.score || 12;
+      this.run.spendableScore = (this.run.spendableScore || 0) + (m.score || 12);
       this.run.coins += m.coins || 4;
       this.player.xp += Math.max(6, Math.ceil((m.score || 12) * .4));
       if (Math.random() < .18) this.spawnPickup(m.x, m.y, 'coin', Math.max(4, Math.ceil((m.coins || 4) * .8)));
@@ -3102,7 +3818,7 @@
             b.vy += (Math.sin(ang) * sp - b.vy) * Math.min(1, dt * 3.8);
           }
         }
-        const timeScale = b.enemy && this.isPowerActive('stasis') ? .58 : 1;
+        const timeScale = b.enemy && this.isPowerActive('stasis') ? Math.max(.46,.58/this.getStagePowerScale()) : 1;
         b.x += b.vx * dt * timeScale;
         b.y += b.vy * dt * timeScale;
         if (b.enemy) {
@@ -3223,13 +3939,13 @@
       this.emit(e.x, e.y, e.color, e.boss ? 28 : 8, e.boss ? 160 : 70, e.boss ? 1.2 : .55);
       AudioFX.death();
       this.run.kills += 1;
-      this.run.score += e.boss ? 650 + this.mapIndex * 100 : e.score;
+      { const gainedScore = e.boss ? 650 + this.mapIndex * 100 : e.score; this.run.score += gainedScore; this.run.spendableScore = (this.run.spendableScore || 0) + gainedScore; }
       this.player.xp += e.boss ? 110 : e.xp;
       this.player.xp += (e.boss ? 70 : e.xp) * .35;
       this.run.experience = (this.run.experience || 0) + Math.max(1, Math.round((e.boss ? 110 : e.xp) * 1.35));
       this.run.coins += e.boss ? (180 + this.mapIndex * 30) : Math.ceil(e.coin * (this.mapIndex === 0 ? 1.55 : 1.2));
-      if (e.boss || Math.random() < .035) this.spawnPickup(e.x + rand(16, -16), e.y + rand(16, -16), 'coin', e.boss ? 120 : Math.ceil(e.coin * .9));
-      if (e.boss || Math.random() < .025) this.spawnPickup(e.x, e.y, 'xp', e.boss ? 42 : Math.max(5, Math.ceil(e.xp * .65)));
+      if(e.boss||Math.random()<.035)this.spawnPickup(e.x+rand(16,-16),e.y+rand(16,-16),'coin',e.boss?120:Math.ceil(e.coin*.9),e.boss?{bossLoot:true,rewardGlow:true}:{});
+      if(e.boss||Math.random()<.025)this.spawnPickup(e.x,e.y,'xp',e.boss?42:Math.max(5,Math.ceil(e.xp*.65)),e.boss?{bossLoot:true,rewardGlow:true}:{});
       if (!e.boss) this.trackWorldKill(e);
       if (e.boss) {
         this.bossDeathExplosion(e);
@@ -3261,24 +3977,18 @@
         if (this.bossActive) {
           const shieldBreak = this.mapIndex === 0 ? (e.bossEscort ? 34 : (e.mini ? 24 : 18)) : (this.mapIndex===1 ? (e.bossEscort?30:(e.mini?20:14)) : (e.mini ? 16 : 10));
           this.bossActive.shield = Math.max(0, (this.bossActive.shield || 0) - shieldBreak);
-          if ((this.mapIndex === 0 || this.mapIndex===1) && this.enemies.filter(o => !o.boss).length === 0) {
+          if ((this.mapIndex===0||this.mapIndex===1||this.mapIndex===2)&&this.enemies.filter(o=>!o.boss).length===0) {
             this.bossActive.vulnerable = Math.max(this.bossActive.vulnerable || 0, 3.8);
             this.toast('⚡ Protección anulada', 'Ventana de ataque ampliada');
           }
           this.updateBossUi();
         }
       }
-      if (e.boss) {
-        this.bossActive = null;
-        this.bossFight = { active: false, charge: 0, minionTimer: 0, phaseNotified: 1, addsKilled: 0 };
-        els.bossBar.classList.add('hidden');
-        els.bossBar.classList.remove('vulnerable');
-        this.run.bosses += 1;
-        this.run.mapComplete = true;
-        const prof = currentProfile();
-        prof.relics = prof.relics || {};
-        if (this.mapIndex === 0) prof.relics.world1Core = true;
-        this.completeMap();
+      if(e.boss){
+        this.bossActive=null;this.bossFight={active:false,charge:0,minionTimer:0,phaseNotified:1,addsKilled:0};els.bossBar.classList.add('hidden');els.bossBar.classList.remove('vulnerable');this.run.bosses+=1;this.run.mapComplete=true;
+        const prof=currentProfile();prof.relics=prof.relics||{};if(this.mapIndex===0)prof.relics.world1Core=true;
+        this.bossLootPhase={active:true,elapsed:0,settle:.75,completed:false};this.enemies=[];this.bullets=this.bullets.filter(b=>!b.enemy);this.zones=[];
+        this.toast('🎁 RECOGE EL BOTÍN','El resumen aparece cuando termines de recogerlo');
       }
       this.checkLevelUp();
     }
@@ -3290,7 +4000,9 @@
         power: { icon: '⚡', color: '#c391ff', r: options.major ? 12 : (options.rewardGlow ? 11 : 9) },
         shield: { icon: '🛡️', color: '#9fd4ff', r: options.rewardGlow ? 10 : 8 },
         life: { icon: '✚', color: '#ff8b8b', r: options.rewardGlow ? 10 : 8 },
-        nuke: { icon: '☢', color: '#ffd56a', r: 9 }
+        nuke: { icon: '☢', color: '#ffd56a', r: 9 },
+        combo: { icon: '⚡', color: '#ffcf5a', r: 13 },
+        boost: { icon: '⬆', color: '#7df6d4', r: 12 }
       }[type] || { icon: '🎁', color: '#eafff8', r: 10 };
       if (type === 'power' && options.powerId) {
         const powerMeta = POWERS.find(pw => pw.id === options.powerId);
@@ -3298,6 +4010,10 @@
         if (options.powerId === 'afterburner') meta.color = '#ffd56a';
         if (options.powerId === 'stasis') meta.color = '#83eaff';
         if (options.powerId === 'wingman') meta.color = '#9ac7ff';
+      }
+      if (type === 'combo' && options.comboId) {
+        const comboMeta = FUSIONS.find(f => f.id === options.comboId);
+        if (comboMeta?.icon) meta.icon = comboMeta.icon;
       }
       const limit = this.maxPickups || 34;
       if (this.pickups.length >= limit) this.pickups.splice(0, this.pickups.length - limit + 1);
@@ -3308,18 +4024,26 @@
         vy: options.major ? rand(12,-12) : rand(58, -58),
         type, value,
         powerId: options.powerId || null,
+        comboId: options.comboId || null,
         major: !!options.major,
         rewardGlow: !!options.rewardGlow,
         label: options.label || '',
         powerDuration: options.powerDuration || 0,
         reclaimPower: !!options.reclaimPower,
+        recoveryDrop: !!options.recoveryDrop,
+        bossLoot: !!options.bossLoot,
+        hordeKit: !!options.hordeKit,
+        tacticalPurchase: !!options.tacticalPurchase,
+        boostValue: options.boostValue || 0,
+        choiceGroup: options.choiceGroup || null,
+        exclusiveChoice: !!options.exclusiveChoice,
         restoreLevel: options.restoreLevel || 0,
         icon: meta.icon,
         color: meta.color,
         r: meta.r,
-        life: options.major ? 18 : (options.rewardGlow ? 16 : (state.settings.lowPerformance ? 9 : 12)),
-        maxLife: options.major ? 18 : (options.rewardGlow ? 16 : (state.settings.lowPerformance ? 9 : 12)),
-        autoDelay: options.major ? 1.7 : (type === 'power' ? .9 : .8),
+        life: options.life || (options.bossLoot?28:(options.major?18:(options.rewardGlow?16:(state.settings.lowPerformance?9:12)))),
+        maxLife: options.life || (options.bossLoot?28:(options.major?18:(options.rewardGlow?16:(state.settings.lowPerformance?9:12)))),
+        autoDelay: options.autoDelay ?? (options.bossLoot?3.5:(options.major?1.7:((type==='power'||type==='combo')?.9:.8))),
         born: now() + Math.random() * 100
       });
     }
@@ -3330,11 +4054,12 @@
         const item = this.pickups[i];
         item.life -= dt;
         item.autoDelay = Math.max(0, (item.autoDelay || 0) - dt);
-        const d = Math.hypot(item.x - p.x, item.y - p.y);
-        const forceAuto = item.autoDelay <= 0 || d < p.magnet;
+        const d=Math.hypot(item.x-p.x,item.y-p.y);
+        const activeMagnet=this.getPowerLevel('magnetism',true),magnetRange=p.magnet+activeMagnet*155;
+        const forceAuto=item.tacticalPurchase?false:(item.autoDelay<=0||d<magnetRange);
         if (forceAuto) {
           const pull = item.type === 'power' || item.type === 'nuke' ? 800 : 610;
-          item.x += ((p.x - item.x) / (d || 1)) * (pull + p.magnet * 1.2) * dt;
+          item.x += ((p.x-item.x)/(d||1))*(pull+magnetRange*1.2)*dt;
           item.y += ((p.y - item.y) / (d || 1)) * (pull + p.magnet * 1.2) * dt;
         } else {
           item.x += item.vx * dt; item.y += item.vy * dt; item.vx *= .975; item.vy *= .975;
@@ -3349,14 +4074,25 @@
           if (item.type === 'life') { p.hp = Math.min(p.maxHp, p.hp + item.value); AudioFX.pickup(); }
           if (item.type === 'power') {
             if (item.powerId) {
-              if (item.reclaimPower) this.empowerPower(item.powerId, { skipLevelGain: true, toastTitle: '♻ Poder recuperado', duration: item.powerDuration || 0 });
-              else this.empowerPower(item.powerId, { toastTitle: item.major ? '✦ Poder adquirido' : 'Poder activado', duration: item.powerDuration || 0 });
+              if (item.reclaimPower) {
+                this.powerLevels[item.powerId] = Math.max(this.powerLevels?.[item.powerId] || 0, item.restoreLevel || 1);
+                this.empowerPower(item.powerId, { skipLevelGain: true, toastTitle: '♻ Poder recuperado', duration: item.powerDuration || 0 });
+              } else this.empowerPower(item.powerId, { toastTitle: item.major ? '✦ Poder adquirido' : 'Poder activado', duration: item.powerDuration || 0 });
             } else this.applyScreenPowerPickup();
             AudioFX.level();
           }
+          if (item.type === 'combo') { const dur=item.powerDuration||8; this.activateRecoveryCombo(item.comboId,dur); if(item.tacticalPurchase){this.tacticalComboLockUntil=now()+dur*1000;this.tacticalComboLockedId=item.comboId||null;} AudioFX.level(); }
+          if (item.type === 'boost') { this.applyTacticalPowerBoost(item.boostValue || .08); AudioFX.level(); }
           if (item.type === 'nuke') { this.triggerScreenNuke(); AudioFX.level(); }
+          if(item.exclusiveChoice&&item.choiceGroup){
+            const group=item.choiceGroup;
+            this.pickups=this.pickups.filter((other,idx)=>idx===i||other.choiceGroup!==group);
+            i=Math.min(i,this.pickups.length-1);
+          }
           this.emit(p.x, p.y, item.color, 6, 52, .34);
-          this.pickups.splice(i, 1);
+          const wasTactical = !!item.tacticalPurchase;
+          const currentIndex=this.pickups.indexOf(item);if(currentIndex>=0)this.pickups.splice(currentIndex,1);
+          if (wasTactical && !this.pickups.some(pk => pk.tacticalPurchase)) { this.tacticalDeliveryDelay=item.type==='combo'?0:1.15; this.updateTacticalCart(false); }
           this.checkLevelUp();
         }
       }
@@ -3375,7 +4111,8 @@
           const target = this.nearestEnemy();
           if (target) {
             const a = Math.atan2(target.y - d.y, target.x - d.x);
-            const dmg = this.player.damage * (this.fusions.resonante ? .92 : .62) * (d.damageScale || 1);
+            const storm=this.comboActive('tormenta');
+            const dmg = this.player.damage * (this.comboActive('resonante') ? .92 : (storm?.78:.62)) * (d.damageScale || 1);
             const inherited = d.inheritPower ? (this.activePowerSlots?.weaponMode || null) : null;
             if (inherited === 'laser' && this.isPowerActive('laser')) {
               this.fireLaserFrom(d.x, d.y, a, dmg * .72, d.color || '#9fd4ff');
@@ -3384,11 +4121,12 @@
             } else if (inherited === 'triple' && this.isPowerActive('triple')) {
               [-.14, 0, .14].forEach(off => this.addBullet(d.x, d.y, a + off, 620 * (this.player.projectileSpeedBonus || 1), dmg * .72, { color: d.color || '#9fd4ff', pierce: 1, homing: true, glow: this.player.shotTier || 0 }));
             } else {
-              this.addBullet(d.x, d.y, a, (d.support ? 620 : 520) * (this.player.projectileSpeedBonus || 1), dmg, { color: d.color || '#9fd4ff', pierce: this.fusions.resonante ? 2 : 1, homing: !!d.support, glow: this.player.shotTier || 0 });
+              this.addBullet(d.x, d.y, a, (d.support ? 620 : 520) * (this.player.projectileSpeedBonus || 1), dmg, { color: d.color || '#9fd4ff', pierce: this.comboActive('resonante') ? 2 : 1, homing: !!d.support, glow: this.player.shotTier || 0 });
               if (d.support) this.addBullet(d.x, d.y, a + .1, 610 * (this.player.projectileSpeedBonus || 1), dmg * .75, { color: d.color || '#ffd56a', pierce: 1, glow: this.player.shotTier || 0 });
             }
-            if (this.fusions.resonante && Math.random() < .25) this.particles.push({ type: 'ring', x: d.x, y: d.y, r: 8, maxR: 70, life: .22, max: .22, color: d.color || '#9ac7ff' });
-            d.fire = d.support ? .24 : (this.fusions.resonante ? .32 : .48);
+            if (this.comboActive('resonante') && Math.random() < .25) this.particles.push({ type: 'ring', x: d.x, y: d.y, r: 8, maxR: 70, life: .22, max: .22, color: d.color || '#9ac7ff' });
+            if(storm&&this.enemies.length>1){const second=this.enemies.find(e=>e!==target);if(second){this.damageEnemy(second,dmg*.42,{color:'#93ff8b',slow:.12});this.particles.push({type:'laser',x:target.x,y:target.y,a:Math.atan2(second.y-target.y,second.x-target.x),life:.08,max:.08,range:Math.hypot(second.x-target.x,second.y-target.y),color:'#93ff8b'});}}
+            d.fire = d.support ? (storm?.18:.24) : (this.comboActive('resonante') ? .32 : (storm?.30:.48));
           }
         }
         if (d.life <= 0 && !d.permanent) this.drones.splice(i, 1);
@@ -3402,7 +4140,7 @@
         const d = Math.hypot(z.x - this.player.x, z.y - this.player.y);
         if (d < z.r + this.player.r) {
           if (z.type === 'toxic' || z.type === 'root') this.playerHit((z.type === 'toxic' ? 8 : 5) * dt);
-          if (z.type === 'slow') this.player.speed *= .999;
+          if (z.type === 'slow') { /* ralentización temporal calculada en handleMovement; nunca degrada speed */ }
         }
         if (z.type === 'gravityMine') {
           for (const e of this.enemies) {
@@ -3438,6 +4176,8 @@
       if (p.bossDrive > 0) mod *= .74;
       if (p.cloak > 0) mod *= .6;
       if (p.entryShieldTimer > 0) mod *= .38;
+      if (this.isPowerActive('phase')) mod *= Math.max(.22,.34/this.getStagePowerScale())*(this.comboActive('hiperfase')?.72:1);
+      if (this.comboActive('bastion')) mod *= .82;
       amount *= mod;
       if (p.shield > 0) {
         const absorbed = Math.min(p.shield, amount);
@@ -3494,6 +4234,7 @@
           p.fireDelay = Math.max(235, p.fireDelay * .988);
           p.projectileSpeedBonus *= 1.006;
           p.speed *= 1.0035;
+          p.baseSpeed = Math.max(p.baseSpeed || 0, p.speed);
           if (p.level % 3 === 0) {
             p.maxShield += 2;
             p.shield = Math.min(p.maxShield, p.shield + 5);
@@ -3505,48 +4246,56 @@
           p.projectileSpeedBonus *= 1.007;
           p.aimAssist = Math.min(.18, (p.aimAssist || 0) + .0025);
           if (p.level % 3 === 0) { p.maxShield += 2.5; p.shield = Math.min(p.maxShield, p.shield + 6); }
-        } else if (this.offerActive) this.pendingLevelChoices += 1;
-        else this.showCards();
+        } else this.spawnLevelUpSpaceChoice();
       }
       this.updatePendingBadge();
     }
 
-    showCards() {
-      this.offerActive = true;
-      this.cardPause = false;
-      const choices = this.generateCards();
-      this.currentOfferChoices = choices;
-      this.offerAutoAt = 4.8;
-      els.cardOverlay?.classList.remove('hidden');
-      els.cardOverlay?.querySelector('.power-offer-head')?.classList.add('compact');
-      if (els.offerHint) {
-        const count = 1 + (this.pendingLevelChoices || 0);
-        els.offerHint.textContent = `${count}`;
+    getActiveComboPartnerCandidates() {
+      const ids=[];
+      for(const f of FUSIONS){
+        const active=f.requires.filter(id=>this.isPowerActive(id));
+        if(active.length===f.requires.length-1){
+          const missing=f.requires.find(id=>!this.isPowerActive(id));
+          if(missing&&!ids.includes(missing))ids.push(missing);
+        }
       }
-      this.updatePendingBadge();
-      els.cardChoices.innerHTML = choices.map(card => {
-        const lvl = this.powerLevels[card.id] || 0;
-        const recommended = this.selectRecommendedPower(choices)?.id === card.id;
-        return `
-        <button class="offer-choice icon-only ${recommended ? 'recommended' : ''}" data-power="${card.id}" title="${card.name}: ${card.desc}">
-          <span class="choice-icon">${card.icon}</span>
-          <small class="offer-lvl">${lvl > 0 ? '+'+lvl : 'new'}</small>
-          ${recommended ? '<span class="offer-star">★</span>' : ''}
-          <div class="offer-preview">
-            <b>${card.name}</b>
-            <p class="muted">${card.desc}</p>
-            <span class="tag">Toca para activar · auto ${Math.ceil(this.offerAutoAt)}s</span>
-          </div>
-        </button>`;
-      }).join('');
-      els.cardChoices.querySelectorAll('button').forEach(btn => btn.addEventListener('click', () => this.applyPower(btn.dataset.power, false)));
-      els.cardOverlay.classList.remove('hidden');
+      return ids.map(id=>POWERS.find(p=>p.id===id)).filter(Boolean);
+    }
+
+    spawnLevelUpSpaceChoice() {
+      if (!this.player || this.run?.mapComplete) return;
+      const choices=this.generateCards();
+      if(!choices?.length)return;
+      const group=`lvl_${this.mapIndex}_${this.wave}_${this.player.level}_${Date.now()}_${Math.floor(Math.random()*999)}`;
+      const p=this.player;
+      const radius=this.isSmallScreen?86:118;
+      const angles=[-Math.PI*.82,-Math.PI*.5,-Math.PI*.18];
+      choices.slice(0,3).forEach((card,i)=>{
+        const a=angles[i]??(-Math.PI*.5+i*.35);
+        this.spawnPickup(
+          clamp(p.x+Math.cos(a)*radius,42,this.w-42),
+          clamp(p.y+Math.sin(a)*radius,50,this.h-50),
+          'power',1,
+          {powerId:card.id,major:true,rewardGlow:true,label:`NIVEL ${p.level} · ${card.name.toUpperCase()}`,powerDuration:POWER_ACTIVE_SECONDS[card.id]||10,choiceGroup:group,exclusiveChoice:true,life:22,autoDelay:999}
+        );
+      });
+      this.toast('✦ MEJORA EN EL ESPACIO','Recoge una de las 3 cápsulas · sin pausar la misión');
+      this.offerActive=false;this.currentOfferChoices=[];this.offerAutoAt=0;this.pendingLevelChoices=0;
+      els.cardOverlay?.classList.add('hidden');this.updatePendingBadge();
+    }
+
+    showCards() {
+      // Compatibilidad con llamadas antiguas: la selección ahora se hace moviendo la nave.
+      this.spawnLevelUpSpaceChoice();
     }
 
     generateCards() {
       const pool = POWERS.filter(p => !['nuke','pulse'].includes(p.id) || this.wave >= 3 || this.mapIndex > 0);
       const cards = [];
-      const guaranteeWeapon = this.mapIndex === 0 || this.player.level <= 5;
+      const partner=this.getActiveComboPartnerCandidates?.()[0];
+      if(partner){cards.push(partner);const pi=pool.findIndex(p=>p.id===partner.id);if(pi>=0)pool.splice(pi,1);}
+      const guaranteeWeapon = (this.mapIndex === 0 || this.player.level <= 5) && cards.length===0;
       if (guaranteeWeapon) {
         const candidate = WEAPON_POWER_IDS
           .map(id => POWERS.find(p => p.id === id))
@@ -3577,8 +4326,8 @@
       if (!pow) return null;
       if (options.skipLevelGain) this.powerLevels[id] = Math.max(1, this.powerLevels[id] || 0);
       else this.powerLevels[id] = (this.powerLevels[id] || 0) + 1;
-      this.markPowerActive(id, options.duration || POWER_ACTIVE_SECONDS[id] || 8);
-      this.activatePowerSlot(id);
+      const activationState=this.markPowerActive(id, options.duration || POWER_ACTIVE_SECONDS[id] || 8);
+      if(activationState!=='queued')this.activatePowerSlot(id);
       currentProfile().collection.powers[id] = true;
       if (id === 'drone') this.spawnDrone(options.droneLife || (10 + (this.powerLevels.drone || 0) * 2), false, options.droneOptions || {});
       if (id === 'spark') { this.player.sparkTimer = Math.min(20, this.player.sparkTimer + 10); this.player.sparkTick = 0; }
@@ -3592,7 +4341,7 @@
       if (id === 'phantom') this.spawnDrone(options.droneLife || (13 + (this.powerLevels.phantom || 0)), false, { support:true, inheritPower:true, count:Math.min(4,2 + Math.floor((this.powerLevels.phantom || 1)/2)), radius:142, fireRate:.19, damageScale:.82, color:'#c391ff' });
       if (id === 'wingman') {
         const active = this.drones.filter(d => d.kind === 'wingman');
-        if (active.length < 2) this.spawnDrone(12,false,{count:1,kind:'wingman',support:true,inheritPower:true,radius:118 + active.length*25,fireRate:.2,damageScale:.9,color:'#83eaff'});
+        if (active.length < 2) this.spawnDrone(12*this.getStagePowerScale(),false,{count:1,kind:'wingman',support:true,inheritPower:true,radius:118 + active.length*25,fireRate:.2,damageScale:.9*this.getStagePowerScale(),color:'#83eaff'});
         else {
           active.sort((a,b)=>a.life-b.life)[0].life = 12;
           this.toast('🛸 Escolta completa','2 naves auxiliares · duración renovada');
@@ -3635,7 +4384,7 @@
     }
 
     spawnDrone(life = 10, permanent = false, options = {}) {
-      const count = options.count || (1 + Math.floor((this.powerLevels.drone || 0) / 2) + (this.fusions.resonante ? 1 : 0));
+      const count = options.count || (1 + Math.floor((this.powerLevels.drone || 0) / 2) + (this.comboActive('resonante') ? 1 : 0));
       for (let i = 0; i < count; i++) {
         this.drones.push({
           x: this.player.x,
@@ -3682,12 +4431,25 @@
       return { ...reward, firstClear };
     }
 
+
+    updateBossLootPhase(dt){
+      const phase=this.bossLootPhase;if(!phase?.active||phase.completed)return;phase.elapsed=(phase.elapsed||0)+dt;
+      const remaining=this.pickups.filter(p=>p.bossLoot).length;
+      if(remaining===0&&phase.elapsed>(phase.settle||.75)){phase.completed=true;phase.active=false;this.completeMap();}
+    }
+
+    unlockBossShip(){
+      const p=currentProfile();p.bossShips=p.bossShips||{};const map=MAPS[this.mapIndex],id=`bossShip${this.mapIndex+1}`;
+      p.bossShips[id]={id,name:map?.boss||`Jefe ${this.mapIndex+1}`,world:this.mapIndex+1,unlockedAt:new Date().toISOString()};if(!p.activeBossShip)p.activeBossShip=id;return p.bossShips[id];
+    }
+
     completeMap() {
       if (this.replayMode?.active) { this.run.mapComplete = false; this.toast('↻ Jefe repetido', `Mundo ${this.mapIndex + 1} · Nivel 5 completado`); setTimeout(() => this.showResult(true), 1200); return; }
       const p = currentProfile();
       p.stats.bosses += 1;
       p.stats.bestMap = Math.max(p.stats.bestMap, this.mapIndex + 1);
-      const progressionReward = this.grantWorldCompletionProgress();
+      const progressionReward=this.grantWorldCompletionProgress();
+      const bossShip=this.unlockBossShip();
       this.lastWorldLifeBonus = progressionReward.firstClear ? this.addReserveLives(2, 'bono por pasar de mundo') : 0;
       p.campaignExtraLives = this.extraLives;
       p.completedMaps = Array.from(new Set([...(p.completedMaps || []), this.mapIndex + 1]));
@@ -3700,9 +4462,8 @@
       p.stats.totalCoins += mapBonus;
       unlockAchievement('boss_1');
       if (p.unlockedMap >= 3) unlockAchievement('map_3');
-      this.toast('👑 Mundo completado', `${this.lastWorldReward?.name || 'Poder del jefe'} obtenido · botín ${this.lastBossLootPower?.name || 'del jefe'}`);
-      AudioFX.win();
-      setTimeout(() => this.showResult(true), 2600);
+      this.toast('👑 Mundo completado',`${this.lastWorldReward?.name||'Poder del jefe'} · nave-jefe ${bossShip?.name||'desbloqueada'} disponible desde Mundo 4`);
+      AudioFX.win();setTimeout(()=>this.showResult(true),700);
     }
 
     end(victory) {
@@ -3779,17 +4540,26 @@
       if (this.extraLives <= 0) return false;
       this.extraLives -= 1;
       if (!this.replayMode?.active) currentProfile().campaignExtraLives = this.extraLives;
-      this.player.hp = this.player.maxHp * .58;
-      this.player.shield = this.player.maxShield * .42;
+      const p = this.player;
+      p.hp = p.maxHp * .62;
+      p.shield = p.maxShield * .62;
+      p.speed = Math.max(p.speed || 0, p.baseSpeed || 255);
+      p.baseSpeed = Math.max(p.baseSpeed || 0, p.speed);
+      p.moveVx = 0; p.moveVy = 0;
+      p.entryShieldTimer = Math.max(p.entryShieldTimer || 0, 5.2);
+      p.entryShieldMax = Math.max(p.entryShieldMax || 0, 5.2);
+      p.recoveryGraceTimer = 5.2;
       this.enemies = this.enemies.filter(e => e.boss);
       this.bullets = this.bullets.filter(b => !b.enemy);
       this.zones = [];
       this.flash = .8;
-      this.toast('Segunda oportunidad', `Vidas disponibles: ${this.extraLives + 1}`);
       this.defeatPowerDropsIssued = false;
       this.paused = false;
       this.running = true;
       hideOverlays();
+      this.spawnRecoveryPackage();
+      this.toast('❤️ REACTIVACIÓN', `Movilidad restaurada · recoge tu paquete de recuperación`);
+      this.requestTacticalPrep('revive');
       AudioFX.music(this.mapIndex, !!this.bossActive, MAPS[this.mapIndex]?.family || 'zombie', this.bossActive?.phase || 1);
       requestAnimationFrame(t => { this.last = t; this.loop(t); });
       return true;
@@ -3800,16 +4570,19 @@
       const replayVictory = !!(victory && this.replayMode?.active);
       this.resultMode = replayVictory ? 'replay_victory' : (victory ? 'victory' : (this.extraLives > 0 ? 'defeat_revive' : 'defeat'));
       if (victory) this.finalizeRun(true);
+      els.resultOverlay.classList.toggle('victory-clean',!!victory&&!replayVictory);
       els.resultEyebrow.textContent = replayVictory ? '↻ NIVEL REPETIDO' : (victory ? '✔ MUNDO COMPLETADO' : '⚠ MISIÓN INTERRUMPIDA');
       els.resultTitle.textContent = replayVictory ? `Mundo ${this.mapIndex + 1} · Nivel ${this.replayMode.level} completado` : (victory ? `${MAPS[this.mapIndex].icon} Mundo ${this.mapIndex + 1} superado` : `Mundo ${this.mapIndex + 1} · Nivel ${this.wave}`);
       if (replayVictory) {
         els.resultText.textContent = 'La repetición terminó. Tu progreso principal y tu partida guardada permanecen intactos.';
       } else if (victory) {
         const reward = this.lastWorldReward || { name: 'Poder del jefe' };
-        const loot = this.lastBossLootPower?.name ? ` Botín recogible: ${this.lastBossLootPower.name}.` : '';
+        const loot=this.lastBossLootPower?.name?` Botín del jefe: ${this.lastBossLootPower.name}.`:'';
         els.resultText.textContent = `${reward.name} obtenido · arma base mejorada de forma permanente en daño, alcance, velocidad y precisión · +${this.lastWorldLifeBonus || 0} vidas.${loot}`;
       } else {
-        els.resultText.textContent = this.extraLives > 0 ? `Te quedan ${this.extraLives} vidas de reserva. Conservas Mundo ${this.mapIndex + 1}, Nivel ${this.wave}.` : `Has perdido las 5 vidas. Compra una vida con monedas, puntos o experiencia para continuar este nivel.`;
+        els.resultText.textContent = this.extraLives > 0
+          ? `Te quedan ${this.extraLives} vidas de reserva. Conservas Mundo ${this.mapIndex + 1}, Nivel ${this.wave}. Al reactivar aparecen tus últimos poderes, un Impulsor y un combo de recuperación de 5 segundos.`
+          : `Compra una vida con monedas, puntos o experiencia para continuar. Al reactivar reaparecen tus últimos poderes, un Impulsor y un combo de recuperación de 5 segundos.`;
       }
       els.resultRewards.innerHTML = `
         <span class="reward-pill">⭐ ${Math.round(this.run.score)}</span>
@@ -3823,7 +4596,7 @@
       els.btnResultContinue.classList.toggle('hidden',noLives);
       if(els.lifeShop)els.lifeShop.classList.toggle('hidden',!noLives);
       if(noLives)this.updateLifeShopUI();
-      els.btnResultHome.textContent = 'Inicio';
+      els.btnResultHome.textContent='Inicio';els.btnResultHome.classList.toggle('hidden',!!victory&&!replayVictory);
       els.resultOverlay.classList.remove('hidden');
       renderAll();
     }
@@ -3878,7 +4651,11 @@
         fusions: { ...(this.fusions || {}) },
         run: { ...(this.run || {}), mapComplete: false },
         worldOneState: this.mapIndex===0 ? { ...(this.worldOneState||{}) } : null,
-        worldTwoState: this.mapIndex===1 ? { ...(this.worldTwoState||{}) } : null,
+        worldTwoState:this.mapIndex===1?{...(this.worldTwoState||{})}:null,
+        worldThreeState:this.mapIndex===2?{...(this.worldThreeState||{})}:null,
+        worldFourState:this.mapIndex===3?{...(this.worldFourState||{})}:null,
+        worldFiveState:this.mapIndex===4?{...(this.worldFiveState||{})}:null,
+        powerQueue:[...(this.powerQueue||[])],
         extraLives: this.extraLives,
         nextLifeScore: this.nextLifeScore
       };
@@ -3900,12 +4677,16 @@
         player: { x: this.player.x, y: this.player.y, hp: this.player.hp, shield: this.player.shield, xp: this.player.xp, level: this.player.level, xpNext: this.player.xpNext, entryShieldTimer: this.player.entryShieldTimer || 0, entryShieldMax: this.player.entryShieldMax || 0, relicMeteorTimer: this.player.relicMeteorTimer || 0 },
         powerLevels: this.powerLevels,
         powerActivity: this.powerActivity,
-        activePowerSlots: this.activePowerSlots,
-        fusions: this.fusions,
+        activePowerSlots:this.activePowerSlots,
+        powerQueue:this.powerQueue||[],
+        fusions:this.fusions,
         run: this.run,
         worldStage: this.worldStage,
         worldOneState: this.mapIndex === 0 ? this.worldOneState : null,
-        worldTwoState: this.mapIndex === 1 ? this.worldTwoState : null,
+        worldTwoState:this.mapIndex===1?this.worldTwoState:null,
+        worldThreeState:this.mapIndex===2?this.worldThreeState:null,
+        worldFourState:this.mapIndex===3?this.worldFourState:null,
+        worldFiveState:this.mapIndex===4?this.worldFiveState:null,
         extraLives: this.extraLives,
         nextLifeScore: this.nextLifeScore
       };
@@ -3941,6 +4722,7 @@
       els.hudMap.textContent = `M${this.mapIndex + 1}/${MAPS.length}`;
       els.hudScore.textContent = this.run.score;
       els.hudCoins.textContent = this.run.coins;
+      this.updateTacticalCart(false);
       this.updateBossApproachHud();
       if (els.xpLabel && this.mapIndex < 5 && !this.bossActive) {
         if (this.mapIndex === 0) {
@@ -3952,13 +4734,14 @@
           const bossPct=this.getBossApproachPercent();
           const progressText=this.wave===5?`PREFECTOS ${this.worldTwoState?.captainsKilled||0}/3 · JEFE ${bossPct}%`:`eliminados ${this.worldStage?.kills||0}/${this.getWorldStageTarget(this.wave)} · JEFE ${bossPct}%`;
           els.xpLabel.textContent=`L${this.wave}/5 · ${act?.name||'Mundo 2'} · ${progressText}`;
-        } else els.xpLabel.textContent = `Nivel ${this.player.level} · eliminados ${this.worldStage?.kills || 0}/${this.getWorldStageTarget(this.wave)}`;
+        } else if(this.mapIndex===2){const act=WORLD_THREE_ACTS[this.wave-1],bossPct=this.getBossApproachPercent();els.xpLabel.textContent=`L${this.wave}/5 · ${act?.name||'Mundo 3'} · eliminados ${this.worldStage?.kills||0}/${this.getWorldStageTarget(this.wave)} · JEFE ${bossPct}%`;}
+        else els.xpLabel.textContent = `Nivel ${this.player.level} · eliminados ${this.worldStage?.kills || 0}/${this.getWorldStageTarget(this.wave)}`;
       }
       if (els.hudLives) els.hudLives.textContent = Math.min(MAX_TOTAL_LIVES, this.extraLives + (this.running ? 1 : 0));
-      if ((this.mapIndex === 0 || this.mapIndex===1) && !this.bossActive) {
+      if ((this.mapIndex===0||this.mapIndex===1||this.mapIndex===2)&&!this.bossActive) {
         const finalAct=this.wave===5;
-        const denom=finalAct?3:this.getWorldStageTarget(this.wave);
-        const numer=finalAct?(this.mapIndex===0?(this.worldOneState?.captainsKilled||0):(this.worldTwoState?.captainsKilled||0)):(this.worldStage?.kills||0);
+        const denom=finalAct&&this.mapIndex<2?3:this.getWorldStageTarget(this.wave);
+        const numer=finalAct&&this.mapIndex<2?(this.mapIndex===0?(this.worldOneState?.captainsKilled||0):(this.worldTwoState?.captainsKilled||0)):(this.worldStage?.kills||0);
         els.xpFill.style.width=`${clamp(numer/Math.max(1,denom)*100,0,100)}%`;
       } else els.xpFill.style.width = `${clamp(this.player.xp / this.player.xpNext * 100, 0, 100)}%`;
       if (!(this.mapIndex < 5 && !this.bossActive)) els.xpLabel.textContent = `Nivel ${this.player.level}`;
@@ -3970,18 +4753,22 @@
       const statusChips = [];
       if ((this.player.entryShieldTimer || 0) > 0) statusChips.push(`<div class="power-chip active-power selected" title="Escudo de entrada"><span>🛡️</span><small>${Math.ceil(this.player.entryShieldTimer)}</small></div>`);
       if ((this.player.shotTier || 0) > 0) statusChips.push(`<div class="power-chip active-power relic" title="Arma base permanente: más daño, alcance, velocidad y precisión"><span>🔫</span><small>MK${1 + (this.player.shotTier || 0)}</small></div>`);
-      if (this.mapIndex>0 && currentProfile().relics?.world1Core) statusChips.push(`<div class="power-chip active-power relic" title="Núcleo Meteórico heredado"><span>☄️</span><small>${Math.max(1,Math.ceil(this.player.relicMeteorTimer||18))}</small></div>`);
+      if(this.mapIndex>0&&currentProfile().relics?.world1Core)statusChips.push(`<div class="power-chip active-power relic" title="Núcleo Meteórico heredado"><span>☄️</span><small>R1</small></div>`);
+      if(this.mapIndex>1&&currentProfile().relics?.world2Spore)statusChips.push(`<div class="power-chip active-power relic" title="Matriz de Convergencia heredada"><span>🧬</span><small>R2</small></div>`);
+      if(this.mapIndex>2&&currentProfile().relics?.world3Inferno)statusChips.push(`<div class="power-chip active-power relic" title="Corazón Ígneo heredado"><span>🔥</span><small>R3</small></div>`);
       const inheritedAllies = this.drones.filter(d => d.inheritPower && !d.permanent);
       if (inheritedAllies.length) {
         const allyLife = Math.max(...inheritedAllies.map(d => d.life || 0));
         statusChips.push(`<div class="power-chip active-power" title="Naves aliadas heredando el poder activo"><span>🛸${inheritedAllies.length}</span><small>${Math.max(1,Math.ceil(allyLife))}</small></div>`);
       }
+      const comboChips=Object.keys(this.activeCombos||{}).slice(0,this.isSmallScreen?1:2).map(id=>{const f=FUSIONS.find(x=>x.id===id);return `<div class="power-chip active-power combo" title="COMBO: ${f?.name||id}">${f?.icon||'⚡'}<small>C</small></div>`;}).join('');
+      const queueChips=(this.powerQueue||[]).slice(0,this.isSmallScreen?1:3).map((q,i)=>{const pow=POWERS.find(p=>p.id===q.id);return `<div class="power-chip queued" title="COLA ${i+1}: ${pow?.name||q.id}">${pow?.icon||'⏳'}<small>${i+1}</small></div>`;}).join('');
       els.powerDock.innerHTML = statusChips.join('') + visible.map(([id, secs]) => {
         const pow = POWERS.find(p => p.id === id);
         const time = Math.max(1, Math.ceil(secs));
         const selected = this.activePowerSlots?.weaponMode === id ? 'selected' : '';
         return `<button class="power-chip active-power ${selected}" data-power="${id}" title="${pow?.name || id} · ${time}s activas">${pow?.icon || '✦'}<small>${time}</small></button>`;
-      }).join('') + (overflow ? `<div class="power-chip overflow" title="${overflow} poderes activos más">+${overflow}</div>` : '');
+      }).join('') + comboChips + queueChips + (overflow ? `<div class="power-chip overflow" title="${overflow} poderes activos más">+${overflow}</div>` : '');
       els.powerDock.querySelectorAll('[data-power]').forEach(btn => btn.onclick = () => {
         const id = btn.dataset.power;
         if (['triple','laser','voidray'].includes(id) && this.isPowerActive(id)) {
@@ -3993,11 +4780,7 @@
 
     updatePendingBadge() {
       if (!els.pendingBadge || !els.pendingBadgeCount) return;
-      const count = (this.offerActive ? 1 : 0) + (this.pendingLevelChoices || 0);
-      els.pendingBadgeCount.textContent = count;
-      els.pendingBadge.classList.toggle('hidden', count <= 0);
-      els.pendingBadge.title = count > 0 ? `Mejoras pendientes: ${count}` : 'Sin mejoras pendientes';
-      els.pendingBadge.classList.toggle('pulse', count > 0);
+      this.offerActive=false;this.pendingLevelChoices=0;els.pendingBadgeCount.textContent='0';els.pendingBadge.classList.add('hidden');els.pendingBadge.classList.remove('pulse');
     }
 
     toast(title, text = '') {
@@ -4146,6 +4929,27 @@
         ctx.save();const tint=ctx.createLinearGradient(0,0,0,this.h);tint.addColorStop(0,level>=4?'rgba(126,66,182,.12)':'rgba(72,126,130,.09)');tint.addColorStop(1,level>=4?'rgba(82,22,112,.14)':'rgba(4,12,22,.08)');ctx.fillStyle=tint;ctx.fillRect(0,0,this.w,this.h);ctx.restore();
         return;
       }
+      if(this.mapIndex===2){
+        const level=clamp(this.wave,1,5),drift=now()*.00024,bg=this.getAsset('world3BgSpeed'),bossBg=this.getAsset('world3BossBg'),bossSprite=this.getAsset('bossWorld3'),bossPct=this.getBossApproachPercent();
+        if(bg)this.drawImageCover(ctx,bg,0,0,this.w,this.h,{alpha:this.bossActive?.18:.82,scale:1.04,offsetX:Math.sin(drift)*8,offsetY:Math.cos(drift*.8)*4});
+        if(bossBg&&(level===5||this.bossActive))this.drawImageCover(ctx,bossBg,0,0,this.w,this.h,{alpha:this.bossActive?.88:(.12+bossPct*.0035),scale:1.06,offsetX:Math.cos(drift*.7)*7,offsetY:Math.sin(drift*.5)*4});
+        if(bossSprite&&level>=3&&!this.bossActive){ctx.save();const ww=this.w*(.07+level*.018),hh=ww*(bossSprite.naturalHeight/bossSprite.naturalWidth);ctx.globalAlpha=.018+level*.012;ctx.filter='brightness(.38) saturate(.72)';ctx.drawImage(bossSprite,this.w*(.74-level*.02),this.h*.07,ww,hh);ctx.restore();}
+        ctx.save();const tint=ctx.createLinearGradient(0,0,0,this.h);tint.addColorStop(0,'rgba(32,108,72,.08)');tint.addColorStop(1,'rgba(2,12,10,.18)');ctx.fillStyle=tint;ctx.fillRect(0,0,this.w,this.h);ctx.restore();return;
+      }
+      if(this.mapIndex===3){
+        const level=clamp(this.wave,1,5),drift=now()*.00022,bg=this.getAsset('world4BgCity'),bossBg=this.getAsset('world4BossBg'),bossSprite=this.getAsset('bossWorld4'),bossPct=this.getBossApproachPercent();
+        if(bg)this.drawImageCover(ctx,bg,0,0,this.w,this.h,{alpha:this.bossActive?.16:.84,scale:1.05,offsetX:Math.sin(drift)*10,offsetY:Math.cos(drift*.7)*5});
+        if(bossBg&&(level===5||this.bossActive))this.drawImageCover(ctx,bossBg,0,0,this.w,this.h,{alpha:this.bossActive?.90:(.10+bossPct*.004),scale:1.07,offsetX:Math.cos(drift*.7)*8,offsetY:Math.sin(drift*.5)*5});
+        if(bossSprite&&level>=3&&!this.bossActive){ctx.save();const ww=this.w*(.07+level*.018),hh=ww*(bossSprite.naturalHeight/bossSprite.naturalWidth);ctx.globalAlpha=.02+level*.012;ctx.filter='brightness(.38) saturate(.8)';ctx.drawImage(bossSprite,this.w*(.73-level*.018),this.h*.08,ww,hh);ctx.restore();}
+        ctx.save();const tint=ctx.createLinearGradient(0,0,0,this.h);tint.addColorStop(0,'rgba(124,28,26,.09)');tint.addColorStop(1,'rgba(24,6,6,.20)');ctx.fillStyle=tint;ctx.fillRect(0,0,this.w,this.h);ctx.restore();return;
+      }
+      if(this.mapIndex===4){
+        const level=clamp(this.wave,1,5),drift=now()*.00020,bg=this.getAsset('world5BgCave'),bossBg=this.getAsset('world5BossBg'),bossSprite=this.getAsset('bossWorld5'),bossPct=this.getBossApproachPercent();
+        if(bg)this.drawImageCover(ctx,bg,0,0,this.w,this.h,{alpha:this.bossActive?.15:.86,scale:1.05,offsetX:Math.sin(drift)*9,offsetY:Math.cos(drift*.7)*5});
+        if(bossBg&&(level===5||this.bossActive))this.drawImageCover(ctx,bossBg,0,0,this.w,this.h,{alpha:this.bossActive?.92:(.12+bossPct*.004),scale:1.07,offsetX:Math.cos(drift*.7)*8,offsetY:Math.sin(drift*.5)*5});
+        if(bossSprite&&level>=3&&!this.bossActive){ctx.save();const ww=this.w*(.075+level*.018),hh=ww*(bossSprite.naturalHeight/bossSprite.naturalWidth);ctx.globalAlpha=.022+level*.013;ctx.filter='brightness(.36) saturate(.84)';ctx.drawImage(bossSprite,this.w*(.72-level*.02),this.h*.07,ww,hh);ctx.restore();}
+        ctx.save();const tint=ctx.createLinearGradient(0,0,0,this.h);tint.addColorStop(0,'rgba(74,32,118,.09)');tint.addColorStop(1,'rgba(6,4,18,.24)');ctx.fillStyle=tint;ctx.fillRect(0,0,this.w,this.h);ctx.restore();return;
+      }
     }
 
     drawWorldOneAtmosphere(ctx) {
@@ -4217,9 +5021,24 @@
       ctx.restore();
     }
 
-    drawMapAtmosphere(ctx, map) {
+
+    ensureWorldThreeStars(){
+      if(this.mapIndex!==2)return;const target=state.settings.lowPerformance?60:(this.w>=1200?100:82);this.world3Stars=this.world3Stars||[];
+      while(this.world3Stars.length<target){const i=this.world3Stars.length,layer=i<target*.58?0:(i<target*.88?1:2);this.world3Stars.push({x:Math.random()*this.w,y:Math.random()*this.h,layer,seed:Math.random()});}
+      if(this.world3Stars.length>target)this.world3Stars.length=target;
+    }
+
+    drawWorldThreeSpeedField(ctx,dt=.016){
+      this.ensureWorldThreeStars();const w3=this.worldThreeState||{},boost=(this.isPowerActive('afterburner')?1.72:1)*((w3.speedBurst||0)>0?1.48:1)*(this.bossActive?1.35:(this.getBossApproachPercent()>=80?1.2:1)),fade=this.enemies.length>12?.72:1;
+      ctx.save();ctx.lineCap='round';
+      for(const s of this.world3Stars){const base=s.layer===0?38:(s.layer===1?82:155),speed=base*boost,len=s.layer===2?(7+18*(boost-1)):s.layer===1?(2+7*(boost-1)):0;s.y+=speed*dt;s.x+=(s.layer===2?8:2)*dt;if(s.y>this.h+20){s.y=-15;s.x=Math.random()*this.w;}if(s.x>this.w+20)s.x=-10;ctx.globalAlpha=(s.layer===0?.17:(s.layer===1?.26:.40))*fade;ctx.strokeStyle=s.seed>.82?'#bfffe9':'#d8f3ff';ctx.fillStyle=ctx.strokeStyle;if(len>1.5){ctx.lineWidth=s.layer===2?1.25:.8;ctx.beginPath();ctx.moveTo(s.x,s.y);ctx.lineTo(s.x-2,s.y-len);ctx.stroke();}else{ctx.beginPath();ctx.arc(s.x,s.y,s.layer===0?.7:1.05,0,Math.PI*2);ctx.fill();}}
+      ctx.restore();
+    }
+
+    drawMapAtmosphere(ctx, map, dt=.016) {
       if (this.mapIndex === 0) { this.drawWorldOneAtmosphere(ctx); return; }
       if (this.mapIndex === 1) { this.drawWorldTwoAtmosphere(ctx); return; }
+      if(this.mapIndex===2){this.drawWorldThreeSpeedField(ctx,dt);return;}
       const t = now() * .001;
       ctx.save();
       ctx.globalAlpha = .25;
@@ -4533,11 +5352,11 @@
         ctx.globalAlpha = alpha;
         ctx.translate(it.x, it.y);
         ctx.scale(pulse, pulse);
-        ctx.shadowBlur = it.major ? 28 : (it.rewardGlow ? 24 : (it.type === 'power' ? 16 : 9));
+        ctx.shadowBlur = it.major ? 28 : (it.rewardGlow ? 24 : ((it.type === 'power' || it.type === 'combo') ? 16 : 9));
         ctx.shadowColor = it.color;
         ctx.strokeStyle = it.color;
         ctx.lineWidth = it.major ? 2.2 : (it.rewardGlow ? 2 : 1.4);
-        ctx.beginPath(); ctx.arc(0, 0, it.r + (it.type === 'power' ? 5 : 3), 0, Math.PI * 2); ctx.stroke();
+        ctx.beginPath(); ctx.arc(0, 0, it.r + ((it.type === 'power' || it.type === 'combo') ? 5 : 3), 0, Math.PI * 2); ctx.stroke();
         ctx.globalAlpha = alpha * .18;
         ctx.fillStyle = it.color;
         ctx.beginPath(); ctx.arc(0, 0, it.r + 1, 0, Math.PI * 2); ctx.fill();
@@ -4548,7 +5367,7 @@
         ctx.font = `${Math.max(10, it.r * 1.28)}px system-ui, Apple Color Emoji, Segoe UI Emoji`;
         ctx.textAlign = 'center'; ctx.textBaseline = 'middle';
         ctx.fillText(it.icon || '•', 0, .5);
-        if (it.type === 'power' || it.type === 'nuke' || it.rewardGlow) {
+        if (it.type === 'power' || it.type === 'combo' || it.type === 'nuke' || it.rewardGlow) {
           ctx.globalAlpha = alpha * .5;
           ctx.rotate(now() * (specialPrize ? .0034 : .0024));
           ctx.strokeStyle = specialPrize ? '#ffffff' : it.color;
@@ -4677,6 +5496,9 @@
               ctx.drawImage(boss2,-w*.5,-h*.52,w,h);
               ctx.restore();
             } else this.drawBacteriaBoss(ctx,e);
+          } else if(this.mapIndex===2){const boss3=this.getAsset('bossWorld3');if(boss3){ctx.globalAlpha=.995*(e.alpha??1);const w=e.r*8.5,h=w*(boss3.naturalHeight/boss3.naturalWidth);ctx.save();ctx.shadowBlur=22;ctx.shadowColor='rgba(116,255,115,.34)';ctx.drawImage(boss3,-w*.5,-h*.51,w,h);ctx.restore();}else this.drawBacteriaBoss(ctx,e);
+          } else if(this.mapIndex===3){const boss4=this.getAsset('bossWorld4');if(boss4){ctx.globalAlpha=.995*(e.alpha??1);const w=e.r*8.6,h=w*(boss4.naturalHeight/boss4.naturalWidth);ctx.save();ctx.shadowBlur=22;ctx.shadowColor='rgba(255,106,99,.34)';ctx.drawImage(boss4,-w*.5,-h*.50,w,h);ctx.restore();}else this.drawBacteriaBoss(ctx,e);
+          } else if(this.mapIndex===4){const boss5=this.getAsset('bossWorld5');if(boss5){ctx.globalAlpha=.995*(e.alpha??1);const w=e.r*8.9,h=w*(boss5.naturalHeight/boss5.naturalWidth);ctx.save();ctx.shadowBlur=24;ctx.shadowColor='rgba(195,145,255,.36)';ctx.drawImage(boss5,-w*.5,-h*.50,w,h);ctx.restore();}else this.drawBacteriaBoss(ctx,e);
           } else {
             const sides = ({spider:8,tick:7,rat:6,scorpion:10,leech:5,puffer:11,wasp:9,centipede:12,roach:8,chimera:13})[e.beast] || 9;
             this.drawPolygon(ctx, 0, 0, e.r + Math.sin(e.t * 3) * 3, sides, true);
@@ -4685,7 +5507,7 @@
             ctx.globalAlpha = .45 + (e.alpha ?? 1) * .2;
             for (let j=0;j<Math.min(8,sides);j++) { const a = (Math.PI*2/sides)*j + e.t*.4; ctx.beginPath(); ctx.moveTo(Math.cos(a)*e.r*.45, Math.sin(a)*e.r*.45); ctx.lineTo(Math.cos(a)*(e.r*1.35), Math.sin(a)*(e.r*1.35)); ctx.stroke(); }
           }
-        } else if (this.mapIndex === 1 && e.spriteKey) this.drawEnemyShip(ctx,e,e.spriteKey);
+        } else if ((this.mapIndex>=1&&this.mapIndex<=4)&&e.spriteKey) this.drawEnemyShip(ctx,e,e.spriteKey);
         else if (e.behavior === 'mirror') this.drawEnemyShip(ctx, e, 'mirrorShip');
         else if (this.mapIndex === 0 && ['cazador','corredor','esquivo','mosquito'].includes(e.id)) this.drawEnemyShip(ctx, e, 'enemyBiomechBlue');
         else if (this.mapIndex === 0 && ['toxico','sombra','divisor','larva','nucleo'].includes(e.id)) this.drawEnemyShip(ctx, e, 'enemyToxicCruiser');
@@ -4708,8 +5530,8 @@
         else if (e.behavior === 'buffer') { this.drawPolygon(ctx, 0, 0, e.r, 7, true); ctx.globalAlpha=.28; this.drawPolygon(ctx, 0, 0, e.r*1.25, 7, false); }
         else if (e.behavior === 'sombra' || e.behavior === 'mist') { this.drawPolygon(ctx, 0, 0, e.r, 5, true); ctx.globalAlpha=.22; this.drawPolygon(ctx, 0, 0, e.r*1.3, 5, false); }
         else { this.drawCrawlerEnemy(ctx, e); }
-        const realisticWorld2 = this.mapIndex === 1 && !!e.spriteKey && !e.boss;
-        if (!realisticWorld2) {
+        const realisticWorld2=this.mapIndex===1&&!!e.spriteKey&&!e.boss;const realisticWorld3=this.mapIndex===2&&!!e.spriteKey&&!e.boss;const realisticWorld4=this.mapIndex===3&&!!e.spriteKey&&!e.boss;const realisticWorld5=this.mapIndex===4&&!!e.spriteKey&&!e.boss;
+        if(!realisticWorld2&&!realisticWorld3&&!realisticWorld4&&!realisticWorld5){
           ctx.globalAlpha = .9;
           ctx.strokeStyle = 'rgba(255,255,255,.75)'; ctx.lineWidth = 2;
           ctx.beginPath(); ctx.moveTo(-e.r * .35, -e.r * .2); ctx.lineTo(-e.r * .1, -e.r * .06); ctx.moveTo(e.r * .35, -e.r * .2); ctx.lineTo(e.r * .1, -e.r * .06); ctx.stroke();
@@ -4731,8 +5553,8 @@
           ctx.restore();
         }
         if (!e.boss) {
-          const barY = realisticWorld2 ? e.r * (e.world2Captain ? 3.25 : 2.8) + 6 : e.r + 8;
-          const barW = realisticWorld2 ? e.r * 2.45 : e.r * 2;
+          const barY=realisticWorld2?e.r*(e.world2Captain?3.25:2.8)+6:(realisticWorld3?e.r*2.7+6:e.r+8);
+          const barW=(realisticWorld2||realisticWorld3)?e.r*2.45:e.r*2;
           ctx.globalAlpha = .85;
           ctx.fillStyle = 'rgba(0,0,0,.42)'; ctx.fillRect(-barW/2, barY, barW, 4);
           ctx.fillStyle = '#61ffc8'; ctx.fillRect(-barW/2, barY, barW * hp, 4);
@@ -5070,7 +5892,10 @@
   }
 
   function hideOverlays() {
-    ['cardOverlay', 'pauseOverlay', 'resultOverlay'].forEach(id => els[id]?.classList.add('hidden'));
+    ['cardOverlay', 'pauseOverlay', 'resultOverlay', 'tacticalPrepPrompt', 'tacticalShopOverlay', 'tacticalCountdown'].forEach(id => els[id]?.classList.add('hidden'));
+    els.resultOverlay?.classList.remove('victory-clean');
+    els.cardOverlay?.classList.add('hidden');
+    els.pendingBadge?.classList.add('hidden');
     els.bossBar.classList.add('hidden');
   }
 
@@ -5500,6 +6325,12 @@ ${JSON.stringify(snapshot, null, 2)}`;
       renderSavedGamesList();
     });
     els.btnPause.addEventListener('click', () => game.togglePause());
+    els.btnTacticalCart?.addEventListener('click',()=>game.openTacticalShop());
+    els.btnOpenTacticalShop?.addEventListener('click',()=>game.openTacticalShop());
+    els.btnSkipTacticalShop?.addEventListener('click',()=>game.closeTacticalPrep());
+    els.btnTacticalClose?.addEventListener('click',()=>game.closeTacticalPrep());
+    els.btnTacticalContinue?.addEventListener('click',()=>game.closeTacticalPrep());
+    els.tacticalShopGrid?.addEventListener('click',e=>{const btn=e.target.closest('[data-tactical-buy]');if(!btn||btn.disabled)return;game.buyTacticalOffer(btn.dataset.tacticalBuy,btn.dataset.tacticalCurrency);});
     els.pendingBadge?.addEventListener('click', () => { if ((game.pendingLevelChoices || game.offerActive) && !game.paused) game.showCards(); });
     els.btnResume.addEventListener('click', () => game.togglePause(false));
     els.btnSaveRun.addEventListener('click', () => { game.saveRun(); game.updatePauseStats(); });

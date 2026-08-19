@@ -8,8 +8,8 @@
   <meta name="apple-mobile-web-app-title" content="Niebla Verde" />
   <script>if(location.protocol !== "file:"){const m=document.createElement("link");m.rel="manifest";m.href="manifest.json";document.head.appendChild(m);}</script>
   <link rel="icon" href="assets/icon.svg" type="image/svg+xml" />
-  <title>Rizoma Zombie Strike — Niebla Verde v1.6.1</title>
-  <link rel="stylesheet" href="css/styles.css?v=1.5.7" />
+  <title>Rizoma Zombie Strike — Mundos 4 y 5 v1.7.2</title>
+  <link rel="stylesheet" href="css/styles.css?v=1.7.2" />
 </head>
 <body>
   <div id="app" class="app-shell">
@@ -22,7 +22,7 @@
         <span class="brand-mark">⬢</span>
         <div>
           <strong>Rizoma Zombie Strike</strong>
-          <small>Niebla Verde · v1.6.1</small>
+          <small>Mundos 4 y 5 · v1.7.2</small>
         </div>
       </div>
       <button id="btnSettings" class="icon-btn" title="Ajustes" aria-label="Ajustes">⚙</button>
@@ -36,7 +36,7 @@
             <p class="eyebrow">Shmup apocalíptico espacial</p>
             <h1 class="intro-title-hidden">Zombie Strike</h1>
             <p class="subcopy">Sobrevive a la caída estelar, enfrenta jefes biomecánicos y conquista cinco mundos.</p>
-            <button id="btnOpenPortal" class="primary-btn wide neon">Iniciar misión</button>
+            <button id="btnOpenPortal" class="primary-btn wide neon">Cerrar compras</button>
           </div>
         </div>
       </section>
@@ -176,6 +176,7 @@
           <div class="hud-pill"><span>🪙</span><strong id="hudCoins">0</strong></div>
           <div class="hud-pill boss-approach" id="hudBossApproach" title="Progreso hacia el jefe"><span>👑</span><strong id="hudBossPercent">0%</strong></div>
           <div class="hud-pill"><span>❤️‍🩹</span><strong id="hudLives">0</strong></div>
+          <button id="btnTacticalCart" class="tactical-cart" title="Compra Exprés"><span class="cart-glyph">🛒</span><strong id="tacticalCartCount">0</strong></button>
           <button id="btnPause" class="pause-btn" title="Pausa">⏸</button>
         </div>
         <div id="bossBar" class="boss-bar hidden">
@@ -203,6 +204,37 @@
           </div>
           <div id="cardChoices" class="card-offer-row"></div>
         </div>
+
+        <div id="tacticalPrepPrompt" class="tactical-prep-prompt hidden" aria-hidden="true">
+          <div class="tactical-prep-copy">
+            <strong>🛒 ¿Preparar nave?</strong>
+            <small id="tacticalPrepSummary">Compra Exprés opcional</small>
+          </div>
+          <div class="tactical-prep-actions">
+            <button id="btnOpenTacticalShop" class="tactical-mini primary">Comprar</button>
+            <button id="btnSkipTacticalShop" class="tactical-mini">Continuar</button>
+          </div>
+        </div>
+        <div id="tacticalShopOverlay" class="tactical-shop-overlay hidden" aria-live="polite">
+          <div class="tactical-shop-panel">
+            <div class="tactical-shop-head">
+              <div>
+                <p class="eyebrow">PREPARACIÓN TÁCTICA</p>
+                <h3 id="tacticalShopTitle">Compra Exprés</h3>
+                <small id="tacticalShopLimit">0/0 compras</small>
+              </div>
+              <button id="btnTacticalClose" class="tactical-close" aria-label="Cerrar">×</button>
+            </div>
+            <div id="tacticalWallet" class="tactical-wallet"></div>
+            <div id="tacticalAdvisor" class="tactical-advisor"></div>
+            <div id="tacticalShopGrid" class="tactical-shop-grid"></div>
+            <div class="tactical-shop-footer">
+              <small>Las compras aparecen flotando junto a tu nave. No se activan desde el menú.</small>
+              <button id="btnTacticalContinue" class="primary-btn tactical-start">Cerrar compras</button>
+            </div>
+          </div>
+        </div>
+        <div id="tacticalCountdown" class="tactical-countdown hidden">3</div>
         <div id="pauseOverlay" class="modal-layer hidden">
           <div class="modal-card glass pause-menu">
             <p class="eyebrow">Pausa táctica</p>
@@ -265,6 +297,6 @@
     </div>
   </div>
 
-  <script src="js/game.js?v=1.5.7"></script>
+  <script src="js/game.js?v=1.7.2"></script>
 </body>
 </html>
