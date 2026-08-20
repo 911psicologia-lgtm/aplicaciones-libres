@@ -1,7 +1,7 @@
 (() => {
   'use strict';
 
-  const VERSION = '1.7.2';
+  const VERSION = '1.7.5';
   const STORAGE_KEY = 'rizoma_zombie_strike_v0_3_state';
   const SAVE_KEY = 'rizoma_zombie_strike_v0_3_save';
   const clamp = (v, a, b) => Math.max(a, Math.min(b, v));
@@ -687,6 +687,9 @@
       this.powerLevels = {};
       this.powerActivity = {};
       this.powerQueue=[]; this.activeCombos={};
+      this.recentPowerHistory=[];
+      this.progressWatch={level:1,kills:0,stagnant:0,rescues:0};
+      this.powerSupportTimer=9;
       this.fusions = {};
       this.run = { score: 0, coins: 0, experience: 0, kills: 0, bosses: 0, start: Date.now(), mapComplete: false, lifePurchases: 0 };
       this.defeatPowerDropsIssued = false;
@@ -866,6 +869,7 @@
         if (!isEnemy || !enemyOrCount.worldCaptain) return;
         this.worldOneState.captainsKilled = (this.worldOneState.captainsKilled || 0) + 1;
         this.worldStage.kills = this.worldOneState.captainsKilled;
+        if(this.progressWatch){this.progressWatch.kills=this.worldStage.kills;this.progressWatch.stagnant=0;}
         this.toast('⚔️ Capitán eliminado', `${this.worldStage.kills}/3`);
         if (this.worldStage.kills >= 3) this.beginWorldOneBossPrelude();
         return;
@@ -874,12 +878,14 @@
         if (!isEnemy || !enemyOrCount.world2Captain) return;
         this.worldTwoState.captainsKilled = (this.worldTwoState.captainsKilled || 0) + 1;
         this.worldStage.kills = this.worldTwoState.captainsKilled;
+        if(this.progressWatch){this.progressWatch.kills=this.worldStage.kills;this.progressWatch.stagnant=0;}
         this.toast('⚔️ Prefecto eliminado', `${this.worldStage.kills}/3`);
         if (this.worldStage.kills >= 3) this.beginWorldTwoBossPrelude();
         return;
       }
       const count = isEnemy ? 1 : Number(enemyOrCount || 1);
       this.worldStage.kills += count;
+      if(this.progressWatch){this.progressWatch.kills=this.worldStage.kills;this.progressWatch.stagnant=0;}
       if (this.mapIndex === 0 && this.worldStage.level === 1 && this.worldStage.kills >= 12 && !this.worldOneState.earlyAssistGranted) {
         this.worldOneState.earlyAssistGranted = true;
         const p = this.player;
@@ -897,6 +903,8 @@
       }
       this.worldStage.level += 1;
       this.wave = this.worldStage.level;
+      this.progressWatch={level:this.wave,kills:0,stagnant:0,rescues:0};
+      this.powerSupportTimer=Math.min(this.powerSupportTimer||9,6.5);
       if (!this.replayMode) { const prof = currentProfile(); prof.levelProgress = prof.levelProgress || {1:1}; prof.levelProgress[this.mapIndex + 1] = Math.max(prof.levelProgress[this.mapIndex + 1] || 1, this.wave); saveState(); }
       this.waveTime = 0;
       currentProfile().stats.highestWave = Math.max(currentProfile().stats.highestWave, this.wave);
@@ -1226,6 +1234,9 @@
       this.powerLevels = save?.powerLevels || {};
       this.powerActivity = save?.powerActivity || {};
       this.powerQueue=save?.powerQueue||[]; this.activeCombos={};
+      this.recentPowerHistory=save?.recentPowerHistory||[];
+      this.progressWatch={level:this.wave||1,kills:this.worldStage?.kills||0,stagnant:0,rescues:0};
+      this.powerSupportTimer=7;
       this.activePowerSlots = save?.activePowerSlots || { weaponMode: null };
       this.fusions = save?.fusions || {};
       this.run = save?.run || { score: 0, coins: 0, experience: 0, kills: 0, bosses: 0, start: Date.now(), mapComplete: false, lifePurchases: 0 };
@@ -1346,6 +1357,8 @@
       player.crit += Math.min(.08, Math.max(0, progression.accuracyTier || 0) * .012);
       player.fireDelay = Math.max(245, player.fireDelay * (1 - Math.min(.22, player.shotTier * .035)));
       player.baseSpeed = player.speed;
+      player.nominalSpeed = player.speed;
+      player.recoverySpeedTimer = saved?.recoverySpeedTimer ?? 0;
       const clearedPowerWorlds=Math.min(5,(p.completedMaps||[]).length); player.powerEffectScale=1+clearedPowerWorlds*.04; player.powerDurationScale=1+clearedPowerWorlds*.03;
       player.hp = clamp(player.hp, 1, player.maxHp);
       player.shield = clamp(player.shield, 0, player.maxShield);
@@ -1373,10 +1386,13 @@
       p.cloak = Math.max(0, (p.cloak || 0) - dt);
       p.entryShieldTimer = Math.max(0, (p.entryShieldTimer || 0) - dt);
       p.recoveryGraceTimer = Math.max(0, (p.recoveryGraceTimer || 0) - dt);
+      p.recoverySpeedTimer = Math.max(0, (p.recoverySpeedTimer || 0) - dt);
       this.shake = Math.max(0, this.shake - dt * 30);
       this.flash = Math.max(0, this.flash - dt * 2);
       this.updatePowerActivity(dt);
       this.updateBossLootPhase(dt);
+      this.ensureProgressFlow(dt);
+      this.ensureTacticalPowerSupport(dt);
 
       const regen = p.regen * dt;
       if (regen > 0 && p.hp < p.maxHp) p.hp = Math.min(p.maxHp, p.hp + regen);
@@ -2189,8 +2205,8 @@
         if (z.type !== 'slow') continue;
         if (Math.hypot(z.x - p.x, z.y - p.y) < z.r + p.r) zoneSlow = Math.min(zoneSlow, .68);
       }
-      const stableSpeed = Math.max(p.speed || 0, p.baseSpeed || 0);
-      const recoveryBoost = (p.recoveryGraceTimer || 0) > 0 ? 1.12 : 1;
+      const stableSpeed = Math.max(p.nominalSpeed || 0, p.baseSpeed || 0, p.speed || 0, 255);
+      const recoveryBoost = (p.recoverySpeedTimer || 0) > 0 ? 1.18 : ((p.recoveryGraceTimer || 0) > 0 ? 1.12 : 1);
       const stagePowerScale=this.getStagePowerScale();
       const afterburnerMult=this.isPowerActive('afterburner')?(1+.48*stagePowerScale*(this.comboActive('hiperfase')?1.12:1)):1;
       const moveSpeed = stableSpeed * zoneSlow * recoveryBoost * (p.bossDrive > 0 ? 1.22 : 1) * afterburnerMult;
@@ -2703,7 +2719,7 @@
       this.spawnAdvancedWorldVFormation(3,size,true);if(size>=6)this.spawnAdvancedWorldVFormation(3,3,Math.random()<.6);
       this.spawnCrossWorldPrizeBurst(size>=6?2:1);this.spawnHordeEmergencyKit();
       this.worldFourState.hordeSeen=(this.worldFourState.hordeSeen||0)+1;
-      this.toast('🔥 HORDA CARMESÍ',`Formación x${size} · bomba, impulsor y ralentizador en los bordes`);
+      this.toast('🔥 HORDA CARMESÍ',`Formación x${size} · kit táctico disperso en el lienzo`);
     }
 
     triggerWorldFiveHorde() {
@@ -2910,19 +2926,85 @@
       for (let i = 0; i < count; i++) this.spawnCrossWorldTacticalPrize(plan[(i + this.wave + this.mapIndex) % plan.length]);
     }
 
+    randomTacticalPoint(used=[]) {
+      const margin=this.isSmallScreen?48:72,p=this.player||{x:this.w/2,y:this.h/2};
+      for(let tries=0;tries<30;tries++){
+        const x=rand(this.w-margin,margin),y=rand(this.h-margin,margin);
+        if(Math.hypot(x-p.x,y-p.y)<105)continue;
+        if(used.some(q=>Math.hypot(x-q[0],y-q[1])<115))continue;
+        return [x,y];
+      }
+      return [rand(this.w-margin,margin),rand(this.h-margin,margin)];
+    }
+
     spawnHordeEmergencyKit() {
       if(!this.player)return;
       this.pickups=this.pickups.filter(p=>!p.hordeKit);
-      const p=this.player,margin=this.isSmallScreen?42:62;
-      const positions=[
-        [margin,clamp(this.h*.26,64,this.h-64)],
-        [this.w-margin,clamp(this.h*.28,64,this.h-64)],
-        [this.w-margin,clamp(this.h*.76,64,this.h-64)]
-      ];
-      this.spawnPickup(positions[0][0],positions[0][1],'nuke',1,{hordeKit:true,rewardGlow:true,label:'☢ BOMBA ANTIHORDA',life:22,autoDelay:999});
-      this.spawnPickup(positions[1][0],positions[1][1],'power',1,{powerId:'afterburner',hordeKit:true,rewardGlow:true,label:'» IMPULSOR 10s',powerDuration:10,life:22,autoDelay:999});
-      this.spawnPickup(positions[2][0],positions[2][1],'power',1,{powerId:'stasis',hordeKit:true,rewardGlow:true,label:'⌛ RALENTIZADOR 10s',powerDuration:10,life:22,autoDelay:999});
-      this.toast('🎁 KIT DE HORDA','Bomba · Impulsor · Ralentizador flotando en los bordes');
+      const positions=[];for(let i=0;i<3;i++)positions.push(this.randomTacticalPoint(positions));
+      this.spawnPickup(positions[0][0],positions[0][1],'nuke',1,{hordeKit:true,rewardGlow:true,label:'☢ BOMBA ANTIHORDA',life:25,autoDelay:999});
+      this.spawnPickup(positions[1][0],positions[1][1],'power',1,{powerId:'afterburner',hordeKit:true,rewardGlow:true,label:'» IMPULSOR 10s',powerDuration:10,life:25,autoDelay:999});
+      this.spawnPickup(positions[2][0],positions[2][1],'power',1,{powerId:'stasis',hordeKit:true,rewardGlow:true,label:'⌛ RALENTIZADOR 10s',powerDuration:10,life:25,autoDelay:999});
+      this.toast('🎁 KIT DE HORDA','Bomba · Impulsor · Ralentizador en posiciones tácticas aleatorias');
+    }
+
+    ensureProgressFlow(dt) {
+      if(this.mapIndex>=5||this.bossActive||this.bossIntroduced||this.run?.mapComplete||!this.worldStage)return;
+      const level=this.worldStage.level||this.wave||1,kills=this.worldStage.kills||0,need=Math.max(1,this.getWorldStageTarget(level));
+      this.progressWatch=this.progressWatch||{level,kills,stagnant:0,rescues:0};
+      const w=this.progressWatch;
+      if(w.level!==level){w.level=level;w.kills=kills;w.stagnant=0;w.rescues=0;return;}
+      if(w.kills!==kills){w.kills=kills;w.stagnant=0;return;}
+      w.stagnant+=dt;
+      const ratio=clamp(kills/need,0,1),nonBoss=this.enemies.filter(e=>!e.boss);
+      if(level===5&&(this.mapIndex===0||this.mapIndex===1)){
+        const captainAlive=nonBoss.some(e=>this.mapIndex===0?e.worldCaptain:e.world2Captain);
+        if(w.stagnant>7&&!captainAlive){
+          const idx=Math.min(2,kills);
+          if(this.mapIndex===0)this.spawnWorldOneCaptain(idx);else this.spawnWorldTwoCaptain(idx);
+          this.spawnCrossWorldTacticalPrize(idx%2?'stasis':'afterburner');
+          w.stagnant=1.5;w.rescues=(w.rescues||0)+1;
+          this.toast('🧭 REFUERZO FINAL',`Objetivo ${idx+1}/3 reinsertado en combate`);
+        }
+        return;
+      }
+      if(w.stagnant>8 && (nonBoss.length<2||ratio>=.78)){
+        const count=ratio>=.88?4:3;
+        for(let i=0;i<count;i++){
+          const id=this.mapIndex===0?pick(['corredor','cazador','esquivo']):this.mapIndex===1?pick(['vora_aguja','vora_colmillo','void_orbe']):this.mapIndex===2?this.worldThreeEnemyId():this.mapIndex===3?this.worldFourEnemyId():this.worldFiveEnemyId();
+          this.spawnEnemy(id,true);const e=this.enemies[this.enemies.length-1];
+          if(e&&!e.boss){e.hp*=.58;e.baseHp=e.hp;e.speed*=.92;e.progressRescue=true;}
+        }
+        if(ratio>=.82)this.spawnCrossWorldTacticalPrize((w.rescues||0)%2?'stasis':'afterburner');
+        w.rescues=(w.rescues||0)+1;w.stagnant=2.5;
+        this.toast('🧭 REFUERZO DE PROGRESO',`${Math.round(ratio*100)}% · nuevos objetivos accesibles`);
+      }
+      if(w.stagnant>15 && nonBoss.length){
+        nonBoss.filter(e=>!e.worldCaptain&&!e.world2Captain).slice(0,4).forEach(e=>{e.hp=Math.min(e.hp,e.baseHp*.48);e.speed=Math.min(e.speed,150+this.mapIndex*8);});
+        w.stagnant=5;
+      }
+    }
+
+    ensureTacticalPowerSupport(dt) {
+      if(this.mapIndex>=5||this.bossActive||this.run?.mapComplete||!this.player)return;
+      this.powerSupportTimer=(this.powerSupportTimer??9)-dt;
+      if(this.powerSupportTimer>0)return;
+      const visible=this.pickups.filter(x=>x.type==='power'||x.type==='nuke').length;
+      const active=Object.keys(this.powerActivity||{}).filter(id=>this.isPowerActive(id)).length;
+      if(visible<3){
+        let choice;
+        if(this.mapIndex<=1){
+          const seq=['afterburner','stasis',this.wave>=3?'nuke':'afterburner'];
+          choice=seq[(Math.floor(this.waveTime/10)+this.mapIndex)%seq.length];
+        } else {
+          const seq=['afterburner','stasis',this.wave>=2?'nuke':'afterburner','wingman'];
+          choice=seq[(Math.floor(this.waveTime/9)+this.mapIndex)%seq.length];
+        }
+        if(choice==='nuke'){
+          const pt=this.randomTacticalPoint();this.spawnPickup(pt[0],pt[1],'nuke',1,{rewardGlow:true,label:'☢ BOMBA TÁCTICA',life:23,autoDelay:999});
+        }else this.spawnCrossWorldTacticalPrize(choice);
+        if(active<2&&visible<2){const extra=choice==='afterburner'?'stasis':'afterburner';this.spawnCrossWorldTacticalPrize(extra);}
+      }
+      this.powerSupportTimer=active<2?rand(12,8):rand(19,14);
     }
 
     getBossLootPowerId() {
@@ -2948,7 +3030,15 @@
         .filter(id => (this.powerLevels?.[id] || 0) > 0 && (this.powerActivity?.[id] || 0) > 0.28)
         .sort((a,b)=>(this.powerActivity?.[b]||0)-(this.powerActivity?.[a]||0));
       const queuedIds = (this.powerQueue || []).map(q=>q?.id).filter(Boolean);
-      const ids = [...new Set([...activeIds, ...queuedIds])].slice(0, 8);
+      const recentIds=[...(this.recentPowerHistory||[])].reverse();
+      const recoveryDefaults=[
+        ['triple','pierce','afterburner','stasis'],
+        ['voidray','gravmine','afterburner','stasis'],
+        ['voltaic','phase','afterburner','stasis'],
+        ['magnetism','wingman','afterburner','stasis'],
+        ['plasma','nanorepair','afterburner','stasis']
+      ][this.mapIndex]||['triple','pierce','afterburner','stasis'];
+      const ids = [...new Set([...activeIds, ...queuedIds, ...recentIds, ...recoveryDefaults])].slice(0, 8);
       this.recoveryLoadout = ids.map(id => ({
         id,
         level: Math.max(1, this.powerLevels?.[id] || 1),
@@ -3004,21 +3094,21 @@
           recoveryDrop: true,
           restoreLevel: entry.level,
           label: `RECUPERA ${pow?.name?.toUpperCase() || 'PODER'}`,
-          powerDuration: Math.max(6, entry.duration),
-          life: 24,
-          autoDelay: 1.15
+          powerDuration: Math.max(7, entry.duration),
+          life: 32,
+          autoDelay: 999
         });
       });
       // El impulsor siempre vuelve como salvavidas de movilidad, aunque ya estuviera entre los poderes previos.
       this.spawnPickup(clamp(p.x + 118, 42, this.w-42), clamp(p.y - 58, 42, this.h-42), 'power', 1, {
         powerId: 'afterburner', major: true, rewardGlow: true, recoveryDrop: true,
-        label: 'IMPULSOR DE RECUPERACIÓN · 10s', powerDuration: 10, life: 24, autoDelay: .75
+        label: 'IMPULSOR DE RECUPERACIÓN · 12s', powerDuration: 12, life: 32, autoDelay: 999
       });
       const comboId = this.getRecoveryComboId();
       const combo = FUSIONS.find(f => f.id === comboId);
       this.spawnPickup(clamp(p.x - 118, 42, this.w-42), clamp(p.y - 58, 42, this.h-42), 'combo', 1, {
         comboId, major: true, rewardGlow: true, recoveryDrop: true,
-        label: `COMBO ${combo?.name?.toUpperCase() || 'RECUPERACIÓN'} · 5s`, life: 24, autoDelay: .9
+        label: `COMBO ${combo?.name?.toUpperCase() || 'RECUPERACIÓN'} · 5s`, life: 32, autoDelay: 999
       });
       this.recoveryLoadout = [];
       this.toast('♻ PAQUETE DE RECUPERACIÓN', `${loadout.length} poderes previos + Impulsor + Combo 5s`);
@@ -3678,6 +3768,11 @@
 
         if (e.behavior === 'mist' && Math.random() < .018) this.emit(e.x, e.y, '#ffffff', 2, 80, .8, 'mist');
         if (e.behavior === 'toxic' && Math.random() < .012) this.zones.push({ x: e.x, y: e.y, r: 28, life: 3.5, max: 3.5, type: 'toxic' });
+        if(!e.boss&&(e.x<-360||e.x>this.w+360||e.y<-360||e.y>this.h+360)){
+          const side=Math.floor(Math.random()*4),pad=70;
+          if(side===0){e.x=pad;e.y=rand(this.h-pad,pad);}else if(side===1){e.x=this.w-pad;e.y=rand(this.h-pad,pad);}else if(side===2){e.x=rand(this.w-pad,pad);e.y=pad;}else{e.x=rand(this.w-pad,pad);e.y=this.h-pad;}
+          e.formationVX=0;e.formationVY=0;e.formationTime=0;e.t=0;
+        }
 
         if (d < p.r + e.r && !(e.boss && (e.alpha || 1) < 0.32)) {
           this.playerHit(e.boss ? ((this.mapIndex === 0 ? 14 : 20) + e.phase * (this.mapIndex === 0 ? 2 : 4)) : (e.behavior === 'explosive' ? 24 : (this.mapIndex === 0 ? 8 : 12)));
@@ -3956,18 +4051,18 @@
         const roll = Math.random();
         const starter = this.mapIndex === 0;
         const nexus = this.mapIndex === 1;
-        if (starter && roll < .002 && this.wave >= 4) this.spawnPickup(e.x + rand(26,-26), e.y + rand(26,-26), 'nuke', 1);
-        else if (starter && roll < .012) this.spawnPickup(e.x + rand(26,-26), e.y + rand(26,-26), 'power', 1);
-        else if (starter && roll < .032) this.spawnPickup(e.x + rand(24,-24), e.y + rand(24,-24), 'shield', 20);
-        else if (starter && roll < .046) this.spawnPickup(e.x + rand(24,-24), e.y + rand(24,-24), 'life', 16);
-        else if (nexus && roll < .018) this.spawnWorldTwoTacticalPrize(pick(['afterburner','stasis','wingman']));
-        else if (nexus && roll < .052) this.spawnPickup(e.x + rand(24,-24), e.y + rand(24,-24), 'power', 1, {rewardGlow:true});
-        else if (nexus && roll < .092) this.spawnPickup(e.x + rand(24,-24), e.y + rand(24,-24), 'shield', 22, {rewardGlow:true,label:'SHIELD'});
-        else if (nexus && roll < .122) this.spawnPickup(e.x + rand(24,-24), e.y + rand(24,-24), 'life', 18, {rewardGlow:true,label:'REPARACIÓN'});
-        else if (roll < .004 && this.wave >= 3) this.spawnPickup(e.x + rand(26,-26), e.y + rand(26,-26), 'nuke', 1);
-        else if (roll < .018) this.spawnPickup(e.x + rand(26,-26), e.y + rand(26,-26), 'power', 1);
-        else if (roll < .04) this.spawnPickup(e.x + rand(24,-24), e.y + rand(24,-24), 'shield', 18);
-        else if (roll < .055) this.spawnPickup(e.x + rand(24,-24), e.y + rand(24,-24), 'life', 14);
+        if (starter && roll < .004 && this.wave >= 4) this.spawnPickup(e.x + rand(26,-26), e.y + rand(26,-26), 'nuke', 1);
+        else if (starter && roll < .020) this.spawnPickup(e.x + rand(26,-26), e.y + rand(26,-26), 'power', 1);
+        else if (starter && roll < .048) this.spawnPickup(e.x + rand(24,-24), e.y + rand(24,-24), 'shield', 20);
+        else if (starter && roll < .064) this.spawnPickup(e.x + rand(24,-24), e.y + rand(24,-24), 'life', 16);
+        else if (nexus && roll < .030) this.spawnWorldTwoTacticalPrize(pick(['afterburner','stasis','wingman']));
+        else if (nexus && roll < .070) this.spawnPickup(e.x + rand(24,-24), e.y + rand(24,-24), 'power', 1, {rewardGlow:true});
+        else if (nexus && roll < .108) this.spawnPickup(e.x + rand(24,-24), e.y + rand(24,-24), 'shield', 22, {rewardGlow:true,label:'SHIELD'});
+        else if (nexus && roll < .140) this.spawnPickup(e.x + rand(24,-24), e.y + rand(24,-24), 'life', 18, {rewardGlow:true,label:'REPARACIÓN'});
+        else if (roll < .007 && this.wave >= 3) this.spawnPickup(e.x + rand(26,-26), e.y + rand(26,-26), 'nuke', 1);
+        else if (roll < .032) this.spawnPickup(e.x + rand(26,-26), e.y + rand(26,-26), 'power', 1);
+        else if (roll < .060) this.spawnPickup(e.x + rand(24,-24), e.y + rand(24,-24), 'shield', 18);
+        else if (roll < .078) this.spawnPickup(e.x + rand(24,-24), e.y + rand(24,-24), 'life', 14);
       }
       if (e.behavior === 'splitter' && !e.mini) for (let i = 0; i < 2; i++) this.spawnEnemy('corredor', true);
       if (e.virus > 0) for (const other of this.enemies) if (other !== e && Math.hypot(other.x - e.x, other.y - e.y) < 130) other.virus = Math.max(other.virus || 0, 1.2);
@@ -4056,7 +4151,8 @@
         item.autoDelay = Math.max(0, (item.autoDelay || 0) - dt);
         const d=Math.hypot(item.x-p.x,item.y-p.y);
         const activeMagnet=this.getPowerLevel('magnetism',true),magnetRange=p.magnet+activeMagnet*155;
-        const forceAuto=item.tacticalPurchase?false:(item.autoDelay<=0||d<magnetRange);
+        const manualPickup=!!(item.tacticalPurchase||item.recoveryDrop||item.hordeKit||item.exclusiveChoice);
+        const forceAuto=manualPickup?false:(item.autoDelay<=0||d<magnetRange);
         if (forceAuto) {
           const pull = item.type === 'power' || item.type === 'nuke' ? 800 : 610;
           item.x += ((p.x-item.x)/(d||1))*(pull+magnetRange*1.2)*dt;
@@ -4067,6 +4163,7 @@
         item.x = clamp(item.x, 18, this.w - 18);
         item.y = clamp(item.y, 18, this.h - 18);
         const collectD = Math.hypot(item.x - p.x, item.y - p.y);
+        if(item.life<=0&&manualPickup){const expiredIndex=this.pickups.indexOf(item);if(expiredIndex>=0)this.pickups.splice(expiredIndex,1);continue;}
         if (collectD < p.r + item.r + 12 || item.life <= 0) {
           if (item.type === 'coin') { this.run.coins += item.value; AudioFX.pickup(); }
           if (item.type === 'xp') { p.xp += item.value * .35; this.run.experience = (this.run.experience || 0) + Math.round(item.value); AudioFX.pickup(); }
@@ -4235,6 +4332,7 @@
           p.projectileSpeedBonus *= 1.006;
           p.speed *= 1.0035;
           p.baseSpeed = Math.max(p.baseSpeed || 0, p.speed);
+          p.nominalSpeed = Math.max(p.nominalSpeed || 0, p.baseSpeed, p.speed);
           if (p.level % 3 === 0) {
             p.maxShield += 2;
             p.shield = Math.min(p.maxShield, p.shield + 5);
@@ -4324,6 +4422,8 @@
     empowerPower(id, options = {}) {
       const pow = POWERS.find(p => p.id === id);
       if (!pow) return null;
+      this.recentPowerHistory=this.recentPowerHistory||[];
+      this.recentPowerHistory=[...this.recentPowerHistory.filter(x=>x!==id),id].slice(-10);
       if (options.skipLevelGain) this.powerLevels[id] = Math.max(1, this.powerLevels[id] || 0);
       else this.powerLevels[id] = (this.powerLevels[id] || 0) + 1;
       const activationState=this.markPowerActive(id, options.duration || POWER_ACTIVE_SECONDS[id] || 8);
@@ -4543,8 +4643,9 @@
       const p = this.player;
       p.hp = p.maxHp * .62;
       p.shield = p.maxShield * .62;
-      p.speed = Math.max(p.speed || 0, p.baseSpeed || 255);
-      p.baseSpeed = Math.max(p.baseSpeed || 0, p.speed);
+      const restoredSpeed=Math.max(p.nominalSpeed||0,p.baseSpeed||0,p.speed||0,255);
+      p.speed=restoredSpeed;p.baseSpeed=restoredSpeed;p.nominalSpeed=restoredSpeed;
+      p.recoverySpeedTimer=12;
       p.moveVx = 0; p.moveVy = 0;
       p.entryShieldTimer = Math.max(p.entryShieldTimer || 0, 5.2);
       p.entryShieldMax = Math.max(p.entryShieldMax || 0, 5.2);
@@ -4558,7 +4659,7 @@
       this.running = true;
       hideOverlays();
       this.spawnRecoveryPackage();
-      this.toast('❤️ REACTIVACIÓN', `Movilidad restaurada · recoge tu paquete de recuperación`);
+      this.toast('❤️ REACTIVACIÓN', `Velocidad restaurada +12s de impulso de recuperación · recoge tus poderes`);
       this.requestTacticalPrep('revive');
       AudioFX.music(this.mapIndex, !!this.bossActive, MAPS[this.mapIndex]?.family || 'zombie', this.bossActive?.phase || 1);
       requestAnimationFrame(t => { this.last = t; this.loop(t); });
@@ -4656,6 +4757,7 @@
         worldFourState:this.mapIndex===3?{...(this.worldFourState||{})}:null,
         worldFiveState:this.mapIndex===4?{...(this.worldFiveState||{})}:null,
         powerQueue:[...(this.powerQueue||[])],
+        recentPowerHistory:[...(this.recentPowerHistory||[])],
         extraLives: this.extraLives,
         nextLifeScore: this.nextLifeScore
       };
@@ -4679,6 +4781,7 @@
         powerActivity: this.powerActivity,
         activePowerSlots:this.activePowerSlots,
         powerQueue:this.powerQueue||[],
+        recentPowerHistory:this.recentPowerHistory||[],
         fusions:this.fusions,
         run: this.run,
         worldStage: this.worldStage,
@@ -4706,11 +4809,7 @@
     }
 
     updatePauseStats() {
-      els.pauseStats.innerHTML = `
-        <div><strong>${MAPS[this.mapIndex].name}</strong><small class="muted">Mundo actual</small></div>
-        <div><strong>Nivel ${this.wave}</strong><small class="muted">Progreso</small></div>
-        <div><strong>${this.run.kills}</strong><small class="muted">Zombies vencidos</small></div>
-        <div><strong>${Object.keys(this.powerLevels).length}</strong><small class="muted">Poderes activos</small></div>`;
+      if (els.pauseMiniContext) els.pauseMiniContext.textContent = `M${this.mapIndex + 1} · Nivel ${this.wave}`;
     }
 
     updateHud() {
@@ -6334,7 +6433,6 @@ ${JSON.stringify(snapshot, null, 2)}`;
     els.pendingBadge?.addEventListener('click', () => { if ((game.pendingLevelChoices || game.offerActive) && !game.paused) game.showCards(); });
     els.btnResume.addEventListener('click', () => game.togglePause(false));
     els.btnSaveRun.addEventListener('click', () => { game.saveRun(); game.updatePauseStats(); });
-    els.btnPauseShop.addEventListener('click', () => { game.saveRun(); showScreen('screenShop'); });
     els.btnRestartMap.addEventListener('click', () => { if (confirm('¿Reiniciar este mundo desde cero?')) game.start(game.mapIndex); });
     els.btnExitRun.addEventListener('click', () => { game.saveRun(); game.running = false; AudioFX.stopMusic(); hideOverlays(); showScreen('screenPortal'); });
     els.btnBuyLifeCoins?.addEventListener('click',()=>game.buyLife('coins'));

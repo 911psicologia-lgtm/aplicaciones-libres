@@ -1,3 +1,18 @@
+Rizoma Zombie Strike v1.7.5 — HUD vidas visible
+
+Rizoma Zombie Strike v1.7.4 — Flujo, velocidad y soporte táctico
+
+Novedades v1.7.4:
+- Vigilancia anti-bloqueo de progreso: si el contador se estanca, se reinsertan objetivos accesibles.
+- Enemigos que salen demasiado lejos del lienzo se reciclan dentro del área útil y dejan de bloquear el spawn.
+- Velocidad nominal permanente de la nave; reactivación restaura la movilidad real y añade 12 s de impulso de recuperación.
+- Recuperación conserva poderes activos, en cola y poderes recientes; mínimo de apoyo útil por mundo.
+- Poderes de recuperación, hordas y compras son manuales: ya no convergen/activan todos automáticamente.
+- Bomba, Impulsor y Ralentizador de hordas aparecen en posiciones tácticas aleatorias del lienzo.
+- Impulsor y Ralentizador garantizados también en Mundos 1 y 2 mediante soporte periódico.
+- Aumento moderado de frecuencia de poderes, shield y reparación.
+- Refuerzos blandos cuando el avance supera ~78 % y no hay eliminaciones durante varios segundos.
+
 Rizoma Zombie Strike v1.7.1 — 5 vidas + Mundo 2: Colonia Alfa / Nexo biotecnológico
 
 Versión SAFE para Cloudflare Pages, sin archivo _headers.

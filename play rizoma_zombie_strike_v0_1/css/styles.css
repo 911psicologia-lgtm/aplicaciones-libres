@@ -1031,3 +1031,104 @@ body.game-mode .tactical-cart{position:fixed;right:calc(50px + var(--safe-right)
 .tactical-shop-grid{grid-template-columns:1fr!important;gap:6px!important}.tactical-offer{padding:7px!important;grid-template-columns:30px minmax(0,1fr)!important;border-radius:12px!important}.tactical-offer-icon{width:30px!important;height:30px!important;border-radius:10px!important;font-size:1rem!important}.tactical-offer-title{font-size:.74rem!important}.tactical-offer-desc{font-size:.58rem!important;margin:1px 0 5px!important}.tactical-buy{padding:4px 6px!important;font-size:.58rem!important}.tactical-wallet{margin:5px 0 6px!important}.tactical-wallet span{padding:4px 7px!important;font-size:.63rem!important}.tactical-advisor{padding:6px 8px!important;margin-bottom:6px!important;font-size:.65rem!important}.tactical-shop-head{margin-bottom:5px!important}.tactical-shop-head h3{font-size:.92rem!important}.tactical-shop-footer{margin-top:7px!important;padding-top:7px!important}.tactical-shop-footer small{font-size:.58rem!important}.tactical-start{min-width:110px!important;padding:7px 9px!important;font-size:.68rem!important}
 @media(max-width:900px){body.game-mode .tactical-cart{right:calc(48px + var(--safe-right));top:calc(6px + var(--safe-top));height:30px;min-width:40px}.tactical-shop-overlay{top:calc(42px + var(--safe-top))!important;width:min(360px,calc(100vw - 12px))!important;right:calc(6px + var(--safe-right))!important}.tactical-shop-panel{max-height:66vh!important}}
 @media(max-width:560px){.tactical-shop-overlay{width:min(325px,calc(100vw - 10px))!important}.tactical-shop-panel{padding:8px!important}.tactical-advisor{display:none!important}.tactical-shop-head .eyebrow{display:none!important}.tactical-wallet{gap:4px!important}.tactical-wallet span{font-size:.57rem!important}.tactical-shop-footer small{display:none!important}}
+
+
+/* v1.7.3 — pausa minimalista */
+#pauseOverlay.pause-layer-minimal{
+  background:rgba(1,7,7,.30)!important;
+  backdrop-filter:blur(2px)!important;
+  padding:14px!important;
+  animation:pauseBackdropIn .14s ease both;
+}
+.pause-menu-minimal{
+  width:min(300px,calc(100vw - 28px));
+  padding:12px;
+  border-radius:20px;
+  background:rgba(3,17,15,.82);
+  border:1px solid rgba(97,255,200,.18);
+  box-shadow:0 18px 48px rgba(0,0,0,.34),0 0 24px rgba(97,255,200,.05);
+  backdrop-filter:blur(10px);
+  animation:pauseMiniIn .16s cubic-bezier(.2,.8,.2,1) both;
+}
+.pause-mini-head{
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  gap:12px;
+  padding:2px 4px 9px;
+}
+.pause-mini-head strong{
+  font-size:.82rem;
+  letter-spacing:.18em;
+  color:var(--green);
+}
+.pause-mini-head small{
+  font-size:.72rem;
+  color:rgba(232,255,248,.62);
+  font-weight:800;
+}
+.pause-actions-minimal{
+  display:grid;
+  gap:7px;
+}
+.pause-action{
+  width:100%;
+  min-height:42px;
+  border-radius:13px;
+  border:1px solid rgba(255,255,255,.09);
+  background:rgba(255,255,255,.045);
+  color:var(--text);
+  font-weight:850;
+  font-size:.9rem;
+  text-align:left;
+  padding:0 14px;
+  transition:transform .12s ease,border-color .12s ease,background .12s ease;
+}
+.pause-action:hover,.pause-action:focus-visible{
+  transform:translateX(2px);
+  border-color:rgba(97,255,200,.34);
+  background:rgba(97,255,200,.08);
+}
+.pause-action.primary{
+  text-align:center;
+  color:#03110f;
+  border-color:transparent;
+  background:linear-gradient(90deg,var(--green),var(--cyan));
+  box-shadow:0 8px 22px rgba(97,255,200,.12);
+}
+.pause-action.primary:hover,.pause-action.primary:focus-visible{
+  transform:translateY(-1px);
+  background:linear-gradient(90deg,var(--green),var(--cyan));
+}
+.pause-action.danger{
+  color:#ffd9dc;
+  border-color:rgba(255,107,115,.16);
+  background:rgba(255,107,115,.045);
+}
+.pause-action.danger:hover,.pause-action.danger:focus-visible{
+  border-color:rgba(255,107,115,.34);
+  background:rgba(255,107,115,.09);
+}
+@keyframes pauseMiniIn{from{opacity:0;transform:scale(.94) translateY(5px)}to{opacity:1;transform:none}}
+@keyframes pauseBackdropIn{from{opacity:0}to{opacity:1}}
+@media(max-width:600px){
+  .pause-menu-minimal{width:min(280px,calc(100vw - 22px));padding:10px;border-radius:18px}
+  .pause-action{min-height:40px;font-size:.86rem;border-radius:12px}
+  .pause-mini-head{padding-bottom:8px}
+}
+
+
+/* v1.7.5 — vidas siempre visibles en HUD */
+body.game-mode .hud-pill.lives-pill{display:flex!important;border-color:rgba(255,107,115,.28)!important;background:rgba(28,8,12,.58)!important;}
+body.game-mode .hud-pill.lives-pill strong{color:#ffb0b6!important;font-weight:900!important;}
+@media(max-width:760px){
+  body.game-mode .hud-pill.score-pill,
+  body.game-mode .hud-pill.coins-pill{display:none!important;}
+  body.game-mode .hud-pill.boss-approach,
+  body.game-mode .hud-pill.lives-pill{display:flex!important;}
+}
+@media(max-width:520px){
+  body.game-mode .hud-pill.boss-approach,
+  body.game-mode .hud-pill.lives-pill{display:flex!important;}
+  body.game-mode .hud-pill.lives-pill{padding:0 5px!important;min-width:36px!important;}
+}
