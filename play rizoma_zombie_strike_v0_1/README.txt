@@ -212,3 +212,22 @@ v1.8.0 — Selector Normal/Difícil. Normal conserva balance v1.7.6. Difícil: +
 
 
 v1.8.1 — Boss 2.0: cinco sigilos vectoriales propios sin emojis para jefes/reliquias/HUD; cinco familias de proyectiles de jefe (meteórico, espora biomecánica, voltaico, cuchilla escarlata, vacío); un ataque especial propio por jefe; música procedural original por jefe con capas y cambios por fase; fase crítica del Mundo 5 acelera el pulso musical; presentación de reliquia conquistada al completar el botín; iconografía de jefe reemplazada en mapa, progreso, repetición y resultado.
+
+
+v1.8.3 · PULIDO EVOLUTIVO / BOSS 2.2
+- Ataques especiales de jefes 1–5 ahora tienen telemetría previa visible antes de ejecutarse.
+- Daño visual progresivo de jefes: fracturas, pulsos y chispas según HP restante.
+- Fases musicales y ofensivas conservadas con mejor señalización.
+- Combos activan una Sobrecarga de Combo breve; dos o más combinaciones simultáneas generan SUPERCOMBO.
+- Evolución visual de la nave vinculada a la primera derrota de cada jefe mediante módulos de cañón, núcleo, motor y alas.
+- Mundos 3–5 usan tres estados visuales de recorrido mediante parallax, tintes y objetos ambientales progresivos.
+- Eventos raros controlados: cápsula tecnológica, convoy élite y frente de escombros con apoyo táctico.
+- Normal/Difícil, responsive horizontal y biblioteca futura 6–10 se conservan.
+
+
+v1.8.4 · PRUEBA NARRATIVA MUNDO 1
+- Selector CAMPAÑA / ASALTO.
+- Microcinemática de 3 mensajes para Mundo 1 con imagen episódica.
+- Botón Saltar historia.
+- Cierre narrativo tras superar Mundo 1 antes de entrar a Mundo 2.
+- Texto reducido para conservar legibilidad sobre fondos complejos.

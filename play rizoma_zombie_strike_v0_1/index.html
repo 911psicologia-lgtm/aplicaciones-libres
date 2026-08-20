@@ -8,14 +8,15 @@
   <meta name="apple-mobile-web-app-title" content="Niebla Verde" />
   <script>if(location.protocol !== "file:"){const m=document.createElement("link");m.rel="manifest";m.href="manifest.json";document.head.appendChild(m);}</script>
   <link rel="icon" href="assets/icon.svg" type="image/svg+xml" />
-  <title>Rizoma Zombie Strike — Boss 2.0 v1.8.1</title>
+  <title>Rizoma Zombie Strike — Historia Mundo 1 · v1.8.4</title>
   <link rel="preload" as="image" href="assets/ui/intro_poster_mobile.webp" media="(max-width: 1000px) and (orientation: landscape)" fetchpriority="high" />
   <link rel="preload" as="image" href="assets/boss2/sigil_w1.svg" />
   <link rel="preload" as="image" href="assets/boss2/sigil_w2.svg" />
   <link rel="preload" as="image" href="assets/boss2/sigil_w3.svg" />
   <link rel="preload" as="image" href="assets/boss2/sigil_w4.svg" />
   <link rel="preload" as="image" href="assets/boss2/sigil_w5.svg" />
-  <link rel="stylesheet" href="css/styles.css?v=1.8.1" />
+  <link rel="stylesheet" href="css/styles.css?v=1.8.4" />
+  <link rel="preload" as="image" href="assets/story/episode_01_protocol_zstrike.webp" fetchpriority="high" />
 </head>
 <body>
   <div id="app" class="app-shell">
@@ -28,7 +29,7 @@
         <span class="brand-mark">⬢</span>
         <div>
           <strong>Rizoma Zombie Strike</strong>
-          <small>Boss 2.0 · v1.8.1</small>
+          <small>Historia Mundo 1 · v1.8.4</small>
         </div>
       </div>
       <button id="btnSettings" class="icon-btn" title="Ajustes" aria-label="Ajustes">⚙</button>
@@ -72,6 +73,14 @@
               <button type="button" class="difficulty-btn hard" data-difficulty="hard"><strong>Difícil</strong><small>Más riesgo · más botín</small></button>
             </div>
             <small id="difficultyHint" class="difficulty-hint">Experiencia equilibrada actual</small>
+          </div>
+
+          <div class="play-mode-select" aria-label="Modo de juego">
+            <div class="play-mode-buttons">
+              <button type="button" class="play-mode-btn active" data-play-mode="story"><strong>CAMPAÑA</strong><small>Historia breve entre mundos</small></button>
+              <button type="button" class="play-mode-btn" data-play-mode="direct"><strong>ASALTO</strong><small>Directo al combate</small></button>
+            </div>
+            <small id="playModeHint" class="play-mode-hint">Prólogo y microescenas narrativas · siempre puedes saltarlas</small>
           </div>
 
           <div class="start-actions-main minimal">
@@ -185,6 +194,22 @@
       <p>RELIQUIA CONQUISTADA</p>
       <h2 id="relicName">Poder del jefe</h2>
       <small id="relicDesc"></small>
+    </div>
+
+
+    <div id="storyOverlay" class="story-overlay hidden" aria-live="polite" aria-modal="true" role="dialog">
+      <div class="story-stage">
+        <img id="storyImage" class="story-image" src="assets/story/episode_01_protocol_zstrike.webp" alt="Episodio 1 · Protocolo Z-Strike" />
+        <div class="story-veil"></div>
+        <button id="btnStorySkip" class="story-skip" type="button">Saltar historia</button>
+        <div class="story-copy">
+          <p id="storyKicker" class="story-kicker">CAMPAÑA · MUNDO 1</p>
+          <h2 id="storyTitle" class="story-title">PROTOCOLO Z-STRIKE</h2>
+          <p id="storyCaption" class="story-caption">ASTERION cayó.</p>
+          <div id="storyDots" class="story-dots" aria-hidden="true"></div>
+          <button id="btnStoryNext" class="story-next" type="button">Siguiente</button>
+        </div>
+      </div>
     </div>
 
       <section id="screenGame" class="screen game-screen">
@@ -321,6 +346,6 @@
     </div>
   </div>
 
-  <script src="js/game.js?v=1.8.1"></script>
+  <script src="js/game.js?v=1.8.4"></script>
 </body>
 </html>

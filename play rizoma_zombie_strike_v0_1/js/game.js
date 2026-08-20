@@ -1,7 +1,7 @@
 (() => {
   'use strict';
 
-  const VERSION = '1.8.1';
+  const VERSION = '1.8.4';
   const STORAGE_KEY = 'rizoma_zombie_strike_v0_3_state';
   const SAVE_KEY = 'rizoma_zombie_strike_v0_3_save';
   const clamp = (v, a, b) => Math.max(a, Math.min(b, v));
@@ -151,6 +151,22 @@
     { world:4, sigil:'assets/boss2/sigil_w4.svg', short:'Sello Astral', intro:'FIRMA DEL ECLIPSE', weapon:'Cuchillas escarlata', special:'Eclipse escarlata', color:'#ff5347', accent:'#ffba83', shot:'blade', music:{bpm:124, root:61.74, wave:'sawtooth', seq:[0,0,5,7,0,8,7,3]} },
     { world:5, sigil:'assets/boss2/sigil_w5.svg', short:'Fragmento del Vacío', intro:'FIRMA DE SINGULARIDAD', weapon:'Orbes de horizonte', special:'Colapso del horizonte', color:'#c05cff', accent:'#ff6248', shot:'void', music:{bpm:92, root:49, wave:'triangle', seq:[0,-5,0,2,-7,0,5,-2]} }
   ];
+  // Mundos 6–10: catálogo preparado, aún no activado en la campaña.
+  const FUTURE_BOSS2 = [
+    {world:6,id:'magnate_omega',name:'Magnate Omega',title:'Torre de la Necrored',asset:'assets/future/bosses/world6_magnate_omega.png',theme:'Ciudad tecnológica apocalíptica',color:'#ff5b38',accent:'#56c8ff',shot:'necro_laser',weapons:['Drones de asedio','Láseres de torreta','Misiles inteligentes','Campo EMP'],special:{id:'necrogrid_collapse',name:'Colapso de la Necrored',desc:'Torretas orbitales, corredores láser y descarga EMP telegráfica.'},relic:{id:'neural_core',name:'Núcleo Neural',desc:'Mejora apuntado, drones y transición de poderes en cola.',passive:{aimAssist:.08,droneDamage:.10,queueSpeed:.12}},music:{name:'Cyber Assault',bpm:120,root:55,wave:'sawtooth',seq:[0,0,7,3,10,7,5,3],phase4:.72},sound:{shot:[520,.065,'square',.020,-190],special:[65,98,147],impact:[115,.08,'sawtooth',.026,-45]}},
+    {world:7,id:'leviatan_abisal',name:'Leviatán Abisal',title:'Señor de las Profundidades',asset:'assets/future/bosses/world7_leviatan_abisal.png',theme:'Mar alienígena',color:'#28d9ff',accent:'#8dffcf',shot:'abyss_plasma',weapons:['Tentáculos de plasma','Medusas explosivas','Cardúmenes espiral','Burbujas gravitacionales'],special:{id:'living_tide',name:'Marea Viva',desc:'Corrientes alienígenas y medusas de plasma con rutas de evasión.'},relic:{id:'abyss_heart',name:'Corazón Abisal',desc:'Refuerza escudo y poderes de control.',passive:{shieldEffect:.09,slowEffect:.10,eliteHeal:.02}},music:{name:'Deep Current',bpm:96,root:43.65,wave:'triangle',seq:[0,5,2,7,-2,3,0,8],phase4:.78},sound:{shot:[330,.10,'sine',.021,-70],special:[49,73.42,110],impact:[82,.12,'triangle',.025,-18]}},
+    {world:8,id:'tardigrado_primigenio',name:'Tardígrado Primigenio',title:'Huésped Estelar',asset:'assets/future/bosses/world8_tardigrado_primigenio.png',theme:'Entrañas de monstruo espacial',color:'#ff5d45',accent:'#d54cff',shot:'organic_acid',weapons:['Glóbulos ácidos','Lanzadores orgánicos','Espinas vivas','Engendros parásitos'],special:{id:'mass_gestation',name:'Gestación Masiva',desc:'Cápsulas vivas que eclosionan gradualmente si no se destruyen.'},relic:{id:'organic_genesis',name:'Génesis Orgánica',desc:'Potencia nanorreparación y regeneración.',passive:{regen:.10,nanorepair:.12,bioResist:.10}},music:{name:'Bio Pulse',bpm:112,root:51.91,wave:'triangle',seq:[0,1,5,0,-2,3,7,1],phase4:.74},sound:{shot:[205,.095,'sawtooth',.023,-42],special:[52,77.78,103.83],impact:[138,.10,'triangle',.028,-55]}},
+    {world:9,id:'kaiser_infinito',name:'Kaiser Infinito',title:'Guardián de los Portales',asset:'assets/future/bosses/world9_kaiser_infinito.png',theme:'Anime–manga multiversal',color:'#ff3c63',accent:'#8a5cff',shot:'dimensional_slash',weapons:['Clones dimensionales','Katana energética','Shurikens astrales','Lanzas de universo'],special:{id:'multiverse_rupture',name:'Ruptura Multiverso',desc:'Portales alternos encadenan patrones con pausas breves.'},relic:{id:'multiverse_threads',name:'Hilos del Multiverso',desc:'Eco temporal, Fase espectral y combos más duraderos.',passive:{echoShot:.12,phaseDuration:.10,comboDuration:.08}},music:{name:'Kurai Sekai',bpm:138,root:65.41,wave:'square',seq:[0,7,12,10,3,15,12,7],phase4:.68},sound:{shot:[880,.045,'square',.017,-310],special:[73.42,110,164.81],impact:[260,.055,'sawtooth',.024,-120]}},
+    {world:10,id:'zeros_prime',name:'Z.E.R.O.S. Prime',title:'Singularidad Andro-Zombie',asset:'assets/future/bosses/world10_zeros_prime.png',theme:'Andro-zombies-galácticos',color:'#ff3232',accent:'#c22cff',shot:'zero_ray',weapons:['Hordas androides','Rayos de desintegración','Núcleos buscadores','Niebla de conversión'],special:{id:'final_singularity',name:'Singularidad Final',desc:'Horizonte de eventos con atracción gradual y fase crítica acelerada.'},relic:{id:'zero_core',name:'Núcleo Zero',desc:'Sincroniza reliquias anteriores y abre progresión posterior.',passive:{relicSynergy:.12,bossDamage:.10,powerReserve:.10}},music:{name:'End of Stars',bpm:92,root:41.20,wave:'sawtooth',seq:[0,-5,0,6,-2,7,3,-7],phase4:.55},sound:{shot:[66,.14,'sawtooth',.028,24],special:[36.71,55,82.41],impact:[72,.16,'square',.030,-20]}}
+  ];
+  const FUTURE_MINION_ARCHETYPES = {
+    6:[{tier:'small',family:'Drones de Ceniza',power:'Micro-láser y desplazamiento lateral coordinado',sound:{shot:[690,.035,'square',.012,-160],death:[170,.06,'sawtooth',.018,-65]}},{tier:'small',family:'Lancetas de Neón',power:'Carga corta que deja línea de energía evitable',sound:{shot:[540,.05,'square',.014,80],death:[145,.065,'triangle',.018,-38]}},{tier:'medium',family:'Centinelas Reactor',power:'Misil inteligente y blindaje frontal breve',sound:{shot:[260,.085,'sawtooth',.018,-75],death:[92,.12,'sawtooth',.024,-34]}}],
+    7:[{tier:'small',family:'Medusas Iónicas',power:'Descarga eléctrica encadenable',sound:{shot:[410,.08,'sine',.013,55],death:[230,.09,'sine',.018,-80]}},{tier:'small',family:'Rayas de Coral',power:'Paso rasante curvo y plasma acuoso',sound:{shot:[360,.07,'triangle',.014,-40],death:[190,.08,'triangle',.018,-45]}},{tier:'medium',family:'Crustáceos Abisales',power:'Caparazón temporal y mina gravitacional',sound:{shot:[150,.11,'triangle',.020,18],death:[78,.15,'sine',.025,-12]}}],
+    8:[{tier:'small',family:'Esporas Digestivas',power:'Ácido con pequeña expansión al morir',sound:{shot:[245,.07,'sawtooth',.014,-30],death:[135,.095,'triangle',.020,-55]}},{tier:'small',family:'Larvas Hemáticas',power:'Persecución breve y retirada vulnerable',sound:{shot:[315,.055,'triangle',.013,45],death:[165,.085,'sawtooth',.019,-70]}},{tier:'medium',family:'Macrófagos Devoradores',power:'Absorben proyectiles débiles y liberan espinas',sound:{shot:[120,.12,'sawtooth',.022,25],death:[68,.18,'triangle',.028,-18]}}],
+    9:[{tier:'small',family:'Shuriken Drones',power:'Tres cortes diagonales rápidos con pausa',sound:{shot:[940,.032,'square',.011,-260],death:[280,.05,'square',.016,-160]}},{tier:'small',family:'Fragmentos Ronin',power:'Dash dimensional con réplica falsa',sound:{shot:[720,.045,'triangle',.013,120],death:[245,.06,'sawtooth',.018,-105]}},{tier:'medium',family:'Mecha Ronin',power:'Katana de arco y shuriken rastreador',sound:{shot:[460,.065,'square',.017,-130],death:[115,.13,'sawtooth',.025,-52]}}],
+    10:[{tier:'small',family:'Andro-Carroñeros',power:'Ráfagas de formación y micro-núcleo buscador',sound:{shot:[610,.045,'square',.014,-210],death:[130,.075,'sawtooth',.020,-75]}},{tier:'small',family:'Necroides de Conversión',power:'Niebla que reduce precisión sin degradar velocidad base',sound:{shot:[185,.10,'triangle',.017,22],death:[98,.12,'triangle',.022,-35]}},{tier:'medium',family:'Centuriones Zero',power:'Haz telegráfico y escudo por pulsos',sound:{shot:[92,.13,'sawtooth',.024,50],death:[52,.20,'square',.030,-12]}}]
+  };
+  const futureBossMeta = world => FUTURE_BOSS2.find(b=>b.world===Number(world)) || FUTURE_BOSS2[0];
   const boss2Meta = index => BOSS2[Math.max(0, Math.min(BOSS2.length - 1, Number(index) || 0))];
   const bossSigilHtml = (index, cls='boss-sigil') => { const m=boss2Meta(index); return `<img class="${cls}" src="${m.sigil}" alt="" aria-hidden="true">`; };
 
@@ -457,7 +473,7 @@
   const DEFAULT_STATE = () => ({
     version: VERSION,
     activeProfileId: 'p_' + Date.now(),
-    settings: { sound: true, music: true, shake: true, reducedMotion: false, lowPerformance: false, difficulty: 'normal' },
+    settings: { sound: true, music: true, shake: true, reducedMotion: false, lowPerformance: false, difficulty: 'normal', playMode: 'story' },
     profiles: [{
       id: 'p_' + Date.now(),
       name: 'Jugador',
@@ -480,6 +496,7 @@
       levelProgress: { 1: 1 },
       ranking: [],
       preferredDifficulty: 'normal',
+      preferredPlayMode: 'story',
       lastSave: null
     }]
   });
@@ -510,6 +527,7 @@
     s.version = VERSION;
     s.settings = { ...d.settings, ...(s.settings || {}) };
     if (!DIFFICULTY_MODES[s.settings.difficulty]) s.settings.difficulty = 'normal';
+    if (!['story','direct'].includes(s.settings.playMode)) s.settings.playMode = 'story';
     s.profiles = Array.isArray(s.profiles) && s.profiles.length ? s.profiles : d.profiles;
     s.profiles.forEach(p => {
       p.unlockedAvatars = p.unlockedAvatars || ['explorador', 'centinela', 'eco'];
@@ -538,6 +556,7 @@
       p.worldProgression.mobilityTier = Math.max(p.worldProgression.mobilityTier || 0, clearedCount);
       p.worldProgression.rangeTier = Math.max(p.worldProgression.rangeTier || 0, clearedCount);
       p.preferredDifficulty = DIFFICULTY_MODES[p.preferredDifficulty] ? p.preferredDifficulty : (DIFFICULTY_MODES[s.settings.difficulty] ? s.settings.difficulty : 'normal');
+      p.preferredPlayMode = ['story','direct'].includes(p.preferredPlayMode) ? p.preferredPlayMode : 'story';
       p.levelProgress = p.levelProgress || { 1: 1 };
       for (const w of (p.completedMaps || [])) p.levelProgress[w] = 5;
       if (p.lastSave?.mapIndex != null) { const wn = p.lastSave.mapIndex + 1; p.levelProgress[wn] = Math.max(p.levelProgress[wn] || 1, p.lastSave.wave || 1); }
@@ -562,6 +581,10 @@
     bossSeqStep: 0,
     bossThemeIndex: 0,
     bossThemePhase: 1,
+    futureSeqTimer: null,
+    futureSeqStep: 0,
+    futureBossWorld: 6,
+    futureBossPhase: 1,
     ensure() {
       if (!state.settings.sound && !state.settings.music) return null;
       if (!this.ctx) this.ctx = new (window.AudioContext || window.webkitAudioContext)();
@@ -615,6 +638,12 @@
         [72,110,164],[96,144,216],[196,294,392],[82,123,164],[42,63,94]
       ][Math.max(0,Math.min(4,world))];this.chord(cues,.22,.045);
     },
+    futureBossShot(world=6){if(!state.settings.sound)return;const cfg=futureBossMeta(world),d=cfg.sound.shot;this.tone(...d);if(world===7)this.tone(d[0]*1.5,.035,'sine',.006,35);if(world===9)this.tone(d[0]*.5,.028,'triangle',.005,-70);if(world===10)this.tone(34,.16,'sine',.008,10);},
+    futureBossSpecial(world=6){if(!state.settings.sound)return;const cfg=futureBossMeta(world);this.chord(cfg.sound.special,.24,.045);if(world===6)this.tone(48,.30,'square',.012,22);if(world===7)this.tone(58,.34,'sine',.014,18);if(world===8)this.tone(74,.26,'triangle',.015,-20);if(world===9)this.tone(980,.055,'square',.010,-420);if(world===10)this.tone(31,.46,'sawtooth',.018,16);},
+    futureMinionShot(world=6,tier='small',familyIndex=0){if(!state.settings.sound)return;const list=FUTURE_MINION_ARCHETYPES[Number(world)]||FUTURE_MINION_ARCHETYPES[6],pool=list.filter(x=>x.tier===tier),cfg=(pool[familyIndex%Math.max(1,pool.length)]||list[0]);this.tone(...cfg.sound.shot);},
+    futureMinionDeath(world=6,tier='small',familyIndex=0){if(!state.settings.sound)return;const list=FUTURE_MINION_ARCHETYPES[Number(world)]||FUTURE_MINION_ARCHETYPES[6],pool=list.filter(x=>x.tier===tier),cfg=(pool[familyIndex%Math.max(1,pool.length)]||list[0]);this.tone(...cfg.sound.death);},
+    startFutureBossSequence(world=6,phase=1){if(!state.settings.music)return;clearInterval(this.futureSeqTimer);this.futureSeqTimer=null;this.futureSeqStep=0;this.futureBossWorld=Math.max(6,Math.min(10,Number(world)||6));this.futureBossPhase=Math.max(1,Math.min(4,Number(phase)||1));const cfg=futureBossMeta(this.futureBossWorld),phaseTempo=this.futureBossPhase>=4?(cfg.music.phase4||.68):(this.futureBossPhase>=3?.82:1),beat=60000/cfg.music.bpm/2*phaseTempo;const tick=()=>{if(!state.settings.music)return;const step=this.futureSeqStep++,seq=cfg.music.seq,n=seq[step%seq.length],lift=(this.futureBossPhase-1)*2,freq=cfg.music.root*Math.pow(2,(n+lift)/12),gain=.0065+this.futureBossPhase*.0013;this.musicTone(freq,.082,cfg.music.wave,gain,step%4===0?-10:0);if(step%4===0)this.musicTone(cfg.music.root/2,.18,'sine',.009+this.futureBossPhase*.0013,-6);if(this.futureBossWorld===6&&step%4===2)this.musicTone(freq*2,.035,'square',.0032,-90);if(this.futureBossWorld===7&&step%3===1)this.musicTone(freq*.75,.12,'sine',.0038,14);if(this.futureBossWorld===8&&step%2===0)this.musicTone(freq*1.5,.045,'triangle',.0035,-35);if(this.futureBossWorld===9&&step%2===1)this.musicTone(freq*2,.03,'square',.0036,-180);if(this.futureBossWorld===10&&step%8===6)this.musicTone(cfg.music.root*.5,.30,'sawtooth',.0055,9);};tick();this.futureSeqTimer=setInterval(tick,Math.max(130,beat));},
+    stopFutureBossSequence(){clearInterval(this.futureSeqTimer);this.futureSeqTimer=null;this.futureSeqStep=0;},
     startBossSequence(mapIndex=0,phase=1){
       if(!state.settings.music)return;clearInterval(this.bossSeqTimer);this.bossSeqTimer=null;this.bossSeqStep=0;this.bossThemeIndex=Math.max(0,Math.min(4,mapIndex));this.bossThemePhase=Math.max(1,phase||1);const cfg=boss2Meta(this.bossThemeIndex),phaseTempo=this.bossThemeIndex===4&&this.bossThemePhase>=4?.52:(this.bossThemePhase>=3?.86:1),beat=60000/cfg.music.bpm/2*phaseTempo;
       const tick=()=>{if(!state.settings.music)return;const step=this.bossSeqStep++,seq=cfg.music.seq,n=seq[step%seq.length],phaseLift=(this.bossThemePhase-1)*2;const freq=cfg.music.root*Math.pow(2,(n+phaseLift)/12);this.musicTone(freq,.085,cfg.music.wave,.0065+this.bossThemePhase*.0012,step%4===0?-8:0);if(step%4===0)this.musicTone(cfg.music.root/2,.15,'sine',.009+this.bossThemePhase*.0015,-8);if(this.bossThemeIndex===1&&step%3===1)this.musicTone(freq*1.5,.05,'sine',.0035,18);if(this.bossThemeIndex===2&&step%2===1)this.musicTone(freq*2,.035,'square',.0032,-80);if(this.bossThemeIndex===3&&step%4===2)this.musicTone(cfg.music.root*2,.045,'square',.004,-40);if(this.bossThemeIndex===4&&step%8===6)this.musicTone(cfg.music.root*.75,.25,'sine',.006,12);};tick();this.bossSeqTimer=setInterval(tick,Math.max(160,beat));
@@ -672,7 +701,7 @@
       if(boss&&this.bossSeqTimer){this.bossThemePhase=Math.max(1,phase||1);this.startBossSequence(this.bossThemeIndex,this.bossThemePhase);}
     },
     stopMusic() {
-      clearInterval(this.bossSeqTimer);this.bossSeqTimer=null;this.bossSeqStep=0;
+      clearInterval(this.bossSeqTimer);this.bossSeqTimer=null;this.bossSeqStep=0;clearInterval(this.futureSeqTimer);this.futureSeqTimer=null;this.futureSeqStep=0;
       try {
         if (this.musicGain && this.ctx) this.musicGain.gain.exponentialRampToValueAtTime(0.0001, this.ctx.currentTime + .15);
         if (this.padGain && this.ctx) this.padGain.gain.exponentialRampToValueAtTime(0.0001, this.ctx.currentTime + .15);
@@ -685,6 +714,8 @@
       this.padGain = null;
     }
   };
+
+  window.ZombieStrikeFuture = {bosses:FUTURE_BOSS2,minions:FUTURE_MINION_ARCHETYPES,boss:world=>futureBossMeta(world),previewBoss(world=6,phase=1){AudioFX.stopMusic();AudioFX.futureBossSpecial(world);AudioFX.startFutureBossSequence(world,phase);return futureBossMeta(world);},stopPreview(){AudioFX.stopFutureBossSequence();},bossShot(world=6){AudioFX.futureBossShot(world);},minionShot(world=6,tier='small',family=0){AudioFX.futureMinionShot(world,tier,family);},minionDeath(world=6,tier='small',family=0){AudioFX.futureMinionDeath(world,tier,family);}};
 
   class Game {
     constructor() {
@@ -1413,6 +1444,8 @@
         avatar,
         shipParts: { core: 0, wings: 0, cannon: 0, engine: 0 },
         shotTier: 0,
+        morphTier: p.morphTier || (1 + Math.min(5,(p.completedMaps||[]).length)),
+        shipParts: { core:0,wings:0,cannon:0,engine:0,...(p.shipParts||{}) },
         projectileSpeedBonus: 1,
         aimAssist: 0
       };
@@ -1462,6 +1495,7 @@
       p.pulseTimer -= dt;
       p.phaseTimer -= dt;
       p.bossDrive = Math.max(0, (p.bossDrive || 0) - dt);
+      p.comboSurge = Math.max(0, (p.comboSurge || 0) - dt);
       p.cloak = Math.max(0, (p.cloak || 0) - dt);
       p.entryShieldTimer = Math.max(0, (p.entryShieldTimer || 0) - dt);
       p.recoveryGraceTimer = Math.max(0, (p.recoveryGraceTimer || 0) - dt);
@@ -1472,6 +1506,7 @@
       this.updateBossLootPhase(dt);
       this.ensureProgressFlow(dt);
       this.ensureTacticalPowerSupport(dt);
+      this.updateRareEvents(dt);
 
       const regen = p.regen * dt;
       if (regen > 0 && p.hp < p.maxHp) p.hp = Math.min(p.maxHp, p.hp + regen);
@@ -1827,12 +1862,25 @@
     syncActiveCombos(){
       const prev=this.activeCombos||{},next={};
       for(const f of FUSIONS)if(f.requires.every(id=>this.isPowerActive(id)))next[f.id]=true;
+      let activated=0;
       for(const id of Object.keys(next))if(!prev[id]){
+        activated++;
         const f=FUSIONS.find(x=>x.id===id);
-        this.toast('⚡ COMBO ACTIVO',`${f?.icon||'⚡'} ${f?.name||id}`);
-        if (this.player) this.particles.push({type:'ring',x:this.player.x,y:this.player.y,r:18,maxR:118,life:.46,max:.46,color:'#ffd56a'});
+        this.toast('COMBO ACTIVO',`${f?.name||id}`);
+        if (this.player) {
+          this.player.comboSurge=Math.max(this.player.comboSurge||0,3.8);
+          this.particles.push({type:'ring',x:this.player.x,y:this.player.y,r:18,maxR:118,life:.46,max:.46,color:'#ffd56a'});
+          this.particles.push({type:'ring',x:this.player.x,y:this.player.y,r:26,maxR:152,life:.58,max:.58,color:'#c391ff'});
+        }
         this.flash=Math.max(this.flash,.38);this.shake=Math.max(this.shake,3);
         AudioFX.chord([523.25,659.25,783.99],.16,.04);
+      }
+      const comboCount=Object.keys(next).length;
+      if(this.player&&comboCount>=2&&(activated>0||Object.keys(prev).length<2)){
+        this.player.comboSurge=Math.max(this.player.comboSurge||0,5.2);
+        this.player.shield=Math.min(this.player.maxShield,this.player.shield+this.player.maxShield*.08);
+        this.toast('SUPERCOMBO',`${comboCount} combinaciones sincronizadas`);
+        this.flash=Math.max(this.flash,.52);this.shake=Math.max(this.shake,4.5);
       }
       this.activeCombos=next;
     }
@@ -2363,7 +2411,7 @@
       const bounce = this.getPowerLevel('bounce', true);
       const virus = this.getPowerLevel('virus', true);
       const overdrive=this.getPowerLevel('overdrive',true);
-      const drive=(p.bossDrive>0?1.42:1)*(overdrive?(1.16+overdrive*.018):1);
+      const drive=(p.bossDrive>0?1.42:1)*(overdrive?(1.16+overdrive*.018):1)*(p.comboSurge>0?1.13:1);
       const bossBonus = target.boss ? 1.22 : 1;
       const dmg = p.damage * (1 + triple * .05 + pierce * .04 + voidray * .045) * drive * bossBonus;
       const speed = 560 + pierce * 45;
@@ -2375,7 +2423,7 @@
       shots.forEach(off => this.addBullet(p.x, p.y, a + off, speed * (p.projectileSpeedBonus || 1), dmg*(this.comboActive('chispa')?1.12:1), { pierce: 1 + pierce + (this.comboActive('lanza') ? 2 : 0) + (this.comboActive('tridente') ? 2 : 0), fire:comboFire, ice, bounce:comboBounce, virus, color: p.avatar.color, homing: Math.random() < (p.aimAssist || 0), glow: p.shotTier || 0 }));
       if (laser || this.comboActive('prisma')) this.fireLaser(a, dmg * (.42 + laser * .16), this.comboActive('prisma') ? 3 : 1, this.comboActive('criotemporal'));
       if (voidray) this.fireLaserFrom(p.x, p.y, a, dmg * (.58 + voidray * .13)*(this.comboActive('nulidad')?1.28:1), '#c391ff');
-      p.fireTimer = Math.max(55,(p.fireDelay-triple*12-laser*8-voidray*6)*(p.bossDrive>0?.72:1)*(overdrive?.78:1));
+      p.fireTimer = Math.max(55,(p.fireDelay-triple*12-laser*8-voidray*6)*(p.bossDrive>0?.72:1)*(overdrive?.78:1)*(p.comboSurge>0?.88:1));
       AudioFX.shoot();
     }
 
@@ -3700,6 +3748,8 @@
         t: 0,
         attack: this.mapIndex === 0 ? 2.55 : (this.mapIndex === 1 ? 2.28 : (this.mapIndex===2?1.95:(this.mapIndex===3?1.88:1.82))),
         specialCd: this.mapIndex === 0 ? 6.6 : (this.mapIndex === 1 ? 6.0 : (this.mapIndex===2?5.3:(this.mapIndex===3?5.0:4.6))),
+        specialTelegraph: 0,
+        specialTelegraphMax: 0,
         phase: 1,
         alpha: 1,
         shield: shieldBase,
@@ -3864,7 +3914,13 @@
           e.phase = e.hp < e.baseHp * .28 ? 4 : (e.hp < e.baseHp * .54 ? 3 : (e.hp < e.baseHp * .78 ? 2 : 1));
           e.specialCd -= dt;
           this.bossPattern(e, dt);
-          if (e.specialCd <= 0) this.triggerBossSpecial(e);
+          if (e.specialCd <= 0) {
+            if ((e.specialTelegraph || 0) <= 0) this.startBossTelegraph(e);
+            else {
+              e.specialTelegraph = Math.max(0, e.specialTelegraph - dt);
+              if (e.specialTelegraph <= 0) this.triggerBossSpecial(e);
+            }
+          }
           bossHandled = this.updateBossMotion(e, dt);
         }
         if (!bossHandled) {
@@ -3901,6 +3957,66 @@
         }
         if (e.hp <= 0) this.killEnemy(e, i);
       }
+    }
+
+    startBossTelegraph(b) {
+      if (!b || !b.boss) return;
+      const meta = boss2Meta(this.mapIndex);
+      const base = [1.12,1.18,.92,1.08,1.28][this.mapIndex] || 1.05;
+      b.specialTelegraphMax = base + Math.max(0, 4-(b.phase||1))*.04;
+      b.specialTelegraph = b.specialTelegraphMax;
+      b.telegraphPulse = 0;
+      this.toast('CARGA DEL JEFE', meta.special);
+      const root = meta.music?.root || 82;
+      AudioFX.chord([root*1.5,root*2,root*2.5],.09,.035);
+    }
+
+    drawBossTelegraph(ctx,e) {
+      const remain=e?.specialTelegraph||0,max=e?.specialTelegraphMax||1;
+      if(remain<=0)return;
+      const meta=boss2Meta(this.mapIndex),t=1-clamp(remain/max,0,1),pulse=.72+Math.sin(now()*.018)*.18;
+      ctx.save();
+      ctx.globalAlpha=.22+t*.42;
+      ctx.strokeStyle=meta.accent||meta.color;ctx.lineWidth=2.2+t*2.2;ctx.shadowBlur=18+t*20;ctx.shadowColor=meta.color;
+      ctx.beginPath();ctx.arc(0,0,e.r*(1.55+t*.62+pulse*.08),0,Math.PI*2);ctx.stroke();
+      ctx.globalAlpha=.12+t*.25;ctx.strokeStyle=meta.color;
+      const spokes=this.mapIndex===4?8:(this.mapIndex===3?6:4);
+      for(let i=0;i<spokes;i++){const a=(Math.PI*2/spokes)*i+now()*.0016*(i%2?1:-1);ctx.beginPath();ctx.moveTo(Math.cos(a)*e.r*.7,Math.sin(a)*e.r*.7);ctx.lineTo(Math.cos(a)*e.r*(1.9+t*.35),Math.sin(a)*e.r*(1.9+t*.35));ctx.stroke();}
+      if(this.mapIndex===3||this.mapIndex===4){const p=this.player;if(p){const a=Math.atan2(p.y-e.y,p.x-e.x);ctx.globalAlpha=.16+t*.28;ctx.setLineDash([7,7]);ctx.beginPath();ctx.moveTo(0,0);ctx.lineTo(Math.cos(a)*Math.max(this.w,this.h),Math.sin(a)*Math.max(this.w,this.h));ctx.stroke();ctx.setLineDash([]);}}
+      ctx.restore();
+    }
+
+    drawBossDamageOverlay(ctx,e,hpRatio) {
+      if(!e?.boss||hpRatio>.78)return;
+      const meta=boss2Meta(this.mapIndex),damage=1-hpRatio,t=now()*.001;
+      ctx.save();
+      ctx.globalAlpha=clamp((damage-.18)*.48,.06,.38);ctx.strokeStyle=hpRatio<.3?'#fff0d0':meta.accent;ctx.lineWidth=1.3+damage*1.8;ctx.shadowBlur=10;ctx.shadowColor=meta.color;
+      const cracks=hpRatio<.3?7:(hpRatio<.54?5:3);
+      for(let i=0;i<cracks;i++){const a=(Math.PI*2/cracks)*i+.55;const r0=e.r*(.25+(i%3)*.13),r1=e.r*(.72+(i%2)*.22);ctx.beginPath();ctx.moveTo(Math.cos(a)*r0,Math.sin(a)*r0);ctx.lineTo(Math.cos(a+.12*Math.sin(t+i))*r1,Math.sin(a+.12*Math.sin(t+i))*r1);ctx.stroke();}
+      if(hpRatio<.54){ctx.globalAlpha=.22+Math.sin(t*10)*.07;ctx.fillStyle=meta.color;for(let i=0;i<(hpRatio<.3?4:2);i++){const a=t*(.45+i*.08)+i*2.3;ctx.beginPath();ctx.arc(Math.cos(a)*e.r*.72,Math.sin(a*1.17)*e.r*.55,2.2+(i%2),0,Math.PI*2);ctx.fill();}}
+      ctx.restore();
+    }
+
+    updateRareEvents(dt) {
+      if(this.bossActive||this.bossLootPhase?.active||this.cardPause||this.paused)return;
+      this.rareEventTimer=(this.rareEventTimer??rand(34,24))-dt;
+      if(this.rareEventTimer>0)return;
+      const cb=this.getCombatBounds(),hard=this.isHardMode(),roll=Math.random();
+      if(roll<.34){
+        const p=this.player,ids=['shield','afterburner','stasis'];
+        const power=pick(['torpedo','pierce','nanorepair','wingman','pulse']);
+        const pts=[[-95,-55],[90,-35],[0,82]];
+        pts.forEach((d,i)=>this.spawnPickup(clamp(p.x+d[0],cb.left+28,cb.right-28),clamp(p.y+d[1],cb.top+28,cb.bottom-28),i===0?'shield':'power',i===0?22:1,{powerId:i===1?power:ids[i],rewardGlow:true,label:i===0?'CACHE SHIELD':(i===1?'TECNOLOGÍA RARA':'IMPULSO TÁCTICO'),powerDuration:10.5,ttl:20}));
+        this.toast('SEÑAL RARA','Cápsula tecnológica detectada');
+      } else if(roll<.67){
+        const count=hard?5:4;for(let i=0;i<count;i++){this.spawnEnemy(pick(this.enemyPool()),true);const e=this.enemies[this.enemies.length-1];if(e&&!e.boss){e.hp*=1.18;e.baseHp=e.hp;e.score=Math.ceil((e.score||20)*1.55);e.coins=Math.ceil((e.coins||3)*1.45);e.rareConvoy=true;}}
+        this.toast('CONVOY ÉLITE','Recompensa aumentada');
+      } else {
+        if(this.mapIndex===2)this.spawnWorldThreeHazard(hard?3:2,true);else if(this.mapIndex===3)this.spawnWorldFourHazard(hard?3:2,true);else if(this.mapIndex===4)this.spawnWorldFiveHazard(hard?3:2,true);else this.spawnMeteorRain(hard?4:3,true);
+        this.spawnHordeEmergencyKit();
+        this.toast('FRENTE DE ESCOMBROS','Meteoros y apoyo táctico');
+      }
+      this.rareEventTimer=rand(hard?36:48,hard?25:34);
     }
 
     fireBossProjectile(b,angle,speed,damage,shape,color,opts={}){
@@ -4679,6 +4795,11 @@
         p.worldProgression.accuracyTier = Math.min(5, (p.worldProgression.accuracyTier || 0) + 1);
         p.worldProgression.mobilityTier = Math.min(5, (p.worldProgression.mobilityTier || 0) + 1);
         p.worldProgression.rangeTier = Math.min(5, (p.worldProgression.rangeTier || 0) + 1);
+        p.shipParts = { core:0,wings:0,cannon:0,engine:0,...(p.shipParts||{}) };
+        const evolutionOrder=['cannon','core','engine','wings','core'];
+        const part=evolutionOrder[this.mapIndex]||'core';
+        p.shipParts[part]=Math.min(6,(p.shipParts[part]||0)+(this.mapIndex===4?2:1));
+        p.morphTier=Math.min(6,1+(p.completedMaps||[]).length+1);
       }
       const rewards = [
         { id:'world1Core', name:'Núcleo Meteórico', desc:'Se hereda: refuerza el escudo y convoca impactos meteóricos automáticos.' },
@@ -5020,8 +5141,8 @@
       const visible = activePowers.slice(0, visibleLimit);
       const overflow = Math.max(0, activePowers.length - visible.length);
       const statusChips = [];
-      if ((this.player.entryShieldTimer || 0) > 0) statusChips.push(`<div class="power-chip active-power selected" title="Escudo de entrada"><span>🛡️</span><small>${Math.ceil(this.player.entryShieldTimer)}</small></div>`);
-      if ((this.player.shotTier || 0) > 0) statusChips.push(`<div class="power-chip active-power relic" title="Arma base permanente: más daño, alcance, velocidad y precisión"><span>🔫</span><small>MK${1 + (this.player.shotTier || 0)}</small></div>`);
+      if ((this.player.entryShieldTimer || 0) > 0) statusChips.push(`<div class="power-chip active-power selected" title="Escudo de entrada"><span>◈</span><small>${Math.ceil(this.player.entryShieldTimer)}</small></div>`);
+      if ((this.player.shotTier || 0) > 0) statusChips.push(`<div class="power-chip active-power relic" title="Arma base permanente: más daño, alcance, velocidad y precisión"><span>⇈</span><small>MK${1 + (this.player.shotTier || 0)}</small></div>`);
       if(this.mapIndex>0&&currentProfile().relics?.world1Core)statusChips.push(`<div class="power-chip active-power relic" title="Núcleo Meteórico heredado">${bossSigilHtml(0,'relic-chip-sigil')}<small>R1</small></div>`);
       if(this.mapIndex>1&&currentProfile().relics?.world2Spore)statusChips.push(`<div class="power-chip active-power relic" title="Matriz de Convergencia heredada">${bossSigilHtml(1,'relic-chip-sigil')}<small>R2</small></div>`);
       if(this.mapIndex>2&&currentProfile().relics?.world3Inferno)statusChips.push(`<div class="power-chip active-power relic" title="Corazón Ígneo heredado">${bossSigilHtml(2,'relic-chip-sigil')}<small>R3</small></div>`);
@@ -5031,8 +5152,8 @@
         const allyLife = Math.max(...inheritedAllies.map(d => d.life || 0));
         statusChips.push(`<div class="power-chip active-power" title="Naves aliadas heredando el poder activo"><span>🛸${inheritedAllies.length}</span><small>${Math.max(1,Math.ceil(allyLife))}</small></div>`);
       }
-      const comboChips=Object.keys(this.activeCombos||{}).slice(0,this.isSmallScreen?1:2).map(id=>{const f=FUSIONS.find(x=>x.id===id);return `<div class="power-chip active-power combo" title="COMBO: ${f?.name||id}">${f?.icon||'⚡'}<small>C</small></div>`;}).join('');
-      const queueChips=(this.powerQueue||[]).slice(0,this.isSmallScreen?1:3).map((q,i)=>{const pow=POWERS.find(p=>p.id===q.id);return `<div class="power-chip queued" title="COLA ${i+1}: ${pow?.name||q.id}">${pow?.icon||'⏳'}<small>${i+1}</small></div>`;}).join('');
+      const comboChips=Object.keys(this.activeCombos||{}).slice(0,this.isSmallScreen?1:2).map(id=>{const f=FUSIONS.find(x=>x.id===id);return `<div class="power-chip active-power combo" title="COMBO: ${f?.name||id}">${f?.icon||'◆'}<small>C</small></div>`;}).join('');
+      const queueChips=(this.powerQueue||[]).slice(0,this.isSmallScreen?1:3).map((q,i)=>{const pow=POWERS.find(p=>p.id===q.id);return `<div class="power-chip queued" title="COLA ${i+1}: ${pow?.name||q.id}">${pow?.icon||'◇'}<small>${i+1}</small></div>`;}).join('');
       els.powerDock.innerHTML = statusChips.join('') + visible.map(([id, secs]) => {
         const pow = POWERS.find(p => p.id === id);
         const time = Math.max(1, Math.ceil(secs));
@@ -5200,25 +5321,28 @@
         return;
       }
       if(this.mapIndex===2){
-        const level=clamp(this.wave,1,5),drift=now()*.00024,bg=this.getAsset('world3BgSpeed'),bossBg=this.getAsset('world3BossBg'),bossSprite=this.getAsset('bossWorld3'),bossPct=this.getBossApproachPercent();
-        if(bg)this.drawImageCover(ctx,bg,0,0,this.w,this.h,{alpha:this.bossActive?.18:.82,scale:1.04,offsetX:Math.sin(drift)*8,offsetY:Math.cos(drift*.8)*4});
+        const level=clamp(this.wave,1,5),stage=level<=2?0:(level<=4?1:2),drift=now()*.00024,bg=this.getAsset('world3BgSpeed'),bossBg=this.getAsset('world3BossBg'),bossSprite=this.getAsset('bossWorld3'),bossPct=this.getBossApproachPercent();
+        if(bg)this.drawImageCover(ctx,bg,0,0,this.w,this.h,{alpha:this.bossActive?.18:(.80+stage*.025),scale:1.035+stage*.025,offsetX:Math.sin(drift*(1+stage*.18))* (8+stage*5),offsetY:Math.cos(drift*.8)*(4+stage*2)});
         if(bossBg&&(level===5||this.bossActive))this.drawImageCover(ctx,bossBg,0,0,this.w,this.h,{alpha:this.bossActive?.88:(.12+bossPct*.0035),scale:1.06,offsetX:Math.cos(drift*.7)*7,offsetY:Math.sin(drift*.5)*4});
         if(bossSprite&&level>=3&&!this.bossActive){ctx.save();const ww=this.w*(.07+level*.018),hh=ww*(bossSprite.naturalHeight/bossSprite.naturalWidth);ctx.globalAlpha=.018+level*.012;ctx.filter='brightness(.38) saturate(.72)';ctx.drawImage(bossSprite,this.w*(.74-level*.02),this.h*.07,ww,hh);ctx.restore();}
-        ctx.save();const tint=ctx.createLinearGradient(0,0,0,this.h);tint.addColorStop(0,'rgba(32,108,72,.08)');tint.addColorStop(1,'rgba(2,12,10,.18)');ctx.fillStyle=tint;ctx.fillRect(0,0,this.w,this.h);ctx.restore();return;
+        if(stage>0){const keys=stage===1?['world3Hazard2','world3Hazard5']:['world3Hazard7','world3Hazard9'];keys.forEach((k,i)=>{const img=this.getAsset(k);if(img){ctx.save();ctx.globalAlpha=.055+stage*.025;const sz=this.w*(.08+i*.035);ctx.drawImage(img,this.w*(i?.72:.11)+Math.sin(drift*4+i)*18,this.h*(i?.14:.68),sz,sz);ctx.restore();}});}
+        ctx.save();const tint=ctx.createLinearGradient(0,0,0,this.h);tint.addColorStop(0,stage===2?'rgba(76,166,94,.13)':'rgba(32,108,72,.08)');tint.addColorStop(1,stage===2?'rgba(6,20,14,.25)':'rgba(2,12,10,.18)');ctx.fillStyle=tint;ctx.fillRect(0,0,this.w,this.h);ctx.restore();return;
       }
       if(this.mapIndex===3){
-        const level=clamp(this.wave,1,5),drift=now()*.00022,bg=this.getAsset('world4BgCity'),bossBg=this.getAsset('world4BossBg'),bossSprite=this.getAsset('bossWorld4'),bossPct=this.getBossApproachPercent();
-        if(bg)this.drawImageCover(ctx,bg,0,0,this.w,this.h,{alpha:this.bossActive?.16:.84,scale:1.05,offsetX:Math.sin(drift)*10,offsetY:Math.cos(drift*.7)*5});
+        const level=clamp(this.wave,1,5),stage=level<=2?0:(level<=4?1:2),drift=now()*.00022,bg=this.getAsset('world4BgCity'),bossBg=this.getAsset('world4BossBg'),bossSprite=this.getAsset('bossWorld4'),bossPct=this.getBossApproachPercent();
+        if(bg)this.drawImageCover(ctx,bg,0,0,this.w,this.h,{alpha:this.bossActive?.16:(.82+stage*.025),scale:1.045+stage*.025,offsetX:Math.sin(drift*(1+stage*.2))*(10+stage*5),offsetY:Math.cos(drift*.7)*(5+stage*2)});
         if(bossBg&&(level===5||this.bossActive))this.drawImageCover(ctx,bossBg,0,0,this.w,this.h,{alpha:this.bossActive?.90:(.10+bossPct*.004),scale:1.07,offsetX:Math.cos(drift*.7)*8,offsetY:Math.sin(drift*.5)*5});
         if(bossSprite&&level>=3&&!this.bossActive){ctx.save();const ww=this.w*(.07+level*.018),hh=ww*(bossSprite.naturalHeight/bossSprite.naturalWidth);ctx.globalAlpha=.02+level*.012;ctx.filter='brightness(.38) saturate(.8)';ctx.drawImage(bossSprite,this.w*(.73-level*.018),this.h*.08,ww,hh);ctx.restore();}
-        ctx.save();const tint=ctx.createLinearGradient(0,0,0,this.h);tint.addColorStop(0,'rgba(124,28,26,.09)');tint.addColorStop(1,'rgba(24,6,6,.20)');ctx.fillStyle=tint;ctx.fillRect(0,0,this.w,this.h);ctx.restore();return;
+        if(stage>0){const keys=stage===1?['world4Hazard2','world4Hazard6']:['world4Hazard7','world4Hazard9'];keys.forEach((k,i)=>{const img=this.getAsset(k);if(img){ctx.save();ctx.globalAlpha=.05+stage*.028;const sz=this.w*(.075+i*.04);ctx.drawImage(img,this.w*(i?.76:.08)+Math.cos(drift*3+i)*16,this.h*(i?.18:.66),sz,sz);ctx.restore();}});}
+        ctx.save();const tint=ctx.createLinearGradient(0,0,0,this.h);tint.addColorStop(0,stage===2?'rgba(182,48,30,.15)':'rgba(124,28,26,.09)');tint.addColorStop(1,stage===2?'rgba(38,5,4,.27)':'rgba(24,6,6,.20)');ctx.fillStyle=tint;ctx.fillRect(0,0,this.w,this.h);ctx.restore();return;
       }
       if(this.mapIndex===4){
-        const level=clamp(this.wave,1,5),drift=now()*.00020,bg=this.getAsset('world5BgCave'),bossBg=this.getAsset('world5BossBg'),bossSprite=this.getAsset('bossWorld5'),bossPct=this.getBossApproachPercent();
-        if(bg)this.drawImageCover(ctx,bg,0,0,this.w,this.h,{alpha:this.bossActive?.15:.86,scale:1.05,offsetX:Math.sin(drift)*9,offsetY:Math.cos(drift*.7)*5});
+        const level=clamp(this.wave,1,5),stage=level<=2?0:(level<=4?1:2),drift=now()*.00020,bg=this.getAsset('world5BgCave'),bossBg=this.getAsset('world5BossBg'),bossSprite=this.getAsset('bossWorld5'),bossPct=this.getBossApproachPercent();
+        if(bg)this.drawImageCover(ctx,bg,0,0,this.w,this.h,{alpha:this.bossActive?.15:(.84+stage*.025),scale:1.045+stage*.028,offsetX:Math.sin(drift*(1+stage*.2))*(9+stage*5),offsetY:Math.cos(drift*.7)*(5+stage*2)});
         if(bossBg&&(level===5||this.bossActive))this.drawImageCover(ctx,bossBg,0,0,this.w,this.h,{alpha:this.bossActive?.92:(.12+bossPct*.004),scale:1.07,offsetX:Math.cos(drift*.7)*8,offsetY:Math.sin(drift*.5)*5});
         if(bossSprite&&level>=3&&!this.bossActive){ctx.save();const ww=this.w*(.075+level*.018),hh=ww*(bossSprite.naturalHeight/bossSprite.naturalWidth);ctx.globalAlpha=.022+level*.013;ctx.filter='brightness(.36) saturate(.84)';ctx.drawImage(bossSprite,this.w*(.72-level*.02),this.h*.07,ww,hh);ctx.restore();}
-        ctx.save();const tint=ctx.createLinearGradient(0,0,0,this.h);tint.addColorStop(0,'rgba(74,32,118,.09)');tint.addColorStop(1,'rgba(6,4,18,.24)');ctx.fillStyle=tint;ctx.fillRect(0,0,this.w,this.h);ctx.restore();return;
+        if(stage>0){const keys=stage===1?['world5Hazard3','world5Hazard5']:['world5Hazard7','world5Hazard9'];keys.forEach((k,i)=>{const img=this.getAsset(k);if(img){ctx.save();ctx.globalAlpha=.05+stage*.03;const sz=this.w*(.08+i*.045);ctx.drawImage(img,this.w*(i?.73:.10)+Math.sin(drift*3+i)*18,this.h*(i?.15:.64),sz,sz);ctx.restore();}});}
+        ctx.save();const tint=ctx.createLinearGradient(0,0,0,this.h);tint.addColorStop(0,stage===2?'rgba(112,44,178,.15)':'rgba(74,32,118,.09)');tint.addColorStop(1,stage===2?'rgba(9,3,28,.30)':'rgba(6,4,18,.24)');ctx.fillStyle=tint;ctx.fillRect(0,0,this.w,this.h);ctx.restore();return;
       }
     }
 
@@ -5783,6 +5907,8 @@
             ctx.globalAlpha = .45 + (e.alpha ?? 1) * .2;
             for (let j=0;j<Math.min(8,sides);j++) { const a = (Math.PI*2/sides)*j + e.t*.4; ctx.beginPath(); ctx.moveTo(Math.cos(a)*e.r*.45, Math.sin(a)*e.r*.45); ctx.lineTo(Math.cos(a)*(e.r*1.35), Math.sin(a)*(e.r*1.35)); ctx.stroke(); }
           }
+          this.drawBossDamageOverlay(ctx,e,hp);
+          this.drawBossTelegraph(ctx,e);
         } else if ((this.mapIndex>=1&&this.mapIndex<=4)&&e.spriteKey) this.drawEnemyShip(ctx,e,e.spriteKey);
         else if (e.behavior === 'mirror') this.drawEnemyShip(ctx, e, 'mirrorShip');
         else if (this.mapIndex === 0 && ['cazador','corredor','esquivo','mosquito'].includes(e.id)) this.drawEnemyShip(ctx, e, 'enemyBiomechBlue');
@@ -6020,6 +6146,13 @@
         ctx.beginPath(); ctx.arc(0, 0, p.r + 15 + Math.sin(t * 6) * 1.6, 0, Math.PI * 2); ctx.stroke();
         ctx.strokeStyle = color; ctx.lineWidth = 2.8;
       }
+      if (p.comboSurge > 0) {
+        ctx.globalAlpha = .22 + Math.sin(t * 15) * .06;
+        ctx.strokeStyle = '#c391ff'; ctx.lineWidth = 2.1; ctx.shadowBlur = 22; ctx.shadowColor = '#c391ff';
+        ctx.beginPath(); ctx.arc(0,0,p.r+19+Math.sin(t*8)*2,0,Math.PI*2);ctx.stroke();
+        ctx.globalAlpha = .14;ctx.strokeStyle='#61ffc8';ctx.beginPath();ctx.arc(0,0,p.r+25+Math.cos(t*7)*2,0,Math.PI*2);ctx.stroke();
+        ctx.shadowColor=color;ctx.strokeStyle=color;ctx.lineWidth=2.8;
+      }
       ctx.globalAlpha = .12;
       ctx.beginPath(); ctx.arc(0, 0, p.r + 18 + Math.sin(t * 3) * 2, 0, Math.PI * 2); ctx.stroke();
       if (p.shield > 5) {
@@ -6139,6 +6272,83 @@
     }
   }
 
+  const WORLD_ONE_STORY = {
+    intro: {
+      kicker: 'CAMPAÑA · MUNDO 1',
+      title: 'PROTOCOLO Z-STRIKE',
+      image: 'assets/story/episode_01_protocol_zstrike.webp',
+      captions: [
+        'ASTERION cayó. El ARCA AURORA desapareció con los últimos supervivientes.',
+        'Una señal ha regresado desde el interior de NECRORED.',
+        'RIZOMA puede seguirla. Recupera el primer fragmento.'
+      ],
+      finalLabel: 'Entrar en combate'
+    },
+    outro: {
+      kicker: 'FRAGMENTO 01 · RECUPERADO',
+      title: 'NÚCLEO METEÓRICO',
+      image: 'assets/story/episode_01_protocol_zstrike.webp',
+      captions: [
+        'El primer Guardián ha caído. RIZOMA incorpora su tecnología.',
+        'La señal de AURORA continúa más allá del siguiente sistema.',
+        'LA HISTORIA CONTINÚA...'
+      ],
+      finalLabel: 'Entrar al Mundo 2'
+    }
+  };
+
+  let storyRuntime = { sequence:null, step:0, onDone:null };
+
+  function getPlayMode() {
+    const p = currentProfile();
+    return ['story','direct'].includes(p?.preferredPlayMode) ? p.preferredPlayMode : (['story','direct'].includes(state.settings.playMode) ? state.settings.playMode : 'story');
+  }
+
+  function renderStoryFrame() {
+    const seq = storyRuntime.sequence;
+    if (!seq || !els.storyOverlay) return;
+    const step = Math.max(0, Math.min(seq.captions.length - 1, storyRuntime.step));
+    els.storyImage.src = seq.image;
+    els.storyKicker.textContent = seq.kicker;
+    els.storyTitle.textContent = seq.title;
+    els.storyCaption.classList.remove('story-caption-in');
+    void els.storyCaption.offsetWidth;
+    els.storyCaption.textContent = seq.captions[step];
+    els.storyCaption.classList.add('story-caption-in');
+    els.storyDots.innerHTML = seq.captions.map((_,i)=>`<i class="${i===step?'active':''}"></i>`).join('');
+    els.btnStoryNext.textContent = step === seq.captions.length - 1 ? seq.finalLabel : 'Siguiente';
+    try { AudioFX.tone(190 + step*35, .055, 'triangle', .012, 45); } catch(_) {}
+  }
+
+  function showStorySequence(seq, onDone) {
+    storyRuntime = { sequence: seq, step:0, onDone: typeof onDone === 'function' ? onDone : null };
+    els.storyOverlay?.classList.remove('hidden');
+    document.body.classList.add('story-open');
+    renderStoryFrame();
+  }
+
+  function closeStorySequence(runCallback=true) {
+    const cb = storyRuntime.onDone;
+    els.storyOverlay?.classList.add('hidden');
+    document.body.classList.remove('story-open');
+    storyRuntime = { sequence:null, step:0, onDone:null };
+    if (runCallback && cb) setTimeout(cb, 80);
+  }
+
+  function advanceStory() {
+    const seq = storyRuntime.sequence;
+    if (!seq) return;
+    if (storyRuntime.step < seq.captions.length - 1) {
+      storyRuntime.step += 1;
+      renderStoryFrame();
+    } else closeStorySequence(true);
+  }
+
+  function startWorldOneWithNarrative(mapIndex=0) {
+    if (mapIndex === 0 && getPlayMode() === 'story') showStorySequence(WORLD_ONE_STORY.intro, () => game.start(0));
+    else game.start(mapIndex);
+  }
+
   const game = new Game();
 
   function rarityName(r) {
@@ -6170,7 +6380,7 @@
   }
 
   function hideOverlays() {
-    ['cardOverlay', 'pauseOverlay', 'resultOverlay', 'tacticalPrepPrompt', 'tacticalShopOverlay', 'tacticalCountdown'].forEach(id => els[id]?.classList.add('hidden'));
+    ['cardOverlay', 'pauseOverlay', 'resultOverlay', 'tacticalPrepPrompt', 'tacticalShopOverlay', 'tacticalCountdown', 'storyOverlay'].forEach(id => els[id]?.classList.add('hidden'));
     els.resultOverlay?.classList.remove('victory-clean');
     els.cardOverlay?.classList.add('hidden');
     els.pendingBadge?.classList.add('hidden');
@@ -6246,6 +6456,9 @@
     const selectedDifficulty = DIFFICULTY_MODES[p.preferredDifficulty] ? p.preferredDifficulty : (state.settings.difficulty || 'normal');
     document.querySelectorAll('[data-difficulty]').forEach(btn => btn.classList.toggle('active', btn.dataset.difficulty === selectedDifficulty));
     if (els.difficultyHint) els.difficultyHint.textContent = selectedDifficulty==='hard' ? 'Más enemigos, hordas y peligros · mejores recompensas' : 'Experiencia equilibrada actual';
+    const selectedPlayMode = ['story','direct'].includes(p.preferredPlayMode) ? p.preferredPlayMode : (state.settings.playMode || 'story');
+    document.querySelectorAll('[data-play-mode]').forEach(btn => btn.classList.toggle('active', btn.dataset.playMode === selectedPlayMode));
+    if (els.playModeHint) els.playModeHint.textContent = selectedPlayMode==='story' ? 'Prólogo y microescenas narrativas · siempre puedes saltarlas' : 'Sin escenas narrativas · directo al combate';
     if (els.homeBestScore) els.homeBestScore.textContent = p.stats.bestScore || 0;
     if (els.homeCoins) els.homeCoins.textContent = p.coins || 0;
     if (els.homeMap) els.homeMap.textContent = p.unlockedMap || 1;
@@ -6588,9 +6801,11 @@ ${JSON.stringify(snapshot, null, 2)}`;
       const selected = DIFFICULTY_MODES[state.settings.difficulty] ? state.settings.difficulty : 'normal';
       const p = findOrCreateProfileByName(els.playerNameInput.value || 'Jugador');
       p.preferredDifficulty = selected;
+      p.preferredPlayMode = ['story','direct'].includes(state.settings.playMode) ? state.settings.playMode : (p.preferredPlayMode || 'story');
       saveState();
       renderAll();
-      game.start(Math.max(0, (p.unlockedMap || 1) - 1));
+      const targetMap = Math.max(0, (p.unlockedMap || 1) - 1);
+      startWorldOneWithNarrative(targetMap);
     });
     els.playerNameInput?.addEventListener('keydown', e => { if (e.key === 'Enter') els.btnSaveProfileName.click(); });
     els.btnCreateProfile.addEventListener('click', () => {
@@ -6609,7 +6824,15 @@ ${JSON.stringify(snapshot, null, 2)}`;
       document.querySelectorAll('[data-difficulty]').forEach(b=>b.classList.toggle('active',b===btn));
       if(els.difficultyHint) els.difficultyHint.textContent=id==='hard'?'Más enemigos, hordas y peligros · mejores recompensas':'Experiencia equilibrada actual';
     }));
-    els.btnNewRun?.addEventListener('click', () => game.start(Math.max(0, (currentProfile().unlockedMap || 1) - 1)));
+    document.querySelectorAll('[data-play-mode]').forEach(btn => btn.addEventListener('click', () => {
+      const id=btn.dataset.playMode; if(!['story','direct'].includes(id))return;
+      const p=currentProfile(); p.preferredPlayMode=id; state.settings.playMode=id; saveState();
+      document.querySelectorAll('[data-play-mode]').forEach(b=>b.classList.toggle('active',b===btn));
+      if(els.playModeHint) els.playModeHint.textContent=id==='story'?'Prólogo y microescenas narrativas · siempre puedes saltarlas':'Sin escenas narrativas · directo al combate';
+    }));
+    els.btnStoryNext?.addEventListener('click', advanceStory);
+    els.btnStorySkip?.addEventListener('click', () => closeStorySequence(true));
+    els.btnNewRun?.addEventListener('click', () => { const target=Math.max(0,(currentProfile().unlockedMap||1)-1); startWorldOneWithNarrative(target); });
     els.btnContinue?.addEventListener('click', () => {
       if (!els.savedGamesList) return;
       els.savedGamesList.classList.toggle('hidden');
@@ -6637,9 +6860,13 @@ ${JSON.stringify(snapshot, null, 2)}`;
         hideOverlays();
         if (game.run.mapComplete && game.mapIndex + 1 < MAPS.length) {
           const carryLives = Math.min(MAX_TOTAL_LIVES - 1, game.extraLives || 0);
-          game.start(game.mapIndex + 1);
-          game.extraLives = carryLives;
-          game.updateHud();
+          const continueToNextWorld = () => {
+            game.start(game.mapIndex + 1);
+            game.extraLives = carryLives;
+            game.updateHud();
+          };
+          if (game.mapIndex === 0 && getPlayMode() === 'story') showStorySequence(WORLD_ONE_STORY.outro, continueToNextWorld);
+          else continueToNextWorld();
         } else showScreen('screenPortal');
       } else if (game.resultMode === 'defeat_revive') {
         game.reviveRun();
