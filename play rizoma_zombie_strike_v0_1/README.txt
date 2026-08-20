@@ -198,3 +198,11 @@ Novedades v1.7.1 — Preparación Táctica Exprés:
 
 
 Novedades v1.7.2 — carrito táctico no invasivo, entrega gradual, combos secuenciales y kits antihorda en Mundos 4–5.
+
+v1.7.6 — Responsive móvil horizontal
+- Modo horizontal prioritario en móvil, con intento seguro de pantalla completa/orientation lock.
+- HUD superior en una sola línea; vidas, carrito y pausa prioritarios.
+- Poster móvil optimizado y precargado.
+- Centro de mando compacto en horizontal; ranking previo oculto para liberar espacio.
+- Zona segura de combate aplicada a nave, spawns, reciclaje de enemigos y premios tácticos.
+- Mensajes y dock inferior compactados para aumentar área útil.

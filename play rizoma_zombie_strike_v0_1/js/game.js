@@ -1,7 +1,7 @@
 (() => {
   'use strict';
 
-  const VERSION = '1.7.5';
+  const VERSION = '1.7.6';
   const STORAGE_KEY = 'rizoma_zombie_strike_v0_3_state';
   const SAVE_KEY = 'rizoma_zombie_strike_v0_3_save';
   const clamp = (v, a, b) => Math.max(a, Math.min(b, v));
@@ -752,7 +752,11 @@
       const viewW = Math.max(320, vv?.width || window.innerWidth || 360);
       const viewH = Math.max(320, vv?.height || window.innerHeight || 640);
       const isSmall = Math.min(viewW, viewH) <= 900;
-      const dpr = state.settings.lowPerformance ? 1 : Math.min(isSmall ? 1.25 : 1.75, window.devicePixelRatio || 1);
+      this.isSmallScreen = isSmall;
+      this.mobileLandscape = isSmall && viewW > viewH && viewH <= 620;
+      this.mobilePortrait = isSmall && viewH >= viewW;
+      const dpr = state.settings.lowPerformance ? 1 : Math.min(this.mobileLandscape ? 1.15 : (isSmall ? 1.25 : 1.75), window.devicePixelRatio || 1);
+      this.pixelRatio = dpr;
       const rect = this.canvas.getBoundingClientRect();
       const cssW = Math.max(1, rect.width || viewW);
       const cssH = Math.max(1, rect.height || viewH);
@@ -767,12 +771,37 @@
       this.w = this.canvas.width;
       this.h = this.canvas.height;
       if (this.player) {
-        this.player.x = clamp(this.player.x, this.player.r + 8, this.w - this.player.r - 8);
-        this.player.y = clamp(this.player.y, this.player.r + 8, this.h - this.player.r - 8);
+        const b=this.getCombatBounds();
+        this.player.x = clamp(this.player.x, Math.max(this.player.r + 8,b.left), Math.min(this.w - this.player.r - 8,b.right));
+        this.player.y = clamp(this.player.y, Math.max(this.player.r + 8,b.top), Math.min(this.h - this.player.r - 8,b.bottom));
       }
       if (this.ctx) this.ctx.setTransform(1, 0, 0, 1, 0, 0);
       this.applyPerformanceMode?.();
       this.updateOrientationHint?.();
+    }
+
+    getCombatBounds() {
+      const scale=this.pixelRatio||1;
+      if(this.mobileLandscape){
+        return {left:10*scale,right:this.w-10*scale,top:32*scale,bottom:this.h-30*scale};
+      }
+      if(this.mobilePortrait){
+        return {left:10*scale,right:this.w-10*scale,top:34*scale,bottom:this.h-34*scale};
+      }
+      return {left:24,right:this.w-24,top:24,bottom:this.h-24};
+    }
+
+    requestMobilePlayMode() {
+      const touch=(navigator.maxTouchPoints||0)>0;
+      const small=Math.min(window.innerWidth||9999,window.innerHeight||9999)<900;
+      if(!touch||!small)return;
+      try{
+        const root=document.documentElement;
+        if(!document.fullscreenElement&&root.requestFullscreen){
+          const r=root.requestFullscreen({navigationUI:'hide'});
+          if(r?.then)r.then(()=>screen.orientation?.lock?.('landscape').catch(()=>{})).catch(()=>{});
+        }else screen.orientation?.lock?.('landscape').catch(()=>{});
+      }catch(_){ }
     }
 
     applyPerformanceMode() {
@@ -1202,6 +1231,7 @@
     }
 
     start(mapIndex = 0, save = null) {
+      this.requestMobilePlayMode();
       AudioFX.ensure();
       AudioFX.startMelody();
       const p = currentProfile();
@@ -2239,8 +2269,9 @@
         p.moveVx *= decay; p.moveVy *= decay;
         p.x += p.moveVx * dt; p.y += p.moveVy * dt;
       }
-      p.x = clamp(p.x, 24, this.w - 24);
-      p.y = clamp(p.y, 24, this.h - 24);
+      const combat=this.getCombatBounds();
+      p.x = clamp(p.x, combat.left, combat.right);
+      p.y = clamp(p.y, combat.top, combat.bottom);
       if ((Math.abs(dx) + Math.abs(dy)) || this.pointer.active) {
         if (Math.random() < (this.isPowerActive('afterburner') ? .96 : .72)) this.emit(p.x, p.y + 10, this.isPowerActive('afterburner') ? '#ffd56a' : p.avatar.color, this.isPowerActive('afterburner') ? 2 : 1, this.isPowerActive('afterburner') ? 34 : 14, this.isPowerActive('afterburner') ? .32 : .2);
       }
@@ -2927,14 +2958,14 @@
     }
 
     randomTacticalPoint(used=[]) {
-      const margin=this.isSmallScreen?48:72,p=this.player||{x:this.w/2,y:this.h/2};
+      const margin=this.isSmallScreen?34:72,p=this.player||{x:this.w/2,y:this.h/2},cb=this.getCombatBounds();
       for(let tries=0;tries<30;tries++){
-        const x=rand(this.w-margin,margin),y=rand(this.h-margin,margin);
+        const x=rand(cb.right-margin,cb.left+margin),y=rand(cb.bottom-margin,cb.top+margin);
         if(Math.hypot(x-p.x,y-p.y)<105)continue;
         if(used.some(q=>Math.hypot(x-q[0],y-q[1])<115))continue;
         return [x,y];
       }
-      return [rand(this.w-margin,margin),rand(this.h-margin,margin)];
+      return [rand(cb.right-margin,cb.left+margin),rand(cb.bottom-margin,cb.top+margin)];
     }
 
     spawnHordeEmergencyKit() {
@@ -3528,11 +3559,13 @@
       const id = forceId || pick(this.enemyPool());
       const cfg = ENEMY_TYPES.find(e => e.id === id) || ENEMY_TYPES[0];
       const side = Math.floor(Math.random() * 4);
+      const cb=this.getCombatBounds();
+      const edge=this.mobileLandscape?34:40;
       let x = 0, y = 0;
-      if (side === 0) { x = rand(this.w); y = -40; }
-      if (side === 1) { x = this.w + 40; y = rand(this.h); }
-      if (side === 2) { x = rand(this.w); y = this.h + 40; }
-      if (side === 3) { x = -40; y = rand(this.h); }
+      if (side === 0) { x = rand(cb.right,cb.left); y = cb.top-edge; }
+      if (side === 1) { x = cb.right+edge; y = rand(cb.bottom,cb.top); }
+      if (side === 2) { x = rand(cb.right,cb.left); y = cb.bottom+edge; }
+      if (side === 3) { x = cb.left-edge; y = rand(cb.bottom,cb.top); }
       const worldOneMini = this.mapIndex === 0 && mini;
       const worldTwoMini = this.mapIndex === 1 && mini;
       const isMirror = id === 'nave_espejo';
@@ -3768,9 +3801,11 @@
 
         if (e.behavior === 'mist' && Math.random() < .018) this.emit(e.x, e.y, '#ffffff', 2, 80, .8, 'mist');
         if (e.behavior === 'toxic' && Math.random() < .012) this.zones.push({ x: e.x, y: e.y, r: 28, life: 3.5, max: 3.5, type: 'toxic' });
-        if(!e.boss&&(e.x<-360||e.x>this.w+360||e.y<-360||e.y>this.h+360)){
-          const side=Math.floor(Math.random()*4),pad=70;
-          if(side===0){e.x=pad;e.y=rand(this.h-pad,pad);}else if(side===1){e.x=this.w-pad;e.y=rand(this.h-pad,pad);}else if(side===2){e.x=rand(this.w-pad,pad);e.y=pad;}else{e.x=rand(this.w-pad,pad);e.y=this.h-pad;}
+        const cb=this.getCombatBounds();
+        const escapePad=this.mobileLandscape?180:360;
+        if(!e.boss&&(e.x<cb.left-escapePad||e.x>cb.right+escapePad||e.y<cb.top-escapePad||e.y>cb.bottom+escapePad)){
+          const side=Math.floor(Math.random()*4),pad=this.mobileLandscape?28:46;
+          if(side===0){e.x=cb.left+pad;e.y=rand(cb.bottom-pad,cb.top+pad);}else if(side===1){e.x=cb.right-pad;e.y=rand(cb.bottom-pad,cb.top+pad);}else if(side===2){e.x=rand(cb.right-pad,cb.left+pad);e.y=cb.top+pad;}else{e.x=rand(cb.right-pad,cb.left+pad);e.y=cb.bottom-pad;}
           e.formationVX=0;e.formationVY=0;e.formationTime=0;e.t=0;
         }
 
@@ -5985,6 +6020,8 @@
       setTimeout(() => { updateViewportVars(); game.resize(); }, 40);
     } else {
       AudioFX.stopMusic();
+      if (document.fullscreenElement && game?.mobileLandscape) document.exitFullscreen?.().catch?.(()=>{});
+      try { screen.orientation?.unlock?.(); } catch(_) {}
       renderAll();
       window.scrollTo?.(0, 0);
     }
@@ -6080,7 +6117,7 @@
       els.btnContinue.classList.add('soft-btn');
     }
     if (els.simpleStartHint) {
-      const score = p.stats?.bestScore || 0;
+      const score = Math.round(p.stats?.bestScore || 0);
       const map = p.unlockedMap || 1;
       els.simpleStartHint.textContent = `${p.name || 'Jugador'} · récord ${score} · mundo ${map}/${MAPS.length}`;
     }

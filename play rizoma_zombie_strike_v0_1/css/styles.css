@@ -1132,3 +1132,85 @@ body.game-mode .hud-pill.lives-pill strong{color:#ffb0b6!important;font-weight:9
   body.game-mode .hud-pill.lives-pill{display:flex!important;}
   body.game-mode .hud-pill.lives-pill{padding:0 5px!important;min-width:36px!important;}
 }
+
+/* v1.7.6 — Responsive móvil horizontal aprobado */
+.intro-poster-picture{display:block;width:100%;height:100%;}
+
+@media (max-width:1000px) and (orientation:landscape){
+  /* Entrada: carga rápida, sin hueco vertical y CTA mínimo */
+  body[data-screen="screenIntro"] .intro-poster-wrap{height:100dvh;background:#020611;}
+  body[data-screen="screenIntro"] .intro-poster-picture{position:absolute;inset:0;}
+  body[data-screen="screenIntro"] .intro-poster-img{width:100%;height:100%;object-fit:cover;object-position:center top;padding:0;background:#020611;}
+  body[data-screen="screenIntro"] .intro-overlay-panel{
+    left:auto;right:calc(12px + var(--safe-right));bottom:calc(10px + var(--safe-bottom));transform:none;
+    width:min(330px,46vw);padding:7px 9px;border:0;border-radius:16px;
+    background:linear-gradient(180deg,rgba(2,8,16,.18),rgba(2,8,16,.56));
+    box-shadow:0 10px 30px rgba(0,0,0,.22);backdrop-filter:blur(3px);
+  }
+  body[data-screen="screenIntro"] .intro-overlay-panel .eyebrow{font-size:.56rem;margin:0 0 4px;letter-spacing:.16em;}
+  body[data-screen="screenIntro"] .intro-overlay-panel .subcopy{display:none!important;}
+  body[data-screen="screenIntro"] #btnOpenPortal{min-height:34px!important;height:34px;padding:5px 12px;border-radius:12px;font-size:.78rem;}
+
+  /* Centro de mando compacto: solo lo imprescindible en el primer plano */
+  body[data-screen="screenPortal"] .simple-start-screen{padding:8px!important;place-items:center!important;overflow:hidden!important;}
+  body[data-screen="screenPortal"] .redesigned-menu{
+    width:min(760px,calc(100vw - 18px))!important;max-width:none!important;max-height:calc(100dvh - 16px)!important;
+    padding:10px 12px!important;border-radius:18px!important;gap:7px 12px!important;
+    display:grid!important;grid-template-columns:1fr 1fr!important;align-items:center!important;text-align:left!important;overflow:auto!important;
+  }
+  body[data-screen="screenPortal"] .redesigned-menu>.eyebrow{grid-column:1/-1;text-align:center;margin:0;font-size:.58rem;}
+  body[data-screen="screenPortal"] #startGreeting{display:none!important;}
+  body[data-screen="screenPortal"] .start-name-box{grid-column:1;gap:4px!important;}
+  body[data-screen="screenPortal"] .start-name-box label{font-size:.58rem;}
+  body[data-screen="screenPortal"] .start-name-form{grid-template-columns:1fr auto!important;gap:6px!important;}
+  body[data-screen="screenPortal"] .start-name-form input{height:36px;padding:7px 9px;font-size:15px;}
+  body[data-screen="screenPortal"] .start-name-form .primary-btn{height:36px;min-height:36px;padding:6px 14px;}
+  body[data-screen="screenPortal"] .start-actions-main.minimal{grid-column:2;grid-template-columns:1fr 1fr!important;gap:6px!important;}
+  body[data-screen="screenPortal"] .start-actions-main.minimal .wide{min-height:36px!important;height:36px!important;padding:6px 8px!important;border-radius:12px!important;font-size:.72rem!important;}
+  body[data-screen="screenPortal"] .portal-ranking-preview{display:none!important;}
+  body[data-screen="screenPortal"] .start-hint{display:none!important;}
+  body[data-screen="screenPortal"] .saved-games-list{grid-column:1/-1;max-height:105px!important;margin-top:2px!important;gap:4px!important;}
+  body[data-screen="screenPortal"] .saved-game-row{min-height:34px!important;padding:5px 9px!important;border-radius:11px!important;font-size:.7rem!important;}
+
+  /* HUD: una única línea en horizontal. Vidas, carrito y pausa son prioritarios. */
+  body.game-mode .hud{
+    left:calc(5px + var(--safe-left))!important;right:calc(84px + var(--safe-right))!important;top:calc(4px + var(--safe-top))!important;
+    height:26px!important;display:flex!important;flex-wrap:nowrap!important;align-items:center!important;justify-content:flex-start!important;
+    gap:3px!important;overflow:visible!important;white-space:nowrap!important;
+  }
+  body.game-mode .hud-pill{height:24px!important;min-width:0!important;padding:0 5px!important;gap:2px!important;font-size:.58rem!important;flex:0 0 auto!important;}
+  body.game-mode .hud-pill span{font-size:.64rem!important;}
+  body.game-mode .hud-pill strong{font-size:.59rem!important;min-width:14px!important;}
+  body.game-mode .hud .score-pill,body.game-mode .hud .coins-pill{display:none!important;}
+  body.game-mode .hud .lives-pill{display:flex!important;visibility:visible!important;opacity:1!important;}
+  body.game-mode .hud .boss-approach{max-width:62px!important;}
+  body.game-mode .tactical-cart{right:calc(38px + var(--safe-right))!important;top:calc(4px + var(--safe-top))!important;height:28px!important;min-width:34px!important;width:34px!important;padding:0 3px!important;border-radius:10px!important;}
+  body.game-mode .tactical-cart .cart-glyph{font-size:.72rem!important;}
+  body.game-mode .tactical-cart strong{position:absolute;right:-3px;top:-3px;min-width:14px;height:14px;font-size:.46rem;padding:0 2px;}
+  body.game-mode .pause-btn{right:calc(4px + var(--safe-right))!important;top:calc(4px + var(--safe-top))!important;width:30px!important;height:28px!important;border-radius:10px!important;font-size:.72rem!important;}
+
+  /* Boss y avisos no compiten con el HUD */
+  body.game-mode .boss-bar{top:calc(34px + var(--safe-top))!important;left:calc(6px + var(--safe-left))!important;right:auto!important;width:min(330px,47vw)!important;padding:4px 7px!important;border-radius:10px!important;}
+  body.game-mode .boss-bar .boss-meta{display:none!important;}
+  body.game-mode .boss-bar span{font-size:.56rem!important;margin-bottom:2px!important;}
+  body.game-mode .toast-stack{left:auto!important;right:calc(6px + var(--safe-right))!important;top:calc(36px + var(--safe-top))!important;transform:none!important;width:min(220px,34vw)!important;justify-items:end!important;gap:3px!important;}
+  body.game-mode .toast{font-size:.58rem!important;padding:3px 7px!important;max-width:100%!important;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;}
+  body.game-mode .toast small{display:none!important;}
+  body.game-mode .orientation-hint{display:none!important;}
+
+  /* Dock inferior: reduce altura útil sacrificada */
+  body.game-mode .power-dock{left:calc(5px + var(--safe-left))!important;bottom:calc(5px + var(--safe-bottom))!important;max-width:50vw!important;gap:2px!important;}
+  body.game-mode .power-chip{width:24px!important;height:24px!important;border-radius:8px!important;font-size:.62rem!important;}
+  body.game-mode .xp-wrap{right:calc(5px + var(--safe-right))!important;bottom:calc(5px + var(--safe-bottom))!important;width:min(42vw,280px)!important;height:8px!important;}
+  body.game-mode .xp-wrap span{font-size:.43rem!important;}
+  body.game-mode .pending-badge{top:calc(35px + var(--safe-top))!important;right:calc(5px + var(--safe-right))!important;width:26px!important;height:26px!important;}
+}
+
+@media (max-height:430px) and (orientation:landscape){
+  body.game-mode .hud-pill{height:22px!important;padding:0 4px!important;}
+  body.game-mode .hud{height:24px!important;}
+  body.game-mode .boss-bar{top:30px!important;}
+  body.game-mode .toast-stack{top:31px!important;}
+  body.game-mode .power-chip{width:22px!important;height:22px!important;}
+  body.game-mode .xp-wrap{height:7px!important;}
+}
