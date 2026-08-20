@@ -1214,3 +1214,40 @@ body.game-mode .hud-pill.lives-pill strong{color:#ffb0b6!important;font-weight:9
   body.game-mode .power-chip{width:22px!important;height:22px!important;}
   body.game-mode .xp-wrap{height:7px!important;}
 }
+
+
+/* v1.8.0 selector de dificultad */
+.difficulty-select{margin:10px 0 12px;display:grid;gap:6px}
+.difficulty-buttons{display:grid;grid-template-columns:1fr 1fr;gap:8px}
+.difficulty-btn{min-height:54px;border:1px solid rgba(126,255,215,.18);border-radius:15px;background:rgba(7,28,24,.62);color:#eafff8;display:flex;align-items:center;justify-content:center;gap:4px;flex-direction:column;cursor:pointer;transition:transform .16s ease,border-color .16s ease,box-shadow .16s ease,background .16s ease}
+.difficulty-btn strong{font-size:.92rem;line-height:1}
+.difficulty-btn small{font-size:.68rem;opacity:.68;line-height:1.1}
+.difficulty-btn.active{border-color:rgba(97,255,200,.76);background:linear-gradient(180deg,rgba(26,92,75,.72),rgba(7,35,29,.82));box-shadow:0 0 0 1px rgba(97,255,200,.10),0 0 18px rgba(97,255,200,.10)}
+.difficulty-btn.hard.active{border-color:rgba(255,136,103,.78);background:linear-gradient(180deg,rgba(104,45,34,.74),rgba(45,15,13,.86));box-shadow:0 0 0 1px rgba(255,136,103,.10),0 0 18px rgba(255,102,72,.12)}
+.difficulty-btn:active{transform:scale(.98)}
+.difficulty-hint{text-align:center;opacity:.65;font-size:.7rem;min-height:1em}
+@media(max-width:760px){.difficulty-select{margin:6px 0 8px}.difficulty-btn{min-height:44px;border-radius:12px}.difficulty-btn strong{font-size:.82rem}.difficulty-btn small{font-size:.6rem}.difficulty-hint{font-size:.62rem}}
+@media(orientation:landscape) and (max-height:600px){.difficulty-select{margin:4px 0 6px}.difficulty-btn{min-height:38px;padding:4px 7px}.difficulty-btn small{display:none}.difficulty-hint{font-size:.58rem}}
+
+/* Boss 2.0 — sigilos, reliquias y presentación sin emojis */
+.boss-sigil,.map-boss-sigil,.relic-chip-sigil{display:block;object-fit:contain;filter:drop-shadow(0 0 10px rgba(255,255,255,.18))}
+.boss-sigil{width:58px;height:58px;margin:0 auto}
+.map-boss-sigil{width:34px;height:34px;margin:auto}
+.relic-chip-sigil{width:20px;height:20px}
+.boss-intro-overlay.boss2-intro{background:radial-gradient(circle at 50% 42%,rgba(0,0,0,.22),rgba(0,0,0,.02) 54%,transparent 72%)!important}
+.boss-intro-overlay.boss2-intro .boss-intro-card{min-width:min(76vw,430px)!important;max-width:min(84vw,480px)!important;padding:14px 18px!important;background:rgba(3,8,12,.46)!important;border:1px solid color-mix(in srgb,var(--boss-color,#61ffc8) 34%,transparent)!important;box-shadow:0 0 34px color-mix(in srgb,var(--boss-color,#61ffc8) 14%,transparent),0 14px 34px rgba(0,0,0,.32)!important}
+.boss-intro-overlay.boss2-intro .boss-intro-icon{margin:2px 0 5px!important;font-size:0!important}
+.boss-intro-overlay.boss2-intro .eyebrow{letter-spacing:.2em;font-size:.62rem!important;color:var(--boss-color,#61ffc8)!important}
+.boss-intro-overlay.boss2-intro h2{font-size:1.15rem!important;letter-spacing:.02em}
+.boss-intro-overlay.boss2-intro .muted{font-size:.76rem!important}
+.relic-overlay{position:fixed;inset:0;z-index:66;display:grid;place-content:center;justify-items:center;pointer-events:none;text-align:center;background:radial-gradient(circle at center,rgba(0,0,0,.18),transparent 52%);animation:relicBossIn .25s ease both}
+.relic-overlay .relic-sigil{width:76px;height:76px;margin-bottom:8px;filter:drop-shadow(0 0 18px var(--relic-color,#ffd56a))}
+.relic-overlay .relic-sigil img{width:100%;height:100%;object-fit:contain}
+.relic-overlay p{margin:0;color:var(--relic-color,#ffd56a);font-size:.65rem;font-weight:900;letter-spacing:.28em;text-transform:uppercase;text-shadow:0 0 16px color-mix(in srgb,var(--relic-color,#ffd56a) 60%,transparent)}
+.relic-overlay h2{margin:4px 0 2px;font-size:clamp(1.35rem,4vw,2.4rem);line-height:1;color:#f5fff9;text-shadow:0 0 22px rgba(255,255,255,.14)}
+.relic-overlay small{max-width:min(78vw,520px);font-size:.78rem;color:rgba(238,255,249,.78)}
+@keyframes relicBossIn{from{opacity:0;transform:scale(.92)}to{opacity:1;transform:scale(1)}}
+.power-chip.relic .relic-chip-sigil{margin:auto}
+@media(max-width:760px){.boss-sigil{width:46px;height:46px}.boss-intro-overlay.boss2-intro .boss-intro-card{min-width:min(72vw,300px)!important;padding:9px 12px!important}.boss-intro-overlay.boss2-intro h2{font-size:.88rem!important}.boss-intro-overlay.boss2-intro .muted{font-size:.65rem!important}.relic-overlay .relic-sigil{width:58px;height:58px}.relic-overlay h2{font-size:1.3rem}.relic-overlay small{font-size:.68rem}}
+.result-card #resultTitle{display:flex;align-items:center;justify-content:center;gap:10px;flex-wrap:wrap}.result-boss-sigil{width:38px;height:38px;object-fit:contain;filter:drop-shadow(0 0 10px rgba(255,255,255,.16))}.replay-boss-sigil{width:22px;height:22px;object-fit:contain;vertical-align:middle}
+.hud-boss-sigil{width:18px;height:18px;display:inline-grid;place-items:center}.hud-boss-sigil-img{width:18px;height:18px;object-fit:contain;filter:drop-shadow(0 0 6px currentColor)}

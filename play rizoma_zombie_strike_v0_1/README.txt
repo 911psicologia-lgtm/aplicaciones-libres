@@ -206,3 +206,9 @@ v1.7.6 — Responsive móvil horizontal
 - Centro de mando compacto en horizontal; ranking previo oculto para liberar espacio.
 - Zona segura de combate aplicada a nave, spawns, reciclaje de enemigos y premios tácticos.
 - Mensajes y dock inferior compactados para aumentar área útil.
+
+
+v1.8.0 — Selector Normal/Difícil. Normal conserva balance v1.7.6. Difícil: +12% recorrido, +18% HP enemigos, +7% velocidad, +8% daño recibido, +18% HP jefe, +12% shield jefe, hordas/peligros ~25–30% más frecuentes, +28% score, +24% XP, +22% monedas, +32% probabilidad de premio, +8% duración y +5% efecto de poderes.
+
+
+v1.8.1 — Boss 2.0: cinco sigilos vectoriales propios sin emojis para jefes/reliquias/HUD; cinco familias de proyectiles de jefe (meteórico, espora biomecánica, voltaico, cuchilla escarlata, vacío); un ataque especial propio por jefe; música procedural original por jefe con capas y cambios por fase; fase crítica del Mundo 5 acelera el pulso musical; presentación de reliquia conquistada al completar el botín; iconografía de jefe reemplazada en mapa, progreso, repetición y resultado.

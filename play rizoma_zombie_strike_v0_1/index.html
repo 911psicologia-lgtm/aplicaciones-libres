@@ -8,9 +8,14 @@
   <meta name="apple-mobile-web-app-title" content="Niebla Verde" />
   <script>if(location.protocol !== "file:"){const m=document.createElement("link");m.rel="manifest";m.href="manifest.json";document.head.appendChild(m);}</script>
   <link rel="icon" href="assets/icon.svg" type="image/svg+xml" />
-  <title>Rizoma Zombie Strike — Responsive móvil horizontal v1.7.6</title>
+  <title>Rizoma Zombie Strike — Boss 2.0 v1.8.1</title>
   <link rel="preload" as="image" href="assets/ui/intro_poster_mobile.webp" media="(max-width: 1000px) and (orientation: landscape)" fetchpriority="high" />
-  <link rel="stylesheet" href="css/styles.css?v=1.7.6" />
+  <link rel="preload" as="image" href="assets/boss2/sigil_w1.svg" />
+  <link rel="preload" as="image" href="assets/boss2/sigil_w2.svg" />
+  <link rel="preload" as="image" href="assets/boss2/sigil_w3.svg" />
+  <link rel="preload" as="image" href="assets/boss2/sigil_w4.svg" />
+  <link rel="preload" as="image" href="assets/boss2/sigil_w5.svg" />
+  <link rel="stylesheet" href="css/styles.css?v=1.8.1" />
 </head>
 <body>
   <div id="app" class="app-shell">
@@ -23,7 +28,7 @@
         <span class="brand-mark">⬢</span>
         <div>
           <strong>Rizoma Zombie Strike</strong>
-          <small>Responsive móvil horizontal · v1.7.6</small>
+          <small>Boss 2.0 · v1.8.1</small>
         </div>
       </div>
       <button id="btnSettings" class="icon-btn" title="Ajustes" aria-label="Ajustes">⚙</button>
@@ -59,6 +64,14 @@
               <input id="playerNameInput" maxlength="18" placeholder="Tu nickname" autocomplete="off" />
               <button id="btnSaveProfileName" class="primary-btn small">Jugar</button>
             </div>
+          </div>
+
+          <div class="difficulty-select" aria-label="Dificultad">
+            <div class="difficulty-buttons">
+              <button type="button" class="difficulty-btn active" data-difficulty="normal"><strong>Normal</strong><small>Equilibrado</small></button>
+              <button type="button" class="difficulty-btn hard" data-difficulty="hard"><strong>Difícil</strong><small>Más riesgo · más botín</small></button>
+            </div>
+            <small id="difficultyHint" class="difficulty-hint">Experiencia equilibrada actual</small>
           </div>
 
           <div class="start-actions-main minimal">
@@ -161,10 +174,17 @@
     <div id="bossIntroOverlay" class="boss-intro-overlay hidden" aria-live="polite">
       <div class="boss-intro-card glass">
         <p class="eyebrow" id="bossIntroFamily">Familia</p>
-        <div class="boss-intro-icon" id="bossIntroIcon">👹</div>
+        <div class="boss-intro-icon" id="bossIntroIcon"></div>
         <h2 id="bossIntroName">Jefe</h2>
         <p class="muted" id="bossIntroText">Entrada cinemática</p>
       </div>
+    </div>
+
+    <div id="relicOverlay" class="relic-overlay hidden" aria-live="polite">
+      <div id="relicSigil" class="relic-sigil"></div>
+      <p>RELIQUIA CONQUISTADA</p>
+      <h2 id="relicName">Poder del jefe</h2>
+      <small id="relicDesc"></small>
     </div>
 
       <section id="screenGame" class="screen game-screen">
@@ -178,7 +198,7 @@
           <div class="hud-pill"><span>🗺️</span><strong id="hudMap">1</strong></div>
           <div class="hud-pill score-pill"><span>⭐</span><strong id="hudScore">0</strong></div>
           <div class="hud-pill coins-pill"><span>🪙</span><strong id="hudCoins">0</strong></div>
-          <div class="hud-pill boss-approach" id="hudBossApproach" title="Progreso hacia el jefe"><span>👑</span><strong id="hudBossPercent">0%</strong></div>
+          <div class="hud-pill boss-approach" id="hudBossApproach" title="Progreso hacia el jefe"><span id="hudBossSigil" class="hud-boss-sigil"></span><strong id="hudBossPercent">0%</strong></div>
           <div class="hud-pill lives-pill" title="Vidas disponibles"><span>❤️</span><strong id="hudLives">0</strong></div>
           <button id="btnTacticalCart" class="tactical-cart" title="Compra Exprés"><span class="cart-glyph">🛒</span><strong id="tacticalCartCount">0</strong></button>
           <button id="btnPause" class="pause-btn" title="Pausa">⏸</button>
@@ -301,6 +321,6 @@
     </div>
   </div>
 
-  <script src="js/game.js?v=1.7.6"></script>
+  <script src="js/game.js?v=1.8.1"></script>
 </body>
 </html>

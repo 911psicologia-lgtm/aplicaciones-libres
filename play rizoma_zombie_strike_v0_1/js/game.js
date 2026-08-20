@@ -1,13 +1,18 @@
 (() => {
   'use strict';
 
-  const VERSION = '1.7.6';
+  const VERSION = '1.8.1';
   const STORAGE_KEY = 'rizoma_zombie_strike_v0_3_state';
   const SAVE_KEY = 'rizoma_zombie_strike_v0_3_save';
   const clamp = (v, a, b) => Math.max(a, Math.min(b, v));
   const rand = (a = 1, b = 0) => Math.random() * (a - b) + b;
   const pick = arr => arr[Math.floor(Math.random() * arr.length)];
   const now = () => performance.now();
+
+  const DIFFICULTY_MODES = {
+    normal: { id:'normal', name:'Normal', target:1, waveDuration:1, enemyHp:1, enemySpeed:1, incomingDamage:1, bossHp:1, bossShield:1, bossCadence:1, hordePace:1, hazardPace:1, eventPace:1, score:1, xp:1, coins:1, dropChance:1, powerDuration:1, powerEffect:1, hordeRewardBonus:0 },
+    hard: { id:'hard', name:'Difícil', target:1.12, waveDuration:1.10, enemyHp:1.18, enemySpeed:1.07, incomingDamage:1.08, bossHp:1.18, bossShield:1.12, bossCadence:.92, hordePace:1.28, hazardPace:1.20, eventPace:1.10, score:1.28, xp:1.24, coins:1.22, dropChance:1.32, powerDuration:1.08, powerEffect:1.05, hordeRewardBonus:1 }
+  };
 
   function updateViewportVars() {
     const vv = window.visualViewport;
@@ -139,6 +144,16 @@
     return ['zombie_1','bacteria_1','demon_1','witch_1','spirit_1'].map(id => maps.find(m => m.id === id)).filter(Boolean);
   })();
 
+  const BOSS2 = [
+    { world:1, sigil:'assets/boss2/sigil_w1.svg', short:'Núcleo Meteórico', intro:'FIRMA MINERAL', weapon:'Fragmentos orbitales', special:'Lluvia orbital', color:'#ff9a43', accent:'#ffd476', shot:'meteor', music:{bpm:118, root:55, wave:'sawtooth', seq:[0,0,7,3,0,10,7,3]} },
+    { world:2, sigil:'assets/boss2/sigil_w2.svg', short:'Matriz de Convergencia', intro:'FIRMA BIOMECÁNICA', weapon:'Esporas convergentes', special:'Neblina infecciosa', color:'#c86dff', accent:'#f0ceff', shot:'spore', music:{bpm:108, root:58.27, wave:'triangle', seq:[0,3,0,6,2,0,5,1]} },
+    { world:3, sigil:'assets/boss2/sigil_w3.svg', short:'Corazón Ígneo', intro:'FIRMA VIRIDIANA', weapon:'Rayos voltaicos', special:'Tormenta del reactor', color:'#61ff9c', accent:'#d8ffb2', shot:'volt', music:{bpm:132, root:73.42, wave:'square', seq:[0,7,12,7,3,10,12,15]} },
+    { world:4, sigil:'assets/boss2/sigil_w4.svg', short:'Sello Astral', intro:'FIRMA DEL ECLIPSE', weapon:'Cuchillas escarlata', special:'Eclipse escarlata', color:'#ff5347', accent:'#ffba83', shot:'blade', music:{bpm:124, root:61.74, wave:'sawtooth', seq:[0,0,5,7,0,8,7,3]} },
+    { world:5, sigil:'assets/boss2/sigil_w5.svg', short:'Fragmento del Vacío', intro:'FIRMA DE SINGULARIDAD', weapon:'Orbes de horizonte', special:'Colapso del horizonte', color:'#c05cff', accent:'#ff6248', shot:'void', music:{bpm:92, root:49, wave:'triangle', seq:[0,-5,0,2,-7,0,5,-2]} }
+  ];
+  const boss2Meta = index => BOSS2[Math.max(0, Math.min(BOSS2.length - 1, Number(index) || 0))];
+  const bossSigilHtml = (index, cls='boss-sigil') => { const m=boss2Meta(index); return `<img class="${cls}" src="${m.sigil}" alt="" aria-hidden="true">`; };
+
   const SHOP = [
     { id: 'hp', icon: '❤️', name: 'Vida base', desc: 'Más resistencia inicial.', max: 8, base: 70, step: 40, apply: p => p.maxHp += 12 },
     { id: 'shield', icon: '🛡️', name: 'Escudo base', desc: 'Absorbe más impacto.', max: 8, base: 70, step: 40, apply: p => p.maxShield += 10 },
@@ -153,7 +168,7 @@
     { id: 'cannon', icon: '🔺', name: 'Cañón doble', desc: 'Daño y cadencia.', max: 6, base: 145, step: 82, apply: p => { p.damage += 2.2; p.fireDelay = Math.max(90, p.fireDelay - 8); } },
     { id: 'battery', icon: '🔋', name: 'Batería OPEM', desc: 'Escudo y recuperación.', max: 5, base: 150, step: 86, apply: p => { p.maxShield += 12; p.regen += .08; } },
     { id: 'collector', icon: '🪙', name: 'Colector dorado', desc: 'Premios más fáciles.', max: 5, base: 115, step: 70, apply: p => { p.magnet += 36; p.crit += .006; } },
-    { id: 'elite', icon: '👑', name: 'Cazajefes', desc: 'Más daño general.', max: 4, base: 180, step: 110, apply: p => { p.damage += 4; p.maxShield += 4; } }
+    { id: 'elite', icon: '◆', name: 'Cazajefes', desc: 'Más daño general.', max: 4, base: 180, step: 110, apply: p => { p.damage += 4; p.maxShield += 4; } }
   ];
 
   const POWERS = [
@@ -430,7 +445,7 @@
     { id: 'first_run', icon: '▶', name: 'Primer despertar', desc: 'Inicia tu primera misión.', group: 'Supervivencia' },
     { id: 'wave_5', icon: '🌊', name: 'Cinco oleadas', desc: 'Alcanza la oleada 5.', group: 'Supervivencia' },
     { id: 'kills_100', icon: '🧟', name: 'Cien sombras', desc: 'Elimina 100 zombies en total.', group: 'Dominio' },
-    { id: 'boss_1', icon: '👑', name: 'Primer jefe', desc: 'Derrota un jefe zombie.', group: 'Dominio' },
+    { id: 'boss_1', icon: '◆', name: 'Primer jefe', desc: 'Derrota un jefe zombie.', group: 'Dominio' },
     { id: 'score_3000', icon: '⭐', name: 'Marca brillante', desc: 'Consigue 3000 puntos en una partida.', group: 'Dominio' },
     { id: 'fusion_1', icon: '✷', name: 'Alquimia táctica', desc: 'Descubre una fusión.', group: 'Exploración' },
     { id: 'map_3', icon: '🗺️', name: 'Tercer territorio', desc: 'Desbloquea el mapa 3.', group: 'Exploración' },
@@ -442,7 +457,7 @@
   const DEFAULT_STATE = () => ({
     version: VERSION,
     activeProfileId: 'p_' + Date.now(),
-    settings: { sound: true, music: true, shake: true, reducedMotion: false, lowPerformance: false },
+    settings: { sound: true, music: true, shake: true, reducedMotion: false, lowPerformance: false, difficulty: 'normal' },
     profiles: [{
       id: 'p_' + Date.now(),
       name: 'Jugador',
@@ -464,6 +479,7 @@
       worldProgression: { shotTier: 0, projectileSpeedTier: 0, accuracyTier: 0, mobilityTier: 0, rangeTier: 0, bossPowers: {} },
       levelProgress: { 1: 1 },
       ranking: [],
+      preferredDifficulty: 'normal',
       lastSave: null
     }]
   });
@@ -493,6 +509,7 @@
     const d = DEFAULT_STATE();
     s.version = VERSION;
     s.settings = { ...d.settings, ...(s.settings || {}) };
+    if (!DIFFICULTY_MODES[s.settings.difficulty]) s.settings.difficulty = 'normal';
     s.profiles = Array.isArray(s.profiles) && s.profiles.length ? s.profiles : d.profiles;
     s.profiles.forEach(p => {
       p.unlockedAvatars = p.unlockedAvatars || ['explorador', 'centinela', 'eco'];
@@ -520,6 +537,7 @@
       p.worldProgression.accuracyTier = Math.max(p.worldProgression.accuracyTier || 0, clearedCount);
       p.worldProgression.mobilityTier = Math.max(p.worldProgression.mobilityTier || 0, clearedCount);
       p.worldProgression.rangeTier = Math.max(p.worldProgression.rangeTier || 0, clearedCount);
+      p.preferredDifficulty = DIFFICULTY_MODES[p.preferredDifficulty] ? p.preferredDifficulty : (DIFFICULTY_MODES[s.settings.difficulty] ? s.settings.difficulty : 'normal');
       p.levelProgress = p.levelProgress || { 1: 1 };
       for (const w of (p.completedMaps || [])) p.levelProgress[w] = 5;
       if (p.lastSave?.mapIndex != null) { const wn = p.lastSave.mapIndex + 1; p.levelProgress[wn] = Math.max(p.levelProgress[wn] || 1, p.lastSave.wave || 1); }
@@ -540,6 +558,10 @@
     musicPad: null,
     musicGain: null,
     padGain: null,
+    bossSeqTimer: null,
+    bossSeqStep: 0,
+    bossThemeIndex: 0,
+    bossThemePhase: 1,
     ensure() {
       if (!state.settings.sound && !state.settings.music) return null;
       if (!this.ctx) this.ctx = new (window.AudioContext || window.webkitAudioContext)();
@@ -580,6 +602,23 @@
     world2Pulse() { this.chord([176, 233.08, 311.13], .18, .045); this.tone(72,.32,'sine',.024,26); },
     world2Shot() { this.tone(430 + rand(90,-60), .07, 'triangle', .018, -110); },
     world2BossCue() { this.chord([58.27, 77.78, 116.54, 155.56], .38, .1); },
+    musicTone(freq=110,dur=.11,type='triangle',gain=.012,slide=0){
+      if(!state.settings.music)return;const ctx=this.ensure();if(!ctx)return;const o=ctx.createOscillator(),g=ctx.createGain();o.type=type;o.frequency.setValueAtTime(Math.max(28,freq),ctx.currentTime);if(slide)o.frequency.exponentialRampToValueAtTime(Math.max(28,freq+slide),ctx.currentTime+dur);g.gain.setValueAtTime(.0001,ctx.currentTime);g.gain.exponentialRampToValueAtTime(gain,ctx.currentTime+.008);g.gain.exponentialRampToValueAtTime(.0001,ctx.currentTime+dur);o.connect(g).connect(ctx.destination);o.start();o.stop(ctx.currentTime+dur+.02);
+    },
+    bossShot(world=0){
+      if(!state.settings.sound)return;const defs=[
+        [118,.09,'sawtooth',.024,-48],[286,.075,'triangle',.019,-95],[760,.055,'square',.016,-210],[420,.07,'sawtooth',.021,-150],[72,.13,'triangle',.026,-18]
+      ],d=defs[Math.max(0,Math.min(4,world))];this.tone(...d);
+    },
+    bossSpecial(world=0){
+      if(!state.settings.sound)return;const cues=[
+        [72,110,164],[96,144,216],[196,294,392],[82,123,164],[42,63,94]
+      ][Math.max(0,Math.min(4,world))];this.chord(cues,.22,.045);
+    },
+    startBossSequence(mapIndex=0,phase=1){
+      if(!state.settings.music)return;clearInterval(this.bossSeqTimer);this.bossSeqTimer=null;this.bossSeqStep=0;this.bossThemeIndex=Math.max(0,Math.min(4,mapIndex));this.bossThemePhase=Math.max(1,phase||1);const cfg=boss2Meta(this.bossThemeIndex),phaseTempo=this.bossThemeIndex===4&&this.bossThemePhase>=4?.52:(this.bossThemePhase>=3?.86:1),beat=60000/cfg.music.bpm/2*phaseTempo;
+      const tick=()=>{if(!state.settings.music)return;const step=this.bossSeqStep++,seq=cfg.music.seq,n=seq[step%seq.length],phaseLift=(this.bossThemePhase-1)*2;const freq=cfg.music.root*Math.pow(2,(n+phaseLift)/12);this.musicTone(freq,.085,cfg.music.wave,.0065+this.bossThemePhase*.0012,step%4===0?-8:0);if(step%4===0)this.musicTone(cfg.music.root/2,.15,'sine',.009+this.bossThemePhase*.0015,-8);if(this.bossThemeIndex===1&&step%3===1)this.musicTone(freq*1.5,.05,'sine',.0035,18);if(this.bossThemeIndex===2&&step%2===1)this.musicTone(freq*2,.035,'square',.0032,-80);if(this.bossThemeIndex===3&&step%4===2)this.musicTone(cfg.music.root*2,.045,'square',.004,-40);if(this.bossThemeIndex===4&&step%8===6)this.musicTone(cfg.music.root*.75,.25,'sine',.006,12);};tick();this.bossSeqTimer=setInterval(tick,Math.max(160,beat));
+    },
     music(mapIndex = 0, boss = false, family = 'zombie', phase = 1) {
       if (!state.settings.music) return;
       const ctx = this.ensure();
@@ -613,6 +652,7 @@
       this.musicGain = g1;
       this.padGain = g2;
       this.setBossPhase(family, phase, boss);
+      if(boss)this.startBossSequence(mapIndex,phase);
     },
     setBossPhase(family = 'zombie', phase = 1, boss = true) {
       if (!this.ctx || !this.musicNode || !this.musicPad) return;
@@ -629,8 +669,10 @@
       this.musicPad.frequency.exponentialRampToValueAtTime(padFreq, ctx.currentTime + .35);
       if (this.musicGain) this.musicGain.gain.exponentialRampToValueAtTime(boss ? (.016 + idx * .004) : .011, ctx.currentTime + .25);
       if (this.padGain) this.padGain.gain.exponentialRampToValueAtTime(boss ? (.006 + idx * .0018) : .0045, ctx.currentTime + .25);
+      if(boss&&this.bossSeqTimer){this.bossThemePhase=Math.max(1,phase||1);this.startBossSequence(this.bossThemeIndex,this.bossThemePhase);}
     },
     stopMusic() {
+      clearInterval(this.bossSeqTimer);this.bossSeqTimer=null;this.bossSeqStep=0;
       try {
         if (this.musicGain && this.ctx) this.musicGain.gain.exponentialRampToValueAtTime(0.0001, this.ctx.currentTime + .15);
         if (this.padGain && this.ctx) this.padGain.gain.exponentialRampToValueAtTime(0.0001, this.ctx.currentTime + .15);
@@ -827,7 +869,7 @@
 
     getWorldOneWaveDuration(wave = this.wave) {
       const arr = WORLD_ONE_CONFIG.waveDurations;
-      return arr[Math.min(arr.length - 1, Math.max(0, wave - 1))] || 30;
+      return (arr[Math.min(arr.length - 1, Math.max(0, wave - 1))] || 30) * (this.getDifficulty().waveDuration || 1);
     }
 
     getWorldOneProgress() {
@@ -839,7 +881,7 @@
 
     getWorldTwoWaveDuration(wave = this.wave) {
       const arr = WORLD_TWO_CONFIG.waveDurations;
-      return arr[Math.min(arr.length - 1, Math.max(0, wave - 1))] || 32;
+      return (arr[Math.min(arr.length - 1, Math.max(0, wave - 1))] || 32) * (this.getDifficulty().waveDuration || 1);
     }
 
     getWorldTwoProgress() {
@@ -867,6 +909,7 @@
       if (!els.hudBossApproach || !els.hudBossPercent) return;
       const pct = this.getBossApproachPercent();
       const bossName = MAPS[this.mapIndex]?.boss || 'Jefe';
+      if(els.hudBossSigil&&els.hudBossSigil.dataset.world!==String(this.mapIndex)){els.hudBossSigil.dataset.world=String(this.mapIndex);els.hudBossSigil.innerHTML=bossSigilHtml(this.mapIndex,'hud-boss-sigil-img');}
       if (this.bossActive) {
         const b = this.bossActive;
         const totalBase = Math.max(1, (b.baseHp || 1) + (b.shieldMax || 0));
@@ -887,7 +930,9 @@
 
     getWorldStageTarget(level = this.worldStage?.level || this.wave || 1) {
       const targets = this.worldStage?.targets || WORLD_STAGE_TARGETS[this.mapIndex] || [20, 30, 40, 50, 60];
-      return targets[Math.max(0, Math.min(targets.length - 1, level - 1))] || 30;
+      const base = targets[Math.max(0, Math.min(targets.length - 1, level - 1))] || 30;
+      if ((this.mapIndex===0||this.mapIndex===1) && level===5) return base;
+      return Math.max(1, Math.ceil(base * (this.getDifficulty().target || 1)));
     }
 
     trackWorldKill(enemyOrCount = 1) {
@@ -1025,13 +1070,13 @@
           w1.captainTimer = 5.8;
         }
       }
-      w1.eventTimer = (w1.eventTimer || 0) - dt;
+      w1.eventTimer = (w1.eventTimer || 0) - dt*(this.getDifficulty().eventPace||1);
       if (w1.eventTimer <= 0 && this.wave < 5) {
         this.triggerWorldOneMicroEvent(this.wave);
         const act = WORLD_ONE_ACTS[this.wave - 1];
         w1.eventTimer = (act?.eventEvery || 12) + rand(2.4, -1.4);
       }
-      w1.hordeTimer = (w1.hordeTimer || 15.5) - dt;
+      w1.hordeTimer = (w1.hordeTimer || 15.5) - dt*(this.getDifficulty().hordePace||1);
       if (w1.hordeTimer <= 0 && this.wave >= 2 && this.wave < 5) {
         this.triggerWorldOneHorde();
         w1.hordeTimer = rand(this.wave >= 4 ? 18 : 22, this.wave >= 4 ? 14 : 17);
@@ -1084,7 +1129,7 @@
       if (Math.random() < .9) this.spawnPlanetObstacle(1);
       this.flash=.82; this.shake=11;
       AudioFX.world2BossCue();
-      this.toast('🦠 APERTURA DEL NEXO','El Patriarca Bacilo Omega despierta');
+      this.toast('APERTURA DEL NEXO','El Patriarca Bacilo Omega despierta');
     }
 
     updateWorldTwoDirector(dt) {
@@ -1132,20 +1177,20 @@
           w2.captainTimer=3.0;
         }
       }
-      w2.rewardTimer=(w2.rewardTimer ?? 7)-dt;
+      w2.rewardTimer=(w2.rewardTimer ?? 7)-dt*(this.isHardMode()?1.12:1);
       if (w2.rewardTimer<=0 && this.wave<=5) {
         this.spawnWorldTwoTacticalPrize();
         const base = this.wave >= 4 ? 12.5 : 14.5;
         w2.rewardTimer = base + rand(4.0,-2.0);
       }
-      w2.eventTimer=(w2.eventTimer||0)-dt;
+      w2.eventTimer=(w2.eventTimer||0)-dt*(this.getDifficulty().eventPace||1);
       if (w2.eventTimer<=0 && this.wave<5) {
         this.triggerWorldTwoMicroEvent(this.wave);
         if (Math.random() < .42) this.spawnWorldTwoTacticalPrize();
         const act=WORLD_TWO_ACTS[this.wave-1];
         w2.eventTimer=(act?.eventEvery||12)+rand(2.2,-1.2);
       }
-      w2.hordeTimer = (w2.hordeTimer || 13.2) - dt;
+      w2.hordeTimer = (w2.hordeTimer || 13.2) - dt*(this.getDifficulty().hordePace||1);
       if (w2.hordeTimer <= 0 && this.wave >= 2 && this.wave < 5) {
         this.triggerWorldTwoHorde();
         w2.hordeTimer = rand(this.wave >= 4 ? 15 : 18, this.wave >= 4 ? 12 : 14);
@@ -1238,6 +1283,10 @@
       p.stats.runs += 1;
       unlockAchievement('first_run');
       this.mapIndex = save?.mapIndex ?? clamp(mapIndex, 0, MAPS.length - 1);
+      this.difficulty = DIFFICULTY_MODES[save?.difficulty] ? save.difficulty : (DIFFICULTY_MODES[p.preferredDifficulty] ? p.preferredDifficulty : (DIFFICULTY_MODES[state.settings.difficulty] ? state.settings.difficulty : 'normal'));
+      p.preferredDifficulty = this.difficulty;
+      state.settings.difficulty = this.difficulty;
+      this.syncDifficultyUi?.();
       this.wave = save?.wave ?? 1;
       this.waveTime = 0;
       this.spawnTime = 0;
@@ -1315,7 +1364,7 @@
       hideOverlays();
       if (els.bossIntroOverlay) { els.bossIntroOverlay.classList.add('hidden'); els.bossIntroOverlay.dataset.family = ''; }
       this.updatePendingBadge();
-      this.toast(MAPS[this.mapIndex].name, MAPS[this.mapIndex].lore);
+      this.toast(`${MAPS[this.mapIndex].name} · ${this.getDifficulty().name}`, MAPS[this.mapIndex].lore);
       requestAnimationFrame(t => this.loop(t));
       saveState();
       setTimeout(()=>this.requestTacticalPrep(save?'resume':'start'),70);
@@ -1461,11 +1510,21 @@
       if (p.hp <= 0) this.end(false);
     }
 
+    getDifficulty() { return DIFFICULTY_MODES[this.difficulty] || DIFFICULTY_MODES.normal; }
+
+    isHardMode() { return this.difficulty === 'hard'; }
+
+    syncDifficultyUi() {
+      document.querySelectorAll('[data-difficulty]').forEach(btn => btn.classList.toggle('active', btn.dataset.difficulty === (this.difficulty || currentProfile()?.preferredDifficulty || state.settings.difficulty || 'normal')));
+      if (els.pauseMiniContext && this.running) els.pauseMiniContext.textContent = `M${this.mapIndex + 1} · Nivel ${this.wave} · ${this.getDifficulty().name}`;
+    }
+
     getStagePowerScale() {
       const level = clamp(this.worldStage?.level || this.wave || 1, 1, 5);
       const key = this.getTacticalLevelKey();
       const tactical = Math.max(0, Math.min(.32, Number(this.run?.tacticalBoosts?.[key] || 0)));
-      return (1 + Math.max(0, level - 1) * .03) * (1 + tactical);
+      const difficulty = this.getDifficulty();
+      return (1 + Math.max(0, level - 1) * .03) * (1 + tactical) * (difficulty.powerEffect || 1);
     }
 
     getTacticalLevelKey() {
@@ -1725,7 +1784,7 @@
 
     markPowerActive(id, seconds) {
       if (!id) return;
-      const next=(seconds||POWER_ACTIVE_SECONDS[id]||6)*(this.player?.powerDurationScale||1)*this.getStagePowerScale();
+      const next=(seconds||POWER_ACTIVE_SECONDS[id]||6)*(this.player?.powerDurationScale||1)*this.getStagePowerScale()*(this.getDifficulty().powerDuration||1);
       const primary=this.isPrimaryWeaponPower(id);
       if(primary){
         this.powerQueue=this.powerQueue||[];
@@ -1782,17 +1841,17 @@
       const profile=currentProfile();profile.relics=profile.relics||{};const p=this.player;if(!p)return;
       if(this.mapIndex>0&&profile.relics.world1Core){
         p.maxShield+=14;p.shield=Math.min(p.maxShield,p.shield+14);p.damage*=1.10;p.fireDelay*=.94;p.relicMeteorTimer=save?Math.max(3,p.relicMeteorTimer||0):4.5;
-        if(!save){this.spawnDrone(18,false,{support:true,radius:126,fireRate:.21,damageScale:.96,color:'#ffd56a'});this.toast('☄️ NÚCLEO METEÓRICO HEREDADO','Impacto automático cada 18s');}
+        if(!save){this.spawnDrone(18,false,{support:true,radius:126,fireRate:.21,damageScale:.96,color:'#ffd56a'});this.toast('NÚCLEO METEÓRICO HEREDADO','Impacto automático cada 18s');}
       }
       if(this.mapIndex>1&&profile.relics.world2Spore){
         p.powerEffectScale=(p.powerEffectScale||1)*1.06;p.powerDurationScale=(p.powerDurationScale||1)*1.04;p.maxShield+=8;p.shield=Math.min(p.maxShield,p.shield+8);
-        if(!save){this.spawnDrone(14,false,{support:true,inheritPower:true,count:1,radius:142,fireRate:.20,damageScale:.92,color:'#74ffd1'});this.toast('🧬 MATRIZ DE CONVERGENCIA','Poderes +6% · duración +4%');}
+        if(!save){this.spawnDrone(14,false,{support:true,inheritPower:true,count:1,radius:142,fireRate:.20,damageScale:.92,color:'#74ffd1'});this.toast('MATRIZ DE CONVERGENCIA','Poderes +6% · duración +4%');}
       }
       if(this.mapIndex>2&&profile.relics.world3Inferno){
         p.damage*=1.08;p.fireDelay=Math.max(180,p.fireDelay*.97);p.powerEffectScale=(p.powerEffectScale||1)*1.04;
-        if(!save)this.toast('🔥 CORAZÓN ÍGNEO','Daño reforzado · poderes ofensivos mejorados');
+        if(!save)this.toast('CORAZÓN ÍGNEO','Daño reforzado · poderes ofensivos mejorados');
       }
-      if(this.mapIndex>3&&profile.relics.world4Hex){p.aimAssist=Math.min(.35,(p.aimAssist||0)+.05);p.maxShield+=10;p.shield=Math.min(p.maxShield,p.shield+10);if(!save)this.toast('🔮 SELLO ASTRAL','Precisión y defensa heredadas');}
+      if(this.mapIndex>3&&profile.relics.world4Hex){p.aimAssist=Math.min(.35,(p.aimAssist||0)+.05);p.maxShield+=10;p.shield=Math.min(p.maxShield,p.shield+10);if(!save)this.toast('SELLO ASTRAL','Precisión y defensa heredadas');}
     }
 
 
@@ -1822,7 +1881,7 @@
           color: '#9fd4ff'
         });
         this.toast('🛸 Escolta heredada',`${count} nave${count>1?'s':''} aliada${count>1?'s':''}`);
-        if(this.mapIndex>=3&&p.activeBossShip&&p.bossShips?.[p.activeBossShip]){this.spawnDrone(22,false,{support:true,inheritPower:true,count:1,radius:158,fireRate:.17,damageScale:1.24,color:'#ffd56a'});this.toast('👑 NAVE-JEFE ACTIVADA',p.bossShips[p.activeBossShip].name);}
+        if(this.mapIndex>=3&&p.activeBossShip&&p.bossShips?.[p.activeBossShip]){this.spawnDrone(22,false,{support:true,inheritPower:true,count:1,radius:158,fireRate:.17,damageScale:1.24,color:'#ffd56a'});this.toast('NAVE-JEFE ACTIVADA',p.bossShips[p.activeBossShip].name);}
       }
     }
 
@@ -1925,23 +1984,22 @@
 
     showBossIntro(map, boss) {
       if (!els.bossIntroOverlay) return;
-      const cinematic = this.mapIndex === 1;
-      els.bossIntroFamily.textContent = cinematic ? 'CONTACTO DE AMENAZA · MUNDO 2' : (BOSS_FAMILY_LABELS[boss.family] || BEAST_LABELS[boss.beast] || 'Jefe');
-      els.bossIntroIcon.textContent = BEAST_ICONS[boss.beast] || map.icon || '👹';
+      const meta=boss2Meta(this.mapIndex);
+      els.bossIntroFamily.textContent = `${meta.intro} · MUNDO ${this.mapIndex+1}`;
+      els.bossIntroIcon.innerHTML = bossSigilHtml(this.mapIndex,'boss-sigil');
       els.bossIntroName.textContent = boss.name;
-      els.bossIntroText.textContent = cinematic
-        ? `${boss.specialName || 'Mutación'} · fase de irrupción biotóxica`
-        : `${boss.specialName || 'Mutación'} · ${BEAST_LABELS[boss.beast] || 'entidad'}`;
-      els.bossIntroOverlay.classList.toggle('micro-intro', !cinematic);
-      els.bossIntroOverlay.classList.toggle('cinematic-full', cinematic);
+      els.bossIntroText.textContent = `${meta.weapon} · ${meta.special}`;
+      els.bossIntroOverlay.style.setProperty('--boss-color',meta.color);
+      els.bossIntroOverlay.classList.remove('micro-intro','cinematic-full');
+      els.bossIntroOverlay.classList.add('boss2-intro');
       els.bossIntroOverlay.dataset.family = map.family || '';
       els.bossIntroOverlay.classList.remove('hidden');
       clearTimeout(this.bossIntroTimeout);
-      const timeout = cinematic ? 2100 : 1250;
+      const timeout = this.mapIndex===4 ? 1850 : 1450;
       this.bossIntroTimeout = setTimeout(() => {
         if (els.bossIntroOverlay) {
           els.bossIntroOverlay.classList.add('hidden');
-          els.bossIntroOverlay.classList.remove('micro-intro','cinematic-full');
+          els.bossIntroOverlay.classList.remove('micro-intro','cinematic-full','boss2-intro');
           els.bossIntroOverlay.dataset.family = '';
         }
       }, timeout);
@@ -2019,15 +2077,15 @@
         b.shieldMax += 18;
         b.shield = Math.min(b.shieldMax, b.shield + b.shieldMax * .38);
         this.grantBossAid(`Fase ${b.phase}`);
-        if (this.mapIndex === 1) {
-          const phaseLines = {
-            2:'el Patriarca acelera sus enjambres',
-            3:'el núcleo biotóxico entra en furia',
-            4:'máxima presión: ruptura del cerco'
-          };
-          this.toast(`☣️ FASE ${b.phase}`, phaseLines[b.phase] || 'el jefe intensifica su patrón');
-          this.spawnMeteorRain(1,true);
-        }
+        const phaseLines=[
+          {2:'la órbita meteórica se densifica',3:'el núcleo mineral entra en sobrecarga',4:'lluvia orbital máxima'},
+          {2:'las esporas convergen con mayor precisión',3:'el núcleo biotóxico entra en furia',4:'neblina infecciosa crítica'},
+          {2:'la descarga viridiana acelera',3:'el reactor entra en tormenta',4:'sobrecarga voltaica máxima'},
+          {2:'las cuchillas del eclipse abren el cerco',3:'el Arconte sincroniza su artillería',4:'eclipse escarlata total'},
+          {2:'la singularidad comienza a atraer el campo',3:'el vacío comprime las rutas de escape',4:'horizonte de eventos crítico'}
+        ][this.mapIndex]||{};
+        this.toast(`FASE ${b.phase}`,phaseLines[b.phase]||boss2Meta(this.mapIndex).special);
+        if(this.mapIndex===1)this.spawnMeteorRain(1,true);
         AudioFX.setBossPhase(b.family, b.phase, true);
       }
       if (f.charge >= 100) {
@@ -2043,7 +2101,7 @@
         b.vulnerable = Math.max(0, b.vulnerable - dt);
         if (b.vulnerable <= 0) {
           b.shield = Math.max(b.shieldMax * .58, b.shield);
-          this.toast('🧱', 'El jefe recompone su escudo');
+          this.toast('ESCUDO RECOMPUESTO','El jefe recupera su protección');
         }
       } else if (b.shield <= 0) {
         b.vulnerable = Math.max(2.8, 4.5 - b.phase * .24);
@@ -2062,7 +2120,7 @@
       p.sparkTimer = Math.min(10, (p.sparkTimer || 0) + 2.2);
       p.sparkTick = 0;
       p.shield = Math.min(p.maxShield, p.shield + p.maxShield * .18);
-      this.toast('⚡', 'Sobrecarga anti-jefe');
+      this.toast('SOBRECARGA ANTI-JEFE','Ventana ofensiva activa');
       AudioFX.chord([392,523.25,659.25], .16, .06);
     }
 
@@ -2731,7 +2789,7 @@
     }
 
     triggerWorldThreeHorde() {
-      if(this.wave<2||this.wave>=5)return;const size=[3,6,9][Math.min(2,this.wave-2)];this.spawnWorldThreeVFormation(size,true);this.spawnCrossWorldPrizeBurst(size>=6?2:1);this.spawnHordeEmergencyKit();this.worldThreeState.speedBurst=Math.max(this.worldThreeState.speedBurst||0,5.2);this.worldThreeState.hordeSeen=(this.worldThreeState.hordeSeen||0)+1;this.toast('⚡ HORDA VIRIDIANA',`Formación en V x${size} · kit antihorda disponible`);
+      if(this.wave<2||this.wave>=5)return;const size=[3,6,9][Math.min(2,this.wave-2)];this.spawnWorldThreeVFormation(size,true);if(this.isHardMode()&&size>=6)this.spawnWorldThreeVFormation(3,Math.random()<.7);this.spawnCrossWorldPrizeBurst((size>=6?2:1)+(this.getDifficulty().hordeRewardBonus||0));this.spawnHordeEmergencyKit();this.spawnDifficultyHordeHazards();this.worldThreeState.speedBurst=Math.max(this.worldThreeState.speedBurst||0,5.2);this.worldThreeState.hordeSeen=(this.worldThreeState.hordeSeen||0)+1;this.toast('⚡ HORDA VIRIDIANA',`Formación en V x${size} · kit antihorda disponible`);
     }
 
     spawnAdvancedWorldVFormation(worldIndex,size=3,diagonal=true) {
@@ -2748,7 +2806,7 @@
     triggerWorldFourHorde() {
       if(this.wave<2||this.wave>5)return;const size=this.wave>=4?9:(this.wave===3?6:3);
       this.spawnAdvancedWorldVFormation(3,size,true);if(size>=6)this.spawnAdvancedWorldVFormation(3,3,Math.random()<.6);
-      this.spawnCrossWorldPrizeBurst(size>=6?2:1);this.spawnHordeEmergencyKit();
+      this.spawnCrossWorldPrizeBurst((size>=6?2:1)+(this.getDifficulty().hordeRewardBonus||0));this.spawnHordeEmergencyKit();this.spawnDifficultyHordeHazards();
       this.worldFourState.hordeSeen=(this.worldFourState.hordeSeen||0)+1;
       this.toast('🔥 HORDA CARMESÍ',`Formación x${size} · kit táctico disperso en el lienzo`);
     }
@@ -2756,7 +2814,7 @@
     triggerWorldFiveHorde() {
       if(this.wave<2||this.wave>5)return;const size=this.wave>=4?9:(this.wave===3?6:3);
       this.spawnAdvancedWorldVFormation(4,size,true);if(size>=6)this.spawnAdvancedWorldVFormation(4,3,true);
-      this.spawnCrossWorldPrizeBurst(size>=6?2:1);this.spawnHordeEmergencyKit();
+      this.spawnCrossWorldPrizeBurst((size>=6?2:1)+(this.getDifficulty().hordeRewardBonus||0));this.spawnHordeEmergencyKit();this.spawnDifficultyHordeHazards();
       this.worldFiveState.hordeSeen=(this.worldFiveState.hordeSeen||0)+1;
       this.toast('🕳️ HORDA DEL VACÍO',`Formación x${size} · kit de emergencia disponible`);
     }
@@ -2771,11 +2829,11 @@
 
     updateWorldThreeDirector(dt) {
       if(this.mapIndex!==2||this.bossActive||this.run?.mapComplete)return false;const w3=this.worldThreeState;if(!w3)return false;
-      w3.speedBurst=Math.max(0,(w3.speedBurst||0)-dt);w3.rewardTimer=(w3.rewardTimer??9)-dt;
+      w3.speedBurst=Math.max(0,(w3.speedBurst||0)-dt);w3.rewardTimer=(w3.rewardTimer??9)-dt*(this.isHardMode()?1.12:1);
       if(w3.rewardTimer<=0&&this.wave<5){this.spawnCrossWorldTacticalPrize();w3.rewardTimer=rand(16,12);}
-      w3.hazardTimer=(w3.hazardTimer??6)-dt;if(w3.hazardTimer<=0&&this.wave>=2){this.spawnWorldThreeHazard(this.wave>=4?2:1,this.wave>=3);w3.hazardTimer=rand(9.5,6.2);}
-      w3.eventTimer=(w3.eventTimer??8)-dt;if(w3.eventTimer<=0&&this.wave<5){this.triggerWorldThreeMicroEvent(this.wave);w3.eventTimer=(WORLD_THREE_ACTS[this.wave-1]?.eventEvery||10)+rand(2,-1);}
-      w3.hordeTimer=(w3.hordeTimer??13)-dt;if(w3.hordeTimer<=0&&this.wave>=2&&this.wave<5){this.triggerWorldThreeHorde();w3.hordeTimer=rand(this.wave>=4?15:19,this.wave>=4?11:14);}
+      w3.hazardTimer=(w3.hazardTimer??6)-dt*(this.getDifficulty().hazardPace||1);if(w3.hazardTimer<=0&&this.wave>=2){this.spawnWorldThreeHazard(this.wave>=4?2:1,this.wave>=3);w3.hazardTimer=rand(9.5,6.2);}
+      w3.eventTimer=(w3.eventTimer??8)-dt*(this.getDifficulty().eventPace||1);if(w3.eventTimer<=0&&this.wave<5){this.triggerWorldThreeMicroEvent(this.wave);w3.eventTimer=(WORLD_THREE_ACTS[this.wave-1]?.eventEvery||10)+rand(2,-1);}
+      w3.hordeTimer=(w3.hordeTimer??13)-dt*(this.getDifficulty().hordePace||1);if(w3.hordeTimer<=0&&this.wave>=2&&this.wave<5){this.triggerWorldThreeHorde();w3.hordeTimer=rand(this.wave>=4?15:19,this.wave>=4?11:14);}
       if(this.wave===5){w3.speedBurst=Math.max(w3.speedBurst||0,.8);w3.hordeTimer=(w3.hordeTimer||8)-dt;if(w3.hordeTimer<=0){this.spawnWorldThreeVFormation(6,true);this.spawnCrossWorldPrizeBurst(1);this.spawnHordeEmergencyKit();w3.hordeTimer=rand(11,8);}}
       return false;
     }
@@ -3048,10 +3106,10 @@
       const power = POWERS.find(pw => pw.id === powerId) || POWERS[0];
       this.lastBossLootPower = power;
       this.spawnPickup(e.x, e.y - e.r * .45, 'power', 1, { powerId, major: true, rewardGlow: true, bossLoot:true, label: `BOTÍN ${power.name.toUpperCase()}`, powerDuration: Math.max(12, POWER_ACTIVE_SECONDS[powerId] || 12) });
-      for (let i = 0; i < 5; i++) this.spawnPickup(e.x + rand(120, -120), e.y + rand(95, -95), 'coin', 30 + i * 8, { rewardGlow: i < 2, bossLoot:true });
-      for (let i = 0; i < 4; i++) this.spawnPickup(e.x + rand(105, -105), e.y + rand(88, -88), 'xp', 14 + i * 6, { rewardGlow: i < 2, bossLoot:true });
+      for (let i = 0; i < 5 + (this.isHardMode()?1:0); i++) this.spawnPickup(e.x + rand(120, -120), e.y + rand(95, -95), 'coin', Math.round((30 + i * 8)*(this.getDifficulty().coins||1)), { rewardGlow: i < 3, bossLoot:true });
+      for (let i = 0; i < 4 + (this.isHardMode()?1:0); i++) this.spawnPickup(e.x + rand(105, -105), e.y + rand(88, -88), 'xp', Math.round((14 + i * 6)*(this.getDifficulty().xp||1)), { rewardGlow: i < 3, bossLoot:true });
       if (Math.random() < .8) this.spawnPickup(e.x + rand(86, -86), e.y + rand(64, -64), 'life', 26 + this.mapIndex * 4, { rewardGlow: true, bossLoot:true, label: 'VIDA DE BOTÍN' });
-      this.toast('🎁 Botín del jefe', `${power.name} · XP · monedas${Math.random() < .5 ? ' · vida' : ''}`);
+      this.toast('BOTÍN DEL JEFE',`${power.name} · XP · monedas${Math.random()<.5?' · vida':''}`);
       return power;
     }
 
@@ -3145,14 +3203,27 @@
       this.toast('♻ PAQUETE DE RECUPERACIÓN', `${loadout.length} poderes previos + Impulsor + Combo 5s`);
     }
 
+    spawnDifficultyHordeHazards() {
+      if (!this.isHardMode()) return;
+      const pt=this.randomTacticalPoint();
+      if(Math.random()<.55)this.spawnPickup(pt[0],pt[1],'shield',24+this.mapIndex*3,{rewardGlow:true,label:'BONO DIFÍCIL',life:24,autoDelay:999});
+      else this.spawnPickup(pt[0],pt[1],'power',1,{rewardGlow:true,label:'PODER DE HORDA',life:24,autoDelay:999});
+      if (this.mapIndex===0) { this.spawnMeteorRain(this.mobileLandscape?2:3,false); if(Math.random()<.45)this.spawnPlanetObstacle(1); }
+      else if (this.mapIndex===1) { this.spawnOrbitalWreck(this.mobileLandscape?1:2,true); this.spawnMeteorRain(2,false); }
+      else if (this.mapIndex===2) this.spawnWorldThreeHazard(this.mobileLandscape?1:2,true);
+      else if (this.mapIndex===3) this.spawnWorldFourHazard(this.mobileLandscape?1:2,true);
+      else if (this.mapIndex===4) this.spawnWorldFiveHazard(this.mobileLandscape?1:2,true);
+    }
+
     triggerWorldOneHorde() {
       if (this.wave < 2 || this.wave >= 5) return;
       const wide = this.w >= 1100;
       const count = wide ? 5 : 4;
       this.spawnWorldOneVisibleSwarm(count);
       if (this.wave >= 3) this.spawnWorldOneVisibleSwarm(wide ? 3 : 2);
-      this.spawnCrossWorldPrizeBurst(this.wave >= 4 ? 2 : 1);
+      this.spawnCrossWorldPrizeBurst((this.wave >= 4 ? 2 : 1) + (this.getDifficulty().hordeRewardBonus||0));
       this.spawnHordeEmergencyKit();
+      this.spawnDifficultyHordeHazards();
       this.worldOneState.hordeSeen = (this.worldOneState.hordeSeen || 0) + 1;
       this.toast('⚠️ HORDA ABIERTA', `Mundo 1 · oleada ${this.wave} · más premios en pantalla`);
     }
@@ -3186,8 +3257,9 @@
       const size = HORDE_SIZE_BANDS[idx];
       this.spawnWorldTwoVFormation(size, Math.random() < .68, Math.random() < .5);
       if (size >= 6) this.spawnWorldTwoVFormation(3, Math.random() < .5, Math.random() < .5);
-      this.spawnCrossWorldPrizeBurst(size >= 6 ? 2 : 1);
+      this.spawnCrossWorldPrizeBurst((size >= 6 ? 2 : 1) + (this.getDifficulty().hordeRewardBonus||0));
       this.spawnHordeEmergencyKit();
+      this.spawnDifficultyHordeHazards();
       this.worldTwoState.hordeSeen = (this.worldTwoState.hordeSeen || 0) + 1;
       this.toast('☣️ HORDA DEL NEXO', `Formación en V x${size} · premios tácticos liberados`);
     }
@@ -3221,11 +3293,12 @@
         const intervals = [1.02,1.16,.9,.84,1.18];
         const targetCount = targets[phase - 1];
         const interval = intervals[phase - 1];
-        w1.meteorTimer -= dt;
-        w1.rainTimer -= dt;
-        w1.bombTimer -= dt;
-        w1.planetTimer -= dt;
-        w1.burstTimer -= dt;
+        const hazardPace=this.getDifficulty().hazardPace||1;
+        w1.meteorTimer -= dt*hazardPace;
+        w1.rainTimer -= dt*hazardPace;
+        w1.bombTimer -= dt*hazardPace;
+        w1.planetTimer -= dt*hazardPace;
+        w1.burstTimer -= dt*hazardPace;
 
         if (phase === 2 && w1.meteorTimer <= 0) {
           this.spawnMeteor(1, false);
@@ -3304,8 +3377,8 @@
         return;
       }
       if(this.mapIndex===2){const wide=this.w>=1100,mid=this.w>=760,targetCount=wide?[9,10,11,12,9][this.wave-1]:(mid?[8,9,10,11,8][this.wave-1]:[6,7,8,9,7][this.wave-1]),interval=[.94,.88,.82,.78,.92][this.wave-1]||.86;if(this.spawnTime<=0&&this.enemies.length<targetCount){let amount=(this.wave>=3&&this.enemies.length<targetCount*.45)?2:1;for(let i=0;i<amount;i++)this.spawnEnemy(this.worldThreeEnemyId(),this.wave<5);this.spawnTime=interval+rand(.14,-.08);}return;}
-      if(this.mapIndex===3){const wide=this.w>=1100,mid=this.w>=760,targetCount=wide?[10,11,12,13,10][this.wave-1]:(mid?[9,10,11,12,9][this.wave-1]:[7,8,9,10,8][this.wave-1]),interval=[.92,.86,.82,.78,.90][this.wave-1]||.84;const w4=this.worldFourState||{};w4.hazardTimer=(w4.hazardTimer??7)-dt;w4.hordeTimer=(w4.hordeTimer??12.5)-dt;this.worldFourState=w4;if(w4.hazardTimer<=0){this.spawnWorldFourHazard(this.wave>=4?2:1,this.wave>=3);w4.hazardTimer=rand(this.wave>=4?7.4:9.4,this.wave>=4?5.0:6.6);}if(w4.hordeTimer<=0&&this.wave>=2){this.triggerWorldFourHorde();w4.hordeTimer=rand(this.wave>=4?15:19,this.wave>=4?11:14);}if(this.spawnTime<=0&&this.enemies.length<targetCount){let amount=(this.wave>=3&&this.enemies.length<targetCount*.45)?2:1;for(let i=0;i<amount;i++)this.spawnEnemy(this.worldFourEnemyId(),this.wave<5);this.spawnTime=interval+rand(.14,-.08);}return;}
-      if(this.mapIndex===4){const wide=this.w>=1100,mid=this.w>=760,targetCount=wide?[10,11,13,14,11][this.wave-1]:(mid?[9,10,12,13,10][this.wave-1]:[7,8,10,11,8][this.wave-1]),interval=[.90,.84,.80,.74,.88][this.wave-1]||.82;const w5=this.worldFiveState||{};w5.hazardTimer=(w5.hazardTimer??6.8)-dt;w5.hordeTimer=(w5.hordeTimer??11.8)-dt;this.worldFiveState=w5;if(w5.hazardTimer<=0){this.spawnWorldFiveHazard(this.wave>=4?2:1,true);w5.hazardTimer=rand(this.wave>=4?6.8:8.6,this.wave>=4?4.8:6.0);}if(w5.hordeTimer<=0&&this.wave>=2){this.triggerWorldFiveHorde();w5.hordeTimer=rand(this.wave>=4?14:18,this.wave>=4?10:13);}if(this.spawnTime<=0&&this.enemies.length<targetCount){let amount=(this.wave>=2&&this.enemies.length<targetCount*.48)?2:1;if(this.wave>=4&&this.enemies.length<targetCount*.32)amount=3;for(let i=0;i<amount;i++)this.spawnEnemy(this.worldFiveEnemyId(),this.wave<5);this.spawnTime=interval+rand(.12,-.08);}return;}
+      if(this.mapIndex===3){const wide=this.w>=1100,mid=this.w>=760,targetCount=wide?[10,11,12,13,10][this.wave-1]:(mid?[9,10,11,12,9][this.wave-1]:[7,8,9,10,8][this.wave-1]),interval=[.92,.86,.82,.78,.90][this.wave-1]||.84;const w4=this.worldFourState||{};w4.hazardTimer=(w4.hazardTimer??7)-dt*(this.getDifficulty().hazardPace||1);w4.hordeTimer=(w4.hordeTimer??12.5)-dt*(this.getDifficulty().hordePace||1);this.worldFourState=w4;if(w4.hazardTimer<=0){this.spawnWorldFourHazard(this.wave>=4?2:1,this.wave>=3);w4.hazardTimer=rand(this.wave>=4?7.4:9.4,this.wave>=4?5.0:6.6);}if(w4.hordeTimer<=0&&this.wave>=2){this.triggerWorldFourHorde();w4.hordeTimer=rand(this.wave>=4?15:19,this.wave>=4?11:14);}if(this.spawnTime<=0&&this.enemies.length<targetCount){let amount=(this.wave>=3&&this.enemies.length<targetCount*.45)?2:1;for(let i=0;i<amount;i++)this.spawnEnemy(this.worldFourEnemyId(),this.wave<5);this.spawnTime=interval+rand(.14,-.08);}return;}
+      if(this.mapIndex===4){const wide=this.w>=1100,mid=this.w>=760,targetCount=wide?[10,11,13,14,11][this.wave-1]:(mid?[9,10,12,13,10][this.wave-1]:[7,8,10,11,8][this.wave-1]),interval=[.90,.84,.80,.74,.88][this.wave-1]||.82;const w5=this.worldFiveState||{};w5.hazardTimer=(w5.hazardTimer??6.8)-dt*(this.getDifficulty().hazardPace||1);w5.hordeTimer=(w5.hordeTimer??11.8)-dt*(this.getDifficulty().hordePace||1);this.worldFiveState=w5;if(w5.hazardTimer<=0){this.spawnWorldFiveHazard(this.wave>=4?2:1,true);w5.hazardTimer=rand(this.wave>=4?6.8:8.6,this.wave>=4?4.8:6.0);}if(w5.hordeTimer<=0&&this.wave>=2){this.triggerWorldFiveHorde();w5.hordeTimer=rand(this.wave>=4?14:18,this.wave>=4?10:13);}if(this.spawnTime<=0&&this.enemies.length<targetCount){let amount=(this.wave>=2&&this.enemies.length<targetCount*.48)?2:1;if(this.wave>=4&&this.enemies.length<targetCount*.32)amount=3;for(let i=0;i<amount;i++)this.spawnEnemy(this.worldFiveEnemyId(),this.wave<5);this.spawnTime=interval+rand(.12,-.08);}return;}
       const targetCount = 6 + this.wave * 3 + Math.floor(this.mapIndex * 1.5);
       const interval = Math.max(.42, 1.45 - this.wave * .05 - this.mapIndex * .02);
       if (this.spawnTime <= 0 && this.enemies.length < targetCount) {
@@ -3468,8 +3541,9 @@
     // DSEBI gameplay balance v0.9.0: mundos 1 y 2 con progresión diferenciada.
     // Enemigos elite: esquivan, persiguen, resisten y obligan a moverse.
     hardEnemyRate() {
-      if (this.mapIndex === 0) return Math.min(.58, .14 + Math.max(0, this.wave - 1) * .095);
-      return Math.min(0.78, 0.28 + Math.max(0, this.wave - 1) * 0.10 + this.mapIndex * 0.018);
+      const bonus=this.isHardMode() ? .08 : 0;
+      if (this.mapIndex === 0) return Math.min(.66, .14 + Math.max(0, this.wave - 1) * .095 + bonus);
+      return Math.min(0.84, 0.28 + Math.max(0, this.wave - 1) * 0.10 + this.mapIndex * 0.018 + bonus);
     }
 
     makeEnemyHard(e) {
@@ -3591,6 +3665,9 @@
         trail: []
       };
       this.makeEnemyHard(enemy);
+      const diff=this.getDifficulty();
+      enemy.hp*=diff.enemyHp; enemy.baseHp=enemy.hp; enemy.speed*=diff.enemySpeed;
+      if(this.isHardMode()&&enemy.hard) enemy.score=Math.ceil(enemy.score*1.08);
       this.enemies.push(enemy);
     }
 
@@ -3600,9 +3677,10 @@
       const campaignScale = 1 + this.mapIndex * .08;
       let hp = (1120 + this.mapIndex * 270 + this.wave * 118) * campaignScale;
       hp *= this.mapIndex===0?4.35:(this.mapIndex===1?3.82:(this.mapIndex===2?4.05:(2.25+this.mapIndex*.095)));
+      hp *= this.getDifficulty().bossHp || 1;
       const x = this.w / 2;
       const y = -80;
-      const shieldBase = this.mapIndex === 0 ? 680 : (this.mapIndex === 1 ? 560 : 310 + this.mapIndex * 42);
+      const shieldBase = (this.mapIndex === 0 ? 680 : (this.mapIndex === 1 ? 560 : 310 + this.mapIndex * 42)) * (this.getDifficulty().bossShield || 1);
       this.bossActive = {
         id: 'boss_' + map.id,
         name: map.boss,
@@ -3612,7 +3690,7 @@
         pattern: map.pattern,
         variant: map.variant || 1,
         summons: this.mapIndex===1?WORLD_TWO_MINION_FAMILIES.flat():(this.mapIndex===2?WORLD_THREE_MINION_FAMILIES.flat():(this.mapIndex===3?WORLD_FOUR_MINION_FAMILIES.flat():(this.mapIndex===4?WORLD_FIVE_MINION_FAMILIES.flat():(map.summons||[])))),
-        specialName: map.specialName || 'Mutación',
+        specialName: boss2Meta(this.mapIndex).special,
         x, y,
         targetY:this.mapIndex===1?this.h*.22:(this.mapIndex===2?this.h*.20:(this.mapIndex===3?this.h*.21:(this.mapIndex===4?this.h*.22:this.h*.18))),
         hp,
@@ -3631,6 +3709,8 @@
         boss: true,
         minionFamilies:this.mapIndex===0?WORLD_ONE_MINION_FAMILIES:(this.mapIndex===1?WORLD_TWO_MINION_FAMILIES:(this.mapIndex===2?WORLD_THREE_MINION_FAMILIES:(this.mapIndex===3?WORLD_FOUR_MINION_FAMILIES:(this.mapIndex===4?WORLD_FIVE_MINION_FAMILIES:[]))))
       };
+      this.bossActive.attack *= this.getDifficulty().bossCadence || 1;
+      this.bossActive.specialCd *= this.getDifficulty().bossCadence || 1;
       this.bossFight = { active: true, charge: 0, minionTimer: this.mapIndex === 0 ? 1.6 : (this.mapIndex === 1 ? 1.85 : 2.15), phaseNotified: 1, cinematic: this.mapIndex === 1 ? 1.95 : 1.15, addsKilled: 0, supportTimer: this.mapIndex === 0 ? 2.2 : 1.9, escortTimer: this.mapIndex === 0 ? 3.4 : (this.mapIndex === 1 ? 3.2 : 3.9), hazardTimer: this.mapIndex === 0 ? 5.0 : (this.mapIndex === 1 ? 4.8 : 4.2), guardianPulse: 0 };
       this.enemies.push(this.bossActive);
       this.bossIntroduced = true;
@@ -3659,7 +3739,7 @@
             }
           }
         });
-        this.toast('🛡️ Séquito del jefe', 'Destrúyelo para romper su protección');
+        this.toast('SÉQUITO DEL JEFE','Destrúyelo para romper su protección');
       } else if (this.mapIndex === 1) {
         WORLD_TWO_MINION_FAMILIES.forEach((fam,familyIndex)=>{
           for(let i=0;i<2;i++) {
@@ -3668,10 +3748,10 @@
             if(escort && !escort.boss){ escort.bossEscort=true; escort.bossFamilyIndex=familyIndex; escort.hp*=1.22; escort.baseHp=escort.hp; escort.r*=.94; }
           }
         });
-        this.toast('🦠 Tríada del Patriarca','Tres familias sostienen su escudo');
-      } else if(this.mapIndex===2){WORLD_THREE_MINION_FAMILIES.forEach((fam,fi)=>{for(let i=0;i<2;i++){this.spawnEnemy(pick(fam),true);const escort=this.enemies[this.enemies.length-1];if(escort&&!escort.boss){escort.bossEscort=true;escort.bossFamilyIndex=fi;escort.hp*=1.25;escort.baseHp=escort.hp;escort.r*=1.04;}}});this.worldThreeState.speedBurst=6;this.spawnWorldThreeHazard(2,true);this.toast('⚡ TRÍADA VIRIDIANA','Tres familias protegen al Soberano');}
-      else if(this.mapIndex===3){WORLD_FOUR_MINION_FAMILIES.forEach((fam,fi)=>{for(let i=0;i<2;i++){this.spawnEnemy(pick(fam),true);const escort=this.enemies[this.enemies.length-1];if(escort&&!escort.boss){escort.bossEscort=true;escort.bossFamilyIndex=fi;escort.hp*=1.22;escort.baseHp=escort.hp;escort.r*=1.02;}}});this.spawnWorldFourHazard(2,true);this.toast('🔥 ÉLITE DEL ECLIPSE','Dos alas protegen al Arconte');}
-      else if(this.mapIndex===4){WORLD_FIVE_MINION_FAMILIES.forEach((fam,fi)=>{for(let i=0;i<2;i++){this.spawnEnemy(pick(fam),true);const escort=this.enemies[this.enemies.length-1];if(escort&&!escort.boss){escort.bossEscort=true;escort.bossFamilyIndex=fi;escort.hp*=1.24;escort.baseHp=escort.hp;escort.r*=1.04;}}});this.spawnWorldFiveHazard(2,true);this.toast('🕳️ GUARDIA DE SINGULARIDAD','El Coloso convoca dos familias del vacío');}
+        this.toast('TRÍADA DEL PATRIARCA','Tres familias sostienen su escudo');
+      } else if(this.mapIndex===2){WORLD_THREE_MINION_FAMILIES.forEach((fam,fi)=>{for(let i=0;i<2;i++){this.spawnEnemy(pick(fam),true);const escort=this.enemies[this.enemies.length-1];if(escort&&!escort.boss){escort.bossEscort=true;escort.bossFamilyIndex=fi;escort.hp*=1.25;escort.baseHp=escort.hp;escort.r*=1.04;}}});this.worldThreeState.speedBurst=6;this.spawnWorldThreeHazard(2,true);this.toast('TRÍADA VIRIDIANA','Tres familias protegen al Soberano');}
+      else if(this.mapIndex===3){WORLD_FOUR_MINION_FAMILIES.forEach((fam,fi)=>{for(let i=0;i<2;i++){this.spawnEnemy(pick(fam),true);const escort=this.enemies[this.enemies.length-1];if(escort&&!escort.boss){escort.bossEscort=true;escort.bossFamilyIndex=fi;escort.hp*=1.22;escort.baseHp=escort.hp;escort.r*=1.02;}}});this.spawnWorldFourHazard(2,true);this.toast('ÉLITE DEL ECLIPSE','Dos alas protegen al Arconte');}
+      else if(this.mapIndex===4){WORLD_FIVE_MINION_FAMILIES.forEach((fam,fi)=>{for(let i=0;i<2;i++){this.spawnEnemy(pick(fam),true);const escort=this.enemies[this.enemies.length-1];if(escort&&!escort.boss){escort.bossEscort=true;escort.bossFamilyIndex=fi;escort.hp*=1.24;escort.baseHp=escort.hp;escort.r*=1.04;}}});this.spawnWorldFiveHazard(2,true);this.toast('GUARDIA DE SINGULARIDAD','El Coloso convoca dos familias del vacío');}
     }
 
     updateEnemies(dt) {
@@ -3823,7 +3903,50 @@
       }
     }
 
+    fireBossProjectile(b,angle,speed,damage,shape,color,opts={}){
+      this.addEnemyBullet(b.x,b.y,angle,speed,damage,color,{shape,...opts});
+    }
+
+    boss2Pattern(b){
+      if(this.mapIndex<0||this.mapIndex>4)return false;
+      const p=this.player,meta=boss2Meta(this.mapIndex),base=Math.atan2(p.y-b.y,p.x-b.x),phase=b.phase||1;
+      AudioFX.bossShot(this.mapIndex);
+      if(this.mapIndex===0){
+        const count=3+Math.min(2,phase);for(let i=0;i<count;i++){const off=(i-(count-1)/2)*.12;this.fireBossProjectile(b,base+off,205+phase*18,9+phase*2,'meteor',meta.color,{r:7+phase*.35,life:3.8,trail:true});}
+      }else if(this.mapIndex===1){
+        const count=3+phase;for(let i=0;i<count;i++){const off=(i-(count-1)/2)*.11;this.fireBossProjectile(b,base+off,155+phase*12,8+phase*2,'spore',meta.color,{r:6.5,bossHoming:true,turnRate:.9+phase*.12,life:4.4,wobble:.8});}
+      }else if(this.mapIndex===2){
+        const count=3+Math.min(3,phase);for(let i=0;i<count;i++){const off=(i-(count-1)/2)*.085;this.fireBossProjectile(b,base+off,275+phase*22,8+phase*2,'volt',meta.color,{r:4.5,life:3.2,trail:true});}
+      }else if(this.mapIndex===3){
+        const count=3+Math.min(2,phase);for(let i=0;i<count;i++){const off=(i-(count-1)/2)*.16;this.fireBossProjectile(b,base+off,215+phase*15,10+phase*2,'blade',meta.color,{r:8,life:4.0,spin:(i%2?1:-1)*(2.2+phase*.25)});}
+      }else{
+        const count=2+Math.min(2,phase);for(let i=0;i<count;i++){const off=(i-(count-1)/2)*.18;this.fireBossProjectile(b,base+off,145+phase*12,11+phase*2,'void',meta.color,{r:9.5,life:4.8,bossHoming:phase>=3,turnRate:.34});}if(phase>=2)this.fireBossProjectile(b,base,310+phase*14,10+phase*2,'lance',meta.accent,{r:5,life:3.1,trail:true});
+      }
+      return true;
+    }
+
+    boss2Special(b){
+      if(this.mapIndex<0||this.mapIndex>4)return false;
+      const p=this.player,meta=boss2Meta(this.mapIndex),phase=b.phase||1;
+      this.toast(meta.intro,meta.special.toUpperCase());AudioFX.bossSpecial(this.mapIndex);
+      if(this.mapIndex===0){
+        this.spawnMeteorRain(2+Math.min(3,phase),true);const shots=5+phase;for(let i=0;i<shots;i++){if(i%4===0)continue;const a=(Math.PI*2/shots)*i+b.t;this.fireBossProjectile(b,a,175+phase*16,10+phase*2,'meteor',meta.color,{r:7.5,life:4.1,trail:true});}
+      }else if(this.mapIndex===1){
+        for(let i=0;i<3;i++){const a=(Math.PI*2/3)*i+.35;this.zones.push({x:clamp(p.x+Math.cos(a)*92,45,this.w-45),y:clamp(p.y+Math.sin(a)*72,45,this.h-45),r:32+phase*2,life:3.2,max:3.2,type:'slow'});}const count=5+phase;const base=Math.atan2(p.y-b.y,p.x-b.x);for(let i=0;i<count;i++){const off=(i-(count-1)/2)*.14;this.fireBossProjectile(b,base+off,145+phase*10,9+phase*2,'spore',meta.color,{r:7,bossHoming:true,turnRate:1.0,life:4.6,wobble:1});}
+      }else if(this.mapIndex===2){
+        if(this.worldThreeState)this.worldThreeState.speedBurst=Math.max(this.worldThreeState.speedBurst||0,5.2);const shots=10+phase*2;for(let i=0;i<shots;i++){if(i%5===0)continue;const a=(Math.PI*2/shots)*i+b.t*.4;this.fireBossProjectile(b,a,235+phase*20,9+phase*2,'volt',meta.color,{r:4.8,life:3.7,trail:true});}this.particles.push({type:'ring',x:b.x,y:b.y,r:20,maxR:150,life:.7,max:.7,color:meta.accent});
+      }else if(this.mapIndex===3){
+        this.particles.push({type:'ring',x:b.x,y:b.y,r:28,maxR:180,life:.8,max:.8,color:meta.color});const base=Math.atan2(p.y-b.y,p.x-b.x),count=5+phase;for(let i=0;i<count;i++){const off=(i-(count-1)/2)*.19;this.fireBossProjectile(b,base+off,205+phase*14,11+phase*2,'blade',meta.color,{r:8.5,life:4.3,spin:(i%2?1:-1)*2.8});}if(phase>=3){this.fireBossProjectile(b,base-.7,260,13+phase*2,'lance',meta.accent,{r:5,life:3.5,trail:true});this.fireBossProjectile(b,base+.7,260,13+phase*2,'lance',meta.accent,{r:5,life:3.5,trail:true});}
+      }else{
+        this.zones.push({x:clamp(p.x+rand(38,-38),55,this.w-55),y:clamp(p.y+rand(34,-34),55,this.h-55),r:58+phase*5,life:3.4,max:3.4,type:'bossGravity',pull:24+phase*4});const shots=8+phase;for(let i=0;i<shots;i++){if(i%4===0)continue;const a=(Math.PI*2/shots)*i+b.t*.25;this.fireBossProjectile(b,a,130+phase*12,12+phase*2,'void',meta.color,{r:9.5,life:5,bossHoming:false});}const base=Math.atan2(p.y-b.y,p.x-b.x);this.fireBossProjectile(b,base,335+phase*15,14+phase*2,'lance',meta.accent,{r:5.5,life:3.2,trail:true});
+      }
+      if(phase>=2&&Math.random()<.45){const fams=b.minionFamilies||[];const fam=fams.length?pick(fams):null;if(fam)this.spawnEnemy(pick(fam),true);}
+      b.specialCd=Math.max(this.mapIndex===4?5.2:4.8,(7.2-this.mapIndex*.28)-phase*.45)*(this.getDifficulty().bossCadence||1);
+      return true;
+    }
+
     triggerBossSpecial(b) {
+      if(this.boss2Special(b))return;
       const map = MAPS[this.mapIndex];
       const kind = map.pattern || map.family;
       const p = this.player;
@@ -3867,6 +3990,7 @@
     bossPattern(b, dt) {
       b.attack -= dt;
       if (b.attack > 0) return;
+      if(this.boss2Pattern(b)){b.attack=Math.max(this.mapIndex===4?1.45:1.32,(2.85-this.mapIndex*.18)-(b.phase||1)*.22)*(this.getDifficulty().bossCadence||1);return;}
       const map = MAPS[this.mapIndex];
       const kind = map.pattern || map.family;
       if (kind === 'swarm') {
@@ -3910,10 +4034,10 @@
       b.attack = this.mapIndex === 0 ? Math.max(2.05, 3.85 - b.phase * .28) : Math.max(1.05, 3.05 - b.phase * .32 - this.mapIndex * .035);
     }
 
-    addEnemyBullet(x, y, angle, speed, damage, color) {
+    addEnemyBullet(x, y, angle, speed, damage, color, options={}) {
       const enemyCount = this.bullets.filter(b => b.enemy).length;
       if (enemyCount > Math.floor((this.maxBullets || 180) * .35)) return;
-      this.bullets.push({ x, y, vx: Math.cos(angle) * speed, vy: Math.sin(angle) * speed, r: 5, damage, life: 3.2, enemy: true, type:'enemyBolt', color });
+      this.bullets.push({ x, y, vx: Math.cos(angle) * speed, vy: Math.sin(angle) * speed, r: options.r || 5, damage, life: options.life || 3.2, enemy: true, type:'enemyBolt', color, shape:options.shape||'bolt', trail:!!options.trail, spin:options.spin||0, rot:angle, bossHoming:!!options.bossHoming, turnRate:options.turnRate||0, wobble:options.wobble||0, age:0 });
     }
 
     destroyHazard(m) {
@@ -3937,7 +4061,10 @@
       if (this.bullets.length > cap) this.bullets.splice(0, this.bullets.length - cap);
       for (let i = this.bullets.length - 1; i >= 0; i--) {
         const b = this.bullets[i];
-        b.life -= dt;
+        b.life -= dt;b.age=(b.age||0)+dt;
+        if(b.enemy&&b.bossHoming){const ang=Math.atan2(p.y-b.y,p.x-b.x),sp=Math.hypot(b.vx,b.vy)||160,targetVX=Math.cos(ang)*sp,targetVY=Math.sin(ang)*sp,k=Math.min(1,dt*(b.turnRate||.6));b.vx+=(targetVX-b.vx)*k;b.vy+=(targetVY-b.vy)*k;}
+        if(b.enemy&&b.wobble){const ang=Math.atan2(b.vy,b.vx),sp=Math.hypot(b.vx,b.vy)||150,twist=Math.sin((b.age||0)*6.2)*(b.wobble||0)*.035;b.vx=Math.cos(ang+twist)*sp;b.vy=Math.sin(ang+twist)*sp;}
+        if(b.enemy&&b.spin)b.rot=(b.rot||0)+b.spin*dt;
         if (b.homing && !b.enemy) {
           let target = null, best = Infinity;
           for (const e of this.enemies) { const d = Math.hypot(e.x - b.x, e.y - b.y); if (d < best) { best = d; target = e; } }
@@ -4061,7 +4188,7 @@
           this.explode(e.x + rand(44,-44), e.y + rand(44,-44), e.r * (5 + idx), 12 + idx * 3);
         }, idx * 130);
       });
-      this.toast('💥 Jefe destruido', e.name || 'Entidad eliminada');
+      this.toast('JEFE DESTRUIDO',e.name||'Entidad eliminada');
     }
 
     killEnemy(e, index) {
@@ -4069,21 +4196,21 @@
       this.emit(e.x, e.y, e.color, e.boss ? 28 : 8, e.boss ? 160 : 70, e.boss ? 1.2 : .55);
       AudioFX.death();
       this.run.kills += 1;
-      { const gainedScore = e.boss ? 650 + this.mapIndex * 100 : e.score; this.run.score += gainedScore; this.run.spendableScore = (this.run.spendableScore || 0) + gainedScore; }
-      this.player.xp += e.boss ? 110 : e.xp;
-      this.player.xp += (e.boss ? 70 : e.xp) * .35;
-      this.run.experience = (this.run.experience || 0) + Math.max(1, Math.round((e.boss ? 110 : e.xp) * 1.35));
-      this.run.coins += e.boss ? (180 + this.mapIndex * 30) : Math.ceil(e.coin * (this.mapIndex === 0 ? 1.55 : 1.2));
+      { const diff=this.getDifficulty(); const gainedScore = Math.round((e.boss ? 650 + this.mapIndex * 100 : e.score) * (diff.score||1)); this.run.score += gainedScore; this.run.spendableScore = (this.run.spendableScore || 0) + gainedScore; }
+      { const xpReward=(e.boss ? 110 : e.xp) + (e.boss ? 70 : e.xp) * .35; this.player.xp += xpReward * (this.getDifficulty().xp||1); }
+      this.run.experience = (this.run.experience || 0) + Math.max(1, Math.round((e.boss ? 110 : e.xp) * 1.35 * (this.getDifficulty().xp||1)));
+      this.run.coins += Math.ceil((e.boss ? (180 + this.mapIndex * 30) : e.coin * (this.mapIndex === 0 ? 1.55 : 1.2)) * (this.getDifficulty().coins||1));
       if(e.boss||Math.random()<.035)this.spawnPickup(e.x+rand(16,-16),e.y+rand(16,-16),'coin',e.boss?120:Math.ceil(e.coin*.9),e.boss?{bossLoot:true,rewardGlow:true}:{});
       if(e.boss||Math.random()<.025)this.spawnPickup(e.x,e.y,'xp',e.boss?42:Math.max(5,Math.ceil(e.xp*.65)),e.boss?{bossLoot:true,rewardGlow:true}:{});
       if (!e.boss) this.trackWorldKill(e);
       if (e.boss) {
+        AudioFX.stopMusic();
         this.bossDeathExplosion(e);
         this.particles.push({ type:'ring', x:e.x, y:e.y, r:20, maxR:160, life:1.1, max:1.1, color:'#ffd56a' });
         this.spawnBossLootBurst(e);
-        this.toast('✦ Poder del jefe', 'Recoge botín, XP, monedas y una posible vida');
+        this.toast('PODER DEL JEFE','Recoge el poder, XP, monedas y una posible vida');
       } else {
-        const roll = Math.random();
+        const roll = Math.random() / (this.getDifficulty().dropChance || 1);
         const starter = this.mapIndex === 0;
         const nexus = this.mapIndex === 1;
         if (starter && roll < .004 && this.wave >= 4) this.spawnPickup(e.x + rand(26,-26), e.y + rand(26,-26), 'nuke', 1);
@@ -4109,7 +4236,7 @@
           this.bossActive.shield = Math.max(0, (this.bossActive.shield || 0) - shieldBreak);
           if ((this.mapIndex===0||this.mapIndex===1||this.mapIndex===2)&&this.enemies.filter(o=>!o.boss).length===0) {
             this.bossActive.vulnerable = Math.max(this.bossActive.vulnerable || 0, 3.8);
-            this.toast('⚡ Protección anulada', 'Ventana de ataque ampliada');
+            this.toast('PROTECCIÓN ANULADA','Ventana de ataque ampliada');
           }
           this.updateBossUi();
         }
@@ -4118,7 +4245,7 @@
         this.bossActive=null;this.bossFight={active:false,charge:0,minionTimer:0,phaseNotified:1,addsKilled:0};els.bossBar.classList.add('hidden');els.bossBar.classList.remove('vulnerable');this.run.bosses+=1;this.run.mapComplete=true;
         const prof=currentProfile();prof.relics=prof.relics||{};if(this.mapIndex===0)prof.relics.world1Core=true;
         this.bossLootPhase={active:true,elapsed:0,settle:.75,completed:false};this.enemies=[];this.bullets=this.bullets.filter(b=>!b.enemy);this.zones=[];
-        this.toast('🎁 RECOGE EL BOTÍN','El resumen aparece cuando termines de recogerlo');
+        this.toast('RECOGE EL BOTÍN','El resumen aparece cuando termines de recogerlo');
       }
       this.checkLevelUp();
     }
@@ -4273,6 +4400,7 @@
         if (d < z.r + this.player.r) {
           if (z.type === 'toxic' || z.type === 'root') this.playerHit((z.type === 'toxic' ? 8 : 5) * dt);
           if (z.type === 'slow') { /* ralentización temporal calculada en handleMovement; nunca degrada speed */ }
+          if(z.type==='bossGravity'){const dd=Math.max(1,d),pull=(z.pull||28)*dt;this.player.x+=(z.x-this.player.x)/dd*pull;this.player.y+=(z.y-this.player.y)/dd*pull;}
         }
         if (z.type === 'gravityMine') {
           for (const e of this.enemies) {
@@ -4310,7 +4438,7 @@
       if (p.entryShieldTimer > 0) mod *= .38;
       if (this.isPowerActive('phase')) mod *= Math.max(.22,.34/this.getStagePowerScale())*(this.comboActive('hiperfase')?.72:1);
       if (this.comboActive('bastion')) mod *= .82;
-      amount *= mod;
+      amount *= mod * (this.getDifficulty().incomingDamage || 1);
       if (p.shield > 0) {
         const absorbed = Math.min(p.shield, amount);
         p.shield -= absorbed;
@@ -4578,8 +4706,12 @@
       p.bossShips[id]={id,name:map?.boss||`Jefe ${this.mapIndex+1}`,world:this.mapIndex+1,unlockedAt:new Date().toISOString()};if(!p.activeBossShip)p.activeBossShip=id;return p.bossShips[id];
     }
 
+    showRelicAcquired(reward){
+      if(!els.relicOverlay||!reward)return;const meta=boss2Meta(this.mapIndex);els.relicSigil.innerHTML=bossSigilHtml(this.mapIndex,'boss-sigil');els.relicName.textContent=reward.name||meta.short;els.relicDesc.textContent=reward.desc||`${meta.weapon} · ${meta.special}`;els.relicOverlay.style.setProperty('--relic-color',meta.color);els.relicOverlay.classList.remove('hidden');clearTimeout(this.relicOverlayTimeout);AudioFX.chord([meta.music.root*2,meta.music.root*2.5,meta.music.root*3],.18,.065);this.relicOverlayTimeout=setTimeout(()=>els.relicOverlay?.classList.add('hidden'),1350);
+    }
+
     completeMap() {
-      if (this.replayMode?.active) { this.run.mapComplete = false; this.toast('↻ Jefe repetido', `Mundo ${this.mapIndex + 1} · Nivel 5 completado`); setTimeout(() => this.showResult(true), 1200); return; }
+      if (this.replayMode?.active) { this.run.mapComplete = false; this.toast('JEFE REPETIDO',`Mundo ${this.mapIndex+1} · Nivel 5 completado`); setTimeout(() => this.showResult(true), 1200); return; }
       const p = currentProfile();
       p.stats.bosses += 1;
       p.stats.bestMap = Math.max(p.stats.bestMap, this.mapIndex + 1);
@@ -4592,13 +4724,14 @@
       p.unlockedMap = Math.max(p.unlockedMap, Math.min(MAPS.length, this.mapIndex + 2));
       p.collection.bosses[MAPS[this.mapIndex].boss] = true;
       this.lastWorldReward = progressionReward;
+      this.showRelicAcquired(progressionReward);
       const mapBonus = 140 + this.mapIndex * 25;
       p.coins += mapBonus;
       p.stats.totalCoins += mapBonus;
       unlockAchievement('boss_1');
       if (p.unlockedMap >= 3) unlockAchievement('map_3');
-      this.toast('👑 Mundo completado',`${this.lastWorldReward?.name||'Poder del jefe'} · nave-jefe ${bossShip?.name||'desbloqueada'} disponible desde Mundo 4`);
-      AudioFX.win();setTimeout(()=>this.showResult(true),700);
+      this.toast('MUNDO COMPLETADO',`${this.lastWorldReward?.name||'Poder del jefe'} · nave-jefe ${bossShip?.name||'desbloqueada'} disponible desde Mundo 4`);
+      AudioFX.win();setTimeout(()=>this.showResult(true),1550);
     }
 
     end(victory) {
@@ -4708,7 +4841,7 @@
       if (victory) this.finalizeRun(true);
       els.resultOverlay.classList.toggle('victory-clean',!!victory&&!replayVictory);
       els.resultEyebrow.textContent = replayVictory ? '↻ NIVEL REPETIDO' : (victory ? '✔ MUNDO COMPLETADO' : '⚠ MISIÓN INTERRUMPIDA');
-      els.resultTitle.textContent = replayVictory ? `Mundo ${this.mapIndex + 1} · Nivel ${this.replayMode.level} completado` : (victory ? `${MAPS[this.mapIndex].icon} Mundo ${this.mapIndex + 1} superado` : `Mundo ${this.mapIndex + 1} · Nivel ${this.wave}`);
+      if(victory&&!replayVictory)els.resultTitle.innerHTML=`${bossSigilHtml(this.mapIndex,'result-boss-sigil')}<span>Mundo ${this.mapIndex+1} superado</span>`;else els.resultTitle.textContent=replayVictory?`Mundo ${this.mapIndex+1} · Nivel ${this.replayMode.level} completado`:`Mundo ${this.mapIndex+1} · Nivel ${this.wave}`;
       if (replayVictory) {
         els.resultText.textContent = 'La repetición terminó. Tu progreso principal y tu partida guardada permanecen intactos.';
       } else if (victory) {
@@ -4725,6 +4858,7 @@
         <span class="reward-pill">🪙 ${Math.round(this.run.coins)}</span>
         <span class="reward-pill">✦ ${Math.round(this.run.experience || 0)} XP</span>
         <span class="reward-pill">🎯 ${this.run.kills}</span>
+        <span class="reward-pill">${this.isHardMode()?'⚔️ Difícil':'◉ Normal'}</span>
         <span class="reward-pill">M${this.mapIndex + 1} · L${this.wave}</span>
         <span class="reward-pill">❤️ ${this.extraLives + 1}</span>`;
       els.btnResultContinue.textContent = replayVictory ? 'Volver a niveles' : (victory ? (this.mapIndex + 1 < MAPS.length ? 'Siguiente mundo' : 'Finalizar') : 'Reactivar nave');
@@ -4810,6 +4944,7 @@
       p.lastSave = {
         savedAt: new Date().toISOString(),
         mapIndex: this.mapIndex,
+        difficulty: this.difficulty || 'normal',
         wave: this.wave,
         player: { x: this.player.x, y: this.player.y, hp: this.player.hp, shield: this.player.shield, xp: this.player.xp, level: this.player.level, xpNext: this.player.xpNext, entryShieldTimer: this.player.entryShieldTimer || 0, entryShieldMax: this.player.entryShieldMax || 0, relicMeteorTimer: this.player.relicMeteorTimer || 0 },
         powerLevels: this.powerLevels,
@@ -4844,7 +4979,7 @@
     }
 
     updatePauseStats() {
-      if (els.pauseMiniContext) els.pauseMiniContext.textContent = `M${this.mapIndex + 1} · Nivel ${this.wave}`;
+      if (els.pauseMiniContext) els.pauseMiniContext.textContent = `M${this.mapIndex + 1} · Nivel ${this.wave} · ${this.getDifficulty().name}`;
     }
 
     updateHud() {
@@ -4887,9 +5022,10 @@
       const statusChips = [];
       if ((this.player.entryShieldTimer || 0) > 0) statusChips.push(`<div class="power-chip active-power selected" title="Escudo de entrada"><span>🛡️</span><small>${Math.ceil(this.player.entryShieldTimer)}</small></div>`);
       if ((this.player.shotTier || 0) > 0) statusChips.push(`<div class="power-chip active-power relic" title="Arma base permanente: más daño, alcance, velocidad y precisión"><span>🔫</span><small>MK${1 + (this.player.shotTier || 0)}</small></div>`);
-      if(this.mapIndex>0&&currentProfile().relics?.world1Core)statusChips.push(`<div class="power-chip active-power relic" title="Núcleo Meteórico heredado"><span>☄️</span><small>R1</small></div>`);
-      if(this.mapIndex>1&&currentProfile().relics?.world2Spore)statusChips.push(`<div class="power-chip active-power relic" title="Matriz de Convergencia heredada"><span>🧬</span><small>R2</small></div>`);
-      if(this.mapIndex>2&&currentProfile().relics?.world3Inferno)statusChips.push(`<div class="power-chip active-power relic" title="Corazón Ígneo heredado"><span>🔥</span><small>R3</small></div>`);
+      if(this.mapIndex>0&&currentProfile().relics?.world1Core)statusChips.push(`<div class="power-chip active-power relic" title="Núcleo Meteórico heredado">${bossSigilHtml(0,'relic-chip-sigil')}<small>R1</small></div>`);
+      if(this.mapIndex>1&&currentProfile().relics?.world2Spore)statusChips.push(`<div class="power-chip active-power relic" title="Matriz de Convergencia heredada">${bossSigilHtml(1,'relic-chip-sigil')}<small>R2</small></div>`);
+      if(this.mapIndex>2&&currentProfile().relics?.world3Inferno)statusChips.push(`<div class="power-chip active-power relic" title="Corazón Ígneo heredado">${bossSigilHtml(2,'relic-chip-sigil')}<small>R3</small></div>`);
+      if(this.mapIndex>3&&currentProfile().relics?.world4Hex)statusChips.push(`<div class="power-chip active-power relic" title="Sello Astral heredado">${bossSigilHtml(3,'relic-chip-sigil')}<small>R4</small></div>`);
       const inheritedAllies = this.drones.filter(d => d.inheritPower && !d.permanent);
       if (inheritedAllies.length) {
         const allyLife = Math.max(...inheritedAllies.map(d => d.life || 0));
@@ -5469,7 +5605,7 @@
         const a = clamp(z.life / z.max, 0, 1);
         ctx.save();
         ctx.globalAlpha = .24 * a;
-        ctx.fillStyle = z.type === 'toxic' ? '#b7ff69' : z.type === 'slow' ? '#83eaff' : z.type === 'gravityMine' ? '#c391ff' : '#61ffc8';
+        ctx.fillStyle = z.type === 'toxic' ? '#b7ff69' : z.type === 'slow' ? '#83eaff' : z.type === 'gravityMine' ? '#c391ff' : z.type==='bossGravity' ? '#9a43e8' : '#61ffc8';
         ctx.beginPath(); ctx.arc(z.x, z.y, z.r, 0, Math.PI * 2); ctx.fill();
         ctx.globalAlpha = .65 * a;
         ctx.strokeStyle = ctx.fillStyle; ctx.lineWidth = 2; ctx.stroke();
@@ -5554,17 +5690,23 @@
           ctx.globalAlpha = .28; ctx.fillRect(-14,-2,10,4);
         } else if (b.enemy) {
           const ang = Math.atan2(b.vy, b.vx);
-          ctx.translate(b.x, b.y);
-          ctx.rotate(ang);
-          ctx.globalAlpha = .9;
-          ctx.beginPath();
-          ctx.moveTo(8, 0); ctx.lineTo(-5, 3.2); ctx.lineTo(-9, 0); ctx.lineTo(-5, -3.2); ctx.closePath(); ctx.fill();
-          ctx.globalAlpha = .72;
-          ctx.fillStyle = '#ffffff';
-          ctx.fillRect(-1.5, -1, 5, 2);
-          ctx.globalAlpha = .22;
-          ctx.fillStyle = b.color;
-          ctx.fillRect(-14, -1.5, 8, 3);
+          ctx.translate(b.x, b.y);ctx.rotate((b.rot??ang));ctx.globalAlpha=.94;
+          const shape=b.shape||'bolt';
+          if(shape==='meteor'){
+            ctx.fillStyle='#34120d';ctx.strokeStyle=b.color;ctx.lineWidth=2;ctx.beginPath();for(let i=0;i<8;i++){const a=i*Math.PI/4,rr=b.r*(i%2?1.12:.82);const xx=Math.cos(a)*rr,yy=Math.sin(a)*rr;i?ctx.lineTo(xx,yy):ctx.moveTo(xx,yy);}ctx.closePath();ctx.fill();ctx.stroke();ctx.strokeStyle='#ffb35f';ctx.lineWidth=1;ctx.beginPath();ctx.moveTo(-b.r*.35,-b.r*.45);ctx.lineTo(0,0);ctx.lineTo(b.r*.42,b.r*.32);ctx.stroke();
+          }else if(shape==='spore'){
+            ctx.fillStyle=b.color;ctx.beginPath();ctx.arc(0,0,b.r,0,Math.PI*2);ctx.fill();ctx.globalAlpha=.55;for(let i=0;i<4;i++){const a=i*Math.PI/2;ctx.beginPath();ctx.arc(Math.cos(a)*b.r*.9,Math.sin(a)*b.r*.9,b.r*.34,0,Math.PI*2);ctx.fill();}ctx.globalAlpha=.9;ctx.fillStyle='#fff';ctx.beginPath();ctx.arc(-b.r*.22,-b.r*.18,b.r*.2,0,Math.PI*2);ctx.fill();
+          }else if(shape==='volt'){
+            ctx.strokeStyle=b.color;ctx.lineWidth=Math.max(2,b.r*.72);ctx.lineCap='round';ctx.beginPath();ctx.moveTo(-14,0);ctx.lineTo(-7,-3);ctx.lineTo(-1,2);ctx.lineTo(5,-2);ctx.lineTo(12,0);ctx.stroke();ctx.globalAlpha=.7;ctx.strokeStyle='#eaffff';ctx.lineWidth=1;ctx.stroke();
+          }else if(shape==='blade'){
+            ctx.fillStyle=b.color;ctx.beginPath();ctx.moveTo(11,0);ctx.quadraticCurveTo(-1,-11,-11,-4);ctx.quadraticCurveTo(-2,0,-11,4);ctx.quadraticCurveTo(-1,11,11,0);ctx.fill();ctx.globalAlpha=.72;ctx.strokeStyle='#ffd1bd';ctx.lineWidth=1.2;ctx.stroke();
+          }else if(shape==='void'){
+            ctx.fillStyle='#020105';ctx.beginPath();ctx.arc(0,0,b.r,0,Math.PI*2);ctx.fill();ctx.strokeStyle=b.color;ctx.lineWidth=2.4;ctx.stroke();ctx.globalAlpha=.55;ctx.strokeStyle='#ff6044';ctx.beginPath();ctx.arc(0,0,b.r*.62,0,Math.PI*2);ctx.stroke();
+          }else if(shape==='lance'){
+            ctx.fillStyle=b.color;ctx.beginPath();ctx.moveTo(15,0);ctx.lineTo(-8,3.2);ctx.lineTo(-14,0);ctx.lineTo(-8,-3.2);ctx.closePath();ctx.fill();ctx.globalAlpha=.4;ctx.fillRect(-24,-1.5,12,3);
+          }else{
+            ctx.beginPath();ctx.moveTo(8,0);ctx.lineTo(-5,3.2);ctx.lineTo(-9,0);ctx.lineTo(-5,-3.2);ctx.closePath();ctx.fill();ctx.globalAlpha=.72;ctx.fillStyle='#fff';ctx.fillRect(-1.5,-1,5,2);
+          }
         } else {
           ctx.beginPath(); ctx.arc(b.x, b.y, b.r, 0, Math.PI * 2); ctx.fill();
           if ((b.glow || 0) > 0) {
@@ -6079,8 +6221,9 @@
       const hasSave = !!p.lastSave;
       const level = hasSave ? (p.lastSave.mapIndex + 1) : (p.unlockedMap || 1);
       const wave = hasSave ? ` · nivel ${p.lastSave.wave}` : '';
+      const diffName = DIFFICULTY_MODES[hasSave ? p.lastSave.difficulty : p.preferredDifficulty]?.name || 'Normal';
       return `<button class="saved-game-row" data-load-profile="${p.id}">
-        <span><b>${p.name || 'Jugador'}</b><small>Mundo ${level}${wave} · récord ${p.stats?.bestScore || 0}</small></span>
+        <span><b>${p.name || 'Jugador'}</b><small>Mundo ${level}${wave} · ${diffName} · récord ${p.stats?.bestScore || 0}</small></span>
         <strong>${hasSave ? 'Continuar' : 'Nueva'}</strong>
       </button>`;
     }).join('') || '<small class="muted">No hay partidas guardadas todavía.</small>';
@@ -6100,6 +6243,9 @@
     if (els.profileNameLabel) els.profileNameLabel.textContent = p.name || 'Jugador';
     if (els.playerNameInput) els.playerNameInput.value = localStorage.getItem('rzs_last_player_name') || p.name || '';
     if (els.startGreeting) els.startGreeting.textContent = p.name ? `Hola, ${p.name}. Entra o carga una partida guardada.` : 'Escribe tu nombre para entrar.';
+    const selectedDifficulty = DIFFICULTY_MODES[p.preferredDifficulty] ? p.preferredDifficulty : (state.settings.difficulty || 'normal');
+    document.querySelectorAll('[data-difficulty]').forEach(btn => btn.classList.toggle('active', btn.dataset.difficulty === selectedDifficulty));
+    if (els.difficultyHint) els.difficultyHint.textContent = selectedDifficulty==='hard' ? 'Más enemigos, hordas y peligros · mejores recompensas' : 'Experiencia equilibrada actual';
     if (els.homeBestScore) els.homeBestScore.textContent = p.stats.bestScore || 0;
     if (els.homeCoins) els.homeCoins.textContent = p.coins || 0;
     if (els.homeMap) els.homeMap.textContent = p.unlockedMap || 1;
@@ -6222,11 +6368,11 @@
       const unlocked = i + 1 <= p.unlockedMap;
       const complete = p.completedMaps.includes(i + 1);
       return `<article class="map-node ${unlocked ? '' : 'locked'} ${complete ? 'complete' : ''}">
-        <div class="map-badge">${m.icon}</div>
+        <div class="map-badge">${bossSigilHtml(i,'map-boss-sigil')}</div>
         <p class="eyebrow">Nivel ${i + 1}</p>
         <h3>${m.name}</h3>
         <p class="muted">${m.lore}</p>
-        <span class="tag">${m.icon} ${m.boss}</span>
+        <span class="tag">${m.boss}</span>
         <footer class="mt">
           <button class="${unlocked ? 'primary-btn' : 'soft-btn'} small" data-start-map="${i}" ${unlocked ? '' : 'disabled'}>${unlocked ? 'Iniciar aquí' : 'Bloqueado'}</button>
         </footer>
@@ -6292,7 +6438,7 @@
       ['🧬', 'Avatares', `${avatarCount}/${AVATARS.length}`, 'Formas desbloqueadas del jugador.'],
       ['✦', 'Poderes', `${powerCount}/${POWERS.length}`, 'Cartas usadas en partida.'],
       ['✷', 'Fusiones', `${fusionCount}/${FUSIONS.length}`, 'Combinaciones descubiertas.'],
-      ['👑', 'Jefes', `${bossCount}/${MAPS.length}`, 'Jefes vencidos por territorio.'],
+      [bossSigilHtml(Math.min(4,Math.max(0,bossCount-1)),'map-boss-sigil'),'Jefes',`${bossCount}/${MAPS.length}`,'Jefes vencidos por territorio.'],
       ['🗺️', 'Mapas', `${(p.completedMaps || []).length}/${MAPS.length}`, 'Territorios liberados.'],
       ['🎖️', 'Logros', `${Object.keys(p.achievements || {}).length}/${ACHIEVEMENTS.length}`, 'Premios conseguidos.']
     ];
@@ -6315,10 +6461,10 @@
         const level = idx + 1;
         const available = unlocked && level <= maxLevel;
         const label = level === 5 ? 'Jefe' : (acts?.[idx]?.name || `Nivel ${level}`);
-        return `<button class="replay-level-btn ${available?'done':''} ${level===5?'boss':''}" data-replay-map="${i}" data-replay-level="${level}" ${available?'':'disabled'} title="${label}"><b>${level===5?'👑':romans[idx]}</b><small>${label}</small></button>`;
+        return `<button class="replay-level-btn ${available?'done':''} ${level===5?'boss':''}" data-replay-map="${i}" data-replay-level="${level}" ${available?'':'disabled'} title="${label}"><b>${level===5?bossSigilHtml(i,'replay-boss-sigil'):romans[idx]}</b><small>${label}</small></button>`;
       }).join('');
       return `<article class="replay-world-card ${unlocked?'':'locked'}">
-        <div class="replay-world-head"><div class="replay-world-icon">${m.icon}</div><div><h3>Mundo ${worldNo} · ${m.name}</h3><small>${completed?'Mundo completado':(maxLevel>0?`Niveles repetibles: ${maxLevel}/5`:'Aún no hay niveles superados')}</small></div></div>
+        <div class="replay-world-head"><div class="replay-world-icon">${bossSigilHtml(i,'map-boss-sigil')}</div><div><h3>Mundo ${worldNo} · ${m.name}</h3><small>${completed?'Mundo completado':(maxLevel>0?`Niveles repetibles: ${maxLevel}/5`:'Aún no hay niveles superados')}</small></div></div>
         <div class="replay-levels">${levelButtons}</div>
       </article>`;
     }).join('');
@@ -6439,7 +6585,10 @@ ${JSON.stringify(snapshot, null, 2)}`;
     els.btnOpenPortal?.addEventListener('click', () => showScreen('screenPortal'));
     els.btnManageProfiles?.addEventListener('click', () => showScreen('screenProfiles'));
     els.btnSaveProfileName.addEventListener('click', () => {
+      const selected = DIFFICULTY_MODES[state.settings.difficulty] ? state.settings.difficulty : 'normal';
       const p = findOrCreateProfileByName(els.playerNameInput.value || 'Jugador');
+      p.preferredDifficulty = selected;
+      saveState();
       renderAll();
       game.start(Math.max(0, (p.unlockedMap || 1) - 1));
     });
@@ -6454,6 +6603,12 @@ ${JSON.stringify(snapshot, null, 2)}`;
       els.newProfileName.value = '';
       saveState(); renderAll(); showScreen('screenPortal');
     });
+    document.querySelectorAll('[data-difficulty]').forEach(btn => btn.addEventListener('click', () => {
+      const id=btn.dataset.difficulty; if(!DIFFICULTY_MODES[id])return;
+      const p=currentProfile(); p.preferredDifficulty=id; state.settings.difficulty=id; saveState();
+      document.querySelectorAll('[data-difficulty]').forEach(b=>b.classList.toggle('active',b===btn));
+      if(els.difficultyHint) els.difficultyHint.textContent=id==='hard'?'Más enemigos, hordas y peligros · mejores recompensas':'Experiencia equilibrada actual';
+    }));
     els.btnNewRun?.addEventListener('click', () => game.start(Math.max(0, (currentProfile().unlockedMap || 1) - 1)));
     els.btnContinue?.addEventListener('click', () => {
       if (!els.savedGamesList) return;
