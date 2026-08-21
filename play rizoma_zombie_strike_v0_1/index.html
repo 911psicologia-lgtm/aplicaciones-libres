@@ -11,14 +11,14 @@
   <meta name="apple-mobile-web-app-title" content="Niebla Verde" />
   <script>if(location.protocol !== "file:"){const m=document.createElement("link");m.rel="manifest";m.href="manifest.json";document.head.appendChild(m);}</script>
   <link rel="icon" href="assets/icon.svg" type="image/svg+xml" />
-  <title>Rizoma Zombie Strike — Horizontal Estable · v1.8.7</title>
+  <title>Rizoma Zombie Strike — DOMINIO & Arsenal Crítico · v1.9.0</title>
   <link rel="preload" as="image" href="assets/ui/intro_poster_mobile.webp" media="(max-width: 1200px)" fetchpriority="high" />
   <link rel="preload" as="image" href="assets/boss2/sigil_w1.svg" />
   <link rel="preload" as="image" href="assets/boss2/sigil_w2.svg" />
   <link rel="preload" as="image" href="assets/boss2/sigil_w3.svg" />
   <link rel="preload" as="image" href="assets/boss2/sigil_w4.svg" />
   <link rel="preload" as="image" href="assets/boss2/sigil_w5.svg" />
-  <link rel="stylesheet" href="css/styles.css?v=1.8.7" />
+  <link rel="stylesheet" href="css/styles.css?v=1.9.0" />
   <link rel="preload" as="image" href="assets/story/episode_01_protocol_zstrike.webp" fetchpriority="high" />
 </head>
 <body>
@@ -39,7 +39,7 @@
         <span class="brand-mark">⬢</span>
         <div>
           <strong>Rizoma Zombie Strike</strong>
-          <small>Horizontal Estable · v1.8.7</small>
+          <small>DOMINIO & Arsenal Crítico · v1.9.0</small>
         </div>
       </div>
       <button id="btnSettings" class="icon-btn" title="Ajustes" aria-label="Ajustes">⚙</button>
@@ -216,13 +216,21 @@
       <div class="story-stage">
         <img id="storyImage" class="story-image" src="assets/story/episode_01_protocol_zstrike.webp" alt="Episodio 1 · Protocolo Z-Strike" />
         <div class="story-veil"></div>
-        <button id="btnStorySkip" class="story-skip" type="button">Saltar historia</button>
         <div class="story-copy">
-          <p id="storyKicker" class="story-kicker">CAMPAÑA · MUNDO 1</p>
-          <h2 id="storyTitle" class="story-title">PROTOCOLO Z-STRIKE</h2>
+          <div class="story-transmission-head" aria-hidden="true">
+            <span class="story-signal"><i></i></span>
+            <p id="storyKicker" class="story-kicker">TRANSMISIÓN Z-STRIKE // 01</p>
+            <span class="story-live">ENLACE</span>
+          </div>
+          <h2 id="storyTitle" class="story-title">MUNDO 1 · PROTOCOLO Z-STRIKE</h2>
           <p id="storyCaption" class="story-caption">ASTERION cayó.</p>
           <div id="storyDots" class="story-dots" aria-hidden="true"></div>
-          <button id="btnStoryNext" class="story-next" type="button">Siguiente</button>
+          <div class="story-controls">
+            <button id="btnStorySkip" class="story-exit" type="button" aria-label="Salir de la historia">
+              <span class="story-exit-icon" aria-hidden="true"></span><span>SALIR</span>
+            </button>
+            <button id="btnStoryNext" class="story-next" type="button">CONTINUAR <span aria-hidden="true">›</span></button>
+          </div>
         </div>
       </div>
     </div>
@@ -239,6 +247,7 @@
           <div class="hud-pill coins-pill"><span>🪙</span><strong id="hudCoins">0</strong></div>
           <div class="hud-pill boss-approach" id="hudBossApproach" title="Progreso hacia el jefe"><span id="hudBossSigil" class="hud-boss-sigil"></span><strong id="hudBossPercent">0%</strong></div>
           <div class="hud-pill lives-pill" title="Vidas disponibles"><span>❤️</span><strong id="hudLives">0</strong></div>
+          <button id="btnDomain" class="domain-btn hidden" title="Protocolo DOMINIO" aria-label="Abrir Protocolo DOMINIO"><span class="domain-glyph">◇</span><strong class="domain-label">DOMINIO</strong><small id="domainCount">0</small></button>
           <button id="btnTacticalCart" class="tactical-cart" title="Compra Exprés"><span class="cart-glyph">🛒</span><strong id="tacticalCartCount">0</strong></button>
           <button id="btnPause" class="pause-btn" title="Pausa">⏸</button>
         </div>
@@ -297,6 +306,17 @@
             </div>
           </div>
         </div>
+        <div id="domainOverlay" class="domain-overlay hidden" aria-live="polite">
+          <div class="domain-panel" role="dialog" aria-modal="true" aria-label="Protocolo DOMINIO">
+            <div class="domain-panel-head">
+              <div><p class="eyebrow">PROTOCOLO DOMINIO</p><h3>Forma de combate</h3></div>
+              <button id="btnDomainClose" class="domain-close" aria-label="Cerrar DOMINIO">×</button>
+            </div>
+            <div id="domainFormList" class="domain-form-list"></div>
+            <small class="domain-hint">Toca una forma para cambiar. Vida, escudo y poderes se conservan.</small>
+          </div>
+        </div>
+
         <div id="tacticalCountdown" class="tactical-countdown hidden">3</div>
         <div id="pauseOverlay" class="modal-layer pause-layer-minimal hidden">
           <div class="pause-menu-minimal" role="dialog" aria-modal="true" aria-label="Pausa">
@@ -360,6 +380,6 @@
     </div>
   </div>
 
-  <script src="js/game.js?v=1.8.7"></script>
+  <script src="js/game.js?v=1.9.0"></script>
 </body>
 </html>

@@ -1,3 +1,31 @@
+Rizoma Zombie Strike v1.9.0 — DOMINIO & Arsenal Crítico
+
+Novedades v1.9.0:
+- PROTOCOLO DOMINIO desbloqueable desde Mundo 4: RIZOMA y Guardianes derrotados pueden seleccionarse como nave pilotable sin alterar vida, shield ni poderes activos.
+- Selector DOMINIO compacto y no invasivo en el HUD, con pulso persistente y señal +1 al capturar una nueva forma.
+- Formas DOMINIO reducidas y normalizadas: conservan la silueta visual de los jefes, con hitbox del jugador y pasivas moderadas.
+- Porcentaje del jefe reacciona visualmente a cada descenso de daño y enfatiza impactos fuertes.
+- Nueva familia de Intervenciones Críticas: Rayo Fractal, Plaga Hemófaga, Enjambre Cazador, Bombardeo Meteórico y Escuadrón Réquiem.
+- Las Intervenciones Críticas aparecen de forma puntual en hordas y fases del jefe, como pickups manuales independientes del dock de poderes.
+- Regla de daño crítica: simples eliminados, medios ~50%, élites daño importante y jefes con daño limitado.
+- Nuevos poderes normales: Sobrecarga Omega, Furia Balística y Láseres Solar, Hemático y Abisal.
+- Nuevos combos: Saturación Total, Lanzas Omega elementales y combos críticos Tormenta Congelada, Plaga Neural, Cacería Omega, Extinción Orbital y Último Escuadrón.
+- Motor procedural Web Audio: cada poder obtiene firma sonora propia y cada combo/combinación posee activación sonora diferenciada.
+- Rendimiento móvil protegido mediante límites de ramificaciones, misiles, meteoritos y naves Réquiem.
+- Se conserva la arquitectura horizontal estable, sin Fullscreen API ni bloqueo programático de orientación.
+
+Rizoma Zombie Strike v1.8.8 — Historia activa Mundo 1
+
+Novedades v1.8.8:
+- La narrativa del Mundo 1 se presenta como una transmisión Z-STRIKE, con caja más visible y pulso tecnológico sutil.
+- Las frases se revelan con entrada progresiva y se dirigen al jugador mediante su nickname.
+- Texto del prólogo reescrito para invitar a actuar: Asterion, Aurora, RIZOMA y el primer fragmento.
+- Control SALIR con icono CSS/vectorial junto a CONTINUAR; se elimina la salida flotante superior.
+- CONTINUAR / ENTRAR EN MISIÓN palpita cuando la frase ya está visible.
+- Indicador de transmisión, progreso narrativo y movimiento cinematográfico suave de la imagen.
+- Diseño compacto específico para móvil/tablet horizontal y respeto a reduced-motion.
+- No se modifica combate, dificultad, orientación, HUD, poderes, jefes, vidas ni progresión.
+
 Rizoma Zombie Strike v1.8.7 — Horizontal estable
 
 Novedades v1.8.7:
