@@ -1,7 +1,7 @@
 (() => {
   'use strict';
 
-  const VERSION = '1.9.0';
+  const VERSION = '1.9.1';
   const STORAGE_KEY = 'rizoma_zombie_strike_v0_3_state';
   const SAVE_KEY = 'rizoma_zombie_strike_v0_3_save';
   const clamp = (v, a, b) => Math.max(a, Math.min(b, v));
@@ -6705,11 +6705,23 @@
     return (window.innerHeight||0) > (window.innerWidth||0);
   }
 
+  function isStandaloneMode() {
+    return !!(window.matchMedia?.('(display-mode: standalone)')?.matches || window.navigator?.standalone === true);
+  }
+
   function updateGlobalOrientationGate() {
     if(!els.orientationGate)return;
-    const shouldShow=isTouchLandscapeTarget() && isDevicePortrait();
-    els.orientationGate.classList.toggle('hidden',!shouldShow);
-    document.body.classList.toggle('orientation-required',shouldShow);
+    const portrait=isTouchLandscapeTarget() && isDevicePortrait();
+    const standalone=isStandaloneMode();
+    els.orientationGate.classList.toggle('hidden',!portrait);
+    els.orientationGate.classList.toggle('orientation-advisory',portrait && standalone);
+    const gateTitle=els.orientationGate.querySelector('strong');
+    const gateCopy=els.orientationGate.querySelector('small');
+    if(gateTitle)gateTitle.textContent=standalone?'Mejor en horizontal':'Gira el dispositivo';
+    if(gateCopy)gateCopy.textContent=standalone?'Puedes continuar. Gira la pantalla si tu sistema lo permite.':'Zombie Strike está diseñado para jugarse en horizontal.';
+    // En navegador normal el aviso protege la experiencia horizontal. En PWA es solo informativo:
+    // algunos launchers Android fijan portrait aunque manifest.json solicite landscape.
+    document.body.classList.toggle('orientation-required',portrait && !standalone);
   }
 
   // Arquitectura estable: no se solicita fullscreen ni se bloquea la orientación.
@@ -7325,10 +7337,33 @@ ${JSON.stringify(snapshot, null, 2)}`;
       renderSavedGamesList();
     });
     els.btnPause.addEventListener('click', () => game.togglePause());
-    els.btnDomain?.addEventListener('click',()=>game.openDomainSelector());
-    els.btnDomainClose?.addEventListener('click',()=>game.closeDomainSelector());
-    els.domainOverlay?.addEventListener('click',e=>{if(e.target===els.domainOverlay)game.closeDomainSelector();});
-    els.domainFormList?.addEventListener('click',e=>{const btn=e.target.closest('[data-domain-form]');if(btn)game.selectDomainForm(btn.dataset.domainForm);});
+
+    // DOMINIO debe consumir el gesto antes de que alcance el canvas.
+    // Pointerdown abre de inmediato en móvil; click queda como fallback de teclado/navegadores antiguos.
+    let domainPressStamp=0;
+    const consumeDomainGesture=e=>{
+      if(e?.cancelable)e.preventDefault();
+      e?.stopPropagation?.();
+    };
+    els.btnDomain?.addEventListener('pointerdown',e=>{
+      consumeDomainGesture(e);
+      domainPressStamp=performance.now();
+      game.openDomainSelector();
+    },{passive:false});
+    els.btnDomain?.addEventListener('click',e=>{
+      consumeDomainGesture(e);
+      if(performance.now()-domainPressStamp>450)game.openDomainSelector();
+    });
+    els.btnDomainClose?.addEventListener('pointerdown',consumeDomainGesture,{passive:false});
+    els.btnDomainClose?.addEventListener('click',e=>{consumeDomainGesture(e);game.closeDomainSelector();});
+    els.domainOverlay?.addEventListener('pointerdown',e=>{e.stopPropagation();},{passive:true});
+    els.domainOverlay?.addEventListener('click',e=>{e.stopPropagation();if(e.target===els.domainOverlay)game.closeDomainSelector();});
+    els.domainFormList?.addEventListener('pointerdown',e=>{e.stopPropagation();},{passive:true});
+    els.domainFormList?.addEventListener('click',e=>{
+      e.stopPropagation();
+      const btn=e.target.closest('[data-domain-form]');
+      if(btn)game.selectDomainForm(btn.dataset.domainForm);
+    });
     els.btnTacticalCart?.addEventListener('click',()=>game.openTacticalShop());
     els.btnOpenTacticalShop?.addEventListener('click',()=>game.openTacticalShop());
     els.btnSkipTacticalShop?.addEventListener('click',()=>game.closeTacticalPrep());

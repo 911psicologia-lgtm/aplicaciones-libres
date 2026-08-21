@@ -1,4 +1,4 @@
-Rizoma Zombie Strike v1.9.0 — DOMINIO & Arsenal Crítico
+Rizoma Zombie Strike v1.9.1 — DOMINIO Touch & PWA
 
 Novedades v1.9.0:
 - PROTOCOLO DOMINIO desbloqueable desde Mundo 4: RIZOMA y Guardianes derrotados pueden seleccionarse como nave pilotable sin alterar vida, shield ni poderes activos.
@@ -271,3 +271,9 @@ v1.8.4 · PRUEBA NARRATIVA MUNDO 1
 - Botón Saltar historia.
 - Cierre narrativo tras superar Mundo 1 antes de entrar a Mundo 2.
 - Texto reducido para conservar legibilidad sobre fondos complejos.
+
+
+Correcciones v1.9.1:
+- DOMINIO se mueve a un rail compacto de acciones junto al carrito y pausa; el texto permanente desaparece visualmente y queda sigilo + contador.
+- Toque/pointer de DOMINIO se intercepta para que nunca alcance el canvas ni mueva la nave.
+- En PWA/standalone el aviso de orientación es informativo y no bloqueante.

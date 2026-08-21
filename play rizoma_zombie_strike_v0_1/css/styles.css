@@ -1597,3 +1597,115 @@ body.game-mode .hud{right:calc(174px + var(--safe-right))!important;}
 }
 @media(max-height:390px) and (orientation:landscape){.domain-panel{width:min(650px,calc(100vw - 12px));padding:5px 8px}.domain-form-card{min-height:76px;grid-template-rows:34px auto 1fr}.domain-thumb{height:34px}.domain-hint{display:none}}
 .domain-form-card{position:relative}.domain-form-card.active::after{right:5px;top:5px;padding:2px 4px;border-radius:999px;background:rgba(97,255,200,.12);border:1px solid rgba(97,255,200,.28);font-size:.36rem;letter-spacing:.08em;color:#baffeb}
+
+/* v1.9.1 — DOMINIO táctil + rail de acciones + PWA no bloqueante */
+.hud-actions{
+  position:fixed;
+  right:calc(4px + var(--safe-right));
+  top:calc(4px + var(--safe-top));
+  z-index:31;
+  display:flex;
+  align-items:center;
+  justify-content:flex-end;
+  gap:4px;
+  pointer-events:auto;
+  isolation:isolate;
+}
+body.game-mode .hud{
+  left:8px!important;
+  right:132px!important;
+  top:calc(6px + var(--safe-top))!important;
+  transform:none!important;
+  max-width:none!important;
+  flex-wrap:nowrap!important;
+  justify-content:center!important;
+}
+body.game-mode .hud-actions .domain-btn,
+body.game-mode .hud-actions .tactical-cart,
+body.game-mode .hud-actions .pause-btn{
+  position:relative!important;
+  left:auto!important;
+  right:auto!important;
+  top:auto!important;
+  bottom:auto!important;
+  margin:0!important;
+  flex:0 0 auto;
+}
+body.game-mode .hud-actions .domain-btn{
+  width:34px!important;
+  min-width:34px!important;
+  height:30px!important;
+  padding:0!important;
+  border-radius:10px!important;
+  gap:0!important;
+  pointer-events:auto!important;
+  touch-action:none!important;
+  user-select:none!important;
+  -webkit-user-select:none!important;
+  -webkit-tap-highlight-color:transparent;
+}
+body.game-mode .hud-actions .domain-btn .domain-label{display:none!important}
+body.game-mode .hud-actions .domain-btn .domain-glyph{font-size:.92rem!important}
+body.game-mode .hud-actions .domain-btn small{
+  position:absolute!important;
+  right:-3px!important;
+  top:-4px!important;
+  min-width:14px!important;
+  height:14px!important;
+  padding:0 2px!important;
+  font-size:.44rem!important;
+}
+body.game-mode .hud-actions .tactical-cart{height:30px!important;min-width:42px!important;padding:0 6px!important}
+body.game-mode .hud-actions .pause-btn{width:38px!important;height:30px!important;border-radius:10px!important}
+.domain-overlay,.domain-panel,.domain-form-list,.domain-form-card,.domain-close{
+  pointer-events:auto!important;
+}
+.domain-overlay{touch-action:none!important}
+.domain-form-list{touch-action:pan-x!important}
+.domain-form-card,.domain-close{touch-action:manipulation!important;-webkit-tap-highlight-color:transparent}
+
+/* En PWA/standalone la orientación solicitada por manifest puede ser ignorada por Android.
+   El aviso queda visible como consejo pero jamás bloquea la aplicación. */
+.orientation-gate.orientation-advisory{
+  inset:auto 10px auto 10px!important;
+  top:max(8px,calc(6px + var(--safe-top)))!important;
+  z-index:22000!important;
+  display:block!important;
+  padding:0!important;
+  background:transparent!important;
+  pointer-events:none!important;
+  text-align:left!important;
+}
+.orientation-gate.orientation-advisory .orientation-gate-inner{
+  width:min(330px,calc(100vw - 20px))!important;
+  min-height:44px!important;
+  margin:0 auto!important;
+  padding:7px 11px!important;
+  display:grid!important;
+  grid-template-columns:28px 1fr!important;
+  grid-template-rows:auto auto!important;
+  column-gap:9px!important;
+  row-gap:0!important;
+  align-items:center!important;
+  justify-items:start!important;
+  border:1px solid rgba(97,255,200,.25)!important;
+  border-radius:13px!important;
+  background:rgba(2,12,15,.88)!important;
+  backdrop-filter:blur(8px)!important;
+  box-shadow:0 8px 24px rgba(0,0,0,.28)!important;
+}
+.orientation-gate.orientation-advisory .rotate-device{grid-row:1/3;grid-column:1;width:25px!important;height:25px!important}
+.orientation-gate.orientation-advisory strong{grid-column:2;font-size:.67rem!important;letter-spacing:.06em!important;line-height:1.15!important}
+.orientation-gate.orientation-advisory small{grid-column:2;font-size:.55rem!important;line-height:1.2!important;opacity:.7!important;max-width:none!important}
+
+@media(max-width:1100px) and (orientation:landscape){
+  body.game-mode .hud{left:4px!important;right:116px!important;justify-content:flex-start!important;gap:3px!important}
+  .hud-actions{gap:3px!important}
+  body.game-mode .hud-actions .domain-btn{width:30px!important;min-width:30px!important;height:28px!important}
+  body.game-mode .hud-actions .tactical-cart{width:34px!important;min-width:34px!important;height:28px!important;padding:0 3px!important}
+  body.game-mode .hud-actions .pause-btn{width:30px!important;height:28px!important}
+}
+@media(max-height:390px) and (orientation:landscape){
+  body.game-mode .hud{right:110px!important}
+  .hud-actions{right:calc(3px + var(--safe-right));top:calc(3px + var(--safe-top));gap:2px!important}
+}
