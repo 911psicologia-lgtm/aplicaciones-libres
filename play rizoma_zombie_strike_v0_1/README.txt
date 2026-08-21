@@ -1,3 +1,15 @@
+Rizoma Zombie Strike v1.8.7 — Horizontal estable
+
+Novedades v1.8.7:
+- Se elimina por completo la dependencia del Fullscreen API y del bloqueo programático de orientación.
+- Se retiran los botones de pantalla completa de Historia y HUD.
+- El aviso de giro aparece únicamente cuando un móvil/tablet táctil está realmente en vertical.
+- Ranking, Cargar, Menú, Historia y Combate conservan la misma lógica horizontal sin reinicios de orientación.
+- Viewport oscuro y estable con 100dvh/100svh y safe-area; no se expone fondo blanco perteneciente a la página.
+- HUD horizontal recupera el espacio del antiguo botón fullscreen.
+- El manifest declara orientación landscape para instalaciones PWA compatibles, sin afectar la versión web normal.
+- No se modifica combate, dificultad, jefes, poderes, vidas, progresión ni narrativa.
+
 Rizoma Zombie Strike v1.7.5 — HUD vidas visible
 
 Rizoma Zombie Strike v1.7.4 — Flujo, velocidad y soporte táctico

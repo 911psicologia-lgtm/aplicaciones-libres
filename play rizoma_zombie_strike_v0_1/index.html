@@ -11,14 +11,14 @@
   <meta name="apple-mobile-web-app-title" content="Niebla Verde" />
   <script>if(location.protocol !== "file:"){const m=document.createElement("link");m.rel="manifest";m.href="manifest.json";document.head.appendChild(m);}</script>
   <link rel="icon" href="assets/icon.svg" type="image/svg+xml" />
-  <title>Rizoma Zombie Strike — Fullscreen Inmersivo · v1.8.6</title>
+  <title>Rizoma Zombie Strike — Horizontal Estable · v1.8.7</title>
   <link rel="preload" as="image" href="assets/ui/intro_poster_mobile.webp" media="(max-width: 1200px)" fetchpriority="high" />
   <link rel="preload" as="image" href="assets/boss2/sigil_w1.svg" />
   <link rel="preload" as="image" href="assets/boss2/sigil_w2.svg" />
   <link rel="preload" as="image" href="assets/boss2/sigil_w3.svg" />
   <link rel="preload" as="image" href="assets/boss2/sigil_w4.svg" />
   <link rel="preload" as="image" href="assets/boss2/sigil_w5.svg" />
-  <link rel="stylesheet" href="css/styles.css?v=1.8.6" />
+  <link rel="stylesheet" href="css/styles.css?v=1.8.7" />
   <link rel="preload" as="image" href="assets/story/episode_01_protocol_zstrike.webp" fetchpriority="high" />
 </head>
 <body>
@@ -27,7 +27,6 @@
       <div class="rotate-device" aria-hidden="true"><span></span></div>
       <strong>Gira el dispositivo</strong>
       <small>Zombie Strike está diseñado para jugarse en horizontal.</small>
-      <button id="btnLandscapeMode" type="button">Activar horizontal</button>
     </div>
   </div>
   <div id="app" class="app-shell">
@@ -40,7 +39,7 @@
         <span class="brand-mark">⬢</span>
         <div>
           <strong>Rizoma Zombie Strike</strong>
-          <small>Fullscreen Inmersivo · v1.8.6</small>
+          <small>Horizontal Estable · v1.8.7</small>
         </div>
       </div>
       <button id="btnSettings" class="icon-btn" title="Ajustes" aria-label="Ajustes">⚙</button>
@@ -217,7 +216,6 @@
       <div class="story-stage">
         <img id="storyImage" class="story-image" src="assets/story/episode_01_protocol_zstrike.webp" alt="Episodio 1 · Protocolo Z-Strike" />
         <div class="story-veil"></div>
-        <button id="btnStoryFullscreen" class="story-fullscreen" type="button" title="Pantalla completa" aria-label="Pantalla completa">⛶</button>
         <button id="btnStorySkip" class="story-skip" type="button">Saltar historia</button>
         <div class="story-copy">
           <p id="storyKicker" class="story-kicker">CAMPAÑA · MUNDO 1</p>
@@ -232,7 +230,6 @@
       <section id="screenGame" class="screen game-screen">
         <canvas id="gameCanvas" width="1280" height="720" aria-label="Zona de juego"></canvas>
         <div class="game-vignette"></div>
-        <div id="orientationHint" class="orientation-hint hidden">↔️ Gira el celular para más espacio de combate</div>
         <div id="hud" class="hud">
           <div class="hud-pill danger"><span>❤️</span><strong id="hudHp">0</strong></div>
           <div class="hud-pill shield"><span>🛡️</span><strong id="hudShield">0</strong></div>
@@ -243,7 +240,6 @@
           <div class="hud-pill boss-approach" id="hudBossApproach" title="Progreso hacia el jefe"><span id="hudBossSigil" class="hud-boss-sigil"></span><strong id="hudBossPercent">0%</strong></div>
           <div class="hud-pill lives-pill" title="Vidas disponibles"><span>❤️</span><strong id="hudLives">0</strong></div>
           <button id="btnTacticalCart" class="tactical-cart" title="Compra Exprés"><span class="cart-glyph">🛒</span><strong id="tacticalCartCount">0</strong></button>
-          <button id="btnFullscreen" class="fullscreen-btn" title="Pantalla completa" aria-label="Pantalla completa">⛶</button>
           <button id="btnPause" class="pause-btn" title="Pausa">⏸</button>
         </div>
         <div id="bossBar" class="boss-bar hidden">
@@ -364,6 +360,6 @@
     </div>
   </div>
 
-  <script src="js/game.js?v=1.8.6"></script>
+  <script src="js/game.js?v=1.8.7"></script>
 </body>
 </html>
