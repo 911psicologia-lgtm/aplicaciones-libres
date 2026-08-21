@@ -1302,3 +1302,53 @@ body.story-open{overflow:hidden}
   .story-caption{font-size:.88rem}
 }
 @media (prefers-reduced-motion:reduce){.story-image{animation:none}.story-caption.story-caption-in{animation:none}}
+
+
+/* v1.8.5 — experiencia horizontal desde el inicio + centro de mando compacto */
+.orientation-gate{position:fixed;inset:0;z-index:22000;display:grid;place-items:center;background:radial-gradient(circle at 50% 42%,rgba(18,54,48,.96),rgba(2,8,12,.995) 70%);padding:24px;text-align:center;color:#effff9}
+.orientation-gate.hidden{display:none!important}
+.orientation-gate-inner{width:min(330px,88vw);display:grid;justify-items:center;gap:10px}
+.orientation-gate-inner strong{font-size:1.08rem;letter-spacing:.08em;text-transform:uppercase}
+.orientation-gate-inner small{font-size:.78rem;line-height:1.35;opacity:.72;max-width:270px}
+.orientation-gate-inner button{border:1px solid rgba(104,241,213,.55);background:linear-gradient(90deg,#59eec5,#6edcf1);color:#03110e;border-radius:999px;padding:8px 18px;font-weight:900;font-size:.78rem;margin-top:4px}
+.rotate-device{width:72px;height:54px;position:relative;margin:4px 0 8px;animation:rotateSuggest 1.7s ease-in-out infinite}
+.rotate-device span{position:absolute;left:20px;top:4px;width:31px;height:50px;border:3px solid #73f1d5;border-radius:8px;box-shadow:0 0 22px rgba(115,241,213,.24)}
+.rotate-device span:after{content:"";position:absolute;left:50%;bottom:3px;transform:translateX(-50%);width:5px;height:5px;border-radius:50%;background:#73f1d5}
+.rotate-device:after{content:"↻";position:absolute;right:-1px;top:13px;font-size:26px;color:#ff8b73;text-shadow:0 0 12px rgba(255,139,115,.45)}
+@keyframes rotateSuggest{0%,100%{transform:rotate(0deg)}45%,72%{transform:rotate(90deg)}}
+
+/* Centro de mando: menos panel, más control */
+.redesigned-menu{max-width:690px}
+.redesigned-menu .menu-hero-concept{display:none!important}
+.redesigned-menu>.eyebrow{margin-bottom:2px!important}
+.redesigned-menu .difficulty-select,.redesigned-menu .play-mode-select{margin:5px 0!important}
+.redesigned-menu .difficulty-hint,.redesigned-menu .play-mode-hint{display:none!important}
+.redesigned-menu .difficulty-btn,.redesigned-menu .play-mode-btn{min-height:42px!important;padding:6px 9px!important;border-radius:12px!important}
+.redesigned-menu .difficulty-btn strong,.redesigned-menu .play-mode-btn strong{font-size:.76rem!important}
+.redesigned-menu .difficulty-btn small,.redesigned-menu .play-mode-btn small{font-size:.58rem!important}
+.redesigned-menu .start-actions-main.minimal .wide{min-height:42px!important;padding:7px 10px!important}
+.redesigned-menu .portal-ranking-preview{display:none!important}
+
+@media (max-width:1100px) and (orientation:landscape){
+  body[data-screen="screenPortal"] .simple-start-screen{padding:5px!important;overflow:hidden!important}
+  body[data-screen="screenPortal"] .redesigned-menu{width:min(820px,calc(100vw - 14px))!important;max-height:calc(100dvh - 10px)!important;padding:7px 10px!important;grid-template-columns:1.15fr .85fr!important;gap:5px 9px!important;border-radius:16px!important;overflow:auto!important}
+  body[data-screen="screenPortal"] .redesigned-menu>.eyebrow{grid-column:1/-1;font-size:.52rem!important}
+  body[data-screen="screenPortal"] .start-name-box{grid-column:1!important}
+  body[data-screen="screenPortal"] .difficulty-select{grid-column:2!important;margin:0!important}
+  body[data-screen="screenPortal"] .play-mode-select{grid-column:1!important;margin:0!important}
+  body[data-screen="screenPortal"] .start-actions-main.minimal{grid-column:2!important;align-self:stretch!important}
+  body[data-screen="screenPortal"] .difficulty-buttons,body[data-screen="screenPortal"] .play-mode-buttons{gap:4px!important}
+  body[data-screen="screenPortal"] .difficulty-btn,body[data-screen="screenPortal"] .play-mode-btn{min-height:34px!important;padding:4px 7px!important;border-radius:10px!important}
+  body[data-screen="screenPortal"] .difficulty-btn small,body[data-screen="screenPortal"] .play-mode-btn small{display:none!important}
+  body[data-screen="screenPortal"] .start-name-form input{height:34px!important}
+  body[data-screen="screenPortal"] .start-name-form .primary-btn{height:34px!important;min-height:34px!important}
+  body[data-screen="screenPortal"] .start-actions-main.minimal .wide{height:34px!important;min-height:34px!important;font-size:.68rem!important}
+}
+
+/* Historia panorámica: nunca recortar el póster cuando el dispositivo ya está horizontal */
+@media (max-width:1100px) and (orientation:landscape){
+  .story-image{object-fit:contain!important;object-position:center!important;background:#02070a!important;transform:none!important;animation:none!important}
+  .story-veil{background:linear-gradient(180deg,rgba(0,3,6,.02) 0%,rgba(0,3,6,.02) 60%,rgba(0,4,7,.72) 86%,rgba(0,4,7,.94) 100%)!important}
+  .story-copy{width:min(80%,680px)!important;padding:6px 14px 5px!important;bottom:max(4px,env(safe-area-inset-bottom))!important}
+  .story-title{font-size:.78rem!important}.story-caption{font-size:.68rem!important;min-height:1.7em!important}.story-kicker{font-size:.48rem!important}.story-next{min-width:128px!important;padding:5px 15px!important;font-size:.64rem!important}
+}

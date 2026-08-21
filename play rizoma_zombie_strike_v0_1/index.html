@@ -8,17 +8,25 @@
   <meta name="apple-mobile-web-app-title" content="Niebla Verde" />
   <script>if(location.protocol !== "file:"){const m=document.createElement("link");m.rel="manifest";m.href="manifest.json";document.head.appendChild(m);}</script>
   <link rel="icon" href="assets/icon.svg" type="image/svg+xml" />
-  <title>Rizoma Zombie Strike — Historia Mundo 1 · v1.8.4</title>
-  <link rel="preload" as="image" href="assets/ui/intro_poster_mobile.webp" media="(max-width: 1000px) and (orientation: landscape)" fetchpriority="high" />
+  <title>Rizoma Zombie Strike — Responsive Historia · v1.8.5</title>
+  <link rel="preload" as="image" href="assets/ui/intro_poster_mobile.webp" media="(max-width: 1200px)" fetchpriority="high" />
   <link rel="preload" as="image" href="assets/boss2/sigil_w1.svg" />
   <link rel="preload" as="image" href="assets/boss2/sigil_w2.svg" />
   <link rel="preload" as="image" href="assets/boss2/sigil_w3.svg" />
   <link rel="preload" as="image" href="assets/boss2/sigil_w4.svg" />
   <link rel="preload" as="image" href="assets/boss2/sigil_w5.svg" />
-  <link rel="stylesheet" href="css/styles.css?v=1.8.4" />
+  <link rel="stylesheet" href="css/styles.css?v=1.8.5" />
   <link rel="preload" as="image" href="assets/story/episode_01_protocol_zstrike.webp" fetchpriority="high" />
 </head>
 <body>
+  <div id="orientationGate" class="orientation-gate hidden" role="dialog" aria-live="polite" aria-label="Orientación horizontal recomendada">
+    <div class="orientation-gate-inner">
+      <div class="rotate-device" aria-hidden="true"><span></span></div>
+      <strong>Gira el dispositivo</strong>
+      <small>Zombie Strike está diseñado para jugarse en horizontal.</small>
+      <button id="btnLandscapeMode" type="button">Activar horizontal</button>
+    </div>
+  </div>
   <div id="app" class="app-shell">
     <div class="ambient ambient-a"></div>
     <div class="ambient ambient-b"></div>
@@ -29,7 +37,7 @@
         <span class="brand-mark">⬢</span>
         <div>
           <strong>Rizoma Zombie Strike</strong>
-          <small>Historia Mundo 1 · v1.8.4</small>
+          <small>Responsive Historia · v1.8.5</small>
         </div>
       </div>
       <button id="btnSettings" class="icon-btn" title="Ajustes" aria-label="Ajustes">⚙</button>
@@ -39,7 +47,7 @@
       <section id="screenIntro" class="screen active intro-screen">
         <div class="intro-poster-wrap">
           <picture class="intro-poster-picture">
-            <source media="(max-width: 1000px) and (orientation: landscape)" srcset="assets/ui/intro_poster_mobile.webp" />
+            <source media="(max-width: 1200px)" srcset="assets/ui/intro_poster_mobile.webp" />
             <img class="intro-poster-img" src="assets/ui/intro_poster.webp" alt="Presentación de Zombie Strike" loading="eager" fetchpriority="high" decoding="async" />
           </picture>
           <div class="intro-overlay-panel">
@@ -346,6 +354,6 @@
     </div>
   </div>
 
-  <script src="js/game.js?v=1.8.4"></script>
+  <script src="js/game.js?v=1.8.5"></script>
 </body>
 </html>

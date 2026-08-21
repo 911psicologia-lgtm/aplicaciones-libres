@@ -1,7 +1,7 @@
 (() => {
   'use strict';
 
-  const VERSION = '1.8.4';
+  const VERSION = '1.8.5';
   const STORAGE_KEY = 'rizoma_zombie_strike_v0_3_state';
   const SAVE_KEY = 'rizoma_zombie_strike_v0_3_save';
   const clamp = (v, a, b) => Math.max(a, Math.min(b, v));
@@ -3692,14 +3692,15 @@
       const worldTwoMini = this.mapIndex === 1 && mini;
       const isMirror = id === 'nave_espejo';
       const scale = isMirror ? (this.mapIndex === 0 ? .82 : 1) : (worldOneMini ? .72 : (worldTwoMini ? .88 : (mini ? .68 : (1 + this.mapIndex * .04 + this.wave * .025))));
+      const mobileEnemyScale=this.mobileLandscape?.86:(this.mobilePortrait?.72:1);
       const enemy = {
         ...cfg,
         x, y,
         baseHp: cfg.hp * scale,
         hp: cfg.hp * scale,
         speed: cfg.speed * (1 + this.wave * .018 + this.mapIndex * .012) * (this.mapIndex === 0 ? (1.08 + (this.wave - 1) * .055) : 1) * (isMirror ? 1.02 : (worldOneMini ? 1.06 : (mini ? 1.16 : 1))),
-        r: cfg.r * (isMirror ? 1.05 : (worldOneMini ? .78 : (worldTwoMini ? .96 : (mini ? .82 : 1)))),
-        visualScale: this.mapIndex === 1 ? (worldTwoMini ? 1.08 : 1.12) : 1,
+        r: cfg.r * (isMirror ? 1.05 : (worldOneMini ? .78 : (worldTwoMini ? .96 : (mini ? .82 : 1)))) * mobileEnemyScale,
+        visualScale: (this.mapIndex === 1 ? (worldTwoMini ? 1.08 : 1.12) : 1) * mobileEnemyScale,
         mirrorFire: isMirror ? rand(1.4, .7) : 0,
         familyFire: this.mapIndex === 0 ? rand(3.4, 1.4) : (this.mapIndex === 1 ? rand(3.1,1.35) : 0),
         t: Math.random() * 10,
@@ -3744,7 +3745,7 @@
         hp,
         baseHp: hp,
         speed: (this.mapIndex === 0 ? 33 : (this.mapIndex === 1 ? 34 : (this.mapIndex===2?40:(this.mapIndex===3?43:46)))) + this.mapIndex * 1.5,
-        r:(this.mapIndex===0?36:(this.mapIndex===1?54:(this.mapIndex===2?58:(this.mapIndex===3?62:(this.mapIndex===4?68:(31+this.mapIndex*.36)*.64))))),
+        r:(this.mapIndex===0?36:(this.mapIndex===1?54:(this.mapIndex===2?58:(this.mapIndex===3?62:(this.mapIndex===4?68:(31+this.mapIndex*.36)*.64))))) * (this.mobileLandscape?.78:(this.mobilePortrait?.66:1)),
         t: 0,
         attack: this.mapIndex === 0 ? 2.55 : (this.mapIndex === 1 ? 2.28 : (this.mapIndex===2?1.95:(this.mapIndex===3?1.88:1.82))),
         specialCd: this.mapIndex === 0 ? 6.6 : (this.mapIndex === 1 ? 6.0 : (this.mapIndex===2?5.3:(this.mapIndex===3?5.0:4.6))),
@@ -5879,7 +5880,7 @@
           const bossSprite = this.mapIndex === 0 ? this.getAsset('bossBiomech') : null;
           if (bossSprite) {
             ctx.globalAlpha = .96 * (e.alpha ?? 1);
-            const w = e.r * 5.6;
+            const w = e.r * 5.6 * (this.mobileLandscape?.86:1);
             const h = w * (bossSprite.naturalHeight / bossSprite.naturalWidth);
             ctx.drawImage(bossSprite, -w * .52, -h * .5, w, h);
             ctx.globalAlpha = .18 + (e.alpha ?? 1) * .18;
@@ -5888,7 +5889,7 @@
             const boss2=this.getAsset('bossBaciloOmega');
             if(boss2){
               ctx.globalAlpha=.99*(e.alpha??1);
-              const w=e.r*8.25;
+              const w=e.r*8.25*(this.mobileLandscape?.76:1);
               const h=w*(boss2.naturalHeight/boss2.naturalWidth);
               ctx.save();
               ctx.shadowBlur = 18;
@@ -5896,9 +5897,9 @@
               ctx.drawImage(boss2,-w*.5,-h*.52,w,h);
               ctx.restore();
             } else this.drawBacteriaBoss(ctx,e);
-          } else if(this.mapIndex===2){const boss3=this.getAsset('bossWorld3');if(boss3){ctx.globalAlpha=.995*(e.alpha??1);const w=e.r*8.5,h=w*(boss3.naturalHeight/boss3.naturalWidth);ctx.save();ctx.shadowBlur=22;ctx.shadowColor='rgba(116,255,115,.34)';ctx.drawImage(boss3,-w*.5,-h*.51,w,h);ctx.restore();}else this.drawBacteriaBoss(ctx,e);
-          } else if(this.mapIndex===3){const boss4=this.getAsset('bossWorld4');if(boss4){ctx.globalAlpha=.995*(e.alpha??1);const w=e.r*8.6,h=w*(boss4.naturalHeight/boss4.naturalWidth);ctx.save();ctx.shadowBlur=22;ctx.shadowColor='rgba(255,106,99,.34)';ctx.drawImage(boss4,-w*.5,-h*.50,w,h);ctx.restore();}else this.drawBacteriaBoss(ctx,e);
-          } else if(this.mapIndex===4){const boss5=this.getAsset('bossWorld5');if(boss5){ctx.globalAlpha=.995*(e.alpha??1);const w=e.r*8.9,h=w*(boss5.naturalHeight/boss5.naturalWidth);ctx.save();ctx.shadowBlur=24;ctx.shadowColor='rgba(195,145,255,.36)';ctx.drawImage(boss5,-w*.5,-h*.50,w,h);ctx.restore();}else this.drawBacteriaBoss(ctx,e);
+          } else if(this.mapIndex===2){const boss3=this.getAsset('bossWorld3');if(boss3){ctx.globalAlpha=.995*(e.alpha??1);const w=e.r*8.5*(this.mobileLandscape?.74:1),h=w*(boss3.naturalHeight/boss3.naturalWidth);ctx.save();ctx.shadowBlur=22;ctx.shadowColor='rgba(116,255,115,.34)';ctx.drawImage(boss3,-w*.5,-h*.51,w,h);ctx.restore();}else this.drawBacteriaBoss(ctx,e);
+          } else if(this.mapIndex===3){const boss4=this.getAsset('bossWorld4');if(boss4){ctx.globalAlpha=.995*(e.alpha??1);const w=e.r*8.6*(this.mobileLandscape?.72:1),h=w*(boss4.naturalHeight/boss4.naturalWidth);ctx.save();ctx.shadowBlur=22;ctx.shadowColor='rgba(255,106,99,.34)';ctx.drawImage(boss4,-w*.5,-h*.50,w,h);ctx.restore();}else this.drawBacteriaBoss(ctx,e);
+          } else if(this.mapIndex===4){const boss5=this.getAsset('bossWorld5');if(boss5){ctx.globalAlpha=.995*(e.alpha??1);const w=e.r*8.9*(this.mobileLandscape?.70:1),h=w*(boss5.naturalHeight/boss5.naturalWidth);ctx.save();ctx.shadowBlur=24;ctx.shadowColor='rgba(195,145,255,.36)';ctx.drawImage(boss5,-w*.5,-h*.50,w,h);ctx.restore();}else this.drawBacteriaBoss(ctx,e);
           } else {
             const sides = ({spider:8,tick:7,rat:6,scorpion:10,leech:5,puffer:11,wasp:9,centipede:12,roach:8,chimera:13})[e.beast] || 9;
             this.drawPolygon(ctx, 0, 0, e.r + Math.sin(e.t * 3) * 3, sides, true);
@@ -6272,6 +6273,30 @@
     }
   }
 
+  function isTouchLandscapeTarget() {
+    const touch=(navigator.maxTouchPoints||0)>0 || matchMedia?.('(pointer: coarse)')?.matches;
+    const shortSide=Math.min(window.innerWidth||9999,window.innerHeight||9999);
+    return !!touch && shortSide < 1100;
+  }
+
+  function updateGlobalOrientationGate() {
+    if(!els.orientationGate)return;
+    const portrait=(window.innerHeight||0)>(window.innerWidth||0);
+    const shouldShow=isTouchLandscapeTarget() && portrait;
+    els.orientationGate.classList.toggle('hidden',!shouldShow);
+    document.body.classList.toggle('orientation-required',shouldShow);
+  }
+
+  async function requestLandscapeExperience() {
+    try {
+      if(!document.fullscreenElement && document.documentElement.requestFullscreen){
+        await document.documentElement.requestFullscreen({navigationUI:'hide'}).catch(()=>{});
+      }
+      await screen.orientation?.lock?.('landscape').catch(()=>{});
+    } catch(_) {}
+    updateGlobalOrientationGate();
+  }
+
   const WORLD_ONE_STORY = {
     intro: {
       kicker: 'CAMPAÑA · MUNDO 1',
@@ -6324,6 +6349,7 @@
     storyRuntime = { sequence: seq, step:0, onDone: typeof onDone === 'function' ? onDone : null };
     els.storyOverlay?.classList.remove('hidden');
     document.body.classList.add('story-open');
+    updateGlobalOrientationGate();
     renderStoryFrame();
   }
 
@@ -6832,6 +6858,9 @@ ${JSON.stringify(snapshot, null, 2)}`;
     }));
     els.btnStoryNext?.addEventListener('click', advanceStory);
     els.btnStorySkip?.addEventListener('click', () => closeStorySequence(true));
+    els.btnLandscapeMode?.addEventListener('click', requestLandscapeExperience);
+    window.addEventListener('resize',updateGlobalOrientationGate,{passive:true});
+    window.addEventListener('orientationchange',()=>setTimeout(updateGlobalOrientationGate,120),{passive:true});
     els.btnNewRun?.addEventListener('click', () => { const target=Math.max(0,(currentProfile().unlockedMap||1)-1); startWorldOneWithNarrative(target); });
     els.btnContinue?.addEventListener('click', () => {
       if (!els.savedGamesList) return;
@@ -6917,6 +6946,7 @@ ${JSON.stringify(snapshot, null, 2)}`;
     wire();
     renderAll();
     showScreen('screenIntro');
+    updateGlobalOrientationGate();
     saveState();
     if ('serviceWorker' in navigator && location.protocol !== 'file:') {
       navigator.serviceWorker.getRegistrations?.().then(regs => regs.forEach(r => r.unregister())).catch(() => {});
