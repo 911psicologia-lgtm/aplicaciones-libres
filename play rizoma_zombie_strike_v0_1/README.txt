@@ -1,4 +1,4 @@
-Rizoma Zombie Strike v1.9.1 — DOMINIO Touch & PWA
+Rizoma Zombie Strike v1.9.2 — Escalado táctico móvil
 
 Novedades v1.9.0:
 - PROTOCOLO DOMINIO desbloqueable desde Mundo 4: RIZOMA y Guardianes derrotados pueden seleccionarse como nave pilotable sin alterar vida, shield ni poderes activos.
@@ -277,3 +277,13 @@ Correcciones v1.9.1:
 - DOMINIO se mueve a un rail compacto de acciones junto al carrito y pausa; el texto permanente desaparece visualmente y queda sigilo + contador.
 - Toque/pointer de DOMINIO se intercepta para que nunca alcance el canvas ni mueva la nave.
 - En PWA/standalone el aviso de orientación es informativo y no bloqueante.
+
+
+Ajustes v1.9.2 — Escalado táctico móvil:
+- Jefes: ~25% menos presencia visual respecto a v1.9.1 en celular horizontal, con tope de 20% del ancho y 28% del alto del lienzo.
+- Hitbox de jefe compactada ~12% en móvil para que extremidades decorativas no castiguen injustamente.
+- Enemigos medios: -20% de escala adicional en móvil horizontal; élites -18%; simples -8%.
+- Hordas W3–W5: máximo práctico de 5–6 unidades en móvil y hasta 2 pesadas en las formaciones avanzadas.
+- Entrada escalonada por mayor separación entre filas y origen más externo al viewport.
+- Séquitos de jefe W3–W5 reducidos en móvil (una unidad por familia) sin cambiar HP, daño ni dificultad en escritorio.
+- PC mantiene el tamaño y densidad anteriores.

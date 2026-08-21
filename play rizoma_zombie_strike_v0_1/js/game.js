@@ -1,7 +1,7 @@
 (() => {
   'use strict';
 
-  const VERSION = '1.9.1';
+  const VERSION = '1.9.2';
   const STORAGE_KEY = 'rizoma_zombie_strike_v0_3_state';
   const SAVE_KEY = 'rizoma_zombie_strike_v0_3_save';
   const clamp = (v, a, b) => Math.max(a, Math.min(b, v));
@@ -3216,36 +3216,45 @@
     }
 
     spawnWorldThreeVFormation(size=3,diagonal=true) {
-      const pool=this.wave>=4?WORLD_THREE_MINION_FAMILIES.flat():[...WORLD_THREE_MINION_FAMILIES[0],...WORLD_THREE_MINION_FAMILIES[1]],fromLeft=Math.random()<.5,dir=fromLeft?1:-1,baseX=fromLeft?-50:this.w+50,baseY=clamp(this.player.y+rand(170,-170),80,this.h-120);
-      for(let i=0;i<size;i++){this.spawnEnemy(pick(pool),true);const e=this.enemies[this.enemies.length-1];if(!e)continue;const row=i===0?0:Math.ceil(i/2),wing=i===0?0:(i%2?-1:1);e.x=baseX-dir*row*48;e.y=clamp(baseY+wing*row*30+(diagonal?row*10:0),55,this.h-55);e.formationVX=dir*rand(118,88);e.formationVY=diagonal?wing*rand(26,13):0;e.formationTime=8.5;e.speed*=1.08;e.r*=.94;}
+      const fullPool=this.wave>=4?WORLD_THREE_MINION_FAMILIES.flat():[...WORLD_THREE_MINION_FAMILIES[0],...WORLD_THREE_MINION_FAMILIES[1]];
+      const pool=this.mobileLandscape?[...WORLD_THREE_MINION_FAMILIES[0],...WORLD_THREE_MINION_FAMILIES[1].slice(0,3),WORLD_THREE_MINION_FAMILIES[2][0]]:fullPool;
+      const fromLeft=Math.random()<.5,dir=fromLeft?1:-1,baseX=fromLeft?(this.mobileLandscape?-82:-50):(this.mobileLandscape?this.w+82:this.w+50),baseY=clamp(this.player.y+rand(170,-170),80,this.h-120);
+      const gapX=this.mobileLandscape?72:48,gapY=this.mobileLandscape?42:30;
+      for(let i=0;i<size;i++){this.spawnEnemy(pick(pool),true);const e=this.enemies[this.enemies.length-1];if(!e)continue;const row=i===0?0:Math.ceil(i/2),wing=i===0?0:(i%2?-1:1);e.x=baseX-dir*row*gapX;e.y=clamp(baseY+wing*row*gapY+(diagonal?row*(this.mobileLandscape?13:10):0),55,this.h-55);e.formationVX=dir*rand(118,88);e.formationVY=diagonal?wing*rand(26,13):0;e.formationTime=8.5;e.speed*=1.08;e.r*=.94;}
     }
 
     triggerWorldThreeHorde() {
-      if(this.wave<2||this.wave>=5)return;const size=[3,6,9][Math.min(2,this.wave-2)];this.spawnWorldThreeVFormation(size,true);if(this.isHardMode()&&size>=6)this.spawnWorldThreeVFormation(3,Math.random()<.7);this.spawnCrossWorldPrizeBurst((size>=6?2:1)+(this.getDifficulty().hordeRewardBonus||0));this.spawnHordeEmergencyKit();this.spawnDifficultyHordeHazards();this.worldThreeState.speedBurst=Math.max(this.worldThreeState.speedBurst||0,5.2);this.worldThreeState.hordeSeen=(this.worldThreeState.hordeSeen||0)+1;this.toast('⚡ HORDA VIRIDIANA',`Formación en V x${size} · kit antihorda disponible`);
+      if(this.wave<2||this.wave>=5)return;const size=this.mobileLandscape?[3,5,6][Math.min(2,this.wave-2)]:[3,6,9][Math.min(2,this.wave-2)];this.spawnWorldThreeVFormation(size,true);if(!this.mobileLandscape&&this.isHardMode()&&size>=6)this.spawnWorldThreeVFormation(3,Math.random()<.7);this.spawnCrossWorldPrizeBurst((size>=6?2:1)+(this.getDifficulty().hordeRewardBonus||0));this.spawnHordeEmergencyKit();this.spawnDifficultyHordeHazards();this.worldThreeState.speedBurst=Math.max(this.worldThreeState.speedBurst||0,5.2);this.worldThreeState.hordeSeen=(this.worldThreeState.hordeSeen||0)+1;this.toast('⚡ HORDA VIRIDIANA',`Formación en V x${size} · kit antihorda disponible`);
     }
 
     spawnAdvancedWorldVFormation(worldIndex,size=3,diagonal=true) {
-      const pool=worldIndex===3?WORLD_FOUR_MINION_FAMILIES.flat():WORLD_FIVE_MINION_FAMILIES.flat();
-      const fromLeft=Math.random()<.5,dir=fromLeft?1:-1,baseX=fromLeft?-55:this.w+55,baseY=clamp(this.player.y+rand(175,-175),78,this.h-118);
+      const families=worldIndex===3?WORLD_FOUR_MINION_FAMILIES:WORLD_FIVE_MINION_FAMILIES;
+      const pool=this.mobileLandscape?[...families[0],...families[0],...families[1].slice(0,2)]:families.flat();
+      const fromLeft=Math.random()<.5,dir=fromLeft?1:-1,baseX=fromLeft?(this.mobileLandscape?-86:-55):(this.mobileLandscape?this.w+86:this.w+55),baseY=clamp(this.player.y+rand(175,-175),78,this.h-118);
+      const gapX=this.mobileLandscape?74:50,gapY=this.mobileLandscape?43:31;
+      let heavyUsed=0;
       for(let i=0;i<size;i++){
-        this.spawnEnemy(pick(pool),true);const e=this.enemies[this.enemies.length-1];if(!e)continue;
+        let id=pick(pool);
+        if(this.mobileLandscape&&families[1].includes(id)&&heavyUsed>=2)id=pick(families[0]);
+        if(families[1].includes(id))heavyUsed++;
+        this.spawnEnemy(id,true);const e=this.enemies[this.enemies.length-1];if(!e)continue;
         const row=i===0?0:Math.ceil(i/2),wing=i===0?0:(i%2?-1:1);
-        e.x=baseX-dir*row*50;e.y=clamp(baseY+wing*row*31+(diagonal?row*11:0),55,this.h-55);
+        e.x=baseX-dir*row*gapX;e.y=clamp(baseY+wing*row*gapY+(diagonal?row*(this.mobileLandscape?14:11):0),55,this.h-55);
         e.formationVX=dir*rand(worldIndex===4?132:122,92);e.formationVY=diagonal?wing*rand(28,14):0;e.formationTime=8.8;e.speed*=1.08;e.r*=.93;
       }
     }
 
     triggerWorldFourHorde() {
-      if(this.wave<2||this.wave>5)return;const size=this.wave>=4?9:(this.wave===3?6:3);
-      this.spawnAdvancedWorldVFormation(3,size,true);if(size>=6)this.spawnAdvancedWorldVFormation(3,3,Math.random()<.6);
+      if(this.wave<2||this.wave>5)return;const size=this.mobileLandscape?(this.wave>=4?6:(this.wave===3?5:3)):(this.wave>=4?9:(this.wave===3?6:3));
+      this.spawnAdvancedWorldVFormation(3,size,true);if(!this.mobileLandscape&&size>=6)this.spawnAdvancedWorldVFormation(3,3,Math.random()<.6);
       this.spawnCrossWorldPrizeBurst((size>=6?2:1)+(this.getDifficulty().hordeRewardBonus||0));this.spawnHordeEmergencyKit();this.spawnDifficultyHordeHazards();
       this.worldFourState.hordeSeen=(this.worldFourState.hordeSeen||0)+1;
       this.toast('🔥 HORDA CARMESÍ',`Formación x${size} · kit táctico disperso en el lienzo`);
     }
 
     triggerWorldFiveHorde() {
-      if(this.wave<2||this.wave>5)return;const size=this.wave>=4?9:(this.wave===3?6:3);
-      this.spawnAdvancedWorldVFormation(4,size,true);if(size>=6)this.spawnAdvancedWorldVFormation(4,3,true);
+      if(this.wave<2||this.wave>5)return;const size=this.mobileLandscape?(this.wave>=4?6:(this.wave===3?5:3)):(this.wave>=4?9:(this.wave===3?6:3));
+      this.spawnAdvancedWorldVFormation(4,size,true);if(!this.mobileLandscape&&size>=6)this.spawnAdvancedWorldVFormation(4,3,true);
       this.spawnCrossWorldPrizeBurst((size>=6?2:1)+(this.getDifficulty().hordeRewardBonus||0));this.spawnHordeEmergencyKit();this.spawnDifficultyHordeHazards();
       this.worldFiveState.hordeSeen=(this.worldFiveState.hordeSeen||0)+1;
       this.toast('🕳️ HORDA DEL VACÍO',`Formación x${size} · kit de emergencia disponible`);
@@ -4077,13 +4086,16 @@
       const isMirror = id === 'nave_espejo';
       const scale = isMirror ? (this.mapIndex === 0 ? .82 : 1) : (worldOneMini ? .72 : (worldTwoMini ? .88 : (mini ? .68 : (1 + this.mapIndex * .04 + this.wave * .025))));
       const mobileEnemyScale=this.mobileLandscape?.86:(this.mobilePortrait?.72:1);
+      // Escalado táctico móvil: evita que medianos/élites formen un muro visual.
+      const baseEnemyRank=(cfg.hp>=165||cfg.r>=24)?'elite':((cfg.hp>=72||cfg.r>=18)?'medium':'simple');
+      const tacticalMobileScale=this.mobileLandscape?(baseEnemyRank==='elite'?.82:(baseEnemyRank==='medium'?.80:.92)):1;
       const enemy = {
         ...cfg,
         x, y,
         baseHp: cfg.hp * scale,
         hp: cfg.hp * scale,
         speed: cfg.speed * (1 + this.wave * .018 + this.mapIndex * .012) * (this.mapIndex === 0 ? (1.08 + (this.wave - 1) * .055) : 1) * (isMirror ? 1.02 : (worldOneMini ? 1.06 : (mini ? 1.16 : 1))),
-        r: cfg.r * (isMirror ? 1.05 : (worldOneMini ? .78 : (worldTwoMini ? .96 : (mini ? .82 : 1)))) * mobileEnemyScale,
+        r: cfg.r * (isMirror ? 1.05 : (worldOneMini ? .78 : (worldTwoMini ? .96 : (mini ? .82 : 1)))) * mobileEnemyScale * tacticalMobileScale,
         visualScale: (this.mapIndex === 1 ? (worldTwoMini ? 1.08 : 1.12) : 1) * mobileEnemyScale,
         mirrorFire: isMirror ? rand(1.4, .7) : 0,
         familyFire: this.mapIndex === 0 ? rand(3.4, 1.4) : (this.mapIndex === 1 ? rand(3.1,1.35) : 0),
@@ -4125,11 +4137,12 @@
         summons: this.mapIndex===1?WORLD_TWO_MINION_FAMILIES.flat():(this.mapIndex===2?WORLD_THREE_MINION_FAMILIES.flat():(this.mapIndex===3?WORLD_FOUR_MINION_FAMILIES.flat():(this.mapIndex===4?WORLD_FIVE_MINION_FAMILIES.flat():(map.summons||[])))),
         specialName: boss2Meta(this.mapIndex).special,
         x, y,
-        targetY:this.mapIndex===1?this.h*.22:(this.mapIndex===2?this.h*.20:(this.mapIndex===3?this.h*.21:(this.mapIndex===4?this.h*.22:this.h*.18))),
+        targetY:(this.mobileLandscape?this.h*.17:(this.mapIndex===1?this.h*.22:(this.mapIndex===2?this.h*.20:(this.mapIndex===3?this.h*.21:(this.mapIndex===4?this.h*.22:this.h*.18))))),
         hp,
         baseHp: hp,
         speed: (this.mapIndex === 0 ? 33 : (this.mapIndex === 1 ? 34 : (this.mapIndex===2?40:(this.mapIndex===3?43:46)))) + this.mapIndex * 1.5,
-        r:(this.mapIndex===0?36:(this.mapIndex===1?54:(this.mapIndex===2?58:(this.mapIndex===3?62:(this.mapIndex===4?68:(31+this.mapIndex*.36)*.64))))) * (this.mobileLandscape?.78:(this.mobilePortrait?.66:1)),
+        // En móvil el hitbox se compacta; la presencia épica queda en aura, patrón y audio, no en ocupar el lienzo.
+        r:(this.mapIndex===0?36:(this.mapIndex===1?54:(this.mapIndex===2?58:(this.mapIndex===3?62:(this.mapIndex===4?68:(31+this.mapIndex*.36)*.64))))) * (this.mobileLandscape?(.78*.88):(this.mobilePortrait?.66:1)),
         t: 0,
         attack: this.mapIndex === 0 ? 2.55 : (this.mapIndex === 1 ? 2.28 : (this.mapIndex===2?1.95:(this.mapIndex===3?1.88:1.82))),
         specialCd: this.mapIndex === 0 ? 6.6 : (this.mapIndex === 1 ? 6.0 : (this.mapIndex===2?5.3:(this.mapIndex===3?5.0:4.6))),
@@ -4184,9 +4197,9 @@
           }
         });
         this.toast('TRÍADA DEL PATRIARCA','Tres familias sostienen su escudo');
-      } else if(this.mapIndex===2){WORLD_THREE_MINION_FAMILIES.forEach((fam,fi)=>{for(let i=0;i<2;i++){this.spawnEnemy(pick(fam),true);const escort=this.enemies[this.enemies.length-1];if(escort&&!escort.boss){escort.bossEscort=true;escort.bossFamilyIndex=fi;escort.hp*=1.25;escort.baseHp=escort.hp;escort.r*=1.04;}}});this.worldThreeState.speedBurst=6;this.spawnWorldThreeHazard(2,true);this.toast('TRÍADA VIRIDIANA','Tres familias protegen al Soberano');}
-      else if(this.mapIndex===3){WORLD_FOUR_MINION_FAMILIES.forEach((fam,fi)=>{for(let i=0;i<2;i++){this.spawnEnemy(pick(fam),true);const escort=this.enemies[this.enemies.length-1];if(escort&&!escort.boss){escort.bossEscort=true;escort.bossFamilyIndex=fi;escort.hp*=1.22;escort.baseHp=escort.hp;escort.r*=1.02;}}});this.spawnWorldFourHazard(2,true);this.toast('ÉLITE DEL ECLIPSE','Dos alas protegen al Arconte');}
-      else if(this.mapIndex===4){WORLD_FIVE_MINION_FAMILIES.forEach((fam,fi)=>{for(let i=0;i<2;i++){this.spawnEnemy(pick(fam),true);const escort=this.enemies[this.enemies.length-1];if(escort&&!escort.boss){escort.bossEscort=true;escort.bossFamilyIndex=fi;escort.hp*=1.24;escort.baseHp=escort.hp;escort.r*=1.04;}}});this.spawnWorldFiveHazard(2,true);this.toast('GUARDIA DE SINGULARIDAD','El Coloso convoca dos familias del vacío');}
+      } else if(this.mapIndex===2){WORLD_THREE_MINION_FAMILIES.forEach((fam,fi)=>{for(let i=0;i<(this.mobileLandscape?1:2);i++){this.spawnEnemy(pick(fam),true);const escort=this.enemies[this.enemies.length-1];if(escort&&!escort.boss){escort.bossEscort=true;escort.bossFamilyIndex=fi;escort.hp*=1.25;escort.baseHp=escort.hp;escort.r*=1.04;}}});this.worldThreeState.speedBurst=6;this.spawnWorldThreeHazard(2,true);this.toast('TRÍADA VIRIDIANA','Tres familias protegen al Soberano');}
+      else if(this.mapIndex===3){WORLD_FOUR_MINION_FAMILIES.forEach((fam,fi)=>{for(let i=0;i<(this.mobileLandscape?1:2);i++){this.spawnEnemy(pick(fam),true);const escort=this.enemies[this.enemies.length-1];if(escort&&!escort.boss){escort.bossEscort=true;escort.bossFamilyIndex=fi;escort.hp*=1.22;escort.baseHp=escort.hp;escort.r*=1.02;}}});this.spawnWorldFourHazard(2,true);this.toast('ÉLITE DEL ECLIPSE','Dos alas protegen al Arconte');}
+      else if(this.mapIndex===4){WORLD_FIVE_MINION_FAMILIES.forEach((fam,fi)=>{for(let i=0;i<(this.mobileLandscape?1:2);i++){this.spawnEnemy(pick(fam),true);const escort=this.enemies[this.enemies.length-1];if(escort&&!escort.boss){escort.bossEscort=true;escort.bossFamilyIndex=fi;escort.hp*=1.24;escort.baseHp=escort.hp;escort.r*=1.04;}}});this.spawnWorldFiveHazard(2,true);this.toast('GUARDIA DE SINGULARIDAD','El Coloso convoca dos familias del vacío');}
     }
 
     updateEnemies(dt) {
@@ -6278,8 +6291,7 @@
           const bossSprite = this.mapIndex === 0 ? this.getAsset('bossBiomech') : null;
           if (bossSprite) {
             ctx.globalAlpha = .96 * (e.alpha ?? 1);
-            const w = e.r * 5.6 * (this.mobileLandscape?.86:1);
-            const h = w * (bossSprite.naturalHeight / bossSprite.naturalWidth);
+            const {w,h}=this.bossSpriteDimensions(e,bossSprite,5.6,this.mobileLandscape?(.86*.85):1);
             ctx.drawImage(bossSprite, -w * .52, -h * .5, w, h);
             ctx.globalAlpha = .18 + (e.alpha ?? 1) * .18;
             ctx.beginPath(); ctx.arc(0, 0, e.r * 1.6, 0, Math.PI * 2); ctx.stroke();
@@ -6287,17 +6299,16 @@
             const boss2=this.getAsset('bossBaciloOmega');
             if(boss2){
               ctx.globalAlpha=.99*(e.alpha??1);
-              const w=e.r*8.25*(this.mobileLandscape?.76:1);
-              const h=w*(boss2.naturalHeight/boss2.naturalWidth);
+              const {w,h}=this.bossSpriteDimensions(e,boss2,8.25,this.mobileLandscape?(.76*.85):1);
               ctx.save();
               ctx.shadowBlur = 18;
               ctx.shadowColor = 'rgba(180,120,255,.28)';
               ctx.drawImage(boss2,-w*.5,-h*.52,w,h);
               ctx.restore();
             } else this.drawBacteriaBoss(ctx,e);
-          } else if(this.mapIndex===2){const boss3=this.getAsset('bossWorld3');if(boss3){ctx.globalAlpha=.995*(e.alpha??1);const w=e.r*8.5*(this.mobileLandscape?.74:1),h=w*(boss3.naturalHeight/boss3.naturalWidth);ctx.save();ctx.shadowBlur=22;ctx.shadowColor='rgba(116,255,115,.34)';ctx.drawImage(boss3,-w*.5,-h*.51,w,h);ctx.restore();}else this.drawBacteriaBoss(ctx,e);
-          } else if(this.mapIndex===3){const boss4=this.getAsset('bossWorld4');if(boss4){ctx.globalAlpha=.995*(e.alpha??1);const w=e.r*8.6*(this.mobileLandscape?.72:1),h=w*(boss4.naturalHeight/boss4.naturalWidth);ctx.save();ctx.shadowBlur=22;ctx.shadowColor='rgba(255,106,99,.34)';ctx.drawImage(boss4,-w*.5,-h*.50,w,h);ctx.restore();}else this.drawBacteriaBoss(ctx,e);
-          } else if(this.mapIndex===4){const boss5=this.getAsset('bossWorld5');if(boss5){ctx.globalAlpha=.995*(e.alpha??1);const w=e.r*8.9*(this.mobileLandscape?.70:1),h=w*(boss5.naturalHeight/boss5.naturalWidth);ctx.save();ctx.shadowBlur=24;ctx.shadowColor='rgba(195,145,255,.36)';ctx.drawImage(boss5,-w*.5,-h*.50,w,h);ctx.restore();}else this.drawBacteriaBoss(ctx,e);
+          } else if(this.mapIndex===2){const boss3=this.getAsset('bossWorld3');if(boss3){ctx.globalAlpha=.995*(e.alpha??1);const {w,h}=this.bossSpriteDimensions(e,boss3,8.5,this.mobileLandscape?(.74*.85):1);ctx.save();ctx.shadowBlur=22;ctx.shadowColor='rgba(116,255,115,.34)';ctx.drawImage(boss3,-w*.5,-h*.51,w,h);ctx.restore();}else this.drawBacteriaBoss(ctx,e);
+          } else if(this.mapIndex===3){const boss4=this.getAsset('bossWorld4');if(boss4){ctx.globalAlpha=.995*(e.alpha??1);const {w,h}=this.bossSpriteDimensions(e,boss4,8.6,this.mobileLandscape?(.72*.85):1);ctx.save();ctx.shadowBlur=22;ctx.shadowColor='rgba(255,106,99,.34)';ctx.drawImage(boss4,-w*.5,-h*.50,w,h);ctx.restore();}else this.drawBacteriaBoss(ctx,e);
+          } else if(this.mapIndex===4){const boss5=this.getAsset('bossWorld5');if(boss5){ctx.globalAlpha=.995*(e.alpha??1);const {w,h}=this.bossSpriteDimensions(e,boss5,8.9,this.mobileLandscape?(.70*.85):1);ctx.save();ctx.shadowBlur=24;ctx.shadowColor='rgba(195,145,255,.36)';ctx.drawImage(boss5,-w*.5,-h*.50,w,h);ctx.restore();}else this.drawBacteriaBoss(ctx,e);
           } else {
             const sides = ({spider:8,tick:7,rat:6,scorpion:10,leech:5,puffer:11,wasp:9,centipede:12,roach:8,chimera:13})[e.beast] || 9;
             this.drawPolygon(ctx, 0, 0, e.r + Math.sin(e.t * 3) * 3, sides, true);
@@ -6403,6 +6414,17 @@
 
     drawSplitterEnemy(ctx, e) {
       for (let i=0;i<3;i++){ const a=(Math.PI*2/3)*i-Math.PI/2+Math.sin(e.t*2)*.12; ctx.beginPath(); ctx.arc(Math.cos(a)*e.r*.36,Math.sin(a)*e.r*.3,e.r*.47,0,Math.PI*2);ctx.fill(); }
+    }
+
+    bossSpriteDimensions(e, sprite, baseMultiplier, mobileMultiplier=1) {
+      let w=e.r*baseMultiplier*(this.mobileLandscape?mobileMultiplier:1);
+      let h=w*(sprite.naturalHeight/sprite.naturalWidth);
+      if(this.mobileLandscape){
+        // Norma móvil: el jefe nunca domina más del 20% del ancho ni ~28% del alto útil.
+        const fit=Math.min(1,(this.w*.20)/Math.max(1,w),(this.h*.28)/Math.max(1,h));
+        w*=fit;h*=fit;
+      }
+      return {w,h};
     }
 
     drawEnemyShip(ctx, e, spriteKey = 'mirrorShip') {
