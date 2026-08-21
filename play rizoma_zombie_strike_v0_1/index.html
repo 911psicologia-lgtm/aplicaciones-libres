@@ -3,19 +3,22 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
-  <meta name="theme-color" content="#071b17" />
+  <meta name="theme-color" content="#02070a" />
+  <meta name="color-scheme" content="dark" />
+  <meta name="mobile-web-app-capable" content="yes" />
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
   <meta name="apple-mobile-web-app-capable" content="yes" />
   <meta name="apple-mobile-web-app-title" content="Niebla Verde" />
   <script>if(location.protocol !== "file:"){const m=document.createElement("link");m.rel="manifest";m.href="manifest.json";document.head.appendChild(m);}</script>
   <link rel="icon" href="assets/icon.svg" type="image/svg+xml" />
-  <title>Rizoma Zombie Strike — Responsive Historia · v1.8.5</title>
+  <title>Rizoma Zombie Strike — Fullscreen Inmersivo · v1.8.6</title>
   <link rel="preload" as="image" href="assets/ui/intro_poster_mobile.webp" media="(max-width: 1200px)" fetchpriority="high" />
   <link rel="preload" as="image" href="assets/boss2/sigil_w1.svg" />
   <link rel="preload" as="image" href="assets/boss2/sigil_w2.svg" />
   <link rel="preload" as="image" href="assets/boss2/sigil_w3.svg" />
   <link rel="preload" as="image" href="assets/boss2/sigil_w4.svg" />
   <link rel="preload" as="image" href="assets/boss2/sigil_w5.svg" />
-  <link rel="stylesheet" href="css/styles.css?v=1.8.5" />
+  <link rel="stylesheet" href="css/styles.css?v=1.8.6" />
   <link rel="preload" as="image" href="assets/story/episode_01_protocol_zstrike.webp" fetchpriority="high" />
 </head>
 <body>
@@ -37,7 +40,7 @@
         <span class="brand-mark">⬢</span>
         <div>
           <strong>Rizoma Zombie Strike</strong>
-          <small>Responsive Historia · v1.8.5</small>
+          <small>Fullscreen Inmersivo · v1.8.6</small>
         </div>
       </div>
       <button id="btnSettings" class="icon-btn" title="Ajustes" aria-label="Ajustes">⚙</button>
@@ -67,33 +70,38 @@
           <p class="eyebrow">Centro de mando</p>
           <p id="startGreeting" class="subcopy">Escribe tu nombre para entrar.</p>
 
-          <div class="start-name-box">
-            <label for="playerNameInput">Nickname</label>
-            <div class="compact-form start-name-form">
-              <input id="playerNameInput" maxlength="18" placeholder="Tu nickname" autocomplete="off" />
-              <button id="btnSaveProfileName" class="primary-btn small">Jugar</button>
+          <div class="command-main-row">
+            <div class="start-name-box">
+              <label for="playerNameInput">Nickname</label>
+              <div class="compact-form start-name-form">
+                <input id="playerNameInput" maxlength="18" placeholder="Tu nickname" autocomplete="off" />
+              </div>
             </div>
+
+            <div class="difficulty-select" aria-label="Dificultad">
+              <div class="difficulty-buttons">
+                <button type="button" class="difficulty-btn active" data-difficulty="normal"><strong>Normal</strong><small>Equilibrado</small></button>
+                <button type="button" class="difficulty-btn hard" data-difficulty="hard"><strong>Difícil</strong><small>Más riesgo · más botín</small></button>
+              </div>
+              <small id="difficultyHint" class="difficulty-hint">Experiencia equilibrada actual</small>
+            </div>
+
+            <button id="btnSaveProfileName" class="primary-btn command-launch">INICIAR MISIÓN</button>
           </div>
 
-          <div class="difficulty-select" aria-label="Dificultad">
-            <div class="difficulty-buttons">
-              <button type="button" class="difficulty-btn active" data-difficulty="normal"><strong>Normal</strong><small>Equilibrado</small></button>
-              <button type="button" class="difficulty-btn hard" data-difficulty="hard"><strong>Difícil</strong><small>Más riesgo · más botín</small></button>
+          <div class="command-sub-row">
+            <div class="play-mode-select" aria-label="Modo de juego">
+              <div class="play-mode-buttons">
+                <button type="button" class="play-mode-btn active" data-play-mode="story"><strong>CAMPAÑA</strong><small>Historia breve entre mundos</small></button>
+                <button type="button" class="play-mode-btn" data-play-mode="direct"><strong>ASALTO</strong><small>Directo al combate</small></button>
+              </div>
+              <small id="playModeHint" class="play-mode-hint">Prólogo y microescenas narrativas · siempre puedes saltarlas</small>
             </div>
-            <small id="difficultyHint" class="difficulty-hint">Experiencia equilibrada actual</small>
-          </div>
 
-          <div class="play-mode-select" aria-label="Modo de juego">
-            <div class="play-mode-buttons">
-              <button type="button" class="play-mode-btn active" data-play-mode="story"><strong>CAMPAÑA</strong><small>Historia breve entre mundos</small></button>
-              <button type="button" class="play-mode-btn" data-play-mode="direct"><strong>ASALTO</strong><small>Directo al combate</small></button>
+            <div class="start-actions-main minimal">
+              <button id="btnContinue" class="soft-btn wide">Cargar partida</button>
+              <button class="soft-btn wide" data-screen="screenRanking">RANKING</button>
             </div>
-            <small id="playModeHint" class="play-mode-hint">Prólogo y microescenas narrativas · siempre puedes saltarlas</small>
-          </div>
-
-          <div class="start-actions-main minimal">
-            <button id="btnContinue" class="soft-btn wide">▾ Continuar partida</button>
-            <button class="soft-btn wide" data-screen="screenRanking">🏆 Tabla de scores</button>
           </div>
           <div id="savedGamesList" class="saved-games-list hidden"></div>
           <div id="portalRankingPreview" class="portal-ranking-preview"></div>
@@ -209,6 +217,7 @@
       <div class="story-stage">
         <img id="storyImage" class="story-image" src="assets/story/episode_01_protocol_zstrike.webp" alt="Episodio 1 · Protocolo Z-Strike" />
         <div class="story-veil"></div>
+        <button id="btnStoryFullscreen" class="story-fullscreen" type="button" title="Pantalla completa" aria-label="Pantalla completa">⛶</button>
         <button id="btnStorySkip" class="story-skip" type="button">Saltar historia</button>
         <div class="story-copy">
           <p id="storyKicker" class="story-kicker">CAMPAÑA · MUNDO 1</p>
@@ -234,6 +243,7 @@
           <div class="hud-pill boss-approach" id="hudBossApproach" title="Progreso hacia el jefe"><span id="hudBossSigil" class="hud-boss-sigil"></span><strong id="hudBossPercent">0%</strong></div>
           <div class="hud-pill lives-pill" title="Vidas disponibles"><span>❤️</span><strong id="hudLives">0</strong></div>
           <button id="btnTacticalCart" class="tactical-cart" title="Compra Exprés"><span class="cart-glyph">🛒</span><strong id="tacticalCartCount">0</strong></button>
+          <button id="btnFullscreen" class="fullscreen-btn" title="Pantalla completa" aria-label="Pantalla completa">⛶</button>
           <button id="btnPause" class="pause-btn" title="Pausa">⏸</button>
         </div>
         <div id="bossBar" class="boss-bar hidden">
@@ -354,6 +364,6 @@
     </div>
   </div>
 
-  <script src="js/game.js?v=1.8.5"></script>
+  <script src="js/game.js?v=1.8.6"></script>
 </body>
 </html>

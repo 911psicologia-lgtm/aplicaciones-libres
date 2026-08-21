@@ -1,7 +1,7 @@
 (() => {
   'use strict';
 
-  const VERSION = '1.8.5';
+  const VERSION = '1.8.6';
   const STORAGE_KEY = 'rizoma_zombie_strike_v0_3_state';
   const SAVE_KEY = 'rizoma_zombie_strike_v0_3_save';
   const clamp = (v, a, b) => Math.max(a, Math.min(b, v));
@@ -865,16 +865,7 @@
     }
 
     requestMobilePlayMode() {
-      const touch=(navigator.maxTouchPoints||0)>0;
-      const small=Math.min(window.innerWidth||9999,window.innerHeight||9999)<900;
-      if(!touch||!small)return;
-      try{
-        const root=document.documentElement;
-        if(!document.fullscreenElement&&root.requestFullscreen){
-          const r=root.requestFullscreen({navigationUI:'hide'});
-          if(r?.then)r.then(()=>screen.orientation?.lock?.('landscape').catch(()=>{})).catch(()=>{});
-        }else screen.orientation?.lock?.('landscape').catch(()=>{});
-      }catch(_){ }
+      requestLandscapeExperience({ remember:true, source:'game' });
     }
 
     applyPerformanceMode() {
@@ -6279,22 +6270,63 @@
     return !!touch && shortSide < 1100;
   }
 
+  let immersiveSession = false;
+  let orientationTransitionUntil = 0;
+
+  function syncFullscreenUi() {
+    const active=!!document.fullscreenElement;
+    document.body.classList.toggle('is-fullscreen',active);
+    [els.btnFullscreen,els.btnStoryFullscreen].forEach(btn=>{
+      if(!btn)return;
+      btn.classList.toggle('active',active);
+      btn.setAttribute('aria-pressed',active?'true':'false');
+      btn.title=active?'Salir de pantalla completa':'Pantalla completa';
+    });
+  }
+
   function updateGlobalOrientationGate() {
     if(!els.orientationGate)return;
-    const portrait=(window.innerHeight||0)>(window.innerWidth||0);
-    const shouldShow=isTouchLandscapeTarget() && portrait;
+    const vv=window.visualViewport;
+    const w=vv?.width||window.innerWidth||0,h=vv?.height||window.innerHeight||0;
+    const portrait=h>w;
+    const transitioning=Date.now()<orientationTransitionUntil;
+    const shouldShow=isTouchLandscapeTarget() && portrait && !transitioning;
     els.orientationGate.classList.toggle('hidden',!shouldShow);
     document.body.classList.toggle('orientation-required',shouldShow);
   }
 
-  async function requestLandscapeExperience() {
+  async function requestLandscapeExperience({remember=true,source='ui'}={}) {
+    const autoTouch=isTouchLandscapeTarget();
+    if(remember && autoTouch) immersiveSession=true;
+    if(!autoTouch){ syncFullscreenUi(); return false; }
+    orientationTransitionUntil=Date.now()+900;
+    updateGlobalOrientationGate();
     try {
       if(!document.fullscreenElement && document.documentElement.requestFullscreen){
         await document.documentElement.requestFullscreen({navigationUI:'hide'}).catch(()=>{});
       }
       await screen.orientation?.lock?.('landscape').catch(()=>{});
     } catch(_) {}
-    updateGlobalOrientationGate();
+    setTimeout(()=>{updateViewportVars();game?.resize?.();updateGlobalOrientationGate();syncFullscreenUi();},80);
+    setTimeout(()=>{updateViewportVars();game?.resize?.();updateGlobalOrientationGate();},320);
+    return !!document.fullscreenElement;
+  }
+
+  async function toggleFullscreenExperience() {
+    try {
+      if(document.fullscreenElement){
+        immersiveSession=false;
+        await document.exitFullscreen?.().catch(()=>{});
+        try{screen.orientation?.unlock?.();}catch(_){}
+      }else{
+        immersiveSession=isTouchLandscapeTarget();
+        orientationTransitionUntil=Date.now()+900;
+        await document.documentElement.requestFullscreen?.({navigationUI:'hide'}).catch(()=>{});
+        if(isTouchLandscapeTarget()) await screen.orientation?.lock?.('landscape').catch(()=>{});
+      }
+    }catch(_){}
+    updateViewportVars();
+    setTimeout(()=>{updateViewportVars();game?.resize?.();updateGlobalOrientationGate();syncFullscreenUi();},90);
   }
 
   const WORLD_ONE_STORY = {
@@ -6346,6 +6378,7 @@
   }
 
   function showStorySequence(seq, onDone) {
+    requestLandscapeExperience({ remember:true, source:'story' });
     storyRuntime = { sequence: seq, step:0, onDone: typeof onDone === 'function' ? onDone : null };
     els.storyOverlay?.classList.remove('hidden');
     document.body.classList.add('story-open');
@@ -6398,8 +6431,11 @@
       setTimeout(() => { updateViewportVars(); game.resize(); }, 40);
     } else {
       AudioFX.stopMusic();
-      if (document.fullscreenElement && game?.mobileLandscape) document.exitFullscreen?.().catch?.(()=>{});
-      try { screen.orientation?.unlock?.(); } catch(_) {}
+      /* Mantener fullscreen/orientación al navegar por menú, ranking o cargar partida.
+         Solo el usuario abandona el modo inmersivo mediante el botón ⛶. */
+      if(immersiveSession && document.fullscreenElement && isTouchLandscapeTarget()){
+        screen.orientation?.lock?.('landscape').catch(()=>{});
+      }
       renderAll();
       window.scrollTo?.(0, 0);
     }
@@ -6464,6 +6500,7 @@
       </button>`;
     }).join('') || '<small class="muted">No hay partidas guardadas todavía.</small>';
     els.savedGamesList.querySelectorAll('[data-load-profile]').forEach(btn => btn.addEventListener('click', () => {
+      requestLandscapeExperience({remember:true,source:'load'});
       const p = state.profiles.find(x => x.id === btn.dataset.loadProfile);
       if (!p) return;
       state.activeProfileId = p.id;
@@ -6497,7 +6534,7 @@
     }
     if (els.btnContinue) {
       els.btnContinue.disabled = false;
-      els.btnContinue.textContent = '▾ Cargar partida';
+      els.btnContinue.textContent = 'CARGAR';
       els.btnContinue.classList.remove('primary-btn', 'neon');
       els.btnContinue.classList.add('soft-btn');
     }
@@ -6821,9 +6858,10 @@ ${JSON.stringify(snapshot, null, 2)}`;
     els.btnHome.addEventListener('click', () => showScreen('screenPortal'));
     els.btnSettings.addEventListener('click', () => els.settingsDrawer.classList.remove('hidden'));
     els.btnCloseSettings.addEventListener('click', () => els.settingsDrawer.classList.add('hidden'));
-    els.btnOpenPortal?.addEventListener('click', () => showScreen('screenPortal'));
+    els.btnOpenPortal?.addEventListener('click', () => { requestLandscapeExperience({remember:true,source:'intro'}); showScreen('screenPortal'); });
     els.btnManageProfiles?.addEventListener('click', () => showScreen('screenProfiles'));
     els.btnSaveProfileName.addEventListener('click', () => {
+      requestLandscapeExperience({remember:true,source:'mission'});
       const selected = DIFFICULTY_MODES[state.settings.difficulty] ? state.settings.difficulty : 'normal';
       const p = findOrCreateProfileByName(els.playerNameInput.value || 'Jugador');
       p.preferredDifficulty = selected;
@@ -6858,9 +6896,13 @@ ${JSON.stringify(snapshot, null, 2)}`;
     }));
     els.btnStoryNext?.addEventListener('click', advanceStory);
     els.btnStorySkip?.addEventListener('click', () => closeStorySequence(true));
-    els.btnLandscapeMode?.addEventListener('click', requestLandscapeExperience);
-    window.addEventListener('resize',updateGlobalOrientationGate,{passive:true});
-    window.addEventListener('orientationchange',()=>setTimeout(updateGlobalOrientationGate,120),{passive:true});
+    els.btnLandscapeMode?.addEventListener('click', () => requestLandscapeExperience({remember:true,source:'gate'}));
+    els.btnFullscreen?.addEventListener('click', toggleFullscreenExperience);
+    els.btnStoryFullscreen?.addEventListener('click', toggleFullscreenExperience);
+    window.addEventListener('resize',()=>{updateViewportVars();updateGlobalOrientationGate();},{passive:true});
+    window.visualViewport?.addEventListener('resize',()=>{updateViewportVars();setTimeout(updateGlobalOrientationGate,30);},{passive:true});
+    window.addEventListener('orientationchange',()=>{orientationTransitionUntil=Date.now()+500;setTimeout(()=>{updateViewportVars();updateGlobalOrientationGate();game?.resize?.();},180);},{passive:true});
+    document.addEventListener('fullscreenchange',()=>{orientationTransitionUntil=Date.now()+500;updateViewportVars();syncFullscreenUi();setTimeout(()=>{updateViewportVars();updateGlobalOrientationGate();game?.resize?.();},100);});
     els.btnNewRun?.addEventListener('click', () => { const target=Math.max(0,(currentProfile().unlockedMap||1)-1); startWorldOneWithNarrative(target); });
     els.btnContinue?.addEventListener('click', () => {
       if (!els.savedGamesList) return;
@@ -6947,6 +6989,7 @@ ${JSON.stringify(snapshot, null, 2)}`;
     renderAll();
     showScreen('screenIntro');
     updateGlobalOrientationGate();
+    syncFullscreenUi();
     saveState();
     if ('serviceWorker' in navigator && location.protocol !== 'file:') {
       navigator.serviceWorker.getRegistrations?.().then(regs => regs.forEach(r => r.unregister())).catch(() => {});
