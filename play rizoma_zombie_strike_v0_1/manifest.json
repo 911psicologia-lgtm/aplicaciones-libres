@@ -1,11 +1,13 @@
 {
   "name": "Zombie Strike: Apocalyptic Starfall Odyssey",
   "short_name": "Zombie Strike",
-  "start_url": "./index.html?v=1.9.6",
-  "display": "standalone",
+  "start_url": "./index.html?v=1.9.9",
+  "scope": "./",
+  "display": "fullscreen",
+  "display_override": ["fullscreen", "standalone"],
   "background_color": "#020611",
   "theme_color": "#07101b",
-  "orientation": "any",
+  "orientation": "landscape-primary",
   "icons": [
     {
       "src": "assets/icon.svg",

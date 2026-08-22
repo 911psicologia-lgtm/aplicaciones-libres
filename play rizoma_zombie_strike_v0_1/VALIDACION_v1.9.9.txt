@@ -1,0 +1,24 @@
+Rizoma Zombie Strike v1.9.9 · Validación técnica
+================================================
+
+[OK] JavaScript: `node --check js/game.js` sin errores de sintaxis.
+[OK] Manifest JSON válido.
+[OK] VERSION interna = 1.9.9.
+[OK] index.html, manifest.json y service worker actualizados a 1.9.9.
+[OK] Mundo 9 incluido en MAPS y desbloqueable tras completar Mundo 8.
+[OK] Fondos W9 de aproximación y arena presentes.
+[OK] Kaiser Infinito presente y referenciado.
+[OK] Seis tipos de enemigo W9 definidos.
+[OK] Cinco Ecos programados en W9 (M4–M8).
+[OK] Ecos incluidos en puerta de progresión de actos.
+[OK] Subjefes W9 integrados en director y persistencia.
+[OK] Horda Apocalíptica activa y con puerta de progresión.
+[OK] Frenesí Asesino activo y con puerta de progresión.
+[OK] Hazards W9 conectados a meteoros, debris y planetas errantes.
+[OK] bossShip9 / Hilos del Multiverso integrado.
+[OK] Reliquia final world9Threads integrada.
+[OK] Estado W9 integrado a guardado, carga y reintento.
+[OK] Sigilo W9 presente.
+[OK] 223 rutas estáticas de assets verificadas sin faltantes.
+
+Nota de entorno: la comprobación de navegador headless fue intentada, pero el entorno de ejecución bloqueó navegación local/file por política administrativa. No se contabiliza como fallo del proyecto. Se conservaron validaciones de sintaxis, rutas, JSON, estructura y archivo comprimido.

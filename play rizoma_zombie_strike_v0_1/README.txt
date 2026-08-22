@@ -1,3 +1,28 @@
+Rizoma Zombie Strike v1.9.9 — Mundo 9 · Anime–Manga Multiversal
+
+Novedades v1.9.9:
+- Mundo 9 completo con fondos manga aprobados y Kaiser Infinito.
+- Seis enemigos propios: dos Shuriken, dos Ronin y dos Mecha/Coloso.
+- Cinco Ecos de Guardianes anteriores (M4–M8), cada uno con familias de escolta.
+- Horda Apocalíptica y Frenesí Asesino activos dentro del director de eventos de W9.
+- Portales multiversales, meteoros, basura espacial y planetas errantes específicos del mundo.
+- bossShip9 / Hilos del Multiverso, recompensa final y persistencia save/load.
+- HUD ampliado con progreso ECO 0/5 y modo especial activo.
+
+Historial anterior:
+Rizoma Zombie Strike v1.9.8 — Ecos W7/W8 + Preparación W9/W10
+
+Ajustes v1.9.8:
+- Mundo 7 corregido: la lámina narrativa `bg_surface.jpg` ya no se dibuja dentro del combate; el gameplay inicia directamente en la caverna/meteorito (`bg_reef.jpg`) y profundiza hacia `bg_trench.jpg` y la arena final.
+- Mundo 7 ampliado con dos Ecos de jefes previamente derrotados: Coloso del Vacío (M5) y Magnate Omega (M6), acompañados por sus familias y refuerzos durante el duelo.
+- Mundo 8 ampliado con tres Ecos: Coloso del Vacío (M5), Magnate Omega (M6) y Leviatán Abisal (M7), también con familias asociadas.
+- Los Ecos son encuentros obligatorios de acto: la progresión no abre el siguiente tramo hasta destruir el Eco correspondiente; guardado/carga conserva su estado y puede reponer un Eco pendiente tras recargar.
+- Los Ecos tienen daño nuclear/crítico limitado para impedir eliminaciones instantáneas, patrones propios de ráfaga/radial, invocación familiar y recompensas específicas.
+- HUD W7/W8 muestra progreso de Ecos (0/2 y 0/3).
+- Se prepara el motor aislado para los modos futuros HORDA APOCALÍPTICA y FRENESÍ ASESINO de W9/W10, sin activarlos todavía en campaña.
+- Se incorporan, optimizados como JPG de alta calidad, los cuatro fondos aprobados para Mundo 9 (aproximación/arena manga) y Mundo 10 (aproximación/arena apocalíptica). No se precargan aún para no penalizar W1–W8.
+- Se mantienen los assets canónicos de jefes W6–W10 y las bibliotecas de meteoros, basura espacial y planetas errantes.
+
 Rizoma Zombie Strike v1.9.6 — Mundo 8 + Mobile Fix
 
 Ajustes v1.9.6:

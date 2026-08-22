@@ -1,0 +1,42 @@
+RIZOMA ZOMBIE STRIKE — VALIDACIÓN v1.9.7
+
+OBJETIVO DE ESTA VERSIÓN
+Corregir Mundo 7, endurecer al Leviatán Abisal, extender los poderes críticos y recuperar una apertura móvil utilizable/PWA.
+
+1. MUNDO 7 — FONDO
+- Se retiraron del flujo de combate los fondos bg_reef.jpg, bg_trench.jpg y bg_boss.jpg, porque visualmente corresponden a una caverna/meteorito y rompen la identidad del Mar Alienígena.
+- El combate usa ahora el paisaje oceánico de bg_surface.jpg con recorte de la lámina narrativa, de modo que el título superior y el texto inferior no se conviertan en fondo del nivel.
+- La profundidad aumenta por nivel mediante veladuras, corrientes, burbujas y oscurecimiento progresivo.
+- Al comenzar una partida se fuerza un render inmediato para evitar que quede visible un fotograma residual de la historia o del mundo anterior.
+
+2. LEVIATÁN ABISAL — JEFE MUNDO 7
+- Vida adicional Mundo 7: x2.15 respecto del cálculo previo (aprox. 29.9k HP en Normal antes de variaciones de dificultad/estado).
+- Escudo base elevado a 2200 y con regeneración mientras existan guardianes.
+- Cada cambio de fase recompone parte del escudo y suma presión ambiental.
+- Mayor frecuencia de ataque y especial abisal; en fases altas aparecen corrientes, burbujas de presión y refuerzos.
+- Menor eficacia de las intervenciones críticas contra su escudo y tope de daño crítico por impacto reducido para evitar muertes instantáneas por arsenal acumulado.
+
+3. PODERES E INTERVENCIONES
+- Toda activación temporal estándar tiene un mínimo real de 8 segundos, incluso si alguna tabla histórica conserva un valor inferior.
+- Sobrecarga Omega: 10 s.
+- Furia Balística: 9 s.
+- Láser Solar / Hemático / Abisal: 10 s.
+- Rayo Fractal, Enjambre Cazador, Bombardeo Meteórico y Escuadrón Réquiem se convierten en intervenciones sostenidas de 8.5 s con pulsos/repeticiones durante toda la ventana.
+- Plaga Hemófaga drena durante 8.5 s.
+- Enjambre Cazador fue rediseñado como RIZOMA OFENSIVO: nace desde RIZOMA, expande raíces curvas, conecta progresivamente enemigos, aplica daño sostenido y reduce su movilidad/poder de presión.
+
+4. MÓVIL / PWA
+- Se eliminó el cartel flotante “Mejor en horizontal”.
+- En teléfono vertical, el centro de mando pasa a una sola columna: nickname, dificultad, iniciar misión, campaña/asaltos y carga/ranking quedan visibles y utilizables.
+- El menú puede desplazarse verticalmente si la pantalla es muy corta.
+- Manifest actualizado a fullscreen + landscape-primary para instalaciones PWA compatibles.
+- Se restaura el registro del service worker para conservar la experiencia instalable.
+- En los botones de entrada/inicio se intenta fullscreen y bloqueo landscape aprovechando el gesto del usuario.
+
+NOTA DE PLATAFORMA
+Un sitio abierto como pestaña normal no puede forzar fullscreen ni rotación automática desde el primer milisegundo en todos los navegadores móviles: Android/iOS reservan esas acciones a una PWA instalada o a un gesto explícito del usuario. La v1.9.7 aplica ambos caminos sin bloquear el juego si el sistema operativo los rechaza.
+
+VALIDACIONES TÉCNICAS
+- game.js: node --check OK.
+- manifest.json: JSON válido.
+- Versión runtime/index/manifest/service worker: 1.9.7.

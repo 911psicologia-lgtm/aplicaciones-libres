@@ -1719,3 +1719,89 @@ body.orientation-required{overflow:auto!important}
   .orientation-gate.orientation-advisory{top:max(6px,calc(4px + var(--safe-top)))!important}
   .orientation-gate.orientation-advisory .orientation-gate-inner{width:min(310px,calc(100vw - 16px))!important}
 }
+
+
+/* v1.9.8 — Centro de mando móvil visible y PWA horizontal sin aviso bloqueante. */
+.orientation-gate{display:none!important}
+@media (max-width:650px) and (orientation:portrait){
+  body[data-screen="screenPortal"] main{overflow:auto!important;-webkit-overflow-scrolling:touch;}
+  body[data-screen="screenPortal"] .simple-start-screen{
+    padding:8px!important;
+    place-items:start center!important;
+    overflow:visible!important;
+    min-height:100%!important;
+  }
+  body[data-screen="screenPortal"] .redesigned-menu{
+    width:calc(100vw - 16px)!important;
+    max-width:none!important;
+    max-height:none!important;
+    min-height:0!important;
+    margin:0 auto!important;
+    padding:12px!important;
+    display:flex!important;
+    flex-direction:column!important;
+    gap:9px!important;
+    overflow:visible!important;
+    border-radius:16px!important;
+  }
+  body[data-screen="screenPortal"] .redesigned-menu>.eyebrow{
+    width:100%!important;
+    text-align:center!important;
+    margin:0!important;
+  }
+  body[data-screen="screenPortal"] .redesigned-menu #startGreeting{
+    display:block!important;
+    width:100%!important;
+    margin:0!important;
+    text-align:center!important;
+    font-size:.76rem!important;
+  }
+  body[data-screen="screenPortal"] .command-main-row,
+  body[data-screen="screenPortal"] .command-sub-row{
+    display:grid!important;
+    grid-template-columns:1fr!important;
+    gap:8px!important;
+    width:100%!important;
+  }
+  body[data-screen="screenPortal"] .start-name-box,
+  body[data-screen="screenPortal"] .difficulty-select,
+  body[data-screen="screenPortal"] .play-mode-select,
+  body[data-screen="screenPortal"] .start-actions-main.minimal,
+  body[data-screen="screenPortal"] .command-launch{
+    width:100%!important;
+    grid-column:auto!important;
+  }
+  body[data-screen="screenPortal"] .difficulty-buttons,
+  body[data-screen="screenPortal"] .play-mode-buttons,
+  body[data-screen="screenPortal"] .start-actions-main.minimal{
+    grid-template-columns:1fr!important;
+    gap:7px!important;
+  }
+  body[data-screen="screenPortal"] .command-main-row .start-name-form input,
+  body[data-screen="screenPortal"] .command-main-row .difficulty-btn,
+  body[data-screen="screenPortal"] .command-sub-row .play-mode-btn,
+  body[data-screen="screenPortal"] .command-launch,
+  body[data-screen="screenPortal"] .command-sub-row .start-actions-main.minimal .wide{
+    width:100%!important;
+    min-height:46px!important;
+    height:auto!important;
+    padding:9px 11px!important;
+    border-radius:12px!important;
+  }
+  body[data-screen="screenPortal"] .difficulty-btn small,
+  body[data-screen="screenPortal"] .play-mode-btn small{
+    display:block!important;
+    font-size:.62rem!important;
+    margin-top:3px!important;
+  }
+  body[data-screen="screenPortal"] .redesigned-menu .saved-games-list{
+    width:100%!important;
+    max-height:180px!important;
+    overflow:auto!important;
+  }
+  body[data-screen="screenPortal"] .portal-ranking-preview,
+  body[data-screen="screenPortal"] .start-hint,
+  body[data-screen="screenPortal"] .menu-hero-concept{
+    display:none!important;
+  }
+}
