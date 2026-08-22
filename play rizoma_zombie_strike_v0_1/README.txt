@@ -1,3 +1,16 @@
+Rizoma Zombie Strike v1.9.6 — Mundo 8 + Mobile Fix
+
+Ajustes v1.9.6:
+- Mundo 8 jugable: Entrañas del Huésped Estelar, cinco actos y boss Tardígrado Primigenio.
+- Fondos propios de antesala y arena final.
+- Seis enemigos orgánicos en tres familias: Glóbulos Ácidos, Lanzadores Orgánicos y Engendros Parásitos.
+- Mecánica Gestación Masiva: cápsulas destructibles que eclosionan si se agota su temporizador.
+- Proyectiles orgánicos con assets dedicados y firma DOMINIO Génesis Orgánica.
+- Hazards W8 con meteoros, basura espacial y planetas de identidad orgánica.
+- Corrección móvil/PWA: la orientación horizontal pasa a ser recomendación no bloqueante; el juego puede continuar en vertical si Android/launcher no rota la app instalada.
+- Manifest con orientation:any y aviso horizontal compacto sin interceptar toques.
+- Hitboxes y barras de vida de hazards ajustadas por asset.
+
 Rizoma Zombie Strike v1.9.4 — Jefes Articulados W6–W7
 
 Ajustes v1.9.4:

@@ -1709,3 +1709,13 @@ body.game-mode .hud-actions .pause-btn{width:38px!important;height:30px!importan
   body.game-mode .hud{right:110px!important}
   .hud-actions{right:calc(3px + var(--safe-right));top:calc(3px + var(--safe-top));gap:2px!important}
 }
+
+/* v1.9.6 — orientación móvil no bloqueante, también en PWA/standalone. */
+body.orientation-required{overflow:auto!important}
+.orientation-gate{pointer-events:none!important}
+.orientation-gate.orientation-advisory{display:block!important}
+.orientation-gate.orientation-advisory.hidden{display:none!important}
+@media(max-width:650px) and (orientation:portrait){
+  .orientation-gate.orientation-advisory{top:max(6px,calc(4px + var(--safe-top)))!important}
+  .orientation-gate.orientation-advisory .orientation-gate-inner{width:min(310px,calc(100vw - 16px))!important}
+}

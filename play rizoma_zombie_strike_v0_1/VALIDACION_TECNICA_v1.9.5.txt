@@ -1,0 +1,17 @@
+VALIDACIÓN TÉCNICA v1.9.5
+
+1. Sintaxis JS
+   - node --check js/game.js : OK
+
+2. Assets nuevos
+   - Meteoros: 10
+   - Basura espacial: 15
+   - Planetas: 10
+   - Total: 35
+
+3. Cambios funcionales
+   - Spawn avanzado de hazards mundos 6 y 7.
+   - Pools listos para mundos 8, 9 y 10.
+   - Hitbox por sprite.
+   - Escala visual por sprite.
+   - Meteor Strike con sprites reales en mundos avanzados.

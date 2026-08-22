@@ -1,0 +1,20 @@
+AUDITORÍA DE RENDIMIENTO v1.9.5
+
+Total assets nuevos: 35
+Peso total assets nuevos: 5.40 MB
+Cap de hazards concurrentes: móvil 5 / escritorio 9
+Hitboxes escaladas por sprite: Sí
+Escalado visual por sprite: Sí
+Bombardeo meteórico con sprite dedicado en mundos 6+: Sí
+
+Top 10 assets más pesados:
+- planet_wander_02: 268.2 KB
+- planet_wander_06: 263.5 KB
+- planet_wander_01: 254.4 KB
+- planet_wander_05: 228.0 KB
+- planet_wander_09: 221.6 KB
+- meteor_apoc_07: 194.2 KB
+- meteor_apoc_08: 189.4 KB
+- meteor_apoc_02: 181.8 KB
+- meteor_apoc_03: 172.7 KB
+- meteor_apoc_04: 170.5 KB

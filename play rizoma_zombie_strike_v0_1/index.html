@@ -8,25 +8,25 @@
   <meta name="mobile-web-app-capable" content="yes" />
   <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
   <meta name="apple-mobile-web-app-capable" content="yes" />
-  <meta name="apple-mobile-web-app-title" content="Niebla Verde" />
-  <script>if(location.protocol !== "file:"){const m=document.createElement("link");m.rel="manifest";m.href="manifest.json";document.head.appendChild(m);}</script>
+  <meta name="apple-mobile-web-app-title" content="Zombie Strike" />
+  <script>if(location.protocol !== "file:"){const m=document.createElement("link");m.rel="manifest";m.href="manifest.json?v=1.9.6";document.head.appendChild(m);}</script>
   <link rel="icon" href="assets/icon.svg" type="image/svg+xml" />
-  <title>Rizoma Zombie Strike — Jefes Articulados · v1.9.4</title>
+  <title>Rizoma Zombie Strike — Mundo 8 · v1.9.6</title>
   <link rel="preload" as="image" href="assets/ui/intro_poster_mobile.webp" media="(max-width: 1200px)" fetchpriority="high" />
   <link rel="preload" as="image" href="assets/boss2/sigil_w1.svg" />
   <link rel="preload" as="image" href="assets/boss2/sigil_w2.svg" />
   <link rel="preload" as="image" href="assets/boss2/sigil_w3.svg" />
   <link rel="preload" as="image" href="assets/boss2/sigil_w4.svg" />
   <link rel="preload" as="image" href="assets/boss2/sigil_w5.svg" />
-  <link rel="stylesheet" href="css/styles.css?v=1.9.1" />
+  <link rel="stylesheet" href="css/styles.css?v=1.9.6" />
   <link rel="preload" as="image" href="assets/story/episode_01_protocol_zstrike.webp" fetchpriority="high" />
 </head>
 <body>
-  <div id="orientationGate" class="orientation-gate hidden" role="dialog" aria-live="polite" aria-label="Orientación horizontal recomendada">
+  <div id="orientationGate" class="orientation-gate orientation-advisory hidden" role="dialog" aria-live="polite" aria-label="Orientación horizontal recomendada">
     <div class="orientation-gate-inner">
       <div class="rotate-device" aria-hidden="true"><span></span></div>
-      <strong>Gira el dispositivo</strong>
-      <small>Zombie Strike está diseñado para jugarse en horizontal.</small>
+      <strong>Mejor en horizontal</strong>
+      <small>Puedes continuar en vertical. Gira el teléfono cuando tu sistema lo permita.</small>
     </div>
   </div>
   <div id="app" class="app-shell">
@@ -39,7 +39,7 @@
         <span class="brand-mark">⬢</span>
         <div>
           <strong>Rizoma Zombie Strike</strong>
-          <small>Mundos 6–7 · Jefes Articulados · v1.9.4</small>
+          <small>Mundos 1–8 · Mundo 8 · v1.9.6</small>
         </div>
       </div>
       <button id="btnSettings" class="icon-btn" title="Ajustes" aria-label="Ajustes">⚙</button>
@@ -55,7 +55,7 @@
           <div class="intro-overlay-panel">
             <p class="eyebrow">Shmup apocalíptico espacial</p>
             <h1 class="intro-title-hidden">Zombie Strike</h1>
-            <p class="subcopy">Sobrevive a la caída estelar, enfrenta jefes biomecánicos y conquista cinco mundos.</p>
+            <p class="subcopy">Sobrevive a la caída estelar, enfrenta jefes biomecánicos y conquista ocho mundos.</p>
             <button id="btnOpenPortal" class="primary-btn wide neon">Iniciar misión</button>
           </div>
         </div>
@@ -382,6 +382,6 @@
     </div>
   </div>
 
-  <script src="js/game.js?v=1.9.1"></script>
+  <script src="js/game.js?v=1.9.6"></script>
 </body>
 </html>

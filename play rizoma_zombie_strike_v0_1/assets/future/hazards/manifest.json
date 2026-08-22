@@ -1,0 +1,791 @@
+{
+  "assets": {
+    "meteor_apoc_01": {
+      "src": "assets/future/hazards/meteors/meteor_apoc_01.png",
+      "sourceSheet": "atlas_de_meteoritos_cósmicos_explosivos.png",
+      "bbox": [
+        20,
+        0,
+        570,
+        464
+      ],
+      "area": 108474,
+      "category": "meteor",
+      "role": "heavy",
+      "tags": [
+        "industrial",
+        "world6",
+        "world10",
+        "meteor"
+      ],
+      "hitbox": 0.78,
+      "drawScale": 4.55
+    },
+    "meteor_apoc_02": {
+      "src": "assets/future/hazards/meteors/meteor_apoc_02.png",
+      "sourceSheet": "atlas_de_meteoritos_cósmicos_explosivos.png",
+      "bbox": [
+        573,
+        0,
+        1025,
+        447
+      ],
+      "area": 91670,
+      "category": "meteor",
+      "role": "heavy",
+      "tags": [
+        "abyssal",
+        "world7",
+        "meteor"
+      ],
+      "hitbox": 0.77,
+      "drawScale": 4.6
+    },
+    "meteor_apoc_03": {
+      "src": "assets/future/hazards/meteors/meteor_apoc_03.png",
+      "sourceSheet": "atlas_de_meteoritos_cósmicos_explosivos.png",
+      "bbox": [
+        1018,
+        0,
+        1442,
+        465
+      ],
+      "area": 90880,
+      "category": "meteor",
+      "role": "heavy",
+      "tags": [
+        "organic",
+        "world8",
+        "meteor"
+      ],
+      "hitbox": 0.76,
+      "drawScale": 4.45
+    },
+    "meteor_apoc_04": {
+      "src": "assets/future/hazards/meteors/meteor_apoc_04.png",
+      "sourceSheet": "atlas_de_meteoritos_cósmicos_explosivos.png",
+      "bbox": [
+        106,
+        368,
+        607,
+        756
+      ],
+      "area": 80728,
+      "category": "meteor",
+      "role": "heavy",
+      "tags": [
+        "crystal",
+        "world9",
+        "meteor"
+      ],
+      "hitbox": 0.74,
+      "drawScale": 4.35
+    },
+    "meteor_apoc_05": {
+      "src": "assets/future/hazards/meteors/meteor_apoc_05.png",
+      "sourceSheet": "atlas_de_meteoritos_cósmicos_explosivos.png",
+      "bbox": [
+        543,
+        388,
+        1052,
+        820
+      ],
+      "area": 92040,
+      "category": "meteor",
+      "role": "heavy",
+      "tags": [
+        "demonic",
+        "world8",
+        "world10",
+        "meteor"
+      ],
+      "hitbox": 0.8,
+      "drawScale": 4.4
+    },
+    "meteor_apoc_06": {
+      "src": "assets/future/hazards/meteors/meteor_apoc_06.png",
+      "sourceSheet": "atlas_de_meteoritos_cósmicos_explosivos.png",
+      "bbox": [
+        989,
+        410,
+        1446,
+        765
+      ],
+      "area": 64410,
+      "category": "meteor",
+      "role": "medium",
+      "tags": [
+        "lava",
+        "world6",
+        "meteor"
+      ],
+      "hitbox": 0.84,
+      "drawScale": 4.1
+    },
+    "meteor_apoc_07": {
+      "src": "assets/future/hazards/meteors/meteor_apoc_07.png",
+      "sourceSheet": "atlas_de_meteoritos_cósmicos_explosivos.png",
+      "bbox": [
+        1055,
+        665,
+        1444,
+        1083
+      ],
+      "area": 73479,
+      "category": "meteor",
+      "role": "medium",
+      "tags": [
+        "fractured",
+        "world10",
+        "meteor"
+      ],
+      "hitbox": 0.86,
+      "drawScale": 4.05
+    },
+    "meteor_apoc_08": {
+      "src": "assets/future/hazards/meteors/meteor_apoc_08.png",
+      "sourceSheet": "atlas_de_meteoritos_cósmicos_explosivos.png",
+      "bbox": [
+        9,
+        691,
+        479,
+        1062
+      ],
+      "area": 75369,
+      "category": "meteor",
+      "role": "medium",
+      "tags": [
+        "toxic",
+        "world8",
+        "meteor"
+      ],
+      "hitbox": 0.77,
+      "drawScale": 4.2
+    },
+    "meteor_apoc_09": {
+      "src": "assets/future/hazards/meteors/meteor_apoc_09.png",
+      "sourceSheet": "atlas_de_meteoritos_cósmicos_explosivos.png",
+      "bbox": [
+        746,
+        746,
+        1144,
+        1059
+      ],
+      "area": 47198,
+      "category": "meteor",
+      "role": "medium",
+      "tags": [
+        "spike",
+        "world6",
+        "world10",
+        "meteor"
+      ],
+      "hitbox": 0.73,
+      "drawScale": 4.15
+    },
+    "meteor_apoc_10": {
+      "src": "assets/future/hazards/meteors/meteor_apoc_10.png",
+      "sourceSheet": "atlas_de_meteoritos_cósmicos_explosivos.png",
+      "bbox": [
+        300,
+        804,
+        781,
+        1078
+      ],
+      "area": 55924,
+      "category": "meteor",
+      "role": "light",
+      "tags": [
+        "plasma",
+        "world7",
+        "world9",
+        "meteor"
+      ],
+      "hitbox": 0.7,
+      "drawScale": 4.05
+    },
+    "debris_neo_01": {
+      "src": "assets/future/hazards/debris/debris_neo_01.png",
+      "sourceSheet": "sprite_de_escombros_espaciales_neón.png",
+      "bbox": [
+        45,
+        17,
+        311,
+        351
+      ],
+      "area": 42407,
+      "category": "debris",
+      "role": "heavy",
+      "tags": [
+        "fortress",
+        "world6",
+        "debris"
+      ],
+      "hitbox": 0.7,
+      "drawScale": 4.3
+    },
+    "debris_neo_02": {
+      "src": "assets/future/hazards/debris/debris_neo_02.png",
+      "sourceSheet": "sprite_de_escombros_espaciales_neón.png",
+      "bbox": [
+        860,
+        30,
+        1173,
+        346
+      ],
+      "area": 41601,
+      "category": "debris",
+      "role": "medium",
+      "tags": [
+        "satellite",
+        "world6",
+        "debris"
+      ],
+      "hitbox": 0.63,
+      "drawScale": 4.0
+    },
+    "debris_neo_03": {
+      "src": "assets/future/hazards/debris/debris_neo_03.png",
+      "sourceSheet": "sprite_de_escombros_espaciales_neón.png",
+      "bbox": [
+        1167,
+        39,
+        1439,
+        345
+      ],
+      "area": 42725,
+      "category": "debris",
+      "role": "heavy",
+      "tags": [
+        "portal",
+        "world7",
+        "debris"
+      ],
+      "hitbox": 0.72,
+      "drawScale": 4.25
+    },
+    "debris_neo_04": {
+      "src": "assets/future/hazards/debris/debris_neo_04.png",
+      "sourceSheet": "sprite_de_escombros_espaciales_neón.png",
+      "bbox": [
+        318,
+        47,
+        587,
+        310
+      ],
+      "area": 33428,
+      "category": "debris",
+      "role": "medium",
+      "tags": [
+        "engine",
+        "world6",
+        "debris"
+      ],
+      "hitbox": 0.65,
+      "drawScale": 3.95
+    },
+    "debris_neo_05": {
+      "src": "assets/future/hazards/debris/debris_neo_05.png",
+      "sourceSheet": "sprite_de_escombros_espaciales_neón.png",
+      "bbox": [
+        605,
+        76,
+        811,
+        317
+      ],
+      "area": 25177,
+      "category": "debris",
+      "role": "medium",
+      "tags": [
+        "reactor",
+        "world6",
+        "debris"
+      ],
+      "hitbox": 0.66,
+      "drawScale": 3.9
+    },
+    "debris_neo_06": {
+      "src": "assets/future/hazards/debris/debris_neo_06.png",
+      "sourceSheet": "sprite_de_escombros_espaciales_neón.png",
+      "bbox": [
+        9,
+        341,
+        317,
+        690
+      ],
+      "area": 57206,
+      "category": "debris",
+      "role": "heavy",
+      "tags": [
+        "manta",
+        "world7",
+        "debris"
+      ],
+      "hitbox": 0.71,
+      "drawScale": 4.2
+    },
+    "debris_neo_07": {
+      "src": "assets/future/hazards/debris/debris_neo_07.png",
+      "sourceSheet": "sprite_de_escombros_espaciales_neón.png",
+      "bbox": [
+        864,
+        343,
+        1147,
+        681
+      ],
+      "area": 55438,
+      "category": "debris",
+      "role": "medium",
+      "tags": [
+        "organic_jelly",
+        "world7",
+        "debris"
+      ],
+      "hitbox": 0.67,
+      "drawScale": 4.0
+    },
+    "debris_neo_08": {
+      "src": "assets/future/hazards/debris/debris_neo_08.png",
+      "sourceSheet": "sprite_de_escombros_espaciales_neón.png",
+      "bbox": [
+        589,
+        348,
+        849,
+        683
+      ],
+      "area": 43651,
+      "category": "debris",
+      "role": "medium",
+      "tags": [
+        "organic_core",
+        "world7",
+        "debris"
+      ],
+      "hitbox": 0.7,
+      "drawScale": 4.1
+    },
+    "debris_neo_09": {
+      "src": "assets/future/hazards/debris/debris_neo_09.png",
+      "sourceSheet": "sprite_de_escombros_espaciales_neón.png",
+      "bbox": [
+        1158,
+        356,
+        1435,
+        686
+      ],
+      "area": 45024,
+      "category": "debris",
+      "role": "heavy",
+      "tags": [
+        "flesh_bulb",
+        "world8",
+        "debris"
+      ],
+      "hitbox": 0.74,
+      "drawScale": 4.05
+    },
+    "debris_neo_10": {
+      "src": "assets/future/hazards/debris/debris_neo_10.png",
+      "sourceSheet": "sprite_de_escombros_espaciales_neón.png",
+      "bbox": [
+        314,
+        363,
+        583,
+        678
+      ],
+      "area": 36801,
+      "category": "debris",
+      "role": "heavy",
+      "tags": [
+        "flesh_nest",
+        "world8",
+        "debris"
+      ],
+      "hitbox": 0.75,
+      "drawScale": 4.0
+    },
+    "debris_neo_11": {
+      "src": "assets/future/hazards/debris/debris_neo_11.png",
+      "sourceSheet": "sprite_de_escombros_espaciales_neón.png",
+      "bbox": [
+        7,
+        666,
+        309,
+        1041
+      ],
+      "area": 58895,
+      "category": "debris",
+      "role": "heavy",
+      "tags": [
+        "crystal_mass",
+        "world9",
+        "debris"
+      ],
+      "hitbox": 0.73,
+      "drawScale": 4.2
+    },
+    "debris_neo_12": {
+      "src": "assets/future/hazards/debris/debris_neo_12.png",
+      "sourceSheet": "sprite_de_escombros_espaciales_neón.png",
+      "bbox": [
+        854,
+        683,
+        1155,
+        1049
+      ],
+      "area": 57251,
+      "category": "debris",
+      "role": "heavy",
+      "tags": [
+        "skull_fragment",
+        "world10",
+        "debris"
+      ],
+      "hitbox": 0.76,
+      "drawScale": 4.15
+    },
+    "debris_neo_13": {
+      "src": "assets/future/hazards/debris/debris_neo_13.png",
+      "sourceSheet": "sprite_de_escombros_espaciales_neón.png",
+      "bbox": [
+        1159,
+        686,
+        1442,
+        1024
+      ],
+      "area": 49246,
+      "category": "debris",
+      "role": "heavy",
+      "tags": [
+        "void_ring",
+        "world10",
+        "debris"
+      ],
+      "hitbox": 0.71,
+      "drawScale": 4.1
+    },
+    "debris_neo_14": {
+      "src": "assets/future/hazards/debris/debris_neo_14.png",
+      "sourceSheet": "sprite_de_escombros_espaciales_neón.png",
+      "bbox": [
+        293,
+        700,
+        602,
+        1041
+      ],
+      "area": 33391,
+      "category": "debris",
+      "role": "light",
+      "tags": [
+        "crystal_blade",
+        "world9",
+        "debris"
+      ],
+      "hitbox": 0.62,
+      "drawScale": 3.95
+    },
+    "debris_neo_15": {
+      "src": "assets/future/hazards/debris/debris_neo_15.png",
+      "sourceSheet": "sprite_de_escombros_espaciales_neón.png",
+      "bbox": [
+        568,
+        703,
+        836,
+        1043
+      ],
+      "area": 44968,
+      "category": "debris",
+      "role": "medium",
+      "tags": [
+        "crystal_prism",
+        "world9",
+        "world10",
+        "debris"
+      ],
+      "hitbox": 0.69,
+      "drawScale": 4.05
+    },
+    "planet_wander_01": {
+      "src": "assets/future/hazards/planets/planet_wander_01.png",
+      "sourceSheet": "planetas_errantes_maravillas_cósmicas.png",
+      "bbox": [
+        784,
+        0,
+        1412,
+        455
+      ],
+      "area": 133352,
+      "category": "planet",
+      "role": "heavy",
+      "tags": [
+        "abyssal_planet",
+        "world7",
+        "planet"
+      ],
+      "hitbox": 0.9,
+      "drawScale": 5.45
+    },
+    "planet_wander_02": {
+      "src": "assets/future/hazards/planets/planet_wander_02.png",
+      "sourceSheet": "planetas_errantes_maravillas_cósmicas.png",
+      "bbox": [
+        3,
+        0,
+        561,
+        447
+      ],
+      "area": 118294,
+      "category": "planet",
+      "role": "heavy",
+      "tags": [
+        "industrial_planet",
+        "world6",
+        "planet"
+      ],
+      "hitbox": 0.94,
+      "drawScale": 5.55
+    },
+    "planet_wander_03": {
+      "src": "assets/future/hazards/planets/planet_wander_03.png",
+      "sourceSheet": "planetas_errantes_maravillas_cósmicas.png",
+      "bbox": [
+        474,
+        142,
+        792,
+        417
+      ],
+      "area": 34820,
+      "category": "planet",
+      "role": "medium",
+      "tags": [
+        "industrial_fragment",
+        "world6",
+        "planet"
+      ],
+      "hitbox": 0.88,
+      "drawScale": 5.1
+    },
+    "planet_wander_04": {
+      "src": "assets/future/hazards/planets/planet_wander_04.png",
+      "sourceSheet": "planetas_errantes_maravillas_cósmicas.png",
+      "bbox": [
+        1190,
+        209,
+        1440,
+        450
+      ],
+      "area": 24428,
+      "category": "planet",
+      "role": "medium",
+      "tags": [
+        "abyssal_fragment",
+        "world7",
+        "planet"
+      ],
+      "hitbox": 0.84,
+      "drawScale": 5.0
+    },
+    "planet_wander_05": {
+      "src": "assets/future/hazards/planets/planet_wander_05.png",
+      "sourceSheet": "planetas_errantes_maravillas_cósmicas.png",
+      "bbox": [
+        8,
+        410,
+        572,
+        767
+      ],
+      "area": 95647,
+      "category": "planet",
+      "role": "heavy",
+      "tags": [
+        "organic_planet",
+        "world8",
+        "planet"
+      ],
+      "hitbox": 0.92,
+      "drawScale": 5.4
+    },
+    "planet_wander_06": {
+      "src": "assets/future/hazards/planets/planet_wander_06.png",
+      "sourceSheet": "planetas_errantes_maravillas_cósmicas.png",
+      "bbox": [
+        766,
+        426,
+        1283,
+        812
+      ],
+      "area": 109298,
+      "category": "planet",
+      "role": "heavy",
+      "tags": [
+        "crystal_planet",
+        "world9",
+        "planet"
+      ],
+      "hitbox": 0.93,
+      "drawScale": 5.45
+    },
+    "planet_wander_07": {
+      "src": "assets/future/hazards/planets/planet_wander_07.png",
+      "sourceSheet": "planetas_errantes_maravillas_cósmicas.png",
+      "bbox": [
+        481,
+        471,
+        794,
+        746
+      ],
+      "area": 32511,
+      "category": "planet",
+      "role": "medium",
+      "tags": [
+        "organic_fragment",
+        "world8",
+        "planet"
+      ],
+      "hitbox": 0.84,
+      "drawScale": 5.0
+    },
+    "planet_wander_08": {
+      "src": "assets/future/hazards/planets/planet_wander_08.png",
+      "sourceSheet": "planetas_errantes_maravillas_cósmicas.png",
+      "bbox": [
+        1214,
+        512,
+        1446,
+        756
+      ],
+      "area": 23218,
+      "category": "planet",
+      "role": "medium",
+      "tags": [
+        "crystal_fragment",
+        "world9",
+        "planet"
+      ],
+      "hitbox": 0.86,
+      "drawScale": 5.0
+    },
+    "planet_wander_09": {
+      "src": "assets/future/hazards/planets/planet_wander_09.png",
+      "sourceSheet": "planetas_errantes_maravillas_cósmicas.png",
+      "bbox": [
+        91,
+        704,
+        721,
+        1086
+      ],
+      "area": 125381,
+      "category": "planet",
+      "role": "heavy",
+      "tags": [
+        "skull_planet",
+        "world10",
+        "planet"
+      ],
+      "hitbox": 0.98,
+      "drawScale": 5.5
+    },
+    "planet_wander_10": {
+      "src": "assets/future/hazards/planets/planet_wander_10.png",
+      "sourceSheet": "planetas_errantes_maravillas_cósmicas.png",
+      "bbox": [
+        672,
+        809,
+        1040,
+        1084
+      ],
+      "area": 41666,
+      "category": "planet",
+      "role": "medium",
+      "tags": [
+        "skull_fragment",
+        "world10",
+        "planet"
+      ],
+      "hitbox": 0.86,
+      "drawScale": 5.05
+    }
+  },
+  "worldPools": {
+    "6": {
+      "meteors": [
+        "meteor_apoc_01",
+        "meteor_apoc_06",
+        "meteor_apoc_09"
+      ],
+      "debris": [
+        "debris_neo_01",
+        "debris_neo_02",
+        "debris_neo_04",
+        "debris_neo_05"
+      ],
+      "planets": [
+        "planet_wander_02",
+        "planet_wander_03"
+      ]
+    },
+    "7": {
+      "meteors": [
+        "meteor_apoc_02",
+        "meteor_apoc_10",
+        "meteor_apoc_04"
+      ],
+      "debris": [
+        "debris_neo_03",
+        "debris_neo_06",
+        "debris_neo_07",
+        "debris_neo_08"
+      ],
+      "planets": [
+        "planet_wander_01",
+        "planet_wander_04"
+      ]
+    },
+    "8": {
+      "meteors": [
+        "meteor_apoc_03",
+        "meteor_apoc_05",
+        "meteor_apoc_08"
+      ],
+      "debris": [
+        "debris_neo_09",
+        "debris_neo_10"
+      ],
+      "planets": [
+        "planet_wander_05",
+        "planet_wander_07"
+      ]
+    },
+    "9": {
+      "meteors": [
+        "meteor_apoc_04",
+        "meteor_apoc_10"
+      ],
+      "debris": [
+        "debris_neo_11",
+        "debris_neo_14",
+        "debris_neo_15"
+      ],
+      "planets": [
+        "planet_wander_06",
+        "planet_wander_08"
+      ]
+    },
+    "10": {
+      "meteors": [
+        "meteor_apoc_05",
+        "meteor_apoc_07",
+        "meteor_apoc_09"
+      ],
+      "debris": [
+        "debris_neo_12",
+        "debris_neo_13",
+        "debris_neo_15"
+      ],
+      "planets": [
+        "planet_wander_09",
+        "planet_wander_10"
+      ]
+    }
+  }
+}

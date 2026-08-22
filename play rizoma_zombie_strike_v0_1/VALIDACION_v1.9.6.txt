@@ -1,0 +1,24 @@
+VALIDACIÓN v1.9.6 — MUNDO 8 + MOBILE FIX
+
+Sintaxis JavaScript: se valida externamente con node --check.
+Referencias de assets encontradas: 220
+Assets ausentes: 0
+IDs HTML duplicados: 0
+Llamadas this.method sin método de clase detectado: 0
+Assets directos de Mundo 8: 14
+Manifest orientation: any
+
+W8 requerido:
+- 2 fondos propios
+- 6 enemigos
+- 4 proyectiles orgánicos
+- 1 cápsula de gestación
+- 1 reliquia
+- boss Tardígrado Primigenio
+- sigilo W8
+
+Mobile/PWA:
+- orientación no bloqueante
+- aviso advisory pointer-events:none
+- manifest versionado
+- JS/CSS versionados

@@ -1,7 +1,7 @@
 (() => {
   'use strict';
 
-  const VERSION = '1.9.4';
+  const VERSION = '1.9.6';
   const STORAGE_KEY = 'rizoma_zombie_strike_v0_3_state';
   const SAVE_KEY = 'rizoma_zombie_strike_v0_3_save';
   const clamp = (v, a, b) => Math.max(a, Math.min(b, v));
@@ -151,7 +151,7 @@
     { world:4, sigil:'assets/boss2/sigil_w4.svg', short:'Sello Astral', intro:'FIRMA DEL ECLIPSE', weapon:'Cuchillas escarlata', special:'Eclipse escarlata', color:'#ff5347', accent:'#ffba83', shot:'blade', music:{bpm:124, root:61.74, wave:'sawtooth', seq:[0,0,5,7,0,8,7,3]} },
     { world:5, sigil:'assets/boss2/sigil_w5.svg', short:'Fragmento del Vacío', intro:'FIRMA DE SINGULARIDAD', weapon:'Orbes de horizonte', special:'Colapso del horizonte', color:'#c05cff', accent:'#ff6248', shot:'void', music:{bpm:92, root:49, wave:'triangle', seq:[0,-5,0,2,-7,0,5,-2]} }
   ];
-  // Mundos 6–10: catálogo preparado, aún no activado en la campaña.
+  // Mundos 6–10: catálogo de expansión. Mundos 6–8 activos; 9–10 preparados.
   const FUTURE_BOSS2 = [
     {world:6,id:'magnate_omega',name:'Magnate Omega',title:'Torre de la Necrored',asset:'assets/future/bosses/world6_magnate_omega.png',theme:'Ciudad tecnológica apocalíptica',color:'#ff5b38',accent:'#56c8ff',shot:'necro_laser',weapons:['Drones de asedio','Láseres de torreta','Misiles inteligentes','Campo EMP'],special:{id:'necrogrid_collapse',name:'Colapso de la Necrored',desc:'Torretas orbitales, corredores láser y descarga EMP telegráfica.'},relic:{id:'neural_core',name:'Núcleo Neural',desc:'Mejora apuntado, drones y transición de poderes en cola.',passive:{aimAssist:.08,droneDamage:.10,queueSpeed:.12}},music:{name:'Cyber Assault',bpm:120,root:55,wave:'sawtooth',seq:[0,0,7,3,10,7,5,3],phase4:.72},sound:{shot:[520,.065,'square',.020,-190],special:[65,98,147],impact:[115,.08,'sawtooth',.026,-45]}},
     {world:7,id:'leviatan_abisal',name:'Leviatán Abisal',title:'Señor de las Profundidades',asset:'assets/future/bosses/world7_leviatan_abisal.png',theme:'Mar alienígena',color:'#28d9ff',accent:'#8dffcf',shot:'abyss_plasma',weapons:['Tentáculos de plasma','Medusas explosivas','Cardúmenes espiral','Burbujas gravitacionales'],special:{id:'living_tide',name:'Marea Viva',desc:'Corrientes alienígenas y medusas de plasma con rutas de evasión.'},relic:{id:'abyss_heart',name:'Corazón Abisal',desc:'Refuerza escudo y poderes de control.',passive:{shieldEffect:.09,slowEffect:.10,eliteHeal:.02}},music:{name:'Deep Current',bpm:96,root:43.65,wave:'triangle',seq:[0,5,2,7,-2,3,0,8],phase4:.78},sound:{shot:[330,.10,'sine',.021,-70],special:[49,73.42,110],impact:[82,.12,'triangle',.025,-18]}},
@@ -171,7 +171,7 @@
     const idx=Math.max(0,Number(index)||0);
     if(idx<BOSS2.length)return BOSS2[idx];
     const f=futureBossMeta(idx+1);
-    return {world:f.world,sigil:`assets/boss2/sigil_w${f.world}.svg`,short:f.relic?.name||f.name,intro:f.world===6?'FIRMA NEURONAL':'FIRMA ABISAL',weapon:(f.weapons||[]).slice(0,2).join(' · '),special:f.special?.name||'Firma crítica',color:f.color,accent:f.accent,shot:f.shot,music:f.music};
+    const intros={6:'FIRMA NEURONAL',7:'FIRMA ABISAL',8:'FIRMA ORGÁNICA',9:'FIRMA MULTIVERSAL',10:'FIRMA ZERO'};return {world:f.world,sigil:`assets/boss2/sigil_w${f.world}.svg`,short:f.relic?.name||f.name,intro:intros[f.world]||'FIRMA CRÍTICA',weapon:(f.weapons||[]).slice(0,2).join(' · '),special:f.special?.name||'Firma crítica',color:f.color,accent:f.accent,shot:f.shot,music:f.music};
   };
   const bossSigilHtml = (index, cls='boss-sigil') => { const m=boss2Meta(index); return `<img class="${cls}" src="${m.sigil}" alt="" aria-hidden="true">`; };
 
@@ -244,7 +244,8 @@
     { id:'bossShip4', world:4, name:'Sello Astral', assetKey:'bossWorld4', color:'#ff5347', scale:1.46, mod:{damage:1.03,speed:.98,cadence:1,incoming:.92,power:1,crit:0}, passive:'Blindaje escarlata · -8% daño recibido' },
     { id:'bossShip5', world:5, name:'Fragmento del Vacío', assetKey:'bossWorld5', color:'#c05cff', scale:1.50, mod:{damage:1.05,speed:.98,cadence:1,incoming:.96,power:1.02,crit:.04}, passive:'Singularidad · +5% daño y crítico', signature:'Colapso del Horizonte', signatureCd:16 },
     { id:'bossShip6', world:6, name:'Núcleo Neural', assetKey:'bossWorld6', color:'#56c8ff', scale:1.44, mod:{damage:1.03,speed:1.01,cadence:.97,incoming:.97,power:1.05,crit:.02}, passive:'Necrored · firma recarga 5% más rápido', signature:'Pulso Necrored', signatureCd:16 },
-    { id:'bossShip7', world:7, name:'Corazón Abisal', assetKey:'bossWorld7', color:'#28d9ff', scale:1.46, mod:{damage:1.02,speed:1.06,cadence:.98,incoming:.96,power:1.04,crit:.01}, passive:'Abisal · +6% maniobrabilidad', signature:'Marea Viva', signatureCd:18 }
+    { id:'bossShip7', world:7, name:'Corazón Abisal', assetKey:'bossWorld7', color:'#28d9ff', scale:1.46, mod:{damage:1.02,speed:1.06,cadence:.98,incoming:.96,power:1.04,crit:.01}, passive:'Abisal · +6% maniobrabilidad', signature:'Marea Viva', signatureCd:18 },
+    { id:'bossShip8', world:8, name:'Génesis Orgánica', assetKey:'bossWorld8', color:'#ff5d45', scale:1.43, mod:{damage:1.03,speed:1.02,cadence:.98,incoming:.95,power:1.05,crit:.02}, passive:'Biogénesis · nanorreparación y regeneración reforzadas', signature:'Gestación Masiva', signatureCd:19 }
   ];
   const domainFormMeta = id => DOMAIN_FORMS.find(f=>f.id===id) || null;
   const criticalMeta = id => CRITICAL_INTERVENTIONS.find(p=>p.id===id) || CRITICAL_INTERVENTIONS[0];
@@ -339,6 +340,14 @@
     { id:'trench', name:'Fosa de AURORA', cue:'La señal late en una oscuridad que empuja la nave', eventEvery:8.2 },
     { id:'leviathan', name:'Abismo del Leviatán', cue:'La Marea Viva prepara su corredor final', eventEvery:9.4 }
   ];
+  const WORLD_EIGHT_CONFIG = { bossWave:5, rewardPowers:['nanorepair','virus','plasma','ring'], waveDurations:[64,74,84,96,112] };
+  const WORLD_EIGHT_ACTS = [
+    { id:'membrane', name:'Membrana exterior', cue:'El corredor deja de parecer espacio y comienza a respirar', eventEvery:9.8 },
+    { id:'digestive', name:'Conductos digestivos', cue:'Glóbulos ácidos recorren la carne estelar', eventEvery:8.3 },
+    { id:'gestation', name:'Cámara de gestación', cue:'Cápsulas vivas eclosionan si no son destruidas', eventEvery:7.6 },
+    { id:'parasite', name:'Plexo parasitario', cue:'Lanzadores y engendros cierran el corredor', eventEvery:7.8 },
+    { id:'primordial', name:'Corazón Primigenio', cue:'El huésped estelar prepara la Gestación Masiva', eventEvery:9.0 }
+  ];
   const WORLD_STAGE_TARGETS = {
     0: [34, 44, 52, 60, 3],
     1: [30, 40, 50, 60, 3],
@@ -346,7 +355,8 @@
     3: [20, 30, 38, 46, 58],
     4: [24, 32, 40, 50, 62],
     5: [26, 36, 46, 58, 68],
-    6: [28, 38, 50, 62, 72]
+    6: [28, 38, 50, 62, 72],
+    7: [30, 42, 54, 66, 76]
   };
   const WORLD_ONE_MINION_FAMILIES = [
     ['cazador','corredor','esquivo','mosquito','nave_espejo'],
@@ -381,11 +391,17 @@
     ['w7_ray_1','w7_ray_2'],
     ['w7_crab_1','w7_crab_2']
   ];
+  const WORLD_EIGHT_MINION_FAMILIES = [
+    ['w8_acid_1','w8_acid_2'],
+    ['w8_launcher_1','w8_launcher_2'],
+    ['w8_parasite_1','w8_parasite_2']
+  ];
   Object.assign(MAPS[2], { name:'Corredor Viridiano', boss:'Soberano de la Energía Tóxica', specialName:'Sobrecarga viridiana', theme:['#020d0a','#0c2d20','#74ff73'], lore:'El vacío se acelera: cada estrella parece huir de tu nave.' });
   Object.assign(MAPS[3], { name:'Ciudadela Carmesí', boss:'Arconte Mecánico del Eclipse Carmesí', specialName:'Convergencia ígnea', theme:['#120607','#4a1715','#ff6a63'], lore:'La metrópolis industrial arde bajo una lluvia de roca y metal.' });
   Object.assign(MAPS[4], { name:'Caverna del Núcleo Negro', boss:'Coloso Mecánico del Vacío Estelar', specialName:'Singularidad volcánica', theme:['#080710','#2c1b40','#c391ff'], lore:'Dentro del asteroide, la roca viva palpita como un reactor del vacío.' });
   MAPS.push({id:'necrocity_1',family:'necrocity',pattern:'necrogrid',icon:'◇',name:'Ciudadela de la Necrored',variant:1,boss:'Magnate Omega',beast:'machine',summons:WORLD_SIX_MINION_FAMILIES.flat(),theme:['#050b11','#16293a','#56c8ff'],lore:'NECRORED ya no ocupa ruinas: está construyendo una civilización propia.',specialName:'Colapso de la Necrored'});
   MAPS.push({id:'aliensea_1',family:'aliensea',pattern:'abyss',icon:'≈',name:'Mar Alienígena',variant:1,boss:'Leviatán Abisal',beast:'leviathan',summons:WORLD_SEVEN_MINION_FAMILIES.flat(),theme:['#03121b','#0a3d52','#28d9ff'],lore:'Bajo el océano, la tecnología revela una antigüedad que no parece humana.',specialName:'Marea Viva'});
+  MAPS.push({id:'biogut_1',family:'biogut',pattern:'gestation',icon:'◉',name:'Entrañas del Huésped Estelar',variant:1,boss:'Tardígrado Primigenio',beast:'tardigrade',summons:WORLD_EIGHT_MINION_FAMILIES.flat(),theme:['#16040f','#5b123e','#ff5d45'],lore:'La ruta atraviesa un organismo cósmico vivo. Cada pared, cápsula y residuo parece responder a la presencia de RIZOMA.',specialName:'Gestación Masiva'});
   const GAME_ASSET_SOURCES = {
     world1BgOrbit: 'assets/world1/bg_orbit.jpg',
     world1BgStation: 'assets/world1/bg_station.jpg',
@@ -428,8 +444,46 @@
     world7BgSurface:'assets/world7/bg_surface.jpg', world7BgReef:'assets/world7/bg_reef.jpg', world7BgTrench:'assets/world7/bg_trench.jpg', world7BossBg:'assets/world7/bg_boss.jpg', bossWorld7:'assets/future/bosses/world7_leviatan_abisal.png',
     world7Enemy1:'assets/world7/enemy_1.png', world7Enemy2:'assets/world7/enemy_2.png', world7Enemy3:'assets/world7/enemy_3.png', world7Enemy4:'assets/world7/enemy_4.png', world7Enemy5:'assets/world7/enemy_5.png', world7Enemy6:'assets/world7/enemy_6.png',
     world7Meteor1:'assets/world7/meteor_1.png', world7Meteor2:'assets/world7/meteor_2.png', world7Meteor3:'assets/world7/meteor_3.png', world7Meteor4:'assets/world7/meteor_4.png', world7Junk1:'assets/world7/junk_1.png', world7Junk2:'assets/world7/junk_2.png', world7Junk3:'assets/world7/junk_3.png', world7Junk4:'assets/world7/junk_4.png',
+    world8BgApproach:'assets/world8/bg_world8_approach.jpg', world8BossBg:'assets/world8/bg_world8_boss.jpg', bossWorld8:'assets/future/bosses/world8_tardigrado_primigenio.png',
+    world8Enemy1:'assets/world8/enemy_1.png', world8Enemy2:'assets/world8/enemy_2.png', world8Enemy3:'assets/world8/enemy_3.png', world8Enemy4:'assets/world8/enemy_4.png', world8Enemy5:'assets/world8/enemy_5.png', world8Enemy6:'assets/world8/enemy_6.png',
+    world8ShotAcid:'assets/world8/shot_acid.png', world8ShotSpine:'assets/world8/shot_spine.png', world8ShotParasite:'assets/world8/shot_parasite.png', world8ShotBioplasma:'assets/world8/shot_bioplasma.png', world8GestationPod:'assets/world8/gestation_pod.png', world8RelicGenesis:'assets/world8/relic_genesis.png',
     bossMagnateOmegaBody:'assets/future/bosses/articulated/world6_magnate_body.png', bossMagnateOmegaHatch:'assets/future/bosses/articulated/world6_magnate_hatch.png', bossMagnateOmegaDrone:'assets/future/bosses/articulated/world6_magnate_drone.png',
-    bossLeviatanBody:'assets/future/bosses/articulated/world7_leviatan_body.png', bossLeviatanHatch:'assets/future/bosses/articulated/world7_leviatan_hatch.png', bossLeviatanMedusa:'assets/future/bosses/articulated/world7_leviatan_medusa.png'
+    bossLeviatanBody:'assets/future/bosses/articulated/world7_leviatan_body.png', bossLeviatanHatch:'assets/future/bosses/articulated/world7_leviatan_hatch.png', bossLeviatanMedusa:'assets/future/bosses/articulated/world7_leviatan_medusa.png',
+    meteor_apoc_01:'assets/future/hazards/meteors/meteor_apoc_01.png',
+    meteor_apoc_02:'assets/future/hazards/meteors/meteor_apoc_02.png',
+    meteor_apoc_03:'assets/future/hazards/meteors/meteor_apoc_03.png',
+    meteor_apoc_04:'assets/future/hazards/meteors/meteor_apoc_04.png',
+    meteor_apoc_05:'assets/future/hazards/meteors/meteor_apoc_05.png',
+    meteor_apoc_06:'assets/future/hazards/meteors/meteor_apoc_06.png',
+    meteor_apoc_07:'assets/future/hazards/meteors/meteor_apoc_07.png',
+    meteor_apoc_08:'assets/future/hazards/meteors/meteor_apoc_08.png',
+    meteor_apoc_09:'assets/future/hazards/meteors/meteor_apoc_09.png',
+    meteor_apoc_10:'assets/future/hazards/meteors/meteor_apoc_10.png',
+    debris_neo_01:'assets/future/hazards/debris/debris_neo_01.png',
+    debris_neo_02:'assets/future/hazards/debris/debris_neo_02.png',
+    debris_neo_03:'assets/future/hazards/debris/debris_neo_03.png',
+    debris_neo_04:'assets/future/hazards/debris/debris_neo_04.png',
+    debris_neo_05:'assets/future/hazards/debris/debris_neo_05.png',
+    debris_neo_06:'assets/future/hazards/debris/debris_neo_06.png',
+    debris_neo_07:'assets/future/hazards/debris/debris_neo_07.png',
+    debris_neo_08:'assets/future/hazards/debris/debris_neo_08.png',
+    debris_neo_09:'assets/future/hazards/debris/debris_neo_09.png',
+    debris_neo_10:'assets/future/hazards/debris/debris_neo_10.png',
+    debris_neo_11:'assets/future/hazards/debris/debris_neo_11.png',
+    debris_neo_12:'assets/future/hazards/debris/debris_neo_12.png',
+    debris_neo_13:'assets/future/hazards/debris/debris_neo_13.png',
+    debris_neo_14:'assets/future/hazards/debris/debris_neo_14.png',
+    debris_neo_15:'assets/future/hazards/debris/debris_neo_15.png',
+    planet_wander_01:'assets/future/hazards/planets/planet_wander_01.png',
+    planet_wander_02:'assets/future/hazards/planets/planet_wander_02.png',
+    planet_wander_03:'assets/future/hazards/planets/planet_wander_03.png',
+    planet_wander_04:'assets/future/hazards/planets/planet_wander_04.png',
+    planet_wander_05:'assets/future/hazards/planets/planet_wander_05.png',
+    planet_wander_06:'assets/future/hazards/planets/planet_wander_06.png',
+    planet_wander_07:'assets/future/hazards/planets/planet_wander_07.png',
+    planet_wander_08:'assets/future/hazards/planets/planet_wander_08.png',
+    planet_wander_09:'assets/future/hazards/planets/planet_wander_09.png',
+    planet_wander_10:'assets/future/hazards/planets/planet_wander_10.png'
   };
   const WORLD_TWO_EXTRA_SPRITES = {
     debris: ['world2Debris1','world2Debris2','world2Debris3','world2Debris4','world2Debris5','world2Debris6','world2Debris7','world2Debris8'],
@@ -438,10 +492,55 @@
   const WORLD_THREE_HAZARDS=['world3Hazard1','world3Hazard2','world3Hazard3','world3Hazard4','world3Hazard5','world3Hazard6','world3Hazard7','world3Hazard8','world3Hazard9','world3Hazard10'];
   const WORLD_FOUR_HAZARDS=['world4Hazard1','world4Hazard2','world4Hazard3','world4Hazard4','world4Hazard5','world4Hazard6','world4Hazard7','world4Hazard8','world4Hazard9'];
   const WORLD_FIVE_HAZARDS=['world5Hazard1','world5Hazard2','world5Hazard3','world5Hazard4','world5Hazard5','world5Hazard6','world5Hazard7','world5Hazard8','world5Hazard9'];
-  const WORLD_SIX_HAZARDS=['world6Meteor1','world6Meteor2','world6Meteor3','world6Meteor4','world6Junk1','world6Junk2','world6Junk3','world6Junk4',...WORLD_FOUR_HAZARDS.slice(0,3),...WORLD_FIVE_HAZARDS.slice(0,3)];
-  const WORLD_SEVEN_HAZARDS=['world7Meteor1','world7Meteor2','world7Meteor3','world7Meteor4','world7Junk1','world7Junk2','world7Junk3','world7Junk4',...WORLD_SIX_HAZARDS.slice(0,4),...WORLD_FIVE_HAZARDS.slice(0,2)];
+  const FUTURE_HAZARD_LIBRARY = {
+    meteor_apoc_01: { key:'meteor_apoc_01', category:'meteor', role:'heavy', hitbox:0.78, drawScale:4.55, tags:['industrial', 'world6', 'world10', 'meteor'] },
+    meteor_apoc_02: { key:'meteor_apoc_02', category:'meteor', role:'heavy', hitbox:0.77, drawScale:4.6, tags:['abyssal', 'world7', 'meteor'] },
+    meteor_apoc_03: { key:'meteor_apoc_03', category:'meteor', role:'heavy', hitbox:0.76, drawScale:4.45, tags:['organic', 'world8', 'meteor'] },
+    meteor_apoc_04: { key:'meteor_apoc_04', category:'meteor', role:'heavy', hitbox:0.74, drawScale:4.35, tags:['crystal', 'world9', 'meteor'] },
+    meteor_apoc_05: { key:'meteor_apoc_05', category:'meteor', role:'heavy', hitbox:0.8, drawScale:4.4, tags:['demonic', 'world8', 'world10', 'meteor'] },
+    meteor_apoc_06: { key:'meteor_apoc_06', category:'meteor', role:'medium', hitbox:0.84, drawScale:4.1, tags:['lava', 'world6', 'meteor'] },
+    meteor_apoc_07: { key:'meteor_apoc_07', category:'meteor', role:'medium', hitbox:0.86, drawScale:4.05, tags:['fractured', 'world10', 'meteor'] },
+    meteor_apoc_08: { key:'meteor_apoc_08', category:'meteor', role:'medium', hitbox:0.77, drawScale:4.2, tags:['toxic', 'world8', 'meteor'] },
+    meteor_apoc_09: { key:'meteor_apoc_09', category:'meteor', role:'medium', hitbox:0.73, drawScale:4.15, tags:['spike', 'world6', 'world10', 'meteor'] },
+    meteor_apoc_10: { key:'meteor_apoc_10', category:'meteor', role:'light', hitbox:0.7, drawScale:4.05, tags:['plasma', 'world7', 'world9', 'meteor'] },
+    debris_neo_01: { key:'debris_neo_01', category:'debris', role:'heavy', hitbox:0.7, drawScale:4.3, tags:['fortress', 'world6', 'debris'] },
+    debris_neo_02: { key:'debris_neo_02', category:'debris', role:'medium', hitbox:0.63, drawScale:4.0, tags:['satellite', 'world6', 'debris'] },
+    debris_neo_03: { key:'debris_neo_03', category:'debris', role:'heavy', hitbox:0.72, drawScale:4.25, tags:['portal', 'world7', 'debris'] },
+    debris_neo_04: { key:'debris_neo_04', category:'debris', role:'medium', hitbox:0.65, drawScale:3.95, tags:['engine', 'world6', 'debris'] },
+    debris_neo_05: { key:'debris_neo_05', category:'debris', role:'medium', hitbox:0.66, drawScale:3.9, tags:['reactor', 'world6', 'debris'] },
+    debris_neo_06: { key:'debris_neo_06', category:'debris', role:'heavy', hitbox:0.71, drawScale:4.2, tags:['manta', 'world7', 'debris'] },
+    debris_neo_07: { key:'debris_neo_07', category:'debris', role:'medium', hitbox:0.67, drawScale:4.0, tags:['organic_jelly', 'world7', 'debris'] },
+    debris_neo_08: { key:'debris_neo_08', category:'debris', role:'medium', hitbox:0.7, drawScale:4.1, tags:['organic_core', 'world7', 'debris'] },
+    debris_neo_09: { key:'debris_neo_09', category:'debris', role:'heavy', hitbox:0.74, drawScale:4.05, tags:['flesh_bulb', 'world8', 'debris'] },
+    debris_neo_10: { key:'debris_neo_10', category:'debris', role:'heavy', hitbox:0.75, drawScale:4.0, tags:['flesh_nest', 'world8', 'debris'] },
+    debris_neo_11: { key:'debris_neo_11', category:'debris', role:'heavy', hitbox:0.73, drawScale:4.2, tags:['crystal_mass', 'world9', 'debris'] },
+    debris_neo_12: { key:'debris_neo_12', category:'debris', role:'heavy', hitbox:0.76, drawScale:4.15, tags:['skull_fragment', 'world10', 'debris'] },
+    debris_neo_13: { key:'debris_neo_13', category:'debris', role:'heavy', hitbox:0.71, drawScale:4.1, tags:['void_ring', 'world10', 'debris'] },
+    debris_neo_14: { key:'debris_neo_14', category:'debris', role:'light', hitbox:0.62, drawScale:3.95, tags:['crystal_blade', 'world9', 'debris'] },
+    debris_neo_15: { key:'debris_neo_15', category:'debris', role:'medium', hitbox:0.69, drawScale:4.05, tags:['crystal_prism', 'world9', 'world10', 'debris'] },
+    planet_wander_01: { key:'planet_wander_01', category:'planet', role:'heavy', hitbox:0.9, drawScale:5.45, tags:['abyssal_planet', 'world7', 'planet'] },
+    planet_wander_02: { key:'planet_wander_02', category:'planet', role:'heavy', hitbox:0.94, drawScale:5.55, tags:['industrial_planet', 'world6', 'planet'] },
+    planet_wander_03: { key:'planet_wander_03', category:'planet', role:'medium', hitbox:0.88, drawScale:5.1, tags:['industrial_fragment', 'world6', 'planet'] },
+    planet_wander_04: { key:'planet_wander_04', category:'planet', role:'medium', hitbox:0.84, drawScale:5.0, tags:['abyssal_fragment', 'world7', 'planet'] },
+    planet_wander_05: { key:'planet_wander_05', category:'planet', role:'heavy', hitbox:0.92, drawScale:5.4, tags:['organic_planet', 'world8', 'planet'] },
+    planet_wander_06: { key:'planet_wander_06', category:'planet', role:'heavy', hitbox:0.93, drawScale:5.45, tags:['crystal_planet', 'world9', 'planet'] },
+    planet_wander_07: { key:'planet_wander_07', category:'planet', role:'medium', hitbox:0.84, drawScale:5.0, tags:['organic_fragment', 'world8', 'planet'] },
+    planet_wander_08: { key:'planet_wander_08', category:'planet', role:'medium', hitbox:0.86, drawScale:5.0, tags:['crystal_fragment', 'world9', 'planet'] },
+    planet_wander_09: { key:'planet_wander_09', category:'planet', role:'heavy', hitbox:0.98, drawScale:5.5, tags:['skull_planet', 'world10', 'planet'] },
+    planet_wander_10: { key:'planet_wander_10', category:'planet', role:'medium', hitbox:0.86, drawScale:5.05, tags:['skull_fragment', 'world10', 'planet'] }
+  };
+  const FUTURE_HAZARD_POOLS = {
+    6: { meteors:['meteor_apoc_01', 'meteor_apoc_06', 'meteor_apoc_09'], debris:['debris_neo_01', 'debris_neo_02', 'debris_neo_04', 'debris_neo_05'], planets:['planet_wander_02', 'planet_wander_03'] },
+    7: { meteors:['meteor_apoc_02', 'meteor_apoc_10', 'meteor_apoc_04'], debris:['debris_neo_03', 'debris_neo_06', 'debris_neo_07', 'debris_neo_08'], planets:['planet_wander_01', 'planet_wander_04'] },
+    8: { meteors:['meteor_apoc_03', 'meteor_apoc_05', 'meteor_apoc_08'], debris:['debris_neo_09', 'debris_neo_10'], planets:['planet_wander_05', 'planet_wander_07'] },
+    9: { meteors:['meteor_apoc_04', 'meteor_apoc_10'], debris:['debris_neo_11', 'debris_neo_14', 'debris_neo_15'], planets:['planet_wander_06', 'planet_wander_08'] },
+    10: { meteors:['meteor_apoc_05', 'meteor_apoc_07', 'meteor_apoc_09'], debris:['debris_neo_12', 'debris_neo_13', 'debris_neo_15'], planets:['planet_wander_09', 'planet_wander_10'] }
+  };
+  const WORLD_SIX_HAZARDS=[...new Set([...FUTURE_HAZARD_POOLS[6].meteors,...FUTURE_HAZARD_POOLS[6].debris,...FUTURE_HAZARD_POOLS[6].planets,...WORLD_FOUR_HAZARDS.slice(0,2),...WORLD_FIVE_HAZARDS.slice(0,2)])];
+  const WORLD_SEVEN_HAZARDS=[...new Set([...FUTURE_HAZARD_POOLS[7].meteors,...FUTURE_HAZARD_POOLS[7].debris,...FUTURE_HAZARD_POOLS[7].planets,...WORLD_SIX_HAZARDS.slice(0,4)])];
+  const WORLD_EIGHT_HAZARDS=[...new Set([...FUTURE_HAZARD_POOLS[8].meteors,...FUTURE_HAZARD_POOLS[8].debris,...FUTURE_HAZARD_POOLS[8].planets])];
 
-  // v1.9.4 · capas articuladas. Config estática: no se recrea dentro del render.
+  // v1.9.5 · producción técnica de hazards y capas articuladas. Config estática.
   const BOSS_HATCH_CONFIG = {
     magnateOmega: {
       bodyKey:'bossMagnateOmegaBody',      // cuerpo completo con cavidad interior
@@ -584,7 +683,13 @@
     { id:'w7_ray_1', name:'Raya de Coral', color:'#48d9ff', hp:172, speed:196, r:21, xp:39, score:94, coin:13, behavior:'evader', spriteKey:'world7Enemy3', futureWorld:7, familyIndex:1 },
     { id:'w7_ray_2', name:'Raya Abisal', color:'#7ecbff', hp:184, speed:184, r:22, xp:41, score:98, coin:14, behavior:'chase', spriteKey:'world7Enemy4', futureWorld:7, familyIndex:1 },
     { id:'w7_crab_1', name:'Crustáceo Abisal', color:'#8dffcf', hp:252, speed:106, r:27, xp:50, score:126, coin:17, behavior:'blindado', spriteKey:'world7Enemy5', futureWorld:7, familyIndex:2 },
-    { id:'w7_crab_2', name:'Crustáceo Gravitacional', color:'#9fe8ff', hp:270, speed:98, r:28, xp:53, score:134, coin:18, behavior:'buffer', spriteKey:'world7Enemy6', futureWorld:7, familyIndex:2 }
+    { id:'w7_crab_2', name:'Crustáceo Gravitacional', color:'#9fe8ff', hp:270, speed:98, r:28, xp:53, score:134, coin:18, behavior:'buffer', spriteKey:'world7Enemy6', futureWorld:7, familyIndex:2 },
+    { id:'w8_acid_1', name:'Glóbulo Ácido', color:'#caff42', hp:148, speed:182, r:19, xp:37, score:88, coin:12, behavior:'zigzag', spriteKey:'world8Enemy1', futureWorld:8, familyIndex:0 },
+    { id:'w8_acid_2', name:'Glóbulo Digestivo', color:'#ff7059', hp:162, speed:168, r:20, xp:39, score:94, coin:13, behavior:'toxic', spriteKey:'world8Enemy2', futureWorld:8, familyIndex:0 },
+    { id:'w8_launcher_1', name:'Lanzador Orgánico', color:'#ff5d45', hp:194, speed:142, r:23, xp:43, score:104, coin:14, behavior:'chase', spriteKey:'world8Enemy3', futureWorld:8, familyIndex:1 },
+    { id:'w8_launcher_2', name:'Lanzador de Espinas', color:'#ff934d', hp:212, speed:132, r:24, xp:46, score:112, coin:15, behavior:'buffer', spriteKey:'world8Enemy4', futureWorld:8, familyIndex:1 },
+    { id:'w8_parasite_1', name:'Engendro Parásito', color:'#d54cff', hp:238, speed:126, r:25, xp:49, score:120, coin:16, behavior:'kamikaze', spriteKey:'world8Enemy5', futureWorld:8, familyIndex:2 },
+    { id:'w8_parasite_2', name:'Macrófago Devorador', color:'#ff7bb9', hp:286, speed:102, r:28, xp:56, score:140, coin:19, behavior:'blindado', spriteKey:'world8Enemy6', futureWorld:8, familyIndex:2 }
   ];
 
   const ACHIEVEMENTS = [
@@ -960,6 +1065,7 @@
       this.worldFiveState={rewardSteps:[],eventTimer:6.5,rewardTimer:7.5,hazardTimer:6.8,hordeTimer:11.8,enemyHistory:[]};
       this.worldSixState={rewardSteps:[],eventTimer:6.2,rewardTimer:7.2,hazardTimer:6.4,hordeTimer:10.8,nodeTimer:9.0,enemyHistory:[],hordeSeen:0};
       this.worldSevenState={rewardSteps:[],eventTimer:6.0,rewardTimer:7.0,hazardTimer:6.2,hordeTimer:10.2,currentTimer:12.5,currentActive:0,currentDir:1,bubbleTimer:8.2,enemyHistory:[],hordeSeen:0};
+      this.worldEightState={rewardSteps:[],eventTimer:5.8,rewardTimer:6.8,hazardTimer:6.0,hordeTimer:9.8,gestationTimer:8.6,enemyHistory:[],hordeSeen:0,podsHatched:0};
       this.world3Stars=[];
       this.toasts = [];
       this.powerLevels = {};
@@ -1247,6 +1353,7 @@
       else if(this.mapIndex===4){const act=WORLD_FIVE_ACTS[this.wave-1];this.worldFiveState.eventTimer=Math.min(6.2,act?.eventEvery||9);this.spawnWorldFiveReward();this.grantLevelShield(9.0);this.toast(`ACTO 5-${this.wave}`,`${act?.name||`Nivel ${this.wave}`} · singularidad +${(this.wave-1)*3}%`);}
       else if(this.mapIndex===5){const act=WORLD_SIX_ACTS[this.wave-1];this.worldSixState.eventTimer=Math.min(5.9,act?.eventEvery||8.5);this.spawnWorldSixReward();this.grantLevelShield(10.0);this.toast(`ACTO 6-${this.wave}`,`${act?.name||`Nivel ${this.wave}`} · ECO NECRORED ${(20+this.wave*2)}%`);}
       else if(this.mapIndex===6){const act=WORLD_SEVEN_ACTS[this.wave-1];this.worldSevenState.eventTimer=Math.min(5.7,act?.eventEvery||8.2);this.spawnWorldSevenReward();this.grantLevelShield(11.0);this.toast(`ACTO 7-${this.wave}`,`${act?.name||`Nivel ${this.wave}`} · presión abisal +${(this.wave-1)*3}%`);}
+      else if(this.mapIndex===7){const act=WORLD_EIGHT_ACTS[this.wave-1];this.worldEightState.eventTimer=Math.min(5.5,act?.eventEvery||8);this.spawnWorldEightReward();this.grantLevelShield(11.5);if(this.wave>=3)this.spawnWorldEightGestationPod(this.mobileLandscape?1:2,false);this.toast(`ACTO 8-${this.wave}`,`${act?.name||`Nivel ${this.wave}`} · biogénesis +${(this.wave-1)*3}%`);}
       else this.toast('🧭 Nivel superado', `Mundo ${this.mapIndex + 1} · Nivel ${this.worldStage.level}/${this.worldStage.totalLevels}`);
       this.requestTacticalPrep('level');
     }
@@ -1548,7 +1655,8 @@
       this.worldFourState={rewardSteps:[],eventTimer:7.0,rewardTimer:8.0,hazardTimer:7.4,hordeTimer:12.5,enemyHistory:[]};
       this.worldFiveState={rewardSteps:[],eventTimer:6.5,rewardTimer:7.5,hazardTimer:6.8,hordeTimer:11.8,enemyHistory:[]};
       this.worldSixState={rewardSteps:[],eventTimer:6.2,rewardTimer:7.2,hazardTimer:6.4,hordeTimer:10.8,nodeTimer:9.0,enemyHistory:[],hordeSeen:0};
-      this.worldSevenState={rewardSteps:[],eventTimer:6.0,rewardTimer:7.0,hazardTimer:6.2,hordeTimer:10.2,currentTimer:12.5,currentActive:0,currentDir:1,bubbleTimer:8.2,enemyHistory:[],hordeSeen:0}; this.world3Stars=[];
+      this.worldSevenState={rewardSteps:[],eventTimer:6.0,rewardTimer:7.0,hazardTimer:6.2,hordeTimer:10.2,currentTimer:12.5,currentActive:0,currentDir:1,bubbleTimer:8.2,enemyHistory:[],hordeSeen:0};
+      this.worldEightState={rewardSteps:[],eventTimer:5.8,rewardTimer:6.8,hazardTimer:6.0,hordeTimer:9.8,gestationTimer:8.6,enemyHistory:[],hordeSeen:0,podsHatched:0}; this.world3Stars=[];
       if (save?.worldOneState && this.mapIndex === 0) this.worldOneState = { ...this.worldOneState, ...save.worldOneState };
       if (save?.worldTwoState && this.mapIndex === 1) this.worldTwoState = { ...this.worldTwoState, ...save.worldTwoState };
       if (save?.worldThreeState && this.mapIndex === 2) this.worldThreeState = { ...this.worldThreeState, ...save.worldThreeState };
@@ -1556,6 +1664,7 @@
       if (save?.worldFiveState && this.mapIndex === 4) this.worldFiveState = { ...this.worldFiveState, ...save.worldFiveState };
       if (save?.worldSixState && this.mapIndex === 5) this.worldSixState = { ...this.worldSixState, ...save.worldSixState };
       if (save?.worldSevenState && this.mapIndex === 6) this.worldSevenState = { ...this.worldSevenState, ...save.worldSevenState };
+      if (save?.worldEightState && this.mapIndex === 7) this.worldEightState = { ...this.worldEightState, ...save.worldEightState };
       this.powerLevels = save?.powerLevels || {};
       this.powerActivity = save?.powerActivity || {};
       this.powerQueue=save?.powerQueue||[]; this.activeCombos={};
@@ -1606,6 +1715,7 @@
       if (!save && this.mapIndex === 4) this.setupWorldFiveIntro();
       if (!save && this.mapIndex === 5) this.setupWorldSixIntro();
       if (!save && this.mapIndex === 6) this.setupWorldSevenIntro();
+      if (!save && this.mapIndex === 7) this.setupWorldEightIntro();
       this.running = true;
       this.paused = false;
       this.cardPause = false;
@@ -1741,6 +1851,7 @@
       this.updateDomainSignature(dt);
       this.updateWorldSixDirector(dt);
       this.updateWorldSevenDirector(dt);
+      this.updateWorldEightDirector(dt);
       if (this.updateWorldOneDirector(dt) || this.updateWorldTwoDirector(dt) || this.updateWorldThreeDirector(dt)) {
         this.updateDrones(dt);
         this.updateParticles(dt);
@@ -2336,8 +2447,8 @@
       const candidates=[...this.enemies];if(!candidates.length)return;
       const cap=this.isSmallScreen?9:14,count=Math.min(cap,Math.max(4,candidates.length+(combo==='extincionOrbital'?3:0)));
       for(let i=0;i<count;i++){
-        const target=candidates[i%candidates.length],startX=clamp(target.x+rand(250,110),40,this.w+120),startY=rand(-35,-180);
-        this.criticalState.meteors.push({x:startX,y:startY,target,tx:target.x+rand(34,-34),ty:target.y+rand(28,-28),speed:rand(760,590),r:rand(8,5),life:2.1,combo,color:combo==='extincionOrbital'?'#fff0b2':'#ff9b5c'});
+        const target=candidates[i%candidates.length],startX=clamp(target.x+rand(250,110),40,this.w+120),startY=rand(-35,-180),meta=this.mapIndex>=5?this.pickFutureHazard(this.mapIndex+1,'meteor'):null;
+        this.criticalState.meteors.push({x:startX,y:startY,target,tx:target.x+rand(34,-34),ty:target.y+rand(28,-28),speed:rand(760,590),r:rand(8,5),life:2.1,combo,color:combo==='extincionOrbital'?'#fff0b2':'#ff9b5c',spriteKey:meta?.key||null,spriteScale:meta?(meta.drawScale*.32):null,hitboxScale:meta?.hitbox||.74});
       }
     }
 
@@ -2380,7 +2491,10 @@
         ctx.beginPath();for(let i=0;i<11;i++){const a=i*Math.PI*2/11,rr=e.r*(1.05+.13*Math.sin(t+i*1.7));const x=Math.cos(a)*rr,y=Math.sin(a)*rr;i?ctx.lineTo(x,y):ctx.moveTo(x,y);}ctx.closePath();ctx.stroke();ctx.globalAlpha=.09;ctx.fill();ctx.restore();
       }
       for(const m of (this.criticalState?.meteors||[])){
-        ctx.save();ctx.translate(m.x,m.y);ctx.rotate(.78);ctx.shadowBlur=18;ctx.shadowColor=m.color;ctx.strokeStyle=m.color;ctx.lineWidth=3;ctx.globalAlpha=.72;ctx.beginPath();ctx.moveTo(0,0);ctx.lineTo(-34,-34);ctx.stroke();ctx.globalAlpha=1;ctx.fillStyle='#3e2b25';ctx.beginPath();ctx.arc(0,0,m.r,0,Math.PI*2);ctx.fill();ctx.strokeStyle='#ffd6a8';ctx.lineWidth=1.2;ctx.stroke();ctx.restore();
+        ctx.save();ctx.translate(m.x,m.y);ctx.rotate(.78);ctx.shadowBlur=18;ctx.shadowColor=m.color;ctx.strokeStyle=m.color;ctx.lineWidth=3;ctx.globalAlpha=.68;ctx.beginPath();ctx.moveTo(0,0);ctx.lineTo(-34,-34);ctx.stroke();
+        const sprite=m.spriteKey?this.getAsset(m.spriteKey):null;
+        if(sprite){ctx.globalAlpha=1;const w=(m.r*(m.spriteScale||1));const h=w*(sprite.naturalHeight/sprite.naturalWidth);ctx.drawImage(sprite,-w*.5,-h*.5,w,h);}else{ctx.globalAlpha=1;ctx.fillStyle='#3e2b25';ctx.beginPath();ctx.arc(0,0,m.r,0,Math.PI*2);ctx.fill();ctx.strokeStyle='#ffd6a8';ctx.lineWidth=1.2;ctx.stroke();}
+        ctx.restore();
       }
     }
 
@@ -3298,13 +3412,67 @@
       const hist=this.worldSevenState?.enemyHistory||[],cand=pool.filter(id=>!hist.slice(-3).includes(id)),id=pick(cand.length?cand:pool);this.worldSevenState.enemyHistory=[...hist,id].slice(-5);return id;
     }
 
+
+    getFutureHazardPool(world=this.mapIndex+1){
+      return FUTURE_HAZARD_POOLS[world] || FUTURE_HAZARD_POOLS[String(world)] || null;
+    }
+
+    pickFutureHazard(world=this.mapIndex+1,category=null){
+      const pool=this.getFutureHazardPool(world);if(!pool)return null;
+      const w=Math.max(1,this.wave||1);
+      let bucket=category;
+      if(!bucket){
+        const roll=Math.random();
+        const planetGate=w>=3?(world===7?.25:.22):(world===7?.16:.12);
+        const debrisGate=w>=2?(world===7?.58:.62):(world===7?.52:.56);
+        bucket=roll<planetGate?'planet':(roll<debrisGate?'debris':'meteor');
+      }
+      const list=bucket==='planet'?pool.planets:(bucket==='debris'?pool.debris:pool.meteors);
+      if(!list||!list.length)return null;
+      const key=pick(list),meta=FUTURE_HAZARD_LIBRARY[key];
+      return meta?{...meta,key,bucket}:null;
+    }
+
+    buildFutureHazard(world,count=1,fast=false,forcedCategory=null){
+      if(!this.meteors)this.meteors=[];
+      const cap=this.isSmallScreen?5:9;
+      const out=[];
+      for(let i=0;i<count&&this.meteors.length+out.length<cap;i++){
+        const meta=this.pickFutureHazard(world,forcedCategory); if(!meta) continue;
+        const fromLeft=Math.random()<.5;
+        const x=fromLeft?-98:this.w+98;
+        const y=rand(this.h*(world===7?.84:.82),this.h*(world===7?.12:.13));
+        const targetX=fromLeft?this.w+132:-132;
+        const swing=meta.bucket==='planet'?rand(110,-110):(meta.bucket==='debris'?rand(170,-170):rand(190,-190));
+        const targetY=clamp(y+swing,45,this.h-45);
+        const a=Math.atan2(targetY-y,targetX-x);
+        const specs={
+          6:{spFast:[320,235],sp:[235,160],lifeFast:5.9,life:7.8,dmgFast:19,dmg:23,hp:62+this.wave*9,score:38,coins:11,color:'#56c8ff',debris:'#ffb35c',planet:'#ff9d74',spin:2.1},
+          7:{spFast:[285,205],sp:[210,145],lifeFast:6.4,life:8.2,dmgFast:18,dmg:22,hp:64+this.wave*9,score:40,coins:12,color:'#28d9ff',debris:'#6ef0ff',planet:'#7fdfff',spin:1.8},
+          8:{spFast:[300,220],sp:[225,150],lifeFast:6.1,life:8.0,dmgFast:20,dmg:24,hp:70+this.wave*10,score:44,coins:13,color:'#ff5d45',debris:'#d54cff',planet:'#ff7a62',spin:1.65},
+          9:{spFast:[335,245],sp:[245,165],lifeFast:5.8,life:7.6,dmgFast:21,dmg:25,hp:74+this.wave*10,score:48,coins:14,color:'#8a5cff',debris:'#b17cff',planet:'#ff3c63',spin:2.3},
+          10:{spFast:[350,255],sp:[255,175],lifeFast:5.6,life:7.4,dmgFast:22,dmg:27,hp:80+this.wave*11,score:52,coins:15,color:'#ff3232',debris:'#c22cff',planet:'#ff5454',spin:2.45}
+        };
+        const spec=specs[world]||specs[6];
+        const sp=fast?rand(spec.spFast[0],spec.spFast[1]):rand(spec.sp[0],spec.sp[1]);
+        let r=meta.bucket==='planet'?rand(40,28):meta.bucket==='debris'?rand(27,18):rand(world===7?28:29,17);
+        let life=fast?spec.lifeFast:spec.life;
+        let dmg=fast?spec.dmgFast:spec.dmg;
+        let hp=spec.hp;
+        let kind=world===7?'w7echo':(world===8?'w8bio':(world===9?'w9rift':(world===10?'w10zero':'w6echo')));
+        let color=spec.color;
+        if(meta.bucket==='debris'){ life+=.55; dmg+=1; hp+=8; color=spec.debris; kind='wreck'; }
+        if(meta.bucket==='planet'){ r+=10; life+=1.4; dmg+=6; hp+=18; color=spec.planet; kind=Math.random()<.55?'planet':'moon'; }
+        out.push({ kind, x, y, vx:Math.cos(a)*sp, vy:Math.sin(a)*sp, r, life, dmg, color, trail:[], spin:rand(spec.spin,-spec.spin), hp, score:spec.score+(meta.bucket==='planet'?10:(meta.bucket==='debris'?3:0)), coins:spec.coins+(meta.bucket==='planet'?4:(meta.bucket==='debris'?1:0)), spriteKey:meta.key, spriteScale:meta.drawScale, hitboxScale:meta.hitbox, hazardCategory:meta.bucket, assetRole:meta.role, worldTag:world });
+      }
+      return out;
+    }
+
     spawnWorldSixHazard(count=1,fast=false){
-      if(!this.meteors)this.meteors=[];const cap=this.isSmallScreen?5:9;
-      for(let i=0;i<count&&this.meteors.length<cap;i++){const left=Math.random()<.5,x=left?-95:this.w+95,y=rand(this.h*.82,this.h*.13),tx=left?this.w+130:-130,ty=clamp(y+rand(190,-190),45,this.h-45),a=Math.atan2(ty-y,tx-x),sp=fast?rand(320,235):rand(235,160),r=rand(29,17);this.meteors.push({kind:'w6echo',x,y,vx:Math.cos(a)*sp,vy:Math.sin(a)*sp,r,life:fast?5.9:7.8,dmg:fast?19:23,color:'#56c8ff',trail:[],spin:rand(2.1,-2.1),hp:62+this.wave*9,score:38,coins:11,spriteKey:pick(WORLD_SIX_HAZARDS)});}
+      this.buildFutureHazard(6,count,fast).forEach(h=>this.meteors.push(h));
     }
     spawnWorldSevenHazard(count=1,fast=false){
-      if(!this.meteors)this.meteors=[];const cap=this.isSmallScreen?5:9;
-      for(let i=0;i<count&&this.meteors.length<cap;i++){const left=Math.random()<.5,x=left?-95:this.w+95,y=rand(this.h*.84,this.h*.12),tx=left?this.w+130:-130,ty=clamp(y+rand(150,-150),45,this.h-45),a=Math.atan2(ty-y,tx-x),sp=fast?rand(285,205):rand(210,145),r=rand(28,17);this.meteors.push({kind:'w7echo',x,y,vx:Math.cos(a)*sp,vy:Math.sin(a)*sp,r,life:fast?6.4:8.2,dmg:fast?18:22,color:'#28d9ff',trail:[],spin:rand(1.8,-1.8),hp:64+this.wave*9,score:40,coins:12,spriteKey:pick(WORLD_SEVEN_HAZARDS)});}
+      this.buildFutureHazard(7,count,fast).forEach(h=>this.meteors.push(h));
     }
     spawnWorldSixDefenseNode(){
       if(this.enemies.filter(e=>e.world6Node).length>=(this.mobileLandscape?1:2))return;
@@ -3343,11 +3511,73 @@
       return false;
     }
 
+    setupWorldEightIntro(){
+      const p=this.player,w=this.worldEightState;
+      w.eventTimer=5.6;w.rewardTimer=6.8;w.hordeTimer=9.6;w.hazardTimer=5.6;w.gestationTimer=8.0;
+      this.spawnPickup(p.x+48,clamp(p.y-92,64,this.h-64),'power',1,{powerId:'nanorepair',major:true,rewardGlow:true,label:'NANORREPARACIÓN ORGÁNICA',powerDuration:12});
+      this.spawnPickup(p.x-82,p.y-24,'power',1,{powerId:'virus',major:true,rewardGlow:true,label:'ESPORA INFECCIOSA',powerDuration:9});
+      this.spawnPickup(p.x+112,p.y+34,'shield',48,{rewardGlow:true,label:'MEMBRANA +48'});
+      ['w8_acid_1','w8_acid_2','w8_launcher_1'].forEach((id,i)=>this.spawnEnemyNearPlayer(id,-.9+i*.78,318+i*20,true,1.02));
+      this.spawnWorldEightHazard(1,true);
+      this.toast('MUNDO 8 · ACTO 8-1','Entrañas del Huésped Estelar · el escenario está vivo');
+    }
+
+    grantWorldEightPowerReward(step=Math.max(1,this.wave-1)){
+      const w=this.worldEightState||(this.worldEightState={rewardSteps:[]});w.rewardSteps=w.rewardSteps||[];
+      const id=WORLD_EIGHT_CONFIG.rewardPowers[Math.max(0,Math.min(WORLD_EIGHT_CONFIG.rewardPowers.length-1,step-1))];if(!id||w.rewardSteps.includes(id))return null;w.rewardSteps.push(id);return id;
+    }
+
+    spawnWorldEightReward(){
+      const id=this.grantWorldEightPowerReward();if(!id)return;const pow=POWERS.find(x=>x.id===id),p=this.player;
+      this.spawnPickup(p.x+rand(120,-120),clamp(p.y-108,62,this.h-62),'power',1,{powerId:id,major:true,rewardGlow:true,label:pow?.name||'Tecnología Orgánica',powerDuration:POWER_ACTIVE_SECONDS[id]||11});
+      this.toast('◉ BIOGÉNESIS',pow?.name||id);
+    }
+
+    worldEightEnemyId(){
+      const own=WORLD_EIGHT_MINION_FAMILIES.flat(),echo=[...WORLD_SEVEN_MINION_FAMILIES[0],...WORLD_SIX_MINION_FAMILIES[0],...WORLD_FIVE_MINION_FAMILIES[0].slice(0,2)];
+      const useEcho=Math.random()<.22,pool=useEcho?echo:(this.wave<=1?WORLD_EIGHT_MINION_FAMILIES[0]:this.wave===2?[...WORLD_EIGHT_MINION_FAMILIES[0],...WORLD_EIGHT_MINION_FAMILIES[1]]:own);
+      const hist=this.worldEightState?.enemyHistory||[],cand=pool.filter(id=>!hist.slice(-3).includes(id)),id=pick(cand.length?cand:pool);this.worldEightState.enemyHistory=[...hist,id].slice(-5);return id;
+    }
+
+    spawnWorldEightHazard(count=1,fast=false){
+      this.buildFutureHazard(8,count,fast).forEach(h=>this.meteors.push(h));
+    }
+
+    spawnWorldEightGestationPod(count=1,bossMode=false){
+      if(!this.meteors)this.meteors=[];const cap=this.isSmallScreen?5:9;
+      for(let i=0;i<count&&this.meteors.length<cap;i++){
+        const fromLeft=Math.random()<.5,x=fromLeft?-72:this.w+72,y=rand(this.h*.78,this.h*.20),r=bossMode?rand(31,25):rand(28,22);
+        this.meteors.push({kind:'w8pod',gestationPod:true,x,y,vx:(fromLeft?1:-1)*rand(bossMode?64:78,bossMode?38:48),vy:rand(16,-16),r,life:bossMode?10.5:12.5,dmg:bossMode?18:14,color:'#d54cff',trail:[],spin:rand(.65,-.65),hp:(bossMode?86:68)+this.wave*8,maxHp:(bossMode?86:68)+this.wave*8,score:48,coins:14,spriteKey:'world8GestationPod',spriteScale:4.4,hitboxScale:.70,gestationTime:bossMode?2.6:4.2,maxGestation:bossMode?2.6:4.2,bossGestation:bossMode,worldTag:8});
+      }
+    }
+
+    hatchWorldEightPod(m){
+      if(!m)return;const idx=this.meteors.indexOf(m);if(idx>=0)this.meteors.splice(idx,1);
+      const n=this.mobileLandscape?2:3;
+      for(let i=0;i<n;i++){this.spawnEnemy(pick(WORLD_EIGHT_MINION_FAMILIES[2]),true);const e=this.enemies[this.enemies.length-1];if(e&&!e.boss){e.x=clamp(m.x+rand(42,-42),36,this.w-36);e.y=clamp(m.y+rand(38,-38),36,this.h-36);e.hp*=.72;e.baseHp=e.hp;e.r*=.86;e.speed*=1.10;}}
+      if(this.worldEightState)this.worldEightState.podsHatched=(this.worldEightState.podsHatched||0)+1;
+      this.emit(m.x,m.y,'#d54cff',10,100,.55);this.particles.push({type:'ring',x:m.x,y:m.y,r:10,maxR:92,life:.45,max:.45,color:'#ff5d45'});
+    }
+
+    triggerWorldEightHorde(){
+      if(this.wave<2||this.wave>5)return;const n=this.mobileLandscape?(this.wave>=4?6:5):(this.wave>=4?9:7),own=WORLD_EIGHT_MINION_FAMILIES;let heavy=0;
+      for(let i=0;i<n;i++){let fam=i%3,id=pick(own[fam]);if(this.mobileLandscape&&fam===2&&heavy>=2)id=pick(own[i%2]);if(own[2].includes(id))heavy++;setTimeout(()=>this.spawnEnemy(id,true),i*(this.mobileLandscape?160:110));}
+      if(this.wave>=3)this.spawnWorldEightGestationPod(1,false);this.spawnCrossWorldPrizeBurst(2+(this.getDifficulty().hordeRewardBonus||0));this.spawnHordeEmergencyKit();this.worldEightState.hordeSeen=(this.worldEightState.hordeSeen||0)+1;this.toast('◉ HORDA ORGÁNICA',`Formación x${n} · cápsulas de gestación activas`);
+    }
+
+    updateWorldEightDirector(dt){
+      if(this.mapIndex!==7||this.bossActive||this.run?.mapComplete)return false;const w=this.worldEightState;if(!w)return false;
+      w.rewardTimer=(w.rewardTimer??7)-dt;if(w.rewardTimer<=0&&this.wave<5){this.spawnCrossWorldTacticalPrize();w.rewardTimer=rand(16,12);}
+      w.gestationTimer=(w.gestationTimer??9)-dt*(this.getDifficulty().eventPace||1);if(w.gestationTimer<=0&&this.wave>=2){this.spawnWorldEightGestationPod(this.wave>=4?2:1,false);w.gestationTimer=rand(this.wave>=4?10:14,this.wave>=4?7:9);}
+      w.eventTimer=(w.eventTimer??7)-dt*(this.getDifficulty().eventPace||1);if(w.eventTimer<=0&&this.wave<5){Math.random()<.52?this.spawnWorldEightHazard(this.wave>=4?2:1,true):this.spawnWorldEightGestationPod(1,false);w.eventTimer=(WORLD_EIGHT_ACTS[this.wave-1]?.eventEvery||8.5)+rand(1.7,-.8);}
+      return false;
+    }
+
     updateDomainSignature(dt){
       const p=this.player;if(!p||!p.domainForm||p.domainForm==='rizoma')return;const meta=domainFormMeta(p.domainForm);if(!meta)return;
       p.domainSignatureCd=Math.max(0,(p.domainSignatureCd??2)-dt);if(p.domainSignatureCd>0||!this.enemies.length)return;
       const world=meta.world,target=this.enemies.filter(e=>!e.boss).sort((a,b)=>dist2(a,p)-dist2(b,p))[0]||this.bossActive;if(!target)return;
-      p.domainSignatureCd=(meta.signatureCd||[0,14,15,13,15,16,16,18][world]||16)*(world===6?.95:1);
+      p.domainSignatureCd=(meta.signatureCd||[0,14,15,13,15,16,16,18,19][world]||16)*(world===6?.95:1);
       const color=meta.color||'#61ffc8';AudioFX.domain(world);
       if(world===1){this.activateCriticalIntervention('meteorStrike');}
       else if(world===2){this.enemies.filter(e=>!e.boss).slice(0,4).forEach(e=>{e.virus=Math.max(e.virus||0,3.2);this.damageEnemy(e,this.criticalDamageFor(e,.35),{virus:1,color,silent:true});});}
@@ -3356,6 +3586,7 @@
       else if(world===5){this.zones.push({x:target.x,y:target.y,r:66,life:2.3,max:2.3,type:'bossGravity',pull:18});this.enemies.filter(e=>!e.boss&&Math.hypot(e.x-target.x,e.y-target.y)<150).forEach(e=>this.damageEnemy(e,this.criticalDamageFor(e,.35),{color,silent:true}));}
       else if(world===6){this.particles.push({type:'ring',x:p.x,y:p.y,r:22,maxR:240,life:.55,max:.55,color});this.enemies.forEach(e=>{if(e.boss)this.damageEnemy(e,e.baseHp*.012,{criticalBurst:true,color,silent:true});else{this.damageEnemy(e,this.criticalDamageFor(e,.38),{slow:.9,color,silent:true});e.familyFire=(e.familyFire||1)+1.1;}});}
       else if(world===7){this.particles.push({type:'ring',x:p.x+80,y:p.y,r:28,maxR:260,life:.62,max:.62,color});this.bullets=this.bullets.filter(b=>!b.enemy||b.x<p.x-10);this.enemies.forEach(e=>{if(e.x>=p.x-30){if(e.boss)this.damageEnemy(e,e.baseHp*.011,{criticalBurst:true,color,silent:true});else{this.damageEnemy(e,this.criticalDamageFor(e,.42),{slow:.6,color,silent:true});e.x+=50;}}});}
+      else if(world===8){this.particles.push({type:'ring',x:p.x,y:p.y,r:24,maxR:230,life:.7,max:.7,color});this.spawnWorldEightGestationPod(1,true);this.enemies.filter(e=>!e.boss).slice(0,5).forEach(e=>{e.virus=Math.max(e.virus||0,2.8);this.damageEnemy(e,this.criticalDamageFor(e,.34),{virus:1,color,silent:true});});p.hp=Math.min(p.maxHp,p.hp+Math.max(3,p.maxHp*.025));}
       if((p.domainSignatureNotice||0)<1){p.domainSignatureNotice=1;this.toast(`FIRMA · ${meta.signature||meta.name}`,`Poder heredado del Guardián · recarga ${Math.round(p.domainSignatureCd)}s`);}
     }
 
@@ -4047,6 +4278,7 @@
       if(this.mapIndex===4){const wide=this.w>=1100,mid=this.w>=760,targetCount=wide?[10,11,13,14,11][this.wave-1]:(mid?[9,10,12,13,10][this.wave-1]:[7,8,10,11,8][this.wave-1]),interval=[.90,.84,.80,.74,.88][this.wave-1]||.82;const w5=this.worldFiveState||{};w5.hazardTimer=(w5.hazardTimer??6.8)-dt*(this.getDifficulty().hazardPace||1);w5.hordeTimer=(w5.hordeTimer??11.8)-dt*(this.getDifficulty().hordePace||1);this.worldFiveState=w5;if(w5.hazardTimer<=0){this.spawnWorldFiveHazard(this.wave>=4?2:1,true);w5.hazardTimer=rand(this.wave>=4?6.8:8.6,this.wave>=4?4.8:6.0);}if(w5.hordeTimer<=0&&this.wave>=2){this.triggerWorldFiveHorde();w5.hordeTimer=rand(this.wave>=4?14:18,this.wave>=4?10:13);}if(this.spawnTime<=0&&this.enemies.length<targetCount){let amount=(this.wave>=2&&this.enemies.length<targetCount*.48)?2:1;if(this.wave>=4&&this.enemies.length<targetCount*.32)amount=3;for(let i=0;i<amount;i++)this.spawnEnemy(this.worldFiveEnemyId(),this.wave<5);this.spawnTime=interval+rand(.12,-.08);}return;}
       if(this.mapIndex===5){const wide=this.w>=1100,mid=this.w>=760,targetCount=wide?[11,12,14,15,12][this.wave-1]:(mid?[10,11,13,14,11]:[7,8,10,11,9])[this.wave-1],interval=[.88,.82,.76,.70,.84][this.wave-1]||.78,w=this.worldSixState;w.hazardTimer=(w.hazardTimer??6.4)-dt*(this.getDifficulty().hazardPace||1);w.hordeTimer=(w.hordeTimer??10.8)-dt*(this.getDifficulty().hordePace||1);if(w.hazardTimer<=0){this.spawnWorldSixHazard(this.wave>=4?2:1,true);w.hazardTimer=rand(7.2,4.8);}if(w.hordeTimer<=0&&this.wave>=2){this.triggerWorldSixHorde();w.hordeTimer=rand(this.wave>=4?13:17,this.wave>=4?9:12);}if(this.spawnTime<=0&&this.enemies.length<targetCount){const amount=this.wave>=3&&this.enemies.length<targetCount*.42?2:1;for(let i=0;i<amount;i++)this.spawnEnemy(this.worldSixEnemyId(),this.wave<5);this.spawnTime=interval+rand(.10,-.06);}return;}
       if(this.mapIndex===6){const wide=this.w>=1100,mid=this.w>=760,targetCount=wide?[11,13,14,16,12][this.wave-1]:(mid?[10,12,13,15,11]:[7,9,10,12,9])[this.wave-1],interval=[.86,.80,.74,.68,.82][this.wave-1]||.76,w=this.worldSevenState;w.hazardTimer=(w.hazardTimer??6.2)-dt*(this.getDifficulty().hazardPace||1);w.hordeTimer=(w.hordeTimer??10.2)-dt*(this.getDifficulty().hordePace||1);if(w.hazardTimer<=0){this.spawnWorldSevenHazard(this.wave>=4?2:1,true);w.hazardTimer=rand(7.0,4.6);}if(w.hordeTimer<=0&&this.wave>=2){this.triggerWorldSevenHorde();w.hordeTimer=rand(this.wave>=4?12.5:16.5,this.wave>=4?8.8:11.5);}if(this.spawnTime<=0&&this.enemies.length<targetCount){const amount=this.wave>=3&&this.enemies.length<targetCount*.40?2:1;for(let i=0;i<amount;i++)this.spawnEnemy(this.worldSevenEnemyId(),this.wave<5);this.spawnTime=interval+rand(.10,-.06);}return;}
+      if(this.mapIndex===7){const wide=this.w>=1100,mid=this.w>=760,targetCount=wide?[12,13,15,17,13][this.wave-1]:(mid?[10,12,14,16,12]:[7,9,11,13,10])[this.wave-1],interval=[.84,.78,.72,.66,.80][this.wave-1]||.74,w=this.worldEightState;w.hazardTimer=(w.hazardTimer??6.0)-dt*(this.getDifficulty().hazardPace||1);w.hordeTimer=(w.hordeTimer??9.8)-dt*(this.getDifficulty().hordePace||1);if(w.hazardTimer<=0){this.spawnWorldEightHazard(this.wave>=4?2:1,true);w.hazardTimer=rand(6.8,4.4);}if(w.hordeTimer<=0&&this.wave>=2){this.triggerWorldEightHorde();w.hordeTimer=rand(this.wave>=4?12:16,this.wave>=4?8.5:11);}if(this.spawnTime<=0&&this.enemies.length<targetCount){const amount=this.wave>=3&&this.enemies.length<targetCount*.40?2:1;for(let i=0;i<amount;i++)this.spawnEnemy(this.worldEightEnemyId(),this.wave<5);this.spawnTime=interval+rand(.10,-.06);}return;}
       const targetCount = 6 + this.wave * 3 + Math.floor(this.mapIndex * 1.5);
       const interval = Math.max(.42, 1.45 - this.wave * .05 - this.mapIndex * .02);
       if (this.spawnTime <= 0 && this.enemies.length < targetCount) {
@@ -4078,6 +4310,7 @@
       if(this.mapIndex===4){const A=WORLD_FIVE_MINION_FAMILIES[0],B=WORLD_FIVE_MINION_FAMILIES[1];if(this.wave===1)return[...A];if(this.wave===2)return[...A,...B.slice(0,1)];if(this.wave===3)return[...A,...B.slice(0,2)];return[...A,...B];}
       if(this.mapIndex===5)return [...WORLD_SIX_MINION_FAMILIES.flat(),...WORLD_FIVE_MINION_FAMILIES[0]];
       if(this.mapIndex===6)return [...WORLD_SEVEN_MINION_FAMILIES.flat(),...WORLD_SIX_MINION_FAMILIES[0],...WORLD_TWO_MINION_FAMILIES[0].slice(0,2)];
+      if(this.mapIndex===7)return [...WORLD_EIGHT_MINION_FAMILIES.flat(),...WORLD_SEVEN_MINION_FAMILIES[0],...WORLD_SIX_MINION_FAMILIES[0].slice(0,1)];
       const pool = ['errante'];
       if (this.wave > 1) pool.push('corredor','esquivo','cazador');
       if (this.wave > 2) pool.push('blindado');
@@ -4185,18 +4418,23 @@
         m.trail.forEach(t => t.life -= dt);
         m.x += m.vx * dt;
         m.y += m.vy * dt;
+        if(m.gestationPod){
+          m.gestationTime=Math.max(0,(m.gestationTime??m.maxGestation??4)-dt);
+          if(m.gestationTime<=0){this.hatchWorldEightPod(m);continue;}
+        }
         if (m.kind === 'bomb' && m.y > this.h - 42) {
           this.explode(m.x, this.h - 42, m.r * 4.5, m.dmg * 1.15);
           this.shake = Math.max(this.shake, 7);
           this.meteors.splice(i, 1);
           continue;
         }
-        if (Math.hypot(m.x - p.x, m.y - p.y) < m.r + p.r) {
+        const hitR=(m.r||0)*(m.hitboxScale||1);
+        if (Math.hypot(m.x - p.x, m.y - p.y) < hitR + p.r) {
           if(m.pressureBubble){const dx=p.x-m.x,dy=p.y-m.y,d=Math.hypot(dx,dy)||1;p.x=clamp(p.x+dx/d*18,24,this.w-24);p.y=clamp(p.y+dy/d*14,24,this.h-24);m.hp=Math.max(0,(m.hp||1)-8);if(m.hp<=0){this.destroyHazard(m);continue;}}
           else{this.playerHit(m.dmg);this.explode(m.x, m.y, m.r * 3.8, m.dmg * 1.4);this.meteors.splice(i, 1);continue;}
         }
         for (const e of this.enemies) {
-          if (!e.boss && Math.hypot(m.x - e.x, m.y - e.y) < m.r + e.r) {
+          if (!m.gestationPod && !e.boss && Math.hypot(m.x - e.x, m.y - e.y) < hitR + e.r) {
             this.damageEnemy(e, m.dmg * 1.8, { fire: 1, color: m.color });
             if (Math.random() < .75) { this.explode(m.x, m.y, m.r * 3.5, m.dmg); this.meteors.splice(i, 1); }
             break;
@@ -4361,18 +4599,18 @@
         family: map.family,
         pattern: map.pattern,
         variant: map.variant || 1,
-        summons: this.mapIndex===1?WORLD_TWO_MINION_FAMILIES.flat():(this.mapIndex===2?WORLD_THREE_MINION_FAMILIES.flat():(this.mapIndex===3?WORLD_FOUR_MINION_FAMILIES.flat():(this.mapIndex===4?WORLD_FIVE_MINION_FAMILIES.flat():(this.mapIndex===5?WORLD_SIX_MINION_FAMILIES.flat():(this.mapIndex===6?WORLD_SEVEN_MINION_FAMILIES.flat():(map.summons||[])))))),
+        summons: this.mapIndex===1?WORLD_TWO_MINION_FAMILIES.flat():(this.mapIndex===2?WORLD_THREE_MINION_FAMILIES.flat():(this.mapIndex===3?WORLD_FOUR_MINION_FAMILIES.flat():(this.mapIndex===4?WORLD_FIVE_MINION_FAMILIES.flat():(this.mapIndex===5?WORLD_SIX_MINION_FAMILIES.flat():(this.mapIndex===6?WORLD_SEVEN_MINION_FAMILIES.flat():(this.mapIndex===7?WORLD_EIGHT_MINION_FAMILIES.flat():(map.summons||[]))))))),
         specialName: boss2Meta(this.mapIndex).special,
         x, y,
-        targetY: this.mobileLandscape ? this.h * .17 : this.h * ([.18,.22,.20,.21,.22,.20,.21][this.mapIndex] || .18),
+        targetY: this.mobileLandscape ? this.h * .17 : this.h * ([.18,.22,.20,.21,.22,.20,.21,.20][this.mapIndex] || .18),
         hp,
         baseHp: hp,
-        speed: ([33,34,40,43,46,48,50][this.mapIndex] || 50) + this.mapIndex * 1.5,
+        speed: ([33,34,40,43,46,48,50,52][this.mapIndex] || 52) + this.mapIndex * 1.5,
         // En móvil el hitbox se compacta; la presencia épica queda en aura, patrón y audio, no en ocupar el lienzo.
-        r: ([36,54,58,62,68,70,72][this.mapIndex] || 72) * (this.mobileLandscape ? (.78*.88) : (this.mobilePortrait ? .66 : 1)),
+        r: ([36,54,58,62,68,70,72,74][this.mapIndex] || 74) * (this.mobileLandscape ? (.78*.88) : (this.mobilePortrait ? .66 : 1)),
         t: 0,
-        attack: ([2.55,2.28,1.95,1.88,1.82,1.72,1.68][this.mapIndex] || 1.7),
-        specialCd: ([6.6,6.0,5.3,5.0,4.6,4.4,4.25][this.mapIndex] || 4.4),
+        attack: ([2.55,2.28,1.95,1.88,1.82,1.72,1.68,1.62][this.mapIndex] || 1.62),
+        specialCd: ([6.6,6.0,5.3,5.0,4.6,4.4,4.25,4.15][this.mapIndex] || 4.15),
         specialTelegraph: 0,
         specialTelegraphMax: 0,
         phase: 1,
@@ -4382,7 +4620,7 @@
         vulnerable: 0,
         summonPressure: 0,
         boss: true,
-        minionFamilies:this.mapIndex===0?WORLD_ONE_MINION_FAMILIES:(this.mapIndex===1?WORLD_TWO_MINION_FAMILIES:(this.mapIndex===2?WORLD_THREE_MINION_FAMILIES:(this.mapIndex===3?WORLD_FOUR_MINION_FAMILIES:(this.mapIndex===4?WORLD_FIVE_MINION_FAMILIES:(this.mapIndex===5?WORLD_SIX_MINION_FAMILIES:(this.mapIndex===6?WORLD_SEVEN_MINION_FAMILIES:[]))))))
+        minionFamilies:this.mapIndex===0?WORLD_ONE_MINION_FAMILIES:(this.mapIndex===1?WORLD_TWO_MINION_FAMILIES:(this.mapIndex===2?WORLD_THREE_MINION_FAMILIES:(this.mapIndex===3?WORLD_FOUR_MINION_FAMILIES:(this.mapIndex===4?WORLD_FIVE_MINION_FAMILIES:(this.mapIndex===5?WORLD_SIX_MINION_FAMILIES:(this.mapIndex===6?WORLD_SEVEN_MINION_FAMILIES:(this.mapIndex===7?WORLD_EIGHT_MINION_FAMILIES:[])))))))
       };
       this.bossActive.attack *= this.getDifficulty().bossCadence || 1;
       this.bossActive.specialCd *= this.getDifficulty().bossCadence || 1;
@@ -4429,6 +4667,7 @@
       else if(this.mapIndex===4){WORLD_FIVE_MINION_FAMILIES.forEach((fam,fi)=>{for(let i=0;i<(this.mobileLandscape?1:2);i++){this.spawnEnemy(pick(fam),true);const escort=this.enemies[this.enemies.length-1];if(escort&&!escort.boss){escort.bossEscort=true;escort.bossFamilyIndex=fi;escort.hp*=1.24;escort.baseHp=escort.hp;escort.r*=1.04;}}});this.spawnWorldFiveHazard(2,true);this.toast('GUARDIA DE SINGULARIDAD','El Coloso convoca dos familias del vacío');}
       else if(this.mapIndex===5){WORLD_SIX_MINION_FAMILIES.forEach((fam,fi)=>{for(let i=0;i<(this.mobileLandscape?1:2);i++){this.spawnEnemy(pick(fam),true);const e=this.enemies[this.enemies.length-1];if(e&&!e.boss){e.bossEscort=true;e.bossFamilyIndex=fi;e.hp*=1.25;e.baseHp=e.hp;}}});this.spawnWorldSixDefenseNode();this.spawnWorldSixHazard(2,true);this.toast('RED OMEGA','Tres familias y nodos sostienen al Magnate');}
       else if(this.mapIndex===6){WORLD_SEVEN_MINION_FAMILIES.forEach((fam,fi)=>{for(let i=0;i<(this.mobileLandscape?1:2);i++){this.spawnEnemy(pick(fam),true);const e=this.enemies[this.enemies.length-1];if(e&&!e.boss){e.bossEscort=true;e.bossFamilyIndex=fi;e.hp*=1.26;e.baseHp=e.hp;}}});this.spawnWorldSevenHazard(2,true);this.toast('CORTE ABISAL','El Leviatán convoca tres familias del océano');}
+      else if(this.mapIndex===7){WORLD_EIGHT_MINION_FAMILIES.forEach((fam,fi)=>{for(let i=0;i<(this.mobileLandscape?1:2);i++){this.spawnEnemy(pick(fam),true);const e=this.enemies[this.enemies.length-1];if(e&&!e.boss){e.bossEscort=true;e.bossFamilyIndex=fi;e.hp*=1.27;e.baseHp=e.hp;}}});this.spawnWorldEightGestationPod(this.mobileLandscape?2:3,true);this.spawnWorldEightHazard(2,true);this.toast('NIDO PRIMIGENIO','Tres familias y cápsulas vivas protegen al Tardígrado');}
     }
 
     updateEnemies(dt) {
@@ -4485,7 +4724,12 @@
         }
         if(!e.boss&&e.futureWorld){
           e.futureFire=(e.futureFire||rand(2.8,1.3))-dt;
-          if(e.futureFire<=0&&d<760){const a=Math.atan2(p.y-e.y,p.x-e.x),tier=(e.r>=24?'medium':'small');AudioFX.futureMinionShot(e.futureWorld,tier,e.familyIndex||0);const spread=e.futureWorld===7?.10:.065;this.addEnemyBullet(e.x,e.y,a+rand(spread,-spread),e.futureWorld===7?190:225,(e.futureWorld===7?7:8)+(e.familyIndex||0)*1.4,e.color,{r:e.familyIndex===2?6:4.5,life:3.7,wobble:e.futureWorld===7?.5:0});e.futureFire=rand(e.familyIndex===2?3.4:2.6,e.familyIndex===2?2.2:1.5);}
+          if(e.futureFire<=0&&d<780){
+            const a=Math.atan2(p.y-e.y,p.x-e.x),tier=(e.r>=24?'medium':'small'),fam=e.familyIndex||0;AudioFX.futureMinionShot(e.futureWorld,tier,fam);
+            let spread=e.futureWorld===7?.10:.065,speed=e.futureWorld===7?190:225,damage=(e.futureWorld===7?7:8)+fam*1.4,opts={r:fam===2?6:4.5,life:3.7,wobble:e.futureWorld===7?.5:0};
+            if(e.futureWorld===8){spread=fam===0?.13:(fam===1?.075:.055);speed=fam===0?175:(fam===1?220:188);damage=8.5+fam*1.6;opts={...opts,r:fam===2?6.8:5.2,life:4.1,wobble:fam===0?.65:.18,shape:fam===1?'lance':'spore',spriteKey:fam===0?'world8ShotAcid':(fam===1?'world8ShotSpine':'world8ShotParasite'),spriteScale:fam===1?3.0:3.35};}
+            this.addEnemyBullet(e.x,e.y,a+rand(spread,-spread),speed,damage,e.color,opts);e.futureFire=rand(fam===2?3.5:2.7,fam===2?2.25:1.55);
+          }
         }
         if (e.behavior === 'mirror') {
           const orbit = Math.sin(e.t * 1.8) * .9;
@@ -4653,7 +4897,7 @@
         const count=hard?5:4;for(let i=0;i<count;i++){this.spawnEnemy(pick(this.enemyPool()),true);const e=this.enemies[this.enemies.length-1];if(e&&!e.boss){e.hp*=1.18;e.baseHp=e.hp;e.score=Math.ceil((e.score||20)*1.55);e.coins=Math.ceil((e.coins||3)*1.45);e.rareConvoy=true;}}
         this.toast('CONVOY ÉLITE','Recompensa aumentada');
       } else {
-        if(this.mapIndex===2)this.spawnWorldThreeHazard(hard?3:2,true);else if(this.mapIndex===3)this.spawnWorldFourHazard(hard?3:2,true);else if(this.mapIndex===4)this.spawnWorldFiveHazard(hard?3:2,true);else if(this.mapIndex===5)this.spawnWorldSixHazard(hard?3:2,true);else if(this.mapIndex===6)this.spawnWorldSevenHazard(hard?3:2,true);else this.spawnMeteorRain(hard?4:3,true);
+        if(this.mapIndex===2)this.spawnWorldThreeHazard(hard?3:2,true);else if(this.mapIndex===3)this.spawnWorldFourHazard(hard?3:2,true);else if(this.mapIndex===4)this.spawnWorldFiveHazard(hard?3:2,true);else if(this.mapIndex===5)this.spawnWorldSixHazard(hard?3:2,true);else if(this.mapIndex===6)this.spawnWorldSevenHazard(hard?3:2,true);else if(this.mapIndex===7)this.spawnWorldEightHazard(hard?3:2,true);else this.spawnMeteorRain(hard?4:3,true);
         this.spawnHordeEmergencyKit();
         this.toast('FRENTE DE ESCOMBROS','Meteoros y apoyo táctico');
       }
@@ -4665,7 +4909,7 @@
     }
 
     boss2Pattern(b){
-      if(this.mapIndex<0||this.mapIndex>6)return false;
+      if(this.mapIndex<0||this.mapIndex>7)return false;
       const p=this.player,meta=boss2Meta(this.mapIndex),base=Math.atan2(p.y-b.y,p.x-b.x),phase=b.phase||1;
       if(this.mapIndex>=5)AudioFX.futureBossShot(this.mapIndex+1);else AudioFX.bossShot(this.mapIndex);
       if(this.mapIndex===0){
@@ -4680,14 +4924,16 @@
         const count=2+Math.min(2,phase);for(let i=0;i<count;i++){const off=(i-(count-1)/2)*.18;this.fireBossProjectile(b,base+off,145+phase*12,11+phase*2,'void',meta.color,{r:9.5,life:4.8,bossHoming:phase>=3,turnRate:.34});}if(phase>=2)this.fireBossProjectile(b,base,310+phase*14,10+phase*2,'lance',meta.accent,{r:5,life:3.1,trail:true});
       }else if(this.mapIndex===5){
         const count=3+phase;for(let i=0;i<count;i++){const off=(i-(count-1)/2)*.105;this.fireBossProjectile(b,base+off,230+phase*17,10+phase*2,'lance',meta.color,{r:5.5,life:3.6,trail:true});}if(phase>=2&&Math.random()<.55)this.fireBossProjectile(b,base+rand(.45,-.45),190,9+phase*2,'spore',meta.accent,{r:6.5,life:4.2,bossHoming:true,turnRate:.55});
-      }else{
+      }else if(this.mapIndex===6){
         const count=4+phase;for(let i=0;i<count;i++){const off=(i-(count-1)/2)*.13;this.fireBossProjectile(b,base+off,178+phase*13,9+phase*2,'spore',meta.color,{r:6.2,life:4.4,wobble:.65,bossHoming:phase>=3,turnRate:.38});}
+      }else{
+        const count=4+phase;for(let i=0;i<count;i++){const off=(i-(count-1)/2)*.12;this.fireBossProjectile(b,base+off,168+phase*12,10+phase*2,'spore',meta.color,{r:6.4,life:4.7,wobble:.72,bossHoming:phase>=3,turnRate:.30,spriteKey:'world8ShotAcid',spriteScale:3.35});}if(phase>=2){const side=(Math.random()<.5?-1:1)*.42;this.fireBossProjectile(b,base+side,250+phase*16,12+phase*2,'lance',meta.accent,{r:5.4,life:3.5,trail:true,spriteKey:'world8ShotSpine',spriteScale:3.0});}
       }
       return true;
     }
 
     boss2Special(b){
-      if(this.mapIndex<0||this.mapIndex>6)return false;
+      if(this.mapIndex<0||this.mapIndex>7)return false;
       const p=this.player,meta=boss2Meta(this.mapIndex),phase=b.phase||1;
       this.toast(meta.intro,meta.special.toUpperCase());if(this.mapIndex>=5)AudioFX.futureBossSpecial(this.mapIndex+1);else AudioFX.bossSpecial(this.mapIndex);
       if(this.mapIndex===0){
@@ -4702,8 +4948,10 @@
         this.zones.push({x:clamp(p.x+rand(38,-38),55,this.w-55),y:clamp(p.y+rand(34,-34),55,this.h-55),r:58+phase*5,life:3.4,max:3.4,type:'bossGravity',pull:24+phase*4});const shots=8+phase;for(let i=0;i<shots;i++){if(i%4===0)continue;const a=(Math.PI*2/shots)*i+b.t*.25;this.fireBossProjectile(b,a,130+phase*12,12+phase*2,'void',meta.color,{r:9.5,life:5,bossHoming:false});}const base=Math.atan2(p.y-b.y,p.x-b.x);this.fireBossProjectile(b,base,335+phase*15,14+phase*2,'lance',meta.accent,{r:5.5,life:3.2,trail:true});
       }else if(this.mapIndex===5){
         this.particles.push({type:'ring',x:b.x,y:b.y,r:24,maxR:220,life:.75,max:.75,color:meta.accent});for(let i=0;i<2+Math.min(2,phase);i++)this.spawnWorldSixDefenseNode();const shots=7+phase*2;for(let i=0;i<shots;i++){if(i%5===0)continue;const a=(Math.PI*2/shots)*i+b.t*.2;this.fireBossProjectile(b,a,190+phase*14,11+phase*2,'lance',i%2?meta.color:meta.accent,{r:5.2,life:4,trail:true});}p.shield=Math.max(0,p.shield-(4+phase*2));
-      }else{
+      }else if(this.mapIndex===6){
         const gap=Math.floor(rand(5,1)),lanes=7;for(let i=0;i<lanes;i++){if(Math.abs(i-gap)<=0)continue;const yy=(i+.5)*(this.h/lanes);const a=Math.atan2(yy-b.y,this.w*.15-b.x);this.fireBossProjectile(b,a,185+phase*12,10+phase*2,'spore',meta.color,{r:8,life:5,wobble:.45});}if(this.worldSevenState){this.worldSevenState.currentDir=Math.random()<.5?-1:1;this.worldSevenState.currentActive=Math.max(this.worldSevenState.currentActive||0,2.8);}this.particles.push({type:'ring',x:b.x,y:b.y,r:30,maxR:260,life:.8,max:.8,color:meta.accent});
+      }else{
+        const pods=Math.min(this.mobileLandscape?3:4,2+Math.floor(phase/2));this.spawnWorldEightGestationPod(pods,true);this.particles.push({type:'ring',x:b.x,y:b.y,r:26,maxR:270,life:.9,max:.9,color:meta.accent});const shots=6+phase*2;for(let i=0;i<shots;i++){if(i%4===0)continue;const a=(Math.PI*2/shots)*i+b.t*.18;this.fireBossProjectile(b,a,155+phase*12,10+phase*2,'spore',i%2?meta.color:meta.accent,{r:7,life:5,wobble:.8,spriteKey:i%2?'world8ShotParasite':'world8ShotBioplasma',spriteScale:3.2});}
       }
       if(phase>=2&&Math.random()<.45){const fams=b.minionFamilies||[];const fam=fams.length?pick(fams):null;if(fam)this.spawnEnemy(pick(fam),true);}
       b.specialCd=Math.max(this.mapIndex===4?5.2:4.8,(7.2-this.mapIndex*.28)-phase*.45)*(this.getDifficulty().bossCadence||1);
@@ -4802,7 +5050,7 @@
     addEnemyBullet(x, y, angle, speed, damage, color, options={}) {
       const enemyCount = this.bullets.filter(b => b.enemy).length;
       if (enemyCount > Math.floor((this.maxBullets || 180) * .35)) return;
-      this.bullets.push({ x, y, vx: Math.cos(angle) * speed, vy: Math.sin(angle) * speed, r: options.r || 5, damage, life: options.life || 3.2, enemy: true, type:'enemyBolt', color, shape:options.shape||'bolt', trail:!!options.trail, spin:options.spin||0, rot:angle, bossHoming:!!options.bossHoming, turnRate:options.turnRate||0, wobble:options.wobble||0, age:0 });
+      this.bullets.push({ x, y, vx: Math.cos(angle) * speed, vy: Math.sin(angle) * speed, r: options.r || 5, damage, life: options.life || 3.2, enemy: true, type:'enemyBolt', color, shape:options.shape||'bolt', trail:!!options.trail, spin:options.spin||0, rot:angle, bossHoming:!!options.bossHoming, turnRate:options.turnRate||0, wobble:options.wobble||0, spriteKey:options.spriteKey||null, spriteScale:options.spriteScale||null, age:0 });
     }
 
     destroyHazard(m) {
@@ -4853,7 +5101,7 @@
         } else {
           if (this.meteors?.length) {
             for (const m of [...this.meteors]) {
-              if (Math.hypot(b.x - m.x, b.y - m.y) < b.r + m.r) {
+              if (Math.hypot(b.x - m.x, b.y - m.y) < b.r + m.r*(m.hitboxScale||1)) {
                 m.hp = Math.max(0, (m.hp || 20) - b.damage * (b.type === 'torpedo' ? 1.35 : 1));
                 this.emit(b.x, b.y, m.kind === 'bomb' ? '#ff7b32' : '#ffd56a', 3, 70, .22);
                 b.pierce -= 1;
@@ -5463,7 +5711,8 @@
         { id:'world4Hex', name:'Sello Astral', desc:'Mejora de precisión y defensa.' },
         { id:'world5Spirit', name:'Fragmento del Vacío', desc:'Conserva la firma de singularidad del Coloso.' },
         { id:'world6Neural', name:'Núcleo Neural', desc:'Firma DOMINIO: Pulso Necrored. La red construye una civilización propia.' },
-        { id:'world7Abyss', name:'Corazón Abisal', desc:'Firma DOMINIO: Marea Viva. La tecnología bajo el océano no parece humana.' }
+        { id:'world7Abyss', name:'Corazón Abisal', desc:'Firma DOMINIO: Marea Viva. La tecnología bajo el océano no parece humana.' },
+        { id:'world8Genesis', name:'Génesis Orgánica', desc:'Firma DOMINIO: Gestación Masiva. Potencia nanorreparación, regeneración y control biológico.' }
       ];
       const reward = rewards[this.mapIndex] || rewards[0];
       p.relics = p.relics || {};
@@ -5707,6 +5956,7 @@
         worldFiveState:this.mapIndex===4?{...(this.worldFiveState||{})}:null,
         worldSixState:this.mapIndex===5?{...(this.worldSixState||{})}:null,
         worldSevenState:this.mapIndex===6?{...(this.worldSevenState||{})}:null,
+        worldEightState:this.mapIndex===7?{...(this.worldEightState||{})}:null,
         powerQueue:[...(this.powerQueue||[])],
         recentPowerHistory:[...(this.recentPowerHistory||[])],
         extraLives: this.extraLives,
@@ -5745,6 +5995,7 @@
         worldFiveState:this.mapIndex===4?this.worldFiveState:null,
         worldSixState:this.mapIndex===5?this.worldSixState:null,
         worldSevenState:this.mapIndex===6?this.worldSevenState:null,
+        worldEightState:this.mapIndex===7?this.worldEightState:null,
         extraLives: this.extraLives,
         nextLifeScore: this.nextLifeScore
       };
@@ -5792,6 +6043,7 @@
         } else if(this.mapIndex===2){const act=WORLD_THREE_ACTS[this.wave-1],bossPct=this.getBossApproachPercent();els.xpLabel.textContent=`L${this.wave}/5 · ${act?.name||'Mundo 3'} · eliminados ${this.worldStage?.kills||0}/${this.getWorldStageTarget(this.wave)} · JEFE ${bossPct}%`;}
         else if(this.mapIndex===5){const act=WORLD_SIX_ACTS[this.wave-1],bossPct=this.getBossApproachPercent();els.xpLabel.textContent=`L${this.wave}/5 · ${act?.name||'Necrored'} · ${this.worldStage?.kills||0}/${this.getWorldStageTarget(this.wave)} · JEFE ${bossPct}%`;}
         else if(this.mapIndex===6){const act=WORLD_SEVEN_ACTS[this.wave-1],bossPct=this.getBossApproachPercent();els.xpLabel.textContent=`L${this.wave}/5 · ${act?.name||'Mar Alienígena'} · ${this.worldStage?.kills||0}/${this.getWorldStageTarget(this.wave)} · JEFE ${bossPct}%`;}
+        else if(this.mapIndex===7){const act=WORLD_EIGHT_ACTS[this.wave-1],bossPct=this.getBossApproachPercent();els.xpLabel.textContent=`L${this.wave}/5 · ${act?.name||'Entrañas del Huésped'} · ${this.worldStage?.kills||0}/${this.getWorldStageTarget(this.wave)} · JEFE ${bossPct}% · PODS ${this.worldEightState?.podsHatched||0}`;}
         else els.xpLabel.textContent = `Nivel ${this.player.level} · eliminados ${this.worldStage?.kills || 0}/${this.getWorldStageTarget(this.wave)}`;
       }
       if (els.hudLives) els.hudLives.textContent = Math.min(MAX_TOTAL_LIVES, this.extraLives + (this.running ? 1 : 0));
@@ -6028,6 +6280,14 @@
         if(boss&&level>=3&&!this.bossActive){ctx.save();const ww=this.w*(.065+level*.014),hh=ww*(boss.naturalHeight/boss.naturalWidth);ctx.globalAlpha=.018+level*.010;ctx.filter='brightness(.34) saturate(.82)';ctx.drawImage(boss,this.w*(.73-level*.017),this.h*.08,ww,hh);ctx.restore();}
         ctx.save();const g=ctx.createLinearGradient(0,0,0,this.h);g.addColorStop(0,'rgba(16,112,150,.11)');g.addColorStop(1,level>=4?'rgba(0,20,40,.30)':'rgba(0,34,46,.20)');ctx.fillStyle=g;ctx.fillRect(0,0,this.w,this.h);ctx.restore();return;
       }
+      if(this.mapIndex===7){
+        const level=clamp(this.wave,1,5),drift=now()*.00015,bossPct=this.getBossApproachPercent(),pulse=.5+.5*Math.sin(now()*.0016);
+        const bg=this.getAsset('world8BgApproach'),bossBg=this.getAsset('world8BossBg'),boss=this.getAsset('bossWorld8');
+        if(bg)this.drawImageCover(ctx,bg,0,0,this.w,this.h,{alpha:this.bossActive?.15:.93,scale:1.045+level*.007+pulse*.006,offsetX:Math.sin(drift*(1+level*.09))*9,offsetY:Math.cos(drift*.62)*5});
+        if(bossBg&&(level>=4||this.bossActive))this.drawImageCover(ctx,bossBg,0,0,this.w,this.h,{alpha:this.bossActive?.94:(.08+bossPct*.0044),scale:1.065+pulse*.008,offsetX:Math.cos(drift*.55)*6,offsetY:Math.sin(drift*.43)*4});
+        if(boss&&level>=3&&!this.bossActive){ctx.save();const ww=this.w*(.064+level*.014),hh=ww*(boss.naturalHeight/boss.naturalWidth);ctx.globalAlpha=.016+level*.011;ctx.filter='brightness(.33) saturate(.84)';ctx.drawImage(boss,this.w*(.735-level*.017),this.h*.075,ww,hh);ctx.restore();}
+        ctx.save();const g=ctx.createLinearGradient(0,0,0,this.h);g.addColorStop(0,`rgba(213,76,255,${.07+pulse*.035})`);g.addColorStop(1,level>=4?'rgba(86,4,30,.31)':'rgba(45,3,28,.22)');ctx.fillStyle=g;ctx.fillRect(0,0,this.w,this.h);ctx.restore();return;
+      }
     }
 
     drawWorldOneAtmosphere(ctx) {
@@ -6113,10 +6373,29 @@
       ctx.restore();
     }
 
+    drawWorldEightOrganicAtmosphere(ctx){
+      const t=now()*.001,level=clamp(this.wave,1,5),rich=!state.settings.lowPerformance&&this.w>520;
+      ctx.save();ctx.lineCap='round';
+      const strands=rich?5:2;
+      for(let i=0;i<strands;i++){
+        const y=this.h*(.12+i/(Math.max(1,strands-1))*.76)+Math.sin(t*.55+i*1.7)*18;
+        ctx.globalAlpha=.055+level*.009;ctx.strokeStyle=i%2?'#d54cff':'#ff7059';ctx.lineWidth=1.2+(i%3)*.55;
+        ctx.beginPath();ctx.moveTo(-30,y);ctx.bezierCurveTo(this.w*.24,y+Math.sin(t+i)*48,this.w*.68,y-38+Math.cos(t*.7+i)*44,this.w+30,y+Math.sin(t*.4+i)*28);ctx.stroke();
+      }
+      const spores=rich?14:6;
+      for(let i=0;i<spores;i++){
+        const x=(i*127+(t*(8+i%3*3)))%(this.w+50)-25,y=(i*83+level*37)%this.h,r=.8+(i%3)*.7;
+        ctx.globalAlpha=.09+(i%4)*.018;ctx.fillStyle=i%5===0?'#caff42':(i%2?'#ff7bb9':'#d54cff');ctx.beginPath();ctx.arc(x,y,r,0,Math.PI*2);ctx.fill();
+      }
+      if(level>=3){const pulse=.5+.5*Math.sin(t*2.3);ctx.globalAlpha=.035+pulse*.035;ctx.strokeStyle='#ff5d45';ctx.lineWidth=2;for(let i=0;i<2;i++){const x=this.w*(.25+i*.5),y=this.h*(.22+i*.48),r=42+i*28+pulse*12;ctx.beginPath();ctx.arc(x,y,r,0,Math.PI*2);ctx.stroke();}}
+      ctx.restore();
+    }
+
     drawMapAtmosphere(ctx, map, dt=.016) {
       if (this.mapIndex === 0) { this.drawWorldOneAtmosphere(ctx); return; }
       if (this.mapIndex === 1) { this.drawWorldTwoAtmosphere(ctx); return; }
       if(this.mapIndex===2){this.drawWorldThreeSpeedField(ctx,dt);return;}
+      if(this.mapIndex===7){this.drawWorldEightOrganicAtmosphere(ctx);return;}
       const t = now() * .001;
       ctx.save();
       ctx.globalAlpha = .25;
@@ -6382,10 +6661,10 @@
         ctx.rotate(now() * .0015 + (m.spin || 0));
         if(m.pressureBubble){ctx.globalAlpha=.28;ctx.fillStyle='#48d9ff';ctx.beginPath();ctx.arc(0,0,m.r,0,Math.PI*2);ctx.fill();ctx.globalAlpha=.82;ctx.strokeStyle='#8dffcf';ctx.lineWidth=2.2;ctx.beginPath();ctx.arc(0,0,m.r*.88,0,Math.PI*2);ctx.stroke();ctx.globalAlpha=.45;ctx.beginPath();ctx.arc(-m.r*.28,-m.r*.22,m.r*.18,0,Math.PI*2);ctx.stroke();}
         let sprite = m.pressureBubble ? null : (m.spriteKey ? this.getAsset(m.spriteKey) : meteorSprite);
-        if (m.kind === 'planet') sprite = ringedSprite || moonSprite || meteorSprite;
-        if (m.kind === 'moon') sprite = moonSprite || ringedSprite || meteorSprite;
+        if (!m.spriteKey && m.kind === 'planet') sprite = ringedSprite || moonSprite || meteorSprite;
+        if (!m.spriteKey && m.kind === 'moon') sprite = moonSprite || ringedSprite || meteorSprite;
         if (sprite) {
-          const scale = m.kind === 'planet' ? 5.6 : (m.kind === 'moon' ? 5.0 : (m.kind === 'wreck' ? 4.7 : 4.2));
+          const scale = m.spriteScale || (m.kind === 'planet' ? 5.6 : (m.kind === 'moon' ? 5.0 : (m.kind === 'wreck' ? 4.7 : 4.2)));
           const w = m.r * scale;
           const h = w * (sprite.naturalHeight / sprite.naturalWidth);
           ctx.drawImage(sprite, -w * .5, -h * .5, w, h);
@@ -6395,8 +6674,13 @@
             ctx.beginPath(); ctx.arc(0, 0, m.r * 1.25, 0, Math.PI * 2); ctx.fill();
           }
         }
+        if(m.gestationPod){
+          const prog=clamp(1-(m.gestationTime||0)/Math.max(.1,m.maxGestation||4),0,1);
+          ctx.globalAlpha=.72;ctx.strokeStyle='#d54cff';ctx.lineWidth=2.2;ctx.beginPath();ctx.arc(0,0,m.r*1.35,-Math.PI/2,-Math.PI/2+Math.PI*2*prog);ctx.stroke();
+          ctx.globalAlpha=.18+.18*Math.sin(now()*.012);ctx.fillStyle='#ff5d45';ctx.beginPath();ctx.arc(0,0,m.r*(.82+.08*prog),0,Math.PI*2);ctx.fill();
+        }
         if (m.hp) {
-          const maxHp=(m.kind==='planet'||m.kind==='moon')?(68+this.wave*9):(m.kind==='bomb'?(32+this.wave*6):(m.kind==='wreck'?(38+this.wave*5):(28+this.wave*4)));
+          const maxHp=m.maxHp||((m.kind==='planet'||m.kind==='moon')?(68+this.wave*9):(m.kind==='bomb'?(32+this.wave*6):(m.kind==='wreck'?(38+this.wave*5):(28+this.wave*4))));
           const hp = clamp(m.hp / maxHp, 0, 1);
           ctx.globalAlpha = .82;
           ctx.fillStyle = 'rgba(0,0,0,.36)';
@@ -6505,7 +6789,11 @@
           const ang = Math.atan2(b.vy, b.vx);
           ctx.translate(b.x, b.y);ctx.rotate((b.rot??ang));ctx.globalAlpha=.94;
           const shape=b.shape||'bolt';
-          if(shape==='meteor'){
+          const bulletSprite=b.spriteKey?this.getAsset(b.spriteKey):null;
+          if(bulletSprite){
+            const ww=b.r*(b.spriteScale||3.2),hh=ww*(bulletSprite.naturalHeight/Math.max(1,bulletSprite.naturalWidth));
+            ctx.globalAlpha=.98;ctx.drawImage(bulletSprite,-ww*.5,-hh*.5,ww,hh);
+          }else if(shape==='meteor'){
             ctx.fillStyle='#34120d';ctx.strokeStyle=b.color;ctx.lineWidth=2;ctx.beginPath();for(let i=0;i<8;i++){const a=i*Math.PI/4,rr=b.r*(i%2?1.12:.82);const xx=Math.cos(a)*rr,yy=Math.sin(a)*rr;i?ctx.lineTo(xx,yy):ctx.moveTo(xx,yy);}ctx.closePath();ctx.fill();ctx.stroke();ctx.strokeStyle='#ffb35f';ctx.lineWidth=1;ctx.beginPath();ctx.moveTo(-b.r*.35,-b.r*.45);ctx.lineTo(0,0);ctx.lineTo(b.r*.42,b.r*.32);ctx.stroke();
           }else if(shape==='spore'){
             ctx.fillStyle=b.color;ctx.beginPath();ctx.arc(0,0,b.r,0,Math.PI*2);ctx.fill();ctx.globalAlpha=.55;for(let i=0;i<4;i++){const a=i*Math.PI/2;ctx.beginPath();ctx.arc(Math.cos(a)*b.r*.9,Math.sin(a)*b.r*.9,b.r*.34,0,Math.PI*2);ctx.fill();}ctx.globalAlpha=.9;ctx.fillStyle='#fff';ctx.beginPath();ctx.arc(-b.r*.22,-b.r*.18,b.r*.2,0,Math.PI*2);ctx.fill();
@@ -6640,6 +6928,7 @@
           } else if(this.mapIndex===4){const boss5=this.getAsset('bossWorld5');if(boss5){ctx.globalAlpha=.995*(e.alpha??1);const {w,h}=this.bossSpriteDimensions(e,boss5,8.9,this.mobileLandscape?(.70*.85):1);ctx.save();ctx.shadowBlur=24;ctx.shadowColor='rgba(195,145,255,.36)';ctx.drawImage(boss5,-w*.5,-h*.50,w,h);ctx.restore();}else this.drawBacteriaBoss(ctx,e);
           } else if(this.mapIndex===5){if(!this.drawBossHatchLayer(ctx,e,BOSS_HATCH_CONFIG.magnateOmega))this.drawBacteriaBoss(ctx,e);
           } else if(this.mapIndex===6){if(!this.drawBossHatchLayer(ctx,e,BOSS_HATCH_CONFIG.leviatan))this.drawBacteriaBoss(ctx,e);
+          } else if(this.mapIndex===7){const boss8=this.getAsset('bossWorld8');if(boss8){ctx.globalAlpha=.995*(e.alpha??1);const {w,h}=this.bossSpriteDimensions(e,boss8,8.85,this.mobileLandscape?(.66*.85):(this.mobilePortrait?.62:1));ctx.save();ctx.shadowBlur=26;ctx.shadowColor='rgba(213,76,255,.42)';ctx.drawImage(boss8,-w*.5,-h*.50,w,h);ctx.restore();}else this.drawBacteriaBoss(ctx,e);
           } else {
             const sides = ({spider:8,tick:7,rat:6,scorpion:10,leech:5,puffer:11,wasp:9,centipede:12,roach:8,chimera:13})[e.beast] || 9;
             this.drawPolygon(ctx, 0, 0, e.r + Math.sin(e.t * 3) * 3, sides, true);
@@ -6650,7 +6939,7 @@
           }
           this.drawBossDamageOverlay(ctx,e,hp);
           this.drawBossTelegraph(ctx,e);
-        } else if ((this.mapIndex>=1&&this.mapIndex<=6)&&e.spriteKey) this.drawEnemyShip(ctx,e,e.spriteKey);
+        } else if ((this.mapIndex>=1&&this.mapIndex<=7)&&e.spriteKey) this.drawEnemyShip(ctx,e,e.spriteKey);
         else if (e.behavior === 'mirror') this.drawEnemyShip(ctx, e, 'mirrorShip');
         else if (this.mapIndex === 0 && ['cazador','corredor','esquivo','mosquito'].includes(e.id)) this.drawEnemyShip(ctx, e, 'enemyBiomechBlue');
         else if (this.mapIndex === 0 && ['toxico','sombra','divisor','larva','nucleo'].includes(e.id)) this.drawEnemyShip(ctx, e, 'enemyToxicCruiser');
@@ -7065,16 +7354,15 @@
   function updateGlobalOrientationGate() {
     if(!els.orientationGate)return;
     const portrait=isTouchLandscapeTarget() && isDevicePortrait();
-    const standalone=isStandaloneMode();
+    // v1.9.6: la orientación nunca bloquea. Algunos launchers Android/PWA no respetan
+    // el cambio físico al abrir en standalone; el juego debe seguir siendo navegable en vertical.
     els.orientationGate.classList.toggle('hidden',!portrait);
-    els.orientationGate.classList.toggle('orientation-advisory',portrait && standalone);
+    els.orientationGate.classList.add('orientation-advisory');
     const gateTitle=els.orientationGate.querySelector('strong');
     const gateCopy=els.orientationGate.querySelector('small');
-    if(gateTitle)gateTitle.textContent=standalone?'Mejor en horizontal':'Gira el dispositivo';
-    if(gateCopy)gateCopy.textContent=standalone?'Puedes continuar. Gira la pantalla si tu sistema lo permite.':'Zombie Strike está diseñado para jugarse en horizontal.';
-    // En navegador normal el aviso protege la experiencia horizontal. En PWA es solo informativo:
-    // algunos launchers Android fijan portrait aunque manifest.json solicite landscape.
-    document.body.classList.toggle('orientation-required',portrait && !standalone);
+    if(gateTitle)gateTitle.textContent='Mejor en horizontal';
+    if(gateCopy)gateCopy.textContent='Puedes continuar en vertical. Gira el teléfono cuando tu sistema lo permita.';
+    document.body.classList.remove('orientation-required');
   }
 
   // Arquitectura estable: no se solicita fullscreen ni se bloquea la orientación.
