@@ -1,4 +1,27 @@
-Rizoma Zombie Strike v1.9.2 — Escalado táctico móvil
+Rizoma Zombie Strike v1.9.4 — Jefes Articulados W6–W7
+
+Ajustes v1.9.4:
+- Magnate Omega y Leviatán Abisal dejan de renderizarse como sprites completamente rígidos.
+- Nuevo motor reutilizable BOSS_HATCH_CONFIG + drawBossHatchLayer() para capas articuladas.
+- Magnate Omega: núcleo/compuerta mecánica, cavidad interior y Drone de Asedio emergente.
+- Leviatán Abisal: placa/caparazón frontal, cavidad bioluminiscente y Medusa de Plasma emergente.
+- Apertura vinculada a bossFight.charge: comienza cerca del 20%, alcanza máximo alrededor del 85% y se cierra de forma reversible tras descargar la sobrecarga.
+- Movimiento frame-rate independent mediante move-towards con velocidad fija por segundo.
+- Se conservan sin reescritura las ramas de jefes W1–W5 y continúan Damage Overlay + Telegraph.
+- Escala móvil W6/W7 preservada (.60 / .59) y capas relativas al tamaño real del boss.
+- Se incorporó la lámina rectora Bosses 2.0 · Mundos 6–10 en assets/future/reference sin usarla como recurso runtime.
+- Los bosses W8–W10 y las hojas de meteoritos/basura ya estaban presentes en la v1.9.3; no se duplicaron.
+
+
+Ajustes v1.9.3 — Mundos 6 y 7:
+- Mundo 6: Ciudadela de la Necrored, 5 actos, tres familias nuevas, ecos W1–W5, Red de Defensa y Magnate Omega.
+- Mundo 7: Mar Alienígena, 5 actos, tres familias nuevas, corrientes abisales, burbujas de presión, ecos previos y Leviatán Abisal.
+- DOMINIO: formas 6 y 7 capturables, con Firma heredada Pulso Necrored / Marea Viva y recarga propia.
+- Nuevos fondos, meteoros, basura espacial y sprites transparentes para W6/W7.
+- Audio procedural propio para minions y bosses futuros; boss music procedural por fase.
+- Escalado táctico móvil conservado y aplicado a los nuevos enemigos/jefes.
+
+Rizoma Zombie Strike v1.9.3 — Mundos 6 y 7
 
 Novedades v1.9.0:
 - PROTOCOLO DOMINIO desbloqueable desde Mundo 4: RIZOMA y Guardianes derrotados pueden seleccionarse como nave pilotable sin alterar vida, shield ni poderes activos.

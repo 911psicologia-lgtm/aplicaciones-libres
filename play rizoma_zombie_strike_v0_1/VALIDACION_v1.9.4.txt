@@ -1,0 +1,9 @@
+VALIDACIÓN ZOMBIE STRIKE v1.9.4
+================================
+GAME_ASSET_SOURCES detectados: 158
+Assets ausentes: 0
+IDs HTML duplicados: 0
+Archivos totales del paquete: 187
+Capas articuladas W6: 3/3 presentes
+Capas articuladas W7: 3/3 presentes
+Referencia W8–W10: presente

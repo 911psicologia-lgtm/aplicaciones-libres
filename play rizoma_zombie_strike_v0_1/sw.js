@@ -1,4 +1,4 @@
-const CACHE_NAME = 'rizoma-zombie-strike-v1-9-2-mobile-scale';
+const CACHE_NAME = 'rizoma-zombie-strike-v1-9-4-articulated-bosses';
 self.addEventListener('install', event => { self.skipWaiting(); });
 self.addEventListener('activate', event => {
   event.waitUntil(caches.keys().then(keys => Promise.all(keys.map(k => caches.delete(k)))).then(() => self.clients.claim()));

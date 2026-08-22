@@ -1,6 +1,6 @@
 # Zombie Strike — Mundos 6–10: poderes y sonidos preparados
 
-Esta versión no activa todavía los Mundos 6–10. Deja lista la biblioteca de jefes, reliquias, ataques y firmas sonoras para integrarla cuando estén aprobados los fondos y las familias visuales.
+Los Mundos 6 y 7 ya están activos en campaña. Esta biblioteca conserva además jefes, reliquias, ataques y firmas sonoras de los Mundos 8–10 para integrarlos cuando queden cerrados sus fondos y familias visuales.
 
 - Mundo 6 — Magnate Omega: Colapso de la Necrored · Núcleo Neural · Cyber Assault 120 BPM.
 - Mundo 7 — Leviatán Abisal: Marea Viva · Corazón Abisal · Deep Current 96 BPM.
@@ -23,3 +23,9 @@ ZombieStrikeFuture.minionShot(9, 'small', 0)
 ZombieStrikeFuture.minionDeath(8, 'medium', 0)
 ZombieStrikeFuture.stopPreview()
 ```
+
+
+## Estado v1.9.4
+- Mundos 6 y 7: integrados en campaña con jefes, familias, fondos, hazards, ecos y DOMINIO.
+- Magnate Omega y Leviatán Abisal: capas articuladas vinculadas a `bossFight.charge`.
+- Mundos 8–10: bosses y hojas de hazards recuperados y verificados; continúan en preproducción.
