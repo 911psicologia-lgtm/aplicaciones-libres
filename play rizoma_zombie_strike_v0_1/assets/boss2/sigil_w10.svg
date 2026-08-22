@@ -1,0 +1,25 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 128 128" role="img" aria-label="Sigilo Núcleo Zero">
+  <defs>
+    <radialGradient id="core" cx="50%" cy="50%" r="55%">
+      <stop offset="0" stop-color="#fff3d1"/>
+      <stop offset="0.22" stop-color="#ffb05a"/>
+      <stop offset="0.48" stop-color="#ff3b32"/>
+      <stop offset="0.76" stop-color="#c22cff"/>
+      <stop offset="1" stop-color="#090307"/>
+    </radialGradient>
+    <filter id="glow" x="-60%" y="-60%" width="220%" height="220%">
+      <feGaussianBlur stdDeviation="3.6" result="b"/>
+      <feMerge><feMergeNode in="b"/><feMergeNode in="SourceGraphic"/></feMerge>
+    </filter>
+  </defs>
+  <circle cx="64" cy="64" r="53" fill="#090307" stroke="#ff3b32" stroke-width="3"/>
+  <circle cx="64" cy="64" r="44" fill="none" stroke="#c22cff" stroke-width="2" stroke-dasharray="8 5" opacity=".9"/>
+  <g fill="none" stroke="#ff6a48" stroke-width="3" stroke-linecap="round" filter="url(#glow)">
+    <path d="M64 12v21M64 95v21M12 64h21M95 64h21"/>
+    <path d="M27 27l15 15M86 86l15 15M101 27L86 42M42 86l-15 15"/>
+    <path d="M64 32c17 0 30 14 30 32S81 96 64 96 34 82 34 64s13-32 30-32z"/>
+    <path d="M48 51c8-9 25-9 32 1 8 11 3 27-9 32-10 4-22-1-25-11-3-9 2-19 11-22 8-3 17 2 18 10 1 7-4 13-11 13-6 0-10-5-9-10 1-5 5-8 10-7"/>
+  </g>
+  <circle cx="64" cy="64" r="10" fill="url(#core)" filter="url(#glow)"/>
+  <circle cx="64" cy="64" r="3.5" fill="#fff8df"/>
+</svg>

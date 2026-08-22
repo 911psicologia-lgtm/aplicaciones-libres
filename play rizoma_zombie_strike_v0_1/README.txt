@@ -1,3 +1,16 @@
+Rizoma Zombie Strike v2.0.0 — Mundo 10 · Singularidad Final
+
+Novedades v2.0.0:
+- Mundo 10 completo con siete actos, fondos apocalípticos aprobados y Z.E.R.O.S. Prime como jefe final.
+- Seis enemigos propios en tres familias: Andro-Carroñeros, Necroides de Conversión y Centuriones Zero.
+- Retorno obligatorio de los nueve Guardianes anteriores como Ecos escalonados M1–M9, acompañados por sus familias y refuerzos.
+- Horda Apocalíptica y Frenesí Asesino ampliados para W10, con duración, densidad, hazards y recompensas superiores a W9.
+- Singularidades gravitacionales, niebla de conversión, proyectiles Zero, meteoros, basura espacial y planetas errantes del corredor final.
+- Z.E.R.O.S. Prime reforzado con escudo regenerativo, recomposición por fases, Guardianes, Singularidad Final y presión progresiva.
+- bossShip10 / Núcleo Zero, Firma Singularidad Final, reliquia final y persistencia completa de campaña, HUD y save/load.
+- HUD W10 muestra siete actos, progreso ECO 0/9, aproximación al jefe y evento especial activo.
+
+Historial anterior:
 Rizoma Zombie Strike v1.9.9 — Mundo 9 · Anime–Manga Multiversal
 
 Novedades v1.9.9:
