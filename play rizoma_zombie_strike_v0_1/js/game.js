@@ -2779,42 +2779,55 @@
       this.criticalState.recent=(this.criticalState.recent||[]).filter(x=>now()-x.at<10000);this.criticalState.recent.push({id,at:now()});
       if(combo){AudioFX.combo(combo);this.toast('⚡ COMBO CRÍTICO',({tormentaCongelada:'TORMENTA CONGELADA',plagaNeural:'PLAGA NEURAL',caceriaOmega:'CACERÍA OMEGA',extincionOrbital:'EXTINCIÓN ORBITAL',ultimoEscuadron:'ÚLTIMO ESCUADRÓN'})[combo]||combo);}
       else AudioFX.critical(id);
-      const duration=8.5;
-      const cadence={fractal:1.18,hunterSwarm:.72,meteorStrike:1.08,requiem:.92}[id]||0;
+      const duration={fractal:10,hemophage:10,hunterSwarm:12,meteorStrike:9,requiem:12}[id]||9;
+      const cadence={fractal:.72,hunterSwarm:.62,meteorStrike:.96,requiem:.58}[id]||0;
       if(cadence)this.criticalState.activeCriticals.push({id,combo,life:duration,max:duration,tick:0,cadence});
       if(id==='fractal')this.triggerFractalRay(combo,false);
-      else if(id==='hemophage')this.triggerHemophage(combo);
-      else if(id==='hunterSwarm')this.triggerHunterSwarm(combo,false);
+      else if(id==='hemophage')this.triggerHemophage(combo,duration);
+      else if(id==='hunterSwarm')this.triggerHunterSwarm(combo,false,duration);
       else if(id==='meteorStrike')this.triggerMeteorBombardment(combo,false);
-      else if(id==='requiem')this.triggerRequiemSquadron(combo,false);
+      else if(id==='requiem')this.triggerRequiemSquadron(combo,false,duration);
       this.flash=Math.max(this.flash,.42);this.shake=Math.max(this.shake,3.5);
-      this.toast(`✦ ${meta.name.toUpperCase()}`,`${duration.toFixed(1)} s de intervención activa`);
+      this.toast(`✦ ${meta.name.toUpperCase()}`,`${duration.toFixed(0)} s de intervención activa`);
     }
 
     triggerFractalRay(combo=null,sustained=false){
-      const enemies=[...this.enemies].sort((a,b)=>dist2(a,this.player)-dist2(b,this.player));if(!enemies.length)return;
-      const maxVisual=this.isSmallScreen?9:15,targets=enemies.slice(0,maxVisual),scale=combo==='plagaNeural'?1.12:1;
-      let prev={x:this.player.x,y:this.player.y};
-      for(const e of enemies)this.damageEnemy(e,sustained?this.criticalSustainDamageFor(e,.75*scale):this.criticalDamageFor(e,scale),{criticalBurst:true,fractal:true,slow:combo==='tormentaCongelada'?.9:(sustained?.22:0),color:'#d9f7ff',silent:sustained});
-      targets.forEach((e,i)=>{this.particles.push({type:'laser',x:prev.x,y:prev.y,a:Math.atan2(e.y-prev.y,e.x-prev.x),life:sustained?.24:.18,max:sustained?.24:.18,range:Math.hypot(e.x-prev.x,e.y-prev.y),color:i%2?'#b7ecff':'#f0ffff',width:(sustained?1.8:2.4)+Math.min(4,i*.18)});prev=e;});
-      this.emit(this.player.x,this.player.y,'#d9f7ff',sustained?6:12,190,.4);
+      const enemies=[...this.enemies];if(!enemies.length)return;
+      const p=this.player,scale=combo==='plagaNeural'?1.12:1;
+      const primary=this.bossActive&&enemies.includes(this.bossActive)
+        ? this.bossActive
+        : [...enemies].sort((a,b)=>((b.baseHp||b.hp||1)-(a.baseHp||a.hp||1))||dist2(a,p)-dist2(b,p))[0];
+      if(!primary)return;
+      const branchCap=this.isSmallScreen?3:5;
+      const branches=enemies.filter(e=>e!==primary).sort((a,b)=>Math.hypot(a.x-primary.x,a.y-primary.y)-Math.hypot(b.x-primary.x,b.y-primary.y)).slice(0,branchCap);
+      const mainScale=sustained?.58:1.05;
+      this.damageEnemy(primary,sustained?this.criticalSustainDamageFor(primary,mainScale*scale):this.criticalDamageFor(primary,mainScale*scale),{criticalBurst:true,fractal:true,slow:combo==='tormentaCongelada'?.9:(sustained?.24:0),color:'#f4ffff',silent:sustained});
+      for(const e of branches){
+        const branchScale=sustained?.44:.70;
+        this.damageEnemy(e,sustained?this.criticalSustainDamageFor(e,branchScale*scale):this.criticalDamageFor(e,branchScale*scale),{criticalBurst:true,fractal:true,slow:combo==='tormentaCongelada'?.75:(sustained?.18:0),color:'#b7ecff',silent:sustained});
+      }
+      const life=sustained?.20:.28;
+      this.particles.push({type:'laser',x:p.x,y:p.y,a:Math.atan2(primary.y-p.y,primary.x-p.x),life,max:life,range:Math.hypot(primary.x-p.x,primary.y-p.y),color:'#f5ffff',width:sustained?5.0:7.2});
+      branches.forEach((e,i)=>this.particles.push({type:'laser',x:primary.x,y:primary.y,a:Math.atan2(e.y-primary.y,e.x-primary.x),life,max:life,range:Math.hypot(e.x-primary.x,e.y-primary.y),color:i%2?'#86dfff':'#c7f6ff',width:sustained?2.2:3.2}));
+      if(!sustained){this.particles.push({type:'ring',x:primary.x,y:primary.y,r:12,maxR:78,life:.30,max:.30,color:'#d9f7ff'});}
+      this.emit(primary.x,primary.y,'#d9f7ff',sustained?4:11,150,.32);
     }
 
-    triggerHemophage(combo=null){
+    triggerHemophage(combo=null,duration=10){
       const candidates=[...this.enemies].sort((a,b)=>(a.boss?1:0)-(b.boss?1:0));if(!candidates.length)return;
       const max=Math.min(this.isSmallScreen?6:9,Math.max(2,Math.ceil(candidates.length*(combo==='plagaNeural'?.5:.38))));
       const chosen=candidates.slice(0,max); if(this.bossActive&&!chosen.includes(this.bossActive))chosen[chosen.length-1]=this.bossActive;
       for(const e of chosen){
         const total=this.criticalDamageFor(e,combo==='plagaNeural'?1.16:1.04);
-        this.criticalState.hemophages.push({target:e,life:8.5,max:8.5,total,applied:0,jumped:false,color:combo==='plagaNeural'?'#d7ff72':'#a7ff6e'});
+        this.criticalState.hemophages.push({target:e,life:duration,max:duration,total,applied:0,jumped:false,color:combo==='plagaNeural'?'#d7ff72':'#a7ff6e'});
       }
     }
 
-    triggerHunterSwarm(combo=null,sustained=false){
+    triggerHunterSwarm(combo=null,sustained=false,duration=12){
       const candidates=[...this.enemies];if(!candidates.length)return;
       let root=this.criticalState.rhizomes?.find(r=>r.combo===combo&&r.life>0);
       if(!root){
-        root={combo,life:8.5,max:8.5,age:0,nodes:[],pulse:0,color:combo==='caceriaOmega'?'#ffe77a':'#9dff91'};
+        root={combo,life:duration,max:duration,age:0,nodes:[],pulse:0,color:combo==='caceriaOmega'?'#ffe77a':'#9dff91'};
         this.criticalState.rhizomes.push(root);
       }
       root.age=Math.min(root.max,(root.age||0)+(sustained?.72:.95));
@@ -2838,13 +2851,23 @@
       }
     }
 
-    triggerRequiemSquadron(combo=null,sustained=false){
+    triggerRequiemSquadron(combo=null,sustained=false,duration=12){
       const enemies=[...this.enemies];if(!enemies.length)return;
-      const forms=this.availableDomainForms(),count=Math.min(this.isSmallScreen?(sustained?3:6):(sustained?4:9),Math.max(sustained?2:4,enemies.length>8?(sustained?4:7):4)+(combo==='ultimoEscuadron'?1:0));
+      const forms=this.availableDomainForms();
+      if(!sustained){
+        const existing=this.drones.filter(d=>d.kind==='requiem');
+        const squadCount=Math.min(this.isSmallScreen?4:6,4+(combo==='ultimoEscuadron'?1:0));
+        for(let i=existing.length;i<squadCount;i++){
+          const form=forms[i%Math.max(1,forms.length)]||domainFormMeta('rizoma');
+          this.spawnDrone(duration,false,{count:1,kind:'requiem',support:true,inheritPower:true,radius:112+i*14,fireRate:.16+i*.02,damageScale:combo==='ultimoEscuadron'?.96:.84,color:form?.color||'#c391ff',domainForm:form?.id||'rizoma'});
+        }
+        this.particles.push({type:'ring',x:this.player.x,y:this.player.y,r:22,maxR:180,life:.55,max:.55,color:'#c391ff'});
+      }
+      const count=Math.min(this.isSmallScreen?(sustained?4:6):(sustained?6:9),Math.max(sustained?3:5,enemies.length>8?(sustained?5:7):5)+(combo==='ultimoEscuadron'?1:0));
       for(let i=0;i<count;i++){
-        const target=enemies[i%enemies.length],form=pick(forms),a=-Math.PI/2+rand(.35,-.35);
-        const damage=sustained?this.criticalSustainDamageFor(target,combo==='ultimoEscuadron'?.78:.62):this.criticalDamageFor(target,combo==='ultimoEscuadron'?1.1:1);
-        this.addBullet(this.player.x+rand(28,-28),this.player.y+rand(22,-22),a,510,damage,{type:'requiemCritical',big:true,homing:true,targetRef:target,criticalBurst:true,trail:true,domainForm:form.id,color:form.color||'#c391ff',scale:sustained?.72:.9,pierce:1});
+        const target=enemies[i%enemies.length],form=forms[i%Math.max(1,forms.length)]||domainFormMeta('rizoma'),a=-Math.PI/2+rand(.24,-.24);
+        const damage=sustained?this.criticalSustainDamageFor(target,combo==='ultimoEscuadron'?.68:.54):this.criticalDamageFor(target,combo==='ultimoEscuadron'?1.02:.92);
+        this.addBullet(this.player.x+rand(42,-42),this.player.y+rand(26,-26),a,540,damage,{type:'requiemCritical',big:true,homing:true,targetRef:target,criticalBurst:true,trail:true,domainForm:form?.id||'rizoma',color:form?.color||'#c391ff',scale:sustained?.66:.82,pierce:1});
       }
     }
 
@@ -6394,7 +6417,8 @@
         d.y = this.player.y + Math.sin(d.a) * radius;
         d.fire -= dt;
         if (d.fire <= 0 && this.enemies.length) {
-          const target = this.nearestEnemy();
+          const ordered=d.kind==='requiem'?[...this.enemies].sort((a,b)=>dist2(a,d)-dist2(b,d)):null;
+          const target = d.kind==='requiem' ? ordered[(d.index||0)%ordered.length] : this.nearestEnemy();
           if (target) {
             const a = Math.atan2(target.y - d.y, target.x - d.x);
             const storm=this.comboActive('tormenta');
@@ -6412,7 +6436,7 @@
             }
             if (this.comboActive('resonante') && Math.random() < .25) this.particles.push({ type: 'ring', x: d.x, y: d.y, r: 8, maxR: 70, life: .22, max: .22, color: d.color || '#9ac7ff' });
             if(storm&&this.enemies.length>1){const second=this.enemies.find(e=>e!==target);if(second){this.damageEnemy(second,dmg*.42,{color:'#93ff8b',slow:.12});this.particles.push({type:'laser',x:target.x,y:target.y,a:Math.atan2(second.y-target.y,second.x-target.x),life:.08,max:.08,range:Math.hypot(second.x-target.x,second.y-target.y),color:'#93ff8b'});}}
-            d.fire = d.support ? (storm?.18:.24) : (this.comboActive('resonante') ? .32 : (storm?.30:.48));
+            d.fire = d.kind==='requiem' ? .20 : (d.support ? (storm?.18:.24) : (this.comboActive('resonante') ? .32 : (storm?.30:.48)));
           }
         }
         if (d.life <= 0 && !d.permanent) this.drones.splice(i, 1);
@@ -6690,7 +6714,8 @@
           color: options.color || '#9ac7ff',
           damageScale: options.damageScale || 1,
           inheritPower: !!options.inheritPower,
-          kind: options.kind || 'drone'
+          kind: options.kind || 'drone',
+          domainForm: options.domainForm || null
         });
       }
     }
@@ -8353,9 +8378,13 @@
         ctx.save();
         ctx.translate(d.x, d.y);
         ctx.rotate(d.a);
-        ctx.shadowBlur = 18; ctx.shadowColor = d.color || '#9ac7ff';
+        ctx.shadowBlur = d.kind==='requiem'?24:18; ctx.shadowColor = d.color || '#9ac7ff';
         ctx.strokeStyle = d.color || '#9ac7ff'; ctx.lineWidth = d.support ? 3.4 : 3;
-        if (d.support) { ctx.beginPath(); ctx.moveTo(0,-11); ctx.lineTo(10,9); ctx.lineTo(-10,9); ctx.closePath(); ctx.stroke(); } else { ctx.strokeRect(-9, -9, 18, 18); }
+        if(d.kind==='requiem'&&d.domainForm){
+          const meta=domainFormMeta(d.domainForm),img=meta?this.getAsset(meta.assetKey):null;
+          if(img){const aspect=(img.naturalWidth||1)/(img.naturalHeight||1),longSide=this.isSmallScreen?26:34;let w,h;if(aspect>=1){w=longSide;h=longSide/aspect;}else{h=longSide;w=longSide*aspect;}ctx.globalAlpha=.96;ctx.drawImage(img,-w/2,-h/2,w,h);ctx.globalAlpha=.35;ctx.beginPath();ctx.arc(0,0,longSide*.58,0,Math.PI*2);ctx.stroke();}
+          else {ctx.beginPath();ctx.moveTo(0,-12);ctx.lineTo(11,9);ctx.lineTo(0,5);ctx.lineTo(-11,9);ctx.closePath();ctx.stroke();}
+        } else if (d.support) { ctx.beginPath(); ctx.moveTo(0,-11); ctx.lineTo(10,9); ctx.lineTo(-10,9); ctx.closePath(); ctx.stroke(); } else { ctx.strokeRect(-9, -9, 18, 18); }
         ctx.restore();
       }
     }
@@ -8372,6 +8401,10 @@
       ctx.globalAlpha=.66;ctx.fillStyle=color;ctx.shadowBlur=16;ctx.beginPath();ctx.moveTo(-w*.18,h*.39);ctx.lineTo(0,h*.70+Math.sin(t*18)*2);ctx.lineTo(w*.18,h*.39);ctx.closePath();ctx.fill();
       ctx.globalAlpha=.23;ctx.strokeStyle=color;ctx.lineWidth=1.5;ctx.beginPath();ctx.arc(0,0,p.r+13,0,Math.PI*2);ctx.stroke();
       ctx.restore();
+      if(this.getPowerLevel('orbs',true)||this.comboActive('gravedad')||this.comboActive('bastion')){
+        const satellites=this.getAbyssalSatelliteData();
+        for(const sat of satellites){ctx.save();ctx.translate(sat.x,sat.y);ctx.shadowBlur=18;ctx.shadowColor=sat.color;ctx.fillStyle=sat.color;ctx.globalAlpha=.94;ctx.beginPath();ctx.arc(0,0,sat.r,0,Math.PI*2);ctx.fill();ctx.globalAlpha=.32;ctx.strokeStyle=sat.accent;ctx.lineWidth=2;ctx.beginPath();ctx.arc(0,0,sat.r*1.8*sat.pulse,0,Math.PI*2);ctx.stroke();ctx.restore();}
+      }
     }
 
     getAbyssalSatelliteData(countOverride = null) {

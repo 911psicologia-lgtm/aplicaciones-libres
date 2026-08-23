@@ -1,0 +1,12 @@
+VALIDACIÓN v2.4.3
+===================
+- JavaScript: node --check OK.
+- Rayo Fractal: objetivo primario + ramificaciones implementadas.
+- Duración Rayo Fractal: 10 s.
+- Plaga Hemófaga: 10 s.
+- Enjambre Cazador Rizomático: 12 s.
+- Bombardeo Meteórico: 9 s.
+- Escuadrón Réquiem: 12 s, formación persistente implementada.
+- Satélites Abisales visibles también con formas DOMINIO.
+- Bomba Omega conservada con daño escalonado por rango.
+- Fondos no modificados.
