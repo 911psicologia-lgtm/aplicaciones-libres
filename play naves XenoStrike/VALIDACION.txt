@@ -1,0 +1,25 @@
+VALIDACIÓN — SWARM//RIFT v1.0.0
+================================
+
+Pruebas realizadas antes de empaquetar:
+
+[OK] JavaScript validado con node --check.
+[OK] Manifest JSON válido.
+[OK] Carga de pantalla y render sin errores JS en Chromium headless.
+[OK] Escritorio 1280x720: nueva campaña, tienda, retorno y pausa.
+[OK] Móvil 844x390 con touch: HUD táctil visible, joystick Pointer Events responde, DASH responde.
+[OK] Retrato 390x844: gate horizontal visible y controles ocultos.
+[OK] Guardar checkpoint y cargarlo nuevamente mediante almacenamiento simulado.
+[OK] No quedan referencias de marca a XenoStrike ni Rizoma Zombie Strike.
+[OK] PWA contiene manifest, service worker e iconografía propia.
+
+Decisiones de diseño:
+- Nombre e identidad completamente nuevos: SWARM//RIFT — Insecta Siege.
+- Disparo y autoapuntado siempre activos.
+- Control móvil relativo para no tapar la nave con el dedo.
+- Carrito/tienda congela siempre la simulación.
+- 10 linajes insectoides, cada uno con sector, esbirros y jefe emparentados visual/mecánicamente.
+- 3 hordas + jefe por sector.
+- 11 poderes temporales compatibles y acumulables en duración.
+- Barreras destruibles, score, récord, créditos, mejoras permanentes y checkpoint.
+- Audio sintetizado offline y firma sonora por jefe.

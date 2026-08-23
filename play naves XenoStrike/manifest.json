@@ -1,17 +1,14 @@
 {
-  "name": "XenoStrike — Laberinto Xeno",
-  "short_name": "XenoStrike",
+  "name": "SWARM//RIFT — Insecta Siege",
+  "short_name": "SWARM//RIFT",
+  "description": "Auto-shooter horizontal de supervivencia contra linajes insectoides.",
   "start_url": "./index.html",
+  "scope": "./",
   "display": "fullscreen",
   "orientation": "landscape",
-  "background_color": "#000000",
-  "theme_color": "#020612",
+  "background_color": "#02040a",
+  "theme_color": "#050814",
   "icons": [
-    {
-      "src": "icon.svg",
-      "sizes": "any",
-      "type": "image/svg+xml",
-      "purpose": "any maskable"
-    }
+    {"src":"assets/icon.svg","sizes":"any","type":"image/svg+xml","purpose":"any maskable"}
   ]
 }

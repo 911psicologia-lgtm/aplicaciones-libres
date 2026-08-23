@@ -1,0 +1,7 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 280">
+ <defs><linearGradient id="t" x1="0" x2="1"><stop stop-color="#65f6ff"/><stop offset=".55" stop-color="#f0ffff"/><stop offset="1" stop-color="#b2ff66"/></linearGradient></defs>
+ <rect width="1200" height="280" fill="none"/>
+ <text x="600" y="128" text-anchor="middle" font-family="Arial Black,Arial,sans-serif" font-size="105" letter-spacing="8" fill="url(#t)">SWARM//RIFT</text>
+ <text x="600" y="205" text-anchor="middle" font-family="Arial, sans-serif" font-size="36" letter-spacing="18" fill="#91abc1">INSECTA SIEGE</text>
+ <path d="M190 238h820" stroke="#65f6ff" stroke-opacity=".28" stroke-width="3"/>
+</svg>
