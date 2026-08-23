@@ -1,0 +1,36 @@
+VALIDACIÓN v2.4.0 · MUNDO 13 + PROGRESIÓN SAGA II
+==================================================
+
+JavaScript:
+- node --check js/game.js: OK
+
+Manifest:
+- JSON válido: OK
+
+Versionado web/PWA:
+- js/game.js?v=2.4.0: OK
+- css/styles.css?v=2.4.0: OK
+- manifest.json?v=2.4.0: OK
+- cache Service Worker v2-4-0: OK
+
+Assets:
+- referencias estáticas detectadas en game.js: 328
+- referencias faltantes: 0
+- sigilos de jefe W1-W13: 13/13 presentes
+- assets propios W13: 27 presentes
+
+Progresión probada:
+- completed M1-M10 con unlocked=10 -> objetivo M11: OK
+- bestMap=10 + bosses históricos -> objetivo M11: OK
+- world10Zero como única evidencia -> objetivo M11: OK
+- bossShip10 como única evidencia -> objetivo M11: OK
+- pendingCampaignMap hacia M11 -> objetivo M11: OK
+- completado hasta M12 -> objetivo M13: OK
+- completado hasta M13 -> sin mundo pendiente / Archivo: OK
+
+Interfaz Saga II:
+- M11-M13 calculados dinámicamente según MAPS y progreso: OK
+- repetir mundo completado no reemplaza la campaña: OK
+
+Carrito:
+- regla previa de pausa obligatoria preservada: OK

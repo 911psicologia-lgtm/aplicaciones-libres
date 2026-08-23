@@ -23,3 +23,7 @@ Decisiones de diseño:
 - 11 poderes temporales compatibles y acumulables en duración.
 - Barreras destruibles, score, récord, créditos, mejoras permanentes y checkpoint.
 - Audio sintetizado offline y firma sonora por jefe.
+
+[OK] PC mouse/touchpad sin clic: al mover el puntero sobre el canvas en GAME, la nave responde sin mantener botones presionados.
+[OK] Arte 1.1.0 integrado: nave en vista trasera, fondos ilustrados nuevos y atlas de enemigos por familias.
+[OK] Rework 1.2.0: UI táctica nueva, sectores enriquecidos, obstáculos por mundo y jefes con invocaciones.
