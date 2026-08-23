@@ -1,0 +1,29 @@
+SWARM//RIFT — Insecta Siege v1.6.0
+
+ASSETS REALISTAS
+- 36 restos/obstáculos realistas recortados e integrados, distribuidos en tres paquetes: Rust, Toxic y Rift.
+- 12 naves enemigas recortadas del asset sheet aprobado.
+- 18 insectoides organizados en 6 familias x 3 jerarquías: esbirrón, medio y mayor.
+- 13 pickups físicos para poderes, curación y créditos.
+- Los jefes conservan su atlas independiente para no confundir “mayor” con “boss”.
+
+LÓGICA DE ENEMIGOS
+- Sector 1: predomina esbirrón, con aparición limitada de medios.
+- Sector 2: esbirrones y medios con mayores ocasionales.
+- Desde oleada 3: mayores con presencia significativa.
+- Los sectores posteriores pueden reintroducir enemigos de la familia anterior sin sustituir a la familia actual.
+
+FACCIÓN RECUPERADORES
+- Aparece desde Sector 3 con frecuencia baja y escalable.
+- Scout: movimiento de hostigamiento, ráfaga rápida y embestida dirigida.
+- Frigate: mantiene rango, sigue verticalmente al jugador, dispara abanicos y pulsos radiales.
+- Bomber: fuego pesado y siembra minas/amenazas persistentes.
+- Las naves recuperadoras tienen mayor probabilidad de soltar recursos.
+
+PODERES
+- Los pickups usan objetos visuales propios para Tri-Aguja, Tesla, Micromisiles, Raíl, Crio, Corrosión, Escudo, Imán, Drones, Overdrive y Gravedad.
+- Curación y créditos usan los assets específicos del sheet aprobado.
+- Bomba de Rift reutiliza un artefacto explosivo del pack de batalla para mantener coherencia visual.
+
+PWA
+- Todos los assets nuevos se incluyen en la caché offline v1.6.0.

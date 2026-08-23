@@ -1,0 +1,13 @@
+SWARM RIFT - Insecta Siege v1.7.0
+
+Mejoras implementadas:
+- Botonera superior derecha compactada para reducir solapamientos visuales.
+- Panel táctico derecho desplazado hacia abajo cuando la botonera está visible.
+- Sistema de notificaciones menos invasivo, con pila discreta de mensajes.
+- Animación avanzada del escudo con arcos móviles y estado crítico visual.
+- Rework de naves auxiliares: hasta 5 escoltas orbitando alrededor de la nave.
+- Las auxiliares disparan en función de nivel, mejoras y poderes activos.
+- Nuevo poder temporal: RÁFAGA.
+- Nuevos combos: RÁFAGA QUÍNTUPLE y ESCUADRÓN LANCERO.
+- Las auxiliares pueden heredar ocasionalmente efectos activos: crio, ácido, raíl, tesla o misiles.
+- Efecto y sonido dedicado para disparos láser chispeantes.

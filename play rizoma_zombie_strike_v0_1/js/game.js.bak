@@ -3106,8 +3106,6 @@
           this.spawnWorldElevenHazard(Math.min(3,1+b.phase),true);this.spawnWorldElevenDustDevil(1,b.phase>=3);
         } else if (b.family === 'pelagic') {
           this.spawnWorldTwelveHazard(Math.min(3,1+b.phase),true);this.spawnWorldTwelveCurrent(1,b.phase>=3);
-        } else if (b.family === 'magma') {
-          this.spawnWorldThirteenHazard(Math.min(3,1+b.phase),true);this.spawnWorldThirteenEruption(Math.min(2,1+Math.floor(b.phase/2)),b.phase>=3);
         } else if (b.family === 'demon' || b.family === 'mythic') {
           this.spawnMeteorRain(this.mapIndex === 0 ? 2 : 3, true);
         } else if (b.family === 'spirit' || b.family === 'witch') {
@@ -3156,10 +3154,6 @@
           b.shieldMax += 320 + b.phase * 96;
           b.shield = Math.max(b.shield, b.shieldMax * (.62 + b.phase * .035));
           b.vulnerable=0;this.spawnWorldTwelveHazard(Math.min(3,1+b.phase),true);this.spawnWorldTwelveCurrent(Math.min(2,1+Math.floor(b.phase/3)),true);
-        } else if(this.mapIndex===12){
-          b.shieldMax += 360 + b.phase * 108;
-          b.shield = Math.max(b.shield, b.shieldMax * (.63 + b.phase * .034));
-          b.vulnerable=0;this.spawnWorldThirteenHazard(Math.min(4,1+b.phase),true);this.spawnWorldThirteenEruption(Math.min(2,1+Math.floor(b.phase/2)),true);
         } else {
           b.shieldMax += 18;
           b.shield = Math.min(b.shieldMax, b.shield + b.shieldMax * .38);
@@ -3177,8 +3171,7 @@
           {2:'los portales duplican las trayectorias',3:'Kaiser rompe la continuidad de la arena',4:'Ruptura Multiverso crítica'},
           {2:'la singularidad absorbe las familias derrotadas',3:'ZERO sincroniza los núcleos de los Guardianes',4:'Singularidad Final crítica'},
           {2:'las dunas comienzan a moverse contra RIZOMA',3:'los dos soles vitrifican la arena',4:'Tormenta de los Dos Soles crítica'},
-          {2:'las corrientes hadales cierran el perímetro',3:'la presión convierte el océano en un arma',4:'Marea de Presión Hadal crítica'},
-          {2:'la cámara del núcleo expulsa escoria incandescente',3:'las fisuras persiguen a RIZOMA por toda la arena',4:'Erupción del Núcleo crítica'}
+          {2:'las corrientes hadales cierran el perímetro',3:'la presión convierte el océano en un arma',4:'Marea de Presión Hadal crítica'}
         ][this.mapIndex]||{};
         this.toast(`FASE ${b.phase}`,phaseLines[b.phase]||boss2Meta(this.mapIndex).special);
         if(this.mapIndex===1)this.spawnMeteorRain(1,true);
@@ -3319,121 +3312,28 @@
     updateBossMotion(b, dt) {
       const p = this.player;
       if (!b.mode) {
-        b.mode = this.mapIndex===10 ? 'serpentine' : (this.mapIndex===11 ? 'tide' : (this.mapIndex===12 ? 'forge' : 'orbit'));
+        b.mode = 'orbit';
         b.modeTimer = 2.8;
         b.alpha = 1;
         b.orbitAngle = Math.random() * Math.PI * 2;
         b.targetX = b.x;
         b.targetY = b.y;
         b.fadeTimer = 0;
-        b.teleported = false;
       }
       b.modeTimer -= dt;
       if (b.modeTimer <= 0) {
-        const modes = this.mapIndex===10
-          ? ['serpentine', 'sweep', 'dive', 'mirage']
-          : (this.mapIndex===11
-            ? ['tide', 'figure8', 'undertow', 'fade']
-            : (this.mapIndex===12 ? ['forge', 'arc', 'slam', 'rift'] : ['orbit', 'arc', 'strafe', 'fade']));
+        const modes = ['orbit', 'arc', 'strafe', 'fade'];
         b.mode = pick(modes);
-        const blink = ['fade','mirage','rift'].includes(b.mode);
-        b.modeTimer = blink ? rand(2.35, 1.85) : rand(this.mapIndex>=10 ? 3.9 : 4.1, this.mapIndex>=10 ? 2.4 : 2.6);
-        if (blink) {
+        b.modeTimer = b.mode === 'fade' ? 2.1 : rand(4.1, 2.6);
+        if (b.mode === 'fade') {
           b.fadeTimer = 1.0;
           b.teleported = false;
-        } else if (b.mode === 'sweep' || b.mode === 'undertow' || b.mode === 'slam') {
-          b.targetX = clamp(p.x + rand(260, -260), 90, this.w - 90);
-          b.targetY = clamp(p.y + rand(-180, -55), 68, this.h * .44);
         } else {
           b.targetX = clamp(p.x + rand(240, -240), 84, this.w - 84);
           b.targetY = clamp(p.y + rand(-180, -40), 64, this.h * .42);
         }
       }
-
-      const localFade = ['fade','mirage','rift'].includes(b.mode);
-      if (this.mapIndex === 10) {
-        if (b.mode === 'serpentine') {
-          b.serpT = (b.serpT || 0) + dt * (.95 + b.phase * .14);
-          b.targetX = clamp(this.w * .5 + Math.sin(b.serpT * 1.18) * (this.w * .28), 98, this.w - 98);
-          b.targetY = clamp(this.h * .22 + Math.sin(b.serpT * 2.2) * (30 + b.phase * 4), 64, this.h * .36);
-        } else if (b.mode === 'sweep') {
-          b.sweepDir = b.sweepDir || (Math.random() < .5 ? -1 : 1);
-          b.targetX = b.sweepDir > 0 ? this.w - 112 : 112;
-          b.targetY = clamp(this.h * .20 + Math.sin((b.t || 0) * 1.35) * 28, 62, this.h * .33);
-          if (Math.abs((b.targetX || b.x) - b.x) < 28) b.sweepDir *= -1;
-        } else if (b.mode === 'dive') {
-          if (!b.diveStage) b.diveStage = 0;
-          if (b.diveStage === 0) {
-            b.targetX = clamp(p.x + rand(130,-130), 96, this.w - 96);
-            b.targetY = clamp(this.h * .32 + rand(26,-18), 88, this.h * .42);
-            if (Math.hypot((b.targetX||b.x)-b.x,(b.targetY||b.y)-b.y) < 32) b.diveStage = 1;
-          } else {
-            b.targetX = clamp(this.w * .5 + rand(240,-240), 96, this.w - 96);
-            b.targetY = clamp(this.h * .18 + rand(18,-12), 62, this.h * .28);
-            if (Math.hypot((b.targetX||b.x)-b.x,(b.targetY||b.y)-b.y) < 36) b.diveStage = 0;
-          }
-        } else if (b.mode === 'mirage') {
-          b.fadeTimer -= dt;
-          if (!b.teleported && b.fadeTimer <= .48) {
-            b.x = clamp(p.x + rand(290, -290), 92, this.w - 92);
-            b.y = clamp(this.h * .20 + rand(84,-24), 64, this.h * .38);
-            b.targetX = b.x; b.targetY = b.y;
-            b.teleported = true;
-          }
-        }
-      } else if (this.mapIndex === 11) {
-        if (b.mode === 'tide') {
-          b.tideT = (b.tideT || 0) + dt * (.78 + b.phase * .11);
-          b.targetX = clamp(this.w * .5 + Math.sin(b.tideT) * (this.w * .22), 98, this.w - 98);
-          b.targetY = clamp(this.h * .22 + Math.cos(b.tideT * 1.55) * (36 + b.phase * 5), 64, this.h * .38);
-        } else if (b.mode === 'figure8') {
-          b.figT = (b.figT || 0) + dt * (.9 + b.phase * .10);
-          b.targetX = clamp(this.w * .5 + Math.sin(b.figT) * (this.w * .20), 96, this.w - 96);
-          b.targetY = clamp(this.h * .24 + Math.sin(b.figT * 2) * 44, 66, this.h * .40);
-        } else if (b.mode === 'undertow') {
-          b.sweepDir = b.sweepDir || (Math.random() < .5 ? -1 : 1);
-          b.targetX = b.sweepDir > 0 ? this.w - 118 : 118;
-          b.targetY = clamp(p.y - 118 + Math.sin((b.t || 0) * 1.4) * 30, 70, this.h * .42);
-          if (Math.abs((b.targetX || b.x) - b.x) < 34) b.sweepDir *= -1;
-        } else if (b.mode === 'fade') {
-          b.fadeTimer -= dt;
-          if (!b.teleported && b.fadeTimer <= .45) {
-            b.x = clamp(p.x + rand(250, -250), 94, this.w - 94);
-            b.y = clamp(p.y + rand(-180, -45), 70, this.h * .42);
-            b.targetX = b.x; b.targetY = b.y;
-            b.teleported = true;
-          }
-        }
-      } else if (this.mapIndex === 12) {
-        if (b.mode === 'forge') {
-          b.forgeT = (b.forgeT || 0) + dt * (.72 + b.phase * .08);
-          b.targetX = clamp(this.w * .5 + Math.sin(b.forgeT * 1.1) * (this.w * .18), 102, this.w - 102);
-          b.targetY = clamp(this.h * .20 + Math.cos(b.forgeT * 1.45) * 24, 68, this.h * .34);
-        } else if (b.mode === 'arc') {
-          b.arcT = (b.arcT || 0) + dt * (.85 + b.phase * .11);
-          b.targetX = clamp(this.w * .5 + Math.sin(b.arcT * 1.15) * (this.w * .24), 100, this.w - 100);
-          b.targetY = clamp(this.h * .19 + Math.cos(b.arcT * 1.7) * 34, 66, this.h * .36);
-        } else if (b.mode === 'slam') {
-          if (!b.slamStage) b.slamStage = 0;
-          if (b.slamStage === 0) {
-            b.targetX = clamp(p.x + rand(95,-95), 100, this.w - 100);
-            b.targetY = clamp(this.h * .30 + rand(28,-18), 84, this.h * .42);
-            if (Math.hypot((b.targetX||b.x)-b.x,(b.targetY||b.y)-b.y) < 34) b.slamStage = 1;
-          } else {
-            b.targetX = clamp(this.w * .5 + rand(210,-210), 102, this.w - 102);
-            b.targetY = clamp(this.h * .16 + rand(16,-10), 64, this.h * .26);
-            if (Math.hypot((b.targetX||b.x)-b.x,(b.targetY||b.y)-b.y) < 38) b.slamStage = 0;
-          }
-        } else if (b.mode === 'rift') {
-          b.fadeTimer -= dt;
-          if (!b.teleported && b.fadeTimer <= .46) {
-            b.x = clamp(p.x + rand(230, -230), 96, this.w - 96);
-            b.y = clamp(this.h * .20 + rand(112,-26), 68, this.h * .40);
-            b.targetX = b.x; b.targetY = b.y;
-            b.teleported = true;
-          }
-        }
-      } else if (b.mode === 'orbit') {
+      if (b.mode === 'orbit') {
         b.orbitAngle += dt * (1.1 + b.phase * .18);
         const rad = 120 + b.phase * 16;
         b.targetX = clamp(p.x + Math.cos(b.orbitAngle) * rad, 90, this.w - 90);
@@ -3457,21 +3357,16 @@
           b.teleported = true;
         }
       }
-
-      if (localFade && b.fadeTimer > 0) {
+      if (b.mode === 'fade' && b.fadeTimer > 0) {
         if (!b.teleported) b.alpha = Math.max(.16, (b.alpha || 1) - dt * 2.8);
-        else b.alpha = Math.min(this.mapIndex>=10 ? .72 : .62, (b.alpha || .2) + dt * 2.0);
+        else b.alpha = Math.min(.62, (b.alpha || .2) + dt * 1.8);
       } else {
         b.alpha = Math.min(1, (b.alpha || .7) + dt * 2.6);
       }
-      const follow = this.mapIndex===12 ? (1.72 + b.phase * .16) : (this.mapIndex>=10 ? (1.62 + b.phase * .15) : (1.5 + b.phase * .15));
-      b.x += ((b.targetX || b.x) - b.x) * Math.min(1, dt * follow);
-      b.y += ((b.targetY || b.y) - b.y) * Math.min(1, dt * follow);
-      const xPad = this.mapIndex>=10 ? 90 : 76;
-      const yMin = this.mapIndex>=10 ? 62 : 60;
-      const yMax = this.mapIndex===10 ? this.h * .40 : (this.mapIndex===11 ? this.h * .43 : (this.mapIndex===12 ? this.h * .41 : this.h * .46));
-      b.x = clamp(b.x, xPad, this.w - xPad);
-      b.y = clamp(b.y, yMin, yMax);
+      b.x += ((b.targetX || b.x) - b.x) * Math.min(1, dt * (1.5 + b.phase * .15));
+      b.y += ((b.targetY || b.y) - b.y) * Math.min(1, dt * (1.5 + b.phase * .15));
+      b.x = clamp(b.x, 76, this.w - 76);
+      b.y = clamp(b.y, 60, this.h * .46);
       return true;
     }
 
@@ -5471,8 +5366,7 @@
         baseHp: hp,
         speed: ([33,34,40,43,46,48,50,52,55,58,60][this.mapIndex] || 60) + this.mapIndex * 1.5,
         // En móvil el hitbox se compacta; la presencia épica queda en aura, patrón y audio, no en ocupar el lienzo.
-        r: ([36,54,58,62,68,70,72,74,76,80,82,84,86][this.mapIndex] || 86) * (this.mobileLandscape ? (.78*.88) : (this.mobilePortrait ? .66 : 1)),
-        displayScale: this.mapIndex===10 ? .92 : (this.mapIndex===11 ? .90 : (this.mapIndex===12 ? .93 : 1)),
+        r: ([36,54,58,62,68,70,72,74,76,80,82][this.mapIndex] || 82) * (this.mobileLandscape ? (.78*.88) : (this.mobilePortrait ? .66 : 1)),
         t: 0,
         attack: this.mapIndex===12 ? 1.38 : (this.mapIndex===11 ? 1.42 : (this.mapIndex===10 ? 1.46 : (this.mapIndex===9 ? 1.42 : (this.mapIndex===6 ? 1.28 : (([2.55,2.28,1.95,1.88,1.82,1.72,1.68,1.62,1.55,1.42,1.46,1.42,1.38][this.mapIndex] || 1.38)))))),
         specialCd: this.mapIndex===12 ? 3.55 : (this.mapIndex===11 ? 3.75 : (this.mapIndex===10 ? 3.85 : (this.mapIndex===9 ? 3.65 : (this.mapIndex===6 ? 3.35 : (([6.6,6.0,5.3,5.0,4.6,4.4,4.25,4.15,3.95,3.65,3.85,3.75,3.55][this.mapIndex] || 3.55)))))),
@@ -7794,8 +7688,7 @@
         const a = clamp(z.life / z.max, 0, 1);
         ctx.save();
         ctx.globalAlpha = .24 * a;
-        const bossGravityColor = this.mapIndex===11 ? '#46e7f2' : (this.mapIndex===10 ? '#ff9b45' : (this.mapIndex===12 ? '#ff8b4e' : '#9a43e8'));
-        ctx.fillStyle = z.type === 'toxic' ? '#b7ff69' : z.type === 'slow' ? '#83eaff' : z.type === 'gravityMine' ? '#c391ff' : z.type==='bossGravity' ? bossGravityColor : '#61ffc8';
+        ctx.fillStyle = z.type === 'toxic' ? '#b7ff69' : z.type === 'slow' ? '#83eaff' : z.type === 'gravityMine' ? '#c391ff' : z.type==='bossGravity' ? '#9a43e8' : '#61ffc8';
         ctx.beginPath(); ctx.arc(z.x, z.y, z.r, 0, Math.PI * 2); ctx.fill();
         ctx.globalAlpha = .65 * a;
         ctx.strokeStyle = ctx.fillStyle; ctx.lineWidth = 2; ctx.stroke();
@@ -7943,9 +7836,9 @@
         case 7: rot=Math.sin(t*.43)*.021;bob=Math.sin(t*.72)*5;const op=Math.sin(t*1.55);sx=1+op*.028;sy=1-op*.018;break;
         case 8: rot=Math.sin(t*1.1)*.03;bob=Math.sin(t*1.65)*4;const mp=Math.sin(t*3.3);sx=1+mp*.018;sy=1-mp*.01;if(tele>.35)rot+=Math.sin(t*13)*.006;break;
         case 9: rot=Math.sin(t*.52)*.025;bob=Math.sin(t*.76)*6;const zp=Math.sin(t*1.18);sx=1+zp*.025+tele*.035;sy=1+zp*.012+tele*.02;break;
-        case 10: rot=Math.sin(t*.74)*.034+Math.sin(t*3.6)*.006*phase;bob=Math.sin(t*.96)*6.2;const sp=Math.sin(t*1.58);sx=1+sp*.020+tele*.030;sy=1-sp*.012+tele*.018;if(tele>.38)rot+=Math.sin(t*11.2)*.005;break;
-        case 11: rot=Math.sin(t*.58)*.040+Math.sin(t*2.8)*.006*phase;bob=Math.sin(t*.82)*7.8;const hdp=Math.sin(t*1.32);sx=1+hdp*.022+tele*.028;sy=1-hdp*.015+tele*.020;if(tele>.40)bob+=Math.sin(t*5.8)*1.8;break;
-        case 12: rot=Math.sin(t*.52)*.028+Math.sin(t*4.0)*.005*phase;bob=Math.sin(t*.72)*5.6;const mgp=Math.sin(t*1.42);sx=1+mgp*.024+tele*.038;sy=1-mgp*.010+tele*.024;if(tele>.45)rot+=Math.sin(t*10.8)*.006;break;
+        case 10: rot=Math.sin(t*.68)*.032+Math.sin(t*3.2)*.005*phase;bob=Math.sin(t*.92)*5.5;const sp=Math.sin(t*1.42);sx=1+sp*.022+tele*.028;sy=1-sp*.010+tele*.015;break;
+        case 11: rot=Math.sin(t*.52)*.038+Math.sin(t*2.4)*.006*phase;bob=Math.sin(t*.70)*7;const hdp=Math.sin(t*1.18);sx=1+hdp*.024+tele*.025;sy=1-hdp*.012+tele*.018;break;
+        case 12: rot=Math.sin(t*.58)*.030+Math.sin(t*3.7)*.004*phase;bob=Math.sin(t*.86)*4.5;const mgp=Math.sin(t*1.55);sx=1+mgp*.026+tele*.035;sy=1-mgp*.012+tele*.020;if(tele>.45)rot+=Math.sin(t*10.5)*.006;break;
       }
       ctx.translate(0,bob);ctx.rotate(rot);ctx.scale(sx,sy);
     }
@@ -8215,16 +8108,11 @@
     }
 
     bossSpriteDimensions(e, sprite, baseMultiplier, mobileMultiplier=1) {
-      let w=e.r*baseMultiplier*(this.mobileLandscape?mobileMultiplier:1)*(e.displayScale||1);
+      let w=e.r*baseMultiplier*(this.mobileLandscape?mobileMultiplier:1);
       let h=w*(sprite.naturalHeight/sprite.naturalWidth);
       if(this.mobileLandscape){
         // Norma móvil: el jefe nunca domina más del 20% del ancho ni ~28% del alto útil.
         const fit=Math.min(1,(this.w*.20)/Math.max(1,w),(this.h*.28)/Math.max(1,h));
-        w*=fit;h*=fit;
-      } else if(e?.boss && this.mapIndex>=10){
-        const capW=this.mapIndex===11?this.w*.255:(this.w*.265);
-        const capH=this.mapIndex===12?this.h*.35:this.h*.34;
-        const fit=Math.min(1,capW/Math.max(1,w),capH/Math.max(1,h));
         w*=fit;h*=fit;
       }
       return {w,h};

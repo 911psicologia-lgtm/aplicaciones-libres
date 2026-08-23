@@ -55,3 +55,11 @@ BOSS EVOLUTION 1.4.0
 
 Versión 1.5.0
 Se añadieron assets dedicados para obstáculos y pickups, además de una facción secundaria de naves hostiles que aparece desde el Sector 3.
+
+
+Versión 1.6.0
+Assets realistas aprobados recortados e integrados. Enemigos insectoides separados en esbirrón/medio/mayor; jefes mantienen atlas propio. Desde Sector 3 aparece la facción Recuperadores con Scout, Frigate y Bomber y tácticas diferenciadas. Poderes y recursos utilizan pickups físicos específicos.
+
+
+VERSIÓN 1.8.0 — GAMEPLAY REBUILD
+Se añadieron entrenamiento, replay de sectores, checkpoint de jefe al 50%, amenazas frontales por perspectiva, mayor densidad, jefes reforzados y móviles, evolución de velocidad/precisión de la nave y una fase segura para recoger recompensas después de derrotar al jefe.

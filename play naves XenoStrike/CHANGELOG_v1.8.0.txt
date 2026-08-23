@@ -1,0 +1,15 @@
+SWARM//RIFT — Insecta Siege v1.8.0
+
+GAMEPLAY REBUILD
+- Mayor densidad de enemigos y objetivos por oleada; se recupera la sensación de enjambre.
+- Jefes con mucha más vida, movilidad transversal/vertical, fases más agresivas, refuerzos y patrones de disparo más densos.
+- Animación visual de jefes ampliada con balanceo, pulso, deformación y reacción de fase.
+- Disparo base evoluciona visual y mecánicamente con el nivel: más velocidad de proyectil, tamaño, estela, audio y penetración tardía.
+- La nave aumenta velocidad, aceleración y precisión de frenado progresivamente con el nivel.
+- Nuevo sistema de amenazas frontales: meteoros y naves se aproximan desde profundidad usando escalado progresivo; destruirlos antes del cruce otorga XP, créditos y posibles pickups.
+- Fase segura post-jefe: se limpian amenazas y los premios son atraídos automáticamente durante varios segundos antes de salir de la arena.
+- Menú de Entrenamiento: una oleada reducida + jefe de práctica con daño enemigo reducido.
+- Repetición de sectores ya desbloqueados conservada.
+- Checkpoint de arena para jefes ya derrotados: inicia directamente con el jefe al 50% de vida.
+- Jefes repetidos vuelven a conceder su poder de herencia; premio monetario reducido en checkpoint.
+- Migración básica de meta y checkpoint de v1.7 a v1.8.

@@ -27,3 +27,13 @@ Decisiones de diseño:
 [OK] PC mouse/touchpad sin clic: al mover el puntero sobre el canvas en GAME, la nave responde sin mantener botones presionados.
 [OK] Arte 1.1.0 integrado: nave en vista trasera, fondos ilustrados nuevos y atlas de enemigos por familias.
 [OK] Rework 1.2.0: UI táctica nueva, sectores enriquecidos, obstáculos por mundo y jefes con invocaciones.
+
+VALIDACIÓN v1.8.0
+[OK] node --check: game.js sin errores de sintaxis.
+[OK] manifest.json válido.
+[OK] Playwright escritorio 1280x720: menú y campaña inician sin page errors.
+[OK] Playwright campaña 12 s: nueva lógica de spawns/amenazas frontales sin page errors.
+[OK] Playwright entrenamiento: inicia y muestra controles de juego sin page errors.
+[OK] Playwright móvil landscape 844x390: rotate gate oculto, touch HUD visible y sin page errors.
+[OK] Entrenamiento, replay de sector y checkpoint de jefe 50% integrados al menú.
+[OK] Fase post-jefe segura con atracción automática de recompensas.

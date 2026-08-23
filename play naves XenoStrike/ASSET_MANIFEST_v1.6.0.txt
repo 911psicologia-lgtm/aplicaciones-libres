@@ -1,0 +1,6 @@
+Assets totales cacheados: 83
+Generated crops: 62
+- Obstáculos: 36
+- Naves: 12
+- Poderes/recursos: 13
+- Atlas insectoide jerárquico: 1 (18 criaturas)
