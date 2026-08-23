@@ -1,7 +1,7 @@
 (() => {
   'use strict';
 
-  const VERSION = '2.3.0';
+  const VERSION = '2.3.1';
   const STORAGE_KEY = 'rizoma_zombie_strike_v0_3_state';
   const SAVE_KEY = 'rizoma_zombie_strike_v0_3_save';
   const clamp = (v, a, b) => Math.max(a, Math.min(b, v));
@@ -904,9 +904,68 @@
     }]
   });
 
+  const COMPLETION_RELIC_WORLD = {
+    world1Core:1, world2Spore:2, world3Inferno:3, world4Hex:4, world5Spirit:5,
+    world6Neural:6, world7Abyss:7, world8Genesis:8, world9Threads:9, world10Zero:10,
+    world11Silica:11, world12Hadal:12
+  };
+
+  function reconcileCampaignProgress(p, options={}) {
+    if (!p) return { highestCleared:0, targetMap:0 };
+    const validWorld = w => Number.isInteger(w) && w >= 1 && w <= MAPS.length;
+    const evidence = new Set((p.completedMaps || []).map(Number).filter(validWorld));
+    // Legacy builds sometimes advanced unlockedMap/bestMap without persisting completedMaps.
+    const legacyUnlocked = Math.min(MAPS.length, Math.max(1, Number(p.unlockedMap) || 1));
+    for (let w=1; w<legacyUnlocked; w++) evidence.add(w);
+    const legacyBest = Math.min(MAPS.length, Math.max(1, Number(p.stats?.bestMap) || 1));
+    for (let w=1; w<legacyBest; w++) evidence.add(w);
+
+    // Boss ships are only captured after defeating a Guardian, so they are strong completion evidence.
+    for (const id of Object.keys(p.bossShips || {})) {
+      const m = /^bossShip(\d+)$/.exec(id);
+      if (m && validWorld(Number(m[1]))) evidence.add(Number(m[1]));
+    }
+    // Legacy versions sometimes preserved the relic even when completedMaps/unlockedMap lagged behind.
+    for (const [id, world] of Object.entries(COMPLETION_RELIC_WORLD)) {
+      if (p.relics?.[id] && validWorld(world)) evidence.add(world);
+    }
+    // A recorded defeated Guardian is also completion evidence.
+    for (const bossName of Object.keys(p.collection?.bosses || {})) {
+      if (!p.collection.bosses[bossName]) continue;
+      const idx = MAPS.findIndex(m => m.boss === bossName);
+      if (idx >= 0) evidence.add(idx + 1);
+    }
+
+    const highestCleared = evidence.size ? Math.max(...evidence) : 0;
+    // Campaign worlds are sequential. Repair historical gaps caused by version upgrades.
+    if (highestCleared > 0) for (let w=1; w<=highestCleared; w++) evidence.add(w);
+    p.completedMaps = [...evidence].filter(validWorld).sort((a,b)=>a-b);
+
+    const inferredUnlocked = highestCleared >= MAPS.length ? MAPS.length : Math.max(1, highestCleared + 1);
+    p.unlockedMap = Math.min(MAPS.length, Math.max(Number(p.unlockedMap) || 1, inferredUnlocked));
+
+    p.levelProgress = p.levelProgress || {1:1};
+    for (const w of p.completedMaps) p.levelProgress[w] = (WORLD_STAGE_TARGETS[w-1] || [20,30,40,50,60]).length;
+    if (highestCleared < MAPS.length) p.levelProgress[highestCleared + 1] = Math.max(1, p.levelProgress[highestCleared + 1] || 1);
+
+    // A save located in an already-cleared world is stale and must never drag the player backwards.
+    const savedWorld = p.lastSave?.mapIndex != null ? Number(p.lastSave.mapIndex) + 1 : 0;
+    if (options.clearStaleSave !== false && savedWorld > 0 && savedWorld <= highestCleared) p.lastSave = null;
+
+    let targetMap = null;
+    for (let i=0; i<Math.min(p.unlockedMap, MAPS.length); i++) {
+      if (!p.completedMaps.includes(i+1)) { targetMap = i; break; }
+    }
+    return { highestCleared, targetMap };
+  }
+
   let state = loadState();
   if (!state.profiles.find(p => p.id === state.activeProfileId)) state.activeProfileId = state.profiles[0].id;
   let currentProfile = () => state.profiles.find(p => p.id === state.activeProfileId) || state.profiles[0];
+
+  function campaignTargetMap(p=currentProfile()) {
+    return reconcileCampaignProgress(p).targetMap;
+  }
 
   const els = {};
   const bindEls = () => {
@@ -981,6 +1040,7 @@
       p.hangarFocus = p.hangarFocus || 'engine';
       p.ranking = p.ranking || [];
       p.lastSave = p.lastSave || null;
+      reconcileCampaignProgress(p);
     });
     return s;
   }
@@ -6474,6 +6534,7 @@
       p.levelProgress = p.levelProgress || {1:1}; p.levelProgress[this.mapIndex + 1] = (WORLD_STAGE_TARGETS[this.mapIndex]||[20,30,40,50,60]).length; p.levelProgress[this.mapIndex + 2] = Math.max(p.levelProgress[this.mapIndex + 2] || 0, this.mapIndex + 1 < MAPS.length ? 1 : 0);
       p.unlockedMap = Math.max(p.unlockedMap, Math.min(MAPS.length, this.mapIndex + 2));
       p.collection.bosses[MAPS[this.mapIndex].boss] = true;
+      reconcileCampaignProgress(p, { clearStaleSave:true });
       this.lastWorldReward = progressionReward;
       this.showRelicAcquired(progressionReward);
       const mapBonus = 140 + this.mapIndex * 25 + (this.mapIndex===9?420:(this.mapIndex===8?220:0));
@@ -8485,13 +8546,16 @@
     if (!els.savedGamesList) return;
     const rows = state.profiles.slice().sort((a,b) => (b.stats?.bestScore || 0) - (a.stats?.bestScore || 0));
     els.savedGamesList.innerHTML = rows.map(p => {
+      reconcileCampaignProgress(p);
       const hasSave = !!p.lastSave;
-      const level = hasSave ? (p.lastSave.mapIndex + 1) : (p.unlockedMap || 1);
+      const target = campaignTargetMap(p);
+      const level = hasSave ? (p.lastSave.mapIndex + 1) : (target != null ? target + 1 : (p.unlockedMap || MAPS.length));
       const wave = hasSave ? ` · nivel ${p.lastSave.wave}` : '';
       const diffName = DIFFICULTY_MODES[hasSave ? p.lastSave.difficulty : p.preferredDifficulty]?.name || 'Normal';
+      const stateLabel = hasSave ? 'Continuar' : (target != null ? 'Campaña' : 'Archivo');
       return `<button class="saved-game-row" data-load-profile="${p.id}">
-        <span><b>${p.name || 'Jugador'}</b><small>Mundo ${level}${wave} · ${diffName} · récord ${p.stats?.bestScore || 0}</small></span>
-        <strong>${hasSave ? 'Continuar' : 'Nueva'}</strong>
+        <span><b>${p.name || 'Jugador'}</b><small>${target==null&&!hasSave?'Campaña disponible completada':`Mundo ${level}${wave}`} · ${diffName} · récord ${p.stats?.bestScore || 0}</small></span>
+        <strong>${stateLabel}</strong>
       </button>`;
     }).join('') || '<small class="muted">No hay partidas guardadas todavía.</small>';
     els.savedGamesList.querySelectorAll('[data-load-profile]').forEach(btn => btn.addEventListener('click', () => {
@@ -8501,8 +8565,13 @@
       state.activeProfileId = p.id;
       localStorage.setItem('rzs_last_player_name', p.name || 'Jugador');
       saveState(); renderAll();
+      reconcileCampaignProgress(p);
       if (p.lastSave) game.start(p.lastSave.mapIndex, p.lastSave);
-      else game.start(Math.max(0, (p.unlockedMap || 1) - 1));
+      else {
+        const target=campaignTargetMap(p);
+        if(target==null) showScreen('screenReplay');
+        else startWorldOneWithNarrative(target);
+      }
     }));
   }
 
@@ -8899,8 +8968,10 @@ ${JSON.stringify(snapshot, null, 2)}`;
       p.preferredPlayMode = ['story','direct'].includes(state.settings.playMode) ? state.settings.playMode : (p.preferredPlayMode || 'story');
       saveState();
       renderAll();
-      const targetMap = Math.max(0, (p.unlockedMap || 1) - 1);
-      startWorldOneWithNarrative(targetMap);
+      reconcileCampaignProgress(p);
+      const targetMap = campaignTargetMap(p);
+      if(targetMap==null) showScreen('screenReplay');
+      else startWorldOneWithNarrative(targetMap);
     });
     els.playerNameInput?.addEventListener('keydown', e => { if (e.key === 'Enter') els.btnSaveProfileName.click(); });
     els.btnCreateProfile.addEventListener('click', () => {
@@ -8935,7 +9006,12 @@ ${JSON.stringify(snapshot, null, 2)}`;
     window.addEventListener('resize',syncOrientationLayout,{passive:true});
     window.visualViewport?.addEventListener('resize',syncOrientationLayout,{passive:true});
     window.addEventListener('orientationchange',()=>{clearTimeout(orientationSyncTimer);orientationSyncTimer=setTimeout(()=>{updateViewportVars();updateGlobalOrientationGate();game?.resize?.();},220);},{passive:true});
-    els.btnNewRun?.addEventListener('click', () => { const target=Math.max(0,(currentProfile().unlockedMap||1)-1); startWorldOneWithNarrative(target); });
+    els.btnNewRun?.addEventListener('click', () => {
+      const p=currentProfile();reconcileCampaignProgress(p);saveState();
+      const target=campaignTargetMap(p);
+      if(target==null) showScreen('screenReplay');
+      else startWorldOneWithNarrative(target);
+    });
     els.btnContinue?.addEventListener('click', () => {
       if (!els.savedGamesList) return;
       els.savedGamesList.classList.toggle('hidden');
@@ -9000,14 +9076,22 @@ ${JSON.stringify(snapshot, null, 2)}`;
       } else if (game.resultMode === 'victory') {
         hideOverlays();
         if (game.run.mapComplete && game.mapIndex + 1 < MAPS.length) {
+          const completedMapIndex = game.mapIndex;
+          const nextMapIndex = completedMapIndex + 1;
           const carryLives = Math.min(MAX_TOTAL_LIVES - 1, game.extraLives || 0);
           const continueToNextWorld = () => {
-            game.start(game.mapIndex + 1);
+            const p=currentProfile();
+            p.completedMaps=Array.from(new Set([...(p.completedMaps||[]), completedMapIndex+1]));
+            p.unlockedMap=Math.max(p.unlockedMap||1,nextMapIndex+1);
+            p.lastSave=null;
+            reconcileCampaignProgress(p);
+            saveState();
+            game.start(nextMapIndex);
             game.extraLives = carryLives;
             game.updateHud();
           };
-          if (game.mapIndex === 0 && getPlayMode() === 'story') showStorySequence(WORLD_ONE_STORY.outro, continueToNextWorld);
-          else if(game.mapIndex===9&&getPlayMode()==='story'){game.running=false;AudioFX.stopMusic();showStorySequence(WORLD_TEN_EPILOGUE,continueToNextWorld);}
+          if (completedMapIndex === 0 && getPlayMode() === 'story') showStorySequence(WORLD_ONE_STORY.outro, continueToNextWorld);
+          else if(completedMapIndex===9&&getPlayMode()==='story'){game.running=false;AudioFX.stopMusic();showStorySequence(WORLD_TEN_EPILOGUE,continueToNextWorld);}
           else continueToNextWorld();
         } else if((game.mapIndex===10||game.mapIndex===11)&&getPlayMode()==='story'){
           game.running=false;AudioFX.stopMusic();showScreen('screenReplay');
