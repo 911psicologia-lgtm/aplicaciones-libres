@@ -774,24 +774,24 @@
     { id:'w7_ray_2', name:'Raya Abisal', color:'#7ecbff', hp:184, speed:184, r:22, xp:41, score:98, coin:14, behavior:'chase', spriteKey:'world7Enemy4', futureWorld:7, familyIndex:1 },
     { id:'w7_crab_1', name:'Crustáceo Abisal', color:'#8dffcf', hp:252, speed:106, r:27, xp:50, score:126, coin:17, behavior:'blindado', spriteKey:'world7Enemy5', futureWorld:7, familyIndex:2 },
     { id:'w7_crab_2', name:'Crustáceo Gravitacional', color:'#9fe8ff', hp:270, speed:98, r:28, xp:53, score:134, coin:18, behavior:'buffer', spriteKey:'world7Enemy6', futureWorld:7, familyIndex:2 },
-    { id:'w8_acid_1', name:'Glóbulo Ácido', color:'#caff42', hp:148, speed:182, r:19, xp:37, score:88, coin:12, behavior:'zigzag', spriteKey:'world8Enemy1', futureWorld:8, familyIndex:0 },
-    { id:'w8_acid_2', name:'Glóbulo Digestivo', color:'#ff7059', hp:162, speed:168, r:20, xp:39, score:94, coin:13, behavior:'toxic', spriteKey:'world8Enemy2', futureWorld:8, familyIndex:0 },
-    { id:'w8_launcher_1', name:'Lanzador Orgánico', color:'#ff5d45', hp:194, speed:142, r:23, xp:43, score:104, coin:14, behavior:'chase', spriteKey:'world8Enemy3', futureWorld:8, familyIndex:1 },
-    { id:'w8_launcher_2', name:'Lanzador de Espinas', color:'#ff934d', hp:212, speed:132, r:24, xp:46, score:112, coin:15, behavior:'buffer', spriteKey:'world8Enemy4', futureWorld:8, familyIndex:1 },
-    { id:'w8_parasite_1', name:'Engendro Parásito', color:'#d54cff', hp:238, speed:126, r:25, xp:49, score:120, coin:16, behavior:'kamikaze', spriteKey:'world8Enemy5', futureWorld:8, familyIndex:2 },
-    { id:'w8_parasite_2', name:'Macrófago Devorador', color:'#ff7bb9', hp:286, speed:102, r:28, xp:56, score:140, coin:19, behavior:'blindado', spriteKey:'world8Enemy6', futureWorld:8, familyIndex:2 },
-    { id:'w9_shuriken_1', name:'Shuriken Drone', color:'#f7f2ff', hp:174, speed:224, r:18, xp:43, score:104, coin:14, behavior:'zigzag', spriteKey:'world9Enemy1', futureWorld:9, familyIndex:0 },
-    { id:'w9_shuriken_2', name:'Shuriken Fantasma', color:'#a878ff', hp:188, speed:238, r:19, xp:45, score:110, coin:15, behavior:'evader', spriteKey:'world9Enemy2', futureWorld:9, familyIndex:0 },
-    { id:'w9_ronin_1', name:'Fragmento Ronin', color:'#ff5b83', hp:226, speed:188, r:22, xp:50, score:124, coin:17, behavior:'chase', spriteKey:'world9Enemy3', futureWorld:9, familyIndex:1 },
-    { id:'w9_ronin_2', name:'Ronin de Portal', color:'#b77cff', hp:244, speed:176, r:23, xp:53, score:132, coin:18, behavior:'kamikaze', spriteKey:'world9Enemy4', futureWorld:9, familyIndex:1 },
-    { id:'w9_mecha_1', name:'Mecha Ronin', color:'#ff3c63', hp:310, speed:124, r:28, xp:62, score:154, coin:21, behavior:'blindado', spriteKey:'world9Enemy5', futureWorld:9, familyIndex:2 },
-    { id:'w9_mecha_2', name:'Coloso de Tinta', color:'#8a5cff', hp:346, speed:108, r:30, xp:68, score:170, coin:23, behavior:'buffer', spriteKey:'world9Enemy6', futureWorld:9, familyIndex:2 },
-    { id:'w10_scavenger_1', name:'Andro-Carroñero', color:'#ff5b45', hp:232, speed:232, r:19, xp:52, score:128, coin:18, behavior:'zigzag', spriteKey:'world10Enemy1', futureWorld:10, familyIndex:0 },
-    { id:'w10_scavenger_2', name:'Raptor Zero', color:'#ff8a55', hp:254, speed:246, r:20, xp:55, score:136, coin:19, behavior:'evader', spriteKey:'world10Enemy2', futureWorld:10, familyIndex:0 },
-    { id:'w10_necroid_1', name:'Necroide de Conversión', color:'#d94172', hp:302, speed:186, r:23, xp:61, score:152, coin:21, behavior:'chase', spriteKey:'world10Enemy3', futureWorld:10, familyIndex:1 },
-    { id:'w10_necroid_2', name:'Apóstol de Niebla Zero', color:'#c22cff', hp:326, speed:170, r:24, xp:65, score:162, coin:22, behavior:'toxic', spriteKey:'world10Enemy4', futureWorld:10, familyIndex:1 },
-    { id:'w10_centurion_1', name:'Centurión Zero', color:'#ff3b32', hp:414, speed:128, r:29, xp:78, score:194, coin:27, behavior:'blindado', spriteKey:'world10Enemy5', futureWorld:10, familyIndex:2 },
-    { id:'w10_centurion_2', name:'Centurión Singular', color:'#a64cff', hp:462, speed:112, r:31, xp:84, score:212, coin:29, behavior:'buffer', spriteKey:'world10Enemy6', futureWorld:10, familyIndex:2 }
+    { id:'w8_acid_1', name:'Glóbulo Ácido', color:'#caff42', hp:148, speed:182, r:19, xp:37, score:88, coin:12, behavior:'zigzag', spriteKey:'world8Enemy1', futureWorld:8, familyIndex:0, visualScale:.86 },
+    { id:'w8_acid_2', name:'Glóbulo Digestivo', color:'#ff7059', hp:162, speed:168, r:20, xp:39, score:94, coin:13, behavior:'toxic', spriteKey:'world8Enemy2', futureWorld:8, familyIndex:0, visualScale:.88 },
+    { id:'w8_launcher_1', name:'Lanzador Orgánico', color:'#ff5d45', hp:194, speed:142, r:23, xp:43, score:104, coin:14, behavior:'chase', spriteKey:'world8Enemy3', futureWorld:8, familyIndex:1, visualScale:.90 },
+    { id:'w8_launcher_2', name:'Lanzador de Espinas', color:'#ff934d', hp:212, speed:132, r:24, xp:46, score:112, coin:15, behavior:'buffer', spriteKey:'world8Enemy4', futureWorld:8, familyIndex:1, visualScale:.92 },
+    { id:'w8_parasite_1', name:'Engendro Parásito', color:'#d54cff', hp:238, speed:126, r:25, xp:49, score:120, coin:16, behavior:'kamikaze', spriteKey:'world8Enemy5', futureWorld:8, familyIndex:2, visualScale:.96 },
+    { id:'w8_parasite_2', name:'Macrófago Devorador', color:'#ff7bb9', hp:286, speed:102, r:28, xp:56, score:140, coin:19, behavior:'blindado', spriteKey:'world8Enemy6', futureWorld:8, familyIndex:2, visualScale:1.02 },
+    { id:'w9_shuriken_1', name:'Shuriken Drone', color:'#f7f2ff', hp:174, speed:224, r:18, xp:43, score:104, coin:14, behavior:'zigzag', spriteKey:'world9Enemy1', futureWorld:9, familyIndex:0, visualScale:.82 },
+    { id:'w9_shuriken_2', name:'Shuriken Fantasma', color:'#a878ff', hp:188, speed:238, r:19, xp:45, score:110, coin:15, behavior:'evader', spriteKey:'world9Enemy2', futureWorld:9, familyIndex:0, visualScale:.86 },
+    { id:'w9_ronin_1', name:'Fragmento Ronin', color:'#ff5b83', hp:226, speed:188, r:22, xp:50, score:124, coin:17, behavior:'chase', spriteKey:'world9Enemy3', futureWorld:9, familyIndex:1, visualScale:.90 },
+    { id:'w9_ronin_2', name:'Ronin de Portal', color:'#b77cff', hp:244, speed:176, r:23, xp:53, score:132, coin:18, behavior:'kamikaze', spriteKey:'world9Enemy4', futureWorld:9, familyIndex:1, visualScale:.94 },
+    { id:'w9_mecha_1', name:'Mecha Ronin', color:'#ff3c63', hp:310, speed:124, r:28, xp:62, score:154, coin:21, behavior:'blindado', spriteKey:'world9Enemy5', futureWorld:9, familyIndex:2, visualScale:1.00 },
+    { id:'w9_mecha_2', name:'Coloso de Tinta', color:'#8a5cff', hp:346, speed:108, r:30, xp:68, score:170, coin:23, behavior:'buffer', spriteKey:'world9Enemy6', futureWorld:9, familyIndex:2, visualScale:1.04 },
+    { id:'w10_scavenger_1', name:'Andro-Carroñero', color:'#ff5b45', hp:232, speed:232, r:19, xp:52, score:128, coin:18, behavior:'zigzag', spriteKey:'world10Enemy1', futureWorld:10, familyIndex:0, visualScale:.84 },
+    { id:'w10_scavenger_2', name:'Raptor Zero', color:'#ff8a55', hp:254, speed:246, r:20, xp:55, score:136, coin:19, behavior:'evader', spriteKey:'world10Enemy2', futureWorld:10, familyIndex:0, visualScale:.88 },
+    { id:'w10_necroid_1', name:'Necroide de Conversión', color:'#d94172', hp:302, speed:186, r:23, xp:61, score:152, coin:21, behavior:'chase', spriteKey:'world10Enemy3', futureWorld:10, familyIndex:1, visualScale:.92 },
+    { id:'w10_necroid_2', name:'Apóstol de Niebla Zero', color:'#c22cff', hp:326, speed:170, r:24, xp:65, score:162, coin:22, behavior:'toxic', spriteKey:'world10Enemy4', futureWorld:10, familyIndex:1, visualScale:.96 },
+    { id:'w10_centurion_1', name:'Centurión Zero', color:'#ff3b32', hp:414, speed:128, r:29, xp:78, score:194, coin:27, behavior:'blindado', spriteKey:'world10Enemy5', futureWorld:10, familyIndex:2, visualScale:1.00 },
+    { id:'w10_centurion_2', name:'Centurión Singular', color:'#a64cff', hp:462, speed:112, r:31, xp:84, score:212, coin:29, behavior:'buffer', spriteKey:'world10Enemy6', futureWorld:10, familyIndex:2, visualScale:1.05 }
   ];
 
   const ACHIEVEMENTS = [
@@ -3922,7 +3922,7 @@
     spawnWorldNineSubBoss(){
       const w=this.worldNineState;if(!w)return null;w.subBossSeen=w.subBossSeen||[];if(w.subBossSeen.includes(this.wave)||this.enemies.some(e=>e.w9SubBoss&&e.hp>0))return null;
       const names=['','Kensei Fractal','Ronin del Eclipse','Shogun de la Página Rota','Mecha Kuro'];const id=this.wave>=4?'w9_mecha_2':'w9_mecha_1';this.spawnEnemy(id,false);const e=this.enemies[this.enemies.length-1];if(!e||e.boss)return null;
-      e.w9SubBoss=true;e.name=names[this.wave]||'Guardián de Viñeta';e.hp*=2.85+this.wave*.18;e.baseHp=e.hp;e.r*=1.26;e.speed*=.88;e.futureFire=.55;e.score=Math.ceil(e.score*2.2);e.coin=Math.ceil(e.coin*2);w.subBossSeen.push(this.wave);this.spawnWorldNinePortalRift(1,true);this.toast('⚔ SUBJEFE MULTIVERSAL',e.name);return e;
+      e.w9SubBoss=true;e.name=names[this.wave]||'Guardián de Viñeta';e.visualScale=1.08;e.hp*=2.85+this.wave*.18;e.baseHp=e.hp;e.r*=1.26;e.speed*=.88;e.futureFire=.55;e.score=Math.ceil(e.score*2.2);e.coin=Math.ceil(e.coin*2);w.subBossSeen.push(this.wave);this.spawnWorldNinePortalRift(1,true);this.toast('⚔ SUBJEFE MULTIVERSAL',e.name);return e;
     }
 
     triggerWorldNineHorde(){
@@ -3974,7 +3974,7 @@
     spawnWorldTenSubBoss(){
       const w=this.worldTenState;if(!w)return null;w.subBossSeen=w.subBossSeen||[];if(w.subBossSeen.includes(this.wave)||this.enemies.some(e=>e.w10SubBoss&&e.hp>0))return null;
       const names=['','Raptor Primario','Apóstol Necro-Zero','Centurión de Convergencia','Verdugo de la Singularidad','Arconte Zero','Mariscal del Fin'];const id=this.wave>=4?'w10_centurion_2':(this.wave>=2?'w10_necroid_2':'w10_scavenger_2');this.spawnEnemy(id,false);const e=this.enemies[this.enemies.length-1];if(!e||e.boss)return null;
-      e.w10SubBoss=true;e.name=names[this.wave]||'Subnúcleo Zero';e.spriteKey=['','world10Subboss1','world10Subboss2','world10Subboss3','world10Subboss4','world10Subboss5','world10Subboss6'][this.wave]||e.spriteKey;e.hp*=3.15+this.wave*.24;e.baseHp=e.hp;e.r*=1.34;e.speed*=.88;e.futureFire=.48;e.score=Math.ceil(e.score*2.55);e.coin=Math.ceil(e.coin*2.3);w.subBossSeen.push(this.wave);this.spawnWorldTenSingularity(1,true);this.toast('⊘ SUBJEFE ZERO',e.name);return e;
+      e.w10SubBoss=true;e.name=names[this.wave]||'Subnúcleo Zero';e.spriteKey=['','world10Subboss1','world10Subboss2','world10Subboss3','world10Subboss4','world10Subboss5','world10Subboss6'][this.wave]||e.spriteKey;e.visualScale=1.1;e.hp*=3.15+this.wave*.24;e.baseHp=e.hp;e.r*=1.34;e.speed*=.88;e.futureFire=.48;e.score=Math.ceil(e.score*2.55);e.coin=Math.ceil(e.coin*2.3);w.subBossSeen.push(this.wave);this.spawnWorldTenSingularity(1,true);this.toast('⊘ SUBJEFE ZERO',e.name);return e;
     }
     triggerWorldTenHorde(){
       if(this.wave<1||this.wave>7)return;const n=this.mobileLandscape?(this.wave>=5?9:7):(this.wave>=5?14:11),own=WORLD_TEN_MINION_FAMILIES;let heavy=0;
@@ -7422,7 +7422,42 @@
       else if(fam===1){ctx.rotate(-e.t*.35);ctx.fillStyle='#100914';ctx.strokeStyle=e.color;ctx.lineWidth=2.4;ctx.beginPath();ctx.moveTo(0,-e.r*1.2);ctx.lineTo(e.r*.72,-e.r*.15);ctx.lineTo(e.r*.35,e.r*.82);ctx.lineTo(0,e.r*.48);ctx.lineTo(-e.r*.35,e.r*.82);ctx.lineTo(-e.r*.72,-e.r*.15);ctx.closePath();ctx.fill();ctx.stroke();ctx.strokeStyle='#f5f1ff';ctx.lineWidth=1.5;ctx.beginPath();ctx.moveTo(-e.r*1.05,e.r*.72);ctx.lineTo(e.r*1.08,-e.r*.75);ctx.stroke();}
       else{ctx.rotate(-e.t*.25);ctx.fillStyle='#09070d';ctx.strokeStyle=e.color;ctx.lineWidth=2.8;this.drawPolygon(ctx,0,0,e.r,6,true);ctx.globalAlpha=.75;ctx.strokeStyle='#f3efff';this.drawPolygon(ctx,0,0,e.r*.68,6,false);ctx.globalAlpha=1;ctx.fillStyle=e.color;ctx.beginPath();ctx.arc(0,0,e.r*(.24+.06*pulse),0,Math.PI*2);ctx.fill();for(let i=0;i<4;i++){const a=Math.PI/2*i+Math.PI/4;ctx.strokeStyle=e.color;ctx.lineWidth=3;ctx.beginPath();ctx.moveTo(Math.cos(a)*e.r*.72,Math.sin(a)*e.r*.72);ctx.lineTo(Math.cos(a)*e.r*1.28,Math.sin(a)*e.r*1.28);ctx.stroke();}}ctx.restore();}
 
-    drawWorldTenEnemy(ctx,e){if(e.spriteKey&&this.getAsset(e.spriteKey)){this.drawEnemyShip(ctx,e,e.spriteKey);return;}const fam=e.familyIndex||0,pulse=.5+.5*Math.sin(e.t*5.7);ctx.save();ctx.shadowBlur=18;ctx.shadowColor=e.color;if(fam===0){ctx.rotate(e.t*1.2);ctx.fillStyle='#12080a';ctx.strokeStyle=e.color;ctx.lineWidth=2.4;this.drawPolygon(ctx,0,0,e.r*1.12,5,true);ctx.globalAlpha=.82;ctx.strokeStyle='#ffb05a';this.drawPolygon(ctx,0,0,e.r*.62,5,false);ctx.globalAlpha=1;ctx.fillStyle='#ff5b45';ctx.beginPath();ctx.arc(0,0,e.r*(.18+.06*pulse),0,Math.PI*2);ctx.fill();}else if(fam===1){ctx.rotate(-e.t*.18);ctx.fillStyle='#160714';ctx.strokeStyle=e.color;ctx.lineWidth=2.6;ctx.beginPath();ctx.ellipse(0,0,e.r*.92,e.r*1.12,0,0,Math.PI*2);ctx.fill();ctx.stroke();for(let i=0;i<5;i++){const a=i*Math.PI*2/5+e.t*.18;ctx.globalAlpha=.65;ctx.beginPath();ctx.moveTo(Math.cos(a)*e.r*.55,Math.sin(a)*e.r*.65);ctx.quadraticCurveTo(Math.cos(a+.35)*e.r,Math.sin(a+.35)*e.r,Math.cos(a+.18)*e.r*1.45,Math.sin(a+.18)*e.r*1.45);ctx.stroke();}ctx.globalAlpha=1;ctx.fillStyle='#c22cff';ctx.beginPath();ctx.arc(0,0,e.r*(.24+.05*pulse),0,Math.PI*2);ctx.fill();}else{ctx.rotate(e.t*.12);ctx.fillStyle='#0b080d';ctx.strokeStyle=e.color;ctx.lineWidth=3;this.drawPolygon(ctx,0,0,e.r*1.08,8,true);ctx.globalAlpha=.76;ctx.strokeStyle='#ffb05a';this.drawPolygon(ctx,0,0,e.r*.70,8,false);ctx.globalAlpha=1;for(let i=0;i<4;i++){const a=i*Math.PI/2+Math.PI/4;ctx.strokeStyle=i%2?'#c22cff':'#ff3b32';ctx.lineWidth=3.2;ctx.beginPath();ctx.moveTo(Math.cos(a)*e.r*.72,Math.sin(a)*e.r*.72);ctx.lineTo(Math.cos(a)*e.r*1.38,Math.sin(a)*e.r*1.38);ctx.stroke();}ctx.fillStyle='#ff3b32';ctx.beginPath();ctx.arc(0,0,e.r*(.23+.06*pulse),0,Math.PI*2);ctx.fill();}ctx.restore();}
+    drawWorldTenEnemy(ctx,e){
+      if(e.spriteKey&&this.getAsset(e.spriteKey)){this.drawEnemyShip(ctx,e,e.spriteKey);return;}
+      const fam=e.familyIndex||0,pulse=.5+.5*Math.sin(e.t*5.7),key=e.spriteKey||'';
+      ctx.save();ctx.shadowBlur=18;ctx.shadowColor=e.color;ctx.lineCap='round';ctx.lineJoin='round';
+      if(key==='world10Enemy1'||key==='world10Subboss1'){
+        ctx.rotate(Math.sin(e.t*1.5)*.08);
+        ctx.strokeStyle=e.color;ctx.fillStyle='#12080a';ctx.lineWidth=2.8;
+        ctx.beginPath();ctx.moveTo(0,-e.r*1.18);ctx.lineTo(e.r*.82,-e.r*.22);ctx.lineTo(e.r*.44,e.r*1.02);ctx.lineTo(0,e.r*.38);ctx.lineTo(-e.r*.44,e.r*1.02);ctx.lineTo(-e.r*.82,-e.r*.22);ctx.closePath();ctx.fill();ctx.stroke();
+        for(const s of [-1,1]){ctx.beginPath();ctx.moveTo(s*e.r*.42,-e.r*.12);ctx.quadraticCurveTo(s*e.r*1.18,e.r*.14,s*e.r*.86,e.r*.98);ctx.stroke();}
+        ctx.fillStyle='#ff6f54';ctx.beginPath();ctx.arc(0,-e.r*.05,e.r*(.22+.06*pulse),0,Math.PI*2);ctx.fill();
+      }else if(key==='world10Enemy2'||key==='world10Subboss2'){
+        ctx.strokeStyle=e.color;ctx.fillStyle='#16080d';ctx.lineWidth=2.7;
+        ctx.beginPath();ctx.moveTo(0,-e.r*1.12);ctx.lineTo(e.r*.96,-e.r*.22);ctx.lineTo(e.r*.56,e.r*.92);ctx.lineTo(0,e.r*.52);ctx.lineTo(-e.r*.56,e.r*.92);ctx.lineTo(-e.r*.96,-e.r*.22);ctx.closePath();ctx.fill();ctx.stroke();
+        ctx.globalAlpha=.7;ctx.strokeStyle='#ffb05a';ctx.beginPath();ctx.arc(0,e.r*.05,e.r*.78,0,Math.PI*2);ctx.stroke();ctx.globalAlpha=1;
+        for(const s of [-1,1]){ctx.beginPath();ctx.moveTo(s*e.r*.28,e.r*.08);ctx.quadraticCurveTo(s*e.r*1.06,e.r*.34,s*e.r*.72,e.r*1.02);ctx.stroke();}
+        ctx.fillStyle='#ff8c5f';ctx.beginPath();ctx.arc(0,0,e.r*(.18+.05*pulse),0,Math.PI*2);ctx.fill();
+      }else if(key==='world10Enemy3'||key==='world10Subboss3'){
+        ctx.strokeStyle=e.color;ctx.fillStyle='#130711';ctx.lineWidth=2.8;
+        ctx.beginPath();ctx.ellipse(0,e.r*.08,e.r*.56,e.r*1.08,0,0,Math.PI*2);ctx.fill();ctx.stroke();
+        for(const s of [-1,1]){ctx.beginPath();ctx.moveTo(s*e.r*.34,-e.r*.72);ctx.lineTo(s*e.r*.98,-e.r*.38);ctx.lineTo(s*e.r*.78,e.r*.44);ctx.lineTo(s*e.r*.26,e.r*.30);ctx.closePath();ctx.fill();ctx.stroke();}
+        ctx.fillStyle='#c22cff';ctx.beginPath();ctx.arc(0,-e.r*.06,e.r*(.2+.05*pulse),0,Math.PI*2);ctx.fill();
+      }else if(key==='world10Enemy4'||key==='world10Subboss4'){
+        ctx.rotate(-e.t*.18);ctx.fillStyle='#160714';ctx.strokeStyle=e.color;ctx.lineWidth=2.6;ctx.beginPath();ctx.ellipse(0,0,e.r*.92,e.r*1.12,0,0,Math.PI*2);ctx.fill();ctx.stroke();for(let i=0;i<5;i++){const a=i*Math.PI*2/5+e.t*.18;ctx.globalAlpha=.65;ctx.beginPath();ctx.moveTo(Math.cos(a)*e.r*.55,Math.sin(a)*e.r*.65);ctx.quadraticCurveTo(Math.cos(a+.35)*e.r,Math.sin(a+.35)*e.r,Math.cos(a+.18)*e.r*1.45,Math.sin(a+.18)*e.r*1.45);ctx.stroke();}ctx.globalAlpha=1;ctx.fillStyle='#c22cff';ctx.beginPath();ctx.arc(0,0,e.r*(.24+.05*pulse),0,Math.PI*2);ctx.fill();
+      }else if(key==='world10Enemy5'||key==='world10Subboss5'){
+        ctx.rotate(e.t*.12);ctx.fillStyle='#0b080d';ctx.strokeStyle=e.color;ctx.lineWidth=3;this.drawPolygon(ctx,0,0,e.r*1.08,8,true);ctx.globalAlpha=.76;ctx.strokeStyle='#ffb05a';this.drawPolygon(ctx,0,0,e.r*.70,8,false);ctx.globalAlpha=1;for(let i=0;i<4;i++){const a=i*Math.PI/2+Math.PI/4;ctx.strokeStyle=i%2?'#c22cff':'#ff3b32';ctx.lineWidth=3.2;ctx.beginPath();ctx.moveTo(Math.cos(a)*e.r*.72,Math.sin(a)*e.r*.72);ctx.lineTo(Math.cos(a)*e.r*1.38,Math.sin(a)*e.r*1.38);ctx.stroke();}ctx.fillStyle='#ff3b32';ctx.beginPath();ctx.arc(0,0,e.r*(.23+.06*pulse),0,Math.PI*2);ctx.fill();
+      }else if(key==='world10Enemy6'||key==='world10Subboss6'){
+        ctx.rotate(e.t*.06);ctx.fillStyle='#0e0710';ctx.strokeStyle=e.color;ctx.lineWidth=3.2;this.drawPolygon(ctx,0,0,e.r*1.14,10,true);ctx.globalAlpha=.8;ctx.strokeStyle='#ffb05a';this.drawPolygon(ctx,0,0,e.r*.74,10,false);ctx.globalAlpha=1;for(let i=0;i<5;i++){const a=i*Math.PI*2/5-Math.PI/2;ctx.strokeStyle=i%2?'#ff3b32':'#c22cff';ctx.lineWidth=2.7;ctx.beginPath();ctx.moveTo(Math.cos(a)*e.r*.36,Math.sin(a)*e.r*.36);ctx.lineTo(Math.cos(a)*e.r*1.34,Math.sin(a)*e.r*1.34);ctx.stroke();}ctx.fillStyle='#ff5a48';ctx.beginPath();ctx.arc(0,0,e.r*(.24+.06*pulse),0,Math.PI*2);ctx.fill();
+      }else if(fam===0){
+        ctx.rotate(e.t*1.2);ctx.fillStyle='#12080a';ctx.strokeStyle=e.color;ctx.lineWidth=2.4;this.drawPolygon(ctx,0,0,e.r*1.12,5,true);ctx.globalAlpha=.82;ctx.strokeStyle='#ffb05a';this.drawPolygon(ctx,0,0,e.r*.62,5,false);ctx.globalAlpha=1;ctx.fillStyle='#ff5b45';ctx.beginPath();ctx.arc(0,0,e.r*(.18+.06*pulse),0,Math.PI*2);ctx.fill();
+      }else if(fam===1){
+        ctx.rotate(-e.t*.18);ctx.fillStyle='#160714';ctx.strokeStyle=e.color;ctx.lineWidth=2.6;ctx.beginPath();ctx.ellipse(0,0,e.r*.92,e.r*1.12,0,0,Math.PI*2);ctx.fill();ctx.stroke();for(let i=0;i<5;i++){const a=i*Math.PI*2/5+e.t*.18;ctx.globalAlpha=.65;ctx.beginPath();ctx.moveTo(Math.cos(a)*e.r*.55,Math.sin(a)*e.r*.65);ctx.quadraticCurveTo(Math.cos(a+.35)*e.r,Math.sin(a+.35)*e.r,Math.cos(a+.18)*e.r*1.45,Math.sin(a+.18)*e.r*1.45);ctx.stroke();}ctx.globalAlpha=1;ctx.fillStyle='#c22cff';ctx.beginPath();ctx.arc(0,0,e.r*(.24+.05*pulse),0,Math.PI*2);ctx.fill();
+      }else{
+        ctx.rotate(e.t*.12);ctx.fillStyle='#0b080d';ctx.strokeStyle=e.color;ctx.lineWidth=3;this.drawPolygon(ctx,0,0,e.r*1.08,8,true);ctx.globalAlpha=.76;ctx.strokeStyle='#ffb05a';this.drawPolygon(ctx,0,0,e.r*.70,8,false);ctx.globalAlpha=1;for(let i=0;i<4;i++){const a=i*Math.PI/2+Math.PI/4;ctx.strokeStyle=i%2?'#c22cff':'#ff3b32';ctx.lineWidth=3.2;ctx.beginPath();ctx.moveTo(Math.cos(a)*e.r*.72,Math.sin(a)*e.r*.72);ctx.lineTo(Math.cos(a)*e.r*1.38,Math.sin(a)*e.r*1.38);ctx.stroke();}ctx.fillStyle='#ff3b32';ctx.beginPath();ctx.arc(0,0,e.r*(.23+.06*pulse),0,Math.PI*2);ctx.fill();
+      }
+      ctx.restore();
+    }
 
     drawEnemies(ctx) {
       for (const e of this.enemies) {

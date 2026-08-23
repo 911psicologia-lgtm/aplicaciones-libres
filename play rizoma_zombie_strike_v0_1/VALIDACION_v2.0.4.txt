@@ -1,0 +1,6 @@
+VALIDACIÓN v2.0.4
+===================
+Revisado Mundo 10 antes del jefe.
+Assets ajustados: enemy_1, enemy_2, enemy_3, meteor_1..3, junk_1..3, planet_1..2.
+Fallback procedural de drawWorldTenEnemy mejorado.
+node --check js/game.js => OK

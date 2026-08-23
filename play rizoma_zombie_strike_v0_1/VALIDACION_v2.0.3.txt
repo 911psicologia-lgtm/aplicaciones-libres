@@ -1,0 +1,64 @@
+VALIDACIÓN v2.0.3
+===================
+[world8] 19 png
+ - enemy_1.png
+ - enemy_2.png
+ - enemy_3.png
+ - enemy_4.png
+ - enemy_5.png
+ - enemy_6.png
+ - gestation_pod.png
+ - junk_1.png
+ - junk_2.png
+ - meteor_1.png
+ - meteor_2.png
+ - meteor_3.png
+ - planet_1.png
+ - planet_2.png
+ - relic_genesis.png
+ - shot_acid.png
+ - shot_bioplasma.png
+ - shot_parasite.png
+ - shot_spine.png
+[world9] 17 png
+ - enemy_1.png
+ - enemy_2.png
+ - enemy_3.png
+ - enemy_4.png
+ - enemy_5.png
+ - enemy_6.png
+ - junk_1.png
+ - junk_2.png
+ - junk_3.png
+ - meteor_1.png
+ - meteor_2.png
+ - planet_1.png
+ - planet_2.png
+ - subboss_1.png
+ - subboss_2.png
+ - subboss_3.png
+ - subboss_4.png
+[world10] 20 png
+ - enemy_1.png
+ - enemy_2.png
+ - enemy_3.png
+ - enemy_4.png
+ - enemy_5.png
+ - enemy_6.png
+ - junk_1.png
+ - junk_2.png
+ - junk_3.png
+ - meteor_1.png
+ - meteor_2.png
+ - meteor_3.png
+ - planet_1.png
+ - planet_2.png
+ - subboss_1.png
+ - subboss_2.png
+ - subboss_3.png
+ - subboss_4.png
+ - subboss_5.png
+ - subboss_6.png
+
+Archivo JS validado con node --check: OK
+Se añadieron escalas visuales específicas a minions de W8/W9/W10 y subjefes de W9/W10.
