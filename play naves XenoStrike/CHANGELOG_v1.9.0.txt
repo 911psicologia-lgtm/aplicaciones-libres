@@ -1,0 +1,24 @@
+SWARM//RIFT — Insecta Siege v1.9.0
+
+IMPLEMENTACIÓN
+1. Jefes v2
+- HP de jefe aumentado.
+- Dos habilidades por linaje: primaria y avanzada.
+- Alternancia de habilidades desde fase 2.
+- Frecuencia especial mayor en fase 3.
+- Anatomía animada superpuesta según familia.
+- Reacción de fase con shockwave, chispas y audio.
+
+2. Armas y VFX
+- Arma base evoluciona según nivel.
+- Nivel 1–2: aguja energética.
+- Nivel 3–5: pulso con mayor masa visual.
+- Nivel 6–9: pulso de alta energía.
+- Nivel 10+: spark-laser penetrante ocasional.
+- Destello de boca, estela y partículas de impacto.
+- Rail con firma visual y sonora reforzada.
+
+3. Audio
+- Capa de disparo según nivel.
+- Sonido de impacto reforzado contra jefes.
+- Firma sonora de ataque especial de jefe.

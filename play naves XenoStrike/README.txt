@@ -63,3 +63,13 @@ Assets realistas aprobados recortados e integrados. Enemigos insectoides separad
 
 VERSIÓN 1.8.0 — GAMEPLAY REBUILD
 Se añadieron entrenamiento, replay de sectores, checkpoint de jefe al 50%, amenazas frontales por perspectiva, mayor densidad, jefes reforzados y móviles, evolución de velocidad/precisión de la nave y una fase segura para recoger recompensas después de derrotar al jefe.
+
+
+VERSIÓN 1.9.0 — BOSS & WEAPON VFX
+- Segunda habilidad avanzada para cada uno de los seis jefes a partir de fases 2–3.
+- Jefes con anatomía procedimental animada: alas, cuchillas, placas, patas, abdomen y halos según linaje.
+- Transiciones de fase con onda de choque, partículas y sonido dedicado.
+- Vida de jefes incrementada y cadencia de especiales más intensa.
+- Disparo base evoluciona visualmente por nivel: aguja, pulso y spark-laser, con estela, núcleo y destello de boca.
+- Impactos con chispas y sonido dinámico.
+- VFX nuevos: shock, halo, slash, muzzle, orb, shieldwave y spark.

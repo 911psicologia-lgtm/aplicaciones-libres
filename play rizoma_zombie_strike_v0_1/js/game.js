@@ -201,7 +201,7 @@
   const POWERS = [
     { id: 'triple', icon: '🔱', name: 'Triple pulso', rarity: 'common', desc: 'Agrega disparos en abanico.', type: 'weapon' },
     { id: 'laser', icon: '━', name: 'Rayo continuo', rarity: 'rare', desc: 'Pulso lineal que atraviesa.', type: 'weapon' },
-    { id: 'orbs', icon: '◌', name: 'Orbes orbitantes', rarity: 'rare', desc: 'Daño cercano alrededor del avatar.', type: 'defense' },
+    { id: 'orbs', icon: '◌', name: 'Satélites Abisales', rarity: 'rare', desc: '3 a 5 satélites orbitan, interceptan proyectiles y dañan por contacto.', type: 'defense' },
     { id: 'pierce', icon: '➤', name: 'Perforante', rarity: 'common', desc: 'Los disparos atraviesan más enemigos.', type: 'weapon' },
     { id: 'ice', icon: '❄', name: 'Campo frío', rarity: 'rare', desc: 'Ralentiza enemigos golpeados.', type: 'control' },
     { id: 'fire', icon: '🔥', name: 'Fuego expansivo', rarity: 'epic', desc: 'Daño gradual y estallido leve.', type: 'weapon' },
@@ -210,7 +210,7 @@
     { id: 'bounce', icon: '↯', name: 'Rebote energético', rarity: 'epic', desc: 'Algunos disparos saltan entre objetivos.', type: 'weapon' },
     { id: 'pulse', icon: '✺', name: 'Pulso radial', rarity: 'legendary', desc: 'Explosión circular cada pocos segundos.', type: 'ultimate' },
     { id: 'opem', icon: '⟁', name: 'Pulso OPEM', rarity: 'epic', desc: 'Descarga electromagnética que aturde la horda.', type: 'control' },
-    { id: 'nuke', icon: '☢', name: 'Bomba atómica', rarity: 'legendary', desc: 'Borra enemigos en pantalla y hiere al jefe.', type: 'ultimate' },
+    { id: 'nuke', icon: '☢', name: 'Bomba Omega', rarity: 'legendary', desc: 'Destruye enemigos menores, daña medios y élites, y merma a los Guardianes.', type: 'ultimate' },
     { id: 'spark', icon: '⚡', name: 'Láser chispeante', rarity: 'epic', desc: 'Haz permanente durante 10 segundos.', type: 'weapon' },
     { id: 'torpedo', icon: '➹', name: 'Torpedos perseguidores', rarity: 'rare', desc: 'Misiles que buscan enemigos.', type: 'weapon' },
     { id: 'virus', icon: '☣', name: 'Virus letal', rarity: 'epic', desc: 'Infecta y contagia a la horda.', type: 'control' },
@@ -239,7 +239,7 @@
   const CRITICAL_INTERVENTIONS = [
     { id:'fractal', icon:'ϟ', name:'Rayo Fractal', color:'#d9f7ff', desc:'Descarga que se bifurca entre todos los enemigos.' },
     { id:'hemophage', icon:'◉', name:'Plaga Hemófaga', color:'#a7ff6e', desc:'Slime vivo que se adhiere, drena y salta entre objetivos.' },
-    { id:'hunterSwarm', icon:'➹', name:'Enjambre Cazador', color:'#ffd56a', desc:'Rizoma ofensivo: una raíz viva se expande, conecta objetivos, los debilita y los destruye.' },
+    { id:'hunterSwarm', icon:'➹', name:'Enjambre Cazador Rizomático', color:'#ffd56a', desc:'Rizoma ofensivo: una raíz viva se expande, conecta objetivos, los debilita y los destruye.' },
     { id:'meteorStrike', icon:'☄', name:'Bombardeo Meteórico', color:'#ff8b5d', desc:'Meteoritos diagonales con estela e impactos múltiples.' },
     { id:'requiem', icon:'△', name:'Escuadrón Réquiem', color:'#c391ff', desc:'RIZOMA y formas DOMINIO se convierten en proyectiles kamikaze.' }
   ];
@@ -2322,7 +2322,7 @@
       const pendingBoost = (this.run?.tacticalDeliveryQueue || []).filter(x=>x?.type==='boost').reduce((sum,x)=>sum+Number(x.boostValue||.08),0);
       const effectiveBoost = Math.min(.24,currentBoost+pendingBoost);
       const offers = [
-        {id:'nuke',kind:'nuke',units:1,icon:'☢',name:'Bomba antihorda',desc:'Limpia gran parte de la pantalla y daña objetivos mayores.',base:{coins:185,xp:255,points:1400},recommended:crowded,reason:'Alta densidad u horda probable.'},
+        {id:'nuke',kind:'nuke',units:1,icon:'☢',name:'Bomba Omega',desc:'Destruye menores, castiga enemigos resistentes y despeja proyectiles.',base:{coins:185,xp:255,points:1400},recommended:crowded,reason:'Alta densidad u horda probable.'},
         {id:'afterburner',kind:'power',powerId:'afterburner',units:1,icon:'»',name:'Impulsor vectorial',desc:'Recupera movilidad y velocidad durante 10 segundos.',base:{coins:135,xp:175,points:930},recommended:this.mapIndex>=2,reason:'La velocidad es crítica en mundos avanzados.'},
         {id:'stasis',kind:'power',powerId:'stasis',units:1,icon:'⌛',name:'Ralentizador temporal',desc:'Reduce durante 10 segundos la presión de enemigos y proyectiles.',base:{coins:145,xp:185,points:980},recommended:crowded,reason:'Ayuda a controlar hordas.'},
         {id:'shield',kind:'shield',units:1,icon:'🛡️',name:'Escudo de refuerzo',desc:'Cápsula de shield para entrar con margen defensivo.',base:{coins:110,xp:145,points:760},recommended:!!fragile,reason:'Tus reservas defensivas están bajas.'},
@@ -2383,7 +2383,7 @@
 
     queueTacticalDelivery(offer) {
       this.run.tacticalDeliveryQueue = this.run.tacticalDeliveryQueue || [];
-      if (offer.kind === 'nuke') this.run.tacticalDeliveryQueue.push({type:'nuke',label:'☢ BOMBA ANTIHORDA'});
+      if (offer.kind === 'nuke') this.run.tacticalDeliveryQueue.push({type:'nuke',label:'☢ BOMBA OMEGA'});
       else if (offer.kind === 'shield') this.run.tacticalDeliveryQueue.push({type:'shield',value:32+this.mapIndex*3,label:`SHIELD +${32+this.mapIndex*3}`});
       else if (offer.kind === 'boost') this.run.tacticalDeliveryQueue.push({type:'boost',boostValue:offer.boostValue||.08,label:'⬆ SOBRECARGA DE PODERES'});
       else if (offer.kind === 'combo') this.run.tacticalDeliveryQueue.push({type:'combo',comboId:offer.comboId,label:`⚡ ${offer.name.toUpperCase()}`,powerDuration:8});
@@ -3690,10 +3690,31 @@
       const voltaic=this.getPowerLevel('voltaic',true);
       const nanorepair=this.getPowerLevel('nanorepair',true);
       if (orbs || this.comboActive('gravedad') || this.comboActive('bastion')) {
-        const radius = 68 + orbs * 14 + (this.comboActive('gravedad') ? 48 : 0) + (this.comboActive('bastion') ? 22 : 0);
+        const satellites = this.getAbyssalSatelliteData();
+        const fieldRadius = 56 + orbs * 10 + (this.comboActive('gravedad') ? 44 : 0) + (this.comboActive('bastion') ? 18 : 0);
         for (const e of this.enemies) {
           const d = Math.hypot(e.x - p.x, e.y - p.y);
-          if (d < radius + e.r) this.damageEnemy(e, (7 + orbs * 2) * dt, { orbital: true, slow: this.comboActive('gravedad') ? .4 : 0 });
+          if (this.comboActive('gravedad') && d < fieldRadius + e.r) this.damageEnemy(e, (4.5 + orbs * 1.1) * dt, { orbital: true, slow: .42, color: '#83eaff', silent: true });
+          for (const sat of satellites) {
+            const ds = Math.hypot(e.x - sat.x, e.y - sat.y);
+            if (ds < sat.r + e.r + 4) {
+              const bossFactor = e.boss ? .42 : (e.echoBoss ? .52 : 1);
+              this.damageEnemy(e, (10 + orbs * 2.5) * dt * bossFactor, { orbital: true, slow: this.comboActive('gravedad') ? .45 : 0, color: sat.color, silent: true });
+              if (this.comboActive('bastion') && !e.boss) e.slow = Math.max(e.slow || 0, .32);
+              break;
+            }
+          }
+        }
+        for (let i = this.bullets.length - 1; i >= 0; i--) {
+          const b = this.bullets[i];
+          if (!b.enemy) continue;
+          for (const sat of satellites) {
+            if (Math.hypot(b.x - sat.x, b.y - sat.y) < sat.r + 8) {
+              this.particles.push({ type: 'ring', x: sat.x, y: sat.y, r: 8, maxR: 38, life: .18, max: .18, color: sat.accent });
+              this.bullets.splice(i, 1);
+              break;
+            }
+          }
         }
       }
       if (ring || this.comboActive('gravedad') || this.comboActive('bastion')) {
@@ -4775,10 +4796,10 @@
       this.pickups=this.pickups.filter(p=>!p.hordeKit);
       const positions=[];for(let i=0;i<3;i++)positions.push(this.randomTacticalPoint(positions));
       const critical=this.maybeSpawnCriticalIntervention('horde',false,positions[0]);
-      if(!critical)this.spawnPickup(positions[0][0],positions[0][1],'nuke',1,{hordeKit:true,rewardGlow:true,label:'☢ BOMBA ANTIHORDA',life:25,autoDelay:999});
+      if(!critical)this.spawnPickup(positions[0][0],positions[0][1],'nuke',1,{hordeKit:true,rewardGlow:true,label:'☢ BOMBA OMEGA',life:25,autoDelay:999});
       this.spawnPickup(positions[1][0],positions[1][1],'power',1,{powerId:'afterburner',hordeKit:true,rewardGlow:true,label:'» IMPULSOR 10s',powerDuration:10,life:25,autoDelay:999});
       this.spawnPickup(positions[2][0],positions[2][1],'power',1,{powerId:'stasis',hordeKit:true,rewardGlow:true,label:'⌛ RALENTIZADOR 10s',powerDuration:10,life:25,autoDelay:999});
-      this.toast('🎁 KIT DE HORDA',critical?'Intervención crítica · Impulsor · Ralentizador':'Bomba · Impulsor · Ralentizador en posiciones tácticas aleatorias');
+      this.toast('🎁 KIT DE HORDA',critical?'Intervención crítica · Impulsor · Ralentizador':'Bomba Omega · Impulsor · Ralentizador en posiciones tácticas aleatorias');
     }
 
     ensureProgressFlow(dt) {
@@ -6137,16 +6158,35 @@
 
 
     triggerScreenNuke() {
-      let removed = 0;
+      let removed = 0, damaged = 0;
       for (let i = this.enemies.length - 1; i >= 0; i--) {
         const e = this.enemies[i];
-        if (e.boss) this.damageEnemy(e, e.baseHp * .16, { color:'#ffd56a', criticalBurst:true });
-        else if(e.echoBoss)this.damageEnemy(e,e.baseHp*.09,{color:'#ffd56a',criticalBurst:true});
-        else { this.damageEnemy(e, e.hp + 999, { color:'#ffd56a' }); removed += 1; }
+        const base = Math.max(1, e.baseHp || e.hp || 1);
+        const rank = e.echoBoss ? 'echo' : this.criticalEnemyRank(e);
+        if (rank === 'boss') {
+          this.damageEnemy(e, base * .08, { color:'#ffd56a', criticalBurst:true, omega:true });
+          damaged += 1;
+        } else if (rank === 'echo' || rank === 'elite') {
+          this.damageEnemy(e, base * .25, { color:'#ffd56a', criticalBurst:true, omega:true });
+          damaged += 1;
+        } else if (rank === 'medium') {
+          this.damageEnemy(e, base * .45, { color:'#ffd56a', omega:true });
+          damaged += 1;
+        } else {
+          this.damageEnemy(e, (e.hp || base) + 999, { color:'#ffd56a', omega:true });
+          removed += 1;
+        }
       }
-      this.particles.push({ type:'ring', x:this.player.x, y:this.player.y, r:24, maxR:Math.max(this.w,this.h) * .68, life:.5, max:.5, color:'#ffd56a' });
-      this.flash = 1.05;
-      this.toast('☢️', removed ? `${removed} enemigos borrados` : 'impacto nuclear');
+      let bulletsCleared = 0;
+      for (let i = this.bullets.length - 1; i >= 0; i--) {
+        if (this.bullets[i].enemy) { this.bullets.splice(i, 1); bulletsCleared += 1; }
+      }
+      this.particles.push({ type:'ring', x:this.player.x, y:this.player.y, r:24, maxR:Math.max(this.w,this.h) * .72, life:.45, max:.45, color:'#fff4b0' });
+      this.particles.push({ type:'ring', x:this.player.x, y:this.player.y, r:38, maxR:Math.max(this.w,this.h) * .92, life:.68, max:.68, color:'#ffd56a' });
+      this.emit(this.player.x, this.player.y, '#ffd56a', 34, 260, .9);
+      this.flash = 1.15;
+      this.shake = Math.max(this.shake || 0, 12);
+      this.toast('☢️ BOMBA OMEGA', `${removed} menores destruidos · ${damaged} resistentes castigados · ${bulletsCleared} proyectiles disipados`);
     }
 
 
@@ -8334,6 +8374,31 @@
       ctx.restore();
     }
 
+    getAbyssalSatelliteData(countOverride = null) {
+      const p = this.player;
+      if (!p) return [];
+      const level = Math.max(1, Math.round(this.getPowerLevel('orbs', true) || this.powerLevels?.orbs || 1));
+      const count = countOverride ?? Math.min(5, 2 + level + (this.comboActive('bastion') ? 1 : 0));
+      const radius = p.r + 28 + level * 6 + (this.comboActive('gravedad') ? 10 : 0);
+      const spin = now() * (.0019 + level * .00008);
+      const data = [];
+      for (let i = 0; i < count; i++) {
+        const a = spin + (Math.PI * 2 / count) * i;
+        const pulse = 1 + Math.sin(spin * 4 + i * 1.7) * .06;
+        data.push({
+          x: p.x + Math.cos(a) * radius,
+          y: p.y + Math.sin(a * 1.08) * (radius * .9),
+          r: 6.5 + level * .8,
+          angle: a,
+          pulse,
+          color: i % 2 ? '#83eaff' : '#b8f7ff',
+          accent: i % 2 ? '#46e7f2' : '#dfffff'
+        });
+      }
+      return data;
+    }
+
+
     drawPlayer(ctx) {
       const p = this.player;
       if (!p) return;
@@ -8345,6 +8410,7 @@
       const engine = parts.engine || 0;
       const domainMeta=domainFormMeta(p.domainForm||'rizoma');
       const domainImg=domainMeta?this.getAsset(domainMeta.assetKey):null;
+      const orbs = this.getPowerLevel('orbs', true);
       if(domainMeta&&domainImg){this.drawDomainPlayer(ctx,p,t,domainMeta,domainImg);return;}
       ctx.save();
       ctx.translate(p.x, p.y);
@@ -8484,6 +8550,34 @@
         for (let i = 0; i < Math.min(4, tier - 2); i++) {
           const a = (Math.PI * 2 / Math.min(4, tier - 2)) * i + t;
           ctx.beginPath(); ctx.arc(Math.cos(a) * (p.r + 11), Math.sin(a) * (p.r + 11), 1.8, 0, Math.PI * 2); ctx.fill();
+        }
+      }
+
+      if (orbs || this.comboActive('gravedad') || this.comboActive('bastion')) {
+        const satellites = this.getAbyssalSatelliteData();
+        ctx.lineWidth = 1.8;
+        for (const sat of satellites) {
+          const lx = sat.x - p.x, ly = sat.y - p.y;
+          ctx.save();
+          ctx.globalAlpha = .22;
+          ctx.strokeStyle = sat.color;
+          ctx.beginPath(); ctx.moveTo(0, 0); ctx.lineTo(lx, ly); ctx.stroke();
+          ctx.restore();
+          ctx.save();
+          ctx.translate(lx, ly);
+          ctx.globalAlpha = .95;
+          ctx.shadowBlur = 18;
+          ctx.shadowColor = sat.color;
+          ctx.fillStyle = sat.color;
+          ctx.beginPath(); ctx.arc(0, 0, sat.r, 0, Math.PI * 2); ctx.fill();
+          ctx.globalAlpha = .55;
+          ctx.fillStyle = sat.accent;
+          ctx.beginPath(); ctx.arc(0, 0, sat.r * .46, 0, Math.PI * 2); ctx.fill();
+          ctx.globalAlpha = .28;
+          ctx.strokeStyle = sat.accent;
+          ctx.lineWidth = 2;
+          ctx.beginPath(); ctx.arc(0, 0, sat.r * 1.9 * sat.pulse, 0, Math.PI * 2); ctx.stroke();
+          ctx.restore();
         }
       }
       ctx.restore();

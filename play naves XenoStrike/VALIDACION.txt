@@ -37,3 +37,12 @@ VALIDACIÓN v1.8.0
 [OK] Playwright móvil landscape 844x390: rotate gate oculto, touch HUD visible y sin page errors.
 [OK] Entrenamiento, replay de sector y checkpoint de jefe 50% integrados al menú.
 [OK] Fase post-jefe segura con atracción automática de recompensas.
+
+
+VALIDACIÓN v1.9.0
+[OK] node --check sin errores de sintaxis.
+[OK] Prueba headless 1280x720 sin errores de página.
+[OK] Se probaron los seis jefes forzados a fase 3: storm, titan, blade, moth, queen y leap.
+[OK] Segunda habilidad avanzada disponible desde fases 2–3.
+[OK] Arma base nivel 10 genera VFX de alta energía y partículas sin errores.
+[OK] Barra de jefe reposicionada para evitar solapamiento con score/HUD central.

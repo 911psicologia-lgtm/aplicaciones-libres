@@ -1,0 +1,16 @@
+SWARM//RIFT — Insecta Siege v1.9.1
+
+Correcciones principales
+- Se corrigió el recorte visual de previews en menú y pantallas informativas.
+- Los jefes ya no invaden tanto el borde derecho; se reequilibró su entrada y su zona máxima de movimiento.
+- Se eliminó el HUD espurio en la portada causado por previews de jefe.
+
+UI / UX
+- Menú principal reconstruido con cajas de preview separadas para grunt, elite y boss.
+- Hangar mejorado: cada mejora muestra efecto actual, siguiente efecto y costo.
+- Se añadió resumen superior de bonus permanentes y herencias desbloqueadas.
+- Manual reescrito como guía visual paginada con secciones de controles, combate y progresión.
+
+Ajustes de presentación
+- Escalas de render de enemigos y jefes ajustadas para mostrar más cuerpo y menos clipping.
+- Preview boss y cartas del menú reajustadas para no cortar assets.
