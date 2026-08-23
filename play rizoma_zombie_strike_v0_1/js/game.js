@@ -1,7 +1,7 @@
 (() => {
   'use strict';
 
-  const VERSION = '2.0.0';
+  const VERSION = '2.1.0';
   const STORAGE_KEY = 'rizoma_zombie_strike_v0_3_state';
   const SAVE_KEY = 'rizoma_zombie_strike_v0_3_save';
   const clamp = (v, a, b) => Math.max(a, Math.min(b, v));
@@ -250,6 +250,18 @@
     { id:'bossShip10', world:10, name:'Núcleo Zero', assetKey:'bossWorld10', color:'#ff3b32', scale:1.48, mod:{damage:1.07,speed:1.04,cadence:.94,incoming:.92,power:1.10,crit:.04}, passive:'ZERO · sincroniza reliquias, fase y daño contra Guardianes', signature:'Singularidad Final', signatureCd:22 }
   ];
   const domainFormMeta = id => DOMAIN_FORMS.find(f=>f.id===id) || null;
+  const SECOND_SAGA_WORLDS = [
+    {world:11,name:'Desierto Alienígena',biome:'desierto',cue:'Tormentas de sílice, ruinas y depredadores bajo dos soles.'},
+    {world:12,name:'Abismo Pelágico',biome:'fondo del mar',cue:'Océano extraterrestre, presión extrema y ciudades hundidas.'},
+    {world:13,name:'Núcleo de Magma',biome:'magma',cue:'Ríos minerales, placas vivas y calor planetario.'},
+    {world:14,name:'Estrella Moribunda',biome:'estrella',cue:'Superficie estelar inestable y corredores de plasma.'},
+    {world:15,name:'Entrañas del Gusano-Mundo',biome:'gusano',cue:'Un planeta recorrido desde el interior de una criatura telúrica.'},
+    {world:16,name:'Cerebros Asesinos',biome:'neural',cue:'Biomáquinas cognitivas que cazan en redes sinápticas.'},
+    {world:17,name:'Tundra Salvaje',biome:'tundra',cue:'Hielo alienígena, fauna brutal y tormentas blancas.'},
+    {world:18,name:'Biblioteca Ánime',biome:'anime',cue:'Todo el mundo cambia de lenguaje: fondos, enemigos y Guardianes ánime.'},
+    {world:19,name:'Planeta de Grises',biome:'grises',cue:'Civilización silenciosa, tecnología psiónica y cielos sin color.'},
+    {world:20,name:'Planeta Zombie-Reptiloide',biome:'reptiloide',cue:'La infección aprende a mudar de piel y organiza un imperio reptiliano.'}
+  ];
   const criticalMeta = id => CRITICAL_INTERVENTIONS.find(p=>p.id===id) || CRITICAL_INTERVENTIONS[0];
 
 
@@ -535,6 +547,7 @@
     world9BgApproach:'assets/world9/bg_world9_approach.jpg', world9BossBg:'assets/world9/bg_world9_boss.jpg', bossWorld9:'assets/future/bosses/world9_kaiser_infinito.png',
     world9Enemy1:'assets/world9/enemy_1.png', world9Enemy2:'assets/world9/enemy_2.png', world9Enemy3:'assets/world9/enemy_3.png', world9Enemy4:'assets/world9/enemy_4.png', world9Enemy5:'assets/world9/enemy_5.png', world9Enemy6:'assets/world9/enemy_6.png', world9Subboss1:'assets/world9/subboss_1.png', world9Subboss2:'assets/world9/subboss_2.png', world9Subboss3:'assets/world9/subboss_3.png', world9Subboss4:'assets/world9/subboss_4.png', world9Meteor1:'assets/world9/meteor_1.png', world9Meteor2:'assets/world9/meteor_2.png', world9Junk1:'assets/world9/junk_1.png', world9Junk2:'assets/world9/junk_2.png', world9Junk3:'assets/world9/junk_3.png', world9Planet1:'assets/world9/planet_1.png', world9Planet2:'assets/world9/planet_2.png',
     world10BgApproach:'assets/world10/bg_world10_approach.jpg', world10BossBg:'assets/world10/bg_world10_boss.jpg', bossWorld10:'assets/future/bosses/world10_zeros_prime.png',
+    trainingBg:'assets/training/bg_training_field.webp', trainingBossBg:'assets/training/bg_training_boss.webp', sagaTwoTeaser:'assets/story/episode_10_afterfall.webp',
     world10Enemy1:'assets/world10/enemy_1.png', world10Enemy2:'assets/world10/enemy_2.png', world10Enemy3:'assets/world10/enemy_3.png', world10Enemy4:'assets/world10/enemy_4.png', world10Enemy5:'assets/world10/enemy_5.png', world10Enemy6:'assets/world10/enemy_6.png', world10Subboss1:'assets/world10/subboss_1.png', world10Subboss2:'assets/world10/subboss_2.png', world10Subboss3:'assets/world10/subboss_3.png', world10Subboss4:'assets/world10/subboss_4.png', world10Subboss5:'assets/world10/subboss_5.png', world10Subboss6:'assets/world10/subboss_6.png', world10Meteor1:'assets/world10/meteor_1.png', world10Meteor2:'assets/world10/meteor_2.png', world10Meteor3:'assets/world10/meteor_3.png', world10Junk1:'assets/world10/junk_1.png', world10Junk2:'assets/world10/junk_2.png', world10Junk3:'assets/world10/junk_3.png', world10Planet1:'assets/world10/planet_1.png', world10Planet2:'assets/world10/planet_2.png',
     bossMagnateOmegaBody:'assets/future/bosses/articulated/world6_magnate_body.png', bossMagnateOmegaHatch:'assets/future/bosses/articulated/world6_magnate_hatch.png', bossMagnateOmegaDrone:'assets/future/bosses/articulated/world6_magnate_drone.png',
     bossLeviatanBody:'assets/future/bosses/articulated/world7_leviatan_body.png', bossLeviatanHatch:'assets/future/bosses/articulated/world7_leviatan_hatch.png', bossLeviatanMedusa:'assets/future/bosses/articulated/world7_leviatan_medusa.png',
@@ -1194,6 +1207,9 @@
       this.selectedMapFromScreen = 0;
       this.domainOverlayOpen = false;
       this.domainWasPaused = false;
+      this.tacticalShopOpen = false;
+      this.tacticalShopWasPaused = false;
+      this.trainingMode = null;
       this.criticalState = { cooldown:0, lastId:null, lastAt:0, bossMarks:{}, hemophages:[], meteors:[], activeCriticals:[], rhizomes:[], recent:[] };
     }
 
@@ -1205,7 +1221,7 @@
       window.addEventListener('resize', () => { updateViewportVars(); this.resize(); });
       window.visualViewport?.addEventListener('resize', () => { updateViewportVars(); this.resize(); });
       window.addEventListener('orientationchange', () => setTimeout(() => { updateViewportVars(); this.resize(); }, 260));
-      window.addEventListener('keydown', e => { this.keys[e.key.toLowerCase()] = true; if (e.key === 'Escape') { if(this.domainOverlayOpen)this.closeDomainSelector(); else this.togglePause(); } });
+      window.addEventListener('keydown', e => { this.keys[e.key.toLowerCase()] = true; if (e.key === 'Escape') { if(this.tacticalShopOpen)this.closeTacticalPrep(); else if(this.domainOverlayOpen)this.closeDomainSelector(); else this.togglePause(); } });
       window.addEventListener('keyup', e => this.keys[e.key.toLowerCase()] = false);
       const pointerHandler = e => {
         const p = e.touches ? e.touches[0] : e;
@@ -1380,6 +1396,7 @@
     }
 
     trackWorldKill(enemyOrCount = 1) {
+      if (this.trainingMode?.active) return;
       if (this.mapIndex >= MAPS.length || this.bossIntroduced || this.run?.mapComplete) return;
       this.worldStage = this.worldStage || { level: this.wave || 1, kills: 0, targets: WORLD_STAGE_TARGETS[this.mapIndex] || [20,30,40,50,60], totalLevels: 5, bossLevel: 5 };
       const isEnemy = typeof enemyOrCount === 'object' && enemyOrCount;
@@ -1439,7 +1456,7 @@
       this.wave = this.worldStage.level;
       this.progressWatch={level:this.wave,kills:0,stagnant:0,rescues:0};
       this.powerSupportTimer=Math.min(this.powerSupportTimer||9,6.5);
-      if (!this.replayMode) { const prof = currentProfile(); prof.levelProgress = prof.levelProgress || {1:1}; prof.levelProgress[this.mapIndex + 1] = Math.max(prof.levelProgress[this.mapIndex + 1] || 1, this.wave); saveState(); }
+      if (!this.replayMode && !this.trainingMode) { const prof = currentProfile(); prof.levelProgress = prof.levelProgress || {1:1}; prof.levelProgress[this.mapIndex + 1] = Math.max(prof.levelProgress[this.mapIndex + 1] || 1, this.wave); saveState(); }
       this.waveTime = 0;
       currentProfile().stats.highestWave = Math.max(currentProfile().stats.highestWave, this.wave);
       if (this.mapIndex === 0) {
@@ -1763,8 +1780,8 @@
       AudioFX.ensure();
       AudioFX.startMelody();
       const p = currentProfile();
-      p.stats.runs += 1;
-      unlockAchievement('first_run');
+      const trainingRequested=!!save?.trainingMode?.active;
+      if(!trainingRequested){p.stats.runs += 1;unlockAchievement('first_run');}
       this.mapIndex = save?.mapIndex ?? clamp(mapIndex, 0, MAPS.length - 1);
       this.difficulty = DIFFICULTY_MODES[save?.difficulty] ? save.difficulty : (DIFFICULTY_MODES[p.preferredDifficulty] ? p.preferredDifficulty : (DIFFICULTY_MODES[state.settings.difficulty] ? state.settings.difficulty : 'normal'));
       p.preferredDifficulty = this.difficulty;
@@ -1819,6 +1836,7 @@
       this.run.tacticalDeliveryQueue = this.run.tacticalDeliveryQueue || [];
       this.tacticalOffers = [];
       this.tacticalPrepReason = null;
+      this.tacticalShopOpen=false;this.tacticalShopWasPaused=false;
       this.tacticalDeliveryDelay = 0;
       this.tacticalComboLockUntil = 0;
       this.tacticalComboLockedId = null;
@@ -1833,15 +1851,16 @@
       this.worldStage.bossLevel = this.worldStage.targets.length;
       if (this.mapIndex < MAPS.length) this.wave = this.worldStage.level;
       this.replayMode = save?.replayMode || null;
-      if (!save && this.mapIndex === 0 && !this.replayMode) p.campaignExtraLives = 4;
-      const campaignLives = (!save && this.mapIndex > 0 && !this.replayMode) ? (p.campaignExtraLives ?? 4) : 4;
+      this.trainingMode = save?.trainingMode || null;
+      if (!save && this.mapIndex === 0 && !this.replayMode && !this.trainingMode) p.campaignExtraLives = 4;
+      const campaignLives = (!save && this.mapIndex > 0 && !this.replayMode && !this.trainingMode) ? (p.campaignExtraLives ?? 4) : 4;
       this.extraLives = Math.min(MAX_TOTAL_LIVES - 1, save?.extraLives ?? campaignLives);
       this.nextLifeScore = save?.nextLifeScore || SCORE_LIFE_STEP;
       this.outcomeFinalized = false;
       this.lastWorldLifeBonus = 0;
       this.createPlayer(save?.player);
       p.levelProgress = p.levelProgress || {1:1};
-      if (!this.replayMode) p.levelProgress[this.mapIndex + 1] = Math.max(p.levelProgress[this.mapIndex + 1] || 1, this.wave || 1);
+      if (!this.replayMode && !this.trainingMode) p.levelProgress[this.mapIndex + 1] = Math.max(p.levelProgress[this.mapIndex + 1] || 1, this.wave || 1);
       this.applyProfileRelics(save);
       this.applyPerformanceMode();
       this.grantWorldEntrySupport(!!save);
@@ -1862,6 +1881,7 @@
       this.cardPause = false;
       this.last = now();
       showScreen('screenGame');
+      document.body.classList.toggle('training-mode',!!this.trainingMode?.active);
       this.resize();
       // v1.9.7: limpia cualquier fotograma residual del menú/historia/mundo anterior antes del primer loop.
       this.render(0);
@@ -1874,7 +1894,13 @@
       this.toast(`${MAPS[this.mapIndex].name} · ${this.getDifficulty().name}`, MAPS[this.mapIndex].lore);
       requestAnimationFrame(t => this.loop(t));
       saveState();
-      setTimeout(()=>this.requestTacticalPrep(save?'resume':'start'),70);
+      if(this.trainingMode?.active){
+        const pp=this.player;
+        this.spawnPickup(pp.x-78,clamp(pp.y-96,64,this.h-64),'power',1,{powerId:'omega',major:true,rewardGlow:true,label:'Ω ENTRENAMIENTO',powerDuration:12});
+        this.spawnPickup(pp.x+78,clamp(pp.y-96,64,this.h-64),'shield',58,{rewardGlow:true,label:'SHIELD SIM +58'});
+        this.spawnPickup(pp.x,clamp(pp.y-135,64,this.h-64),'power',1,{powerId:'nanorepair',major:true,rewardGlow:true,label:'NANORREPARACIÓN',powerDuration:12});
+        setTimeout(()=>{if(this.running&&this.trainingMode?.active&&!this.bossActive){this.spawnBoss();this.toast('🎯 SIMULACIÓN ACTIVA',`${MAPS[this.mapIndex].boss} · práctica sin alterar campaña`);}},850);
+      } else setTimeout(()=>this.requestTacticalPrep(save?'resume':'start'),70);
     }
 
     createPlayer(saved) {
@@ -2284,14 +2310,27 @@
     openTacticalShop() {
       if(!this.running||this.run?.mapComplete)return;
       if(this.getTacticalPurchasesRemaining()<=0){this.toast('🛒 Compra Exprés',`Límite del nivel alcanzado · ${this.getTacticalPurchaseLimit()} compras`);return;}
+      if(!this.tacticalShopOpen){
+        this.tacticalShopWasPaused=!!this.paused;
+        this.tacticalShopOpen=true;
+      }
+      this.paused=true;
+      document.body.classList.add('tactical-shop-open');
       this.renderTacticalShop();
-      els.tacticalShopOverlay?.classList.toggle('hidden');
+      els.tacticalPrepPrompt?.classList.add('hidden');
+      els.tacticalShopOverlay?.classList.remove('hidden');
       this.updateTacticalCart(false);
     }
 
     closeTacticalPrep() {
       els.tacticalPrepPrompt?.classList.add('hidden');
       els.tacticalShopOverlay?.classList.add('hidden');
+      document.body.classList.remove('tactical-shop-open');
+      if(this.tacticalShopOpen){
+        this.paused=!!this.tacticalShopWasPaused;
+        this.tacticalShopOpen=false;
+        this.tacticalShopWasPaused=false;
+      }
       this.updateTacticalCart(false);
       this.deployNextTacticalBatch();
     }
@@ -5017,9 +5056,10 @@
       if (this.mapIndex === 6) hp *= 2.15; // Leviatán: debe sobrevivir al arsenal acumulado de siete mundos.
       if (this.mapIndex === 8) hp *= 1.90; // Kaiser: duelo final prolongado de W9 frente al arsenal multiversal.
       if (this.mapIndex === 9) hp *= 2.35; // Z.E.R.O.S. Prime: clímax final frente a todas las reliquias y firmas acumuladas.
+      if(this.trainingMode?.active)hp*=.58;
       const x = this.w / 2;
       const y = -80;
-      const shieldBase = (this.mapIndex === 9 ? 4200 : (this.mapIndex === 8 ? 2600 : (this.mapIndex === 6 ? 2200 : (this.mapIndex === 0 ? 680 : (this.mapIndex === 1 ? 560 : 310 + this.mapIndex * 42))))) * (this.getDifficulty().bossShield || 1);
+      const shieldBase = (this.mapIndex === 9 ? 4200 : (this.mapIndex === 8 ? 2600 : (this.mapIndex === 6 ? 2200 : (this.mapIndex === 0 ? 680 : (this.mapIndex === 1 ? 560 : 310 + this.mapIndex * 42))))) * (this.getDifficulty().bossShield || 1) * (this.trainingMode?.active ? .58 : 1);
       this.bossActive = {
         id: 'boss_' + map.id,
         name: map.boss,
@@ -5066,6 +5106,10 @@
       els.bossName.textContent = `${map.boss} · ${this.bossActive.specialName}`;
       this.updateBossUi();
       this.showBossIntro(map, this.bossActive);
+      if(this.trainingMode?.active){
+        this.toast('🎯 ARENA DE ENTRENAMIENTO','Sólo el Guardián y sus patrones de combate cuentan en esta simulación');
+        return;
+      }
       if (this.mapIndex === 0) {
         const escortFamilies = [['cazador','corredor','esquivo'], ['toxico','divisor','sombra'], ['blindado','griton','nave_espejo']];
         escortFamilies.forEach((fam, familyIndex) => {
@@ -6238,6 +6282,7 @@
     }
 
     completeMap() {
+      if (this.trainingMode?.active) { this.run.mapComplete=false;this.toast('🎯 SIMULACIÓN COMPLETADA',`${MAPS[this.mapIndex].boss} neutralizado`);setTimeout(()=>this.showResult(true),900);return; }
       if (this.replayMode?.active) { this.run.mapComplete = false; this.toast('JEFE REPETIDO',`Mundo ${this.mapIndex+1} · Nivel ${this.worldStage?.bossLevel||5} completado`); setTimeout(() => this.showResult(true), 1200); return; }
       const p = currentProfile();
       p.stats.bosses += 1;
@@ -6274,6 +6319,7 @@
     finalizeRun(victory) {
       if (this.outcomeFinalized) return;
       this.outcomeFinalized = true;
+      if(this.trainingMode?.active){saveState();return;}
       const p = currentProfile();
       p.coins += this.run.coins;
       p.stats.totalCoins += this.run.coins;
@@ -6363,18 +6409,24 @@
 
     showResult(victory) {
       this.paused = true;
+      const trainingVictory=!!(victory&&this.trainingMode?.active);
       const replayVictory = !!(victory && this.replayMode?.active);
-      this.resultMode = replayVictory ? 'replay_victory' : (victory ? 'victory' : (this.extraLives > 0 ? 'defeat_revive' : 'defeat'));
+      this.resultMode = trainingVictory?'training_victory':(replayVictory ? 'replay_victory' : (victory ? 'victory' : (this.extraLives > 0 ? 'defeat_revive' : 'defeat')));
       if (victory) this.finalizeRun(true);
-      els.resultOverlay.classList.toggle('victory-clean',!!victory&&!replayVictory);
-      els.resultEyebrow.textContent = replayVictory ? '↻ NIVEL REPETIDO' : (victory ? '✔ MUNDO COMPLETADO' : '⚠ MISIÓN INTERRUMPIDA');
-      if(victory&&!replayVictory)els.resultTitle.innerHTML=`${bossSigilHtml(this.mapIndex,'result-boss-sigil')}<span>Mundo ${this.mapIndex+1} superado</span>`;else els.resultTitle.textContent=replayVictory?`Mundo ${this.mapIndex+1} · Nivel ${this.replayMode.level} completado`:`Mundo ${this.mapIndex+1} · Nivel ${this.wave}`;
-      if (replayVictory) {
+      els.resultOverlay.classList.toggle('victory-clean',!!victory&&!replayVictory&&!trainingVictory);
+      els.resultEyebrow.textContent = trainingVictory?'🎯 ENTRENAMIENTO SUPERADO':(replayVictory ? '↻ NIVEL REPETIDO' : (victory ? '✔ MUNDO COMPLETADO' : '⚠ MISIÓN INTERRUMPIDA'));
+      if(trainingVictory)els.resultTitle.textContent=`Simulación · ${MAPS[this.mapIndex].boss}`;
+      else if(victory&&!replayVictory)els.resultTitle.innerHTML=`${bossSigilHtml(this.mapIndex,'result-boss-sigil')}<span>Mundo ${this.mapIndex+1} superado</span>`;else els.resultTitle.textContent=replayVictory?`Mundo ${this.mapIndex+1} · Nivel ${this.replayMode.level} completado`:`Mundo ${this.mapIndex+1} · Nivel ${this.wave}`;
+      if(trainingVictory){
+        els.resultText.textContent='Práctica terminada. No se alteró la campaña, el guardado principal ni el inventario de mundos.';
+      } else if (replayVictory) {
         els.resultText.textContent = 'La repetición terminó. Tu progreso principal y tu partida guardada permanecen intactos.';
       } else if (victory) {
         const reward = this.lastWorldReward || { name: 'Poder del jefe' };
         const loot=this.lastBossLootPower?.name?` Botín del jefe: ${this.lastBossLootPower.name}.`:'';
-        els.resultText.textContent = `${reward.name} obtenido · arma base mejorada de forma permanente en daño, alcance, velocidad y precisión · +${this.lastWorldLifeBonus || 0} vidas.${loot}`;
+        els.resultText.textContent = this.mapIndex===9
+          ? `Z.E.R.O.S. Prime cayó. ${reward.name} integrado · la señal enemiga, sin embargo, escapó hacia diez planetas terrestres alienígenas.${loot}`
+          : `${reward.name} obtenido · arma base mejorada de forma permanente en daño, alcance, velocidad y precisión · +${this.lastWorldLifeBonus || 0} vidas.${loot}`;
       } else {
         els.resultText.textContent = this.extraLives > 0
           ? `Te quedan ${this.extraLives} vidas de reserva. Conservas Mundo ${this.mapIndex + 1}, Nivel ${this.wave}. Al reactivar aparecen tus últimos poderes, un Impulsor y un combo de recuperación de 5 segundos.`
@@ -6388,7 +6440,7 @@
         <span class="reward-pill">${this.isHardMode()?'⚔️ Difícil':'◉ Normal'}</span>
         <span class="reward-pill">M${this.mapIndex + 1} · L${this.wave}</span>
         <span class="reward-pill">❤️ ${this.extraLives + 1}</span>`;
-      els.btnResultContinue.textContent = replayVictory ? 'Volver a niveles' : (victory ? (this.mapIndex + 1 < MAPS.length ? 'Siguiente mundo' : 'Finalizar') : 'Reactivar nave');
+      els.btnResultContinue.textContent = trainingVictory?'Volver a entrenamiento':(replayVictory ? 'Volver a niveles' : (victory ? (this.mapIndex + 1 < MAPS.length ? 'Siguiente mundo' : 'Ver epílogo') : 'Reactivar nave'));
       const noLives=!victory && this.extraLives<=0;
       els.btnResultContinue.classList.toggle('hidden',noLives);
       if(els.lifeShop)els.lifeShop.classList.toggle('hidden',!noLives);
@@ -6437,6 +6489,23 @@
       this.toast('↻ MODO REPETICIÓN', `Mundo ${worldNo} · Nivel ${level}`);
     }
 
+    startTraining(mapIndex=0) {
+      const p=currentProfile();
+      mapIndex=clamp(Number(mapIndex)||0,0,MAPS.length-1);
+      const worldNo=mapIndex+1;
+      if(!(p.completedMaps||[]).includes(worldNo)){this.toast('🎯 ENTRENAMIENTO BLOQUEADO',`Derrota primero al Guardián del Mundo ${worldNo}`);return false;}
+      const targets=WORLD_STAGE_TARGETS[mapIndex]||[20,30,40,50,60],bossLevel=targets.length;
+      const trainingSave={
+        mapIndex,wave:bossLevel,
+        worldStage:{level:bossLevel,kills:0,targets:[...targets],totalLevels:bossLevel,bossLevel},
+        powerLevels:{triple:1,pierce:1},powerActivity:{},activePowerSlots:{weaponMode:null},fusions:{},
+        run:{score:0,coins:0,experience:0,kills:0,bosses:0,echoBosses:0,start:Date.now(),mapComplete:false,lifePurchases:0},
+        extraLives:4,nextLifeScore:2500,trainingMode:{active:true,mapIndex,world:worldNo,boss:MAPS[mapIndex].boss}
+      };
+      this.start(mapIndex,trainingSave);
+      return true;
+    }
+
     retryCurrentLevel() {
       const stageLevel = Math.max(1, this.worldStage?.level || this.wave || 1);
       const retrySave = {
@@ -6472,6 +6541,7 @@
 
 
     saveRun() {
+      if (this.trainingMode?.active) { this.toast('🎯 Entrenamiento', 'La simulación no sustituye la partida principal'); return; }
       if (this.replayMode?.active) { this.toast('↻ Repetición', 'No sustituye la partida principal'); return; }
       const p = currentProfile();
       p.campaignExtraLives = this.extraLives;
@@ -6661,6 +6731,12 @@
     }
 
     drawWorldBackdrop(ctx, map) {
+      if(this.trainingMode?.active){
+        const img=this.getAsset(this.bossActive?'trainingBossBg':'trainingBg');
+        if(img)this.drawImageCover(ctx,img,0,0,this.w,this.h,{alpha:.98,scale:1.03,offsetX:Math.sin(now()*.00035)*6,offsetY:Math.cos(now()*.00028)*3});
+        ctx.save();ctx.globalAlpha=.11;ctx.strokeStyle=this.bossActive?'#c391ff':'#61ffc8';ctx.lineWidth=1.2;const gap=84;for(let x=0;x<this.w;x+=gap){ctx.beginPath();ctx.moveTo(x,0);ctx.lineTo(x,this.h);ctx.stroke();}for(let y=0;y<this.h;y+=gap){ctx.beginPath();ctx.moveTo(0,y);ctx.lineTo(this.w,y);ctx.stroke();}ctx.restore();
+        return;
+      }
       if (this.mapIndex === 0) {
         const level = clamp(this.wave, 1, 5);
         const w1 = this.worldOneState || {};
@@ -6925,6 +7001,7 @@
     drawWorldTenAtmosphere(ctx){const t=now()*.001,level=clamp(this.wave,1,7),count=state.settings.lowPerformance?8:16;ctx.save();for(let i=0;i<count;i++){const a=t*(.10+(i%4)*.035)+i*2.17,rad=Math.min(this.w,this.h)*(.12+(i%6)*.055),x=this.w*.5+Math.cos(a)*rad,y=this.h*.34+Math.sin(a*1.13)*rad*.66;ctx.globalAlpha=.05+(i%4)*.018;ctx.fillStyle=i%3===0?'#ff3b32':(i%3===1?'#c22cff':'#ff9855');ctx.beginPath();ctx.arc(x,y,1.2+(i%3)*.7,0,Math.PI*2);ctx.fill();}if(level>=4){ctx.globalAlpha=.075;ctx.strokeStyle='#ff3b32';ctx.lineWidth=1.5;for(let i=0;i<4;i++){const rr=52+i*38+Math.sin(t*1.4+i)*8;ctx.beginPath();ctx.arc(this.w*.5,this.h*.34,rr,0,Math.PI*2);ctx.stroke();}}if(level>=6){ctx.globalAlpha=.055;ctx.strokeStyle='#c22cff';for(let i=0;i<5;i++){const x=((i*237+t*54)%(this.w+240))-120;ctx.beginPath();ctx.moveTo(x-110,this.h);ctx.lineTo(x+180,0);ctx.stroke();}}ctx.restore();}
 
     drawMapAtmosphere(ctx, map, dt=.016) {
+      if(this.trainingMode?.active)return;
       if (this.mapIndex === 0) { this.drawWorldOneAtmosphere(ctx); return; }
       if (this.mapIndex === 1) { this.drawWorldTwoAtmosphere(ctx); return; }
       if(this.mapIndex===2){this.drawWorldThreeSpeedField(ctx,dt);return;}
@@ -7366,6 +7443,25 @@
       }
     }
 
+    applyBossVisualAnimation(ctx,e){
+      if(!e?.boss||state.settings.reducedMotion)return;
+      const t=e.t||0,phase=e.phase||1,tele=e.specialTelegraph>0?1-e.specialTelegraph/Math.max(.01,e.specialTelegraphMax||1):0;
+      let rot=0,bob=0,sx=1,sy=1;
+      switch(this.mapIndex){
+        case 0: rot=Math.sin(t*.85)*.028;bob=Math.sin(t*1.4)*3.5;sx=1+Math.sin(t*2.2)*.012;sy=1-Math.sin(t*2.2)*.008;break;
+        case 1: bob=Math.sin(t*.95)*5;sy=1+Math.sin(t*1.55)*.026;sx=1-Math.sin(t*1.55)*.012;rot=Math.sin(t*.48)*.018;break;
+        case 2: rot=Math.sin(t*2.6)*.018+Math.sin(t*8.5)*.004*phase;bob=Math.sin(t*2.1)*4;sx=1+Math.sin(t*5.4)*.009*phase;break;
+        case 3: rot=Math.sin(t*.72)*.045;bob=Math.sin(t*1.1)*4;sx=1+Math.sin(t*1.8)*.014;sy=1-Math.sin(t*1.8)*.008;break;
+        case 4: rot=Math.sin(t*.46)*.025;bob=Math.sin(t*.78)*6;const gp=Math.sin(t*1.25);sx=1+gp*.025;sy=1+gp*.025;break;
+        case 5: rot=Math.sin(t*.64)*.022;bob=Math.sin(t*1.25)*3;sx=1+Math.sin(t*1.9)*.012;break;
+        case 6: rot=Math.sin(t*.56)*.038;bob=Math.sin(t*.82)*7;sx=1+Math.sin(t*1.35)*.018;sy=1-Math.sin(t*1.35)*.008;break;
+        case 7: rot=Math.sin(t*.43)*.021;bob=Math.sin(t*.72)*5;const op=Math.sin(t*1.55);sx=1+op*.028;sy=1-op*.018;break;
+        case 8: rot=Math.sin(t*1.1)*.03;bob=Math.sin(t*1.65)*4;const mp=Math.sin(t*3.3);sx=1+mp*.018;sy=1-mp*.01;if(tele>.35)rot+=Math.sin(t*13)*.006;break;
+        case 9: rot=Math.sin(t*.52)*.025;bob=Math.sin(t*.76)*6;const zp=Math.sin(t*1.18);sx=1+zp*.025+tele*.035;sy=1+zp*.012+tele*.02;break;
+      }
+      ctx.translate(0,bob);ctx.rotate(rot);ctx.scale(sx,sy);
+    }
+
     drawBossHatchLayer(ctx,e,cfg) {
       const body=this.getAsset(cfg.bodyKey),hatch=this.getAsset(cfg.hatchKey),emerge=this.getAsset(cfg.emergeKey);
       if(!body)return false;
@@ -7483,6 +7579,7 @@
         ctx.lineWidth = 3;
         ctx.globalAlpha = e.boss ? (e.alpha ?? 1) : (e.behavior === 'sombra' ? .76 : 1);
         if (e.boss) {
+          this.applyBossVisualAnimation(ctx,e);
           const bossSprite = this.mapIndex === 0 ? this.getAsset('bossBiomech') : null;
           if (bossSprite) {
             ctx.globalAlpha = .96 * (e.alpha ?? 1);
@@ -7999,6 +8096,19 @@
     }
   };
 
+  const WORLD_TEN_EPILOGUE = {
+    kicker:'TRANSMISIÓN Z-STRIKE // FIN DE CICLO 01',
+    title:'Z.E.R.O.S. PRIME CAYÓ · LA GUERRA NO',
+    image:'assets/story/episode_10_afterfall.webp',
+    captions:[
+      'La Singularidad Final se derrumba. Durante unos segundos, el universo queda en silencio.',
+      'Entonces AURORA detecta diez señales sobre planetas de apariencia terrestre... pero ninguno pertenece a la Tierra.',
+      'Desiertos, océanos, magma, una estrella agonizante, entrañas vivas, cerebros cazadores, tundras, un mundo ánime, los Grises y un planeta zombie-reptiloide responden a la misma firma.',
+      'Última transmisión interceptada: «No me destruiste. Me obligaste a mudar de cuerpo». El villano volverá. RIZOMA también.'
+    ],
+    finalLabel:'ABRIR ARCHIVO DE MUNDOS'
+  };
+
   let storyRuntime = { sequence:null, step:0, onDone:null, readyTimer:null };
 
   function getPlayMode() {
@@ -8388,6 +8498,39 @@
     els.collectionGrid.innerHTML = items.map(([icon, name, count, desc]) => `<article class="collection-card"><div class="avatar-symbol">${icon}</div><h3>${name}</h3><strong>${count}</strong><p class="muted">${desc}</p></article>`).join('');
   }
 
+  function renderBossShipInventory(){
+    if(!els.bossShipInventory)return;
+    const p=currentProfile();p.bossShips=p.bossShips||{};
+    const captured=DOMAIN_FORMS.filter(m=>!!p.bossShips[m.id]);
+    if(els.archiveWorldCount)els.archiveWorldCount.textContent=`${(p.completedMaps||[]).length}/10`;
+    if(els.archiveShipCount)els.archiveShipCount.textContent=`${captured.length}/10`;
+    const active=p.activeDomainForm||'rizoma',activeMeta=domainFormMeta(active);
+    if(els.archiveActiveShip)els.archiveActiveShip.textContent=active==='rizoma'?'RIZOMA':(activeMeta?.name||active);
+    const baseCard=`<article class="boss-ship-card ${active==='rizoma'?'active':''}"><div class="boss-ship-art"><span style="font-size:2.2rem">◇</span></div><h4>RIZOMA</h4><p>Nave base · siempre disponible.</p><footer><span class="boss-ship-status">BASE</span><button class="soft-btn small" data-equip-domain="rizoma" ${active==='rizoma'?'disabled':''}>${active==='rizoma'?'Activa':'Equipar'}</button></footer></article>`;
+    els.bossShipInventory.innerHTML=baseCard+DOMAIN_FORMS.map(meta=>{
+      const unlocked=!!p.bossShips[meta.id],isActive=active===meta.id,src=GAME_ASSET_SOURCES[meta.assetKey]||'';
+      return `<article class="boss-ship-card ${unlocked?'':'locked'} ${isActive?'active':''}"><div class="boss-ship-art">${src?`<img src="${src}" alt="${meta.name}" />`:bossSigilHtml(meta.world-1,'map-boss-sigil')}</div><h4>M${meta.world} · ${meta.name}</h4><p>${meta.passive||'Forma capturada del Guardián.'}</p><footer><span class="boss-ship-status">${unlocked?'CAPTURADA':'BLOQUEADA'}</span><button class="soft-btn small" data-equip-domain="${meta.id}" ${!unlocked||isActive?'disabled':''}>${isActive?'Activa':'Equipar'}</button></footer></article>`;
+    }).join('');
+    els.bossShipInventory.querySelectorAll('[data-equip-domain]').forEach(btn=>btn.addEventListener('click',()=>{
+      const id=btn.dataset.equipDomain;if(id!=='rizoma'&&!p.bossShips[id])return;p.activeDomainForm=id;p.activeBossShip=id==='rizoma'?null:id;saveState();renderBossShipInventory();
+    }));
+  }
+
+  function renderSagaTwoPreview(){
+    if(!els.sagaTwoGrid)return;
+    els.sagaTwoGrid.innerHTML=SECOND_SAGA_WORLDS.map(w=>`<article class="saga-two-card"><span class="future-world-no">MUNDO ${w.world}</span><strong>${w.name}</strong><small>${w.cue}</small><em>SEÑAL DETECTADA · PRÓXIMAMENTE</em></article>`).join('');
+  }
+
+  function renderTrainingBosses(){
+    if(!els.trainingBossGrid)return;
+    const p=currentProfile();
+    els.trainingBossGrid.innerHTML=MAPS.map((m,i)=>{
+      const world=i+1,unlocked=(p.completedMaps||[]).includes(world),meta=DOMAIN_FORMS[i],src=meta?GAME_ASSET_SOURCES[meta.assetKey]:'';
+      return `<article class="training-boss-card ${unlocked?'':'locked'}"><div class="training-boss-icon">${src?`<img src="${src}" alt="${m.boss}" />`:bossSigilHtml(i,'map-boss-sigil')}</div><div><h4>M${world} · ${m.boss}</h4><small>${unlocked?'Guardián disponible para simulación':'Derrota este Guardián para desbloquearlo'}</small><button class="primary-btn small" data-training-world="${i}" ${unlocked?'':'disabled'}>Entrenar</button></div></article>`;
+    }).join('');
+    els.trainingBossGrid.querySelectorAll('[data-training-world]').forEach(btn=>btn.addEventListener('click',()=>game.startTraining(Number(btn.dataset.trainingWorld))));
+  }
+
   function renderReplayLevels() {
     if (!els.replayWorldGrid) return;
     const p = currentProfile();
@@ -8426,7 +8569,7 @@
   }
 
   function renderAll() {
-    renderHome(); renderProfiles(); renderAvatars(); renderHangar(); renderMaps(); renderReplayLevels(); renderShop(); renderRanking(); renderAchievements(); renderCollection(); renderSettings();
+    renderHome(); renderProfiles(); renderAvatars(); renderHangar(); renderMaps(); renderBossShipInventory(); renderReplayLevels(); renderSagaTwoPreview(); renderTrainingBosses(); renderShop(); renderRanking(); renderAchievements(); renderCollection(); renderSettings();
   }
 
   function exportRanking() {
@@ -8618,12 +8761,23 @@ ${JSON.stringify(snapshot, null, 2)}`;
     els.btnResume.addEventListener('click', () => game.togglePause(false));
     els.btnSaveRun.addEventListener('click', () => { game.saveRun(); game.updatePauseStats(); });
     els.btnRestartMap.addEventListener('click', () => { if (confirm('¿Reiniciar este mundo desde cero?')) game.start(game.mapIndex); });
-    els.btnExitRun.addEventListener('click', () => { game.saveRun(); game.running = false; AudioFX.stopMusic(); hideOverlays(); showScreen('screenPortal'); });
+    els.btnWorldArchive?.addEventListener('click', () => {
+      game.saveRun();
+      game.running=false;
+      game.trainingMode=null;
+      document.body.classList.remove('training-mode');
+      AudioFX.stopMusic();
+      hideOverlays();
+      showScreen('screenReplay');
+    });
+    els.btnExitRun.addEventListener('click', () => { game.saveRun(); game.running = false; game.trainingMode=null; document.body.classList.remove('training-mode'); AudioFX.stopMusic(); hideOverlays(); showScreen('screenPortal'); });
     els.btnBuyLifeCoins?.addEventListener('click',()=>game.buyLife('coins'));
     els.btnBuyLifeScore?.addEventListener('click',()=>game.buyLife('score'));
     els.btnBuyLifeXp?.addEventListener('click',()=>game.buyLife('xp'));
     els.btnResultContinue.addEventListener('click', () => {
-      if (game.resultMode === 'replay_victory') {
+      if(game.resultMode==='training_victory'){
+        hideOverlays();game.running=false;game.trainingMode=null;document.body.classList.remove('training-mode');showScreen('screenTraining');
+      } else if (game.resultMode === 'replay_victory') {
         hideOverlays(); game.running=false; game.replayMode=null; showScreen('screenReplay');
       } else if (game.resultMode === 'victory') {
         hideOverlays();
@@ -8636,6 +8790,8 @@ ${JSON.stringify(snapshot, null, 2)}`;
           };
           if (game.mapIndex === 0 && getPlayMode() === 'story') showStorySequence(WORLD_ONE_STORY.outro, continueToNextWorld);
           else continueToNextWorld();
+        } else if(game.mapIndex===9&&getPlayMode()==='story'){
+          game.running=false;AudioFX.stopMusic();showStorySequence(WORLD_TEN_EPILOGUE,()=>showScreen('screenReplay'));
         } else showScreen('screenPortal');
       } else if (game.resultMode === 'defeat_revive') {
         game.reviveRun();
@@ -8647,6 +8803,7 @@ ${JSON.stringify(snapshot, null, 2)}`;
     els.btnResultHome.addEventListener('click', () => {
       if (game.resultMode !== 'victory') game.finalizeRun(false);
       game.running = false;
+      game.trainingMode=null;document.body.classList.remove('training-mode');
       AudioFX.stopMusic();
       hideOverlays();
       showScreen('screenIntro');

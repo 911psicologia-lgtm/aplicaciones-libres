@@ -9,9 +9,9 @@
   <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
   <meta name="apple-mobile-web-app-capable" content="yes" />
   <meta name="apple-mobile-web-app-title" content="Zombie Strike" />
-  <script>if(location.protocol !== "file:"){const m=document.createElement("link");m.rel="manifest";m.href="manifest.json?v=2.0.0";document.head.appendChild(m);}</script>
+  <script>if(location.protocol !== "file:"){const m=document.createElement("link");m.rel="manifest";m.href="manifest.json?v=2.1.0";document.head.appendChild(m);}</script>
   <link rel="icon" href="assets/icon.svg" type="image/svg+xml" />
-  <title>Rizoma Zombie Strike — Mundo 10 · v2.0.0</title>
+  <title>Rizoma Zombie Strike — Mundo 10 · v2.1.0</title>
   <link rel="preload" as="image" href="assets/ui/intro_poster_mobile.webp" media="(max-width: 1200px)" fetchpriority="high" />
   <link rel="preload" as="image" href="assets/boss2/sigil_w1.svg" />
   <link rel="preload" as="image" href="assets/boss2/sigil_w2.svg" />
@@ -20,7 +20,7 @@
   <link rel="preload" as="image" href="assets/boss2/sigil_w5.svg" />
   <link rel="preload" as="image" href="assets/boss2/sigil_w9.svg" />
   <link rel="preload" as="image" href="assets/boss2/sigil_w10.svg" />
-  <link rel="stylesheet" href="css/styles.css?v=2.0.0" />
+  <link rel="stylesheet" href="css/styles.css?v=2.1.0" />
   <link rel="preload" as="image" href="assets/story/episode_01_protocol_zstrike.webp" fetchpriority="high" />
 </head>
 <body>
@@ -35,7 +35,7 @@
         <span class="brand-mark">⬢</span>
         <div>
           <strong>Rizoma Zombie Strike</strong>
-          <small>Mundos 1–10 · Mundo 10 · v2.0.0</small>
+          <small>Mundos 1–10 · Saga I completa · v2.1.0</small>
         </div>
       </div>
       <button id="btnSettings" class="icon-btn" title="Ajustes" aria-label="Ajustes">⚙</button>
@@ -97,6 +97,10 @@
               <button id="btnContinue" class="soft-btn wide">Cargar partida</button>
               <button class="soft-btn wide" data-screen="screenRanking">RANKING</button>
             </div>
+          </div>
+          <div class="command-tools-row" aria-label="Accesos de progreso">
+            <button class="soft-btn command-tool" data-screen="screenReplay"><strong>🗺 ARCHIVO DE MUNDOS</strong><small>Repite cualquier nivel superado y equipa naves capturadas</small></button>
+            <button class="soft-btn command-tool" data-screen="screenTraining"><strong>🎯 ENTRENAMIENTO</strong><small>Simulador de jefe sin alterar tu campaña</small></button>
           </div>
           <div id="savedGamesList" class="saved-games-list hidden"></div>
           <div id="portalRankingPreview" class="portal-ranking-preview"></div>
@@ -187,6 +191,51 @@
             <button class="soft-btn" data-screen="screenPortal">Volver</button>
           </div>
           <div id="collectionGrid" class="collection-grid"></div>
+        </div>
+      </section>
+
+      <section id="screenReplay" class="screen">
+        <div class="panel glass progress-hub">
+          <div class="section-head">
+            <div>
+              <p class="eyebrow">Memoria de campaña</p>
+              <h2>Archivo de mundos</h2>
+              <small>Todo mundo superado queda disponible para repetición. Tu progreso principal no se modifica.</small>
+            </div>
+            <button class="soft-btn" data-screen="screenPortal">Volver</button>
+          </div>
+          <div class="progress-summary-row">
+            <article class="progress-summary-card"><strong id="archiveWorldCount">0/10</strong><small>Mundos superados</small></article>
+            <article class="progress-summary-card"><strong id="archiveShipCount">0/10</strong><small>Naves de jefes capturadas</small></article>
+            <article class="progress-summary-card"><strong id="archiveActiveShip">RIZOMA</strong><small>Nave activa</small></article>
+          </div>
+          <h3 class="archive-heading">Naves capturadas</h3>
+          <div id="bossShipInventory" class="boss-ship-inventory"></div>
+          <h3 class="archive-heading">Niveles disponibles</h3>
+          <div id="replayWorldGrid" class="replay-world-grid"></div>
+          <article class="saga-preview-card">
+            <img src="assets/story/episode_10_afterfall.webp" alt="Horizonte de la Saga II" />
+            <div><p class="eyebrow">PRÓXIMA SAGA</p><h3>Diez mundos terrestres alienígenas</h3><p>Desierto · fondo del mar · núcleo de magma · estrella moribunda · entrañas de gusano · cerebros asesinos · tundra salvaje · biblioteca ánime · planeta de grises · zombies-reptiloides.</p></div>
+          </article>
+          <div id="sagaTwoGrid" class="saga-two-grid" aria-label="Próximos mundos 11 a 20"></div>
+        </div>
+      </section>
+
+      <section id="screenTraining" class="screen">
+        <div class="panel glass progress-hub training-hub">
+          <div class="section-head">
+            <div>
+              <p class="eyebrow">Simulador Rizoma</p>
+              <h2>Modo entrenamiento</h2>
+              <small>Elige un Guardián ya derrotado. Practica, recoge premios y vuelve a tu campaña sin modificarla.</small>
+            </div>
+            <div class="section-head-actions"><button class="soft-btn" data-screen="screenReplay">🗺 Archivo</button><button class="soft-btn" data-screen="screenPortal">Volver</button></div>
+          </div>
+          <div class="training-preview">
+            <img src="assets/training/bg_training_field.webp" alt="Campo de entrenamiento Rizoma" />
+            <div class="training-preview-copy"><strong>CAMPO HOLOGRÁFICO</strong><span>Boss real · vida reducida · sin pérdida de progreso</span></div>
+          </div>
+          <div id="trainingBossGrid" class="training-boss-grid"></div>
         </div>
       </section>
 
@@ -289,7 +338,7 @@
           <div class="tactical-shop-panel">
             <div class="tactical-shop-head">
               <div>
-                <p class="eyebrow">PREPARACIÓN TÁCTICA</p>
+                <p class="eyebrow">PREPARACIÓN TÁCTICA · JUEGO EN PAUSA</p>
                 <h3 id="tacticalShopTitle">Compra Exprés</h3>
                 <small id="tacticalShopLimit">0/0 compras</small>
               </div>
@@ -299,7 +348,7 @@
             <div id="tacticalAdvisor" class="tactical-advisor"></div>
             <div id="tacticalShopGrid" class="tactical-shop-grid"></div>
             <div class="tactical-shop-footer">
-              <small>Las compras aparecen flotando junto a tu nave. No se activan desde el menú.</small>
+              <small>Mientras compras, el combate permanece pausado. Al cerrar, la misión se reanuda.</small>
               <button id="btnTacticalContinue" class="primary-btn tactical-start">Cerrar compras</button>
             </div>
           </div>
@@ -326,6 +375,7 @@
               <button id="btnResume" class="pause-action primary">▶ Continuar</button>
               <button id="btnSaveRun" class="pause-action">💾 Guardar</button>
               <button id="btnRestartMap" class="pause-action">↻ Reiniciar mundo</button>
+              <button id="btnWorldArchive" class="pause-action">🗺 Archivo de mundos</button>
               <button id="btnExitRun" class="pause-action danger">⌂ Salir al inicio</button>
             </div>
           </div>
@@ -378,6 +428,6 @@
     </div>
   </div>
 
-  <script src="js/game.js?v=2.0.0"></script>
+  <script src="js/game.js?v=2.1.0"></script>
 </body>
 </html>

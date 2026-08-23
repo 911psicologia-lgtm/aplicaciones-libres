@@ -1,0 +1,34 @@
+VALIDACIÓN v2.1.0
+=================
+
+PENDIENTE DE EMPAQUETADO FINAL
+
+Pruebas estructurales realizadas:
+- node --check js/game.js: OK
+- manifest.json parse: OK
+- index.html parse: OK
+- IDs HTML duplicados: 0
+- destinos data-screen inexistentes: 0
+- referencias literales a assets: 273
+- assets literales faltantes: 0
+- screenReplay: OK
+- screenTraining: OK
+- bossShipInventory: OK
+- replayWorldGrid: OK
+- trainingBossGrid: OK
+- sagaTwoGrid: OK
+- btnWorldArchive: OK
+- WORLD_TEN_EPILOGUE: OK
+- SECOND_SAGA_WORLDS: OK
+- applyBossVisualAnimation: OK
+- pausa obligatoria de Compra Exprés: implementada
+
+Prueba Chromium headless:
+- No completada por limitaciones DBus/zygote del entorno de ejecución. No se contabiliza como prueba superada.
+
+Empaquetado final:
+- ZIP creado: Rizoma_Zombie_Strike_v2.1.0_Epilogo_Archivo_Entrenamiento.zip
+- unzip -t: OK
+- extracción independiente: OK
+- node --check del JS extraído: OK
+- manifest extraído: OK

@@ -1805,3 +1805,32 @@ body.orientation-required{overflow:auto!important}
     display:none!important;
   }
 }
+
+/* v2.1.0 · Archivo de mundos, inventario de naves y entrenamiento */
+.command-tools-row{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px;margin-top:12px}
+.command-tool{min-height:66px;display:flex;flex-direction:column;align-items:flex-start;justify-content:center;gap:4px;text-align:left;padding:12px 16px}
+.command-tool strong{font-size:.9rem;letter-spacing:.04em}.command-tool small{opacity:.65;font-size:.72rem;line-height:1.25}
+.progress-hub{max-width:1380px;margin:0 auto}.progress-summary-row{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:12px;margin:16px 0 20px}
+.progress-summary-card{padding:14px 16px;border:1px solid rgba(97,255,200,.14);border-radius:16px;background:rgba(4,14,24,.56);display:flex;flex-direction:column;gap:4px}.progress-summary-card strong{font-size:1.2rem}.progress-summary-card small{opacity:.62}
+.archive-heading{margin:22px 0 10px;font-size:1rem;letter-spacing:.06em;text-transform:uppercase}
+.boss-ship-inventory{display:grid;grid-template-columns:repeat(auto-fit,minmax(210px,1fr));gap:12px}
+.boss-ship-card{position:relative;padding:14px;border:1px solid rgba(144,126,255,.16);border-radius:18px;background:linear-gradient(180deg,rgba(8,12,28,.86),rgba(4,7,18,.92));overflow:hidden;min-height:150px}
+.boss-ship-card.locked{opacity:.38;filter:saturate(.5)}.boss-ship-card.active{border-color:rgba(97,255,200,.55);box-shadow:0 0 24px rgba(97,255,200,.08)}
+.boss-ship-art{height:76px;display:grid;place-items:center;margin-bottom:6px}.boss-ship-art img{max-width:100%;max-height:76px;object-fit:contain;filter:drop-shadow(0 0 10px rgba(194,120,255,.28))}
+.boss-ship-card h4{margin:3px 0;font-size:.92rem}.boss-ship-card p{margin:0 0 10px;font-size:.72rem;opacity:.65}.boss-ship-card footer{display:flex;align-items:center;justify-content:space-between;gap:8px}.boss-ship-status{font-size:.68rem;opacity:.62;text-transform:uppercase;letter-spacing:.06em}
+.saga-preview-card{margin-top:24px;display:grid;grid-template-columns:minmax(260px,38%) 1fr;gap:18px;padding:14px;border-radius:20px;border:1px solid rgba(255,92,125,.18);background:linear-gradient(180deg,rgba(22,5,25,.78),rgba(6,5,18,.92));overflow:hidden}.saga-preview-card img{width:100%;height:180px;object-fit:cover;border-radius:14px}.saga-preview-card h3{margin:3px 0 8px}.saga-preview-card p{margin:0;line-height:1.45;opacity:.78}
+.training-preview{position:relative;min-height:230px;border-radius:22px;overflow:hidden;border:1px solid rgba(97,255,200,.16);margin:18px 0}.training-preview img{width:100%;height:260px;object-fit:cover;display:block}.training-preview:after{content:"";position:absolute;inset:0;background:linear-gradient(90deg,rgba(2,8,18,.72),rgba(2,8,18,.12) 56%,rgba(2,8,18,.5))}.training-preview-copy{position:absolute;z-index:2;left:24px;bottom:22px;display:flex;flex-direction:column;gap:4px}.training-preview-copy strong{letter-spacing:.08em}.training-preview-copy span{opacity:.72;font-size:.8rem}
+.training-boss-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(230px,1fr));gap:12px}.training-boss-card{padding:14px;border-radius:18px;border:1px solid rgba(123,194,255,.16);background:rgba(6,10,22,.78);display:grid;grid-template-columns:72px 1fr;gap:12px;align-items:center}.training-boss-card.locked{opacity:.36}.training-boss-icon{width:72px;height:72px;display:grid;place-items:center}.training-boss-icon img{max-width:72px;max-height:72px;object-fit:contain}.training-boss-card h4{margin:0 0 3px;font-size:.9rem}.training-boss-card small{display:block;opacity:.6;margin-bottom:8px}
+body.training-mode #hudMap:after{content:" · SIM";font-size:.7em;opacity:.72}
+@media(max-width:760px){.command-tools-row{grid-template-columns:1fr}.progress-summary-row{grid-template-columns:1fr 1fr}.progress-summary-card:last-child{grid-column:1/-1}.saga-preview-card{grid-template-columns:1fr}.saga-preview-card img{height:150px}.training-preview img{height:190px}.boss-ship-inventory,.training-boss-grid{grid-template-columns:1fr}}
+body.training-mode .tactical-cart{display:none!important}
+
+
+/* v2.1.0 · Horizonte Saga II */
+.saga-two-grid{display:grid;grid-template-columns:repeat(5,minmax(0,1fr));gap:10px;margin-top:12px}
+.saga-two-card{position:relative;overflow:hidden;min-height:116px;padding:13px;border:1px solid rgba(176,129,255,.23);border-radius:16px;background:linear-gradient(145deg,rgba(9,14,22,.92),rgba(30,12,37,.8));box-shadow:inset 0 0 30px rgba(155,80,255,.035)}
+.saga-two-card:before{content:'';position:absolute;inset:auto -20% -55% 20%;height:90px;background:radial-gradient(circle,rgba(202,91,255,.18),transparent 67%);pointer-events:none}
+.saga-two-card strong{display:block;color:#f6efff;font-size:.92rem;line-height:1.1;margin-bottom:6px}.saga-two-card small{display:block;color:rgba(229,239,247,.64);font-size:.72rem;line-height:1.35}.saga-two-card .future-world-no{display:inline-flex;margin-bottom:8px;padding:3px 7px;border-radius:999px;border:1px solid rgba(118,255,226,.22);color:#7fffe3;font-size:.64rem;font-weight:800;letter-spacing:.08em}.saga-two-card em{display:block;margin-top:7px;color:rgba(255,169,223,.72);font-style:normal;font-size:.62rem;font-weight:800;letter-spacing:.06em}
+@media(max-width:900px){.saga-two-grid{grid-template-columns:repeat(2,minmax(0,1fr))}}
+@media(max-width:560px){.saga-two-grid{grid-template-columns:1fr}}
+.section-head-actions{display:flex;align-items:center;gap:8px;flex-wrap:wrap;justify-content:flex-end}
