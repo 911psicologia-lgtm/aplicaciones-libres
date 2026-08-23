@@ -1,0 +1,18 @@
+VALIDACIÓN v2.2.0 · MUNDO 11 DESIERTO ALIENÍGENA
+===================================================
+Referencias de assets localizadas: 290
+Assets faltantes: 0
+Assets requeridos de Mundo 11: 18 · faltantes: 0
+VERSION_2_2_0: OK
+MAP_WORLD_11: OK
+BOSSSHIP_11: OK
+W11_SAVE: OK
+W11_RETRY: OK
+W11_ANIMATION: OK
+CART_ALWAYS_PAUSES: OK
+M10_EPILOGUE_BEFORE_W11: OK
+W11_REPLAY: OK
+W11_BOSS_SPECIAL: OK
+W11_BOSS_SPRITE: OK
+Manifest JSON: OK
+JavaScript node --check: OK

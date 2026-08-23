@@ -1,11 +1,5 @@
-Rizoma Zombie Strike v2.1.0 — Epílogo, Archivo de Mundos y Entrenamiento
+Rizoma Zombie Strike v2.2.0 — Saga II · Mundo 11 Desierto Alienígena
 
-Novedades principales:
-- Epílogo del Mundo 10 y teaser de Saga II (Mundos 11–20).
-- Archivo de Mundos para repetir cualquier nivel ya superado.
-- Inventario de naves capturadas: una nave por Guardián derrotado.
-- Modo Entrenamiento con campo y arena propios, Guardianes ya vencidos y sin alterar campaña.
-- El carrito de Compra Exprés pausa SIEMPRE el juego y lo reanuda al cerrar.
-- Auditoría y refuerzo de animación visual de los 10 jefes.
+Base consolidada con Saga I completa, epílogo de Mundo 10, Archivo de Mundos, repetición de niveles, inventario de naves capturadas, modo Entrenamiento y pausa obligatoria del carrito.
 
-La Saga II queda anunciada, no implementada todavía como mundos jugables.
+Mundo 11 jugable: Desierto Alienígena, cinco actos, seis esbirros propios, hazards de sílice, tormentas de arena, Soberano de Sílice y bossShip11 Corona de Sílice.
