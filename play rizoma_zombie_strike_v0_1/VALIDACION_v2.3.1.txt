@@ -1,0 +1,18 @@
+VALIDACIÓN v2.3.1 · HOTFIX PROGRESIÓN M10–M12
+================================================
+node --check js/game.js: OK
+manifest.json: OK
+VERSION_231: OK
+RECONCILE: OK
+CAMPAIGN_TARGET: OK
+CAPTURED_NEXT_INDEX: OK
+W10_EPILOGUE_ROUTE: OK
+STALE_SAVE_REPAIR: OK
+W12_RELIC_EVIDENCE: OK
+Referencias assets auditadas: 301
+Assets faltantes: 0
+
+Pruebas de reconciliación simuladas:
+ - M10 completado + save M10 obsoleto -> target M11, save eliminado: OK
+ - Evidencia bossShip12/reliquia W12 + unlockedMap antiguo 10 -> M1-M12 reconstruidos, target null/Archivo: OK
+ - M1-M12 completados -> no reinicia M12; abre Archivo: OK
