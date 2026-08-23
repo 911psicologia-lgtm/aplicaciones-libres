@@ -1,9 +1,9 @@
 (()=>{
 'use strict';
 
-const VERSION='1.9.3';
-const KEY_META='swarm_rift_meta_v19';
-const KEY_RUN='swarm_rift_run_v19';
+const VERSION='1.9.4';
+const KEY_META='swarm_rift_meta_v194';
+const KEY_RUN='swarm_rift_run_v194';
 const TAU=Math.PI*2;
 const cv=document.getElementById('game');
 const cx=cv.getContext('2d',{alpha:false});
@@ -55,7 +55,7 @@ function tryFullscreen(){
 const IMG={
   ship:new Image(),
   atlas:new Image(),
-  bg:{rust:new Image(),toxic:new Image(),rift:new Image()},
+  bg:{rust:new Image(),toxic:new Image(),rift:new Image(),nocturne:new Image(),nocturneBoss:new Image(),iron:new Image(),ironBoss:new Image(),emerald:new Image(),emeraldBoss:new Image()},
   obstacles:{rock:new Image(),mine:new Image(),wreck:new Image(),pod:new Image(),gate:new Image(),nest:new Image(),seed:new Image()},
   pickups:{credit:new Image(),heal:new Image(),shield:new Image(),power:new Image()},
   enemyShips:{scout:new Image(),frigate:new Image(),bomber:new Image()},
@@ -65,6 +65,7 @@ const IMG={
   generatedPowers:{},
   support:{scout:new Image(),lancer:new Image(),orbiter:new Image()},
   front:{meteor:new Image(),rammer:new Image(),wreck:new Image(),pod:new Image()},
+  worldObstacles:{np:[],iron:[],emerald:[]},
   enemyCells:Array.from({length:3},()=>Array(6))
 };
 IMG.ship.src='assets/player_ship.png';
@@ -72,6 +73,12 @@ IMG.atlas.src='assets/enemy_atlas.png';
 IMG.bg.rust.src='assets/bg_rust_canyon.png';
 IMG.bg.toxic.src='assets/bg_toxic_ravine.png';
 IMG.bg.rift.src='assets/bg_rift_tunnel.png';
+IMG.bg.nocturne.src='assets/worlds/bg_nocturne.png';
+IMG.bg.nocturneBoss.src='assets/worlds/bg_nocturne_boss.png';
+IMG.bg.iron.src='assets/worlds/bg_iron.png';
+IMG.bg.ironBoss.src='assets/worlds/bg_iron_boss.png';
+IMG.bg.emerald.src='assets/worlds/bg_emerald.png';
+IMG.bg.emeraldBoss.src='assets/worlds/bg_emerald_boss.png';
 IMG.obstacles.rock.src='assets/obs_rock.svg';
 IMG.obstacles.mine.src='assets/obs_mine.svg';
 IMG.obstacles.wreck.src='assets/obs_drone_wreck.svg';
@@ -93,6 +100,9 @@ IMG.front.meteor.src='assets/front/front_meteor.svg';
 IMG.front.rammer.src='assets/front/front_rammer.svg';
 IMG.front.wreck.src='assets/front/front_wreck.svg';
 IMG.front.pod.src='assets/front/front_pod.svg';
+for(const f of ['np_cocoon.svg','np_pollenpod.svg','np_spire.svg']){const im=new Image();im.src=`assets/worlds/${f}`;IMG.worldObstacles.np.push(im);}
+for(const f of ['in_nest.svg','in_bulwark.svg','in_mine.svg']){const im=new Image();im.src=`assets/worlds/${f}`;IMG.worldObstacles.iron.push(im);}
+for(const f of ['el_seed.svg','el_rock.svg','el_spore.svg']){const im=new Image();im.src=`assets/worlds/${f}`;IMG.worldObstacles.emerald.push(im);}
 IMG.tiers.src='assets/generated/enemy_tiers_atlas.png';
 for(let row=0;row<3;row++)for(let col=0;col<6;col++){const im=new Image();im.src=`assets/enemies/enemy_r${row}_c${col}.png`;IMG.enemyCells[row][col]=im;}
 for(const pack of ['rust','toxic','rift'])for(let i=1;i<=12;i++){const im=new Image();im.src=`assets/generated/${pack}_${String(i).padStart(2,'0')}.png`;IMG.generatedObstacles[pack].push(im);}
@@ -189,9 +199,9 @@ const SECTORS=[
  {code:'RC-01',name:'Rust Canyon Corridor',family:'AVISPAS',boss:'IMPERATRIX VESPA',pattern:'storm',base:'#d6a21b',accent:'#fff07b',dark:'#1a1205',bg:'rust',forms:['hornet','lancer','shocker'],hazards:['pasos angostos','minas solares','torres de chatarra'],obstacles:['spire','mine','drone'],stats:{armor:2,speed:4,range:3,threat:3},blurb:'cañón industrial de roca oxidada y puentes de forja.'},
  {code:'TR-02',name:'Toxic Ravine',family:'ESCARABAJOS',boss:'ATLAS VERDE',pattern:'titan',base:'#6e9f2e',accent:'#d7ff74',dark:'#081106',bg:'toxic',forms:['scarab','tank','ram'],hazards:['ácido vivo','pilares tóxicos','vainas corrosivas'],obstacles:['acidpod','spore','pillar'],stats:{armor:5,speed:2,range:2,threat:4},blurb:'garganta química con corrientes ácidas y costras blindadas.'},
  {code:'RT-03',name:'Rift Tunnel / Debris Field',family:'MANTIS',boss:'CORTEX RAZOR',pattern:'blade',base:'#dd7b28',accent:'#ffbe74',dark:'#07121d',bg:'rift',forms:['stalker','blade','jumper'],hazards:['fragmentos cinéticos','drones rotos','cortes frontales'],obstacles:['shard','gate','drone'],stats:{armor:3,speed:5,range:3,threat:4},blurb:'túnel orbital fracturado, veloz y saturado de residuos letales.'},
- {code:'NP-04',name:'Nocturne Pollen Vault',family:'POLILLAS',boss:'VELA NOCTIS',pattern:'moth',base:'#9f68d7',accent:'#f4c8ff',dark:'#11091b',bg:'rift',forms:['flutter','dust','seer'],hazards:['niebla de polen','descargas de alas','mirada seer'],obstacles:['cocoon','dustpod','spike'],stats:{armor:2,speed:3,range:5,threat:4},blurb:'cripta lumínica donde el polen altera trayectoria y visibilidad.'},
- {code:'IN-05',name:'Iron Nest Corridor',family:'HORMIGAS',boss:'REGINA FERRUM',pattern:'queen',base:'#ac3633',accent:'#ff7f75',dark:'#170708',bg:'rust',forms:['worker','soldier','acid'],hazards:['enjambres obreros','ácido lineal','nidos fortificados'],obstacles:['nest','bulwark','mine'],stats:{armor:4,speed:3,range:2,threat:5},blurb:'corredor de colonia roja donde cada barrera parece otro nido vivo.'},
- {code:'EL-06',name:'Emerald Leap Delta',family:'LANGOSTAS',boss:'COLOSSUS HOP',pattern:'leap',base:'#89bb2d',accent:'#ebff77',dark:'#0b1406',bg:'toxic',forms:['hopper','crusher','slinger'],hazards:['saltos parabólicos','esporas de impulso','bloques semilla'],obstacles:['seed','hopperrock','spore'],stats:{armor:3,speed:5,range:4,threat:5},blurb:'delta radioactivo de saltos violentos y vectores impredecibles.'}
+ {code:'NP-04',name:'Nocturne Pollen Vault',family:'POLILLAS',boss:'VELA NOCTIS',pattern:'moth',base:'#9f68d7',accent:'#f4c8ff',dark:'#11091b',bg:'rift',worldBg:'nocturne',bossBg:'nocturneBoss',obstacleTheme:'np',forms:['flutter','dust','seer'],hazards:['niebla de polen','descargas de alas','mirada seer'],obstacles:['cocoon','dustpod','spike'],stats:{armor:2,speed:3,range:5,threat:4},blurb:'cripta lumínica donde el polen altera trayectoria y visibilidad.'},
+ {code:'IN-05',name:'Iron Nest Corridor',family:'HORMIGAS',boss:'REGINA FERRUM',pattern:'queen',base:'#ac3633',accent:'#ff7f75',dark:'#170708',bg:'rust',worldBg:'iron',bossBg:'ironBoss',obstacleTheme:'iron',forms:['worker','soldier','acid'],hazards:['enjambres obreros','ácido lineal','nidos fortificados'],obstacles:['nest','bulwark','mine'],stats:{armor:4,speed:3,range:2,threat:5},blurb:'corredor de colonia roja donde cada barrera parece otro nido vivo.'},
+ {code:'EL-06',name:'Emerald Leap Delta',family:'LANGOSTAS',boss:'COLOSSUS HOP',pattern:'leap',base:'#89bb2d',accent:'#ebff77',dark:'#0b1406',bg:'toxic',worldBg:'emerald',bossBg:'emeraldBoss',obstacleTheme:'emerald',forms:['hopper','crusher','slinger'],hazards:['saltos parabólicos','esporas de impulso','bloques semilla'],obstacles:['seed','hopperrock','spore'],stats:{armor:3,speed:5,range:4,threat:5},blurb:'delta radioactivo de saltos violentos y vectores impredecibles.'}
 ];
 
 
@@ -301,7 +311,7 @@ function enterSector(n,keepPlayer=false){
   G.sector=clamp(n,1,SECTORS.length);G.wave=1;G.kills=0;G.goal=waveGoal(G.sector,1);G.spawn=.72;G.obstacleTimer=G.sector===1?2.8:2.2;G.frontTimer=G.mode==='training'?5.5:rnd(6.5,10.5);G.boss=null;G.bossPending=false;G.sectorClear=false;G.postBossT=0;G.bossCheckpoint=false;
   G.enemies.length=0;G.bullets.length=0;G.eBullets.length=0;G.pickups.length=0;G.obstacles.length=0;G.frontThreats.length=0;G.particles.length=0;G.activeCombos={};
   if(!keepPlayer)G.player=makePlayer();else{G.player.x=W*.2;G.player.y=H*.5;G.player.hp=G.player.maxHp;G.player.shield=G.player.maxShield;G.player.inv=.8;}
-  G.sectorBanner=3;G.waveBanner=2;G.frenzyT=0;G.frenzyWave=0;G.frenzyMult=1;G.bossWarningT=0;G.bossWarningText='';
+  G.sectorBanner=3;G.waveBanner=2;G.frenzyT=0;G.frenzyWave=0;G.frenzyMult=1;G.bossWarningT=0;G.bossWarningText='';if(G.sector>=4)notify(`${SECTORS[G.sector-1].code} · AMBIENTE ESPECÍFICO ACTIVADO`,SECTORS[G.sector-1].accent,1.8);
   if(G.heritageNext){const hk=G.heritageNext;G.heritageNext=null;activatePower(hk,'heritage',12);notify(`HERENCIA DE JEFE · ${HERITAGE_NAMES[G.sector-1]||POWERS[hk].name}`,'#ffd76a',2.5);}
 }
 function waveGoal(sector,wave){const base=11;return Math.round(base+sector*2.2+wave*4.0);}
@@ -384,6 +394,25 @@ function obstacleAssetIndex(sec,type){
     rift:{mine:[6],drone:[3,6,7,10],gate:[2,6],nest:[7,11],cocoon:[7,11],default:[0,1,2,3,4,5,6,7,8,9,10,11]}
   };
   const pack=pools[sec.bg]||pools.rift,list=pack[type]||pack.default;return pick(list);
+}
+function worldObstacleAsset(sec,type){
+  if(!sec.obstacleTheme)return null;const pack=IMG.worldObstacles[sec.obstacleTheme];if(!pack?.length)return null;
+  const idx=Math.max(0,(sec.obstacles||[]).indexOf(type));return pack[idx%pack.length]||null;
+}
+function ambientWorldFx(sec,t){
+  const key=sec.worldBg;if(!key)return;
+  cx.save();
+  if(key==='nocturne'){
+    for(let i=0;i<42;i++){const st=stars[(i*7+13)%stars.length],x=(st.x+t*(10+st.z*9)+i*31)%(W+30)-15,y=(st.y+t*(4+st.z*3)+Math.sin(t*.7+i)*18)%H,r=1.2+st.z*2.5;cx.globalAlpha=.08+.25*st.z;cx.fillStyle=i%3===0?'#fff0a6':'#e6b6ff';cx.beginPath();cx.arc(x,y,r,0,TAU);cx.fill();}
+    const haze=cx.createLinearGradient(0,0,W,H);haze.addColorStop(0,'rgba(110,54,160,.08)');haze.addColorStop(.6,'rgba(215,164,255,.03)');haze.addColorStop(1,'rgba(70,28,112,.12)');cx.fillStyle=haze;cx.fillRect(0,0,W,H);
+  }else if(key==='iron'){
+    for(let i=0;i<34;i++){const st=stars[(i*11+5)%stars.length],x=(st.x-t*(18+st.z*20)+W+40)%(W+40),y=(st.y+t*(8+st.z*4)+i*13)%H;cx.globalAlpha=.08+.28*st.z;cx.fillStyle=i%4===0?'#ffd0a5':'#ff6b49';cx.fillRect(x,y,1.4+st.z*2.2,1.4+st.z*2.2);}
+    cx.globalAlpha=.12+.035*Math.sin(t*3.2);cx.fillStyle='#8c1e16';cx.fillRect(0,H*.72,W,H*.28);
+  }else if(key==='emerald'){
+    for(let i=0;i<44;i++){const st=stars[(i*5+19)%stars.length],x=(st.x-t*(5+st.z*8)+W+20)%(W+20),y=(st.y-t*(12+st.z*10)+H+30)%(H+30),r=1+st.z*2.8;cx.globalAlpha=.07+.24*st.z;cx.fillStyle=i%4===0?'#e8ff8b':'#8dffb0';cx.beginPath();cx.arc(x,y,r,0,TAU);cx.fill();}
+    cx.globalAlpha=.08;cx.strokeStyle='#a7ff88';cx.lineWidth=2;for(let i=0;i<4;i++){const y=H*(.25+i*.16)+Math.sin(t*.6+i)*12;cx.beginPath();cx.moveTo(0,y);cx.bezierCurveTo(W*.3,y-20,W*.65,y+24,W,y-8);cx.stroke();}
+  }
+  cx.restore();cx.globalAlpha=1;
 }
 function powerAsset(key){return IMG.generatedPowers[key]||IMG.pickups.power;}
 function frontAsset(f){return IMG.front[f.kind]||IMG.front.meteor;}
@@ -843,13 +872,15 @@ function updateParticles(dt){for(const p of G.particles){p.life-=dt;if(p.kind===
 // ─────────────────────────────────────────────────────────────
 function rr(x,y,w,h,r=12){cx.beginPath();cx.roundRect?cx.roundRect(x,y,w,h,r):(cx.rect(x,y,w,h));}
 function drawBackground(){
-  const sec=SECTORS[(G?.sector||1)-1]||SECTORS[0],t=G?.elapsed||performance.now()/1000;
-  const img=IMG.bg[sec.bg]||IMG.bg.rust;
+  const sec=SECTORS[(G?.sector||1)-1]||SECTORS[0],t=G?.elapsed||performance.now()/1000,bossArena=!!(G?.boss||G?.bossPending||G?.bossCheckpoint),visualKey=bossArena&&sec.bossBg?sec.bossBg:(sec.worldBg||sec.bg);
+  const img=IMG.bg[visualKey]||IMG.bg[sec.bg]||IMG.bg.rust;
   cx.fillStyle=sec.dark||'#050814';cx.fillRect(0,0,W,H);
-  if(imgReady(img)){const scale=Math.max(W/img.naturalWidth,H/img.naturalHeight),iw=img.naturalWidth*scale,ih=img.naturalHeight*scale,dx=(W-iw)/2+Math.sin(t*.07+(G?.sector||1))*8,dy=(H-ih)/2+Math.cos(t*.05+(G?.sector||1))*5;cx.drawImage(img,dx,dy,iw,ih);}
-  const vg=cx.createLinearGradient(0,0,0,H);vg.addColorStop(0,'rgba(3,6,14,.18)');vg.addColorStop(1,'rgba(2,3,7,.48)');cx.fillStyle=vg;cx.fillRect(0,0,W,H);
-  const vignette=cx.createRadialGradient(W*.5,H*.5,Math.min(W,H)*.15,W*.5,H*.5,Math.max(W,H)*.7);vignette.addColorStop(0,'rgba(0,0,0,0)');vignette.addColorStop(1,'rgba(0,0,0,.42)');cx.fillStyle=vignette;cx.fillRect(0,0,W,H);
-  for(const st of stars){const drift=(sec.bg==='rift'?38:sec.bg==='toxic'?14:20)*st.z;let x=(st.x-t*drift)%(W+24);if(x<0)x+=W+24;cx.globalAlpha=sec.bg==='rift'?.10+.42*st.z:.04+.16*st.z;cx.fillStyle=sec.bg==='toxic'?hexA(sec.accent,.8):sec.bg==='rust'?'#ffd6a2':'#bde6ff';cx.beginPath();cx.arc(x,st.y,st.r*st.z,0,TAU);cx.fill();}
+  if(imgReady(img)){const scale=Math.max(W/img.naturalWidth,H/img.naturalHeight),iw=img.naturalWidth*scale,ih=img.naturalHeight*scale,par=sec.worldBg?4:8,dx=(W-iw)/2+Math.sin(t*.07+(G?.sector||1))*par,dy=(H-ih)/2+Math.cos(t*.05+(G?.sector||1))*par*.6;cx.drawImage(img,dx,dy,iw,ih);}
+  if(sec.worldBg)ambientWorldFx(sec,t);
+  const vg=cx.createLinearGradient(0,0,0,H);vg.addColorStop(0,bossArena?'rgba(3,6,14,.12)':'rgba(3,6,14,.18)');vg.addColorStop(1,bossArena?'rgba(2,3,7,.34)':'rgba(2,3,7,.48)');cx.fillStyle=vg;cx.fillRect(0,0,W,H);
+  const vignette=cx.createRadialGradient(W*.5,H*.5,Math.min(W,H)*.15,W*.5,H*.5,Math.max(W,H)*.7);vignette.addColorStop(0,'rgba(0,0,0,0)');vignette.addColorStop(1,bossArena?'rgba(0,0,0,.32)':'rgba(0,0,0,.42)');cx.fillStyle=vignette;cx.fillRect(0,0,W,H);
+  if(!sec.worldBg){for(const st of stars){const drift=(sec.bg==='rift'?38:sec.bg==='toxic'?14:20)*st.z;let x=(st.x-t*drift)%(W+24);if(x<0)x+=W+24;cx.globalAlpha=sec.bg==='rift'?.10+.42*st.z:.04+.16*st.z;cx.fillStyle=sec.bg==='toxic'?hexA(sec.accent,.8):sec.bg==='rust'?'#ffd6a2':'#bde6ff';cx.beginPath();cx.arc(x,st.y,st.r*st.z,0,TAU);cx.fill();}}
+  if(bossArena&&sec.worldBg){cx.globalAlpha=.10+.04*Math.sin(t*4);cx.strokeStyle=sec.accent;cx.lineWidth=2;cx.beginPath();cx.ellipse(W*.72,H*.5,W*.18,H*.30,0,0,TAU);cx.stroke();}
   cx.globalAlpha=1;
 }
 
@@ -919,7 +950,7 @@ function drawInsect(e,isBoss=false,preview=false,scaleMul=1){
   if(isBoss&&!preview){const w=Math.min(W*.46,500),hit=G.bossHitT||0,jx=Math.sin(G.elapsed*95)*8*hit,x=W/2-w/2+jx,y=112;cx.fillStyle='rgba(0,0,0,.58)';rr(x,y,w,14,7);cx.fill();cx.fillStyle=hit>0?`rgba(255,88,104,${.55+hit*.8})`:(e.guardT>0?'#aaff72':sec.accent);rr(x+2,y+2,(w-4)*clamp(e.hp/e.maxHp,0,1),10,5);cx.fill();cx.textAlign='center';cx.font='700 12px system-ui';cx.fillStyle=hit>0?'#ffb5bf':'#fff';cx.fillText(`${sec.family} // ${e.name} // FASE ${e.phase} // ${Math.max(0,e.hp/e.maxHp*100).toFixed(1)}%`,W/2+jx,y-7);cx.textAlign='left';}
 }
 
-function drawObstacle(o){const sec=SECTORS[G.sector-1];cx.save();cx.translate(o.x,o.y);cx.rotate(o.rot);const pack=IMG.generatedObstacles[sec.bg]||IMG.generatedObstacles.rift,img=pack[o.assetIndex??0]||IMG.obstacles[obstacleSpriteKey(o.type)];
+function drawObstacle(o){const sec=SECTORS[G.sector-1];cx.save();cx.translate(o.x,o.y);cx.rotate(o.rot);const themed=worldObstacleAsset(sec,o.type),pack=IMG.generatedObstacles[sec.bg]||IMG.generatedObstacles.rift,img=themed||pack[o.assetIndex??0]||IMG.obstacles[obstacleSpriteKey(o.type)];
   cx.globalAlpha=.97;cx.fillStyle='rgba(0,0,0,.26)';cx.beginPath();cx.ellipse(0,o.r*.68,o.r*.95,o.r*.26,0,0,TAU);cx.fill();
   if(imgReady(img)){const d=o.r*(o.type==='gate'?2.7:2.45);cx.drawImage(img,-d/2,-d/2,d,d);}else{cx.fillStyle=hexA(sec.base,.7);cx.beginPath();cx.arc(0,0,o.r,0,TAU);cx.fill();}
   if(o.type==='mine'){cx.globalAlpha=.35+.28*Math.sin(o.t*8);cx.strokeStyle='#ffe177';cx.lineWidth=2;cx.beginPath();cx.arc(0,0,o.r*1.1,0,TAU);cx.stroke();cx.globalAlpha=1;}

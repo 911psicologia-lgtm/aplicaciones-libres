@@ -80,3 +80,6 @@ El combate utiliza rutas de entrada multidireccionales y formaciones. Los insect
 
 Versión 1.9.3
 Se incorporaron escoltas Scout/Lancer/Orbiter, amenazas frontales diferenciadas, Ráfaga y Bomba con assets propios y VFX de pickup/activación.
+
+Versión 1.9.4
+Los Sectores 4, 5 y 6 ahora tienen identidad visual propia, arenas de jefe separadas, obstáculos específicos y ambientación dinámica. El motor selecciona automáticamente la arena cuando inicia el jefe.

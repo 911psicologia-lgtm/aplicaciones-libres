@@ -1,0 +1,27 @@
+SWARM//RIFT — Insecta Siege v1.9.4
+
+IDENTIDAD VISUAL MUNDOS 4–6
+
+Mundo 4 — Nocturne Pollen Vault
+- Fondo de combate propio en gama violeta/nocturna.
+- Arena de jefe propia con cámara/halo de polen.
+- Obstáculos específicos: cocoon, pollen pod y nocturne spire.
+- Polen luminoso y haze ambiental en movimiento.
+
+Mundo 5 — Iron Nest Corridor
+- Fondo de combate propio con colonia férrea y estructuras hexagonales.
+- Arena de jefe propia con cámara de nido/forja.
+- Obstáculos específicos: iron nest, ferrum bulwark y colony mine.
+- Chispas, calor rojo y partículas industriales.
+
+Mundo 6 — Emerald Leap Delta
+- Fondo de combate propio en delta bioactivo esmeralda.
+- Arena de jefe propia con anillos y líneas de salto.
+- Obstáculos específicos: emerald seed, leap rock y spore vent.
+- Esporas luminosas y corrientes ambientales.
+
+MOTOR
+- Cambio automático a arena del jefe al activar boss/boss checkpoint.
+- Obstáculos temáticos tienen prioridad sobre el pack genérico.
+- Ambientación dinámica específica por mundo.
+- Fondos y obstáculos añadidos al cache PWA/offline.

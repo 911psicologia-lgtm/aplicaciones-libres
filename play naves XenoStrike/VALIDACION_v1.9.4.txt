@@ -1,0 +1,12 @@
+VALIDACIÓN SWARM//RIFT v1.9.4
+
+- node --check js/game.js: OK
+- node --check sw.js: OK
+- 9 SVG de mundo parseados correctamente: OK
+- Service Worker: 130 recursos listados, 0 faltantes
+- Prueba lógica Chromium in-line:
+  Sector 4 -> worldBg nocturne / bossBg nocturneBoss / obstacleTheme np: OK
+  Sector 5 -> worldBg iron / bossBg ironBoss / obstacleTheme iron: OK
+  Sector 6 -> worldBg emerald / bossBg emeraldBoss / obstacleTheme emerald: OK
+  Spawn de obstáculo y boss en los tres sectores: OK
+  Errores JavaScript durante la prueba: 0

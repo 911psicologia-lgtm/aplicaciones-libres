@@ -204,7 +204,7 @@
     { id: 'orbs', icon: '◌', name: 'Satélites Abisales', rarity: 'rare', desc: '3 a 5 satélites orbitan, interceptan proyectiles y dañan por contacto.', type: 'defense' },
     { id: 'pierce', icon: '➤', name: 'Perforante', rarity: 'common', desc: 'Los disparos atraviesan más enemigos.', type: 'weapon' },
     { id: 'ice', icon: '❄', name: 'Campo frío', rarity: 'rare', desc: 'Ralentiza enemigos golpeados.', type: 'control' },
-    { id: 'fire', icon: '🔥', name: 'Fuego expansivo', rarity: 'epic', desc: 'Daño gradual y estallido leve.', type: 'weapon' },
+    { id: 'fire', icon: '🐉', name: 'Llama Quimérica', rarity: 'epic', desc: 'Entidad ígnea serpenteante: atraviesa grupos, incendia y vuelve a buscar presa.', type: 'weapon' },
     { id: 'drone', icon: '🤖', name: 'Dron aliado', rarity: 'epic', desc: 'Ayudante temporal que dispara.', type: 'ally' },
     { id: 'ring', icon: '◎', name: 'Anillo defensivo', rarity: 'rare', desc: 'Círculo de contacto protector.', type: 'defense' },
     { id: 'bounce', icon: '↯', name: 'Rebote energético', rarity: 'epic', desc: 'Algunos disparos saltan entre objetivos.', type: 'weapon' },
@@ -212,7 +212,7 @@
     { id: 'opem', icon: '⟁', name: 'Pulso OPEM', rarity: 'epic', desc: 'Descarga electromagnética que aturde la horda.', type: 'control' },
     { id: 'nuke', icon: '☢', name: 'Bomba Omega', rarity: 'legendary', desc: 'Destruye enemigos menores, daña medios y élites, y merma a los Guardianes.', type: 'ultimate' },
     { id: 'spark', icon: '⚡', name: 'Láser chispeante', rarity: 'epic', desc: 'Haz permanente durante 10 segundos.', type: 'weapon' },
-    { id: 'torpedo', icon: '➹', name: 'Torpedos perseguidores', rarity: 'rare', desc: 'Misiles que buscan enemigos.', type: 'weapon' },
+    { id: 'torpedo', icon: '➹', name: 'Misil Voraz', rarity: 'rare', desc: 'Salvas inteligentes que reparten objetivos y vuelven a cazar si destruyen su presa.', type: 'weapon' },
     { id: 'virus', icon: '☣', name: 'Virus letal', rarity: 'epic', desc: 'Infecta y contagia a la horda.', type: 'control' },
     { id: 'kamikaze', icon: '✹', name: 'Microdrones kamikazes', rarity: 'epic', desc: 'Drones suicidas interceptan objetivos.', type: 'ally' },
     { id: 'voidray', icon: '⟋', name: 'Rayo de vacío', rarity: 'epic', desc: 'Haz oscuro perforante del Mundo 2.', type: 'weapon' },
@@ -276,8 +276,8 @@
 
 
   const POWER_ACTIVE_SECONDS = {
-    triple: 10, laser: 10, orbs: 8, pierce: 9, ice: 9, fire: 8, drone: 12, ring: 8,
-    bounce: 8, pulse: 6, opem: 6, nuke: 7, spark: 10, torpedo: 6, virus: 7, kamikaze: 6,
+    triple: 10, laser: 10, orbs: 8, pierce: 9, ice: 9, fire: 9, drone: 12, ring: 8,
+    bounce: 8, pulse: 6, opem: 6, nuke: 7, spark: 10, torpedo: 8, virus: 7, kamikaze: 6,
     voidray: 12, gravmine: 12, disruptor: 10, phantom: 14, plasma: 10, afterburner: 10, stasis: 10, wingman: 12,
     voltaic: 11, overdrive: 10, phase: 8, nanorepair: 12, magnetism: 12,
     omega: 10, fury: 10, laserSolar: 10, laserHematic: 10, laserAbyssal: 10, eruptionCore: 10
@@ -761,7 +761,7 @@
     { id: 'resonante', requires: ['drone', 'pulse'], icon: '◈', name: 'Dron resonante', desc: 'Los drones descargan ondas cortas.' },
     { id: 'tridente', requires: ['triple', 'pierce'], icon: '🔱', name: 'Tridente penetrante', desc: 'Triple pulso con penetración reforzada.' },
     { id: 'criotemporal', requires: ['laser', 'stasis'], icon: '❄', name: 'Rayo criotemporal', desc: 'El láser ralentiza lo que atraviesa.' },
-    { id: 'enjambre', requires: ['torpedo', 'virus'], icon: '☣', name: 'Enjambre infeccioso', desc: 'Torpedos que propagan infección.' },
+    { id: 'enjambre', requires: ['torpedo', 'virus'], icon: '☣', name: 'Enjambre infeccioso', desc: 'Misiles Voraces que propagan infección y redistribuyen objetivos.' },
     { id: 'tormenta', requires: ['drone', 'spark'], icon: '⚡', name: 'Escuadrón tormenta', desc: 'Los drones sincronizan descargas eléctricas.' },
     { id: 'bastion', requires: ['orbs', 'ring'], icon: '🛡️', name: 'Bastión orbital', desc: 'Los orbes refuerzan el anillo y bloquean proyectiles.' },
     { id: 'pozo', requires: ['gravmine', 'plasma'], icon: '◉', name: 'Pozo de plasma', desc: 'El vórtice arrastra enemigos hacia minas gravíticas.' },
@@ -2098,7 +2098,8 @@
         nukeTimer: 18,
         sparkTimer: 0,
         sparkTick: 0,
-        torpedoTimer: 1.6,
+        torpedoTimer: 1.2,
+        chimeraTimer: .45,
         kamiTimer: 2.5,
         gravMineTimer: .7,
         disruptorTimer: .9,
@@ -3596,6 +3597,9 @@
         targetRef: meta.targetRef || null,
         criticalBurst: !!meta.criticalBurst,
         trail: !!meta.trail,
+        voracious: !!meta.voracious,
+        retargets: meta.retargets || 0,
+        chimera: !!meta.chimera,
         domainForm: meta.domainForm || null,
         glow: meta.glow || this.player?.shotTier || 0,
         type: meta.type || 'bullet',
@@ -3726,6 +3730,7 @@
       const opem = this.getPowerLevel('opem', true);
       const nuke = this.getPowerLevel('nuke', true);
       const spark = this.getPowerLevel('spark', true);
+      const fire = this.getPowerLevel('fire', true);
       const torpedo = this.getPowerLevel('torpedo', true);
       const kamikaze = this.getPowerLevel('kamikaze', true);
       const gravmine = this.getPowerLevel('gravmine', true);
@@ -3818,29 +3823,55 @@
       if (nuke) {
         p.nukeTimer -= dt;
         if (p.nukeTimer <= 0) {
-          let removed = 0;
-          for (let i = this.enemies.length - 1; i >= 0; i--) {
-            const e = this.enemies[i];
-            if (e.boss) this.damageEnemy(e, e.baseHp * (.12 + nuke * .03), { color:'#ffd56a', criticalBurst:true });
-            else if(e.echoBoss)this.damageEnemy(e,e.baseHp*(.075+nuke*.008),{color:'#ffd56a',criticalBurst:true});
-            else { this.damageEnemy(e, e.hp + 999, { color:'#ffd56a' }); removed++; }
-          }
-          this.particles.push({ type:'ring', x:p.x, y:p.y, r:28, maxR: Math.max(this.w,this.h)*.75, life:.55, max:.55, color:'#ffd56a' });
-          this.flash = 1.2;
-          this.toast('Bomba atómica', `${removed} enemigos borrados`);
+          // Bomba Omega usa una sola regla canónica: elimina menores y solo merma rangos superiores.
+          this.triggerScreenNuke();
           p.nukeTimer = Math.max(17, 28 - nuke * 1.3);
+        }
+      }
+      if (fire) {
+        p.chimeraTimer = (p.chimeraTimer ?? .35) - dt;
+        if (p.chimeraTimer <= 0 && this.enemies.length) {
+          const target = this.nearestEnemy();
+          if (target) {
+            const baseA = Math.atan2(target.y - p.y, target.x - p.x);
+            const count = this.isSmallScreen ? Math.min(4, 2 + fire) : Math.min(6, 3 + fire);
+            for (let i = 0; i < count; i++) {
+              const band = i - (count - 1) / 2;
+              const curve = band * .065 + Math.sin((now()*.006) + i*1.1) * .045;
+              const speed = 330 + fire * 22 + i * 12;
+              const damage = p.damage * (.42 + fire * .075) * (target.boss ? .72 : 1);
+              this.addBullet(p.x + Math.sin(i)*7, p.y + Math.cos(i)*5, baseA + curve, speed, damage, {
+                type:'chimeraFlame', big:true, chimera:true, trail:true,
+                pierce:Math.min(4, 2 + Math.floor(fire/2)), fire:2 + fire*.35,
+                homing:i%2===0, targetRef:target, color:i%2?'#ff8b43':'#ffd56a', scale:.82 + i*.035
+              });
+            }
+            this.particles.push({type:'ring',x:p.x,y:p.y,r:12,maxR:64+fire*8,life:.28,max:.28,color:'#ff8b43'});
+            this.emit(p.x,p.y,'#ff8b43',8,85,.34);
+          }
+          p.chimeraTimer = Math.max(.62, 1.16 - fire * .08);
         }
       }
       if (torpedo) {
         p.torpedoTimer -= dt;
         if (p.torpedoTimer <= 0 && this.enemies.length) {
-          const count = 1 + Math.floor(torpedo / 2);
+          const ordered = this.enemies.filter(e=>e.hp>0).sort((a,b)=>{
+            const ar=this.criticalEnemyRank(a),br=this.criticalEnemyRank(b),rank={elite:0,medium:1,simple:2,boss:3};
+            return (rank[ar]??4)-(rank[br]??4) || dist2(a,p)-dist2(b,p);
+          });
+          const count = Math.min(this.isSmallScreen?4:6, 2 + Math.floor(torpedo / 2));
           for (let i=0;i<count;i++) {
-            const target = this.enemies[(i + Math.floor(Math.random()*this.enemies.length)) % this.enemies.length];
-            const ang = Math.atan2(target.y - p.y, target.x - p.x) + rand(.08,-.08);
-            this.addBullet(p.x, p.y, ang, 420 + torpedo * 30, p.damage * (1.2 + torpedo * .16), { pierce: 1, homing: true, type: 'torpedo', big: true, virus: this.comboActive('enjambre') ? 1 : 0, color: '#ffd56a' });
+            const target = ordered[i % ordered.length] || this.nearestEnemy();
+            if(!target)break;
+            const ang = Math.atan2(target.y - p.y, target.x - p.x) + (i-(count-1)/2)*.055;
+            this.addBullet(p.x + (i%2?8:-8), p.y + (i%3-1)*5, ang, 455 + torpedo * 28, p.damage * (1.02 + torpedo * .13), {
+              pierce:1, homing:true, targetRef:target, type:'torpedo', big:true, voracious:true,
+              retargets:1 + Math.floor(torpedo/2), trail:true,
+              virus:this.comboActive('enjambre') ? 1 : 0, color:i%2?'#ffd56a':'#ff9b55', scale:.90
+            });
           }
-          p.torpedoTimer = Math.max(1.2, 2.8 - torpedo * .14);
+          this.particles.push({type:'ring',x:p.x,y:p.y,r:10,maxR:48+count*5,life:.22,max:.22,color:'#ffd56a'});
+          p.torpedoTimer = Math.max(.95, 2.45 - torpedo * .16);
         }
       }
       if (gravmine) {
@@ -6102,11 +6133,12 @@
           if (target) {
             const ang = Math.atan2(target.y - b.y, target.x - b.x);
             const sp = Math.hypot(b.vx, b.vy) || 500;
-            b.vx += (Math.cos(ang) * sp - b.vx) * Math.min(1, dt * 3.8);
-            b.vy += (Math.sin(ang) * sp - b.vy) * Math.min(1, dt * 3.8);
+            const turn=b.voracious?5.4:(b.chimera?4.4:3.8);
+            b.vx += (Math.cos(ang) * sp - b.vx) * Math.min(1, dt * turn);
+            b.vy += (Math.sin(ang) * sp - b.vy) * Math.min(1, dt * turn);
           }
         }
-        if(b.trail && !b.enemy && Math.random()<.72)this.particles.push({type:'spark',x:b.x,y:b.y,vx:-b.vx*.06+rand(22,-22),vy:-b.vy*.06+rand(22,-22),r:rand(2.6,1.2),life:.20,max:.20,color:b.color});
+        if(b.trail && !b.enemy && Math.random()<.78){const mult=b.chimera?.085:.06;this.particles.push({type:'spark',x:b.x,y:b.y,vx:-b.vx*mult+rand(b.chimera?34:22,b.chimera?-34:-22),vy:-b.vy*mult+rand(b.chimera?34:22,b.chimera?-34:-22),r:rand(b.chimera?4.2:2.6,b.chimera?1.8:1.2),life:b.chimera?.30:.20,max:b.chimera?.30:.20,color:b.color});}
         const timeScale = b.enemy && this.isPowerActive('stasis') ? Math.max(.46,.58/this.getStagePowerScale()) : 1;
         b.x += b.vx * dt * timeScale;
         b.y += b.vy * dt * timeScale;
@@ -6132,6 +6164,15 @@
             if (Math.hypot(b.x - e.x, b.y - e.y) < b.r + e.r) {
               this.damageEnemy(e, b.damage, b);
               b.pierce -= 1;
+              if (b.voracious && e.hp <= 0 && (b.retargets||0) > 0) {
+                const other=this.enemies.filter(o=>o!==e&&o.hp>0).sort((x,y)=>Math.hypot(x.x-b.x,x.y-b.y)-Math.hypot(y.x-b.x,y.y-b.y))[0];
+                if(other){
+                  b.targetRef=other;b.retargets-=1;b.pierce=Math.max(1,b.pierce+1);b.life=Math.max(b.life,.85);
+                  const aa=Math.atan2(other.y-b.y,other.x-b.x),sp=Math.max(470,Math.hypot(b.vx,b.vy));
+                  b.vx=Math.cos(aa)*sp;b.vy=Math.sin(aa)*sp;
+                  this.particles.push({type:'ring',x:b.x,y:b.y,r:5,maxR:28,life:.16,max:.16,color:b.color});
+                }
+              }
               if (b.bounce && Math.random() < .18 + b.bounce * .05) {
                 const other = this.enemies.find(o => o !== e && Math.hypot(o.x - e.x, o.y - e.y) < 220);
                 if (other) {
@@ -6669,8 +6710,9 @@
       if (id === 'drone') this.spawnDrone(options.droneLife || (10 + (this.powerLevels.drone || 0) * 2), false, options.droneOptions || {});
       if (id === 'spark') { this.player.sparkTimer = Math.min(20, this.player.sparkTimer + 10); this.player.sparkTick = 0; }
       if (id === 'kamikaze') this.player.kamiTimer = .4;
-      if (id === 'torpedo') this.player.torpedoTimer = .2;
-      if (id === 'nuke') this.player.nukeTimer = Math.min(this.player.nukeTimer, 6);
+      if (id === 'torpedo') this.player.torpedoTimer = .12;
+      if (id === 'fire') this.player.chimeraTimer = .12;
+      if (id === 'nuke') this.player.nukeTimer = Math.min(this.player.nukeTimer, .12);
       if (id === 'opem') this.player.opemTimer = Math.min(this.player.opemTimer, 1.4);
       if (id === 'gravmine') this.player.gravMineTimer = Math.min(this.player.gravMineTimer || 1, .45);
       if (id === 'disruptor') this.player.disruptorTimer = Math.min(this.player.disruptorTimer || 1, .55);
@@ -7960,12 +8002,23 @@
         ctx.shadowBlur = 18 + (b.glow || 0) * 5;
         ctx.shadowColor = b.color;
         ctx.fillStyle = b.color;
-        if (b.type === 'torpedo' || b.type === 'kamikaze' || b.type==='hunterCritical') {
+        if (b.type === 'chimeraFlame') {
+          const ang=Math.atan2(b.vy,b.vx);ctx.translate(b.x,b.y);ctx.rotate(ang);
+          ctx.globalAlpha=.94;ctx.fillStyle='#ff6b35';ctx.beginPath();ctx.moveTo(14,0);ctx.quadraticCurveTo(2,-9,-7,-5);ctx.quadraticCurveTo(-3,-1,-16,0);ctx.quadraticCurveTo(-3,1,-7,5);ctx.quadraticCurveTo(2,9,14,0);ctx.fill();
+          ctx.globalAlpha=.82;ctx.fillStyle='#ffd56a';ctx.beginPath();ctx.moveTo(9,0);ctx.quadraticCurveTo(0,-4,-5,0);ctx.quadraticCurveTo(0,4,9,0);ctx.fill();
+          ctx.globalAlpha=.40;ctx.strokeStyle='#fff0b0';ctx.lineWidth=1.4;ctx.beginPath();ctx.moveTo(-4,-4);ctx.lineTo(-12,-9);ctx.moveTo(-4,4);ctx.lineTo(-12,9);ctx.stroke();
+        } else if (b.type === 'torpedo' || b.type === 'kamikaze' || b.type==='hunterCritical') {
           const ang = Math.atan2(b.vy, b.vx);
           ctx.translate(b.x, b.y);
           ctx.rotate(ang);
-          ctx.beginPath(); ctx.moveTo(11, 0); ctx.lineTo(-8, 6); ctx.lineTo(-3,0); ctx.lineTo(-8,-6); ctx.closePath(); ctx.fill();
-          ctx.globalAlpha = .32; ctx.fillRect(-18,-2,14,4);
+          if(b.voracious){
+            ctx.beginPath();ctx.moveTo(13,0);ctx.lineTo(-3,7);ctx.lineTo(-8,3);ctx.lineTo(-5,0);ctx.lineTo(-8,-3);ctx.lineTo(-3,-7);ctx.closePath();ctx.fill();
+            ctx.globalAlpha=.72;ctx.strokeStyle='#fff1b0';ctx.lineWidth=1.2;ctx.beginPath();ctx.moveTo(1,-5);ctx.lineTo(6,0);ctx.lineTo(1,5);ctx.stroke();
+            ctx.globalAlpha=.35;ctx.fillRect(-20,-2,15,4);
+          }else{
+            ctx.beginPath(); ctx.moveTo(11, 0); ctx.lineTo(-8, 6); ctx.lineTo(-3,0); ctx.lineTo(-8,-6); ctx.closePath(); ctx.fill();
+            ctx.globalAlpha = .32; ctx.fillRect(-18,-2,14,4);
+          }
         } else if(b.type==='requiemCritical'){
           const ang=Math.atan2(b.vy,b.vx);ctx.translate(b.x,b.y);ctx.rotate(ang+Math.PI/2);
           const meta=b.domainForm&&b.domainForm!=='rizoma'?domainFormMeta(b.domainForm):null,img=meta?this.getAsset(meta.assetKey):null;
@@ -8419,6 +8472,7 @@
       if(p.entryShieldTimer>0){const ratio=p.entryShieldMax?clamp(p.entryShieldTimer/p.entryShieldMax,0,1):1;ctx.globalAlpha=.35*ratio;ctx.strokeStyle='#9fd4ff';ctx.lineWidth=4;ctx.shadowBlur=24;ctx.shadowColor='#83eaff';ctx.beginPath();ctx.arc(0,0,p.r+17,0,Math.PI*2);ctx.stroke();}
       if(p.shield>5){ctx.globalAlpha=.18+.16*(p.shield/p.maxShield);ctx.strokeStyle='#83eaff';ctx.lineWidth=3;ctx.beginPath();ctx.arc(0,0,p.r+10,-Math.PI/2,-Math.PI/2+Math.PI*2*(p.shield/p.maxShield));ctx.stroke();}
       if(p.comboSurge>0||p.bossDrive>0){ctx.globalAlpha=.18+Math.sin(t*12)*.05;ctx.strokeStyle=p.bossDrive>0?'#ffd56a':'#c391ff';ctx.lineWidth=2;ctx.beginPath();ctx.arc(0,0,p.r+21+Math.sin(t*7)*2,0,Math.PI*2);ctx.stroke();}
+      if(this.isPowerActive('fire')){ctx.globalAlpha=.24;ctx.strokeStyle='#ff8b43';ctx.lineWidth=2;ctx.shadowBlur=16;ctx.shadowColor='#ff6b35';ctx.beginPath();ctx.arc(0,0,p.r+18+Math.sin(t*5)*2,-1.1,1.1);ctx.stroke();ctx.beginPath();ctx.arc(0,0,p.r+25+Math.cos(t*4)*2,2.0,4.2);ctx.stroke();}
       if(this.isPowerActive('omega')){ctx.globalAlpha=.30+Math.sin(t*17)*.07;ctx.strokeStyle='#fff0a8';ctx.lineWidth=3;ctx.shadowBlur=26;ctx.shadowColor='#ffd56a';ctx.beginPath();ctx.arc(0,0,p.r+24+Math.sin(t*8)*2.5,0,Math.PI*2);ctx.stroke();}
       if(this.isPowerActive('fury')){ctx.globalAlpha=.22;ctx.strokeStyle='#ffd56a';ctx.lineWidth=1.6;for(let i=-1;i<=1;i+=2){ctx.beginPath();ctx.moveTo(i*(p.r+8),5);ctx.lineTo(i*(p.r+23),p.r+19+Math.sin(t*15+i)*4);ctx.stroke();}}
       const aspect=(img.naturalWidth||1)/(img.naturalHeight||1),longSide=p.r*3.05*(meta.scale||1);let w,h;if(aspect>=1){w=longSide;h=longSide/aspect;}else{h=longSide;w=longSide*aspect;}
@@ -8528,6 +8582,11 @@
       if(this.isPowerActive('fury')){
         ctx.globalAlpha=.22;ctx.strokeStyle='#ffd56a';ctx.lineWidth=1.5;
         for(let i=-1;i<=1;i+=2){ctx.beginPath();ctx.moveTo(i*(p.r+5),4);ctx.lineTo(i*(p.r+18),p.r+16+Math.sin(t*16+i)*4);ctx.stroke();}
+      }
+      if(this.isPowerActive('fire')){
+        ctx.save();ctx.globalAlpha=.28;ctx.strokeStyle='#ff8b43';ctx.lineWidth=2;ctx.shadowBlur=18;ctx.shadowColor='#ff6b35';
+        for(let i=0;i<3;i++){const aa=t*(1.6+i*.18)+i*Math.PI*2/3,rr=p.r+16+i*5;ctx.beginPath();ctx.arc(Math.cos(aa)*6,Math.sin(aa)*4,rr*.35,-.9,.9);ctx.stroke();}
+        ctx.restore();ctx.strokeStyle=color;ctx.shadowColor=color;
       }
       ctx.globalAlpha = .12;
       ctx.beginPath(); ctx.arc(0, 0, p.r + 18 + Math.sin(t * 3) * 2, 0, Math.PI * 2); ctx.stroke();

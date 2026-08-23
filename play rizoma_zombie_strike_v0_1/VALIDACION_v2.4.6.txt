@@ -1,0 +1,15 @@
+VALIDACIÓN v2.4.6 · PODERES VIVOS
+=====================================
+Manifest JSON: OK
+Referencias de assets detectadas: 328
+Assets faltantes: 0
+
+Llama Quimérica metadata: OK
+Llama 9 s: OK
+Chimera projectile: OK
+Misil Voraz metadata: OK
+Misil 8 s: OK
+Voracious retarget: OK
+Omega canonical: OK
+Omega immediate: OK
+Version 2.4.6: OK
