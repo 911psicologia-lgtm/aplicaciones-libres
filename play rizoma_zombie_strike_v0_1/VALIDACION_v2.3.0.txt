@@ -1,0 +1,22 @@
+VALIDACIÓN v2.3.0 · MUNDO 12 · ABISMO PELÁGICO
+================================================
+Referencias de assets detectadas en game.js: 301
+Assets faltantes: 0
+Assets obligatorios W12: 18
+Obligatorios W12 faltantes: 0
+Errores de imagen W12: 0
+manifest.json válido: True
+
+Chequeos funcionales estáticos:
+ - VERSION 2.3.0: OK
+ - Mapa 12: OK
+ - Boss Thalassar: OK
+ - bossShip12: OK
+ - W12 target array: OK
+ - Pelagic boss hazards: OK
+ - W12 visual animation: OK
+ - W12 save state: OK
+ - W12 archive acts: OK
+ - W12 result teaser: OK
+
+node --check se ejecuta aparte en el empaquetado.

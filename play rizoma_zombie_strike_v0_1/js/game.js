@@ -1,7 +1,7 @@
 (() => {
   'use strict';
 
-  const VERSION = '2.2.0';
+  const VERSION = '2.3.0';
   const STORAGE_KEY = 'rizoma_zombie_strike_v0_3_state';
   const SAVE_KEY = 'rizoma_zombie_strike_v0_3_save';
   const clamp = (v, a, b) => Math.max(a, Math.min(b, v));
@@ -158,7 +158,8 @@
     {world:8,id:'tardigrado_primigenio',name:'Tardígrado Primigenio',title:'Huésped Estelar',asset:'assets/future/bosses/world8_tardigrado_primigenio.png',theme:'Entrañas de monstruo espacial',color:'#ff5d45',accent:'#d54cff',shot:'organic_acid',weapons:['Glóbulos ácidos','Lanzadores orgánicos','Espinas vivas','Engendros parásitos'],special:{id:'mass_gestation',name:'Gestación Masiva',desc:'Cápsulas vivas que eclosionan gradualmente si no se destruyen.'},relic:{id:'organic_genesis',name:'Génesis Orgánica',desc:'Potencia nanorreparación y regeneración.',passive:{regen:.10,nanorepair:.12,bioResist:.10}},music:{name:'Bio Pulse',bpm:112,root:51.91,wave:'triangle',seq:[0,1,5,0,-2,3,7,1],phase4:.74},sound:{shot:[205,.095,'sawtooth',.023,-42],special:[52,77.78,103.83],impact:[138,.10,'triangle',.028,-55]}},
     {world:9,id:'kaiser_infinito',name:'Kaiser Infinito',title:'Guardián de los Portales',asset:'assets/future/bosses/world9_kaiser_infinito.png',theme:'Anime–manga multiversal',color:'#ff3c63',accent:'#8a5cff',shot:'dimensional_slash',weapons:['Clones dimensionales','Katana energética','Shurikens astrales','Lanzas de universo'],special:{id:'multiverse_rupture',name:'Ruptura Multiverso',desc:'Portales alternos encadenan patrones con pausas breves.'},relic:{id:'multiverse_threads',name:'Hilos del Multiverso',desc:'Eco temporal, Fase espectral y combos más duraderos.',passive:{echoShot:.12,phaseDuration:.10,comboDuration:.08}},music:{name:'Kurai Sekai',bpm:138,root:65.41,wave:'square',seq:[0,7,12,10,3,15,12,7],phase4:.68},sound:{shot:[880,.045,'square',.017,-310],special:[73.42,110,164.81],impact:[260,.055,'sawtooth',.024,-120]}},
     {world:10,id:'zeros_prime',name:'Z.E.R.O.S. Prime',title:'Singularidad Andro-Zombie',asset:'assets/future/bosses/world10_zeros_prime.png',theme:'Andro-zombies-galácticos',color:'#ff3232',accent:'#c22cff',shot:'zero_ray',weapons:['Hordas androides','Rayos de desintegración','Núcleos buscadores','Niebla de conversión'],special:{id:'final_singularity',name:'Singularidad Final',desc:'Horizonte de eventos con atracción gradual y fase crítica acelerada.'},relic:{id:'zero_core',name:'Núcleo Zero',desc:'Sincroniza reliquias anteriores y abre progresión posterior.',passive:{relicSynergy:.12,bossDamage:.10,powerReserve:.10}},music:{name:'End of Stars',bpm:92,root:41.20,wave:'sawtooth',seq:[0,-5,0,6,-2,7,3,-7],phase4:.55},sound:{shot:[66,.14,'sawtooth',.028,24],special:[36.71,55,82.41],impact:[72,.16,'square',.030,-20]}},
-    {world:11,id:'soberano_silice',name:'Soberano de Sílice',title:'Señor de los Dos Soles',asset:'assets/world11/boss_world11.png',theme:'Desierto alienígena',color:'#ff9b45',accent:'#ff5e4a',shot:'silica_lance',weapons:['Cuchillas de vidrio','Tormentas de arena','Escarabajos cristalinos','Lanzas solares'],special:{id:'twin_sun_storm',name:'Tormenta de los Dos Soles',desc:'Dunas móviles, espejismos térmicos y descargas de sílice convergen sobre la arena.'},relic:{id:'silica_crown',name:'Corona de Sílice',desc:'Mejora movilidad, daño solar y resistencia a hazards.',passive:{speed:.06,solar:.10,hazardResist:.08}},music:{name:'Twin Suns',bpm:118,root:46.25,wave:'triangle',seq:[0,3,7,10,5,12,7,3],phase4:.70},sound:{shot:[390,.07,'square',.018,-110],special:[92.5,138.6,207.65],impact:[105,.11,'triangle',.024,-32]}}
+    {world:11,id:'soberano_silice',name:'Soberano de Sílice',title:'Señor de los Dos Soles',asset:'assets/world11/boss_world11.png',theme:'Desierto alienígena',color:'#ff9b45',accent:'#ff5e4a',shot:'silica_lance',weapons:['Cuchillas de vidrio','Tormentas de arena','Escarabajos cristalinos','Lanzas solares'],special:{id:'twin_sun_storm',name:'Tormenta de los Dos Soles',desc:'Dunas móviles, espejismos térmicos y descargas de sílice convergen sobre la arena.'},relic:{id:'silica_crown',name:'Corona de Sílice',desc:'Mejora movilidad, daño solar y resistencia a hazards.',passive:{speed:.06,solar:.10,hazardResist:.08}},music:{name:'Twin Suns',bpm:118,root:46.25,wave:'triangle',seq:[0,3,7,10,5,12,7,3],phase4:.70},sound:{shot:[390,.07,'square',.018,-110],special:[92.5,138.6,207.65],impact:[105,.11,'triangle',.024,-32]}},
+    {world:12,id:'thalassar_hadal',name:'Thalassar Hadal',title:'Arconte de la Fosa Bioluminiscente',asset:'assets/world12/boss_world12.png',theme:'Abismo pelágico alienígena',color:'#46e7f2',accent:'#a66cff',shot:'hadal_pressure',weapons:['Agujas de presión','Medusas de choque','Corrientes hadales','Anillos de implosión'],special:{id:'hadal_pressure_tide',name:'Marea de Presión Hadal',desc:'Corrientes convergentes, pulsos de presión y criaturas bioluminiscentes comprimen la arena.'},relic:{id:'hadal_crown',name:'Corona Hadal',desc:'Refuerza escudo, control de proyectiles y resistencia a corrientes.',passive:{shield:.08,control:.10,currentResist:.10}},music:{name:'Hadal Pulse',bpm:102,root:43.65,wave:'sine',seq:[0,5,2,7,3,10,5,0],phase4:.72},sound:{shot:[340,.09,'sine',.018,-60],special:[43.65,65.41,98],impact:[78,.14,'triangle',.025,-18]}}
   ];
   const FUTURE_MINION_ARCHETYPES = {
     6:[{tier:'small',family:'Drones de Ceniza',power:'Micro-láser y desplazamiento lateral coordinado',sound:{shot:[690,.035,'square',.012,-160],death:[170,.06,'sawtooth',.018,-65]}},{tier:'small',family:'Lancetas de Neón',power:'Carga corta que deja línea de energía evitable',sound:{shot:[540,.05,'square',.014,80],death:[145,.065,'triangle',.018,-38]}},{tier:'medium',family:'Centinelas Reactor',power:'Misil inteligente y blindaje frontal breve',sound:{shot:[260,.085,'sawtooth',.018,-75],death:[92,.12,'sawtooth',.024,-34]}}],
@@ -166,14 +167,15 @@
     8:[{tier:'small',family:'Esporas Digestivas',power:'Ácido con pequeña expansión al morir',sound:{shot:[245,.07,'sawtooth',.014,-30],death:[135,.095,'triangle',.020,-55]}},{tier:'small',family:'Larvas Hemáticas',power:'Persecución breve y retirada vulnerable',sound:{shot:[315,.055,'triangle',.013,45],death:[165,.085,'sawtooth',.019,-70]}},{tier:'medium',family:'Macrófagos Devoradores',power:'Absorben proyectiles débiles y liberan espinas',sound:{shot:[120,.12,'sawtooth',.022,25],death:[68,.18,'triangle',.028,-18]}}],
     9:[{tier:'small',family:'Shuriken Drones',power:'Tres cortes diagonales rápidos con pausa',sound:{shot:[940,.032,'square',.011,-260],death:[280,.05,'square',.016,-160]}},{tier:'small',family:'Fragmentos Ronin',power:'Dash dimensional con réplica falsa',sound:{shot:[720,.045,'triangle',.013,120],death:[245,.06,'sawtooth',.018,-105]}},{tier:'medium',family:'Mecha Ronin',power:'Katana de arco y shuriken rastreador',sound:{shot:[460,.065,'square',.017,-130],death:[115,.13,'sawtooth',.025,-52]}}],
     10:[{tier:'small',family:'Andro-Carroñeros',power:'Ráfagas de formación y micro-núcleo buscador',sound:{shot:[610,.045,'square',.014,-210],death:[130,.075,'sawtooth',.020,-75]}},{tier:'small',family:'Necroides de Conversión',power:'Niebla que reduce precisión sin degradar velocidad base',sound:{shot:[185,.10,'triangle',.017,22],death:[98,.12,'triangle',.022,-35]}},{tier:'medium',family:'Centuriones Zero',power:'Haz telegráfico y escudo por pulsos',sound:{shot:[92,.13,'sawtooth',.024,50],death:[52,.20,'square',.030,-12]}}],
-    11:[{tier:'small',family:'Escarabajos de Cristal',power:'Zigzag veloz y proyectil de sílice',sound:{shot:[720,.04,'square',.012,-190],death:[210,.06,'triangle',.017,-70]}},{tier:'small',family:'Acechadores de Duna',power:'Emboscada lateral y persecución corta',sound:{shot:[510,.055,'triangle',.014,-90],death:[165,.08,'sawtooth',.019,-55]}},{tier:'medium',family:'Guardianes Obelisco',power:'Blindaje mineral y lanza solar',sound:{shot:[240,.09,'sawtooth',.020,-45],death:[88,.14,'triangle',.026,-20]}}]
+    11:[{tier:'small',family:'Escarabajos de Cristal',power:'Zigzag veloz y proyectil de sílice',sound:{shot:[720,.04,'square',.012,-190],death:[210,.06,'triangle',.017,-70]}},{tier:'small',family:'Acechadores de Duna',power:'Emboscada lateral y persecución corta',sound:{shot:[510,.055,'triangle',.014,-90],death:[165,.08,'sawtooth',.019,-55]}},{tier:'medium',family:'Guardianes Obelisco',power:'Blindaje mineral y lanza solar',sound:{shot:[240,.09,'sawtooth',.020,-45],death:[88,.14,'triangle',.026,-20]}}],
+    12:[{tier:'small',family:'Medusas Lancera',power:'Pulsos eléctricos y aguja de presión',sound:{shot:[430,.065,'sine',.012,45],death:[220,.08,'sine',.017,-80]}},{tier:'small',family:'Cazadores Hadales',power:'Persecución curva y descarga de presión',sound:{shot:[315,.07,'triangle',.014,-30],death:[170,.09,'triangle',.019,-45]}},{tier:'medium',family:'Guardianes de Coral Negro',power:'Caparazón, implosión y mina de corriente',sound:{shot:[145,.12,'triangle',.021,16],death:[72,.17,'sine',.027,-10]}}]
   };
   const futureBossMeta = world => FUTURE_BOSS2.find(b=>b.world===Number(world)) || FUTURE_BOSS2[0];
   const boss2Meta = index => {
     const idx=Math.max(0,Number(index)||0);
     if(idx<BOSS2.length)return BOSS2[idx];
     const f=futureBossMeta(idx+1);
-    const intros={6:'FIRMA NEURONAL',7:'FIRMA ABISAL',8:'FIRMA ORGÁNICA',9:'FIRMA MULTIVERSAL',10:'FIRMA ZERO',11:'FIRMA DE SÍLICE'};return {world:f.world,sigil:`assets/boss2/sigil_w${f.world}.svg`,short:f.relic?.name||f.name,intro:intros[f.world]||'FIRMA CRÍTICA',weapon:(f.weapons||[]).slice(0,2).join(' · '),special:f.special?.name||'Firma crítica',color:f.color,accent:f.accent,shot:f.shot,music:f.music};
+    const intros={6:'FIRMA NEURONAL',7:'FIRMA ABISAL',8:'FIRMA ORGÁNICA',9:'FIRMA MULTIVERSAL',10:'FIRMA ZERO',11:'FIRMA DE SÍLICE',12:'FIRMA HADAL'};return {world:f.world,sigil:`assets/boss2/sigil_w${f.world}.svg`,short:f.relic?.name||f.name,intro:intros[f.world]||'FIRMA CRÍTICA',weapon:(f.weapons||[]).slice(0,2).join(' · '),special:f.special?.name||'Firma crítica',color:f.color,accent:f.accent,shot:f.shot,music:f.music};
   };
   const bossSigilHtml = (index, cls='boss-sigil') => { const m=boss2Meta(index); return `<img class="${cls}" src="${m.sigil}" alt="" aria-hidden="true">`; };
 
@@ -250,7 +252,8 @@
     { id:'bossShip8', world:8, name:'Génesis Orgánica', assetKey:'bossWorld8', color:'#ff5d45', scale:1.43, mod:{damage:1.03,speed:1.02,cadence:.98,incoming:.95,power:1.05,crit:.02}, passive:'Biogénesis · nanorreparación y regeneración reforzadas', signature:'Gestación Masiva', signatureCd:19 },
     { id:'bossShip9', world:9, name:'Hilos del Multiverso', assetKey:'bossWorld9', color:'#ff3c63', scale:1.44, mod:{damage:1.05,speed:1.05,cadence:.95,incoming:.94,power:1.08,crit:.03}, passive:'Multiverso · eco temporal, fase y combos reforzados', signature:'Ruptura Multiverso', signatureCd:20 },
     { id:'bossShip10', world:10, name:'Núcleo Zero', assetKey:'bossWorld10', color:'#ff3b32', scale:1.48, mod:{damage:1.07,speed:1.04,cadence:.94,incoming:.92,power:1.10,crit:.04}, passive:'ZERO · sincroniza reliquias, fase y daño contra Guardianes', signature:'Singularidad Final', signatureCd:22 },
-    { id:'bossShip11', world:11, name:'Corona de Sílice', assetKey:'bossWorld11', color:'#ff9b45', scale:1.46, mod:{damage:1.06,speed:1.06,cadence:.94,incoming:.94,power:1.08,crit:.035}, passive:'Sílice · movilidad sobre hazards y potencia solar', signature:'Tormenta de los Dos Soles', signatureCd:21 }
+    { id:'bossShip11', world:11, name:'Corona de Sílice', assetKey:'bossWorld11', color:'#ff9b45', scale:1.46, mod:{damage:1.06,speed:1.06,cadence:.94,incoming:.94,power:1.08,crit:.035}, passive:'Sílice · movilidad sobre hazards y potencia solar', signature:'Tormenta de los Dos Soles', signatureCd:21 },
+    { id:'bossShip12', world:12, name:'Corona Hadal', assetKey:'bossWorld12', color:'#46e7f2', scale:1.47, mod:{damage:1.05,speed:1.07,cadence:.95,incoming:.92,power:1.09,crit:.03}, passive:'Hadal · escudo, maniobra y control de corrientes', signature:'Marea de Presión Hadal', signatureCd:21 }
   ];
   const domainFormMeta = id => DOMAIN_FORMS.find(f=>f.id===id) || null;
   const SECOND_SAGA_WORLDS = [
@@ -371,6 +374,14 @@
     { id:'redstorm', name:'Tormenta Roja', cue:'Los dos soles convierten la arena en plasma', eventEvery:6.6 },
     { id:'silicethrone', name:'Trono de Sílice', cue:'El Soberano emerge del desierto vitrificado', eventEvery:7.4 }
   ];
+  const WORLD_TWELVE_CONFIG = { bossWave:5, rewardPowers:['laserAbyssal','stasis','nanorepair','magnetism'], waveDurations:[78,90,104,118,138] };
+  const WORLD_TWELVE_ACTS = [
+    { id:'crystalreef', name:'Arrecife de Cristal', cue:'La luz alienígena se quiebra entre corales vivos', eventEvery:8.2 },
+    { id:'jellyforest', name:'Bosque de Medusas', cue:'Descargas bioluminiscentes cubren las rutas de escape', eventEvery:7.5 },
+    { id:'pressuretrench', name:'Fosa de Presión', cue:'La profundidad deforma sensores y trayectoria', eventEvery:6.9 },
+    { id:'sunken_city', name:'Ciudad Sumergida', cue:'Ruinas no humanas activan defensas hadales', eventEvery:6.5 },
+    { id:'hadal_sanctum', name:'Santuario Hadal', cue:'Thalassar comprime el océano alrededor del trono', eventEvery:7.2 }
+  ];
   const WORLD_TEN_ACTS = [
     { id:'collapse', name:'Frontera del colapso', cue:'Necroides y Andro-Carroñeros reciben a RIZOMA', eventEvery:7.2 },
     { id:'origins', name:'Retorno de los orígenes', cue:'Los primeros Guardianes vuelven con sus familias', eventEvery:6.8 },
@@ -405,7 +416,8 @@
     7: [30, 42, 54, 66, 76],
     8: [44, 60, 78, 96, 116],
     9: [48, 66, 86, 108, 132, 154, 108],
-    10: [38, 50, 64, 80, 96]
+    10: [38, 50, 64, 80, 96],
+    11: [42, 56, 72, 88, 106]
   };
   const WORLD_ONE_MINION_FAMILIES = [
     ['cazador','corredor','esquivo','mosquito','nave_espejo'],
@@ -460,6 +472,11 @@
     ['w11_stalker_1','w11_stalker_2'],
     ['w11_obelisk_1','w11_obelisk_2']
   ];
+  const WORLD_TWELVE_MINION_FAMILIES = [
+    ['w12_jelly_1','w12_manta_1'],
+    ['w12_eel_1','w12_ceph_1'],
+    ['w12_coral_1','w12_colossus_1']
+  ];
   Object.assign(MAPS[2], { name:'Corredor Viridiano', boss:'Soberano de la Energía Tóxica', specialName:'Sobrecarga viridiana', theme:['#020d0a','#0c2d20','#74ff73'], lore:'El vacío se acelera: cada estrella parece huir de tu nave.' });
   Object.assign(MAPS[3], { name:'Ciudadela Carmesí', boss:'Arconte Mecánico del Eclipse Carmesí', specialName:'Convergencia ígnea', theme:['#120607','#4a1715','#ff6a63'], lore:'La metrópolis industrial arde bajo una lluvia de roca y metal.' });
   Object.assign(MAPS[4], { name:'Caverna del Núcleo Negro', boss:'Coloso Mecánico del Vacío Estelar', specialName:'Singularidad volcánica', theme:['#080710','#2c1b40','#c391ff'], lore:'Dentro del asteroide, la roca viva palpita como un reactor del vacío.' });
@@ -469,6 +486,7 @@
   MAPS.push({id:'multiverse_1',family:'multiverse',pattern:'mangaRift',icon:'✦',name:'Anime–Manga Multiversal',variant:1,boss:'Kaiser Infinito',beast:'kaiser',summons:WORLD_NINE_MINION_FAMILIES.flat(),theme:['#05040a','#211429','#ff3c63'],lore:'Las viñetas del multiverso se han roto. Cada portal devuelve enemigos, jefes y versiones imposibles de los mundos conquistados.',specialName:'Ruptura Multiverso'});
   MAPS.push({id:'zero_singularity_1',family:'zero',pattern:'singularity',icon:'⊘',name:'Singularidad Final',variant:1,boss:'Z.E.R.O.S. Prime',beast:'zeros',summons:WORLD_TEN_MINION_FAMILIES.flat(),theme:['#090307','#35101f','#ff3b32'],lore:'Todos los mundos colisionan. Z.E.R.O.S. Prime reconstruye cada amenaza vencida para formar el último corredor de la campaña.',specialName:'Singularidad Final'});
   MAPS.push({id:'silica_desert_1',family:'desert',pattern:'sandstorm',icon:'☀',name:'Desierto Alienígena',variant:3,boss:'Soberano de Sílice',beast:'silica',summons:WORLD_ELEVEN_MINION_FAMILIES.flat(),theme:['#1b0b12','#6f3424','#ff9b45'],lore:'La segunda saga comienza bajo dos soles. Las ruinas del desierto reaccionan a la señal residual de Z.E.R.O.S. y algo antiguo despierta bajo la arena.',specialName:'Tormenta de los Dos Soles'});
+  MAPS.push({id:'pelagic_abyss_1',family:'pelagic',pattern:'hadal',icon:'≈',name:'Abismo Pelágico',variant:4,boss:'Thalassar Hadal',beast:'thalassar',summons:WORLD_TWELVE_MINION_FAMILIES.flat(),theme:['#020d18','#07415e','#46e7f2'],lore:'Bajo un océano extraterrestre, ciudades hundidas continúan respirando. La presión no solo aplasta materia: parece pensar.',specialName:'Marea de Presión Hadal'});
 
   // v1.9.9 · Ecos de jefes y escalada multiversal: retornos parciales que extienden W7/W8 sin convertirlos en finales paralelos.
   const ECHO_BOSS_LIBRARY = {
@@ -569,6 +587,7 @@
     world10Enemy1:'assets/world10/enemy_1.png', world10Enemy2:'assets/world10/enemy_2.png', world10Enemy3:'assets/world10/enemy_3.png', world10Enemy4:'assets/world10/enemy_4.png', world10Enemy5:'assets/world10/enemy_5.png', world10Enemy6:'assets/world10/enemy_6.png', world10Subboss1:'assets/world10/subboss_1.png', world10Subboss2:'assets/world10/subboss_2.png', world10Subboss3:'assets/world10/subboss_3.png', world10Subboss4:'assets/world10/subboss_4.png', world10Subboss5:'assets/world10/subboss_5.png', world10Subboss6:'assets/world10/subboss_6.png', world10Meteor1:'assets/world10/meteor_1.png', world10Meteor2:'assets/world10/meteor_2.png', world10Meteor3:'assets/world10/meteor_3.png', world10Junk1:'assets/world10/junk_1.png', world10Junk2:'assets/world10/junk_2.png', world10Junk3:'assets/world10/junk_3.png', world10Planet1:'assets/world10/planet_1.png', world10Planet2:'assets/world10/planet_2.png',
     world11BgApproach:'assets/world11/bg_world11_approach.webp', world11BossBg:'assets/world11/bg_world11_boss.webp', bossWorld11:'assets/world11/boss_world11.png',
     world11Enemy1:'assets/world11/enemy_1.png', world11Enemy2:'assets/world11/enemy_2.png', world11Enemy3:'assets/world11/enemy_3.png', world11Enemy4:'assets/world11/enemy_4.png', world11Enemy5:'assets/world11/enemy_5.png', world11Enemy6:'assets/world11/enemy_6.png', world11Hazard1:'assets/world11/hazard_1.png', world11Hazard2:'assets/world11/hazard_2.png', world11Hazard3:'assets/world11/hazard_3.png', world11Hazard4:'assets/world11/hazard_4.png', world11Hazard5:'assets/world11/hazard_5.png', world11Hazard6:'assets/world11/hazard_6.png', world11ShotSand:'assets/world11/shot_sand.png', world11ShotCrystal:'assets/world11/shot_crystal.png',
+    world12BgApproach:'assets/world12/bg_world12_approach.webp', world12BossBg:'assets/world12/bg_world12_boss.webp', bossWorld12:'assets/world12/boss_world12.png', world12Enemy1:'assets/world12/enemy_1.png', world12Enemy2:'assets/world12/enemy_2.png', world12Enemy3:'assets/world12/enemy_3.png', world12Enemy4:'assets/world12/enemy_4.png', world12Enemy5:'assets/world12/enemy_5.png', world12Enemy6:'assets/world12/enemy_6.png', world12Hazard1:'assets/world12/hazard_1.png', world12Hazard2:'assets/world12/hazard_2.png', world12Hazard3:'assets/world12/hazard_3.png', world12Hazard4:'assets/world12/hazard_4.png', world12Hazard5:'assets/world12/hazard_5.png', world12Hazard6:'assets/world12/hazard_6.png', world12ShotPressure:'assets/world12/shot_pressure.png', world12ShotNeedle:'assets/world12/shot_needle.png',
     bossMagnateOmegaBody:'assets/future/bosses/articulated/world6_magnate_body.png', bossMagnateOmegaHatch:'assets/future/bosses/articulated/world6_magnate_hatch.png', bossMagnateOmegaDrone:'assets/future/bosses/articulated/world6_magnate_drone.png',
     bossLeviatanBody:'assets/future/bosses/articulated/world7_leviatan_body.png', bossLeviatanHatch:'assets/future/bosses/articulated/world7_leviatan_hatch.png', bossLeviatanMedusa:'assets/future/bosses/articulated/world7_leviatan_medusa.png',
     meteor_apoc_01:'assets/future/hazards/meteors/meteor_apoc_01.png',
@@ -830,7 +849,13 @@
     { id:'w11_stalker_1', name:'Acechador de Sílice', color:'#ff805c', hp:318, speed:184, r:23, xp:64, score:158, coin:22, behavior:'chase', spriteKey:'world11Enemy3', futureWorld:11, familyIndex:1, visualScale:.94 },
     { id:'w11_stalker_2', name:'Cazador de Espejismo', color:'#ff9b65', hp:344, speed:174, r:24, xp:68, score:168, coin:23, behavior:'kamikaze', spriteKey:'world11Enemy4', futureWorld:11, familyIndex:1, visualScale:.98 },
     { id:'w11_obelisk_1', name:'Guardián Obelisco', color:'#ffc16c', hp:448, speed:124, r:30, xp:82, score:204, coin:28, behavior:'blindado', spriteKey:'world11Enemy5', futureWorld:11, familyIndex:2, visualScale:1.02 },
-    { id:'w11_obelisk_2', name:'Coloso Vitrificado', color:'#ff684f', hp:498, speed:108, r:32, xp:88, score:224, coin:31, behavior:'buffer', spriteKey:'world11Enemy6', futureWorld:11, familyIndex:2, visualScale:1.06 }
+    { id:'w11_obelisk_2', name:'Coloso Vitrificado', color:'#ff684f', hp:498, speed:108, r:32, xp:88, score:224, coin:31, behavior:'buffer', spriteKey:'world11Enemy6', futureWorld:11, familyIndex:2, visualScale:1.06 },
+    { id:'w12_jelly_1', name:'Medusa Lancera', color:'#66f2ff', hp:268, speed:238, r:19, xp:58, score:144, coin:20, behavior:'zigzag', spriteKey:'world12Enemy1', futureWorld:12, familyIndex:0, visualScale:.88 },
+    { id:'w12_manta_1', name:'Manta Espectral', color:'#83ffda', hp:292, speed:224, r:21, xp:61, score:152, coin:21, behavior:'evader', spriteKey:'world12Enemy2', futureWorld:12, familyIndex:0, visualScale:.92 },
+    { id:'w12_eel_1', name:'Anguila Cazadora', color:'#4fdcff', hp:342, speed:196, r:23, xp:68, score:170, coin:23, behavior:'chase', spriteKey:'world12Enemy3', futureWorld:12, familyIndex:1, visualScale:.96 },
+    { id:'w12_ceph_1', name:'Cefalópodo de Presión', color:'#a66cff', hp:372, speed:178, r:25, xp:72, score:182, coin:25, behavior:'toxic', spriteKey:'world12Enemy4', futureWorld:12, familyIndex:1, visualScale:1.00 },
+    { id:'w12_coral_1', name:'Guardián Coral Negro', color:'#54e8d4', hp:482, speed:126, r:31, xp:86, score:216, coin:30, behavior:'blindado', spriteKey:'world12Enemy5', futureWorld:12, familyIndex:2, visualScale:1.04 },
+    { id:'w12_colossus_1', name:'Coloso Hadal', color:'#8d8cff', hp:536, speed:110, r:33, xp:92, score:238, coin:33, behavior:'buffer', spriteKey:'world12Enemy6', futureWorld:12, familyIndex:2, visualScale:1.08 }
   ];
 
   const ACHIEVEMENTS = [
@@ -915,6 +940,7 @@
       if (p.completedMaps.includes(8)) p.unlockedMap = Math.max(p.unlockedMap, 9);
       if (p.completedMaps.includes(9)) p.unlockedMap = Math.max(p.unlockedMap, 10);
       if (p.completedMaps.includes(10)) p.unlockedMap = Math.max(p.unlockedMap, 11);
+      if (p.completedMaps.includes(11)) p.unlockedMap = Math.max(p.unlockedMap, 12);
       p.coins = p.coins || 0;
       p.upgrades = p.upgrades || {};
       p.achievements = p.achievements || {};
@@ -1095,7 +1121,7 @@
     futureBossSpecial(world=6){if(!state.settings.sound)return;const cfg=futureBossMeta(world);this.chord(cfg.sound.special,.24,.045);if(world===6)this.tone(48,.30,'square',.012,22);if(world===7)this.tone(58,.34,'sine',.014,18);if(world===8)this.tone(74,.26,'triangle',.015,-20);if(world===9)this.tone(980,.055,'square',.010,-420);if(world===10)this.tone(31,.46,'sawtooth',.018,16);},
     futureMinionShot(world=6,tier='small',familyIndex=0){if(!state.settings.sound)return;const list=FUTURE_MINION_ARCHETYPES[Number(world)]||FUTURE_MINION_ARCHETYPES[6],pool=list.filter(x=>x.tier===tier),cfg=(pool[familyIndex%Math.max(1,pool.length)]||list[0]);this.tone(...cfg.sound.shot);},
     futureMinionDeath(world=6,tier='small',familyIndex=0){if(!state.settings.sound)return;const list=FUTURE_MINION_ARCHETYPES[Number(world)]||FUTURE_MINION_ARCHETYPES[6],pool=list.filter(x=>x.tier===tier),cfg=(pool[familyIndex%Math.max(1,pool.length)]||list[0]);this.tone(...cfg.sound.death);},
-    startFutureBossSequence(world=6,phase=1){if(!state.settings.music)return;clearInterval(this.futureSeqTimer);this.futureSeqTimer=null;this.futureSeqStep=0;this.futureBossWorld=Math.max(6,Math.min(11,Number(world)||6));this.futureBossPhase=Math.max(1,Math.min(4,Number(phase)||1));const cfg=futureBossMeta(this.futureBossWorld),phaseTempo=this.futureBossPhase>=4?(cfg.music.phase4||.68):(this.futureBossPhase>=3?.82:1),beat=60000/cfg.music.bpm/2*phaseTempo;const tick=()=>{if(!state.settings.music)return;const step=this.futureSeqStep++,seq=cfg.music.seq,n=seq[step%seq.length],lift=(this.futureBossPhase-1)*2,freq=cfg.music.root*Math.pow(2,(n+lift)/12),gain=.0065+this.futureBossPhase*.0013;this.musicTone(freq,.082,cfg.music.wave,gain,step%4===0?-10:0);if(step%4===0)this.musicTone(cfg.music.root/2,.18,'sine',.009+this.futureBossPhase*.0013,-6);if(this.futureBossWorld===6&&step%4===2)this.musicTone(freq*2,.035,'square',.0032,-90);if(this.futureBossWorld===7&&step%3===1)this.musicTone(freq*.75,.12,'sine',.0038,14);if(this.futureBossWorld===8&&step%2===0)this.musicTone(freq*1.5,.045,'triangle',.0035,-35);if(this.futureBossWorld===9&&step%2===1)this.musicTone(freq*2,.03,'square',.0036,-180);if(this.futureBossWorld===10&&step%8===6)this.musicTone(cfg.music.root*.5,.30,'sawtooth',.0055,9);};tick();this.futureSeqTimer=setInterval(tick,Math.max(130,beat));},
+    startFutureBossSequence(world=6,phase=1){if(!state.settings.music)return;clearInterval(this.futureSeqTimer);this.futureSeqTimer=null;this.futureSeqStep=0;this.futureBossWorld=Math.max(6,Math.min(12,Number(world)||6));this.futureBossPhase=Math.max(1,Math.min(4,Number(phase)||1));const cfg=futureBossMeta(this.futureBossWorld),phaseTempo=this.futureBossPhase>=4?(cfg.music.phase4||.68):(this.futureBossPhase>=3?.82:1),beat=60000/cfg.music.bpm/2*phaseTempo;const tick=()=>{if(!state.settings.music)return;const step=this.futureSeqStep++,seq=cfg.music.seq,n=seq[step%seq.length],lift=(this.futureBossPhase-1)*2,freq=cfg.music.root*Math.pow(2,(n+lift)/12),gain=.0065+this.futureBossPhase*.0013;this.musicTone(freq,.082,cfg.music.wave,gain,step%4===0?-10:0);if(step%4===0)this.musicTone(cfg.music.root/2,.18,'sine',.009+this.futureBossPhase*.0013,-6);if(this.futureBossWorld===6&&step%4===2)this.musicTone(freq*2,.035,'square',.0032,-90);if(this.futureBossWorld===7&&step%3===1)this.musicTone(freq*.75,.12,'sine',.0038,14);if(this.futureBossWorld===8&&step%2===0)this.musicTone(freq*1.5,.045,'triangle',.0035,-35);if(this.futureBossWorld===9&&step%2===1)this.musicTone(freq*2,.03,'square',.0036,-180);if(this.futureBossWorld===10&&step%8===6)this.musicTone(cfg.music.root*.5,.30,'sawtooth',.0055,9);};tick();this.futureSeqTimer=setInterval(tick,Math.max(130,beat));},
     stopFutureBossSequence(){clearInterval(this.futureSeqTimer);this.futureSeqTimer=null;this.futureSeqStep=0;},
     startBossSequence(mapIndex=0,phase=1){
       if(!state.settings.music)return;clearInterval(this.bossSeqTimer);this.bossSeqTimer=null;this.bossSeqStep=0;this.bossThemeIndex=Math.max(0,Math.min(4,mapIndex));this.bossThemePhase=Math.max(1,phase||1);const cfg=boss2Meta(this.bossThemeIndex),phaseTempo=this.bossThemeIndex===4&&this.bossThemePhase>=4?.52:(this.bossThemePhase>=3?.86:1),beat=60000/cfg.music.bpm/2*phaseTempo;
@@ -1214,6 +1240,7 @@
       this.worldNineState={rewardSteps:[],eventTimer:5.4,rewardTimer:6.2,hazardTimer:5.2,hordeTimer:8.8,portalTimer:6.8,enemyHistory:[],hordeSeen:0,echoSpawned:[],echoDefeated:[],apocalypseSeen:false,frenzySeen:false,portalsOpened:0,subBossSeen:[]};
       this.worldTenState={rewardSteps:[],eventTimer:4.9,rewardTimer:5.8,hazardTimer:4.8,hordeTimer:7.8,singularityTimer:6.0,enemyHistory:[],hordeSeen:0,echoSpawned:[],echoDefeated:[],apocalypseSeen:false,frenzySeen:false,singularitiesOpened:0,subBossSeen:[]};
       this.worldElevenState={rewardSteps:[],eventTimer:5.6,rewardTimer:6.4,hazardTimer:5.4,hordeTimer:9.0,dustTimer:7.2,enemyHistory:[],hordeSeen:0,dustStorms:0};
+      this.worldTwelveState={rewardSteps:[],eventTimer:5.4,rewardTimer:6.2,hazardTimer:5.2,hordeTimer:8.8,currentTimer:7.0,pressureTimer:6.6,enemyHistory:[],hordeSeen:0,currentsOpened:0};
       this.futureSpecialCombat=null;
       this.world3Stars=[];
       this.toasts = [];
@@ -1516,6 +1543,7 @@
       else if(this.mapIndex===8){const act=WORLD_NINE_ACTS[this.wave-1];this.worldNineState.eventTimer=Math.min(5.2,act?.eventEvery||7.5);this.spawnWorldNineReward();this.grantLevelShield(13);if(this.wave>=3)this.spawnWorldNinePortalRift(this.mobileLandscape?1:2,false);this.toast(`ACTO 9-${this.wave}`,`${act?.name||`Nivel ${this.wave}`} · convergencia multiversal`);}
       else if(this.mapIndex===9){const act=WORLD_TEN_ACTS[this.wave-1];this.worldTenState.eventTimer=Math.min(4.9,act?.eventEvery||6.2);this.spawnWorldTenReward();this.grantLevelShield(16);if(this.wave>=2)this.spawnWorldTenSingularity(this.mobileLandscape?1:2,false);this.toast(`ACTO 10-${this.wave}`,`${act?.name||`Nivel ${this.wave}`} · convergencia ZERO`);}
       else if(this.mapIndex===10){const act=WORLD_ELEVEN_ACTS[this.wave-1];this.worldElevenState.eventTimer=Math.min(5.6,act?.eventEvery||7.5);this.spawnWorldElevenReward();this.grantLevelShield(14);if(this.wave>=2)this.spawnWorldElevenDustDevil(this.mobileLandscape?1:2,false);this.toast(`ACTO 11-${this.wave}`,`${act?.name||`Nivel ${this.wave}`} · saga de los Dos Soles`);}
+      else if(this.mapIndex===11){const act=WORLD_TWELVE_ACTS[this.wave-1];this.worldTwelveState.eventTimer=Math.min(5.4,act?.eventEvery||7.2);this.spawnWorldTwelveReward();this.grantLevelShield(16);if(this.wave>=2)this.spawnWorldTwelveCurrent(this.mobileLandscape?1:2,false);this.toast(`ACTO 12-${this.wave}`,`${act?.name||`Nivel ${this.wave}`} · descenso pelágico`);}
       else this.toast('🧭 Nivel superado', `Mundo ${this.mapIndex + 1} · Nivel ${this.worldStage.level}/${this.worldStage.totalLevels}`);
       this.requestTacticalPrep('level');
     }
@@ -1839,7 +1867,8 @@
       this.worldEightState={rewardSteps:[],eventTimer:5.8,rewardTimer:6.8,hazardTimer:6.0,hordeTimer:9.8,gestationTimer:8.6,enemyHistory:[],hordeSeen:0,podsHatched:0,echoSpawned:[],echoDefeated:[]};
       this.worldNineState={rewardSteps:[],eventTimer:5.4,rewardTimer:6.2,hazardTimer:5.2,hordeTimer:8.8,portalTimer:6.8,enemyHistory:[],hordeSeen:0,echoSpawned:[],echoDefeated:[],apocalypseSeen:false,frenzySeen:false,portalsOpened:0,subBossSeen:[]};
       this.worldTenState={rewardSteps:[],eventTimer:4.9,rewardTimer:5.8,hazardTimer:4.8,hordeTimer:7.8,singularityTimer:6.0,enemyHistory:[],hordeSeen:0,echoSpawned:[],echoDefeated:[],apocalypseSeen:false,frenzySeen:false,singularitiesOpened:0,subBossSeen:[]};
-      this.worldElevenState={rewardSteps:[],eventTimer:5.6,rewardTimer:6.4,hazardTimer:5.4,hordeTimer:9.0,dustTimer:7.2,enemyHistory:[],hordeSeen:0,dustStorms:0}; this.futureSpecialCombat=null; this.world3Stars=[];
+      this.worldElevenState={rewardSteps:[],eventTimer:5.6,rewardTimer:6.4,hazardTimer:5.4,hordeTimer:9.0,dustTimer:7.2,enemyHistory:[],hordeSeen:0,dustStorms:0};
+      this.worldTwelveState={rewardSteps:[],eventTimer:5.4,rewardTimer:6.2,hazardTimer:5.2,hordeTimer:8.8,currentTimer:7.0,pressureTimer:6.6,enemyHistory:[],hordeSeen:0,currentsOpened:0}; this.futureSpecialCombat=null; this.world3Stars=[];
       if (save?.worldOneState && this.mapIndex === 0) this.worldOneState = { ...this.worldOneState, ...save.worldOneState };
       if (save?.worldTwoState && this.mapIndex === 1) this.worldTwoState = { ...this.worldTwoState, ...save.worldTwoState };
       if (save?.worldThreeState && this.mapIndex === 2) this.worldThreeState = { ...this.worldThreeState, ...save.worldThreeState };
@@ -1851,6 +1880,7 @@
       if (save?.worldNineState && this.mapIndex === 8) this.worldNineState = { ...this.worldNineState, ...save.worldNineState };
       if (save?.worldTenState && this.mapIndex === 9) this.worldTenState = { ...this.worldTenState, ...save.worldTenState };
       if (save?.worldElevenState && this.mapIndex === 10) this.worldElevenState = { ...this.worldElevenState, ...save.worldElevenState };
+      if (save?.worldTwelveState && this.mapIndex === 11) this.worldTwelveState = { ...this.worldTwelveState, ...save.worldTwelveState };
       if (save?.futureSpecialCombat && (this.mapIndex === 8 || this.mapIndex === 9)) this.futureSpecialCombat = { ...save.futureSpecialCombat };
       this.powerLevels = save?.powerLevels || {};
       this.powerActivity = save?.powerActivity || {};
@@ -1908,6 +1938,7 @@
       if (!save && this.mapIndex === 8) this.setupWorldNineIntro();
       if (!save && this.mapIndex === 9) this.setupWorldTenIntro();
       if (!save && this.mapIndex === 10) this.setupWorldElevenIntro();
+      if (!save && this.mapIndex === 11) this.setupWorldTwelveIntro();
       this.running = true;
       this.paused = false;
       this.cardPause = false;
@@ -2057,6 +2088,7 @@
       this.updateWorldNineDirector(dt);
       this.updateWorldTenDirector(dt);
       this.updateWorldElevenDirector(dt);
+      this.updateWorldTwelveDirector(dt);
       this.updateEchoBossDirector(dt);
       this.updateFutureSpecialCombat(dt);
       if (this.updateWorldOneDirector(dt) || this.updateWorldTwoDirector(dt) || this.updateWorldThreeDirector(dt)) {
@@ -2469,6 +2501,7 @@
       if(this.mapIndex>8&&profile.relics.world9Threads){p.powerDurationScale=(p.powerDurationScale||1)*1.04;p.powerEffectScale=(p.powerEffectScale||1)*1.04;p.crit=Math.min(.38,(p.crit||0)+.018);p.fireDelay=Math.max(150,p.fireDelay*.982);if(!save)this.toast('HILOS DEL MULTIVERSO','Duración/poder +4% · crítico y cadencia sincronizados');}
       if(this.mapIndex>9&&profile.relics.world10Zero){p.maxShield+=14;p.shield=Math.min(p.maxShield,p.shield+14);p.powerEffectScale=(p.powerEffectScale||1)*1.05;p.powerDurationScale=(p.powerDurationScale||1)*1.05;if(!save)this.toast('NÚCLEO ZERO','Sincronía final · poder y duración +5%');}
       if(this.mapIndex>10&&profile.relics.world11Silica){p.speed*=1.035;p.damage*=1.035;p.powerEffectScale=(p.powerEffectScale||1)*1.025;if(!save)this.toast('CORONA DE SÍLICE','Movilidad +3.5% · daño +3.5% · energía solar reforzada');}
+      if(this.mapIndex>11&&profile.relics.world12Hadal){p.maxShield*=1.04;p.shield=Math.min(p.maxShield,p.shield+8);p.powerEffectScale=(p.powerEffectScale||1)*1.03;if(!save)this.toast('CORONA HADAL','Escudo +4% · control de corrientes y poderes +3%');}
     }
 
 
@@ -2966,6 +2999,8 @@
         const p = this.player;
         if (b.family === 'desert') {
           this.spawnWorldElevenHazard(Math.min(3,1+b.phase),true);this.spawnWorldElevenDustDevil(1,b.phase>=3);
+        } else if (b.family === 'pelagic') {
+          this.spawnWorldTwelveHazard(Math.min(3,1+b.phase),true);this.spawnWorldTwelveCurrent(1,b.phase>=3);
         } else if (b.family === 'demon' || b.family === 'mythic') {
           this.spawnMeteorRain(this.mapIndex === 0 ? 2 : 3, true);
         } else if (b.family === 'spirit' || b.family === 'witch') {
@@ -3010,6 +3045,10 @@
           b.shieldMax += 290 + b.phase * 90;
           b.shield = Math.max(b.shield, b.shieldMax * (.60 + b.phase * .035));
           b.vulnerable=0;this.spawnWorldElevenHazard(Math.min(3,1+b.phase),true);this.spawnWorldElevenDustDevil(Math.min(2,1+Math.floor(b.phase/3)),true);
+        } else if(this.mapIndex===11){
+          b.shieldMax += 320 + b.phase * 96;
+          b.shield = Math.max(b.shield, b.shieldMax * (.62 + b.phase * .035));
+          b.vulnerable=0;this.spawnWorldTwelveHazard(Math.min(3,1+b.phase),true);this.spawnWorldTwelveCurrent(Math.min(2,1+Math.floor(b.phase/3)),true);
         } else {
           b.shieldMax += 18;
           b.shield = Math.min(b.shieldMax, b.shield + b.shieldMax * .38);
@@ -3026,7 +3065,8 @@
           {2:'la gestación acelera dentro del huésped',3:'las cápsulas parasitarias convergen',4:'Gestación Masiva crítica'},
           {2:'los portales duplican las trayectorias',3:'Kaiser rompe la continuidad de la arena',4:'Ruptura Multiverso crítica'},
           {2:'la singularidad absorbe las familias derrotadas',3:'ZERO sincroniza los núcleos de los Guardianes',4:'Singularidad Final crítica'},
-          {2:'las dunas comienzan a moverse contra RIZOMA',3:'los dos soles vitrifican la arena',4:'Tormenta de los Dos Soles crítica'}
+          {2:'las dunas comienzan a moverse contra RIZOMA',3:'los dos soles vitrifican la arena',4:'Tormenta de los Dos Soles crítica'},
+          {2:'las corrientes hadales cierran el perímetro',3:'la presión convierte el océano en un arma',4:'Marea de Presión Hadal crítica'}
         ][this.mapIndex]||{};
         this.toast(`FASE ${b.phase}`,phaseLines[b.phase]||boss2Meta(this.mapIndex).special);
         if(this.mapIndex===1)this.spawnMeteorRain(1,true);
@@ -4123,11 +4163,25 @@
       return false;
     }
 
+
+    setupWorldTwelveIntro(){
+      const p=this.player,w=this.worldTwelveState;w.eventTimer=5.0;w.rewardTimer=6.0;w.hordeTimer=8.5;w.hazardTimer=4.8;w.currentTimer=6.4;w.pressureTimer=6.0;
+      this.spawnPickup(p.x+64,clamp(p.y-98,64,this.h-64),'power',1,{powerId:'laserAbyssal',major:true,rewardGlow:true,label:'LÁSER HADAL',powerDuration:12});this.spawnPickup(p.x-90,p.y-18,'power',1,{powerId:'stasis',major:true,rewardGlow:true,label:'STASIS DE PRESIÓN',powerDuration:11});this.spawnPickup(p.x+116,p.y+42,'shield',74,{rewardGlow:true,label:'ESCUDO HADAL +74'});
+      ['w12_jelly_1','w12_manta_1','w12_eel_1'].forEach((id,i)=>this.spawnEnemyNearPlayer(id,-.9+i*.78,340+i*24,true,1.06));this.spawnWorldTwelveHazard(1,true);this.spawnWorldTwelveCurrent(1,false);this.toast('MUNDO 12 · ABISMO PELÁGICO','Océano alienígena · ciudades hundidas, corrientes vivas y presión extrema');
+    }
+    grantWorldTwelvePowerReward(step=Math.max(1,this.wave-1)){const w=this.worldTwelveState||(this.worldTwelveState={rewardSteps:[]});w.rewardSteps=w.rewardSteps||[];const id=WORLD_TWELVE_CONFIG.rewardPowers[Math.max(0,Math.min(WORLD_TWELVE_CONFIG.rewardPowers.length-1,step-1))];if(!id||w.rewardSteps.includes(id))return null;w.rewardSteps.push(id);return id;}
+    spawnWorldTwelveReward(){const id=this.grantWorldTwelvePowerReward();if(!id)return;const pow=POWERS.find(x=>x.id===id),p=this.player;this.spawnPickup(p.x+rand(125,-125),clamp(p.y-110,62,this.h-62),'power',1,{powerId:id,major:true,rewardGlow:true,label:pow?.name||'Tecnología Hadal',powerDuration:Math.max(11,POWER_ACTIVE_SECONDS[id]||11)});this.toast('≈ TECNOLOGÍA HADAL',pow?.name||id);}
+    worldTwelveEnemyId(){const own=WORLD_TWELVE_MINION_FAMILIES;let pool=this.wave<=1?[...own[0]]:this.wave===2?[...own[0],...own[1]]:[...own.flat()];const hist=this.worldTwelveState?.enemyHistory||[],cand=pool.filter(id=>!hist.slice(-3).includes(id)),id=pick(cand.length?cand:pool);this.worldTwelveState.enemyHistory=[...hist,id].slice(-6);return id;}
+    spawnWorldTwelveHazard(count=1,fast=false){const keys=['world12Hazard1','world12Hazard2','world12Hazard3','world12Hazard4','world12Hazard5','world12Hazard6'];if(!this.meteors)this.meteors=[];const cap=this.isSmallScreen?5:8;for(let i=0;i<count&&this.meteors.length<cap;i++){const fromLeft=Math.random()<.5,x=fromLeft?-90:this.w+90,y=rand(this.h*.82,this.h*.16),targetX=fromLeft?this.w+120:-120,targetY=clamp(y+rand(145,-145),48,this.h-48),a=Math.atan2(targetY-y,targetX-x),sp=fast?rand(300,225):rand(220,155),r=rand(31,20),key=pick(keys);this.meteors.push({kind:'w12hadal',x,y,vx:Math.cos(a)*sp,vy:Math.sin(a)*sp,r,life:fast?6.4:8.3,dmg:fast?21:25,color:'#46e7f2',trail:[],spin:rand(2.1,-2.1),hp:82+this.wave*12,score:54,coins:16,spriteKey:key,spriteScale:4.2,hitboxScale:.76,worldTag:12});}}
+    spawnWorldTwelveCurrent(count=1,violent=false){const w=this.worldTwelveState;if(!w)return;const cb=this.getCombatBounds();for(let i=0;i<count;i++){const x=rand(cb.right-95,cb.left+95),y=rand(cb.bottom-110,cb.top+105),r=violent?82:64,life=violent?3.2:2.4;this.particles.push({type:'ring',x,y,r:18,maxR:r*1.65,life:.9,max:.9,color:i%2?'#46e7f2':'#a66cff'});this.zones.push({x,y,r,life,max:life,type:'bossGravity',pull:violent?24:14});if(violent){this.spawnEnemy(this.worldTwelveEnemyId(),true);const e=this.enemies[this.enemies.length-1];if(e&&!e.boss){e.x=x;e.y=y;e.speed*=1.08;}}w.currentsOpened=(w.currentsOpened||0)+1;}}
+    triggerWorldTwelveHorde(){if(this.wave<1||this.wave>5)return;const n=this.mobileLandscape?(this.wave>=4?8:6):(this.wave>=4?12:9),own=WORLD_TWELVE_MINION_FAMILIES;let heavy=0;for(let i=0;i<n;i++){let fam=i%3,id=pick(own[fam]);if(this.mobileLandscape&&fam===2&&heavy>=2)id=pick(own[i%2]);if(own[2].includes(id))heavy++;setTimeout(()=>{this.spawnEnemy(id,true);const e=this.enemies[this.enemies.length-1];if(e&&!e.boss){e.hordeUnit=true;e.speed*=1.08;e.hp*=1.11;e.baseHp=e.hp;}},i*(this.mobileLandscape?132:80));}this.spawnHordeEmergencyKit();this.spawnCrossWorldPrizeBurst(2+(this.getDifficulty().hordeRewardBonus||0));this.worldTwelveState.hordeSeen=(this.worldTwelveState.hordeSeen||0)+1;this.toast('≈ HORDA HADAL',`Formación x${n} · medusas, cazadores y Guardianes de Coral emergen de la fosa`);}
+    updateWorldTwelveDirector(dt){if(this.mapIndex!==11||this.bossActive||this.run?.mapComplete)return false;const w=this.worldTwelveState;if(!w)return false;w.rewardTimer=(w.rewardTimer??6.2)-dt;if(w.rewardTimer<=0&&this.wave<5){this.spawnCrossWorldTacticalPrize();w.rewardTimer=rand(14.2,10.5);}w.currentTimer=(w.currentTimer??6.8)-dt*(this.getDifficulty().eventPace||1);if(w.currentTimer<=0){this.spawnWorldTwelveCurrent(this.wave>=4?2:1,this.wave>=3);w.currentTimer=rand(this.wave>=4?8.8:11.5,this.wave>=4?6.2:7.8);}w.eventTimer=(w.eventTimer??5.4)-dt*(this.getDifficulty().eventPace||1);if(w.eventTimer<=0&&this.wave<5){Math.random()<.60?this.spawnWorldTwelveHazard(this.wave>=4?2:1,true):this.spawnWorldTwelveCurrent(1,true);w.eventTimer=(WORLD_TWELVE_ACTS[this.wave-1]?.eventEvery||7.3)+rand(1.1,-.5);}return false;}
+
     updateDomainSignature(dt){
       const p=this.player;if(!p||!p.domainForm||p.domainForm==='rizoma')return;const meta=domainFormMeta(p.domainForm);if(!meta)return;
       p.domainSignatureCd=Math.max(0,(p.domainSignatureCd??2)-dt);if(p.domainSignatureCd>0||!this.enemies.length)return;
       const world=meta.world,target=this.enemies.filter(e=>!e.boss).sort((a,b)=>dist2(a,p)-dist2(b,p))[0]||this.bossActive;if(!target)return;
-      p.domainSignatureCd=(meta.signatureCd||[0,14,15,13,15,16,16,18,19,20,22,21][world]||16)*(world===6?.95:1);
+      p.domainSignatureCd=(meta.signatureCd||[0,14,15,13,15,16,16,18,19,20,22,21,21][world]||16)*(world===6?.95:1);
       const color=meta.color||'#61ffc8';AudioFX.domain(world);
       if(world===1){this.activateCriticalIntervention('meteorStrike');}
       else if(world===2){this.enemies.filter(e=>!e.boss).slice(0,4).forEach(e=>{e.virus=Math.max(e.virus||0,3.2);this.damageEnemy(e,this.criticalDamageFor(e,.35),{virus:1,color,silent:true});});}
@@ -4140,6 +4194,7 @@
       else if(world===9){this.particles.push({type:'ring',x:p.x,y:p.y,r:18,maxR:280,life:.64,max:.64,color});this.enemies.slice().sort((a,b)=>dist2(a,p)-dist2(b,p)).slice(0,7).forEach((e,i)=>{if(e.boss)this.damageEnemy(e,e.baseHp*.012,{criticalBurst:true,color,silent:true});else this.damageEnemy(e,this.criticalDamageFor(e,.34+i*.015),{slow:.45,color,silent:true});});this.bullets=this.bullets.filter(b=>!b.enemy||Math.hypot(b.x-p.x,b.y-p.y)>90);p.phaseTimer=Math.max(p.phaseTimer||0,1.4);}
       else if(world===10){this.particles.push({type:'ring',x:p.x,y:p.y,r:20,maxR:340,life:.78,max:.78,color});this.enemies.slice().sort((a,b)=>dist2(a,p)-dist2(b,p)).slice(0,9).forEach((e,i)=>{if(e.boss)this.damageEnemy(e,e.baseHp*.014,{criticalBurst:true,color,silent:true});else this.damageEnemy(e,this.criticalDamageFor(e,.38+i*.016),{slow:.62,color,silent:true});});this.bullets=this.bullets.filter(b=>!b.enemy||Math.hypot(b.x-p.x,b.y-p.y)>120);p.phaseTimer=Math.max(p.phaseTimer||0,1.7);p.shield=Math.min(p.maxShield,p.shield+p.maxShield*.10);this.criticalState.cooldown=Math.max(0,(this.criticalState.cooldown||0)-1.5);}
       else if(world===11){this.particles.push({type:'ring',x:p.x,y:p.y,r:22,maxR:300,life:.72,max:.72,color});this.enemies.slice().sort((a,b)=>dist2(a,p)-dist2(b,p)).slice(0,8).forEach((e,i)=>{if(e.boss)this.damageEnemy(e,e.baseHp*.013,{criticalBurst:true,color,silent:true});else this.damageEnemy(e,this.criticalDamageFor(e,.36+i*.014),{slow:.48,color,silent:true});});this.bullets=this.bullets.filter(b=>!b.enemy||Math.hypot(b.x-p.x,b.y-p.y)>105);p.speed=Math.max(p.speed,p.baseSpeed*1.06);p.recoverySpeedTimer=Math.max(p.recoverySpeedTimer||0,2.2);}
+      else if(world===12){this.particles.push({type:'ring',x:p.x,y:p.y,r:24,maxR:320,life:.76,max:.76,color});this.enemies.slice().sort((a,b)=>dist2(a,p)-dist2(b,p)).slice(0,8).forEach((e,i)=>{if(e.boss)this.damageEnemy(e,e.baseHp*.0135,{criticalBurst:true,color,silent:true});else this.damageEnemy(e,this.criticalDamageFor(e,.37+i*.014),{slow:.55,color,silent:true});});this.bullets=this.bullets.filter(b=>!b.enemy||Math.hypot(b.x-p.x,b.y-p.y)>112);p.shield=Math.min(p.maxShield,p.shield+p.maxShield*.08);}
       if((p.domainSignatureNotice||0)<1){p.domainSignatureNotice=1;this.toast(`FIRMA · ${meta.signature||meta.name}`,`Poder heredado del Guardián · recarga ${Math.round(p.domainSignatureCd)}s`);}
     }
 
@@ -4835,6 +4890,7 @@
       if(this.mapIndex===8){const wide=this.w>=1100,mid=this.w>=760,targetCount=wide?[14,16,18,20,16][this.wave-1]:(mid?[12,14,16,18,14]:[8,10,12,14,11])[this.wave-1],interval=[.78,.72,.66,.60,.72][this.wave-1]||.68,w=this.worldNineState;w.hazardTimer=(w.hazardTimer??5.2)-dt*(this.getDifficulty().hazardPace||1);w.hordeTimer=(w.hordeTimer??8.8)-dt*(this.getDifficulty().hordePace||1);if(w.hazardTimer<=0){this.spawnWorldNineHazard(this.wave>=4?2:1,true);w.hazardTimer=rand(6.2,4.0);}if(w.hordeTimer<=0){this.triggerWorldNineHorde();w.hordeTimer=rand(this.wave>=4?11.5:15,this.wave>=4?8:10.5);}if(this.spawnTime<=0&&this.enemies.length<targetCount){const amount=this.wave>=3&&this.enemies.length<targetCount*.42?2:1;for(let i=0;i<amount;i++)this.spawnEnemy(this.worldNineEnemyId(),this.wave<5);this.spawnTime=interval+rand(.09,-.05);}return;}
       if(this.mapIndex===9){const wide=this.w>=1100,mid=this.w>=760,targetCount=wide?[15,17,19,21,23,24,18][this.wave-1]:(mid?[13,15,17,19,20,21,16]:[9,11,12,14,15,16,12])[this.wave-1],interval=[.74,.68,.62,.57,.52,.48,.62][this.wave-1]||.58,w=this.worldTenState;w.hazardTimer=(w.hazardTimer??4.8)-dt*(this.getDifficulty().hazardPace||1);w.hordeTimer=(w.hordeTimer??7.8)-dt*(this.getDifficulty().hordePace||1);if(w.hazardTimer<=0){this.spawnWorldTenHazard(this.wave>=4?2:1,true);w.hazardTimer=rand(5.8,3.7);}if(w.hordeTimer<=0&&this.wave<7){this.triggerWorldTenHorde();w.hordeTimer=rand(this.wave>=5?10.5:13.5,this.wave>=5?7.2:9.2);}if(this.spawnTime<=0&&this.enemies.length<targetCount){const amount=this.wave>=3&&this.enemies.length<targetCount*.44?2:1;for(let i=0;i<amount;i++)this.spawnEnemy(this.worldTenEnemyId(),this.wave<7);this.spawnTime=interval+rand(.08,-.04);}return;}
       if(this.mapIndex===10){const wide=this.w>=1100,mid=this.w>=760,targetCount=wide?[13,15,17,19,15][this.wave-1]:(mid?[11,13,15,17,13]:[8,9,11,13,10])[this.wave-1],interval=[.80,.74,.68,.62,.74][this.wave-1]||.70,w=this.worldElevenState;w.hazardTimer=(w.hazardTimer??5.4)-dt*(this.getDifficulty().hazardPace||1);w.hordeTimer=(w.hordeTimer??9.0)-dt*(this.getDifficulty().hordePace||1);if(w.hazardTimer<=0){this.spawnWorldElevenHazard(this.wave>=4?2:1,true);w.hazardTimer=rand(6.5,4.2);}if(w.hordeTimer<=0&&this.wave>=2){this.triggerWorldElevenHorde();w.hordeTimer=rand(this.wave>=4?12.5:16,this.wave>=4?8.5:11.2);}if(this.spawnTime<=0&&this.enemies.length<targetCount){const amount=this.wave>=3&&this.enemies.length<targetCount*.42?2:1;for(let i=0;i<amount;i++)this.spawnEnemy(this.worldElevenEnemyId(),this.wave<5);this.spawnTime=interval+rand(.09,-.05);}return;}
+      if(this.mapIndex===11){const wide=this.w>=1100,mid=this.w>=760,targetCount=wide?[13,15,17,19,15][this.wave-1]:(mid?[11,13,15,17,13]:[8,9,11,13,10])[this.wave-1],interval=[.78,.72,.66,.60,.72][this.wave-1]||.68,w=this.worldTwelveState;w.hazardTimer=(w.hazardTimer??5.2)-dt*(this.getDifficulty().hazardPace||1);w.hordeTimer=(w.hordeTimer??8.8)-dt*(this.getDifficulty().hordePace||1);if(w.hazardTimer<=0){this.spawnWorldTwelveHazard(this.wave>=4?2:1,true);w.hazardTimer=rand(6.3,4.0);}if(w.hordeTimer<=0&&this.wave>=2){this.triggerWorldTwelveHorde();w.hordeTimer=rand(this.wave>=4?12.2:15.5,this.wave>=4?8.2:10.8);}if(this.spawnTime<=0&&this.enemies.length<targetCount){const amount=this.wave>=3&&this.enemies.length<targetCount*.42?2:1;for(let i=0;i<amount;i++)this.spawnEnemy(this.worldTwelveEnemyId(),this.wave<5);this.spawnTime=interval+rand(.09,-.05);}return;}
       const targetCount = 6 + this.wave * 3 + Math.floor(this.mapIndex * 1.5);
       const interval = Math.max(.42, 1.45 - this.wave * .05 - this.mapIndex * .02);
       if (this.spawnTime <= 0 && this.enemies.length < targetCount) {
@@ -4870,6 +4926,7 @@
       if(this.mapIndex===8)return [...WORLD_NINE_MINION_FAMILIES.flat(),...WORLD_EIGHT_MINION_FAMILIES[0],...WORLD_SEVEN_MINION_FAMILIES[0],...WORLD_SIX_MINION_FAMILIES[0].slice(0,1)];
       if(this.mapIndex===9)return [...WORLD_TEN_MINION_FAMILIES.flat(),...WORLD_NINE_MINION_FAMILIES.flat(),...WORLD_EIGHT_MINION_FAMILIES[0],...WORLD_SEVEN_MINION_FAMILIES[0],...WORLD_SIX_MINION_FAMILIES[0]];
       if(this.mapIndex===10)return [...WORLD_ELEVEN_MINION_FAMILIES.flat()];
+      if(this.mapIndex===11)return [...WORLD_TWELVE_MINION_FAMILIES.flat()];
       const pool = ['errante'];
       if (this.wave > 1) pool.push('corredor','esquivo','cazador');
       if (this.wave > 2) pool.push('blindado');
@@ -5150,11 +5207,12 @@
       if (this.mapIndex === 6) hp *= 2.15; // Leviatán: debe sobrevivir al arsenal acumulado de siete mundos.
       if (this.mapIndex === 8) hp *= 1.90; // Kaiser: duelo final prolongado de W9 frente al arsenal multiversal.
       if (this.mapIndex === 9) hp *= 2.35; // Z.E.R.O.S. Prime: clímax final frente a todas las reliquias y firmas acumuladas.
-      if (this.mapIndex === 10) hp *= 1.72; // Soberano de Sílice: primer Guardián de la Saga II, resistente pero no más extremo que ZERO.
+      if (this.mapIndex === 10) hp *= 1.72;
+      if (this.mapIndex === 11) hp *= 1.78; // Thalassar Hadal: presión sostenida y escudo amplio en la segunda etapa de Saga II.
       if(this.trainingMode?.active)hp*=.58;
       const x = this.w / 2;
       const y = -80;
-      const shieldBase = (this.mapIndex === 10 ? 3000 : (this.mapIndex === 9 ? 4200 : (this.mapIndex === 8 ? 2600 : (this.mapIndex === 6 ? 2200 : (this.mapIndex === 0 ? 680 : (this.mapIndex === 1 ? 560 : 310 + this.mapIndex * 42)))))) * (this.getDifficulty().bossShield || 1) * (this.trainingMode?.active ? .58 : 1);
+      const shieldBase = (this.mapIndex === 11 ? 3200 : (this.mapIndex === 10 ? 3000 : (this.mapIndex === 9 ? 4200 : (this.mapIndex === 8 ? 2600 : (this.mapIndex === 6 ? 2200 : (this.mapIndex === 0 ? 680 : (this.mapIndex === 1 ? 560 : 310 + this.mapIndex * 42))))))) * (this.getDifficulty().bossShield || 1) * (this.trainingMode?.active ? .58 : 1);
       this.bossActive = {
         id: 'boss_' + map.id,
         name: map.boss,
@@ -5173,8 +5231,8 @@
         // En móvil el hitbox se compacta; la presencia épica queda en aura, patrón y audio, no en ocupar el lienzo.
         r: ([36,54,58,62,68,70,72,74,76,80,82][this.mapIndex] || 82) * (this.mobileLandscape ? (.78*.88) : (this.mobilePortrait ? .66 : 1)),
         t: 0,
-        attack: this.mapIndex===10 ? 1.46 : (this.mapIndex===9 ? 1.42 : (this.mapIndex===6 ? 1.28 : (([2.55,2.28,1.95,1.88,1.82,1.72,1.68,1.62,1.55,1.42,1.46][this.mapIndex] || 1.46)))),
-        specialCd: this.mapIndex===10 ? 3.85 : (this.mapIndex===9 ? 3.65 : (this.mapIndex===6 ? 3.35 : (([6.6,6.0,5.3,5.0,4.6,4.4,4.25,4.15,3.95,3.65,3.85][this.mapIndex] || 3.85)))),
+        attack: this.mapIndex===11 ? 1.42 : (this.mapIndex===10 ? 1.46 : (this.mapIndex===9 ? 1.42 : (this.mapIndex===6 ? 1.28 : (([2.55,2.28,1.95,1.88,1.82,1.72,1.68,1.62,1.55,1.42,1.46,1.42][this.mapIndex] || 1.42))))),
+        specialCd: this.mapIndex===11 ? 3.75 : (this.mapIndex===10 ? 3.85 : (this.mapIndex===9 ? 3.65 : (this.mapIndex===6 ? 3.35 : (([6.6,6.0,5.3,5.0,4.6,4.4,4.25,4.15,3.95,3.65,3.85,3.75][this.mapIndex] || 3.75))))),
         specialTelegraph: 0,
         specialTelegraphMax: 0,
         phase: 1,
@@ -5184,7 +5242,7 @@
         vulnerable: 0,
         summonPressure: 0,
         boss: true,
-        minionFamilies:this.mapIndex===0?WORLD_ONE_MINION_FAMILIES:(this.mapIndex===1?WORLD_TWO_MINION_FAMILIES:(this.mapIndex===2?WORLD_THREE_MINION_FAMILIES:(this.mapIndex===3?WORLD_FOUR_MINION_FAMILIES:(this.mapIndex===4?WORLD_FIVE_MINION_FAMILIES:(this.mapIndex===5?WORLD_SIX_MINION_FAMILIES:(this.mapIndex===6?WORLD_SEVEN_MINION_FAMILIES:(this.mapIndex===7?WORLD_EIGHT_MINION_FAMILIES:(this.mapIndex===8?WORLD_NINE_MINION_FAMILIES:(this.mapIndex===9?WORLD_TEN_MINION_FAMILIES:(this.mapIndex===10?WORLD_ELEVEN_MINION_FAMILIES:[]))))))))))
+        minionFamilies:this.mapIndex===0?WORLD_ONE_MINION_FAMILIES:(this.mapIndex===1?WORLD_TWO_MINION_FAMILIES:(this.mapIndex===2?WORLD_THREE_MINION_FAMILIES:(this.mapIndex===3?WORLD_FOUR_MINION_FAMILIES:(this.mapIndex===4?WORLD_FIVE_MINION_FAMILIES:(this.mapIndex===5?WORLD_SIX_MINION_FAMILIES:(this.mapIndex===6?WORLD_SEVEN_MINION_FAMILIES:(this.mapIndex===7?WORLD_EIGHT_MINION_FAMILIES:(this.mapIndex===8?WORLD_NINE_MINION_FAMILIES:(this.mapIndex===9?WORLD_TEN_MINION_FAMILIES:(this.mapIndex===10?WORLD_ELEVEN_MINION_FAMILIES:(this.mapIndex===11?WORLD_TWELVE_MINION_FAMILIES:[])))))))))))
       };
       this.bossActive.attack *= this.getDifficulty().bossCadence || 1;
       this.bossActive.specialCd *= this.getDifficulty().bossCadence || 1;
@@ -5239,6 +5297,7 @@
       else if(this.mapIndex===8){WORLD_NINE_MINION_FAMILIES.forEach((fam,fi)=>{for(let i=0;i<(this.mobileLandscape?1:2);i++){this.spawnEnemy(pick(fam),true);const e=this.enemies[this.enemies.length-1];if(e&&!e.boss){e.bossEscort=true;e.bossFamilyIndex=fi;e.hp*=1.32;e.baseHp=e.hp;e.speed*=1.06;}}});this.spawnWorldNineHazard(this.mobileLandscape?1:2,true);this.spawnWorldNinePortalRift(this.mobileLandscape?1:2,true);this.toast('TRONO MULTIVERSAL','Kaiser convoca Ronin, portales y fragmentos antes del duelo');}
       else if(this.mapIndex===9){WORLD_TEN_MINION_FAMILIES.forEach((fam,fi)=>{for(let i=0;i<(this.mobileLandscape?1:2);i++){this.spawnEnemy(pick(fam),true);const e=this.enemies[this.enemies.length-1];if(e&&!e.boss){e.bossEscort=true;e.bossFamilyIndex=fi;e.hp*=1.38;e.baseHp=e.hp;e.speed*=1.08;}}});this.spawnWorldTenHazard(this.mobileLandscape?2:3,true);this.spawnWorldTenSingularity(this.mobileLandscape?1:2,true);this.toast('TRONO ZERO','Z.E.R.O.S. Prime convoca Centuriones, Necroides y singularidades antes del duelo final');}
       else if(this.mapIndex===10){WORLD_ELEVEN_MINION_FAMILIES.forEach((fam,fi)=>{for(let i=0;i<(this.mobileLandscape?1:2);i++){this.spawnEnemy(pick(fam),true);const e=this.enemies[this.enemies.length-1];if(e&&!e.boss){e.bossEscort=true;e.bossFamilyIndex=fi;e.hp*=1.32;e.baseHp=e.hp;e.speed*=1.05;}}});this.spawnWorldElevenHazard(this.mobileLandscape?2:3,true);this.spawnWorldElevenDustDevil(this.mobileLandscape?1:2,true);this.toast('TRONO DE SÍLICE','El Soberano convoca escarabajos, acechadores y Guardianes Obelisco');}
+      else if(this.mapIndex===11){WORLD_TWELVE_MINION_FAMILIES.forEach((fam,fi)=>{for(let i=0;i<(this.mobileLandscape?1:2);i++){this.spawnEnemy(pick(fam),true);const e=this.enemies[this.enemies.length-1];if(e&&!e.boss){e.bossEscort=true;e.bossFamilyIndex=fi;e.hp*=1.34;e.baseHp=e.hp;e.speed*=1.06;}}});this.spawnWorldTwelveHazard(this.mobileLandscape?2:3,true);this.spawnWorldTwelveCurrent(this.mobileLandscape?1:2,true);this.toast('SANTUARIO HADAL','Thalassar convoca medusas, cazadores y Guardianes de Coral Negro');}
     }
 
     updateEnemies(dt) {
@@ -5337,6 +5396,7 @@
             if(e.futureWorld===9){spread=fam===0?.12:(fam===1?.07:.045);speed=fam===0?300:(fam===1?250:215);damage=9.2+fam*1.8;opts={...opts,r:fam===2?7.2:5.4,life:fam===2?4.6:3.7,wobble:0,shape:fam===0?'shuriken':(fam===1?'blade':'portal'),trail:fam>0,spin:(Math.random()<.5?-1:1)*(fam===0?6:2.4),bossHoming:fam===2,turnRate:fam===2?.34:0};}
             if(e.futureWorld===10){spread=fam===0?.10:(fam===1?.065:.038);speed=fam===0?322:(fam===1?236:208);damage=10.4+fam*2.05;opts={...opts,r:fam===2?7.8:5.8,life:fam===2?4.9:4.0,wobble:fam===1?.22:0,shape:fam===0?'lance':(fam===1?'spore':'portal'),trail:true,spin:(Math.random()<.5?-1:1)*(fam===0?3.2:1.8),bossHoming:fam>=1,turnRate:fam===2?.42:(fam===1?.18:0)};}
             if(e.futureWorld===11){spread=fam===0?.105:(fam===1?.06:.035);speed=fam===0?306:(fam===1?252:218);damage=10.8+fam*2.1;opts={...opts,r:fam===2?7.6:5.5,life:fam===2?4.8:3.9,wobble:fam===0?.14:.04,shape:'lance',spriteKey:fam===0?'world11ShotSand':'world11ShotCrystal',spriteScale:fam===0?3.2:3.45,trail:true,bossHoming:fam===2,turnRate:fam===2?.28:0,spin:(Math.random()<.5?-1:1)*1.4};}
+            if(e.futureWorld===12){spread=fam===0?.11:(fam===1?.07:.04);speed=fam===0?294:(fam===1?246:214);damage=11.2+fam*2.2;opts={...opts,r:fam===2?7.8:5.6,life:fam===2?4.9:4.0,wobble:fam===0?.18:.06,shape:fam===1?'spore':'lance',spriteKey:fam===0?'world12ShotPressure':'world12ShotNeedle',spriteScale:fam===0?3.25:3.45,trail:true,bossHoming:fam===2,turnRate:fam===2?.30:0,spin:(Math.random()<.5?-1:1)*1.2};}
             this.addEnemyBullet(e.x,e.y,a+rand(spread,-spread),speed,damage,e.color,opts);e.futureFire=rand(fam===2?3.5:2.7,fam===2?2.25:1.55);
           }
         }
@@ -5506,7 +5566,7 @@
         const count=hard?5:4;for(let i=0;i<count;i++){this.spawnEnemy(pick(this.enemyPool()),true);const e=this.enemies[this.enemies.length-1];if(e&&!e.boss){e.hp*=1.18;e.baseHp=e.hp;e.score=Math.ceil((e.score||20)*1.55);e.coins=Math.ceil((e.coins||3)*1.45);e.rareConvoy=true;}}
         this.toast('CONVOY ÉLITE','Recompensa aumentada');
       } else {
-        if(this.mapIndex===2)this.spawnWorldThreeHazard(hard?3:2,true);else if(this.mapIndex===3)this.spawnWorldFourHazard(hard?3:2,true);else if(this.mapIndex===4)this.spawnWorldFiveHazard(hard?3:2,true);else if(this.mapIndex===5)this.spawnWorldSixHazard(hard?3:2,true);else if(this.mapIndex===6)this.spawnWorldSevenHazard(hard?3:2,true);else if(this.mapIndex===7)this.spawnWorldEightHazard(hard?3:2,true);else if(this.mapIndex===8)this.spawnWorldNineHazard(hard?3:2,true);else if(this.mapIndex===9)this.spawnWorldTenHazard(hard?4:3,true);else if(this.mapIndex===10)this.spawnWorldElevenHazard(hard?3:2,true);else this.spawnMeteorRain(hard?4:3,true);
+        if(this.mapIndex===2)this.spawnWorldThreeHazard(hard?3:2,true);else if(this.mapIndex===3)this.spawnWorldFourHazard(hard?3:2,true);else if(this.mapIndex===4)this.spawnWorldFiveHazard(hard?3:2,true);else if(this.mapIndex===5)this.spawnWorldSixHazard(hard?3:2,true);else if(this.mapIndex===6)this.spawnWorldSevenHazard(hard?3:2,true);else if(this.mapIndex===7)this.spawnWorldEightHazard(hard?3:2,true);else if(this.mapIndex===8)this.spawnWorldNineHazard(hard?3:2,true);else if(this.mapIndex===9)this.spawnWorldTenHazard(hard?4:3,true);else if(this.mapIndex===10)this.spawnWorldElevenHazard(hard?3:2,true);else if(this.mapIndex===11)this.spawnWorldTwelveHazard(hard?3:2,true);else this.spawnMeteorRain(hard?4:3,true);
         this.spawnHordeEmergencyKit();
         this.toast('FRENTE DE ESCOMBROS','Meteoros y apoyo táctico');
       }
@@ -5586,6 +5646,7 @@
       const p = this.player;
       this.toast('⚠️', b.specialName || 'Mutación');
       if(this.mapIndex===10)AudioFX.futureBossSpecial(11);
+      if(this.mapIndex===11)AudioFX.futureBossSpecial(12);
       if (kind === 'swarm') {
         for (let i = 0; i < (this.mapIndex === 0 ? 3 : 5); i++) {
           const a = (Math.PI * 2 / (this.mapIndex === 0 ? 3 : 5)) * i + b.t;
@@ -5609,6 +5670,8 @@
       } else if (kind === 'plague') {
         this.zones.push({ x: p.x, y: p.y, r: 48, life: 4.2, max: 4.2, type: 'slow' });
         for (let i = 0; i < 2 + b.phase; i++) this.spawnEnemy(i % 2 ? 'toxico' : 'divisor', true);
+      } else if (kind === 'hadal') {
+        const phase=b.phase||1,shots=10+phase*3,gap=Math.floor(rand(shots,0));this.spawnWorldTwelveCurrent(Math.min(this.mobileLandscape?2:3,1+Math.floor(phase/2)),true);this.spawnWorldTwelveHazard(phase>=3?3:2,true);this.particles.push({type:'ring',x:b.x,y:b.y,r:30,maxR:350,life:.98,max:.98,color:'#46e7f2'});for(let i=0;i<shots;i++){if(Math.abs(i-gap)<=1)continue;const a=(Math.PI*2/shots)*i+b.t*.20;this.addEnemyBullet(b.x,b.y,a,198+phase*17,11+phase*2.5,i%2?'#46e7f2':'#a66cff',{r:i%3===0?7.4:5.6,life:4.9,shape:i%3===0?'spore':'lance',spriteKey:i%3===0?'world12ShotPressure':'world12ShotNeedle',spriteScale:i%3===0?3.5:3.25,trail:true,bossHoming:phase>=3&&i%4===0,turnRate:.24});}if(phase>=3)this.zones.push({x:p.x,y:p.y,r:62,life:2.9,max:2.9,type:'slow'});
       } else if (kind === 'sandstorm') {
         const phase=b.phase||1,shots=10+phase*3,gap=Math.floor(rand(shots,0));
         this.spawnWorldElevenDustDevil(Math.min(this.mobileLandscape?2:3,1+Math.floor(phase/2)),true);
@@ -5626,7 +5689,7 @@
       if (b.phase >= 2 && Math.random() < .75) this.spawnEnemy('nave_espejo', true);
       if (b.phase >= 3 && Math.random() < .4) this.spawnEnemy(pick(['mosquito','corredor','blindado']), true);
       this.bossVariantSignature(b, map, 'special');
-      b.specialCd = this.mapIndex===10 ? Math.max(3.25,5.05-b.phase*.34) : (this.mapIndex === 0 ? Math.max(5.8, 7.2 - b.phase * .28) : Math.max(4.2, 6.6 - b.phase * .5 - this.mapIndex * .08));
+      b.specialCd = this.mapIndex===11 ? Math.max(3.15,4.95-b.phase*.34) : (this.mapIndex===10 ? Math.max(3.25,5.05-b.phase*.34) : (this.mapIndex === 0 ? Math.max(5.8, 7.2 - b.phase * .28) : Math.max(4.2, 6.6 - b.phase * .5 - this.mapIndex * .08)));
     }
 
     bossPattern(b, dt) {
@@ -5636,6 +5699,7 @@
       const map = MAPS[this.mapIndex];
       const kind = map.pattern || map.family;
       if(this.mapIndex===10)AudioFX.futureBossShot(11);
+      if(this.mapIndex===11)AudioFX.futureBossShot(12);
       if (kind === 'swarm') {
         const count = this.mapIndex === 0 ? 3 + b.phase : 5 + b.phase;
         for (let i = 0; i < count; i++) {
@@ -5665,6 +5729,8 @@
       } else if (kind === 'plague') {
         this.zones.push({ x: b.x + rand(80, -80), y: b.y + rand(80, -80), r: 28 + b.phase * 2, life: 3.2, max: 3.2, type: 'toxic' });
         for (let i = 0; i < Math.min(2, b.phase); i++) this.spawnEnemy(pick(['toxico', 'divisor', 'niebla']), true);
+      } else if (kind === 'hadal') {
+        const phase=b.phase||1,aim=Math.atan2(this.player.y-b.y,this.player.x-b.x),count=3+phase;for(let i=0;i<count;i++){const off=(i-(count-1)/2)*(.105-phase*.008);this.addEnemyBullet(b.x,b.y,aim+off,222+phase*17,10+phase*2.3,i%2?'#46e7f2':'#a66cff',{r:5.8,life:4.3,shape:i%2?'lance':'spore',spriteKey:i%2?'world12ShotNeedle':'world12ShotPressure',spriteScale:i%2?3.25:3.45,trail:true});}if(Math.random()<.44)this.spawnWorldTwelveHazard(1,true);if(phase>=2&&Math.random()<.36)this.spawnWorldTwelveCurrent(1,false);
       } else if (kind === 'sandstorm') {
         const phase=b.phase||1,aim=Math.atan2(this.player.y-b.y,this.player.x-b.x),count=3+phase;
         for(let i=0;i<count;i++){const off=(i-(count-1)/2)*(.10-phase*.008);this.addEnemyBullet(b.x,b.y,aim+off,230+phase*18,10+phase*2.3,i%2?'#ff9b45':'#ffd078',{r:5.6,life:4.2,shape:'lance',spriteKey:i%2?'world11ShotSand':'world11ShotCrystal',spriteScale:i%2?3.15:3.45,trail:true});}
@@ -5679,7 +5745,7 @@
         if (Math.random() < .5) this.spawnEnemy(pick(['blindado', 'corredor', 'explosivo']), true);
       }
       this.bossVariantSignature(b, map, 'pattern');
-      b.attack = this.mapIndex===10 ? Math.max(.92,2.15-b.phase*.24) : (this.mapIndex === 0 ? Math.max(2.05, 3.85 - b.phase * .28) : Math.max(1.05, 3.05 - b.phase * .32 - this.mapIndex * .035));
+      b.attack = this.mapIndex===11 ? Math.max(.88,2.08-b.phase*.24) : (this.mapIndex===10 ? Math.max(.92,2.15-b.phase*.24) : (this.mapIndex === 0 ? Math.max(2.05, 3.85 - b.phase * .28) : Math.max(1.05, 3.05 - b.phase * .32 - this.mapIndex * .035)));
     }
 
     addEnemyBullet(x, y, angle, speed, damage, color, options={}) {
@@ -6344,11 +6410,11 @@
       const worldNo = this.mapIndex + 1;
       const firstClear = !(p.completedMaps || []).includes(worldNo);
       if (firstClear) {
-        p.worldProgression.shotTier = Math.min(10, (p.worldProgression.shotTier || 0) + 1);
-        p.worldProgression.projectileSpeedTier = Math.min(10, (p.worldProgression.projectileSpeedTier || 0) + 1);
-        p.worldProgression.accuracyTier = Math.min(10, (p.worldProgression.accuracyTier || 0) + 1);
-        p.worldProgression.mobilityTier = Math.min(10, (p.worldProgression.mobilityTier || 0) + 1);
-        p.worldProgression.rangeTier = Math.min(10, (p.worldProgression.rangeTier || 0) + 1);
+        p.worldProgression.shotTier = Math.min(20, (p.worldProgression.shotTier || 0) + 1);
+        p.worldProgression.projectileSpeedTier = Math.min(20, (p.worldProgression.projectileSpeedTier || 0) + 1);
+        p.worldProgression.accuracyTier = Math.min(20, (p.worldProgression.accuracyTier || 0) + 1);
+        p.worldProgression.mobilityTier = Math.min(20, (p.worldProgression.mobilityTier || 0) + 1);
+        p.worldProgression.rangeTier = Math.min(20, (p.worldProgression.rangeTier || 0) + 1);
         p.shipParts = { core:0,wings:0,cannon:0,engine:0,...(p.shipParts||{}) };
         const evolutionOrder=['cannon','core','engine','wings','core'];
         const part=evolutionOrder[this.mapIndex]||'core';
@@ -6366,7 +6432,8 @@
         { id:'world8Genesis', name:'Génesis Orgánica', desc:'Firma DOMINIO: Gestación Masiva. Potencia nanorreparación, regeneración y control biológico.' },
         { id:'world9Threads', name:'Hilos del Multiverso', desc:'Firma DOMINIO: Ruptura Multiverso. Refuerza fase, eco temporal, combos y control de portales.' },
         { id:'world10Zero', name:'Núcleo Zero', desc:'Firma DOMINIO: Singularidad Final. Sincroniza reliquias, reserva, fase y daño contra Guardianes.' },
-        { id:'world11Silica', name:'Corona de Sílice', desc:'Firma DOMINIO: Tormenta de los Dos Soles. Refuerza movilidad, daño solar y resistencia a hazards.' }
+        { id:'world11Silica', name:'Corona de Sílice', desc:'Firma DOMINIO: Tormenta de los Dos Soles. Refuerza movilidad, daño solar y resistencia a hazards.' },
+        { id:'world12Hadal', name:'Corona Hadal', desc:'Firma DOMINIO: Marea de Presión Hadal. Refuerza escudo, control y resistencia a corrientes.' }
       ];
       const reward = rewards[this.mapIndex] || rewards[0];
       p.relics = p.relics || {};
@@ -6538,7 +6605,7 @@
         const loot=this.lastBossLootPower?.name?` Botín del jefe: ${this.lastBossLootPower.name}.`:'';
         els.resultText.textContent = this.mapIndex===9
           ? `Z.E.R.O.S. Prime cayó. ${reward.name} integrado · la señal enemiga, sin embargo, escapó hacia diez planetas terrestres alienígenas.${loot}`
-          : (this.mapIndex===10 ? `El Soberano de Sílice cayó. ${reward.name} integrado · la Corona de Sílice queda disponible como nave capturada. Una nueva señal se abre bajo un océano alienígena.${loot}` : `${reward.name} obtenido · arma base mejorada de forma permanente en daño, alcance, velocidad y precisión · +${this.lastWorldLifeBonus || 0} vidas.${loot}`);
+          : (this.mapIndex===10 ? `El Soberano de Sílice cayó. ${reward.name} integrado · la Corona de Sílice queda disponible como nave capturada. Una nueva señal se abre bajo un océano alienígena.${loot}` : (this.mapIndex===11 ? `Thalassar Hadal cayó. ${reward.name} integrado · la Corona Hadal queda capturada. La siguiente señal asciende desde un planeta cuyo suelo es magma vivo.${loot}` : `${reward.name} obtenido · arma base mejorada de forma permanente en daño, alcance, velocidad y precisión · +${this.lastWorldLifeBonus || 0} vidas.${loot}`));
       } else {
         els.resultText.textContent = this.extraLives > 0
           ? `Te quedan ${this.extraLives} vidas de reserva. Conservas Mundo ${this.mapIndex + 1}, Nivel ${this.wave}. Al reactivar aparecen tus últimos poderes, un Impulsor y un combo de recuperación de 5 segundos.`
@@ -6552,7 +6619,7 @@
         <span class="reward-pill">${this.isHardMode()?'⚔️ Difícil':'◉ Normal'}</span>
         <span class="reward-pill">M${this.mapIndex + 1} · L${this.wave}</span>
         <span class="reward-pill">❤️ ${this.extraLives + 1}</span>`;
-      els.btnResultContinue.textContent = trainingVictory?'Volver a entrenamiento':(replayVictory ? 'Volver a niveles' : (victory ? (this.mapIndex + 1 < MAPS.length ? 'Siguiente mundo' : (this.mapIndex===10?'Ver señales futuras':'Ver epílogo')) : 'Reactivar nave'));
+      els.btnResultContinue.textContent = trainingVictory?'Volver a entrenamiento':(replayVictory ? 'Volver a niveles' : (victory ? (this.mapIndex + 1 < MAPS.length ? 'Siguiente mundo' : ((this.mapIndex===10||this.mapIndex===11)?'Ver señales futuras':'Ver epílogo')) : 'Reactivar nave'));
       const noLives=!victory && this.extraLives<=0;
       els.btnResultContinue.classList.toggle('hidden',noLives);
       if(els.lifeShop)els.lifeShop.classList.toggle('hidden',!noLives);
@@ -6640,6 +6707,7 @@
         worldNineState:this.mapIndex===8?{...(this.worldNineState||{})}:null,
         worldTenState:this.mapIndex===9?{...(this.worldTenState||{})}:null,
         worldElevenState:this.mapIndex===10?{...(this.worldElevenState||{})}:null,
+        worldTwelveState:this.mapIndex===11?{...(this.worldTwelveState||{})}:null,
         futureSpecialCombat:(this.mapIndex===8||this.mapIndex===9)&&this.futureSpecialCombat?{...this.futureSpecialCombat}:null,
         powerQueue:[...(this.powerQueue||[])],
         recentPowerHistory:[...(this.recentPowerHistory||[])],
@@ -6684,6 +6752,7 @@
         worldNineState:this.mapIndex===8?this.worldNineState:null,
         worldTenState:this.mapIndex===9?this.worldTenState:null,
         worldElevenState:this.mapIndex===10?this.worldElevenState:null,
+        worldTwelveState:this.mapIndex===11?this.worldTwelveState:null,
         futureSpecialCombat:(this.mapIndex===8||this.mapIndex===9)&&this.futureSpecialCombat?{...this.futureSpecialCombat}:null,
         extraLives: this.extraLives,
         nextLifeScore: this.nextLifeScore
@@ -6736,6 +6805,7 @@
         else if(this.mapIndex===8){const act=WORLD_NINE_ACTS[this.wave-1],bossPct=this.getBossApproachPercent(),echoes=this.worldNineState?.echoDefeated?.length||0,mode=this.futureSpecialCombat?` · ${FUTURE_SPECIAL_COMBAT[this.futureSpecialCombat.type]?.name||''} ${Math.ceil(this.futureSpecialCombat.time)}s`:'';els.xpLabel.textContent=`L${this.wave}/5 · ${act?.name||'Multiverso'} · ${this.worldStage?.kills||0}/${this.getWorldStageTarget(this.wave)} · ECO ${echoes}/5 · JEFE ${bossPct}%${mode}`;}
         else if(this.mapIndex===9){const act=WORLD_TEN_ACTS[this.wave-1],bossPct=this.getBossApproachPercent(),echoes=this.worldTenState?.echoDefeated?.length||0,mode=this.futureSpecialCombat?` · ${FUTURE_SPECIAL_COMBAT[this.futureSpecialCombat.type]?.name||''} ${Math.ceil(this.futureSpecialCombat.time)}s`:'';els.xpLabel.textContent=`L${this.wave}/7 · ${act?.name||'Singularidad'} · ${this.worldStage?.kills||0}/${this.getWorldStageTarget(this.wave)} · ECO ${echoes}/9 · JEFE ${bossPct}%${mode}`;}
         else if(this.mapIndex===10){const act=WORLD_ELEVEN_ACTS[this.wave-1],bossPct=this.getBossApproachPercent(),storms=this.worldElevenState?.dustStorms||0;els.xpLabel.textContent=`L${this.wave}/5 · ${act?.name||'Desierto Alienígena'} · ${this.worldStage?.kills||0}/${this.getWorldStageTarget(this.wave)} · TORMENTAS ${storms} · JEFE ${bossPct}%`;}
+        else if(this.mapIndex===11){const act=WORLD_TWELVE_ACTS[this.wave-1],bossPct=this.getBossApproachPercent(),curr=this.worldTwelveState?.currentsOpened||0;els.xpLabel.textContent=`L${this.wave}/5 · ${act?.name||'Abismo Pelágico'} · ${this.worldStage?.kills||0}/${this.getWorldStageTarget(this.wave)} · CORRIENTES ${curr} · JEFE ${bossPct}%`;}
         else els.xpLabel.textContent = `Nivel ${this.player.level} · eliminados ${this.worldStage?.kills || 0}/${this.getWorldStageTarget(this.wave)}`;
       }
       if (els.hudLives) els.hudLives.textContent = Math.min(MAX_TOTAL_LIVES, this.extraLives + (this.running ? 1 : 0));
@@ -7020,6 +7090,10 @@
         if(level>=3){ctx.globalAlpha=.045+.015*pulse;ctx.fillStyle='#ffe0a0';for(let i=0;i<2;i++){const sx=this.w*(i?.76:.20),sy=this.h*(.12+i*.035),rr=Math.min(this.w,this.h)*(i?.035:.05);ctx.beginPath();ctx.arc(sx,sy,rr,0,Math.PI*2);ctx.fill();}}
         ctx.restore();return;
       }
+      if(this.mapIndex===11){
+        const level=clamp(this.wave,1,5),drift=now()*.00015,bossPct=this.getBossApproachPercent(),pulse=.5+.5*Math.sin(now()*.00125),bg=this.getAsset('world12BgApproach'),bossBg=this.getAsset('world12BossBg'),boss=this.getAsset('bossWorld12');
+        if(bg)this.drawImageCover(ctx,bg,0,0,this.w,this.h,{alpha:this.bossActive?.18:.94,scale:1.045+level*.006+pulse*.004,offsetX:Math.sin(drift*(1+level*.08))*8,offsetY:Math.cos(drift*.58)*5});if(bossBg&&(level>=4||this.bossActive))this.drawImageCover(ctx,bossBg,0,0,this.w,this.h,{alpha:this.bossActive?.94:(.08+bossPct*.0042),scale:1.06+pulse*.006,offsetX:Math.cos(drift*.52)*6,offsetY:Math.sin(drift*.40)*4});if(boss&&level>=3&&!this.bossActive){ctx.save();const ww=this.w*(.062+level*.014),hh=ww*(boss.naturalHeight/boss.naturalWidth);ctx.globalAlpha=.015+level*.010;ctx.filter='brightness(.30) saturate(.9)';ctx.drawImage(boss,this.w*(.73-level*.017),this.h*.07,ww,hh);ctx.restore();}ctx.save();const g=ctx.createLinearGradient(0,0,0,this.h);g.addColorStop(0,`rgba(70,231,242,${.045+level*.012})`);g.addColorStop(1,level>=4?'rgba(6,18,48,.32)':'rgba(3,24,44,.23)');ctx.fillStyle=g;ctx.fillRect(0,0,this.w,this.h);ctx.restore();return;
+      }
     }
 
     drawWorldOneAtmosphere(ctx) {
@@ -7135,6 +7209,8 @@
       ctx.restore();
     }
 
+    drawWorldTwelveAtmosphere(ctx){const t=now()*.001,level=clamp(this.wave,1,5),count=state.settings.lowPerformance?12:28;ctx.save();for(let i=0;i<count;i++){const x=((i*137+t*(18+(i%4)*6))%(this.w+160))-80,y=(i*83-t*(26+(i%3)*7)+level*21)%this.h;ctx.globalAlpha=.035+(i%4)*.014;ctx.fillStyle=i%4===0?'#a66cff':(i%3===0?'#83ffda':'#46e7f2');ctx.beginPath();ctx.arc(x,y,1.4+(i%3)*.7,0,Math.PI*2);ctx.fill();}ctx.globalAlpha=.06+level*.012;ctx.strokeStyle='#72f5ff';ctx.lineWidth=1.2;for(let i=0;i<5;i++){const yy=this.h*(.18+i*.15)+Math.sin(t*1.3+i)*12;ctx.beginPath();ctx.moveTo(-60,yy);ctx.bezierCurveTo(this.w*.22,yy-22,this.w*.68,yy+20,this.w+60,yy-8);ctx.stroke();}if(level>=3){ctx.globalAlpha=.055;ctx.strokeStyle='#a66cff';for(let i=0;i<3;i++){const x=this.w*(.2+i*.3)+Math.sin(t*.55+i)*20;ctx.beginPath();ctx.arc(x,this.h*(.34+(i%2)*.24),42+level*7+Math.sin(t+i)*6,0,Math.PI*2);ctx.stroke();}}ctx.restore();}
+
     drawMapAtmosphere(ctx, map, dt=.016) {
       if(this.trainingMode?.active)return;
       if (this.mapIndex === 0) { this.drawWorldOneAtmosphere(ctx); return; }
@@ -7144,6 +7220,7 @@
       if(this.mapIndex===8){this.drawWorldNineMangaAtmosphere(ctx);return;}
       if(this.mapIndex===9){this.drawWorldTenAtmosphere(ctx);return;}
       if(this.mapIndex===10){this.drawWorldElevenAtmosphere(ctx);return;}
+      if(this.mapIndex===11){this.drawWorldTwelveAtmosphere(ctx);return;}
       const t = now() * .001;
       ctx.save();
       ctx.globalAlpha = .25;
@@ -7595,6 +7672,7 @@
         case 8: rot=Math.sin(t*1.1)*.03;bob=Math.sin(t*1.65)*4;const mp=Math.sin(t*3.3);sx=1+mp*.018;sy=1-mp*.01;if(tele>.35)rot+=Math.sin(t*13)*.006;break;
         case 9: rot=Math.sin(t*.52)*.025;bob=Math.sin(t*.76)*6;const zp=Math.sin(t*1.18);sx=1+zp*.025+tele*.035;sy=1+zp*.012+tele*.02;break;
         case 10: rot=Math.sin(t*.68)*.032+Math.sin(t*3.2)*.005*phase;bob=Math.sin(t*.92)*5.5;const sp=Math.sin(t*1.42);sx=1+sp*.022+tele*.028;sy=1-sp*.010+tele*.015;break;
+        case 11: rot=Math.sin(t*.52)*.038+Math.sin(t*2.4)*.006*phase;bob=Math.sin(t*.70)*7;const hdp=Math.sin(t*1.18);sx=1+hdp*.024+tele*.025;sy=1-hdp*.012+tele*.018;break;
       }
       ctx.translate(0,bob);ctx.rotate(rot);ctx.scale(sx,sy);
     }
@@ -7744,6 +7822,7 @@
           } else if(this.mapIndex===8){const boss9=this.getAsset('bossWorld9');if(boss9){ctx.globalAlpha=.995*(e.alpha??1);const {w,h}=this.bossSpriteDimensions(e,boss9,8.7,this.mobileLandscape?(.63*.85):(this.mobilePortrait?.59:1));ctx.save();ctx.shadowBlur=30;ctx.shadowColor='rgba(255,60,99,.46)';ctx.drawImage(boss9,-w*.5,-h*.50,w,h);ctx.restore();}else this.drawBacteriaBoss(ctx,e);
           } else if(this.mapIndex===9){const boss10=this.getAsset('bossWorld10');if(boss10){ctx.globalAlpha=.998*(e.alpha??1);const {w,h}=this.bossSpriteDimensions(e,boss10,8.95,this.mobileLandscape?(.61*.85):(this.mobilePortrait?.57:1));ctx.save();ctx.shadowBlur=34;ctx.shadowColor='rgba(255,59,50,.54)';ctx.drawImage(boss10,-w*.5,-h*.50,w,h);ctx.restore();}else this.drawBacteriaBoss(ctx,e);
           } else if(this.mapIndex===10){const boss11=this.getAsset('bossWorld11');if(boss11){ctx.globalAlpha=.998*(e.alpha??1);const {w,h}=this.bossSpriteDimensions(e,boss11,8.8,this.mobileLandscape?(.62*.85):(this.mobilePortrait?.58:1));ctx.save();ctx.shadowBlur=32;ctx.shadowColor='rgba(255,155,69,.56)';ctx.drawImage(boss11,-w*.5,-h*.50,w,h);ctx.restore();}else this.drawBacteriaBoss(ctx,e);
+          } else if(this.mapIndex===11){const boss12=this.getAsset('bossWorld12');if(boss12){ctx.globalAlpha=.998*(e.alpha??1);const {w,h}=this.bossSpriteDimensions(e,boss12,8.9,this.mobileLandscape?(.61*.85):(this.mobilePortrait?.57:1));ctx.save();ctx.shadowBlur=34;ctx.shadowColor='rgba(70,231,242,.58)';ctx.drawImage(boss12,-w*.5,-h*.50,w,h);ctx.restore();}else this.drawBacteriaBoss(ctx,e);
           } else {
             const sides = ({spider:8,tick:7,rat:6,scorpion:10,leech:5,puffer:11,wasp:9,centipede:12,roach:8,chimera:13})[e.beast] || 9;
             this.drawPolygon(ctx, 0, 0, e.r + Math.sin(e.t * 3) * 3, sides, true);
@@ -7787,8 +7866,8 @@
         else if (e.behavior === 'buffer') { this.drawPolygon(ctx, 0, 0, e.r, 7, true); ctx.globalAlpha=.28; this.drawPolygon(ctx, 0, 0, e.r*1.25, 7, false); }
         else if (e.behavior === 'sombra' || e.behavior === 'mist') { this.drawPolygon(ctx, 0, 0, e.r, 5, true); ctx.globalAlpha=.22; this.drawPolygon(ctx, 0, 0, e.r*1.3, 5, false); }
         else { this.drawCrawlerEnemy(ctx, e); }
-        const realisticWorld2=this.mapIndex===1&&!!e.spriteKey&&!e.boss;const realisticWorld3=this.mapIndex===2&&!!e.spriteKey&&!e.boss;const realisticWorld4=this.mapIndex===3&&!!e.spriteKey&&!e.boss;const realisticWorld5=this.mapIndex===4&&!!e.spriteKey&&!e.boss;const realisticAdvanced=this.mapIndex>=5&&this.mapIndex<=7&&!!e.spriteKey&&!e.boss;const realisticWorld9=(this.mapIndex===8||this.mapIndex===9)&&e.futureWorld===9&&!e.boss;const realisticWorld10=this.mapIndex===9&&e.futureWorld===10&&!e.boss;const realisticWorld10Return=this.mapIndex===9&&!!e.spriteKey&&!e.boss;const realisticWorld11=this.mapIndex===10&&!!e.spriteKey&&!e.boss;const realisticEcho=!!e.echoBoss;
-        if(!realisticWorld2&&!realisticWorld3&&!realisticWorld4&&!realisticWorld5&&!realisticAdvanced&&!realisticWorld9&&!realisticWorld10&&!realisticWorld10Return&&!realisticWorld11&&!realisticEcho){
+        const realisticWorld2=this.mapIndex===1&&!!e.spriteKey&&!e.boss;const realisticWorld3=this.mapIndex===2&&!!e.spriteKey&&!e.boss;const realisticWorld4=this.mapIndex===3&&!!e.spriteKey&&!e.boss;const realisticWorld5=this.mapIndex===4&&!!e.spriteKey&&!e.boss;const realisticAdvanced=this.mapIndex>=5&&this.mapIndex<=7&&!!e.spriteKey&&!e.boss;const realisticWorld9=(this.mapIndex===8||this.mapIndex===9)&&e.futureWorld===9&&!e.boss;const realisticWorld10=this.mapIndex===9&&e.futureWorld===10&&!e.boss;const realisticWorld10Return=this.mapIndex===9&&!!e.spriteKey&&!e.boss;const realisticWorld11=this.mapIndex===10&&!!e.spriteKey&&!e.boss;const realisticWorld12=this.mapIndex===11&&!!e.spriteKey&&!e.boss;const realisticEcho=!!e.echoBoss;
+        if(!realisticWorld2&&!realisticWorld3&&!realisticWorld4&&!realisticWorld5&&!realisticAdvanced&&!realisticWorld9&&!realisticWorld10&&!realisticWorld10Return&&!realisticWorld11&&!realisticWorld12&&!realisticEcho){
           ctx.globalAlpha = .9;
           ctx.strokeStyle = 'rgba(255,255,255,.75)'; ctx.lineWidth = 2;
           ctx.beginPath(); ctx.moveTo(-e.r * .35, -e.r * .2); ctx.lineTo(-e.r * .1, -e.r * .06); ctx.moveTo(e.r * .35, -e.r * .2); ctx.lineTo(e.r * .1, -e.r * .06); ctx.stroke();
@@ -8675,7 +8754,7 @@
     const p = currentProfile();
     p.levelProgress = p.levelProgress || {1:1};
     const romans = ['I','II','III','IV','V','VI','VII'];
-    const actsByWorld=[WORLD_ONE_ACTS,WORLD_TWO_ACTS,WORLD_THREE_ACTS,WORLD_FOUR_ACTS,WORLD_FIVE_ACTS,WORLD_SIX_ACTS,WORLD_SEVEN_ACTS,WORLD_EIGHT_ACTS,WORLD_NINE_ACTS,WORLD_TEN_ACTS,WORLD_ELEVEN_ACTS];
+    const actsByWorld=[WORLD_ONE_ACTS,WORLD_TWO_ACTS,WORLD_THREE_ACTS,WORLD_FOUR_ACTS,WORLD_FIVE_ACTS,WORLD_SIX_ACTS,WORLD_SEVEN_ACTS,WORLD_EIGHT_ACTS,WORLD_NINE_ACTS,WORLD_TEN_ACTS,WORLD_ELEVEN_ACTS,WORLD_TWELVE_ACTS];
     els.replayWorldGrid.innerHTML = MAPS.map((m, i) => {
       const worldNo = i + 1;
       const unlocked = worldNo <= (p.unlockedMap || 1);
@@ -8930,7 +9009,7 @@ ${JSON.stringify(snapshot, null, 2)}`;
           if (game.mapIndex === 0 && getPlayMode() === 'story') showStorySequence(WORLD_ONE_STORY.outro, continueToNextWorld);
           else if(game.mapIndex===9&&getPlayMode()==='story'){game.running=false;AudioFX.stopMusic();showStorySequence(WORLD_TEN_EPILOGUE,continueToNextWorld);}
           else continueToNextWorld();
-        } else if(game.mapIndex===10&&getPlayMode()==='story'){
+        } else if((game.mapIndex===10||game.mapIndex===11)&&getPlayMode()==='story'){
           game.running=false;AudioFX.stopMusic();showScreen('screenReplay');
         } else showScreen('screenPortal');
       } else if (game.resultMode === 'defeat_revive') {
