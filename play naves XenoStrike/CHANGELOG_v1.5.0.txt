@@ -1,0 +1,15 @@
+SWARM RIFT - Insecta Siege v1.5.0
+
+Implementado en esta iteración:
+- Integración de assets dedicados para obstáculos: meteoritos, minas, restos de dron/nave, cápsulas tóxicas, portales, nidos y semillas.
+- Integración de pickups rediseñados: crédito, casco, escudo y contenedor de poder.
+- Integración de una facción secundaria: naves recuperadoras hostiles.
+- Nuevos tipos de nave enemiga: Scout, Frigate y Bomber.
+- Aparición gradual de esa facción a partir del Sector 3, sin saturar.
+- Sustitución visual de varias formas geométricas por sprites/activos específicos.
+- Cache PWA actualizado para incluir los nuevos assets.
+
+Siguiente fase sugerida:
+- Reemplazar o ampliar el atlas insectoide con variantes más detalladas por clase.
+- Añadir pickups visuales exclusivos por cada poder.
+- Implementar una facción de naves con patrones tácticos propios y mini-jefes.

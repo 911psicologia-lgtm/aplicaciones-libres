@@ -1,0 +1,24 @@
+SWARM//RIFT — Insecta Siege v1.4.0
+
+BOSS EVOLUTION + FRENZY
+
+Implementado:
+- Seis habilidades especiales de jefe, una por linaje.
+- Aviso visual y sonoro antes de cada ataque especial.
+- Animación del jefe durante telegráfico, carga, impacto y cambio de fase.
+- Fases II y III más agresivas con temporización propia.
+- Imperatrix Vespa: Aguijón Imperial / carga frontal.
+- Atlas Verde: Caparazón Atlas / blindaje temporal y refuerzos.
+- Cortex Razor: Cruz Razor / corte cruzado y embestida.
+- Vela Noctis: Velo Nocturno / anillos de polen y esbirros.
+- Regina Ferrum: Llamado de Colonia / oleada de unidades y fuego frontal.
+- Colossus Hop: Salto Cinético / impacto radial.
+- Barra de jefe reacciona al daño y muestra porcentaje de vida.
+- El blindaje del escarabajo se representa también en la barra de vida.
+- Frenesí escalable por oleada y sector, con más densidad y multiplicador de XP/créditos.
+- Sector 1 mantiene Frenesí solo en la tercera oleada para no castigar el aprendizaje inicial.
+- Daño directo al jefe ahora respeta correctamente sus estados defensivos.
+- Nombres propios para herencias de los seis jefes.
+
+Base acumulada de v1.3.0:
+- XP/Nivel, mejora automática del disparo, cola de poderes, combos, Bomba de Rift, corazón crítico, herencia de jefe y balance inicial.

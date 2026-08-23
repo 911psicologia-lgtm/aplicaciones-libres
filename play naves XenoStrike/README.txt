@@ -44,3 +44,14 @@ REWORK 1.2.0
 - HUD nuevo con panel táctico derecho y barras ARM/SPD/RNG/THR.
 - Obstáculos rediseñados por mundo: minas, torres, drones, vainas ácidas, compuertas, nidos, semillas y más.
 - Patrones de jefes ampliados con invocaciones del mismo linaje.
+
+
+BOSS EVOLUTION 1.4.0
+- Cada uno de los 6 jefes tiene un ataque especial propio con anticipación visual/sonora.
+- Las fases II y III modifican ritmo y agresividad.
+- Frenesí por oleada/sector multiplica temporalmente XP y créditos.
+- El Sector 1 conserva una curva de aprendizaje más amable.
+
+
+Versión 1.5.0
+Se añadieron assets dedicados para obstáculos y pickups, además de una facción secundaria de naves hostiles que aparece desde el Sector 3.

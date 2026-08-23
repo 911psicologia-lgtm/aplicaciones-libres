@@ -1,0 +1,23 @@
+SWARM RIFT - Insecta Siege v1.3.0
+
+Implementado en esta iteración:
+- Rebalanceo del Sector 1 para hacerlo más pasable al inicio.
+- Escalado automático del disparo base por sector y por nivel del jugador.
+- Sistema XP/Nivel con mejora automática del arma base, curación y escudo parcial al subir.
+- Poderes activos limitados a 2 con cola de hasta 4 poderes en reserva.
+- Notificación discreta de poderes en cola.
+- Combos entre poderes: Tesla+Crio, Misiles+Gravedad, Ácido+Gravedad, Raíl+Twin, Overdrive+Twin.
+- Nuevo poder instantáneo: Bomba de Rift.
+- Sonidos diferenciados por poder y sonido de cola de poder.
+- HUD mejorado con XP, nivel, créditos, cola de poderes y alerta crítica de vida.
+- Corazón animado con advertencia en el último 10% de vida.
+- Barra del jefe con impacto animado en rojo y temblor visual.
+- Recompensas más altas por oleada, créditos y experiencia.
+- Posibilidad de aparición ocasional de esbirros del sector previo sin saturar.
+- Herencia de jefe: al derrotarlo, desbloquea un poder temático temporal para iniciar el siguiente sector.
+
+Siguiente iteración sugerida:
+- Poderes y patrones exclusivos de cada jefe.
+- Más animaciones específicas para cada activación de poder.
+- Frenesí por oleada y recompensas diferenciadas por desempeño.
+- Árbol de mejora por sector / mundo.
