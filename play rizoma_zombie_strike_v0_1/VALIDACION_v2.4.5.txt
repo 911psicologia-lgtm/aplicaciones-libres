@@ -1,0 +1,15 @@
+VALIDACIÓN v2.4.5 · INTERVENCIONES CRÍTICAS
+=============================================
+Manifest JSON: OK
+Referencias de assets detectadas: 334
+Assets faltantes: 0
+
+Plaga salto: OK
+Plaga drenaje: OK
+Rizoma ramificado: OK
+Rizoma debilita cadencia: OK
+Meteoros tres capas: OK
+Meteoros area: OK
+Requiem intercepta: OK
+Requiem 12 s: OK
+Version 2.4.5: OK

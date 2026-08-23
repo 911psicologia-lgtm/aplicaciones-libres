@@ -1,0 +1,14 @@
+VALIDACIÓN v2.4.4 · ARSENAL OMEGA
+===================================
+Manifest JSON: OK
+Referencias de assets detectadas: 334
+Assets faltantes: 0
+
+Sobrecarga Omega movilidad: OK
+Furia microcohetes: OK
+Laser Solar anti-jefe: OK
+Laser Hematico drenaje: OK
+Laser Abisal compresion: OK
+Bomba Omega 8%: OK
+Bomba no ejecuta jefe: OK
+JavaScript: validado externamente con node --check = OK

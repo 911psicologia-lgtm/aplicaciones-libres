@@ -73,3 +73,10 @@ VERSIÓN 1.9.0 — BOSS & WEAPON VFX
 - Disparo base evoluciona visualmente por nivel: aguja, pulso y spark-laser, con estela, núcleo y destello de boca.
 - Impactos con chispas y sonido dinámico.
 - VFX nuevos: shock, halo, slash, muzzle, orb, shieldwave y spark.
+
+
+Versión 1.9.2
+El combate utiliza rutas de entrada multidireccionales y formaciones. Los insectoides se renderizan desde 18 sprites aislados derivados de sus siluetas reales para impedir recortes por celdas de atlas.
+
+Versión 1.9.3
+Se incorporaron escoltas Scout/Lancer/Orbiter, amenazas frontales diferenciadas, Ráfaga y Bomba con assets propios y VFX de pickup/activación.

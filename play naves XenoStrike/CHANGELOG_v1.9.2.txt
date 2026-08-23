@@ -1,0 +1,15 @@
+SWARM//RIFT — Insecta Siege v1.9.2
+
+PASADA ESPACIAL + ASSETS AISLADOS
+
+- Se desmontó el atlas insectoide en 18 sprites individuales por silueta real: 6 familias × grunt/elite/boss.
+- Los sprites individuales incluyen margen transparente para impedir el recorte de alas, patas y abdomen.
+- Render con conservación de proporción: ya no se fuerza cada enemigo dentro de una celda cuadrada del atlas.
+- Enemigos ahora entran desde derecha, parte superior, parte inferior, diagonales y flancos controlados.
+- Nuevas formaciones: pinza, asalto en cuña y ataque cruzado.
+- Mayor densidad por oleada sin eliminar el límite de enemigos simultáneos.
+- Obstáculos y restos espaciales también pueden entrar desde arriba y abajo con trayectoria diagonal.
+- Jefes usan una franja horizontal mucho mayor de la arena y cruzan más hacia el centro.
+- Hangar incorpora una banda visible con el catálogo de poderes de combate.
+- Manual conserva formato visual paginado y añade una mini escena de jefe con escoltas/enemigos.
+- Se mantiene compatibilidad con el progreso v1.9.x mediante las mismas claves de guardado.

@@ -1,0 +1,18 @@
+SWARM//RIFT — VALIDACIÓN v1.9.2
+
+Validaciones realizadas
+- node --check sobre js/game.js: OK.
+- 18/18 sprites insectoides aislados por connected-component mask.
+- Se verificó margen transparente mínimo >=10 px en los 18 sprites: OK.
+- Prueba de render 1366x768 en Chromium con recursos interceptados localmente: sin page errors ni console errors.
+- Menú verificado visualmente: grunt, elite y boss completos en tarjetas separadas.
+- Hangar verificado visualmente: efecto actual, siguiente mejora, costo y banda de poderes de combate visibles.
+- Manual verificado visualmente: guía paginada con mini escenas.
+- Partida de prueba de 9 s: enemigos distribuidos por diferentes alturas y lados, sin errores de ejecución.
+
+Cambios de esta build
+- Entradas multidireccionales de enemigos.
+- Formaciones de pinza, cuña y ataque cruzado.
+- Obstáculos con entrada desde derecha, arriba y abajo.
+- Jefes con mayor desplazamiento horizontal hacia centro de arena.
+- 18 sprites aislados para evitar clipping de atlas.

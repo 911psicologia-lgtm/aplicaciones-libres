@@ -228,20 +228,20 @@
     { id: 'phase', icon: '👻', name: 'Fase espectral', rarity: 'legendary', desc: 'Reduce mucho el daño recibido durante unos segundos.', type: 'defense' },
     { id: 'nanorepair', icon: '✚', name: 'Nanorreparación', rarity: 'rare', desc: 'Regenera vida progresivamente.', type: 'defense' },
     { id: 'magnetism', icon: '🧲', name: 'Imán gravitacional', rarity: 'rare', desc: 'Atrae premios desde mayor distancia.', type: 'utility' },
-    { id: 'omega', icon: 'Ω', name: 'Sobrecarga Omega', rarity: 'legendary', desc: '+50% temporal al arma principal, grosor e impacto reforzados.', type: 'modifier' },
-    { id: 'fury', icon: '≋', name: 'Furia Balística', rarity: 'epic', desc: 'Triplica el disparo básico y acelera la cadencia un 30%.', type: 'modifier' },
-    { id: 'laserSolar', icon: '☀', name: 'Láser Solar', rarity: 'epic', desc: 'Haz elemental amarillo de fuego, 40% más grueso.', type: 'weapon' },
-    { id: 'laserHematic', icon: '◆', name: 'Láser Hemático', rarity: 'legendary', desc: 'Haz elemental rojo, 40% más grueso y +10% de daño.', type: 'weapon' },
-    { id: 'laserAbyssal', icon: '≈', name: 'Láser Abisal', rarity: 'legendary', desc: 'Haz elemental azul, 40% más grueso y +10% de daño.', type: 'weapon' },
+    { id: 'omega', icon: 'Ω', name: 'Sobrecarga Omega', rarity: 'legendary', desc: 'Aumenta cadencia, velocidad, perforación y movilidad; el núcleo entra en régimen Omega.', type: 'modifier' },
+    { id: 'fury', icon: '≋', name: 'Furia Balística', rarity: 'epic', desc: 'Saturación controlada: abanicos escalonados y microcohetes de persecución.', type: 'modifier' },
+    { id: 'laserSolar', icon: '☀', name: 'Láser Solar', rarity: 'epic', desc: 'Haz penetrante anti-jefe: quema, atraviesa y deja daño térmico residual.', type: 'weapon' },
+    { id: 'laserHematic', icon: '◆', name: 'Láser Hemático', rarity: 'legendary', desc: 'Haz de drenaje: encadena objetivos y devuelve una fracción como reparación/escudo.', type: 'weapon' },
+    { id: 'laserAbyssal', icon: '≈', name: 'Láser Abisal', rarity: 'legendary', desc: 'Haz de control: ralentiza y comprime enemigos hacia su eje.', type: 'weapon' },
     { id: 'eruptionCore', icon: '🌋', name: 'Erupción del Núcleo', rarity: 'legendary', desc: 'Durante 10 segundos abre fisuras, levanta pilares de magma y castiga hordas densas.', type: 'ultimate' }
   ];
 
   const CRITICAL_INTERVENTIONS = [
     { id:'fractal', icon:'ϟ', name:'Rayo Fractal', color:'#d9f7ff', desc:'Descarga que se bifurca entre todos los enemigos.' },
-    { id:'hemophage', icon:'◉', name:'Plaga Hemófaga', color:'#a7ff6e', desc:'Slime vivo que se adhiere, drena y salta entre objetivos.' },
+    { id:'hemophage', icon:'◉', name:'Plaga Hemófaga', color:'#ff5f86', desc:'Infestación viva: drena, salta entre huéspedes y devuelve energía a RIZOMA.' },
     { id:'hunterSwarm', icon:'➹', name:'Enjambre Cazador Rizomático', color:'#ffd56a', desc:'Rizoma ofensivo: una raíz viva se expande, conecta objetivos, los debilita y los destruye.' },
-    { id:'meteorStrike', icon:'☄', name:'Bombardeo Meteórico', color:'#ff8b5d', desc:'Meteoritos diagonales con estela e impactos múltiples.' },
-    { id:'requiem', icon:'△', name:'Escuadrón Réquiem', color:'#c391ff', desc:'RIZOMA y formas DOMINIO se convierten en proyectiles kamikaze.' }
+    { id:'meteorStrike', icon:'☄', name:'Bombardeo Meteórico', color:'#ff8b5d', desc:'Tres capas: rastreadores, ruptura de formación y golpe final de área.' },
+    { id:'requiem', icon:'△', name:'Escuadrón Réquiem', color:'#c391ff', desc:'Formación aliada persistente: cubre flancos, intercepta fuego y ejecuta pasadas coordinadas.' }
   ];
 
   const DOMAIN_FORMS = [
@@ -280,7 +280,7 @@
     bounce: 8, pulse: 6, opem: 6, nuke: 7, spark: 10, torpedo: 6, virus: 7, kamikaze: 6,
     voidray: 12, gravmine: 12, disruptor: 10, phantom: 14, plasma: 10, afterburner: 10, stasis: 10, wingman: 12,
     voltaic: 11, overdrive: 10, phase: 8, nanorepair: 12, magnetism: 12,
-    omega: 10, fury: 9, laserSolar: 10, laserHematic: 10, laserAbyssal: 10, eruptionCore: 10
+    omega: 10, fury: 10, laserSolar: 10, laserHematic: 10, laserAbyssal: 10, eruptionCore: 10
   };
 
   const MAX_TOTAL_LIVES = 100;
@@ -2329,9 +2329,9 @@
         {id:'nanorepair',kind:'power',powerId:'nanorepair',units:1,icon:'✚',name:'Nanorreparación',desc:'Regeneración temporal para estabilizar la nave.',base:{coins:150,xp:205,points:1080},recommended:!!fragile,reason:'Recuperación sostenida.'},
         {id:'wingman',kind:'power',powerId:'wingman',units:1,icon:'🛸',name:'Nave auxiliar',desc:'Añade apoyo de fuego temporal; puede convivir con otros poderes.',base:{coins:165,xp:215,points:1160},recommended:false},
         {id:'phase',kind:'power',powerId:'phase',units:1,icon:'👻',name:'Fase espectral',desc:'Ventana breve de evasión para atravesar presión enemiga.',base:{coins:160,xp:210,points:1130},recommended:this.mapIndex>=3,reason:'Útil en patrones cerrados.'},
-        {id:'omega',kind:'power',powerId:'omega',units:1,icon:'Ω',name:'Sobrecarga Omega',desc:'+50% temporal al arma activa y mayor presencia visual.',base:{coins:235,xp:315,points:1750},recommended:!!this.bossActive||this.wave>=4,reason:'Amplificación decisiva para fases de alta presión.'},
-        {id:'fury',kind:'power',powerId:'fury',units:1,icon:'≋',name:'Furia Balística',desc:'Triplica el disparo base y acelera la cadencia un 30%.',base:{coins:205,xp:285,points:1560},recommended:crowded,reason:'Excelente para saturación de horda.'},
-        {id:'elemental',kind:'power',powerId:pick(this.mapIndex>=3?['laserSolar','laserHematic','laserAbyssal']:['laserSolar']),units:1,icon:'━',name:'Láser elemental',desc:'Haz Omega 40% más grueso con firma elemental propia.',base:{coins:225,xp:305,points:1680},recommended:this.mapIndex>=2,reason:'Arma de precisión para corredores densos.'},
+        {id:'omega',kind:'power',powerId:'omega',units:1,icon:'Ω',name:'Sobrecarga Omega',desc:'Cadencia, velocidad, perforación y movilidad temporalmente reforzadas.',base:{coins:235,xp:315,points:1750},recommended:!!this.bossActive||this.wave>=4,reason:'Amplificación táctica para fases de alta presión.'},
+        {id:'fury',kind:'power',powerId:'fury',units:1,icon:'≋',name:'Furia Balística',desc:'Abanicos escalonados con microcohetes perseguidores.',base:{coins:205,xp:285,points:1560},recommended:crowded,reason:'Excelente para saturación de horda.'},
+        {id:'elemental',kind:'power',powerId:pick(this.mapIndex>=3?['laserSolar','laserHematic','laserAbyssal']:['laserSolar']),units:1,icon:'━',name:'Láser elemental',desc:'Solar quema, Hemático drena y Abisal controla el campo.',base:{coins:225,xp:305,points:1680},recommended:this.mapIndex>=2,reason:'Tres roles tácticos claramente diferenciados.'},
         {id:'arsenal',kind:'boost',boostValue:.08,units:1,icon:'⬆',name:'Sobrecarga de arsenal +8%',desc:`Mejora todos los poderes de este nivel. Acumulado/pendiente: +${Math.round(effectiveBoost*100)}% (máx. +24%).`,base:{coins:195,xp:270,points:1480},recommended:effectiveBoost<.08,reason:'Potencia simultáneamente tu construcción actual.',disabled:effectiveBoost>=.24}
       ];
       const combo = this.getBestTacticalComboOffer();
@@ -2814,61 +2814,38 @@
     }
 
     triggerHemophage(combo=null,duration=10){
-      const candidates=[...this.enemies].sort((a,b)=>(a.boss?1:0)-(b.boss?1:0));if(!candidates.length)return;
-      const max=Math.min(this.isSmallScreen?6:9,Math.max(2,Math.ceil(candidates.length*(combo==='plagaNeural'?.5:.38))));
-      const chosen=candidates.slice(0,max); if(this.bossActive&&!chosen.includes(this.bossActive))chosen[chosen.length-1]=this.bossActive;
-      for(const e of chosen){
-        const total=this.criticalDamageFor(e,combo==='plagaNeural'?1.16:1.04);
-        this.criticalState.hemophages.push({target:e,life:duration,max:duration,total,applied:0,jumped:false,color:combo==='plagaNeural'?'#d7ff72':'#a7ff6e'});
-      }
+      const candidates=[...this.enemies];if(!candidates.length)return;
+      const ordered=candidates.sort((a,b)=>{
+        const ra=this.criticalEnemyRank(a),rb=this.criticalEnemyRank(b),score=r=>r==='simple'?0:(r==='medium'?1:(r==='elite'?2:3));
+        return score(ra)-score(rb)||dist2(a,this.player)-dist2(b,this.player);
+      });
+      const max=Math.min(this.isSmallScreen?6:9,Math.max(3,Math.ceil(ordered.length*(combo==='plagaNeural'?.50:.40))));
+      const chosen=ordered.slice(0,max);if(this.bossActive&&!chosen.includes(this.bossActive))chosen[chosen.length-1]=this.bossActive;
+      const infected=new Set((this.criticalState.hemophages||[]).map(h=>h.target));
+      for(const e of chosen){if(!e||infected.has(e))continue;const rank=this.criticalEnemyRank(e),scale=rank==='boss'?(combo==='plagaNeural'?.72:.62):(rank==='elite'?.90:1.0),total=this.criticalDamageFor(e,(combo==='plagaNeural'?1.10:1)*scale);this.criticalState.hemophages.push({target:e,life:duration,max:duration,total,applied:0,jumps:0,maxJumps:rank==='boss'?0:2,color:combo==='plagaNeural'?'#d7ff72':'#ff5f86',lastX:e.x,lastY:e.y,drain:rank==='boss'?.025:(rank==='elite'?.055:.085)});}
     }
 
     triggerHunterSwarm(combo=null,sustained=false,duration=12){
-      const candidates=[...this.enemies];if(!candidates.length)return;
-      let root=this.criticalState.rhizomes?.find(r=>r.combo===combo&&r.life>0);
-      if(!root){
-        root={combo,life:duration,max:duration,age:0,nodes:[],pulse:0,color:combo==='caceriaOmega'?'#ffe77a':'#9dff91'};
-        this.criticalState.rhizomes.push(root);
-      }
+      const candidates=[...this.enemies];if(!candidates.length)return;let root=this.criticalState.rhizomes?.find(r=>r.combo===combo&&r.life>0);
+      if(!root){root={combo,life:duration,max:duration,age:0,nodes:[],edges:[],pulse:0,color:combo==='caceriaOmega'?'#ffe77a':'#9dff91'};this.criticalState.rhizomes.push(root);}
       root.age=Math.min(root.max,(root.age||0)+(sustained?.72:.95));
-      const expansion=clamp(root.age/root.max,0,1),maxNodes=Math.min(candidates.length,this.isSmallScreen?8:13,Math.max(3,Math.ceil(3+expansion*10)));
-      const ordered=[...candidates].sort((a,b)=>dist2(a,this.player)-dist2(b,this.player));
-      root.nodes=ordered.slice(0,maxNodes);
-      for(const e of root.nodes){
-        const dmg=sustained?this.criticalSustainDamageFor(e,combo==='caceriaOmega'?.78:.62):this.criticalSustainDamageFor(e,combo==='caceriaOmega'?1.15:.92);
-        this.damageEnemy(e,dmg,{criticalBurst:true,hunterRhizome:true,slow:e.boss?.18:.65,color:root.color,silent:sustained});
-        e.slow=Math.max(e.slow||0,e.boss?.18:.65);
-      }
+      const expansion=clamp(root.age/root.max,0,1),maxNodes=Math.min(candidates.length,this.isSmallScreen?8:13,Math.max(3,Math.ceil(3+expansion*10))),ordered=[...candidates].sort((a,b)=>dist2(a,this.player)-dist2(b,this.player));
+      root.nodes=ordered.slice(0,maxNodes);root.edges=[];const anchors=[{x:this.player.x,y:this.player.y,playerAnchor:true}];
+      for(const e of root.nodes){let parent=anchors[0],best=Math.hypot(e.x-parent.x,e.y-parent.y);for(const a of anchors){const dd=Math.hypot(e.x-a.x,e.y-a.y);if(dd<best){best=dd;parent=a;}}root.edges.push({from:parent,to:e});anchors.push(e);const rank=this.criticalEnemyRank(e),boss=rank==='boss',elite=rank==='elite',dmg=sustained?this.criticalSustainDamageFor(e,combo==='caceriaOmega'?.74:.58):this.criticalSustainDamageFor(e,combo==='caceriaOmega'?1.06:.84);this.damageEnemy(e,dmg,{criticalBurst:true,hunterRhizome:true,slow:boss?.16:(elite?.42:.68),color:root.color,silent:sustained});e.slow=Math.max(e.slow||0,boss?.16:(elite?.42:.68));if(!boss){e.familyFire=(e.familyFire||0)+(combo==='caceriaOmega'?.42:.30);e.futureFire=(e.futureFire||0)+(combo==='caceriaOmega'?.36:.24);}else e.specialCd=(e.specialCd||0)+.10;}
       root.pulse=.34;
     }
 
     triggerMeteorBombardment(combo=null,sustained=false){
-      const candidates=[...this.enemies];if(!candidates.length)return;
-      const cap=this.isSmallScreen?(sustained?4:7):(sustained?6:11),count=Math.min(cap,Math.max(sustained?2:4,Math.ceil(candidates.length*(sustained?.34:.72))+(combo==='extincionOrbital'?2:0)));
-      for(let i=0;i<count;i++){
-        const target=candidates[i%candidates.length],startX=clamp(target.x+rand(250,110),40,this.w+120),startY=rand(-35,-180),meta=this.mapIndex>=5?this.pickFutureHazard(this.mapIndex+1,'meteor'):null;
-        this.criticalState.meteors.push({x:startX,y:startY,target,tx:target.x+rand(34,-34),ty:target.y+rand(28,-28),speed:rand(760,590),r:rand(8,5),life:2.2,combo,color:combo==='extincionOrbital'?'#fff0b2':'#ff9b5c',spriteKey:meta?.key||null,spriteScale:meta?(meta.drawScale*.32):null,hitboxScale:meta?.hitbox||.74,sustained});
-      }
+      const candidates=[...this.enemies];if(!candidates.length)return;const ordered=[...candidates].sort((a,b)=>this.criticalEnemyRank(b)==='boss'?1:(this.criticalEnemyRank(a)==='boss'?-1:dist2(a,this.player)-dist2(b,this.player))),cap=this.isSmallScreen?(sustained?4:7):(sustained?6:11),baseCount=Math.min(cap,Math.max(sustained?2:4,Math.ceil(candidates.length*(sustained?.30:.62))+(combo==='extincionOrbital'?1:0)));
+      const addMeteor=(target,tier='tracker',offset=34)=>{if(!target)return;const startX=clamp(target.x+rand(270,120),40,this.w+140),startY=rand(-35,-190),meta=this.mapIndex>=5?this.pickFutureHazard(this.mapIndex+1,'meteor'):null,major=tier==='final',medium=tier==='cluster';this.criticalState.meteors.push({x:startX,y:startY,target,tx:target.x+rand(offset,-offset),ty:target.y+rand(offset*.8,-offset*.8),speed:major?rand(620,520):(medium?rand(690,560):rand(790,640)),r:major?rand(15,11):(medium?rand(11,8):rand(8,5)),life:major?2.8:2.25,combo,color:combo==='extincionOrbital'?'#fff0b2':(major?'#ffd37a':'#ff9b5c'),spriteKey:meta?.key||null,spriteScale:meta?(meta.drawScale*(major?.48:(medium?.38:.30))):null,hitboxScale:meta?.hitbox||.74,sustained,tier,splash:major?(this.isSmallScreen?92:126):(medium?68:38)});};
+      for(let i=0;i<baseCount;i++)addMeteor(ordered[i%ordered.length],i%3===2?'cluster':'tracker',i%3===2?48:30);if(!sustained){const finalTarget=this.bossActive&&candidates.includes(this.bossActive)?this.bossActive:ordered[Math.min(ordered.length-1,Math.floor(ordered.length*.6))];addMeteor(finalTarget,'final',18);}
     }
 
     triggerRequiemSquadron(combo=null,sustained=false,duration=12){
-      const enemies=[...this.enemies];if(!enemies.length)return;
-      const forms=this.availableDomainForms();
-      if(!sustained){
-        const existing=this.drones.filter(d=>d.kind==='requiem');
-        const squadCount=Math.min(this.isSmallScreen?4:6,4+(combo==='ultimoEscuadron'?1:0));
-        for(let i=existing.length;i<squadCount;i++){
-          const form=forms[i%Math.max(1,forms.length)]||domainFormMeta('rizoma');
-          this.spawnDrone(duration,false,{count:1,kind:'requiem',support:true,inheritPower:true,radius:112+i*14,fireRate:.16+i*.02,damageScale:combo==='ultimoEscuadron'?.96:.84,color:form?.color||'#c391ff',domainForm:form?.id||'rizoma'});
-        }
-        this.particles.push({type:'ring',x:this.player.x,y:this.player.y,r:22,maxR:180,life:.55,max:.55,color:'#c391ff'});
-      }
-      const count=Math.min(this.isSmallScreen?(sustained?4:6):(sustained?6:9),Math.max(sustained?3:5,enemies.length>8?(sustained?5:7):5)+(combo==='ultimoEscuadron'?1:0));
-      for(let i=0;i<count;i++){
-        const target=enemies[i%enemies.length],form=forms[i%Math.max(1,forms.length)]||domainFormMeta('rizoma'),a=-Math.PI/2+rand(.24,-.24);
-        const damage=sustained?this.criticalSustainDamageFor(target,combo==='ultimoEscuadron'?.68:.54):this.criticalDamageFor(target,combo==='ultimoEscuadron'?1.02:.92);
-        this.addBullet(this.player.x+rand(42,-42),this.player.y+rand(26,-26),a,540,damage,{type:'requiemCritical',big:true,homing:true,targetRef:target,criticalBurst:true,trail:true,domainForm:form?.id||'rizoma',color:form?.color||'#c391ff',scale:sustained?.66:.82,pierce:1});
-      }
+      const enemies=[...this.enemies];if(!enemies.length)return;const forms=this.availableDomainForms();
+      if(!sustained){const existing=this.drones.filter(d=>d.kind==='requiem'),squadCount=Math.min(this.isSmallScreen?4:6,4+(combo==='ultimoEscuadron'?1:0));for(let i=existing.length;i<squadCount;i++){const form=forms[i%Math.max(1,forms.length)]||domainFormMeta('rizoma');this.spawnDrone(duration,false,{count:1,kind:'requiem',support:true,inheritPower:true,radius:104+i*15,fireRate:.16+i*.02,damageScale:combo==='ultimoEscuadron'?.94:.82,color:form?.color||'#c391ff',domainForm:form?.id||'rizoma',intercept:true});}this.particles.push({type:'ring',x:this.player.x,y:this.player.y,r:22,maxR:210,life:.62,max:.62,color:'#c391ff'});}
+      const sorted=[...enemies].sort((a,b)=>{const ra=this.criticalEnemyRank(a),rb=this.criticalEnemyRank(b),score=r=>r==='simple'?0:(r==='medium'?1:(r==='elite'?2:3));return score(rb)-score(ra)||dist2(a,this.player)-dist2(b,this.player);}),count=Math.min(this.isSmallScreen?(sustained?4:6):(sustained?6:9),Math.max(sustained?3:5,enemies.length>8?(sustained?5:7):5)+(combo==='ultimoEscuadron'?1:0));
+      for(let i=0;i<count;i++){const target=sorted[i%sorted.length],form=forms[i%Math.max(1,forms.length)]||domainFormMeta('rizoma'),a=-Math.PI/2+rand(.22,-.22),rank=this.criticalEnemyRank(target),scale=rank==='boss'?(sustained?.36:.62):(rank==='elite'?(sustained?.52:.80):(sustained?.64:.94)),damage=sustained?this.criticalSustainDamageFor(target,scale*(combo==='ultimoEscuadron'?1.10:1)):this.criticalDamageFor(target,scale*(combo==='ultimoEscuadron'?1.08:1));this.addBullet(this.player.x+rand(46,-46),this.player.y+rand(28,-28),a,555,damage,{type:'requiemCritical',big:true,homing:true,targetRef:target,criticalBurst:true,trail:true,domainForm:form?.id||'rizoma',color:form?.color||'#c391ff',scale:sustained?.66:.84,pierce:rank==='boss'?0:1});}
     }
 
     updateCriticalEffects(dt){
@@ -2887,13 +2864,7 @@
         }
       }
       const hs=this.criticalState.hemophages||[];
-      for(let i=hs.length-1;i>=0;i--){
-        const h=hs[i],e=h.target;h.life-=dt;
-        if(!e||!this.enemies.includes(e)||e.hp<=0){hs.splice(i,1);continue;}
-        const tick=Math.min(h.total-h.applied,(h.total/h.max)*dt);if(tick>0){h.applied+=tick;this.damageEnemy(e,tick,{criticalBurst:true,hemophage:true,silent:true,color:h.color});}
-        if(Math.random()<dt*7)this.emit(e.x+rand(e.r,-e.r),e.y+rand(e.r,-e.r),h.color,1,25,.25);
-        if(h.life<=0||h.applied>=h.total-.1)hs.splice(i,1);
-      }
+      for(let i=hs.length-1;i>=0;i--){const h=hs[i],e=h.target;h.life-=dt;if(!e||!this.enemies.includes(e)||e.hp<=0){if(h.life>1&&(h.jumps||0)<(h.maxJumps||0)){const origin={x:h.lastX??e?.x??this.player.x,y:h.lastY??e?.y??this.player.y},activeTargets=new Set(hs.filter((_,idx)=>idx!==i).map(o=>o.target)),next=[...this.enemies].filter(o=>o&&o.hp>0&&!activeTargets.has(o)&&o!==e&&!o.boss).sort((a,b)=>Math.hypot(a.x-origin.x,a.y-origin.y)-Math.hypot(b.x-origin.x,b.y-origin.y))[0];if(next){this.particles.push({type:'laser',x:origin.x,y:origin.y,a:Math.atan2(next.y-origin.y,next.x-origin.x),life:.18,max:.18,range:Math.hypot(next.x-origin.x,next.y-origin.y),color:h.color,width:2.8});h.target=next;h.lastX=next.x;h.lastY=next.y;h.jumps=(h.jumps||0)+1;h.max=h.life;h.total=Math.max(1,this.criticalDamageFor(next,.62)*Math.max(.42,h.life/10));h.applied=0;h.drain=.07;continue;}}hs.splice(i,1);continue;}h.lastX=e.x;h.lastY=e.y;const tick=Math.min(h.total-h.applied,(h.total/Math.max(.1,h.max))*dt);if(tick>0){h.applied+=tick;this.damageEnemy(e,tick,{criticalBurst:true,hemophage:true,silent:true,color:h.color});const siphon=tick*(h.drain||.06),p=this.player;if(p&&siphon>0){const shieldNeed=Math.max(0,p.maxShield-p.shield),toShield=Math.min(shieldNeed,siphon*.78);p.shield+=toShield;const rem=siphon-toShield;p.hp=Math.min(p.maxHp,p.hp+rem*.45);}}if(Math.random()<dt*8)this.emit(e.x+rand(e.r,-e.r),e.y+rand(e.r,-e.r),h.color,1,28,.28);if(h.life<=0||h.applied>=h.total-.1)hs.splice(i,1);}
       const roots=this.criticalState.rhizomes||[];
       for(let i=roots.length-1;i>=0;i--){const r=roots[i];r.life-=dt;r.pulse=Math.max(0,(r.pulse||0)-dt);if(r.life<=0||!r.nodes?.length)roots.splice(i,1);}
       const ms=this.criticalState.meteors||[];
@@ -2901,31 +2872,21 @@
         const m=ms[i];m.life-=dt;const tx=m.target&&this.enemies.includes(m.target)?m.target.x:m.tx,ty=m.target&&this.enemies.includes(m.target)?m.target.y:m.ty;
         const a=Math.atan2(ty-m.y,tx-m.x),step=m.speed*dt;m.x+=Math.cos(a)*step;m.y+=Math.sin(a)*step;
         if(Math.random()<.85)this.particles.push({type:'spark',x:m.x,y:m.y,vx:-Math.cos(a)*rand(90,35),vy:-Math.sin(a)*rand(90,35),r:rand(3,1.5),life:.24,max:.24,color:m.color});
-        if(Math.hypot(tx-m.x,ty-m.y)<18||m.life<=0){
-          const e=m.target&&this.enemies.includes(m.target)?m.target:null;if(e)this.damageEnemy(e,m.sustained?this.criticalSustainDamageFor(e,m.combo==='extincionOrbital'?.72:.58):this.criticalDamageFor(e,m.combo==='extincionOrbital'?1.12:1),{criticalBurst:true,meteor:true,color:m.color});
-          this.particles.push({type:'ring',x:m.x,y:m.y,r:8,maxR:64,life:.28,max:.28,color:m.color});this.emit(m.x,m.y,m.color,6,120,.32);ms.splice(i,1);
-        }
+        if(Math.hypot(tx-m.x,ty-m.y)<18||m.life<=0){const splash=m.splash||42,impacts=this.enemies.filter(e=>Math.hypot(e.x-m.x,e.y-m.y)<=splash+(e.r||0)),primary=m.target&&this.enemies.includes(m.target)?m.target:null;for(const e of impacts){const rank=this.criticalEnemyRank(e),isPrimary=e===primary,major=m.tier==='final',cluster=m.tier==='cluster';let scale=major?(isPrimary?1.02:.54):(cluster?(isPrimary?.78:.40):(isPrimary?.62:.26));if(rank==='boss')scale*=major?.56:.42;else if(rank==='elite')scale*=.78;const dmg=m.sustained?this.criticalSustainDamageFor(e,scale*(m.combo==='extincionOrbital'?1.12:1)):this.criticalDamageFor(e,scale*(m.combo==='extincionOrbital'?1.10:1));this.damageEnemy(e,dmg,{criticalBurst:true,meteor:true,color:m.color,fire:major?1:.35,silent:!isPrimary});}this.particles.push({type:'ring',x:m.x,y:m.y,r:8,maxR:splash,life:m.tier==='final'?.48:.30,max:m.tier==='final'?.48:.30,color:m.color});if(m.tier==='final')this.particles.push({type:'ring',x:m.x,y:m.y,r:18,maxR:splash*1.35,life:.62,max:.62,color:'#ffd37a'});this.emit(m.x,m.y,m.color,m.tier==='final'?16:(m.tier==='cluster'?9:6),m.tier==='final'?210:135,m.tier==='final'?.50:.32);ms.splice(i,1);}
       }
     }
 
     drawCriticalEffects(ctx){
       for(const h of (this.criticalState?.hemophages||[])){
         const e=h.target;if(!e||!this.enemies.includes(e))continue;const t=now()*.008;
-        ctx.save();ctx.translate(e.x,e.y);ctx.strokeStyle=h.color;ctx.fillStyle=h.color;ctx.shadowBlur=16;ctx.shadowColor=h.color;ctx.globalAlpha=.35+Math.sin(t)*.12;ctx.lineWidth=3;
-        ctx.beginPath();for(let i=0;i<11;i++){const a=i*Math.PI*2/11,rr=e.r*(1.05+.13*Math.sin(t+i*1.7));const x=Math.cos(a)*rr,y=Math.sin(a)*rr;i?ctx.lineTo(x,y):ctx.moveTo(x,y);}ctx.closePath();ctx.stroke();ctx.globalAlpha=.09;ctx.fill();ctx.restore();
+        ctx.save();ctx.translate(e.x,e.y);ctx.strokeStyle=h.color;ctx.fillStyle=h.color;ctx.shadowBlur=18;ctx.shadowColor=h.color;ctx.globalAlpha=.38+Math.sin(t)*.12;ctx.lineWidth=3;
+        ctx.beginPath();for(let i=0;i<11;i++){const a=i*Math.PI*2/11,rr=e.r*(1.05+.13*Math.sin(t+i*1.7));const x=Math.cos(a)*rr,y=Math.sin(a)*rr;i?ctx.lineTo(x,y):ctx.moveTo(x,y);}ctx.closePath();ctx.stroke();ctx.globalAlpha=.09;ctx.fill();ctx.globalAlpha=.28;for(let i=0;i<3;i++){const a=t*.7+i*Math.PI*2/3;ctx.beginPath();ctx.arc(Math.cos(a)*e.r*.72,Math.sin(a)*e.r*.72,e.r*.11,0,Math.PI*2);ctx.fill();}ctx.restore();
       }
-      for(const root of (this.criticalState?.rhizomes||[])){
-        const nodes=(root.nodes||[]).filter(e=>e&&this.enemies.includes(e));if(!nodes.length)continue;
-        const ratio=clamp(root.life/root.max,0,1),t=now()*.004;
-        ctx.save();ctx.strokeStyle=root.color;ctx.shadowColor=root.color;ctx.shadowBlur=14;ctx.lineCap='round';
-        let prev={x:this.player.x,y:this.player.y};
-        nodes.forEach((e,i)=>{const mx=(prev.x+e.x)*.5+Math.sin(t+i*1.9)*12,my=(prev.y+e.y)*.5+Math.cos(t*1.2+i)*10;ctx.globalAlpha=.22+.35*ratio;ctx.lineWidth=Math.max(1.2,4.2-i*.18);ctx.beginPath();ctx.moveTo(prev.x,prev.y);ctx.quadraticCurveTo(mx,my,e.x,e.y);ctx.stroke();ctx.globalAlpha=.14+.18*ratio;ctx.beginPath();ctx.arc(e.x,e.y,e.r*(1.05+.10*Math.sin(t*2+i)),0,Math.PI*2);ctx.stroke();prev=e;});
-        ctx.restore();
-      }
+      for(const root of (this.criticalState?.rhizomes||[])){const nodes=(root.nodes||[]).filter(e=>e&&this.enemies.includes(e));if(!nodes.length)continue;const ratio=clamp(root.life/root.max,0,1),t=now()*.004;ctx.save();ctx.strokeStyle=root.color;ctx.shadowColor=root.color;ctx.shadowBlur=14;ctx.lineCap='round';const edges=(root.edges||[]).filter(ed=>ed?.to&&this.enemies.includes(ed.to));edges.forEach((ed,i)=>{const from=ed.from?.playerAnchor?{x:this.player.x,y:this.player.y}:ed.from;if(!from)return;const e=ed.to,mx=(from.x+e.x)*.5+Math.sin(t+i*1.9)*12,my=(from.y+e.y)*.5+Math.cos(t*1.2+i)*10;ctx.globalAlpha=.22+.38*ratio;ctx.lineWidth=Math.max(1.2,4.4-i*.14);ctx.beginPath();ctx.moveTo(from.x,from.y);ctx.quadraticCurveTo(mx,my,e.x,e.y);ctx.stroke();});nodes.forEach((e,i)=>{ctx.globalAlpha=.14+.22*ratio;ctx.lineWidth=2;ctx.beginPath();ctx.arc(e.x,e.y,e.r*(1.06+.12*Math.sin(t*2+i)),0,Math.PI*2);ctx.stroke();if(i%2===0){ctx.globalAlpha=.12;ctx.beginPath();ctx.arc(e.x,e.y,e.r*1.35,0,Math.PI*2);ctx.stroke();}});ctx.restore();}
       for(const m of (this.criticalState?.meteors||[])){
         ctx.save();ctx.translate(m.x,m.y);ctx.rotate(.78);ctx.shadowBlur=18;ctx.shadowColor=m.color;ctx.strokeStyle=m.color;ctx.lineWidth=3;ctx.globalAlpha=.68;ctx.beginPath();ctx.moveTo(0,0);ctx.lineTo(-34,-34);ctx.stroke();
         const sprite=m.spriteKey?this.getAsset(m.spriteKey):null;
-        if(sprite){ctx.globalAlpha=1;const w=(m.r*(m.spriteScale||1));const h=w*(sprite.naturalHeight/sprite.naturalWidth);ctx.drawImage(sprite,-w*.5,-h*.5,w,h);}else{ctx.globalAlpha=1;ctx.fillStyle='#3e2b25';ctx.beginPath();ctx.arc(0,0,m.r,0,Math.PI*2);ctx.fill();ctx.strokeStyle='#ffd6a8';ctx.lineWidth=1.2;ctx.stroke();}
+        if(sprite){ctx.globalAlpha=1;const w=(m.r*(m.spriteScale||1));const h=w*(sprite.naturalHeight/sprite.naturalWidth);ctx.drawImage(sprite,-w*.5,-h*.5,w,h);}else{ctx.globalAlpha=1;ctx.fillStyle=m.tier==='final'?'#54170d':'#3e2b25';ctx.beginPath();ctx.arc(0,0,m.r,0,Math.PI*2);ctx.fill();ctx.strokeStyle='#ffd6a8';ctx.lineWidth=m.tier==='final'?2.2:1.2;ctx.stroke();}if(m.tier==='final'){ctx.globalAlpha=.38;ctx.strokeStyle='#fff0b2';ctx.lineWidth=2.4;ctx.beginPath();ctx.arc(0,0,m.r*1.65,0,Math.PI*2);ctx.stroke();}
         ctx.restore();
       }
     }
@@ -3514,7 +3475,8 @@
       const recoveryBoost = (p.recoverySpeedTimer || 0) > 0 ? 1.18 : ((p.recoveryGraceTimer || 0) > 0 ? 1.12 : 1);
       const stagePowerScale=this.getStagePowerScale();
       const afterburnerMult=this.isPowerActive('afterburner')?(1+.48*stagePowerScale*(this.comboActive('hiperfase')?1.12:1)):1;
-      const moveSpeed = stableSpeed * zoneSlow * recoveryBoost * (p.bossDrive > 0 ? 1.22 : 1) * afterburnerMult * (this.getDomainMods().speed||1);
+      const omegaMove=this.isPowerActive('omega')?1.16:1;
+      const moveSpeed = stableSpeed * zoneSlow * recoveryBoost * (p.bossDrive > 0 ? 1.22 : 1) * afterburnerMult * omegaMove * (this.getDomainMods().speed||1);
       if (dx || dy) {
         const l = Math.hypot(dx, dy) || 1;
         const tx = (dx / l) * moveSpeed;
@@ -3579,23 +3541,39 @@
       const domain=this.getDomainMods();
       const drive=(p.bossDrive>0?1.42:1)*(overdrive?(1.16+overdrive*.018):1)*(p.comboSurge>0?1.13:1);
       const bossBonus = target.boss ? 1.22 : 1;
-      const omegaMult=omega?1.50:1;
-      const elementalMult=elementalId==='laserHematic'||elementalId==='laserAbyssal'?1.10:1;
+      const omegaMult=omega?1.18:1;
+      const elementalMult=elementalId==='laserSolar'?1.14:(elementalId==='laserHematic'?.92:(elementalId==='laserAbyssal'?.88:1));
       const dmg = p.damage * (1 + triple * .05 + pierce * .04 + voidray * .045) * drive * bossBonus * omegaMult * (domain.damage||1) * elementalMult;
-      const speed = 560 + pierce * 45;
+      const speed = (560 + pierce * 45) * (omega?1.24:1);
       let shots = triple ? [-0.18, 0, 0.18] : [0];
-      if(fury){ shots=triple?[-.34,-.22,-.11,0,.11,.22,.34]:[-.15,0,.15]; }
+      if(fury){
+        const dense=this.mobileLandscape||this.isSmallScreen;
+        shots=triple?(dense?[-.34,-.22,-.11,0,.11,.22,.34]:[-.42,-.31,-.21,-.10,0,.10,.21,.31,.42]):(dense?[-.16,0,.16]:[-.28,-.14,0,.14,.28]);
+      }
       if (this.comboActive('prisma')) shots.push(-0.32, 0.32);
       if (this.comboActive('lanza')) shots.push(-0.08, 0.08);
       const comboFire=this.comboActive('chispa')?Math.max(1,fire+1):fire;
       const comboBounce=this.comboActive('chispa')?Math.max(1,bounce+1):bounce;
-      const bulletScale=omega?1.30:1;
-      shots.forEach(off => this.addBullet(p.x, p.y, a + off, speed * (p.projectileSpeedBonus || 1), dmg*(this.comboActive('chispa')?1.12:1), { pierce: 1 + pierce + (this.comboActive('lanza') ? 2 : 0) + (this.comboActive('tridente') ? 2 : 0), fire:comboFire, ice, bounce:comboBounce, virus, color: elementalId?({laserSolar:'#ffd35a',laserHematic:'#ff435f',laserAbyssal:'#4bbcff'})[elementalId]:p.avatar.color, homing: Math.random() < (p.aimAssist || 0), glow: p.shotTier || 0, scale:bulletScale }));
+      const bulletScale=omega?1.36:1;
+      shots.forEach(off => this.addBullet(p.x, p.y, a + off, speed * (p.projectileSpeedBonus || 1), dmg*(this.comboActive('chispa')?1.12:1), { pierce: 1 + pierce + (omega?2:0) + (this.comboActive('lanza') ? 2 : 0) + (this.comboActive('tridente') ? 2 : 0), fire:comboFire, ice, bounce:comboBounce, virus, color: elementalId?({laserSolar:'#ffd35a',laserHematic:'#ff435f',laserAbyssal:'#4bbcff'})[elementalId]:p.avatar.color, homing: Math.random() < (p.aimAssist || 0), glow: p.shotTier || 0, scale:bulletScale, omega:!!omega }));
+      if(fury){
+        p.furyVolley=(p.furyVolley||0)+1;
+        if(p.furyVolley%3===0){
+          const candidates=this.enemies.filter(e=>!e.boss).sort((x,y)=>dist2(x,p)-dist2(y,p));
+          const missileCount=this.mobileLandscape?1:Math.min(3,1+Math.floor(fury/2));
+          for(let i=0;i<missileCount;i++){
+            const tgt=candidates[i%candidates.length]||target;
+            const aa=Math.atan2(tgt.y-p.y,tgt.x-p.x)+(i-(missileCount-1)/2)*.10;
+            this.addBullet(p.x+(i%2?8:-8),p.y,aa,490,dmg*.62,{type:'torpedo',big:true,homing:true,targetRef:tgt,pierce:1,color:'#ffd56a',trail:true,scale:.82});
+          }
+        }
+      }
       if (laser || this.comboActive('prisma')) this.fireLaser(a, dmg * (.42 + laser * .16), this.comboActive('prisma') ? 3 : 1, this.comboActive('criotemporal'));
       if (voidray) this.fireLaserFrom(p.x, p.y, a, dmg * (.58 + voidray * .13)*(this.comboActive('nulidad')?1.28:1), '#c391ff');
       if(elementalId)this.fireElementalLaser(elementalId,a,dmg*(.52+elemental*.13),omega);
       let fireDelay=(p.fireDelay-triple*12-laser*8-voidray*6-elemental*7)*(p.bossDrive>0?.72:1)*(overdrive?.78:1)*(p.comboSurge>0?.88:1)*(domain.cadence||1);
-      if(fury)fireDelay*=.70;
+      if(omega)fireDelay*=.78;
+      if(fury)fireDelay*=.72;
       p.fireTimer = Math.max(48,fireDelay);
       if(elementalId)AudioFX.powerFire(elementalId); else if(fury)AudioFX.powerFire('fury'); else AudioFX.shoot();
     }
@@ -3668,14 +3646,57 @@
 
     fireElementalLaser(id,angle,damage,omegaLevel=0){
       const p=this.player,colors={laserSolar:'#ffd35a',laserHematic:'#ff435f',laserAbyssal:'#42bfff'},color=colors[id]||'#83eaff';
-      const cos=Math.cos(angle),sin=Math.sin(angle),range=620*(p.projectileRangeBonus||1);
-      let hit=0;const combo=this.comboActive(id==='laserSolar'?'lanzaSolar':id==='laserHematic'?'lanzaHematica':'lanzaAbisal');
-      const beamWidth=14*(omegaLevel?1.22:1)*(combo?1.14:1);
-      for(const e of this.enemies){const px=e.x-p.x,py=e.y-p.y,proj=px*cos+py*sin;if(proj<0||proj>range)continue;const perp=Math.abs(px*sin-py*cos);if(perp<e.r+beamWidth){this.damageEnemy(e,damage*(combo?1.12:1),{laser:true,color,fire:id==='laserSolar'?1:0,slow:id==='laserAbyssal'?.16:0});if(++hit>7)break;}}
-      this.particles.push({type:'laser',x:p.x,y:p.y,a:angle,life:.13,max:.13,range,color,width:5.6*(omegaLevel?1.22:1)*(combo?1.14:1)});
-      this.particles.push({type:'laser',x:p.x,y:p.y,a:angle,life:.09,max:.09,range,color:'#ffffff',width:1.6*(omegaLevel?1.18:1)});
-      if(Math.random()<.55)this.emit(p.x+Math.cos(angle)*rand(220,90),p.y+Math.sin(angle)*rand(220,90),color,2,70,.18);
+      const cos=Math.cos(angle),sin=Math.sin(angle),range=(id==='laserSolar'?700:640)*(p.projectileRangeBonus||1);
+      const combo=this.comboActive(id==='laserSolar'?'lanzaSolar':id==='laserHematic'?'lanzaHematica':'lanzaAbisal');
+      const beamWidth=(id==='laserSolar'?12:(id==='laserHematic'?15:18))*(omegaLevel?1.24:1)*(combo?1.14:1);
+      const hits=[];
+      for(const e of this.enemies){
+        const px=e.x-p.x,py=e.y-p.y,proj=px*cos+py*sin;if(proj<0||proj>range)continue;
+        const perp=Math.abs(px*sin-py*cos);if(perp<e.r+beamWidth)hits.push({e,proj,perp});
+      }
+      hits.sort((a,b)=>a.proj-b.proj);
+      let healed=0;
+      if(id==='laserSolar'){
+        for(const h of hits.slice(0,9)){
+          const e=h.e,antiBoss=e.boss?1.28:(e.echoBoss?1.12:1);
+          this.damageEnemy(e,damage*(combo?1.14:1)*antiBoss,{laser:true,color,fire:e.boss?1.6:1.25,solar:true});
+          e.burn=Math.max(e.burn||0,e.boss?1.25:1.65);
+        }
+        if(hits.length)this.particles.push({type:'ring',x:hits[0].e.x,y:hits[0].e.y,r:12,maxR:58,life:.24,max:.24,color:'#fff0a8'});
+      }else if(id==='laserHematic'){
+        const primary=hits.slice(0,6);
+        for(const [i,h] of primary.entries()){
+          const e=h.e,amount=damage*(combo?1.10:1)*(e.boss?.82:1);
+          this.damageEnemy(e,amount,{laser:true,color,hematic:true,virus:e.boss?0:.25});
+          healed+=Math.min(amount*(e.boss?.018:.045),p.maxHp*.012);
+          if(i<primary.length-1){
+            const n=primary[i+1].e;
+            this.particles.push({type:'laser',x:e.x,y:e.y,a:Math.atan2(n.y-e.y,n.x-e.x),life:.11,max:.11,range:Math.hypot(n.x-e.x,n.y-e.y),color:'#ff6d86',width:2.4});
+          }
+        }
+        if(healed>0){
+          const shieldGain=healed*.65,hpGain=healed*.35;
+          p.shield=Math.min(p.maxShield,p.shield+shieldGain);
+          p.hp=Math.min(p.maxHp,p.hp+hpGain);
+        }
+      }else{
+        for(const h of hits.slice(0,8)){
+          const e=h.e;
+          this.damageEnemy(e,damage*(combo?1.08:1)*(e.boss?.76:1),{laser:true,color,slow:e.boss?.28:.72,abyssal:true});
+          if(!e.boss){
+            const axisX=p.x+cos*h.proj,axisY=p.y+sin*h.proj,dx=axisX-e.x,dy=axisY-e.y,d=Math.hypot(dx,dy)||1;
+            const pull=Math.min(14,3.6+(this.getPowerLevel('laserAbyssal',true)||1)*1.5);
+            e.x+=dx/d*pull;e.y+=dy/d*pull;
+          }
+        }
+      }
+      const width=(id==='laserSolar'?6.3:(id==='laserHematic'?6.8:7.4))*(omegaLevel?1.24:1)*(combo?1.14:1);
+      this.particles.push({type:'laser',x:p.x,y:p.y,a:angle,life:.15,max:.15,range,color,width});
+      this.particles.push({type:'laser',x:p.x,y:p.y,a:angle,life:.09,max:.09,range,color:'#ffffff',width:id==='laserAbyssal'?1.8:1.6});
+      if(id==='laserAbyssal')this.particles.push({type:'laser',x:p.x,y:p.y,a:angle+.018,life:.10,max:.10,range,color:'#8bdcff',width:2.1});
+      if(Math.random()<.62)this.emit(p.x+Math.cos(angle)*rand(230,90),p.y+Math.sin(angle)*rand(230,90),color,id==='laserHematic'?3:2,74,.2);
     }
+
 
     handleInheritedRelics(dt) {
       const profile = currentProfile();
@@ -3965,7 +3986,7 @@
       const p=this.player,w6=this.worldSixState;
       w6.eventTimer=6.0;w6.rewardTimer=7.2;w6.hordeTimer=10.5;w6.hazardTimer=5.8;w6.nodeTimer=8.6;
       this.spawnPickup(p.x+46,clamp(p.y-92,64,this.h-64),'power',1,{powerId:'omega',major:true,rewardGlow:true,label:'SOBRECARGA OMEGA',powerDuration:10});
-      this.spawnPickup(p.x-78,p.y-24,'power',1,{powerId:'fury',major:true,rewardGlow:true,label:'FURIA BALÍSTICA',powerDuration:9});
+      this.spawnPickup(p.x-78,p.y-24,'power',1,{powerId:'fury',major:true,rewardGlow:true,label:'FURIA BALÍSTICA',powerDuration:10});
       this.spawnPickup(p.x+110,p.y+34,'shield',42,{rewardGlow:true,label:'SHIELD +42'});
       ['w6_ash_1','w6_ash_2','w6_neon_1'].forEach((id,i)=>this.spawnEnemyNearPlayer(id,-.9+i*.78,310+i*18,true,1.02));
       this.spawnWorldSixHazard(2,true);
@@ -6187,7 +6208,8 @@
         const base = Math.max(1, e.baseHp || e.hp || 1);
         const rank = e.echoBoss ? 'echo' : this.criticalEnemyRank(e);
         if (rank === 'boss') {
-          this.damageEnemy(e, base * .08, { color:'#ffd56a', criticalBurst:true, omega:true });
+          const bossOmegaHit=Math.min(base*.08,Math.max(0,(e.hp||base)-base*.015));
+          if(bossOmegaHit>0)this.damageEnemy(e,bossOmegaHit,{ color:'#ffd56a', criticalBurst:true, omega:true });
           damaged += 1;
         } else if (rank === 'echo' || rank === 'elite') {
           this.damageEnemy(e, base * .25, { color:'#ffd56a', criticalBurst:true, omega:true });
@@ -6415,6 +6437,7 @@
         const radius = d.radius || (d.permanent ? 82 : 104);
         d.x = this.player.x + Math.cos(d.a) * radius;
         d.y = this.player.y + Math.sin(d.a) * radius;
+        if(d.kind==='requiem'&&d.intercept){d.interceptCd=Math.max(0,(d.interceptCd||0)-dt);if(d.interceptCd<=0){for(let bi=this.bullets.length-1;bi>=0;bi--){const eb=this.bullets[bi];if(!eb.enemy)continue;if(Math.hypot(eb.x-d.x,eb.y-d.y)<28){this.bullets.splice(bi,1);this.particles.push({type:'ring',x:d.x,y:d.y,r:6,maxR:34,life:.16,max:.16,color:d.color||'#c391ff'});d.interceptCd=.16;break;}}}}
         d.fire -= dt;
         if (d.fire <= 0 && this.enemies.length) {
           const ordered=d.kind==='requiem'?[...this.enemies].sort((a,b)=>dist2(a,d)-dist2(b,d)):null;
@@ -8384,6 +8407,7 @@
           const meta=domainFormMeta(d.domainForm),img=meta?this.getAsset(meta.assetKey):null;
           if(img){const aspect=(img.naturalWidth||1)/(img.naturalHeight||1),longSide=this.isSmallScreen?26:34;let w,h;if(aspect>=1){w=longSide;h=longSide/aspect;}else{h=longSide;w=longSide*aspect;}ctx.globalAlpha=.96;ctx.drawImage(img,-w/2,-h/2,w,h);ctx.globalAlpha=.35;ctx.beginPath();ctx.arc(0,0,longSide*.58,0,Math.PI*2);ctx.stroke();}
           else {ctx.beginPath();ctx.moveTo(0,-12);ctx.lineTo(11,9);ctx.lineTo(0,5);ctx.lineTo(-11,9);ctx.closePath();ctx.stroke();}
+          ctx.globalAlpha=.22;ctx.beginPath();ctx.arc(0,0,this.isSmallScreen?16:21,0,Math.PI*2);ctx.stroke();ctx.beginPath();ctx.moveTo(0,10);ctx.lineTo(0,26);ctx.stroke();
         } else if (d.support) { ctx.beginPath(); ctx.moveTo(0,-11); ctx.lineTo(10,9); ctx.lineTo(-10,9); ctx.closePath(); ctx.stroke(); } else { ctx.strokeRect(-9, -9, 18, 18); }
         ctx.restore();
       }
@@ -8395,6 +8419,8 @@
       if(p.entryShieldTimer>0){const ratio=p.entryShieldMax?clamp(p.entryShieldTimer/p.entryShieldMax,0,1):1;ctx.globalAlpha=.35*ratio;ctx.strokeStyle='#9fd4ff';ctx.lineWidth=4;ctx.shadowBlur=24;ctx.shadowColor='#83eaff';ctx.beginPath();ctx.arc(0,0,p.r+17,0,Math.PI*2);ctx.stroke();}
       if(p.shield>5){ctx.globalAlpha=.18+.16*(p.shield/p.maxShield);ctx.strokeStyle='#83eaff';ctx.lineWidth=3;ctx.beginPath();ctx.arc(0,0,p.r+10,-Math.PI/2,-Math.PI/2+Math.PI*2*(p.shield/p.maxShield));ctx.stroke();}
       if(p.comboSurge>0||p.bossDrive>0){ctx.globalAlpha=.18+Math.sin(t*12)*.05;ctx.strokeStyle=p.bossDrive>0?'#ffd56a':'#c391ff';ctx.lineWidth=2;ctx.beginPath();ctx.arc(0,0,p.r+21+Math.sin(t*7)*2,0,Math.PI*2);ctx.stroke();}
+      if(this.isPowerActive('omega')){ctx.globalAlpha=.30+Math.sin(t*17)*.07;ctx.strokeStyle='#fff0a8';ctx.lineWidth=3;ctx.shadowBlur=26;ctx.shadowColor='#ffd56a';ctx.beginPath();ctx.arc(0,0,p.r+24+Math.sin(t*8)*2.5,0,Math.PI*2);ctx.stroke();}
+      if(this.isPowerActive('fury')){ctx.globalAlpha=.22;ctx.strokeStyle='#ffd56a';ctx.lineWidth=1.6;for(let i=-1;i<=1;i+=2){ctx.beginPath();ctx.moveTo(i*(p.r+8),5);ctx.lineTo(i*(p.r+23),p.r+19+Math.sin(t*15+i)*4);ctx.stroke();}}
       const aspect=(img.naturalWidth||1)/(img.naturalHeight||1),longSide=p.r*3.05*(meta.scale||1);let w,h;if(aspect>=1){w=longSide;h=longSide/aspect;}else{h=longSide;w=longSide*aspect;}
       const maxSide=this.isSmallScreen?68:86,scale=Math.min(1,maxSide/Math.max(w,h));w*=scale;h*=scale;
       ctx.globalAlpha=.97;ctx.shadowBlur=22;ctx.shadowColor=color;ctx.drawImage(img,-w/2,-h/2,w,h);
@@ -8492,6 +8518,16 @@
         ctx.beginPath(); ctx.arc(0,0,p.r+19+Math.sin(t*8)*2,0,Math.PI*2);ctx.stroke();
         ctx.globalAlpha = .14;ctx.strokeStyle='#61ffc8';ctx.beginPath();ctx.arc(0,0,p.r+25+Math.cos(t*7)*2,0,Math.PI*2);ctx.stroke();
         ctx.shadowColor=color;ctx.strokeStyle=color;ctx.lineWidth=2.8;
+      }
+      if(this.isPowerActive('omega')){
+        ctx.globalAlpha=.30+Math.sin(t*18)*.08;ctx.strokeStyle='#fff0a8';ctx.lineWidth=3.2;ctx.shadowBlur=30;ctx.shadowColor='#ffd56a';
+        ctx.beginPath();ctx.arc(0,0,p.r+22+Math.sin(t*9)*2.5,0,Math.PI*2);ctx.stroke();
+        ctx.globalAlpha=.15;ctx.strokeStyle='#ff7c55';ctx.beginPath();ctx.arc(0,0,p.r+30+Math.cos(t*7)*3,0,Math.PI*2);ctx.stroke();
+        ctx.shadowColor=color;ctx.strokeStyle=color;ctx.lineWidth=2.8;
+      }
+      if(this.isPowerActive('fury')){
+        ctx.globalAlpha=.22;ctx.strokeStyle='#ffd56a';ctx.lineWidth=1.5;
+        for(let i=-1;i<=1;i+=2){ctx.beginPath();ctx.moveTo(i*(p.r+5),4);ctx.lineTo(i*(p.r+18),p.r+16+Math.sin(t*16+i)*4);ctx.stroke();}
       }
       ctx.globalAlpha = .12;
       ctx.beginPath(); ctx.arc(0, 0, p.r + 18 + Math.sin(t * 3) * 2, 0, Math.PI * 2); ctx.stroke();

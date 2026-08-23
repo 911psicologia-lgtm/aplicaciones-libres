@@ -1,0 +1,33 @@
+SWARM//RIFT — Insecta Siege v1.9.3
+
+FASE IMPLEMENTADA — ESCOLTAS + AMENAZAS FRONTALES + PODERES V2
+
+1. Naves auxiliares definitivas
+- Tres roles visuales propios: Scout, Lancer y Orbiter.
+- Formación progresiva de 1 a 5 escoltas según nivel, hangar y poder temporal.
+- Scout: apoyo de fuego rápido y salvas múltiples.
+- Lancer: disparo perforante, Rail y apoyo de micromisiles.
+- Orbiter: apoyo de campo, arcos cortos y recuperación ligera de escudo.
+- Las escoltas pueden heredar de forma controlada Crio, Corrosión, Rail, Tesla o Misiles.
+- Se mantiene el límite de 5 unidades para evitar saturación visual.
+
+2. Amenazas frontales v2
+- Cuatro clases nuevas: Meteorito, Ariete Hostil, Resto de Batalla y Cápsula de Reentrada.
+- Cada clase tiene HP, velocidad de aproximación, tamaño final, daño, sonido, color y recompensa propios.
+- Telegráfico de trayectoria sobre la zona de impacto.
+- Aviso de impacto cuando la amenaza entra en su tramo crítico.
+- Bonus de puntuación, XP y créditos por interceptación temprana.
+
+3. Poderes visuales v2
+- Assets exclusivos añadidos para RÁFAGA y BOMBA DE RIFT.
+- Aura visual específica por tipo de pickup: Triple, Ráfaga, Tesla, Rail, Crio, Gravedad, Bomba y poderes generales.
+- Nueva animación de activación al tomar o extender un poder.
+- El HUD muestra ahora ESCOLTAS x/5.
+
+4. Manual
+- Texto de combate actualizado para explicar escoltas y las cuatro amenazas frontales.
+
+5. PWA / técnico
+- Caché actualizado a v1.9.3.
+- Nuevos assets incluidos en funcionamiento offline.
+- Sintaxis JS y Service Worker validada.

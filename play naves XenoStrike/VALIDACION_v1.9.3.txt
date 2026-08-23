@@ -1,0 +1,9 @@
+VALIDACIÓN v1.9.3
+
+- js/game.js: node --check OK
+- sw.js: node --check OK
+- 9 SVG nuevos: XML válido
+- 115 rutas del Service Worker comprobadas: 0 faltantes
+- Prueba Chromium 1366x768: sin page errors ni console errors
+- Campaña iniciada correctamente; controles superiores visibles durante GAME
+- Gate vertical 390x844: activo
