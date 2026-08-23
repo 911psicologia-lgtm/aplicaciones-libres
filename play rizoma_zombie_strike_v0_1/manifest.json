@@ -1,7 +1,7 @@
 {
   "name": "Zombie Strike: Apocalyptic Starfall Odyssey",
   "short_name": "Zombie Strike",
-  "start_url": "./index.html?v=2.4.6",
+  "start_url": "./index.html?v=2.4.7",
   "scope": "./",
   "display": "fullscreen",
   "display_override": [

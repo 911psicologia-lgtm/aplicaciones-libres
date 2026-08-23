@@ -1,0 +1,8 @@
+SWARM//RIFT — Insecta Siege v1.9.6
+
+- Control táctil móvil reconstruido: se elimina el joystick/círculo izquierdo.
+- En celular la nave se mueve deslizando el dedo sobre cualquier zona libre del canvas.
+- Dash queda como único botón táctil fijo.
+- HUD móvil compactado a una sola franja superior con chips y avisos discretos.
+- Mensajes invasivos superiores/inferiores reemplazados por notificaciones compactas.
+- Migración automática de progreso y checkpoint desde v1.9.5.

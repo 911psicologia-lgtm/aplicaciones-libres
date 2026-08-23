@@ -83,3 +83,7 @@ Se incorporaron escoltas Scout/Lancer/Orbiter, amenazas frontales diferenciadas,
 
 Versión 1.9.4
 Los Sectores 4, 5 y 6 ahora tienen identidad visual propia, arenas de jefe separadas, obstáculos específicos y ambientación dinámica. El motor selecciona automáticamente la arena cuando inicia el jefe.
+
+
+Versión 1.9.5
+Añade rangos I–III de poderes por sector, Frenesí con objetivo/recompensa, valoración de oleadas y maestría de jefes en replay.

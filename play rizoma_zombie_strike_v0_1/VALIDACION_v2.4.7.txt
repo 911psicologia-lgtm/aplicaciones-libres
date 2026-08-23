@@ -1,0 +1,20 @@
+VALIDACIÓN v2.4.7 · DEFENSA Y CONTROL
+=======================================
+Manifest JSON: OK
+Referencias de assets detectadas: 334
+Assets faltantes: 0
+
+Bastion metadata: OK
+Cryo metadata: OK
+OPEM metadata: OK
+Singularity metadata: OK
+Disruptor metadata: OK
+Phase 9s: OK
+Ring 10s: OK
+Ice 10s: OK
+OPEM 9s: OK
+Gravity collapse: OK
+Frost stacks: OK
+EMP lock: OK
+Defense aura: OK
+Version 2.4.7: OK

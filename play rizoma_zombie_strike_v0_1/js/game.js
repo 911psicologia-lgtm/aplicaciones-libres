@@ -203,31 +203,31 @@
     { id: 'laser', icon: '━', name: 'Rayo continuo', rarity: 'rare', desc: 'Pulso lineal que atraviesa.', type: 'weapon' },
     { id: 'orbs', icon: '◌', name: 'Satélites Abisales', rarity: 'rare', desc: '3 a 5 satélites orbitan, interceptan proyectiles y dañan por contacto.', type: 'defense' },
     { id: 'pierce', icon: '➤', name: 'Perforante', rarity: 'common', desc: 'Los disparos atraviesan más enemigos.', type: 'weapon' },
-    { id: 'ice', icon: '❄', name: 'Campo frío', rarity: 'rare', desc: 'Ralentiza enemigos golpeados.', type: 'control' },
+    { id: 'ice', icon: '❄', name: 'Campo Criotemporal', rarity: 'rare', desc: 'Acumula escarcha; congela brevemente menores y ralentiza objetivos mayores.', type: 'control' },
     { id: 'fire', icon: '🐉', name: 'Llama Quimérica', rarity: 'epic', desc: 'Entidad ígnea serpenteante: atraviesa grupos, incendia y vuelve a buscar presa.', type: 'weapon' },
     { id: 'drone', icon: '🤖', name: 'Dron aliado', rarity: 'epic', desc: 'Ayudante temporal que dispara.', type: 'ally' },
-    { id: 'ring', icon: '◎', name: 'Anillo defensivo', rarity: 'rare', desc: 'Círculo de contacto protector.', type: 'defense' },
+    { id: 'ring', icon: '◎', name: 'Bastión Cinético', rarity: 'rare', desc: 'Anillo activo: aparta amenazas, intercepta proyectiles y recupera escudo.', type: 'defense' },
     { id: 'bounce', icon: '↯', name: 'Rebote energético', rarity: 'epic', desc: 'Algunos disparos saltan entre objetivos.', type: 'weapon' },
     { id: 'pulse', icon: '✺', name: 'Pulso radial', rarity: 'legendary', desc: 'Explosión circular cada pocos segundos.', type: 'ultimate' },
-    { id: 'opem', icon: '⟁', name: 'Pulso OPEM', rarity: 'epic', desc: 'Descarga electromagnética que aturde la horda.', type: 'control' },
+    { id: 'opem', icon: '⟁', name: 'Blackout OPEM', rarity: 'epic', desc: 'Pulso electromagnético: limpia fuego cercano y bloquea temporalmente la ofensiva enemiga.', type: 'control' },
     { id: 'nuke', icon: '☢', name: 'Bomba Omega', rarity: 'legendary', desc: 'Destruye enemigos menores, daña medios y élites, y merma a los Guardianes.', type: 'ultimate' },
     { id: 'spark', icon: '⚡', name: 'Láser chispeante', rarity: 'epic', desc: 'Haz permanente durante 10 segundos.', type: 'weapon' },
     { id: 'torpedo', icon: '➹', name: 'Misil Voraz', rarity: 'rare', desc: 'Salvas inteligentes que reparten objetivos y vuelven a cazar si destruyen su presa.', type: 'weapon' },
     { id: 'virus', icon: '☣', name: 'Virus letal', rarity: 'epic', desc: 'Infecta y contagia a la horda.', type: 'control' },
     { id: 'kamikaze', icon: '✹', name: 'Microdrones kamikazes', rarity: 'epic', desc: 'Drones suicidas interceptan objetivos.', type: 'ally' },
     { id: 'voidray', icon: '⟋', name: 'Rayo de vacío', rarity: 'epic', desc: 'Haz oscuro perforante del Mundo 2.', type: 'weapon' },
-    { id: 'gravmine', icon: '◉', name: 'Minas gravíticas', rarity: 'rare', desc: 'Implanta pozos que frenan y dañan.', type: 'control' },
-    { id: 'disruptor', icon: '✧', name: 'Pulso disruptor', rarity: 'epic', desc: 'Desintegra proyectiles y sacude enemigos.', type: 'control' },
+    { id: 'gravmine', icon: '◉', name: 'Minas de Singularidad', rarity: 'rare', desc: 'Pozos tácticos que atraen enemigos y proyectiles antes de colapsar.', type: 'control' },
+    { id: 'disruptor', icon: '✧', name: 'Pulso Disruptor', rarity: 'epic', desc: 'Contramedida defensiva: anula proyectiles, castiga cercanos y recicla energía en escudo.', type: 'control' },
     { id: 'phantom', icon: '◇', name: 'Escuadrón fantasma', rarity: 'legendary', desc: 'Invoca naves espectro que heredan tu disparo.', type: 'ally' },
     { id: 'plasma', icon: '↻', name: 'Tornado de plasma', rarity: 'legendary', desc: 'Vórtice móvil que atrapa y destruye.', type: 'ultimate' },
     { id: 'afterburner', icon: '»', name: 'Impulsor vectorial', rarity: 'rare', desc: 'Aumenta mucho la velocidad de la nave durante unos segundos.', type: 'mobility' },
-    { id: 'stasis', icon: '⌛', name: 'Ralentizador temporal', rarity: 'rare', desc: 'Reduce la velocidad de enemigos y proyectiles hostiles.', type: 'control' },
+    { id: 'stasis', icon: '⌛', name: 'Burbuja de Estasis', rarity: 'rare', desc: 'Distoriona el tiempo: ralentiza enemigos y proyectiles hostiles de forma global.', type: 'control' },
     { id: 'wingman', icon: '🛸', name: 'Nave auxiliar', rarity: 'epic', desc: 'Invoca una nave aliada durante 12 segundos. Máximo dos simultáneas.', type: 'ally' },
     { id: 'voltaic', icon: '⚡', name: 'Cadena voltaica', rarity: 'epic', desc: 'Una descarga salta entre varios enemigos.', type: 'control' },
     { id: 'overdrive', icon: '✹', name: 'Sobrecarga del reactor', rarity: 'epic', desc: 'Aumenta temporalmente daño y cadencia.', type: 'modifier' },
-    { id: 'phase', icon: '👻', name: 'Fase espectral', rarity: 'legendary', desc: 'Reduce mucho el daño recibido durante unos segundos.', type: 'defense' },
-    { id: 'nanorepair', icon: '✚', name: 'Nanorreparación', rarity: 'rare', desc: 'Regenera vida progresivamente.', type: 'defense' },
-    { id: 'magnetism', icon: '🧲', name: 'Imán gravitacional', rarity: 'rare', desc: 'Atrae premios desde mayor distancia.', type: 'utility' },
+    { id: 'phase', icon: '👻', name: 'Fase Espectral', rarity: 'legendary', desc: 'Desacopla la nave: reduce daño, mejora maniobra y neutraliza amenazas inmediatas.', type: 'defense' },
+    { id: 'nanorepair', icon: '✚', name: 'Nanorreparación Orgánica', rarity: 'rare', desc: 'Regeneración continua con pulsos de reparación y recuperación secundaria de escudo.', type: 'defense' },
+    { id: 'magnetism', icon: '🧲', name: 'Tractor Gravitacional', rarity: 'rare', desc: 'Amplía el campo de recogida y acelera la captura de recursos sin alterar compras manuales.', type: 'utility' },
     { id: 'omega', icon: 'Ω', name: 'Sobrecarga Omega', rarity: 'legendary', desc: 'Aumenta cadencia, velocidad, perforación y movilidad; el núcleo entra en régimen Omega.', type: 'modifier' },
     { id: 'fury', icon: '≋', name: 'Furia Balística', rarity: 'epic', desc: 'Saturación controlada: abanicos escalonados y microcohetes de persecución.', type: 'modifier' },
     { id: 'laserSolar', icon: '☀', name: 'Láser Solar', rarity: 'epic', desc: 'Haz penetrante anti-jefe: quema, atraviesa y deja daño térmico residual.', type: 'weapon' },
@@ -276,10 +276,10 @@
 
 
   const POWER_ACTIVE_SECONDS = {
-    triple: 10, laser: 10, orbs: 8, pierce: 9, ice: 9, fire: 9, drone: 12, ring: 8,
-    bounce: 8, pulse: 6, opem: 6, nuke: 7, spark: 10, torpedo: 8, virus: 7, kamikaze: 6,
+    triple: 10, laser: 10, orbs: 10, pierce: 9, ice: 10, fire: 9, drone: 12, ring: 10,
+    bounce: 8, pulse: 8, opem: 9, nuke: 7, spark: 10, torpedo: 8, virus: 8, kamikaze: 8,
     voidray: 12, gravmine: 12, disruptor: 10, phantom: 14, plasma: 10, afterburner: 10, stasis: 10, wingman: 12,
-    voltaic: 11, overdrive: 10, phase: 8, nanorepair: 12, magnetism: 12,
+    voltaic: 11, overdrive: 10, phase: 9, nanorepair: 12, magnetism: 12,
     omega: 10, fury: 10, laserSolar: 10, laserHematic: 10, laserAbyssal: 10, eruptionCore: 10
   };
 
@@ -764,7 +764,7 @@
     { id: 'enjambre', requires: ['torpedo', 'virus'], icon: '☣', name: 'Enjambre infeccioso', desc: 'Misiles Voraces que propagan infección y redistribuyen objetivos.' },
     { id: 'tormenta', requires: ['drone', 'spark'], icon: '⚡', name: 'Escuadrón tormenta', desc: 'Los drones sincronizan descargas eléctricas.' },
     { id: 'bastion', requires: ['orbs', 'ring'], icon: '🛡️', name: 'Bastión orbital', desc: 'Los orbes refuerzan el anillo y bloquean proyectiles.' },
-    { id: 'pozo', requires: ['gravmine', 'plasma'], icon: '◉', name: 'Pozo de plasma', desc: 'El vórtice arrastra enemigos hacia minas gravíticas.' },
+    { id: 'pozo', requires: ['gravmine', 'plasma'], icon: '◉', name: 'Pozo de plasma', desc: 'El vórtice arrastra enemigos hacia Minas de Singularidad.' },
     { id: 'nulidad', requires: ['voidray', 'disruptor'], icon: '⟋', name: 'Lanza de nulidad', desc: 'Rayo de vacío que desintegra proyectiles cercanos.' },
     { id: 'blackout', requires: ['opem', 'pulse'], icon: '⟁', name: 'Nova blackout', desc: 'Pulso radial con apagón electromagnético.' },
     { id: 'tempestad', requires: ['voltaic', 'overdrive'], icon: '🌩️', name: 'Tempestad del reactor', desc: 'La cadena voltaica se expande bajo sobrecarga.' },
@@ -2103,6 +2103,9 @@
         kamiTimer: 2.5,
         gravMineTimer: .7,
         disruptorTimer: .9,
+        ringBlockCd: 0,
+        phasePurgeCd: 0,
+        nanoPulseTimer: 1.1,
         plasmaTimer: .5,
         relicMeteorTimer: saved?.relicMeteorTimer ?? 4.5,
         bossDrive: 0,
@@ -2325,11 +2328,11 @@
       const offers = [
         {id:'nuke',kind:'nuke',units:1,icon:'☢',name:'Bomba Omega',desc:'Destruye menores, castiga enemigos resistentes y despeja proyectiles.',base:{coins:185,xp:255,points:1400},recommended:crowded,reason:'Alta densidad u horda probable.'},
         {id:'afterburner',kind:'power',powerId:'afterburner',units:1,icon:'»',name:'Impulsor vectorial',desc:'Recupera movilidad y velocidad durante 10 segundos.',base:{coins:135,xp:175,points:930},recommended:this.mapIndex>=2,reason:'La velocidad es crítica en mundos avanzados.'},
-        {id:'stasis',kind:'power',powerId:'stasis',units:1,icon:'⌛',name:'Ralentizador temporal',desc:'Reduce durante 10 segundos la presión de enemigos y proyectiles.',base:{coins:145,xp:185,points:980},recommended:crowded,reason:'Ayuda a controlar hordas.'},
+        {id:'stasis',kind:'power',powerId:'stasis',units:1,icon:'⌛',name:'Burbuja de Estasis',desc:'Distorsiona durante 10 segundos la velocidad de enemigos y proyectiles.',base:{coins:145,xp:185,points:980},recommended:crowded,reason:'Ayuda a controlar hordas.'},
         {id:'shield',kind:'shield',units:1,icon:'🛡️',name:'Escudo de refuerzo',desc:'Cápsula de shield para entrar con margen defensivo.',base:{coins:110,xp:145,points:760},recommended:!!fragile,reason:'Tus reservas defensivas están bajas.'},
-        {id:'nanorepair',kind:'power',powerId:'nanorepair',units:1,icon:'✚',name:'Nanorreparación',desc:'Regeneración temporal para estabilizar la nave.',base:{coins:150,xp:205,points:1080},recommended:!!fragile,reason:'Recuperación sostenida.'},
+        {id:'nanorepair',kind:'power',powerId:'nanorepair',units:1,icon:'✚',name:'Nanorreparación Orgánica',desc:'Regeneración continua con pulsos secundarios de reparación.',base:{coins:150,xp:205,points:1080},recommended:!!fragile,reason:'Recuperación sostenida.'},
         {id:'wingman',kind:'power',powerId:'wingman',units:1,icon:'🛸',name:'Nave auxiliar',desc:'Añade apoyo de fuego temporal; puede convivir con otros poderes.',base:{coins:165,xp:215,points:1160},recommended:false},
-        {id:'phase',kind:'power',powerId:'phase',units:1,icon:'👻',name:'Fase espectral',desc:'Ventana breve de evasión para atravesar presión enemiga.',base:{coins:160,xp:210,points:1130},recommended:this.mapIndex>=3,reason:'Útil en patrones cerrados.'},
+        {id:'phase',kind:'power',powerId:'phase',units:1,icon:'👻',name:'Fase Espectral',desc:'Desacopla la nave, reduce daño y mejora la maniobra durante 9 segundos.',base:{coins:160,xp:210,points:1130},recommended:this.mapIndex>=3,reason:'Útil en patrones cerrados.'},
         {id:'omega',kind:'power',powerId:'omega',units:1,icon:'Ω',name:'Sobrecarga Omega',desc:'Cadencia, velocidad, perforación y movilidad temporalmente reforzadas.',base:{coins:235,xp:315,points:1750},recommended:!!this.bossActive||this.wave>=4,reason:'Amplificación táctica para fases de alta presión.'},
         {id:'fury',kind:'power',powerId:'fury',units:1,icon:'≋',name:'Furia Balística',desc:'Abanicos escalonados con microcohetes perseguidores.',base:{coins:205,xp:285,points:1560},recommended:crowded,reason:'Excelente para saturación de horda.'},
         {id:'elemental',kind:'power',powerId:pick(this.mapIndex>=3?['laserSolar','laserHematic','laserAbyssal']:['laserSolar']),units:1,icon:'━',name:'Láser elemental',desc:'Solar quema, Hemático drena y Abisal controla el campo.',base:{coins:225,xp:305,points:1680},recommended:this.mapIndex>=2,reason:'Tres roles tácticos claramente diferenciados.'},
@@ -3477,7 +3480,8 @@
       const stagePowerScale=this.getStagePowerScale();
       const afterburnerMult=this.isPowerActive('afterburner')?(1+.48*stagePowerScale*(this.comboActive('hiperfase')?1.12:1)):1;
       const omegaMove=this.isPowerActive('omega')?1.16:1;
-      const moveSpeed = stableSpeed * zoneSlow * recoveryBoost * (p.bossDrive > 0 ? 1.22 : 1) * afterburnerMult * omegaMove * (this.getDomainMods().speed||1);
+      const phaseMove=this.isPowerActive('phase')?1.08:1;
+      const moveSpeed = stableSpeed * zoneSlow * recoveryBoost * (p.bossDrive > 0 ? 1.22 : 1) * afterburnerMult * omegaMove * phaseMove * (this.getDomainMods().speed||1);
       if (dx || dy) {
         const l = Math.hypot(dx, dy) || 1;
         const tx = (dx / l) * moveSpeed;
@@ -3771,11 +3775,21 @@
         for (const e of this.enemies) {
           const d = Math.hypot(e.x - p.x, e.y - p.y);
           if (d < radius && d > 0) {
-            const push = (this.comboActive('gravedad') ? -24 : 26) * dt;
+            const basePush = this.comboActive('gravedad') ? -24 : 26;
+            const rank = this.criticalEnemyRank(e);
+            const rankScale = rank==='boss'?.10:(rank==='elite'?.42:(rank==='medium'?.72:1));
+            const push = basePush * rankScale * dt;
             e.x += ((e.x - p.x) / d) * push;
             e.y += ((e.y - p.y) / d) * push;
-            if (this.comboActive('gravedad')) e.slow = Math.max(e.slow || 0, .5);
+            if (this.comboActive('gravedad')) e.slow = Math.max(e.slow || 0, rank==='boss'?.18:.5);
           }
+        }
+        p.ringBlockCd=(p.ringBlockCd||0)-dt;
+        if(ring && p.ringBlockCd<=0){
+          const blockR=112+ring*11;
+          let best=-1,bestD=Infinity;
+          for(let i=0;i<this.bullets.length;i++){const b=this.bullets[i];if(!b.enemy)continue;const bd=Math.hypot(b.x-p.x,b.y-p.y);if(bd<blockR&&bd<bestD){best=i;bestD=bd;}}
+          if(best>=0){const b=this.bullets[best];this.bullets.splice(best,1);p.shield=Math.min(p.maxShield,p.shield+.28+ring*.10);this.particles.push({type:'ring',x:b.x,y:b.y,r:6,maxR:32,life:.18,max:.18,color:'#83eaff'});p.ringBlockCd=Math.max(.11,.29-ring*.026);}
         }
         if(this.comboActive('bastion')){
           const blockR=132+orbs*8+ring*7;
@@ -3810,14 +3824,22 @@
       if (opem) {
         p.opemTimer -= dt;
         if (p.opemTimer <= 0) {
-          const radius = 150 + opem * 24;
+          const radius = 170 + opem * 28;
+          let cleared=0,locked=0;
+          for(let i=this.bullets.length-1;i>=0;i--){const b=this.bullets[i];if(b.enemy&&Math.hypot(b.x-p.x,b.y-p.y)<radius){this.bullets.splice(i,1);cleared++;}}
           for (const e of this.enemies) {
             const d = Math.hypot(e.x - p.x, e.y - p.y);
-            if (d < radius) this.damageEnemy(e, p.damage * (.9 + opem * .18), { slow: .8 });
+            if (d < radius) {
+              const rank=this.criticalEnemyRank(e),lock=rank==='boss'?(.28+opem*.035):(rank==='elite'?(1.0+opem*.08):(1.45+opem*.12));
+              e.empLock=Math.max(e.empLock||0,lock);locked++;
+              this.damageEnemy(e, p.damage * (.58 + opem * .12) * (rank==='boss'?.42:1), { slow: rank==='boss'?.22:.72, color:'#83eaff', silent:true });
+            }
           }
-          this.particles.push({ type:'ring', x:p.x, y:p.y, r:18, maxR: radius, life:.42, max:.42, color:'#83eaff' });
-          this.toast('Pulso OPEM', 'La horda quedó desorientada');
-          p.opemTimer = Math.max(4.6, 8.5 - opem * .5);
+          if(this.bossActive&&Math.hypot(this.bossActive.x-p.x,this.bossActive.y-p.y)<radius){this.bossActive.attack=(this.bossActive.attack||0)+.18+opem*.035;this.bossActive.specialCd=(this.bossActive.specialCd||0)+.12+opem*.025;}
+          this.particles.push({ type:'ring', x:p.x, y:p.y, r:18, maxR: radius, life:.44, max:.44, color:'#dfffff' });
+          this.particles.push({ type:'ring', x:p.x, y:p.y, r:32, maxR: radius*.78, life:.62, max:.62, color:'#83eaff' });
+          this.flash=Math.max(this.flash,.32);this.toast('⟁ BLACKOUT OPEM', `${locked} amenazas inhibidas · ${cleared} proyectiles anulados`);
+          p.opemTimer = Math.max(4.2, 7.4 - opem * .42);
         }
       }
       if (nuke) {
@@ -3879,7 +3901,8 @@
         if (p.gravMineTimer <= 0 && this.enemies.length) {
           const target = this.nearestEnemy();
           if (target) {
-            this.zones.push({ type:'gravityMine', x:target.x, y:target.y, r:76 + gravmine*10 + (this.comboActive('pozo')?38:0), life:this.comboActive('pozo')?4.2:3.2, max:this.comboActive('pozo')?4.2:3.2, damage:p.damage*(.22+gravmine*.05)*(this.comboActive('pozo')?1.45:1) });
+            const mineLife=this.comboActive('pozo')?4.6:3.8;
+            this.zones.push({ type:'gravityMine', x:target.x, y:target.y, r:82 + gravmine*11 + (this.comboActive('pozo')?42:0), life:mineLife, max:mineLife, damage:p.damage*(.20+gravmine*.045)*(this.comboActive('pozo')?1.42:1), pull:28+gravmine*3.4, pulseCd:.12, collapseDamage:p.damage*(.72+gravmine*.11) });
             this.particles.push({ type:'ring', x:target.x, y:target.y, r:12, maxR:92 + gravmine*10, life:.38, max:.38, color:'#c391ff' });
           }
           p.gravMineTimer = Math.max(1.8, 3.1 - gravmine*.18);
@@ -3889,18 +3912,21 @@
         p.disruptorTimer -= dt;
         if (p.disruptorTimer <= 0) {
           let cleared = 0;
+          const clearRadius=315 + disruptor*24 + (this.comboActive('nulidad')?125:0);
           for (let i=this.bullets.length-1;i>=0;i--) {
             const b=this.bullets[i];
-            if (b.enemy && Math.hypot(b.x-p.x,b.y-p.y) < 300 + disruptor*22 + (this.comboActive('nulidad')?120:0)) { this.bullets.splice(i,1); cleared++; }
+            if (b.enemy && Math.hypot(b.x-p.x,b.y-p.y) < clearRadius) { this.bullets.splice(i,1); cleared++; }
           }
           for (const e of this.enemies) {
             const d=Math.hypot(e.x-p.x,e.y-p.y);
-            if (d < 220 + disruptor*20 + (this.comboActive('nulidad')?80:0)) this.damageEnemy(e,p.damage*(.62+disruptor*.12)*(this.comboActive('nulidad')?1.4:1),{slow:.65,color:this.comboActive('nulidad')?'#c391ff':'#83eaff'});
+            if (d < 230 + disruptor*22 + (this.comboActive('nulidad')?85:0)) this.damageEnemy(e,p.damage*(.54+disruptor*.105)*(this.comboActive('nulidad')?1.36:1)*(e.boss?.48:1),{slow:e.boss?.22:.62,color:this.comboActive('nulidad')?'#c391ff':'#83eaff',silent:true});
           }
-          this.particles.push({type:'ring',x:p.x,y:p.y,r:18,maxR:270+disruptor*18,life:.46,max:.46,color:'#83eaff'});
+          if(cleared){const recycle=Math.min(p.maxShield*.075,cleared*(.22+disruptor*.045));p.shield=Math.min(p.maxShield,p.shield+recycle);}
+          this.particles.push({type:'ring',x:p.x,y:p.y,r:18,maxR:clearRadius,life:.46,max:.46,color:'#83eaff'});
+          this.particles.push({type:'ring',x:p.x,y:p.y,r:12,maxR:clearRadius*.54,life:.34,max:.34,color:'#c391ff'});
           AudioFX.world2Pulse();
-          if (cleared) this.toast('✧ Pulso disruptor', `${cleared} proyectiles anulados`);
-          p.disruptorTimer = Math.max(3.4,5.8-disruptor*.35);
+          if (cleared) this.toast('✧ PULSO DISRUPTOR', `${cleared} proyectiles reciclados`);
+          p.disruptorTimer = Math.max(3.3,5.7-disruptor*.34);
         }
       }
       if (plasma) {
@@ -3944,7 +3970,15 @@
           p.voltaicTimer=Math.max(.34,.76-voltaic*.05);
         }
       }
-      if(nanorepair&&p.hp<p.maxHp)p.hp=Math.min(p.maxHp,p.hp+dt*(1.8+nanorepair*.65)*(this.comboActive('regenerativo')?1.75:1));
+      if(this.isPowerActive('phase')){
+        p.phasePurgeCd=(p.phasePurgeCd||0)-dt;
+        if(p.phasePurgeCd<=0){let best=-1,bestD=Infinity;for(let i=0;i<this.bullets.length;i++){const b=this.bullets[i];if(!b.enemy)continue;const d=Math.hypot(b.x-p.x,b.y-p.y);if(d<58&&d<bestD){best=i;bestD=d;}}if(best>=0){const b=this.bullets[best];this.bullets.splice(best,1);this.particles.push({type:'ring',x:b.x,y:b.y,r:5,maxR:28,life:.16,max:.16,color:'#d7c6ff'});}p.phasePurgeCd=.42;}
+      }
+      if(nanorepair){
+        if(p.hp<p.maxHp)p.hp=Math.min(p.maxHp,p.hp+dt*(1.8+nanorepair*.65)*(this.comboActive('regenerativo')?1.75:1));
+        p.nanoPulseTimer=(p.nanoPulseTimer||1.1)-dt;
+        if(p.nanoPulseTimer<=0){const heal=Math.min(p.maxHp-p.hp,1.2+nanorepair*.52);if(heal>0)p.hp+=heal;p.shield=Math.min(p.maxShield,p.shield+.65+nanorepair*.26);this.particles.push({type:'ring',x:p.x,y:p.y,r:10,maxR:52+nanorepair*5,life:.30,max:.30,color:'#78ffb0'});p.nanoPulseTimer=Math.max(1.8,3.0-nanorepair*.12);}
+      }
       if(this.comboActive('regenerativo'))p.shield=Math.min(p.maxShield,p.shield+dt*1.35);
     }
 
@@ -5675,7 +5709,11 @@
         const dx = p.x - e.x, dy = p.y - e.y;
         const d = Math.hypot(dx, dy) || 1;
         const stasisScale=this.getStagePowerScale();
-        const slow = (e.slow ? .55 : 1) * (this.isPowerActive('stasis') ? (e.boss ? Math.max(.72,.82/stasisScale) : Math.max(.46,.58/stasisScale)) : 1);
+        e.freeze=Math.max(0,(e.freeze||0)-dt);e.frostLife=Math.max(0,(e.frostLife||0)-dt);if((e.frostLife||0)<=0)e.frostStacks=0;
+        e.empLock=Math.max(0,(e.empLock||0)-dt);
+        if(e.empLock>0){e.futureFire=Math.max(e.futureFire||0,.34);e.familyFire=Math.max(e.familyFire||0,.34);e.echoFire=Math.max(e.echoFire||0,.42);e.echoRadial=Math.max(e.echoRadial||0,.58);e.mirrorFire=Math.max(e.mirrorFire||0,.36);}
+        const freezeScale=e.freeze>0?(e.boss?.74:.12):1;
+        const slow = (e.slow ? .55 : 1) * freezeScale * (this.isPowerActive('stasis') ? (e.boss ? Math.max(.72,.82/stasisScale) : Math.max(.46,.58/stasisScale)) : 1);
         e.slow = Math.max(0, (e.slow || 0) - dt);
         if (e.burn) {
           e.burn -= dt;
@@ -6225,7 +6263,11 @@
       if (!meta.silent && Math.random() < .28) AudioFX.hit();
       if (meta.fire) e.burn = Math.max(e.burn || 0, .8 + meta.fire * .22);
       if (meta.virus) e.virus = Math.max(e.virus || 0, 1.4 + meta.virus * .3);
-      if (meta.ice) e.slow = Math.max(e.slow || 0, .5 + meta.ice * .12);
+      if (meta.ice) {
+        e.slow = Math.max(e.slow || 0, .5 + meta.ice * .12);
+        e.frostStacks=Math.min(4,(e.frostStacks||0)+Math.max(.55,meta.ice*.72));e.frostLife=1.7;
+        if(e.frostStacks>=3 && (e.freeze||0)<=0 && !e.boss){const rank=this.criticalEnemyRank(e);e.freeze=rank==='elite'?.24:(rank==='medium'?.46:.72);e.frostStacks=0;this.particles.push({type:'ring',x:e.x,y:e.y,r:5,maxR:e.r*2.4+18,life:.28,max:.28,color:'#bff6ff'});}
+      }
       if (meta.slow) e.slow = Math.max(e.slow || 0, meta.slow);
       if (!meta.burn && Math.random() < .6) this.emit(e.x, e.y, meta.color || e.color, 1, 30, .24);
       if (e.boss && this.bossActive === e) this.updateBossUi();
@@ -6430,8 +6472,9 @@
         const forceAuto=manualPickup?false:(item.autoDelay<=0||d<magnetRange);
         if (forceAuto) {
           const pull = item.type === 'power' || item.type === 'nuke' || item.type==='critical' ? 800 : 610;
-          item.x += ((p.x-item.x)/(d||1))*(pull+magnetRange*1.2)*dt;
-          item.y += ((p.y - item.y) / (d || 1)) * (pull + p.magnet * 1.2) * dt;
+          const tractorBoost=1+activeMagnet*.08;
+          item.x += ((p.x-item.x)/(d||1))*(pull+magnetRange*1.2)*tractorBoost*dt;
+          item.y += ((p.y - item.y) / (d || 1)) * (pull + magnetRange * 1.2) * tractorBoost * dt;
         } else {
           item.x += item.vx * dt; item.y += item.vy * dt; item.vx *= .975; item.vy *= .975;
         }
@@ -6518,17 +6561,28 @@
           if(z.type==='bossGravity'){const dd=Math.max(1,d),pull=(z.pull||28)*dt;this.player.x+=(z.x-this.player.x)/dd*pull;this.player.y+=(z.y-this.player.y)/dd*pull;}
         }
         if (z.type === 'gravityMine') {
+          z.pulseCd=(z.pulseCd||0)-dt;
           for (const e of this.enemies) {
             const ed=Math.hypot(z.x-e.x,z.y-e.y)||1;
             if (ed<z.r+e.r) {
-              e.x += ((z.x-e.x)/ed)*22*dt;
-              e.y += ((z.y-e.y)/ed)*22*dt;
-              e.slow=Math.max(e.slow||0,.35);
-              this.damageEnemy(e,(z.damage||5)*dt,{silent:true,color:'#c391ff'});
+              const rank=this.criticalEnemyRank(e),pullScale=rank==='boss'?.16:(rank==='elite'?.58:(rank==='medium'?.82:1));
+              const pull=(z.pull||28)*pullScale*dt;
+              e.x += ((z.x-e.x)/ed)*pull;e.y += ((z.y-e.y)/ed)*pull;
+              e.slow=Math.max(e.slow||0,rank==='boss'?.18:.38);
+              this.damageEnemy(e,(z.damage||5)*dt*(rank==='boss'?.42:1),{silent:true,color:'#c391ff'});
             }
           }
+          for(const b of this.bullets){if(!b.enemy)continue;const bd=Math.hypot(z.x-b.x,z.y-b.y)||1;if(bd<z.r){const bend=Math.min(1,dt*1.8);const sp=Math.hypot(b.vx,b.vy)||140;const a=Math.atan2(z.y-b.y,z.x-b.x);b.vx+=(Math.cos(a)*sp-b.vx)*bend;b.vy+=(Math.sin(a)*sp-b.vy)*bend;}}
+          for(let bi=this.bullets.length-1;bi>=0;bi--){const b=this.bullets[bi];if(b.enemy&&Math.hypot(z.x-b.x,z.y-b.y)<14){this.bullets.splice(bi,1);this.emit(z.x,z.y,'#c391ff',2,45,.18);}}
+          if(z.pulseCd<=0){this.particles.push({type:'ring',x:z.x,y:z.y,r:8,maxR:z.r*.82,life:.30,max:.30,color:'#c391ff'});z.pulseCd=.72;}
         }
-        if (z.life <= 0) this.zones.splice(i, 1);
+        if (z.life <= 0) {
+          if(z.type==='gravityMine'){
+            for(const e of this.enemies){const ed=Math.hypot(z.x-e.x,z.y-e.y);if(ed<z.r*.78)this.damageEnemy(e,(z.collapseDamage||12)*(1-ed/(z.r*.9))*(e.boss?.38:1),{silent:true,color:'#e5c2ff',slow:e.boss?.12:.4});}
+            this.particles.push({type:'ring',x:z.x,y:z.y,r:10,maxR:z.r*1.18,life:.42,max:.42,color:'#e5c2ff'});this.emit(z.x,z.y,'#c391ff',8,95,.34);
+          }
+          this.zones.splice(i, 1);
+        }
       }
     }
 
@@ -7298,6 +7352,7 @@
       this.drawCriticalEffects(ctx);
       this.drawDrones(ctx);
       this.drawPlayer(ctx);
+      this.drawDefenseControlAuras(ctx);
       this.drawParticles(ctx);
       if (this.flash > 0) {
         ctx.fillStyle = `rgba(255,255,255,${this.flash * .08})`;
@@ -8303,6 +8358,12 @@
           ctx.fillText(`PREFECTO ${Math.min(3,(e.captainIndex||0)+1)}/3`,0,-e.r*2.45);
           ctx.restore();
         }
+        if((e.freeze||0)>0 || (e.frostStacks||0)>0 || (e.empLock||0)>0){
+          ctx.save();
+          if((e.freeze||0)>0 || (e.frostStacks||0)>0){ctx.globalAlpha=(e.freeze||0)>0?.68:.32;ctx.strokeStyle='#bff6ff';ctx.lineWidth=(e.freeze||0)>0?3:1.6;ctx.shadowBlur=14;ctx.shadowColor='#83eaff';ctx.beginPath();ctx.arc(0,0,e.r*((e.freeze||0)>0?1.42:1.24),0,Math.PI*2);ctx.stroke();}
+          if((e.empLock||0)>0){ctx.globalAlpha=.48;ctx.strokeStyle='#dfffff';ctx.lineWidth=1.8;ctx.setLineDash([4,5]);ctx.lineDashOffset=-e.t*18;ctx.beginPath();ctx.arc(0,0,e.r*1.58,0,Math.PI*2);ctx.stroke();ctx.setLineDash([]);}
+          ctx.restore();
+        }
         if (!e.boss) {
           const barY=realisticEcho?e.r*2.75+7:(realisticWorld2?e.r*(e.world2Captain?3.25:2.8)+6:((realisticWorld3||realisticAdvanced||realisticWorld11||realisticWorld12||realisticWorld13)?e.r*2.7+6:e.r+8));
           const barW=realisticEcho?e.r*3.15:((realisticWorld2||realisticWorld3||realisticAdvanced||realisticWorld11||realisticWorld12||realisticWorld13)?e.r*2.45:e.r*2);
@@ -8708,6 +8769,19 @@
           ctx.restore();
         }
       }
+      ctx.restore();
+    }
+
+    drawDefenseControlAuras(ctx) {
+      const p=this.player;if(!p)return;const t=now()*.001;
+      const ring=this.getPowerLevel('ring',true),ice=this.getPowerLevel('ice',true),stasis=this.getPowerLevel('stasis',true),phase=this.getPowerLevel('phase',true),nano=this.getPowerLevel('nanorepair',true),magnet=this.getPowerLevel('magnetism',true),opem=this.getPowerLevel('opem',true);
+      ctx.save();ctx.translate(p.x,p.y);ctx.lineWidth=2;
+      if(ring){const r=104+ring*12;ctx.shadowBlur=14;ctx.shadowColor='#83eaff';for(let k=0;k<3;k++){ctx.globalAlpha=.18+k*.08;ctx.strokeStyle=k===1?'#dfffff':'#83eaff';ctx.setLineDash([18-k*3,10+k*2]);ctx.lineDashOffset=(t*(34+k*15))*(k%2?1:-1);ctx.beginPath();ctx.arc(0,0,r-k*8,-Math.PI*.86,Math.PI*.86);ctx.stroke();}ctx.setLineDash([]);}
+      if(stasis||ice){const lvl=Math.max(stasis,ice),r=76+lvl*9;ctx.shadowBlur=10;ctx.shadowColor='#bff6ff';ctx.globalAlpha=.13;ctx.fillStyle='#83eaff';ctx.beginPath();ctx.arc(0,0,r,0,Math.PI*2);ctx.fill();ctx.globalAlpha=.42;ctx.strokeStyle='#bff6ff';for(let i=0;i<8;i++){const a=t*.25+i*Math.PI/4,rr=r*(.72+.08*Math.sin(t*2+i));ctx.beginPath();ctx.moveTo(Math.cos(a)*rr,Math.sin(a)*rr);ctx.lineTo(Math.cos(a)*(rr+8),Math.sin(a)*(rr+8));ctx.stroke();}}
+      if(phase){ctx.shadowBlur=16;ctx.shadowColor='#c391ff';for(let i=0;i<3;i++){ctx.globalAlpha=.12+i*.06;ctx.strokeStyle=i%2?'#d9f7ff':'#c391ff';ctx.beginPath();ctx.ellipse(Math.sin(t*2.1+i)*7,Math.cos(t*1.7+i)*4,p.r+18+i*6,p.r+10+i*4,t*.22+i*.5,0,Math.PI*2);ctx.stroke();}}
+      if(nano){ctx.shadowBlur=10;ctx.shadowColor='#78ffb0';ctx.strokeStyle='#78ffb0';for(let i=0;i<4;i++){const a=-t*.7+i*Math.PI/2,rr=p.r+31;const x=Math.cos(a)*rr,y=Math.sin(a)*rr;ctx.globalAlpha=.46;ctx.beginPath();ctx.moveTo(x-3,y);ctx.lineTo(x+3,y);ctx.moveTo(x,y-3);ctx.lineTo(x,y+3);ctx.stroke();}}
+      if(magnet){ctx.strokeStyle='#9ac7ff';ctx.globalAlpha=.20;ctx.setLineDash([4,9]);for(let i=0;i<2;i++){ctx.lineDashOffset=-t*(24+i*13);ctx.beginPath();ctx.arc(0,0,p.r+48+i*20,0,Math.PI*2);ctx.stroke();}ctx.setLineDash([]);}
+      if(opem){ctx.strokeStyle='#dfffff';ctx.globalAlpha=.18+.05*Math.sin(t*6);ctx.setLineDash([2,12]);ctx.lineDashOffset=-t*30;ctx.beginPath();ctx.arc(0,0,p.r+63,0,Math.PI*2);ctx.stroke();ctx.setLineDash([]);}
       ctx.restore();
     }
 

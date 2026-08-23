@@ -1,0 +1,28 @@
+SWARM//RIFT — Insecta Siege v1.9.5
+
+PROGRESIÓN DE PODERES
+- Poderes con rango I, II y III dentro de cada corrida.
+- Sectores 1–2: techo Rango I; Sectores 3–4: Rango II; Sectores 5–6: Rango III.
+- Repetir un pickup mejora el rango hasta el límite del sector y extiende duración.
+- Los pickups muestran visualmente el rango que concederán.
+- Pools de poder ponderados por mundo; los poderes anteriores siguen apareciendo con menor peso.
+- Poderes heredados de jefe entran con rango reforzado cuando el sector lo permite.
+- Efectos escalados por rango para Tri-Aguja, Ráfaga, Misiles, Rail, Tesla, Gravedad, Escudo, Imán, Drones y Overdrive.
+
+FRENESÍ Y RECOMPENSAS
+- Frenesí convertido en reto de bajas con objetivo visible.
+- Completar Frenesí otorga bonus inmediato de créditos, XP y posible poder.
+- Créditos recogidos durante Frenesí reciben el multiplicador activo.
+- Cada oleada recibe rango S/A/B/C según impactos y dominio del Frenesí.
+- Rango S concede poder + escudo; rango A concede recompensa adicional.
+- Resumen de rangos y créditos bonus al completar el sector.
+
+JEFES Y REPLAY
+- Checkpoint de jefe conserva 50% de vida.
+- Replay inicia al jefe en fase 2 y aumenta presión de habilidades sin aumentar la vida inicial.
+- Maestría de jefe por derrotarlo sin recibir impactos.
+- Maestría queda registrada por sector y aumenta créditos/XP.
+- El menú muestra qué arenas ya tienen maestría.
+
+COMPATIBILIDAD
+- Migración de meta y checkpoint desde v1.9.4.

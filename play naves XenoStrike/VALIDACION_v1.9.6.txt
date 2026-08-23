@@ -1,0 +1,8 @@
+SWARM//RIFT — Insecta Siege v1.9.6
+
+Validación aplicada
+- JS compilado: node --check js/game.js OK
+- Migración de progreso: meta/run desde v1.9.5 habilitada
+- Control móvil: joystick visual izquierdo deshabilitado; movimiento táctil por deslizamiento sobre canvas
+- HUD móvil: compactado con chips superiores y avisos discretos
+- Service Worker actualizado a cache v1.9.6

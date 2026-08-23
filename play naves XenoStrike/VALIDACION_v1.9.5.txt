@@ -1,0 +1,7 @@
+VALIDACIÓN v1.9.5
+- node --check js/game.js: OK
+- Smoke test Chromium 1366x768: campaña >10 s, 0 errores JavaScript
+- Apertura de tienda en partida: OK
+- Manual y Hangar desde menú: OK
+- Migración de save v1.9.4 incluida
+- Service Worker actualizado a cache v1.9.5
