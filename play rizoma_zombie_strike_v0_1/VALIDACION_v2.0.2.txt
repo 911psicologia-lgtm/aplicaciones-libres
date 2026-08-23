@@ -1,0 +1,50 @@
+VALIDACIÓN v2.0.2
+==================
+[assets/world9] 19 assets
+ - bg_world9_approach.jpg
+ - bg_world9_boss.jpg
+ - enemy_1.png
+ - enemy_2.png
+ - enemy_3.png
+ - enemy_4.png
+ - enemy_5.png
+ - enemy_6.png
+ - junk_1.png
+ - junk_2.png
+ - junk_3.png
+ - meteor_1.png
+ - meteor_2.png
+ - planet_1.png
+ - planet_2.png
+ - subboss_1.png
+ - subboss_2.png
+ - subboss_3.png
+ - subboss_4.png
+[assets/world10] 22 assets
+ - bg_world10_approach.jpg
+ - bg_world10_boss.jpg
+ - enemy_1.png
+ - enemy_2.png
+ - enemy_3.png
+ - enemy_4.png
+ - enemy_5.png
+ - enemy_6.png
+ - junk_1.png
+ - junk_2.png
+ - junk_3.png
+ - meteor_1.png
+ - meteor_2.png
+ - meteor_3.png
+ - planet_1.png
+ - planet_2.png
+ - subboss_1.png
+ - subboss_2.png
+ - subboss_3.png
+ - subboss_4.png
+ - subboss_5.png
+ - subboss_6.png
+
+Claves JS:
+ - world9Subboss4: OK
+ - world10Subboss6: OK
+ - world10Enemy6: OK
