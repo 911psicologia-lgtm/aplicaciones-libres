@@ -1,0 +1,9 @@
+SWARM//RIFT — Insecta Siege v1.9.7
+
+Validación aplicada
+- JS compilado: node --check js/game.js OK
+- Menú móvil: desbloqueado en vertical
+- Rotación: gate solo durante combate en móvil
+- Inicio/carga: intenta pantalla completa + landscape
+- Amenazas frontales: migradas a assets generados coherentes con el estilo visual
+- Guardado: migración automática desde v1.9.6

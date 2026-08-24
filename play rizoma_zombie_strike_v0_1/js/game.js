@@ -199,32 +199,32 @@
   ];
 
   const POWERS = [
-    { id: 'triple', icon: '🔱', name: 'Triple pulso', rarity: 'common', desc: 'Agrega disparos en abanico.', type: 'weapon' },
-    { id: 'laser', icon: '━', name: 'Rayo continuo', rarity: 'rare', desc: 'Pulso lineal que atraviesa.', type: 'weapon' },
+    { id: 'triple', icon: '🔱', name: 'Tridente Adaptativo', rarity: 'common', desc: 'Abanico escalable: 3, 5 o 7 corredores con daño lateral controlado.', type: 'weapon' },
+    { id: 'laser', icon: '━', name: 'Rayo Vectorial', rarity: 'rare', desc: 'Haz continuo de corredor: atraviesa múltiples objetivos con núcleo y halo propios.', type: 'weapon' },
     { id: 'orbs', icon: '◌', name: 'Satélites Abisales', rarity: 'rare', desc: '3 a 5 satélites orbitan, interceptan proyectiles y dañan por contacto.', type: 'defense' },
-    { id: 'pierce', icon: '➤', name: 'Perforante', rarity: 'common', desc: 'Los disparos atraviesan más enemigos.', type: 'weapon' },
+    { id: 'pierce', icon: '➤', name: 'Penetración Cinética', rarity: 'common', desc: 'Cada perforación conserva impulso y aumenta moderadamente el daño del siguiente impacto.', type: 'weapon' },
     { id: 'ice', icon: '❄', name: 'Campo Criotemporal', rarity: 'rare', desc: 'Acumula escarcha; congela brevemente menores y ralentiza objetivos mayores.', type: 'control' },
     { id: 'fire', icon: '🐉', name: 'Llama Quimérica', rarity: 'epic', desc: 'Entidad ígnea serpenteante: atraviesa grupos, incendia y vuelve a buscar presa.', type: 'weapon' },
-    { id: 'drone', icon: '🤖', name: 'Dron aliado', rarity: 'epic', desc: 'Ayudante temporal que dispara.', type: 'ally' },
+    { id: 'drone', icon: '🤖', name: 'Dron Adaptativo', rarity: 'epic', desc: 'Apoyo orbital que mejora con nivel y puede heredar el arma activa.', type: 'ally' },
     { id: 'ring', icon: '◎', name: 'Bastión Cinético', rarity: 'rare', desc: 'Anillo activo: aparta amenazas, intercepta proyectiles y recupera escudo.', type: 'defense' },
-    { id: 'bounce', icon: '↯', name: 'Rebote energético', rarity: 'epic', desc: 'Algunos disparos saltan entre objetivos.', type: 'weapon' },
-    { id: 'pulse', icon: '✺', name: 'Pulso radial', rarity: 'legendary', desc: 'Explosión circular cada pocos segundos.', type: 'ultimate' },
+    { id: 'bounce', icon: '↯', name: 'Ricochet Neural', rarity: 'epic', desc: 'El impacto busca un nuevo objetivo cercano y encadena rebotes limitados.', type: 'weapon' },
+    { id: 'pulse', icon: '✺', name: 'Nova Radial', rarity: 'legendary', desc: 'Onda periódica que daña, aparta hordas y neutraliza parte del fuego hostil.', type: 'ultimate' },
     { id: 'opem', icon: '⟁', name: 'Blackout OPEM', rarity: 'epic', desc: 'Pulso electromagnético: limpia fuego cercano y bloquea temporalmente la ofensiva enemiga.', type: 'control' },
     { id: 'nuke', icon: '☢', name: 'Bomba Omega', rarity: 'legendary', desc: 'Destruye enemigos menores, daña medios y élites, y merma a los Guardianes.', type: 'ultimate' },
-    { id: 'spark', icon: '⚡', name: 'Láser chispeante', rarity: 'epic', desc: 'Haz permanente durante 10 segundos.', type: 'weapon' },
+    { id: 'spark', icon: '⚡', name: 'Corona Tesla', rarity: 'epic', desc: 'Descargas bifurcadas salen directamente de RIZOMA hacia varias amenazas a la vez.', type: 'weapon' },
     { id: 'torpedo', icon: '➹', name: 'Misil Voraz', rarity: 'rare', desc: 'Salvas inteligentes que reparten objetivos y vuelven a cazar si destruyen su presa.', type: 'weapon' },
-    { id: 'virus', icon: '☣', name: 'Virus letal', rarity: 'epic', desc: 'Infecta y contagia a la horda.', type: 'control' },
-    { id: 'kamikaze', icon: '✹', name: 'Microdrones kamikazes', rarity: 'epic', desc: 'Drones suicidas interceptan objetivos.', type: 'ally' },
-    { id: 'voidray', icon: '⟋', name: 'Rayo de vacío', rarity: 'epic', desc: 'Haz oscuro perforante del Mundo 2.', type: 'weapon' },
+    { id: 'virus', icon: '☣', name: 'Infección Rizomática', rarity: 'epic', desc: 'Infecta, erosiona y reduce la agresividad; al morir el huésped contagia objetivos cercanos.', type: 'control' },
+    { id: 'kamikaze', icon: '✹', name: 'Microdrones Mantis', rarity: 'epic', desc: 'Drones cazadores seleccionan amenazas, persiguen presas y pueden sacrificarse contra fuego hostil.', type: 'ally' },
+    { id: 'voidray', icon: '⟋', name: 'Lanza del Vacío', rarity: 'epic', desc: 'Haz estrecho de alta penetración que desintegra parte del fuego enemigo a lo largo de su eje.', type: 'weapon' },
     { id: 'gravmine', icon: '◉', name: 'Minas de Singularidad', rarity: 'rare', desc: 'Pozos tácticos que atraen enemigos y proyectiles antes de colapsar.', type: 'control' },
     { id: 'disruptor', icon: '✧', name: 'Pulso Disruptor', rarity: 'epic', desc: 'Contramedida defensiva: anula proyectiles, castiga cercanos y recicla energía en escudo.', type: 'control' },
-    { id: 'phantom', icon: '◇', name: 'Escuadrón fantasma', rarity: 'legendary', desc: 'Invoca naves espectro que heredan tu disparo.', type: 'ally' },
-    { id: 'plasma', icon: '↻', name: 'Tornado de plasma', rarity: 'legendary', desc: 'Vórtice móvil que atrapa y destruye.', type: 'ultimate' },
-    { id: 'afterburner', icon: '»', name: 'Impulsor vectorial', rarity: 'rare', desc: 'Aumenta mucho la velocidad de la nave durante unos segundos.', type: 'mobility' },
+    { id: 'phantom', icon: '◇', name: 'Escuadrón Espectral', rarity: 'legendary', desc: 'Réplicas fantasma forman detrás de RIZOMA y copian el arma activa desde ángulos distintos.', type: 'ally' },
+    { id: 'plasma', icon: '↻', name: 'Vórtice de Plasma', rarity: 'legendary', desc: 'Implanta vórtices persistentes que atraen, frenan y erosionan grupos.', type: 'ultimate' },
+    { id: 'afterburner', icon: '»', name: 'Impulsor Vectorial', rarity: 'rare', desc: 'Aceleración sostenida, estela visible y ligera reducción de daño durante maniobras extremas.', type: 'mobility' },
     { id: 'stasis', icon: '⌛', name: 'Burbuja de Estasis', rarity: 'rare', desc: 'Distoriona el tiempo: ralentiza enemigos y proyectiles hostiles de forma global.', type: 'control' },
-    { id: 'wingman', icon: '🛸', name: 'Nave auxiliar', rarity: 'epic', desc: 'Invoca una nave aliada durante 12 segundos. Máximo dos simultáneas.', type: 'ally' },
-    { id: 'voltaic', icon: '⚡', name: 'Cadena voltaica', rarity: 'epic', desc: 'Una descarga salta entre varios enemigos.', type: 'control' },
-    { id: 'overdrive', icon: '✹', name: 'Sobrecarga del reactor', rarity: 'epic', desc: 'Aumenta temporalmente daño y cadencia.', type: 'modifier' },
+    { id: 'wingman', icon: '🛸', name: 'Escolta Gemela', rarity: 'epic', desc: 'Hasta dos escoltas laterales: una prioriza amenazas y otra cubre la horda.', type: 'ally' },
+    { id: 'voltaic', icon: '⚡', name: 'Cadena Voltaica', rarity: 'epic', desc: 'La descarga salta al objetivo cercano siguiente con pérdida de energía por salto.', type: 'control' },
+    { id: 'overdrive', icon: '✹', name: 'Reactor Pulsante', rarity: 'epic', desc: 'Régimen rítmico: bonificación moderada constante y picos breves de cadencia y daño.', type: 'modifier' },
     { id: 'phase', icon: '👻', name: 'Fase Espectral', rarity: 'legendary', desc: 'Desacopla la nave: reduce daño, mejora maniobra y neutraliza amenazas inmediatas.', type: 'defense' },
     { id: 'nanorepair', icon: '✚', name: 'Nanorreparación Orgánica', rarity: 'rare', desc: 'Regeneración continua con pulsos de reparación y recuperación secundaria de escudo.', type: 'defense' },
     { id: 'magnetism', icon: '🧲', name: 'Tractor Gravitacional', rarity: 'rare', desc: 'Amplía el campo de recogida y acelera la captura de recursos sin alterar compras manuales.', type: 'utility' },
@@ -276,8 +276,8 @@
 
 
   const POWER_ACTIVE_SECONDS = {
-    triple: 10, laser: 10, orbs: 10, pierce: 9, ice: 10, fire: 9, drone: 12, ring: 10,
-    bounce: 8, pulse: 8, opem: 9, nuke: 7, spark: 10, torpedo: 8, virus: 8, kamikaze: 8,
+    triple: 10, laser: 10, orbs: 10, pierce: 10, ice: 10, fire: 9, drone: 12, ring: 10,
+    bounce: 10, pulse: 8, opem: 9, nuke: 7, spark: 10, torpedo: 8, virus: 10, kamikaze: 10,
     voidray: 12, gravmine: 12, disruptor: 10, phantom: 14, plasma: 10, afterburner: 10, stasis: 10, wingman: 12,
     voltaic: 11, overdrive: 10, phase: 9, nanorepair: 12, magnetism: 12,
     omega: 10, fury: 10, laserSolar: 10, laserHematic: 10, laserAbyssal: 10, eruptionCore: 10
@@ -759,14 +759,14 @@
     { id: 'lanza', requires: ['ice', 'pierce'], icon: '❖', name: 'Lanza criogénica', desc: 'Proyectiles veloces que ralentizan y atraviesan.' },
     { id: 'gravedad', requires: ['orbs', 'gravmine'], icon: '◍', name: 'Anillo gravitacional', desc: 'Órbitas y minas crean un campo de atracción.' },
     { id: 'resonante', requires: ['drone', 'pulse'], icon: '◈', name: 'Dron resonante', desc: 'Los drones descargan ondas cortas.' },
-    { id: 'tridente', requires: ['triple', 'pierce'], icon: '🔱', name: 'Tridente penetrante', desc: 'Triple pulso con penetración reforzada.' },
+    { id: 'tridente', requires: ['triple', 'pierce'], icon: '🔱', name: 'Tridente penetrante', desc: 'Tridente Adaptativo con Penetración Cinética reforzada.' },
     { id: 'criotemporal', requires: ['laser', 'stasis'], icon: '❄', name: 'Rayo criotemporal', desc: 'El láser ralentiza lo que atraviesa.' },
     { id: 'enjambre', requires: ['torpedo', 'virus'], icon: '☣', name: 'Enjambre infeccioso', desc: 'Misiles Voraces que propagan infección y redistribuyen objetivos.' },
     { id: 'tormenta', requires: ['drone', 'spark'], icon: '⚡', name: 'Escuadrón tormenta', desc: 'Los drones sincronizan descargas eléctricas.' },
     { id: 'bastion', requires: ['orbs', 'ring'], icon: '🛡️', name: 'Bastión orbital', desc: 'Los orbes refuerzan el anillo y bloquean proyectiles.' },
     { id: 'pozo', requires: ['gravmine', 'plasma'], icon: '◉', name: 'Pozo de plasma', desc: 'El vórtice arrastra enemigos hacia Minas de Singularidad.' },
-    { id: 'nulidad', requires: ['voidray', 'disruptor'], icon: '⟋', name: 'Lanza de nulidad', desc: 'Rayo de vacío que desintegra proyectiles cercanos.' },
-    { id: 'blackout', requires: ['opem', 'pulse'], icon: '⟁', name: 'Nova blackout', desc: 'Pulso radial con apagón electromagnético.' },
+    { id: 'nulidad', requires: ['voidray', 'disruptor'], icon: '⟋', name: 'Lanza de nulidad', desc: 'Lanza del Vacío que desintegra proyectiles cercanos.' },
+    { id: 'blackout', requires: ['opem', 'pulse'], icon: '⟁', name: 'Nova blackout', desc: 'Nova Radial con apagón electromagnético.' },
     { id: 'tempestad', requires: ['voltaic', 'overdrive'], icon: '🌩️', name: 'Tempestad del reactor', desc: 'La cadena voltaica se expande bajo sobrecarga.' },
     { id: 'hiperfase', requires: ['phase', 'afterburner'], icon: '👻', name: 'Hiperfase vectorial', desc: 'Aceleración extrema con protección espectral.' },
     { id: 'regenerativo', requires: ['nanorepair', 'ring'], icon: '✚', name: 'Bastión regenerativo', desc: 'Nanorreparación reforzada dentro del anillo.' },
@@ -2107,6 +2107,9 @@
         phasePurgeCd: 0,
         nanoPulseTimer: 1.1,
         plasmaTimer: .5,
+        overdriveBeatTimer: .3,
+        overdriveSurge: 0,
+        afterburnerWakeTimer: 0,
         relicMeteorTimer: saved?.relicMeteorTimer ?? 4.5,
         bossDrive: 0,
         cloak: 0,
@@ -2173,6 +2176,7 @@
       p.entryShieldTimer = Math.max(0, (p.entryShieldTimer || 0) - dt);
       p.recoveryGraceTimer = Math.max(0, (p.recoveryGraceTimer || 0) - dt);
       p.recoverySpeedTimer = Math.max(0, (p.recoverySpeedTimer || 0) - dt);
+      p.overdriveSurge = Math.max(0, (p.overdriveSurge || 0) - dt);
       this.shake = Math.max(0, this.shake - dt * 30);
       this.flash = Math.max(0, this.flash - dt * 2);
       this.updatePowerActivity(dt);
@@ -2331,7 +2335,7 @@
         {id:'stasis',kind:'power',powerId:'stasis',units:1,icon:'⌛',name:'Burbuja de Estasis',desc:'Distorsiona durante 10 segundos la velocidad de enemigos y proyectiles.',base:{coins:145,xp:185,points:980},recommended:crowded,reason:'Ayuda a controlar hordas.'},
         {id:'shield',kind:'shield',units:1,icon:'🛡️',name:'Escudo de refuerzo',desc:'Cápsula de shield para entrar con margen defensivo.',base:{coins:110,xp:145,points:760},recommended:!!fragile,reason:'Tus reservas defensivas están bajas.'},
         {id:'nanorepair',kind:'power',powerId:'nanorepair',units:1,icon:'✚',name:'Nanorreparación Orgánica',desc:'Regeneración continua con pulsos secundarios de reparación.',base:{coins:150,xp:205,points:1080},recommended:!!fragile,reason:'Recuperación sostenida.'},
-        {id:'wingman',kind:'power',powerId:'wingman',units:1,icon:'🛸',name:'Nave auxiliar',desc:'Añade apoyo de fuego temporal; puede convivir con otros poderes.',base:{coins:165,xp:215,points:1160},recommended:false},
+        {id:'wingman',kind:'power',powerId:'wingman',units:1,icon:'🛸',name:'Escolta Gemela',desc:'Añade hasta dos escoltas laterales que heredan el arma activa.',base:{coins:165,xp:215,points:1160},recommended:false},
         {id:'phase',kind:'power',powerId:'phase',units:1,icon:'👻',name:'Fase Espectral',desc:'Desacopla la nave, reduce daño y mejora la maniobra durante 9 segundos.',base:{coins:160,xp:210,points:1130},recommended:this.mapIndex>=3,reason:'Útil en patrones cerrados.'},
         {id:'omega',kind:'power',powerId:'omega',units:1,icon:'Ω',name:'Sobrecarga Omega',desc:'Cadencia, velocidad, perforación y movilidad temporalmente reforzadas.',base:{coins:235,xp:315,points:1750},recommended:!!this.bossActive||this.wave>=4,reason:'Amplificación táctica para fases de alta presión.'},
         {id:'fury',kind:'power',powerId:'fury',units:1,icon:'≋',name:'Furia Balística',desc:'Abanicos escalonados con microcohetes perseguidores.',base:{coins:205,xp:285,points:1560},recommended:crowded,reason:'Excelente para saturación de horda.'},
@@ -3543,16 +3547,22 @@
       const elemental=elementalId?this.getPowerLevel(elementalId,true):0;
       const pierce = this.getPowerLevel('pierce', true), fire = this.getPowerLevel('fire', true), ice = this.getPowerLevel('ice', true), bounce = this.getPowerLevel('bounce', true), virus = this.getPowerLevel('virus', true);
       const overdrive=this.getPowerLevel('overdrive',true), omega=this.getPowerLevel('omega',true), fury=this.getPowerLevel('fury',true);
+      const overdriveSurge=overdrive&&(p.overdriveSurge||0)>0;
       const domain=this.getDomainMods();
-      const drive=(p.bossDrive>0?1.42:1)*(overdrive?(1.16+overdrive*.018):1)*(p.comboSurge>0?1.13:1);
+      const drive=(p.bossDrive>0?1.42:1)*(overdrive?(1.07+overdrive*.012):1)*(overdriveSurge?1.18:1)*(p.comboSurge>0?1.13:1);
       const bossBonus = target.boss ? 1.22 : 1;
       const omegaMult=omega?1.18:1;
       const elementalMult=elementalId==='laserSolar'?1.14:(elementalId==='laserHematic'?.92:(elementalId==='laserAbyssal'?.88:1));
-      const dmg = p.damage * (1 + triple * .05 + pierce * .04 + voidray * .045) * drive * bossBonus * omegaMult * (domain.damage||1) * elementalMult;
+      const dmg = p.damage * (1 + triple * .035 + pierce * .04 + voidray * .045) * drive * bossBonus * omegaMult * (domain.damage||1) * elementalMult;
       const speed = (560 + pierce * 45) * (omega?1.24:1);
-      let shots = triple ? [-0.18, 0, 0.18] : [0];
+      const dense=this.mobileLandscape||this.isSmallScreen;
+      let shots=[0];
+      if(triple){
+        if(triple>=5&&!dense)shots=[-.30,-.20,-.10,0,.10,.20,.30];
+        else if(triple>=3)shots=dense?[-.22,-.11,0,.11,.22]:[-.25,-.125,0,.125,.25];
+        else shots=[-.18,0,.18];
+      }
       if(fury){
-        const dense=this.mobileLandscape||this.isSmallScreen;
         shots=triple?(dense?[-.34,-.22,-.11,0,.11,.22,.34]:[-.42,-.31,-.21,-.10,0,.10,.21,.31,.42]):(dense?[-.16,0,.16]:[-.28,-.14,0,.14,.28]);
       }
       if (this.comboActive('prisma')) shots.push(-0.32, 0.32);
@@ -3560,7 +3570,10 @@
       const comboFire=this.comboActive('chispa')?Math.max(1,fire+1):fire;
       const comboBounce=this.comboActive('chispa')?Math.max(1,bounce+1):bounce;
       const bulletScale=omega?1.36:1;
-      shots.forEach(off => this.addBullet(p.x, p.y, a + off, speed * (p.projectileSpeedBonus || 1), dmg*(this.comboActive('chispa')?1.12:1), { pierce: 1 + pierce + (omega?2:0) + (this.comboActive('lanza') ? 2 : 0) + (this.comboActive('tridente') ? 2 : 0), fire:comboFire, ice, bounce:comboBounce, virus, color: elementalId?({laserSolar:'#ffd35a',laserHematic:'#ff435f',laserAbyssal:'#4bbcff'})[elementalId]:p.avatar.color, homing: Math.random() < (p.aimAssist || 0), glow: p.shotTier || 0, scale:bulletScale, omega:!!omega }));
+      shots.forEach(off => {
+        const edge=Math.min(1,Math.abs(off)/.42),spreadDamage=triple&&!fury?(1-edge*.24):1;
+        this.addBullet(p.x, p.y, a + off, speed * (p.projectileSpeedBonus || 1), dmg*(this.comboActive('chispa')?1.12:1)*spreadDamage, { pierce: 1 + pierce + (omega?2:0) + (this.comboActive('lanza') ? 2 : 0) + (this.comboActive('tridente') ? 2 : 0), pierceMomentum:pierce>0, fire:comboFire, ice, bounce:comboBounce, bounceLeft:comboBounce?Math.min(4,1+Math.floor(comboBounce/2)):0, virus, color: elementalId?({laserSolar:'#ffd35a',laserHematic:'#ff435f',laserAbyssal:'#4bbcff'})[elementalId]:p.avatar.color, homing: Math.random() < (p.aimAssist || 0), glow: p.shotTier || 0, scale:bulletScale, omega:!!omega });
+      });
       if(fury){
         p.furyVolley=(p.furyVolley||0)+1;
         if(p.furyVolley%3===0){
@@ -3573,10 +3586,10 @@
           }
         }
       }
-      if (laser || this.comboActive('prisma')) this.fireLaser(a, dmg * (.42 + laser * .16), this.comboActive('prisma') ? 3 : 1, this.comboActive('criotemporal'));
-      if (voidray) this.fireLaserFrom(p.x, p.y, a, dmg * (.58 + voidray * .13)*(this.comboActive('nulidad')?1.28:1), '#c391ff');
+      if (laser || this.comboActive('prisma')) this.fireLaser(a, dmg * (.42 + laser * .16), this.comboActive('prisma') ? 3 : 1, this.comboActive('criotemporal'), laser);
+      if (voidray) this.fireVoidLance(p.x, p.y, a, dmg * (.54 + voidray * .12), voidray, this.comboActive('nulidad'));
       if(elementalId)this.fireElementalLaser(elementalId,a,dmg*(.52+elemental*.13),omega);
-      let fireDelay=(p.fireDelay-triple*12-laser*8-voidray*6-elemental*7)*(p.bossDrive>0?.72:1)*(overdrive?.78:1)*(p.comboSurge>0?.88:1)*(domain.cadence||1);
+      let fireDelay=(p.fireDelay-triple*10-laser*8-voidray*6-elemental*7)*(p.bossDrive>0?.72:1)*(overdrive?.90:1)*(overdriveSurge?.72:1)*(p.comboSurge>0?.88:1)*(domain.cadence||1);
       if(omega)fireDelay*=.78;
       if(fury)fireDelay*=.72;
       p.fireTimer = Math.max(48,fireDelay);
@@ -3596,6 +3609,11 @@
         fire: meta.fire || 0,
         ice: meta.ice || 0,
         bounce: meta.bounce || 0,
+        bounceLeft: meta.bounceLeft ?? (meta.bounce ? Math.min(3,1+Math.floor(meta.bounce/2)) : 0),
+        hitCount: 0,
+        hitGrace: 0,
+        lastHitRef: null,
+        pierceMomentum: !!meta.pierceMomentum,
         virus: meta.virus || 0,
         homing: !!meta.homing,
         targetRef: meta.targetRef || null,
@@ -3611,28 +3629,29 @@
       });
     }
 
-    fireLaser(angle, damage, count = 1, slowBeam = false) {
+    fireLaser(angle, damage, count = 1, slowBeam = false, level = 0) {
       const p = this.player;
       const angles = count === 3 ? [angle - .16, angle, angle + .16] : [angle];
       angles.forEach(a => {
         const cos = Math.cos(a), sin = Math.sin(a);
-        let hit = 0;
+        const range=(590+Math.max(0,level)*24)*(p.projectileRangeBonus||1),beamWidth=10+Math.max(0,level)*1.55;
+        const hits=[];
         for (const e of this.enemies) {
-          const px = e.x - p.x;
-          const py = e.y - p.y;
-          const proj = px * cos + py * sin;
-          if (proj < 0 || proj > 560 * (p.projectileRangeBonus || 1)) continue;
-          const perp = Math.abs(px * sin - py * cos);
-          if (perp < e.r + 10) {
-            this.damageEnemy(e, damage, { laser: true, slow: slowBeam ? .75 : 0 });
-            hit++;
-            if (hit > 5) break;
-          }
+          const px=e.x-p.x,py=e.y-p.y,proj=px*cos+py*sin;
+          if(proj<0||proj>range)continue;
+          const perp=Math.abs(px*sin-py*cos);
+          if(perp<e.r+beamWidth)hits.push({e,proj});
         }
-        this.particles.push({ type: 'laser', x: p.x, y: p.y, a, life: .12, max: .12, range: 620 * (p.projectileRangeBonus || 1), color: count === 3 ? '#b58cff' : '#83eaff' });
+        hits.sort((x,y)=>x.proj-y.proj);
+        const maxHits=Math.min(9,5+Math.max(0,level));
+        hits.slice(0,maxHits).forEach((h,idx)=>{
+          const attenuation=Math.max(.72,1-idx*.045);
+          this.damageEnemy(h.e,damage*attenuation,{laser:true,slow:slowBeam?.75:0,color:'#83eaff'});
+        });
+        this.particles.push({ type:'laser', x:p.x, y:p.y, a, life:.14, max:.14, range, color:count===3?'#b58cff':'#83eaff', width:4.8+level*.45 });
+        this.particles.push({ type:'laser', x:p.x, y:p.y, a, life:.085, max:.085, range, color:'#efffff', width:1.5+level*.12 });
       });
     }
-
 
     fireLaserFrom(x, y, angle, damage, color = '#83eaff') {
       const cos = Math.cos(angle), sin = Math.sin(angle);
@@ -3650,6 +3669,29 @@
         }
       }
       this.particles.push({ type:'laser', x, y, a:angle, life:.1, max:.1, range: 580 * rangeBonus, color });
+    }
+
+    fireVoidLance(x, y, angle, damage, level = 1, nulidad = false) {
+      const cos=Math.cos(angle),sin=Math.sin(angle),range=(660+level*34)*(this.player?.projectileRangeBonus||1),beamWidth=7.5+level*1.15+(nulidad?5:0);
+      const hits=[];
+      for(const e of this.enemies){
+        const px=e.x-x,py=e.y-y,proj=px*cos+py*sin;if(proj<0||proj>range)continue;
+        const perp=Math.abs(px*sin-py*cos);if(perp<e.r+beamWidth)hits.push({e,proj});
+      }
+      hits.sort((a,b)=>a.proj-b.proj);
+      const maxHits=Math.min(11,5+level+(nulidad?2:0));
+      hits.slice(0,maxHits).forEach((h,idx)=>{
+        const attenuation=Math.max(.70,1-idx*.055),rank=this.criticalEnemyRank(h.e),bossScale=rank==='boss'?.78:(rank==='elite'?.92:1);
+        this.damageEnemy(h.e,damage*attenuation*bossScale*(nulidad?1.16:1),{laser:true,void:true,color:'#c391ff',slow:rank==='boss'?.10:.18});
+      });
+      let cleared=0,clearLimit=nulidad?Math.min(18,8+level*2):Math.min(7,2+level),clearWidth=beamWidth+(nulidad?12:5);
+      for(let i=this.bullets.length-1;i>=0&&cleared<clearLimit;i--){
+        const b=this.bullets[i];if(!b.enemy)continue;const px=b.x-x,py=b.y-y,proj=px*cos+py*sin;if(proj<0||proj>range)continue;
+        const perp=Math.abs(px*sin-py*cos);if(perp<clearWidth+(b.r||0)){this.particles.push({type:'ring',x:b.x,y:b.y,r:4,maxR:24,life:.14,max:.14,color:'#d8c6ff'});this.bullets.splice(i,1);cleared++;}
+      }
+      this.particles.push({type:'laser',x,y,a:angle,life:.135,max:.135,range,color:'#7f54d9',width:7.0+level*.42+(nulidad?2.4:0)});
+      this.particles.push({type:'laser',x,y,a:angle,life:.085,max:.085,range,color:'#f0e8ff',width:1.8+level*.14});
+      if(cleared&&nulidad&&Math.random()<.22)this.toast('⟋ LANZA DE NULIDAD',`${cleared} proyectiles desintegrados`);
     }
 
     fireElementalLaser(id,angle,damage,omegaLevel=0){
@@ -3741,6 +3783,7 @@
       const disruptor = this.getPowerLevel('disruptor', true);
       const plasma = this.getPowerLevel('plasma', true);
       const voltaic=this.getPowerLevel('voltaic',true);
+      const overdrive=this.getPowerLevel('overdrive',true);
       const nanorepair=this.getPowerLevel('nanorepair',true);
       if (orbs || this.comboActive('gravedad') || this.comboActive('bastion')) {
         const satellites = this.getAbyssalSatelliteData();
@@ -3798,27 +3841,36 @@
         }
       }
       if ((pulse || this.comboActive('resonante') || this.comboActive('blackout')) && p.pulseTimer <= 0) {
-        const radius = 130 + pulse * 30 + (this.comboActive('blackout')?72:0);
+        const blackout=this.comboActive('blackout'),radius=136+pulse*31+(blackout?72:0);
         for (const e of this.enemies) {
-          const d = Math.hypot(e.x - p.x, e.y - p.y);
-          if (d < radius) this.damageEnemy(e, p.damage * (1.3 + pulse * .25), { pulse: true });
+          const d=Math.hypot(e.x-p.x,e.y-p.y)||1;
+          if(d<radius){
+            const rank=this.criticalEnemyRank(e),rankScale=rank==='boss'?.52:(rank==='elite'?.82:1);
+            this.damageEnemy(e,p.damage*(1.22+pulse*.23)*rankScale,{pulse:true,color:blackout?'#83eaff':'#ffd56a'});
+            if(rank!=='boss'){const push=(18+pulse*4)*(rank==='elite'?.42:1);e.x+=(e.x-p.x)/d*push;e.y+=(e.y-p.y)/d*push;}
+          }
         }
-        if(this.comboActive('blackout'))for(let i=this.bullets.length-1;i>=0;i--){if(this.bullets[i].enemy)this.bullets.splice(i,1);}
-        this.particles.push({ type: 'ring', x: p.x, y: p.y, r: 20, maxR: radius, life: .32, max: .32, color: this.comboActive('blackout')?'#83eaff':'#ffd56a' });
-        p.pulseTimer = Math.max(2.8, 5.4 - pulse * .45);
-        AudioFX.tone(260, .12, 'triangle', .035, 260);
+        let cleared=0,limit=blackout?999:Math.min(12,3+pulse*2);
+        for(let i=this.bullets.length-1;i>=0&&cleared<limit;i--){const b=this.bullets[i];if(b.enemy&&Math.hypot(b.x-p.x,b.y-p.y)<radius*.72){this.bullets.splice(i,1);cleared++;}}
+        this.particles.push({type:'ring',x:p.x,y:p.y,r:20,maxR:radius,life:.36,max:.36,color:blackout?'#83eaff':'#ffd56a'});
+        this.particles.push({type:'ring',x:p.x,y:p.y,r:12,maxR:radius*.56,life:.24,max:.24,color:'#ffffff'});
+        p.pulseTimer=Math.max(2.7,5.3-pulse*.43);
+        AudioFX.tone(260,.12,'triangle',.035,260);
       }
       if (spark && p.sparkTimer > 0) {
         p.sparkTimer -= dt;
         p.sparkTick -= dt;
         if (p.sparkTick <= 0 && this.enemies.length) {
-          const target = this.nearestEnemy();
-          if (target) {
-            const a = Math.atan2(target.y - p.y, target.x - p.x);
-            this.fireLaser(a, p.damage * (.4 + spark * .12), 1);
-            this.fireLaser(a + Math.sin(now()*.01)*.18, p.damage * .18, 1);
-          }
-          p.sparkTick = Math.max(.12, .28 - spark * .02);
+          const storm=this.comboActive('tormenta'),forks=Math.min(this.isSmallScreen?3:5,2+Math.floor(spark/2)+(storm?1:0));
+          const targets=[...this.enemies].filter(e=>e.hp>0).sort((a,b)=>{const ar=this.criticalEnemyRank(a),br=this.criticalEnemyRank(b),rank={elite:0,medium:1,simple:2,boss:3};return (rank[ar]??4)-(rank[br]??4)||dist2(a,p)-dist2(b,p);}).slice(0,forks);
+          targets.forEach((e,i)=>{
+            const dx=e.x-p.x,dy=e.y-p.y,range=Math.hypot(dx,dy),rank=this.criticalEnemyRank(e),decay=Math.max(.72,1-i*.08),bossScale=rank==='boss'?.62:1;
+            this.damageEnemy(e,p.damage*(.30+spark*.07)*(storm?1.18:1)*decay*bossScale,{laser:true,color:storm?'#d7ff72':'#93ffef',slow:rank==='boss'?.08:.16,silent:true});
+            this.particles.push({type:'laser',x:p.x,y:p.y,a:Math.atan2(dy,dx),life:.10,max:.10,range,color:i%2?'#93ffef':'#eaffff',width:2.2+spark*.18});
+            if(i===0)this.particles.push({type:'ring',x:e.x,y:e.y,r:4,maxR:30+spark*3,life:.16,max:.16,color:'#93ffef'});
+          });
+          if(storm){const allies=this.drones.filter(d=>d.support).slice(0,2);for(const d of allies){const e=targets[(d.index||0)%Math.max(1,targets.length)];if(e){const dx=e.x-d.x,dy=e.y-d.y;this.particles.push({type:'laser',x:d.x,y:d.y,a:Math.atan2(dy,dx),life:.08,max:.08,range:Math.hypot(dx,dy),color:'#d7ff72',width:1.8});this.damageEnemy(e,p.damage*.16,{color:'#d7ff72',silent:true});}}}
+          p.sparkTick = Math.max(.13,.34-spark*.026);
         }
       }
       if (opem) {
@@ -3932,42 +3984,52 @@
       if (plasma) {
         p.plasmaTimer -= dt;
         if (p.plasmaTimer <= 0 && this.enemies.length) {
-          const target=this.nearestEnemy();
-          if (target) {
-            const radius=88+plasma*12+(this.comboActive('pozo')?46:0);
-            for (const e of this.enemies) {
-              const d=Math.hypot(e.x-target.x,e.y-target.y)||1;
-              if (d<radius) {
-                this.damageEnemy(e,p.damage*(.42+plasma*.08),{fire:1,color:'#d879ff'});
-                const pull=this.comboActive('pozo')?10:5;
-                e.x += ((target.x-e.x)/d)*pull;
-                e.y += ((target.y-e.y)/d)*pull;
-              }
-            }
-            this.particles.push({type:'ring',x:target.x,y:target.y,r:10,maxR:radius,life:.34,max:.34,color:'#d879ff'});
+          const target=this.enemies.slice().sort((a,b)=>{const ar=this.criticalEnemyRank(a),br=this.criticalEnemyRank(b),rank={elite:0,medium:1,simple:2,boss:3};return (rank[ar]??4)-(rank[br]??4)||dist2(a,p)-dist2(b,p);})[0]||this.nearestEnemy();
+          if(target){
+            const pozo=this.comboActive('pozo'),life=1.55+plasma*.10+(pozo?.45:0),radius=78+plasma*10+(pozo?38:0);
+            const active=this.zones.filter(z=>z.type==='plasmaVortex');if(active.length>=(this.isSmallScreen?2:3))active.sort((a,b)=>a.life-b.life)[0].life=0;
+            this.zones.push({type:'plasmaVortex',x:target.x,y:target.y,r:radius,life,max:life,damage:p.damage*(.30+plasma*.055),pull:18+plasma*2.2+(pozo?8:0),pulseCd:.08,color:pozo?'#c391ff':'#d879ff'});
+            this.particles.push({type:'ring',x:target.x,y:target.y,r:12,maxR:radius,life:.38,max:.38,color:pozo?'#c391ff':'#d879ff'});
           }
-          p.plasmaTimer=Math.max(.45,.9-plasma*.06);
+          p.plasmaTimer=Math.max(1.15,2.45-plasma*.15);
         }
       }
       if (kamikaze) {
         p.kamiTimer -= dt;
         if (p.kamiTimer <= 0 && this.enemies.length) {
-          const count = 1 + Math.floor(kamikaze / 2);
-          for (let i=0;i<count;i++) {
-            const target = this.enemies[(i + Math.floor(Math.random()*this.enemies.length)) % this.enemies.length];
-            const ang = Math.atan2(target.y - p.y, target.x - p.x) + rand(.15,-.15);
-            this.addBullet(p.x, p.y, ang, 500 + kamikaze * 40, p.damage * (1.4 + kamikaze * .18), { pierce: 1, homing: true, type: 'kamikaze', big: true, fire: 1, virus: 1, color: '#ff8b5d' });
+          const ordered=[...this.enemies].filter(e=>e.hp>0).sort((a,b)=>{const ar=this.criticalEnemyRank(a),br=this.criticalEnemyRank(b),rank={elite:0,medium:1,simple:2,boss:3};return (rank[ar]??4)-(rank[br]??4)||dist2(a,p)-dist2(b,p);});
+          const count=Math.min(this.isSmallScreen?3:5,2+Math.floor(kamikaze/2));
+          for(let i=0;i<count;i++){
+            const target=ordered[i%ordered.length]||this.nearestEnemy();if(!target)break;
+            const ang=Math.atan2(target.y-p.y,target.x-p.x)+(i-(count-1)/2)*.055;
+            this.addBullet(p.x+(i%2?7:-7),p.y+(i%3-1)*5,ang,485+kamikaze*34,p.damage*(1.05+kamikaze*.13)*(target.boss?.72:1),{pierce:1,homing:true,targetRef:target,type:'kamikaze',big:true,mantis:true,retargets:1+Math.floor(kamikaze/3),fire:.7,virus:this.comboActive('enjambre')?1:0,color:i%2?'#ff8b5d':'#ffd56a',trail:true,scale:.86});
           }
-          p.kamiTimer = Math.max(1.4, 3.4 - kamikaze * .16);
+          this.particles.push({type:'ring',x:p.x,y:p.y,r:8,maxR:46+count*4,life:.20,max:.20,color:'#ff8b5d'});
+          p.kamiTimer=Math.max(1.05,2.75-kamikaze*.15);
         }
       }
       if (voltaic) {
         p.voltaicTimer=(p.voltaicTimer??.25)-dt;
         if(p.voltaicTimer<=0&&this.enemies.length){
-          const storm=this.comboActive('tempestad');
-          const chain=this.enemies.slice().sort((a,b)=>dist2(a,p)-dist2(b,p)).slice(0,Math.min(storm?8:5,(storm?4:2)+Math.floor(voltaic)));
-          chain.forEach((e,idx)=>{this.damageEnemy(e,p.damage*(.32+voltaic*.07)*(storm?1.38:1),{color:storm?'#d7ff72':'#93ff8b',slow:storm?.22:.12});if(idx<chain.length-1)this.particles.push({type:'laser',x:e.x,y:e.y,a:Math.atan2(chain[idx+1].y-e.y,chain[idx+1].x-e.x),life:.1,max:.1,range:Math.hypot(chain[idx+1].x-e.x,chain[idx+1].y-e.y),color:storm?'#d7ff72':'#93ff8b'});});
-          p.voltaicTimer=Math.max(.34,.76-voltaic*.05);
+          const storm=this.comboActive('tempestad'),maxJumps=Math.min(storm?9:6,(storm?5:3)+Math.floor(voltaic)),jumpRange=storm?330:270,color=storm?'#d7ff72':'#93ff8b';
+          let current=this.enemies.slice().sort((a,b)=>dist2(a,p)-dist2(b,p))[0],origin={x:p.x,y:p.y};const used=[];
+          for(let idx=0;current&&idx<maxJumps;idx++){
+            const decay=storm?1:Math.max(.62,1-idx*.085),amount=p.damage*(.30+voltaic*.065)*(storm?1.28:1)*decay*(current.boss?.72:1);
+            this.damageEnemy(current,amount,{color,slow:storm?.24:.12});
+            const dx=current.x-origin.x,dy=current.y-origin.y;this.particles.push({type:'laser',x:origin.x,y:origin.y,a:Math.atan2(dy,dx),life:.105,max:.105,range:Math.hypot(dx,dy),color,width:2.6+(storm?1.1:0)});
+            used.push(current);origin=current;
+            current=this.enemies.filter(e=>e.hp>0&&!used.includes(e)&&Math.hypot(e.x-origin.x,e.y-origin.y)<=jumpRange).sort((a,b)=>Math.hypot(a.x-origin.x,a.y-origin.y)-Math.hypot(b.x-origin.x,b.y-origin.y))[0]||null;
+          }
+          p.voltaicTimer=Math.max(.36,.82-voltaic*.055);
+        }
+      }
+      if(overdrive){
+        p.overdriveBeatTimer=(p.overdriveBeatTimer??.2)-dt;
+        if(p.overdriveBeatTimer<=0){
+          p.overdriveSurge=Math.max(p.overdriveSurge||0,.42+overdrive*.035);
+          this.particles.push({type:'ring',x:p.x,y:p.y,r:12,maxR:74+overdrive*7,life:.30,max:.30,color:this.comboActive('tempestad')?'#d7ff72':'#ffb35a'});
+          if(this.comboActive('tempestad'))p.voltaicTimer=Math.min(p.voltaicTimer||.2,.08);
+          p.overdriveBeatTimer=Math.max(1.15,1.75-overdrive*.08);
         }
       }
       if(this.isPowerActive('phase')){
@@ -4000,7 +4062,7 @@
       const p=this.player;
       const w2=this.worldTwoState;
       w2.eventTimer=8.5; w2.actSeen=1;
-      this.spawnPickup(p.x+42,clamp(p.y-92,64,this.h-64),'power',1,{powerId:'voidray',major:true,rewardGlow:true,label:'Rayo de vacío',powerDuration:14});
+      this.spawnPickup(p.x+42,clamp(p.y-92,64,this.h-64),'power',1,{powerId:'voidray',major:true,rewardGlow:true,label:'Lanza del Vacío',powerDuration:14});
       this.spawnPickup(p.x-92,p.y-26,'shield',30,{rewardGlow:true,label:'Shield +30'});
       this.spawnPickup(p.x+104,p.y+38,'power',1,{powerId:'afterburner',rewardGlow:true,label:'Impulsor 10s',powerDuration:10});
       this.spawnDrone(16,false,{support:true,inheritPower:true,count:Math.min(2,Math.max(1,(currentProfile().completedMaps||[]).length)),radius:126,fireRate:.22,damageScale:.88,color:'#c391ff'});
@@ -5713,7 +5775,8 @@
         e.empLock=Math.max(0,(e.empLock||0)-dt);
         if(e.empLock>0){e.futureFire=Math.max(e.futureFire||0,.34);e.familyFire=Math.max(e.familyFire||0,.34);e.echoFire=Math.max(e.echoFire||0,.42);e.echoRadial=Math.max(e.echoRadial||0,.58);e.mirrorFire=Math.max(e.mirrorFire||0,.36);}
         const freezeScale=e.freeze>0?(e.boss?.74:.12):1;
-        const slow = (e.slow ? .55 : 1) * freezeScale * (this.isPowerActive('stasis') ? (e.boss ? Math.max(.72,.82/stasisScale) : Math.max(.46,.58/stasisScale)) : 1);
+        const viralScale=e.virus>0?(e.boss?.96:(e.echoBoss?.93:(this.criticalEnemyRank(e)==='elite'?.90:.84))):1;
+        const slow = (e.slow ? .55 : 1) * freezeScale * viralScale * (this.isPowerActive('stasis') ? (e.boss ? Math.max(.72,.82/stasisScale) : Math.max(.46,.58/stasisScale)) : 1);
         e.slow = Math.max(0, (e.slow || 0) - dt);
         if (e.burn) {
           e.burn -= dt;
@@ -5721,7 +5784,11 @@
         }
         if (e.virus) {
           e.virus -= dt;
-          this.damageEnemy(e, (10 + (this.powerLevels.virus || 0) * 2) * dt, { virus: true, silent: true });
+          const vLevel=Math.max(1,e.virusStrength||this.powerLevels.virus||1),rank=this.criticalEnemyRank(e),rankScale=rank==='boss'?.38:(rank==='elite'?.72:1);
+          this.damageEnemy(e,(8+vLevel*2.2)*dt*rankScale,{virus:true,silent:true,color:'#a7ff6e'});
+          const inhibit=rank==='boss'?.10:(rank==='elite'?.24:.38);
+          e.futureFire=Math.max(e.futureFire||0,inhibit);e.familyFire=Math.max(e.familyFire||0,inhibit);e.mirrorFire=Math.max(e.mirrorFire||0,inhibit);e.echoFire=Math.max(e.echoFire||0,rank==='boss'?.12:.28);
+          e.virusFx=(e.virusFx||0)-dt;if(e.virusFx<=0){this.particles.push({type:'ring',x:e.x,y:e.y,r:3,maxR:e.r*1.7+8,life:.18,max:.18,color:'#a7ff6e'});e.virusFx=.48+Math.random()*.30;}
         }
         let mx = dx / d, my = dy / d;
         let bossHandled = false;
@@ -6161,7 +6228,7 @@
       if (this.bullets.length > cap) this.bullets.splice(0, this.bullets.length - cap);
       for (let i = this.bullets.length - 1; i >= 0; i--) {
         const b = this.bullets[i];
-        b.life -= dt;b.age=(b.age||0)+dt;
+        b.life -= dt;b.age=(b.age||0)+dt;b.hitGrace=Math.max(0,(b.hitGrace||0)-dt);
         if(b.enemy&&b.bossHoming){const ang=Math.atan2(p.y-b.y,p.x-b.x),sp=Math.hypot(b.vx,b.vy)||160,targetVX=Math.cos(ang)*sp,targetVY=Math.sin(ang)*sp,k=Math.min(1,dt*(b.turnRate||.6));b.vx+=(targetVX-b.vx)*k;b.vy+=(targetVY-b.vy)*k;}
         if(b.enemy&&b.wobble){const ang=Math.atan2(b.vy,b.vx),sp=Math.hypot(b.vx,b.vy)||150,twist=Math.sin((b.age||0)*6.2)*(b.wobble||0)*.035;b.vx=Math.cos(ang+twist)*sp;b.vy=Math.sin(ang+twist)*sp;}
         if(b.enemy&&b.spin)b.rot=(b.rot||0)+b.spin*dt;
@@ -6175,6 +6242,10 @@
             b.vx += (Math.cos(ang) * sp - b.vx) * Math.min(1, dt * turn);
             b.vy += (Math.sin(ang) * sp - b.vy) * Math.min(1, dt * turn);
           }
+        }
+        if(b.mantis&&!b.enemy){
+          let intercepted=-1,bestD=Infinity;for(let bi=0;bi<this.bullets.length;bi++){const eb=this.bullets[bi];if(!eb.enemy)continue;const bd=Math.hypot(eb.x-b.x,eb.y-b.y);if(bd<26+(b.r||6)&&bd<bestD){bestD=bd;intercepted=bi;}}
+          if(intercepted>=0){const eb=this.bullets[intercepted];this.particles.push({type:'ring',x:eb.x,y:eb.y,r:5,maxR:42,life:.20,max:.20,color:'#ffd56a'});this.emit(eb.x,eb.y,'#ff8b5d',5,75,.24);this.bullets.splice(intercepted,1);const current=this.bullets.indexOf(b);if(current>=0)this.bullets.splice(current,1);continue;}
         }
         if(b.trail && !b.enemy && Math.random()<.78){const mult=b.chimera?.085:.06;this.particles.push({type:'spark',x:b.x,y:b.y,vx:-b.vx*mult+rand(b.chimera?34:22,b.chimera?-34:-22),vy:-b.vy*mult+rand(b.chimera?34:22,b.chimera?-34:-22),r:rand(b.chimera?4.2:2.6,b.chimera?1.8:1.2),life:b.chimera?.30:.20,max:b.chimera?.30:.20,color:b.color});}
         const timeScale = b.enemy && this.isPowerActive('stasis') ? Math.max(.46,.58/this.getStagePowerScale()) : 1;
@@ -6199,10 +6270,13 @@
             }
           }
           if (b.pierce > 0) for (const e of this.enemies) {
+            if(e===b.lastHitRef&&(b.hitGrace||0)>0)continue;
             if (Math.hypot(b.x - e.x, b.y - e.y) < b.r + e.r) {
-              this.damageEnemy(e, b.damage, b);
+              const momentum=b.pierceMomentum?1+Math.min(.24,(b.hitCount||0)*.07)*(e.boss?.45:1):1;
+              this.damageEnemy(e, b.damage*momentum, b);
+              b.hitCount=(b.hitCount||0)+1;b.lastHitRef=e;b.hitGrace=.075;
               b.pierce -= 1;
-              if (b.voracious && e.hp <= 0 && (b.retargets||0) > 0) {
+              if ((b.voracious||b.mantis) && e.hp <= 0 && (b.retargets||0) > 0) {
                 const other=this.enemies.filter(o=>o!==e&&o.hp>0).sort((x,y)=>Math.hypot(x.x-b.x,x.y-b.y)-Math.hypot(y.x-b.x,y.y-b.y))[0];
                 if(other){
                   b.targetRef=other;b.retargets-=1;b.pierce=Math.max(1,b.pierce+1);b.life=Math.max(b.life,.85);
@@ -6211,11 +6285,13 @@
                   this.particles.push({type:'ring',x:b.x,y:b.y,r:5,maxR:28,life:.16,max:.16,color:b.color});
                 }
               }
-              if (b.bounce && Math.random() < .18 + b.bounce * .05) {
-                const other = this.enemies.find(o => o !== e && Math.hypot(o.x - e.x, o.y - e.y) < 220);
+              if (b.bounce && (b.bounceLeft||0)>0) {
+                const range=230+b.bounce*24;
+                const other=this.enemies.filter(o=>o!==e&&o.hp>0&&Math.hypot(o.x-e.x,o.y-e.y)<range).sort((x,y)=>Math.hypot(x.x-e.x,x.y-e.y)-Math.hypot(y.x-e.x,y.y-e.y))[0];
                 if (other) {
-                  const a = Math.atan2(other.y - e.y, other.x - e.x);
-                  b.x = e.x; b.y = e.y; b.vx = Math.cos(a) * 640; b.vy = Math.sin(a) * 640; b.pierce += 1;
+                  const aa=Math.atan2(other.y-e.y,other.x-e.x),sp=Math.max(610,Math.hypot(b.vx,b.vy));
+                  b.x=e.x;b.y=e.y;b.vx=Math.cos(aa)*sp;b.vy=Math.sin(aa)*sp;b.pierce=Math.max(1,b.pierce+1);b.bounceLeft-=1;b.targetRef=other;
+                  this.particles.push({type:'laser',x:e.x,y:e.y,a:aa,life:.075,max:.075,range:Math.min(range,Math.hypot(other.x-e.x,other.y-e.y)),color:b.color,width:2.1});
                 }
               }
               if (b.pierce <= 0) break;
@@ -6262,7 +6338,7 @@
       }
       if (!meta.silent && Math.random() < .28) AudioFX.hit();
       if (meta.fire) e.burn = Math.max(e.burn || 0, .8 + meta.fire * .22);
-      if (meta.virus) e.virus = Math.max(e.virus || 0, 1.4 + meta.virus * .3);
+      if (meta.virus) { e.virus = Math.max(e.virus || 0, 1.55 + meta.virus * .34); e.virusStrength=Math.max(e.virusStrength||0,meta.virus||1); }
       if (meta.ice) {
         e.slow = Math.max(e.slow || 0, .5 + meta.ice * .12);
         e.frostStacks=Math.min(4,(e.frostStacks||0)+Math.max(.55,meta.ice*.72));e.frostLife=1.7;
@@ -6380,7 +6456,7 @@
         else if (roll < .078) this.spawnPickup(e.x + rand(24,-24), e.y + rand(24,-24), 'life', 14);
       }
       if (e.behavior === 'splitter' && !e.mini) for (let i = 0; i < 2; i++) this.spawnEnemy('corredor', true);
-      if (e.virus > 0) for (const other of this.enemies) if (other !== e && Math.hypot(other.x - e.x, other.y - e.y) < 130) other.virus = Math.max(other.virus || 0, 1.2);
+      if(e.virus>0){const vLevel=Math.max(1,e.virusStrength||this.powerLevels.virus||1),radius=145+vLevel*14,maxSpread=Math.min(6,2+vLevel);const nearby=this.enemies.filter(other=>other!==e&&other.hp>0&&!other.boss&&Math.hypot(other.x-e.x,other.y-e.y)<radius).sort((a,b)=>Math.hypot(a.x-e.x,a.y-e.y)-Math.hypot(b.x-e.x,b.y-e.y)).slice(0,maxSpread);for(const other of nearby){other.virus=Math.max(other.virus||0,1.45+vLevel*.12);other.virusStrength=Math.max(other.virusStrength||0,vLevel*.82);this.particles.push({type:'laser',x:e.x,y:e.y,a:Math.atan2(other.y-e.y,other.x-e.x),life:.09,max:.09,range:Math.hypot(other.x-e.x,other.y-e.y),color:'#a7ff6e',width:1.8});}}
       if (this.bossFight?.active && !e.boss) {
         this.bossFight.addsKilled = (this.bossFight.addsKilled || 0) + 1;
         this.bossFight.charge = Math.min(100, (this.bossFight.charge || 0) + (e.mini ? 22 : 14));
@@ -6519,18 +6595,33 @@
         d.life -= dt;
         d.a += dt * (1.5 + d.index * .25 + (d.support ? .35 : 0));
         const radius = d.radius || (d.permanent ? 82 : 104);
-        d.x = this.player.x + Math.cos(d.a) * radius;
-        d.y = this.player.y + Math.sin(d.a) * radius;
+        if(d.kind==='wingman'){
+          const side=d.side||((d.index||0)%2?1:-1);d.side=side;
+          d.x=this.player.x+side*(48+Math.min(20,radius*.10));d.y=this.player.y+28+Math.sin(d.a*1.7)*12;
+        }else if(d.kind==='phantom'){
+          const aim=Math.atan2(this.pointer.y-this.player.y,this.pointer.x-this.player.x),slot=d.formationSlot||0,row=Math.floor(slot/2),side=slot%2===0?-1:1,back=52+row*32,lateral=(26+row*10)*side;
+          d.x=this.player.x-Math.cos(aim)*back-Math.sin(aim)*lateral;d.y=this.player.y-Math.sin(aim)*back+Math.cos(aim)*lateral;d.a=aim+Math.PI/2;
+          if(d.phaseTrail&&Math.random()<dt*7)this.particles.push({type:'spark',x:d.x+rand(5,-5),y:d.y+rand(5,-5),vx:rand(16,-16),vy:rand(16,-16),r:rand(2.4,1),life:.24,max:.24,color:d.color||'#c391ff'});
+        }else{
+          d.x = this.player.x + Math.cos(d.a) * radius;
+          d.y = this.player.y + Math.sin(d.a) * radius;
+        }
         if(d.kind==='requiem'&&d.intercept){d.interceptCd=Math.max(0,(d.interceptCd||0)-dt);if(d.interceptCd<=0){for(let bi=this.bullets.length-1;bi>=0;bi--){const eb=this.bullets[bi];if(!eb.enemy)continue;if(Math.hypot(eb.x-d.x,eb.y-d.y)<28){this.bullets.splice(bi,1);this.particles.push({type:'ring',x:d.x,y:d.y,r:6,maxR:34,life:.16,max:.16,color:d.color||'#c391ff'});d.interceptCd=.16;break;}}}}
         d.fire -= dt;
         if (d.fire <= 0 && this.enemies.length) {
           const ordered=d.kind==='requiem'?[...this.enemies].sort((a,b)=>dist2(a,d)-dist2(b,d)):null;
-          const target = d.kind==='requiem' ? ordered[(d.index||0)%ordered.length] : this.nearestEnemy();
+          let target;
+          if(d.kind==='requiem')target=ordered[(d.index||0)%ordered.length];
+          else if(d.kind==='phantom'){const pool=[...this.enemies].filter(e=>e.hp>0).sort((a,b)=>dist2(a,d)-dist2(b,d));target=pool[(d.formationSlot||0)%Math.max(1,pool.length)]||this.nearestEnemy();}
+          else if(d.kind==='wingman'){
+            const threats=[...this.enemies].sort((a,b)=>{const ar=this.criticalEnemyRank(a),br=this.criticalEnemyRank(b),rank={boss:0,elite:1,medium:2,simple:3};return ((d.side||1)<0?((rank[ar]??4)-(rank[br]??4)):0)||dist2(a,d)-dist2(b,d);});
+            target=threats[0]||this.nearestEnemy();
+          }else target=this.nearestEnemy();
           if (target) {
             const a = Math.atan2(target.y - d.y, target.x - d.x);
             const storm=this.comboActive('tormenta');
             const dmg = this.player.damage * (this.comboActive('resonante') ? .92 : (storm?.78:.62)) * (d.damageScale || 1);
-            const inherited = d.inheritPower ? (this.activePowerSlots?.weaponMode || null) : null;
+            const inherited = (d.inheritPower || (d.kind==='drone'&&(this.powerLevels.drone||0)>=3)) ? (this.activePowerSlots?.weaponMode || null) : null;
             if (inherited === 'laser' && this.isPowerActive('laser')) {
               this.fireLaserFrom(d.x, d.y, a, dmg * .72, d.color || '#9fd4ff');
             } else if (inherited === 'voidray' && this.isPowerActive('voidray')) {
@@ -6543,7 +6634,7 @@
             }
             if (this.comboActive('resonante') && Math.random() < .25) this.particles.push({ type: 'ring', x: d.x, y: d.y, r: 8, maxR: 70, life: .22, max: .22, color: d.color || '#9ac7ff' });
             if(storm&&this.enemies.length>1){const second=this.enemies.find(e=>e!==target);if(second){this.damageEnemy(second,dmg*.42,{color:'#93ff8b',slow:.12});this.particles.push({type:'laser',x:target.x,y:target.y,a:Math.atan2(second.y-target.y,second.x-target.x),life:.08,max:.08,range:Math.hypot(second.x-target.x,second.y-target.y),color:'#93ff8b'});}}
-            d.fire = d.kind==='requiem' ? .20 : (d.support ? (storm?.18:.24) : (this.comboActive('resonante') ? .32 : (storm?.30:.48)));
+            d.fire = d.kind==='requiem' ? .20 : (d.kind==='phantom'?.17:(d.support ? (storm?.18:.24) : (this.comboActive('resonante') ? .32 : (storm?.30:.48))));
           }
         }
         if (d.life <= 0 && !d.permanent) this.drones.splice(i, 1);
@@ -6576,6 +6667,17 @@
           for(let bi=this.bullets.length-1;bi>=0;bi--){const b=this.bullets[bi];if(b.enemy&&Math.hypot(z.x-b.x,z.y-b.y)<14){this.bullets.splice(bi,1);this.emit(z.x,z.y,'#c391ff',2,45,.18);}}
           if(z.pulseCd<=0){this.particles.push({type:'ring',x:z.x,y:z.y,r:8,maxR:z.r*.82,life:.30,max:.30,color:'#c391ff'});z.pulseCd=.72;}
         }
+        if (z.type === 'plasmaVortex') {
+          z.pulseCd=(z.pulseCd||0)-dt;
+          for(const e of this.enemies){
+            const ed=Math.hypot(z.x-e.x,z.y-e.y)||1;if(ed>z.r+e.r)continue;
+            const rank=this.criticalEnemyRank(e),pullScale=rank==='boss'?.12:(rank==='elite'?.52:(rank==='medium'?.78:1));
+            const pull=(z.pull||20)*pullScale*dt;e.x+=(z.x-e.x)/ed*pull;e.y+=(z.y-e.y)/ed*pull;
+            e.slow=Math.max(e.slow||0,rank==='boss'?.14:.30);
+            this.damageEnemy(e,(z.damage||5)*dt*(rank==='boss'?.34:(rank==='elite'?.76:1)),{silent:true,color:z.color||'#d879ff',fire:rank==='boss'?.15:.4});
+          }
+          if(z.pulseCd<=0){this.particles.push({type:'ring',x:z.x,y:z.y,r:7,maxR:z.r*.72,life:.24,max:.24,color:z.color||'#d879ff'});z.pulseCd=.34;}
+        }
         if (z.life <= 0) {
           if(z.type==='gravityMine'){
             for(const e of this.enemies){const ed=Math.hypot(z.x-e.x,z.y-e.y);if(ed<z.r*.78)this.damageEnemy(e,(z.collapseDamage||12)*(1-ed/(z.r*.9))*(e.boss?.38:1),{silent:true,color:'#e5c2ff',slow:e.boss?.12:.4});}
@@ -6606,6 +6708,7 @@
       if (p.cloak > 0) mod *= .6;
       if (p.entryShieldTimer > 0) mod *= .38;
       if (this.isPowerActive('phase')) mod *= Math.max(.22,.34/this.getStagePowerScale())*(this.comboActive('hiperfase')?.72:1);
+      if (this.isPowerActive('afterburner')) mod *= this.comboActive('hiperfase')?.82:.90;
       if (this.comboActive('bastion')) mod *= .82;
       amount *= mod * (this.getDifficulty().incomingDamage || 1) * (this.getDomainMods().incoming||1);
       if (p.shield > 0) {
@@ -6761,7 +6864,11 @@
       const activationState=this.markPowerActive(id, options.duration || POWER_ACTIVE_SECONDS[id] || 8);
       if(activationState!=='queued')this.activatePowerSlot(id);
       currentProfile().collection.powers[id] = true;
-      if (id === 'drone') this.spawnDrone(options.droneLife || (10 + (this.powerLevels.drone || 0) * 2), false, options.droneOptions || {});
+      if (id === 'drone') {
+        const lvl=this.powerLevels.drone||1,opts={...(options.droneOptions||{})};
+        if(lvl>=3){opts.support=true;opts.inheritPower=true;opts.fireRate=Math.min(opts.fireRate||.28,.22);opts.damageScale=Math.max(opts.damageScale||0,.72);opts.color=opts.color||'#72ffc7';}
+        this.spawnDrone(options.droneLife || (10 + lvl * 2), false, opts);
+      }
       if (id === 'spark') { this.player.sparkTimer = Math.min(20, this.player.sparkTimer + 10); this.player.sparkTick = 0; }
       if (id === 'kamikaze') this.player.kamiTimer = .4;
       if (id === 'torpedo') this.player.torpedoTimer = .12;
@@ -6771,10 +6878,10 @@
       if (id === 'gravmine') this.player.gravMineTimer = Math.min(this.player.gravMineTimer || 1, .45);
       if (id === 'disruptor') this.player.disruptorTimer = Math.min(this.player.disruptorTimer || 1, .55);
       if (id === 'plasma') this.player.plasmaTimer = Math.min(this.player.plasmaTimer || 1, .2);
-      if (id === 'phantom') this.spawnDrone(options.droneLife || (13 + (this.powerLevels.phantom || 0)), false, { support:true, inheritPower:true, count:Math.min(4,2 + Math.floor((this.powerLevels.phantom || 1)/2)), radius:142, fireRate:.19, damageScale:.82, color:'#c391ff' });
+      if(id==='phantom'){const lvl=this.powerLevels.phantom||1,count=Math.min(this.isSmallScreen?3:4,2+Math.floor(lvl/2));this.spawnDrone(options.droneLife||(13+lvl),false,{support:true,inheritPower:true,kind:'phantom',phaseTrail:true,count,radius:142,fireRate:.16,damageScale:.72+Math.min(.16,lvl*.025),color:'#c391ff'});this.particles.push({type:'ring',x:this.player.x,y:this.player.y,r:12,maxR:150,life:.42,max:.42,color:'#c391ff'});}
       if (id === 'wingman') {
         const active = this.drones.filter(d => d.kind === 'wingman');
-        if (active.length < 2) this.spawnDrone(12*this.getStagePowerScale(),false,{count:1,kind:'wingman',support:true,inheritPower:true,radius:118 + active.length*25,fireRate:.2,damageScale:.9*this.getStagePowerScale(),color:'#83eaff'});
+        if (active.length < 2) this.spawnDrone(12*this.getStagePowerScale(),false,{count:1,kind:'wingman',support:true,inheritPower:true,radius:118 + active.length*25,fireRate:.18,damageScale:.86*this.getStagePowerScale(),color:active.length?'#ffd56a':'#83eaff',side:active.length?1:-1});
         else {
           active.sort((a,b)=>a.life-b.life)[0].life = 12;
           this.toast('🛸 Escolta completa','2 naves auxiliares · duración renovada');
@@ -6834,7 +6941,11 @@
           damageScale: options.damageScale || 1,
           inheritPower: !!options.inheritPower,
           kind: options.kind || 'drone',
-          domainForm: options.domainForm || null
+          side: options.side || 0,
+          domainForm: options.domainForm || null,
+          intercept: !!options.intercept,
+          phaseTrail: !!options.phaseTrail,
+          formationSlot: options.formationSlot ?? i
         });
       }
     }
@@ -7978,12 +8089,17 @@
       for (const z of this.zones) {
         const a = clamp(z.life / z.max, 0, 1);
         ctx.save();
-        ctx.globalAlpha = .24 * a;
+        ctx.globalAlpha = (z.type==='plasmaVortex'?.12:.24) * a;
         const bossGravityColor = this.mapIndex===11 ? '#46e7f2' : (this.mapIndex===10 ? '#ff9b45' : (this.mapIndex===12 ? '#ff8b4e' : '#9a43e8'));
-        ctx.fillStyle = z.type === 'toxic' ? '#b7ff69' : z.type === 'slow' ? '#83eaff' : z.type === 'gravityMine' ? '#c391ff' : z.type==='bossGravity' ? bossGravityColor : '#61ffc8';
+        ctx.fillStyle = z.type === 'toxic' ? '#b7ff69' : z.type === 'slow' ? '#83eaff' : z.type === 'gravityMine' ? '#c391ff' : z.type==='plasmaVortex' ? (z.color||'#d879ff') : z.type==='bossGravity' ? bossGravityColor : '#61ffc8';
         ctx.beginPath(); ctx.arc(z.x, z.y, z.r, 0, Math.PI * 2); ctx.fill();
         ctx.globalAlpha = .65 * a;
         ctx.strokeStyle = ctx.fillStyle; ctx.lineWidth = 2; ctx.stroke();
+        if(z.type==='plasmaVortex'){
+          const tt=now()*.004;ctx.globalAlpha=.55*a;ctx.lineWidth=2.6;ctx.setLineDash([18,10]);ctx.lineDashOffset=-tt*18;
+          for(let k=0;k<3;k++){ctx.beginPath();ctx.arc(z.x,z.y,z.r*(.28+k*.22),tt*(k%2?-.45:.55)+k,tt*(k%2?-.45:.55)+k+Math.PI*1.35);ctx.stroke();}
+          ctx.setLineDash([]);ctx.globalAlpha=.75*a;ctx.beginPath();ctx.arc(z.x,z.y,Math.max(5,z.r*.11),0,Math.PI*2);ctx.fill();
+        }
         ctx.restore();
       }
     }
@@ -8070,6 +8186,10 @@
             ctx.beginPath();ctx.moveTo(13,0);ctx.lineTo(-3,7);ctx.lineTo(-8,3);ctx.lineTo(-5,0);ctx.lineTo(-8,-3);ctx.lineTo(-3,-7);ctx.closePath();ctx.fill();
             ctx.globalAlpha=.72;ctx.strokeStyle='#fff1b0';ctx.lineWidth=1.2;ctx.beginPath();ctx.moveTo(1,-5);ctx.lineTo(6,0);ctx.lineTo(1,5);ctx.stroke();
             ctx.globalAlpha=.35;ctx.fillRect(-20,-2,15,4);
+          }else if(b.mantis){
+            ctx.globalAlpha=.96;ctx.beginPath();ctx.moveTo(12,0);ctx.lineTo(1,4);ctx.lineTo(-5,10);ctx.lineTo(-3,3);ctx.lineTo(-9,0);ctx.lineTo(-3,-3);ctx.lineTo(-5,-10);ctx.lineTo(1,-4);ctx.closePath();ctx.fill();
+            ctx.globalAlpha=.70;ctx.strokeStyle='#fff2b0';ctx.lineWidth=1.2;ctx.beginPath();ctx.moveTo(1,-4);ctx.lineTo(6,0);ctx.lineTo(1,4);ctx.moveTo(-3,-4);ctx.lineTo(-8,-8);ctx.moveTo(-3,4);ctx.lineTo(-8,8);ctx.stroke();
+            ctx.globalAlpha=.28;ctx.fillRect(-20,-1.8,12,3.6);
           }else{
             ctx.beginPath(); ctx.moveTo(11, 0); ctx.lineTo(-8, 6); ctx.lineTo(-3,0); ctx.lineTo(-8,-6); ctx.closePath(); ctx.fill();
             ctx.globalAlpha = .32; ctx.fillRect(-18,-2,14,4);
@@ -8358,10 +8478,11 @@
           ctx.fillText(`PREFECTO ${Math.min(3,(e.captainIndex||0)+1)}/3`,0,-e.r*2.45);
           ctx.restore();
         }
-        if((e.freeze||0)>0 || (e.frostStacks||0)>0 || (e.empLock||0)>0){
+        if((e.freeze||0)>0 || (e.frostStacks||0)>0 || (e.empLock||0)>0 || (e.virus||0)>0){
           ctx.save();
           if((e.freeze||0)>0 || (e.frostStacks||0)>0){ctx.globalAlpha=(e.freeze||0)>0?.68:.32;ctx.strokeStyle='#bff6ff';ctx.lineWidth=(e.freeze||0)>0?3:1.6;ctx.shadowBlur=14;ctx.shadowColor='#83eaff';ctx.beginPath();ctx.arc(0,0,e.r*((e.freeze||0)>0?1.42:1.24),0,Math.PI*2);ctx.stroke();}
           if((e.empLock||0)>0){ctx.globalAlpha=.48;ctx.strokeStyle='#dfffff';ctx.lineWidth=1.8;ctx.setLineDash([4,5]);ctx.lineDashOffset=-e.t*18;ctx.beginPath();ctx.arc(0,0,e.r*1.58,0,Math.PI*2);ctx.stroke();ctx.setLineDash([]);}
+          if((e.virus||0)>0){ctx.globalAlpha=.44;ctx.strokeStyle='#a7ff6e';ctx.shadowBlur=12;ctx.shadowColor='#a7ff6e';ctx.lineWidth=1.8;ctx.setLineDash([2,5]);ctx.lineDashOffset=e.t*20;ctx.beginPath();ctx.arc(0,0,e.r*1.72,0,Math.PI*2);ctx.stroke();ctx.setLineDash([]);for(let vi=0;vi<3;vi++){const va=e.t*(1.8+vi*.18)+vi*Math.PI*2/3;ctx.globalAlpha=.34;ctx.fillStyle='#d7ff72';ctx.beginPath();ctx.arc(Math.cos(va)*e.r*1.34,Math.sin(va)*e.r*1.16,2.2+vi*.4,0,Math.PI*2);ctx.fill();}}
           ctx.restore();
         }
         if (!e.boss) {
@@ -8522,6 +8643,14 @@
           if(img){const aspect=(img.naturalWidth||1)/(img.naturalHeight||1),longSide=this.isSmallScreen?26:34;let w,h;if(aspect>=1){w=longSide;h=longSide/aspect;}else{h=longSide;w=longSide*aspect;}ctx.globalAlpha=.96;ctx.drawImage(img,-w/2,-h/2,w,h);ctx.globalAlpha=.35;ctx.beginPath();ctx.arc(0,0,longSide*.58,0,Math.PI*2);ctx.stroke();}
           else {ctx.beginPath();ctx.moveTo(0,-12);ctx.lineTo(11,9);ctx.lineTo(0,5);ctx.lineTo(-11,9);ctx.closePath();ctx.stroke();}
           ctx.globalAlpha=.22;ctx.beginPath();ctx.arc(0,0,this.isSmallScreen?16:21,0,Math.PI*2);ctx.stroke();ctx.beginPath();ctx.moveTo(0,10);ctx.lineTo(0,26);ctx.stroke();
+        } else if(d.kind==='wingman'){
+          ctx.strokeStyle=d.color||'#83eaff';ctx.fillStyle=d.color||'#83eaff';ctx.lineWidth=2.5;ctx.shadowBlur=20;ctx.shadowColor=d.color||'#83eaff';ctx.globalAlpha=.94;
+          ctx.beginPath();ctx.moveTo(0,-13);ctx.lineTo(11,7);ctx.lineTo(5,5);ctx.lineTo(0,11);ctx.lineTo(-5,5);ctx.lineTo(-11,7);ctx.closePath();ctx.stroke();
+          ctx.globalAlpha=.22;ctx.fill();ctx.globalAlpha=.50;ctx.beginPath();ctx.arc(0,0,15+Math.sin(now()*.006+d.index)*2,0,Math.PI*2);ctx.stroke();
+        } else if(d.kind==='phantom'){
+          ctx.globalAlpha=.66+Math.sin(now()*.008+(d.formationSlot||0))*.12;ctx.strokeStyle='#d8c6ff';ctx.fillStyle=d.color||'#c391ff';ctx.lineWidth=2.1;ctx.shadowBlur=24;ctx.shadowColor=d.color||'#c391ff';
+          ctx.beginPath();ctx.moveTo(0,-13);ctx.lineTo(9,8);ctx.lineTo(0,4);ctx.lineTo(-9,8);ctx.closePath();ctx.stroke();ctx.globalAlpha=.12;ctx.fill();
+          ctx.globalAlpha=.26;ctx.setLineDash([4,5]);ctx.lineDashOffset=-now()*.02;ctx.beginPath();ctx.arc(0,0,17+Math.sin(now()*.006)*2,0,Math.PI*2);ctx.stroke();ctx.setLineDash([]);
         } else if (d.support) { ctx.beginPath(); ctx.moveTo(0,-11); ctx.lineTo(10,9); ctx.lineTo(-10,9); ctx.closePath(); ctx.stroke(); } else { ctx.strokeRect(-9, -9, 18, 18); }
         ctx.restore();
       }
@@ -8536,11 +8665,15 @@
       if(this.isPowerActive('fire')){ctx.globalAlpha=.24;ctx.strokeStyle='#ff8b43';ctx.lineWidth=2;ctx.shadowBlur=16;ctx.shadowColor='#ff6b35';ctx.beginPath();ctx.arc(0,0,p.r+18+Math.sin(t*5)*2,-1.1,1.1);ctx.stroke();ctx.beginPath();ctx.arc(0,0,p.r+25+Math.cos(t*4)*2,2.0,4.2);ctx.stroke();}
       if(this.isPowerActive('omega')){ctx.globalAlpha=.30+Math.sin(t*17)*.07;ctx.strokeStyle='#fff0a8';ctx.lineWidth=3;ctx.shadowBlur=26;ctx.shadowColor='#ffd56a';ctx.beginPath();ctx.arc(0,0,p.r+24+Math.sin(t*8)*2.5,0,Math.PI*2);ctx.stroke();}
       if(this.isPowerActive('fury')){ctx.globalAlpha=.22;ctx.strokeStyle='#ffd56a';ctx.lineWidth=1.6;for(let i=-1;i<=1;i+=2){ctx.beginPath();ctx.moveTo(i*(p.r+8),5);ctx.lineTo(i*(p.r+23),p.r+19+Math.sin(t*15+i)*4);ctx.stroke();}}
+      if(this.isPowerActive('spark')){ctx.globalAlpha=.22;ctx.strokeStyle='#93ffef';ctx.lineWidth=1.5;for(let i=0;i<3;i++){const aa=t*3+i*Math.PI*2/3;ctx.beginPath();ctx.moveTo(Math.cos(aa)*(p.r+7),Math.sin(aa)*(p.r+7));ctx.lineTo(Math.cos(aa+.22)*(p.r+24),Math.sin(aa+.22)*(p.r+24));ctx.stroke();}}
+      if(this.isPowerActive('virus')){ctx.globalAlpha=.16;ctx.strokeStyle='#a7ff6e';ctx.setLineDash([3,5]);ctx.lineDashOffset=-t*16;ctx.beginPath();ctx.arc(0,0,p.r+28,0,Math.PI*2);ctx.stroke();ctx.setLineDash([]);}
       const aspect=(img.naturalWidth||1)/(img.naturalHeight||1),longSide=p.r*3.05*(meta.scale||1);let w,h;if(aspect>=1){w=longSide;h=longSide/aspect;}else{h=longSide;w=longSide*aspect;}
       const maxSide=this.isSmallScreen?68:86,scale=Math.min(1,maxSide/Math.max(w,h));w*=scale;h*=scale;
       ctx.globalAlpha=.97;ctx.shadowBlur=22;ctx.shadowColor=color;ctx.drawImage(img,-w/2,-h/2,w,h);
       ctx.globalAlpha=.66;ctx.fillStyle=color;ctx.shadowBlur=16;ctx.beginPath();ctx.moveTo(-w*.18,h*.39);ctx.lineTo(0,h*.70+Math.sin(t*18)*2);ctx.lineTo(w*.18,h*.39);ctx.closePath();ctx.fill();
       ctx.globalAlpha=.23;ctx.strokeStyle=color;ctx.lineWidth=1.5;ctx.beginPath();ctx.arc(0,0,p.r+13,0,Math.PI*2);ctx.stroke();
+      if(this.isPowerActive('afterburner')){ctx.globalAlpha=.58;ctx.fillStyle='#ffd56a';ctx.shadowBlur=18;ctx.shadowColor='#ffd56a';ctx.beginPath();ctx.moveTo(-w*.18,h*.42);ctx.lineTo(0,h*.82+Math.sin(t*18)*4);ctx.lineTo(w*.18,h*.42);ctx.closePath();ctx.fill();}
+      if(this.getPowerLevel('overdrive',true)){const surge=(p.overdriveSurge||0)>0;ctx.globalAlpha=surge?.60:.22;ctx.strokeStyle=surge?'#fff0a6':'#ff9b55';ctx.lineWidth=surge?3:1.5;ctx.shadowBlur=surge?24:12;ctx.shadowColor='#ff9b55';ctx.beginPath();ctx.arc(0,0,p.r+22,0,Math.PI*2);ctx.stroke();}
       ctx.restore();
       if(this.getPowerLevel('orbs',true)||this.comboActive('gravedad')||this.comboActive('bastion')){
         const satellites=this.getAbyssalSatelliteData();
@@ -8649,6 +8782,8 @@
         for(let i=0;i<3;i++){const aa=t*(1.6+i*.18)+i*Math.PI*2/3,rr=p.r+16+i*5;ctx.beginPath();ctx.arc(Math.cos(aa)*6,Math.sin(aa)*4,rr*.35,-.9,.9);ctx.stroke();}
         ctx.restore();ctx.strokeStyle=color;ctx.shadowColor=color;
       }
+      if(this.isPowerActive('spark')){ctx.save();ctx.globalAlpha=.24;ctx.strokeStyle='#93ffef';ctx.lineWidth=1.6;for(let i=0;i<3;i++){const aa=t*3.4+i*Math.PI*2/3,rr=p.r+18;ctx.beginPath();ctx.moveTo(Math.cos(aa)*rr*.55,Math.sin(aa)*rr*.55);ctx.lineTo(Math.cos(aa+.18)*rr,Math.sin(aa+.18)*rr);ctx.stroke();}ctx.restore();ctx.strokeStyle=color;}
+      if(this.isPowerActive('virus')){ctx.save();ctx.globalAlpha=.18;ctx.strokeStyle='#a7ff6e';ctx.setLineDash([3,5]);ctx.lineDashOffset=-t*18;ctx.beginPath();ctx.arc(0,0,p.r+27,0,Math.PI*2);ctx.stroke();ctx.setLineDash([]);ctx.restore();ctx.strokeStyle=color;}
       ctx.globalAlpha = .12;
       ctx.beginPath(); ctx.arc(0, 0, p.r + 18 + Math.sin(t * 3) * 2, 0, Math.PI * 2); ctx.stroke();
       if (p.shield > 5) {
@@ -8768,6 +8903,14 @@
           ctx.beginPath(); ctx.arc(0, 0, sat.r * 1.9 * sat.pulse, 0, Math.PI * 2); ctx.stroke();
           ctx.restore();
         }
+      }
+      if(this.isPowerActive('afterburner')){
+        ctx.save();ctx.globalAlpha=.58;ctx.fillStyle='#ffd56a';ctx.shadowBlur=18;ctx.shadowColor='#ffd56a';
+        for(const sx of [-1,1]){ctx.beginPath();ctx.moveTo(sx*5,p.r*.58);ctx.lineTo(sx*9,p.r+19+Math.sin(t*18+sx)*4);ctx.lineTo(sx*2,p.r*.75);ctx.closePath();ctx.fill();}
+        ctx.restore();
+      }
+      if(this.getPowerLevel('overdrive',true)){
+        const surge=(p.overdriveSurge||0)>0;ctx.save();ctx.globalAlpha=surge?.62:.24;ctx.strokeStyle=surge?'#fff0a6':'#ff9b55';ctx.lineWidth=surge?3:1.6;ctx.shadowBlur=surge?24:12;ctx.shadowColor='#ff9b55';ctx.beginPath();ctx.arc(0,0,p.r+24+Math.sin(t*8)*2,0,Math.PI*2);ctx.stroke();ctx.restore();
       }
       ctx.restore();
     }

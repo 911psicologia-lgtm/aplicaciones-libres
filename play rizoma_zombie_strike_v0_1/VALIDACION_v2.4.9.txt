@@ -1,0 +1,22 @@
+VALIDACIÓN v2.4.9 · VACÍO, BIOTECNOLOGÍA Y ESPECTROS
+====================================================
+JavaScript (node --check): OK
+Manifest JSON: OK
+Referencias estáticas de assets detectadas: 334
+Assets estáticos faltantes: 0
+
+Corona Tesla: OK
+Infección Rizomática: OK
+Microdrones Mantis: OK
+Lanza del Vacío: OK
+Escuadrón Espectral: OK
+Propiedad intercept en spawnDrone: CORREGIDA
+Formación espectral: OK
+Retarget de Mantis: OK
+Intercepción Mantis: OK
+Duración virus 10s: OK
+Duración kamikaze 10s: OK
+Tienda con pausa obligatoria: CONSERVADA
+Versión 2.4.9: OK
+
+Nota: la referencia dinámica assets/boss2/sigil_w${world}.svg no se contabiliza como archivo estático literal. Validación técnica estática; no se declara una partida completa jugada en navegador.

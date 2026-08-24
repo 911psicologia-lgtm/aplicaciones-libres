@@ -1,0 +1,7 @@
+SWARM//RIFT — Insecta Siege v1.9.7
+
+- Menú ya no queda bloqueado en vertical en celular.
+- La pantalla de rotación solo aparece durante el combate si el equipo sigue en vertical.
+- Al iniciar o cargar partida se intenta landscape + pantalla completa automáticamente.
+- Amenazas frontales ahora usan assets generados coherentes con el estilo del juego, no placeholders alterados.
+- Ajustado tamaño y orientación de los assets frontales en PC/tablet.

@@ -1,0 +1,24 @@
+VALIDACIÓN v2.4.8 · ARMAS Y APOYO TÁCTICO
+==========================================
+JavaScript (node --check): OK
+Manifest JSON: OK
+Referencias de assets detectadas: 334
+Assets faltantes: 0
+
+Tridente Adaptativo: OK
+Rayo Vectorial: OK
+Penetración Cinética: OK
+Ricochet Neural: OK
+Nova Radial: OK
+Vórtice de Plasma: OK
+Dron Adaptativo: OK
+Escolta Gemela: OK
+Cadena Voltaica: OK
+Reactor Pulsante: OK
+Impulsor Vectorial: OK
+Duración pierce 10s: OK
+Duración bounce 10s: OK
+Tienda con pausa obligatoria: CONSERVADA
+Versión 2.4.8: OK
+
+Nota: validación técnica estática. No se declara una partida completa jugada en navegador.
