@@ -1,0 +1,7 @@
+SWARM//RIFT — Insecta Siege v1.9.8
+
+- Corrección directa del problema de assets sin imagen en mundos 4–6.
+- Se desactivan los obstáculos vectoriales temporales de Nocturne, Iron y Emerald.
+- Ahora esas colisiones usan assets PNG realistas del banco generado, coherentes con el estilo del juego.
+- Se ajusta el escalado visual de minas, muros y obstáculos para que no parezcan íconos vacíos.
+- Se mantiene la mejora móvil de orientación y fullscreen de la v1.9.7.

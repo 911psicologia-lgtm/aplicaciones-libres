@@ -1,4 +1,4 @@
-SWARM//RIFT — Insecta Siege v1.9.7
+SWARM//RIFT — Insecta Siege v1.9.8
 
 Validación aplicada
 - JS compilado: node --check js/game.js OK

@@ -1,0 +1,18 @@
+VALIDACIÓN ESTÁTICA v2.5.0 · Fusiones Evolutivas I
+
+Referencias de assets detectadas: 334
+Assets faltantes: 0
+
+Comprobaciones:
+- version_index: OK
+- version_manifest: OK
+- cache_250: OK
+- fusion_prisma_5: OK
+- fusion_chispa: OK
+- fusion_cryo: OK
+- fusion_gravity: OK
+- fusion_resonant: OK
+- fusion_trident: OK
+
+JavaScript: validado aparte con node --check.
+Nota: validación estática; no equivale a una partida completa jugada en navegador.

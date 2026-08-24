@@ -1,0 +1,4 @@
+Validación v1.9.8
+- Assets de obstáculos de mundos 4–6 forzados a PNG generados.
+- Eliminado uso visual de SVG line-art para gameplay.
+- Compatibilidad de guardado mantenida desde v1.9.7.

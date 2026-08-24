@@ -754,12 +754,12 @@
   })();
 
   const FUSIONS = [
-    { id: 'prisma', requires: ['triple', 'laser'], icon: '✷', name: 'Prisma fragmentado', desc: 'Tres rayos finos en abanico.' },
-    { id: 'chispa', requires: ['fire', 'bounce'], icon: '☄', name: 'Chispa errante', desc: 'Fuego que salta entre enemigos.' },
-    { id: 'lanza', requires: ['ice', 'pierce'], icon: '❖', name: 'Lanza criogénica', desc: 'Proyectiles veloces que ralentizan y atraviesan.' },
-    { id: 'gravedad', requires: ['orbs', 'gravmine'], icon: '◍', name: 'Anillo gravitacional', desc: 'Órbitas y minas crean un campo de atracción.' },
-    { id: 'resonante', requires: ['drone', 'pulse'], icon: '◈', name: 'Dron resonante', desc: 'Los drones descargan ondas cortas.' },
-    { id: 'tridente', requires: ['triple', 'pierce'], icon: '🔱', name: 'Tridente penetrante', desc: 'Tridente Adaptativo con Penetración Cinética reforzada.' },
+    { id: 'prisma', requires: ['triple', 'laser'], icon: '✷', name: 'Prisma fragmentado', desc: 'El haz se refracta en cinco corredores y castiga grupos alineados.' },
+    { id: 'chispa', requires: ['fire', 'bounce'], icon: '☄', name: 'Chispa errante', desc: 'Cada rebote incendia el punto de salto y propaga combustión cercana.' },
+    { id: 'lanza', requires: ['ice', 'pierce'], icon: '❖', name: 'Lanza criogénica', desc: 'Perfora, acumula cristalización y provoca fracturas criogénicas.' },
+    { id: 'gravedad', requires: ['orbs', 'gravmine'], icon: '◍', name: 'Anillo gravitacional', desc: 'Satélites y minas sincronizan pulsos de colapso que atraen la horda.' },
+    { id: 'resonante', requires: ['drone', 'pulse'], icon: '◈', name: 'Dron resonante', desc: 'Cada dron emite mininovas que dañan y bloquean proyectiles cercanos.' },
+    { id: 'tridente', requires: ['triple', 'pierce'], icon: '🔱', name: 'Tridente penetrante', desc: 'Las ráfagas cargan una lanza central y generan esquirlas laterales al perforar.' },
     { id: 'criotemporal', requires: ['laser', 'stasis'], icon: '❄', name: 'Rayo criotemporal', desc: 'El láser ralentiza lo que atraviesa.' },
     { id: 'enjambre', requires: ['torpedo', 'virus'], icon: '☣', name: 'Enjambre infeccioso', desc: 'Misiles Voraces que propagan infección y redistribuyen objetivos.' },
     { id: 'tormenta', requires: ['drone', 'spark'], icon: '⚡', name: 'Escuadrón tormenta', desc: 'Los drones sincronizan descargas eléctricas.' },
@@ -3572,8 +3572,16 @@
       const bulletScale=omega?1.36:1;
       shots.forEach(off => {
         const edge=Math.min(1,Math.abs(off)/.42),spreadDamage=triple&&!fury?(1-edge*.24):1;
-        this.addBullet(p.x, p.y, a + off, speed * (p.projectileSpeedBonus || 1), dmg*(this.comboActive('chispa')?1.12:1)*spreadDamage, { pierce: 1 + pierce + (omega?2:0) + (this.comboActive('lanza') ? 2 : 0) + (this.comboActive('tridente') ? 2 : 0), pierceMomentum:pierce>0, fire:comboFire, ice, bounce:comboBounce, bounceLeft:comboBounce?Math.min(4,1+Math.floor(comboBounce/2)):0, virus, color: elementalId?({laserSolar:'#ffd35a',laserHematic:'#ff435f',laserAbyssal:'#4bbcff'})[elementalId]:p.avatar.color, homing: Math.random() < (p.aimAssist || 0), glow: p.shotTier || 0, scale:bulletScale, omega:!!omega });
+        this.addBullet(p.x, p.y, a + off, speed * (p.projectileSpeedBonus || 1), dmg*(this.comboActive('chispa')?1.12:1)*spreadDamage, { pierce: 1 + pierce + (omega?2:0) + (this.comboActive('lanza') ? 2 : 0) + (this.comboActive('tridente') ? 2 : 0), pierceMomentum:pierce>0, fire:comboFire, ice, bounce:comboBounce, bounceLeft:comboBounce?Math.min(4,1+Math.floor(comboBounce/2)):0, virus, chispaFusion:this.comboActive('chispa'), cryoLance:this.comboActive('lanza'), tridentFusion:this.comboActive('tridente'), color: elementalId?({laserSolar:'#ffd35a',laserHematic:'#ff435f',laserAbyssal:'#4bbcff'})[elementalId]:p.avatar.color, homing: Math.random() < (p.aimAssist || 0), glow: p.shotTier || 0, scale:bulletScale, omega:!!omega });
       });
+      if(this.comboActive('tridente')){
+        p.tridentFusionVolley=(p.tridentFusionVolley||0)+1;
+        if(p.tridentFusionVolley%5===0){
+          const spearDamage=dmg*(1.08+Math.min(.18,pierce*.025));
+          this.addBullet(p.x,p.y,a,speed*1.18*(p.projectileSpeedBonus||1),spearDamage,{pierce:7+Math.floor(pierce),pierceMomentum:true,tridentFusion:true,big:true,color:'#dffcff',trail:true,scale:1.22,glow:(p.shotTier||0)+1});
+          this.particles.push({type:'ring',x:p.x,y:p.y,r:7,maxR:42,life:.18,max:.18,color:'#dffcff'});
+        }
+      }
       if(fury){
         p.furyVolley=(p.furyVolley||0)+1;
         if(p.furyVolley%3===0){
@@ -3586,7 +3594,7 @@
           }
         }
       }
-      if (laser || this.comboActive('prisma')) this.fireLaser(a, dmg * (.42 + laser * .16), this.comboActive('prisma') ? 3 : 1, this.comboActive('criotemporal'), laser);
+      if (laser || this.comboActive('prisma')) this.fireLaser(a, dmg * (.42 + laser * .16), this.comboActive('prisma') ? 5 : 1, this.comboActive('criotemporal'), laser);
       if (voidray) this.fireVoidLance(p.x, p.y, a, dmg * (.54 + voidray * .12), voidray, this.comboActive('nulidad'));
       if(elementalId)this.fireElementalLaser(elementalId,a,dmg*(.52+elemental*.13),omega);
       let fireDelay=(p.fireDelay-triple*10-laser*8-voidray*6-elemental*7)*(p.bossDrive>0?.72:1)*(overdrive?.90:1)*(overdriveSurge?.72:1)*(p.comboSurge>0?.88:1)*(domain.cadence||1);
@@ -3622,6 +3630,9 @@
         voracious: !!meta.voracious,
         retargets: meta.retargets || 0,
         chimera: !!meta.chimera,
+        chispaFusion: !!meta.chispaFusion,
+        cryoLance: !!meta.cryoLance,
+        tridentFusion: !!meta.tridentFusion,
         domainForm: meta.domainForm || null,
         glow: meta.glow || this.player?.shotTier || 0,
         type: meta.type || 'bullet',
@@ -3631,7 +3642,7 @@
 
     fireLaser(angle, damage, count = 1, slowBeam = false, level = 0) {
       const p = this.player;
-      const angles = count === 3 ? [angle - .16, angle, angle + .16] : [angle];
+      const angles = count<=1?[angle]:Array.from({length:count},(_,i)=>angle+(i-(count-1)/2)*(count>=5?.105:.16));
       angles.forEach(a => {
         const cos = Math.cos(a), sin = Math.sin(a);
         const range=(590+Math.max(0,level)*24)*(p.projectileRangeBonus||1),beamWidth=10+Math.max(0,level)*1.55;
@@ -3648,7 +3659,7 @@
           const attenuation=Math.max(.72,1-idx*.045);
           this.damageEnemy(h.e,damage*attenuation,{laser:true,slow:slowBeam?.75:0,color:'#83eaff'});
         });
-        this.particles.push({ type:'laser', x:p.x, y:p.y, a, life:.14, max:.14, range, color:count===3?'#b58cff':'#83eaff', width:4.8+level*.45 });
+        this.particles.push({ type:'laser', x:p.x, y:p.y, a, life:.14, max:.14, range, color:count>=3?'#b58cff':'#83eaff', width:4.8+level*.45 });
         this.particles.push({ type:'laser', x:p.x, y:p.y, a, life:.085, max:.085, range, color:'#efffff', width:1.5+level*.12 });
       });
     }
@@ -3811,6 +3822,39 @@
               break;
             }
           }
+        }
+      }
+      if(this.comboActive('gravedad')){
+        p.gravityFusionPulse=(p.gravityFusionPulse||0)-dt;
+        if(p.gravityFusionPulse<=0){
+          const radius=150+orbs*10;
+          let affected=0;
+          for(const e of this.enemies){
+            const dx=p.x-e.x,dy=p.y-e.y,d=Math.hypot(dx,dy)||1;if(d>radius+(e.r||0))continue;
+            const rank=this.criticalEnemyRank(e),pull=rank==='boss'?4:(rank==='elite'?12:(rank==='medium'?20:28));
+            e.x+=dx/d*pull;e.y+=dy/d*pull;e.slow=Math.max(e.slow||0,rank==='boss'?.10:.34);
+            this.damageEnemy(e,p.damage*(rank==='boss'?.045:(rank==='elite'?.11:.18)),{orbital:true,color:'#83eaff',silent:true});affected++;
+          }
+          this.particles.push({type:'ring',x:p.x,y:p.y,r:26,maxR:radius,life:.46,max:.46,color:'#83eaff'});
+          this.particles.push({type:'ring',x:p.x,y:p.y,r:54,maxR:radius*.72,life:.34,max:.34,color:'#c391ff'});
+          if(affected>=5&&Math.random()<.35)this.toast('◍ ANILLO GRAVITACIONAL',`${affected} amenazas sincronizadas`);
+          p.gravityFusionPulse=Math.max(1.8,2.65-orbs*.08);
+        }
+      }
+      if(this.comboActive('resonante')){
+        p.resonantDronePulse=(p.resonantDronePulse||0)-dt;
+        if(p.resonantDronePulse<=0){
+          const drones=this.drones.filter(d=>d.support).slice(0,this.isSmallScreen?2:4);
+          let blocked=0;
+          for(const d of drones){
+            const radius=68;
+            this.particles.push({type:'ring',x:d.x,y:d.y,r:8,maxR:radius,life:.28,max:.28,color:'#9ac7ff'});
+            for(const e of this.enemies){if(Math.hypot(e.x-d.x,e.y-d.y)<=radius+(e.r||0))this.damageEnemy(e,p.damage*(e.boss?.07:.22),{pulse:true,color:'#9ac7ff',silent:true});}
+            let best=-1,bestD=Infinity;for(let i=0;i<this.bullets.length;i++){const b=this.bullets[i];if(!b.enemy)continue;const bd=Math.hypot(b.x-d.x,b.y-d.y);if(bd<radius&&bd<bestD){best=i;bestD=bd;}}
+            if(best>=0){const b=this.bullets[best];this.particles.push({type:'ring',x:b.x,y:b.y,r:4,maxR:25,life:.14,max:.14,color:'#eaffff'});this.bullets.splice(best,1);blocked++;}
+          }
+          if(blocked>0&&Math.random()<.28)this.toast('◈ DRON RESONANTE',`${blocked} proyectil${blocked===1?'':'es'} neutralizado${blocked===1?'':'s'}`);
+          p.resonantDronePulse=2.15;
         }
       }
       if (ring || this.comboActive('gravedad') || this.comboActive('bastion')) {
@@ -6275,6 +6319,27 @@
               const momentum=b.pierceMomentum?1+Math.min(.24,(b.hitCount||0)*.07)*(e.boss?.45:1):1;
               this.damageEnemy(e, b.damage*momentum, b);
               b.hitCount=(b.hitCount||0)+1;b.lastHitRef=e;b.hitGrace=.075;
+              if(b.cryoLance){
+                e.cryoFusionStacks=(e.cryoFusionStacks||0)+1;
+                e.slow=Math.max(e.slow||0,e.boss?.20:.72);
+                if(e.cryoFusionStacks>=3){
+                  e.cryoFusionStacks=0;
+                  const shatterR=e.boss?54:82;
+                  this.particles.push({type:'ring',x:e.x,y:e.y,r:8,maxR:shatterR,life:.24,max:.24,color:'#c9f7ff'});
+                  this.emit(e.x,e.y,'#dffcff',e.boss?5:9,105,.34);
+                  for(const o of this.enemies){
+                    if(o===e||o.hp<=0)continue;
+                    const dd=Math.hypot(o.x-e.x,o.y-e.y);if(dd>shatterR+(o.r||0))continue;
+                    const scale=o.boss?.22:(o.echoBoss?.42:.72);
+                    this.damageEnemy(o,b.damage*.24*scale,{ice:1,slow:o.boss?.12:.58,color:'#c9f7ff',silent:true});
+                  }
+                }
+              }
+              if(b.tridentFusion && b.hitCount%2===0 && !e.boss){
+                const baseA=Math.atan2(b.vy,b.vx),sideDamage=b.damage*.26;
+                this.addBullet(e.x,e.y,baseA-.58,430,sideDamage,{pierce:1,color:'#dffcff',trail:true,scale:.62});
+                this.addBullet(e.x,e.y,baseA+.58,430,sideDamage,{pierce:1,color:'#dffcff',trail:true,scale:.62});
+              }
               b.pierce -= 1;
               if ((b.voracious||b.mantis) && e.hp <= 0 && (b.retargets||0) > 0) {
                 const other=this.enemies.filter(o=>o!==e&&o.hp>0).sort((x,y)=>Math.hypot(x.x-b.x,x.y-b.y)-Math.hypot(y.x-b.x,y.y-b.y))[0];
@@ -6291,6 +6356,11 @@
                 if (other) {
                   const aa=Math.atan2(other.y-e.y,other.x-e.x),sp=Math.max(610,Math.hypot(b.vx,b.vy));
                   b.x=e.x;b.y=e.y;b.vx=Math.cos(aa)*sp;b.vy=Math.sin(aa)*sp;b.pierce=Math.max(1,b.pierce+1);b.bounceLeft-=1;b.targetRef=other;
+                  if(b.chispaFusion){
+                    const ignitionR=64+Math.min(28,(b.bounce||1)*6);
+                    this.particles.push({type:'ring',x:e.x,y:e.y,r:6,maxR:ignitionR,life:.20,max:.20,color:'#ff9b55'});
+                    for(const o of this.enemies){if(o===e||o.hp<=0)continue;if(Math.hypot(o.x-e.x,o.y-e.y)<=ignitionR+(o.r||0))this.damageEnemy(o,b.damage*(o.boss?.045:.14),{fire:1,color:'#ff9b55',silent:true});}
+                  }
                   this.particles.push({type:'laser',x:e.x,y:e.y,a:aa,life:.075,max:.075,range:Math.min(range,Math.hypot(other.x-e.x,other.y-e.y)),color:b.color,width:2.1});
                 }
               }
