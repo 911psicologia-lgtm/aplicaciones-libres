@@ -1,0 +1,22 @@
+RIZOMA ZOMBIE STRIKE v2.5.9 — VALIDACIÓN ESTÁTICA
+=================================================
+
+[OK] node --check js/game.js
+[OK] manifest.json válido
+[OK] 335 referencias concretas de assets detectadas
+[OK] 0 referencias de assets faltantes
+[OK] 346 assets heredados de v2.5.8 comparados byte a byte: 0 modificados / 0 ausentes
+[OK] Nuevo audio presente: assets/audio/boss_world6_magnate_omega.mp3
+[OK] Nuevo audio es copia byte a byte del MP3 suministrado
+[OK] MP3 decodificable: 94.752 s, 48 kHz, estéreo
+[OK] Metadatos: Iron Legion March · 120 BPM · instrumental · loopable
+[OK] Hook exclusivo de batalla: startFutureBossBattleMusic(6, phase)
+[OK] Fases de Magnate Omega ajustan volumen sin reiniciar la canción
+[OK] Fallback a secuencia procedural si el archivo externo falla o autoplay es rechazado
+[OK] stopMusic() detiene/fundido del audio externo
+[OK] Reactivación de Música durante partida restaura la banda sonora según estado
+[OK] Entrada de jefe identifica ♫ Iron Legion March
+
+IMPORTANTE
+----------
+Esta validación es sintáctica, estructural y de integridad de archivos. No se atribuye una partida completa jugada manualmente en navegador/dispositivo.

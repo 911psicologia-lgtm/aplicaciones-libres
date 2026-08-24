@@ -1,0 +1,58 @@
+RIZOMA ZOMBIE STRIKE · VALIDACIÓN v2.5.8
+Memoria de Expediciones
+
+VALIDACIONES EJECUTADAS
+
+[OK] JavaScript
+- node --check js/game.js
+- Sin errores de sintaxis.
+
+[OK] Versionado PWA
+- VERSION interna: 2.5.8
+- index.html: game.js, styles.css y manifest con ?v=2.5.8
+- manifest.json: start_url ./index.html?v=2.5.8
+- service worker: rizoma-zombie-strike-v2-5-8
+
+[OK] Assets
+- 334 referencias concretas de assets detectadas en JS/HTML/CSS.
+- 0 referencias faltantes.
+- 346 archivos dentro de assets/ comparados contra el ZIP fuente v2.5.7 mediante tamaño + CRC32.
+- 0 archivos modificados.
+- 0 archivos faltantes.
+- 0 archivos adicionales.
+
+[OK] Funciones críticas comparadas byte a byte con v2.5.7
+- completeMap(): idéntica.
+- openTacticalShop(): idéntica.
+- closeTacticalPrep(): idéntica.
+- buyTacticalOffer(): idéntica.
+- triggerScreenNuke(): idéntica.
+- generateCards(): idéntica.
+
+[OK] Memoria de expediciones
+- Migración segura mediante ensureExpeditionMemory().
+- Límite de 18 expediciones por perfil.
+- Referencia fijada se invalida automáticamente si deja de existir.
+- Se registra victoria de campaña, repetición y Entrenamiento.
+- La derrota se registra solo al finalizar definitivamente la misión.
+- Una derrota provisional con posibilidad de reactivación no se archiva.
+- La build final utiliza lastBuildSnapshot, capturada antes de soltar poderes en derrota.
+- La referencia de build solo produce lectura comparativa en Pausa.
+- La comparación final es informativa y no toca atributos de combate.
+
+[OK] Códice / Colección
+- Nueva sección Memoria de expediciones.
+- Resumen agregado y últimas 8 expediciones.
+- Fijar/quitar referencia persiste mediante el mismo saveState local.
+- No revela fusiones no descubiertas: solo muestra las registradas en cada expedición.
+
+[OK] Balance y reglas preservadas
+- Sesgo doctrinal: 65% y máximo 1/3 cápsulas, sin cambios.
+- Bomba Omega: sin cambios.
+- Tienda táctica: pausa obligatoria preservada.
+- Fondos y assets: sin cambios.
+- Progresión de campaña: sin cambios funcionales.
+
+LIMITACIÓN DE ESTA VALIDACIÓN
+- Se realizó validación sintáctica, estructural, de assets y comparación estática de funciones críticas.
+- No se atribuye a esta pasada una partida completa jugada manualmente en navegador.

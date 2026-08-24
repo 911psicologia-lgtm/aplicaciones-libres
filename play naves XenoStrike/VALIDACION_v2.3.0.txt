@@ -1,0 +1,12 @@
+SWARM//RIFT — Insecta Siege v2.3.0
+
+Validación técnica
+- node --check js/game.js: OK
+- manifest.json: válido
+- PWA: 174 recursos offline, 0 faltantes
+- Sectores 7, 8, 9 y 10 probados con jefe en fase 3: 0 errores JavaScript
+- IA avanzada probada: mosquitos, termitas, libélulas y cigarras
+- Final de campaña probado: Resonator Omega -> CAMPAÑA COMPLETADA -> Boss Rush desbloqueado
+- Meta nueva probada: campaignWins y bestCampaignScore
+- Móvil 844x390: GAME activo, touch HUD activo, joystick/stick oculto, 0 errores JavaScript
+- Compatibilidad de lectura con guardados v2.2.0 y anteriores

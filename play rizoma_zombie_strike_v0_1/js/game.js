@@ -1,7 +1,7 @@
 (() => {
   'use strict';
 
-  const VERSION = '2.5.6';
+  const VERSION = '2.5.9';
   const STORAGE_KEY = 'rizoma_zombie_strike_v0_3_state';
   const SAVE_KEY = 'rizoma_zombie_strike_v0_3_save';
   const clamp = (v, a, b) => Math.max(a, Math.min(b, v));
@@ -153,7 +153,7 @@
   ];
   // Mundos 6–10: catálogo de expansión. Mundos 6–8 activos; 9–10 preparados.
   const FUTURE_BOSS2 = [
-    {world:6,id:'magnate_omega',name:'Magnate Omega',title:'Torre de la Necrored',asset:'assets/future/bosses/world6_magnate_omega.png',theme:'Ciudad tecnológica apocalíptica',color:'#ff5b38',accent:'#56c8ff',shot:'necro_laser',weapons:['Drones de asedio','Láseres de torreta','Misiles inteligentes','Campo EMP'],special:{id:'necrogrid_collapse',name:'Colapso de la Necrored',desc:'Torretas orbitales, corredores láser y descarga EMP telegráfica.'},relic:{id:'neural_core',name:'Núcleo Neural',desc:'Mejora apuntado, drones y transición de poderes en cola.',passive:{aimAssist:.08,droneDamage:.10,queueSpeed:.12}},music:{name:'Cyber Assault',bpm:120,root:55,wave:'sawtooth',seq:[0,0,7,3,10,7,5,3],phase4:.72},sound:{shot:[520,.065,'square',.020,-190],special:[65,98,147],impact:[115,.08,'sawtooth',.026,-45]}},
+    {world:6,id:'magnate_omega',name:'Magnate Omega',title:'Torre de la Necrored',asset:'assets/future/bosses/world6_magnate_omega.png',theme:'Ciudad tecnológica apocalíptica',color:'#ff5b38',accent:'#56c8ff',shot:'necro_laser',weapons:['Drones de asedio','Láseres de torreta','Misiles inteligentes','Campo EMP'],special:{id:'necrogrid_collapse',name:'Colapso de la Necrored',desc:'Torretas orbitales, corredores láser y descarga EMP telegráfica.'},relic:{id:'neural_core',name:'Núcleo Neural',desc:'Mejora apuntado, drones y transición de poderes en cola.',passive:{aimAssist:.08,droneDamage:.10,queueSpeed:.12}},music:{name:'Cyber Assault',bpm:120,root:55,wave:'sawtooth',seq:[0,0,7,3,10,7,5,3],phase4:.72},soundtrack:{title:'Iron Legion March',asset:'assets/audio/boss_world6_magnate_omega.mp3',bpm:120,loop:true,baseVolume:.27,phaseVolumes:[.27,.29,.31,.34]},sound:{shot:[520,.065,'square',.020,-190],special:[65,98,147],impact:[115,.08,'sawtooth',.026,-45]}},
     {world:7,id:'leviatan_abisal',name:'Leviatán Abisal',title:'Señor de las Profundidades',asset:'assets/future/bosses/world7_leviatan_abisal.png',theme:'Mar alienígena',color:'#28d9ff',accent:'#8dffcf',shot:'abyss_plasma',weapons:['Tentáculos de plasma','Medusas explosivas','Cardúmenes espiral','Burbujas gravitacionales'],special:{id:'living_tide',name:'Marea Viva',desc:'Corrientes alienígenas y medusas de plasma con rutas de evasión.'},relic:{id:'abyss_heart',name:'Corazón Abisal',desc:'Refuerza escudo y poderes de control.',passive:{shieldEffect:.09,slowEffect:.10,eliteHeal:.02}},music:{name:'Deep Current',bpm:96,root:43.65,wave:'triangle',seq:[0,5,2,7,-2,3,0,8],phase4:.78},sound:{shot:[330,.10,'sine',.021,-70],special:[49,73.42,110],impact:[82,.12,'triangle',.025,-18]}},
     {world:8,id:'tardigrado_primigenio',name:'Tardígrado Primigenio',title:'Huésped Estelar',asset:'assets/future/bosses/world8_tardigrado_primigenio.png',theme:'Entrañas de monstruo espacial',color:'#ff5d45',accent:'#d54cff',shot:'organic_acid',weapons:['Glóbulos ácidos','Lanzadores orgánicos','Espinas vivas','Engendros parásitos'],special:{id:'mass_gestation',name:'Gestación Masiva',desc:'Cápsulas vivas que eclosionan gradualmente si no se destruyen.'},relic:{id:'organic_genesis',name:'Génesis Orgánica',desc:'Potencia nanorreparación y regeneración.',passive:{regen:.10,nanorepair:.12,bioResist:.10}},music:{name:'Bio Pulse',bpm:112,root:51.91,wave:'triangle',seq:[0,1,5,0,-2,3,7,1],phase4:.74},sound:{shot:[205,.095,'sawtooth',.023,-42],special:[52,77.78,103.83],impact:[138,.10,'triangle',.028,-55]}},
     {world:9,id:'kaiser_infinito',name:'Kaiser Infinito',title:'Guardián de los Portales',asset:'assets/future/bosses/world9_kaiser_infinito.png',theme:'Anime–manga multiversal',color:'#ff3c63',accent:'#8a5cff',shot:'dimensional_slash',weapons:['Clones dimensionales','Katana energética','Shurikens astrales','Lanzas de universo'],special:{id:'multiverse_rupture',name:'Ruptura Multiverso',desc:'Portales alternos encadenan patrones con pausas breves.'},relic:{id:'multiverse_threads',name:'Hilos del Multiverso',desc:'Eco temporal, Fase espectral y combos más duraderos.',passive:{echoShot:.12,phaseDuration:.10,comboDuration:.08}},music:{name:'Kurai Sekai',bpm:138,root:65.41,wave:'square',seq:[0,7,12,10,3,15,12,7],phase4:.68},sound:{shot:[880,.045,'square',.017,-310],special:[73.42,110,164.81],impact:[260,.055,'sawtooth',.024,-120]}},
@@ -177,7 +177,7 @@
     const idx=Math.max(0,Number(index)||0);
     if(idx<BOSS2.length)return BOSS2[idx];
     const f=futureBossMeta(idx+1);
-    const intros={6:'FIRMA NEURONAL',7:'FIRMA ABISAL',8:'FIRMA ORGÁNICA',9:'FIRMA MULTIVERSAL',10:'FIRMA ZERO',11:'FIRMA DE SÍLICE',12:'FIRMA HADAL',13:'FIRMA MAGMÁTICA'};return {world:f.world,sigil:`assets/boss2/sigil_w${f.world}.svg`,short:f.relic?.name||f.name,intro:intros[f.world]||'FIRMA CRÍTICA',weapon:(f.weapons||[]).slice(0,2).join(' · '),special:f.special?.name||'Firma crítica',color:f.color,accent:f.accent,shot:f.shot,music:f.music};
+    const intros={6:'FIRMA NEURONAL',7:'FIRMA ABISAL',8:'FIRMA ORGÁNICA',9:'FIRMA MULTIVERSAL',10:'FIRMA ZERO',11:'FIRMA DE SÍLICE',12:'FIRMA HADAL',13:'FIRMA MAGMÁTICA'};return {world:f.world,sigil:`assets/boss2/sigil_w${f.world}.svg`,short:f.relic?.name||f.name,intro:intros[f.world]||'FIRMA CRÍTICA',weapon:(f.weapons||[]).slice(0,2).join(' · '),special:f.special?.name||'Firma crítica',color:f.color,accent:f.accent,shot:f.shot,music:f.music,soundtrack:f.soundtrack||null};
   };
   const bossSigilHtml = (index, cls='boss-sigil') => { const m=boss2Meta(index); return `<img class="${cls}" src="${m.sigil}" alt="" aria-hidden="true">`; };
 
@@ -296,6 +296,24 @@
     return rec;
   }
 
+  // v2.5.8 · Memoria de expediciones: historial local de builds finalizadas, sin efectos de combate.
+  const EXPEDITION_MEMORY_LIMIT = 18;
+  function ensureExpeditionMemory(p){
+    if(!p)return {runs:[],pinnedRunId:null};
+    const mem=(p.expeditionMemory&&typeof p.expeditionMemory==='object')?p.expeditionMemory:{};
+    mem.runs=Array.isArray(mem.runs)?mem.runs.filter(Boolean).slice(0,EXPEDITION_MEMORY_LIMIT):[];
+    mem.pinnedRunId=mem.pinnedRunId||null;
+    if(mem.pinnedRunId&&!mem.runs.some(r=>r.id===mem.pinnedRunId))mem.pinnedRunId=null;
+    p.expeditionMemory=mem;
+    return mem;
+  }
+  function expeditionModeLabel(mode){
+    return mode==='training'?'ENTRENAMIENTO':(mode==='replay'?'REPETICIÓN':'CAMPAÑA');
+  }
+  function expeditionOutcomeLabel(run){
+    return run?.victory?'SUPERADA':'INTERRUMPIDA';
+  }
+
   const ARSENAL_DOCTRINES = [
     {id:'free',icon:'◇',name:'Rizoma Libre',short:'Sin sesgo',primary:[],secondary:[],cue:'Mantiene la selección completamente abierta: ninguna cápsula recibe preferencia doctrinal.'},
     {id:'vector',icon:'➤',name:'Filo Vectorial',short:'Armas + amplificadores',primary:['weapon'],secondary:['modifier'],cue:'Favorece una opción de presión ofensiva, perforación o transformación temporal del arsenal.'},
@@ -338,6 +356,30 @@
     let acc=0;
     for(const row of rows){acc+=row.weight;if(roll<=acc)return row.pow;}
     return rows[rows.length-1]?.pow||null;
+  }
+
+
+  const BUILD_IDENTITY_META = [
+    {id:'vector',icon:'➤',name:'Vector de Asalto',types:{weapon:2,modifier:1.2,ultimate:.35}},
+    {id:'bastion',icon:'🛡',name:'Bastión de Contención',types:{defense:2,control:1.45,utility:.25}},
+    {id:'swarm',icon:'△',name:'Enjambre de Apoyo',types:{ally:2,utility:1.45,control:.55}},
+    {id:'omega',icon:'Ω',name:'Convergencia Crítica',types:{ultimate:2,modifier:1.35,weapon:.55}}
+  ];
+  function fusionDoctrineScore(fusion,doctrine){
+    if(!fusion||!doctrine||doctrine.id==='free')return 0;
+    return (fusion.requires||[]).reduce((score,id)=>{
+      const pow=POWERS.find(p=>p.id===id);if(!pow)return score;
+      return score+(doctrine.primary.includes(pow.type)?2:(doctrine.secondary.includes(pow.type)?1:0));
+    },0);
+  }
+  function collectionDoctrineRoute(p,doctrine){
+    if(!p||!doctrine||doctrine.id==='free')return {knownPowers:0,totalPowers:0,discoveredFusions:0,totalFusions:0,topFusions:[]};
+    const compatible=POWERS.filter(pow=>doctrine.primary.includes(pow.type)||doctrine.secondary.includes(pow.type));
+    const known=compatible.filter(pow=>!!p.collection?.powers?.[pow.id]);
+    const routeFusions=FUSIONS.filter(f=>fusionDoctrineScore(f,doctrine)>0);
+    const telemetry=ensureArsenalTelemetry(p);
+    const discovered=routeFusions.filter(f=>!!p.collection?.fusions?.[f.id]).sort((a,b)=>(Number(telemetry.fusions?.[b.id]?.uses)||0)-(Number(telemetry.fusions?.[a.id]?.uses)||0));
+    return {knownPowers:known.length,totalPowers:compatible.length,discoveredFusions:discovered.length,totalFusions:routeFusions.length,topFusions:discovered.slice(0,3)};
   }
 
   const CRITICAL_INTERVENTIONS = [
@@ -1018,6 +1060,7 @@
       collection: { powers: {}, fusions: {}, bosses: {}, criticals:{}, criticalCombos:{} },
       arsenalTelemetry: { powers:{}, fusions:{}, criticals:{}, criticalCombos:{} },
       arsenalDoctrine: 'free',
+      expeditionMemory: { runs:[], pinnedRunId:null },
       stats: { bestScore: 0, runs: 0, totalKills: 0, bosses: 0, highestWave: 1, bestMap: 1, totalCoins: 0 },
       avatarTier: 1,
       shipParts: { core: 0, wings: 0, cannon: 0, engine: 0 },
@@ -1152,6 +1195,7 @@
       p.collection.criticalCombos = p.collection.criticalCombos || {};
       ensureArsenalTelemetry(p);
       ensureArsenalDoctrine(p);
+      ensureExpeditionMemory(p);
       p.stats = { bestScore: 0, runs: 0, totalKills: 0, bosses: 0, highestWave: 1, bestMap: 1, totalCoins: 0, ...(p.stats || {}) };
       p.avatarTier = p.avatarTier || 1;
       p.shipParts = { core: 0, wings: 0, cannon: 0, engine: 0, ...(p.shipParts || {}) };
@@ -1208,6 +1252,11 @@
     futureSeqStep: 0,
     futureBossWorld: 6,
     futureBossPhase: 1,
+    externalBossTrack: null,
+    externalBossTrackId: '',
+    externalBossFadeTimer: null,
+    externalBossTargetVolume: 0,
+    magnateOmegaPreload: null,
     ensure() {
       if (!state.settings.sound && !state.settings.music) return null;
       if (!this.ctx) this.ctx = new (window.AudioContext || window.webkitAudioContext)();
@@ -1328,7 +1377,40 @@
     futureBossSpecial(world=6){if(!state.settings.sound)return;const cfg=futureBossMeta(world);this.chord(cfg.sound.special,.24,.045);if(world===6)this.tone(48,.30,'square',.012,22);if(world===7)this.tone(58,.34,'sine',.014,18);if(world===8)this.tone(74,.26,'triangle',.015,-20);if(world===9)this.tone(980,.055,'square',.010,-420);if(world===10)this.tone(31,.46,'sawtooth',.018,16);},
     futureMinionShot(world=6,tier='small',familyIndex=0){if(!state.settings.sound)return;const list=FUTURE_MINION_ARCHETYPES[Number(world)]||FUTURE_MINION_ARCHETYPES[6],pool=list.filter(x=>x.tier===tier),cfg=(pool[familyIndex%Math.max(1,pool.length)]||list[0]);this.tone(...cfg.sound.shot);},
     futureMinionDeath(world=6,tier='small',familyIndex=0){if(!state.settings.sound)return;const list=FUTURE_MINION_ARCHETYPES[Number(world)]||FUTURE_MINION_ARCHETYPES[6],pool=list.filter(x=>x.tier===tier),cfg=(pool[familyIndex%Math.max(1,pool.length)]||list[0]);this.tone(...cfg.sound.death);},
-    startFutureBossSequence(world=6,phase=1){if(!state.settings.music)return;clearInterval(this.futureSeqTimer);this.futureSeqTimer=null;this.futureSeqStep=0;this.futureBossWorld=Math.max(6,Math.min(12,Number(world)||6));this.futureBossPhase=Math.max(1,Math.min(4,Number(phase)||1));const cfg=futureBossMeta(this.futureBossWorld),phaseTempo=this.futureBossPhase>=4?(cfg.music.phase4||.68):(this.futureBossPhase>=3?.82:1),beat=60000/cfg.music.bpm/2*phaseTempo;const tick=()=>{if(!state.settings.music)return;const step=this.futureSeqStep++,seq=cfg.music.seq,n=seq[step%seq.length],lift=(this.futureBossPhase-1)*2,freq=cfg.music.root*Math.pow(2,(n+lift)/12),gain=.0065+this.futureBossPhase*.0013;this.musicTone(freq,.082,cfg.music.wave,gain,step%4===0?-10:0);if(step%4===0)this.musicTone(cfg.music.root/2,.18,'sine',.009+this.futureBossPhase*.0013,-6);if(this.futureBossWorld===6&&step%4===2)this.musicTone(freq*2,.035,'square',.0032,-90);if(this.futureBossWorld===7&&step%3===1)this.musicTone(freq*.75,.12,'sine',.0038,14);if(this.futureBossWorld===8&&step%2===0)this.musicTone(freq*1.5,.045,'triangle',.0035,-35);if(this.futureBossWorld===9&&step%2===1)this.musicTone(freq*2,.03,'square',.0036,-180);if(this.futureBossWorld===10&&step%8===6)this.musicTone(cfg.music.root*.5,.30,'sawtooth',.0055,9);};tick();this.futureSeqTimer=setInterval(tick,Math.max(130,beat));},
+    preloadMagnateOmegaTrack(){
+      const track=futureBossMeta(6)?.soundtrack;if(!track?.asset)return null;if(this.magnateOmegaPreload)return this.magnateOmegaPreload;
+      try{const audio=new Audio(track.asset);audio.preload='auto';audio.loop=track.loop!==false;audio.playsInline=true;audio.setAttribute('playsinline','');audio.load?.();this.magnateOmegaPreload=audio;return audio;}catch(_){return null;}
+    },
+    fadeExternalBossTrack(target=.27,duration=650){
+      const audio=this.externalBossTrack;if(!audio)return;clearInterval(this.externalBossFadeTimer);this.externalBossFadeTimer=null;
+      const from=Number.isFinite(audio.volume)?audio.volume:0,to=clamp(target,0,1),start=performance.now(),span=Math.max(80,duration||650);this.externalBossTargetVolume=to;
+      const step=()=>{if(this.externalBossTrack!==audio){clearInterval(this.externalBossFadeTimer);this.externalBossFadeTimer=null;return;}const k=clamp((performance.now()-start)/span,0,1),eased=k*(2-k);audio.volume=clamp(from+(to-from)*eased,0,1);if(k>=1){clearInterval(this.externalBossFadeTimer);this.externalBossFadeTimer=null;}};
+      step();this.externalBossFadeTimer=setInterval(step,40);
+    },
+    stopExternalBossTrack(fadeMs=220){
+      clearInterval(this.externalBossFadeTimer);this.externalBossFadeTimer=null;const audio=this.externalBossTrack;this.externalBossTrack=null;this.externalBossTrackId='';this.externalBossTargetVolume=0;if(!audio)return;
+      const from=Number.isFinite(audio.volume)?audio.volume:.2,start=performance.now(),span=Math.max(0,fadeMs||0);
+      if(!span){try{audio.pause();audio.currentTime=0;audio.volume=0;}catch(_){}return;}
+      const timer=setInterval(()=>{const k=clamp((performance.now()-start)/span,0,1);try{audio.volume=clamp(from*(1-k),0,1);}catch(_){}if(k>=1){clearInterval(timer);try{audio.pause();audio.currentTime=0;audio.volume=0;}catch(_){}}},32);
+    },
+    startMagnateOmegaTrack(phase=1){
+      if(!state.settings.music)return false;const cfg=futureBossMeta(6),track=cfg.soundtrack;if(!track?.asset)return false;
+      const normalizedPhase=Math.max(1,Math.min(4,Number(phase)||1)),target=(track.phaseVolumes||[])[normalizedPhase-1]??track.baseVolume??.27;this.futureBossWorld=6;this.futureBossPhase=normalizedPhase;
+      if(this.externalBossTrack&&this.externalBossTrackId==='magnate_omega'){this.fadeExternalBossTrack(target,420);return true;}
+      this.stopExternalBossTrack(0);const audio=this.preloadMagnateOmegaTrack();if(!audio)return false;
+      try{audio.pause();audio.currentTime=0;}catch(_){}audio.loop=track.loop!==false;audio.volume=0;this.externalBossTrack=audio;this.externalBossTrackId='magnate_omega';
+      const fallback=()=>{if(this.externalBossTrack===audio){this.externalBossTrack=null;this.externalBossTrackId='';this.externalBossTargetVolume=0;try{audio.pause();}catch(_){}this.startFutureBossSequence(6,normalizedPhase);}};
+      audio.addEventListener('error',fallback,{once:true});
+      try{const playPromise=audio.play();if(playPromise?.then)playPromise.then(()=>{if(this.externalBossTrack===audio)this.fadeExternalBossTrack(target,850);}).catch(fallback);else this.fadeExternalBossTrack(target,850);}catch(_){fallback();}
+      return true;
+    },
+    startFutureBossBattleMusic(world=6,phase=1){
+      if(!state.settings.music)return;const w=Number(world)||6;if(w===6){this.stopFutureBossSequence();if(this.startMagnateOmegaTrack(phase))return;}this.stopExternalBossTrack(180);this.startFutureBossSequence(w,phase);
+    },
+    setFutureBossBattlePhase(world=6,phase=1){
+      if(!state.settings.music)return;const w=Number(world)||6;if(w===6&&this.externalBossTrackId==='magnate_omega'&&this.externalBossTrack){const cfg=futureBossMeta(6),p=Math.max(1,Math.min(4,Number(phase)||1)),target=(cfg.soundtrack?.phaseVolumes||[])[p-1]??cfg.soundtrack?.baseVolume??.27;this.futureBossPhase=p;this.fadeExternalBossTrack(target,500);return;}this.startFutureBossBattleMusic(w,phase);
+    },
+    startFutureBossSequence(world=6,phase=1){if(!state.settings.music)return;clearInterval(this.futureSeqTimer);this.futureSeqTimer=null;this.futureSeqStep=0;this.futureBossWorld=Math.max(6,Math.min(12,Number(world)||6));this.futureBossPhase=Math.max(1,Math.min(4,Number(phase)||1));if(this.futureBossWorld===6)this.preloadMagnateOmegaTrack();const cfg=futureBossMeta(this.futureBossWorld),phaseTempo=this.futureBossPhase>=4?(cfg.music.phase4||.68):(this.futureBossPhase>=3?.82:1),beat=60000/cfg.music.bpm/2*phaseTempo;const tick=()=>{if(!state.settings.music)return;const step=this.futureSeqStep++,seq=cfg.music.seq,n=seq[step%seq.length],lift=(this.futureBossPhase-1)*2,freq=cfg.music.root*Math.pow(2,(n+lift)/12),gain=.0065+this.futureBossPhase*.0013;this.musicTone(freq,.082,cfg.music.wave,gain,step%4===0?-10:0);if(step%4===0)this.musicTone(cfg.music.root/2,.18,'sine',.009+this.futureBossPhase*.0013,-6);if(this.futureBossWorld===6&&step%4===2)this.musicTone(freq*2,.035,'square',.0032,-90);if(this.futureBossWorld===7&&step%3===1)this.musicTone(freq*.75,.12,'sine',.0038,14);if(this.futureBossWorld===8&&step%2===0)this.musicTone(freq*1.5,.045,'triangle',.0035,-35);if(this.futureBossWorld===9&&step%2===1)this.musicTone(freq*2,.03,'square',.0036,-180);if(this.futureBossWorld===10&&step%8===6)this.musicTone(cfg.music.root*.5,.30,'sawtooth',.0055,9);};tick();this.futureSeqTimer=setInterval(tick,Math.max(130,beat));},
     stopFutureBossSequence(){clearInterval(this.futureSeqTimer);this.futureSeqTimer=null;this.futureSeqStep=0;},
     startBossSequence(mapIndex=0,phase=1){
       if(!state.settings.music)return;clearInterval(this.bossSeqTimer);this.bossSeqTimer=null;this.bossSeqStep=0;this.bossThemeIndex=Math.max(0,Math.min(4,mapIndex));this.bossThemePhase=Math.max(1,phase||1);const cfg=boss2Meta(this.bossThemeIndex),phaseTempo=this.bossThemeIndex===4&&this.bossThemePhase>=4?.52:(this.bossThemePhase>=3?.86:1),beat=60000/cfg.music.bpm/2*phaseTempo;
@@ -1387,7 +1469,7 @@
       if(boss&&this.bossSeqTimer){this.bossThemePhase=Math.max(1,phase||1);this.startBossSequence(this.bossThemeIndex,this.bossThemePhase);}
     },
     stopMusic() {
-      clearInterval(this.bossSeqTimer);this.bossSeqTimer=null;this.bossSeqStep=0;clearInterval(this.futureSeqTimer);this.futureSeqTimer=null;this.futureSeqStep=0;
+      clearInterval(this.bossSeqTimer);this.bossSeqTimer=null;this.bossSeqStep=0;clearInterval(this.futureSeqTimer);this.futureSeqTimer=null;this.futureSeqStep=0;this.stopExternalBossTrack(220);
       try {
         if (this.musicGain && this.ctx) this.musicGain.gain.exponentialRampToValueAtTime(0.0001, this.ctx.currentTime + .15);
         if (this.padGain && this.ctx) this.padGain.gain.exponentialRampToValueAtTime(0.0001, this.ctx.currentTime + .15);
@@ -1466,6 +1548,8 @@
       this.extraLives = 4;
       this.nextLifeScore = 2500;
       this.resultMode = 'victory';
+      this.lastBuildSnapshot = null;
+      this.lastExpeditionComparison = null;
       this.outcomeFinalized = false;
       this.selectedMapFromScreen = 0;
       this.domainOverlayOpen = false;
@@ -2129,6 +2213,8 @@
       this.extraLives = Math.min(MAX_TOTAL_LIVES - 1, save?.extraLives ?? campaignLives);
       this.nextLifeScore = save?.nextLifeScore || SCORE_LIFE_STEP;
       this.outcomeFinalized = false;
+      this.lastBuildSnapshot = null;
+      this.lastExpeditionComparison = null;
       this.lastWorldLifeBonus = 0;
       this.createPlayer(save?.player);
       p.levelProgress = p.levelProgress || {1:1};
@@ -3162,7 +3248,7 @@
       els.bossIntroFamily.textContent = `${meta.intro} · MUNDO ${this.mapIndex+1}`;
       els.bossIntroIcon.innerHTML = bossSigilHtml(this.mapIndex,'boss-sigil');
       els.bossIntroName.textContent = boss.name;
-      els.bossIntroText.textContent = `${meta.weapon} · ${meta.special}`;
+      els.bossIntroText.textContent = `${meta.weapon} · ${meta.special}${meta.soundtrack?.title?` · ♫ ${meta.soundtrack.title}`:''}`;
       els.bossIntroOverlay.style.setProperty('--boss-color',meta.color);
       els.bossIntroOverlay.classList.remove('micro-intro','cinematic-full');
       els.bossIntroOverlay.classList.add('boss2-intro');
@@ -3303,7 +3389,7 @@
         ][this.mapIndex]||{};
         this.toast(`FASE ${b.phase}`,phaseLines[b.phase]||boss2Meta(this.mapIndex).special);
         if(this.mapIndex===1)this.spawnMeteorRain(1,true);
-        if(this.mapIndex>=5)AudioFX.startFutureBossSequence(this.mapIndex+1,b.phase);else AudioFX.setBossPhase(b.family, b.phase, true);
+        if(this.mapIndex>=5)AudioFX.setFutureBossBattlePhase(this.mapIndex+1,b.phase);else AudioFX.setBossPhase(b.family, b.phase, true);
       }
       if (f.charge >= 100) {
         f.charge = 0;
@@ -5941,7 +6027,7 @@
       this.bossIntroduced = true;
       this.grantBossAid('Duelo de jefe');
       AudioFX.boss();
-      if(this.mapIndex>=5){AudioFX.stopMusic();AudioFX.startFutureBossSequence(this.mapIndex+1,this.bossActive?.phase||1);}else AudioFX.music(this.mapIndex, true, MAPS[this.mapIndex]?.family || 'zombie', this.bossActive?.phase || 1);
+      if(this.mapIndex>=5){AudioFX.stopMusic();AudioFX.startFutureBossBattleMusic(this.mapIndex+1,this.bossActive?.phase||1);}else AudioFX.music(this.mapIndex, true, MAPS[this.mapIndex]?.family || 'zombie', this.bossActive?.phase || 1);
       if (this.mapIndex === 1) AudioFX.world2BossCue();
       this.shake = 12;
       this.flash = 1;
@@ -7105,6 +7191,81 @@
       return ids.map(id=>POWERS.find(p=>p.id===id)).filter(Boolean);
     }
 
+    getActiveFusionOpportunityForPower(id){
+      if(!id)return null;
+      return FUSIONS.find(f=>f.requires.includes(id)&&!this.isPowerActive(id)&&f.requires.filter(req=>req!==id).every(req=>this.isPowerActive(req)))||null;
+    }
+
+    getBuildSnapshot(){
+      const profile=currentProfile(),doctrine=doctrineMeta(ensureArsenalDoctrine(profile));
+      const powers=POWERS.filter(pow=>(this.powerLevels?.[pow.id]||0)>0).map(pow=>({id:pow.id,name:pow.name,icon:pow.icon,type:pow.type,level:this.powerLevels[pow.id]||1,activity:this.powerActivity?.[pow.id]||0}));
+      const typeCounts={};for(const pow of powers)typeCounts[pow.type]=(typeCounts[pow.type]||0)+1;
+      const scored=BUILD_IDENTITY_META.map(meta=>({meta,score:Object.entries(meta.types).reduce((sum,[type,w])=>sum+(typeCounts[type]||0)*w,0)})).sort((a,b)=>b.score-a.score);
+      let identity={id:'hybrid',icon:'◇',name:'Rizoma Híbrido'};
+      if(powers.length===0)identity={id:'base',icon:'·',name:'Rizoma Base'};
+      else if(powers.length===1)identity={id:'emergent',icon:powers[0].icon,name:'Rizoma Emergente'};
+      else if(scored[0]&&scored[0].score>0&&(scored[0].score-(scored[1]?.score||0)>=1.15||scored[0].score>=4.2))identity=scored[0].meta;
+      const completedFusions=FUSIONS.filter(f=>f.requires.every(id=>(this.powerLevels?.[id]||0)>0));
+      const nearFusions=FUSIONS.map(f=>{const owned=f.requires.filter(id=>(this.powerLevels?.[id]||0)>0),missing=f.requires.filter(id=>(this.powerLevels?.[id]||0)<=0);return owned.length&&missing.length===1?{id:f.id,name:f.name,icon:f.icon,missingId:missing[0],missingName:POWERS.find(p=>p.id===missing[0])?.name||missing[0]}:null;}).filter(Boolean);
+      const topPowers=[...powers].sort((a,b)=>b.level-a.level||b.activity-a.activity).slice(0,3);
+      let doctrineFit=null;
+      if(doctrine.id!=='free'&&powers.length){
+        const aligned=powers.reduce((sum,pow)=>sum+(doctrine.primary.includes(pow.type)?1:(doctrine.secondary.includes(pow.type) ? .62 : 0)),0);
+        doctrineFit=Math.round(clamp(aligned/powers.length*100,0,100));
+      }
+      return {identity,doctrine:{id:doctrine.id,icon:doctrine.icon,name:doctrine.name},doctrineFit,powerCount:powers.length,powerIds:powers.map(p=>p.id),typeCounts,completedFusions:completedFusions.map(f=>({id:f.id,name:f.name,icon:f.icon})),nearFusions,topPowers};
+    }
+
+    getPinnedExpedition(){
+      const mem=ensureExpeditionMemory(currentProfile());
+      return mem.pinnedRunId?mem.runs.find(r=>r.id===mem.pinnedRunId)||null:null;
+    }
+
+    recordExpeditionMemory(victory){
+      const profile=currentProfile(),mem=ensureExpeditionMemory(profile),s=this.lastBuildSnapshot||this.getBuildSnapshot();
+      const mode=this.trainingMode?.active?'training':(this.replayMode?.active?'replay':'campaign');
+      const prior=mem.runs[0]||null;
+      const run={
+        id:`exp_${Date.now()}_${this.mapIndex+1}_${Math.floor(Math.random()*9999)}`,date:new Date().toISOString(),version:VERSION,
+        mode,victory:!!victory,world:this.mapIndex+1,wave:this.wave,score:Math.round(this.run?.score||0),kills:Math.round(this.run?.kills||0),difficulty:this.difficulty||currentProfile()?.preferredDifficulty||'normal',
+        identity:{id:s.identity.id,icon:s.identity.icon,name:s.identity.name},doctrine:{id:s.doctrine.id,icon:s.doctrine.icon,name:s.doctrine.name},doctrineFit:s.doctrineFit,
+        powerCount:s.powerCount,powerIds:[...(s.powerIds||[])],topPowers:(s.topPowers||[]).map(p=>({id:p.id,icon:p.icon,name:p.name,level:p.level})),
+        fusionCount:(s.completedFusions||[]).length,fusions:(s.completedFusions||[]).map(f=>({id:f.id,icon:f.icon,name:f.name}))
+      };
+      this.lastExpeditionComparison=prior?{
+        previous:prior,current:run,scoreDelta:run.score-(Number(prior.score)||0),powerDelta:run.powerCount-(Number(prior.powerCount)||0),fusionDelta:run.fusionCount-(Number(prior.fusionCount)||0),sameIdentity:prior.identity?.id===run.identity.id,sameDoctrine:prior.doctrine?.id===run.doctrine.id
+      }:null;
+      mem.runs.unshift(run);mem.runs=mem.runs.slice(0,EXPEDITION_MEMORY_LIMIT);
+      return run;
+    }
+
+    renderPauseBuildReadout(){
+      if(!els.pauseBuildReadout)return;
+      const s=this.getBuildSnapshot(),near=s.nearFusions[0],fit=s.doctrine.id==='free'?'AZAR PURO':`${s.doctrineFit??0}% AFINIDAD`;
+      const path=near?`Siguiente confluencia: ${near.name} · falta ${near.missingName}`:(s.completedFusions.length?`${s.completedFusions.length} fusión${s.completedFusions.length===1?'':'es'} integrada${s.completedFusions.length===1?'':'s'}`:'Aún sin confluencias completas');
+      const ref=this.getPinnedExpedition();
+      let memory='';
+      if(ref){const owned=new Set(s.powerIds||[]),refIds=ref.powerIds||[],overlap=refIds.filter(id=>owned.has(id)).length;memory=`<p class="pause-build-memory">◎ Referencia: ${ref.identity?.name||'Build guardada'} · ${overlap}/${Math.max(1,refIds.length)} firmas coinciden</p>`;}
+      els.pauseBuildReadout.innerHTML=`<div><span>${s.identity.icon}</span><p><small>LECTURA DE BUILD</small><strong>${s.identity.name}</strong></p></div><div class="pause-build-tags"><em>${s.doctrine.icon} ${s.doctrine.name}</em><em>${fit}</em></div><p>${path}</p>${memory}`;
+    }
+
+    renderResultBuildSummary(){
+      if(!els.resultBuildSummary)return;
+      const s=this.lastBuildSnapshot||this.getBuildSnapshot(),fit=s.doctrine.id==='free'?'Azar puro':`${s.doctrineFit??0}% de afinidad`,top=s.topPowers.length?s.topPowers.map(p=>`${p.icon} ${p.name} L${p.level}`).join(' · '):'Sin poderes registrados';
+      const fusionNames=s.completedFusions.slice(0,3).map(f=>`${f.icon} ${f.name}`).join(' · ');
+      els.resultBuildSummary.innerHTML=`<div class="result-build-head"><span>${s.identity.icon}</span><div><small>LECTURA TÁCTICA FINAL</small><strong>${s.identity.name}</strong></div><em>${s.doctrine.icon} ${s.doctrine.name} · ${fit}</em></div><div class="result-build-grid"><p><small>ARSENAL</small><b>${s.powerCount} poderes</b><span>${top}</span></p><p><small>SINERGIAS</small><b>${s.completedFusions.length} fusiones</b><span>${fusionNames||'Ninguna fusión completada en esta misión'}</span></p></div>`;
+      this.renderResultExpeditionMemory();
+    }
+
+    renderResultExpeditionMemory(){
+      if(!els.resultExpeditionMemory)return;
+      if(!this.outcomeFinalized){els.resultExpeditionMemory.innerHTML='<span>◎</span><div><small>MEMORIA DE EXPEDICIÓN</small><strong>Expedición todavía abierta</strong><p>La build se archivará únicamente cuando la misión se cierre de forma definitiva.</p></div>';return;}
+      const c=this.lastExpeditionComparison;
+      if(!c){els.resultExpeditionMemory.innerHTML='<span>◎</span><div><small>MEMORIA DE EXPEDICIÓN</small><strong>Primera referencia registrada</strong><p>Esta build queda disponible en Colección para comparar futuras misiones.</p></div>';return;}
+      const sign=n=>n>0?`+${n}`:`${n}`,identity=c.sameIdentity?'misma identidad':`antes: ${c.previous.identity?.name||'Rizoma'}`,doctrine=c.sameDoctrine?'misma doctrina':`doctrina previa: ${c.previous.doctrine?.name||'Rizoma Libre'}`;
+      els.resultExpeditionMemory.innerHTML=`<span>◎</span><div><small>COMPARACIÓN CON LA EXPEDICIÓN ANTERIOR</small><strong>${identity} · ${doctrine}</strong><p>Puntaje ${sign(c.scoreDelta)} · arsenal ${sign(c.powerDelta)} · fusiones ${sign(c.fusionDelta)}</p></div>`;
+    }
+
     spawnLevelUpSpaceChoice() {
       if (!this.player || this.run?.mapComplete) return;
       const choices=this.generateCards();
@@ -7114,16 +7275,16 @@
       const radius=this.isSmallScreen?86:118;
       const angles=[-Math.PI*.82,-Math.PI*.5,-Math.PI*.18];
       choices.slice(0,3).forEach((card,i)=>{
-        const a=angles[i]??(-Math.PI*.5+i*.35),doctrineLabel=card.doctrineSuggested?'⌁ DOCTRINA · ':'';
+        const a=angles[i]??(-Math.PI*.5+i*.35),fusionLabel=card.fusionSuggested?'✷ FUSIÓN · ':'',doctrineLabel=card.doctrineSuggested?'⌁ DOCTRINA · ':'';
         this.spawnPickup(
           clamp(p.x+Math.cos(a)*radius,42,this.w-42),
           clamp(p.y+Math.sin(a)*radius,50,this.h-50),
           'power',1,
-          {powerId:card.id,major:true,rewardGlow:true,label:`${doctrineLabel}NIVEL ${p.level} · ${card.name.toUpperCase()}`,powerDuration:POWER_ACTIVE_SECONDS[card.id]||10,choiceGroup:group,exclusiveChoice:true,life:22,autoDelay:999,doctrineSuggested:!!card.doctrineSuggested}
+          {powerId:card.id,major:true,rewardGlow:true,label:`${fusionLabel}${doctrineLabel}NIVEL ${p.level} · ${card.name.toUpperCase()}`,powerDuration:POWER_ACTIVE_SECONDS[card.id]||10,choiceGroup:group,exclusiveChoice:true,life:22,autoDelay:999,doctrineSuggested:!!card.doctrineSuggested,fusionSuggested:!!card.fusionSuggested}
         );
       });
-      const guided=choices.some(card=>card.doctrineSuggested);
-      this.toast('✦ MEJORA EN EL ESPACIO',guided?`1 cápsula sugerida por ${doctrine.name} · las otras mantienen azar`:'Recoge una de las 3 cápsulas · sin pausar la misión');
+      const fusionGuided=choices.find(card=>card.fusionSuggested),guided=choices.some(card=>card.doctrineSuggested);
+      this.toast('✦ MEJORA EN EL ESPACIO',fusionGuided?`✷ ${fusionGuided.fusionName||'Fusión'} disponible · recoge su componente`:guided?`1 cápsula sugerida por ${doctrine.name} · las otras mantienen azar`:'Recoge una de las 3 cápsulas · sin pausar la misión');
       this.offerActive=false;this.currentOfferChoices=[];this.offerAutoAt=0;this.pendingLevelChoices=0;
       els.cardOverlay?.classList.add('hidden');this.updatePendingBadge();
     }
@@ -7138,7 +7299,7 @@
       const cards = [],profile=currentProfile(),doctrine=doctrineMeta(ensureArsenalDoctrine(profile));
       const removeFromPool=id=>{const idx=pool.findIndex(p=>p.id===id);if(idx>=0)pool.splice(idx,1);};
       const partner=this.getActiveComboPartnerCandidates?.()[0];
-      if(partner){cards.push(partner);removeFromPool(partner.id);}
+      if(partner){const fusion=this.getActiveFusionOpportunityForPower(partner.id);cards.push({...partner,fusionSuggested:!!fusion,fusionId:fusion?.id||null,fusionName:fusion?.name||null});removeFromPool(partner.id);}
       const guaranteeWeapon = (this.mapIndex === 0 || this.player.level <= 5) && cards.length===0;
       if (guaranteeWeapon) {
         const candidate = WEAPON_POWER_IDS
@@ -7327,6 +7488,7 @@
     }
 
     completeMap() {
+      this.lastBuildSnapshot=this.getBuildSnapshot();
       if (this.trainingMode?.active) { this.run.mapComplete=false;this.toast('🎯 SIMULACIÓN COMPLETADA',`${MAPS[this.mapIndex].boss} neutralizado`);setTimeout(()=>this.showResult(true),900);return; }
       if (this.replayMode?.active) { this.run.mapComplete = false; this.toast('JEFE REPETIDO',`Mundo ${this.mapIndex+1} · Nivel ${this.worldStage?.bossLevel||5} completado`); setTimeout(() => this.showResult(true), 1200); return; }
       const p = currentProfile();
@@ -7357,6 +7519,7 @@
     }
 
     end(victory) {
+      this.lastBuildSnapshot=this.getBuildSnapshot();
       this.running = false;
       AudioFX.stopMusic();
       if (!victory) {
@@ -7369,8 +7532,9 @@
     finalizeRun(victory) {
       if (this.outcomeFinalized) return;
       this.outcomeFinalized = true;
-      if(this.trainingMode?.active){saveState();return;}
       const p = currentProfile();
+      this.recordExpeditionMemory(victory);
+      if(this.trainingMode?.active){saveState();return;}
       p.coins += this.run.coins;
       p.stats.totalCoins += this.run.coins;
       p.stats.totalKills += this.run.kills;
@@ -7496,12 +7660,14 @@
       if(els.lifeShop)els.lifeShop.classList.toggle('hidden',!noLives);
       if(noLives)this.updateLifeShopUI();
       els.btnResultHome.textContent='Inicio';els.btnResultHome.classList.toggle('hidden',!!victory&&!replayVictory);
+      this.renderResultBuildSummary();
       els.resultOverlay.classList.remove('hidden');
       renderAll();
     }
 
     finishReplayLevel() {
       if (!this.replayMode?.active || !this.running) return;
+      this.lastBuildSnapshot=this.getBuildSnapshot();
       this.running = false;
       AudioFX.stopMusic();
       AudioFX.win();
@@ -7647,6 +7813,7 @@
 
     updatePauseStats() {
       if (els.pauseMiniContext) els.pauseMiniContext.textContent = `M${this.mapIndex + 1} · Nivel ${this.wave} · ${this.getDifficulty().name}`;
+      this.renderPauseBuildReadout();
     }
 
     updateHud() {
@@ -9839,6 +10006,38 @@
       }));
     }
 
+
+    if(els.collectionSynergyMap){
+      const routes=ARSENAL_DOCTRINES.filter(d=>d.id!=='free');
+      els.collectionSynergyMap.innerHTML=routes.map(d=>{
+        const route=collectionDoctrineRoute(p,d),active=d.id===activeDoctrine.id;
+        const names=route.topFusions.length?route.topFusions.map(f=>`<span>${f.icon} ${f.name}</span>`).join(''):'<span class="muted-route">Sin fusiones de esta ruta registradas</span>';
+        const powerPct=route.totalPowers?Math.round(route.knownPowers/route.totalPowers*100):0,fusionPct=route.totalFusions?Math.round(route.discoveredFusions/route.totalFusions*100):0;
+        return `<article class="synergy-route-card ${active?'active':''}"><header><span>${d.icon}</span><div><small>${active?'RUTA ACTIVA':'RUTA TÁCTICA'}</small><strong>${d.name}</strong></div></header><div class="synergy-route-bars"><p><span>Arsenal conocido ${route.knownPowers}/${route.totalPowers}</span><i><b style="width:${powerPct}%"></b></i></p><p><span>Fusiones registradas ${route.discoveredFusions}/${route.totalFusions}</span><i><b style="width:${fusionPct}%"></b></i></p></div><div class="synergy-route-known">${names}</div></article>`;
+      }).join('');
+    }
+
+    if(els.collectionExpeditionSummary||els.collectionExpeditionList){
+      const mem=ensureExpeditionMemory(p),runs=mem.runs||[],pinned=mem.pinnedRunId?runs.find(r=>r.id===mem.pinnedRunId):null;
+      const victories=runs.filter(r=>r.victory).length,identityCounts={};runs.forEach(r=>{const id=r.identity?.name||'Rizoma';identityCounts[id]=(identityCounts[id]||0)+1;});
+      const frequent=Object.entries(identityCounts).sort((a,b)=>b[1]-a[1])[0]?.[0]||'Sin registro';
+      const maxFusion=runs.reduce((m,r)=>Math.max(m,Number(r.fusionCount)||0),0);
+      if(els.collectionExpeditionSummary){
+        els.collectionExpeditionSummary.innerHTML=[['◎','Expediciones archivadas',runs.length],['✓','Resultados superados',victories],['◇','Identidad más frecuente',frequent],['✷','Máximo de fusiones',maxFusion]].map(([ic,label,val])=>`<article class="expedition-stat"><span>${ic}</span><div><strong>${val}</strong><small>${label}</small></div></article>`).join('');
+      }
+      if(els.collectionExpeditionPinned){
+        els.collectionExpeditionPinned.innerHTML=pinned?`<article class="expedition-pinned"><span>${pinned.identity?.icon||'◇'}</span><div><small>REFERENCIA FIJADA · MUNDO ${pinned.world}</small><strong>${pinned.identity?.name||'Rizoma'} · ${pinned.doctrine?.name||'Rizoma Libre'}</strong><p>${pinned.powerCount||0} poderes · ${pinned.fusionCount||0} fusiones · ⭐ ${Math.round(pinned.score||0)}</p></div><button class="soft-btn small" data-expedition-unpin="1">Quitar</button></article>`:'<p class="expedition-empty">Puedes fijar una expedición como referencia. La pausa comparará tu build actual con sus firmas, sin modificar las cápsulas ni el combate.</p>';
+      }
+      if(els.collectionExpeditionList){
+        els.collectionExpeditionList.innerHTML=runs.length?runs.slice(0,8).map(r=>{
+          const dt=new Date(r.date),date=Number.isNaN(dt.getTime())?'—':dt.toLocaleDateString('es-CO',{day:'2-digit',month:'short'}),isPinned=mem.pinnedRunId===r.id,fit=r.doctrine?.id==='free'?'Azar puro':`${r.doctrineFit??0}% afinidad`,top=(r.topPowers||[]).slice(0,3).map(x=>`${x.icon||'✦'} ${x.name||x.id} L${x.level||1}`).join(' · '),fusion=(r.fusions||[]).slice(0,2).map(x=>`${x.icon||'✷'} ${x.name||x.id}`).join(' · ');
+          return `<article class="expedition-run ${r.victory?'victory':'defeat'} ${isPinned?'pinned':''}"><header><span>${r.identity?.icon||'◇'}</span><div><small>${date} · ${expeditionModeLabel(r.mode)} · M${r.world} L${r.wave}</small><strong>${r.identity?.name||'Rizoma'} · ${expeditionOutcomeLabel(r)}</strong></div><em>${r.doctrine?.icon||'◇'} ${r.doctrine?.name||'Rizoma Libre'} · ${fit}</em></header><div class="expedition-run-body"><p><b>⭐ ${Math.round(r.score||0)} · 🎯 ${Math.round(r.kills||0)}</b><span>${r.powerCount||0} poderes · ${r.fusionCount||0} fusiones</span></p><p><b>${top||'Sin poderes registrados'}</b><span>${fusion||'Sin fusiones registradas'}</span></p></div><footer><small>${isPinned?'REFERENCIA ACTIVA':'Memoria local · sin bonificación'}</small><button class="soft-btn small" data-expedition-pin="${r.id}" ${isPinned?'disabled':''}>${isPinned?'Fijada':'Usar como referencia'}</button></footer></article>`;
+        }).join(''):'<p class="expedition-empty">La primera misión finalizada aparecerá aquí con su identidad, doctrina, arsenal y fusiones.</p>';
+        els.collectionExpeditionList.querySelectorAll('[data-expedition-pin]').forEach(btn=>btn.addEventListener('click',()=>{const id=btn.dataset.expeditionPin;if(!mem.runs.some(r=>r.id===id))return;mem.pinnedRunId=id;saveState();AudioFX.tone(620,.08,'triangle',.015,60);renderCollection();}));
+      }
+      els.collectionExpeditionPinned?.querySelector('[data-expedition-unpin]')?.addEventListener('click',()=>{mem.pinnedRunId=null;saveState();renderCollection();});
+    }
+
     if(els.collectionPowerCodex){
       els.collectionPowerCodex.innerHTML=POWERS.map(pow=>{
         const unlocked=!!p.collection.powers[pow.id],meta=powerTypeMeta(pow),duration=pow.id==='nuke'?'INSTANTÁNEA':`${POWER_ACTIVE_SECONDS[pow.id]||8}s`,role=powerTacticalRole(pow.id),stat=telemetry.powers[pow.id]||{uses:0,maxLevel:0},mastery=arsenalMasteryFromUses(stat.uses);
@@ -9973,7 +10172,8 @@
       estadisticas: p.stats,
       progresion_mundos: p.worldProgression || {},
       logros: Object.keys(p.achievements || {}).length,
-      jefes_vencidos: Object.keys(p.collection?.bosses || {}).length
+      jefes_vencidos: Object.keys(p.collection?.bosses || {}).length,
+      memoria_expediciones: ensureExpeditionMemory(p).runs.slice(0,5).map(r=>({fecha:r.date,modo:r.mode,resultado:r.victory?'victoria':'interrumpida',mundo:r.world,nivel:r.wave,puntaje:r.score,bajas:r.kills,build:r.identity?.name,doctrina:r.doctrine?.name,afinidad:r.doctrineFit,poderes:r.powerCount,fusiones:r.fusionCount}))
     };
     return `Actúa como analista senior de diseño de juegos roguelite/bullet-heaven. Analiza este snapshot local de Rizoma Zombie Strike y propón mejoras de balance, dificultad, recompensas, retención ética y UX móvil sin inventar datos externos. Devuelve: diagnóstico, problemas probables, mejoras críticas, mejoras de alto valor y ajustes de dificultad para los primeros 3 niveles. Snapshot JSON:
 ${JSON.stringify(snapshot, null, 2)}`;
@@ -10210,6 +10410,7 @@ ${JSON.stringify(snapshot, null, 2)}`;
         state.settings.lowPerformance = !!els.toggleLowPerformance?.checked;
         game.applyPerformanceMode?.();
         if (!state.settings.music) AudioFX.stopMusic();
+        else if(game.running){if(game.bossActive){if(game.mapIndex>=5)AudioFX.startFutureBossBattleMusic(game.mapIndex+1,game.bossActive?.phase||1);else AudioFX.music(game.mapIndex,true,MAPS[game.mapIndex]?.family||'zombie',game.bossActive?.phase||1);}else if(game.mapIndex>=5)AudioFX.startFutureBossSequence(game.mapIndex+1,1);else AudioFX.music(game.mapIndex,false,MAPS[game.mapIndex]?.family||'zombie',1);}
         saveState(); renderAll();
       });
     });

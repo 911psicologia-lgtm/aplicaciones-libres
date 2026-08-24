@@ -1,0 +1,6 @@
+SWARM//RIFT — Validación v2.2.0
+- node --check js/game.js: OK
+- Prueba Chromium inline 844×390: 0 errores JS; touch HUD visible; joystick oculto; rotate gate oculto en landscape.
+- Prueba Chromium inline 1366×768: 0 errores JS; HUD desktop conservado.
+- Migración de guardado desde v2.1.0 habilitada.
+- Service Worker actualizado a cache v2.2.0.

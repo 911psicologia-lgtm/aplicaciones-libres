@@ -1,0 +1,19 @@
+SWARM//RIFT — BALANCE v2.2.0
+
+Objetivos de bajas por sector (ordas 1/2/3):
+Sector 1: 17 / 21 / 26
+Sector 2: 20 / 24 / 28
+Sector 3: 22 / 26 / 30
+Sector 4: 24 / 28 / 32
+Sector 5: 26 / 30 / 34
+Sector 6: 28 / 32 / 37
+Sector 7: 32 / 36 / 40
+Sector 8: 35 / 39 / 43
+Sector 9: 38 / 42 / 47
+Sector 10: 42 / 46 / 50
+
+Costo teórico total del Hangar:
+v2.1.0 (factor 1.42): 35,623 créditos
+v2.2.0 (factor 1.39): 32,452 créditos
+
+Principio de balance: mantener densidad de enjambre, suavizar HP individual y recompensar desempeño.

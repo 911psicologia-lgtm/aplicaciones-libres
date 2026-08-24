@@ -1,0 +1,24 @@
+VALIDACIÓN v2.5.7 · CARTOGRAFÍA DE SINERGIAS
+
+[OK] JavaScript validado con node --check.
+[OK] Manifest JSON válido.
+[OK] VERSION interna = 2.5.7.
+[OK] Motor de lectura de build presente: Rizoma Base/Emergente/Híbrido, Vector de Asalto, Bastión de Contención, Enjambre de Apoyo y Convergencia Crítica.
+[OK] Afinidad de build con doctrina calculada sin modificar estadísticas de combate.
+[OK] Cartografía de sinergias añadida a Colección para las cuatro doctrinas especializadas.
+[OK] La cartografía solo muestra nombres de fusiones previamente registradas; las no descubiertas permanecen ocultas.
+[OK] Compañero de fusión ya priorizado queda marcado visualmente como ✷ FUSIÓN, sin crear una cuarta opción ni alterar rarezas.
+[OK] Lectura compacta de build añadida al menú de pausa.
+[OK] Informe táctico final añadido al resultado de misión.
+[OK] La instantánea de build se captura antes de la pérdida de poderes por derrota y también en victoria/repetición.
+[OK] DOCTRINE_OFFER_CHANCE conserva 0.65 y máximo una inserción doctrinal por oferta.
+[OK] 334 referencias concretas de assets detectadas; 0 faltantes.
+[OK] Árbol de assets idéntico byte a byte respecto de v2.5.6.
+[OK] openTacticalShop() sin cambios respecto de v2.5.6.
+[OK] closeTacticalPrep() sin cambios respecto de v2.5.6.
+[OK] spawnCrossWorldTacticalPrize() sin cambios respecto de v2.5.6.
+[OK] getBossLootPowerId() sin cambios respecto de v2.5.6.
+[OK] triggerScreenNuke() / Bomba Omega sin cambios respecto de v2.5.6.
+[OK] completeMap() conserva exactamente la lógica de v2.5.6 salvo una línea informativa que captura la build antes de ejecutar la progresión previa.
+
+Nota: validación estática/sintáctica y comprobaciones estructurales. El entorno de navegador headless bloquea páginas locales por política organizacional, por lo que esta validación no equivale a una partida completa jugada en navegador.

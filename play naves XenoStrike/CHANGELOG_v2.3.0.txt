@@ -1,0 +1,16 @@
+SWARM//RIFT — Insecta Siege v2.3.0
+
+BLOQUE: IA AVANZADA 7–10 + CIERRE DE CAMPAÑA
+
+- Mosquitos: Needler ejecuta picadas vectoriales, Hemodrone emite pulsos y Blood Reaper deja cápsulas hemáticas.
+- Termitas: Mandible Guard despliega paneles defensivos y Siegebuilder refuerza el terreno.
+- Libélulas: Prism Hunter dispara abanicos de precisión, Lance Predator realiza cargas rápidas y Flashwing puede hacer una segunda pasada.
+- Cigarras: Nymph Echo produce doble eco; Cantor y Breaker mantienen pulsos resonantes escalados.
+- Sanguina Prime: nuevo modo de acecho en fases 2–3.
+- Architect Zero: fortalezas de resina adicionales y guardia temporal.
+- Auralis: pasadas diagonales de alta velocidad con estelas.
+- Resonator Omega: movimiento por anclajes y ecos de transición.
+- Fases 7–10 reciben nombres propios.
+- Mundo 10: cierre específico de campaña, Núcleo Omega, bonus final y acceso directo a Boss Rush.
+- Meta persistente: campañas completadas y mejor puntuación de campaña.
+- Compatible con progreso v2.2.0 y versiones anteriores.

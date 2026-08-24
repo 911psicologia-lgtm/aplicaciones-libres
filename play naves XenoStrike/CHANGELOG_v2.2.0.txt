@@ -1,0 +1,23 @@
+SWARM//RIFT — Insecta Siege v2.2.0
+
+BALANCE GLOBAL
+- Recalibración por sector para HP, daño, presión, máximo simultáneo, jefes y recompensas.
+- La dificultad escala más por densidad/patrones que por HP individual.
+- Los mundos 7–10 conservan mayor presión sin convertir cada enemigo en una esponja.
+
+ECONOMÍA Y RECOMPENSAS
+- Recompensas ponderadas por sector.
+- Frenesí y rango de oleada reciben mayor peso económico.
+- Amenazas frontales escalan su premio.
+- Curva de coste del Hangar cambia de 1.42 a 1.39.
+- Créditos cercanos se agrupan en un pickup con multiplicador visible ×N.
+
+HUD / MÓVIL
+- Una única franja superior compacta con HP, escudo, XP, créditos, sector/oleada, estado y poderes activos.
+- Frenesí, warnings y notificaciones se integran en esa franja.
+- Se eliminan paneles inferiores redundantes en interfaz compacta.
+- Pickups normales se reducen visualmente en móvil; los poderes mantienen prioridad.
+- Densidad de partículas decorativas reducida cuando hay saturación alta.
+
+COMPATIBILIDAD
+- Migración automática desde v2.1.0 y versiones anteriores conservadas.
