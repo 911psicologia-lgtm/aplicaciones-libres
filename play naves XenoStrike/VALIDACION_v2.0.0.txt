@@ -1,0 +1,10 @@
+SWARM//RIFT — Validación v2.0.0
+- JavaScript: node --check OK.
+- Sectores nuevos registrados: 7, 8, 9, 10.
+- Jefes nuevos probados por checkpoint: 4.
+- Poderes nuevos probados simultáneamente: 4.
+- Recursos declarados para PWA: 174.
+- Fondos 7–10: 8 archivos únicos 1672x941.
+- Enemigos nuevos: 16 PNG RGBA 256x256 sin alfa tocando bordes.
+- Obstáculos nuevos: 16 PNG RGBA 192x192.
+- Migración de guardado desde v1.9.9 habilitada.

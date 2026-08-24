@@ -1,0 +1,8 @@
+SWARM//RIFT — Insecta Siege v1.9.9
+
+- Corregidos los fondos repetidos entre Mundo 3 y Mundo 4.
+- Corregidos los fondos repetidos entre Mundo 2 y Mundo 6.
+- Rehechos desde cero los fondos de Nocturne Pollen Vault (normal y boss).
+- Rehechos desde cero los fondos de Emerald Leap Delta (normal y boss).
+- Se mantiene la diferenciación de assets PNG realistas en los mundos 4–6.
+- Se conserva compatibilidad de guardado desde v1.9.8.

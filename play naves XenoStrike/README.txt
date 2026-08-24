@@ -87,3 +87,33 @@ Los Sectores 4, 5 y 6 ahora tienen identidad visual propia, arenas de jefe separ
 
 Versión 1.9.5
 Añade rangos I–III de poderes por sector, Frenesí con objetivo/recompensa, valoración de oleadas y maestría de jefes en replay.
+
+
+=== v2.0.0 — CAMPAÑA DE 10 SECTORES ===
+- Sectores 7–10 integrados: Bloodmist Expanse, Resin Hive Citadel, Odonata Stormline y Resonance Cathedral.
+- Cada sector nuevo posee fondo de recorrido y arena de jefe propios.
+- Nuevas familias: Mosquitos, Termitas, Libélulas y Cigarras.
+- 12 enemigos nuevos + 4 jefes con assets individuales.
+- 16 obstáculos temáticos PNG.
+- Poderes heredados: Drenaje Hemático, Muralla de Resina, Ráfaga Prismática y Pulso Resonante Ω.
+- Mundo 10 mezcla de forma controlada enemigos de linajes anteriores.
+
+
+=== v2.1.0 — BOSS ARENAS + ENDGAME ===
+- Jefes 7–10 con peligros de arena propios y frecuencia por fase.
+- Hordas 7–10 reequilibradas con mayor presencia de élites/mayores.
+- Mundo 10 reduce la mezcla de linajes anteriores al 18%.
+- Boss Rush desbloqueable tras derrotar los 10 jefes.
+- Boss Rush: 10 jefes consecutivos, recuperación parcial entre arenas y dificultad creciente.
+- Boss Rush no admite checkpoints.
+
+
+=== v2.3.0 — BALANCE GLOBAL + ECONOMÍA + HUD MÓVIL ===
+- Curva de dificultad recalibrada para 10 sectores: mayor presión y composición, menor dependencia de HP esponja.
+- Jefes reforzados progresivamente por sector.
+- Economía orientada a desempeño: Frenesí, rangos de oleada, amenazas frontales y maestría.
+- Pendiente de costos del Hangar suavizada.
+- Créditos cercanos se agrupan visualmente manteniendo su valor.
+- HUD móvil reducido a una sola franja superior de iconos/estado.
+- Eliminados avisos y colas inferiores redundantes en móvil.
+- Partículas decorativas reducidas solo cuando la pantalla móvil está muy cargada; amenazas y proyectiles permanecen visibles.

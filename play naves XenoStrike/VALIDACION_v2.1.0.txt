@@ -1,0 +1,9 @@
+SWARM//RIFT — Validación v2.1.0
+- JavaScript: node --check OK.
+- Manifest JSON: OK.
+- Compatibilidad de guardado desde v2.0.0.
+- Boss Rush: arranque probado sin errores JavaScript.
+- Jefe Mundo 7 / peligro de arena: ejecución >10 s sin errores JavaScript.
+- Jefes 7–10: peligro de arena específico conectado por patrón.
+- Hordas 7–10: ponderación tardía activa.
+- Recursos del Service Worker comprobados: 174 referencias, 0 faltantes.

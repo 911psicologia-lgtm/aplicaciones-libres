@@ -1,0 +1,27 @@
+SWARM//RIFT — Insecta Siege v2.0.0
+
+CAMPAÑA
+- La campaña se amplía de 6 a 10 sectores.
+- Mundo 7: Bloodmist Expanse / Mosquitos / Sanguina Prime.
+- Mundo 8: Resin Hive Citadel / Termitas / Architect Zero.
+- Mundo 9: Odonata Stormline / Libélulas / Auralis.
+- Mundo 10: Resonance Cathedral / Cigarras / Resonator Omega.
+
+ARTE
+- 8 fondos nuevos: recorrido + arena de jefe para los cuatro sectores.
+- 16 sprites nuevos separados: 12 enemigos y 4 jefes.
+- 16 obstáculos PNG temáticos.
+- 4 iconos de poder heredado.
+
+JUGABILIDAD
+- Mosquitos: persecución y drenaje al impactar.
+- Termitas: unidades constructoras y fortificación.
+- Libélulas: pasadas rápidas y ataques prismáticos.
+- Cigarras: pulsos y anillos sónicos.
+- Mundo 10 recupera hasta una fracción controlada de linajes anteriores.
+
+PODERES DE JEFE
+- Drenaje Hemático.
+- Muralla de Resina.
+- Ráfaga Prismática.
+- Pulso Resonante Ω.

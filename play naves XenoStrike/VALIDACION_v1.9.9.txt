@@ -1,0 +1,4 @@
+Validación v1.9.9
+- Fondos auditados: Mundo 4 y Mundo 6 ahora usan composiciones nuevas, no recolores de otros mundos.
+- Arenas de jefe de Mundo 4 y Mundo 6 también reemplazadas.
+- Compatibilidad de guardado desde v1.9.8 mantenida.

@@ -1,0 +1,20 @@
+SWARM//RIFT — Insecta Siege v2.1.0
+
+JEFES 7–10
+- Sanguina Prime: mareas hemáticas de arena, ráfagas por carriles y mayor presión en fases 2–3.
+- Architect Zero: fortificaciones reales de resina, nodos y ventanas de blindaje.
+- Auralis: corredores de tormenta y barridos lineales de alta velocidad.
+- Resonator Omega: ecos múltiples de arena y refuerzos de linajes previos en fase 3.
+
+BALANCE
+- Objetivos de horda aumentan de forma gradual en sectores 7–10.
+- Mayor proporción de élites y unidades mayores en los mundos finales.
+- La mezcla de linajes antiguos del mundo 10 se limita al 18%.
+
+ENDGAME / REPLAY
+- Boss Rush se desbloquea al vencer los diez jefes.
+- Diez jefes consecutivos sin hordas.
+- Curación y escudo parciales entre arenas.
+- Escalado progresivo de HP y frecuencia de ataques.
+- Sin checkpoints durante Boss Rush.
+- Registro de victorias y mejor puntuación de Boss Rush.

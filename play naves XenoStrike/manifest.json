@@ -1,7 +1,7 @@
 {
   "name": "SWARM//RIFT — Insecta Siege",
   "short_name": "SWARM//RIFT",
-  "description": "Auto-shooter horizontal de supervivencia contra linajes insectoides.",
+  "description": "Auto-shooter horizontal de supervivencia a través de 10 sectores y linajes insectoides.",
   "start_url": "./index.html",
   "scope": "./",
   "display": "fullscreen",
