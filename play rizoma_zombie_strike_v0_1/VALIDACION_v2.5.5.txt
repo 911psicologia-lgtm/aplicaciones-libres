@@ -1,0 +1,20 @@
+VALIDACIÓN v2.5.5 · MAESTRÍA DEL ARSENAL
+
+[OK] JavaScript validado con node --check.
+[OK] Manifest JSON válido.
+[OK] VERSION interna = 2.5.5.
+[OK] Telemetría persistente para powers/fusions/criticals/criticalCombos.
+[OK] Registro de nivel máximo y mundo de uso para poderes.
+[OK] Migración histórica con uso mínimo inferido = 1.
+[OK] Rangos Registrado / Sintonizado / Dominado / Maestro / Ápice.
+[OK] UI collectionMasterySummary y collectionMasteryTop presente.
+[OK] Códice de poderes muestra usos, nivel máximo y progreso de maestría.
+[OK] Fusiones, críticos y combos críticos muestran activaciones.
+[OK] Prueba aislada de helpers de maestría ejecutada en Node.
+[OK] 334 referencias concretas de assets detectadas; 0 faltantes.
+[OK] Árbol de assets idéntico byte a byte respecto de v2.5.4.
+[OK] completeMap() sin cambios respecto de v2.5.4.
+[OK] openTacticalShop() sin cambios respecto de v2.5.4.
+[OK] closeTacticalPrep() sin cambios respecto de v2.5.4.
+
+Nota: validación estática/sintáctica y pruebas unitarias aisladas. No equivale a una partida completa jugada en navegador.

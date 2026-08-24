@@ -1,7 +1,7 @@
 (() => {
   'use strict';
 
-  const VERSION = '2.4.0';
+  const VERSION = '2.5.5';
   const STORAGE_KEY = 'rizoma_zombie_strike_v0_3_state';
   const SAVE_KEY = 'rizoma_zombie_strike_v0_3_save';
   const clamp = (v, a, b) => Math.max(a, Math.min(b, v));
@@ -251,6 +251,50 @@
   };
   const powerTypeMeta = p => POWER_TYPE_META[p?.type] || POWER_TYPE_META.weapon;
   const powerTacticalRole = id => POWER_TACTICAL_ROLE[id] || 'Uso híbrido';
+
+  const ARSENAL_MASTERY_LEVELS = [
+    {min:50,label:'ÁPICE',icon:'✺'},
+    {min:25,label:'MAESTRO',icon:'◆'},
+    {min:10,label:'DOMINADO',icon:'◇'},
+    {min:3,label:'SINTONIZADO',icon:'⌁'},
+    {min:1,label:'REGISTRADO',icon:'·'}
+  ];
+  function ensureArsenalTelemetry(p,seedLegacy=true){
+    if(!p)return {powers:{},fusions:{},criticals:{},criticalCombos:{}};
+    p.arsenalTelemetry=p.arsenalTelemetry||{};
+    for(const group of ['powers','fusions','criticals','criticalCombos'])p.arsenalTelemetry[group]=p.arsenalTelemetry[group]||{};
+    const col=p.collection||{};
+    if(seedLegacy)for(const group of ['powers','fusions','criticals','criticalCombos']){
+      for(const [id,seen] of Object.entries(col[group]||{})){
+        if(!seen||p.arsenalTelemetry[group][id])continue;
+        p.arsenalTelemetry[group][id]={uses:1,maxLevel:group==='powers'?1:0,legacy:true,firstWorld:null,lastWorld:null,durationGranted:0};
+      }
+    }
+    return p.arsenalTelemetry;
+  }
+  function arsenalMasteryFromUses(rawUses=0){
+    const uses=Math.max(0,Number(rawUses)||0);
+    const current=ARSENAL_MASTERY_LEVELS.find(x=>uses>=x.min)||{min:0,label:'SIN REGISTRO',icon:'○'};
+    const ascending=[1,3,10,25,50];
+    const next=ascending.find(v=>v>uses)||null;
+    const prev=[0,...ascending].filter(v=>v<=uses).pop()||0;
+    const progress=next?clamp(((uses-prev)/Math.max(1,next-prev))*100,0,100):100;
+    return {...current,uses,next,progress};
+  }
+  function recordArsenalUse(p,group,id,meta={}){
+    if(!p||!id)return null;
+    const telemetry=ensureArsenalTelemetry(p,false),bucket=telemetry[group];if(!bucket)return null;
+    const rec=bucket[id]||(bucket[id]={uses:0,maxLevel:0,legacy:false,firstWorld:null,lastWorld:null,durationGranted:0});
+    rec.uses=Math.max(0,Number(rec.uses)||0)+1;
+    if(Number.isFinite(meta.level))rec.maxLevel=Math.max(Number(rec.maxLevel)||0,meta.level);
+    if(Number.isFinite(meta.duration))rec.durationGranted=Math.max(0,Number(rec.durationGranted)||0)+Math.max(0,meta.duration);
+    if(Number.isFinite(meta.world)){
+      if(!Number.isFinite(rec.firstWorld)||rec.firstWorld<=0)rec.firstWorld=meta.world;
+      rec.lastWorld=meta.world;
+    }
+    rec.lastUsedAt=Date.now();
+    return rec;
+  }
 
   const CRITICAL_INTERVENTIONS = [
     { id:'fractal', icon:'ϟ', name:'Rayo Fractal', color:'#d9f7ff', desc:'Descarga que se bifurca entre todos los enemigos.' },
@@ -928,6 +972,7 @@
       upgrades: {},
       achievements: {},
       collection: { powers: {}, fusions: {}, bosses: {}, criticals:{}, criticalCombos:{} },
+      arsenalTelemetry: { powers:{}, fusions:{}, criticals:{}, criticalCombos:{} },
       stats: { bestScore: 0, runs: 0, totalKills: 0, bosses: 0, highestWave: 1, bestMap: 1, totalCoins: 0 },
       avatarTier: 1,
       shipParts: { core: 0, wings: 0, cannon: 0, engine: 0 },
@@ -1060,6 +1105,7 @@
       p.collection.bosses = p.collection.bosses || {};
       p.collection.criticals = p.collection.criticals || {};
       p.collection.criticalCombos = p.collection.criticalCombos || {};
+      ensureArsenalTelemetry(p);
       p.stats = { bestScore: 0, runs: 0, totalKills: 0, bosses: 0, highestWave: 1, bestMap: 1, totalCoins: 0, ...(p.stats || {}) };
       p.avatarTier = p.avatarTier || 1;
       p.shipParts = { core: 0, wings: 0, cannon: 0, engine: 0, ...(p.shipParts || {}) };
@@ -2590,6 +2636,7 @@
       for(const id of Object.keys(next))if(!prev[id]){
         activated++;
         const f=FUSIONS.find(x=>x.id===id);
+        recordArsenalUse(currentProfile(),'fusions',id,{world:this.mapIndex+1});
         this.toast('COMBO ACTIVO',`${f?.name||id}`);
         if (this.player) {
           this.player.comboSurge=Math.max(this.player.comboSurge||0,3.8);
@@ -2801,6 +2848,8 @@
       const meta=criticalMeta(id);if(!meta||!this.enemies.length)return;
       const profile=currentProfile();profile.collection=profile.collection||{powers:{},fusions:{},bosses:{},criticals:{},criticalCombos:{}};profile.collection.criticals=profile.collection.criticals||{};profile.collection.criticalCombos=profile.collection.criticalCombos||{};const criticalWasKnown=!!profile.collection.criticals[id];profile.collection.criticals[id]=true;
       const combo=this.resolveCriticalCombo(id),comboWasKnown=combo?!!profile.collection.criticalCombos[combo]:true;
+      recordArsenalUse(profile,'criticals',id,{world:this.mapIndex+1});
+      if(combo)recordArsenalUse(profile,'criticalCombos',combo,{world:this.mapIndex+1});
       this.criticalState.activeCriticals=this.criticalState.activeCriticals||[];
       this.criticalState.rhizomes=this.criticalState.rhizomes||[];
       this.criticalState.recent=(this.criticalState.recent||[]).filter(x=>now()-x.at<10000);this.criticalState.recent.push({id,at:now()});
@@ -7075,8 +7124,10 @@
       this.recentPowerHistory=[...this.recentPowerHistory.filter(x=>x!==id),id].slice(-10);
       if (options.skipLevelGain) this.powerLevels[id] = Math.max(1, this.powerLevels[id] || 0);
       else this.powerLevels[id] = (this.powerLevels[id] || 0) + 1;
-      const activationState=this.markPowerActive(id, options.duration || POWER_ACTIVE_SECONDS[id] || 8);
+      const grantedDuration=options.duration || POWER_ACTIVE_SECONDS[id] || 8;
+      const activationState=this.markPowerActive(id, grantedDuration);
       if(activationState!=='queued')this.activatePowerSlot(id);
+      recordArsenalUse(currentProfile(),'powers',id,{level:this.powerLevels[id]||1,world:this.mapIndex+1,duration:grantedDuration});
       currentProfile().collection.powers[id] = true;
       if (id === 'drone') {
         const lvl=this.powerLevels.drone||1,opts={...(options.droneOptions||{})};
@@ -9686,40 +9737,55 @@
     const p = currentProfile();
     p.collection=p.collection||{powers:{},fusions:{},bosses:{},criticals:{},criticalCombos:{}};
     p.collection.powers=p.collection.powers||{};p.collection.fusions=p.collection.fusions||{};p.collection.bosses=p.collection.bosses||{};p.collection.criticals=p.collection.criticals||{};p.collection.criticalCombos=p.collection.criticalCombos||{};
+    const telemetry=ensureArsenalTelemetry(p);
     const powerCount = Object.keys(p.collection.powers).filter(id=>p.collection.powers[id]).length;
     const fusionCount = Object.keys(p.collection.fusions).filter(id=>p.collection.fusions[id]).length;
     const bossCount = Object.keys(p.collection.bosses).filter(id=>p.collection.bosses[id]).length;
     const criticalCount=Object.keys(p.collection.criticals).filter(id=>p.collection.criticals[id]).length;
     const criticalComboCount=Object.keys(p.collection.criticalCombos).filter(id=>p.collection.criticalCombos[id]).length;
     const avatarCount = (p.unlockedAvatars || []).length;
+    const powerStats=Object.entries(telemetry.powers||{}).filter(([id])=>!!p.collection.powers[id]);
+    const totalPowerUses=powerStats.reduce((sum,[,s])=>sum+(Number(s.uses)||0),0);
+    const masteredPowerCount=powerStats.filter(([,s])=>(Number(s.uses)||0)>=10).length;
     const items = [
       ['🧬', 'Avatares', `${avatarCount}/${AVATARS.length}`, 'Formas desbloqueadas del jugador.'],
       ['✦', 'Poderes', `${powerCount}/${POWERS.length}`, 'Arsenal temporal utilizado en combate.'],
       ['✷', 'Fusiones', `${fusionCount}/${FUSIONS.length}`, 'Sinergias de dos poderes descubiertas.'],
       ['⚡','Críticos',`${criticalCount}/${CRITICAL_INTERVENTIONS.length}`,'Intervenciones críticas encontradas.'],
       ['◆','Combos críticos',`${criticalComboCount}/5`,'Evoluciones críticas activadas.'],
+      ['⌁','Maestría',`${masteredPowerCount}/${powerCount}`,'Poderes con 10 o más activaciones registradas.'],
       [bossSigilHtml(Math.min(MAPS.length-1,Math.max(0,bossCount-1)),'map-boss-sigil'),'Jefes',`${bossCount}/${MAPS.length}`,'Jefes vencidos por territorio.'],
       ['🗺️', 'Mapas', `${(p.completedMaps || []).length}/${MAPS.length}`, 'Territorios liberados.'],
       ['🎖️', 'Logros', `${Object.keys(p.achievements || {}).length}/${ACHIEVEMENTS.length}`, 'Premios conseguidos.']
     ];
     els.collectionGrid.innerHTML = items.map(([icon, name, count, desc]) => `<article class="collection-card"><div class="avatar-symbol">${icon}</div><h3>${name}</h3><strong>${count}</strong><p class="muted">${desc}</p></article>`).join('');
 
+    if(els.collectionMasterySummary){
+      const fusionUses=Object.values(telemetry.fusions||{}).reduce((s,v)=>s+(Number(v.uses)||0),0),criticalUses=Object.values(telemetry.criticals||{}).reduce((s,v)=>s+(Number(v.uses)||0),0),comboUses=Object.values(telemetry.criticalCombos||{}).reduce((s,v)=>s+(Number(v.uses)||0),0);
+      els.collectionMasterySummary.innerHTML=[['✦','Activaciones de poder',totalPowerUses],['✷','Fusiones activadas',fusionUses],['⚡','Intervenciones críticas',criticalUses],['◆','Combos críticos',comboUses]].map(([ic,label,val])=>`<article class="mastery-stat-card"><span>${ic}</span><div><strong>${val}</strong><small>${label}</small></div></article>`).join('');
+    }
+    if(els.collectionMasteryTop){
+      const top=powerStats.sort((a,b)=>(Number(b[1].uses)||0)-(Number(a[1].uses)||0)).slice(0,5);
+      els.collectionMasteryTop.innerHTML=top.length?top.map(([id,s],idx)=>{const pow=POWERS.find(x=>x.id===id),m=arsenalMasteryFromUses(s.uses);return `<article class="mastery-top-row"><b>${idx+1}</b><span class="mastery-top-icon">${pow?.icon||'✦'}</span><div><strong>${pow?.name||id}</strong><small>${m.icon} ${m.label} · ${m.uses} activaciones${s.maxLevel?` · nivel máx. ${s.maxLevel}`:''}</small></div></article>`;}).join(''):'<p class="muted">La telemetría local empezará a completarse al utilizar poderes en combate.</p>';
+    }
+
     if(els.collectionPowerCodex){
       els.collectionPowerCodex.innerHTML=POWERS.map(pow=>{
-        const unlocked=!!p.collection.powers[pow.id],meta=powerTypeMeta(pow),duration=pow.id==='nuke'?'INSTANTÁNEA':`${POWER_ACTIVE_SECONDS[pow.id]||8}s`,role=powerTacticalRole(pow.id);
-        return `<article class="arsenal-codex-card ${unlocked?'unlocked':'locked'}" data-rarity="${pow.rarity}"><div class="arsenal-codex-icon">${unlocked?pow.icon:'?'}</div><div class="arsenal-codex-copy"><div class="arsenal-codex-top"><span class="arsenal-role">${meta.icon} ${meta.label}</span><span class="arsenal-duration">${duration}</span></div><h4>${unlocked?pow.name:'PODER NO DESCUBIERTO'}</h4><p>${unlocked?pow.desc:'Encuéntralo durante una misión para registrar su firma.'}</p><footer><span>${unlocked?role:'Firma desconocida'}</span><em>${unlocked?rarityName(pow.rarity):'BLOQUEADO'}</em></footer></div></article>`;
+        const unlocked=!!p.collection.powers[pow.id],meta=powerTypeMeta(pow),duration=pow.id==='nuke'?'INSTANTÁNEA':`${POWER_ACTIVE_SECONDS[pow.id]||8}s`,role=powerTacticalRole(pow.id),stat=telemetry.powers[pow.id]||{uses:0,maxLevel:0},mastery=arsenalMasteryFromUses(stat.uses);
+        const masteryHtml=unlocked?`<div class="arsenal-mastery"><div><span>${mastery.icon} ${mastery.label}</span><small>${mastery.uses} activaciones${stat.maxLevel?` · nivel máx. ${stat.maxLevel}`:''}</small></div><i><b style="width:${mastery.progress.toFixed(0)}%"></b></i>${mastery.next?`<em>${mastery.next-mastery.uses} para el siguiente rango</em>`:'<em>Rango máximo registrado</em>'}</div>`:'';
+        return `<article class="arsenal-codex-card ${unlocked?'unlocked':'locked'}" data-rarity="${pow.rarity}"><div class="arsenal-codex-icon">${unlocked?pow.icon:'?'}</div><div class="arsenal-codex-copy"><div class="arsenal-codex-top"><span class="arsenal-role">${meta.icon} ${meta.label}</span><span class="arsenal-duration">${duration}</span></div><h4>${unlocked?pow.name:'PODER NO DESCUBIERTO'}</h4><p>${unlocked?pow.desc:'Encuéntralo durante una misión para registrar su firma.'}</p>${masteryHtml}<footer><span>${unlocked?role:'Firma desconocida'}</span><em>${unlocked?rarityName(pow.rarity):'BLOQUEADO'}</em></footer></div></article>`;
       }).join('');
     }
     if(els.collectionFusionCodex){
       els.collectionFusionCodex.innerHTML=FUSIONS.map(f=>{
-        const unlocked=!!p.collection.fusions[f.id],req=f.requires.map(id=>POWERS.find(x=>x.id===id)?.name||id).join(' + ');
-        return `<article class="fusion-codex-row ${unlocked?'unlocked':'locked'}"><span class="fusion-codex-icon">${unlocked?f.icon:'◇'}</span><div><small>${unlocked?req:'COMBINACIÓN NO DESCUBIERTA'}</small><strong>${unlocked?f.name:'FUSIÓN BLOQUEADA'}</strong><p>${unlocked?f.desc:'Activa dos poderes compatibles de forma simultánea para descubrirla.'}</p></div></article>`;
+        const unlocked=!!p.collection.fusions[f.id],req=f.requires.map(id=>POWERS.find(x=>x.id===id)?.name||id).join(' + '),uses=Number(telemetry.fusions[f.id]?.uses)||0;
+        return `<article class="fusion-codex-row ${unlocked?'unlocked':'locked'}"><span class="fusion-codex-icon">${unlocked?f.icon:'◇'}</span><div><small>${unlocked?req:'COMBINACIÓN NO DESCUBIERTA'}</small><strong>${unlocked?f.name:'FUSIÓN BLOQUEADA'}</strong><p>${unlocked?f.desc:'Activa dos poderes compatibles de forma simultánea para descubrirla.'}</p>${unlocked?`<em class="codex-usage">${uses} activaciones registradas</em>`:''}</div></article>`;
       }).join('');
     }
     if(els.collectionCriticalCodex){
       const comboMeta=[['tormentaCongelada','❄','Tormenta Congelada','Rayo Fractal + Burbuja de Estasis'],['plagaNeural','☣','Plaga Neural','Rayo Fractal + Plaga Hemófaga'],['caceriaOmega','➤','Cacería Omega','Enjambre Cazador + Penetración / asistencia'],['extincionOrbital','☄','Extinción Orbital','Bombardeo Meteórico + Bomba Omega'],['ultimoEscuadron','△','Último Escuadrón','Escuadrón Réquiem + apoyo aliado']];
-      const baseCards=CRITICAL_INTERVENTIONS.map(c=>{const seen=!!p.collection.criticals[c.id];return `<article class="critical-codex-card ${seen?'unlocked':'locked'}"><span>${seen?c.icon:'?'}</span><div><small>INTERVENCIÓN CRÍTICA</small><strong>${seen?c.name:'FIRMA NO REGISTRADA'}</strong><p>${seen?c.desc:'Recógela durante una horda o duelo de Guardián para registrarla.'}</p></div></article>`;}).join('');
-      const comboCards=comboMeta.map(([id,icon,name,req])=>{const seen=!!p.collection.criticalCombos[id];return `<article class="critical-codex-card combo ${seen?'unlocked':'locked'}"><span>${seen?icon:'◆'}</span><div><small>${seen?req:'COMBO CRÍTICO NO DESCUBIERTO'}</small><strong>${seen?name:'EVOLUCIÓN BLOQUEADA'}</strong><p>${seen?'Sinergia crítica registrada en la memoria de combate.':'Haz coincidir una intervención crítica con su sistema compatible.'}</p></div></article>`;}).join('');
+      const baseCards=CRITICAL_INTERVENTIONS.map(c=>{const seen=!!p.collection.criticals[c.id],uses=Number(telemetry.criticals[c.id]?.uses)||0;return `<article class="critical-codex-card ${seen?'unlocked':'locked'}"><span>${seen?c.icon:'?'}</span><div><small>INTERVENCIÓN CRÍTICA</small><strong>${seen?c.name:'FIRMA NO REGISTRADA'}</strong><p>${seen?c.desc:'Recógela durante una horda o duelo de Guardián para registrarla.'}</p>${seen?`<em class="codex-usage">${uses} activaciones registradas</em>`:''}</div></article>`;}).join('');
+      const comboCards=comboMeta.map(([id,icon,name,req])=>{const seen=!!p.collection.criticalCombos[id],uses=Number(telemetry.criticalCombos[id]?.uses)||0;return `<article class="critical-codex-card combo ${seen?'unlocked':'locked'}"><span>${seen?icon:'◆'}</span><div><small>${seen?req:'COMBO CRÍTICO NO DESCUBIERTO'}</small><strong>${seen?name:'EVOLUCIÓN BLOQUEADA'}</strong><p>${seen?'Sinergia crítica registrada en la memoria de combate.':'Haz coincidir una intervención crítica con su sistema compatible.'}</p>${seen?`<em class="codex-usage">${uses} activaciones registradas</em>`:''}</div></article>`;}).join('');
       els.collectionCriticalCodex.innerHTML=baseCards+comboCards;
     }
   }
