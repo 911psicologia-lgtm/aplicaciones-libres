@@ -1,0 +1,22 @@
+RIZOMA ZOMBIE STRIKE v2.5.1 · VALIDACIÓN ESTÁTICA
+
+- node --check js/game.js: OK
+- manifest.json parseable: OK
+- Versionado index/manifest/service worker: v2.5.1
+- Referencias concretas de assets: 334
+- Assets concretos faltantes: 0
+- Prefijo dinámico assets/boss2/sigil_w: excluido del conteo de archivos concretos
+- Fondos: sin modificaciones en esta pasada
+- Progresión/Archivo/Entrenamiento: sin modificaciones intencionales
+- Tienda táctica: conserva pausa obligatoria
+
+Fusiones revisadas:
+1. Rayo criotemporal
+2. Enjambre infeccioso
+3. Escuadrón tormenta
+4. Bastión orbital
+5. Pozo de plasma
+6. Lanza de nulidad
+7. Nova blackout
+
+Nota: esta validación es estática/técnica. No equivale a una partida completa jugada en navegador.

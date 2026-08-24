@@ -1,0 +1,16 @@
+VALIDACIÓN v2.5.4 · CÓDICE DEL ARSENAL
+
+Referencias concretas de assets detectadas: 328
+Assets faltantes: 0
+collectionPowerCodex: OK
+collectionFusionCodex: OK
+collectionCriticalCodex: OK
+criticalPersistence: OK
+roleMeta: OK
+versionIndex: OK
+versionManifest: OK
+versionSW: OK
+
+JavaScript: validado externamente con node --check.
+Manifest: JSON válido.
+Nota: validación estática; no equivale a una partida completa en navegador.

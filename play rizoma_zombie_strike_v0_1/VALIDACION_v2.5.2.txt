@@ -1,0 +1,20 @@
+VALIDACIÓN TÉCNICA v2.5.2 · FUSIONES EVOLUTIVAS III
+
+- node --check js/game.js: OK
+- manifest.json parseable: OK
+- referencias concretas a assets: 334
+- assets faltantes: 0
+- versión runtime index/manifest/service worker: 2.5.2
+- Tempestad del Reactor: localizada
+- Hiperfase Vectorial: localizada
+- Bastión Regenerativo: localizado
+- Saturación Total: localizada
+- Lanza Solar Omega: localizada
+- Lanza Hemática Omega: localizada
+- Lanza Abisal Omega: localizada
+- Bomba Omega: lógica conservada
+- fondos M1–M13: no modificados en esta pasada
+- progresión/Archivo/Entrenamiento: no modificados en esta pasada
+- tienda táctica: conserva el texto y flujo de JUEGO EN PAUSA
+
+NOTA: validación estática y de integridad. No equivale a una partida completa jugada en navegador.

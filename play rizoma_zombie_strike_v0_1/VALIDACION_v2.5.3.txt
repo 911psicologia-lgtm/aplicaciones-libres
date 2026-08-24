@@ -1,0 +1,19 @@
+VALIDACIÓN TÉCNICA v2.5.3 · COMBOS CRÍTICOS EVOLUTIVOS
+
+- node --check js/game.js: OK
+- manifest.json parseable: OK
+- referencias concretas a assets: 334
+- assets faltantes: 0
+- versión runtime index/manifest/service worker: 2.5.3
+- Tormenta Congelada: localizado/implementado
+- Plaga Neural: localizado/implementado
+- Cacería Omega: localizado/implementado
+- Extinción Orbital: localizado/implementado
+- Último Escuadrón: localizado/implementado
+- HUD combo crítico: localizado/implementado
+- Bomba Omega: localizado/implementado
+- fondos M1–M13: no modificados en esta pasada
+- progresión/Archivo/Entrenamiento: no modificados en esta pasada
+- tienda táctica: conserva el texto y flujo de JUEGO EN PAUSA
+
+NOTA: validación estática y de integridad. No equivale a una partida completa jugada en navegador.
