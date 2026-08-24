@@ -1,7 +1,7 @@
 (() => {
   'use strict';
 
-  const VERSION = '2.5.5';
+  const VERSION = '2.5.6';
   const STORAGE_KEY = 'rizoma_zombie_strike_v0_3_state';
   const SAVE_KEY = 'rizoma_zombie_strike_v0_3_save';
   const clamp = (v, a, b) => Math.max(a, Math.min(b, v));
@@ -294,6 +294,50 @@
     }
     rec.lastUsedAt=Date.now();
     return rec;
+  }
+
+  const ARSENAL_DOCTRINES = [
+    {id:'free',icon:'◇',name:'Rizoma Libre',short:'Sin sesgo',primary:[],secondary:[],cue:'Mantiene la selección completamente abierta: ninguna cápsula recibe preferencia doctrinal.'},
+    {id:'vector',icon:'➤',name:'Filo Vectorial',short:'Armas + amplificadores',primary:['weapon'],secondary:['modifier'],cue:'Favorece una opción de presión ofensiva, perforación o transformación temporal del arsenal.'},
+    {id:'bastion',icon:'🛡',name:'Bastión Abisal',short:'Defensa + control',primary:['defense'],secondary:['control'],cue:'Favorece una opción de supervivencia, intercepción, ralentización o control territorial.'},
+    {id:'swarm',icon:'△',name:'Enjambre Espectral',short:'Apoyo + utilidad',primary:['ally'],secondary:['utility','control'],cue:'Favorece una opción de escoltas, drones, recolección o soporte táctico de campo.'},
+    {id:'omega',icon:'Ω',name:'Convergencia Omega',short:'Críticos + amplificadores',primary:['ultimate'],secondary:['modifier','weapon'],cue:'Favorece una opción de alto impacto o transformación temporal, sin garantizar rarezas superiores.'}
+  ];
+  const DOCTRINE_OFFER_CHANCE = .65;
+  const doctrineMeta = id => ARSENAL_DOCTRINES.find(d=>d.id===id) || ARSENAL_DOCTRINES[0];
+  function ensureArsenalDoctrine(p){
+    if(!p)return 'free';
+    if(!ARSENAL_DOCTRINES.some(d=>d.id===p.arsenalDoctrine))p.arsenalDoctrine='free';
+    return p.arsenalDoctrine;
+  }
+  function doctrinePowerAffinity(p,doctrine){
+    if(!p||!doctrine||doctrine.id==='free')return 0;
+    const telemetry=ensureArsenalTelemetry(p),rows=[];
+    for(const pow of POWERS){
+      const uses=Math.max(0,Number(telemetry.powers?.[pow.id]?.uses)||0);
+      if(!uses)continue;
+      const factor=doctrine.primary.includes(pow.type)?2:(doctrine.secondary.includes(pow.type)?1:0);
+      if(factor)rows.push(uses*factor);
+    }
+    return rows.sort((a,b)=>b-a).slice(0,3).reduce((s,v)=>s+v,0);
+  }
+  function recommendedArsenalDoctrine(p){
+    const scored=ARSENAL_DOCTRINES.filter(d=>d.id!=='free').map(d=>({d,score:doctrinePowerAffinity(p,d)})).sort((a,b)=>b.score-a.score);
+    return scored[0]?.score>0?scored[0].d:ARSENAL_DOCTRINES[0];
+  }
+  function weightedDoctrinePower(pool,doctrine){
+    if(!Array.isArray(pool)||!pool.length||!doctrine||doctrine.id==='free')return null;
+    const candidates=pool.filter(pow=>doctrine.primary.includes(pow.type)||doctrine.secondary.includes(pow.type));
+    if(!candidates.length)return null;
+    const rarityWeight={common:1,rare:.88,epic:.68,legendary:.44};
+    const rows=candidates.map(pow=>{
+      const typeWeight=doctrine.primary.includes(pow.type)?1.65:1.22;
+      return {pow,weight:typeWeight*(rarityWeight[pow.rarity]||.75)};
+    });
+    const total=rows.reduce((s,r)=>s+r.weight,0),roll=Math.random()*Math.max(.0001,total);
+    let acc=0;
+    for(const row of rows){acc+=row.weight;if(roll<=acc)return row.pow;}
+    return rows[rows.length-1]?.pow||null;
   }
 
   const CRITICAL_INTERVENTIONS = [
@@ -973,6 +1017,7 @@
       achievements: {},
       collection: { powers: {}, fusions: {}, bosses: {}, criticals:{}, criticalCombos:{} },
       arsenalTelemetry: { powers:{}, fusions:{}, criticals:{}, criticalCombos:{} },
+      arsenalDoctrine: 'free',
       stats: { bestScore: 0, runs: 0, totalKills: 0, bosses: 0, highestWave: 1, bestMap: 1, totalCoins: 0 },
       avatarTier: 1,
       shipParts: { core: 0, wings: 0, cannon: 0, engine: 0 },
@@ -1106,6 +1151,7 @@
       p.collection.criticals = p.collection.criticals || {};
       p.collection.criticalCombos = p.collection.criticalCombos || {};
       ensureArsenalTelemetry(p);
+      ensureArsenalDoctrine(p);
       p.stats = { bestScore: 0, runs: 0, totalKills: 0, bosses: 0, highestWave: 1, bestMap: 1, totalCoins: 0, ...(p.stats || {}) };
       p.avatarTier = p.avatarTier || 1;
       p.shipParts = { core: 0, wings: 0, cannon: 0, engine: 0, ...(p.shipParts || {}) };
@@ -7064,19 +7110,20 @@
       const choices=this.generateCards();
       if(!choices?.length)return;
       const group=`lvl_${this.mapIndex}_${this.wave}_${this.player.level}_${Date.now()}_${Math.floor(Math.random()*999)}`;
-      const p=this.player;
+      const p=this.player,profile=currentProfile(),doctrine=doctrineMeta(ensureArsenalDoctrine(profile));
       const radius=this.isSmallScreen?86:118;
       const angles=[-Math.PI*.82,-Math.PI*.5,-Math.PI*.18];
       choices.slice(0,3).forEach((card,i)=>{
-        const a=angles[i]??(-Math.PI*.5+i*.35);
+        const a=angles[i]??(-Math.PI*.5+i*.35),doctrineLabel=card.doctrineSuggested?'⌁ DOCTRINA · ':'';
         this.spawnPickup(
           clamp(p.x+Math.cos(a)*radius,42,this.w-42),
           clamp(p.y+Math.sin(a)*radius,50,this.h-50),
           'power',1,
-          {powerId:card.id,major:true,rewardGlow:true,label:`NIVEL ${p.level} · ${card.name.toUpperCase()}`,powerDuration:POWER_ACTIVE_SECONDS[card.id]||10,choiceGroup:group,exclusiveChoice:true,life:22,autoDelay:999}
+          {powerId:card.id,major:true,rewardGlow:true,label:`${doctrineLabel}NIVEL ${p.level} · ${card.name.toUpperCase()}`,powerDuration:POWER_ACTIVE_SECONDS[card.id]||10,choiceGroup:group,exclusiveChoice:true,life:22,autoDelay:999,doctrineSuggested:!!card.doctrineSuggested}
         );
       });
-      this.toast('✦ MEJORA EN EL ESPACIO','Recoge una de las 3 cápsulas · sin pausar la misión');
+      const guided=choices.some(card=>card.doctrineSuggested);
+      this.toast('✦ MEJORA EN EL ESPACIO',guided?`1 cápsula sugerida por ${doctrine.name} · las otras mantienen azar`:'Recoge una de las 3 cápsulas · sin pausar la misión');
       this.offerActive=false;this.currentOfferChoices=[];this.offerAutoAt=0;this.pendingLevelChoices=0;
       els.cardOverlay?.classList.add('hidden');this.updatePendingBadge();
     }
@@ -7088,19 +7135,25 @@
 
     generateCards() {
       const pool = POWERS.filter(p => !['nuke','pulse'].includes(p.id) || this.wave >= 3 || this.mapIndex > 0);
-      const cards = [];
+      const cards = [],profile=currentProfile(),doctrine=doctrineMeta(ensureArsenalDoctrine(profile));
+      const removeFromPool=id=>{const idx=pool.findIndex(p=>p.id===id);if(idx>=0)pool.splice(idx,1);};
       const partner=this.getActiveComboPartnerCandidates?.()[0];
-      if(partner){cards.push(partner);const pi=pool.findIndex(p=>p.id===partner.id);if(pi>=0)pool.splice(pi,1);}
+      if(partner){cards.push(partner);removeFromPool(partner.id);}
       const guaranteeWeapon = (this.mapIndex === 0 || this.player.level <= 5) && cards.length===0;
       if (guaranteeWeapon) {
         const candidate = WEAPON_POWER_IDS
           .map(id => POWERS.find(p => p.id === id))
           .filter(Boolean)
           .sort((a, b) => (this.powerLevels[a.id] || 0) - (this.powerLevels[b.id] || 0))[0];
-        if (candidate) {
-          cards.push(candidate);
-          const idx = pool.findIndex(p => p.id === candidate.id);
-          if (idx >= 0) pool.splice(idx, 1);
+        if (candidate) {cards.push(candidate);removeFromPool(candidate.id);}
+      }
+      // Doctrinas: sesgo blando. Como máximo una de las tres cápsulas puede recibir preferencia
+      // y solo en el 65% de las ofertas. No altera rareza, duración, daño ni recompensas fijas.
+      if(cards.length<3&&!this.trainingMode?.active&&doctrine.id!=='free'&&Math.random()<DOCTRINE_OFFER_CHANCE){
+        const suggested=weightedDoctrinePower(pool,doctrine);
+        if(suggested){
+          cards.push({...suggested,doctrineSuggested:true,doctrineId:doctrine.id});
+          removeFromPool(suggested.id);
         }
       }
       while (cards.length < 2 && pool.length) {
@@ -7114,7 +7167,7 @@
         const next = pick(POWERS.filter(p => !cards.some(card => card.id === p.id)));
         cards.push(next || pick(POWERS));
       }
-      return cards;
+      return cards.slice(0,3);
     }
 
     empowerPower(id, options = {}) {
@@ -9738,6 +9791,7 @@
     p.collection=p.collection||{powers:{},fusions:{},bosses:{},criticals:{},criticalCombos:{}};
     p.collection.powers=p.collection.powers||{};p.collection.fusions=p.collection.fusions||{};p.collection.bosses=p.collection.bosses||{};p.collection.criticals=p.collection.criticals||{};p.collection.criticalCombos=p.collection.criticalCombos||{};
     const telemetry=ensureArsenalTelemetry(p);
+    const activeDoctrine=doctrineMeta(ensureArsenalDoctrine(p)),recommendedDoctrine=recommendedArsenalDoctrine(p);
     const powerCount = Object.keys(p.collection.powers).filter(id=>p.collection.powers[id]).length;
     const fusionCount = Object.keys(p.collection.fusions).filter(id=>p.collection.fusions[id]).length;
     const bossCount = Object.keys(p.collection.bosses).filter(id=>p.collection.bosses[id]).length;
@@ -9767,6 +9821,22 @@
     if(els.collectionMasteryTop){
       const top=powerStats.sort((a,b)=>(Number(b[1].uses)||0)-(Number(a[1].uses)||0)).slice(0,5);
       els.collectionMasteryTop.innerHTML=top.length?top.map(([id,s],idx)=>{const pow=POWERS.find(x=>x.id===id),m=arsenalMasteryFromUses(s.uses);return `<article class="mastery-top-row"><b>${idx+1}</b><span class="mastery-top-icon">${pow?.icon||'✦'}</span><div><strong>${pow?.name||id}</strong><small>${m.icon} ${m.label} · ${m.uses} activaciones${s.maxLevel?` · nivel máx. ${s.maxLevel}`:''}</small></div></article>`;}).join(''):'<p class="muted">La telemetría local empezará a completarse al utilizar poderes en combate.</p>';
+    }
+
+    if(els.collectionDoctrineStatus){
+      const recText=recommendedDoctrine.id==='free'?'Aún no hay suficiente historial para recomendar una especialización.':`Tu uso registrado sugiere afinidad con ${recommendedDoctrine.name}.`;
+      els.collectionDoctrineStatus.innerHTML=`<div><span class="doctrine-status-icon">${activeDoctrine.icon}</span><div><small>DOCTRINA ACTIVA</small><strong>${activeDoctrine.name}</strong><p>${activeDoctrine.cue}</p></div></div><aside><b>Sesgo blando 65%</b><small>Como máximo 1 de 3 cápsulas de subida de nivel puede seguir la doctrina. Las otras opciones mantienen el azar normal.</small><em>${recText}</em></aside>`;
+    }
+    if(els.collectionDoctrineGrid){
+      els.collectionDoctrineGrid.innerHTML=ARSENAL_DOCTRINES.map(d=>{
+        const active=d.id===activeDoctrine.id,recommended=d.id===recommendedDoctrine.id,affinity=doctrinePowerAffinity(p,d);
+        const typeNames=[...d.primary,...d.secondary].map(type=>POWER_TYPE_META[type]?.label||type).join(' · ');
+        return `<article class="doctrine-card ${active?'active':''} ${recommended?'recommended':''}"><div class="doctrine-card-head"><span>${d.icon}</span><div><small>${d.id==='free'?'NEUTRAL':d.short.toUpperCase()}</small><h4>${d.name}</h4></div></div><p>${d.cue}</p><div class="doctrine-tags">${d.id==='free'?'<span>AZAR PURO</span>':`<span>${typeNames}</span><span>AFINIDAD ${affinity}</span>`}</div><footer>${recommended&&!active?'<em>RECOMENDADA POR TU USO</em>':'<em>&nbsp;</em>'}<button class="soft-btn small" data-doctrine="${d.id}" ${active?'disabled':''}>${active?'Activa':'Seleccionar'}</button></footer></article>`;
+      }).join('');
+      els.collectionDoctrineGrid.querySelectorAll('[data-doctrine]').forEach(btn=>btn.addEventListener('click',()=>{
+        const id=btn.dataset.doctrine;if(!ARSENAL_DOCTRINES.some(d=>d.id===id))return;
+        p.arsenalDoctrine=id;saveState();AudioFX.tone(id==='free'?360:540,.09,'triangle',.018,id==='free'?-40:80);renderCollection();
+      }));
     }
 
     if(els.collectionPowerCodex){

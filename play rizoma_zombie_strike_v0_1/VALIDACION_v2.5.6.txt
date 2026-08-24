@@ -1,0 +1,22 @@
+VALIDACIÓN v2.5.6 · DOCTRINAS TÁCTICAS DEL ARSENAL
+
+[OK] JavaScript validado con node --check.
+[OK] Manifest JSON válido.
+[OK] VERSION interna = 2.5.6.
+[OK] Cinco doctrinas definidas: Rizoma Libre, Filo Vectorial, Bastión Abisal, Enjambre Espectral y Convergencia Omega.
+[OK] arsenalDoctrine persistente en el perfil y migración segura de perfiles anteriores.
+[OK] Sesgo doctrinal limitado a una única inserción por oferta de 3 cápsulas.
+[OK] Probabilidad doctrinal fijada en 65%.
+[OK] Rizoma Libre no aplica sesgo.
+[OK] Entrenamiento excluido del sesgo doctrinal.
+[OK] La cápsula guiada queda marcada como DOCTRINA en el espacio.
+[OK] Recomendación/afinidad calculada a partir de arsenalTelemetry sin bonus de combate.
+[OK] 334 referencias concretas de assets detectadas; 0 faltantes.
+[OK] Árbol de assets idéntico byte a byte respecto de v2.5.5.
+[OK] completeMap() sin cambios respecto de v2.5.5.
+[OK] openTacticalShop() sin cambios respecto de v2.5.5.
+[OK] closeTacticalPrep() sin cambios respecto de v2.5.5.
+[OK] spawnCrossWorldTacticalPrize() sin cambios respecto de v2.5.5.
+[OK] getBossLootPowerId() sin cambios respecto de v2.5.5.
+
+Nota: validación estática/sintáctica y comprobaciones estructurales. No equivale a una partida completa jugada en navegador.
