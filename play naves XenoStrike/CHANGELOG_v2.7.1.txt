@@ -1,0 +1,11 @@
+SWARM//RIFT — Insecta Siege v2.7.1
+
+BANDAS DE JEFE
+- Integradas las 12 pistas del paquete songs battle.
+- Sectores 2–10 usan boss02–boss10 como música principal de arena.
+- Imperatrix Vespa conserva Iron Legion March en campaña Normal.
+- Núcleo Meteórico se usa con Imperatrix en Difícil, replay y Boss Rush.
+- Twin Suns reemplaza la música de Auralis durante Boss Rush.
+- Hadal Pulse se usa en el enfrentamiento final contra Resonator Omega durante Boss Rush.
+- Playlist ampliada a 13 temas incluyendo Iron Legion March legado.
+- Música y efectos siguen teniendo controles independientes.

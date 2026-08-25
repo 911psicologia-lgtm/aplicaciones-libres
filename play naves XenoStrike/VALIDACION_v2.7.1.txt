@@ -1,0 +1,6 @@
+Validación v2.7.1
+- 12 MP3 nuevos copiados y decodificables.
+- Selector de música por arena verificado para sectores 1–10.
+- Variantes Boss Rush configuradas para sectores 1, 9 y 10.
+- Playlist ampliada a 13 pistas.
+- Migración de meta/checkpoint desde v2.7.0.
