@@ -1,0 +1,5 @@
+Validación v2.5.1
+- Audio MP3: 94.752 s, 48 kHz, ~185 kbps.
+- JavaScript validado con node --check.
+- Música y botón añadidos al cache PWA.
+- Compatibilidad de meta/run desde v2.5.0.

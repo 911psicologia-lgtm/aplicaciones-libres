@@ -1,0 +1,9 @@
+SWARM//RIFT — Insecta Siege v2.5.1
+
+- Iron Legion March integrado como música de fondo exclusiva de IMPERATRIX VESPA (primer jefe).
+- La música inicia al aparecer el jefe, hace fade-in y loop si la batalla supera 94.8 s.
+- Fade-out automático al derrotar al jefe o abandonar la partida.
+- Pausa/reanuda junto con pausa/tienda.
+- Nuevo botón musical animado independiente del audio de efectos.
+- Preferencia de música persistente en guardado local.
+- Si la música está desactivada, el primer jefe recupera el drone sintetizado de respaldo.
