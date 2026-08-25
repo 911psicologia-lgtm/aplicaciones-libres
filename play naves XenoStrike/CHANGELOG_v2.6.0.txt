@@ -1,0 +1,15 @@
+SWARM//RIFT — Insecta Siege v2.6.0
+
+PASO 1 — COMBAT DIRECTOR
+- Selector NORMAL / DIFÍCIL en menú vertical y horizontal.
+- NORMAL conserva el balance principal v2.5.1.
+- DIFÍCIL: +25% objetivos enemigos, +20% máximo simultáneo, +10% velocidad, +20% daño, +45% HP jefe, mayor presencia elite y +32% recompensas / +25% XP.
+- Director de Combate con eventos no repetitivos por hitos de avance de cada horda.
+- Horda 1: reconocimiento y presión.
+- Horda 2: presión, emboscadas y elites.
+- Horda 3: asedio, saturación y clímax.
+- Eventos: oleada relámpago, pinza doble, fuego cruzado, cazadores elite, escolta pesada, intercepción frontal, campo de restos, asalto mayor y poder custodiado.
+- Guardado conserva la dificultad de la corrida.
+- HUD indica DIFÍCIL cuando aplica.
+- Mantiene el +30% de enemigos, +20% duración de poderes y +30% dureza base de jefes de v2.5.0.
+- Mantiene música Iron Legion March del jefe 1 de v2.5.1.

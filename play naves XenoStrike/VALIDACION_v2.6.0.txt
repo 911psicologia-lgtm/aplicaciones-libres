@@ -1,0 +1,11 @@
+Validación v2.6.0
+- JavaScript validado con node --check.
+- Persistencia de dificultad incluida en checkpoints.
+- Compatibilidad con saves v2.5.1 y anteriores.
+- Director de combate no se activa en Entrenamiento ni Boss Rush.
+- Modo Difícil usa multiplicadores separados, no reemplaza Normal.
+- Prueba lógica Chromium: NORMAL meta de horda 23; DIFÍCIL 28 (~+22% por redondeo en sector 1; objetivo teórico x1.25).
+- Prueba lógica Chromium: HP jefe DIFÍCIL / NORMAL = 1.45 exacto.
+- Evento Director forzado: Oleada Relámpago generó 7 enemigos en DIFÍCIL, historial y presión temporal correctos.
+- Menú vertical 390×844 inspeccionado: selector de dificultad y controles sin solapamiento.
+- 0 errores JavaScript durante pruebas instrumentadas.

@@ -1,0 +1,18 @@
+SWARM//RIFT — Insecta Siege v2.7.0
+
+VALIDACIÓN
+- JavaScript: node --check OK
+- Manifest JSON: válido
+- PWA: 176 recursos declarados, 0 faltantes
+- PlaylistAudio presente: True
+- Botón Playlist presente: True
+- 5 enemigos transversales registrados: True
+- Sistema Teniente registrado: True
+- Iron Legion March incluido: True
+
+Pruebas de runtime (Chromium, build inyectada):
+- Menú desktop: 0 errores JS
+- Menú móvil 390x844: 0 errores JS
+- Playlist móvil: 0 errores JS y layout sin solapamientos
+- Spawn de Rift Scout, Salvage Drone, Parasite Orb, Rift Carrier y Relic Hunter: OK
+- Sector 2 / fase 2: Teniente Imperatrix Vespa aparece con HP equivalente al 27% del jefe actual en Normal

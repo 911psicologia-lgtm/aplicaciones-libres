@@ -1,0 +1,12 @@
+SWARM//RIFT — Insecta Siege v2.7.0
+
+- Tenientes: desde el Sector 2, el jefe anterior reaparece en fase 2 como ayudante reducido del jefe actual.
+- Teniente: ~27% del HP del jefe actual en Normal y ~31% en Difícil, tamaño reducido y patrones simplificados.
+- Derrotar al Teniente concede créditos, XP, escudo y el poder heredado del jefe anterior.
+- Bono Doble Mando al eliminar Teniente y jefe principal.
+- Cinco amenazas transversales que no acortan la oleada: Rift Scout, Salvage Drone, Parasite Orb, Rift Carrier y Relic Hunter.
+- Salvage Drone roba pickups; Carrier despliega enemigos; Parasite Orb cura aliados; Relic Hunter entrega premio premium.
+- Combat Director puede disparar eventos transversales, portaenjambre y cazador raro.
+- PLAYLIST desde el menú: reproductor de bandas de jefe con 10 slots preparados.
+- Iron Legion March disponible como primera pista; slots 2–10 listos para futuros archivos.
+- Playlist independiente de la música de batalla y de los SFX.
