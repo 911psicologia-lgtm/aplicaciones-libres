@@ -117,3 +117,11 @@ Añade rangos I–III de poderes por sector, Frenesí con objetivo/recompensa, v
 - HUD móvil reducido a una sola franja superior de iconos/estado.
 - Eliminados avisos y colas inferiores redundantes en móvil.
 - Partículas decorativas reducidas solo cuando la pantalla móvil está muy cargada; amenazas y proyectiles permanecen visibles.
+
+
+=== v2.4.0 — ENDGAME, RELIQUIAS Y BOSS RUSH RANKED ===
+- Reliquias permanentes de sectores 7–10 con efectos moderados.
+- Evaluación individual S/A/B/C de cada jefe en Boss Rush.
+- Rango final Ω/S/A/B/C, recompensa por desempeño y mejores registros.
+- Pantallas finales de campaña y Boss Rush refinadas.
+- Retrocompatibilidad con progreso v2.3.0 y anteriores.

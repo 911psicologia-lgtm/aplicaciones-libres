@@ -1,9 +1,9 @@
 (()=>{
 'use strict';
 
-const VERSION='2.3.0';
-const KEY_META='swarm_rift_meta_v230';
-const KEY_RUN='swarm_rift_run_v230';
+const VERSION='2.5.0';
+const KEY_META='swarm_rift_meta_v250';
+const KEY_RUN='swarm_rift_run_v250';
 const TAU=Math.PI*2;
 const cv=document.getElementById('game');
 const cx=cv.getContext('2d',{alpha:false});
@@ -16,7 +16,6 @@ const touchHud=document.getElementById('touchHud');
 const stickZone=document.getElementById('stickZone');
 const stickBase=document.getElementById('stickBase');
 const stickKnob=document.getElementById('stickKnob');
-const dashBtn=document.getElementById('dashBtn');
 
 let W=1280,H=720,DPR=1,lastT=performance.now();
 let stars=[];
@@ -52,11 +51,12 @@ addEventListener('resize',resize,{passive:true});
 addEventListener('orientationchange',()=>setTimeout(resize,180),{passive:true});
 if(window.visualViewport) visualViewport.addEventListener('resize',resize,{passive:true});
 
-function tryFullscreen(){
+async function tryFullscreen(){
   const el=document.documentElement;
   try{
-    if(!document.fullscreenElement && el.requestFullscreen) el.requestFullscreen({navigationUI:'hide'}).catch(()=>{});
-    if(screen.orientation?.lock) screen.orientation.lock('landscape').catch(()=>{});
+    if(!document.fullscreenElement && el.requestFullscreen){try{await el.requestFullscreen({navigationUI:'hide'});}catch(_){}}
+    if(screen.orientation?.lock){try{await screen.orientation.lock('landscape');}catch(_){}}
+    setTimeout(resize,120);
   }catch(_){ }
 }
 
@@ -77,25 +77,25 @@ const IMG={
   worldEnemies:{MOSQUITOS:[],TERMITAS:[],LIBÉLULAS:[],CIGARRAS:[]},
   enemyCells:Array.from({length:3},()=>Array(6))
 };
-IMG.ship.src='assets/player_ship.png';
+IMG.ship.src='assets/player_ship.webp';
 IMG.atlas.src='assets/enemy_atlas.png';
-IMG.bg.rust.src='assets/bg_rust_canyon.png';
-IMG.bg.toxic.src='assets/bg_toxic_ravine.png';
-IMG.bg.rift.src='assets/bg_rift_tunnel.png';
-IMG.bg.nocturne.src='assets/worlds/bg_nocturne.png';
-IMG.bg.nocturneBoss.src='assets/worlds/bg_nocturne_boss.png';
-IMG.bg.iron.src='assets/worlds/bg_iron.png';
-IMG.bg.ironBoss.src='assets/worlds/bg_iron_boss.png';
-IMG.bg.emerald.src='assets/worlds/bg_emerald.png';
-IMG.bg.emeraldBoss.src='assets/worlds/bg_emerald_boss.png';
-IMG.bg.bloodmist.src='assets/worlds7_10/bg_bloodmist.png';
-IMG.bg.bloodmistBoss.src='assets/worlds7_10/bg_bloodmist_boss.png';
-IMG.bg.resin.src='assets/worlds7_10/bg_resin_hive.png';
-IMG.bg.resinBoss.src='assets/worlds7_10/bg_resin_hive_boss.png';
-IMG.bg.odonata.src='assets/worlds7_10/bg_odonata.png';
-IMG.bg.odonataBoss.src='assets/worlds7_10/bg_odonata_boss.png';
-IMG.bg.resonance.src='assets/worlds7_10/bg_resonance.png';
-IMG.bg.resonanceBoss.src='assets/worlds7_10/bg_resonance_boss.png';
+IMG.bg.rust.src='assets/bg_rust_canyon.webp';
+IMG.bg.toxic.src='assets/bg_toxic_ravine.webp';
+IMG.bg.rift.src='assets/bg_rift_tunnel.webp';
+IMG.bg.nocturne.src='assets/worlds/bg_nocturne.webp';
+IMG.bg.nocturneBoss.src='assets/worlds/bg_nocturne_boss.webp';
+IMG.bg.iron.src='assets/worlds/bg_iron.webp';
+IMG.bg.ironBoss.src='assets/worlds/bg_iron_boss.webp';
+IMG.bg.emerald.src='assets/worlds/bg_emerald.webp';
+IMG.bg.emeraldBoss.src='assets/worlds/bg_emerald_boss.webp';
+IMG.bg.bloodmist.src='assets/worlds7_10/bg_bloodmist.webp';
+IMG.bg.bloodmistBoss.src='assets/worlds7_10/bg_bloodmist_boss.webp';
+IMG.bg.resin.src='assets/worlds7_10/bg_resin_hive.webp';
+IMG.bg.resinBoss.src='assets/worlds7_10/bg_resin_hive_boss.webp';
+IMG.bg.odonata.src='assets/worlds7_10/bg_odonata.webp';
+IMG.bg.odonataBoss.src='assets/worlds7_10/bg_odonata_boss.webp';
+IMG.bg.resonance.src='assets/worlds7_10/bg_resonance.webp';
+IMG.bg.resonanceBoss.src='assets/worlds7_10/bg_resonance_boss.webp';
 IMG.obstacles.rock.src='assets/obs_rock.svg';
 IMG.obstacles.mine.src='assets/obs_mine.svg';
 IMG.obstacles.wreck.src='assets/obs_drone_wreck.svg';
@@ -117,6 +117,7 @@ IMG.front.meteor.src='assets/front/front_meteor.svg';
 IMG.front.rammer.src='assets/front/front_rammer.svg';
 IMG.front.wreck.src='assets/front/front_wreck.svg';
 IMG.front.pod.src='assets/front/front_pod.svg';
+for(const bgImg of Object.values(IMG.bg)){try{bgImg.decode?.().catch(()=>{});}catch(_){}}
 for(const f of ['np_cocoon.svg','np_pollenpod.svg','np_spire.svg']){const im=new Image();im.src=`assets/worlds/${f}`;IMG.worldObstacles.np.push(im);}
 for(const f of ['in_nest.svg','in_bulwark.svg','in_mine.svg']){const im=new Image();im.src=`assets/worlds/${f}`;IMG.worldObstacles.iron.push(im);}
 for(const f of ['el_seed.svg','el_rock.svg','el_spore.svg']){const im=new Image();im.src=`assets/worlds/${f}`;IMG.worldObstacles.emerald.push(im);}
@@ -334,6 +335,33 @@ const BOSS_PHASE_NAMES={
 };
 const HERITAGE_NAMES={1:'AGUIJÓN IMPERIAL',2:'CAPARAZÓN ATLAS',3:'CUCHILLA RAZOR',4:'POLVO NOCTURNO',5:'ENJAMBRE OBRERO',6:'SALTO CINÉTICO',7:'DRENAJE HEMÁTICO',8:'MURALLA DE RESINA',9:'RÁFAGA PRISMÁTICA',10:'PULSO RESONANTE Ω'};
 
+const RELICS={
+  7:{icon:'♦',name:'NÚCLEO HEMÁTICO',color:'#ff6078',desc:'+8 HP máximo'},
+  8:{icon:'⬢',name:'MATRIZ DE RESINA',color:'#ffd56a',desc:'+10 escudo máximo'},
+  9:{icon:'✧',name:'LENTE ODONATA',color:'#7eeeff',desc:'+4% velocidad de maniobra'},
+  10:{icon:'Ω',name:'RESONADOR OMEGA',color:'#d9a7ff',desc:'+5% daño contra jefes'}
+};
+const RUSH_GRADE_VALUE={S:4,A:3,B:2,C:1};
+function relicUnlocked(sector){return !!META?.relics?.[sector];}
+function relicCount(){return [7,8,9,10].filter(relicUnlocked).length;}
+function bossRushGrade(time,hits,sector){
+  const target=38+sector*2.4;
+  if(hits===0&&time<=target)return 'S';
+  if(hits<=1&&time<=target*1.45)return 'A';
+  if(hits<=3&&time<=target*2.05)return 'B';
+  return 'C';
+}
+function bossRushRank(results=[]){
+  if(!results.length)return 'C';const avg=results.reduce((a,r)=>a+(RUSH_GRADE_VALUE[r.grade]||1),0)/results.length;
+  if(avg>=3.85)return 'Ω';if(avg>=3.35)return 'S';if(avg>=2.6)return 'A';if(avg>=1.8)return 'B';return 'C';
+}
+function rushRankValue(rank){return ({Ω:5,S:4,A:3,B:2,C:1})[rank]||1;}
+function drawRelicStrip(y,scale=1){
+  const sectors=[7,8,9,10],gap=8,w=Math.min(150*scale,(W-56-gap*3)/4),total=w*4+gap*3,x0=W/2-total/2;cx.textAlign='center';
+  sectors.forEach((sec,i)=>{const r=RELICS[sec],on=relicUnlocked(sec),x=x0+i*(w+gap);cx.fillStyle=on?'rgba(6,16,27,.82)':'rgba(5,9,16,.55)';cx.strokeStyle=on?hexA(r.color,.6):'rgba(110,130,145,.20)';rr(x,y,w,32*scale,10);cx.fill();cx.stroke();cx.fillStyle=on?r.color:'#60717d';cx.font=`900 ${Math.max(9,11*scale)}px system-ui`;cx.fillText(`${r.icon} ${on?r.name:'BLOQUEADA'}`,x+w/2,y+11*scale);cx.fillStyle=on?'#aebfca':'#52616b';cx.font=`700 ${Math.max(7,8.5*scale)}px system-ui`;cx.fillText(on?r.desc:`SECTOR ${sec}`,x+w/2,y+24*scale);});
+  cx.textAlign='left';
+}
+
 const UPGRADES=[
  {id:'hull',name:'Casco compuesto',icon:'♥',base:150,max:8,desc:'+12 vida máxima por nivel'},
  {id:'shield',name:'Malla de escudo',icon:'⬡',base:160,max:8,desc:'+10 escudo máximo por nivel'},
@@ -343,13 +371,13 @@ const UPGRADES=[
  {id:'magnet',name:'Campo recolector',icon:'∪',base:135,max:6,desc:'+18 radio de recolección'},
  {id:'drone',name:'Hangar de drones',icon:'◆',base:230,max:4,desc:'+1 dron permanente cada 2 niveles'},
  {id:'salvage',name:'Reciclaje táctico',icon:'¤',base:170,max:6,desc:'+8% créditos obtenidos'},
- {id:'dash',name:'Impulso evasivo',icon:'ϟ',base:175,max:5,desc:'reduce enfriamiento del dash'}
+ {id:'dash',name:'Estabilizador vectorial',icon:'⌁',base:175,max:5,desc:'+3% respuesta de maniobra por nivel'}
 ];
 
-const defaultMeta=()=>({credits:0,hiScore:0,unlocked:1,upgrades:{},muted:false,runs:0,bosses:0,bossUnlocks:{},defeated:{},bossMastery:{},bestWaveGrade:{},bestBossRush:0,bossRushWins:0,campaignWins:0,bestCampaignScore:0});
+const defaultMeta=()=>({credits:0,hiScore:0,unlocked:1,upgrades:{},muted:false,runs:0,bosses:0,bossUnlocks:{},defeated:{},bossMastery:{},bestWaveGrade:{},bestBossRush:0,bossRushWins:0,bestBossRushRank:'',bestBossRushTime:0,campaignWins:0,bestCampaignScore:0,relics:{}});
 let META=loadJSON(KEY_META,null);
-if(!META){for(const k of ['swarm_rift_meta_v220','swarm_rift_meta_v210','swarm_rift_meta_v200','swarm_rift_meta_v199','swarm_rift_meta_v198','swarm_rift_meta_v197','swarm_rift_meta_v196','swarm_rift_meta_v195','swarm_rift_meta_v194','swarm_rift_meta_v18','swarm_rift_meta_v17']){META=loadJSON(k,null);if(META)break;}}
-if(!META)META=defaultMeta();META.upgrades=META.upgrades||{};META.bossUnlocks=META.bossUnlocks||{};META.defeated=META.defeated||{};META.bossMastery=META.bossMastery||{};META.bestWaveGrade=META.bestWaveGrade||{};META.bestBossRush=META.bestBossRush||0;META.bossRushWins=META.bossRushWins||0;META.campaignWins=META.campaignWins||0;META.bestCampaignScore=META.bestCampaignScore||0;
+if(!META){for(const k of ['swarm_rift_meta_v240','swarm_rift_meta_v230','swarm_rift_meta_v220','swarm_rift_meta_v210','swarm_rift_meta_v200','swarm_rift_meta_v199','swarm_rift_meta_v198','swarm_rift_meta_v197','swarm_rift_meta_v196','swarm_rift_meta_v195','swarm_rift_meta_v194','swarm_rift_meta_v18','swarm_rift_meta_v17']){META=loadJSON(k,null);if(META)break;}}
+if(!META)META=defaultMeta();META.upgrades=META.upgrades||{};META.bossUnlocks=META.bossUnlocks||{};META.defeated=META.defeated||{};META.bossMastery=META.bossMastery||{};META.bestWaveGrade=META.bestWaveGrade||{};META.bestBossRush=META.bestBossRush||0;META.bossRushWins=META.bossRushWins||0;META.campaignWins=META.campaignWins||0;META.bestCampaignScore=META.bestCampaignScore||0;META.relics=META.relics||{};for(const rs of [7,8,9,10])if(META.defeated?.[rs]||META.bossUnlocks?.[rs])META.relics[rs]=true;META.bestBossRushRank=META.bestBossRushRank||'';META.bestBossRushTime=META.bestBossRushTime||0;
 AudioX.muted=!!META.muted;audioBtn.textContent=AudioX.muted?'🔇':'🔊';
 
 function loadJSON(key,fallback){try{const v=JSON.parse(localStorage.getItem(key));return v&&typeof v==='object'?v:fallback;}catch(_){return fallback;}}
@@ -365,8 +393,8 @@ let shake=0,flash=0;
 const UI={buttons:[]};
 
 function makePlayer(){
-  const hp=100+up('hull')*12,sh=45+up('shield')*10;
-  return {x:W*.2,y:H*.5,vx:0,vy:0,r:17,hp,maxHp:hp,shield:sh,maxShield:sh,inv:0,fire:0,dashCd:0,dashT:0,dashVX:0,dashVY:0};
+  const hp=100+up('hull')*12+(relicUnlocked(7)?8:0),sh=45+up('shield')*10+(relicUnlocked(8)?10:0);
+  return {x:W*.2,y:H*.5,vx:0,vy:0,r:17,hp,maxHp:hp,shield:sh,maxShield:sh,inv:0,fire:0};
 }
 function newRun(startSector=1,mode='campaign'){
   META.runs=(META.runs||0)+1;
@@ -375,7 +403,7 @@ function newRun(startSector=1,mode='campaign'){
     kills:0,goal:waveGoal(startSector,1),spawn:0,obstacleTimer:2.4,frontTimer:mode==='training'?5.5:7.5,powerMeter:0,powers:{},powerQueue:[],sectorClear:false,bossPending:false,
     waveBanner:2.2,sectorBanner:3.2,combo:0,comboT:0,lastPowerDrop:0,elapsed:0,xp:0,level:1,xpNext:120,maxActivePowers:POWER_SLOT_LIMIT,maxQueuePowers:POWER_QUEUE_LIMIT,
     heritageNext:null,activeCombos:{},bossHitT:0,heartHitT:0,critWarned:false,lastBossDrop:null,frenzyT:0,frenzyWave:0,frenzyMult:1,frenzyKills:0,frenzyTarget:0,frenzyDone:false,bossWarningT:0,bossWarningText:'',
-    bossCheckpoint:false,trainingBoss:false,postBossT:0,postBossMax:0,frontKills:0,waveFrontKills:0,waveHits:0,waveStartT:0,waveMedals:[],powerRanks:{},bossHits:0,bossMasteryAchieved:false,bonusCredits:0,resinCharges:0,campaignComplete:false,finalReward:0};
+    bossCheckpoint:false,trainingBoss:false,postBossT:0,postBossMax:0,frontKills:0,waveFrontKills:0,waveHits:0,waveStartT:0,waveMedals:[],powerRanks:{},bossHits:0,bossMasteryAchieved:false,bonusCredits:0,resinCharges:0,campaignComplete:false,finalReward:0,lastRelic:0,bossRushResults:[],bossRushReward:0,bossRushRank:'',bossRushTime:0,bossStartElapsed:0};
   enterSector(startSector,true);setScreen('GAME');tryFullscreen();AudioX.unlock();notify(mode==='training'?'ENTRENAMIENTO · DAÑO ENEMIGO REDUCIDO':'AUTO-DISPARO ACTIVO · ESQUIVA Y ROMPE EL ENJAMBRE',mode==='training'?'#8edbff':'#9dffbf',2.8);saveMeta();
 }
 function startTraining(){
@@ -387,11 +415,13 @@ function startBossCheckpoint(sector){
 }
 function startBossRush(){
   if(!allBossesDefeated()){notify('BOSS RUSH · DERROTA LOS 10 JEFES PRIMERO','#ff7f92',2);return;}
-  newRun(1,'bossRush');G.bossRushIndex=1;G.bossRushScore=0;G.bossRushStart=performance.now();G.wave=3;G.kills=G.goal;G.enemies.length=0;G.obstacles.length=0;G.frontThreats.length=0;G.bossPending=false;G.bossCheckpoint=false;G.player.hp=G.player.maxHp;G.player.shield=G.player.maxShield;spawnBoss();notify('BOSS RUSH · 10 JEFES · SIN HORDAS','#fff09a',3);
+  newRun(1,'bossRush');G.bossRushIndex=1;G.bossRushScore=0;G.bossRushResults=[];G.bossRushReward=0;G.bossRushRank='';G.bossRushStart=performance.now();G.wave=3;G.kills=G.goal;G.enemies.length=0;G.obstacles.length=0;G.frontThreats.length=0;G.bossPending=false;G.bossCheckpoint=false;G.player.hp=G.player.maxHp;G.player.shield=G.player.maxShield;spawnBoss();notify('BOSS RUSH · 10 JEFES · SIN HORDAS','#fff09a',3);
 }
 function advanceBossRush(){
   if(G.mode!=='bossRush')return false;
-  const next=(G.bossRushIndex||G.sector)+1;if(next>SECTORS.length){META.bossRushWins=(META.bossRushWins||0)+1;META.bestBossRush=Math.max(META.bestBossRush||0,G.score||0);saveMeta();G.bossRushComplete=true;setScreen('VICTORY');return true;}
+  const next=(G.bossRushIndex||G.sector)+1;if(next>SECTORS.length){
+    G.bossRushTime=(G.bossRushResults||[]).reduce((a,r)=>a+(r.time||0),0);G.bossRushRank=bossRushRank(G.bossRushResults||[]);const rv=rushRankValue(G.bossRushRank),reward=Math.round(800+rv*360+(G.bossRushResults||[]).filter(r=>r.grade==='S').length*90);G.bossRushReward=reward;G.credits+=reward;META.credits=G.credits;META.bossRushWins=(META.bossRushWins||0)+1;META.bestBossRush=Math.max(META.bestBossRush||0,G.score||0);if(!META.bestBossRushTime||G.bossRushTime<META.bestBossRushTime)META.bestBossRushTime=G.bossRushTime;if(!META.bestBossRushRank||rv>rushRankValue(META.bestBossRushRank))META.bestBossRushRank=G.bossRushRank;saveMeta();G.bossRushComplete=true;setScreen('VICTORY');return true;}
+
   G.bossRushIndex=next;G.sector=next;G.wave=3;G.kills=G.goal=waveGoal(next,3);G.sectorClear=false;G.boss=null;G.bossPending=false;G.postBossT=0;G.postBossMax=0;G.eBullets.length=0;G.enemies.length=0;G.obstacles.length=0;G.frontThreats.length=0;G.pickups.length=0;G.player.hp=Math.min(G.player.maxHp,G.player.hp+G.player.maxHp*.24);G.player.shield=Math.min(G.player.maxShield,G.player.shield+G.player.maxShield*.42);G.player.inv=1.2;G.bossHits=0;G.bossMasteryAchieved=false;G.sectorBanner=1.4;spawnBoss();notify(`BOSS RUSH ${next}/10 · ${SECTORS[next-1].boss}`,SECTORS[next-1].accent,2.4);return true;
 }
 function enterSector(n,keepPlayer=false){
@@ -401,6 +431,9 @@ function enterSector(n,keepPlayer=false){
   G.sectorBanner=3;G.waveBanner=2;G.frenzyT=0;G.frenzyWave=0;G.frenzyMult=1;G.frenzyKills=0;G.frenzyTarget=0;G.frenzyDone=false;G.waveHits=0;G.waveFrontKills=0;G.waveStartT=G.elapsed;G.bossHits=0;G.bossMasteryAchieved=false;G.bossWarningT=0;G.bossWarningText='';if(G.sector>=4)notify(`${SECTORS[G.sector-1].code} · AMBIENTE ESPECÍFICO ACTIVADO`,SECTORS[G.sector-1].accent,1.8);if(G.sector===10&&G.mode==='campaign')notify('SECTOR FINAL · LA CATEDRAL ESTÁ DESPIERTA','#e1b5ff',2.7);
   if(G.heritageNext){const hk=G.heritageNext;G.heritageNext=null;activatePower(hk,'heritage',12);notify(`HERENCIA DE JEFE · ${HERITAGE_NAMES[G.sector-1]||POWERS[hk].name}`,'#ffd76a',2.5);}
 }
+const ENEMY_COUNT_MULT=1.30;
+const POWER_DURATION_MULT=1.20;
+const BOSS_TOUGHNESS_MULT=1.30;
 const BALANCE_CURVE=[null,
   {enemyHp:.94,enemyDmg:.92,bossHp:1.08,pressure:1.06,maxAlive:1.00,reward:.96},
   {enemyHp:.97,enemyDmg:.96,bossHp:1.07,pressure:1.08,maxAlive:1.02,reward:.98},
@@ -414,7 +447,7 @@ const BALANCE_CURVE=[null,
   {enemyHp:1.14,enemyDmg:1.21,bossHp:1.17,pressure:1.18,maxAlive:1.12,reward:1.22}
 ];
 function sectorBalance(s=G?.sector||1){return BALANCE_CURVE[clamp(s,1,10)]||BALANCE_CURVE[1];}
-function waveGoal(sector,wave){const base=11,late=sector>=7?(sector-6)*1.15:0;return Math.round(base+sector*2.18+wave*4.15+late);}
+function waveGoal(sector,wave){const base=11,late=sector>=7?(sector-6)*1.15:0;return Math.round((base+sector*2.18+wave*4.15+late)*ENEMY_COUNT_MULT);}
 function difficulty(){const s=G.sector,w=G.wave,late=s>=7?(s-6)*.028:0;const base=1+(s-1)*.145+(w-1)*.115+late+Math.min(.31,G.elapsed/180*.20);return G.mode==='training'?base*.72:base;}
 function economyMult(sector=G?.sector||1){return sectorBalance(sector).reward*(1+up('salvage')*.08);}
 function creditPickupBase(sector=G?.sector||1){return Math.round((18+sector*4.4)*sectorBalance(sector).reward);}
@@ -665,10 +698,10 @@ function executeBossSpecial(b,p,sec){
 }
 
 // ─────────────────────────────────────────────────────────────
-// INPUT — joystick relativo robusto con Pointer Events
+// INPUT — control directo por Pointer Events, sin joystick ni DASH
 // ─────────────────────────────────────────────────────────────
 const input={keys:new Set(),joyX:0,joyY:0,stickId:null,baseX:0,baseY:0,mouseSteer:false,mouseX:0,mouseY:0,touchId:null,touchSteer:false};
-addEventListener('keydown',e=>{input.keys.add(e.key.toLowerCase());if([' ','arrowup','arrowdown','arrowleft','arrowright'].includes(e.key.toLowerCase()))e.preventDefault();if(e.key==='Escape'&&G?.screen==='GAME')pauseGame();if(e.key===' '&&G?.screen==='GAME')dash();});
+addEventListener('keydown',e=>{input.keys.add(e.key.toLowerCase());if(['arrowup','arrowdown','arrowleft','arrowright'].includes(e.key.toLowerCase()))e.preventDefault();if(e.key==='Escape'&&G?.screen==='GAME')pauseGame();});
 addEventListener('keyup',e=>input.keys.delete(e.key.toLowerCase()));
 
 function resetStick(){input.joyX=input.joyY=0;input.stickId=null;input.touchId=null;input.touchSteer=false;stickBase.style.display='none';stickKnob.style.transform='translate(0px,0px)';}
@@ -683,7 +716,6 @@ stickZone.addEventListener('pointerdown',e=>{
 },{passive:false});
 stickZone.addEventListener('pointermove',e=>{if(e.pointerId===input.stickId){e.preventDefault();moveStick(e.clientX,e.clientY);}},{passive:false});
 ['pointerup','pointercancel','lostpointercapture'].forEach(ev=>stickZone.addEventListener(ev,e=>{if(e.pointerId===input.stickId)resetStick();},{passive:false}));
-dashBtn.addEventListener('pointerdown',e=>{e.preventDefault();if(G?.screen==='GAME')dash();},{passive:false});
 
 cv.addEventListener('pointerdown',e=>{
   AudioX.unlock();
@@ -723,12 +755,6 @@ function axes(){
   if(input.mouseSteer&&G?.player){const dx=input.mouseX-G.player.x,dy=input.mouseY-G.player.y;const d=Math.hypot(dx,dy);if(d>18){x+=dx/Math.max(70,d);y+=dy/Math.max(70,d);}}
   const m=Math.hypot(x,y);if(m>1){x/=m;y/=m;}return{x,y};
 }
-function dash(){
-  const p=G?.player;if(!p||G.screen!=='GAME'||p.dashCd>0)return;
-  const a=axes();let dx=a.x,dy=a.y;if(Math.hypot(dx,dy)<.2){dx=1;dy=0;}
-  const m=Math.hypot(dx,dy)||1;dx/=m;dy/=m;p.dashVX=dx*900;p.dashVY=dy*900;p.dashT=.28;p.inv=.5;
-  p.dashCd=Math.max(1.25,2.8-up('dash')*.24);AudioX.dash();shake=Math.max(shake,5);burst(p.x,p.y,'#b6ff75',18,190);
-}
 function pauseGame(){if(G?.screen!=='GAME')return;G.screen='PAUSE';setScreen('PAUSE');AudioX.pause();saveRun();}
 function resumeGame(){if(G){setScreen('GAME');lastT=performance.now();AudioX.unlock();}}
 function openStore(from){if(!G)return;shopReturn=from||G.screen;if(G.screen==='GAME')saveRun();setScreen('STORE');AudioX.pause();}
@@ -742,12 +768,12 @@ function saveRun(){
   const p=G.player;const payload={version:VERSION,mode:G.mode||'campaign',sector:G.sector,wave:G.wave,score:G.score,credits:G.credits,hp:p.hp,shield:p.shield,powers:G.powers,queue:G.powerQueue||[],xp:G.xp||0,level:G.level||1,xpNext:G.xpNext||120,heritageNext:G.heritageNext||null,bossCheckpoint:!!G.bossCheckpoint,powerRanks:G.powerRanks||{},waveHits:G.waveHits||0,waveFrontKills:G.waveFrontKills||0,waveStartT:G.waveStartT||0,waveMedals:G.waveMedals||[],bonusCredits:G.bonusCredits||0,resinCharges:G.resinCharges||0,bossRushIndex:G.bossRushIndex||0,bossRushScore:G.bossRushScore||0,ts:Date.now()};
   try{localStorage.setItem(KEY_RUN,JSON.stringify(payload));}catch(_){return false;}saveMeta();notify('CHECKPOINT GUARDADO','#79c9ff',1.8);return true;
 }
-function hasSave(){try{return !!localStorage.getItem(KEY_RUN)||!!localStorage.getItem('swarm_rift_run_v220')||!!localStorage.getItem('swarm_rift_run_v210')||!!localStorage.getItem('swarm_rift_run_v200')||!!localStorage.getItem('swarm_rift_run_v199')||!!localStorage.getItem('swarm_rift_run_v198')||!!localStorage.getItem('swarm_rift_run_v197')||!!localStorage.getItem('swarm_rift_run_v196')||!!localStorage.getItem('swarm_rift_run_v195')||!!localStorage.getItem('swarm_rift_run_v194')||!!localStorage.getItem('swarm_rift_run_v17');}catch(_){return false;}}
+function hasSave(){try{return !!localStorage.getItem(KEY_RUN)||!!localStorage.getItem('swarm_rift_run_v240')||!!localStorage.getItem('swarm_rift_run_v230')||!!localStorage.getItem('swarm_rift_run_v220')||!!localStorage.getItem('swarm_rift_run_v210')||!!localStorage.getItem('swarm_rift_run_v200')||!!localStorage.getItem('swarm_rift_run_v199')||!!localStorage.getItem('swarm_rift_run_v198')||!!localStorage.getItem('swarm_rift_run_v197')||!!localStorage.getItem('swarm_rift_run_v196')||!!localStorage.getItem('swarm_rift_run_v195')||!!localStorage.getItem('swarm_rift_run_v194')||!!localStorage.getItem('swarm_rift_run_v17');}catch(_){return false;}}
 function loadRun(){
-  const s=loadJSON(KEY_RUN,null)||loadJSON('swarm_rift_run_v220',null)||loadJSON('swarm_rift_run_v210',null)||loadJSON('swarm_rift_run_v200',null)||loadJSON('swarm_rift_run_v199',null)||loadJSON('swarm_rift_run_v198',null)||loadJSON('swarm_rift_run_v197',null)||loadJSON('swarm_rift_run_v196',null)||loadJSON('swarm_rift_run_v195',null)||loadJSON('swarm_rift_run_v194',null)||loadJSON('swarm_rift_run_v17',null);if(!s||!s.sector)return false;
+  const s=loadJSON(KEY_RUN,null)||loadJSON('swarm_rift_run_v240',null)||loadJSON('swarm_rift_run_v230',null)||loadJSON('swarm_rift_run_v220',null)||loadJSON('swarm_rift_run_v210',null)||loadJSON('swarm_rift_run_v200',null)||loadJSON('swarm_rift_run_v199',null)||loadJSON('swarm_rift_run_v198',null)||loadJSON('swarm_rift_run_v197',null)||loadJSON('swarm_rift_run_v196',null)||loadJSON('swarm_rift_run_v195',null)||loadJSON('swarm_rift_run_v194',null)||loadJSON('swarm_rift_run_v17',null);if(!s||!s.sector)return false;
   G={screen:'GAME',mode:s.mode||'campaign',sector:clamp(s.sector,1,SECTORS.length),wave:clamp(s.wave||1,1,3),score:s.score||0,hiScore:META.hiScore||0,credits:Math.max(META.credits||0,s.credits||0),
     player:makePlayer(),enemies:[],bullets:[],eBullets:[],pickups:[],particles:[],obstacles:[],frontThreats:[],boss:null,kills:0,goal:waveGoal(s.sector,s.wave||1),spawn:.5,obstacleTimer:2,
-    powerMeter:0,powers:s.powers||{},powerQueue:s.queue||[],sectorClear:false,bossPending:false,waveBanner:2.4,sectorBanner:2.8,combo:0,comboT:0,lastPowerDrop:0,elapsed:0,xp:s.xp||0,level:s.level||1,xpNext:s.xpNext||120,maxActivePowers:POWER_SLOT_LIMIT,maxQueuePowers:POWER_QUEUE_LIMIT,heritageNext:s.heritageNext||null,activeCombos:{},bossHitT:0,heartHitT:0,critWarned:false,lastBossDrop:null,frenzyT:0,frenzyWave:0,frenzyMult:1,bossWarningT:0,bossWarningText:'',bossCheckpoint:!!s.bossCheckpoint,trainingBoss:false,postBossT:0,postBossMax:0,frontTimer:7,frontKills:0,waveFrontKills:s.waveFrontKills||0,waveHits:s.waveHits||0,waveStartT:s.waveStartT||0,waveMedals:s.waveMedals||[],powerRanks:s.powerRanks||{},frenzyKills:0,frenzyTarget:0,frenzyDone:false,bossHits:0,bossMasteryAchieved:false,bonusCredits:s.bonusCredits||0,resinCharges:s.resinCharges||0,bossRushIndex:s.bossRushIndex||0,bossRushScore:s.bossRushScore||0,bossRushComplete:false,campaignComplete:false,finalReward:0};
+    powerMeter:0,powers:s.powers||{},powerQueue:s.queue||[],sectorClear:false,bossPending:false,waveBanner:2.4,sectorBanner:2.8,combo:0,comboT:0,lastPowerDrop:0,elapsed:0,xp:s.xp||0,level:s.level||1,xpNext:s.xpNext||120,maxActivePowers:POWER_SLOT_LIMIT,maxQueuePowers:POWER_QUEUE_LIMIT,heritageNext:s.heritageNext||null,activeCombos:{},bossHitT:0,heartHitT:0,critWarned:false,lastBossDrop:null,frenzyT:0,frenzyWave:0,frenzyMult:1,bossWarningT:0,bossWarningText:'',bossCheckpoint:!!s.bossCheckpoint,trainingBoss:false,postBossT:0,postBossMax:0,frontTimer:7,frontKills:0,waveFrontKills:s.waveFrontKills||0,waveHits:s.waveHits||0,waveStartT:s.waveStartT||0,waveMedals:s.waveMedals||[],powerRanks:s.powerRanks||{},frenzyKills:0,frenzyTarget:0,frenzyDone:false,bossHits:0,bossMasteryAchieved:false,bonusCredits:s.bonusCredits||0,resinCharges:s.resinCharges||0,bossRushIndex:s.bossRushIndex||0,bossRushScore:s.bossRushScore||0,bossRushComplete:false,campaignComplete:false,finalReward:0,lastRelic:0,bossRushResults:[],bossRushReward:0,bossRushRank:'',bossRushTime:0,bossStartElapsed:0};
   G.player.hp=clamp(s.hp||G.player.maxHp*.75,1,G.player.maxHp);G.player.shield=clamp(s.shield||0,0,G.player.maxShield);
   setScreen('GAME');tryFullscreen();AudioX.unlock();notify('CHECKPOINT CARGADO · OLEADA REINICIADA','#8edbff',2.5);return true;
 }
@@ -773,8 +799,8 @@ function spawnEnemy(forceForm=null,x=null,y=null,entryMode=null){
   G.enemies.push(e);return e;
 }
 function spawnBoss(){
-  if(G.boss)return;const sec=SECTORS[G.sector-1],d=difficulty();
-  const maxHp=((1040+G.sector*610)*d)*(1.12+G.sector*.055)*sectorBalance().bossHp;
+  if(G.boss)return;const sec=SECTORS[G.sector-1],d=difficulty();G.bossStartElapsed=G.elapsed||0;
+  const maxHp=((1040+G.sector*610)*d)*(1.12+G.sector*.055)*sectorBalance().bossHp*BOSS_TOUGHNESS_MULT;
   G.boss={x:W+120,y:H*.5,r:58+G.sector*2.6,hp:maxHp,maxHp,pattern:sec.pattern,name:sec.boss,family:sec.family,t:0,fire:.7,phase:1,dead:false,entry:2.2,vx:-90,
     telegraph:'',telegraphT:0,specialT:0,specialCd:3.6,guardT:0,chargeT:0,chargeVX:0,chargeVY:0,animPulse:0,wingT:0,phaseFlash:0,altNext:false,arenaCd:4.8,signatureCd:rnd(2.8,4.4),signatureT:0,signatureSide:Math.random()<.5?-1:1,anchorX:W*.68,anchorY:H*.5,afterimageT:0};
   if(G.mode==='bossRush'){const mult=.72+(G.sector-1)*.055;G.boss.maxHp=maxHp*mult;G.boss.hp=G.boss.maxHp;G.boss.specialCd=Math.max(1.45,2.8-G.sector*.09);G.boss.arenaCd=Math.max(2.4,4.4-G.sector*.15);}
@@ -811,8 +837,8 @@ function activatePower(key,source='pickup',heritageSeconds=null){
   else if(!rank)rank=1;
   G.powerRanks[key]=rank;
   if(INSTANT_POWERS.has(key)){triggerBomb(rank);notify(`${p.icon} ${p.name} ${rankRoman(rank)} · DETONACIÓN`,p.color,1.5);return;}
-  const durationBase=heritageSeconds!=null?heritageSeconds:p.duration,duration=durationBase*(1+(rank-1)*.12);
-  if(G.powers[key]){G.powers[key]=Math.min(p.duration*2.8,(G.powers[key]||0)+duration);if(key==='resinwall')G.resinCharges=Math.min(6,(G.resinCharges||0)+1);AudioX.power(key);notify(`${p.icon} ${p.name} ${rankRoman(rank)} · ${Math.ceil(G.powers[key])}s`,p.color,1.8);burst(G.player.x,G.player.y,p.color,18+rank*2,140);powerActivationVfx(key);updateComboState();return;}
+  const durationBase=heritageSeconds!=null?heritageSeconds:p.duration,duration=durationBase*POWER_DURATION_MULT*(1+(rank-1)*.12);
+  if(G.powers[key]){G.powers[key]=Math.min(p.duration*POWER_DURATION_MULT*2.8,(G.powers[key]||0)+duration);if(key==='resinwall')G.resinCharges=Math.min(6,(G.resinCharges||0)+1);AudioX.power(key);notify(`${p.icon} ${p.name} ${rankRoman(rank)} · ${Math.ceil(G.powers[key])}s`,p.color,1.8);burst(G.player.x,G.player.y,p.color,18+rank*2,140);powerActivationVfx(key);updateComboState();return;}
   if((G.powerQueue||[]).includes(key)){AudioX.queue();notify(`COLA MEJORADA · ${p.icon} ${p.name} ${rankRoman(rank)}`,p.color,1.6);return;}
   if(countActivePowers()>=G.maxActivePowers){if((G.powerQueue||[]).length>=G.maxQueuePowers){notify('RESERVA DE PODERES LLENA','#ff7f92',1.4);AudioX.deny();return;}G.powerQueue.push(key);AudioX.queue();notify(`EN COLA · ${p.icon} ${p.name} ${rankRoman(rank)}`,p.color,1.8);return;}
   G.powers[key]=duration;if(key==='shield')G.player.shield=Math.min(G.player.maxShield,G.player.shield+30+rank*8);if(key==='resinwall')G.resinCharges=1+rank;AudioX.power(key);notify(`${source==='heritage'?'HERENCIA · ':''}${p.icon} ${p.name} ${rankRoman(rank)} · ${Math.ceil(G.powers[key])}s`,p.color,2.1);burst(G.player.x,G.player.y,p.color,20+rank*2,140);powerActivationVfx(key);updateComboState();
@@ -876,7 +902,7 @@ function spawnEnemyBullet(x,y,a,speed=260,dmg=10,r=5,col='#ff6b78',source=null){
 function ringBullets(x,y,count,speed,dmg,col='#ff768e',offset=0){for(let i=0;i<count;i++){const a=offset+i/count*TAU;spawnEnemyBullet(x,y,a,speed,dmg,5,col);}}
 
 function damageEntity(e,dmg,kind='normal'){
-  if(!e||e.dead)return;if(e===G.boss&&e.guardT>0)dmg*=.35;e.hp-=dmg;e.flash=.08;AudioX.hit();AudioX.impact(G?.level||1,e===G.boss);
+  if(!e||e.dead)return;if(e===G.boss&&relicUnlocked(10))dmg*=1.05;if(e===G.boss&&e.guardT>0)dmg*=.35;e.hp-=dmg;e.flash=.08;AudioX.hit();AudioX.impact(G?.level||1,e===G.boss);
   const col=e===G.boss?(BOSS_SKILLS[e.pattern]?.color||SECTORS[G.sector-1].accent):(kind==='cryo'?'#c6f6ff':kind==='acid'?'#b5ff76':'#eefcff');for(let i=0;i<(e===G.boss?5:2);i++)G.particles.push({kind:'spark',x:e.x+rnd(-e.r*.25,e.r*.25),y:e.y+rnd(-e.r*.25,e.r*.25),vx:rnd(-90,90),vy:rnd(-90,90),r:rnd(1,3.5),life:rnd(.12,.28),max:.28,col});
   if(powerOn('hemadrain')&&kind!=='bomb'){const rank=powerRank('hemadrain'),heal=Math.min(1.8+rank*.8,dmg*(.018+rank*.008));const pp=G.player;if(pp.hp<pp.maxHp)pp.hp=Math.min(pp.maxHp,pp.hp+heal);else pp.shield=Math.min(pp.maxShield,pp.shield+heal*.7);}
   if(e===G.boss)G.bossHitT=.32;
@@ -887,6 +913,8 @@ function killEnemy(e){if(e.dead)return;e.dead=true;const fm=G.frenzyT>0?G.frenzy
 function killBoss(){
   const b=G.boss;if(!b||b.dead)return;b.dead=true;AudioX.bossDie();burst(b.x,b.y,SECTORS[G.sector-1].accent,72,300);shake=15;flash=1;
   const training=G.mode==='training',replay=G.bossCheckpoint,mastery=!training&&(G.bossHits||0)===0,baseReward=training?0:Math.round((540+G.sector*150)*sectorBalance().reward*(replay?.58:1)),masteryBonus=mastery?Math.round(baseReward*(replay?.55:.32)):0;G.score+=training?2200:6000+G.sector*2600+masteryBonus*5;G.credits+=baseReward+masteryBonus;G.bonusCredits+=(masteryBonus||0);META.credits=G.credits;G.bossMasteryAchieved=mastery;if(mastery){META.bossMastery[G.sector]=true;notify(`MAESTRÍA DE JEFE · SIN IMPACTOS · +¤${masteryBonus}`,'#fff09a',2.5);}if(!training)gainXp(170+G.sector*65+(mastery?60:0));
+if(!training&&G.mode!=='bossRush'&&RELICS[G.sector]&&!relicUnlocked(G.sector)){const r=RELICS[G.sector],bonus=180+G.sector*35;META.relics[G.sector]=true;G.lastRelic=G.sector;G.credits+=bonus;G.bonusCredits+=bonus;META.credits=G.credits;if(G.sector===7){G.player.maxHp+=8;G.player.hp=Math.min(G.player.maxHp,G.player.hp+8);}if(G.sector===8){G.player.maxShield+=10;G.player.shield=Math.min(G.player.maxShield,G.player.shield+10);}notify(`${r.icon} RELIQUIA · ${r.name} · +¤${bonus}`,r.color,3.0);}
+  if(G.mode==='bossRush'){const time=Math.max(.1,(G.elapsed||0)-(G.bossStartElapsed||0)),hits=G.bossHits||0,grade=bossRushGrade(time,hits,G.sector),bonus=Math.round((55+G.sector*14)*(RUSH_GRADE_VALUE[grade]||1));G.bossRushResults=G.bossRushResults||[];G.bossRushResults.push({sector:G.sector,grade,time,hits});G.credits+=bonus;G.bonusCredits+=bonus;META.credits=G.credits;notify(`RANGO ${grade} · ${time.toFixed(1)}s · ${hits} IMPACTOS · +¤${bonus}`,grade==='S'?'#fff09a':grade==='A'?'#a6ff5f':grade==='B'?'#8edbff':'#c0a3ff',2.4);}
   if(!training&&G.mode!=='bossRush'){META.bosses=(META.bosses||0)+1;META.defeated=META.defeated||{};META.defeated[G.sector]=true;META.unlocked=Math.max(META.unlocked,Math.min(SECTORS.length,G.sector+1));META.hiScore=Math.max(META.hiScore,G.score);G.hiScore=META.hiScore;const heritage=HERITAGE_BY_SECTOR[G.sector];if(heritage){G.heritageNext=heritage;META.bossUnlocks[G.sector]=heritage;G.lastBossDrop=heritage;G.heritageNext=heritage;spawnPickup(b.x,b.y,'power',heritage);notify(`PODER DE JEFE · ${HERITAGE_NAMES[G.sector]||POWERS[heritage].name}`,'#ffd76a',2.6);}}
   if(G.mode==='bossRush'){G.bossRushScore=(G.bossRushScore||0)+1;META.hiScore=Math.max(META.hiScore,G.score);G.hiScore=META.hiScore;}
   if(!training&&G.mode==='campaign'&&G.sector===SECTORS.length){
@@ -896,7 +924,7 @@ function killBoss(){
   saveMeta();if(G.mode!=='bossRush')try{localStorage.removeItem(KEY_RUN);}catch(_){}G.sectorClear=true;G.postBossT=G.mode==='bossRush'?3.2:(training?4.2:(G.campaignComplete?8.0:6.5));G.postBossMax=G.postBossT;G.eBullets.length=0;G.enemies.length=0;G.obstacles.length=0;G.frontThreats.length=0;notify(G.mode==='bossRush'?`BOSS ${G.sector}/10 DERROTADO · RECOGE Y AVANZA`:training?'PRÁCTICA COMPLETADA · RECOGE LOS RESTOS':'ZONA SEGURA · RECOGE LOS PREMIOS','#a6ff5f',2.4);
 }
 
-function hitPlayer(dmg){const p=G.player;if(p.inv>0||p.dashT>0)return;if(powerOn('resinwall')&&(G.resinCharges||0)>0){G.resinCharges--;burst(p.x,p.y,'#ffd56a',18,160);G.particles.push({kind:'shock',x:p.x,y:p.y,r:12,vr:320,life:.45,max:.45,col:'#ffd56a'});if(G.resinCharges<=0)delete G.powers.resinwall;AudioX.tone(280,.12,.035,'triangle',0,-70);return;}G.waveHits=(G.waveHits||0)+1;if(G.boss)G.bossHits=(G.bossHits||0)+1;if(G.mode==='training')dmg*=.52;if(p.shield>0){const take=Math.min(p.shield,dmg);p.shield-=take;dmg-=take;}if(dmg>0)p.hp-=dmg;p.inv=.55;G.heartHitT=.55;AudioX.hurt();shake=Math.max(shake,7);flash=Math.max(flash,.45);burst(p.x,p.y,'#ff5b73',14,160);if(p.hp/p.maxHp<=.10&&!G.critWarned){G.critWarned=true;notify('PELIGRO · INTEGRIDAD CRÍTICA','#ff5b73',2.2);}if(p.hp>p.maxHp*.10)G.critWarned=false;if(p.hp<=0)gameOver();}
+function hitPlayer(dmg){const p=G.player;if(p.inv>0)return;if(powerOn('resinwall')&&(G.resinCharges||0)>0){G.resinCharges--;burst(p.x,p.y,'#ffd56a',18,160);G.particles.push({kind:'shock',x:p.x,y:p.y,r:12,vr:320,life:.45,max:.45,col:'#ffd56a'});if(G.resinCharges<=0)delete G.powers.resinwall;AudioX.tone(280,.12,.035,'triangle',0,-70);return;}G.waveHits=(G.waveHits||0)+1;if(G.boss)G.bossHits=(G.bossHits||0)+1;if(G.mode==='training')dmg*=.52;if(p.shield>0){const take=Math.min(p.shield,dmg);p.shield-=take;dmg-=take;}if(dmg>0)p.hp-=dmg;p.inv=.55;G.heartHitT=.55;AudioX.hurt();shake=Math.max(shake,7);flash=Math.max(flash,.45);burst(p.x,p.y,'#ff5b73',14,160);if(p.hp/p.maxHp<=.10&&!G.critWarned){G.critWarned=true;notify('PELIGRO · INTEGRIDAD CRÍTICA','#ff5b73',2.2);}if(p.hp>p.maxHp*.10)G.critWarned=false;if(p.hp<=0)gameOver();}
 function gameOver(){AudioX.stopBoss();G.hiScore=Math.max(G.hiScore,G.score);META.hiScore=Math.max(META.hiScore,G.hiScore);META.credits=G.credits;saveMeta();setScreen('DEAD');}
 function burst(x,y,col,count=10,speed=100){for(let i=0;i<count;i++){const a=rnd(0,TAU),s=rnd(speed*.3,speed);G.particles.push({kind:'dot',x,y,vx:Math.cos(a)*s,vy:Math.sin(a)*s,r:rnd(1.5,4.5),life:rnd(.25,.7),max:.7,col});}}
 
@@ -930,18 +958,16 @@ function updatePowers(dt){
   if(powerOn('resonance')&&timers.resonance<=0){timers.resonance=Math.max(.72,1.45-(powerRank('resonance')-1)*.22);resonancePulse();}
 }
 function updatePlayer(dt){
-  const p=G.player,a=axes(),lv=G.level||1;p.inv=Math.max(0,p.inv-dt);p.dashCd=Math.max(0,p.dashCd-dt);dashBtn.classList.toggle('cooldown',p.dashCd>0);
-  if(p.dashT>0){p.dashT-=dt;p.x+=p.dashVX*dt;p.y+=p.dashVY*dt;}else{
-    const lvlSpeed=1+Math.min(.28,(lv-1)*.026),speed=285*(1+up('engine')*.05)*lvlSpeed*(powerOn('overdrive')?(1.18+powerRank('overdrive')*.08):1),responseBase=Math.max(.00008,.001*Math.pow(.82,lv-1)),response=1-Math.pow(responseBase,dt);
-    p.vx=lerp(p.vx,a.x*speed,response);p.vy=lerp(p.vy,a.y*speed,response);if(Math.abs(a.x)<.05)p.vx*=Math.pow(.72,dt*60*(1+lv*.025));if(Math.abs(a.y)<.05)p.vy*=Math.pow(.72,dt*60*(1+lv*.025));p.x+=p.vx*dt;p.y+=p.vy*dt;
-  }
+  const p=G.player,a=axes(),lv=G.level||1;p.inv=Math.max(0,p.inv-dt);
+  const lvlSpeed=1+Math.min(.28,(lv-1)*.026),speed=285*(1+up('engine')*.05)*(relicUnlocked(9)?1.04:1)*lvlSpeed*(powerOn('overdrive')?(1.18+powerRank('overdrive')*.08):1),responseBase=Math.max(.00008,.001*Math.pow(.82,lv-1)),responseBoost=1+up('dash')*.03,response=1-Math.pow(responseBase,dt*responseBoost);
+  p.vx=lerp(p.vx,a.x*speed,response);p.vy=lerp(p.vy,a.y*speed,response);if(Math.abs(a.x)<.05)p.vx*=Math.pow(.72,dt*60*(1+lv*.025)*responseBoost);if(Math.abs(a.y)<.05)p.vy*=Math.pow(.72,dt*60*(1+lv*.025)*responseBoost);p.x+=p.vx*dt;p.y+=p.vy*dt;
   p.x=clamp(p.x,28,W-28);p.y=clamp(p.y,44,H-30);
   const rate=Math.max(.052,.19*(1-up('rate')*.055)*(powerOn('overdrive')?(0.82-powerRank('overdrive')*.05):1)*(powerOn('burst')?(0.86-powerRank('burst')*.05):1)*(1-Math.min(.16,(lv-1)*.008)));p.fire-=dt;if(p.fire<=0){p.fire=rate;firePlayer();}
   const count=supportCount();if(count>0&&timers.drone<=0){timers.drone=supportRate();fireSupportVolley();}
 }
 function updateSpawns(dt){
   if(G.boss||G.bossPending||G.sectorClear)return;G.spawn-=dt;G.obstacleTimer-=dt;G.frontTimer-=dt;G.formationTimer=(G.formationTimer??rnd(5.5,8.5))-dt;
-  const bal=sectorBalance(),alive=G.enemies.filter(e=>!e.dead).length,maxAlive=Math.round((7.2+G.sector*.92+G.wave*2.05)*bal.maxAlive*(G.frenzyT>0?1.30:1)*(G.mode==='training'?.62:1));
+  const bal=sectorBalance(),alive=G.enemies.filter(e=>!e.dead).length,maxAlive=Math.round((7.2+G.sector*.92+G.wave*2.05)*bal.maxAlive*1.10*(G.frenzyT>0?1.30:1)*(G.mode==='training'?.62:1));
   if(G.wave>=2&&G.formationTimer<=0&&G.kills<G.goal-3&&alive<maxAlive-2){spawnFormation();G.formationTimer=rnd(G.wave===3?5.2:6.8,G.wave===3?7.5:9.4);}
   if(G.spawn<=0&&G.kills<G.goal&&alive<maxAlive){
     const chance=G.wave===3?.42:G.wave===2?.24:.08;let burstCount=1;if(Math.random()<chance)burstCount=(G.wave===3&&Math.random()<.34)?3:2;
@@ -1130,6 +1156,7 @@ function drawBackground(){
   const sec=SECTORS[(G?.sector||1)-1]||SECTORS[0],t=G?.elapsed||performance.now()/1000,bossArena=!!(G?.boss||G?.bossPending||G?.bossCheckpoint),visualKey=bossArena&&sec.bossBg?sec.bossBg:(sec.worldBg||sec.bg);
   const img=IMG.bg[visualKey]||IMG.bg[sec.bg]||IMG.bg.rust;
   cx.fillStyle=sec.dark||'#050814';cx.fillRect(0,0,W,H);
+  if(!imgReady(img)){const fg=cx.createRadialGradient(W*.58,H*.45,10,W*.5,H*.5,Math.max(W,H)*.75);fg.addColorStop(0,hexA(sec.base||sec.accent||'#27445c',.28));fg.addColorStop(.55,hexA(sec.dark||'#06101a',.88));fg.addColorStop(1,'#010307');cx.fillStyle=fg;cx.fillRect(0,0,W,H);}
   if(imgReady(img)){const scale=Math.max(W/img.naturalWidth,H/img.naturalHeight),iw=img.naturalWidth*scale,ih=img.naturalHeight*scale,par=sec.worldBg?4:8,dx=(W-iw)/2+Math.sin(t*.07+(G?.sector||1))*par,dy=(H-ih)/2+Math.cos(t*.05+(G?.sector||1))*par*.6;cx.drawImage(img,dx,dy,iw,ih);}
   if(sec.worldBg)ambientWorldFx(sec,t);
   const vg=cx.createLinearGradient(0,0,0,H);vg.addColorStop(0,bossArena?'rgba(3,6,14,.12)':'rgba(3,6,14,.18)');vg.addColorStop(1,bossArena?'rgba(2,3,7,.34)':'rgba(2,3,7,.48)');cx.fillStyle=vg;cx.fillRect(0,0,W,H);
@@ -1144,7 +1171,7 @@ function drawShip(){
   const roll=clamp(a.x*.22,-.24,.24),pitch=clamp(a.y*.12,-.14,.14);cx.rotate(roll);
   if(p.inv>0&&Math.floor(p.inv*18)%2===0)cx.globalAlpha=.45;
   if(imgReady(IMG.ship)){
-    const size=132 + (p.dashT>0?20:0);
+    const size=132;
     cx.drawImage(IMG.ship,-size/2,-size/2+pitch*40,size,size);
   }else{
     cx.fillStyle='#d8f8ff';cx.beginPath();cx.moveTo(0,-24);cx.lineTo(30,18);cx.lineTo(0,8);cx.lineTo(-30,18);cx.closePath();cx.fill();
@@ -1331,7 +1358,7 @@ function upgradeEffect(id,lvl){
     case 'magnet': return `+${lvl*18} radio de recolección`;
     case 'drone': return `+${Math.ceil(lvl/2)} dron${Math.ceil(lvl/2)===1?'':'es'} permanente${Math.ceil(lvl/2)===1?'':'s'}`;
     case 'salvage': return `+${lvl*8}% créditos`;
-    case 'dash': return `${Math.max(1.25,2.8-lvl*.24).toFixed(2)}s enfriamiento`;
+    case 'dash': return `+${lvl*3}% respuesta de maniobra`;
     default:return 'sin datos';
   }
 }
@@ -1349,15 +1376,13 @@ function drawGuideThumb(kind,x,y,w,h){
   }else{cx.fillStyle='rgba(10,18,32,.9)';cx.fillRect(x,y,w,h);}
   const g=cx.createLinearGradient(0,y,0,y+h);g.addColorStop(0,'rgba(0,0,0,.12)');g.addColorStop(1,'rgba(0,0,0,.58)');cx.fillStyle=g;cx.fillRect(x,y,w,h);
   const sx=x+w*.24, sy=y+h*.58;
-  if(['move','shoot','dash','powers','front','boss','progress'].includes(kind)){
+  if(['move','shoot','powers','front','boss','progress'].includes(kind)){
     if(imgReady(IMG.ship))cx.drawImage(IMG.ship,sx-34,sy-20,68,68);
     else{cx.fillStyle='#dff';cx.fillRect(sx-16,sy-8,32,16);} }
   if(kind==='move'){
     cx.strokeStyle='rgba(135,240,255,.9)';cx.lineWidth=3;for(const [dx,dy,ex,ey] of [[-44,0,-12,0],[44,0,12,0],[0,-34,0,-10],[0,34,0,10]]){cx.beginPath();cx.moveTo(sx+dx,sy+dy);cx.lineTo(sx+ex,sy+ey);cx.stroke();}
   }else if(kind==='shoot'){
     cx.strokeStyle='#9ee9ff';cx.lineWidth=5;for(let i=0;i<3;i++){cx.beginPath();cx.moveTo(sx+34,sy-10+i*10);cx.lineTo(x+w-18,sy-18+i*14);cx.stroke();}
-  }else if(kind==='dash'){
-    cx.strokeStyle='#d9ff79';cx.lineWidth=4;cx.beginPath();cx.arc(sx,sy,38,-.65,.65);cx.stroke();cx.fillStyle='#d9ff79';cx.font='900 20px system-ui';cx.fillText('⚡',x+w-30,y+24);
   }else if(kind==='powers'){
     const keys=['twin','tesla','shield'];keys.forEach((k,i)=>{const pd=POWERS[k];cx.fillStyle=hexA(pd.color,.18);cx.strokeStyle=pd.color;rr(x+14+i*54,y+h-44,42,30,10);cx.fill();cx.stroke();cx.fillStyle=pd.color;cx.font='900 16px system-ui';cx.fillText(pd.icon,x+35+i*54,y+h-23);});
   }else if(kind==='front'){
@@ -1375,7 +1400,32 @@ function drawGuideThumb(kind,x,y,w,h){
   }
   cx.restore();
 }
+
+function drawMenuPortrait(){
+  UI.buttons.length=0;drawBackground();const sec=SECTORS[menuSector-1],m=Math.max(14,W*.045),cw=W-m*2;
+  drawTitle(62);
+  cx.textAlign='center';cx.fillStyle='#8ea7b8';cx.font=`700 ${Math.max(9,W*.027)}px system-ui`;cx.fillText('MENÚ DE MISIÓN · EL COMBATE CAMBIA A HORIZONTAL AL INICIAR',W/2,102);cx.textAlign='left';
+  let y=126,bh=48,gap=7;
+  const btn=(id,label,col,sub='')=>{uiButton(id,label,m,y,cw,bh,col,sub);y+=bh+gap;};
+  btn('menu_new','NUEVA CAMPAÑA','#a6ff5f','desde Sector 1');
+  btn('menu_load','CARGAR PARTIDA',hasSave()?'#7dc8ff':'#526575',hasSave()?'checkpoint disponible':'sin checkpoint');
+  btn('menu_guide','CÓMO JUGAR','#ffd76a','controles y poderes');
+  btn('menu_store','HANGAR / TIENDA','#ffb7e8',`¤ ${META.credits.toLocaleString()}`);
+  btn('menu_training','ENTRENAMIENTO','#8edbff','práctica sin castigo');
+  btn('sector_boss','CHECKPOINT JEFE 50%',sectorDefeated(menuSector)?'#ffbd6a':'#526575',sectorDefeated(menuSector)?'arena desbloqueada':'derrota antes al jefe');
+  if(allBossesDefeated())btn('menu_bossrush','☠ BOSS RUSH · 10 JEFES','#fff09a',`rango ${META.bestBossRushRank||'-'} · victorias ${META.bossRushWins||0}`);
+  const labelY=y+8;cx.fillStyle='#dceaf2';cx.font=`900 ${Math.max(10,W*.03)}px system-ui`;cx.fillText('SECTOR / MUNDO',m,labelY);y+=24;
+  const side=48,mid=cw-side*2-12;uiButton('sector_prev','‹',m,y,side,46,'#7dc8ff');uiButton('sector_start',`${menuSector} · ${sec.family}`,m+side+6,y,mid,46,sec.accent,sec.name);uiButton('sector_next','›',W-m-side,y,side,46,'#7dc8ff');y+=58;
+  const cardH=Math.max(116,Math.min(190,H-y-24));cx.fillStyle='rgba(3,8,18,.76)';cx.strokeStyle=hexA(sec.accent,.32);rr(m,y,cw,cardH,18);cx.fill();cx.stroke();
+  cx.fillStyle=sec.accent;cx.font=`900 ${Math.max(12,W*.035)}px system-ui`;cx.fillText(`${sec.code} · ${sec.name}`,m+16,y+22);
+  cx.fillStyle='#e9f7ff';cx.font=`800 ${Math.max(10,W*.029)}px system-ui`;cx.fillText(`${sec.family} · JEFE ${sec.boss}`,m+16,y+44);
+  cx.fillStyle='#9bb0bf';cx.font=`600 ${Math.max(9,W*.024)}px system-ui`;drawTextLines(sec.blurb,m+16,y+66,cw-32,14);
+  cx.fillStyle='#ffd76a';cx.font=`800 ${Math.max(9,W*.024)}px system-ui`;cx.fillText(`PODERES HASTA RANGO ${rankRoman(powerRankCap(menuSector))} · MUNDO ${menuSector}/10`,m+16,y+cardH-18);
+  cx.textAlign='center';cx.fillStyle='#60788a';cx.font=`600 ${Math.max(8,W*.021)}px system-ui`;cx.fillText(`v${VERSION} · menú vertical · combate horizontal automático`,W/2,H-8);cx.textAlign='left';
+}
+
 function drawMenu(){
+  if(W<H || W<620)return drawMenuPortrait();
   UI.buttons.length=0;drawBackground();drawTitle(Math.max(54,H*.12));const sec=SECTORS[menuSector-1];
   const panelW=Math.min(560,W*.52),x=36,y=Math.max(110,H*.22),rightX=W-panelW*.72-36;
   cx.fillStyle='rgba(3,8,18,.68)';cx.strokeStyle='rgba(99,246,255,.16)';rr(x,y,panelW,H-y-36,20);cx.fill();cx.stroke();
@@ -1385,7 +1435,7 @@ function drawMenu(){
   uiButton('menu_guide','CÓMO JUGAR',x+22,row2,bw,bh,'#ffd76a','controles, poderes y tienda');uiButton('menu_store','HANGAR / TIENDA',x+32+bw,row2,bw,bh,'#ffb7e8',`¤ ${META.credits.toLocaleString()}`);
   uiButton('menu_training',allBossesDefeated()&&compact?'☠ BOSS RUSH':'ENTRENAMIENTO',x+22,row3,bw,bh,allBossesDefeated()&&compact?'#fff09a':'#8edbff',allBossesDefeated()&&compact?'10 jefes consecutivos':'práctica sin castigo · mini jefe');uiButton('sector_boss','CHECKPOINT JEFE 50%',x+32+bw,row3,bw,bh,sectorDefeated(menuSector)?'#ffbd6a':'#526575',sectorDefeated(menuSector)?(META.bossMastery?.[menuSector]?'arena desbloqueada · ★ maestría':'arena desbloqueada · reto de maestría'):'derrota antes al jefe');
   cx.fillStyle='#dbe7ef';cx.font='800 12px system-ui';cx.fillText('REPETIR SECTOR DESBLOQUEADO',x+22,labelY);uiButton('sector_prev','‹',x+22,sy,46,44,'#7dc8ff');uiButton('sector_start',`SECTOR ${menuSector} · ${sec.family}`,x+78,sy,panelW-156,44,sec.accent,sec.name);uiButton('sector_next','›',x+panelW-68,sy,46,44,'#7dc8ff');
-  if(allBossesDefeated()&&H>=620)uiButton('menu_bossrush','☠ BOSS RUSH · 10 JEFES',x+22,sy+52,panelW-44,38,'#fff09a',META.bossRushWins?`victorias ${META.bossRushWins} · mejor ${META.bestBossRush.toLocaleString()}`:'endgame desbloqueado');
+  if(allBossesDefeated()&&H>=620)uiButton('menu_bossrush','☠ BOSS RUSH · 10 JEFES',x+22,sy+52,panelW-44,38,'#fff09a',META.bossRushWins?`victorias ${META.bossRushWins} · rango ${META.bestBossRushRank||'-'} · reliquias ${relicCount()}/4`:`endgame desbloqueado · reliquias ${relicCount()}/4`);
 
   const cardX=Math.max(x+panelW+28,W*.62),cardW=W-cardX-36,cardY=y,cardH=H-cardY-36;cx.fillStyle='rgba(3,8,18,.60)';cx.strokeStyle=hexA(sec.accent,.28);rr(cardX,cardY,cardW,cardH,20);cx.fill();cx.stroke();
   const topH=Math.min(190,cardH*.34),img=IMG.bg[sec.worldBg]||IMG.bg[sec.bg]||IMG.bg.rust;
@@ -1408,7 +1458,7 @@ function drawMenu(){
   if(hadGame){G.sector=oldSector;G.player=oldPlayer;} else G=null;
 
   const statsY=cardY+cardH-28;cx.textAlign='left';cx.fillStyle='#8ba3b6';cx.font='700 9px system-ui';cx.fillText('ARM',cardX+22,statsY);bar(cardX+48,statsY-4,54,6,sec.stats.armor/5,sec.accent);cx.fillText('SPD',cardX+112,statsY);bar(cardX+138,statsY-4,54,6,sec.stats.speed/5,sec.accent);cx.fillText('RNG',cardX+202,statsY);bar(cardX+228,statsY-4,54,6,sec.stats.range/5,sec.accent);cx.fillText('THR',cardX+292,statsY);bar(cardX+318,statsY-4,54,6,sec.stats.threat/5,sec.accent);
-  cx.fillStyle='#6f8799';cx.font='600 10px system-ui';cx.textAlign='center';cx.fillText(`v${VERSION} · campaña reestructurada por sector · combate horizontal automático · guardado local · PWA offline`,W/2,H-12);cx.textAlign='left';
+  cx.fillStyle='#6f8799';cx.font='600 10px system-ui';cx.textAlign='center';cx.fillText(`v${VERSION} · campaña reestructurada por sector · responsive móvil · combate horizontal automático · guardado local · PWA offline`,W/2,H-12);cx.textAlign='left';
 }
 function wrap(text,x,y,maxW,lineH){const words=text.split(' ');let line='',yy=y;cx.textAlign='center';for(const word of words){const test=line+word+' ';if(cx.measureText(test).width>maxW&&line){cx.fillText(line.trim(),x,yy);yy+=lineH;line=word+' ';}else line=test;}if(line)cx.fillText(line.trim(),x,yy);cx.textAlign='left';return yy;}
 
@@ -1424,7 +1474,7 @@ function drawStore(){
   const unlockedHeritages=Object.values(META.bossUnlocks||{}).filter(Boolean),drp=Math.ceil(up('drone')/2);
   cx.fillStyle='rgba(4,12,25,.58)';cx.strokeStyle='rgba(99,246,255,.18)';rr(22,72,W-44,48,14);cx.fill();cx.stroke();
   cx.textAlign='left';cx.fillStyle='#d8ebf7';cx.font='700 11px system-ui';cx.fillText(`RESUMEN · HP ${upgradeEffect('hull',up('hull'))} · SH ${upgradeEffect('shield',up('shield'))} · DMG ${upgradeEffect('damage',up('damage'))} · SPD ${upgradeEffect('engine',up('engine'))} · DRONES ${drp}`,34,92);
-  cx.fillStyle='#94aec0';cx.font='600 10px system-ui';cx.fillText(`HERENCIAS DESBLOQUEADAS · ${unlockedHeritages.length?unlockedHeritages.map(k=>POWERS[k]?.name||k).join(' · '):'aún no has incorporado poderes de jefe al hangar'}`,34,109);
+  cx.fillStyle='#94aec0';cx.font='600 10px system-ui';cx.fillText(`HERENCIAS DESBLOQUEADAS · ${unlockedHeritages.length?unlockedHeritages.map(k=>POWERS[k]?.name||k).join(' · '):'aún no has incorporado poderes de jefe al hangar'} · RELIQUIAS ${relicCount()}/4`,34,109);
   const deck=['twin','tesla','missile','rail','cryo','acid','shield','magnet','drone','overdrive','gravity','burst'];cx.fillStyle='#d5e6f1';cx.font='800 9px system-ui';cx.fillText('PODERES DE COMBATE',34,135);let dx=150;
   for(const k of deck){const pd=POWERS[k];cx.fillStyle=hexA(pd.color,.10);cx.strokeStyle=hexA(pd.color,.42);rr(dx,122,36,27,9);cx.fill();cx.stroke();cx.fillStyle=pd.color;cx.font='900 13px system-ui';cx.textAlign='center';cx.fillText(pd.icon,dx+18,136);dx+=42;}cx.textAlign='left';
   const cols=3,rows=3,gap=10,margin=Math.max(16,W*.04),top=160,bottom=58,cw=(W-margin*2-gap*(cols-1))/cols,ch=(H-top-bottom-gap*(rows-1))/rows;
@@ -1442,15 +1492,22 @@ function drawStore(){
   uiButton('store_close','← VOLVER',18,H-47,150,34,'#8edbff');cx.textAlign='left';
 }
 function drawVictory(){
-  UI.buttons.length=0;drawBackground();const sec=SECTORS[G.sector-1],training=G.mode==='training',rush=G.mode==='bossRush'&&G.bossRushComplete,finale=!!G.campaignComplete&&!rush;cx.fillStyle='rgba(0,0,0,.58)';cx.fillRect(0,0,W,H);cx.textAlign='center';cx.fillStyle=rush||finale?'#fff09a':training?'#8edbff':sec.accent;cx.font=`900 ${Math.min(40,W*.052)}px system-ui`;cx.fillText(rush?'BOSS RUSH COMPLETADO':finale?'CAMPAÑA COMPLETADA':training?'ENTRENAMIENTO COMPLETADO':'SECTOR SUPERADO',W/2,H*.20);cx.fillStyle='#fff';cx.font='900 22px system-ui';cx.fillText(rush?'LOS DIEZ SOBERANOS HAN CAÍDO':finale?'RESONATOR OMEGA HA CAÍDO':training?'CONTROL, ESQUIVA Y COMBATE VERIFICADOS':sec.boss,W/2,H*.28);cx.fillStyle='#b2c4d1';cx.font='700 12px system-ui';cx.fillText(rush?`PUNTOS ${G.score.toLocaleString()} · MEJOR ${META.bestBossRush.toLocaleString()} · VICTORIAS ${META.bossRushWins}`:finale?`PUNTOS ${G.score.toLocaleString()} · BONUS FINAL ¤ ${G.finalReward||0} · CAMPAÑAS ${META.campaignWins}`:training?`OBJETIVOS ${G.kills} · AMENAZAS FRONTALES ${G.frontKills||0}`:`PUNTOS ${G.score.toLocaleString()} · CRÉDITOS ¤ ${G.credits.toLocaleString()} · RÉCORD ${META.hiScore.toLocaleString()}`,W/2,H*.35);
-  if(finale){cx.fillStyle='#d9a7ff';cx.font='900 12px system-ui';cx.fillText('☠ BOSS RUSH DESBLOQUEADO · NÚCLEO OMEGA ASEGURADO',W/2,H*.405);cx.fillStyle='#9fe6ff';cx.font='700 10px system-ui';cx.fillText(`MEJOR CAMPAÑA ${META.bestCampaignScore.toLocaleString()} · LOS 10 LINAJES QUEDAN DISPONIBLES PARA REPLAY`,W/2,H*.445);}else{if(!rush&&!training&&G.lastBossDrop){cx.fillStyle='#ffd76a';cx.font='800 11px system-ui';cx.fillText(`HERENCIA DESBLOQUEADA · ${HERITAGE_NAMES[G.sector]||POWERS[G.lastBossDrop]?.name||''}`,W/2,H*.39);}if(!rush&&!training&&G.bossMasteryAchieved){cx.fillStyle='#fff09a';cx.font='900 11px system-ui';cx.fillText('★ MAESTRÍA DE JEFE · SIN IMPACTOS',W/2,H*.425);}if(!rush&&!training&&G.waveMedals?.length){cx.fillStyle='#9fe6ff';cx.font='800 10px system-ui';cx.fillText(`ORDAS · ${G.waveMedals.slice(-3).map(m=>m.grade).join(' · ')} · BONUS ¤ ${G.bonusCredits||0}`,W/2,H*.455);}}
-  const w=Math.min(310,W*.34),h=50,x=W/2-w/2;if(rush){uiButton('victory_bossrush','↻ REPETIR BOSS RUSH',x,H*.50,w,h,'#fff09a');uiButton('victory_store','🛒 MEJORAR HANGAR',x,H*.63,w,h,'#ffb7e8');uiButton('victory_menu','MENÚ PRINCIPAL',x,H*.76,w,h,'#8edbff');}else if(finale){uiButton('victory_bossrush','☠ INICIAR BOSS RUSH',x,H*.52,w,h,'#fff09a','10 soberanos consecutivos');uiButton('victory_store','🛒 MEJORAR HANGAR',x,H*.65,w,h,'#ffb7e8');uiButton('victory_menu','MENÚ PRINCIPAL',x,H*.78,w,h,'#8edbff');}else if(training){uiButton('victory_new','▶ INICIAR CAMPAÑA',x,H*.48,w,h,'#a6ff5f');uiButton('victory_menu','MENÚ PRINCIPAL',x,H*.62,w,h,'#8edbff');}else{if(G.sector<SECTORS.length)uiButton('victory_next',`▶ ENTRAR AL SECTOR ${G.sector+1}`,x,H*.51,w,h,'#a6ff5f',SECTORS[G.sector].name);else uiButton('victory_new','↻ NUEVA CAMPAÑA',x,H*.51,w,h,'#a6ff5f','has vencido los diez linajes');uiButton('victory_store','🛒 MEJORAR HANGAR',x,H*.64,w,h,'#ffb7e8');uiButton('victory_menu','MENÚ PRINCIPAL',x,H*.77,w,h,'#8edbff');}cx.textAlign='left';
+  UI.buttons.length=0;drawBackground();const sec=SECTORS[G.sector-1],training=G.mode==='training',rush=G.mode==='bossRush'&&G.bossRushComplete,finale=!!G.campaignComplete&&!rush;cx.fillStyle='rgba(0,0,0,.62)';cx.fillRect(0,0,W,H);
+  if(rush||finale){cx.save();cx.globalAlpha=.18;cx.strokeStyle=rush?'#fff09a':'#d9a7ff';cx.lineWidth=2;for(let i=0;i<5;i++){cx.beginPath();cx.arc(W/2,H*.30,80+i*34+Math.sin((G.elapsed||0)*1.3+i)*8,0,TAU);cx.stroke();}cx.restore();}
+  cx.textAlign='center';cx.fillStyle=rush||finale?'#fff09a':training?'#8edbff':sec.accent;cx.font=`900 ${Math.min(40,W*.052)}px system-ui`;cx.fillText(rush?'BOSS RUSH COMPLETADO':finale?'CAMPAÑA COMPLETADA':training?'ENTRENAMIENTO COMPLETADO':'SECTOR SUPERADO',W/2,H*.15);
+  cx.fillStyle='#fff';cx.font='900 22px system-ui';cx.fillText(rush?`RANGO ${G.bossRushRank||bossRushRank(G.bossRushResults)}`:finale?'RESONATOR OMEGA HA CAÍDO':training?'CONTROL, ESQUIVA Y COMBATE VERIFICADOS':sec.boss,W/2,H*.215);
+  cx.fillStyle='#b2c4d1';cx.font='700 12px system-ui';
+  if(rush){cx.fillText(`PUNTOS ${G.score.toLocaleString()} · ${G.bossRushTime.toFixed(1)}s · PREMIO ¤ ${G.bossRushReward||0}`,W/2,H*.265);const grades=(G.bossRushResults||[]).map(r=>r.grade);cx.fillStyle='#9fe6ff';cx.font='900 11px system-ui';cx.fillText(`JEFES · ${grades.join('  ')}`,W/2,H*.31);cx.fillStyle='#899fac';cx.font='700 9.5px system-ui';cx.fillText(`MEJOR RANGO ${META.bestBossRushRank||'-'} · MEJOR TIEMPO ${META.bestBossRushTime?META.bestBossRushTime.toFixed(1)+'s':'-'} · VICTORIAS ${META.bossRushWins}`,W/2,H*.345);drawRelicStrip(H*.38,compactUI()?.78:.9);
+  }else if(finale){cx.fillText(`PUNTOS ${G.score.toLocaleString()} · BONUS FINAL ¤ ${G.finalReward||0} · CAMPAÑAS ${META.campaignWins}`,W/2,H*.27);cx.fillStyle='#d9a7ff';cx.font='900 12px system-ui';cx.fillText('☠ BOSS RUSH DESBLOQUEADO · NÚCLEO OMEGA ASEGURADO',W/2,H*.315);drawRelicStrip(H*.35,compactUI()?.78:.9);cx.fillStyle='#9fe6ff';cx.font='700 10px system-ui';cx.fillText(`MEJOR CAMPAÑA ${META.bestCampaignScore.toLocaleString()} · RELIQUIAS ${relicCount()}/4 · 10 LINAJES DISPONIBLES PARA REPLAY`,W/2,H*.435);
+  }else if(training){cx.fillText(`OBJETIVOS ${G.kills} · AMENAZAS FRONTALES ${G.frontKills||0}`,W/2,H*.30);
+  }else{cx.fillText(`PUNTOS ${G.score.toLocaleString()} · CRÉDITOS ¤ ${G.credits.toLocaleString()} · RÉCORD ${META.hiScore.toLocaleString()}`,W/2,H*.30);if(G.lastBossDrop){cx.fillStyle='#ffd76a';cx.font='800 11px system-ui';cx.fillText(`HERENCIA DESBLOQUEADA · ${HERITAGE_NAMES[G.sector]||POWERS[G.lastBossDrop]?.name||''}`,W/2,H*.355);}if(G.lastRelic&&RELICS[G.lastRelic]){const r=RELICS[G.lastRelic];cx.fillStyle=r.color;cx.font='900 11px system-ui';cx.fillText(`${r.icon} RELIQUIA ASEGURADA · ${r.name} · ${r.desc}`,W/2,H*.395);}if(G.bossMasteryAchieved){cx.fillStyle='#fff09a';cx.font='900 11px system-ui';cx.fillText('★ MAESTRÍA DE JEFE · SIN IMPACTOS',W/2,H*.435);}if(G.waveMedals?.length){cx.fillStyle='#9fe6ff';cx.font='800 10px system-ui';cx.fillText(`ORDAS · ${G.waveMedals.slice(-3).map(m=>m.grade).join(' · ')} · BONUS ¤ ${G.bonusCredits||0}`,W/2,H*.47);}}
+  const w=Math.min(310,W*.34),h=50,x=W/2-w/2;if(rush){uiButton('victory_bossrush','↻ REPETIR BOSS RUSH',x,H*.55,w,h,'#fff09a');uiButton('victory_store','🛒 MEJORAR HANGAR',x,H*.68,w,h,'#ffb7e8');uiButton('victory_menu','MENÚ PRINCIPAL',x,H*.81,w,h,'#8edbff');}else if(finale){uiButton('victory_bossrush','☠ INICIAR BOSS RUSH',x,H*.52,w,h,'#fff09a','10 soberanos consecutivos');uiButton('victory_store','🛒 MEJORAR HANGAR',x,H*.65,w,h,'#ffb7e8');uiButton('victory_menu','MENÚ PRINCIPAL',x,H*.78,w,h,'#8edbff');}else if(training){uiButton('victory_new','▶ INICIAR CAMPAÑA',x,H*.48,w,h,'#a6ff5f');uiButton('victory_menu','MENÚ PRINCIPAL',x,H*.62,w,h,'#8edbff');}else{if(G.sector<SECTORS.length)uiButton('victory_next',`▶ ENTRAR AL SECTOR ${G.sector+1}`,x,H*.54,w,h,'#a6ff5f',SECTORS[G.sector].name);else uiButton('victory_new','↻ NUEVA CAMPAÑA',x,H*.54,w,h,'#a6ff5f','has vencido los diez linajes');uiButton('victory_store','🛒 MEJORAR HANGAR',x,H*.67,w,h,'#ffb7e8');uiButton('victory_menu','MENÚ PRINCIPAL',x,H*.80,w,h,'#8edbff');}cx.textAlign='left';
 }
 function drawDead(){UI.buttons.length=0;drawBackground();cx.fillStyle='rgba(0,0,0,.63)';cx.fillRect(0,0,W,H);cx.textAlign='center';cx.fillStyle='#ff667d';cx.font=`900 ${Math.min(43,W*.055)}px system-ui`;cx.fillText('NAVE PERDIDA',W/2,H*.23);cx.fillStyle='#fff';cx.font='800 15px system-ui';cx.fillText(`PUNTOS ${G.score.toLocaleString()} · RÉCORD ${META.hiScore.toLocaleString()} · SECTOR ${G.sector}`,W/2,H*.31);const w=Math.min(300,W*.34),x=W/2-w/2,h=48;uiButton('dead_retry','↻ REINTENTAR SECTOR',x,H*.42,w,h,'#a6ff5f');if(hasSave())uiButton('dead_load','▣ CARGAR CHECKPOINT',x,H*.54,w,h,'#7dc8ff');uiButton('dead_menu','MENÚ PRINCIPAL',x,H*.68,w,h,'#ffb7e8');cx.textAlign='left';}
 function drawGuide(){
   UI.buttons.length=0;drawBackground();cx.fillStyle='rgba(2,6,14,.84)';cx.fillRect(0,0,W,H);cx.textAlign='center';cx.fillStyle='#a6ff5f';cx.font=`900 ${Math.min(30,W*.04)}px system-ui`;cx.fillText('MANUAL DE SUPERVIVENCIA',W/2,40);
   const pages=[
-    {title:'CONTROLES',cards:[['MOVER','Sin clic. En PC la nave sigue el mouse o touchpad; en móvil desliza el dedo en cualquier zona libre de la pantalla.','move'],['DISPARO AUTOMÁTICO','No hay botón de fuego. Tu tarea es posicionarte, limpiar corredores y sostener la cadencia.','shoot'],['DASH EVASIVO','Usa ⚡ para atravesar peligro, ganar invulnerabilidad breve y reposicionarte. En móvil el dash queda como único botón táctil fijo.','dash']]},
+    {title:'CONTROLES',cards:[['MOVER','Sin clic. En PC la nave sigue el mouse o touchpad; en móvil desliza el dedo en cualquier zona libre de la pantalla.','move'],['DISPARO AUTOMÁTICO','No hay botón de fuego. Tu tarea es posicionarte, limpiar corredores y sostener la cadencia.','shoot'],['CONTROL DIRECTO','No hay joystick ni DASH. La nave responde al dedo, mouse o touchpad; el estabilizador del Hangar mejora la precisión de maniobra.','move']]},
     {title:'COMBATE',cards:[['PODERES, COMBOS Y ESCOLTAS','Hasta dos poderes activos; la formación auxiliar crece hasta cinco naves y puede heredar efectos de tu arma sin saturar la pantalla.','powers'],['AMENAZAS FRONTALES','Meteoros, arietes, cápsulas y restos de batalla llegan hacia cámara con trayectoria anunciada. Interceptarlos pronto aumenta la recompensa.','front'],['JEFES Y FASES','Cada jefe escala por fases, anuncia ataques y cambia la arena con habilidades exclusivas.','boss']]},
     {title:'PROGRESIÓN',cards:[['REPETIR Y CHECKPOINTS','Entrena sin castigo, repite sectores y salta a la arena del jefe con 50% de vida.','replay'],['HANGAR PERMANENTE','Todo lo comprado permanece entre partidas: casco, escudo, daño, motor, drones y más.','hangar'],['XP, RANGOS Y HERENCIAS','Los poderes suben de rango I a III según el mundo. Completar Frenesí y oleadas limpias aumenta XP, créditos y recompensas.','progress']]}
   ];
@@ -1480,7 +1537,7 @@ function render(){
 function loop(now){const dt=Math.min(.033,Math.max(.001,(now-lastT)/1000));lastT=now;update(dt);render();requestAnimationFrame(loop);}
 
 // Initialize menu state after data and helpers exist.
-G={screen:'MENU',mode:'campaign',sector:1,wave:1,score:0,hiScore:META.hiScore||0,credits:META.credits||0,player:makePlayer(),enemies:[],bullets:[],eBullets:[],pickups:[],particles:[],obstacles:[],frontThreats:[],boss:null,powers:{},powerQueue:[],elapsed:0,kills:0,goal:1,combo:0,comboT:0,waveBanner:0,sectorBanner:0,xp:0,level:1,xpNext:120,maxActivePowers:POWER_SLOT_LIMIT,maxQueuePowers:POWER_QUEUE_LIMIT,heritageNext:null,activeCombos:{},bossHitT:0,heartHitT:0,critWarned:false,lastBossDrop:null,frenzyT:0,frenzyWave:0,frenzyMult:1,frenzyKills:0,frenzyTarget:0,frenzyDone:false,bossWarningT:0,bossWarningText:'',bossCheckpoint:false,trainingBoss:false,postBossT:0,postBossMax:0,frontTimer:7,frontKills:0,waveFrontKills:0,waveHits:0,waveStartT:0,waveMedals:[],powerRanks:{},bossHits:0,bossMasteryAchieved:false,bonusCredits:0,bossRushIndex:0,bossRushScore:0,bossRushComplete:false};
+G={screen:'MENU',mode:'campaign',sector:1,wave:1,score:0,hiScore:META.hiScore||0,credits:META.credits||0,player:makePlayer(),enemies:[],bullets:[],eBullets:[],pickups:[],particles:[],obstacles:[],frontThreats:[],boss:null,powers:{},powerQueue:[],elapsed:0,kills:0,goal:1,combo:0,comboT:0,waveBanner:0,sectorBanner:0,xp:0,level:1,xpNext:120,maxActivePowers:POWER_SLOT_LIMIT,maxQueuePowers:POWER_QUEUE_LIMIT,heritageNext:null,activeCombos:{},bossHitT:0,heartHitT:0,critWarned:false,lastBossDrop:null,frenzyT:0,frenzyWave:0,frenzyMult:1,frenzyKills:0,frenzyTarget:0,frenzyDone:false,bossWarningT:0,bossWarningText:'',bossCheckpoint:false,trainingBoss:false,postBossT:0,postBossMax:0,frontTimer:7,frontKills:0,waveFrontKills:0,waveHits:0,waveStartT:0,waveMedals:[],powerRanks:{},bossHits:0,bossMasteryAchieved:false,bonusCredits:0,bossRushIndex:0,bossRushScore:0,bossRushComplete:false,bossRushResults:[],bossRushReward:0,bossRushRank:'',bossRushTime:0,bossStartElapsed:0,lastRelic:0,campaignComplete:false,finalReward:0};
 menuSector=clamp(META.unlocked||1,1,SECTORS.length);setScreen('MENU');
 if('serviceWorker'in navigator&&location.protocol.startsWith('http'))navigator.serviceWorker.register('./sw.js').catch(()=>{});
 requestAnimationFrame(loop);

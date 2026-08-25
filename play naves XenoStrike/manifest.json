@@ -1,14 +1,19 @@
 {
   "name": "SWARM//RIFT — Insecta Siege",
   "short_name": "SWARM//RIFT",
-  "description": "Auto-shooter horizontal de supervivencia a través de 10 sectores y linajes insectoides.",
+  "description": "Auto-shooter responsive de supervivencia a través de 10 sectores y linajes insectoides.",
   "start_url": "./index.html",
   "scope": "./",
   "display": "fullscreen",
-  "orientation": "landscape",
+  "orientation": "any",
   "background_color": "#02040a",
   "theme_color": "#050814",
   "icons": [
-    {"src":"assets/icon.svg","sizes":"any","type":"image/svg+xml","purpose":"any maskable"}
+    {
+      "src": "assets/icon.svg",
+      "sizes": "any",
+      "type": "image/svg+xml",
+      "purpose": "any maskable"
+    }
   ]
 }

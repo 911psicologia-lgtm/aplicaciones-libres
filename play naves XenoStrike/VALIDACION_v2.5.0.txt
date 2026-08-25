@@ -1,0 +1,10 @@
+Validación objetivo v2.5.0
+- Menú móvil vertical sin solapamiento.
+- Combate móvil horizontal, fullscreen solicitado desde gesto de inicio.
+- DASH no existe en DOM ni en control del jugador.
+- waveGoal aplica x1.30.
+- duración de poderes aplica x1.20.
+- boss maxHP aplica x1.30.
+- backgrounds WebP creados para 17 fondos/arenas.
+- PNG de fondos antiguos eliminados del paquete; runtime usa WebP optimizados.
+- Nave principal optimizada a WebP y precargada.

@@ -1,0 +1,19 @@
+SWARM//RIFT — Insecta Siege v2.5.0
+
+RESPONSIVE / MÓVIL
+- Menú vertical reconstruido en una sola columna para celular.
+- El manifest deja de forzar landscape al abrir; el combate solicita landscape + fullscreen al iniciar.
+- Secuencia fullscreen/orientation corregida y resize posterior.
+- Fondos de los 10 mundos y arenas optimizados a WebP 1600x900 para carga/decodificación móvil más rápida.
+- Fallback visual temático mientras el fondo termina de decodificar.
+
+CONTROLES
+- Eliminado completamente el botón DASH.
+- Eliminada la mecánica DASH del jugador; movimiento directo por dedo, mouse o touchpad.
+- El antiguo upgrade Impulso evasivo se conserva por compatibilidad como Estabilizador vectorial (+3% respuesta por nivel).
+
+BALANCE SOLICITADO
+- Enemigos totales por oleada: +30%.
+- Presencia simultánea: +10% para mantener presión sin saturar pantalla pequeña.
+- Duración efectiva de todos los poderes temporales: +20%.
+- HP de todos los jefes: +30%.

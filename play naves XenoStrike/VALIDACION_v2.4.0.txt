@@ -1,0 +1,11 @@
+Validación v2.4.0
+- node --check js/game.js: OK.
+- manifest.json: JSON válido.
+- Service Worker: swarm-rift-v2.4.0.
+- Recursos PWA declarados: 174; faltantes: 0.
+- Playwright/Chromium desktop (set_content): menú renderizado, 0 errores JavaScript.
+- Playwright/Chromium móvil 844x390: campaña iniciada, 0 errores JavaScript.
+- Móvil: touch HUD visible, DASH visible, stick-zone oculto.
+- Compatibilidad de metadatos/checkpoints desde v2.3.0 añadida.
+- Reliquias de sectores 7–10 retrocompatibles con jefes ya derrotados.
+- Boss Rush: evaluación S/A/B/C por jefe y rango final Ω/S/A/B/C integrados.

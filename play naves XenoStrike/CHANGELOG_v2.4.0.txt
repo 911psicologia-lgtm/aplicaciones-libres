@@ -1,0 +1,24 @@
+SWARM//RIFT — Insecta Siege v2.4.0
+
+ENDGAME / RECOMPENSAS ÚNICAS
+- Los sectores 7–10 otorgan una reliquia permanente la primera vez que se derrota su jefe.
+- Sector 7: Núcleo Hemático (+8 HP máximo).
+- Sector 8: Matriz de Resina (+10 escudo máximo).
+- Sector 9: Lente Odonata (+4% velocidad de maniobra).
+- Sector 10: Resonador Omega (+5% daño contra jefes).
+- Las reliquias aparecen en resultados, Hangar y cierre de campaña.
+
+BOSS RUSH
+- Cada jefe recibe rango S/A/B/C según tiempo e impactos.
+- Se registra el resultado de los 10 jefes y se calcula rango final Ω/S/A/B/C.
+- Premio final de créditos escala por rango y número de rangos S.
+- Se guardan mejor rango, mejor tiempo, victorias y mejor puntuación.
+- Pantalla final rediseñada con resumen de grados y reliquias.
+
+PRESENTACIÓN
+- Cierre de campaña y Boss Rush reciben anillos de resonancia animados.
+- Sector 7–10 comunica claramente la reliquia nueva cuando se obtiene.
+- Hangar muestra progreso de reliquias junto a las herencias de jefe.
+
+COMPATIBILIDAD
+- Migra metadatos y checkpoints de v2.3.0 y versiones anteriores.
