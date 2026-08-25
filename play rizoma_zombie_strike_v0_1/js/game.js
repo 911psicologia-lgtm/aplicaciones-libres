@@ -1,7 +1,7 @@
 (() => {
   'use strict';
 
-  const VERSION = '2.5.9';
+  const VERSION = '2.6.0';
   const STORAGE_KEY = 'rizoma_zombie_strike_v0_3_state';
   const SAVE_KEY = 'rizoma_zombie_strike_v0_3_save';
   const clamp = (v, a, b) => Math.max(a, Math.min(b, v));
@@ -162,6 +162,28 @@
     {world:12,id:'thalassar_hadal',name:'Thalassar Hadal',title:'Arconte de la Fosa Bioluminiscente',asset:'assets/world12/boss_world12.png',theme:'Abismo pelágico alienígena',color:'#46e7f2',accent:'#a66cff',shot:'hadal_pressure',weapons:['Agujas de presión','Medusas de choque','Corrientes hadales','Anillos de implosión'],special:{id:'hadal_pressure_tide',name:'Marea de Presión Hadal',desc:'Corrientes convergentes, pulsos de presión y criaturas bioluminiscentes comprimen la arena.'},relic:{id:'hadal_crown',name:'Corona Hadal',desc:'Refuerza escudo, control de proyectiles y resistencia a corrientes.',passive:{shield:.08,control:.10,currentResist:.10}},music:{name:'Hadal Pulse',bpm:102,root:43.65,wave:'sine',seq:[0,5,2,7,3,10,5,0],phase4:.72},sound:{shot:[340,.09,'sine',.018,-60],special:[43.65,65.41,98],impact:[78,.14,'triangle',.025,-18]}},
     {world:13,id:'vulkarion',name:'Vulkarion',title:'Emperador del Núcleo Ígneo',asset:'assets/world13/boss_world13.png',theme:'Núcleo planetario de magma y obsidiana',color:'#ff5a1f',accent:'#ffd16c',shot:'magma_core',weapons:['Pilares de magma','Bombas de obsidiana','Géiseres minerales','Lluvia de escoria'],special:{id:'core_eruption',name:'Erupción del Núcleo',desc:'El corazón del planeta abre fisuras, lanza escoria y levanta pilares de magma alrededor de RIZOMA.'},relic:{id:'magma_throne',name:'Trono Magmático',desc:'Refuerza daño térmico, control de área y resistencia a zonas ardientes.',passive:{thermal:.12,area:.10,hazardResist:.10}},music:{name:'Forge Below',bpm:126,root:41.20,wave:'sawtooth',seq:[0,3,7,10,5,12,7,2],phase4:.68},sound:{shot:[180,.08,'sawtooth',.022,-48],special:[41.2,61.74,92.5],impact:[74,.15,'square',.028,-16]}}
   ];
+  // v2.6.0 — banda sonora externa de Guardianes + ambiente exclusivo del Mundo 1.
+  // Volúmenes calibrados por loudness del archivo original; no se recomprime el audio.
+  const BOSS_SOUNDTRACKS = {
+    1:{title:'Núcleo Meteórico',asset:'assets/audio/boss_world1_nucleo_meteorico.mp3',loop:true,baseVolume:.28},
+    2:{title:'Matriz de Convergencia',asset:'assets/audio/boss_world2_matriz_convergencia.mp3',loop:true,baseVolume:.215},
+    3:{title:'Corazón Ígneo',asset:'assets/audio/boss_world3_corazon_igneo.mp3',loop:true,baseVolume:.24},
+    4:{title:'Sello Astral',asset:'assets/audio/boss_world4_sello_astral.mp3',loop:true,baseVolume:.235},
+    5:{title:'Fragmento del Vacío',asset:'assets/audio/boss_world5_fragmento_vacio.mp3',loop:true,baseVolume:.35},
+    6:{title:'Iron Legion March',asset:'assets/audio/boss_world6_magnate_omega.mp3',fallbackAsset:'assets/audio/boss_world6_cyber_assault.mp3',fallbackTitle:'Cyber Assault',fallbackBaseVolume:.22,loop:true,baseVolume:.27},
+    7:{title:'Deep Current',asset:'assets/audio/boss_world7_deep_current.mp3',loop:true,baseVolume:.215},
+    8:{title:'Bio Pulse',asset:'assets/audio/boss_world8_bio_pulse.mp3',loop:true,baseVolume:.225},
+    9:{title:'Kurai Sekai',asset:'assets/audio/boss_world9_kurai_sekai.mp3',loop:true,baseVolume:.215},
+    10:{title:'End of Stars',asset:'assets/audio/boss_world10_end_of_stars.mp3',loop:true,baseVolume:.24},
+    11:{title:'Twin Suns',asset:'assets/audio/boss_world11_twin_suns.mp3',loop:true,baseVolume:.20},
+    12:{title:'Hadal Pulse',asset:'assets/audio/boss_world12_hadal_pulse.mp3',loop:true,baseVolume:.25}
+    // El ZIP recibido no contiene boss13; Vulkarion conserva Forge Below procedural como fallback seguro.
+  };
+  const WORLD_AMBIENT_SOUNDTRACKS = {
+    1:{title:'Núcleo Meteórico · Ambiente',asset:'assets/audio/world1_ambient_nucleo_meteorico.mp3',loop:true,baseVolume:.13}
+  };
+  const COMBAT_DURABILITY = Object.freeze({boss:1.10,subboss:1.10,minion:1.05});
+
   const FUTURE_MINION_ARCHETYPES = {
     6:[{tier:'small',family:'Drones de Ceniza',power:'Micro-láser y desplazamiento lateral coordinado',sound:{shot:[690,.035,'square',.012,-160],death:[170,.06,'sawtooth',.018,-65]}},{tier:'small',family:'Lancetas de Neón',power:'Carga corta que deja línea de energía evitable',sound:{shot:[540,.05,'square',.014,80],death:[145,.065,'triangle',.018,-38]}},{tier:'medium',family:'Centinelas Reactor',power:'Misil inteligente y blindaje frontal breve',sound:{shot:[260,.085,'sawtooth',.018,-75],death:[92,.12,'sawtooth',.024,-34]}}],
     7:[{tier:'small',family:'Medusas Iónicas',power:'Descarga eléctrica encadenable',sound:{shot:[410,.08,'sine',.013,55],death:[230,.09,'sine',.018,-80]}},{tier:'small',family:'Rayas de Coral',power:'Paso rasante curvo y plasma acuoso',sound:{shot:[360,.07,'triangle',.014,-40],death:[190,.08,'triangle',.018,-45]}},{tier:'medium',family:'Crustáceos Abisales',power:'Caparazón temporal y mina gravitacional',sound:{shot:[150,.11,'triangle',.020,18],death:[78,.15,'sine',.025,-12]}}],
@@ -175,9 +197,9 @@
   const futureBossMeta = world => FUTURE_BOSS2.find(b=>b.world===Number(world)) || FUTURE_BOSS2[0];
   const boss2Meta = index => {
     const idx=Math.max(0,Number(index)||0);
-    if(idx<BOSS2.length)return BOSS2[idx];
+    if(idx<BOSS2.length)return {...BOSS2[idx],soundtrack:BOSS_SOUNDTRACKS[idx+1]||null};
     const f=futureBossMeta(idx+1);
-    const intros={6:'FIRMA NEURONAL',7:'FIRMA ABISAL',8:'FIRMA ORGÁNICA',9:'FIRMA MULTIVERSAL',10:'FIRMA ZERO',11:'FIRMA DE SÍLICE',12:'FIRMA HADAL',13:'FIRMA MAGMÁTICA'};return {world:f.world,sigil:`assets/boss2/sigil_w${f.world}.svg`,short:f.relic?.name||f.name,intro:intros[f.world]||'FIRMA CRÍTICA',weapon:(f.weapons||[]).slice(0,2).join(' · '),special:f.special?.name||'Firma crítica',color:f.color,accent:f.accent,shot:f.shot,music:f.music,soundtrack:f.soundtrack||null};
+    const intros={6:'FIRMA NEURONAL',7:'FIRMA ABISAL',8:'FIRMA ORGÁNICA',9:'FIRMA MULTIVERSAL',10:'FIRMA ZERO',11:'FIRMA DE SÍLICE',12:'FIRMA HADAL',13:'FIRMA MAGMÁTICA'};return {world:f.world,sigil:`assets/boss2/sigil_w${f.world}.svg`,short:f.relic?.name||f.name,intro:intros[f.world]||'FIRMA CRÍTICA',weapon:(f.weapons||[]).slice(0,2).join(' · '),special:f.special?.name||'Firma crítica',color:f.color,accent:f.accent,shot:f.shot,music:f.music,soundtrack:BOSS_SOUNDTRACKS[f.world]||f.soundtrack||null};
   };
   const bossSigilHtml = (index, cls='boss-sigil') => { const m=boss2Meta(index); return `<img class="${cls}" src="${m.sigil}" alt="" aria-hidden="true">`; };
 
@@ -1377,11 +1399,17 @@
     futureBossSpecial(world=6){if(!state.settings.sound)return;const cfg=futureBossMeta(world);this.chord(cfg.sound.special,.24,.045);if(world===6)this.tone(48,.30,'square',.012,22);if(world===7)this.tone(58,.34,'sine',.014,18);if(world===8)this.tone(74,.26,'triangle',.015,-20);if(world===9)this.tone(980,.055,'square',.010,-420);if(world===10)this.tone(31,.46,'sawtooth',.018,16);},
     futureMinionShot(world=6,tier='small',familyIndex=0){if(!state.settings.sound)return;const list=FUTURE_MINION_ARCHETYPES[Number(world)]||FUTURE_MINION_ARCHETYPES[6],pool=list.filter(x=>x.tier===tier),cfg=(pool[familyIndex%Math.max(1,pool.length)]||list[0]);this.tone(...cfg.sound.shot);},
     futureMinionDeath(world=6,tier='small',familyIndex=0){if(!state.settings.sound)return;const list=FUTURE_MINION_ARCHETYPES[Number(world)]||FUTURE_MINION_ARCHETYPES[6],pool=list.filter(x=>x.tier===tier),cfg=(pool[familyIndex%Math.max(1,pool.length)]||list[0]);this.tone(...cfg.sound.death);},
-    preloadMagnateOmegaTrack(){
-      const track=futureBossMeta(6)?.soundtrack;if(!track?.asset)return null;if(this.magnateOmegaPreload)return this.magnateOmegaPreload;
-      try{const audio=new Audio(track.asset);audio.preload='auto';audio.loop=track.loop!==false;audio.playsInline=true;audio.setAttribute('playsinline','');audio.load?.();this.magnateOmegaPreload=audio;return audio;}catch(_){return null;}
+    preloadExternalTrack(id,track){
+      if(!track?.asset)return null;this.externalTrackCache=this.externalTrackCache||new Map();
+      if(this.externalTrackCache.has(id))return this.externalTrackCache.get(id);
+      try{const audio=new Audio(track.asset);audio.preload='auto';audio.loop=track.loop!==false;audio.playsInline=true;audio.setAttribute('playsinline','');audio.load?.();this.externalTrackCache.set(id,audio);return audio;}catch(_){return null;}
     },
-    fadeExternalBossTrack(target=.27,duration=650){
+    preloadWorldAudio(world=1){
+      const w=Math.max(1,Math.min(MAPS.length,Number(world)||1)),bossTrack=BOSS_SOUNDTRACKS[w],ambient=WORLD_AMBIENT_SOUNDTRACKS[w];
+      if(bossTrack?.asset)this.preloadExternalTrack(`boss_w${w}`,bossTrack);
+      if(ambient?.asset)this.preloadExternalTrack(`ambient_w${w}`,ambient);
+    },
+    fadeExternalBossTrack(target=.24,duration=650){
       const audio=this.externalBossTrack;if(!audio)return;clearInterval(this.externalBossFadeTimer);this.externalBossFadeTimer=null;
       const from=Number.isFinite(audio.volume)?audio.volume:0,to=clamp(target,0,1),start=performance.now(),span=Math.max(80,duration||650);this.externalBossTargetVolume=to;
       const step=()=>{if(this.externalBossTrack!==audio){clearInterval(this.externalBossFadeTimer);this.externalBossFadeTimer=null;return;}const k=clamp((performance.now()-start)/span,0,1),eased=k*(2-k);audio.volume=clamp(from+(to-from)*eased,0,1);if(k>=1){clearInterval(this.externalBossFadeTimer);this.externalBossFadeTimer=null;}};
@@ -1393,25 +1421,54 @@
       if(!span){try{audio.pause();audio.currentTime=0;audio.volume=0;}catch(_){}return;}
       const timer=setInterval(()=>{const k=clamp((performance.now()-start)/span,0,1);try{audio.volume=clamp(from*(1-k),0,1);}catch(_){}if(k>=1){clearInterval(timer);try{audio.pause();audio.currentTime=0;audio.volume=0;}catch(_){}}},32);
     },
-    startMagnateOmegaTrack(phase=1){
-      if(!state.settings.music)return false;const cfg=futureBossMeta(6),track=cfg.soundtrack;if(!track?.asset)return false;
-      const normalizedPhase=Math.max(1,Math.min(4,Number(phase)||1)),target=(track.phaseVolumes||[])[normalizedPhase-1]??track.baseVolume??.27;this.futureBossWorld=6;this.futureBossPhase=normalizedPhase;
-      if(this.externalBossTrack&&this.externalBossTrackId==='magnate_omega'){this.fadeExternalBossTrack(target,420);return true;}
-      this.stopExternalBossTrack(0);const audio=this.preloadMagnateOmegaTrack();if(!audio)return false;
-      try{audio.pause();audio.currentTime=0;}catch(_){}audio.loop=track.loop!==false;audio.volume=0;this.externalBossTrack=audio;this.externalBossTrackId='magnate_omega';
-      const fallback=()=>{if(this.externalBossTrack===audio){this.externalBossTrack=null;this.externalBossTrackId='';this.externalBossTargetVolume=0;try{audio.pause();}catch(_){}this.startFutureBossSequence(6,normalizedPhase);}};
-      audio.addEventListener('error',fallback,{once:true});
-      try{const playPromise=audio.play();if(playPromise?.then)playPromise.then(()=>{if(this.externalBossTrack===audio)this.fadeExternalBossTrack(target,850);}).catch(fallback);else this.fadeExternalBossTrack(target,850);}catch(_){fallback();}
+    startExternalTrack(id,track,target=.24,fadeMs=850,fallback=null){
+      if(!state.settings.music||!track?.asset)return false;
+      if(this.externalBossTrack&&this.externalBossTrackId===id){this.fadeExternalBossTrack(target,420);return true;}
+      this.stopExternalBossTrack(0);
+      const audio=this.preloadExternalTrack(id,track);if(!audio)return false;
+      try{audio.pause();audio.currentTime=0;}catch(_){}audio.loop=track.loop!==false;audio.volume=0;this.externalBossTrack=audio;this.externalBossTrackId=id;
+      let failed=false;const fail=()=>{if(failed)return;failed=true;if(this.externalBossTrack===audio){this.externalBossTrack=null;this.externalBossTrackId='';this.externalBossTargetVolume=0;}try{audio.pause();audio.currentTime=0;}catch(_){}if(typeof fallback==='function')fallback();};
+      audio.onerror=fail;
+      try{const pp=audio.play();if(pp?.then)pp.then(()=>{if(this.externalBossTrack===audio)this.fadeExternalBossTrack(target,fadeMs);}).catch(fail);else this.fadeExternalBossTrack(target,fadeMs);}catch(_){fail();}
       return true;
     },
-    startFutureBossBattleMusic(world=6,phase=1){
-      if(!state.settings.music)return;const w=Number(world)||6;if(w===6){this.stopFutureBossSequence();if(this.startMagnateOmegaTrack(phase))return;}this.stopExternalBossTrack(180);this.startFutureBossSequence(w,phase);
+    startBossSoundtrack(world=1,phase=1){
+      const w=Math.max(1,Math.min(MAPS.length,Number(world)||1)),track=BOSS_SOUNDTRACKS[w];if(!track?.asset)return false;
+      const p=Math.max(1,Math.min(4,Number(phase)||1)),target=clamp((track.phaseVolumes||[])[p-1]??((track.baseVolume||.24)+(p-1)*.015),.08,.40);
+      this.futureBossWorld=w;this.futureBossPhase=p;
+      const fallback=()=>{
+        if(track.fallbackAsset){
+          const alt={...track,title:track.fallbackTitle||track.title,asset:track.fallbackAsset,baseVolume:track.fallbackBaseVolume||track.baseVolume};
+          const altTarget=clamp((alt.baseVolume||.24)+(p-1)*.015,.08,.40);
+          if(this.startExternalTrack(`boss_w${w}_fallback`,alt,altTarget,650,()=>{if(w>=6)this.startFutureBossSequence(w,p);else this.music(w-1,true,MAPS[w-1]?.family||'zombie',p);})){return;}
+        }
+        if(w>=6)this.startFutureBossSequence(w,p);else this.music(w-1,true,MAPS[w-1]?.family||'zombie',p);
+      };
+      return this.startExternalTrack(`boss_w${w}`,track,target,850,fallback);
     },
-    setFutureBossBattlePhase(world=6,phase=1){
-      if(!state.settings.music)return;const w=Number(world)||6;if(w===6&&this.externalBossTrackId==='magnate_omega'&&this.externalBossTrack){const cfg=futureBossMeta(6),p=Math.max(1,Math.min(4,Number(phase)||1)),target=(cfg.soundtrack?.phaseVolumes||[])[p-1]??cfg.soundtrack?.baseVolume??.27;this.futureBossPhase=p;this.fadeExternalBossTrack(target,500);return;}this.startFutureBossBattleMusic(w,phase);
+    startWorldAmbient(world=1){
+      const w=Math.max(1,Math.min(MAPS.length,Number(world)||1)),track=WORLD_AMBIENT_SOUNDTRACKS[w];if(!track?.asset)return false;
+      return this.startExternalTrack(`ambient_w${w}`,track,track.baseVolume||.13,1100,()=>this.music(w-1,false,MAPS[w-1]?.family||'zombie',1));
     },
-    startFutureBossSequence(world=6,phase=1){if(!state.settings.music)return;clearInterval(this.futureSeqTimer);this.futureSeqTimer=null;this.futureSeqStep=0;this.futureBossWorld=Math.max(6,Math.min(12,Number(world)||6));this.futureBossPhase=Math.max(1,Math.min(4,Number(phase)||1));if(this.futureBossWorld===6)this.preloadMagnateOmegaTrack();const cfg=futureBossMeta(this.futureBossWorld),phaseTempo=this.futureBossPhase>=4?(cfg.music.phase4||.68):(this.futureBossPhase>=3?.82:1),beat=60000/cfg.music.bpm/2*phaseTempo;const tick=()=>{if(!state.settings.music)return;const step=this.futureSeqStep++,seq=cfg.music.seq,n=seq[step%seq.length],lift=(this.futureBossPhase-1)*2,freq=cfg.music.root*Math.pow(2,(n+lift)/12),gain=.0065+this.futureBossPhase*.0013;this.musicTone(freq,.082,cfg.music.wave,gain,step%4===0?-10:0);if(step%4===0)this.musicTone(cfg.music.root/2,.18,'sine',.009+this.futureBossPhase*.0013,-6);if(this.futureBossWorld===6&&step%4===2)this.musicTone(freq*2,.035,'square',.0032,-90);if(this.futureBossWorld===7&&step%3===1)this.musicTone(freq*.75,.12,'sine',.0038,14);if(this.futureBossWorld===8&&step%2===0)this.musicTone(freq*1.5,.045,'triangle',.0035,-35);if(this.futureBossWorld===9&&step%2===1)this.musicTone(freq*2,.03,'square',.0036,-180);if(this.futureBossWorld===10&&step%8===6)this.musicTone(cfg.music.root*.5,.30,'sawtooth',.0055,9);};tick();this.futureSeqTimer=setInterval(tick,Math.max(130,beat));},
+    startWorldBattleMusic(mapIndex=0,boss=false,phase=1){
+      if(!state.settings.music)return;const idx=Math.max(0,Math.min(MAPS.length-1,Number(mapIndex)||0)),w=idx+1;
+      this.stopBossSequence?.();this.stopFutureBossSequence();
+      if(boss){if(this.startBossSoundtrack(w,phase))return;this.stopExternalBossTrack(160);if(w>=6)this.startFutureBossSequence(w,phase);else this.music(idx,true,MAPS[idx]?.family||'zombie',phase);return;}
+      if(w===1&&this.startWorldAmbient(w))return;
+      this.stopExternalBossTrack(160);
+      if(w>=6)this.startFutureBossSequence(w,1);else this.music(idx,false,MAPS[idx]?.family||'zombie',1);
+    },
+    setBossBattlePhase(world=1,phase=1){
+      if(!state.settings.music)return;const w=Math.max(1,Math.min(MAPS.length,Number(world)||1)),p=Math.max(1,Math.min(4,Number(phase)||1)),track=BOSS_SOUNDTRACKS[w];
+      if(track?.asset&&this.externalBossTrackId===`boss_w${w}`&&this.externalBossTrack){const target=clamp((track.phaseVolumes||[])[p-1]??((track.baseVolume||.24)+(p-1)*.015),.08,.40);this.futureBossPhase=p;this.fadeExternalBossTrack(target,500);return;}
+      if(w===6&&this.externalBossTrackId==='boss_w6_fallback'&&this.externalBossTrack){const target=clamp((track?.fallbackBaseVolume||.22)+(p-1)*.015,.08,.40);this.futureBossPhase=p;this.fadeExternalBossTrack(target,500);return;}
+      this.startWorldBattleMusic(w-1,true,p);
+    },
+    startFutureBossBattleMusic(world=6,phase=1){this.startWorldBattleMusic((Number(world)||6)-1,true,phase);},
+    setFutureBossBattlePhase(world=6,phase=1){this.setBossBattlePhase(world,phase);},
+    startFutureBossSequence(world=6,phase=1){if(!state.settings.music)return;clearInterval(this.futureSeqTimer);this.futureSeqTimer=null;this.futureSeqStep=0;this.futureBossWorld=Math.max(6,Math.min(13,Number(world)||6));this.futureBossPhase=Math.max(1,Math.min(4,Number(phase)||1));this.preloadWorldAudio(this.futureBossWorld);const cfg=futureBossMeta(this.futureBossWorld),phaseTempo=this.futureBossPhase>=4?(cfg.music.phase4||.68):(this.futureBossPhase>=3?.82:1),beat=60000/cfg.music.bpm/2*phaseTempo;const tick=()=>{if(!state.settings.music)return;const step=this.futureSeqStep++,seq=cfg.music.seq,n=seq[step%seq.length],lift=(this.futureBossPhase-1)*2,freq=cfg.music.root*Math.pow(2,(n+lift)/12),gain=.0065+this.futureBossPhase*.0013;this.musicTone(freq,.082,cfg.music.wave,gain,step%4===0?-10:0);if(step%4===0)this.musicTone(cfg.music.root/2,.18,'sine',.009+this.futureBossPhase*.0013,-6);if(this.futureBossWorld===6&&step%4===2)this.musicTone(freq*2,.035,'square',.0032,-90);if(this.futureBossWorld===7&&step%3===1)this.musicTone(freq*.75,.12,'sine',.0038,14);if(this.futureBossWorld===8&&step%2===0)this.musicTone(freq*1.5,.045,'triangle',.0035,-35);if(this.futureBossWorld===9&&step%2===1)this.musicTone(freq*2,.03,'square',.0036,-180);if(this.futureBossWorld===10&&step%8===6)this.musicTone(cfg.music.root*.5,.30,'sawtooth',.0055,9);};tick();this.futureSeqTimer=setInterval(tick,Math.max(130,beat));},
     stopFutureBossSequence(){clearInterval(this.futureSeqTimer);this.futureSeqTimer=null;this.futureSeqStep=0;},
+    stopBossSequence(){clearInterval(this.bossSeqTimer);this.bossSeqTimer=null;this.bossSeqStep=0;},
     startBossSequence(mapIndex=0,phase=1){
       if(!state.settings.music)return;clearInterval(this.bossSeqTimer);this.bossSeqTimer=null;this.bossSeqStep=0;this.bossThemeIndex=Math.max(0,Math.min(4,mapIndex));this.bossThemePhase=Math.max(1,phase||1);const cfg=boss2Meta(this.bossThemeIndex),phaseTempo=this.bossThemeIndex===4&&this.bossThemePhase>=4?.52:(this.bossThemePhase>=3?.86:1),beat=60000/cfg.music.bpm/2*phaseTempo;
       const tick=()=>{if(!state.settings.music)return;const step=this.bossSeqStep++,seq=cfg.music.seq,n=seq[step%seq.length],phaseLift=(this.bossThemePhase-1)*2;const freq=cfg.music.root*Math.pow(2,(n+phaseLift)/12);this.musicTone(freq,.085,cfg.music.wave,.0065+this.bossThemePhase*.0012,step%4===0?-8:0);if(step%4===0)this.musicTone(cfg.music.root/2,.15,'sine',.009+this.bossThemePhase*.0015,-8);if(this.bossThemeIndex===1&&step%3===1)this.musicTone(freq*1.5,.05,'sine',.0035,18);if(this.bossThemeIndex===2&&step%2===1)this.musicTone(freq*2,.035,'square',.0032,-80);if(this.bossThemeIndex===3&&step%4===2)this.musicTone(cfg.music.root*2,.045,'square',.004,-40);if(this.bossThemeIndex===4&&step%8===6)this.musicTone(cfg.music.root*.75,.25,'sine',.006,12);};tick();this.bossSeqTimer=setInterval(tick,Math.max(160,beat));
@@ -1858,7 +1915,7 @@
       if (!e) return;
       e.worldCaptain = true;
       e.name = names[index] || 'Capitán de frontera';
-      e.hp *= 2.65; e.baseHp = e.hp;
+      e.hp *= 2.65*(COMBAT_DURABILITY.subboss/COMBAT_DURABILITY.minion); e.baseHp = e.hp;
       e.r *= 1.28; e.speed *= .82;
       e.score *= 2.2; e.coin *= 1.5;
       e.fireCd = .55;
@@ -1925,7 +1982,7 @@
       if (!e) return;
       e.world2Captain=true;
       e.name=names[index]||'Prefecto del Nexo';
-      e.hp*=3.15; e.baseHp=e.hp;
+      e.hp*=3.15*(COMBAT_DURABILITY.subboss/COMBAT_DURABILITY.minion); e.baseHp=e.hp;
       e.r*=1.52;
       e.visualScale=Math.max(1.42,e.visualScale||1);
       e.speed*=.76;
@@ -2248,7 +2305,7 @@
       this.render(0);
       this.ensureDomainProtocol();
       this.updateDomainControl();
-      if(this.mapIndex>=5)AudioFX.startFutureBossSequence(this.mapIndex+1,1); else AudioFX.music(this.mapIndex, false, MAPS[this.mapIndex]?.family || 'zombie', 1);
+      AudioFX.preloadWorldAudio(this.mapIndex+1);AudioFX.startWorldBattleMusic(this.mapIndex,false,1);
       hideOverlays();
       if (els.bossIntroOverlay) { els.bossIntroOverlay.classList.add('hidden'); els.bossIntroOverlay.dataset.family = ''; }
       this.updatePendingBadge();
@@ -3389,7 +3446,7 @@
         ][this.mapIndex]||{};
         this.toast(`FASE ${b.phase}`,phaseLines[b.phase]||boss2Meta(this.mapIndex).special);
         if(this.mapIndex===1)this.spawnMeteorRain(1,true);
-        if(this.mapIndex>=5)AudioFX.setFutureBossBattlePhase(this.mapIndex+1,b.phase);else AudioFX.setBossPhase(b.family, b.phase, true);
+        AudioFX.setBossBattlePhase(this.mapIndex+1,b.phase);
       }
       if (f.charge >= 100) {
         f.charge = 0;
@@ -4617,7 +4674,7 @@
       const hostWorld=this.mapIndex+1,level=this.worldStage?.level||this.wave||1,diff=this.getDifficulty();
       const fullBase=(1120+(echoWorld-1)*270+level*118)*(1+(echoWorld-1)*.08)*(2.25+(echoWorld-1)*.095);
       const ratio=hostWorld===7?.53:(hostWorld===8?.62:(hostWorld===9?.70:.82));
-      const hp=Math.round(fullBase*ratio*(diff.bossHp||1));
+      const hp=Math.round(fullBase*ratio*(diff.bossHp||1)*COMBAT_DURABILITY.subboss);
       const cb=this.getCombatBounds(),mobile=this.mobileLandscape||this.mobilePortrait;
       const e={
         id:`echo_boss_${echoWorld}_${token}`,name:meta.name,color:meta.color,behavior:'echoBoss',boss:false,echoBoss:true,
@@ -4785,7 +4842,7 @@
     spawnWorldNineSubBoss(){
       const w=this.worldNineState;if(!w)return null;w.subBossSeen=w.subBossSeen||[];if(w.subBossSeen.includes(this.wave)||this.enemies.some(e=>e.w9SubBoss&&e.hp>0))return null;
       const names=['','Kensei Fractal','Ronin del Eclipse','Shogun de la Página Rota','Mecha Kuro'];const id=this.wave>=4?'w9_mecha_2':'w9_mecha_1';this.spawnEnemy(id,false);const e=this.enemies[this.enemies.length-1];if(!e||e.boss)return null;
-      e.w9SubBoss=true;e.name=names[this.wave]||'Guardián de Viñeta';e.visualScale=1.08;e.hp*=2.85+this.wave*.18;e.baseHp=e.hp;e.r*=1.26;e.speed*=.88;e.futureFire=.55;e.score=Math.ceil(e.score*2.2);e.coin=Math.ceil(e.coin*2);w.subBossSeen.push(this.wave);this.spawnWorldNinePortalRift(1,true);this.toast('⚔ SUBJEFE MULTIVERSAL',e.name);return e;
+      e.w9SubBoss=true;e.name=names[this.wave]||'Guardián de Viñeta';e.visualScale=1.08;e.hp*=(2.85+this.wave*.18)*(COMBAT_DURABILITY.subboss/COMBAT_DURABILITY.minion);e.baseHp=e.hp;e.r*=1.26;e.speed*=.88;e.futureFire=.55;e.score=Math.ceil(e.score*2.2);e.coin=Math.ceil(e.coin*2);w.subBossSeen.push(this.wave);this.spawnWorldNinePortalRift(1,true);this.toast('⚔ SUBJEFE MULTIVERSAL',e.name);return e;
     }
 
     triggerWorldNineHorde(){
@@ -4837,7 +4894,7 @@
     spawnWorldTenSubBoss(){
       const w=this.worldTenState;if(!w)return null;w.subBossSeen=w.subBossSeen||[];if(w.subBossSeen.includes(this.wave)||this.enemies.some(e=>e.w10SubBoss&&e.hp>0))return null;
       const names=['','Raptor Primario','Apóstol Necro-Zero','Centurión de Convergencia','Verdugo de la Singularidad','Arconte Zero','Mariscal del Fin'];const id=this.wave>=4?'w10_centurion_2':(this.wave>=2?'w10_necroid_2':'w10_scavenger_2');this.spawnEnemy(id,false);const e=this.enemies[this.enemies.length-1];if(!e||e.boss)return null;
-      e.w10SubBoss=true;e.name=names[this.wave]||'Subnúcleo Zero';e.spriteKey=['','world10Subboss1','world10Subboss2','world10Subboss3','world10Subboss4','world10Subboss5','world10Subboss6'][this.wave]||e.spriteKey;e.visualScale=1.1;e.hp*=3.15+this.wave*.24;e.baseHp=e.hp;e.r*=1.34;e.speed*=.88;e.futureFire=.48;e.score=Math.ceil(e.score*2.55);e.coin=Math.ceil(e.coin*2.3);w.subBossSeen.push(this.wave);this.spawnWorldTenSingularity(1,true);this.toast('⊘ SUBJEFE ZERO',e.name);return e;
+      e.w10SubBoss=true;e.name=names[this.wave]||'Subnúcleo Zero';e.spriteKey=['','world10Subboss1','world10Subboss2','world10Subboss3','world10Subboss4','world10Subboss5','world10Subboss6'][this.wave]||e.spriteKey;e.visualScale=1.1;e.hp*=(3.15+this.wave*.24)*(COMBAT_DURABILITY.subboss/COMBAT_DURABILITY.minion);e.baseHp=e.hp;e.r*=1.34;e.speed*=.88;e.futureFire=.48;e.score=Math.ceil(e.score*2.55);e.coin=Math.ceil(e.coin*2.3);w.subBossSeen.push(this.wave);this.spawnWorldTenSingularity(1,true);this.toast('⊘ SUBJEFE ZERO',e.name);return e;
     }
     triggerWorldTenHorde(){
       if(this.wave<1||this.wave>7)return;const n=this.mobileLandscape?(this.wave>=5?9:7):(this.wave>=5?14:11),own=WORLD_TEN_MINION_FAMILIES;let heavy=0;
@@ -4937,7 +4994,7 @@
       for(let i=0;i<count&&this.meteors.length<cap;i++){const fromLeft=Math.random()<.5,x=fromLeft?-95:this.w+95,y=rand(this.h*.82,this.h*.15),targetX=fromLeft?this.w+130:-130,targetY=clamp(y+rand(165,-165),48,this.h-48),a=Math.atan2(targetY-y,targetX-x),sp=fast?rand(325,245):rand(235,165),r=rand(34,21),key=pick(keys);this.meteors.push({kind:'w13magma',x,y,vx:Math.cos(a)*sp,vy:Math.sin(a)*sp,r,life:fast?6.2:8.4,dmg:fast?23:27,color:'#ff5a1f',trail:[],spin:rand(2.6,-2.6),hp:88+this.wave*13,score:58,coins:17,spriteKey:key,spriteScale:key.includes('Planet')?4.7:4.25,hitboxScale:.76,worldTag:13});}
     }
     spawnWorldThirteenEruption(count=1,violent=false){const w=this.worldThirteenState;if(!w)return;const cb=this.getCombatBounds();for(let i=0;i<count;i++){const x=rand(cb.right-92,cb.left+92),y=rand(cb.bottom-108,cb.top+112),r=violent?88:66,life=violent?3.1:2.35;this.particles.push({type:'ring',x,y,r:18,maxR:r*1.72,life:.92,max:.92,color:i%2?'#ff5a1f':'#ffd16c'});this.zones.push({x,y,r,life,max:life,type:'toxic'});if(violent&&Math.random()<.65){this.spawnEnemy(this.worldThirteenEnemyId(),true);const e=this.enemies[this.enemies.length-1];if(e&&!e.boss){e.x=x;e.y=y;e.speed*=1.06;}}w.eruptions=(w.eruptions||0)+1;}}
-    spawnWorldThirteenSubBoss(){const w=this.worldThirteenState;if(!w||this.wave<2||this.wave>4)return null;w.subBossSeen=w.subBossSeen||[];if(w.subBossSeen.includes(this.wave)||this.enemies.some(e=>e.w13SubBoss&&e.hp>0))return null;const ids=['','','w13_drill_2','w13_salamander_1','w13_salamander_2'],names=['','','Forjador de Escoria','Centinela Basáltico','Gárgola Magmática'];this.spawnEnemy(ids[this.wave],false);const e=this.enemies[this.enemies.length-1];if(!e||e.boss)return null;e.w13SubBoss=true;e.name=names[this.wave];e.spriteKey=['','','world13Subboss1','world13Subboss2','world13Subboss3'][this.wave]||e.spriteKey;e.hp*=2.8+this.wave*.22;e.baseHp=e.hp;e.r*=1.28;e.visualScale=1.1;e.speed*=.88;e.score=Math.ceil(e.score*2.35);e.coin=Math.ceil(e.coin*2.2);w.subBossSeen.push(this.wave);this.spawnWorldThirteenEruption(1,true);this.toast('🌋 SUBJEFE DEL NÚCLEO',e.name);return e;}
+    spawnWorldThirteenSubBoss(){const w=this.worldThirteenState;if(!w||this.wave<2||this.wave>4)return null;w.subBossSeen=w.subBossSeen||[];if(w.subBossSeen.includes(this.wave)||this.enemies.some(e=>e.w13SubBoss&&e.hp>0))return null;const ids=['','','w13_drill_2','w13_salamander_1','w13_salamander_2'],names=['','','Forjador de Escoria','Centinela Basáltico','Gárgola Magmática'];this.spawnEnemy(ids[this.wave],false);const e=this.enemies[this.enemies.length-1];if(!e||e.boss)return null;e.w13SubBoss=true;e.name=names[this.wave];e.spriteKey=['','','world13Subboss1','world13Subboss2','world13Subboss3'][this.wave]||e.spriteKey;e.hp*=(2.8+this.wave*.22)*(COMBAT_DURABILITY.subboss/COMBAT_DURABILITY.minion);e.baseHp=e.hp;e.r*=1.28;e.visualScale=1.1;e.speed*=.88;e.score=Math.ceil(e.score*2.35);e.coin=Math.ceil(e.coin*2.2);w.subBossSeen.push(this.wave);this.spawnWorldThirteenEruption(1,true);this.toast('🌋 SUBJEFE DEL NÚCLEO',e.name);return e;}
     triggerWorldThirteenHorde(){if(this.wave<1||this.wave>5)return;const n=this.mobileLandscape?(this.wave>=4?9:7):(this.wave>=4?13:10),own=WORLD_THIRTEEN_MINION_FAMILIES;let heavy=0;for(let i=0;i<n;i++){let fam=i%3,id=pick(own[fam]);if(this.mobileLandscape&&fam===2&&heavy>=2)id=pick(own[i%2]);if(own[2].includes(id))heavy++;setTimeout(()=>{this.spawnEnemy(id,true);const e=this.enemies[this.enemies.length-1];if(e&&!e.boss){e.hordeUnit=true;e.speed*=1.07;e.hp*=1.12;e.baseHp=e.hp;}},i*(this.mobileLandscape?128:78));}this.spawnHordeEmergencyKit();this.spawnCrossWorldPrizeBurst(2+(this.getDifficulty().hordeRewardBonus||0));this.worldThirteenState.hordeSeen=(this.worldThirteenState.hordeSeen||0)+1;this.toast('🌋 HORDA DE ESCORIA',`Formación x${n} · larvas, perforadores y salamandras emergen de la forja`);}
     updateWorldThirteenDirector(dt){if(this.mapIndex!==12||this.bossActive||this.run?.mapComplete)return false;const w=this.worldThirteenState;if(!w)return false;w.rewardTimer=(w.rewardTimer??6.0)-dt;if(w.rewardTimer<=0&&this.wave<5){this.spawnCrossWorldTacticalPrize();w.rewardTimer=rand(13.8,10.2);}w.eruptionTimer=(w.eruptionTimer??6.2)-dt*(this.getDifficulty().eventPace||1);if(w.eruptionTimer<=0){this.spawnWorldThirteenEruption(this.wave>=4?2:1,this.wave>=3);w.eruptionTimer=rand(this.wave>=4?8.4:11.0,this.wave>=4?5.9:7.5);}w.eventTimer=(w.eventTimer??5.2)-dt*(this.getDifficulty().eventPace||1);if(w.eventTimer<=0&&this.wave<5){Math.random()<.62?this.spawnWorldThirteenHazard(this.wave>=4?2:1,true):this.spawnWorldThirteenEruption(1,true);w.eventTimer=(WORLD_THIRTEEN_ACTS[this.wave-1]?.eventEvery||7.0)+rand(1.0,-.45);}return false;}
     updateCoreEruptionPower(dt){
@@ -5966,7 +6023,7 @@
       };
       this.makeEnemyHard(enemy);
       const diff=this.getDifficulty();
-      enemy.hp*=diff.enemyHp; enemy.baseHp=enemy.hp; enemy.speed*=diff.enemySpeed;
+      enemy.hp*=diff.enemyHp*COMBAT_DURABILITY.minion; enemy.baseHp=enemy.hp; enemy.speed*=diff.enemySpeed;
       if(this.isHardMode()&&enemy.hard) enemy.score=Math.ceil(enemy.score*1.08);
       this.enemies.push(enemy);
     }
@@ -5977,7 +6034,7 @@
       const campaignScale = 1 + this.mapIndex * .08;
       let hp = (1120 + this.mapIndex * 270 + this.wave * 118) * campaignScale;
       hp *= this.mapIndex===0?4.35:(this.mapIndex===1?3.82:(this.mapIndex===2?4.05:(2.25+this.mapIndex*.095)));
-      hp *= this.getDifficulty().bossHp || 1;
+      hp *= (this.getDifficulty().bossHp || 1) * COMBAT_DURABILITY.boss;
       if (this.mapIndex === 6) hp *= 2.15; // Leviatán: debe sobrevivir al arsenal acumulado de siete mundos.
       if (this.mapIndex === 8) hp *= 1.90; // Kaiser: duelo final prolongado de W9 frente al arsenal multiversal.
       if (this.mapIndex === 9) hp *= 2.35; // Z.E.R.O.S. Prime: clímax final frente a todas las reliquias y firmas acumuladas.
@@ -5987,7 +6044,7 @@
       if(this.trainingMode?.active)hp*=.58;
       const x = this.w / 2;
       const y = -80;
-      const shieldBase = (this.mapIndex === 12 ? 3500 : (this.mapIndex === 11 ? 3200 : (this.mapIndex === 10 ? 3000 : (this.mapIndex === 9 ? 4200 : (this.mapIndex === 8 ? 2600 : (this.mapIndex === 6 ? 2200 : (this.mapIndex === 0 ? 680 : (this.mapIndex === 1 ? 560 : 310 + this.mapIndex * 42)))))))) * (this.getDifficulty().bossShield || 1) * (this.trainingMode?.active ? .58 : 1);
+      const shieldBase = (this.mapIndex === 12 ? 3500 : (this.mapIndex === 11 ? 3200 : (this.mapIndex === 10 ? 3000 : (this.mapIndex === 9 ? 4200 : (this.mapIndex === 8 ? 2600 : (this.mapIndex === 6 ? 2200 : (this.mapIndex === 0 ? 680 : (this.mapIndex === 1 ? 560 : 310 + this.mapIndex * 42)))))))) * (this.getDifficulty().bossShield || 1) * COMBAT_DURABILITY.boss * (this.trainingMode?.active ? .58 : 1);
       this.bossActive = {
         id: 'boss_' + map.id,
         name: map.boss,
@@ -6027,7 +6084,7 @@
       this.bossIntroduced = true;
       this.grantBossAid('Duelo de jefe');
       AudioFX.boss();
-      if(this.mapIndex>=5){AudioFX.stopMusic();AudioFX.startFutureBossBattleMusic(this.mapIndex+1,this.bossActive?.phase||1);}else AudioFX.music(this.mapIndex, true, MAPS[this.mapIndex]?.family || 'zombie', this.bossActive?.phase || 1);
+      AudioFX.startWorldBattleMusic(this.mapIndex,true,this.bossActive?.phase||1);
       if (this.mapIndex === 1) AudioFX.world2BossCue();
       this.shake = 12;
       this.flash = 1;
@@ -7616,7 +7673,7 @@
       this.spawnRecoveryPackage();
       this.toast('❤️ REACTIVACIÓN', `Velocidad restaurada +12s de impulso de recuperación · recoge tus poderes`);
       this.requestTacticalPrep('revive');
-      AudioFX.music(this.mapIndex, !!this.bossActive, MAPS[this.mapIndex]?.family || 'zombie', this.bossActive?.phase || 1);
+      AudioFX.startWorldBattleMusic(this.mapIndex,!!this.bossActive,this.bossActive?.phase||1);
       requestAnimationFrame(t => { this.last = t; this.loop(t); });
       return true;
     }
@@ -10127,12 +10184,30 @@
     els.replayWorldGrid.querySelectorAll('[data-replay-map]').forEach(btn => btn.addEventListener('click', () => game.startReplay(Number(btn.dataset.replayMap), Number(btn.dataset.replayLevel))));
   }
 
+  function syncQuickMusicButton(){
+    if(els.toggleMusic)els.toggleMusic.checked=!!state.settings.music;
+    if(!els.btnMusicQuick)return;
+    const on=!!state.settings.music;
+    els.btnMusicQuick.classList.toggle('muted',!on);
+    els.btnMusicQuick.setAttribute('aria-pressed',String(on));
+    els.btnMusicQuick.setAttribute('aria-label',on?'Silenciar música de fondo':'Activar música de fondo');
+    els.btnMusicQuick.title=on?'Silenciar música de fondo':'Activar música de fondo';
+  }
+
+  function setMusicEnabled(enabled){
+    state.settings.music=!!enabled;
+    if(!state.settings.music)AudioFX.stopMusic();
+    else if(game?.running){AudioFX.preloadWorldAudio(game.mapIndex+1);AudioFX.startWorldBattleMusic(game.mapIndex,!!game.bossActive,game.bossActive?.phase||1);}
+    syncQuickMusicButton();saveState();
+  }
+
   function renderSettings() {
     els.toggleSound.checked = !!state.settings.sound;
     els.toggleMusic.checked = !!state.settings.music;
     els.toggleShake.checked = !!state.settings.shake;
     els.toggleReduced.checked = !!state.settings.reducedMotion;
     if (els.toggleLowPerformance) els.toggleLowPerformance.checked = !!state.settings.lowPerformance;
+    syncQuickMusicButton();
   }
 
   function renderAll() {
@@ -10303,6 +10378,8 @@ ${JSON.stringify(snapshot, null, 2)}`;
       renderSavedGamesList();
     });
     els.btnPause.addEventListener('click', () => game.togglePause());
+    els.btnMusicQuick?.addEventListener('pointerdown',e=>{if(e.cancelable)e.preventDefault();e.stopPropagation();},{passive:false});
+    els.btnMusicQuick?.addEventListener('click',e=>{e.preventDefault();e.stopPropagation();setMusicEnabled(!state.settings.music);});
 
     // DOMINIO debe consumir el gesto antes de que alcance el canvas.
     // Pointerdown abre de inmediato en móvil; click queda como fallback de teclado/navegadores antiguos.
@@ -10410,8 +10487,8 @@ ${JSON.stringify(snapshot, null, 2)}`;
         state.settings.lowPerformance = !!els.toggleLowPerformance?.checked;
         game.applyPerformanceMode?.();
         if (!state.settings.music) AudioFX.stopMusic();
-        else if(game.running){if(game.bossActive){if(game.mapIndex>=5)AudioFX.startFutureBossBattleMusic(game.mapIndex+1,game.bossActive?.phase||1);else AudioFX.music(game.mapIndex,true,MAPS[game.mapIndex]?.family||'zombie',game.bossActive?.phase||1);}else if(game.mapIndex>=5)AudioFX.startFutureBossSequence(game.mapIndex+1,1);else AudioFX.music(game.mapIndex,false,MAPS[game.mapIndex]?.family||'zombie',1);}
-        saveState(); renderAll();
+        else if(game.running)AudioFX.startWorldBattleMusic(game.mapIndex,!!game.bossActive,game.bossActive?.phase||1);
+        syncQuickMusicButton();saveState(); renderAll();
       });
     });
     els.btnExportBackup.addEventListener('click', exportBackup);
