@@ -1,0 +1,63 @@
+RIZOMA ZOMBIE STRIKE v2.6.0 — VALIDACIÓN ESTÁTICA
+
+RESULTADO GENERAL: OK
+
+1. JavaScript
+- node --check js/game.js: OK
+
+2. Manifest
+- JSON válido: OK
+- start_url actualizado a v2.6.0: OK
+
+3. Assets
+- Referencias literales encontradas: 348
+- Referencias faltantes: 0
+- Assets heredados de v2.5.9 modificados: 0
+- Assets heredados eliminados: 0
+- Audio nuevo añadido: 13 archivos
+  - 12 pistas del ZIP boss1–boss12
+  - 1 ambiente exclusivo Mundo 1
+- Iron Legion March heredada permanece byte a byte sin modificación.
+
+4. Audio
+- 12 pistas del ZIP decodificables mediante ffprobe: OK
+- Ambiente Mundo 1 decodificable: OK
+- Iron Legion March heredada: OK
+- Todos los archivos: MP3, estéreo, 48 kHz.
+- No se recomprimieron las pistas.
+
+5. Integración musical
+- Boss tracks externos M1–M12: configurados.
+- M6 conserva Iron Legion March como principal.
+- Cyber Assault M6 queda como fallback técnico.
+- Mundo 1 ambiental exclusivo: configurado.
+- Cambio ambiente→boss: configurado.
+- Loop: configurado.
+- Fade entrada/salida: configurado.
+- Ajuste de volumen por fase: configurado.
+- Fallback procedural ante error de reproducción: configurado.
+- Mundo 13: no existe boss13 en el ZIP recibido; Forge Below procedural se conserva sin inventar archivo.
+
+6. Control HUD
+- btnMusicQuick existe: OK
+- Sin IDs HTML duplicados: OK
+- Estado activo animado: OK
+- Estado mute visual: OK
+- Mute afecta música y no efectos: OK por inspección de lógica
+- Sincronización con toggleMusic: OK
+
+7. Balance
+- Jefes: x1.10 HP: OK
+- Escudos de jefe: x1.10: OK
+- Echo bosses: x1.10: OK
+- Capitanes/Prefectos: x1.10 neto: OK
+- Subjefes M9/M10/M13: x1.10 neto: OK
+- Esbirros: x1.05 HP: OK
+
+8. Compatibilidad
+- Fondos: no modificados.
+- Progresión/economía/poderes: sin intervención funcional deliberada.
+- Tienda táctica: mantiene pausa obligatoria.
+
+NOTA
+Esta es validación sintáctica, estructural y de assets/audio. No se atribuye una partida completa jugada manualmente en navegador.

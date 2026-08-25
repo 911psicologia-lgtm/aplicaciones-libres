@@ -9,9 +9,9 @@
   <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
   <meta name="apple-mobile-web-app-capable" content="yes" />
   <meta name="apple-mobile-web-app-title" content="Zombie Strike" />
-  <script>if(location.protocol !== "file:"){const m=document.createElement("link");m.rel="manifest";m.href="manifest.json?v=2.5.9";document.head.appendChild(m);}</script>
+  <script>if(location.protocol !== "file:"){const m=document.createElement("link");m.rel="manifest";m.href="manifest.json?v=2.6.0";document.head.appendChild(m);}</script>
   <link rel="icon" href="assets/icon.svg" type="image/svg+xml" />
-  <title>Rizoma Zombie Strike — Banda Sonora Magnate Omega · v2.5.9</title>
+  <title>Rizoma Zombie Strike — Banda Sonora de Guardianes · v2.6.0</title>
   <link rel="preload" as="image" href="assets/ui/intro_poster_mobile.webp" media="(max-width: 1200px)" fetchpriority="high" />
   <link rel="preload" as="image" href="assets/boss2/sigil_w1.svg" />
   <link rel="preload" as="image" href="assets/boss2/sigil_w2.svg" />
@@ -20,7 +20,7 @@
   <link rel="preload" as="image" href="assets/boss2/sigil_w5.svg" />
   <link rel="preload" as="image" href="assets/boss2/sigil_w9.svg" />
   <link rel="preload" as="image" href="assets/boss2/sigil_w10.svg" />
-  <link rel="stylesheet" href="css/styles.css?v=2.5.9" />
+  <link rel="stylesheet" href="css/styles.css?v=2.6.0" />
   <link rel="preload" as="image" href="assets/story/episode_01_protocol_zstrike.webp" fetchpriority="high" />
 </head>
 <body>
@@ -35,7 +35,7 @@
         <span class="brand-mark">⬢</span>
         <div>
           <strong>Rizoma Zombie Strike</strong>
-          <small>Mundos 1–13 · Saga II · Magnate Omega: Iron Legion March · v2.5.9</small>
+          <small>Mundos 1–13 · Saga II · Banda Sonora de Guardianes · v2.6.0</small>
         </div>
       </div>
       <button id="btnSettings" class="icon-btn" title="Ajustes" aria-label="Ajustes">⚙</button>
@@ -331,6 +331,7 @@
         <div class="hud-actions" aria-label="Acciones rápidas de combate">
           <button id="btnDomain" class="domain-btn hidden" type="button" title="Protocolo DOMINIO" aria-label="Abrir Protocolo DOMINIO"><span class="domain-glyph">◇</span><strong class="domain-label">DOMINIO</strong><small id="domainCount">0</small></button>
           <button id="btnTacticalCart" class="tactical-cart" type="button" title="Compra Exprés"><span class="cart-glyph">🛒</span><strong id="tacticalCartCount">0</strong></button>
+          <button id="btnMusicQuick" class="music-quick-btn" type="button" title="Silenciar música de fondo" aria-label="Silenciar música de fondo" aria-pressed="true"><span class="music-note-glyph" aria-hidden="true">♫</span></button>
           <button id="btnPause" class="pause-btn" type="button" title="Pausa">⏸</button>
         </div>
         <div id="bossBar" class="boss-bar hidden">
@@ -452,7 +453,7 @@
           <button id="btnCloseSettings" class="icon-btn">×</button>
         </div>
         <label class="switch-row"><span>Sonido</span><input id="toggleSound" type="checkbox" /></label>
-        <label class="switch-row"><span>Música procedural</span><input id="toggleMusic" type="checkbox" /></label>
+        <label class="switch-row"><span>Música</span><input id="toggleMusic" type="checkbox" /></label>
         <label class="switch-row"><span>Vibración visual</span><input id="toggleShake" type="checkbox" /></label>
         <label class="switch-row"><span>Reducir animaciones</span><input id="toggleReduced" type="checkbox" /></label>
         <label class="switch-row"><span>Modo bajo rendimiento</span><input id="toggleLowPerformance" type="checkbox" /></label>
@@ -466,6 +467,6 @@
     </div>
   </div>
 
-  <script src="js/game.js?v=2.5.9"></script>
+  <script src="js/game.js?v=2.6.0"></script>
 </body>
 </html>
