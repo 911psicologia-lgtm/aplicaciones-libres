@@ -1,9 +1,9 @@
 (()=>{
 'use strict';
 
-const VERSION='2.7.0';
-const KEY_META='swarm_rift_meta_v270';
-const KEY_RUN='swarm_rift_run_v270';
+const VERSION='2.7.1';
+const KEY_META='swarm_rift_meta_v271';
+const KEY_RUN='swarm_rift_run_v271';
 const TAU=Math.PI*2;
 const cv=document.getElementById('game');
 const cx=cv.getContext('2d',{alpha:false});
@@ -217,7 +217,7 @@ const AudioX={
     this.stopBoss();const base=[52,58,46,42,64,38,55,72,49,34][index]||48;
     for(let i=0;i<5;i++)this.tone(base*(1+i*.5),.5,.045,'sawtooth',i*.12,-base*.1);
     this.noise(.8,.045,260,.15);
-    if(!(SOUNDTRACKS?.[index]?.src&&MusicX.enabled))this.startBoss(base,index);
+    if(!(battleTrackForSector(index+1)?.src&&MusicX.enabled))this.startBoss(base,index);
   },
   startBoss(base,index){
     if(this.muted)return;this.unlock();const a=this.ac;if(!a)return;
@@ -254,7 +254,7 @@ const MusicX={
     this.fadeTo(this.targetVolume,900);this.updateButton();
   },
   onBossAppear(sector){
-    const track=SOUNDTRACKS?.[sector-1];this.activeBoss=!!track?.src;
+    const track=battleTrackForSector(sector);this.activeBoss=!!track?.src;
     if(!this.activeBoss){this.stop(false);return;}
     if(bossMusic.src.split('/').pop()!==track.src.split('/').pop()){bossMusic.src=track.src;bossMusic.load();}
     if(this.enabled){AudioX.stopBoss();this.play(true);}else{this.updateButton();}
@@ -278,20 +278,37 @@ bossMusic.addEventListener('pause',()=>MusicX.updateButton());
 
 
 // ─────────────────────────────────────────────────────────────
-// PLAYLIST / JUKEBOX — slots listos para las 10 bandas de jefe
+// PLAYLIST / JUKEBOX — 12 pistas nuevas + Iron Legion March legado
 // ─────────────────────────────────────────────────────────────
 const SOUNDTRACKS=[
-  {sector:1,boss:'IMPERATRIX VESPA',title:'Iron Legion March',src:'assets/iron_legion_march.mp3',color:'#fff07b'},
-  {sector:2,boss:'ATLAS VERDE',title:'Banda de jefe pendiente',src:null,color:'#d7ff74'},
-  {sector:3,boss:'CORTEX RAZOR',title:'Banda de jefe pendiente',src:null,color:'#ffbe74'},
-  {sector:4,boss:'VELA NOCTIS',title:'Banda de jefe pendiente',src:null,color:'#f4c8ff'},
-  {sector:5,boss:'REGINA FERRUM',title:'Banda de jefe pendiente',src:null,color:'#ff7f75'},
-  {sector:6,boss:'COLOSSUS HOP',title:'Banda de jefe pendiente',src:null,color:'#ebff77'},
-  {sector:7,boss:'SANGUINA PRIME',title:'Banda de jefe pendiente',src:null,color:'#ff6175'},
-  {sector:8,boss:'ARCHITECT ZERO',title:'Banda de jefe pendiente',src:null,color:'#ffd56a'},
-  {sector:9,boss:'AURALIS',title:'Banda de jefe pendiente',src:null,color:'#78ecff'},
-  {sector:10,boss:'RESONATOR OMEGA',title:'Banda de jefe pendiente',src:null,color:'#d9a7ff'}
+  {id:'boss01',sector:'01·ALT',boss:'IMPERATRIX VESPA',title:'Núcleo Meteórico',src:'assets/music/boss_01_nucleo_meteorico.mp3',color:'#fff07b',usage:'Difícil / replay / Boss Rush'},
+  {id:'boss02',sector:2,boss:'ATLAS VERDE',title:'Matriz Convergencia',src:'assets/music/boss_02_matriz_convergencia.mp3',color:'#d7ff74',usage:'Arena principal'},
+  {id:'boss03',sector:3,boss:'CORTEX RAZOR',title:'Corazón Ígneo',src:'assets/music/boss_03_corazon_igneo.mp3',color:'#ffbe74',usage:'Arena principal'},
+  {id:'boss04',sector:4,boss:'VELA NOCTIS',title:'Sello Astral',src:'assets/music/boss_04_sello_astral.mp3',color:'#f4c8ff',usage:'Arena principal'},
+  {id:'boss05',sector:5,boss:'REGINA FERRUM',title:'Fragmento Vacío',src:'assets/music/boss_05_fragmento_vacio.mp3',color:'#ff7f75',usage:'Arena principal'},
+  {id:'boss06',sector:6,boss:'COLOSSUS HOP',title:'Cyber Assault',src:'assets/music/boss_06_cyber_assault.mp3',color:'#ebff77',usage:'Arena principal'},
+  {id:'boss07',sector:7,boss:'SANGUINA PRIME',title:'Deep Current',src:'assets/music/boss_07_deep_current.mp3',color:'#ff6175',usage:'Arena principal'},
+  {id:'boss08',sector:8,boss:'ARCHITECT ZERO',title:'Bio Pulse',src:'assets/music/boss_08_bio_pulse.mp3',color:'#ffd56a',usage:'Arena principal'},
+  {id:'boss09',sector:9,boss:'AURALIS',title:'Kurai Sekai',src:'assets/music/boss_09_kurai_sekai.mp3',color:'#78ecff',usage:'Arena principal'},
+  {id:'boss10',sector:10,boss:'RESONATOR OMEGA',title:'End of Stars',src:'assets/music/boss_10_end_of_stars.mp3',color:'#d9a7ff',usage:'Arena principal'},
+  {id:'boss11',sector:'BR-09',boss:'AURALIS · BOSS RUSH',title:'Twin Suns',src:'assets/music/boss_11_twin_suns.mp3',color:'#7af7ff',usage:'Boss Rush especial'},
+  {id:'boss12',sector:'BR-10',boss:'RESONATOR OMEGA · BOSS RUSH',title:'Hadal Pulse',src:'assets/music/boss_12_hadal_pulse.mp3',color:'#c68cff',usage:'Final Boss Rush'},
+  {id:'legacy01',sector:'01',boss:'IMPERATRIX VESPA',title:'Iron Legion March · Legacy',src:'assets/iron_legion_march.mp3',color:'#ffcf73',usage:'Campaña Normal'}
 ];
+const trackById=id=>SOUNDTRACKS.find(t=>t.id===id)||null;
+function battleTrackForSector(sector){
+  if(!sector)return null;
+  if(G?.mode==='bossRush'){
+    if(sector===1)return trackById('boss01');
+    if(sector===9)return trackById('boss11');
+    if(sector===10)return trackById('boss12');
+  }
+  if(sector===1){
+    if(runDifficultyKey()==='hard'||G?.mode==='replayBoss')return trackById('boss01');
+    return trackById('legacy01');
+  }
+  return trackById(`boss${String(sector).padStart(2,'0')}`);
+}
 const PlaylistX={
   index:0,playing:false,
   init(){this.index=clamp(META?.playlistTrack||0,0,SOUNDTRACKS.length-1);},
@@ -462,8 +479,8 @@ const UPGRADES=[
 
 const defaultMeta=()=>({credits:0,hiScore:0,unlocked:1,upgrades:{},muted:false,musicEnabled:true,selectedDifficulty:'normal',playlistTrack:0,runs:0,bosses:0,bossUnlocks:{},defeated:{},bossMastery:{},bestWaveGrade:{},bestBossRush:0,bossRushWins:0,bestBossRushRank:'',bestBossRushTime:0,campaignWins:0,bestCampaignScore:0,relics:{}});
 let META=loadJSON(KEY_META,null);
-if(!META){for(const k of ['swarm_rift_meta_v260','swarm_rift_meta_v251','swarm_rift_meta_v250','swarm_rift_meta_v240','swarm_rift_meta_v230','swarm_rift_meta_v220','swarm_rift_meta_v210','swarm_rift_meta_v200','swarm_rift_meta_v199','swarm_rift_meta_v198','swarm_rift_meta_v197','swarm_rift_meta_v196','swarm_rift_meta_v195','swarm_rift_meta_v194','swarm_rift_meta_v18','swarm_rift_meta_v17']){META=loadJSON(k,null);if(META)break;}}
-if(!META)META=defaultMeta();META.upgrades=META.upgrades||{};META.bossUnlocks=META.bossUnlocks||{};META.defeated=META.defeated||{};META.bossMastery=META.bossMastery||{};META.bestWaveGrade=META.bestWaveGrade||{};META.bestBossRush=META.bestBossRush||0;META.bossRushWins=META.bossRushWins||0;META.campaignWins=META.campaignWins||0;META.bestCampaignScore=META.bestCampaignScore||0;META.relics=META.relics||{};for(const rs of [7,8,9,10])if(META.defeated?.[rs]||META.bossUnlocks?.[rs])META.relics[rs]=true;META.bestBossRushRank=META.bestBossRushRank||'';META.bestBossRushTime=META.bestBossRushTime||0;META.musicEnabled=META.musicEnabled!==false;META.selectedDifficulty=META.selectedDifficulty==='hard'?'hard':'normal';META.playlistTrack=clamp(META.playlistTrack||0,0,9);
+if(!META){for(const k of ['swarm_rift_meta_v270','swarm_rift_meta_v260','swarm_rift_meta_v251','swarm_rift_meta_v250','swarm_rift_meta_v240','swarm_rift_meta_v230','swarm_rift_meta_v220','swarm_rift_meta_v210','swarm_rift_meta_v200','swarm_rift_meta_v199','swarm_rift_meta_v198','swarm_rift_meta_v197','swarm_rift_meta_v196','swarm_rift_meta_v195','swarm_rift_meta_v194','swarm_rift_meta_v18','swarm_rift_meta_v17']){META=loadJSON(k,null);if(META)break;}}
+if(!META)META=defaultMeta();META.upgrades=META.upgrades||{};META.bossUnlocks=META.bossUnlocks||{};META.defeated=META.defeated||{};META.bossMastery=META.bossMastery||{};META.bestWaveGrade=META.bestWaveGrade||{};META.bestBossRush=META.bestBossRush||0;META.bossRushWins=META.bossRushWins||0;META.campaignWins=META.campaignWins||0;META.bestCampaignScore=META.bestCampaignScore||0;META.relics=META.relics||{};for(const rs of [7,8,9,10])if(META.defeated?.[rs]||META.bossUnlocks?.[rs])META.relics[rs]=true;META.bestBossRushRank=META.bestBossRushRank||'';META.bestBossRushTime=META.bestBossRushTime||0;META.musicEnabled=META.musicEnabled!==false;META.selectedDifficulty=META.selectedDifficulty==='hard'?'hard':'normal';META.playlistTrack=clamp(META.playlistTrack||0,0,SOUNDTRACKS.length-1);
 AudioX.muted=!!META.muted;audioBtn.textContent=AudioX.muted?'🔇':'🔊';MusicX.enabled=META.musicEnabled;MusicX.updateButton();PlaylistX.init();
 
 function loadJSON(key,fallback){try{const v=JSON.parse(localStorage.getItem(key));return v&&typeof v==='object'?v:fallback;}catch(_){return fallback;}}
@@ -896,9 +913,9 @@ function saveRun(){
   const p=G.player;const payload={version:VERSION,mode:G.mode||'campaign',runDifficulty:G.runDifficulty||'normal',sector:G.sector,wave:G.wave,score:G.score,credits:G.credits,hp:p.hp,shield:p.shield,powers:G.powers,queue:G.powerQueue||[],xp:G.xp||0,level:G.level||1,xpNext:G.xpNext||120,heritageNext:G.heritageNext||null,bossCheckpoint:!!G.bossCheckpoint,powerRanks:G.powerRanks||{},waveHits:G.waveHits||0,waveFrontKills:G.waveFrontKills||0,waveStartT:G.waveStartT||0,waveMedals:G.waveMedals||[],bonusCredits:G.bonusCredits||0,resinCharges:G.resinCharges||0,bossRushIndex:G.bossRushIndex||0,bossRushScore:G.bossRushScore||0,ts:Date.now()};
   try{localStorage.setItem(KEY_RUN,JSON.stringify(payload));}catch(_){return false;}saveMeta();notify('CHECKPOINT GUARDADO','#79c9ff',1.8);return true;
 }
-function hasSave(){try{return !!localStorage.getItem(KEY_RUN)||!!localStorage.getItem('swarm_rift_run_v260')||!!localStorage.getItem('swarm_rift_run_v251')||!!localStorage.getItem('swarm_rift_run_v250')||!!localStorage.getItem('swarm_rift_run_v240')||!!localStorage.getItem('swarm_rift_run_v230')||!!localStorage.getItem('swarm_rift_run_v220')||!!localStorage.getItem('swarm_rift_run_v210')||!!localStorage.getItem('swarm_rift_run_v200')||!!localStorage.getItem('swarm_rift_run_v199')||!!localStorage.getItem('swarm_rift_run_v198')||!!localStorage.getItem('swarm_rift_run_v197')||!!localStorage.getItem('swarm_rift_run_v196')||!!localStorage.getItem('swarm_rift_run_v195')||!!localStorage.getItem('swarm_rift_run_v194')||!!localStorage.getItem('swarm_rift_run_v17');}catch(_){return false;}}
+function hasSave(){try{return !!localStorage.getItem(KEY_RUN)||!!localStorage.getItem('swarm_rift_run_v270')||!!localStorage.getItem('swarm_rift_run_v260')||!!localStorage.getItem('swarm_rift_run_v251')||!!localStorage.getItem('swarm_rift_run_v250')||!!localStorage.getItem('swarm_rift_run_v240')||!!localStorage.getItem('swarm_rift_run_v230')||!!localStorage.getItem('swarm_rift_run_v220')||!!localStorage.getItem('swarm_rift_run_v210')||!!localStorage.getItem('swarm_rift_run_v200')||!!localStorage.getItem('swarm_rift_run_v199')||!!localStorage.getItem('swarm_rift_run_v198')||!!localStorage.getItem('swarm_rift_run_v197')||!!localStorage.getItem('swarm_rift_run_v196')||!!localStorage.getItem('swarm_rift_run_v195')||!!localStorage.getItem('swarm_rift_run_v194')||!!localStorage.getItem('swarm_rift_run_v17');}catch(_){return false;}}
 function loadRun(){
-  const s=loadJSON(KEY_RUN,null)||loadJSON('swarm_rift_run_v260',null)||loadJSON('swarm_rift_run_v251',null)||loadJSON('swarm_rift_run_v250',null)||loadJSON('swarm_rift_run_v240',null)||loadJSON('swarm_rift_run_v230',null)||loadJSON('swarm_rift_run_v220',null)||loadJSON('swarm_rift_run_v210',null)||loadJSON('swarm_rift_run_v200',null)||loadJSON('swarm_rift_run_v199',null)||loadJSON('swarm_rift_run_v198',null)||loadJSON('swarm_rift_run_v197',null)||loadJSON('swarm_rift_run_v196',null)||loadJSON('swarm_rift_run_v195',null)||loadJSON('swarm_rift_run_v194',null)||loadJSON('swarm_rift_run_v17',null);if(!s||!s.sector)return false;
+  const s=loadJSON(KEY_RUN,null)||loadJSON('swarm_rift_run_v270',null)||loadJSON('swarm_rift_run_v260',null)||loadJSON('swarm_rift_run_v251',null)||loadJSON('swarm_rift_run_v250',null)||loadJSON('swarm_rift_run_v240',null)||loadJSON('swarm_rift_run_v230',null)||loadJSON('swarm_rift_run_v220',null)||loadJSON('swarm_rift_run_v210',null)||loadJSON('swarm_rift_run_v200',null)||loadJSON('swarm_rift_run_v199',null)||loadJSON('swarm_rift_run_v198',null)||loadJSON('swarm_rift_run_v197',null)||loadJSON('swarm_rift_run_v196',null)||loadJSON('swarm_rift_run_v195',null)||loadJSON('swarm_rift_run_v194',null)||loadJSON('swarm_rift_run_v17',null);if(!s||!s.sector)return false;
   G={screen:'GAME',mode:s.mode||'campaign',runDifficulty:s.runDifficulty||META.selectedDifficulty||'normal',sector:clamp(s.sector,1,SECTORS.length),wave:clamp(s.wave||1,1,3),score:s.score||0,hiScore:META.hiScore||0,credits:Math.max(META.credits||0,s.credits||0),
     player:makePlayer(),enemies:[],bullets:[],eBullets:[],pickups:[],particles:[],obstacles:[],frontThreats:[],boss:null,kills:0,goal:waveGoal(s.sector,s.wave||1),spawn:.5,obstacleTimer:2,
     powerMeter:0,powers:s.powers||{},powerQueue:s.queue||[],sectorClear:false,bossPending:false,waveBanner:2.4,sectorBanner:2.8,combo:0,comboT:0,lastPowerDrop:0,elapsed:0,xp:s.xp||0,level:s.level||1,xpNext:s.xpNext||120,maxActivePowers:POWER_SLOT_LIMIT,maxQueuePowers:POWER_QUEUE_LIMIT,heritageNext:s.heritageNext||null,activeCombos:{},bossHitT:0,heartHitT:0,critWarned:false,lastBossDrop:null,frenzyT:0,frenzyWave:0,frenzyMult:1,bossWarningT:0,bossWarningText:'',bossCheckpoint:!!s.bossCheckpoint,trainingBoss:false,postBossT:0,postBossMax:0,frontTimer:7,frontKills:0,waveFrontKills:s.waveFrontKills||0,waveHits:s.waveHits||0,waveStartT:s.waveStartT||0,waveMedals:s.waveMedals||[],powerRanks:s.powerRanks||{},frenzyKills:0,frenzyTarget:0,frenzyDone:false,bossHits:0,bossMasteryAchieved:false,bonusCredits:s.bonusCredits||0,resinCharges:s.resinCharges||0,bossRushIndex:s.bossRushIndex||0,bossRushScore:s.bossRushScore||0,bossRushComplete:false,campaignComplete:false,finalReward:0,lastRelic:0,bossRushResults:[],bossRushReward:0,bossRushRank:'',bossRushTime:0,bossStartElapsed:0,directorIndex:0,directorCooldown:2.5,directorHistory:[],directorPressureT:0,directorPressure:1,directorPhase:'RECONOCIMIENTO',transversalTimer:rnd(7.5,11.5),lieutenantSpawned:false,lieutenantKilled:false};
@@ -1608,7 +1625,7 @@ function drawMenuPortrait(){
   btn('menu_new','NUEVA CAMPAÑA','#a6ff5f','desde Sector 1');
   btn('menu_load','CARGAR PARTIDA',hasSave()?'#7dc8ff':'#526575',hasSave()?'checkpoint disponible':'sin checkpoint');
   btn('menu_guide','CÓMO JUGAR','#ffd76a','controles y poderes');
-  btn('menu_playlist','♫ PLAYLIST','#9fe6ff','bandas sonoras de jefes');
+  btn('menu_playlist','♫ PLAYLIST','#9fe6ff','13 temas · arenas + Boss Rush');
   btn('menu_store','HANGAR / TIENDA','#ffb7e8',`¤ ${META.credits.toLocaleString()}`);
   btn('menu_training','ENTRENAMIENTO','#8edbff','práctica sin castigo');
   btn('sector_boss','CHECKPOINT JEFE 50%',sectorDefeated(menuSector)?'#ffbd6a':'#526575',sectorDefeated(menuSector)?'arena desbloqueada':'derrota antes al jefe');
@@ -1635,7 +1652,7 @@ function drawMenu(){
   uiButton('menu_training',allBossesDefeated()&&compact?'☠ BOSS RUSH':'ENTRENAMIENTO',x+22,row3,bw,bh,allBossesDefeated()&&compact?'#fff09a':'#8edbff',allBossesDefeated()&&compact?'10 jefes consecutivos':'práctica sin castigo · mini jefe');uiButton('sector_boss','CHECKPOINT JEFE 50%',x+32+bw,row3,bw,bh,sectorDefeated(menuSector)?'#ffbd6a':'#526575',sectorDefeated(menuSector)?(META.bossMastery?.[menuSector]?'arena desbloqueada · ★ maestría':'arena desbloqueada · reto de maestría'):'derrota antes al jefe');
   cx.fillStyle='#dbe7ef';cx.font='800 12px system-ui';cx.fillText('REPETIR SECTOR DESBLOQUEADO',x+22,labelY);uiButton('sector_prev','‹',x+22,sy,46,44,'#7dc8ff');uiButton('sector_start',`SECTOR ${menuSector} · ${sec.family}`,x+78,sy,panelW-156,44,sec.accent,sec.name);uiButton('sector_next','›',x+panelW-68,sy,46,44,'#7dc8ff');
   if(allBossesDefeated()&&H>=620)uiButton('menu_bossrush','☠ BOSS RUSH · 10 JEFES',x+22,sy+52,panelW-44,38,'#fff09a',META.bossRushWins?`victorias ${META.bossRushWins} · rango ${META.bestBossRushRank||'-'} · reliquias ${relicCount()}/4`:`endgame desbloqueado · reliquias ${relicCount()}/4`);
-  uiButton('menu_playlist','♫ PLAYLIST · BANDAS DE JEFE',x+22,H-78,panelW-44,34,'#9fe6ff','Iron Legion March + slots 2–10 preparados');
+  uiButton('menu_playlist','♫ PLAYLIST · BANDAS DE JEFE',x+22,H-78,panelW-44,34,'#9fe6ff','13 temas disponibles · 10 arenas + variantes Boss Rush');
 
   const cardX=Math.max(x+panelW+28,W*.62),cardW=W-cardX-36,cardY=y,cardH=H-cardY-36;cx.fillStyle='rgba(3,8,18,.60)';cx.strokeStyle=hexA(sec.accent,.28);rr(cardX,cardY,cardW,cardH,20);cx.fill();cx.stroke();
   const topH=Math.min(190,cardH*.34),img=IMG.bg[sec.worldBg]||IMG.bg[sec.bg]||IMG.bg.rust;
@@ -1665,10 +1682,10 @@ function wrap(text,x,y,maxW,lineH){const words=text.split(' ');let line='',yy=y;
 
 function drawPlaylist(){
   UI.buttons.length=0;drawBackground();cx.fillStyle='rgba(2,6,14,.88)';cx.fillRect(0,0,W,H);const compact=W<H||W<760,titleY=compact?42:48;
-  cx.textAlign='center';cx.fillStyle='#9fe6ff';cx.font=`900 ${compact?25:31}px system-ui`;cx.fillText('♫ PLAYLIST // BANDAS DE JEFE',W/2,titleY);cx.fillStyle='#9ab0c0';cx.font='700 10px system-ui';cx.fillText('Las pistas nuevas aparecerán aquí al incorporarlas al juego',W/2,titleY+23);
+  cx.textAlign='center';cx.fillStyle='#9fe6ff';cx.font=`900 ${compact?25:31}px system-ui`;cx.fillText('♫ PLAYLIST // BANDAS DE JEFE',W/2,titleY);cx.fillStyle='#9ab0c0';cx.font='700 10px system-ui';cx.fillText('12 nuevas pistas integradas + Iron Legion March legado · reproducción independiente del combate',W/2,titleY+23);
   const selected=PlaylistX.track(),available=!!selected?.src,top=compact?84:92;
   cx.fillStyle='rgba(5,13,27,.76)';cx.strokeStyle=hexA(selected?.color||'#9fe6ff',.35);rr(compact?16:W*.12,top,compact?W-32:W*.76,compact?98:92,16);cx.fill();cx.stroke();
-  cx.textAlign='left';cx.fillStyle=selected?.color||'#9fe6ff';cx.font=`900 ${compact?13:16}px system-ui`;cx.fillText(`SECTOR ${selected.sector} · ${selected.boss}`,compact?30:W*.14,top+24);cx.fillStyle='#eefaff';cx.font=`800 ${compact?12:14}px system-ui`;cx.fillText(selected.title,compact?30:W*.14,top+48);cx.fillStyle=available?'#a6ff5f':'#ffbd6a';cx.font='700 10px system-ui';cx.fillText(available?(PlaylistX.playing?'REPRODUCIENDO':'DISPONIBLE'):'SLOT PREPARADO · PISTA PENDIENTE',compact?30:W*.14,top+70);
+  cx.textAlign='left';cx.fillStyle=selected?.color||'#9fe6ff';cx.font=`900 ${compact?13:16}px system-ui`;cx.fillText(`${typeof selected.sector==='number'?'SECTOR ':''}${selected.sector} · ${selected.boss}`,compact?30:W*.14,top+24);cx.fillStyle='#eefaff';cx.font=`800 ${compact?12:14}px system-ui`;cx.fillText(selected.title,compact?30:W*.14,top+48);cx.fillStyle=available?'#a6ff5f':'#ffbd6a';cx.font='700 10px system-ui';cx.fillText(available?`${PlaylistX.playing?'REPRODUCIENDO':'DISPONIBLE'} · ${selected.usage||'BANDA DE JEFE'}`:'PISTA NO DISPONIBLE',compact?30:W*.14,top+70);
   const listTop=top+(compact?112:108),cols=compact?1:2,gap=8,margin=compact?16:W*.12,cw=compact?W-32:(W*.76-gap)/2,ch=compact?34:38;
   SOUNDTRACKS.forEach((t,i)=>{const col=i%cols,row=Math.floor(i/cols),x=margin+col*(cw+gap),y=listTop+row*(ch+5),sel=i===PlaylistX.index,enabled=!!t.src;cx.fillStyle=sel?'rgba(25,61,75,.76)':'rgba(4,11,22,.68)';cx.strokeStyle=sel?t.color:'rgba(120,170,190,.16)';rr(x,y,cw,ch,10);cx.fill();cx.stroke();cx.textAlign='left';cx.fillStyle=enabled?t.color:'#6b7d89';cx.font=`800 ${compact?9:10}px system-ui`;cx.fillText(`${String(i+1).padStart(2,'0')} · ${t.boss}`,x+10,y+ch/2);cx.textAlign='right';cx.fillStyle=enabled?'#a6ff5f':'#65747f';cx.fillText(enabled?'♪':'…',x+cw-10,y+ch/2);UI.buttons.push({id:`playlist_track_${i}`,x,y,w:cw,h:ch});});
   const controlsY=H-52,bw=compact?78:104,bh=34,cx0=W/2;if(compact){uiButton('playlist_back','← MENÚ',16,H-94,92,32,'#ffb7e8');uiButton('playlist_prev','◀',cx0-126,controlsY,72,bh,'#8edbff');uiButton('playlist_toggle',PlaylistX.playing?'Ⅱ PAUSA':'▶ PLAY',cx0-46,controlsY,92,bh,available?'#a6ff5f':'#526575');uiButton('playlist_next','▶',cx0+54,controlsY,72,bh,'#8edbff');}else{uiButton('playlist_prev','◀',cx0-bw*1.65,controlsY,bw,bh,'#8edbff');uiButton('playlist_toggle',PlaylistX.playing?'Ⅱ PAUSA':'▶ PLAY',cx0-bw/2,controlsY,bw,bh,available?'#a6ff5f':'#526575');uiButton('playlist_next','▶',cx0+bw*.65,controlsY,bw,bh,'#8edbff');uiButton('playlist_back','← MENÚ',16,controlsY,110,bh,'#ffb7e8');}cx.textAlign='left';
