@@ -1,0 +1,23 @@
+RIZOMA ZOMBIE STRIKE v2.8.3 — VALIDACIÓN TÉCNICA
+
+Base: v2.8.2 Ambient Blocks M1–M12
+
+[OK] node --check js/game.js
+[OK] manifest.json válido
+[OK] 390 rutas assets/ referenciadas en JS, 0 faltantes
+[OK] 12 assetKey del sistema frontal, 0 claves sin resolver
+[OK] Sistema frontal habilitado M1–M15
+[OK] M2–M4: límites reducidos y amenazas aisladas
+[OK] M5–M8: grupos, cápsulas, cazas y élites raras
+[OK] M9–M12: combinaciones avanzadas y conversión a plano 2D
+[OK] M13: fragmentos frontales temáticos de obsidiana/magma
+[OK] M14: amenazas coronales temáticas
+[OK] M15: amenazas orgánicas preservadas
+[OK] Conversión fondo -> plano 2D usa familias válidas del mundo actual
+[OK] Colisión real continúa restringida al tramo frontal final
+[OK] Pooling y límites por dispositivo preservados
+[OK] 509 archivos heredados byte-a-byte idénticos
+[OK] Solo index.html, sw.js y js/game.js modificados deliberadamente + documentación v2.8.3
+
+LIMITACIÓN DEL ENTORNO
+Chromium headless volvió a quedar bloqueado durante la carga local; no se declara QA táctil/físico que no pudo completarse. La validación sintáctica, rutas, integridad, configuración y regresión de archivos sí fue realizada.

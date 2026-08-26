@@ -1,0 +1,34 @@
+SWARM//RIFT — Insecta Siege v2.12.1.4
+3S Boss Approach + Commander Convergence + Audio Resume
+
+1. ANTESALA
+- PREBOSS_DURATION: 3.0 s.
+- Checkpoint por derrota y replay de arena usan el mismo límite de 3.0 s.
+- Cues visuales redistribuidos en 0.36 s, ~1.32 s y ~2.46 s sin acelerar ni reiniciar el audio.
+
+2. CONVERGENCIA DE MANDO
+- Los jefes derrotados de sectores anteriores se acumulan como Tenientes elegibles del boss actual.
+- Sector 3 puede presentar 2 Tenientes simultáneos.
+- Progresión posterior permite 3 simultáneos; Difícil puede alcanzar 4 en desktop en sectores tardíos.
+- Mobile/Tablet limita la simultaneidad máxima a 3 para preservar lectura y rendimiento.
+- Los restantes entran como relevo al caer un mando.
+- HP individual se ajusta por cantidad total sin convertirlos en enemigos débiles; conservan stamina, fase 2, resistencia, patrones y proyectiles de su boss de origen.
+- La densidad de refuerzos menores del jefe se reduce cuando hay 2+ Tenientes activos.
+
+3. APOYO DE SUPERVIVENCIA
+- Presupuesto limitado por arena para soporte de Convergencia.
+- Shield de soporte de mando recupera aproximadamente 42% del escudo máximo.
+- Nuevo pickup Potenciador de Impacto: +35% de daño ofensivo durante 12 s.
+- Segunda carga: +47%, tiempo acumulable hasta 24 s.
+- Tenientes derrotados pueden entregar shield/potenciador según presión restante.
+
+4. AUDIO
+- pauseForUI() captura pista, currentTime y volumen antes de PAUSA/HANGAR.
+- resumeFromUI() restaura la misma pista y posición sin currentTime=0.
+- Los gestos dentro de PAUSA/STORE ya no ejecutan prime() y no reinician el segmento ambiental.
+
+5. COMPATIBILIDAD
+- VERSION 2.12.1.4.
+- RUN: swarm_rift_run_v21214, fallback v21213 y anteriores.
+- META: swarm_rift_meta_v21214, fallback v21213 y anteriores.
+- PWA cache: swarm-rift-v2.12.1.4.

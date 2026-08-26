@@ -1,0 +1,15 @@
+VALIDACIÓN v2.9.0 — MUNDO 16
+
+- node --check game.js: OK
+- manifest.json: OK
+- referencias assets estáticas: 420
+- assets faltantes: 0
+- assets dedicados M16 requeridos: 23/23
+- MAPS: 16 mundos jugables
+- FUTURE_BOSS2: Neurokhan registrado
+- DOMINIO: bossShip16 registrado
+- guardado/reintento: worldSixteenState integrado
+- sistema frontal: neuralOrb / psiDrone / cortexElite integrado
+- música: M16 procedural; Ambient Blocks M1–M12 preservados
+- herencia v2.8.3: 510 archivos sin cambios fuera del núcleo editado
+- navegador físico/interactivo: no certificado en este entorno; no se declara prueba que no se ejecutó

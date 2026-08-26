@@ -1,0 +1,34 @@
+RIZOMA ZOMBIE STRIKE v3.0.0 — VALIDACIÓN ESTÁTICA
+
+1. JavaScript
+- VERSION 3.0.0: True
+- Mundo 17 registrado: True
+- Guardián Skaldr Glacial: True
+- Poder Ventisca Depredadora: True
+- DOMINIO Fenrir Cryo-Ship: True
+- Director Tundra: True
+- Sistema frontal ártico: True
+- Transformación por fases/reducción de tamaño: True
+- Narrativa M17: True
+
+2. Assets
+- Referencias concretas detectadas: 436
+- Assets faltantes: 0
+- Assets dedicados M17: 23
+- PNG M17 con canal alfa revisado: 21
+
+3. Preservación v2.9.0
+- Archivos heredados comparados: 539
+- Idénticos byte a byte: 535
+- Modificados intencionalmente/no idénticos: 4
+- Detalle: [('js/game.js', 'modified'), ('index.html', 'modified'), ('sw.js', 'modified'), ('manifest.json', 'modified')]
+
+4. Canon M17
+- Guardián: Skaldr Glacial · Fenrir de la Tundra
+- Poder: Ventisca Depredadora
+- Nave: Fenrir Cryo-Ship
+- Familias: Lobos / Bestias / Espíritus
+- Fondos: tundra orbital / cañón glaciar
+
+5. Nota QA
+Validación estática/sintáctica e integridad. No se atribuye una partida manual física en móvil/tablet a esta pasada.

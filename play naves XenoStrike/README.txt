@@ -1,4 +1,4 @@
-SWARM//RIFT — Insecta Siege v2.12.1.3
+SWARM//RIFT — Insecta Siege v2.12.1.4
 ====================================
 
 ESTADO ACTUAL
@@ -19,6 +19,17 @@ CONTROLES
 - Disparo y autoapuntado automáticos.
 - Pausa, tienda, música, SFX y fullscreen mediante iconos superiores.
 
+
+NOVEDAD v2.12.1.4 — 3S BOSS APPROACH + COMMANDER CONVERGENCE + AUDIO RESUME
+- Antesala de jefe fija en 3.0 segundos, también para reintentos/checkpoints de arena.
+- Convergencia de Mando: todos los jefes previamente derrotados del capítulo pueden regresar como Tenientes en el nuevo boss.
+- Simultaneidad controlada: 2–4 mandos concurrentes según progreso, dificultad y perfil de dispositivo; el resto entra como relevo.
+- Cada Teniente conserva patrón, linaje, stamina, segunda fase y firma de proyectil del jefe de origen.
+- Apoyo dinámico en arenas de alta presión: drops reforzados de shield y Potenciador de Impacto.
+- Potenciador de Impacto: +35% daño ofensivo temporal; segunda carga +47%; hasta 24 s acumulados.
+- Pausa/Hangar musical verdadera: la pista conserva currentTime y continúa desde el mismo punto al volver al combate.
+- Nueva clave RUN/META v21214 con migración directa desde v21213.
+- Caché PWA actualizado a swarm-rift-v2.12.1.4.
 
 NOVEDAD v2.12.1.3 — FAST BOSS APPROACH
 - Antesala final previa al jefe reducida exactamente al 50%: 16,5 s → 8,25 s.

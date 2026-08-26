@@ -1,0 +1,24 @@
+RIZOMA ZOMBIE STRIKE v3.1.0 — VALIDACIÓN ESTÁTICA E INTEGRIDAD
+
+- VERSION 3.1.0: PASS
+- MAP M18: PASS
+- Kanzai: PASS
+- PanelCut 11s: PASS
+- state M18: PASS
+- director M18: PASS
+- boss M18: PASS
+- front M18: PASS
+- story M18: PASS
+
+Referencias literales de assets: 466
+Assets faltantes: 0
+Assets M18 dedicados: 23
+Assets M18 tamaño cero: 0
+Sigilos DOMINIO M1-M18: 18/18
+Archivos heredados comparados contra v3.0.0: 560
+Cambios heredados no intencionales: 0
+
+
+M18 visual: fondos 1920×1080; sprites PNG transparentes; fondo de aproximación depurado de bloques repetitivos.
+Audio M18: procedural; Ambient Blocks externos permanecen asignados a M1-M12.
+Nota: validación estática/sintáctica e integridad. No se atribuye partida manual física en dispositivo.

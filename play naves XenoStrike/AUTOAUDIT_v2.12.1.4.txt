@@ -1,0 +1,40 @@
+AUTOAUDIT v2.12.1.4
+===================
+
+SISTEMAS PRESERVADOS
+[OK] Control PC por mouse/touchpad sin clic mantenido.
+[OK] Control móvil directo con dedo; sin joystick y sin DASH.
+[OK] Perfiles MOBILE_PORTRAIT / MOBILE_LANDSCAPE / TABLET / DESKTOP.
+[OK] Dos capas musicales mundo/boss.
+[OK] Bosses de 3 fases y duración mínima de fase.
+[OK] Checkpoint de jefe al 50% y recompensa completa tras primera derrota.
+[OK] Tenientes con stamina y segunda fase.
+[OK] Smart Hangar, reservas, vida extra, Hemogel y tiers de shield.
+[OK] 19 poderes, 13 combos, Rangos I–V y Reward Ledger.
+[OK] Wave Objectives + Encounter Budget.
+[OK] Boss weapon identity v2.12.1.2.
+[OK] Eliminación del modal Núcleo de Jefe.
+[OK] PWA y migración de guardados.
+
+CAMBIOS v2.12.1.4
+[OK] Antesala de boss = 3 s.
+[OK] Todos los bosses anteriores derrotados se acumulan en la cola del boss actual.
+[OK] Pueden coexistir varios Tenientes; cap dinámico 1/2/3/4 y cap compacto 3.
+[OK] Relevos automáticos hasta agotar todos los bosses acumulados.
+[OK] Densidad de esbirros de apoyo reducida con 2+ Tenientes.
+[OK] Shield adaptativo para convergencia.
+[OK] Potenciador de Impacto +35%, stack +47%, máximo temporal 24 s.
+[OK] HUD compacto y desktop informa booster activo.
+[OK] Pausa/Hangar conserva posición exacta de música.
+[OK] Guard anti-prime dentro de PAUSE/STORE.
+
+RIESGOS CONTROLADOS
+- No se muestran 9 sprites de boss simultáneamente en Mundo 10; todos forman parte de la pelea mediante simultaneidad + relevos. Esto evita saturación visual, sobrecarga móvil y una curva imposible.
+- El apoyo de shield/daño tiene presupuesto; no se convierte en lluvia infinita de pickups.
+- El booster no multiplica Rift Bomb.
+- Boss Rush y Training quedan fuera de Convergencia para no romper sus reglas propias.
+
+RESULTADO
+[OK] Cambio localizado; no se reconstruyeron sistemas cerrados.
+[OK] No se inició v2.12.2.
+[OK] No se añadió contenido de Sectores 11–20.

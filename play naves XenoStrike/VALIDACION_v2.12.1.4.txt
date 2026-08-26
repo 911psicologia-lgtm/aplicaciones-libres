@@ -1,0 +1,58 @@
+VALIDACIÓN v2.12.1.4
+====================
+
+BASE
+- Base de trabajo: v2.12.1.3 Fast Boss Approach.
+- VERSION ejecutable: 2.12.1.4.
+- No se inicia v2.12.2 ni contenido de Mundos 11–20.
+
+1. APROXIMACIÓN AL JEFE
+- PREBOSS_DURATION = 3.0 segundos.
+- Campaña, checkpoint por derrota y replay de arena usan el mismo límite.
+- Cues redistribuidos aproximadamente en 0.36 s, 1.32 s y 2.46 s.
+- Se conserva la transición ambiente del mundo → soundtrack del jefe.
+
+2. CONVERGENCIA DE MANDO
+- Cada sector posterior consulta todos los bosses previamente derrotados del capítulo.
+- La cola se carga con todos los sectores derrotados anteriores, del más reciente al más antiguo.
+- Simultaneidad: 1 cuando solo existe un boss previo; 2 para 2–4 bosses previos; 3 desde 5 bosses previos; Difícil tardío puede alcanzar 4 en desktop.
+- Mobile/Tablet limita la simultaneidad a 3 para legibilidad/rendimiento.
+- Los restantes bosses acumulados entran como relevo al liberarse una ranura.
+- Cada Teniente mantiene segunda fase, stamina, patrón y firma balística del boss de origen.
+
+Escenarios esperados:
+- Mundo 2: 1 boss previo → 1 Teniente.
+- Mundo 3: 2 bosses previos → 2 simultáneos.
+- Mundo 6: 5 bosses previos → hasta 3 simultáneos + relevos.
+- Mundo 10 Normal desktop: 9 bosses previos → hasta 3 simultáneos + relevos.
+- Mundo 10 Difícil desktop: 9 bosses previos → hasta 4 simultáneos + relevos.
+- Mundo 10 móvil/tablet: máximo 3 simultáneos + relevos.
+
+3. APOYO DINÁMICO DE ARENA
+- Encounter support budget independiente y limitado por boss fight.
+- Con 2+ mandos activos pueden aparecer drops reforzados de shield.
+- Shield de Convergencia restaura aproximadamente 42% del shield máximo.
+- Potenciador de Impacto: +35% daño ofensivo por 12 s.
+- Segunda carga mientras está activo: +47%; duración acumulable hasta 24 s.
+- Rift Bomb no recibe el multiplicador del Potenciador para evitar sobreescalado.
+- Los refuerzos menores del boss se reducen cuando hay múltiples Tenientes activos.
+
+4. PAUSA / HANGAR / AUDIO
+- pauseForUI() guarda sector, pista activa, currentTime y volumen.
+- resumeFromUI() restaura exactamente el currentTime guardado y reanuda sin reset=0.
+- Los clics y gestos dentro de PAUSE/STORE no ejecutan prime() mientras existe uiSnapshot.
+- Cerrar Hangar desde GAME reanuda; cerrar Hangar abierto desde PAUSE conserva la pausa hasta pulsar Continuar.
+
+5. GUARDADOS / PWA
+- RUN: swarm_rift_run_v21214.
+- META: swarm_rift_meta_v21214.
+- Migración directa desde v2.12.1.3 y fallbacks anteriores.
+- Caché: swarm-rift-v2.12.1.4.
+- Recursos declarados en PWA: 196.
+- Recursos faltantes: 0.
+
+6. VALIDACIÓN TÉCNICA
+- node --check js/game.js: OK.
+- node --check sw.js: OK.
+- Auditoría estática de invariantes de versión, audio, convergencia, soporte y migración: OK.
+- Chromium headless del entorno no completó ni about:blank dentro del timeout por limitaciones DBus/zygote del contenedor; por ello no se atribuye ese fallo al juego ni se declara una prueba visual automatizada inexistente.
