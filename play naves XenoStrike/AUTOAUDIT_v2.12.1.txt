@@ -1,0 +1,53 @@
+SWARM//RIFT — AUTOAUDIT v2.12.1
+
+Objetivo: diversificar las tres hordas con objetivos tácticos sin sustituir el Combat Director, sin romper densidad/rendimiento y sin tocar sistemas cerrados.
+
+RESULTADO GENERAL: PASS
+
+VALIDACIONES TÉCNICAS
+- JavaScript game.js: node --check OK.
+- JavaScript sw.js: node --check OK.
+- Manifest JSON: parse OK; display fullscreen; orientation any.
+- PWA: 196 recursos registrados en sw.js, 0 faltantes.
+- Referencias estáticas principales: 0 faltantes.
+- Diferencia contra base v2.12.0: lógica concentrada en game.js; sw.js solo cambia cache a v2.12.1; documentación añadida/actualizada.
+- Smoke test instrumentado: 0 excepciones del juego en los recorridos validados.
+
+WAVE OBJECTIVES
+- 8 objetivos registrados.
+- Horda 1 protegida de objetivos complejos de Emboscada/Nodos/Reliquia por sesgo de mundo.
+- Un objetivo máximo por horda; chance por horda y dificultad.
+- No repetición consecutiva mediante objectiveHistory.
+- Adaptación por sector/linaje validada.
+- Estado pending → active → complete/failed validado.
+- Objetivo completado de prueba: Reward Ledger registró créditos y XP de wave_objective.
+- Objetivo fallido de prueba: no produjo game over por la falla; aplica reducción de rango/recompensa.
+
+ENCOUNTER BUDGET
+- Cap distinto por perfil; móvil recibe presupuesto menor.
+- Cuenta enemigos, transversales, Teniente, amenazas frontales, obstáculos, props ambientales, objetivo activo y Frenesí.
+- Eventos del Combat Director consultan presupuesto antes de dispararse.
+- Spawns, formaciones, obstáculos, amenazas y transversales consultan presupuesto.
+- Microeventos visuales consultan presupuesto y se suprimen durante objetivo activo.
+- Props ambientales reducen cap durante objetivo/Frenesí.
+
+DIFICULTAD
+- NORMAL y DIFÍCIL conservados.
+- Difícil: más nodos/guardianes/escoltas, timings distintos y nodos con contraataque; no depende únicamente de HP.
+- No se redujo dificultad de bosses 1–10 ni Tenientes.
+
+SISTEMAS PRESERVADOS
+- Control directo PC/touch y disparo automático.
+- Sin joystick táctil y sin DASH de combate.
+- Perfiles MOBILE_PORTRAIT / MOBILE_LANDSCAPE / TABLET / DESKTOP.
+- Ambiente musical de mundo + soundtrack de boss, preload/retry/fallback/recovery.
+- Bosses de 3 fases, stamina/núcleo, transiciones y muerte postboss.
+- Tenientes, checkpoint de derrota de jefe y replay reducido.
+- 19 poderes, 13 combos, rangos I–V, cola y presupuesto de drops.
+- Herencia de jefe, shield táctico y Núcleo de Jefe.
+- Enemigos transversales y Parasite Orb con asset realista.
+- World Dynamics + Visual Density de v2.12.0.
+- Arquitectura Capítulo II/Boss Rush futuro sin contenido nuevo 11–20.
+
+LIMITACIÓN DEL ENTORNO
+- El navegador Chromium disponible devuelve “blocked by administrator” para localhost, file:// y data://. Se documenta como restricción del entorno de QA, no como error del juego. La ejecución responsive se verificó mediante harness DOM/canvas instrumentado y las comprobaciones PWA/resources se realizaron directamente sobre el paquete.

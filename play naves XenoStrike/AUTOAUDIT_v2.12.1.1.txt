@@ -1,0 +1,27 @@
+AUTOAUDIT — SWARM//RIFT v2.12.1.1
+
+PRESERVADO
+- Auto-fire y movimiento directo mouse/touch.
+- Sin joystick funcional y sin DASH.
+- MOBILE_PORTRAIT / MOBILE_LANDSCAPE / TABLET / DESKTOP.
+- Ambiente de mundo + soundtrack de boss, preload/retry/fallback/recovery.
+- Bosses 3 fases, Tenientes, checkpoints de arena, Reward Ledger, 19 poderes/13 combos, herencias, shield táctico, muerte y botín postboss.
+- Combat Director, objetivos v2.12.1, enemigos transversales y Encounter Budget.
+- Capítulo I 1–10; no se añadió contenido 11–20.
+
+MODIFICADO
+- UI/economía del Hangar.
+- Inventario persistente de suministros y reservas de poder.
+- Compra de poder en combate por XP/créditos.
+- Smart recommendations y despliegue de reservas.
+- Bio-reparación reactiva por umbrales críticos de vida.
+- Reanimación por VIDA EXTRA en el mismo combate.
+
+RIESGOS REVISADOS
+- No se sustituye el checkpoint de jefe.
+- La Bomba Rift usa triggerBomb existente; no se duplicó el sistema.
+- Los poderes exclusivos 7–10 permanecen ligados a bossUnlocks.
+- La progresión no abre Mundos 11–20.
+- HEMOGEL/Shield no crean invulnerabilidad permanente; consumen stock.
+- Compras SMART resaltan opciones, pero no gastan recursos automáticamente. Solo reservas previamente compradas pueden autodesplegarse bajo reglas tácticas.
+- No se agregaron recursos al Service Worker; 196/196 continúan presentes.

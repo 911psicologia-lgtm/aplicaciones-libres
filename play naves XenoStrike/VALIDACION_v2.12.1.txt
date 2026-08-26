@@ -1,0 +1,40 @@
+VALIDACIÓN v2.12.1 — WAVE OBJECTIVES & ENCOUNTER VARIETY
+
+BASE
+- Base auditada: v2.12.0 World Dynamics + Visual Density.
+- VERSION de juego actualizada a 2.12.1.
+- Cache PWA actualizado a swarm-rift-v2.12.1.
+- La intervención se limita a game.js, sw.js y documentación; no se reconstruyen sistemas cerrados.
+
+OBJETIVOS
+- 8/8 tipos implementados.
+- Un solo miniobjetivo por horda.
+- Aparición no obligatoria en todas las hordas.
+- Historial reciente evita repetición consecutiva, incluso al avanzar de sector.
+- Horda 1: pool simple (prioridad/carrier/proteger/recuperar).
+- Horda 2: pool táctico ampliado con nodos/emboscada/reliquia.
+- Horda 3: pool de asedio/cierre con nodos/emboscada/reliquia/limpieza/carrier/recuperar.
+- Difícil añade complejidad funcional y temporal, no solo vida.
+
+INTEGRACIONES
+- Combat Director conservado y coordinado por Encounter Budget.
+- Frenesí conservado; Limpieza Total espera el cierre del Frenesí cuando corresponde.
+- Reward Ledger registra créditos y XP de miniobjetivos.
+- Fallo reduce rango/recompensa de la horda sin game over directo.
+- Auto-fire y auto-target conservados; nodos son blancos válidos.
+- Props ambientales siguen siendo decorativos cuando corresponde.
+- Checkpoint boss/replay/Boss Rush no arrastran objetivos de horda.
+
+RESPONSIVE / RUNTIME INSTRUMENTADO
+- DESKTOP: reconocido y renderizado en smoke test 1280x720.
+- TABLET: reconocido y renderizado en 1024x768 coarse.
+- MOBILE_LANDSCAPE: reconocido y ejecutado en 844x390 coarse; Encounter Budget móvil menor que desktop.
+- MOBILE_PORTRAIT: reconocido y renderizado para menú en 390x844 coarse.
+- Pausa/guardado/reanudación comprobados en perfil móvil horizontal.
+- El Chromium del entorno bloquea por política administrativa localhost/file/data; por ello la prueba de ejecución se realizó con DOM/canvas instrumentado y el bloqueo no se atribuye al juego.
+
+GUARDADOS
+- Escritura de swarm_rift_run_v2121 comprobada.
+- Lectura/migración de swarm_rift_run_v2120 comprobada.
+- META v2.12.0 migra a v2.12.1.
+- Partida v2.12.0 de prueba conservó sector, horda, dificultad, score, créditos, HP, shield, poderes y rangos al cargar y re-guardar.

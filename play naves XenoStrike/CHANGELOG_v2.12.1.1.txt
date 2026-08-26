@@ -1,0 +1,19 @@
+SWARM//RIFT — Insecta Siege v2.12.1.1
+
+SMART HANGAR & SURVIVAL ECONOMY
+- Rediseño completo del Hangar sin alterar combate, bosses, audio, checkpoints ni Combat Director.
+- Interfaz compacta por tarjetas con icono, nombre corto, coste y estado de reserva/rango.
+- Cuatro filtros: SMART, PODERES, SOPORTE y MEJORAS.
+- Compra inteligente: los cuatro elementos más pertinentes se resaltan dinámicamente según sector, horda, Frenesí, HP, shield y carga de poderes.
+- Shield escalonado: SHIELD I desde sector 1 (+35%), SHIELD II desde sector 2 (+65%) y SHIELD III desde sector 3 (recarga total). El tier más adecuado recibe prioridad SMART.
+- HEMOGEL: consumible de +45% HP, almacenable y autodesplegable al 10% de salud.
+- VIDA EXTRA: comprable/almacenable; desde pantalla de derrota puede comprarse o consumirse para continuar exactamente el mismo combate. Revive con 62% HP, 48% shield, 2.4 s de invulnerabilidad y limpia balas/amenazas frontales inmediatas.
+- La VIDA EXTRA convive con el checkpoint de jefe existente; no modifica la reaparición al 50% ni sus recompensas.
+- Bio-reparación reactiva: al caer a 50%, 25% y 10% de HP, la siguiente baja puede generar una recarga garantizada (una por umbral/horda) de 27%, 38% y 52% respectivamente.
+- Catálogo de 19 poderes reales generado desde POWER_KEYS. Corrige un `laser` obsoleto y reincorpora `sparklaser` (Láser Chispeante).
+- Poderes comunes se habilitan por progreso; poderes exclusivos de herencia se autoagregan al Hangar tras derrotar al jefe correspondiente.
+- Compra en combate: poder pagable con XP si alcanza el coste o con créditos. Compra desde menú: reserva persistente hasta x3.
+- Reservas inteligentes: poderes almacenados pueden ocupar slots libres; Bomba Rift reservada puede detonar automáticamente durante Frenesí con suficiente densidad enemiga.
+- Bomba Rift mantiene su lógica existente de limpieza masiva y daño proporcional a unidades superiores/boss.
+- Responsive revisado en móvil vertical, móvil horizontal, tablet y desktop; textos ajustados por ancho real para evitar desbordes.
+- Sin contenido de Capítulo II. Sin DASH. Sin joystick. Sin cambios a la arquitectura musical.

@@ -1,0 +1,29 @@
+VALIDACIÓN — v2.12.1.1 SMART HANGAR & SURVIVAL ECONOMY
+
+ESTÁTICA
+- node --check js/game.js: OK.
+- node --check sw.js: OK.
+- Service Worker: caché swarm-rift-v2.12.1.1.
+- PWA: 196 recursos declarados, 0 faltantes.
+- POWER_KEYS: 19 poderes reales; catálogo completo validado.
+- Migración: fallback explícito para META y RUN v2.12.1.
+
+FUNCIONAL INSTRUMENTADA
+- Sector 1: twin / shield / magnet disponibles.
+- Sector 3: incluye 11 poderes, entre ellos Bomba Rift.
+- Sector 10 + herencias 7–10: 19/19 poderes disponibles.
+- Soporte sector 3: HEMOGEL, SHIELD I, SHIELD II, SHIELD III y VIDA EXTRA.
+- HEMOGEL comprado durante combate: curación inmediata si HP <88%; reserva autodesplegable al 10%.
+- Bio-reparación por baja validada en umbrales 50/25/10 con fracciones 27/38/52%.
+- VIDA EXTRA validada: revive mismo combate, 62% HP, ~49% shield, elimina eBullets/frontThreats y consume una reserva.
+- Bomba Rift comprada en combate: elimina enemigos menores de prueba en pantalla.
+- SMART con HP 9%: HEMOGEL pasa a primera recomendación.
+
+RESPONSIVE
+- 390x844 móvil vertical: OK tras ajuste de título/pie.
+- 780x441 móvil horizontal: OK.
+- 1024x768 tablet: OK tras recorte por ancho real.
+- 1366x768 desktop: OK.
+
+NOTA DE ENTORNO
+- El navegador automatizado bloquea navegación directa file:// y localhost por política administrativa. La validación runtime se realizó cargando el DOM/CSS/JS íntegros mediante Chrome DevTools Protocol en una página de prueba, sin modificar la entrega. Assets se verificaron aparte contra el manifiesto PWA.

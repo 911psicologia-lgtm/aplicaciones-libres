@@ -1,0 +1,19 @@
+SWARM//RIFT — Insecta Siege v2.12.1
+
+WAVE OBJECTIVES & ENCOUNTER VARIETY
+- Segunda capa táctica sobre el Combat Director; no reemplaza su lógica ni sus eventos.
+- 8 miniobjetivos de horda: Objetivo Prioritario, Intercepta el Portaenjambre, Protege la Cápsula, Recupera el Núcleo, Destruye los Nodos, Sobrevive a la Emboscada, Caza de Reliquia y Limpieza Total.
+- Máximo un miniobjetivo por horda, aparición probabilística y memoria de objetivos recientes para evitar repetición consecutiva.
+- Horda 1 conserva objetivos sencillos; Horda 2 habilita objetivos tácticos; Horda 3 prioriza asedio, clímax y cierre.
+- Adaptación por mundo/linaje mediante sesgo de selección, unidades de la familia actual, rótulos, color/acento y escoltas del sector.
+- En Difícil aumenta complejidad: más guardianes/nodos/escoltas, ventanas más exigentes, fuego defensivo de nodos y presión temporal; no se limita a aumentar HP.
+- Fallar un objetivo no termina automáticamente la partida: reduce el rango y el multiplicador de recompensa de la horda.
+- Recompensas de objetivo integradas al Reward Ledger: créditos, XP, shield contextual, Fragmento de Evolución ocasional y premio raro sujeto al presupuesto de drops.
+- HUD compacto: una sola línea de objetivo en móvil; banda pequeña y no invasiva en desktop.
+- Auto-target ampliado para reconocer nodos/objetivos sin alterar el disparo automático ni los controles.
+- Encounter Budget compartido entre enemigos, objetivos, amenazas frontales, obstáculos, props ambientales, Frenesí y eventos del Director.
+- La densidad ambiental de v2.12.0 se reduce dinámicamente durante objetivos/Frenesí y los microeventos respetan el presupuesto compartido.
+- Checkpoints de jefe, replay, entrenamiento y Boss Rush quedan fuera de los miniobjetivos.
+- Guardados v2.12.0 migran a claves v2.12.1; el objetivo planificado y el historial reciente se conservan al guardar/reanudar una horda.
+- Se conserva completa la arquitectura musical de ambiente de mundo + soundtrack de jefe.
+- No se modifican bosses, Tenientes, checkpoint de jefe, poderes/combos, herencias, shield táctico, muerte postboss ni contenido de Mundos 11–20.
