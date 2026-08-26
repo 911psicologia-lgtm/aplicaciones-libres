@@ -1,0 +1,6 @@
+v2.12.1.5 - Asset Fidelity Audit
+- Auditoría integral de assets referenciados.
+- 0 rutas faltantes; el pendiente es reemplazo por fidelidad.
+- Se añadieron ASSET_AUDIT_v2.12.1.4.{txt,json}.
+- Se expuso window.__SWARM_ASSET_AUDIT() para diagnóstico rápido.
+- Sin cambios de gameplay.

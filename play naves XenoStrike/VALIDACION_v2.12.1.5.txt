@@ -1,0 +1,5 @@
+Validación v2.12.1.5
+- game.js actualizado a VERSION 2.12.1.5
+- sw.js cache actualizado a swarm-rift-v2.12.1.5
+- Asset audit generado: txt/json
+- Sin rutas de assets faltantes

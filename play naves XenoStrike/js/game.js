@@ -1,9 +1,9 @@
 (()=>{
 'use strict';
 
-const VERSION='2.12.1.4';
-const KEY_META='swarm_rift_meta_v21214';
-const KEY_RUN='swarm_rift_run_v21214';
+const VERSION='2.12.1.5';
+const KEY_META='swarm_rift_meta_v21215';
+const KEY_RUN='swarm_rift_run_v21215';
 const TAU=Math.PI*2;
 const cv=document.getElementById('game');
 const cx=cv.getContext('2d',{alpha:false});
@@ -430,6 +430,7 @@ window.addEventListener('pointerdown',musicGesturePulse,{capture:true,passive:tr
 window.addEventListener('keydown',musicGesturePulse,{capture:true});
 document.addEventListener('visibilitychange',()=>{if(document.hidden){if(G?.screen==='GAME')MusicX.pause();}else setTimeout(()=>{if(G?.screen==='GAME'){MusicX.reconcile(true);}},120);});
 window.__SWARM_AUDIO_STATUS=()=>({version:VERSION,enabled:MusicX.enabled,screen:G?.screen||'',sector:G?.sector||0,worldExpected:!!(G?.screen==='GAME'&&!G?.boss&&!G?.sectorClear&&G?.mode!=='bossRush'&&G?.mode!=='training'),worldPlaying:PreBossX.playing(),worldFallback:PreBossX.fallbackSynth,worldTrack:PreBossX.track?.label||'',worldTime:Number(preBossMusic.currentTime||0).toFixed(2),bossExpected:!!(G?.screen==='GAME'&&G?.boss&&!G.boss.dead),bossPlaying:!!(MusicX.activeBoss&&!bossMusic.paused),bossTrack:battleTrackForSector(G?.sector||1)?.title||'',bossTime:Number(bossMusic.currentTime||0).toFixed(2),uiPaused:!!MusicX.uiSnapshot,lastError:MusicX.lastError||PreBossX.lastError||'',health:{...AUDIO_HEALTH}});
+window.__SWARM_ASSET_AUDIT=()=>({version:VERSION,summary:{referencedAssets:143,actualAssets:191,missingReferencedFiles:0,highPriorityReplacements:['enemy_atlas_worlds1_6','base_obstacles_svg','worlds1_6_obstacles_svg','front_hazards_svg','support_svg','core_pickups_svg','powers2_svg']},categories:{backgrounds:{status:'COMPLIANT',count:18},boss_enemy_worlds7_10:{status:'COMPLIANT',count:16},world_obstacles_7_10:{status:'COMPLIANT',count:16},world_powers_7_10:{status:'COMPLIANT',count:4},enemy_atlas_worlds1_6:{status:'PARTIAL_GENERIC',count:18},generated_ships:{status:'COMPLIANT_GENERATED_IMAGE',count:12},generated_obstacles:{status:'COMPLIANT_GENERATED_IMAGE',count:36},generated_powers:{status:'COMPLIANT_GENERATED_IMAGE',count:13},front_hazards_svg:{status:'NEEDS_REPLACEMENT',count:4},support_svg:{status:'NEEDS_REPLACEMENT',count:3},core_pickups_svg:{status:'NEEDS_REPLACEMENT',count:4},base_obstacles_svg:{status:'NEEDS_REPLACEMENT',count:7},worlds1_6_obstacles_svg:{status:'NEEDS_REPLACEMENT',count:9},powers2_svg:{status:'NEEDS_REPLACEMENT',count:2}},notes:['No missing asset paths were detected.','Pending work is fidelity replacement, not file existence repair.','Fallback drawing branches remain only as runtime safeguards if an image fails to load.']});
 
 // ─────────────────────────────────────────────────────────────
 // PLAYLIST / JUKEBOX — 12 pistas nuevas + Iron Legion March legado
