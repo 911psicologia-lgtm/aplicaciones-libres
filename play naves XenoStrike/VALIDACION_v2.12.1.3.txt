@@ -1,0 +1,13 @@
+VALIDACIÓN v2.12.1.3
+
+- node --check js/game.js: OK
+- node --check sw.js: OK
+- PREBOSS_DURATION: 8.25 s
+- Duración anterior: 16.5 s
+- Ratio nuevo/anterior: 0.50
+- Cue 1: ~21% del recorrido
+- Cue 2: ~49% de tiempo restante
+- Cue 3: ~20% de tiempo restante
+- PWA: 196 recursos declarados / 0 faltantes
+- Migración v2.12.1.2 → v2.12.1.3: incluida para RUN y META
+- Audio: no se modificaron PreBossX.start, MusicX.onBossAppear ni AudioX.bossIntro

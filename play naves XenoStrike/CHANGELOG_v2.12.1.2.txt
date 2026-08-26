@@ -1,0 +1,38 @@
+SWARM//RIFT — Insecta Siege v2.12.1.2
+COMMANDER WEAPON IDENTITY + BOSS FLOW CLEANUP
+
+1. PRESENTACIÓN DE ENEMIGOS
+- Eliminado el texto “TENIENTE” / “TENIENTE · NÚCLEO” dibujado bajo la entidad.
+- Se conservan barras compactas de HP y stamina por utilidad mecánica.
+
+2. IDENTIDAD DE ARMAS DE MANDO
+- Cada linaje activo dispone de una firma de proyectil propia:
+  1 Avispas: Aguijón, proyectil alargado con estela y aceleración inicial.
+  2 Escarabajos: Caparazón, proyectil hexagonal rotatorio.
+  3 Mantis: Cuchilla, hoja/rombo cortante con estela.
+  4 Polillas: Espora, orbe pulsante con deriva lateral.
+  5 Hormigas: Ferroaguja, punta de colonia / proyectil de forja.
+  6 Langostas: Disco Cinético, anillo rotatorio con rebote en variantes especiales.
+  7 Mosquitos: Gota Hemática, proyectil orgánico con corrección suave de trayectoria.
+  8 Termitas: Nodo de Resina, bloque hexagonal de construcción.
+  9 Libélulas: Lanza Prismática, lanza alargada con núcleo luminoso.
+  10 Cigarras: Onda Sónica, arcos concéntricos abiertos.
+- Los disparos comunes de esbirros conservan su representación previa para aumentar contraste.
+- Los Tenientes heredan la firma balística de su jefe de origen.
+- Los telegraphs del jefe representan la geometría del ataque antes de ejecutarlo.
+
+3. NÚCLEO DE JEFE
+- Eliminada la pantalla BOSS_REWARD / “Núcleo de Jefe”.
+- No se genera el pickup bossCore en nuevas partidas.
+- El postboss entrega directamente créditos, XP, HP, shield, herencia y Fragmento de Evolución.
+- Se mantiene un manejador interno no modal únicamente para tolerar un objeto bossCore efímero procedente de una sesión antigua ya cargada.
+
+4. DIFICULTAD DE JEFES Y TENIENTES
+- Incremento aproximado del 10% de dificultad efectiva sin convertirlos en esponjas de HP.
+- Distribución: +3% HP, +3% stamina, +3% daño, ~2% mayor cadencia de ataques/soporte, +1.5% movilidad y +3% daño de contacto.
+- Se conservan fases mínimas, armadura rompible, núcleo vulnerable, patrones, refuerzos y reglas de checkpoint.
+
+5. COMPATIBILIDAD
+- Save keys v2.12.1.2 con migración desde v2.12.1.1.
+- Sin cambios en mundos 11–20.
+- Sin cambios en Hangar, Wave Objectives, audio, controles, PWA o arquitectura de Boss Rush.

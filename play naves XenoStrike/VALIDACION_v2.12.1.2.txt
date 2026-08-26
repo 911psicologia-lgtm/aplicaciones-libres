@@ -1,0 +1,64 @@
+VALIDACIÓN — SWARM//RIFT v2.12.1.2
+COMMANDER WEAPON IDENTITY + BOSS FLOW CLEANUP
+
+BASE
+- Partida desde v2.12.1.1 Smart Hangar & Survival Economy.
+- VERSION interna: 2.12.1.2.
+- Service Worker: swarm-rift-v2.12.1.2.
+- Migración inmediata desde swarm_rift_meta_v21211 / swarm_rift_run_v21211 confirmada.
+
+SINTAXIS
+- node --check js/game.js: OK.
+- node --check sw.js: OK.
+
+PWA / RECURSOS
+- Recursos declarados en ASSETS: 196.
+- Recursos faltantes: 0.
+
+RUNTIME CHROMIUM
+El entorno bloquea localhost mediante ERR_BLOCKED_BY_ADMINISTRATOR. Para no confundir esa política con un fallo del juego, se ejecutó el mismo index/css/js local inyectado en about:blank mediante Chromium headless.
+- Desktop 1366×768: menú OK, inicio de campaña OK, 0 page errors.
+- Mobile landscape 780×441: menú OK, inicio de campaña OK, require-landscape activo durante combate, 0 page errors.
+- Mobile portrait 390×844: menú vertical OK, 0 page errors.
+- Tablet 1024×768 touch: menú OK, inicio de campaña OK, 0 page errors.
+
+IDENTIDAD BALÍSTICA — PRUEBA RUNTIME
+Se forzó una emisión de mando por cada sector usando el jefe real del sector y se verificó el style generado:
+1 storm -> stinger: OK
+2 titan -> shell: OK
+3 blade -> razor: OK
+4 moth -> spore: OK
+5 queen -> brood: OK
+6 leap -> kinetic: OK
+7 blood -> blood: OK
+8 architect -> resin: OK
+9 odonata -> prism: OK
+10 resonance -> sonic: OK
+Errores de página durante la prueba: 0.
+
+POSTBOSS — PRUEBA RUNTIME
+Se finalizó Atlas Verde mediante harness interno de QA:
+- screen tras finalizeBossKill: GAME.
+- postBossT: activo.
+- pickups: bossCredit ×5, bossXp ×3, heal, shield, heritageToken, fragment.
+- bossCore: AUSENTE.
+- BOSS_REWARD: AUSENTE.
+
+DIFICULTAD DE MANDO
+Factor distribuido, aproximación objetivo +10% de dificultad efectiva:
+- HP +3%.
+- stamina +3%.
+- daño de proyectil +3%.
+- cadencia / timers ~2% más rápidos.
+- movimiento +1.5%.
+- contacto +3%.
+Se verificó que los proyectiles que antes no usaban source multiplier conservan su baseline y reciben solo el incremento nuevo, evitando un buff accidental superior al solicitado.
+
+REGRESIONES EVITADAS
+- No se modificó control directo/auto-fire.
+- No se añadió joystick ni DASH.
+- No se modificó Hangar v2.12.1.1.
+- No se modificaron Wave Objectives / Encounter Budget.
+- No se modificó arquitectura musical.
+- No se modificó checkpoint de jefe, Boss Rush ni progresión por capítulos.
+- No se iniciaron Mundos 11–20.

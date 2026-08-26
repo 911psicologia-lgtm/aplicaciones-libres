@@ -1,0 +1,27 @@
+AUTOAUDIT — SWARM//RIFT v2.12.1.2
+
+[OK] Base v2.12.1.1 preservada.
+[OK] Versión/cache/save keys actualizados a 2.12.1.2.
+[OK] Migración desde v2.12.1.1 presente.
+[OK] Texto “TENIENTE / TENIENTE · NÚCLEO” eliminado bajo la entidad.
+[OK] Barras HP/stamina del Teniente preservadas.
+[OK] 10 firmas visuales de arma de jefe presentes.
+[OK] Tenientes reutilizan la identidad de arma de su jefe de origen.
+[OK] Telegraph genérico reemplazado por anticipación geométrica según arma.
+[OK] Comportamiento diferencial ligero de Aguijón/Espora/Disco/Gota Hemática.
+[OK] Modal BOSS_REWARD eliminado del renderer y del input.
+[OK] No se generan nuevos bossCore.
+[OK] Botín físico postboss mantiene créditos/XP/HP/shield/herencia/fragmento.
+[OK] Compatibilidad defensiva para bossCore efímero antiguo sin modal.
+[OK] Dificultad de jefes y Tenientes aumentada de forma distribuida, no solo HP.
+[OK] Evitado doble escalado de daño por asignar source a proyectiles que antes no lo tenían.
+[OK] node --check game.js.
+[OK] node --check sw.js.
+[OK] 196/196 recursos PWA presentes.
+[OK] Chromium desktop/menu+game sin page errors.
+[OK] Chromium mobile landscape/menu+game sin page errors.
+[OK] Chromium mobile portrait/menu sin page errors.
+[OK] Chromium tablet/menu+game sin page errors.
+[OK] Runtime de 10 identidades balísticas: 10/10.
+[OK] Runtime postboss: sin bossCore y sin BOSS_REWARD.
+[OK] Mundos 11–20 no iniciados.

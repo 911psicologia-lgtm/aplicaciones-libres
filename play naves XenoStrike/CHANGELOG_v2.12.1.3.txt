@@ -1,0 +1,14 @@
+SWARM//RIFT — Insecta Siege v2.12.1.3
+FAST BOSS APPROACH
+
+CAMBIO
+- PREBOSS_DURATION pasa de 16.5 s a 8.25 s, reducción exacta del 50%.
+- Cue 1, Cue 2 y Cue 3 ya no dependen de umbrales absolutos de 3.5/8.0/3.2 s; ahora se calculan como proporciones de preBossMax para conservar ritmo con la nueva duración.
+- No se modifica la reproducción del ambiente de mundo durante el recorrido ni la llamada MusicX.onBossAppear al aparecer el jefe.
+- No se modifica la entrada animada del boss, su dificultad, armas, Tenientes, Hangar, objetivos de horda, checkpoint o economía.
+
+COMPATIBILIDAD
+- Nueva clave de guardado swarm_rift_run_v21213.
+- Migración directa desde swarm_rift_run_v21212.
+- Nueva clave META swarm_rift_meta_v21213 con fallback directo desde swarm_rift_meta_v21212.
+- Caché PWA actualizado a swarm-rift-v2.12.1.3.

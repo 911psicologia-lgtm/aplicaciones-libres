@@ -1,4 +1,4 @@
-SWARM//RIFT — Insecta Siege v2.12.1.1
+SWARM//RIFT — Insecta Siege v2.12.1.3
 ====================================
 
 ESTADO ACTUAL
@@ -9,7 +9,7 @@ ESTADO ACTUAL
 - 3 hordas + jefe por sector, Combat Director, Tenientes y enemigos transversales.
 - Normal / Difícil.
 - 19 poderes, rangos I–V, 13 combos y herencias de jefe.
-- Núcleos de recompensa, reliquias, Hangar, checkpoints y replay.
+- Botín físico postboss, herencias, fragmentos, reliquias, Hangar, checkpoints y replay.
 - Playlist de bandas de jefe y música contextual de arena.
 - PWA offline y controles responsive para PC, tablet y móvil.
 
@@ -18,6 +18,25 @@ CONTROLES
 - Móvil: desliza el dedo directamente sobre la pantalla. No hay joystick ni botón DASH.
 - Disparo y autoapuntado automáticos.
 - Pausa, tienda, música, SFX y fullscreen mediante iconos superiores.
+
+
+NOVEDAD v2.12.1.3 — FAST BOSS APPROACH
+- Antesala final previa al jefe reducida exactamente al 50%: 16,5 s → 8,25 s.
+- Los tres avisos de aproximación se redistribuyen proporcionalmente dentro del nuevo tiempo para evitar solapamientos.
+- Se conserva el ambiente musical del mundo durante la antesala y el cambio ambiente → soundtrack del jefe al aparecer el boss.
+- Se mantienen los pickups de rearmado, setpieces visuales, entrada animada del jefe y todos los sistemas de v2.12.1.2.
+- Guardados y META de v2.12.1.2 se migran de forma directa a v2.12.1.3.
+
+
+NOVEDAD v2.12.1.2 — COMMANDER WEAPON IDENTITY
+- Eliminados los rótulos de texto bajo los Tenientes; permanecen únicamente barras funcionales de HP/stamina.
+- Eliminada la pantalla modal “Núcleo de Jefe”. El cierre postboss continúa directamente con botín físico, herencia y Fragmento de Evolución.
+- Diez firmas balísticas de mando diferenciadas por forma y lectura visual: Aguijón, Caparazón, Cuchilla, Espora, Ferroaguja, Disco Cinético, Gota Hemática, Nodo de Resina, Lanza Prismática y Onda Sónica.
+- Telegraphs de jefe ahora anticipan la geometría de su arma: línea/cono, anillos, pulsos o abanicos según linaje.
+- Conductas ligeras propias: aguijones aceleran, esporas derivan, discos cinéticos rebotan y gotas hemáticas corrigen parcialmente trayectoria.
+- Los Tenientes heredan la firma balística del jefe del mundo anterior.
+- Jefes y Tenientes reciben aproximadamente +10% de dificultad efectiva distribuida entre HP, stamina, daño, cadencia, movilidad y contacto; no se resuelve solo aumentando vida.
+- Se preservan las tres fases obligatorias, ventanas de vulnerabilidad, checkpoint de arena, Boss Rush, audio, Hangar, Wave Objectives y economía.
 
 NOVEDAD v2.12.1.1 — SMART HANGAR & SURVIVAL ECONOMY
 - Hangar rediseñado en tarjetas compactas: icono, nombre corto, descripción mínima, reserva/nivel y coste.
