@@ -1,0 +1,16 @@
+SWARM//RIFT v2.10.0 — AUTOAUDIT
+
+1. Sintaxis JS: OK (node --check).
+2. Manifest JSON: OK.
+3. Recursos PWA registrados: 188.
+4. Recursos PWA faltantes: 0.
+5. Centralización económica: única mutación G.credits += queda dentro de grantCredits().
+6. Recompensa de transición de oleada (Sector 5, ola 2): Normal 94 / Difícil 125 = 1.3298x.
+7. Recompensa base de jefe (Sector 2, sin Hangar): Normal ~823 / Difícil ~1087 = 1.3208x.
+8. XP de jefe con maestría (Sector 2): Normal 360 / Difícil 450 = 1.25x.
+9. Núcleo de jefe: spawn OK, recolección OK, pantalla BOSS_REWARD OK, 2 elecciones OK, reanudación GAME OK.
+10. Prueba navegador: 0 errores JavaScript.
+11. Herencia de jefe preservada para el siguiente sector.
+12. Loot boss reducido a Núcleo + casco + escudo; Boss Rush conserva ritmo rápido.
+13. Reward Ledger interno registra créditos/XP por fuente.
+14. Función expansionRewardScale preparada para sectores >10 sin alterar la economía 1–10.

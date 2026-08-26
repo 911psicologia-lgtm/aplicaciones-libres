@@ -1,0 +1,11 @@
+SWARM//RIFT — Insecta Siege v2.10.0
+
+REWARD & DIFFICULTY ECONOMY
+- Homologación de recompensas Normal/Difícil en transición de oleada, Frenesí, rangos, amenazas frontales, transversales, Tenientes, reliquias, jefes, cierre de campaña y Boss Rush.
+- Núcleo de Jefe reemplaza la nube de 8 monedas + múltiples poderes después de cada boss de campaña/replay.
+- El Núcleo agrupa créditos, XP, recuperación y permite escoger 1 de 2 evoluciones de poder.
+- La herencia del jefe queda asegurada y se activa al comienzo del siguiente sector.
+- Loot secundario del boss reducido a recuperación de casco/escudo para mejorar legibilidad.
+- Reward Ledger interno registra créditos/XP por fuente para autoauditoría.
+- Economía incluye función de escalado suave preparada para sectores >10 sin alterar 1–10.
+- Migración de progreso/checkpoints desde v2.9.0.

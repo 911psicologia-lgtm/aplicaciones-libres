@@ -1,0 +1,6 @@
+SWARM//RIFT v2.11.1
+- Boss endurance curve 1–10 activa.
+- Defensa por tramos activa.
+- Tenientes reforzados y con fase interna.
+- Guardados v2.11.0 migrables.
+- Sintaxis JS y manifest válidos.

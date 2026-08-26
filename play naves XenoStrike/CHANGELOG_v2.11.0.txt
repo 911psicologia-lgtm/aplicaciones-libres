@@ -1,0 +1,13 @@
+SWARM//RIFT — Insecta Siege v2.11.0 — Expansion Architecture
+
+- El motor pasa de un final rígido de 10 sectores a 20 sectores planificados.
+- Capítulo I = sectores 1–10; Capítulo II = sectores 11–20.
+- El sector 10 es final del Capítulo I, no límite técnico de la campaña.
+- Boss Rush data-driven por capítulo; preparado Boss Rush II y Gran Boss Rush de 20.
+- Estadísticas de Boss Rush separadas por capítulo con migración de los récords históricos al Capítulo I.
+- Estadísticas de capítulo separadas de la futura campaña completa de 20 mundos.
+- Selector, HUD y pantallas de victoria usan conteos dinámicos.
+- Curva sectorBalance extrapola de forma acotada para 11–20 y evita clamp a 10.
+- Reliquias usan su registro real en lugar de una lista fija [7,8,9,10].
+- Frecuencia sintetizada de bosses tiene fallback procedural para futuros jefes.
+- Migración de meta/checkpoint desde v2.10.0 y anteriores.

@@ -1,7 +1,7 @@
 {
   "name": "SWARM//RIFT — Insecta Siege",
   "short_name": "SWARM//RIFT",
-  "description": "Auto-shooter responsive de supervivencia a través de 10 sectores y linajes insectoides.",
+  "description": "Auto-shooter responsive de supervivencia a través de capítulos de sectores y linajes insectoides, preparado para 20 mundos.",
   "start_url": "./index.html",
   "scope": "./",
   "display": "fullscreen",

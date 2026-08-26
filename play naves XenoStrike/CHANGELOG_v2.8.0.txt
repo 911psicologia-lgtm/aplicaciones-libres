@@ -1,0 +1,15 @@
+SWARM//RIFT — Insecta Siege v2.8.0
+
+POWER REBALANCE & EVOLUTION
+- Reduce spam automático de poderes a un presupuesto de 4 drops relevantes por sector en Normal y 5 en Difícil.
+- Drops excedentes pasan a Fragmentos de Evolución, escudo o créditos.
+- Cola de poderes reducida de 4 a 3.
+- Extensión de poderes repetidos limitada y con rendimientos decrecientes.
+- Rangos IV y V añadidos (IV desde Sector 8; V en Sector 10).
+- Nuevo poder LÁSER CHISPEANTE.
+- Nuevo poder BIOARMA.
+- Nuevos combos: Tormenta de Arco, Plaga Neural, Simbiosis Carmesí, Red de Láseres, Prisma Fulgurante y Coro Voltaico.
+- Raíl, Tesla y Gravedad obtienen transformaciones funcionales en rangos altos.
+- Escalado automático del arma base reducido mediante rendimientos decrecientes por nivel/sector.
+- Progresión automática de escoltas ralentizada y DPS de apoyo recalibrado.
+- Compatibilidad de guardado desde v2.7.1.

@@ -1,0 +1,7 @@
+Validación prevista v2.10.0
+- Sintaxis JS y manifest.
+- Comparación Normal/Difícil de recompensas directas.
+- Núcleo de jefe: spawn, recolección, pausa, 2 elecciones y reanudación.
+- Herencia preservada.
+- PWA offline sin recursos faltantes.
+- ZIP integrity.

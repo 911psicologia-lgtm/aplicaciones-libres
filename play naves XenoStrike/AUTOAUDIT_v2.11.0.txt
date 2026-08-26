@@ -1,0 +1,44 @@
+AUTOAUDIT — SWARM//RIFT v2.11.0
+==================================
+
+EXPANSION ARCHITECTURE
+- Sectores activos: 10
+- Sectores planificados: 20
+- Capítulo I: 1–10, 10/10 implementados
+- Capítulo II: 11–20, 0/10 implementados
+- Boss Rush Capítulo I: arquitectura 1–10
+- Boss Rush Capítulo II: preparado por datos, bloqueado hasta implementar/derrotar 11–20
+- Gran Boss Rush: preparado, bloqueado hasta implementar y derrotar 20/20
+
+CHECKS
+- OK · version_2_11_0
+- OK · planned_20
+- OK · chapter_1_1_10
+- OK · chapter_2_11_20
+- OK · boss_rush_dynamic
+- OK · grand_rush_prepared
+- OK · balance_no_clamp_10
+- OK · menu_no_world_over_10
+- OK · no_fixed_10_jefes
+- OK · no_fixed_boss_kill_10
+- OK · relics_dynamic
+- OK · migration_v2100
+
+BALANCE FUTURO
+- sectorBalance(11): enemyHp 1.158 · enemyDmg 1.235 · bossHp 1.195 · reward 1.29
+- sectorBalance(20): enemyHp 1.320 · enemyDmg 1.460 · bossHp 1.420 · reward 1.92
+- Rango máximo sector 20: V (hasta diseñar evoluciones posteriores por contenido)
+
+PWA
+- Recursos registrados: 188
+- Recursos faltantes: 0
+
+REFERENCIAS FIJAS A SECTOR 10 QUE PERMANECEN INTENCIONALMENTE
+Estas NO son límites de arquitectura; son mecánicas exclusivas del contenido actual del Mundo 10:
+- L307: if(sector===10)return trackById('boss12');
+- L1085: if(!forceForm&&G.sector===10&&Math.random()<.18){origin=SECTORS[rndI(0,8)];}
+- L1087: if(!forceForm&&G.sector>=3){const shipChance=G.sector===10?.08:(0.08+Math.max(0,G.sector-3)*0.025);if(Math.random()<shipChance)shipSpawn=true;}
+
+RESULTADO
+- Bloqueadores rígidos de expansión auditados: 0 en selector/campaña/Boss Rush/balance/reliquias.
+- El contenido de los sectores 11–20 aún debe definirse antes de activarlos.

@@ -1,0 +1,6 @@
+Validación v2.9.0
+- node --check js/game.js: OK
+- manifest JSON: OK
+- prueba runtime bosses 1–10: OK
+- prueba fase 3 bosses 1–10: OK
+- recursos PWA faltantes: 0

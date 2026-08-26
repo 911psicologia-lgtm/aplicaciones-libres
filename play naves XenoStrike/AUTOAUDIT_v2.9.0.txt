@@ -1,0 +1,44 @@
+SWARM//RIFT — AUTOAUDITORÍA v2.9.0
+
+Pruebas estáticas
+- VERSION=2.9.0: OK
+- 10 patrones con tres nombres de fase: OK
+- pipeline de muerte diferida killBoss -> finalizeBossKill: OK
+- armadura/núcleo/transición: OK
+- peligros de arena disponibles para los 10 patrones: OK
+- movimientos signature añadidos a storm/titan/blade/moth/queen/leap: OK
+- Service Worker: 188 recursos registrados, 0 faltantes
+
+Prueba runtime forzada — sectores 1 a 10
+- fase 1 -> fase 2: 10/10 OK
+- transición de fase > 0 s: 10/10 OK
+- núcleo abierto tras transición: 10/10 OK
+- núcleo abierto tras ataque especial: 10/10 OK
+- secuencia dying activada: 10/10 OK
+- muerte final + sectorClear: 10/10 OK
+- errores JavaScript: 0
+
+HP NORMAL aproximado v2.9.0
+1 Imperatrix Vespa: 3,750
+2 Atlas Verde: 5,955
+3 Cortex Razor: 8,652
+4 Vela Noctis: 11,983
+5 Regina Ferrum: 16,089
+6 Colossus Hop: 20,951
+7 Sanguina Prime: 27,237
+8 Architect Zero: 34,653
+9 Auralis: 43,306
+10 Resonator Omega: 53,767
+
+Modelo de daño
+- fuera de ventana: 0.84x daño normal
+- núcleo abierto: 1.36x daño normal
+- transición de fase: 0.08x daño normal
+- Bomba Rift conserva su lógica porcentual propia
+- duración base núcleo abierto tras transición: 2.15 s + 0.15 s por fase
+- muerte escénica: 2.25 s
+
+Runtime fase 3
+- 10/10 patrones ejecutados durante ~4.1 s
+- arenaCd se rearmó en los 10 casos
+- errores JavaScript: 0

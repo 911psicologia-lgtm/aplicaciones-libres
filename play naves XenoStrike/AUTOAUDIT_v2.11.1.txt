@@ -1,0 +1,35 @@
+AUTOAUDIT v2.11.1 — Boss Endurance Pass
+
+Comparación de resistencia efectiva frente a v2.11.0 (armadura cerrada):
+Sector 1: HP x1.75 | resistencia efectiva cerrada ~x1.99 | resistencia durante núcleo ~x1.92
+Sector 2: HP x1.82 | resistencia efectiva cerrada ~x2.07 | resistencia durante núcleo ~x2.00
+Sector 3: HP x1.90 | resistencia efectiva cerrada ~x2.16 | resistencia durante núcleo ~x2.08
+Sector 4: HP x1.98 | resistencia efectiva cerrada ~x2.25 | resistencia durante núcleo ~x2.17
+Sector 5: HP x2.08 | resistencia efectiva cerrada ~x2.36 | resistencia durante núcleo ~x2.28
+Sector 6: HP x2.18 | resistencia efectiva cerrada ~x2.62 | resistencia durante núcleo ~x2.51
+Sector 7: HP x2.30 | resistencia efectiva cerrada ~x2.76 | resistencia durante núcleo ~x2.65
+Sector 8: HP x2.42 | resistencia efectiva cerrada ~x2.90 | resistencia durante núcleo ~x2.79
+Sector 9: HP x2.54 | resistencia efectiva cerrada ~x3.05 | resistencia durante núcleo ~x2.93
+Sector 10: HP x2.68 | resistencia efectiva cerrada ~x3.22 | resistencia durante núcleo ~x3.09
+
+Tenientes:
+Normal: HP = 42% del boss actual; armadura 0.82 => resistencia efectiva aproximada 51% del boss.
+Difícil: HP = 50% del boss actual; armadura 0.78 => resistencia efectiva aproximada 64% del boss.
+Segunda fase interna del Teniente al 52% HP, con mayor cadencia y patrón especial.
+
+Ataque:
+Jefes 1–5: proyectiles propios x1.10.
+Jefes 6–10: proyectiles propios x1.18.
+Tenientes: proyectiles propios x1.16.
+
+Fases:
+Jefes 1–5: +1 refuerzo adicional en transición.
+Jefes 6–10: +2 refuerzos adicionales en transición.
+Ventana de núcleo: 1.90s base (1–5), 1.65s base (6–10), más 0.10s por fase.
+
+Entrenamiento: bossEnduranceMult desactivado para conservar utilidad pedagógica del modo.
+
+Validaciones estáticas:
+- node --check js/game.js: OK
+- manifest JSON: OK
+- migración meta/run desde v2.11.0: incluida

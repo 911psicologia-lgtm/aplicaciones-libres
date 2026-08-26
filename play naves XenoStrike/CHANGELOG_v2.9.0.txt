@@ -1,0 +1,12 @@
+SWARM//RIFT — Insecta Siege v2.9.0 — Boss Standardization
+
+- Los 10 jefes usan ahora un estándar común de tres fases con nombres propios.
+- Los jefes 1–6 reciben movimiento característico y peligros de arena propios.
+- Armadura basal: el daño normal fuera de ventanas vulnerables se reduce.
+- Núcleo abierto: tras transiciones de fase y ataques especiales existe una ventana breve de daño aumentado.
+- Transición de fase real: ~1.05 s de mutación, VFX, presión y daño casi bloqueado.
+- Daño corporal visible por etapas (70%, 36%, 15%) mediante grietas, núcleo y efectos críticos.
+- Muerte animada de ~2.25 s antes de entregar recompensas y liberar la arena.
+- HP de jefes +12% frente a v2.8.0 para compensar la nueva progresión de poderes sin recurrir a inflación extrema.
+- Manual actualizado para explicar las ventanas de núcleo.
+- Compatibilidad de guardado desde v2.8.0.

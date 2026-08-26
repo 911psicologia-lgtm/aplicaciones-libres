@@ -1,0 +1,11 @@
+SWARM//RIFT — Insecta Siege v2.11.1 — Boss Endurance Pass
+
+- Jefes 1–5: incremento fuerte y progresivo de resistencia.
+- Jefes 6–10: resistencia superior y escalada más agresiva.
+- Armadura cerrada reforzada; núcleos abiertos siguen premiando precisión pero con menor burst.
+- Más refuerzos en transiciones de fase.
+- Tenientes: 42% de HP del jefe actual en Normal y 50% en Difícil, además de armadura propia.
+- Tenientes con segunda fase interna, mayor cadencia y mejor recompensa.
+- Daño de proyectiles de jefes/tenientes aumentado de forma controlada.
+- Entrenamiento conserva el endurance anterior para no convertirse en muro de práctica.
+- Compatibilidad de progreso/checkpoints desde v2.11.0.

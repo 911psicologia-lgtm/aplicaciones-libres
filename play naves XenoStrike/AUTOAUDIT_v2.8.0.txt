@@ -1,0 +1,37 @@
+SWARM//RIFT — AUTOAUDITORÍA v2.8.0
+
+ESTADO TÉCNICO
+- node --check js/game.js: OK
+- Poderes registrados: 19
+- Combos registrados: 13
+- Slots activos: 2
+- Cola máxima: 3 (antes 4)
+- Rango máximo Sector 10: V
+- Drops automáticos relevantes por sector: 4 Normal / 5 Difícil
+- Umbral automático Sector 10 Horda 3: 23 bajas
+- Recursos PWA listados: 188
+- Recursos PWA faltantes: 0
+
+BALANCE AUTOAUDITADO
+- Multiplicador arma nivel 20 + sector 10 antiguo aprox.: 3.654x
+- Multiplicador arma nivel 20 + sector 10 v2.8.0 aprox.: 2.324x
+- Reducción del escalado automático en ese punto: 36.4%
+- Extensión máxima temporal antigua: 3.36x duración base
+- Extensión máxima v2.8.0 Rango V: 2.09x duración base
+- Reducción del techo de duración: 37.8%
+- Drones: quinto dron automático pasa de nivel 14 a nivel 18; cadencia máxima reducida.
+
+CAMBIOS FUNCIONALES
+- Rangos IV/V habilitados: Sector 8–9 IV; Sector 10 V.
+- Raíl IV/V: trayectorias múltiples con daño distribuido.
+- Tesla IV/V: descarga terminal de área.
+- Gravedad IV/V: limpieza parcial de proyectiles.
+- Láser Chispeante: haz automático con salto entre blancos.
+- Bioarma: infección; enemigos infectados propagan daño al morir.
+- Fragmentos de evolución sustituyen drops de poder excedentes.
+
+MIGRACIÓN
+- Meta y checkpoints v2.7.1 y anteriores permanecen recuperables.
+
+FALTANTES PWA
+NINGUNO
