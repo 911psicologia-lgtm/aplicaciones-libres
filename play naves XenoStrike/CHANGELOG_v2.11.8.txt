@@ -1,0 +1,7 @@
+SWARM//RIFT — Insecta Siege v2.11.8
+
+- Aproximación al jefe enriquecida con setpieces pseudo-3D y cues escalonados.
+- Entrada del jefe en tres etapas con banner discreto de identidad.
+- Feedback de shield reforzado: impacto, estado crítico y ruptura.
+- Zona postjefe con pulsos visuales de magnetismo durante la recolección.
+- Mantiene pacing, stamina, Tenientes, checkpoints y balance de v2.11.7.

@@ -1909,3 +1909,8 @@ body.game-mode .hud-actions .music-quick-btn.muted::after{display:none}
   body.game-mode .hud{right:140px!important}
   body.game-mode .hud-actions .music-quick-btn{width:28px!important;min-width:28px!important;height:26px!important}
 }
+
+/* v2.7.1 — nave base y mini escoltas */
+
+.avatar-symbol.ship-asset{overflow:hidden;display:flex;align-items:center;justify-content:center;min-height:72px;background:radial-gradient(circle,rgba(131,234,255,.10),transparent 68%)}
+.avatar-symbol.ship-asset img{width:88px;height:88px;max-width:96%;object-fit:contain;filter:drop-shadow(0 0 10px rgba(131,234,255,.55))}

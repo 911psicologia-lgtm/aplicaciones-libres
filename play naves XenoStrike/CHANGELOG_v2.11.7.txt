@@ -1,0 +1,8 @@
+SWARM//RIFT — Insecta Siege v2.11.7
+
+- Ritmo mínimo por fase para los diez jefes: evita saltos instantáneos de fase por DPS acumulado.
+- Soportes de jefe por linaje y patrones de entrada diferenciados.
+- Sinergia Teniente/Jefe: mientras el Teniente vive refuerza la resistencia cerrada del jefe; al caer abre el núcleo del jefe.
+- Shield táctico de transición: prioriza jugadores realmente bajos de escudo.
+- HUD de jefe informa discretamente cuando una fase mantiene resistencia adaptativa.
+- Mantiene checkpoint de derrota al 50% y recompensa completa en primera superación.

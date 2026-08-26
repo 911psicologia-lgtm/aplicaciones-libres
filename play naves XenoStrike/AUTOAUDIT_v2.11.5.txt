@@ -1,0 +1,24 @@
+AUTOAUDIT v2.11.5
+
+{
+  "service_worker_resources": 196,
+  "missing_resources": [],
+  "ambient_files": 8,
+  "ambient_durations": {
+    "preboss_03_rift.mp3": 109.99,
+    "preboss_02_toxic.mp3": 68.16,
+    "preboss_01_rust.mp3": 44.28,
+    "preboss_block2_05_08.mp3": 81.48,
+    "preboss_09_odonata.mp3": 64.99,
+    "preboss_10_resonance.mp3": 89.62,
+    "preboss_04_nocturne.mp3": 88.82,
+    "preboss_alt_block1.mp3": 48.65
+  },
+  "world1_hp_multiplier_vs_v2114": 1.383,
+  "world1_closed_damage_multiplier": 0.515,
+  "world1_effective_closed_resistance_vs_v2114": 1.99,
+  "preboss_visual_seconds": 16.5
+}
+
+Runtime inline test: 0 page errors; Nueva campaña -> GAME; ambient src = assets/ambient/preboss_01_rust.mp3; music control label = ambiente de mundo + batalla de jefe.
+Parasite Orb rendering: realistic PNG source IMG.generatedPowers.gravity.

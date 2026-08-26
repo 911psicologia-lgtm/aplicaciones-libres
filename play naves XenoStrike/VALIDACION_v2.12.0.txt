@@ -1,0 +1,6 @@
+VALIDACIÓN v2.12.0
+- Capa ambiental realista activa durante hordas.
+- Microeventos de mundo con cooldown y presupuesto por oleada.
+- Frenesí incrementa actividad visual, no spawn permanente.
+- Shield de alivio condicionado por presión y estado real del jugador.
+- Móvil protegido por límites de props y partículas.

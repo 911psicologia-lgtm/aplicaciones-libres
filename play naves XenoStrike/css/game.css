@@ -53,3 +53,9 @@ body{font-family:Inter,ui-sans-serif,system-ui,-apple-system,Segoe UI,Roboto,Ari
 body:not(.require-landscape) #rotateGate{display:none!important}
 
 @media (orientation:portrait) and (max-width:700px){.top-actions{max-width:184px}.top-actions button{width:32px;height:30px}.gate-card{width:min(92vw,420px)}}
+/* v2.11.9 · Estado musical visible sin añadir paneles invasivos */
+.music-btn[data-music-state="AMBIENTE"],.music-btn[data-music-state="AMBIENTE · RESPALDO"]{border-color:rgba(120,238,255,.72);box-shadow:0 0 14px rgba(120,238,255,.30),inset 0 0 12px rgba(120,238,255,.07)}
+.music-btn[data-music-state="AMBIENTE"] img{filter:invert(1) brightness(1.55) drop-shadow(0 0 4px rgba(120,238,255,.95))}
+.music-btn[data-music-state="JEFE"]{border-color:rgba(255,208,103,.82);box-shadow:0 0 18px rgba(255,170,70,.34),inset 0 0 14px rgba(255,208,103,.08)}
+.music-btn[data-music-state="JEFE"] img{filter:invert(1) brightness(1.65) drop-shadow(0 0 5px rgba(255,190,80,.95));animation-duration:.58s}
+.music-btn[data-music-state="JEFE · REINTENTO"]{border-color:rgba(255,115,136,.72);box-shadow:0 0 14px rgba(255,90,112,.30)}

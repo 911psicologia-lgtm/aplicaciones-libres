@@ -1,0 +1,23 @@
+RIZOMA ZOMBIE STRIKE — VALIDACIÓN v2.8.0
+
+OK	Versión núcleo 2.8.0
+OK	Título HTML M15 v2.8.0
+OK	Manifest v2.8.0
+OK	Campaña declara 15 mundos
+OK	Mapa M15 registrado
+OK	Guardián Vermidrax registrado
+OK	Peristalsis poder registrado
+OK	Vermis Carapace registrada
+OK	Forma Vermis usa casco limpio
+OK	Carapaza orgánica procedural
+OK	Sistema frontal activo M15
+OK	Cazas frontales M15 sin impacto prematuro
+OK	Boss M15 contracción y patrones
+OK	Boss M15 reduce escala por fase
+OK	Narrativa M14→M15→M16
+OK	Referencias de assets completas	394 referencias; faltantes=0
+OK	Paquete visual M15 completo	22 recursos requeridos; faltantes=[]
+OK	Assets heredados v2.7.1 intactos	386 comparados; modificados=[]
+
+LIMITACIÓN DE ENTORNO
+La prueba Chromium/Playwright fue intentada por file:// y por servidor localhost, pero ambas navegaciones fueron bloqueadas por ERR_BLOCKED_BY_ADMINISTRATOR. Por ello no se declara una prueba interactiva física no realizada.

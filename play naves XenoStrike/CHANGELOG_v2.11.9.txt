@@ -1,0 +1,16 @@
+SWARM//RIFT — Insecta Siege v2.11.9
+AUDIO RELIABILITY + WORLD MUSIC DIRECTOR
+
+- Reproductor ambiental reforzado para navegador móvil.
+- Cada gesto real puede recuperar un play() bloqueado por autoplay.
+- Reintento automático tras volver de background/pestaña oculta.
+- Preload del ambiente y de la pista del jefe desde el sector actual.
+- Monitor interno __SWARM_AUDIO_STATUS para diagnóstico de reproducción.
+- Fallback sintetizado se reemplaza por el MP3 real en el siguiente gesto válido.
+- Arreglado fade ambiente -> boss: el mezclador ya no cancela el fade de salida.
+- Arreglados AbortError benignos del prime() para que no aparezcan como fallo real.
+- Mundos 5-8 usan segmentos reales del bloque ambiental compartido y vuelven a su propio inicio al hacer loop.
+- Los ambientes con offset vuelven a su offset, no al segundo 0 del archivo.
+- El ambiente sube discretamente durante Frenesí y aproximación al jefe.
+- Botón musical diferencia visualmente AMBIENTE / JEFE / REINTENTO.
+- Migración de guardados desde v2.11.8 y anteriores.

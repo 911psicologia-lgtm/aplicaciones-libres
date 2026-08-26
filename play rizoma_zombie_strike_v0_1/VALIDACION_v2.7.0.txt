@@ -1,0 +1,24 @@
+VALIDACIÓN v2.7.0 — MUNDO 14 · ESTRELLA MORIBUNDA
+Fecha: 2026-08-25
+
+OK	Referencias literales de assets	370 referencias; faltantes=0
+OK	Paquete dedicado M14	22 archivos
+OK	Apertura de imágenes M14	errores=0
+OK	Transparencia/recorte PNG M14	incidencias=0
+OK	Fondos M14	[(1920, 1080), (1920, 1080)]
+OK	Identidad canónica M14	ausentes=[]
+OK	Audio M14 provisional	sin archivo externo; procedural configurado
+OK	Tienda pausa/restaura estado	regla encontrada en código
+OK	Bomba Omega canónica	100% menores / 45% medios / 25% élites / <=8% Guardián
+OK	Orientación PWA	landscape-primary
+OK	Versionado v2.7.0	game/index/manifest/sw
+OK	Preservación de recursos v2.6.0 fuera del núcleo editado	440 archivos comparados; cambiados=0; faltantes=0
+OK	M15–M20 no falsamente implementados	directorios dedicados encontrados=[]
+OK	Progresión M14/M15	M14 entra en MAPS; M15 permanece señal futura
+OK	Sintaxis JavaScript	node --check js/game.js
+OK	Manifest JSON	python -m json.tool manifest.json
+
+LIMITACIÓN DE ENTORNO
+Chromium headless no completó una sesión automatizada estable dentro del contenedor de construcción; no se afirma una prueba interactiva de navegador que no ocurrió. La validación runtime final debe repetirse en dispositivo/escritorio real, especialmente touch, orientación, HUD y ritmo del jefe.
+
+INTEGRIDAD DEL ZIP FINAL: OK (unzip -t ejecutado tras el empaquetado final).

@@ -1,0 +1,30 @@
+RIZOMA ZOMBIE STRIKE v2.8.2 — VALIDACIÓN AMBIENT BLOCKS
+
+ASIGNACIÓN
+M1-M4  -> assets/audio/ambient_block1_worlds1_4.mp3
+M5-M8  -> assets/audio/ambient_block2_worlds5_8.mp3
+M9-M12 -> assets/audio/ambient_block3_worlds9_12.mp3
+M1 fallback -> assets/audio/world1_ambient_nucleo_meteorico.mp3
+M13-M15 -> ambiente procedural hasta recibir bloque/pista explícita.
+
+ANÁLISIS DE AUDIO RECIBIDO
+Block 1: 122.4135 s | 48 kHz | estéreo | RMS aprox -13.76 dBFS | volumen juego 0.13
+Block 2: 107.9600 s | 48 kHz | estéreo | RMS aprox -18.82 dBFS | volumen juego 0.23
+Block 3: 72.3200 s  | 48 kHz | estéreo | RMS aprox -16.99 dBFS | volumen juego 0.19
+W1 específico: 229.2000 s | 48 kHz | estéreo | RMS aprox -12.61 dBFS | fallback 0.11
+
+HASH DE LOS ARCHIVOS DE BLOQUE
+Block 1: 56a93cc4b2295c7b5250be7c98e01511c5dd876666c2e7fd4360766da56f7c1d
+Block 2: de2e515273efb584264a5c245e24a8cd3079d124ccb3e39e4b804bd93000e512
+Block 3: c6863421cf3e565f7f413415c8d3ddc3261c2e788d3554d75d2847bef1761a58
+
+COMPROBACIONES
+[OK] game.js node --check
+[OK] 390 referencias de assets / 0 faltantes
+[OK] archivos MP3 copiados sin recomprimir
+[OK] mismos IDs de bloque para evitar instancias duplicadas innecesarias
+[OK] música ambiental activa durante combate normal/antesala
+[OK] música de Guardián mantiene prioridad al entrar al jefe
+[OK] reintento de audio por interacción conservado de v2.8.1
+[OK] 504 archivos heredados sin modificación
+[OK] M13-M15 no reciben una pista mal identificada

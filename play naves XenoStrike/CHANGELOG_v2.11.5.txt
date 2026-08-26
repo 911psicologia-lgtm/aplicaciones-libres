@@ -1,0 +1,10 @@
+SWARM//RIFT — Insecta Siege v2.11.5
+
+- Los 8 fondos ambientales ahora suenan durante TODO el recorrido jugable previo al jefe, no solo durante la transición final.
+- La aproximación visual al jefe pasa a 16.5 s y mantiene el mismo ambiente hasta el fade al soundtrack del boss.
+- Aproximación enriquecida con restos, naves y elementos visuales reutilizados de assets realistas.
+- Parasite Orb deja de dibujarse como retícula vectorial: usa un asset realista.
+- Fragmentos de evolución dejan de depender del placeholder SVG genérico.
+- Mundo 1 se convierte en prototipo de boss avanzado: Imperatrix Vespa más resistente, más móvil, más refuerzos y más presión.
+- Frenesí y transiciones de fase refuerzan la disponibilidad de shield de forma condicionada, sin invulnerabilidad gratuita.
+- Feedback visual al agotarse y recoger escudo.

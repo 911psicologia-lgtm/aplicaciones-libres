@@ -1,0 +1,17 @@
+SWARM//RIFT — Insecta Siege v2.11.6
+
+CHECKPOINT DE DERROTA EN JEFE
+- Si la nave cae mientras un jefe está activo, se guarda automáticamente un checkpoint persistente de ese jefe.
+- Reintento desde 50% de vida del jefe.
+- Conserva dificultad, puntuación, créditos, XP, nivel, rangos de poderes, cola y herencia de la corrida.
+- El jugador reaparece con 72% HP y 55% Shield para evitar un reinicio condenado.
+- Este checkpoint de primera derrota NO aplica la penalización de recompensa de un replay voluntario.
+- Al derrotar finalmente al jefe, el checkpoint de derrota se elimina.
+- Menú y pantalla de derrota muestran RETOMAR/REINTENTAR JEFE 50% cuando corresponde.
+
+ESTANDARIZACIÓN DE RESISTENCIA 1–10
+- Stamina/armadura rompible extendida de Imperatrix a los diez jefes.
+- Cada sector escala stamina, movilidad, duración de apertura de núcleo, cadencia y refuerzos.
+- Desde fase 2, jefes 2–10 llaman refuerzos propios de su linaje.
+- Fase 3 incrementa número de apoyos y presión de proyectiles.
+- Los Tenientes reciben stamina propia, ruptura de armadura y ventana de núcleo.

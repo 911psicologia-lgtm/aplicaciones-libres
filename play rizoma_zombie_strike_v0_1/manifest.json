@@ -1,7 +1,7 @@
 {
-  "name": "Zombie Strike: Apocalyptic Starfall Odyssey",
-  "short_name": "Zombie Strike",
-  "start_url": "./index.html?v=2.6.0",
+  "name": "Rizoma Zombie Strike · Mundos 1–15",
+  "short_name": "Rizoma Z Strike",
+  "start_url": "./index.html?v=2.8.0",
   "scope": "./",
   "display": "fullscreen",
   "display_override": [

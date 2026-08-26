@@ -1,0 +1,15 @@
+AUTOAUDIT v2.11.6
+
+version_2116: OK
+meta_migrates_2115: OK
+boss_loss_save: OK
+boss_loss_retry: OK
+full_reward_loss: OK
+boss_cp_menu: OK
+boss_pressure_10: OK
+lieutenant_stamina: OK
+generic_boss_stamina: OK
+generic_support: OK
+
+PWA resources: 196
+Missing: 0

@@ -1,0 +1,32 @@
+VALIDACIÓN v2.7.1 — MUNDO 1 REIMAGINADO + SISTEMA FRONTAL + M13 RESTAURADO
+
+Base: Rizoma Zombie Strike v2.7.0 — Mundo 14 · Estrella Moribunda
+
+OK  Versión JS: 2.7.1
+OK  node --check js/game.js
+OK  manifest.json válido
+OK  GAME_ASSET_SOURCES: 345 entradas · 0 faltantes
+OK  Referencias estáticas en JS/HTML/CSS/manifest: 371 · 0 faltantes
+OK  Fénix RZ-1: PNG transparente
+OK  Wingman RZ-1 / RZ-2: PNG transparentes
+OK  ID `explorador` conservado para compatibilidad de partidas
+OK  Director frontal activo en Mundo 1
+OK  z lejano = 1.0 · escala inicial aproximada = 0.10–0.13
+OK  Curva de escala no lineal: pow(1-z, 2.2)
+OK  z cercano = 0.15 · escala de meteorito ≈ 1.123
+OK  Deriva horizontal/vertical y trayectorias fixed / predict / nearMiss
+OK  Telegraph discreto por retícula/línea y señal sonora
+OK  Disparos del jugador contra amenazas frontales
+OK  Colisión física condicionada a `impact` y solo en tramo final de z
+OK  Cazas y élites frontales pueden convertir a enemigo 2D conservando HP proporcional
+OK  Premios por destrucción/rescate y bonificación por destrucción temprana
+OK  Pooling de amenazas frontales
+OK  Límite frontal: móvil 2 · tablet 3 · PC hasta 4
+OK  Mundo 13: fondos degradados sustituidos por fondos limpios sin banda naranja ni columnas geométricas
+OK  Mundo 13: `planet_1/planet_2` excluidos del pool de hazards
+OK  Mundo 13: tamaño visual de hazards reducido y acotado
+OK  Mundo 14: 22/22 assets exactamente preservados respecto de v2.7.0
+OK  464 archivos heredados permanecen byte por byte iguales respecto de v2.7.0
+
+NOTA DE QA RUNTIME
+El entorno de contenedor no logró cerrar de forma fiable una sesión Chromium headless para una prueba interactiva completa. Por ello no se declara una validación táctil física en dispositivo real. Se realizaron validación sintáctica, integridad de assets, reglas de colisión/profundidad, compatibilidad de guardado y comparación de hashes.

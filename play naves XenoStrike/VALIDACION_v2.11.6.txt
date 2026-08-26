@@ -1,0 +1,8 @@
+Validación v2.11.6
+- node --check js/game.js: OK
+- Checkpoint automático de jefe: código presente y persistente en META.
+- Diferenciación checkpoint loss/replay: presente.
+- Recompensa completa en checkpoint de pérdida: replay se evalúa solo cuando bossCheckpointKind === 'replay'.
+- Perfiles de presión de boss: 10 sectores definidos.
+- Stamina de Teniente: implementada.
+- Migración desde v2.11.5: activa.

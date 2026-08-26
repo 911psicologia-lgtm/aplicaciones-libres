@@ -1,0 +1,10 @@
+VALIDACIÓN v2.11.5
+- node --check js/game.js: OK
+- Nueva campaña runtime inline: 0 errores JS
+- Fondo ambiental Mundo 1 asignado al iniciar sector: OK
+- 8 archivos MP3 ambientales: ffprobe OK
+- Aproximación visual: 16.5 s + setpieces realistas + shield/loot de preparación
+- Parasite Orb procedural sustituido por asset PNG realista
+- Shield: feedback de recogida y agotamiento
+- Imperatrix: endurance, armor/stamina, movilidad, escoltas y presión reforzadas
+- Service Worker: recursos auditados y 0 faltantes

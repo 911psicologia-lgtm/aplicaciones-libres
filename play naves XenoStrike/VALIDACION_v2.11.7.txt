@@ -1,0 +1,8 @@
+Validación v2.11.7
+- JS: OK.
+- 10/10 bosses transicionan F1→F2→F3 sin saltos.
+- Phase pacing activo salvo entrenamiento.
+- Soportes de linaje diferenciados.
+- Teniente abatido abre núcleo del jefe.
+- Checkpoint de derrota v2.11.6 preservado.
+- Ambientes de mundo y soundtracks preservados.

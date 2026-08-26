@@ -1,0 +1,34 @@
+AUTOAUDIT v2.11.8 — Boss Encounter Presentation Pass
+
+1. Sintaxis
+- node --check js/game.js: OK.
+
+2. Aproximación al jefe
+- 3 cues escalonados: corredor final, señal biológica y arena fijada.
+- Setpieces reales con profundidad pseudo-3D y escalado por aproximación.
+- Sin hitboxes añadidas: son enriquecimiento visual, no daño gratuito.
+
+3. Entrada del jefe
+- Entrada en 3 etapas.
+- Banner discreto con familia + nombre.
+- El jefe no dispara mientras completa la entrada.
+- Prueba runtime: arrivalStage=3 y banner=IMPERATRIX VESPA.
+
+4. Shield
+- Impacto absorbido genera onda y feedback sonoro.
+- Aviso ESCUDO CRÍTICO bajo 22%.
+- Recolección de shield rearma el aviso al superar 42%.
+- Prueba runtime: shield 18→8 activa estado crítico.
+
+5. Postjefe
+- Mantiene zona segura y auto-recolección.
+- Desde el segundo 4 se añaden pulsos visuales de magnetismo.
+
+6. Regresión
+- Pacing, stamina, Tenientes, checkpoint por derrota y recompensas no modificados.
+- Migración desde v2.11.7 incluida.
+- Prueba instrumentada: 0 errores JavaScript.
+
+7. PWA
+- Recursos registrados: 196.
+- Recursos faltantes: 0.

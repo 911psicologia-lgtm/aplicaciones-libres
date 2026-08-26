@@ -1,0 +1,6 @@
+VALIDACIÓN v2.11.8
+- JavaScript: OK
+- Boss arrival runtime: OK
+- Shield critical runtime: OK
+- PWA: 196 recursos, 0 faltantes
+- Compatibilidad de guardado desde v2.11.7

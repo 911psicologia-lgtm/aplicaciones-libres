@@ -1,0 +1,10 @@
+SWARM//RIFT — Insecta Siege v2.12.0
+
+WORLD DYNAMICS + VISUAL DENSITY
+- Nueva capa de props ambientales sin hitbox usando assets realistas existentes.
+- Microeventos de mundo: batalla lejana, corredor de salvamento, cápsula de escudo, lluvia de restos y escuadrón fantasma.
+- Los microeventos no sustituyen al Combat Director y tienen presupuesto por oleada.
+- Frenesí incrementa temporalmente actividad visual del fondo sin multiplicar enemigos de forma permanente.
+- Apoyo táctico de shield limitado a una vez por oleada cuando la presión es alta y el escudo está crítico.
+- Límites de props/partículas específicos para móvil.
+- No se modifican HP de jefes, economía principal ni sistema musical v2.11.9.

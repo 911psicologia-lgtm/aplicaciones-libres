@@ -1,0 +1,22 @@
+VALIDACIÓN v2.11.9
+
+AUDIO FÍSICO
+- 8 MP3 ambientales: ffprobe OK.
+- 12 MP3 de boss + Iron Legion March: ffprobe OK.
+- Total MP3 auditados: 21.
+
+PWA
+- Recursos declarados: 196.
+- Recursos faltantes: 0.
+
+RUNTIME AUDIO (Chromium, política autoplay=user-gesture-required)
+- Click Nueva campaña -> ambiente Mundo 1: PLAYING.
+- currentTime ambiente avanzó ~0.91 s durante una espera de ~0.90 s.
+- spawn Imperatrix -> ambiente: STOPPED.
+- Iron Legion March: PLAYING.
+- currentTime boss avanzó ~0.91 s durante una espera de ~0.90 s.
+- Fallback usado en prueba final: NO.
+- Errores JavaScript: 0.
+
+SINTAXIS
+- node --check js/game.js: OK.

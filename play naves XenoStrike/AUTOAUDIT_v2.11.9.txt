@@ -1,0 +1,42 @@
+AUTOAUDITORÍA SWARM//RIFT v2.11.9
+
+OBJETIVO
+Verificar que las canciones de fondo no solo existan, sino que efectivamente entren en los estados correctos del juego.
+
+1. AMBIENTE DE MUNDO
+- Debe esperarse durante GAME, sin boss, sin sectorClear, fuera de Training/Boss Rush.
+- Preload al entrar al sector: OK.
+- Prime por gesto real: OK.
+- Reintento por pointerdown/keydown: OK.
+- Reanudación al volver de visibilitychange: OK.
+- Fallback sintetizado si el navegador bloquea el MP3: OK.
+- Sustitución del fallback por MP3 real en próximo gesto: OK.
+
+2. SEGMENTOS AMBIENTALES
+- Mundo 5: 0-19 s del bloque 2.
+- Mundo 6: 19-38 s.
+- Mundo 7: 38-57 s.
+- Mundo 8: 57-80.9 s.
+- Difícil/replay mundos 1-4: segmentos de 10 s del bloque alternativo.
+- Loop vuelve al inicio del segmento asignado: implementado.
+
+3. MEZCLA DINÁMICA
+- Hordas normales: volumen base por mundo.
+- Frenesí: +8% aprox.
+- Aproximación final: +14% aprox.
+- Entrada de boss: fade-out ambiente y fade-in soundtrack.
+
+4. BOSS MUSIC
+- Preload de soundtrack del boss al entrar en el sector: OK.
+- Reintento por gesto si play() es bloqueado: OK.
+- Fallback sintetizado mientras se espera nuevo gesto: OK.
+- Runtime Mundo 1: Iron Legion March inició y avanzó correctamente.
+
+5. DEFECTOS ENCONTRADOS DURANTE AUTOAUDITORÍA
+- updateMix podía cancelar el fade-out del ambiente al entrar el boss -> CORREGIDO.
+- updateButton accedía a estado G durante inicialización temprana -> CORREGIDO.
+- AbortError de prime() podía quedar como falso error -> CORREGIDO.
+- Doble intento de reproducción podía inflar telemetría -> control playPending añadido.
+
+RESULTADO
+APROBADO PARA ENTREGA.

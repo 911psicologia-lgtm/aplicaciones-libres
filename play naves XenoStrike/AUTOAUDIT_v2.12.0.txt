@@ -1,0 +1,17 @@
+SWARM//RIFT — AUTOAUDIT v2.12.0
+
+Objetivo: aumentar densidad visual y variedad entre hordas/Frenesí sin inflar HP, enemigos o economía principal.
+
+VALIDACIONES
+- JavaScript: node --check OK.
+- Manifest JSON: OK.
+- PWA: 196 recursos registrados, 0 faltantes.
+- Migración: v2.11.9 incluida en META y RUN.
+- Microeventos validados: BATALLA LEJANA, CORREDOR DE SALVAMENTO, CÁPSULA DE ESCUDO, LLUVIA DE RESTOS, ESCUADRÓN FANTASMA.
+- Runtime móvil 844x390: 0 errores JavaScript.
+- Runtime desktop 1366x768: 0 errores JavaScript.
+- Presupuesto automático de eventos, Horda 1: máximo 1 evento; simulación 45 s confirmó 1.
+- Props ambientales: cap duro 10 móvil / 16 desktop; render compacto máximo 6.
+- Apoyo táctico de shield: máximo una vez por oleada y solo con shield crítico.
+- Props ambientales no tienen hitbox y se dibujan detrás de amenazas interactivas.
+- El sistema no modifica HP de bosses, duración de poderes, economía principal ni música v2.11.9.
