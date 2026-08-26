@@ -1,0 +1,12 @@
+VALIDACIÓN SWARM//RIFT v2.11.4
+
+- node --check js/game.js: OK
+- manifest.json: OK
+- 8 MP3 de antesala: ffprobe OK
+- Service Worker cache: v2.11.4
+- Recursos PWA registrados: 196
+- Recursos faltantes: 0
+- Prueba lógica headless de muerte del primer jefe: OK
+- Botín producido: bossCredit x5, bossXp x3, heal, shield, heritageToken, fragment, bossCore
+- Zona segura postjefe: 8 s
+- Errores JavaScript en prueba lógica: 0

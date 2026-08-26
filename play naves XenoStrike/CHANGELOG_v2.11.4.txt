@@ -1,0 +1,18 @@
+SWARM//RIFT — Insecta Siege v2.11.4
+
+PREBOSS AUDIO FIX
+- Los 8 ambientes de antesala se precargan al entrar al sector.
+- El reproductor de antesala se intenta autorizar desde una interacción del usuario.
+- preload=auto + playsinline para mejorar compatibilidad móvil.
+- Si el navegador rechaza el MP3 se activa un ambiente sintetizado de respaldo en vez de silencio.
+- Checkpoint/replay de jefe incorpora una antesala breve de 4.8 s.
+
+BOSS DEATH CELEBRATION
+- Muerte extendida a 3.35 s con impacto final, explosiones localizadas, colapso del núcleo y explosión final.
+- Perfil cromático de muerte por familia insectoide.
+- Banner discreto con jefe destruido, XP y créditos ganados.
+- Botín físico radial: créditos, XP, casco, escudo, herencia, fragmento y Núcleo de Jefe.
+- Zona segura postjefe de 8 s (9.5 s al cerrar capítulo).
+- Magnetismo de botín se activa progresivamente desde el segundo 4.
+- Los premios restantes se recogen automáticamente al terminar la zona segura.
+- El Núcleo de Jefe queda como premio estratégico de evolución, evitando duplicar créditos/XP/curación físicos.

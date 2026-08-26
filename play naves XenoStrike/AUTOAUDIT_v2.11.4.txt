@@ -1,0 +1,24 @@
+AUTOAUDITORÍA v2.11.4
+
+AUDIO
+[OK] Los ocho MP3 de antesala existen y son decodificables.
+[OK] La pista del sector se precarga antes de la Horda 3.
+[OK] Se intenta primar el elemento multimedia durante interacción del usuario.
+[OK] Existe fallback sintetizado si play() es rechazado.
+[OK] La música del jefe sustituye a la antesala al aparecer el boss.
+[OK] Replay/checkpoint usa antesala breve.
+
+MUERTE Y BOTÍN
+[OK] Hit-stop breve al golpe final.
+[OK] Cuatro etapas de colapso/explosión.
+[OK] Diferenciación de color/partículas por familia.
+[OK] Resumen discreto de victoria.
+[OK] Créditos y XP se entregan físicamente en paquetes exactos.
+[OK] Casco, escudo, herencia y fragmento aparecen físicamente.
+[OK] El Núcleo conserva la elección estratégica de evolución.
+[OK] Zona segura de 8 s y magnetismo desde segundo 4.
+[OK] Recolección automática de remanentes al terminar.
+
+REGRESIÓN
+[OK] No se modificaron balance de jefes, 10 mundos, dificultad, música de batalla ni arquitectura de 20 mundos.
+[OK] Migración desde v2.11.3 y anteriores preservada.
