@@ -1,0 +1,25 @@
+AUTOAUDIT v2.11.3 — PRE-BOSS AMBIENCE
+
+Asignación
+01 Rust Canyon Corridor      preboss_01_rust.mp3             inicio 0 s
+02 Toxic Ravine              preboss_02_toxic.mp3            inicio 0 s
+03 Rift Tunnel / Debris      preboss_03_rift.mp3             inicio 8 s
+04 Nocturne Pollen Vault     preboss_04_nocturne.mp3         inicio 12 s
+05 Iron Nest Corridor        preboss_block2_05_08.mp3        inicio 0 s
+06 Emerald Leap Delta        preboss_block2_05_08.mp3        inicio 19 s
+07 Bloodmist Expanse         preboss_block2_05_08.mp3        inicio 38 s
+08 Resin Hive Citadel        preboss_block2_05_08.mp3        inicio 57 s
+09 Odonata Stormline         preboss_09_odonata.mp3          inicio 4 s
+10 Resonance Cathedral       preboss_10_resonance.mp3        inicio 16 s
+
+Variante adicional
+- preboss_alt_block1.mp3 para Difícil/replay en mundos 1–4, con offsets 0/10/20/30 s.
+
+Comprobaciones
+- Todos los offsets dejan más de 10.5 s útiles antes del final de cada pista.
+- No se generan enemigos durante la antesala.
+- bossPending activa automáticamente el fondo visual de arena.
+- PreBossMusic hace fade-in.
+- Al aparecer el jefe, PreBossMusic hace fade-out y entra BossMusic.
+- Pausa/Tienda congelan y pausan el audio correctamente mediante MusicX.
+- Music toggle superior controla ambos tipos de música.

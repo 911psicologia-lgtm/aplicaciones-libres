@@ -1,0 +1,12 @@
+SWARM//RIFT v2.11.2 — AUTOAUDIT
+
+PWA assets registrados: 188
+PWA faltantes: 0
+
+Perfiles UI:
+- MOBILE_PORTRAIT: menú vertical, Hangar 1 columna, Playlist 1 columna.
+- MOBILE_LANDSCAPE: menú compacto, Hangar 2 columnas, Playlist 2 columnas.
+- TABLET: layout amplio con estadísticas dinámicas.
+- DESKTOP: layout completo.
+
+Objetivo de colisión visual: cero superposiciones intencionales entre botones, títulos y tarjetas en los viewports auditados.

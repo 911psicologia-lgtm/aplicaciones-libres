@@ -1,0 +1,9 @@
+Validación v2.11.2
+- JavaScript: node --check OK.
+- Manifest JSON válido.
+- Service Worker cache: v2.11.2.
+- Menú probado: 360x740, 390x844, 844x390, 1024x768, 1366x768.
+- Hangar probado: móvil retrato y móvil horizontal.
+- Playlist probada: móvil retrato y móvil horizontal.
+- Joystick/DASH no reintroducidos.
+- Guardados v2.11.1 incluidos en migración.

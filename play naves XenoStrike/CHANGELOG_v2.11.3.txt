@@ -1,0 +1,13 @@
+SWARM//RIFT — Insecta Siege v2.11.3 — Pre-Boss Ambience
+
+- Integra 8 fondos sonoros ambientales entregados por el usuario.
+- Añade una antesala musical de 10.5 s al terminar la Horda 3 antes de cada jefe.
+- La antesala usa automáticamente la arena visual del jefe, sin enemigos activos.
+- Fade-in del ambiente y crossfade/fade-out al entrar la banda sonora del jefe.
+- El botón musical superior controla tanto la antesala como la música de boss.
+- Mundo 1–4: ambientes individuales.
+- Mundos 5–8: una composición continua con puntos de entrada distintos por mundo.
+- Mundos 9–10: ambientes individuales.
+- La quinta variante del bloque 1 se usa como alternativa en Difícil/replay de mundos 1–4.
+- Boss Rush permanece sin antesalas para conservar ritmo.
+- Mantiene compatibilidad con guardados v2.11.2.

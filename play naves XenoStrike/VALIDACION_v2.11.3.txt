@@ -1,0 +1,15 @@
+SWARM//RIFT — Insecta Siege v2.11.3
+
+Validación aplicada
+- JavaScript: node --check OK.
+- Service Worker: cache v2.11.3.
+- Recursos PWA: 196 registrados, 0 faltantes.
+- 8 archivos MP3 ambientales presentes y decodificables.
+- Antesala de jefe: 10.5 s.
+- Mundo 1–4: pistas individuales.
+- Mundo 5–8: misma composición con offsets 0/19/38/57 s.
+- Mundo 9–10: pistas individuales.
+- Difícil/replay mundos 1–4: variante alternativa con offset propio.
+- Boss Rush: no usa antesala, conserva ritmo continuo.
+- Transición probada: antesala -> spawn de Imperatrix Vespa sin errores JS.
+- Botón musical controla ambiente de antesala y banda de batalla.

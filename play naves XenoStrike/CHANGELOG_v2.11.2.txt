@@ -1,0 +1,12 @@
+SWARM//RIFT — Insecta Siege v2.11.2 — Mobile UI Reconstruction
+
+- Menú móvil retrato reconstruido con geometría propia: acciones principales en columna, accesos secundarios compactos y ficha de sector simplificada.
+- Menú móvil horizontal reconstruido: elimina la ficha lateral pesada y usa panel táctico compacto.
+- Hangar móvil específico: una columna en retrato, dos columnas en horizontal, efectos actual/siguiente legibles y compra por tarjeta.
+- Poderes del Hangar convertidos en carrusel con navegación ‹ ›.
+- Playlist reconstruida para móvil retrato y horizontal.
+- Manual responsive: tarjetas apiladas en retrato y compactas en horizontal.
+- Tablet separada del perfil móvil para conservar espacio y legibilidad.
+- Footer técnico eliminado de los layouts móviles.
+- Estadísticas de la ficha de sector ahora escalan dinámicamente en tablet/desktop.
+- Migración automática de progreso/checkpoints desde v2.11.1.
