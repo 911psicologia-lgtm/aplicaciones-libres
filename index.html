@@ -158,7 +158,7 @@
     .search-box input{width:100%;height:100%;border:0;outline:0;background:transparent;color:var(--ink)}
     .search-box input::placeholder{color:#8b97aa}
     .result-badge{height:52px;display:flex;align-items:center;border-radius:18px;background:var(--brand);color:#fff;font-weight:900;padding:0 16px;white-space:nowrap;box-shadow:0 10px 20px rgba(196,0,20,.18)}
-    .category-rail{display:grid;grid-template-columns:repeat(10,minmax(70px,1fr));gap:7px}
+    .category-rail{display:grid;grid-template-columns:repeat(11,minmax(64px,1fr));gap:7px}
     .cat-tile{
       min-height:64px;border:1px solid var(--line);background:linear-gradient(180deg,#fff,#f8fbff);
       border-radius:18px;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:5px;
@@ -222,7 +222,7 @@
        5. RESPONSIVE: prioridad desktop + móvil
        ========================================================= */
     @media (max-width:1050px){
-      .category-rail{grid-template-columns:repeat(5,minmax(78px,1fr))}
+      .category-rail{grid-template-columns:repeat(6,minmax(78px,1fr))}
       .grid{grid-template-columns:repeat(3,minmax(0,1fr))}
     }
     @media (max-width:860px){
@@ -641,6 +641,9 @@
     { cat:"Play", icon:"🌌", name:{es:"Génesis Universal",en:"Universal Genesis",pt:"Gênesis Universal"}, href:"educa genesis universal simulador/index.html",
       desc:{es:"Viaje interactivo del Big Bang a la conciencia: 9 eras, estética cósmica y mecánicas evolutivas.",en:"Interactive journey from the Big Bang to consciousness: 9 eras, cosmic aesthetics and evolutionary mechanics.",pt:"Jornada interativa do Big Bang à consciência: 9 eras, estética cósmica e mecânicas evolutivas."},
       tags:["cosmos","evolución"] },
+    { cat:"HAPPY", icon:"🎵", name:{es:"MUSIC-PLAY-FREE",en:"MUSIC-PLAY-FREE",pt:"MUSIC-PLAY-FREE"}, href:"HAPPY music-play-free/index.html",
+      desc:{es:"Reproductor de audio local, minimalista, rápido y privado. Selecciona archivos o carpetas del dispositivo y crea una biblioteca musical sin subir audio a servidores.",en:"Fast, minimalist and private local audio player. Select files or folders from your device and build a music library without uploading audio to servers.",pt:"Reprodutor de áudio local, minimalista, rápido e privado. Selecione arquivos ou pastas do dispositivo e crie uma biblioteca musical sem enviar áudio a servidores."},
+      tags:["música","audio local","privacidad","biblioteca"] },
   ];
 
     /* =========================================================
@@ -648,7 +651,7 @@
        Se conserva la taxonomía del index original y se reorganiza
        como rail de iconos + secciones tipo dashboard.
        ========================================================= */
-    const CAT_ORDER = ['Todos','Mind','Body','Educa','Neuro','Dx','Investigación','Utilidades','Astros','Play'];
+    const CAT_ORDER = ['Todos','Mind','Body','Educa','Neuro','Dx','Investigación','Utilidades','HAPPY','Astros','Play'];
     const CAT_META = {
       'Todos': { icon:'🏠', label:{es:'Todo',en:'All',pt:'Tudo'}, sub:{es:'Catálogo completo',en:'Full catalog',pt:'Catálogo completo'}, color:'#c40014' },
       'Mind': { icon:'🧠', label:{es:'Mind',en:'Mind',pt:'Mind'}, sub:{es:'Bienestar y regulación',en:'Wellbeing and regulation',pt:'Bem-estar e regulação'}, color:'#8b5cf6' },
@@ -658,6 +661,7 @@
       'Dx': { icon:'🩺', label:{es:'Dx',en:'Dx',pt:'Dx'}, sub:{es:'Diagnóstico y clínica',en:'Diagnostics and clinic',pt:'Diagnóstico e clínica'}, color:'#0d9488' },
       'Investigación': { icon:'🧬', label:{es:'Investigación',en:'Research',pt:'Pesquisa'}, sub:{es:'Academia y método',en:'Academia and method',pt:'Academia e método'}, color:'#0891b2' },
       'Utilidades': { icon:'🧰', label:{es:'Utilidades',en:'Utilities',pt:'Utilidades'}, sub:{es:'Productividad',en:'Productivity',pt:'Produtividade'}, color:'#ca8a04' },
+      'HAPPY': { icon:'🎵', label:{es:'HAPPY',en:'HAPPY',pt:'HAPPY'}, sub:{es:'Música local y privada',en:'Local private music',pt:'Música local e privada'}, color:'#f59e0b' },
       'Astros': { icon:'✨', label:{es:'Astros',en:'Astros',pt:'Astros'}, sub:{es:'Símbolos y juego',en:'Symbols and play',pt:'Símbolos e jogo'}, color:'#db2777' },
       'Play': { icon:'🎮', label:{es:'Play',en:'Play',pt:'Play'}, sub:{es:'Juegos e historias',en:'Games and stories',pt:'Jogos e histórias'}, color:'#dc2626' }
     };

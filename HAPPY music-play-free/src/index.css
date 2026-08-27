@@ -1,0 +1,95 @@
+@import "tailwindcss";
+
+@theme {
+  --color-bg: #f5f5f5;
+  --color-surface: #ffffff;
+  --color-surface-hover: #eeeeee;
+  --color-text: #1a1a1a;
+  --color-text-secondary: #666666;
+  --color-text-tertiary: #999999;
+  --color-accent: #e85d3a;
+  --color-accent-hover: #d14e2d;
+  --color-border: #e0e0e0;
+  --color-overlay: rgba(0, 0, 0, 0.5);
+  --color-mini-player: rgba(255, 255, 255, 0.95);
+  --color-shadow: rgba(0, 0, 0, 0.08);
+  --color-cover-placeholder: #2a2a2a;
+  --color-scan-bar: #e85d3a;
+  --color-danger: #dc2626;
+  --color-success: #16a34a;
+}
+
+.dark {
+  --color-bg: #0a0a0a;
+  --color-surface: #1a1a1a;
+  --color-surface-hover: #252525;
+  --color-text: #f0f0f0;
+  --color-text-secondary: #aaaaaa;
+  --color-text-tertiary: #666666;
+  --color-accent: #e85d3a;
+  --color-accent-hover: #f07050;
+  --color-border: #2a2a2a;
+  --color-overlay: rgba(0, 0, 0, 0.7);
+  --color-mini-player: rgba(26, 26, 26, 0.97);
+  --color-shadow: rgba(0, 0, 0, 0.3);
+  --color-cover-placeholder: #1a1a1a;
+}
+
+* {
+  box-sizing: border-box;
+  -webkit-tap-highlight-color: transparent;
+}
+
+html, body, #app {
+  height: 100%;
+  width: 100%;
+  margin: 0;
+  padding: 0;
+  overflow: hidden;
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+  background-color: var(--color-bg);
+  color: var(--color-text);
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+button {
+  all: unset;
+  cursor: pointer;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+}
+
+input, select {
+  font-family: inherit;
+}
+
+::-webkit-scrollbar {
+  width: 4px;
+}
+
+::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+::-webkit-scrollbar-thumb {
+  background: var(--color-text-tertiary);
+  border-radius: 2px;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
+}
+
+.safe-bottom {
+  padding-bottom: env(safe-area-inset-bottom, 0px);
+}
+
+.safe-top {
+  padding-top: env(safe-area-inset-top, 0px);
+}
