@@ -1,0 +1,13 @@
+VALIDACIÓN v2.12.1.6
+- VERSION: 2.12.1.6
+- Active gameplay SVG refs: 0
+- Active asset refs checked: 213
+- Raster refs verified: 192
+- Missing active asset refs: 0
+- Bad raster assets: 0
+- PWA cached resources: 257
+- PWA missing resources: 0
+- Asset audit status: PASS
+- node --check game.js: PASS
+- node --check sw.js: PASS
+- Chromium visual QA: unavailable in this container (headless process stalls on DBus/zygote); static/raster/PWA validation used instead.

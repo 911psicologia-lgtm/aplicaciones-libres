@@ -1,0 +1,14 @@
+version: 2.12.1.6
+active_gameplay_svg_references: []
+active_asset_refs: 213
+active_raster_refs_verified: 192
+missing_active_asset_refs: []
+bad_raster_assets: []
+pwa_cached_resources: 257
+pwa_missing_resources: []
+semantic_categories: {'support_png': 3, 'front_png': 4, 'pickups_png': 4, 'powers2_png': 2, 'objectives_png': 3, 'transversal_png': 5, 'worlds4_6_semantic_png': 9, 'enemy_semantic_png': 24, 'base_obstacle_png': 7}
+worlds_4_6_themed_obstacle_primary_enabled: True
+objective_entities_image_backed: True
+save_migration_from_v21215: True
+meta_migration_from_v21215: True
+status: PASS

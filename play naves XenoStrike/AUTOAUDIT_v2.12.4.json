@@ -1,0 +1,150 @@
+{
+  "version": "2.12.4",
+  "boss_animation_framework": "multi-boss-state-sprites",
+  "animated_bosses": [
+    "IMPERATRIX VESPA",
+    "ATLAS VERDE"
+  ],
+  "animation_states": [
+    "idle",
+    "attack",
+    "hurt",
+    "phase",
+    "death"
+  ],
+  "atlas_motion_signature": "heavy segmented carapace/pincers/dorsal modules",
+  "imperatrix_motion_signature": "aerial",
+  "lieutenants_use_animation_states": true,
+  "sprite_sheets": {
+    "imperatrix": {
+      "idle": {
+        "size": [
+          1536,
+          768
+        ],
+        "expected": [
+          1536,
+          768
+        ],
+        "ok": true,
+        "mode": "RGBA"
+      },
+      "attack": {
+        "size": [
+          1536,
+          768
+        ],
+        "expected": [
+          1536,
+          768
+        ],
+        "ok": true,
+        "mode": "RGBA"
+      },
+      "hurt": {
+        "size": [
+          1536,
+          384
+        ],
+        "expected": [
+          1536,
+          384
+        ],
+        "ok": true,
+        "mode": "RGBA"
+      },
+      "phase": {
+        "size": [
+          1536,
+          768
+        ],
+        "expected": [
+          1536,
+          768
+        ],
+        "ok": true,
+        "mode": "RGBA"
+      },
+      "death": {
+        "size": [
+          1536,
+          1152
+        ],
+        "expected": [
+          1536,
+          1152
+        ],
+        "ok": true,
+        "mode": "RGBA"
+      }
+    },
+    "atlas": {
+      "idle": {
+        "size": [
+          1536,
+          768
+        ],
+        "expected": [
+          1536,
+          768
+        ],
+        "ok": true,
+        "mode": "RGBA"
+      },
+      "attack": {
+        "size": [
+          1536,
+          768
+        ],
+        "expected": [
+          1536,
+          768
+        ],
+        "ok": true,
+        "mode": "RGBA"
+      },
+      "hurt": {
+        "size": [
+          1536,
+          384
+        ],
+        "expected": [
+          1536,
+          384
+        ],
+        "ok": true,
+        "mode": "RGBA"
+      },
+      "phase": {
+        "size": [
+          1536,
+          768
+        ],
+        "expected": [
+          1536,
+          768
+        ],
+        "ok": true,
+        "mode": "RGBA"
+      },
+      "death": {
+        "size": [
+          1536,
+          1152
+        ],
+        "expected": [
+          1536,
+          1152
+        ],
+        "ok": true,
+        "mode": "RGBA"
+      }
+    }
+  },
+  "pwa_resources": 269,
+  "pwa_missing": 0,
+  "direct_asset_refs": 137,
+  "direct_asset_missing": 0,
+  "chromium_visual_qa": "UNAVAILABLE_IN_CONTAINER_DBUS_ZYGOTE_TIMEOUT",
+  "runtime_smoke": "PASS"
+}

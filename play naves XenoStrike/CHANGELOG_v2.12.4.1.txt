@@ -1,0 +1,10 @@
+v2.12.4.1 — Visible Boss Animation Hotfix
+
+- Corrige la animación de Imperatrix Vespa que era técnicamente activa pero demasiado sutil para percibirse durante combate.
+- Regenera 36 frames con movimiento articulado visible del raster completo: alas, abdomen, cuchillas/extremidades y cuerpo.
+- Cada disparo normal de jefe/Teniente activa ATTACK, no solo los especiales/telegraphs.
+- Idle se sincroniza con el tiempo propio del comandante.
+- Imperatrix se dibuja 13% mayor dentro del mismo box para compensar margen transparente del sprite sheet.
+- Cache-busting av=21241 en hojas animadas.
+- Service worker usa network-first para game.js y assets/boss_anim, evitando que una PWA/local server conserve hojas viejas.
+- Migración directa de meta/run desde v2.12.4.

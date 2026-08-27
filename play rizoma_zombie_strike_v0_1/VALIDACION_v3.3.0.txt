@@ -1,0 +1,43 @@
+RIZOMA ZOMBIE STRIKE v3.3.0 — VALIDACIÓN ESTÁTICA E INTEGRIDAD
+====================================================================
+
+1. JavaScript
+- node --check js/game.js: PASS
+- VERSION = 3.3.0: PASS
+
+2. Assets
+- Referencias literales detectadas: 505
+- Referencias faltantes: 0
+- Assets dedicados Mundo 20: 23
+- PNG M20 con transparencia problemática: 0
+- Archivos de tamaño cero: 0
+- Sigilos DOMINIO presentes: 20/20
+
+3. Integridad heredada
+- Archivos heredados idénticos fuera del núcleo editado: 614
+- Modificaciones heredadas inesperadas: 0
+- Archivos heredados faltantes: 0
+
+4. Sistemas Mundo 20
+- Sauryx Necrorex: PASS
+- Dominio Necroescama: PASS
+- Necrorex Dreadship: PASS
+- 6 enemigos M20: PASS
+- 3 amenazas frontales M20: PASS
+- 3 proyectiles temáticos: PASS
+- Movimiento propio de Sauryx: PASS
+- Persistencia M20: PASS
+- Intro y outro M20: PASS
+- Poder 11 s: PASS
+
+5. PWA / interfaz
+- manifest.json parseable: PASS
+- orientation landscape-primary: PASS
+- start_url v3.3.0: PASS
+- index.html versionado v3.3.0: PASS
+- service worker cache v3.3.0: PASS
+
+6. Nota de alcance
+- Esta pasada valida sintaxis, assets, referencias, persistencia, PWA e integridad de archivos.
+- No se atribuye una partida completa física en móvil/tablet/PC a esta validación estática.
+- M13–M20 mantienen música procedural hasta disponer del Ambient Block correspondiente.

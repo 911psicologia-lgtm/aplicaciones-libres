@@ -1,0 +1,17 @@
+SWARM//RIFT — Insecta Siege v2.12.2
+Combat Director Profiles by World
+
+- 10 perfiles específicos del Combat Director.
+- Selección ponderada de eventos por mundo.
+- Selección ponderada de miniobjetivos por mundo.
+- Transversales preferentes por linaje.
+- Formaciones y ángulos de entrada diferenciados.
+- Amenazas frontales ponderadas por perfil.
+- Microeventos del mundo ponderados por perfil.
+- Cadencias de spawn, Director, formaciones, frentes, transversales y obstáculos diferenciadas.
+- Encounter Budget conserva el límite compartido y recibe un modificador específico por sector.
+- Densidad máxima y cap de obstáculos ajustados por perfil sin elevar HP.
+- Resonance Cathedral puede repetir, como eco, un evento anterior no consecutivo.
+- HUD desktop muestra DIR · perfil activo.
+- Save/meta migran desde v2.12.1.6 y anteriores.
+- Sin cambios en bosses, Convergencia, audio, Hangar, poderes, checkpoints ni mundos 11–20.

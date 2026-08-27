@@ -1,0 +1,33 @@
+AUTOAUDIT v2.12.3 — Boss Animation Pilot
+
+BASE
+- Base exclusiva: v2.12.2 Combat Director Profiles.
+- Alcance del piloto: Mundo 1 / Imperatrix Vespa.
+
+ANIMACIÓN
+- idle: 8 frames @ 8 fps, loop.
+- attack: 6 frames @ 12 fps.
+- hurt: 4 frames @ 14 fps.
+- phase: 8 frames @ 10 fps.
+- death: 10 frames @ 9 fps.
+- Total: 36 frames, 384x384 por frame.
+- Formato runtime: sprite sheets PNG transparentes.
+- Fuente: asset real boss_wasp.png; no GIF/video.
+
+INTEGRACIÓN
+- El estado visual se enlaza a telegraph/special/charge, bossHitT/flash, phaseTransitionT/phaseFlash y deathT.
+- Anatomía procedural de alas desactivada únicamente para Imperatrix cuando las sheets están listas.
+- Telegraph, núcleo, daño, sombras y VFX se preservan como capas complementarias.
+- El sistema funciona también cuando Imperatrix reaparece como Teniente.
+- Fallback automático al boss_wasp.png original si una sheet no carga.
+- Bosses 2–10 no fueron modificados.
+
+COMPATIBILIDAD
+- Migración desde v2.12.2 incluida.
+- Audio, Hangar, Combat Director, Wave Objectives, checkpoints, Convergencia y balance sin cambios.
+
+VALIDACIÓN
+- node --check js/game.js: PASS.
+- node --check sw.js: PASS.
+- PWA resources: 263; missing: 0.
+- Sprite sheet dimensions/meta: PASS 5/5.

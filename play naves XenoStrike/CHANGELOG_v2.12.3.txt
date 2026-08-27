@@ -1,0 +1,12 @@
+SWARM//RIFT v2.12.3 — Boss Animation Pilot
+
+PILOTO EXCLUSIVO — Mundo 1 / Imperatrix Vespa
+- Framework de sprite sheets por estados para boss.
+- Estados: idle, attack, hurt, phase, death.
+- 36 frames totales derivados del asset real de Imperatrix.
+- Desactivada anatomía procedural de alas para Imperatrix; el movimiento reside en el propio asset animado.
+- Telegraphs, núcleo, daño y VFX se conservan como capas complementarias.
+- El resto de bosses conserva su render anterior sin cambios.
+- Compatible con Imperatrix como jefe y como Teniente recuperado.
+- Fallback automático al PNG estático si una sheet no carga.
+- Migración desde v2.12.2 y versiones anteriores.

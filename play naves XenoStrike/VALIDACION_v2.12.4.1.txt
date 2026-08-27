@@ -1,0 +1,8 @@
+v2.12.4.1 validation
+node --check game.js PASS
+node --check sw.js PASS
+PWA resources: 269 / missing 0
+Frame-difference means: {'idle': 18.01, 'attack': 18.41, 'hurt': 16.95, 'phase': 24.23, 'death': 21.71}
+Transparency sanity PASS
+Attack trigger added to regular commander fire
+Cache-busting and network-first boss animation assets enabled

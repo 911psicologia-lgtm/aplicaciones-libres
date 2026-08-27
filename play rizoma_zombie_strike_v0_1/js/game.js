@@ -1,7 +1,7 @@
 (() => {
   'use strict';
 
-  const VERSION = '3.1.0';
+  const VERSION = '3.3.1';
   const STORAGE_KEY = 'rizoma_zombie_strike_v0_3_state';
   const SAVE_KEY = 'rizoma_zombie_strike_v0_3_save';
   const clamp = (v, a, b) => Math.max(a, Math.min(b, v));
@@ -165,7 +165,9 @@
     {world:15,id:'vermidrax',name:'Vermidrax',title:'Gusano Primordial',asset:'assets/world15/boss_world15.png',theme:'Entrañas del Gusano Colosal',color:'#d83b45',accent:'#b6ff58',shot:'organic_bile',weapons:['Mordida segmentaria','Ácido biliar','Larvas parasitarias','Contracción peristáltica'],special:{id:'peristalsis_devastadora',name:'Peristalsis Devastadora',desc:'Las paredes musculares se contraen desde ambos flancos, comprimen la arena y arrastran todo hacia la boca de Vermidrax.'},relic:{id:'vermicular_core',name:'Núcleo Peristáltico',desc:'Refuerza regeneración, daño orgánico y resistencia a ácido.',passive:{regen:.12,bioDamage:.11,hazardResist:.10}},music:{name:'Música procedural M15',bpm:110,root:43.65,wave:'triangle',seq:[0,1,5,-2,3,7,1,-5],phase4:.64},sound:{shot:[218,.075,'sawtooth',.021,-58],special:[43.65,65.41,87.31],impact:[92,.14,'triangle',.028,-25]}} ,
     {world:16,id:'neurokhan',name:'Neurokhan',title:'Arconte de la Conciencia Bélica',asset:'assets/world16/boss_world16.png',theme:'Imperio de los Cerebros Asesinos',color:'#b45cff',accent:'#78e8ff',shot:'psi_orb',weapons:['Orbes psiónicos','Lanzas sinápticas','Drones neuronales','Descarga cortical'],special:{id:'synapsis_letal',name:'Sinapsis Letal',desc:'Neurokhan enlaza objetivos, altera trayectorias y descarga cadenas psiónicas que saltan entre amenazas y proyectiles.'},relic:{id:'synaptic_core',name:'Núcleo Sináptico',desc:'Refuerza multiblanco, control de proyectiles y daño psiónico.',passive:{chain:.12,control:.11,psiDamage:.10}},music:{name:'Música procedural M16',bpm:116,root:58.27,wave:'sine',seq:[0,7,3,10,5,12,8,2],phase4:.60},sound:{shot:[510,.065,'sine',.020,95],special:[58.27,87.31,130.81],impact:[118,.10,'triangle',.026,-35]}},
     {world:17,id:'skaldr_glacial',name:'Skaldr Glacial',title:'Fenrir de la Tundra',asset:'assets/world17/boss_world17.png',theme:'Tundra salvaje orbital',color:'#9ee8ff',accent:'#e8fbff',shot:'cryo_fang',weapons:['Mordida criónica','Cargas de hielo','Avalanchas orbitales','Aullido de ventisca'],special:{id:'ventisca_depredadora',name:'Ventisca Depredadora',desc:'Skaldr invoca una tormenta móvil que congela, desplaza proyectiles y encadena fracturas de hielo alrededor de RIZOMA.'},relic:{id:'fenrir_core',name:'Corazón Fenrir',desc:'Refuerza criogenia, movilidad y resistencia a hazards gélidos.',passive:{cryo:.12,speed:.07,hazardResist:.10}},music:{name:'Música procedural M17',bpm:122,root:49,wave:'triangle',seq:[0,7,3,10,5,12,8,2],phase4:.58},sound:{shot:[680,.055,'triangle',.018,-160],special:[98,146.83,220],impact:[145,.09,'sine',.024,-55]}},
-    {world:18,id:'kanzai_akasha',name:'Kanzai Akasha',title:'Shogun de la Biblioteca',asset:'assets/world18/boss_world18.png',theme:'Biblioteca Anime Multiversal',color:'#d44cff',accent:'#fff0f7',shot:'ink_slash',weapons:['Cortes de tinta','Paneles sellados','Clones de viñeta','Páginas cortantes'],special:{id:'absolute_panel_cut',name:'Corte de Viñeta Absoluta',desc:'Kanzai parte el tapiz en paneles telegráficos, corta proyectiles y encadena páginas vivas desde portales-libro.'},relic:{id:'akasha_codex',name:'Códice Akasha',desc:'Refuerza crítico, fase y cadenas multiblanco.',passive:{crit:.05,phaseDuration:.10,chain:.12}},music:{name:'Música procedural M18',bpm:136,root:65.41,wave:'square',seq:[0,7,12,10,3,15,8,5],phase4:.60},sound:{shot:[920,.042,'square',.017,-320],special:[130.81,196,293.66],impact:[280,.05,'sawtooth',.022,-140]}}
+    {world:18,id:'kanzai_akasha',name:'Kanzai Akasha',title:'Shogun de la Biblioteca',asset:'assets/world18/boss_world18.png',theme:'Biblioteca Anime Multiversal',color:'#d44cff',accent:'#fff0f7',shot:'ink_slash',weapons:['Cortes de tinta','Paneles sellados','Clones de viñeta','Páginas cortantes'],special:{id:'absolute_panel_cut',name:'Corte de Viñeta Absoluta',desc:'Kanzai parte el tapiz en paneles telegráficos, corta proyectiles y encadena páginas vivas desde portales-libro.'},relic:{id:'akasha_codex',name:'Códice Akasha',desc:'Refuerza crítico, fase y cadenas multiblanco.',passive:{crit:.05,phaseDuration:.10,chain:.12}},music:{name:'Música procedural M18',bpm:136,root:65.41,wave:'square',seq:[0,7,12,10,3,15,8,5],phase4:.60},sound:{shot:[920,.042,'square',.017,-320],special:[130.81,196,293.66],impact:[280,.05,'sawtooth',.022,-140]}},
+    {world:19,id:'arconte_zhyr',name:'Arconte Zhyr',title:'Custodio del Silencio Psiónico',asset:'assets/world19/boss_world19.png',theme:'Planeta ficticio de los Grises',color:'#a7d9e4',accent:'#e8fbff',shot:'zhyr_psion',weapons:['Pulsos psíquicos','Sondas clínicas','Campos de inmovilización','Rayos de fase'],special:{id:'psychic_dominion',name:'Dominio Psíquico',desc:'Zhyr despliega una red mental telegráfica que ralentiza, desvía proyectiles y encadena objetivos marcados.'},relic:{id:'zhyr_core',name:'Núcleo Zhyr',desc:'Refuerza control, fase y precisión psiónica.',passive:{control:.12,phaseDuration:.10,crit:.04}},music:{name:'Música procedural M19',bpm:104,root:55,wave:'sine',seq:[0,5,9,2,7,12,4,10],phase4:.58},sound:{shot:[460,.055,'sine',.017,90],special:[55,82.41,123.47],impact:[96,.09,'triangle',.023,-28]}},
+    {world:20,id:'sauryx_necrorex',name:'Sauryx Necrorex',title:'Emperador Necroescama',asset:'assets/world20/boss_world20.png',theme:'Planeta zombie-reptiloide devastado',color:'#8ed957',accent:'#e9ff9a',shot:'necro_scale',weapons:['Garras de plasma','Saliva tóxica','Rugido infeccioso','Coletazo necroplasma'],special:{id:'necro_scale_dominion',name:'Dominio Necroescama',desc:'Sauryx muta su armadura, infecta grupos, lanza garras radiales y convierte el terreno en oleadas necrobiológicas.'},relic:{id:'necroscale_core',name:'Núcleo Necroescama',desc:'Refuerza daño orgánico, resistencia, infección y crítico contra Guardianes.',passive:{bioDamage:.12,hazardResist:.10,crit:.05}},music:{name:'Música procedural M20',bpm:132,root:46.25,wave:'sawtooth',seq:[0,3,7,10,5,12,8,1],phase4:.56},sound:{shot:[270,.065,'sawtooth',.021,-95],special:[46.25,69.3,103.83],impact:[82,.13,'square',.028,-20]}}
   ];
   // v2.6.0 — banda sonora externa de Guardianes + ambiente exclusivo del Mundo 1.
   // Volúmenes calibrados por loudness del archivo original; no se recomprime el audio.
@@ -181,8 +183,15 @@
     9:{title:'Kurai Sekai',asset:'assets/audio/boss_world9_kurai_sekai.mp3',loop:true,baseVolume:.215},
     10:{title:'End of Stars',asset:'assets/audio/boss_world10_end_of_stars.mp3',loop:true,baseVolume:.24},
     11:{title:'Twin Suns',asset:'assets/audio/boss_world11_twin_suns.mp3',loop:true,baseVolume:.20},
-    12:{title:'Hadal Pulse',asset:'assets/audio/boss_world12_hadal_pulse.mp3',loop:true,baseVolume:.25}
-    // El ZIP recibido no contiene boss13; Vulkarion conserva Forge Below procedural como fallback seguro.
+    12:{title:'Hadal Pulse',asset:'assets/audio/boss_world12_hadal_pulse.mp3',loop:true,baseVolume:.25},
+    14:{title:'Némesis Nova',asset:'assets/audio/boss_world14_nemesis_nova.mp3',loop:true,baseVolume:.245,phaseVolumes:[.245,.255,.268,.282],softLoop:{fadeOutSec:1.35,minRatio:.62,fadeInMs:300}},
+    15:{title:'Gusano Primordial',asset:'assets/audio/boss_world15_gusano_primordial.mp3',loop:true,baseVolume:.235,phaseVolumes:[.235,.245,.258,.272],softLoop:{fadeOutSec:1.35,minRatio:.62,fadeInMs:300}},
+    16:{title:'Neuroarca',asset:'assets/audio/boss_world16_neuroarca.mp3',loop:true,baseVolume:.245,phaseVolumes:[.245,.255,.270,.285],softLoop:{fadeOutSec:1.35,minRatio:.62,fadeInMs:300}},
+    17:{title:'Fenrir de la Tundra',asset:'assets/audio/boss_world17_fenrir_tundra.mp3',loop:true,baseVolume:.235,phaseVolumes:[.235,.246,.260,.276],softLoop:{fadeOutSec:1.35,minRatio:.62,fadeInMs:300}},
+    18:{title:'Shogun de la Biblioteca',asset:'assets/audio/boss_world18_shogun_biblioteca.mp3',loop:true,baseVolume:.230,phaseVolumes:[.230,.240,.255,.272],softLoop:{fadeOutSec:1.35,minRatio:.62,fadeInMs:300}},
+    19:{title:'Arconte Zhyr',asset:'assets/audio/boss_world19_arconte_zhyr.mp3',loop:true,baseVolume:.285,phaseVolumes:[.285,.295,.310,.325],softLoop:{fadeOutSec:1.20,minRatio:.64,fadeInMs:280}},
+    20:{title:'Sauryx Necrorex',asset:'assets/audio/boss_world20_sauryx_necrorex.mp3',loop:true,baseVolume:.220,phaseVolumes:[.220,.232,.247,.265],softLoop:{fadeOutSec:1.40,minRatio:.60,fadeInMs:320}}
+    // M13 conserva su fallback vigente. M14–M20 usan pistas externas aportadas por el proyecto con bucle suavizado.
   };
   const WORLD_AMBIENT_SOUNDTRACKS = {
     // v2.8.2 — bloques ambientales originales aportados por el proyecto.
@@ -215,14 +224,16 @@
     15:[{tier:'small',family:'Parásitos',power:'Embiste, drena y libera ácido al morir',sound:{shot:[285,.055,'triangle',.014,-65],death:[140,.09,'sawtooth',.020,-48]}},{tier:'small',family:'Defensas internas',power:'Persecución inmune y proyectil fagocítico',sound:{shot:[235,.07,'triangle',.016,-35],death:[112,.11,'triangle',.021,-34]}},{tier:'medium',family:'Tejido',power:'Bloqueo muscular, esporas y mordida de área',sound:{shot:[128,.12,'sawtooth',.023,15],death:[62,.18,'square',.029,-16]}}],
     16:[{tier:'small',family:'Neuronas Cazadoras',power:'Saltos sinápticos y descarga encadenada',sound:{shot:[620,.045,'sine',.014,120],death:[240,.06,'triangle',.018,-90]}},{tier:'small',family:'Ojos Psiónicos',power:'Predicción de trayectoria y pulso de interferencia',sound:{shot:[420,.065,'triangle',.016,-70],death:[180,.08,'sine',.020,-55]}},{tier:'medium',family:'Cerebros de Guerra',power:'Escudo mental, orbes psiónicos y control de espacio',sound:{shot:[160,.11,'sawtooth',.023,28],death:[78,.16,'triangle',.028,-18]}}],
     17:[{tier:'small',family:'Lobos',power:'Carga en manada y mordida criónica',sound:{shot:[720,.04,'triangle',.013,-210],death:[250,.065,'sine',.018,-95]}},{tier:'small',family:'Bestias',power:'Embiste, bloquea y fractura hielo',sound:{shot:[310,.075,'triangle',.016,-75],death:[140,.10,'sawtooth',.021,-48]}},{tier:'medium',family:'Espíritus',power:'Ventisca, aurora y control de zona',sound:{shot:[520,.07,'sine',.018,90],death:[190,.10,'triangle',.022,-65]}}],
-    18:[{tier:'small',family:'Shōnen',power:'Dash de tinta y corte de viñeta',sound:{shot:[920,.04,'square',.013,-260],death:[280,.06,'triangle',.018,-110]}},{tier:'small',family:'Mecha',power:'Artillería manga, paneles y sellos',sound:{shot:[440,.07,'triangle',.016,-80],death:[168,.09,'sawtooth',.021,-45]}},{tier:'medium',family:'Yokai',power:'Portales-página, clones y control editorial',sound:{shot:[660,.065,'sine',.018,110],death:[205,.10,'triangle',.022,-70]}}]
+    18:[{tier:'small',family:'Shōnen',power:'Dash de tinta y corte de viñeta',sound:{shot:[920,.04,'square',.013,-260],death:[280,.06,'triangle',.018,-110]}},{tier:'small',family:'Mecha',power:'Artillería manga, paneles y sellos',sound:{shot:[440,.07,'triangle',.016,-80],death:[168,.09,'sawtooth',.021,-45]}},{tier:'medium',family:'Yokai',power:'Portales-página, clones y control editorial',sound:{shot:[660,.065,'sine',.018,110],death:[205,.10,'triangle',.022,-70]}}],
+    19:[{tier:'small',family:'Drones Zhyr',power:'Predicción y disparo clínico',sound:{shot:[520,.045,'sine',.013,80],death:[210,.06,'triangle',.018,-85]}},{tier:'small',family:'Psiónicos',power:'Campos breves y pulsos mentales',sound:{shot:[390,.06,'triangle',.016,-50],death:[165,.08,'sine',.020,-45]}},{tier:'medium',family:'Bioingeniería',power:'Fase, embestida y soporte sintético',sound:{shot:[150,.10,'sawtooth',.022,22],death:[74,.14,'triangle',.027,-16]}}],
+    20:[{tier:'small',family:'Reptiloides',power:'Carga, mordida y garras de plasma',sound:{shot:[420,.045,'sawtooth',.014,-120],death:[180,.07,'triangle',.020,-70]}},{tier:'small',family:'Zombies',power:'Infección, salto y explosión necrótica',sound:{shot:[230,.07,'triangle',.016,-42],death:[105,.11,'sawtooth',.022,-30]}},{tier:'medium',family:'Biotecnología',power:'Artillería necroplasma, escudo y control',sound:{shot:[145,.11,'sawtooth',.024,25],death:[66,.17,'square',.029,-14]}}]
   };
   const futureBossMeta = world => FUTURE_BOSS2.find(b=>b.world===Number(world)) || FUTURE_BOSS2[0];
   const boss2Meta = index => {
     const idx=Math.max(0,Number(index)||0);
     if(idx<BOSS2.length)return {...BOSS2[idx],soundtrack:BOSS_SOUNDTRACKS[idx+1]||null};
     const f=futureBossMeta(idx+1);
-    const intros={6:'FIRMA NEURONAL',7:'FIRMA ABISAL',8:'FIRMA ORGÁNICA',9:'FIRMA MULTIVERSAL',10:'FIRMA ZERO',11:'FIRMA DE SÍLICE',12:'FIRMA HADAL',13:'FIRMA MAGMÁTICA',14:'FIRMA NOVA',15:'FIRMA VERMICULAR',16:'FIRMA PSIÓNICA',17:'FIRMA FENRIR',18:'FIRMA AKASHA'};return {world:f.world,sigil:`assets/boss2/sigil_w${f.world}.svg`,short:f.relic?.name||f.name,intro:intros[f.world]||'FIRMA CRÍTICA',weapon:(f.weapons||[]).slice(0,2).join(' · '),special:f.special?.name||'Firma crítica',color:f.color,accent:f.accent,shot:f.shot,music:f.music,soundtrack:BOSS_SOUNDTRACKS[f.world]||f.soundtrack||null};
+    const intros={6:'FIRMA NEURONAL',7:'FIRMA ABISAL',8:'FIRMA ORGÁNICA',9:'FIRMA MULTIVERSAL',10:'FIRMA ZERO',11:'FIRMA DE SÍLICE',12:'FIRMA HADAL',13:'FIRMA MAGMÁTICA',14:'FIRMA NOVA',15:'FIRMA VERMICULAR',16:'FIRMA PSIÓNICA',17:'FIRMA FENRIR',18:'FIRMA AKASHA',19:'FIRMA ZHYR',20:'FIRMA NECROESCAMA'};return {world:f.world,sigil:`assets/boss2/sigil_w${f.world}.svg`,short:f.relic?.name||f.name,intro:intros[f.world]||'FIRMA CRÍTICA',weapon:(f.weapons||[]).slice(0,2).join(' · '),special:f.special?.name||'Firma crítica',color:f.color,accent:f.accent,shot:f.shot,music:f.music,soundtrack:BOSS_SOUNDTRACKS[f.world]||f.soundtrack||null};
   };
   const bossSigilHtml = (index, cls='boss-sigil') => { const m=boss2Meta(index); return `<img class="${cls}" src="${m.sigil}" alt="" aria-hidden="true">`; };
 
@@ -283,7 +294,9 @@
     { id: 'peristalsis', icon: '◍', name: 'Peristalsis Devastadora', rarity: 'legendary', desc: 'Durante 11 segundos genera contracciones laterales que comprimen hordas, dañan objetivos y limpian parte del fuego hostil.', type: 'ultimate' },
     { id: 'synapsis', icon: '✺', name: 'Sinapsis Letal', rarity: 'legendary', desc: 'Durante 11 segundos enlaza enemigos cercanos con arcos psiónicos, altera proyectiles y multiplica el daño entre objetivos conectados.', type: 'ultimate' },
     { id: 'ventisca', icon: '❄', name: 'Ventisca Depredadora', rarity: 'legendary', desc: 'Durante 11 segundos crea una ventisca móvil que congela, ralentiza y fractura enemigos mientras desvía parte del fuego hostil.', type: 'ultimate' },
-    { id: 'panelCut', icon: '▱', name: 'Corte de Viñeta Absoluta', rarity: 'legendary', desc: 'Durante 11 segundos abre paneles de tinta que cortan enemigos, cancelan proyectiles y encadenan impactos entre viñetas.', type: 'ultimate' }
+    { id: 'panelCut', icon: '▱', name: 'Corte de Viñeta Absoluta', rarity: 'legendary', desc: 'Durante 11 segundos abre paneles de tinta que cortan enemigos, cancelan proyectiles y encadenan impactos entre viñetas.', type: 'ultimate' },
+    { id: 'psychicDominion', icon: '◉', name: 'Dominio Psíquico', rarity: 'legendary', desc: 'Durante 11 segundos marca enemigos, ralentiza el campo y desvía proyectiles hostiles mediante pulsos mentales telegráficos.', type: 'ultimate' },
+    { id: 'necroScale', icon: '🜲', name: 'Dominio Necroescama', rarity: 'legendary', desc: 'Durante 11 segundos infecta objetivos, libera escamas de plasma en oleadas y refuerza resistencia y daño contra hordas y Guardianes.', type: 'ultimate' }
   ];
 
   const POWER_TYPE_META = {
@@ -297,7 +310,7 @@
     utility:{label:'UTILIDAD',icon:'◈',cue:'Mejora recuperación o economía de campo.'}
   };
   const POWER_TACTICAL_ROLE = {
-    triple:'Horda / cobertura',laser:'Corredor / perforación',orbs:'Defensa cercana',pierce:'Perforación',ice:'Control de masas',fire:'Barrido móvil',drone:'Apoyo adaptativo',ring:'Defensa reactiva',bounce:'Cadenas de daño',pulse:'Rescate de pantalla',opem:'Contramedida',nuke:'Emergencia / horda',spark:'Multiblanco',torpedo:'Caza selectiva',virus:'Daño progresivo',kamikaze:'Intercepción / caza',voidray:'Corredor nulo',gravmine:'Control territorial',disruptor:'Contramedida defensiva',phantom:'Replicación ofensiva',plasma:'Control territorial',afterburner:'Evasión',stasis:'Control global',wingman:'Cobertura lateral',voltaic:'Cadena multiblanco',overdrive:'Ritmo ofensivo',phase:'Supervivencia',nanorepair:'Sostenimiento',magnetism:'Recolección',omega:'Supremacía temporal',fury:'Saturación',laserSolar:'Anti-Guardián',laserHematic:'Drenaje / sostén',laserAbyssal:'Compresión / control',eruptionCore:'Área / horda',novaAgonica:'Radial / anti-horda',peristalsis:'Compresión / control orgánico',synapsis:'Cadena psiónica / control',ventisca:'Criogenia / control móvil',panelCut:'Corte dimensional / anti-proyectil'
+    triple:'Horda / cobertura',laser:'Corredor / perforación',orbs:'Defensa cercana',pierce:'Perforación',ice:'Control de masas',fire:'Barrido móvil',drone:'Apoyo adaptativo',ring:'Defensa reactiva',bounce:'Cadenas de daño',pulse:'Rescate de pantalla',opem:'Contramedida',nuke:'Emergencia / horda',spark:'Multiblanco',torpedo:'Caza selectiva',virus:'Daño progresivo',kamikaze:'Intercepción / caza',voidray:'Corredor nulo',gravmine:'Control territorial',disruptor:'Contramedida defensiva',phantom:'Replicación ofensiva',plasma:'Control territorial',afterburner:'Evasión',stasis:'Control global',wingman:'Cobertura lateral',voltaic:'Cadena multiblanco',overdrive:'Ritmo ofensivo',phase:'Supervivencia',nanorepair:'Sostenimiento',magnetism:'Recolección',omega:'Supremacía temporal',fury:'Saturación',laserSolar:'Anti-Guardián',laserHematic:'Drenaje / sostén',laserAbyssal:'Compresión / control',eruptionCore:'Área / horda',novaAgonica:'Radial / anti-horda',peristalsis:'Compresión / control orgánico',synapsis:'Cadena psiónica / control',ventisca:'Criogenia / control móvil',panelCut:'Corte dimensional / anti-proyectil',psychicDominion:'Dominio mental / control de proyectiles',necroScale:'Infección / oleadas / resistencia'
   };
   const powerTypeMeta = p => POWER_TYPE_META[p?.type] || POWER_TYPE_META.weapon;
   const powerTacticalRole = id => POWER_TACTICAL_ROLE[id] || 'Uso híbrido';
@@ -458,7 +471,9 @@
     { id:'bossShip15', world:15, name:'Vermis Carapace', assetKey:'world15Ship', color:'#d83b45', scale:1.45, mod:{damage:1.08,speed:1.05,cadence:.94,incoming:.91,power:1.12,crit:.035}, passive:'Vermis · regeneración, daño orgánico y resistencia a ácido', signature:'Peristalsis Devastadora', signatureCd:22 },
     { id:'bossShip16', world:16, name:'Neuroarca Psiónica', assetKey:'world16Ship', color:'#b45cff', scale:1.48, mod:{damage:1.09,speed:1.08,cadence:.92,incoming:.91,power:1.14,crit:.045}, passive:'Neuroarca · cadena psiónica, control de proyectiles y predicción', signature:'Sinapsis Letal', signatureCd:22 },
     { id:'bossShip17', world:17, name:'Fenrir Cryo-Ship', assetKey:'world17Ship', color:'#9ee8ff', scale:1.50, mod:{damage:1.09,speed:1.12,cadence:.92,incoming:.90,power:1.14,crit:.04}, passive:'Fenrir · criogenia, movilidad polar y resistencia a hazards', signature:'Ventisca Depredadora', signatureCd:21 },
-    { id:'bossShip18', world:18, name:'Akasha Manga-Ship', assetKey:'world18Ship', color:'#d44cff', scale:1.52, mod:{damage:1.10,speed:1.11,cadence:.91,incoming:.90,power:1.15,crit:.05}, passive:'Akasha · crítico, fase de viñeta y cadenas de tinta', signature:'Corte de Viñeta Absoluta', signatureCd:21 }
+    { id:'bossShip18', world:18, name:'Akasha Manga-Ship', assetKey:'world18Ship', color:'#d44cff', scale:1.52, mod:{damage:1.10,speed:1.11,cadence:.91,incoming:.90,power:1.15,crit:.05}, passive:'Akasha · crítico, fase de viñeta y cadenas de tinta', signature:'Corte de Viñeta Absoluta', signatureCd:21 },
+    { id:'bossShip19', world:19, name:'Zhyr Disc', assetKey:'world19Ship', color:'#a7d9e4', scale:1.50, mod:{damage:1.09,speed:1.12,cadence:.91,incoming:.89,power:1.15,crit:.045}, passive:'Zhyr · control psiónico, fase y precisión', signature:'Dominio Psíquico', signatureCd:21 },
+    { id:'bossShip20', world:20, name:'Necrorex Dreadship', assetKey:'world20Ship', color:'#8ed957', scale:1.54, mod:{damage:1.12,speed:1.08,cadence:.90,incoming:.87,power:1.18,crit:.055}, passive:'Necrorex · infección, resistencia y daño orgánico final', signature:'Dominio Necroescama', signatureCd:22 }
   ];
   const domainFormMeta = id => DOMAIN_FORMS.find(f=>f.id===id) || null;
   const SECOND_SAGA_WORLDS = [
@@ -482,14 +497,14 @@
     bounce: 10, pulse: 8, opem: 9, nuke: 7, spark: 10, torpedo: 8, virus: 10, kamikaze: 10,
     voidray: 12, gravmine: 12, disruptor: 10, phantom: 14, plasma: 10, afterburner: 10, stasis: 10, wingman: 12,
     voltaic: 11, overdrive: 10, phase: 9, nanorepair: 12, magnetism: 12,
-    omega: 10, fury: 10, laserSolar: 10, laserHematic: 10, laserAbyssal: 10, eruptionCore: 10, novaAgonica: 11, peristalsis: 11, synapsis: 11, ventisca: 11, panelCut: 11
+    omega: 10, fury: 10, laserSolar: 10, laserHematic: 10, laserAbyssal: 10, eruptionCore: 10, novaAgonica: 11, peristalsis: 11, synapsis: 11, ventisca: 11, panelCut: 11, psychicDominion: 11, necroScale: 11
   };
 
   const MAX_TOTAL_LIVES = 100;
   const SCORE_LIFE_STEP = 2500;
   const TACTICAL_PURCHASE_LIMITS = [3,5,7,9,10,12,14,16,18,20];
   const WEAPON_POWER_IDS = ['triple', 'laser', 'voidray', 'laserSolar', 'laserHematic', 'laserAbyssal', 'fire', 'drone', 'torpedo', 'spark', 'kamikaze', 'bounce', 'pulse'];
-  const BOSS_LOOT_POWER_IDS = ['fire','virus','plasma','phantom','voidray','omega','fury','laserSolar','laserHematic','laserAbyssal','laserSolar','laserAbyssal','eruptionCore','novaAgonica','peristalsis','synapsis','ventisca','panelCut'];
+  const BOSS_LOOT_POWER_IDS = ['fire','virus','plasma','phantom','voidray','omega','fury','laserSolar','laserHematic','laserAbyssal','laserSolar','laserAbyssal','eruptionCore','novaAgonica','peristalsis','synapsis','ventisca','panelCut','psychicDominion','necroScale'];
   const HORDE_SIZE_BANDS = [3, 6, 9];
   const RECOVERY_COMBOS_BY_WORLD = [
     ['tridente','resonante','criotemporal','tormenta','bastion'],
@@ -531,7 +546,13 @@
     blizzardElite:{id:'blizzardElite',name:'Élite de ventisca frontal',assetKey:'world17Subboss3',baseR:39,hp:208,damage:36,approach:.126,minScale:.13,growth:1.54,collisionZ:.21,spin:.34,score:184,coins:54,xp:62,behavior:'predict',impact:false,shooter:true,convertTo2D:true,rare:true,cost:2.4},
     pageShard:{id:'pageShard',name:'Página cortante frontal',assetKey:'world18Hazard1',baseR:26,hp:102,damage:28,approach:.158,minScale:.10,growth:1.46,collisionZ:.19,spin:2.1,score:88,coins:25,xp:31,behavior:'nearMiss',impact:true,cost:1.0},
     mangaHunter:{id:'mangaHunter',name:'Ronin de viñeta frontal',assetKey:'world18Enemy2',baseR:29,hp:124,damage:27,approach:.152,minScale:.11,growth:1.47,collisionZ:.20,spin:.34,score:101,coins:30,xp:37,behavior:'predict',impact:false,shooter:true,convertTo2D:true,cost:1.45},
-    panelElite:{id:'panelElite',name:'Daimyō editorial frontal',assetKey:'world18Subboss3',baseR:40,hp:222,damage:38,approach:.128,minScale:.13,growth:1.56,collisionZ:.21,spin:.38,score:192,coins:57,xp:66,behavior:'predict',impact:false,shooter:true,convertTo2D:true,rare:true,cost:2.5}
+    panelElite:{id:'panelElite',name:'Daimyō editorial frontal',assetKey:'world18Subboss3',baseR:40,hp:222,damage:38,approach:.128,minScale:.13,growth:1.56,collisionZ:.21,spin:.38,score:192,coins:57,xp:66,behavior:'predict',impact:false,shooter:true,convertTo2D:true,rare:true,cost:2.5},
+    zhyrProbe:{id:'zhyrProbe',name:'Sonda Zhyr frontal',assetKey:'world19Hazard1',baseR:27,hp:112,damage:26,approach:.151,minScale:.10,growth:1.44,collisionZ:.19,spin:.75,score:94,coins:28,xp:34,behavior:'nearMiss',impact:true,cost:1.05},
+    zhyrHunter:{id:'zhyrHunter',name:'Operador Zhyr frontal',assetKey:'world19Enemy3',baseR:29,hp:128,damage:26,approach:.142,minScale:.11,growth:1.46,collisionZ:.20,spin:.30,score:106,coins:31,xp:38,behavior:'predict',impact:false,shooter:true,convertTo2D:true,cost:1.45},
+    zhyrElite:{id:'zhyrElite',name:'Prelado Zhyr frontal',assetKey:'world19Subboss3',baseR:39,hp:214,damage:36,approach:.121,minScale:.13,growth:1.58,collisionZ:.21,spin:.26,score:196,coins:58,xp:66,behavior:'predict',impact:false,shooter:true,convertTo2D:true,rare:true,cost:2.55},
+    necroEgg:{id:'necroEgg',name:'Biocápsula necroescama frontal',assetKey:'world20Hazard1',baseR:29,hp:126,damage:29,approach:.150,minScale:.10,growth:1.48,collisionZ:.20,spin:.72,score:108,coins:32,xp:40,behavior:'nearMiss',impact:true,cost:1.15},
+    saurianHunter:{id:'saurianHunter',name:'Raptor necroescama frontal',assetKey:'world20Enemy2',baseR:30,hp:142,damage:30,approach:.146,minScale:.11,growth:1.50,collisionZ:.20,spin:.34,score:118,coins:35,xp:42,behavior:'predict',impact:false,shooter:true,convertTo2D:true,cost:1.55},
+    necroElite:{id:'necroElite',name:'Pretor Necrorex frontal',assetKey:'world20Subboss3',baseR:41,hp:246,damage:40,approach:.120,minScale:.13,growth:1.62,collisionZ:.21,spin:.30,score:218,coins:64,xp:74,behavior:'predict',impact:false,shooter:true,convertTo2D:true,rare:true,cost:2.7}
   };
   const WORLD_ONE_ACTS = [
     { id:'orbit', name:'Incursión orbital', cue:'Patrullas biomecánicas + primer contacto frontal', eventEvery:7.6 },
@@ -668,7 +689,8 @@
     13: [48, 64, 82, 102, 124],
     14: [50, 66, 84, 104, 128],
     15: [52, 68, 86, 106, 132],
-    17: [56, 72, 90, 112, 138]
+    17: [56, 72, 90, 112, 138],
+    19: [58, 76, 96, 120, 148]
   };
   const WORLD_ONE_MINION_FAMILIES = [
     ['cazador','corredor','esquivo','mosquito','nave_espejo'],
@@ -785,6 +807,32 @@
     ['w18_mecha_1','w18_mecha_2'],
     ['w18_yokai_1','w18_yokai_2']
   ];
+  const WORLD_NINETEEN_CONFIG = { bossWave:5, rewardPowers:['phase','slow','psychicDominion','shield'], waveDurations:[100,118,136,158,184] };
+  const WORLD_NINETEEN_ACTS = [
+    {id:'silent_plain',name:'Planicie Silenciosa',cue:'Sondas grises exploran sin emitir señal térmica',eventEvery:6.1},
+    {id:'clinical_ring',name:'Anillo Clínico',cue:'Campos de contención aparecen con telegraph breve',eventEvery:5.8},
+    {id:'psionic_city',name:'Ciudad Psiónica',cue:'Acólitos Zhyr coordinan fuego y teletransporte',eventEvery:5.5},
+    {id:'hybrid_labs',name:'Laboratorios Híbridos',cue:'Bioformas sintéticas emergen desde cápsulas selladas',eventEvery:5.2},
+    {id:'zhyr_chamber',name:'Cámara de Zhyr',cue:'El Arconte pliega el eje del combate y abre el Dominio Psíquico',eventEvery:5.9}
+  ];
+  const WORLD_NINETEEN_MINION_FAMILIES = [
+    ['w19_drone_1','w19_drone_2'],
+    ['w19_psionic_1','w19_psionic_2'],
+    ['w19_bio_1','w19_bio_2']
+  ];
+  const WORLD_TWENTY_CONFIG = { bossWave:5, rewardPowers:['virus','fury','necroScale','omega'], waveDurations:[104,122,142,166,194] };
+  const WORLD_TWENTY_ACTS = [
+    {id:'ruined_scales',name:'Ruinas de Escama',cue:'Lagartos infectados cazan entre huesos y restos de naves',eventEvery:5.8},
+    {id:'necro_brood',name:'Criadero Necro',cue:'Huevos y larvas zombies eclosionan alrededor de reactores orgánicos',eventEvery:5.5},
+    {id:'saurian_forge',name:'Forja Sauria',cue:'Guerreros escama y raptores cibernéticos cierran corredores',eventEvery:5.2},
+    {id:'temple_of_decay',name:'Templo de la Putrefacción',cue:'Sacerdotes necroplasma activan biocápsulas y estatuas vivas',eventEvery:4.9},
+    {id:'necrorex_throne',name:'Trono Necrobiológico',cue:'Sauryx muta tamaño, rompe armadura y combina infección, garras y embestidas',eventEvery:5.6}
+  ];
+  const WORLD_TWENTY_MINION_FAMILIES = [
+    ['w20_reptile_1','w20_reptile_2'],
+    ['w20_zombie_1','w20_zombie_2'],
+    ['w20_biotech_1','w20_biotech_2']
+  ];
   const WORLD_FOURTEEN_MINION_FAMILIES = [
     ['w14_corona_1','w14_corona_2'],
     ['w14_plasma_1','w14_plasma_2'],
@@ -806,6 +854,8 @@
   MAPS.push({id:'brain_empire_1',family:'neural',pattern:'synaptic',icon:'🧠',name:'Imperio de los Cerebros Asesinos',variant:8,boss:'Neurokhan · Arconte Psiónico',beast:'neurokhan',summons:WORLD_SIXTEEN_MINION_FAMILIES.flat(),theme:['#090512','#32155a','#b45cff'],lore:'La señal cognitiva se organiza como imperio. Cada enemigo comparte información, predice movimiento y convierte la red sináptica en artillería.',specialName:'Sinapsis Letal'});
   MAPS.push({id:'wild_tundra_1',family:'tundra',pattern:'fenrirHunt',icon:'❄',name:'Tundra Salvaje',variant:9,boss:'Skaldr Glacial · Fenrir de la Tundra',beast:'skaldr',summons:WORLD_SEVENTEEN_MINION_FAMILIES.flat(),theme:['#03111b','#164a68','#9ee8ff'],lore:'La descarga de Neurokhan se hunde en una tundra orbital donde fauna mutada, ruinas congeladas y espíritus de aurora cazan en manada.',specialName:'Ventisca Depredadora'});
   MAPS.push({id:'akasha_library_1',family:'mangaLibrary',pattern:'panelRift',icon:'▱',name:'Biblioteca Anime Multiversal',variant:10,boss:'Kanzai Akasha · Shogun de la Biblioteca',beast:'kanzai',summons:WORLD_EIGHTEEN_MINION_FAMILIES.flat(),theme:['#08050d','#291135','#d44cff'],lore:'Las páginas halladas bajo el glaciar forman una biblioteca infinita. Cada tomo abre una continuidad distinta y la tinta puede cortar materia, memoria y espacio.',specialName:'Corte de Viñeta Absoluta'});
+  MAPS.push({id:'gray_planet_1',family:'zhyr',pattern:'silentPsion',icon:'◉',name:'Planeta ficticio de los Grises',variant:11,boss:'Arconte Zhyr',beast:'zhyr',summons:WORLD_NINETEEN_MINION_FAMILIES.flat(),theme:['#071013','#26383d','#a7d9e4'],lore:'La última página de Akasha desemboca en un planeta sin ruido. Sondas, cámaras clínicas y una inteligencia colectiva observan a RIZOMA antes de decidir dónde inmovilizarlo.',specialName:'Dominio Psíquico'});
+  MAPS.push({id:'necro_reptile_1',family:'necroreptile',pattern:'necroScale',icon:'🦎',name:'Planeta Zombie-Reptiloide',variant:12,boss:'Sauryx Necrorex',beast:'sauryx',summons:WORLD_TWENTY_MINION_FAMILIES.flat(),theme:['#071006','#243717','#8ed957'],lore:'La infección final ha aprendido a combinar carne reptiliana, cadáver, reactor y templo. Todo el planeta funciona como una fortaleza necrobiológica.',specialName:'Dominio Necroescama'});
 
   // v1.9.9 · Ecos de jefes y escalada multiversal: retornos parciales que extienden W7/W8 sin convertirlos en finales paralelos.
   const ECHO_BOSS_LIBRARY = {
@@ -916,6 +966,8 @@
     world16BgApproach: 'assets/world16/bg_world16_approach.webp', world16BossBg: 'assets/world16/bg_world16_boss.webp', bossWorld16: 'assets/world16/boss_world16.png', world16Enemy1: 'assets/world16/enemy_1.png', world16Enemy2: 'assets/world16/enemy_2.png', world16Enemy3: 'assets/world16/enemy_3.png', world16Enemy4: 'assets/world16/enemy_4.png', world16Enemy5: 'assets/world16/enemy_5.png', world16Enemy6: 'assets/world16/enemy_6.png', world16Subboss1: 'assets/world16/subboss_1.png', world16Subboss2: 'assets/world16/subboss_2.png', world16Subboss3: 'assets/world16/subboss_3.png', world16Hazard1: 'assets/world16/hazard_1.png', world16Hazard2: 'assets/world16/hazard_2.png', world16Hazard3: 'assets/world16/hazard_3.png', world16Hazard4: 'assets/world16/hazard_4.png', world16Hazard5: 'assets/world16/hazard_5.png', world16Hazard6: 'assets/world16/hazard_6.png', world16ShotPsi: 'assets/world16/shot_psi_orb.png', world16ShotSynapse: 'assets/world16/shot_synapse.png', world16ShotLance: 'assets/world16/shot_neural_lance.png', world16Relic: 'assets/world16/relic_synaptic_core.png', world16Ship: 'assets/world16/ship_neuroarca_psionica.png',
     world17BgApproach: 'assets/world17/bg_world17_approach.webp', world17BossBg: 'assets/world17/bg_world17_boss.webp', bossWorld17: 'assets/world17/boss_world17.png', world17Enemy1: 'assets/world17/enemy_1.png', world17Enemy2: 'assets/world17/enemy_2.png', world17Enemy3: 'assets/world17/enemy_3.png', world17Enemy4: 'assets/world17/enemy_4.png', world17Enemy5: 'assets/world17/enemy_5.png', world17Enemy6: 'assets/world17/enemy_6.png', world17Subboss1: 'assets/world17/subboss_1.png', world17Subboss2: 'assets/world17/subboss_2.png', world17Subboss3: 'assets/world17/subboss_3.png', world17Hazard1: 'assets/world17/hazard_1.png', world17Hazard2: 'assets/world17/hazard_2.png', world17Hazard3: 'assets/world17/hazard_3.png', world17Hazard4: 'assets/world17/hazard_4.png', world17Hazard5: 'assets/world17/hazard_5.png', world17Hazard6: 'assets/world17/hazard_6.png', world17ShotCryo: 'assets/world17/shot_cryo.png', world17ShotLance: 'assets/world17/shot_ice_lance.png', world17ShotBlizzard: 'assets/world17/shot_blizzard.png', world17Relic: 'assets/world17/relic_glacial_core.png', world17Ship: 'assets/world17/ship_fenrir_cryo.png',
     world18BgApproach: 'assets/world18/bg_world18_approach.webp', world18BossBg: 'assets/world18/bg_world18_boss.webp', bossWorld18: 'assets/world18/boss_world18.png', world18Enemy1: 'assets/world18/enemy_1.png', world18Enemy2: 'assets/world18/enemy_2.png', world18Enemy3: 'assets/world18/enemy_3.png', world18Enemy4: 'assets/world18/enemy_4.png', world18Enemy5: 'assets/world18/enemy_5.png', world18Enemy6: 'assets/world18/enemy_6.png', world18Subboss1: 'assets/world18/subboss_1.png', world18Subboss2: 'assets/world18/subboss_2.png', world18Subboss3: 'assets/world18/subboss_3.png', world18Hazard1: 'assets/world18/hazard_1.png', world18Hazard2: 'assets/world18/hazard_2.png', world18Hazard3: 'assets/world18/hazard_3.png', world18Hazard4: 'assets/world18/hazard_4.png', world18Hazard5: 'assets/world18/hazard_5.png', world18Hazard6: 'assets/world18/hazard_6.png', world18ShotInk: 'assets/world18/shot_ink_blade.png', world18ShotPage: 'assets/world18/shot_page_shard.png', world18ShotSeal: 'assets/world18/shot_seal_orb.png', world18Relic: 'assets/world18/relic_akasha_codex.png', world18Ship: 'assets/world18/ship_akasha_manga.png',
+    world19BgApproach: 'assets/world19/bg_world19_approach.webp', world19BossBg: 'assets/world19/bg_world19_boss.webp', bossWorld19: 'assets/world19/boss_world19.png', world19Enemy1: 'assets/world19/enemy_1.png', world19Enemy2: 'assets/world19/enemy_2.png', world19Enemy3: 'assets/world19/enemy_3.png', world19Enemy4: 'assets/world19/enemy_4.png', world19Enemy5: 'assets/world19/enemy_5.png', world19Enemy6: 'assets/world19/enemy_6.png', world19Subboss1: 'assets/world19/subboss_1.png', world19Subboss2: 'assets/world19/subboss_2.png', world19Subboss3: 'assets/world19/subboss_3.png', world19Hazard1: 'assets/world19/hazard_1.png', world19Hazard2: 'assets/world19/hazard_2.png', world19Hazard3: 'assets/world19/hazard_3.png', world19Hazard4: 'assets/world19/hazard_4.png', world19Hazard5: 'assets/world19/hazard_5.png', world19Hazard6: 'assets/world19/hazard_6.png', world19ShotPsion: 'assets/world19/shot_psion.png', world19ShotBeam: 'assets/world19/shot_beam.png', world19ShotProbe: 'assets/world19/shot_probe.png', world19Relic: 'assets/world19/relic_zhyr_core.png', world19Ship: 'assets/world19/ship_zhyr_disc.png',
+    world20BgApproach: 'assets/world20/bg_world20_approach.webp', world20BossBg: 'assets/world20/bg_world20_boss.webp', bossWorld20: 'assets/world20/boss_world20.png', world20Enemy1: 'assets/world20/enemy_1.png', world20Enemy2: 'assets/world20/enemy_2.png', world20Enemy3: 'assets/world20/enemy_3.png', world20Enemy4: 'assets/world20/enemy_4.png', world20Enemy5: 'assets/world20/enemy_5.png', world20Enemy6: 'assets/world20/enemy_6.png', world20Subboss1: 'assets/world20/subboss_1.png', world20Subboss2: 'assets/world20/subboss_2.png', world20Subboss3: 'assets/world20/subboss_3.png', world20Hazard1: 'assets/world20/hazard_1.png', world20Hazard2: 'assets/world20/hazard_2.png', world20Hazard3: 'assets/world20/hazard_3.png', world20Hazard4: 'assets/world20/hazard_4.png', world20Hazard5: 'assets/world20/hazard_5.png', world20Hazard6: 'assets/world20/hazard_6.png', world20ShotToxic: 'assets/world20/shot_toxic.png', world20ShotClaw: 'assets/world20/shot_claw.png', world20ShotNecro: 'assets/world20/shot_necro.png', world20Relic: 'assets/world20/relic_necroscale_core.png', world20Ship: 'assets/world20/ship_necrorex_dreadship.png',
     bossMagnateOmegaBody: 'assets/future/bosses/articulated/world6_magnate_body.png', bossMagnateOmegaHatch: 'assets/future/bosses/articulated/world6_magnate_hatch.png', bossMagnateOmegaDrone: 'assets/future/bosses/articulated/world6_magnate_drone.png',
     bossLeviatanBody: 'assets/future/bosses/articulated/world7_leviatan_body.png', bossLeviatanHatch: 'assets/future/bosses/articulated/world7_leviatan_hatch.png', bossLeviatanMedusa: 'assets/future/bosses/articulated/world7_leviatan_medusa.png',
     meteor_apoc_01: 'assets/future/hazards/meteors/meteor_apoc_01.png',
@@ -1219,7 +1271,19 @@
     { id:'w18_mecha_1', name:'Mini-Mecha', color:'#7cc8ff', hp:582, speed:216, r:27, xp:99, score:244, coin:34, behavior:'chase', spriteKey:'world18Enemy3', futureWorld:18, familyIndex:1, visualScale:1.03 },
     { id:'w18_mecha_2', name:'Samurái Mecánico', color:'#b67cff', hp:728, speed:154, r:34, xp:114, score:286, coin:40, behavior:'blindado', spriteKey:'world18Enemy4', futureWorld:18, familyIndex:1, visualScale:1.10 },
     { id:'w18_yokai_1', name:'Yokai de Página', color:'#ef73d3', hp:654, speed:194, r:31, xp:108, score:268, coin:38, behavior:'toxic', spriteKey:'world18Enemy5', futureWorld:18, familyIndex:2, visualScale:1.08 },
-    { id:'w18_yokai_2', name:'Oni Editorial', color:'#ffc06a', hp:814, speed:138, r:39, xp:126, score:328, coin:46, behavior:'buffer', spriteKey:'world18Enemy6', futureWorld:18, familyIndex:2, visualScale:1.16 }
+    { id:'w18_yokai_2', name:'Oni Editorial', color:'#ffc06a', hp:814, speed:138, r:39, xp:126, score:328, coin:46, behavior:'buffer', spriteKey:'world18Enemy6', futureWorld:18, familyIndex:2, visualScale:1.16 },
+    { id:'w19_drone_1', name:'Sonda Gris', color:'#b8d9df', hp:476, speed:288, r:19, xp:88, score:214, coin:30, behavior:'zigzag', spriteKey:'world19Enemy1', futureWorld:19, familyIndex:0, visualScale:.94 },
+    { id:'w19_drone_2', name:'Dron Clínico', color:'#9fc3ca', hp:532, speed:248, r:22, xp:94, score:230, coin:32, behavior:'chase', spriteKey:'world19Enemy2', futureWorld:19, familyIndex:0, visualScale:.98 },
+    { id:'w19_psionic_1', name:'Acólito Zhyr', color:'#a7d9e4', hp:586, speed:208, r:25, xp:101, score:248, coin:35, behavior:'toxic', spriteKey:'world19Enemy3', futureWorld:19, familyIndex:1, visualScale:1.02 },
+    { id:'w19_psionic_2', name:'Operador Mental', color:'#d2eef3', hp:648, speed:184, r:28, xp:108, score:268, coin:38, behavior:'buffer', spriteKey:'world19Enemy4', futureWorld:19, familyIndex:1, visualScale:1.06 },
+    { id:'w19_bio_1', name:'Clon Pálido', color:'#c8d0d0', hp:718, speed:148, r:34, xp:118, score:296, coin:42, behavior:'blindado', spriteKey:'world19Enemy5', futureWorld:19, familyIndex:2, visualScale:1.10 },
+    { id:'w19_bio_2', name:'Híbrido Sintético', color:'#e0ecec', hp:812, speed:126, r:39, xp:128, score:330, coin:46, behavior:'kamikaze', spriteKey:'world19Enemy6', futureWorld:19, familyIndex:2, visualScale:1.15 },
+    { id:'w20_reptile_1', name:'Lagarto Infectado', color:'#9bd75e', hp:524, speed:306, r:20, xp:96, score:232, coin:33, behavior:'zigzag', spriteKey:'world20Enemy1', futureWorld:20, familyIndex:0, visualScale:.96 },
+    { id:'w20_reptile_2', name:'Guerrero Escama', color:'#78bd4b', hp:596, speed:262, r:24, xp:104, score:254, coin:36, behavior:'kamikaze', spriteKey:'world20Enemy2', futureWorld:20, familyIndex:0, visualScale:1.02 },
+    { id:'w20_zombie_1', name:'Larva Necro', color:'#a9c65f', hp:646, speed:220, r:28, xp:112, score:278, coin:39, behavior:'toxic', spriteKey:'world20Enemy3', futureWorld:20, familyIndex:1, visualScale:1.05 },
+    { id:'w20_zombie_2', name:'Bruto Cadavérico', color:'#c17b48', hp:812, speed:158, r:36, xp:126, score:322, coin:45, behavior:'blindado', spriteKey:'world20Enemy4', futureWorld:20, familyIndex:1, visualScale:1.12 },
+    { id:'w20_biotech_1', name:'Dron Escama', color:'#7ecb61', hp:748, speed:188, r:32, xp:122, score:306, coin:43, behavior:'chase', spriteKey:'world20Enemy5', futureWorld:20, familyIndex:2, visualScale:1.09 },
+    { id:'w20_biotech_2', name:'Raptor Cibernético', color:'#d69452', hp:924, speed:142, r:41, xp:142, score:364, coin:51, behavior:'buffer', spriteKey:'world20Enemy6', futureWorld:20, familyIndex:2, visualScale:1.18 }
   ];
 
   const ACHIEVEMENTS = [
@@ -1274,7 +1338,7 @@
   const COMPLETION_RELIC_WORLD = {
     world1Core:1, world2Spore:2, world3Inferno:3, world4Hex:4, world5Spirit:5,
     world6Neural:6, world7Abyss:7, world8Genesis:8, world9Threads:9, world10Zero:10,
-    world11Silica:11, world12Hadal:12, world13Magma:13, world14Nova:14, world15Vermis:15, world16Neuroarca:16, world17Fenrir:17, world18Akasha:18
+    world11Silica:11, world12Hadal:12, world13Magma:13, world14Nova:14, world15Vermis:15, world16Neuroarca:16, world17Fenrir:17, world18Akasha:18, world19Zhyr:19, world20Necrorex:20
   };
 
   function reconcileCampaignProgress(p, options={}) {
@@ -1508,7 +1572,9 @@
         peristalsis:()=>{this.tone(130.81,.16,'triangle',.024,-55);setTimeout(()=>this.chord([65.41,98,130.81],.16,.028),70);setTimeout(()=>this.tone(49,.25,'sawtooth',.020,-18),150);},
         synapsis:()=>{this.tone(392,.10,'sine',.022,180);setTimeout(()=>this.chord([261.63,392,587.33],.16,.032),55);setTimeout(()=>this.tone(880,.08,'triangle',.018,-240),120);},
         ventisca:()=>{this.tone(740,.10,'sine',.020,-230);setTimeout(()=>this.chord([293.66,440,659.25],.15,.030),50);setTimeout(()=>this.tone(147,.22,'triangle',.018,-42),125);},
-        panelCut:()=>{this.tone(920,.045,'square',.017,-320);setTimeout(()=>this.chord([130.81,196,293.66],.13,.028),48);setTimeout(()=>this.tone(1046.5,.055,'triangle',.015,-420),120);}
+        panelCut:()=>{this.tone(920,.045,'square',.017,-320);setTimeout(()=>this.chord([130.81,196,293.66],.13,.028),48);setTimeout(()=>this.tone(1046.5,.055,'triangle',.015,-420),120);},
+        psychicDominion:()=>{this.tone(440,.10,'sine',.020,-120);setTimeout(()=>this.chord([110,220,440],.18,.028),55);setTimeout(()=>this.tone(880,.06,'sine',.014,-300),130);},
+        necroScale:()=>{this.tone(92,.18,'sawtooth',.027,82);setTimeout(()=>this.chord([138.59,207.65,311.13],.16,.032),58);setTimeout(()=>this.tone(520,.07,'square',.015,-170),128);}
       };
       (bespoke[id]||(()=>this.signature(id,'power')))();
     },
@@ -1526,6 +1592,8 @@
       else if(id==='synapsis')this.tone(620,.065,'sine',.015,120);
       else if(id==='ventisca')this.tone(760,.06,'sine',.014,-180);
       else if(id==='panelCut')this.tone(920,.045,'square',.014,-250);
+      else if(id==='psychicDominion')this.tone(520,.055,'sine',.013,-120);
+      else if(id==='necroScale')this.tone(230,.055,'sawtooth',.015,75);
       else this.signature(id,'fire');
     },
     combo(id='combo'){
@@ -1591,7 +1659,36 @@
     preloadExternalTrack(id,track){
       if(!track?.asset)return null;this.externalTrackCache=this.externalTrackCache||new Map();
       if(this.externalTrackCache.has(id))return this.externalTrackCache.get(id);
-      try{const audio=new Audio(track.asset);audio.preload='auto';audio.loop=track.loop!==false;audio.playsInline=true;audio.setAttribute('playsinline','');audio.load?.();this.externalTrackCache.set(id,audio);return audio;}catch(_){return null;}
+      try{const audio=new Audio(track.asset);audio.preload='auto';audio.loop=track.loop!==false&&!track.softLoop;audio.playsInline=true;audio.setAttribute('playsinline','');audio.load?.();this.externalTrackCache.set(id,audio);return audio;}catch(_){return null;}
+    },
+    clearExternalSoftLoop(){
+      clearInterval(this.externalBossLoopTimer);this.externalBossLoopTimer=null;
+      const audio=this.externalBossTrack;if(audio){audio.onended=null;audio._rzSoftLoopFading=false;}
+    },
+    configureExternalSoftLoop(audio,track){
+      clearInterval(this.externalBossLoopTimer);this.externalBossLoopTimer=null;if(!audio)return;
+      audio.onended=null;audio._rzSoftLoopFading=false;
+      const cfg=track?.softLoop;if(!cfg){audio.loop=track?.loop!==false;return;}
+      audio.loop=false;
+      const fadeOut=Math.max(.55,Number(cfg.fadeOutSec)||1.35),minRatio=clamp(Number(cfg.minRatio)||.62,.35,.88),fadeIn=Math.max(120,Number(cfg.fadeInMs)||300);
+      const restart=()=>{
+        if(this.externalBossTrack!==audio)return;const target=clamp(this.externalBossTargetVolume||track.baseVolume||.24,.02,1);
+        try{audio.currentTime=0;audio.volume=clamp(target*minRatio,0,1);}catch(_){}
+        audio._rzSoftLoopFading=false;
+        try{const pp=audio.play();if(pp?.catch)pp.catch(()=>{});}catch(_){}
+        setTimeout(()=>{if(this.externalBossTrack===audio)this.fadeExternalBossTrack(target,fadeIn);},18);
+      };
+      audio.onended=restart;
+      this.externalBossLoopTimer=setInterval(()=>{
+        if(this.externalBossTrack!==audio||audio.paused||!Number.isFinite(audio.duration)||audio.duration<=0)return;
+        const remaining=audio.duration-audio.currentTime,target=clamp(this.externalBossTargetVolume||track.baseVolume||.24,.02,1);
+        if(remaining<=.055&&audio.currentTime>.25){restart();return;}
+        if(remaining>0&&remaining<=fadeOut){
+          if(!audio._rzSoftLoopFading){clearInterval(this.externalBossFadeTimer);this.externalBossFadeTimer=null;audio._rzSoftLoopFading=true;}
+          const k=clamp(remaining/fadeOut,0,1),smooth=k*k*(3-2*k),ratio=minRatio+(1-minRatio)*smooth;
+          try{audio.volume=clamp(target*ratio,0,1);}catch(_){}
+        }else if(audio._rzSoftLoopFading&&audio.currentTime<fadeOut){audio._rzSoftLoopFading=false;}
+      },40);
     },
     preloadWorldAudio(world=1){
       const w=Math.max(1,Math.min(MAPS.length,Number(world)||1)),bossTrack=BOSS_SOUNDTRACKS[w],ambient=WORLD_AMBIENT_SOUNDTRACKS[w];
@@ -1605,7 +1702,7 @@
       step();this.externalBossFadeTimer=setInterval(step,40);
     },
     stopExternalBossTrack(fadeMs=220){
-      clearInterval(this.externalBossFadeTimer);this.externalBossFadeTimer=null;const audio=this.externalBossTrack;this.externalBossTrack=null;this.externalBossTrackId='';this.externalBossTargetVolume=0;if(!audio)return;
+      clearInterval(this.externalBossFadeTimer);this.externalBossFadeTimer=null;clearInterval(this.externalBossLoopTimer);this.externalBossLoopTimer=null;const audio=this.externalBossTrack;if(audio){audio.onended=null;audio._rzSoftLoopFading=false;}this.externalBossTrack=null;this.externalBossTrackId='';this.externalBossTargetVolume=0;if(!audio)return;
       const from=Number.isFinite(audio.volume)?audio.volume:.2,start=performance.now(),span=Math.max(0,fadeMs||0);
       if(!span){try{audio.pause();audio.currentTime=0;audio.volume=0;}catch(_){}return;}
       const timer=setInterval(()=>{const k=clamp((performance.now()-start)/span,0,1);try{audio.volume=clamp(from*(1-k),0,1);}catch(_){}if(k>=1){clearInterval(timer);try{audio.pause();audio.currentTime=0;audio.volume=0;}catch(_){}}},32);
@@ -1615,7 +1712,7 @@
       if(this.externalBossTrack&&this.externalBossTrackId===id){this.fadeExternalBossTrack(target,420);return true;}
       this.stopExternalBossTrack(0);
       const audio=this.preloadExternalTrack(id,track);if(!audio)return false;
-      try{audio.pause();audio.currentTime=0;}catch(_){}audio.loop=track.loop!==false;audio.volume=0;this.externalBossTrack=audio;this.externalBossTrackId=id;
+      try{audio.pause();audio.currentTime=0;}catch(_){}audio.loop=track.loop!==false&&!track.softLoop;audio.volume=0;this.externalBossTrack=audio;this.externalBossTrackId=id;this.externalBossTargetVolume=target;this.configureExternalSoftLoop(audio,track);
       let failed=false;const fail=()=>{if(failed)return;failed=true;if(this.externalBossTrack===audio){this.externalBossTrack=null;this.externalBossTrackId='';this.externalBossTargetVolume=0;}try{audio.pause();audio.currentTime=0;}catch(_){}if(typeof fallback==='function')fallback();};
       audio.onerror=fail;
       try{const pp=audio.play();if(pp?.then)pp.then(()=>{if(this.externalBossTrack===audio)this.fadeExternalBossTrack(target,fadeMs);}).catch(fail);else this.fadeExternalBossTrack(target,fadeMs);}catch(_){fail();}
@@ -1663,7 +1760,7 @@
     },
     startFutureBossBattleMusic(world=6,phase=1){this.startWorldBattleMusic((Number(world)||6)-1,true,phase);},
     setFutureBossBattlePhase(world=6,phase=1){this.setBossBattlePhase(world,phase);},
-    startFutureBossSequence(world=6,phase=1){if(!state.settings.music)return;clearInterval(this.futureSeqTimer);this.futureSeqTimer=null;this.futureSeqStep=0;this.futureBossWorld=Math.max(6,Math.min(18,Number(world)||6));this.futureBossPhase=Math.max(1,Math.min(4,Number(phase)||1));this.preloadWorldAudio(this.futureBossWorld);const cfg=futureBossMeta(this.futureBossWorld),phaseTempo=this.futureBossPhase>=4?(cfg.music.phase4||.68):(this.futureBossPhase>=3?.82:1),beat=60000/cfg.music.bpm/2*phaseTempo;const tick=()=>{if(!state.settings.music)return;const step=this.futureSeqStep++,seq=cfg.music.seq,n=seq[step%seq.length],lift=(this.futureBossPhase-1)*2,freq=cfg.music.root*Math.pow(2,(n+lift)/12),gain=.0065+this.futureBossPhase*.0013;this.musicTone(freq,.082,cfg.music.wave,gain,step%4===0?-10:0);if(step%4===0)this.musicTone(cfg.music.root/2,.18,'sine',.009+this.futureBossPhase*.0013,-6);if(this.futureBossWorld===6&&step%4===2)this.musicTone(freq*2,.035,'square',.0032,-90);if(this.futureBossWorld===7&&step%3===1)this.musicTone(freq*.75,.12,'sine',.0038,14);if(this.futureBossWorld===8&&step%2===0)this.musicTone(freq*1.5,.045,'triangle',.0035,-35);if(this.futureBossWorld===9&&step%2===1)this.musicTone(freq*2,.03,'square',.0036,-180);if(this.futureBossWorld===10&&step%8===6)this.musicTone(cfg.music.root*.5,.30,'sawtooth',.0055,9);};tick();this.futureSeqTimer=setInterval(tick,Math.max(130,beat));},
+    startFutureBossSequence(world=6,phase=1){if(!state.settings.music)return;clearInterval(this.futureSeqTimer);this.futureSeqTimer=null;this.futureSeqStep=0;this.futureBossWorld=Math.max(6,Math.min(20,Number(world)||6));this.futureBossPhase=Math.max(1,Math.min(4,Number(phase)||1));this.preloadWorldAudio(this.futureBossWorld);const cfg=futureBossMeta(this.futureBossWorld),phaseTempo=this.futureBossPhase>=4?(cfg.music.phase4||.68):(this.futureBossPhase>=3?.82:1),beat=60000/cfg.music.bpm/2*phaseTempo;const tick=()=>{if(!state.settings.music)return;const step=this.futureSeqStep++,seq=cfg.music.seq,n=seq[step%seq.length],lift=(this.futureBossPhase-1)*2,freq=cfg.music.root*Math.pow(2,(n+lift)/12),gain=.0065+this.futureBossPhase*.0013;this.musicTone(freq,.082,cfg.music.wave,gain,step%4===0?-10:0);if(step%4===0)this.musicTone(cfg.music.root/2,.18,'sine',.009+this.futureBossPhase*.0013,-6);if(this.futureBossWorld===6&&step%4===2)this.musicTone(freq*2,.035,'square',.0032,-90);if(this.futureBossWorld===7&&step%3===1)this.musicTone(freq*.75,.12,'sine',.0038,14);if(this.futureBossWorld===8&&step%2===0)this.musicTone(freq*1.5,.045,'triangle',.0035,-35);if(this.futureBossWorld===9&&step%2===1)this.musicTone(freq*2,.03,'square',.0036,-180);if(this.futureBossWorld===10&&step%8===6)this.musicTone(cfg.music.root*.5,.30,'sawtooth',.0055,9);};tick();this.futureSeqTimer=setInterval(tick,Math.max(130,beat));},
     stopFutureBossSequence(){clearInterval(this.futureSeqTimer);this.futureSeqTimer=null;this.futureSeqStep=0;},
     stopBossSequence(){clearInterval(this.bossSeqTimer);this.bossSeqTimer=null;this.bossSeqStep=0;},
     startBossSequence(mapIndex=0,phase=1){
@@ -1792,7 +1889,7 @@
       this.worldFifteenState={rewardSteps:[],eventTimer:4.8,rewardTimer:5.6,hazardTimer:4.6,hordeTimer:7.6,contractionTimer:5.5,acidTimer:6.2,enemyHistory:[],hordeSeen:0,contractions:0,subBossSeen:[]};
       this.worldSixteenState={rewardSteps:[],eventTimer:4.6,rewardTimer:5.4,hazardTimer:4.4,hordeTimer:7.2,synapseTimer:5.2,opticTimer:5.8,enemyHistory:[],hordeSeen:0,synapseBursts:0,subBossSeen:[]};
       this.worldSeventeenState={rewardSteps:[],eventTimer:4.4,rewardTimer:5.2,hazardTimer:4.2,hordeTimer:6.9,blizzardTimer:5.0,avalancheTimer:5.6,enemyHistory:[],hordeSeen:0,blizzards:0,subBossSeen:[]};
-      this.worldEighteenState={rewardSteps:[],eventTimer:4.2,rewardTimer:5.0,hazardTimer:4.0,hordeTimer:6.6,panelTimer:4.7,pageTimer:5.2,enemyHistory:[],hordeSeen:0,panelsOpened:0,subBossSeen:[]};
+      this.worldEighteenState={rewardSteps:[],eventTimer:4.2,rewardTimer:5.0,hazardTimer:4.0,hordeTimer:6.6,panelTimer:4.7,pageTimer:5.2,enemyHistory:[],hordeSeen:0,panelsOpened:0,subBossSeen:[]}; this.worldNineteenState={rewardSteps:[],eventTimer:4.3,rewardTimer:5.1,hazardTimer:4.0,hordeTimer:6.5,fieldTimer:4.8,probeTimer:5.2,enemyHistory:[],hordeSeen:0,fieldsOpened:0,subBossSeen:[]}; this.worldTwentyState={rewardSteps:[],eventTimer:4.0,rewardTimer:4.8,hazardTimer:3.7,hordeTimer:6.0,mutationTimer:4.5,roarTimer:5.0,enemyHistory:[],hordeSeen:0,mutations:0,subBossSeen:[]};
       this.futureSpecialCombat=null;
       this.world3Stars=[];
       this.toasts = [];
@@ -2104,6 +2201,8 @@
       else if(this.mapIndex===15){const act=WORLD_SIXTEEN_ACTS[this.wave-1];this.worldSixteenState.eventTimer=Math.min(4.6,act?.eventEvery||6.0);this.spawnWorldSixteenReward();this.grantLevelShield(20);if(this.wave>=2)this.spawnWorldSixteenPulse(this.mobileLandscape?1:2,false);if(this.wave>=2&&this.wave<=4)this.spawnWorldSixteenSubBoss();this.toast(`ACTO 16-${this.wave}`,`${act?.name||`Nivel ${this.wave}`} · red cognitiva hostil`);}
       else if(this.mapIndex===16){const act=WORLD_SEVENTEEN_ACTS[this.wave-1];this.worldSeventeenState.eventTimer=Math.min(4.4,act?.eventEvery||5.8);this.spawnWorldSeventeenReward();this.grantLevelShield(21);if(this.wave>=2)this.spawnWorldSeventeenBlizzard(this.mobileLandscape?1:2,false);if(this.wave>=2&&this.wave<=4)this.spawnWorldSeventeenSubBoss();this.toast(`ACTO 17-${this.wave}`,`${act?.name||`Nivel ${this.wave}`} · cacería bajo cero`);}
       else if(this.mapIndex===17){const act=WORLD_EIGHTEEN_ACTS[this.wave-1];this.worldEighteenState.eventTimer=Math.min(4.2,act?.eventEvery||5.6);this.spawnWorldEighteenReward();this.grantLevelShield(22);if(this.wave>=2)this.spawnWorldEighteenPanel(this.mobileLandscape?1:2,false);if(this.wave>=2&&this.wave<=4)this.spawnWorldEighteenSubBoss();this.toast(`ACTO 18-${this.wave}`,`${act?.name||`Nivel ${this.wave}`} · la biblioteca reescribe el campo`);}
+      else if(this.mapIndex===18){const act=WORLD_NINETEEN_ACTS[this.wave-1];this.worldNineteenState.eventTimer=Math.min(4.3,act?.eventEvery||5.7);this.spawnWorldNineteenReward();this.grantLevelShield(23);if(this.wave>=2)this.spawnWorldNineteenField(this.mobileLandscape?1:2,false);if(this.wave>=2&&this.wave<=4)this.spawnWorldNineteenSubBoss();this.toast(`ACTO 19-${this.wave}`,`${act?.name||`Nivel ${this.wave}`} · la red Zhyr calcula tu posición`);}
+      else if(this.mapIndex===19){const act=WORLD_TWENTY_ACTS[this.wave-1];this.worldTwentyState.eventTimer=Math.min(4.0,act?.eventEvery||5.4);this.spawnWorldTwentyReward();this.grantLevelShield(24);if(this.wave>=2)this.spawnWorldTwentyMutation(this.mobileLandscape?1:2,false);if(this.wave>=2&&this.wave<=4)this.spawnWorldTwentySubBoss();this.toast(`ACTO 20-${this.wave}`,`${act?.name||`Nivel ${this.wave}`} · infección, escamas y biotecnología en convergencia`);}
       else this.toast('🧭 Nivel superado', `Mundo ${this.mapIndex + 1} · Nivel ${this.worldStage.level}/${this.worldStage.totalLevels}`);
       this.requestTacticalPrep('level');
     }
@@ -2441,7 +2540,7 @@
       this.worldThirteenState={rewardSteps:[],eventTimer:5.2,rewardTimer:6.0,hazardTimer:5.0,hordeTimer:8.4,eruptionTimer:6.2,geyserTimer:7.0,enemyHistory:[],hordeSeen:0,eruptions:0,subBossSeen:[]};
       this.worldFourteenState={rewardSteps:[],eventTimer:5.0,rewardTimer:5.8,hazardTimer:4.8,hordeTimer:8.0,novaTimer:5.9,flareTimer:6.5,enemyHistory:[],hordeSeen:0,novaBursts:0,subBossSeen:[]};
       this.worldFifteenState={rewardSteps:[],eventTimer:4.8,rewardTimer:5.6,hazardTimer:4.6,hordeTimer:7.6,contractionTimer:5.5,acidTimer:6.2,enemyHistory:[],hordeSeen:0,contractions:0,subBossSeen:[]}; this.worldSixteenState={rewardSteps:[],eventTimer:4.6,rewardTimer:5.4,hazardTimer:4.4,hordeTimer:7.2,synapseTimer:5.2,opticTimer:5.8,enemyHistory:[],hordeSeen:0,synapseBursts:0,subBossSeen:[]}; this.worldSeventeenState={rewardSteps:[],eventTimer:4.4,rewardTimer:5.2,hazardTimer:4.2,hordeTimer:6.9,blizzardTimer:5.0,avalancheTimer:5.6,enemyHistory:[],hordeSeen:0,blizzards:0,subBossSeen:[]};
-      this.worldEighteenState={rewardSteps:[],eventTimer:4.2,rewardTimer:5.0,hazardTimer:4.0,hordeTimer:6.6,panelTimer:4.7,pageTimer:5.2,enemyHistory:[],hordeSeen:0,panelsOpened:0,subBossSeen:[]}; this.futureSpecialCombat=null; this.world3Stars=[];
+      this.worldEighteenState={rewardSteps:[],eventTimer:4.2,rewardTimer:5.0,hazardTimer:4.0,hordeTimer:6.6,panelTimer:4.7,pageTimer:5.2,enemyHistory:[],hordeSeen:0,panelsOpened:0,subBossSeen:[]}; this.worldNineteenState={rewardSteps:[],eventTimer:4.3,rewardTimer:5.1,hazardTimer:4.0,hordeTimer:6.5,fieldTimer:4.8,probeTimer:5.2,enemyHistory:[],hordeSeen:0,fieldsOpened:0,subBossSeen:[]}; this.worldTwentyState={rewardSteps:[],eventTimer:4.0,rewardTimer:4.8,hazardTimer:3.7,hordeTimer:6.0,mutationTimer:4.5,roarTimer:5.0,enemyHistory:[],hordeSeen:0,mutations:0,subBossSeen:[]}; this.futureSpecialCombat=null; this.world3Stars=[];
       if (save?.worldOneState && this.mapIndex === 0) this.worldOneState = { ...this.worldOneState, ...save.worldOneState };
       if (save?.worldTwoState && this.mapIndex === 1) this.worldTwoState = { ...this.worldTwoState, ...save.worldTwoState };
       if (save?.worldThreeState && this.mapIndex === 2) this.worldThreeState = { ...this.worldThreeState, ...save.worldThreeState };
@@ -2460,6 +2559,8 @@
       if (save?.worldSixteenState && this.mapIndex === 15) this.worldSixteenState = { ...this.worldSixteenState, ...save.worldSixteenState };
       if (save?.worldSeventeenState && this.mapIndex === 16) this.worldSeventeenState = { ...this.worldSeventeenState, ...save.worldSeventeenState };
       if (save?.worldEighteenState && this.mapIndex === 17) this.worldEighteenState = { ...this.worldEighteenState, ...save.worldEighteenState };
+      if (save?.worldNineteenState && this.mapIndex === 18) this.worldNineteenState = { ...this.worldNineteenState, ...save.worldNineteenState };
+      if (save?.worldTwentyState && this.mapIndex === 19) this.worldTwentyState = { ...this.worldTwentyState, ...save.worldTwentyState };
       if (save?.futureSpecialCombat && (this.mapIndex === 8 || this.mapIndex === 9)) this.futureSpecialCombat = { ...save.futureSpecialCombat };
       this.powerLevels = save?.powerLevels || {};
       this.powerActivity = save?.powerActivity || {};
@@ -2526,6 +2627,8 @@
       if (!save && this.mapIndex === 15) this.setupWorldSixteenIntro();
       if (!save && this.mapIndex === 16) this.setupWorldSeventeenIntro();
       if (!save && this.mapIndex === 17) this.setupWorldEighteenIntro();
+      if (!save && this.mapIndex === 18) this.setupWorldNineteenIntro();
+      if (!save && this.mapIndex === 19) this.setupWorldTwentyIntro();
       this.running = true;
       this.paused = false;
       this.cardPause = false;
@@ -2691,12 +2794,16 @@
       this.updateWorldSixteenDirector(dt);
       this.updateWorldSeventeenDirector(dt);
       this.updateWorldEighteenDirector(dt);
+      this.updateWorldNineteenDirector(dt);
+      this.updateWorldTwentyDirector(dt);
       this.updateCoreEruptionPower(dt);
       this.updateNovaAgonicaPower(dt);
       this.updatePeristalsisPower(dt);
       this.updateSynapsisPower(dt);
       this.updateVentiscaPower(dt);
       this.updatePanelCutPower(dt);
+      this.updatePsychicDominionPower(dt);
+      this.updateNecroScalePower(dt);
       this.updateEchoBossDirector(dt);
       this.updateFutureSpecialCombat(dt);
       if (this.updateWorldOneDirector(dt) || this.updateWorldTwoDirector(dt) || this.updateWorldThreeDirector(dt)) {
@@ -3117,6 +3224,8 @@
       if(this.mapIndex>15&&profile.relics.world16Neuroarca){p.aimAssist=Math.min(.42,(p.aimAssist||0)+.045);p.crit=Math.min(.42,(p.crit||0)+.022);p.powerEffectScale=(p.powerEffectScale||1)*1.04;if(!save)this.toast('NEUROARCA PSIÓNICA','Predicción +4.5% · crítico +2.2% · potencia psiónica +4%');}
       if(this.mapIndex>16&&profile.relics.world17Fenrir){p.speed*=1.045;p.cryoBonus=(p.cryoBonus||0)+.08;p.hazardResistance=Math.min(.38,(p.hazardResistance||0)+.06);if(!save)this.toast('FENRIR CRYO-SHIP','Velocidad +4.5% · criogenia +8% · resistencia a hazards +6%');}
       if(this.mapIndex>17&&profile.relics.world18Akasha){p.crit=Math.min(.45,(p.crit||0)+.025);p.powerDurationScale=(p.powerDurationScale||1)*1.035;p.powerEffectScale=(p.powerEffectScale||1)*1.035;if(!save)this.toast('AKASHA MANGA-SHIP','Crítico +2.5% · duración/potencia de firmas +3.5%');}
+      if(this.mapIndex>18&&profile.relics.world19Zhyr){p.crit=Math.min(.47,(p.crit||0)+.02);p.powerDurationScale=(p.powerDurationScale||1)*1.03;p.shieldRegen=(p.shieldRegen||1)*1.04;if(!save)this.toast('ZHYR DISC','Crítico +2% · firmas +3% · regeneración de escudo +4%');}
+      if(this.mapIndex>=19&&profile.relics.world20Necrorex){p.crit=Math.min(.50,(p.crit||0)+.025);p.powerEffectScale=(p.powerEffectScale||1)*1.04;p.hazardResistance=Math.min(.42,(p.hazardResistance||0)+.05);p.regen=(p.regen||0)+.12;if(!save)this.toast('NÚCLEO NECROESCAMA','Crítico +2.5% · potencia +4% · resistencia +5% · regeneración +0.12');}
     }
 
 
@@ -3699,6 +3808,10 @@
           b.vulnerable=0;b.r*=b.phase>=4?.87:.93;b.displayScale=Math.max(.66,(b.displayScale||1.0)*(b.phase>=4?.88:.94));b.speed*=1.15;this.spawnWorldSeventeenHazard(Math.min(4,1+b.phase),true);this.spawnWorldSeventeenBlizzard(Math.min(3,1+Math.floor(b.phase/2)),true);
         } else if(this.mapIndex===17){
           b.shieldMax += 560 + b.phase*158;b.shield=b.shieldMax;b.r*=b.phase===2?.95:.91;b.displayScale=(b.displayScale||.98)*(b.phase===2?.96:.92);b.speed*=1.16;b.attack=Math.min(b.attack,.52);this.spawnWorldEighteenPanel(Math.min(this.mobileLandscape?2:3,1+Math.floor(b.phase/2)),true);this.spawnWorldEighteenHazard(b.phase>=3?2:1,true);this.toast(`KANZAI · FASE ${b.phase}`,b.phase===2?'La viñeta se divide':(b.phase===3?'Cambio de género: mecha y yokai':'Corte editorial absoluto'));
+        } else if(this.mapIndex===18){
+          b.shieldMax += 610 + b.phase*166;b.shield=b.shieldMax;b.r*=b.phase===2?.96:.92;b.displayScale=(b.displayScale||.98)*(b.phase===2?.97:.93);b.speed*=1.17;b.attack=Math.min(b.attack,.50);b.phaseTimer=Math.max(b.phaseTimer||0,.45);this.spawnWorldNineteenField(Math.min(this.mobileLandscape?2:3,1+Math.floor(b.phase/2)),true);this.spawnWorldNineteenHazard(b.phase>=3?2:1,true);this.toast(`ZHYR · FASE ${b.phase}`,b.phase===2?'Teletransporte clínico':(b.phase===3?'Dominio mental expandido':'Silencio psiónico absoluto'));
+        } else if(this.mapIndex===19){
+          b.shieldMax += 690 + b.phase*184;b.shield=b.shieldMax;b.r*=b.phase===2?.94:.88;b.displayScale=(b.displayScale||1)*(b.phase===2?.95:.90);b.speed*=1.20;b.attack=Math.min(b.attack,.46);b.phaseTimer=Math.max(b.phaseTimer||0,.42);this.spawnWorldTwentyMutation(Math.min(this.mobileLandscape?2:3,1+Math.floor(b.phase/2)),true);this.spawnWorldTwentyHazard(b.phase>=3?2:1,true);this.toast(`SAURYX · MUTACIÓN ${b.phase}`,b.phase===2?'Armadura rota · carga sauriana':(b.phase===3?'Necroescama infecciosa':'Forma final · depredador absoluto'));
         } else {
           b.shieldMax += 18;
           b.shield = Math.min(b.shieldMax, b.shield + b.shieldMax * .38);
@@ -3861,7 +3974,7 @@
     updateBossMotion(b, dt) {
       const p = this.player;
       if (!b.mode) {
-        b.mode = this.mapIndex===13 ? 'radial' : (this.mapIndex===10 ? 'serpentine' : (this.mapIndex===11 ? 'tide' : (this.mapIndex===12 ? 'forge' : 'orbit')));
+        b.mode = this.mapIndex===19 ? 'hunt' : (this.mapIndex===13 ? 'radial' : (this.mapIndex===10 ? 'serpentine' : (this.mapIndex===11 ? 'tide' : (this.mapIndex===12 ? 'forge' : 'orbit'))));
         b.modeTimer = 2.8;
         b.alpha = 1;
         b.orbitAngle = Math.random() * Math.PI * 2;
@@ -3872,13 +3985,15 @@
       }
       b.modeTimer -= dt;
       if (b.modeTimer <= 0) {
-        const modes = this.mapIndex===10
+        const modes = this.mapIndex===19
+          ? ['hunt','charge','skid','ambush']
+          : (this.mapIndex===10
           ? ['serpentine', 'sweep', 'dive', 'mirage']
           : (this.mapIndex===11
             ? ['tide', 'figure8', 'undertow', 'fade']
-            : (this.mapIndex===12 ? ['forge', 'arc', 'slam', 'rift'] : (this.mapIndex===13 ? ['radial','flareArc','collapse','novaBlink'] : (this.mapIndex===14 ? ['burrow','cross','coil','mawBlink'] : ['orbit', 'arc', 'strafe', 'fade']))));
+            : (this.mapIndex===12 ? ['forge', 'arc', 'slam', 'rift'] : (this.mapIndex===13 ? ['radial','flareArc','collapse','novaBlink'] : (this.mapIndex===14 ? ['burrow','cross','coil','mawBlink'] : ['orbit', 'arc', 'strafe', 'fade'])))));
         b.mode = pick(modes);
-        const blink = ['fade','mirage','rift','novaBlink','mawBlink'].includes(b.mode);
+        const blink = ['fade','mirage','rift','novaBlink','mawBlink','ambush'].includes(b.mode);
         b.modeTimer = blink ? rand(2.35, 1.85) : rand(this.mapIndex>=10 ? 3.9 : 4.1, this.mapIndex>=10 ? 2.4 : 2.6);
         if (blink) {
           b.fadeTimer = 1.0;
@@ -3892,7 +4007,7 @@
         }
       }
 
-      const localFade = ['fade','mirage','rift','novaBlink','mawBlink'].includes(b.mode);
+      const localFade = ['fade','mirage','rift','novaBlink','mawBlink','ambush'].includes(b.mode);
       if (this.mapIndex === 10) {
         if (b.mode === 'serpentine') {
           b.serpT = (b.serpT || 0) + dt * (.95 + b.phase * .14);
@@ -3995,6 +4110,16 @@
         } else if (b.mode === 'mawBlink') {
           b.fadeTimer-=dt;if(!b.teleported&&b.fadeTimer<=.42){b.x=clamp(p.x+rand(270,-270),104,this.w-104);b.y=clamp(p.y+rand(-165,-35),72,this.h*.43);b.targetX=b.x;b.targetY=b.y;b.teleported=true;this.spawnWorldFifteenContraction(1,true);}
         }
+      } else if (this.mapIndex === 19) {
+        if (b.mode === 'hunt') {
+          b.huntT=(b.huntT||0)+dt*(1.18+b.phase*.22);const rad=Math.max(72,168-b.phase*18);b.targetX=clamp(p.x+Math.cos(b.huntT)*rad,96,this.w-96);b.targetY=clamp(p.y-105+Math.sin(b.huntT*1.45)*(46+b.phase*7),72,this.h*.48);
+        } else if (b.mode === 'charge') {
+          if(!b.chargeStage)b.chargeStage=0;if(b.chargeStage===0){b.targetX=clamp(p.x+(p.moveVx||0)*.36,98,this.w-98);b.targetY=clamp(p.y+(p.moveVy||0)*.24-34,76,this.h*.48);if(Math.hypot((b.targetX||b.x)-b.x,(b.targetY||b.y)-b.y)<42){b.chargeStage=1;this.shake=Math.max(this.shake,3.5);}}else{b.targetX=clamp(this.w*.5+rand(260,-260),100,this.w-100);b.targetY=clamp(this.h*.15+rand(34,-12),66,this.h*.28);if(Math.hypot((b.targetX||b.x)-b.x,(b.targetY||b.y)-b.y)<40)b.chargeStage=0;}
+        } else if (b.mode === 'skid') {
+          b.skidDir=b.skidDir||(Math.random()<.5?-1:1);b.targetX=b.skidDir>0?this.w-116:116;b.targetY=clamp(p.y-92+Math.sin((b.t||0)*1.8)*(38+b.phase*5),74,this.h*.47);if(Math.abs((b.targetX||b.x)-b.x)<38)b.skidDir*=-1;
+        } else if (b.mode === 'ambush') {
+          b.fadeTimer-=dt;if(!b.teleported&&b.fadeTimer<=.40){const side=Math.random()<.5?-1:1;b.x=clamp(p.x+side*rand(245,150),100,this.w-100);b.y=clamp(p.y+rand(-135,-40),74,this.h*.46);b.targetX=b.x;b.targetY=b.y;b.teleported=true;this.spawnWorldTwentyMutation(1,true);this.emit(b.x,b.y,'#8ed957',12,155,.34);}
+        }
       } else if (b.mode === 'orbit') {
         b.orbitAngle += dt * (1.1 + b.phase * .18);
         const rad = 120 + b.phase * 16;
@@ -4026,12 +4151,12 @@
       } else {
         b.alpha = Math.min(1, (b.alpha || .7) + dt * 2.6);
       }
-      const follow = this.mapIndex===14 ? (1.92 + b.phase * .21) : (this.mapIndex===13 ? (1.82 + b.phase * .20) : (this.mapIndex===12 ? (1.72 + b.phase * .16) : (this.mapIndex>=10 ? (1.62 + b.phase * .15) : (1.5 + b.phase * .15))));
+      const follow = this.mapIndex===19 ? (2.05 + b.phase * .28) : (this.mapIndex===14 ? (1.92 + b.phase * .21) : (this.mapIndex===13 ? (1.82 + b.phase * .20) : (this.mapIndex===12 ? (1.72 + b.phase * .16) : (this.mapIndex>=10 ? (1.62 + b.phase * .15) : (1.5 + b.phase * .15)))));
       b.x += ((b.targetX || b.x) - b.x) * Math.min(1, dt * follow);
       b.y += ((b.targetY || b.y) - b.y) * Math.min(1, dt * follow);
       const xPad = this.mapIndex>=10 ? 90 : 76;
       const yMin = this.mapIndex>=10 ? 62 : 60;
-      const yMax = this.mapIndex===14 ? this.h*.44 : (this.mapIndex===13 ? this.h*.40 : (this.mapIndex===10 ? this.h * .40 : (this.mapIndex===11 ? this.h * .43 : (this.mapIndex===12 ? this.h * .41 : this.h * .46))));
+      const yMax = this.mapIndex===19 ? this.h*.49 : (this.mapIndex===14 ? this.h*.44 : (this.mapIndex===13 ? this.h*.40 : (this.mapIndex===10 ? this.h * .40 : (this.mapIndex===11 ? this.h * .43 : (this.mapIndex===12 ? this.h * .41 : this.h * .46)))));
       b.x = clamp(b.x, xPad, this.w - xPad);
       b.y = clamp(b.y, yMin, yMax);
       return true;
@@ -4785,7 +4910,7 @@
     }
 
     spawnFrontThreat(type='fragment',options={}){
-      if(this.mapIndex<0||this.mapIndex>17||this.bossActive||this.run?.mapComplete)return null;
+      if(this.mapIndex<0||this.mapIndex>19||this.bossActive||this.run?.mapComplete)return null;
       const spec=FRONT_THREAT_TYPES[type]||FRONT_THREAT_TYPES.fragment;
       if((this.frontThreats?.length||0)>=this.frontThreatLimit()&&!options.force)return null;
       const behavior=options.behavior||spec.behavior||pick(['fixed','nearMiss']);
@@ -4815,6 +4940,8 @@
       if(world===17){if(w<=1)return roll<.70?'iceShard':'frostHunter';if(w===2)return roll<.44?'iceShard':(roll<.84?'frostHunter':'blizzardElite');if(w===3)return roll<.30?'iceShard':(roll<.70?'frostHunter':'blizzardElite');return roll<.22?'iceShard':(roll<.62?'frostHunter':'blizzardElite');}
       // M18: páginas, cazadores manga y élites que atraviesan viñetas.
       if(world===18){if(w<=1)return roll<.68?'pageShard':'mangaHunter';if(w===2)return roll<.40?'pageShard':(roll<.82?'mangaHunter':'panelElite');if(w===3)return roll<.28?'pageShard':(roll<.68?'mangaHunter':'panelElite');return roll<.20?'pageShard':(roll<.60?'mangaHunter':'panelElite');}
+      if(world===19){if(w<=1)return roll<.66?'zhyrProbe':'zhyrHunter';if(w===2)return roll<.38?'zhyrProbe':(roll<.82?'zhyrHunter':'zhyrElite');if(w===3)return roll<.26?'zhyrProbe':(roll<.66?'zhyrHunter':'zhyrElite');return roll<.18?'zhyrProbe':(roll<.57?'zhyrHunter':'zhyrElite');}
+      if(world===20){if(w<=1)return roll<.62?'necroEgg':'saurianHunter';if(w===2)return roll<.34?'necroEgg':(roll<.80?'saurianHunter':'necroElite');if(w===3)return roll<.22?'necroEgg':(roll<.62?'saurianHunter':'necroElite');return roll<.14?'necroEgg':(roll<.52?'saurianHunter':'necroElite');}
       // M15 conserva identidad orgánica propia.
       if(world===15){if(w<=1)return roll<.72?'tissue':'parasiteFront';if(w===2)return roll<.42?'tissue':(roll<.76?'parasiteFront':'cyst');if(w===3)return roll<.34?'tissue':(roll<.70?'parasiteFront':(roll<.90?'cyst':'immuneFront'));return roll<.44?'parasiteFront':(roll<.70?'tissue':(roll<.88?'cyst':'immuneFront'));}
       // M1: introducción espectacular ya calibrada.
@@ -4842,23 +4969,23 @@
     }
 
     updateFrontThreatDirector(dt){
-      if(this.mapIndex<0||this.mapIndex>17||this.bossActive||this.run?.mapComplete)return;
+      if(this.mapIndex<0||this.mapIndex>19||this.bossActive||this.run?.mapComplete)return;
       const world=this.mapIndex+1,w1=this.worldOneState;if(world===1&&!w1)return;
-      const tier=world<=4?0:(world<=8?1:2),organic=world===15,neural=world===16,glacial=world===17,manga=world===18;
+      const tier=world<=4?0:(world<=8?1:2),organic=world===15,neural=world===16,glacial=world===17,manga=world===18,zhyr=world===19,necro=world===20;
       const d=this.frontThreatDirector||(this.frontThreatDirector={cooldown:3.6,budget:2.4,budgetMax:2.4,budgetTimer:11.5,spawned:0,nearMisses:0});
       d.budgetTimer-=dt;
       if(d.budgetTimer<=0){
-        const base=manga?3.65:(glacial?3.45:(neural?3.25:(organic?3.0:(tier===0?1.55:(tier===1?2.35:3.05)))));
-        const perWave=manga?.76:(glacial?.72:(neural?.68:(organic?.62:(tier===0?.34:(tier===1?.50:.64)))));
+        const base=necro?4.05:(zhyr?3.82:(manga?3.65:(glacial?3.45:(neural?3.25:(organic?3.0:(tier===0?1.55:(tier===1?2.35:3.05)))))));
+        const perWave=necro?.84:(zhyr?.80:(manga?.76:(glacial?.72:(neural?.68:(organic?.62:(tier===0?.34:(tier===1?.50:.64)))))));
         d.budgetMax=base+this.wave*perWave;d.budget=d.budgetMax;
-        d.budgetTimer=Math.max(manga?5.7:(glacial?6.0:(neural?6.4:(organic?6.8:(tier===0?9.4:(tier===1?7.8:6.7))))), (manga?9.8:(glacial?10.2:(neural?10.8:(organic?11.5:(tier===0?13.8:(tier===1?12.2:10.8))))))-this.wave*.72);
+        d.budgetTimer=Math.max(necro?5.1:(zhyr?5.4:(manga?5.7:(glacial?6.0:(neural?6.4:(organic?6.8:(tier===0?9.4:(tier===1?7.8:6.7))))))), (necro?9.0:(zhyr?9.4:(manga?9.8:(glacial?10.2:(neural?10.8:(organic?11.5:(tier===0?13.8:(tier===1?12.2:10.8))))))))-this.wave*.72);
       }
       d.cooldown-=dt*(this.getDifficulty().hazardPace||1);
       const preludeBlocked=world===1&&w1?.bossPrelude>0;
       if(!preludeBlocked&&d.cooldown<=0&&(this.frontThreats?.length||0)<this.frontThreatLimit()){
         const type=this.pickFrontThreatType(),spec=FRONT_THREAT_TYPES[type],cost=spec?.cost||1;
         if(d.budget>=cost||type==='fragment'){
-          const groupChance=(organic||neural||glacial||manga)?0:(tier===0?(this.wave>=3?.16:.05):(tier===1?.30:.42));
+          const groupChance=(organic||neural||glacial||manga||zhyr||necro)?0:(tier===0?(this.wave>=3?.16:.05):(tier===1?.30:.42));
           if(type==='fragment'&&Math.random()<groupChance)this.spawnFrontThreatGroup(type,this.isSmallScreen?2:Math.min(tier===2?4:3,1+Math.ceil(this.wave/2)));
           else this.spawnFrontThreat(type);
           d.budget=Math.max(0,d.budget-cost);d.spawned++;
@@ -4871,7 +4998,7 @@
         if(ft.telegraph>0){ft.telegraph=Math.max(0,ft.telegraph-dt);this.projectFrontThreat(ft);continue;}
         if(ft.behavior==='predict'&&this.player){const pred=this.frontThreatTarget('predict'),track=ft.type==='elite'?.34:.22;ft.tx+=(pred.x-ft.tx)*Math.min(1,dt*track);ft.ty+=(pred.y-ft.ty)*Math.min(1,dt*track);}
         const prog=clamp(1-ft.z,0,1);ft.z-=dt*ft.approach*(.72+prog*1.72);ft.rotation+=(ft.spin||0)*dt*(.35+prog*1.2);this.projectFrontThreat(ft);
-        if(ft.shooter&&ft.z<.68&&ft.z>.24){ft.shotCd-=dt;if(ft.shotCd<=0){const a=Math.atan2(this.player.y-ft.sy,this.player.x-ft.sx),shotColor=manga?(ft.rare?'#fff0f7':'#d44cff'):(glacial?(ft.rare?'#e8fbff':'#9ee8ff'):(neural?(ft.rare?'#78e8ff':'#b45cff'):(organic?(ft.rare?'#b6ff58':'#d83b45'):(ft.rare?'#ff795f':'#83eaff')))),shotKey=manga?(ft.rare?'world18ShotSeal':'world18ShotInk'):(glacial?(ft.rare?'world17ShotBlizzard':'world17ShotCryo'):(neural?(ft.rare?'world16ShotSynapse':'world16ShotPsi'):(organic?(ft.rare?'world15ShotAcid':'world15ShotParasite'):null)));this.addEnemyBullet(ft.sx,ft.sy,a,170+this.wave*12,6.5+this.wave*1.25,shotColor,{r:4.2,life:3.2,trail:true,wobble:ft.rare?.18:.06,spriteKey:shotKey,spriteScale:(organic||neural||glacial||manga)?3.0:null,bossHoming:(neural||glacial||manga)&&ft.rare,turnRate:manga?.27:(glacial?.24:(neural?.22:0))});ft.shotCd=ft.rare?rand(.9,.58):rand(1.45,.9);}}
+        if(ft.shooter&&ft.z<.68&&ft.z>.24){ft.shotCd-=dt;if(ft.shotCd<=0){const a=Math.atan2(this.player.y-ft.sy,this.player.x-ft.sx),shotColor=necro?(ft.rare?'#d9ff78':'#8ed957'):(zhyr?(ft.rare?'#e8fbff':'#a7d9e4'):(manga?(ft.rare?'#fff0f7':'#d44cff'):(glacial?(ft.rare?'#e8fbff':'#9ee8ff'):(neural?(ft.rare?'#78e8ff':'#b45cff'):(organic?(ft.rare?'#b6ff58':'#d83b45'):(ft.rare?'#ff795f':'#83eaff')))))),shotKey=necro?(ft.rare?'world20ShotNecro':'world20ShotToxic'):(zhyr?(ft.rare?'world19ShotBeam':'world19ShotPsion'):(manga?(ft.rare?'world18ShotSeal':'world18ShotInk'):(glacial?(ft.rare?'world17ShotBlizzard':'world17ShotCryo'):(neural?(ft.rare?'world16ShotSynapse':'world16ShotPsi'):(organic?(ft.rare?'world15ShotAcid':'world15ShotParasite'):null)))));this.addEnemyBullet(ft.sx,ft.sy,a,170+this.wave*12,6.5+this.wave*1.25,shotColor,{r:4.2,life:3.2,trail:true,wobble:ft.rare?.18:.06,spriteKey:shotKey,spriteScale:(organic||neural||glacial||manga||zhyr||necro)?3.0:null,bossHoming:(neural||glacial||manga||zhyr||necro)&&ft.rare,turnRate:necro?.30:(zhyr?.28:(manga?.27:(glacial?.24:(neural?.22:0))))});ft.shotCd=ft.rare?rand(.9,.58):rand(1.45,.9);}}
         const rr=Math.max(5,ft.drawR*(ft.hitboxScale||.82)),dist=Math.hypot(ft.sx-this.player.x,ft.sy-this.player.y);
         if(ft.rescuable&&ft.z<.13&&dist<this.player.r+rr+18){this.destroyFrontThreat(ft,true);continue;}
         if(ft.impact&&ft.z<(ft.collisionZ||.2)&&ft.damage>0&&dist<this.player.r+rr){this.playerHit(ft.damage);this.explode(ft.sx,ft.sy,Math.max(34,rr*2.1),ft.damage*.75);this.shake=Math.max(this.shake,ft.rare?7:4.5);this.releaseFrontThreat(ft);continue;}
@@ -4891,6 +5018,8 @@
     convertFrontThreatTo2D(ft){
       let id;
       if(this.mapIndex===17)id=ft.rare?'w18_yokai_2':'w18_shonen_2';
+      if(this.mapIndex===19)id=ft.rare?'w20_biotech_2':'w20_reptile_2';
+      else if(this.mapIndex===18)id=ft.rare?'w19_bio_2':'w19_psionic_2';
       else if(this.mapIndex===16)id=ft.rare?'w17_spirit_2':'w17_wolf_2';
       else if(this.mapIndex===15)id=ft.rare?'w16_brain_2':'w16_eye_1';
       else if(this.mapIndex===14)id=ft.rare?'w15_immune_2':'w15_parasite_2';
@@ -4909,7 +5038,7 @@
       this.explode(ft.sx,ft.sy,Math.max(28,(ft.drawR||12)*2.0),rescue?0:Math.max(8,ft.damage||8));this.emit(ft.sx,ft.sy,rescue?'#61ffc8':(rare?'#ffd56a':'#83eaff'),rare?12:7,110,.42);
       if(rescue||Math.random()<.48)this.spawnPickup(ft.sx+rand(16,-16),ft.sy+rand(16,-16),'coin',Math.max(4,Math.ceil(coins*.55)),{rewardGlow:rescue||rare});
       if(rescue||Math.random()<.34)this.spawnPickup(ft.sx+rand(18,-18),ft.sy+rand(18,-18),'xp',Math.max(5,Math.ceil(xp*.65)),{rewardGlow:rescue});
-      if(rescue||rare||(early&&Math.random()<.07)){const world=this.mapIndex+1,pool=world===16?['spark','phase','synapsis','overdrive']:(world===15?['nanorepair','laserHematic','stasis','peristalsis']:(world<=4?['afterburner','stasis','wingman','torpedo']:(world<=8?['plasma','omega','wingman','nanorepair']:['phase','overdrive','omega','stasis'])));const power=pick(pool);this.spawnPickup(ft.sx,ft.sy,'power',1,{powerId:power,rewardGlow:true,label:rescue?'RESCATE · PODER':'BONUS PROFUNDIDAD',powerDuration:10});}
+      if(rescue||rare||(early&&Math.random()<.07)){const world=this.mapIndex+1,pool=world===20?['virus','fury','necroScale','omega']:(world===19?['phase','psychicDominion','shield','overdrive']:(world===18?['phase','panelCut','phantom','bounce']:(world===17?['ice','ventisca','phase','overdrive']:(world===16?['spark','phase','synapsis','overdrive']:(world===15?['nanorepair','laserHematic','stasis','peristalsis']:(world<=4?['afterburner','stasis','wingman','torpedo']:(world<=8?['plasma','omega','wingman','nanorepair']:['phase','overdrive','omega','stasis'])))))));const power=pick(pool);this.spawnPickup(ft.sx,ft.sy,'power',1,{powerId:power,rewardGlow:true,label:rescue?'RESCATE · PODER':'BONUS PROFUNDIDAD',powerDuration:10});}
       if((rescue||rare)&&!this.isSmallScreen)this.toast(rescue?'◇ CÁPSULA RESCATADA':'◆ AMENAZA ÉLITE',`+${score} · +${coins} monedas`);
       this.releaseFrontThreat(ft);
     }
@@ -5589,6 +5718,43 @@
     updateWorldEighteenDirector(dt){if(this.mapIndex!==17||this.bossActive||this.run?.mapComplete)return false;const w=this.worldEighteenState;if(!w)return false;w.rewardTimer=(w.rewardTimer??5.0)-dt;if(w.rewardTimer<=0&&this.wave<5){this.spawnCrossWorldTacticalPrize();w.rewardTimer=rand(12.4,8.8);}w.panelTimer=(w.panelTimer??4.7)-dt*(this.getDifficulty().eventPace||1);if(w.panelTimer<=0){this.spawnWorldEighteenPanel(this.wave>=4?2:1,this.wave>=3);w.panelTimer=rand(this.wave>=4?6.4:8.8,this.wave>=4?4.2:5.7);}w.eventTimer=(w.eventTimer??4.2)-dt*(this.getDifficulty().eventPace||1);if(w.eventTimer<=0&&this.wave<5){Math.random()<.58?this.spawnWorldEighteenHazard(this.wave>=4?2:1,true):this.spawnWorldEighteenPanel(1,true);w.eventTimer=(WORLD_EIGHTEEN_ACTS[this.wave-1]?.eventEvery||5.6)+rand(.76,-.34);}return false;}
     updatePanelCutPower(dt){if(!this.isPowerActive('panelCut')){this.panelCutTick=0;return;}this.panelCutTick=(this.panelCutTick||0)-dt;if(this.panelCutTick>0)return;this.panelCutTick=.44;const p=this.player,scale=this.getStagePowerScale(),targets=[...this.enemies].filter(e=>e.hp>0).sort((a,b)=>dist2(a,p)-dist2(b,p)).slice(0,this.isSmallScreen?6:9);if(!targets.length)return;let prev=p;for(const e of targets){const dmg=e.boss?e.baseHp*.0071:p.damage*(1.04+.18*scale);this.damageEnemy(e,dmg,{color:'#d44cff',silent:true,slow:.12,criticalBurst:!!e.boss});this.particles.push({type:'beam',x:prev.x,y:prev.y,x2:e.x,y2:e.y,life:.11,max:.11,color:'#fff0f7'});prev=e;}let erased=0;this.bullets=this.bullets.filter(b=>{if(!b.enemy||erased>=7)return true;if(Math.hypot(b.x-p.x,b.y-p.y)<245){erased++;this.emit(b.x,b.y,'#fff0f7',2,55,.18);return false;}return true;});AudioFX.powerFire('panelCut');}
 
+    setupWorldNineteenIntro(){
+      const p=this.player,w=this.worldNineteenState;w.eventTimer=4.0;w.rewardTimer=4.8;w.hordeTimer=6.2;w.hazardTimer=3.8;w.fieldTimer=4.5;w.probeTimer=5.0;
+      this.spawnPickup(p.x+84,clamp(p.y-108,64,this.h-64),'power',1,{powerId:'phase',major:true,rewardGlow:true,label:'FASE ZHYR',powerDuration:11});
+      this.spawnPickup(p.x-106,p.y-18,'power',1,{powerId:'slow',major:true,rewardGlow:true,label:'CAMPO MENTAL',powerDuration:11});
+      this.spawnPickup(p.x+136,p.y+50,'shield',110,{rewardGlow:true,label:'ESCUDO CLÍNICO +110'});
+      ['w19_drone_1','w19_drone_2','w19_psionic_1'].forEach((id,i)=>this.spawnEnemyNearPlayer(id,-.92+i*.80,378+i*34,true,1.10));
+      this.spawnWorldNineteenHazard(1,true);this.spawnWorldNineteenField(1,false);this.spawnFrontThreat('zhyrProbe',{force:true,telegraph:.66});this.toast('MUNDO 19 · PLANETA FICTICIO DE LOS GRISES','La red Zhyr observa, predice y bloquea rutas antes de atacar');
+    }
+    grantWorldNineteenPowerReward(step=Math.max(1,this.wave-1)){const w=this.worldNineteenState||(this.worldNineteenState={rewardSteps:[]});w.rewardSteps=w.rewardSteps||[];const id=WORLD_NINETEEN_CONFIG.rewardPowers[Math.max(0,Math.min(WORLD_NINETEEN_CONFIG.rewardPowers.length-1,step-1))];if(!id||w.rewardSteps.includes(id))return null;w.rewardSteps.push(id);return id;}
+    spawnWorldNineteenReward(){const id=this.grantWorldNineteenPowerReward();if(!id)return;const pow=POWERS.find(x=>x.id===id),p=this.player;this.spawnPickup(p.x+rand(138,-138),clamp(p.y-122,62,this.h-62),'power',1,{powerId:id,major:true,rewardGlow:true,label:pow?.name||'Tecnología Zhyr',powerDuration:Math.max(11,POWER_ACTIVE_SECONDS[id]||11)});this.toast('◉ TECNOLOGÍA ZHYR',pow?.name||id);}
+    worldNineteenEnemyId(){const own=WORLD_NINETEEN_MINION_FAMILIES;let pool=this.wave<=1?[...own[0]]:this.wave===2?[...own[0],...own[1]]:[...own.flat()];const hist=this.worldNineteenState?.enemyHistory||[],cand=pool.filter(id=>!hist.slice(-3).includes(id)),id=pick(cand.length?cand:pool);this.worldNineteenState.enemyHistory=[...hist,id].slice(-6);return id;}
+    spawnWorldNineteenHazard(count=1,fast=false){const keys=['world19Hazard1','world19Hazard2','world19Hazard3','world19Hazard4','world19Hazard5','world19Hazard6'];if(!this.meteors)this.meteors=[];const cap=this.isSmallScreen?5:9;for(let i=0;i<count&&this.meteors.length<cap;i++){const fromLeft=Math.random()<.5,x=fromLeft?-92:this.w+92,y=rand(this.h*.84,this.h*.12),targetX=fromLeft?this.w+126:-126,targetY=clamp(y+rand(180,-180),46,this.h-46),a=Math.atan2(targetY-y,targetX-x),sp=fast?rand(344,254):rand(248,170),r=rand(30,19),key=pick(keys);this.meteors.push({kind:'w19zhyr',x,y,vx:Math.cos(a)*sp,vy:Math.sin(a)*sp,r,life:fast?5.6:7.5,dmg:fast?24:28,color:'#a7d9e4',trail:[],spin:rand(2.2,-2.2),hp:122+this.wave*18,score:80,coins:24,spriteKey:key,spriteScale:2.32,hitboxScale:.61,worldTag:19});}}
+    spawnWorldNineteenField(count=1,violent=false){const w=this.worldNineteenState;if(!w)return;const cb=this.getCombatBounds(),p=this.player;for(let i=0;i<count;i++){const x=violent?clamp(p.x+(p.moveVx||0)*.32+rand(90,-90),cb.left+94,cb.right-94):rand(cb.right-108,cb.left+108),y=violent?clamp(p.y+(p.moveVy||0)*.32+rand(78,-78),cb.top+88,cb.bottom-88):rand(cb.bottom-102,cb.top+102),r=violent?92:70,life=violent?2.55:2.12;this.particles.push({type:'ring',x,y,r:14,maxR:r*1.9,life:.72,max:.72,color:i%2?'#e8fbff':'#a7d9e4'});this.zones.push({x,y,r,life,max:life,type:violent?'root':'slow'});if(violent&&Math.random()<.58){this.spawnEnemy(this.worldNineteenEnemyId(),true);const e=this.enemies[this.enemies.length-1];if(e&&!e.boss){e.x=x;e.y=y;e.speed*=1.10;e.phaseTimer=.45;}}w.fieldsOpened=(w.fieldsOpened||0)+1;}}
+    spawnWorldNineteenSubBoss(){const w=this.worldNineteenState;if(!w||this.wave<2||this.wave>4)return null;w.subBossSeen=w.subBossSeen||[];if(w.subBossSeen.includes(this.wave)||this.enemies.some(e=>e.w19SubBoss&&e.hp>0))return null;const ids=['','','w19_drone_2','w19_psionic_2','w19_bio_2'],names=['','','Cirujano Orbital','Prelado Telepático','Custodio Genético'];this.spawnEnemy(ids[this.wave],false);const e=this.enemies[this.enemies.length-1];if(!e||e.boss)return null;e.w19SubBoss=true;e.name=names[this.wave];e.spriteKey=['','','world19Subboss1','world19Subboss2','world19Subboss3'][this.wave]||e.spriteKey;e.hp*=(3.42+this.wave*.30)*(COMBAT_DURABILITY.subboss/COMBAT_DURABILITY.minion);e.baseHp=e.hp;e.r*=1.28;e.visualScale=1.15;e.speed*=.94;e.score=Math.ceil(e.score*2.88);e.coin=Math.ceil(e.coin*2.72);w.subBossSeen.push(this.wave);this.spawnWorldNineteenField(1,true);this.toast('◉ SUBJEFE ZHYR',e.name);return e;}
+    triggerWorldNineteenHorde(){if(this.wave<1||this.wave>5)return;const n=this.mobileLandscape?(this.wave>=4?11:8):(this.wave>=4?18:14),own=WORLD_NINETEEN_MINION_FAMILIES;let heavy=0;for(let i=0;i<n;i++){let fam=i%3,id=pick(own[fam]);if(this.mobileLandscape&&fam===2&&heavy>=2)id=pick(own[i%2]);if(own[2].includes(id))heavy++;setTimeout(()=>{this.spawnEnemy(id,true);const e=this.enemies[this.enemies.length-1];if(e&&!e.boss){e.hordeUnit=true;e.speed*=1.10;e.hp*=1.19;e.baseHp=e.hp;if(i%5===0)e.phaseTimer=.35;}},i*(this.mobileLandscape?110:62));}this.spawnHordeEmergencyKit();this.spawnCrossWorldPrizeBurst(2+(this.getDifficulty().hordeRewardBonus||0));this.worldNineteenState.hordeSeen=(this.worldNineteenState.hordeSeen||0)+1;this.toast('◉ RED ZHYR',`Formación x${n} · drones, psiónicos y bioformas cierran rutas simultáneas`);}
+    updateWorldNineteenDirector(dt){if(this.mapIndex!==18||this.bossActive||this.run?.mapComplete)return false;const w=this.worldNineteenState;if(!w)return false;w.rewardTimer=(w.rewardTimer??5.1)-dt;if(w.rewardTimer<=0&&this.wave<5){this.spawnCrossWorldTacticalPrize();w.rewardTimer=rand(12.2,8.7);}w.fieldTimer=(w.fieldTimer??4.8)-dt*(this.getDifficulty().eventPace||1);if(w.fieldTimer<=0){this.spawnWorldNineteenField(this.wave>=4?2:1,this.wave>=3);w.fieldTimer=rand(this.wave>=4?6.2:8.7,this.wave>=4?4.1:5.6);}w.eventTimer=(w.eventTimer??4.3)-dt*(this.getDifficulty().eventPace||1);if(w.eventTimer<=0&&this.wave<5){Math.random()<.56?this.spawnWorldNineteenHazard(this.wave>=4?2:1,true):this.spawnWorldNineteenField(1,true);w.eventTimer=(WORLD_NINETEEN_ACTS[this.wave-1]?.eventEvery||5.7)+rand(.74,-.32);}return false;}
+    updatePsychicDominionPower(dt){if(!this.isPowerActive('psychicDominion')){this.psychicDominionTick=0;return;}this.psychicDominionTick=(this.psychicDominionTick||0)-dt;if(this.psychicDominionTick>0)return;this.psychicDominionTick=.46;const p=this.player,scale=this.getStagePowerScale(),targets=[...this.enemies].filter(e=>e.hp>0).sort((a,b)=>dist2(a,p)-dist2(b,p)).slice(0,this.isSmallScreen?6:10);if(!targets.length)return;for(const e of targets){const dmg=e.boss?e.baseHp*.0072:p.damage*(1.02+.18*scale);this.damageEnemy(e,dmg,{color:'#a7d9e4',silent:true,slow:.28,criticalBurst:!!e.boss});this.particles.push({type:'beam',x:p.x,y:p.y,x2:e.x,y2:e.y,life:.12,max:.12,color:'#e8fbff'});}let bent=0;for(const b of this.bullets){if(!b.enemy||bent>=8)continue;if(Math.hypot(b.x-p.x,b.y-p.y)<250){const sp=Math.hypot(b.vx||0,b.vy||0)*.72,a=Math.atan2(b.y-p.y,b.x-p.x)+.52;b.vx=Math.cos(a)*sp;b.vy=Math.sin(a)*sp;bent++;}}AudioFX.powerFire('psychicDominion');}
+
+    setupWorldTwentyIntro(){
+      const p=this.player,w=this.worldTwentyState;w.eventTimer=3.8;w.rewardTimer=4.6;w.hordeTimer=5.8;w.hazardTimer=3.5;w.mutationTimer=4.2;w.roarTimer=4.8;
+      this.spawnPickup(p.x+88,clamp(p.y-110,64,this.h-64),'power',1,{powerId:'virus',major:true,rewardGlow:true,label:'INFECCIÓN CONTROLADA',powerDuration:11});
+      this.spawnPickup(p.x-108,p.y-16,'power',1,{powerId:'fury',major:true,rewardGlow:true,label:'FURIA SAURIA',powerDuration:11});
+      this.spawnPickup(p.x+138,p.y+52,'shield',125,{rewardGlow:true,label:'PLACA NECROESCAMA +125'});
+      ['w20_reptile_1','w20_zombie_1','w20_biotech_1'].forEach((id,i)=>this.spawnEnemyNearPlayer(id,-.92+i*.80,380+i*36,true,1.12));
+      this.spawnWorldTwentyHazard(1,true);this.spawnWorldTwentyMutation(1,false);this.spawnFrontThreat('necroEgg',{force:true,telegraph:.62});this.toast('MUNDO 20 · PLANETA ZOMBIE-REPTILOIDE','La infección final mezcla depredación, cadáver y biotecnología en una sola ecología');
+    }
+    grantWorldTwentyPowerReward(step=Math.max(1,this.wave-1)){const w=this.worldTwentyState||(this.worldTwentyState={rewardSteps:[]});w.rewardSteps=w.rewardSteps||[];const id=WORLD_TWENTY_CONFIG.rewardPowers[Math.max(0,Math.min(WORLD_TWENTY_CONFIG.rewardPowers.length-1,step-1))];if(!id||w.rewardSteps.includes(id))return null;w.rewardSteps.push(id);return id;}
+    spawnWorldTwentyReward(){const id=this.grantWorldTwentyPowerReward();if(!id)return;const pow=POWERS.find(x=>x.id===id),p=this.player;this.spawnPickup(p.x+rand(140,-140),clamp(p.y-124,62,this.h-62),'power',1,{powerId:id,major:true,rewardGlow:true,label:pow?.name||'Mutación Necroescama',powerDuration:Math.max(11,POWER_ACTIVE_SECONDS[id]||11)});this.toast('🜲 MUTACIÓN NECROESCAMA',pow?.name||id);}
+    worldTwentyEnemyId(){const own=WORLD_TWENTY_MINION_FAMILIES;let pool=this.wave<=1?[...own[0]]:this.wave===2?[...own[0],...own[1]]:[...own.flat()];const hist=this.worldTwentyState?.enemyHistory||[],cand=pool.filter(id=>!hist.slice(-3).includes(id)),id=pick(cand.length?cand:pool);this.worldTwentyState.enemyHistory=[...hist,id].slice(-6);return id;}
+    spawnWorldTwentyHazard(count=1,fast=false){const keys=['world20Hazard1','world20Hazard2','world20Hazard3','world20Hazard4','world20Hazard5','world20Hazard6'];if(!this.meteors)this.meteors=[];const cap=this.isSmallScreen?5:9;for(let i=0;i<count&&this.meteors.length<cap;i++){const fromLeft=Math.random()<.5,x=fromLeft?-94:this.w+94,y=rand(this.h*.86,this.h*.12),targetX=fromLeft?this.w+132:-132,targetY=clamp(y+rand(200,-200),44,this.h-44),a=Math.atan2(targetY-y,targetX-x),sp=fast?rand(370,275):rand(264,184),r=rand(33,20),key=pick(keys);this.meteors.push({kind:'w20necro',x,y,vx:Math.cos(a)*sp,vy:Math.sin(a)*sp,r,life:fast?5.3:7.2,dmg:fast?27:31,color:'#8ed957',trail:[],spin:rand(3.2,-3.2),hp:132+this.wave*21,score:88,coins:28,spriteKey:key,spriteScale:2.30,hitboxScale:.60,worldTag:20});}}
+    spawnWorldTwentyMutation(count=1,violent=false){const w=this.worldTwentyState;if(!w)return;const cb=this.getCombatBounds(),p=this.player;for(let i=0;i<count;i++){const x=violent?clamp(p.x+(p.moveVx||0)*.30+rand(108,-108),cb.left+96,cb.right-96):rand(cb.right-112,cb.left+112),y=violent?clamp(p.y+(p.moveVy||0)*.30+rand(88,-88),cb.top+90,cb.bottom-90):rand(cb.bottom-108,cb.top+108),r=violent?98:74,life=violent?2.72:2.20;this.particles.push({type:'ring',x,y,r:15,maxR:r*1.9,life:.74,max:.74,color:i%2?'#d9ff78':'#8ed957'});this.zones.push({x,y,r,life,max:life,type:violent?'root':'slow'});if(violent&&Math.random()<.66){this.spawnEnemy(this.worldTwentyEnemyId(),true);const e=this.enemies[this.enemies.length-1];if(e&&!e.boss){e.x=x;e.y=y;e.speed*=1.14;e.hp*=1.08;e.baseHp=e.hp;e.phaseTimer=.42;}}w.mutations=(w.mutations||0)+1;}}
+    spawnWorldTwentySubBoss(){const w=this.worldTwentyState;if(!w||this.wave<2||this.wave>4)return null;w.subBossSeen=w.subBossSeen||[];if(w.subBossSeen.includes(this.wave)||this.enemies.some(e=>e.w20SubBoss&&e.hp>0))return null;const ids=['','','w20_reptile_2','w20_zombie_2','w20_biotech_2'],names=['','','Pretor Saurio','Abominación de Fosa','Sacerdote Necroplasma'];this.spawnEnemy(ids[this.wave],false);const e=this.enemies[this.enemies.length-1];if(!e||e.boss)return null;e.w20SubBoss=true;e.name=names[this.wave];e.spriteKey=['','','world20Subboss1','world20Subboss2','world20Subboss3'][this.wave]||e.spriteKey;e.hp*=(3.62+this.wave*.32)*(COMBAT_DURABILITY.subboss/COMBAT_DURABILITY.minion);e.baseHp=e.hp;e.r*=1.29;e.visualScale=1.16;e.speed*=.96;e.score=Math.ceil(e.score*3.02);e.coin=Math.ceil(e.coin*2.88);w.subBossSeen.push(this.wave);this.spawnWorldTwentyMutation(1,true);this.toast('🦎 SUBJEFE NECROESCAMA',e.name);return e;}
+    triggerWorldTwentyHorde(){if(this.wave<1||this.wave>5)return;const n=this.mobileLandscape?(this.wave>=4?12:9):(this.wave>=4?20:15),own=WORLD_TWENTY_MINION_FAMILIES;let heavy=0;for(let i=0;i<n;i++){let fam=i%3,id=pick(own[fam]);if(this.mobileLandscape&&fam===1&&heavy>=2)id=pick(own[i%2?0:2]);if(own[1].includes(id))heavy++;setTimeout(()=>{this.spawnEnemy(id,true);const e=this.enemies[this.enemies.length-1];if(e&&!e.boss){e.hordeUnit=true;e.speed*=1.13;e.hp*=1.21;e.baseHp=e.hp;if(i%4===0)e.phaseTimer=.30;}},i*(this.mobileLandscape?106:58));}this.spawnHordeEmergencyKit();this.spawnCrossWorldPrizeBurst(3+(this.getDifficulty().hordeRewardBonus||0));this.worldTwentyState.hordeSeen=(this.worldTwentyState.hordeSeen||0)+1;this.toast('🜲 CONVERGENCIA NECROREX',`Formación x${n} · reptiloides, zombies y biotecnología atacan simultáneamente`);}
+    updateWorldTwentyDirector(dt){if(this.mapIndex!==19||this.bossActive||this.run?.mapComplete)return false;const w=this.worldTwentyState;if(!w)return false;w.rewardTimer=(w.rewardTimer??4.8)-dt;if(w.rewardTimer<=0&&this.wave<5){this.spawnCrossWorldTacticalPrize();w.rewardTimer=rand(11.8,8.2);}w.mutationTimer=(w.mutationTimer??4.5)-dt*(this.getDifficulty().eventPace||1);if(w.mutationTimer<=0){this.spawnWorldTwentyMutation(this.wave>=4?2:1,this.wave>=3);w.mutationTimer=rand(this.wave>=4?5.9:8.1,this.wave>=4?3.8:5.1);}w.eventTimer=(w.eventTimer??4.0)-dt*(this.getDifficulty().eventPace||1);if(w.eventTimer<=0&&this.wave<5){Math.random()<.58?this.spawnWorldTwentyHazard(this.wave>=4?2:1,true):this.spawnWorldTwentyMutation(1,true);w.eventTimer=(WORLD_TWENTY_ACTS[this.wave-1]?.eventEvery||5.4)+rand(.70,-.30);}return false;}
+    updateNecroScalePower(dt){if(!this.isPowerActive('necroScale')){this.necroScaleTick=0;return;}this.necroScaleTick=(this.necroScaleTick||0)-dt;if(this.necroScaleTick>0)return;this.necroScaleTick=.42;const p=this.player,scale=this.getStagePowerScale(),targets=[...this.enemies].filter(e=>e.hp>0).sort((a,b)=>dist2(a,p)-dist2(b,p)).slice(0,this.isSmallScreen?7:11);for(const e of targets){const dmg=e.boss?e.baseHp*.0076:p.damage*(1.08+.20*scale);this.damageEnemy(e,dmg,{color:'#8ed957',silent:true,slow:.12,criticalBurst:!!e.boss});e.infectedTimer=Math.max(e.infectedTimer||0,1.8);this.particles.push({type:'beam',x:p.x,y:p.y,x2:e.x,y2:e.y,life:.10,max:.10,color:'#d9ff78'});}p.shield=Math.min(p.maxShield,p.shield+4.2+2*scale);this.bullets=this.bullets.filter(b=>!b.enemy||Math.hypot(b.x-p.x,b.y-p.y)>138);AudioFX.powerFire('necroScale');}
+
+
 
 
     updateDomainSignature(dt){
@@ -5615,6 +5781,8 @@
       else if(world===16){this.particles.push({type:'ring',x:p.x,y:p.y,r:30,maxR:400,life:.86,max:.86,color});this.enemies.slice().sort((a,b)=>dist2(a,p)-dist2(b,p)).slice(0,12).forEach((e,i)=>{if(e.boss)this.damageEnemy(e,e.baseHp*.0145,{criticalBurst:true,color,silent:true});else this.damageEnemy(e,this.criticalDamageFor(e,.40+i*.014),{color,silent:true,slow:.22});});this.spawnWorldSixteenPulse(2,true);this.markPowerActive('synapsis',Math.max(this.powerActivity.synapsis||0,8));this.bullets=this.bullets.filter(b=>!b.enemy||Math.hypot(b.x-p.x,b.y-p.y)>126);}
       else if(world===17){this.particles.push({type:'ring',x:p.x,y:p.y,r:32,maxR:430,life:.90,max:.90,color});this.enemies.slice().sort((a,b)=>dist2(a,p)-dist2(b,p)).slice(0,13).forEach((e,i)=>{if(e.boss)this.damageEnemy(e,e.baseHp*.0148,{criticalBurst:true,color,silent:true});else this.damageEnemy(e,this.criticalDamageFor(e,.42+i*.014),{color,silent:true,slow:.34});});this.spawnWorldSeventeenBlizzard(2,true);this.markPowerActive('ventisca',Math.max(this.powerActivity.ventisca||0,8));this.bullets=this.bullets.filter(b=>!b.enemy||Math.hypot(b.x-p.x,b.y-p.y)>136);}
       else if(world===18){this.particles.push({type:'ring',x:p.x,y:p.y,r:34,maxR:455,life:.92,max:.92,color});this.enemies.slice().sort((a,b)=>dist2(a,p)-dist2(b,p)).slice(0,14).forEach((e,i)=>{if(e.boss)this.damageEnemy(e,e.baseHp*.0152,{criticalBurst:true,color,silent:true});else this.damageEnemy(e,this.criticalDamageFor(e,.43+i*.014),{color,silent:true,slow:.18});});this.spawnWorldEighteenPanel(2,true);this.markPowerActive('panelCut',Math.max(this.powerActivity.panelCut||0,8));this.bullets=this.bullets.filter(b=>!b.enemy||Math.hypot(b.x-p.x,b.y-p.y)>148);p.phaseTimer=Math.max(p.phaseTimer||0,1.2);}
+      else if(world===19){this.particles.push({type:'ring',x:p.x,y:p.y,r:36,maxR:470,life:.94,max:.94,color});this.enemies.slice().sort((a,b)=>dist2(a,p)-dist2(b,p)).slice(0,15).forEach((e,i)=>{if(e.boss)this.damageEnemy(e,e.baseHp*.0154,{criticalBurst:true,color,silent:true});else this.damageEnemy(e,this.criticalDamageFor(e,.44+i*.014),{color,silent:true,slow:.30});});this.spawnWorldNineteenField(2,true);this.markPowerActive('psychicDominion',Math.max(this.powerActivity.psychicDominion||0,8));this.bullets=this.bullets.filter(b=>!b.enemy||Math.hypot(b.x-p.x,b.y-p.y)>154);p.phaseTimer=Math.max(p.phaseTimer||0,1.3);}
+      else if(world===20){this.particles.push({type:'ring',x:p.x,y:p.y,r:38,maxR:500,life:1.0,max:1.0,color});this.enemies.slice().sort((a,b)=>dist2(a,p)-dist2(b,p)).slice(0,17).forEach((e,i)=>{if(e.boss)this.damageEnemy(e,e.baseHp*.0160,{criticalBurst:true,color,silent:true});else this.damageEnemy(e,this.criticalDamageFor(e,.48+i*.014),{color,silent:true,slow:.15});});this.spawnWorldTwentyMutation(2,true);this.markPowerActive('necroScale',Math.max(this.powerActivity.necroScale||0,8));this.bullets=this.bullets.filter(b=>!b.enemy||Math.hypot(b.x-p.x,b.y-p.y)>164);p.shield=Math.min(p.maxShield,p.shield+34);p.phaseTimer=Math.max(p.phaseTimer||0,.9);}
       if((p.domainSignatureNotice||0)<1){p.domainSignatureNotice=1;this.toast(`FIRMA · ${meta.signature||meta.name}`,`Poder heredado del Guardián · recarga ${Math.round(p.domainSignatureCd)}s`);}
     }
 
@@ -6328,6 +6496,8 @@
       if(this.mapIndex===15){const wide=this.w>=1100,mid=this.w>=760,targetCount=wide?[17,19,21,23,19][this.wave-1]:(mid?[15,17,19,21,17]:[10,12,14,16,13])[this.wave-1],interval=[.68,.62,.56,.50,.62][this.wave-1]||.58,w=this.worldSixteenState;w.hazardTimer=(w.hazardTimer??4.4)-dt*(this.getDifficulty().hazardPace||1);w.hordeTimer=(w.hordeTimer??7.2)-dt*(this.getDifficulty().hordePace||1);if(w.hazardTimer<=0){this.spawnWorldSixteenHazard(this.wave>=4?2:1,true);w.hazardTimer=rand(5.3,3.2);}if(w.hordeTimer<=0&&this.wave>=2){this.triggerWorldSixteenHorde();w.hordeTimer=rand(this.wave>=4?10.4:13.6,this.wave>=4?6.8:9.2);}if(this.spawnTime<=0&&this.enemies.length<targetCount){const amount=this.wave>=3&&this.enemies.length<targetCount*.46?2:1;for(let i=0;i<amount;i++)this.spawnEnemy(this.worldSixteenEnemyId(),this.wave<5);this.spawnTime=interval+rand(.07,-.04);}return;}
       if(this.mapIndex===16){const wide=this.w>=1100,mid=this.w>=760,targetCount=wide?[18,20,22,24,20][this.wave-1]:(mid?[16,18,20,22,18]:[10,12,14,16,13])[this.wave-1],interval=[.64,.59,.54,.48,.60][this.wave-1]||.56,w=this.worldSeventeenState;w.hazardTimer=(w.hazardTimer??4.2)-dt*(this.getDifficulty().hazardPace||1);w.hordeTimer=(w.hordeTimer??6.9)-dt*(this.getDifficulty().hordePace||1);if(w.hazardTimer<=0){this.spawnWorldSeventeenHazard(this.wave>=4?2:1,true);w.hazardTimer=rand(5.0,3.0);}if(w.hordeTimer<=0&&this.wave>=2){this.triggerWorldSeventeenHorde();w.hordeTimer=rand(this.wave>=4?9.8:13.0,this.wave>=4?6.4:8.8);}if(this.spawnTime<=0&&this.enemies.length<targetCount){const amount=this.wave>=3&&this.enemies.length<targetCount*.46?2:1;for(let i=0;i<amount;i++)this.spawnEnemy(this.worldSeventeenEnemyId(),this.wave<5);this.spawnTime=interval+rand(.07,-.04);}return;}
       if(this.mapIndex===17){const wide=this.w>=1100,mid=this.w>=760,targetCount=wide?[19,21,23,26,21][this.wave-1]:(mid?[17,19,21,23,19]:[11,13,15,17,14])[this.wave-1],interval=[.61,.56,.51,.46,.57][this.wave-1]||.54,w=this.worldEighteenState;w.hazardTimer=(w.hazardTimer??4.0)-dt*(this.getDifficulty().hazardPace||1);w.hordeTimer=(w.hordeTimer??6.6)-dt*(this.getDifficulty().hordePace||1);if(w.hazardTimer<=0){this.spawnWorldEighteenHazard(this.wave>=4?2:1,true);w.hazardTimer=rand(4.8,2.8);}if(w.hordeTimer<=0&&this.wave>=2){this.triggerWorldEighteenHorde();w.hordeTimer=rand(this.wave>=4?9.2:12.5,this.wave>=4?6.0:8.4);}if(this.spawnTime<=0&&this.enemies.length<targetCount){const amount=this.wave>=3&&this.enemies.length<targetCount*.48?2:1;for(let i=0;i<amount;i++)this.spawnEnemy(this.worldEighteenEnemyId(),this.wave<5);this.spawnTime=interval+rand(.06,-.04);}return;}
+      if(this.mapIndex===18){const wide=this.w>=1100,mid=this.w>=760,targetCount=wide?[20,22,24,27,22][this.wave-1]:(mid?[18,20,22,24,20]:[11,14,16,18,15])[this.wave-1],interval=[.59,.54,.49,.44,.55][this.wave-1]||.52,w=this.worldNineteenState;w.hazardTimer=(w.hazardTimer??4.0)-dt*(this.getDifficulty().hazardPace||1);w.hordeTimer=(w.hordeTimer??6.5)-dt*(this.getDifficulty().hordePace||1);if(w.hazardTimer<=0){this.spawnWorldNineteenHazard(this.wave>=4?2:1,true);w.hazardTimer=rand(4.6,2.7);}if(w.hordeTimer<=0&&this.wave>=2){this.triggerWorldNineteenHorde();w.hordeTimer=rand(this.wave>=4?8.9:12.0,this.wave>=4?5.8:8.1);}if(this.spawnTime<=0&&this.enemies.length<targetCount){const amount=this.wave>=3&&this.enemies.length<targetCount*.48?2:1;for(let i=0;i<amount;i++)this.spawnEnemy(this.worldNineteenEnemyId(),this.wave<5);this.spawnTime=interval+rand(.06,-.04);}return;}
+      if(this.mapIndex===19){const wide=this.w>=1100,mid=this.w>=760,targetCount=wide?[21,24,27,30,24][this.wave-1]:(mid?[19,22,25,27,22]:[12,15,18,20,16])[this.wave-1],interval=[.56,.51,.46,.41,.52][this.wave-1]||.49,w=this.worldTwentyState;w.hazardTimer=(w.hazardTimer??3.7)-dt*(this.getDifficulty().hazardPace||1);w.hordeTimer=(w.hordeTimer??6.0)-dt*(this.getDifficulty().hordePace||1);if(w.hazardTimer<=0){this.spawnWorldTwentyHazard(this.wave>=4?2:1,true);w.hazardTimer=rand(4.3,2.5);}if(w.hordeTimer<=0&&this.wave>=2){this.triggerWorldTwentyHorde();w.hordeTimer=rand(this.wave>=4?8.2:11.2,this.wave>=4?5.2:7.5);}if(this.spawnTime<=0&&this.enemies.length<targetCount){const amount=this.wave>=3&&this.enemies.length<targetCount*.50?2:1;for(let i=0;i<amount;i++)this.spawnEnemy(this.worldTwentyEnemyId(),this.wave<5);this.spawnTime=interval+rand(.055,-.035);}return;}
       const targetCount = 6 + this.wave * 3 + Math.floor(this.mapIndex * 1.5);
       const interval = Math.max(.42, 1.45 - this.wave * .05 - this.mapIndex * .02);
       if (this.spawnTime <= 0 && this.enemies.length < targetCount) {
@@ -6370,6 +6540,8 @@
       if(this.mapIndex===15)return [...WORLD_SIXTEEN_MINION_FAMILIES.flat()];
       if(this.mapIndex===16)return [...WORLD_SEVENTEEN_MINION_FAMILIES.flat()];
       if(this.mapIndex===17)return [...WORLD_EIGHTEEN_MINION_FAMILIES.flat()];
+      if(this.mapIndex===18)return [...WORLD_NINETEEN_MINION_FAMILIES.flat()];
+      if(this.mapIndex===19)return [...WORLD_TWENTY_MINION_FAMILIES.flat()];
       const pool = ['errante'];
       if (this.wave > 1) pool.push('corredor','esquivo','cazador');
       if (this.wave > 2) pool.push('blindado');
@@ -6656,10 +6828,11 @@
       if (this.mapIndex === 13) hp *= 2.08; // Heliovorax: duelo largo de cuatro fases con contracción y aceleración final.
       if (this.mapIndex === 14) hp *= 2.18; // Vermidrax: cuerpo segmentado, embestidas y arena compresiva.
       if (this.mapIndex === 15) hp *= 2.32; // Neurokhan: cuatro fases, predicción psiónica y red cortical compartida.
+      if (this.mapIndex === 19) hp *= 2.85; // Sauryx Necrorex: Guardián final, cuatro mutaciones y presión de tres familias simultáneas.
       if(this.trainingMode?.active)hp*=.58;
       const x = this.w / 2;
       const y = -80;
-      const shieldBase = (this.mapIndex === 15 ? 4550 : (this.mapIndex === 14 ? 4200 : (this.mapIndex === 13 ? 3900 : (this.mapIndex === 12 ? 3500 : (this.mapIndex === 11 ? 3200 : (this.mapIndex === 10 ? 3000 : (this.mapIndex === 9 ? 4200 : (this.mapIndex === 8 ? 2600 : (this.mapIndex === 6 ? 2200 : (this.mapIndex === 0 ? 680 : (this.mapIndex === 1 ? 560 : 310 + this.mapIndex * 42))))))))))) * (this.getDifficulty().bossShield || 1) * COMBAT_DURABILITY.boss * (this.trainingMode?.active ? .58 : 1);
+      const shieldBase = (this.mapIndex === 19 ? 5600 : (this.mapIndex === 15 ? 4550 : (this.mapIndex === 14 ? 4200 : (this.mapIndex === 13 ? 3900 : (this.mapIndex === 12 ? 3500 : (this.mapIndex === 11 ? 3200 : (this.mapIndex === 10 ? 3000 : (this.mapIndex === 9 ? 4200 : (this.mapIndex === 8 ? 2600 : (this.mapIndex === 6 ? 2200 : (this.mapIndex === 0 ? 680 : (this.mapIndex === 1 ? 560 : 310 + this.mapIndex * 42)))))))))))) * (this.getDifficulty().bossShield || 1) * COMBAT_DURABILITY.boss * (this.trainingMode?.active ? .58 : 1);
       this.bossActive = {
         id: 'boss_' + map.id,
         name: map.boss,
@@ -6677,7 +6850,7 @@
         speed: ([33,34,40,43,46,48,50,52,55,58,60][this.mapIndex] || 60) + this.mapIndex * 1.5,
         // En móvil el hitbox se compacta; la presencia épica queda en aura, patrón y audio, no en ocupar el lienzo.
         r: ([36,54,58,62,68,70,72,74,76,80,82,84,86][this.mapIndex] || 86) * (this.mobileLandscape ? (.78*.88) : (this.mobilePortrait ? .66 : 1)),
-        displayScale: ({10:.92,11:.90,12:.93,13:.91,14:.96,15:.98,16:1.00,17:.98}[this.mapIndex] ?? 1),
+        displayScale: ({10:.92,11:.90,12:.93,13:.91,14:.96,15:.98,16:1.00,17:.98,18:.96,19:.98}[this.mapIndex] ?? 1),
         t: 0,
         attack: ({6:1.28,9:1.42,10:1.46,11:1.42,12:1.38,13:1.30,14:1.24,15:1.18,16:1.08,17:1.04}[this.mapIndex] ?? ([2.55,2.28,1.95,1.88,1.82,1.72,1.68,1.62,1.55,1.42,1.46,1.42,1.38][this.mapIndex] || 1.38)),
         specialCd: ({6:3.35,9:3.65,10:3.85,11:3.75,12:3.55,13:3.35,14:3.15,15:2.95,16:2.72,17:2.48}[this.mapIndex] ?? ([6.6,6.0,5.3,5.0,4.6,4.4,4.25,4.15,3.95,3.65,3.85,3.75,3.55][this.mapIndex] || 3.55)),
@@ -6690,7 +6863,7 @@
         vulnerable: 0,
         summonPressure: 0,
         boss: true,
-        minionFamilies:this.mapIndex===0?WORLD_ONE_MINION_FAMILIES:(this.mapIndex===1?WORLD_TWO_MINION_FAMILIES:(this.mapIndex===2?WORLD_THREE_MINION_FAMILIES:(this.mapIndex===3?WORLD_FOUR_MINION_FAMILIES:(this.mapIndex===4?WORLD_FIVE_MINION_FAMILIES:(this.mapIndex===5?WORLD_SIX_MINION_FAMILIES:(this.mapIndex===6?WORLD_SEVEN_MINION_FAMILIES:(this.mapIndex===7?WORLD_EIGHT_MINION_FAMILIES:(this.mapIndex===8?WORLD_NINE_MINION_FAMILIES:(this.mapIndex===9?WORLD_TEN_MINION_FAMILIES:(this.mapIndex===10?WORLD_ELEVEN_MINION_FAMILIES:(this.mapIndex===11?WORLD_TWELVE_MINION_FAMILIES:(this.mapIndex===12?WORLD_THIRTEEN_MINION_FAMILIES:(this.mapIndex===13?WORLD_FOURTEEN_MINION_FAMILIES:(this.mapIndex===14?WORLD_FIFTEEN_MINION_FAMILIES:(this.mapIndex===15?WORLD_SIXTEEN_MINION_FAMILIES:(this.mapIndex===16?WORLD_SEVENTEEN_MINION_FAMILIES:(this.mapIndex===17?WORLD_EIGHTEEN_MINION_FAMILIES:[])))))))))))))))))
+        minionFamilies:this.mapIndex===0?WORLD_ONE_MINION_FAMILIES:(this.mapIndex===1?WORLD_TWO_MINION_FAMILIES:(this.mapIndex===2?WORLD_THREE_MINION_FAMILIES:(this.mapIndex===3?WORLD_FOUR_MINION_FAMILIES:(this.mapIndex===4?WORLD_FIVE_MINION_FAMILIES:(this.mapIndex===5?WORLD_SIX_MINION_FAMILIES:(this.mapIndex===6?WORLD_SEVEN_MINION_FAMILIES:(this.mapIndex===7?WORLD_EIGHT_MINION_FAMILIES:(this.mapIndex===8?WORLD_NINE_MINION_FAMILIES:(this.mapIndex===9?WORLD_TEN_MINION_FAMILIES:(this.mapIndex===10?WORLD_ELEVEN_MINION_FAMILIES:(this.mapIndex===11?WORLD_TWELVE_MINION_FAMILIES:(this.mapIndex===12?WORLD_THIRTEEN_MINION_FAMILIES:(this.mapIndex===13?WORLD_FOURTEEN_MINION_FAMILIES:(this.mapIndex===14?WORLD_FIFTEEN_MINION_FAMILIES:(this.mapIndex===15?WORLD_SIXTEEN_MINION_FAMILIES:(this.mapIndex===16?WORLD_SEVENTEEN_MINION_FAMILIES:(this.mapIndex===17?WORLD_EIGHTEEN_MINION_FAMILIES:(this.mapIndex===18?WORLD_NINETEEN_MINION_FAMILIES:(this.mapIndex===19?WORLD_TWENTY_MINION_FAMILIES:[])))))))))))))))))))
       };
       this.bossActive.attack *= this.getDifficulty().bossCadence || 1;
       this.bossActive.specialCd *= this.getDifficulty().bossCadence || 1;
@@ -6752,6 +6925,8 @@
       else if(this.mapIndex===15){WORLD_SIXTEEN_MINION_FAMILIES.forEach((fam,fi)=>{for(let i=0;i<(this.mobileLandscape?1:2);i++){this.spawnEnemy(pick(fam),true);const e=this.enemies[this.enemies.length-1];if(e&&!e.boss){e.bossEscort=true;e.bossFamilyIndex=fi;e.hp*=1.46;e.baseHp=e.hp;e.speed*=1.09;}}});this.spawnWorldSixteenHazard(this.mobileLandscape?2:3,true);this.spawnWorldSixteenPulse(this.mobileLandscape?1:2,true);this.toast('CATEDRAL CORTICAL','Neurokhan sincroniza Neuronas, Ojos y Cerebros antes del duelo');}
       else if(this.mapIndex===16){WORLD_SEVENTEEN_MINION_FAMILIES.forEach((fam,fi)=>{for(let i=0;i<(this.mobileLandscape?1:2);i++){this.spawnEnemy(pick(fam),true);const e=this.enemies[this.enemies.length-1];if(e&&!e.boss){e.bossEscort=true;e.bossFamilyIndex=fi;e.hp*=1.50;e.baseHp=e.hp;e.speed*=1.11;}}});this.spawnWorldSeventeenHazard(this.mobileLandscape?2:3,true);this.spawnWorldSeventeenBlizzard(this.mobileLandscape?1:2,true);this.toast('GUARIDA FENRIR','Skaldr libera la manada y rompe su primera capa de hielo');}
       else if(this.mapIndex===17){WORLD_EIGHTEEN_MINION_FAMILIES.forEach((fam,fi)=>{for(let i=0;i<(this.mobileLandscape?1:2);i++){this.spawnEnemy(pick(fam),true);const e=this.enemies[this.enemies.length-1];if(e&&!e.boss){e.bossEscort=true;e.bossFamilyIndex=fi;e.hp*=1.54;e.baseHp=e.hp;e.speed*=1.13;}}});this.spawnWorldEighteenHazard(this.mobileLandscape?2:3,true);this.spawnWorldEighteenPanel(this.mobileLandscape?1:2,true);this.toast('PÁGINA MONUMENTAL','Kanzai abre la biblioteca y despliega tres géneros de guerra a la vez');}
+      else if(this.mapIndex===18){WORLD_NINETEEN_MINION_FAMILIES.forEach((fam,fi)=>{for(let i=0;i<(this.mobileLandscape?1:2);i++){this.spawnEnemy(pick(fam),true);const e=this.enemies[this.enemies.length-1];if(e&&!e.boss){e.bossEscort=true;e.bossFamilyIndex=fi;e.hp*=1.57;e.baseHp=e.hp;e.speed*=1.12;}}});this.spawnWorldNineteenHazard(this.mobileLandscape?2:3,true);this.spawnWorldNineteenField(this.mobileLandscape?1:2,true);this.toast('CÁMARA ZHYR','El Arconte activa drones, psiónicos y bioformas en una sola red táctica');}
+      else if(this.mapIndex===19){WORLD_TWENTY_MINION_FAMILIES.forEach((fam,fi)=>{for(let i=0;i<(this.mobileLandscape?1:2);i++){this.spawnEnemy(pick(fam),true);const e=this.enemies[this.enemies.length-1];if(e&&!e.boss){e.bossEscort=true;e.bossFamilyIndex=fi;e.hp*=1.62;e.baseHp=e.hp;e.speed*=1.14;}}});this.spawnWorldTwentyHazard(this.mobileLandscape?2:3,true);this.spawnWorldTwentyMutation(this.mobileLandscape?1:2,true);this.toast('TRONO NECROREX','Sauryx convoca reptiloides, cadáveres y biotecnología en una última convergencia');}
     }
 
     updateEnemies(dt) {
@@ -6863,6 +7038,7 @@
             if(e.futureWorld===13){spread=fam===0?.12:(fam===1?.075:.045);speed=fam===0?308:(fam===1?258:222);damage=11.8+fam*2.4;opts={...opts,r:fam===2?8.2:5.8,life:fam===2?4.8:4.0,wobble:fam===0?.12:.04,shape:fam===1?'blade':'lance',spriteKey:fam===1?'world13ShotObsidian':'world13ShotMagma',spriteScale:fam===1?3.35:3.55,trail:true,bossHoming:fam===2,turnRate:fam===2?.26:0,spin:(Math.random()<.5?-1:1)*1.6};}
             if(e.futureWorld===14){spread=fam===0?.13:(fam===1?.08:.042);speed=fam===0?322:(fam===1?274:230);damage=12.4+fam*2.5;opts={...opts,r:fam===2?8.4:5.9,life:fam===2?4.9:4.0,wobble:fam===0?.10:.03,shape:fam===0?'lance':(fam===1?'blade':'spore'),spriteKey:fam===0?'world14ShotFlare':'world14ShotCorona',spriteScale:fam===0?3.55:3.38,trail:true,bossHoming:fam===2,turnRate:fam===2?.30:0,spin:(Math.random()<.5?-1:1)*(fam===1?1.9:1.25)};}
             if(e.futureWorld===15){spread=fam===0?.12:(fam===1?.075:.045);speed=fam===0?304:(fam===1?258:216);damage=12.8+fam*2.7;opts={...opts,r:fam===2?8.6:6.1,life:fam===2?5.0:4.2,wobble:fam===0?.16:.05,shape:fam===0?'spore':(fam===1?'lance':'blade'),spriteKey:fam===0?'world15ShotParasite':(fam===1?'world15ShotAcid':'world15ShotBile'),spriteScale:fam===0?3.35:3.5,trail:true,bossHoming:fam!==0&&fam===2,turnRate:fam===2?.28:0,spin:(Math.random()<.5?-1:1)*(fam===1?1.6:1.1)};}
+            if(e.futureWorld===20){spread=fam===0?.105:(fam===1?.072:.042);speed=fam===0?326:(fam===1?262:232);damage=14.2+fam*3.0;opts={...opts,r:fam===2?8.8:6.0,life:fam===2?5.0:4.1,wobble:fam===1?.16:.035,shape:fam===0?'blade':(fam===1?'spore':'lance'),spriteKey:fam===0?'world20ShotClaw':(fam===1?'world20ShotToxic':'world20ShotNecro'),spriteScale:fam===0?3.25:3.45,trail:true,bossHoming:fam===2,turnRate:fam===2?.32:0,spin:(Math.random()<.5?-1:1)*(fam===0?2.2:1.35)};}
             this.addEnemyBullet(e.x,e.y,a+rand(spread,-spread),speed,damage,e.color,opts);e.futureFire=rand(fam===2?3.5:2.7,fam===2?2.25:1.55);
           }
         }
@@ -7032,7 +7208,7 @@
         const count=hard?5:4;for(let i=0;i<count;i++){this.spawnEnemy(pick(this.enemyPool()),true);const e=this.enemies[this.enemies.length-1];if(e&&!e.boss){e.hp*=1.18;e.baseHp=e.hp;e.score=Math.ceil((e.score||20)*1.55);e.coins=Math.ceil((e.coins||3)*1.45);e.rareConvoy=true;}}
         this.toast('CONVOY ÉLITE','Recompensa aumentada');
       } else {
-        if(this.mapIndex===2)this.spawnWorldThreeHazard(hard?3:2,true);else if(this.mapIndex===3)this.spawnWorldFourHazard(hard?3:2,true);else if(this.mapIndex===4)this.spawnWorldFiveHazard(hard?3:2,true);else if(this.mapIndex===5)this.spawnWorldSixHazard(hard?3:2,true);else if(this.mapIndex===6)this.spawnWorldSevenHazard(hard?3:2,true);else if(this.mapIndex===7)this.spawnWorldEightHazard(hard?3:2,true);else if(this.mapIndex===8)this.spawnWorldNineHazard(hard?3:2,true);else if(this.mapIndex===9)this.spawnWorldTenHazard(hard?4:3,true);else if(this.mapIndex===10)this.spawnWorldElevenHazard(hard?3:2,true);else if(this.mapIndex===11)this.spawnWorldTwelveHazard(hard?3:2,true);else if(this.mapIndex===12)this.spawnWorldThirteenHazard(hard?3:2,true);else if(this.mapIndex===13)this.spawnWorldFourteenHazard(hard?3:2,true);else if(this.mapIndex===14)this.spawnWorldFifteenHazard(hard?3:2,true);else if(this.mapIndex===15)this.spawnWorldSixteenHazard(hard?3:2,true);else if(this.mapIndex===16)this.spawnWorldSeventeenHazard(hard?3:2,true);else if(this.mapIndex===17)this.spawnWorldEighteenHazard(hard?3:2,true);else this.spawnMeteorRain(hard?4:3,true);
+        if(this.mapIndex===2)this.spawnWorldThreeHazard(hard?3:2,true);else if(this.mapIndex===3)this.spawnWorldFourHazard(hard?3:2,true);else if(this.mapIndex===4)this.spawnWorldFiveHazard(hard?3:2,true);else if(this.mapIndex===5)this.spawnWorldSixHazard(hard?3:2,true);else if(this.mapIndex===6)this.spawnWorldSevenHazard(hard?3:2,true);else if(this.mapIndex===7)this.spawnWorldEightHazard(hard?3:2,true);else if(this.mapIndex===8)this.spawnWorldNineHazard(hard?3:2,true);else if(this.mapIndex===9)this.spawnWorldTenHazard(hard?4:3,true);else if(this.mapIndex===10)this.spawnWorldElevenHazard(hard?3:2,true);else if(this.mapIndex===11)this.spawnWorldTwelveHazard(hard?3:2,true);else if(this.mapIndex===12)this.spawnWorldThirteenHazard(hard?3:2,true);else if(this.mapIndex===13)this.spawnWorldFourteenHazard(hard?3:2,true);else if(this.mapIndex===14)this.spawnWorldFifteenHazard(hard?3:2,true);else if(this.mapIndex===15)this.spawnWorldSixteenHazard(hard?3:2,true);else if(this.mapIndex===16)this.spawnWorldSeventeenHazard(hard?3:2,true);else if(this.mapIndex===17)this.spawnWorldEighteenHazard(hard?3:2,true);else if(this.mapIndex===18)this.spawnWorldNineteenHazard(hard?3:2,true);else if(this.mapIndex===19)this.spawnWorldTwentyHazard(hard?3:2,true);else this.spawnMeteorRain(hard?4:3,true);
         this.spawnHordeEmergencyKit();
         this.toast('FRENTE DE ESCOMBROS','Meteoros y apoyo táctico');
       }
@@ -7118,7 +7294,11 @@
       if(this.mapIndex===14)AudioFX.futureBossSpecial(15);
       if(this.mapIndex===15)AudioFX.futureBossSpecial(16);
       if(this.mapIndex===16)AudioFX.futureBossSpecial(17);
-      if(this.mapIndex===17)AudioFX.futureBossSpecial(18);
+      if(this.mapIndex===19)AudioFX.futureBossSpecial(20);
+      else if(this.mapIndex===18)AudioFX.futureBossSpecial(19);
+      else if(this.mapIndex===17)AudioFX.futureBossSpecial(18);
+      if(kind === 'silentPsion'){const phase=b.phase||1;this.spawnWorldNineteenField(Math.min(this.mobileLandscape?2:3,1+Math.floor(phase/2)),true);this.spawnWorldNineteenHazard(phase>=3?2:1,true);const shots=12+phase*3,gap=Math.floor(rand(shots,0));for(let i=0;i<shots;i++){if(Math.abs(i-gap)<=1)continue;const a=(Math.PI*2/shots)*i+b.t*.20;this.fireBossProjectile(b,a,220+phase*17,12+phase*2.7,'lance',i%2?'#a7d9e4':'#e8fbff',{r:i%3===0?8:5.8,life:4.6,trail:true,bossHoming:phase>=3&&i%4===0,turnRate:.25,spin:(i%2?1:-1)*2.2});}if(phase>=3&&Math.random()<.5){b.x=clamp(this.player.x+rand(240,-240),90,this.w-90);b.y=clamp(this.player.y+rand(150,-150),70,this.h*.55);this.emit(b.x,b.y,'#e8fbff',12,150,.35);}return;}
+      if(kind === 'necroScale'){const phase=b.phase||1;this.spawnWorldTwentyMutation(Math.min(this.mobileLandscape?2:3,1+Math.floor(phase/2)),true);this.spawnWorldTwentyHazard(phase>=3?2:1,true);const shots=13+phase*3,gap=Math.floor(rand(shots,0));for(let i=0;i<shots;i++){if(Math.abs(i-gap)<=1)continue;const a=(Math.PI*2/shots)*i+b.t*.24;this.fireBossProjectile(b,a,228+phase*19,13+phase*3.0,'orb',i%2?'#8ed957':'#d9ff78',{r:i%3===0?8.4:6.1,life:4.4,trail:true,bossHoming:phase>=3&&i%4===0,turnRate:.28,spin:(i%2?1:-1)*2.5});}if(phase>=2){const a=Math.atan2(this.player.y-b.y,this.player.x-b.x);b.vx=Math.cos(a)*(90+phase*28);b.vy=Math.sin(a)*(90+phase*28);b.phaseTimer=.34;}return;}
       if (kind === 'swarm') {
         for (let i = 0; i < (this.mapIndex === 0 ? 3 : 5); i++) {
           const a = (Math.PI * 2 / (this.mapIndex === 0 ? 3 : 5)) * i + b.t;
@@ -7172,7 +7352,18 @@
       }
       if(this.mapIndex>=10){const fams=b.minionFamilies||[];if(b.phase>=2&&fams.length&&Math.random()<.72)this.spawnEnemy(pick(pick(fams)),true);if(b.phase>=3&&fams.length&&Math.random()<.42)this.spawnEnemy(pick(pick(fams)),true);}else{if (b.phase >= 2 && Math.random() < .75) this.spawnEnemy('nave_espejo', true);if (b.phase >= 3 && Math.random() < .4) this.spawnEnemy(pick(['mosquito','corredor','blindado']), true);}
       this.bossVariantSignature(b, map, 'special');
-      b.specialCd = this.mapIndex===17 ? Math.max(2.00,3.55-b.phase*.35) : (this.mapIndex===16 ? Math.max(2.15,3.72-b.phase*.36) : (this.mapIndex===15 ? Math.max(2.35,4.00-b.phase*.34) : (this.mapIndex===14 ? Math.max(2.55,4.20-b.phase*.34) : (this.mapIndex===13 ? Math.max(2.70,4.45-b.phase*.34) : (this.mapIndex===12 ? Math.max(2.95,4.75-b.phase*.34) : (this.mapIndex===11 ? Math.max(3.15,4.95-b.phase*.34) : (this.mapIndex===10 ? Math.max(3.25,5.05-b.phase*.34) : (this.mapIndex === 0 ? Math.max(5.8, 7.2 - b.phase * .28) : Math.max(4.2, 6.6 - b.phase * .5 - this.mapIndex * .08)))))))));
+      if(this.mapIndex===18)b.specialCd=Math.max(1.90,3.40-b.phase*.36);
+      if(this.mapIndex===19)b.specialCd=Math.max(1.72,3.22-b.phase*.38);
+      else if(this.mapIndex===17)b.specialCd=Math.max(2.00,3.55-b.phase*.35);
+      else if(this.mapIndex===16)b.specialCd=Math.max(2.15,3.72-b.phase*.36);
+      else if(this.mapIndex===15)b.specialCd=Math.max(2.35,4.00-b.phase*.34);
+      else if(this.mapIndex===14)b.specialCd=Math.max(2.55,4.20-b.phase*.34);
+      else if(this.mapIndex===13)b.specialCd=Math.max(2.70,4.45-b.phase*.34);
+      else if(this.mapIndex===12)b.specialCd=Math.max(2.95,4.75-b.phase*.34);
+      else if(this.mapIndex===11)b.specialCd=Math.max(3.15,4.95-b.phase*.34);
+      else if(this.mapIndex===10)b.specialCd=Math.max(3.25,5.05-b.phase*.34);
+      else if(this.mapIndex===0)b.specialCd=Math.max(5.8,7.2-b.phase*.28);
+      else b.specialCd=Math.max(4.2,6.6-b.phase*.5-this.mapIndex*.08);
     }
 
     bossPattern(b, dt) {
@@ -7188,7 +7379,11 @@
       if(this.mapIndex===14)AudioFX.futureBossShot(15);
       if(this.mapIndex===15)AudioFX.futureBossShot(16);
       if(this.mapIndex===16)AudioFX.futureBossShot(17);
-      if(this.mapIndex===17)AudioFX.futureBossShot(18);
+      if(this.mapIndex===19)AudioFX.futureBossShot(20);
+      else if(this.mapIndex===18)AudioFX.futureBossShot(19);
+      else if(this.mapIndex===17)AudioFX.futureBossShot(18);
+      if(kind === 'silentPsion'){const phase=b.phase||1,aim=Math.atan2(this.player.y-b.y,this.player.x-b.x),count=6+phase;for(let i=0;i<count;i++){const off=(i-(count-1)/2)*(.08-phase*.003);this.addEnemyBullet(b.x,b.y,aim+off,284+phase*24,13+phase*2.8,i%2?'#a7d9e4':'#e8fbff',{r:5.8,life:4.0,shape:'lance',spriteKey:i%2?'world19ShotPsion':'world19ShotBeam',spriteScale:3.2,trail:true,bossHoming:phase>=3&&i%3===0,turnRate:.26,wobble:i%2?.07:0});}if(Math.random()<.50)this.spawnWorldNineteenHazard(1,true);if(phase>=2&&Math.random()<.44)this.spawnWorldNineteenField(1,false);if(phase>=3&&Math.random()<.25){b.phaseTimer=.50;b.x=clamp(this.player.x+rand(250,-250),80,this.w-80);b.y=clamp(this.player.y+rand(150,-150),70,this.h*.50);}b.attack=Math.max(.49,1.40-phase*.24);return;}
+      if(kind === 'necroScale'){const phase=b.phase||1,aim=Math.atan2(this.player.y-b.y,this.player.x-b.x),count=7+phase;for(let i=0;i<count;i++){const off=(i-(count-1)/2)*(.075-phase*.003);this.addEnemyBullet(b.x,b.y,aim+off,300+phase*27,14+phase*3.0,i%2?'#8ed957':'#d9ff78',{r:6.1,life:3.9,shape:i%3===0?'lance':'orb',spriteKey:i%3===0?'world20ShotClaw':(i%2?'world20ShotToxic':'world20ShotNecro'),spriteScale:3.1,trail:true,bossHoming:phase>=3&&i%3===1,turnRate:.29,wobble:i%2?.08:0});}if(Math.random()<.54)this.spawnWorldTwentyHazard(1,true);if(phase>=2&&Math.random()<.48)this.spawnWorldTwentyMutation(1,false);if(phase>=3&&Math.random()<.28){const a=Math.atan2(this.player.y-b.y,this.player.x-b.x);b.vx=Math.cos(a)*(105+phase*30);b.vy=Math.sin(a)*(105+phase*30);b.phaseTimer=.40;}b.attack=Math.max(.43,1.30-phase*.22);return;}
       if (kind === 'swarm') {
         const count = this.mapIndex === 0 ? 3 + b.phase : 5 + b.phase;
         for (let i = 0; i < count; i++) {
@@ -7248,7 +7443,18 @@
         if (Math.random() < .5) this.spawnEnemy(pick(['blindado', 'corredor', 'explosivo']), true);
       }
       this.bossVariantSignature(b, map, 'pattern');
-      b.attack = this.mapIndex===17 ? Math.max(.52,1.47-b.phase*.24) : (this.mapIndex===16 ? Math.max(.58,1.55-b.phase*.25) : (this.mapIndex===15 ? Math.max(.66,1.72-b.phase*.24) : (this.mapIndex===14 ? Math.max(.70,1.82-b.phase*.24) : (this.mapIndex===13 ? Math.max(.76,1.90-b.phase*.24) : (this.mapIndex===12 ? Math.max(.82,2.00-b.phase*.24) : (this.mapIndex===11 ? Math.max(.88,2.08-b.phase*.24) : (this.mapIndex===10 ? Math.max(.92,2.15-b.phase*.24) : (this.mapIndex === 0 ? Math.max(2.05, 3.85 - b.phase * .28) : Math.max(1.05, 3.05 - b.phase * .32 - this.mapIndex * .035)))))))));
+      if(this.mapIndex===18)b.attack=Math.max(.49,1.40-b.phase*.24);
+      if(this.mapIndex===19)b.attack=Math.max(.43,1.30-b.phase*.22);
+      else if(this.mapIndex===17)b.attack=Math.max(.52,1.47-b.phase*.24);
+      else if(this.mapIndex===16)b.attack=Math.max(.58,1.55-b.phase*.25);
+      else if(this.mapIndex===15)b.attack=Math.max(.66,1.72-b.phase*.24);
+      else if(this.mapIndex===14)b.attack=Math.max(.70,1.82-b.phase*.24);
+      else if(this.mapIndex===13)b.attack=Math.max(.76,1.90-b.phase*.24);
+      else if(this.mapIndex===12)b.attack=Math.max(.82,2.00-b.phase*.24);
+      else if(this.mapIndex===11)b.attack=Math.max(.88,2.08-b.phase*.24);
+      else if(this.mapIndex===10)b.attack=Math.max(.92,2.15-b.phase*.24);
+      else if(this.mapIndex===0)b.attack=Math.max(2.05,3.85-b.phase*.28);
+      else b.attack=Math.max(1.05,3.05-b.phase*.32-this.mapIndex*.035);
     }
 
     addEnemyBullet(x, y, angle, speed, damage, color, options={}) {
@@ -8186,7 +8392,9 @@
         { id:'world15Vermis', name:'Vermis Carapace', desc:'Firma DOMINIO: Peristalsis Devastadora. Refuerza regeneración, daño orgánico y resistencia a ácido.' },
         { id:'world16Neuroarca', name:'Neuroarca Psiónica', desc:'Firma DOMINIO: Sinapsis Letal. Refuerza cadenas de daño, control de proyectiles y predicción.' },
         { id:'world17Fenrir', name:'Fenrir Cryo-Ship', desc:'Firma DOMINIO: Ventisca Depredadora. Refuerza criogenia, movilidad polar y resistencia a hazards.' },
-        { id:'world18Akasha', name:'Akasha Manga-Ship', desc:'Firma DOMINIO: Corte de Viñeta Absoluta. Refuerza crítico, fase y cadenas de tinta.' }
+        { id:'world18Akasha', name:'Akasha Manga-Ship', desc:'Firma DOMINIO: Corte de Viñeta Absoluta. Refuerza crítico, fase y cadenas de tinta.' },
+        { id:'world19Zhyr', name:'Zhyr Disc', desc:'Firma DOMINIO: Dominio Psíquico. Refuerza control, fase y precisión mental.' },
+        { id:'world20Necrorex', name:'Núcleo Necroescama', desc:'Firma DOMINIO: Dominio Necroescama. Culmina Saga II reforzando infección, resistencia, daño orgánico y crítico contra Guardianes.' }
       ];
       const reward = rewards[this.mapIndex] || rewards[0];
       p.relics = p.relics || {};
@@ -8366,7 +8574,7 @@
         const loot=this.lastBossLootPower?.name?` Botín del jefe: ${this.lastBossLootPower.name}.`:'';
         els.resultText.textContent = this.mapIndex===9
           ? `Z.E.R.O.S. Prime cayó. ${reward.name} integrado · la señal enemiga, sin embargo, escapó hacia diez planetas terrestres alienígenas.${loot}`
-          : (this.mapIndex===10 ? `El Soberano de Sílice cayó. ${reward.name} integrado · la Corona de Sílice queda disponible como nave capturada. Una nueva señal se abre bajo un océano alienígena.${loot}` : (this.mapIndex===11 ? `Thalassar Hadal cayó. ${reward.name} integrado · la Corona Hadal queda capturada. La siguiente señal asciende desde un planeta cuyo suelo es magma vivo.${loot}` : (this.mapIndex===12 ? `Vulkarion cayó. ${reward.name} integrado · el Trono Magmático queda capturado. La señal abandona la forja planetaria rumbo a una estrella que está muriendo.${loot}` : (this.mapIndex===13 ? `Heliovorax cayó. ${reward.name} integrado · el Trono Nova queda capturado. La estrella colapsa y una señal orgánica emerge desde las entrañas de una criatura colosal.${loot}` : (this.mapIndex===14 ? `Vermidrax cayó. ${reward.name} integrado · la Vermis Carapace queda capturada. Entre los nervios muertos aparece una señal cognitiva que apunta al Imperio de los Cerebros Asesinos.${loot}` : (this.mapIndex===15 ? `Neurokhan cayó. ${reward.name} integrado · la Neuroarca Psiónica queda capturada. Más allá de la red cerebral emerge una señal congelada que apunta a la Tundra Salvaje.${loot}` : (this.mapIndex===16 ? `Skaldr Glacial cayó. ${reward.name} integrado · la Fenrir Cryo-Ship queda capturada. Bajo el glaciar aparecen páginas imposibles que señalan la Biblioteca Anime Multiversal.${loot}` : (this.mapIndex===17 ? `Kanzai Akasha cayó. ${reward.name} integrado · la Akasha Manga-Ship queda capturada. La última página revela una señal silenciosa procedente del Planeta ficticio de los Grises.${loot}` : `${reward.name} obtenido · arma base mejorada de forma permanente en daño, alcance, velocidad y precisión · +${this.lastWorldLifeBonus || 0} vidas.${loot}`))))))));
+          : (this.mapIndex===10 ? `El Soberano de Sílice cayó. ${reward.name} integrado · la Corona de Sílice queda disponible como nave capturada. Una nueva señal se abre bajo un océano alienígena.${loot}` : (this.mapIndex===11 ? `Thalassar Hadal cayó. ${reward.name} integrado · la Corona Hadal queda capturada. La siguiente señal asciende desde un planeta cuyo suelo es magma vivo.${loot}` : (this.mapIndex===12 ? `Vulkarion cayó. ${reward.name} integrado · el Trono Magmático queda capturado. La señal abandona la forja planetaria rumbo a una estrella que está muriendo.${loot}` : (this.mapIndex===13 ? `Heliovorax cayó. ${reward.name} integrado · el Trono Nova queda capturado. La estrella colapsa y una señal orgánica emerge desde las entrañas de una criatura colosal.${loot}` : (this.mapIndex===14 ? `Vermidrax cayó. ${reward.name} integrado · la Vermis Carapace queda capturada. Entre los nervios muertos aparece una señal cognitiva que apunta al Imperio de los Cerebros Asesinos.${loot}` : (this.mapIndex===15 ? `Neurokhan cayó. ${reward.name} integrado · la Neuroarca Psiónica queda capturada. Más allá de la red cerebral emerge una señal congelada que apunta a la Tundra Salvaje.${loot}` : (this.mapIndex===16 ? `Skaldr Glacial cayó. ${reward.name} integrado · la Fenrir Cryo-Ship queda capturada. Bajo el glaciar aparecen páginas imposibles que señalan la Biblioteca Anime Multiversal.${loot}` : (this.mapIndex===17 ? `Kanzai Akasha cayó. ${reward.name} integrado · la Akasha Manga-Ship queda capturada. La última página revela una señal silenciosa procedente del Planeta ficticio de los Grises.${loot}` : (this.mapIndex===18 ? `Arconte Zhyr cayó. ${reward.name} integrado · la Zhyr Disc queda capturada. Bajo el complejo clínico aparece una transmisión zombie-reptiloide.${loot}` : (this.mapIndex===19 ? `Sauryx Necrorex cayó. ${reward.name} integrado · la Necrorex Dreadship queda capturada. Saga II ha sido completada: veinte mundos quedan enlazados en el Archivo y una señal desconocida aparece más allá del mapa.${loot}` : `${reward.name} obtenido · arma base mejorada de forma permanente en daño, alcance, velocidad y precisión · +${this.lastWorldLifeBonus || 0} vidas.${loot}`))))))))));
       } else {
         els.resultText.textContent = this.extraLives > 0
           ? `Te quedan ${this.extraLives} vidas de reserva. Conservas Mundo ${this.mapIndex + 1}, Nivel ${this.wave}. Al reactivar aparecen tus últimos poderes, un Impulsor y un combo de recuperación de 5 segundos.`
@@ -8477,6 +8685,8 @@
         worldSixteenState:this.mapIndex===15?{...(this.worldSixteenState||{})}:null,
         worldSeventeenState:this.mapIndex===16?{...(this.worldSeventeenState||{})}:null,
         worldEighteenState:this.mapIndex===17?{...(this.worldEighteenState||{})}:null,
+        worldNineteenState:this.mapIndex===18?{...(this.worldNineteenState||{})}:null,
+        worldTwentyState:this.mapIndex===19?{...(this.worldTwentyState||{})}:null,
         futureSpecialCombat:(this.mapIndex===8||this.mapIndex===9)&&this.futureSpecialCombat?{...this.futureSpecialCombat}:null,
         powerQueue:[...(this.powerQueue||[])],
         recentPowerHistory:[...(this.recentPowerHistory||[])],
@@ -8528,6 +8738,8 @@
         worldSixteenState:this.mapIndex===15?this.worldSixteenState:null,
         worldSeventeenState:this.mapIndex===16?this.worldSeventeenState:null,
         worldEighteenState:this.mapIndex===17?this.worldEighteenState:null,
+        worldNineteenState:this.mapIndex===18?this.worldNineteenState:null,
+        worldTwentyState:this.mapIndex===19?this.worldTwentyState:null,
         futureSpecialCombat:(this.mapIndex===8||this.mapIndex===9)&&this.futureSpecialCombat?{...this.futureSpecialCombat}:null,
         extraLives: this.extraLives,
         nextLifeScore: this.nextLifeScore
@@ -8588,6 +8800,8 @@
         else if(this.mapIndex===15){const act=WORLD_SIXTEEN_ACTS[this.wave-1],bossPct=this.getBossApproachPercent(),s=this.worldSixteenState?.synapseBursts||0;els.xpLabel.textContent=`L${this.wave}/5 · ${act?.name||'Imperio Neural'} · ${this.worldStage?.kills||0}/${this.getWorldStageTarget(this.wave)} · SINAPSIS ${s} · JEFE ${bossPct}%`;}
         else if(this.mapIndex===16){const act=WORLD_SEVENTEEN_ACTS[this.wave-1],bossPct=this.getBossApproachPercent(),s=this.worldSeventeenState?.blizzards||0;els.xpLabel.textContent=`L${this.wave}/5 · ${act?.name||'Tundra Salvaje'} · ${this.worldStage?.kills||0}/${this.getWorldStageTarget(this.wave)} · VENTISCAS ${s} · JEFE ${bossPct}%`;}
         else if(this.mapIndex===17){const act=WORLD_EIGHTEEN_ACTS[this.wave-1],bossPct=this.getBossApproachPercent(),s=this.worldEighteenState?.panelsOpened||0;els.xpLabel.textContent=`L${this.wave}/5 · ${act?.name||'Biblioteca Anime'} · ${this.worldStage?.kills||0}/${this.getWorldStageTarget(this.wave)} · VIÑETAS ${s} · JEFE ${bossPct}%`;}
+        else if(this.mapIndex===18){const act=WORLD_NINETEEN_ACTS[this.wave-1],bossPct=this.getBossApproachPercent(),s=this.worldNineteenState?.fieldsOpened||0;els.xpLabel.textContent=`L${this.wave}/5 · ${act?.name||'Planeta Gris'} · ${this.worldStage?.kills||0}/${this.getWorldStageTarget(this.wave)} · CAMPOS ${s} · JEFE ${bossPct}%`;}
+        else if(this.mapIndex===19){const act=WORLD_TWENTY_ACTS[this.wave-1],bossPct=this.getBossApproachPercent(),s=this.worldTwentyState?.mutations||0;els.xpLabel.textContent=`L${this.wave}/5 · ${act?.name||'Necroplaneta'} · ${this.worldStage?.kills||0}/${this.getWorldStageTarget(this.wave)} · MUTACIONES ${s} · JEFE ${bossPct}%`;}
         else els.xpLabel.textContent = `Nivel ${this.player.level} · eliminados ${this.worldStage?.kills || 0}/${this.getWorldStageTarget(this.wave)}`;
       }
       if (els.hudLives) els.hudLives.textContent = Math.min(MAX_TOTAL_LIVES, this.extraLives + (this.running ? 1 : 0));
@@ -8924,6 +9138,21 @@
         if(bossBg&&(level>=4||this.bossActive))this.drawImageCover(ctx,bossBg,0,0,this.w,this.h,{alpha:this.bossActive?.985:(.09+bossPct*.0048),scale:1.045+pulse*.008,offsetX:Math.cos(drift*.66)*5,offsetY:Math.sin(drift*.50)*3});
         if(boss&&level>=3&&!this.bossActive){ctx.save();const ww=this.w*(.068+level*.012),hh=ww*(boss.naturalHeight/Math.max(1,boss.naturalWidth));ctx.globalAlpha=.020+level*.010;ctx.filter='grayscale(.15) contrast(1.1)';ctx.drawImage(boss,this.w*(.71-level*.014),this.h*.06,ww,hh);ctx.restore();}
         ctx.save();ctx.globalAlpha=.06+level*.010;ctx.strokeStyle=level>=4?'#fff0f7':'#d44cff';ctx.lineWidth=1.4;const panels=state.settings.lowPerformance?3:5;for(let i=0;i<panels;i++){const w=this.w*(.17+(i%2)*.05),h=this.h*(.18+(i%3)*.035),x=((i*.23+drift*3)%1.18)*this.w-w*.5,y=this.h*(.12+(i%4)*.18)+Math.sin(drift*21+i)*7;ctx.strokeRect(x,y,w,h);}ctx.globalAlpha=.035+level*.006;ctx.fillStyle='#fff';for(let i=0;i<(state.settings.lowPerformance?4:8);i++){const x=((i*.147+drift*5)%1.1)*this.w-60;ctx.fillRect(x,0,1.4,this.h);}ctx.restore();return;
+      }
+
+      if(this.mapIndex===18){
+        const level=clamp(this.wave,1,5),drift=now()*.00023,bossPct=this.getBossApproachPercent(),pulse=.5+.5*Math.sin(now()*.0023),bg=this.getAsset('world19BgApproach'),bossBg=this.getAsset('world19BossBg'),boss=this.getAsset('bossWorld19');
+        if(bg)this.drawImageCover(ctx,bg,0,0,this.w,this.h,{alpha:this.bossActive?.14:.995,scale:1.03+level*.004+pulse*.005,offsetX:Math.sin(drift*(1+level*.11))*7,offsetY:Math.cos(drift*.70)*3});
+        if(bossBg&&(level>=4||this.bossActive))this.drawImageCover(ctx,bossBg,0,0,this.w,this.h,{alpha:this.bossActive?.985:(.08+bossPct*.0046),scale:1.04+pulse*.007,offsetX:Math.cos(drift*.62)*4,offsetY:Math.sin(drift*.48)*3});
+        if(boss&&level>=3&&!this.bossActive){ctx.save();const ww=this.w*(.064+level*.011),hh=ww*(boss.naturalHeight/Math.max(1,boss.naturalWidth));ctx.globalAlpha=.018+level*.010;ctx.filter='grayscale(.25) contrast(1.08)';ctx.drawImage(boss,this.w*(.72-level*.013),this.h*.055,ww,hh);ctx.restore();}
+        ctx.save();const field=ctx.createRadialGradient(this.w*.5,this.h*.46,30,this.w*.5,this.h*.46,Math.max(this.w,this.h)*.66);field.addColorStop(0,`rgba(185,230,240,${.035+pulse*.020})`);field.addColorStop(.55,`rgba(75,110,118,${.018+level*.006})`);field.addColorStop(1,'rgba(2,10,12,.28)');ctx.fillStyle=field;ctx.fillRect(0,0,this.w,this.h);ctx.globalAlpha=.05+level*.008;ctx.strokeStyle=level>=4?'#e8fbff':'#a7d9e4';ctx.lineWidth=1.1;for(let i=0;i<5;i++){const x=this.w*(.14+i*.18)+Math.sin(drift*15+i)*8;ctx.beginPath();ctx.ellipse(x,this.h*.52,58+level*6,160+level*9,0,0,Math.PI*2);ctx.stroke();}ctx.restore();return;
+      }
+      if(this.mapIndex===19){
+        const level=clamp(this.wave,1,5),drift=now()*.00027,bossPct=this.getBossApproachPercent(),pulse=.5+.5*Math.sin(now()*.0028),bg=this.getAsset('world20BgApproach'),bossBg=this.getAsset('world20BossBg'),boss=this.getAsset('bossWorld20');
+        if(bg)this.drawImageCover(ctx,bg,0,0,this.w,this.h,{alpha:this.bossActive?.13:.998,scale:1.032+level*.005+pulse*.006,offsetX:Math.sin(drift*(1+level*.13))*8,offsetY:Math.cos(drift*.72)*4});
+        if(bossBg&&(level>=4||this.bossActive))this.drawImageCover(ctx,bossBg,0,0,this.w,this.h,{alpha:this.bossActive?.99:(.09+bossPct*.0048),scale:1.045+pulse*.008,offsetX:Math.cos(drift*.66)*5,offsetY:Math.sin(drift*.52)*3});
+        if(boss&&level>=3&&!this.bossActive){ctx.save();const ww=this.w*(.068+level*.012),hh=ww*(boss.naturalHeight/Math.max(1,boss.naturalWidth));ctx.globalAlpha=.022+level*.011;ctx.filter='contrast(1.12) saturate(1.05)';ctx.drawImage(boss,this.w*(.70-level*.012),this.h*.045,ww,hh);ctx.restore();}
+        ctx.save();const fog=ctx.createRadialGradient(this.w*.52,this.h*.52,20,this.w*.52,this.h*.52,Math.max(this.w,this.h)*.68);fog.addColorStop(0,`rgba(142,217,87,${.034+pulse*.024})`);fog.addColorStop(.56,`rgba(76,102,39,${.020+level*.007})`);fog.addColorStop(1,'rgba(3,12,4,.30)');ctx.fillStyle=fog;ctx.fillRect(0,0,this.w,this.h);ctx.globalAlpha=.05+level*.008;ctx.strokeStyle=level>=4?'#d9ff78':'#8ed957';ctx.lineWidth=1.2;for(let i=0;i<6;i++){const x=((i*.19+drift*3.4)%1.15)*this.w-40,y=this.h*(.16+(i%4)*.18)+Math.sin(drift*18+i)*9;ctx.beginPath();ctx.moveTo(x-22,y);ctx.lineTo(x,y-18);ctx.lineTo(x+24,y+6);ctx.stroke();}ctx.restore();return;
       }
     }
 
@@ -9689,6 +9918,8 @@
           } else if(this.mapIndex===15){const boss16=this.getAsset('bossWorld16');if(boss16){ctx.globalAlpha=.998*(e.alpha??1);const phaseScale=e.phase>=4?.86:(e.phase===3?.91:(e.phase===2?.96:1));const {w,h}=this.bossSpriteDimensions(e,boss16,9.35*phaseScale,this.mobileLandscape?(.57*.85):(this.mobilePortrait?.53:1));ctx.save();ctx.shadowBlur=46;ctx.shadowColor='rgba(180,92,255,.74)';ctx.rotate(Math.sin(e.t*1.32)*.035);ctx.drawImage(boss16,-w*.5,-h*.50,w,h);ctx.restore();}else this.drawBacteriaBoss(ctx,e);
           } else if(this.mapIndex===16){const boss17=this.getAsset('bossWorld17');if(boss17){ctx.globalAlpha=.998*(e.alpha??1);const phaseScale=e.phase>=4?.76:(e.phase===3?.84:(e.phase===2?.92:1));const {w,h}=this.bossSpriteDimensions(e,boss17,9.1*phaseScale,this.mobileLandscape?(.56*.85):(this.mobilePortrait?.52:1));ctx.save();ctx.shadowBlur=48;ctx.shadowColor='rgba(158,232,255,.76)';ctx.rotate(Math.sin(e.t*1.55)*.045);ctx.drawImage(boss17,-w*.5,-h*.50,w,h);ctx.restore();}else this.drawBacteriaBoss(ctx,e);
           } else if(this.mapIndex===17){const boss18=this.getAsset('bossWorld18');if(boss18){ctx.globalAlpha=.998*(e.alpha??1);const phaseScale=e.phase>=4?.82:(e.phase===3?.87:(e.phase===2?.94:1));const {w,h}=this.bossSpriteDimensions(e,boss18,8.9*phaseScale,this.mobileLandscape?(.55*.85):(this.mobilePortrait?.51:1));ctx.save();ctx.shadowBlur=50;ctx.shadowColor='rgba(212,76,255,.78)';ctx.rotate(Math.sin(e.t*1.8)*.035);if(e.phase>=3&&Math.sin(e.t*7)> .78)ctx.globalAlpha*=.70;ctx.drawImage(boss18,-w*.5,-h*.50,w,h);ctx.restore();}else this.drawBacteriaBoss(ctx,e);
+          } else if(this.mapIndex===18){const boss19=this.getAsset('bossWorld19');if(boss19){ctx.globalAlpha=.998*(e.alpha??1);const phaseScale=e.phase>=4?.80:(e.phase===3?.86:(e.phase===2?.94:1));const {w,h}=this.bossSpriteDimensions(e,boss19,8.6*phaseScale,this.mobileLandscape?(.53*.85):(this.mobilePortrait?.49:1));ctx.save();ctx.shadowBlur=46;ctx.shadowColor='rgba(167,217,228,.76)';ctx.rotate(Math.sin(e.t*1.45)*.025);if((e.phaseTimer||0)>0)ctx.globalAlpha*=.62;ctx.drawImage(boss19,-w*.5,-h*.50,w,h);ctx.restore();}else this.drawBacteriaBoss(ctx,e);
+          } else if(this.mapIndex===19){const boss20=this.getAsset('bossWorld20');if(boss20){ctx.globalAlpha=.998*(e.alpha??1);const phaseScale=e.phase>=4?.70:(e.phase===3?.79:(e.phase===2?.90:1));const {w,h}=this.bossSpriteDimensions(e,boss20,8.8*phaseScale,this.mobileLandscape?(.51*.85):(this.mobilePortrait?.47:1));ctx.save();ctx.shadowBlur=50;ctx.shadowColor='rgba(142,217,87,.80)';ctx.rotate(Math.sin(e.t*(1.55+e.phase*.10))*.035);if((e.phaseTimer||0)>0)ctx.globalAlpha*=.70;ctx.drawImage(boss20,-w*.5,-h*.50,w,h);ctx.restore();}else this.drawBacteriaBoss(ctx,e);
           } else {
             const sides = ({spider:8,tick:7,rat:6,scorpion:10,leech:5,puffer:11,wasp:9,centipede:12,roach:8,chimera:13})[e.beast] || 9;
             this.drawPolygon(ctx, 0, 0, e.r + Math.sin(e.t * 3) * 3, sides, true);
@@ -10503,6 +10734,58 @@
     ],
     finalLabel:'ARCHIVAR TRANSMISIÓN · MUNDO 19 EN RASTREO'
   };
+  const WORLD_NINETEEN_INTRO = {
+    kicker:'TRANSMISIÓN Z-STRIKE // SAGA II · SEÑAL SILENCIOSA',
+    title:'MUNDO 19 · PLANETA FICTICIO DE LOS GRISES',
+    image:'assets/world19/bg_world19_approach.webp',
+    captions:[
+      'La señal de Akasha termina en un planeta casi sin color, donde la arquitectura parece clínica y nadie responde por radio.',
+      'Sondas, operadores psiónicos y bioformas sintéticas comparten una red de observación que predice rutas antes del disparo.',
+      'Los campos de contención son breves y telegráficos: el peligro no está en quitar el control, sino en obligarte a anticipar el cierre.',
+      'En la cámara central espera Arconte Zhyr, Custodio del Silencio Psiónico.',
+      'Objetivo: romper cuatro fases de dominio mental, capturar la Zhyr Disc y heredar Dominio Psíquico.'
+    ],
+    finalLabel:'ABRIR LA CÁMARA · INICIAR MUNDO 19'
+  };
+  const WORLD_NINETEEN_OUTRO = {
+    kicker:'TRANSMISIÓN Z-STRIKE // SAGA II · SILENCIO ROTO',
+    title:'ARCONTE ZHYR HA CAÍDO',
+    image:'assets/world19/bg_world19_boss.webp',
+    captions:[
+      'La red mental se apaga y las cámaras clínicas pierden sincronía por primera vez.',
+      'Zhyr Disc queda integrada a RIZOMA. Dominio Psíquico pasa a la biblioteca DOMINIO.',
+      'Bajo el complejo aparece una transmisión orgánica, reptiliana y necrótica: no es una colonia, sino un imperio infectado.',
+      'Coordenadas registradas: MUNDO 20 · PLANETA ZOMBIE-REPTILOIDE. La culminación de Saga II está abierta.'
+    ],
+    finalLabel:'ARCHIVAR TRANSMISIÓN · MUNDO 20 EN RASTREO'
+  };
+  const WORLD_TWENTY_INTRO = {
+    kicker:'TRANSMISIÓN Z-STRIKE // SAGA II · CONVERGENCIA FINAL',
+    title:'MUNDO 20 · PLANETA ZOMBIE-REPTILOIDE',
+    image:'assets/world20/bg_world20_approach.webp',
+    captions:[
+      'La transmisión bajo el complejo Zhyr conduce a un planeta devastado donde templo, reactor y organismo ya no pueden separarse.',
+      'Reptiloides infectados, cadáveres mutantes y sacerdotes necroplasma comparten una ecología de guerra que aprende de cada mundo conquistado.',
+      'Huevos, placas, biocápsulas y restos de naves forman corredores vivos. Las amenazas frontales ya no son accidentes: son emboscadas deliberadas.',
+      'En el trono necrobiológico espera Sauryx Necrorex · Emperador Necroescama.',
+      'Objetivo final: quebrar cuatro mutaciones, capturar la Necrorex Dreadship y dominar la Necroescama sin ser absorbido por ella.'
+    ],
+    finalLabel:'ENTRAR AL TRONO · INICIAR MUNDO 20'
+  };
+  const WORLD_TWENTY_OUTRO = {
+    kicker:'TRANSMISIÓN Z-STRIKE // SAGA II · NEXO CERRADO',
+    title:'SAURYX NECROREX HA CAÍDO',
+    image:'assets/world20/bg_world20_boss.webp',
+    captions:[
+      'La última mutación de Sauryx colapsa. El trono necrobiológico deja de latir y la infección pierde su centro de mando.',
+      'Necrorex Dreadship queda integrada a RIZOMA. Dominio Necroescama pasa a la biblioteca DOMINIO junto a las firmas de todos los Guardianes.',
+      'Veinte mundos quedan enlazados en el Archivo. La Saga II concluye con sus ecosistemas, naves y poderes preservados, no borrados.',
+      'Pero el silencio dura poco: más allá del mapa conocido aparece una coordenada sin número, acompañada por una señal que no pertenece a ninguna familia registrada.',
+      'RIZOMA marca el punto como SAGA III // ORIGEN DESCONOCIDO. La expedición continúa.'
+    ],
+    finalLabel:'CERRAR SAGA II · ABRIR ARCHIVO COMPLETO'
+  };
+
 
   let storyRuntime = { sequence:null, step:0, onDone:null, readyTimer:null };
 
@@ -10587,6 +10870,8 @@
     else if(mapIndex===15&&getPlayMode()==='story')showStorySequence(WORLD_SIXTEEN_INTRO,()=>game.start(15));
     else if(mapIndex===16&&getPlayMode()==='story')showStorySequence(WORLD_SEVENTEEN_INTRO,()=>game.start(16));
     else if(mapIndex===17&&getPlayMode()==='story')showStorySequence(WORLD_EIGHTEEN_INTRO,()=>game.start(17));
+    else if(mapIndex===18&&getPlayMode()==='story')showStorySequence(WORLD_NINETEEN_INTRO,()=>game.start(18));
+    else if(mapIndex===19&&getPlayMode()==='story')showStorySequence(WORLD_TWENTY_INTRO,()=>game.start(19));
     else game.start(mapIndex);
   }
 
@@ -11352,6 +11637,8 @@ ${JSON.stringify(snapshot, null, 2)}`;
           else if(completedMapIndex===14&&getPlayMode()==='story'){game.running=false;AudioFX.stopMusic();showStorySequence(WORLD_FIFTEEN_OUTRO,continueToNextWorld);}
           else if(completedMapIndex===15&&getPlayMode()==='story'){game.running=false;AudioFX.stopMusic();showStorySequence(WORLD_SIXTEEN_OUTRO,continueToNextWorld);}
           else if(completedMapIndex===16&&getPlayMode()==='story'){game.running=false;AudioFX.stopMusic();showStorySequence(WORLD_SEVENTEEN_OUTRO,continueToNextWorld);}
+          else if(completedMapIndex===17&&getPlayMode()==='story'){game.running=false;AudioFX.stopMusic();showStorySequence(WORLD_EIGHTEEN_OUTRO,continueToNextWorld);}
+          else if(completedMapIndex===18&&getPlayMode()==='story'){game.running=false;AudioFX.stopMusic();showStorySequence(WORLD_NINETEEN_OUTRO,continueToNextWorld);}
           else continueToNextWorld();
         } else if(game.mapIndex===12&&getPlayMode()==='story'){
           game.running=false;AudioFX.stopMusic();showStorySequence(WORLD_THIRTEEN_OUTRO,()=>showScreen('screenReplay'));
@@ -11365,6 +11652,10 @@ ${JSON.stringify(snapshot, null, 2)}`;
           game.running=false;AudioFX.stopMusic();showStorySequence(WORLD_SEVENTEEN_OUTRO,()=>showScreen('screenReplay'));
         } else if(game.mapIndex===17&&getPlayMode()==='story'){
           game.running=false;AudioFX.stopMusic();showStorySequence(WORLD_EIGHTEEN_OUTRO,()=>showScreen('screenReplay'));
+        } else if(game.mapIndex===18&&getPlayMode()==='story'){
+          game.running=false;AudioFX.stopMusic();showStorySequence(WORLD_NINETEEN_OUTRO,()=>showScreen('screenReplay'));
+        } else if(game.mapIndex===19&&getPlayMode()==='story'){
+          game.running=false;AudioFX.stopMusic();const p=currentProfile();p.completedMaps=Array.from(new Set([...(p.completedMaps||[]),20]));p.unlockedMap=Math.max(p.unlockedMap||1,20);p.pendingCampaignMap=null;p.lastSave=null;saveState();showStorySequence(WORLD_TWENTY_OUTRO,()=>showScreen('screenReplay'));
         } else if((game.mapIndex===10||game.mapIndex===11)&&getPlayMode()==='story'){
           game.running=false;AudioFX.stopMusic();showScreen('screenReplay');
         } else showScreen('screenPortal');

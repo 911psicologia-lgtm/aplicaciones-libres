@@ -1,0 +1,22 @@
+VALIDACIÓN v2.12.2 — COMBAT DIRECTOR PROFILES BY WORLD
+
+PASS · VERSION 2.12.2
+PASS · node --check js/game.js
+PASS · node --check sw.js
+PASS · PWA cache swarm-rift-v2.12.2
+PASS · 257 recursos PWA / 0 faltantes
+PASS · 10 perfiles del Director / 10 IDs únicos
+PASS · 10 firmas top-3 de eventos diferentes
+PASS · eventos válidos
+PASS · 8 miniobjetivos válidos y ponderados por perfil
+PASS · 5 transversales válidos y ponderados por perfil
+PASS · 4 tipos de amenaza frontal ponderados por perfil
+PASS · migración meta/run desde v2.12.1.6 y anteriores
+PASS · arquitectura activa conserva exactamente 10 sectores
+PASS · no se añadieron mundos 11–20
+PASS · bloque AUDIO idéntico a v2.12.1.6
+PASS · bloque base de bosses idéntico a v2.12.1.6
+PASS · definición de powers idéntica a v2.12.1.6
+PASS · bootstrap JS con DOM simulado sin error
+
+Nota: las pruebas de perfil validan estructura, claves, ponderaciones y arranque instrumentado. No se atribuye al contenedor una prueba gráfica completa de navegador si Chromium no está disponible/estable.

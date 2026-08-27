@@ -1,0 +1,776 @@
+{
+  "version": "2.12.2",
+  "profiles": [
+    {
+      "id": "vespa",
+      "label": "VELOCIDAD DE ENJAMBRE",
+      "events": {
+        "swarm": 3.2,
+        "pincer": 3,
+        "front": 2,
+        "elite": 1.8,
+        "cross": 1,
+        "transversal": 1.1,
+        "heavy": 0.45,
+        "debris": 0.35,
+        "siege": 0.25,
+        "powercache": 0.7,
+        "carrier": 0.65,
+        "hunter": 0.5
+      },
+      "objectives": {
+        "priority": 2.8,
+        "carrier": 2.1,
+        "ambush": 1.5,
+        "cleanup": 1.2,
+        "protect": 0.8,
+        "recover": 0.7,
+        "nodes": 0.5,
+        "relic": 0.6
+      },
+      "transversals": {
+        "rift_scout": 3.2,
+        "salvage_drone": 1,
+        "parasite_orb": 0.7,
+        "rift_carrier": 0.8,
+        "relic_hunter": 0.45
+      },
+      "formations": {
+        "pincer": 3,
+        "wedge": 1.8,
+        "cross": 1
+      },
+      "entries": {
+        "right": 1.2,
+        "top": 1.6,
+        "bottom": 1.6,
+        "diagTop": 2.2,
+        "diagBottom": 2.2,
+        "leftTop": 0.45,
+        "leftBottom": 0.45
+      },
+      "micro": {
+        "distant": 1,
+        "meteor": 1.35,
+        "salvage": 0.8,
+        "ghost": 0.65,
+        "shield": 0.8
+      },
+      "frontKinds": {
+        "rammer": 2.5,
+        "pod": 1.7,
+        "meteor": 1,
+        "wreck": 0.55
+      },
+      "tiers": {
+        "grunt": 1.18,
+        "mid": 1,
+        "heavy": 0.82
+      },
+      "cadence": 0.92,
+      "directorCadence": 0.96,
+      "formationCadence": 0.93,
+      "frontCadence": 0.94,
+      "transversalCadence": 1.02,
+      "obstacleCadence": 1.08,
+      "budget": 0,
+      "maxAlive": 1.03,
+      "burstBias": 0.08,
+      "obstacleCap": 0
+    },
+    {
+      "id": "atlas",
+      "label": "MARCHA BLINDADA",
+      "events": {
+        "heavy": 3.3,
+        "siege": 2.7,
+        "debris": 2.4,
+        "powercache": 1.7,
+        "carrier": 1.5,
+        "swarm": 0.8,
+        "pincer": 0.8,
+        "front": 0.7,
+        "elite": 1.2,
+        "cross": 0.8,
+        "transversal": 1,
+        "hunter": 0.55
+      },
+      "objectives": {
+        "nodes": 2.6,
+        "protect": 2.3,
+        "recover": 2.1,
+        "carrier": 1.5,
+        "cleanup": 1.3,
+        "priority": 0.7,
+        "ambush": 0.8,
+        "relic": 0.7
+      },
+      "transversals": {
+        "rift_carrier": 2.3,
+        "salvage_drone": 1.8,
+        "parasite_orb": 1.2,
+        "rift_scout": 0.9,
+        "relic_hunter": 0.55
+      },
+      "formations": {
+        "wedge": 2.4,
+        "pincer": 1.6,
+        "cross": 0.8
+      },
+      "entries": {
+        "right": 2.4,
+        "top": 0.9,
+        "bottom": 0.9,
+        "diagTop": 0.75,
+        "diagBottom": 0.75,
+        "leftTop": 0.25,
+        "leftBottom": 0.25
+      },
+      "micro": {
+        "salvage": 1.45,
+        "meteor": 1.45,
+        "distant": 0.8,
+        "ghost": 0.45,
+        "shield": 1
+      },
+      "frontKinds": {
+        "meteor": 2.2,
+        "wreck": 1.8,
+        "pod": 1.25,
+        "rammer": 0.65
+      },
+      "tiers": {
+        "grunt": 0.88,
+        "mid": 1.12,
+        "heavy": 1.42
+      },
+      "cadence": 1.04,
+      "directorCadence": 1.02,
+      "formationCadence": 1.02,
+      "frontCadence": 1.08,
+      "transversalCadence": 1,
+      "obstacleCadence": 0.84,
+      "budget": 0.7,
+      "maxAlive": 0.96,
+      "burstBias": -0.03,
+      "obstacleCap": 1
+    },
+    {
+      "id": "razor",
+      "label": "CORTE VECTORIAL",
+      "events": {
+        "pincer": 2.8,
+        "cross": 3.1,
+        "elite": 2.5,
+        "front": 2.4,
+        "hunter": 1.8,
+        "transversal": 1.4,
+        "swarm": 1,
+        "heavy": 0.75,
+        "debris": 0.8,
+        "siege": 1,
+        "powercache": 0.8,
+        "carrier": 0.75
+      },
+      "objectives": {
+        "priority": 2.4,
+        "relic": 2.1,
+        "ambush": 2.2,
+        "carrier": 1.3,
+        "cleanup": 1.4,
+        "recover": 1,
+        "nodes": 0.8,
+        "protect": 0.55
+      },
+      "transversals": {
+        "rift_scout": 2.5,
+        "relic_hunter": 2,
+        "parasite_orb": 1,
+        "salvage_drone": 0.7,
+        "rift_carrier": 0.8
+      },
+      "formations": {
+        "cross": 2.8,
+        "pincer": 2.2,
+        "wedge": 1.2
+      },
+      "entries": {
+        "right": 0.85,
+        "top": 1.25,
+        "bottom": 1.25,
+        "diagTop": 2.6,
+        "diagBottom": 2.6,
+        "leftTop": 1.35,
+        "leftBottom": 1.35
+      },
+      "micro": {
+        "meteor": 1.7,
+        "ghost": 1.15,
+        "distant": 1,
+        "salvage": 0.65,
+        "shield": 0.75
+      },
+      "frontKinds": {
+        "rammer": 2,
+        "wreck": 1.55,
+        "meteor": 1.15,
+        "pod": 0.7
+      },
+      "tiers": {
+        "grunt": 0.92,
+        "mid": 1.26,
+        "heavy": 1.06
+      },
+      "cadence": 0.93,
+      "directorCadence": 0.92,
+      "formationCadence": 0.9,
+      "frontCadence": 0.88,
+      "transversalCadence": 0.96,
+      "obstacleCadence": 0.98,
+      "budget": 0.3,
+      "maxAlive": 1,
+      "burstBias": 0.04,
+      "obstacleCap": 0
+    },
+    {
+      "id": "noctis",
+      "label": "NIEBLA NOCTURNA",
+      "events": {
+        "transversal": 2.5,
+        "hunter": 2.2,
+        "powercache": 2,
+        "cross": 1.7,
+        "debris": 1.4,
+        "elite": 1.4,
+        "pincer": 1.1,
+        "front": 0.9,
+        "swarm": 0.8,
+        "heavy": 0.8,
+        "siege": 0.9,
+        "carrier": 1
+      },
+      "objectives": {
+        "recover": 2.6,
+        "relic": 2.5,
+        "protect": 1.7,
+        "priority": 1.35,
+        "nodes": 1.2,
+        "ambush": 1.3,
+        "carrier": 1,
+        "cleanup": 1.1
+      },
+      "transversals": {
+        "parasite_orb": 2.5,
+        "relic_hunter": 2.1,
+        "rift_scout": 1.3,
+        "salvage_drone": 1,
+        "rift_carrier": 0.85
+      },
+      "formations": {
+        "cross": 2,
+        "wedge": 1.7,
+        "pincer": 1.4
+      },
+      "entries": {
+        "right": 1.15,
+        "top": 1.5,
+        "bottom": 1.5,
+        "diagTop": 1.5,
+        "diagBottom": 1.5,
+        "leftTop": 0.9,
+        "leftBottom": 0.9
+      },
+      "micro": {
+        "ghost": 2.5,
+        "distant": 1.45,
+        "shield": 0.9,
+        "meteor": 0.8,
+        "salvage": 0.65
+      },
+      "frontKinds": {
+        "pod": 2,
+        "wreck": 1.4,
+        "meteor": 1.15,
+        "rammer": 0.8
+      },
+      "tiers": {
+        "grunt": 0.96,
+        "mid": 1.05,
+        "heavy": 1.24
+      },
+      "cadence": 0.98,
+      "directorCadence": 0.98,
+      "formationCadence": 1.03,
+      "frontCadence": 1.08,
+      "transversalCadence": 0.84,
+      "obstacleCadence": 0.94,
+      "budget": 0.5,
+      "maxAlive": 0.98,
+      "burstBias": 0,
+      "obstacleCap": 0
+    },
+    {
+      "id": "ferrum",
+      "label": "COLONIA FERRUM",
+      "events": {
+        "swarm": 2.6,
+        "heavy": 2.5,
+        "siege": 2.6,
+        "pincer": 2.1,
+        "powercache": 1.4,
+        "carrier": 1.5,
+        "cross": 1.2,
+        "debris": 1.2,
+        "elite": 1,
+        "front": 0.8,
+        "transversal": 0.9,
+        "hunter": 0.55
+      },
+      "objectives": {
+        "protect": 2.8,
+        "nodes": 2.7,
+        "cleanup": 2,
+        "carrier": 1.6,
+        "recover": 1.4,
+        "ambush": 1,
+        "priority": 0.7,
+        "relic": 0.6
+      },
+      "transversals": {
+        "rift_carrier": 2.1,
+        "salvage_drone": 1.6,
+        "parasite_orb": 1.1,
+        "rift_scout": 1,
+        "relic_hunter": 0.55
+      },
+      "formations": {
+        "pincer": 2.6,
+        "wedge": 2.1,
+        "cross": 1
+      },
+      "entries": {
+        "right": 1.8,
+        "top": 1.15,
+        "bottom": 1.15,
+        "diagTop": 1,
+        "diagBottom": 1,
+        "leftTop": 0.55,
+        "leftBottom": 0.55
+      },
+      "micro": {
+        "salvage": 1.4,
+        "distant": 1.25,
+        "meteor": 1,
+        "shield": 1,
+        "ghost": 0.65
+      },
+      "frontKinds": {
+        "wreck": 1.9,
+        "rammer": 1.5,
+        "pod": 1.15,
+        "meteor": 0.9
+      },
+      "tiers": {
+        "grunt": 1.14,
+        "mid": 1.05,
+        "heavy": 1.2
+      },
+      "cadence": 0.96,
+      "directorCadence": 0.94,
+      "formationCadence": 0.87,
+      "frontCadence": 1.05,
+      "transversalCadence": 0.98,
+      "obstacleCadence": 0.82,
+      "budget": 0.7,
+      "maxAlive": 1.08,
+      "burstBias": 0.06,
+      "obstacleCap": 1
+    },
+    {
+      "id": "hop",
+      "label": "SALTO DE SATURACIÓN",
+      "events": {
+        "front": 2.9,
+        "cross": 2.7,
+        "swarm": 2.5,
+        "pincer": 1.9,
+        "elite": 1.8,
+        "transversal": 1.2,
+        "hunter": 1.2,
+        "heavy": 1,
+        "siege": 1,
+        "debris": 0.7,
+        "powercache": 0.8,
+        "carrier": 0.9
+      },
+      "objectives": {
+        "ambush": 2.6,
+        "cleanup": 2.4,
+        "priority": 1.9,
+        "carrier": 1.5,
+        "relic": 1.2,
+        "recover": 0.9,
+        "nodes": 0.8,
+        "protect": 0.7
+      },
+      "transversals": {
+        "rift_scout": 2.3,
+        "relic_hunter": 1.5,
+        "parasite_orb": 1.2,
+        "rift_carrier": 1,
+        "salvage_drone": 0.8
+      },
+      "formations": {
+        "wedge": 2.5,
+        "pincer": 2.2,
+        "cross": 1.8
+      },
+      "entries": {
+        "right": 0.9,
+        "top": 1.9,
+        "bottom": 1.9,
+        "diagTop": 2,
+        "diagBottom": 2,
+        "leftTop": 0.7,
+        "leftBottom": 0.7
+      },
+      "micro": {
+        "meteor": 1.7,
+        "distant": 1.3,
+        "ghost": 1,
+        "salvage": 0.7,
+        "shield": 0.75
+      },
+      "frontKinds": {
+        "rammer": 2.2,
+        "meteor": 1.9,
+        "pod": 0.9,
+        "wreck": 0.8
+      },
+      "tiers": {
+        "grunt": 1.08,
+        "mid": 1,
+        "heavy": 1.08
+      },
+      "cadence": 0.88,
+      "directorCadence": 0.9,
+      "formationCadence": 0.9,
+      "frontCadence": 0.9,
+      "transversalCadence": 0.94,
+      "obstacleCadence": 1.02,
+      "budget": 0.4,
+      "maxAlive": 1.07,
+      "burstBias": 0.13,
+      "obstacleCap": 0
+    },
+    {
+      "id": "sanguina",
+      "label": "CAZA HEMÁTICA",
+      "events": {
+        "elite": 2.8,
+        "transversal": 2.5,
+        "hunter": 2.4,
+        "pincer": 2,
+        "cross": 1.8,
+        "front": 1.6,
+        "swarm": 1.2,
+        "carrier": 1.2,
+        "heavy": 0.9,
+        "siege": 1,
+        "debris": 0.6,
+        "powercache": 0.9
+      },
+      "objectives": {
+        "priority": 2.7,
+        "recover": 2.5,
+        "relic": 2.4,
+        "ambush": 1.7,
+        "carrier": 1.2,
+        "cleanup": 1.2,
+        "protect": 0.8,
+        "nodes": 0.7
+      },
+      "transversals": {
+        "parasite_orb": 2.8,
+        "relic_hunter": 2.2,
+        "rift_scout": 1.8,
+        "rift_carrier": 1,
+        "salvage_drone": 0.7
+      },
+      "formations": {
+        "pincer": 2.3,
+        "cross": 2.2,
+        "wedge": 1.3
+      },
+      "entries": {
+        "right": 1,
+        "top": 1.45,
+        "bottom": 1.45,
+        "diagTop": 2.2,
+        "diagBottom": 2.2,
+        "leftTop": 1,
+        "leftBottom": 1
+      },
+      "micro": {
+        "ghost": 1.55,
+        "distant": 1.2,
+        "shield": 1.1,
+        "meteor": 0.9,
+        "salvage": 0.6
+      },
+      "frontKinds": {
+        "pod": 2.2,
+        "rammer": 1.7,
+        "wreck": 0.9,
+        "meteor": 0.75
+      },
+      "tiers": {
+        "grunt": 0.94,
+        "mid": 1.23,
+        "heavy": 1.12
+      },
+      "cadence": 0.89,
+      "directorCadence": 0.88,
+      "formationCadence": 0.94,
+      "frontCadence": 0.95,
+      "transversalCadence": 0.82,
+      "obstacleCadence": 1.05,
+      "budget": 0.5,
+      "maxAlive": 1.03,
+      "burstBias": 0.06,
+      "obstacleCap": 0
+    },
+    {
+      "id": "architect",
+      "label": "ASEDIO CONSTRUCTOR",
+      "events": {
+        "siege": 3.7,
+        "powercache": 2.9,
+        "carrier": 2.5,
+        "heavy": 2.4,
+        "debris": 1.8,
+        "pincer": 1.2,
+        "cross": 1.1,
+        "transversal": 1.1,
+        "elite": 1,
+        "front": 0.8,
+        "swarm": 0.8,
+        "hunter": 0.65
+      },
+      "objectives": {
+        "nodes": 3.2,
+        "protect": 3,
+        "recover": 2.1,
+        "cleanup": 1.8,
+        "carrier": 1.5,
+        "ambush": 0.9,
+        "priority": 0.6,
+        "relic": 0.7
+      },
+      "transversals": {
+        "rift_carrier": 2.4,
+        "salvage_drone": 1.8,
+        "parasite_orb": 1.3,
+        "rift_scout": 0.8,
+        "relic_hunter": 0.6
+      },
+      "formations": {
+        "wedge": 2.6,
+        "pincer": 1.8,
+        "cross": 0.8
+      },
+      "entries": {
+        "right": 2.2,
+        "top": 1,
+        "bottom": 1,
+        "diagTop": 0.8,
+        "diagBottom": 0.8,
+        "leftTop": 0.45,
+        "leftBottom": 0.45
+      },
+      "micro": {
+        "salvage": 1.6,
+        "shield": 1.15,
+        "distant": 0.85,
+        "meteor": 1,
+        "ghost": 0.55
+      },
+      "frontKinds": {
+        "wreck": 2.4,
+        "pod": 1.8,
+        "meteor": 1,
+        "rammer": 0.55
+      },
+      "tiers": {
+        "grunt": 0.92,
+        "mid": 1.15,
+        "heavy": 1.42
+      },
+      "cadence": 1.02,
+      "directorCadence": 0.98,
+      "formationCadence": 0.96,
+      "frontCadence": 1.08,
+      "transversalCadence": 0.95,
+      "obstacleCadence": 0.72,
+      "budget": 1,
+      "maxAlive": 0.97,
+      "burstBias": -0.02,
+      "obstacleCap": 2
+    },
+    {
+      "id": "auralis",
+      "label": "INTERCEPCIÓN PRISMÁTICA",
+      "events": {
+        "front": 3.4,
+        "cross": 2.9,
+        "pincer": 2.4,
+        "elite": 2.5,
+        "hunter": 1.8,
+        "transversal": 1.5,
+        "swarm": 1.2,
+        "siege": 1,
+        "heavy": 0.8,
+        "debris": 0.8,
+        "powercache": 0.8,
+        "carrier": 0.75
+      },
+      "objectives": {
+        "priority": 2.6,
+        "ambush": 2.4,
+        "relic": 1.9,
+        "cleanup": 1.6,
+        "carrier": 1.25,
+        "recover": 0.9,
+        "nodes": 0.8,
+        "protect": 0.55
+      },
+      "transversals": {
+        "rift_scout": 2.7,
+        "relic_hunter": 2,
+        "parasite_orb": 1,
+        "salvage_drone": 0.65,
+        "rift_carrier": 0.75
+      },
+      "formations": {
+        "cross": 3,
+        "pincer": 2,
+        "wedge": 1
+      },
+      "entries": {
+        "right": 0.65,
+        "top": 1.5,
+        "bottom": 1.5,
+        "diagTop": 3,
+        "diagBottom": 3,
+        "leftTop": 1.6,
+        "leftBottom": 1.6
+      },
+      "micro": {
+        "ghost": 1.75,
+        "distant": 1.5,
+        "meteor": 1.25,
+        "salvage": 0.55,
+        "shield": 0.7
+      },
+      "frontKinds": {
+        "rammer": 3,
+        "meteor": 1.2,
+        "wreck": 0.8,
+        "pod": 0.65
+      },
+      "tiers": {
+        "grunt": 0.86,
+        "mid": 1.28,
+        "heavy": 1.18
+      },
+      "cadence": 0.87,
+      "directorCadence": 0.86,
+      "formationCadence": 0.86,
+      "frontCadence": 0.72,
+      "transversalCadence": 0.88,
+      "obstacleCadence": 1.12,
+      "budget": 0.4,
+      "maxAlive": 1,
+      "burstBias": 0.09,
+      "obstacleCap": -1
+    },
+    {
+      "id": "omega",
+      "label": "RESONANCIA TOTAL",
+      "events": {
+        "cross": 2.6,
+        "siege": 2.4,
+        "heavy": 2,
+        "transversal": 2.1,
+        "hunter": 2,
+        "swarm": 1.8,
+        "pincer": 1.8,
+        "front": 1.7,
+        "elite": 1.7,
+        "debris": 1.5,
+        "powercache": 1.5,
+        "carrier": 1.4
+      },
+      "objectives": {
+        "nodes": 2.1,
+        "relic": 2.1,
+        "cleanup": 2,
+        "ambush": 1.9,
+        "recover": 1.8,
+        "priority": 1.6,
+        "carrier": 1.5,
+        "protect": 1.4
+      },
+      "transversals": {
+        "relic_hunter": 2,
+        "parasite_orb": 1.9,
+        "rift_carrier": 1.7,
+        "rift_scout": 1.5,
+        "salvage_drone": 1.2
+      },
+      "formations": {
+        "cross": 2.5,
+        "pincer": 1.8,
+        "wedge": 1.7
+      },
+      "entries": {
+        "right": 1.1,
+        "top": 1.3,
+        "bottom": 1.3,
+        "diagTop": 1.7,
+        "diagBottom": 1.7,
+        "leftTop": 1.1,
+        "leftBottom": 1.1
+      },
+      "micro": {
+        "ghost": 1.7,
+        "distant": 1.65,
+        "meteor": 1.2,
+        "shield": 0.9,
+        "salvage": 0.9
+      },
+      "frontKinds": {
+        "wreck": 1.6,
+        "rammer": 1.5,
+        "pod": 1.35,
+        "meteor": 1.25
+      },
+      "tiers": {
+        "grunt": 0.92,
+        "mid": 1.14,
+        "heavy": 1.28
+      },
+      "cadence": 0.93,
+      "directorCadence": 0.88,
+      "formationCadence": 0.9,
+      "frontCadence": 0.88,
+      "transversalCadence": 0.87,
+      "obstacleCadence": 0.92,
+      "budget": 1.2,
+      "maxAlive": 1.05,
+      "burstBias": 0.05,
+      "obstacleCap": 1,
+      "echoChance": 0.24
+    }
+  ]
+}

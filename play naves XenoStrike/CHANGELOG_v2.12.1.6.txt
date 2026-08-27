@@ -1,0 +1,17 @@
+SWARM//RIFT — Insecta Siege v2.12.1.6
+ASSET FIDELITY PASS I + WORLD 4–6 THEME ACTIVATION
+
+- Support drones moved from SVG gameplay art to concrete PNG assets.
+- Front hazards receive concrete PNG fallback assets.
+- Pickup fallbacks moved to PNG objects matching credit/heal/shield/power.
+- Burst and Bomb now use concrete PNG assets.
+- Base obstacle fallback art moved from SVG to PNG.
+- Nocturne, Iron and Emerald thematic obstacle packs are now active primary assets.
+- Wave Objective nodes, protected capsule and recoverable core now render with image assets rather than procedural placeholder geometry.
+- Worlds 1–6 use semantic per-family image aliases (minor/medium/major/boss) as primary art.
+- Rift Scout, Salvage Drone, Parasite Orb, Rift Carrier and Relic Hunter use dedicated semantic PNG paths.
+- No active gameplay .svg references remain in game.js; SVG is retained only for app branding/legacy files.
+- Save/meta migration repaired for v2.12.1.5 and v2.12.1.4.
+- PWA cache upgraded to swarm-rift-v2.12.1.6.
+- No boss/audio/hangar/checkpoint/combat balance systems rebuilt.
+- Nocturne semantic obstacle assets rethemed to violet while preserving original raster detail and alpha.

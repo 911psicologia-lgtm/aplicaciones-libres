@@ -1,0 +1,11 @@
+AUTOAUDIT v2.12.4 — Multi-Boss Animation Framework
+
+- Framework generalizado por familia/estado.
+- Imperatrix Vespa: 5 estados / 36 frames.
+- Atlas Verde: 5 estados / 36 frames.
+- Atlas usa movimiento pesado segmentado de pinzas, caparazón y módulos dorsales.
+- Anatomía procedural superpuesta desactivada para bosses con sprite-state animation.
+- Tenientes animados: sí (estado real, no solo preview idle).
+- Runtime smoke: PASS.
+- node --check game.js/sw.js: ejecutar en validación final.
+- Chromium headless del contenedor: no disponible por bloqueo DBus/zygote; no se afirma QA visual automatizado.

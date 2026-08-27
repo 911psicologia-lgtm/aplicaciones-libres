@@ -1,0 +1,9 @@
+SWARM//RIFT v2.12.4 — Multi-Boss Animation Framework + Atlas Verde
+
+- Generaliza el piloto de animación de Imperatrix a un registro reutilizable por familia.
+- Añade Atlas Verde con 36 frames: idle 8, attack 6, hurt 4, phase 8, death 10.
+- Firma pesada de Atlas: pinzas articuladas, módulos dorsales con retroceso, expansión del caparazón en mutación y despiece progresivo en muerte.
+- Imperatrix conserva su firma aérea.
+- Los Tenientes de familias animadas ya pueden reflejar ataque/daño/fase en lugar de quedar forzados a idle.
+- Fallback seguro a PNG estático si falta cualquier sheet de un estado.
+- Sin cambios de dificultad, economía, audio, Combat Director, Wave Objectives, Hangar, checkpoints o progresión.

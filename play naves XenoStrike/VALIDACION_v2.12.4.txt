@@ -1,0 +1,10 @@
+VALIDACION v2.12.4
+
+- PWA resources: 269
+- PWA missing: 0
+- Direct JS asset refs missing: 0
+- Sprite sheets Imperatrix: 5/5 correctas
+- Sprite sheets Atlas Verde: 5/5 correctas
+- Runtime smoke: PASS
+- Migración desde v2.12.3 incluida
+- Visual QA Chromium: no disponible en este contenedor (DBus/zygote timeout)

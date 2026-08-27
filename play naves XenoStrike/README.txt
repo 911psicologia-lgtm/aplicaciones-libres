@@ -1,4 +1,4 @@
-SWARM//RIFT — Insecta Siege v2.12.1.4
+SWARM//RIFT — Insecta Siege v2.12.2
 ====================================
 
 ESTADO ACTUAL
@@ -84,3 +84,24 @@ ARQUITECTURA DE EXPANSIÓN v2.11.0
 
 IMPORTANTE
 El Capítulo II todavía no contiene enemigos, fondos, jefes ni poderes propios. v2.11.0 prepara el motor para incorporarlos sin rehacer campaña, guardados, selector o Boss Rush.
+
+
+NOVEDAD v2.12.1.6 — ASSET FIDELITY PASS I
+- Gameplay art primario sin referencias SVG en game.js.
+- Support/front/pickups/Burst/Bomb con PNG concretos.
+- Objetivos de horda (nodo/cápsula/núcleo) con assets de imagen.
+- Nocturne/Iron/Emerald activan sus paquetes temáticos primarios.
+- Enemigos mundos 1–6 usan rutas semánticas por familia/rango.
+- Transversales con rutas PNG dedicadas.
+- Migración de save/meta reparada desde v2.12.1.5 y v2.12.1.4.
+- PWA cache: swarm-rift-v2.12.1.6.
+
+
+NOVEDAD v2.12.2 — COMBAT DIRECTOR PROFILES BY WORLD
+- Diez perfiles tácticos específicos, uno por mundo activo.
+- Eventos, objetivos, transversales, formaciones, entradas, amenazas frontales y microeventos ponderados por identidad de linaje.
+- Cadencia, presupuesto y densidad ajustados por mundo sin convertir la dificultad en HP adicional.
+- Resonance Cathedral incorpora eco no consecutivo de eventos previos.
+- HUD desktop muestra el perfil activo del Director.
+- Diagnóstico: window.__SWARM_DIRECTOR_PROFILE().
+- No se añadieron mundos 11–20.

@@ -1,0 +1,31 @@
+{
+  "boss": "Imperatrix Vespa",
+  "version": "2.12.4.1",
+  "frameWidth": 384,
+  "frameHeight": 384,
+  "columns": 4,
+  "motion": "articulated-raster-warp",
+  "states": {
+    "idle": {
+      "frames": 8,
+      "fps": 7
+    },
+    "attack": {
+      "frames": 6,
+      "fps": 11
+    },
+    "hurt": {
+      "frames": 4,
+      "fps": 13
+    },
+    "phase": {
+      "frames": 8,
+      "fps": 10
+    },
+    "death": {
+      "frames": 10,
+      "fps": 9
+    }
+  },
+  "notes": "Visible articulated motion of the complete raster asset. Wings, abdomen, blades and chassis deform together; attack state is triggered by normal commander fire too."
+}

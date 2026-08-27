@@ -1,0 +1,72 @@
+SWARM//RIFT — Insecta Siege
+DIRECTOR PROFILES v2.12.2
+
+1. VELOCIDAD DE ENJAMBRE [vespa]
+   Eventos: swarm(3.2), pincer(3), front(2), elite(1.8)
+   Objetivos: priority(2.8), carrier(2.1), ambush(1.5)
+   Transversales: rift_scout(3.2), salvage_drone(1), rift_carrier(0.8)
+   Amenazas frontales: rammer(2.5), pod(1.7), meteor(1)
+   Cadencia spawn/director: 0.92/0.96 · budget +0 · maxAlive x1.03
+
+2. MARCHA BLINDADA [atlas]
+   Eventos: heavy(3.3), siege(2.7), debris(2.4), powercache(1.7)
+   Objetivos: nodes(2.6), protect(2.3), recover(2.1)
+   Transversales: rift_carrier(2.3), salvage_drone(1.8), parasite_orb(1.2)
+   Amenazas frontales: meteor(2.2), wreck(1.8), pod(1.25)
+   Cadencia spawn/director: 1.04/1.02 · budget +0.7 · maxAlive x0.96
+
+3. CORTE VECTORIAL [razor]
+   Eventos: cross(3.1), pincer(2.8), elite(2.5), front(2.4)
+   Objetivos: priority(2.4), ambush(2.2), relic(2.1)
+   Transversales: rift_scout(2.5), relic_hunter(2), parasite_orb(1)
+   Amenazas frontales: rammer(2), wreck(1.55), meteor(1.15)
+   Cadencia spawn/director: 0.93/0.92 · budget +0.3 · maxAlive x1
+
+4. NIEBLA NOCTURNA [noctis]
+   Eventos: transversal(2.5), hunter(2.2), powercache(2), cross(1.7)
+   Objetivos: recover(2.6), relic(2.5), protect(1.7)
+   Transversales: parasite_orb(2.5), relic_hunter(2.1), rift_scout(1.3)
+   Amenazas frontales: pod(2), wreck(1.4), meteor(1.15)
+   Cadencia spawn/director: 0.98/0.98 · budget +0.5 · maxAlive x0.98
+
+5. COLONIA FERRUM [ferrum]
+   Eventos: swarm(2.6), siege(2.6), heavy(2.5), pincer(2.1)
+   Objetivos: protect(2.8), nodes(2.7), cleanup(2)
+   Transversales: rift_carrier(2.1), salvage_drone(1.6), parasite_orb(1.1)
+   Amenazas frontales: wreck(1.9), rammer(1.5), pod(1.15)
+   Cadencia spawn/director: 0.96/0.94 · budget +0.7 · maxAlive x1.08
+
+6. SALTO DE SATURACIÓN [hop]
+   Eventos: front(2.9), cross(2.7), swarm(2.5), pincer(1.9)
+   Objetivos: ambush(2.6), cleanup(2.4), priority(1.9)
+   Transversales: rift_scout(2.3), relic_hunter(1.5), parasite_orb(1.2)
+   Amenazas frontales: rammer(2.2), meteor(1.9), pod(0.9)
+   Cadencia spawn/director: 0.88/0.9 · budget +0.4 · maxAlive x1.07
+
+7. CAZA HEMÁTICA [sanguina]
+   Eventos: elite(2.8), transversal(2.5), hunter(2.4), pincer(2)
+   Objetivos: priority(2.7), recover(2.5), relic(2.4)
+   Transversales: parasite_orb(2.8), relic_hunter(2.2), rift_scout(1.8)
+   Amenazas frontales: pod(2.2), rammer(1.7), wreck(0.9)
+   Cadencia spawn/director: 0.89/0.88 · budget +0.5 · maxAlive x1.03
+
+8. ASEDIO CONSTRUCTOR [architect]
+   Eventos: siege(3.7), powercache(2.9), carrier(2.5), heavy(2.4)
+   Objetivos: nodes(3.2), protect(3), recover(2.1)
+   Transversales: rift_carrier(2.4), salvage_drone(1.8), parasite_orb(1.3)
+   Amenazas frontales: wreck(2.4), pod(1.8), meteor(1)
+   Cadencia spawn/director: 1.02/0.98 · budget +1 · maxAlive x0.97
+
+9. INTERCEPCIÓN PRISMÁTICA [auralis]
+   Eventos: front(3.4), cross(2.9), elite(2.5), pincer(2.4)
+   Objetivos: priority(2.6), ambush(2.4), relic(1.9)
+   Transversales: rift_scout(2.7), relic_hunter(2), parasite_orb(1)
+   Amenazas frontales: rammer(3), meteor(1.2), wreck(0.8)
+   Cadencia spawn/director: 0.87/0.86 · budget +0.4 · maxAlive x1
+
+10. RESONANCIA TOTAL [omega]
+   Eventos: cross(2.6), siege(2.4), transversal(2.1), heavy(2)
+   Objetivos: nodes(2.1), relic(2.1), cleanup(2)
+   Transversales: relic_hunter(2), parasite_orb(1.9), rift_carrier(1.7)
+   Amenazas frontales: wreck(1.6), rammer(1.5), pod(1.35)
+   Cadencia spawn/director: 0.93/0.88 · budget +1.2 · maxAlive x1.05

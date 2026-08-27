@@ -1,0 +1,48 @@
+{
+  "boss": "ATLAS VERDE",
+  "family": "ESCARABAJOS",
+  "frameWidth": 384,
+  "frameHeight": 384,
+  "states": {
+    "idle": {
+      "file": "idle.png",
+      "frames": 8,
+      "cols": 4,
+      "rows": 2,
+      "fps": 8,
+      "loop": true
+    },
+    "attack": {
+      "file": "attack.png",
+      "frames": 6,
+      "cols": 4,
+      "rows": 2,
+      "fps": 11,
+      "loop": false
+    },
+    "hurt": {
+      "file": "hurt.png",
+      "frames": 4,
+      "cols": 4,
+      "rows": 1,
+      "fps": 14,
+      "loop": false
+    },
+    "phase": {
+      "file": "phase.png",
+      "frames": 8,
+      "cols": 4,
+      "rows": 2,
+      "fps": 9,
+      "loop": false
+    },
+    "death": {
+      "file": "death.png",
+      "frames": 10,
+      "cols": 4,
+      "rows": 3,
+      "fps": 8,
+      "loop": false
+    }
+  }
+}

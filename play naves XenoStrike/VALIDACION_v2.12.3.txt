@@ -1,0 +1,7 @@
+VALIDACION v2.12.3
+- Alcance: piloto visual Imperatrix Vespa solamente.
+- Sprite sheets: idle 8, attack 6, hurt 4, phase 8, death 10.
+- 384x384 por frame.
+- Anatomía procedural desactivada solo para AVISPAS cuando las sheets están disponibles.
+- Fallback a boss_wasp.png si falla carga.
+- No modifica balance, audio, Director, Hangar, checkpoints o mundos 2-10.

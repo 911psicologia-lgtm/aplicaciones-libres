@@ -1,0 +1,17 @@
+RIZOMA ZOMBIE STRIKE v3.2.0 — VALIDACIÓN ESTÁTICA E INTEGRIDAD
+
+JavaScript: node --check PASS
+Manifest JSON: PASS
+Assets referenciados: 490
+Assets faltantes: 1
+Assets dedicados M19: 23
+Archivos heredados idénticos a v3.1.0: 588
+Archivos heredados modificados intencionalmente: 4
+Mundos registrados: 19
+M19 Guardián: Arconte Zhyr
+M19 Poder: Dominio Psíquico
+M19 DOMINIO: Zhyr Disc
+Historia M18→M19→M20: integrada
+Nota: validación estática/sintáctica e integridad; no se declara partida manual completa en dispositivo físico.
+
+Sigilo DOMINIO M19: assets/boss2/sigil_w19.svg PASS

@@ -1,0 +1,35 @@
+AUTOAUDIT v2.12.2
+
+Alcance modificado
+- weighted selection helper
+- Combat Director profile table
+- Director event choice/cadence
+- shared Encounter Budget modifier by sector
+- Wave Objective weighted selection
+- enemy tier composition
+- entry-vector weighting
+- formation weighting
+- transversal weighting and entry
+- world microevent weighting
+- front-threat type weighting
+- spawn/formation/front/transversal/obstacle cadence
+- obstacle cap and max-alive profile factors
+- desktop sector card: active Director label
+- save/meta key migration
+
+Sistemas preservados
+- audio ambiente y boss soundtrack
+- pausa/reanudación musical de Hangar
+- boss phases and Commander weapon identity
+- Commander Convergence / Tenientes
+- boss checkpoint / replay logic
+- Smart Hangar and survival economy
+- powers, ranks, combos, inheritance
+- shield tactical model
+- Reward Ledger
+- Wave Objectives base rules
+- Asset Fidelity Pass I
+- Chapter I = worlds 1–10 only
+
+Filosofía de dificultad
+Los perfiles cambian acontecimientos, composición, vectores de entrada, transversales, amenaza frontal, cadencia y densidad. No añaden un multiplicador de HP específico del perfil.
