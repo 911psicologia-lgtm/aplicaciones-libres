@@ -1,9 +1,9 @@
 (()=>{
 'use strict';
 
-const VERSION='2.12.1.5';
-const KEY_META='swarm_rift_meta_v21215';
-const KEY_RUN='swarm_rift_run_v21215';
+const VERSION='2.12.4.1';
+const KEY_META='swarm_rift_meta_v21241';
+const KEY_RUN='swarm_rift_run_v21241';
 const TAU=Math.PI*2;
 const cv=document.getElementById('game');
 const cx=cv.getContext('2d',{alpha:false});
@@ -29,6 +29,11 @@ const lerp=(a,b,t)=>a+(b-a)*t;
 const rnd=(a,b)=>a+Math.random()*(b-a);
 const rndI=(a,b)=>Math.floor(rnd(a,b+1));
 const pick=a=>a[(Math.random()*a.length)|0];
+const weightedPick=(weights,allowed=null)=>{
+  const entries=Array.isArray(weights)?weights.map(v=>Array.isArray(v)?v:[v,1]):Object.entries(weights||{});
+  const pool=entries.filter(([k,w])=>(!allowed||allowed.includes(k))&&Number(w)>0);if(!pool.length)return allowed?.length?pick(allowed):null;
+  let total=0;for(const [,w] of pool)total+=Number(w)||0;let r=Math.random()*total;for(const [k,w] of pool){r-=Number(w)||0;if(r<=0)return k;}return pool[pool.length-1][0];
+};
 const dist=(a,b)=>Math.hypot(a.x-b.x,a.y-b.y);
 const hexA=(hex,a)=>{const h=hex.replace('#','');const n=parseInt(h,16);return `rgba(${(n>>16)&255},${(n>>8)&255},${n&255},${a})`;};
 
@@ -86,8 +91,11 @@ const IMG={
   generatedPowers:{},
   support:{scout:new Image(),lancer:new Image(),orbiter:new Image()},
   front:{meteor:new Image(),rammer:new Image(),wreck:new Image(),pod:new Image()},
+  objectives:{node:new Image(),capsule:new Image(),core:new Image()},
+  transversal:{rift_scout:new Image(),salvage_drone:new Image(),parasite_orb:new Image(),rift_carrier:new Image(),relic_hunter:new Image()},
+  bossAnim:{imperatrix:{idle:new Image(),attack:new Image(),hurt:new Image(),phase:new Image(),death:new Image()},atlas:{idle:new Image(),attack:new Image(),hurt:new Image(),phase:new Image(),death:new Image()}},
   worldObstacles:{np:[],iron:[],emerald:[],blood:[],resin:[],odonata:[],resonance:[]},
-  worldEnemies:{MOSQUITOS:[],TERMITAS:[],LIBÉLULAS:[],CIGARRAS:[]},
+  worldEnemies:{AVISPAS:[],ESCARABAJOS:[],MANTIS:[],POLILLAS:[],HORMIGAS:[],LANGOSTAS:[],MOSQUITOS:[],TERMITAS:[],LIBÉLULAS:[],CIGARRAS:[]},
   enemyCells:Array.from({length:3},()=>Array(6))
 };
 IMG.ship.src='assets/player_ship.webp';
@@ -109,54 +117,97 @@ IMG.bg.odonata.src='assets/worlds7_10/bg_odonata.webp';
 IMG.bg.odonataBoss.src='assets/worlds7_10/bg_odonata_boss.webp';
 IMG.bg.resonance.src='assets/worlds7_10/bg_resonance.webp';
 IMG.bg.resonanceBoss.src='assets/worlds7_10/bg_resonance_boss.webp';
-IMG.obstacles.rock.src='assets/obs_rock.svg';
-IMG.obstacles.mine.src='assets/obs_mine.svg';
-IMG.obstacles.wreck.src='assets/obs_drone_wreck.svg';
-IMG.obstacles.pod.src='assets/obs_pod_toxic.svg';
-IMG.obstacles.gate.src='assets/obs_gate.svg';
-IMG.obstacles.nest.src='assets/obs_nest.svg';
-IMG.obstacles.seed.src='assets/obs_seed.svg';
-IMG.pickups.credit.src='assets/pickup_credit.svg';
-IMG.pickups.heal.src='assets/pickup_heal.svg';
-IMG.pickups.shield.src='assets/pickup_shield.svg';
-IMG.pickups.power.src='assets/pickup_power.svg';
-IMG.enemyShips.scout.src='assets/ship_scout.svg';
-IMG.enemyShips.frigate.src='assets/ship_frigate.svg';
-IMG.enemyShips.bomber.src='assets/ship_bomber.svg';
-IMG.support.scout.src='assets/support/support_scout.svg';
-IMG.support.lancer.src='assets/support/support_lancer.svg';
-IMG.support.orbiter.src='assets/support/support_orbiter.svg';
-IMG.front.meteor.src='assets/front/front_meteor.svg';
-IMG.front.rammer.src='assets/front/front_rammer.svg';
-IMG.front.wreck.src='assets/front/front_wreck.svg';
-IMG.front.pod.src='assets/front/front_pod.svg';
+IMG.obstacles.rock.src='assets/obstacles_real/obs_rock.png';
+IMG.obstacles.mine.src='assets/obstacles_real/obs_mine.png';
+IMG.obstacles.wreck.src='assets/obstacles_real/obs_drone_wreck.png';
+IMG.obstacles.pod.src='assets/obstacles_real/obs_pod_toxic.png';
+IMG.obstacles.gate.src='assets/obstacles_real/obs_gate.png';
+IMG.obstacles.nest.src='assets/obstacles_real/obs_nest.png';
+IMG.obstacles.seed.src='assets/obstacles_real/obs_seed.png';
+IMG.pickups.credit.src='assets/pickups/pickup_credit.png';
+IMG.pickups.heal.src='assets/pickups/pickup_heal.png';
+IMG.pickups.shield.src='assets/pickups/pickup_shield.png';
+IMG.pickups.power.src='assets/pickups/pickup_power.png';
+IMG.enemyShips.scout.src='assets/generated/ship_01.png';
+IMG.enemyShips.frigate.src='assets/generated/ship_08.png';
+IMG.enemyShips.bomber.src='assets/generated/ship_12.png';
+IMG.support.scout.src='assets/support/support_scout.png';
+IMG.support.lancer.src='assets/support/support_lancer.png';
+IMG.support.orbiter.src='assets/support/support_orbiter.png';
+IMG.front.meteor.src='assets/front/front_meteor.png';
+IMG.front.rammer.src='assets/front/front_rammer.png';
+IMG.front.wreck.src='assets/front/front_wreck.png';
+IMG.front.pod.src='assets/front/front_pod.png';
+IMG.objectives.node.src='assets/objectives/objective_node.png';
+IMG.objectives.capsule.src='assets/objectives/objective_capsule.png';
+IMG.objectives.core.src='assets/objectives/objective_core.png';
+IMG.transversal.rift_scout.src='assets/transversal/rift_scout.png';
+IMG.transversal.salvage_drone.src='assets/transversal/salvage_drone.png';
+IMG.transversal.parasite_orb.src='assets/transversal/parasite_orb.png';
+IMG.transversal.rift_carrier.src='assets/transversal/rift_carrier.png';
+IMG.transversal.relic_hunter.src='assets/transversal/relic_hunter.png';
+for(const [bossKey] of Object.entries(IMG.bossAnim))for(const st of ['idle','attack','hurt','phase','death'])IMG.bossAnim[bossKey][st].src=`assets/boss_anim/${bossKey}/${st}.png?av=21241`;
 for(const bgImg of Object.values(IMG.bg)){try{bgImg.decode?.().catch(()=>{});}catch(_){}}
-for(const f of ['np_cocoon.svg','np_pollenpod.svg','np_spire.svg']){const im=new Image();im.src=`assets/worlds/${f}`;IMG.worldObstacles.np.push(im);}
-for(const f of ['in_nest.svg','in_bulwark.svg','in_mine.svg']){const im=new Image();im.src=`assets/worlds/${f}`;IMG.worldObstacles.iron.push(im);}
-for(const f of ['el_seed.svg','el_rock.svg','el_spore.svg']){const im=new Image();im.src=`assets/worlds/${f}`;IMG.worldObstacles.emerald.push(im);}
 const WORLD_OBSTACLE_FILES={
-  blood:['blood_capsule.png','blood_sac.png','blood_membrane.png','blood_wreck.png'],
-  resin:['resin_column.png','resin_panel.png','resin_wall.png','resin_node.png'],
-  odonata:['prism_crystal.png','ion_tower.png','suspended_debris.png','electric_node.png'],
-  resonance:['sonic_ring.png','sonic_bell.png','sonic_resonator.png','acoustic_fragment.png']
+  np:['assets/worlds_semantic/np_cocoon.png','assets/worlds_semantic/np_pollenpod.png','assets/worlds_semantic/np_spire.png'],
+  iron:['assets/worlds_semantic/in_nest.png','assets/worlds_semantic/in_bulwark.png','assets/worlds_semantic/in_mine.png'],
+  emerald:['assets/worlds_semantic/el_seed.png','assets/worlds_semantic/el_rock.png','assets/worlds_semantic/el_spore.png'],
+  blood:['assets/worlds7_10/obstacles/blood_capsule.png','assets/worlds7_10/obstacles/blood_sac.png','assets/worlds7_10/obstacles/blood_membrane.png','assets/worlds7_10/obstacles/blood_wreck.png'],
+  resin:['assets/worlds7_10/obstacles/resin_column.png','assets/worlds7_10/obstacles/resin_panel.png','assets/worlds7_10/obstacles/resin_wall.png','assets/worlds7_10/obstacles/resin_node.png'],
+  odonata:['assets/worlds7_10/obstacles/prism_crystal.png','assets/worlds7_10/obstacles/ion_tower.png','assets/worlds7_10/obstacles/suspended_debris.png','assets/worlds7_10/obstacles/electric_node.png'],
+  resonance:['assets/worlds7_10/obstacles/sonic_ring.png','assets/worlds7_10/obstacles/sonic_bell.png','assets/worlds7_10/obstacles/sonic_resonator.png','assets/worlds7_10/obstacles/acoustic_fragment.png']
 };
-for(const [theme,files] of Object.entries(WORLD_OBSTACLE_FILES))for(const f of files){const im=new Image();im.src=`assets/worlds7_10/obstacles/${f}`;IMG.worldObstacles[theme].push(im);}
+for(const [theme,files] of Object.entries(WORLD_OBSTACLE_FILES))for(const f of files){const im=new Image();im.src=f;IMG.worldObstacles[theme].push(im);}
 const WORLD_ENEMY_FILES={
-  MOSQUITOS:['mosquito_needler.png','mosquito_hemodrone.png','mosquito_bloodreaper.png','boss_sanguina_prime.png'],
-  TERMITAS:['termite_worker.png','termite_mandible_guard.png','termite_siegebuilder.png','boss_architect_zero.png'],
-  'LIBÉLULAS':['dragonfly_flashwing.png','dragonfly_prism_hunter.png','dragonfly_lance_predator.png','boss_auralis.png'],
-  CIGARRAS:['cicada_nymph_echo.png','cicada_sonic_cantor.png','cicada_resonance_breaker.png','boss_resonator_omega.png']
+  AVISPAS:['assets/enemies_semantic/wasp_minor.png','assets/enemies_semantic/wasp_medium.png','assets/enemies_semantic/wasp_major.png','assets/enemies_semantic/boss_wasp.png'],
+  ESCARABAJOS:['assets/enemies_semantic/beetle_minor.png','assets/enemies_semantic/beetle_medium.png','assets/enemies_semantic/beetle_major.png','assets/enemies_semantic/boss_beetle.png'],
+  MANTIS:['assets/enemies_semantic/mantis_minor.png','assets/enemies_semantic/mantis_medium.png','assets/enemies_semantic/mantis_major.png','assets/enemies_semantic/boss_mantis.png'],
+  POLILLAS:['assets/enemies_semantic/moth_minor.png','assets/enemies_semantic/moth_medium.png','assets/enemies_semantic/moth_major.png','assets/enemies_semantic/boss_moth.png'],
+  HORMIGAS:['assets/enemies_semantic/ant_minor.png','assets/enemies_semantic/ant_medium.png','assets/enemies_semantic/ant_major.png','assets/enemies_semantic/boss_ant.png'],
+  LANGOSTAS:['assets/enemies_semantic/locust_minor.png','assets/enemies_semantic/locust_medium.png','assets/enemies_semantic/locust_major.png','assets/enemies_semantic/boss_locust.png'],
+  MOSQUITOS:['assets/worlds7_10/enemies/mosquito_needler.png','assets/worlds7_10/enemies/mosquito_hemodrone.png','assets/worlds7_10/enemies/mosquito_bloodreaper.png','assets/worlds7_10/enemies/boss_sanguina_prime.png'],
+  TERMITAS:['assets/worlds7_10/enemies/termite_worker.png','assets/worlds7_10/enemies/termite_mandible_guard.png','assets/worlds7_10/enemies/termite_siegebuilder.png','assets/worlds7_10/enemies/boss_architect_zero.png'],
+  'LIBÉLULAS':['assets/worlds7_10/enemies/dragonfly_flashwing.png','assets/worlds7_10/enemies/dragonfly_prism_hunter.png','assets/worlds7_10/enemies/dragonfly_lance_predator.png','assets/worlds7_10/enemies/boss_auralis.png'],
+  CIGARRAS:['assets/worlds7_10/enemies/cicada_nymph_echo.png','assets/worlds7_10/enemies/cicada_sonic_cantor.png','assets/worlds7_10/enemies/cicada_resonance_breaker.png','assets/worlds7_10/enemies/boss_resonator_omega.png']
 };
-for(const [family,files] of Object.entries(WORLD_ENEMY_FILES))for(const f of files){const im=new Image();im.src=`assets/worlds7_10/enemies/${f}`;IMG.worldEnemies[family].push(im);}
+for(const [family,files] of Object.entries(WORLD_ENEMY_FILES))for(const f of files){const im=new Image();im.src=f;IMG.worldEnemies[family].push(im);}
 IMG.tiers.src='assets/generated/enemy_tiers_atlas.png';
 for(let row=0;row<3;row++)for(let col=0;col<6;col++){const im=new Image();im.src=`assets/enemies/enemy_r${row}_c${col}.png`;IMG.enemyCells[row][col]=im;}
 for(const pack of ['rust','toxic','rift'])for(let i=1;i<=12;i++){const im=new Image();im.src=`assets/generated/${pack}_${String(i).padStart(2,'0')}.png`;IMG.generatedObstacles[pack].push(im);}
 for(let i=1;i<=12;i++){const im=new Image();im.src=`assets/generated/ship_${String(i).padStart(2,'0')}.png`;IMG.generatedShips.push(im);}
 const POWER_ASSET_ORDER=['twin','tesla','missile','rail','cryo','acid','shield','magnet','drone','overdrive','gravity','heal','credit'];
 POWER_ASSET_ORDER.forEach((key,i)=>{const im=new Image();im.src=`assets/generated/power_${String(i+1).padStart(2,'0')}.png`;IMG.generatedPowers[key]=im;});
-const burstAsset=new Image();burstAsset.src='assets/powers2/power_burst.svg';IMG.generatedPowers.burst=burstAsset;const bombAsset=new Image();bombAsset.src='assets/powers2/power_bomb.svg';IMG.generatedPowers.bomb=bombAsset;
+const burstAsset=new Image();burstAsset.src='assets/powers2/power_burst.png';IMG.generatedPowers.burst=burstAsset;const bombAsset=new Image();bombAsset.src='assets/powers2/power_bomb.png';IMG.generatedPowers.bomb=bombAsset;
 for(const [key,file] of Object.entries({hemadrain:'hemadrain.png',resinwall:'resinwall.png',prismburst:'prismburst.png',resonance:'resonance.png'})){const im=new Image();im.src=`assets/worlds7_10/powers/${file}`;IMG.generatedPowers[key]=im;}
 const imgReady=img=>!!(img&&img.complete&&img.naturalWidth>0);
+const BOSS_ANIMATIONS={
+  AVISPAS:{key:'imperatrix',frameW:384,frameH:384,motion:'articulated-aerial',visualScale:1.13,states:{idle:{frames:8,cols:4,fps:7,loop:true},attack:{frames:6,cols:4,fps:11,loop:false},hurt:{frames:4,cols:4,fps:13,loop:false},phase:{frames:8,cols:4,fps:10,loop:false},death:{frames:10,cols:4,fps:9,loop:false}}},
+  ESCARABAJOS:{key:'atlas',frameW:384,frameH:384,motion:'heavy',states:{idle:{frames:8,cols:4,fps:8,loop:true},attack:{frames:6,cols:4,fps:11,loop:false},hurt:{frames:4,cols:4,fps:14,loop:false},phase:{frames:8,cols:4,fps:9,loop:false},death:{frames:10,cols:4,fps:8,loop:false}}}
+};
+function bossAnimConfig(e){return e?BOSS_ANIMATIONS[e.family]||null:null;}
+function bossAnimated(e){const cfg=bossAnimConfig(e),pack=cfg&&IMG.bossAnim?.[cfg.key];return !!(cfg&&pack&&imgReady(pack.idle));}
+function bossAnimState(e,preview=false){
+  if(preview)return 'idle';
+  if(e.dying)return 'death';
+  if((e.phaseTransitionT||0)>0||(e.phaseFlash||0)>.22)return 'phase';
+  if((e.flash||0)>.015||(G?.boss===e&&(G.bossHitT||0)>.08))return 'hurt';
+  if((e.animAttackT||0)>0||(e.telegraphT||0)>0||(e.specialT||0)>0||(e.chargeT||0)>0)return 'attack';
+  return 'idle';
+}
+function bossAnimFrame(e,state,preview=false){
+  const cfg=bossAnimConfig(e)?.states?.[state];if(!cfg)return 0;const n=cfg.frames;if(preview||state==='idle')return Math.floor(((e?.t??G?.elapsed) || performance.now()/1000)*cfg.fps)%n;
+  let progress=0;
+  if(state==='death')progress=clamp(1-(e.deathT||0)/BOSS_STANDARD.deathDuration,0,1);
+  else if(state==='hurt')progress=clamp(1-(G?.boss===e?(G.bossHitT||0)/.32:(e.flash||0)/.08),0,1);
+  else if(state==='phase'){const dur=Math.max(.001,bossDefenseProfile(G?.sector||1).phaseLock||BOSS_STANDARD.phaseLock);progress=clamp(1-(e.phaseTransitionT||0)/dur,0,1);if((e.phaseTransitionT||0)<=0)progress=clamp(1-(e.phaseFlash||0),0,1);}
+  else if(state==='attack'){const active=Math.max(e.animAttackT||0,e.telegraphT||0,e.specialT||0,e.chargeT||0),span=Math.max(.46,active+0.30);progress=clamp(1-active/span,0,1);}
+  return Math.min(n-1,Math.floor(progress*(n-1)));
+}
+function drawBossAnimated(e,maxW,maxH,preview=false){
+  const anim=bossAnimConfig(e);if(!anim||!bossAnimated(e))return false;const state=bossAnimState(e,preview),img=IMG.bossAnim[anim.key][state],cfg=anim.states[state];if(!imgReady(img))return false;
+  const frame=bossAnimFrame(e,state,preview),col=frame%cfg.cols,row=Math.floor(frame/cfg.cols),fw=anim.frameW,fh=anim.frameH;
+  const vs=anim.visualScale||1,sc=Math.min(maxW/fw,maxH/fh)*vs,dw=fw*sc,dh=fh*sc;cx.drawImage(img,col*fw,row*fh,fw,fh,-dw/2,-dh/2,dw,dh);return true;
+}
 const FAMILY_COL={AVISPAS:0,ESCARABAJOS:1,MANTIS:2,POLILLAS:3,HORMIGAS:4,LANGOSTAS:5};
 
 // ─────────────────────────────────────────────────────────────
@@ -430,7 +481,7 @@ window.addEventListener('pointerdown',musicGesturePulse,{capture:true,passive:tr
 window.addEventListener('keydown',musicGesturePulse,{capture:true});
 document.addEventListener('visibilitychange',()=>{if(document.hidden){if(G?.screen==='GAME')MusicX.pause();}else setTimeout(()=>{if(G?.screen==='GAME'){MusicX.reconcile(true);}},120);});
 window.__SWARM_AUDIO_STATUS=()=>({version:VERSION,enabled:MusicX.enabled,screen:G?.screen||'',sector:G?.sector||0,worldExpected:!!(G?.screen==='GAME'&&!G?.boss&&!G?.sectorClear&&G?.mode!=='bossRush'&&G?.mode!=='training'),worldPlaying:PreBossX.playing(),worldFallback:PreBossX.fallbackSynth,worldTrack:PreBossX.track?.label||'',worldTime:Number(preBossMusic.currentTime||0).toFixed(2),bossExpected:!!(G?.screen==='GAME'&&G?.boss&&!G.boss.dead),bossPlaying:!!(MusicX.activeBoss&&!bossMusic.paused),bossTrack:battleTrackForSector(G?.sector||1)?.title||'',bossTime:Number(bossMusic.currentTime||0).toFixed(2),uiPaused:!!MusicX.uiSnapshot,lastError:MusicX.lastError||PreBossX.lastError||'',health:{...AUDIO_HEALTH}});
-window.__SWARM_ASSET_AUDIT=()=>({version:VERSION,summary:{referencedAssets:143,actualAssets:191,missingReferencedFiles:0,highPriorityReplacements:['enemy_atlas_worlds1_6','base_obstacles_svg','worlds1_6_obstacles_svg','front_hazards_svg','support_svg','core_pickups_svg','powers2_svg']},categories:{backgrounds:{status:'COMPLIANT',count:18},boss_enemy_worlds7_10:{status:'COMPLIANT',count:16},world_obstacles_7_10:{status:'COMPLIANT',count:16},world_powers_7_10:{status:'COMPLIANT',count:4},enemy_atlas_worlds1_6:{status:'PARTIAL_GENERIC',count:18},generated_ships:{status:'COMPLIANT_GENERATED_IMAGE',count:12},generated_obstacles:{status:'COMPLIANT_GENERATED_IMAGE',count:36},generated_powers:{status:'COMPLIANT_GENERATED_IMAGE',count:13},front_hazards_svg:{status:'NEEDS_REPLACEMENT',count:4},support_svg:{status:'NEEDS_REPLACEMENT',count:3},core_pickups_svg:{status:'NEEDS_REPLACEMENT',count:4},base_obstacles_svg:{status:'NEEDS_REPLACEMENT',count:7},worlds1_6_obstacles_svg:{status:'NEEDS_REPLACEMENT',count:9},powers2_svg:{status:'NEEDS_REPLACEMENT',count:2}},notes:['No missing asset paths were detected.','Pending work is fidelity replacement, not file existence repair.','Fallback drawing branches remain only as runtime safeguards if an image fails to load.']});
+window.__SWARM_ASSET_AUDIT=()=>({version:VERSION,primaryGameplayArt:'IMAGE_BACKED',missingReferencedFiles:0,semanticEnemyFamilies:10,objectiveAssets:['node','capsule','core'],worldThemesWithPrimaryAssets:['np','iron','emerald','blood','resin','odonata','resonance'],transversalAssets:Object.keys(IMG.transversal),supportAssets:Object.keys(IMG.support),notes:['SVG remains only for app branding/legacy files; active gameplay art paths use PNG/WEBP/MP3.','Worlds 4-6 themed obstacle packs are now active primary assets.','Wave objective node, capsule and recoverable core now use image assets.']});
 
 // ─────────────────────────────────────────────────────────────
 // PLAYLIST / JUKEBOX — 12 pistas nuevas + Iron Legion March legado
@@ -679,7 +730,7 @@ const UPGRADES=[
 ];
 
 const defaultMeta=()=>({credits:0,hiScore:0,unlocked:1,upgrades:{},muted:false,musicEnabled:true,selectedDifficulty:'normal',playlistTrack:0,runs:0,bosses:0,bossUnlocks:{},defeated:{},bossMastery:{},bestWaveGrade:{},bestBossRush:0,bossRushWins:0,bestBossRushRank:'',bestBossRushTime:0,campaignWins:0,bestCampaignScore:0,relics:{},chapterWins:{},bestChapterScore:{},bossRushStats:{},fullCampaignWins:0,bestFullCampaignScore:0,grandBossRush:{wins:0,bestScore:0,bestRank:'',bestTime:0},supplies:{},powerStock:{}});
-let META=loadJSON(KEY_META,null)||loadJSON('swarm_rift_meta_v21213',null)||loadJSON('swarm_rift_meta_v21212',null);
+let META=loadJSON(KEY_META,null)||loadJSON('swarm_rift_meta_v2124',null)||loadJSON('swarm_rift_meta_v2123',null)||loadJSON('swarm_rift_meta_v2122',null)||loadJSON('swarm_rift_meta_v21216',null)||loadJSON('swarm_rift_meta_v21215',null)||loadJSON('swarm_rift_meta_v21214',null)||loadJSON('swarm_rift_meta_v21213',null)||loadJSON('swarm_rift_meta_v21212',null);
 if(!META){for(const k of ['swarm_rift_meta_v21211','swarm_rift_meta_v2121','swarm_rift_meta_v2120','swarm_rift_meta_v2119','swarm_rift_meta_v2118','swarm_rift_meta_v2117','swarm_rift_meta_v2116','swarm_rift_meta_v2115','swarm_rift_meta_v2114','swarm_rift_meta_v2113','swarm_rift_meta_v2112','swarm_rift_meta_v2111','swarm_rift_meta_v2110','swarm_rift_meta_v2100','swarm_rift_meta_v290','swarm_rift_meta_v280','swarm_rift_meta_v271','swarm_rift_meta_v270','swarm_rift_meta_v260','swarm_rift_meta_v251','swarm_rift_meta_v250','swarm_rift_meta_v240','swarm_rift_meta_v230','swarm_rift_meta_v220','swarm_rift_meta_v210','swarm_rift_meta_v200','swarm_rift_meta_v199','swarm_rift_meta_v198','swarm_rift_meta_v197','swarm_rift_meta_v196','swarm_rift_meta_v195','swarm_rift_meta_v194','swarm_rift_meta_v18','swarm_rift_meta_v17']){META=loadJSON(k,null);if(META)break;}}
 if(!META)META=defaultMeta();
 META.upgrades=META.upgrades||{};META.bossUnlocks=META.bossUnlocks||{};META.defeated=META.defeated||{};META.bossMastery=META.bossMastery||{};META.bestWaveGrade=META.bestWaveGrade||{};META.relics=META.relics||{};META.supplies=META.supplies||{};META.powerStock=META.powerStock||{};
@@ -765,7 +816,7 @@ function enterSector(n,keepPlayer=false){
   G.sector=clamp(n,1,SECTORS.length);G.wave=1;G.kills=0;G.goal=waveGoal(G.sector,1);G.powerMeter=0;G.powerDropsThisSector=0;G.spawn=.72;G.obstacleTimer=G.sector===1?2.8:2.2;G.frontTimer=G.mode==='training'?5.5:rnd(6.5,10.5);G.boss=null;G.bossPending=false;G.preBossT=0;G.preBossMax=0;PreBossX.stop(false);G.sectorClear=false;G.postBossT=0;G.bossCheckpoint=false;
   G.enemies.length=0;G.bullets.length=0;G.eBullets.length=0;G.pickups.length=0;G.obstacles.length=0;G.frontThreats.length=0;G.particles.length=0;G.activeCombos={};
   if(!keepPlayer)G.player=makePlayer();else{G.player.x=W*.2;G.player.y=H*.5;G.player.hp=G.player.maxHp;G.player.shield=G.player.maxShield;G.player.inv=.8;}
-  G.sectorBanner=3;G.waveBanner=2;G.frenzyT=0;G.frenzyWave=0;G.frenzyMult=1;G.frenzyKills=0;G.frenzyTarget=0;G.frenzyDone=false;G.waveHits=0;G.waveFrontKills=0;G.waveStartT=G.elapsed;G.bossHits=0;G.bossMasteryAchieved=false;G.bossWarningT=0;G.bossWarningText='';G.transversalTimer=rnd(7.0,11.0);G.lieutenantSpawned=false;G.lieutenantKilled=false;G.lieutenantQueue=[];G.lieutenantExpected=0;G.lieutenantKills=0;G.commanderReinforceT=0;G.commanderSupportT=0;G.commanderSupportBudget=0;G.weaponBoostT=0;G.weaponBoostMult=1;G.weaponBoostStacks=0;G.preBossSetpieces=[];G.preBossCueStage=0;G.worldAmbientStarted=false;G.ambientProps=[];G.ambientPropTimer=rnd(1.2,2.4);G.worldEventTimer=rnd(17,24);G.worldEventHistory=[];G.worldEventCount=0;G.pressureReliefWave=0;G.shieldCriticalWarned=false;G.shieldHitT=0;G.bossArrivalStage=0;G.bossArrivalBanner=null;G.waveObjective=null;G.objectiveHistory=keepPlayer?priorObjectiveHistory:[];G.objectiveTargets=[];G.objectiveCapsule=null;G.emergencyHealthDrops={half:false,quarter:false,critical:false};resetCombatDirector();prepareWaveObjective();PreBossX.preload(G.sector);MusicX.preloadBoss(G.sector);if(G.mode!=='bossRush'&&G.mode!=='training'){PreBossX.start(G.sector);G.worldAmbientStarted=true;}if(G.sector>=4)notify(`${SECTORS[G.sector-1].code} · AMBIENTE ESPECÍFICO ACTIVADO`,SECTORS[G.sector-1].accent,1.8);if(G.mode==='campaign'&&isChapterEndSector(G.sector)){const ch=chapterForSector(G.sector);notify(`${ch.title} · SECTOR FINAL`,SECTORS[G.sector-1].accent,2.7);}
+  G.sectorBanner=3;G.waveBanner=2;G.frenzyT=0;G.frenzyWave=0;G.frenzyMult=1;G.frenzyKills=0;G.frenzyTarget=0;G.frenzyDone=false;G.waveHits=0;G.waveFrontKills=0;G.waveStartT=G.elapsed;G.bossHits=0;G.bossMasteryAchieved=false;G.bossWarningT=0;G.bossWarningText='';G.transversalTimer=rnd(7.0,11.0);G.lieutenantSpawned=false;G.lieutenantKilled=false;G.lieutenantQueue=[];G.lieutenantExpected=0;G.lieutenantKills=0;G.commanderReinforceT=0;G.commanderSupportT=0;G.commanderSupportBudget=0;G.weaponBoostT=0;G.weaponBoostMult=1;G.weaponBoostStacks=0;G.preBossSetpieces=[];G.preBossCueStage=0;G.worldAmbientStarted=false;G.ambientProps=[];G.ambientPropTimer=rnd(1.2,2.4);G.worldEventTimer=rnd(17,24);G.worldEventHistory=[];G.worldEventCount=0;G.pressureReliefWave=0;G.shieldCriticalWarned=false;G.shieldHitT=0;G.bossArrivalStage=0;G.bossArrivalBanner=null;G.waveObjective=null;G.objectiveHistory=keepPlayer?priorObjectiveHistory:[];G.objectiveTargets=[];G.objectiveCapsule=null;G.emergencyHealthDrops={half:false,quarter:false,critical:false};resetCombatDirector();prepareWaveObjective();PreBossX.preload(G.sector);MusicX.preloadBoss(G.sector);if(G.mode!=='bossRush'&&G.mode!=='training'){PreBossX.start(G.sector);G.worldAmbientStarted=true;}if(G.sector>=4)notify(`${SECTORS[G.sector-1].code} · AMBIENTE ESPECÍFICO ACTIVADO`,SECTORS[G.sector-1].accent,1.8);notify(`DIRECTOR · ${directorProfile().label}`,SECTORS[G.sector-1].accent,1.55);if(G.mode==='campaign'&&isChapterEndSector(G.sector)){const ch=chapterForSector(G.sector);notify(`${ch.title} · SECTOR FINAL`,SECTORS[G.sector-1].accent,2.7);}
   if(G.heritageNext){const hk=G.heritageNext;G.heritageNext=null;activatePower(hk,'heritage',12);notify(`HERENCIA DE JEFE · ${HERITAGE_NAMES[G.sector-1]||POWERS[hk].name}`,'#ffd76a',2.5);}
 }
 const ENEMY_COUNT_MULT=1.30;
@@ -883,11 +934,32 @@ const RUN_DIFFICULTY={
 function runDifficultyKey(){return G?.runDifficulty==='hard'?'hard':'normal';}
 function runDifficulty(){return RUN_DIFFICULTY[runDifficultyKey()];}
 function toggleDifficulty(){META.selectedDifficulty=META.selectedDifficulty==='hard'?'normal':'hard';saveMeta();notify(`DIFICULTAD · ${RUN_DIFFICULTY[META.selectedDifficulty].label}`,META.selectedDifficulty==='hard'?'#ff9a73':'#a6ff5f',1.4);}
+
+// ─────────────────────────────────────────────────────────────
+// v2.12.2 · COMBAT DIRECTOR PROFILES BY WORLD
+// Cada sector modifica preferencias y tempo sin sustituir el Director base.
+// La identidad se construye con patrones, composición y entradas; no con HP extra.
+// ─────────────────────────────────────────────────────────────
+const COMBAT_DIRECTOR_PROFILES=[null,
+ {id:'vespa',label:'VELOCIDAD DE ENJAMBRE',events:{swarm:3.2,pincer:3.0,front:2.0,elite:1.8,cross:1.0,transversal:1.1,heavy:.45,debris:.35,siege:.25,powercache:.7,carrier:.65,hunter:.5},objectives:{priority:2.8,carrier:2.1,ambush:1.5,cleanup:1.2,protect:.8,recover:.7,nodes:.5,relic:.6},transversals:{rift_scout:3.2,salvage_drone:1.0,parasite_orb:.7,rift_carrier:.8,relic_hunter:.45},formations:{pincer:3,wedge:1.8,cross:1.0},entries:{right:1.2,top:1.6,bottom:1.6,diagTop:2.2,diagBottom:2.2,leftTop:.45,leftBottom:.45},micro:{distant:1,meteor:1.35,salvage:.8,ghost:.65,shield:.8},frontKinds:{rammer:2.5,pod:1.7,meteor:1.0,wreck:.55},tiers:{grunt:1.18,mid:1.0,heavy:.82},cadence:.92,directorCadence:.96,formationCadence:.93,frontCadence:.94,transversalCadence:1.02,obstacleCadence:1.08,budget:0,maxAlive:1.03,burstBias:.08,obstacleCap:0},
+ {id:'atlas',label:'MARCHA BLINDADA',events:{heavy:3.3,siege:2.7,debris:2.4,powercache:1.7,carrier:1.5,swarm:.8,pincer:.8,front:.7,elite:1.2,cross:.8,transversal:1.0,hunter:.55},objectives:{nodes:2.6,protect:2.3,recover:2.1,carrier:1.5,cleanup:1.3,priority:.7,ambush:.8,relic:.7},transversals:{rift_carrier:2.3,salvage_drone:1.8,parasite_orb:1.2,rift_scout:.9,relic_hunter:.55},formations:{wedge:2.4,pincer:1.6,cross:.8},entries:{right:2.4,top:.9,bottom:.9,diagTop:.75,diagBottom:.75,leftTop:.25,leftBottom:.25},micro:{salvage:1.45,meteor:1.45,distant:.8,ghost:.45,shield:1.0},frontKinds:{meteor:2.2,wreck:1.8,pod:1.25,rammer:.65},tiers:{grunt:.88,mid:1.12,heavy:1.42},cadence:1.04,directorCadence:1.02,formationCadence:1.02,frontCadence:1.08,transversalCadence:1.0,obstacleCadence:.84,budget:.7,maxAlive:.96,burstBias:-.03,obstacleCap:1},
+ {id:'razor',label:'CORTE VECTORIAL',events:{pincer:2.8,cross:3.1,elite:2.5,front:2.4,hunter:1.8,transversal:1.4,swarm:1.0,heavy:.75,debris:.8,siege:1.0,powercache:.8,carrier:.75},objectives:{priority:2.4,relic:2.1,ambush:2.2,carrier:1.3,cleanup:1.4,recover:1.0,nodes:.8,protect:.55},transversals:{rift_scout:2.5,relic_hunter:2.0,parasite_orb:1.0,salvage_drone:.7,rift_carrier:.8},formations:{cross:2.8,pincer:2.2,wedge:1.2},entries:{right:.85,top:1.25,bottom:1.25,diagTop:2.6,diagBottom:2.6,leftTop:1.35,leftBottom:1.35},micro:{meteor:1.7,ghost:1.15,distant:1.0,salvage:.65,shield:.75},frontKinds:{rammer:2.0,wreck:1.55,meteor:1.15,pod:.7},tiers:{grunt:.92,mid:1.26,heavy:1.06},cadence:.93,directorCadence:.92,formationCadence:.90,frontCadence:.88,transversalCadence:.96,obstacleCadence:.98,budget:.3,maxAlive:1.0,burstBias:.04,obstacleCap:0},
+ {id:'noctis',label:'NIEBLA NOCTURNA',events:{transversal:2.5,hunter:2.2,powercache:2.0,cross:1.7,debris:1.4,elite:1.4,pincer:1.1,front:.9,swarm:.8,heavy:.8,siege:.9,carrier:1.0},objectives:{recover:2.6,relic:2.5,protect:1.7,priority:1.35,nodes:1.2,ambush:1.3,carrier:1.0,cleanup:1.1},transversals:{parasite_orb:2.5,relic_hunter:2.1,rift_scout:1.3,salvage_drone:1.0,rift_carrier:.85},formations:{cross:2.0,wedge:1.7,pincer:1.4},entries:{right:1.15,top:1.5,bottom:1.5,diagTop:1.5,diagBottom:1.5,leftTop:.9,leftBottom:.9},micro:{ghost:2.5,distant:1.45,shield:.9,meteor:.8,salvage:.65},frontKinds:{pod:2.0,wreck:1.4,meteor:1.15,rammer:.8},tiers:{grunt:.96,mid:1.05,heavy:1.24},cadence:.98,directorCadence:.98,formationCadence:1.03,frontCadence:1.08,transversalCadence:.84,obstacleCadence:.94,budget:.5,maxAlive:.98,burstBias:.0,obstacleCap:0},
+ {id:'ferrum',label:'COLONIA FERRUM',events:{swarm:2.6,heavy:2.5,siege:2.6,pincer:2.1,powercache:1.4,carrier:1.5,cross:1.2,debris:1.2,elite:1.0,front:.8,transversal:.9,hunter:.55},objectives:{protect:2.8,nodes:2.7,cleanup:2.0,carrier:1.6,recover:1.4,ambush:1.0,priority:.7,relic:.6},transversals:{rift_carrier:2.1,salvage_drone:1.6,parasite_orb:1.1,rift_scout:1.0,relic_hunter:.55},formations:{pincer:2.6,wedge:2.1,cross:1.0},entries:{right:1.8,top:1.15,bottom:1.15,diagTop:1.0,diagBottom:1.0,leftTop:.55,leftBottom:.55},micro:{salvage:1.4,distant:1.25,meteor:1.0,shield:1.0,ghost:.65},frontKinds:{wreck:1.9,rammer:1.5,pod:1.15,meteor:.9},tiers:{grunt:1.14,mid:1.05,heavy:1.2},cadence:.96,directorCadence:.94,formationCadence:.87,frontCadence:1.05,transversalCadence:.98,obstacleCadence:.82,budget:.7,maxAlive:1.08,burstBias:.06,obstacleCap:1},
+ {id:'hop',label:'SALTO DE SATURACIÓN',events:{front:2.9,cross:2.7,swarm:2.5,pincer:1.9,elite:1.8,transversal:1.2,hunter:1.2,heavy:1.0,siege:1.0,debris:.7,powercache:.8,carrier:.9},objectives:{ambush:2.6,cleanup:2.4,priority:1.9,carrier:1.5,relic:1.2,recover:.9,nodes:.8,protect:.7},transversals:{rift_scout:2.3,relic_hunter:1.5,parasite_orb:1.2,rift_carrier:1.0,salvage_drone:.8},formations:{wedge:2.5,pincer:2.2,cross:1.8},entries:{right:.9,top:1.9,bottom:1.9,diagTop:2.0,diagBottom:2.0,leftTop:.7,leftBottom:.7},micro:{meteor:1.7,distant:1.3,ghost:1.0,salvage:.7,shield:.75},frontKinds:{rammer:2.2,meteor:1.9,pod:.9,wreck:.8},tiers:{grunt:1.08,mid:1.0,heavy:1.08},cadence:.88,directorCadence:.90,formationCadence:.90,frontCadence:.90,transversalCadence:.94,obstacleCadence:1.02,budget:.4,maxAlive:1.07,burstBias:.13,obstacleCap:0},
+ {id:'sanguina',label:'CAZA HEMÁTICA',events:{elite:2.8,transversal:2.5,hunter:2.4,pincer:2.0,cross:1.8,front:1.6,swarm:1.2,carrier:1.2,heavy:.9,siege:1.0,debris:.6,powercache:.9},objectives:{priority:2.7,recover:2.5,relic:2.4,ambush:1.7,carrier:1.2,cleanup:1.2,protect:.8,nodes:.7},transversals:{parasite_orb:2.8,relic_hunter:2.2,rift_scout:1.8,rift_carrier:1.0,salvage_drone:.7},formations:{pincer:2.3,cross:2.2,wedge:1.3},entries:{right:1.0,top:1.45,bottom:1.45,diagTop:2.2,diagBottom:2.2,leftTop:1.0,leftBottom:1.0},micro:{ghost:1.55,distant:1.2,shield:1.1,meteor:.9,salvage:.6},frontKinds:{pod:2.2,rammer:1.7,wreck:.9,meteor:.75},tiers:{grunt:.94,mid:1.23,heavy:1.12},cadence:.89,directorCadence:.88,formationCadence:.94,frontCadence:.95,transversalCadence:.82,obstacleCadence:1.05,budget:.5,maxAlive:1.03,burstBias:.06,obstacleCap:0},
+ {id:'architect',label:'ASEDIO CONSTRUCTOR',events:{siege:3.7,powercache:2.9,carrier:2.5,heavy:2.4,debris:1.8,pincer:1.2,cross:1.1,transversal:1.1,elite:1.0,front:.8,swarm:.8,hunter:.65},objectives:{nodes:3.2,protect:3.0,recover:2.1,cleanup:1.8,carrier:1.5,ambush:.9,priority:.6,relic:.7},transversals:{rift_carrier:2.4,salvage_drone:1.8,parasite_orb:1.3,rift_scout:.8,relic_hunter:.6},formations:{wedge:2.6,pincer:1.8,cross:.8},entries:{right:2.2,top:1.0,bottom:1.0,diagTop:.8,diagBottom:.8,leftTop:.45,leftBottom:.45},micro:{salvage:1.6,shield:1.15,distant:.85,meteor:1.0,ghost:.55},frontKinds:{wreck:2.4,pod:1.8,meteor:1.0,rammer:.55},tiers:{grunt:.92,mid:1.15,heavy:1.42},cadence:1.02,directorCadence:.98,formationCadence:.96,frontCadence:1.08,transversalCadence:.95,obstacleCadence:.72,budget:1.0,maxAlive:.97,burstBias:-.02,obstacleCap:2},
+ {id:'auralis',label:'INTERCEPCIÓN PRISMÁTICA',events:{front:3.4,cross:2.9,pincer:2.4,elite:2.5,hunter:1.8,transversal:1.5,swarm:1.2,siege:1.0,heavy:.8,debris:.8,powercache:.8,carrier:.75},objectives:{priority:2.6,ambush:2.4,relic:1.9,cleanup:1.6,carrier:1.25,recover:.9,nodes:.8,protect:.55},transversals:{rift_scout:2.7,relic_hunter:2.0,parasite_orb:1.0,salvage_drone:.65,rift_carrier:.75},formations:{cross:3.0,pincer:2.0,wedge:1.0},entries:{right:.65,top:1.5,bottom:1.5,diagTop:3.0,diagBottom:3.0,leftTop:1.6,leftBottom:1.6},micro:{ghost:1.75,distant:1.5,meteor:1.25,salvage:.55,shield:.7},frontKinds:{rammer:3.0,meteor:1.2,wreck:.8,pod:.65},tiers:{grunt:.86,mid:1.28,heavy:1.18},cadence:.87,directorCadence:.86,formationCadence:.86,frontCadence:.72,transversalCadence:.88,obstacleCadence:1.12,budget:.4,maxAlive:1.0,burstBias:.09,obstacleCap:-1},
+ {id:'omega',label:'RESONANCIA TOTAL',events:{cross:2.6,siege:2.4,heavy:2.0,transversal:2.1,hunter:2.0,swarm:1.8,pincer:1.8,front:1.7,elite:1.7,debris:1.5,powercache:1.5,carrier:1.4},objectives:{nodes:2.1,relic:2.1,cleanup:2.0,ambush:1.9,recover:1.8,priority:1.6,carrier:1.5,protect:1.4},transversals:{relic_hunter:2.0,parasite_orb:1.9,rift_carrier:1.7,rift_scout:1.5,salvage_drone:1.2},formations:{cross:2.5,pincer:1.8,wedge:1.7},entries:{right:1.1,top:1.3,bottom:1.3,diagTop:1.7,diagBottom:1.7,leftTop:1.1,leftBottom:1.1},micro:{ghost:1.7,distant:1.65,meteor:1.2,shield:.9,salvage:.9},frontKinds:{wreck:1.6,rammer:1.5,pod:1.35,meteor:1.25},tiers:{grunt:.92,mid:1.14,heavy:1.28},cadence:.93,directorCadence:.88,formationCadence:.90,frontCadence:.88,transversalCadence:.87,obstacleCadence:.92,budget:1.2,maxAlive:1.05,burstBias:.05,obstacleCap:1,echoChance:.24}
+];
+function directorProfile(sector=G?.sector||1){return COMBAT_DIRECTOR_PROFILES[clamp(Math.round(sector),1,10)]||COMBAT_DIRECTOR_PROFILES[1];}
+function directorProfileLabel(sector=G?.sector||1){const p=directorProfile(sector);return `${SECTORS[clamp(Math.round(sector),1,10)-1]?.family||'ENJAMBRE'} · ${p.label}`;}
+window.__SWARM_DIRECTOR_PROFILE=(sector=G?.sector||1)=>{const n=clamp(Math.round(sector||1),1,10),p=directorProfile(n);return {version:VERSION,sector:n,wave:G?.wave||1,id:p.id,label:p.label,phase:G?.directorPhase||directorPhase(),events:{...p.events},objectives:{...p.objectives},transversals:{...p.transversals},frontKinds:{...p.frontKinds},cadence:{spawn:p.cadence,director:p.directorCadence,formation:p.formationCadence,front:p.frontCadence,transversal:p.transversalCadence,obstacle:p.obstacleCadence},budget:{modifier:p.budget,maxAlive:p.maxAlive,obstacleCap:p.obstacleCap},echoChance:p.echoChance||0};};
 function directorMarks(wave,hard=false){const base=wave===1?[.15,.48,.80]:wave===2?[.12,.34,.60,.84]:[.09,.27,.49,.70,.89];return hard?[...base.slice(0,-1),(base.at(-2)+base.at(-1))/2,base.at(-1)]:base;}
 function directorPhase(){const r=G.goal?G.kills/G.goal:0;if(G.wave===1)return r<.28?'RECONOCIMIENTO':r<.70?'PRESIÓN':'CIERRE';if(G.wave===2)return r<.24?'PRESIÓN':r<.68?'EMBOSCADA':'FRENESÍ';return r<.22?'ASEDIO':r<.66?'SATURACIÓN':'CLÍMAX';}
 function resetCombatDirector(){G.directorIndex=0;G.directorCooldown=2.5;G.directorHistory=[];G.directorPressureT=0;G.directorPressure=1;G.directorPhase='RECONOCIMIENTO';}
-function directorEventPool(){const phase=directorPhase();let pool=['swarm','pincer','elite','front','transversal'];if(G.wave>=2)pool.push('cross','heavy','debris','carrier');if(G.wave>=3)pool.push('siege','powercache','front','hunter');if(phase==='CLÍMAX'||phase==='FRENESÍ')pool.push('swarm','heavy','cross','front','transversal','hunter');return pool;}
-function chooseDirectorEvent(){const hist=G.directorHistory||[],pool=directorEventPool().filter(v=>!hist.slice(-2).includes(v));return pick(pool.length?pool:directorEventPool());}
+function directorEventPool(){const phase=directorPhase();let pool=['swarm','pincer','elite','front','transversal'];if(G.wave>=2)pool.push('cross','heavy','debris','carrier');if(G.wave>=3)pool.push('siege','powercache','front','hunter');if(phase==='CLÍMAX'||phase==='FRENESÍ')pool.push('swarm','heavy','cross','front','transversal','hunter');return [...new Set(pool)];}
+function chooseDirectorEvent(){const hist=G.directorHistory||[],base=directorEventPool(),pool=base.filter(v=>!hist.slice(-2).includes(v)),allowed=pool.length?pool:base,prof=directorProfile();if((prof.echoChance||0)>0&&hist.length>=2&&Math.random()<prof.echoChance){const echo=hist[hist.length-2];if(allowed.includes(echo))return echo;}return weightedPick(prof.events,allowed)||pick(allowed);}
 function fireDirectorEvent(type){
   if(G.boss||G.bossPending||G.sectorClear)return false;if(!encounterCanSpend(directorEventCost(type)))return false;const sec=SECTORS[G.sector-1],hard=runDifficultyKey()==='hard',rem=Math.max(0,G.goal-G.kills);if(rem<3)return false;
   const modes=['top','bottom','diagTop','diagBottom','right'];
@@ -909,7 +981,7 @@ function fireDirectorEvent(type){
 function updateCombatDirector(dt){
   if(!G||G.mode==='training'||G.mode==='bossRush'||G.boss||G.bossPending||G.sectorClear)return;G.directorCooldown=Math.max(0,(G.directorCooldown||0)-dt);G.directorPressureT=Math.max(0,(G.directorPressureT||0)-dt);if(G.directorPressureT<=0)G.directorPressure=1;
   const phase=directorPhase();if(phase!==G.directorPhase){G.directorPhase=phase;notify(`RITMO · ${phase}`,SECTORS[G.sector-1].accent,.9);}
-  const marks=directorMarks(G.wave,runDifficultyKey()==='hard'),ratio=G.goal?G.kills/G.goal:0,idx=G.directorIndex||0;if(idx<marks.length&&ratio>=marks[idx]&&G.directorCooldown<=0){if(fireDirectorEvent(chooseDirectorEvent())!==false){G.directorIndex=idx+1;G.directorCooldown=runDifficultyKey()==='hard'?3.8:4.6;}else G.directorCooldown=.85;}
+  const prof=directorProfile(),marks=directorMarks(G.wave,runDifficultyKey()==='hard'),ratio=G.goal?G.kills/G.goal:0,idx=G.directorIndex||0;if(idx<marks.length&&ratio>=marks[idx]&&G.directorCooldown<=0){if(fireDirectorEvent(chooseDirectorEvent())!==false){G.directorIndex=idx+1;G.directorCooldown=(runDifficultyKey()==='hard'?3.8:4.6)*(prof.directorCadence||1);}else G.directorCooldown=.85;}
 }
 
 // ─────────────────────────────────────────────────────────────
@@ -926,7 +998,7 @@ const WAVE_OBJECTIVES={
   relic:{label:'CAZA DE RELIQUIA',short:'CAZA RELIQUIA',cost:3.4},
   cleanup:{label:'LIMPIEZA TOTAL',short:'LIMPIEZA TOTAL',cost:4.8}
 };
-function encounterBudgetCap(){if(!G)return 18;const compact=compactUI(),hard=runDifficultyKey()==='hard';return (compact?14.5:21.5)+(hard?1.5:0)+Math.min(2.2,G.sector*.16);}
+function encounterBudgetCap(){if(!G)return 18;const compact=compactUI(),hard=runDifficultyKey()==='hard',prof=directorProfile();return (compact?14.5:21.5)+(hard?1.5:0)+Math.min(2.2,G.sector*.16)+(prof.budget||0);}
 function activeWaveObjective(){const o=G?.waveObjective;return o&&o.status==='active'?o:null;}
 function objectivePressureCost(){const o=activeWaveObjective();return o?(WAVE_OBJECTIVES[o.type]?.cost||3.5):0;}
 function encounterLoad(){if(!G)return 0;let load=0;for(const e of G.enemies||[]){if(e.dead)continue;load+=e.kind==='transversal'?1.35:e.kind==='lieutenant'?3:e.objectiveId?1.15:1;}load+=(G.frontThreats||[]).filter(f=>!f.dead).length*1.65;load+=(G.obstacles||[]).filter(o=>!o.dead).length*.38;load+=(G.ambientProps||[]).filter(a=>!a.dead).length*(compactUI()?.08:.05);load+=objectivePressureCost();if(G.frenzyT>0)load+=3.8;return load;}
@@ -934,7 +1006,7 @@ function encounterCanSpend(cost=1){return encounterLoad()+cost<=encounterBudgetC
 function encounterEnemyFactor(){const o=activeWaveObjective();let f=(o?.type==='ambush'||o?.type==='cleanup') ? .76 : (o?.type ? .84 : 1);if(G.frenzyT>0)f*=.86;return f;}
 function directorEventCost(type){return ({swarm:4.5,pincer:3.5,cross:4,elite:3.2,heavy:4.4,front:2.8,debris:2.4,siege:5,powercache:2.6,transversal:2.2,carrier:3.8,hunter:2.8})[type]||3;}
 function objectiveActivationCost(type){return ({priority:4.8,carrier:5.8,protect:6.2,recover:5.6,nodes:5.4,ambush:7.4,relic:4.9,cleanup:7.2})[type]||5.4;}
-window.__SWARM_ENCOUNTER_STATUS=()=>({version:VERSION,screen:G?.screen||'',profile:uiProfile(),sector:G?.sector||0,wave:G?.wave||0,mode:G?.mode||'',difficulty:G?.runDifficulty||META.selectedDifficulty,kills:G?.kills||0,goal:G?.goal||0,credits:G?.credits||0,rewards:{objectiveCredits:G?.rewardLedger?.credits?.wave_objective||0,objectiveXp:G?.rewardLedger?.xp?.wave_objective||0},objective:G?.waveObjective?{type:G.waveObjective.type,status:G.waveObjective.status,progress:G.waveObjective.progress,total:G.waveObjective.total,t:Number(G.waveObjective.t||0).toFixed(2),maxT:Number(G.waveObjective.maxT||0).toFixed(2)}:null,objectiveEligible:(G&&G.screen==='GAME'&&G.mode==='campaign'&&!G.bossCheckpoint)?objectivePoolForWave():[],budget:{load:Number(encounterLoad().toFixed(2)),cap:Number(encounterBudgetCap().toFixed(2))},frenzy:Math.max(0,Number((G?.frenzyT||0).toFixed(2))),director:G?{phase:G.directorPhase||'',index:G.directorIndex||0}:null});
+window.__SWARM_ENCOUNTER_STATUS=()=>({version:VERSION,screen:G?.screen||'',profile:uiProfile(),sector:G?.sector||0,wave:G?.wave||0,mode:G?.mode||'',difficulty:G?.runDifficulty||META.selectedDifficulty,kills:G?.kills||0,goal:G?.goal||0,credits:G?.credits||0,rewards:{objectiveCredits:G?.rewardLedger?.credits?.wave_objective||0,objectiveXp:G?.rewardLedger?.xp?.wave_objective||0},objective:G?.waveObjective?{type:G.waveObjective.type,status:G.waveObjective.status,progress:G.waveObjective.progress,total:G.waveObjective.total,t:Number(G.waveObjective.t||0).toFixed(2),maxT:Number(G.waveObjective.maxT||0).toFixed(2)}:null,objectiveEligible:(G&&G.screen==='GAME'&&G.mode==='campaign'&&!G.bossCheckpoint)?objectivePoolForWave():[],budget:{load:Number(encounterLoad().toFixed(2)),cap:Number(encounterBudgetCap().toFixed(2))},frenzy:Math.max(0,Number((G?.frenzyT||0).toFixed(2))),director:G?{phase:G.directorPhase||'',index:G.directorIndex||0,profile:directorProfile().id,label:directorProfile().label}:null});
 window.__SWARM_COMMANDER_STATUS=()=>({version:VERSION,sector:G?.sector||0,eligible:defeatedCommanderSectors(),expected:G?.lieutenantExpected||0,active:activeLieutenants().map(e=>({sector:e.lieutenantSector,name:SECTORS[(e.lieutenantSector||1)-1]?.boss||'',hp:Number((e.hp/e.maxHp*100).toFixed(1)),phase:e.phase})),queued:[...(G?.lieutenantQueue||[])],kills:G?.lieutenantKills||0,cap:commanderConcurrentCap(),supportBudget:G?.commanderSupportBudget||0,weaponBoost:{t:Number((G?.weaponBoostT||0).toFixed(2)),mult:G?.weaponBoostMult||1},musicUI:!!MusicX.uiSnapshot});
 function objectivePoolForWave(){
   let pool=G.wave===1?['priority','carrier','protect','recover']:G.wave===2?['priority','carrier','protect','recover','nodes','ambush','relic']:['nodes','ambush','relic','cleanup','carrier','recover'];
@@ -944,7 +1016,7 @@ function objectivePoolForWave(){
 function prepareWaveObjective(forceType=null){
   if(!G)return null;G.objectiveTargets=[];G.objectiveCapsule=null;G.waveObjective=null;if(G.mode==='training'||G.mode==='bossRush'||G.bossCheckpoint)return null;
   const chance=(G.wave===1?.48:G.wave===2?.74:.66)+(runDifficultyKey()==='hard'?.12:0);if(!forceType&&Math.random()>chance)return null;
-  const type=forceType&&WAVE_OBJECTIVES[forceType]?forceType:pick(objectivePoolForWave()),trigger=type==='cleanup'?.68:(G.wave===1?.18:G.wave===2?.24:.20);
+  const pool=objectivePoolForWave(),type=forceType&&WAVE_OBJECTIVES[forceType]?forceType:(weightedPick(directorProfile().objectives,pool)||pick(pool)),trigger=type==='cleanup'?.68:(G.wave===1?.18:G.wave===2?.24:.20);
   G.waveObjective={id:`${G.sector}-${G.wave}-${Math.floor(performance.now())}`,type,label:WAVE_OBJECTIVES[type].label,status:'pending',trigger,progress:0,total:1,t:0,maxT:0,entity:null,entities:[],rewarded:false,failedReason:'',coreSpawned:false};return G.waveObjective;
 }
 function objectiveWorldCue(type){const sec=SECTORS[G.sector-1];const cues={priority:`${sec.family} · unidad marcada`,carrier:`${sec.family} · transporte hostil`,protect:`${sec.name} · cápsula aliada`,recover:`${sec.family} · guardianes del núcleo`,nodes:`${sec.name} · nodos de control`,ambush:`${sec.family} · cerco táctico`,relic:`${sec.name} · firma de reliquia`,cleanup:`${sec.family} · formación de cierre`};return cues[type]||sec.family;}
@@ -1001,8 +1073,8 @@ function canStartFrenzy(){const o=G?.waveObjective;if(!o)return true;if(o.status
 function objectiveHudText(){const o=G?.waveObjective;if(!o||o.status!=='active')return '';let suffix='';if(o.type==='recover'&&o.coreSpawned)suffix=' · RECOGE';else if(['priority','carrier','relic'].includes(o.type))suffix=` ${Math.max(0,Math.ceil(o.maxT-o.t))}s`;else if(['protect','ambush'].includes(o.type))suffix=` ${Math.max(0,Math.ceil(o.maxT-o.t))}s`;else suffix=` ${Math.min(o.progress,o.total)}/${o.total}`;return `◎ OBJETIVO · ${WAVE_OBJECTIVES[o.type].short}${suffix}`;}
 function drawWaveObjectiveEntities(){
   const o=G?.waveObjective;if(!o||o.status!=='active')return;
-  for(const n of G.objectiveTargets||[]){if(n.dead)continue;const pulse=1+Math.sin(G.elapsed*5+n.t)*.06;cx.save();cx.translate(n.x,n.y);cx.scale(pulse,pulse);cx.fillStyle='rgba(4,10,18,.88)';cx.strokeStyle=n.col;cx.lineWidth=2;cx.shadowColor=n.col;cx.shadowBlur=14;cx.beginPath();for(let i=0;i<6;i++){const a=i/6*TAU-Math.PI/6,x=Math.cos(a)*n.r,y=Math.sin(a)*n.r;i?cx.lineTo(x,y):cx.moveTo(x,y);}cx.closePath();cx.fill();cx.stroke();cx.shadowBlur=0;cx.fillStyle=n.col;cx.font='900 12px system-ui';cx.textAlign='center';cx.fillText('◎',0,4);cx.restore();}
-  if(o.capsule){const c=o.capsule,p=clamp(c.hp/c.maxHp,0,1);cx.save();cx.translate(c.x,c.y);cx.fillStyle='rgba(5,16,25,.88)';cx.strokeStyle=c.col;cx.lineWidth=2;cx.shadowColor=c.col;cx.shadowBlur=12;rr(-c.r,-c.r*.72,c.r*2,c.r*1.44,10);cx.fill();cx.stroke();cx.shadowBlur=0;cx.fillStyle=c.col;cx.font='900 15px system-ui';cx.textAlign='center';cx.fillText('▣',0,5);cx.restore();const w=72,x=c.x-w/2,y=c.y+c.r;cx.fillStyle='rgba(0,0,0,.65)';cx.fillRect(x,y,w,5);cx.fillStyle=c.col;cx.fillRect(x,y,w*p,5);}
+  for(const n of G.objectiveTargets||[]){if(n.dead)continue;const pulse=1+Math.sin(G.elapsed*5+n.t)*.06,img=IMG.objectives.node,d=n.r*3.15;cx.save();cx.translate(n.x,n.y);cx.scale(pulse,pulse);cx.rotate(G.elapsed*.18+n.t*.08);cx.shadowColor=n.col;cx.shadowBlur=16;if(imgReady(img)){const sc=Math.min(d/img.naturalWidth,d/img.naturalHeight);cx.drawImage(img,-img.naturalWidth*sc/2,-img.naturalHeight*sc/2,img.naturalWidth*sc,img.naturalHeight*sc);}else{cx.fillStyle=n.col;cx.beginPath();cx.arc(0,0,n.r,0,TAU);cx.fill();}cx.shadowBlur=0;cx.restore();}
+  if(o.capsule){const c=o.capsule,p=clamp(c.hp/c.maxHp,0,1),img=IMG.objectives.capsule,d=c.r*3.35;cx.save();cx.translate(c.x,c.y);cx.shadowColor=c.col;cx.shadowBlur=14;if(imgReady(img)){const sc=Math.min(d/img.naturalWidth,d/img.naturalHeight);cx.drawImage(img,-img.naturalWidth*sc/2,-img.naturalHeight*sc/2,img.naturalWidth*sc,img.naturalHeight*sc);}else{cx.fillStyle=c.col;cx.beginPath();cx.arc(0,0,c.r,0,TAU);cx.fill();}cx.shadowBlur=0;cx.restore();const w=72,x=c.x-w/2,y=c.y+c.r;cx.fillStyle='rgba(0,0,0,.65)';cx.fillRect(x,y,w,5);cx.fillStyle=c.col;cx.fillRect(x,y,w*p,5);}
   cx.textAlign='left';
 }
 
@@ -1035,7 +1107,7 @@ function maybePressureRelief(source='event'){
   if(!G||G.mode==='training'||G.boss||G.bossPending)return false;const ratio=G.player.shield/G.player.maxShield;if(ratio>.30||G.pressureReliefWave===G.wave)return false;const chance=runDifficultyKey()==='hard'?.46:.58;if(Math.random()>chance)return false;G.pressureReliefWave=G.wave;const x=clamp(G.player.x+100,80,W-80),y=clamp(G.player.y+rnd(-55,55),65,H-65);spawnPickup(x,y,'shield');notify(`APOYO TÁCTICO · ESCUDO`, '#7fb7ff',1.35);return true;
 }
 function chooseWorldMicroEvent(){
-  const pool=['distant','salvage','meteor','ghost'];if(G.player.shield/G.player.maxShield<.52)pool.push('shield');const hist=G.worldEventHistory||[],filtered=pool.filter(v=>!hist.slice(-2).includes(v));return pick(filtered.length?filtered:pool);
+  const pool=['distant','salvage','meteor','ghost'];if(G.player.shield/G.player.maxShield<.52)pool.push('shield');const hist=G.worldEventHistory||[],filtered=pool.filter(v=>!hist.slice(-2).includes(v)),allowed=filtered.length?filtered:pool;return weightedPick(directorProfile().micro,allowed)||pick(allowed);
 }
 function fireWorldMicroEvent(type=chooseWorldMicroEvent()){
   if(!G||G.boss||G.bossPending||G.sectorClear||G.mode==='training'||G.mode==='bossRush')return;const sec=SECTORS[G.sector-1];
@@ -1129,20 +1201,15 @@ function obstacleSpriteKey(type){
 }
 function pickupSpriteKey(q){return q.type==='power'?'power':q.type;}
 function chooseTieredForm(sec){
-  const r=Math.random(),idx=SECTORS.indexOf(sec)+1;let form;
-  if(G.wave===1){form=r<.74?sec.forms[0]:r<.97?sec.forms[1]:sec.forms[2];}
-  else if(G.wave===2){form=r<.38?sec.forms[0]:r<.88?sec.forms[1]:sec.forms[2];}
-  else{const late=idx>=7,grunt=late?.18:.22,mid=late?.64:.68;form=r<grunt?sec.forms[0]:r<mid?sec.forms[1]:sec.forms[2];}
-  if(runDifficultyKey()==='hard'&&Math.random()<runDifficulty().eliteBias){if(form===sec.forms[0])form=sec.forms[1];else if(form===sec.forms[1]&&G.wave>=2&&Math.random()<.46)form=sec.forms[2];}
-  return form;
+  const prof=directorProfile(),tw=prof.tiers||{grunt:1,mid:1,heavy:1};let base;
+  if(G.wave===1)base=[.74,.23,.03];else if(G.wave===2)base=[.38,.50,.12];else{const late=G.sector>=7;base=[late?.18:.22,(late?.64:.68)-(late?.18:.22),1-(late?.64:.68)];}
+  const form=weightedPick({[sec.forms[0]]:base[0]*(tw.grunt||1),[sec.forms[1]]:base[1]*(tw.mid||1),[sec.forms[2]]:base[2]*(tw.heavy||1)});let chosen=form||sec.forms[0];
+  if(runDifficultyKey()==='hard'&&Math.random()<runDifficulty().eliteBias){if(chosen===sec.forms[0])chosen=sec.forms[1];else if(chosen===sec.forms[1]&&G.wave>=2&&Math.random()<.46)chosen=sec.forms[2];}
+  return chosen;
 }
 function chooseSpawnEntry(){
-  const r=Math.random(),flank=(G.wave>=2||G.sector>=2);
-  if(r<.48)return 'right';
-  if(r<.66)return 'top';
-  if(r<.84)return 'bottom';
-  if(flank&&r<.91)return Math.random()<.5?'leftTop':'leftBottom';
-  return Math.random()<.5?'diagTop':'diagBottom';
+  const prof=directorProfile(),flank=(G.wave>=2||G.sector>=2),allowed=flank?['right','top','bottom','leftTop','leftBottom','diagTop','diagBottom']:['right','top','bottom','diagTop','diagBottom'];
+  return weightedPick(prof.entries,allowed)||'right';
 }
 function entryPlacement(mode,r){
   const p=G.player||{x:W*.2,y:H*.5};
@@ -1164,7 +1231,7 @@ function updateEnemyEntry(e,dt){
 function spawnFormation(forcedType=null){
   if(G.boss||G.bossPending||G.mode==='training')return 0;
   const remaining=G.goal-G.kills;if(remaining<3)return 0;
-  const type=forcedType||(G.wave>=3?pick(['pincer','wedge','cross']):pick(['pincer','wedge']));let n=0;
+  const allowed=G.wave>=3?['pincer','wedge','cross']:['pincer','wedge'],type=forcedType||(weightedPick(directorProfile().formations,allowed)||pick(allowed));let n=0;
   if(type==='pincer'){spawnEnemy(null,null,null,'top');spawnEnemy(null,null,null,'bottom');spawnEnemy(null,null,null,'right');n=3;}
   else if(type==='cross'){spawnEnemy(null,null,null,'leftTop');spawnEnemy(null,null,null,'right');spawnEnemy(null,null,null,'leftBottom');n=3;}
   else{for(const mode of ['diagTop','right','diagBottom']){spawnEnemy(null,null,null,mode);n++;}}
@@ -1180,8 +1247,9 @@ function obstacleAssetIndex(sec,type){
   const pack=pools[sec.bg]||pools.rift,list=pack[type]||pack.default;return pick(list);
 }
 function worldObstacleAsset(sec,type){
-  if(!sec.obstacleTheme||!['blood','resin','odonata','resonance'].includes(sec.obstacleTheme))return null;
-  const pack=IMG.worldObstacles[sec.obstacleTheme]||[],idx=Math.max(0,(sec.obstacles||[]).indexOf(type));return pack[idx%Math.max(1,pack.length)]||null;
+  if(!sec.obstacleTheme)return null;
+  const pack=IMG.worldObstacles[sec.obstacleTheme]||[];if(!pack.length)return null;
+  const idx=Math.max(0,(sec.obstacles||[]).indexOf(type));return pack[idx%pack.length]||null;
 }
 function ambientWorldFx(sec,t){
   const key=sec.worldBg;if(!key)return;
@@ -1233,7 +1301,7 @@ function bossVfx(b,col,count=7){for(let i=0;i<count;i++){const a=rnd(0,TAU),rr=r
 function bossPhaseBurst(b,sec){G.particles.push({kind:'shock',x:b.x,y:b.y,r:b.r*.55,vr:520,life:.72,max:.72,col:sec.accent});for(let i=0;i<18;i++){const a=i/18*TAU;G.particles.push({kind:'spark',x:b.x+Math.cos(a)*b.r*.55,y:b.y+Math.sin(a)*b.r*.55,vx:Math.cos(a)*rnd(120,260),vy:Math.sin(a)*rnd(120,260),r:rnd(1.5,4),life:rnd(.28,.55),max:.55,col:sec.accent});}}
 function spawnFrontThreat(forceKind=null){
   if(G.boss||G.bossPending||G.postBossT>0)return;
-  const sec=SECTORS[G.sector-1],weights=G.sector<2?['meteor','meteor','pod']:G.sector<4?['meteor','rammer','pod','wreck']:['rammer','meteor','wreck','pod','rammer'],kind=forceKind||pick(weights),pf=frontProfile(kind),p=G.player;
+  const sec=SECTORS[G.sector-1],prof=directorProfile(),allowed=['meteor','rammer','pod','wreck'],kind=forceKind||(weightedPick(prof.frontKinds,allowed)||pick(allowed)),pf=frontProfile(kind),p=G.player;
   const startX=rnd(W*.43,W*.80),startY=rnd(H*.2,H*.78),aim=Math.random()<(kind==='rammer'?.82:.62);
   const targetX=aim?clamp(p.x+rnd(-78,88),70,W*.68):rnd(W*.08,W*.76),targetY=aim?clamp(p.y+rnd(-62,62),68,H-58):rnd(72,H-68);
   const baseHp=(92+G.sector*34+G.wave*18)*pf.hp,dur=rnd(...pf.dur);
@@ -1404,9 +1472,9 @@ function saveRun(){
   const p=G.player;const payload={version:VERSION,mode:G.mode||'campaign',runDifficulty:G.runDifficulty||'normal',sector:G.sector,wave:G.wave,score:G.score,credits:G.credits,hp:p.hp,shield:p.shield,powers:G.powers,queue:G.powerQueue||[],xp:G.xp||0,level:G.level||1,xpNext:G.xpNext||120,heritageNext:G.heritageNext||null,bossCheckpoint:!!G.bossCheckpoint,bossCheckpointKind:G.bossCheckpointKind||'',powerRanks:G.powerRanks,powerDropsThisSector:G.powerDropsThisSector||0,waveHits:G.waveHits||0,waveFrontKills:G.waveFrontKills||0,waveStartT:G.waveStartT||0,waveMedals:G.waveMedals||[],bonusCredits:G.bonusCredits||0,resinCharges:G.resinCharges||0,bossRushIndex:G.bossRushIndex||0,bossRushScore:G.bossRushScore||0,bossRushChapter:G.bossRushChapter||0,bossRushStartSector:G.bossRushStartSector||0,bossRushEndSector:G.bossRushEndSector||0,objectiveHistory:G.objectiveHistory||[],objectivePlannedType:G.waveObjective?.type||null,ts:Date.now()};
   try{localStorage.setItem(KEY_RUN,JSON.stringify(payload));}catch(_){return false;}saveMeta();notify('CHECKPOINT GUARDADO','#79c9ff',1.8);return true;
 }
-function hasSave(){try{return !!localStorage.getItem(KEY_RUN)||!!localStorage.getItem('swarm_rift_run_v21213')||!!localStorage.getItem('swarm_rift_run_v21212')||!!localStorage.getItem('swarm_rift_run_v21211')||!!localStorage.getItem('swarm_rift_run_v2121')||!!localStorage.getItem('swarm_rift_run_v2120')||!!localStorage.getItem('swarm_rift_run_v2119')||!!localStorage.getItem('swarm_rift_run_v2118')||!!localStorage.getItem('swarm_rift_run_v2117')||!!localStorage.getItem('swarm_rift_run_v2116')||!!localStorage.getItem('swarm_rift_run_v2115')||!!localStorage.getItem('swarm_rift_run_v2114')||!!localStorage.getItem('swarm_rift_run_v2113')||!!localStorage.getItem('swarm_rift_run_v2112')||!!localStorage.getItem('swarm_rift_run_v2111')||!!localStorage.getItem('swarm_rift_run_v2110')||!!localStorage.getItem('swarm_rift_run_v2100')||!!localStorage.getItem('swarm_rift_run_v290')||!!localStorage.getItem('swarm_rift_run_v280')||!!localStorage.getItem('swarm_rift_run_v271')||!!localStorage.getItem('swarm_rift_run_v270')||!!localStorage.getItem('swarm_rift_run_v260')||!!localStorage.getItem('swarm_rift_run_v251')||!!localStorage.getItem('swarm_rift_run_v250')||!!localStorage.getItem('swarm_rift_run_v240')||!!localStorage.getItem('swarm_rift_run_v230')||!!localStorage.getItem('swarm_rift_run_v220')||!!localStorage.getItem('swarm_rift_run_v210')||!!localStorage.getItem('swarm_rift_run_v200')||!!localStorage.getItem('swarm_rift_run_v199')||!!localStorage.getItem('swarm_rift_run_v198')||!!localStorage.getItem('swarm_rift_run_v197')||!!localStorage.getItem('swarm_rift_run_v196')||!!localStorage.getItem('swarm_rift_run_v195')||!!localStorage.getItem('swarm_rift_run_v194')||!!localStorage.getItem('swarm_rift_run_v17');}catch(_){return false;}}
+function hasSave(){try{return !!localStorage.getItem(KEY_RUN)||!!localStorage.getItem('swarm_rift_run_v2124')||!!localStorage.getItem('swarm_rift_run_v2123')||!!localStorage.getItem('swarm_rift_run_v2122')||!!localStorage.getItem('swarm_rift_run_v21216')||!!localStorage.getItem('swarm_rift_run_v21215')||!!localStorage.getItem('swarm_rift_run_v21214')||!!localStorage.getItem('swarm_rift_run_v21213')||!!localStorage.getItem('swarm_rift_run_v21212')||!!localStorage.getItem('swarm_rift_run_v21211')||!!localStorage.getItem('swarm_rift_run_v2121')||!!localStorage.getItem('swarm_rift_run_v2120')||!!localStorage.getItem('swarm_rift_run_v2119')||!!localStorage.getItem('swarm_rift_run_v2118')||!!localStorage.getItem('swarm_rift_run_v2117')||!!localStorage.getItem('swarm_rift_run_v2116')||!!localStorage.getItem('swarm_rift_run_v2115')||!!localStorage.getItem('swarm_rift_run_v2114')||!!localStorage.getItem('swarm_rift_run_v2113')||!!localStorage.getItem('swarm_rift_run_v2112')||!!localStorage.getItem('swarm_rift_run_v2111')||!!localStorage.getItem('swarm_rift_run_v2110')||!!localStorage.getItem('swarm_rift_run_v2100')||!!localStorage.getItem('swarm_rift_run_v290')||!!localStorage.getItem('swarm_rift_run_v280')||!!localStorage.getItem('swarm_rift_run_v271')||!!localStorage.getItem('swarm_rift_run_v270')||!!localStorage.getItem('swarm_rift_run_v260')||!!localStorage.getItem('swarm_rift_run_v251')||!!localStorage.getItem('swarm_rift_run_v250')||!!localStorage.getItem('swarm_rift_run_v240')||!!localStorage.getItem('swarm_rift_run_v230')||!!localStorage.getItem('swarm_rift_run_v220')||!!localStorage.getItem('swarm_rift_run_v210')||!!localStorage.getItem('swarm_rift_run_v200')||!!localStorage.getItem('swarm_rift_run_v199')||!!localStorage.getItem('swarm_rift_run_v198')||!!localStorage.getItem('swarm_rift_run_v197')||!!localStorage.getItem('swarm_rift_run_v196')||!!localStorage.getItem('swarm_rift_run_v195')||!!localStorage.getItem('swarm_rift_run_v194')||!!localStorage.getItem('swarm_rift_run_v17');}catch(_){return false;}}
 function loadRun(){
-  const s=loadJSON(KEY_RUN,null)||loadJSON('swarm_rift_run_v21213',null)||loadJSON('swarm_rift_run_v21212',null)||loadJSON('swarm_rift_run_v21211',null)||loadJSON('swarm_rift_run_v2121',null)||loadJSON('swarm_rift_run_v2120',null)||loadJSON('swarm_rift_run_v2119',null)||loadJSON('swarm_rift_run_v2118',null)||loadJSON('swarm_rift_run_v2117',null)||loadJSON('swarm_rift_run_v2116',null)||loadJSON('swarm_rift_run_v2115',null)||loadJSON('swarm_rift_run_v2114',null)||loadJSON('swarm_rift_run_v2113',null)||loadJSON('swarm_rift_run_v2112',null)||loadJSON('swarm_rift_run_v2111',null)||loadJSON('swarm_rift_run_v2110',null)||loadJSON('swarm_rift_run_v2100',null)||loadJSON('swarm_rift_run_v290',null)||loadJSON('swarm_rift_run_v280',null)||loadJSON('swarm_rift_run_v271',null)||loadJSON('swarm_rift_run_v270',null)||loadJSON('swarm_rift_run_v260',null)||loadJSON('swarm_rift_run_v251',null)||loadJSON('swarm_rift_run_v250',null)||loadJSON('swarm_rift_run_v240',null)||loadJSON('swarm_rift_run_v230',null)||loadJSON('swarm_rift_run_v220',null)||loadJSON('swarm_rift_run_v210',null)||loadJSON('swarm_rift_run_v200',null)||loadJSON('swarm_rift_run_v199',null)||loadJSON('swarm_rift_run_v198',null)||loadJSON('swarm_rift_run_v197',null)||loadJSON('swarm_rift_run_v196',null)||loadJSON('swarm_rift_run_v195',null)||loadJSON('swarm_rift_run_v194',null)||loadJSON('swarm_rift_run_v17',null);if(!s||!s.sector)return false;
+  const s=loadJSON(KEY_RUN,null)||loadJSON('swarm_rift_run_v2124',null)||loadJSON('swarm_rift_run_v2123',null)||loadJSON('swarm_rift_run_v2122',null)||loadJSON('swarm_rift_run_v21216',null)||loadJSON('swarm_rift_run_v21215',null)||loadJSON('swarm_rift_run_v21214',null)||loadJSON('swarm_rift_run_v21213',null)||loadJSON('swarm_rift_run_v21212',null)||loadJSON('swarm_rift_run_v21211',null)||loadJSON('swarm_rift_run_v2121',null)||loadJSON('swarm_rift_run_v2120',null)||loadJSON('swarm_rift_run_v2119',null)||loadJSON('swarm_rift_run_v2118',null)||loadJSON('swarm_rift_run_v2117',null)||loadJSON('swarm_rift_run_v2116',null)||loadJSON('swarm_rift_run_v2115',null)||loadJSON('swarm_rift_run_v2114',null)||loadJSON('swarm_rift_run_v2113',null)||loadJSON('swarm_rift_run_v2112',null)||loadJSON('swarm_rift_run_v2111',null)||loadJSON('swarm_rift_run_v2110',null)||loadJSON('swarm_rift_run_v2100',null)||loadJSON('swarm_rift_run_v290',null)||loadJSON('swarm_rift_run_v280',null)||loadJSON('swarm_rift_run_v271',null)||loadJSON('swarm_rift_run_v270',null)||loadJSON('swarm_rift_run_v260',null)||loadJSON('swarm_rift_run_v251',null)||loadJSON('swarm_rift_run_v250',null)||loadJSON('swarm_rift_run_v240',null)||loadJSON('swarm_rift_run_v230',null)||loadJSON('swarm_rift_run_v220',null)||loadJSON('swarm_rift_run_v210',null)||loadJSON('swarm_rift_run_v200',null)||loadJSON('swarm_rift_run_v199',null)||loadJSON('swarm_rift_run_v198',null)||loadJSON('swarm_rift_run_v197',null)||loadJSON('swarm_rift_run_v196',null)||loadJSON('swarm_rift_run_v195',null)||loadJSON('swarm_rift_run_v194',null)||loadJSON('swarm_rift_run_v17',null);if(!s||!s.sector)return false;
   G={screen:'GAME',mode:s.mode||'campaign',runDifficulty:s.runDifficulty||META.selectedDifficulty||'normal',sector:clamp(s.sector,1,activeSectorCount()),wave:clamp(s.wave||1,1,3),score:s.score||0,hiScore:META.hiScore||0,credits:Math.max(META.credits||0,s.credits||0),
     player:makePlayer(),enemies:[],bullets:[],eBullets:[],pickups:[],particles:[],obstacles:[],frontThreats:[],boss:null,kills:0,goal:waveGoal(s.sector,s.wave||1),spawn:.5,obstacleTimer:2,
     powerMeter:0,powerDropsThisSector:s.powerDropsThisSector||0,powers:s.powers||{},powerQueue:s.queue||[],sectorClear:false,bossPending:false,waveBanner:2.4,sectorBanner:2.8,combo:0,comboT:0,lastPowerDrop:0,elapsed:0,xp:s.xp||0,level:s.level||1,xpNext:s.xpNext||120,maxActivePowers:POWER_SLOT_LIMIT,maxQueuePowers:POWER_QUEUE_LIMIT,heritageNext:s.heritageNext||null,activeCombos:{},bossHitT:0,heartHitT:0,critWarned:false,lastBossDrop:null,frenzyT:0,frenzyWave:0,frenzyMult:1,bossWarningT:0,bossWarningText:'',bossCheckpoint:!!s.bossCheckpoint,bossCheckpointKind:s.bossCheckpointKind||'',lostAtBoss:false,trainingBoss:false,preBossT:0,preBossMax:0,postBossT:0,postBossMax:0,frontTimer:7,frontKills:0,waveFrontKills:s.waveFrontKills||0,waveHits:s.waveHits||0,waveStartT:s.waveStartT||0,waveMedals:s.waveMedals||[],powerRanks:s.powerRanks||{},frenzyKills:0,frenzyTarget:0,frenzyDone:false,bossHits:0,bossMasteryAchieved:false,bonusCredits:s.bonusCredits||0,resinCharges:s.resinCharges||0,rewardLedger:{credits:{},xp:{}},pendingBossReward:null,bossRewardView:null,bossRushIndex:s.bossRushIndex||0,bossRushScore:s.bossRushScore||0,bossRushChapter:s.bossRushChapter||0,bossRushStartSector:s.bossRushStartSector||0,bossRushEndSector:s.bossRushEndSector||0,bossRushComplete:false,campaignComplete:false,chapterComplete:false,completedChapterId:0,finalReward:0,lastRelic:0,bossRushResults:[],bossRushReward:0,bossRushRank:'',bossRushTime:0,bossStartElapsed:0,directorIndex:0,directorCooldown:2.5,directorHistory:[],directorPressureT:0,directorPressure:1,directorPhase:'RECONOCIMIENTO',transversalTimer:rnd(7.5,11.5),lieutenantSpawned:false,lieutenantKilled:false,preBossSetpieces:[],preBossCueStage:0,worldAmbientStarted:false,ambientProps:[],ambientPropTimer:rnd(1.2,2.4),worldEventTimer:rnd(18,26),worldEventHistory:[],worldEventCount:0,pressureReliefWave:0,shieldCriticalWarned:false,shieldHitT:0,bossArrivalStage:0,bossArrivalBanner:null,waveObjective:null,objectiveHistory:s.objectiveHistory||[],objectiveTargets:[],objectiveCapsule:null,emergencyHealthDrops:{half:false,quarter:false,critical:false},lieutenantQueue:[],lieutenantExpected:0,lieutenantKills:0,commanderReinforceT:0,commanderSupportT:0,commanderSupportBudget:0,weaponBoostT:0,weaponBoostMult:1,weaponBoostStacks:0};
@@ -1428,10 +1496,10 @@ const TRANSVERSAL_DEF={
   rift_carrier:{label:'RIFT CARRIER',col:'#ff9a6f',hp:2.1,size:1.35,spd:.68,score:470,asset:9},
   relic_hunter:{label:'RELIC HUNTER',col:'#fff09a',hp:.82,size:.9,spd:1.72,score:620,asset:6}
 };
-function chooseTransversal(){const pool=G.wave===1?['rift_scout','salvage_drone','parasite_orb','rift_scout']:G.wave===2?['rift_scout','salvage_drone','parasite_orb','rift_carrier']:['rift_scout','parasite_orb','rift_carrier','salvage_drone','relic_hunter'];return pick(pool);}
+function chooseTransversal(){const pool=G.wave===1?['rift_scout','salvage_drone','parasite_orb']:G.wave===2?['rift_scout','salvage_drone','parasite_orb','rift_carrier']:['rift_scout','parasite_orb','rift_carrier','salvage_drone','relic_hunter'];return weightedPick(directorProfile().transversals,pool)||pick(pool);}
 function spawnTransversal(forceType=null){
   if(!G||G.boss||G.bossPending||G.mode==='training'||G.sectorClear)return null;const type=forceType||chooseTransversal(),d=TRANSVERSAL_DEF[type],bal=sectorBalance(),hard=runDifficultyKey()==='hard';
-  const r=(18+G.sector*.35)*d.size,hp=(90+G.sector*28+G.wave*14)*d.hp*bal.enemyHp*(hard?1.14:1),pos=entryPlacement(type==='relic_hunter'?'diagTop':pick(['right','top','bottom','diagTop','diagBottom']),r);
+  const r=(18+G.sector*.35)*d.size,hp=(90+G.sector*28+G.wave*14)*d.hp*bal.enemyHp*(hard?1.14:1),entry=type==='relic_hunter'?'diagTop':weightedPick(directorProfile().entries,['right','top','bottom','diagTop','diagBottom']),pos=entryPlacement(entry||'right',r);
   const e={x:pos.x,y:pos.y,ox:pos.y,r,hp,maxHp:hp,spd:(105+G.sector*4)*d.spd,score:d.score+G.sector*24,form:type,family:'TRANSVERSAL',kind:'transversal',transversalType:type,name:d.label,col:d.col,shipVariant:d.asset,move:'hover',fireCd:rnd(.7,1.3),fireRate:1,specialCd:rnd(1.8,3.2),t:rnd(0,TAU),phase:rnd(0,TAU),dead:false,slow:0,flash:0,contact:(13+G.sector*1.6)*runDifficulty().enemyDamage,entryMode:'transversal',entryT:pos.t||0,entryTX:pos.tx,entryTY:pos.ty,stolen:0,spawned:0,retreat:false};
   G.enemies.push(e);return e;
 }
@@ -1463,7 +1531,7 @@ function updateTransversalEnemy(e,dt,p){
 function spawnLieutenant(sourceSector=null,slot=0,total=null,silent=false){
   if(!G||G.sector<=1||G.mode==='training'||G.mode==='bossRush'||!G.boss)return null;const src=clamp(sourceSector||G.sector-1,1,G.sector-1),prev=SECTORS[src-1];if(!prev)return null;const expected=total||G.lieutenantExpected||Math.max(1,defeatedCommanderSectors().length),hard=runDifficultyKey()==='hard',hp=G.boss.maxHp*commanderHpFactor(expected)*(.88+.12*(src/Math.max(1,G.sector-1))),r=Math.max(34,G.boss.r*(expected>=5?.47:.52));
   const lieStamina=(68+G.sector*6+src*2+(hard?16:0))*COMMANDER_DIFFICULTY.stamina*(expected>=5?.92:1),lane=(slot%4),laneY=[.24,.42,.62,.78][lane]||.5,entryX=W+90+slot*28;
-  const e={x:entryX,y:H*laneY,r,hp,maxHp:hp,spd:(140+G.sector*4+src*1.5)*COMMANDER_DIFFICULTY.move,score:1450+G.sector*180+src*55,form:prev.forms[2],family:prev.family,kind:'lieutenant',lieutenantSector:src,pattern:prev.pattern,name:`TENIENTE ${prev.boss}`,phase:1,t:rnd(0,TAU),fireCd:.58+slot*.06,fireRate:.78,specialCd:1.85+slot*.22,dead:false,slow:0,flash:0,contact:(22+G.sector*2.1+src*.5)*COMMANDER_DIFFICULTY.contact,entryT:1.0+slot*.08,entryTX:W*(.72-(slot%2)*.08),entryTY:H*laneY,guardT:0,telegraphT:0,chargeT:0,animPulse:0,phaseFlash:0,stamina:lieStamina,staminaMax:lieStamina,coreOpenT:0,justSpawned:true};G.enemies.push(e);if(!silent)notify(`MANDO RECUPERADO · ${prev.boss}`,prev.accent,1.35);AudioX.bossWarn(Math.max(0,src-1));return e;
+  const e={x:entryX,y:H*laneY,r,hp,maxHp:hp,spd:(140+G.sector*4+src*1.5)*COMMANDER_DIFFICULTY.move,score:1450+G.sector*180+src*55,form:prev.forms[2],family:prev.family,kind:'lieutenant',lieutenantSector:src,pattern:prev.pattern,name:`TENIENTE ${prev.boss}`,phase:1,t:rnd(0,TAU),fireCd:.58+slot*.06,fireRate:.78,specialCd:1.85+slot*.22,dead:false,slow:0,flash:0,contact:(22+G.sector*2.1+src*.5)*COMMANDER_DIFFICULTY.contact,entryT:1.0+slot*.08,entryTX:W*(.72-(slot%2)*.08),entryTY:H*laneY,guardT:0,telegraphT:0,chargeT:0,animAttackT:0,animPulse:0,phaseFlash:0,stamina:lieStamina,staminaMax:lieStamina,coreOpenT:0,justSpawned:true};G.enemies.push(e);if(!silent)notify(`MANDO RECUPERADO · ${prev.boss}`,prev.accent,1.35);AudioX.bossWarn(Math.max(0,src-1));return e;
 }
 function killLieutenant(e){
   if(e.dead)return;e.dead=true;G.lieutenantKilled=true;G.lieutenantKills=(G.lieutenantKills||0)+1;const reward=Math.round((130+G.sector*28+(e.lieutenantSector||1)*12)*economyMult());grantCredits(reward,'lieutenant',true);G.score+=4200+G.sector*620+(e.lieutenantSector||1)*180;grantRewardXp(90+G.sector*18+(e.lieutenantSector||1)*4,'lieutenant');const heritage=HERITAGE_BY_SECTOR[e.lieutenantSector];for(let i=0;i<2;i++)spawnPickup(e.x+rnd(-32,32),e.y+rnd(-24,24),'credit');if(heritage&&Math.random()<.72)spawnPickup(e.x+22,e.y,'power',heritage);spawnPickup(e.x-22,e.y,'shield');
@@ -1472,7 +1540,7 @@ function killLieutenant(e){
 }
 function updateLieutenantEnemy(e,dt,p){
   e.coreOpenT=Math.max(0,(e.coreOpenT||0)-dt);
-  const tempo=1/COMMANDER_DIFFICULTY.tempo,ratio=e.hp/e.maxHp;e.phase=ratio>.52?1:2;e.fireCd-=dt*tempo;e.specialCd-=dt*tempo;e.flash=Math.max(0,e.flash-dt);e.x+=(e.x>W*.78?-e.spd*.58:e.x<W*.56?e.spd*.24:0)*dt;e.y+=Math.sin(e.t*(2.2+e.phase*.25)+e.phase)*(72+e.phase*12)*dt;e.y=clamp(e.y,55,H-55);
+  const tempo=1/COMMANDER_DIFFICULTY.tempo,ratio=e.hp/e.maxHp;e.phase=ratio>.52?1:2;e.animAttackT=Math.max(0,(e.animAttackT||0)-dt);e.fireCd-=dt*tempo;e.specialCd-=dt*tempo;e.flash=Math.max(0,e.flash-dt);e.x+=(e.x>W*.78?-e.spd*.58:e.x<W*.56?e.spd*.24:0)*dt;e.y+=Math.sin(e.t*(2.2+e.phase*.25)+e.phase)*(72+e.phase*12)*dt;e.y=clamp(e.y,55,H-55);
   if(e.fireCd<=0){e.fireCd=e.phase===2?.56:.68;const style=['moth','titan','storm','resonance'].includes(e.pattern)?'spread':'aim';enemyShoot(e,style);}
   if(e.specialCd<=0){e.specialCd=e.phase===2?1.85:2.25;const sec=SECTORS[e.lieutenantSector-1]||SECTORS[0];if(['storm','moth','titan','resonance'].includes(e.pattern))ringBullets(e.x,e.y,8+Math.min(6,G.sector)+(e.phase-1)*2,190+G.sector*8,8,sec.accent,e.t,e,'lieutenant_special');else{const a=Math.atan2(p.y-e.y,p.x-e.x);commanderFan(e,e.x,e.y,a,5+e.phase*2,.085,315+e.phase*18,8.5,4,'lieutenant_special',false);}G.particles.push({kind:'shock',x:e.x,y:e.y,r:12,vr:300,life:.42,max:.42,col:sec.accent});}
   if(dist(e,p)<e.r+p.r)hitPlayer(e.contact);
@@ -1527,7 +1595,7 @@ function spawnBoss(){
   const maxHp=((1040+G.sector*610)*d)*(1.12+G.sector*.055)*sectorBalance().bossHp*BOSS_TOUGHNESS_MULT*BOSS_STANDARD.hp*runDifficulty().bossHp*endurance*COMMANDER_DIFFICULTY.hp;
   const pressure=bossPressureProfile(G.sector);
   G.boss={x:W+120,y:H*.5,r:58+G.sector*2.6,hp:maxHp,maxHp,pattern:sec.pattern,name:sec.boss,family:sec.family,t:0,fire:.7,phase:1,dead:false,entry:2.2,vx:-90,
-    telegraph:'',telegraphT:0,specialT:0,specialCd:G.sector===1?2.55:(G.sector>=6?3.15:3.45),guardT:0,chargeT:0,chargeVX:0,chargeVY:0,animPulse:0,wingT:0,phaseFlash:0,altNext:false,arenaCd:G.sector===1?3.55:(G.sector>=6?4.15:4.55),signatureCd:G.sector===1?rnd(1.85,2.85):rnd(G.sector>=6?2.3:2.6,G.sector>=6?3.7:4.1),signatureT:0,imperialEscortCd:G.sector===1?5.8:999,stamina:pressure.stamina*COMMANDER_DIFFICULTY.stamina,staminaMax:pressure.stamina*COMMANDER_DIFFICULTY.stamina,bossSupportCd:pressure.support,signatureSide:Math.random()<.5?-1:1,anchorX:W*.68,anchorY:H*.5,afterimageT:0,phaseTransitionT:0,phaseElapsed:0,phaseGateWarned:false,coreOpenT:0,damageStage:0,dying:false,deathT:0,arrivalStage:0,arrivalPulseT:0};
+    telegraph:'',telegraphT:0,specialT:0,specialCd:G.sector===1?2.55:(G.sector>=6?3.15:3.45),guardT:0,chargeT:0,chargeVX:0,chargeVY:0,animAttackT:0,animPulse:0,wingT:0,phaseFlash:0,altNext:false,arenaCd:G.sector===1?3.55:(G.sector>=6?4.15:4.55),signatureCd:G.sector===1?rnd(1.85,2.85):rnd(G.sector>=6?2.3:2.6,G.sector>=6?3.7:4.1),signatureT:0,imperialEscortCd:G.sector===1?5.8:999,stamina:pressure.stamina*COMMANDER_DIFFICULTY.stamina,staminaMax:pressure.stamina*COMMANDER_DIFFICULTY.stamina,bossSupportCd:pressure.support,signatureSide:Math.random()<.5?-1:1,anchorX:W*.68,anchorY:H*.5,afterimageT:0,phaseTransitionT:0,phaseElapsed:0,phaseGateWarned:false,coreOpenT:0,damageStage:0,dying:false,deathT:0,arrivalStage:0,arrivalPulseT:0};
   if(G.mode==='bossRush'){const mult=.72+(G.sector-1)*.055;G.boss.maxHp=maxHp*mult;G.boss.hp=G.boss.maxHp;G.boss.specialCd=Math.max(1.45,2.8-G.sector*.09);G.boss.arenaCd=Math.max(2.4,4.4-G.sector*.15);}
   if(G.bossCheckpoint){G.boss.hp=maxHp*.5;G.boss.phase=2;G.boss.specialCd=1.35;G.boss.altNext=true;setTimeout(()=>{if(G?.screen==='GAME'&&G?.boss&&!G.boss.dead){prepareCommanderConvergence(true);deployCommanderConvergence(true);}},650);}if(G.mode==='training'){G.trainingBoss=true;G.boss.hp=maxHp*.32;G.boss.maxHp=G.boss.hp;G.boss.r*=.88;}
   G.enemies.length=0;G.eBullets.length=0;G.frontThreats.length=0;G.ambientProps.length=0;G.bossPending=false;G.frenzyT=0;AudioX.bossIntro(G.sector-1);MusicX.onBossAppear(G.sector);notify(`${G.mode==='training'?'SIMULACIÓN DE JEFE':'ALERTA BIOLÓGICA'} · ${sec.boss}`,'#ffcf73',3);shake=8;
@@ -1650,10 +1718,11 @@ function fireSupportVolley(){
   AudioX.droneShot(boosted);
 }
 
-function enemyShoot(e,style='aim'){const p=G.player,a=Math.atan2(p.y-e.y,p.x-e.x),commander=e===G?.boss||e?.kind==='lieutenant',fx=commander?commanderProjectileFx(e,style==='spread'?'volley':'primary'):null;const col=commander?(COMMANDER_PROJECTILES[e.pattern]?.col||'#ff6b78'):(e.family==='MOSQUITOS'?'#ff6175':e.family==='LIBÉLULAS'?'#78ecff':e.family==='CIGARRAS'?'#d9a7ff':'#ff6b78');if(style==='spread'){for(let k=-1;k<=1;k++)spawnEnemyBullet(e.x,e.y,a+k*.19,235+G.sector*4,8,5,col,e,fx?{...fx,phase:(fx.phase||0)+k*.45}:null);}else spawnEnemyBullet(e.x,e.y,a,260+G.sector*5,9,5,col,e,fx);}
+function markCommanderAttack(e,d=.42){if(!e)return;if(e===G?.boss||e?.kind==='lieutenant')e.animAttackT=Math.max(e.animAttackT||0,d);}
+function enemyShoot(e,style='aim'){const p=G.player,a=Math.atan2(p.y-e.y,p.x-e.x),commander=e===G?.boss||e?.kind==='lieutenant';if(commander)markCommanderAttack(e,style==='spread'?.46:.38);const fx=commander?commanderProjectileFx(e,style==='spread'?'volley':'primary'):null;const col=commander?(COMMANDER_PROJECTILES[e.pattern]?.col||'#ff6b78'):(e.family==='MOSQUITOS'?'#ff6175':e.family==='LIBÉLULAS'?'#78ecff':e.family==='CIGARRAS'?'#d9a7ff':'#ff6b78');if(style==='spread'){for(let k=-1;k<=1;k++)spawnEnemyBullet(e.x,e.y,a+k*.19,235+G.sector*4,8,5,col,e,fx?{...fx,phase:(fx.phase||0)+k*.45}:null);}else spawnEnemyBullet(e.x,e.y,a,260+G.sector*5,9,5,col,e,fx);}
 function spawnEnemyBullet(x,y,a,speed=260,dmg=10,r=5,col='#ff6b78',source=null,fx=null){let sourceMult=1;if(source===G?.boss)sourceMult=bossDefenseProfile(G.sector).attack;else if(source?.kind==='lieutenant')sourceMult=LIEUTENANT_ENDURANCE.attack;if(fx?.legacyUnscaled)sourceMult=1;const commanderMult=fx?.commander?COMMANDER_DIFFICULTY.damage:1,bd=G?.mode==='training'?.72:sectorBalance().enemyDmg*runDifficulty().enemyDamage*sourceMult*commanderMult;G.eBullets.push({x,y,vx:Math.cos(a)*speed,vy:Math.sin(a)*speed,r,dmg:dmg*bd,life:5,col:fx?.col||col,source,style:fx?.style||'',role:fx?.role||'',pattern:fx?.pattern||'',spin:fx?.spin||0,phase:fx?.phase||0,age:fx?.age||0,bounces:fx?.bounces||0});}
-function ringBullets(x,y,count,speed,dmg,col='#ff768e',offset=0,source=null,role='ring'){const fx=source?commanderProjectileFx(source,role,true):null;for(let i=0;i<count;i++){const a=offset+i/count*TAU;spawnEnemyBullet(x,y,a,speed,dmg,5,col,source,fx?{...fx,phase:(fx.phase||0)+i/count*TAU}:null);}}
-function commanderFan(source,x,y,base,count,spread,speed,dmg,r=5,role='special',legacyUnscaled=true){const col=COMMANDER_PROJECTILES[source?.pattern]?.col||'#ff768e',fx=commanderProjectileFx(source,role,legacyUnscaled);for(let i=0;i<count;i++){const k=i-(count-1)/2;spawnEnemyBullet(x,y,base+k*spread,speed,dmg,r,col,source,fx?{...fx,phase:(fx.phase||0)+i*.28}:null);}}
+function ringBullets(x,y,count,speed,dmg,col='#ff768e',offset=0,source=null,role='ring'){if(source&&(source===G?.boss||source?.kind==='lieutenant'))markCommanderAttack(source,role==='primary'?.42:.50);const fx=source?commanderProjectileFx(source,role,true):null;for(let i=0;i<count;i++){const a=offset+i/count*TAU;spawnEnemyBullet(x,y,a,speed,dmg,5,col,source,fx?{...fx,phase:(fx.phase||0)+i/count*TAU}:null);}}
+function commanderFan(source,x,y,base,count,spread,speed,dmg,r=5,role='special',legacyUnscaled=true){markCommanderAttack(source,.52);const col=COMMANDER_PROJECTILES[source?.pattern]?.col||'#ff768e',fx=commanderProjectileFx(source,role,legacyUnscaled);for(let i=0;i<count;i++){const k=i-(count-1)/2;spawnEnemyBullet(x,y,base+k*spread,speed,dmg,r,col,source,fx?{...fx,phase:(fx.phase||0)+i*.28}:null);}}
 
 function damageEntity(e,dmg,kind='normal'){
   if(!e||e.dead)return;if(G?.weaponBoostT>0&&kind!=='bomb'&&kind!=='debug')dmg*=G.weaponBoostMult||1.35;if(e.kind==='objectiveNode'){e.hp-=dmg;e.flash=.07;if(e.hp<=0)destroyObjectiveTarget(e);return;}if(e===G.boss&&e.dying)return;if(e===G.boss&&relicUnlocked(10))dmg*=1.05;
@@ -1788,19 +1857,20 @@ function updatePlayer(dt){
 }
 function updateSpawns(dt){
   if(G.boss||G.bossPending||G.sectorClear)return;G.spawn-=dt;G.obstacleTimer-=dt;G.frontTimer-=dt;G.transversalTimer=(G.transversalTimer??rnd(7,11))-dt;G.formationTimer=(G.formationTimer??rnd(5.5,8.5))-dt;updateCombatDirector(dt);
-  const bal=sectorBalance(),rd=runDifficulty(),alive=G.enemies.filter(e=>!e.dead).length,phase=directorPhase(),phaseAlive=phase==='CLÍMAX'||phase==='FRENESÍ'?1.12:phase==='PRESIÓN'||phase==='SATURACIÓN'?1.06:1;
-  const maxAlive=Math.max(4,Math.round((7.2+G.sector*.92+G.wave*2.05)*bal.maxAlive*1.10*rd.maxAlive*phaseAlive*(G.frenzyT>0?1.18:1)*(G.mode==='training'?.62:1)*encounterEnemyFactor()));
-  if(G.wave>=2&&G.formationTimer<=0&&G.kills<G.goal-3&&alive<maxAlive-2&&encounterCanSpend(3)){spawnFormation();G.formationTimer=rnd(G.wave===3?5.4:7.2,G.wave===3?8.0:10.0)/(runDifficultyKey()==='hard'?1.10:1);}
+  const prof=directorProfile(),bal=sectorBalance(),rd=runDifficulty(),alive=G.enemies.filter(e=>!e.dead).length,phase=directorPhase(),phaseAlive=phase==='CLÍMAX'||phase==='FRENESÍ'?1.12:phase==='PRESIÓN'||phase==='SATURACIÓN'?1.06:1;
+  const maxAlive=Math.max(4,Math.round((7.2+G.sector*.92+G.wave*2.05)*bal.maxAlive*1.10*rd.maxAlive*phaseAlive*(prof.maxAlive||1)*(G.frenzyT>0?1.18:1)*(G.mode==='training'?.62:1)*encounterEnemyFactor()));
+  if(G.wave>=2&&G.formationTimer<=0&&G.kills<G.goal-3&&alive<maxAlive-2&&encounterCanSpend(3)){spawnFormation();G.formationTimer=(rnd(G.wave===3?5.4:7.2,G.wave===3?8.0:10.0)/(runDifficultyKey()==='hard'?1.10:1))*(prof.formationCadence||1);}
   if(G.spawn<=0&&G.kills<G.goal&&alive<maxAlive&&encounterCanSpend(1)){
-    const chance=G.wave===3?.46:G.wave===2?.28:.12;let burstCount=1;if(Math.random()<chance)burstCount=(G.wave===3&&Math.random()<.38)?3:2;
+    const chance=clamp((G.wave===3?.46:G.wave===2?.28:.12)+(prof.burstBias||0),.04,.70);let burstCount=1;if(Math.random()<chance)burstCount=(G.wave===3&&Math.random()<.38)?3:2;
     if(runDifficultyKey()==='hard'&&Math.random()<.20)burstCount++;
     for(let i=0;i<burstCount&&G.enemies.filter(e=>!e.dead).length<maxAlive;i++)spawnEnemy();
     const phasePressure=phase==='CLÍMAX'||phase==='FRENESÍ'?.78:phase==='EMBOSCADA'||phase==='SATURACIÓN'?.86:phase==='PRESIÓN'||phase==='ASEDIO'?.92:1;
-    G.spawn=Math.max(.11,.91-difficulty()*.101-G.wave*.064)*rnd(.66,1.02)*(G.frenzyT>0?.66:1)*(G.mode==='training'?1.15:1)/(bal.pressure*rd.pressure*(G.directorPressure||1))*phasePressure;
+    G.spawn=Math.max(.11,.91-difficulty()*.101-G.wave*.064)*rnd(.66,1.02)*(G.frenzyT>0?.66:1)*(G.mode==='training'?1.15:1)/(bal.pressure*rd.pressure*(G.directorPressure||1))*phasePressure*(prof.cadence||1);
   }
-  if(G.obstacleTimer<=0&&encounterCanSpend(.8)&&G.obstacles.length<(G.mode==='training'?1:(G.sector===1?3:5))){spawnObstacle();G.obstacleTimer=rnd(G.sector===1?2.7:2.1,G.sector===1?4.4:3.8)/Math.min(1.58,difficulty())/(runDifficultyKey()==='hard'?1.08:1);}
-  if(G.frontTimer<=0&&encounterCanSpend(1.8)&&G.frontThreats.length<(G.mode==='training'?1:(runDifficultyKey()==='hard'?3:2))){spawnFrontThreat();G.frontTimer=(rnd(G.mode==='training'?8:5.8,G.mode==='training'?11:9.8)-Math.min(1.8,G.sector*.18))/(runDifficultyKey()==='hard'?1.10:1);}
-  const transAlive=G.enemies.filter(e=>!e.dead&&e.kind==='transversal').length;if(G.transversalTimer<=0&&G.mode!=='training'&&encounterCanSpend(1.8)&&!activeWaveObjective()&&transAlive<(runDifficultyKey()==='hard'?3:2)){spawnTransversal();G.transversalTimer=rnd(runDifficultyKey()==='hard'?6.5:8.5,runDifficultyKey()==='hard'?10.5:13.5)-Math.min(2.0,G.sector*.12);}
+  const obstacleCap=Math.max(1,(G.mode==='training'?1:(G.sector===1?3:5))+(prof.obstacleCap||0));
+  if(G.obstacleTimer<=0&&encounterCanSpend(.8)&&G.obstacles.length<obstacleCap){spawnObstacle();G.obstacleTimer=(rnd(G.sector===1?2.7:2.1,G.sector===1?4.4:3.8)/Math.min(1.58,difficulty())/(runDifficultyKey()==='hard'?1.08:1))*(prof.obstacleCadence||1);}
+  if(G.frontTimer<=0&&encounterCanSpend(1.8)&&G.frontThreats.length<(G.mode==='training'?1:(runDifficultyKey()==='hard'?3:2))){spawnFrontThreat();G.frontTimer=((rnd(G.mode==='training'?8:5.8,G.mode==='training'?11:9.8)-Math.min(1.8,G.sector*.18))/(runDifficultyKey()==='hard'?1.10:1))*(prof.frontCadence||1);}
+  const transAlive=G.enemies.filter(e=>!e.dead&&e.kind==='transversal').length;if(G.transversalTimer<=0&&G.mode!=='training'&&encounterCanSpend(1.8)&&!activeWaveObjective()&&transAlive<(runDifficultyKey()==='hard'?3:2)){spawnTransversal();G.transversalTimer=(rnd(runDifficultyKey()==='hard'?6.5:8.5,runDifficultyKey()==='hard'?10.5:13.5)-Math.min(2.0,G.sector*.12))*(prof.transversalCadence||1);}
 }
 function updateEnemyShip(e,dt,p){
   e.specialCd-=dt;e.fireCd-=dt;e.flash=Math.max(0,e.flash-dt);e.slow=Math.max(0,e.slow-dt);const sm=e.slow>0?.58:1;
@@ -1926,7 +1996,7 @@ function bossSignatureMovement(b,p,sec,dt){
   return false;
 }
 function updateBoss(dt){
-  const b=G.boss;if(!b||b.dead)return;const tempo=1/COMMANDER_DIFFICULTY.tempo;b.t+=dt;b.wingT+=dt;b.fire-=dt*tempo;b.specialCd-=dt*tempo;b.arenaCd=(b.arenaCd??5)-dt*tempo;b.specialT=Math.max(0,b.specialT-dt);b.guardT=Math.max(0,b.guardT-dt);b.coreOpenT=Math.max(0,(b.coreOpenT||0)-dt);b.flash=Math.max(0,(b.flash||0)-dt);b.animPulse=Math.max(0,(b.animPulse||0)-dt);b.phaseFlash=Math.max(0,(b.phaseFlash||0)-dt);
+  const b=G.boss;if(!b||b.dead)return;const tempo=1/COMMANDER_DIFFICULTY.tempo;b.t+=dt;b.wingT+=dt;b.animAttackT=Math.max(0,(b.animAttackT||0)-dt);b.fire-=dt*tempo;b.specialCd-=dt*tempo;b.arenaCd=(b.arenaCd??5)-dt*tempo;b.specialT=Math.max(0,b.specialT-dt);b.guardT=Math.max(0,b.guardT-dt);b.coreOpenT=Math.max(0,(b.coreOpenT||0)-dt);b.flash=Math.max(0,(b.flash||0)-dt);b.animPulse=Math.max(0,(b.animPulse||0)-dt);b.phaseFlash=Math.max(0,(b.phaseFlash||0)-dt);
   const sec=SECTORS[G.sector-1];
   if(b.entry<=0&&(b.phaseTransitionT||0)<=0)b.phaseElapsed=(b.phaseElapsed||0)+dt;if(b.entry<=0)updateCommanderConvergence(dt);
   if(b.dying){
@@ -2130,9 +2200,9 @@ function drawBossWeaponTelegraph(e,sec){
 }
 
 function drawInsect(e,isBoss=false,preview=false,scaleMul=1){
-  const sec=SECTORS[G.sector-1],r=e.r;
+  const sec=SECTORS[G.sector-1],r=e.r,animBoss=isBoss&&bossAnimated(e);
   const bob=Math.sin((e.t||0)*(isBoss?3.4:6) + e.x*.01)*(isBoss?8:3);
-  cx.save();cx.translate(e.x,e.y+bob);if(isBoss&&e.dying){const q=1-(e.deathT||0)/BOSS_STANDARD.deathDuration;cx.rotate(q*.58);cx.scale(1-q*.14,1-q*.14);}if(isBoss){const flap=Math.sin(G.elapsed*(5.5+e.phase*.8)),pulse=1+(e.animPulse||0)*.12+(e.telegraphT>0?Math.sin(G.elapsed*22)*.065:0);cx.scale(pulse*(1+flap*.035*e.phase),pulse*(1-flap*.018));cx.rotate(e.chargeT>0?Math.atan2(e.chargeVY,e.chargeVX)*.12:Math.sin(G.elapsed*(1.5+e.phase*.12))*(.035+e.phase*.008));if(e.guardT>0){cx.shadowColor=sec.accent;cx.shadowBlur=28;}}
+  cx.save();cx.translate(e.x,e.y+bob);if(isBoss&&e.dying&&!animBoss){const q=1-(e.deathT||0)/BOSS_STANDARD.deathDuration;cx.rotate(q*.58);cx.scale(1-q*.14,1-q*.14);}if(isBoss){if(animBoss){const ac=bossAnimConfig(e),heavy=ac?.motion==='heavy';const recoil=e.chargeT>0?Math.atan2(e.chargeVY,e.chargeVX)*(heavy?.022:.045):Math.sin(G.elapsed*(heavy?.82:1.35))*(heavy?.008:.018);cx.rotate(recoil);const pulse=1+(e.animPulse||0)*(heavy?.02:.035);cx.scale(pulse,pulse);}else{const flap=Math.sin(G.elapsed*(5.5+e.phase*.8)),pulse=1+(e.animPulse||0)*.12+(e.telegraphT>0?Math.sin(G.elapsed*22)*.065:0);cx.scale(pulse*(1+flap*.035*e.phase),pulse*(1-flap*.018));cx.rotate(e.chargeT>0?Math.atan2(e.chargeVY,e.chargeVX)*.12:Math.sin(G.elapsed*(1.5+e.phase*.12))*(.035+e.phase*.008));}if(e.guardT>0){cx.shadowColor=sec.accent;cx.shadowBlur=28;}}
   if(e.flash>0){cx.shadowColor='#fff';cx.shadowBlur=18;}
   cx.fillStyle='rgba(0,0,0,.24)';cx.beginPath();cx.ellipse(0,r*.7,r*.9,r*.26,0,0,TAU);cx.fill();
   if(e.kind==='ship'){
@@ -2141,12 +2211,12 @@ function drawInsect(e,isBoss=false,preview=false,scaleMul=1){
     else {cx.fillStyle='#8fd9ff';cx.fillRect(-r,-r*.4,r*2,r*.8);}
   }else if(isBoss){
     const familyPack=IMG.worldEnemies[e.family],img=familyPack?.[3],col=FAMILY_COL[e.family]??0,fallback=IMG.enemyCells[2]?.[col],box=r*3.2*scaleMul;
-    if(!drawContainedSprite(img,box,box)&&!drawContainedSprite(fallback,box,box))drawContainedSprite(IMG.atlas,box,box);
+    const animPreview=preview&&e.kind!=='lieutenant';if(!(animBoss&&drawBossAnimated(e,box,box,animPreview))&&!drawContainedSprite(img,box,box)&&!drawContainedSprite(fallback,box,box))drawContainedSprite(IMG.atlas,box,box);
   }else{
     const row=clamp(enemyTier(e.form),0,2),tier=row,familyPack=IMG.worldEnemies[e.family],col=FAMILY_COL[e.family]??0,img=familyPack?.[row]||IMG.enemyCells[row]?.[col],box=r*[2.55,2.78,3.0][tier]*scaleMul;
     if(!drawContainedSprite(img,box,box)){cx.fillStyle=sec.base;cx.beginPath();cx.arc(0,0,r,0,TAU);cx.fill();}
   }/* isolated silhouettes prevent atlas-cell clipping */
-  if(isBoss){drawBossAnatomy(e,sec);drawBossDamageState(e,sec);}
+  if(isBoss){if(!animBoss)drawBossAnatomy(e,sec);drawBossDamageState(e,sec);}
   if(isBoss&&e.phaseFlash>0){cx.globalAlpha=e.phaseFlash*.45;cx.fillStyle='#fff';cx.beginPath();cx.arc(0,0,r*1.1,0,TAU);cx.fill();cx.globalAlpha=1;}
   if(isBoss&&e.telegraphT>0)drawBossWeaponTelegraph(e,sec);cx.restore();
   if(!isBoss&&e.kind!=='ship'&&enemyTier(e.form)===2){const w=r*2.0;cx.fillStyle='rgba(0,0,0,.5)';cx.fillRect(e.x-w/2,e.y+r*1.45,w,4);cx.fillStyle=sec.accent;cx.fillRect(e.x-w/2,e.y+r*1.45,w*clamp(e.hp/e.maxHp,0,1),4);}
@@ -2175,7 +2245,7 @@ function drawPowerAura(key,col,t,r){cx.save();cx.strokeStyle=col;cx.fillStyle=co
   else {cx.beginPath();cx.arc(0,0,r*1.18,0,TAU);cx.stroke();}
   cx.restore();}
 function powerActivationVfx(key){const pd=POWERS[key];if(!pd||!G)return;const p=G.player;G.particles.push({kind:key==='gravity'?'shock':'halo',x:p.x,y:p.y,r:12,vr:key==='gravity'?520:330,life:.55,max:.55,col:pd.color});if(['tesla','rail','burst','twin','bomb','hemadrain','resinwall','prismburst','resonance','sparklaser','bio'].includes(key))for(let i=0;i<10;i++){const a=i/10*TAU;G.particles.push({kind:'spark',x:p.x,y:p.y,vx:Math.cos(a)*rnd(70,180),vy:Math.sin(a)*rnd(70,180),r:rnd(1.2,2.8),life:rnd(.18,.38),max:.38,col:pd.color});}}
-function drawPickup(q){cx.save();cx.translate(q.x,q.y);const compact=compactUI(),pulse=1+Math.sin(q.t*8)*(compact?.08:.14);cx.scale(pulse,pulse);if(q.type==='objectiveCore'){const sec=SECTORS[G.sector-1],r=compact?13:16;cx.shadowColor='#fff09a';cx.shadowBlur=18;cx.fillStyle='rgba(8,14,22,.92)';cx.strokeStyle=sec.accent;cx.lineWidth=2;cx.beginPath();cx.arc(0,0,r,0,TAU);cx.fill();cx.stroke();cx.fillStyle='#fff09a';cx.font=`900 ${compact?10:13}px system-ui`;cx.textAlign='center';cx.textBaseline='middle';cx.fillText('◎',0,0);cx.restore();cx.textAlign='left';cx.textBaseline='alphabetic';return;}let key=q.type;if(q.type==='power'||q.type==='heritageToken')key=q.key;if(q.type==='fragment'||q.type==='weaponBoost')key='power';if(q.type==='bossXp'||q.type==='bossCredit')key='power';const img=powerAsset(key);
+function drawPickup(q){cx.save();cx.translate(q.x,q.y);const compact=compactUI(),pulse=1+Math.sin(q.t*8)*(compact?.08:.14);cx.scale(pulse,pulse);if(q.type==='objectiveCore'){const sec=SECTORS[G.sector-1],img=IMG.objectives.core,d=compact?34:44;cx.shadowColor='#fff09a';cx.shadowBlur=18;if(imgReady(img)){const sc=Math.min(d/img.naturalWidth,d/img.naturalHeight);cx.drawImage(img,-img.naturalWidth*sc/2,-img.naturalHeight*sc/2,img.naturalWidth*sc,img.naturalHeight*sc);}else{cx.fillStyle=sec.accent;cx.beginPath();cx.arc(0,0,compact?13:16,0,TAU);cx.fill();}cx.restore();cx.textAlign='left';cx.textBaseline='alphabetic';return;}let key=q.type;if(q.type==='power'||q.type==='heritageToken')key=q.key;if(q.type==='fragment'||q.type==='weaponBoost')key='power';if(q.type==='bossXp'||q.type==='bossCredit')key='power';const img=powerAsset(key);
   if(imgReady(img)){const d=(q.type==='power'||q.type==='heritageToken')?(compact?38:48):q.type==='fragment'?(compact?30:38):(compact?28:40);cx.drawImage(img,-d/2,-d/2,d,d);}else{cx.fillStyle='#fff';cx.beginPath();cx.arc(0,0,q.r,0,TAU);cx.fill();}
   let col='#ffd76a',icon='¤';if(q.type==='heal'){col='#ff6d89';icon='✚';}if(q.type==='shield'){col='#78bfff';icon='⬡';}if(q.type==='weaponBoost'){col='#ffcf73';icon='⚡';}if(q.type==='fragment'){col='#d6f6ff';icon='✦';}if(q.type==='bossXp'){col='#a6ff5f';icon='XP';}if(q.type==='bossCredit'){col='#ffd76a';icon='¤';}if(q.type==='heritageToken'){const pd=POWERS[q.key];col=pd?.color||'#ffd76a';icon=pd?.icon||'✦';drawPowerAura(q.key,col,q.t,compact?q.r*.85:q.r);}if(q.type==='power'){const pd=POWERS[q.key];col=pd?.color||'#fff';icon=pd?.icon||'✦';drawPowerAura(q.key,col,q.t,compact?q.r*.75:q.r);}
   if(!compact||q.type==='power'||q.type==='fragment'||q.type==='weaponBoost'){cx.strokeStyle=col;cx.globalAlpha=.26+.15*Math.sin(q.t*7);cx.lineWidth=compact?1.3:2;cx.beginPath();cx.arc(0,0,q.r+(compact?5:8),0,TAU);cx.stroke();cx.globalAlpha=1;}
@@ -2219,10 +2289,8 @@ function drawParticles(){let pi=0;const compact=compactUI(),dense=compact&&G.par
 
 
 function drawTransversal(e){
-  cx.save();cx.translate(e.x,e.y);const pulse=1+Math.sin(e.t*5)*.04;cx.scale(pulse,pulse);cx.shadowColor=e.col||'#8eeaff';cx.shadowBlur=12;
-  if(e.transversalType==='parasite_orb'){
-    const img=IMG.generatedPowers.gravity||IMG.generatedObstacles.rift?.[7];const d=e.r*3.0;if(imgReady(img)){const sc=Math.min(d/img.naturalWidth,d/img.naturalHeight);cx.rotate(e.t*.35);cx.drawImage(img,-img.naturalWidth*sc/2,-img.naturalHeight*sc/2,img.naturalWidth*sc,img.naturalHeight*sc);cx.globalAlpha=.28+.12*Math.sin(e.t*6);cx.strokeStyle=e.col;cx.lineWidth=1.5;cx.beginPath();cx.arc(0,0,e.r*1.35,0,TAU);cx.stroke();cx.globalAlpha=1;}else{cx.fillStyle='#4b255f';cx.beginPath();cx.arc(0,0,e.r*.9,0,TAU);cx.fill();}
-  }else{const img=IMG.generatedShips[e.shipVariant]||IMG.enemyShips.scout;if(imgReady(img)){const d=e.r*(e.transversalType==='rift_carrier'?3.2:2.7),scale=Math.min(d/img.naturalWidth,d/img.naturalHeight);cx.drawImage(img,-img.naturalWidth*scale/2,-img.naturalHeight*scale/2,img.naturalWidth*scale,img.naturalHeight*scale);}else{cx.fillStyle=e.col;cx.beginPath();cx.arc(0,0,e.r,0,TAU);cx.fill();}}
+  cx.save();cx.translate(e.x,e.y);const pulse=1+Math.sin(e.t*5)*.04,img=IMG.transversal[e.transversalType]||(e.transversalType==='parasite_orb'?IMG.generatedPowers.gravity:IMG.generatedShips[e.shipVariant])||IMG.enemyShips.scout;cx.scale(pulse,pulse);cx.shadowColor=e.col||'#8eeaff';cx.shadowBlur=12;
+  if(imgReady(img)){const d=e.r*(e.transversalType==='rift_carrier'?3.25:e.transversalType==='parasite_orb'?3.0:2.75),scale=Math.min(d/img.naturalWidth,d/img.naturalHeight);if(e.transversalType==='parasite_orb')cx.rotate(e.t*.35);cx.drawImage(img,-img.naturalWidth*scale/2,-img.naturalHeight*scale/2,img.naturalWidth*scale,img.naturalHeight*scale);if(e.transversalType==='parasite_orb'){cx.globalAlpha=.28+.12*Math.sin(e.t*6);cx.strokeStyle=e.col;cx.lineWidth=1.5;cx.beginPath();cx.arc(0,0,e.r*1.35,0,TAU);cx.stroke();cx.globalAlpha=1;}}else{cx.fillStyle=e.col;cx.beginPath();cx.arc(0,0,e.r,0,TAU);cx.fill();}
   cx.shadowBlur=0;cx.restore();if(e.transversalType==='rift_carrier'||e.transversalType==='parasite_orb'){const w=e.r*2;cx.fillStyle='rgba(0,0,0,.55)';cx.fillRect(e.x-w/2,e.y+e.r*1.35,w,4);cx.fillStyle=e.col;cx.fillRect(e.x-w/2,e.y+e.r*1.35,w*clamp(e.hp/e.maxHp,0,1),4);}
 }
 function drawLieutenant(e){
@@ -2261,9 +2329,9 @@ function drawHUD(){
   cx.textAlign='center';cx.fillStyle='rgba(2,7,17,.62)';rr(W*.35,10,W*.30,58,12);cx.fill();cx.strokeStyle=hexA(sec.accent,.18);cx.stroke();cx.fillStyle='#f6fdff';cx.font='900 16px ui-monospace,monospace';cx.fillText(G.score.toLocaleString(),W*.5,24);cx.fillStyle='#ffd76a';cx.font='700 10px system-ui';cx.fillText(`¤ ${G.credits.toLocaleString()} · XP ${G.xp}/${G.xpNext} · NIV ${G.level}`,W*.5,41);cx.fillStyle='#9fe6ff';cx.font='700 9px system-ui';cx.fillText(G.mode==='bossRush'?`BOSS RUSH ${G.sector}/10`:`BAJAS ${G.kills}/${G.goal}`,W*.5,55);
 
   const rx=W-rightW-12;cx.textAlign='left';cx.fillStyle='rgba(2,7,17,.62)';cx.strokeStyle=hexA(sec.accent,.24);rr(rx,rightY,rightW,84,14);cx.fill();cx.stroke();
-  cx.fillStyle=sec.accent;cx.font='800 11px system-ui';cx.fillText('PERFIL DEL SECTOR',rx+12,rightY+14);cx.fillStyle='#eefaff';cx.font='700 9px system-ui';cx.fillText(sec.boss,rx+12,rightY+30);
-  const labels=[['ARM',sec.stats.armor],['SPD',sec.stats.speed],['RNG',sec.stats.range],['THR',sec.stats.threat]];let bx=rx+12;for(const [lab,val] of labels){cx.fillStyle='#87a0b0';cx.font='700 8px system-ui';cx.fillText(lab,bx,rightY+49);bar(bx+22,rightY+45,26,6,val/5,sec.accent);bx+=53;}
-  if(G.lastBossDrop){cx.fillStyle='#ffd76a';cx.font='700 8px system-ui';cx.fillText(`HERENCIA: ${POWERS[G.lastBossDrop]?.name||''}`,rx+12,rightY+64);}cx.textAlign='right';cx.fillStyle='#9fe6ff';cx.font='700 8px system-ui';cx.fillText(`ESCOLTAS ${supportCount()}/5`,rx+rightW-12,rightY+64);cx.textAlign='left';
+  cx.fillStyle=sec.accent;cx.font='800 11px system-ui';cx.fillText('PERFIL DEL SECTOR',rx+12,rightY+14);cx.fillStyle='#eefaff';cx.font='700 9px system-ui';cx.fillText(sec.boss,rx+12,rightY+29);cx.fillStyle=hexA(sec.accent,.92);cx.font='800 7px system-ui';cx.fillText(`DIR · ${directorProfile().label}`,rx+12,rightY+40);
+  const labels=[['ARM',sec.stats.armor],['SPD',sec.stats.speed],['RNG',sec.stats.range],['THR',sec.stats.threat]];let bx=rx+12;for(const [lab,val] of labels){cx.fillStyle='#87a0b0';cx.font='700 8px system-ui';cx.fillText(lab,bx,rightY+55);bar(bx+22,rightY+51,26,6,val/5,sec.accent);bx+=53;}
+  if(G.lastBossDrop){cx.fillStyle='#ffd76a';cx.font='700 8px system-ui';cx.fillText(`HERENCIA: ${POWERS[G.lastBossDrop]?.name||''}`,rx+12,rightY+70);}cx.textAlign='right';cx.fillStyle='#9fe6ff';cx.font='700 8px system-ui';cx.fillText(`ESCOLTAS ${supportCount()}/5`,rx+rightW-12,rightY+70);cx.textAlign='left';
 
   if((G.weaponBoostT||0)>0){cx.fillStyle='rgba(2,7,17,.74)';cx.strokeStyle='rgba(255,207,115,.60)';rr(W/2-92,H-112,184,24,9);cx.fill();cx.stroke();cx.fillStyle='#ffcf73';cx.font='900 10px system-ui';cx.textAlign='center';cx.fillText(`⚡ IMPACTO +${Math.round(((G.weaponBoostMult||1)-1)*100)}% · ${Math.ceil(G.weaponBoostT)}s`,W/2,H-99);}const active=Object.entries(G.powers).filter(([,v])=>v>0).sort((a,b)=>b[1]-a[1]).slice(0,6);const gap=8,ww=86,tot=active.length*ww+Math.max(0,active.length-1)*gap;let x=W/2-tot/2;for(const [k,v] of active){const pd=POWERS[k];cx.fillStyle='rgba(2,7,17,.74)';cx.strokeStyle=hexA(pd.color,.55);rr(x,H-44,ww,30,9);cx.fill();cx.stroke();cx.fillStyle=pd.color;cx.font='900 10px system-ui';cx.textAlign='center';cx.fillText(`${pd.icon} ${rankRoman(powerRank(k))} · ${Math.ceil(v)}s`,x+ww/2,H-28);x+=ww+gap;}
   const q=(G.powerQueue||[]).slice(0,4);let qx=12;for(const k of q){const pd=POWERS[k];cx.fillStyle='rgba(2,7,17,.66)';cx.strokeStyle=hexA(pd.color,.4);rr(qx,H-82,74,24,8);cx.fill();cx.stroke();cx.fillStyle=pd.color;cx.font='800 9px system-ui';cx.textAlign='center';cx.fillText(`⏳ ${pd.icon}${rankRoman(powerRank(k))} ${pd.name.slice(0,6)}`,qx+37,H-69);qx+=80;}
@@ -2614,4 +2682,6 @@ menuSector=clamp(META.unlocked||1,1,activeSectorCount());setScreen('MENU');
 if('serviceWorker'in navigator&&location.protocol.startsWith('http'))navigator.serviceWorker.register('./sw.js').catch(()=>{});
 requestAnimationFrame(loop);
 
+
+window.__SWARM_BOSS_ANIM_STATUS=()=>({version:VERSION,framework:'multi-boss-state-sprites-visible-hotfix',currentBoss:G?.boss?{family:G.boss.family,state:bossAnimState(G.boss),frame:bossAnimFrame(G.boss,bossAnimState(G.boss)),attackT:+(G.boss.animAttackT||0).toFixed(3),animated:bossAnimated(G.boss)}:null,animatedBosses:Object.fromEntries(Object.entries(BOSS_ANIMATIONS).map(([family,cfg])=>[family,{key:cfg.key,motion:cfg.motion,ready:Object.fromEntries(Object.entries(IMG.bossAnim[cfg.key]).map(([k,v])=>[k,{ready:imgReady(v),w:v.naturalWidth||0,h:v.naturalHeight||0,src:v.src||''}])),states:Object.keys(cfg.states),proceduralAnatomyDisabled:true}])),lieutenantAnimation:true,cacheBust:'av=21241'});
 })();
