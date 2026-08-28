@@ -282,6 +282,94 @@
     @media (prefers-reduced-motion:reduce){
       *{animation:none!important;transition:none!important;scroll-behavior:auto!important}
     }
+  
+    /* =========================================================
+       6. MEJORAS DE USABILIDAD · v2
+       Favoritos, búsqueda tolerante, origen local/web y mejor rail.
+       ========================================================= */
+    .category-rail{
+      grid-template-columns:repeat(auto-fit,minmax(82px,1fr));
+    }
+    .search-row{
+      grid-template-columns:minmax(220px,1fr) auto auto;
+    }
+    .search-box{
+      position:relative;
+    }
+    .search-box input{
+      padding-right:42px;
+    }
+    .clear-search{
+      width:32px;height:32px;border:0;border-radius:999px;background:#f1f5f9;color:var(--muted);
+      display:grid;place-items:center;cursor:pointer;opacity:0;pointer-events:none;transition:.18s ease;
+      flex:0 0 auto;
+    }
+    .clear-search.show{opacity:1;pointer-events:auto}
+    .clear-search:hover{background:var(--brand-soft);color:var(--brand-dark);transform:scale(1.04)}
+    .fav-filter{
+      min-height:52px;border:1px solid var(--line);border-radius:18px;background:#fff;color:var(--ink);
+      padding:0 14px;font-weight:900;cursor:pointer;display:inline-flex;align-items:center;gap:8px;
+      box-shadow:0 6px 16px rgba(35,49,84,.07);transition:.18s ease;white-space:nowrap;
+    }
+    .fav-filter:hover{transform:translateY(-1px);box-shadow:var(--shadow-soft)}
+    .fav-filter.active{background:#fff7df;border-color:#f5c84c;color:#7a5300}
+    .fav-btn{
+      width:30px;height:30px;border-radius:999px;border:1px solid var(--line);background:#fff;color:#8b97aa;
+      display:inline-grid;place-items:center;cursor:pointer;transition:.18s ease;font-size:16px;line-height:1;
+    }
+    .fav-btn:hover{transform:translateY(-1px) scale(1.04);border-color:#f5c84c;background:#fffaf0;color:#d18a00}
+    .fav-btn.active{border-color:#f5c84c;background:#fff4c7;color:#c67d00}
+    .app-meta{
+      display:flex;align-items:center;gap:6px;flex-wrap:wrap;margin-top:-2px;position:relative;z-index:1;
+    }
+    .origin-chip{
+      display:inline-flex;align-items:center;gap:5px;border-radius:999px;padding:3px 7px;
+      background:#f8fafc;border:1px solid var(--line);font-size:9px;font-weight:900;color:#64748b;
+      text-transform:uppercase;letter-spacing:.04em;
+    }
+    .origin-chip.web{background:#eef6ff;color:#245a9b;border-color:#cfe2fb}
+    .origin-chip.local{background:#eefbf3;color:#25713e;border-color:#caedd6}
+    .app-card{
+      isolation:isolate;
+    }
+    .app-card:has(.fav-btn.active){
+      border-color:color-mix(in srgb,#f5c84c 62%,var(--line));
+      box-shadow:0 10px 24px rgba(143,103,0,.08);
+    }
+    .section-head{
+      position:relative;
+    }
+    .section-head::after{
+      content:"";position:absolute;left:0;bottom:-1px;width:72px;height:2px;border-radius:999px;
+      background:var(--cat-color,#c40014);opacity:.55;
+    }
+    .result-badge{
+      min-width:132px;justify-content:center;
+    }
+    .hero-card{
+      background:
+        radial-gradient(circle at 82% 18%, rgba(255,255,255,.88), transparent 22%),
+        linear-gradient(135deg,rgba(255,255,255,.98),rgba(255,255,255,.78));
+    }
+    .eyebrow::before{content:"●";font-size:9px;color:var(--ok)}
+    .keyboard-hint{
+      display:inline-flex;align-items:center;gap:6px;margin-left:6px;color:var(--muted);font-size:11px;font-weight:700;
+    }
+    .keyboard-hint kbd{
+      min-width:24px;height:22px;display:inline-grid;place-items:center;padding:0 6px;border-radius:7px;
+      border:1px solid var(--line-strong);background:#fff;box-shadow:0 2px 0 rgba(35,49,84,.08);font-size:11px;
+    }
+    @media (max-width:1050px){
+      .category-rail{grid-template-columns:repeat(auto-fit,minmax(86px,1fr))}
+    }
+    @media (max-width:760px){
+      .search-row{grid-template-columns:1fr 1fr}
+      .search-box{grid-column:1/-1}
+      .result-badge,.fav-filter{min-height:44px;height:auto}
+      .fav-filter{justify-content:center}
+      .keyboard-hint{display:none}
+    }
+
   </style>
 </head>
 <body>
@@ -318,7 +406,7 @@
     <section class="hero" aria-labelledby="hero-title">
       <div class="hero-card">
         <div class="hero-main">
-          <div class="eyebrow">Catálogo propio · HTML5</div>
+          <div class="eyebrow">Catálogo propio · HTML5 <span class="keyboard-hint"><kbd>/</kbd> buscar</span></div>
           <h2 id="hero-title">Todas tus apps, un solo lugar.</h2>
           <div class="hero-stats" aria-label="Resumen del catálogo">
             <div class="stat-pill" title="Total de aplicaciones disponibles"><span class="stat-number" id="totalApps">0</span><span class="stat-label">apps disponibles</span></div>
@@ -331,11 +419,13 @@
     <!-- Jerarquía 2: búsqueda + iconos de categorías reorganizados. -->
     <section class="command-center" aria-label="Búsqueda y categorías">
       <div class="search-row">
-        <label class="search-box" title="Buscar por nombre, descripción, etiqueta o categoría">
-          🔎
-          <input id="search" type="search" placeholder="Buscar aplicación, categoría o palabra clave…" autocomplete="off" />
-        </label>
+        <div class="search-box" title="Buscar por nombre, descripción, etiqueta o categoría">
+          <span aria-hidden="true">🔎</span>
+          <input id="search" type="search" aria-label="Buscar aplicaciones" placeholder="Buscar aplicación, categoría o palabra clave…" autocomplete="off" />
+          <button class="clear-search" id="clearSearch" type="button" aria-label="Limpiar búsqueda" title="Limpiar búsqueda">✕</button>
+        </div>
         <div class="result-badge" id="resultBadge">Mostrando todo</div>
+        <button class="fav-filter" id="favFilter" type="button" aria-pressed="false" title="Mostrar solo favoritas">☆ <span id="favFilterText">Favoritas</span></button>
       </div>
       <nav class="category-rail" id="categoryRail" aria-label="Categorías de aplicaciones"></nav>
     </section>
@@ -344,7 +434,7 @@
     <div id="sections" aria-live="polite"></div>
   </main>
 
-  <footer class="wrap">© 2026 · Aplicaciones Libres · Catálogo reconstruido a partir de las 85 carpetas del proyecto.</footer>
+  <footer class="wrap">© 2026 · Aplicaciones Libres · <span id="footerApps">Catálogo de aplicaciones HTML5.</span></footer>
   <div class="toast" id="toast" role="status" aria-live="polite"></div>
 
   <div class="route-modal-backdrop" id="routeModal" role="dialog" aria-modal="true" aria-labelledby="routeTitle">
@@ -668,16 +758,27 @@
 
     const I18N = {
       es:{open:'Abrir', showing:'Mostrando', apps:'apps', all:'Mostrando todo', none:'No se encontraron aplicaciones con ese criterio.', copied:'Enlace copiado', blocked:'No se pudo copiar el enlace',
-        share:'Compartir', shareTitle:'Compartir', shareSub:'Elige dónde quieres compartirla.', shareWA:'WhatsApp', shareEmail:'Correo', shareX:'X', shareFB:'Facebook', shareTG:'Telegram', shareCopy:'Copiar enlace'},
+        share:'Compartir', shareTitle:'Compartir', shareSub:'Elige dónde quieres compartirla.', shareWA:'WhatsApp', shareEmail:'Correo', shareX:'X', shareFB:'Facebook', shareTG:'Telegram', shareCopy:'Copiar enlace', favorites:'Favoritas', local:'Local', web:'Web', noFavorites:'Aún no tienes aplicaciones favoritas.'},
       en:{open:'Open', showing:'Showing', apps:'apps', all:'Showing all', none:'No apps were found with that filter.', copied:'Link copied', blocked:'Copy blocked',
-        share:'Share', shareTitle:'Share', shareSub:'Choose where to share it.', shareWA:'WhatsApp', shareEmail:'Email', shareX:'X', shareFB:'Facebook', shareTG:'Telegram', shareCopy:'Copy link'},
+        share:'Share', shareTitle:'Share', shareSub:'Choose where to share it.', shareWA:'WhatsApp', shareEmail:'Email', shareX:'X', shareFB:'Facebook', shareTG:'Telegram', shareCopy:'Copy link', favorites:'Favorites', local:'Local', web:'Web', noFavorites:'You do not have favorite apps yet.'},
       pt:{open:'Abrir', showing:'Mostrando', apps:'apps', all:'Mostrando tudo', none:'Nenhum app encontrado com esse filtro.', copied:'Link copiado', blocked:'Cópia bloqueada',
-        share:'Compartilhar', shareTitle:'Compartilhar', shareSub:'Escolha onde compartilhar.', shareWA:'WhatsApp', shareEmail:'E-mail', shareX:'X', shareFB:'Facebook', shareTG:'Telegram', shareCopy:'Copiar link'}
+        share:'Compartilhar', shareTitle:'Compartilhar', shareSub:'Escolha onde compartilhar.', shareWA:'WhatsApp', shareEmail:'E-mail', shareX:'X', shareFB:'Facebook', shareTG:'Telegram', shareCopy:'Copiar link', favorites:'Favoritas', local:'Local', web:'Web', noFavorites:'Você ainda não tem aplicativos favoritos.'}
     };
 
     const $ = s => document.querySelector(s);
     const esc = s => String(s ?? '').replace(/[&<>"']/g, ch => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[ch]));
-    const state = { lang: localStorage.getItem('apps_lang') || 'es', activeCat: 'Todos', q: '' };
+    const FAVORITES_KEY = 'apps_libres_favorites_v1';
+    const loadFavorites = () => {
+      try { return new Set(JSON.parse(localStorage.getItem(FAVORITES_KEY) || '[]').map(Number)); }
+      catch(err){ return new Set(); }
+    };
+    const state = {
+      lang: localStorage.getItem('apps_lang') || 'es',
+      activeCat: 'Todos',
+      q: '',
+      favoritesOnly: false,
+      favorites: loadFavorites()
+    };
 
     function t(key){ return (I18N[state.lang] || I18N.es)[key] || I18N.es[key] || key; }
     function txt(obj){ return obj?.[state.lang] || obj?.es || obj?.en || obj?.pt || ''; }
@@ -693,12 +794,28 @@
     }
     const APPS_READY = APPS.map((app, index) => ({...app, id:index, cat:app.cat || 'Otros', paths:appPaths(app), tags:app.tags || []}));
 
+    function fold(s){
+      return String(s ?? '').normalize('NFD').replace(/[\u0300-\u036f]/g,'').toLowerCase();
+    }
     function matches(app){
-      const q = state.q.trim().toLowerCase();
+      const q = fold(state.q.trim());
       const catOK = state.activeCat === 'Todos' || app.cat === state.activeCat;
-      if(!q) return catOK;
-      const haystack = [txt(app.name), txt(app.desc), app.cat, ...(app.tags || [])].join(' ').toLowerCase();
-      return catOK && haystack.includes(q);
+      const favOK = !state.favoritesOnly || state.favorites.has(app.id);
+      if(!catOK || !favOK) return false;
+      if(!q) return true;
+      const allNames = Object.values(app.name || {});
+      const allDesc = Object.values(app.desc || {});
+      const haystack = fold([...allNames, ...allDesc, app.cat, ...(app.tags || [])].join(' '));
+      return haystack.includes(q);
+    }
+    function saveFavorites(){
+      localStorage.setItem(FAVORITES_KEY, JSON.stringify([...state.favorites]));
+    }
+    function toggleFavorite(id){
+      if(state.favorites.has(id)) state.favorites.delete(id);
+      else state.favorites.add(id);
+      saveFavorites();
+      render();
     }
 
     function renderStats(){
@@ -706,6 +823,8 @@
       const catsEl = $('#totalCats');
       if(appsEl) appsEl.textContent = APPS_READY.length;
       if(catsEl) catsEl.textContent = new Set(APPS_READY.map(a => a.cat)).size;
+      const footer = $('#footerApps');
+      if(footer) footer.textContent = `${APPS_READY.length} aplicaciones · ${new Set(APPS_READY.map(a => a.cat)).size} categorías · HTML5`;
     }
 
     function renderCategoryRail(){
@@ -727,17 +846,30 @@
 
     function renderResultBadge(list){
       const label = state.activeCat === 'Todos' ? t('all') : `${t('showing')} ${txt(CAT_META[state.activeCat]?.label)} · ${list.length} ${t('apps')}`;
-      $('#resultBadge').textContent = state.q ? `${list.length} ${t('apps')}` : label;
+      $('#resultBadge').textContent = (state.q || state.favoritesOnly) ? `${list.length} ${t('apps')}` : label;
+      const fav = $('#favFilter');
+      const favText = $('#favFilterText');
+      if(fav){
+        fav.classList.toggle('active', state.favoritesOnly);
+        fav.setAttribute('aria-pressed', String(state.favoritesOnly));
+        fav.firstChild.nodeValue = state.favoritesOnly ? '★ ' : '☆ ';
+      }
+      if(favText) favText.textContent = `${t('favorites')} ${state.favorites.size ? `(${state.favorites.size})` : ''}`;
+      const clear = $('#clearSearch');
+      if(clear) clear.classList.toggle('show', !!state.q);
     }
 
     function appCard(app){
       const meta = CAT_META[app.cat] || CAT_META.Otros;
       const href = app.paths[0] || '#';
       const tags = (app.tags || []).slice(0,3).map(tag => `<span class="tag">${esc(tag)}</span>`).join('');
+      const isWeb = /^https?:\/\//i.test(app.href || app.file || '');
+      const isFav = state.favorites.has(app.id);
       return `<article class="app-card" style="--cat-color:${meta.color}">
         <div class="card-top">
           <div class="app-icon" aria-hidden="true">${esc(app.icon || meta.icon)}</div>
           <div class="card-actions">
+            <button type="button" class="fav-btn ${isFav?'active':''}" data-fav-id="${app.id}" title="${isFav?'Quitar de favoritas':'Agregar a favoritas'}" aria-label="${isFav?'Quitar de favoritas':'Agregar a favoritas'}">${isFav?'★':'☆'}</button>
             <button type="button" class="share-btn" data-app-id="${app.id}" title="${esc(t('share'))} ${esc(txt(app.name))}" aria-label="${esc(t('share'))} ${esc(txt(app.name))}">
               <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
                 <circle cx="6" cy="12" r="3"></circle>
@@ -747,10 +879,11 @@
                 <line x1="8.6" y1="13.3" x2="15.4" y2="16.7"></line>
               </svg>
             </button>
-            <a class="open-btn" href="${esc(href)}" target="_blank" rel="noopener noreferrer" data-app-id="${app.id}" title="Abrir ${esc(txt(app.name))}">${t('open')} ↗</a>
+            <a class="open-btn" href="${esc(href)}" target="_blank" rel="noopener noreferrer" data-app-id="${app.id}" title="${esc(t('open'))} ${esc(txt(app.name))}">${t('open')} ↗</a>
           </div>
         </div>
         <h4 class="app-name">${esc(txt(app.name))}</h4>
+        <div class="app-meta"><span class="origin-chip ${isWeb?'web':'local'}">${isWeb?'☁ '+t('web'):'▣ '+t('local')}</span></div>
         <p class="app-desc">${esc(txt(app.desc))}</p>
         <div class="tags">${tags}</div>
       </article>`;
@@ -781,7 +914,7 @@
       renderResultBadge(list);
       const container = $('#sections');
       if(!list.length){
-        container.innerHTML = `<div class="empty">${t('none')}</div>`;
+        container.innerHTML = `<div class="empty">${state.favoritesOnly && !state.q ? t('noFavorites') : t('none')}</div>`;
         return;
       }
       const cats = CAT_ORDER.filter(c => c !== 'Todos').filter(c => list.some(a => a.cat === c));
@@ -856,6 +989,14 @@
     }
 
     document.addEventListener('click', e => {
+      const favBtn = e.target.closest('.fav-btn[data-fav-id]');
+      if(favBtn){
+        toggleFavorite(Number(favBtn.dataset.favId));
+        return;
+      }
+    });
+
+    document.addEventListener('click', e => {
       const shareBtn = e.target.closest('.share-btn[data-app-id]');
       if(shareBtn){
         const app = APPS_READY.find(a => String(a.id) === String(shareBtn.dataset.appId));
@@ -884,6 +1025,16 @@
       render();
     });
     $('#search').addEventListener('input', e => { state.q = e.target.value; render(); });
+    $('#clearSearch').addEventListener('click', () => {
+      state.q = '';
+      $('#search').value = '';
+      $('#search').focus();
+      render();
+    });
+    $('#favFilter').addEventListener('click', () => {
+      state.favoritesOnly = !state.favoritesOnly;
+      render();
+    });
     $('#goTop').addEventListener('click', () => scrollTo({top:0, behavior:'smooth'}));
     $('#copyLink').addEventListener('click', async () => {
       try{ await navigator.clipboard.writeText(location.href); toast(t('copied')); }
@@ -891,7 +1042,10 @@
     });
     window.addEventListener('keydown', e => {
       if(e.key === '/' && document.activeElement !== $('#search')){ e.preventDefault(); $('#search').focus(); }
-      if(e.key === 'Escape' && state.q){ state.q=''; $('#search').value=''; render(); }
+      if(e.key === 'Escape'){
+        if(state.q){ state.q=''; $('#search').value=''; render(); }
+        else if(state.favoritesOnly){ state.favoritesOnly=false; render(); }
+      }
     });
 
     // ---------------------------------------------------------------
