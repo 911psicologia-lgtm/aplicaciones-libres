@@ -1,0 +1,8 @@
+MUSIC-PLAY-FREE — paquete listo para publicación
+
+IMPORTANTE:
+- Suba EL CONTENIDO de este ZIP directamente a la carpeta/ruta pública de la aplicación.
+- index.html debe quedar al mismo nivel que assets/, icons/, favicon.svg, manifest.webmanifest y sw.js.
+- No suba la carpeta src/ ni el index.html de desarrollo del proyecto original.
+- Todas las rutas del paquete son relativas, así que funciona dentro de una subcarpeta como /HAPPY music-play-free/.
+- Si reemplaza una versión anterior, haga una recarga forzada una vez (Ctrl+F5) para eliminar caché antigua.
