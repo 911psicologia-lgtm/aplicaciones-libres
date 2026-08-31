@@ -1,0 +1,45 @@
+{
+  "key": "architect",
+  "boss": "ARCHITECT ZERO",
+  "family": "TERMITAS",
+  "version": "2.13.2",
+  "frameW": 384,
+  "frameH": 384,
+  "motion": "siege-deploy",
+  "visualScale": 1.16,
+  "states": {
+    "idle": {
+      "frames": 8,
+      "cols": 4,
+      "fps": 7
+    },
+    "attack": {
+      "frames": 6,
+      "cols": 4,
+      "fps": 11
+    },
+    "hurt": {
+      "frames": 4,
+      "cols": 4,
+      "fps": 13
+    },
+    "phase": {
+      "frames": 8,
+      "cols": 4,
+      "fps": 10
+    },
+    "death": {
+      "frames": 10,
+      "cols": 4,
+      "fps": 9
+    }
+  },
+  "perceptualDiff": {
+    "idle": 12.45,
+    "attack": 12.28,
+    "hurt": 18.24,
+    "phase": 15.5,
+    "death": 6.73
+  },
+  "notes": "Raster boss-state animation derived from the canonical boss asset. Five synchronized states; designed for campaign and lieutenant reuse."
+}

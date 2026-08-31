@@ -1,0 +1,36 @@
+{
+  "key": "cortex",
+  "version": "2.13.1",
+  "frameW": 384,
+  "frameH": 384,
+  "motion": "blade-articulated",
+  "states": {
+    "idle": {
+      "frames": 8,
+      "cols": 4
+    },
+    "attack": {
+      "frames": 6,
+      "cols": 4
+    },
+    "hurt": {
+      "frames": 4,
+      "cols": 4
+    },
+    "phase": {
+      "frames": 8,
+      "cols": 4
+    },
+    "death": {
+      "frames": 10,
+      "cols": 4
+    }
+  },
+  "perceptualDiff": {
+    "idle": 17.82,
+    "attack": 30.32,
+    "hurt": 21.13,
+    "phase": 36.06,
+    "death": 39.54
+  }
+}

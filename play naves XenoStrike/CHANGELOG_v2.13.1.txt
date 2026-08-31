@@ -1,0 +1,15 @@
+SWARM//RIFT — Insecta Siege
+v2.13.1 — Boss Animation Expansion I
+
+- Framework de animación por estados ampliado de 2 a 5 jefes.
+- Cortex Razor (M3): 36 frames; cuchillas articuladas, torsión/lunge, daño, mutación y colapso.
+- Vela Noctis (M4): 36 frames; batido/expansión de alas, compresión central, daño, mutación y colapso.
+- Regina Ferrum (M5): 36 frames; mandíbulas/patas, apertura de coraza, daño, mutación y colapso.
+- Imperatrix Vespa y Atlas Verde se conservan en el mismo framework.
+- Los bosses animados mantienen sus estados cuando reaparecen como Tenientes.
+- Tenientes reciben transición visual al entrar en su segunda fase.
+- Gramática corporal específica por boss: blade-articulated / flutter-organic / fortress-articulated.
+- Cache-busting de hojas actualizado a av=2131.
+- Guardados/meta v2.13.0 migran a v2.13.1.
+- CHASE BONUS, Hangar, audio, Director, dificultad y progresión no fueron rediseñados en esta pasada.
+- Pendientes de animación corporal: M6–M10.

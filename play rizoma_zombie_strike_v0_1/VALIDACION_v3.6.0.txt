@@ -1,0 +1,49 @@
+RIZOMA ZOMBIE STRIKE v3.6.0 — VALIDACIÓN FINAL
+Fecha: 2026-08-31
+
+ALCANCE
+- Continuidad directa desde v3.5.0.
+- Sin Mundo 21 ni nuevos mundos.
+- Saga II permanece cerrada en M20.
+- Historia estática permanece desactivada; infraestructura narrativa conservada.
+- M1 y su balance v3.5.0 no se modifican en esta versión.
+
+FLOTA DE CONQUISTA
+- 10 naves registradas.
+- Hitos: M1, M4, M7, M9, M12, M14, M16, M17, M18, M19.
+- 10 firmas mecánicas distintas.
+- Todos los cascos usan assets vehiculares ya incluidos en el paquete.
+- Sin placeholders ni rectángulos provisionales.
+- Firma automática con cooldown individual; se suspende mientras una forma DOMINIO está activa.
+- fleetSignatureTimer se guarda/restaura con la sesión.
+
+MIGRACIÓN / PERSISTENCIA
+- Partida legacy con M1–M20 completados: 10 naves de Flota recuperadas.
+- 20 Guardianes invocables recuperados.
+- Guardián activo legacy se conserva/reconcilia.
+- DOMINIO permanece separado de Flota.
+
+QA AUTOMÁTICO / ESTRUCTURAL
+- node --check js/game.js: OK.
+- manifest.json: JSON válido.
+- manifest display: fullscreen.
+- manifest orientation: landscape-primary.
+- start_url: ./index.html?v=3.6.0.
+- Mundos: 20 (5 base + 15 extensiones).
+- Configuración jugable Mundo 21: 0.
+- DOMAIN_FORMS: 20.
+- Guardian invocation branches: M1–M20 presentes.
+- Flota: 10 entradas / 10 signatureType únicos.
+- Referencias runtime de assets escaneadas: 510; faltantes: 0.
+- Referencias explícitas en game.js: 512; faltantes: 0.
+- Soundtrack Guardianes M14–M20: 7/7 declarado y assets presentes.
+- Historia estática: STATIC_STORY_ENABLED=false.
+- Hooks M1 de recompensa/preboss: presentes y sin modificación respecto a v3.5.0.
+- Harness de firmas: 10/10 producen actividad y restauran cooldown.
+- Anti-exploit DOMINIO/Flota: el timer de Flota no se reinicia al alternar DOMINIO.
+- Harness de migración: 10 naves + 20 Guardianes en partida completa.
+
+NOTA DE ENTORNO
+La navegación Chromium headless por localhost queda limitada por el entorno de contenedor. Por ello la regresión de v3.6.0 se cerró mediante diff acotado respecto de v3.5.0, validación estática, comprobación de assets y harness funcional aislado de las firmas/migración. La v3.6.0 no modifica los directores de mundos, M1, audio, overlays ni Invocación de Guardianes.
+
+El SHA-256 del ZIP final se registra después del empaquetado.

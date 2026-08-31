@@ -1,0 +1,39 @@
+RIZOMA ZOMBIE STRIKE v3.5.0 — VALIDACIÓN
+
+Baseline: v3.4.0 Balance Global + Cierre Saga II.
+Alcance: consolidación, sin Mundo 21.
+
+VALIDACIONES TÉCNICAS
+[OK] node --check js/game.js
+[OK] manifest.json parseable
+[OK] manifest display=fullscreen
+[OK] manifest orientation=landscape-primary
+[OK] 20 mundos jugables: 5 base + 15 extensiones MAPS.push
+[OK] Mundo 21 ausente
+[OK] referencias explícitas de assets: 0 faltantes
+[OK] soundtrack Guardianes M14–M20 conservado
+[OK] soft-loop/fade M14–M20 conservado
+[OK] DOMINIO/reliquias/progresión conservados
+[OK] historia estática desactivada; infraestructura conservada
+
+QA FUNCIONAL EN NAVEGADOR EN MEMORIA
+[OK] inicialización sin errores JS
+[OK] M1 inicia en wave 1, velocidad > 255 y amenaza frontal inicial
+[OK] near-miss M1 concede score + puntos disponibles + monedas + XP
+[OK] horda limpia M1 concede CÁPSULA DE MAESTRÍA
+[OK] capitán M1 concede poder asegurado
+[OK] preboss M1 garantiza 3 poderes significativos a 24 s
+[OK] derrota M1 recupera solo poderes realmente obtenidos
+[OK] reactivación M1 no regala Impulsor ni Combo
+[OK] vida pagada consume recurso y no añade poder nuevo en M1
+[OK] victoria M1 -> resultado -> M2; progreso y pendingCampaignMap consistentes
+[OK] migración 20 mundos -> 20 Guardianes invocables
+[OK] migración -> 5 naves válidas de Flota Fase I
+[OK] save/load conserva Flota activa e Invocación seleccionada
+[OK] Invocación: entrada -> ataque -> desaparición -> cooldown
+[OK] Vulkarion/Neurokhan/Skaldr/Sauryx con firma específica
+[OK] viewport 844x390: pausa, resultado y tienda dentro de pantalla
+[OK] botón fullscreen y gate de orientación presentes
+
+EMPAQUETADO
+El ZIP final se valida posteriormente con unzip -t y SHA-256 externo, ya que incluir el hash del propio ZIP dentro del ZIP alteraría el mismo hash.

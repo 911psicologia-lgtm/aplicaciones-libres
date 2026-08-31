@@ -1,0 +1,306 @@
+{
+  "version": "2.13.1",
+  "bosses": {
+    "1": {
+      "name": "Imperatrix Vespa",
+      "family": "AVISPAS",
+      "animated": true,
+      "key": "imperatrix",
+      "states": {
+        "idle": {
+          "file": "assets/boss_anim/imperatrix/idle.png",
+          "size": [
+            1536,
+            768
+          ],
+          "ok": true
+        },
+        "attack": {
+          "file": "assets/boss_anim/imperatrix/attack.png",
+          "size": [
+            1536,
+            768
+          ],
+          "ok": true
+        },
+        "hurt": {
+          "file": "assets/boss_anim/imperatrix/hurt.png",
+          "size": [
+            1536,
+            384
+          ],
+          "ok": true
+        },
+        "phase": {
+          "file": "assets/boss_anim/imperatrix/phase.png",
+          "size": [
+            1536,
+            768
+          ],
+          "ok": true
+        },
+        "death": {
+          "file": "assets/boss_anim/imperatrix/death.png",
+          "size": [
+            1536,
+            1152
+          ],
+          "ok": true
+        }
+      },
+      "mappedInCode": true
+    },
+    "2": {
+      "name": "Atlas Verde",
+      "family": "ESCARABAJOS",
+      "animated": true,
+      "key": "atlas",
+      "states": {
+        "idle": {
+          "file": "assets/boss_anim/atlas/idle.png",
+          "size": [
+            1536,
+            768
+          ],
+          "ok": true
+        },
+        "attack": {
+          "file": "assets/boss_anim/atlas/attack.png",
+          "size": [
+            1536,
+            768
+          ],
+          "ok": true
+        },
+        "hurt": {
+          "file": "assets/boss_anim/atlas/hurt.png",
+          "size": [
+            1536,
+            384
+          ],
+          "ok": true
+        },
+        "phase": {
+          "file": "assets/boss_anim/atlas/phase.png",
+          "size": [
+            1536,
+            768
+          ],
+          "ok": true
+        },
+        "death": {
+          "file": "assets/boss_anim/atlas/death.png",
+          "size": [
+            1536,
+            1152
+          ],
+          "ok": true
+        }
+      },
+      "mappedInCode": true
+    },
+    "3": {
+      "name": "Cortex Razor",
+      "family": "MANTIS",
+      "animated": true,
+      "key": "cortex",
+      "states": {
+        "idle": {
+          "file": "assets/boss_anim/cortex/idle.png",
+          "size": [
+            1536,
+            768
+          ],
+          "ok": true
+        },
+        "attack": {
+          "file": "assets/boss_anim/cortex/attack.png",
+          "size": [
+            1536,
+            768
+          ],
+          "ok": true
+        },
+        "hurt": {
+          "file": "assets/boss_anim/cortex/hurt.png",
+          "size": [
+            1536,
+            384
+          ],
+          "ok": true
+        },
+        "phase": {
+          "file": "assets/boss_anim/cortex/phase.png",
+          "size": [
+            1536,
+            768
+          ],
+          "ok": true
+        },
+        "death": {
+          "file": "assets/boss_anim/cortex/death.png",
+          "size": [
+            1536,
+            1152
+          ],
+          "ok": true
+        }
+      },
+      "mappedInCode": true
+    },
+    "4": {
+      "name": "Vela Noctis",
+      "family": "POLILLAS",
+      "animated": true,
+      "key": "vela",
+      "states": {
+        "idle": {
+          "file": "assets/boss_anim/vela/idle.png",
+          "size": [
+            1536,
+            768
+          ],
+          "ok": true
+        },
+        "attack": {
+          "file": "assets/boss_anim/vela/attack.png",
+          "size": [
+            1536,
+            768
+          ],
+          "ok": true
+        },
+        "hurt": {
+          "file": "assets/boss_anim/vela/hurt.png",
+          "size": [
+            1536,
+            384
+          ],
+          "ok": true
+        },
+        "phase": {
+          "file": "assets/boss_anim/vela/phase.png",
+          "size": [
+            1536,
+            768
+          ],
+          "ok": true
+        },
+        "death": {
+          "file": "assets/boss_anim/vela/death.png",
+          "size": [
+            1536,
+            1152
+          ],
+          "ok": true
+        }
+      },
+      "mappedInCode": true
+    },
+    "5": {
+      "name": "Regina Ferrum",
+      "family": "HORMIGAS",
+      "animated": true,
+      "key": "regina",
+      "states": {
+        "idle": {
+          "file": "assets/boss_anim/regina/idle.png",
+          "size": [
+            1536,
+            768
+          ],
+          "ok": true
+        },
+        "attack": {
+          "file": "assets/boss_anim/regina/attack.png",
+          "size": [
+            1536,
+            768
+          ],
+          "ok": true
+        },
+        "hurt": {
+          "file": "assets/boss_anim/regina/hurt.png",
+          "size": [
+            1536,
+            384
+          ],
+          "ok": true
+        },
+        "phase": {
+          "file": "assets/boss_anim/regina/phase.png",
+          "size": [
+            1536,
+            768
+          ],
+          "ok": true
+        },
+        "death": {
+          "file": "assets/boss_anim/regina/death.png",
+          "size": [
+            1536,
+            1152
+          ],
+          "ok": true
+        }
+      },
+      "mappedInCode": true
+    },
+    "6": {
+      "name": "Colossus Hop",
+      "family": "LANGOSTAS",
+      "animated": false,
+      "key": null,
+      "states": {}
+    },
+    "7": {
+      "name": "Sanguina Prime",
+      "family": "MOSQUITOS",
+      "animated": false,
+      "key": null,
+      "states": {}
+    },
+    "8": {
+      "name": "Architect Zero",
+      "family": "TERMITAS",
+      "animated": false,
+      "key": null,
+      "states": {}
+    },
+    "9": {
+      "name": "Auralis",
+      "family": "LIBÉLULAS",
+      "animated": false,
+      "key": null,
+      "states": {}
+    },
+    "10": {
+      "name": "Resonator Omega",
+      "family": "CIGARRAS",
+      "animated": false,
+      "key": null,
+      "states": {}
+    }
+  },
+  "errors": [],
+  "pwa": {
+    "cache": "swarm-rift-v2.13.1",
+    "resources": 287,
+    "missing": []
+  },
+  "saveMigration": {
+    "meta2130": true,
+    "run2130": true
+  },
+  "framework": {
+    "animatedCount": 5,
+    "pending": [
+      "Colossus Hop",
+      "Sanguina Prime",
+      "Architect Zero",
+      "Auralis",
+      "Resonator Omega"
+    ],
+    "cacheBust": true
+  }
+}

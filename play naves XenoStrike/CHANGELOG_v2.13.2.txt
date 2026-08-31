@@ -1,0 +1,10 @@
+SWARM//RIFT — v2.13.2 — Boss Animation Expansion II
+
+- Completa animación corporal del Capítulo I: 10/10 bosses.
+- Nuevos paquetes de 36 frames para Colossus Hop, Sanguina Prime, Architect Zero, Auralis y Resonator Omega.
+- Cinco estados sincronizados: idle, attack, hurt, phase, death.
+- Gramáticas diferenciadas: kinetic-leap, hematic-pulse, siege-deploy, prism-flight, sonic-resonance.
+- Reutilización automática en Tenientes mediante el mismo framework.
+- Cache-busting actualizado a av=2132.
+- Guardados/meta v2.13.1 migran a v2.13.2.
+- Sin cambios de balance, audio, CHASE, Hangar, Director, checkpoints o Mundos 11–20.

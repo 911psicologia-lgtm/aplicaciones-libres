@@ -1,0 +1,36 @@
+{
+  "key": "regina",
+  "version": "2.13.1",
+  "frameW": 384,
+  "frameH": 384,
+  "motion": "fortress-articulated",
+  "states": {
+    "idle": {
+      "frames": 8,
+      "cols": 4
+    },
+    "attack": {
+      "frames": 6,
+      "cols": 4
+    },
+    "hurt": {
+      "frames": 4,
+      "cols": 4
+    },
+    "phase": {
+      "frames": 8,
+      "cols": 4
+    },
+    "death": {
+      "frames": 10,
+      "cols": 4
+    }
+  },
+  "perceptualDiff": {
+    "idle": 13.51,
+    "attack": 20.03,
+    "hurt": 13.92,
+    "phase": 25.68,
+    "death": 28.66
+  }
+}

@@ -1,0 +1,49 @@
+AUTOAUDIT v2.13.0
+
+BASE: v2.12.4.1 Visible Boss Animation Hotfix
+DESTINO: v2.13.0 Chapter I Polish + Chase Bonus Prototype
+
+BOSS ASSET ANIMATION
+- Imperatrix Vespa: ANIMATED
+- Atlas Verde: ANIMATED
+- Cortex Razor: STATIC ASSET + NEW SIGNATURE BEAM
+- Vela Noctis: STATIC ASSET
+- Regina Ferrum: STATIC ASSET
+- Colossus Hop: STATIC ASSET
+- Sanguina Prime: STATIC ASSET
+- Architect Zero: STATIC ASSET
+- Auralis: STATIC ASSET
+- Resonator Omega: STATIC ASSET
+
+CHASE BONUS
+- Rear/chase view: YES
+- Mouse aim: YES
+- Touch aim: YES
+- Auto-fire: YES
+- Pseudo-3D depth scaling: YES
+- Enemy fire toward player ship: YES
+- Final interceptor: YES
+- Separate score/best/wins: YES
+- Campaign checkpoint isolation: YES
+
+UX/UI
+- Store quantity badge: YES
+- Menu access in 3 responsive profiles: YES
+- Chase-specific pause: YES
+- Compact emoticon notice mapping: YES
+
+CAMPAIGN LENGTH
+Examples Normal before -> now:
+- World 1 waves: 17/21/26 -> 18/23/27
+- World 5 waves: 26/30/34 -> 28/32/36
+- World 10 waves: 42/46/50 -> 44/48/53
+
+SIGNATURE ATTACK
+- Cortex Razor phase 1: 180 degrees
+- Cortex Razor phase 2: 250 degrees
+- Cortex Razor phase 3: 360 degrees
+- Mouth/front offset origin: YES
+- Telegraph: YES
+- Thick sparkling beam render: YES
+- Collision: YES
+- Core vulnerability after sweep: YES

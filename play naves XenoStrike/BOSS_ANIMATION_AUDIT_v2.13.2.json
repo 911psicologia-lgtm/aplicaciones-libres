@@ -1,0 +1,511 @@
+{
+  "version": "2.13.2",
+  "configuredBosses": 10,
+  "animatedBosses": [
+    {
+      "family": "AVISPAS",
+      "key": "imperatrix",
+      "states": {
+        "idle": {
+          "ok": true,
+          "size": [
+            1536,
+            768
+          ]
+        },
+        "attack": {
+          "ok": true,
+          "size": [
+            1536,
+            768
+          ]
+        },
+        "hurt": {
+          "ok": true,
+          "size": [
+            1536,
+            384
+          ]
+        },
+        "phase": {
+          "ok": true,
+          "size": [
+            1536,
+            768
+          ]
+        },
+        "death": {
+          "ok": true,
+          "size": [
+            1536,
+            1152
+          ]
+        }
+      },
+      "ok": true,
+      "motion": "articulated-raster-warp",
+      "perceptualDiff": {}
+    },
+    {
+      "family": "ESCARABAJOS",
+      "key": "atlas",
+      "states": {
+        "idle": {
+          "ok": true,
+          "size": [
+            1536,
+            768
+          ]
+        },
+        "attack": {
+          "ok": true,
+          "size": [
+            1536,
+            768
+          ]
+        },
+        "hurt": {
+          "ok": true,
+          "size": [
+            1536,
+            384
+          ]
+        },
+        "phase": {
+          "ok": true,
+          "size": [
+            1536,
+            768
+          ]
+        },
+        "death": {
+          "ok": true,
+          "size": [
+            1536,
+            1152
+          ]
+        }
+      },
+      "ok": true,
+      "motion": null,
+      "perceptualDiff": {}
+    },
+    {
+      "family": "MANTIS",
+      "key": "cortex",
+      "states": {
+        "idle": {
+          "ok": true,
+          "size": [
+            1536,
+            768
+          ]
+        },
+        "attack": {
+          "ok": true,
+          "size": [
+            1536,
+            768
+          ]
+        },
+        "hurt": {
+          "ok": true,
+          "size": [
+            1536,
+            384
+          ]
+        },
+        "phase": {
+          "ok": true,
+          "size": [
+            1536,
+            768
+          ]
+        },
+        "death": {
+          "ok": true,
+          "size": [
+            1536,
+            1152
+          ]
+        }
+      },
+      "ok": true,
+      "motion": "blade-articulated",
+      "perceptualDiff": {
+        "idle": 17.82,
+        "attack": 30.32,
+        "hurt": 21.13,
+        "phase": 36.06,
+        "death": 39.54
+      }
+    },
+    {
+      "family": "POLILLAS",
+      "key": "vela",
+      "states": {
+        "idle": {
+          "ok": true,
+          "size": [
+            1536,
+            768
+          ]
+        },
+        "attack": {
+          "ok": true,
+          "size": [
+            1536,
+            768
+          ]
+        },
+        "hurt": {
+          "ok": true,
+          "size": [
+            1536,
+            384
+          ]
+        },
+        "phase": {
+          "ok": true,
+          "size": [
+            1536,
+            768
+          ]
+        },
+        "death": {
+          "ok": true,
+          "size": [
+            1536,
+            1152
+          ]
+        }
+      },
+      "ok": true,
+      "motion": "flutter-organic",
+      "perceptualDiff": {
+        "idle": 22.62,
+        "attack": 30.96,
+        "hurt": 22.43,
+        "phase": 40.77,
+        "death": 38.78
+      }
+    },
+    {
+      "family": "HORMIGAS",
+      "key": "regina",
+      "states": {
+        "idle": {
+          "ok": true,
+          "size": [
+            1536,
+            768
+          ]
+        },
+        "attack": {
+          "ok": true,
+          "size": [
+            1536,
+            768
+          ]
+        },
+        "hurt": {
+          "ok": true,
+          "size": [
+            1536,
+            384
+          ]
+        },
+        "phase": {
+          "ok": true,
+          "size": [
+            1536,
+            768
+          ]
+        },
+        "death": {
+          "ok": true,
+          "size": [
+            1536,
+            1152
+          ]
+        }
+      },
+      "ok": true,
+      "motion": "fortress-articulated",
+      "perceptualDiff": {
+        "idle": 13.51,
+        "attack": 20.03,
+        "hurt": 13.92,
+        "phase": 25.68,
+        "death": 28.66
+      }
+    },
+    {
+      "family": "LANGOSTAS",
+      "key": "colossus",
+      "states": {
+        "idle": {
+          "ok": true,
+          "size": [
+            1536,
+            768
+          ]
+        },
+        "attack": {
+          "ok": true,
+          "size": [
+            1536,
+            768
+          ]
+        },
+        "hurt": {
+          "ok": true,
+          "size": [
+            1536,
+            384
+          ]
+        },
+        "phase": {
+          "ok": true,
+          "size": [
+            1536,
+            768
+          ]
+        },
+        "death": {
+          "ok": true,
+          "size": [
+            1536,
+            1152
+          ]
+        }
+      },
+      "ok": true,
+      "motion": "kinetic-leap",
+      "perceptualDiff": {
+        "idle": 14.23,
+        "attack": 14.37,
+        "hurt": 17.66,
+        "phase": 18.34,
+        "death": 8.29
+      }
+    },
+    {
+      "family": "MOSQUITOS",
+      "key": "sanguina",
+      "states": {
+        "idle": {
+          "ok": true,
+          "size": [
+            1536,
+            768
+          ]
+        },
+        "attack": {
+          "ok": true,
+          "size": [
+            1536,
+            768
+          ]
+        },
+        "hurt": {
+          "ok": true,
+          "size": [
+            1536,
+            384
+          ]
+        },
+        "phase": {
+          "ok": true,
+          "size": [
+            1536,
+            768
+          ]
+        },
+        "death": {
+          "ok": true,
+          "size": [
+            1536,
+            1152
+          ]
+        }
+      },
+      "ok": true,
+      "motion": "hematic-pulse",
+      "perceptualDiff": {
+        "idle": 11.33,
+        "attack": 12.48,
+        "hurt": 15.53,
+        "phase": 14.17,
+        "death": 5.65
+      }
+    },
+    {
+      "family": "TERMITAS",
+      "key": "architect",
+      "states": {
+        "idle": {
+          "ok": true,
+          "size": [
+            1536,
+            768
+          ]
+        },
+        "attack": {
+          "ok": true,
+          "size": [
+            1536,
+            768
+          ]
+        },
+        "hurt": {
+          "ok": true,
+          "size": [
+            1536,
+            384
+          ]
+        },
+        "phase": {
+          "ok": true,
+          "size": [
+            1536,
+            768
+          ]
+        },
+        "death": {
+          "ok": true,
+          "size": [
+            1536,
+            1152
+          ]
+        }
+      },
+      "ok": true,
+      "motion": "siege-deploy",
+      "perceptualDiff": {
+        "idle": 12.45,
+        "attack": 12.28,
+        "hurt": 18.24,
+        "phase": 15.5,
+        "death": 6.73
+      }
+    },
+    {
+      "family": "LIBÉLULAS",
+      "key": "auralis",
+      "states": {
+        "idle": {
+          "ok": true,
+          "size": [
+            1536,
+            768
+          ]
+        },
+        "attack": {
+          "ok": true,
+          "size": [
+            1536,
+            768
+          ]
+        },
+        "hurt": {
+          "ok": true,
+          "size": [
+            1536,
+            384
+          ]
+        },
+        "phase": {
+          "ok": true,
+          "size": [
+            1536,
+            768
+          ]
+        },
+        "death": {
+          "ok": true,
+          "size": [
+            1536,
+            1152
+          ]
+        }
+      },
+      "ok": true,
+      "motion": "prism-flight",
+      "perceptualDiff": {
+        "idle": 9.56,
+        "attack": 12.2,
+        "hurt": 13.88,
+        "phase": 11.61,
+        "death": 5.46
+      }
+    },
+    {
+      "family": "CIGARRAS",
+      "key": "resonator",
+      "states": {
+        "idle": {
+          "ok": true,
+          "size": [
+            1536,
+            768
+          ]
+        },
+        "attack": {
+          "ok": true,
+          "size": [
+            1536,
+            768
+          ]
+        },
+        "hurt": {
+          "ok": true,
+          "size": [
+            1536,
+            384
+          ]
+        },
+        "phase": {
+          "ok": true,
+          "size": [
+            1536,
+            768
+          ]
+        },
+        "death": {
+          "ok": true,
+          "size": [
+            1536,
+            1152
+          ]
+        }
+      },
+      "ok": true,
+      "motion": "sonic-resonance",
+      "perceptualDiff": {
+        "idle": 9.81,
+        "attack": 10.3,
+        "hurt": 14.11,
+        "phase": 15.13,
+        "death": 5.92
+      }
+    }
+  ],
+  "allBossesAnimated": true,
+  "pwaResources": 317,
+  "pwaMissing": [],
+  "cache": "swarm-rift-v2.13.2",
+  "cacheBust": "av=2132",
+  "preservedSystems": [
+    "CHASE BONUS",
+    "Smart Hangar",
+    "Combat Director Profiles",
+    "Wave Objectives",
+    "Commander Convergence",
+    "audio pause/resume",
+    "boss checkpoints",
+    "Reward Ledger",
+    "19 powers and combos"
+  ],
+  "worlds11_20Started": false
+}

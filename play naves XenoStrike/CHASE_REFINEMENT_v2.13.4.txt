@@ -1,0 +1,10 @@
+CHASE BONUS v2.13.4
+Duración: 64 s + hasta 9 s de resolución final.
+Fase 1 0–20 s: interceptores/naves.
+Fase 2 20–40 s: cazadores insectoides.
+Fase 3 40–64 s: escoltas soberanas y boss desde 44 s.
+Control: retícula mouse/touch; autofire.
+Lock-on: tras ~0.34 s sobre un blanco, +34% daño y bonus de puntuación.
+Apoyo: cada 8 bajas, reparación si HP bajo; shield si procede; de lo contrario sobrecarga +30% temporal.
+Rangos: S/A/B/C según éxito, integridad y puntuación.
+Progresión: separada de poderes/checkpoints de campaña; recompensa solo créditos + récord/rango CHASE.

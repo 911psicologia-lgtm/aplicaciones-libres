@@ -1,0 +1,22 @@
+SWARM//RIFT v2.13.3 — SIGNATURE BOSS ATTACK AUDIT
+Cobertura: 10/10 jefes con ataque signature reconocible
+
+M1 · IMPERATRIX VESPA · AGUIJÓN SOLAR · 1/2/3 haces de aguijón
+M2 · ATLAS VERDE · ONDA ATLAS · 1/2/3 ondas expansivas
+M3 · CORTEX RAZOR · RAYO RAZOR · 180° / 250° / 360°
+M4 · VELA NOCTIS · ECLIPSE ROTATORIO · 5/7/9 radios rotatorios
+M5 · REGINA FERRUM · MALLA FÉRRICA · corredores horizontales con zona segura
+M6 · COLOSSUS HOP · IMPACTO COLOSSUS · salto marcado + onda cinética creciente
+M7 · SANGUINA PRIME · SIFÓN HEMÁTICO · haz perseguidor + drenaje/curación limitada
+M8 · ARCHITECT ZERO · JAULA DE RESINA · columnas de resina + corredor seguro
+M9 · AURALIS · CRUZ PRISMÁTICA · 2/3/4 haces prismáticos móviles
+M10 · RESONATOR OMEGA · ONDA OMEGA · 2/3/4 anillos sónicos expansivos
+
+Reglas:
+- Telegraph previo y color propio.
+- Daño por geometría/posición, no simple aumento de HP.
+- Escalado de complejidad por fase.
+- Ventana breve de núcleo después del ataque signature.
+- Training conserva seguridad: firmas nuevas desactivadas.
+- Cortex mantiene Rayo Razor 180°/250°/360°.
+- CHASE, Hangar, economía, audio y Worlds 11–20 no se modifican.

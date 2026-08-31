@@ -9,9 +9,9 @@
   <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
   <meta name="apple-mobile-web-app-capable" content="yes" />
   <meta name="apple-mobile-web-app-title" content="Zombie Strike" />
-  <script>if(location.protocol !== "file:"){const m=document.createElement("link");m.rel="manifest";m.href="manifest.json?v=3.4.0";document.head.appendChild(m);}</script>
+  <script>if(location.protocol !== "file:"){const m=document.createElement("link");m.rel="manifest";m.href="manifest.json?v=3.9.0";document.head.appendChild(m);}</script>
   <link rel="icon" href="assets/icon.svg" type="image/svg+xml" />
-  <title>Rizoma Zombie Strike — Saga II completa · v3.4.0</title>
+  <title>Rizoma Zombie Strike — Saga II completa · v3.9.0</title>
   <link rel="preload" as="image" href="assets/ui/intro_poster_mobile.webp" media="(max-width: 1200px)" fetchpriority="high" />
   <link rel="preload" as="image" href="assets/boss2/sigil_w1.svg" />
   <link rel="preload" as="image" href="assets/boss2/sigil_w2.svg" />
@@ -21,7 +21,7 @@
   <link rel="preload" as="image" href="assets/boss2/sigil_w9.svg" />
   <link rel="preload" as="image" href="assets/boss2/sigil_w10.svg" />
   <link rel="preload" as="image" href="assets/boss2/sigil_w15.svg" />
-  <link rel="stylesheet" href="css/styles.css?v=3.4.0" />
+  <link rel="stylesheet" href="css/styles.css?v=3.9.0" />
   <link rel="preload" as="image" href="assets/story/episode_01_protocol_zstrike.webp" fetchpriority="high" />
 </head>
 <body>
@@ -36,7 +36,7 @@
         <span class="brand-mark">⬢</span>
         <div>
           <strong>Rizoma Zombie Strike</strong>
-          <small>Mundos 1–20 · Balance global · Saga II completa · v3.4.0</small>
+          <small>Mundos 1–20 · FX adaptativo · Flota completa · Saga II consolidada · v3.9.0</small>
         </div>
       </div>
       <button id="btnSettings" class="icon-btn" title="Ajustes" aria-label="Ajustes">⚙</button>
@@ -88,10 +88,10 @@
           <div class="command-sub-row">
             <div class="play-mode-select" aria-label="Modo de juego">
               <div class="play-mode-buttons">
-                <button type="button" class="play-mode-btn active" data-play-mode="story"><strong>CAMPAÑA</strong><small>Historia breve entre mundos</small></button>
-                <button type="button" class="play-mode-btn" data-play-mode="direct"><strong>ASALTO</strong><small>Directo al combate</small></button>
+                <button type="button" class="play-mode-btn active" data-play-mode="story"><strong>CAMPAÑA</strong><small>Combate continuo · historia estática desactivada</small></button>
+                <button type="button" class="play-mode-btn" data-play-mode="direct" hidden><strong>ASALTO</strong><small>Directo al combate</small></button>
               </div>
-              <small id="playModeHint" class="play-mode-hint">Prólogo y microescenas narrativas · siempre puedes saltarlas</small>
+              <small id="playModeHint" class="play-mode-hint">Cinemáticas Saga I / II en preparación · serán opcionales y saltables</small>
             </div>
 
             <div class="start-actions-main minimal">
@@ -242,11 +242,17 @@
           </div>
           <div class="progress-summary-row">
             <article class="progress-summary-card"><strong id="archiveWorldCount">0/11</strong><small>Mundos superados</small></article>
-            <article class="progress-summary-card"><strong id="archiveShipCount">0/11</strong><small>Naves de jefes capturadas</small></article>
+            <article class="progress-summary-card"><strong id="archiveShipCount">0/20</strong><small>Formas DOMINIO capturadas</small></article>
             <article class="progress-summary-card"><strong id="archiveActiveShip">RIZOMA</strong><small>Nave activa</small></article>
           </div>
-          <h3 class="archive-heading">Naves capturadas</h3>
+          <h3 class="archive-heading">Formas DOMINIO</h3>
           <div id="bossShipInventory" class="boss-ship-inventory"></div>
+          <h3 class="archive-heading">Flota de Conquista · Fase I</h3>
+          <small class="archive-system-note">Primeras naves vehiculares validadas. El registro queda escalable hasta ~10 hitos sin placeholders.</small>
+          <div id="conquestFleetInventory" class="boss-ship-inventory conquest-fleet-inventory"></div>
+          <h3 class="archive-heading">Invocación de Guardianes</h3>
+          <small class="archive-system-note">Todo Guardián derrotado puede seleccionarse como apoyo temporal de emergencia.</small>
+          <div id="guardianInvocationInventory" class="boss-ship-inventory guardian-invocation-inventory"></div>
           <h3 class="archive-heading">Niveles disponibles</h3>
           <div id="replayWorldGrid" class="replay-world-grid"></div>
           <article id="sagaClosureCard" class="saga-preview-card saga-closure-card">
@@ -331,6 +337,8 @@
         </div>
         <div class="hud-actions" aria-label="Acciones rápidas de combate">
           <button id="btnDomain" class="domain-btn hidden" type="button" title="Protocolo DOMINIO" aria-label="Abrir Protocolo DOMINIO"><span class="domain-glyph">◇</span><strong class="domain-label">DOMINIO</strong><small id="domainCount">0</small></button>
+          <button id="btnFleet" class="fleet-quick-btn hidden" type="button" title="Flota de Conquista" aria-label="Abrir Flota de Conquista"><span class="fleet-glyph">✦</span><strong>FLOTA</strong><small id="fleetQuickStatus">BASE</small></button>
+          <button id="btnGuardianInvoke" class="guardian-invoke-btn hidden" type="button" title="Invocar Guardián" aria-label="Invocar Guardián seleccionado. Mantén pulsado para cambiar."><span class="guardian-glyph">◆</span><strong>GUARDIÁN</strong><small id="guardianInvokeStatus">LISTO</small></button>
           <button id="btnTacticalCart" class="tactical-cart" type="button" title="Compra Exprés"><span class="cart-glyph">🛒</span><strong id="tacticalCartCount">0</strong></button>
           <button id="btnFullscreen" class="hud-icon-btn" type="button" title="Pantalla completa" aria-label="Pantalla completa" aria-pressed="false">⛶</button>
           <button id="btnMusicQuick" class="music-quick-btn" type="button" title="Silenciar música de fondo" aria-label="Silenciar música de fondo" aria-pressed="true"><span class="music-note-glyph" aria-hidden="true">♫</span></button>
@@ -401,6 +409,16 @@
             <small class="domain-hint">Toca una forma para cambiar. Vida, escudo y poderes se conservan.</small>
           </div>
         </div>
+        <div id="fleetOverlay" class="fleet-overlay hidden" aria-live="polite">
+          <div class="fleet-panel" role="dialog" aria-modal="true" aria-label="Flota de Conquista">
+            <div class="fleet-panel-head">
+              <div><p class="eyebrow">FLOTA DE CONQUISTA</p><h3>Preparar nave para la próxima salida</h3></div>
+              <button id="btnFleetClose" class="fleet-close" aria-label="Cerrar Flota">×</button>
+            </div>
+            <div id="fleetQuickList" class="fleet-quick-list"></div>
+            <small class="fleet-hint">La nave de la misión actual no cambia. El casco elegido se aplica al iniciar o reiniciar una salida con RIZOMA.</small>
+          </div>
+        </div>
 
         <div id="tacticalCountdown" class="tactical-countdown hidden">3</div>
         <div id="pauseOverlay" class="modal-layer pause-layer-minimal hidden">
@@ -429,7 +447,7 @@
             <div id="resultExpeditionMemory" class="result-expedition-memory"></div>
             <div id="lifeShop" class="life-shop hidden">
               <strong>Comprar 1 vida</strong>
-              <small>Elige un recurso como requisito. No se descuentan monedas, puntos ni experiencia. Cada compra reactiva además un poder.</small>
+              <small>Elige el recurso con el que quieres pagar la reactivación. En M1 la vida recupera seguridad y los poderes realmente obtenidos, sin regalar una build ofensiva nueva.</small>
               <div class="life-shop-grid">
                 <button id="btnBuyLifeCoins" class="life-buy" data-life-currency="coins"><span>🪙 Monedas</span><b id="lifeCostCoins">150</b></button>
                 <button id="btnBuyLifeScore" class="life-buy" data-life-currency="score"><span>⭐ Puntos</span><b id="lifeCostScore">1000</b></button>
@@ -469,6 +487,6 @@
     </div>
   </div>
 
-  <script src="js/game.js?v=3.4.0"></script>
+  <script src="js/game.js?v=3.9.0"></script>
 </body>
 </html>

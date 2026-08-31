@@ -1,0 +1,12 @@
+SWARM//RIFT v2.13.4 — Final Chapter I Polish & Chase Refinement
+
+- CHASE refinado a 64 s y tres fases.
+- Lock-on progresivo: mantener retícula sobre objetivo mejora daño y puntuación.
+- Escudo, reparación y sobrecarga adaptativos cada 8 bajas en CHASE.
+- Enemigos CHASE usan también assets insectoides de varios linajes en fases 2–3.
+- Interceptor Soberano usa identidad visual de Libélulas y rango final S/A/B/C.
+- HUD CHASE responsive con integridad, shield, overdrive y fase.
+- Mensajes compactos visibles en móvil: una sola línea, con iconografía contextual.
+- Mensajes largos truncados visualmente en vez de desbordarse.
+- Frenesí de campaña entrega como máximo un apoyo adaptativo intermedio (HP/shield/impacto) según estado del jugador.
+- No se modifican bosses, dificultad, Hangar, audio, checkpoints ni Mundos 11–20.

@@ -1,0 +1,73 @@
+{
+  "version": "2.13.3",
+  "coverage": "10/10",
+  "attacks": {
+    "1": {
+      "boss": "IMPERATRIX VESPA",
+      "pattern": "storm",
+      "signature": "AGUIJÓN SOLAR",
+      "phase_scaling": "1/2/3 haces de aguijón"
+    },
+    "2": {
+      "boss": "ATLAS VERDE",
+      "pattern": "titan",
+      "signature": "ONDA ATLAS",
+      "phase_scaling": "1/2/3 ondas expansivas"
+    },
+    "3": {
+      "boss": "CORTEX RAZOR",
+      "pattern": "blade",
+      "signature": "RAYO RAZOR",
+      "phase_scaling": "180° / 250° / 360°"
+    },
+    "4": {
+      "boss": "VELA NOCTIS",
+      "pattern": "moth",
+      "signature": "ECLIPSE ROTATORIO",
+      "phase_scaling": "5/7/9 radios rotatorios"
+    },
+    "5": {
+      "boss": "REGINA FERRUM",
+      "pattern": "queen",
+      "signature": "MALLA FÉRRICA",
+      "phase_scaling": "corredores horizontales con zona segura"
+    },
+    "6": {
+      "boss": "COLOSSUS HOP",
+      "pattern": "leap",
+      "signature": "IMPACTO COLOSSUS",
+      "phase_scaling": "salto marcado + onda cinética creciente"
+    },
+    "7": {
+      "boss": "SANGUINA PRIME",
+      "pattern": "blood",
+      "signature": "SIFÓN HEMÁTICO",
+      "phase_scaling": "haz perseguidor + drenaje/curación limitada"
+    },
+    "8": {
+      "boss": "ARCHITECT ZERO",
+      "pattern": "architect",
+      "signature": "JAULA DE RESINA",
+      "phase_scaling": "columnas de resina + corredor seguro"
+    },
+    "9": {
+      "boss": "AURALIS",
+      "pattern": "odonata",
+      "signature": "CRUZ PRISMÁTICA",
+      "phase_scaling": "2/3/4 haces prismáticos móviles"
+    },
+    "10": {
+      "boss": "RESONATOR OMEGA",
+      "pattern": "resonance",
+      "signature": "ONDA OMEGA",
+      "phase_scaling": "2/3/4 anillos sónicos expansivos"
+    }
+  },
+  "design_rules": [
+    "telegraph antes de daño",
+    "escalado por fase sin depender solo de HP",
+    "ventana breve de núcleo tras firma",
+    "sin nuevos assets ni carga PWA adicional",
+    "desactivados en entrenamiento"
+  ]
+}

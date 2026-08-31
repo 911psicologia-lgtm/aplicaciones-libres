@@ -1,0 +1,36 @@
+{
+  "key": "vela",
+  "version": "2.13.1",
+  "frameW": 384,
+  "frameH": 384,
+  "motion": "flutter-organic",
+  "states": {
+    "idle": {
+      "frames": 8,
+      "cols": 4
+    },
+    "attack": {
+      "frames": 6,
+      "cols": 4
+    },
+    "hurt": {
+      "frames": 4,
+      "cols": 4
+    },
+    "phase": {
+      "frames": 8,
+      "cols": 4
+    },
+    "death": {
+      "frames": 10,
+      "cols": 4
+    }
+  },
+  "perceptualDiff": {
+    "idle": 22.62,
+    "attack": 30.96,
+    "hurt": 22.43,
+    "phase": 40.77,
+    "death": 38.78
+  }
+}

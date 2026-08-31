@@ -1,0 +1,16 @@
+v2.13.3 — Signature Boss Attacks
+
+- Cobertura signature 10/10 bosses del Capítulo I.
+- Imperatrix: AGUIJÓN SOLAR (1/2/3 haces).
+- Atlas: ONDA ATLAS (ondas expansivas por fase).
+- Cortex: conserva RAYO RAZOR 180°/250°/360°.
+- Vela: ECLIPSE ROTATORIO.
+- Regina: MALLA FÉRRICA con corredor seguro.
+- Colossus: IMPACTO COLOSSUS con salto marcado y onda expansiva.
+- Sanguina: SIFÓN HEMÁTICO con tracking limitado y curación contenida.
+- Architect: JAULA DE RESINA con columnas y corredor seguro.
+- Auralis: CRUZ PRISMÁTICA móvil.
+- Resonator: ONDA OMEGA con anillos sónicos.
+- Cada ataque usa telegraph, VFX propio y escala en complejidad por fase.
+- Las firmas no se usan en entrenamiento.
+- No se modifica CHASE, Hangar, economía, checkpoints, audio ni Worlds 11–20.

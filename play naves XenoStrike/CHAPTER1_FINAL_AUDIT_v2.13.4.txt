@@ -1,0 +1,14 @@
+CHAPTER I FINAL AUDIT — v2.13.4
+
+Worlds active: 10/10
+Boss body animation: 10/10
+Boss signature attacks: 10/10
+Wave Objectives: active
+Combat Director world profiles: 10/10
+Boss convergence/lieutenants: preserved
+Hangar quantities + smart purchase: preserved
+Audio world/boss split + UI pause-resume: preserved
+Compact mobile messages: corrected to a visible single-line notification
+Frenzy resource support: adaptive, max 1 mid-frenzy drop
+CHASE: refined, three stages, lock-on, support, final rank
+Chapter II: NOT STARTED

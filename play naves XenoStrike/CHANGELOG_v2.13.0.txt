@@ -1,0 +1,20 @@
+SWARM//RIFT — INSECTA SIEGE
+v2.13.0 — Chapter I Polish + Chase Bonus Prototype
+
+IMPLEMENTADO
+- Nuevo CHASE BONUS interno: vista trasera, retícula mouse/touch, autofire, profundidad pseudo-3D, enemigos aproximándose, proyectiles hacia cámara e Interceptor Soberano final.
+- Duración objetivo del prototipo: 60 s (+ hasta 8 s de resolución del interceptor).
+- El CHASE BONUS no modifica checkpoints, poderes ni progreso de campaña; solo registra mejor puntuación/victorias y entrega créditos de bonus.
+- Menús desktop, móvil horizontal y móvil vertical incorporan acceso compacto a CHASE.
+- Hangar: cantidad/reserva/rango/nivel ahora tiene badge visible en cada tarjeta.
+- Mensajes de combate enriquecidos automáticamente con iconos/emoticonos funcionales.
+- Campaña ligeramente más larga: objetivos de horda aumentados aprox. 5–8%, sin aumentar HP por este cambio.
+- Densidad visual: microeventos/props se reutilizan con algo más de frecuencia, todavía bajo Encounter Budget.
+- Cortex Razor recibe RAYO RAZOR signature: barrido 180° en F1, 250° en F2 y 360° en F3; telegraph, haz grueso/chispeante, daño por contacto y ventana de núcleo tras el barrido.
+- Pausa CHASE no permite guardar/tienda; audio se pausa y retoma con la misma arquitectura existente.
+- Migración preservada desde v2.12.4.1 y versiones anteriores.
+
+NO MODIFICADO
+- Mundos 11–20 no iniciados.
+- Música de ambiente/bosses, Convergencia, checkpoints, Reward Ledger, 19 poderes/combos y dificultad de bosses conservados.
+- Animación corporal por sprites sigue activa solo en Imperatrix Vespa y Atlas Verde; expansión a bosses 3–10 queda como siguiente bloque de animación.

@@ -1,0 +1,45 @@
+{
+  "key": "sanguina",
+  "boss": "SANGUINA PRIME",
+  "family": "MOSQUITOS",
+  "version": "2.13.2",
+  "frameW": 384,
+  "frameH": 384,
+  "motion": "hematic-pulse",
+  "visualScale": 1.16,
+  "states": {
+    "idle": {
+      "frames": 8,
+      "cols": 4,
+      "fps": 7
+    },
+    "attack": {
+      "frames": 6,
+      "cols": 4,
+      "fps": 11
+    },
+    "hurt": {
+      "frames": 4,
+      "cols": 4,
+      "fps": 13
+    },
+    "phase": {
+      "frames": 8,
+      "cols": 4,
+      "fps": 10
+    },
+    "death": {
+      "frames": 10,
+      "cols": 4,
+      "fps": 9
+    }
+  },
+  "perceptualDiff": {
+    "idle": 11.33,
+    "attack": 12.48,
+    "hurt": 15.53,
+    "phase": 14.17,
+    "death": 5.65
+  },
+  "notes": "Raster boss-state animation derived from the canonical boss asset. Five synchronized states; designed for campaign and lieutenant reuse."
+}

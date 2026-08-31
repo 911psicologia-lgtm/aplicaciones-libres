@@ -1,0 +1,19 @@
+RIZOMA // ZOMBIE STRIKE v3.7.0 — VALIDACIÓN
+
+- node --check js/game.js: OK
+- manifest.json: válido
+- STATIC_STORY_ENABLED: false
+- Invocaciones: ramas M1–M20 presentes
+- Mundo 21: no añadido
+- Escala de invocación: 39–43 % (rango aprobado 35–45 %)
+- Entrada/salida con ventana sin ataque: OK
+- Selector rápido por pulsación larga: OK
+- Selector teclado ←/→: OK
+- Cooldown gráfico HUD: OK
+- Cooldown base: 42 s, intacto
+- Bloqueo en overlays/transiciones: pausa, resultado, cartas, tienda, historia, DOMINIO e intro de jefe
+- Pooling de Guardianes: intacto
+- Persistencia guardianInvocationCooldown: intacta
+- Referencias runtime de assets auditadas: 519
+- Assets faltantes: 0
+- DOMINIO / Flota / M1: sin cambios de balance en esta versión

@@ -1,0 +1,14 @@
+VALIDACIÓN v2.13.1
+
+- VERSION game.js: 2.13.1
+- node --check js/game.js: PASS
+- node --check sw.js: PASS
+- Jefes con animación de asset: 5/10
+- Estados por nuevo jefe: idle 8 / attack 6 / hurt 4 / phase 8 / death 10 = 36 frames
+- Hojas nuevas: Cortex, Vela, Regina; 5/5 estados por jefe.
+- Dimensiones de sheets verificadas: 1536x768, 1536x384 o 1536x1152 según estado.
+- PWA: 287 recursos; 0 faltantes.
+- Cache: swarm-rift-v2.13.1
+- Cache-busting boss anim: av=2131
+- Migración desde v2.13.0: meta + run presentes.
+- Auditoría formal: BOSS_ANIMATION_AUDIT_v2.13.1.txt/json

@@ -1,0 +1,24 @@
+AUTOAUDIT v2.13.1 — BOSS ANIMATION EXPANSION I
+
+ALCANCE CERRADO
+- Solo expansión del sistema de animación corporal de bosses y sincronización de Tenientes.
+- No se iniciaron Mundos 11–20.
+- No se modificó el prototipo CHASE ni la economía.
+
+COBERTURA
+M1 Imperatrix Vespa: ANIMADO
+M2 Atlas Verde: ANIMADO
+M3 Cortex Razor: ANIMADO NUEVO
+M4 Vela Noctis: ANIMADO NUEVO
+M5 Regina Ferrum: ANIMADO NUEVO
+M6 Colossus Hop: PENDIENTE
+M7 Sanguina Prime: PENDIENTE
+M8 Architect Zero: PENDIENTE
+M9 Auralis: PENDIENTE
+M10 Resonator Omega: PENDIENTE
+
+VISIBILIDAD
+Las nuevas hojas no se validaron solo por existencia. Cada paquete incorpora cambios corporales amplios por estado y métricas de diferencia perceptual en meta.json. Se evitó el patrón del primer piloto, donde la variación visual podía resultar demasiado sutil.
+
+TENIENTES
+Los jefes animados que reaparecen como mandos usan attack/hurt en runtime. El paso de fase 1 a 2 genera phaseFlash para activar transición visual sin agregar rótulos bajo el enemigo.

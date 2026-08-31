@@ -1,0 +1,13 @@
+VALIDACIÓN v2.13.3
+- VERSION game.js: 2.13.3
+- Save keys: swarm_rift_meta_v2133 / swarm_rift_run_v2133
+- Migración META/RUN desde v2.13.2: PASS
+- node --check js/game.js: PASS
+- node --check sw.js: PASS
+- Service Worker cache: swarm-rift-v2.13.3
+- PWA resources: 317 / faltantes 0
+- Runtime instrumentado con DOM/Canvas simulado: BOOT PASS
+- __SWARM_SIGNATURE_STATUS(): 9 firmas nuevas + Rayo Razor = 10/10 bosses
+- __SWARM_CHAPTER1_AUDIT(): animación corporal 10/10, pending 0
+- Chromium del contenedor alcanza chrome-error://chromewebdata para localhost; no se atribuye QA visual por navegador a esa ruta.
+- Worlds 11–20: no iniciados.

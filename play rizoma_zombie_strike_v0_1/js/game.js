@@ -1,7 +1,11 @@
 (() => {
   'use strict';
 
-  const VERSION = '3.4.0';
+  const VERSION = '3.9.0';
+  // v3.9.0: añade gobernador visual adaptativo y refuerza legibilidad sin alterar lógica de combate.
+  // v3.8.0: pule Flota de Conquista: HUD de firma, selector seguro, loadout para próxima salida y lectura táctica.
+  // La infraestructura narrativa sigue conservada y las secuencias estáticas permanecen fuera del flujo normal.
+  const STATIC_STORY_ENABLED = false;
   const STORAGE_KEY = 'rizoma_zombie_strike_v0_3_state';
   const SAVE_KEY = 'rizoma_zombie_strike_v0_3_save';
   const clamp = (v, a, b) => Math.max(a, Math.min(b, v));
@@ -476,6 +480,60 @@
     { id:'bossShip20', world:20, name:'Necrorex Dreadship', assetKey:'world20Ship', color:'#8ed957', scale:1.54, mod:{damage:1.12,speed:1.08,cadence:.90,incoming:.87,power:1.18,crit:.055}, passive:'Necrorex · infección, resistencia y daño orgánico final', signature:'Dominio Necroescama', signatureCd:22 }
   ];
   const domainFormMeta = id => DOMAIN_FORMS.find(f=>f.id===id) || null;
+
+  // v3.6.0 · Flota de Conquista completa: 10 cascos vehiculares reales ya presentes en el paquete.
+  // Ningún monstruo se usa como nave. Las firmas son automáticas, breves y complementan el combate normal.
+  const CONQUEST_FLEET = [
+    { id:'fleetMeteorLance', milestoneWorld:1, guardianWorld:1, name:'Lanza Meteórica', assetKey:'mirrorShip', color:'#ff7048', scale:1.00, signature:'Perforación del Núcleo', signatureCd:7.5, signatureType:'meteorLance', mod:{damage:1.020,speed:1.025,shield:1.010,cadence:.992}, inherit:'Lanza cinética perforante inspirada en el Núcleo Meteórico' },
+    { id:'fleetAstralWing', milestoneWorld:4, guardianWorld:4, name:'Ala Astral Carmesí', assetKey:'world4Enemy1', color:'#ff7d76', scale:1.06, signature:'Corte Astral Gemelo', signatureCd:6.8, signatureType:'astralTwin', mod:{damage:1.025,speed:1.030,shield:1.008,cadence:.988}, inherit:'Cortes orbitales y maniobra de fase del Sello Astral' },
+    { id:'fleetAbyssRay', milestoneWorld:7, guardianWorld:7, name:'Raya Abisal Vector', assetKey:'world7Enemy3', color:'#48d9ff', scale:1.08, signature:'Onda de Presión', signatureCd:8.2, signatureType:'abyssWave', mod:{damage:1.020,speed:1.035,shield:1.018,cadence:.990}, inherit:'Pulso hidrodinámico de Leviatán que ralentiza la primera línea' },
+    { id:'fleetKaiserBlade', milestoneWorld:9, guardianWorld:9, name:'Kaiser Blade-Frame', assetKey:'world9Subboss1', color:'#d95cff', scale:1.04, signature:'Corte Multiversal', signatureCd:7.4, signatureType:'kaiserCut', mod:{damage:1.032,speed:1.026,shield:1.008,cadence:.984}, inherit:'Ráfaga de filos dimensionales heredada de Kaiser Infinito' },
+    { id:'fleetHadalSpear', milestoneWorld:12, guardianWorld:12, name:'Hadal Spear', assetKey:'world12Enemy3', color:'#46e7f2', scale:1.08, signature:'Lanza de Presión', signatureCd:8.8, signatureType:'hadalSpear', mod:{damage:1.024,speed:1.026,shield:1.028,cadence:.990}, inherit:'Lanza de presión con recuperación mínima de escudo' },
+    { id:'fleetNovaSpear', milestoneWorld:14, guardianWorld:14, name:'Lanza Nova', assetKey:'world14Ship', color:'#ffcc58', scale:1.03, signature:'Pulso Nova', signatureCd:8.0, signatureType:'novaPulse', mod:{damage:1.035,speed:1.020,shield:1.015,cadence:.985}, inherit:'Pulso solar concentrado de Némesis Nova' },
+    { id:'fleetNeuroArk', milestoneWorld:16, guardianWorld:16, name:'Neuroarca Psiónica', assetKey:'world16Ship', color:'#b45cff', scale:1.02, signature:'Cadena Sináptica', signatureCd:7.2, signatureType:'synapticChain', mod:{damage:1.030,speed:1.025,shield:1.010,cadence:.980}, inherit:'Predicción y descarga sináptica de Neurokhan' },
+    { id:'fleetFenrir', milestoneWorld:17, guardianWorld:17, name:'Fenrir Cryo-Ship', assetKey:'world17Ship', color:'#9ee8ff', scale:1.03, signature:'Colmillo Criogénico', signatureCd:7.6, signatureType:'cryoFang', mod:{damage:1.025,speed:1.040,shield:1.015,cadence:.985}, inherit:'Vector criogénico de Skaldr' },
+    { id:'fleetAkasha', milestoneWorld:18, guardianWorld:18, name:'Akasha Manga-Ship', assetKey:'world18Ship', color:'#d44cff', scale:1.03, signature:'Corte de Viñeta', signatureCd:6.9, signatureType:'panelCut', mod:{damage:1.040,speed:1.030,shield:1.010,cadence:.975}, inherit:'Corte de viñeta heredado de Akasha' },
+    { id:'fleetZhyr', milestoneWorld:19, guardianWorld:19, name:'Zhyr Disc', assetKey:'world19Ship', color:'#a7d9e4', scale:1.02, signature:'Agujas Psiónicas', signatureCd:7.1, signatureType:'psionNeedles', mod:{damage:1.030,speed:1.035,shield:1.025,cadence:.980}, inherit:'Precisión y control psiónico del Arconte Zhyr' }
+  ];
+  const conquestFleetMeta = id => CONQUEST_FLEET.find(f=>f.id===id) || null;
+  const fleetModSummary = meta => {
+    if(!meta?.mod)return [];
+    const pct=(n)=>`${Math.round(n*10)/10}%`;
+    const rows=[];
+    const dmg=((meta.mod.damage||1)-1)*100,spd=((meta.mod.speed||1)-1)*100,shield=((meta.mod.shield||1)-1)*100,cad=(1-(meta.mod.cadence||1))*100;
+    if(Math.abs(dmg)>.01)rows.push(`DMG +${pct(dmg)}`);
+    if(Math.abs(spd)>.01)rows.push(`VEL +${pct(spd)}`);
+    if(Math.abs(shield)>.01)rows.push(`ESC +${pct(shield)}`);
+    if(Math.abs(cad)>.01)rows.push(`CAD +${pct(cad)}`);
+    return rows;
+  };
+  const guardianBossAssetKey = world => world===1 ? 'bossBiomech' : (world===2 ? 'bossBaciloOmega' : `bossWorld${world}`);
+  const guardianInvocationMeta = world => {
+    const w=clamp(Number(world)||1,1,MAPS.length),domain=DOMAIN_FORMS[w-1];
+    const signatures={13:'Erupción del Núcleo',16:'Cadenas sinápticas',17:'Cacería congelante',20:'Embestida infecciosa'};
+    const summonScale=(w===13||w===16||w===17||w===20)?.43:(w>=14?.41:.39);
+    return { id:`guardian${w}`, world:w, name:MAPS[w-1]?.boss||`Guardián ${w}`, assetKey:guardianBossAssetKey(w), color:domain?.color||'#83eaff', duration:w>=16?7:6, cooldown:42, summonScale, signature:signatures[w]||domain?.signature||'Asalto del Guardián' };
+  };
+
+  function reconcileConquestRewards(p) {
+    if(!p)return;
+    p.conquestFleet=p.conquestFleet||{};
+    p.guardianInvocations=p.guardianInvocations||{};
+    const completed=new Set((p.completedMaps||[]).map(Number));
+    for(const w of completed){
+      if(w>=1&&w<=MAPS.length){const id=`guardian${w}`;if(!p.guardianInvocations[id])p.guardianInvocations[id]={id,world:w,unlockedAt:'legacy'};}
+    }
+    for(const ship of CONQUEST_FLEET){
+      if(completed.has(ship.milestoneWorld)&&!p.conquestFleet[ship.id])p.conquestFleet[ship.id]={id:ship.id,world:ship.milestoneWorld,unlockedAt:'legacy'};
+    }
+    if(p.activeFleetShip&&!p.conquestFleet[p.activeFleetShip])p.activeFleetShip=null;
+    const unlockedGuardians=Object.keys(p.guardianInvocations).filter(id=>p.guardianInvocations[id]);
+    if(p.activeGuardianInvocation&&!p.guardianInvocations[p.activeGuardianInvocation])p.activeGuardianInvocation=null;
+    if(!p.activeGuardianInvocation&&unlockedGuardians.length){
+      unlockedGuardians.sort((a,b)=>(Number(b.replace('guardian',''))||0)-(Number(a.replace('guardian',''))||0));
+      p.activeGuardianInvocation=unlockedGuardians[0];
+    }
+  }
   const SECOND_SAGA_WORLDS = [
     {world:11,name:'Desierto Alienígena',biome:'desierto',cue:'Tormentas de sílice, ruinas y depredadores bajo dos soles.'},
     {world:12,name:'Abismo Pelágico',biome:'fondo del mar',cue:'Océano extraterrestre, presión extrema y ciudades hundidas.'},
@@ -1328,6 +1386,10 @@
       bossShips: {},
       activeBossShip: null,
       activeDomainForm: 'rizoma',
+      conquestFleet: {},
+      activeFleetShip: null,
+      guardianInvocations: {},
+      activeGuardianInvocation: null,
       domainUnlocked: false,
       campaignExtraLives: 4,
       worldProgression: { shotTier: 0, projectileSpeedTier: 0, accuracyTier: 0, mobilityTier: 0, rangeTier: 0, bossPowers: {} },
@@ -1480,6 +1542,7 @@
       p.activeDomainForm = p.activeDomainForm || (p.activeBossShip && p.bossShips[p.activeBossShip] ? p.activeBossShip : 'rizoma');
       if (p.activeDomainForm!=='rizoma' && !p.bossShips[p.activeDomainForm]) p.activeDomainForm='rizoma';
       p.activeBossShip = p.activeDomainForm==='rizoma' ? null : p.activeDomainForm;
+      reconcileConquestRewards(p);
       p.campaignExtraLives = Math.min(MAX_TOTAL_LIVES - 1, Math.max(0, Number.isFinite(p.campaignExtraLives) ? p.campaignExtraLives : 4));
       p.worldProgression = { shotTier: 0, projectileSpeedTier: 0, accuracyTier: 0, mobilityTier: 0, rangeTier: 0, bossPowers: {}, ...(p.worldProgression || {}) };
       p.worldProgression.bossPowers = p.worldProgression.bossPowers || {};
@@ -1498,6 +1561,7 @@
       p.ranking = p.ranking || [];
       p.lastSave = p.lastSave || null;
       reconcileCampaignProgress(p);
+      reconcileConquestRewards(p);
     });
     return s;
   }
@@ -1877,14 +1941,23 @@
       this.enemies = [];
       this.bullets = [];
       this.particles = [];
+      // v3.9.0: presupuesto visual adaptativo. Solo gobierna FX cosméticos; jamás entidades o timers de combate.
+      this.fxVisualScale = 1;
+      this.fxFrameAvg = 1 / 60;
+      this.fxGovernorTimer = 0;
+      this.fxGovernorState = 'full';
+      this.baseMaxParticles = 135;
       this.pickups = [];
       this.drones = [];
       this.zones = [];
       this.meteors = [];
       this.frontThreats = [];
       this.frontThreatPool = this.frontThreatPool || [];
+      this.guardianInvocationPool = this.guardianInvocationPool || [];
+      this.guardianInvocation = null;
+      this.guardianInvocationCooldown = 0;
       this.frontThreatDirector = { cooldown:3.6, budget:2.4, budgetMax:2.4, budgetTimer:11.5, spawned:0, nearMisses:0 };
-      this.worldOneState = { meteorTimer: 4.6, insectTimer: 3.0, mirrorCount: 0, rainTimer: 8.0, burstTimer: 2.8, bombTimer: 6.0, planetTimer: 10.0, hunterTimer: 3.8, rewardSteps: [], backgroundPhase: 0, eventTimer: 5.4, hordeTimer: 9.6, hordeSeen: 0, actSeen: 0, captainsSpawned: 0, captainsKilled: 0, captainTimer: 2.4, bossPrelude: 0, bossPreludeMax: 4.8, bossPreludeStarted: false };
+      this.worldOneState = { meteorTimer: 4.6, insectTimer: 3.0, mirrorCount: 0, rainTimer: 8.0, burstTimer: 2.8, bombTimer: 6.0, planetTimer: 10.0, hunterTimer: 3.8, rewardSteps: [], earnedPowerIds:[], frontSkillKills:0, nearMissRewards:0, skillHorde:null, masteryCapsules:0, backgroundPhase: 0, eventTimer: 5.4, hordeTimer: 9.6, hordeSeen: 0, actSeen: 0, captainsSpawned: 0, captainsKilled: 0, captainTimer: 2.4, bossPrelude: 0, bossPreludeMax: 4.8, bossPreludeStarted: false };
       this.worldTwoState = { sporeTimer: 3.8, fogTimer: 7.2, splitTimer: 5.0, rewardSteps: [], backgroundPhase: 0, labPulse: 0, colonyTimer: 8.2, toxicZoneTimer: 7.0, junkTimer: 4.8, meteorTimer: 5.8, planetTimer: 10.8, chaosTimer: 8.6, rewardTimer: 7.0, eventTimer: 8.5, hordeTimer: 13.2, hordeSeen: 0, formationIndex: 0, enemyHistory: [], actSeen: 0, captainsSpawned: 0, captainsKilled: 0, captainTimer: 1.0, level5Elapsed: 0, bossPrelude: 0, bossPreludeMax: 5.3, bossPreludeStarted: false };
       this.worldThreeState={rewardSteps:[],eventTimer:7.5,rewardTimer:8.5,hordeTimer:13.5,hazardTimer:6.5,speedBurst:0,hordeSeen:0,enemyHistory:[]};
       this.worldFourState={rewardSteps:[],eventTimer:7.0,rewardTimer:8.0,hazardTimer:7.4,hordeTimer:12.5,enemyHistory:[]};
@@ -1925,6 +1998,8 @@
       this.selectedMapFromScreen = 0;
       this.domainOverlayOpen = false;
       this.domainWasPaused = false;
+      this.fleetOverlayOpen = false;
+      this.fleetWasPaused = false;
       this.tacticalShopOpen = false;
       this.tacticalShopWasPaused = false;
       this.trainingMode = null;
@@ -1939,7 +2014,7 @@
       window.addEventListener('resize', () => { updateViewportVars(); this.resize(); });
       window.visualViewport?.addEventListener('resize', () => { updateViewportVars(); this.resize(); });
       window.addEventListener('orientationchange', () => setTimeout(() => { updateViewportVars(); this.resize(); }, 260));
-      window.addEventListener('keydown', e => { this.keys[e.key.toLowerCase()] = true; if (e.key === 'Escape') { if(this.tacticalShopOpen)this.closeTacticalPrep(); else if(this.domainOverlayOpen)this.closeDomainSelector(); else this.togglePause(); } });
+      window.addEventListener('keydown', e => { this.keys[e.key.toLowerCase()] = true; if (e.key === 'Escape') { if(this.tacticalShopOpen)this.closeTacticalPrep(); else if(this.fleetOverlayOpen)this.closeFleetSelector(); else if(this.domainOverlayOpen)this.closeDomainSelector(); else this.togglePause(); } });
       window.addEventListener('keyup', e => this.keys[e.key.toLowerCase()] = false);
       const pointerHandler = e => {
         const p = e.touches ? e.touches[0] : e;
@@ -2026,11 +2101,55 @@
 
     applyPerformanceMode() {
       const low = !!state.settings.lowPerformance;
-      this.maxParticles = low ? 60 : (this.isSmallScreen ? 90 : 135);
+      this.baseMaxParticles = low ? 60 : (this.isSmallScreen ? 90 : 135);
+      this.maxParticles = Math.max(28, Math.round(this.baseMaxParticles * (this.fxVisualScale || 1)));
       this.maxPickups = low ? 18 : (this.isSmallScreen ? 24 : 34);
+      // Los límites de gameplay siguen ligados exclusivamente al ajuste manual; el gobernador automático NO los toca.
       this.maxMeteors = low ? (this.mapIndex>=9?3:2) : (this.isSmallScreen ? (this.mapIndex>=9?5:(this.mapIndex===1 ? 4 : 3)) : (this.mapIndex>=9?8:(this.mapIndex===1 ? 7 : 5)));
       this.maxBullets = low ? 100 : (this.isSmallScreen ? 145 : 205);
       document.body.classList.toggle('low-performance', low);
+    }
+
+    fxAtmosphereCount(normalCount, lowCount=Math.ceil(normalCount*.52)) {
+      if (state.settings.lowPerformance) return Math.max(3, lowCount);
+      const scale = clamp(this.fxVisualScale || 1, .52, 1);
+      return Math.max(3, Math.round(normalCount * scale));
+    }
+
+    fxImpactScale() {
+      if (state.settings.reducedMotion) return .45;
+      return .62 + clamp(this.fxVisualScale || 1, .52, 1) * .38;
+    }
+
+    updateFxGovernor(rawDt=.0167) {
+      if (!Number.isFinite(rawDt) || rawDt <= 0 || rawDt > .12) return;
+      // EMA suficientemente lenta para no reaccionar a un frame aislado ni a aperturas de overlays.
+      this.fxFrameAvg = (this.fxFrameAvg || rawDt) * .94 + rawDt * .06;
+      this.fxGovernorTimer = (this.fxGovernorTimer || 0) + rawDt;
+      if (this.fxGovernorTimer < .55) return;
+      this.fxGovernorTimer = 0;
+
+      const avg = this.fxFrameAvg || (1/60);
+      const combatLoad = (this.enemies?.length || 0) + (this.bullets?.length || 0) * .34 + (this.frontThreats?.length || 0) * 4 + (this.particles?.length || 0) * .14;
+      let target = 1;
+      if (state.settings.lowPerformance) target = .55;
+      else if (avg > .028) target = this.isSmallScreen ? .54 : .68;
+      else if (avg > .0235) target = this.isSmallScreen ? .66 : .80;
+      else if (avg > .0205) target = this.isSmallScreen ? .80 : .91;
+      if (state.settings.reducedMotion) target = Math.min(target, .74);
+      if (this.isSmallScreen && combatLoad > 150) target = Math.min(target, .60);
+      else if (this.isSmallScreen && combatLoad > 112) target = Math.min(target, .72);
+
+      const current = clamp(this.fxVisualScale || 1, .52, 1);
+      const factor = target < current ? .46 : .18; // baja rápido, recupera de forma gradual.
+      this.fxVisualScale = clamp(current + (target-current)*factor, .52, 1);
+      this.maxParticles = Math.max(28, Math.round((this.baseMaxParticles || (this.isSmallScreen?90:135)) * this.fxVisualScale));
+      const stateName = this.fxVisualScale < .64 ? 'critical' : (this.fxVisualScale < .88 ? 'reduced' : 'full');
+      if (stateName !== this.fxGovernorState) {
+        this.fxGovernorState = stateName;
+        document.body?.classList.toggle('fx-auto-throttled', stateName !== 'full');
+        document.body?.classList.toggle('fx-auto-critical', stateName === 'critical');
+      }
     }
 
     updateOrientationHint() {
@@ -2123,7 +2242,8 @@
         this.worldOneState.captainsKilled = (this.worldOneState.captainsKilled || 0) + 1;
         this.worldStage.kills = this.worldOneState.captainsKilled;
         if(this.progressWatch){this.progressWatch.kills=this.worldStage.kills;this.progressWatch.stagnant=0;}
-        this.toast('⚔️ Capitán eliminado', `${this.worldStage.kills}/3`);
+        this.spawnWorldOneCaptainReward(enemyOrCount);
+        this.toast('⚔️ Capitán eliminado', `${this.worldStage.kills}/3 · poder asegurado`);
         if (this.worldStage.kills >= 3) this.beginWorldOneBossPrelude();
         return;
       }
@@ -2235,6 +2355,7 @@
       const e = this.enemies[this.enemies.length - 1];
       if (!e) return;
       e.worldCaptain = true;
+      e.captainIndex = index;
       e.name = names[index] || 'Capitán de frontera';
       e.hp *= 2.65*(COMBAT_DURABILITY.subboss/COMBAT_DURABILITY.minion); e.baseHp = e.hp;
       e.r *= 1.28; e.speed *= .82;
@@ -2251,6 +2372,7 @@
       w1.bossPreludeStarted = true;
       w1.bossPreludeMax = 4.8;
       w1.bossPrelude = w1.bossPreludeMax;
+      this.ensureWorldOneBossLoadout();
       this.enemies = this.enemies.filter(e => e.boss);
       this.bullets.length = 0;
       this.pickups = this.pickups.filter(p => p.type === 'power');
@@ -2266,6 +2388,7 @@
       if (this.mapIndex !== 0 || this.bossActive || this.run?.mapComplete) return false;
       const w1 = this.worldOneState;
       if (!w1) return false;
+      this.updateWorldOneSkillHorde(dt);
       if (w1.bossPrelude > 0) {
         w1.bossPrelude = Math.max(0, w1.bossPrelude - dt);
         if (w1.bossPrelude <= 0 && !this.bossIntroduced) this.spawnBoss();
@@ -2536,8 +2659,11 @@
       this.meteors = [];
       this.frontThreats = [];
       this.frontThreatPool = this.frontThreatPool || [];
+      this.guardianInvocationPool = this.guardianInvocationPool || [];
+      this.guardianInvocation = null;
+      this.guardianInvocationCooldown = Math.max(0,save?.guardianInvocationCooldown||0);
       this.frontThreatDirector = { cooldown:3.6, budget:2.4, budgetMax:2.4, budgetTimer:11.5, spawned:0, nearMisses:0 };
-      this.worldOneState = { meteorTimer: 4.6, insectTimer: 3.0, mirrorCount: 0, rainTimer: 8.0, burstTimer: 2.8, bombTimer: 6.0, planetTimer: 10.0, hunterTimer: 3.8, rewardSteps: [], backgroundPhase: 0, eventTimer: 5.4, hordeTimer: 9.6, hordeSeen: 0, actSeen: 0, captainsSpawned: 0, captainsKilled: 0, captainTimer: 2.4, bossPrelude: 0, bossPreludeMax: 4.8, bossPreludeStarted: false };
+      this.worldOneState = { meteorTimer: 4.6, insectTimer: 3.0, mirrorCount: 0, rainTimer: 8.0, burstTimer: 2.8, bombTimer: 6.0, planetTimer: 10.0, hunterTimer: 3.8, rewardSteps: [], earnedPowerIds:[], frontSkillKills:0, nearMissRewards:0, skillHorde:null, masteryCapsules:0, backgroundPhase: 0, eventTimer: 5.4, hordeTimer: 9.6, hordeSeen: 0, actSeen: 0, captainsSpawned: 0, captainsKilled: 0, captainTimer: 2.4, bossPrelude: 0, bossPreludeMax: 4.8, bossPreludeStarted: false };
       this.worldTwoState = { sporeTimer: 3.8, fogTimer: 7.2, splitTimer: 5.0, rewardSteps: [], backgroundPhase: 0, labPulse: 0, colonyTimer: 8.2, toxicZoneTimer: 7.0, junkTimer: 4.8, meteorTimer: 5.8, planetTimer: 10.8, chaosTimer: 8.6, rewardTimer: 7.0, eventTimer: 8.5, hordeTimer: 13.2, hordeSeen: 0, formationIndex: 0, enemyHistory: [], actSeen: 0, captainsSpawned: 0, captainsKilled: 0, captainTimer: 1.0, level5Elapsed: 0, bossPrelude: 0, bossPreludeMax: 5.3, bossPreludeStarted: false };
       this.worldThreeState={rewardSteps:[],eventTimer:7.5,rewardTimer:8.5,hordeTimer:13.5,hazardTimer:6.5,speedBurst:0,hordeSeen:0,enemyHistory:[]};
       this.worldFourState={rewardSteps:[],eventTimer:7.0,rewardTimer:8.0,hazardTimer:7.4,hordeTimer:12.5,enemyHistory:[]};
@@ -2595,6 +2721,8 @@
       this.tacticalComboLockedId = null;
       this.domainOverlayOpen = false;
       this.domainWasPaused = false;
+      this.fleetOverlayOpen = false;
+      this.fleetWasPaused = false;
       this.criticalState = { cooldown:save?.criticalState?.cooldown||0, lastId:null, lastAt:0, bossMarks:{}, hemophages:[], meteors:[], activeCriticals:[], rhizomes:[], recent:save?.criticalState?.recent||[] };
       this.defeatPowerDropsIssued = false;
       this.lastBossLootPower = null;
@@ -2724,7 +2852,10 @@
         shipParts: { core:0,wings:0,cannon:0,engine:0,...(p.shipParts||{}) },
         projectileSpeedBonus: 1,
         aimAssist: 0,
-        domainForm: (saved?.domainForm || p.activeDomainForm || 'rizoma')
+        domainForm: (saved?.domainForm || p.activeDomainForm || 'rizoma'),
+        fleetShip: (saved?.fleetShip || p.activeFleetShip || null),
+        fleetSignatureTimer: saved?.fleetSignatureTimer ?? 1.8,
+        fleetSignatureNotice: 0
       };
       SHOP.forEach(item => {
         const lvl = p.upgrades[item.id] || 0;
@@ -2746,6 +2877,9 @@
       player.crit += Math.min(.08, Math.max(0, progression.accuracyTier || 0) * .012);
       player.fireDelay = Math.max(245, player.fireDelay * (1 - Math.min(.22, player.shotTier * .035)));
       if (player.domainForm !== 'rizoma' && !p.bossShips?.[player.domainForm]) player.domainForm = 'rizoma';
+      if(player.fleetShip&&!p.conquestFleet?.[player.fleetShip])player.fleetShip=null;
+      const fleet=player.domainForm==='rizoma'?conquestFleetMeta(player.fleetShip):null;
+      if(fleet){player.damage*=fleet.mod.damage||1;player.speed*=fleet.mod.speed||1;player.maxShield*=fleet.mod.shield||1;player.fireDelay=Math.max(220,player.fireDelay*(fleet.mod.cadence||1));player.shield=Math.min(player.maxShield,player.shield+(player.maxShield*.08));}
       player.baseSpeed = player.speed;
       player.nominalSpeed = player.speed;
       player.recoverySpeedTimer = saved?.recoverySpeedTimer ?? 0;
@@ -2759,8 +2893,10 @@
 
     loop(t) {
       if (!this.running) return;
-      const dt = Math.min(0.029, (t - this.last) / 1000 || 0.016);
+      const rawDt = (t - this.last) / 1000 || 0.016;
+      const dt = Math.min(0.029, rawDt);
       this.last = t;
+      this.updateFxGovernor(rawDt);
       if (!this.paused) this.update(dt);
       this.render(dt);
       requestAnimationFrame(tt => this.loop(tt));
@@ -2787,6 +2923,7 @@
       this.ensureTacticalPowerSupport(dt);
       this.updateRareEvents(dt);
       this.updateCriticalEffects(dt);
+      this.updateGuardianInvocation(dt);
 
       const regen = p.regen * dt;
       if (regen > 0 && p.hp < p.maxHp) p.hp = Math.min(p.maxHp, p.hp + regen);
@@ -2795,6 +2932,7 @@
       this.handleMovement(dt);
       this.updateFrontThreatDirector(dt);
       this.updateDomainSignature(dt);
+      this.updateFleetSignature(dt);
       this.updateWorldSixDirector(dt);
       this.updateWorldSevenDirector(dt);
       this.updateWorldEightDirector(dt);
@@ -3268,6 +3406,7 @@
         if(this.player)this.player.domainForm=p.activeDomainForm;
       }
       this.updateDomainControl(false);
+      this.updateFleetControl(false);
     }
 
     availableDomainForms(){
@@ -3331,8 +3470,181 @@
       AudioFX.domain(meta?.world||0);
       this.toast('◇ DOMINIO',id==='rizoma'?'RIZOMA restaurada':`${meta.name} · forma activa`);
       this.updateDomainControl(false);
+      this.updateFleetControl(false);
       this.closeDomainSelector();
       return true;
+    }
+
+    availableFleetShips(){
+      const profile=currentProfile();
+      const ships=[{id:null,milestoneWorld:0,name:'Fénix RZ-1',assetKey:'playerFenixRZ1',color:'#83eaff',signature:'Sin firma de Flota',signatureCd:0,inherit:'Nave base · equilibrio total',mod:{damage:1,speed:1,shield:1,cadence:1}}];
+      if(!profile)return ships;
+      for(const meta of CONQUEST_FLEET)if(profile.conquestFleet?.[meta.id])ships.push(meta);
+      return ships;
+    }
+
+    updateFleetControl(pulse=false){
+      if(!els.btnFleet)return;
+      const profile=currentProfile(),unlocked=!!profile && this.running && CONQUEST_FLEET.some(meta=>!!profile.conquestFleet?.[meta.id]);
+      els.btnFleet.classList.toggle('hidden',!unlocked);
+      if(!unlocked)return;
+      const currentId=this.player?.fleetShip||null,current=conquestFleetMeta(currentId),queuedId=profile.activeFleetShip||null,queued=conquestFleetMeta(queuedId);
+      const suspended=(this.player?.domainForm||'rizoma')!=='rizoma';
+      const remain=current?Math.max(0,this.player?.fleetSignatureTimer||0):0,ratio=current&&current.signatureCd?clamp(1-remain/current.signatureCd,0,1):1;
+      const queuedChanged=currentId!==queuedId;
+      if(els.fleetQuickStatus){
+        if(queuedChanged)els.fleetQuickStatus.textContent=queued?`→M${queued.milestoneWorld}`:'→BASE';
+        else if(suspended&&current)els.fleetQuickStatus.textContent='PAUSA';
+        else if(current)els.fleetQuickStatus.textContent=remain>0?`${Math.ceil(remain)}s`:'LISTO';
+        else els.fleetQuickStatus.textContent='BASE';
+      }
+      const color=current?.color||'#83eaff';els.btnFleet.style.setProperty('--fleet-cd',String(ratio));els.btnFleet.style.setProperty('--fleet-color',color);
+      els.btnFleet.classList.toggle('fleet-equipped',!!current);els.btnFleet.classList.toggle('fleet-suspended',!!current&&suspended);els.btnFleet.classList.toggle('fleet-queued',queuedChanged);
+      const currentName=current?.name||'Fénix RZ-1',queuedName=queued?.name||'Fénix RZ-1';
+      els.btnFleet.title=`Flota · actual: ${currentName}${current?` · ${current.signature}`:''}${suspended&&current?' · firma suspendida por DOMINIO':''}${queuedChanged?` · próxima salida: ${queuedName}`:''}`;
+      els.btnFleet.setAttribute('aria-label',`Abrir Flota de Conquista. Nave actual ${currentName}${queuedChanged?`. Próxima salida ${queuedName}`:''}.`);
+      if(pulse){els.btnFleet.classList.remove('fleet-fired');void els.btnFleet.offsetWidth;els.btnFleet.classList.add('fleet-fired');setTimeout(()=>els.btnFleet?.classList.remove('fleet-fired'),720);}
+    }
+
+    renderFleetSelector(){
+      if(!els.fleetQuickList)return;
+      const profile=currentProfile(),currentId=this.player?.fleetShip||null,queuedId=profile?.activeFleetShip||null;
+      els.fleetQuickList.innerHTML=this.availableFleetShips().map(meta=>{
+        const id=meta.id||'',current=currentId===(meta.id||null),queued=queuedId===(meta.id||null),src=GAME_ASSET_SOURCES[meta.assetKey]||'',stats=fleetModSummary(meta);
+        const badges=`${current?'<em class="fleet-current-badge">EN MISIÓN</em>':''}${queued?'<em class="fleet-queued-badge">PRÓXIMA</em>':''}`;
+        return `<button class="fleet-quick-card ${current?'current':''} ${queued?'queued':''}" data-fleet-loadout="${id}" style="--fleet-color:${meta.color||'#83eaff'}"><span class="fleet-quick-art">${src?`<img src="${src}" alt="" draggable="false">`:'◇'}</span><span class="fleet-quick-copy"><strong>${meta.name}</strong><small>${meta.id?`M${meta.milestoneWorld} · ${meta.signature}`:'Nave base · sin firma automática'}</small><span class="fleet-stat-row">${stats.length?stats.map(x=>`<b>${x}</b>`).join(''):'<b>EQUILIBRADA</b>'}</span></span>${badges}</button>`;
+      }).join('');
+    }
+
+    openFleetSelector(){
+      const profile=currentProfile();if(!this.running||!profile||!CONQUEST_FLEET.some(meta=>!!profile.conquestFleet?.[meta.id])||this.resultMode)return false;
+      this.fleetWasPaused=this.paused;this.paused=true;this.fleetOverlayOpen=true;this.renderFleetSelector();els.fleetOverlay?.classList.remove('hidden');AudioFX.signature('selector','fleet');return true;
+    }
+
+    closeFleetSelector(){
+      if(!this.fleetOverlayOpen)return;els.fleetOverlay?.classList.add('hidden');this.fleetOverlayOpen=false;this.paused=!!this.fleetWasPaused;this.fleetWasPaused=false;this.updateFleetControl(false);
+    }
+
+    selectFleetLoadout(id=null){
+      const profile=currentProfile();if(!profile)return false;id=id||null;if(id&&!profile.conquestFleet?.[id])return false;
+      profile.activeFleetShip=id;saveState();this.renderFleetSelector();this.updateFleetControl(false);
+      const meta=conquestFleetMeta(id),currentId=this.player?.fleetShip||null,same=currentId===id;
+      this.toast(same?'✦ FLOTA ACTUAL':'✦ FLOTA PREPARADA',same?(meta?`${meta.name} · ya está activa`:'Fénix RZ-1 · ya está activa'):(meta?`${meta.name} · se aplicará en la próxima salida`:'Fénix RZ-1 · se aplicará en la próxima salida'));
+      return true;
+    }
+
+    guardianInvocationUiBlocked(){
+      const overlays=['resultOverlay','pauseOverlay','cardOverlay','tacticalPrepPrompt','tacticalShopOverlay','storyOverlay','domainOverlay','fleetOverlay','bossIntroOverlay'];
+      return !this.running||this.paused||overlays.some(id=>els[id]&&!els[id].classList.contains('hidden'));
+    }
+
+    cycleGuardianInvocation(step=1){
+      const p=currentProfile();if(!p)return false;reconcileConquestRewards(p);
+      const ids=Object.keys(p.guardianInvocations||{}).filter(id=>p.guardianInvocations[id]).sort((a,b)=>(Number(a.replace('guardian',''))||0)-(Number(b.replace('guardian',''))||0));
+      if(ids.length<2)return false;
+      let idx=Math.max(0,ids.indexOf(p.activeGuardianInvocation));idx=(idx+(step<0?-1:1)+ids.length)%ids.length;p.activeGuardianInvocation=ids[idx];saveState();
+      const meta=guardianInvocationMeta(Number(ids[idx].replace('guardian',''))||1);this.toast('◆ GUARDIÁN SELECCIONADO',`M${meta.world} · ${meta.name} · ${meta.signature}`);this.updateGuardianInvocationControl();return true;
+    }
+
+    updateGuardianInvocationControl(){
+      if(!els.btnGuardianInvoke)return;const profile=currentProfile(),available=!!profile?.activeGuardianInvocation&&!!profile.guardianInvocations?.[profile.activeGuardianInvocation]&&this.running;
+      els.btnGuardianInvoke.classList.toggle('hidden',!available);if(!available)return;
+      const world=Number(profile.activeGuardianInvocation.replace('guardian',''))||1,meta=guardianInvocationMeta(world),cd=Math.ceil(this.guardianInvocationCooldown||0),ratio=clamp((this.guardianInvocationCooldown||0)/Math.max(.001,meta.cooldown),0,1);
+      if(els.guardianInvokeStatus)els.guardianInvokeStatus.textContent=this.guardianInvocation?`${Math.ceil(this.guardianInvocation.life)}s`:(cd>0?`${cd}s`:`M${world}`);
+      const blocked=this.guardianInvocationUiBlocked();els.btnGuardianInvoke.disabled=!!this.guardianInvocation||blocked;els.btnGuardianInvoke.style.setProperty('--guardian-cd',String(ratio));els.btnGuardianInvoke.style.setProperty('--guardian-color',meta.color);
+      els.btnGuardianInvoke.setAttribute('aria-label',`Invocar ${meta.name}. Mantén pulsado para cambiar Guardián.`);
+      els.btnGuardianInvoke.title=`M${world} · ${meta.name} · ${meta.signature}${cd>0?` · cooldown ${cd}s`:''} · Mantén pulsado para cambiar`;
+      els.btnGuardianInvoke.classList.toggle('guardian-active',!!this.guardianInvocation);els.btnGuardianInvoke.classList.toggle('guardian-cooling',cd>0&&!this.guardianInvocation);
+    }
+
+    allocGuardianInvocation(){return this.guardianInvocationPool.pop()||{};}
+    releaseGuardianInvocation(inv){if(!inv)return;for(const k of Object.keys(inv))delete inv[k];if(this.guardianInvocationPool.length<3)this.guardianInvocationPool.push(inv);}
+
+    activateGuardianInvocation(){
+      const profile=currentProfile(),id=profile?.activeGuardianInvocation;
+      if(this.guardianInvocationUiBlocked()||this.guardianInvocation||(this.guardianInvocationCooldown||0)>0||!id||!profile.guardianInvocations?.[id])return false;
+      const world=Number(id.replace('guardian',''))||1,meta=guardianInvocationMeta(world),inv=this.allocGuardianInvocation();
+      Object.assign(inv,{id,world,meta,life:meta.duration,maxLife:meta.duration,attackCd:.44,x:this.player.x-72,y:this.player.y-48,t:0,entry:.42,exit:.42});
+      this.guardianInvocation=inv;this.guardianInvocationCooldown=meta.cooldown;
+      this.flash=Math.max(this.flash,.42);this.particles.push({type:'ring',x:inv.x,y:inv.y,r:10,maxR:95,life:.42,max:.42,color:meta.color});
+      this.toast('◆ GUARDIÁN INVOCADO',`${meta.name} · ${meta.signature} · ${meta.duration}s`);AudioFX.domain(world);
+      this.updateGuardianInvocationControl();return true;
+    }
+
+    guardianInvocationAttack(inv){
+      if(!inv||!this.player)return;
+      const enemies=this.enemies.filter(e=>e&&e.hp>0),world=inv.world,color=inv.meta.color;
+      if(!enemies.length){this.emit(inv.x,inv.y,color,3,50,.28);return;}
+      const sorted=enemies.slice().sort((a,b)=>Math.hypot(a.x-inv.x,a.y-inv.y)-Math.hypot(b.x-inv.x,b.y-inv.y));
+      const cap=this.isSmallScreen?4:6;
+      const hit=(e,normal=1,boss=.55,opts={})=>this.damageEnemy(e,Math.max(10,this.player.damage*(e.boss?boss:normal)),{...opts,color:opts.color||color,silent:true});
+      const beam=(a,b,c=color,w=3)=>this.particles.push({type:'laser',x:a.x,y:a.y,a:Math.atan2(b.y-a.y,b.x-a.x),life:.12,max:.12,range:Math.hypot(b.x-a.x,b.y-a.y),color:c,width:w});
+      const ring=(radius,c=color,life=.32)=>this.particles.push({type:'ring',x:inv.x,y:inv.y,r:10,maxR:radius,life,max:life,color:c});
+      const nearby=(radius)=>enemies.filter(e=>Math.hypot(e.x-inv.x,e.y-inv.y)<=radius+(e.r||0)).slice(0,cap);
+      if(world===1){
+        for(const e of sorted.slice(0,Math.min(4,cap))){hit(e,1.10,.60,{fire:.45,color:'#ff9a43'});this.particles.push({type:'ring',x:e.x,y:e.y,r:5,maxR:34,life:.22,max:.22,color:'#ffb15f'});} // lluvia meteórica
+      } else if(world===2){
+        ring(this.isSmallScreen?145:180,'#c86dff');for(const e of nearby(this.isSmallScreen?145:180))hit(e,.92,.48,{slow:e.boss?.08:.28,virus:.5,color:'#c86dff'}); // neblina infecciosa
+      } else if(world===3){
+        let prev=inv;for(const e of sorted.slice(0,cap)){beam(prev,e,'#72ffc7',3.4);hit(e,1.00,.54,{color:'#72ffc7'});prev=e;} // tormenta del reactor
+      } else if(world===4){
+        sorted.slice(0,Math.min(5,cap)).forEach((e,i)=>{beam(inv,e,i%2?'#ff7a68':'#ff5347',3.5);hit(e,1.05,.56,{color:'#ff5347'});}); // cuchillas del eclipse
+      } else if(world===5){
+        ring(this.isSmallScreen?160:205,'#c05cff',.40);for(const e of nearby(this.isSmallScreen?160:205))hit(e,.88,.45,{slow:e.boss?.10:.55,color:'#c05cff'}); // colapso del horizonte
+      } else if(world===6){
+        for(const e of sorted.slice(0,Math.min(4,cap))){beam(inv,e,'#56c8ff',3);hit(e,1.00,.52,{slow:e.boss?.06:.18,color:'#56c8ff'});} // necrored + EMP
+      } else if(world===7){
+        let prev=inv;for(const e of sorted.slice(0,Math.min(4,cap))){beam(prev,e,'#28d9ff',3.2);hit(e,.98,.50,{slow:e.boss?.08:.30,color:'#28d9ff'});prev=e;} // marea viva
+      } else if(world===8){
+        ring(this.isSmallScreen?125:155,'#ff5d45');for(const e of nearby(this.isSmallScreen?125:155))hit(e,1.00,.50,{virus:.65,color:'#ff5d45'}); // gestación/ácido orgánico
+      } else if(world===9){
+        sorted.slice(0,Math.min(5,cap)).forEach((e,i)=>{beam(inv,e,i%2?'#8a5cff':'#ff3c63',4);hit(e,1.08,.56,{color:'#ff3c63'});}); // cortes dimensionales
+      } else if(world===10){
+        ring(this.isSmallScreen?150:190,'#ff3232',.38);for(const e of nearby(this.isSmallScreen?150:190))hit(e,.96,.50,{slow:e.boss?.08:.38,color:'#ff3232'}); // singularidad final
+      } else if(world===11){
+        for(const e of sorted.slice(0,Math.min(3,cap))){beam(inv,e,'#ffb35b',4.4);hit(e,1.16,.60,{fire:.30,color:'#ff9b45'});} // lanzas de sílice/sol
+      } else if(world===12){
+        ring(this.isSmallScreen?150:185,'#46e7f2');for(const e of nearby(this.isSmallScreen?150:185))hit(e,.94,.48,{slow:e.boss?.10:.48,color:'#46e7f2'}); // presión hadal
+      } else if(world===13){
+        const radius=this.isSmallScreen?150:190;ring(radius,'#ff6a26',.38);for(const e of nearby(radius))hit(e,1.35,.70,{fire:1,color:'#ff6a26'}); // Vulkarion · erupción
+      } else if(world===14){
+        const radius=this.isSmallScreen?155:200;ring(radius,'#ffcc58',.38);for(const e of nearby(radius))hit(e,1.12,.58,{fire:.8,color:'#ffcc58'}); // nova agónica
+      } else if(world===15){
+        ring(this.isSmallScreen?135:170,'#d83b45');for(const e of nearby(this.isSmallScreen?135:170))hit(e,1.04,.54,{virus:.75,color:'#d83b45'});if(sorted[0])beam(inv,sorted[0],'#b6ff58',4); // peristalsis/ácido
+      } else if(world===16){
+        let prev=inv;for(const e of sorted.slice(0,cap)){beam(prev,e,'#c780ff',3);hit(e,1.05,.62,{slow:e.boss?.10:.35,color:'#c780ff'});prev=e;} // Neurokhan · cadenas sinápticas
+      } else if(world===17){
+        const target=sorted[0];if(target){inv.x+=(target.x-inv.x)*.32;inv.y+=(target.y-inv.y)*.32;hit(target,1.25,.68,{ice:1,slow:target.boss?.16:.7,color:'#bcefff'});beam(inv,target,'#bcefff',4);} // Skaldr · cacería congelante
+      } else if(world===18){
+        sorted.slice(0,Math.min(5,cap)).forEach((e,i)=>{beam(inv,e,i%2?'#fff0f7':'#d44cff',4.4);hit(e,1.12,.58,{color:'#d44cff'});}); // corte de viñeta
+      } else if(world===19){
+        ring(this.isSmallScreen?150:190,'#a7d9e4');for(const e of nearby(this.isSmallScreen?150:190))hit(e,.92,.48,{slow:e.boss?.12:.62,color:'#a7d9e4'}); // dominio psíquico
+      } else if(world===20){
+        const target=sorted[0];if(target){inv.x+=(target.x-inv.x)*.38;inv.y+=(target.y-inv.y)*.38;const rr=75;for(const e of enemies.filter(e=>Math.hypot(e.x-inv.x,e.y-inv.y)<rr+(e.r||0)).slice(0,cap))hit(e,1.12,.58,{virus:1,color:'#9ade5e'});ring(rr,'#9ade5e',.25);} // Sauryx · embestida infecciosa
+      } else {
+        for(const e of sorted.slice(0,Math.min(3,cap))){hit(e,.88,.46);beam(inv,e,color,2.5);}
+      }
+      if(world>=6)AudioFX.futureBossShot(world);else AudioFX.bossShot(world-1);
+    }
+
+    updateGuardianInvocation(dt){
+      const oldCd=this.guardianInvocationCooldown||0;this.guardianInvocationCooldown=Math.max(0,oldCd-dt);
+      const inv=this.guardianInvocation;if(!inv){if(Math.ceil(oldCd)!==Math.ceil(this.guardianInvocationCooldown||0))this.updateGuardianInvocationControl();return;}
+      inv.life=Math.max(0,inv.life-dt);inv.t=(inv.t||0)+dt;
+      const desiredX=clamp(this.player.x-(this.isSmallScreen?58:86),45,this.w-45),desiredY=clamp(this.player.y-(this.isSmallScreen?42:62),45,this.h-45);
+      inv.x+=(desiredX-inv.x)*Math.min(1,dt*4.5);inv.y+=(desiredY-inv.y)*Math.min(1,dt*4.5);inv.attackCd-=dt;
+      const combatWindow=inv.t>=(inv.entry||.42)&&inv.life>(inv.exit||.42);
+      if(combatWindow&&inv.attackCd<=0){this.guardianInvocationAttack(inv);inv.attackCd=inv.world===13?.72:(inv.world===16?.58:(inv.world===17?.48:(inv.world===20?.55:.68)));}
+      if(inv.life<=0){const old=inv;this.guardianInvocation=null;this.particles.push({type:'ring',x:old.x,y:old.y,r:12,maxR:82,life:.35,max:.35,color:old.meta.color});this.releaseGuardianInvocation(old);this.toast('◇ GUARDIÁN RETIRADO','Firma temporal completada · cooldown activo');this.updateGuardianInvocationControl();}
+      else if(Math.ceil(inv.life)!==Math.ceil(inv.life+dt))this.updateGuardianInvocationControl();
+    }
+
+    drawGuardianInvocation(ctx){
+      const inv=this.guardianInvocation;if(!inv)return;const img=this.getAsset(inv.meta.assetKey),entry=inv.entry||.42,exit=inv.exit||.42,entryP=clamp((inv.t||0)/entry,0,1),exitP=clamp(inv.life/exit,0,1),phase=Math.min(entryP,exitP),ease=phase*phase*(3-2*phase),pulse=1+Math.sin((inv.t||0)*9)*.035;
+      ctx.save();ctx.translate(inv.x,inv.y);const targets=this.enemies.filter(e=>e&&e.hp>0),target=targets.sort((a,b)=>Math.hypot(a.x-inv.x,a.y-inv.y)-Math.hypot(b.x-inv.x,b.y-inv.y))[0],ang=target?Math.atan2(target.y-inv.y,target.x-inv.x):0;ctx.rotate(ang+Math.PI/2);ctx.globalAlpha=(.34+.62*ease);ctx.shadowBlur=18+16*ease;ctx.shadowColor=inv.meta.color;
+      const bossReference=this.isSmallScreen?205:292,maxSide=bossReference*clamp(inv.meta.summonScale||.40,.35,.45)*(.62+.38*ease);
+      if(img){const aspect=(img.naturalWidth||1)/(img.naturalHeight||1);let w=aspect>=1?maxSide:maxSide*aspect,h=aspect>=1?maxSide/aspect:maxSide;w*=pulse;h*=pulse;ctx.drawImage(img,-w/2,-h/2,w,h);}else{ctx.fillStyle=inv.meta.color;ctx.beginPath();ctx.arc(0,0,maxSide*.28,0,Math.PI*2);ctx.fill();}
+      ctx.globalAlpha=.18+.26*ease;ctx.strokeStyle=inv.meta.color;ctx.lineWidth=2;ctx.beginPath();ctx.arc(0,0,maxSide*.57+Math.sin((inv.t||0)*10)*3,0,Math.PI*2);ctx.stroke();ctx.restore();
     }
 
     criticalUnlockIds(){
@@ -3610,6 +3922,7 @@
     }
 
     grantPurchasedLifePower() {
+      if(this.mapIndex===0)return null;
       const pools = [
         ['triple','drone','torpedo','fire','pierce'],
         ['afterburner','stasis','wingman','voidray','gravmine'],
@@ -5016,7 +5329,7 @@
         const rr=Math.max(5,ft.drawR*(ft.hitboxScale||.82)),dist=Math.hypot(ft.sx-this.player.x,ft.sy-this.player.y);
         if(ft.rescuable&&ft.z<.13&&dist<this.player.r+rr+18){this.destroyFrontThreat(ft,true);continue;}
         if(ft.impact&&ft.z<(ft.collisionZ||.2)&&ft.damage>0&&dist<this.player.r+rr){this.playerHit(ft.damage);this.explode(ft.sx,ft.sy,Math.max(34,rr*2.1),ft.damage*.75);this.shake=Math.max(this.shake,ft.rare?7:4.5);this.releaseFrontThreat(ft);continue;}
-        if(!ft.nearMissDone&&ft.z<.12&&dist<this.player.r+rr+108&&dist>this.player.r+rr+8){ft.nearMissDone=true;d.nearMisses=(d.nearMisses||0)+1;this.shake=Math.max(this.shake,2.4);this.flash=Math.max(this.flash,.14);AudioFX.tone(190,.075,'sawtooth',.016,110);this.emit(ft.sx,ft.sy,'#dffcff',5,90,.24);}
+        if(!ft.nearMissDone&&ft.z<.12&&dist<this.player.r+rr+108&&dist>this.player.r+rr+8){ft.nearMissDone=true;d.nearMisses=(d.nearMisses||0)+1;this.rewardWorldOneNearMiss(ft);this.shake=Math.max(this.shake,2.4);this.flash=Math.max(this.flash,.14);AudioFX.tone(190,.075,'sawtooth',.016,110);this.emit(ft.sx,ft.sy,'#dffcff',5,90,.24);}
         if(ft.z<=.045){if(ft.convertTo2D){this.convertFrontThreatTo2D(ft);continue;}this.releaseFrontThreat(ft);continue;}
       }
     }
@@ -5052,7 +5365,8 @@
       this.explode(ft.sx,ft.sy,Math.max(28,(ft.drawR||12)*2.0),rescue?0:Math.max(8,ft.damage||8));this.emit(ft.sx,ft.sy,rescue?'#61ffc8':(rare?'#ffd56a':'#83eaff'),rare?12:7,110,.42);
       if(rescue||Math.random()<.48)this.spawnPickup(ft.sx+rand(16,-16),ft.sy+rand(16,-16),'coin',Math.max(4,Math.ceil(coins*.55)),{rewardGlow:rescue||rare});
       if(rescue||Math.random()<.34)this.spawnPickup(ft.sx+rand(18,-18),ft.sy+rand(18,-18),'xp',Math.max(5,Math.ceil(xp*.65)),{rewardGlow:rescue});
-      if(rescue||rare||(early&&Math.random()<.07)){const world=this.mapIndex+1,pool=world===20?['virus','fury','necroScale','omega']:(world===19?['phase','psychicDominion','shield','overdrive']:(world===18?['phase','panelCut','phantom','bounce']:(world===17?['ice','ventisca','phase','overdrive']:(world===16?['spark','phase','synapsis','overdrive']:(world===15?['nanorepair','laserHematic','stasis','peristalsis']:(world<=4?['afterburner','stasis','wingman','torpedo']:(world<=8?['plasma','omega','wingman','nanorepair']:['phase','overdrive','omega','stasis'])))))));const power=pick(pool);this.spawnPickup(ft.sx,ft.sy,'power',1,{powerId:power,rewardGlow:true,label:rescue?'RESCATE · PODER':'BONUS PROFUNDIDAD',powerDuration:10});}
+      this.rewardWorldOneFrontSkill(ft,early,rare,rescue);
+      if(rescue||rare||(early&&Math.random()<(this.mapIndex===0?.18:.07))){const world=this.mapIndex+1,pool=world===20?['virus','fury','necroScale','omega']:(world===19?['phase','psychicDominion','shield','overdrive']:(world===18?['phase','panelCut','phantom','bounce']:(world===17?['ice','ventisca','phase','overdrive']:(world===16?['spark','phase','synapsis','overdrive']:(world===15?['nanorepair','laserHematic','stasis','peristalsis']:(world<=4?['afterburner','stasis','wingman','torpedo']:(world<=8?['plasma','omega','wingman','nanorepair']:['phase','overdrive','omega','stasis'])))))));const power=pick(pool);this.spawnPickup(ft.sx,ft.sy,'power',1,{powerId:power,rewardGlow:true,label:rescue?'RESCATE · PODER':'BONUS PROFUNDIDAD',powerDuration:10});}
       if((rescue||rare)&&!this.isSmallScreen)this.toast(rescue?'◇ CÁPSULA RESCATADA':'◆ AMENAZA ÉLITE',`+${score} · +${coins} monedas`);
       this.releaseFrontThreat(ft);
     }
@@ -5062,7 +5376,7 @@
       for(const ft of this.frontThreats){
         this.projectFrontThreat(ft);const isFront=(ft.z??1)<=.30;if(isFront!==foreground)continue;const img=this.getAsset(ft.assetKey),progress=clamp(1-(ft.z??1),0,1),rr=Math.max(4,ft.drawR||5);
         ctx.save();
-        if(ft.telegraph>0){const tele=1-clamp(ft.telegraph/Math.max(.01,ft.telegraphMax||1),0,1),pulse=.72+.28*Math.sin(now()*.022);ctx.globalAlpha=.16+.26*pulse;ctx.strokeStyle=ft.rare?'#ffd56a':'#ff795f';ctx.lineWidth=1.3;ctx.setLineDash([5,6]);ctx.beginPath();ctx.moveTo(ft.vpX,ft.vpY);ctx.lineTo(ft.tx,ft.ty);ctx.stroke();ctx.setLineDash([]);ctx.globalAlpha=.30+.25*pulse;ctx.beginPath();ctx.arc(ft.tx,ft.ty,10+tele*8,0,Math.PI*2);ctx.stroke();ctx.beginPath();ctx.moveTo(ft.tx-15,ft.ty);ctx.lineTo(ft.tx+15,ft.ty);ctx.moveTo(ft.tx,ft.ty-15);ctx.lineTo(ft.tx,ft.ty+15);ctx.stroke();}
+        if(ft.telegraph>0){const tele=1-clamp(ft.telegraph/Math.max(.01,ft.telegraphMax||1),0,1),pulse=.72+.28*Math.sin(now()*.022),clarity=(this.isSmallScreen?1.18:1)+(1-clamp(this.fxVisualScale||1,.52,1))*.45;ctx.globalAlpha=.18+.28*pulse;ctx.strokeStyle=ft.rare?'#ffd56a':'#ff795f';ctx.lineWidth=1.3*clarity;ctx.setLineDash([5,6]);ctx.beginPath();ctx.moveTo(ft.vpX,ft.vpY);ctx.lineTo(ft.tx,ft.ty);ctx.stroke();ctx.setLineDash([]);ctx.globalAlpha=.34+.28*pulse;ctx.beginPath();ctx.arc(ft.tx,ft.ty,(10+tele*8)*clarity,0,Math.PI*2);ctx.stroke();ctx.beginPath();ctx.moveTo(ft.tx-15*clarity,ft.ty);ctx.lineTo(ft.tx+15*clarity,ft.ty);ctx.moveTo(ft.tx,ft.ty-15*clarity);ctx.lineTo(ft.tx,ft.ty+15*clarity);ctx.stroke();if(this.isSmallScreen||this.fxVisualScale<.82){ctx.globalAlpha=.18+.12*pulse;ctx.lineWidth=2.1*clarity;ctx.beginPath();ctx.arc(ft.tx,ft.ty,(20+tele*7)*clarity,0,Math.PI*2);ctx.stroke();}}
         ctx.translate(ft.sx,ft.sy);ctx.rotate(ft.rotation||0);ctx.scale(1+progress*.10,1-progress*.035);ctx.shadowBlur=8+progress*22;ctx.shadowColor=ft.rare?'#ffd56a':(ft.type==='meteor'?'#ff7b32':'#83eaff');ctx.globalAlpha=.72+progress*.28;
         if(progress>.74&&!state.settings.lowPerformance){ctx.globalAlpha=.20;ctx.strokeStyle=ft.type==='meteor'?'#ff9b55':'#dffcff';ctx.lineWidth=Math.max(2,rr*.18);ctx.beginPath();ctx.moveTo(-rr*1.9,0);ctx.lineTo(-rr*.35,0);ctx.stroke();ctx.globalAlpha=.96;}
         if(img){const aspect=(img.naturalWidth||1)/(img.naturalHeight||1),longSide=Math.max(8,rr*2.15);let w,h;if(aspect>=1){w=longSide;h=longSide/aspect;}else{h=longSide;w=longSide*aspect;}const cap=this.isSmallScreen?116:168,fit=Math.min(1,cap/Math.max(w,h));w*=fit;h*=fit;ctx.drawImage(img,-w/2,-h/2,w,h);}else{ctx.fillStyle=ft.rare?'#ffd56a':'#83eaff';ctx.beginPath();ctx.arc(0,0,rr,0,Math.PI*2);ctx.fill();}
@@ -5770,6 +6084,53 @@
 
 
 
+    updateFleetSignature(dt){
+      const p=this.player;if(!p)return;
+      const meta=(p.domainForm||'rizoma')==='rizoma'?conquestFleetMeta(p.fleetShip):null;
+      if(!meta)return;
+      const before=Math.ceil(Math.max(0,p.fleetSignatureTimer??1.8));p.fleetSignatureTimer=Math.max(0,(p.fleetSignatureTimer??1.8)-dt);
+      if(before!==Math.ceil(p.fleetSignatureTimer||0))this.updateFleetControl(false);
+      if(p.fleetSignatureTimer>0||!this.enemies.length||this.bossFight?.cinematic>0)return;
+      const targets=this.enemies.filter(e=>e&&e.hp>0).sort((a,b)=>dist2(a,p)-dist2(b,p));
+      const target=targets[0];if(!target)return;
+      p.fleetSignatureTimer=meta.signatureCd||8;
+      const color=meta.color||'#83eaff',dense=this.mobileLandscape||this.isSmallScreen,cap=dense?4:6;
+      const a=Math.atan2(target.y-p.y,target.x-p.x),ring=(r,life=.32)=>this.particles.push({type:'ring',x:p.x,y:p.y,r:8,maxR:r,life,max:life,color});
+      const beam=(from,to,c=color)=>this.particles.push({type:'beam',x:from.x,y:from.y,x2:to.x,y2:to.y,life:.12,max:.12,color:c});
+      const hit=(e,scale,metaHit={})=>this.damageEnemy(e,p.damage*scale,{color,silent:true,...metaHit});
+      if(meta.signatureType==='meteorLance'){
+        this.addBullet(p.x,p.y,a,760*(p.projectileSpeedBonus||1),p.damage*1.48,{big:true,pierce:6,pierceMomentum:true,homing:true,targetRef:target,color,trail:true,scale:1.18});
+        ring(88,.24);
+      } else if(meta.signatureType==='astralTwin'){
+        [-.14,.14].forEach(off=>this.addBullet(p.x,p.y,a+off,690*(p.projectileSpeedBonus||1),p.damage*.92,{big:true,pierce:3,color,trail:true,scale:.92}));
+        p.phaseTimer=Math.max(p.phaseTimer||0,.18);ring(72,.22);
+      } else if(meta.signatureType==='abyssWave'){
+        ring(172,.40);
+        targets.slice(0,cap).forEach(e=>{const d=Math.hypot(e.x-p.x,e.y-p.y);if(d<185+(e.r||0)){hit(e,e.boss ? .26 : .68,{slow:e.boss ? .12 : .34});}});
+      } else if(meta.signatureType==='kaiserCut'){
+        [-.21,0,.21].forEach((off,i)=>this.addBullet(p.x,p.y,a+off,735*(p.projectileSpeedBonus||1),p.damage*(i===1?1.05:.76),{big:i===1,pierce:4,color:i===1?'#fff0ff':color,trail:true,scale:i===1?1.08:.82}));
+        ring(78,.24);
+      } else if(meta.signatureType==='hadalSpear'){
+        this.fireLaser(a,p.damage*1.22,1,true,1);
+        p.shield=Math.min(p.maxShield,p.shield+Math.max(2,p.maxShield*.015));ring(92,.28);
+      } else if(meta.signatureType==='novaPulse'){
+        const count=dense?6:8;for(let i=0;i<count;i++){const aa=(Math.PI*2/count)*i;this.addBullet(p.x,p.y,aa,610,p.damage*.70,{big:true,pierce:2,fire:1,color,trail:true,scale:.84});}
+        ring(118,.34);
+      } else if(meta.signatureType==='synapticChain'){
+        let prev=p;targets.slice(0,cap).forEach((e,i)=>{hit(e,.70-i*.055,{slow:.10});beam(prev,e,i%2?'#e9c8ff':color);prev=e;});ring(94,.28);
+      } else if(meta.signatureType==='cryoFang'){
+        this.addBullet(p.x,p.y,a,720*(p.projectileSpeedBonus||1),p.damage*1.18,{big:true,pierce:3,ice:3,homing:true,targetRef:target,color:'#dffcff',trail:true,scale:1.08});
+        if(!target.boss)target.slow=Math.max(target.slow||0,.38);ring(82,.26);
+      } else if(meta.signatureType==='panelCut'){
+        let prev=p;targets.slice(0,dense?3:4).forEach((e,i)=>{hit(e,.78-i*.05,{slow:.10});beam(prev,e,i%2?'#fff0f7':color);prev=e;});ring(86,.24);
+      } else if(meta.signatureType==='psionNeedles'){
+        targets.slice(0,dense?2:3).forEach((e,i)=>{const aa=Math.atan2(e.y-p.y,e.x-p.x)+(i-1)*.05;this.addBullet(p.x,p.y,aa,680,p.damage*.76,{homing:true,targetRef:e,pierce:2,color,trail:true,scale:.84});});ring(80,.22);
+      }
+      this.emit(p.x,p.y,color,dense?4:7,72,.24);AudioFX.shoot();this.updateFleetControl(true);
+      if((p.fleetSignatureNotice||0)<1){p.fleetSignatureNotice=1;this.toast(`FLOTA · ${meta.signature}`,`${meta.name} · firma automática cada ${meta.signatureCd}s`);}
+    }
+
+
 
     updateDomainSignature(dt){
       const p=this.player;if(!p||!p.domainForm||p.domainForm==='rizoma')return;const meta=domainFormMeta(p.domainForm);if(!meta)return;
@@ -5971,18 +6332,103 @@
       return e;
     }
 
-    spawnWorldOneVisibleSwarm(count = 3) {
+    spawnWorldOneVisibleSwarm(count = 3, skillHorde = false) {
       const pools = [
         ['corredor','cazador','esquivo'],
         ['toxico','sombra','divisor'],
         ['blindado','griton','nave_espejo']
       ];
-      const pool = pools[Math.min(pools.length - 1, Math.max(0, this.wave - 2))] || pools[0];
+      const pool = pools[Math.min(pools.length - 1, Math.max(0, this.wave - 2))] || pools[0], spawned=[];
       for (let i = 0; i < count; i++) {
         const a = (Math.PI * 2 / Math.max(1,count)) * i + rand(.18, -.18);
         const d = rand(330, 185);
-        this.spawnEnemyNearPlayer(pick(pool), a, d, true, i === 0 ? 1.12 : 1.02);
+        const e=this.spawnEnemyNearPlayer(pick(pool), a, d, true, i === 0 ? 1.12 : 1.02);
+        if(e){e.worldOneSkillHorde=!!skillHorde;spawned.push(e);}
       }
+      return spawned;
+    }
+
+    recordWorldOnePowerEarned(id) {
+      if(this.mapIndex!==0||!id)return;
+      const w1=this.worldOneState||(this.worldOneState={});
+      w1.earnedPowerIds=w1.earnedPowerIds||[];
+      if(!w1.earnedPowerIds.includes(id))w1.earnedPowerIds.push(id);
+      w1.earnedPowerIds=w1.earnedPowerIds.slice(-14);
+    }
+
+    chooseWorldOneSkillPower(preferred=[]) {
+      const meaningful=['drone','torpedo','spark','pierce','triple','laser','stasis','wingman','fire'];
+      const pool=[...preferred,...meaningful].filter((id,idx,arr)=>arr.indexOf(id)===idx&&POWERS.some(p=>p.id===id));
+      return pool.find(id=>!this.isPowerActive(id))||pool[0]||'drone';
+    }
+
+    beginWorldOneSkillHorde(enemies=[]) {
+      if(this.mapIndex!==0||!enemies.length)return;
+      const w1=this.worldOneState;
+      w1.skillHorde={active:true,remaining:9.5,total:enemies.length,target:Math.max(3,Math.ceil(enemies.length*.72)),kills:0,tookHit:false,rewarded:false};
+    }
+
+    trackWorldOneSkillHordeKill(e) {
+      const h=this.worldOneState?.skillHorde;
+      if(!h?.active||!e?.worldOneSkillHorde)return;
+      h.kills=(h.kills||0)+1;
+    }
+
+    updateWorldOneSkillHorde(dt) {
+      const h=this.worldOneState?.skillHorde;
+      if(!h?.active)return;
+      h.remaining=Math.max(0,(h.remaining||0)-dt);
+      if(!h.rewarded&&!h.tookHit&&(h.kills||0)>=Math.max(1,h.target||1)){
+        h.rewarded=true;h.active=false;
+        const id=this.chooseWorldOneSkillPower(['drone','torpedo','spark','stasis']);
+        const p=this.player;
+        this.spawnPickup(clamp(p.x+rand(95,-95),42,this.w-42),clamp(p.y-105,42,this.h-42),'power',1,{powerId:id,major:true,rewardGlow:true,label:'CÁPSULA DE MAESTRÍA',powerDuration:18,life:24,autoDelay:.35});
+        this.worldOneState.masteryCapsules=(this.worldOneState.masteryCapsules||0)+1;
+        this.run.score+=120;this.run.spendableScore=(this.run.spendableScore||0)+120;this.run.coins+=18;this.player.xp+=24;
+        this.toast('✦ CÁPSULA DE MAESTRÍA','Horda resuelta con precisión · poder + recursos');
+      } else if(h.remaining<=0){h.active=false;}
+    }
+
+    rewardWorldOneNearMiss(ft) {
+      if(this.mapIndex!==0)return;
+      const w1=this.worldOneState;w1.nearMissRewards=(w1.nearMissRewards||0)+1;
+      const score=22,coins=3,xp=5;
+      this.run.score+=score;this.run.spendableScore=(this.run.spendableScore||0)+score;this.run.coins+=coins;this.player.xp+=xp;
+      if(w1.nearMissRewards%3===0){
+        this.spawnPickup(clamp(this.player.x+rand(72,-72),36,this.w-36),clamp(this.player.y+rand(72,-72),36,this.h-36),'xp',10,{rewardGlow:true,label:'NEAR-MISS'});
+        this.toast('◇ RIESGO RECOMPENSADO',`${w1.nearMissRewards} near-miss · +recursos`);
+      }
+    }
+
+    rewardWorldOneFrontSkill(ft,early=false,rare=false,rescue=false) {
+      if(this.mapIndex!==0||(!early&&!rare&&!rescue))return;
+      const w1=this.worldOneState;w1.frontSkillKills=(w1.frontSkillKills||0)+1;
+      const mark=w1.frontSkillKills;
+      if(mark===2||mark===5){
+        const id=this.chooseWorldOneSkillPower(mark===2?['stasis','pierce']:['torpedo','spark','drone']);
+        this.spawnPickup(clamp(ft.sx,40,this.w-40),clamp(ft.sy,40,this.h-40),'power',1,{powerId:id,major:true,rewardGlow:true,label:'PREMIO DE PROFUNDIDAD',powerDuration:18,life:24,autoDelay:.25});
+        this.toast('◆ DOMINIO DE PROFUNDIDAD',`${mark} amenazas castigadas · poder asegurado`);
+      }
+    }
+
+    spawnWorldOneCaptainReward(e) {
+      if(!e)return;
+      const ids=['drone','torpedo','spark'],id=ids[clamp(Number(e.captainIndex)||0,0,2)];
+      this.spawnPickup(clamp(e.x,42,this.w-42),clamp(e.y,42,this.h-42),'power',1,{powerId:id,major:true,rewardGlow:true,label:'NÚCLEO DE CAPITÁN',powerDuration:22,life:28,autoDelay:.25});
+      this.run.coins+=18;this.run.spendableScore=(this.run.spendableScore||0)+90;this.run.score+=90;
+    }
+
+    ensureWorldOneBossLoadout() {
+      if(this.mapIndex!==0||!this.player)return;
+      const w1=this.worldOneState||(this.worldOneState={}),meaningful=['triple','pierce','drone','laser','torpedo','spark','fire','stasis','wingman'];
+      const earned=[...(w1.earnedPowerIds||[])].reverse().filter(id=>meaningful.includes(id));
+      const current=Object.keys(this.powerActivity||{}).filter(id=>meaningful.includes(id));
+      const ids=[...new Set([...current,...earned,'triple','drone','torpedo'])].slice(0,3);
+      for(const id of ids){this.powerLevels[id]=Math.max(1,this.powerLevels[id]||0);this.powerActivity[id]=Math.max(this.powerActivity[id]||0,24);}
+      const weapon=ids.find(id=>this.isPrimaryWeaponPower(id));if(weapon)this.activePowerSlots.weaponMode=weapon;
+      this.resolvePowerSlots();this.syncActiveCombos();
+      w1.bossBuildGuaranteed=ids;
+      this.toast('⚔ BUILD ESTABILIZADA',`${ids.map(id=>POWERS.find(p=>p.id===id)?.name||id).join(' · ')} · 24s`);
     }
 
     spawnWorldOneThreatMarkers() {
@@ -6022,7 +6468,7 @@
       const weaponId = this.grantWorldOneWeaponReward(step);
       if (!weaponId) return;
       const power = POWERS.find(pw => pw.id === weaponId);
-      this.spawnPickup(p.x + rand(135, -135), clamp(p.y - 118, 70, this.h - 70), 'power', 1, { powerId: weaponId, major: true, label: power?.name || 'Poder' });
+      this.spawnPickup(p.x + rand(135, -135), clamp(p.y - 118, 70, this.h - 70), 'power', 1, { powerId: weaponId, major: true, rewardGlow:true, label: power?.name || 'Poder', powerDuration:18, life:24, autoDelay:.35 });
       if (weaponId === 'drone') {
         this.spawnDrone(11, false, { count: 1, support: true, inheritPower: true, radius: 122, fireRate: .25, damageScale: .82, color: '#9ac7ff' });
       }
@@ -6228,14 +6674,14 @@
         .sort((a,b)=>(this.powerActivity?.[b]||0)-(this.powerActivity?.[a]||0));
       const queuedIds = (this.powerQueue || []).map(q=>q?.id).filter(Boolean);
       const recentIds=[...(this.recentPowerHistory||[])].reverse();
-      const recoveryDefaults=[
+      const recoveryDefaults=this.mapIndex===0?[]:([
         ['triple','pierce','afterburner','stasis'],
         ['voidray','gravmine','afterburner','stasis'],
         ['voltaic','phase','afterburner','stasis'],
         ['magnetism','wingman','afterburner','stasis'],
         ['plasma','nanorepair','afterburner','stasis']
-      ][this.mapIndex]||['triple','pierce','afterburner','stasis'];
-      const ids = [...new Set([...activeIds, ...queuedIds, ...recentIds, ...recoveryDefaults])].slice(0, 8);
+      ][this.mapIndex]||['triple','pierce','afterburner','stasis']);
+      const ids = [...new Set([...activeIds, ...queuedIds, ...recentIds, ...recoveryDefaults])].slice(0, this.mapIndex===0?4:8);
       this.recoveryLoadout = ids.map(id => ({
         id,
         level: Math.max(1, this.powerLevels?.[id] || 1),
@@ -6276,38 +6722,26 @@
     spawnRecoveryPackage() {
       if (!this.player) return;
       const p = this.player;
-      const loadout = (this.recoveryLoadout || []).slice(0, 8);
+      const limit=this.mapIndex===0?4:8;
+      const loadout = (this.recoveryLoadout || []).slice(0, limit);
       const total = Math.max(1, loadout.length);
       loadout.forEach((entry, idx) => {
         const pow = POWERS.find(meta => meta.id === entry.id);
         const a = -Math.PI / 2 + (Math.PI * 2 / total) * idx;
         const radius = 82 + (idx % 2) * 24;
         this.spawnPickup(p.x + Math.cos(a)*radius, p.y + Math.sin(a)*radius, 'power', 1, {
-          powerId: entry.id,
-          major: true,
-          rewardGlow: true,
-          reclaimPower: true,
-          recoveryDrop: true,
-          restoreLevel: entry.level,
-          label: `RECUPERA ${pow?.name?.toUpperCase() || 'PODER'}`,
-          powerDuration: Math.max(7, entry.duration),
-          life: 32,
-          autoDelay: 999
+          powerId: entry.id, major: true, rewardGlow: true, reclaimPower: true, recoveryDrop: true,
+          restoreLevel: entry.level, label: `RECUPERA ${pow?.name?.toUpperCase() || 'PODER'}`,
+          powerDuration: this.mapIndex===0?clamp(entry.duration,7,10):Math.max(7, entry.duration), life: 32, autoDelay: 999
         });
       });
-      // El impulsor siempre vuelve como salvavidas de movilidad, aunque ya estuviera entre los poderes previos.
-      this.spawnPickup(clamp(p.x + 118, 42, this.w-42), clamp(p.y - 58, 42, this.h-42), 'power', 1, {
-        powerId: 'afterburner', major: true, rewardGlow: true, recoveryDrop: true,
-        label: 'IMPULSOR DE RECUPERACIÓN · 12s', powerDuration: 12, life: 32, autoDelay: 999
-      });
-      const comboId = this.getRecoveryComboId();
-      const combo = FUSIONS.find(f => f.id === comboId);
-      this.spawnPickup(clamp(p.x - 118, 42, this.w-42), clamp(p.y - 58, 42, this.h-42), 'combo', 1, {
-        comboId, major: true, rewardGlow: true, recoveryDrop: true,
-        label: `COMBO ${combo?.name?.toUpperCase() || 'RECUPERACIÓN'} · 5s`, life: 32, autoDelay: 999
-      });
+      if(this.mapIndex!==0){
+        this.spawnPickup(clamp(p.x + 118, 42, this.w-42), clamp(p.y - 58, 42, this.h-42), 'power', 1, {powerId:'afterburner',major:true,rewardGlow:true,recoveryDrop:true,label:'IMPULSOR DE RECUPERACIÓN · 12s',powerDuration:12,life:32,autoDelay:999});
+        const comboId=this.getRecoveryComboId(),combo=FUSIONS.find(f=>f.id===comboId);
+        this.spawnPickup(clamp(p.x - 118, 42, this.w-42), clamp(p.y - 58, 42, this.h-42), 'combo', 1, {comboId,major:true,rewardGlow:true,recoveryDrop:true,label:`COMBO ${combo?.name?.toUpperCase() || 'RECUPERACIÓN'} · 5s`,life:32,autoDelay:999});
+      }
       this.recoveryLoadout = [];
-      this.toast('♻ PAQUETE DE RECUPERACIÓN', `${loadout.length} poderes previos + Impulsor + Combo 5s`);
+      this.toast('♻ PAQUETE DE RECUPERACIÓN',this.mapIndex===0?`${loadout.length} poderes realmente obtenidos · sin bonus ofensivo por morir`:`${loadout.length} poderes previos + Impulsor + Combo 5s`);
     }
 
     spawnDifficultyHordeHazards() {
@@ -6326,16 +6760,18 @@
       if (this.wave < 1 || this.wave >= 5) return;
       const wide = this.w >= 1100;
       if(this.wave===1){
-        this.spawnWorldOneVisibleSwarm(wide?4:3);
+        const skill=this.spawnWorldOneVisibleSwarm(wide?4:3,true);
+        this.beginWorldOneSkillHorde(skill);
         this.spawnCrossWorldTacticalPrize('afterburner');
         this.spawnFrontThreatGroup('fragment',this.isSmallScreen?2:3);
         this.worldOneState.hordeSeen=(this.worldOneState.hordeSeen||0)+1;
-        this.toast('⚡ MICROFRENESÍ', 'Enjambre corto · impulso · pasada frontal');
+        this.toast('⚡ MICROFRENESÍ', 'Enjambre corto · elimínalo limpio para una cápsula');
         return;
       }
       const count = wide ? 6 : 4;
-      this.spawnWorldOneVisibleSwarm(count);
-      if (this.wave >= 3) this.spawnWorldOneVisibleSwarm(wide ? 4 : 2);
+      const skill=this.spawnWorldOneVisibleSwarm(count,true);
+      if (this.wave >= 3) skill.push(...this.spawnWorldOneVisibleSwarm(wide ? 4 : 2,true));
+      this.beginWorldOneSkillHorde(skill);
       this.spawnCrossWorldPrizeBurst((this.wave >= 4 ? 2 : 1) + (this.getDifficulty().hordeRewardBonus||0));
       this.spawnHordeEmergencyKit();
       if(this.wave===2)this.spawnFrontThreat('meteor');
@@ -7622,7 +8058,7 @@
     damageEnemy(e, amount, meta = {}) {
       if (!e || e.hp <= 0) return;
       if (e.boss && this.bossActive === e && (this.mapIndex === 0 || this.mapIndex === 1)) {
-        const guardians=this.enemies.filter(o=>!o.boss).length;
+        const guardians=this.enemies.filter(o=>!o.boss&&(this.mapIndex===0?(o.bossEscort||o.behavior==='mirror'):true)).length;
         if(guardians>0){
           const per=this.mapIndex===0?.055:.045;
           const protection=clamp(1-guardians*per,this.mapIndex===0?.56:.62,.95);
@@ -7748,7 +8184,7 @@
         this.spawnPickup(e.x,e.y+34,'coin',80+e.echoWorld*12,{rewardGlow:true});
         this.toast('ECO DESTRUIDO',`Mundo ${e.echoWorld} superado de nuevo · corredor liberado`);
       }
-      if (!e.boss) this.trackWorldKill(e);
+      if (!e.boss) {this.trackWorldOneSkillHordeKill(e);this.trackWorldKill(e);}
       if (e.boss) {
         AudioFX.stopMusic();
         this.bossDeathExplosion(e);
@@ -7760,9 +8196,9 @@
         const starter = this.mapIndex === 0;
         const nexus = this.mapIndex === 1;
         if (starter && roll < .004 && this.wave >= 4) this.spawnPickup(e.x + rand(26,-26), e.y + rand(26,-26), 'nuke', 1);
-        else if (starter && roll < .020) this.spawnPickup(e.x + rand(26,-26), e.y + rand(26,-26), 'power', 1);
-        else if (starter && roll < .048) this.spawnPickup(e.x + rand(24,-24), e.y + rand(24,-24), 'shield', 20);
-        else if (starter && roll < .064) this.spawnPickup(e.x + rand(24,-24), e.y + rand(24,-24), 'life', 16);
+        else if (starter && roll < .030) this.spawnPickup(e.x + rand(26,-26), e.y + rand(26,-26), 'power', 1);
+        else if (starter && roll < .058) this.spawnPickup(e.x + rand(24,-24), e.y + rand(24,-24), 'shield', 20);
+        else if (starter && roll < .076) this.spawnPickup(e.x + rand(24,-24), e.y + rand(24,-24), 'life', 16);
         else if (nexus && roll < .030) this.spawnWorldTwoTacticalPrize(pick(['afterburner','stasis','wingman']));
         else if (nexus && roll < .070) this.spawnPickup(e.x + rand(24,-24), e.y + rand(24,-24), 'power', 1, {rewardGlow:true});
         else if (nexus && roll < .108) this.spawnPickup(e.x + rand(24,-24), e.y + rand(24,-24), 'shield', 22, {rewardGlow:true,label:'SHIELD'});
@@ -7885,7 +8321,7 @@
               if (item.reclaimPower) {
                 this.powerLevels[item.powerId] = Math.max(this.powerLevels?.[item.powerId] || 0, item.restoreLevel || 1);
                 this.empowerPower(item.powerId, { skipLevelGain: true, toastTitle: '♻ Poder recuperado', duration: item.powerDuration || 0 });
-              } else this.empowerPower(item.powerId, { toastTitle: item.major ? '✦ Poder adquirido' : 'Poder activado', duration: item.powerDuration || 0 });
+              } else {this.empowerPower(item.powerId, { toastTitle: item.major ? '✦ Poder adquirido' : 'Poder activado', duration: item.powerDuration || 0 });if(!item.recoveryDrop)this.recordWorldOnePowerEarned(item.powerId);}
             } else this.applyScreenPowerPickup();
           }
           if (item.type === 'combo') { const dur=item.powerDuration||8; this.activateRecoveryCombo(item.comboId,dur); if(item.tacticalPurchase){this.tacticalComboLockUntil=now()+dur*1000;this.tacticalComboLockedId=item.comboId||null;} }
@@ -8038,6 +8474,7 @@
 
     playerHit(amount) {
       const p = this.player;
+      if(this.mapIndex===0&&this.worldOneState?.skillHorde?.active)this.worldOneState.skillHorde.tookHit=true;
       let mod = p.avatar.mod.phase && p.phaseTimer <= 0 ? .2 : 1;
       if (p.avatar.mod.phase && p.phaseTimer <= 0) p.phaseTimer = 5.5;
       if (p.bossDrive > 0) mod *= .74;
@@ -8463,6 +8900,7 @@
       p.unlockedMap = Math.max(p.unlockedMap, Math.min(MAPS.length, this.mapIndex + 2));
       p.collection.bosses[MAPS[this.mapIndex].boss] = true;
       reconcileCampaignProgress(p, { clearStaleSave:true });
+      reconcileConquestRewards(p);
       // v2.4.0: persistir el desbloqueo antes de overlays/historia para impedir regresos a M10 por caché o cierre prematuro.
       p.pendingCampaignMap = this.mapIndex + 1 < MAPS.length ? this.mapIndex + 1 : null;
       p.lastSave = null;
@@ -8474,7 +8912,8 @@
       p.stats.totalCoins += mapBonus;
       unlockAchievement('boss_1');
       if (p.unlockedMap >= 3) unlockAchievement('map_3');
-      this.toast('MUNDO COMPLETADO',`${this.lastWorldReward?.name||'Poder del jefe'} · ${p.domainUnlocked?'forma DOMINIO capturada':'arquitectura del Guardián conservada para DOMINIO'}`);
+      const fleetUnlock=CONQUEST_FLEET.find(f=>f.milestoneWorld===this.mapIndex+1);
+      this.toast('MUNDO COMPLETADO',`${this.lastWorldReward?.name||'Poder del jefe'} · Guardián invocable desbloqueado${fleetUnlock?` · Flota: ${fleetUnlock.name}`:''}`);
       AudioFX.win();setTimeout(()=>this.showResult(true),1550);
     }
 
@@ -8526,9 +8965,9 @@
       if(els.lifeCostCoins)els.lifeCostCoins.textContent=costs.coins;
       if(els.lifeCostScore)els.lifeCostScore.textContent=costs.score;
       if(els.lifeCostXp)els.lifeCostXp.textContent=costs.xp;
-      if(els.btnBuyLifeCoins){els.btnBuyLifeCoins.disabled=this.availableCoinsForLife()<costs.coins;els.btnBuyLifeCoins.title=`Requisito: ${costs.coins} · disponibles ${this.availableCoinsForLife()} · no se descuentan`;}
-      if(els.btnBuyLifeScore){els.btnBuyLifeScore.disabled=(this.run?.score||0)<costs.score;els.btnBuyLifeScore.title=`Requisito: ${costs.score} · disponibles ${Math.round(this.run?.score||0)} · no se descuentan`;}
-      if(els.btnBuyLifeXp){els.btnBuyLifeXp.disabled=(this.run?.experience||0)<costs.xp;els.btnBuyLifeXp.title=`Requisito: ${costs.xp} · disponibles ${Math.round(this.run?.experience||0)} · no se descuentan`; }
+      if(els.btnBuyLifeCoins){els.btnBuyLifeCoins.disabled=this.availableCoinsForLife()<costs.coins;els.btnBuyLifeCoins.title=`Coste: ${costs.coins} · disponibles ${this.availableCoinsForLife()}`;}
+      if(els.btnBuyLifeScore){els.btnBuyLifeScore.disabled=(this.run?.spendableScore||0)<costs.score;els.btnBuyLifeScore.title=`Coste: ${costs.score} · disponibles ${Math.round(this.run?.spendableScore||0)}`;}
+      if(els.btnBuyLifeXp){els.btnBuyLifeXp.disabled=(this.run?.experience||0)<costs.xp;els.btnBuyLifeXp.title=`Coste: ${costs.xp} · disponibles ${Math.round(this.run?.experience||0)}`; }
     }
 
     buyLife(currency) {
@@ -8538,14 +8977,18 @@
       const cost=costs[currency];
       if(!cost)return false;
       if(currency==='coins' && this.availableCoinsForLife()<cost)return false;
-      if(currency==='score' && (this.run.score||0)<cost)return false;
+      if(currency==='score' && (this.run.spendableScore||0)<cost)return false;
       if(currency==='xp' && (this.run.experience||0)<cost)return false;
-      // Monedas, puntos y experiencia funcionan como requisito de acceso: no se descuentan.
+      if(currency==='coins'){
+        const fromRun=Math.min(cost,this.run.coins||0);this.run.coins=Math.max(0,(this.run.coins||0)-fromRun);
+        currentProfile().coins=Math.max(0,(currentProfile().coins||0)-(cost-fromRun));
+      } else if(currency==='score') this.run.spendableScore=Math.max(0,(this.run.spendableScore||0)-cost);
+      else if(currency==='xp') this.run.experience=Math.max(0,(this.run.experience||0)-cost);
       this.run.lifePurchases=(this.run.lifePurchases||0)+1;
       this.extraLives=Math.min(MAX_TOTAL_LIVES-1,1);
       saveState();
-      const resourceName=currency==='coins'?'monedas':currency==='score'?'puntos':'experiencia';
-      this.toast('❤️ Vida habilitada',`${resourceName}: requisito cumplido · saldo conservado`);
+      const resourceName=currency==='coins'?'monedas':currency==='score'?'puntos de compra':'experiencia';
+      this.toast('❤️ Vida habilitada',`${cost} ${resourceName} consumidos · reactivación de seguridad`);
       const revived=this.reviveRun();
       if(revived)this.grantPurchasedLifePower();
       return revived;
@@ -8574,7 +9017,7 @@
       this.running = true;
       hideOverlays();
       this.spawnRecoveryPackage();
-      this.toast('❤️ REACTIVACIÓN', `Velocidad restaurada +12s de impulso de recuperación · recoge tus poderes`);
+      this.toast('❤️ REACTIVACIÓN',this.mapIndex===0?'Protección + movilidad restauradas · recupera sólo tus poderes obtenidos':`Velocidad restaurada +12s de impulso de recuperación · recoge tus poderes`);
       this.requestTacticalPrep('revive');
       AudioFX.startWorldBattleMusic(this.mapIndex,!!this.bossActive,this.bossActive?.phase||1);
       requestAnimationFrame(t => { this.last = t; this.loop(t); });
@@ -8616,8 +9059,8 @@
         else els.resultText.textContent=`Sauryx Necrorex cayó · Necrorex Dreadship capturada · Saga II completa${loot}.`;
       } else {
         els.resultText.textContent = this.extraLives > 0
-          ? `Te quedan ${this.extraLives} vidas de reserva. Conservas M${this.mapIndex + 1} · L${this.wave}. Reactivar devuelve poderes recientes y un impulso breve.`
-          : `Activa una vida con monedas, puntos o experiencia. Reactivar devuelve poderes recientes y un impulso breve.`;
+          ? `Te quedan ${this.extraLives} vidas de reserva. Conservas M${this.mapIndex + 1} · L${this.wave}. ${this.mapIndex===0?'Reactivar recupera únicamente los poderes obtenidos y protección temporal.':'Reactivar devuelve poderes recientes y un impulso breve.'}`
+          : `Activa una vida con monedas, puntos o experiencia. ${this.mapIndex===0?'En M1 no se concede un poder nuevo por morir.':'Reactivar devuelve poderes recientes y un impulso breve.'}`;
       }
       els.resultRewards.innerHTML = `
         <span class="reward-pill">⭐ ${Math.round(this.run.score)}</span>
@@ -8749,13 +9192,14 @@
         mapIndex: this.mapIndex,
         difficulty: this.difficulty || 'normal',
         wave: this.wave,
-        player: { x: this.player.x, y: this.player.y, hp: this.player.hp, shield: this.player.shield, xp: this.player.xp, level: this.player.level, xpNext: this.player.xpNext, domainForm: this.player.domainForm || 'rizoma', entryShieldTimer: this.player.entryShieldTimer || 0, entryShieldMax: this.player.entryShieldMax || 0, relicMeteorTimer: this.player.relicMeteorTimer || 0 },
+        player: { x: this.player.x, y: this.player.y, hp: this.player.hp, shield: this.player.shield, xp: this.player.xp, level: this.player.level, xpNext: this.player.xpNext, domainForm: this.player.domainForm || 'rizoma', fleetShip:this.player.fleetShip||null, fleetSignatureTimer:this.player.fleetSignatureTimer||0, entryShieldTimer: this.player.entryShieldTimer || 0, entryShieldMax: this.player.entryShieldMax || 0, relicMeteorTimer: this.player.relicMeteorTimer || 0 },
         powerLevels: this.powerLevels,
         powerActivity: this.powerActivity,
         activePowerSlots:this.activePowerSlots,
         powerQueue:this.powerQueue||[],
         recentPowerHistory:this.recentPowerHistory||[],
         criticalState:{cooldown:this.criticalState?.cooldown||0,recent:(this.criticalState?.recent||[]).slice(-4)},
+        guardianInvocationCooldown:this.guardianInvocationCooldown||0,
         fusions:this.fusions,
         run: this.run,
         worldStage: this.worldStage,
@@ -8814,6 +9258,7 @@
       els.hudCoins.textContent = this.run.coins;
       this.updateTacticalCart(false);
       this.updateDomainControl(false);
+      this.updateGuardianInvocationControl();
       this.updateBossApproachHud();
       if (els.xpLabel && this.mapIndex < MAPS.length && !this.bossActive) {
         if (this.mapIndex === 0) {
@@ -8915,6 +9360,7 @@
       if (state.settings.reducedMotion) count = Math.min(3, count);
       if (state.settings.lowPerformance) count = Math.min(4, count);
       if (this.isSmallScreen) count = Math.min(count, 10);
+      count = Math.max(1, Math.round(count * clamp(this.fxVisualScale || 1, .52, 1)));
       for (let i = 0; i < count; i++) {
         const a = rand(Math.PI * 2);
         const s = rand(speed, speed * .15);
@@ -8928,7 +9374,7 @@
       const [bg, mid, accent] = map.theme;
       ctx.save();
       ctx.clearRect(0, 0, this.w, this.h);
-      if (this.shake > 0 && state.settings.shake && !state.settings.reducedMotion) ctx.translate(rand(this.shake, -this.shake), rand(this.shake, -this.shake));
+      if (this.shake > 0 && state.settings.shake && !state.settings.reducedMotion) { const amp=this.shake*this.fxImpactScale(); ctx.translate(rand(amp, -amp), rand(amp, -amp)); }
       const grd = ctx.createRadialGradient(this.w * .5, this.h * .36, 0, this.w * .5, this.h * .45, this.w * .8);
       grd.addColorStop(0, mid);
       grd.addColorStop(.48, bg);
@@ -8944,6 +9390,7 @@
       this.drawBullets(ctx);
       this.drawEnemies(ctx);
       this.drawFrontThreats(ctx,true);
+      this.drawGuardianInvocation(ctx);
       this.drawCriticalEffects(ctx);
       this.drawDrones(ctx);
       this.drawPlayer(ctx);
@@ -8951,7 +9398,7 @@
       this.drawFusionAuras(ctx);
       this.drawParticles(ctx);
       if (this.flash > 0) {
-        ctx.fillStyle = `rgba(255,255,255,${this.flash * .08})`;
+        ctx.fillStyle = `rgba(255,255,255,${this.flash * .08 * this.fxImpactScale()})`;
         ctx.fillRect(0, 0, this.w, this.h);
       }
       ctx.restore();
@@ -9296,23 +9743,23 @@
       ctx.restore();
     }
 
-    drawWorldNineMangaAtmosphere(ctx){const t=now()*.001,level=clamp(this.wave,1,5),count=state.settings.lowPerformance?7:13;ctx.save();for(let i=0;i<count;i++){const x=((i*173+t*(34+i%3*12))%(this.w+180))-90,y=(i*97+level*31)%this.h;ctx.globalAlpha=.055+(i%4)*.012;ctx.strokeStyle=i%3===0?'#ff3c63':(i%3===1?'#8a5cff':'#ffffff');ctx.lineWidth=i%4===0?1.8:1;ctx.beginPath();ctx.moveTo(x-70,y+34);ctx.lineTo(x+90,y-38);ctx.stroke();}if(level>=3){ctx.globalAlpha=.08;ctx.setLineDash([14,9]);for(let i=0;i<3;i++){ctx.strokeStyle=i%2?'#ff3c63':'#8a5cff';ctx.lineWidth=2;ctx.beginPath();ctx.arc(this.w*(.22+i*.29),this.h*(.23+(i%2)*.36),44+level*7+Math.sin(t+i)*8,0,Math.PI*2);ctx.stroke();}ctx.setLineDash([]);}ctx.restore();}
+    drawWorldNineMangaAtmosphere(ctx){const t=now()*.001,level=clamp(this.wave,1,5),count=this.fxAtmosphereCount(13,7);ctx.save();for(let i=0;i<count;i++){const x=((i*173+t*(34+i%3*12))%(this.w+180))-90,y=(i*97+level*31)%this.h;ctx.globalAlpha=.055+(i%4)*.012;ctx.strokeStyle=i%3===0?'#ff3c63':(i%3===1?'#8a5cff':'#ffffff');ctx.lineWidth=i%4===0?1.8:1;ctx.beginPath();ctx.moveTo(x-70,y+34);ctx.lineTo(x+90,y-38);ctx.stroke();}if(level>=3){ctx.globalAlpha=.08;ctx.setLineDash([14,9]);for(let i=0;i<3;i++){ctx.strokeStyle=i%2?'#ff3c63':'#8a5cff';ctx.lineWidth=2;ctx.beginPath();ctx.arc(this.w*(.22+i*.29),this.h*(.23+(i%2)*.36),44+level*7+Math.sin(t+i)*8,0,Math.PI*2);ctx.stroke();}ctx.setLineDash([]);}ctx.restore();}
 
-    drawWorldTenAtmosphere(ctx){const t=now()*.001,level=clamp(this.wave,1,7),count=state.settings.lowPerformance?8:16;ctx.save();for(let i=0;i<count;i++){const a=t*(.10+(i%4)*.035)+i*2.17,rad=Math.min(this.w,this.h)*(.12+(i%6)*.055),x=this.w*.5+Math.cos(a)*rad,y=this.h*.34+Math.sin(a*1.13)*rad*.66;ctx.globalAlpha=.05+(i%4)*.018;ctx.fillStyle=i%3===0?'#ff3b32':(i%3===1?'#c22cff':'#ff9855');ctx.beginPath();ctx.arc(x,y,1.2+(i%3)*.7,0,Math.PI*2);ctx.fill();}if(level>=4){ctx.globalAlpha=.075;ctx.strokeStyle='#ff3b32';ctx.lineWidth=1.5;for(let i=0;i<4;i++){const rr=52+i*38+Math.sin(t*1.4+i)*8;ctx.beginPath();ctx.arc(this.w*.5,this.h*.34,rr,0,Math.PI*2);ctx.stroke();}}if(level>=6){ctx.globalAlpha=.055;ctx.strokeStyle='#c22cff';for(let i=0;i<5;i++){const x=((i*237+t*54)%(this.w+240))-120;ctx.beginPath();ctx.moveTo(x-110,this.h);ctx.lineTo(x+180,0);ctx.stroke();}}ctx.restore();}
+    drawWorldTenAtmosphere(ctx){const t=now()*.001,level=clamp(this.wave,1,7),count=this.fxAtmosphereCount(16,8);ctx.save();for(let i=0;i<count;i++){const a=t*(.10+(i%4)*.035)+i*2.17,rad=Math.min(this.w,this.h)*(.12+(i%6)*.055),x=this.w*.5+Math.cos(a)*rad,y=this.h*.34+Math.sin(a*1.13)*rad*.66;ctx.globalAlpha=.05+(i%4)*.018;ctx.fillStyle=i%3===0?'#ff3b32':(i%3===1?'#c22cff':'#ff9855');ctx.beginPath();ctx.arc(x,y,1.2+(i%3)*.7,0,Math.PI*2);ctx.fill();}if(level>=4){ctx.globalAlpha=.075;ctx.strokeStyle='#ff3b32';ctx.lineWidth=1.5;for(let i=0;i<4;i++){const rr=52+i*38+Math.sin(t*1.4+i)*8;ctx.beginPath();ctx.arc(this.w*.5,this.h*.34,rr,0,Math.PI*2);ctx.stroke();}}if(level>=6){ctx.globalAlpha=.055;ctx.strokeStyle='#c22cff';for(let i=0;i<5;i++){const x=((i*237+t*54)%(this.w+240))-120;ctx.beginPath();ctx.moveTo(x-110,this.h);ctx.lineTo(x+180,0);ctx.stroke();}}ctx.restore();}
 
     drawWorldElevenAtmosphere(ctx){
-      const t=now()*.001,level=clamp(this.wave,1,5),count=state.settings.lowPerformance?10:22;ctx.save();
+      const t=now()*.001,level=clamp(this.wave,1,5),count=this.fxAtmosphereCount(22,10);ctx.save();
       for(let i=0;i<count;i++){const x=((i*149+t*(48+(i%4)*11))%(this.w+180))-90,y=(i*89+Math.sin(t*.9+i)*36+level*27)%this.h;ctx.globalAlpha=.035+(i%4)*.014;ctx.fillStyle=i%5===0?'#fff0b8':(i%3===0?'#ff9b45':'#d88455');ctx.beginPath();ctx.ellipse(x,y,1.5+(i%3)*.7,.7+(i%2)*.4,-.35,0,Math.PI*2);ctx.fill();}
       ctx.globalAlpha=.055+level*.012;ctx.strokeStyle='#ffd078';ctx.lineWidth=1.1;for(let i=0;i<4;i++){const yy=this.h*(.2+i*.18)+Math.sin(t*1.7+i)*9;ctx.beginPath();ctx.moveTo(-60,yy);ctx.bezierCurveTo(this.w*.25,yy-14,this.w*.72,yy+16,this.w+60,yy-6);ctx.stroke();}
       if(level>=3){ctx.globalAlpha=.06;ctx.strokeStyle='#ff684f';ctx.setLineDash([10,12]);for(let i=0;i<3;i++){const x=this.w*(.22+i*.28)+Math.sin(t*.7+i)*18;ctx.beginPath();ctx.arc(x,this.h*(.36+(i%2)*.22),38+level*8+Math.sin(t+i)*5,0,Math.PI*2);ctx.stroke();}ctx.setLineDash([]);}
       ctx.restore();
     }
 
-    drawWorldTwelveAtmosphere(ctx){const t=now()*.001,level=clamp(this.wave,1,5),count=state.settings.lowPerformance?12:28;ctx.save();for(let i=0;i<count;i++){const x=((i*137+t*(18+(i%4)*6))%(this.w+160))-80,y=(i*83-t*(26+(i%3)*7)+level*21)%this.h;ctx.globalAlpha=.035+(i%4)*.014;ctx.fillStyle=i%4===0?'#a66cff':(i%3===0?'#83ffda':'#46e7f2');ctx.beginPath();ctx.arc(x,y,1.4+(i%3)*.7,0,Math.PI*2);ctx.fill();}ctx.globalAlpha=.06+level*.012;ctx.strokeStyle='#72f5ff';ctx.lineWidth=1.2;for(let i=0;i<5;i++){const yy=this.h*(.18+i*.15)+Math.sin(t*1.3+i)*12;ctx.beginPath();ctx.moveTo(-60,yy);ctx.bezierCurveTo(this.w*.22,yy-22,this.w*.68,yy+20,this.w+60,yy-8);ctx.stroke();}if(level>=3){ctx.globalAlpha=.055;ctx.strokeStyle='#a66cff';for(let i=0;i<3;i++){const x=this.w*(.2+i*.3)+Math.sin(t*.55+i)*20;ctx.beginPath();ctx.arc(x,this.h*(.34+(i%2)*.24),42+level*7+Math.sin(t+i)*6,0,Math.PI*2);ctx.stroke();}}ctx.restore();}
+    drawWorldTwelveAtmosphere(ctx){const t=now()*.001,level=clamp(this.wave,1,5),count=this.fxAtmosphereCount(28,12);ctx.save();for(let i=0;i<count;i++){const x=((i*137+t*(18+(i%4)*6))%(this.w+160))-80,y=(i*83-t*(26+(i%3)*7)+level*21)%this.h;ctx.globalAlpha=.035+(i%4)*.014;ctx.fillStyle=i%4===0?'#a66cff':(i%3===0?'#83ffda':'#46e7f2');ctx.beginPath();ctx.arc(x,y,1.4+(i%3)*.7,0,Math.PI*2);ctx.fill();}ctx.globalAlpha=.06+level*.012;ctx.strokeStyle='#72f5ff';ctx.lineWidth=1.2;for(let i=0;i<5;i++){const yy=this.h*(.18+i*.15)+Math.sin(t*1.3+i)*12;ctx.beginPath();ctx.moveTo(-60,yy);ctx.bezierCurveTo(this.w*.22,yy-22,this.w*.68,yy+20,this.w+60,yy-8);ctx.stroke();}if(level>=3){ctx.globalAlpha=.055;ctx.strokeStyle='#a66cff';for(let i=0;i<3;i++){const x=this.w*(.2+i*.3)+Math.sin(t*.55+i)*20;ctx.beginPath();ctx.arc(x,this.h*(.34+(i%2)*.24),42+level*7+Math.sin(t+i)*6,0,Math.PI*2);ctx.stroke();}}ctx.restore();}
 
-    drawWorldThirteenAtmosphere(ctx){const t=now()*.001,level=clamp(this.wave,1,5),count=state.settings.lowPerformance?12:30;ctx.save();for(let i=0;i<count;i++){const x=((i*151+t*(28+(i%5)*9))%(this.w+180))-90,y=(i*79-t*(19+(i%4)*5)+level*23)%this.h,r=1.1+(i%4)*.65;ctx.globalAlpha=.035+(i%5)*.012;ctx.fillStyle=i%5===0?'#ffd16c':(i%3===0?'#ff8b37':'#ff4f22');ctx.beginPath();ctx.arc(x,y,r,0,Math.PI*2);ctx.fill();}ctx.globalAlpha=.055+level*.012;ctx.strokeStyle='#ff9a48';ctx.lineWidth=1.2;for(let i=0;i<5;i++){const yy=this.h*(.20+i*.15)+Math.sin(t*1.55+i)*10;ctx.beginPath();ctx.moveTo(-70,yy+12);ctx.bezierCurveTo(this.w*.26,yy-20,this.w*.69,yy+22,this.w+70,yy-9);ctx.stroke();}if(level>=3){const pulse=.5+.5*Math.sin(t*2.0);ctx.globalAlpha=.045+pulse*.035;ctx.strokeStyle='#ffd16c';for(let i=0;i<3;i++){const x=this.w*(.22+i*.28)+Math.sin(t*.62+i)*16,y=this.h*(.42+(i%2)*.22);ctx.beginPath();ctx.arc(x,y,38+level*8+pulse*9,0,Math.PI*2);ctx.stroke();}}ctx.restore();}
+    drawWorldThirteenAtmosphere(ctx){const t=now()*.001,level=clamp(this.wave,1,5),count=this.fxAtmosphereCount(30,12);ctx.save();for(let i=0;i<count;i++){const x=((i*151+t*(28+(i%5)*9))%(this.w+180))-90,y=(i*79-t*(19+(i%4)*5)+level*23)%this.h,r=1.1+(i%4)*.65;ctx.globalAlpha=.035+(i%5)*.012;ctx.fillStyle=i%5===0?'#ffd16c':(i%3===0?'#ff8b37':'#ff4f22');ctx.beginPath();ctx.arc(x,y,r,0,Math.PI*2);ctx.fill();}ctx.globalAlpha=.055+level*.012;ctx.strokeStyle='#ff9a48';ctx.lineWidth=1.2;for(let i=0;i<5;i++){const yy=this.h*(.20+i*.15)+Math.sin(t*1.55+i)*10;ctx.beginPath();ctx.moveTo(-70,yy+12);ctx.bezierCurveTo(this.w*.26,yy-20,this.w*.69,yy+22,this.w+70,yy-9);ctx.stroke();}if(level>=3){const pulse=.5+.5*Math.sin(t*2.0);ctx.globalAlpha=.045+pulse*.035;ctx.strokeStyle='#ffd16c';for(let i=0;i<3;i++){const x=this.w*(.22+i*.28)+Math.sin(t*.62+i)*16,y=this.h*(.42+(i%2)*.22);ctx.beginPath();ctx.arc(x,y,38+level*8+pulse*9,0,Math.PI*2);ctx.stroke();}}ctx.restore();}
 
-    drawWorldFourteenAtmosphere(ctx){const t=now()*.001,level=clamp(this.wave,1,5),count=state.settings.lowPerformance?12:28;ctx.save();for(let i=0;i<count;i++){const a=i*2.399+t*(.15+(i%4)*.025),rr=((i*47+t*(22+i%3*8))%(Math.min(this.w,this.h)*.58))+32,x=this.w*.52+Math.cos(a)*rr,y=this.h*.28+Math.sin(a)*rr*.58;ctx.globalAlpha=.035+(i%5)*.012;ctx.fillStyle=i%4===0?'#fff4c7':(i%3===0?'#ffcc58':'#ff7f32');ctx.beginPath();ctx.arc(x,y,1.2+(i%4)*.7,0,Math.PI*2);ctx.fill();}ctx.globalAlpha=.05+level*.012;ctx.strokeStyle='#ffcc58';ctx.lineWidth=1.15;for(let i=0;i<4;i++){const r=55+i*42+Math.sin(t*1.2+i)*8;ctx.beginPath();ctx.arc(this.w*.52,this.h*.28,r,0,Math.PI*2);ctx.stroke();}if(level>=4){ctx.globalAlpha=.07;ctx.strokeStyle='#fff4c7';for(let i=0;i<5;i++){const a=t*.35+i*Math.PI*2/5;ctx.beginPath();ctx.moveTo(this.w*.52+Math.cos(a)*80,this.h*.28+Math.sin(a)*50);ctx.lineTo(this.w*.52+Math.cos(a)*270,this.h*.28+Math.sin(a)*160);ctx.stroke();}}ctx.restore();}
+    drawWorldFourteenAtmosphere(ctx){const t=now()*.001,level=clamp(this.wave,1,5),count=this.fxAtmosphereCount(28,12);ctx.save();for(let i=0;i<count;i++){const a=i*2.399+t*(.15+(i%4)*.025),rr=((i*47+t*(22+i%3*8))%(Math.min(this.w,this.h)*.58))+32,x=this.w*.52+Math.cos(a)*rr,y=this.h*.28+Math.sin(a)*rr*.58;ctx.globalAlpha=.035+(i%5)*.012;ctx.fillStyle=i%4===0?'#fff4c7':(i%3===0?'#ffcc58':'#ff7f32');ctx.beginPath();ctx.arc(x,y,1.2+(i%4)*.7,0,Math.PI*2);ctx.fill();}ctx.globalAlpha=.05+level*.012;ctx.strokeStyle='#ffcc58';ctx.lineWidth=1.15;for(let i=0;i<4;i++){const r=55+i*42+Math.sin(t*1.2+i)*8;ctx.beginPath();ctx.arc(this.w*.52,this.h*.28,r,0,Math.PI*2);ctx.stroke();}if(level>=4){ctx.globalAlpha=.07;ctx.strokeStyle='#fff4c7';for(let i=0;i<5;i++){const a=t*.35+i*Math.PI*2/5;ctx.beginPath();ctx.moveTo(this.w*.52+Math.cos(a)*80,this.h*.28+Math.sin(a)*50);ctx.lineTo(this.w*.52+Math.cos(a)*270,this.h*.28+Math.sin(a)*160);ctx.stroke();}}ctx.restore();}
 
     drawMapAtmosphere(ctx, map, dt=.016) {
       if(this.trainingMode?.active)return;
@@ -9327,11 +9774,12 @@
       if(this.mapIndex===12){this.drawWorldThirteenAtmosphere(ctx);return;}
       if(this.mapIndex===13){this.drawWorldFourteenAtmosphere(ctx);return;}
       const t = now() * .001;
+      const fx = clamp(this.fxVisualScale || 1, .52, 1);
       ctx.save();
-      ctx.globalAlpha = .25;
+      ctx.globalAlpha = .25 * (.72 + fx*.28);
       ctx.strokeStyle = map.theme[2];
       ctx.lineWidth = 1;
-      const gap = 86;
+      const gap = 86 / Math.max(.58, fx);
       for (let x = (t * 12) % gap - gap; x < this.w + gap; x += gap) {
         ctx.beginPath();
         ctx.moveTo(x, 0);
@@ -9339,7 +9787,7 @@
         ctx.stroke();
       }
       ctx.globalAlpha = .1;
-      for (let y = 0; y < this.h; y += 72) {
+      for (let y = 0, yGap=72/Math.max(.58,fx); y < this.h; y += yGap) {
         ctx.beginPath();
         ctx.moveTo(0, y + Math.sin(t + y * .04) * 16);
         ctx.lineTo(this.w, y + Math.cos(t + y * .02) * 16);
@@ -10287,9 +10735,12 @@
       const engine = parts.engine || 0;
       const domainMeta=domainFormMeta(p.domainForm||'rizoma');
       const domainImg=domainMeta?this.getAsset(domainMeta.assetKey):null;
+      const fleetMeta=(p.domainForm||'rizoma')==='rizoma'?conquestFleetMeta(p.fleetShip):null;
+      const fleetImg=fleetMeta?this.getAsset(fleetMeta.assetKey):null;
       const avatarImg=p.avatar?.assetKey?this.getAsset(p.avatar.assetKey):null;
       const orbs = this.getPowerLevel('orbs', true);
       if(domainMeta&&domainImg){this.drawDomainPlayer(ctx,p,t,domainMeta,domainImg);return;}
+      if(fleetMeta&&fleetImg){this.drawDomainPlayer(ctx,p,t,{color:fleetMeta.color,scale:fleetMeta.scale||1.02},fleetImg);return;}
       if(avatarImg){this.drawDomainPlayer(ctx,p,t,{color:p.avatar.color,scale:1.03},avatarImg);return;}
       ctx.save();
       ctx.translate(p.x, p.y);
@@ -10527,7 +10978,7 @@
         ctx.globalAlpha = pt.type === 'ring' ? a * .75 : a;
         ctx.strokeStyle = pt.color;
         ctx.fillStyle = pt.color;
-        ctx.shadowBlur = 12;
+        ctx.shadowBlur = 5 + 7 * clamp(this.fxVisualScale || 1, .52, 1);
         ctx.shadowColor = pt.color;
         if (pt.type === 'ring') {
           ctx.lineWidth = 4;
@@ -10909,6 +11360,7 @@
   }
 
   function showStorySequence(seq, onDone) {
+    if(!STATIC_STORY_ENABLED){if(typeof onDone==='function')setTimeout(onDone,0);return;}
     requestLandscapeExperience({ userGesture:true, source:'story' });
     storyRuntime = { sequence: seq, step:0, onDone: typeof onDone === 'function' ? onDone : null, readyTimer:null };
     els.storyOverlay?.classList.remove('hidden');
@@ -10981,7 +11433,7 @@
   }
 
   function hideOverlays() {
-    ['cardOverlay', 'pauseOverlay', 'resultOverlay', 'tacticalPrepPrompt', 'tacticalShopOverlay', 'tacticalCountdown', 'storyOverlay', 'domainOverlay'].forEach(id => els[id]?.classList.add('hidden'));
+    ['cardOverlay', 'pauseOverlay', 'resultOverlay', 'tacticalPrepPrompt', 'tacticalShopOverlay', 'tacticalCountdown', 'storyOverlay', 'domainOverlay', 'fleetOverlay'].forEach(id => els[id]?.classList.add('hidden'));
     els.resultOverlay?.classList.remove('victory-clean');
     els.cardOverlay?.classList.add('hidden');
     els.pendingBadge?.classList.add('hidden');
@@ -11068,7 +11520,7 @@
     if (els.difficultyHint) els.difficultyHint.textContent = selectedDifficulty==='hard' ? 'Más enemigos, hordas y peligros · mejores recompensas' : 'Experiencia equilibrada actual';
     const selectedPlayMode = ['story','direct'].includes(p.preferredPlayMode) ? p.preferredPlayMode : (state.settings.playMode || 'story');
     document.querySelectorAll('[data-play-mode]').forEach(btn => btn.classList.toggle('active', btn.dataset.playMode === selectedPlayMode));
-    if (els.playModeHint) els.playModeHint.textContent = selectedPlayMode==='story' ? 'Prólogo y microescenas narrativas · siempre puedes saltarlas' : 'Sin escenas narrativas · directo al combate';
+    if (els.playModeHint) els.playModeHint.textContent = 'Campaña de combate continuo · cinemáticas Saga I/II en preparación';
     if (els.homeBestScore) els.homeBestScore.textContent = p.stats.bestScore || 0;
     if (els.homeCoins) els.homeCoins.textContent = p.coins || 0;
     if (els.homeMap) els.homeMap.textContent = p.unlockedMap || 1;
@@ -11377,6 +11829,21 @@
     }));
   }
 
+  function renderConquestFleetInventory(){
+    if(!els.conquestFleetInventory)return;
+    const p=currentProfile();reconcileConquestRewards(p);const active=p.activeFleetShip||null;
+    const baseSrc=GAME_ASSET_SOURCES.playerFenixRZ1||'';const base=`<article class="boss-ship-card ${!active?'active':''}"><div class="boss-ship-art">${baseSrc?`<img src="${baseSrc}" alt="Fénix RZ-1" />`:'◇'}</div><h4>Fénix RZ-1</h4><p>Nave base. La Flota no sustituye DOMINIO.</p><div class="fleet-card-stats"><span>EQUILIBRADA</span><span>SIN FIRMA</span></div><footer><span class="boss-ship-status">BASE</span><button class="soft-btn small" data-equip-fleet="" ${!active?'disabled':''}>${!active?'Preparada':'Preparar'}</button></footer></article>`;
+    els.conquestFleetInventory.innerHTML=base+CONQUEST_FLEET.map(meta=>{const unlocked=!!p.conquestFleet?.[meta.id],on=active===meta.id,src=GAME_ASSET_SOURCES[meta.assetKey]||'',stats=fleetModSummary(meta);return `<article class="boss-ship-card fleet-archive-card ${unlocked?'':'locked'} ${on?'active':''}" style="--fleet-color:${meta.color}"><div class="boss-ship-art">${src?`<img src="${src}" alt="${meta.name}" />`:'◇'}</div><h4>M${meta.milestoneWorld} · ${meta.name}</h4><p>${meta.inherit}.</p><div class="fleet-signature-readout"><small>FIRMA HEREDADA</small><strong>${meta.signature}</strong><em>${meta.signatureCd}s</em></div><div class="fleet-card-stats">${stats.map(x=>`<span>${x}</span>`).join('')}</div><footer><span class="boss-ship-status">${unlocked?'CONQUISTADA':'BLOQUEADA'}</span><button class="soft-btn small" data-equip-fleet="${meta.id}" ${!unlocked||on?'disabled':''}>${on?'Preparada':'Preparar'}</button></footer></article>`;}).join('');
+    els.conquestFleetInventory.querySelectorAll('[data-equip-fleet]').forEach(btn=>btn.addEventListener('click',()=>{const id=btn.dataset.equipFleet||null;if(id&&!p.conquestFleet?.[id])return;p.activeFleetShip=id;saveState();renderConquestFleetInventory();}));
+  }
+
+  function renderGuardianInvocationInventory(){
+    if(!els.guardianInvocationInventory)return;
+    const p=currentProfile();reconcileConquestRewards(p);const active=p.activeGuardianInvocation||null;
+    els.guardianInvocationInventory.innerHTML=MAPS.map((map,i)=>{const world=i+1,id=`guardian${world}`,meta=guardianInvocationMeta(world),unlocked=!!p.guardianInvocations?.[id],on=active===id,src=GAME_ASSET_SOURCES[meta.assetKey]||'';return `<article class="boss-ship-card guardian-card ${unlocked?'':'locked'} ${on?'active':''}" style="--guardian-color:${meta.color}"><div class="boss-ship-art">${src?`<img src="${src}" alt="${meta.name}" />`:bossSigilHtml(i,'map-boss-sigil')}</div><h4>M${world} · ${meta.name}</h4><p>${meta.signature} · ${meta.duration}s · cooldown ${meta.cooldown}s.</p><footer><span class="boss-ship-status">${unlocked?'INVOCABLE':'BLOQUEADO'}</span><button class="soft-btn small" data-select-guardian="${id}" ${!unlocked||on?'disabled':''}>${on?'Seleccionado':'Seleccionar'}</button></footer></article>`;}).join('');
+    els.guardianInvocationInventory.querySelectorAll('[data-select-guardian]').forEach(btn=>btn.addEventListener('click',()=>{const id=btn.dataset.selectGuardian;if(!p.guardianInvocations?.[id])return;p.activeGuardianInvocation=id;saveState();renderGuardianInvocationInventory();}));
+  }
+
   function renderSagaTwoPreview(){
     if(!els.sagaTwoGrid)return;
     const p=currentProfile();reconcileCampaignProgress(p,{clearStaleSave:true});
@@ -11464,9 +11931,10 @@
   function renderAll() {
     const active=currentProfile();
     reconcileCampaignProgress(active,{clearStaleSave:true});
+    reconcileConquestRewards(active);
     // La reparación de progreso debe persistir, no quedar sólo en memoria hasta la próxima acción del usuario.
     saveState();
-    renderHome(); renderProfiles(); renderAvatars(); renderHangar(); renderMaps(); renderBossShipInventory(); renderReplayLevels(); renderSagaTwoPreview(); renderTrainingBosses(); renderShop(); renderRanking(); renderAchievements(); renderCollection(); renderSettings();
+    renderHome(); renderProfiles(); renderAvatars(); renderHangar(); renderMaps(); renderBossShipInventory(); renderConquestFleetInventory(); renderGuardianInvocationInventory(); renderReplayLevels(); renderSagaTwoPreview(); renderTrainingBosses(); renderShop(); renderRanking(); renderAchievements(); renderCollection(); renderSettings();
   }
 
   function exportRanking() {
@@ -11605,7 +12073,7 @@ ${JSON.stringify(snapshot, null, 2)}`;
       const id=btn.dataset.playMode; if(!['story','direct'].includes(id))return;
       const p=currentProfile(); p.preferredPlayMode=id; state.settings.playMode=id; saveState();
       document.querySelectorAll('[data-play-mode]').forEach(b=>b.classList.toggle('active',b===btn));
-      if(els.playModeHint) els.playModeHint.textContent=id==='story'?'Prólogo y microescenas narrativas · siempre puedes saltarlas':'Sin escenas narrativas · directo al combate';
+      if(els.playModeHint) els.playModeHint.textContent='Campaña de combate continuo · cinemáticas Saga I/II en preparación';
     }));
     els.btnStoryNext?.addEventListener('click', advanceStory);
     els.btnStorySkip?.addEventListener('click', () => closeStorySequence(true));
@@ -11666,6 +12134,22 @@ ${JSON.stringify(snapshot, null, 2)}`;
       consumeDomainGesture(e);
       if(performance.now()-domainPressStamp>450)game.openDomainSelector();
     });
+    let fleetPressStamp=0;
+    els.btnFleet?.addEventListener('pointerdown',e=>{consumeDomainGesture(e);fleetPressStamp=performance.now();game.openFleetSelector();},{passive:false});
+    els.btnFleet?.addEventListener('click',e=>{consumeDomainGesture(e);if(performance.now()-fleetPressStamp>450)game.openFleetSelector();});
+    els.btnFleetClose?.addEventListener('pointerdown',consumeDomainGesture,{passive:false});
+    els.btnFleetClose?.addEventListener('click',e=>{consumeDomainGesture(e);game.closeFleetSelector();});
+    els.fleetOverlay?.addEventListener('pointerdown',e=>{e.stopPropagation();},{passive:true});
+    els.fleetOverlay?.addEventListener('click',e=>{e.stopPropagation();if(e.target===els.fleetOverlay)game.closeFleetSelector();});
+    els.fleetQuickList?.addEventListener('pointerdown',e=>{e.stopPropagation();},{passive:true});
+    els.fleetQuickList?.addEventListener('click',e=>{e.stopPropagation();const btn=e.target.closest('[data-fleet-loadout]');if(btn)game.selectFleetLoadout(btn.dataset.fleetLoadout||null);});
+    let guardianHoldTimer=null,guardianHeld=false,guardianPointerId=null;
+    const clearGuardianHold=()=>{if(guardianHoldTimer){clearTimeout(guardianHoldTimer);guardianHoldTimer=null;}};
+    els.btnGuardianInvoke?.addEventListener('pointerdown',e=>{consumeDomainGesture(e);if(els.btnGuardianInvoke.disabled)return;guardianHeld=false;guardianPointerId=e.pointerId;els.btnGuardianInvoke.setPointerCapture?.(e.pointerId);clearGuardianHold();guardianHoldTimer=setTimeout(()=>{guardianHeld=true;game.cycleGuardianInvocation(1);navigator.vibrate?.(22);},560);},{passive:false});
+    els.btnGuardianInvoke?.addEventListener('pointerup',e=>{consumeDomainGesture(e);clearGuardianHold();if(guardianPointerId===e.pointerId)guardianPointerId=null;if(!guardianHeld)game.activateGuardianInvocation();guardianHeld=false;},{passive:false});
+    els.btnGuardianInvoke?.addEventListener('pointercancel',()=>{clearGuardianHold();guardianHeld=false;guardianPointerId=null;});
+    els.btnGuardianInvoke?.addEventListener('contextmenu',e=>{consumeDomainGesture(e);game.cycleGuardianInvocation(1);});
+    els.btnGuardianInvoke?.addEventListener('keydown',e=>{if(e.key==='ArrowRight'||e.key==='ArrowLeft'){e.preventDefault();game.cycleGuardianInvocation(e.key==='ArrowLeft'?-1:1);}});
     els.btnDomainClose?.addEventListener('pointerdown',consumeDomainGesture,{passive:false});
     els.btnDomainClose?.addEventListener('click',e=>{consumeDomainGesture(e);game.closeDomainSelector();});
     els.domainOverlay?.addEventListener('pointerdown',e=>{e.stopPropagation();},{passive:true});

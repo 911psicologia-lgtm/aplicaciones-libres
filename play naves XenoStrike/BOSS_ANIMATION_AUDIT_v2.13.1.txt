@@ -1,0 +1,18 @@
+BOSS ANIMATION AUDIT v2.13.1
+
+M1 · Imperatrix Vespa · ANIMADO POR ASSET
+M2 · Atlas Verde · ANIMADO POR ASSET
+M3 · Cortex Razor · ANIMADO POR ASSET
+M4 · Vela Noctis · ANIMADO POR ASSET
+M5 · Regina Ferrum · ANIMADO POR ASSET
+M6 · Colossus Hop · PENDIENTE
+M7 · Sanguina Prime · PENDIENTE
+M8 · Architect Zero · PENDIENTE
+M9 · Auralis · PENDIENTE
+M10 · Resonator Omega · PENDIENTE
+
+Animados: 5/10
+PWA: 287 recursos · faltantes 0
+Migración meta v2.13.0: True
+Migración run v2.13.0: True
+Errores: 0

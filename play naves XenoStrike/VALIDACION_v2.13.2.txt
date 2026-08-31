@@ -1,0 +1,11 @@
+VALIDACIÓN v2.13.2
+
+- VERSION game.js: 2.13.2
+- Boss animation coverage: 10/10
+- Sprite sheets new bosses: 25/25 present and dimension-valid
+- PWA cache: swarm-rift-v2.13.2
+- PWA resources: 317
+- PWA missing: 0
+- Cache-busting: av=2132
+- Save migration: v2.13.1 -> v2.13.2
+- Worlds 11-20: not started

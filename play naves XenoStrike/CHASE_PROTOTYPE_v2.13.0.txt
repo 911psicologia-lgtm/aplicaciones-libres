@@ -1,0 +1,19 @@
+CHASE BONUS — PROTOTIPO v2.13.0
+
+Objetivo: validar dentro de SWARM//RIFT una segunda gramática jugable sin reconstruir la campaña.
+
+CONTROL
+PC: mover mouse para apuntar. No requiere clic sostenido.
+Móvil/tablet: tocar y arrastrar para orientar la retícula.
+Disparo: automático hacia la retícula.
+Nave: sigue parcialmente la retícula en el tercio inferior, permitiendo esquiva.
+
+ESTRUCTURA
+0–19 s: reconocimiento
+20–39 s: presión / élites
+40–60 s: interceptor soberano + presión de cierre
+Si el interceptor sigue vivo al segundo 60, existe una resolución máxima de 8 s.
+
+ECONOMÍA
+No consume poderes ni reservas del Hangar. No crea checkpoint de campaña.
+Entrega bonus de créditos y registra mejor puntuación/victorias CHASE.

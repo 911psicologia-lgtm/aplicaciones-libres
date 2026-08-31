@@ -1,0 +1,37 @@
+{
+  "version": "2.13.4",
+  "worlds": 10,
+  "boss_animation": "10/10",
+  "signature_attacks": "10/10",
+  "chapter2_started": false,
+  "chase": {
+    "duration": 64,
+    "stages": 3,
+    "lock_on": true,
+    "adaptive_support": true,
+    "rank": "S/A/B/C",
+    "campaign_power_stock_consumed": false
+  },
+  "ui": {
+    "compact_notice_line": true,
+    "compact_notice_cap": 2,
+    "overflow_truncation": true,
+    "store_quantity_badges": true
+  },
+  "resources": {
+    "frenzy_adaptive_support": "max 1 per frenzy based on HP/shield",
+    "boss_commander_support": "preserved",
+    "reward_ledger": "preserved"
+  },
+  "preserved": [
+    "audio architecture",
+    "boss animation",
+    "signature attacks",
+    "boss convergence",
+    "checkpoints",
+    "Hangar",
+    "Combat Director",
+    "Wave Objectives",
+    "worlds 1-10"
+  ]
+}

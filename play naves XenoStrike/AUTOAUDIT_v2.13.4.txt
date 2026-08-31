@@ -1,0 +1,14 @@
+AUTOAUDIT v2.13.4 — FINAL CHAPTER I POLISH
+
+PASS · 10 mundos activos
+PASS · 10/10 bosses animados
+PASS · 10/10 ataques signature
+PASS · CHASE: 64 s, 3 fases, lock-on, shield/repair/overdrive, rango final
+PASS · CHASE runtime: fase 3 y boss alcanzados sin excepción
+PASS · mensajes compactos visibles en una sola línea
+PASS · soporte intermedio de Frenesí limitado a 1 drop adaptativo
+PASS · Reward Ledger y economía de campaña preservados
+PASS · Hangar, audio, checkpoints y Combat Director preservados
+PASS · PWA 317/317
+PASS · node --check game.js/sw.js
+PASS · no se creó Mundo 11

@@ -1,0 +1,25 @@
+BOSS ANIMATION AUDIT v2.13.2
+
+Configured bosses: 10
+10/10 animated: True
+PWA resources: 317
+PWA missing: 0
+
+- AVISPAS -> imperatrix :: PASS :: motion=articulated-raster-warp
+- ESCARABAJOS -> atlas :: PASS :: motion=None
+- MANTIS -> cortex :: PASS :: motion=blade-articulated
+  perceptualDiff={"idle": 17.82, "attack": 30.32, "hurt": 21.13, "phase": 36.06, "death": 39.54}
+- POLILLAS -> vela :: PASS :: motion=flutter-organic
+  perceptualDiff={"idle": 22.62, "attack": 30.96, "hurt": 22.43, "phase": 40.77, "death": 38.78}
+- HORMIGAS -> regina :: PASS :: motion=fortress-articulated
+  perceptualDiff={"idle": 13.51, "attack": 20.03, "hurt": 13.92, "phase": 25.68, "death": 28.66}
+- LANGOSTAS -> colossus :: PASS :: motion=kinetic-leap
+  perceptualDiff={"idle": 14.23, "attack": 14.37, "hurt": 17.66, "phase": 18.34, "death": 8.29}
+- MOSQUITOS -> sanguina :: PASS :: motion=hematic-pulse
+  perceptualDiff={"idle": 11.33, "attack": 12.48, "hurt": 15.53, "phase": 14.17, "death": 5.65}
+- TERMITAS -> architect :: PASS :: motion=siege-deploy
+  perceptualDiff={"idle": 12.45, "attack": 12.28, "hurt": 18.24, "phase": 15.5, "death": 6.73}
+- LIBÉLULAS -> auralis :: PASS :: motion=prism-flight
+  perceptualDiff={"idle": 9.56, "attack": 12.2, "hurt": 13.88, "phase": 11.61, "death": 5.46}
+- CIGARRAS -> resonator :: PASS :: motion=sonic-resonance
+  perceptualDiff={"idle": 9.81, "attack": 10.3, "hurt": 14.11, "phase": 15.13, "death": 5.92}

@@ -1,0 +1,8 @@
+AUTOAUDIT v2.13.2
+
+PASS — 10 configured boss families have 5 animation states.
+PASS — All sprite-sheet dimensions match 384x384 frame grid.
+PASS — New bosses retain canonical source identity via raster-derived state sheets.
+PASS — Lieutenant renderer resolves the same family animation package.
+PASS — PWA resource paths complete.
+PASS — No Chapter II world content introduced.

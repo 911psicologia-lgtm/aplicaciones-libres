@@ -1,4 +1,4 @@
-SWARM//RIFT — Insecta Siege v2.12.2
+SWARM//RIFT — Insecta Siege v2.13.4
 ====================================
 
 ESTADO ACTUAL
@@ -19,6 +19,15 @@ CONTROLES
 - Disparo y autoapuntado automáticos.
 - Pausa, tienda, música, SFX y fullscreen mediante iconos superiores.
 
+
+
+NOVEDAD v2.13.4 — FINAL CHAPTER I POLISH + CHASE REFINEMENT
+- CHASE BONUS refinado a 64 s, tres fases, lock-on, shield, reparación, sobrecarga y rango S/A/B/C.
+- CHASE incorpora enemigos insectoides reales en fases 2–3 y un Interceptor Soberano final.
+- HUD y mensajes compactos móviles corregidos: una línea visible con iconografía contextual.
+- Frenesí incorpora un único apoyo adaptativo intermedio según HP/shield/presión ofensiva.
+- Se conservan 10/10 bosses animados y 10/10 ataques signature.
+- Capítulo II sigue sin iniciarse.
 
 NOVEDAD v2.12.1.4 — 3S BOSS APPROACH + COMMANDER CONVERGENCE + AUDIO RESUME
 - Antesala de jefe fija en 3.0 segundos, también para reintentos/checkpoints de arena.

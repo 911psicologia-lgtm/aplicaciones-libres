@@ -1,0 +1,20 @@
+VALIDACIÓN v2.13.4
+- VERSION 2.13.4: PASS
+- Migración META v2.13.3 → v2.13.4: PASS
+- Migración RUN v2.13.3 → v2.13.4: PASS
+- Boss animation 10/10 preservada: PASS
+- Signature attacks 10/10 preservados: PASS
+- CHASE 64 s / 3 fases: PASS
+- CHASE lock-on: PASS
+- CHASE apoyo adaptativo: PASS
+- CHASE runtime instrumentado a 45.16 s: fase 3 + boss spawned: PASS
+- CHASE reparación adaptativa: PASS (50% → 68% integridad en prueba)
+- Mensaje compacto móvil de una línea: PASS
+- Apoyo adaptativo de Frenesí: PASS
+- PWA resources: 317
+- PWA missing: 0
+- node --check js/game.js: PASS
+- node --check sw.js: PASS
+- Runtime bootstrap instrumentado: PASS
+- Chromium headless: bloqueado por DBus/zygote del contenedor; no se atribuye prueba visual inexistente.
+- Capítulo II / Mundos 11–20: NO INICIADOS

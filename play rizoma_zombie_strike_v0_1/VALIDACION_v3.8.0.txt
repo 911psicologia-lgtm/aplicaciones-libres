@@ -1,0 +1,46 @@
+RIZOMA ZOMBIE STRIKE v3.8.0 — VALIDACIÓN
+
+OK | version_game | 
+OK | version_manifest | 
+OK | manifest_landscape | 
+OK | manifest_fullscreen | 
+OK | manifest_start_url | 
+OK | worlds_20 | 5 base + 15 push = 20
+OK | no_world21_playable | solo pueden existir textos de cliffhanger
+OK | fleet_10 | 10
+OK | domain_20 | 20
+OK | story_static_disabled | 
+OK | guardian_inventory_20 | 
+OK | html_btnFleet | 
+OK | html_fleetQuickStatus | 
+OK | html_fleetOverlay | 
+OK | html_fleetQuickList | 
+OK | js_updateFleetControl | 
+OK | js_openFleetSelector | 
+OK | js_closeFleetSelector | 
+OK | js_selectFleetLoadout | 
+OK | js_fleetModSummary | 
+OK | selector_found | 
+OK | queue_updates_profile | 
+OK | no_hot_swap | 
+OK | run_instantiates_profile_fleet | 
+OK | save_preserves_current_fleet | 
+OK | domain_suspends_fleet_signature | 
+OK | fleet_overlay_blocks_guardian | 
+OK | hide_overlays_includes_fleet | 
+OK | html_unique_ids | []
+OK | css_parse | []
+OK | assets_zero_missing | 519 refs; missing=[]
+OK | soundtrack_M14 | M14
+OK | soundtrack_M15 | M15
+OK | soundtrack_M16 | M16
+OK | soundtrack_M17 | M17
+OK | soundtrack_M18 | M18
+OK | soundtrack_M19 | M19
+OK | soundtrack_M20 | M20
+OK | fleet_cooldown_saved | 
+OK | fleet_cooldown_loaded | 
+OK | m1_guarantee_retained | baseline retained; no v3.8 director edits
+
+TOTAL: 41 checks · 0 failures
+ASSET_REFS: 519 · MISSING: 0
