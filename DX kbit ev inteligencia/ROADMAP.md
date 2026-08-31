@@ -1,23 +1,19 @@
-# ROADMAP — posterior a v0.6
+# ROADMAP después de v0.8
 
 ## Cerrado
-1. Baremos C.1–C.5 integrados.
-2. Estímulos integrados y cobertura visual completa mediante tres sustitutos trazados.
-3. Clave profesional de trabajo y Matrices A–H.
-4. Informes técnico y contextual enriquecidos.
-5. Plantilla original de respuestas descargable.
-6. Perfil gráfico con intervalos de confianza.
+- Baremos C.1-C.5 integrados.
+- Estímulos completos, incluyendo los tres sustitutos aprobados.
+- Administración protocolizada por edad, bloques, retorno, crédito y discontinuación.
+- Definiciones con 30 s.
+- Presentación discreta para no revelar 0/1 ni claves al evaluado.
+- Informe técnico, contextual base y contextual asistido por IA separados.
+- Previsualización IA en tiempo real.
+- Manual HTML/DOCX/PDF actualizado.
+- Plantilla original de respuestas descargable.
 
-## Siguiente mejora del informe
-1. Anexo digital de protocolo: exportar automáticamente el registro completo de respuestas del caso.
-2. Paquete de expediente: informe + protocolo + plantilla + respaldo del caso.
-3. Exportación DOCX y PDF nativos con paginación y encabezados profesionales.
-4. Recomendaciones adaptativas según contexto, siempre revisables por el profesional.
-5. Auditoría de lenguaje para contextos clínico, educativo, jurídico, laboral e investigativo.
-
-## Pendiente por fuente oficial
-1. Puntos de inicio por edad.
-2. Retorno y basal.
-3. Aprendizaje.
-4. Techo/discontinuación exactos.
-5. Criterios detallados de aceptación de respuestas verbales.
+## Próximas mejoras opcionales
+1. Sincronización segura entre dos dispositivos (panel evaluador + pantalla examinando).
+2. PWA instalable con caché offline controlada de estímulos.
+3. Exportación DOCX/PDF nativa del informe desde backend/worker si se desea evitar impresión del navegador.
+4. Firma profesional y encabezados institucionales configurables.
+5. Cifrado local de respaldos y bloqueo con PIN opcional.

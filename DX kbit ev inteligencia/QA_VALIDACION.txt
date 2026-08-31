@@ -1,52 +1,45 @@
-VALIDACIÓN TÉCNICA — K-BIT v0.7.0 PROTOCOLIZADO
+VALIDACIÓN TÉCNICA — K-BIT v0.8.0
+
+PRIVACIDAD DE APLICACIÓN
+- Presentación discreta configurada como modo predeterminado: SÍ.
+- Oculta 0/1 y textos correcta/incorrecta durante la vista compartida: SÍ.
+- Oculta clave profesional y conteos de aciertos: SÍ.
+- Alt+1 / Alt+0 funcionan aun con foco en campo de texto por diseño del listener global: SÍ.
+- Alt+N registra incidencia/no administrado: SÍ.
+- Matrices A-H conserva puntuación interna sin mostrar el resultado en modo discreto: SÍ.
+- Pantalla de cierre neutral en modo discreto: SÍ.
+
+INFORMES
+- Informe técnico: independiente.
+- Contextual base local: independiente.
+- Contextual asistido por IA: independiente.
+- Sin texto IA, la vista IA NO cae al contextual base: verificado por prueba de módulo.
+- Con texto IA, la vista incluye el texto pegado: verificado por prueba de módulo.
+- Prompt solicita informe completo y excluye resumen ejecutivo: verificado.
+- Previsualización se actualiza desde el evento input: implementado.
+
+PROTOCOLO
+- 14 pruebas unitarias obligatorias de administración: PASARON.
 
 ESTÍMULOS
-- Vocabulario expresivo: 45/45 disponibles.
-- Definiciones: 37/37 disponibles.
-- Matrices: 48/48 disponibles.
-- Sustitutos implementados y trazados: VE-2 Tenedor, VE-3 Rana, DEF-27 Conversación.
-- Ya no existen reactivos visuales marcados como faltantes en el flujo operativo.
+- Vocabulario expresivo: 45/45.
+- Definiciones: 37/37.
+- Matrices: 48/48.
+- Faltantes operativos: 0.
 
-REGLAS DE ADMINISTRACIÓN
-- Puntos de inicio por edad: implementados.
-- Definiciones <8 años: omisión automática.
-- Matrices: bifurcación del ejemplo B para 11–90 años implementada.
-- Decisión por primer bloque: implementada.
-- Retorno cuando start>1 y primer bloque <2 aciertos: implementado.
-- Crédito previo cuando primer bloque >=2 aciertos: implementado.
-- Discontinuación por bloque completo de 0: implementada.
-- Ítems posteriores a discontinuación: excluidos de puntuación.
-- Definiciones: temporizador de 30 segundos por ítem implementado.
-- Ítems de aprendizaje: primera respuesta preservada para puntuación.
+MANUAL
+- DOCX actualizado: 3 páginas.
+- Render DOCX revisado visualmente página por página: SÍ.
+- PDF actualizado: 3 páginas.
+- Render PDF revisado visualmente página por página: SÍ.
+- HTML actualizado: SÍ.
 
-QA AUTOMATIZADA
-- Edad 5 VE -> inicio 1: PASS.
-- Edad 13 VE -> inicio 31: PASS.
-- Edad 7 Definiciones -> omitida: PASS.
-- Edad 14 Definiciones -> inicio 1: PASS.
-- Edad 15 Definiciones -> inicio 6: PASS.
-- Edad 12 Matrices ejemplo B correcto -> inicio 15: PASS.
-- Edad 12 Matrices ejemplo B incorrecto -> inicio 10: PASS.
-- Start>1 + 2 aciertos -> continuar + crédito previo: PASS.
-- Start>1 + 1 acierto -> retorno: PASS.
-- Start>1 + 0 aciertos -> retorno y terminación correcta: PASS.
-- Start=1 + bloque completo 0 -> terminación: PASS.
-- Definiciones 30 s: PASS.
-- Ítems post-techo ignorados: PASS.
-- Retorno que termina antes del start original -> sin crédito de brecha: PASS.
+NOTA DE QA
+El entorno de ejecución bloqueó la navegación headless a localhost/file:// por política administrativa, por lo que la validación de navegador completo no pudo ejecutarse aquí. Se compensó con pruebas unitarias del protocolo, importación real de módulos de cálculo/informes, pruebas de generación de informes y verificación sintáctica de JavaScript.
 
-CÓDIGO Y DATOS
-- Todos los módulos JavaScript: sintaxis validada con node --check.
-- application-rules.json: válido.
-- professional-key.json: válido.
-- stimuli-manifest.json: válido.
-- baremos-kbit.json: válido.
-
-DOCUMENTACIÓN
-- Manual del evaluador HTML: incluido.
-- Manual del evaluador DOCX: incluido.
-- Manual del evaluador PDF: incluido.
-- Plantilla original de respuestas: incluida.
-
-ESTADO
-- Versión lista para publicación estática en Cloudflare Pages.
+VALIDACIÓN v0.8.1
+- 0/1 directos implementados sin Alt.
+- Decisión del ejemplo B de Matrices admite 0/1 directos.
+- En item-response, 0/1 califican y no se escriben como texto.
+- En item-note y otros campos editables, 0/1 siguen disponibles como caracteres normales.
+- Alt+N se conserva para 'No administrado' para evitar conflicto con respuestas verbales.

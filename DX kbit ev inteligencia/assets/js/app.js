@@ -23,6 +23,7 @@ let route = 'home';
 let reportTab = 'technical';
 let protocolFlash = '';
 let definitionTimerHandle = null;
+let discreetFlash = '';
 
 const main = document.getElementById('main');
 const nav = document.getElementById('nav');
@@ -32,7 +33,7 @@ function currentCase(){
   const c=db.currentId ? db.cases[db.currentId] || null : null;
   if(c){
     if(!c.professional)c.professional={fullName:'',registration:'',role:'Psicólogo/a',institution:''};
-    c.application ||= {};c.application.adjustments ||= {};if(c.application.adjustments.overrideReason===undefined)c.application.adjustments.overrideReason='';
+    c.application ||= {};if(c.application.discreetMode===undefined)c.application.discreetMode=true;c.application.adjustments ||= {};if(c.application.adjustments.overrideReason===undefined)c.application.adjustments.overrideReason='';
     for(const items of Object.values(c.application.items||{}))for(const it of items){if(it.firstScore===undefined)it.firstScore=null;if(it.firstResponse===undefined)it.firstResponse='';if(it.responseSeconds===undefined)it.responseSeconds=null;if(it.timerStart===undefined)it.timerStart=null;if(it.timedOut===undefined)it.timedOut=false;if(!it.reapplications)it.reapplications=[];}
   }
   return c;
@@ -109,6 +110,20 @@ function renderContext(){
 }
 
 function scoreStatsText(stats){return `${stats.correct} correctas · ${stats.incorrect} incorrectas · ${stats.credit||0} créditos · ${stats.skipped||0} no administradas · ${stats.pending} pendientes`}
+
+function discreetMode(c){ return c?.application?.discreetMode !== false; }
+function neutralRecordStatus(item){
+  if(item?.score===0||item?.score===1||item?.score==='NA') return '<span class="neutral-record saved">Registro guardado</span>';
+  return '<span class="neutral-record">Pendiente de registrar</span>';
+}
+function refreshAIReportPreview(){
+  if(reportTab!=='contextual_ai') return;
+  const target=document.getElementById('report-preview');
+  if(target) target.innerHTML=contextualReportWithAI(currentCase(),calc());
+  const state=document.getElementById('ai-state');
+  if(state){const has=!!(currentCase()?.reports?.contextualAIText||'').trim();state.textContent=has?'IA cargada · vista actualizada':'Sin respuesta IA cargada';state.className=`badge ${has?'':'warn'}`;}
+}
+
 function activeProtocolState(c,key){return c.application.protocol?.subtests?.[key]||null}
 function itemStateClass(it, idx, current){
   if(idx===current) return 'current';
@@ -128,9 +143,9 @@ function professionalReference(key,item,response){
   const status=response?(match===true?`<div class="notice match-ok" style="margin-top:8px"><strong>Coincidencia nominal exacta.</strong> Puede marcarse correcta si no hay otra incidencia.</div>`:`<div class="notice match-neutral" style="margin-top:8px"><strong>No coincide exactamente con la clave nominal.</strong> Revise equivalencias y criterios profesionales; no se convierte automáticamente en error.</div>`):'';
   return `<details class="pro-key no-print"><summary>Clave profesional · evaluador</summary><div class="key-warning">USO PROFESIONAL — NO MOSTRAR AL EVALUADO. La clave nominal no sustituye criterios de aceptación de respuestas.</div><div>Respuesta nominal esperada:</div><div class="key-answer">${esc(ref.answer)}</div>${status}</details>`;
 }
-function renderMatrixChoices(item){
+function renderMatrixChoices(item,discreet=false){
   const options=['A','B','C','D','E','F','G','H'];
-  return `<div><label class="small muted">Alternativa seleccionada</label><div class="matrix-choices">${options.map(o=>`<button class="matrix-choice ${String(item.response).toUpperCase()===o?'selected':''}" data-action="matrix-choice" data-choice="${o}">${o}</button>`).join('')}</div><div class="mini muted">La app compara la alternativa con la clave de trabajo y asigna 1/0. En ítems de aprendizaje conserva la primera selección puntuable.</div></div>`;
+  return `<div><label class="small muted">Alternativa indicada por el evaluado</label><div class="matrix-choices">${options.map(o=>`<button class="matrix-choice ${String(item.response).toUpperCase()===o?'selected':''}" data-action="matrix-choice" data-choice="${o}">${o}</button>`).join('')}</div>${discreet?'':`<div class="mini muted">La app contrasta la selección con la clave profesional y puntúa internamente. La corrección no debe mostrarse al evaluado.</div>`}</div>`;
 }
 function protocolStatus(c,key,rules){
   const s=activeProtocolState(c,key); if(!s) return '';
@@ -164,6 +179,7 @@ function renderPreparation(c,key,r){
   if(key==='matrices'){
     const ex=examples.filter(e=>e.label?.includes(`Ejemplo ${plan.example}`));
     if(plan.needsExampleDecision){
+      if(discreetMode(c)) return `<div class="card prep-card"><div class="prep-step">PASO 3 DE 3</div><h3>Preparar Matrices</h3><p>Presente <strong>Ejemplo B</strong>. La ruta puntuable se seleccionará de forma privada según la respuesta del ejemplo.</p>${renderExamples(ex)}<div class="notice"><strong>Registro privado habilitado.</strong> No aparece en pantalla si el ejemplo fue correcto o incorrecto. Use el atajo privado del evaluador para registrar el resultado y la app abrirá automáticamente el ítem correspondiente.</div><p class="small muted">El ejemplo no suma puntuación.</p></div>`;
       return `<div class="card prep-card"><div class="prep-step">PASO 3 DE 3</div><h3>Preparar Matrices</h3><p>Para edades de 11 a 90 años, presente <strong>Ejemplo B</strong>. La ruta puntuable depende de la respuesta.</p>${renderExamples(ex)}<div class="matrix-example-decision"><button class="btn" data-action="prepare-matrix-route" data-result="correct">Ejemplo B correcto → iniciar 15</button><button class="btn ghost" data-action="prepare-matrix-route" data-result="incorrect">Ejemplo B incorrecto → iniciar 10</button></div><p class="small muted">El ejemplo no suma puntuación. Los dos primeros ítems puntuables posteriores son de aprendizaje.</p></div>`;
     }
     const block=getBlock(applicationRules,key,plan.startItem);
@@ -235,36 +251,40 @@ function goNextSubtest(c,r,current){
 
 function renderApplication(){
   const c=currentCase();if(!c)return noCase(); const r=calc();clearDefinitionTimer();
+  const discreet=discreetMode(c);
   if(!r?.validAge) return `${pageHeader('Aplicación','Para seleccionar la ruta de administración se necesita una edad válida.')}<div class="notice warn">Completa la fecha de nacimiento y la fecha de aplicación antes de iniciar.</div><div class="toolbar" style="margin-top:14px"><button class="btn" data-route="case">Ir a datos del evaluado</button></div>`;
   ensureProtocol(c,r.age,applicationRules);saveCurrent();
-  if(c.application.protocol?.legacyResponsesDetected) return `${pageHeader('Aplicación','Este caso contiene respuestas de una versión anterior no protocolizada.')}<div class="notice warn"><strong>Migración segura requerida.</strong> Para no interpretar respuestas antiguas como si hubieran seguido las nuevas reglas de inicio, retorno y discontinuación, la app no las reutiliza silenciosamente. Exporte primero el respaldo del caso si desea conservarlo y reinicie la administración para aplicar la ruta v0.7 desde cero.</div><div class="toolbar" style="margin-top:14px"><button class="btn danger" data-action="reset-administration">Reiniciar aplicación con reglas v0.7</button><button class="btn ghost" data-route="home">Volver a casos / respaldar</button></div>`;
-  if(c.application.protocol?.ageMismatch) return `${pageHeader('Aplicación','La edad cronológica cambió después de iniciar el protocolo.')}<div class="notice warn"><strong>Reinicio necesario.</strong> Los puntos de inicio dependen de la edad. Para evitar una ruta híbrida, reinicie la administración y vuelva a comenzar con la edad actual.</div><div class="toolbar" style="margin-top:14px"><button class="btn danger" data-action="reset-administration">Reiniciar protocolo y respuestas</button><button class="btn ghost" data-route="case">Revisar fechas</button></div>`;
+  if(c.application.protocol?.legacyResponsesDetected) return `${pageHeader('Aplicación','Este caso contiene respuestas de una versión anterior no protocolizada.')}<div class="notice warn"><strong>Migración segura requerida.</strong> Exporte primero el respaldo si desea conservarlo y reinicie la administración para aplicar la ruta protocolizada.</div><div class="toolbar" style="margin-top:14px"><button class="btn danger" data-action="reset-administration">Reiniciar aplicación protocolizada</button><button class="btn ghost" data-route="home">Volver a casos / respaldar</button></div>`;
+  if(c.application.protocol?.ageMismatch) return `${pageHeader('Aplicación','La edad cronológica cambió después de iniciar el protocolo.')}<div class="notice warn"><strong>Reinicio necesario.</strong> Los puntos de inicio dependen de la edad. Reinicie la administración para evitar una ruta híbrida.</div><div class="toolbar" style="margin-top:14px"><button class="btn danger" data-action="reset-administration">Reiniciar protocolo y respuestas</button><button class="btn ghost" data-route="case">Revisar fechas</button></div>`;
   const allowed=['vocabExpresivo',...(r.definitionsActive?['definiciones']:[]),'matrices'];
   if(!allowed.includes(c.application.activeSubtest)){c.application.activeSubtest='vocabExpresivo';c.application.activeIndex=0;saveCurrent()}
   const key=c.application.activeSubtest;const cfg=SUBTESTS[key];const st=activeProtocolState(c,key);
   if(st?.omitted) return `${pageHeader('Modo aplicación','La ruta se ajusta automáticamente a la edad.',`<button class="btn ghost" data-route="context">← Contexto</button>`)}${renderPreparation(c,key,r)}`;
   if(!st?.prepared) return `${pageHeader('Preparación guiada','Siga los pasos antes de presentar el primer reactivo puntuable.',`<button class="btn ghost" data-route="context">← Contexto</button><a class="btn ghost" href="./docs/manual-evaluador.html" target="_blank">Manual paso a paso</a>`)}<div class="steps"><span class="step-pill">Caso</span><span class="step-pill">Contexto</span><span class="step-pill active">Aplicación</span><span class="step-pill">Revisión</span><span class="step-pill">Resultados</span></div><div class="subtest-tabs">${allowed.map(k=>`<button class="subtest-tab ${key===k?'active':''}" data-action="switch-subtest" data-subtest="${k}">${esc(SUBTESTS[k].label)}${activeProtocolState(c,k)?.completed?' ✓':''}</button>`).join('')}</div>${renderPreparation(c,key,r)}`;
-  if(st.completed) return `${pageHeader(`${cfg.label} completada`,'La ruta de bloques se cerró y la puntuación queda protegida para revisión.',`<button class="btn ghost" data-route="review">Revisión general</button>`)}<div class="card"><h3>Subprueba cerrada</h3><p><strong>${esc(st.terminationReason||'Finalizada')}</strong></p><p>Inicio: ítem ${st.originalStartItem} · crédito previo: ${st.creditPrior||0} · retorno: ${c.application.protocol.events.some(e=>e.subtest===key&&e.type==='return')?'sí':'no'}.</p><button class="btn" data-action="go-next-subtest">Continuar con la siguiente subprueba →</button></div>`;
+  if(st.completed){if(discreet)return `${pageHeader(`${cfg.label} finalizada`,'La subprueba ha concluido. La corrección y el motivo de cierre permanecen ocultos en esta vista.')}<div class="card discreet-complete"><h3>Subprueba finalizada</h3><p>El registro quedó guardado. Continúe con la siguiente parte de la evaluación.</p><button class="btn" data-action="go-next-subtest">Continuar →</button></div>`;return `${pageHeader(`${cfg.label} completada`,'La ruta de bloques se cerró y la puntuación queda protegida para revisión.',`<button class="btn ghost" data-route="review">Revisión general</button>`)}<div class="card"><h3>Subprueba cerrada</h3><p><strong>${esc(st.terminationReason||'Finalizada')}</strong></p><p>Inicio: ítem ${st.originalStartItem} · crédito previo: ${st.creditPrior||0}.</p><button class="btn" data-action="go-next-subtest">Continuar con la siguiente subprueba →</button></div>`;}
 
   if(st.currentIndex!==null && c.application.activeIndex!==st.currentIndex)c.application.activeIndex=st.currentIndex;
   const items=c.application.items[key];const idx=Math.min(c.application.activeIndex,items.length-1);const item=items[idx];const stats=r.stats[key];const itemNo=idx+1;
   const progress=Math.round(((idx+1)/items.length)*100);const stim=currentStimulusData();
   setTimeout(()=>{publishCurrentStimulus();preloadStimulusNeighbors();if(key==='definiciones')armDefinitionTimer();},0);
   const stimBlock=stim?.status==='available'?`<div class="stimulus-stage" id="stimulus-stage"><img class="stimulus-image" src="${esc(stim.path)}" alt="${esc(stim.label)}" loading="eager" decoding="async" fetchpriority="high"></div>`:`<div class="stimulus-missing"><strong>Error técnico de recurso.</strong><br>El manifiesto no resolvió el estímulo ${itemNo}. Revise el paquete antes de administrar.</div>`;
-  const responseUI=key==='matrices'?`${renderMatrixChoices(item)}<div class="field"><label>Alternativa registrada</label><input id="item-response" value="${esc(item.response)}" readonly class="readonly"></div>`:`<div class="field" style="margin-top:14px"><label>Respuesta del evaluado</label><textarea id="item-response" rows="3" placeholder="Transcriba la primera respuesta y las aclaraciones relevantes.">${esc(item.response)}</textarea></div>`;
+  const responseUI=key==='matrices'?`${renderMatrixChoices(item,discreet)}<div class="field"><label>Alternativa registrada</label><input id="item-response" value="${esc(item.response)}" readonly class="readonly"></div>`:`<div class="field" style="margin-top:14px"><label>Respuesta del evaluado</label><textarea id="item-response" rows="3" placeholder="Transcriba la primera respuesta y las aclaraciones relevantes.">${esc(item.response)}</textarea></div>`;
   const timer=key==='definiciones'?`<div class="definition-timer"><span>Tiempo restante</span><strong id="def-timer">30 s</strong><small>No se pausa ni reinicia al repetir la pista.</small></div>`:'';
   const block=getBlock(applicationRules,key,itemNo);
-  return `${pageHeader('Modo aplicación','La app guía punto de inicio, aprendizaje, retorno, crédito previo, bloques y discontinuación.',`<button class="btn ghost focus-toggle" data-action="toggle-focus">${document.body.classList.contains('focus-mode')?'Salir modo foco':'Modo foco'}</button><button class="btn ghost" data-action="record-deviation">Registrar desviación clínica</button><button class="btn" data-route="review">Revisar aplicación</button>`)}
-  <div class="steps"><span class="step-pill">Caso</span><span class="step-pill">Contexto</span><span class="step-pill active">Aplicación</span><span class="step-pill">Revisión</span><span class="step-pill">Resultados</span></div>
-  <div class="subtest-tabs">${allowed.map(k=>`<button class="subtest-tab ${key===k?'active':''}" data-action="switch-subtest" data-subtest="${k}">${esc(SUBTESTS[k].label)}${activeProtocolState(c,k)?.completed?' ✓':''}</button>`).join('')}</div>
-  ${protocolStatus(c,key,applicationRules)}
-  <div class="apply-layout"><div class="apply-top"><div><strong>${esc(cfg.label)}</strong><div class="small muted">${scoreStatsText(stats)}</div></div><div class="toolbar"><span class="badge">Ítem ${itemNo}</span><span class="badge">Bloque ${block?`${block.start}-${block.end}`:'—'}</span><span class="badge">Baremo ${esc(r.normBand.label)}</span></div></div><div class="progress"><span style="width:${progress}%"></span></div>${renderQuickMap(c,key,items,idx)}
-  <div class="apply-grid" style="margin-top:12px"><div class="stimulus-card"><div class="stimulus-head"><div><h3>Estímulo visual</h3><div class="small muted">Cobertura visual completa. ${stim?.substitute?'Este reactivo utiliza el sustituto aprobado e identificado en auditoría.':'Reactivo integrado.'}</div></div><div class="toolbar no-print"><button class="btn ghost sm" data-action="open-viewer">Visor limpio</button><button class="btn ghost sm" data-action="fullscreen-stimulus">Pantalla completa</button></div></div>${stimBlock}<div class="stimulus-summary"><span class="k-pill">Ítem ${itemNo} de ${items.length}</span>${stim?.substitute?'<span class="k-pill">Sustituto aprobado</span>':''}</div><div class="stimulus-note">Presente el estímulo sin mostrar la clave profesional. Fuera de aprendizaje no indique si la respuesta fue correcta o incorrecta.</div></div>
-  <div class="item-card"><div class="item-number">Ítem ${itemNo} · bloque ${block?`${block.start}-${block.end}`:'—'}</div><h3>Registrar y calificar</h3>${timer}${learningNotice(c,key,itemNo)}${responseUI}${professionalReference(key,itemNo,item.response)}
-  ${key==='matrices'?'':`<div class="score-buttons"><button class="score-btn incorrect ${String(item.score)==='0'?'selected':''}" data-action="score-item" data-score="0">0 · Incorrecta</button><button class="score-btn ${String(item.score)==='1'?'selected':''}" data-action="score-item" data-score="1">1 · Correcta</button></div>`}
-  <div class="toolbar" style="margin:8px 0"><button class="btn ghost sm" data-action="mark-incidence">No administrado / incidencia</button>${key!=='definiciones' && (item.score===0||item.score===1)?'<button class="btn ghost sm" data-action="record-reapplication">Registrar reaplicación clínica excepcional</button>':''}</div>
+  const privacyAction=`<button class="btn ghost privacy-toggle" data-action="toggle-discreet" title="${discreet?'Abrir panel privado del evaluador':'Ocultar corrección antes de mostrar la pantalla'}" aria-label="${discreet?'Abrir panel privado del evaluador':'Activar presentación discreta'}">${discreet?'🔒':'🔓 Presentación discreta'}</button>`;
+  const headerDesc=discreet?'Presentación discreta activa: el evaluado no ve puntuaciones, claves, conteos de aciertos ni mensajes de corrección.':'Panel completo del evaluador: no muestre esta vista al evaluado.';
+  const statusArea=discreet?`<div class="discreet-status">${neutralRecordStatus(item)}${discreetFlash?`<span>${esc(discreetFlash)}</span>`:''}</div>`:`${protocolStatus(c,key,applicationRules)}`;
+  const evaluatorScoring=discreet?'':`${professionalReference(key,itemNo,item.response)}${key==='matrices'?'':`<div class="score-buttons"><button class="score-btn incorrect ${String(item.score)==='0'?'selected':''}" data-action="score-item" data-score="0">0 · Incorrecta</button><button class="score-btn ${String(item.score)==='1'?'selected':''}" data-action="score-item" data-score="1">1 · Correcta</button></div>`}<div class="toolbar" style="margin:8px 0"><button class="btn ghost sm" data-action="mark-incidence">No administrado / incidencia</button>${key!=='definiciones' && (item.score===0||item.score===1)?'<button class="btn ghost sm" data-action="record-reapplication">Registrar reaplicación clínica excepcional</button>':''}</div>`;
+  const learning=discreet?'':learningNotice(c,key,itemNo);
+  const topMeta=discreet?`<div><strong>${esc(cfg.label)}</strong><div class="small muted">Aplicación en curso</div></div><div class="toolbar"><span class="badge">Ítem ${itemNo}</span></div>`:`<div><strong>${esc(cfg.label)}</strong><div class="small muted">${scoreStatsText(stats)}</div></div><div class="toolbar"><span class="badge">Ítem ${itemNo}</span><span class="badge">Bloque ${block?`${block.start}-${block.end}`:'—'}</span><span class="badge">Baremo ${esc(r.normBand.label)}</span></div>`;
+  return `${pageHeader('Modo aplicación',headerDesc,`${privacyAction}<button class="btn ghost focus-toggle" data-action="toggle-focus">${document.body.classList.contains('focus-mode')?'Salir modo foco':'Modo foco'}</button>${discreet?'':`<button class="btn ghost" data-action="record-deviation">Registrar desviación clínica</button><button class="btn" data-route="review">Revisar aplicación</button>`}`)}
+  ${discreet?'':`<div class="steps"><span class="step-pill">Caso</span><span class="step-pill">Contexto</span><span class="step-pill active">Aplicación</span><span class="step-pill">Revisión</span><span class="step-pill">Resultados</span></div><div class="subtest-tabs">${allowed.map(k=>`<button class="subtest-tab ${key===k?'active':''}" data-action="switch-subtest" data-subtest="${k}">${esc(SUBTESTS[k].label)}${activeProtocolState(c,k)?.completed?' ✓':''}</button>`).join('')}</div>`}
+  ${statusArea}
+  <div class="apply-layout"><div class="apply-top">${topMeta}</div><div class="progress"><span style="width:${progress}%"></span></div>${discreet?'':renderQuickMap(c,key,items,idx)}
+  <div class="apply-grid ${discreet?'discreet-grid':''}" style="margin-top:12px"><div class="stimulus-card"><div class="stimulus-head"><div><h3>${discreet?'':'Estímulo visual'}</h3>${discreet?'':`<div class="small muted">Cobertura visual completa. ${stim?.substitute?'Este reactivo utiliza el sustituto aprobado e identificado en auditoría.':'Reactivo integrado.'}</div>`}</div><div class="toolbar no-print"><button class="btn ghost sm" data-action="fullscreen-stimulus">Pantalla completa</button>${discreet?'':`<button class="btn ghost sm" data-action="open-viewer">Visor limpio</button>`}</div></div>${stimBlock}${discreet?'':`<div class="stimulus-summary"><span class="k-pill">Ítem ${itemNo} de ${items.length}</span>${stim?.substitute?'<span class="k-pill">Sustituto aprobado</span>':''}</div><div class="stimulus-note">Presente el estímulo sin mostrar la clave profesional. Fuera de aprendizaje no indique si la respuesta fue correcta o incorrecta.</div>`}</div>
+  <div class="item-card ${discreet?'discreet-item-card':''}"><div class="item-number">Ítem ${itemNo}</div><h3>${discreet?'Registrar respuesta':'Registrar y calificar'}</h3>${timer}${learning}${responseUI}${evaluatorScoring}
   <div class="field"><label>Observación breve del ítem</label><textarea id="item-note" rows="2" placeholder="Aclaración, repetición, autocorrección, conducta o incidencia.">${esc(item.note)}</textarea></div>
-  <div class="apply-nav"><button class="btn ghost" data-action="move-item" data-delta="-1" ${idx===0?'disabled':''}>← Anterior</button><button class="btn" data-action="move-item" data-delta="1">Siguiente →</button></div><div class="keyboard-help">Atajos fuera de campos: <strong>0</strong> incorrecta · <strong>1</strong> correcta · <strong>←/→</strong> navegación.</div></div></div></div>`;
+  <div class="apply-nav"><button class="btn ghost" data-action="move-item" data-delta="-1" ${idx===0?'disabled':''}>← Anterior</button><button class="btn" data-action="move-item" data-delta="1">Siguiente →</button></div>${discreet?`<div class="keyboard-help private-shortcuts">La corrección permanece oculta. El evaluador puede registrar desde el teclado sin mostrar el valor en pantalla.</div>`:`<div class="keyboard-help">Atajos profesionales: 0 = incorrecta · 1 = correcta. Funcionan directamente incluso dentro del campo de respuesta.</div>`}</div></div></div>`;
 }
 
 function renderReview(){
@@ -297,16 +317,22 @@ function renderResults(){
   <div class="footer-note">Tramo normativo utilizado: ${esc(r.normBand?.label||'—')} · edad ${r.ageMonths??'—'} meses · confianza ${c.scoring.confidence}%.</div>`;
 }
 
-function reportBody(){const c=currentCase();const r=calc();return reportTab==='technical'?buildTechnicalReport(c,r):contextualReportWithAI(c,r)}
+function reportBody(){
+  const c=currentCase();const r=calc();
+  if(reportTab==='technical') return buildTechnicalReport(c,r);
+  if(reportTab==='contextual_local') return buildLocalContextualReport(c,r);
+  return contextualReportWithAI(c,r);
+}
 function renderReports(){
   const c=currentCase();if(!c)return noCase();const r=calc();const body=reportBody();
-  const contextual=reportTab==='contextual';
-  return `${pageHeader('Informes','El informe técnico conserva el núcleo psicométrico completo; el contextualizado integra antecedentes e hipótesis sin perder percentiles, intervalos ni discrepancias.',`<button class="btn ghost" data-route="results">← Resultados</button>`)}
-  <div class="report-tabs"><button class="report-tab ${!contextual?'active':''}" data-action="report-tab" data-tab="technical">Informe técnico</button><button class="report-tab ${contextual?'active':''}" data-action="report-tab" data-tab="contextual">Informe contextualizado</button></div>
-  <div class="toolbar no-print" style="margin-bottom:14px"><button class="btn sm" data-action="export-report" data-format="html">HTML enriquecido</button><button class="btn ghost sm" data-action="export-report" data-format="txt">TXT</button><button class="btn ghost sm" data-action="export-report" data-format="doc">DOC / Word</button><button class="btn ghost sm" data-action="export-report" data-format="pdf">PDF / imprimir</button><button class="btn soft sm" data-action="export-protocol" data-format="html">Protocolo digital</button><button class="btn soft sm" data-action="export-dossier">Expediente integrado</button><a class="btn soft sm" href="./docs/plantillas/Plantilla_KBIT_respuestas_original.pdf" download>Plantilla de respuestas</a></div>
-  <div class="notice" style="margin-bottom:14px"><strong>Anexo de protocolo:</strong> la plantilla de respuestas se conserva sin modificaciones, tal como fue aportada, para poder archivarla junto con el informe o imprimirla durante la aplicación.</div>
-  ${contextual?`<div class="card ai-box no-print"><h3>Asistencia de IA con anonimización</h3><p class="small muted">La aplicación no envía datos automáticamente. Copia el prompt anonimizado, utilízalo con el sistema de IA autorizado y pega después el borrador. El informe final vuelve a incorporar localmente la identificación real.</p><div class="toolbar" style="margin:12px 0"><button class="btn ghost sm" data-action="copy-ai-prompt">Copiar prompt anonimizado</button><button class="btn ghost sm" data-action="download-ai-payload">Descargar paquete IA</button><button class="btn soft sm" data-action="use-local-context">Usar borrador local</button></div><div class="field"><label>Borrador contextual asistido (opcional)</label><textarea data-bind="reports.contextualAIText" placeholder="Pega aquí la respuesta de la IA. Si queda vacío, se utiliza el borrador contextual local.">${esc(c.reports.contextualAIText)}</textarea></div><div class="notice">La IA debe conservar el núcleo técnico y separar datos observados, condiciones asociadas e hipótesis interpretativas; no debe inferir causalidad.</div></div>`:''}
-  <div class="report-preview">${body}</div>`;
+  const isAI=reportTab==='contextual_ai';const isLocal=reportTab==='contextual_local';
+  const aiLoaded=!!(c.reports.contextualAIText||'').trim();
+  return `${pageHeader('Informes','Tres salidas diferenciadas: informe técnico, contextual base generado localmente y contextual asistido por IA. La vista IA ya no sustituye silenciosamente al informe base.',`<button class="btn ghost" data-route="results">← Resultados</button>`)}
+  <div class="report-tabs"><button class="report-tab ${reportTab==='technical'?'active':''}" data-action="report-tab" data-tab="technical">Informe técnico</button><button class="report-tab ${isLocal?'active':''}" data-action="report-tab" data-tab="contextual_local">Contextual base</button><button class="report-tab ${isAI?'active':''}" data-action="report-tab" data-tab="contextual_ai">Contextual + IA</button></div>
+  <div class="toolbar no-print" style="margin-bottom:14px"><button class="btn sm" data-action="export-report" data-format="html" ${isAI&&!aiLoaded?'disabled':''}>HTML enriquecido</button><button class="btn ghost sm" data-action="export-report" data-format="txt" ${isAI&&!aiLoaded?'disabled':''}>TXT</button><button class="btn ghost sm" data-action="export-report" data-format="doc" ${isAI&&!aiLoaded?'disabled':''}>DOC / Word</button><button class="btn ghost sm" data-action="export-report" data-format="pdf" ${isAI&&!aiLoaded?'disabled':''}>PDF / imprimir</button><button class="btn soft sm" data-action="export-protocol" data-format="html">Protocolo digital</button><button class="btn soft sm" data-action="export-dossier">Expediente integrado</button><a class="btn soft sm" href="./docs/plantillas/Plantilla_KBIT_respuestas_original.pdf" download>Plantilla de respuestas</a></div>
+  ${isAI?`<div class="card ai-box no-print"><div class="ai-head"><div><h3>Informe contextual asistido por IA</h3><p class="small muted">Esta es una versión independiente. No se muestra el informe contextual base cuando falta texto de IA.</p></div><span id="ai-state" class="badge ${aiLoaded?'':'warn'}">${aiLoaded?'IA cargada · vista actualizada':'Sin respuesta IA cargada'}</span></div><div class="toolbar" style="margin:12px 0"><button class="btn ghost sm" data-action="copy-ai-prompt">Copiar prompt completo anonimizado</button><button class="btn ghost sm" data-action="download-ai-payload">Descargar paquete IA</button><button class="btn soft sm" data-action="refresh-ai-preview">Actualizar previsualización IA</button><button class="btn danger sm" data-action="clear-ai-text" ${aiLoaded?'':'disabled'}>Limpiar texto IA</button></div><div class="field"><label>Texto completo devuelto por la IA</label><textarea id="ai-context-text" data-bind="reports.contextualAIText" placeholder="Pegue aquí el informe contextual completo devuelto por la IA. La previsualización se actualizará mientras escribe o pega.">${esc(c.reports.contextualAIText)}</textarea></div><div class="notice"><strong>Separación explícita:</strong> el informe base se genera localmente; esta vista solo contiene el núcleo técnico local + el texto externo de IA. El prompt exige un informe completo, no un resumen ejecutivo.</div></div>`:''}
+  ${isLocal?`<div class="notice" style="margin-bottom:14px"><strong>Contextual base:</strong> construido enteramente por la aplicación con reglas locales; no contiene texto generado por IA.</div>`:''}
+  <div class="report-preview" id="report-preview">${body}</div>`;
 }
 
 function renderManual(){
@@ -375,16 +401,16 @@ function applyScoredValue(item,key,itemNo,score){
 }
 function scoreItem(score){
   persistActiveText();const c=currentCase();const key=c.application.activeSubtest;const item=getActiveItem();const itemNo=c.application.activeIndex+1;
-  if(score==='NA'){item.score='NA';recordDeviation(c,key,`Ítem ${itemNo} marcado no administrado/incidencia; requiere revisión profesional.`);saveCurrent();render();return;}
-  applyScoredValue(item,key,itemNo,score);saveCurrent();render();
+  if(score==='NA'){item.score='NA';recordDeviation(c,key,`Ítem ${itemNo} marcado no administrado/incidencia; requiere revisión profesional.`);discreetFlash='Registro guardado.';saveCurrent();render();return;}
+  applyScoredValue(item,key,itemNo,score);discreetFlash='Registro guardado.';saveCurrent();render();
 }
 
 function filenameBase(){const c=currentCase();return (c?.privacy.alias||'KBIT').replace(/[^a-zA-Z0-9_-]+/g,'_')}
-function doExportReport(format){const c=currentCase(),r=calc();const isTech=reportTab==='technical';const title=isTech?'Informe técnico K-BIT':'Informe contextualizado K-BIT';const body=isTech?buildTechnicalReport(c,r):contextualReportWithAI(c,r);const base=`${filenameBase()}_${isTech?'tecnico':'contextual'}`;if(format==='html')exportHtml(`${base}.html`,title,body);if(format==='txt')exportTxt(`${base}.txt`,body);if(format==='doc')exportDoc(`${base}.doc`,title,body);if(format==='pdf')printPdf(title,body)}
-function doExportDossier(){const c=currentCase(),r=calc();const protocol=buildProtocolHtml(c,r);const bodyMatch=protocol.match(/<body>([\s\S]*?)<\/body>/i);const protocolBody=bodyMatch?bodyMatch[1]:protocol;const body=`<div class=\"dossier-cover\"><h1>Expediente integrado K-BIT</h1><p>${esc(c.patient.fullName||c.privacy.alias)} · ${esc(c.evaluation.applicationDate||'')}</p></div>${buildTechnicalReport(c,r)}<div style=\"page-break-before:always\"></div>${buildLocalContextualReport(c,r)}<div style=\"page-break-before:always\"></div><section class=\"report\"><h1>Anexo - Protocolo digital</h1>${protocolBody}</section>`;exportHtml(`${filenameBase()}_expediente_integrado.html`,'Expediente integrado K-BIT',body)}
+function doExportReport(format){const c=currentCase(),r=calc();let title,body,suffix;if(reportTab==='technical'){title='Informe técnico K-BIT';body=buildTechnicalReport(c,r);suffix='tecnico';}else if(reportTab==='contextual_local'){title='Informe contextual base K-BIT';body=buildLocalContextualReport(c,r);suffix='contextual_base';}else{if(!(c.reports.contextualAIText||'').trim()){alert('Pegue primero la respuesta de IA. Esta vista ya no exporta el informe base como sustituto.');return;}title='Informe contextual asistido por IA - K-BIT';body=contextualReportWithAI(c,r);suffix='contextual_IA';}const base=`${filenameBase()}_${suffix}`;if(format==='html')exportHtml(`${base}.html`,title,body);if(format==='txt')exportTxt(`${base}.txt`,body);if(format==='doc')exportDoc(`${base}.doc`,title,body);if(format==='pdf')printPdf(title,body)}
+function doExportDossier(){const c=currentCase(),r=calc();const protocol=buildProtocolHtml(c,r);const bodyMatch=protocol.match(/<body>([\s\S]*?)<\/body>/i);const protocolBody=bodyMatch?bodyMatch[1]:protocol;const ai=(c.reports.contextualAIText||'').trim()?`<div style=\"page-break-before:always\"></div>${contextualReportWithAI(c,r)}`:'';const body=`<div class=\"dossier-cover\"><h1>Expediente integrado K-BIT</h1><p>${esc(c.patient.fullName||c.privacy.alias)} · ${esc(c.evaluation.applicationDate||'')}</p></div>${buildTechnicalReport(c,r)}<div style=\"page-break-before:always\"></div>${buildLocalContextualReport(c,r)}${ai}<div style=\"page-break-before:always\"></div><section class=\"report\"><h1>Anexo - Protocolo digital</h1>${protocolBody}</section>`;exportHtml(`${filenameBase()}_expediente_integrado.html`,'Expediente integrado K-BIT',body)}
 
 main.addEventListener('input',e=>{
-  const bind=e.target.dataset.bind;if(!bind)return;const c=currentCase();if(!c)return;let value=e.target.value;if(e.target.type==='number'&&value!=='')value=Number(value);setNested(c,bind,value);saveCurrent();
+  const bind=e.target.dataset.bind;if(!bind)return;const c=currentCase();if(!c)return;let value=e.target.value;if(e.target.type==='number'&&value!=='')value=Number(value);setNested(c,bind,value);saveCurrent();if(bind==='reports.contextualAIText')refreshAIReportPreview();
 });
 main.addEventListener('change',e=>{
   const bind=e.target.dataset.bind;
@@ -430,7 +456,9 @@ document.body.addEventListener('click',async e=>{
   else if(action==='export-dossier')doExportDossier()
   else if(action==='copy-ai-prompt'){const text=buildAIPrompt(currentCase(),calc());await navigator.clipboard.writeText(text);el.textContent='Copiado ✓';setTimeout(()=>el.textContent='Copiar prompt anonimizado',1400)}
   else if(action==='download-ai-payload'){downloadBlob(`${filenameBase()}_paquete_IA_anonimizado.json`,JSON.stringify(buildAnonymousAIPayload(currentCase(),calc()),null,2),'application/json')}
-  else if(action==='use-local-context'){currentCase().reports.contextualAIText='';saveCurrent();render()}
+  else if(action==='refresh-ai-preview'){refreshAIReportPreview()}
+  else if(action==='clear-ai-text'){currentCase().reports.contextualAIText='';saveCurrent();render()}
+  else if(action==='toggle-discreet'){const c=currentCase();c.application.discreetMode=!discreetMode(c);discreetFlash='';saveCurrent();render()}
   else if(action==='open-viewer') openStimulusViewer()
   else if(action==='fullscreen-stimulus') await fullscreenStimulus()
   else if(action==='toggle-focus'){document.body.classList.toggle('focus-mode');render()}
@@ -443,7 +471,7 @@ document.body.addEventListener('click',async e=>{
   else if(action==='matrix-choice'){
     persistActiveText();const item=getActiveItem();const c=currentCase();const key='matrices';const itemNo=c.application.activeIndex+1;const choice=String(el.dataset.choice||'').toUpperCase();const learning=isLearningItem(c,key,itemNo);
     if(learning && item.firstScore!==null && item.firstScore!==undefined){item.note=(item.note?item.note+' · ':'')+`Selección posterior en aprendizaje: ${choice}; se conserva primera respuesta ${item.firstResponse}.`;protocolFlash='Ítem de aprendizaje: se conserva la primera selección para puntuar.';saveCurrent();render();return;}
-    item.response=choice;const ref=getKeyItem(professionalKey,'matrices',itemNo);const raw=(ref&&choice===String(ref.answer).toUpperCase())?1:0;applyScoredValue(item,key,itemNo,raw);saveCurrent();render();
+    item.response=choice;const ref=getKeyItem(professionalKey,'matrices',itemNo);const raw=(ref&&choice===String(ref.answer).toUpperCase())?1:0;applyScoredValue(item,key,itemNo,raw);discreetFlash='Registro guardado.';saveCurrent();render();
   }
 });
 
@@ -456,9 +484,33 @@ document.body.addEventListener('change',e=>{
 });
 
 document.addEventListener('keydown',e=>{
-  if(route!=='application')return;const tag=document.activeElement?.tagName?.toLowerCase();if(['input','textarea','select'].includes(tag))return;
-  if(e.key==='0'){e.preventDefault();scoreItem('0')}
-  if(e.key==='1'){e.preventDefault();scoreItem('1')}
+  if(route!=='application')return;
+  const c=currentCase();if(!c)return;const key=c.application.activeSubtest;const st=activeProtocolState(c,key);const r=calc();
+  if(key==='matrices' && !st?.prepared){
+    const plan=getStartPlan(applicationRules,'matrices',r?.age?.years,st?.exampleResult??null);
+    if(plan?.needsExampleDecision && (e.key==='0'||e.key==='1')){
+      e.preventDefault();const correct=e.key==='1';ensureProtocol(c,r.age,applicationRules);const res=prepareSubtest(c,'matrices',r.age,applicationRules,correct);discreetFlash='Resultado del ejemplo registrado.';protocolFlash=`Ejemplo B registrado: inicio puntuable en ítem ${res.startItem}.`;saveCurrent();render();return;
+    }
+  }
+  if(!st?.prepared||st.completed)return;
+  const active=document.activeElement;
+  const tag=active?.tagName?.toLowerCase();
+  const isResponseField=active?.id==='item-response';
+  const isEditable=['input','textarea','select'].includes(tag);
+
+  // Calificación directa: 0/1 funciona sin Alt, incluso mientras el cursor está
+  // dentro del campo de respuesta. En otros campos editables (p. ej. observaciones)
+  // los dígitos se conservan como texto para no interferir con la escritura.
+  if((e.key==='0'||e.key==='1') && (!isEditable || isResponseField)){
+    e.preventDefault();scoreItem(e.key);return;
+  }
+  if(e.altKey && (e.key==='n'||e.key==='N')){e.preventDefault();scoreItem('NA');return;}
+  if(isEditable)return;
+  if(key==='matrices' && /^[a-hA-H]$/.test(e.key)){
+    e.preventDefault();const choice=e.key.toUpperCase();const item=getActiveItem();const itemNo=c.application.activeIndex+1;const learning=isLearningItem(c,key,itemNo);
+    if(learning && item.firstScore!==null && item.firstScore!==undefined){discreetFlash='Primera respuesta conservada.';render();return;}
+    item.response=choice;const ref=getKeyItem(professionalKey,'matrices',itemNo);const raw=(ref&&choice===String(ref.answer).toUpperCase())?1:0;applyScoredValue(item,key,itemNo,raw);discreetFlash='Registro guardado.';saveCurrent();render();return;
+  }
   if(e.key==='ArrowRight'){e.preventDefault();moveItem(1)}
   if(e.key==='ArrowLeft'){e.preventDefault();moveItem(-1)}
 });

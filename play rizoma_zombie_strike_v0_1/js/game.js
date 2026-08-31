@@ -1,8 +1,9 @@
 (() => {
   'use strict';
 
-  const VERSION = '3.9.0';
+  const VERSION = '3.10.0';
   // v3.9.0: añade gobernador visual adaptativo y refuerza legibilidad sin alterar lógica de combate.
+  // v3.10.0: reemplaza bloques ambientales fijos por playlist rotativa de antesala, sin mezclar temas de Guardianes.
   // v3.8.0: pule Flota de Conquista: HUD de firma, selector seguro, loadout para próxima salida y lectura táctica.
   // La infraestructura narrativa sigue conservada y las secuencias estáticas permanecen fuera del flujo normal.
   const STATIC_STORY_ENABLED = false;
@@ -197,21 +198,17 @@
     20:{title:'Sauryx Necrorex',asset:'assets/audio/boss_world20_sauryx_necrorex.mp3',loop:true,baseVolume:.220,phaseVolumes:[.220,.232,.247,.265],softLoop:{fadeOutSec:1.40,minRatio:.60,fadeInMs:320}}
     // M13 conserva su fallback vigente. M14–M20 usan pistas externas aportadas por el proyecto con bucle suavizado.
   };
+  // v3.10.0 — playlist ambiental real para la antesala/combate previo al Guardián.
+  // Las cuatro pistas son música ambiental del propio paquete. Los temas de Guardianes NO entran aquí.
+  const AMBIENT_PLAYLIST = Object.freeze([
+    {id:'ambient_block1',title:'Ambient Block 1',asset:'assets/audio/ambient_block1_worlds1_4.mp3',loop:false,baseVolume:.13},
+    {id:'ambient_block2',title:'Ambient Block 2',asset:'assets/audio/ambient_block2_worlds5_8.mp3',loop:false,baseVolume:.23},
+    {id:'ambient_block3',title:'Ambient Block 3',asset:'assets/audio/ambient_block3_worlds9_12.mp3',loop:false,baseVolume:.19},
+    {id:'ambient_meteoric',title:'Núcleo Meteórico · Ambiente',asset:'assets/audio/world1_ambient_nucleo_meteorico.mp3',loop:false,baseVolume:.11}
+  ]);
+  // Compatibilidad/fallback documental con builds previas: ya no gobierna la selección principal.
   const WORLD_AMBIENT_SOUNDTRACKS = {
-    // v2.8.2 — bloques ambientales originales aportados por el proyecto.
-    // Cada bloque cubre cuatro mundos; volúmenes compensados por RMS para mantener presencia homogénea.
-    1:{id:'ambient_block1',title:'Ambient Block 1 · Mundos 1–4',asset:'assets/audio/ambient_block1_worlds1_4.mp3',fallbackAsset:'assets/audio/world1_ambient_nucleo_meteorico.mp3',fallbackTitle:'Núcleo Meteórico · Ambiente',fallbackBaseVolume:.11,loop:true,baseVolume:.13},
-    2:{id:'ambient_block1',title:'Ambient Block 1 · Mundos 1–4',asset:'assets/audio/ambient_block1_worlds1_4.mp3',loop:true,baseVolume:.13},
-    3:{id:'ambient_block1',title:'Ambient Block 1 · Mundos 1–4',asset:'assets/audio/ambient_block1_worlds1_4.mp3',loop:true,baseVolume:.13},
-    4:{id:'ambient_block1',title:'Ambient Block 1 · Mundos 1–4',asset:'assets/audio/ambient_block1_worlds1_4.mp3',loop:true,baseVolume:.13},
-    5:{id:'ambient_block2',title:'Ambient Block 2 · Mundos 5–8',asset:'assets/audio/ambient_block2_worlds5_8.mp3',loop:true,baseVolume:.23},
-    6:{id:'ambient_block2',title:'Ambient Block 2 · Mundos 5–8',asset:'assets/audio/ambient_block2_worlds5_8.mp3',loop:true,baseVolume:.23},
-    7:{id:'ambient_block2',title:'Ambient Block 2 · Mundos 5–8',asset:'assets/audio/ambient_block2_worlds5_8.mp3',loop:true,baseVolume:.23},
-    8:{id:'ambient_block2',title:'Ambient Block 2 · Mundos 5–8',asset:'assets/audio/ambient_block2_worlds5_8.mp3',loop:true,baseVolume:.23},
-    9:{id:'ambient_block3',title:'Ambient Block 3 · Mundos 9–12',asset:'assets/audio/ambient_block3_worlds9_12.mp3',loop:true,baseVolume:.19},
-    10:{id:'ambient_block3',title:'Ambient Block 3 · Mundos 9–12',asset:'assets/audio/ambient_block3_worlds9_12.mp3',loop:true,baseVolume:.19},
-    11:{id:'ambient_block3',title:'Ambient Block 3 · Mundos 9–12',asset:'assets/audio/ambient_block3_worlds9_12.mp3',loop:true,baseVolume:.19},
-    12:{id:'ambient_block3',title:'Ambient Block 3 · Mundos 9–12',asset:'assets/audio/ambient_block3_worlds9_12.mp3',loop:true,baseVolume:.19}
+    1:AMBIENT_PLAYLIST[0],2:AMBIENT_PLAYLIST[1],3:AMBIENT_PLAYLIST[2],4:AMBIENT_PLAYLIST[3]
   };
   const COMBAT_DURABILITY = Object.freeze({boss:1.10,subboss:1.10,minion:1.05});
 
@@ -1589,6 +1586,10 @@
     externalBossFadeTimer: null,
     externalBossTargetVolume: 0,
     magnateOmegaPreload: null,
+    ambientPlaylistWorld: 0,
+    ambientPlaylistOrder: [],
+    ambientPlaylistCursor: 0,
+    ambientPlaylistToken: 0,
     ensure() {
       if (!state.settings.sound && !state.settings.music) return null;
       if (!this.ctx) this.ctx = new (window.AudioContext || window.webkitAudioContext)();
@@ -1766,10 +1767,20 @@
         }else if(audio._rzSoftLoopFading&&audio.currentTime<fadeOut){audio._rzSoftLoopFading=false;}
       },40);
     },
+    buildAmbientPlaylist(world=1){
+      const w=Math.max(1,Math.min(MAPS.length,Number(world)||1)),tracks=AMBIENT_PLAYLIST.slice();
+      if(!tracks.length)return [];
+      const start=(w-1)%tracks.length,reverse=(Math.floor((w-1)/tracks.length)%2)===1,order=[];
+      for(let i=0;i<tracks.length;i++){
+        const step=reverse?-i:i,idx=(start+step+tracks.length*4)%tracks.length;
+        order.push(tracks[idx]);
+      }
+      return order;
+    },
     preloadWorldAudio(world=1){
-      const w=Math.max(1,Math.min(MAPS.length,Number(world)||1)),bossTrack=BOSS_SOUNDTRACKS[w],ambient=WORLD_AMBIENT_SOUNDTRACKS[w];
+      const w=Math.max(1,Math.min(MAPS.length,Number(world)||1)),bossTrack=BOSS_SOUNDTRACKS[w];
       if(bossTrack?.asset)this.preloadExternalTrack(`boss_w${w}`,bossTrack);
-      if(ambient?.asset)this.preloadExternalTrack(ambient.id||`ambient_w${w}`,ambient);
+      for(const track of this.buildAmbientPlaylist(w))if(track?.asset)this.preloadExternalTrack(`ambient_playlist_${track.id}`,track);
     },
     fadeExternalBossTrack(target=.24,duration=650){
       const audio=this.externalBossTrack;if(!audio)return;clearInterval(this.externalBossFadeTimer);this.externalBossFadeTimer=null;
@@ -1808,23 +1819,50 @@
       };
       return this.startExternalTrack(`boss_w${w}`,track,target,850,fallback);
     },
-    startWorldAmbient(world=1){
-      const w=Math.max(1,Math.min(MAPS.length,Number(world)||1)),track=WORLD_AMBIENT_SOUNDTRACKS[w];if(!track?.asset)return false;
-      const ambientId=track.id||`ambient_w${w}`;
+    startAmbientPlaylistTrack(cursor=0,fadeMs=900,attempt=0){
+      const order=this.ambientPlaylistOrder||[],w=this.ambientPlaylistWorld;
+      if(!state.settings.music||!order.length||!w)return false;
+      const idx=((Number(cursor)||0)%order.length+order.length)%order.length,track=order[idx];
+      if(!track?.asset)return false;
+      const token=this.ambientPlaylistToken,id=`ambient_playlist_${track.id}`;
       const fallback=()=>{
-        if(track.fallbackAsset){
-          const alt={...track,title:track.fallbackTitle||track.title,asset:track.fallbackAsset,baseVolume:track.fallbackBaseVolume||track.baseVolume};
-          if(this.startExternalTrack(`${ambientId}_fallback`,alt,alt.baseVolume||.12,850,()=>this.music(w-1,false,MAPS[w-1]?.family||'zombie',1)))return;
-        }
+        if(token!==this.ambientPlaylistToken)return;
+        if(attempt+1<order.length){this.startAmbientPlaylistTrack(idx+1,620,attempt+1);return;}
         this.music(w-1,false,MAPS[w-1]?.family||'zombie',1);
       };
-      return this.startExternalTrack(ambientId,track,track.baseVolume||.13,1100,fallback);
+      const started=this.startExternalTrack(id,{...track,loop:false},track.baseVolume||.14,fadeMs,fallback);
+      if(!started)return false;
+      this.ambientPlaylistCursor=idx;
+      const audio=this.externalBossTrack;
+      if(audio){
+        audio.onended=()=>{
+          if(token!==this.ambientPlaylistToken||this.externalBossTrack!==audio)return;
+          if(typeof game!=='undefined'&&(!game?.running||game?.bossActive||game?.mapIndex!==w-1))return;
+          this.startAmbientPlaylistTrack(idx+1,720,0);
+        };
+      }
+      return true;
+    },
+    startWorldAmbient(world=1){
+      const w=Math.max(1,Math.min(MAPS.length,Number(world)||1));
+      // Los gestos de desbloqueo de audio se disparan durante el juego: si la playlist ya está activa,
+      // no reiniciarla ni devolverla a la primera pista.
+      if(this.ambientPlaylistWorld===w&&this.ambientPlaylistOrder?.length&&this.externalBossTrack&&String(this.externalBossTrackId||'').startsWith('ambient_playlist_')){
+        const track=this.ambientPlaylistOrder[this.ambientPlaylistCursor]||this.ambientPlaylistOrder[0];
+        this.fadeExternalBossTrack(track?.baseVolume||.14,260);return true;
+      }
+      const order=this.buildAmbientPlaylist(w);if(!order.length)return false;
+      this.ambientPlaylistToken=(this.ambientPlaylistToken||0)+1;
+      this.ambientPlaylistWorld=w;
+      this.ambientPlaylistOrder=order;
+      this.ambientPlaylistCursor=0;
+      return this.startAmbientPlaylistTrack(0,1100,0);
     },
     startWorldBattleMusic(mapIndex=0,boss=false,phase=1){
       if(!state.settings.music)return;const idx=Math.max(0,Math.min(MAPS.length-1,Number(mapIndex)||0)),w=idx+1;
       this.stopBossSequence?.();this.stopFutureBossSequence();
-      if(boss){if(this.startBossSoundtrack(w,phase))return;this.stopExternalBossTrack(160);if(w>=6)this.startFutureBossSequence(w,phase);else this.music(idx,true,MAPS[idx]?.family||'zombie',phase);return;}
-      if(WORLD_AMBIENT_SOUNDTRACKS[w]&&this.startWorldAmbient(w))return;
+      if(boss){this.ambientPlaylistToken=(this.ambientPlaylistToken||0)+1;this.ambientPlaylistWorld=0;this.ambientPlaylistOrder=[];if(this.startBossSoundtrack(w,phase))return;this.stopExternalBossTrack(160);if(w>=6)this.startFutureBossSequence(w,phase);else this.music(idx,true,MAPS[idx]?.family||'zombie',phase);return;}
+      if(AMBIENT_PLAYLIST.length&&this.startWorldAmbient(w))return;
       this.stopExternalBossTrack(160);
       if(w>=6)this.startFutureBossSequence(w,1);else this.music(idx,false,MAPS[idx]?.family||'zombie',1);
     },

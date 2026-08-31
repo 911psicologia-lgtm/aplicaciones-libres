@@ -327,17 +327,51 @@ export function buildAnonymousAIPayload(caseData,result){
 
 export function buildAIPrompt(caseData,result){
   const payload=buildAnonymousAIPayload(caseData,result);
-  return `Actúa como asistente de redacción para un profesional de psicología. Redacta un BORRADOR DE INFORME CONTEXTUALIZADO K-BIT a partir exclusivamente de los datos anonimizados proporcionados.\n\nREGLAS OBLIGATORIAS:\n- Conserva un núcleo técnico explícito: PT/CI, percentiles, categorías, intervalos y discrepancia verbal-no verbal.
-- Integra la trazabilidad de administración (inicio, retorno, crédito previo, cierre, tiempo e incidencias) cuando sea relevante para la validez de la lectura.\n- Distingue en apartados separados: DATOS OBSERVADOS, CONDICIONES ASOCIADAS e HIPÓTESIS INTERPRETATIVAS.\n- No atribuyas causalidad. No conviertas asociación en explicación.\n- No emitas diagnósticos categóricos ni decisiones clínicas, jurídicas, educativas o laborales definitivas.\n- No inventes síntomas, antecedentes, conductas, datos normativos ni resultados.\n- Explica el alcance de una prueba breve y propone integración con otras fuentes cuando sea pertinente.\n- No reconstruyas identidad, nombres, documentos, instituciones específicas ni fecha exacta de nacimiento.\n- El texto será revisado, editado y validado por el profesional responsable.\n\nESTRUCTURA:\n1. Propósito y contexto.\n2. Síntesis técnica del perfil.\n3. Datos observados.\n4. Condiciones contextuales asociadas.\n5. Hipótesis interpretativas y alternativas plausibles.\n6. Implicaciones prudentes para el contexto de evaluación.\n7. Alcances, limitaciones y recomendaciones de integración.\n\nDATOS ANONIMIZADOS:\n${JSON.stringify(payload,null,2)}`;
+  return `Actúa como asistente de redacción para un profesional de psicología. Redacta un INFORME CONTEXTUALIZADO COMPLETO DEL K-BIT, no un resumen ejecutivo, a partir exclusivamente de los datos anonimizados proporcionados.
+
+REGLAS OBLIGATORIAS:
+- El documento debe ser un informe desarrollado, no una síntesis breve ni una lista de conclusiones.
+- Conserva un núcleo técnico explícito: puntuaciones directas cuando estén disponibles, PT/CI, percentiles, categorías, intervalos de confianza y discrepancia verbal-no verbal.
+- Integra la trazabilidad de administración (inicio, retorno, crédito previo, cierre, tiempo e incidencias) cuando sea relevante para valorar la calidad de la aplicación.
+- Distingue de forma visible: DATOS OBSERVADOS, INFORMACIÓN CONTEXTUAL, CONDICIONES ASOCIADAS e HIPÓTESIS INTERPRETATIVAS.
+- No atribuyas causalidad. No conviertas asociación en explicación.
+- No emitas diagnósticos categóricos ni decisiones clínicas, jurídicas, educativas o laborales definitivas.
+- No inventes síntomas, antecedentes, conductas, datos normativos ni resultados.
+- Explica el alcance de una prueba breve y propone integración con otras fuentes cuando sea pertinente.
+- No reconstruyas identidad, nombres, documentos, instituciones específicas ni fecha exacta de nacimiento.
+- El texto será revisado, editado y validado por el profesional responsable.
+
+ESTRUCTURA OBLIGATORIA:
+1. Propósito y contexto de evaluación.
+2. Condiciones y trazabilidad de la aplicación.
+3. Síntesis técnica del perfil.
+4. Interpretación de Vocabulario.
+5. Interpretación de Matrices.
+6. Interpretación del CI compuesto.
+7. Comparación verbal-no verbal y significado de la discrepancia.
+8. Datos observados e información contextual relevante.
+9. Condiciones asociadas e hipótesis interpretativas alternativas.
+10. Implicaciones prudentes para el contexto específico de evaluación.
+11. Alcances, limitaciones y recomendaciones de integración.
+12. Síntesis contextual final.
+
+No uses la expresión "informe ejecutivo" ni reduzcas el contenido a una sola síntesis.
+
+DATOS ANONIMIZADOS:
+${JSON.stringify(payload,null,2)}`;
 }
 
 export function contextualReportWithAI(caseData,result){
   const text=(caseData.reports.contextualAIText||'').trim();
-  if(!text) return buildLocalContextualReport(caseData,result);
-  return `<article class="report contextual-report">
-    ${reportHeader(caseData,result,'Informe contextualizado K-BIT','Borrador asistido con núcleo técnico y validación profesional')}
-    <section><h2>Núcleo técnico</h2>${standardizedResultsTable(caseData,result)}${profileGraph(result)}</section>
-    <section><h2>Integración contextual asistida</h2>${text.split(/\n{2,}/).map(p=>`<p>${esc(p)}</p>`).join('')}</section>
-    <section><h2>Nota de validación profesional</h2><p>El contenido contextual asistido debe ser revisado, contrastado con el expediente y validado por el profesional responsable antes de cualquier uso clínico, educativo, jurídico, laboral o investigativo.</p></section>
+  if(!text) return `<article class="report contextual-report ai-report-empty">
+    ${reportHeader(caseData,result,'Informe contextualizado K-BIT - versión asistida por IA','Aún no se ha incorporado una respuesta de IA')}
+    <section><h2>Estado de la versión asistida</h2><div class="notice warn"><strong>Sin contenido de IA cargado.</strong> Esta vista no sustituye ni repite el informe contextual base. Copie el prompt anonimizado, obtenga el borrador en el sistema de IA autorizado y péguelo en el campo correspondiente. Después, la previsualización mostrará exclusivamente la versión asistida.</div></section>
+    <section><h2>Núcleo técnico disponible</h2>${standardizedResultsTable(caseData,result)}${profileGraph(result)}</section>
+  </article>`;
+  return `<article class="report contextual-report ai-assisted-report">
+    ${reportHeader(caseData,result,'Informe contextualizado K-BIT - versión asistida por IA','Integración contextual diferenciada del informe base y sujeta a validación profesional')}
+    <section><h2>1. Núcleo técnico verificado por la aplicación</h2>${standardizedResultsTable(caseData,result)}${profileGraph(result)}</section>
+    <section><h2>2. Desarrollo contextual asistido por IA</h2><div class="ai-generated-body">${text.split(/\n{2,}/).map(p=>`<p>${esc(p)}</p>`).join('')}</div></section>
+    <section><h2>3. Nota de validación profesional</h2><p>Esta versión incorpora texto producido externamente por IA a partir de un paquete anonimizado. Debe revisarse, contrastarse con el expediente y validarse por el profesional responsable antes de cualquier uso clínico, educativo, jurídico, laboral o investigativo. Los resultados psicométricos mostrados en el núcleo técnico proceden del motor local de la aplicación y no deben ser alterados por el texto generado.</p></section>
   </article>`;
 }

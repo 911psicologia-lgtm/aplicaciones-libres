@@ -32,7 +32,7 @@ export function newCase(seed = {}) {
     privacy: { alias, ...seed.privacy },
     professional: { fullName: '', registration: '', role: 'Psicólogo/a', institution: '', ...seed.professional },
     application: {
-      activeSubtest: 'vocabExpresivo', activeIndex: 0,
+      activeSubtest: 'vocabExpresivo', activeIndex: 0, discreetMode: true,
       ...seed.application,
       items: {
         vocabExpresivo: seededItems.vocabExpresivo || baseItems.vocabExpresivo,
