@@ -4,3 +4,9 @@
   Permissions-Policy: camera=(), microphone=(), geolocation=()
   X-Frame-Options: DENY
   Content-Security-Policy: default-src 'self'; script-src 'self'; style-src 'self' 'unsafe-inline'; img-src 'self' data: blob:; connect-src 'self'; font-src 'self'; object-src 'none'; base-uri 'self'; frame-ancestors 'none';
+
+/assets/stimuli/*
+  Cache-Control: public, max-age=604800
+
+/docs/plantillas/*
+  Cache-Control: public, max-age=604800

@@ -1,0 +1,523 @@
+{
+  "meta": {
+    "version": "0.5.0",
+    "source": "KBIT_Clave_Profesional_Respuestas_y_Mapa_Items(1).pdf",
+    "status": "clave de trabajo reconstruida; verificar contra manual/hoja oficial licenciada antes de una decisión clínica definitiva",
+    "warning": "USO PROFESIONAL - NO MOSTRAR AL EVALUADO",
+    "scoring": "Corrección dicotómica: correcta=1, incorrecta=0. Las reglas de inicio, retorno, aprendizaje, techo y créditos basales deben aplicarse según el manual."
+  },
+  "examples": {
+    "definiciones": [
+      {
+        "label": "Ejemplo A",
+        "answer": "NEGRO"
+      },
+      {
+        "label": "Ejemplo B",
+        "answer": "ANTIGUO"
+      }
+    ],
+    "matrices": [
+      {
+        "label": "Ejemplo A",
+        "answer": "A"
+      },
+      {
+        "label": "Ejemplo B",
+        "answer": "C"
+      }
+    ]
+  },
+  "subtests": {
+    "vocabExpresivo": {
+      "mode": "nominal_reference",
+      "note": "La respuesta nominal sirve como apoyo profesional. Respuestas aproximadas, parciales, compuestas, dialectales o ambiguas requieren criterio del manual; la app no las marca automáticamente como incorrectas.",
+      "items": {
+        "1": {
+          "answer": "Cama",
+          "missingStimulus": false
+        },
+        "2": {
+          "answer": "Tenedor",
+          "missingStimulus": true
+        },
+        "3": {
+          "answer": "Rana",
+          "missingStimulus": true
+        },
+        "4": {
+          "answer": "Escalera",
+          "missingStimulus": false
+        },
+        "5": {
+          "answer": "Humo",
+          "missingStimulus": false
+        },
+        "6": {
+          "answer": "Paraguas",
+          "missingStimulus": false
+        },
+        "7": {
+          "answer": "Piano",
+          "missingStimulus": false
+        },
+        "8": {
+          "answer": "Hoja",
+          "missingStimulus": false
+        },
+        "9": {
+          "answer": "Tambor",
+          "missingStimulus": false
+        },
+        "10": {
+          "answer": "Autobús",
+          "missingStimulus": false
+        },
+        "11": {
+          "answer": "Martillo",
+          "missingStimulus": false
+        },
+        "12": {
+          "answer": "Fuente",
+          "missingStimulus": false
+        },
+        "13": {
+          "answer": "Búho",
+          "missingStimulus": false
+        },
+        "14": {
+          "answer": "Lámpara",
+          "missingStimulus": false
+        },
+        "15": {
+          "answer": "Pingüino",
+          "missingStimulus": false
+        },
+        "16": {
+          "answer": "Pluma",
+          "missingStimulus": false
+        },
+        "17": {
+          "answer": "Linterna",
+          "missingStimulus": false
+        },
+        "18": {
+          "answer": "Ventana",
+          "missingStimulus": false
+        },
+        "19": {
+          "answer": "Regla",
+          "missingStimulus": false
+        },
+        "20": {
+          "answer": "Tornillo",
+          "missingStimulus": false
+        },
+        "21": {
+          "answer": "Puente",
+          "missingStimulus": false
+        },
+        "22": {
+          "answer": "Lupa",
+          "missingStimulus": false
+        },
+        "23": {
+          "answer": "Grapadora",
+          "missingStimulus": false
+        },
+        "24": {
+          "answer": "Calendario",
+          "missingStimulus": false
+        },
+        "25": {
+          "answer": "Prismáticos",
+          "missingStimulus": false
+        },
+        "26": {
+          "answer": "Cactus",
+          "missingStimulus": false
+        },
+        "27": {
+          "answer": "Cangrejo",
+          "missingStimulus": false
+        },
+        "28": {
+          "answer": "Candado",
+          "missingStimulus": false
+        },
+        "29": {
+          "answer": "Buzón",
+          "missingStimulus": false
+        },
+        "30": {
+          "answer": "Pinzas",
+          "missingStimulus": false
+        },
+        "31": {
+          "answer": "Ancla",
+          "missingStimulus": false
+        },
+        "32": {
+          "answer": "Enchufe",
+          "missingStimulus": false
+        },
+        "33": {
+          "answer": "Calculadora",
+          "missingStimulus": false
+        },
+        "34": {
+          "answer": "Anzuelo",
+          "missingStimulus": false
+        },
+        "35": {
+          "answer": "Silla de montar",
+          "missingStimulus": false
+        },
+        "36": {
+          "answer": "Escalera mecánica",
+          "missingStimulus": false
+        },
+        "37": {
+          "answer": "Embudo",
+          "missingStimulus": false
+        },
+        "38": {
+          "answer": "Compás",
+          "missingStimulus": false
+        },
+        "39": {
+          "answer": "Saltamontes",
+          "missingStimulus": false
+        },
+        "40": {
+          "answer": "Balanza",
+          "missingStimulus": false
+        },
+        "41": {
+          "answer": "Microscopio",
+          "missingStimulus": false
+        },
+        "42": {
+          "answer": "Extintor",
+          "missingStimulus": false
+        },
+        "43": {
+          "answer": "Hexágono",
+          "missingStimulus": false
+        },
+        "44": {
+          "answer": "Yunque",
+          "missingStimulus": false
+        },
+        "45": {
+          "answer": "Salvavidas",
+          "missingStimulus": false
+        }
+      }
+    },
+    "definiciones": {
+      "mode": "nominal_reference",
+      "note": "La clave nominal no sustituye los criterios del manual para respuestas equivalentes o ambiguas.",
+      "items": {
+        "1": {
+          "answer": "Jardín",
+          "missingStimulus": false
+        },
+        "2": {
+          "answer": "Amanecer",
+          "missingStimulus": false
+        },
+        "3": {
+          "answer": "Arar",
+          "missingStimulus": false
+        },
+        "4": {
+          "answer": "Granizo",
+          "missingStimulus": false
+        },
+        "5": {
+          "answer": "Delicioso",
+          "missingStimulus": false
+        },
+        "6": {
+          "answer": "Ventana",
+          "missingStimulus": false
+        },
+        "7": {
+          "answer": "Lío",
+          "missingStimulus": false
+        },
+        "8": {
+          "answer": "Esquimal",
+          "missingStimulus": false
+        },
+        "9": {
+          "answer": "Primo/a",
+          "missingStimulus": false
+        },
+        "10": {
+          "answer": "Escribir",
+          "missingStimulus": false
+        },
+        "11": {
+          "answer": "Agradecer",
+          "missingStimulus": false
+        },
+        "12": {
+          "answer": "Experimento",
+          "missingStimulus": false
+        },
+        "13": {
+          "answer": "Cordial",
+          "missingStimulus": false
+        },
+        "14": {
+          "answer": "Prescindir",
+          "missingStimulus": false
+        },
+        "15": {
+          "answer": "Simpático",
+          "missingStimulus": false
+        },
+        "16": {
+          "answer": "Caricatura",
+          "missingStimulus": false
+        },
+        "17": {
+          "answer": "Rencor",
+          "missingStimulus": false
+        },
+        "18": {
+          "answer": "Atentado",
+          "missingStimulus": false
+        },
+        "19": {
+          "answer": "Suficiente",
+          "missingStimulus": false
+        },
+        "20": {
+          "answer": "Energía",
+          "missingStimulus": false
+        },
+        "21": {
+          "answer": "Elevado",
+          "missingStimulus": false
+        },
+        "22": {
+          "answer": "Infortunado",
+          "missingStimulus": false
+        },
+        "23": {
+          "answer": "Hipocondríaco",
+          "missingStimulus": false
+        },
+        "24": {
+          "answer": "Estorbar",
+          "missingStimulus": false
+        },
+        "25": {
+          "answer": "Constante",
+          "missingStimulus": false
+        },
+        "26": {
+          "answer": "Consentir",
+          "missingStimulus": false
+        },
+        "27": {
+          "answer": "Conversación",
+          "missingStimulus": true
+        },
+        "28": {
+          "answer": "Insensato",
+          "missingStimulus": false
+        },
+        "29": {
+          "answer": "Sobresaliente",
+          "missingStimulus": false
+        },
+        "30": {
+          "answer": "Enmendar",
+          "missingStimulus": false
+        },
+        "31": {
+          "answer": "Indeleble",
+          "missingStimulus": false
+        },
+        "32": {
+          "answer": "Verosímil",
+          "missingStimulus": false
+        },
+        "33": {
+          "answer": "Clandestino",
+          "missingStimulus": false
+        },
+        "34": {
+          "answer": "Prepotente",
+          "missingStimulus": false
+        },
+        "35": {
+          "answer": "Conectar",
+          "missingStimulus": false
+        },
+        "36": {
+          "answer": "Enigma",
+          "missingStimulus": false
+        },
+        "37": {
+          "answer": "Fanático",
+          "missingStimulus": false
+        }
+      }
+    },
+    "matrices": {
+      "mode": "exact_choice",
+      "note": "La alternativa seleccionada puede puntuarse automáticamente contra la clave de trabajo.",
+      "items": {
+        "1": {
+          "answer": "A"
+        },
+        "2": {
+          "answer": "C"
+        },
+        "3": {
+          "answer": "E"
+        },
+        "4": {
+          "answer": "D"
+        },
+        "5": {
+          "answer": "A"
+        },
+        "6": {
+          "answer": "C"
+        },
+        "7": {
+          "answer": "B"
+        },
+        "8": {
+          "answer": "D"
+        },
+        "9": {
+          "answer": "E"
+        },
+        "10": {
+          "answer": "A"
+        },
+        "11": {
+          "answer": "F"
+        },
+        "12": {
+          "answer": "B"
+        },
+        "13": {
+          "answer": "F"
+        },
+        "14": {
+          "answer": "C"
+        },
+        "15": {
+          "answer": "B"
+        },
+        "16": {
+          "answer": "A"
+        },
+        "17": {
+          "answer": "H"
+        },
+        "18": {
+          "answer": "C"
+        },
+        "19": {
+          "answer": "G"
+        },
+        "20": {
+          "answer": "A"
+        },
+        "21": {
+          "answer": "D"
+        },
+        "22": {
+          "answer": "F"
+        },
+        "23": {
+          "answer": "E"
+        },
+        "24": {
+          "answer": "E"
+        },
+        "25": {
+          "answer": "A"
+        },
+        "26": {
+          "answer": "H"
+        },
+        "27": {
+          "answer": "D"
+        },
+        "28": {
+          "answer": "H"
+        },
+        "29": {
+          "answer": "C"
+        },
+        "30": {
+          "answer": "F"
+        },
+        "31": {
+          "answer": "B"
+        },
+        "32": {
+          "answer": "G"
+        },
+        "33": {
+          "answer": "G"
+        },
+        "34": {
+          "answer": "G"
+        },
+        "35": {
+          "answer": "C"
+        },
+        "36": {
+          "answer": "E"
+        },
+        "37": {
+          "answer": "C"
+        },
+        "38": {
+          "answer": "D"
+        },
+        "39": {
+          "answer": "A"
+        },
+        "40": {
+          "answer": "H"
+        },
+        "41": {
+          "answer": "A"
+        },
+        "42": {
+          "answer": "H"
+        },
+        "43": {
+          "answer": "B"
+        },
+        "44": {
+          "answer": "A"
+        },
+        "45": {
+          "answer": "B"
+        },
+        "46": {
+          "answer": "B"
+        },
+        "47": {
+          "answer": "A"
+        },
+        "48": {
+          "answer": "G"
+        }
+      }
+    }
+  }
+}

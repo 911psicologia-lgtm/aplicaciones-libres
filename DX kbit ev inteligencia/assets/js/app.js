@@ -5,6 +5,7 @@ import { loadNorms, calculateCase } from './scoring.js';
 import { buildTechnicalReport, buildLocalContextualReport, buildAIPrompt, buildAnonymousAIPayload, contextualReportWithAI } from './reports.js';
 import { exportHtml, exportTxt, exportDoc, printPdf } from './export.js';
 import { loadStimuli, getItemStimulus, getSubtestExamples, publishStimulus } from './stimuli.js';
+import { loadProfessionalKey, loadApplicationRules, getKeyItem, nominalMatch } from './professional-key.js';
 
 const ROUTES = [
   ['home','Inicio'],['case','Caso'],['context','Contexto'],['application','Aplicación'],['review','Revisión'],
@@ -13,6 +14,8 @@ const ROUTES = [
 
 let norms = null;
 let stimuli = null;
+let professionalKey = null;
+let applicationRules = null;
 let db = loadDB();
 let route = 'home';
 let reportTab = 'technical';
@@ -21,7 +24,11 @@ const main = document.getElementById('main');
 const nav = document.getElementById('nav');
 document.getElementById('brand-version').textContent = `K-BIT · v${APP_VERSION} · Cloudflare-ready`;
 
-function currentCase(){ return db.currentId ? db.cases[db.currentId] || null : null; }
+function currentCase(){
+  const c=db.currentId ? db.cases[db.currentId] || null : null;
+  if(c && !c.professional) c.professional={fullName:'',registration:'',role:'Psicólogo/a',institution:''};
+  return c;
+}
 function calc(){ const c=currentCase(); return c && norms ? calculateCase(c,norms) : null; }
 function saveCurrent(){ const c=currentCase(); if(c) upsertCase(db,c); }
 function contextText(c){
@@ -61,7 +68,7 @@ function renderCase(){
       ${field('Documento / código','patient.documentId',c.patient.documentId)}
       <div class="grid2">${field('Fecha de nacimiento','patient.birthDate',c.patient.birthDate,'date','data-refresh="1"')}${field('Fecha de aplicación','evaluation.applicationDate',c.evaluation.applicationDate,'date','data-refresh="1"')}</div>
       <div class="grid2">${field('Sexo / género (opcional)','patient.sex',c.patient.sex)}${field('Escolaridad','patient.education',c.patient.education)}</div>
-      <div class="grid2">${field('Ocupación','patient.occupation',c.patient.occupation)}${field('Institución','patient.institution',c.patient.institution)}</div>
+      <div class="grid2">${field('Ocupación','patient.occupation',c.patient.occupation)}${field('Institución / procedencia','patient.institution',c.patient.institution)}</div>
       ${field('Remitente','patient.referrer',c.patient.referrer)}
     </div>
     <div>
@@ -70,9 +77,13 @@ function renderCase(){
         ${r?.warnings?.length?`<div class="notice warn" style="margin-top:12px">${r.warnings.map(esc).join('<br>')}</div>`:''}
       </div>
       <div class="card"><h3>Anonimización para IA</h3><div class="metric"><div class="k">Alias</div><div class="v" style="font-size:20px">${esc(c.privacy.alias)}</div><div class="d">El paquete IA no incluye nombre, documento, institución específica ni fecha exacta de nacimiento.</div></div>
-      ${field('Alias editable','privacy.alias',c.privacy.alias)}
-      </div>
+      ${field('Alias editable','privacy.alias',c.privacy.alias)}</div>
     </div>
+  </div>
+  <div class="card" style="margin-top:16px"><h3>Profesional responsable del informe</h3>
+    <div class="grid2">${field('Nombre del profesional','professional.fullName',c.professional.fullName)}${field('Registro / tarjeta profesional','professional.registration',c.professional.registration)}</div>
+    <div class="grid2">${field('Rol profesional','professional.role',c.professional.role)}${field('Institución / consulta','professional.institution',c.professional.institution)}</div>
+    <p class="small muted">Estos datos se incorporan al encabezado y firma del informe técnico. No forman parte del paquete anonimizado para IA.</p>
   </div>`;
 }
 
@@ -90,6 +101,33 @@ function renderContext(){
 }
 
 function scoreStatsText(stats){return `${stats.correct} correctas · ${stats.incorrect} incorrectas · ${stats.na} no administradas · ${stats.pending} sin registro`}
+
+function itemStateClass(it, idx, current){
+  if(idx===current) return 'current';
+  if(it.score==='NA') return 'na';
+  if(it.score===0 || it.score===1) return 'done';
+  return '';
+}
+function renderQuickMap(items,current){
+  return `<div class="item-quickmap no-print">${items.map((it,i)=>`<button class="item-dot ${itemStateClass(it,i,current)}" data-action="jump-item" data-index="${i}" title="Ítem ${i+1}">${i+1}</button>`).join('')}</div>`;
+}
+function professionalReference(key,item,response){
+  if(!professionalKey) return '';
+  const ref=getKeyItem(professionalKey,key,item);
+  if(!ref) return '';
+  if(key==='matrices') return `<details class="pro-key no-print"><summary>Clave profesional · evaluador</summary><div class="key-warning">USO PROFESIONAL — NO MOSTRAR AL EVALUADO. Clave de trabajo; verificar con material oficial antes de decisiones definitivas.</div><div>Alternativa esperada:</div><div class="key-answer">${esc(ref.answer)}</div></details>`;
+  const match=nominalMatch(response,ref.answer);
+  const status = response ? (match===true ? `<div class="notice match-ok" style="margin-top:8px"><strong>Coincidencia nominal exacta.</strong> Puede marcarse correcta si no hay otra incidencia de aplicación.</div>` : `<div class="notice match-neutral" style="margin-top:8px"><strong>No coincide exactamente con la clave nominal.</strong> No se marca incorrecta automáticamente: revise equivalencias, aproximaciones o criterios del manual.</div>`) : '';
+  return `<details class="pro-key no-print"><summary>Clave profesional · evaluador</summary><div class="key-warning">USO PROFESIONAL — NO MOSTRAR AL EVALUADO. La respuesta nominal no sustituye criterios del manual.</div><div>Respuesta nominal esperada:</div><div class="key-answer">${esc(ref.answer)}</div>${status}</details>`;
+}
+function renderMatrixChoices(item, keyRef){
+  const options=['A','B','C','D','E','F','G','H'];
+  return `<div><label class="small muted">Alternativa seleccionada</label><div class="matrix-choices">${options.map(o=>`<button class="matrix-choice ${String(item.response).toUpperCase()===o?'selected':''}" data-action="matrix-choice" data-choice="${o}">${o}</button>`).join('')}</div><div class="mini muted">Al seleccionar una alternativa, la app la contrasta con la clave profesional de trabajo y asigna 1/0 automáticamente.</div></div>`;
+}
+function protocolStatus(){
+  return `<div class="protocol-status"><strong>Reglas de administración:</strong> la app ya integra clave y puntuación, pero <strong>no automatiza todavía</strong> punto de inicio por edad, retorno, basal ni discontinuación porque esos parámetros no están contenidos en los documentos aportados. Aplíquelos según el manual oficial.</div>`;
+}
+
 function currentStimulusData(){
   const c=currentCase(); if(!c || !stimuli) return null;
   const key=c.application.activeSubtest; const idx=c.application.activeIndex + 1;
@@ -103,6 +141,17 @@ function publishCurrentStimulus(){
   if(stim) publishStimulus(stim);
 }
 
+function preloadStimulusNeighbors(){
+  const c=currentCase(); if(!c || !stimuli) return;
+  const key=c.application.activeSubtest;
+  const n=c.application.activeIndex+1;
+  [n-1,n+1,n+2].forEach(itemNo=>{
+    if(itemNo<1) return;
+    const rec=getItemStimulus(stimuli,key,itemNo);
+    if(rec?.status==='available' && rec.path){ const img=new Image(); img.decoding='async'; img.src=rec.path; }
+  });
+}
+
 function renderApplication(){
   const c=currentCase();if(!c)return noCase(); const r=calc();
   if(!r?.validAge) return `${pageHeader('Aplicación','Para seleccionar normas y activar el flujo correcto se necesita una edad válida.')}<div class="notice warn">Completa la fecha de nacimiento y la fecha de aplicación antes de iniciar.</div><div class="toolbar" style="margin-top:14px"><button class="btn" data-route="case">Ir a datos del evaluado</button></div>`;
@@ -112,29 +161,37 @@ function renderApplication(){
   const progress=Math.round(((idx+1)/items.length)*100);
   const stim = currentStimulusData();
   const examples = getSubtestExamples(stimuli, key);
-  setTimeout(publishCurrentStimulus, 0);
-  const stimBlock = !stim ? `<div class="stimulus-missing">No se pudo resolver el estímulo actual desde el manifiesto.</div>` : stim.status==='available' ? `<div class="stimulus-stage" id="stimulus-stage"><img class="stimulus-image" src="${esc(stim.path)}" alt="${esc(stim.label)}"></div>` : `<div class="stimulus-missing"><strong>${esc(stim.label)}</strong><br><br>${esc(stim.note || 'No existe imagen de este reactivo en el paquete actual.')}</div>`;
-  return `${pageHeader('Modo aplicación','La pantalla combina ahora estímulo visual, registro de respuesta y sincronización opcional con un visor limpio independiente.',`<button class="btn ghost" data-route="context">← Contexto</button><button class="btn" data-route="review">Revisar aplicación →</button>`)}
+  const keyRef = getKeyItem(professionalKey,key,idx+1);
+  setTimeout(()=>{publishCurrentStimulus();preloadStimulusNeighbors();}, 0);
+  const stimBlock = !stim ? `<div class="stimulus-missing">No se pudo resolver el estímulo actual desde el manifiesto.</div>` : stim.status==='available' ? `<div class="stimulus-stage" id="stimulus-stage"><img class="stimulus-image" src="${esc(stim.path)}" alt="${esc(stim.label)}" loading="eager" decoding="async" fetchpriority="high"></div>` : `<div class="stimulus-missing"><strong>${esc(stim.label)}</strong><br><br>${esc(stim.note || 'No existe imagen de este reactivo en el paquete actual.')}</div>`;
+  const responseUI = key==='matrices'
+    ? `${renderMatrixChoices(item,keyRef)}<div class="field"><label>Registro opcional / comentario de respuesta</label><input id="item-response" value="${esc(item.response)}" readonly class="readonly"></div>`
+    : `<div class="field" style="margin-top:18px"><label>Respuesta del evaluado</label><textarea id="item-response" rows="3" placeholder="Transcribe la respuesta. La app solo detecta coincidencia nominal exacta; la decisión profesional sigue siendo del evaluador.">${esc(item.response)}</textarea></div>`;
+  return `${pageHeader('Modo aplicación','Estímulo visual, registro, clave profesional y puntuación en una sola pantalla. El modo foco oculta la navegación para reducir carga visual.',`<button class="btn ghost focus-toggle" data-action="toggle-focus">${document.body.classList.contains('focus-mode')?'Salir modo foco':'Modo foco'}</button><button class="btn ghost" data-route="context">← Contexto</button><button class="btn" data-route="review">Revisar aplicación →</button>`)}
   <div class="steps"><span class="step-pill">Caso</span><span class="step-pill">Contexto</span><span class="step-pill active">Aplicación</span><span class="step-pill">Revisión</span><span class="step-pill">Resultados</span></div>
+  ${protocolStatus()}
   <div class="apply-layout">
     <div class="subtest-tabs">${Object.entries(SUBTESTS).map(([k,v])=>`<button class="subtest-tab ${key===k?'active':''}" data-action="switch-subtest" data-subtest="${k}" ${v.minAgeMonths && r.ageMonths<v.minAgeMonths?'disabled':''}>${esc(v.label)}</button>`).join('')}</div>
     <div class="apply-top"><div><strong>${esc(cfg.label)}</strong><div class="small muted">${scoreStatsText(stats)}</div></div><span class="badge">Baremo ${esc(r.normBand.label)}</span></div>
     <div class="progress"><span style="width:${progress}%"></span></div>
+    ${renderQuickMap(items,idx)}
     <div class="apply-grid" style="margin-top:12px">
       <div class="stimulus-card">
-        <div class="stimulus-head"><div><h3>Estímulo visual</h3><div class="small muted">${stim?.status==='available'?'Integrado en esta versión y listo para aplicación en tablet o computador.':'No disponible en el paquete actual.'}</div></div><div class="toolbar no-print"><button class="btn ghost sm" data-action="open-viewer">Visor limpio</button><button class="btn ghost sm" data-action="fullscreen-stimulus">Pantalla completa</button></div></div>
+        <div class="stimulus-head"><div><h3>Estímulo visual</h3><div class="small muted">${stim?.status==='available'?'Integrado y listo para presentar.':'No disponible en el paquete actual.'}</div></div><div class="toolbar no-print"><button class="btn ghost sm" data-action="open-viewer">Visor limpio</button><button class="btn ghost sm" data-action="fullscreen-stimulus">Pantalla completa</button></div></div>
         ${stimBlock}
-        <div class="stimulus-summary"><span class="k-pill">Ítem ${idx+1} de ${items.length}</span><span class="k-pill">Subtest: ${esc(cfg.short)}</span>${stim?.status==='missing'?'<span class="k-pill">Falta lámina</span>':''}</div>
-        <div class="stimulus-note">${esc(stim?.note || 'Consejo práctico: si prefieres presentar el reactivo en otra ventana, abre el visor limpio. Se sincroniza automáticamente con el cambio de ítem.')}</div>
-        ${examples.length?`<div class="stimulus-examples"><h4>Ejemplos y apoyos del subtest</h4><div class="toolbar">${examples.map(ex=>`<a class="btn ghost sm" href="${esc(ex.path)}" target="_blank" rel="noopener">${esc(ex.label)}</a>`).join('')}</div></div>`:''}
+        <div class="stimulus-summary"><span class="k-pill">Ítem ${idx+1} de ${items.length}</span><span class="k-pill">Subtest: ${esc(cfg.short)}</span>${stim?.substitute?'<span class="k-pill">Estímulo sustitutivo</span>':''}${stim?.status==='missing'?'<span class="k-pill">Falta lámina</span>':''}</div>
+        <div class="stimulus-note">${esc(stim?.note || 'Para presentación separada, abra el visor limpio. Nunca se transmite allí la clave profesional.')}</div>
+        ${examples.length?`<div class="stimulus-examples"><h4>Ejemplos del subtest</h4><div class="toolbar">${examples.map(ex=>`<a class="btn ghost sm" href="${esc(ex.path)}" target="_blank" rel="noopener">${esc(ex.label)}</a>`).join('')}</div></div>`:''}
       </div>
       <div class="item-card">
-        <div class="item-number">Ítem ${idx+1} de ${items.length}</div><h3>Registrar respuesta</h3>
-        <div class="field" style="margin-top:18px"><label>Respuesta del evaluado</label><textarea id="item-response" rows="3" placeholder="Transcribe o resume la respuesta si es pertinente.">${esc(item.response)}</textarea></div>
-        <div class="score-buttons"><button class="score-btn incorrect ${String(item.score)==='0'?'selected':''}" data-action="score-item" data-score="0">0 · Incorrecta</button><button class="score-btn ${String(item.score)==='1'?'selected':''}" data-action="score-item" data-score="1">1 · Correcta</button><button class="score-btn ${item.score==='NA'?'selected':''}" data-action="score-item" data-score="NA">No administrado</button></div>
+        <div class="item-number">Ítem ${idx+1} de ${items.length}</div><h3>Registrar y calificar</h3>
+        ${responseUI}
+        ${professionalReference(key,idx+1,item.response)}
+        ${key==='matrices'?'':`<div class="score-buttons"><button class="score-btn incorrect ${String(item.score)==='0'?'selected':''}" data-action="score-item" data-score="0">0 · Incorrecta</button><button class="score-btn ${String(item.score)==='1'?'selected':''}" data-action="score-item" data-score="1">1 · Correcta</button><button class="score-btn ${item.score==='NA'?'selected':''}" data-action="score-item" data-score="NA">No administrado</button></div>`}
+        ${key==='matrices'?`<div class="score-buttons"><button class="score-btn ${item.score==='NA'?'selected':''}" data-action="score-item" data-score="NA">No administrado</button></div>`:''}
         <div class="field"><label>Observación breve del ítem</label><textarea id="item-note" rows="2" placeholder="Latencia, repetición, autocorrección, conducta u otra observación.">${esc(item.note)}</textarea></div>
         <div class="apply-nav"><button class="btn ghost" data-action="move-item" data-delta="-1" ${idx===0?'disabled':''}>← Anterior</button><button class="btn" data-action="move-item" data-delta="1">${idx===items.length-1?'Finalizar / siguiente subtest':'Siguiente →'}</button></div>
-        <div class="keyboard-help">Atajos fuera de los campos de texto: <strong>0</strong> incorrecta · <strong>1</strong> correcta · <strong>←/→</strong> anterior/siguiente</div>
+        <div class="keyboard-help">Atajos fuera de campos: <strong>0</strong> incorrecta · <strong>1</strong> correcta · <strong>←/→</strong> anterior/siguiente</div>
       </div>
     </div>
   </div>`;
@@ -173,17 +230,26 @@ function reportBody(){const c=currentCase();const r=calc();return reportTab==='t
 function renderReports(){
   const c=currentCase();if(!c)return noCase();const r=calc();const body=reportBody();
   const contextual=reportTab==='contextual';
-  return `${pageHeader('Informes','Dos salidas complementarias: un informe técnico estructurado y otro contextualizado. La IA recibe únicamente un paquete anonimizado.',`<button class="btn ghost" data-route="results">← Resultados</button>`)}
+  return `${pageHeader('Informes','El informe técnico conserva el núcleo psicométrico completo; el contextualizado integra antecedentes e hipótesis sin perder percentiles, intervalos ni discrepancias.',`<button class="btn ghost" data-route="results">← Resultados</button>`)}
   <div class="report-tabs"><button class="report-tab ${!contextual?'active':''}" data-action="report-tab" data-tab="technical">Informe técnico</button><button class="report-tab ${contextual?'active':''}" data-action="report-tab" data-tab="contextual">Informe contextualizado</button></div>
-  <div class="toolbar no-print" style="margin-bottom:14px"><button class="btn sm" data-action="export-report" data-format="html">HTML enriquecido</button><button class="btn ghost sm" data-action="export-report" data-format="txt">TXT</button><button class="btn ghost sm" data-action="export-report" data-format="doc">DOC / Word</button><button class="btn ghost sm" data-action="export-report" data-format="pdf">PDF / imprimir</button></div>
-  ${contextual?`<div class="card ai-box no-print"><h3>Asistencia de IA con anonimización</h3><p class="small muted">La aplicación no envía datos automáticamente. Copia el prompt anonimizado, utilízalo con el sistema de IA autorizado y pega después el borrador. El informe final vuelve a incorporar localmente la identificación real.</p><div class="toolbar" style="margin:12px 0"><button class="btn ghost sm" data-action="copy-ai-prompt">Copiar prompt anonimizado</button><button class="btn ghost sm" data-action="download-ai-payload">Descargar paquete IA</button><button class="btn soft sm" data-action="use-local-context">Usar borrador local</button></div><div class="field"><label>Borrador contextual asistido (opcional)</label><textarea data-bind="reports.contextualAIText" placeholder="Pega aquí la respuesta de la IA. Si queda vacío, se utiliza el borrador contextual local.">${esc(c.reports.contextualAIText)}</textarea></div><div class="notice">La IA no debe inferir causalidad. El prompt exige separar datos observados, condiciones asociadas e hipótesis interpretativas.</div></div>`:''}
+  <div class="toolbar no-print" style="margin-bottom:14px"><button class="btn sm" data-action="export-report" data-format="html">HTML enriquecido</button><button class="btn ghost sm" data-action="export-report" data-format="txt">TXT</button><button class="btn ghost sm" data-action="export-report" data-format="doc">DOC / Word</button><button class="btn ghost sm" data-action="export-report" data-format="pdf">PDF / imprimir</button><a class="btn soft sm" href="./docs/plantillas/Plantilla_KBIT_respuestas_original.pdf" download>Descargar plantilla de respuestas</a></div>
+  <div class="notice" style="margin-bottom:14px"><strong>Anexo de protocolo:</strong> la plantilla de respuestas se conserva sin modificaciones, tal como fue aportada, para poder archivarla junto con el informe o imprimirla durante la aplicación.</div>
+  ${contextual?`<div class="card ai-box no-print"><h3>Asistencia de IA con anonimización</h3><p class="small muted">La aplicación no envía datos automáticamente. Copia el prompt anonimizado, utilízalo con el sistema de IA autorizado y pega después el borrador. El informe final vuelve a incorporar localmente la identificación real.</p><div class="toolbar" style="margin:12px 0"><button class="btn ghost sm" data-action="copy-ai-prompt">Copiar prompt anonimizado</button><button class="btn ghost sm" data-action="download-ai-payload">Descargar paquete IA</button><button class="btn soft sm" data-action="use-local-context">Usar borrador local</button></div><div class="field"><label>Borrador contextual asistido (opcional)</label><textarea data-bind="reports.contextualAIText" placeholder="Pega aquí la respuesta de la IA. Si queda vacío, se utiliza el borrador contextual local.">${esc(c.reports.contextualAIText)}</textarea></div><div class="notice">La IA debe conservar el núcleo técnico y separar datos observados, condiciones asociadas e hipótesis interpretativas; no debe inferir causalidad.</div></div>`:''}
   <div class="report-preview">${body}</div>`;
 }
 
 function renderManual(){
-  return `${pageHeader('Manual del evaluador','Módulo preparado para convertirse en una guía paso a paso. En esta versión contiene el uso de la aplicación; las normas específicas del test se integrarán después desde el manual autorizado.',`<a class="btn" href="./docs/manual-evaluador.html" target="_blank" rel="noopener">Abrir manual</a><a class="btn ghost" href="./docs/manual-evaluador.html" download>Descargar HTML</a>`)}
-  <div class="card"><h3>Ruta del evaluador</h3><div class="manual-links"><div class="manual-link"><strong>1. Preparar caso</strong><p class="small muted">Identificación, fechas, cálculo de edad y anonimización.</p></div><div class="manual-link"><strong>2. Contextualizar</strong><p class="small muted">Motivo, contexto de evaluación y datos relevantes.</p></div><div class="manual-link"><strong>3. Aplicar</strong><p class="small muted">Registro multipantalla de respuesta, 0/1 y observación, ahora con estímulos integrados y visor limpio.</p></div><div class="manual-link"><strong>4. Revisar y puntuar</strong><p class="small muted">Créditos, bruto final, baremo e intervalos.</p></div><div class="manual-link"><strong>5. Interpretar</strong><p class="small muted">Perfil, discrepancia y cautelas.</p></div><div class="manual-link"><strong>6. Informar</strong><p class="small muted">Informe técnico, contextualizado y exportaciones.</p></div></div></div>
-  <div class="notice" style="margin-top:16px"><strong>Pendiente deliberado:</strong> puntos de inicio, reglas de retorno, discontinuación, consignas y criterios de corrección específicos. No los inferimos ni los inventamos; se incorporarán cuando revisemos el cuadernillo/manual de aplicación.</div>`;
+  return `${pageHeader('Manual del evaluador','Guía operativa integrada para utilizar la app sin saturar la administración. Distingue lo ya soportado de las reglas que requieren el manual oficial.',`<a class="btn" href="./docs/manual-evaluador.html" target="_blank" rel="noopener">Abrir manual completo</a><a class="btn ghost" href="./docs/manual-evaluador.html" download>Descargar HTML</a><a class="btn soft" href="./docs/plantillas/Plantilla_KBIT_respuestas_original.pdf" download>Plantilla de respuestas</a>`)}
+  <div class="card"><h3>Ruta operativa dentro de la app</h3><div class="manual-protocol-grid">
+    <div class="manual-link"><strong>1. Preparar el caso</strong><p class="small muted">Registrar datos reales, fecha de nacimiento y aplicación. La edad cronológica y el tramo normativo se calculan automáticamente.</p></div>
+    <div class="manual-link"><strong>2. Contextualizar</strong><p class="small muted">Registrar motivo, contexto y antecedentes relevantes; evitar identificadores dentro de campos destinados a IA.</p></div>
+    <div class="manual-link"><strong>3. Presentar estímulos</strong><p class="small muted">Usar la imagen integrada o el visor limpio. La clave profesional nunca se envía al visor del evaluado.</p></div>
+    <div class="manual-link"><strong>4. Registrar y calificar</strong><p class="small muted">Vocabulario y Definiciones conservan decisión profesional 0/1. Matrices puede puntuarse automáticamente al elegir A–H.</p></div>
+    <div class="manual-link"><strong>5. Revisar el protocolo</strong><p class="small muted">Comprobar ítems pendientes, no administrados, créditos basales y observaciones antes de cerrar la puntuación.</p></div>
+    <div class="manual-link"><strong>6. Interpretar e informar</strong><p class="small muted">La app calcula C.1–C.5 y genera informes técnico y contextualizado con anonimización para IA.</p></div>
+  </div></div>
+  <div class="card"><h3>Estado de reglas específicas</h3><div class="notice warn"><strong>No automatizadas todavía:</strong> punto de inicio por edad, retorno, aprendizaje, basal y techo/discontinuación. Los documentos disponibles afirman que deben aplicarse según el manual, pero no contienen los valores/reglas suficientes para codificarlas con fidelidad.</div></div>
+  <div class="card"><h3>Clave profesional integrada</h3><p class="small muted">La app contiene una clave de trabajo para apoyo del evaluador. El documento fuente advierte que debe verificarse con manual y hoja oficial licenciada antes de una decisión clínica definitiva. En respuestas verbales no se fuerza corrección automática cuando no hay coincidencia exacta.</p></div>`;
 }
 
 function renderNorms(){
@@ -193,7 +259,8 @@ function renderNorms(){
   return `${pageHeader('Baremos incorporados','Módulo técnico de auditoría. Los baremos se cargan automáticamente y ya no forman parte del flujo cotidiano de aplicación.')}
   <div class="norm-grid"><div class="norm-stat"><strong>${m.verbalRows}</strong><span>filas escala verbal</span></div><div class="norm-stat"><strong>${m.nonverbalRows}</strong><span>filas escala no verbal</span></div><div class="norm-stat"><strong>${m.compositeRows}</strong><span>conversiones compuesto</span></div><div class="norm-stat"><strong>${m.bandRows}</strong><span>bandas de error</span></div><div class="norm-stat"><strong>${m.interpretationRows}</strong><span>filas interpretación</span></div><div class="norm-stat"><strong>${m.differenceRows}</strong><span>tramos de discrepancia</span></div></div>
   <div class="card"><h3>Fuente y estado</h3><p>${esc(m.source)}</p><p class="small muted">Versión de datos: ${esc(m.version)}. Cobertura operativa C.1 aproximada: 4 años 0 meses a 89 años 11 meses, según los intervalos presentes en el apéndice.</p></div>
-  ${stimSum?`<div class="card"><h3>Inventario de estímulos integrados</h3><table class="audit-table"><thead><tr><th>Subtest</th><th>Ítems disponibles</th><th>Ítems faltantes</th><th>Ejemplos</th></tr></thead><tbody><tr><td>Vocabulario expresivo</td><td>${stimSum.vocabExpresivo.available}/${stimSum.vocabExpresivo.total_items}</td><td>${stimSum.vocabExpresivo.missing}</td><td>${stimSum.vocabExpresivo.examples}</td></tr><tr><td>Definiciones</td><td>${stimSum.definiciones.available}/${stimSum.definiciones.total_items}</td><td>${stimSum.definiciones.missing}</td><td>${stimSum.definiciones.examples}</td></tr><tr><td>Matrices</td><td>${stimSum.matrices.available}/${stimSum.matrices.total_items}</td><td>${stimSum.matrices.missing}</td><td>${stimSum.matrices.examples}</td></tr></tbody></table><div class="notice" style="margin-top:12px">Faltantes identificados automáticamente desde el paquete aportado: Vocabulario expresivo ítems 2 y 3; Definiciones ítem 27. No se fabricaron láminas sustitutas.</div></div>`:''}
+  ${stimSum?`<div class="card"><h3>Inventario de estímulos integrados</h3><table class="audit-table"><thead><tr><th>Subtest</th><th>Ítems disponibles</th><th>Ítems faltantes</th><th>Ejemplos</th></tr></thead><tbody><tr><td>Vocabulario expresivo</td><td>${stimSum.vocabExpresivo.available}/${stimSum.vocabExpresivo.total_items}</td><td>${stimSum.vocabExpresivo.missing}</td><td>${stimSum.vocabExpresivo.examples}</td></tr><tr><td>Definiciones</td><td>${stimSum.definiciones.available}/${stimSum.definiciones.total_items}</td><td>${stimSum.definiciones.missing}</td><td>${stimSum.definiciones.examples}</td></tr><tr><td>Matrices</td><td>${stimSum.matrices.available}/${stimSum.matrices.total_items}</td><td>${stimSum.matrices.missing}</td><td>${stimSum.matrices.examples}</td></tr></tbody></table><div class="notice" style="margin-top:12px">Cobertura visual completa: 45/45 en Vocabulario, 37/37 en Definiciones y 48/48 en Matrices. Los ítems VE-2, VE-3 y DEF-27 usan estímulos sustitutivos generados y aprobados, identificados como tales en el manifiesto de auditoría.</div></div>`:''}
+  <div class="card"><h3>Clave profesional de trabajo</h3><p class="small muted">${esc(professionalKey?.meta?.status || 'No cargada')}</p><div class="norm-grid" style="margin-top:12px"><div class="norm-stat"><strong>45</strong><span>respuestas nominales vocabulario</span></div><div class="norm-stat"><strong>37</strong><span>respuestas definiciones</span></div><div class="norm-stat"><strong>48</strong><span>alternativas matrices</span></div></div></div>
   <div class="card"><h3>Auditoría de incidencias</h3><table class="audit-table"><thead><tr><th>Elemento</th><th>Fuente</th><th>Normalización</th><th>Razón</th></tr></thead><tbody>${norms.audit.map(a=>`<tr><td>${esc(a.Elemento)}</td><td>${esc(a['Fuente impresa'])}</td><td>${esc(a['Valor normalizado'])}</td><td>${esc(a.Razón)}</td></tr>`).join('')}</tbody></table></div>`;
 }
 
@@ -255,6 +322,18 @@ document.body.addEventListener('click',async e=>{
   else if(action==='use-local-context'){currentCase().reports.contextualAIText='';saveCurrent();render()}
   else if(action==='open-viewer') openStimulusViewer()
   else if(action==='fullscreen-stimulus') await fullscreenStimulus()
+  else if(action==='toggle-focus'){document.body.classList.toggle('focus-mode');render()}
+  else if(action==='jump-item'){persistActiveText();const c=currentCase();c.application.activeIndex=Number(el.dataset.index);saveCurrent();render()}
+  else if(action==='matrix-choice'){
+    persistActiveText();
+    const item=getActiveItem();
+    const c=currentCase();
+    const choice=String(el.dataset.choice||'').toUpperCase();
+    item.response=choice;
+    const ref=getKeyItem(professionalKey,'matrices',c.application.activeIndex+1);
+    item.score=(ref && choice===String(ref.answer).toUpperCase())?1:0;
+    saveCurrent();render();
+  }
 });
 
 function handleRoute(id){if(!currentCase()&&!['home','manual','norms'].includes(id))return;persistActiveText();route=id;render();window.scrollTo({top:0,behavior:'smooth'})}
@@ -274,7 +353,7 @@ document.addEventListener('keydown',e=>{
 });
 
 (async function init(){
-  try{[norms, stimuli] = await Promise.all([loadNorms(), loadStimuli()]);}
+  try{[norms, stimuli, professionalKey, applicationRules] = await Promise.all([loadNorms(), loadStimuli(), loadProfessionalKey(), loadApplicationRules()]);}
   catch(err){console.error(err);main.innerHTML=`<div class="notice warn"><strong>Error al cargar baremos o estímulos.</strong><br>${esc(err.message)}<br><br>Esta versión debe abrirse desde un servidor web (por ejemplo Cloudflare Pages), no mediante doble clic con file://.</div>`;return}
   render();
 })();

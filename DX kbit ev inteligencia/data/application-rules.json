@@ -1,0 +1,30 @@
+{
+  "meta": {
+    "version": "0.1",
+    "status": "pending_official_manual",
+    "sourceSupport": [
+      "Existe un punto de inicio por edad.",
+      "La corrección es dicotómica 1/0 y la puntuación directa es la suma de aciertos.",
+      "Las reglas de inicio, retorno, aprendizaje, techo/discontinuación y créditos basales requieren el manual oficial."
+    ],
+    "operationalization": "disabled"
+  },
+  "vocabExpresivo": {
+    "startByAge": null,
+    "returnRule": null,
+    "discontinueRule": null,
+    "basalRule": null
+  },
+  "definiciones": {
+    "startByAge": null,
+    "returnRule": null,
+    "discontinueRule": null,
+    "basalRule": null
+  },
+  "matrices": {
+    "startByAge": null,
+    "returnRule": null,
+    "discontinueRule": null,
+    "basalRule": null
+  }
+}

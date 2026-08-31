@@ -1,15 +1,29 @@
+VALIDACIÓN TÉCNICA — K-BIT v0.6.0
 
-VALIDACIÓN TÉCNICA — v0.4.0
+ESTÍMULOS
+- Vocabulario expresivo: 45/45 disponibles.
+- Definiciones: 37/37 disponibles.
+- Matrices: 48/48 disponibles.
+- Sustitutos trazados: VE-2 Tenedor, VE-3 Rana, DEF-27 Conversación.
+- Formato de sustitutos: WebP 1200x900, aprox. 12–18 KB por archivo.
+- Precarga de anterior/siguientes: implementada.
 
-1. Estructura de sitio estático creada correctamente.
-2. data/stimuli-manifest.json presente.
-3. Visor limpio adicional: stimulos.html presente.
-4. Inventario detectado:
-   - Vocabulario expresivo: 43 disponibles, 2 faltantes.
-   - Definiciones: 36 disponibles, 1 faltantes.
-   - Matrices: 48 disponibles, 0 faltantes.
-5. Faltantes trazados sin fabricar sustitutos:
-   - VE ítem 2.
-   - VE ítem 3.
-   - DEF ítem 27.
-6. Compatibilidad esperada: Cloudflare Pages / navegador moderno con módulos ES.
+PLANTILLA
+- Plantilla_KBIT_respuestas_original.pdf copiada sin modificación.
+- Integridad verificada por SHA-256 contra el archivo aportado.
+
+INFORMES
+- Tabla de puntuaciones directas: implementada.
+- PT/CI + banda de error + IC + percentil + categoría: implementados.
+- z + eneatipo: implementados.
+- Perfil gráfico con IC: implementado.
+- Comparación verbal/no verbal con p<0,05 y p<0,01: implementada.
+- Informe contextual con núcleo técnico y separación dato/asociación/hipótesis: implementado.
+- Datos del profesional responsable: implementados.
+
+CÓDIGO
+- app.js: sintaxis validada.
+- reports.js: sintaxis validada.
+- export.js: sintaxis validada.
+- storage.js: sintaxis validada.
+- JSON normativos/manifiestos: lectura validada.

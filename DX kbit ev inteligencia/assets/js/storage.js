@@ -21,6 +21,7 @@ export function newCase(seed = {}) {
       ...seed.evaluation,
     },
     privacy: { alias, ...seed.privacy },
+    professional: { fullName: '', registration: '', role: 'Psicólogo/a', institution: '', ...seed.professional },
     application: {
       activeSubtest: 'vocabExpresivo', activeIndex: 0,
       items: {
