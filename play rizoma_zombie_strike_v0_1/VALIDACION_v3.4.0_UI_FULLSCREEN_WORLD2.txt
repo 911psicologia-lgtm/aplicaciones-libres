@@ -1,0 +1,70 @@
+RIZOMA ZOMBIE STRIKE v3.4.0 — VALIDACIÓN SOUNDTRACK GUARDIANES M14–M20
+
+1. PISTAS INTEGRADAS (sin recomprimir)
+M14 · Heliovorax / Némesis Nova
+- assets/audio/boss_world14_nemesis_nova.mp3
+- duración: 223.584 s · 48 kHz · estéreo · ~-14.6 LUFS
+- volumen base: 0.245
+
+M15 · Vermidrax / Gusano Primordial
+- assets/audio/boss_world15_gusano_primordial.mp3
+- duración: 154.080 s · 48 kHz · estéreo · ~-13.9 LUFS
+- volumen base: 0.235
+
+M16 · Neurokhan / Neuroarca
+- assets/audio/boss_world16_neuroarca.mp3
+- duración: 204.912 s · 48 kHz · estéreo · ~-14.4 LUFS
+- volumen base: 0.245
+
+M17 · Skaldr / Fenrir de la Tundra
+- assets/audio/boss_world17_fenrir_tundra.mp3
+- duración: 177.840 s · 48 kHz · estéreo · ~-14.0 LUFS
+- volumen base: 0.235
+
+M18 · Kanzai Akasha / Shogun de la Biblioteca
+- assets/audio/boss_world18_shogun_biblioteca.mp3
+- duración: 244.032 s · 48 kHz · estéreo · ~-13.8 LUFS
+- volumen base: 0.230
+
+M19 · Arconte Zhyr
+- assets/audio/boss_world19_arconte_zhyr.mp3
+- duración: 80.304 s · 48 kHz · estéreo · ~-17.2 LUFS
+- volumen base: 0.285 (compensación por máster más suave)
+
+M20 · Sauryx Necrorex
+- assets/audio/boss_world20_sauryx_necrorex.mp3
+- duración: 178.392 s · 48 kHz · estéreo · ~-13.1 LUFS
+- volumen base: 0.220 (compensación por máster más fuerte)
+
+2. BUCLE SUAVIZADO M14–M20
+- No se edita ni recomprime el MP3.
+- Native loop se sustituye únicamente para estas siete pistas por un soft-loop controlado.
+- Ventana de caída final: 1.20–1.40 s según pista.
+- Volumen mínimo antes del reinicio: 60–64 % del volumen objetivo; nunca llega a silencio.
+- Reinicio cerca del final (~55 ms) para reducir hueco perceptible del MP3.
+- Recuperación inicial: 280–320 ms.
+- Curva smoothstep para evitar cambios bruscos.
+- Los cambios de volumen por fase del Guardián se conservan.
+
+3. INTEGRIDAD
+- node --check js/game.js: OK
+- manifest.json: JSON válido
+- BOSS_SOUNDTRACKS M14–M20: 7/7
+- softLoop configurado: 7/7
+- pistas origen/destino: SHA-256 idéntico, 7/7
+- referencias de assets: 520 detectadas; 0 faltantes reales (la coincidencia dinámica assets/boss2/sigil_w se resuelve por número de mundo)
+- archivos heredados v3.3.0 comparados: 644
+- archivos heredados modificados intencionalmente: js/game.js, index.html, manifest.json, sw.js
+- modificaciones heredadas inesperadas: 0
+
+4. ALCANCE
+- M14–M20: soundtrack externo de Guardián activo.
+- M13 no se modifica en esta entrega.
+- Ambient Blocks permanecen sin cambios.
+- SFX, botón musical, tienda, progresión, mundos y assets visuales permanecen sin cambios.
+
+NOTA
+La validación de esta entrega es sintáctica, estructural, de metadatos e integridad de archivos. La percepción exacta del punto de loop debe revisarse durante una partida; el sistema quedó parametrizado para poder ajustar la intensidad/duración del micro-fade sin tocar los MP3.
+
+
+Ajustes adicionales v3.4.0: fullscreen móvil, overlays compactos, playlist ambiental rotativa, jefe M2 ampliado, front threats M1 reforzados.

@@ -1,76 +1,45 @@
-const CACHE_NAME = 'mpf-v2';
-const APP_BASE = new URL('./', self.location.href);
-const PRECACHE_URLS = [
-  new URL('./', APP_BASE).href,
-  new URL('./index.html', APP_BASE).href,
-  new URL('./manifest.webmanifest', APP_BASE).href,
-  new URL('./favicon.svg', APP_BASE).href,
-];
-self.addEventListener('install', (event) => {
-  event.waitUntil(
-    caches.open(CACHE_NAME).then(async (cache) => {
-      for (const url of PRECACHE_URLS) {
-        try { await cache.add(url); } catch (_) {}
-      }
-    })
-  );
-  self.skipWaiting();
+const CACHE = 'music-play-free-shell-2026-08-28-r2';
+const BASE = self.registration.scope;
+const asset = p => new URL(p, BASE).href;
+const CORE = ['./','./index.html','./styles.css','./app.js','./manifest.webmanifest','./icons/icon-192.png','./icons/icon-512.png'].map(asset);
+const INDEX = asset('./index.html');
+
+self.addEventListener('install', event => {
+  event.waitUntil(caches.open(CACHE).then(cache => cache.addAll(CORE)).then(() => self.skipWaiting()));
 });
-self.addEventListener('activate', (event) => {
+
+self.addEventListener('activate', event => {
   event.waitUntil(
-    caches.keys().then((keys) => Promise.all(
-      keys.filter((key) => key !== CACHE_NAME).map((key) => caches.delete(key))
-    ))
+    caches.keys()
+      .then(keys => Promise.all(keys.filter(k => k !== CACHE).map(k => caches.delete(k))))
+      .then(() => self.clients.claim())
   );
-  self.clients.claim();
 });
-self.addEventListener('fetch', (event) => {
-  const request = event.request;
-  const url = new URL(request.url);
+
+self.addEventListener('fetch', event => {
+  const req = event.request;
+  if (req.method !== 'GET') return;
+  const url = new URL(req.url);
   if (url.origin !== self.location.origin) return;
-  if (request.mode === 'navigate') {
+
+  if (req.mode === 'navigate') {
     event.respondWith(
-      fetch(request).catch(async () =>
-        (await caches.match(new URL('./index.html', APP_BASE).href)) ||
-        caches.match(new URL('./', APP_BASE).href)
-      )
+      fetch(req)
+        .then(res => {
+          if (res.ok) caches.open(CACHE).then(c => c.put(INDEX, res.clone()));
+          return res;
+        })
+        .catch(() => caches.match(INDEX))
     );
     return;
   }
-  const path = url.pathname;
-  const isShell =
-    path.endsWith('/index.html') ||
-    path.endsWith('/manifest.webmanifest') ||
-    path.endsWith('/favicon.svg') ||
-    path.includes('/icons/');
-  if (isShell) {
-    event.respondWith(
-      caches.match(request).then(async (cached) => {
-        if (cached) return cached;
-        const response = await fetch(request);
-        if (response.ok) {
-          const cache = await caches.open(CACHE_NAME);
-          cache.put(request, response.clone());
-        }
-        return response;
-      })
-    );
-    return;
-  }
-  if (/\.(?:js|css|woff2?|ttf|svg)$/i.test(path)) {
-    event.respondWith(
-      caches.match(request).then((cached) => {
-        const update = fetch(request)
-          .then(async (response) => {
-            if (response.ok) {
-              const cache = await caches.open(CACHE_NAME);
-              cache.put(request, response.clone());
-            }
-            return response;
-          })
-          .catch(() => cached);
-        return cached || update;
-      })
-    );
-  }
+
+  event.respondWith(
+    caches.match(req).then(cached => cached || fetch(req).then(res => {
+      if (res.ok && ['style','script','image','manifest'].includes(req.destination)) {
+        caches.open(CACHE).then(c => c.put(req, res.clone()));
+      }
+      return res;
+    }))
+  );
 });

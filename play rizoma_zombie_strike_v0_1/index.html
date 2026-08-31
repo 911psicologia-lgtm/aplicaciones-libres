@@ -9,9 +9,9 @@
   <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
   <meta name="apple-mobile-web-app-capable" content="yes" />
   <meta name="apple-mobile-web-app-title" content="Zombie Strike" />
-  <script>if(location.protocol !== "file:"){const m=document.createElement("link");m.rel="manifest";m.href="manifest.json?v=3.3.1";document.head.appendChild(m);}</script>
+  <script>if(location.protocol !== "file:"){const m=document.createElement("link");m.rel="manifest";m.href="manifest.json?v=3.4.0";document.head.appendChild(m);}</script>
   <link rel="icon" href="assets/icon.svg" type="image/svg+xml" />
-  <title>Rizoma Zombie Strike — Mundo 20 · Planeta Zombie-Reptiloide · v3.3.1</title>
+  <title>Rizoma Zombie Strike — Saga II completa · v3.4.0</title>
   <link rel="preload" as="image" href="assets/ui/intro_poster_mobile.webp" media="(max-width: 1200px)" fetchpriority="high" />
   <link rel="preload" as="image" href="assets/boss2/sigil_w1.svg" />
   <link rel="preload" as="image" href="assets/boss2/sigil_w2.svg" />
@@ -21,7 +21,7 @@
   <link rel="preload" as="image" href="assets/boss2/sigil_w9.svg" />
   <link rel="preload" as="image" href="assets/boss2/sigil_w10.svg" />
   <link rel="preload" as="image" href="assets/boss2/sigil_w15.svg" />
-  <link rel="stylesheet" href="css/styles.css?v=3.3.1" />
+  <link rel="stylesheet" href="css/styles.css?v=3.4.0" />
   <link rel="preload" as="image" href="assets/story/episode_01_protocol_zstrike.webp" fetchpriority="high" />
 </head>
 <body>
@@ -36,7 +36,7 @@
         <span class="brand-mark">⬢</span>
         <div>
           <strong>Rizoma Zombie Strike</strong>
-          <small>Mundos 1–20 · Soundtrack de Guardianes M14–M20 · bucle suave · v3.3.1</small>
+          <small>Mundos 1–20 · Balance global · Saga II completa · v3.4.0</small>
         </div>
       </div>
       <button id="btnSettings" class="icon-btn" title="Ajustes" aria-label="Ajustes">⚙</button>
@@ -249,11 +249,11 @@
           <div id="bossShipInventory" class="boss-ship-inventory"></div>
           <h3 class="archive-heading">Niveles disponibles</h3>
           <div id="replayWorldGrid" class="replay-world-grid"></div>
-          <article class="saga-preview-card">
-            <img src="assets/story/episode_10_afterfall.webp" alt="Horizonte de la Saga II" />
-            <div><p class="eyebrow">PRÓXIMA SAGA</p><h3>Diez mundos terrestres alienígenas</h3><p>Desierto · fondo del mar · núcleo de magma · estrella moribunda · entrañas de gusano · cerebros asesinos · tundra salvaje · biblioteca ánime · planeta de grises · zombies-reptiloides.</p></div>
+          <article id="sagaClosureCard" class="saga-preview-card saga-closure-card">
+            <img src="assets/story/episode_10_afterfall.webp" alt="Archivo de la Saga II" />
+            <div><p id="sagaClosureEyebrow" class="eyebrow">SAGA II · RUTA ACTIVA</p><h3 id="sagaClosureTitle">0/10 mundos de Saga II superados</h3><p id="sagaClosureText">Desierto · abismo pelágico · magma · estrella moribunda · gusano colosal · cerebros · tundra · biblioteca anime · grises · necroescama.</p></div>
           </article>
-          <div id="sagaTwoGrid" class="saga-two-grid" aria-label="Próximos mundos 11 a 20"></div>
+          <div id="sagaTwoGrid" class="saga-two-grid" aria-label="Mundos de Saga II 11 a 20"></div>
         </div>
       </section>
 
@@ -332,6 +332,7 @@
         <div class="hud-actions" aria-label="Acciones rápidas de combate">
           <button id="btnDomain" class="domain-btn hidden" type="button" title="Protocolo DOMINIO" aria-label="Abrir Protocolo DOMINIO"><span class="domain-glyph">◇</span><strong class="domain-label">DOMINIO</strong><small id="domainCount">0</small></button>
           <button id="btnTacticalCart" class="tactical-cart" type="button" title="Compra Exprés"><span class="cart-glyph">🛒</span><strong id="tacticalCartCount">0</strong></button>
+          <button id="btnFullscreen" class="hud-icon-btn" type="button" title="Pantalla completa" aria-label="Pantalla completa" aria-pressed="false">⛶</button>
           <button id="btnMusicQuick" class="music-quick-btn" type="button" title="Silenciar música de fondo" aria-label="Silenciar música de fondo" aria-pressed="true"><span class="music-note-glyph" aria-hidden="true">♫</span></button>
           <button id="btnPause" class="pause-btn" type="button" title="Pausa">⏸</button>
         </div>
@@ -468,6 +469,6 @@
     </div>
   </div>
 
-  <script src="js/game.js?v=3.3.1"></script>
+  <script src="js/game.js?v=3.4.0"></script>
 </body>
 </html>

@@ -1,0 +1,39 @@
+RIZOMA ZOMBIE STRIKE v3.4.0 — VALIDACIÓN BALANCE GLOBAL / CIERRE SAGA II
+
+[OK] JavaScript: node --check js/game.js
+[OK] MAPS: 5 mapas base + 15 MAPS.push = 20 mundos
+[OK] DOMAIN_FORMS: 20 formas registradas
+[OK] WORLD_STAGE_TARGETS: índices 0–19 completos; no quedan fallbacks involuntarios M17/M19
+[OK] Saga II: 10 entradas únicas, mundos 11–20; eliminado duplicado M18
+[OK] Assets explícitos referenciados en JS/HTML/CSS/manifest: 519
+[OK] Assets explícitos faltantes: 0
+[OK] HTML: IDs únicos; sin duplicados detectados
+[OK] Cierre M20: epílogo ya no depende de getPlayMode() y se muestra también en modo directo
+[OK] Perfil: persistencia sagaTwoCompletedAt / sagaThreeSignalDetected
+[OK] Migración: perfiles históricos con M20 completado reciben estado de cierre y logro
+[OK] Logro nuevo: saga2_complete / Nexo cerrado
+[OK] Archivo: estado dinámico de Saga II + señal sin número no jugable
+[OK] Mundo 21: no añadido a MAPS, WORLD_STAGE_TARGETS ni interfaz jugable
+[OK] Tienda táctica: openTacticalShop() fuerza paused=true; closeTacticalPrep() restaura estado anterior
+[OK] PWA: orientación landscape-primary preservada
+
+Rampa de objetivos M14–M20:
+M14 48/64/82/102/124
+M15 50/66/84/104/128
+M16 52/68/86/106/132
+M17 54/70/88/108/136
+M18 56/72/90/110/140
+M19 58/74/92/114/144
+M20 60/76/94/118/148
+
+Durabilidad aproximada Guardianes en Normal antes de escudos añadidos por transición de fase:
+M14 ~89,200
+M15 ~104,500
+M16 ~123,900
+M17 ~143,300
+M18 ~163,600
+M19 ~186,000
+M20 ~225,300
+
+NOTA QA:
+La validación ejecutada es sintáctica/estructural y de referencias de assets. No sustituye una partida manual completa de M14→M20 en dispositivo físico. La siguiente prueba recomendada es un recorrido real M16→M20 en móvil para comprobar tiempo efectivo por acto, legibilidad de telegraphs y sensación de duración del jefe final.

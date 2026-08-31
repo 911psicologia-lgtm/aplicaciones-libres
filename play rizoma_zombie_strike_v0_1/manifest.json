@@ -1,7 +1,7 @@
 {
   "name": "Rizoma Zombie Strike · Mundos 1–20",
   "short_name": "Rizoma Z Strike",
-  "start_url": "./index.html?v=3.3.1",
+  "start_url": "./index.html?v=3.4.0",
   "scope": "./",
   "display": "fullscreen",
   "display_override": [

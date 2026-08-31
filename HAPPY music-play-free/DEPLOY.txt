@@ -1,8 +1,33 @@
-MUSIC-PLAY-FREE — paquete listo para publicación
+MUSIC-PLAY-FREE · HAPPY
+Build 2026.08.28-r2
 
-IMPORTANTE:
-- Suba EL CONTENIDO de este ZIP directamente a la carpeta/ruta pública de la aplicación.
-- index.html debe quedar al mismo nivel que assets/, icons/, favicon.svg, manifest.webmanifest y sw.js.
-- No suba la carpeta src/ ni el index.html de desarrollo del proyecto original.
-- Todas las rutas del paquete son relativas, así que funciona dentro de una subcarpeta como /HAPPY music-play-free/.
-- Si reemplaza una versión anterior, haga una recarga forzada una vez (Ctrl+F5) para eliminar caché antigua.
+PAQUETE DE DESPLIEGUE DIRECTO (SIN VITE / SIN NPM / SIN COMPILAR)
+
+1. Suba TODO el contenido de este ZIP a la carpeta pública de MUSIC-PLAY-FREE.
+2. index.html debe quedar en la raíz de esa carpeta, al mismo nivel que app.js, styles.css, sw.js y manifest.webmanifest.
+3. No coloque estos archivos dentro de otra carpeta "dist".
+4. Funciona en subcarpetas porque todas las rutas son relativas.
+5. Use HTTPS en producción. HTTPS habilita PWA, permisos persistentes de carpeta y otras APIs modernas.
+6. Después de reemplazar una versión anterior, recargue una vez con Ctrl+F5. El nuevo Service Worker usa navegación network-first y limpia sus cachés antiguas cuando toma control.
+
+ESTRUCTURA
+/index.html
+/app.js
+/styles.css
+/sw.js
+/manifest.webmanifest
+/icons/icon-192.png
+/icons/icon-512.png
+/icons/icon-512-maskable.png
+
+PRIVACIDAD
+Los audios no se suben a ningún servidor. Se reproducen desde el dispositivo. Cuando el navegador lo permite, la app conserva un FileSystemHandle local; como alternativa puede guardar una copia dentro del almacenamiento privado IndexedDB del propio navegador. Si no existe espacio o permiso suficiente, la pista continúa disponible durante la sesión actual.
+
+COMPATIBILIDAD
+- Chrome / Edge escritorio: mejor experiencia (selector de carpetas + permisos persistentes).
+- Android: selección local de archivos y, según navegador/proveedor de archivos, carpetas.
+- Safari/iPhone/iPad: selección local de archivos; algunas funciones avanzadas de carpetas dependen de WebKit.
+- Firefox: reproducción y selección de archivos; File System Access puede ser limitado.
+
+FORMATOS
+MP3, M4A/AAC, WAV, OGG, OPUS, FLAC y WEBM, según los códecs que soporte el navegador.

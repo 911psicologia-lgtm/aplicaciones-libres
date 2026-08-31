@@ -1,7 +1,7 @@
 (() => {
   'use strict';
 
-  const VERSION = '3.3.1';
+  const VERSION = '3.4.0';
   const STORAGE_KEY = 'rizoma_zombie_strike_v0_3_state';
   const SAVE_KEY = 'rizoma_zombie_strike_v0_3_save';
   const clamp = (v, a, b) => Math.max(a, Math.min(b, v));
@@ -485,7 +485,6 @@
     {world:16,name:'Cerebros Asesinos',biome:'neural',cue:'Biomáquinas cognitivas que cazan en redes sinápticas.'},
     {world:17,name:'Tundra Salvaje',biome:'tundra',cue:'Hielo alienígena, fauna brutal y tormentas blancas.'},
     {world:18,name:'Biblioteca Anime Multiversal',biome:'manga',cue:'Páginas vivas, tinta dimensional, mechas y yokai editoriales.'},
-    {world:18,name:'Biblioteca Ánime',biome:'anime',cue:'Todo el mundo cambia de lenguaje: fondos, enemigos y Guardianes ánime.'},
     {world:19,name:'Planeta de Grises',biome:'grises',cue:'Civilización silenciosa, tecnología psiónica y cielos sin color.'},
     {world:20,name:'Planeta Zombie-Reptiloide',biome:'reptiloide',cue:'La infección aprende a mudar de piel y organiza un imperio reptiliano.'}
   ];
@@ -689,8 +688,10 @@
     13: [48, 64, 82, 102, 124],
     14: [50, 66, 84, 104, 128],
     15: [52, 68, 86, 106, 132],
-    17: [56, 72, 90, 112, 138],
-    19: [58, 76, 96, 120, 148]
+    16: [54, 70, 88, 108, 136],
+    17: [56, 72, 90, 110, 140],
+    18: [58, 74, 92, 114, 144],
+    19: [60, 76, 94, 118, 148]
   };
   const WORLD_ONE_MINION_FAMILIES = [
     ['cazador','corredor','esquivo','mosquito','nave_espejo'],
@@ -1296,7 +1297,8 @@
     { id: 'map_3', icon: '🗺️', name: 'Tercer territorio', desc: 'Desbloquea el mapa 3.', group: 'Exploración' },
     { id: 'avatar_3', icon: '🧬', name: 'Tres formas', desc: 'Desbloquea tres avatares.', group: 'Colección' },
     { id: 'rich_1000', icon: '🪙', name: 'Fragmentos vivos', desc: 'Acumula 1000 fragmentos.', group: 'Economía' },
-    { id: 'daily_like', icon: '☀', name: 'Otra vez', desc: 'Juega 3 partidas con el mismo perfil.', group: 'Retorno' }
+    { id: 'daily_like', icon: '☀', name: 'Otra vez', desc: 'Juega 3 partidas con el mismo perfil.', group: 'Retorno' },
+    { id: 'saga2_complete', icon: 'Ⅱ', name: 'Nexo cerrado', desc: 'Completa los Mundos 11–20 y derrota a Sauryx Necrorex.', group: 'Dominio' }
   ];
 
   const DEFAULT_STATE = () => ({
@@ -1313,6 +1315,8 @@
       coins: 0,
       upgrades: {},
       achievements: {},
+      sagaTwoCompletedAt: null,
+      sagaThreeSignalDetected: false,
       collection: { powers: {}, fusions: {}, bosses: {}, criticals:{}, criticalCombos:{} },
       arsenalTelemetry: { powers:{}, fusions:{}, criticals:{}, criticalCombos:{} },
       arsenalDoctrine: 'free',
@@ -1434,6 +1438,8 @@
       p.unlockedAvatars = p.unlockedAvatars || ['explorador', 'centinela', 'eco'];
       p.unlockedMap = p.unlockedMap || 1;
       p.completedMaps = p.completedMaps || [];
+      p.sagaTwoCompletedAt = p.sagaTwoCompletedAt || null;
+      p.sagaThreeSignalDetected = !!p.sagaThreeSignalDetected;
       // v2.0.0: migración progresiva W9/W10 sin obligar a repetir mundos ya completados.
       if (p.completedMaps.includes(8)) p.unlockedMap = Math.max(p.unlockedMap, 9);
       if (p.completedMaps.includes(9)) p.unlockedMap = Math.max(p.unlockedMap, 10);
@@ -1462,6 +1468,12 @@
           const id=`bossShip${w}`,meta=DOMAIN_FORMS[w-1];
           if (!p.bossShips[id]) p.bossShips[id]={id,name:MAPS[w-1]?.boss||meta?.name||`Guardián ${w}`,world:w,unlockedAt:'legacy'};
         }
+      }
+      if((p.completedMaps||[]).includes(20)){
+        const legacyClosureStamp=(p.bossShips?.bossShip20?.unlockedAt&&p.bossShips.bossShip20.unlockedAt!=='legacy')?p.bossShips.bossShip20.unlockedAt:new Date().toISOString();
+        p.sagaTwoCompletedAt=p.sagaTwoCompletedAt||legacyClosureStamp;
+        p.sagaThreeSignalDetected=true;
+        p.achievements.saga2_complete=p.achievements.saga2_complete||p.sagaTwoCompletedAt;
       }
       p.domainUnlocked = !!(p.domainUnlocked || (p.completedMaps || []).some(w=>w>=3));
       p.domainAnnounced = !!p.domainAnnounced;
@@ -2634,6 +2646,7 @@
       this.cardPause = false;
       this.last = now();
       showScreen('screenGame');
+      requestLandscapeExperience({userGesture:false,source:'game-start'});
       document.body.classList.toggle('training-mode',!!this.trainingMode?.active);
       this.resize();
       // v1.9.7: limpia cualquier fotograma residual del menú/historia/mundo anterior antes del primer loop.
@@ -2663,6 +2676,7 @@
         x: saved?.x ?? this.w / 2,
         y: saved?.y ?? this.h / 2,
         r: 20.5,
+        visualScale: 1.12,
         maxHp: 100,
         hp: saved?.hp ?? 100,
         maxShield: 70,
@@ -4870,9 +4884,9 @@
       // Progresión global: primeros mundos introducen profundidad sin saturar;
       // mundos medios mezclan grupos/cápsulas; avanzados admiten élites simultáneas.
       if(world<=4){
-        if(this.isSmallScreen)return world===1?2:1;
-        if(this.w<1100)return 2;
-        return world===1?3:2;
+        if(this.isSmallScreen)return world===1?3:1;
+        if(this.w<1100)return world===1?3:2;
+        return world===1?4:2;
       }
       if(world<=8){
         if(this.isSmallScreen)return 2;
@@ -4989,7 +5003,7 @@
           if(type==='fragment'&&Math.random()<groupChance)this.spawnFrontThreatGroup(type,this.isSmallScreen?2:Math.min(tier===2?4:3,1+Math.ceil(this.wave/2)));
           else this.spawnFrontThreat(type);
           d.budget=Math.max(0,d.budget-cost);d.spawned++;
-          const slow=tier===0?1.18:(tier===1?1.0:.86);
+          const slow=world===1?.92:(tier===0?1.18:(tier===1?1.0:.86));
           d.cooldown=rand(Math.max(2.9,(6.4-this.wave*.52)*slow),Math.max(2.2,(4.9-this.wave*.40)*slow));
         }else d.cooldown=1.15;
       }
@@ -6817,7 +6831,7 @@
       const p = currentProfile();
       const campaignScale = 1 + this.mapIndex * .08;
       let hp = (1120 + this.mapIndex * 270 + this.wave * 118) * campaignScale;
-      hp *= this.mapIndex===0?4.35:(this.mapIndex===1?3.82:(this.mapIndex===2?4.05:(2.25+this.mapIndex*.095)));
+      hp *= this.mapIndex===0?4.35:(this.mapIndex===1?4.28:(this.mapIndex===2?4.05:(2.25+this.mapIndex*.095)));
       hp *= (this.getDifficulty().bossHp || 1) * COMBAT_DURABILITY.boss;
       if (this.mapIndex === 6) hp *= 2.15; // Leviatán: debe sobrevivir al arsenal acumulado de siete mundos.
       if (this.mapIndex === 8) hp *= 1.90; // Kaiser: duelo final prolongado de W9 frente al arsenal multiversal.
@@ -6825,14 +6839,17 @@
       if (this.mapIndex === 10) hp *= 1.72;
       if (this.mapIndex === 11) hp *= 1.78; // Thalassar Hadal: presión sostenida y escudo amplio en la segunda etapa de Saga II.
       if (this.mapIndex === 12) hp *= 1.92; // Vulkarion: forja de núcleo, tres fases y control de área ígneo.
-      if (this.mapIndex === 13) hp *= 2.08; // Heliovorax: duelo largo de cuatro fases con contracción y aceleración final.
-      if (this.mapIndex === 14) hp *= 2.18; // Vermidrax: cuerpo segmentado, embestidas y arena compresiva.
-      if (this.mapIndex === 15) hp *= 2.32; // Neurokhan: cuatro fases, predicción psiónica y red cortical compartida.
-      if (this.mapIndex === 19) hp *= 2.85; // Sauryx Necrorex: Guardián final, cuatro mutaciones y presión de tres familias simultáneas.
+      if (this.mapIndex === 13) hp *= 2.08; // Heliovorax: arranque del tramo final.
+      if (this.mapIndex === 14) hp *= 2.18; // Vermidrax: presión orgánica sostenida.
+      if (this.mapIndex === 15) hp *= 2.32; // Neurokhan: red cortical compartida.
+      if (this.mapIndex === 16) hp *= 2.42; // Skaldr: mantiene la rampa de Saga II sin caída artificial.
+      if (this.mapIndex === 17) hp *= 2.50; // Kanzai: responde al arsenal multiversal acumulado.
+      if (this.mapIndex === 18) hp *= 2.58; // Zhyr: penúltimo Guardián, control y fase psiónica.
+      if (this.mapIndex === 19) hp *= 2.85; // Sauryx Necrorex: culminación real de Saga II.
       if(this.trainingMode?.active)hp*=.58;
       const x = this.w / 2;
       const y = -80;
-      const shieldBase = (this.mapIndex === 19 ? 5600 : (this.mapIndex === 15 ? 4550 : (this.mapIndex === 14 ? 4200 : (this.mapIndex === 13 ? 3900 : (this.mapIndex === 12 ? 3500 : (this.mapIndex === 11 ? 3200 : (this.mapIndex === 10 ? 3000 : (this.mapIndex === 9 ? 4200 : (this.mapIndex === 8 ? 2600 : (this.mapIndex === 6 ? 2200 : (this.mapIndex === 0 ? 680 : (this.mapIndex === 1 ? 560 : 310 + this.mapIndex * 42)))))))))))) * (this.getDifficulty().bossShield || 1) * COMBAT_DURABILITY.boss * (this.trainingMode?.active ? .58 : 1);
+      const shieldBase = (this.mapIndex === 19 ? 5600 : (this.mapIndex === 18 ? 5350 : (this.mapIndex === 17 ? 5100 : (this.mapIndex === 16 ? 4850 : (this.mapIndex === 15 ? 4550 : (this.mapIndex === 14 ? 4200 : (this.mapIndex === 13 ? 3900 : (this.mapIndex === 12 ? 3500 : (this.mapIndex === 11 ? 3200 : (this.mapIndex === 10 ? 3000 : (this.mapIndex === 9 ? 4200 : (this.mapIndex === 8 ? 2600 : (this.mapIndex === 6 ? 2200 : (this.mapIndex === 0 ? 680 : (this.mapIndex === 1 ? 760 : 310 + this.mapIndex * 42))))))))))))))) * (this.getDifficulty().bossShield || 1) * COMBAT_DURABILITY.boss * (this.trainingMode?.active ? .58 : 1);
       this.bossActive = {
         id: 'boss_' + map.id,
         name: map.boss,
@@ -6849,8 +6866,8 @@
         baseHp: hp,
         speed: ([33,34,40,43,46,48,50,52,55,58,60][this.mapIndex] || 60) + this.mapIndex * 1.5,
         // En móvil el hitbox se compacta; la presencia épica queda en aura, patrón y audio, no en ocupar el lienzo.
-        r: ([36,54,58,62,68,70,72,74,76,80,82,84,86][this.mapIndex] || 86) * (this.mobileLandscape ? (.78*.88) : (this.mobilePortrait ? .66 : 1)),
-        displayScale: ({10:.92,11:.90,12:.93,13:.91,14:.96,15:.98,16:1.00,17:.98,18:.96,19:.98}[this.mapIndex] ?? 1),
+        r: ([36,62,58,62,68,70,72,74,76,80,82,84,86][this.mapIndex] || 86) * (this.mobileLandscape ? (.84*.88) : (this.mobilePortrait ? .70 : 1)),
+        displayScale: ({1:1.12,10:.92,11:.90,12:.93,13:.91,14:.96,15:.98,16:1.00,17:.98,18:.96,19:.98}[this.mapIndex] ?? 1),
         t: 0,
         attack: ({6:1.28,9:1.42,10:1.46,11:1.42,12:1.38,13:1.30,14:1.24,15:1.18,16:1.08,17:1.04}[this.mapIndex] ?? ([2.55,2.28,1.95,1.88,1.82,1.72,1.68,1.62,1.55,1.42,1.46,1.42,1.38][this.mapIndex] || 1.38)),
         specialCd: ({6:3.35,9:3.65,10:3.85,11:3.75,12:3.55,13:3.35,14:3.15,15:2.95,16:2.72,17:2.48}[this.mapIndex] ?? ([6.6,6.0,5.3,5.0,4.6,4.4,4.25,4.15,3.95,3.65,3.85,3.75,3.55][this.mapIndex] || 3.55)),
@@ -8178,9 +8195,12 @@
 
     renderResultBuildSummary(){
       if(!els.resultBuildSummary)return;
-      const s=this.lastBuildSnapshot||this.getBuildSnapshot(),fit=s.doctrine.id==='free'?'Azar puro':`${s.doctrineFit??0}% de afinidad`,top=s.topPowers.length?s.topPowers.map(p=>`${p.icon} ${p.name} L${p.level}`).join(' · '):'Sin poderes registrados';
-      const fusionNames=s.completedFusions.slice(0,3).map(f=>`${f.icon} ${f.name}`).join(' · ');
-      els.resultBuildSummary.innerHTML=`<div class="result-build-head"><span>${s.identity.icon}</span><div><small>LECTURA TÁCTICA FINAL</small><strong>${s.identity.name}</strong></div><em>${s.doctrine.icon} ${s.doctrine.name} · ${fit}</em></div><div class="result-build-grid"><p><small>ARSENAL</small><b>${s.powerCount} poderes</b><span>${top}</span></p><p><small>SINERGIAS</small><b>${s.completedFusions.length} fusiones</b><span>${fusionNames||'Ninguna fusión completada en esta misión'}</span></p></div>`;
+      const s=this.lastBuildSnapshot||this.getBuildSnapshot();
+      const compact=!!(this.isSmallScreen || isDevicePortrait());
+      const fit=s.doctrine.id==='free'?'Azar puro':`${s.doctrineFit??0}% de afinidad`;
+      const top=s.topPowers.length?s.topPowers.slice(0,compact?2:3).map(p=>`${p.icon} ${p.name} L${p.level}`).join(' · '):'Sin poderes registrados';
+      const fusionNames=s.completedFusions.slice(0,compact?2:3).map(f=>`${f.icon} ${f.name}`).join(' · ');
+      els.resultBuildSummary.innerHTML=`<div class="result-build-head"><span>${s.identity.icon}</span><div><small>LECTURA TÁCTICA FINAL</small><strong>${s.identity.name}</strong></div><em>${s.doctrine.icon} ${s.doctrine.name} · ${fit}</em></div><div class="result-build-grid"><p><small>ARSENAL</small><b>${s.powerCount} poderes</b>${compact?'':`<span>${top}</span>`}</p><p><small>SINERGIAS</small><b>${s.completedFusions.length} fusiones</b>${compact?'':`<span>${fusionNames||'Ninguna fusión completada en esta misión'}</span>`}</p></div>`;
       this.renderResultExpeditionMemory();
     }
 
@@ -8370,7 +8390,8 @@
         p.worldProgression.rangeTier = Math.min(20, (p.worldProgression.rangeTier || 0) + 1);
         p.shipParts = { core:0,wings:0,cannon:0,engine:0,...(p.shipParts||{}) };
         const evolutionOrder=['cannon','core','engine','wings','core'];
-        const part=evolutionOrder[this.mapIndex]||'core';
+        const endgameEvolutionOrder=['cannon','engine','wings','core','cannon','engine','wings'];
+        const part=(this.mapIndex>=13&&this.mapIndex<=19)?endgameEvolutionOrder[this.mapIndex-13]:(evolutionOrder[this.mapIndex]||'core');
         p.shipParts[part]=Math.min(6,(p.shipParts[part]||0)+(this.mapIndex===4?2:1));
         p.morphTier=Math.min(6,1+(p.completedMaps||[]).length+1);
       }
@@ -8433,6 +8454,11 @@
       this.lastWorldLifeBonus = progressionReward.firstClear ? this.addReserveLives(2, 'bono por pasar de mundo') : 0;
       p.campaignExtraLives = this.extraLives;
       p.completedMaps = Array.from(new Set([...(p.completedMaps || []), this.mapIndex + 1]));
+      if(this.mapIndex===19){
+        p.sagaTwoCompletedAt=p.sagaTwoCompletedAt||new Date().toISOString();
+        p.sagaThreeSignalDetected=true;
+        unlockAchievement('saga2_complete');
+      }
       p.levelProgress = p.levelProgress || {1:1}; p.levelProgress[this.mapIndex + 1] = (WORLD_STAGE_TARGETS[this.mapIndex]||[20,30,40,50,60]).length; p.levelProgress[this.mapIndex + 2] = Math.max(p.levelProgress[this.mapIndex + 2] || 0, this.mapIndex + 1 < MAPS.length ? 1 : 0);
       p.unlockedMap = Math.max(p.unlockedMap, Math.min(MAPS.length, this.mapIndex + 2));
       p.collection.bosses[MAPS[this.mapIndex].boss] = true;
@@ -8556,29 +8582,42 @@
     }
 
     showResult(victory) {
+      hideOverlays();
       this.paused = true;
       const trainingVictory=!!(victory&&this.trainingMode?.active);
       const replayVictory = !!(victory && this.replayMode?.active);
+      const compactOverlay=!!(this.isSmallScreen || isDevicePortrait());
       this.resultMode = trainingVictory?'training_victory':(replayVictory ? 'replay_victory' : (victory ? 'victory' : (this.extraLives > 0 ? 'defeat_revive' : 'defeat')));
       if (victory) this.finalizeRun(true);
       els.resultOverlay.classList.toggle('victory-clean',!!victory&&!replayVictory&&!trainingVictory);
-      els.resultEyebrow.textContent = trainingVictory?'🎯 ENTRENAMIENTO SUPERADO':(replayVictory ? '↻ NIVEL REPETIDO' : (victory ? '✔ MUNDO COMPLETADO' : '⚠ MISIÓN INTERRUMPIDA'));
+      els.resultOverlay.classList.toggle('result-compact-ui',compactOverlay);
+      els.resultEyebrow.textContent = trainingVictory?'ENTRENAMIENTO SUPERADO':(replayVictory ? 'NIVEL REPETIDO' : (victory ? 'MUNDO COMPLETADO' : 'MISIÓN INTERRUMPIDA'));
       if(trainingVictory)els.resultTitle.textContent=`Simulación · ${MAPS[this.mapIndex].boss}`;
-      else if(victory&&!replayVictory)els.resultTitle.innerHTML=`${bossSigilHtml(this.mapIndex,'result-boss-sigil')}<span>Mundo ${this.mapIndex+1} superado</span>`;else els.resultTitle.textContent=replayVictory?`Mundo ${this.mapIndex+1} · Nivel ${this.replayMode.level} completado`:`Mundo ${this.mapIndex+1} · Nivel ${this.wave}`;
+      else if(victory&&!replayVictory)els.resultTitle.innerHTML=`${bossSigilHtml(this.mapIndex,'result-boss-sigil')}<span>Victoria · Mundo ${this.mapIndex+1}</span>`;else els.resultTitle.textContent=replayVictory?`Mundo ${this.mapIndex+1} · Nivel ${this.replayMode.level}`:`Mundo ${this.mapIndex+1} · Nivel ${this.wave}`;
       if(trainingVictory){
-        els.resultText.textContent='Práctica terminada. No se alteró la campaña, el guardado principal ni el inventario de mundos.';
+        els.resultText.textContent='Práctica terminada. No se alteró la campaña ni el guardado principal.';
       } else if (replayVictory) {
-        els.resultText.textContent = 'La repetición terminó. Tu progreso principal y tu partida guardada permanecen intactos.';
+        els.resultText.textContent = 'La repetición terminó. Tu progreso principal permanece intacto.';
       } else if (victory) {
         const reward = this.lastWorldReward || { name: 'Poder del jefe' };
-        const loot=this.lastBossLootPower?.name?` Botín del jefe: ${this.lastBossLootPower.name}.`:'';
-        els.resultText.textContent = this.mapIndex===9
-          ? `Z.E.R.O.S. Prime cayó. ${reward.name} integrado · la señal enemiga, sin embargo, escapó hacia diez planetas terrestres alienígenas.${loot}`
-          : (this.mapIndex===10 ? `El Soberano de Sílice cayó. ${reward.name} integrado · la Corona de Sílice queda disponible como nave capturada. Una nueva señal se abre bajo un océano alienígena.${loot}` : (this.mapIndex===11 ? `Thalassar Hadal cayó. ${reward.name} integrado · la Corona Hadal queda capturada. La siguiente señal asciende desde un planeta cuyo suelo es magma vivo.${loot}` : (this.mapIndex===12 ? `Vulkarion cayó. ${reward.name} integrado · el Trono Magmático queda capturado. La señal abandona la forja planetaria rumbo a una estrella que está muriendo.${loot}` : (this.mapIndex===13 ? `Heliovorax cayó. ${reward.name} integrado · el Trono Nova queda capturado. La estrella colapsa y una señal orgánica emerge desde las entrañas de una criatura colosal.${loot}` : (this.mapIndex===14 ? `Vermidrax cayó. ${reward.name} integrado · la Vermis Carapace queda capturada. Entre los nervios muertos aparece una señal cognitiva que apunta al Imperio de los Cerebros Asesinos.${loot}` : (this.mapIndex===15 ? `Neurokhan cayó. ${reward.name} integrado · la Neuroarca Psiónica queda capturada. Más allá de la red cerebral emerge una señal congelada que apunta a la Tundra Salvaje.${loot}` : (this.mapIndex===16 ? `Skaldr Glacial cayó. ${reward.name} integrado · la Fenrir Cryo-Ship queda capturada. Bajo el glaciar aparecen páginas imposibles que señalan la Biblioteca Anime Multiversal.${loot}` : (this.mapIndex===17 ? `Kanzai Akasha cayó. ${reward.name} integrado · la Akasha Manga-Ship queda capturada. La última página revela una señal silenciosa procedente del Planeta ficticio de los Grises.${loot}` : (this.mapIndex===18 ? `Arconte Zhyr cayó. ${reward.name} integrado · la Zhyr Disc queda capturada. Bajo el complejo clínico aparece una transmisión zombie-reptiloide.${loot}` : (this.mapIndex===19 ? `Sauryx Necrorex cayó. ${reward.name} integrado · la Necrorex Dreadship queda capturada. Saga II ha sido completada: veinte mundos quedan enlazados en el Archivo y una señal desconocida aparece más allá del mapa.${loot}` : `${reward.name} obtenido · arma base mejorada de forma permanente en daño, alcance, velocidad y precisión · +${this.lastWorldLifeBonus || 0} vidas.${loot}`))))))))));
+        const loot=this.lastBossLootPower?.name?` · Botín: ${this.lastBossLootPower.name}`:'';
+        const lifeBonus=`+${this.lastWorldLifeBonus || 0} vidas`;
+        if(this.mapIndex<=8) els.resultText.textContent=`${reward.name} obtenido · mejora permanente del arma · ${lifeBonus}${loot}.`;
+        else if(this.mapIndex===9) els.resultText.textContent=`Z.E.R.O.S. Prime cayó · ${reward.name} integrado${loot}.`;
+        else if(this.mapIndex===10) els.resultText.textContent=`Soberano de Sílice neutralizado · Corona de Sílice capturada${loot}.`;
+        else if(this.mapIndex===11) els.resultText.textContent=`Thalassar Hadal cayó · Corona Hadal capturada${loot}.`;
+        else if(this.mapIndex===12) els.resultText.textContent=`Vulkarion cayó · Trono Magmático capturado${loot}.`;
+        else if(this.mapIndex===13) els.resultText.textContent=`Heliovorax cayó · Trono Nova capturado${loot}.`;
+        else if(this.mapIndex===14) els.resultText.textContent=`Vermidrax cayó · Vermis Carapace capturada${loot}.`;
+        else if(this.mapIndex===15) els.resultText.textContent=`Neurokhan cayó · Neuroarca Psiónica capturada${loot}.`;
+        else if(this.mapIndex===16) els.resultText.textContent=`Skaldr Glacial cayó · Fenrir Cryo-Ship capturada${loot}.`;
+        else if(this.mapIndex===17) els.resultText.textContent=`Kanzai Akasha cayó · Akasha Manga-Ship capturada${loot}.`;
+        else if(this.mapIndex===18) els.resultText.textContent=`Arconte Zhyr cayó · Zhyr Disc capturada${loot}.`;
+        else els.resultText.textContent=`Sauryx Necrorex cayó · Necrorex Dreadship capturada · Saga II completa${loot}.`;
       } else {
         els.resultText.textContent = this.extraLives > 0
-          ? `Te quedan ${this.extraLives} vidas de reserva. Conservas Mundo ${this.mapIndex + 1}, Nivel ${this.wave}. Al reactivar aparecen tus últimos poderes, un Impulsor y un combo de recuperación de 5 segundos.`
-          : `Compra una vida con monedas, puntos o experiencia para continuar. Al reactivar reaparecen tus últimos poderes, un Impulsor y un combo de recuperación de 5 segundos.`;
+          ? `Te quedan ${this.extraLives} vidas de reserva. Conservas M${this.mapIndex + 1} · L${this.wave}. Reactivar devuelve poderes recientes y un impulso breve.`
+          : `Activa una vida con monedas, puntos o experiencia. Reactivar devuelve poderes recientes y un impulso breve.`;
       }
       els.resultRewards.innerHTML = `
         <span class="reward-pill">⭐ ${Math.round(this.run.score)}</span>
@@ -8588,7 +8627,7 @@
         <span class="reward-pill">${this.isHardMode()?'⚔️ Difícil':'◉ Normal'}</span>
         <span class="reward-pill">M${this.mapIndex + 1} · L${this.wave}</span>
         <span class="reward-pill">❤️ ${this.extraLives + 1}</span>`;
-      els.btnResultContinue.textContent = trainingVictory?'Volver a entrenamiento':(replayVictory ? 'Volver a niveles' : (victory ? (this.mapIndex + 1 < MAPS.length ? 'Siguiente mundo' : ((this.mapIndex===10||this.mapIndex===11||this.mapIndex===12)?'Ver señales futuras':'Ver epílogo')) : 'Reactivar nave'));
+      els.btnResultContinue.textContent = trainingVictory?'Volver a entrenamiento':(replayVictory ? 'Volver a niveles' : (victory ? (this.mapIndex===19?'Cerrar Saga II':(this.mapIndex + 1 < MAPS.length ? 'Siguiente mundo' : ((this.mapIndex===10||this.mapIndex===11||this.mapIndex===12)?'Ver señales futuras':'Ver epílogo'))) : 'Reactivar nave'));
       const noLives=!victory && this.extraLives<=0;
       els.btnResultContinue.classList.toggle('hidden',noLives);
       if(els.lifeShop)els.lifeShop.classList.toggle('hidden',!noLives);
@@ -9895,7 +9934,7 @@
             const boss2=this.getAsset('bossBaciloOmega');
             if(boss2){
               ctx.globalAlpha=.99*(e.alpha??1);
-              const {w,h}=this.bossSpriteDimensions(e,boss2,8.25,this.mobileLandscape?(.76*.85):1);
+              const {w,h}=this.bossSpriteDimensions(e,boss2,8.95,this.mobileLandscape?(.88*.85):1);
               ctx.save();
               ctx.shadowBlur = 18;
               ctx.shadowColor = 'rgba(180,120,255,.28)';
@@ -10049,7 +10088,9 @@
       let h=w*(sprite.naturalHeight/sprite.naturalWidth);
       if(this.mobileLandscape){
         // Norma móvil: el jefe nunca domina más del 20% del ancho ni ~28% del alto útil.
-        const fit=Math.min(1,(this.w*.20)/Math.max(1,w),(this.h*.28)/Math.max(1,h));
+        const bossWidthCap=this.mapIndex===1?this.w*.255:this.w*.20;
+        const bossHeightCap=this.mapIndex===1?this.h*.34:this.h*.28;
+        const fit=Math.min(1,bossWidthCap/Math.max(1,w),bossHeightCap/Math.max(1,h));
         w*=fit;h*=fit;
       } else if(e?.boss && this.mapIndex>=10){
         const capW=this.mapIndex===11?this.w*.255:(this.w*.265);
@@ -10523,6 +10564,30 @@
     return !!(window.matchMedia?.('(display-mode: standalone)')?.matches || window.navigator?.standalone === true);
   }
 
+  function isGameScreen(){
+    return document.body?.dataset?.screen === 'screenGame';
+  }
+
+  async function exitFullscreenSafe(){
+    if(document.fullscreenElement && document.exitFullscreen){
+      try{await document.exitFullscreen();}catch(_){ }
+    }
+  }
+
+  function syncFullscreenHud(){
+    if(!els.btnFullscreen)return;
+    const active=!!document.fullscreenElement;
+    els.btnFullscreen.classList.toggle('active',active);
+    els.btnFullscreen.setAttribute('aria-pressed',String(active));
+    els.btnFullscreen.title=active?'Salir de pantalla completa':'Pantalla completa';
+    els.btnFullscreen.setAttribute('aria-label',active?'Salir de pantalla completa':'Pantalla completa');
+  }
+
+  function armGameHistoryTrap(){
+    if(!window.history?.pushState || !isGameScreen())return;
+    try{window.history.pushState({rizomaGame:true,ts:Date.now()},'',window.location.href);}catch(_){ }
+  }
+
   function updateGlobalOrientationGate() {
     if(!els.orientationGate)return;
     // v1.9.7: se retira el aviso flotante. Si el sistema no permite rotación automática,
@@ -10536,24 +10601,33 @@
     updateViewportVars();
     updateGlobalOrientationGate();
     const mobile=isTouchLandscapeTarget();
-    if(!mobile)return false;
+    if(!mobile){syncFullscreenHud();return false;}
     const userGesture=!!options.userGesture;
     try {
-      // En PWA instalada, el manifest fija landscape; esto refuerza launchers que sí implementan lock().
       if (screen?.orientation?.lock && (isStandaloneMode() || document.fullscreenElement || userGesture)) {
         await screen.orientation.lock('landscape-primary').catch(()=>screen.orientation.lock('landscape'));
       }
     } catch (_) {}
     try {
-      // Los navegadores solo permiten fullscreen tras un gesto. Se intenta al pulsar Iniciar/Entrar,
-      // nunca se usa como requisito para navegar por el menú.
       if (userGesture && !document.fullscreenElement && document.documentElement.requestFullscreen) {
         await document.documentElement.requestFullscreen({navigationUI:'hide'}).catch(()=>document.documentElement.requestFullscreen());
         if (screen?.orientation?.lock) await screen.orientation.lock('landscape-primary').catch(()=>screen.orientation.lock('landscape'));
       }
     } catch (_) {}
-    setTimeout(()=>{updateViewportVars();game?.resize?.();updateGlobalOrientationGate();},100);
+    setTimeout(()=>{updateViewportVars();game?.resize?.();updateGlobalOrientationGate();syncFullscreenHud();},100);
+    syncFullscreenHud();
     return isDevicePortrait()===false;
+  }
+
+  async function toggleFullscreenExperience(){
+    if(document.fullscreenElement){
+      await exitFullscreenSafe();
+      setTimeout(()=>{updateViewportVars();game?.resize?.();updateGlobalOrientationGate();syncFullscreenHud();},80);
+      return false;
+    }
+    await requestLandscapeExperience({userGesture:true,source:'manual-fullscreen'});
+    syncFullscreenHud();
+    return !!document.fullscreenElement;
   }
 
   const WORLD_ONE_STORY = {
@@ -10777,11 +10851,11 @@
     title:'SAURYX NECROREX HA CAÍDO',
     image:'assets/world20/bg_world20_boss.webp',
     captions:[
-      'La última mutación de Sauryx colapsa. El trono necrobiológico deja de latir y la infección pierde su centro de mando.',
-      'Necrorex Dreadship queda integrada a RIZOMA. Dominio Necroescama pasa a la biblioteca DOMINIO junto a las firmas de todos los Guardianes.',
-      'Veinte mundos quedan enlazados en el Archivo. La Saga II concluye con sus ecosistemas, naves y poderes preservados, no borrados.',
-      'Pero el silencio dura poco: más allá del mapa conocido aparece una coordenada sin número, acompañada por una señal que no pertenece a ninguna familia registrada.',
-      'RIZOMA marca el punto como SAGA III // ORIGEN DESCONOCIDO. La expedición continúa.'
+      'La cuarta mutación de Sauryx colapsa. El trono necrobiológico deja de latir y la infección pierde su centro de mando.',
+      'Necrorex Dreadship queda integrada a RIZOMA. Dominio Necroescama se archiva junto a las firmas capturadas de los Guardianes de Saga II.',
+      'El tramo final queda completo: Estrella Moribunda, Entrañas del Gusano, Cerebros Asesinos, Tundra Salvaje, Biblioteca Anime Multiversal, Planeta de los Grises y Planeta Zombie-Reptiloide permanecen como ecosistemas distintos dentro del Archivo.',
+      'Los Mundos 11–20 quedan enlazados. Sus naves, reliquias y poderes no desaparecen: pasan a formar parte de la memoria jugable de RIZOMA.',
+      'AURORA detecta una coordenada sin número. No se abre un Mundo 21: la señal no coincide con ninguna familia registrada y queda clasificada como SAGA III // ORIGEN DESCONOCIDO.'
     ],
     finalLabel:'CERRAR SAGA II · ABRIR ARCHIVO COMPLETO'
   };
@@ -10862,6 +10936,7 @@
   }
 
   function startWorldOneWithNarrative(mapIndex=0) {
+    requestLandscapeExperience({userGesture:true,source:'campaign-start'});
     const pp=currentProfile();reconcileCampaignProgress(pp,{clearStaleSave:true});
     pp.unlockedMap=Math.max(pp.unlockedMap||1,Math.min(MAPS.length,mapIndex+1));saveState();
     if (mapIndex === 0 && getPlayMode() === 'story') showStorySequence(WORLD_ONE_STORY.intro, () => game.start(0));
@@ -11305,11 +11380,19 @@
   function renderSagaTwoPreview(){
     if(!els.sagaTwoGrid)return;
     const p=currentProfile();reconcileCampaignProgress(p,{clearStaleSave:true});
-    els.sagaTwoGrid.innerHTML=SECOND_SAGA_WORLDS.map(w=>{
+    const sagaCompleted=!!p.sagaTwoCompletedAt || (p.completedMaps||[]).includes(20);
+    const completedSagaWorlds=SECOND_SAGA_WORLDS.filter(w=>(p.completedMaps||[]).includes(w.world)).length;
+    if(els.sagaClosureCard)els.sagaClosureCard.classList.toggle('completed',sagaCompleted);
+    if(els.sagaClosureEyebrow)els.sagaClosureEyebrow.textContent=sagaCompleted?'SAGA II COMPLETA':'SAGA II · RUTA ACTIVA';
+    if(els.sagaClosureTitle)els.sagaClosureTitle.textContent=sagaCompleted?'Nexo cerrado · Archivo 11–20':`${completedSagaWorlds}/10 mundos de Saga II superados`;
+    if(els.sagaClosureText)els.sagaClosureText.textContent=sagaCompleted?'Diez mundos, diez Guardianes y sus formas DOMINIO quedan preservados. Una señal sin número permanece clasificada como SAGA III // ORIGEN DESCONOCIDO.':'Desierto · abismo pelágico · magma · estrella moribunda · gusano colosal · cerebros · tundra · biblioteca anime · grises · necroescama.';
+    const cards=SECOND_SAGA_WORLDS.map(w=>{
       const playable=w.world<=MAPS.length,unlocked=playable&&(w.world<=(p.unlockedMap||1)||(p.completedMaps||[]).includes(w.world)),complete=(p.completedMaps||[]).includes(w.world);
-      const status=!playable?'SEÑAL DETECTADA · PRÓXIMAMENTE':(complete?'SUPERADO · REPETIBLE':(unlocked?'SEÑAL ABIERTA · JUGABLE':`BLOQUEADO · SUPERA MUNDO ${w.world-1}`));
-      return `<article class="saga-two-card ${unlocked?'':'locked'}"><span class="future-world-no">MUNDO ${w.world}</span><strong>${w.name}</strong><small>${w.cue}</small><em>${status}</em>${playable?`<button class="${unlocked?'primary-btn':'soft-btn'} small" data-start-saga="${w.world-1}" ${unlocked?'':'disabled'}>${complete?'Repetir desde inicio':'Entrar'}</button>`:''}</article>`;
-    }).join('');
+      const status=!playable?'SEÑAL DETECTADA':(complete?'SUPERADO · REPETIBLE':(unlocked?'SEÑAL ABIERTA · JUGABLE':`BLOQUEADO · SUPERA MUNDO ${w.world-1}`));
+      return `<article class="saga-two-card ${unlocked?'':'locked'} ${complete?'complete':''}"><span class="future-world-no">MUNDO ${w.world}</span><strong>${w.name}</strong><small>${w.cue}</small><em>${status}</em>${playable?`<button class="${unlocked?'primary-btn':'soft-btn'} small" data-start-saga="${w.world-1}" ${unlocked?'':'disabled'}>${complete?'Repetir desde inicio':'Entrar'}</button>`:''}</article>`;
+    });
+    if(sagaCompleted)cards.push(`<article class="saga-two-card saga-three-signal"><span class="future-world-no">SEÑAL SIN NÚMERO</span><strong>SAGA III · ORIGEN DESCONOCIDO</strong><small>AURORA detecta una firma fuera de todas las familias registradas. No existe Mundo 21 abierto en esta versión.</small><em>CLIFFHANGER · NO JUGABLE</em></article>`);
+    els.sagaTwoGrid.innerHTML=cards.join('');
     els.sagaTwoGrid.querySelectorAll('[data-start-saga]').forEach(btn=>btn.addEventListener('click',()=>{const idx=Number(btn.dataset.startSaga);if(!Number.isInteger(idx)||idx<0||idx>=MAPS.length)return;const world=idx+1;if((p.completedMaps||[]).includes(world)){showScreen('screenReplay');return;}startWorldOneWithNarrative(idx);}));
   }
 
@@ -11533,7 +11616,15 @@ ${JSON.stringify(snapshot, null, 2)}`;
     };
     window.addEventListener('resize',syncOrientationLayout,{passive:true});
     window.visualViewport?.addEventListener('resize',syncOrientationLayout,{passive:true});
-    window.addEventListener('orientationchange',()=>{clearTimeout(orientationSyncTimer);orientationSyncTimer=setTimeout(()=>{updateViewportVars();updateGlobalOrientationGate();game?.resize?.();},220);},{passive:true});
+    window.addEventListener('orientationchange',()=>{clearTimeout(orientationSyncTimer);orientationSyncTimer=setTimeout(()=>{updateViewportVars();updateGlobalOrientationGate();game?.resize?.();syncFullscreenHud();},220);},{passive:true});
+    document.addEventListener('fullscreenchange',()=>{updateViewportVars();updateGlobalOrientationGate();game?.resize?.();syncFullscreenHud();});
+    window.addEventListener('popstate',()=>{
+      if(!isGameScreen())return;
+      armGameHistoryTrap();
+      requestLandscapeExperience({userGesture:false,source:'history-back'});
+      if(game?.running && !game.paused && !game.resultMode) game.togglePause(true);
+      syncFullscreenHud();
+    });
     els.btnNewRun?.addEventListener('click', () => {
       const p=currentProfile();reconcileCampaignProgress(p);saveState();
       const target=campaignTargetMap(p);
@@ -11546,6 +11637,8 @@ ${JSON.stringify(snapshot, null, 2)}`;
       renderSavedGamesList();
     });
     els.btnPause.addEventListener('click', () => game.togglePause());
+    els.btnFullscreen?.addEventListener('pointerdown',e=>{if(e.cancelable)e.preventDefault();e.stopPropagation();},{passive:false});
+    els.btnFullscreen?.addEventListener('click',e=>{e.preventDefault();e.stopPropagation();toggleFullscreenExperience();});
     els.btnMusicQuick?.addEventListener('pointerdown',e=>{if(e.cancelable)e.preventDefault();e.stopPropagation();},{passive:false});
     els.btnMusicQuick?.addEventListener('click',e=>{e.preventDefault();e.stopPropagation();setMusicEnabled(!state.settings.music);});
     if(!window.__rizomaAudioUnlockBound){
@@ -11607,6 +11700,7 @@ ${JSON.stringify(snapshot, null, 2)}`;
     els.btnBuyLifeScore?.addEventListener('click',()=>game.buyLife('score'));
     els.btnBuyLifeXp?.addEventListener('click',()=>game.buyLife('xp'));
     els.btnResultContinue.addEventListener('click', () => {
+      requestLandscapeExperience({userGesture:true,source:'result-continue'});
       if(game.resultMode==='training_victory'){
         hideOverlays();game.running=false;game.trainingMode=null;document.body.classList.remove('training-mode');showScreen('screenTraining');
       } else if (game.resultMode === 'replay_victory') {
@@ -11654,8 +11748,8 @@ ${JSON.stringify(snapshot, null, 2)}`;
           game.running=false;AudioFX.stopMusic();showStorySequence(WORLD_EIGHTEEN_OUTRO,()=>showScreen('screenReplay'));
         } else if(game.mapIndex===18&&getPlayMode()==='story'){
           game.running=false;AudioFX.stopMusic();showStorySequence(WORLD_NINETEEN_OUTRO,()=>showScreen('screenReplay'));
-        } else if(game.mapIndex===19&&getPlayMode()==='story'){
-          game.running=false;AudioFX.stopMusic();const p=currentProfile();p.completedMaps=Array.from(new Set([...(p.completedMaps||[]),20]));p.unlockedMap=Math.max(p.unlockedMap||1,20);p.pendingCampaignMap=null;p.lastSave=null;saveState();showStorySequence(WORLD_TWENTY_OUTRO,()=>showScreen('screenReplay'));
+        } else if(game.mapIndex===19){
+          game.running=false;AudioFX.stopMusic();const p=currentProfile();p.completedMaps=Array.from(new Set([...(p.completedMaps||[]),20]));p.unlockedMap=Math.max(p.unlockedMap||1,20);p.pendingCampaignMap=null;p.lastSave=null;p.sagaTwoCompletedAt=p.sagaTwoCompletedAt||new Date().toISOString();p.sagaThreeSignalDetected=true;saveState();showStorySequence(WORLD_TWENTY_OUTRO,()=>showScreen('screenReplay'));
         } else if((game.mapIndex===10||game.mapIndex===11)&&getPlayMode()==='story'){
           game.running=false;AudioFX.stopMusic();showScreen('screenReplay');
         } else showScreen('screenPortal');

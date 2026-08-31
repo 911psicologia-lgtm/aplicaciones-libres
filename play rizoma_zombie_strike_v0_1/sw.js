@@ -1,4 +1,4 @@
-const CACHE_NAME = 'rizoma-zombie-strike-v3-3-1';
+const CACHE_NAME = 'rizoma-zombie-strike-v3-4-0';
 self.addEventListener('install', event => {
   self.skipWaiting();
 });
@@ -9,6 +9,6 @@ self.addEventListener('activate', event => {
       .then(() => self.clients.claim())
   );
 });
-// v3.3.1: el SW se conserva para la experiencia instalable, pero la red sigue siendo la fuente
+// v3.4.0: el SW se conserva para la experiencia instalable, pero la red sigue siendo la fuente
 // principal para evitar que una versión antigua del juego quede congelada en caché.
 self.addEventListener('fetch', () => {});
