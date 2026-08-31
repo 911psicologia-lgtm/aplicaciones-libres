@@ -1,83 +1,53 @@
 <!doctype html>
-<html lang="es">
-<head>
-<meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
-<title>Manual del evaluador — K-BIT Protocolo v0.5</title>
+<html lang="es"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Manual del evaluador - K-BIT Protocolo v0.7</title>
 <style>
-:root{--ink:#1e2a28;--muted:#5b6864;--line:#c7cdbc;--accent:#2f6459;--paper:#eef0e9;--panel:#fff;--warn:#7b5a23;--warnbg:#fff7e6}
-*{box-sizing:border-box}body{margin:0;background:var(--paper);color:var(--ink);font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",system-ui,sans-serif;line-height:1.55}
-main{max-width:900px;margin:0 auto;padding:36px 24px}h1,h2,h3{font-family:Georgia,serif}h1{margin-bottom:4px}h2{margin-top:30px;border-bottom:1px solid var(--line);padding-bottom:6px}
-.card{background:#fff;border:1px solid var(--line);border-radius:10px;padding:18px;margin:14px 0}.warn{background:var(--warnbg);border-left:4px solid #b28b43}.small{font-size:12px;color:var(--muted)}
-ol li,ul li{margin:7px 0}code{background:#f5f6f3;padding:2px 5px;border-radius:4px}
-@media print{body{background:#fff}main{padding:0}.card{border:0;padding:0}}
-a.btn{display:inline-block;padding:9px 13px;border:1px solid #2f6459;border-radius:7px;color:#2f6459;text-decoration:none;font-weight:700;margin:4px 6px 4px 0}
-</style>
-</head>
+:root{--ink:#1e2a28;--muted:#5b6864;--line:#c7cdbc;--accent:#2f6459;--paper:#eef0e9;--warn:#7b5a23;--warnbg:#fff7e6}*{box-sizing:border-box}body{margin:0;background:var(--paper);color:var(--ink);font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",system-ui,sans-serif;line-height:1.58}main{max-width:960px;margin:0 auto;padding:38px 24px}h1,h2,h3{font-family:Georgia,serif}h1{margin-bottom:3px}h2{margin-top:34px;border-bottom:1px solid var(--line);padding-bottom:6px}.card{background:#fff;border:1px solid var(--line);border-radius:10px;padding:18px;margin:14px 0}.warn{background:var(--warnbg);border-left:4px solid #b28b43}.ok{border-left:4px solid var(--accent)}.small{font-size:12px;color:var(--muted)}table{width:100%;border-collapse:collapse;margin:12px 0 20px;background:#fff}th,td{border:1px solid var(--line);padding:7px;text-align:left;font-size:13px}th{background:#e7ece6}ol li,ul li{margin:7px 0}.step{display:grid;grid-template-columns:44px 1fr;gap:12px;align-items:start;margin:16px 0}.n{width:38px;height:38px;border-radius:50%;display:grid;place-items:center;background:var(--accent);color:#fff;font-weight:800}.k{font-weight:800;color:var(--accent)}code{background:#f3f5f1;padding:2px 5px;border-radius:4px}@media print{body{background:#fff}main{padding:0}.card{break-inside:avoid}.no-print{display:none}}</style></head>
 <body><main>
-<h1>Manual del evaluador</h1>
-<p class="small">K-BIT Protocolo Cognitivo v0.5 — guía operativa de la aplicación</p>
+<h1>Manual del evaluador</h1><p class="small">K-BIT Protocolo Cognitivo v0.7 - administración protocolizada del K-BIT clásico, adaptación española</p>
+<div class="card warn"><strong>Control de versión.</strong> Este manual operativo corresponde al K-BIT clásico español, no a KBIT-2 ni KBIT-2 Revised. La aplicación automatiza reglas procedimentales verificadas en el documento de auditoría aportado. Ante cualquier discrepancia, prevalece el manual profesional autorizado asociado al kit.</div>
+<div class="card ok"><strong>Cobertura visual actual.</strong> La aplicación dispone de 45/45 estímulos de Vocabulario expresivo, 37/37 de Definiciones y 48/48 de Matrices. VE-2, VE-3 y DEF-27 utilizan sustitutos generados y aprobados, identificados como tales para trazabilidad; ya no existen huecos visuales en la secuencia.</div>
 
-<div class="card warn"><strong>Alcance.</strong> Este documento explica el uso de la aplicación. No sustituye el manual oficial del instrumento. Las reglas específicas de punto de inicio, retorno, aprendizaje, basal, techo/discontinuación y criterios de aceptación de respuestas verbales deben verificarse y aplicarse conforme al material oficial/licenciado.</div>
+<h2>1. Antes de iniciar una evaluación</h2>
+<div class="step"><div class="n">1</div><div><h3>Abra un caso nuevo</h3><p>Registre los datos reales del evaluado. La aplicación conserva los identificadores localmente y usa un alias separado para cualquier paquete destinado a IA.</p></div></div>
+<div class="step"><div class="n">2</div><div><h3>Verifique las fechas</h3><p>Introduzca fecha de nacimiento y fecha del primer día de aplicación. La app calcula la edad con la regla del manual: cuando hay que pedir prestado, usa 30 días por mes y 12 meses por año. Esta edad determina la ruta de inicio y el baremo.</p></div></div>
+<div class="step"><div class="n">3</div><div><h3>Prepare el entorno</h3><p>Ubique el dispositivo de forma que el evaluado vea cómodamente los estímulos y no pueda ver la clave profesional. Para Definiciones tenga visible el cronómetro de la app. Reduzca distracciones y registre cualquier condición sensorial, lingüística, conductual o ambiental que pueda afectar la comparación con el baremo.</p></div></div>
+<div class="step"><div class="n">4</div><div><h3>Contextualice el motivo</h3><p>Registre motivo, contexto y datos relevantes. Este material alimentará el informe técnico y el contextualizado. Evite identificadores dentro de los campos que luego puedan copiarse a IA.</p></div></div>
 
-<h2>1. Preparación del caso</h2>
-<ol>
-<li>Seleccione <strong>Nueva evaluación</strong>.</li>
-<li>Registre los datos reales del evaluado. Estos permanecen localmente en el navegador.</li>
-<li>Introduzca fecha de nacimiento. La fecha de aplicación se completa con el día actual y puede editarse.</li>
-<li>Verifique la edad cronológica calculada en años, meses y días y el tramo normativo seleccionado automáticamente.</li>
-<li>Revise el alias anonimizado antes de usar cualquier función relacionada con IA.</li>
-</ol>
+<h2>2. Regla central que gobierna toda la aplicación</h2>
+<div class="card"><p><strong>No use reglas de fallos consecutivos.</strong> El K-BIT clásico trabaja por <strong>bloques de 4 o 5 ítems</strong>. El primer bloque administrado decide si se continúa, si se acredita lo anterior o si se retorna. Después, la discontinuación ocurre cuando un bloque completo obtiene 0.</p>
+<table><thead><tr><th>Resultado del primer bloque</th><th>Si inició en ítem 1</th><th>Si inició después de 1</th></tr></thead><tbody><tr><td>2 o más aciertos</td><td>Continuar</td><td>Continuar + acreditar los ítems previos no administrados</td></tr><tr><td>1 acierto</td><td>Continuar</td><td>Retornar al ítem 1</td></tr><tr><td>0 aciertos</td><td>Terminar</td><td>Retornar al ítem 1</td></tr></tbody></table>
+<p>La app realiza esta decisión automáticamente al completar el bloque. No es necesario introducir créditos basales a mano.</p></div>
 
-<h2>2. Contextualización</h2>
-<p>Registre motivo de evaluación, contexto y antecedentes relevantes. La información contextual se utiliza en el informe técnico y en el informe contextualizado. Evite escribir nombres propios, documentos, direcciones o identificadores dentro de campos que luego se copien a IA.</p>
+<h2>3. Vocabulario expresivo - paso a paso</h2>
+<table><thead><tr><th>Edad</th><th>Inicio</th><th>Primer bloque</th></tr></thead><tbody><tr><td>4-5 años</td><td>1</td><td>1-5</td></tr><tr><td>6</td><td>6</td><td>6-10</td></tr><tr><td>7</td><td>11</td><td>11-15</td></tr><tr><td>8</td><td>16</td><td>16-20</td></tr><tr><td>9-10</td><td>21</td><td>21-25</td></tr><tr><td>11-12</td><td>26</td><td>26-30</td></tr><tr><td>13-90</td><td>31</td><td>31-35</td></tr></tbody></table>
+<ol><li>Entre en <strong>Aplicación</strong>. La app muestra el punto de inicio correspondiente a la edad.</li><li>Pulse <strong>Iniciar</strong>. Presente el estímulo del ítem señalado y solicite la respuesta de denominación conforme a las instrucciones estandarizadas de su material.</li><li>Los <strong>dos primeros ítems realmente administrados</strong> son de aprendizaje. Registre la primera respuesta y puntúela; cualquier explicación posterior no transforma un error inicial en acierto.</li><li>Complete todo el bloque. No decida retorno antes de finalizarlo.</li><li>Si la respuesta es vaga puede pedir un nombre más específico sin revelar la solución. Si nombra solo una parte, puede redirigir neutralmente a la figura completa.</li><li>No penalice una pronunciación imperfecta si la palabra es inequívocamente reconocible.</li><li>Al finalizar el bloque, pulse <strong>Siguiente</strong>. La app aplicará la decisión correspondiente: continuar, crédito previo o retorno.</li><li>En adelante complete cada bloque. Un bloque completo de 0 cierra la subprueba automáticamente.</li></ol>
+<p class="small">Vocabulario expresivo no tiene límite específico de tiempo por ítem.</p>
 
-<h2>3. Aplicación de estímulos</h2>
-<ul>
-<li>La app integra las láminas aportadas para Vocabulario expresivo, Definiciones y Matrices.</li>
-<li>Puede utilizar <strong>Modo foco</strong> para ocultar navegación secundaria.</li>
-<li>Puede abrir <strong>Visor limpio</strong> para presentar el estímulo en otra ventana del mismo navegador. La clave profesional nunca se envía al visor.</li>
-<li>Los estímulos ausentes en el material aportado aparecen marcados como faltantes; no se fabricaron sustitutos.</li>
-</ul>
+<h2>4. Definiciones - paso a paso</h2>
+<div class="card warn"><strong>Edad.</strong> Antes de 8 años no se administra. La app la omite automáticamente.</div>
+<table><thead><tr><th>Edad</th><th>Preparación</th><th>Inicio</th></tr></thead><tbody><tr><td>8-14</td><td>Ejemplos A y B</td><td>Ítem 1</td></tr><tr><td>15-90</td><td>Ejemplos A y B</td><td>Ítem 6</td></tr></tbody></table>
+<ol><li>La pantalla de preparación muestra los <strong>ejemplos A y B</strong>. Preséntelos antes de pasar a los ítems puntuables.</li><li>Pulse el botón de inicio únicamente cuando los ejemplos hayan sido presentados.</li><li>Al aparecer cada ítem puntuable, la app inicia automáticamente un <strong>cronómetro de 30 segundos</strong>.</li><li>El cronómetro <strong>no se pausa ni se reinicia</strong> si repite la pista o pide una aclaración.</li><li>Si el evaluado responde claramente antes de los 30 segundos, registre la respuesta, asigne 1/0 y continúe. No es necesario agotar el tiempo.</li><li>Si llega a 30 segundos sin respuesta puntuable, la app registra tiempo agotado y asigna 0.</li><li>Una autocorrección puede aceptarse si ocurre dentro de los 30 segundos y antes de avanzar al siguiente ítem.</li><li>Los dos primeros ítems puntuables administrados son de aprendizaje; cuenta la primera respuesta.</li><li>Complete el bloque y deje que la app aplique continuidad, crédito o retorno.</li><li>Las respuestas se valoran dentro del marco lingüístico de la adaptación española. Una respuesta ambigua puede aclararse de forma neutral; no proporcione pistas que revelen la palabra.</li></ol>
 
-<h2>4. Registro y calificación</h2>
-<h3>Vocabulario expresivo y Definiciones</h3>
-<p>Transcriba la respuesta y califique manualmente 0/1. La aplicación muestra una <strong>clave nominal de trabajo</strong> solo al evaluador. Una coincidencia exacta puede apoyar la decisión, pero una no coincidencia no se convierte automáticamente en error, porque pueden existir respuestas equivalentes, aproximadas o ambiguas que requieran criterios del manual.</p>
-<h3>Matrices</h3>
-<p>Seleccione la alternativa A–H. La app compara la selección con la clave profesional de trabajo y asigna automáticamente 1/0. El evaluador puede revisar el registro y marcar el ítem como no administrado cuando corresponda.</p>
+<h2>5. Matrices - paso a paso</h2>
+<table><thead><tr><th>Edad</th><th>Ejemplo</th><th>Ruta</th></tr></thead><tbody><tr><td>4-5</td><td>A</td><td>Continuar en ítem 1</td></tr><tr><td>6-10</td><td>B</td><td>Continuar en ítem 10</td></tr><tr><td>11-90</td><td>B</td><td>Si B es correcto: ítem 15; si es incorrecto: ítem 10</td></tr></tbody></table>
+<ol><li>La app muestra el ejemplo que corresponde por edad.</li><li>En 11-90 años registre si el ejemplo B fue correcto o incorrecto. Ese dato no suma puntaje; solo selecciona la ruta.</li><li>En el primer ítem puntuable, el evaluado puede señalar o indicar verbalmente la alternativa.</li><li>Pulse A-H en la app. La alternativa se compara con la clave profesional y se asigna 1/0.</li><li>Los dos primeros ítems puntuables administrados después del ejemplo son de aprendizaje; la app conserva la primera selección para puntuar.</li><li>No hay límite específico de tiempo. Puede repetir la instrucción si parece no haber comprendido, sin añadir pistas.</li><li>Complete cada bloque. La app realiza retorno, crédito previo y discontinuación según la misma lógica general.</li></ol>
 
-<h2>5. Revisión antes del cálculo</h2>
-<ul>
-<li>Compruebe ítems pendientes y no administrados.</li>
-<li>Introduzca únicamente los créditos o ajustes basales que procedan según el manual oficial.</li>
-<li>Use el bruto manual final solo cuando necesite documentar una corrección profesional excepcional.</li>
-<li>Registre observaciones globales de la aplicación.</li>
-</ul>
+<h2>6. Qué ocurre cuando la app activa RETORNO</h2>
+<p>Si el punto de inicio era posterior al ítem 1 y el primer bloque produce menos de dos aciertos, la app cambia a estado <strong>RETORNO</strong> y salta al ítem 1. Desde allí:</p><ul><li>administre los bloques en orden;</li><li>si un bloque queda completamente en 0, se termina;</li><li>si el retorno alcanza el bloque inicial y este tenía 1 acierto, la app conserva ese acierto y continúa después del bloque;</li><li>si el bloque inicial tenía 0 aciertos, se detiene al alcanzarlo porque ya cumple discontinuación;</li><li>si la prueba termina antes de alcanzar el punto inicial original, no se acredita el intervalo no administrado.</li></ul>
+<div class="card warn"><strong>Excepción clínica.</strong> El manual contempla cambios de retorno o inicio por juicio profesional en situaciones particulares. La app no los aplica automáticamente. Use <strong>Registrar desviación clínica</strong>, documente la razón y considere el efecto sobre la interpretación.</div>
 
-<h2>6. Resultados</h2>
-<p>La aplicación utiliza las tablas C.1–C.5 incorporadas para convertir puntuaciones directas a típicas, calcular el compuesto, bandas de error, percentiles/categorías/eneatipos y discrepancia verbal–no verbal.</p>
+<h2>7. Cómo manejar respuestas y aclaraciones</h2>
+<ul><li><strong>Respuesta ambigua:</strong> solicite aclaración neutral; puntúe 1 solo cuando quede inequívocamente dentro del criterio.</li><li><strong>Varias respuestas:</strong> si no está claro cuál es definitiva, solicite que el evaluado elija una. Si una última respuesta reemplaza claramente a las anteriores, puntúe esa última.</li><li><strong>Aprendizaje:</strong> la primera respuesta puntuable es la que cuenta, aunque después se explique la tarea.</li><li><strong>Fuera de aprendizaje:</strong> no informe si fue correcto o incorrecto y no ofrezca enseñanza correctiva.</li><li><strong>Vocabulario en otro idioma/dialecto/signos:</strong> puede acreditarse si la respuesta es inequívocamente correcta y el examinador puede verificarla con seguridad; documente el contexto lingüístico.</li><li><strong>Definiciones:</strong> mantenga el español de la adaptación y el límite de 30 s.</li><li><strong>Reaplicación clínica excepcional:</strong> en Vocabulario expresivo y Matrices puede documentar una repetición excepcional mediante el botón correspondiente. La app conserva respuesta y puntaje originales, registra motivo y resultado repetido, y no altera silenciosamente la puntuación; cualquier efecto final debe justificarse en Revisión.</li></ul>
 
-<h2>7. Informes</h2>
-<p>Se generan dos salidas: <strong>informe técnico</strong> e <strong>informe contextualizado</strong>. La función de IA construye un paquete anonimizado y no envía datos automáticamente.</p>
+<h2>8. Revisión y cierre</h2>
+<ol><li>Al terminar las subpruebas, abra <strong>Revisión</strong>.</li><li>Compruebe aciertos, errores, créditos automáticos y reactivos no administrados.</li><li>Revise la tabla de trazabilidad: inicio, primer bloque, retorno, crédito y criterio de cierre.</li><li>Registre observaciones globales e incidencias.</li><li>Use una anulación manual de puntuación solo de manera excepcional y documente el motivo.</li><li>Seleccione el nivel de confianza y pase a Resultados.</li></ol>
 
-<h2>8. Reglas aún no automatizadas</h2>
-<div class="card warn">
-<p><strong>Pendientes hasta disponer de la fuente normativa completa:</strong></p>
-<ul>
-<li>punto de inicio específico por edad;</li>
-<li>regla de retorno;</li>
-<li>regla de aprendizaje/basal;</li>
-<li>bloques exactos y criterio operativo de discontinuación/techo;</li>
-<li>criterios detallados para respuestas verbales parciales, equivalentes o dialectales.</li>
-</ul>
-<p>La arquitectura ya contiene <code>data/application-rules.json</code> como espacio preparado para incorporar estas reglas sin rehacer la app.</p>
-</div>
+<h2>9. Resultados e informes</h2>
+<p>La app transforma las puntuaciones directas con las tablas C.1-C.5, presenta puntuaciones típicas, percentiles, categorías, intervalos de confianza, CI compuesto y diferencia verbal-no verbal. El informe técnico incorpora además la trazabilidad protocolaria. El informe contextualizado usa los mismos datos psicométricos y añade información del caso sin convertir asociaciones en causalidad.</p>
+<p>Desde Informes puede descargar: informe técnico/contextual, protocolo digital, expediente integrado, plantilla original de respuestas y respaldo del caso.</p>
 
+<h2>10. Checklist breve antes de cerrar</h2>
+<ul><li>□ Versión confirmada: K-BIT clásico español.</li><li>□ Edad calculada con fecha del primer día.</li><li>□ Punto de inicio seleccionado automáticamente y verificado.</li><li>□ Ejemplos y aprendizaje administrados donde corresponde.</li><li>□ Primer bloque completo antes de decidir la ruta.</li><li>□ Retorno aplicado si hubo &lt;2 aciertos con inicio posterior a 1.</li><li>□ Discontinuación solo ante bloque completo de 0.</li><li>□ Definiciones: 30 s sin reinicio.</li><li>□ No se sumaron reactivos posteriores al cierre.</li><li>□ Desviaciones clínicas documentadas.</li><li>□ Resultados interpretados junto con contexto y otras fuentes cuando la decisión lo exige.</li></ul>
 
-<h2>9. Documentos y anexos</h2>
-<div class="card"><p>La aplicación incluye la plantilla original de respuestas aportada para conservarla como anexo independiente del expediente.</p><p><a class="btn" href="./plantillas/Plantilla_KBIT_respuestas_original.pdf" download>Descargar plantilla de respuestas</a></p><p class="small">El informe técnico recomienda archivar conjuntamente el informe, la plantilla/protocolo y el respaldo digital de la aplicación.</p></div>
-
-<h2>10. Informes enriquecidos</h2>
-<p>El informe técnico incorpora puntuaciones directas, puntuaciones típicas/CI, bandas de error, intervalos de confianza, percentiles, categorías descriptivas, puntuación z, eneatipo, perfil gráfico y análisis de discrepancia verbal–no verbal. El informe contextualizado conserva ese núcleo técnico y añade antecedentes, datos observados, condiciones asociadas, hipótesis interpretativas y cautelas.</p>
-<h2>11. Trazabilidad profesional</h2>
-<p>La clave incorporada se presenta como <strong>clave de trabajo</strong>, no como sustituto del manual o de la hoja oficial licenciada. Para decisiones clínicas, jurídicas o periciales debe verificarse contra el material oficial de la edición administrada.</p>
+<div class="card small"><strong>Fuente procedimental integrada:</strong> documento de auditoría profesional “K-BIT - Reglas de administración, inicio, retorno, crédito basal operativo, discontinuación y puntuación”, 31-08-2026, limitado al K-BIT clásico español. La aplicación conserva una copia del documento fuente en <code>docs/originales/</code>.</div>
 </main></body></html>

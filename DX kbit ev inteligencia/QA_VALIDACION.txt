@@ -1,29 +1,52 @@
-VALIDACIÓN TÉCNICA — K-BIT v0.6.0
+VALIDACIÓN TÉCNICA — K-BIT v0.7.0 PROTOCOLIZADO
 
 ESTÍMULOS
 - Vocabulario expresivo: 45/45 disponibles.
 - Definiciones: 37/37 disponibles.
 - Matrices: 48/48 disponibles.
-- Sustitutos trazados: VE-2 Tenedor, VE-3 Rana, DEF-27 Conversación.
-- Formato de sustitutos: WebP 1200x900, aprox. 12–18 KB por archivo.
-- Precarga de anterior/siguientes: implementada.
+- Sustitutos implementados y trazados: VE-2 Tenedor, VE-3 Rana, DEF-27 Conversación.
+- Ya no existen reactivos visuales marcados como faltantes en el flujo operativo.
 
-PLANTILLA
-- Plantilla_KBIT_respuestas_original.pdf copiada sin modificación.
-- Integridad verificada por SHA-256 contra el archivo aportado.
+REGLAS DE ADMINISTRACIÓN
+- Puntos de inicio por edad: implementados.
+- Definiciones <8 años: omisión automática.
+- Matrices: bifurcación del ejemplo B para 11–90 años implementada.
+- Decisión por primer bloque: implementada.
+- Retorno cuando start>1 y primer bloque <2 aciertos: implementado.
+- Crédito previo cuando primer bloque >=2 aciertos: implementado.
+- Discontinuación por bloque completo de 0: implementada.
+- Ítems posteriores a discontinuación: excluidos de puntuación.
+- Definiciones: temporizador de 30 segundos por ítem implementado.
+- Ítems de aprendizaje: primera respuesta preservada para puntuación.
 
-INFORMES
-- Tabla de puntuaciones directas: implementada.
-- PT/CI + banda de error + IC + percentil + categoría: implementados.
-- z + eneatipo: implementados.
-- Perfil gráfico con IC: implementado.
-- Comparación verbal/no verbal con p<0,05 y p<0,01: implementada.
-- Informe contextual con núcleo técnico y separación dato/asociación/hipótesis: implementado.
-- Datos del profesional responsable: implementados.
+QA AUTOMATIZADA
+- Edad 5 VE -> inicio 1: PASS.
+- Edad 13 VE -> inicio 31: PASS.
+- Edad 7 Definiciones -> omitida: PASS.
+- Edad 14 Definiciones -> inicio 1: PASS.
+- Edad 15 Definiciones -> inicio 6: PASS.
+- Edad 12 Matrices ejemplo B correcto -> inicio 15: PASS.
+- Edad 12 Matrices ejemplo B incorrecto -> inicio 10: PASS.
+- Start>1 + 2 aciertos -> continuar + crédito previo: PASS.
+- Start>1 + 1 acierto -> retorno: PASS.
+- Start>1 + 0 aciertos -> retorno y terminación correcta: PASS.
+- Start=1 + bloque completo 0 -> terminación: PASS.
+- Definiciones 30 s: PASS.
+- Ítems post-techo ignorados: PASS.
+- Retorno que termina antes del start original -> sin crédito de brecha: PASS.
 
-CÓDIGO
-- app.js: sintaxis validada.
-- reports.js: sintaxis validada.
-- export.js: sintaxis validada.
-- storage.js: sintaxis validada.
-- JSON normativos/manifiestos: lectura validada.
+CÓDIGO Y DATOS
+- Todos los módulos JavaScript: sintaxis validada con node --check.
+- application-rules.json: válido.
+- professional-key.json: válido.
+- stimuli-manifest.json: válido.
+- baremos-kbit.json: válido.
+
+DOCUMENTACIÓN
+- Manual del evaluador HTML: incluido.
+- Manual del evaluador DOCX: incluido.
+- Manual del evaluador PDF: incluido.
+- Plantilla original de respuestas: incluida.
+
+ESTADO
+- Versión lista para publicación estática en Cloudflare Pages.

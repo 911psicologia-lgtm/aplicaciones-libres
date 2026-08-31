@@ -1,5 +1,6 @@
 import { CONTEXT_TYPES } from './config.js';
 import { ageLabel, esc } from './utils.js';
+import { administrationSummary } from './administration.js';
 
 function redactNarrative(caseData, text = '') {
   let out = String(text || '');
@@ -50,13 +51,16 @@ function reportHeader(caseData, result, title, subtitle='') {
 }
 
 function rawBreakdownTable(caseData, result) {
+  const ve=administrationSummary(caseData,'vocabExpresivo');
+  const de=administrationSummary(caseData,'definiciones');
+  const ma=administrationSummary(caseData,'matrices');
   const rows = [
-    ['Vocabulario expresivo', result.raw.exp],
-    ...(result.definitionsActive ? [['Definiciones', result.raw.def]] : []),
-    ['VOCABULARIO — puntuación directa utilizada', result.raw.vocab],
-    ['MATRICES — puntuación directa utilizada', result.raw.matrices],
+    ['Vocabulario expresivo', result.raw.exp, ve?.creditPrior||0],
+    ...(result.definitionsActive ? [['Definiciones', result.raw.def, de?.creditPrior||0]] : []),
+    ['VOCABULARIO - puntuación directa utilizada', result.raw.vocab, (ve?.creditPrior||0)+(de?.creditPrior||0)],
+    ['MATRICES - puntuación directa utilizada', result.raw.matrices, ma?.creditPrior||0],
   ];
-  return `<table class="report-table compact"><thead><tr><th>Subtest / escala</th><th>Puntuación directa</th></tr></thead><tbody>${rows.map(([a,b])=>`<tr><td>${esc(a)}</td><td class="num">${esc(b)}</td></tr>`).join('')}</tbody></table>`;
+  return `<table class="report-table compact"><thead><tr><th>Subtest / escala</th><th>Puntuación directa</th><th>Crédito previo incluido</th></tr></thead><tbody>${rows.map(([a,b,c])=>`<tr><td>${esc(a)}</td><td class="num">${esc(b)}</td><td class="num">${esc(c)}</td></tr>`).join('')}</tbody></table>`;
 }
 
 function standardizedResultsTable(caseData, result) {
@@ -124,6 +128,41 @@ function globalInterpretation(result) {
   return text;
 }
 
+
+function protocolTraceTable(caseData,result){
+  const rows=[['Vocabulario expresivo','vocabExpresivo'],...(result.definitionsActive?[['Definiciones','definiciones']]:[]),['Matrices','matrices']];
+  return `<table class="report-table compact"><thead><tr><th>Subprueba</th><th>Inicio</th><th>Ejemplo</th><th>1.er bloque</th><th>Retorno</th><th>Crédito previo</th><th>Cierre</th></tr></thead><tbody>${rows.map(([label,key])=>{const a=administrationSummary(caseData,key);return `<tr><td>${esc(label)}</td><td>${esc(a?.startItem??'—')}</td><td>${esc(a?.example??'—')}${a?.exampleResult!==null&&a?.exampleResult!==undefined?` (${a.exampleResult?'correcto':'incorrecto'})`:''}</td><td>${esc(a?.initialCorrect??'—')} aciertos</td><td>${a?.returned?'Sí':'No'}</td><td>${esc(a?.creditPrior??0)}</td><td>${esc(a?.terminationReason||'Pendiente')}</td></tr>`}).join('')}</tbody></table>`;
+}
+
+function administrationCautions(caseData,result){
+  const used=[];
+  const checks=[['vocabExpresivo',2,'VE-2 Tenedor'],['vocabExpresivo',3,'VE-3 Rana'],['definiciones',27,'DEF-27 Conversación']];
+  for(const [key,n,label] of checks){const it=caseData.application.items[key]?.[n-1];if(it && (it.score===0||it.score===1)) used.push(label);}
+  const timed=result.protocol?.definiciones?.timedOut||0;
+  const deviations=(caseData.application.protocol?.events||[]).filter(e=>e.type==='deviation'||e.type==='reapplication');
+  const parts=[];
+  if(used.length) parts.push(`Se administraron estímulos sustitutivos aprobados (${used.join(', ')}), no presentes en el escaneo fuente; esta modificación debe considerarse al interpretar comparabilidad estricta con la administración estandarizada.`);
+  if(timed) parts.push(`En Definiciones se registraron ${timed} ítem(s) con agotamiento del límite de 30 s.`);
+  if(deviations.length) parts.push(`Se registraron ${deviations.length} desviación(es) o evento(s) clínico(s) excepcionales en la bitácora.`);
+  return parts.length?parts.join(' '):'No se registraron incidencias metodológicas adicionales en la ruta digital estándar.';
+}
+
+function contextRecommendations(caseData,result){
+  const t=caseData.evaluation.contextType;
+  const base={
+    psicologico:'Integrar el perfil con entrevista clínica, observación, historia de desarrollo/aprendizaje y medidas complementarias si la pregunta clínica requiere mayor precisión.',
+    educativo:'Contrastar el perfil con rendimiento académico, historia escolar, lenguaje, apoyos disponibles y observación del aprendizaje antes de definir ajustes o decisiones pedagógicas.',
+    juridico:'Conservar trazabilidad completa de administración y evitar conclusiones periciales basadas exclusivamente en una medida breve; integrar fuentes independientes y explicar límites de inferencia.',
+    laboral:'Relacionar los resultados únicamente con demandas cognitivas pertinentes del rol y con otras fuentes de evaluación; evitar extrapolaciones globales sobre competencia profesional.',
+    investigacion:'Documentar versión, baremos, condiciones, desviaciones y criterios de exclusión; analizar el K-BIT como variable de estimación breve y no como medida exhaustiva del funcionamiento cognitivo.',
+    salud:'Integrar con antecedentes médicos, funcionalidad, estado sensorial y otras medidas clínicas pertinentes; considerar evaluación más amplia ante discrepancias con el funcionamiento cotidiano.',
+    orientacion:'Usar el perfil como una fuente orientativa entre varias, junto con intereses, trayectoria, desempeño y oportunidades de aprendizaje.',
+    academico:'Interpretar junto con desempeño, hábitos de estudio, contexto lingüístico y condiciones educativas; no convertir el CI compuesto en una predicción determinista.',
+    institucional:'Vincular la interpretación al propósito institucional declarado y a fuentes convergentes, documentando los límites de una prueba breve.'
+  };
+  return base[t]||'Integrar los resultados con las fuentes relevantes para el propósito específico y mantener explícitos los límites de una medida breve.';
+}
+
 function technicalSynthesis(result) {
   if(!result.composite) return 'La información disponible no permite formular una síntesis técnica completa.';
   const c=result.composite;
@@ -169,42 +208,45 @@ export function buildTechnicalReport(caseData, result) {
     </section>
 
     <section><h2>2. Instrumento, alcance y procedimiento</h2>
-      <p>Se administró el K-BIT, instrumento breve que proporciona estimaciones estandarizadas del desempeño verbal mediante Vocabulario, del razonamiento no verbal mediante Matrices y un CI compuesto derivado de ambas puntuaciones. La aplicación fue individual y los reactivos se registraron en la herramienta digital. La edad cronológica determinó automáticamente el tramo normativo y las conversiones se realizaron con las tablas normativas incorporadas.</p>
-      <p><strong>Nivel de confianza utilizado:</strong> ${esc(caseData.scoring.confidence)}%. Los intervalos informados expresan el error de medida asociado a cada puntuación.</p>
+      <p>Se administró el K-BIT clásico, adaptación española, como estimación breve del funcionamiento intelectual verbal y no verbal. La administración digital siguió puntos de inicio por edad, lógica de bloques, retorno, crédito previo, aprendizaje y discontinuación parametrizados para esta versión. Definiciones se administró con límite de 30 segundos por ítem cuando correspondió.</p>
+      <p>La edad cronológica se calculó con la regla operativa del manual (préstamo de 30 días por mes y 12 meses por año) y determinó tanto la ruta de administración como el tramo normativo. <strong>Nivel de confianza utilizado:</strong> ${esc(caseData.scoring.confidence)}%.</p>
     </section>
 
-    <section><h2>3. Observaciones de la aplicación</h2><p>${esc(caseData.application.observations || 'No se registraron observaciones adicionales durante la aplicación.')}</p></section>
+    <section><h2>3. Trazabilidad de la administración</h2>${protocolTraceTable(caseData,result)}<p>${esc(administrationCautions(caseData,result))}</p></section>
 
-    <section><h2>4. Puntuaciones directas</h2>${rawBreakdownTable(caseData,result)}</section>
+    <section><h2>4. Observaciones de la aplicación</h2><p>${esc(caseData.application.observations || 'No se registraron observaciones adicionales durante la aplicación.')}</p></section>
 
-    <section><h2>5. Resultados estandarizados</h2>
+    <section><h2>5. Puntuaciones directas</h2>${rawBreakdownTable(caseData,result)}</section>
+
+    <section><h2>6. Resultados estandarizados</h2>
       ${standardizedResultsTable(caseData,result)}
       <p class="report-note"><strong>Suma de puntuaciones típicas:</strong> ${esc(result.composite?.sum ?? '—')}. La columna “z” expresa la distancia respecto de la media 100 en unidades de 15 puntos.</p>
     </section>
 
-    <section><h2>6. Perfil de puntuaciones</h2>${profileGraph(result)}</section>
+    <section><h2>7. Perfil de puntuaciones</h2>${profileGraph(result)}</section>
 
-    <section><h2>7. Interpretación por áreas</h2>
+    <section><h2>8. Interpretación por áreas</h2>
       <h3>Vocabulario / componente verbal</h3><p>${esc(verbalInterpretation(result))}</p>
       <h3>Matrices / componente no verbal</h3><p>${esc(nonverbalInterpretation(result))}</p>
       <h3>CI compuesto</h3><p>${esc(globalInterpretation(result))}</p>
     </section>
 
-    <section><h2>8. Comparación verbal–no verbal</h2><p>${esc(differenceText(result))}</p></section>
+    <section><h2>9. Comparación verbal–no verbal</h2><p>${esc(differenceText(result))}</p></section>
 
-    <section><h2>9. Síntesis técnica</h2><p>${esc(technicalSynthesis(result))}</p></section>
+    <section><h2>10. Síntesis técnica</h2><p>${esc(technicalSynthesis(result))}</p></section>
 
-    <section><h2>10. Alcances, limitaciones y recomendaciones</h2>
+    <section><h2>11. Alcances, limitaciones y recomendaciones</h2>
       <ul>
         <li>El K-BIT es una estimación breve y no sustituye una evaluación psicológica, neuropsicológica o educativa integral cuando la pregunta exige mayor profundidad.</li>
         <li>Los percentiles describen la posición relativa frente al grupo normativo de edad; no equivalen a porcentaje de respuestas correctas.</li>
         <li>Las diferencias pequeñas deben interpretarse junto con los intervalos de confianza y la significación de la discrepancia entre escalas.</li>
         <li>En decisiones clínicas, educativas, jurídicas o laborales de alto impacto se recomienda integrar entrevistas, observación, historia relevante y otras medidas convergentes.</li>
       </ul>
+      <p><strong>Recomendación ajustada al contexto:</strong> ${esc(contextRecommendations(caseData,result))}</p>
       ${e.relevantData ? `<p><strong>Información contextual relevante registrada:</strong> ${esc(e.relevantData)}</p>` : ''}
     </section>
 
-    <section><h2>11. Anexos documentales</h2>
+    <section><h2>12. Anexos documentales</h2>
       <p>Se recomienda conservar junto con este informe la plantilla/hoja de respuestas, el registro digital de reactivos y las observaciones de aplicación. La aplicación ofrece la descarga de la plantilla original como documento separado para archivo del expediente.</p>
     </section>
 
@@ -230,11 +272,11 @@ export function buildLocalContextualReport(caseData, result) {
     ${reportHeader(caseData,result,'Informe contextualizado K-BIT','Integración de resultados, antecedentes y condiciones de evaluación')}
     <section><h2>1. Propósito y marco de lectura</h2><p>La presente integración se formula para el contexto <strong>${esc(ctx)}</strong>. Mantiene separados los resultados observados, las condiciones asociadas descritas en el caso y las hipótesis interpretativas. El K-BIT, por su carácter breve, no permite atribuir causalidad ni fundamentar por sí solo decisiones definitivas.</p></section>
     <section><h2>2. Núcleo técnico del resultado</h2>${standardizedResultsTable(caseData,result)}${profileGraph(result)}</section>
-    <section><h2>3. Datos observados</h2><ul>${observed.map(x=>`<li>${esc(x)}</li>`).join('')}</ul><p><strong>Condiciones de aplicación registradas:</strong> ${esc(caseData.application.observations || 'Sin observaciones adicionales.')}</p></section>
+    <section><h2>3. Datos observados</h2><ul>${observed.map(x=>`<li>${esc(x)}</li>`).join('')}</ul><p><strong>Condiciones de aplicación registradas:</strong> ${esc(caseData.application.observations || 'Sin observaciones adicionales.')}</p><p><strong>Trazabilidad:</strong> ${esc(administrationCautions(caseData,result))}</p></section>
     <section><h2>4. Información contextual aportada</h2><p>${esc(e.relevantData || 'No se aportó información contextual adicional.')}</p>${e.contextDetails?`<p>${esc(e.contextDetails)}</p>`:''}</section>
     <section><h2>5. Integración contextual</h2><p>${esc(contextualIntegration(caseData,result))}</p><p>${esc(contextImplication(caseData,result))}</p></section>
     <section><h2>6. Hipótesis interpretativas y alternativas</h2><p>${esc(hypothesisText(caseData,result))}</p></section>
-    <section><h2>7. Recomendaciones de integración</h2><p>Las hipótesis anteriores deben contrastarse con entrevistas, observación, historia relevante y otras medidas pertinentes al propósito de la evaluación. Cualquier divergencia entre el resultado cognitivo breve y el funcionamiento cotidiano merece exploración adicional antes de formular conclusiones.</p></section>
+    <section><h2>7. Recomendaciones de integración</h2><p>${esc(contextRecommendations(caseData,result))}</p><p>Las hipótesis anteriores deben contrastarse con entrevistas, observación, historia relevante y otras medidas pertinentes al propósito de la evaluación. Cualquier divergencia entre el resultado cognitivo breve y el funcionamiento cotidiano merece exploración adicional antes de formular conclusiones.</p></section>
     <section><h2>8. Cautelas</h2><p>No se infiere causalidad a partir de asociaciones contextuales. Las puntuaciones describen el rendimiento bajo las condiciones de esta aplicación y no agotan las capacidades, recursos, dificultades ni posibilidades futuras de la persona evaluada.</p></section>
   </article>`;
 }
@@ -268,6 +310,12 @@ export function buildAnonymousAIPayload(caseData,result){
     datos_relevantes:redactNarrative(caseData,caseData.evaluation.relevantData),
     contexto_adicional:redactNarrative(caseData,caseData.evaluation.contextDetails),
     observaciones_aplicacion:redactNarrative(caseData,caseData.application.observations),
+    trazabilidad_administracion:{
+      vocabulario_expresivo:administrationSummary(caseData,'vocabExpresivo'),
+      definiciones:result.definitionsActive?administrationSummary(caseData,'definiciones'):null,
+      matrices:administrationSummary(caseData,'matrices'),
+      incidencias:administrationCautions(caseData,result)
+    },
     resultados:{
       verbal:result.verbal?{bruto:result.raw.vocab,tipico:result.verbal.pt,percentil:result.verbal.percentile,categoria:result.verbal.category,ic:result.verbal.ic}:null,
       no_verbal:result.nonverbal?{bruto:result.raw.matrices,tipico:result.nonverbal.pt,percentil:result.nonverbal.percentile,categoria:result.nonverbal.category,ic:result.nonverbal.ic}:null,
@@ -279,7 +327,8 @@ export function buildAnonymousAIPayload(caseData,result){
 
 export function buildAIPrompt(caseData,result){
   const payload=buildAnonymousAIPayload(caseData,result);
-  return `Actúa como asistente de redacción para un profesional de psicología. Redacta un BORRADOR DE INFORME CONTEXTUALIZADO K-BIT a partir exclusivamente de los datos anonimizados proporcionados.\n\nREGLAS OBLIGATORIAS:\n- Conserva un núcleo técnico explícito: PT/CI, percentiles, categorías, intervalos y discrepancia verbal-no verbal.\n- Distingue en apartados separados: DATOS OBSERVADOS, CONDICIONES ASOCIADAS e HIPÓTESIS INTERPRETATIVAS.\n- No atribuyas causalidad. No conviertas asociación en explicación.\n- No emitas diagnósticos categóricos ni decisiones clínicas, jurídicas, educativas o laborales definitivas.\n- No inventes síntomas, antecedentes, conductas, datos normativos ni resultados.\n- Explica el alcance de una prueba breve y propone integración con otras fuentes cuando sea pertinente.\n- No reconstruyas identidad, nombres, documentos, instituciones específicas ni fecha exacta de nacimiento.\n- El texto será revisado, editado y validado por el profesional responsable.\n\nESTRUCTURA:\n1. Propósito y contexto.\n2. Síntesis técnica del perfil.\n3. Datos observados.\n4. Condiciones contextuales asociadas.\n5. Hipótesis interpretativas y alternativas plausibles.\n6. Implicaciones prudentes para el contexto de evaluación.\n7. Alcances, limitaciones y recomendaciones de integración.\n\nDATOS ANONIMIZADOS:\n${JSON.stringify(payload,null,2)}`;
+  return `Actúa como asistente de redacción para un profesional de psicología. Redacta un BORRADOR DE INFORME CONTEXTUALIZADO K-BIT a partir exclusivamente de los datos anonimizados proporcionados.\n\nREGLAS OBLIGATORIAS:\n- Conserva un núcleo técnico explícito: PT/CI, percentiles, categorías, intervalos y discrepancia verbal-no verbal.
+- Integra la trazabilidad de administración (inicio, retorno, crédito previo, cierre, tiempo e incidencias) cuando sea relevante para la validez de la lectura.\n- Distingue en apartados separados: DATOS OBSERVADOS, CONDICIONES ASOCIADAS e HIPÓTESIS INTERPRETATIVAS.\n- No atribuyas causalidad. No conviertas asociación en explicación.\n- No emitas diagnósticos categóricos ni decisiones clínicas, jurídicas, educativas o laborales definitivas.\n- No inventes síntomas, antecedentes, conductas, datos normativos ni resultados.\n- Explica el alcance de una prueba breve y propone integración con otras fuentes cuando sea pertinente.\n- No reconstruyas identidad, nombres, documentos, instituciones específicas ni fecha exacta de nacimiento.\n- El texto será revisado, editado y validado por el profesional responsable.\n\nESTRUCTURA:\n1. Propósito y contexto.\n2. Síntesis técnica del perfil.\n3. Datos observados.\n4. Condiciones contextuales asociadas.\n5. Hipótesis interpretativas y alternativas plausibles.\n6. Implicaciones prudentes para el contexto de evaluación.\n7. Alcances, limitaciones y recomendaciones de integración.\n\nDATOS ANONIMIZADOS:\n${JSON.stringify(payload,null,2)}`;
 }
 
 export function contextualReportWithAI(caseData,result){

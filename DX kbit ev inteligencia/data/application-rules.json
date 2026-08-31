@@ -1,30 +1,75 @@
 {
   "meta": {
-    "version": "0.1",
-    "status": "pending_official_manual",
-    "sourceSupport": [
-      "Existe un punto de inicio por edad.",
-      "La corrección es dicotómica 1/0 y la puntuación directa es la suma de aciertos.",
-      "Las reglas de inicio, retorno, aprendizaje, techo/discontinuación y créditos basales requieren el manual oficial."
-    ],
-    "operationalization": "disabled"
+    "version": "2.0.0",
+    "status": "operational_verified",
+    "instrument": "K-BIT clásico, adaptación española, 2.ª ed. (2000)",
+    "source": "KBIT_reglas_administracion_auditoria_antialucinacion(1).docx",
+    "warning": "No mezclar estas reglas con KBIT-2 o KBIT-2 Revised. Ante discrepancia prevalece el manual autorizado asociado al kit.",
+    "principles": {
+      "initialBlockSufficientCorrect": 2,
+      "returnItem": 1,
+      "discontinue": "all_zero_block",
+      "itemScoring": "dichotomous_1_0",
+      "learningScore": "first_response_only"
+    }
   },
   "vocabExpresivo": {
-    "startByAge": null,
-    "returnRule": null,
-    "discontinueRule": null,
-    "basalRule": null
+    "minAgeYears": 4,
+    "maxAgeYears": 90,
+    "timeLimitSeconds": null,
+    "learningCount": 2,
+    "blocks": [[1,5],[6,10],[11,15],[16,20],[21,25],[26,30],[31,35],[36,40],[41,45]],
+    "startByAge": [
+      {"minYears":4,"maxYears":5,"startItem":1},
+      {"minYears":6,"maxYears":6,"startItem":6},
+      {"minYears":7,"maxYears":7,"startItem":11},
+      {"minYears":8,"maxYears":8,"startItem":16},
+      {"minYears":9,"maxYears":10,"startItem":21},
+      {"minYears":11,"maxYears":12,"startItem":26},
+      {"minYears":13,"maxYears":90,"startItem":31}
+    ],
+    "examples": [],
+    "responseRules": [
+      "No penalizar pronunciación imperfecta si la palabra es inequívocamente reconocible.",
+      "Ante respuesta vaga puede pedirse un nombre más específico sin revelar la solución.",
+      "Si nombra una parte del objeto, puede redirigirse neutralmente a nombrar la figura completa.",
+      "Puede acreditarse una respuesta inequívocamente correcta en otro idioma, dialecto o lengua de signos si el examinador puede verificarla con seguridad."
+    ]
   },
   "definiciones": {
-    "startByAge": null,
-    "returnRule": null,
-    "discontinueRule": null,
-    "basalRule": null
+    "minAgeYears": 8,
+    "maxAgeYears": 90,
+    "timeLimitSeconds": 30,
+    "learningCount": 2,
+    "blocks": [[1,5],[6,10],[11,15],[16,20],[21,25],[26,29],[30,33],[34,37]],
+    "startByAge": [
+      {"minYears":8,"maxYears":14,"startItem":1},
+      {"minYears":15,"maxYears":90,"startItem":6}
+    ],
+    "examples": ["A","B"],
+    "responseRules": [
+      "La tarea se administra en español en esta adaptación.",
+      "Una autocorrección puede aceptarse si ocurre dentro de los 30 s y antes de pasar al siguiente ítem.",
+      "Una respuesta posterior a 30 s recibe 0.",
+      "Repetir la pista o pedir aclaración no reinicia ni pausa el cronómetro.",
+      "Ante respuesta ambigua solicitar aclaración neutral; solo puntuar 1 si queda inequívocamente correcta."
+    ]
   },
   "matrices": {
-    "startByAge": null,
-    "returnRule": null,
-    "discontinueRule": null,
-    "basalRule": null
+    "minAgeYears": 4,
+    "maxAgeYears": 90,
+    "timeLimitSeconds": null,
+    "learningCount": 2,
+    "blocks": [[1,4],[5,9],[10,14],[15,19],[20,24],[25,29],[30,34],[35,39],[40,44],[45,48]],
+    "routes": [
+      {"minYears":4,"maxYears":5,"example":"A","startItem":1},
+      {"minYears":6,"maxYears":10,"example":"B","startItem":10},
+      {"minYears":11,"maxYears":90,"example":"B","startByExample":{"correct":15,"incorrect":10}}
+    ],
+    "responseRules": [
+      "Registrar la alternativa elegida, indicada verbalmente o señalada.",
+      "Las instrucciones pueden repetirse si no responde o no comprendió, sin añadir pistas.",
+      "Fuera de los ítems de aprendizaje no indicar si una respuesta fue correcta o incorrecta."
+    ]
   }
 }

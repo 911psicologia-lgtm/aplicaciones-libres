@@ -1,8 +1,8 @@
 {
   "meta": {
-    "version": "1.1.0",
+    "version": "1.2.0",
     "sourceZip": "7b8107fe-8c31-4def-857b-7d4e30318ef3.zip",
-    "description": "Estímulos visuales optimizados para tablet integrados a la app K-BIT.",
+    "description": "Cobertura visual completa para la app; tres estímulos sustitutivos aprobados se mantienen trazados por procedencia.",
     "summary": {
       "vocabExpresivo": {
         "available": 45,
@@ -59,8 +59,8 @@
           "item": 2,
           "status": "available",
           "label": "Vocabulario expresivo · Ítem 2",
-          "note": "Estímulo sustitutivo generado y aprobado para completar un reactivo ausente del PDF fuente escaneado.",
-          "path": "./assets/stimuli/SUSTITUTOS_GENERADOS/VE_item_02_sustituto.webp?v=060",
+          "note": "Estímulo sustitutivo generado, aprobado e implementado. El original estaba ausente del escaneo fuente; la app conserva trazabilidad metodológica.",
+          "path": "./assets/stimuli/SUSTITUTOS_GENERADOS/VE_item_02_sustituto.webp?v=070",
           "substitute": true,
           "provenance": "generated-replacement-approved-by-user"
         },
@@ -68,8 +68,8 @@
           "item": 3,
           "status": "available",
           "label": "Vocabulario expresivo · Ítem 3",
-          "note": "Estímulo sustitutivo generado y aprobado para completar un reactivo ausente del PDF fuente escaneado.",
-          "path": "./assets/stimuli/SUSTITUTOS_GENERADOS/VE_item_03_sustituto.webp?v=060",
+          "note": "Estímulo sustitutivo generado, aprobado e implementado. El original estaba ausente del escaneo fuente; la app conserva trazabilidad metodológica.",
+          "path": "./assets/stimuli/SUSTITUTOS_GENERADOS/VE_item_03_sustituto.webp?v=070",
           "substitute": true,
           "provenance": "generated-replacement-approved-by-user"
         },
@@ -518,8 +518,8 @@
           "item": 27,
           "status": "available",
           "label": "Definiciones · Ítem 27",
-          "note": "Estímulo sustitutivo generado y aprobado para completar un reactivo ausente del PDF fuente escaneado.",
-          "path": "./assets/stimuli/SUSTITUTOS_GENERADOS/DEF_item_27_sustituto.webp?v=060",
+          "note": "Estímulo sustitutivo generado, aprobado e implementado. El original estaba ausente del escaneo fuente; la app conserva trazabilidad metodológica.",
+          "path": "./assets/stimuli/SUSTITUTOS_GENERADOS/DEF_item_27_sustituto.webp?v=070",
           "substitute": true,
           "provenance": "generated-replacement-approved-by-user"
         },

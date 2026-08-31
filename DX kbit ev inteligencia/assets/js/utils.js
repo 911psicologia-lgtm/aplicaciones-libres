@@ -31,32 +31,16 @@ export function calculateChronologicalAge(birthISO, applicationISO) {
   const birthStamp = Date.UTC(b.y, b.m - 1, b.d);
   if (appStamp < birthStamp) return null;
 
-  const shiftMonths = (base, monthsToAdd) => {
-    const total = base.y * 12 + (base.m - 1) + monthsToAdd;
-    const y = Math.floor(total / 12);
-    const m0 = ((total % 12) + 12) % 12;
-    const m = m0 + 1;
-    const d = Math.min(base.d, daysInMonth(y, m));
-    return { y, m, d };
-  };
-  const stamp = (x) => Date.UTC(x.y, x.m - 1, x.d);
-
-  let years = a.y - b.y;
-  let yearBase = shiftMonths(b, years * 12);
-  if (stamp(yearBase) > appStamp) {
-    years -= 1;
-    yearBase = shiftMonths(b, years * 12);
-  }
-
-  let months = 0;
-  while (months < 11) {
-    const candidate = shiftMonths(yearBase, months + 1);
-    if (stamp(candidate) <= appStamp) months += 1;
-    else break;
-  }
-  const monthBase = shiftMonths(yearBase, months);
-  const days = Math.floor((appStamp - stamp(monthBase)) / 86400000);
-  return { years, months, days, totalMonths: years * 12 + months };
+  // Regla operativa del manual K-BIT clásico: en la resta cronológica,
+  // cuando hay que pedir prestado se trabaja con 30 días por mes y 12 meses por año.
+  let ay=a.y, am=a.m, ad=a.d;
+  if (ad < b.d) { ad += 30; am -= 1; }
+  if (am < b.m) { am += 12; ay -= 1; }
+  const years = ay - b.y;
+  const months = am - b.m;
+  const days = ad - b.d;
+  if (years < 0 || months < 0 || days < 0) return null;
+  return { years, months, days, totalMonths: years * 12 + months, method: 'K-BIT: resta con préstamo 30 días/12 meses' };
 }
 
 export function ageLabel(age) {
