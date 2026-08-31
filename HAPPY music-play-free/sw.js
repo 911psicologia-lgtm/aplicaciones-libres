@@ -1,4 +1,4 @@
-const CACHE = 'mpf-minimal-r4-universal';
+const CACHE = 'mpf-minimal-r5-youtube-playlists';
 const ASSETS = [
   './',
   './index.html',

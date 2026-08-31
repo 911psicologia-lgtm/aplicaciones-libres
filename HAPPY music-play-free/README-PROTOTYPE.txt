@@ -1,27 +1,49 @@
-MUSIC PLAY · HAPPY — r4 UNIVERSAL PROTOTYPE
+MUSIC PLAY · HAPPY — R5 YOUTUBE PLAYLISTS + MOBILE COMPACT
 
-OBJETIVO
-Mantener la interfaz minimalista y añadir una capa híbrida de fuentes.
+CORRECCIÓN PRINCIPAL
+La R4 intentaba obtener los videos de una playlist usando un único sondeo del IFrame.
+R5 implementa una estrategia doble:
+1) helper same-origin opcional: ./api/youtube-playlist?list=...
+2) fallback puro navegador con YouTube IFrame API: cuePlaylist() + getPlaylist(),
+   escuchando estado CUED y haciendo varios sondeos antes de declarar fallo.
 
-IMPLEMENTADO EN ESTE PROTOTIPO
-- Archivos y carpetas locales.
-- Audio y video local aceptado por extensión/tipo.
-- Enlace universal con detección automática.
-- YouTube: video individual como referencia reproducible con IFrame API.
-- YouTube: playlists; intenta leer IDs con IFrame API e importarlos como playlist propia. Si YouTube no expone los elementos, guarda la playlist como fuente enlazada reproducible.
-- SoundCloud: referencia y reproducción mediante Widget oficial.
-- URLs directas de audio/video: reproducir por enlace y descargar/importar cuando el servidor permita CORS.
-- Spotify y Apple Music: detección y guardado como referencia; no extracción ni reproducción integrada en esta fase.
-- Cola, Mix y playlists híbridas para fuentes ya reproducibles.
-- PWA y caché local de la app.
-- WMA/WMV/AVI/MKV/MOV/3GP aceptados en el importador. Si el navegador no los decodifica, se conservan pero el conversor WASM queda para la siguiente fase.
+YOUTUBE MUSIC
+Los enlaces music.youtube.com/playlist?... se normalizan a una playlist YouTube estándar
+internamente, conservando el enlace original. Esto permite que el usuario pegue directamente
+la URL de YouTube Music sin transformarla a mano.
 
-PRUEBAS LOCALES REALIZADAS
-- Inicio de app sin errores JS.
-- Importación de MP3 con metadatos.
-- Reproducción local real y avance de tiempo.
-- Creación de playlists.
-- Detección de URL directa, YouTube video, YouTube playlist, SoundCloud, Spotify y Apple Music.
+PLAYLISTS DE PRUEBA INCLUIDAS
+1) PLW4RwQaj-mTI
+2) PLkFMTdwrLz-QR3GTfoYApADfo_u0a6yjc
+3) PLbeLb9mBGU24
 
-NOTA
-Las integraciones YouTube/SoundCloud necesitan despliegue HTTPS y conexión a Internet para la prueba end-to-end contra sus reproductores oficiales.
+Dentro de Cargar → Enlace existe un panel mínimo “3 playlists de prueba”.
+Los botones 1/2/3 precargan cada URL y “Probar 3” ejecuta diagnóstico secuencial.
+
+SI YOUTUBE NO ENTREGA LOS ELEMENTOS
+La playlist no se pierde: MUSIC PLAY la guarda como lista enlazada, permite reproducirla
+mediante YouTube y muestra “↻ Importar” para reintentar la enumeración en otro momento.
+
+MÓVIL
+- Home comprimido para caber en una pantalla.
+- Hero horizontal compacto.
+- Cargar / Play / Playlist / Mix en cuadrícula 2×2 incluso en teléfonos estrechos.
+- Acciones rápidas en chips pequeños: Archivo, Carpeta, Enlace, Música, + Lista.
+- Resumen inferior compacto.
+- Biblioteca, búsqueda, reproductor y hojas modales también reducidos.
+
+PRUEBAS INTERNAS REALIZADAS
+- Sintaxis app.js: OK.
+- Sintaxis helper Cloudflare: OK.
+- Viewport de prueba: 390×844.
+- Home completo termina en y=463 px; no requiere scroll para las acciones iniciales.
+- Cuadrícula móvil verificada: 2 columnas.
+- Las 3 URLs suministradas se reconocen como youtube-playlist.
+- Simulación controlada de YouTube IFrame: las 3 listas devolvieron IDs correctamente.
+- Importación secuencial simulada de las 3 listas: 3 playlists propias creadas.
+- Errores JavaScript durante prueba: 0.
+
+LIMITACIÓN DE LA PRUEBA INTERNA
+El entorno de construcción no tiene salida directa a youtube.com, por lo que la prueba contra
+YouTube real debe hacerse una vez publicada por HTTPS. Para facilitarla, el diagnóstico de las
+3 listas quedó integrado dentro de la propia aplicación.

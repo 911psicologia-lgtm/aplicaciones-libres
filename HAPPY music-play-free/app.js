@@ -1,12 +1,17 @@
 (() => {
 'use strict';
 
-const BUILD = '2026.08.31-r4-universal-prototype';
+const BUILD = '2026.08.31-r5-youtube-playlists-mobile';
 const DB_NAME = 'mpf-minimal-db';
 const DB_VERSION = 2;
 const PLAYABLE_SOURCES = new Set(['local','direct','youtube','soundcloud','youtube-playlist']);
 const MEDIA_EXT = new Set(['mp3','m4a','aac','wav','ogg','oga','opus','flac','webm','mp4','m4v','mov','3gp','wma','wmv','avi','mkv']);
 const VIDEO_EXT = new Set(['mp4','m4v','mov','3gp','webm','wmv','avi','mkv']);
+const TEST_PLAYLISTS = [
+  {label:'Prueba 1', url:'https://music.youtube.com/playlist?list=PLW4RwQaj-mTI&si=l26Th21Desx8XOty'},
+  {label:'Prueba 2', url:'https://music.youtube.com/playlist?list=PLkFMTdwrLz-QR3GTfoYApADfo_u0a6yjc&si=3vT1gyOGPzA-nYZY'},
+  {label:'Prueba 3', url:'https://music.youtube.com/playlist?list=PLbeLb9mBGU24&si=c47-iJJYVcKiz94e'}
+];
 const $ = (s, root=document) => root.querySelector(s);
 const $$ = (s, root=document) => Array.from(root.querySelectorAll(s));
 const sleep = ms => new Promise(r => setTimeout(r, ms));
@@ -153,7 +158,7 @@ function renderLibrary(){renderGenres();const list=getFilteredTracks();els.libra
 function renderPlaylists(){
   els.playlistTabs.innerHTML='';state.playlists.forEach(pl=>{const b=document.createElement('button');b.className=`chip${pl.id===state.activePlaylistId?' active':''}`;b.textContent=pl.name;b.onclick=()=>{state.activePlaylistId=pl.id;persistPrefs();renderPlaylists();};els.playlistTabs.appendChild(b);});
   const pl=getActivePlaylist(),tracks=getPlaylistTracks(pl);els.playlistList.innerHTML='';
-  if(pl?.externalRef&&tracks.length===0){const c=document.createElement('div');c.className='external-playlist-card';c.innerHTML=`<strong>${safeText(pl.name)}</strong><span>Playlist enlazada · ${safeText(pl.externalRef.source||'externa')}</span><button class="micro-btn" data-play-external>▶ Reproducir fuente</button>`;$('[data-play-external]',c).onclick=()=>playExternalPlaylist(pl);els.playlistList.appendChild(c);}
+  if(pl?.externalRef&&tracks.length===0){const c=document.createElement('div');c.className='external-playlist-card';const diag=pl.importDiagnostic?.message?`<span>${safeText(pl.importDiagnostic.message)}</span>`:'';c.innerHTML=`<strong>${safeText(pl.name)}</strong><span>Playlist enlazada · ${safeText(pl.externalRef.source||'externa')}</span>${diag}<div class="external-actions"><button class="micro-btn" data-play-external>▶ Play</button>${pl.externalRef.source==='YouTube'?'<button class="micro-btn" data-retry-external>↻ Importar</button>':''}</div>`;$('[data-play-external]',c).onclick=()=>playExternalPlaylist(pl);const retry=$('[data-retry-external]',c);if(retry)retry.onclick=()=>retryPlaylistImport(pl);els.playlistList.appendChild(c);}
   tracks.forEach(t=>els.playlistList.appendChild(makeTrackRow(t,{fromPlaylist:true})));const empty=tracks.length===0&&!pl?.externalRef;els.playlistEmpty.classList.toggle('is-hidden',!empty);els.playlistList.classList.toggle('is-hidden',empty);
 }
 function renderPlayer(){const t=getCurrentTrack();els.miniPlayer.classList.toggle('is-hidden',!t);if(!t)return;els.miniTitle.textContent=t.title;els.miniArtist.textContent=t.artist||sourceLabel(t);els.fullTitle.textContent=t.title;els.fullArtist.textContent=[t.artist,t.album,sourceLabel(t)].filter(Boolean).join(' · ');els.favoriteBtn.textContent=t.favorite?'♥':'♡';els.favoriteBtn.classList.toggle('active',t.favorite);const g=state.playing?'⏸':'▶';els.playBtn.textContent=g;els.fullPlayBtn.textContent=g;els.shuffleBtn.classList.toggle('active',state.shuffle);els.volumeRange.value=String(state.volume);updateProgress();}
@@ -178,7 +183,7 @@ async function playYouTube(track){
   try{await loadYouTubeApi();}catch{toast('No se pudo cargar el reproductor de YouTube');return false;}
   try{els.audio.pause();}catch{}clearRemoteStage();state.currentEngine='youtube';els.remoteDock.classList.remove('is-hidden');els.remoteLabel.textContent=track.sourceKind==='youtube-playlist'?'YOUTUBE · PLAYLIST':'YOUTUBE';els.remoteStage.innerHTML='<div id="ytMainPlayer"></div>';
   return new Promise(resolve=>{
-    ytPlayer=new YT.Player('ytMainPlayer',{width:'100%',height:'100%',videoId:track.sourceKind==='youtube'?track.remoteId:undefined,playerVars:track.sourceKind==='youtube-playlist'?{autoplay:1,listType:'playlist',list:track.remoteId,playsinline:1}:{autoplay:1,playsinline:1},events:{onReady:async e=>{try{e.target.setVolume(Math.round(state.volume*100));if(track.sourceKind==='youtube')e.target.playVideo();else e.target.playVideo();}catch{}state.playing=true;startProgressTimer();renderPlayer();if(track.sourceKind==='youtube'&&/^YouTube ·/.test(track.title)){const data=e.target.getVideoData?.()||{};if(data.title){track.title=data.title;track.artist=data.author||'YouTube';await saveRemoteTrack(track);render();}}resolve(true);},onStateChange:e=>{if(e.data===YT.PlayerState.PLAYING){state.playing=true;renderPlayer();}else if(e.data===YT.PlayerState.PAUSED){state.playing=false;renderPlayer();}else if(e.data===YT.PlayerState.ENDED){state.playing=false;renderPlayer();nextTrack();}},onError:()=>{toast('YouTube no permitió reproducir este elemento');resolve(false);}}});
+    ytPlayer=new YT.Player('ytMainPlayer',{width:'100%',height:'100%',videoId:track.sourceKind==='youtube'?track.remoteId:undefined,playerVars:{autoplay:0,playsinline:1,controls:1,rel:0},events:{onReady:async e=>{try{e.target.setVolume(Math.round(state.volume*100));if(track.sourceKind==='youtube-playlist')e.target.loadPlaylist({listType:'playlist',list:track.remoteId,index:0,startSeconds:0});else e.target.playVideo();}catch(err){console.debug('youtube play',err);}state.playing=true;startProgressTimer();renderPlayer();if(track.sourceKind==='youtube'&&/^YouTube ·/.test(track.title)){const data=e.target.getVideoData?.()||{};if(data.title){track.title=data.title;track.artist=data.author||'YouTube';await saveRemoteTrack(track);render();}}resolve(true);},onStateChange:e=>{if(e.data===YT.PlayerState.PLAYING){state.playing=true;renderPlayer();}else if(e.data===YT.PlayerState.PAUSED||e.data===YT.PlayerState.CUED){state.playing=false;renderPlayer();}else if(e.data===YT.PlayerState.ENDED){state.playing=false;renderPlayer();nextTrack();}},onError:e=>{console.debug('youtube player error',e.data);toast('YouTube no permitió reproducir este elemento');resolve(false);}}});
   });
 }
 function loadSoundCloudApi(){if(window.SC?.Widget)return Promise.resolve(window.SC);if(scApiPromise)return scApiPromise;scApiPromise=loadScript('https://w.soundcloud.com/player/api.js','soundcloud-widget-api').then(()=>window.SC);return scApiPromise;}
@@ -212,26 +217,49 @@ function openTrackSheet(track,options={}){const pls=state.playlists.map(pl=>`<bu
 function openCreatePlaylistSheet(preselect=null){openSheet(`<h2 class="sheet-title">Nueva playlist</h2><p class="sheet-copy">Una lista propia, aunque mezcle archivos y enlaces.</p><input id="playlistNameInput" class="sheet-input" maxlength="60" placeholder="Ej: Rock, Estudio, Viaje"/><div class="sheet-stack"><button class="sheet-btn" data-save>Guardar playlist<small>Se queda en este dispositivo</small></button></div>`,root=>{const input=$('#playlistNameInput',root);input.focus();$('[data-save]',root).onclick=async()=>{const pl=await createPlaylist(input.value);if(!pl)return toast('Escribe un nombre');if(preselect)await addTrackToPlaylist(preselect,pl.id);closeDialog(els.sheetDialog);showView('playlist');};});}
 function openInstallSheet(){const ios=/iphone|ipad|ipod/i.test(navigator.userAgent);if(state.installPrompt){state.installPrompt.prompt();state.installPrompt.userChoice.finally(()=>{state.installPrompt=null;els.installBtn.classList.add('is-hidden');});return;}openSheet(`<h2 class="sheet-title">Instalar MUSIC PLAY</h2><p class="sheet-copy">${ios?'En iPhone/iPad: Compartir → Añadir a pantalla de inicio.':'Abre el menú del navegador y elige Instalar aplicación o Añadir a pantalla de inicio.'}</p><button class="sheet-btn" data-close>Entendido</button>`,root=>$('[data-close]',root).onclick=()=>closeDialog(els.sheetDialog));}
 
+function canonicalYouTubePlaylistUrl(playlistId){return `https://www.youtube.com/playlist?list=${encodeURIComponent(playlistId||'')}`;}
 function analyzeLink(raw){
-  let u;try{u=new URL(raw.trim());}catch{return{kind:'invalid',url:raw};}const host=u.hostname.toLowerCase().replace(/^www\./,'');
-  if(host==='youtu.be'){const id=u.pathname.split('/').filter(Boolean)[0];return{kind:u.searchParams.get('list')?'youtube-playlist':'youtube',url:u.href,videoId:id,playlistId:u.searchParams.get('list')};}
-  if(host.endsWith('youtube.com')){const list=u.searchParams.get('list');let id=u.searchParams.get('v');const parts=u.pathname.split('/').filter(Boolean);if(!id&&['shorts','embed'].includes(parts[0]))id=parts[1];if(list&&(!id||u.pathname.includes('/playlist')))return{kind:'youtube-playlist',url:u.href,playlistId:list};if(id)return{kind:'youtube',url:u.href,videoId:id,playlistId:list||''};}
+  let u;try{u=new URL(String(raw||'').trim());}catch{return{kind:'invalid',url:raw};}
+  const host=u.hostname.toLowerCase().replace(/^www\./,'');
+  if(host==='youtu.be'){
+    const id=u.pathname.split('/').filter(Boolean)[0]||'';
+    const list=u.searchParams.get('list')||'';
+    if(list&&!id)return{kind:'youtube-playlist',url:u.href,playlistId:list,canonicalUrl:canonicalYouTubePlaylistUrl(list)};
+    return{kind:id?'youtube':'invalid',url:u.href,videoId:id,playlistId:list,canonicalUrl:list?canonicalYouTubePlaylistUrl(list):''};
+  }
+  if(host.endsWith('youtube.com')){
+    const list=u.searchParams.get('list')||'';
+    let id=u.searchParams.get('v')||'';
+    const parts=u.pathname.split('/').filter(Boolean);
+    if(!id&&['shorts','embed','live'].includes(parts[0]))id=parts[1]||'';
+    const isPlaylistPath=u.pathname.includes('/playlist')||host.startsWith('music.youtube.com');
+    if(list&&(isPlaylistPath||!id))return{kind:'youtube-playlist',url:u.href,playlistId:list,canonicalUrl:canonicalYouTubePlaylistUrl(list),fromMusic:host.startsWith('music.youtube.com')};
+    if(id)return{kind:'youtube',url:u.href,videoId:id,playlistId:list,canonicalUrl:list?canonicalYouTubePlaylistUrl(list):''};
+  }
   if(host.endsWith('soundcloud.com'))return{kind:'soundcloud',url:u.href};
   if(host.includes('spotify.com'))return{kind:'spotify',url:u.href};
   if(host.includes('music.apple.com'))return{kind:'apple',url:u.href};
   const ext=extOf(u.pathname);if(MEDIA_EXT.has(ext))return{kind:'direct',url:u.href,ext};
   return{kind:'generic',url:u.href,ext};
 }
-function describeLink(info){return({youtube:['YouTube','Video reproducible dentro de MUSIC PLAY'],'youtube-playlist':['YouTube Playlist','Se puede importar como playlist propia'],soundcloud:['SoundCloud','Enlace reproducible mediante su reproductor oficial'],direct:['Archivo multimedia','Puede reproducirse o guardarse localmente'],spotify:['Spotify','Prototipo: se guarda como referencia; integración autorizada vendrá después'],apple:['Apple Music','Prototipo: se guarda como referencia; integración MusicKit vendrá después'],generic:['Enlace','Intentaremos detectar si entrega audio o video'],invalid:['Enlace inválido','Revisa la dirección']})[info.kind]||['Enlace',''];}
+function describeLink(info){return({youtube:['YouTube','Video reproducible dentro de MUSIC PLAY'],'youtube-playlist':['YouTube Music / Playlist','Importa la lista y conserva el orden dentro de MUSIC PLAY'],soundcloud:['SoundCloud','Enlace reproducible mediante su reproductor oficial'],direct:['Archivo multimedia','Puede reproducirse o guardarse localmente'],spotify:['Spotify','Se guarda como referencia; no se descarga audio protegido'],apple:['Apple Music','Se guarda como referencia; integración autorizada posterior'],generic:['Enlace','Intentaremos detectar si entrega audio o video'],invalid:['Enlace inválido','Revisa la dirección']})[info.kind]||['Enlace',''];}
 function openLinkSheet(prefill=''){
-  openSheet(`<h2 class="sheet-title">Enlace</h2><p class="sheet-copy">Pega un video, playlist o archivo multimedia. La app detecta la fuente.</p><input id="linkInput" class="sheet-input" inputmode="url" autocomplete="off" placeholder="https://…" value="${safeText(prefill)}"/><div class="sheet-stack"><button class="sheet-btn" data-analyze>Analizar enlace<small>Sin llenar la pantalla de opciones</small></button></div><div id="linkResult"></div>`,root=>{const input=$('#linkInput',root),result=$('#linkResult',root);input.focus();const analyze=()=>renderLinkResult(analyzeLink(input.value),result);$('[data-analyze]',root).onclick=analyze;input.addEventListener('keydown',e=>{if(e.key==='Enter'){e.preventDefault();analyze();}});});
+  const tests=TEST_PLAYLISTS.map((t,i)=>`<button class="test-chip" type="button" data-test-url="${safeText(t.url)}">${i+1}</button>`).join('');
+  openSheet(`<h2 class="sheet-title">Enlace</h2><p class="sheet-copy">Pega un video, playlist de YouTube Music o archivo multimedia.</p><input id="linkInput" class="sheet-input" inputmode="url" autocomplete="off" placeholder="https://…" value="${safeText(prefill)}"/><div class="sheet-stack"><button class="sheet-btn" data-analyze>Analizar<small>Detecta la fuente automáticamente</small></button></div><div class="playlist-test-strip"><span>3 playlists de prueba</span><div class="test-chip-row">${tests}<button class="test-chip test-all" type="button" data-test-all>Probar 3</button></div><div id="testStatus" class="test-status"></div></div><div id="linkResult"></div>`,root=>{
+    const input=$('#linkInput',root),result=$('#linkResult',root),status=$('#testStatus',root);input.focus();
+    const analyze=()=>renderLinkResult(analyzeLink(input.value),result);
+    $('[data-analyze]',root).onclick=analyze;
+    input.addEventListener('keydown',e=>{if(e.key==='Enter'){e.preventDefault();analyze();}});
+    $$('[data-test-url]',root).forEach(b=>b.onclick=()=>{input.value=b.dataset.testUrl;analyze();});
+    $('[data-test-all]',root).onclick=async()=>{status.innerHTML='';for(let i=0;i<TEST_PLAYLISTS.length;i++){const t=TEST_PLAYLISTS[i],info=analyzeLink(t.url);const line=document.createElement('div');line.className='test-status-line';line.textContent=`${i+1}. Detectando…`;status.appendChild(line);const r=await getYouTubePlaylistIds(info.playlistId,{quick:true});line.textContent=`${i+1}. ${r.ids.length?`✓ ${r.ids.length} videos · ${r.source}`:`◌ playlist detectada · ${r.error||'sin listado'}`}`;}}
+  });
 }
-function renderLinkResult(info,host){const [title,desc]=describeLink(info);host.innerHTML=`<div class="link-result"><strong>${title}</strong><span>${desc}</span><span>${safeText(info.url||'')}</span><div class="link-actions" id="linkActions"></div></div>`;const a=$('#linkActions',host);if(info.kind==='invalid')return;
+function renderLinkResult(info,host){const [title,desc]=describeLink(info);const playlistInfo=info.kind==='youtube-playlist'?`<span>ID: ${safeText(info.playlistId||'')}</span>`:'';host.innerHTML=`<div class="link-result"><strong>${title}</strong><span>${desc}</span>${playlistInfo}<span>${safeText(info.url||'')}</span><div class="link-actions" id="linkActions"></div></div>`;const a=$('#linkActions',host);if(info.kind==='invalid')return;
   const add=(label,fn)=>{const b=document.createElement('button');b.className='sheet-btn';b.textContent=label;b.onclick=fn;a.appendChild(b);};
-  if(info.kind==='youtube'){add('▶ Play',async()=>{const t=await importYouTubeVideo(info,true);closeDialog(els.sheetDialog);if(t)playTrack(t.id,[t.id]);});add('＋ Guardar enlace',async()=>{await importYouTubeVideo(info,false);closeDialog(els.sheetDialog);showView('library');toast('YouTube guardado');});}
-  else if(info.kind==='youtube-playlist'){add('▶ Play',async()=>{const t=makeRemoteTrack('youtube-playlist',info.url,{remoteId:info.playlistId,title:'Playlist de YouTube',artist:'YouTube'});await saveRemoteTrack(t);closeDialog(els.sheetDialog);playTrack(t.id,[t.id]);});add('＋ Importar playlist',async()=>{closeDialog(els.sheetDialog);await importYouTubePlaylist(info);});}
+  if(info.kind==='youtube'){add('▶ Play',async()=>{const t=await importYouTubeVideo(info,true);closeDialog(els.sheetDialog);if(t)playTrack(t.id,[t.id]);});add('＋ Guardar',async()=>{await importYouTubeVideo(info,false);closeDialog(els.sheetDialog);showView('library');toast('YouTube guardado');});}
+  else if(info.kind==='youtube-playlist'){add('▶ Play',async()=>{const t=makeRemoteTrack('youtube-playlist',info.canonicalUrl||info.url,{remoteId:info.playlistId,title:'Playlist de YouTube',artist:'YouTube'});await saveRemoteTrack(t);closeDialog(els.sheetDialog);playTrack(t.id,[t.id]);});add('＋ Importar',async()=>{closeDialog(els.sheetDialog);await importYouTubePlaylist(info);});}
   else if(info.kind==='soundcloud'){add('▶ Play',async()=>{const t=await importSoundCloud(info,true);closeDialog(els.sheetDialog);if(t)playTrack(t.id,[t.id]);});add('＋ Guardar',async()=>{await importSoundCloud(info,false);closeDialog(els.sheetDialog);showView('library');});}
-  else if(info.kind==='direct'||info.kind==='generic'){add('▶ Play',async()=>{const t=await importDirectReference(info.url);closeDialog(els.sheetDialog);if(t)playTrack(t.id,[t.id]);});add('↓ Guardar archivo',async()=>{closeDialog(els.sheetDialog);await downloadRemoteMedia(info.url);});}
+  else if(info.kind==='direct'||info.kind==='generic'){add('▶ Play',async()=>{const t=await importDirectReference(info.url);closeDialog(els.sheetDialog);if(t)playTrack(t.id,[t.id]);});add('↓ Guardar',async()=>{closeDialog(els.sheetDialog);await downloadRemoteMedia(info.url);});}
   else if(info.kind==='spotify'||info.kind==='apple'){add('＋ Guardar referencia',async()=>{const kind='external',name=info.kind==='spotify'?'Spotify':'Apple Music';const t=makeRemoteTrack(kind,info.url,{title:`${name} · enlace`,artist:name,service:info.kind});await saveRemoteTrack(t);closeDialog(els.sheetDialog);showView('library');toast('Referencia guardada');});add('↗ Abrir original',()=>window.open(info.url,'_blank','noopener'));}
 }
 async function importYouTubeVideo(info,playNow=false){let meta=await fetchYouTubeMeta(info.videoId);const t=makeRemoteTrack('youtube',info.url,{remoteId:info.videoId,title:meta?.title||`YouTube · ${info.videoId}`,artist:meta?.artist||'YouTube',thumbnail:meta?.thumbnail||''});await saveRemoteTrack(t);render();return t;}
@@ -240,16 +268,100 @@ async function importDirectReference(url){const path=new URL(url).pathname;const
 async function downloadRemoteMedia(url){showLoader('Descargando…','Conectando con el archivo');try{const r=await fetch(url,{mode:'cors'});if(!r.ok)throw new Error(`HTTP ${r.status}`);const blob=await r.blob();const ct=blob.type||r.headers.get('content-type')||'';if(!ct.startsWith('audio/')&&!ct.startsWith('video/')&&!MEDIA_EXT.has(extOf(new URL(url).pathname)))throw new Error('La URL no devolvió un archivo multimedia reconocible');const name=decodeURIComponent(new URL(url).pathname.split('/').pop()||`audio-${Date.now()}`);const file=new File([blob],name,{type:ct,lastModified:now()});await importFiles([file]);}catch(err){hideLoader();console.warn(err);toast('El servidor no permitió descargar el archivo. Puedes guardarlo como enlace.',4600);}}
 
 async function importYouTubePlaylist(info){
-  showLoader('Importando playlist…','Leyendo la lista de YouTube');
-  let ids=[];try{ids=await probeYouTubePlaylist(info.playlistId);}catch(err){console.warn(err);}const name=`YouTube · ${info.playlistId.slice(0,12)}`;
-  if(!ids.length){const pl=await createPlaylist(name,{externalRef:{source:'YouTube',url:info.url,playlistId:info.playlistId}});hideLoader();showView('playlist');toast('Playlist enlazada. YouTube no expuso sus elementos al navegador.',4200);return pl;}
-  const pl=await createPlaylist(name,{externalRef:{source:'YouTube',url:info.url,playlistId:info.playlistId}});let i=0;
-  for(const videoId of ids){i++;els.loaderText.textContent=`${i}/${ids.length} · YouTube`;let meta=null;if(i<=30)meta=await fetchYouTubeMeta(videoId);const url=`https://www.youtube.com/watch?v=${encodeURIComponent(videoId)}`;const t=makeRemoteTrack('youtube',url,{remoteId:videoId,title:meta?.title||`YouTube · ${String(i).padStart(2,'0')}`,artist:meta?.artist||'YouTube',thumbnail:meta?.thumbnail||'',playlistSource:info.playlistId});await saveRemoteTrack(t);pl.trackIds.push(t.id);await sleep(18);}
-  await persistPlaylist(pl);hideLoader();showView('playlist');toast(`Playlist importada · ${ids.length} elementos`);return pl;
+  const playlistId=info.playlistId||'';
+  if(!playlistId)return toast('No encontré el ID de la playlist');
+  showLoader('Importando playlist…','Conectando con YouTube');
+  const result=await getYouTubePlaylistIds(playlistId);
+  const ids=result.ids||[];
+  const name=result.title||`YouTube · ${playlistId.slice(0,18)}`;
+  const externalRef={source:'YouTube',url:info.canonicalUrl||canonicalYouTubePlaylistUrl(playlistId),originalUrl:info.url,playlistId,importSource:result.source||'link'};
+  if(!ids.length){
+    const pl=await createPlaylist(name,{externalRef,importDiagnostic:{status:'linked',message:result.error||'YouTube no expuso el listado al navegador',checkedAt:now()}});
+    hideLoader();showView('playlist');renderPlaylists();
+    toast('Playlist guardada como enlace. Puedes reproducirla y reintentar la importación.',4800);return pl;
+  }
+  const pl=await createPlaylist(name,{externalRef,importDiagnostic:{status:'imported',count:ids.length,source:result.source,checkedAt:now()}});
+  let i=0;
+  for(const videoId of ids){
+    i++;els.loaderText.textContent=`${i}/${ids.length} · preparando lista`;
+    let meta=result.meta?.[videoId]||null;
+    if(!meta&&i<=24)meta=await fetchYouTubeMeta(videoId);
+    const url=`https://www.youtube.com/watch?v=${encodeURIComponent(videoId)}`;
+    const t=makeRemoteTrack('youtube',url,{remoteId:videoId,title:meta?.title||`YouTube · ${String(i).padStart(2,'0')}`,artist:meta?.artist||meta?.author||'YouTube',thumbnail:meta?.thumbnail||'',playlistSource:playlistId,playlistPosition:i-1});
+    await saveRemoteTrack(t);if(!pl.trackIds.includes(t.id))pl.trackIds.push(t.id);
+    await sleep(12);
+  }
+  await persistPlaylist(pl);hideLoader();showView('playlist');renderPlaylists();toast(`Playlist importada · ${ids.length} elementos`);return pl;
 }
-async function probeYouTubePlaylist(playlistId){
-  await loadYouTubeApi();if(ytProbePlayer){try{ytProbePlayer.destroy();}catch{}ytProbePlayer=null;}els.ytProbeHost.innerHTML='<div id="ytProbe"></div>';
-  return new Promise((resolve,reject)=>{let settled=false;const finish=v=>{if(settled)return;settled=true;resolve(Array.from(new Set(v||[])).filter(Boolean));};ytProbePlayer=new YT.Player('ytProbe',{width:'260',height:'146',playerVars:{listType:'playlist',list:playlistId,autoplay:0,controls:0},events:{onReady:e=>{try{e.target.cuePlaylist({listType:'playlist',list:playlistId,index:0});}catch{}let tries=0;const poll=setInterval(()=>{tries++;let arr=[];try{arr=e.target.getPlaylist()||[];}catch{}if(arr.length||tries>20){clearInterval(poll);finish(arr);}},400);},onError:()=>finish([])}});setTimeout(()=>finish([]),10000);});
+async function getYouTubePlaylistIds(playlistId,options={}){
+  const out={ids:[],source:'',error:'',title:'',meta:{}};
+  if(!playlistId){out.error='ID vacío';return out;}
+  // 1) If the deployment exposes our same-origin helper, use it first. It avoids CORS and gives the most stable enumeration.
+  if(location.protocol!=='file:'){
+    try{
+      const ctrl=new AbortController();const timer=setTimeout(()=>ctrl.abort(),options.quick?3500:6500);
+      const apiUrl=new URL('./api/youtube-playlist',location.href);apiUrl.searchParams.set('list',playlistId);
+      const r=await fetch(apiUrl,{headers:{'accept':'application/json'},cache:'no-store',signal:ctrl.signal});clearTimeout(timer);
+      const ct=r.headers.get('content-type')||'';
+      if(r.ok&&ct.includes('application/json')){
+        const d=await r.json();
+        if(Array.isArray(d.items)&&d.items.length){
+          out.ids=Array.from(new Set(d.items.map(x=>x.videoId||x.id).filter(Boolean)));
+          out.source='API local';out.title=d.title||'';
+          for(const item of d.items){const id=item.videoId||item.id;if(id)out.meta[id]={title:item.title||'',artist:item.author||item.channelTitle||'',thumbnail:item.thumbnail||''};}
+          return out;
+        }
+        if(Array.isArray(d.ids)&&d.ids.length){out.ids=Array.from(new Set(d.ids.filter(Boolean)));out.source='API local';out.title=d.title||'';return out;}
+      }
+    }catch(err){if(err?.name!=='AbortError')console.debug('Playlist helper unavailable',err);}
+  }
+  // 2) Pure-browser fallback using the official YouTube IFrame API and getPlaylist().
+  try{
+    const ids=await probeYouTubePlaylistIFrame(playlistId,{timeout:options.quick?9000:18000});
+    if(ids.length){out.ids=ids;out.source='YouTube IFrame';return out;}
+  }catch(err){console.debug('YouTube iframe probe',err);out.error=err?.message||'sin listado';}
+  if(!out.error)out.error='YouTube permitió enlazar la playlist, pero no devolvió sus elementos';
+  return out;
+}
+async function probeYouTubePlaylistIFrame(playlistId,{timeout=18000}={}){
+  await loadYouTubeApi();
+  if(ytProbePlayer){try{ytProbePlayer.destroy();}catch{}ytProbePlayer=null;}
+  els.ytProbeHost.innerHTML='';
+  const iframe=document.createElement('iframe');iframe.id=`ytProbe_${Date.now()}`;iframe.title='YouTube playlist probe';iframe.setAttribute('allow','autoplay; encrypted-media');iframe.setAttribute('referrerpolicy','strict-origin-when-cross-origin');
+  const origin=location.origin&&location.origin!=='null'?`&origin=${encodeURIComponent(location.origin)}`:'';
+  iframe.src=`https://www.youtube.com/embed/videoseries?list=${encodeURIComponent(playlistId)}&enablejsapi=1&playsinline=1&controls=0&rel=0${origin}`;
+  els.ytProbeHost.appendChild(iframe);
+  return new Promise(resolve=>{
+    let settled=false,poll=null;
+    const finish=value=>{if(settled)return;settled=true;if(poll)clearInterval(poll);const ids=Array.from(new Set((value||[]).filter(v=>typeof v==='string'&&v.length>=6)));resolve(ids);};
+    const sample=player=>{let arr=[];try{arr=player.getPlaylist?.()||[];}catch{}if(arr.length)finish(arr);};
+    try{
+      ytProbePlayer=new YT.Player(iframe,{events:{
+        onReady:e=>{
+          try{e.target.cuePlaylist({listType:'playlist',list:playlistId,index:0,startSeconds:0});}catch(err){console.debug('cuePlaylist',err);}
+          sample(e.target);let tries=0;poll=setInterval(()=>{tries++;sample(e.target);if(tries>Math.ceil(timeout/450))finish([]);},450);
+        },
+        onStateChange:e=>{if([YT.PlayerState.CUED,YT.PlayerState.PLAYING,YT.PlayerState.PAUSED].includes(e.data))sample(e.target);},
+        onError:e=>{console.debug('playlist iframe error',e.data);finish([]);}
+      }});
+    }catch(err){console.debug('probe init',err);finish([]);}
+    setTimeout(()=>finish([]),timeout+800);
+  });
+}
+async function retryPlaylistImport(pl){
+  if(!pl?.externalRef?.playlistId)return toast('Esta lista no tiene un ID de YouTube');
+  const info={kind:'youtube-playlist',playlistId:pl.externalRef.playlistId,url:pl.externalRef.originalUrl||pl.externalRef.url,canonicalUrl:pl.externalRef.url};
+  const oldId=pl.id;const oldName=pl.name;
+  showLoader('Reintentando…','Consultando YouTube');
+  const result=await getYouTubePlaylistIds(info.playlistId);hideLoader();
+  if(!result.ids.length){pl.importDiagnostic={status:'linked',message:result.error,checkedAt:now()};await persistPlaylist(pl);renderPlaylists();return toast('Sigue enlazada; YouTube no entregó el listado en este dispositivo.',4200);}
+  for(let i=0;i<result.ids.length;i++){
+    const videoId=result.ids[i];let meta=result.meta?.[videoId]||null;if(!meta&&i<18)meta=await fetchYouTubeMeta(videoId);
+    const t=makeRemoteTrack('youtube',`https://www.youtube.com/watch?v=${videoId}`,{remoteId:videoId,title:meta?.title||`YouTube · ${String(i+1).padStart(2,'0')}`,artist:meta?.artist||'YouTube',thumbnail:meta?.thumbnail||'',playlistSource:info.playlistId,playlistPosition:i});
+    await saveRemoteTrack(t);if(!pl.trackIds.includes(t.id))pl.trackIds.push(t.id);
+  }
+  pl.name=result.title||oldName;pl.importDiagnostic={status:'imported',count:pl.trackIds.length,source:result.source,checkedAt:now()};await persistPlaylist(pl);state.activePlaylistId=oldId;render();toast(`Lista recuperada · ${pl.trackIds.length} elementos`);
+  return pl;
 }
 async function playExternalPlaylist(pl){if(pl.externalRef?.source==='YouTube'){const t=makeRemoteTrack('youtube-playlist',pl.externalRef.url,{remoteId:pl.externalRef.playlistId,title:pl.name,artist:'YouTube'});await saveRemoteTrack(t);playTrack(t.id,[t.id]);}else toast('Esta fuente externa todavía no tiene reproductor');}
 

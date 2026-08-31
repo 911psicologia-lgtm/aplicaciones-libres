@@ -1,11 +1,15 @@
-MUSIC PLAY · HAPPY — r4 universal prototype
+MUSIC PLAY · HAPPY — R5
 
-Sube el CONTENIDO de este ZIP directamente a la carpeta publicada.
-La raíz debe contener index.html, app.js, styles.css, sw.js, manifest.webmanifest e icons/.
-No uses dist ni una subcarpeta extra.
-Tras reemplazar la versión anterior, usa Ctrl+F5 una vez.
+SUBIDA NORMAL
+1. Reemplaza el contenido de la carpeta publicada por el contenido de este ZIP.
+2. index.html, app.js, styles.css, sw.js, manifest.webmanifest e icons/ deben quedar en la raíz de la app.
+3. Haz Ctrl+F5 una vez después de publicar para retirar la caché R4.
 
-IMPORTANTE:
-- YouTube y SoundCloud requieren conexión a Internet para sus reproductores oficiales.
-- Los archivos locales permanecen en el dispositivo/navegador.
-- Las URLs directas solo pueden descargarse si el servidor permite CORS.
+YOUTUBE PLAYLISTS
+- R5 usa primero un helper same-origin si existe en ./api/youtube-playlist.
+- Si no existe, usa automáticamente la YouTube IFrame API oficial y getPlaylist().
+- La carpeta cloudflare/ contiene un helper opcional para reforzar la enumeración en un Worker.
+- No descarga audio de YouTube: importa referencias y reproduce con el reproductor oficial.
+
+PRUEBA EN CELULAR
+Cargar → Enlace → aparecen 3 botones de prueba (1, 2, 3) y “Probar 3”.
