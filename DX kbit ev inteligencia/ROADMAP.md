@@ -1,25 +1,16 @@
-# Lista de tareas — siguiente fase
 
-## Alta prioridad
+# ROADMAP v0.4
 
-- Revisar cuadernillo/manual de aplicación completo.
-- Integrar puntos de inicio por edad.
-- Integrar reglas de retorno/basal.
-- Integrar criterios de discontinuación.
-- Integrar criterios de corrección específicos por ítem cuando corresponda.
-- Convertir el Manual del evaluador en ayuda contextual dentro de cada subtest.
-- Auditar protocolos completos con varios grupos de edad.
+## Ya implementado
+1. Flujo Caso → Contexto → Aplicación → Revisión → Resultados → Informes.
+2. Baremos integrados C.1–C.5.
+3. Estímulos visuales integrados y visor limpio sincronizado.
+4. Anonimización de datos para IA.
+5. Exportaciones HTML/TXT/DOC/PDF.
 
-## Informes
-
-- Revisar y afinar el formato profesional del informe técnico con los requisitos institucionales que se definan.
-- Crear plantillas diferenciadas por contexto: psicológico, educativo, jurídico/forense, laboral, investigación y otros.
-- Añadir DOCX y PDF nativos si se desea evitar el mecanismo de impresión del navegador.
-- Mantener separación entre datos reales locales y paquete anonimizado para IA.
-
-## Infraestructura opcional
-
-- Cloudflare Worker como backend seguro para IA.
-- Cifrado local de respaldos.
-- Sincronización entre dispositivos solo si se diseña una arquitectura de almacenamiento clínico segura.
-- Control de versiones de baremos y trazabilidad de cambios.
+## Próximo
+1. Integrar reglas reales del manual: punto de inicio, retorno, discontinuación y consignas.
+2. Cargar claves profesionales / criterios de corrección específicos donde aplique.
+3. Añadir navegación opcional por rejilla y marcadores de ítems.
+4. Mejorar manual del evaluador y hacerlo descargable en PDF.
+5. Evaluar modo dual control + presentación para dos dispositivos.

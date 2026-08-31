@@ -1,9 +1,10 @@
 import { APP_VERSION, CONTEXT_TYPES, SUBTESTS, CONFIDENCE_LEVELS } from './config.js';
-import { calculateChronologicalAge, ageLabel, esc, downloadBlob, monthRangeLabel } from './utils.js';
+import { calculateChronologicalAge, ageLabel, esc, downloadBlob } from './utils.js';
 import { loadDB, saveDB, upsertCase, deleteCase, newCase, demoCaseM } from './storage.js';
 import { loadNorms, calculateCase } from './scoring.js';
 import { buildTechnicalReport, buildLocalContextualReport, buildAIPrompt, buildAnonymousAIPayload, contextualReportWithAI } from './reports.js';
 import { exportHtml, exportTxt, exportDoc, printPdf } from './export.js';
+import { loadStimuli, getItemStimulus, getSubtestExamples, publishStimulus } from './stimuli.js';
 
 const ROUTES = [
   ['home','Inicio'],['case','Caso'],['context','Contexto'],['application','Aplicación'],['review','Revisión'],
@@ -11,6 +12,7 @@ const ROUTES = [
 ];
 
 let norms = null;
+let stimuli = null;
 let db = loadDB();
 let route = 'home';
 let reportTab = 'technical';
@@ -27,7 +29,7 @@ function contextText(c){
   return c.evaluation.contextType==='otro' && c.evaluation.contextCustom ? c.evaluation.contextCustom : (found?.[1]||'No especificado');
 }
 function pageHeader(title,desc,actions=''){return `<div class="page-head"><div><h2>${title}</h2><p>${desc}</p></div><div class="head-actions no-print">${actions}</div></div>`}
-function noCase(){return `${pageHeader('Sin caso activo','Crea o selecciona un caso para continuar.')}<div class="empty"><p>No hay una evaluación seleccionada.</p><div class="toolbar" style="justify-content:center;margin-top:12px"><button class="btn" data-action="new-case">Nueva evaluación</button><button class="btn ghost" data-action="load-demo">Cargar caso M demo</button></div></div>`}
+function noCase(){return `${pageHeader('Sin caso activo','Crea o selecciona un caso para continuar.')}<div class="empty"><p>No hay una evaluación seleccionada.</p><div class="toolbar" style="justify-content:center;margin-top:12px"><button class="btn" data-action="new-case">Nueva evaluación</button><button class="btn ghost" data-action="load-demo">Caso M demo</button></div></div>`}
 
 function renderNav(){
   const has=!!currentCase();
@@ -36,20 +38,18 @@ function renderNav(){
 
 function renderHome(){
   const cases=Object.values(db.cases).sort((a,b)=>String(b.updatedAt).localeCompare(String(a.updatedAt)));
+  const stimMeta = stimuli?.meta?.summary;
   return `${pageHeader('Evaluaciones','Crea, retoma o respalda evaluaciones. Los datos identificables permanecen en este navegador.',`<button class="btn" data-action="new-case">+ Nueva evaluación</button><button class="btn ghost" data-action="load-demo">Caso M demo</button>`)}
+  ${stimMeta?`<div class="notice" style="margin-bottom:16px"><strong>Paquete de estímulos integrado:</strong> Vocabulario ${stimMeta.vocabExpresivo.available}/${stimMeta.vocabExpresivo.total_items} láminas · Definiciones ${stimMeta.definiciones.available}/${stimMeta.definiciones.total_items} láminas · Matrices ${stimMeta.matrices.available}/${stimMeta.matrices.total_items} láminas. El visor limpio sincronizado está disponible durante la aplicación.</div>`:''}
   <div class="card"><h3>Casos guardados localmente</h3>
     ${cases.length?`<div class="case-list">${cases.map(c=>{const a=calculateChronologicalAge(c.patient.birthDate,c.evaluation.applicationDate);return `<div class="case-row"><div><strong>${esc(c.patient.fullName||'Sin nombre')}</strong><div class="meta">${esc(c.privacy.alias)} · ${a?esc(ageLabel(a)):'edad pendiente'} · ${esc(contextText(c))}</div></div><div class="case-actions"><button class="btn sm" data-action="open-case" data-id="${c.id}">Abrir</button><button class="btn ghost sm" data-action="export-case" data-id="${c.id}">Respaldo</button><button class="btn danger sm" data-action="delete-case" data-id="${c.id}">Eliminar</button></div></div>`}).join('')}</div>`:`<div class="empty">Aún no hay evaluaciones guardadas.</div>`}
   </div>
   <div class="card"><h3>Respaldo y restauración</h3><p class="small muted">El respaldo contiene datos identificables. Consérvalo de manera segura.</p><div class="toolbar" style="margin-top:12px"><button class="btn ghost" data-action="export-db">Exportar todos los casos</button><label class="btn ghost" for="import-db" style="display:inline-flex">Importar respaldo</label><input id="import-db" type="file" accept="application/json,.json" class="hidden"></div></div>
-  <div class="footer-note">Arquitectura actual: aplicación estática. Cloudflare Pages entrega los archivos, pero no recibe ni almacena por defecto los datos de los pacientes. El almacenamiento de casos se realiza con localStorage en el dispositivo.</div>`;
+  <div class="footer-note">Arquitectura actual: aplicación estática para Cloudflare Pages. Almacenamiento local mediante localStorage. Si abres <code>stimulos.html</code> en una segunda pestaña o dispositivo del mismo navegador, el visor limpio se sincroniza con el reactivo actual.</div>`;
 }
 
-function field(label,path,value,type='text',extra=''){
-  return `<div class="field"><label>${label}</label><input type="${type}" value="${esc(value)}" data-bind="${path}" ${extra}></div>`;
-}
-function textarea(label,path,value,placeholder=''){
-  return `<div class="field"><label>${label}</label><textarea data-bind="${path}" placeholder="${esc(placeholder)}">${esc(value)}</textarea></div>`;
-}
+function field(label,path,value,type='text',extra=''){ return `<div class="field"><label>${label}</label><input type="${type}" value="${esc(value)}" data-bind="${path}" ${extra}></div>`; }
+function textarea(label,path,value,placeholder=''){ return `<div class="field"><label>${label}</label><textarea data-bind="${path}" placeholder="${esc(placeholder)}">${esc(value)}</textarea></div>`; }
 
 function renderCase(){
   const c=currentCase(); if(!c)return noCase();
@@ -90,6 +90,19 @@ function renderContext(){
 }
 
 function scoreStatsText(stats){return `${stats.correct} correctas · ${stats.incorrect} incorrectas · ${stats.na} no administradas · ${stats.pending} sin registro`}
+function currentStimulusData(){
+  const c=currentCase(); if(!c || !stimuli) return null;
+  const key=c.application.activeSubtest; const idx=c.application.activeIndex + 1;
+  const raw = getItemStimulus(stimuli, key, idx);
+  if(!raw) return null;
+  return { ...raw, subtestKey:key, subtestLabel: SUBTESTS[key]?.label || key, itemNumber: idx };
+}
+function publishCurrentStimulus(){
+  if(route!=='application') return;
+  const stim=currentStimulusData();
+  if(stim) publishStimulus(stim);
+}
+
 function renderApplication(){
   const c=currentCase();if(!c)return noCase(); const r=calc();
   if(!r?.validAge) return `${pageHeader('Aplicación','Para seleccionar normas y activar el flujo correcto se necesita una edad válida.')}<div class="notice warn">Completa la fecha de nacimiento y la fecha de aplicación antes de iniciar.</div><div class="toolbar" style="margin-top:14px"><button class="btn" data-route="case">Ir a datos del evaluado</button></div>`;
@@ -97,19 +110,32 @@ function renderApplication(){
   if(!allowed.includes(c.application.activeSubtest)){c.application.activeSubtest='vocabExpresivo';c.application.activeIndex=0;saveCurrent()}
   const key=c.application.activeSubtest;const cfg=SUBTESTS[key];const items=c.application.items[key];const idx=Math.min(c.application.activeIndex,items.length-1);const item=items[idx];const stats=r.stats[key];
   const progress=Math.round(((idx+1)/items.length)*100);
-  return `${pageHeader('Modo aplicación','Los estímulos se presentan externamente. La pantalla se concentra en respuesta, puntuación y observación, sin mostrar resultados durante la administración.',`<button class="btn ghost" data-route="context">← Contexto</button><button class="btn" data-route="review">Revisar aplicación →</button>`)}
+  const stim = currentStimulusData();
+  const examples = getSubtestExamples(stimuli, key);
+  setTimeout(publishCurrentStimulus, 0);
+  const stimBlock = !stim ? `<div class="stimulus-missing">No se pudo resolver el estímulo actual desde el manifiesto.</div>` : stim.status==='available' ? `<div class="stimulus-stage" id="stimulus-stage"><img class="stimulus-image" src="${esc(stim.path)}" alt="${esc(stim.label)}"></div>` : `<div class="stimulus-missing"><strong>${esc(stim.label)}</strong><br><br>${esc(stim.note || 'No existe imagen de este reactivo en el paquete actual.')}</div>`;
+  return `${pageHeader('Modo aplicación','La pantalla combina ahora estímulo visual, registro de respuesta y sincronización opcional con un visor limpio independiente.',`<button class="btn ghost" data-route="context">← Contexto</button><button class="btn" data-route="review">Revisar aplicación →</button>`)}
   <div class="steps"><span class="step-pill">Caso</span><span class="step-pill">Contexto</span><span class="step-pill active">Aplicación</span><span class="step-pill">Revisión</span><span class="step-pill">Resultados</span></div>
   <div class="apply-layout">
     <div class="subtest-tabs">${Object.entries(SUBTESTS).map(([k,v])=>`<button class="subtest-tab ${key===k?'active':''}" data-action="switch-subtest" data-subtest="${k}" ${v.minAgeMonths && r.ageMonths<v.minAgeMonths?'disabled':''}>${esc(v.label)}</button>`).join('')}</div>
     <div class="apply-top"><div><strong>${esc(cfg.label)}</strong><div class="small muted">${scoreStatsText(stats)}</div></div><span class="badge">Baremo ${esc(r.normBand.label)}</span></div>
     <div class="progress"><span style="width:${progress}%"></span></div>
-    <div class="item-card" style="margin-top:12px">
-      <div class="item-number">Ítem ${idx+1} de ${items.length}</div><h3>Registrar respuesta</h3>
-      <div class="field" style="margin-top:18px"><label>Respuesta del evaluado</label><textarea id="item-response" rows="3" placeholder="Transcribe o resume la respuesta si es pertinente.">${esc(item.response)}</textarea></div>
-      <div class="score-buttons"><button class="score-btn incorrect ${String(item.score)==='0'?'selected':''}" data-action="score-item" data-score="0">0 · Incorrecta</button><button class="score-btn ${String(item.score)==='1'?'selected':''}" data-action="score-item" data-score="1">1 · Correcta</button><button class="score-btn ${item.score==='NA'?'selected':''}" data-action="score-item" data-score="NA">No administrado</button></div>
-      <div class="field"><label>Observación breve del ítem</label><textarea id="item-note" rows="2" placeholder="Latencia, repetición, autocorrección, conducta u otra observación.">${esc(item.note)}</textarea></div>
-      <div class="apply-nav"><button class="btn ghost" data-action="move-item" data-delta="-1" ${idx===0?'disabled':''}>← Anterior</button><button class="btn" data-action="move-item" data-delta="1">${idx===items.length-1?'Finalizar / siguiente subtest':'Siguiente →'}</button></div>
-      <div class="keyboard-help">Atajos fuera de los campos de texto: <strong>0</strong> incorrecta · <strong>1</strong> correcta · <strong>←/→</strong> anterior/siguiente</div>
+    <div class="apply-grid" style="margin-top:12px">
+      <div class="stimulus-card">
+        <div class="stimulus-head"><div><h3>Estímulo visual</h3><div class="small muted">${stim?.status==='available'?'Integrado en esta versión y listo para aplicación en tablet o computador.':'No disponible en el paquete actual.'}</div></div><div class="toolbar no-print"><button class="btn ghost sm" data-action="open-viewer">Visor limpio</button><button class="btn ghost sm" data-action="fullscreen-stimulus">Pantalla completa</button></div></div>
+        ${stimBlock}
+        <div class="stimulus-summary"><span class="k-pill">Ítem ${idx+1} de ${items.length}</span><span class="k-pill">Subtest: ${esc(cfg.short)}</span>${stim?.status==='missing'?'<span class="k-pill">Falta lámina</span>':''}</div>
+        <div class="stimulus-note">${esc(stim?.note || 'Consejo práctico: si prefieres presentar el reactivo en otra ventana, abre el visor limpio. Se sincroniza automáticamente con el cambio de ítem.')}</div>
+        ${examples.length?`<div class="stimulus-examples"><h4>Ejemplos y apoyos del subtest</h4><div class="toolbar">${examples.map(ex=>`<a class="btn ghost sm" href="${esc(ex.path)}" target="_blank" rel="noopener">${esc(ex.label)}</a>`).join('')}</div></div>`:''}
+      </div>
+      <div class="item-card">
+        <div class="item-number">Ítem ${idx+1} de ${items.length}</div><h3>Registrar respuesta</h3>
+        <div class="field" style="margin-top:18px"><label>Respuesta del evaluado</label><textarea id="item-response" rows="3" placeholder="Transcribe o resume la respuesta si es pertinente.">${esc(item.response)}</textarea></div>
+        <div class="score-buttons"><button class="score-btn incorrect ${String(item.score)==='0'?'selected':''}" data-action="score-item" data-score="0">0 · Incorrecta</button><button class="score-btn ${String(item.score)==='1'?'selected':''}" data-action="score-item" data-score="1">1 · Correcta</button><button class="score-btn ${item.score==='NA'?'selected':''}" data-action="score-item" data-score="NA">No administrado</button></div>
+        <div class="field"><label>Observación breve del ítem</label><textarea id="item-note" rows="2" placeholder="Latencia, repetición, autocorrección, conducta u otra observación.">${esc(item.note)}</textarea></div>
+        <div class="apply-nav"><button class="btn ghost" data-action="move-item" data-delta="-1" ${idx===0?'disabled':''}>← Anterior</button><button class="btn" data-action="move-item" data-delta="1">${idx===items.length-1?'Finalizar / siguiente subtest':'Siguiente →'}</button></div>
+        <div class="keyboard-help">Atajos fuera de los campos de texto: <strong>0</strong> incorrecta · <strong>1</strong> correcta · <strong>←/→</strong> anterior/siguiente</div>
+      </div>
     </div>
   </div>`;
 }
@@ -156,16 +182,18 @@ function renderReports(){
 
 function renderManual(){
   return `${pageHeader('Manual del evaluador','Módulo preparado para convertirse en una guía paso a paso. En esta versión contiene el uso de la aplicación; las normas específicas del test se integrarán después desde el manual autorizado.',`<a class="btn" href="./docs/manual-evaluador.html" target="_blank" rel="noopener">Abrir manual</a><a class="btn ghost" href="./docs/manual-evaluador.html" download>Descargar HTML</a>`)}
-  <div class="card"><h3>Ruta del evaluador</h3><div class="manual-links"><div class="manual-link"><strong>1. Preparar caso</strong><p class="small muted">Identificación, fechas, cálculo de edad y anonimización.</p></div><div class="manual-link"><strong>2. Contextualizar</strong><p class="small muted">Motivo, contexto de evaluación y datos relevantes.</p></div><div class="manual-link"><strong>3. Aplicar</strong><p class="small muted">Registro multipantalla de respuesta, 0/1 y observación.</p></div><div class="manual-link"><strong>4. Revisar y puntuar</strong><p class="small muted">Créditos, bruto final, baremo e intervalos.</p></div><div class="manual-link"><strong>5. Interpretar</strong><p class="small muted">Perfil, discrepancia y cautelas.</p></div><div class="manual-link"><strong>6. Informar</strong><p class="small muted">Informe técnico, contextualizado y exportaciones.</p></div></div></div>
+  <div class="card"><h3>Ruta del evaluador</h3><div class="manual-links"><div class="manual-link"><strong>1. Preparar caso</strong><p class="small muted">Identificación, fechas, cálculo de edad y anonimización.</p></div><div class="manual-link"><strong>2. Contextualizar</strong><p class="small muted">Motivo, contexto de evaluación y datos relevantes.</p></div><div class="manual-link"><strong>3. Aplicar</strong><p class="small muted">Registro multipantalla de respuesta, 0/1 y observación, ahora con estímulos integrados y visor limpio.</p></div><div class="manual-link"><strong>4. Revisar y puntuar</strong><p class="small muted">Créditos, bruto final, baremo e intervalos.</p></div><div class="manual-link"><strong>5. Interpretar</strong><p class="small muted">Perfil, discrepancia y cautelas.</p></div><div class="manual-link"><strong>6. Informar</strong><p class="small muted">Informe técnico, contextualizado y exportaciones.</p></div></div></div>
   <div class="notice" style="margin-top:16px"><strong>Pendiente deliberado:</strong> puntos de inicio, reglas de retorno, discontinuación, consignas y criterios de corrección específicos. No los inferimos ni los inventamos; se incorporarán cuando revisemos el cuadernillo/manual de aplicación.</div>`;
 }
 
 function renderNorms(){
   if(!norms)return `<div class="notice warn">Los baremos no pudieron cargarse.</div>`;
   const m=norms.meta;
+  const stimSum = stimuli?.meta?.summary;
   return `${pageHeader('Baremos incorporados','Módulo técnico de auditoría. Los baremos se cargan automáticamente y ya no forman parte del flujo cotidiano de aplicación.')}
   <div class="norm-grid"><div class="norm-stat"><strong>${m.verbalRows}</strong><span>filas escala verbal</span></div><div class="norm-stat"><strong>${m.nonverbalRows}</strong><span>filas escala no verbal</span></div><div class="norm-stat"><strong>${m.compositeRows}</strong><span>conversiones compuesto</span></div><div class="norm-stat"><strong>${m.bandRows}</strong><span>bandas de error</span></div><div class="norm-stat"><strong>${m.interpretationRows}</strong><span>filas interpretación</span></div><div class="norm-stat"><strong>${m.differenceRows}</strong><span>tramos de discrepancia</span></div></div>
   <div class="card"><h3>Fuente y estado</h3><p>${esc(m.source)}</p><p class="small muted">Versión de datos: ${esc(m.version)}. Cobertura operativa C.1 aproximada: 4 años 0 meses a 89 años 11 meses, según los intervalos presentes en el apéndice.</p></div>
+  ${stimSum?`<div class="card"><h3>Inventario de estímulos integrados</h3><table class="audit-table"><thead><tr><th>Subtest</th><th>Ítems disponibles</th><th>Ítems faltantes</th><th>Ejemplos</th></tr></thead><tbody><tr><td>Vocabulario expresivo</td><td>${stimSum.vocabExpresivo.available}/${stimSum.vocabExpresivo.total_items}</td><td>${stimSum.vocabExpresivo.missing}</td><td>${stimSum.vocabExpresivo.examples}</td></tr><tr><td>Definiciones</td><td>${stimSum.definiciones.available}/${stimSum.definiciones.total_items}</td><td>${stimSum.definiciones.missing}</td><td>${stimSum.definiciones.examples}</td></tr><tr><td>Matrices</td><td>${stimSum.matrices.available}/${stimSum.matrices.total_items}</td><td>${stimSum.matrices.missing}</td><td>${stimSum.matrices.examples}</td></tr></tbody></table><div class="notice" style="margin-top:12px">Faltantes identificados automáticamente desde el paquete aportado: Vocabulario expresivo ítems 2 y 3; Definiciones ítem 27. No se fabricaron láminas sustitutas.</div></div>`:''}
   <div class="card"><h3>Auditoría de incidencias</h3><table class="audit-table"><thead><tr><th>Elemento</th><th>Fuente</th><th>Normalización</th><th>Razón</th></tr></thead><tbody>${norms.audit.map(a=>`<tr><td>${esc(a.Elemento)}</td><td>${esc(a['Fuente impresa'])}</td><td>${esc(a['Valor normalizado'])}</td><td>${esc(a.Razón)}</td></tr>`).join('')}</tbody></table></div>`;
 }
 
@@ -179,7 +207,7 @@ function setNested(obj,path,value){const parts=path.split('.');let cur=obj;for(l
 function getActiveItem(){const c=currentCase();if(!c)return null;const key=c.application.activeSubtest;return c.application.items[key][c.application.activeIndex]}
 function persistActiveText(){const item=getActiveItem();if(!item)return;const response=document.getElementById('item-response');const note=document.getElementById('item-note');if(response)item.response=response.value;if(note)item.note=note.value;saveCurrent()}
 function switchSubtest(key){persistActiveText();const c=currentCase();c.application.activeSubtest=key;c.application.activeIndex=0;saveCurrent();render()}
-function nextAllowedSubtest(current){const c=currentCase();const r=calc();const order=['vocabExpresivo',...(r.definitionsActive?['definiciones']:[]),'matrices'];const i=order.indexOf(current);return order[i+1]||null}
+function nextAllowedSubtest(current){const r=calc();const order=['vocabExpresivo',...(r.definitionsActive?['definiciones']:[]),'matrices'];const i=order.indexOf(current);return order[i+1]||null}
 function moveItem(delta){persistActiveText();const c=currentCase();const key=c.application.activeSubtest;const items=c.application.items[key];let n=c.application.activeIndex+delta;if(n>=items.length){const next=nextAllowedSubtest(key);if(next){c.application.activeSubtest=next;c.application.activeIndex=0}else{route='review'}}else if(n>=0)c.application.activeIndex=n;saveCurrent();render()}
 function scoreItem(score){persistActiveText();const item=getActiveItem();item.score=score==='NA'?'NA':Number(score);saveCurrent();render()}
 
@@ -198,9 +226,18 @@ main.addEventListener('change',e=>{
   if(e.target.dataset.refresh)render();
 });
 
-function handleRoute(id){if(!currentCase()&&!['home','manual','norms'].includes(id))return;persistActiveText();route=id;render();window.scrollTo({top:0,behavior:'smooth'})}
+function openStimulusViewer(){
+  publishCurrentStimulus();
+  window.open('./stimulos.html', '_blank', 'noopener');
+}
+async function fullscreenStimulus(){
+  const el = document.getElementById('stimulus-stage');
+  if(!el) return;
+  try{ if(document.fullscreenElement) await document.exitFullscreen(); else await el.requestFullscreen(); }catch{}
+}
+
 document.body.addEventListener('click',async e=>{
-  const routeEl=e.target.closest('[data-route]');if(routeEl){handleRoute(routeEl.dataset.route);return}
+  const routeEl=e.target.closest('[data-route]');if(routeEl){if(route==='application') publishCurrentStimulus(); handleRoute(routeEl.dataset.route); return}
   const el=e.target.closest('[data-action]');if(!el)return;const action=el.dataset.action;
   if(action==='new-case'){const c=newCase();upsertCase(db,c);route='case';render()}
   else if(action==='load-demo'){const c=demoCaseM();upsertCase(db,c);route='case';render()}
@@ -216,8 +253,11 @@ document.body.addEventListener('click',async e=>{
   else if(action==='copy-ai-prompt'){const text=buildAIPrompt(currentCase(),calc());await navigator.clipboard.writeText(text);el.textContent='Copiado ✓';setTimeout(()=>el.textContent='Copiar prompt anonimizado',1400)}
   else if(action==='download-ai-payload'){downloadBlob(`${filenameBase()}_paquete_IA_anonimizado.json`,JSON.stringify(buildAnonymousAIPayload(currentCase(),calc()),null,2),'application/json')}
   else if(action==='use-local-context'){currentCase().reports.contextualAIText='';saveCurrent();render()}
+  else if(action==='open-viewer') openStimulusViewer()
+  else if(action==='fullscreen-stimulus') await fullscreenStimulus()
 });
 
+function handleRoute(id){if(!currentCase()&&!['home','manual','norms'].includes(id))return;persistActiveText();route=id;render();window.scrollTo({top:0,behavior:'smooth'})}
 
 document.body.addEventListener('change',e=>{
   if(e.target.id==='import-db'){
@@ -234,7 +274,7 @@ document.addEventListener('keydown',e=>{
 });
 
 (async function init(){
-  try{norms=await loadNorms();}
-  catch(err){console.error(err);main.innerHTML=`<div class="notice warn"><strong>Error al cargar baremos.</strong><br>${esc(err.message)}<br><br>Esta versión debe abrirse desde un servidor web (por ejemplo Cloudflare Pages), no mediante doble clic con file://.</div>`;return}
+  try{[norms, stimuli] = await Promise.all([loadNorms(), loadStimuli()]);}
+  catch(err){console.error(err);main.innerHTML=`<div class="notice warn"><strong>Error al cargar baremos o estímulos.</strong><br>${esc(err.message)}<br><br>Esta versión debe abrirse desde un servidor web (por ejemplo Cloudflare Pages), no mediante doble clic con file://.</div>`;return}
   render();
 })();

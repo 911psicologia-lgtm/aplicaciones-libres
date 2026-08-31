@@ -1,0 +1,877 @@
+{
+  "meta": {
+    "version": "1.0.0",
+    "sourceZip": "7b8107fe-8c31-4def-857b-7d4e30318ef3.zip",
+    "description": "Estímulos visuales optimizados para tablet integrados a la app K-BIT.",
+    "summary": {
+      "vocabExpresivo": {
+        "available": 43,
+        "missing": 2,
+        "examples": 0,
+        "total_items": 45
+      },
+      "definiciones": {
+        "available": 36,
+        "missing": 1,
+        "examples": 4,
+        "total_items": 37
+      },
+      "matrices": {
+        "available": 48,
+        "missing": 0,
+        "examples": 2,
+        "total_items": 48
+      }
+    }
+  },
+  "subtests": {
+    "vocabExpresivo": {
+      "label": "Vocabulario expresivo",
+      "examples": [],
+      "items": {
+        "1": {
+          "item": 1,
+          "status": "available",
+          "label": "Vocabulario expresivo · Ítem 1",
+          "path": "./assets/stimuli/01A_VOCABULARIO_EXPRESIVO/VE_item_01_p007.png"
+        },
+        "2": {
+          "item": 2,
+          "status": "missing",
+          "label": "Vocabulario expresivo · Ítem 2",
+          "note": "El estímulo del ítem 2 (Tenedor) no aparece en el PDF fuente ni en el paquete original."
+        },
+        "3": {
+          "item": 3,
+          "status": "missing",
+          "label": "Vocabulario expresivo · Ítem 3",
+          "note": "El estímulo del ítem 3 (Rana) no aparece en el PDF fuente ni en el paquete original."
+        },
+        "4": {
+          "item": 4,
+          "status": "available",
+          "label": "Vocabulario expresivo · Ítem 4",
+          "path": "./assets/stimuli/01A_VOCABULARIO_EXPRESIVO/VE_item_04_p008.png"
+        },
+        "5": {
+          "item": 5,
+          "status": "available",
+          "label": "Vocabulario expresivo · Ítem 5",
+          "path": "./assets/stimuli/01A_VOCABULARIO_EXPRESIVO/VE_item_05_p009.png"
+        },
+        "6": {
+          "item": 6,
+          "status": "available",
+          "label": "Vocabulario expresivo · Ítem 6",
+          "path": "./assets/stimuli/01A_VOCABULARIO_EXPRESIVO/VE_item_06_p010.png"
+        },
+        "7": {
+          "item": 7,
+          "status": "available",
+          "label": "Vocabulario expresivo · Ítem 7",
+          "path": "./assets/stimuli/01A_VOCABULARIO_EXPRESIVO/VE_item_07_p011.png"
+        },
+        "8": {
+          "item": 8,
+          "status": "available",
+          "label": "Vocabulario expresivo · Ítem 8",
+          "path": "./assets/stimuli/01A_VOCABULARIO_EXPRESIVO/VE_item_08_p012.png"
+        },
+        "9": {
+          "item": 9,
+          "status": "available",
+          "label": "Vocabulario expresivo · Ítem 9",
+          "path": "./assets/stimuli/01A_VOCABULARIO_EXPRESIVO/VE_item_09_p013.png"
+        },
+        "10": {
+          "item": 10,
+          "status": "available",
+          "label": "Vocabulario expresivo · Ítem 10",
+          "path": "./assets/stimuli/01A_VOCABULARIO_EXPRESIVO/VE_item_10_p014.png"
+        },
+        "11": {
+          "item": 11,
+          "status": "available",
+          "label": "Vocabulario expresivo · Ítem 11",
+          "path": "./assets/stimuli/01A_VOCABULARIO_EXPRESIVO/VE_item_11_p015.png"
+        },
+        "12": {
+          "item": 12,
+          "status": "available",
+          "label": "Vocabulario expresivo · Ítem 12",
+          "path": "./assets/stimuli/01A_VOCABULARIO_EXPRESIVO/VE_item_12_p016.png"
+        },
+        "13": {
+          "item": 13,
+          "status": "available",
+          "label": "Vocabulario expresivo · Ítem 13",
+          "path": "./assets/stimuli/01A_VOCABULARIO_EXPRESIVO/VE_item_13_p017.png"
+        },
+        "14": {
+          "item": 14,
+          "status": "available",
+          "label": "Vocabulario expresivo · Ítem 14",
+          "path": "./assets/stimuli/01A_VOCABULARIO_EXPRESIVO/VE_item_14_p018.png"
+        },
+        "15": {
+          "item": 15,
+          "status": "available",
+          "label": "Vocabulario expresivo · Ítem 15",
+          "path": "./assets/stimuli/01A_VOCABULARIO_EXPRESIVO/VE_item_15_p019.png"
+        },
+        "16": {
+          "item": 16,
+          "status": "available",
+          "label": "Vocabulario expresivo · Ítem 16",
+          "path": "./assets/stimuli/01A_VOCABULARIO_EXPRESIVO/VE_item_16_p020.png"
+        },
+        "17": {
+          "item": 17,
+          "status": "available",
+          "label": "Vocabulario expresivo · Ítem 17",
+          "path": "./assets/stimuli/01A_VOCABULARIO_EXPRESIVO/VE_item_17_p021.png"
+        },
+        "18": {
+          "item": 18,
+          "status": "available",
+          "label": "Vocabulario expresivo · Ítem 18",
+          "path": "./assets/stimuli/01A_VOCABULARIO_EXPRESIVO/VE_item_18_p022.png"
+        },
+        "19": {
+          "item": 19,
+          "status": "available",
+          "label": "Vocabulario expresivo · Ítem 19",
+          "path": "./assets/stimuli/01A_VOCABULARIO_EXPRESIVO/VE_item_19_p023.png"
+        },
+        "20": {
+          "item": 20,
+          "status": "available",
+          "label": "Vocabulario expresivo · Ítem 20",
+          "path": "./assets/stimuli/01A_VOCABULARIO_EXPRESIVO/VE_item_20_p024.png"
+        },
+        "21": {
+          "item": 21,
+          "status": "available",
+          "label": "Vocabulario expresivo · Ítem 21",
+          "path": "./assets/stimuli/01A_VOCABULARIO_EXPRESIVO/VE_item_21_p025.png"
+        },
+        "22": {
+          "item": 22,
+          "status": "available",
+          "label": "Vocabulario expresivo · Ítem 22",
+          "path": "./assets/stimuli/01A_VOCABULARIO_EXPRESIVO/VE_item_22_p026.png"
+        },
+        "23": {
+          "item": 23,
+          "status": "available",
+          "label": "Vocabulario expresivo · Ítem 23",
+          "path": "./assets/stimuli/01A_VOCABULARIO_EXPRESIVO/VE_item_23_p027.png"
+        },
+        "24": {
+          "item": 24,
+          "status": "available",
+          "label": "Vocabulario expresivo · Ítem 24",
+          "path": "./assets/stimuli/01A_VOCABULARIO_EXPRESIVO/VE_item_24_p028.png"
+        },
+        "25": {
+          "item": 25,
+          "status": "available",
+          "label": "Vocabulario expresivo · Ítem 25",
+          "path": "./assets/stimuli/01A_VOCABULARIO_EXPRESIVO/VE_item_25_p029.png"
+        },
+        "26": {
+          "item": 26,
+          "status": "available",
+          "label": "Vocabulario expresivo · Ítem 26",
+          "path": "./assets/stimuli/01A_VOCABULARIO_EXPRESIVO/VE_item_26_p030.png"
+        },
+        "27": {
+          "item": 27,
+          "status": "available",
+          "label": "Vocabulario expresivo · Ítem 27",
+          "path": "./assets/stimuli/01A_VOCABULARIO_EXPRESIVO/VE_item_27_p031.png"
+        },
+        "28": {
+          "item": 28,
+          "status": "available",
+          "label": "Vocabulario expresivo · Ítem 28",
+          "path": "./assets/stimuli/01A_VOCABULARIO_EXPRESIVO/VE_item_28_p032.png"
+        },
+        "29": {
+          "item": 29,
+          "status": "available",
+          "label": "Vocabulario expresivo · Ítem 29",
+          "path": "./assets/stimuli/01A_VOCABULARIO_EXPRESIVO/VE_item_29_p033.png"
+        },
+        "30": {
+          "item": 30,
+          "status": "available",
+          "label": "Vocabulario expresivo · Ítem 30",
+          "path": "./assets/stimuli/01A_VOCABULARIO_EXPRESIVO/VE_item_30_p034.png"
+        },
+        "31": {
+          "item": 31,
+          "status": "available",
+          "label": "Vocabulario expresivo · Ítem 31",
+          "path": "./assets/stimuli/01A_VOCABULARIO_EXPRESIVO/VE_item_31_p035.png"
+        },
+        "32": {
+          "item": 32,
+          "status": "available",
+          "label": "Vocabulario expresivo · Ítem 32",
+          "path": "./assets/stimuli/01A_VOCABULARIO_EXPRESIVO/VE_item_32_p036.png"
+        },
+        "33": {
+          "item": 33,
+          "status": "available",
+          "label": "Vocabulario expresivo · Ítem 33",
+          "path": "./assets/stimuli/01A_VOCABULARIO_EXPRESIVO/VE_item_33_p037.png"
+        },
+        "34": {
+          "item": 34,
+          "status": "available",
+          "label": "Vocabulario expresivo · Ítem 34",
+          "path": "./assets/stimuli/01A_VOCABULARIO_EXPRESIVO/VE_item_34_p038.png"
+        },
+        "35": {
+          "item": 35,
+          "status": "available",
+          "label": "Vocabulario expresivo · Ítem 35",
+          "path": "./assets/stimuli/01A_VOCABULARIO_EXPRESIVO/VE_item_35_p039.png"
+        },
+        "36": {
+          "item": 36,
+          "status": "available",
+          "label": "Vocabulario expresivo · Ítem 36",
+          "path": "./assets/stimuli/01A_VOCABULARIO_EXPRESIVO/VE_item_36_p040.png"
+        },
+        "37": {
+          "item": 37,
+          "status": "available",
+          "label": "Vocabulario expresivo · Ítem 37",
+          "path": "./assets/stimuli/01A_VOCABULARIO_EXPRESIVO/VE_item_37_p041.png"
+        },
+        "38": {
+          "item": 38,
+          "status": "available",
+          "label": "Vocabulario expresivo · Ítem 38",
+          "path": "./assets/stimuli/01A_VOCABULARIO_EXPRESIVO/VE_item_38_p042.png"
+        },
+        "39": {
+          "item": 39,
+          "status": "available",
+          "label": "Vocabulario expresivo · Ítem 39",
+          "path": "./assets/stimuli/01A_VOCABULARIO_EXPRESIVO/VE_item_39_p043.png"
+        },
+        "40": {
+          "item": 40,
+          "status": "available",
+          "label": "Vocabulario expresivo · Ítem 40",
+          "path": "./assets/stimuli/01A_VOCABULARIO_EXPRESIVO/VE_item_40_p044.png"
+        },
+        "41": {
+          "item": 41,
+          "status": "available",
+          "label": "Vocabulario expresivo · Ítem 41",
+          "path": "./assets/stimuli/01A_VOCABULARIO_EXPRESIVO/VE_item_41_p045.png"
+        },
+        "42": {
+          "item": 42,
+          "status": "available",
+          "label": "Vocabulario expresivo · Ítem 42",
+          "path": "./assets/stimuli/01A_VOCABULARIO_EXPRESIVO/VE_item_42_p046.png"
+        },
+        "43": {
+          "item": 43,
+          "status": "available",
+          "label": "Vocabulario expresivo · Ítem 43",
+          "path": "./assets/stimuli/01A_VOCABULARIO_EXPRESIVO/VE_item_43_p047.png"
+        },
+        "44": {
+          "item": 44,
+          "status": "available",
+          "label": "Vocabulario expresivo · Ítem 44",
+          "path": "./assets/stimuli/01A_VOCABULARIO_EXPRESIVO/VE_item_44_p048.png"
+        },
+        "45": {
+          "item": 45,
+          "status": "available",
+          "label": "Vocabulario expresivo · Ítem 45",
+          "path": "./assets/stimuli/01A_VOCABULARIO_EXPRESIVO/VE_item_45_p049.png"
+        }
+      },
+      "counts": {
+        "available": 43,
+        "missing": 2,
+        "examples": 0,
+        "total_items": 45
+      }
+    },
+    "definiciones": {
+      "label": "Definiciones",
+      "examples": [
+        {
+          "id": "DEF_ejemplo_A_01_pista_p054",
+          "label": "Ejemplo A · pista",
+          "path": "./assets/stimuli/01B_DEFINICIONES/DEF_ejemplo_A_01_pista_p054.png"
+        },
+        {
+          "id": "DEF_ejemplo_A_02_respuesta_p055",
+          "label": "Ejemplo A · respuesta",
+          "path": "./assets/stimuli/01B_DEFINICIONES/DEF_ejemplo_A_02_respuesta_p055.png"
+        },
+        {
+          "id": "DEF_ejemplo_B_01_pista_p056",
+          "label": "Ejemplo B · pista",
+          "path": "./assets/stimuli/01B_DEFINICIONES/DEF_ejemplo_B_01_pista_p056.png"
+        },
+        {
+          "id": "DEF_ejemplo_B_02_respuesta_p057",
+          "label": "Ejemplo B · respuesta",
+          "path": "./assets/stimuli/01B_DEFINICIONES/DEF_ejemplo_B_02_respuesta_p057.png"
+        }
+      ],
+      "items": {
+        "1": {
+          "item": 1,
+          "status": "available",
+          "label": "Definiciones · Ítem 1",
+          "path": "./assets/stimuli/01B_DEFINICIONES/DEF_item_01_p058.png"
+        },
+        "2": {
+          "item": 2,
+          "status": "available",
+          "label": "Definiciones · Ítem 2",
+          "path": "./assets/stimuli/01B_DEFINICIONES/DEF_item_02_p059.png"
+        },
+        "3": {
+          "item": 3,
+          "status": "available",
+          "label": "Definiciones · Ítem 3",
+          "path": "./assets/stimuli/01B_DEFINICIONES/DEF_item_03_p060.png"
+        },
+        "4": {
+          "item": 4,
+          "status": "available",
+          "label": "Definiciones · Ítem 4",
+          "path": "./assets/stimuli/01B_DEFINICIONES/DEF_item_04_p061.png"
+        },
+        "5": {
+          "item": 5,
+          "status": "available",
+          "label": "Definiciones · Ítem 5",
+          "path": "./assets/stimuli/01B_DEFINICIONES/DEF_item_05_p062.png"
+        },
+        "6": {
+          "item": 6,
+          "status": "available",
+          "label": "Definiciones · Ítem 6",
+          "path": "./assets/stimuli/01B_DEFINICIONES/DEF_item_06_p063.png"
+        },
+        "7": {
+          "item": 7,
+          "status": "available",
+          "label": "Definiciones · Ítem 7",
+          "path": "./assets/stimuli/01B_DEFINICIONES/DEF_item_07_p064.png"
+        },
+        "8": {
+          "item": 8,
+          "status": "available",
+          "label": "Definiciones · Ítem 8",
+          "path": "./assets/stimuli/01B_DEFINICIONES/DEF_item_08_p065.png"
+        },
+        "9": {
+          "item": 9,
+          "status": "available",
+          "label": "Definiciones · Ítem 9",
+          "path": "./assets/stimuli/01B_DEFINICIONES/DEF_item_09_p066.png"
+        },
+        "10": {
+          "item": 10,
+          "status": "available",
+          "label": "Definiciones · Ítem 10",
+          "path": "./assets/stimuli/01B_DEFINICIONES/DEF_item_10_p067.png"
+        },
+        "11": {
+          "item": 11,
+          "status": "available",
+          "label": "Definiciones · Ítem 11",
+          "path": "./assets/stimuli/01B_DEFINICIONES/DEF_item_11_p068.png"
+        },
+        "12": {
+          "item": 12,
+          "status": "available",
+          "label": "Definiciones · Ítem 12",
+          "path": "./assets/stimuli/01B_DEFINICIONES/DEF_item_12_p069.png"
+        },
+        "13": {
+          "item": 13,
+          "status": "available",
+          "label": "Definiciones · Ítem 13",
+          "path": "./assets/stimuli/01B_DEFINICIONES/DEF_item_13_p070.png"
+        },
+        "14": {
+          "item": 14,
+          "status": "available",
+          "label": "Definiciones · Ítem 14",
+          "path": "./assets/stimuli/01B_DEFINICIONES/DEF_item_14_p071.png"
+        },
+        "15": {
+          "item": 15,
+          "status": "available",
+          "label": "Definiciones · Ítem 15",
+          "path": "./assets/stimuli/01B_DEFINICIONES/DEF_item_15_p072.png"
+        },
+        "16": {
+          "item": 16,
+          "status": "available",
+          "label": "Definiciones · Ítem 16",
+          "path": "./assets/stimuli/01B_DEFINICIONES/DEF_item_16_p073.png"
+        },
+        "17": {
+          "item": 17,
+          "status": "available",
+          "label": "Definiciones · Ítem 17",
+          "path": "./assets/stimuli/01B_DEFINICIONES/DEF_item_17_p074.png"
+        },
+        "18": {
+          "item": 18,
+          "status": "available",
+          "label": "Definiciones · Ítem 18",
+          "path": "./assets/stimuli/01B_DEFINICIONES/DEF_item_18_p075.png"
+        },
+        "19": {
+          "item": 19,
+          "status": "available",
+          "label": "Definiciones · Ítem 19",
+          "path": "./assets/stimuli/01B_DEFINICIONES/DEF_item_19_p076.png"
+        },
+        "20": {
+          "item": 20,
+          "status": "available",
+          "label": "Definiciones · Ítem 20",
+          "path": "./assets/stimuli/01B_DEFINICIONES/DEF_item_20_p077.png"
+        },
+        "21": {
+          "item": 21,
+          "status": "available",
+          "label": "Definiciones · Ítem 21",
+          "path": "./assets/stimuli/01B_DEFINICIONES/DEF_item_21_p078.png"
+        },
+        "22": {
+          "item": 22,
+          "status": "available",
+          "label": "Definiciones · Ítem 22",
+          "path": "./assets/stimuli/01B_DEFINICIONES/DEF_item_22_p079.png"
+        },
+        "23": {
+          "item": 23,
+          "status": "available",
+          "label": "Definiciones · Ítem 23",
+          "path": "./assets/stimuli/01B_DEFINICIONES/DEF_item_23_p080.png"
+        },
+        "24": {
+          "item": 24,
+          "status": "available",
+          "label": "Definiciones · Ítem 24",
+          "path": "./assets/stimuli/01B_DEFINICIONES/DEF_item_24_p081.png"
+        },
+        "25": {
+          "item": 25,
+          "status": "available",
+          "label": "Definiciones · Ítem 25",
+          "path": "./assets/stimuli/01B_DEFINICIONES/DEF_item_25_p082.png"
+        },
+        "26": {
+          "item": 26,
+          "status": "available",
+          "label": "Definiciones · Ítem 26",
+          "path": "./assets/stimuli/01B_DEFINICIONES/DEF_item_26_p083.png"
+        },
+        "27": {
+          "item": 27,
+          "status": "missing",
+          "label": "Definiciones · Ítem 27",
+          "note": "El estímulo del ítem 27 (Conversación) no aparece en el PDF fuente ni en el paquete original."
+        },
+        "28": {
+          "item": 28,
+          "status": "available",
+          "label": "Definiciones · Ítem 28",
+          "path": "./assets/stimuli/01B_DEFINICIONES/DEF_item_28_p084.png"
+        },
+        "29": {
+          "item": 29,
+          "status": "available",
+          "label": "Definiciones · Ítem 29",
+          "path": "./assets/stimuli/01B_DEFINICIONES/DEF_item_29_p085.png"
+        },
+        "30": {
+          "item": 30,
+          "status": "available",
+          "label": "Definiciones · Ítem 30",
+          "path": "./assets/stimuli/01B_DEFINICIONES/DEF_item_30_p086.png"
+        },
+        "31": {
+          "item": 31,
+          "status": "available",
+          "label": "Definiciones · Ítem 31",
+          "path": "./assets/stimuli/01B_DEFINICIONES/DEF_item_31_p087.png"
+        },
+        "32": {
+          "item": 32,
+          "status": "available",
+          "label": "Definiciones · Ítem 32",
+          "path": "./assets/stimuli/01B_DEFINICIONES/DEF_item_32_p088.png"
+        },
+        "33": {
+          "item": 33,
+          "status": "available",
+          "label": "Definiciones · Ítem 33",
+          "path": "./assets/stimuli/01B_DEFINICIONES/DEF_item_33_p089.png"
+        },
+        "34": {
+          "item": 34,
+          "status": "available",
+          "label": "Definiciones · Ítem 34",
+          "path": "./assets/stimuli/01B_DEFINICIONES/DEF_item_34_p090.png"
+        },
+        "35": {
+          "item": 35,
+          "status": "available",
+          "label": "Definiciones · Ítem 35",
+          "path": "./assets/stimuli/01B_DEFINICIONES/DEF_item_35_p091.png"
+        },
+        "36": {
+          "item": 36,
+          "status": "available",
+          "label": "Definiciones · Ítem 36",
+          "path": "./assets/stimuli/01B_DEFINICIONES/DEF_item_36_p092.png"
+        },
+        "37": {
+          "item": 37,
+          "status": "available",
+          "label": "Definiciones · Ítem 37",
+          "path": "./assets/stimuli/01B_DEFINICIONES/DEF_item_37_p093.png"
+        }
+      },
+      "counts": {
+        "available": 36,
+        "missing": 1,
+        "examples": 4,
+        "total_items": 37
+      }
+    },
+    "matrices": {
+      "label": "Matrices",
+      "examples": [
+        {
+          "id": "MAT_ejemplo_A_p098",
+          "label": "Ejemplo A",
+          "path": "./assets/stimuli/02_MATRICES/MAT_ejemplo_A_p098.png"
+        },
+        {
+          "id": "MAT_ejemplo_B_p108",
+          "label": "Ejemplo B",
+          "path": "./assets/stimuli/02_MATRICES/MAT_ejemplo_B_p108.png"
+        }
+      ],
+      "items": {
+        "1": {
+          "item": 1,
+          "status": "available",
+          "label": "Matrices · Ítem 1",
+          "path": "./assets/stimuli/02_MATRICES/MAT_item_01_p099.png"
+        },
+        "2": {
+          "item": 2,
+          "status": "available",
+          "label": "Matrices · Ítem 2",
+          "path": "./assets/stimuli/02_MATRICES/MAT_item_02_p100.png"
+        },
+        "3": {
+          "item": 3,
+          "status": "available",
+          "label": "Matrices · Ítem 3",
+          "path": "./assets/stimuli/02_MATRICES/MAT_item_03_p101.png"
+        },
+        "4": {
+          "item": 4,
+          "status": "available",
+          "label": "Matrices · Ítem 4",
+          "path": "./assets/stimuli/02_MATRICES/MAT_item_04_p102.png"
+        },
+        "5": {
+          "item": 5,
+          "status": "available",
+          "label": "Matrices · Ítem 5",
+          "path": "./assets/stimuli/02_MATRICES/MAT_item_05_p103.png"
+        },
+        "6": {
+          "item": 6,
+          "status": "available",
+          "label": "Matrices · Ítem 6",
+          "path": "./assets/stimuli/02_MATRICES/MAT_item_06_p104.png"
+        },
+        "7": {
+          "item": 7,
+          "status": "available",
+          "label": "Matrices · Ítem 7",
+          "path": "./assets/stimuli/02_MATRICES/MAT_item_07_p105.png"
+        },
+        "8": {
+          "item": 8,
+          "status": "available",
+          "label": "Matrices · Ítem 8",
+          "path": "./assets/stimuli/02_MATRICES/MAT_item_08_p106.png"
+        },
+        "9": {
+          "item": 9,
+          "status": "available",
+          "label": "Matrices · Ítem 9",
+          "path": "./assets/stimuli/02_MATRICES/MAT_item_09_p107.png"
+        },
+        "10": {
+          "item": 10,
+          "status": "available",
+          "label": "Matrices · Ítem 10",
+          "path": "./assets/stimuli/02_MATRICES/MAT_item_10_p109.png"
+        },
+        "11": {
+          "item": 11,
+          "status": "available",
+          "label": "Matrices · Ítem 11",
+          "path": "./assets/stimuli/02_MATRICES/MAT_item_11_p110.png"
+        },
+        "12": {
+          "item": 12,
+          "status": "available",
+          "label": "Matrices · Ítem 12",
+          "path": "./assets/stimuli/02_MATRICES/MAT_item_12_p111.png"
+        },
+        "13": {
+          "item": 13,
+          "status": "available",
+          "label": "Matrices · Ítem 13",
+          "path": "./assets/stimuli/02_MATRICES/MAT_item_13_p112.png"
+        },
+        "14": {
+          "item": 14,
+          "status": "available",
+          "label": "Matrices · Ítem 14",
+          "path": "./assets/stimuli/02_MATRICES/MAT_item_14_p113.png"
+        },
+        "15": {
+          "item": 15,
+          "status": "available",
+          "label": "Matrices · Ítem 15",
+          "path": "./assets/stimuli/02_MATRICES/MAT_item_15_p114.png"
+        },
+        "16": {
+          "item": 16,
+          "status": "available",
+          "label": "Matrices · Ítem 16",
+          "path": "./assets/stimuli/02_MATRICES/MAT_item_16_p115.png"
+        },
+        "17": {
+          "item": 17,
+          "status": "available",
+          "label": "Matrices · Ítem 17",
+          "path": "./assets/stimuli/02_MATRICES/MAT_item_17_p116.png"
+        },
+        "18": {
+          "item": 18,
+          "status": "available",
+          "label": "Matrices · Ítem 18",
+          "path": "./assets/stimuli/02_MATRICES/MAT_item_18_p117.png"
+        },
+        "19": {
+          "item": 19,
+          "status": "available",
+          "label": "Matrices · Ítem 19",
+          "path": "./assets/stimuli/02_MATRICES/MAT_item_19_p118.png"
+        },
+        "20": {
+          "item": 20,
+          "status": "available",
+          "label": "Matrices · Ítem 20",
+          "path": "./assets/stimuli/02_MATRICES/MAT_item_20_p119.png"
+        },
+        "21": {
+          "item": 21,
+          "status": "available",
+          "label": "Matrices · Ítem 21",
+          "path": "./assets/stimuli/02_MATRICES/MAT_item_21_p120.png"
+        },
+        "22": {
+          "item": 22,
+          "status": "available",
+          "label": "Matrices · Ítem 22",
+          "path": "./assets/stimuli/02_MATRICES/MAT_item_22_p121.png"
+        },
+        "23": {
+          "item": 23,
+          "status": "available",
+          "label": "Matrices · Ítem 23",
+          "path": "./assets/stimuli/02_MATRICES/MAT_item_23_p122.png"
+        },
+        "24": {
+          "item": 24,
+          "status": "available",
+          "label": "Matrices · Ítem 24",
+          "path": "./assets/stimuli/02_MATRICES/MAT_item_24_p123.png"
+        },
+        "25": {
+          "item": 25,
+          "status": "available",
+          "label": "Matrices · Ítem 25",
+          "path": "./assets/stimuli/02_MATRICES/MAT_item_25_p124.png"
+        },
+        "26": {
+          "item": 26,
+          "status": "available",
+          "label": "Matrices · Ítem 26",
+          "path": "./assets/stimuli/02_MATRICES/MAT_item_26_p125.png"
+        },
+        "27": {
+          "item": 27,
+          "status": "available",
+          "label": "Matrices · Ítem 27",
+          "path": "./assets/stimuli/02_MATRICES/MAT_item_27_p126.png"
+        },
+        "28": {
+          "item": 28,
+          "status": "available",
+          "label": "Matrices · Ítem 28",
+          "path": "./assets/stimuli/02_MATRICES/MAT_item_28_p127.png"
+        },
+        "29": {
+          "item": 29,
+          "status": "available",
+          "label": "Matrices · Ítem 29",
+          "path": "./assets/stimuli/02_MATRICES/MAT_item_29_p128.png"
+        },
+        "30": {
+          "item": 30,
+          "status": "available",
+          "label": "Matrices · Ítem 30",
+          "path": "./assets/stimuli/02_MATRICES/MAT_item_30_p129.png"
+        },
+        "31": {
+          "item": 31,
+          "status": "available",
+          "label": "Matrices · Ítem 31",
+          "path": "./assets/stimuli/02_MATRICES/MAT_item_31_p130.png"
+        },
+        "32": {
+          "item": 32,
+          "status": "available",
+          "label": "Matrices · Ítem 32",
+          "path": "./assets/stimuli/02_MATRICES/MAT_item_32_p131.png"
+        },
+        "33": {
+          "item": 33,
+          "status": "available",
+          "label": "Matrices · Ítem 33",
+          "path": "./assets/stimuli/02_MATRICES/MAT_item_33_p132.png"
+        },
+        "34": {
+          "item": 34,
+          "status": "available",
+          "label": "Matrices · Ítem 34",
+          "path": "./assets/stimuli/02_MATRICES/MAT_item_34_p133.png"
+        },
+        "35": {
+          "item": 35,
+          "status": "available",
+          "label": "Matrices · Ítem 35",
+          "path": "./assets/stimuli/02_MATRICES/MAT_item_35_p134.png"
+        },
+        "36": {
+          "item": 36,
+          "status": "available",
+          "label": "Matrices · Ítem 36",
+          "path": "./assets/stimuli/02_MATRICES/MAT_item_36_p135.png"
+        },
+        "37": {
+          "item": 37,
+          "status": "available",
+          "label": "Matrices · Ítem 37",
+          "path": "./assets/stimuli/02_MATRICES/MAT_item_37_p136.png"
+        },
+        "38": {
+          "item": 38,
+          "status": "available",
+          "label": "Matrices · Ítem 38",
+          "path": "./assets/stimuli/02_MATRICES/MAT_item_38_p137.png"
+        },
+        "39": {
+          "item": 39,
+          "status": "available",
+          "label": "Matrices · Ítem 39",
+          "path": "./assets/stimuli/02_MATRICES/MAT_item_39_p138.png"
+        },
+        "40": {
+          "item": 40,
+          "status": "available",
+          "label": "Matrices · Ítem 40",
+          "path": "./assets/stimuli/02_MATRICES/MAT_item_40_p139.png"
+        },
+        "41": {
+          "item": 41,
+          "status": "available",
+          "label": "Matrices · Ítem 41",
+          "path": "./assets/stimuli/02_MATRICES/MAT_item_41_p140.png"
+        },
+        "42": {
+          "item": 42,
+          "status": "available",
+          "label": "Matrices · Ítem 42",
+          "path": "./assets/stimuli/02_MATRICES/MAT_item_42_p141.png"
+        },
+        "43": {
+          "item": 43,
+          "status": "available",
+          "label": "Matrices · Ítem 43",
+          "path": "./assets/stimuli/02_MATRICES/MAT_item_43_p142.png"
+        },
+        "44": {
+          "item": 44,
+          "status": "available",
+          "label": "Matrices · Ítem 44",
+          "path": "./assets/stimuli/02_MATRICES/MAT_item_44_p143.png"
+        },
+        "45": {
+          "item": 45,
+          "status": "available",
+          "label": "Matrices · Ítem 45",
+          "path": "./assets/stimuli/02_MATRICES/MAT_item_45_p144.png"
+        },
+        "46": {
+          "item": 46,
+          "status": "available",
+          "label": "Matrices · Ítem 46",
+          "path": "./assets/stimuli/02_MATRICES/MAT_item_46_p145.png"
+        },
+        "47": {
+          "item": 47,
+          "status": "available",
+          "label": "Matrices · Ítem 47",
+          "path": "./assets/stimuli/02_MATRICES/MAT_item_47_p146.png"
+        },
+        "48": {
+          "item": 48,
+          "status": "available",
+          "label": "Matrices · Ítem 48",
+          "path": "./assets/stimuli/02_MATRICES/MAT_item_48_p147.png"
+        }
+      },
+      "counts": {
+        "available": 48,
+        "missing": 0,
+        "examples": 2,
+        "total_items": 48
+      }
+    }
+  }
+}

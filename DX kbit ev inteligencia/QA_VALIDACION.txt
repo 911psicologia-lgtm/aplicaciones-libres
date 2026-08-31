@@ -1,40 +1,15 @@
-VALIDACIÓN INTERNA — Protocolo Cognitivo K-BIT v0.3.0
-Fecha de construcción: 2026-08-31
 
-1. JavaScript
-- app.js: sintaxis OK
-- config.js: sintaxis OK
-- export.js: sintaxis OK
-- reports.js: sintaxis OK
-- scoring.js: sintaxis OK
-- storage.js: sintaxis OK
-- utils.js: sintaxis OK
+VALIDACIÓN TÉCNICA — v0.4.0
 
-2. Baremos integrados
-- Escala verbal: 2.816 filas
-- Escala no verbal: 2.155 filas
-- Compuesto: 121 filas
-- Bandas de error: 70 filas
-- Interpretación: 121 filas
-- Diferencias significativas: 14 filas
-- Compuesto: cobertura continua de sumas 0–320, sin huecos ni solapamientos.
-- C.1: 53 tramos de edad en verbal y 53 en no verbal, sin solapamientos de bruto dentro de cada tramo.
-
-3. Caso M ficticio
-Fecha de nacimiento: 2016-04-14
-Fecha de aplicación del test de validación: 2026-08-31
-Edad calculada: 10 años, 4 meses, 17 días = 124 meses
-Tramo normativo: 10a 3m – 10a 5m
-Bruto verbal de demostración: 51 -> PT 105, percentil 63, categoría Medio
-Bruto matrices de demostración: 31 -> PT 105, percentil 63, categoría Medio
-Suma de típicos: 210 -> CI compuesto 103, percentil 58, categoría Medio
-Diferencia V-NV: 0 -> no significativa a p<0,05
-
-4. Privacidad IA
-- El payload excluye nombre, documento, institución y remitente como campos directos.
-- Se reemplazan coincidencias de esos datos dentro de los campos narrativos.
-- Se redactan patrones básicos de correo y teléfono/identificador numérico.
-- El usuario debe seguir evitando identificadores en texto libre, ya que ninguna redacción automática puede garantizar anonimización perfecta.
-
-5. Limitación deliberada
-Las reglas específicas de administración del K-BIT (inicio, retorno, discontinuación, consignas y criterios detallados) no se han inventado. Quedan pendientes de integración desde el material autorizado.
+1. Estructura de sitio estático creada correctamente.
+2. data/stimuli-manifest.json presente.
+3. Visor limpio adicional: stimulos.html presente.
+4. Inventario detectado:
+   - Vocabulario expresivo: 43 disponibles, 2 faltantes.
+   - Definiciones: 36 disponibles, 1 faltantes.
+   - Matrices: 48 disponibles, 0 faltantes.
+5. Faltantes trazados sin fabricar sustitutos:
+   - VE ítem 2.
+   - VE ítem 3.
+   - DEF ítem 27.
+6. Compatibilidad esperada: Cloudflare Pages / navegador moderno con módulos ES.

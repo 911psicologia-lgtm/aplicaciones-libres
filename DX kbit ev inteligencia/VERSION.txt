@@ -1,5 +1,1 @@
-Protocolo Cognitivo K-BIT
-Versión: 0.3.0
-Arquitectura: multiarchivo estático / Cloudflare Pages
-Baremos: Apéndice C integrado (C.1–C.5)
-Fecha: 2026-08-31
+0.4.0
