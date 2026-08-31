@@ -1,18 +1,18 @@
 {
   "meta": {
-    "version": "1.0.0",
+    "version": "1.1.0",
     "sourceZip": "7b8107fe-8c31-4def-857b-7d4e30318ef3.zip",
     "description": "Estímulos visuales optimizados para tablet integrados a la app K-BIT.",
     "summary": {
       "vocabExpresivo": {
-        "available": 43,
-        "missing": 2,
+        "available": 45,
+        "missing": 0,
         "examples": 0,
         "total_items": 45
       },
       "definiciones": {
-        "available": 36,
-        "missing": 1,
+        "available": 37,
+        "missing": 0,
         "examples": 4,
         "total_items": 37
       },
@@ -22,7 +22,27 @@
         "examples": 2,
         "total_items": 48
       }
-    }
+    },
+    "replacementStimuli": [
+      {
+        "subtest": "vocabExpresivo",
+        "item": 2,
+        "target": "Tenedor",
+        "status": "generated-approved"
+      },
+      {
+        "subtest": "vocabExpresivo",
+        "item": 3,
+        "target": "Rana",
+        "status": "generated-approved"
+      },
+      {
+        "subtest": "definiciones",
+        "item": 27,
+        "target": "Conversación",
+        "status": "generated-approved"
+      }
+    ]
   },
   "subtests": {
     "vocabExpresivo": {
@@ -37,15 +57,21 @@
         },
         "2": {
           "item": 2,
-          "status": "missing",
+          "status": "available",
           "label": "Vocabulario expresivo · Ítem 2",
-          "note": "El estímulo del ítem 2 (Tenedor) no aparece en el PDF fuente ni en el paquete original."
+          "note": "Estímulo sustitutivo generado y aprobado para completar un reactivo ausente del PDF fuente escaneado.",
+          "path": "./assets/stimuli/SUSTITUTOS_GENERADOS/VE_item_02_sustituto.webp?v=060",
+          "substitute": true,
+          "provenance": "generated-replacement-approved-by-user"
         },
         "3": {
           "item": 3,
-          "status": "missing",
+          "status": "available",
           "label": "Vocabulario expresivo · Ítem 3",
-          "note": "El estímulo del ítem 3 (Rana) no aparece en el PDF fuente ni en el paquete original."
+          "note": "Estímulo sustitutivo generado y aprobado para completar un reactivo ausente del PDF fuente escaneado.",
+          "path": "./assets/stimuli/SUSTITUTOS_GENERADOS/VE_item_03_sustituto.webp?v=060",
+          "substitute": true,
+          "provenance": "generated-replacement-approved-by-user"
         },
         "4": {
           "item": 4,
@@ -301,8 +327,8 @@
         }
       },
       "counts": {
-        "available": 43,
-        "missing": 2,
+        "available": 45,
+        "missing": 0,
         "examples": 0,
         "total_items": 45
       }
@@ -490,9 +516,12 @@
         },
         "27": {
           "item": 27,
-          "status": "missing",
+          "status": "available",
           "label": "Definiciones · Ítem 27",
-          "note": "El estímulo del ítem 27 (Conversación) no aparece en el PDF fuente ni en el paquete original."
+          "note": "Estímulo sustitutivo generado y aprobado para completar un reactivo ausente del PDF fuente escaneado.",
+          "path": "./assets/stimuli/SUSTITUTOS_GENERADOS/DEF_item_27_sustituto.webp?v=060",
+          "substitute": true,
+          "provenance": "generated-replacement-approved-by-user"
         },
         "28": {
           "item": 28,
@@ -556,8 +585,8 @@
         }
       },
       "counts": {
-        "available": 36,
-        "missing": 1,
+        "available": 37,
+        "missing": 0,
         "examples": 4,
         "total_items": 37
       }
