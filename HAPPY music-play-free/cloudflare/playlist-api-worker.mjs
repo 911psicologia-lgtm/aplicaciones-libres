@@ -1,5 +1,5 @@
 /**
- * OPTIONAL helper for MUSIC PLAY R5.
+ * OPTIONAL helper for MUSIC PLAY R6.
  * Mount this handler at the same origin/path used by the PWA so
  * GET ./api/youtube-playlist?list=PLAYLIST_ID returns public playlist metadata.
  * It does NOT download audio/video. It only reads public playlist page metadata.

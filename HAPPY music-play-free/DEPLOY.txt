@@ -1,15 +1,15 @@
-MUSIC PLAY · HAPPY — R5
+MUSIC PLAY · HAPPY R6
 
-SUBIDA NORMAL
-1. Reemplaza el contenido de la carpeta publicada por el contenido de este ZIP.
-2. index.html, app.js, styles.css, sw.js, manifest.webmanifest e icons/ deben quedar en la raíz de la app.
-3. Haz Ctrl+F5 una vez después de publicar para retirar la caché R4.
+Sube el contenido de este ZIP directamente a la raíz publicada de la app.
+No subas una carpeta dist adicional.
 
-YOUTUBE PLAYLISTS
-- R5 usa primero un helper same-origin si existe en ./api/youtube-playlist.
-- Si no existe, usa automáticamente la YouTube IFrame API oficial y getPlaylist().
-- La carpeta cloudflare/ contiene un helper opcional para reforzar la enumeración en un Worker.
-- No descarga audio de YouTube: importa referencias y reproduce con el reproductor oficial.
+Raíz:
+index.html
+styles.css
+app.js
+sw.js
+manifest.webmanifest
+icons/
+cloudflare/ (helper opcional)
 
-PRUEBA EN CELULAR
-Cargar → Enlace → aparecen 3 botones de prueba (1, 2, 3) y “Probar 3”.
+IMPORTANTE: reemplaza todos los archivos anteriores y haz Ctrl+F5 una vez. R6 usa una caché PWA nueva: mpf-minimal-r6-playlist-hub.

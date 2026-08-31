@@ -104,7 +104,7 @@
             <small>Biblioteca</small>
             <h2>Tu música</h2>
           </div>
-          <button id="libraryAddBtn" class="head-btn">＋</button>
+          <div class="head-actions"><button id="createFromLibraryBtn" class="head-btn" title="Crear playlist desde canciones">≡＋</button><button id="libraryAddBtn" class="head-btn" title="Cargar música">＋</button></div>
         </div>
 
         <label class="search-box">
@@ -124,28 +124,54 @@
       </section>
 
       <section id="playlistView" class="view">
-        <div class="view-head">
+        <div id="playlistHubHead" class="view-head">
           <button class="back-btn" data-go="home">←</button>
           <div>
             <small>Playlists</small>
             <h2>Tus listas</h2>
           </div>
-          <button id="newPlaylistBtn" class="head-btn">＋</button>
+          <div class="head-actions">
+            <button id="importPlaylistBtn" class="head-btn" title="Importar playlist por enlace">🔗</button>
+            <button id="newPlaylistBtn" class="head-btn" title="Nueva playlist">＋</button>
+          </div>
         </div>
 
-        <div id="playlistTabs" class="chips"></div>
-        <div class="micro-panel compact">
-          <button id="openLibraryFromPlaylists" class="micro-btn">＋ Añadir canciones</button>
-          <button id="playPlaylistBtn" class="micro-btn">▶ Reproducir playlist</button>
-          <button id="mixPlaylistBtn" class="micro-btn">✦ Mix playlist</button>
-        </div>
-
-        <div id="playlistEmpty" class="empty-state slim">
+        <div id="playlistHub" class="playlist-hub"></div>
+        <div id="playlistHubEmpty" class="empty-state slim is-hidden">
           <div class="empty-icon">≡</div>
-          <h3>Aún no hay canciones aquí</h3>
-          <p>Toca una canción en la biblioteca y agrégala a una playlist.</p>
+          <h3>Tus playlists vivirán aquí</h3>
+          <p>Crea una desde tus canciones o importa una lista por enlace.</p>
+          <div class="empty-actions">
+            <button id="emptyNewPlaylistBtn" class="micro-btn">＋ Nueva</button>
+            <button id="emptyImportPlaylistBtn" class="micro-btn">🔗 Importar</button>
+          </div>
         </div>
-        <div id="playlistList" class="list"></div>
+
+        <section id="playlistDetail" class="playlist-detail is-hidden">
+          <div class="playlist-detail-head">
+            <button id="playlistDetailBack" class="back-btn" title="Volver a playlists">←</button>
+            <div class="playlist-detail-copy">
+              <small id="playlistDetailMeta">PLAYLIST</small>
+              <h2 id="playlistDetailTitle">—</h2>
+            </div>
+            <button id="playlistMenuBtn" class="head-btn" title="Opciones">⋯</button>
+          </div>
+
+          <div class="micro-panel compact playlist-actions">
+            <button id="playPlaylistBtn" class="micro-btn">▶ Play</button>
+            <button id="mixPlaylistBtn" class="micro-btn">✦ Mix</button>
+            <button id="openLibraryFromPlaylists" class="micro-btn">＋ Canciones</button>
+            <button id="addLinkToPlaylistBtn" class="micro-btn">🔗 Enlace</button>
+          </div>
+
+          <div id="playlistSources" class="playlist-sources is-hidden"></div>
+          <div id="playlistEmpty" class="empty-state slim">
+            <div class="empty-icon">≡</div>
+            <h3>Playlist vacía</h3>
+            <p>Añade canciones de tu biblioteca o importa un enlace.</p>
+          </div>
+          <div id="playlistList" class="list"></div>
+        </section>
       </section>
     </main>
 

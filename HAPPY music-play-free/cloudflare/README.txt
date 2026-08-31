@@ -1,4 +1,4 @@
-MUSIC PLAY R5 — helper opcional para Cloudflare Worker
+MUSIC PLAY R6 — helper opcional para Cloudflare Worker
 
 La app funciona sin este helper usando la YouTube IFrame API oficial.
 Este helper mejora la importación de playlists cuando el navegador no logra enumerar
