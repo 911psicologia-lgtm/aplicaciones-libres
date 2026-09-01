@@ -1,20 +1,20 @@
-const BUILD = '2026.08.31-r8-smart-library';
-const CACHE = 'mpf-r8-smart-library';
+const BUILD = '2026.09.01-r9b-icon-refresh';
+const CACHE = 'mpf-r9b-icon-refresh';
 const CORE = [
   './',
   './index.html',
-  './styles.css?v=r8-smart',
-  './app.js?v=r8-smart',
-  './manifest.webmanifest?v=r8-smart',
+  './styles.css?v=r9b-icon-refresh',
+  './app.js?v=r9b-icon-refresh',
+  './manifest.webmanifest?v=r9b-icon-refresh',
   './version.json',
   './icons/icon-192.png',
   './icons/icon-512.png',
-  './icons/icon-512-maskable.png'
+  './icons/icon-512-maskable.png',
+  './icons/apple-touch-icon.png',
+  './icons/favicon-256.png'
 ];
 
 self.addEventListener('install', event => {
-  // Initial installs activate normally. Updates remain waiting so the UI can
-  // explicitly offer the user the update instead of refreshing unexpectedly.
   event.waitUntil(caches.open(CACHE).then(cache => cache.addAll(CORE)));
 });
 
@@ -48,7 +48,6 @@ self.addEventListener('fetch', event => {
     return;
   }
 
-  // Build-versioned assets can be cache-first without trapping an old build.
   event.respondWith(
     caches.match(req).then(hit => hit || fetch(req).then(res => {
       if(res.ok){

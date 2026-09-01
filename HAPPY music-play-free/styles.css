@@ -371,3 +371,40 @@ html[data-theme="light"] .home-card,html[data-theme="light"] .summary,html[data-
   .mini-favorite{width:34px;height:34px;font-size:18px}
 }
 @media (max-width:390px){.track-meta{display:none}.track-front{grid-template-columns:40px minmax(0,1fr) auto}.row-actions{grid-column:3}.smart-card small{white-space:nowrap}.mini-stats{justify-content:space-between}}
+
+/* R9 — immersive PWA, artwork and import batches */
+html,body{min-height:100%;min-height:100dvh}
+body{overscroll-behavior-y:none}
+.app{padding-top:max(18px,env(safe-area-inset-top));padding-left:max(18px,env(safe-area-inset-left));padding-right:max(18px,env(safe-area-inset-right));padding-bottom:calc(120px + env(safe-area-inset-bottom))}
+.home-card-compact{min-height:108px;padding:20px 24px;display:flex;flex-direction:column;justify-content:center;align-items:center;gap:5px}
+.home-card-compact h1{font-size:clamp(28px,4.5vw,44px)}
+.home-card-compact p{font-size:12px}
+.install-btn.installed{color:var(--good)}
+.track-art,.mini-art,.player-cover,.playlist-card-icon{overflow:hidden;isolation:isolate}
+.track-art img,.mini-art img,.player-cover img,.playlist-card-icon img{width:100%;height:100%;object-fit:cover;display:block}
+.bulk-track.import-fresh{border-color:color-mix(in srgb,var(--accent) 32%,var(--line));background:color-mix(in srgb,var(--accent) 7%,var(--surface-2))}
+.bulk-select-tools .tiny-btn:disabled{opacity:.35;cursor:not-allowed}
+/* YouTube requires an actual player-sized viewport. Keep playback visible while it is active. */
+.remote-dock{width:264px}
+.remote-stage{height:200px;aspect-ratio:auto}
+.probe-host{position:fixed!important;left:-10000px!important;top:-10000px!important;right:auto!important;bottom:auto!important;width:240px!important;height:200px!important;overflow:hidden!important;pointer-events:none!important;opacity:.01!important;z-index:-1!important}
+.probe-host iframe,.probe-host>div{width:240px!important;height:200px!important;border:0!important}
+:fullscreen .app{max-width:980px}
+
+@media (max-width:640px){
+  .app{padding-top:max(8px,env(safe-area-inset-top));padding-left:max(10px,env(safe-area-inset-left));padding-right:max(10px,env(safe-area-inset-right));padding-bottom:calc(108px + env(safe-area-inset-bottom))}
+  .home-card-compact{min-height:62px;padding:8px 12px;display:flex;align-items:flex-start;text-align:left;gap:2px;border-radius:17px}
+  .home-card-compact h1{font-size:20px;line-height:1.05}
+  .home-card-compact p{font-size:9px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;max-width:100%}
+  html[data-shell="browser"] .brand-copy{display:none}
+  html[data-shell="browser"] .topbar{min-height:42px}
+  html[data-shell="browser"] .brand-btn{gap:0}
+  .remote-dock{right:8px;bottom:88px;width:220px;padding:6px;border-radius:15px}
+  .remote-stage{height:200px;border-radius:11px}
+  .track-art img,.mini-art img,.playlist-card-icon img{border-radius:inherit}
+}
+@media (max-width:390px){
+  .home-card-compact{min-height:58px}
+  .home-card-compact h1{font-size:19px}
+  .top-actions{gap:4px}
+}

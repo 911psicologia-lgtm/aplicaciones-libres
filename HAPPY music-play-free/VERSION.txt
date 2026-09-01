@@ -1,4 +1,3 @@
 MUSIC PLAY · HAPPY
-Build: 2026.08.31-r8-smart-library
-Version: R8 SMART LIBRARY
-Favoritos · + Escuchadas · Recientes · En repetición · Mix inteligente · Recap · Backup JSON · M3U8
+Build: 2026.09.01-r9b-icon-refresh
+Concepto: refresh del icono/app asset para instalación PWA

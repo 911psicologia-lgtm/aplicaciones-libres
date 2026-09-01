@@ -1,7 +1,11 @@
-MUSIC PLAY · HAPPY — R8 SMART LIBRARY
+MUSIC PLAY · HAPPY — R9 IMMERSIVE
 
-Despliegue: sustituye completamente el contenido publicado anterior por el contenido de este ZIP.
-La raíz debe contener index.html, app.js, styles.css, sw.js, manifest.webmanifest, version.json e icons/.
+1. Sustituye COMPLETAMENTE el contenido publicado anterior por el contenido de este ZIP.
+2. La raíz publicada debe contener: index.html, app.js, styles.css, sw.js, manifest.webmanifest, version.json e icons/.
+3. Publica siempre bajo HTTPS. Cloudflare Workers/Pages ya cumplen esta condición.
+4. Abre una vez la app en Chrome/Edge Android para que el navegador registre manifest + Service Worker.
+5. La cabecera muestra siempre ⇩ Instalar mientras se abre como web. Si el visor no permite instalar, el flujo ofrece “Abrir en Chrome”.
+6. Al instalarla, ábrela desde el icono del dispositivo. El manifiesto solicita display fullscreen con fallback standalone.
+7. Si una versión anterior está instalada, usa ↻ cuando aparezca la actualización o reemplaza los archivos y vuelve a abrirla.
 
-R8 usa IndexedDB v3 y migra los datos de R7 sin borrar playlists, favoritos ni fuentes.
-Después de subir, abre la app y pulsa ↻ si la R7 muestra actualización disponible. Si el navegador conserva una caché muy antigua, usa Ctrl+F5 una vez.
+R9 usa IndexedDB v4. La migración añade almacenamiento de carátulas y conserva biblioteca, playlists, favoritos e historial anteriores.

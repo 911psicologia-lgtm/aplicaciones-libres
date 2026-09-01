@@ -1,9 +1,9 @@
 (() => {
 'use strict';
 
-const BUILD = '2026.08.31-r8-smart-library';
+const BUILD = '2026.08.31-r9-immersive';
 const DB_NAME = 'mpf-minimal-db';
-const DB_VERSION = 3;
+const DB_VERSION = 4;
 const PLAYABLE_SOURCES = new Set(['local','direct','youtube','soundcloud','youtube-playlist']);
 const MEDIA_EXT = new Set(['mp3','m4a','aac','wav','ogg','oga','opus','flac','webm','mp4','m4v','mov','3gp','wma','wmv','avi','mkv']);
 const VIDEO_EXT = new Set(['mp4','m4v','mov','3gp','webm','wmv','avi','mkv']);
@@ -34,7 +34,7 @@ const els = {
   miniPlayer: $('#miniPlayer'), miniOpen: $('#miniOpen'), miniTitle: $('#miniTitle'), miniArtist: $('#miniArtist'), miniFavoriteBtn: $('#miniFavoriteBtn'),
   playBtn: $('#playBtn'), prevBtn: $('#prevBtn'), nextBtn: $('#nextBtn'),
   playerDialog: $('#playerDialog'), fullTitle: $('#fullTitle'), fullArtist: $('#fullArtist'), progressRange: $('#progressRange'), timeNow: $('#timeNow'), timeTotal: $('#timeTotal'),
-  fullPlayBtn: $('#fullPlayBtn'), fullPrevBtn: $('#fullPrevBtn'), fullNextBtn: $('#fullNextBtn'), shuffleBtn: $('#shuffleBtn'), favoriteBtn: $('#favoriteBtn'), volumeRange: $('#volumeRange'), addCurrentToPlaylist: $('#addCurrentToPlaylist'),
+  fullPlayBtn: $('#fullPlayBtn'), fullPrevBtn: $('#fullPrevBtn'), fullNextBtn: $('#fullNextBtn'), shuffleBtn: $('#shuffleBtn'), favoriteBtn: $('#favoriteBtn'), volumeRange: $('#volumeRange'), addCurrentToPlaylist: $('#addCurrentToPlaylist'), miniArtwork: $('#miniArtwork'), playerArtwork: $('#playerArtwork'),
   sheetDialog: $('#sheetDialog'), sheetContent: $('#sheetContent'),
   remoteDock: $('#remoteDock'), remoteStage: $('#remoteStage'), remoteLabel: $('#remoteLabel'), ytProbeHost: $('#ytProbeHost'),
   dropHint: $('#dropHint'), loader: $('#loader'), loaderTitle: $('#loaderTitle'), loaderText: $('#loaderText'), toast: $('#toast'),
@@ -42,6 +42,7 @@ const els = {
 };
 
 const sessionFiles = new Map();
+const artworkCache = new Map();
 let ytApiPromise = null;
 let ytPlayer = null;
 let ytProbePlayer = null;
@@ -55,7 +56,8 @@ const state = {
   currentId: null, queueIds: [], queueIndex: -1, playing: false, shuffle: false,
   volume: 0.92, search: '', theme: 'dark', objectUrl: null, installPrompt: null, storageReady: false,
   swRegistration: null, updateAvailable: false, remoteBuild: null, lastUpdateCheck: 0, refreshingForUpdate: false,
-  currentEngine: 'none', activeSmartId: '', listenSession: null, history: [], renderChunk: 70
+  currentEngine: 'none', activeSmartId: '', listenSession: null, history: [], renderChunk: 70,
+  lastImportIds: [], lastImportLabel: '', lastImportAt: 0, remoteExpectedPlaying: false, installCoachShown: false
 };
 
 const db = {
@@ -71,6 +73,7 @@ const db = {
         if(!d.objectStoreNames.contains('playlists')) d.createObjectStore('playlists',{keyPath:'id'});
         if(!d.objectStoreNames.contains('prefs')) d.createObjectStore('prefs',{keyPath:'key'});
         if(!d.objectStoreNames.contains('history')) d.createObjectStore('history',{keyPath:'id',autoIncrement:true});
+        if(!d.objectStoreNames.contains('covers')) d.createObjectStore('covers',{keyPath:'id'});
       };
       req.onsuccess = ()=>resolve(req.result);
       req.onerror = ()=>reject(req.error);
@@ -82,7 +85,9 @@ const db = {
   async getAll(store){ if(!this.instance) return []; return this.req(this.tx(store).getAll()); },
   async get(store,key){ if(!this.instance) return null; return this.req(this.tx(store).get(key)); },
   async put(store,val){ if(!this.instance) return false; return new Promise((resolve,reject)=>{const tx=this.instance.transaction(store,'readwrite');tx.objectStore(store).put(val);tx.oncomplete=()=>resolve(true);tx.onerror=()=>reject(tx.error);}); },
-  async delete(store,key){ if(!this.instance) return; return new Promise((resolve,reject)=>{const tx=this.instance.transaction(store,'readwrite');tx.objectStore(store).delete(key);tx.oncomplete=()=>resolve();tx.onerror=()=>reject(tx.error);}); }
+  async delete(store,key){ if(!this.instance) return; return new Promise((resolve,reject)=>{const tx=this.instance.transaction(store,'readwrite');tx.objectStore(store).delete(key);tx.oncomplete=()=>resolve();tx.onerror=()=>reject(tx.error);}); },
+  async add(store,val){ if(!this.instance) return false; return new Promise((resolve,reject)=>{const tx=this.instance.transaction(store,'readwrite');tx.objectStore(store).add(val);tx.oncomplete=()=>resolve(true);tx.onerror=()=>reject(tx.error);}); },
+  async clear(store){ if(!this.instance) return; return new Promise((resolve,reject)=>{const tx=this.instance.transaction(store,'readwrite');tx.objectStore(store).clear();tx.oncomplete=()=>resolve();tx.onerror=()=>reject(tx.error);}); }
 };
 
 function extOf(name){ const i=(name||'').lastIndexOf('.'); return i<0?'':name.slice(i+1).toLowerCase(); }
@@ -130,17 +135,59 @@ function u32(b,o){return((b[o]<<24)>>>0)|(b[o+1]<<16)|(b[o+2]<<8)|b[o+3];}
 async function parseAudioTags(file){
   const out={};
   try{
-    const buf=await file.slice(0,Math.min(file.size,2_000_000)).arrayBuffer();const b=new Uint8Array(buf);
+    const buf=await file.slice(0,Math.min(file.size,3_000_000)).arrayBuffer();const b=new Uint8Array(buf);
     if(b.length>=10&&b[0]===73&&b[1]===68&&b[2]===51){
       const ver=b[3],tagSize=synchsafe(b[6],b[7],b[8],b[9]);let pos=10,end=Math.min(b.length,10+tagSize);
-      while(pos+10<=end){const id=String.fromCharCode(b[pos],b[pos+1],b[pos+2],b[pos+3]);if(!/^[A-Z0-9]{4}$/.test(id))break;const size=ver===4?synchsafe(b[pos+4],b[pos+5],b[pos+6],b[pos+7]):u32(b,pos+4);if(!size)break;const data=b.slice(pos+10,Math.min(pos+10+size,end));if(['TIT2','TPE1','TALB','TCON'].includes(id)&&data.length>1){const v=decodeText(data.slice(1),data[0]);if(id==='TIT2')out.title=v;if(id==='TPE1')out.artist=v;if(id==='TALB')out.album=v;if(id==='TCON')out.genre=v.replace(/\(\d+\)/g,'').trim();}pos+=10+size;}
+      while(pos+10<=end){
+        const id=String.fromCharCode(b[pos],b[pos+1],b[pos+2],b[pos+3]);if(!/^[A-Z0-9]{4}$/.test(id))break;
+        const size=ver===4?synchsafe(b[pos+4],b[pos+5],b[pos+6],b[pos+7]):u32(b,pos+4);if(!size)break;
+        const data=b.slice(pos+10,Math.min(pos+10+size,end));
+        if(['TIT2','TPE1','TALB','TCON'].includes(id)&&data.length>1){
+          const v=decodeText(data.slice(1),data[0]);if(id==='TIT2')out.title=v;if(id==='TPE1')out.artist=v;if(id==='TALB')out.album=v;if(id==='TCON')out.genre=v.replace(/\(\d+\)/g,'').trim();
+        }else if(id==='APIC'&&data.length>12&&!out.coverBlob){
+          try{
+            const enc=data[0];let i=1,mimeEnd=i;while(mimeEnd<data.length&&data[mimeEnd]!==0)mimeEnd++;
+            const mime=decodeText(data.slice(i,mimeEnd),0)||'image/jpeg';i=mimeEnd+1;if(i<data.length)i++;
+            if(enc===0||enc===3){while(i<data.length&&data[i]!==0)i++;i++;}
+            else{while(i+1<data.length&&!(data[i]===0&&data[i+1]===0))i+=2;i+=2;}
+            if(i<data.length){const img=data.slice(i);if(img.length>128&&/^image\//i.test(mime))out.coverBlob=new Blob([img],{type:mime});}
+          }catch{}
+        }
+        pos+=10+size;
+      }
     }
   }catch{}
   return out;
 }
+async function captureVideoArtwork(file){
+  if(!VIDEO_EXT.has(extOf(file.name||'')))return null;
+  return new Promise(resolve=>{
+    const v=document.createElement('video'),url=URL.createObjectURL(file);let done=false;
+    const finish=blob=>{if(done)return;done=true;try{v.pause();v.removeAttribute('src');v.load();}catch{}URL.revokeObjectURL(url);resolve(blob||null);};
+    const timer=setTimeout(()=>finish(null),5500);
+    v.muted=true;v.playsInline=true;v.preload='metadata';
+    v.onloadedmetadata=()=>{try{v.currentTime=Math.min(Math.max(.15,(v.duration||1)*.08),1.5);}catch{}};
+    v.onseeked=()=>{try{const w=v.videoWidth||320,h=v.videoHeight||180;if(!w||!h)return finish(null);const max=420,scale=Math.min(1,max/Math.max(w,h));const c=document.createElement('canvas');c.width=Math.max(1,Math.round(w*scale));c.height=Math.max(1,Math.round(h*scale));c.getContext('2d').drawImage(v,0,0,c.width,c.height);c.toBlob(blob=>{clearTimeout(timer);finish(blob);},'image/jpeg',.78);}catch{clearTimeout(timer);finish(null);}};
+    v.onerror=()=>{clearTimeout(timer);finish(null);};v.src=url;
+  });
+}
+async function saveCover(trackId,blob){if(!blob)return;if(artworkCache.has(trackId)){try{URL.revokeObjectURL(artworkCache.get(trackId));}catch{}artworkCache.delete(trackId);}try{artworkCache.set(trackId,URL.createObjectURL(blob));}catch{}if(!state.storageReady)return;try{await db.put('covers',{id:trackId,blob});}catch{}}
+async function getCoverBlob(trackId){if(!state.storageReady)return null;try{return (await db.get('covers',trackId))?.blob||null;}catch{return null;}}
+async function artworkUrlFor(track){
+  if(!track)return '';
+  if(track.thumbnail)return track.thumbnail;
+  if(artworkCache.has(track.id))return artworkCache.get(track.id);
+  if(track.hasCover){const blob=await getCoverBlob(track.id);if(blob){const url=URL.createObjectURL(blob);artworkCache.set(track.id,url);return url;}}
+  return '';
+}
+function setArtworkNode(node,url,fallback='♪'){
+  if(!node)return;node.innerHTML='';
+  if(url){const img=document.createElement('img');img.src=url;img.alt='';img.loading='lazy';img.decoding='async';img.onerror=()=>{node.textContent=fallback;};node.appendChild(img);}else node.textContent=fallback;
+}
+async function hydrateArtwork(track,node,fallback='♪'){const url=await artworkUrlFor(track);setArtworkNode(node,url,fallback);}
 async function getDuration(file,timeout=5000){return new Promise(resolve=>{const a=document.createElement('audio'),url=URL.createObjectURL(file);let done=false;const finish=v=>{if(done)return;done=true;URL.revokeObjectURL(url);a.src='';resolve(Number.isFinite(v)?v:0);};const t=setTimeout(()=>finish(0),timeout);a.onloadedmetadata=()=>{clearTimeout(t);finish(a.duration)};a.onerror=()=>{clearTimeout(t);finish(0)};a.preload='metadata';a.src=url;});}
 
-function makeTrack(file,meta={}){return normalizeTrack({id:hashId(file),fileName:file.name,title:meta.title||cleanName(file.name)||'Sin título',artist:meta.artist||'Desconocido',album:meta.album||'',genre:meta.genre||'',duration:Number(meta.duration)||0,size:file.size,type:file.type||'',addedAt:now(),favorite:false,playCount:0,lastPlayed:0,sourceKind:'local',sourceMissing:false,mediaKind:VIDEO_EXT.has(extOf(file.name))?'video':'audio'});}
+function makeTrack(file,meta={}){return normalizeTrack({id:hashId(file),fileName:file.name,title:meta.title||cleanName(file.name)||'Sin título',artist:meta.artist||'Desconocido',album:meta.album||'',genre:meta.genre||'',duration:Number(meta.duration)||0,size:file.size,type:file.type||'',addedAt:now(),favorite:false,playCount:0,lastPlayed:0,sourceKind:'local',sourceMissing:false,hasCover:!!meta.coverBlob,mediaKind:VIDEO_EXT.has(extOf(file.name))?'video':'audio'});}
 function makeRemoteTrack(kind,url,extra={}){const remoteId=extra.remoteId||remoteHash(url);return normalizeTrack({id:extra.id||`${kind}_${remoteId}`,fileName:'',title:extra.title||`${kind==='youtube'?'YouTube':kind==='soundcloud'?'SoundCloud':'Enlace'} · ${remoteId.slice(0,8)}`,artist:extra.artist||({youtube:'YouTube',soundcloud:'SoundCloud',direct:'Enlace directo',external:'Fuente externa','youtube-playlist':'YouTube'})[kind]||'Enlace',album:extra.album||'',genre:extra.genre||'',duration:Number(extra.duration)||0,size:0,type:extra.type||'',addedAt:now(),favorite:false,playCount:0,lastPlayed:0,sourceKind:kind,remoteUrl:url,remoteId,thumbnail:extra.thumbnail||'',mediaKind:extra.mediaKind||'audio',...extra});}
 
 async function saveTrackAndSource(track,file=null){
@@ -155,6 +202,7 @@ async function saveTrackAndSource(track,file=null){
   if(file)sessionFiles.set(track.id,file);
   if(state.storageReady){await db.put('tracks',track).catch(()=>{});if(file)await db.put('sources',{id:track.id,blob:file,name:file.name,type:file.type,lastModified:file.lastModified}).catch(()=>{});}
 }
+
 async function saveRemoteTrack(track){await saveTrackAndSource(track,null);return track;}
 async function loadStoredData(){
   if(state.storageReady){
@@ -270,8 +318,10 @@ function makeTrackRow(track,options={fromPlaylist:false}){
   const row=document.createElement('div');row.className=`track-row${track.id===state.currentId?' active':''}`;row.dataset.id=track.id;
   const source=sourceLabel(track),sub=[track.artist,track.album].filter(Boolean).join(' · ')||track.genre||track.remoteUrl||'Audio local';
   const sourceBadge=track.sourceMissing?'<span class="source-badge missing">FALTA ARCHIVO</span>':`<span class="source-badge ${sourceClass(track)}">${source}</span>`;
-  row.innerHTML=`<div class="track-backdrop"><span>→ Cola</span><span>${options.fromPlaylist?'Quitar ←':'Eliminar ←'}</span></div><div class="track-front"><div class="track-art">${track.sourceKind==='youtube'?'▶':track.sourceKind==='soundcloud'?'☁':'♪'}</div><div class="track-text"><div class="track-title">${safeText(track.title)}</div><div class="track-sub">${safeText(sub)}</div></div><div class="track-meta"><span class="track-time">${track.duration?formatTime(track.duration):''}</span><div class="badges">${sourceBadge}${track.replayCount?`<span class="badge">↻ ${track.replayCount}</span>`:''}</div></div><div class="row-actions"><button class="row-quick row-heart${track.favorite?' active':''}" title="${track.favorite?'Quitar favorito':'Favorito'}">${track.favorite?'♥':'♡'}</button><button class="row-quick ${options.fromPlaylist?'row-more':'row-add-pl'}" title="${options.fromPlaylist?'Opciones':'Añadir a playlist'}">${options.fromPlaylist?'⋯':'＋'}</button></div></div>`;
-  const front=$('.track-front',row);bindSwipe(front,track,options);
+  const artFallback=track.sourceKind==='youtube'?'▶':track.sourceKind==='soundcloud'?'☁':'♪';
+  row.innerHTML=`<div class="track-backdrop"><span>→ Cola</span><span>${options.fromPlaylist?'Quitar ←':'Eliminar ←'}</span></div><div class="track-front"><div class="track-art">${artFallback}</div><div class="track-text"><div class="track-title">${safeText(track.title)}</div><div class="track-sub">${safeText(sub)}</div></div><div class="track-meta"><span class="track-time">${track.duration?formatTime(track.duration):''}</span><div class="badges">${sourceBadge}${track.replayCount?`<span class="badge">↻ ${track.replayCount}</span>`:''}</div></div><div class="row-actions"><button class="row-quick row-heart${track.favorite?' active':''}" title="${track.favorite?'Quitar favorito':'Favorito'}">${track.favorite?'♥':'♡'}</button><button class="row-quick ${options.fromPlaylist?'row-more':'row-add-pl'}" title="${options.fromPlaylist?'Opciones':'Añadir a playlist'}">${options.fromPlaylist?'⋯':'＋'}</button></div></div>`;
+  const front=$('.track-front',row),art=$('.track-art',row);hydrateArtwork(track,art,artFallback);
+  bindSwipe(front,track,options);
   front.addEventListener('click',e=>{if(e.target.closest('.row-actions'))return;if(playable(track))playTrack(track.id,options.fromPlaylist?(state.activeSmartId?getSmartTracks(state.activeSmartId).map(t=>t.id):(getActivePlaylist()?.trackIds||[])):getFilteredTracks().filter(playable).map(t=>t.id));else openTrackSheet(track,options);});
   $('.row-heart',row).addEventListener('click',e=>{e.stopPropagation();toggleFavorite(track.id);});
   const q=options.fromPlaylist?$('.row-more',row):$('.row-add-pl',row);if(q)q.addEventListener('click',e=>{e.stopPropagation();options.fromPlaylist?openTrackSheet(track,options):openPlaylistPickerSheet(track.id);});
@@ -300,7 +350,7 @@ function renderPlaylists(){
     state.playlists.forEach(pl=>{
       const tracks=getPlaylistTracks(pl),sourceCount=(pl.sources||[]).length,linked=(pl.sources||[]).some(src=>src.status==='linked'),imported=(pl.sources||[]).some(src=>src.status==='imported');
       const card=document.createElement('button');card.className='playlist-card';card.type='button';const sourceText=sourceCount?`${sourceCount} fuente${sourceCount===1?'':'s'}${linked?' · pendiente':''}`:'Propia';
-      card.innerHTML=`<span class="playlist-card-icon">${imported||linked?'🔗':'≡'}</span><span class="playlist-card-copy"><strong>${safeText(pl.name)}</strong><small>${tracks.length} ${tracks.length===1?'canción':'canciones'} · ${safeText(sourceText)}</small></span><span class="playlist-card-go">›</span>`;card.onclick=()=>openPlaylistDetail(pl.id);els.playlistHub.appendChild(card);
+      card.innerHTML=`<span class="playlist-card-icon">${imported||linked?'🔗':'≡'}</span><span class="playlist-card-copy"><strong>${safeText(pl.name)}</strong><small>${tracks.length} ${tracks.length===1?'canción':'canciones'} · ${safeText(sourceText)}</small></span><span class="playlist-card-go">›</span>`;card.onclick=()=>openPlaylistDetail(pl.id);els.playlistHub.appendChild(card);if(tracks[0])hydrateArtwork(tracks[0],$('.playlist-card-icon',card),imported||linked?'▶':'≡');
     });return;
   }
 
@@ -318,13 +368,24 @@ function renderPlaylists(){
   els.playlistEmpty.classList.toggle('is-hidden',tracks.length>0||sources.length>0);els.playlistList.classList.toggle('is-hidden',tracks.length===0);renderRowsChunked(els.playlistList,tracks,{fromPlaylist:true});
   els.playlistSources.innerHTML='';els.playlistSources.classList.toggle('is-hidden',sources.length===0);sources.forEach((src,index)=>{const c=document.createElement('div');c.className='playlist-source-card';const status=src.status==='imported'?'Importada':src.status==='linked'?'Enlazada':'Fuente';c.innerHTML=`<div class="playlist-source-main"><span class="source-dot">${src.source==='YouTube'?'▶':'🔗'}</span><div><strong>${safeText(src.source||'Enlace')}</strong><small>${status}${src.count?` · ${src.count} elementos`:''}</small></div></div><div class="playlist-source-actions">${src.source==='YouTube'?'<button class="tiny-btn" data-source-play>▶</button>':''}${src.status==='linked'&&src.source==='YouTube'?'<button class="tiny-btn" data-source-retry>↻</button>':''}<button class="tiny-btn" data-source-open>↗</button></div>${src.message?`<p>${safeText(src.message)}</p>`:''}`;$('[data-source-play]',c)?.addEventListener('click',()=>playPlaylistSource(pl,src));$('[data-source-retry]',c)?.addEventListener('click',()=>retryPlaylistSource(pl,index));$('[data-source-open]',c)?.addEventListener('click',()=>window.open(src.originalUrl||src.url,'_blank','noopener'));els.playlistSources.appendChild(c);});
 }
-function renderPlayer(){const t=getCurrentTrack();els.miniPlayer.classList.toggle('is-hidden',!t);if(!t)return;els.miniTitle.textContent=t.title;els.miniArtist.textContent=t.artist||sourceLabel(t);els.fullTitle.textContent=t.title;els.fullArtist.textContent=[t.artist,t.album,sourceLabel(t)].filter(Boolean).join(' · ');els.favoriteBtn.textContent=t.favorite?'♥':'♡';els.favoriteBtn.classList.toggle('active',t.favorite);els.miniFavoriteBtn.textContent=t.favorite?'♥':'♡';els.miniFavoriteBtn.classList.toggle('active',t.favorite);const g=state.playing?'⏸':'▶';els.playBtn.textContent=g;els.fullPlayBtn.textContent=g;els.shuffleBtn.classList.toggle('active',state.shuffle);els.volumeRange.value=String(state.volume);updateProgress();}
+function renderPlayer(){
+  const t=getCurrentTrack();els.miniPlayer.classList.toggle('is-hidden',!t);if(!t)return;
+  els.miniTitle.textContent=t.title;els.miniArtist.textContent=t.artist||sourceLabel(t);els.fullTitle.textContent=t.title;els.fullArtist.textContent=[t.artist,t.album,sourceLabel(t)].filter(Boolean).join(' · ');
+  els.favoriteBtn.textContent=t.favorite?'♥':'♡';els.favoriteBtn.classList.toggle('active',t.favorite);els.miniFavoriteBtn.textContent=t.favorite?'♥':'♡';els.miniFavoriteBtn.classList.toggle('active',t.favorite);
+  const g=state.playing?'⏸':'▶';els.playBtn.textContent=g;els.fullPlayBtn.textContent=g;els.shuffleBtn.classList.toggle('active',state.shuffle);els.volumeRange.value=String(state.volume);updateProgress();
+  const fallback=t.sourceKind==='youtube'?'▶':t.sourceKind==='soundcloud'?'☁':'♪';hydrateArtwork(t,els.miniArtwork,fallback);hydrateArtwork(t,els.playerArtwork,fallback);
+}
 function render(){renderSummary();renderPlayer();if(state.activeView==='library')renderLibrary();if(state.activeView==='playlist')renderPlaylists();}
 
-function updateProgress(){let duration=0,current=0;if(state.currentEngine==='youtube'&&ytPlayer){try{duration=ytPlayer.getDuration()||0;current=ytPlayer.getCurrentTime()||0;}catch{}}else if(state.currentEngine==='soundcloud'&&getCurrentTrack()){duration=getCurrentTrack().duration||0;}else{duration=els.audio.duration||0;current=els.audio.currentTime||0;}sampleListenSession(current,duration);const pct=duration?(current/duration)*100:0;els.progressRange.value=String(pct);els.timeNow.textContent=formatTime(current);els.timeTotal.textContent=formatTime(duration);}
+function updateProgress(){
+  let duration=0,current=0;if(state.currentEngine==='youtube'&&ytPlayer){try{duration=ytPlayer.getDuration()||0;current=ytPlayer.getCurrentTime()||0;}catch{}}else if(state.currentEngine==='soundcloud'&&getCurrentTrack()){duration=getCurrentTrack().duration||0;}else{duration=els.audio.duration||0;current=els.audio.currentTime||0;}
+  sampleListenSession(current,duration);const pct=duration?(current/duration)*100:0;els.progressRange.value=String(pct);els.timeNow.textContent=formatTime(current);els.timeTotal.textContent=formatTime(duration);syncMediaPosition(current,duration);
+}
+function syncMediaPlaybackState(){if(!('mediaSession'in navigator))return;try{navigator.mediaSession.playbackState=state.playing?'playing':'paused';}catch{}}
+function syncMediaPosition(position,duration){if(!('mediaSession'in navigator)||!navigator.mediaSession.setPositionState||!Number.isFinite(duration)||duration<=0)return;try{navigator.mediaSession.setPositionState({duration,position:Math.min(duration,Math.max(0,Number(position)||0)),playbackRate:state.currentEngine==='local'||state.currentEngine==='direct'?(els.audio.playbackRate||1):1});}catch{}}
 function startProgressTimer(){clearInterval(ytProgressTimer);ytProgressTimer=setInterval(()=>{if(state.currentEngine==='youtube')updateProgress();},500);}
 function clearRemoteStage(){if(ytPlayer){try{ytPlayer.destroy();}catch{}ytPlayer=null;}if(scWidget){try{scWidget.unbind?.(window.SC?.Widget?.Events?.FINISH);}catch{}scWidget=null;}clearInterval(scProgressTimer);els.remoteStage.innerHTML='';els.remoteDock.classList.add('is-hidden');}
-function stopAllEngines(){try{els.audio.pause();}catch{}if(ytPlayer){try{ytPlayer.stopVideo();}catch{}}if(scWidget){try{scWidget.pause();}catch{}}state.playing=false;}
+function stopAllEngines(){try{els.audio.pause();}catch{}if(ytPlayer){try{ytPlayer.stopVideo();}catch{}}if(scWidget){try{scWidget.pause();}catch{}}state.playing=false;syncMediaPlaybackState();}
 
 async function getTrackFile(track){if(sessionFiles.has(track.id))return sessionFiles.get(track.id);if(!state.storageReady)return null;const src=await db.get('sources',track.id).catch(()=>null);if(!src?.blob)return null;return src.blob instanceof File?src.blob:new File([src.blob],src.name||track.fileName,{type:src.type||track.type,lastModified:src.lastModified||now()});}
 async function playLocalOrDirect(track){
@@ -335,12 +396,12 @@ async function playLocalOrDirect(track){
 
 function loadScript(src,id){return new Promise((resolve,reject)=>{if(id&&document.getElementById(id))return resolve();const s=document.createElement('script');if(id)s.id=id;s.src=src;s.async=true;s.onload=resolve;s.onerror=reject;document.head.appendChild(s);});}
 function loadYouTubeApi(){if(window.YT?.Player)return Promise.resolve(window.YT);if(ytApiPromise)return ytApiPromise;ytApiPromise=new Promise((resolve,reject)=>{const prev=window.onYouTubeIframeAPIReady;window.onYouTubeIframeAPIReady=()=>{try{prev?.();}catch{}resolve(window.YT);};loadScript('https://www.youtube.com/iframe_api','youtube-iframe-api').catch(reject);setTimeout(()=>{if(window.YT?.Player)resolve(window.YT);},1800);setTimeout(()=>{if(!window.YT?.Player)reject(new Error('YouTube API timeout'));},12000);});return ytApiPromise;}
-async function fetchYouTubeMeta(videoId){try{const url=`https://www.youtube.com/watch?v=${encodeURIComponent(videoId)}`;const r=await fetch(`https://www.youtube.com/oembed?url=${encodeURIComponent(url)}&format=json`);if(!r.ok)throw 0;const d=await r.json();return{title:d.title||'',artist:d.author_name||'YouTube',thumbnail:d.thumbnail_url||''};}catch{return null;}}
+async function fetchYouTubeMeta(videoId){const fallback=`https://i.ytimg.com/vi/${encodeURIComponent(videoId)}/hqdefault.jpg`;try{const url=`https://www.youtube.com/watch?v=${encodeURIComponent(videoId)}`;const r=await fetch(`https://www.youtube.com/oembed?url=${encodeURIComponent(url)}&format=json`);if(!r.ok)throw 0;const d=await r.json();return{title:d.title||'',artist:d.author_name||'YouTube',thumbnail:d.thumbnail_url||fallback};}catch{return{title:'',artist:'YouTube',thumbnail:fallback};}}
 async function playYouTube(track){
   try{await loadYouTubeApi();}catch{toast('No se pudo cargar el reproductor de YouTube');return false;}
   try{els.audio.pause();}catch{}clearRemoteStage();state.currentEngine='youtube';els.remoteDock.classList.remove('is-hidden');els.remoteLabel.textContent=track.sourceKind==='youtube-playlist'?'YOUTUBE · PLAYLIST':'YOUTUBE';els.remoteStage.innerHTML='<div id="ytMainPlayer"></div>';
   return new Promise(resolve=>{
-    ytPlayer=new YT.Player('ytMainPlayer',{width:'100%',height:'100%',videoId:track.sourceKind==='youtube'?track.remoteId:undefined,playerVars:{autoplay:0,playsinline:1,controls:1,rel:0},events:{onReady:async e=>{try{e.target.setVolume(Math.round(state.volume*100));if(track.sourceKind==='youtube-playlist')e.target.loadPlaylist({listType:'playlist',list:track.remoteId,index:0,startSeconds:0});else e.target.playVideo();}catch(err){console.debug('youtube play',err);}state.playing=true;startProgressTimer();renderPlayer();if(track.sourceKind==='youtube'&&/^YouTube ·/.test(track.title)){const data=e.target.getVideoData?.()||{};if(data.title){track.title=data.title;track.artist=data.author||'YouTube';await saveRemoteTrack(track);render();}}resolve(true);},onStateChange:e=>{if(e.data===YT.PlayerState.PLAYING){state.playing=true;renderPlayer();}else if(e.data===YT.PlayerState.PAUSED||e.data===YT.PlayerState.CUED){state.playing=false;renderPlayer();}else if(e.data===YT.PlayerState.ENDED){state.playing=false;renderPlayer();handleNaturalEnd();}},onError:e=>{console.debug('youtube player error',e.data);toast('YouTube no permitió reproducir este elemento');resolve(false);}}});
+    ytPlayer=new YT.Player('ytMainPlayer',{width:'100%',height:'100%',videoId:track.sourceKind==='youtube'?track.remoteId:undefined,playerVars:{autoplay:0,playsinline:1,controls:1,rel:0,...(location.origin&&location.origin!=='null'?{origin:location.origin}:{})},events:{onReady:async e=>{try{const frame=e.target.getIframe?.();if(frame){frame.setAttribute('allow','autoplay; encrypted-media; picture-in-picture');frame.referrerPolicy='strict-origin-when-cross-origin';}e.target.setVolume(Math.round(state.volume*100));if(track.sourceKind==='youtube-playlist')e.target.loadPlaylist({listType:'playlist',list:track.remoteId,index:0,startSeconds:0});else e.target.playVideo();}catch(err){console.debug('youtube play',err);}state.playing=true;startProgressTimer();renderPlayer();if(track.sourceKind==='youtube'&&/^YouTube ·/.test(track.title)){const data=e.target.getVideoData?.()||{};if(data.title){track.title=data.title;track.artist=data.author||'YouTube';await saveRemoteTrack(track);render();}}resolve(true);},onStateChange:e=>{if(e.data===YT.PlayerState.PLAYING){state.playing=true;syncMediaPlaybackState();renderPlayer();}else if(e.data===YT.PlayerState.PAUSED||e.data===YT.PlayerState.CUED){state.playing=false;syncMediaPlaybackState();renderPlayer();}else if(e.data===YT.PlayerState.ENDED){state.playing=false;syncMediaPlaybackState();renderPlayer();handleNaturalEnd();}},onError:e=>{console.debug('youtube player error',e.data);toast('YouTube no permitió reproducir este elemento');resolve(false);}}});
   });
 }
 function loadSoundCloudApi(){if(window.SC?.Widget)return Promise.resolve(window.SC);if(scApiPromise)return scApiPromise;scApiPromise=loadScript('https://w.soundcloud.com/player/api.js','soundcloud-widget-api').then(()=>window.SC);return scApiPromise;}
@@ -348,7 +409,7 @@ async function fetchSoundCloudMeta(url){try{const r=await fetch(`https://soundcl
 async function playSoundCloud(track){
   try{await loadSoundCloudApi();}catch{toast('No se pudo cargar SoundCloud');return false;}
   try{els.audio.pause();}catch{}clearRemoteStage();state.currentEngine='soundcloud';els.remoteDock.classList.remove('is-hidden');els.remoteLabel.textContent='SOUNDCLOUD';const iframe=document.createElement('iframe');iframe.allow='autoplay';iframe.src=`https://w.soundcloud.com/player/?url=${encodeURIComponent(track.remoteUrl)}&auto_play=true&hide_related=true&show_comments=false&show_user=true&show_reposts=false&visual=false`;els.remoteStage.appendChild(iframe);
-  return new Promise(resolve=>{iframe.onload=()=>{try{scWidget=SC.Widget(iframe);const E=SC.Widget.Events;scWidget.bind(E.READY,()=>{scWidget.setVolume(Math.round(state.volume*100));scWidget.play();scWidget.getCurrentSound(async s=>{if(s){track.title=s.title||track.title;track.artist=s.user?.username||track.artist;track.duration=(s.duration||0)/1000;await saveRemoteTrack(track);render();}});state.playing=true;renderPlayer();resolve(true);});scWidget.bind(E.PLAY,()=>{state.playing=true;renderPlayer();});scWidget.bind(E.PAUSE,()=>{state.playing=false;renderPlayer();});scWidget.bind(E.FINISH,()=>{state.playing=false;handleNaturalEnd();});scProgressTimer=setInterval(()=>{scWidget?.getPosition?.(ms=>{const d=track.duration||0;sampleListenSession(ms/1000,d);els.timeNow.textContent=formatTime(ms/1000);els.timeTotal.textContent=formatTime(d);els.progressRange.value=d?String((ms/1000/d)*100):'0';});},700);}catch{resolve(false);}};});
+  return new Promise(resolve=>{iframe.onload=()=>{try{scWidget=SC.Widget(iframe);const E=SC.Widget.Events;scWidget.bind(E.READY,()=>{scWidget.setVolume(Math.round(state.volume*100));scWidget.play();scWidget.getCurrentSound(async s=>{if(s){track.title=s.title||track.title;track.artist=s.user?.username||track.artist;track.duration=(s.duration||0)/1000;await saveRemoteTrack(track);render();}});state.playing=true;renderPlayer();resolve(true);});scWidget.bind(E.PLAY,()=>{state.playing=true;syncMediaPlaybackState();renderPlayer();});scWidget.bind(E.PAUSE,()=>{state.playing=false;syncMediaPlaybackState();renderPlayer();});scWidget.bind(E.FINISH,()=>{state.playing=false;syncMediaPlaybackState();handleNaturalEnd();});scProgressTimer=setInterval(()=>{scWidget?.getPosition?.(ms=>{const d=track.duration||0;sampleListenSession(ms/1000,d);els.timeNow.textContent=formatTime(ms/1000);els.timeTotal.textContent=formatTime(d);els.progressRange.value=d?String((ms/1000/d)*100):'0';});},700);}catch{resolve(false);}};});
 }
 
 async function playTrack(id,contextIds=null,{skipFinalize=false}={}){
@@ -363,7 +424,7 @@ async function nextTrack({skipFinalize=false}={}){if(!state.queueIds.length)retu
 async function prevTrack(){if(state.currentEngine==='local'||state.currentEngine==='direct'){if((els.audio.currentTime||0)>4){els.audio.currentTime=0;return;}}if(!state.queueIds.length)return;state.queueIndex=(state.queueIndex-1+state.queueIds.length)%state.queueIds.length;await playTrack(state.queueIds[state.queueIndex],state.queueIds);}
 function queueTrack(id){if(!state.queueIds.includes(id))state.queueIds.push(id);persistPrefs();toast('Añadido a la cola');}
 async function toggleFavorite(id=state.currentId){const t=state.tracks.find(x=>x.id===id);if(!t)return;t.favorite=!t.favorite;await saveRemoteTrack(t);recordHistory(t.favorite?'favorite':'unfavorite',t);render();toast(t.favorite?'Añadida a Favoritos ♥':'Quitada de Favoritos');}
-async function removeTrack(id){const t=state.tracks.find(x=>x.id===id);if(!t)return;sessionFiles.delete(id);state.tracks=state.tracks.filter(x=>x.id!==id);for(const pl of state.playlists){pl.trackIds=(pl.trackIds||[]).filter(x=>x!==id);await persistPlaylist(pl);}if(state.currentId===id){stopAllEngines();clearRemoteStage();els.audio.removeAttribute('src');state.currentId=null;state.currentEngine='none';}state.queueIds=state.queueIds.filter(x=>x!==id);if(state.storageReady){await db.delete('tracks',id).catch(()=>{});await db.delete('sources',id).catch(()=>{});}render();toast('Audio eliminado de MUSIC PLAY');}
+async function removeTrack(id){const t=state.tracks.find(x=>x.id===id);if(!t)return;sessionFiles.delete(id);state.tracks=state.tracks.filter(x=>x.id!==id);for(const pl of state.playlists){pl.trackIds=(pl.trackIds||[]).filter(x=>x!==id);await persistPlaylist(pl);}if(state.currentId===id){stopAllEngines();clearRemoteStage();els.audio.removeAttribute('src');state.currentId=null;state.currentEngine='none';}state.queueIds=state.queueIds.filter(x=>x!==id);if(state.storageReady){await db.delete('tracks',id).catch(()=>{});await db.delete('sources',id).catch(()=>{});await db.delete('covers',id).catch(()=>{});}if(artworkCache.has(id)){try{URL.revokeObjectURL(artworkCache.get(id));}catch{}artworkCache.delete(id);}render();toast('Audio eliminado de MUSIC PLAY');}
 async function removeFromPlaylist(trackId,playlistId){const pl=state.playlists.find(p=>p.id===playlistId);if(!pl)return;pl.trackIds=pl.trackIds.filter(x=>x!==trackId);await persistPlaylist(pl);renderPlaylists();toast('Quitado de la playlist');}
 async function createPlaylist(name,extra={}){
   const clean=(name||'').trim();if(!clean)return null;
@@ -396,22 +457,43 @@ function openPlaylistPickerSheet(trackId){
     $('[data-new-pl]',root).onclick=()=>{closeDialog(els.sheetDialog);openCreatePlaylistSheet(trackId);};
   });
 }
-function openCreateFromLibrarySheet(){
-  const list=getFilteredTracks();if(!list.length)return toast('No hay canciones para crear una playlist');
-  openSheet(`<h2 class="sheet-title">Crear desde canciones</h2><p class="sheet-copy">Marca las canciones y crea una playlist desde esta misma biblioteca.</p><input id="bulkPlaylistName" class="sheet-input" maxlength="60" placeholder="Nombre de la playlist"/><div class="bulk-select-tools"><button class="tiny-btn" data-all>Todo</button><span id="bulkCount">0 seleccionadas</span></div><div class="bulk-track-list">${list.map(t=>`<label class="bulk-track"><input type="checkbox" value="${t.id}"/><span><strong>${safeText(t.title)}</strong><small>${safeText(t.artist||sourceLabel(t))}</small></span></label>`).join('')}</div><button class="sheet-btn" data-create-bulk>Crear playlist<small>Con las canciones seleccionadas</small></button>`,root=>{
-    const checks=$$('input[type="checkbox"]',root),count=$('#bulkCount',root),name=$('#bulkPlaylistName',root);
-    const update=()=>count.textContent=`${checks.filter(c=>c.checked).length} seleccionadas`;checks.forEach(c=>c.onchange=update);
+function importFirstList(list){
+  const recent=new Set(state.lastImportIds||[]),fresh=list.filter(t=>recent.has(t.id)),rest=list.filter(t=>!recent.has(t.id));
+  return [...fresh,...rest];
+}
+function openCreateFromLibrarySheet(preselectIds=null){
+  const raw=getFilteredTracks();if(!raw.length)return toast('No hay canciones para crear una playlist');
+  const last=(preselectIds&&preselectIds.length?preselectIds:state.lastImportIds||[]).filter(id=>raw.some(t=>t.id===id)),selected=new Set(last),list=importFirstList(raw),suggest=state.lastImportLabel||'Nueva playlist';
+  openSheet(`<h2 class="sheet-title">Crear desde canciones</h2><p class="sheet-copy">${last.length?`La última carga está preseleccionada: <b>${last.length}</b> canciones.`:'Marca las canciones que quieras incluir.'}</p><input id="bulkPlaylistName" class="sheet-input" maxlength="60" placeholder="Nombre de la playlist" value="${safeText(suggest)}"/><div class="bulk-select-tools"><button class="tiny-btn" data-recent ${last.length?'':'disabled'}>Esta carga</button><button class="tiny-btn" data-all>Todo</button><span id="bulkCount">0 seleccionadas</span></div><div class="bulk-track-list">${list.map(t=>`<label class="bulk-track${selected.has(t.id)?' import-fresh':''}"><input type="checkbox" value="${t.id}" ${selected.has(t.id)?'checked':''}/><span><strong>${safeText(t.title)}</strong><small>${safeText(t.artist||sourceLabel(t))}${selected.has(t.id)?' · recién cargada':''}</small></span></label>`).join('')}</div><button class="sheet-btn" data-create-bulk>Crear playlist<small>Con las canciones seleccionadas</small></button>`,root=>{
+    const checks=$$('input[type="checkbox"]',root),count=$('#bulkCount',root),name=$('#bulkPlaylistName',root);const recentIds=new Set(last);
+    const update=()=>count.textContent=`${checks.filter(c=>c.checked).length} seleccionadas`;checks.forEach(c=>c.onchange=update);update();
+    $('[data-recent]',root).onclick=()=>{checks.forEach(c=>c.checked=recentIds.has(c.value));update();};
     $('[data-all]',root).onclick=()=>{const on=!checks.every(c=>c.checked);checks.forEach(c=>c.checked=on);update();};
     $('[data-create-bulk]',root).onclick=async()=>{const ids=checks.filter(c=>c.checked).map(c=>c.value);if(!ids.length)return toast('Selecciona al menos una canción');const pl=await createPlaylist(name.value||'Nueva playlist');for(const id of ids)await addTrackToPlaylist(id,pl.id,{silent:true});closeDialog(els.sheetDialog);showView('playlist');state.playlistDetailOpen=true;renderPlaylists();toast(`Playlist creada · ${ids.length} canciones`);};
-    name.focus();
+    name.focus();name.select();
   });
 }
 function openAddSongsToPlaylistSheet(playlistId){
   const pl=state.playlists.find(p=>p.id===playlistId);if(!pl)return;
-  const list=getFilteredTracks().filter(t=>!pl.trackIds.includes(t.id));
-  if(!list.length)return toast('Todas tus canciones ya están en esta playlist');
-  openSheet(`<h2 class="sheet-title">Añadir canciones</h2><p class="sheet-copy">Selecciona varias canciones para <b>${safeText(pl.name)}</b>.</p><div class="bulk-select-tools"><button class="tiny-btn" data-all>Todo</button><span id="bulkCount">0 seleccionadas</span></div><div class="bulk-track-list">${list.map(t=>`<label class="bulk-track"><input type="checkbox" value="${t.id}"/><span><strong>${safeText(t.title)}</strong><small>${safeText(t.artist||sourceLabel(t))}</small></span></label>`).join('')}</div><button class="sheet-btn" data-add-selected>＋ Añadir seleccionadas</button>`,root=>{
-    const checks=$$('input[type="checkbox"]',root),count=$('#bulkCount',root);const update=()=>count.textContent=`${checks.filter(c=>c.checked).length} seleccionadas`;checks.forEach(c=>c.onchange=update);$('[data-all]',root).onclick=()=>{const on=!checks.every(c=>c.checked);checks.forEach(c=>c.checked=on);update();};$('[data-add-selected]',root).onclick=async()=>{const ids=checks.filter(c=>c.checked).map(c=>c.value);if(!ids.length)return toast('Selecciona al menos una canción');for(const id of ids)await addTrackToPlaylist(id,pl.id,{silent:true});closeDialog(els.sheetDialog);state.activePlaylistId=pl.id;state.playlistDetailOpen=true;renderPlaylists();toast(`${ids.length} canciones añadidas`);};
+  const raw=getFilteredTracks().filter(t=>!pl.trackIds.includes(t.id));if(!raw.length)return toast('Todas tus canciones ya están en esta playlist');
+  const recentIds=new Set((state.lastImportIds||[]).filter(id=>raw.some(t=>t.id===id))),list=importFirstList(raw);
+  openSheet(`<h2 class="sheet-title">Añadir canciones</h2><p class="sheet-copy">${recentIds.size?`La última carga está lista: <b>${recentIds.size}</b> preseleccionadas.`:`Selecciona varias canciones para <b>${safeText(pl.name)}</b>.`}</p><div class="bulk-select-tools"><button class="tiny-btn" data-recent ${recentIds.size?'':'disabled'}>Esta carga</button><button class="tiny-btn" data-all>Todo</button><span id="bulkCount">0 seleccionadas</span></div><div class="bulk-track-list">${list.map(t=>`<label class="bulk-track${recentIds.has(t.id)?' import-fresh':''}"><input type="checkbox" value="${t.id}" ${recentIds.has(t.id)?'checked':''}/><span><strong>${safeText(t.title)}</strong><small>${safeText(t.artist||sourceLabel(t))}${recentIds.has(t.id)?' · recién cargada':''}</small></span></label>`).join('')}</div><button class="sheet-btn" data-add-selected>＋ Añadir seleccionadas</button>`,root=>{
+    const checks=$$('input[type="checkbox"]',root),count=$('#bulkCount',root);const update=()=>count.textContent=`${checks.filter(c=>c.checked).length} seleccionadas`;checks.forEach(c=>c.onchange=update);update();
+    $('[data-recent]',root).onclick=()=>{checks.forEach(c=>c.checked=recentIds.has(c.value));update();};$('[data-all]',root).onclick=()=>{const on=!checks.every(c=>c.checked);checks.forEach(c=>c.checked=on);update();};
+    $('[data-add-selected]',root).onclick=async()=>{const ids=checks.filter(c=>c.checked).map(c=>c.value);if(!ids.length)return toast('Selecciona al menos una canción');for(const id of ids)await addTrackToPlaylist(id,pl.id,{silent:true});closeDialog(els.sheetDialog);state.activePlaylistId=pl.id;state.playlistDetailOpen=true;renderPlaylists();toast(`${ids.length} canciones añadidas`);};
+  });
+}
+async function createPlaylistFromBatch(ids,name){
+  const cleanIds=[...new Set(ids||[])].filter(id=>state.tracks.some(t=>t.id===id));if(!cleanIds.length)return null;
+  const pl=await createPlaylist(name||state.lastImportLabel||'Nueva playlist');for(const id of cleanIds)await addTrackToPlaylist(id,pl.id,{silent:true});return pl;
+}
+function openPostImportSheet(ids,label='Última carga'){
+  const count=(ids||[]).length;if(!count)return;
+  state.lastImportIds=[...ids];state.lastImportLabel=(label||'Última carga').slice(0,60);state.lastImportAt=now();
+  openSheet(`<h2 class="sheet-title">✓ ${count} ${count===1?'archivo listo':'archivos listos'}</h2><p class="sheet-copy">Esta carga queda identificada para que no tengas que volver a escoger canción por canción.</p><div class="sheet-stack"><button class="sheet-btn" data-batch-create>≡ Crear playlist con ${count}<small>Usa toda esta carga de una vez</small></button><button class="sheet-btn" data-batch-review>☑ Revisar selección<small>${count} aparecen preseleccionadas y primero</small></button><button class="sheet-btn" data-batch-library>♪ Ir a biblioteca<small>Seguir sin crear playlist</small></button></div>`,root=>{
+    $('[data-batch-create]',root).onclick=async()=>{const pl=await createPlaylistFromBatch(ids,state.lastImportLabel);closeDialog(els.sheetDialog);if(pl){showView('playlist');state.playlistDetailOpen=true;renderPlaylists();toast(`Playlist creada · ${count} canciones`);}};
+    $('[data-batch-review]',root).onclick=()=>{closeDialog(els.sheetDialog);showView('library');setTimeout(()=>openCreateFromLibrarySheet(ids),80);};
+    $('[data-batch-library]',root).onclick=()=>{closeDialog(els.sheetDialog);showView('library');};
   });
 }
 function openPlaylistMenuSheet(){
@@ -472,29 +554,12 @@ function openRecapSheet(){
   openSheet(`<h2 class="sheet-title">◎ Tu resumen</h2><p class="sheet-copy">Estadísticas locales. MUSIC PLAY no necesita enviar tu historial a ningún servidor.</p><div class="recap-grid"><div><b>${formatListenTime(totalListenedMs())}</b><span>tiempo escuchado</span></div><div><b>${valid}</b><span>escuchas válidas</span></div><div><b>${complete}</b><span>completadas</span></div><div><b>${replays}</b><span>repeticiones</span></div><div><b>${fav}</b><span>favoritos</span></div><div><b>${recent30}</b><span>actividad 30 días</span></div></div><div class="recap-highlight"><small>ARTISTA MÁS PRESENTE</small><strong>${safeText(topArtist)}</strong></div><div class="sheet-copy">Tus más escuchadas</div><div class="recap-top">${top.length?top.map((t,i)=>`<div><span>${i+1}</span><strong>${safeText(t.title)}</strong><small>${safeText(t.artist||sourceLabel(t))}</small></div>`).join(''):'<p class="sheet-copy">Escucha música y este resumen empezará a tomar forma.</p>'}</div><div class="install-note"><strong>✦ Smart DJ local</strong><span>Mix usa favoritos, escuchas completas, repeticiones, saltos y un pequeño porcentaje de descubrimiento.</span></div>`);
 }
 function openClearHistoryConfirm(){openSheet(`<h2 class="sheet-title">Borrar historial</h2><p class="sheet-copy">Se conservarán canciones, playlists y favoritos. Se eliminarán estadísticas de escucha, repeticiones y saltos.</p><div class="sheet-stack"><button class="sheet-btn danger" data-clear-history>Eliminar historial</button><button class="sheet-btn" data-cancel>Cancelar</button></div>`,root=>{$('[data-cancel]',root).onclick=()=>closeDialog(els.sheetDialog);$('[data-clear-history]',root).onclick=async()=>{for(const t of state.tracks){Object.assign(t,{playCount:0,starts:0,validPlays:0,completedPlays:0,listenedMs:0,skipCount:0,replayCount:0,lastStarted:0,lastPlayed:0,lastValidAt:0,lastCompleted:0});await saveRemoteTrack(t);}state.history=[];if(state.storageReady)await db.clear('history').catch(()=>{});closeDialog(els.sheetDialog);render();toast('Historial eliminado');};});}
-function openMoreMenu(){openSheet(`<h2 class="sheet-title">MUSIC PLAY</h2><p class="sheet-copy">Herramientas de biblioteca sin llenar la pantalla principal.</p><div class="sheet-stack"><button class="sheet-btn" data-more="recap">◎ Mi resumen<small>Escuchas, tiempo, repeticiones y favoritos</small></button><button class="sheet-btn" data-more="backup">⇩ Copia JSON<small>Playlists, enlaces, favoritos e historial</small></button><button class="sheet-btn" data-more="restore">⇧ Restaurar JSON<small>Combina una copia con tu biblioteca actual</small></button><button class="sheet-btn" data-more="m3u-export">≡ Exportar M3U8<small>Interoperabilidad con otros reproductores</small></button><button class="sheet-btn" data-more="m3u-import">＋ Importar M3U/M3U8<small>Enlaces y referencias locales</small></button><button class="sheet-btn danger" data-more="clear">⌫ Borrar historial<small>No borra música ni favoritos</small></button></div>`,root=>{$('[data-more="recap"]',root).onclick=()=>{closeDialog(els.sheetDialog);openRecapSheet();};$('[data-more="backup"]',root).onclick=()=>{closeDialog(els.sheetDialog);exportBackup();};$('[data-more="restore"]',root).onclick=()=>{closeDialog(els.sheetDialog);els.backupInput.click();};$('[data-more="m3u-export"]',root).onclick=()=>{closeDialog(els.sheetDialog);openExportM3USheet();};$('[data-more="m3u-import"]',root).onclick=()=>{closeDialog(els.sheetDialog);els.m3uInput.click();};$('[data-more="clear"]',root).onclick=()=>{closeDialog(els.sheetDialog);openClearHistoryConfirm();};});}
-
-function isStandalone(){return !!(window.matchMedia?.('(display-mode: standalone)').matches || window.navigator.standalone===true);}
-function syncInstallUI(){if(!els.installBtn)return;els.installBtn.classList.toggle('is-hidden',isStandalone());}
-async function openInstallSheet(){
-  if(isStandalone()){toast('MUSIC PLAY ya está instalada');syncInstallUI();return;}
-  if(state.installPrompt){
-    try{
-      state.installPrompt.prompt();
-      const choice=await state.installPrompt.userChoice;
-      if(choice?.outcome==='accepted'){toast('Instalando MUSIC PLAY…');els.installBtn.classList.add('is-hidden');}
-      state.installPrompt=null;
-      return;
-    }catch(err){console.warn('Install prompt',err);}
-  }
-  const ua=navigator.userAgent||'';
-  const ios=/iphone|ipad|ipod/i.test(ua);
-  const android=/android/i.test(ua);
-  let copy='Abre el menú del navegador y elige <b>Instalar aplicación</b> o <b>Añadir a pantalla principal</b>.';
-  if(ios) copy='En iPhone o iPad: toca <b>Compartir</b> y luego <b>Añadir a pantalla de inicio</b>.';
-  else if(android) copy='En Android: toca <b>⋮</b> y elige <b>Instalar aplicación</b> o <b>Añadir a pantalla principal</b>. Si abriste MUSIC PLAY en una ventana con una <b>X arriba</b>, primero usa <b>⋮ → Abrir en Chrome</b>.';
-  openSheet(`<h2 class="sheet-title">⇩ Instalar MUSIC PLAY</h2><p class="sheet-copy">${copy}</p><div class="install-note"><strong>PWA</strong><span>Quedará con icono propio y abrirá como aplicación, sin depender de esta pestaña.</span></div><button class="sheet-btn" data-close>Entendido</button>`,root=>$('[data-close]',root).onclick=()=>closeDialog(els.sheetDialog));
+function openPwaStatusSheet(){
+  const mode=isInstalledDisplay()?'app instalada':'navegador',secure=window.isSecureContext?'HTTPS/seguro':'contexto no seguro',sw=navigator.serviceWorker?.controller?'activo':'sin control',prompt=state.installPrompt?'listo':'no disponible aún';
+  openSheet(`<h2 class="sheet-title">PWA · estado</h2><p class="sheet-copy">Diagnóstico rápido para instalación y pantalla completa.</p><div class="recap-grid"><div><b>${safeText(mode)}</b><span>modo</span></div><div><b>${safeText(secure)}</b><span>seguridad</span></div><div><b>${safeText(sw)}</b><span>service worker</span></div><div><b>${safeText(prompt)}</b><span>instalador</span></div></div><div class="sheet-stack"><button class="sheet-btn" data-pwa-install>⇩ Instalar / ayuda<small>Abre el flujo correcto para este dispositivo</small></button><button class="sheet-btn" data-pwa-full>⛶ Pantalla completa<small>Solicita modo inmersivo</small></button></div>`,root=>{$('[data-pwa-install]',root).onclick=()=>{closeDialog(els.sheetDialog);setTimeout(()=>openInstallSheet(),50);};$('[data-pwa-full]',root).onclick=async()=>{await requestImmersive();closeDialog(els.sheetDialog);};});
 }
+function openMoreMenu(){openSheet(`<h2 class="sheet-title">MUSIC PLAY</h2><p class="sheet-copy">Herramientas de biblioteca sin llenar la pantalla principal.</p><div class="sheet-stack"><button class="sheet-btn" data-more="pwa">⇩ PWA · instalación<small>Estado, instalación y pantalla completa</small></button><button class="sheet-btn" data-more="recap">◎ Mi resumen<small>Escuchas, tiempo, repeticiones y favoritos</small></button><button class="sheet-btn" data-more="backup">⇩ Copia JSON<small>Playlists, enlaces, favoritos e historial</small></button><button class="sheet-btn" data-more="restore">⇧ Restaurar JSON<small>Combina una copia con tu biblioteca actual</small></button><button class="sheet-btn" data-more="m3u-export">≡ Exportar M3U8<small>Interoperabilidad con otros reproductores</small></button><button class="sheet-btn" data-more="m3u-import">＋ Importar M3U/M3U8<small>Enlaces y referencias locales</small></button><button class="sheet-btn danger" data-more="clear">⌫ Borrar historial<small>No borra música ni favoritos</small></button></div>`,root=>{$('[data-more="pwa"]',root).onclick=()=>{closeDialog(els.sheetDialog);openPwaStatusSheet();};$('[data-more="recap"]',root).onclick=()=>{closeDialog(els.sheetDialog);openRecapSheet();};$('[data-more="backup"]',root).onclick=()=>{closeDialog(els.sheetDialog);exportBackup();};$('[data-more="restore"]',root).onclick=()=>{closeDialog(els.sheetDialog);els.backupInput.click();};$('[data-more="m3u-export"]',root).onclick=()=>{closeDialog(els.sheetDialog);openExportM3USheet();};$('[data-more="m3u-import"]',root).onclick=()=>{closeDialog(els.sheetDialog);els.m3uInput.click();};$('[data-more="clear"]',root).onclick=()=>{closeDialog(els.sheetDialog);openClearHistoryConfirm();};});}
+
 function setUpdateAvailable(on=true){state.updateAvailable=!!on;if(!els.updateBtn)return;els.updateBtn.classList.toggle('is-hidden',!state.updateAvailable);if(on)els.updateBtn.setAttribute('aria-label','Actualizar MUSIC PLAY: nueva versión disponible');}
 function wireServiceWorker(reg){
   state.swRegistration=reg;
@@ -611,15 +676,15 @@ async function importYouTubePlaylist(info,targetPlaylistId=''){
   if(!pl)pl=await createPlaylist(name);
   const src={id:`src_${remoteHash(playlistId)}`,source:'YouTube',url:info.canonicalUrl||canonicalYouTubePlaylistUrl(playlistId),originalUrl:info.url,playlistId,importSource:result.source||'link',status:ids.length?'imported':'linked',count:ids.length,message:ids.length?'':(result.error||'YouTube no expuso el listado al navegador'),addedAt:now(),checkedAt:now()};
   upsertPlaylistSource(pl,src);
-  let added=0;
+  let added=0;const importedTrackIds=[];
   for(let i=0;i<ids.length;i++){
     const videoId=ids[i];els.loaderText.textContent=`${i+1}/${ids.length} · preparando lista`;
     let meta=result.meta?.[videoId]||null;if(!meta&&i<24)meta=await fetchYouTubeMeta(videoId);
     const url=`https://www.youtube.com/watch?v=${encodeURIComponent(videoId)}`;
-    const t=makeRemoteTrack('youtube',url,{remoteId:videoId,title:meta?.title||`YouTube · ${String(i+1).padStart(2,'0')}`,artist:meta?.artist||meta?.author||'YouTube',thumbnail:meta?.thumbnail||'',playlistSource:playlistId,playlistPosition:i});
-    await saveRemoteTrack(t);if(!pl.trackIds.includes(t.id)){pl.trackIds.push(t.id);added++;}await sleep(10);
+    const t=makeRemoteTrack('youtube',url,{remoteId:videoId,title:meta?.title||`YouTube · ${String(i+1).padStart(2,'0')}`,artist:meta?.artist||meta?.author||'YouTube',thumbnail:meta?.thumbnail||`https://i.ytimg.com/vi/${videoId}/hqdefault.jpg`,playlistSource:playlistId,playlistPosition:i});
+    await saveRemoteTrack(t);importedTrackIds.push(t.id);if(!pl.trackIds.includes(t.id)){pl.trackIds.push(t.id);added++;}await sleep(10);
   }
-  await persistPlaylist(pl);hideLoader();state.activePlaylistId=pl.id;state.playlistDetailOpen=true;showView('playlist');renderPlaylists();
+  await persistPlaylist(pl);hideLoader();if(importedTrackIds.length){state.lastImportIds=[...new Set(importedTrackIds)];state.lastImportLabel=name;state.lastImportAt=now();}state.activePlaylistId=pl.id;state.playlistDetailOpen=true;showView('playlist');renderPlaylists();
   if(ids.length)toast(`${target?'Playlist añadida':'Playlist importada'} · ${added} nuevas · ${ids.length} detectadas`,4200);
   else toast('Playlist guardada en Tus listas. Queda enlazada y puedes reintentar la lectura.',4800);
   return pl;
@@ -677,10 +742,10 @@ async function retryPlaylistSource(pl,sourceIndex=0){
   const src=pl?.sources?.[sourceIndex];if(!src||src.source!=='YouTube'||!src.playlistId)return toast('Esta fuente no puede reimportarse');
   showLoader('Reintentando…','Consultando YouTube');const result=await getYouTubePlaylistIds(src.playlistId);const ids=result.ids||[];
   if(!ids.length){hideLoader();src.status='linked';src.message=result.error||'YouTube no entregó el listado';src.checkedAt=now();await persistPlaylist(pl);renderPlaylists();return toast('La fuente sigue enlazada; puedes reproducirla y reintentar luego.',4200);}
-  let added=0;
+  let added=0;const importedTrackIds=[];
   for(let i=0;i<ids.length;i++){
     const videoId=ids[i];els.loaderText.textContent=`${i+1}/${ids.length} · recuperando canciones`;let meta=result.meta?.[videoId]||null;if(!meta&&i<18)meta=await fetchYouTubeMeta(videoId);
-    const t=makeRemoteTrack('youtube',`https://www.youtube.com/watch?v=${videoId}`,{remoteId:videoId,title:meta?.title||`YouTube · ${String(i+1).padStart(2,'0')}`,artist:meta?.artist||'YouTube',thumbnail:meta?.thumbnail||'',playlistSource:src.playlistId,playlistPosition:i});
+    const t=makeRemoteTrack('youtube',`https://www.youtube.com/watch?v=${videoId}`,{remoteId:videoId,title:meta?.title||`YouTube · ${String(i+1).padStart(2,'0')}`,artist:meta?.artist||'YouTube',thumbnail:meta?.thumbnail||`https://i.ytimg.com/vi/${videoId}/hqdefault.jpg`,playlistSource:src.playlistId,playlistPosition:i});
     await saveRemoteTrack(t);if(!pl.trackIds.includes(t.id)){pl.trackIds.push(t.id);added++;}
   }
   src.status='imported';src.count=ids.length;src.message='';src.importSource=result.source;src.checkedAt=now();if(result.title&&/^YouTube ·/.test(pl.name))pl.name=result.title;
@@ -697,8 +762,8 @@ async function playExternalPlaylist(pl){
   const src=(pl?.sources||[]).find(s=>s.source==='YouTube')|| (pl?.externalRef?{...pl.externalRef,status:'linked'}:null);
   if(src)return playPlaylistSource(pl,src);toast('Esta playlist no tiene una fuente externa reproducible');
 }
-async function pickFiles(){if('showOpenFilePicker'in window){try{const handles=await showOpenFilePicker({multiple:true,types:[{description:'Audio y video',accept:{'audio/*':['.mp3','.m4a','.aac','.wav','.ogg','.oga','.opus','.flac','.wma'],'video/*':['.mp4','.m4v','.webm','.mov','.3gp','.wmv','.avi','.mkv']}}]});return importFiles(await Promise.all(handles.map(h=>h.getFile())));}catch(err){if(err?.name!=='AbortError')console.warn(err);}}els.fileInput.click();}
-async function pickFolder(){if('showDirectoryPicker'in window){try{const dir=await showDirectoryPicker(),files=[];async function walk(h){for await(const[,e]of h.entries()){if(e.kind==='file'){const f=await e.getFile();if(isMediaFile(f))files.push(f);}else if(e.kind==='directory')await walk(e);}}await walk(dir);return importFiles(files);}catch(err){if(err?.name!=='AbortError')console.warn(err);}}els.folderInput.click();}
+async function pickFiles(){if('showOpenFilePicker'in window){try{const handles=await showOpenFilePicker({multiple:true,types:[{description:'Audio y video',accept:{'audio/*':['.mp3','.m4a','.aac','.wav','.ogg','.oga','.opus','.flac','.wma'],'video/*':['.mp4','.m4v','.webm','.mov','.3gp','.wmv','.avi','.mkv']}}]});return importFiles(await Promise.all(handles.map(h=>h.getFile())),{label:'Archivos importados'});}catch(err){if(err?.name!=='AbortError')console.warn(err);}}els.fileInput.click();}
+async function pickFolder(){if('showDirectoryPicker'in window){try{const dir=await showDirectoryPicker(),files=[];async function walk(h){for await(const[,e]of h.entries()){if(e.kind==='file'){const f=await e.getFile();if(isMediaFile(f))files.push(f);}else if(e.kind==='directory')await walk(e);}}await walk(dir);return importFiles(files,{label:dir.name||'Carpeta importada'});}catch(err){if(err?.name!=='AbortError')console.warn(err);}}els.folderInput.click();}
 async function reconcileMissingPlaceholder(track){
   const placeholder=state.tracks.find(t=>t.sourceMissing&&t.sourceKind==='local'&&((t.fileName&&track.fileName&&t.fileName.toLowerCase()===track.fileName.toLowerCase())||(!t.fileName&&t.title?.toLowerCase()===track.title?.toLowerCase())));
   if(!placeholder||placeholder.id===track.id)return track;
@@ -706,14 +771,69 @@ async function reconcileMissingPlaceholder(track){
   for(const pl of state.playlists){pl.trackIds=(pl.trackIds||[]).map(id=>id===placeholder.id?track.id:id);pl.trackIds=[...new Set(pl.trackIds)];await persistPlaylist(pl);}
   state.queueIds=state.queueIds.map(id=>id===placeholder.id?track.id:id);state.tracks=state.tracks.filter(t=>t.id!==placeholder.id);if(state.storageReady)await db.delete('tracks',placeholder.id).catch(()=>{});return track;
 }
-async function importFiles(fileLike){
-  const files=Array.from(fileLike||[]).filter(isMediaFile);if(!files.length)return toast('No se encontraron archivos multimedia');showLoader('Cargando música…',`${files.length} archivo${files.length>1?'s':''}`);let i=0;
-  for(const file of files){i++;els.loaderText.textContent=`${i}/${files.length} · ${file.name}`;const meta=await parseAudioTags(file);meta.duration=await getDuration(file).catch(()=>0);let t=makeTrack(file,meta);t=await reconcileMissingPlaceholder(t);await saveTrackAndSource(t,file);await sleep(15);}
-  hideLoader();await persistPrefs();render();showView('library');toast(files.length===1?'Archivo cargado':`Se cargaron ${files.length} archivos`);
+async function importFiles(fileLike,options={}){
+  const files=Array.from(fileLike||[]).filter(isMediaFile);if(!files.length)return toast('No se encontraron archivos multimedia');
+  const inferredFolder=files[0]?.webkitRelativePath?.split('/')?.[0]||'';const label=options.label||inferredFolder||'Archivos importados';
+  showLoader('Cargando música…',`${files.length} archivo${files.length>1?'s':''}`);let i=0;const batchIds=[];
+  for(const file of files){
+    i++;els.loaderText.textContent=`${i}/${files.length} · ${file.name}`;
+    const meta=await parseAudioTags(file);meta.duration=await getDuration(file).catch(()=>0);
+    if(!meta.coverBlob&&VIDEO_EXT.has(extOf(file.name||''))&&i<=24)meta.coverBlob=await captureVideoArtwork(file).catch(()=>null);
+    let t=makeTrack(file,meta);t=await reconcileMissingPlaceholder(t);if(meta.coverBlob)t.hasCover=true;await saveTrackAndSource(t,file);if(meta.coverBlob)await saveCover(t.id,meta.coverBlob);batchIds.push(t.id);await sleep(12);
+  }
+  hideLoader();state.lastImportIds=[...new Set(batchIds)];state.lastImportLabel=label;state.lastImportAt=now();await persistPrefs();render();showView('library');
+  if(options.silentPost)return toast(files.length===1?'Archivo cargado':`Se cargaron ${files.length} archivos`);
+  openPostImportSheet(state.lastImportIds,label);
 }
 
 function seekFromRange(){const pct=Number(els.progressRange.value)/100;if(state.currentEngine==='youtube'&&ytPlayer){try{ytPlayer.seekTo((ytPlayer.getDuration()||0)*pct,true);}catch{}}else if(state.currentEngine==='soundcloud'&&scWidget){const d=getCurrentTrack()?.duration||0;scWidget.seekTo(d*1000*pct);}else{const d=els.audio.duration||0;if(d)els.audio.currentTime=d*pct;}}
-function setupMediaSession(){if(!('mediaSession'in navigator))return;const t=getCurrentTrack();if(t)navigator.mediaSession.metadata=new MediaMetadata({title:t.title,artist:t.artist||sourceLabel(t),album:t.album||'MUSIC PLAY'});try{navigator.mediaSession.setActionHandler('play',togglePlay);navigator.mediaSession.setActionHandler('pause',togglePlay);navigator.mediaSession.setActionHandler('previoustrack',prevTrack);navigator.mediaSession.setActionHandler('nexttrack',nextTrack);}catch{}}
+async function setupMediaSession(){
+  if(!('mediaSession'in navigator))return;
+  const t=getCurrentTrack();if(t){
+    const art=await artworkUrlFor(t).catch(()=> '');
+    try{navigator.mediaSession.metadata=new MediaMetadata({title:t.title,artist:t.artist||sourceLabel(t),album:t.album||'MUSIC PLAY',artwork:art?[{src:art}]:[{src:new URL('./icons/icon-512.png',location.href).href,sizes:'512x512',type:'image/png'}]});}catch{}
+  }
+  const safe=(action,fn)=>{try{navigator.mediaSession.setActionHandler(action,fn);}catch{}};
+  safe('play',()=>togglePlay());safe('pause',()=>togglePlay());safe('previoustrack',()=>prevTrack());safe('nexttrack',()=>nextTrack());
+  safe('seekbackward',details=>{const step=details?.seekOffset||10;if(state.currentEngine==='youtube'&&ytPlayer){try{ytPlayer.seekTo(Math.max(0,(ytPlayer.getCurrentTime()||0)-step),true);}catch{}}else if(['local','direct'].includes(state.currentEngine))els.audio.currentTime=Math.max(0,(els.audio.currentTime||0)-step);});
+  safe('seekforward',details=>{const step=details?.seekOffset||10;if(state.currentEngine==='youtube'&&ytPlayer){try{ytPlayer.seekTo(Math.min(ytPlayer.getDuration()||Infinity,(ytPlayer.getCurrentTime()||0)+step),true);}catch{}}else if(['local','direct'].includes(state.currentEngine))els.audio.currentTime=Math.min(els.audio.duration||Infinity,(els.audio.currentTime||0)+step);});
+  safe('seekto',details=>{const pos=Math.max(0,Number(details?.seekTime)||0);if(state.currentEngine==='youtube'&&ytPlayer){try{ytPlayer.seekTo(pos,true);}catch{}}else if(['local','direct'].includes(state.currentEngine))els.audio.currentTime=pos;});
+  safe('stop',async()=>{stopAllEngines();await finalizeListenSession('manual');renderPlayer();syncMediaPlaybackState();});
+  syncMediaPlaybackState();updateProgress();
+}
+
+function isInstalledDisplay(){return !!(window.matchMedia?.('(display-mode: fullscreen)').matches||window.matchMedia?.('(display-mode: standalone)').matches||window.matchMedia?.('(display-mode: minimal-ui)').matches||window.navigator.standalone===true);}
+function syncShellMode(){document.documentElement.dataset.shell=isInstalledDisplay()?'app':'browser';}
+function syncInstallUI(){
+  if(!els.installBtn)return;syncShellMode();const installed=isInstalledDisplay();els.installBtn.classList.remove('is-hidden');els.installBtn.classList.toggle('installed',installed);
+  els.installBtn.innerHTML=installed?'✓ <span>App</span>':'⇩ <span>Instalar</span>';els.installBtn.title=installed?'MUSIC PLAY instalada · pantalla completa':'Instalar MUSIC PLAY como aplicación';
+}
+async function requestImmersive(){
+  try{if(document.fullscreenElement)return true;if(document.fullscreenEnabled){await document.documentElement.requestFullscreen({navigationUI:'hide'});return true;}}catch(err){console.debug('Fullscreen',err);}return false;
+}
+function androidChromeIntent(){
+  if(!/android/i.test(navigator.userAgent||''))return '';
+  const scheme=location.protocol.replace(':','')||'https',target=`${location.host}${location.pathname}${location.search}`;return `intent://${target}#Intent;scheme=${scheme};package=com.android.chrome;S.browser_fallback_url=${encodeURIComponent(location.href)};end`;
+}
+async function triggerNativeInstall(){
+  if(!state.installPrompt)return false;try{state.installPrompt.prompt();const choice=await state.installPrompt.userChoice;if(choice?.outcome==='accepted'){toast('Instalando MUSIC PLAY…');}state.installPrompt=null;syncInstallUI();return choice?.outcome==='accepted';}catch(err){console.warn('Install prompt',err);return false;}
+}
+function openInstallSheet({automatic=false}={}){
+  const installed=isInstalledDisplay(),ua=navigator.userAgent||'',ios=/iphone|ipad|ipod/i.test(ua),android=/android/i.test(ua),hasPrompt=!!state.installPrompt;
+  if(installed){openSheet(`<h2 class="sheet-title">✓ MUSIC PLAY instalada</h2><p class="sheet-copy">Se está ejecutando en modo aplicación. Puedes intentar el modo inmersivo para usar toda la pantalla disponible.</p><div class="sheet-stack"><button class="sheet-btn" data-full>⛶ Pantalla completa<small>Oculta la interfaz del navegador si el sistema lo permite</small></button><button class="sheet-btn" data-close>Listo</button></div>`,root=>{$('[data-full]',root).onclick=async()=>{await requestImmersive();closeDialog(els.sheetDialog);};$('[data-close]',root).onclick=()=>closeDialog(els.sheetDialog);});return;
+  }
+  let copy='Instálala para abrir MUSIC PLAY sin barra de direcciones y con icono propio.';
+  if(ios)copy='En iPhone/iPad: usa Compartir → Añadir a pantalla de inicio. Después ábrela desde su icono.';
+  else if(android&&!hasPrompt)copy='Este visor no ofrece el instalador nativo. Abre MUSIC PLAY en Chrome y allí instala la PWA.';
+  openSheet(`<h2 class="sheet-title">⇩ Instalar MUSIC PLAY</h2><p class="sheet-copy">${copy}</p><div class="install-note"><strong>PWA</strong><span>La versión instalada solicita modo de pantalla completa y conserva biblioteca, playlists y controles multimedia.</span></div><div class="sheet-stack">${hasPrompt?'<button class="sheet-btn" data-native>⇩ Instalar ahora<small>Usar el instalador del navegador</small></button>':''}${android&&!hasPrompt?'<button class="sheet-btn" data-chrome>◎ Abrir en Chrome<small>Luego toca Instalar MUSIC PLAY</small></button>':''}<button class="sheet-btn" data-full>⛶ Usar pantalla completa ahora<small>Funciona desde un toque si el navegador lo permite</small></button><button class="sheet-btn" data-close>${automatic?'Ahora no':'Cerrar'}</button></div>`,root=>{
+    $('[data-native]',root)?.addEventListener('click',async()=>{const ok=await triggerNativeInstall();if(ok)closeDialog(els.sheetDialog);});
+    $('[data-chrome]',root)?.addEventListener('click',()=>{const intent=androidChromeIntent();if(intent)location.href=intent;});
+    $('[data-full]',root).onclick=async()=>{await requestImmersive();closeDialog(els.sheetDialog);};$('[data-close]',root).onclick=()=>closeDialog(els.sheetDialog);
+  });
+}
+function maybeShowInstallCoach(){
+  syncInstallUI();if(isInstalledDisplay()||state.installCoachShown)return;try{if(sessionStorage.getItem('mpf-install-coach-r9'))return;sessionStorage.setItem('mpf-install-coach-r9','1');}catch{}state.installCoachShown=true;setTimeout(()=>{if(!els.sheetDialog.open)openInstallSheet({automatic:true});},650);
+}
 async function registerSW(){
   if(!('serviceWorker'in navigator)||location.protocol==='file:')return null;
   try{
@@ -763,8 +883,8 @@ function bindEvents(){
   els.mixPlaylistBtn.onclick=()=>{if(state.activeSmartId)return startMix(getSmartTracks(state.activeSmartId).map(t=>t.id));const pl=getActivePlaylist();if(!pl)return toast('Elige una playlist');startMix(pl.trackIds||[]);};
 
   els.searchInput.oninput=()=>{state.search=els.searchInput.value;renderLibrary();};
-  els.fileInput.onchange=()=>{importFiles(els.fileInput.files);els.fileInput.value='';};
-  els.folderInput.onchange=()=>{importFiles(els.folderInput.files);els.folderInput.value='';};
+  els.fileInput.onchange=()=>{importFiles(els.fileInput.files,{label:'Archivos importados'});els.fileInput.value='';};
+  els.folderInput.onchange=()=>{const fs=els.folderInput.files;const label=fs?.[0]?.webkitRelativePath?.split('/')?.[0]||'Carpeta importada';importFiles(fs,{label});els.folderInput.value='';};
   els.backupInput.onchange=()=>{const f=els.backupInput.files?.[0];els.backupInput.value='';if(f)restoreBackupFile(f);};
   els.m3uInput.onchange=()=>{const f=els.m3uInput.files?.[0];els.m3uInput.value='';if(f)importM3UFile(f);};
 
@@ -781,8 +901,8 @@ function bindEvents(){
 
   els.audio.addEventListener('timeupdate',updateProgress);
   els.audio.addEventListener('loadedmetadata',()=>{const t=getCurrentTrack();if(t&&!t.duration&&Number.isFinite(els.audio.duration)){t.duration=els.audio.duration;saveRemoteTrack(t);}updateProgress();});
-  els.audio.addEventListener('play',()=>{if(['local','direct'].includes(state.currentEngine)){state.playing=true;renderPlayer();}});
-  els.audio.addEventListener('pause',()=>{if(['local','direct'].includes(state.currentEngine)){state.playing=false;renderPlayer();}});
+  els.audio.addEventListener('play',()=>{if(['local','direct'].includes(state.currentEngine)){state.playing=true;syncMediaPlaybackState();renderPlayer();}});
+  els.audio.addEventListener('pause',()=>{if(['local','direct'].includes(state.currentEngine)){state.playing=false;syncMediaPlaybackState();renderPlayer();}});
   els.audio.addEventListener('ended',handleNaturalEnd);
   els.audio.addEventListener('error',()=>{if(['local','direct'].includes(state.currentEngine))toast('Este formato o enlace no pudo reproducirse en el navegador',3800);});
 
@@ -790,10 +910,11 @@ function bindEvents(){
   ['dragleave','drop'].forEach(ev=>window.addEventListener(ev,e=>{e.preventDefault();if(ev==='drop'||!e.relatedTarget)els.dropHint.classList.remove('show');}));
   window.addEventListener('drop',e=>{if(e.dataTransfer?.files?.length)importFiles(e.dataTransfer.files);});
   window.addEventListener('beforeinstallprompt',e=>{e.preventDefault();state.installPrompt=e;syncInstallUI();});
-  window.addEventListener('appinstalled',()=>{state.installPrompt=null;syncInstallUI();toast('MUSIC PLAY instalada ✓');});
+  window.addEventListener('appinstalled',()=>{state.installPrompt=null;syncInstallUI();toast('MUSIC PLAY instalada ✓ · ábrela desde su icono');});
+  ['fullscreen','standalone','minimal-ui'].forEach(mode=>window.matchMedia?.(`(display-mode: ${mode})`)?.addEventListener?.('change',syncInstallUI));
   els.installBtn.onclick=openInstallSheet;
   els.updateBtn.onclick=applyAvailableUpdate;
-  document.addEventListener('visibilitychange',()=>{if(document.visibilityState==='visible')checkForUpdates(false);});
+  document.addEventListener('visibilitychange',()=>{if(document.visibilityState==='hidden'){state.remoteExpectedPlaying=state.playing&&['youtube','soundcloud'].includes(state.currentEngine);}else{checkForUpdates(false);if(state.remoteExpectedPlaying){state.remoteExpectedPlaying=false;setTimeout(()=>{if(state.currentEngine==='youtube'&&ytPlayer&&!state.playing){try{ytPlayer.playVideo();}catch{}setTimeout(()=>{if(!state.playing)toast('YouTube pausó al bloquear la pantalla · toca Play para continuar',4200);},900);}else if(state.currentEngine==='soundcloud'&&scWidget&&!state.playing){try{scWidget.play();}catch{}}},150);}}});
   window.addEventListener('online',()=>checkForUpdates(true));
   document.addEventListener('keydown',e=>{if(['INPUT','TEXTAREA'].includes(document.activeElement?.tagName))return;if(e.code==='Space'){e.preventDefault();togglePlay();}else if(e.key.toLowerCase()==='m')startMix(getFilteredTracks().map(t=>t.id));else if(e.key.toLowerCase()==='l')showView('library');else if(e.key.toLowerCase()==='p'){state.playlistDetailOpen=false;showView('playlist');}});
   window.addEventListener('pagehide',()=>{finalizeListenSession('pause');persistPrefs();});
@@ -811,10 +932,12 @@ async function init(){
   els.audio.volume=state.volume;
   setupMediaSession();
   checkForUpdates(true);
+  const requestedView=new URLSearchParams(location.search).get('view');if(['library','playlist'].includes(requestedView))showView(requestedView);
   await sleep(2000);
   els.intro.classList.add('hide');
   els.app.classList.remove('is-hidden');
   setTimeout(()=>els.intro.remove(),450);
+  maybeShowInstallCoach();
 }
 init().catch(err=>{console.error(err);els.intro?.classList.add('hide');els.app?.classList.remove('is-hidden');toast('La app abrió en modo seguro');});
 

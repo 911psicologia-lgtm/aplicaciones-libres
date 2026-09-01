@@ -6,11 +6,16 @@
   <meta name="theme-color" content="#0e1014" />
   <meta name="description" content="MUSIC PLAY · reproductor local minimalista y privado" />
   <meta name="color-scheme" content="dark light" />
+  <meta name="application-name" content="MUSIC PLAY" />
+  <meta name="mobile-web-app-capable" content="yes" />
+  <meta name="apple-mobile-web-app-capable" content="yes" />
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
+  <meta name="apple-mobile-web-app-title" content="MUSIC PLAY" />
   <title>MUSIC PLAY · HAPPY</title>
-  <link rel="manifest" href="./manifest.webmanifest?v=r8-smart" />
+  <link rel="manifest" href="./manifest.webmanifest?v=r9-immersive" />
   <link rel="icon" href="./icons/icon-192.png" />
-  <link rel="apple-touch-icon" href="./icons/icon-192.png" />
-  <link rel="stylesheet" href="./styles.css?v=r8-smart" />
+  <link rel="apple-touch-icon" href="./icons/apple-touch-icon.png" />
+  <link rel="stylesheet" href="./styles.css?v=r9-immersive" />
 </head>
 <body>
   <noscript>Esta aplicación necesita JavaScript.</noscript>
@@ -55,10 +60,9 @@
 
     <main class="screen-wrap">
       <section id="homeView" class="view active">
-        <div class="home-card">
-          <div class="home-icon">♫</div>
+        <div class="home-card home-card-compact">
           <h1>Tu música, sin ruido.</h1>
-          <p>Solo cuatro acciones claras. Carga, escucha, organiza y mezcla.</p>
+          <p>Carga, escucha, organiza y mezcla.</p>
         </div>
 
         <div class="action-grid">
@@ -189,7 +193,7 @@
 
     <section id="miniPlayer" class="mini-player is-hidden" aria-label="Reproductor">
       <button id="miniOpen" class="mini-track">
-        <div class="mini-art">♫</div>
+        <div id="miniArtwork" class="mini-art">♫</div>
         <div class="mini-meta">
           <strong id="miniTitle">Sin reproducción</strong>
           <span id="miniArtist">—</span>
@@ -206,7 +210,7 @@
     <dialog id="playerDialog" class="dialog player-dialog">
       <form method="dialog" class="dialog-card player-card">
         <button class="close-btn" aria-label="Cerrar">×</button>
-        <div class="player-cover">♫</div>
+        <div id="playerArtwork" class="player-cover">♫</div>
         <small class="eyebrow">REPRODUCIENDO</small>
         <h2 id="fullTitle">—</h2>
         <p id="fullArtist">—</p>
@@ -249,10 +253,10 @@
     <input id="folderInput" type="file" accept="audio/*,video/*,.wma,.wmv,.avi,.mkv,.mov,.3gp" webkitdirectory directory multiple hidden />
     <input id="backupInput" type="file" accept="application/json,.json" hidden />
     <input id="m3uInput" type="file" accept="audio/x-mpegurl,application/vnd.apple.mpegurl,.m3u,.m3u8" hidden />
-    <audio id="audio" preload="metadata"></audio>
+    <audio id="audio" preload="metadata" playsinline></audio>
     <div id="ytProbeHost" class="probe-host" aria-hidden="true"></div>
   </div>
 
-  <script src="./app.js?v=r8-smart"></script>
+  <script src="./app.js?v=r9-immersive"></script>
 </body>
 </html>
