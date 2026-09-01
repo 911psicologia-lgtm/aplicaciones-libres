@@ -2,6 +2,10 @@
   "key": "resonator",
   "frameW": 384,
   "frameH": 384,
+  "revision": "2.13.7",
+  "source": "assets/boss_final_v2137/boss_resonator_omega_final.png",
+  "identity": "cicada-cathedral-resonance",
+  "animation": "localized-non-rigid-anatomical-warp",
   "states": {
     "idle": {
       "frames": 8,
@@ -23,7 +27,5 @@
       "frames": 10,
       "cols": 4
     }
-  },
-  "revision": "2.13.6",
-  "identity": "cathedral-resonance"
+  }
 }

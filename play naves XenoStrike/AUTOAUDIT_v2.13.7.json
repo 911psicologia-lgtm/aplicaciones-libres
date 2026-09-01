@@ -1,0 +1,1246 @@
+{
+  "version": "2.13.7",
+  "checks": {
+    "VERSION": {
+      "ok": true,
+      "detail": "2.13.7"
+    },
+    "service_worker_cache": {
+      "ok": true,
+      "detail": "swarm-rift-v2.13.7"
+    },
+    "node_check_game": {
+      "ok": true,
+      "detail": "syntax OK"
+    },
+    "node_check_sw": {
+      "ok": true,
+      "detail": "syntax OK"
+    },
+    "active_worlds_10": {
+      "ok": true,
+      "detail": {
+        "count": 10,
+        "bosses": [
+          "IMPERATRIX VESPA",
+          "ATLAS VERDE",
+          "CORTEX RAZOR",
+          "VELA NOCTIS",
+          "REGINA FERRUM",
+          "COLOSSUS HOP",
+          "SANGUINA PRIME",
+          "ARCHITECT ZERO",
+          "AURALIS",
+          "RESONATOR OMEGA"
+        ]
+      }
+    },
+    "bosses_10_of_10": {
+      "ok": true,
+      "detail": [
+        "IMPERATRIX VESPA",
+        "ATLAS VERDE",
+        "CORTEX RAZOR",
+        "VELA NOCTIS",
+        "REGINA FERRUM",
+        "COLOSSUS HOP",
+        "SANGUINA PRIME",
+        "ARCHITECT ZERO",
+        "AURALIS",
+        "RESONATOR OMEGA"
+      ]
+    },
+    "chapter_II_not_started": {
+      "ok": true,
+      "detail": "SECTORS active array stops at world 10; expansion scaffolding remains."
+    },
+    "bosses_6_10_exact_uploaded_assets": {
+      "ok": true,
+      "detail": {
+        "colossus": true,
+        "sanguina": true,
+        "architect": true,
+        "auralis": true,
+        "resonator": true
+      }
+    },
+    "bosses_6_10_active_mapping": {
+      "ok": true,
+      "detail": {
+        "LANGOSTAS": "assets/boss_final_v2137/boss_colossus_hop_final.png?av=2137",
+        "MOSQUITOS": "assets/boss_final_v2137/boss_sanguina_prime_final.png?av=2137",
+        "TERMITAS": "assets/boss_final_v2137/boss_architect_zero_final.png?av=2137",
+        "LIBÉLULAS": "assets/boss_final_v2137/boss_auralis_final.png?av=2137",
+        "CIGARRAS": "assets/boss_final_v2137/boss_resonator_omega_final.png?av=2137"
+      }
+    },
+    "boss_cache_busting_2137": {
+      "ok": true,
+      "detail": "no av=2136 runtime refs; av=2137 active"
+    },
+    "fallback_visible_diagnostic": {
+      "ok": true,
+      "detail": "fallback logs and one-time visible notification"
+    },
+    "animation_5_states_10_of_10": {
+      "ok": true,
+      "detail": {
+        "imperatrix": true,
+        "atlas": true,
+        "cortex": true,
+        "vela": true,
+        "regina": true,
+        "colossus": true,
+        "sanguina": true,
+        "architect": true,
+        "auralis": true,
+        "resonator": true
+      }
+    },
+    "bosses_6_10_perceptible_local_animation": {
+      "ok": true,
+      "detail": {
+        "colossus": {
+          "revision": "2.13.7",
+          "method": "localized-non-rigid-anatomical-warp",
+          "states": {
+            "idle": {
+              "unique_frames": 5,
+              "mean_delta": 4.871
+            },
+            "attack": {
+              "unique_frames": 6,
+              "mean_delta": 14.071
+            },
+            "hurt": {
+              "unique_frames": 2,
+              "mean_delta": 9.564
+            },
+            "phase": {
+              "unique_frames": 7,
+              "mean_delta": 13.708
+            },
+            "death": {
+              "unique_frames": 10,
+              "mean_delta": 17.505
+            }
+          }
+        },
+        "sanguina": {
+          "revision": "2.13.7",
+          "method": "localized-non-rigid-anatomical-warp",
+          "states": {
+            "idle": {
+              "unique_frames": 5,
+              "mean_delta": 5.738
+            },
+            "attack": {
+              "unique_frames": 3,
+              "mean_delta": 10.226
+            },
+            "hurt": {
+              "unique_frames": 2,
+              "mean_delta": 10.069
+            },
+            "phase": {
+              "unique_frames": 7,
+              "mean_delta": 14.019
+            },
+            "death": {
+              "unique_frames": 10,
+              "mean_delta": 14.566
+            }
+          }
+        },
+        "architect": {
+          "revision": "2.13.7",
+          "method": "localized-non-rigid-anatomical-warp",
+          "states": {
+            "idle": {
+              "unique_frames": 5,
+              "mean_delta": 7.678
+            },
+            "attack": {
+              "unique_frames": 3,
+              "mean_delta": 18.218
+            },
+            "hurt": {
+              "unique_frames": 2,
+              "mean_delta": 11.942
+            },
+            "phase": {
+              "unique_frames": 7,
+              "mean_delta": 20.329
+            },
+            "death": {
+              "unique_frames": 10,
+              "mean_delta": 17.552
+            }
+          }
+        },
+        "auralis": {
+          "revision": "2.13.7",
+          "method": "localized-non-rigid-anatomical-warp",
+          "states": {
+            "idle": {
+              "unique_frames": 5,
+              "mean_delta": 8.681
+            },
+            "attack": {
+              "unique_frames": 5,
+              "mean_delta": 15.723
+            },
+            "hurt": {
+              "unique_frames": 2,
+              "mean_delta": 12.881
+            },
+            "phase": {
+              "unique_frames": 7,
+              "mean_delta": 20.634
+            },
+            "death": {
+              "unique_frames": 10,
+              "mean_delta": 16.925
+            }
+          }
+        },
+        "resonator": {
+          "revision": "2.13.7",
+          "method": "localized-non-rigid-anatomical-warp",
+          "states": {
+            "idle": {
+              "unique_frames": 5,
+              "mean_delta": 4.894
+            },
+            "attack": {
+              "unique_frames": 3,
+              "mean_delta": 11.155
+            },
+            "hurt": {
+              "unique_frames": 2,
+              "mean_delta": 10.042
+            },
+            "phase": {
+              "unique_frames": 7,
+              "mean_delta": 15.504
+            },
+            "death": {
+              "unique_frames": 10,
+              "mean_delta": 17.702
+            }
+          }
+        }
+      }
+    },
+    "signature_attacks_6_10": {
+      "ok": true,
+      "detail": [
+        "IMPACTO COLOSSUS",
+        "SIFÓN HEMÁTICO",
+        "JAULA DE RESINA",
+        "CRUZ PRISMÁTICA",
+        "ONDA OMEGA"
+      ]
+    },
+    "signature_vfx_reinforced": {
+      "ok": true,
+      "detail": {
+        "colossus": true,
+        "sanguina": true,
+        "architect": true,
+        "auralis": true,
+        "resonator": true
+      }
+    },
+    "tenientes_commander_convergence": {
+      "ok": true,
+      "detail": "Commander Convergence + lieutenant queue/functions present"
+    },
+    "boss_checkpoint_50": {
+      "ok": true,
+      "detail": "boss HP set to 50% at checkpoint"
+    },
+    "reward_ledger": {
+      "ok": true,
+      "detail": "Reward Ledger code present"
+    },
+    "heritage": {
+      "ok": true,
+      "detail": "10 boss heritage mappings"
+    },
+    "wave_objectives": {
+      "ok": true,
+      "detail": "Wave Objectives present"
+    },
+    "combat_director": {
+      "ok": true,
+      "detail": "Combat Director present"
+    },
+    "difficulty_normal_hard": {
+      "ok": true,
+      "detail": "Normal/Hard paths present"
+    },
+    "power_inventory_limits": {
+      "ok": true,
+      "detail": "2 active / 3 queued"
+    },
+    "powers_19": {
+      "ok": true,
+      "detail": 19
+    },
+    "boss_rush": {
+      "ok": true,
+      "detail": "Boss Rush preserved"
+    },
+    "chase_mode": {
+      "ok": true,
+      "detail": {
+        "menu_chase": true,
+        "victory_chase": true,
+        "startChase": true,
+        "drawChase": true,
+        "updateChase": true,
+        "powerDrops": true,
+        "overdrive": true,
+        "shield": true,
+        "streak": true,
+        "RACHA": true,
+        "bomb": true,
+        "rank": true
+      }
+    },
+    "chase_not_mandatory_boss_rush": {
+      "ok": true,
+      "detail": "separate mode + post-victory option retained"
+    },
+    "no_player_dash": {
+      "ok": true,
+      "detail": "No player DASH action introduced; enemy movement label may still use dash internally."
+    },
+    "world_playlists_1_10": {
+      "ok": true,
+      "detail": [
+        1,
+        2,
+        3,
+        4,
+        5,
+        6,
+        7,
+        8,
+        9,
+        10
+      ]
+    },
+    "boss_adaptive_playlist": {
+      "ok": true,
+      "detail": "no immediate repetition + fade/resume machinery present"
+    },
+    "pause_audio_resume": {
+      "ok": true,
+      "detail": "pause/resume currentTime machinery present"
+    },
+    "responsive_profiles": {
+      "ok": true,
+      "detail": [
+        "MOBILE_PORTRAIT",
+        "MOBILE_LANDSCAPE",
+        "TABLET",
+        "DESKTOP"
+      ]
+    },
+    "auto_fire_and_direct_pointer": {
+      "ok": true,
+      "detail": "auto-fire/pointer/touch code retained"
+    },
+    "pwa_all_cached_resources_exist": {
+      "ok": true,
+      "detail": {
+        "asset_count": 338,
+        "missing": [],
+        "missing_count": 0
+      }
+    },
+    "pwa_caches_final_bosses": {
+      "ok": true,
+      "detail": []
+    },
+    "service_worker_registration": {
+      "ok": true,
+      "detail": "registration present"
+    },
+    "manifest_exists": {
+      "ok": true,
+      "detail": "manifest.json"
+    },
+    "save_keys_v2137_migrate_v2136": {
+      "ok": true,
+      "detail": "new keys + explicit v2.13.6 migration"
+    },
+    "no_old_boss_6_10_active_mapping": {
+      "ok": true,
+      "detail": []
+    },
+    "old_v2132_previews_removed": {
+      "ok": true,
+      "detail": []
+    },
+    "sprite_generator_reproducible": {
+      "ok": true,
+      "detail": "tools/generate_boss_sheets_v2137.py uses localized regions/non-rigid warps"
+    }
+  },
+  "bosses": {
+    "colossus": {
+      "source_sha256": "79670a6ccf74cb8f35f5607fa90bfc69fb67d50c9aed987f9cc9a518acd8f38f",
+      "final_sha256": "79670a6ccf74cb8f35f5607fa90bfc69fb67d50c9aed987f9cc9a518acd8f38f",
+      "exact_uploaded_asset": true,
+      "active_mapping": "assets/boss_final_v2137/boss_colossus_hop_final.png?av=2137",
+      "active_mapping_ok": true,
+      "five_states_ok": true,
+      "states": {
+        "idle": {
+          "size": [
+            1536,
+            768
+          ],
+          "unique_frames": 5,
+          "mean_adjacent_pixel_delta": 4.871,
+          "max_adjacent_pixel_delta": 7.378,
+          "expected_size": [
+            1536,
+            768
+          ],
+          "size_ok": true,
+          "motion_ok": true
+        },
+        "attack": {
+          "size": [
+            1536,
+            768
+          ],
+          "unique_frames": 6,
+          "mean_adjacent_pixel_delta": 14.071,
+          "max_adjacent_pixel_delta": 18.016,
+          "expected_size": [
+            1536,
+            768
+          ],
+          "size_ok": true,
+          "motion_ok": true
+        },
+        "hurt": {
+          "size": [
+            1536,
+            384
+          ],
+          "unique_frames": 2,
+          "mean_adjacent_pixel_delta": 9.564,
+          "max_adjacent_pixel_delta": 14.346,
+          "expected_size": [
+            1536,
+            384
+          ],
+          "size_ok": true,
+          "motion_ok": true
+        },
+        "phase": {
+          "size": [
+            1536,
+            768
+          ],
+          "unique_frames": 7,
+          "mean_adjacent_pixel_delta": 13.708,
+          "max_adjacent_pixel_delta": 20.03,
+          "expected_size": [
+            1536,
+            768
+          ],
+          "size_ok": true,
+          "motion_ok": true
+        },
+        "death": {
+          "size": [
+            1536,
+            1152
+          ],
+          "unique_frames": 10,
+          "mean_adjacent_pixel_delta": 17.505,
+          "max_adjacent_pixel_delta": 49.105,
+          "expected_size": [
+            1536,
+            1152
+          ],
+          "size_ok": true,
+          "motion_ok": true
+        }
+      },
+      "meta_revision": "2.13.7",
+      "animation_method": "localized-non-rigid-anatomical-warp"
+    },
+    "sanguina": {
+      "source_sha256": "f18f2f0108b3110bd7c95dc426ac363cfa2f46c93e9901a130a6379242396e07",
+      "final_sha256": "f18f2f0108b3110bd7c95dc426ac363cfa2f46c93e9901a130a6379242396e07",
+      "exact_uploaded_asset": true,
+      "active_mapping": "assets/boss_final_v2137/boss_sanguina_prime_final.png?av=2137",
+      "active_mapping_ok": true,
+      "five_states_ok": true,
+      "states": {
+        "idle": {
+          "size": [
+            1536,
+            768
+          ],
+          "unique_frames": 5,
+          "mean_adjacent_pixel_delta": 5.738,
+          "max_adjacent_pixel_delta": 8.609,
+          "expected_size": [
+            1536,
+            768
+          ],
+          "size_ok": true,
+          "motion_ok": true
+        },
+        "attack": {
+          "size": [
+            1536,
+            768
+          ],
+          "unique_frames": 3,
+          "mean_adjacent_pixel_delta": 10.226,
+          "max_adjacent_pixel_delta": 14.77,
+          "expected_size": [
+            1536,
+            768
+          ],
+          "size_ok": true,
+          "motion_ok": true
+        },
+        "hurt": {
+          "size": [
+            1536,
+            384
+          ],
+          "unique_frames": 2,
+          "mean_adjacent_pixel_delta": 10.069,
+          "max_adjacent_pixel_delta": 15.104,
+          "expected_size": [
+            1536,
+            384
+          ],
+          "size_ok": true,
+          "motion_ok": true
+        },
+        "phase": {
+          "size": [
+            1536,
+            768
+          ],
+          "unique_frames": 7,
+          "mean_adjacent_pixel_delta": 14.019,
+          "max_adjacent_pixel_delta": 18.739,
+          "expected_size": [
+            1536,
+            768
+          ],
+          "size_ok": true,
+          "motion_ok": true
+        },
+        "death": {
+          "size": [
+            1536,
+            1152
+          ],
+          "unique_frames": 10,
+          "mean_adjacent_pixel_delta": 14.566,
+          "max_adjacent_pixel_delta": 40.021,
+          "expected_size": [
+            1536,
+            1152
+          ],
+          "size_ok": true,
+          "motion_ok": true
+        }
+      },
+      "meta_revision": "2.13.7",
+      "animation_method": "localized-non-rigid-anatomical-warp"
+    },
+    "architect": {
+      "source_sha256": "5dac1fea3b4f0342fa91a9837d5c27c04ab3c4a6acc69d4fcf17f430c80cc782",
+      "final_sha256": "5dac1fea3b4f0342fa91a9837d5c27c04ab3c4a6acc69d4fcf17f430c80cc782",
+      "exact_uploaded_asset": true,
+      "active_mapping": "assets/boss_final_v2137/boss_architect_zero_final.png?av=2137",
+      "active_mapping_ok": true,
+      "five_states_ok": true,
+      "states": {
+        "idle": {
+          "size": [
+            1536,
+            768
+          ],
+          "unique_frames": 5,
+          "mean_adjacent_pixel_delta": 7.678,
+          "max_adjacent_pixel_delta": 11.149,
+          "expected_size": [
+            1536,
+            768
+          ],
+          "size_ok": true,
+          "motion_ok": true
+        },
+        "attack": {
+          "size": [
+            1536,
+            768
+          ],
+          "unique_frames": 3,
+          "mean_adjacent_pixel_delta": 18.218,
+          "max_adjacent_pixel_delta": 24.793,
+          "expected_size": [
+            1536,
+            768
+          ],
+          "size_ok": true,
+          "motion_ok": true
+        },
+        "hurt": {
+          "size": [
+            1536,
+            384
+          ],
+          "unique_frames": 2,
+          "mean_adjacent_pixel_delta": 11.942,
+          "max_adjacent_pixel_delta": 17.913,
+          "expected_size": [
+            1536,
+            384
+          ],
+          "size_ok": true,
+          "motion_ok": true
+        },
+        "phase": {
+          "size": [
+            1536,
+            768
+          ],
+          "unique_frames": 7,
+          "mean_adjacent_pixel_delta": 20.329,
+          "max_adjacent_pixel_delta": 26.35,
+          "expected_size": [
+            1536,
+            768
+          ],
+          "size_ok": true,
+          "motion_ok": true
+        },
+        "death": {
+          "size": [
+            1536,
+            1152
+          ],
+          "unique_frames": 10,
+          "mean_adjacent_pixel_delta": 17.552,
+          "max_adjacent_pixel_delta": 39.269,
+          "expected_size": [
+            1536,
+            1152
+          ],
+          "size_ok": true,
+          "motion_ok": true
+        }
+      },
+      "meta_revision": "2.13.7",
+      "animation_method": "localized-non-rigid-anatomical-warp"
+    },
+    "auralis": {
+      "source_sha256": "579d499907b8e9f921a6892d547cfbfa158e59e7f9babb64cda39ab9f4ad4192",
+      "final_sha256": "579d499907b8e9f921a6892d547cfbfa158e59e7f9babb64cda39ab9f4ad4192",
+      "exact_uploaded_asset": true,
+      "active_mapping": "assets/boss_final_v2137/boss_auralis_final.png?av=2137",
+      "active_mapping_ok": true,
+      "five_states_ok": true,
+      "states": {
+        "idle": {
+          "size": [
+            1536,
+            768
+          ],
+          "unique_frames": 5,
+          "mean_adjacent_pixel_delta": 8.681,
+          "max_adjacent_pixel_delta": 12.141,
+          "expected_size": [
+            1536,
+            768
+          ],
+          "size_ok": true,
+          "motion_ok": true
+        },
+        "attack": {
+          "size": [
+            1536,
+            768
+          ],
+          "unique_frames": 5,
+          "mean_adjacent_pixel_delta": 15.723,
+          "max_adjacent_pixel_delta": 20.251,
+          "expected_size": [
+            1536,
+            768
+          ],
+          "size_ok": true,
+          "motion_ok": true
+        },
+        "hurt": {
+          "size": [
+            1536,
+            384
+          ],
+          "unique_frames": 2,
+          "mean_adjacent_pixel_delta": 12.881,
+          "max_adjacent_pixel_delta": 19.322,
+          "expected_size": [
+            1536,
+            384
+          ],
+          "size_ok": true,
+          "motion_ok": true
+        },
+        "phase": {
+          "size": [
+            1536,
+            768
+          ],
+          "unique_frames": 7,
+          "mean_adjacent_pixel_delta": 20.634,
+          "max_adjacent_pixel_delta": 28.334,
+          "expected_size": [
+            1536,
+            768
+          ],
+          "size_ok": true,
+          "motion_ok": true
+        },
+        "death": {
+          "size": [
+            1536,
+            1152
+          ],
+          "unique_frames": 10,
+          "mean_adjacent_pixel_delta": 16.925,
+          "max_adjacent_pixel_delta": 44.826,
+          "expected_size": [
+            1536,
+            1152
+          ],
+          "size_ok": true,
+          "motion_ok": true
+        }
+      },
+      "meta_revision": "2.13.7",
+      "animation_method": "localized-non-rigid-anatomical-warp"
+    },
+    "resonator": {
+      "source_sha256": "335258cdb3376f63db8ff737455b74c03595b41fafe7188d32663637f24ce181",
+      "final_sha256": "335258cdb3376f63db8ff737455b74c03595b41fafe7188d32663637f24ce181",
+      "exact_uploaded_asset": true,
+      "active_mapping": "assets/boss_final_v2137/boss_resonator_omega_final.png?av=2137",
+      "active_mapping_ok": true,
+      "five_states_ok": true,
+      "states": {
+        "idle": {
+          "size": [
+            1536,
+            768
+          ],
+          "unique_frames": 5,
+          "mean_adjacent_pixel_delta": 4.894,
+          "max_adjacent_pixel_delta": 7.381,
+          "expected_size": [
+            1536,
+            768
+          ],
+          "size_ok": true,
+          "motion_ok": true
+        },
+        "attack": {
+          "size": [
+            1536,
+            768
+          ],
+          "unique_frames": 3,
+          "mean_adjacent_pixel_delta": 11.155,
+          "max_adjacent_pixel_delta": 16.091,
+          "expected_size": [
+            1536,
+            768
+          ],
+          "size_ok": true,
+          "motion_ok": true
+        },
+        "hurt": {
+          "size": [
+            1536,
+            384
+          ],
+          "unique_frames": 2,
+          "mean_adjacent_pixel_delta": 10.042,
+          "max_adjacent_pixel_delta": 15.063,
+          "expected_size": [
+            1536,
+            384
+          ],
+          "size_ok": true,
+          "motion_ok": true
+        },
+        "phase": {
+          "size": [
+            1536,
+            768
+          ],
+          "unique_frames": 7,
+          "mean_adjacent_pixel_delta": 15.504,
+          "max_adjacent_pixel_delta": 20.008,
+          "expected_size": [
+            1536,
+            768
+          ],
+          "size_ok": true,
+          "motion_ok": true
+        },
+        "death": {
+          "size": [
+            1536,
+            1152
+          ],
+          "unique_frames": 10,
+          "mean_adjacent_pixel_delta": 17.702,
+          "max_adjacent_pixel_delta": 41.4,
+          "expected_size": [
+            1536,
+            1152
+          ],
+          "size_ok": true,
+          "motion_ok": true
+        }
+      },
+      "meta_revision": "2.13.7",
+      "animation_method": "localized-non-rigid-anatomical-warp"
+    },
+    "imperatrix": {
+      "five_states_ok": true,
+      "states": {
+        "idle": {
+          "size": [
+            1536,
+            768
+          ],
+          "unique_frames": 8,
+          "mean_adjacent_pixel_delta": 12.078,
+          "max_adjacent_pixel_delta": 13.342,
+          "expected_size": [
+            1536,
+            768
+          ],
+          "size_ok": true,
+          "motion_ok": true
+        },
+        "attack": {
+          "size": [
+            1536,
+            768
+          ],
+          "unique_frames": 6,
+          "mean_adjacent_pixel_delta": 16.043,
+          "max_adjacent_pixel_delta": 18.353,
+          "expected_size": [
+            1536,
+            768
+          ],
+          "size_ok": true,
+          "motion_ok": true
+        },
+        "hurt": {
+          "size": [
+            1536,
+            384
+          ],
+          "unique_frames": 4,
+          "mean_adjacent_pixel_delta": 14.349,
+          "max_adjacent_pixel_delta": 17.619,
+          "expected_size": [
+            1536,
+            384
+          ],
+          "size_ok": true,
+          "motion_ok": true
+        },
+        "phase": {
+          "size": [
+            1536,
+            768
+          ],
+          "unique_frames": 7,
+          "mean_adjacent_pixel_delta": 19.334,
+          "max_adjacent_pixel_delta": 21.211,
+          "expected_size": [
+            1536,
+            768
+          ],
+          "size_ok": true,
+          "motion_ok": true
+        },
+        "death": {
+          "size": [
+            1536,
+            1152
+          ],
+          "unique_frames": 10,
+          "mean_adjacent_pixel_delta": 11.346,
+          "max_adjacent_pixel_delta": 11.744,
+          "expected_size": [
+            1536,
+            1152
+          ],
+          "size_ok": true,
+          "motion_ok": true
+        }
+      }
+    },
+    "atlas": {
+      "five_states_ok": true,
+      "states": {
+        "idle": {
+          "size": [
+            1536,
+            768
+          ],
+          "unique_frames": 6,
+          "mean_adjacent_pixel_delta": 6.856,
+          "max_adjacent_pixel_delta": 8.844,
+          "expected_size": [
+            1536,
+            768
+          ],
+          "size_ok": true,
+          "motion_ok": true
+        },
+        "attack": {
+          "size": [
+            1536,
+            768
+          ],
+          "unique_frames": 4,
+          "mean_adjacent_pixel_delta": 13.216,
+          "max_adjacent_pixel_delta": 19.241,
+          "expected_size": [
+            1536,
+            768
+          ],
+          "size_ok": true,
+          "motion_ok": true
+        },
+        "hurt": {
+          "size": [
+            1536,
+            384
+          ],
+          "unique_frames": 4,
+          "mean_adjacent_pixel_delta": 15.594,
+          "max_adjacent_pixel_delta": 17.605,
+          "expected_size": [
+            1536,
+            384
+          ],
+          "size_ok": true,
+          "motion_ok": true
+        },
+        "phase": {
+          "size": [
+            1536,
+            768
+          ],
+          "unique_frames": 5,
+          "mean_adjacent_pixel_delta": 15.664,
+          "max_adjacent_pixel_delta": 21.734,
+          "expected_size": [
+            1536,
+            768
+          ],
+          "size_ok": true,
+          "motion_ok": true
+        },
+        "death": {
+          "size": [
+            1536,
+            1152
+          ],
+          "unique_frames": 10,
+          "mean_adjacent_pixel_delta": 11.991,
+          "max_adjacent_pixel_delta": 15.418,
+          "expected_size": [
+            1536,
+            1152
+          ],
+          "size_ok": true,
+          "motion_ok": true
+        }
+      }
+    },
+    "cortex": {
+      "five_states_ok": true,
+      "states": {
+        "idle": {
+          "size": [
+            1536,
+            768
+          ],
+          "unique_frames": 7,
+          "mean_adjacent_pixel_delta": 16.686,
+          "max_adjacent_pixel_delta": 21.69,
+          "expected_size": [
+            1536,
+            768
+          ],
+          "size_ok": true,
+          "motion_ok": true
+        },
+        "attack": {
+          "size": [
+            1536,
+            768
+          ],
+          "unique_frames": 3,
+          "mean_adjacent_pixel_delta": 27.504,
+          "max_adjacent_pixel_delta": 35.752,
+          "expected_size": [
+            1536,
+            768
+          ],
+          "size_ok": true,
+          "motion_ok": true
+        },
+        "hurt": {
+          "size": [
+            1536,
+            384
+          ],
+          "unique_frames": 3,
+          "mean_adjacent_pixel_delta": 32.206,
+          "max_adjacent_pixel_delta": 33.237,
+          "expected_size": [
+            1536,
+            384
+          ],
+          "size_ok": true,
+          "motion_ok": true
+        },
+        "phase": {
+          "size": [
+            1536,
+            768
+          ],
+          "unique_frames": 8,
+          "mean_adjacent_pixel_delta": 22.803,
+          "max_adjacent_pixel_delta": 27.951,
+          "expected_size": [
+            1536,
+            768
+          ],
+          "size_ok": true,
+          "motion_ok": true
+        },
+        "death": {
+          "size": [
+            1536,
+            1152
+          ],
+          "unique_frames": 10,
+          "mean_adjacent_pixel_delta": 32.411,
+          "max_adjacent_pixel_delta": 37.036,
+          "expected_size": [
+            1536,
+            1152
+          ],
+          "size_ok": true,
+          "motion_ok": true
+        }
+      }
+    },
+    "vela": {
+      "five_states_ok": true,
+      "states": {
+        "idle": {
+          "size": [
+            1536,
+            768
+          ],
+          "unique_frames": 7,
+          "mean_adjacent_pixel_delta": 24.159,
+          "max_adjacent_pixel_delta": 29.287,
+          "expected_size": [
+            1536,
+            768
+          ],
+          "size_ok": true,
+          "motion_ok": true
+        },
+        "attack": {
+          "size": [
+            1536,
+            768
+          ],
+          "unique_frames": 3,
+          "mean_adjacent_pixel_delta": 28.734,
+          "max_adjacent_pixel_delta": 36.121,
+          "expected_size": [
+            1536,
+            768
+          ],
+          "size_ok": true,
+          "motion_ok": true
+        },
+        "hurt": {
+          "size": [
+            1536,
+            384
+          ],
+          "unique_frames": 3,
+          "mean_adjacent_pixel_delta": 37.562,
+          "max_adjacent_pixel_delta": 45.398,
+          "expected_size": [
+            1536,
+            384
+          ],
+          "size_ok": true,
+          "motion_ok": true
+        },
+        "phase": {
+          "size": [
+            1536,
+            768
+          ],
+          "unique_frames": 8,
+          "mean_adjacent_pixel_delta": 27.169,
+          "max_adjacent_pixel_delta": 33.788,
+          "expected_size": [
+            1536,
+            768
+          ],
+          "size_ok": true,
+          "motion_ok": true
+        },
+        "death": {
+          "size": [
+            1536,
+            1152
+          ],
+          "unique_frames": 10,
+          "mean_adjacent_pixel_delta": 33.489,
+          "max_adjacent_pixel_delta": 40.753,
+          "expected_size": [
+            1536,
+            1152
+          ],
+          "size_ok": true,
+          "motion_ok": true
+        }
+      }
+    },
+    "regina": {
+      "five_states_ok": true,
+      "states": {
+        "idle": {
+          "size": [
+            1536,
+            768
+          ],
+          "unique_frames": 7,
+          "mean_adjacent_pixel_delta": 12.203,
+          "max_adjacent_pixel_delta": 16.581,
+          "expected_size": [
+            1536,
+            768
+          ],
+          "size_ok": true,
+          "motion_ok": true
+        },
+        "attack": {
+          "size": [
+            1536,
+            768
+          ],
+          "unique_frames": 3,
+          "mean_adjacent_pixel_delta": 17.517,
+          "max_adjacent_pixel_delta": 22.79,
+          "expected_size": [
+            1536,
+            768
+          ],
+          "size_ok": true,
+          "motion_ok": true
+        },
+        "hurt": {
+          "size": [
+            1536,
+            384
+          ],
+          "unique_frames": 3,
+          "mean_adjacent_pixel_delta": 21.318,
+          "max_adjacent_pixel_delta": 22.202,
+          "expected_size": [
+            1536,
+            384
+          ],
+          "size_ok": true,
+          "motion_ok": true
+        },
+        "phase": {
+          "size": [
+            1536,
+            768
+          ],
+          "unique_frames": 8,
+          "mean_adjacent_pixel_delta": 16.456,
+          "max_adjacent_pixel_delta": 19.14,
+          "expected_size": [
+            1536,
+            768
+          ],
+          "size_ok": true,
+          "motion_ok": true
+        },
+        "death": {
+          "size": [
+            1536,
+            1152
+          ],
+          "unique_frames": 10,
+          "mean_adjacent_pixel_delta": 23.33,
+          "max_adjacent_pixel_delta": 28.786,
+          "expected_size": [
+            1536,
+            1152
+          ],
+          "size_ok": true,
+          "motion_ok": true
+        }
+      }
+    }
+  },
+  "source": {
+    "uploaded_zip": "SWARM_RIFT_Insecta_Siege_v2.13.6_chase_extreme_boss_9_10_adaptive_playlists.zip",
+    "sha256": "2047a6bc2555c292f7dd1a49c53b7f938d263083c53b9ccc89a2a50cef860091",
+    "detected_version": "2.13.6",
+    "note": "The attached ZIP supplied in this chat is v2.13.6, not the requested filename v2.13.7."
+  },
+  "limitations": [
+    "Full headless Chromium runtime smoke test could not be completed in this container because Chromium stalled in the environment. Static/resource audits and Node syntax checks completed successfully; final device/browser playtest is still recommended.",
+    "The actual uploaded base ZIP in this chat identifies itself as v2.13.6. The requested v2.13.7 filename was not attached, so this v2.13.7 build is an incremental integration over the uploaded v2.13.6 base, preserving v2.13.6 save migration."
+  ],
+  "summary": {
+    "passed": 41,
+    "total": 41,
+    "failed": [],
+    "status": "PASS_WITH_RUNTIME_LIMITATION"
+  }
+}

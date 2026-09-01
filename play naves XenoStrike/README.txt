@@ -1,25 +1,41 @@
-SWARM//RIFT — Insecta Siege v2.13.4
+SWARM//RIFT — Insecta Siege v2.14.0
 ====================================
 
-ESTADO ACTUAL
-- 10 sectores jugables activos de 20 planificados.
-- Capítulo I: Sectores 1–10, completo.
-- Capítulo II: Sectores 11–20, arquitectura preparada; contenido aún no incorporado.
-- 10 familias insectoides y 10 jefes activos.
-- 3 hordas + jefe por sector, Combat Director, Tenientes y enemigos transversales.
-- Normal / Difícil.
-- 19 poderes, rangos I–V, 13 combos y herencias de jefe.
-- Botín físico postboss, herencias, fragmentos, reliquias, Hangar, checkpoints y replay.
-- Playlist de bandas de jefe y música contextual de arena.
-- PWA offline y controles responsive para PC, tablet y móvil.
+ESTADO v2.14.0 — HANGAR EVOLUTION / ARSENAL EXPANSION
+- Capítulo I permanece cerrado con 10 mundos activos. Mundos 11–20 NO iniciados.
+- Arsenal ampliado de 19 a 24 poderes reales.
+- Nuevos: Lanza Fásica, Nube Nanita, Mina Rift, Eco Temporal y Nova Entómica.
+- Simultaneidad ampliada: 3 poderes activos de base; Bahía de Poder XL permite 4.
+- Cola ampliada: 4 reservas de base; Bastidor de Reserva permite hasta 6.
+- Evolución extendida: rangos VI ASCENDIDO y VII OMEGA mediante Matriz Evolutiva.
+- Reactor de Duración añade hasta +25% de tiempo a poderes temporales.
+- Los rangos VI/VII no son solo etiquetas: añaden cambios visibles/mecánicos en misiles, rail, gravedad, láser, bioarma y salvas/prismas, además del escalado propio de los cinco poderes nuevos.
+- Nueva pestaña ◇ EVOL. en el Hangar y recomendaciones SMART adaptadas a los nuevos módulos.
+- HUD muestra todos los poderes activos permitidos; la cola desktop muestra hasta seis reservas.
+- Frecuencia de drops de poder aumentada de forma controlada para que el arsenal se vea y se use más durante la partida.
+- Cinco iconos nuevos incluidos en el precache PWA.
+- Guardados v2.13.7 migrables a v2.14.0; cadenas históricas conservadas.
+- Bosses 6–10 biofieles, sus cinco estados de animación y sus ataques signature permanecen intactos.
+- CHASE BONUS, Boss Rush, Commander Convergence, Tenientes, Combat Director, Wave Objectives, Reward Ledger, audio adaptativo y responsive permanecen activos.
 
-CONTROLES
-- PC/tablet: mueve mouse o touchpad sin mantener clic. WASD/flechas también funcionan.
-- Móvil: desliza el dedo directamente sobre la pantalla. No hay joystick ni botón DASH.
-- Disparo y autoapuntado automáticos.
-- Pausa, tienda, música, SFX y fullscreen mediante iconos superiores.
+DOCUMENTOS DE ESTA VERSIÓN
+- CHANGELOG_v2.14.0.txt
+- AUTOAUDIT_v2.14.0.json / AUTOAUDIT_v2.14.0.txt
+- VALIDACION_v2.14.0.txt
 
+NOTA DE PROCEDENCIA
+v2.14.0 continúa directamente sobre la build integrada v2.13.7 entregada en esta conversación; no reconstruye sistemas cerrados ni abre Capítulo II.
 
+NOVEDAD v2.14.0 — HANGAR EVOLUTION / ARSENAL EXPANSION
+- 24 poderes totales, con cinco mecánicas nuevas no reducidas a “más balas”.
+- Mina Rift deja objetos persistentes en la arena y detona por proximidad.
+- Nube Nanita crea daño orbital de proximidad y puede formar Simbiosis Reparadora.
+- Nova Entómica produce daño radial y limpieza de proyectiles.
+- Eco Temporal duplica salvas con cadencia independiente.
+- Lanza Fásica perfora en línea y forma Lanza Hiperlineal con Rail.
+- Seis combos nuevos: Lanza Hiperlineal, Plaga Autónoma, Pozo de Minas, Eco Tridente, Catedral Nova y Simbiosis Reparadora.
+- Evolución VI/VII y cuatro módulos nuevos de Hangar.
+- Cache/PWA actualizado a swarm-rift-v2.14.0 y cache busting ?v=2140.
 
 NOVEDAD v2.13.4 — FINAL CHAPTER I POLISH + CHASE REFINEMENT
 - CHASE BONUS refinado a 64 s, tres fases, lock-on, shield, reparación, sobrecarga y rango S/A/B/C.

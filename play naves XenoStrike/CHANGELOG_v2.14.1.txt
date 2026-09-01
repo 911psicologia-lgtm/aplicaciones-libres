@@ -1,0 +1,48 @@
+SWARM//RIFT — INSECTA SIEGE v2.14.1
+HANGAR BRANCH EVOLUTION / POWER DENSITY
+
+BASE
+- Continuación incremental de v2.14.0.
+- No se inició Capítulo II ni Mundos 11–20.
+
+HANGAR / EVOLUCIONES
+- Nueva capa persistente de RAMIFICACIONES A/B para 18 poderes.
+- Las ramas se desbloquean con Matriz Evolutiva I.
+- Cada poder ramificable alterna entre dos doctrinas funcionalmente distintas desde la pestaña EVOL.
+- Las elecciones se guardan en META.powerBranches y migran desde v2.14.0.
+- Ejemplos: precisión/cobertura, daño/cadencia, radio/frecuencia, penetración/propagación, escolta/velocidad.
+
+PODERES EN PANTALLA
+- Activos base: 4 (antes 3).
+- Máximo con Bahía XL: 5 activos simultáneos.
+- Cola base: 5 (antes 4).
+- Máximo con Bastidor: 7 en reserva.
+- HUD muestra la rama A/B junto al rango del poder.
+- La cola se distribuye en varias filas si no cabe horizontalmente.
+
+DENSIDAD DE DROPS
+- Presupuesto por sector: 7 Normal / 8 Difícil.
+- Umbral de drop reducido moderadamente para incrementar presencia sin convertir todo en spam.
+
+RAMAS IMPLEMENTADAS
+- TRI-AGUJA: precisión / abanico.
+- MICROMISILES: cazador / ojiva.
+- RAÍL: penetración / ciclo rápido.
+- TESLA: cadena / sobrecarga.
+- PULSO G: horizonte / pulso denso.
+- ESCUDO: regenerador / bastión.
+- DRONES: ala extra / enjambre rápido.
+- LÁSER CHISPEANTE: red / foco caliente.
+- BIOARMA: espora perforante / plaga expansiva.
+- LANZA FÁSICA: núcleo / repetidor.
+- NUBE NANITA: colmena amplia / nube profunda.
+- MINA RIFT: campo minado / carga Rift.
+- ECO TEMPORAL: eco múltiple / bucle corto.
+- NOVA ENTÓMICA: expansiva / frecuente.
+- DRENAJE HEMÁTICO: sifón vital / sifón Aegis.
+- MURALLA DE RESINA: fortaleza / resina reactiva.
+- RÁFAGA PRISMÁTICA: prisma abierto / prisma punzante.
+- PULSO RESONANTE Ω: cámara amplia / timbal rápido.
+
+COMPATIBILIDAD
+- Se preservan 10 mundos, 10 bosses, Boss Rush, CHASE, Commander Convergence, Tenientes, Wave Objectives, Combat Director, checkpoints, Reward Ledger, Music Director, responsive y PWA.

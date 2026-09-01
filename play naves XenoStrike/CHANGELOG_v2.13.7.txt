@@ -1,0 +1,47 @@
+SWARM//RIFT — INSECTA SIEGE v2.13.7
+====================================
+BIOFIDELITY BOSSES 6–10 + ANATOMICAL ANIMATION + SIGNATURE VFX PASS
+
+BASE REAL UTILIZADA
+- El ZIP adjunto disponible en esta conversación se identifica internamente como v2.13.6.
+- v2.13.7 se construyó de forma incremental sobre esa base, sin reconstruir sistemas cerrados y con migración explícita de guardados v2.13.6.
+- No se inició Capítulo II / Mundos 11–20.
+
+BOSSES 6–10
+- M6 Colossus Hop: asset final de langosta incorporado como fuente canónica.
+- M7 Sanguina Prime: asset final de mosquito hematófago incorporado como fuente canónica.
+- M8 Architect Zero: asset final de termita reina/fortaleza colonial incorporado como fuente canónica.
+- M9 Auralis: asset final de libélula incorporado como fuente canónica.
+- M10 Resonator Omega: asset final de cigarra incorporado como fuente canónica.
+- Los cinco assets finales se cargan desde assets/boss_final_v2137 con cache-busting ?av=2137.
+- Las rutas antiguas de compatibilidad para bosses 6–10 se sincronizaron con el arte nuevo para impedir que un fallback legado vuelva a mostrar una versión anterior.
+- El fallback de animación ahora registra errores y emite diagnóstico visible una vez; no oculta silenciosamente una hoja fallida.
+
+ANIMACIÓN CORPORAL
+- Regeneradas las 25 hojas de estados de bosses 6–10: idle / attack / hurt / phase / death.
+- Técnica: localized non-rigid anatomical warp sobre regiones corporales, no simple desplazamiento/rotación/escala del PNG completo.
+- Colossus: compresión torácico-abdominal, patas posteriores, alas y recuperación cinética.
+- Sanguina: abdomen pulsante, probóscide, alas y patas.
+- Architect: reina/abdomen, cabeza-mandíbula, módulos laterales y fortaleza.
+- Auralis: cuatro zonas alares diferenciadas, cuerpo/abdomen, cabeza y banking visual.
+- Resonator: abdomen/timbales, alas, pulsación y colapso resonante.
+- Generador reproducible incluido: tools/generate_boss_sheets_v2137.py.
+
+ATAQUES SIGNATURE / VFX
+- IMPACTO COLOSSUS: marcador de caída, anillo de impacto, líneas cinéticas y fragmentos radiales.
+- SIFÓN HEMÁTICO: origen desplazado hacia probóscide, doble guía de sifón, pulso abdominal, partículas hemáticas y anillos vasculares.
+- JAULA DE RESINA: columnas, paneles segmentados, nodos constructores, chispas de construcción y corredor seguro delineado.
+- CRUZ PRISMÁTICA: haces móviles, refracciones paralelas, partículas viajeras, afterimages y núcleo luminoso.
+- ONDA OMEGA: anillos alternos violeta/dorado, interferencia secundaria, partículas, timbales laterales y pulso abdominal.
+
+SISTEMAS CONSERVADOS
+- 10 mundos activos del Capítulo I.
+- Combat Director, Wave Objectives, Reward Ledger, herencias, Tenientes y Commander Convergence.
+- 19 poderes, Rangos I–V, máximo 2 activos y 3 en cola.
+- Checkpoint de jefe al 50%, tres fases, Normal/Difícil, Boss Rush.
+- CHASE BONUS como modo separado, también accesible tras victoria; no se convierte en fase obligatoria del Boss Rush.
+- Music Director con playlists ambientales y de bosses, rotación sin repetición inmediata, fades/crossfades y continuidad desde currentTime al pausar.
+- Controles directos mouse/touch, autofire, sin joystick y sin acción DASH del jugador.
+- Responsive MOBILE_PORTRAIT / MOBILE_LANDSCAPE / TABLET / DESKTOP.
+- PWA y recursos cacheados actualizados a swarm-rift-v2.13.7.
+- Guardados/meta v2.13.7 con migración desde v2.13.6 y cadenas anteriores.

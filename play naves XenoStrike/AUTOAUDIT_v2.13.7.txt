@@ -1,0 +1,49 @@
+SWARM//RIFT — INSECTA SIEGE v2.13.7 · AUTOAUDITORÍA
+==============================================================
+RESULTADO: PASS_WITH_RUNTIME_LIMITATION · 41/41 checks estáticos aprobados
+
+[OK] VERSION: 2.13.7
+[OK] service_worker_cache: swarm-rift-v2.13.7
+[OK] node_check_game: syntax OK
+[OK] node_check_sw: syntax OK
+[OK] active_worlds_10: {'count': 10, 'bosses': ['IMPERATRIX VESPA', 'ATLAS VERDE', 'CORTEX RAZOR', 'VELA NOCTIS', 'REGINA FERRUM', 'COLOSSUS HOP', 'SANGUINA PRIME', 'ARCHITECT ZERO', 'AURALIS', 'RESONATOR OMEGA']}
+[OK] bosses_10_of_10: ['IMPERATRIX VESPA', 'ATLAS VERDE', 'CORTEX RAZOR', 'VELA NOCTIS', 'REGINA FERRUM', 'COLOSSUS HOP', 'SANGUINA PRIME', 'ARCHITECT ZERO', 'AURALIS', 'RESONATOR OMEGA']
+[OK] chapter_II_not_started: SECTORS active array stops at world 10; expansion scaffolding remains.
+[OK] bosses_6_10_exact_uploaded_assets: {'colossus': True, 'sanguina': True, 'architect': True, 'auralis': True, 'resonator': True}
+[OK] bosses_6_10_active_mapping: {'LANGOSTAS': 'assets/boss_final_v2137/boss_colossus_hop_final.png?av=2137', 'MOSQUITOS': 'assets/boss_final_v2137/boss_sanguina_prime_final.png?av=2137', 'TERMITAS': 'assets/boss_final_v2137/boss_architect_zero_final.png?av=2137', 'LIBÉLULAS': 'assets/boss_final_v2137/boss_auralis_final.png?av=2137', 'CIGARRAS': 'assets/boss_final_v2137/boss_resonator_omega_final.png?av=2137'}
+[OK] boss_cache_busting_2137: no av=2136 runtime refs; av=2137 active
+[OK] fallback_visible_diagnostic: fallback logs and one-time visible notification
+[OK] animation_5_states_10_of_10: {'imperatrix': True, 'atlas': True, 'cortex': True, 'vela': True, 'regina': True, 'colossus': True, 'sanguina': True, 'architect': True, 'auralis': True, 'resonator': True}
+[OK] bosses_6_10_perceptible_local_animation: {'colossus': {'revision': '2.13.7', 'method': 'localized-non-rigid-anatomical-warp', 'states': {'idle': {'unique_frames': 5, 'mean_delta': 4.871}, 'attack': {'unique_frames': 6, 'mean_delta': 14.071}, 'hurt': {'unique_frames': 2, 'mean_delta': 9.564}, 'phase': {'unique_frames': 7, 'mean_delta': 13.708}, 'death': {'unique_frames': 10, 'mean_delta': 17.505}}}, 'sanguina': {'revision': '2.13.7', 'method': 'localized-non-rigid-anatomical-warp', 'states': {'idle': {'unique_frames': 5, 'mean_delta': 5.738}, 'attack': {'unique_frames': 3, 'mean_delta': 10.226}, 'hurt': {'unique_frames': 2, 'mean_delta': 10.069}, 'phase': {'unique_frames': 7, 'mean_delta': 14.019}, 'death': {'unique_frames': 10, 'mean_delta': 14.566}}}, 'architect': {'revision': '2.13.7', 'method': 'localized-non-rigid-anatomical-warp', 'states': {'idle': {'unique_frames': 5, 'mean_delta': 7.678}, 'attack': {'unique_frames': 3, 'mean_delta': 18.218}, 'hurt': {'unique_frames': 2, 'mean_delta': 11.942}, 'phase': {'unique_frames': 7, 'mean_delta': 20.329}, 'death': {'unique_frames': 10, 'mean_delta': 17.552}}}, 'auralis': {'revision': '2.13.7', 'method': 'localized-non-rigid-anatomical-warp', 'states': {'idle': {'unique_frames': 5, 'mean_delta': 8.681}, 'attack': {'unique_frames': 5, 'mean_delta': 15.723}, 'hurt': {'unique_frames': 2, 'mean_delta': 12.881}, 'phase': {'unique_frames': 7, 'mean_delta': 20.634}, 'death': {'unique_frames': 10, 'mean_delta': 16.925}}}, 'resonator': {'revision': '2.13.7', 'method': 'localized-non-rigid-anatomical-warp', 'states': {'idle': {'unique_frames': 5, 'mean_delta': 4.894}, 'attack': {'unique_frames': 3, 'mean_delta': 11.155}, 'hurt': {'unique_frames': 2, 'mean_delta': 10.042}, 'phase': {'unique_frames': 7, 'mean_delta': 15.504}, 'death': {'unique_frames': 10, 'mean_delta': 17.702}}}}
+[OK] signature_attacks_6_10: ['IMPACTO COLOSSUS', 'SIFÓN HEMÁTICO', 'JAULA DE RESINA', 'CRUZ PRISMÁTICA', 'ONDA OMEGA']
+[OK] signature_vfx_reinforced: {'colossus': True, 'sanguina': True, 'architect': True, 'auralis': True, 'resonator': True}
+[OK] tenientes_commander_convergence: Commander Convergence + lieutenant queue/functions present
+[OK] boss_checkpoint_50: boss HP set to 50% at checkpoint
+[OK] reward_ledger: Reward Ledger code present
+[OK] heritage: 10 boss heritage mappings
+[OK] wave_objectives: Wave Objectives present
+[OK] combat_director: Combat Director present
+[OK] difficulty_normal_hard: Normal/Hard paths present
+[OK] power_inventory_limits: 2 active / 3 queued
+[OK] powers_19: 19
+[OK] boss_rush: Boss Rush preserved
+[OK] chase_mode: {'menu_chase': True, 'victory_chase': True, 'startChase': True, 'drawChase': True, 'updateChase': True, 'powerDrops': True, 'overdrive': True, 'shield': True, 'streak': True, 'RACHA': True, 'bomb': True, 'rank': True}
+[OK] chase_not_mandatory_boss_rush: separate mode + post-victory option retained
+[OK] no_player_dash: No player DASH action introduced; enemy movement label may still use dash internally.
+[OK] world_playlists_1_10: [1, 2, 3, 4, 5, 6, 7, 8, 9, 10]
+[OK] boss_adaptive_playlist: no immediate repetition + fade/resume machinery present
+[OK] pause_audio_resume: pause/resume currentTime machinery present
+[OK] responsive_profiles: ['MOBILE_PORTRAIT', 'MOBILE_LANDSCAPE', 'TABLET', 'DESKTOP']
+[OK] auto_fire_and_direct_pointer: auto-fire/pointer/touch code retained
+[OK] pwa_all_cached_resources_exist: {'asset_count': 338, 'missing': [], 'missing_count': 0}
+[OK] pwa_caches_final_bosses: []
+[OK] service_worker_registration: registration present
+[OK] manifest_exists: manifest.json
+[OK] save_keys_v2137_migrate_v2136: new keys + explicit v2.13.6 migration
+[OK] no_old_boss_6_10_active_mapping: []
+[OK] old_v2132_previews_removed: []
+[OK] sprite_generator_reproducible: tools/generate_boss_sheets_v2137.py uses localized regions/non-rigid warps
+
+LIMITACIONES REALES
+- Full headless Chromium runtime smoke test could not be completed in this container because Chromium stalled in the environment. Static/resource audits and Node syntax checks completed successfully; final device/browser playtest is still recommended.
+- The actual uploaded base ZIP in this chat identifies itself as v2.13.6. The requested v2.13.7 filename was not attached, so this v2.13.7 build is an incremental integration over the uploaded v2.13.6 base, preserving v2.13.6 save migration.

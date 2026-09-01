@@ -1,0 +1,222 @@
+{
+  "version": "2.14.0",
+  "checks": {
+    "node_check_game": {
+      "ok": true,
+      "detail": "PASS"
+    },
+    "node_check_sw": {
+      "ok": true,
+      "detail": "PASS"
+    },
+    "VERSION": {
+      "ok": true,
+      "detail": "2.14.0"
+    },
+    "save_migration_v2137": {
+      "ok": true,
+      "detail": "META/RUN v2.13.7 fallback"
+    },
+    "cache_v2140": {
+      "ok": true,
+      "detail": "swarm-rift-v2.14.0"
+    },
+    "index_cache_bust": {
+      "ok": true,
+      "detail": "?v=2140"
+    },
+    "powers_24": {
+      "ok": true,
+      "detail": "24"
+    },
+    "five_new_powers": {
+      "ok": true,
+      "detail": "phase,nanites,riftmine,echo,nova"
+    },
+    "new_power_mechanics": {
+      "ok": true,
+      "detail": "7 mechanics"
+    },
+    "physical_rift_mines": {
+      "ok": true,
+      "detail": "persistent arena mines"
+    },
+    "active_slots_base_3": {
+      "ok": true,
+      "detail": "3"
+    },
+    "active_slots_max_4": {
+      "ok": true,
+      "detail": "4 via powerbay"
+    },
+    "queue_base_4": {
+      "ok": true,
+      "detail": "4"
+    },
+    "queue_max_6": {
+      "ok": true,
+      "detail": "6 via reservebay"
+    },
+    "ranks_I_VII": {
+      "ok": true,
+      "detail": "I–VII"
+    },
+    "evolution_labels": {
+      "ok": true,
+      "detail": "VI ASCENDIDO / VII OMEGA"
+    },
+    "evolution_traits": {
+      "ok": true,
+      "detail": "mechanical/visual traits"
+    },
+    "hangar_evolution_tab": {
+      "ok": true,
+      "detail": "EVOL."
+    },
+    "upgrade_powerbay": {
+      "ok": true,
+      "detail": "powerbay"
+    },
+    "upgrade_reservebay": {
+      "ok": true,
+      "detail": "reservebay"
+    },
+    "upgrade_evolution": {
+      "ok": true,
+      "detail": "evolution"
+    },
+    "upgrade_reactor": {
+      "ok": true,
+      "detail": "reactor"
+    },
+    "reactor_duration": {
+      "ok": true,
+      "detail": "up to +25% duration"
+    },
+    "six_new_combos": {
+      "ok": true,
+      "detail": "LANZA HIPERLINEAL,PLAGA AUTÓNOMA,POZO DE MINAS,ECO TRIDENTE,CATEDRAL NOVA,SIMBIOSIS REPARADORA"
+    },
+    "drop_budget_increased": {
+      "ok": true,
+      "detail": "6 normal / 7 hard"
+    },
+    "hud_all_active": {
+      "ok": true,
+      "detail": "dynamic active slots"
+    },
+    "hud_queue_six": {
+      "ok": true,
+      "detail": "dynamic queue slots"
+    },
+    "worlds_10": {
+      "ok": true,
+      "detail": "10"
+    },
+    "bosses_10": {
+      "ok": true,
+      "detail": "10"
+    },
+    "chapter_II_not_started": {
+      "ok": true,
+      "detail": "10 active / 20 planned"
+    },
+    "boss_colossus_final_asset": {
+      "ok": true,
+      "detail": "boss_colossus_hop_final.png"
+    },
+    "boss_colossus_five_states": {
+      "ok": true,
+      "detail": "idle,attack,hurt,phase,death"
+    },
+    "boss_sanguina_final_asset": {
+      "ok": true,
+      "detail": "boss_sanguina_prime_final.png"
+    },
+    "boss_sanguina_five_states": {
+      "ok": true,
+      "detail": "idle,attack,hurt,phase,death"
+    },
+    "boss_architect_final_asset": {
+      "ok": true,
+      "detail": "boss_architect_zero_final.png"
+    },
+    "boss_architect_five_states": {
+      "ok": true,
+      "detail": "idle,attack,hurt,phase,death"
+    },
+    "boss_auralis_final_asset": {
+      "ok": true,
+      "detail": "boss_auralis_final.png"
+    },
+    "boss_auralis_five_states": {
+      "ok": true,
+      "detail": "idle,attack,hurt,phase,death"
+    },
+    "boss_resonator_final_asset": {
+      "ok": true,
+      "detail": "boss_resonator_omega_final.png"
+    },
+    "boss_resonator_five_states": {
+      "ok": true,
+      "detail": "idle,attack,hurt,phase,death"
+    },
+    "retained_boss_rush": {
+      "ok": true,
+      "detail": "bossRush/BOSS RUSH"
+    },
+    "retained_chase": {
+      "ok": true,
+      "detail": "mode==='chase'/CHASE"
+    },
+    "retained_lieutenants": {
+      "ok": true,
+      "detail": "lieutenantQueue/Commander"
+    },
+    "retained_combat_director": {
+      "ok": true,
+      "detail": "updateCombatDirector/directorProfile"
+    },
+    "retained_wave_objectives": {
+      "ok": true,
+      "detail": "waveObjective/prepareWaveObjective"
+    },
+    "retained_reward_ledger": {
+      "ok": true,
+      "detail": "rewardLedger/grantRewardXp"
+    },
+    "retained_adaptive_audio": {
+      "ok": true,
+      "detail": "PlaylistX/MusicX/currentTime"
+    },
+    "retained_responsive": {
+      "ok": true,
+      "detail": "compactUI/mobileUI/portraitUI"
+    },
+    "pwa_asset_manifest": {
+      "ok": true,
+      "detail": "345"
+    },
+    "pwa_resources_exist": {
+      "ok": true,
+      "detail": "345 assets / 0 missing"
+    },
+    "new_icons_precached": {
+      "ok": true,
+      "detail": "5/5"
+    },
+    "diagnostic_hook": {
+      "ok": true,
+      "detail": "available"
+    }
+  },
+  "details": {},
+  "limitations": [
+    "Chromium headless did not complete startup within the controlled timeout in this container, so full interactive browser gameplay was not falsely marked as passed. Static syntax, resource, HTTP and structural checks were used instead; device/browser playtest remains recommended."
+  ],
+  "summary": {
+    "passed": 52,
+    "total": 52,
+    "all_passed": true
+  }
+}

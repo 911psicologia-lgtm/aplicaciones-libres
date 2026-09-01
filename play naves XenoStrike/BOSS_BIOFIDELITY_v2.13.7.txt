@@ -1,0 +1,30 @@
+BOSS BIOFIDELITY — v2.13.7
+==========================
+
+M6 · COLOSSUS HOP · LANGOSTA
+Silueta dominante: patas posteriores sobredimensionadas y cuerpo comprimible.
+Gramática de movimiento: carga → compresión → salto/impacto → recuperación.
+Firma: IMPACTO COLOSSUS.
+
+M7 · SANGUINA PRIME · MOSQUITO
+Silueta dominante: probóscide frontal, abdomen hemático, patas largas y alas membranosas.
+Gramática de movimiento: pulsación vascular → alineación del sifón → drenaje.
+Firma: SIFÓN HEMÁTICO.
+
+M8 · ARCHITECT ZERO · TERMITA REINA / COLONIA
+Silueta dominante: abdomen de reina integrado a módulos arquitectónicos laterales.
+Gramática de movimiento: apertura modular → construcción → expansión de fortaleza.
+Firma: JAULA DE RESINA.
+
+M9 · AURALIS · LIBÉLULA
+Silueta dominante: cuatro alas independientes, cabeza ocular y abdomen longitudinal.
+Gramática de movimiento: batido diferencial → banking → cambio rápido de orientación.
+Firma: CRUZ PRISMÁTICA.
+
+M10 · RESONATOR OMEGA · CIGARRA
+Silueta dominante: tórax/cabeza robustos, alas amplias y abdomen resonante.
+Gramática de movimiento: pulso abdominal/timbal → expansión → descarga concéntrica.
+Firma: ONDA OMEGA.
+
+REGLA TÉCNICA
+Las hojas v2.13.7 utilizan deformaciones locales por regiones corporales. Los estados no se producen únicamente transformando el PNG completo. El asset base sigue disponible como fallback, acompañado de diagnóstico de error de carga.

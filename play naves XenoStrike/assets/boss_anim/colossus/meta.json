@@ -1,7 +1,11 @@
 {
-  "boss": "colossus",
+  "key": "colossus",
   "frameW": 384,
   "frameH": 384,
+  "revision": "2.13.7",
+  "source": "assets/boss_final_v2137/boss_colossus_hop_final.png",
+  "identity": "locust-kinetic-compression",
+  "animation": "localized-non-rigid-anatomical-warp",
   "states": {
     "idle": {
       "frames": 8,
@@ -23,6 +27,5 @@
       "frames": 10,
       "cols": 4
     }
-  },
-  "identityOverhaul": "v2.13.5"
+  }
 }

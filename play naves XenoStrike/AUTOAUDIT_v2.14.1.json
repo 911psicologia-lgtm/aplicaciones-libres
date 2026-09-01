@@ -1,0 +1,118 @@
+{
+  "version": "2.14.1",
+  "passed": 22,
+  "total": 22,
+  "checks": [
+    {
+      "name": "VERSION 2.14.1",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "save key 2141",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "migration v2140",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "10 worlds",
+      "ok": true,
+      "detail": "static source check"
+    },
+    {
+      "name": "24 powers",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "18 branchable powers",
+      "ok": true,
+      "detail": "18"
+    },
+    {
+      "name": "A/B branch purchase",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "active powers base 4 max 5",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "queue base 5 max 7",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "power drop budget 7/8",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "HUD branch badges",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "queue wraps",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "chapter II untouched",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "service worker 2.14.1",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "PWA resources exist",
+      "ok": true,
+      "detail": "345 resources, missing 0"
+    },
+    {
+      "name": "CHASE",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "Boss Rush",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "Commander Convergence",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "Wave Objectives",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "Combat Director",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "checkpoint",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "playlists",
+      "ok": true,
+      "detail": ""
+    }
+  ],
+  "missingResources": []
+}

@@ -1,0 +1,24 @@
+SWARM//RIFT v2.14.1 AUTOAUDIT — 22/22 PASS
+
+[PASS] VERSION 2.14.1 
+[PASS] save key 2141 
+[PASS] migration v2140 
+[PASS] 10 worlds static source check
+[PASS] 24 powers 
+[PASS] 18 branchable powers 18
+[PASS] A/B branch purchase 
+[PASS] active powers base 4 max 5 
+[PASS] queue base 5 max 7 
+[PASS] power drop budget 7/8 
+[PASS] HUD branch badges 
+[PASS] queue wraps 
+[PASS] chapter II untouched 
+[PASS] service worker 2.14.1 
+[PASS] PWA resources exist 345 resources, missing 0
+[PASS] CHASE 
+[PASS] Boss Rush 
+[PASS] Commander Convergence 
+[PASS] Wave Objectives 
+[PASS] Combat Director 
+[PASS] checkpoint 
+[PASS] playlists 

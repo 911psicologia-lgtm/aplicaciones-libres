@@ -1,0 +1,44 @@
+SWARM//RIFT — INSECTA SIEGE v2.13.7 · VALIDACIÓN
+================================================
+
+RESULTADO GENERAL
+PASS WITH RUNTIME LIMITATION
+41/41 verificaciones estáticas/de recursos aprobadas.
+
+VALIDACIONES OBLIGATORIAS
+- VERSION: 2.13.7 · PASS
+- node --check js/game.js · PASS
+- node --check sw.js · PASS
+- Service Worker cache: swarm-rift-v2.13.7 · PASS
+- Mundos activos: 10/10 · PASS
+- Bosses activos: 10/10 · PASS
+- Capítulo II no iniciado · PASS
+- Bosses 6–10: assets finales adjuntos copiados byte-a-byte a rutas canónicas · PASS
+- Bosses 6–10: rutas activas apuntan a assets/boss_final_v2137 · PASS
+- Cache busting de hojas/arte boss: av=2137; sin av=2136 activo · PASS
+- 5 estados animados por boss (10/10): idle / attack / hurt / phase / death · PASS
+- Bosses 6–10: movimiento entre frames medido y no nulo en los cinco estados · PASS
+- Signature attacks bosses 6–10 · PASS
+- VFX signature reforzados · PASS
+- Tenientes / Commander Convergence · PASS
+- Checkpoint boss 50% · PASS
+- Reward Ledger / herencia / Wave Objectives / Combat Director · PASS
+- 19 poderes · PASS
+- Máximo 2 activos / 3 en cola · PASS
+- Boss Rush · PASS
+- CHASE separado y post-victoria · PASS
+- Playlists ambientales mundos 1–10 · PASS
+- Playlist adaptativa de bosses / no repetición inmediata / fade-resume · PASS
+- Responsive 4 perfiles · PASS
+- PWA: 338 recursos declarados / 0 faltantes · PASS
+- Smoke HTTP local: index/game/sw + boss final + sprite + audio devolvieron HTTP 200 · PASS
+- Guardados v2.13.7 + migración v2.13.6 · PASS
+- Assets antiguos de bosses 6–10 no son el mapping activo · PASS
+- Previews v2.13.2 de bosses 6–10 retirados · PASS
+
+TRAZABILIDAD DE ASSETS FINALES
+Los SHA-256 individuales de los cinco assets canónicos y sus copias adjuntas se registran en AUTOAUDIT_v2.13.7.json. Las comparaciones resultaron idénticas.
+
+LIMITACIONES REALES
+1. El archivo ZIP efectivamente adjunto en esta conversación se identifica internamente como v2.13.6, no como el nombre v2.13.7 indicado en la orden. Esta entrega v2.13.7 es, por tanto, una integración incremental sobre la v2.13.6 realmente disponible.
+2. Chromium headless se bloqueó en este entorno durante el smoke test de ejecución. No se declara una prueba de navegador que no pudo completarse. Sí se completaron validación sintáctica Node, auditoría de rutas, PWA, assets, estados y coherencia estática. Se recomienda un último playtest en navegador/dispositivo real.

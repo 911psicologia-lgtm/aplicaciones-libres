@@ -1,0 +1,24 @@
+VALIDACIÓN SWARM//RIFT v2.14.1
+
+PASS node --check js/game.js
+PASS node --check sw.js
+PASS VERSION 2.14.1
+PASS migración de guardados v2.14.0 -> v2.14.1
+PASS 10 mundos / Capítulo I únicamente
+PASS 24 poderes conservados
+PASS 18 poderes con ramificación A/B
+PASS 4 poderes activos base / 5 máximo
+PASS 5 poderes en cola base / 7 máximo
+PASS HUD con rango + rama y cola multilínea
+PASS drops 7 Normal / 8 Difícil
+PASS Service Worker swarm-rift-v2.14.1
+PASS 345 recursos PWA / 0 faltantes
+PASS CHASE preservado
+PASS Boss Rush preservado
+PASS Commander Convergence / Tenientes preservados
+PASS Wave Objectives / Combat Director preservados
+PASS checkpoints preservados
+PASS playlists / Music Director preservados
+
+LIMITACIÓN REAL
+- La validación automática es estructural/sintáctica y de recursos. No sustituye una sesión jugada completa en navegador físico para balance fino de saturación visual y economía de créditos.

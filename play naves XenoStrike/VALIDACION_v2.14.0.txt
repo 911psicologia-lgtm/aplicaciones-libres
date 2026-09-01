@@ -1,0 +1,59 @@
+SWARM//RIFT — INSECTA SIEGE v2.14.0 · VALIDACIÓN
+================================================
+
+RESULTADO GENERAL
+PASS WITH RUNTIME LIMITATION
+52/52 verificaciones estructurales, sintácticas y de recursos aprobadas.
+Smoke HTTP local: 8/8 recursos críticos devolvieron HTTP 200.
+
+VALIDACIONES PRINCIPALES
+- VERSION: 2.14.0 · PASS
+- node --check js/game.js · PASS
+- node --check sw.js · PASS
+- Service Worker cache: swarm-rift-v2.14.0 · PASS
+- Cache busting shell: game.js/css ?v=2140 · PASS
+- Mundos activos: 10/10 · PASS
+- Bosses activos: 10/10 · PASS
+- Capítulo II no iniciado · PASS
+- Bosses 6–10: assets finales v2.13.7 siguen siendo los mappings activos · PASS
+- Bosses 6–10: idle / attack / hurt / phase / death · PASS
+- Signature attacks 6–10 preservados · PASS
+- Arsenal: 24 poderes totales · PASS
+- Poderes nuevos: Lanza Fásica / Nube Nanita / Mina Rift / Eco Temporal / Nova Entómica · PASS
+- Mecánicas nuevas propias, incluidas minas persistentes de proximidad · PASS
+- Poderes activos: 3 base / 4 máximo con Bahía de Poder XL · PASS
+- Cola: 4 base / 6 máximo con Bastidor de Reserva · PASS
+- Evoluciones: rangos I–VII · PASS
+- VI ASCENDIDO / VII OMEGA · PASS
+- Cambios mecánicos de evolución en sistemas ofensivos existentes · PASS
+- Reactor de Duración: hasta +25% · PASS
+- Hangar: pestaña ◇ EVOL. · PASS
+- Nuevos módulos: powerbay / reservebay / evolution / reactor · PASS
+- 6 combos nuevos · PASS
+- HUD: todos los poderes activos permitidos visibles · PASS
+- HUD desktop: cola dinámica hasta el máximo permitido · PASS
+- Drops de poder: presupuesto 6 Normal / 7 Difícil · PASS
+- 5 iconos nuevos integrados y precacheados · PASS
+- PWA: 345 recursos declarados / 0 faltantes · PASS
+- Migración META/RUN desde v2.13.7 · PASS
+- Boss Rush preservado · PASS
+- CHASE preservado como modo independiente · PASS
+- Tenientes / Commander Convergence preservados · PASS
+- Combat Director preservado · PASS
+- Wave Objectives preservados · PASS
+- Reward Ledger preservado · PASS
+- Music Director / PlaylistX / continuidad currentTime preservados · PASS
+- Responsive mobile/compact/portrait preservado · PASS
+
+SMOKE HTTP LOCAL
+- index.html · HTTP 200
+- js/game.js · HTTP 200
+- sw.js · HTTP 200
+- phase_lance.png · HTTP 200
+- nanite_swarm.png · HTTP 200
+- rift_mine.png · HTTP 200
+- temporal_echo.png · HTTP 200
+- entomic_nova.png · HTTP 200
+
+LIMITACIÓN REAL
+Chromium headless no completó el arranque dentro del timeout controlado del contenedor. No se marca falsamente como aprobada una prueba interactiva que no terminó. La build sí pasó sintaxis Node, integridad de recursos PWA, smoke HTTP y auditoría estructural 52/52. Se recomienda playtest final en navegador y móvil físico antes de abrir Capítulo II.

@@ -1,0 +1,57 @@
+SWARM//RIFT — INSECTA SIEGE v2.14.0
+HANGAR EVOLUTION / ARSENAL EXPANSION
+===================================
+
+OBJETIVO
+Ampliar el Hangar, aumentar la variedad real de poderes, introducir evoluciones posteriores al Rango V y permitir que más poderes estén simultáneamente presentes durante el combate, sin abrir Capítulo II ni reconstruir sistemas ya cerrados.
+
+ARSENAL: 19 → 24 PODERES
+1. LANZA FÁSICA — disparo perforante periódico de alta velocidad y lectura lineal propia.
+2. NUBE NANITA — microenjambre orbital que ataca blancos cercanos; puede reparar shield mediante simbiosis.
+3. MINA RIFT — objeto físico persistente en arena; se arma, detecta proximidad y detona en área.
+4. ECO TEMPORAL — salvas duplicadas con temporizador independiente y afterimage visual.
+5. NOVA ENTÓMICA — pulso radial que daña enemigos y limpia proyectiles hostiles dentro de su radio.
+
+NUEVOS COMBOS
+- Lanza Fásica + Rail = LANZA HIPERLINEAL.
+- Bioarma + Nube Nanita = PLAGA AUTÓNOMA.
+- Gravedad + Mina Rift = POZO DE MINAS.
+- Eco Temporal + Twin = ECO TRIDENTE.
+- Nova Entómica + Resonancia = CATEDRAL NOVA.
+- Drenaje Hemático + Nube Nanita = SIMBIOSIS REPARADORA.
+
+HANGAR Y SIMULTANEIDAD
+- Poderes activos: 2 → 3 de base.
+- Bahía de Poder XL: eleva el máximo a 4 poderes activos simultáneos.
+- Cola de poderes: 3 → 4 de base.
+- Bastidor de Reserva: eleva progresivamente la cola hasta 6.
+- Nueva pestaña ◇ EVOL. separa las mejoras de arquitectura del arsenal.
+- SMART Hangar pondera ahora Bahía, Reserva, Matriz, Reactor y los cinco poderes nuevos según contexto.
+
+EVOLUCIONES VI / VII
+- Matriz Evolutiva I desbloquea extensión de rango hasta VI cuando el cap sectorial lo permite.
+- Matriz Evolutiva II extiende hasta VII.
+- VI recibe etiqueta ASCENDIDO; VII recibe etiqueta OMEGA.
+- No son solo números: misiles aumentan salvas, Rail abre patrones múltiples, Gravedad mejora limpieza de proyectiles, Láser amplía saltos, Bioarma gana perforación y Twin/Burst/Prisma pueden alcanzar una forma de nueve proyectiles en VII, con compensación de daño por proyectil.
+- Los cinco poderes nuevos continúan escalando su propia geometría, frecuencia, radio, número de blancos o persistencia hasta VII.
+
+DURACIÓN Y PRESENCIA EN PANTALLA
+- Reactor de Duración: +5% por nivel, máximo +25%.
+- HUD compacto muestra hasta el máximo real de poderes activos; HUD desktop muestra todos los activos y hasta seis en cola.
+- Presupuesto de drops de poder aumenta a 6 en Normal y 7 en Difícil; umbral de aparición se reduce moderadamente para aumentar presencia sin inundar el campo.
+- Cinco iconos nuevos se integran en assets/powers_hangar y en el precache PWA.
+
+COMPATIBILIDAD Y SISTEMAS PRESERVADOS
+- Guardados/meta v2.14.0 con migración desde v2.13.7 y cadenas anteriores.
+- 10 mundos y 10 bosses permanecen activos; Mundos 11–20 no se inician.
+- Bosses 6–10 conservan assets finales biofieles y cinco estados de animación.
+- CHASE, Boss Rush, Tenientes, Commander Convergence, Combat Director, Wave Objectives, Reward Ledger, checkpoint de boss, herencia, audio adaptativo, controles sin joystick/DASH, responsive y PWA se preservan.
+- Cache actualizado a swarm-rift-v2.14.0; index usa game.js/css con ?v=2140.
+
+VALIDACIÓN
+- node --check js/game.js: PASS.
+- node --check sw.js: PASS.
+- Autoauditoría: 52/52 PASS.
+- PWA: 345 recursos / 0 faltantes.
+- Smoke HTTP: 8/8 recursos críticos HTTP 200.
+- Chromium headless no completó arranque dentro del timeout del contenedor; se documenta como limitación y no se declara una prueba interactiva falsa.
