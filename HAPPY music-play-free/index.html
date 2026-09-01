@@ -7,10 +7,10 @@
   <meta name="description" content="MUSIC PLAY · reproductor local minimalista y privado" />
   <meta name="color-scheme" content="dark light" />
   <title>MUSIC PLAY · HAPPY</title>
-  <link rel="manifest" href="./manifest.webmanifest" />
+  <link rel="manifest" href="./manifest.webmanifest?v=r8-smart" />
   <link rel="icon" href="./icons/icon-192.png" />
   <link rel="apple-touch-icon" href="./icons/icon-192.png" />
-  <link rel="stylesheet" href="./styles.css" />
+  <link rel="stylesheet" href="./styles.css?v=r8-smart" />
 </head>
 <body>
   <noscript>Esta aplicación necesita JavaScript.</noscript>
@@ -46,8 +46,10 @@
           <small>minimal · privado · universal</small>
         </span>
       </button>
-      <div class="top-actions">
-        <button id="installBtn" class="ghost-btn is-hidden">Instalar</button>
+      <div class="top-actions" aria-label="Acciones de aplicación">
+        <button id="updateBtn" class="icon-status-btn update-btn is-hidden" type="button" title="Actualización disponible" aria-label="Actualizar MUSIC PLAY">↻<span class="status-dot" aria-hidden="true"></span></button>
+        <button id="installBtn" class="ghost-btn install-btn" type="button" title="Instalar MUSIC PLAY como aplicación">⇩ <span>Instalar</span></button>
+        <button id="moreBtn" class="icon-status-btn" type="button" title="Más opciones" aria-label="Más opciones">⋯</button>
       </div>
     </header>
 
@@ -90,10 +92,18 @@
           <button id="createPlaylistQuick" class="micro-btn">≡ + Lista</button>
         </div>
 
-        <div class="summary" id="summaryBar">
-          <div><b id="countTracks">0</b><span>audios</span></div>
-          <div><b id="countMusic">0</b><span>música</span></div>
-          <div><b id="countPlaylists">1</b><span>playlists</span></div>
+        <div class="smart-strip" aria-label="Colecciones inteligentes">
+          <button id="favoritesShortcut" class="smart-card favorite-card" type="button">
+            <span class="smart-icon">♥</span><span><strong>Favoritos</strong><small><b id="countFavorites">0</b> guardadas</small></span><span class="smart-go">›</span>
+          </button>
+          <button id="mostPlayedShortcut" class="smart-card hot-card" type="button">
+            <span class="smart-icon">🔥</span><span><strong>+ Escuchadas</strong><small><b id="countMost">0</b> personales</small></span><span class="smart-go">›</span>
+          </button>
+        </div>
+        <div class="mini-stats" id="summaryBar">
+          <span><b id="countTracks">0</b> audios</span>
+          <span><b id="countPlaylists">0</b> listas</span>
+          <span><b id="listenTimeHome">0m</b> escuchados</span>
         </div>
       </section>
 
@@ -104,7 +114,7 @@
             <small>Biblioteca</small>
             <h2>Tu música</h2>
           </div>
-          <div class="head-actions"><button id="createFromLibraryBtn" class="head-btn" title="Crear playlist desde canciones">≡＋</button><button id="libraryAddBtn" class="head-btn" title="Cargar música">＋</button></div>
+          <div class="head-actions"><button id="libraryFavoritesBtn" class="head-btn heart-head" title="Ver favoritos">♥</button><button id="createFromLibraryBtn" class="head-btn" title="Crear playlist desde canciones">≡＋</button><button id="libraryAddBtn" class="head-btn" title="Cargar música">＋</button></div>
         </div>
 
         <label class="search-box">
@@ -185,6 +195,7 @@
           <span id="miniArtist">—</span>
         </div>
       </button>
+      <button id="miniFavoriteBtn" class="mini-favorite" type="button" title="Favorito" aria-label="Marcar favorito">♡</button>
       <div class="mini-controls">
         <button id="prevBtn" class="player-btn">⏮</button>
         <button id="playBtn" class="play-btn">▶</button>
@@ -236,10 +247,12 @@
 
     <input id="fileInput" type="file" accept="audio/*,video/*,.wma,.wmv,.avi,.mkv,.mov,.3gp" multiple hidden />
     <input id="folderInput" type="file" accept="audio/*,video/*,.wma,.wmv,.avi,.mkv,.mov,.3gp" webkitdirectory directory multiple hidden />
+    <input id="backupInput" type="file" accept="application/json,.json" hidden />
+    <input id="m3uInput" type="file" accept="audio/x-mpegurl,application/vnd.apple.mpegurl,.m3u,.m3u8" hidden />
     <audio id="audio" preload="metadata"></audio>
     <div id="ytProbeHost" class="probe-host" aria-hidden="true"></div>
   </div>
 
-  <script src="./app.js"></script>
+  <script src="./app.js?v=r8-smart"></script>
 </body>
 </html>

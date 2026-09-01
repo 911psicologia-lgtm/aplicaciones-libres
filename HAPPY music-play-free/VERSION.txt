@@ -1,3 +1,4 @@
 MUSIC PLAY · HAPPY
-Build: 2026.08.31-r6-playlist-hub
-Cambios: repositorio de playlists, creación desde biblioteca, importación acumulable por enlaces, detalle compacto y corrección del probe de YouTube.
+Build: 2026.08.31-r8-smart-library
+Version: R8 SMART LIBRARY
+Favoritos · + Escuchadas · Recientes · En repetición · Mix inteligente · Recap · Backup JSON · M3U8

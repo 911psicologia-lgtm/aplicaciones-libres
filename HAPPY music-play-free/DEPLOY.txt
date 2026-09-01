@@ -1,15 +1,7 @@
-MUSIC PLAY · HAPPY R6
+MUSIC PLAY · HAPPY — R8 SMART LIBRARY
 
-Sube el contenido de este ZIP directamente a la raíz publicada de la app.
-No subas una carpeta dist adicional.
+Despliegue: sustituye completamente el contenido publicado anterior por el contenido de este ZIP.
+La raíz debe contener index.html, app.js, styles.css, sw.js, manifest.webmanifest, version.json e icons/.
 
-Raíz:
-index.html
-styles.css
-app.js
-sw.js
-manifest.webmanifest
-icons/
-cloudflare/ (helper opcional)
-
-IMPORTANTE: reemplaza todos los archivos anteriores y haz Ctrl+F5 una vez. R6 usa una caché PWA nueva: mpf-minimal-r6-playlist-hub.
+R8 usa IndexedDB v3 y migra los datos de R7 sin borrar playlists, favoritos ni fuentes.
+Después de subir, abre la app y pulsa ↻ si la R7 muestra actualización disponible. Si el navegador conserva una caché muy antigua, usa Ctrl+F5 una vez.
