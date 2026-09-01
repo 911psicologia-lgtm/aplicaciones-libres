@@ -1,0 +1,34 @@
+SWARM//RIFT v2.13.6 — AUTOAUDIT
+
+JS asset refs: 137 · missing 0
+PWA resources: 333 · missing 0
+
+CHASE EXTREMO: PASS · movement X/Y · shield 45 · shootable powers · explosions · floating score · streaks
+
+BOSS 9–10:
+- auralis: idle mean=9.38 min=7.11, attack mean=10.79 min=9.72, hurt mean=11.73 min=11.44, phase mean=11.4 min=9.02, death mean=6.12 min=4.95
+- resonator: idle mean=9.5 min=6.36, attack mean=30.53 min=27.9, hurt mean=11.98 min=11.59, phase mean=27.78 min=15.98, death mean=7.64 min=5.21
+
+WORLD PLAYLISTS:
+- M1: 3 tracks · PASS
+- M2: 3 tracks · PASS
+- M3: 3 tracks · PASS
+- M4: 3 tracks · PASS
+- M5: 3 tracks · PASS
+- M6: 3 tracks · PASS
+- M7: 3 tracks · PASS
+- M8: 3 tracks · PASS
+- M9: 3 tracks · PASS
+- M10: 3 tracks · PASS
+
+BOSS PLAYLISTS:
+- M1: 3 tracks · PASS
+- M2: 3 tracks · PASS
+- M3: 3 tracks · PASS
+- M4: 3 tracks · PASS
+- M5: 3 tracks · PASS
+- M6: 3 tracks · PASS
+- M7: 3 tracks · PASS
+- M8: 3 tracks · PASS
+- M9: 3 tracks · PASS
+- M10: 3 tracks · PASS

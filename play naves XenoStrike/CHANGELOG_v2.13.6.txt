@@ -1,0 +1,17 @@
+v2.13.6 — Chase Extreme + Boss Identity 9–10 + Adaptive Playlists
+
+CHASE
+- explosiones, puntuación flotante, rachas, powers disparables, más supervivencia, nave mayor y movimiento X/Y completo.
+
+BOSSES
+- Auralis y Resonator Omega reformulados con identidad visual y motion grammar propios.
+- VFX de Cruz Prismática y Onda Omega reforzados.
+
+AUDIO
+- 3 pasajes ambientales por cada uno de los 10 mundos.
+- 3 pistas por boss con rotación adaptativa y fades suaves.
+- Boss Rush usa pools ampliados.
+
+COMPATIBILIDAD
+- Migración desde v2.13.5 para meta y guardados.
+- No se inicia Capítulo II.

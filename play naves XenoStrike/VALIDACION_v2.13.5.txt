@@ -1,0 +1,11 @@
+VALIDACIÓN v2.13.5
+- VERSION: 2.13.5
+- CHASE acceso principal: OK
+- CHASE post Boss Rush: OK
+- Bosses reformulados: 6, 7, 8
+- Animaciones estados por boss: 5
+- PWA resources: 321
+- PWA missing: 0
+- Migración desde v2.13.4: incluida
+- Mundos 11–20: no iniciados
+- Frame perceptibility: {"colossus": {"idle": 16.69, "attack": 22.0, "hurt": 24.32, "phase": 15.92, "death": 14.59}, "sanguina": {"idle": 10.48, "attack": 14.42, "hurt": 17.25, "phase": 9.73, "death": 10.22}, "architect": {"idle": 9.2, "attack": 14.7, "hurt": 21.86, "phase": 10.45, "death": 11.53}}

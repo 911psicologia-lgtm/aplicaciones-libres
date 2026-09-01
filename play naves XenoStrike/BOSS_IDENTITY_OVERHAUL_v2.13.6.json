@@ -1,0 +1,95 @@
+{
+  "version": "2.13.6",
+  "auralis": {
+    "motion": "prismatic-interceptor",
+    "asset": "assets/boss_reformulated/boss_auralis_reformulated.png",
+    "frames": {
+      "idle": {
+        "size": [
+          1536,
+          768
+        ],
+        "mean": 9.38,
+        "min": 7.11
+      },
+      "attack": {
+        "size": [
+          1536,
+          768
+        ],
+        "mean": 10.79,
+        "min": 9.72
+      },
+      "hurt": {
+        "size": [
+          1536,
+          384
+        ],
+        "mean": 11.73,
+        "min": 11.44
+      },
+      "phase": {
+        "size": [
+          1536,
+          768
+        ],
+        "mean": 11.4,
+        "min": 9.02
+      },
+      "death": {
+        "size": [
+          1536,
+          1152
+        ],
+        "mean": 6.12,
+        "min": 4.95
+      }
+    }
+  },
+  "resonator": {
+    "motion": "cathedral-resonance",
+    "asset": "assets/boss_reformulated/boss_resonator_reformulated.png",
+    "frames": {
+      "idle": {
+        "size": [
+          1536,
+          768
+        ],
+        "mean": 9.5,
+        "min": 6.36
+      },
+      "attack": {
+        "size": [
+          1536,
+          768
+        ],
+        "mean": 30.53,
+        "min": 27.9
+      },
+      "hurt": {
+        "size": [
+          1536,
+          384
+        ],
+        "mean": 11.98,
+        "min": 11.59
+      },
+      "phase": {
+        "size": [
+          1536,
+          768
+        ],
+        "mean": 27.78,
+        "min": 15.98
+      },
+      "death": {
+        "size": [
+          1536,
+          1152
+        ],
+        "mean": 7.64,
+        "min": 5.21
+      }
+    }
+  }
+}

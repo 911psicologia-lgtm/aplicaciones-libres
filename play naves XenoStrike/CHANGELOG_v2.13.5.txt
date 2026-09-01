@@ -1,0 +1,9 @@
+v2.13.5 — Boss Identity Overhaul 6–8 + CHASE Access
+- CHASE pasa a acceso destacado en todos los perfiles responsive.
+- CHASE disponible también al terminar Boss Rush.
+- Colossus Hop: nuevo asset base, gramática kinetic-compression y VFX signature reforzados.
+- Sanguina Prime: nuevo asset vascular, probóscide/módulos hemáticos y Sifón más vivo.
+- Architect Zero: nueva silueta modular de asedio con paneles/pilares de resina y Jaula reforzada.
+- Nuevas sprite sheets para estados idle/attack/hurt/phase/death de bosses 6–8.
+- Cache-busting boss animations av=2135.
+- No se inicia Capítulo II.

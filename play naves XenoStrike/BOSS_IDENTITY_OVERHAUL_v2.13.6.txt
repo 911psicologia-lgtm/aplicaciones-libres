@@ -1,0 +1,15 @@
+SWARM//RIFT v2.13.6 — BOSS IDENTITY OVERHAUL 9–10
+
+M9 AURALIS
+- Asset base reformulado: interceptor prismático con cristales, nodos iónicos y módulos externos.
+- Motion grammar: prismatic-interceptor.
+- Cinco estados: idle / attack / hurt / phase / death.
+- CRUZ PRISMÁTICA reforzada con haces móviles, partículas sobre trayectoria, flashes y núcleo prismático.
+
+M10 RESONATOR OMEGA
+- Asset base reformulado: catedral resonante móvil con anillos, resonadores laterales y núcleo acústico.
+- Motion grammar: cathedral-resonance.
+- Cinco estados: idle / attack / hurt / phase / death.
+- ONDA OMEGA reforzada con anillos alternos, puntos de interferencia y flashes del núcleo.
+
+Se preservan tres fases, dificultad, Convergencia, checkpoint, Reward Ledger, Hangar y poderes.

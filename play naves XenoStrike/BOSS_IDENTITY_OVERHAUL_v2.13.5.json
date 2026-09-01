@@ -1,0 +1,99 @@
+{
+  "version": "2.13.5",
+  "chase_access": {
+    "main_menu_prominent": true,
+    "mobile_portrait_full_width": true,
+    "mobile_landscape_full_width": true,
+    "desktop_prominent": true,
+    "after_boss_rush": true,
+    "automatic_after_boss_rush": false,
+    "separate_mode": true
+  },
+  "bosses": {
+    "6": {
+      "name": "COLOSSUS HOP",
+      "identity": "kinetic-compression",
+      "base_asset": "assets/boss_reformulated/boss_colossus_reformulated.png",
+      "world_modules": [
+        "emerald reservoirs",
+        "reinforced hind legs",
+        "aerodynamic wing array"
+      ],
+      "signature": "IMPACTO COLOSSUS",
+      "vfx": [
+        "energy corona",
+        "impact sparks",
+        "shock ring"
+      ]
+    },
+    "7": {
+      "name": "SANGUINA PRIME",
+      "identity": "vascular-organic",
+      "base_asset": "assets/boss_reformulated/boss_sanguina_reformulated.png",
+      "world_modules": [
+        "hematic sacs",
+        "vascular membranes",
+        "extended proboscis"
+      ],
+      "signature": "SIFÓN HEMÁTICO",
+      "vfx": [
+        "moving blood droplets",
+        "pulse glow",
+        "beam sparks"
+      ]
+    },
+    "8": {
+      "name": "ARCHITECT ZERO",
+      "identity": "modular-siege",
+      "base_asset": "assets/boss_reformulated/boss_architect_reformulated.png",
+      "world_modules": [
+        "resin panels",
+        "siege pylons",
+        "construction nodes"
+      ],
+      "signature": "JAULA DE RESINA",
+      "vfx": [
+        "column flashes",
+        "construction sparks",
+        "safe corridor highlight"
+      ]
+    }
+  },
+  "animation_frame_difference_mean": {
+    "colossus": {
+      "idle": 16.69,
+      "attack": 22.0,
+      "hurt": 24.32,
+      "phase": 15.92,
+      "death": 14.59
+    },
+    "sanguina": {
+      "idle": 10.48,
+      "attack": 14.42,
+      "hurt": 17.25,
+      "phase": 9.73,
+      "death": 10.22
+    },
+    "architect": {
+      "idle": 9.2,
+      "attack": 14.7,
+      "hurt": 21.86,
+      "phase": 10.45,
+      "death": 11.53
+    }
+  },
+  "preserved": [
+    "CHASE gameplay logic",
+    "boss difficulty",
+    "boss phases",
+    "lieutenant convergence",
+    "hangar",
+    "economy",
+    "checkpoints",
+    "combat director",
+    "audio architecture",
+    "worlds 1-5",
+    "worlds 9-10"
+  ],
+  "chapter2_started": false
+}

@@ -1,0 +1,506 @@
+{
+  "version": "2.13.6",
+  "assets": {
+    "js_refs": 137,
+    "missing": [],
+    "pwa_resources": 333,
+    "pwa_missing": []
+  },
+  "boss_9_10_frames": {
+    "auralis": {
+      "idle": {
+        "size": [
+          1536,
+          768
+        ],
+        "mean": 9.38,
+        "min": 7.11
+      },
+      "attack": {
+        "size": [
+          1536,
+          768
+        ],
+        "mean": 10.79,
+        "min": 9.72
+      },
+      "hurt": {
+        "size": [
+          1536,
+          384
+        ],
+        "mean": 11.73,
+        "min": 11.44
+      },
+      "phase": {
+        "size": [
+          1536,
+          768
+        ],
+        "mean": 11.4,
+        "min": 9.02
+      },
+      "death": {
+        "size": [
+          1536,
+          1152
+        ],
+        "mean": 6.12,
+        "min": 4.95
+      }
+    },
+    "resonator": {
+      "idle": {
+        "size": [
+          1536,
+          768
+        ],
+        "mean": 9.5,
+        "min": 6.36
+      },
+      "attack": {
+        "size": [
+          1536,
+          768
+        ],
+        "mean": 30.53,
+        "min": 27.9
+      },
+      "hurt": {
+        "size": [
+          1536,
+          384
+        ],
+        "mean": 11.98,
+        "min": 11.59
+      },
+      "phase": {
+        "size": [
+          1536,
+          768
+        ],
+        "mean": 27.78,
+        "min": 15.98
+      },
+      "death": {
+        "size": [
+          1536,
+          1152
+        ],
+        "mean": 7.64,
+        "min": 5.21
+      }
+    }
+  },
+  "world_playlists": [
+    {
+      "sector": 1,
+      "count": 3,
+      "tracks": [
+        {
+          "src": "assets/ambient/preboss_01_rust.mp3",
+          "start": 0.0,
+          "end": 44.0,
+          "duration": 44.28,
+          "valid": true,
+          "label": "Rust Canyon · Marcha del corredor"
+        },
+        {
+          "src": "assets/ambient/preboss_alt_block1.mp3",
+          "start": 0.0,
+          "end": 12.0,
+          "duration": 48.65,
+          "valid": true,
+          "label": "Rust Canyon · Variante de tensión"
+        },
+        {
+          "src": "assets/ambient/preboss_03_rift.mp3",
+          "start": 8.0,
+          "end": 29.0,
+          "duration": 109.99,
+          "valid": true,
+          "label": "Rust Canyon · Deriva de chatarra"
+        }
+      ]
+    },
+    {
+      "sector": 2,
+      "count": 3,
+      "tracks": [
+        {
+          "src": "assets/ambient/preboss_02_toxic.mp3",
+          "start": 0.0,
+          "end": 67.8,
+          "duration": 68.16,
+          "valid": true,
+          "label": "Toxic Ravine · Pulso tóxico"
+        },
+        {
+          "src": "assets/ambient/preboss_alt_block1.mp3",
+          "start": 12.0,
+          "end": 24.0,
+          "duration": 48.65,
+          "valid": true,
+          "label": "Toxic Ravine · Variante blindada"
+        },
+        {
+          "src": "assets/ambient/preboss_04_nocturne.mp3",
+          "start": 24.0,
+          "end": 45.0,
+          "duration": 88.82,
+          "valid": true,
+          "label": "Toxic Ravine · Bruma profunda"
+        }
+      ]
+    },
+    {
+      "sector": 3,
+      "count": 3,
+      "tracks": [
+        {
+          "src": "assets/ambient/preboss_03_rift.mp3",
+          "start": 8.0,
+          "end": 109.5,
+          "duration": 109.99,
+          "valid": true,
+          "label": "Rift Tunnel · Deriva orbital"
+        },
+        {
+          "src": "assets/ambient/preboss_alt_block1.mp3",
+          "start": 24.0,
+          "end": 36.0,
+          "duration": 48.65,
+          "valid": true,
+          "label": "Rift Tunnel · Corte alterno"
+        },
+        {
+          "src": "assets/ambient/preboss_01_rust.mp3",
+          "start": 14.0,
+          "end": 36.0,
+          "duration": 44.28,
+          "valid": true,
+          "label": "Rift Tunnel · Propulsión roja"
+        }
+      ]
+    },
+    {
+      "sector": 4,
+      "count": 3,
+      "tracks": [
+        {
+          "src": "assets/ambient/preboss_04_nocturne.mp3",
+          "start": 12.0,
+          "end": 88.4,
+          "duration": 88.82,
+          "valid": true,
+          "label": "Nocturne · Polen nocturno"
+        },
+        {
+          "src": "assets/ambient/preboss_alt_block1.mp3",
+          "start": 36.0,
+          "end": 48.0,
+          "duration": 48.65,
+          "valid": true,
+          "label": "Nocturne · Cámara alterna"
+        },
+        {
+          "src": "assets/ambient/preboss_10_resonance.mp3",
+          "start": 18.0,
+          "end": 42.0,
+          "duration": 89.62,
+          "valid": true,
+          "label": "Nocturne · Eco astral"
+        }
+      ]
+    },
+    {
+      "sector": 5,
+      "count": 3,
+      "tracks": [
+        {
+          "src": "assets/ambient/preboss_block2_05_08.mp3",
+          "start": 0.0,
+          "end": 19.0,
+          "duration": 81.48,
+          "valid": true,
+          "label": "Iron Nest · Colonia ferrum"
+        },
+        {
+          "src": "assets/ambient/preboss_alt_block1.mp3",
+          "start": 0.0,
+          "end": 12.0,
+          "duration": 48.65,
+          "valid": true,
+          "label": "Iron Nest · Marcha alternativa"
+        },
+        {
+          "src": "assets/ambient/preboss_03_rift.mp3",
+          "start": 65.0,
+          "end": 89.0,
+          "duration": 109.99,
+          "valid": true,
+          "label": "Iron Nest · Corredor industrial"
+        }
+      ]
+    },
+    {
+      "sector": 6,
+      "count": 3,
+      "tracks": [
+        {
+          "src": "assets/ambient/preboss_block2_05_08.mp3",
+          "start": 19.0,
+          "end": 38.0,
+          "duration": 81.48,
+          "valid": true,
+          "label": "Emerald Delta · Salto cinético"
+        },
+        {
+          "src": "assets/ambient/preboss_02_toxic.mp3",
+          "start": 25.0,
+          "end": 49.0,
+          "duration": 68.16,
+          "valid": true,
+          "label": "Emerald Delta · Biomasa profunda"
+        },
+        {
+          "src": "assets/ambient/preboss_09_odonata.mp3",
+          "start": 8.0,
+          "end": 31.0,
+          "duration": 64.99,
+          "valid": true,
+          "label": "Emerald Delta · Impulso aéreo"
+        }
+      ]
+    },
+    {
+      "sector": 7,
+      "count": 3,
+      "tracks": [
+        {
+          "src": "assets/ambient/preboss_block2_05_08.mp3",
+          "start": 38.0,
+          "end": 57.0,
+          "duration": 81.48,
+          "valid": true,
+          "label": "Bloodmist · Pulso hemático"
+        },
+        {
+          "src": "assets/ambient/preboss_04_nocturne.mp3",
+          "start": 42.0,
+          "end": 66.0,
+          "duration": 88.82,
+          "valid": true,
+          "label": "Bloodmist · Niebla vascular"
+        },
+        {
+          "src": "assets/ambient/preboss_10_resonance.mp3",
+          "start": 50.0,
+          "end": 73.0,
+          "duration": 89.62,
+          "valid": true,
+          "label": "Bloodmist · Latido profundo"
+        }
+      ]
+    },
+    {
+      "sector": 8,
+      "count": 3,
+      "tracks": [
+        {
+          "src": "assets/ambient/preboss_block2_05_08.mp3",
+          "start": 57.0,
+          "end": 80.9,
+          "duration": 81.48,
+          "valid": true,
+          "label": "Resin Hive · Asedio de resina"
+        },
+        {
+          "src": "assets/ambient/preboss_03_rift.mp3",
+          "start": 48.0,
+          "end": 73.0,
+          "duration": 109.99,
+          "valid": true,
+          "label": "Resin Hive · Construcción orbital"
+        },
+        {
+          "src": "assets/ambient/preboss_04_nocturne.mp3",
+          "start": 15.0,
+          "end": 38.0,
+          "duration": 88.82,
+          "valid": true,
+          "label": "Resin Hive · Cámara orgánica"
+        }
+      ]
+    },
+    {
+      "sector": 9,
+      "count": 3,
+      "tracks": [
+        {
+          "src": "assets/ambient/preboss_09_odonata.mp3",
+          "start": 4.0,
+          "end": 64.7,
+          "duration": 64.99,
+          "valid": true,
+          "label": "Odonata · Intercepción prismática"
+        },
+        {
+          "src": "assets/ambient/preboss_03_rift.mp3",
+          "start": 35.0,
+          "end": 61.0,
+          "duration": 109.99,
+          "valid": true,
+          "label": "Odonata · Vector de velocidad"
+        },
+        {
+          "src": "assets/ambient/preboss_alt_block1.mp3",
+          "start": 12.0,
+          "end": 24.0,
+          "duration": 48.65,
+          "valid": true,
+          "label": "Odonata · Variante de vuelo"
+        }
+      ]
+    },
+    {
+      "sector": 10,
+      "count": 3,
+      "tracks": [
+        {
+          "src": "assets/ambient/preboss_10_resonance.mp3",
+          "start": 16.0,
+          "end": 89.2,
+          "duration": 89.62,
+          "valid": true,
+          "label": "Resonance · Catedral viva"
+        },
+        {
+          "src": "assets/ambient/preboss_04_nocturne.mp3",
+          "start": 45.0,
+          "end": 71.0,
+          "duration": 88.82,
+          "valid": true,
+          "label": "Resonance · Eco profundo"
+        },
+        {
+          "src": "assets/ambient/preboss_alt_block1.mp3",
+          "start": 24.0,
+          "end": 36.0,
+          "duration": 48.65,
+          "valid": true,
+          "label": "Resonance · Contrapulso"
+        }
+      ]
+    }
+  ],
+  "boss_playlists": [
+    {
+      "sector": 1,
+      "ids": [
+        "legacy01",
+        "boss01",
+        "boss06"
+      ],
+      "valid": true
+    },
+    {
+      "sector": 2,
+      "ids": [
+        "boss02",
+        "boss08",
+        "boss05"
+      ],
+      "valid": true
+    },
+    {
+      "sector": 3,
+      "ids": [
+        "boss03",
+        "boss06",
+        "boss11"
+      ],
+      "valid": true
+    },
+    {
+      "sector": 4,
+      "ids": [
+        "boss04",
+        "boss07",
+        "boss10"
+      ],
+      "valid": true
+    },
+    {
+      "sector": 5,
+      "ids": [
+        "boss05",
+        "boss02",
+        "boss06"
+      ],
+      "valid": true
+    },
+    {
+      "sector": 6,
+      "ids": [
+        "boss06",
+        "boss03",
+        "boss11"
+      ],
+      "valid": true
+    },
+    {
+      "sector": 7,
+      "ids": [
+        "boss07",
+        "boss04",
+        "boss08"
+      ],
+      "valid": true
+    },
+    {
+      "sector": 8,
+      "ids": [
+        "boss08",
+        "boss02",
+        "boss05"
+      ],
+      "valid": true
+    },
+    {
+      "sector": 9,
+      "ids": [
+        "boss09",
+        "boss11",
+        "boss03"
+      ],
+      "valid": true
+    },
+    {
+      "sector": 10,
+      "ids": [
+        "boss10",
+        "boss12",
+        "boss04"
+      ],
+      "valid": true
+    }
+  ],
+  "chase": {
+    "duration": 68,
+    "initialShield": 45,
+    "fullXYMovement": true,
+    "shootablePowerDrops": [
+      "heal",
+      "shield",
+      "overdrive",
+      "burst",
+      "bomb"
+    ],
+    "explosionFx": true,
+    "floatingScore": true,
+    "killStreak": true,
+    "damageReduced": true,
+    "invulnerabilityAfterHit": 0.18
+  }
+}

@@ -1,0 +1,12 @@
+SWARM//RIFT v2.13.6 — CHASE EXTREME
+
+- Nave posterior aumentada de tamaño.
+- Movimiento X/Y por casi toda la pantalla; ya no queda limitada a una banda lateral/inferior.
+- Shield inicial 45 y daño enemigo reducido, con 0.18 s de protección tras impacto.
+- Enemigos destruidos generan explosión multicapa, chispas, anillo y flash.
+- Valor ganado aparece flotando sobre cada baja.
+- Sistema RACHA con multiplicador y mejor racha.
+- Powers físicos que se recogen DISPARÁNDOLES: reparación, shield, overdrive, impacto/burst y Bomba Rift.
+- Drop aleatorio + power garantizado periódicamente + apoyo adaptativo.
+- Overdrive y Burst modifican daño/cadencia y apariencia del disparo.
+- Duración 68 s; Interceptor Soberano aparece en tramo final.

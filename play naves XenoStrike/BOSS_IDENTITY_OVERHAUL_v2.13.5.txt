@@ -1,0 +1,30 @@
+SWARM//RIFT v2.13.5 — BOSS IDENTITY OVERHAUL 6–8 + CHASE ACCESS
+
+CHASE ACCESS
+- CHASE es un modo bonus independiente; no forma parte automática del Boss Rush.
+- Botón grande en MOBILE_PORTRAIT, MOBILE_LANDSCAPE y desktop.
+- Tras completar Boss Rush aparece un botón directo a CHASE.
+
+MUNDO 6 — COLOSSUS HOP
+- Identidad: kinetic-compression
+- Asset: assets/boss_reformulated/boss_colossus_reformulated.png
+- Módulos: emerald reservoirs, reinforced hind legs, aerodynamic wing array
+- Signature preservado/mejorado: IMPACTO COLOSSUS
+- VFX: energy corona, impact sparks, shock ring
+- Diferencia perceptible frames: {'idle': 16.69, 'attack': 22.0, 'hurt': 24.32, 'phase': 15.92, 'death': 14.59}
+
+MUNDO 7 — SANGUINA PRIME
+- Identidad: vascular-organic
+- Asset: assets/boss_reformulated/boss_sanguina_reformulated.png
+- Módulos: hematic sacs, vascular membranes, extended proboscis
+- Signature preservado/mejorado: SIFÓN HEMÁTICO
+- VFX: moving blood droplets, pulse glow, beam sparks
+- Diferencia perceptible frames: {'idle': 10.48, 'attack': 14.42, 'hurt': 17.25, 'phase': 9.73, 'death': 10.22}
+
+MUNDO 8 — ARCHITECT ZERO
+- Identidad: modular-siege
+- Asset: assets/boss_reformulated/boss_architect_reformulated.png
+- Módulos: resin panels, siege pylons, construction nodes
+- Signature preservado/mejorado: JAULA DE RESINA
+- VFX: column flashes, construction sparks, safe corridor highlight
+- Diferencia perceptible frames: {'idle': 9.2, 'attack': 14.7, 'hurt': 21.86, 'phase': 10.45, 'death': 11.53}

@@ -1,0 +1,86 @@
+{
+  "auralis": {
+    "idle": {
+      "size": [
+        1536,
+        768
+      ],
+      "mean_adjacent_diff": 9.38,
+      "min_adjacent_diff": 7.11
+    },
+    "attack": {
+      "size": [
+        1536,
+        768
+      ],
+      "mean_adjacent_diff": 10.79,
+      "min_adjacent_diff": 9.72
+    },
+    "hurt": {
+      "size": [
+        1536,
+        384
+      ],
+      "mean_adjacent_diff": 11.73,
+      "min_adjacent_diff": 11.44
+    },
+    "phase": {
+      "size": [
+        1536,
+        768
+      ],
+      "mean_adjacent_diff": 11.4,
+      "min_adjacent_diff": 9.02
+    },
+    "death": {
+      "size": [
+        1536,
+        1152
+      ],
+      "mean_adjacent_diff": 6.12,
+      "min_adjacent_diff": 4.95
+    }
+  },
+  "resonator": {
+    "idle": {
+      "size": [
+        1536,
+        768
+      ],
+      "mean_adjacent_diff": 9.5,
+      "min_adjacent_diff": 6.36
+    },
+    "attack": {
+      "size": [
+        1536,
+        768
+      ],
+      "mean_adjacent_diff": 16.88,
+      "min_adjacent_diff": 0.0
+    },
+    "hurt": {
+      "size": [
+        1536,
+        384
+      ],
+      "mean_adjacent_diff": 11.98,
+      "min_adjacent_diff": 11.59
+    },
+    "phase": {
+      "size": [
+        1536,
+        768
+      ],
+      "mean_adjacent_diff": 27.78,
+      "min_adjacent_diff": 15.98
+    },
+    "death": {
+      "size": [
+        1536,
+        1152
+      ],
+      "mean_adjacent_diff": 7.64,
+      "min_adjacent_diff": 5.21
+    }
+  }
+}

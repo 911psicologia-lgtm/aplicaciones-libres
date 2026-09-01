@@ -1,0 +1,13 @@
+VALIDACIÓN v2.13.6
+- VERSION 2.13.6
+- node --check game.js: PASS
+- node --check sw.js: PASS
+- Bootstrap instrumentado: PASS
+- CHASE kill/explosion/floating score/streak: PASS
+- CHASE power recogido por disparo: PASS
+- CHASE movimiento X/Y: PASS
+- World playlists: 10/10 con 3 pasajes válidos
+- Boss playlists: 10/10 con 3 pistas válidas
+- Auralis/Resonator: 5 estados de animación cada uno
+- PWA: 333 recursos / 0 faltantes
+- Migración v2.13.5: incluida

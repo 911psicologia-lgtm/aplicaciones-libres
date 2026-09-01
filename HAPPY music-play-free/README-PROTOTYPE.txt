@@ -22,3 +22,6 @@ Todo el historial local, archivos persistidos, favoritos, playlists y carátulas
 
 
 R9B: se renovaron los assets de icono PWA (192, 512, 512 maskable y Apple touch).
+
+
+R10 PLAY MODES: se añaden Aleatorio sin repetición por vuelta, Mix inteligente, Radio de biblioteca, Redescubrir, Sorpréndeme y Cola Viva. El botón ⇄ del reproductor abre el selector de modos.

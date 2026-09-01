@@ -1,0 +1,14 @@
+SWARM//RIFT v2.13.6 — ADAPTIVE WORLD & BOSS PLAYLISTS
+
+MUNDOS
+- 10 mundos con 3 pasajes ambientales por mundo.
+- Shuffle con memoria para evitar repetición inmediata.
+- Al terminar un segmento: fade-out, cambio de pasaje y fade-in.
+- La música ambiental continúa durante hordas, Frenesí y corredor previo al jefe.
+
+BOSSES
+- 10 bosses con pool de 3 pistas cada uno.
+- La pista principal conserva identidad; las alternativas entran en fase avanzada o cuando termina la pista.
+- Boss Rush añade repertorio ampliado y evita repetir el tema usado inmediatamente antes.
+- Transición ambiente -> boss conserva fade simultáneo de salida/entrada.
+- Pausa/Hangar conserva currentTime de la pista activa y retoma donde quedó.

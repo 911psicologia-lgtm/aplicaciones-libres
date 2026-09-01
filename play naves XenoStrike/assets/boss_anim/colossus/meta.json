@@ -1,45 +1,28 @@
 {
-  "key": "colossus",
-  "boss": "COLOSSUS HOP",
-  "family": "LANGOSTAS",
-  "version": "2.13.2",
+  "boss": "colossus",
   "frameW": 384,
   "frameH": 384,
-  "motion": "kinetic-leap",
-  "visualScale": 1.1,
   "states": {
     "idle": {
       "frames": 8,
-      "cols": 4,
-      "fps": 7
+      "cols": 4
     },
     "attack": {
       "frames": 6,
-      "cols": 4,
-      "fps": 11
+      "cols": 4
     },
     "hurt": {
       "frames": 4,
-      "cols": 4,
-      "fps": 13
+      "cols": 4
     },
     "phase": {
       "frames": 8,
-      "cols": 4,
-      "fps": 10
+      "cols": 4
     },
     "death": {
       "frames": 10,
-      "cols": 4,
-      "fps": 9
+      "cols": 4
     }
   },
-  "perceptualDiff": {
-    "idle": 14.23,
-    "attack": 14.37,
-    "hurt": 17.66,
-    "phase": 18.34,
-    "death": 8.29
-  },
-  "notes": "Raster boss-state animation derived from the canonical boss asset. Five synchronized states; designed for campaign and lieutenant reuse."
+  "identityOverhaul": "v2.13.5"
 }

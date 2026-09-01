@@ -1,11 +1,11 @@
-const BUILD = '2026.09.01-r9b-icon-refresh';
-const CACHE = 'mpf-r9b-icon-refresh';
+const BUILD = '2026.09.01-r9c-play-modes';
+const CACHE = 'mpf-r9c-play-modes';
 const CORE = [
   './',
   './index.html',
-  './styles.css?v=r9b-icon-refresh',
-  './app.js?v=r9b-icon-refresh',
-  './manifest.webmanifest?v=r9b-icon-refresh',
+  './styles.css?v=r9c-play-modes',
+  './app.js?v=r9c-play-modes',
+  './manifest.webmanifest?v=r9c-play-modes',
   './version.json',
   './icons/icon-192.png',
   './icons/icon-512.png',
