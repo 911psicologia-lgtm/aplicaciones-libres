@@ -1,3 +1,3 @@
 MUSIC PLAY · HAPPY
-Build: 2026.09.02-r10.6-library-discovery
-R10.6: álbumes para ti, ritmos automáticos, artistas y acceso fullscreen limpio.
+Build: 2026.09.02-r10.7-song-scope-adaptive-sound
+R10.7: reproducción por selección/categorías + Sonido Adaptativo local por ritmo.

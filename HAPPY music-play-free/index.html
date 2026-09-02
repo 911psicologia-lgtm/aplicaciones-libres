@@ -12,10 +12,10 @@
   <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
   <meta name="apple-mobile-web-app-title" content="MUSIC PLAY" />
   <title>MUSIC PLAY · HAPPY</title>
-  <link rel="manifest" href="./manifest.webmanifest?v=r10.6-library-discovery" />
+  <link rel="manifest" href="./manifest.webmanifest?v=r10.7-song-scope-adaptive-sound" />
   <link rel="icon" href="./icons/icon-192.png" />
   <link rel="apple-touch-icon" href="./icons/apple-touch-icon.png" />
-  <link rel="stylesheet" href="./styles.css?v=r10.6-library-discovery" />
+  <link rel="stylesheet" href="./styles.css?v=r10.7-song-scope-adaptive-sound" />
 </head>
 <body>
   <noscript>Esta aplicación necesita JavaScript.</noscript>
@@ -172,7 +172,16 @@
 
         <section id="librarySongsPanel" class="library-panel is-hidden">
           <label class="search-box inline-library-search"><span>⌕</span><input id="searchInput" type="search" placeholder="Buscar canción, artista, álbum o género" autocomplete="off" /></label>
-          <div id="genreChips" class="chips"></div>
+          <div id="genreChips" class="chips song-filter-chips" aria-label="Filtros de canciones"></div>
+          <div id="songScopeBar" class="song-scope-bar">
+            <div class="song-scope-copy"><strong id="songScopeCount">0 canciones</strong><small id="songScopeLabel">Toda tu biblioteca</small></div>
+            <div class="song-scope-actions">
+              <button id="playSongScopeBtn" class="scope-action primary" type="button" title="Reproducir esta selección">▶ <span>Play</span></button>
+              <button id="songScopeModeBtn" class="scope-action" type="button" title="Elegir modo de reproducción">≋ <span>Modo</span></button>
+              <button id="favoriteSongScopeBtn" class="scope-action" type="button" title="Añadir selección a Favoritos">♥ <span>Favoritos</span></button>
+              <button id="playlistSongScopeBtn" class="scope-action" type="button" title="Crear o añadir a playlist">≡＋ <span>Playlist</span></button>
+            </div>
+          </div>
           <div id="libraryEmpty" class="empty-state"><div class="empty-icon">♪</div><h3>Carga tu primera canción</h3><p>Añade un archivo, carpeta o enlace.</p><button id="emptyLoadBtn" class="primary-btn">Cargar música</button></div>
           <div id="libraryList" class="list virtual-list"></div>
         </section>
@@ -212,7 +221,7 @@
         <input id="progressRange" class="progress" type="range" min="0" max="100" value="0" step="0.1" />
         <div class="time-row"><span id="timeNow">0:00</span><span id="timeTotal">0:00</span></div>
         <div class="player-main-controls"><button id="shuffleBtn" type="button" class="player-btn toggle-btn">⇄</button><button id="fullPrevBtn" type="button" class="player-btn big-btn">⏮</button><button id="fullPlayBtn" type="button" class="play-btn xl">▶</button><button id="fullNextBtn" type="button" class="player-btn big-btn">⏭</button><button id="favoriteBtn" type="button" class="player-btn toggle-btn">♡</button></div>
-        <div class="player-secondary-controls"><label>Volumen<input id="volumeRange" type="range" min="0" max="1" step="0.01" value="0.92" /></label><div class="current-track-actions"><button id="addCurrentToQueue" type="button" class="micro-btn">→ Cola</button><button id="addCurrentToPlaylist" type="button" class="micro-btn">＋ Playlist</button><button id="shareCurrentBtn" type="button" class="micro-btn">↗ Compartir</button></div></div>
+        <div class="player-secondary-controls"><label>Volumen<input id="volumeRange" type="range" min="0" max="1" step="0.01" value="0.92" /></label><div class="current-track-actions"><button id="addCurrentToQueue" type="button" class="micro-btn">→ Cola</button><button id="addCurrentToPlaylist" type="button" class="micro-btn">＋ Playlist</button><button id="soundModeBtn" type="button" class="micro-btn">◉ Sonido Auto</button><button id="shareCurrentBtn" type="button" class="micro-btn">↗ Compartir</button></div></div>
       </form>
     </dialog>
 
@@ -227,9 +236,10 @@
     <input id="backupInput" type="file" accept="application/json,.json" hidden />
     <input id="m3uInput" type="file" accept="audio/x-mpegurl,application/vnd.apple.mpegurl,.m3u,.m3u8" hidden />
     <audio id="audio" preload="metadata" playsinline></audio>
+    <audio id="directAudio" preload="metadata" playsinline></audio>
     <div id="ytProbeHost" class="probe-host" aria-hidden="true"></div>
   </div>
 
-  <script src="./app.js?v=r10.6-library-discovery"></script>
+  <script src="./app.js?v=r10.7-song-scope-adaptive-sound"></script>
 </body>
 </html>

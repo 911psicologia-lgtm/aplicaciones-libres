@@ -1,11 +1,11 @@
-const BUILD = '2026.09.02-r10.6-library-discovery';
-const CACHE = 'mpf-r10.6-library-discovery';
+const BUILD = '2026.09.02-r10.7-song-scope-adaptive-sound';
+const CACHE = 'mpf-r10.7-song-scope-adaptive-sound';
 const CORE = [
   './',
   './index.html',
-  './styles.css?v=r10.6-library-discovery',
-  './app.js?v=r10.6-library-discovery',
-  './manifest.webmanifest?v=r10.6-library-discovery',
+  './styles.css?v=r10.7-song-scope-adaptive-sound',
+  './app.js?v=r10.7-song-scope-adaptive-sound',
+  './manifest.webmanifest?v=r10.7-song-scope-adaptive-sound',
   './version.json',
   './icons/icon-192.png',
   './icons/icon-512.png',

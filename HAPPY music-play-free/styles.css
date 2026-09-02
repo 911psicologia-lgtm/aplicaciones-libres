@@ -573,3 +573,37 @@ body{overscroll-behavior-y:none}
 /* R10.6 · library discovery: albums, rhythms and artists fill the living home without saving extra playlists. */
 .section-hint{font-size:10px;color:var(--muted);white-space:nowrap;padding:8px 2px}.discovery-rail{padding-bottom:2px}.discovery-card{position:relative}.discovery-card .media-card-art{background:linear-gradient(145deg,color-mix(in srgb,var(--accent) 13%,var(--surface-2)),color-mix(in srgb,var(--accent-2) 8%,var(--surface-3)));font-size:30px}.discovery-card strong{font-size:14px}.dynamic-collection-head{display:grid;grid-template-columns:78px minmax(0,1fr);gap:14px;align-items:center;margin-bottom:12px}.dynamic-collection-head small{font-size:10px;letter-spacing:.12em;color:var(--muted);font-weight:900}.dynamic-collection-head .sheet-title{margin:3px 0}.dynamic-collection-art{width:78px;height:78px;border-radius:22px;display:grid;place-items:center;overflow:hidden;background:linear-gradient(135deg,var(--surface-2),var(--surface-3));font-size:30px}.dynamic-collection-art img{width:100%;height:100%;object-fit:cover}.dynamic-collection-actions{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-bottom:12px}.dynamic-track-list{display:grid;gap:8px;max-height:min(58vh,560px);overflow:auto;overscroll-behavior:contain;padding:2px}.install-btn.installed{color:var(--text)}.install-btn.fullscreen-action{width:42px;height:42px;padding:0;display:grid;place-items:center;border-radius:14px;font-size:19px;color:var(--text);background:var(--surface);border:1px solid var(--line);box-shadow:none}.install-btn.fullscreen-action span{display:none}
 @media(max-width:520px){.section-hint{font-size:9px}.dynamic-collection-head{grid-template-columns:64px minmax(0,1fr)}.dynamic-collection-art{width:64px;height:64px;border-radius:18px}.dynamic-track-list{max-height:50vh}.discovery-card .media-card-art{font-size:27px}}
+
+/* R10.7 · Song Scope + Adaptive Sound */
+.song-filter-chips{display:flex;flex-wrap:nowrap;overflow-x:auto;scrollbar-width:none;overscroll-behavior-inline:contain;scroll-snap-type:x proximity;padding:8px;gap:7px}
+.song-filter-chips::-webkit-scrollbar{display:none}
+.song-filter-chips .chip{flex:0 0 auto;scroll-snap-align:start}
+.song-filter-chips .chip.source{border-style:dashed}
+.song-filter-chips .chip.category.active{background:linear-gradient(135deg,rgba(255,88,110,.24),rgba(255,154,95,.16));color:var(--text)}
+.song-scope-bar{display:grid;gap:10px;padding:12px;border:1px solid var(--line);border-radius:20px;background:color-mix(in srgb,var(--surface) 94%,transparent);box-shadow:var(--shadow);position:sticky;top:110px;z-index:24;backdrop-filter:blur(18px)}
+.song-scope-copy{display:flex;align-items:baseline;justify-content:space-between;gap:12px;min-width:0}
+.song-scope-copy strong{font-size:14px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.song-scope-copy small{font-size:10px;color:var(--muted);white-space:nowrap;overflow:hidden;text-overflow:ellipsis;text-align:right}
+.song-scope-actions{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:7px}
+.scope-action{min-width:0;padding:10px 6px;border-radius:14px;background:var(--surface-2);border:1px solid var(--line);font-weight:850;font-size:11px;display:flex;gap:6px;align-items:center;justify-content:center;white-space:nowrap}
+.scope-action.primary{background:linear-gradient(135deg,var(--accent),var(--accent-2));color:#fff;border-color:transparent}
+.scope-action:disabled{opacity:.42;cursor:not-allowed}
+.sound-status-note{display:flex;gap:10px;align-items:center;padding:12px;border-radius:16px;background:var(--surface-2);border:1px solid var(--line)}
+.sound-status-note b{font-size:12px}.sound-status-note span{display:block;color:var(--muted);font-size:11px;margin-top:2px}
+.sound-choice.selected{outline:1px solid color-mix(in srgb,var(--accent) 70%,white 10%);background:linear-gradient(135deg,rgba(255,88,110,.12),rgba(255,154,95,.08)),var(--surface-2)}
+.sound-profile-badge{font-size:10px;color:var(--muted);font-weight:800;letter-spacing:.04em;text-transform:uppercase}
+
+@media (max-width:640px){
+  .song-scope-bar{top:104px;padding:10px;border-radius:17px;gap:8px}
+  .song-scope-actions{grid-template-columns:repeat(4,minmax(72px,1fr));overflow-x:auto;scrollbar-width:none}
+  .song-scope-actions::-webkit-scrollbar{display:none}
+  .scope-action{font-size:10px;padding:9px 7px}
+  .scope-action span{display:none}
+  .scope-action{font-size:15px}
+  .song-scope-copy small{max-width:48%}
+}
+@media (max-width:420px){
+  .song-scope-bar{top:100px}
+  .current-track-actions{grid-template-columns:1fr 1fr}
+  .current-track-actions #shareCurrentBtn,.current-track-actions #soundModeBtn{grid-column:auto}
+}

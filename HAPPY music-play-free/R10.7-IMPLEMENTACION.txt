@@ -1,0 +1,15 @@
+MUSIC PLAY · HAPPY — R10.7
+
+NOVEDADES
+1. Biblioteca > Canciones: filtros combinables por fuente y múltiples categorías.
+2. Acciones sobre el alcance visible: Play, modo de reproducción, Favoritos y Playlist.
+3. Reproduce toda la biblioteca, solo archivos locales, YouTube, enlaces o una combinación de categorías.
+4. Sonido Adaptativo (por defecto Auto) para archivos locales usando Web Audio API.
+5. Perfiles sutiles por ritmo: Salsa, Reggae, Rock, Metal, Pop, Hip-Hop, Electrónica, Country, Jazz, etc.
+6. Modos manuales de sonido: Original, Cálido, Potente y Claro.
+7. El audio original nunca se modifica en disco.
+8. Fuentes externas (YouTube/SoundCloud) conservan su motor de sonido y no pasan por Web Audio.
+9. Audio directo usa un elemento separado para evitar conflictos CORS con el procesamiento local.
+
+NOTA
+El Sonido Adaptativo es ecualización/dinámica suave. No puede reconstruir información perdida por baja calidad o compresión destructiva.
