@@ -1,11 +1,11 @@
-const BUILD = '2026.09.02-r10.5-resilient-opfs-reorder';
-const CACHE = 'mpf-r10.5-resilient-opfs-reorder';
+const BUILD = '2026.09.02-r10.6-library-discovery';
+const CACHE = 'mpf-r10.6-library-discovery';
 const CORE = [
   './',
   './index.html',
-  './styles.css?v=r10.5-resilient-opfs-reorder',
-  './app.js?v=r10.5-resilient-opfs-reorder',
-  './manifest.webmanifest?v=r10.5-resilient-opfs-reorder',
+  './styles.css?v=r10.6-library-discovery',
+  './app.js?v=r10.6-library-discovery',
+  './manifest.webmanifest?v=r10.6-library-discovery',
   './version.json',
   './icons/icon-192.png',
   './icons/icon-512.png',

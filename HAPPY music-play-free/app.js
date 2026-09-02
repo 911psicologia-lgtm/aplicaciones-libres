@@ -1,7 +1,7 @@
 (() => {
 'use strict';
 
-const BUILD = '2026.09.02-r10.5-resilient-opfs-reorder';
+const BUILD = '2026.09.02-r10.6-library-discovery';
 const DB_NAME = 'mpf-minimal-db';
 const DB_VERSION = 5;
 const PLAYABLE_SOURCES = new Set(['local','direct','youtube','soundcloud','youtube-playlist']);
@@ -37,7 +37,7 @@ const els = {
   onboardingPanel: $('#onboardingPanel'), matureHome: $('#matureHome'), onboardingInstallBtn: $('#onboardingInstallBtn'), onboardingStep1: $('#onboardingStep1'), onboardingStep2: $('#onboardingStep2'), onboardingStep3: $('#onboardingStep3'),
   onboardingFileBtn: $('#onboardingFileBtn'), onboardingFolderBtn: $('#onboardingFolderBtn'), onboardingLinkBtn: $('#onboardingLinkBtn'), onboardingMusicBtn: $('#onboardingMusicBtn'), onboardingPlayBtn: $('#onboardingPlayBtn'),
   resumeCard: $('#resumeCard'), resumeArtwork: $('#resumeArtwork'), resumeTitle: $('#resumeTitle'), resumeArtist: $('#resumeArtist'), resumePlayIcon: $('#resumePlayIcon'),
-  homeRecent: $('#homeRecent'), homePlaylists: $('#homePlaylists'), homeAlbums: $('#homeAlbums'), homeAlbumsSection: $('#homeAlbumsSection'), homeSearchBtn: $('#homeSearchBtn'), homeAllPlaylistsBtn: $('#homeAllPlaylistsBtn'), homeAllAlbumsBtn: $('#homeAllAlbumsBtn'),
+  homeRecent: $('#homeRecent'), homePlaylists: $('#homePlaylists'), homeAlbums: $('#homeAlbums'), homeAlbumsSection: $('#homeAlbumsSection'), homeRhythms: $('#homeRhythms'), homeRhythmsSection: $('#homeRhythmsSection'), homeArtists: $('#homeArtists'), homeArtistsSection: $('#homeArtistsSection'), homeSearchBtn: $('#homeSearchBtn'), homeAllPlaylistsBtn: $('#homeAllPlaylistsBtn'), homeAllAlbumsBtn: $('#homeAllAlbumsBtn'),
   countTracks: $('#countTracks'), countPlaylists: $('#countPlaylists'), countFavorites: $('#countFavorites'), countMost: $('#countMost'), listenTimeHome: $('#listenTimeHome'), favoritesShortcut: $('#favoritesShortcut'), mostPlayedShortcut: $('#mostPlayedShortcut'), recentShortcut: $('#recentShortcut'), repeatShortcut: $('#repeatShortcut'), rediscoverShortcut: $('#rediscoverShortcut'), radioShortcut: $('#radioShortcut'), surpriseShortcut: $('#surpriseShortcut'), mixShortcut: $('#mixShortcut'),
   globalSearchInput: $('#globalSearchInput'), searchLinkHint: $('#searchLinkHint'), searchEmpty: $('#searchEmpty'), searchResults: $('#searchResults'), searchNewBtn: $('#searchNewBtn'),
   libraryMainHead: $('#libraryMainHead'), librarySearchBtn: $('#librarySearchBtn'), libraryAddBtn: $('#libraryAddBtn'), libraryTabs: $('#libraryTabs'), libraryTabPlaylists: $('#libraryTabPlaylists'), libraryTabSongs: $('#libraryTabSongs'), libraryTabAlbums: $('#libraryTabAlbums'), librarySortSelect: $('#librarySortSelect'), librarySortRow: $('#librarySortRow'), libraryCountLabel: $('#libraryCountLabel'),
@@ -567,6 +567,71 @@ function getAlbumGroups(){
   const map=new Map();for(const t of state.tracks){const folder=(t.folder||'').split('/').filter(Boolean).pop()||'';const key=(t.album||folder||'').trim();if(!key)continue;const artist=t.artist&&t.artist!=='Desconocido'?t.artist:'';const id=`${key.toLowerCase()}|${artist.toLowerCase()}`;if(!map.has(id))map.set(id,{id,name:key,artist,tracks:[],last:0,plays:0});const g=map.get(id);g.tracks.push(t);g.last=Math.max(g.last,t.lastPlayed||t.addedAt||0);g.plays+=t.validPlays||0;}
   let groups=[...map.values()];if(state.librarySort==='name')groups.sort((a,b)=>a.name.localeCompare(b.name,'es',{sensitivity:'base'}));else if(state.librarySort==='played')groups.sort((a,b)=>b.plays-a.plays);else groups.sort((a,b)=>b.last-a.last);return groups;
 }
+function listeningScoreForTracks(tracks){
+  const ts=now();let score=0;
+  for(const t of tracks||[]){
+    score+=(t.favorite?7:0)+(t.completedPlays||0)*3+(t.validPlays||0)*2+(t.replayCount||0)*2-Math.min(8,(t.skipCount||0));
+    const last=t.lastPlayed||0;if(last){const days=(ts-last)/86400000;score+=Math.max(0,24-days)*.35;}
+  }
+  return score+Math.min(12,(tracks||[]).length*.3);
+}
+function recommendedAlbumGroups(){
+  return [...getAlbumGroups()].sort((a,b)=>listeningScoreForTracks(b.tracks)-listeningScoreForTracks(a.tracks)||b.last-a.last);
+}
+const RHYTHM_RULES=[
+  {id:'salsa',name:'Salsa',icon:'💃',re:/\bsalsa\b|son montuno|guaguanc[oó]|mambo/i},
+  {id:'cumbia',name:'Cumbia',icon:'🥁',re:/\bcumbia\b/i},
+  {id:'vallenato',name:'Vallenato',icon:'🪗',re:/vallenat/i},
+  {id:'merengue',name:'Merengue',icon:'☀',re:/merengue/i},
+  {id:'bachata',name:'Bachata',icon:'🌙',re:/bachata/i},
+  {id:'reggaeton',name:'Reggaetón',icon:'◆',re:/reggaet[oó]n|urbano latino/i},
+  {id:'reggae',name:'Reggae',icon:'☘',re:/reggae|roots reggae|dancehall/i},
+  {id:'rock',name:'Rock',icon:'⚡',re:/\brock\b|alternative rock|indie rock|punk/i},
+  {id:'metal',name:'Metal',icon:'⛓',re:/\bmetal\b|heavy metal|nu metal|thrash|death metal/i},
+  {id:'hiphop',name:'Hip-Hop / Rap',icon:'◉',re:/hip[ -]?hop|\brap\b|trap/i},
+  {id:'pop',name:'Pop',icon:'✦',re:/\bpop\b|synthpop|dance pop/i},
+  {id:'country',name:'Country',icon:'☆',re:/country|bluegrass/i},
+  {id:'jazz',name:'Jazz',icon:'♬',re:/\bjazz\b|bebop|swing/i},
+  {id:'blues',name:'Blues',icon:'◐',re:/\bblues\b/i},
+  {id:'soul',name:'R&B / Soul',icon:'♥',re:/r&b|rhythm.?and.?blues|\bsoul\b|neo soul/i},
+  {id:'electronic',name:'Electrónica',icon:'⌁',re:/electr[oó]nic|edm|house|techno|trance|ambient/i},
+  {id:'classical',name:'Clásica',icon:'♩',re:/cl[aá]sic|classical|orquesta sinf[oó]nica|symphon/i},
+  {id:'instrumental',name:'Instrumental',icon:'♫',re:/instrumental|piano|acoustic|acústic/i},
+  {id:'folk',name:'Folk',icon:'◇',re:/\bfolk\b|americana/i},
+  {id:'gospel',name:'Gospel',icon:'✧',re:/gospel|worship|cristian/i}
+];
+function rhythmMatchesText(text){return RHYTHM_RULES.filter(r=>r.re.test(text||''));}
+function getRhythmGroups(){
+  const groups=new Map(),ensure=r=>{if(!groups.has(r.id))groups.set(r.id,{id:r.id,name:r.name,icon:r.icon,tracks:[],seen:new Set()});return groups.get(r.id);},add=(r,t)=>{const g=ensure(r);if(!g.seen.has(t.id)){g.seen.add(t.id);g.tracks.push(t);}};
+  for(const t of state.tracks){
+    const hay=[t.genre,t.album,t.folder,t.title].filter(Boolean).join(' · ');const matches=rhythmMatchesText(hay);for(const r of matches.slice(0,2))add(r,t);
+    if(!matches.length&&t.genre&&t.genre.trim()&&!/unknown|desconocid/i.test(t.genre)){
+      const raw=t.genre.trim().split(/[;,/]/)[0].trim();if(raw){const id=`genre:${raw.toLowerCase()}`;const g=groups.get(id)||{id,name:raw.replace(/\b\w/g,c=>c.toUpperCase()),icon:'♪',tracks:[],seen:new Set()};if(!g.seen.has(t.id)){g.seen.add(t.id);g.tracks.push(t);}groups.set(id,g);}
+    }
+  }
+  for(const pl of state.playlists){const matches=rhythmMatchesText(pl.name||'');if(!matches.length)continue;for(const t of getPlaylistTracks(pl))for(const r of matches.slice(0,1))add(r,t);}
+  return [...groups.values()].map(g=>({...g,score:listeningScoreForTracks(g.tracks)})).filter(g=>g.tracks.length).sort((a,b)=>b.score-a.score||b.tracks.length-a.tracks.length).slice(0,14);
+}
+function artistNameForTrack(t){
+  let a=(t.artist||'').trim();if(!a||/^(desconocido|unknown|youtube|soundcloud|enlace|archivo por localizar|music play)$/i.test(a)||/^https?:/i.test(a))a='';
+  if(!a&&t.title&&/\s[-–—]\s/.test(t.title)){const candidate=t.title.split(/\s[-–—]\s/)[0].trim();if(candidate.length>1&&candidate.length<70)a=candidate;}
+  return a;
+}
+function getArtistGroups(){
+  const map=new Map();for(const t of state.tracks){const name=artistNameForTrack(t);if(!name)continue;const id=name.toLocaleLowerCase('es');if(!map.has(id))map.set(id,{id,name,tracks:[],last:0});const g=map.get(id);g.tracks.push(t);g.last=Math.max(g.last,t.lastPlayed||t.addedAt||0);}
+  let arr=[...map.values()].map(g=>({...g,score:listeningScoreForTracks(g.tracks)})).filter(g=>g.tracks.length>=2);if(!arr.length)arr=[...map.values()].map(g=>({...g,score:listeningScoreForTracks(g.tracks)}));return arr.sort((a,b)=>b.score-a.score||b.tracks.length-a.tracks.length).slice(0,16);
+}
+function openTransientCollection(group,{kind='colección'}={}){
+  const tracks=(group.tracks||[]).filter(Boolean),ids=tracks.filter(playable).map(t=>t.id);let shown=0;
+  openSheet(`<div class="dynamic-collection-head"><div class="dynamic-collection-art" data-dyn-art>${safeText(group.icon||'♪')}</div><div><small>${safeText(kind.toUpperCase())}</small><h2 class="sheet-title">${safeText(group.name)}</h2><p class="sheet-copy">${tracks.length} ${tracks.length===1?'canción':'canciones'} · colección automática, no guardada</p></div></div><div class="dynamic-collection-actions"><button class="micro-btn" data-dyn-play>▶ Play</button><button class="micro-btn" data-dyn-shuffle>⇄ Aleatorio</button></div><div class="dynamic-track-list" data-dyn-list></div><button class="micro-btn wide is-hidden" data-dyn-more>Ver más</button>`,root=>{
+    hydratePlaylistArtwork(tracks,$('[data-dyn-art]',root),group.icon||'♪');const list=$('[data-dyn-list]',root),more=$('[data-dyn-more]',root);const draw=()=>{const end=Math.min(tracks.length,shown+60),frag=document.createDocumentFragment();for(let i=shown;i<end;i++)frag.appendChild(makeTrackRow(tracks[i],{contextIds:ids}));shown=end;list.appendChild(frag);more.classList.toggle('is-hidden',shown>=tracks.length);more.textContent=`Ver más · ${shown}/${tracks.length}`;};draw();more.onclick=draw;
+    $('[data-dyn-play]',root).onclick=()=>{closeDialog(els.sheetDialog);if(ids[0])playTrack(ids[0],ids);};$('[data-dyn-shuffle]',root).onclick=async()=>{closeDialog(els.sheetDialog);await setPlaybackMode(PLAY_MODES.shuffle,{autoplay:true,contextIds:ids});};
+  });
+}
+function makeDiscoveryCard(group,{kind='colección'}={}){
+  const b=document.createElement('button');b.className='media-card discovery-card';b.type='button';b.innerHTML=`<div class="media-card-art discovery-art">${safeText(group.icon||'♪')}</div><strong>${safeText(group.name)}</strong><small>${group.tracks.length} ${group.tracks.length===1?'canción':'canciones'}</small>`;hydratePlaylistArtwork(group.tracks,$('.media-card-art',b),group.icon||'♪');b.onclick=()=>openTransientCollection(group,{kind});return b;
+}
+
 async function hydratePlaylistArtwork(tracks,node,fallback='≡'){
   if(!node)return;const pool=(tracks||[]).slice(0,4);if(!pool.length){node.textContent=fallback;return;}const urls=(await Promise.all(pool.map(t=>artworkUrlFor(t).catch(()=>'')))).filter(Boolean);if(!urls.length){node.textContent=fallback;return;}node.innerHTML='';node.classList.add('art-collage');for(const url of urls.slice(0,4)){const img=document.createElement('img');img.src=url;img.alt='';img.loading='lazy';node.appendChild(img);}
 }
@@ -607,7 +672,9 @@ function renderHome(){
   els.resumeCard.classList.toggle('is-hidden',!resume);if(resume){els.resumeTitle.textContent=resume.title;els.resumeArtist.textContent=resume.artist||sourceLabel(resume);els.resumePlayIcon.textContent=state.currentId===resume.id&&state.playing?'⏸':'▶';hydrateArtwork(resume,els.resumeArtwork,resume.sourceKind==='youtube'?'▶':'♪');els.resumeCard.onclick=()=>{if(els.resumeCard._gestureConsumedUntil&&performance.now()<els.resumeCard._gestureConsumedUntil)return;state.currentId===resume.id?togglePlay():playTrack(resume.id,recent.filter(playable).map(t=>t.id));};}
   els.homeRecent.innerHTML='';recent.slice(0,8).forEach(t=>els.homeRecent.appendChild(createMediaCard(t)));
   els.homePlaylists.innerHTML='';sortedPlaylists().slice(0,7).forEach(pl=>{const tracks=getPlaylistTracks(pl),b=document.createElement('button');b.className='media-card';b.type='button';b.innerHTML=`<div class="media-card-art">≡</div><strong>${safeText(pl.name)}</strong><small>${tracks.length} canciones</small>`;hydratePlaylistArtwork(tracks,$('.media-card-art',b),'≡');b.onclick=()=>openPlaylistDetail(pl.id);els.homePlaylists.appendChild(b);});
-  const albums=getAlbumGroups().slice(0,8);if(els.homeAlbumsSection)els.homeAlbumsSection.classList.toggle('is-hidden',!albums.length);if(els.homeAlbums){els.homeAlbums.innerHTML='';for(const g of albums){const b=document.createElement('button');b.className='media-card';b.type='button';b.innerHTML=`<div class="media-card-art">▣</div><strong>${safeText(g.name)}</strong><small>${safeText(g.artist||'Álbum')} · ${g.tracks.length}</small>`;hydratePlaylistArtwork(g.tracks,$('.media-card-art',b),'▣');b.onclick=()=>openAlbumSheet(g);els.homeAlbums.appendChild(b);}}
+  const albums=recommendedAlbumGroups().slice(0,8);if(els.homeAlbumsSection)els.homeAlbumsSection.classList.toggle('is-hidden',!albums.length);if(els.homeAlbums){els.homeAlbums.innerHTML='';for(const g of albums){const b=document.createElement('button');b.className='media-card';b.type='button';b.innerHTML=`<div class="media-card-art">▣</div><strong>${safeText(g.name)}</strong><small>${safeText(g.artist||'Álbum')} · ${g.tracks.length}</small>`;hydratePlaylistArtwork(g.tracks,$('.media-card-art',b),'▣');b.onclick=()=>openAlbumSheet(g);els.homeAlbums.appendChild(b);}}
+  const rhythms=getRhythmGroups();if(els.homeRhythmsSection)els.homeRhythmsSection.classList.toggle('is-hidden',!rhythms.length);if(els.homeRhythms){els.homeRhythms.innerHTML='';for(const g of rhythms.slice(0,10))els.homeRhythms.appendChild(makeDiscoveryCard(g,{kind:'ritmo'}));}
+  const artists=getArtistGroups();if(els.homeArtistsSection)els.homeArtistsSection.classList.toggle('is-hidden',!artists.length);if(els.homeArtists){els.homeArtists.innerHTML='';for(const g of artists.slice(0,10))els.homeArtists.appendChild(makeDiscoveryCard({...g,icon:'♫'},{kind:'artista'}));}
 }
 function renderSearch(){
   const q=(state.globalSearch||'').trim();els.searchResults.innerHTML='';const info=analyzeLink(q);els.searchLinkHint.classList.toggle('is-hidden',!q||info.kind==='invalid'||(!/^https?:/i.test(q)));els.searchEmpty.classList.toggle('is-hidden',!!q);if(!q)return;
@@ -1381,11 +1448,11 @@ function isInstalledDisplay(){return !!(window.matchMedia?.('(display-mode: full
 function syncShellMode(){document.documentElement.dataset.shell=isInstalledDisplay()?'app':'browser';}
 function syncInstallUI(){
   if(!els.installBtn)return;syncShellMode();const installed=isInstalledDisplay();els.installBtn.classList.remove('is-hidden');els.installBtn.classList.toggle('installed',installed);
-  els.installBtn.innerHTML=installed?'✓ <span>App</span>':'⇩ <span>Instalar</span>';els.installBtn.title=installed?'MUSIC PLAY instalada · pantalla completa':'Instalar MUSIC PLAY como aplicación';
+  els.installBtn.classList.toggle('fullscreen-action',installed);els.installBtn.innerHTML=installed?'⛶':'⇩ <span>Instalar</span>';els.installBtn.title=installed?'Pantalla completa':'Instalar MUSIC PLAY como aplicación';els.installBtn.setAttribute('aria-label',installed?'Alternar pantalla completa':'Instalar MUSIC PLAY');
   if(els.onboardingInstallBtn){els.onboardingInstallBtn.classList.toggle('is-hidden',installed);els.onboardingInstallBtn.setAttribute('aria-hidden',installed?'true':'false');}
 }
 async function requestImmersive(){
-  try{if(document.fullscreenElement)return true;if(document.fullscreenEnabled){await document.documentElement.requestFullscreen({navigationUI:'hide'});return true;}}catch(err){console.debug('Fullscreen',err);}return false;
+  try{if(document.fullscreenElement){await document.exitFullscreen?.();return true;}if(document.fullscreenEnabled){await document.documentElement.requestFullscreen({navigationUI:'hide'});return true;}}catch(err){console.debug('Fullscreen',err);}return false;
 }
 function androidChromeIntent(){
   if(!/android/i.test(navigator.userAgent||''))return '';
@@ -1394,7 +1461,7 @@ function androidChromeIntent(){
 async function triggerNativeInstall(){
   if(!state.installPrompt)return false;try{state.installPrompt.prompt();const choice=await state.installPrompt.userChoice;if(choice?.outcome==='accepted'){toast('Instalando MUSIC PLAY…');}state.installPrompt=null;syncInstallUI();return choice?.outcome==='accepted';}catch(err){console.warn('Install prompt',err);return false;}
 }
-async function handleInstallClick(){if(isInstalledDisplay())return openInstallSheet();if(state.installPrompt){const ok=await triggerNativeInstall();if(ok)return;}const ua=navigator.userAgent||'',android=/android/i.test(ua),embedded=/;\s*wv\)|FBAN|FBAV|Instagram|Line\//i.test(ua);if(android&&embedded){const intent=androidChromeIntent();if(intent){toast('Abriendo MUSIC PLAY en Chrome…',1800);setTimeout(()=>{location.href=intent;},120);return;}}openInstallSheet();}
+async function handleInstallClick(){if(isInstalledDisplay()){await requestImmersive();return;}if(state.installPrompt){const ok=await triggerNativeInstall();if(ok)return;}const ua=navigator.userAgent||'',android=/android/i.test(ua),embedded=/;\s*wv\)|FBAN|FBAV|Instagram|Line\//i.test(ua);if(android&&embedded){const intent=androidChromeIntent();if(intent){toast('Abriendo MUSIC PLAY en Chrome…',1800);setTimeout(()=>{location.href=intent;},120);return;}}openInstallSheet();}
 
 async function collectPwaDiagnostics(){
   const secure=location.protocol==='https:'||['localhost','127.0.0.1'].includes(location.hostname);let manifest=false,swReg=false,controlled=!!navigator.serviceWorker?.controller;

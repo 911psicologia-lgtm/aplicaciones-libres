@@ -12,10 +12,10 @@
   <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
   <meta name="apple-mobile-web-app-title" content="MUSIC PLAY" />
   <title>MUSIC PLAY · HAPPY</title>
-  <link rel="manifest" href="./manifest.webmanifest?v=r10.5-resilient-opfs-reorder" />
+  <link rel="manifest" href="./manifest.webmanifest?v=r10.6-library-discovery" />
   <link rel="icon" href="./icons/icon-192.png" />
   <link rel="apple-touch-icon" href="./icons/apple-touch-icon.png" />
-  <link rel="stylesheet" href="./styles.css?v=r10.5-resilient-opfs-reorder" />
+  <link rel="stylesheet" href="./styles.css?v=r10.6-library-discovery" />
 </head>
 <body>
   <noscript>Esta aplicación necesita JavaScript.</noscript>
@@ -100,8 +100,18 @@
           </section>
 
           <section id="homeAlbumsSection" class="home-section is-hidden">
-            <div class="section-row"><div><small>DE TU BIBLIOTECA</small><h2>Álbumes</h2></div><button id="homeAllAlbumsBtn" class="text-action">Ver todos</button></div>
+            <div class="section-row"><div><small>PARA SEGUIR EXPLORANDO</small><h2>Álbumes para ti</h2></div><button id="homeAllAlbumsBtn" class="text-action">Ver todos</button></div>
             <div id="homeAlbums" class="horizontal-cards"></div>
+          </section>
+
+          <section id="homeRhythmsSection" class="home-section is-hidden">
+            <div class="section-row"><div><small>AGRUPADOS AUTOMÁTICAMENTE</small><h2>Ritmos</h2></div><span class="section-hint">Toca para escuchar</span></div>
+            <div id="homeRhythms" class="horizontal-cards discovery-rail"></div>
+          </section>
+
+          <section id="homeArtistsSection" class="home-section is-hidden">
+            <div class="section-row"><div><small>DE TU MÚSICA</small><h2>Artistas</h2></div><span class="section-hint">Colecciones vivas</span></div>
+            <div id="homeArtists" class="horizontal-cards discovery-rail"></div>
           </section>
 
           <div class="mini-stats" id="summaryBar">
@@ -220,6 +230,6 @@
     <div id="ytProbeHost" class="probe-host" aria-hidden="true"></div>
   </div>
 
-  <script src="./app.js?v=r10.5-resilient-opfs-reorder"></script>
+  <script src="./app.js?v=r10.6-library-discovery"></script>
 </body>
 </html>
