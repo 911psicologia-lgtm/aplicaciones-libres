@@ -22,9 +22,14 @@
     return missions.filter(isUnlocked).pop()||missions[0];
   }
   function buildSession(mission){
-    const reviews=EmiliaScheduler.injectReviews(mission,2);
-    const acts=reviews.concat(mission.activities.map(a=>Object.assign({},a)));
-    return {kind:'mission',missionId:mission.id,title:mission.title,activities:acts,index:0,hits:0,independentHits:0,errors:0,startedAt:Date.now(),attempts:{},reviewCount:reviews.length,minAssessed:4,maxAssessed:7,endedAdaptively:false};
+    const reviews=EmiliaScheduler.injectReviews(mission,2),s=EmiliaStore.get(),all=mission.activities.map(a=>Object.assign({},a));
+    const fixed=all.filter(a=>!a.variant),variants=all.filter(a=>a.variant);let core=fixed;
+    if(variants.length){
+      const take=Math.min(variants.length,variants.length>4?3:2),start=((s.sessions||0)+mission.order)%variants.length,chosen=[];for(let i=0;i<take;i++)chosen.push(Object.assign({},variants[(start+i)%variants.length]));
+      const pivot=Math.max(0,fixed.findIndex(a=>a.type==='build'))+1;core=fixed.slice(0,pivot).concat(chosen,fixed.slice(pivot));
+    }
+    const acts=reviews.concat(core);
+    return {kind:'mission',missionId:mission.id,title:mission.title,activities:acts,index:0,hits:0,independentHits:0,errors:0,startedAt:Date.now(),attempts:{},reviewCount:reviews.length,minAssessed:5,maxAssessed:8,endedAdaptively:false};
   }
   function buildPracticeSession(){
     const acts=EmiliaScheduler.practiceActivities(5);
@@ -42,6 +47,12 @@
     return independence>=.8 && score>=(m.masteryTarget||58) && session.errors<=1;
   }
 
+  function checkAchievements(s){
+    s.achievements=s.achievements||[];const events=s.history||[],built=events.filter(e=>e.type==='word_trace_complete').length,read=events.filter(e=>e.type==='reading_practice').length,done=(s.completedMissions||[]).length;
+    const tests=[['first_path',done>=1],['vowels_done',(s.completedMissions||[]).includes('forest_vowels')],['builder_5',built>=5],['reader_5',read>=5],['forest_5',done>=5],['forest_8',done>=8]],out=[];
+    for(const [id,ok] of tests){if(ok&&!s.achievements.includes(id)){s.achievements.push(id);const def=(EMILIA_CONTENT.achievements||[]).find(x=>x.id===id);if(def)out.push(def);}}
+    return out;
+  }
   function finish(session){
     const s=EmiliaStore.get();
     const assessed=session.activities.filter(a=>a.assess!==false).length;
@@ -53,9 +64,10 @@
       s.lastMission=session.missionId;
     }
     const growth=s.growth||(s.growth={stage:0,plants:0,fireflies:0});growth.plants=Math.max(growth.plants||0,s.seeds||0);growth.fireflies=Math.min(18,Math.floor((s.seeds||0)/2));growth.stage=Math.min(4,Math.floor((s.seeds||0)/5));
+    const newAchievements=checkAchievements(s);
     EmiliaStore.event('session_end',{kind:session.kind,missionId:session.missionId,pct,seeds,errors:session.errors,reviews:session.reviewCount||0,adaptive:!!session.endedAdaptively});
     EmiliaStore.save();
-    return {kind:session.kind,pct,seeds,total:assessed,hits:session.independentHits,elapsed:Math.round((Date.now()-session.startedAt)/1000),reviewCount:session.reviewCount||0,adaptive:!!session.endedAdaptively,next:recommendedMission()};
+    return {kind:session.kind,pct,seeds,total:assessed,hits:session.independentHits,elapsed:Math.round((Date.now()-session.startedAt)/1000),reviewCount:session.reviewCount||0,adaptive:!!session.endedAdaptively,next:recommendedMission(),newAchievements};
   }
   function unlockedStories(){return EMILIA_CONTENT.stories.filter(st=>EmiliaMastery.prereqsMet(st.requires||[]));}
   function recommendedStory(){const arr=unlockedStories();return arr[arr.length-1]||null;}

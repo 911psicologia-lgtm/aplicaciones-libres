@@ -9,9 +9,9 @@
   <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
   <meta name="apple-mobile-web-app-capable" content="yes" />
   <meta name="apple-mobile-web-app-title" content="Zombie Strike" />
-  <script>if(location.protocol !== "file:"){const m=document.createElement("link");m.rel="manifest";m.href="manifest.json?v=3.10.0";document.head.appendChild(m);}</script>
+  <script>if(location.protocol !== "file:"){const m=document.createElement("link");m.rel="manifest";m.href="manifest.json?v=3.16.0";document.head.appendChild(m);}</script>
   <link rel="icon" href="assets/icon.svg" type="image/svg+xml" />
-  <title>Rizoma Zombie Strike — Saga II completa · v3.10.0</title>
+  <title>Rizoma Zombie Strike — Saga II completa · v3.16.0</title>
   <link rel="preload" as="image" href="assets/ui/intro_poster_mobile.webp" media="(max-width: 1200px)" fetchpriority="high" />
   <link rel="preload" as="image" href="assets/boss2/sigil_w1.svg" />
   <link rel="preload" as="image" href="assets/boss2/sigil_w2.svg" />
@@ -21,7 +21,7 @@
   <link rel="preload" as="image" href="assets/boss2/sigil_w9.svg" />
   <link rel="preload" as="image" href="assets/boss2/sigil_w10.svg" />
   <link rel="preload" as="image" href="assets/boss2/sigil_w15.svg" />
-  <link rel="stylesheet" href="css/styles.css?v=3.10.0" />
+  <link rel="stylesheet" href="css/styles.css?v=3.16.0" />
   <link rel="preload" as="image" href="assets/story/episode_01_protocol_zstrike.webp" fetchpriority="high" />
 </head>
 <body>
@@ -36,7 +36,7 @@
         <span class="brand-mark">⬢</span>
         <div>
           <strong>Rizoma Zombie Strike</strong>
-          <small>Mundos 1–20 · playlist ambiental · FX adaptativo · Flota completa · Saga II consolidada · v3.10.0</small>
+          <small>Mundos 1–20 · Hangar táctico · 6 Naves Rizoma · Flota de Conquista · Saga II consolidada · v3.16.0</small>
         </div>
       </div>
       <button id="btnSettings" class="icon-btn" title="Ajustes" aria-label="Ajustes">⚙</button>
@@ -100,12 +100,60 @@
             </div>
           </div>
           <div class="command-tools-row" aria-label="Accesos de progreso">
+            <button class="soft-btn command-tool" data-screen="screenHangar"><strong>🛠 HANGAR TÁCTICO</strong><small>Compara naves, resonancias, presets y prepara la próxima salida</small></button>
             <button class="soft-btn command-tool" data-screen="screenReplay"><strong>🗺 ARCHIVO DE MUNDOS</strong><small>Repite cualquier nivel superado y equipa naves capturadas</small></button>
             <button class="soft-btn command-tool" data-screen="screenTraining"><strong>🎯 ENTRENAMIENTO</strong><small>Simulador de jefe sin alterar tu campaña</small></button>
           </div>
           <div id="savedGamesList" class="saved-games-list hidden"></div>
           <div id="portalRankingPreview" class="portal-ranking-preview"></div>
           <small id="simpleStartHint" class="start-hint">Progreso local guardado en este dispositivo.</small>
+        </div>
+      </section>
+
+      <section id="screenHangar" class="screen tactical-hangar-screen">
+        <div class="panel glass tactical-hangar-shell">
+          <div class="section-head tactical-hangar-head">
+            <div>
+              <p class="eyebrow">Preparación de misión</p>
+              <h2>Hangar táctico Rizoma</h2>
+              <small>Compara cascos, resonancias, Guardianes y presets. Todo cambio de nave se aplica de forma segura en la próxima salida.</small>
+            </div>
+            <div class="section-head-actions"><button class="soft-btn" data-screen="screenReplay">Archivo</button><button class="soft-btn" data-screen="screenPortal">Volver</button></div>
+          </div>
+
+          <div class="tactical-hangar-grid">
+            <section class="hangar-bay-panel">
+              <div class="hangar-bay-topline"><span id="hangarTierLabel" class="tag">TÁCTICO</span><span id="hangarMissionContext" class="hangar-mission-context">Próxima misión</span></div>
+              <div id="hangarShipPreview" class="hangar-ship-preview tactical-preview"></div>
+              <div class="hangar-copy tactical-copy"><h3 id="hangarShipName">Nave preparada</h3><p id="hangarShipSummary" class="muted"></p></div>
+              <div id="hangarComparison" class="hangar-comparison"></div>
+            </section>
+
+            <aside class="hangar-command-panel">
+              <div id="hangarRecommendation" class="hangar-recommendation"></div>
+              <div class="hangar-subhead"><div><p class="eyebrow">Presets</p><h3>Doctrinas de carga</h3></div><small>Guarda tu nave + flota + Guardián</small></div>
+              <div id="hangarPresetGrid" class="hangar-preset-grid"></div>
+              <div class="hangar-subhead"><div><p class="eyebrow">Módulos permanentes</p><h3>Estado estructural</h3></div><small>No consume recursos aquí</small></div>
+              <div id="hangarPartsGrid" class="hangar-parts-grid tactical-parts"></div>
+              <div id="hangarDetail" class="hangar-detail"></div>
+            </aside>
+          </div>
+
+          <div class="hangar-loadout-section">
+            <div class="hangar-subhead"><div><p class="eyebrow">Línea propia</p><h3>Naves Rizoma</h3></div><small>El casco seleccionado también determina la resonancia de la Flota de Conquista</small></div>
+            <div id="hangarRizomaGrid" class="hangar-choice-grid"></div>
+          </div>
+
+          <div class="hangar-loadout-section">
+            <div class="hangar-subhead"><div><p class="eyebrow">Guardianes conquistados</p><h3>Flota de Conquista</h3></div><small>10 cascos especializados · cada uno conserva ventaja y renuncia propias</small></div>
+            <div id="hangarFleetGrid" class="hangar-choice-grid fleet"></div>
+          </div>
+
+          <div class="hangar-loadout-section guardian-loadout-section">
+            <div class="hangar-subhead"><div><p class="eyebrow">Apoyo temporal</p><h3>Guardián invocable</h3></div><small>Selecciona el recurso de emergencia de la próxima salida</small></div>
+            <div id="hangarGuardianGrid" class="hangar-guardian-strip"></div>
+          </div>
+          <div id="hangarHistory" class="hangar-history"></div>
         </div>
       </section>
 
@@ -247,8 +295,11 @@
           </div>
           <h3 class="archive-heading">Formas DOMINIO</h3>
           <div id="bossShipInventory" class="boss-ship-inventory"></div>
-          <h3 class="archive-heading">Flota de Conquista · Fase I</h3>
-          <small class="archive-system-note">Primeras naves vehiculares validadas. El registro queda escalable hasta ~10 hitos sin placeholders.</small>
+          <h3 class="archive-heading">Naves Rizoma · Línea propia</h3>
+          <small class="archive-system-note">Seis cascos originales desbloqueados por hitos M1/M4/M8/M12/M16/M20. Cada uno conserva una habilidad propia y no se mezcla con DOMINIO.</small>
+          <div id="rizomaShipInventory" class="boss-ship-inventory rizoma-ship-inventory"></div>
+          <h3 class="archive-heading">Flota de Conquista</h3>
+          <small class="archive-system-note">Diez naves conquistadas inspiradas en Guardianes. Seleccionar una reemplaza temporalmente el casco Rizoma en la siguiente salida, sin borrar tu nave propia elegida.</small>
           <div id="conquestFleetInventory" class="boss-ship-inventory conquest-fleet-inventory"></div>
           <h3 class="archive-heading">Invocación de Guardianes</h3>
           <small class="archive-system-note">Todo Guardián derrotado puede seleccionarse como apoyo temporal de emergencia.</small>
@@ -487,6 +538,6 @@
     </div>
   </div>
 
-  <script src="js/game.js?v=3.10.0"></script>
+  <script src="js/game.js?v=3.16.0"></script>
 </body>
 </html>

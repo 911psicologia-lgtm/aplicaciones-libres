@@ -1,38 +1,38 @@
-# Emilia · El Bosque de las Palabras — Prototipo 0.3.1
+# Emilia · El Bosque de las Palabras — Prototipo 0.4.0
 
-Tercera iteración jugable de la reconstrucción DSEBI, revisión de escucha infantil.
+Iteración de arquitectura pedagógica y experiencia previa a la integración del nuevo paquete de assets.
 
+## Novedades 0.4.0
+- Ruta ampliada: Vocales → M → P → S → L → N → T → D.
+- Banco de combinaciones ampliado con palabras construidas solo con familias ya introducidas: mamá, mimo, mima, papá, puma, pipa, mapa, sapo, sopa, suma, masa, lupa, Lola, loma, lima, pala, nido, mano, mono, tina, toma, pato, lata, dado, dedo y lado, entre otras.
+- Dos nuevos formatos de juego: **burbujas sonoras** y **completar la sílaba faltante**.
+- Después de construir una palabra, aparece un **trazado táctil de la palabra completa** como refuerzo grafomotor. No se usa como evaluación de lectura o escritura.
+- Trazado de letras ampliado a N, T y D.
+- Consignas centradas en audio: el botón musical pulsa visualmente, la instrucción se reproduce una vez al entrar y puede repetirse manualmente.
+- Se elimina la repetición automática de “mmm/ppp/sss…”: las consignas usan palabras o instrucciones naturales.
+- Refuerzo rápido no verbal: estrella/confites, tono breve y check visual; sin párrafos de felicitación después de cada acierto.
+- Navegación de misión: Atrás, Menú y Guardar/Salir.
+- Guardado de sesión en curso: se puede volver al menú o salir y continuar después.
+- Sistema local de perfiles recordados: al salir se vuelve al selector y aparecen los nombres guardados y si tienen una sesión pendiente.
+- Persistencia migrada a `emilia.reader.v4`, compatible con estados de v3, v2, v1 y el legado `emilia.v3`.
+- PWA y caché actualizados.
 
-## Corrección 0.3.1 — Motor de escucha infantil
-- Perfiles de velocidad por tipo de estímulo: fonema, sílaba, palabra, frase e instrucción.
-- El modo por defecto es **Lento recomendado**.
-- Fonemas y sílabas breves se repiten dos veces, separados por una pausa de aproximadamente 650 ms.
-- Mientras el estímulo suena, las respuestas quedan temporalmente bloqueadas.
-- Estado visual `👂 Escucha…` y aviso `Ahora puedes responder`.
-- En el sendero silábico no puede iniciarse otra pronunciación hasta que termine la actual.
-- En construcción de palabras, cada sílaba se oye completa antes de poder tocar la siguiente.
-- Los cuentos se modelan primero palabra por palabra y después como frase completa.
-- Panel adulto: ritmo **Muy lento / Lento recomendado / Normal**, repetición de sonidos cortos y prueba MA–ME–MI–MO–MU.
-- Corregido el orden de eventos del banco de audio local: `onStart` ocurre al comenzar el clip y `onEnd` al finalizar.
+## Motor de audio
+- Una reproducción automática por instrucción.
+- El niño puede repetir tocando el botón ♪ todas las veces que necesite.
+- Las respuestas se bloquean únicamente mientras la voz está hablando.
+- Velocidades diferenciadas para sílabas, palabras, frases e instrucciones.
+- Sigue preparado el banco `assets/audio/` para sustituir TTS por grabaciones humanas controladas.
 
-## Novedades 0.3.0
-- Bosque vivo: el mapa incorpora flora y luciérnagas según las semillas ganadas.
-- Cinco estados visuales de crecimiento del bosque.
-- Trazado táctil de M, P, S y L mediante canvas, con guía amplia y tolerancia infantil.
-- El trazado se registra como práctica motora; no sustituye el reconocimiento de letras.
-- Sesiones adaptativas: pueden finalizar cuando hay evidencia suficiente o continuar si hace falta más práctica.
-- Contador de misión deja de presentar una cuota rígida de ejercicios.
-- Motor de banco de audio local: busca primero clips pedagógicos controlados y usa Web Speech como respaldo.
-- Carpeta `assets/audio/` preparada para grabaciones humanas reales de a/e/i/o/u/m/p/s/l.
-- Persistencia migrada a `emilia.reader.v3`, compatible con v2, v1 y el legado `emilia.v3`.
-- Service Worker actualizado.
-
-## Audio
-El prototipo NO fabrica fonemas sintéticos y los presenta como grabaciones pedagógicas. Cuando no existe un clip local, utiliza la voz disponible en el dispositivo. Consulta `assets/audio/README.txt`.
+## Perfiles
+Los perfiles se guardan solo en el dispositivo. No requieren cuenta, correo ni nube. Cada perfil conserva progreso, sesiones, semillas y una sesión activa si se salió a mitad de actividad.
 
 ## Uso
 - Puede abrirse directamente con doble clic en `index.html`.
-- Para instalación PWA y caché offline, servir por HTTP/HTTPS (por ejemplo Cloudflare Pages).
+- Para instalación PWA y caché offline, servir por HTTP/HTTPS, por ejemplo Cloudflare Pages.
+
+## Próximo paso
+Cuando llegue el ZIP de assets semi-realistas, se normalizarán nombres, transparencia y dimensiones y se integrarán sin alterar estos motores.
 
 ## Alcance
-Es una herramienta educativa de práctica de alfabetización inicial, no una prueba diagnóstica ni un sistema automático para determinar si una niña o niño "sabe leer".
+Herramienta educativa de práctica de alfabetización inicial. No es una prueba diagnóstica ni un sistema automático para determinar si una niña o niño “sabe leer”.

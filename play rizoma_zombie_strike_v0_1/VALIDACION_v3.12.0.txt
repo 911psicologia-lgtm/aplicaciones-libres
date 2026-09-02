@@ -1,0 +1,37 @@
+OK	VERSION game.js	
+OK	manifest version	3.12.0
+OK	manifest start_url	./index.html?v=3.12.0
+OK	index cache bust	
+OK	20 mundos exactos	base=5 + pushes=15
+OK	sin Mundo 21	
+OK	6 Naves Rizoma	['rz1', 'rz4', 'rz8', 'rz12', 'rz16', 'rz20']
+OK	10 naves Flota	10
+OK	20 formas DOMINIO	20
+OK	Invocaciones Guardianes preservadas	
+OK	desbloqueo RZ M4	
+OK	desbloqueo RZ M8	
+OK	desbloqueo RZ M12	
+OK	desbloqueo RZ M16	
+OK	desbloqueo RZ M20	
+OK	selección propia persistente	
+OK	sin hot-swap propio	
+OK	save/load RZ	
+OK	habilidad tridentOverload	
+OK	habilidad vectorCut	
+OK	habilidad nebulaWings	
+OK	habilidad inverseAegis	
+OK	habilidad polyVolley	
+OK	habilidad rizomaCore	
+OK	inventario RZ en HTML	
+OK	render inventario RZ	
+OK	Flota recuerda RZ	
+OK	asset mantis_rz4.svg	1263
+OK	asset nebula_rz8.svg	1249
+OK	asset bastion_rz12.svg	1199
+OK	asset hydra_rz16.svg	1149
+OK	asset prime_rz20.svg	1452
+OK	assets explícitos 0 faltantes	524 refs, missing=[]
+OK	assets propios no reutilizan jefes	
+OK	playlist ambiental preservada	
+
+TOTAL 35/35

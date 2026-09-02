@@ -1,0 +1,12 @@
+OK	version	3.14.0
+OK	js/game.js syntax	node --check
+OK	sw.js syntax	node --check
+OK	rizoma doctrine helper	getRizomaDoctrine
+OK	rizoma cooldown helper	getRizomaSpecialCooldown
+OK	rizoma passive updater	updateRizomaShipPassives
+OK	main loop integration	updateRizomaShipPassives before updateRizomaShipSpecial
+OK	handle shooting rebalance	rizomaDoctrine integrated
+OK	inventory UX	phase + passive + base CD visible in renderRizomaShipInventory
+OK	fleet control cooldown	ratio/title read adaptive Rizoma cooldown
+OK	manifest version	3.14.0
+OK	sw cache	v3-14-0

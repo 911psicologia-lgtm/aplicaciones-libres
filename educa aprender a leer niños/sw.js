@@ -1,4 +1,4 @@
-const CACHE='emilia-bosque-v0.3.1';
+const CACHE='emilia-bosque-v0.4.0';
 const ASSETS=[
 './','./index.html','./manifest.webmanifest','./css/tokens.css','./css/base.css','./css/screens.css','./css/animations.css',
 './data/content.js','./js/state/store.js','./js/audio/audio-bank.js','./js/audio/voice.js','./js/learning/mastery.js','./js/learning/tracing.js','./js/learning/scheduler.js','./js/learning/engine.js','./js/screens/renderers.js','./js/app.js',

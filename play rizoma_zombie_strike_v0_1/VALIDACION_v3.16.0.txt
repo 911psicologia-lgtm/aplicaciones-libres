@@ -1,0 +1,30 @@
+OK	version	3.16.0
+OK	js/game.js syntax	node --check
+OK	sw.js syntax	node --check
+OK	manifest.json	JSON válido
+OK	worlds	20 = 5 base + 15 extensiones
+OK	world21	0
+OK	Rizoma ships	6
+OK	Conquest fleet	10
+OK	5C role field	10/10
+OK	5C passive field	10/10
+OK	5C tradeoff field	10/10
+OK	5C signature cooldown	10/10
+OK	Hangar screen	presente y reactivado
+OK	Hangar menu entry	presente
+OK	Hangar recommendation	hangarRecommendLoadout
+OK	Hangar comparison	hangarLoadoutDisplay
+OK	Hangar presets	Auto/Equilibrado/Asalto/Control/Supervivencia/Cazajefes
+OK	preset persistence	hangarLoadouts + migración
+OK	Hangar Rizoma selector	6 cascos
+OK	Hangar fleet selector	10 cascos
+OK	Hangar Guardian selector	Guardianes desbloqueados
+OK	fleet resonance readout	selector + archivo + hangar
+OK	HTML duplicate IDs	0
+OK	CSS braces	balanceadas
+OK	asset references	524 referencias literales / 0 faltantes
+OK	static story	desactivada
+OK	DOMINIO	preservado
+OK	Guardian invocation	preservada
+OK	ambient playlist	preservada
+NOTE	browser visual smoke test	Chromium headless del contenedor no finalizó por limitaciones del entorno; no se usa como evidencia de QA

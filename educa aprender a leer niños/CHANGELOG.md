@@ -1,35 +1,18 @@
-# Cambios
+# CHANGELOG
 
-## 0.2.0 — Ruta Viva II
-
-- Mapa explorable con cinco lugares: Vocales, M, P, S y L.
-- Desbloqueo por prerrequisitos observables.
-- Scheduler de recuperación por sesiones (`dueSession`).
-- Repasos insertables en misiones y módulo “Semillas que vuelven”.
-- Progresión acumulativa: P reutiliza M; S reutiliza P; L reutiliza P.
-- Actividades con imágenes propias SVG.
-- Senderos auditivos de familias silábicas sin confundir exposición con evaluación.
-- Andamiaje tras errores repetidos.
-- Reconocimiento de palabra separado de escuchar el modelo.
-- Libro con páginas desbloqueables.
-- Panel adulto con estados de dominio y siguiente paso sugerido.
-- Migración desde 0.1.0 (`emilia.reader.v1`).
-
-## 0.3.0
-- Bosque visualmente evolutivo por progreso.
-- Trazado táctil M/P/S/L.
-- Sesiones con final adaptativo por evidencia.
-- Motor de audio pedagógico local con fallback TTS.
-- Store v3 y migración preservativa.
-- PWA/cache actualizado.
-
-
-## 0.3.1 — Escucha infantil
-- Motor de voz desacelerado por tipo de contenido.
-- Repetición automática de fonemas y sílabas con pausa.
-- Bloqueo de respuestas durante la reproducción.
-- Señales visuales de escucha/turno de respuesta.
-- Sendero sonoro sin solapamiento de audios.
-- Lectura modelada de cuentos en dos pasadas: segmentada y frase completa.
-- Ajustes de ritmo y prueba de voz en Zona adulta.
-- Corrección de callbacks del banco de audio controlado.
+## 0.4.0
+- Ampliación pedagógica hasta N/T/D.
+- Más vocabulario combinatorio en M/P/S/L y nuevos bancos N/T/D.
+- Trazado táctil de palabras después de construirlas.
+- Nuevos minijuegos `soundBubbles` y `missingPart`.
+- Audio-instrucciones de una sola reproducción, repetibles manualmente.
+- Eliminación del patrón de repetición automática de consonantes.
+- Refuerzo no verbal con confites/estrella/check.
+- Navegación Atrás / Menú / Guardar y salir.
+- Sesiones reanudables.
+- Perfiles locales recordados y selector de usuario.
+- Store v4 y migraciones.
+- PWA actualizada.
+- Rotación de vocabulario variante por sesión para evitar recorrer siempre la misma lista.
+- 38 palabras construibles disponibles en el banco activo, incluidas palabras de tres sílabas como PELOTA, TOMATE, MALETA, PALOMA, MEDUSA y MONEDA.
+- Logros visuales locales (brotes, exploración, construcción y lectura) preparados para sustituirse por los nuevos assets.

@@ -20,7 +20,7 @@
   }
   function paceMultiplier(){
     const p=settings().listeningPace||'slow';
-    return p==='verySlow'?.82:p==='normal'?1:.9;
+    return p==='verySlow'?.84:p==='normal'?1:.94;
   }
   function kindFor(text,opts){
     if(opts&&opts.kind)return opts.kind;
@@ -33,7 +33,7 @@
   }
   function baseRate(kind){
     // Perfiles pensados para escucha infantil; el dispositivo aún puede variar ligeramente.
-    return ({phoneme:.43,syllable:.49,word:.57,sentence:.65,instruction:.70,praise:.74})[kind]||.65;
+    return ({phoneme:.58,syllable:.63,word:.72,sentence:.78,instruction:.82,praise:.86})[kind]||.78;
   }
   function rateFor(text,opts){
     if(opts&&typeof opts.rate==='number')return opts.rate;
@@ -47,7 +47,7 @@
     if(opts&&typeof opts.repeat==='number')return Math.max(1,Math.min(3,opts.repeat));
     if(opts&&opts.repeat===false)return 1;
     const k=kindFor(text,opts||{});
-    const auto=settings().repeatShortAudio!==false;
+    const auto=settings().repeatShortAudio===true;
     return auto&&(k==='phoneme'||k==='syllable')?2:1;
   }
   function singleTTS(text,opts,token){
@@ -75,7 +75,7 @@
   async function speak(text,opts){
     opts=Object.assign({},opts||{});const token=++seq;
     try{if('speechSynthesis' in window)speechSynthesis.cancel();}catch(e){}
-    const reps=repeatFor(text,opts),pause=typeof opts.pauseMs==='number'?opts.pauseMs:650;
+    const reps=repeatFor(text,opts),pause=typeof opts.pauseMs==='number'?opts.pauseMs:320;
     let used=false;
     for(let i=0;i<reps;i++){
       if(token!==seq)break;
@@ -94,6 +94,6 @@
       o.frequency.setValueAtTime(cfg.f,now);o.frequency.linearRampToValueAtTime(cfg.f2,now+cfg.d);g.gain.setValueAtTime(.0001,now);g.gain.exponentialRampToValueAtTime(.08,now+.02);g.gain.exponentialRampToValueAtTime(.0001,now+cfg.d);o.start(now);o.stop(now+cfg.d+.02);
     }catch(e){}
   }
-  async function sequence(items,opts){opts=Object.assign({pauseMs:420,repeat:false},opts||{});for(let i=0;i<items.length;i++){await speak(items[i],opts);if(i<items.length-1)await wait(opts.pauseMs);}}
+  async function sequence(items,opts){opts=Object.assign({pauseMs:240,repeat:false},opts||{});for(let i=0;i<items.length;i++){await speak(items[i],opts);if(i<items.length-1)await wait(opts.pauseMs);}}
   window.EmiliaVoice={speak,sequence,stop,tone,refresh,rateFor,kindFor};
 })();

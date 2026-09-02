@@ -1,9 +1,9 @@
 (() => {
   'use strict';
 
-  const VERSION = '3.10.0';
+  const VERSION = '3.16.0';
   // v3.9.0: añade gobernador visual adaptativo y refuerza legibilidad sin alterar lógica de combate.
-  // v3.10.0: reemplaza bloques ambientales fijos por playlist rotativa de antesala, sin mezclar temas de Guardianes.
+  // v3.16.0: balance 5C individual de Flota de Conquista + Hangar Táctico reconstruido con comparador, recomendaciones y presets persistentes.
   // v3.8.0: pule Flota de Conquista: HUD de firma, selector seguro, loadout para próxima salida y lectura táctica.
   // La infraestructura narrativa sigue conservada y las secuencias estáticas permanecen fuera del flujo normal.
   const STATIC_STORY_ENABLED = false;
@@ -59,6 +59,35 @@
     wings: { title: 'Alerones tácticos', bonus: '+agilidad lateral y mejor trazado de disparo.', note: 'Hace que la nave se sienta más fina y estable.' },
     cannon: { title: 'Cañón frontal', bonus: '+daño, +cadencia y mejor castigo al jefe.', note: 'Especialización agresiva para derribar élites.' },
     core: { title: 'Núcleo blindado', bonus: '+vida, +escudo y +regeneración.', note: 'Convierte la nave en una plataforma más resistente.' }
+  };
+
+  const HANGAR_PRESETS = [
+    {id:'auto',name:'Auto',mark:'◎',desc:'Lee la próxima misión y recomienda una combinación.',weights:{balanced:.60,assault:.10,control:.10,survival:.10,boss:.10}},
+    {id:'balanced',name:'Equilibrado',mark:'◇',desc:'Sin extremos: movilidad, defensa y daño estable.',weights:{balanced:.72,assault:.08,control:.07,survival:.07,boss:.06}},
+    {id:'assault',name:'Asalto',mark:'▲',desc:'Presión, cadencia y limpieza de hordas.',weights:{balanced:.05,assault:.62,control:.08,survival:.05,boss:.20}},
+    {id:'control',name:'Control',mark:'◈',desc:'Guiado, ralentización y dominio de pantalla.',weights:{balanced:.05,assault:.08,control:.68,survival:.14,boss:.05}},
+    {id:'survival',name:'Supervivencia',mark:'⬢',desc:'Escudo, recuperación y margen de error.',weights:{balanced:.05,assault:.04,control:.13,survival:.72,boss:.06}},
+    {id:'boss',name:'Cazajefes',mark:'◆',desc:'Daño focal, crítico y perforación.',weights:{balanced:.04,assault:.22,control:.04,survival:.05,boss:.65}}
+  ];
+  const RIZOMA_TACTICAL_PROFILE = {
+    rz1:{balanced:.92,assault:.68,control:.42,survival:.56,boss:.74},
+    rz4:{balanced:.66,assault:.74,control:.54,survival:.36,boss:.94},
+    rz8:{balanced:.72,assault:.55,control:.96,survival:.62,boss:.50},
+    rz12:{balanced:.66,assault:.34,control:.64,survival:.98,boss:.48},
+    rz16:{balanced:.70,assault:.97,control:.62,survival:.34,boss:.78},
+    rz20:{balanced:.96,assault:.88,control:.88,survival:.86,boss:.90}
+  };
+  const FLEET_TACTICAL_PROFILE = {
+    Cazajefes:{balanced:.60,assault:.72,control:.30,survival:.34,boss:.98},
+    Duelista:{balanced:.66,assault:.72,control:.58,survival:.44,boss:.80},
+    Control:{balanced:.66,assault:.42,control:.98,survival:.66,boss:.48},
+    Burst:{balanced:.64,assault:.92,control:.40,survival:.30,boss:.86},
+    Defensa:{balanced:.68,assault:.32,control:.64,survival:.98,boss:.50},
+    Área:{balanced:.70,assault:.95,control:.78,survival:.42,boss:.52},
+    Cadena:{balanced:.74,assault:.68,control:.94,survival:.52,boss:.72},
+    Movilidad:{balanced:.68,assault:.72,control:.78,survival:.48,boss:.64},
+    Crítico:{balanced:.68,assault:.88,control:.44,survival:.28,boss:.96},
+    Precisión:{balanced:.72,assault:.72,control:.82,survival:.48,boss:.84}
   };
 
   const AVATARS = [
@@ -478,30 +507,65 @@
   ];
   const domainFormMeta = id => DOMAIN_FORMS.find(f=>f.id===id) || null;
 
-  // v3.6.0 · Flota de Conquista completa: 10 cascos vehiculares reales ya presentes en el paquete.
-  // Ningún monstruo se usa como nave. Las firmas son automáticas, breves y complementan el combate normal.
+  // v3.16.0 · 5C Flota individual + Hangar Táctico 6.
+  // Se desbloquean por campaña y forman un tercer sistema independiente: Naves Rizoma / Flota de Conquista / DOMINIO.
+  const RIZOMA_SHIPS = [
+    {id:'rz1',milestoneWorld:1,phase:'FASE I · M1–M3',name:'Fénix RZ-1',assetKey:'playerFenixRZ1',color:'#83eaff',scale:1.03,special:'Sobrecarga Tridente',specialCd:16,specialType:'tridentOverload',role:'Equilibrada',passive:'Tridente estable · +1 perforación base, centro reforzado y recarga levemente menor.',desc:'Caza fundacional de RIZOMA. Perforación frontal estable y respuesta inmediata.',mod:{damage:1,speed:1,shield:1,cadence:1}},
+    {id:'rz4',milestoneWorld:4,phase:'FASE II · M4–M7',name:'Mantis RZ-4',assetKey:'playerMantisRZ4',color:'#58f4bd',scale:1.02,special:'Corte Vectorial',specialCd:15,specialType:'vectorCut',role:'Precisión',passive:'Foco vectorial · dispersión reducida y mejor castigo a objetivos prioritarios.',desc:'Interceptor de precisión. Golpea líneas prioritarias con filos vectoriales.',mod:{damage:1.03,speed:1.05,shield:.98,cadence:.98}},
+    {id:'rz8',milestoneWorld:8,phase:'FASE III · M8–M11',name:'Nébula RZ-8',assetKey:'playerNebulaRZ8',color:'#8feaff',scale:1.03,special:'Alas-Drone Nebulares',specialCd:22,specialType:'nebulaWings',role:'Control de área',passive:'Pantalla nebular · escolta latente, puntería asistida y mejor control lateral.',desc:'Plataforma de escoltas temporales y fuego lateral adaptable.',mod:{damage:1.02,speed:1.02,shield:1,cadence:.99}},
+    {id:'rz12',milestoneWorld:12,phase:'FASE IV · M12–M15',name:'Bastión RZ-12',assetKey:'playerBastionRZ12',color:'#ffd56a',scale:1.05,special:'Aegis Inversa',specialCd:24,specialType:'inverseAegis',role:'Defensa',passive:'Aegis de reserva · regeneración extra y limpieza periódica de presión enemiga.',desc:'Casco pesado que convierte saturación hostil en una ventana defensiva.',mod:{damage:.99,speed:.96,shield:1.12,cadence:1.01}},
+    {id:'rz16',milestoneWorld:16,phase:'FASE V · M16–M19',name:'Hydra RZ-16',assetKey:'playerHydraRZ16',color:'#ff6baa',scale:1.04,special:'Ráfaga Polifásica',specialCd:17,specialType:'polyVolley',role:'Saturación ofensiva',passive:'Furia hydra · abanico ampliado, cadencia viva y microdescargas de presión.',desc:'Cañonera multivector que abre abanicos densos sin perder el eje central.',mod:{damage:1.05,speed:1,shield:.98,cadence:.96}},
+    {id:'rz20',milestoneWorld:20,phase:'FASE VI · M20+',name:'Rizoma Prime RZ-20',assetKey:'playerPrimeRZ20',color:'#b9fff4',scale:1.05,special:'Núcleo Rizomático',specialCd:20,specialType:'rizomaCore',role:'Adaptativa',passive:'Sinapsis prime · recarga adaptativa, pulsos mixtos y soporte ofensivo/defensivo híbrido.',desc:'Síntesis de Saga II. Alterna hiperláser, cadena de blancos y nova defensiva.',mod:{damage:1.04,speed:1.04,shield:1.06,cadence:.97}}
+  ];
+  const rizomaShipMeta=id=>RIZOMA_SHIPS.find(s=>s.id===id)||RIZOMA_SHIPS[0];
+  const rizomaShipModSummary=meta=>{
+    if(!meta?.mod)return[];const pct=n=>`${Math.round(n*10)/10}%`,rows=[];
+    const dmg=((meta.mod.damage||1)-1)*100,spd=((meta.mod.speed||1)-1)*100,shield=((meta.mod.shield||1)-1)*100,cad=(1-(meta.mod.cadence||1))*100;
+    if(Math.abs(dmg)>.01)rows.push(`${dmg>=0?'DMG +':'DMG '}${pct(dmg)}`);
+    if(Math.abs(spd)>.01)rows.push(`${spd>=0?'VEL +':'VEL '}${pct(spd)}`);
+    if(Math.abs(shield)>.01)rows.push(`${shield>=0?'ESC +':'ESC '}${pct(shield)}`);
+    if(Math.abs(cad)>.01)rows.push(`${cad>=0?'CAD +':'CAD '}${pct(cad)}`);
+    return rows;
+  };
+
+  function reconcileRizomaShips(p){
+    if(!p)return;
+    p.rizomaShips=p.rizomaShips||{};
+    p.rizomaShips.rz1=p.rizomaShips.rz1||{id:'rz1',world:1,unlockedAt:'base'};
+    const completed=new Set((p.completedMaps||[]).map(Number));
+    for(const meta of RIZOMA_SHIPS){
+      if(meta.id==='rz1'||completed.has(meta.milestoneWorld)){
+        if(!p.rizomaShips[meta.id])p.rizomaShips[meta.id]={id:meta.id,world:meta.milestoneWorld,unlockedAt:'legacy'};
+      }
+    }
+    p.activeRizomaShip=p.activeRizomaShip||'rz1';
+    if(!p.rizomaShips[p.activeRizomaShip])p.activeRizomaShip='rz1';
+  }
+
+  // v3.16.0 · 5C: afinación individual de la Flota de Conquista.
+  // Cada casco conserva una función, una ventaja y una renuncia; la resonancia Rizoma complementa, no borra, esa identidad.
   const CONQUEST_FLEET = [
-    { id:'fleetMeteorLance', milestoneWorld:1, guardianWorld:1, name:'Lanza Meteórica', assetKey:'mirrorShip', color:'#ff7048', scale:1.00, signature:'Perforación del Núcleo', signatureCd:7.5, signatureType:'meteorLance', mod:{damage:1.020,speed:1.025,shield:1.010,cadence:.992}, inherit:'Lanza cinética perforante inspirada en el Núcleo Meteórico' },
-    { id:'fleetAstralWing', milestoneWorld:4, guardianWorld:4, name:'Ala Astral Carmesí', assetKey:'world4Enemy1', color:'#ff7d76', scale:1.06, signature:'Corte Astral Gemelo', signatureCd:6.8, signatureType:'astralTwin', mod:{damage:1.025,speed:1.030,shield:1.008,cadence:.988}, inherit:'Cortes orbitales y maniobra de fase del Sello Astral' },
-    { id:'fleetAbyssRay', milestoneWorld:7, guardianWorld:7, name:'Raya Abisal Vector', assetKey:'world7Enemy3', color:'#48d9ff', scale:1.08, signature:'Onda de Presión', signatureCd:8.2, signatureType:'abyssWave', mod:{damage:1.020,speed:1.035,shield:1.018,cadence:.990}, inherit:'Pulso hidrodinámico de Leviatán que ralentiza la primera línea' },
-    { id:'fleetKaiserBlade', milestoneWorld:9, guardianWorld:9, name:'Kaiser Blade-Frame', assetKey:'world9Subboss1', color:'#d95cff', scale:1.04, signature:'Corte Multiversal', signatureCd:7.4, signatureType:'kaiserCut', mod:{damage:1.032,speed:1.026,shield:1.008,cadence:.984}, inherit:'Ráfaga de filos dimensionales heredada de Kaiser Infinito' },
-    { id:'fleetHadalSpear', milestoneWorld:12, guardianWorld:12, name:'Hadal Spear', assetKey:'world12Enemy3', color:'#46e7f2', scale:1.08, signature:'Lanza de Presión', signatureCd:8.8, signatureType:'hadalSpear', mod:{damage:1.024,speed:1.026,shield:1.028,cadence:.990}, inherit:'Lanza de presión con recuperación mínima de escudo' },
-    { id:'fleetNovaSpear', milestoneWorld:14, guardianWorld:14, name:'Lanza Nova', assetKey:'world14Ship', color:'#ffcc58', scale:1.03, signature:'Pulso Nova', signatureCd:8.0, signatureType:'novaPulse', mod:{damage:1.035,speed:1.020,shield:1.015,cadence:.985}, inherit:'Pulso solar concentrado de Némesis Nova' },
-    { id:'fleetNeuroArk', milestoneWorld:16, guardianWorld:16, name:'Neuroarca Psiónica', assetKey:'world16Ship', color:'#b45cff', scale:1.02, signature:'Cadena Sináptica', signatureCd:7.2, signatureType:'synapticChain', mod:{damage:1.030,speed:1.025,shield:1.010,cadence:.980}, inherit:'Predicción y descarga sináptica de Neurokhan' },
-    { id:'fleetFenrir', milestoneWorld:17, guardianWorld:17, name:'Fenrir Cryo-Ship', assetKey:'world17Ship', color:'#9ee8ff', scale:1.03, signature:'Colmillo Criogénico', signatureCd:7.6, signatureType:'cryoFang', mod:{damage:1.025,speed:1.040,shield:1.015,cadence:.985}, inherit:'Vector criogénico de Skaldr' },
-    { id:'fleetAkasha', milestoneWorld:18, guardianWorld:18, name:'Akasha Manga-Ship', assetKey:'world18Ship', color:'#d44cff', scale:1.03, signature:'Corte de Viñeta', signatureCd:6.9, signatureType:'panelCut', mod:{damage:1.040,speed:1.030,shield:1.010,cadence:.975}, inherit:'Corte de viñeta heredado de Akasha' },
-    { id:'fleetZhyr', milestoneWorld:19, guardianWorld:19, name:'Zhyr Disc', assetKey:'world19Ship', color:'#a7d9e4', scale:1.02, signature:'Agujas Psiónicas', signatureCd:7.1, signatureType:'psionNeedles', mod:{damage:1.030,speed:1.035,shield:1.025,cadence:.980}, inherit:'Precisión y control psiónico del Arconte Zhyr' }
+    { id:'fleetMeteorLance', milestoneWorld:1, guardianWorld:1, name:'Lanza Meteórica', assetKey:'mirrorShip', color:'#ff7048', scale:1.00, role:'Cazajefes', passive:'Eje balístico · +perforación y daño concentrado.', tradeoff:'Escudo ligeramente menor.', signature:'Perforación del Núcleo', signatureCd:7.9, signatureType:'meteorLance', mod:{damage:1.030,speed:1.015,shield:.990,cadence:.995}, inherit:'Lanza cinética perforante inspirada en el Núcleo Meteórico' },
+    { id:'fleetAstralWing', milestoneWorld:4, guardianWorld:4, name:'Ala Astral Carmesí', assetKey:'world4Enemy1', color:'#ff7d76', scale:1.06, role:'Duelista', passive:'Fase astral · movilidad y microfase al disparar la firma.', tradeoff:'Menor protección estructural.', signature:'Corte Astral Gemelo', signatureCd:7.3, signatureType:'astralTwin', mod:{damage:1.018,speed:1.045,shield:.985,cadence:.987}, inherit:'Cortes orbitales y maniobra de fase del Sello Astral' },
+    { id:'fleetAbyssRay', milestoneWorld:7, guardianWorld:7, name:'Raya Abisal Vector', assetKey:'world7Enemy3', color:'#48d9ff', scale:1.08, role:'Control', passive:'Marea vectorial · ralentiza y abre espacio.', tradeoff:'Menor daño directo.', signature:'Onda de Presión', signatureCd:8.6, signatureType:'abyssWave', mod:{damage:.995,speed:1.028,shield:1.030,cadence:.998}, inherit:'Pulso hidrodinámico de Leviatán que ralentiza la primera línea' },
+    { id:'fleetKaiserBlade', milestoneWorld:9, guardianWorld:9, name:'Kaiser Blade-Frame', assetKey:'world9Subboss1', color:'#d95cff', scale:1.04, role:'Burst', passive:'Filo dimensional · daño breve y preciso en líneas cerradas.', tradeoff:'Escudo reducido.', signature:'Corte Multiversal', signatureCd:7.8, signatureType:'kaiserCut', mod:{damage:1.035,speed:1.028,shield:.988,cadence:.986}, inherit:'Ráfaga de filos dimensionales heredada de Kaiser Infinito' },
+    { id:'fleetHadalSpear', milestoneWorld:12, guardianWorld:12, name:'Hadal Spear', assetKey:'world12Enemy3', color:'#46e7f2', scale:1.08, role:'Defensa', passive:'Presión hadal · recupera escudo y controla el eje.', tradeoff:'Movilidad algo menor.', signature:'Lanza de Presión', signatureCd:9.0, signatureType:'hadalSpear', mod:{damage:1.012,speed:.990,shield:1.050,cadence:.998}, inherit:'Lanza de presión con recuperación de escudo' },
+    { id:'fleetNovaSpear', milestoneWorld:14, guardianWorld:14, name:'Lanza Nova', assetKey:'world14Ship', color:'#ffcc58', scale:1.03, role:'Área', passive:'Corona Nova · limpia alrededor de la nave.', tradeoff:'Velocidad reducida durante maniobras pesadas.', signature:'Pulso Nova', signatureCd:8.7, signatureType:'novaPulse', mod:{damage:1.028,speed:.992,shield:1.020,cadence:.990}, inherit:'Pulso solar concentrado de Némesis Nova' },
+    { id:'fleetNeuroArk', milestoneWorld:16, guardianWorld:16, name:'Neuroarca Psiónica', assetKey:'world16Ship', color:'#b45cff', scale:1.02, role:'Cadena', passive:'Predicción sináptica · prioriza múltiples blancos y control.', tradeoff:'Blindaje ligeramente menor.', signature:'Cadena Sináptica', signatureCd:7.9, signatureType:'synapticChain', mod:{damage:1.025,speed:1.025,shield:.995,cadence:.985}, inherit:'Predicción y descarga sináptica de Neurokhan' },
+    { id:'fleetFenrir', milestoneWorld:17, guardianWorld:17, name:'Fenrir Cryo-Ship', assetKey:'world17Ship', color:'#9ee8ff', scale:1.03, role:'Movilidad', passive:'Cacería polar · velocidad alta y criocontrol.', tradeoff:'Escudo algo menor.', signature:'Colmillo Criogénico', signatureCd:8.1, signatureType:'cryoFang', mod:{damage:1.018,speed:1.055,shield:.992,cadence:.990}, inherit:'Vector criogénico de Skaldr' },
+    { id:'fleetAkasha', milestoneWorld:18, guardianWorld:18, name:'Akasha Manga-Ship', assetKey:'world18Ship', color:'#d44cff', scale:1.03, role:'Crítico', passive:'Viñeta absoluta · ráfaga precisa y fase corta.', tradeoff:'Fragilidad frente a saturación.', signature:'Corte de Viñeta', signatureCd:7.7, signatureType:'panelCut', mod:{damage:1.038,speed:1.035,shield:.985,cadence:.982}, inherit:'Corte de viñeta heredado de Akasha' },
+    { id:'fleetZhyr', milestoneWorld:19, guardianWorld:19, name:'Zhyr Disc', assetKey:'world19Ship', color:'#a7d9e4', scale:1.02, role:'Precisión', passive:'Agujas psiónicas · guiado y control selectivo.', tradeoff:'Daño bruto moderado.', signature:'Agujas Psiónicas', signatureCd:8.0, signatureType:'psionNeedles', mod:{damage:1.018,speed:1.042,shield:1.025,cadence:.986}, inherit:'Precisión y control psiónico del Arconte Zhyr' }
   ];
   const conquestFleetMeta = id => CONQUEST_FLEET.find(f=>f.id===id) || null;
   const fleetModSummary = meta => {
     if(!meta?.mod)return [];
-    const pct=(n)=>`${Math.round(n*10)/10}%`;
+    const pct=(n)=>`${Math.round(Math.abs(n)*10)/10}%`,signed=(label,n)=>`${label} ${n>=0?'+':'−'}${pct(n)}`;
     const rows=[];
     const dmg=((meta.mod.damage||1)-1)*100,spd=((meta.mod.speed||1)-1)*100,shield=((meta.mod.shield||1)-1)*100,cad=(1-(meta.mod.cadence||1))*100;
-    if(Math.abs(dmg)>.01)rows.push(`DMG +${pct(dmg)}`);
-    if(Math.abs(spd)>.01)rows.push(`VEL +${pct(spd)}`);
-    if(Math.abs(shield)>.01)rows.push(`ESC +${pct(shield)}`);
-    if(Math.abs(cad)>.01)rows.push(`CAD +${pct(cad)}`);
+    if(Math.abs(dmg)>.01)rows.push(signed('DMG',dmg));
+    if(Math.abs(spd)>.01)rows.push(signed('VEL',spd));
+    if(Math.abs(shield)>.01)rows.push(signed('ESC',shield));
+    if(Math.abs(cad)>.01)rows.push(signed('CAD',cad));
     return rows;
   };
   const guardianBossAssetKey = world => world===1 ? 'bossBiomech' : (world===2 ? 'bossBaciloOmega' : `bossWorld${world}`);
@@ -514,6 +578,7 @@
 
   function reconcileConquestRewards(p) {
     if(!p)return;
+    reconcileRizomaShips(p);
     p.conquestFleet=p.conquestFleet||{};
     p.guardianInvocations=p.guardianInvocations||{};
     const completed=new Set((p.completedMaps||[]).map(Number));
@@ -972,6 +1037,11 @@
     planetRinged: 'assets/world1/planet_ringed.webp',
     moonShattered: 'assets/world1/moon_shattered.webp',
     playerFenixRZ1: 'assets/player/fenix_rz1.png',
+    playerMantisRZ4: 'assets/player/rizoma/mantis_rz4.svg',
+    playerNebulaRZ8: 'assets/player/rizoma/nebula_rz8.svg',
+    playerBastionRZ12: 'assets/player/rizoma/bastion_rz12.svg',
+    playerHydraRZ16: 'assets/player/rizoma/hydra_rz16.svg',
+    playerPrimeRZ20: 'assets/player/rizoma/prime_rz20.svg',
     playerWingmanRZ1: 'assets/player/wingman_rz1.png',
     playerWingmanRZ2: 'assets/player/wingman_rz2.png',
     world2BgQuarantine: 'assets/world2/bg_quarantine.webp',
@@ -1383,6 +1453,8 @@
       bossShips: {},
       activeBossShip: null,
       activeDomainForm: 'rizoma',
+      rizomaShips: { rz1:{id:'rz1',world:1,unlockedAt:'base'} },
+      activeRizomaShip: 'rz1',
       conquestFleet: {},
       activeFleetShip: null,
       guardianInvocations: {},
@@ -1394,6 +1466,9 @@
       ranking: [],
       preferredDifficulty: 'normal',
       preferredPlayMode: 'story',
+      hangarPreset: 'auto',
+      hangarLoadouts: {},
+      hangarFocus: 'engine',
       lastSave: null
     }]
   });
@@ -1497,6 +1572,9 @@
       p.unlockedAvatars = p.unlockedAvatars || ['explorador', 'centinela', 'eco'];
       p.unlockedMap = p.unlockedMap || 1;
       p.completedMaps = p.completedMaps || [];
+      p.hangarPreset = HANGAR_PRESETS.some(x=>x.id===p.hangarPreset) ? p.hangarPreset : 'auto';
+      p.hangarLoadouts = p.hangarLoadouts && typeof p.hangarLoadouts==='object' ? p.hangarLoadouts : {};
+      p.hangarFocus = HANGAR_PART_INFO[p.hangarFocus] ? p.hangarFocus : 'engine';
       p.sagaTwoCompletedAt = p.sagaTwoCompletedAt || null;
       p.sagaThreeSignalDetected = !!p.sagaThreeSignalDetected;
       // v2.0.0: migración progresiva W9/W10 sin obligar a repetir mundos ya completados.
@@ -1539,6 +1617,7 @@
       p.activeDomainForm = p.activeDomainForm || (p.activeBossShip && p.bossShips[p.activeBossShip] ? p.activeBossShip : 'rizoma');
       if (p.activeDomainForm!=='rizoma' && !p.bossShips[p.activeDomainForm]) p.activeDomainForm='rizoma';
       p.activeBossShip = p.activeDomainForm==='rizoma' ? null : p.activeDomainForm;
+      reconcileRizomaShips(p);
       reconcileConquestRewards(p);
       p.campaignExtraLives = Math.min(MAX_TOTAL_LIVES - 1, Math.max(0, Number.isFinite(p.campaignExtraLives) ? p.campaignExtraLives : 4));
       p.worldProgression = { shotTier: 0, projectileSpeedTier: 0, accuracyTier: 0, mobilityTier: 0, rangeTier: 0, bossPowers: {}, ...(p.worldProgression || {}) };
@@ -2891,7 +2970,11 @@
         projectileSpeedBonus: 1,
         aimAssist: 0,
         domainForm: (saved?.domainForm || p.activeDomainForm || 'rizoma'),
-        fleetShip: (saved?.fleetShip || p.activeFleetShip || null),
+        rizomaShip: (saved&&Object.prototype.hasOwnProperty.call(saved,'rizomaShip')) ? saved.rizomaShip : (p.activeRizomaShip||'rz1'),
+        rizomaSpecialTimer: saved?.rizomaSpecialTimer ?? 2.4,
+        rizomaSpecialNotice: 0,
+        rizomaPrimeCycle: saved?.rizomaPrimeCycle ?? 0,
+        fleetShip: (saved&&Object.prototype.hasOwnProperty.call(saved,'fleetShip')) ? saved.fleetShip : (p.activeFleetShip||null),
         fleetSignatureTimer: saved?.fleetSignatureTimer ?? 1.8,
         fleetSignatureNotice: 0
       };
@@ -2915,9 +2998,24 @@
       player.crit += Math.min(.08, Math.max(0, progression.accuracyTier || 0) * .012);
       player.fireDelay = Math.max(245, player.fireDelay * (1 - Math.min(.22, player.shotTier * .035)));
       if (player.domainForm !== 'rizoma' && !p.bossShips?.[player.domainForm]) player.domainForm = 'rizoma';
+      reconcileRizomaShips(p);
+      if(!p.rizomaShips?.[player.rizomaShip])player.rizomaShip=p.activeRizomaShip||'rz1';
       if(player.fleetShip&&!p.conquestFleet?.[player.fleetShip])player.fleetShip=null;
       const fleet=player.domainForm==='rizoma'?conquestFleetMeta(player.fleetShip):null;
-      if(fleet){player.damage*=fleet.mod.damage||1;player.speed*=fleet.mod.speed||1;player.maxShield*=fleet.mod.shield||1;player.fireDelay=Math.max(220,player.fireDelay*(fleet.mod.cadence||1));player.shield=Math.min(player.maxShield,player.shield+(player.maxShield*.08));}
+      const ownShip=player.domainForm==='rizoma'&&!fleet?rizomaShipMeta(player.rizomaShip):null;
+      if(ownShip){
+        player.damage*=ownShip.mod.damage||1;player.speed*=ownShip.mod.speed||1;player.maxShield*=ownShip.mod.shield||1;player.fireDelay=Math.max(220,player.fireDelay*(ownShip.mod.cadence||1));
+        const doctrine=this.getRizomaDoctrine(player);
+        player.crit+=doctrine.critBonus||0;player.regen+=doctrine.regenBonus||0;player.aimAssist=Math.min(.45,(player.aimAssist||0)+(doctrine.staticAimAssist||0));
+        if(doctrine.startShieldPct)player.shield=Math.min(player.maxShield,player.shield+player.maxShield*doctrine.startShieldPct);
+      }
+      if(fleet){
+        player.damage*=fleet.mod.damage||1;player.speed*=fleet.mod.speed||1;player.maxShield*=fleet.mod.shield||1;player.fireDelay=Math.max(220,player.fireDelay*(fleet.mod.cadence||1));player.shield=Math.min(player.maxShield,player.shield+(player.maxShield*.08));
+        const resonance=this.getFleetRizomaResonance(player,fleet,rizomaShipMeta(player.rizomaShip||p.activeRizomaShip||'rz1'));
+        player.damage*=resonance.passiveDamageScale||1;player.speed*=resonance.speedScale||1;player.fireDelay=Math.max(210,player.fireDelay*(resonance.cadenceScale||1));
+        player.crit+=resonance.critBonus||0;player.regen+=resonance.regenBonus||0;player.aimAssist=Math.min(.45,(player.aimAssist||0)+(resonance.aimAssistBonus||0));
+        if(resonance.entryShieldPct)player.shield=Math.min(player.maxShield,player.shield+player.maxShield*resonance.entryShieldPct);
+      }
       player.baseSpeed = player.speed;
       player.nominalSpeed = player.speed;
       player.recoverySpeedTimer = saved?.recoverySpeedTimer ?? 0;
@@ -2970,6 +3068,8 @@
       this.handleMovement(dt);
       this.updateFrontThreatDirector(dt);
       this.updateDomainSignature(dt);
+      this.updateRizomaShipPassives(dt);
+      this.updateRizomaShipSpecial(dt);
       this.updateFleetSignature(dt);
       this.updateWorldSixDirector(dt);
       this.updateWorldSevenDirector(dt);
@@ -3514,8 +3614,9 @@
     }
 
     availableFleetShips(){
-      const profile=currentProfile();
-      const ships=[{id:null,milestoneWorld:0,name:'Fénix RZ-1',assetKey:'playerFenixRZ1',color:'#83eaff',signature:'Sin firma de Flota',signatureCd:0,inherit:'Nave base · equilibrio total',mod:{damage:1,speed:1,shield:1,cadence:1}}];
+      const profile=currentProfile();reconcileRizomaShips(profile);
+      const own=rizomaShipMeta(this.player?.rizomaShip||profile?.activeRizomaShip||'rz1');
+      const ships=[{id:null,milestoneWorld:own.milestoneWorld,name:own.name,assetKey:own.assetKey,color:own.color,signature:own.special,signatureCd:own.specialCd,inherit:`Línea Rizoma · ${own.role}`,mod:own.mod,ownRizoma:true}];
       if(!profile)return ships;
       for(const meta of CONQUEST_FLEET)if(profile.conquestFleet?.[meta.id])ships.push(meta);
       return ships;
@@ -3526,20 +3627,23 @@
       const profile=currentProfile(),unlocked=!!profile && this.running && CONQUEST_FLEET.some(meta=>!!profile.conquestFleet?.[meta.id]);
       els.btnFleet.classList.toggle('hidden',!unlocked);
       if(!unlocked)return;
-      const currentId=this.player?.fleetShip||null,current=conquestFleetMeta(currentId),queuedId=profile.activeFleetShip||null,queued=conquestFleetMeta(queuedId);
+      const currentId=this.player?.fleetShip||null,current=conquestFleetMeta(currentId),currentOwn=!current?rizomaShipMeta(this.player?.rizomaShip||'rz1'):null,queuedId=profile.activeFleetShip||null,queued=conquestFleetMeta(queuedId),queuedOwn=!queued?rizomaShipMeta(profile.activeRizomaShip||'rz1'):null,currentRes=current?this.getFleetRizomaResonance(this.player,current,currentOwn||rizomaShipMeta(this.player?.rizomaShip||'rz1')):null,queuedRes=queued?this.getFleetRizomaResonance({fleetShip:queued.id,rizomaShip:profile.activeRizomaShip||'rz1'},queued,queuedOwn||rizomaShipMeta(profile.activeRizomaShip||'rz1')):null;
       const suspended=(this.player?.domainForm||'rizoma')!=='rizoma';
-      const remain=current?Math.max(0,this.player?.fleetSignatureTimer||0):0,ratio=current&&current.signatureCd?clamp(1-remain/current.signatureCd,0,1):1;
-      const queuedChanged=currentId!==queuedId;
+      const remain=current?Math.max(0,this.player?.fleetSignatureTimer||0):Math.max(0,this.player?.rizomaSpecialTimer||0),cd=current?this.getFleetSignatureCooldown(current,this.player):(currentOwn?this.getRizomaSpecialCooldown(currentOwn,this.player):0),ratio=cd?clamp(1-remain/cd,0,1):1;
+      const queuedChanged=currentId!==queuedId||(!currentId&&!queuedId&&(this.player?.rizomaShip||'rz1')!==(profile.activeRizomaShip||'rz1'));
       if(els.fleetQuickStatus){
-        if(queuedChanged)els.fleetQuickStatus.textContent=queued?`→M${queued.milestoneWorld}`:'→BASE';
-        else if(suspended&&current)els.fleetQuickStatus.textContent='PAUSA';
-        else if(current)els.fleetQuickStatus.textContent=remain>0?`${Math.ceil(remain)}s`:'LISTO';
-        else els.fleetQuickStatus.textContent='BASE';
+        if(queuedChanged)els.fleetQuickStatus.textContent=queued?`→M${queued.milestoneWorld}`:`→${String(queuedOwn?.id||'rz1').toUpperCase()}`;
+        else if(suspended&&(current||currentOwn))els.fleetQuickStatus.textContent='PAUSA';
+        else if(current||currentOwn)els.fleetQuickStatus.textContent=remain>0?`${Math.ceil(remain)}s`:'LISTO';
+        else els.fleetQuickStatus.textContent='RIZOMA';
       }
-      const color=current?.color||'#83eaff';els.btnFleet.style.setProperty('--fleet-cd',String(ratio));els.btnFleet.style.setProperty('--fleet-color',color);
-      els.btnFleet.classList.toggle('fleet-equipped',!!current);els.btnFleet.classList.toggle('fleet-suspended',!!current&&suspended);els.btnFleet.classList.toggle('fleet-queued',queuedChanged);
-      const currentName=current?.name||'Fénix RZ-1',queuedName=queued?.name||'Fénix RZ-1';
-      els.btnFleet.title=`Flota · actual: ${currentName}${current?` · ${current.signature}`:''}${suspended&&current?' · firma suspendida por DOMINIO':''}${queuedChanged?` · próxima salida: ${queuedName}`:''}`;
+      const color=current?.color||currentOwn?.color||'#83eaff';els.btnFleet.style.setProperty('--fleet-cd',String(ratio));els.btnFleet.style.setProperty('--fleet-color',color);
+      els.btnFleet.classList.toggle('fleet-equipped',!!(current||currentOwn));els.btnFleet.classList.toggle('fleet-suspended',!!(current||currentOwn)&&suspended);els.btnFleet.classList.toggle('fleet-queued',queuedChanged);
+      const currentName=current?.name||currentOwn?.name||'Fénix RZ-1',queuedName=queued?.name||queuedOwn?.name||'Fénix RZ-1';
+      const ownCdText=currentOwn?` · CD ${this.getRizomaSpecialCooldown(currentOwn,this.player)}s`:'';
+      const currentResText=currentRes?.fleet?` · ${currentRes.label}`:'';
+      const queuedResText=queuedRes?.fleet?` · ${queuedRes.label}`:'';
+      els.btnFleet.title=`Flota · actual: ${currentName}${current?` · ${current.signature} · CD ${this.getFleetSignatureCooldown(current,this.player)}s${currentResText}`:(currentOwn?` · ${currentOwn.special}${ownCdText}`:'')}${suspended&&(current||currentOwn)?' · habilidad suspendida por DOMINIO':''}${queuedChanged?` · próxima salida: ${queuedName}${queued?queuedResText:''}`:''}`;
       els.btnFleet.setAttribute('aria-label',`Abrir Flota de Conquista. Nave actual ${currentName}${queuedChanged?`. Próxima salida ${queuedName}`:''}.`);
       if(pulse){els.btnFleet.classList.remove('fleet-fired');void els.btnFleet.offsetWidth;els.btnFleet.classList.add('fleet-fired');setTimeout(()=>els.btnFleet?.classList.remove('fleet-fired'),720);}
     }
@@ -3548,9 +3652,10 @@
       if(!els.fleetQuickList)return;
       const profile=currentProfile(),currentId=this.player?.fleetShip||null,queuedId=profile?.activeFleetShip||null;
       els.fleetQuickList.innerHTML=this.availableFleetShips().map(meta=>{
-        const id=meta.id||'',current=currentId===(meta.id||null),queued=queuedId===(meta.id||null),src=GAME_ASSET_SOURCES[meta.assetKey]||'',stats=fleetModSummary(meta);
+        const id=meta.id||'',current=currentId===(meta.id||null),queued=queuedId===(meta.id||null),src=GAME_ASSET_SOURCES[meta.assetKey]||'',stats=fleetModSummary(meta),baseOwn=rizomaShipMeta(profile?.activeRizomaShip||'rz1');
+        const res=meta.id?this.getFleetRizomaResonance({fleetShip:meta.id,rizomaShip:profile?.activeRizomaShip||'rz1'},meta,baseOwn):null;
         const badges=`${current?'<em class="fleet-current-badge">EN MISIÓN</em>':''}${queued?'<em class="fleet-queued-badge">PRÓXIMA</em>':''}`;
-        return `<button class="fleet-quick-card ${current?'current':''} ${queued?'queued':''}" data-fleet-loadout="${id}" style="--fleet-color:${meta.color||'#83eaff'}"><span class="fleet-quick-art">${src?`<img src="${src}" alt="" draggable="false">`:'◇'}</span><span class="fleet-quick-copy"><strong>${meta.name}</strong><small>${meta.id?`M${meta.milestoneWorld} · ${meta.signature}`:'Nave base · sin firma automática'}</small><span class="fleet-stat-row">${stats.length?stats.map(x=>`<b>${x}</b>`).join(''):'<b>EQUILIBRADA</b>'}</span></span>${badges}</button>`;
+        return `<button class="fleet-quick-card ${current?'current':''} ${queued?'queued':''}" data-fleet-loadout="${id}" style="--fleet-color:${meta.color||'#83eaff'}"><span class="fleet-quick-art">${src?`<img src="${src}" alt="" draggable="false">`:'◇'}</span><span class="fleet-quick-copy"><strong>${meta.name}</strong><small>${meta.id?`M${meta.milestoneWorld} · ${meta.signature} · ${this.getFleetSignatureCooldown(meta,{fleetShip:meta.id,rizomaShip:profile?.activeRizomaShip||'rz1'})}s`:`LÍNEA RIZOMA · ${meta.signature}`}</small>${res?`<small>${res.label} · ${res.short}</small>`:''}<span class="fleet-stat-row">${stats.length?stats.map(x=>`<b>${x}</b>`).join(''):'<b>EQUILIBRADA</b>'}</span></span>${badges}</button>`;
       }).join('');
     }
 
@@ -3564,9 +3669,10 @@
     }
 
     selectFleetLoadout(id=null){
-      const profile=currentProfile();if(!profile)return false;id=id||null;if(id&&!profile.conquestFleet?.[id])return false;
-      profile.activeFleetShip=id;saveState();this.renderFleetSelector();this.updateFleetControl(false);
-      const meta=conquestFleetMeta(id),currentId=this.player?.fleetShip||null,same=currentId===id;
+      const ok=setArchiveFleetSelection(id,{toast:false});
+      if(!ok)return false;
+      this.renderFleetSelector();this.updateFleetControl(false);
+      const meta=conquestFleetMeta(id),currentId=this.player?.fleetShip||null,same=currentId===(id||null);
       this.toast(same?'✦ FLOTA ACTUAL':'✦ FLOTA PREPARADA',same?(meta?`${meta.name} · ya está activa`:'Fénix RZ-1 · ya está activa'):(meta?`${meta.name} · se aplicará en la próxima salida`:'Fénix RZ-1 · se aplicará en la próxima salida'));
       return true;
     }
@@ -4604,6 +4710,105 @@
       return best;
     }
 
+    getRizomaActiveMeta(p=this.player){
+      if(!p||(p.domainForm||'rizoma')!=='rizoma')return null;
+      if(conquestFleetMeta(p.fleetShip))return null;
+      return rizomaShipMeta(p.rizomaShip||'rz1');
+    }
+
+    getRizomaArsenalStage(p=this.player){
+      const meta=this.getRizomaActiveMeta(p);if(!meta||!p)return 0;
+      const parts=p.shipParts||{};
+      const partScore=(parts.core||0)+(parts.wings||0)+(parts.cannon||0)+(parts.engine||0);
+      const clears=(currentProfile()?.completedMaps||[]).length;
+      const shot=Number(p.shotTier||0),morph=Number(p.morphTier||1),powerCount=Object.values(this.powerLevels||{}).filter(v=>v>0).length;
+      let stage=1;
+      if(clears>=4||shot>=4||partScore>=5||powerCount>=4)stage=2;
+      if(clears>=8||shot>=8||partScore>=9||morph>=5||powerCount>=7)stage=3;
+      if(clears>=14||shot>=14||partScore>=13||morph>=6||powerCount>=10)stage=4;
+      return stage;
+    }
+
+    fireRizomaMissiles(target,baseDamage,color,count=2,spread=.12,speed=520){
+      const p=this.player;if(!p)return;
+      const enemies=this.enemies.filter(e=>e&&e.hp>0).sort((a,b)=>dist2(a,p)-dist2(b,p));
+      if(!enemies.length&&target)enemies.push(target);
+      for(let i=0;i<count;i++){
+        const tgt=enemies[i%Math.max(1,enemies.length)]||target||this.nearestEnemy();
+        if(!tgt)break;
+        const angle=Math.atan2(tgt.y-p.y,tgt.x-p.x)+(i-(count-1)/2)*spread;
+        const x=p.x+((i%2)?9:-9),y=p.y+3+(Math.floor(i/2)%2)*3;
+        this.addBullet(x,y,angle,speed,baseDamage,{type:'torpedo',big:true,homing:true,targetRef:tgt,pierce:1,color:color||'#ffd56a',trail:true,scale:.84,retargets:1});
+      }
+    }
+
+    clearEnemyBulletsAround(x,y,radius=122,maxRemove=10){
+      let removed=0;
+      for(let i=this.bullets.length-1;i>=0&&removed<maxRemove;i--){
+        const b=this.bullets[i];
+        if(!b.enemy)continue;
+        if(Math.hypot(b.x-x,b.y-y)<=radius){this.bullets.splice(i,1);removed++;}
+      }
+      return removed;
+    }
+
+    triggerRizomaShipArsenal(meta,target,angle,dmg,speed){
+      const p=this.player;if(!meta||!p)return;
+      const stage=this.getRizomaArsenalStage(p);if(!stage)return;
+      const dense=this.mobileLandscape||this.isSmallScreen;
+      const color=meta.color||p.avatar?.color||'#83eaff';
+      const ring=(r,life=.22,c=color)=>this.particles.push({type:'ring',x:p.x,y:p.y,r:Math.max(6,r*.22),maxR:r,life,max:life,color:c});
+      p.rizomaVolley=(p.rizomaVolley||0)+1;
+      const volley=p.rizomaVolley;
+      const sideBurst=(offsets,damageScale=.46,opts={})=>{offsets.forEach(off=>this.addBullet(p.x,p.y,angle+off,speed*(opts.speedScale||1.02),dmg*damageScale,{pierce:opts.pierce||Math.max(2,1+stage),pierceMomentum:true,fire:opts.fire||0,ice:opts.ice||0,bounce:opts.bounce||0,color:opts.color||color,trail:opts.trail!==false,scale:opts.scale||.92,glow:(p.shotTier||0)+Math.max(0,stage-1),homing:!!opts.homing}));};
+      const chain=(count,damageScale=.28,slow=.18)=>{const targets=this.enemies.filter(e=>e&&e.hp>0).sort((a,b)=>dist2(a,p)-dist2(b,p)).slice(0,count);targets.forEach(e=>{const amount=e.boss?e.baseHp*(damageScale*.18):dmg*damageScale;this.damageEnemy(e,amount,{color,silent:true,slow,criticalBurst:!!e.boss});this.particles.push({type:'beam',x:p.x,y:p.y,x2:e.x,y2:e.y,life:.11,max:.11,color});});return targets.length;};
+      switch(meta.id){
+        case 'rz1':{
+          sideBurst(stage>=3?(dense?[-.12,.12]:[-.16,-.07,.07,.16]):[-.10,.10],.44,{pierce:2+stage,color:'#dffcff'});
+          if(volley%4===0){this.addBullet(p.x,p.y,angle,speed*1.18,dmg*(.80+.04*stage),{pierce:5+stage,pierceMomentum:true,tridentFusion:true,big:true,color:'#f4feff',trail:true,scale:1.16,glow:(p.shotTier||0)+1});ring(42,.18,'#eaffff');}
+          if(stage>=4&&volley%6===0)this.fireLaser(angle,dmg*.22,1,false,1);
+          break;
+        }
+        case 'rz4':{
+          sideBurst(stage>=3?(dense?[-.10,.10]:[-.15,-.05,.05,.15]):[-.07,.07],.40,{pierce:3+stage,color:'#9bffd8'});
+          if(volley%3===0){const hit=chain(stage>=4?3:2,.26+.02*stage,.24);if(hit)ring(36,.16,'#74ffd1');}
+          break;
+        }
+        case 'rz8':{
+          sideBurst(dense?[-.20,.20]:stage>=3?[-.28,-.14,.14,.28]:[-.24,.24],.36,{pierce:2+stage,color:'#aef4ff',homing:stage>=3});
+          if(volley%4===0){const active=this.drones.filter(d=>d.kind==='rizomaArsenalNebula'&&d.life>0).length,desired=stage>=4?2:1;if(active<desired)this.spawnDrone(11+stage,false,{count:desired-active,kind:'rizomaArsenalNebula',support:true,inheritPower:true,radius:120+active*16,fireRate:.16,damageScale:.70+stage*.04,color:'#9fefff',intercept:true});}
+          if(stage>=3&&volley%5===0){this.fireRizomaMissiles(target,dmg*.42,'#d9fbff',stage>=4?3:2,.15,510);ring(48,.20,'#8feaff');}
+          break;
+        }
+        case 'rz12':{
+          this.addBullet(p.x,p.y,angle,speed*.95,dmg*(.54+.03*stage),{pierce:3+stage,big:true,color:'#ffe79a',trail:true,scale:1.04,glow:(p.shotTier||0)+1});
+          if(stage>=2&&volley%4===0){const removed=this.clearEnemyBulletsAround(p.x,p.y,118+stage*8,8+stage*2);if(removed){p.shield=Math.min(p.maxShield,p.shield+Math.max(10,p.maxShield*(.03+.01*stage)));ring(112,.28,'#ffd56a');}}
+          if(stage>=3&&volley%5===0)this.fireRizomaMissiles(target,dmg*.44,'#ffd56a',stage>=4?3:2,.16,500);
+          break;
+        }
+        case 'rz16':{
+          sideBurst(dense?[-.18,.18]:stage>=3?[-.32,-.20,-.10,.10,.20,.32]:[-.24,-.12,.12,.24],.34,{pierce:2+stage,color:'#ff89bc'});
+          if(stage>=2&&volley%3===0)this.fireRizomaMissiles(target,dmg*.40,'#ffc0d9',stage>=4?4:2,.17,525);
+          if(stage>=4&&volley%5===0){this.fireLaser(angle,dmg*.24,dense?1:3,false,2);ring(54,.22,'#ff84b8');}
+          break;
+        }
+        case 'rz20':{
+          sideBurst(dense?[-.14,.14]:stage>=3?[-.24,-.10,.10,.24]:[-.16,.16],.38,{pierce:2+stage,color:'#d8fff7',homing:stage>=3});
+          const mode=(p.rizomaPrimeCycle||0)%3;
+          p.rizomaPrimeCycle=(mode+1)%3;
+          if(mode===0){this.fireLaser(angle,dmg*(.24+.03*stage),stage>=3?(dense?1:3):1,false,2);ring(56,.22,'#b9fff4');}
+          else if(mode===1){const hit=chain(2+stage,.24+.02*stage,.20);if(hit)ring(52,.20,'#d8fff7');}
+          else {
+            this.clearEnemyBulletsAround(p.x,p.y,124+stage*8,9+stage*2);
+            p.shield=Math.min(p.maxShield,p.shield+p.maxShield*(.03+.01*stage));
+            this.fireRizomaMissiles(target,dmg*.46,'#fff0bf',stage>=3?3:2,.14,530);
+            ring(122,.30,'#fff4ce');
+          }
+          break;
+        }
+      }
+    }
+
     handleShooting() {
       const p = this.player;
       if (p.fireTimer > 0 || !this.enemies.length) return;
@@ -4624,8 +4829,10 @@
       const bossBonus = target.boss ? 1.22 : 1;
       const omegaMult=omega?1.18:1;
       const elementalMult=elementalId==='laserSolar'?1.14:(elementalId==='laserHematic'?.92:(elementalId==='laserAbyssal'?.88:1));
-      const dmg = p.damage * (1 + triple * .035 + pierce * .04 + voidray * .045) * drive * bossBonus * omegaMult * (domain.damage||1) * elementalMult;
-      const speed = (560 + pierce * 45) * (omega?1.24:1);
+      const rizomaDoctrine=this.getRizomaDoctrine(p);
+      const shipBossBonus = target.boss ? (rizomaDoctrine.bossDamage||1) : 1;
+      const dmg = p.damage * (1 + triple * .035 + pierce * .04 + voidray * .045) * drive * bossBonus * shipBossBonus * omegaMult * (domain.damage||1) * elementalMult;
+      const speed = (560 + pierce * 45) * (omega?1.24:1) * (rizomaDoctrine.projectileSpeed||1);
       const dense=this.mobileLandscape||this.isSmallScreen;
       let shots=[0];
       if(triple){
@@ -4643,12 +4850,16 @@
       }
       if (this.comboActive('prisma')) shots.push(-0.32, 0.32);
       if (this.comboActive('lanza')) shots.push(-0.08, 0.08);
+      if(rizomaDoctrine.extraOffsets?.length)shots.push(...rizomaDoctrine.extraOffsets);
+      shots=[...new Set(shots.map(off=>Number((off*(rizomaDoctrine.precisionScale||1)).toFixed(3))))].sort((x,y)=>x-y);
       const comboFire=this.comboActive('chispa')?Math.max(1,fire+1):fire;
       const comboBounce=this.comboActive('chispa')?Math.max(1,bounce+1):bounce;
       const bulletScale=omega?1.36:1;
+      const homingChance=Math.min(.42,(p.aimAssist||0)+(rizomaDoctrine.aimAssistBonus||0));
+      const basePierce=1 + pierce + (omega?2:0) + (this.comboActive('lanza') ? 2 : 0) + (this.comboActive('tridente') ? 2 : 0) + (rizomaDoctrine.extraPierce||0);
       shots.forEach(off => {
-        const edge=Math.min(1,Math.abs(off)/.48),spreadDamage=saturation?(1-edge*.30):(triple&&!fury?(1-edge*.24):1);
-        this.addBullet(p.x, p.y, a + off, speed * (p.projectileSpeedBonus || 1), dmg*(this.comboActive('chispa')?1.12:1)*spreadDamage, { pierce: 1 + pierce + (omega?2:0) + (this.comboActive('lanza') ? 2 : 0) + (this.comboActive('tridente') ? 2 : 0), pierceMomentum:pierce>0, fire:comboFire, ice, bounce:comboBounce, bounceLeft:comboBounce?Math.min(4,1+Math.floor(comboBounce/2)):0, virus, chispaFusion:this.comboActive('chispa'), cryoLance:this.comboActive('lanza'), tridentFusion:this.comboActive('tridente'), color: elementalId?({laserSolar:'#ffd35a',laserHematic:'#ff435f',laserAbyssal:'#4bbcff'})[elementalId]:p.avatar.color, homing: Math.random() < (p.aimAssist || 0), glow: p.shotTier || 0, scale:bulletScale, omega:!!omega });
+        const edge=Math.min(1,Math.abs(off)/.48),spreadDamage=saturation?(1-edge*.30):(triple&&!fury?(1-edge*.24):1),centerBoost=Math.abs(off)<.001?(rizomaDoctrine.centerDamage||1):1;
+        this.addBullet(p.x, p.y, a + off, speed * (p.projectileSpeedBonus || 1), dmg*(this.comboActive('chispa')?1.12:1)*spreadDamage*centerBoost, { pierce: basePierce, pierceMomentum:pierce>0||!!rizomaDoctrine.extraPierce, fire:comboFire, ice, bounce:comboBounce, bounceLeft:comboBounce?Math.min(4,1+Math.floor(comboBounce/2)):0, virus, chispaFusion:this.comboActive('chispa'), cryoLance:this.comboActive('lanza'), tridentFusion:this.comboActive('tridente'), color: elementalId?({laserSolar:'#ffd35a',laserHematic:'#ff435f',laserAbyssal:'#4bbcff'})[elementalId]:p.avatar.color, homing: Math.random() < homingChance, glow: p.shotTier || 0, scale:bulletScale, omega:!!omega });
       });
       if(this.comboActive('tridente')){
         p.tridentFusionVolley=(p.tridentFusionVolley||0)+1;
@@ -4678,7 +4889,9 @@
       if (laser || this.comboActive('prisma')) this.fireLaser(a, dmg * (.42 + laser * .16), this.comboActive('prisma') ? 5 : 1, this.comboActive('criotemporal'), laser);
       if (voidray) this.fireVoidLance(p.x, p.y, a, dmg * (.54 + voidray * .12), voidray, this.comboActive('nulidad'));
       if(elementalId)this.fireElementalLaser(elementalId,a,dmg*(.52+elemental*.13),omega);
-      let fireDelay=(p.fireDelay-triple*10-laser*8-voidray*6-elemental*7)*(p.bossDrive>0?.72:1)*(overdrive?.90:1)*(overdriveSurge?.72:1)*(p.comboSurge>0?.88:1)*(domain.cadence||1);
+      const rizomaMeta=this.getRizomaActiveMeta(p);
+      if(rizomaMeta)this.triggerRizomaShipArsenal(rizomaMeta,target,a,dmg,speed*(p.projectileSpeedBonus||1));
+      let fireDelay=(p.fireDelay-triple*10-laser*8-voidray*6-elemental*7)*(p.bossDrive>0?.72:1)*(overdrive?.90:1)*(overdriveSurge?.72:1)*(p.comboSurge>0?.88:1)*(domain.cadence||1)*(rizomaDoctrine.cadenceScale||1);
       if(omega)fireDelay*=.78;
       if(fury)fireDelay*=.72;
       if(saturation)fireDelay*=.92;
@@ -6122,6 +6335,136 @@
 
 
 
+    getRizomaDoctrine(p=this.player){
+      const meta=this.getRizomaActiveMeta(p),stage=this.getRizomaArsenalStage(p);
+      if(!meta||!p)return {meta:null,stage:0,extraPierce:0,centerDamage:1,precisionScale:1,aimAssistBonus:0,staticAimAssist:0,cadenceScale:1,bossDamage:1,projectileSpeed:1,specialCdScale:1,shieldRegen:0,regenBonus:0,critBonus:0,startShieldPct:0,extraOffsets:[],maintainEscort:false};
+      const doctrine={meta,stage,extraPierce:0,centerDamage:1,precisionScale:1,aimAssistBonus:0,staticAimAssist:0,cadenceScale:1,bossDamage:1,projectileSpeed:1,specialCdScale:1,shieldRegen:0,regenBonus:0,critBonus:0,startShieldPct:0,extraOffsets:[],maintainEscort:false};
+      switch(meta.id){
+        case 'rz1': doctrine.extraPierce=1; doctrine.centerDamage=1.08+.025*Math.max(0,stage-1); doctrine.projectileSpeed=1.03; doctrine.specialCdScale=.97; doctrine.staticAimAssist=.02; break;
+        case 'rz4': doctrine.precisionScale=.84; doctrine.bossDamage=1.06+.012*Math.max(0,stage-1); doctrine.projectileSpeed=1.05; doctrine.specialCdScale=.94; doctrine.staticAimAssist=.04; doctrine.critBonus=.018; break;
+        case 'rz8': doctrine.aimAssistBonus=.10+.02*Math.max(0,stage-1); doctrine.projectileSpeed=1.02; doctrine.specialCdScale=.94; doctrine.maintainEscort=stage>=2; doctrine.staticAimAssist=.06; doctrine.regenBonus=.05; break;
+        case 'rz12': doctrine.shieldRegen=1.35+.62*stage; doctrine.projectileSpeed=.99; doctrine.specialCdScale=.98; doctrine.regenBonus=.12; doctrine.startShieldPct=.05; break;
+        case 'rz16': doctrine.cadenceScale=.95; doctrine.projectileSpeed=1.05; doctrine.specialCdScale=.93; doctrine.extraOffsets=stage>=3?[-.07,.07]:stage>=2?[-.05,.05]:[]; doctrine.critBonus=.014; break;
+        case 'rz20': doctrine.extraPierce=1; doctrine.aimAssistBonus=.10+.02*Math.max(0,stage-1); doctrine.staticAimAssist=.05; doctrine.cadenceScale=.94; doctrine.projectileSpeed=1.06; doctrine.specialCdScale=.89; doctrine.critBonus=.014; doctrine.regenBonus=.06; doctrine.startShieldPct=.03; break;
+      }
+      return doctrine;
+    }
+
+    getRizomaSpecialCooldown(meta,p=this.player){
+      if(!meta)return 0;
+      const doctrine=this.getRizomaDoctrine(p);
+      const stage=doctrine.stage||this.getRizomaArsenalStage(p);
+      let cd=(meta.specialCd||18)*(doctrine.specialCdScale||1)*(1-Math.max(0,stage-1)*.02);
+      return Math.max(8,Math.round(cd*10)/10);
+    }
+
+    getFleetRizomaResonance(p=this.player,fleetOverride=null,ownOverride=null){
+      const profile=currentProfile?.()||null;
+      const fleet=fleetOverride||conquestFleetMeta(p?.fleetShip||profile?.activeFleetShip||null);
+      const own=ownOverride||rizomaShipMeta(p?.rizomaShip||profile?.activeRizomaShip||'rz1');
+      const res={fleet,own,key:'none',label:'Sin resonancia',short:'sin núcleo activo',desc:'sin apoyo adicional',signatureCdScale:1,damageScale:1,passiveDamageScale:1,speedScale:1,cadenceScale:1,critBonus:0,regenBonus:0,aimAssistBonus:0,entryShieldPct:0,shieldGainScale:0,extraPierce:0,extraTargets:0,phaseBoost:0,clearRadius:0,clearMax:0,escort:false,sideBursts:0,sideBurstScale:.18,coreLance:false};
+      if(!fleet||!own)return res;
+      res.key=`${fleet.id}:${own.id}`;
+      switch(own.id){
+        case 'rz1': Object.assign(res,{label:'Resonancia Fénix',short:'+perforación y CD vivo',desc:'la firma gana perforación y un eje frontal más firme',signatureCdScale:.97,damageScale:1.03,passiveDamageScale:1.01,extraPierce:1,coreLance:true}); break;
+        case 'rz4': Object.assign(res,{label:'Resonancia Mantis',short:'+precisión y crítico',desc:'la firma ajusta la puntería y mejora el castigo a blancos clave',signatureCdScale:.95,damageScale:1.02,speedScale:1.01,critBonus:.018,aimAssistBonus:.04,phaseBoost:.16}); break;
+        case 'rz8': Object.assign(res,{label:'Resonancia Nébula',short:'+escolta y guiado',desc:'la firma invoca apoyo orbital ligero y mejora el guiado',signatureCdScale:.98,aimAssistBonus:.06,regenBonus:.05,entryShieldPct:.02,shieldGainScale:.010,escort:true,extraTargets:1}); break;
+        case 'rz12': Object.assign(res,{label:'Resonancia Bastión',short:'+escudo y limpieza',desc:'la firma absorbe presión enemiga y sostiene la defensa',signatureCdScale:.99,regenBonus:.10,entryShieldPct:.05,shieldGainScale:.024,clearRadius:108,clearMax:2}); break;
+        case 'rz16': Object.assign(res,{label:'Resonancia Hydra',short:'+saturación y laterales',desc:'la firma se acompaña de ráfagas laterales de presión',signatureCdScale:.95,damageScale:1.04,passiveDamageScale:1.02,cadenceScale:.99,sideBursts:2,sideBurstScale:.22}); break;
+        case 'rz20': Object.assign(res,{label:'Resonancia Prime',short:'+mixto ofensivo/defensivo',desc:'la firma combina limpieza, apoyo y presión híbrida',signatureCdScale:.92,damageScale:1.05,passiveDamageScale:1.02,cadenceScale:.98,critBonus:.012,regenBonus:.06,aimAssistBonus:.05,entryShieldPct:.03,shieldGainScale:.020,clearRadius:118,clearMax:2,escort:true,sideBursts:2,sideBurstScale:.19,phaseBoost:.18,extraTargets:1,extraPierce:1,coreLance:true}); break;
+      }
+      return res;
+    }
+
+    getFleetSignatureCooldown(meta,p=this.player){
+      if(!meta)return 0;
+      const res=this.getFleetRizomaResonance(p,meta);
+      return Math.max(4.8,Math.round((meta.signatureCd||8)*(res.signatureCdScale||1)*10)/10);
+    }
+
+    updateRizomaShipPassives(dt){
+      const p=this.player,meta=this.getRizomaActiveMeta(p);if(!p||!meta)return;
+      const doctrine=this.getRizomaDoctrine(p),stage=doctrine.stage||1;
+      if(doctrine.shieldRegen)p.shield=Math.min(p.maxShield,p.shield+dt*doctrine.shieldRegen);
+      if(meta.id==='rz8'&&doctrine.maintainEscort){
+        p.rizomaEscortTimer=(p.rizomaEscortTimer||0)-dt;
+        const live=this.drones.filter(d=>(d.kind==='rizomaNebula'||d.kind==='rizomaArsenalNebula')&&d.life>0).length;
+        const desired=stage>=4?(this.mobileLandscape?1:2):1;
+        if(live<desired&&p.rizomaEscortTimer<=0){
+          this.spawnDrone(9+stage,false,{count:desired-live,kind:'rizomaNebula',support:true,inheritPower:true,radius:112+stage*6,fireRate:.20,damageScale:.62+stage*.04,color:meta.color,intercept:true});
+          p.rizomaEscortTimer=Math.max(4.8,6.6-stage*.35);
+          this.particles.push({type:'ring',x:p.x,y:p.y,r:10,maxR:88,life:.24,max:.24,color:meta.color});
+        }
+      }
+      if(meta.id==='rz12'){
+        p.rizomaBastionPulse=(p.rizomaBastionPulse||0)-dt;
+        if(p.rizomaBastionPulse<=0){
+          const removed=this.clearEnemyBulletsAround(p.x,p.y,92+stage*7,stage>=3?2:1);
+          if(removed){p.shield=Math.min(p.maxShield,p.shield+Math.max(6,p.maxShield*(.012*removed+.008*stage)));this.particles.push({type:'ring',x:p.x,y:p.y,r:16,maxR:108+stage*8,life:.20,max:.20,color:'#ffe39a'});} 
+          p.rizomaBastionPulse=Math.max(.88,1.32-stage*.08);
+        }
+      }
+      if(meta.id==='rz16'){
+        p.rizomaHydraPulse=(p.rizomaHydraPulse||0)-dt;
+        if(p.rizomaHydraPulse<=0&&this.enemies.length){
+          const t=this.nearestEnemy();
+          if(t){
+            const a=Math.atan2(t.y-p.y,t.x-p.x);
+            const offs=this.mobileLandscape?[-.13,0,.13]:[-.18,-.09,0,.09,.18];
+            offs.forEach(off=>this.addBullet(p.x,p.y,a+off,520*(p.projectileSpeedBonus||1),p.damage*(off===0?.28:.18),{pierce:1,big:off===0&&stage>=4,color:off===0?'#ffd1e4':meta.color,trail:true,scale:off===0?.70:.58}));
+            this.particles.push({type:'ring',x:p.x,y:p.y,r:8,maxR:44,life:.16,max:.16,color:'#ff9bc8'});
+          }
+          p.rizomaHydraPulse=Math.max(.82,1.10-stage*.06);
+        }
+      }
+      if(meta.id==='rz20'){
+        p.rizomaPrimePulse=(p.rizomaPrimePulse||0)-dt;
+        if(p.rizomaPrimePulse<=0){
+          const mode=(p.rizomaPrimeAuraMode||0)%3;p.rizomaPrimeAuraMode=mode+1;
+          if(mode===0&&this.enemies.length){
+            const enemies=[...this.enemies].filter(e=>e.hp>0).sort((a,b)=>dist2(a,p)-dist2(b,p)).slice(0,this.mobileLandscape?2:3);
+            enemies.forEach((e,i)=>{this.damageEnemy(e,e.boss?p.damage*.08:p.damage*(.16-i*.03),{color:'#b9fff4',silent:true,slow:.12});this.particles.push({type:'beam',x:p.x,y:p.y,x2:e.x,y2:e.y,life:.08,max:.08,color:i%2?'#b9fff4':'#ffe39a'});});
+          }else if(mode===1){
+            const removed=this.clearEnemyBulletsAround(p.x,p.y,106+stage*6,stage>=3?2:1); if(removed)p.shield=Math.min(p.maxShield,p.shield+Math.max(5,p.maxShield*(.01*removed+.006*stage)));
+          }else{
+            const t=this.nearestEnemy(); if(t)this.fireRizomaMissiles(t,p.damage*.24,'#fff0bf',1,.05,480);
+          }
+          p.rizomaPrimePulse=Math.max(1.02,1.42-stage*.05);
+        }
+      }
+    }
+
+    updateRizomaShipSpecial(dt){
+      const p=this.player;if(!p||(p.domainForm||'rizoma')!=='rizoma'||p.fleetShip)return;
+      const meta=rizomaShipMeta(p.rizomaShip||'rz1');if(!meta)return;
+      const stage=this.getRizomaArsenalStage(p);
+      p.rizomaSpecialTimer=Math.max(0,(p.rizomaSpecialTimer??2.4)-dt);
+      if(p.rizomaSpecialTimer>0||!this.enemies.length||this.bossFight?.cinematic>0)return;
+      const targets=this.enemies.filter(e=>e&&e.hp>0).sort((a,b)=>dist2(a,p)-dist2(b,p));const target=targets[0];if(!target)return;
+      const dense=this.mobileLandscape||this.isSmallScreen,color=meta.color||'#83eaff',a=Math.atan2(target.y-p.y,target.x-p.x);
+      const ring=(r,life=.32,c=color)=>this.particles.push({type:'ring',x:p.x,y:p.y,r:8,maxR:r,life,max:life,color:c});
+      p.rizomaSpecialTimer=this.getRizomaSpecialCooldown(meta,p);
+      if(meta.specialType==='tridentOverload'){
+        const spread=stage>=3?[-.22,-.08,0,.08,.22]:[-.18,0,.18];spread.forEach((off,i)=>this.addBullet(p.x,p.y,a+off,720*(p.projectileSpeedBonus||1),p.damage*(Math.abs(off)<.001?1.14:.72),{big:Math.abs(off)<.001,pierce:Math.abs(off)<.001?6+stage:3,pierceMomentum:true,color:Math.abs(off)<.001?'#eaffff':color,trail:true,scale:Math.abs(off)<.001?1.08:.82}));ring(82,.25);
+      }else if(meta.specialType==='vectorCut'){
+        const cap=dense?3:5,chosen=targets.slice(0,cap);let prev={x:p.x,y:p.y};chosen.forEach((e,i)=>{this.particles.push({type:'beam',x:prev.x,y:prev.y,x2:e.x,y2:e.y,life:.11,max:.11,color:i%2?'#e9fff8':color});this.damageEnemy(e,e.boss?p.damage*.44:p.damage*(.78-i*.055),{color,silent:true,slow:.08});prev=e;});p.phaseTimer=Math.max(p.phaseTimer||0,.22);ring(92,.24);
+      }else if(meta.specialType==='nebulaWings'){
+        const existing=this.drones.filter(d=>d.kind==='rizomaNebula'&&d.life>0).length,count=Math.max(0,((dense?1:2)+(stage>=4&&!dense?1:0))-existing);if(count>0)this.spawnDrone(8,false,{count,kind:'rizomaNebula',support:true,inheritPower:true,radius:118+stage*4,fireRate:.18,damageScale:.72+stage*.03,color,intercept:true});ring(118,.36);
+      }else if(meta.specialType==='inverseAegis'){
+        const clearCap=(dense?5:8)+Math.max(0,stage-2);let cleared=0;this.bullets=this.bullets.filter(b=>{if(!b.enemy||cleared>=clearCap)return true;if(Math.hypot(b.x-p.x,b.y-p.y)<240+stage*8){cleared++;this.emit(b.x,b.y,'#ffe39a',2,52,.16);return false;}return true;});p.shield=Math.min(p.maxShield,p.shield+Math.max(12,p.maxShield*(.18+.01*stage)));p.phaseTimer=Math.max(p.phaseTimer||0,.32);ring(165,.42,'#ffe39a');
+      }else if(meta.specialType==='polyVolley'){
+        const shots=dense?[-.36,-.24,-.12,0,.12,.24,.36]:[-.48,-.36,-.24,-.12,0,.12,.24,.36,.48];shots.forEach((off,i)=>this.addBullet(p.x,p.y,a+off,690*(p.projectileSpeedBonus||1),p.damage*(Math.abs(off)<.001?1.04:.58),{pierce:2+Math.max(0,stage-2),big:Math.abs(off)<.001,color:i%2?'#ffd7ee':color,trail:true,scale:Math.abs(off)<.001?1:.74}));ring(108,.28);
+      }else if(meta.specialType==='rizomaCore'){
+        p.rizomaPrimeCycle=((p.rizomaPrimeCycle||0)+1)%3;
+        if(p.rizomaPrimeCycle===0){this.fireLaser(a,p.damage*(1.28+.03*stage),stage>=4?5:3,false,2);ring(112,.28,'#b9fff4');}
+        else if(p.rizomaPrimeCycle===1){let prev={x:p.x,y:p.y};targets.slice(0,dense?4:6).forEach((e,i)=>{this.damageEnemy(e,e.boss?p.damage*.40:p.damage*(.70-i*.05),{color:'#a98cff',silent:true,slow:.10});this.particles.push({type:'beam',x:prev.x,y:prev.y,x2:e.x,y2:e.y,life:.12,max:.12,color:i%2?'#ff8ec6':'#9cfff1'});prev=e;});ring(132,.34,'#a98cff');}
+        else{const count=dense?6:9;for(let i=0;i<count;i++){const aa=Math.PI*2*i/count;this.addBullet(p.x,p.y,aa,600,p.damage*.60,{pierce:2,big:true,color:i%2?'#86fff2':'#ff77bd',trail:true,scale:.78});}let cleared=0;this.bullets=this.bullets.filter(b=>{if(!b.enemy||cleared>=(dense?4:7))return true;if(Math.hypot(b.x-p.x,b.y-p.y)<150){cleared++;return false;}return true;});ring(190,.46,'#ff77bd');}
+      }
+      this.emit(p.x,p.y,color,dense?4:7,72,.24);AudioFX.shoot();
+      if((p.rizomaSpecialNotice||0)<1){p.rizomaSpecialNotice=1;this.toast(`RIZOMA · ${meta.special}`,`${meta.name} · habilidad propia automática cada ${meta.specialCd}s`);}
+    }
+
+
     updateFleetSignature(dt){
       const p=this.player;if(!p)return;
       const meta=(p.domainForm||'rizoma')==='rizoma'?conquestFleetMeta(p.fleetShip):null;
@@ -6131,41 +6474,55 @@
       if(p.fleetSignatureTimer>0||!this.enemies.length||this.bossFight?.cinematic>0)return;
       const targets=this.enemies.filter(e=>e&&e.hp>0).sort((a,b)=>dist2(a,p)-dist2(b,p));
       const target=targets[0];if(!target)return;
-      p.fleetSignatureTimer=meta.signatureCd||8;
-      const color=meta.color||'#83eaff',dense=this.mobileLandscape||this.isSmallScreen,cap=dense?4:6;
-      const a=Math.atan2(target.y-p.y,target.x-p.x),ring=(r,life=.32)=>this.particles.push({type:'ring',x:p.x,y:p.y,r:8,maxR:r,life,max:life,color});
+      const resonance=this.getFleetRizomaResonance(p,meta,rizomaShipMeta(p.rizomaShip||'rz1'));
+      p.fleetSignatureTimer=this.getFleetSignatureCooldown(meta,p);
+      const color=meta.color||'#83eaff',dense=this.mobileLandscape||this.isSmallScreen,cap=(dense?4:6)+(resonance.extraTargets||0),ownColor=resonance.own?.color||'#b9fff4';
+      const a=Math.atan2(target.y-p.y,target.x-p.x),ring=(r,life=.32,c=color)=>this.particles.push({type:'ring',x:p.x,y:p.y,r:8,maxR:r,life,max:life,color:c});
       const beam=(from,to,c=color)=>this.particles.push({type:'beam',x:from.x,y:from.y,x2:to.x,y2:to.y,life:.12,max:.12,color:c});
-      const hit=(e,scale,metaHit={})=>this.damageEnemy(e,p.damage*scale,{color,silent:true,...metaHit});
+      const hit=(e,scale,metaHit={})=>this.damageEnemy(e,p.damage*scale*(resonance.damageScale||1),{color,silent:true,...metaHit});
       if(meta.signatureType==='meteorLance'){
-        this.addBullet(p.x,p.y,a,760*(p.projectileSpeedBonus||1),p.damage*1.48,{big:true,pierce:6,pierceMomentum:true,homing:true,targetRef:target,color,trail:true,scale:1.18});
+        this.addBullet(p.x,p.y,a,760*(p.projectileSpeedBonus||1),p.damage*(target.boss?1.56:1.34)*(resonance.damageScale||1),{big:true,pierce:6+(resonance.extraPierce||0),pierceMomentum:true,homing:true,targetRef:target,color,trail:true,scale:1.18});
         ring(88,.24);
       } else if(meta.signatureType==='astralTwin'){
-        [-.14,.14].forEach(off=>this.addBullet(p.x,p.y,a+off,690*(p.projectileSpeedBonus||1),p.damage*.92,{big:true,pierce:3,color,trail:true,scale:.92}));
-        p.phaseTimer=Math.max(p.phaseTimer||0,.18);ring(72,.22);
+        [-.14,.14].forEach(off=>this.addBullet(p.x,p.y,a+off,690*(p.projectileSpeedBonus||1),p.damage*.82*(resonance.damageScale||1),{big:true,pierce:3+(resonance.extraPierce||0),color,trail:true,scale:.92}));
+        p.phaseTimer=Math.max(p.phaseTimer||0,.28+(resonance.phaseBoost||0));ring(72,.22);
       } else if(meta.signatureType==='abyssWave'){
         ring(172,.40);
-        targets.slice(0,cap).forEach(e=>{const d=Math.hypot(e.x-p.x,e.y-p.y);if(d<185+(e.r||0)){hit(e,e.boss ? .26 : .68,{slow:e.boss ? .12 : .34});}});
+        targets.slice(0,cap).forEach(e=>{const d=Math.hypot(e.x-p.x,e.y-p.y);if(d<185+(e.r||0)){hit(e,e.boss ? .20 : .56,{slow:e.boss ? .18 : .46});}});
       } else if(meta.signatureType==='kaiserCut'){
-        [-.21,0,.21].forEach((off,i)=>this.addBullet(p.x,p.y,a+off,735*(p.projectileSpeedBonus||1),p.damage*(i===1?1.05:.76),{big:i===1,pierce:4,color:i===1?'#fff0ff':color,trail:true,scale:i===1?1.08:.82}));
+        [-.21,0,.21].forEach((off,i)=>this.addBullet(p.x,p.y,a+off,735*(p.projectileSpeedBonus||1),p.damage*(i===1?1.02:.68)*(resonance.damageScale||1),{big:i===1,pierce:4+(resonance.extraPierce||0),color:i===1?'#fff0ff':color,trail:true,scale:i===1?1.08:.82}));
         ring(78,.24);
       } else if(meta.signatureType==='hadalSpear'){
-        this.fireLaser(a,p.damage*1.22,1,true,1);
-        p.shield=Math.min(p.maxShield,p.shield+Math.max(2,p.maxShield*.015));ring(92,.28);
+        this.fireLaser(a,p.damage*1.06*(resonance.damageScale||1),1,true,1+Math.min(1,resonance.extraPierce||0));
+        p.shield=Math.min(p.maxShield,p.shield+Math.max(2,p.maxShield*(.024+(resonance.shieldGainScale||0))));ring(92,.28);
       } else if(meta.signatureType==='novaPulse'){
-        const count=dense?6:8;for(let i=0;i<count;i++){const aa=(Math.PI*2/count)*i;this.addBullet(p.x,p.y,aa,610,p.damage*.70,{big:true,pierce:2,fire:1,color,trail:true,scale:.84});}
+        const count=(dense?6:8)+(resonance.sideBursts?2:0);for(let i=0;i<count;i++){const aa=(Math.PI*2/count)*i;this.addBullet(p.x,p.y,aa,610,p.damage*.60*(resonance.damageScale||1),{big:true,pierce:2+(resonance.extraPierce||0),fire:1,color,trail:true,scale:.84});}
         ring(118,.34);
       } else if(meta.signatureType==='synapticChain'){
-        let prev=p;targets.slice(0,cap).forEach((e,i)=>{hit(e,.70-i*.055,{slow:.10});beam(prev,e,i%2?'#e9c8ff':color);prev=e;});ring(94,.28);
+        let prev=p;targets.slice(0,cap).forEach((e,i)=>{hit(e,.62-i*.045,{slow:.16});beam(prev,e,i%2?'#e9c8ff':color);prev=e;});ring(94,.28);
       } else if(meta.signatureType==='cryoFang'){
-        this.addBullet(p.x,p.y,a,720*(p.projectileSpeedBonus||1),p.damage*1.18,{big:true,pierce:3,ice:3,homing:true,targetRef:target,color:'#dffcff',trail:true,scale:1.08});
-        if(!target.boss)target.slow=Math.max(target.slow||0,.38);ring(82,.26);
+        this.addBullet(p.x,p.y,a,720*(p.projectileSpeedBonus||1),p.damage*1.08*(resonance.damageScale||1),{big:true,pierce:3+(resonance.extraPierce||0),ice:3,homing:true,targetRef:target,color:'#dffcff',trail:true,scale:1.08});
+        if(!target.boss)target.slow=Math.max(target.slow||0,.52);ring(82,.26);
       } else if(meta.signatureType==='panelCut'){
-        let prev=p;targets.slice(0,dense?3:4).forEach((e,i)=>{hit(e,.78-i*.05,{slow:.10});beam(prev,e,i%2?'#fff0f7':color);prev=e;});ring(86,.24);
+        let prev=p;targets.slice(0,dense?3:4+(resonance.extraTargets||0)).forEach((e,i)=>{hit(e,.70-i*.045,{slow:.14});beam(prev,e,i%2?'#fff0f7':color);prev=e;});ring(86,.24);
       } else if(meta.signatureType==='psionNeedles'){
-        targets.slice(0,dense?2:3).forEach((e,i)=>{const aa=Math.atan2(e.y-p.y,e.x-p.x)+(i-1)*.05;this.addBullet(p.x,p.y,aa,680,p.damage*.76,{homing:true,targetRef:e,pierce:2,color,trail:true,scale:.84});});ring(80,.22);
+        targets.slice(0,dense?2:3+(resonance.extraTargets||0)).forEach((e,i)=>{const aa=Math.atan2(e.y-p.y,e.x-p.x)+(i-1)*.05;this.addBullet(p.x,p.y,aa,680,p.damage*.68*(resonance.damageScale||1),{homing:true,targetRef:e,pierce:2+(resonance.extraPierce||0),color,trail:true,scale:.84});});ring(80,.22);
       }
+      if(resonance.coreLance)this.addBullet(p.x,p.y,a,700*(p.projectileSpeedBonus||1),p.damage*.42*(resonance.damageScale||1),{big:false,pierce:2+(resonance.extraPierce||0),pierceMomentum:true,color:ownColor,trail:true,scale:.72,homing:true,targetRef:target});
+      if(resonance.sideBursts){[-.18,.18].slice(0,resonance.sideBursts).forEach(off=>this.addBullet(p.x,p.y,a+off,620*(p.projectileSpeedBonus||1),p.damage*resonance.sideBurstScale,{pierce:1+(resonance.extraPierce||0),color:ownColor,trail:true,scale:.64}));}
+      if(resonance.escort){
+        const live=this.drones.filter(d=>d.kind==='fleetResonance'&&d.life>0).length;
+        if(live<1)this.spawnDrone(5,false,{count:1,kind:'fleetResonance',support:true,inheritPower:true,radius:112,fireRate:.24,damageScale:.54,color:ownColor,intercept:true});
+      }
+      if(resonance.clearRadius){
+        const removed=this.clearEnemyBulletsAround(p.x,p.y,resonance.clearRadius,resonance.clearMax||1);
+        if(removed||resonance.shieldGainScale){p.shield=Math.min(p.maxShield,p.shield+Math.max(2,p.maxShield*((resonance.shieldGainScale||0)+(removed*.004))));ring(resonance.clearRadius*.78,.24,ownColor);}
+      } else if(resonance.shieldGainScale){
+        p.shield=Math.min(p.maxShield,p.shield+Math.max(2,p.maxShield*resonance.shieldGainScale));
+      }
+      if(resonance.phaseBoost)p.phaseTimer=Math.max(p.phaseTimer||0,resonance.phaseBoost);
       this.emit(p.x,p.y,color,dense?4:7,72,.24);AudioFX.shoot();this.updateFleetControl(true);
-      if((p.fleetSignatureNotice||0)<1){p.fleetSignatureNotice=1;this.toast(`FLOTA · ${meta.signature}`,`${meta.name} · firma automática cada ${meta.signatureCd}s`);}
+      if((p.fleetSignatureNotice||0)<1){p.fleetSignatureNotice=1;this.toast(`FLOTA · ${meta.signature}`,`${meta.name} · firma automática cada ${this.getFleetSignatureCooldown(meta,p)}s · ${resonance.label}`);}
     }
 
 
@@ -8938,6 +9295,7 @@
       p.unlockedMap = Math.max(p.unlockedMap, Math.min(MAPS.length, this.mapIndex + 2));
       p.collection.bosses[MAPS[this.mapIndex].boss] = true;
       reconcileCampaignProgress(p, { clearStaleSave:true });
+      reconcileRizomaShips(p);
       reconcileConquestRewards(p);
       // v2.4.0: persistir el desbloqueo antes de overlays/historia para impedir regresos a M10 por caché o cierre prematuro.
       p.pendingCampaignMap = this.mapIndex + 1 < MAPS.length ? this.mapIndex + 1 : null;
@@ -8950,8 +9308,8 @@
       p.stats.totalCoins += mapBonus;
       unlockAchievement('boss_1');
       if (p.unlockedMap >= 3) unlockAchievement('map_3');
-      const fleetUnlock=CONQUEST_FLEET.find(f=>f.milestoneWorld===this.mapIndex+1);
-      this.toast('MUNDO COMPLETADO',`${this.lastWorldReward?.name||'Poder del jefe'} · Guardián invocable desbloqueado${fleetUnlock?` · Flota: ${fleetUnlock.name}`:''}`);
+      const fleetUnlock=CONQUEST_FLEET.find(f=>f.milestoneWorld===this.mapIndex+1),rizomaUnlock=RIZOMA_SHIPS.find(s=>s.milestoneWorld===this.mapIndex+1&&s.id!=='rz1');
+      this.toast('MUNDO COMPLETADO',`${this.lastWorldReward?.name||'Poder del jefe'} · Guardián invocable desbloqueado${fleetUnlock?` · Flota: ${fleetUnlock.name}`:''}${rizomaUnlock?` · NAVE RIZOMA: ${rizomaUnlock.name}`:''}`);
       AudioFX.win();setTimeout(()=>this.showResult(true),1550);
     }
 
@@ -9230,7 +9588,7 @@
         mapIndex: this.mapIndex,
         difficulty: this.difficulty || 'normal',
         wave: this.wave,
-        player: { x: this.player.x, y: this.player.y, hp: this.player.hp, shield: this.player.shield, xp: this.player.xp, level: this.player.level, xpNext: this.player.xpNext, domainForm: this.player.domainForm || 'rizoma', fleetShip:this.player.fleetShip||null, fleetSignatureTimer:this.player.fleetSignatureTimer||0, entryShieldTimer: this.player.entryShieldTimer || 0, entryShieldMax: this.player.entryShieldMax || 0, relicMeteorTimer: this.player.relicMeteorTimer || 0 },
+        player: { x: this.player.x, y: this.player.y, hp: this.player.hp, shield: this.player.shield, xp: this.player.xp, level: this.player.level, xpNext: this.player.xpNext, domainForm: this.player.domainForm || 'rizoma', rizomaShip:this.player.rizomaShip||'rz1', rizomaSpecialTimer:this.player.rizomaSpecialTimer||0, rizomaPrimeCycle:this.player.rizomaPrimeCycle||0, fleetShip:this.player.fleetShip||null, fleetSignatureTimer:this.player.fleetSignatureTimer||0, entryShieldTimer: this.player.entryShieldTimer || 0, entryShieldMax: this.player.entryShieldMax || 0, relicMeteorTimer: this.player.relicMeteorTimer || 0 },
         powerLevels: this.powerLevels,
         powerActivity: this.powerActivity,
         activePowerSlots:this.activePowerSlots,
@@ -10672,7 +11030,7 @@
         ctx.rotate(d.a);
         ctx.shadowBlur = d.kind==='requiem'?24:18; ctx.shadowColor = d.color || '#9ac7ff';
         ctx.strokeStyle = d.color || '#9ac7ff'; ctx.lineWidth = d.support ? 3.4 : 3;
-        const escortKey=(d.kind==='wingman'||(this.mapIndex===0&&d.support))?(((d.index||0)%2)?'playerWingmanRZ1':'playerWingmanRZ2'):null;
+        const escortKey=(d.kind==='wingman'||d.kind==='rizomaArsenalNebula'||(this.mapIndex===0&&d.support))?(((d.index||0)%2)?'playerWingmanRZ1':'playerWingmanRZ2'):null;
         const escortImg=escortKey?this.getAsset(escortKey):null;
         if(escortImg){
           const aspect=(escortImg.naturalWidth||1)/(escortImg.naturalHeight||1),longSide=this.isSmallScreen?34:(this.w<1180?40:46);let ww,hh;if(aspect>=1){ww=longSide;hh=longSide/aspect;}else{hh=longSide;ww=longSide*aspect;}
@@ -10683,7 +11041,7 @@
           if(img){const aspect=(img.naturalWidth||1)/(img.naturalHeight||1),longSide=this.isSmallScreen?30:(this.w<1180?38:44);let w,h;if(aspect>=1){w=longSide;h=longSide/aspect;}else{h=longSide;w=longSide*aspect;}ctx.globalAlpha=.96;ctx.drawImage(img,-w/2,-h/2,w,h);ctx.globalAlpha=.35;ctx.beginPath();ctx.arc(0,0,longSide*.58,0,Math.PI*2);ctx.stroke();}
           else {ctx.beginPath();ctx.moveTo(0,-12);ctx.lineTo(11,9);ctx.lineTo(0,5);ctx.lineTo(-11,9);ctx.closePath();ctx.stroke();}
           ctx.globalAlpha=.22;ctx.beginPath();ctx.arc(0,0,this.isSmallScreen?16:21,0,Math.PI*2);ctx.stroke();ctx.beginPath();ctx.moveTo(0,10);ctx.lineTo(0,26);ctx.stroke();
-        } else if(d.kind==='wingman'){
+        } else if(d.kind==='wingman'||d.kind==='rizomaArsenalNebula'){
           ctx.strokeStyle=d.color||'#83eaff';ctx.fillStyle=d.color||'#83eaff';ctx.lineWidth=2.5;ctx.shadowBlur=20;ctx.shadowColor=d.color||'#83eaff';ctx.globalAlpha=.94;
           ctx.beginPath();ctx.moveTo(0,-13);ctx.lineTo(11,7);ctx.lineTo(5,5);ctx.lineTo(0,11);ctx.lineTo(-5,5);ctx.lineTo(-11,7);ctx.closePath();ctx.stroke();
           ctx.globalAlpha=.22;ctx.fill();ctx.globalAlpha=.50;ctx.beginPath();ctx.arc(0,0,15+Math.sin(now()*.006+d.index)*2,0,Math.PI*2);ctx.stroke();
@@ -10729,12 +11087,53 @@
       ctx.globalAlpha=.66;ctx.fillStyle=color;ctx.shadowBlur=16;ctx.beginPath();ctx.moveTo(-w*.18,h*.39);ctx.lineTo(0,h*.70+Math.sin(t*18)*2);ctx.lineTo(w*.18,h*.39);ctx.closePath();ctx.fill();
       ctx.globalAlpha=.23;ctx.strokeStyle=color;ctx.lineWidth=1.5;ctx.beginPath();ctx.arc(0,0,p.r+13,0,Math.PI*2);ctx.stroke();
       if(this.isPowerActive('afterburner')){ctx.globalAlpha=.58;ctx.fillStyle='#ffd56a';ctx.shadowBlur=18;ctx.shadowColor='#ffd56a';ctx.beginPath();ctx.moveTo(-w*.18,h*.42);ctx.lineTo(0,h*.82+Math.sin(t*18)*4);ctx.lineTo(w*.18,h*.42);ctx.closePath();ctx.fill();}
+      if(/^rz/.test(meta.id||''))this.drawRizomaShipArsenalOverlay(ctx,p,t,meta);
       if(this.getPowerLevel('overdrive',true)){const surge=(p.overdriveSurge||0)>0;ctx.globalAlpha=surge?.60:.22;ctx.strokeStyle=surge?'#fff0a6':'#ff9b55';ctx.lineWidth=surge?3:1.5;ctx.shadowBlur=surge?24:12;ctx.shadowColor='#ff9b55';ctx.beginPath();ctx.arc(0,0,p.r+22,0,Math.PI*2);ctx.stroke();}
       ctx.restore();
       if(this.getPowerLevel('orbs',true)||this.comboActive('gravedad')||this.comboActive('bastion')){
         const satellites=this.getAbyssalSatelliteData();
         for(const sat of satellites){ctx.save();ctx.translate(sat.x,sat.y);ctx.shadowBlur=18;ctx.shadowColor=sat.color;ctx.fillStyle=sat.color;ctx.globalAlpha=.94;ctx.beginPath();ctx.arc(0,0,sat.r,0,Math.PI*2);ctx.fill();ctx.globalAlpha=.32;ctx.strokeStyle=sat.accent;ctx.lineWidth=2;ctx.beginPath();ctx.arc(0,0,sat.r*1.8*sat.pulse,0,Math.PI*2);ctx.stroke();ctx.restore();}
       }
+    }
+
+    drawRizomaShipArsenalOverlay(ctx,p,t,meta){
+      const stage=this.getRizomaArsenalStage(p);if(!stage||!meta)return;
+      const color=meta.color||p.avatar?.color||'#83eaff';
+      ctx.save();
+      ctx.globalAlpha=.16+.04*stage;ctx.strokeStyle=color;ctx.lineWidth=1.5+(stage>=3?.25:0);ctx.shadowBlur=14+stage*2;ctx.shadowColor=color;
+      ctx.beginPath();ctx.arc(0,0,p.r+15+stage*3+Math.sin(t*6)*1.4,0,Math.PI*2);ctx.stroke();
+      if(stage>=2){for(const sx of [-1,1]){ctx.beginPath();ctx.moveTo(sx*(p.r*.46),-p.r*.18);ctx.lineTo(sx*(p.r+9+stage*2),p.r*.10);ctx.lineTo(sx*(p.r*.60),p.r*.30);ctx.stroke();}}
+      if(stage>=3){for(const sx of [-1,1]){ctx.beginPath();ctx.moveTo(sx*(p.r*.34),p.r*.04);ctx.lineTo(sx*(p.r+6),p.r*.44);ctx.stroke();}}
+      switch(meta.id){
+        case 'rz1':{
+          ctx.globalAlpha=.28;ctx.strokeStyle='#eaffff';for(const off of [-6,0,6]){ctx.beginPath();ctx.moveTo(off,-p.r*.70);ctx.lineTo(off,-p.r-8-stage*2);ctx.stroke();}
+          break;
+        }
+        case 'rz4':{
+          ctx.globalAlpha=.28;ctx.strokeStyle='#9bffd8';for(const sx of [-1,1]){ctx.beginPath();ctx.moveTo(sx*(p.r*.58),-2);ctx.lineTo(sx*(p.r+16+stage*2),-p.r*.18);ctx.lineTo(sx*(p.r+6),p.r*.20);ctx.stroke();}
+          break;
+        }
+        case 'rz8':{
+          ctx.globalAlpha=.26;ctx.strokeStyle='#c8fbff';ctx.beginPath();ctx.arc(0,0,p.r+25+stage*2,-1.0,-2.1);ctx.stroke();ctx.beginPath();ctx.arc(0,0,p.r+25+stage*2,1.0,2.1);ctx.stroke();
+          const count=stage>=4?4:2;for(let i=0;i<count;i++){const a=t*1.6+i*(Math.PI*2/count);ctx.beginPath();ctx.arc(Math.cos(a)*(p.r+18),Math.sin(a)*(p.r+14),1.8+stage*.2,0,Math.PI*2);ctx.fillStyle=i%2?'#8feaff':'#dfffff';ctx.fill();}
+          break;
+        }
+        case 'rz12':{
+          ctx.globalAlpha=.28;ctx.strokeStyle='#ffe08a';ctx.strokeRect(-p.r*.92,-p.r*.18,p.r*.34,p.r*.40);ctx.strokeRect(p.r*.58,-p.r*.18,p.r*.34,p.r*.40);
+          if(stage>=3){for(const sx of [-1,1]){ctx.beginPath();ctx.moveTo(sx*(p.r*.74),-p.r*.10);ctx.lineTo(sx*(p.r+10),-p.r*.10);ctx.stroke();ctx.beginPath();ctx.moveTo(sx*(p.r*.74),p.r*.08);ctx.lineTo(sx*(p.r+10),p.r*.08);ctx.stroke();}}
+          break;
+        }
+        case 'rz16':{
+          ctx.globalAlpha=.24;ctx.strokeStyle='#ff9bc8';const fan=[-.34,-.18,0,.18,.34];fan.forEach(off=>{ctx.beginPath();ctx.moveTo(0,-p.r*.18);ctx.lineTo(Math.sin(off)*(p.r+20),-p.r-8-stage*2);ctx.stroke();});
+          break;
+        }
+        case 'rz20':{
+          ctx.globalAlpha=.24;ctx.strokeStyle='#d8fff7';ctx.beginPath();for(let i=0;i<6;i++){const a=-Math.PI/2+i*Math.PI/3,rr=p.r+20+stage*2,x=Math.cos(a)*rr,y=Math.sin(a)*rr;if(i===0)ctx.moveTo(x,y);else ctx.lineTo(x,y);}ctx.closePath();ctx.stroke();
+          for(let i=0;i<3;i++){const a=t*1.4+i*Math.PI*2/3;ctx.beginPath();ctx.arc(Math.cos(a)*(p.r+16),Math.sin(a)*(p.r+16),2.2,0,Math.PI*2);ctx.fillStyle=i===1?'#fff0bf':'#b9fff4';ctx.fill();}
+          break;
+        }
+      }
+      ctx.restore();
     }
 
     getAbyssalSatelliteData(countOverride = null) {
@@ -10775,10 +11174,13 @@
       const domainImg=domainMeta?this.getAsset(domainMeta.assetKey):null;
       const fleetMeta=(p.domainForm||'rizoma')==='rizoma'?conquestFleetMeta(p.fleetShip):null;
       const fleetImg=fleetMeta?this.getAsset(fleetMeta.assetKey):null;
+      const ownMeta=(p.domainForm||'rizoma')==='rizoma'&&!fleetMeta?rizomaShipMeta(p.rizomaShip||'rz1'):null;
+      const ownImg=ownMeta?this.getAsset(ownMeta.assetKey):null;
       const avatarImg=p.avatar?.assetKey?this.getAsset(p.avatar.assetKey):null;
       const orbs = this.getPowerLevel('orbs', true);
       if(domainMeta&&domainImg){this.drawDomainPlayer(ctx,p,t,domainMeta,domainImg);return;}
       if(fleetMeta&&fleetImg){this.drawDomainPlayer(ctx,p,t,{color:fleetMeta.color,scale:fleetMeta.scale||1.02},fleetImg);return;}
+      if(ownMeta&&ownImg){this.drawDomainPlayer(ctx,p,t,{color:ownMeta.color,scale:ownMeta.scale||1.03},ownImg);return;}
       if(avatarImg){this.drawDomainPlayer(ctx,p,t,{color:p.avatar.color,scale:1.03},avatarImg);return;}
       ctx.save();
       ctx.translate(p.x, p.y);
@@ -11631,46 +12033,128 @@
     }));
   }
 
+  function hangarPresetById(id='auto') {
+    return HANGAR_PRESETS.find(x=>x.id===id)||HANGAR_PRESETS[0];
+  }
+
+  function hangarContextForProfile(p=currentProfile()) {
+    const target=campaignTargetMap(p),world=target==null?Math.max(1,Math.min(MAPS.length,Math.max(...((p.completedMaps||[]).map(Number)),1))):target+1;
+    const map=MAPS[Math.max(0,Math.min(MAPS.length-1,world-1))];
+    let autoPreset='balanced';
+    if(world<=3)autoPreset='balanced';
+    else if(world<=7)autoPreset='boss';
+    else if(world<=11)autoPreset='control';
+    else if(world<=15)autoPreset='survival';
+    else if(world<=19)autoPreset='assault';
+    else autoPreset='balanced';
+    if((state.settings.difficulty||p.preferredDifficulty)==='hard'&&['balanced','assault'].includes(autoPreset))autoPreset=world>=12?'survival':'control';
+    return {target,world,map,autoPreset,complete:target==null};
+  }
+
+  function hangarWeights(presetId,p=currentProfile()) {
+    if(presetId!=='auto')return {...hangarPresetById(presetId).weights};
+    const ctx=hangarContextForProfile(p),base=hangarPresetById(ctx.autoPreset).weights;
+    const w={...base};w.balanced=(w.balanced||0)+.12;
+    if(ctx.world===20){w.boss=(w.boss||0)+.18;w.survival=(w.survival||0)+.12;}
+    return w;
+  }
+
+  function hangarVectorScore(vector,weights) {
+    return Object.entries(weights).reduce((sum,[k,w])=>sum+(Number(vector?.[k])||0)*w,0);
+  }
+
+  function hangarFleetVector(meta,ownId='rz1') {
+    const base={...(FLEET_TACTICAL_PROFILE[meta?.role]||{balanced:.55,assault:.55,control:.55,survival:.55,boss:.55})};
+    const core={...(RIZOMA_TACTICAL_PROFILE[ownId]||RIZOMA_TACTICAL_PROFILE.rz1)};
+    for(const k of ['balanced','assault','control','survival','boss'])base[k]=clamp((base[k]||0)*.86+(core[k]||0)*.14,0,1);
+    if(ownId==='rz1')base.boss=clamp(base.boss+.06,0,1);
+    if(ownId==='rz4')base.boss=clamp(base.boss+.07,0,1);
+    if(ownId==='rz8')base.control=clamp(base.control+.08,0,1);
+    if(ownId==='rz12')base.survival=clamp(base.survival+.10,0,1);
+    if(ownId==='rz16')base.assault=clamp(base.assault+.10,0,1);
+    if(ownId==='rz20')base.balanced=clamp(base.balanced+.10,0,1);
+    return base;
+  }
+
+  function hangarRecommendLoadout(p=currentProfile(),presetId=p.hangarPreset||'auto') {
+    reconcileRizomaShips(p);reconcileConquestRewards(p);
+    const weights=hangarWeights(presetId,p),ownIds=RIZOMA_SHIPS.filter(m=>p.rizomaShips?.[m.id]).map(m=>m.id),fleets=CONQUEST_FLEET.filter(m=>p.conquestFleet?.[m.id]);
+    let best=null;
+    for(const ownId of ownIds){
+      const ownMeta=rizomaShipMeta(ownId),ownVector=RIZOMA_TACTICAL_PROFILE[ownId]||RIZOMA_TACTICAL_PROFILE.rz1;
+      const ownScore=hangarVectorScore(ownVector,weights)+(ownId===(p.activeRizomaShip||'rz1') ? .015 : 0);
+      if(!best||ownScore>best.score)best={kind:'rizoma',rizomaId:ownId,fleetId:null,score:ownScore,ownMeta,fleetMeta:null};
+      for(const fleet of fleets){
+        const v=hangarFleetVector(fleet,ownId),score=hangarVectorScore(v,weights)+.025;
+        if(!best||score>best.score)best={kind:'fleet',rizomaId:ownId,fleetId:fleet.id,score,ownMeta,fleetMeta:fleet};
+      }
+    }
+    if(!best){const own=rizomaShipMeta('rz1');best={kind:'rizoma',rizomaId:'rz1',fleetId:null,score:0,ownMeta:own,fleetMeta:null};}
+    const unlocked=Object.keys(p.guardianInvocations||{}).filter(id=>p.guardianInvocations[id]).map(id=>Number(id.replace('guardian',''))||0).filter(Boolean);
+    const preset=presetId==='auto'?hangarContextForProfile(p).autoPreset:presetId;
+    const priorities={assault:[20,18,14,13,10,4],control:[19,16,17,7,6,12],survival:[12,17,8,15,20],boss:[20,14,9,1,18,16],balanced:[20,19,18,17,16,14,12]}[preset]||[];
+    let gw=priorities.find(w=>unlocked.includes(w))||Math.max(0,...unlocked);
+    best.guardianId=gw?`guardian${gw}`:(p.activeGuardianInvocation||null);
+    best.preset=presetId;best.weights=weights;
+    return best;
+  }
+
+  function hangarLoadoutDisplay(p=currentProfile(),rizomaId=p.activeRizomaShip||'rz1',fleetId=p.activeFleetShip||null) {
+    const own=rizomaShipMeta(rizomaId),fleet=conquestFleetMeta(fleetId),meta=fleet||own,mod=fleet?.mod||own?.mod||{damage:1,speed:1,shield:1,cadence:1};
+    let damage=mod.damage||1,speed=mod.speed||1,shield=mod.shield||1,cadence=mod.cadence||1,res=null;
+    if(fleet&&game?.getFleetRizomaResonance){res=game.getFleetRizomaResonance({fleetShip:fleet.id,rizomaShip:own.id},fleet,own);damage*=res.passiveDamageScale||1;speed*=res.speedScale||1;cadence*=res.cadenceScale||1;}
+    const fmt=(n,reverse=false)=>{const v=(reverse?(1-n):(n-1))*100;return `${v>=0?'+':'−'}${Math.round(Math.abs(v)*10)/10}%`;};
+    return {own,fleet,meta,res,damage,speed,shield,cadence,stats:{damage:fmt(damage),speed:fmt(speed),shield:fmt(shield),cadence:fmt(cadence,true)}};
+  }
+
   function renderHangarDetail(partId = 'engine') {
     if (!els.hangarDetail || !els.hangarPartsGrid) return;
-    const p = currentProfile();
-    const parts = { core: 0, wings: 0, cannon: 0, engine: 0, ...(p.shipParts || {}) };
-    const info = HANGAR_PART_INFO[partId];
-    const meta = SHIP_PARTS_META[partId];
-    const lvl = parts[partId] || 0;
-    els.hangarDetail.innerHTML = `<div class="hangar-detail-card"><b>${meta.icon} ${meta.name}</b><span class="tag">Nivel ${lvl}/6</span><p class="muted">${info.bonus}</p></div>`;
-    els.hangarPartsGrid.querySelectorAll('[data-part]').forEach(card => card.classList.toggle('active', card.dataset.part === partId));
+    const p=currentProfile(),parts={core:0,wings:0,cannon:0,engine:0,...(p.shipParts||{})},info=HANGAR_PART_INFO[partId],meta=SHIP_PARTS_META[partId],lvl=parts[partId]||0;
+    els.hangarDetail.innerHTML=`<div class="hangar-detail-card tactical-detail"><div class="hangar-detail-head"><span>${meta.icon}</span><b>${info.title}</b><span class="tag">${lvl}/6</span></div><p>${info.bonus}</p><small>${info.note}</small></div>`;
+    els.hangarPartsGrid.querySelectorAll('[data-part]').forEach(card=>card.classList.toggle('active',card.dataset.part===partId));
   }
 
   function renderHangar() {
-    if (!els.hangarShipPreview || !els.hangarPartsGrid || !els.hangarTierLabel) return;
-    const p = currentProfile();
-    const avatar = AVATARS.find(a => a.id === p.avatar) || AVATARS[0];
-    const parts = { core: 0, wings: 0, cannon: 0, engine: 0, ...(p.shipParts || {}) };
-    const total = Object.values(parts).reduce((a,b)=>a+b,0);
-    const tierName = total >= 20 ? 'Nave Omega' : total >= 14 ? 'Nave de asalto' : total >= 8 ? 'Interceptor mutante' : total >= 3 ? 'Célula táctica' : 'Nave base';
-    els.hangarTierLabel.textContent = `Tier ${p.avatarTier || 1}`;
-    els.hangarShipName.textContent = tierName;
-    els.hangarShipSummary.textContent = `Módulos ${total}/24 · mundo ${p.unlockedMap}/${MAPS.length} · 🪙 ${p.coins || 0}`;
-    const speedBonus = parts.engine * 10 + parts.wings * 6;
-    const attackBonus = parts.cannon * 2.5;
-    const defenseBonus = parts.core * 8;
-    const shieldBonus = parts.core * 6;
-    const hangarShipVisual=avatar.assetKey
-      ? `<div class="hangar-ship aura asset-preview" style="--accent:${avatar.color}"><img src="${GAME_ASSET_SOURCES[avatar.assetKey]}" alt="${avatar.name}"><div class="asset-engine-glow"></div></div>`
-      : `<div class="hangar-ship aura" style="--accent:${avatar.color}"><div class="ship-body"></div><div class="ship-core l${parts.core}"></div><div class="ship-cannon l${parts.cannon}"></div><div class="ship-wing left l${parts.wings}"></div><div class="ship-wing right l${parts.wings}"></div><div class="ship-engine left l${parts.engine}"></div><div class="ship-engine right l${parts.engine}"></div><div class="ship-pilot">${avatar.icon}</div></div>`;
-    els.hangarShipPreview.innerHTML = `
-      ${hangarShipVisual}
-      <div class="hangar-callouts"><div class="hangar-callout cannon"><strong>✦ Cañón ${parts.cannon}</strong>+${attackBonus.toFixed(1)} daño</div><div class="hangar-callout wings"><strong>◀▶ Alerones ${parts.wings}</strong>+${parts.wings*6} control</div><div class="hangar-callout core"><strong>⬢ Núcleo ${parts.core}</strong>+${defenseBonus} vida</div><div class="hangar-callout engine"><strong>≋ Motor ${parts.engine}</strong>+${speedBonus} velocidad</div></div>
-      <div class="hangar-statline"><span class="tag">⚡ +${speedBonus}</span><span class="tag">💥 +${attackBonus.toFixed(1)}</span><span class="tag">❤️ +${defenseBonus}</span><span class="tag">🛡️ +${shieldBonus}</span><span class="tag coin">🪙 ${p.coins || 0}</span></div>`;
-    const order = ['engine','wings','cannon','core'];
-    els.hangarPartsGrid.innerHTML = order.map(id => {
-      const meta = SHIP_PARTS_META[id]; const lvl = parts[id] || 0;
-      return `<article class="hangar-part-card" data-part="${id}"><div class="hangar-part-head"><span>${meta.icon}</span><b>${meta.name}</b></div><div class="level-dots big">${Array.from({length:6},(_,i)=>`<i class="${i < lvl ? 'on' : ''}"></i>`).join('')}</div><small class="muted">Nivel ${lvl}/6</small></article>`;
-    }).join('');
-    els.hangarHistory.innerHTML = '';
-    els.hangarPartsGrid.querySelectorAll('[data-part]').forEach(card => card.addEventListener('click', () => { const p = currentProfile(); p.hangarFocus = card.dataset.part; saveState(); renderHangarDetail(card.dataset.part); }));
-    renderHangarDetail((p.hangarFocus && HANGAR_PART_INFO[p.hangarFocus]) ? p.hangarFocus : 'engine');
+    if(!els.hangarShipPreview||!els.hangarPresetGrid||!els.hangarRizomaGrid||!els.hangarFleetGrid)return;
+    const p=currentProfile();reconcileRizomaShips(p);reconcileConquestRewards(p);
+    p.hangarPreset=hangarPresetById(p.hangarPreset||'auto').id;p.hangarLoadouts=p.hangarLoadouts||{};
+    const ctx=hangarContextForProfile(p),recommend=hangarRecommendLoadout(p,p.hangarPreset),selected=hangarLoadoutDisplay(p),recDisplay=hangarLoadoutDisplay(p,recommend.rizomaId,recommend.fleetId);
+    const prepared=selected.fleet||selected.own,asset=GAME_ASSET_SOURCES[prepared.assetKey]||'',accent=prepared.color||'#83eaff',guardianId=p.activeGuardianInvocation||null,guardianWorld=Number(String(guardianId||'').replace('guardian',''))||0,guardianMeta=guardianWorld?guardianInvocationMeta(guardianWorld):null;
+    const totalParts=Object.values({core:0,wings:0,cannon:0,engine:0,...(p.shipParts||{})}).reduce((a,b)=>a+(Number(b)||0),0);
+    if(els.hangarTierLabel)els.hangarTierLabel.textContent=selected.fleet?'FLOTA CONQUISTADA':'LÍNEA RIZOMA';
+    if(els.hangarMissionContext)els.hangarMissionContext.textContent=ctx.complete?'Saga II completada · preparación libre':`Próxima: M${ctx.world} · ${ctx.map?.name||'Misión'}`;
+    if(els.hangarShipName)els.hangarShipName.textContent=prepared.name;
+    if(els.hangarShipSummary)els.hangarShipSummary.textContent=selected.fleet?`${selected.fleet.role} · ${selected.fleet.signature} · ${selected.res?.label||'resonancia estable'}`:`${selected.own.role} · ${selected.own.special} · ${selected.own.phase}`;
+    els.hangarShipPreview.innerHTML=`<div class="tactical-ship-visual" style="--accent:${accent}">${asset?`<img src="${asset}" alt="${prepared.name}" draggable="false">`:'<span>◇</span>'}<i class="tactical-ship-ring one"></i><i class="tactical-ship-ring two"></i></div><div class="tactical-prepared-badges"><span>${selected.fleet?'CASCO CONQUISTADO':'CASCO RIZOMA'}</span><span>NÚCLEO ${selected.own.name}</span>${guardianMeta?`<span>APOYO ${guardianMeta.name}</span>`:''}</div>`;
+
+    const comparisonRow=(label,a,b)=>`<div class="hangar-compare-row"><span>${label}</span><b>${a}</b><b>${b}</b></div>`;
+    if(els.hangarComparison)els.hangarComparison.innerHTML=`<div class="hangar-compare-head"><span>Métrica</span><strong>Preparada</strong><strong>Recomendada</strong></div>${comparisonRow('Daño',selected.stats.damage,recDisplay.stats.damage)}${comparisonRow('Velocidad',selected.stats.speed,recDisplay.stats.speed)}${comparisonRow('Escudo',selected.stats.shield,recDisplay.stats.shield)}${comparisonRow('Cadencia',selected.stats.cadence,recDisplay.stats.cadence)}<div class="hangar-compare-foot"><span>${prepared.name}</span><span>${recDisplay.meta.name}</span></div>`;
+
+    const presetMeta=hangarPresetById(p.hangarPreset),recGuardianWorld=Number(String(recommend.guardianId||'').replace('guardian',''))||0,recGuardian=recGuardianWorld?guardianInvocationMeta(recGuardianWorld):null;
+    if(els.hangarRecommendation)els.hangarRecommendation.innerHTML=`<div class="recommendation-card"><div><p class="eyebrow">Recomendación ${p.hangarPreset==='auto'?'contextual':presetMeta.name}</p><h3>${recDisplay.meta.name}</h3><p>${recommend.fleetId?`${recDisplay.fleet.role} · ${recDisplay.res?.label||'resonancia'} con ${recDisplay.own.name}`:`${recDisplay.own.role} · ${recDisplay.own.special}`}</p><small>${ctx.complete?'Configuración libre posterior a Saga II':`Pensada para M${ctx.world} · ${ctx.map?.name||'próxima misión'}`}${recGuardian?` · apoyo ${recGuardian.name}`:''}</small></div><button class="primary-btn small" data-hangar-apply-recommendation>Aplicar recomendación</button></div>`;
+
+    els.hangarPresetGrid.innerHTML=HANGAR_PRESETS.map(pr=>{const active=p.hangarPreset===pr.id,saved=p.hangarLoadouts?.[pr.id];return `<article class="hangar-preset-card ${active?'active':''}" data-hangar-preset="${pr.id}"><div class="hangar-preset-mark">${pr.mark}</div><div><strong>${pr.name}</strong><small>${pr.desc}</small>${saved?`<em>Guardado · ${rizomaShipMeta(saved.rizomaShip||'rz1').name}${saved.fleetShip?` + ${conquestFleetMeta(saved.fleetShip)?.name||'Flota'}`:''}</em>`:'<em>Sin preset personal guardado</em>'}</div><footer><button class="soft-btn tiny" data-hangar-save-preset="${pr.id}">Guardar actual</button>${saved?`<button class="soft-btn tiny" data-hangar-load-preset="${pr.id}">Cargar</button>`:''}</footer></article>`;}).join('');
+
+    const parts={core:0,wings:0,cannon:0,engine:0,...(p.shipParts||{})};
+    if(els.hangarPartsGrid)els.hangarPartsGrid.innerHTML=['engine','wings','cannon','core'].map(id=>{const m=SHIP_PARTS_META[id],lvl=parts[id]||0;return `<article class="hangar-part-card" data-part="${id}"><div class="hangar-part-head"><span>${m.icon}</span><b>${m.name}</b></div><div class="level-dots big">${Array.from({length:6},(_,i)=>`<i class="${i<lvl?'on':''}"></i>`).join('')}</div><small>Nivel ${lvl}/6</small></article>`;}).join('');
+    renderHangarDetail(p.hangarFocus||'engine');
+
+    els.hangarRizomaGrid.innerHTML=RIZOMA_SHIPS.map(meta=>{const unlocked=!!p.rizomaShips?.[meta.id],core=p.activeRizomaShip===meta.id,active=core&&!p.activeFleetShip,src=GAME_ASSET_SOURCES[meta.assetKey]||'',stats=rizomaShipModSummary(meta);return `<article class="hangar-choice-card ${unlocked?'':'locked'} ${core?'core-selected':''} ${active?'active':''}" style="--choice:${meta.color}"><div class="hangar-choice-art">${src?`<img src="${src}" alt="${meta.name}">`:'◇'}</div><div class="hangar-choice-copy"><small>${meta.phase}</small><strong>${meta.name}</strong><span>${meta.role} · ${meta.special}</span><p>${meta.passive}</p><div class="hangar-choice-stats">${(stats.length?stats:['EQUILIBRADA']).map(x=>`<b>${x}</b>`).join('')}</div></div><button class="${core?'soft-btn':'primary-btn'} tiny" data-hangar-rizoma="${meta.id}" ${!unlocked||core?'disabled':''}>${core?(active?'Activa':'Núcleo'):(unlocked?'Preparar':`M${meta.milestoneWorld}`)}</button></article>`;}).join('');
+
+    els.hangarFleetGrid.innerHTML=CONQUEST_FLEET.map(meta=>{const unlocked=!!p.conquestFleet?.[meta.id],active=p.activeFleetShip===meta.id,src=GAME_ASSET_SOURCES[meta.assetKey]||'',res=game.getFleetRizomaResonance({fleetShip:meta.id,rizomaShip:p.activeRizomaShip||'rz1'},meta,rizomaShipMeta(p.activeRizomaShip||'rz1')),stats=fleetModSummary(meta),cd=game.getFleetSignatureCooldown(meta,{fleetShip:meta.id,rizomaShip:p.activeRizomaShip||'rz1'});return `<article class="hangar-choice-card fleet-card ${unlocked?'':'locked'} ${active?'active':''}" style="--choice:${meta.color}"><div class="hangar-choice-art">${src?`<img src="${src}" alt="${meta.name}">`:'◇'}</div><div class="hangar-choice-copy"><small>M${meta.milestoneWorld} · ${meta.role}</small><strong>${meta.name}</strong><span>${meta.signature} · ${cd}s</span><p>${meta.passive} <i>${meta.tradeoff}</i></p><em>${res.label} · ${res.short}</em><div class="hangar-choice-stats">${stats.map(x=>`<b>${x}</b>`).join('')}</div></div><button class="${active?'soft-btn':'primary-btn'} tiny" data-hangar-fleet="${meta.id}" ${!unlocked||active?'disabled':''}>${active?'Preparada':(unlocked?'Preparar':`M${meta.milestoneWorld}`)}</button></article>`;}).join('');
+
+    const unlockedGuardians=MAPS.map((m,i)=>i+1).filter(w=>p.guardianInvocations?.[`guardian${w}`]);
+    els.hangarGuardianGrid.innerHTML=unlockedGuardians.length?unlockedGuardians.map(w=>{const meta=guardianInvocationMeta(w),id=`guardian${w}`,active=p.activeGuardianInvocation===id,src=GAME_ASSET_SOURCES[meta.assetKey]||'';return `<button class="hangar-guardian-chip ${active?'active':''}" data-hangar-guardian="${id}" style="--guardian:${meta.color}">${src?`<img src="${src}" alt="">`:''}<span><strong>M${w} · ${meta.name}</strong><small>${meta.signature}</small></span></button>`;}).join(''):'<p class="muted">Derrota tu primer Guardián para desbloquear apoyo temporal.</p>';
+    if(els.hangarHistory)els.hangarHistory.innerHTML=`<span>Módulos ${totalParts}/24</span><span>Rizoma ${Object.keys(p.rizomaShips||{}).length}/6</span><span>Flota ${Object.keys(p.conquestFleet||{}).length}/10</span><span>Guardianes ${unlockedGuardians.length}/20</span>`;
+
+    els.hangarPartsGrid?.querySelectorAll('[data-part]').forEach(card=>card.addEventListener('click',()=>{p.hangarFocus=card.dataset.part;saveState();renderHangarDetail(card.dataset.part);}));
+    els.hangarRizomaGrid?.querySelectorAll('[data-hangar-rizoma]').forEach(btn=>btn.addEventListener('click',()=>{setRizomaShipSelection(btn.dataset.hangarRizoma);renderHangar();}));
+    els.hangarFleetGrid?.querySelectorAll('[data-hangar-fleet]').forEach(btn=>btn.addEventListener('click',()=>{setArchiveFleetSelection(btn.dataset.hangarFleet);renderHangar();}));
+    els.hangarGuardianGrid?.querySelectorAll('[data-hangar-guardian]').forEach(btn=>btn.addEventListener('click',()=>{setArchiveGuardianSelection(btn.dataset.hangarGuardian);renderHangar();}));
+    els.hangarPresetGrid?.querySelectorAll('[data-hangar-preset]').forEach(card=>card.addEventListener('click',e=>{if(e.target.closest('button'))return;p.hangarPreset=card.dataset.hangarPreset;saveState();renderHangar();}));
+    els.hangarPresetGrid?.querySelectorAll('[data-hangar-save-preset]').forEach(btn=>btn.addEventListener('click',e=>{e.stopPropagation();const id=btn.dataset.hangarSavePreset;p.hangarLoadouts[id]={rizomaShip:p.activeRizomaShip||'rz1',fleetShip:p.activeFleetShip||null,guardian:p.activeGuardianInvocation||null,savedAt:Date.now()};saveState();game?.toast?.('PRESET GUARDADO',`${hangarPresetById(id).name} · configuración actual`);renderHangar();}));
+    els.hangarPresetGrid?.querySelectorAll('[data-hangar-load-preset]').forEach(btn=>btn.addEventListener('click',e=>{e.stopPropagation();const id=btn.dataset.hangarLoadPreset,s=p.hangarLoadouts?.[id];if(!s)return;reconcileRizomaShips(p);reconcileConquestRewards(p);p.activeRizomaShip=p.rizomaShips?.[s.rizomaShip]?s.rizomaShip:'rz1';p.activeFleetShip=s.fleetShip&&p.conquestFleet?.[s.fleetShip]?s.fleetShip:null;p.activeGuardianInvocation=s.guardian&&p.guardianInvocations?.[s.guardian]?s.guardian:p.activeGuardianInvocation;p.hangarPreset=id;saveState();game?.toast?.('PRESET CARGADO',`${hangarPresetById(id).name} · próxima salida preparada`);renderAll();}));
+    els.hangarRecommendation?.querySelector('[data-hangar-apply-recommendation]')?.addEventListener('click',()=>{p.activeRizomaShip=recommend.rizomaId;p.activeFleetShip=recommend.fleetId||null;if(recommend.guardianId&&p.guardianInvocations?.[recommend.guardianId])p.activeGuardianInvocation=recommend.guardianId;saveState();game?.toast?.('HANGAR · RECOMENDACIÓN APLICADA',`${recDisplay.meta.name} preparada para ${ctx.complete?'modo libre':`M${ctx.world}`}`);renderAll();});
   }
 
   function renderMaps() {
@@ -11849,6 +12333,36 @@
     }
   }
 
+
+  function setRizomaShipSelection(id,{toast=true}={}){
+    const p=currentProfile();if(!p)return false;reconcileRizomaShips(p);const meta=rizomaShipMeta(id);
+    if(!meta||!p.rizomaShips?.[meta.id])return false;
+    const same=p.activeRizomaShip===meta.id&&!(p.activeFleetShip||null);p.activeRizomaShip=meta.id;p.activeFleetShip=null;saveState();
+    renderRizomaShipInventory();renderConquestFleetInventory();
+    if(game?.renderFleetSelector)game.renderFleetSelector();if(game?.updateFleetControl)game.updateFleetControl(false);
+    if(toast&&game?.toast)game.toast(same?'◇ NAVE RIZOMA ACTIVA':'◇ NAVE RIZOMA PREPARADA',same?`${meta.name} · ya estaba seleccionada`:`${meta.name} · se aplicará en la próxima salida`);
+    return true;
+  }
+
+  function setArchiveFleetSelection(id=null,{toast=true}={}){
+    const p=currentProfile();if(!p)return false;id=id||null;if(id&&!p.conquestFleet?.[id])return false;
+    const previous=p.activeFleetShip||null,same=previous===id;p.activeFleetShip=id;saveState();
+    renderRizomaShipInventory();renderConquestFleetInventory();
+    if(game?.renderFleetSelector)game.renderFleetSelector();
+    if(game?.updateFleetControl)game.updateFleetControl(false);
+    if(toast&&game?.toast){const meta=conquestFleetMeta(id),own=rizomaShipMeta(p.activeRizomaShip||'rz1'),res=meta&&game?.getFleetRizomaResonance?game.getFleetRizomaResonance({fleetShip:meta.id,rizomaShip:p.activeRizomaShip||'rz1'},meta,own):null;game.toast(same?'✦ FLOTA ACTIVA':'✦ FLOTA SELECCIONADA',same?(meta?`${meta.name} · ya estaba preparada${res?` · ${res.label}`:''}`:`${own.name} · Línea Rizoma ya estaba preparada`):(meta?`${meta.name} · quedó preparada para la próxima salida${res?` · ${res.label}`:''}`:`${own.name} · Línea Rizoma quedó preparada para la próxima salida`));}
+    return true;
+  }
+
+  function setArchiveGuardianSelection(id,{toast=true}={}){
+    const p=currentProfile();if(!p||!id||!p.guardianInvocations?.[id])return false;
+    const previous=p.activeGuardianInvocation||null,same=previous===id;p.activeGuardianInvocation=id;saveState();
+    renderGuardianInvocationInventory();
+    if(game?.updateGuardianInvocationControl)game.updateGuardianInvocationControl();
+    if(toast&&game?.toast){const meta=guardianInvocationMeta(Number(String(id).replace('guardian',''))||1);game.toast(same?'◆ GUARDIÁN ACTIVO':'◆ GUARDIÁN SELECCIONADO',same?`${meta.name} · ya estaba asignado`:`M${meta.world} · ${meta.name} · listo para invocarse`);}
+    return true;
+  }
+
   function renderBossShipInventory(){
     if(!els.bossShipInventory)return;
     const p=currentProfile();p.bossShips=p.bossShips||{};
@@ -11867,19 +12381,33 @@
     }));
   }
 
+  function renderRizomaShipInventory(){
+    if(!els.rizomaShipInventory)return;
+    const p=currentProfile();reconcileRizomaShips(p);const active=p.activeRizomaShip||'rz1',conquest=!!p.activeFleetShip;
+    els.rizomaShipInventory.innerHTML=RIZOMA_SHIPS.map(meta=>{const unlocked=!!p.rizomaShips?.[meta.id],on=!conquest&&active===meta.id,remembered=conquest&&active===meta.id,src=GAME_ASSET_SOURCES[meta.assetKey]||'',stats=rizomaShipModSummary(meta),attrs=unlocked?`data-rizoma-ship="${meta.id}" role="button" tabindex="0" aria-pressed="${on?'true':'false'}"`:'';return `<article class="boss-ship-card rizoma-ship-card ${unlocked?'':'locked'} ${on?'active':''} ${remembered?'remembered':''}" style="--rizoma-color:${meta.color}" ${attrs}><div class="boss-ship-art">${src?`<img src="${src}" alt="${meta.name}" />`:'◇'}</div><h4>M${meta.milestoneWorld} · ${meta.name}</h4><p>${meta.role} · ${meta.desc}</p><div class="fleet-signature-readout"><small>HABILIDAD PROPIA</small><strong>${meta.special}</strong><em>${meta.specialCd}s base</em></div><div class="fleet-signature-readout"><small>${meta.phase}</small><strong>PASIVA</strong><em>${meta.passive}</em></div><div class="fleet-card-stats">${stats.length?stats.map(x=>`<span>${x}</span>`).join(''):'<span>EQUILIBRADA</span>'}</div><footer><span class="boss-ship-status">${unlocked?(on?'ACTIVA':remembered?'MEMORIZADA':'DESBLOQUEADA'):`DERROTA M${meta.milestoneWorld}`}</span><button class="soft-btn small" data-select-rizoma="${meta.id}" ${!unlocked||on?'disabled':''}>${on?'Activa':'Preparar'}</button></footer></article>`;}).join('');
+    const activate=node=>{const card=node?.closest?.('[data-rizoma-ship]');if(!card)return false;return setRizomaShipSelection(card.dataset.rizomaShip);};
+    els.rizomaShipInventory.querySelectorAll('[data-select-rizoma]').forEach(btn=>{btn.addEventListener('pointerup',e=>{if(e.cancelable)e.preventDefault();e.stopPropagation();setRizomaShipSelection(btn.dataset.selectRizoma);},{passive:false});btn.addEventListener('click',e=>{if(e.cancelable)e.preventDefault();e.stopPropagation();setRizomaShipSelection(btn.dataset.selectRizoma);});});
+    els.rizomaShipInventory.querySelectorAll('[data-rizoma-ship]').forEach(card=>{card.addEventListener('pointerup',e=>{if(e.target.closest('button'))return;if(e.cancelable)e.preventDefault();e.stopPropagation();activate(e.target);},{passive:false});card.addEventListener('click',e=>{if(e.target.closest('button'))return;if(e.cancelable)e.preventDefault();e.stopPropagation();activate(e.target);});card.addEventListener('keydown',e=>{if(e.key==='Enter'||e.key===' '){e.preventDefault();activate(e.target);}});});
+  }
+
   function renderConquestFleetInventory(){
     if(!els.conquestFleetInventory)return;
-    const p=currentProfile();reconcileConquestRewards(p);const active=p.activeFleetShip||null;
-    const baseSrc=GAME_ASSET_SOURCES.playerFenixRZ1||'';const base=`<article class="boss-ship-card ${!active?'active':''}"><div class="boss-ship-art">${baseSrc?`<img src="${baseSrc}" alt="Fénix RZ-1" />`:'◇'}</div><h4>Fénix RZ-1</h4><p>Nave base. La Flota no sustituye DOMINIO.</p><div class="fleet-card-stats"><span>EQUILIBRADA</span><span>SIN FIRMA</span></div><footer><span class="boss-ship-status">BASE</span><button class="soft-btn small" data-equip-fleet="" ${!active?'disabled':''}>${!active?'Preparada':'Preparar'}</button></footer></article>`;
-    els.conquestFleetInventory.innerHTML=base+CONQUEST_FLEET.map(meta=>{const unlocked=!!p.conquestFleet?.[meta.id],on=active===meta.id,src=GAME_ASSET_SOURCES[meta.assetKey]||'',stats=fleetModSummary(meta);return `<article class="boss-ship-card fleet-archive-card ${unlocked?'':'locked'} ${on?'active':''}" style="--fleet-color:${meta.color}"><div class="boss-ship-art">${src?`<img src="${src}" alt="${meta.name}" />`:'◇'}</div><h4>M${meta.milestoneWorld} · ${meta.name}</h4><p>${meta.inherit}.</p><div class="fleet-signature-readout"><small>FIRMA HEREDADA</small><strong>${meta.signature}</strong><em>${meta.signatureCd}s</em></div><div class="fleet-card-stats">${stats.map(x=>`<span>${x}</span>`).join('')}</div><footer><span class="boss-ship-status">${unlocked?'CONQUISTADA':'BLOQUEADA'}</span><button class="soft-btn small" data-equip-fleet="${meta.id}" ${!unlocked||on?'disabled':''}>${on?'Preparada':'Preparar'}</button></footer></article>`;}).join('');
-    els.conquestFleetInventory.querySelectorAll('[data-equip-fleet]').forEach(btn=>btn.addEventListener('click',()=>{const id=btn.dataset.equipFleet||null;if(id&&!p.conquestFleet?.[id])return;p.activeFleetShip=id;saveState();renderConquestFleetInventory();}));
+    const p=currentProfile();reconcileConquestRewards(p);const active=p.activeFleetShip||null,own=rizomaShipMeta(p.activeRizomaShip||'rz1');
+    const baseSrc=GAME_ASSET_SOURCES[own.assetKey]||'';const base=`<article class="boss-ship-card ${!active?'active':''}" data-archive-fleet="" role="button" tabindex="0" aria-pressed="${!active?'true':'false'}"><div class="boss-ship-art">${baseSrc?`<img src="${baseSrc}" alt="${own.name}" />`:'◇'}</div><h4>LÍNEA RIZOMA · ${own.name}</h4><p>${own.role}. Al elegir esta tarjeta vuelves al casco Rizoma propio actualmente preparado y este sirve como núcleo para la resonancia de flota.</p><div class="fleet-signature-readout"><small>NÚCLEO RIZOMA</small><strong>${own.special}</strong><em>${own.passive}</em></div><div class="fleet-card-stats"><span>${own.phase}</span><span>${own.role}</span></div><footer><span class="boss-ship-status">${!active?'SELECCIONADA':'LÍNEA PROPIA'}</span><button class="soft-btn small" data-equip-fleet="" ${!active?'disabled':''}>${!active?'Seleccionada':'Seleccionar'}</button></footer></article>`;
+    const cards=CONQUEST_FLEET.map(meta=>{const unlocked=!!p.conquestFleet?.[meta.id],on=active===meta.id,src=GAME_ASSET_SOURCES[meta.assetKey]||'',stats=fleetModSummary(meta),tapAttrs=unlocked?`data-archive-fleet="${meta.id}" role="button" tabindex="0" aria-pressed="${on?'true':'false'}"`:'';const res=game?.getFleetRizomaResonance?game.getFleetRizomaResonance({fleetShip:meta.id,rizomaShip:p.activeRizomaShip||'rz1'},meta,own):null;return `<article class="boss-ship-card fleet-archive-card ${unlocked?'':'locked'} ${on?'active':''}" style="--fleet-color:${meta.color}" ${tapAttrs}><div class="boss-ship-art">${src?`<img src="${src}" alt="${meta.name}" />`:'◇'}</div><h4>M${meta.milestoneWorld} · ${meta.name}</h4><p><strong>${meta.role}</strong> · ${meta.inherit}. ${meta.passive} <i>${meta.tradeoff}</i></p><div class="fleet-signature-readout"><small>FIRMA HEREDADA</small><strong>${meta.signature}</strong><em>${game?.getFleetSignatureCooldown?game.getFleetSignatureCooldown(meta,{fleetShip:meta.id,rizomaShip:p.activeRizomaShip||'rz1'}):meta.signatureCd}s</em></div>${res?`<div class="fleet-signature-readout"><small>RESONANCIA CON ${own.name.toUpperCase()}</small><strong>${res.label}</strong><em>${res.short}</em></div>`:''}<div class="fleet-card-stats">${stats.map(x=>`<span>${x}</span>`).join('')}</div><footer><span class="boss-ship-status">${unlocked?(on?'SELECCIONADA':'CONQUISTADA'):'BLOQUEADA'}</span><button class="soft-btn small" data-equip-fleet="${meta.id}" ${!unlocked||on?'disabled':''}>${on?'Seleccionada':'Seleccionar'}</button></footer></article>`;}).join('');
+    els.conquestFleetInventory.innerHTML=base+cards;
+    const activateFromNode=node=>{const card=node?.closest?.('[data-archive-fleet]');if(!card)return false;return setArchiveFleetSelection(card.dataset.archiveFleet||null);};
+    els.conquestFleetInventory.querySelectorAll('[data-equip-fleet]').forEach(btn=>{btn.addEventListener('pointerup',e=>{if(e.cancelable)e.preventDefault();e.stopPropagation();setArchiveFleetSelection(btn.dataset.equipFleet||null);},{passive:false});btn.addEventListener('click',e=>{if(e.cancelable)e.preventDefault();e.stopPropagation();setArchiveFleetSelection(btn.dataset.equipFleet||null);});});
+    els.conquestFleetInventory.querySelectorAll('[data-archive-fleet]').forEach(card=>{card.addEventListener('pointerup',e=>{if(e.target.closest('button'))return;if(e.cancelable)e.preventDefault();e.stopPropagation();activateFromNode(e.target);},{passive:false});card.addEventListener('click',e=>{if(e.target.closest('button'))return;if(e.cancelable)e.preventDefault();e.stopPropagation();activateFromNode(e.target);});card.addEventListener('keydown',e=>{if(e.key==='Enter'||e.key===' '){e.preventDefault();activateFromNode(e.target);}});});
   }
 
   function renderGuardianInvocationInventory(){
     if(!els.guardianInvocationInventory)return;
     const p=currentProfile();reconcileConquestRewards(p);const active=p.activeGuardianInvocation||null;
-    els.guardianInvocationInventory.innerHTML=MAPS.map((map,i)=>{const world=i+1,id=`guardian${world}`,meta=guardianInvocationMeta(world),unlocked=!!p.guardianInvocations?.[id],on=active===id,src=GAME_ASSET_SOURCES[meta.assetKey]||'';return `<article class="boss-ship-card guardian-card ${unlocked?'':'locked'} ${on?'active':''}" style="--guardian-color:${meta.color}"><div class="boss-ship-art">${src?`<img src="${src}" alt="${meta.name}" />`:bossSigilHtml(i,'map-boss-sigil')}</div><h4>M${world} · ${meta.name}</h4><p>${meta.signature} · ${meta.duration}s · cooldown ${meta.cooldown}s.</p><footer><span class="boss-ship-status">${unlocked?'INVOCABLE':'BLOQUEADO'}</span><button class="soft-btn small" data-select-guardian="${id}" ${!unlocked||on?'disabled':''}>${on?'Seleccionado':'Seleccionar'}</button></footer></article>`;}).join('');
-    els.guardianInvocationInventory.querySelectorAll('[data-select-guardian]').forEach(btn=>btn.addEventListener('click',()=>{const id=btn.dataset.selectGuardian;if(!p.guardianInvocations?.[id])return;p.activeGuardianInvocation=id;saveState();renderGuardianInvocationInventory();}));
+    els.guardianInvocationInventory.innerHTML=MAPS.map((map,i)=>{const world=i+1,id=`guardian${world}`,meta=guardianInvocationMeta(world),unlocked=!!p.guardianInvocations?.[id],on=active===id,src=GAME_ASSET_SOURCES[meta.assetKey]||'',tapAttrs=unlocked?`data-archive-guardian="${id}" role="button" tabindex="0" aria-pressed="${on?'true':'false'}"`:'';return `<article class="boss-ship-card guardian-card ${unlocked?'':'locked'} ${on?'active':''}" style="--guardian-color:${meta.color}" ${tapAttrs}><div class="boss-ship-art">${src?`<img src="${src}" alt="${meta.name}" />`:bossSigilHtml(i,'map-boss-sigil')}</div><h4>M${world} · ${meta.name}</h4><p>${meta.signature} · ${meta.duration}s · cooldown ${meta.cooldown}s.</p><footer><span class="boss-ship-status">${unlocked?(on?'SELECCIONADO':'INVOCABLE'):'BLOQUEADO'}</span><button class="soft-btn small" data-select-guardian="${id}" ${!unlocked||on?'disabled':''}>${on?'Activo':'Seleccionar'}</button></footer></article>`;}).join('');
+    const activateFromNode=node=>{const card=node?.closest?.('[data-archive-guardian]');if(!card)return false;return setArchiveGuardianSelection(card.dataset.archiveGuardian||'');};
+    els.guardianInvocationInventory.querySelectorAll('[data-select-guardian]').forEach(btn=>{btn.addEventListener('pointerup',e=>{if(e.cancelable)e.preventDefault();e.stopPropagation();setArchiveGuardianSelection(btn.dataset.selectGuardian||'');},{passive:false});btn.addEventListener('click',e=>{if(e.cancelable)e.preventDefault();e.stopPropagation();setArchiveGuardianSelection(btn.dataset.selectGuardian||'');});});
+    els.guardianInvocationInventory.querySelectorAll('[data-archive-guardian]').forEach(card=>{card.addEventListener('pointerup',e=>{if(e.target.closest('button'))return;if(e.cancelable)e.preventDefault();e.stopPropagation();activateFromNode(e.target);},{passive:false});card.addEventListener('click',e=>{if(e.target.closest('button'))return;if(e.cancelable)e.preventDefault();e.stopPropagation();activateFromNode(e.target);});card.addEventListener('keydown',e=>{if(e.key==='Enter'||e.key===' '){e.preventDefault();activateFromNode(e.target);}});});
   }
 
   function renderSagaTwoPreview(){
@@ -11972,7 +12500,7 @@
     reconcileConquestRewards(active);
     // La reparación de progreso debe persistir, no quedar sólo en memoria hasta la próxima acción del usuario.
     saveState();
-    renderHome(); renderProfiles(); renderAvatars(); renderHangar(); renderMaps(); renderBossShipInventory(); renderConquestFleetInventory(); renderGuardianInvocationInventory(); renderReplayLevels(); renderSagaTwoPreview(); renderTrainingBosses(); renderShop(); renderRanking(); renderAchievements(); renderCollection(); renderSettings();
+    renderHome(); renderProfiles(); renderAvatars(); renderHangar(); renderMaps(); renderBossShipInventory(); renderRizomaShipInventory(); renderConquestFleetInventory(); renderGuardianInvocationInventory(); renderReplayLevels(); renderSagaTwoPreview(); renderTrainingBosses(); renderShop(); renderRanking(); renderAchievements(); renderCollection(); renderSettings();
   }
 
   function exportRanking() {
@@ -12179,8 +12707,22 @@ ${JSON.stringify(snapshot, null, 2)}`;
     els.btnFleetClose?.addEventListener('click',e=>{consumeDomainGesture(e);game.closeFleetSelector();});
     els.fleetOverlay?.addEventListener('pointerdown',e=>{e.stopPropagation();},{passive:true});
     els.fleetOverlay?.addEventListener('click',e=>{e.stopPropagation();if(e.target===els.fleetOverlay)game.closeFleetSelector();});
+    let fleetQuickSelectStamp=0,fleetQuickSelectKey='';
+    const handleFleetQuickSelection=e=>{
+      e.stopPropagation();
+      const btn=e.target.closest('[data-fleet-loadout]');
+      if(!btn)return;
+      if(e.cancelable)e.preventDefault();
+      const key=btn.dataset.fleetLoadout||'';
+      const stamp=performance.now();
+      if(stamp-fleetQuickSelectStamp<320&&fleetQuickSelectKey===key)return;
+      fleetQuickSelectStamp=stamp;fleetQuickSelectKey=key;
+      game.selectFleetLoadout(key||null);
+    };
     els.fleetQuickList?.addEventListener('pointerdown',e=>{e.stopPropagation();},{passive:true});
-    els.fleetQuickList?.addEventListener('click',e=>{e.stopPropagation();const btn=e.target.closest('[data-fleet-loadout]');if(btn)game.selectFleetLoadout(btn.dataset.fleetLoadout||null);});
+    els.fleetQuickList?.addEventListener('pointerup',handleFleetQuickSelection,{passive:false});
+    els.fleetQuickList?.addEventListener('click',handleFleetQuickSelection);
+    els.fleetQuickList?.addEventListener('keydown',e=>{if(e.key==='Enter'||e.key===' '){handleFleetQuickSelection(e);}});
     let guardianHoldTimer=null,guardianHeld=false,guardianPointerId=null;
     const clearGuardianHold=()=>{if(guardianHoldTimer){clearTimeout(guardianHoldTimer);guardianHoldTimer=null;}};
     els.btnGuardianInvoke?.addEventListener('pointerdown',e=>{consumeDomainGesture(e);if(els.btnGuardianInvoke.disabled)return;guardianHeld=false;guardianPointerId=e.pointerId;els.btnGuardianInvoke.setPointerCapture?.(e.pointerId);clearGuardianHold();guardianHoldTimer=setTimeout(()=>{guardianHeld=true;game.cycleGuardianInvocation(1);navigator.vibrate?.(22);},560);},{passive:false});

@@ -1,0 +1,13 @@
+OK	version	3.13.0
+OK	js/game.js syntax	node --check
+OK	sw.js syntax	node --check
+OK	rizoma arsenal helper	getRizomaArsenalStage
+OK	rizoma arsenal trigger	triggerRizomaShipArsenal
+OK	rizoma missiles helper	fireRizomaMissiles
+OK	rizoma visual overlay	drawRizomaShipArsenalOverlay
+OK	rizoma trigger in shooting	handleShooting patched
+OK	rizoma visual overlay in draw	drawDomainPlayer patched
+OK	nebula escort visibility	drawDrones patched
+OK	manifest version	3.13.0
+OK	manifest start_url	./index.html?v=3.13.0
+OK	sw cache name	rizoma-zombie-strike-v3-13-0

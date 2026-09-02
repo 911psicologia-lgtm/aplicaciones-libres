@@ -1,0 +1,12 @@
+OK	version	3.15.0
+OK	js/game.js syntax	node --check
+OK	sw.js syntax	node --check
+OK	rizoma doctrine refined	getRizomaDoctrine updated
+OK	fleet resonance helper	getFleetRizomaResonance
+OK	fleet adaptive cooldown	getFleetSignatureCooldown
+OK	run init tuning	own ship doctrine bonuses + fleet resonance bonuses
+OK	fleet signature integration	updateFleetSignature applies resonance extras
+OK	selector UX	cooldown + resonance visible
+OK	archive UX	cooldown + resonance visible
+OK	manifest version	3.15.0
+OK	sw cache	v3-15-0
