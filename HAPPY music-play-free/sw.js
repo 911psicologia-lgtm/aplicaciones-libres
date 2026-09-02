@@ -1,11 +1,11 @@
-const BUILD = '2026.09.01-r9c-play-modes';
-const CACHE = 'mpf-r9c-play-modes';
+const BUILD = '2026.09.01-r10-library-first';
+const CACHE = 'mpf-r10-library-first';
 const CORE = [
   './',
   './index.html',
-  './styles.css?v=r9c-play-modes',
-  './app.js?v=r9c-play-modes',
-  './manifest.webmanifest?v=r9c-play-modes',
+  './styles.css?v=r10-library-first',
+  './app.js?v=r10-library-first',
+  './manifest.webmanifest?v=r10-library-first',
   './version.json',
   './icons/icon-192.png',
   './icons/icon-512.png',
@@ -35,6 +35,7 @@ self.addEventListener('fetch', event => {
   if(req.method !== 'GET') return;
   const url = new URL(req.url);
   if(url.origin !== self.location.origin) return;
+  if(url.pathname.includes('/api/')){ event.respondWith(fetch(req)); return; }
 
   if(req.mode === 'navigate'){
     event.respondWith(

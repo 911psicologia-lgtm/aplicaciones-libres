@@ -1,27 +1,39 @@
-MUSIC PLAY · HAPPY — R9 IMMERSIVE
+MUSIC PLAY · HAPPY — R10 LIBRARY FIRST
 
-CAMBIOS R9
-- Instalación PWA visible desde la apertura: icono ⇩ permanente en modo web + asistente inicial.
-- En Android sin prompt nativo, ofrece abrir directamente en Chrome mediante intent.
-- Manifest actualizado a fullscreen con fallback standalone.
-- Acción manual ⛶ Pantalla completa y diagnóstico PWA oculto en ⋯.
-- Interfaz móvil desduplicada: en navegador se oculta el segundo rótulo MUSIC PLAY y se elimina el icono repetido del hero.
-- Media Session ampliada: play, pausa, anterior, siguiente, seek ±10 s, seekto, stop, metadata y artwork.
-- Archivos locales/directos preparados para continuar con pantalla bloqueada cuando el navegador/SO mantiene el audio activo.
-- YouTube: reproductor visible mínimo 200 px, origin/referrer y recuperación al volver a primer plano. La reproducción con pantalla bloqueada sigue dependiendo de las restricciones de YouTube/Chrome y no puede garantizarse desde un iframe.
-- Lotes de importación: lo recién subido queda registrado y preseleccionado automáticamente.
-- Al cargar una carpeta/selección aparece “Crear playlist con N” sin seleccionar una por una.
-- En “Crear desde canciones” y “Añadir canciones” la última carga aparece primero y marcada.
-- Importaciones de playlists YouTube registran también el último lote importado.
-- Carátulas: ID3 APIC en MP3, thumbnail de YouTube/SoundCloud y captura de fotograma para videos locales (primeros 24 por lote para no bloquear móviles).
-- Las playlists propias usan la portada de su primera canción cuando está disponible.
-- Carátulas persistidas en IndexedDB store `covers`.
+FASE 1 — SHELL MÓVIL
+- Barra inferior permanente: Inicio · Buscar · Biblioteca.
+- Mini-player persistente inmediatamente encima de la barra.
+- Buscar disponible desde cualquier sección.
+- Inicio adaptativo: onboarding únicamente para una biblioteca nueva; después muestra Continuar, Favoritos, + Escuchadas, Recientes y Playlists.
+- Biblioteca como centro: Playlists · Canciones · Álbumes.
+
+FASE 2 — IMPORTACIÓN ESCALABLE
+- Importación “index-first”: la biblioteca aparece antes de terminar metadata/duración/carátulas.
+- Metadata se procesa en segundo plano por porciones o tiempos ociosos.
+- Carpetas elegidas mediante File System Access guardan referencias FileSystemHandle cuando el navegador lo permite, reduciendo copias masivas de blobs.
+- Fallback a IndexedDB para navegadores sin FileSystemHandle.
+- Renderizado virtual/lazy: una lista de cientos de pistas no genera cientos de filas de golpe.
+- Último lote continúa identificado y preseleccionado para crear playlists de una sola acción.
+
+FASE 3 — YOUTUBE
+- Importador de playlists preparado para helper same-origin /api/youtube-playlist.
+- Worker Cloudflare incluido.
+- Con YOUTUBE_API_KEY usa YouTube Data API paginada, 50 elementos por solicitud, hasta 1000 elementos.
+- Recupera título de playlist, título de canción, autor/canal, orden, thumbnail e indisponibilidad.
+- Sin API key conserva fallback de página pública/IFrame, menos estable.
+- Antes de exportar una playlist M3U8, R10 intenta completar los metadatos YouTube faltantes.
+
+FASE 4 — PLAYLISTS
+- Playlist visual con carátula/collage.
+- Menú contextual: Aleatorio, Buscar dentro de lista, Mix/modos, Reproducir a continuación, Añadir a cola, Fijar en Inicio, Exportar M3U8, Renombrar, Añadir enlace y Eliminar.
+- Favoritos, + Escuchadas, Recientes y En repetición siguen siendo colecciones automáticas.
+- Modos de reproducción preservados: Normal, Aleatorio sin repetición, Mix inteligente, Radio, Redescubrir, Sorpréndeme y Cola Viva.
+
+FASE 5 — PWA / AUDIO
+- Botón de instalación visible y tarjeta de instalación durante el primer uso.
+- Service Worker R10, manifest standalone + fullscreen override, iconos 192/512/maskable.
+- Media Session preservada para audio local/directo: metadata, Play/Pausa, Anterior/Siguiente, seek y pantalla bloqueada cuando el SO/navegador mantenga el audio.
+- YouTube continúa sujeto a las restricciones del IFrame/navegador al bloquear pantalla; MUSIC PLAY no simula una garantía que la plataforma no ofrece.
 
 PRIVACIDAD
-Todo el historial local, archivos persistidos, favoritos, playlists y carátulas locales permanecen en el navegador/dispositivo salvo fuentes externas que requieren su servicio original.
-
-
-R9B: se renovaron los assets de icono PWA (192, 512, 512 maskable y Apple touch).
-
-
-R10 PLAY MODES: se añaden Aleatorio sin repetición por vuelta, Mix inteligente, Radio de biblioteca, Redescubrir, Sorpréndeme y Cola Viva. El botón ⇄ del reproductor abre el selector de modos.
+Biblioteca, favoritos, playlists, historial y estadísticas de escucha siguen siendo local-first. Las fuentes externas solo contactan sus servicios cuando se reproducen/importan o cuando se solicitan metadatos.

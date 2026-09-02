@@ -5,12 +5,13 @@
   "description": "Biblioteca musical minimalista, local e híbrida: archivos, enlaces y playlists.",
   "start_url": "./?source=pwa",
   "scope": "./",
-  "display": "fullscreen",
+  "display": "standalone",
   "display_override": ["fullscreen", "standalone"],
   "orientation": "any",
   "background_color": "#0e1014",
   "theme_color": "#0e1014",
   "prefer_related_applications": false,
+  "categories": ["music", "multimedia", "entertainment"],
   "launch_handler": {"client_mode": "navigate-existing"},
   "icons": [
     {"src":"./icons/icon-192.png","sizes":"192x192","type":"image/png","purpose":"any"},
@@ -18,7 +19,7 @@
     {"src":"./icons/icon-512-maskable.png","sizes":"512x512","type":"image/png","purpose":"maskable"}
   ],
   "shortcuts": [
-    {"name":"Tu música","short_name":"Música","url":"./?source=pwa&view=library","icons":[{"src":"./icons/icon-192.png","sizes":"192x192","type":"image/png"}]},
-    {"name":"Playlists","short_name":"Playlists","url":"./?source=pwa&view=playlist","icons":[{"src":"./icons/icon-192.png","sizes":"192x192","type":"image/png"}]}
+    {"name":"Buscar","short_name":"Buscar","url":"./?source=pwa&view=search","icons":[{"src":"./icons/icon-192.png","sizes":"192x192","type":"image/png"}]},
+    {"name":"Biblioteca","short_name":"Biblioteca","url":"./?source=pwa&view=library","icons":[{"src":"./icons/icon-192.png","sizes":"192x192","type":"image/png"}]}
   ]
 }

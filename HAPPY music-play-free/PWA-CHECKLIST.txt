@@ -1,0 +1,17 @@
+PWA — COMPROBACIÓN DESPUÉS DE PUBLICAR R10
+
+1. Abre la URL pública exacta en Chrome Android.
+2. Comprueba que la propia app muestra ⇩ Instalar (en primer uso también aparece una tarjeta grande de instalación).
+3. Si se abre dentro de un visor con X/barra propia, toca el botón de instalación de MUSIC PLAY: R10 intentará saltar directamente a Chrome.
+4. En Chrome, si el instalador nativo está disponible, el mismo botón ⇩ lo dispara en un toque.
+5. Tras instalar, cierra la pestaña web y abre MUSIC PLAY desde el icono del teléfono.
+6. Debe abrir con display standalone/fullscreen, sin barra normal de direcciones.
+
+Si Chrome NO ofrece instalación, revisar en la URL publicada:
+- manifest.webmanifest responde HTTP 200 y application/manifest+json o JSON válido.
+- sw.js responde HTTP 200 y controla el mismo scope que start_url.
+- icon-192.png, icon-512.png e icon-512-maskable.png responden HTTP 200.
+- no hay redirección de start_url fuera del scope.
+- la app se sirve por HTTPS.
+
+Una página abierta en WebView/visor interno no puede forzar silenciosamente la instalación del sistema. La confirmación final pertenece a Android/Chrome.

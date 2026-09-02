@@ -1,3 +1,9 @@
 MUSIC PLAY · HAPPY
-Build: 2026.09.01-r9c-play-modes
-Modos: Normal, Aleatorio, Mix inteligente, Radio, Redescubrir, Sorpréndeme y Cola Viva.
+Build: 2026.09.01-r10-library-first
+R10 · Library First
+- Inicio adaptativo
+- Buscar global
+- Biblioteca: Playlists / Canciones / Álbumes
+- Barra inferior + mini-player persistente
+- Importación masiva index-first
+- YouTube metadata helper paginado

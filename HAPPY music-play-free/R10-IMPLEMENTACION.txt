@@ -1,0 +1,11 @@
+IMPLEMENTACIÓN PASO A PASO — R10
+
+1. Navegación: nuevo shell Inicio / Buscar / Biblioteca + mini-player persistente.
+2. Onboarding: solo primera vez; instalación visible; Archivo/Carpeta, Enlace/Mi música, Reproducir.
+3. Biblioteca First: Playlists/Canciones/Álbumes, actividad reciente y búsqueda global.
+4. Rendimiento: index-first, persistencia por lotes, enriquecimiento diferido, virtualización de filas.
+5. YouTube: helper Cloudflare + Data API paginada para títulos y thumbnails completos.
+6. Exportación: enriquecimiento previo de metadatos YouTube antes de generar M3U8.
+7. Playlists: búsqueda interna, cola, play-next, fijar en Inicio, exportación y modos.
+8. PWA: manifest standalone/fullscreen, instalación visible, acceso Chrome en Android si el visor no expone el instalador.
+9. Compatibilidad: se preservan favoritos, historial, smart lists, modos de reproducción, carátulas, backup y M3U8.

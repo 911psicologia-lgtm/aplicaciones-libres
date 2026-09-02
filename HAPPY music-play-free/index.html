@@ -4,7 +4,7 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
   <meta name="theme-color" content="#0e1014" />
-  <meta name="description" content="MUSIC PLAY · reproductor local minimalista y privado" />
+  <meta name="description" content="MUSIC PLAY · biblioteca musical minimalista, local e híbrida" />
   <meta name="color-scheme" content="dark light" />
   <meta name="application-name" content="MUSIC PLAY" />
   <meta name="mobile-web-app-capable" content="yes" />
@@ -12,10 +12,10 @@
   <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
   <meta name="apple-mobile-web-app-title" content="MUSIC PLAY" />
   <title>MUSIC PLAY · HAPPY</title>
-  <link rel="manifest" href="./manifest.webmanifest?v=r9c-play-modes" />
+  <link rel="manifest" href="./manifest.webmanifest?v=r10-library-first" />
   <link rel="icon" href="./icons/icon-192.png" />
   <link rel="apple-touch-icon" href="./icons/apple-touch-icon.png" />
-  <link rel="stylesheet" href="./styles.css?v=r9c-play-modes" />
+  <link rel="stylesheet" href="./styles.css?v=r10-library-first" />
 </head>
 <body>
   <noscript>Esta aplicación necesita JavaScript.</noscript>
@@ -23,22 +23,14 @@
   <div id="intro" class="intro" aria-hidden="true">
     <div class="intro-elevator">
       <div class="intro-panel">
-        <div class="floor-lights">
-          <span></span><span></span><span></span>
-        </div>
+        <div class="floor-lights"><span></span><span></span><span></span></div>
         <div class="shaft">
           <div class="car"></div>
-          <div class="doors">
-            <div class="door left"></div>
-            <div class="door right"></div>
-          </div>
+          <div class="doors"><div class="door left"></div><div class="door right"></div></div>
           <div class="music-note">♫</div>
         </div>
       </div>
-      <div class="intro-copy">
-        <strong>MUSIC PLAY</strong>
-        <span>HAPPY</span>
-      </div>
+      <div class="intro-copy"><strong>MUSIC PLAY</strong><span>HAPPY</span></div>
     </div>
   </div>
 
@@ -46,145 +38,131 @@
     <header class="topbar">
       <button id="homeBtn" class="brand-btn" aria-label="Inicio">
         <span class="brand-mark">♫</span>
-        <span class="brand-copy">
-          <strong>MUSIC PLAY</strong>
-          <small>minimal · privado · universal</small>
-        </span>
+        <span class="brand-copy"><strong>MUSIC PLAY</strong><small>tu biblioteca musical</small></span>
       </button>
       <div class="top-actions" aria-label="Acciones de aplicación">
         <button id="updateBtn" class="icon-status-btn update-btn is-hidden" type="button" title="Actualización disponible" aria-label="Actualizar MUSIC PLAY">↻<span class="status-dot" aria-hidden="true"></span></button>
-        <button id="installBtn" class="ghost-btn install-btn" type="button" title="Instalar MUSIC PLAY como aplicación">⇩ <span>Instalar</span></button>
+        <button id="installBtn" class="ghost-btn install-btn" type="button" title="Instalar MUSIC PLAY">⇩ <span>Instalar</span></button>
         <button id="moreBtn" class="icon-status-btn" type="button" title="Más opciones" aria-label="Más opciones">⋯</button>
       </div>
     </header>
 
-    <main class="screen-wrap">
+    <main class="screen-wrap r10-shell">
       <section id="homeView" class="view active">
-        <div class="home-card home-card-compact">
-          <h1>Tu música, sin ruido.</h1>
-          <p>Carga, escucha, organiza y mezcla.</p>
+        <div id="onboardingPanel" class="onboarding-panel is-hidden">
+          <div class="onboarding-hero">
+            <span class="onboarding-mark">♫</span>
+            <div><small>PRIMEROS PASOS</small><h1>Tu música empieza aquí.</h1><p>Tres pasos. Nada más.</p></div>
+          </div>
+          <button id="onboardingInstallBtn" class="onboarding-install" type="button"><span>⇩</span><span><strong>Instalar MUSIC PLAY</strong><small>Ábrela como app, sin barra del navegador</small></span><b>›</b></button>
+          <div class="onboarding-steps">
+            <section class="onboarding-step" id="onboardingStep1">
+              <span class="step-number">1</span><div class="step-copy"><strong>Añade música</strong><small>Desde tu dispositivo</small></div>
+              <div class="step-actions"><button id="onboardingFileBtn" class="micro-btn">♪ Archivo</button><button id="onboardingFolderBtn" class="micro-btn">⌂ Carpeta</button></div>
+            </section>
+            <section class="onboarding-step" id="onboardingStep2">
+              <span class="step-number">2</span><div class="step-copy"><strong>Crea una playlist</strong><small>Importa o usa tu música</small></div>
+              <div class="step-actions"><button id="onboardingLinkBtn" class="micro-btn">🔗 Enlace</button><button id="onboardingMusicBtn" class="micro-btn">≡ Mi música</button></div>
+            </section>
+            <section class="onboarding-step" id="onboardingStep3">
+              <span class="step-number">3</span><div class="step-copy"><strong>Dale Play</strong><small>Reproduce lo que tengas</small></div>
+              <div class="step-actions"><button id="onboardingPlayBtn" class="primary-btn compact-primary">▶ Reproducir</button></div>
+            </section>
+          </div>
         </div>
 
-        <div class="action-grid">
-          <button id="loadAction" class="action-card action-accent">
-            <span class="action-icon">＋</span>
-            <strong>Cargar</strong>
-            <small>Archivos y enlaces</small>
+        <div id="matureHome" class="mature-home is-hidden">
+          <button id="resumeCard" class="resume-card is-hidden" type="button">
+            <div id="resumeArtwork" class="resume-art">♫</div>
+            <div class="resume-copy"><small>SEGUIR ESCUCHANDO</small><strong id="resumeTitle">—</strong><span id="resumeArtist">—</span></div>
+            <span id="resumePlayIcon" class="resume-play">▶</span>
           </button>
-          <button id="playAction" class="action-card">
-            <span class="action-icon">▶</span>
-            <strong>Play</strong>
-            <small>Escuchar</small>
-          </button>
-          <button id="playlistAction" class="action-card">
-            <span class="action-icon">≡</span>
-            <strong>Playlist</strong>
-            <small>Tus listas</small>
-          </button>
-          <button id="mixAction" class="action-card">
-            <span class="action-icon">✦</span>
-            <strong>Mix</strong>
-            <small>Mezclar</small>
-          </button>
-        </div>
 
-        <div class="micro-panel">
-          <button id="loadFilesQuick" class="micro-btn">＋ Archivo</button>
-          <button id="loadFolderQuick" class="micro-btn">⌂ Carpeta</button>
-          <button id="loadLinkQuick" class="micro-btn">🔗 Enlace</button>
-          <button id="openLibraryQuick" class="micro-btn">♪ Música</button>
-          <button id="createPlaylistQuick" class="micro-btn">≡ + Lista</button>
-        </div>
+          <div class="smart-strip home-smart" aria-label="Colecciones inteligentes">
+            <button id="favoritesShortcut" class="smart-card favorite-card" type="button">
+              <span class="smart-icon">♥</span><span><strong>Favoritos</strong><small><b id="countFavorites">0</b> guardadas</small></span><span class="smart-go">›</span>
+            </button>
+            <button id="mostPlayedShortcut" class="smart-card hot-card" type="button">
+              <span class="smart-icon">🔥</span><span><strong>+ Escuchadas</strong><small><b id="countMost">0</b> personales</small></span><span class="smart-go">›</span>
+            </button>
+          </div>
 
-        <div class="smart-strip" aria-label="Colecciones inteligentes">
-          <button id="favoritesShortcut" class="smart-card favorite-card" type="button">
-            <span class="smart-icon">♥</span><span><strong>Favoritos</strong><small><b id="countFavorites">0</b> guardadas</small></span><span class="smart-go">›</span>
-          </button>
-          <button id="mostPlayedShortcut" class="smart-card hot-card" type="button">
-            <span class="smart-icon">🔥</span><span><strong>+ Escuchadas</strong><small><b id="countMost">0</b> personales</small></span><span class="smart-go">›</span>
-          </button>
-        </div>
-        <div class="mini-stats" id="summaryBar">
-          <span><b id="countTracks">0</b> audios</span>
-          <span><b id="countPlaylists">0</b> listas</span>
-          <span><b id="listenTimeHome">0m</b> escuchados</span>
+          <section class="home-section">
+            <div class="section-row"><div><small>RECIENTES</small><h2>Escuchado últimamente</h2></div><button id="homeSearchBtn" class="text-action">Buscar</button></div>
+            <div id="homeRecent" class="horizontal-cards"></div>
+          </section>
+
+          <section class="home-section">
+            <div class="section-row"><div><small>TUS LISTAS</small><h2>Playlists</h2></div><button id="homeAllPlaylistsBtn" class="text-action">Ver todas</button></div>
+            <div id="homePlaylists" class="horizontal-cards"></div>
+          </section>
+
+          <div class="mini-stats" id="summaryBar">
+            <span><b id="countTracks">0</b> audios</span><span><b id="countPlaylists">0</b> listas</span><span><b id="listenTimeHome">0m</b> escuchados</span>
+          </div>
         </div>
       </section>
 
-      <section id="libraryView" class="view">
-        <div class="view-head">
-          <button class="back-btn" data-go="home">←</button>
-          <div>
-            <small>Biblioteca</small>
-            <h2>Tu música</h2>
-          </div>
-          <div class="head-actions"><button id="libraryFavoritesBtn" class="head-btn heart-head" title="Ver favoritos">♥</button><button id="createFromLibraryBtn" class="head-btn" title="Crear playlist desde canciones">≡＋</button><button id="libraryAddBtn" class="head-btn" title="Cargar música">＋</button></div>
+      <section id="searchView" class="view">
+        <div class="view-head search-head">
+          <div><small>BUSCAR</small><h2>Encuentra lo tuyo</h2></div>
+          <button id="searchNewBtn" class="head-btn" title="Añadir">＋</button>
         </div>
-
-        <label class="search-box">
-          <span>⌕</span>
-          <input id="searchInput" type="search" placeholder="Buscar canción, artista, álbum o género" autocomplete="off" />
+        <label class="search-box global-search-box">
+          <span>⌕</span><input id="globalSearchInput" type="search" placeholder="Canción, artista, álbum, playlist o pega un enlace" autocomplete="off" />
         </label>
-
-        <div id="genreChips" class="chips"></div>
-
-        <div id="libraryEmpty" class="empty-state">
-          <div class="empty-icon">♪</div>
-          <h3>Carga tu primera canción</h3>
-          <p>Arrastra archivos aquí o usa el botón de cargar.</p>
-          <button id="emptyLoadBtn" class="primary-btn">Cargar música</button>
-        </div>
-        <div id="libraryList" class="list"></div>
+        <button id="searchLinkHint" class="link-detect-card is-hidden" type="button"><span>🔗</span><span><strong>Enlace detectado</strong><small>Analizar e importar</small></span><b>›</b></button>
+        <div id="searchEmpty" class="search-empty"><span>⌕</span><strong>Busca en toda tu biblioteca</strong><small>Canciones, artistas, álbumes, playlists y enlaces.</small></div>
+        <div id="searchResults" class="search-results"></div>
       </section>
 
-      <section id="playlistView" class="view">
-        <div id="playlistHubHead" class="view-head">
-          <button class="back-btn" data-go="home">←</button>
-          <div>
-            <small>Playlists</small>
-            <h2>Tus listas</h2>
-          </div>
-          <div class="head-actions">
-            <button id="importPlaylistBtn" class="head-btn" title="Importar playlist por enlace">🔗</button>
-            <button id="newPlaylistBtn" class="head-btn" title="Nueva playlist">＋</button>
-          </div>
+      <section id="libraryView" class="view library-first-view">
+        <div id="libraryMainHead" class="view-head library-main-head">
+          <div><small>BIBLIOTECA</small><h2>Tu música</h2></div>
+          <div class="head-actions"><button id="librarySearchBtn" class="head-btn" title="Buscar">⌕</button><button id="libraryAddBtn" class="head-btn" title="Nueva / Importar">＋</button></div>
         </div>
 
-        <div id="playlistHub" class="playlist-hub"></div>
-        <div id="playlistHubEmpty" class="empty-state slim is-hidden">
-          <div class="empty-icon">≡</div>
-          <h3>Tus playlists vivirán aquí</h3>
-          <p>Crea una desde tus canciones o importa una lista por enlace.</p>
-          <div class="empty-actions">
-            <button id="emptyNewPlaylistBtn" class="micro-btn">＋ Nueva</button>
-            <button id="emptyImportPlaylistBtn" class="micro-btn">🔗 Importar</button>
-          </div>
+        <div id="libraryTabs" class="library-tabs" role="tablist">
+          <button id="libraryTabPlaylists" class="library-tab active" data-tab="playlists">Playlists</button>
+          <button id="libraryTabSongs" class="library-tab" data-tab="songs">Canciones</button>
+          <button id="libraryTabAlbums" class="library-tab" data-tab="albums">Álbumes</button>
         </div>
 
-        <section id="playlistDetail" class="playlist-detail is-hidden">
-          <div class="playlist-detail-head">
-            <button id="playlistDetailBack" class="back-btn" title="Volver a playlists">←</button>
-            <div class="playlist-detail-copy">
-              <small id="playlistDetailMeta">PLAYLIST</small>
-              <h2 id="playlistDetailTitle">—</h2>
+        <div id="librarySortRow" class="library-sort-row"><select id="librarySortSelect" aria-label="Ordenar biblioteca"><option value="recent">Actividad reciente</option><option value="name">Nombre</option><option value="played">Más escuchado</option></select><span id="libraryCountLabel"></span></div>
+
+        <section id="libraryPlaylistsPanel" class="library-panel active">
+          <div id="playlistHub" class="playlist-hub"></div>
+          <div id="playlistHubEmpty" class="empty-state slim is-hidden">
+            <div class="empty-icon">≡</div><h3>Tus playlists vivirán aquí</h3><p>Crea una desde tus canciones o importa una lista por enlace.</p>
+            <div class="empty-actions"><button id="emptyNewPlaylistBtn" class="micro-btn">＋ Nueva</button><button id="emptyImportPlaylistBtn" class="micro-btn">🔗 Importar</button></div>
+          </div>
+          <button id="libraryNewPlaylistFab" class="library-fab" type="button">＋ <span>Nueva</span></button>
+
+          <section id="playlistDetail" class="playlist-detail is-hidden">
+            <div class="playlist-detail-head">
+              <button id="playlistDetailBack" class="back-btn" title="Volver a playlists">←</button>
+              <div class="playlist-detail-copy"><small id="playlistDetailMeta">PLAYLIST</small><h2 id="playlistDetailTitle">—</h2></div>
+              <button id="playlistMenuBtn" class="head-btn" title="Opciones">⋯</button>
             </div>
-            <button id="playlistMenuBtn" class="head-btn" title="Opciones">⋯</button>
-          </div>
+            <div id="playlistHeroArtwork" class="playlist-hero-art">≡</div>
+            <div class="playlist-primary-actions"><button id="playPlaylistBtn" class="primary-btn">▶ Reproducir</button><button id="mixPlaylistBtn" class="micro-btn">✦ Mix</button></div>
+            <div class="micro-panel compact playlist-actions"><button id="openLibraryFromPlaylists" class="micro-btn">＋ Canciones</button><button id="addLinkToPlaylistBtn" class="micro-btn">🔗 Enlace</button></div>
+            <div id="playlistSources" class="playlist-sources is-hidden"></div>
+            <div id="playlistEmpty" class="empty-state slim"><div class="empty-icon">≡</div><h3>Playlist vacía</h3><p>Añade canciones de tu biblioteca o importa un enlace.</p></div>
+            <div id="playlistList" class="list virtual-list"></div>
+          </section>
+        </section>
 
-          <div class="micro-panel compact playlist-actions">
-            <button id="playPlaylistBtn" class="micro-btn">▶ Play</button>
-            <button id="mixPlaylistBtn" class="micro-btn">✦ Mix</button>
-            <button id="openLibraryFromPlaylists" class="micro-btn">＋ Canciones</button>
-            <button id="addLinkToPlaylistBtn" class="micro-btn">🔗 Enlace</button>
-          </div>
+        <section id="librarySongsPanel" class="library-panel is-hidden">
+          <label class="search-box inline-library-search"><span>⌕</span><input id="searchInput" type="search" placeholder="Buscar canción, artista, álbum o género" autocomplete="off" /></label>
+          <div id="genreChips" class="chips"></div>
+          <div id="libraryEmpty" class="empty-state"><div class="empty-icon">♪</div><h3>Carga tu primera canción</h3><p>Añade un archivo, carpeta o enlace.</p><button id="emptyLoadBtn" class="primary-btn">Cargar música</button></div>
+          <div id="libraryList" class="list virtual-list"></div>
+        </section>
 
-          <div id="playlistSources" class="playlist-sources is-hidden"></div>
-          <div id="playlistEmpty" class="empty-state slim">
-            <div class="empty-icon">≡</div>
-            <h3>Playlist vacía</h3>
-            <p>Añade canciones de tu biblioteca o importa un enlace.</p>
-          </div>
-          <div id="playlistList" class="list"></div>
+        <section id="libraryAlbumsPanel" class="library-panel is-hidden">
+          <div id="albumEmpty" class="empty-state slim"><div class="empty-icon">▣</div><h3>Los álbumes aparecerán aquí</h3><p>MUSIC PLAY los agrupa desde los metadatos o la carpeta de origen.</p></div>
+          <div id="albumList" class="album-grid"></div>
         </section>
       </section>
     </main>
@@ -192,61 +170,32 @@
     <div id="remoteDock" class="remote-dock is-hidden" aria-label="Fuente externa"><div id="remoteStage" class="remote-stage"></div><span id="remoteLabel" class="remote-label">FUENTE EXTERNA</span></div>
 
     <section id="miniPlayer" class="mini-player is-hidden" aria-label="Reproductor">
-      <button id="miniOpen" class="mini-track">
-        <div id="miniArtwork" class="mini-art">♫</div>
-        <div class="mini-meta">
-          <strong id="miniTitle">Sin reproducción</strong>
-          <span id="miniArtist">—</span>
-        </div>
-      </button>
+      <button id="miniOpen" class="mini-track"><div id="miniArtwork" class="mini-art">♫</div><div class="mini-meta"><strong id="miniTitle">Sin reproducción</strong><span id="miniArtist">—</span></div></button>
       <button id="miniFavoriteBtn" class="mini-favorite" type="button" title="Favorito" aria-label="Marcar favorito">♡</button>
-      <div class="mini-controls">
-        <button id="prevBtn" class="player-btn">⏮</button>
-        <button id="playBtn" class="play-btn">▶</button>
-        <button id="nextBtn" class="player-btn">⏭</button>
-      </div>
+      <div class="mini-controls"><button id="prevBtn" class="player-btn">⏮</button><button id="playBtn" class="play-btn">▶</button><button id="nextBtn" class="player-btn">⏭</button></div>
     </section>
+
+    <nav id="bottomNav" class="bottom-nav" aria-label="Navegación principal">
+      <button id="navHome" class="bottom-nav-item active" data-view="home"><span>⌂</span><small>Inicio</small></button>
+      <button id="navSearch" class="bottom-nav-item" data-view="search"><span>⌕</span><small>Buscar</small></button>
+      <button id="navLibrary" class="bottom-nav-item" data-view="library"><span>▣</span><small>Biblioteca</small></button>
+    </nav>
 
     <dialog id="playerDialog" class="dialog player-dialog">
       <form method="dialog" class="dialog-card player-card">
         <button class="close-btn" aria-label="Cerrar">×</button>
-        <div id="playerArtwork" class="player-cover">♫</div>
-        <small class="eyebrow">REPRODUCIENDO</small>
-        <h2 id="fullTitle">—</h2>
-        <p id="fullArtist">—</p>
+        <div id="playerArtwork" class="player-cover">♫</div><small class="eyebrow">REPRODUCIENDO</small><h2 id="fullTitle">—</h2><p id="fullArtist">—</p>
         <input id="progressRange" class="progress" type="range" min="0" max="100" value="0" step="0.1" />
         <div class="time-row"><span id="timeNow">0:00</span><span id="timeTotal">0:00</span></div>
-        <div class="player-main-controls">
-          <button id="shuffleBtn" type="button" class="player-btn toggle-btn">⇄</button>
-          <button id="fullPrevBtn" type="button" class="player-btn big-btn">⏮</button>
-          <button id="fullPlayBtn" type="button" class="play-btn xl">▶</button>
-          <button id="fullNextBtn" type="button" class="player-btn big-btn">⏭</button>
-          <button id="favoriteBtn" type="button" class="player-btn toggle-btn">♡</button>
-        </div>
-        <div class="player-secondary-controls">
-          <label>Volumen
-            <input id="volumeRange" type="range" min="0" max="1" step="0.01" value="0.92" />
-          </label>
-          <button id="addCurrentToPlaylist" type="button" class="micro-btn wide">≡ Añadir a playlist</button>
-        </div>
+        <div class="player-main-controls"><button id="shuffleBtn" type="button" class="player-btn toggle-btn">⇄</button><button id="fullPrevBtn" type="button" class="player-btn big-btn">⏮</button><button id="fullPlayBtn" type="button" class="play-btn xl">▶</button><button id="fullNextBtn" type="button" class="player-btn big-btn">⏭</button><button id="favoriteBtn" type="button" class="player-btn toggle-btn">♡</button></div>
+        <div class="player-secondary-controls"><label>Volumen<input id="volumeRange" type="range" min="0" max="1" step="0.01" value="0.92" /></label><button id="addCurrentToPlaylist" type="button" class="micro-btn wide">≡ Añadir a playlist</button></div>
       </form>
     </dialog>
 
-    <dialog id="sheetDialog" class="dialog sheet-dialog">
-      <form method="dialog" class="dialog-card sheet-card">
-        <button class="close-btn" aria-label="Cerrar">×</button>
-        <div id="sheetContent"></div>
-      </form>
-    </dialog>
+    <dialog id="sheetDialog" class="dialog sheet-dialog"><form method="dialog" class="dialog-card sheet-card"><button class="close-btn" aria-label="Cerrar">×</button><div id="sheetContent"></div></form></dialog>
 
     <div id="dropHint" class="drop-hint">Suelta tus archivos para agregarlos</div>
-    <div id="loader" class="loader is-hidden">
-      <div class="loader-card">
-        <div class="loader-spin"></div>
-        <strong id="loaderTitle">Cargando música…</strong>
-        <span id="loaderText">Preparando archivos</span>
-      </div>
-    </div>
+    <div id="loader" class="loader is-hidden"><div class="loader-card"><div class="loader-spin"></div><strong id="loaderTitle">Procesando…</strong><span id="loaderText">Un momento</span><div id="loaderProgress" class="loader-progress is-hidden"><i></i></div></div></div>
     <div id="toast" class="toast"></div>
 
     <input id="fileInput" type="file" accept="audio/*,video/*,.wma,.wmv,.avi,.mkv,.mov,.3gp" multiple hidden />
@@ -257,6 +206,6 @@
     <div id="ytProbeHost" class="probe-host" aria-hidden="true"></div>
   </div>
 
-  <script src="./app.js?v=r9c-play-modes"></script>
+  <script src="./app.js?v=r10-library-first"></script>
 </body>
 </html>

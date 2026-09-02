@@ -1,12 +1,21 @@
-MUSIC PLAY R6 — helper opcional para Cloudflare Worker
+MUSIC PLAY R10 · HELPER DE PLAYLISTS YOUTUBE
 
-La app funciona sin este helper usando la YouTube IFrame API oficial.
-Este helper mejora la importación de playlists cuando el navegador no logra enumerar
-los elementos mediante getPlaylist(). No descarga audio ni video: solo consulta
-metadatos públicos de la playlist.
+Objetivo
+- Obtener título, canal, miniatura, posición y videoId de playlists públicas.
+- Paginar listas grandes (50 elementos por llamada a YouTube Data API).
+- Mantener la API key fuera del navegador.
+- NO descarga audio ni video.
 
-Ruta que espera la app:
-  ./api/youtube-playlist?list=PLAYLIST_ID
+Configuración recomendada
+1. Integra playlist-api-worker.mjs en el Worker que sirve la PWA, o enruta /api/youtube-playlist hacia él.
+2. Crea una API key con YouTube Data API v3 habilitada.
+3. Guarda la clave como secreto de Cloudflare:
+   wrangler secret put YOUTUBE_API_KEY
+4. La aplicación consulta automáticamente:
+   /api/youtube-playlist?list=PLAYLIST_ID
 
-Si el portal principal ya es un Cloudflare Worker, integre la función handlePlaylist
-al Worker existente en esa ruta. No hace falta cambiar la interfaz de MUSIC PLAY.
+Sin YOUTUBE_API_KEY
+- El helper conserva un fallback de lectura de página pública.
+- Ese fallback puede ser incompleto y no es recomendable para listas de cientos de canciones.
+
+La clave nunca debe escribirse dentro de app.js o del ZIP público.
