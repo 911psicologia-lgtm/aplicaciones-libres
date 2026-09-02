@@ -1,0 +1,787 @@
+{
+  "assets/animals/mariposa.webp": {
+    "bytes": 91060,
+    "sha256": "5252234cc8ee9de77bbd0bbfbfdcbdcb058f0d15468ae46d24235b478f73c174",
+    "size": [
+      640,
+      640
+    ],
+    "mode": "RGBA"
+  },
+  "assets/animals/mono.webp": {
+    "bytes": 77680,
+    "sha256": "55ebf8df8baac07d16909202ef75549fa74d2b3c2b8ed1a5cafa81f98fa3d997",
+    "size": [
+      640,
+      640
+    ],
+    "mode": "RGBA"
+  },
+  "assets/animals/pajaro.webp": {
+    "bytes": 42464,
+    "sha256": "9f545f913bf0d3751e3d15934f756e83576d142793850cbe5bfdfc5d35898792",
+    "size": [
+      640,
+      640
+    ],
+    "mode": "RGBA"
+  },
+  "assets/animals/pato.webp": {
+    "bytes": 53854,
+    "sha256": "7fffbcfffa22e2b9276e361d43d337f739418d4fbeab2dc393c6d7ab131dd37d",
+    "size": [
+      640,
+      640
+    ],
+    "mode": "RGBA"
+  },
+  "assets/animals/pez.webp": {
+    "bytes": 38064,
+    "sha256": "93661603464830ea451227a7c0e42d89675c91a1cbb5131bf82864cfaccbd5c7",
+    "size": [
+      640,
+      640
+    ],
+    "mode": "RGBA"
+  },
+  "assets/animals/puma.webp": {
+    "bytes": 103812,
+    "sha256": "8e8fc9aef4a84292f7c05582cb17a159d36710f21e925af6b40544afcff2ce74",
+    "size": [
+      640,
+      640
+    ],
+    "mode": "RGBA"
+  },
+  "assets/animals/rana.webp": {
+    "bytes": 55448,
+    "sha256": "fa1f0b6ed6d6c3e34cf3447d96b1d367861f76b0fbee774083003959465fd812",
+    "size": [
+      640,
+      640
+    ],
+    "mode": "RGBA"
+  },
+  "assets/animals/sapo.webp": {
+    "bytes": 80296,
+    "sha256": "2ae2d475f7ca64523489a9a7e2d7af6eec803266e08697941409123340ae861b",
+    "size": [
+      640,
+      640
+    ],
+    "mode": "RGBA"
+  },
+  "assets/characters/dami.webp": {
+    "bytes": 33342,
+    "sha256": "5753b3dc0a6fbd5e5bd0f8aed9835edf519a97175c3b15b034195d0a47b9bbfe",
+    "size": [
+      640,
+      640
+    ],
+    "mode": "RGBA"
+  },
+  "assets/characters/lola.webp": {
+    "bytes": 53392,
+    "sha256": "4029e8b39971404b50ed9b2e5acce0cedbb265b6d9334c9c61e44dc9fa7d5042",
+    "size": [
+      640,
+      640
+    ],
+    "mode": "RGBA"
+  },
+  "assets/characters/lumi.svg": {
+    "bytes": 1364,
+    "sha256": "349a15b9296fbe4fe0020c2c8fc130f73c530b71cfd8d8e09ace30c21edcbce8"
+  },
+  "assets/characters/lumi_cheer.png": {
+    "bytes": 649681,
+    "sha256": "7b390c7a8f4554851380fb64ef2ef107c7c9e702b8ce2f29e8cd286abe1bcf71",
+    "size": [
+      779,
+      900
+    ],
+    "mode": "RGBA"
+  },
+  "assets/characters/lumi_guide.png": {
+    "bytes": 538247,
+    "sha256": "bf23716aa9235071e0bd40e65282ca591883ef11216a910faf4608a4b1fcaf91",
+    "size": [
+      680,
+      900
+    ],
+    "mode": "RGBA"
+  },
+  "assets/characters/lumi_thinking.png": {
+    "bytes": 607183,
+    "sha256": "be27fff9b5ea182c2c9b81928cfa670ea44cebd8330a7215456c80a4c3e5b356",
+    "size": [
+      771,
+      900
+    ],
+    "mode": "RGBA"
+  },
+  "assets/characters/lumi_victory.png": {
+    "bytes": 490445,
+    "sha256": "95e825d56ab05c35f177fb6ba64f39956db13b8d581cecbd0e4b737a4fb7ae42",
+    "size": [
+      677,
+      900
+    ],
+    "mode": "RGBA"
+  },
+  "assets/characters/mama.webp": {
+    "bytes": 55068,
+    "sha256": "89ab7c40cec1e03e19992ad0fe281c7be144b731c4214dab94bac81c7ecda995",
+    "size": [
+      640,
+      640
+    ],
+    "mode": "RGBA"
+  },
+  "assets/characters/nana.webp": {
+    "bytes": 72728,
+    "sha256": "d4ab5ef9ddb1b507890efb9ae301a36865c9f4ddd81c376afce9e0691f1a1af2",
+    "size": [
+      640,
+      640
+    ],
+    "mode": "RGBA"
+  },
+  "assets/characters/nene.webp": {
+    "bytes": 51522,
+    "sha256": "4a3a6eb725b04ae05d1300810a8fd86647c93281c6c6fe8f04e2014c30ec5360",
+    "size": [
+      640,
+      640
+    ],
+    "mode": "RGBA"
+  },
+  "assets/characters/papa.webp": {
+    "bytes": 58180,
+    "sha256": "b621211b1a80d49b06f718d87521d12efe6912bb23bb4053e94e5677c19694f9",
+    "size": [
+      640,
+      640
+    ],
+    "mode": "RGBA"
+  },
+  "assets/characters/tito.webp": {
+    "bytes": 51748,
+    "sha256": "40b49a53e2addc03bd9ee2469660d04b46952f19a47dbfed903011bfa1c6c6ec",
+    "size": [
+      640,
+      640
+    ],
+    "mode": "RGBA"
+  },
+  "assets/extras/boton_play_ilustrado.webp": {
+    "bytes": 28640,
+    "sha256": "c6b515bc0922f1211878a20d6a0e4d2fa7a83487499fd78d5bc8f8d2a05a1f7e",
+    "size": [
+      640,
+      640
+    ],
+    "mode": "RGBA"
+  },
+  "assets/extras/cofre_semillas.webp": {
+    "bytes": 59556,
+    "sha256": "b54ec6eda2c40fe16528464a8e91b93f0deb13bc389c76cf4c603751d0ee8a1c",
+    "size": [
+      640,
+      640
+    ],
+    "mode": "RGBA"
+  },
+  "assets/extras/estrella_logro.webp": {
+    "bytes": 40106,
+    "sha256": "98f22f92f79b3bd5e11c9319b614fe76e3c3c2738eb0e4436a0ea1ad275a58a1",
+    "size": [
+      640,
+      640
+    ],
+    "mode": "RGBA"
+  },
+  "assets/extras/icono_adulto.webp": {
+    "bytes": 22028,
+    "sha256": "26cd4eab50c3a52e8de439d58e77250d67a4faf35121bdb8689b76447554732a",
+    "size": [
+      640,
+      640
+    ],
+    "mode": "RGBA"
+  },
+  "assets/extras/icono_bosque.webp": {
+    "bytes": 99746,
+    "sha256": "2fe5984c3c080cdfd9854d29f3db5b01451181cfedb10444447d6637aeeffa46",
+    "size": [
+      640,
+      640
+    ],
+    "mode": "RGBA"
+  },
+  "assets/extras/icono_escuchar.webp": {
+    "bytes": 43030,
+    "sha256": "74623fe2251682babecdd070bedc397a01755a0b31cd40598fe006446e385a3b",
+    "size": [
+      640,
+      640
+    ],
+    "mode": "RGBA"
+  },
+  "assets/extras/icono_libro.webp": {
+    "bytes": 110436,
+    "sha256": "148168f5cb2c67a6457ce28f3bc26782d2855d5b4c132bc583449f4632aecb5f",
+    "size": [
+      640,
+      640
+    ],
+    "mode": "RGBA"
+  },
+  "assets/extras/icono_microfono.webp": {
+    "bytes": 58470,
+    "sha256": "e7756b4ede24788dfd8358aebdccc55af171b14dec7f902c64ca48967eca0b74",
+    "size": [
+      640,
+      640
+    ],
+    "mode": "RGBA"
+  },
+  "assets/extras/icono_repetir.webp": {
+    "bytes": 54654,
+    "sha256": "18be8610f5753d7dfed5ecb304e072fd7ee3bdb29b0e26eb3905206ac332f2d4",
+    "size": [
+      640,
+      640
+    ],
+    "mode": "RGBA"
+  },
+  "assets/extras/medalla.webp": {
+    "bytes": 39418,
+    "sha256": "33ecc98bab83dbf465ce11526a5be95503fc2f7b3f8e007db6a5c5f4fb818404",
+    "size": [
+      640,
+      640
+    ],
+    "mode": "RGBA"
+  },
+  "assets/icons/app-icon-192.png": {
+    "bytes": 12338,
+    "sha256": "02fbae04f1fe825a2a97c609edd90f248d1b5017afffba045a677b6b5e05a4ae",
+    "size": [
+      192,
+      192
+    ],
+    "mode": "RGBA"
+  },
+  "assets/icons/app-icon-512.png": {
+    "bytes": 24523,
+    "sha256": "2c09061e7138706f4bcb7582fdc91f9ffe788e89c866ff03642ff2ac179d092e",
+    "size": [
+      512,
+      512
+    ],
+    "mode": "RGBA"
+  },
+  "assets/icons/app-icon.svg": {
+    "bytes": 679,
+    "sha256": "0202de3f8afac1942ec55ed69ce35a764233127d03038ed7551f0d2e8337e540"
+  },
+  "assets/letters/letra_d.webp": {
+    "bytes": 27534,
+    "sha256": "5e1c29cc4f336bad614829329736c6e86fe239c1e39f36ca652fe99b4d0769b8",
+    "size": [
+      640,
+      640
+    ],
+    "mode": "RGBA"
+  },
+  "assets/letters/letra_l.webp": {
+    "bytes": 12646,
+    "sha256": "e7ee07a439f3a4a9e85db112ed3fafb3946fff39b9e71fe8a84c32bc9b6a117a",
+    "size": [
+      640,
+      640
+    ],
+    "mode": "RGBA"
+  },
+  "assets/letters/letra_m.webp": {
+    "bytes": 28140,
+    "sha256": "4475b1221729b46fbcefdba71d30bdc8a0316eacec72d1d393a458e5f0c019b6",
+    "size": [
+      640,
+      640
+    ],
+    "mode": "RGBA"
+  },
+  "assets/letters/letra_n.webp": {
+    "bytes": 23886,
+    "sha256": "0296d4724d8c624b5d02b30cfe177860415b6355838d6f8f7649c45aac5c91b4",
+    "size": [
+      640,
+      640
+    ],
+    "mode": "RGBA"
+  },
+  "assets/letters/letra_p.webp": {
+    "bytes": 22718,
+    "sha256": "cc7b74b65c1f38f9a81effea8bb1b14f1d13bd82053bce1117aa43573a9e83eb",
+    "size": [
+      640,
+      640
+    ],
+    "mode": "RGBA"
+  },
+  "assets/letters/letra_s.webp": {
+    "bytes": 32982,
+    "sha256": "5e312c68c7d83c9d409b94be904b2730657ca12126a13e52e620f3e008efd1ac",
+    "size": [
+      640,
+      640
+    ],
+    "mode": "RGBA"
+  },
+  "assets/letters/letra_t.webp": {
+    "bytes": 32224,
+    "sha256": "bf73534475dabcaabe01b8217489b70864d1990131fef96d4951d61e5c0b5354",
+    "size": [
+      640,
+      640
+    ],
+    "mode": "RGBA"
+  },
+  "assets/letters/vocal_a.webp": {
+    "bytes": 29308,
+    "sha256": "7474de37fd579bed3b5676b6ef8d46af1b7b718dbf343294ad0f08b6e19086f1",
+    "size": [
+      640,
+      640
+    ],
+    "mode": "RGBA"
+  },
+  "assets/letters/vocal_e.webp": {
+    "bytes": 20122,
+    "sha256": "6b97e8442da5b3d8404303faa873ccb32dca21887463166a3856239d8e5c1d74",
+    "size": [
+      640,
+      640
+    ],
+    "mode": "RGBA"
+  },
+  "assets/letters/vocal_i.webp": {
+    "bytes": 20662,
+    "sha256": "ae94625b128210b7c197e0795d604ef976b785f388b3f7e5db4a8bc0318ee2b5",
+    "size": [
+      640,
+      640
+    ],
+    "mode": "RGBA"
+  },
+  "assets/letters/vocal_o.webp": {
+    "bytes": 26460,
+    "sha256": "5e357a939002feecede9aa93cf048cc64c3938faa0ad968eaeb792cc1973ab2c",
+    "size": [
+      640,
+      640
+    ],
+    "mode": "RGBA"
+  },
+  "assets/letters/vocal_u.webp": {
+    "bytes": 18714,
+    "sha256": "0c8e1cd527166c927264de163d8b5ab69b6d5ceddc61f52791020ac795b08fdf",
+    "size": [
+      640,
+      640
+    ],
+    "mode": "RGBA"
+  },
+  "assets/objects/brote.webp": {
+    "bytes": 53720,
+    "sha256": "2d17d121351431084b48c9a5443b2c5d57272cecdd46a79d629b4649fd7bc57c",
+    "size": [
+      640,
+      640
+    ],
+    "mode": "RGBA"
+  },
+  "assets/objects/cama.webp": {
+    "bytes": 39368,
+    "sha256": "1b038a4f7f7cd2de51e32c026fe342ca6ffd11cf3791130d3ab8474d005b4af1",
+    "size": [
+      640,
+      640
+    ],
+    "mode": "RGBA"
+  },
+  "assets/objects/dado.webp": {
+    "bytes": 68038,
+    "sha256": "d42adeac55ae2f27be1e2f70f630427132991a2987a43f4b10d5ee03cdfe2c0f",
+    "size": [
+      640,
+      640
+    ],
+    "mode": "RGBA"
+  },
+  "assets/objects/dedo.webp": {
+    "bytes": 20630,
+    "sha256": "e820fac0f444e57ec63bec6bb3bbfe72ca946a363f10741cb51cfe1b30bd32a5",
+    "size": [
+      640,
+      640
+    ],
+    "mode": "RGBA"
+  },
+  "assets/objects/escalera.webp": {
+    "bytes": 28510,
+    "sha256": "68c8571ba3bf37731bec7266164b434f9df613d3aa228046ba428bc9c1488f04",
+    "size": [
+      640,
+      640
+    ],
+    "mode": "RGBA"
+  },
+  "assets/objects/flor.webp": {
+    "bytes": 32950,
+    "sha256": "5d8515267a505fc2b324d84e7000b684e1d9d2a31f909e2d146cdca3675ad84f",
+    "size": [
+      640,
+      640
+    ],
+    "mode": "RGBA"
+  },
+  "assets/objects/hoja.webp": {
+    "bytes": 71906,
+    "sha256": "b70c45a4d7e1e03fa64f86c55fee337685c6e8876a905439c88f215ebfbbfd24",
+    "size": [
+      640,
+      640
+    ],
+    "mode": "RGBA"
+  },
+  "assets/objects/libro.webp": {
+    "bytes": 34628,
+    "sha256": "2e53ad2a05d9b3c38bd39a35acc1323c0c979bca491adb5f958a5a72462e6e75",
+    "size": [
+      640,
+      640
+    ],
+    "mode": "RGBA"
+  },
+  "assets/objects/lola.svg": {
+    "bytes": 539,
+    "sha256": "a2b99ab15af7d7dbce4b062c8b6fafd01f7adcdb2f8b58ea4d9f4a2f7de91307"
+  },
+  "assets/objects/luciernaga.webp": {
+    "bytes": 56266,
+    "sha256": "b193cd891d3ff1efa90511ef1a80f80d236b3ef6d46b64975ce075739109222f",
+    "size": [
+      640,
+      640
+    ],
+    "mode": "RGBA"
+  },
+  "assets/objects/luna.webp": {
+    "bytes": 34964,
+    "sha256": "b946468c1e0b74452c78cd1da4dc8cee7d11cad8c691c148891dc13c3f4bf5c0",
+    "size": [
+      640,
+      640
+    ],
+    "mode": "RGBA"
+  },
+  "assets/objects/lupa.svg": {
+    "bytes": 347,
+    "sha256": "dd4f74151b3aa268dd3d1508c83f49ba2969fce6849c159e91f8eddf05d22e09"
+  },
+  "assets/objects/lupa.webp": {
+    "bytes": 65964,
+    "sha256": "411a1e8986bb93301d5b20cf6d6d1e8948288071c33c34413b7ede6e562e333f",
+    "size": [
+      640,
+      640
+    ],
+    "mode": "RGBA"
+  },
+  "assets/objects/mama.svg": {
+    "bytes": 538,
+    "sha256": "b6b1fa56b856a54e39341c569ab70b6868bdc9e13215eb62b69b604b0cc9b2d0"
+  },
+  "assets/objects/mapa.webp": {
+    "bytes": 57192,
+    "sha256": "c661d1acafd5b435891ee9c2db727d0d69f3011d1df586b9cf3737f4929745bd",
+    "size": [
+      640,
+      640
+    ],
+    "mode": "RGBA"
+  },
+  "assets/objects/mesa.svg": {
+    "bytes": 337,
+    "sha256": "1a0af232b75cabe5850286ff7eb703277ff15607db5a0bde3428a3a5464d5c72"
+  },
+  "assets/objects/mesa.webp": {
+    "bytes": 43772,
+    "sha256": "754c26afaf5a18dbf44e57800581d87ba6d27bad3bfc55a24e02b04b3e95f436",
+    "size": [
+      640,
+      640
+    ],
+    "mode": "RGBA"
+  },
+  "assets/objects/mono.svg": {
+    "bytes": 522,
+    "sha256": "0f5161e21a945ed6c7d9e9caa11ee4604ba3241d1ce527d6044fefc3de82c453"
+  },
+  "assets/objects/nido.webp": {
+    "bytes": 121892,
+    "sha256": "4b19ea75f8413555ff9d9344818aff7d7a7e2b6d8d5a1c54188613044578bfdb",
+    "size": [
+      640,
+      640
+    ],
+    "mode": "RGBA"
+  },
+  "assets/objects/papa.svg": {
+    "bytes": 523,
+    "sha256": "3ab404fb5178c4373da8cdf5cdbac5ffe82fc3769a217a1ce312826379d739b1"
+  },
+  "assets/objects/pelota.webp": {
+    "bytes": 37108,
+    "sha256": "3a8e373e43f1bb1d6559503bc495ba78b4a0a69213f7f0a5698902dcb40c77d1",
+    "size": [
+      640,
+      640
+    ],
+    "mode": "RGBA"
+  },
+  "assets/objects/piedra_d.webp": {
+    "bytes": 54146,
+    "sha256": "43c3bd03ffc49206e9a32a8ece599db91df3d66cb957da05acf97634732d09f9",
+    "size": [
+      640,
+      640
+    ],
+    "mode": "RGBA"
+  },
+  "assets/objects/piedra_l.webp": {
+    "bytes": 54146,
+    "sha256": "43c3bd03ffc49206e9a32a8ece599db91df3d66cb957da05acf97634732d09f9",
+    "size": [
+      640,
+      640
+    ],
+    "mode": "RGBA"
+  },
+  "assets/objects/piedra_m.webp": {
+    "bytes": 54146,
+    "sha256": "43c3bd03ffc49206e9a32a8ece599db91df3d66cb957da05acf97634732d09f9",
+    "size": [
+      640,
+      640
+    ],
+    "mode": "RGBA"
+  },
+  "assets/objects/piedra_n.webp": {
+    "bytes": 54146,
+    "sha256": "43c3bd03ffc49206e9a32a8ece599db91df3d66cb957da05acf97634732d09f9",
+    "size": [
+      640,
+      640
+    ],
+    "mode": "RGBA"
+  },
+  "assets/objects/piedra_p.webp": {
+    "bytes": 54146,
+    "sha256": "43c3bd03ffc49206e9a32a8ece599db91df3d66cb957da05acf97634732d09f9",
+    "size": [
+      640,
+      640
+    ],
+    "mode": "RGBA"
+  },
+  "assets/objects/piedra_s.webp": {
+    "bytes": 54146,
+    "sha256": "43c3bd03ffc49206e9a32a8ece599db91df3d66cb957da05acf97634732d09f9",
+    "size": [
+      640,
+      640
+    ],
+    "mode": "RGBA"
+  },
+  "assets/objects/piedra_t.webp": {
+    "bytes": 54146,
+    "sha256": "43c3bd03ffc49206e9a32a8ece599db91df3d66cb957da05acf97634732d09f9",
+    "size": [
+      640,
+      640
+    ],
+    "mode": "RGBA"
+  },
+  "assets/objects/pipa.webp": {
+    "bytes": 22238,
+    "sha256": "f1e14e228d26c936bcd6abfa0df533e85ea0b796ce9dd17e1539c265c3ba6c00",
+    "size": [
+      640,
+      640
+    ],
+    "mode": "RGBA"
+  },
+  "assets/objects/puma.svg": {
+    "bytes": 711,
+    "sha256": "c6e47b5cc484a8726f50c8c9bd5b269e15e6fdf705b1d7ca76379670c38a924f"
+  },
+  "assets/objects/sapo.svg": {
+    "bytes": 657,
+    "sha256": "a43261b54b9fc7281e12ab338827305211aa5d729fcd2fb16e8fd75085abd38b"
+  },
+  "assets/objects/semilla.webp": {
+    "bytes": 49252,
+    "sha256": "86c077da67af5209d23d3874db02f5409149ad28df1883184c15109d0fb6a5f6",
+    "size": [
+      640,
+      640
+    ],
+    "mode": "RGBA"
+  },
+  "assets/objects/sol.webp": {
+    "bytes": 40500,
+    "sha256": "dfa4019da708a615f3d7443194e7fab9a21ce6d54742b2e8ed9b36c3a22c6995",
+    "size": [
+      640,
+      640
+    ],
+    "mode": "RGBA"
+  },
+  "assets/objects/sopa.svg": {
+    "bytes": 397,
+    "sha256": "3fcda749ff931b19c48795f5c3dc91da503a0ae7264e5074f10b68955217bea7"
+  },
+  "assets/objects/sopa.webp": {
+    "bytes": 64546,
+    "sha256": "2365a1bc3aede2eee3d9d0ba4e87d004ed23466fcb909e254b9ff960a41137e3",
+    "size": [
+      640,
+      640
+    ],
+    "mode": "RGBA"
+  },
+  "assets/objects/taza.webp": {
+    "bytes": 57146,
+    "sha256": "e40e4f03afcabd1cfbd703ac8fd95c9ef6d411fb57783cbeca10a6a0dc0f3b61",
+    "size": [
+      640,
+      640
+    ],
+    "mode": "RGBA"
+  },
+  "assets/worlds/fondo_bosque_principal.webp": {
+    "bytes": 94848,
+    "sha256": "bc82c30822e24e13101c0505df81b7844a012ad8ba6c719264fbdb8c56c76ef1",
+    "size": [
+      1344,
+      768
+    ],
+    "mode": "RGB"
+  },
+  "assets/worlds/fondo_casa_m.webp": {
+    "bytes": 152684,
+    "sha256": "0662e3b33537237c75728e99b7abbbf4354a7a8e86b4230e0fa7c6df77ad54e0",
+    "size": [
+      1344,
+      768
+    ],
+    "mode": "RGB"
+  },
+  "assets/worlds/fondo_casa_p.webp": {
+    "bytes": 166232,
+    "sha256": "ccd37522692c9632636b46814a5f2720075a994537d66180fc7482835f92a59c",
+    "size": [
+      1344,
+      768
+    ],
+    "mode": "RGB"
+  },
+  "assets/worlds/fondo_duna_d.webp": {
+    "bytes": 124524,
+    "sha256": "2dbc91d3cd905e133a6d56cbe411479a8db0127e0ba48c9e80984d26cc7bb05c",
+    "size": [
+      1344,
+      768
+    ],
+    "mode": "RGB"
+  },
+  "assets/worlds/fondo_ladera_l.webp": {
+    "bytes": 143900,
+    "sha256": "accbc4b9960b87da7d4e58fb68463a6c7c30cfa725eb1c73133a0db2025711f3",
+    "size": [
+      1344,
+      768
+    ],
+    "mode": "RGB"
+  },
+  "assets/worlds/fondo_laguna_s.webp": {
+    "bytes": 84212,
+    "sha256": "e771695f88c9cb14519e70d71ed1e32fc681aeb5b5974fcefbbec7615490bd6b",
+    "size": [
+      1344,
+      768
+    ],
+    "mode": "RGB"
+  },
+  "assets/worlds/fondo_mi_libro.webp": {
+    "bytes": 102926,
+    "sha256": "60c3a261240f0a5f9b2c74efebd7d46609384fbe651082ef18998d63a8b914a4",
+    "size": [
+      1344,
+      768
+    ],
+    "mode": "RGB"
+  },
+  "assets/worlds/fondo_nido_n.webp": {
+    "bytes": 134670,
+    "sha256": "5713885a6cb24f6e444c62b41f2284512ed32cb00fce0ca207a92dbf23d327fa",
+    "size": [
+      1344,
+      768
+    ],
+    "mode": "RGB"
+  },
+  "assets/worlds/fondo_panel_logros.webp": {
+    "bytes": 78708,
+    "sha256": "1ce20604a9933f6c192372a71930a5cd4c73ea0e418eeb5bfe7c5a099c1e420f",
+    "size": [
+      1344,
+      768
+    ],
+    "mode": "RGB"
+  },
+  "assets/worlds/fondo_sendero_vocales.webp": {
+    "bytes": 131104,
+    "sha256": "81dd682da2da9f4322c38e0dedf3c7bd7826c71f01e31525a3e190855f1b0f8e",
+    "size": [
+      1344,
+      768
+    ],
+    "mode": "RGB"
+  },
+  "assets/worlds/fondo_torre_t.webp": {
+    "bytes": 149078,
+    "sha256": "453bc6ea8c2cc627721f842f766da991cc2e119645df9e833d923850a45b7f27",
+    "size": [
+      1344,
+      768
+    ],
+    "mode": "RGB"
+  },
+  "assets/worlds/forest.svg": {
+    "bytes": 1303,
+    "sha256": "23c6fd93752c45a828576771dd15da094df04024d0ad87f8c1ecef2db654f26e"
+  },
+  "assets/worlds/river.svg": {
+    "bytes": 643,
+    "sha256": "905b7328dc74f2ac8681701515102eb720384d016e58baf8990be683dcae07b1"
+  },
+  "assets/worlds/sprout.svg": {
+    "bytes": 502,
+    "sha256": "327100855f8caa8784c50af8f5b9b7a9bb6e4626b7f62e350a3e4d555c075250"
+  }
+}

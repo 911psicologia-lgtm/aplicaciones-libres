@@ -6,7 +6,7 @@
   <meta name="theme-color" content="#f7f0df" />
   <meta name="apple-mobile-web-app-capable" content="yes" />
   <meta name="mobile-web-app-capable" content="yes" />
-  <title>Emilia · El Bosque de las Palabras · 0.4.1</title>
+  <title>Emilia · El Bosque de las Palabras · 0.4.3</title>
   <link rel="manifest" href="manifest.webmanifest" />
   <link rel="icon" href="assets/icons/app-icon.svg" type="image/svg+xml" />
   <link rel="stylesheet" href="css/tokens.css" />
@@ -17,6 +17,10 @@
 <body>
   <div id="app" class="app-shell" aria-live="polite"></div>
   <div id="toast" class="toast" role="status" aria-live="polite"></div>
+  <div id="pwaBar" class="pwa-bar" hidden aria-label="Controles de instalación y actualización">
+    <button id="pwaInstallBtn" class="pwa-action primary" hidden>Instalar app</button>
+    <button id="pwaUpdateBtn" class="pwa-action" hidden>Actualizar app</button>
+  </div>
 
   <!-- Compatibilidad local: scripts clásicos, sin fetch ni bundler -->
   <script src="data/content.js"></script>
