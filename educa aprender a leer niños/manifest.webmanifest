@@ -1,0 +1,12 @@
+{
+  "name": "Emilia · El Bosque de las Palabras",
+  "short_name": "Emilia",
+  "description": "Aventura de alfabetización inicial con progresión por habilidades y repaso espaciado.",
+  "start_url": "./index.html",
+  "scope": "./",
+  "display": "standalone",
+  "background_color": "#f7f0df",
+  "theme_color": "#57a773",
+  "lang": "es",
+  "icons": [{"src":"assets/icons/app-icon.svg","sizes":"any","type":"image/svg+xml","purpose":"any maskable"}]
+}

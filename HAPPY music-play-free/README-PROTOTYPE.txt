@@ -37,3 +37,16 @@ FASE 5 — PWA / AUDIO
 
 PRIVACIDAD
 Biblioteca, favoritos, playlists, historial y estadísticas de escucha siguen siendo local-first. Las fuentes externas solo contactan sus servicios cuando se reproducen/importan o cuando se solicitan metadatos.
+
+
+R10.4 — PERMISOS LOCALES
+- Archivos individuales nuevos se guardan como Blob para no pedir permiso al reproducir.
+- Carpetas nuevas usan un único FileSystemDirectoryHandle y rutas relativas.
+- Tras reiniciar, como máximo se solicita permiso una vez por carpeta si el navegador lo exige.
+- Bibliotecas legacy con un handle por canción ofrecen “Conectar carpeta una sola vez” para migrar todas las coincidencias sin perder playlists, favoritos ni estadísticas.
+
+R10.5 — BIBLIOTECA LOCAL Y REPRODUCCIÓN RESILIENTE
+- OPFS: los archivos nuevos se copian progresivamente al almacenamiento privado de MUSIC PLAY para evitar permisos repetidos de Android al reproducirlos después.
+- Migración de bibliotecas antiguas: seleccionar la carpeta una vez permite copiar coincidencias a OPFS sin perder playlists/favoritos/historial.
+- Fuentes externas: si YouTube/SoundCloud/enlace directo falla, se registra el error y la cola continúa con la siguiente pista disponible.
+- Reordenamiento: pulsación larga + arrastre vertical en playlists manuales cambia el orden persistente.

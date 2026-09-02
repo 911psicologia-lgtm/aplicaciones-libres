@@ -1,0 +1,23 @@
+:root{
+  --paper:#f7f0df;
+  --paper-2:#fffaf0;
+  --ink:#21344a;
+  --ink-soft:#5f6f7e;
+  --leaf:#57a773;
+  --leaf-dark:#2f7a51;
+  --sky:#8fd3e8;
+  --sun:#f5c451;
+  --coral:#ef806f;
+  --berry:#8266a8;
+  --aqua:#5dbfc5;
+  --sand:#e9d9b9;
+  --white:#ffffff;
+  --danger:#b85f5f;
+  --shadow:0 18px 45px rgba(65,72,64,.14);
+  --shadow-soft:0 8px 24px rgba(65,72,64,.10);
+  --radius-xl:34px;
+  --radius-lg:26px;
+  --radius-md:18px;
+  --radius-sm:13px;
+  --tap:58px;
+}

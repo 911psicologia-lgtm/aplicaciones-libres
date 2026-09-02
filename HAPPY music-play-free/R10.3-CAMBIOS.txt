@@ -1,0 +1,14 @@
+MUSIC PLAY · HAPPY — R10.3
+
+CAMBIOS
+- Barra horizontal desplazable de accesos inteligentes en Inicio:
+  Favoritos, + Escuchadas, Recientes, En repetición, Redescubrir, Radio, Sorpréndeme y Mix.
+- Nueva sección Álbumes en Inicio para aprovechar el espacio inferior y mantener navegación musical útil.
+- Reproductor externo YouTube/SoundCloud movible mediante asa superior.
+- La posición del reproductor flotante se recuerda localmente.
+- Doble toque/clic sobre el asa restaura la posición predeterminada.
+- Botón Compartir dentro del reproductor externo.
+- Botón Compartir dentro del reproductor completo.
+- Web Share API: comparte URL para fuentes externas y, cuando el dispositivo lo permite, comparte el archivo local.
+- Fallback al portapapeles cuando Web Share no está disponible.
+- Nueva caché Service Worker R10.3 para evitar arrastrar JS/CSS anteriores.

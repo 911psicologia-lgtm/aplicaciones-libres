@@ -1,9 +1,3 @@
 MUSIC PLAY · HAPPY
-Build: 2026.09.01-r10-library-first
-R10 · Library First
-- Inicio adaptativo
-- Buscar global
-- Biblioteca: Playlists / Canciones / Álbumes
-- Barra inferior + mini-player persistente
-- Importación masiva index-first
-- YouTube metadata helper paginado
+Build: 2026.09.02-r10.5-resilient-opfs-reorder
+R10.5 · reproducción resiliente, biblioteca local OPFS y reordenamiento por pulsación larga.

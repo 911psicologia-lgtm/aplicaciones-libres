@@ -1,22 +1,9 @@
-MUSIC PLAY · HAPPY — R10 LIBRARY FIRST
+MUSIC PLAY · HAPPY — R10.5
 
-DESPLIEGUE
-1. Sustituye COMPLETAMENTE la versión anterior por el contenido de este ZIP.
-2. La raíz publicada debe contener directamente: index.html, app.js, styles.css, sw.js, manifest.webmanifest, version.json, icons/ y cloudflare/.
-3. Publica únicamente bajo HTTPS.
-4. Si existe una PWA/atajo antiguo de MUSIC PLAY, elimínalo una vez y reinstala R10 para que Android adopte el nuevo manifest y el shell standalone/fullscreen.
-
-PWA
-- En modo web siempre aparece ⇩ Instalar y, durante el primer uso, también una tarjeta visible “Instalar MUSIC PLAY”.
-- Si Chromium expone beforeinstallprompt, un toque abre el instalador nativo.
-- Si la app se abrió dentro de un visor/WebView Android que no puede instalar PWAs, MUSIC PLAY intenta abrir la misma URL directamente en Chrome. Android/Chrome sigue requiriendo la confirmación final del usuario: una web no puede instalarse silenciosamente.
-- La versión instalada usa display=standalone con fullscreen como override cuando el navegador lo soporte.
-
-YOUTUBE — RECOMENDADO PARA PLAYLISTS GRANDES
-Para recuperar títulos, autores, orden y carátulas de playlists de YouTube de forma estable, integra cloudflare/playlist-api-worker.mjs en el mismo Worker que sirve la app y configura el secreto:
-  wrangler secret put YOUTUBE_API_KEY
-La PWA consulta: /api/youtube-playlist?list=PLAYLIST_ID
-La clave nunca se envía al navegador.
-
-ARCHIVOS MASIVOS
-R10 indexa primero y enriquece después. En navegadores compatibles usa FileSystemHandle para no copiar innecesariamente carpetas enteras a IndexedDB. La lista visual se virtualiza por bloques.
+1. Reemplaza completamente la versión anterior por TODO el contenido de este ZIP.
+2. No subas una carpeta dist adicional: index.html debe quedar en la raíz publicada de MUSIC PLAY.
+3. Publica por HTTPS.
+4. La primera apertura puede actualizar el Service Worker; si una versión antigua permanece, pulsa el icono ↻ o recarga una vez.
+5. En Android, las carpetas nuevas se usan solo como fuente de importación. MUSIC PLAY copia progresivamente los audios a su almacenamiento privado (OPFS), de modo que después no depende del permiso externo para reproducirlos.
+6. Para bibliotecas antiguas que aún pidan permisos, usa “Importar carpeta a MUSIC PLAY” una vez para migrarlas.
+7. El helper opcional de YouTube permanece en cloudflare/playlist-api-worker.mjs.

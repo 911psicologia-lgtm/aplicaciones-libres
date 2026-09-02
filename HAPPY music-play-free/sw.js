@@ -1,11 +1,11 @@
-const BUILD = '2026.09.01-r10-library-first';
-const CACHE = 'mpf-r10-library-first';
+const BUILD = '2026.09.02-r10.5-resilient-opfs-reorder';
+const CACHE = 'mpf-r10.5-resilient-opfs-reorder';
 const CORE = [
   './',
   './index.html',
-  './styles.css?v=r10-library-first',
-  './app.js?v=r10-library-first',
-  './manifest.webmanifest?v=r10-library-first',
+  './styles.css?v=r10.5-resilient-opfs-reorder',
+  './app.js?v=r10.5-resilient-opfs-reorder',
+  './manifest.webmanifest?v=r10.5-resilient-opfs-reorder',
   './version.json',
   './icons/icon-192.png',
   './icons/icon-512.png',
@@ -33,8 +33,8 @@ self.addEventListener('message', event => {
 self.addEventListener('fetch', event => {
   const req = event.request;
   if(req.method !== 'GET') return;
-  const url = new URL(req.url);
-  if(url.origin !== self.location.origin) return;
+  let url;try{url=new URL(req.url);}catch{return;}
+  if(!/^https?:$/.test(url.protocol)||url.origin !== self.location.origin) return;
   if(url.pathname.includes('/api/')){ event.respondWith(fetch(req)); return; }
 
   if(req.mode === 'navigate'){
@@ -51,11 +51,8 @@ self.addEventListener('fetch', event => {
 
   event.respondWith(
     caches.match(req).then(hit => hit || fetch(req).then(res => {
-      if(res.ok){
-        const copy = res.clone();
-        caches.open(CACHE).then(cache => cache.put(req, copy)).catch(()=>{});
-      }
+      if(res.ok){const copy=res.clone();caches.open(CACHE).then(cache=>cache.put(req,copy)).catch(()=>{});}
       return res;
-    }))
+    }).catch(()=>new Response('',{status:504,statusText:'Offline'})))
   );
 });
