@@ -1,4 +1,4 @@
-export const APP_VERSION = '0.8.1';
+export const APP_VERSION = '0.11.1';
 export const STORAGE_KEY = 'kbit-protocolo-v040';
 
 export const CONTEXT_TYPES = [

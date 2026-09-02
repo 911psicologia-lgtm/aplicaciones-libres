@@ -1,19 +1,13 @@
-# ROADMAP después de v0.8
+# ROADMAP después de v0.11
 
-## Cerrado
-- Baremos C.1-C.5 integrados.
-- Estímulos completos, incluyendo los tres sustitutos aprobados.
-- Administración protocolizada por edad, bloques, retorno, crédito y discontinuación.
-- Definiciones con 30 s.
-- Presentación discreta para no revelar 0/1 ni claves al evaluado.
-- Informe técnico, contextual base y contextual asistido por IA separados.
-- Previsualización IA en tiempo real.
-- Manual HTML/DOCX/PDF actualizado.
-- Plantilla original de respuestas descargable.
+## Implementado
+1. Hoja original digitalizada y cumplimentable.
+2. PDF de hoja nativo sin cuadro de impresión.
+3. Word de hoja visualmente equivalente.
+4. Expediente completo DOCX/PDF/HTML.
+5. Contextual seleccionado dentro del expediente.
 
-## Próximas mejoras opcionales
-1. Sincronización segura entre dos dispositivos (panel evaluador + pantalla examinando).
-2. PWA instalable con caché offline controlada de estímulos.
-3. Exportación DOCX/PDF nativa del informe desde backend/worker si se desea evitar impresión del navegador.
-4. Firma profesional y encabezados institucionales configurables.
-5. Cifrado local de respaldos y bloqueo con PIN opcional.
+## Próximo refinamiento
+1. PDF nativo vectorial para informes largos (actualmente el expediente PDF usa la salida de impresión de alta fidelidad del navegador).
+2. Opcional: segunda página de trazabilidad resumida dentro de la hoja cumplimentada.
+3. Firma digital criptográfica/certificado, si el flujo institucional lo exige.

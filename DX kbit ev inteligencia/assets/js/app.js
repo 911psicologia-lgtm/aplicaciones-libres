@@ -1,6 +1,6 @@
 import { APP_VERSION, CONTEXT_TYPES, SUBTESTS, CONFIDENCE_LEVELS } from './config.js';
 import { calculateChronologicalAge, ageLabel, esc, downloadBlob } from './utils.js';
-import { loadDB, saveDB, upsertCase, deleteCase, newCase, demoCaseM } from './storage.js';
+import { loadDB, saveDB, upsertCase, deleteCase, newCase, demoCaseM, ensureDBSettings, defaultSettings } from './storage.js';
 import { loadNorms, calculateCase } from './scoring.js';
 import { buildTechnicalReport, buildLocalContextualReport, buildAIPrompt, buildAnonymousAIPayload, contextualReportWithAI } from './reports.js';
 import { exportHtml, exportTxt, exportDoc, printPdf } from './export.js';
@@ -8,10 +8,14 @@ import { loadStimuli, getItemStimulus, getSubtestExamples, publishStimulus } fro
 import { loadProfessionalKey, loadApplicationRules, getKeyItem, nominalMatch } from './professional-key.js';
 import { ensureProtocol, resetProtocol, prepareSubtest, advanceProtocol, getStartPlan, getBlock, isLearningItem, canJumpTo, recordDeviation } from './administration.js';
 import { buildProtocolHtml, buildProtocolCsv } from './protocol-export.js';
+import { loadMirror } from './persistence.js';
+import { exportNativeDocx } from './docx-native.js';
+import { exportAnswerSheetPdf, exportAnswerSheetDocx, answerSheetHtmlImage } from './answer-sheet.js';
+import { exportRasterPdf } from './pdf-raster.js';
 
 const ROUTES = [
   ['home','Inicio'],['case','Caso'],['context','Contexto'],['application','Aplicación'],['review','Revisión'],
-  ['results','Resultados'],['reports','Informes'],['manual','Manual'],['norms','Baremos']
+  ['results','Resultados'],['reports','Informes'],['settings','Configuración'],['manual','Manual'],['norms','Baremos']
 ];
 
 let norms = null;
@@ -19,6 +23,7 @@ let stimuli = null;
 let professionalKey = null;
 let applicationRules = null;
 let db = loadDB();
+ensureDBSettings(db);
 let route = 'home';
 let reportTab = 'technical';
 let protocolFlash = '';
@@ -32,7 +37,8 @@ document.getElementById('brand-version').textContent = `K-BIT · v${APP_VERSION}
 function currentCase(){
   const c=db.currentId ? db.cases[db.currentId] || null : null;
   if(c){
-    if(!c.professional)c.professional={fullName:'',registration:'',role:'Psicólogo/a',institution:''};
+    if(!c.professional)c.professional={fullName:'',registration:'',role:'Psicólogo/a',institution:'',address:'',phone:'',email:'',signatureDataUrl:'',logoDataUrl:''};
+    for(const [k,v] of Object.entries({address:'',phone:'',email:'',signatureDataUrl:'',logoDataUrl:''})) if(c.professional[k]===undefined)c.professional[k]=v;
     c.application ||= {};if(c.application.discreetMode===undefined)c.application.discreetMode=true;c.application.adjustments ||= {};if(c.application.adjustments.overrideReason===undefined)c.application.adjustments.overrideReason='';
     for(const items of Object.values(c.application.items||{}))for(const it of items){if(it.firstScore===undefined)it.firstScore=null;if(it.firstResponse===undefined)it.firstResponse='';if(it.responseSeconds===undefined)it.responseSeconds=null;if(it.timerStart===undefined)it.timerStart=null;if(it.timedOut===undefined)it.timedOut=false;if(!it.reapplications)it.reapplications=[];}
   }
@@ -49,7 +55,7 @@ function noCase(){return `${pageHeader('Sin caso activo','Crea o selecciona un c
 
 function renderNav(){
   const has=!!currentCase();
-  nav.innerHTML=ROUTES.map(([id,label],i)=>`<button class="nav-btn ${route===id?'active':''}" data-route="${id}" ${!has && !['home','manual','norms'].includes(id)?'disabled':''}><span class="nav-num">${i+1}</span>${label}</button>`).join('');
+  nav.innerHTML=ROUTES.map(([id,label],i)=>`<button class="nav-btn ${route===id?'active':''}" data-route="${id}" ${!has && !['home','settings','manual','norms'].includes(id)?'disabled':''}><span class="nav-num">${i+1}</span>${label}</button>`).join('');
 }
 
 function renderHome(){
@@ -65,6 +71,7 @@ function renderHome(){
 }
 
 function field(label,path,value,type='text',extra=''){ return `<div class="field"><label>${label}</label><input type="${type}" value="${esc(value)}" data-bind="${path}" ${extra}></div>`; }
+function dateField(label,path,value,extra=''){return `<div class="field"><label>${label}</label><input type="date" value="${esc(value)}" data-bind="${path}" data-date-field="1" ${extra}></div>`;}
 function textarea(label,path,value,placeholder=''){ return `<div class="field"><label>${label}</label><textarea data-bind="${path}" placeholder="${esc(placeholder)}">${esc(value)}</textarea></div>`; }
 
 function renderCase(){
@@ -75,7 +82,7 @@ function renderCase(){
     <div class="card"><h3>Identificación local</h3>
       ${field('Nombres y apellidos','patient.fullName',c.patient.fullName)}
       ${field('Documento / código','patient.documentId',c.patient.documentId)}
-      <div class="grid2">${field('Fecha de nacimiento','patient.birthDate',c.patient.birthDate,'date','data-refresh="1"')}${field('Fecha de aplicación','evaluation.applicationDate',c.evaluation.applicationDate,'date','data-refresh="1"')}</div>
+      <div class="grid2">${dateField('Fecha de nacimiento','patient.birthDate',c.patient.birthDate,`max="${esc(c.evaluation.applicationDate||'')}"`)}${dateField('Fecha de aplicación','evaluation.applicationDate',c.evaluation.applicationDate)}</div>
       <div class="grid2">${field('Sexo / género (opcional)','patient.sex',c.patient.sex)}${field('Escolaridad','patient.education',c.patient.education)}</div>
       <div class="grid2">${field('Ocupación','patient.occupation',c.patient.occupation)}${field('Institución / procedencia','patient.institution',c.patient.institution)}</div>
       ${field('Remitente','patient.referrer',c.patient.referrer)}
@@ -89,10 +96,14 @@ function renderCase(){
       ${field('Alias editable','privacy.alias',c.privacy.alias)}</div>
     </div>
   </div>
-  <div class="card" style="margin-top:16px"><h3>Profesional responsable del informe</h3>
+  <div class="card" style="margin-top:16px"><h3>Profesional responsable y datos de contacto</h3>
     <div class="grid2">${field('Nombre del profesional','professional.fullName',c.professional.fullName)}${field('Registro / tarjeta profesional','professional.registration',c.professional.registration)}</div>
     <div class="grid2">${field('Rol profesional','professional.role',c.professional.role)}${field('Institución / consulta','professional.institution',c.professional.institution)}</div>
-    <p class="small muted">Estos datos se incorporan al encabezado y firma del informe técnico. No forman parte del paquete anonimizado para IA.</p>
+    ${field('Dirección del consultorio','professional.address',c.professional.address)}
+    <div class="grid2">${field('Teléfono','professional.phone',c.professional.phone,'tel')}${field('Correo electrónico','professional.email',c.professional.email,'email')}</div>
+    <div class="signature-uploader"><div><label class="field-label">Firma digitalizada</label><p class="small muted">Suba PNG, JPG o WebP. La app la reduce y almacena localmente para insertarla automáticamente en los informes exportados.</p><div class="toolbar"><label class="btn ghost sm" for="signature-upload">${c.professional.signatureDataUrl?'Cambiar firma':'Subir firma'}</label><input id="signature-upload" type="file" accept="image/png,image/jpeg,image/webp" class="hidden">${c.professional.signatureDataUrl?'<button class="btn danger sm" data-action="remove-signature">Quitar firma</button>':''}</div></div><div class="signature-preview">${c.professional.signatureDataUrl?`<img src="${esc(c.professional.signatureDataUrl)}" alt="Vista previa de firma">`:'<span>Sin firma cargada</span>'}</div></div>
+    <div class="signature-uploader"><div><label class="field-label">Logo institucional / consulta</label><p class="small muted">Opcional. Se inserta en la cabecera de los informes. Puede guardarlo luego como perfil predeterminado.</p><div class="toolbar"><label class="btn ghost sm" for="logo-upload">${c.professional.logoDataUrl?'Cambiar logo':'Subir logo'}</label><input id="logo-upload" type="file" accept="image/png,image/jpeg,image/webp" class="hidden">${c.professional.logoDataUrl?'<button class="btn danger sm" data-action="remove-logo">Quitar logo</button>':''}<button class="btn soft sm" data-action="save-case-as-profile">Guardar datos como perfil predeterminado</button></div></div><div class="signature-preview">${c.professional.logoDataUrl?`<img src="${esc(c.professional.logoDataUrl)}" alt="Vista previa de logo">`:'<span>Sin logo</span>'}</div></div>
+    <p class="small muted">Nombre, registro, datos de contacto y firma se incorporan a los informes. No forman parte del paquete anonimizado enviado a IA.</p>
   </div>`;
 }
 
@@ -274,7 +285,7 @@ function renderApplication(){
   const privacyAction=`<button class="btn ghost privacy-toggle" data-action="toggle-discreet" title="${discreet?'Abrir panel privado del evaluador':'Ocultar corrección antes de mostrar la pantalla'}" aria-label="${discreet?'Abrir panel privado del evaluador':'Activar presentación discreta'}">${discreet?'🔒':'🔓 Presentación discreta'}</button>`;
   const headerDesc=discreet?'Presentación discreta activa: el evaluado no ve puntuaciones, claves, conteos de aciertos ni mensajes de corrección.':'Panel completo del evaluador: no muestre esta vista al evaluado.';
   const statusArea=discreet?`<div class="discreet-status">${neutralRecordStatus(item)}${discreetFlash?`<span>${esc(discreetFlash)}</span>`:''}</div>`:`${protocolStatus(c,key,applicationRules)}`;
-  const evaluatorScoring=discreet?'':`${professionalReference(key,itemNo,item.response)}${key==='matrices'?'':`<div class="score-buttons"><button class="score-btn incorrect ${String(item.score)==='0'?'selected':''}" data-action="score-item" data-score="0">0 · Incorrecta</button><button class="score-btn ${String(item.score)==='1'?'selected':''}" data-action="score-item" data-score="1">1 · Correcta</button></div>`}<div class="toolbar" style="margin:8px 0"><button class="btn ghost sm" data-action="mark-incidence">No administrado / incidencia</button>${key!=='definiciones' && (item.score===0||item.score===1)?'<button class="btn ghost sm" data-action="record-reapplication">Registrar reaplicación clínica excepcional</button>':''}</div>`;
+  const evaluatorScoring=discreet?'':`${professionalReference(key,itemNo,item.response)}${key==='matrices'?'':`<div class="score-buttons"><button class="score-btn incorrect ${String(item.score)==='0'?'selected':''}" data-action="score-item" data-score="0">Respuesta 0</button><button class="score-btn ${String(item.score)==='1'?'selected':''}" data-action="score-item" data-score="1">Respuesta 1</button></div>`}<div class="toolbar" style="margin:8px 0"><button class="btn ghost sm" data-action="mark-incidence">No administrado / incidencia</button>${key!=='definiciones' && (item.score===0||item.score===1)?'<button class="btn ghost sm" data-action="record-reapplication">Registrar reaplicación clínica excepcional</button>':''}</div>`;
   const learning=discreet?'':learningNotice(c,key,itemNo);
   const topMeta=discreet?`<div><strong>${esc(cfg.label)}</strong><div class="small muted">Aplicación en curso</div></div><div class="toolbar"><span class="badge">Ítem ${itemNo}</span></div>`:`<div><strong>${esc(cfg.label)}</strong><div class="small muted">${scoreStatsText(stats)}</div></div><div class="toolbar"><span class="badge">Ítem ${itemNo}</span><span class="badge">Bloque ${block?`${block.start}-${block.end}`:'—'}</span><span class="badge">Baremo ${esc(r.normBand.label)}</span></div>`;
   return `${pageHeader('Modo aplicación',headerDesc,`${privacyAction}<button class="btn ghost focus-toggle" data-action="toggle-focus">${document.body.classList.contains('focus-mode')?'Salir modo foco':'Modo foco'}</button>${discreet?'':`<button class="btn ghost" data-action="record-deviation">Registrar desviación clínica</button><button class="btn" data-route="review">Revisar aplicación</button>`}`)}
@@ -284,7 +295,7 @@ function renderApplication(){
   <div class="apply-grid ${discreet?'discreet-grid':''}" style="margin-top:12px"><div class="stimulus-card"><div class="stimulus-head"><div><h3>${discreet?'':'Estímulo visual'}</h3>${discreet?'':`<div class="small muted">Cobertura visual completa. ${stim?.substitute?'Este reactivo utiliza el sustituto aprobado e identificado en auditoría.':'Reactivo integrado.'}</div>`}</div><div class="toolbar no-print"><button class="btn ghost sm" data-action="fullscreen-stimulus">Pantalla completa</button>${discreet?'':`<button class="btn ghost sm" data-action="open-viewer">Visor limpio</button>`}</div></div>${stimBlock}${discreet?'':`<div class="stimulus-summary"><span class="k-pill">Ítem ${itemNo} de ${items.length}</span>${stim?.substitute?'<span class="k-pill">Sustituto aprobado</span>':''}</div><div class="stimulus-note">Presente el estímulo sin mostrar la clave profesional. Fuera de aprendizaje no indique si la respuesta fue correcta o incorrecta.</div>`}</div>
   <div class="item-card ${discreet?'discreet-item-card':''}"><div class="item-number">Ítem ${itemNo}</div><h3>${discreet?'Registrar respuesta':'Registrar y calificar'}</h3>${timer}${learning}${responseUI}${evaluatorScoring}
   <div class="field"><label>Observación breve del ítem</label><textarea id="item-note" rows="2" placeholder="Aclaración, repetición, autocorrección, conducta o incidencia.">${esc(item.note)}</textarea></div>
-  <div class="apply-nav"><button class="btn ghost" data-action="move-item" data-delta="-1" ${idx===0?'disabled':''}>← Anterior</button><button class="btn" data-action="move-item" data-delta="1">Siguiente →</button></div>${discreet?`<div class="keyboard-help private-shortcuts">La corrección permanece oculta. El evaluador puede registrar desde el teclado sin mostrar el valor en pantalla.</div>`:`<div class="keyboard-help">Atajos profesionales: 0 = incorrecta · 1 = correcta. Funcionan directamente incluso dentro del campo de respuesta.</div>`}</div></div></div>`;
+  <div class="apply-nav"><button class="btn ghost" data-action="move-item" data-delta="-1" ${idx===0?'disabled':''}>← Anterior</button><button class="btn" data-action="move-item" data-delta="1">Siguiente →</button></div>${discreet?`<div class="keyboard-help private-shortcuts">La corrección permanece oculta. El evaluador puede registrar desde el teclado sin mostrar el valor en pantalla.</div>`:`<div class="keyboard-help">Atajos de registro: pulse 0 o 1 para guardar la respuesta correspondiente. La app no muestra etiquetas de acierto/error durante la aplicación.</div>`}</div></div></div>`;
 }
 
 function renderReview(){
@@ -306,15 +317,17 @@ function renderReview(){
 
 function resultCard(label,d,key){if(!d)return `<div class="result-card"><div class="label">${label}</div><div class="big">—</div><div class="cat">Sin cálculo</div></div>`;const val=d[key];return `<div class="result-card"><div class="label">${label}</div><div class="big">${val}</div><div class="cat">${esc(d.category||'—')}</div><div class="details">Percentil ${esc(d.percentile??'—')} · Eneatipo ${esc(d.stanine??'—')}<br>${d.ic?`IC ${currentCase().scoring.confidence}%: ${d.ic[0]}–${d.ic[1]}`:'IC no disponible'}</div></div>`}
 function profileRow(label,value){if(value===null||value===undefined)return'';const pct=Math.max(0,Math.min(100,((value-40)/120)*100));return `<div class="profile-row"><span>${label}</span><div class="profile-track"><span class="profile-mid"></span><span class="profile-fill" style="width:${pct}%"></span></div><strong>${value}</strong></div>`}
+function endFlowActions(){return `<div class="card no-print" style="margin-top:18px"><h3>Finalizar o continuar</h3><p class="small muted">La evaluación actual ya permanece guardada localmente. Puede volver a la página de casos o iniciar una nueva evaluación sin borrar este expediente.</p><div class="toolbar"><button class="btn ghost" data-action="go-home">← Inicio / casos</button><button class="btn" data-action="new-case-from-end">+ Nueva evaluación</button></div></div>`;}
+
 function renderResults(){
   const c=currentCase();if(!c)return noCase();const r=calc();
   const d=r.difference;
-  return `${pageHeader('Resultados','Conversión automática con C.1–C.5: puntuaciones típicas, compuesto, intervalos, interpretación y discrepancia entre escalas.',`<button class="btn ghost" data-route="review">← Revisar</button><button class="btn" data-route="reports">Generar informes →</button>`)}
+  return `${pageHeader('Resultados','Conversión automática con C.1–C.5: puntuaciones típicas, compuesto, intervalos, interpretación y discrepancia entre escalas.',`<button class="btn ghost" data-action="go-home">Inicio / casos</button><button class="btn ghost" data-route="review">← Revisar</button><button class="btn" data-route="reports">Generar informes →</button>`)}
   ${r.warnings.length?`<div class="notice warn"><ul class="warning-list">${r.warnings.map(w=>`<li>${esc(w)}</li>`).join('')}</ul></div>`:''}
   <div class="result-cards">${resultCard('Verbal / Vocabulario',r.verbal,'pt')}${resultCard('No verbal / Matrices',r.nonverbal,'pt')}${resultCard('CI compuesto',r.composite,'ci')}</div>
   <div class="card profile"><h3>Perfil de puntuaciones</h3>${profileRow('Verbal',r.verbal?.pt)}${profileRow('No verbal',r.nonverbal?.pt)}${profileRow('Compuesto',r.composite?.ci)}<div class="mini muted">Escala visual 40–160. La línea central corresponde a 100.</div></div>
   <div class="difference-box"><h3 style="font-size:16px">Comparación verbal–no verbal</h3>${d?`<p>Diferencia: <strong>${d.signed>0?'+':''}${d.signed}</strong> puntos (${esc(d.direction)}). Valor absoluto: ${d.absolute}.</p><div class="status-row"><span class="badge ${d.significant05?'':'warn'}">p&lt;0,05: ${d.significant05?'significativa':'no significativa'} · corte ${d.p05Threshold}</span><span class="badge ${d.significant01?'':'warn'}">p&lt;0,01: ${d.significant01?'significativa':'no significativa'} · corte ${d.p01Threshold}</span></div>`:'<p>Sin datos suficientes.</p>'}</div>
-  <div class="footer-note">Tramo normativo utilizado: ${esc(r.normBand?.label||'—')} · edad ${r.ageMonths??'—'} meses · confianza ${c.scoring.confidence}%.</div>`;
+  <div class="footer-note">Tramo normativo utilizado: ${esc(r.normBand?.label||'—')} · edad ${r.ageMonths??'—'} meses · confianza ${c.scoring.confidence}%.</div>${endFlowActions()}`;
 }
 
 function reportBody(){
@@ -327,16 +340,34 @@ function renderReports(){
   const c=currentCase();if(!c)return noCase();const r=calc();const body=reportBody();
   const isAI=reportTab==='contextual_ai';const isLocal=reportTab==='contextual_local';
   const aiLoaded=!!(c.reports.contextualAIText||'').trim();
-  return `${pageHeader('Informes','Tres salidas diferenciadas: informe técnico, contextual base generado localmente y contextual asistido por IA. La vista IA ya no sustituye silenciosamente al informe base.',`<button class="btn ghost" data-route="results">← Resultados</button>`)}
+  const dossierChoice=c.reports.dossierContext || (aiLoaded?'ai':'base');
+  return `${pageHeader('Informes','Tres salidas diferenciadas: informe técnico, contextual base generado localmente y contextual asistido por IA. La vista IA ya no sustituye silenciosamente al informe base.',`<button class="btn ghost" data-action="go-home">Inicio / casos</button><button class="btn ghost" data-route="results">← Resultados</button><button class="btn" data-action="new-case-from-end">+ Nueva evaluación</button>`)}
   <div class="report-tabs"><button class="report-tab ${reportTab==='technical'?'active':''}" data-action="report-tab" data-tab="technical">Informe técnico</button><button class="report-tab ${isLocal?'active':''}" data-action="report-tab" data-tab="contextual_local">Contextual base</button><button class="report-tab ${isAI?'active':''}" data-action="report-tab" data-tab="contextual_ai">Contextual + IA</button></div>
-  <div class="toolbar no-print" style="margin-bottom:14px"><button class="btn sm" data-action="export-report" data-format="html" ${isAI&&!aiLoaded?'disabled':''}>HTML enriquecido</button><button class="btn ghost sm" data-action="export-report" data-format="txt" ${isAI&&!aiLoaded?'disabled':''}>TXT</button><button class="btn ghost sm" data-action="export-report" data-format="doc" ${isAI&&!aiLoaded?'disabled':''}>DOC / Word</button><button class="btn ghost sm" data-action="export-report" data-format="pdf" ${isAI&&!aiLoaded?'disabled':''}>PDF / imprimir</button><button class="btn soft sm" data-action="export-protocol" data-format="html">Protocolo digital</button><button class="btn soft sm" data-action="export-dossier">Expediente integrado</button><a class="btn soft sm" href="./docs/plantillas/Plantilla_KBIT_respuestas_original.pdf" download>Plantilla de respuestas</a></div>
-  ${isAI?`<div class="card ai-box no-print"><div class="ai-head"><div><h3>Informe contextual asistido por IA</h3><p class="small muted">Esta es una versión independiente. No se muestra el informe contextual base cuando falta texto de IA.</p></div><span id="ai-state" class="badge ${aiLoaded?'':'warn'}">${aiLoaded?'IA cargada · vista actualizada':'Sin respuesta IA cargada'}</span></div><div class="toolbar" style="margin:12px 0"><button class="btn ghost sm" data-action="copy-ai-prompt">Copiar prompt completo anonimizado</button><button class="btn ghost sm" data-action="download-ai-payload">Descargar paquete IA</button><button class="btn soft sm" data-action="refresh-ai-preview">Actualizar previsualización IA</button><button class="btn danger sm" data-action="clear-ai-text" ${aiLoaded?'':'disabled'}>Limpiar texto IA</button></div><div class="field"><label>Texto completo devuelto por la IA</label><textarea id="ai-context-text" data-bind="reports.contextualAIText" placeholder="Pegue aquí el informe contextual completo devuelto por la IA. La previsualización se actualizará mientras escribe o pega.">${esc(c.reports.contextualAIText)}</textarea></div><div class="notice"><strong>Separación explícita:</strong> el informe base se genera localmente; esta vista solo contiene el núcleo técnico local + el texto externo de IA. El prompt exige un informe completo, no un resumen ejecutivo.</div></div>`:''}
+  <div class="toolbar no-print" style="margin-bottom:14px"><button class="btn sm" data-action="export-report" data-format="html" ${isAI&&!aiLoaded?'disabled':''}>HTML enriquecido</button><button class="btn ghost sm" data-action="export-report" data-format="txt" ${isAI&&!aiLoaded?'disabled':''}>TXT</button><button class="btn ghost sm" data-action="export-report" data-format="docx" ${isAI&&!aiLoaded?'disabled':''}>DOCX nativo</button><button class="btn ghost sm" data-action="export-report" data-format="doc" ${isAI&&!aiLoaded?'disabled':''}>DOC compatible</button><button class="btn ghost sm" data-action="export-report" data-format="pdf" ${isAI&&!aiLoaded?'disabled':''}>PDF directo</button></div>
+  <div class="card no-print export-suite"><h3>Documentos del expediente</h3><p class="small muted">La hoja cumplimentada conserva en su primera página la plantilla original e inyecta identificación, selección 1/0, totales y puntuaciones finales. Añade una segunda página con las respuestas literales registradas, puntuación y tiempo por reactivo; el protocolo digital conserva además observaciones, retornos, créditos e incidencias.</p><div class="toolbar"><button class="btn soft sm" data-action="export-answer-sheet" data-format="pdf">Hoja cumplimentada PDF</button><button class="btn soft sm" data-action="export-answer-sheet" data-format="docx">Hoja cumplimentada Word</button><button class="btn soft sm" data-action="export-protocol" data-format="html">Protocolo detallado HTML</button><button class="btn soft sm" data-action="export-protocol" data-format="csv">Protocolo detallado CSV</button><a class="btn ghost sm" href="./docs/plantillas/Plantilla_KBIT_respuestas_original.pdf" download>Plantilla original vacía</a></div><hr><p class="small muted"><strong>Expediente completo:</strong> portada institucional + informe técnico + contextual seleccionado + protocolo digital + hoja de anotación cumplimentada + firma y anexos.</p><div class="field" style="max-width:420px"><label>Contextual que irá al expediente</label><select data-bind="reports.dossierContext"><option value="base" ${dossierChoice==='base'?'selected':''}>Contextual base</option><option value="ai" ${dossierChoice==='ai'?'selected':''} ${aiLoaded?'':'disabled'}>Contextual asistido por IA</option></select></div><div class="toolbar"><button class="btn" data-action="export-dossier" data-format="docx">Expediente completo DOCX</button><button class="btn" data-action="export-dossier" data-format="pdf">Expediente completo PDF directo</button><button class="btn ghost" data-action="export-dossier" data-format="html">Expediente completo HTML</button></div></div>
+  ${isAI?`<div class="card ai-box no-print"><div class="ai-head"><div><h3>Informe contextual asistido por IA</h3><p class="small muted">Esta es una versión independiente. No se muestra el informe contextual base cuando falta texto de IA.</p></div><span id="ai-state" class="badge ${aiLoaded?'':'warn'}">${aiLoaded?'IA cargada · vista actualizada':'Sin respuesta IA cargada'}</span></div><div class="toolbar" style="margin:12px 0"><button class="btn ghost sm" data-action="copy-ai-prompt">Copiar prompt completo anonimizado</button><button class="btn ghost sm" data-action="download-ai-payload">Descargar paquete IA</button><button class="btn soft sm" data-action="refresh-ai-preview">Actualizar previsualización IA</button><button class="btn danger sm" data-action="clear-ai-text" ${aiLoaded?'':'disabled'}>Limpiar texto IA</button></div>${aiHubHtml()}<div class="field"><label>Texto completo devuelto por la IA</label><textarea id="ai-context-text" data-bind="reports.contextualAIText" placeholder="Pegue aquí el informe contextual completo devuelto por la IA. La previsualización se actualizará mientras escribe o pega.">${esc(c.reports.contextualAIText)}</textarea></div><div class="notice"><strong>Separación explícita:</strong> el informe base se genera localmente; esta vista solo contiene el núcleo técnico local + el texto externo de IA. El prompt exige un informe completo, no un resumen ejecutivo.</div></div>`:''}
   ${isLocal?`<div class="notice" style="margin-bottom:14px"><strong>Contextual base:</strong> construido enteramente por la aplicación con reglas locales; no contiene texto generado por IA.</div>`:''}
-  <div class="report-preview" id="report-preview">${body}</div>`;
+  <div class="report-preview" id="report-preview">${body}</div>${endFlowActions()}`;
+}
+
+
+function settingField(label,path,value,type='text'){return `<div class="field"><label>${label}</label><input type="${type}" value="${esc(value||'')}" data-setting="${path}"></div>`;}
+function aiProviders(){
+  ensureDBSettings(db);const hub=db.settings.aiHub;const defs=[['chatgpt','ChatGPT','https://chatgpt.com/'],['claude','Claude','https://claude.ai/'],['gemini','Gemini','https://gemini.google.com/'],['perplexity','Perplexity','https://www.perplexity.ai/'],['copilot','Copilot','https://copilot.microsoft.com/']];
+  const active=defs.filter(([id])=>hub.providers?.[id]).map(([,label,url])=>({label,url}));if(hub.customName&&hub.customUrl)active.push({label:hub.customName,url:hub.customUrl});return active;
+}
+function aiHubHtml(){const list=aiProviders();return `<div class="ai-hub"><span class="small muted">Abrir IA:</span>${list.length?list.map(p=>`<a class="ai-hub-btn" href="${esc(p.url)}" target="_blank" rel="noopener">${esc(p.label)}</a>`).join(''):'<span class="small muted">Configure proveedores en Configuración.</span>'}</div>`;}
+function renderSettings(){
+  ensureDBSettings(db);const p=db.settings.professionalProfile;const h=db.settings.aiHub;
+  const providers=[['chatgpt','ChatGPT'],['claude','Claude'],['gemini','Gemini'],['perplexity','Perplexity'],['copilot','Copilot']];
+  return `${pageHeader('Configuración','Perfil profesional reutilizable, identidad visual y Hub de IA. Estos datos se conservan localmente y pueden aplicarse a nuevos casos.',`<button class="btn ghost" data-route="home">← Inicio</button>`)}
+  <div class="grid2"><div class="card"><h3>Perfil profesional predeterminado</h3>${settingField('Nombre','professionalProfile.fullName',p.fullName)}${settingField('Registro / tarjeta','professionalProfile.registration',p.registration)}<div class="grid2">${settingField('Rol','professionalProfile.role',p.role)}${settingField('Institución / consulta','professionalProfile.institution',p.institution)}</div>${settingField('Dirección','professionalProfile.address',p.address)}<div class="grid2">${settingField('Teléfono','professionalProfile.phone',p.phone,'tel')}${settingField('Correo','professionalProfile.email',p.email,'email')}</div><div class="toolbar"><label class="btn ghost sm" for="profile-signature-upload">${p.signatureDataUrl?'Cambiar firma predeterminada':'Subir firma predeterminada'}</label><input id="profile-signature-upload" class="hidden" type="file" accept="image/png,image/jpeg,image/webp"><label class="btn ghost sm" for="profile-logo-upload">${p.logoDataUrl?'Cambiar logo predeterminado':'Subir logo predeterminado'}</label><input id="profile-logo-upload" class="hidden" type="file" accept="image/png,image/jpeg,image/webp"></div><div class="settings-preview-grid"><div>${p.signatureDataUrl?`<img src="${esc(p.signatureDataUrl)}" alt="Firma">`:'<span>Sin firma</span>'}</div><div>${p.logoDataUrl?`<img src="${esc(p.logoDataUrl)}" alt="Logo">`:'<span>Sin logo</span>'}</div></div><div class="toolbar" style="margin-top:12px"><button class="btn" data-action="apply-profile-current" ${currentCase()?'':'disabled'}>Aplicar al caso actual</button><button class="btn ghost" data-action="profile-from-current" ${currentCase()?'':'disabled'}>Tomar datos del caso actual</button><button class="btn danger" data-action="clear-default-profile">Vaciar perfil</button></div></div>
+  <div class="card"><h3>Hub de inteligencias artificiales</h3><p class="small muted">Elija qué accesos aparecen junto al prompt anonimizado. La aplicación no envía información por sí sola.</p><div class="provider-grid">${providers.map(([id,label])=>`<label class="provider-toggle"><input type="checkbox" data-provider="${id}" ${h.providers?.[id]?'checked':''}> ${label}</label>`).join('')}</div>${settingField('Nombre IA personalizada','aiHub.customName',h.customName)}${settingField('URL IA personalizada','aiHub.customUrl',h.customUrl,'url')}<div style="margin-top:12px">${aiHubHtml()}</div></div></div>
+  <div class="card"><h3>Persistencia y respaldo</h3><p>La aplicación conserva el estado en el navegador y mantiene además un <strong>espejo automático en IndexedDB</strong>. Esto mejora la recuperación ante límites o limpiezas parciales de localStorage, aunque no sustituye un respaldo externo.</p><div class="toolbar"><button class="btn ghost" data-action="export-db">Exportar respaldo completo</button></div></div>`;
 }
 
 function renderManual(){
-  return `${pageHeader('Manual del evaluador','Guía paso a paso para administrar el K-BIT clásico español con esta aplicación. Las decisiones de inicio, retorno, crédito y discontinuación ya están incorporadas.',`<a class="btn" href="./docs/manual-evaluador.html" target="_blank">Abrir manual</a><a class="btn ghost" href="./docs/manual-evaluador.pdf" download>Descargar PDF</a><a class="btn ghost" href="./docs/manual-evaluador.docx" download>Descargar DOCX</a><a class="btn soft" href="./docs/plantillas/Plantilla_KBIT_respuestas_original.pdf" download>Plantilla de respuestas</a>`)}
+  return `${pageHeader('Manual del evaluador','Guía paso a paso para administrar el K-BIT clásico español con esta aplicación. Las decisiones de inicio, retorno, crédito y discontinuación ya están incorporadas.',`<a class="btn" href="./docs/manual-evaluador.html" target="_blank">Abrir manual</a><a class="btn ghost" href="./docs/manual-evaluador.pdf" download>Descargar PDF</a><a class="btn ghost" href="./docs/manual-evaluador.docx" download>Descargar DOCX</a><a class="btn soft" href="./docs/plantillas/Plantilla_KBIT_respuestas_original.pdf" download>Plantilla original vacía</a>`)}
   <div class="notice"><strong>Versión protocolizada.</strong> La app trabaja por bloques de 4 o 5 ítems; no utiliza reglas de fallos consecutivos. El primer bloque decide continuidad, crédito previo o retorno. La discontinuación ocurre cuando un bloque completo obtiene 0.</div>
   <div class="card"><h3>Secuencia completa</h3><div class="manual-protocol-grid">
     <div class="manual-link"><strong>1. Antes de aplicar</strong><p class="small muted">Verifique K-BIT clásico español, ambiente, datos y fecha. La edad se calcula con la regla 30 días/12 meses del manual.</p></div>
@@ -367,7 +398,7 @@ function renderNorms(){
 
 function render(){
   renderNav();
-  const map={home:renderHome,case:renderCase,context:renderContext,application:renderApplication,review:renderReview,results:renderResults,reports:renderReports,manual:renderManual,norms:renderNorms};
+  const map={home:renderHome,case:renderCase,context:renderContext,application:renderApplication,review:renderReview,results:renderResults,reports:renderReports,settings:renderSettings,manual:renderManual,norms:renderNorms};
   main.innerHTML=(map[route]||renderHome)();
 }
 
@@ -406,20 +437,31 @@ function scoreItem(score){
 }
 
 function filenameBase(){const c=currentCase();return (c?.privacy.alias||'KBIT').replace(/[^a-zA-Z0-9_-]+/g,'_')}
-function doExportReport(format){const c=currentCase(),r=calc();let title,body,suffix;if(reportTab==='technical'){title='Informe técnico K-BIT';body=buildTechnicalReport(c,r);suffix='tecnico';}else if(reportTab==='contextual_local'){title='Informe contextual base K-BIT';body=buildLocalContextualReport(c,r);suffix='contextual_base';}else{if(!(c.reports.contextualAIText||'').trim()){alert('Pegue primero la respuesta de IA. Esta vista ya no exporta el informe base como sustituto.');return;}title='Informe contextual asistido por IA - K-BIT';body=contextualReportWithAI(c,r);suffix='contextual_IA';}const base=`${filenameBase()}_${suffix}`;if(format==='html')exportHtml(`${base}.html`,title,body);if(format==='txt')exportTxt(`${base}.txt`,body);if(format==='doc')exportDoc(`${base}.doc`,title,body);if(format==='pdf')printPdf(title,body)}
-function doExportDossier(){const c=currentCase(),r=calc();const protocol=buildProtocolHtml(c,r);const bodyMatch=protocol.match(/<body>([\s\S]*?)<\/body>/i);const protocolBody=bodyMatch?bodyMatch[1]:protocol;const ai=(c.reports.contextualAIText||'').trim()?`<div style=\"page-break-before:always\"></div>${contextualReportWithAI(c,r)}`:'';const body=`<div class=\"dossier-cover\"><h1>Expediente integrado K-BIT</h1><p>${esc(c.patient.fullName||c.privacy.alias)} · ${esc(c.evaluation.applicationDate||'')}</p></div>${buildTechnicalReport(c,r)}<div style=\"page-break-before:always\"></div>${buildLocalContextualReport(c,r)}${ai}<div style=\"page-break-before:always\"></div><section class=\"report\"><h1>Anexo - Protocolo digital</h1>${protocolBody}</section>`;exportHtml(`${filenameBase()}_expediente_integrado.html`,'Expediente integrado K-BIT',body)}
+async function doExportReport(format){const c=currentCase(),r=calc();let title,body,suffix;if(reportTab==='technical'){title='Informe técnico K-BIT';body=buildTechnicalReport(c,r);suffix='tecnico';}else if(reportTab==='contextual_local'){title='Informe contextual base K-BIT';body=buildLocalContextualReport(c,r);suffix='contextual_base';}else{if(!(c.reports.contextualAIText||'').trim()){alert('Pegue primero la respuesta de IA. Esta vista ya no exporta el informe base como sustituto.');return;}title='Informe contextual asistido por IA - K-BIT';body=contextualReportWithAI(c,r);suffix='contextual_IA';}const base=`${filenameBase()}_${suffix}`;if(format==='html')exportHtml(`${base}.html`,title,body);if(format==='txt')exportTxt(`${base}.txt`,body);if(format==='docx')exportNativeDocx(`${base}.docx`,title,body);if(format==='doc')exportDoc(`${base}.doc`,title,body);if(format==='pdf')await exportRasterPdf(`${base}.pdf`,body)}
+async function doExportAnswerSheet(format){const c=currentCase(),r=calc(),base=filenameBase();if(format==='pdf')await exportAnswerSheetPdf(`${base}_hoja_anotacion_cumplimentada.pdf`,c,r);else await exportAnswerSheetDocx(`${base}_hoja_anotacion_cumplimentada.docx`,c,r);}
+function dossierContextHtml(c,r){if(c.reports.dossierContext==='ai'&&(c.reports.contextualAIText||'').trim())return contextualReportWithAI(c,r);return buildLocalContextualReport(c,r);}
+async function buildDossierHtml(){const c=currentCase(),r=calc();const protocol=buildProtocolHtml(c,r);const bodyMatch=protocol.match(/<body>([\s\S]*?)<\/body>/i);const protocolBody=bodyMatch?bodyMatch[1]:protocol;const sheet=await answerSheetHtmlImage(c,r);const pr=c.professional||{};const cover=`<article class="report dossier-cover"><header class="report-cover">${pr.logoDataUrl?`<img class="report-logo" src="${esc(pr.logoDataUrl)}" alt="Logo">`:''}<div class="report-kicker">${esc(pr.institution||'K-BIT · Expediente de evaluación')}</div><h1>Expediente integrado K-BIT</h1><p class="report-subtitle">Informe técnico, integración contextual y anexos de administración</p><div class="report-meta-grid"><div><span>Evaluado</span><strong>${esc(c.patient.fullName||'')}</strong></div><div><span>Fecha</span><strong>${esc(c.evaluation.applicationDate||'')}</strong></div><div><span>Profesional</span><strong>${esc(pr.fullName||'')}</strong></div><div><span>Registro</span><strong>${esc(pr.registration||'')}</strong></div><div><span>Documento</span><strong>${esc(c.patient.documentId||'—')}</strong></div><div><span>Contexto</span><strong>${esc(c.evaluation.contextType||'')}</strong></div></div></header><section><h2>Contenido</h2><ol><li>Informe técnico K-BIT.</li><li>Informe contextual ${c.reports.dossierContext==='ai'&&(c.reports.contextualAIText||'').trim()?'asistido por IA':'base'}.</li><li>Protocolo digital de administración.</li><li>Hoja de anotación cumplimentada.</li></ol></section></article>`;return `${cover}<div style="page-break-before:always"></div>${buildTechnicalReport(c,r)}<div style="page-break-before:always"></div>${dossierContextHtml(c,r)}<div style="page-break-before:always"></div><section class="report"><h1>Anexo - Protocolo digital</h1>${protocolBody}</section>${sheet}`;}
+async function doExportDossier(format){const body=await buildDossierHtml(),base=`${filenameBase()}_expediente_completo`;if(format==='docx')exportNativeDocx(`${base}.docx`,'Expediente completo K-BIT',body);else if(format==='pdf')await exportRasterPdf(`${base}.pdf`,body);else exportHtml(`${base}.html`,'Expediente completo K-BIT',body);}
 
 main.addEventListener('input',e=>{
+  const setting=e.target.dataset.setting;if(setting){ensureDBSettings(db);let value=e.target.value;setNested(db.settings,setting,value);saveDB(db);return;}
   const bind=e.target.dataset.bind;if(!bind)return;const c=currentCase();if(!c)return;let value=e.target.value;if(e.target.type==='number'&&value!=='')value=Number(value);setNested(c,bind,value);saveCurrent();if(bind==='reports.contextualAIText')refreshAIReportPreview();
 });
 main.addEventListener('change',e=>{
+  if(e.target.dataset.provider){ensureDBSettings(db);db.settings.aiHub.providers[e.target.dataset.provider]=e.target.checked;saveDB(db);if(route==='settings')render();return;}
   const bind=e.target.dataset.bind;
   if(bind){
     const c=currentCase();
     if(c){let value=e.target.value;if(e.target.type==='number'&&value!=='')value=Number(value);setNested(c,bind,value);saveCurrent();}
   }
-  if(e.target.dataset.refresh)render();
+  // Los selectores nativos de fecha se dejaban sin foco al re-renderizar en el
+  // mismo evento change. Las fechas se recalculan al salir del campo, evitando
+  // bloquear/cerrar prematuramente el calendario en Chrome/Edge.
+  if(e.target.dataset.refresh && !e.target.dataset.dateField)render();
 });
+main.addEventListener('blur',e=>{
+  if(e.target?.dataset?.dateField==='1'){setTimeout(()=>{if(route==='case')render();},0);}
+},true);
 
 function openStimulusViewer(){
   publishCurrentStimulus();
@@ -431,10 +473,20 @@ async function fullscreenStimulus(){
   try{ if(document.fullscreenElement) await document.exitFullscreen(); else await el.requestFullscreen(); }catch{}
 }
 
+async function compressProfileImage(file,kind='firma'){
+  if(!file) return null;
+  if(file.size>6*1024*1024) throw new Error(`La imagen de ${kind} supera 6 MB.`);
+  const data=await new Promise((resolve,reject)=>{const fr=new FileReader();fr.onload=()=>resolve(fr.result);fr.onerror=()=>reject(new Error(`No se pudo leer la imagen de ${kind}.`));fr.readAsDataURL(file);});
+  const img=await new Promise((resolve,reject)=>{const im=new Image();im.onload=()=>resolve(im);im.onerror=()=>reject(new Error(`La imagen de ${kind} no es válida.`));im.src=data;});
+  const maxW=kind==='logo'?700:800,maxH=kind==='logo'?300:260,scale=Math.min(1,maxW/img.width,maxH/img.height);const canvas=document.createElement('canvas');canvas.width=Math.max(1,Math.round(img.width*scale));canvas.height=Math.max(1,Math.round(img.height*scale));const ctx=canvas.getContext('2d');ctx.clearRect(0,0,canvas.width,canvas.height);ctx.drawImage(img,0,0,canvas.width,canvas.height);let out=canvas.toDataURL('image/webp',0.82);if(!out.startsWith('data:image/webp'))out=canvas.toDataURL('image/png');return out;
+}
+
 document.body.addEventListener('click',async e=>{
   const routeEl=e.target.closest('[data-route]');if(routeEl){if(route==='application') publishCurrentStimulus(); handleRoute(routeEl.dataset.route); return}
   const el=e.target.closest('[data-action]');if(!el)return;const action=el.dataset.action;
-  if(action==='new-case'){const c=newCase();upsertCase(db,c);route='case';render()}
+  if(action==='new-case'){ensureDBSettings(db);document.body.classList.remove('focus-mode');const c=newCase({professional:{...db.settings.professionalProfile}});upsertCase(db,c);route='case';render()}
+  else if(action==='go-home'){persistActiveText();clearDefinitionTimer();document.body.classList.remove('focus-mode');route='home';render();window.scrollTo({top:0,behavior:'smooth'})}
+  else if(action==='new-case-from-end'){persistActiveText();clearDefinitionTimer();document.body.classList.remove('focus-mode');ensureDBSettings(db);const c=newCase({professional:{...db.settings.professionalProfile}});upsertCase(db,c);route='case';render();window.scrollTo({top:0,behavior:'smooth'})}
   else if(action==='load-demo'){const c=demoCaseM();upsertCase(db,c);route='case';render()}
   else if(action==='open-case'){db.currentId=el.dataset.id;saveDB(db);route='case';render()}
   else if(action==='delete-case'){if(confirm('¿Eliminar este caso del almacenamiento local?')){deleteCase(db,el.dataset.id);render()}}
@@ -452,12 +504,18 @@ document.body.addEventListener('click',async e=>{
   else if(action==='mark-incidence')scoreItem('NA')
   else if(action==='move-item')moveItem(Number(el.dataset.delta))
   else if(action==='report-tab'){reportTab=el.dataset.tab;render()}
-  else if(action==='export-report')doExportReport(el.dataset.format)
-  else if(action==='export-dossier')doExportDossier()
+  else if(action==='export-report')await doExportReport(el.dataset.format)
+  else if(action==='export-answer-sheet')await doExportAnswerSheet(el.dataset.format)
+  else if(action==='export-dossier')await doExportDossier(el.dataset.format||'html')
   else if(action==='copy-ai-prompt'){const text=buildAIPrompt(currentCase(),calc());await navigator.clipboard.writeText(text);el.textContent='Copiado ✓';setTimeout(()=>el.textContent='Copiar prompt anonimizado',1400)}
   else if(action==='download-ai-payload'){downloadBlob(`${filenameBase()}_paquete_IA_anonimizado.json`,JSON.stringify(buildAnonymousAIPayload(currentCase(),calc()),null,2),'application/json')}
   else if(action==='refresh-ai-preview'){refreshAIReportPreview()}
   else if(action==='clear-ai-text'){currentCase().reports.contextualAIText='';saveCurrent();render()}
+  else if(action==='remove-signature'){const c=currentCase();c.professional.signatureDataUrl='';saveCurrent();render()}
+  else if(action==='remove-logo'){const c=currentCase();c.professional.logoDataUrl='';saveCurrent();render()}
+  else if(action==='save-case-as-profile'||action==='profile-from-current'){const c=currentCase();ensureDBSettings(db);db.settings.professionalProfile={...c.professional};saveDB(db);alert('Perfil profesional predeterminado actualizado.');if(route==='settings')render()}
+  else if(action==='apply-profile-current'){const c=currentCase();ensureDBSettings(db);c.professional={...db.settings.professionalProfile};saveCurrent();render()}
+  else if(action==='clear-default-profile'){if(confirm('¿Vaciar el perfil profesional predeterminado?')){ensureDBSettings(db);db.settings.professionalProfile=defaultSettings().professionalProfile;saveDB(db);render()}}
   else if(action==='toggle-discreet'){const c=currentCase();c.application.discreetMode=!discreetMode(c);discreetFlash='';saveCurrent();render()}
   else if(action==='open-viewer') openStimulusViewer()
   else if(action==='fullscreen-stimulus') await fullscreenStimulus()
@@ -475,9 +533,18 @@ document.body.addEventListener('click',async e=>{
   }
 });
 
-function handleRoute(id){if(!currentCase()&&!['home','manual','norms'].includes(id))return;persistActiveText();clearDefinitionTimer();route=id;render();window.scrollTo({top:0,behavior:'smooth'})}
+function handleRoute(id){if(!currentCase()&&!['home','settings','manual','norms'].includes(id))return;persistActiveText();clearDefinitionTimer();if(id!=='application')document.body.classList.remove('focus-mode');route=id;render();window.scrollTo({top:0,behavior:'smooth'})}
 
-document.body.addEventListener('change',e=>{
+document.body.addEventListener('change',async e=>{
+  if(e.target.id==='signature-upload'){
+    const file=e.target.files?.[0];if(!file)return;try{const c=currentCase();c.professional.signatureDataUrl=await compressProfileImage(file,'firma');saveCurrent();render();}catch(err){alert(err.message||'No se pudo procesar la firma.');}return;
+  }
+  if(e.target.id==='logo-upload'){
+    const file=e.target.files?.[0];if(!file)return;try{const c=currentCase();c.professional.logoDataUrl=await compressProfileImage(file,'logo');saveCurrent();render();}catch(err){alert(err.message||'No se pudo procesar el logo.');}return;
+  }
+  if(e.target.id==='profile-signature-upload'||e.target.id==='profile-logo-upload'){
+    const file=e.target.files?.[0];if(!file)return;try{ensureDBSettings(db);const isLogo=e.target.id.includes('logo');const data=await compressProfileImage(file,isLogo?'logo':'firma');if(isLogo)db.settings.professionalProfile.logoDataUrl=data;else db.settings.professionalProfile.signatureDataUrl=data;saveDB(db);render();}catch(err){alert(err.message||'No se pudo procesar la imagen.');}return;
+  }
   if(e.target.id==='import-db'){
     const file=e.target.files?.[0];if(!file)return;const reader=new FileReader();reader.onload=()=>{try{const imported=JSON.parse(reader.result);if(imported?.cases){db=imported;saveDB(db);route='home';render()}else alert('El archivo no tiene el formato de respaldo esperado.')}catch{alert('No se pudo leer el respaldo.')}};reader.readAsText(file);e.target.value='';
   }
@@ -516,7 +583,7 @@ document.addEventListener('keydown',e=>{
 });
 
 (async function init(){
-  try{[norms, stimuli, professionalKey, applicationRules] = await Promise.all([loadNorms(), loadStimuli(), loadProfessionalKey(), loadApplicationRules()]);}
+  try{[norms, stimuli, professionalKey, applicationRules] = await Promise.all([loadNorms(), loadStimuli(), loadProfessionalKey(), loadApplicationRules()]);const mirror=await loadMirror().catch(()=>null);if(mirror?.cases && (!db.savedAt || (mirror.savedAt&&mirror.savedAt>db.savedAt))){db=mirror;ensureDBSettings(db);try{localStorage.setItem('kbit-protocolo-v040',JSON.stringify(db));}catch{}}}
   catch(err){console.error(err);main.innerHTML=`<div class="notice warn"><strong>Error al cargar baremos o estímulos.</strong><br>${esc(err.message)}<br><br>Esta versión debe abrirse desde un servidor web (por ejemplo Cloudflare Pages), no mediante doble clic con file://.</div>`;return}
   render();
 })();

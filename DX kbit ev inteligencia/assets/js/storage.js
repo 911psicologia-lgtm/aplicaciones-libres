@@ -1,5 +1,6 @@
 import { STORAGE_KEY, SUBTESTS } from './config.js';
 import { todayLocalISO, uid } from './utils.js';
+import { persistMirror } from './persistence.js';
 
 export function makeItems(count) {
   return Array.from({ length: count }, (_, i) => ({
@@ -30,7 +31,7 @@ export function newCase(seed = {}) {
       ...seed.evaluation,
     },
     privacy: { alias, ...seed.privacy },
-    professional: { fullName: '', registration: '', role: 'Psicólogo/a', institution: '', ...seed.professional },
+    professional: { fullName: '', registration: '', role: 'Psicólogo/a', institution: '', address: '', phone: '', email: '', signatureDataUrl: '', ...seed.professional },
     application: {
       activeSubtest: 'vocabExpresivo', activeIndex: 0, discreetMode: true,
       ...seed.application,
@@ -44,7 +45,7 @@ export function newCase(seed = {}) {
       observations: seed.application?.observations || '',
     },
     scoring: { confidence: 90, ...seed.scoring },
-    reports: { contextualAIText: '', technicalNotes: '', ...seed.reports },
+    reports: { contextualAIText: '', technicalNotes: '', dossierContext: 'base', ...seed.reports },
   };
 }
 
@@ -81,17 +82,32 @@ export function demoCaseM() {
   return c;
 }
 
+
+export function defaultSettings(){
+  return {
+    professionalProfile:{fullName:'',registration:'',role:'Psicólogo/a',institution:'',address:'',phone:'',email:'',signatureDataUrl:'',logoDataUrl:''},
+    aiHub:{providers:{chatgpt:true,claude:true,gemini:true,perplexity:true,copilot:true},customName:'',customUrl:''}
+  };
+}
+export function ensureDBSettings(db){
+  db.settings ||= defaultSettings();
+  db.settings.professionalProfile ||= defaultSettings().professionalProfile;
+  db.settings.aiHub ||= defaultSettings().aiHub;
+  db.settings.aiHub.providers ||= defaultSettings().aiHub.providers;
+  return db.settings;
+}
+
 export function loadDB() {
   try {
     const raw = localStorage.getItem(STORAGE_KEY);
-    if (!raw) return { currentId: null, cases: {} };
+    if (!raw) return { currentId: null, cases: {}, settings: defaultSettings(), savedAt: null };
     const parsed = JSON.parse(raw);
-    return parsed?.cases ? parsed : { currentId: null, cases: {} };
+    if(parsed?.cases){ensureDBSettings(parsed);return parsed;} return { currentId: null, cases: {}, settings: defaultSettings(), savedAt: null };
   } catch {
-    return { currentId: null, cases: {} };
+    return { currentId: null, cases: {}, settings: defaultSettings(), savedAt: null };
   }
 }
 
-export function saveDB(db) { localStorage.setItem(STORAGE_KEY, JSON.stringify(db)); }
+export function saveDB(db) { db.savedAt=new Date().toISOString(); ensureDBSettings(db); try{localStorage.setItem(STORAGE_KEY, JSON.stringify(db));}catch(err){console.warn('localStorage no pudo guardar todo el estado; se mantiene espejo IndexedDB.',err);} persistMirror(structuredClone(db)).catch(err=>console.warn('IndexedDB mirror',err)); }
 export function upsertCase(db, caseData) { caseData.updatedAt = new Date().toISOString(); db.cases[caseData.id] = caseData; db.currentId = caseData.id; saveDB(db); }
 export function deleteCase(db, id) { delete db.cases[id]; if (db.currentId === id) db.currentId = null; saveDB(db); }

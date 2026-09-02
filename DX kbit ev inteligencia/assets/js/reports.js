@@ -31,12 +31,69 @@ function zScore(value) { return Number.isFinite(Number(value)) ? ((Number(value)
 function icText(d) { return d?.ic ? `${d.ic[0]}–${d.ic[1]}` : '—'; }
 function bandText(d) { return d?.band === null || d?.band === undefined ? '—' : `±${d.band}`; }
 
+
+function inlineMarkdownSafe(text='') {
+  let x=esc(text);
+  x=x.replace(/`([^`]+)`/g,'<code>$1</code>');
+  x=x.replace(/\*\*([^*]+)\*\*/g,'<strong>$1</strong>');
+  x=x.replace(/__([^_]+)__/g,'<strong>$1</strong>');
+  x=x.replace(/\*([^*\n]+)\*/g,'<em>$1</em>');
+  return x;
+}
+
+function isTableDivider(line='') {
+  const cells=line.trim().replace(/^\||\|$/g,'').split('|').map(x=>x.trim());
+  return cells.length>=2 && cells.every(c=>/^:?-{3,}:?$/.test(c));
+}
+function tableCells(line='') { return line.trim().replace(/^\||\|$/g,'').split('|').map(x=>x.trim()); }
+
+export function renderMarkdownSafe(markdown='') {
+  const source=String(markdown||'').replace(/\r\n?/g,'\n').trim();
+  if(!source) return '';
+  const lines=source.split('\n');
+  const out=[]; let i=0;
+  const paragraph=[];
+  const flushParagraph=()=>{ if(paragraph.length){out.push(`<p>${paragraph.map(x=>inlineMarkdownSafe(x.trim())).join(' ')}</p>`);paragraph.length=0;} };
+  while(i<lines.length){
+    const raw=lines[i]; const line=raw.trim();
+    if(!line){flushParagraph();i++;continue;}
+    if(i+1<lines.length && line.includes('|') && isTableDivider(lines[i+1])){
+      flushParagraph(); const headers=tableCells(line); i+=2; const rows=[];
+      while(i<lines.length && lines[i].trim() && lines[i].includes('|')){rows.push(tableCells(lines[i]));i++;}
+      out.push(`<table class="report-table ai-md-table"><thead><tr>${headers.map(h=>`<th>${inlineMarkdownSafe(h)}</th>`).join('')}</tr></thead><tbody>${rows.map(row=>`<tr>${headers.map((_,j)=>`<td>${inlineMarkdownSafe(row[j]??'')}</td>`).join('')}</tr>`).join('')}</tbody></table>`);continue;
+    }
+    const heading=line.match(/^(#{1,4})\s+(.+)$/);
+    if(heading){flushParagraph();const level=Math.min(4,Math.max(2,heading[1].length+1));out.push(`<h${level}>${inlineMarkdownSafe(heading[2])}</h${level}>`);i++;continue;}
+    if(/^[-*]\s+/.test(line)){
+      flushParagraph();const items=[];while(i<lines.length && /^[-*]\s+/.test(lines[i].trim())){items.push(lines[i].trim().replace(/^[-*]\s+/,''));i++;}out.push(`<ul>${items.map(x=>`<li>${inlineMarkdownSafe(x)}</li>`).join('')}</ul>`);continue;
+    }
+    if(/^\d+[.)]\s+/.test(line)){
+      flushParagraph();const items=[];while(i<lines.length && /^\d+[.)]\s+/.test(lines[i].trim())){items.push(lines[i].trim().replace(/^\d+[.)]\s+/,''));i++;}out.push(`<ol>${items.map(x=>`<li>${inlineMarkdownSafe(x)}</li>`).join('')}</ol>`);continue;
+    }
+    if(/^>\s?/.test(line)){flushParagraph();out.push(`<blockquote>${inlineMarkdownSafe(line.replace(/^>\s?/,''))}</blockquote>`);i++;continue;}
+    paragraph.push(raw);i++;
+  }
+  flushParagraph(); return out.join('');
+}
+
+function aiBodyWithoutFrontMatter(text='') {
+  const lines=String(text||'').replace(/\r\n?/g,'\n').split('\n');
+  const firstSection=lines.findIndex(l=>/^##\s*1[.\s]/.test(l.trim()) || /^#\s*1[.\s]/.test(l.trim()));
+  if(firstSection>0) return lines.slice(firstSection).join('\n').trim();
+  return String(text||'').trim();
+}
+
+function professionalBlock(caseData, heading='Profesional responsable') {
+  const pr=caseData.professional||{};
+  return `<section class="signature professional-signature"><h2>${esc(heading)}</h2><div class="professional-signature-grid"><div>${pr.signatureDataUrl?`<img class="signature-image" src="${esc(pr.signatureDataUrl)}" alt="Firma del profesional">`:'<div class="signature-placeholder">Firma</div>'}</div><div><p><strong>${esc(pr.fullName||'________________________________')}</strong></p><p>${esc(pr.role||'Psicología / evaluación')}</p><p><strong>Registro:</strong> ${esc(pr.registration||'________________')}</p>${pr.institution?`<p><strong>Consulta / institución:</strong> ${esc(pr.institution)}</p>`:''}${pr.address?`<p><strong>Dirección:</strong> ${esc(pr.address)}</p>`:''}${pr.phone?`<p><strong>Teléfono:</strong> ${esc(pr.phone)}</p>`:''}${pr.email?`<p><strong>Correo:</strong> ${esc(pr.email)}</p>`:''}</div></div></section>`;
+}
+
 function reportHeader(caseData, result, title, subtitle='') {
   const p = caseData.patient;
   const pr = caseData.professional || {};
   return `
     <header class="report-head report-cover">
-      <div class="report-kicker">K-BIT · Test Breve de Inteligencia de Kaufman</div>
+      ${pr.logoDataUrl?`<div class="report-brand-row"><img class="report-logo" src="${esc(pr.logoDataUrl)}" alt="Logo institucional"><div><div class="report-kicker">${esc(pr.institution||'K-BIT · Test Breve de Inteligencia de Kaufman')}</div><div class="report-brand-contact">${[pr.address,pr.phone,pr.email].filter(Boolean).map(esc).join(' · ')}</div></div></div>`:`<div class="report-kicker">K-BIT · Test Breve de Inteligencia de Kaufman</div>`}
       <h1>${esc(title)}</h1>
       ${subtitle ? `<p class="report-subtitle">${esc(subtitle)}</p>` : ''}
       <div class="report-meta-grid">
@@ -247,14 +304,10 @@ export function buildTechnicalReport(caseData, result) {
     </section>
 
     <section><h2>12. Anexos documentales</h2>
-      <p>Se recomienda conservar junto con este informe la plantilla/hoja de respuestas, el registro digital de reactivos y las observaciones de aplicación. La aplicación ofrece la descarga de la plantilla original como documento separado para archivo del expediente.</p>
+      <p>Se recomienda conservar junto con este informe la hoja de anotación cumplimentada generada por la aplicación, el protocolo digital detallado y las observaciones de administración. La plantilla original vacía permanece disponible únicamente como referencia documental.</p>
     </section>
 
-    <section class="signature"><h2>Profesional responsable</h2>
-      <p><strong>${esc(pr.fullName || '________________________________')}</strong></p>
-      <p>${esc(pr.role || 'Psicología / evaluación')} · Registro: ${esc(pr.registration || '________________')}</p>
-      <p>${esc(pr.institution || '')}</p><p>Firma: _______________________________</p>
-    </section>
+    ${professionalBlock(caseData)}
   </article>`;
 }
 
@@ -278,6 +331,7 @@ export function buildLocalContextualReport(caseData, result) {
     <section><h2>6. Hipótesis interpretativas y alternativas</h2><p>${esc(hypothesisText(caseData,result))}</p></section>
     <section><h2>7. Recomendaciones de integración</h2><p>${esc(contextRecommendations(caseData,result))}</p><p>Las hipótesis anteriores deben contrastarse con entrevistas, observación, historia relevante y otras medidas pertinentes al propósito de la evaluación. Cualquier divergencia entre el resultado cognitivo breve y el funcionamiento cotidiano merece exploración adicional antes de formular conclusiones.</p></section>
     <section><h2>8. Cautelas</h2><p>No se infiere causalidad a partir de asociaciones contextuales. Las puntuaciones describen el rendimiento bajo las condiciones de esta aplicación y no agotan las capacidades, recursos, dificultades ni posibilidades futuras de la persona evaluada.</p></section>
+    ${professionalBlock(caseData)}
   </article>`;
 }
 
@@ -339,7 +393,9 @@ REGLAS OBLIGATORIAS:
 - No inventes síntomas, antecedentes, conductas, datos normativos ni resultados.
 - Explica el alcance de una prueba breve y propone integración con otras fuentes cuando sea pertinente.
 - No reconstruyas identidad, nombres, documentos, instituciones específicas ni fecha exacta de nacimiento.
-- El texto será revisado, editado y validado por el profesional responsable.
+- No añadas avisos meta sobre validación, revisión profesional, carácter del documento o autoría de IA; la aplicación incorpora esos elementos institucionales por separado.
+- No repitas portada, código anonimizado, edad, escolaridad o contexto como ficha inicial: comienza directamente con el apartado 1.
+- Devuelve Markdown limpio y estructurado: usa encabezados ##, negrillas, listas y tablas Markdown cuando ayuden a comunicar resultados. No uses bloques de código.
 
 ESTRUCTURA OBLIGATORIA:
 1. Propósito y contexto de evaluación.
@@ -365,13 +421,15 @@ export function contextualReportWithAI(caseData,result){
   const text=(caseData.reports.contextualAIText||'').trim();
   if(!text) return `<article class="report contextual-report ai-report-empty">
     ${reportHeader(caseData,result,'Informe contextualizado K-BIT - versión asistida por IA','Aún no se ha incorporado una respuesta de IA')}
-    <section><h2>Estado de la versión asistida</h2><div class="notice warn"><strong>Sin contenido de IA cargado.</strong> Esta vista no sustituye ni repite el informe contextual base. Copie el prompt anonimizado, obtenga el borrador en el sistema de IA autorizado y péguelo en el campo correspondiente. Después, la previsualización mostrará exclusivamente la versión asistida.</div></section>
+    <section><h2>Estado de la versión asistida</h2><div class="notice warn"><strong>Sin contenido de IA cargado.</strong> Esta vista no sustituye ni repite el informe contextual base. Copie el prompt anonimizado, obtenga el borrador en el sistema de IA elegido y péguelo en el campo correspondiente.</div></section>
     <section><h2>Núcleo técnico disponible</h2>${standardizedResultsTable(caseData,result)}${profileGraph(result)}</section>
+    ${professionalBlock(caseData)}
   </article>`;
+  const cleaned=aiBodyWithoutFrontMatter(text);
   return `<article class="report contextual-report ai-assisted-report">
-    ${reportHeader(caseData,result,'Informe contextualizado K-BIT - versión asistida por IA','Integración contextual diferenciada del informe base y sujeta a validación profesional')}
+    ${reportHeader(caseData,result,'Informe contextualizado K-BIT - versión asistida por IA','Integración psicométrica local y desarrollo contextual asistido')}
     <section><h2>1. Núcleo técnico verificado por la aplicación</h2>${standardizedResultsTable(caseData,result)}${profileGraph(result)}</section>
-    <section><h2>2. Desarrollo contextual asistido por IA</h2><div class="ai-generated-body">${text.split(/\n{2,}/).map(p=>`<p>${esc(p)}</p>`).join('')}</div></section>
-    <section><h2>3. Nota de validación profesional</h2><p>Esta versión incorpora texto producido externamente por IA a partir de un paquete anonimizado. Debe revisarse, contrastarse con el expediente y validarse por el profesional responsable antes de cualquier uso clínico, educativo, jurídico, laboral o investigativo. Los resultados psicométricos mostrados en el núcleo técnico proceden del motor local de la aplicación y no deben ser alterados por el texto generado.</p></section>
+    <section class="ai-context-section"><h2>2. Desarrollo contextual asistido por IA</h2><div class="ai-generated-body markdown-rendered">${renderMarkdownSafe(cleaned)}</div></section>
+    ${professionalBlock(caseData)}
   </article>`;
 }

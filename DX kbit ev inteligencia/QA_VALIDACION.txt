@@ -1,45 +1,48 @@
-VALIDACIÓN TÉCNICA — K-BIT v0.8.0
+VALIDACIÓN TÉCNICA — K-BIT v0.10.0
 
-PRIVACIDAD DE APLICACIÓN
-- Presentación discreta configurada como modo predeterminado: SÍ.
-- Oculta 0/1 y textos correcta/incorrecta durante la vista compartida: SÍ.
-- Oculta clave profesional y conteos de aciertos: SÍ.
-- Alt+1 / Alt+0 funcionan aun con foco en campo de texto por diseño del listener global: SÍ.
-- Alt+N registra incidencia/no administrado: SÍ.
-- Matrices A-H conserva puntuación interna sin mostrar el resultado en modo discreto: SÍ.
-- Pantalla de cierre neutral en modo discreto: SÍ.
+Módulos principales
+- data/application-rules.json: PASS
+- data/baremos-kbit.json: PASS
+- data/professional-key.json: PASS
+- data/stimuli-manifest.json: PASS
+- Configuración route: PASS
+- DOCX nativo UI: PASS
+- Hub configurable: PASS
+- Perfil reusable: PASS
+- Logo: PASS
+- IndexedDB: PASS
 
-INFORMES
-- Informe técnico: independiente.
-- Contextual base local: independiente.
-- Contextual asistido por IA: independiente.
-- Sin texto IA, la vista IA NO cae al contextual base: verificado por prueba de módulo.
-- Con texto IA, la vista incluye el texto pegado: verificado por prueba de módulo.
-- Prompt solicita informe completo y excluye resumen ejecutivo: verificado.
-- Previsualización se actualiza desde el evento input: implementado.
+Estímulos: VE 45/45; Def 37/37; Mat 48/48.
 
-PROTOCOLO
-- 14 pruebas unitarias obligatorias de administración: PASARON.
+Pruebas protocolarias: 14/14 PASS (qa_protocol.mjs).
+Sintaxis JavaScript: app.js, docx-native.js, storage.js, reports.js y persistence.js verificadas con node --check.
+Manual DOCX: renderizado a 3 páginas y revisado visualmente; PDF derivado del mismo documento.
+DOCX nativo de informes: módulo OOXML/ZIP incluido sin dependencias externas. Debido a las restricciones del entorno de ejecución, la descarga interactiva del navegador no pudo automatizarse aquí; se validó estructura y sintaxis del módulo, y debe incluirse como prueba de aceptación en Cloudflare Pages.
+Persistencia: localStorage + espejo IndexedDB.
 
-ESTÍMULOS
-- Vocabulario expresivo: 45/45.
-- Definiciones: 37/37.
-- Matrices: 48/48.
-- Faltantes operativos: 0.
 
-MANUAL
-- DOCX actualizado: 3 páginas.
-- Render DOCX revisado visualmente página por página: SÍ.
-- PDF actualizado: 3 páginas.
-- Render PDF revisado visualmente página por página: SÍ.
-- HTML actualizado: SÍ.
+VALIDACIÓN v0.11
+- Plantilla original: hash preservado y copia incluida.
+- Fondo digital optimizado: 1241x1754.
+- Hoja cumplimentada: PDF nativo de una página + DOCX.
+- Totales y tabla CI inyectados.
+- Expediente completo: DOCX/PDF/HTML.
+- Hoja cumplimentada incorporada como anexo del expediente.
 
-NOTA DE QA
-El entorno de ejecución bloqueó la navegación headless a localhost/file:// por política administrativa, por lo que la validación de navegador completo no pudo ejecutarse aquí. Se compensó con pruebas unitarias del protocolo, importación real de módulos de cálculo/informes, pruebas de generación de informes y verificación sintáctica de JavaScript.
+VALIDACIÓN COMPLEMENTARIA v0.11
+- Hash SHA-256 de la plantilla original preservado: 09e76f5cd4adf6f254949417d27347000a372305c64f84a987b58b06bb2df8f6.
+- Primera página de hoja cumplimentada: coordenadas auditadas contra render 1241x1754 del PDF original.
+- Segunda página: anexo de respuestas literales, 1/0/Crédito y tiempo por reactivo en tres columnas.
+- PDF de hoja: descarga directa, dos páginas raster A4 dentro de PDF.
+- DOCX de hoja: dos páginas A4 visuales.
+- PDF directo de informes/expediente: renderizado local a páginas A4 y descarga sin diálogo de impresión.
+- Expediente permite seleccionar Contextual base o Contextual IA (cuando existe).
+- 14/14 pruebas protocolarias: PASS.
+- Sintaxis Node: todos los módulos JS PASS.
+- JSON normativos/configuración: PASS.
 
-VALIDACIÓN v0.8.1
-- 0/1 directos implementados sin Alt.
-- Decisión del ejemplo B de Matrices admite 0/1 directos.
-- En item-response, 0/1 califican y no se escriben como texto.
-- En item-note y otros campos editables, 0/1 siguen disponibles como caracteres normales.
-- Alt+N se conserva para 'No administrado' para evitar conflicto con respuestas verbales.
+VALIDACIÓN v0.11.1
+- Navegación explícita Resultados -> Inicio / casos: implementada.
+- Navegación explícita Informes -> Inicio / casos: implementada.
+- Nueva evaluación desde final del flujo: implementada sin eliminar caso actual.
+- Modo foco se limpia al abandonar Aplicación.
