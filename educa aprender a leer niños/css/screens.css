@@ -86,3 +86,17 @@
 @media(max-width:520px){.mission-head{align-items:center}.nav-round{width:37px;height:37px;font-size:.96rem}.mission-nav{gap:3px}.mission-counter{font-size:.62rem}.counter-soft{display:none}.word-trace-shell{height:170px}.sound-bubble{width:72px;height:72px;font-size:1.25rem}.world-map{height:500px;min-height:480px}.profile-pills{grid-template-columns:1fr 1fr}.resume-card{grid-template-columns:38px 1fr auto}.resume-card .btn{padding:9px 12px}.adult-readable{opacity:.72}}
 .result-celebration{font-size:4.8rem;color:#f5c451;text-align:center;animation:feedbackPop .5s cubic-bezier(.2,1.6,.4,1);filter:drop-shadow(0 8px 18px rgba(245,196,81,.25))}.adult-result-copy{font-size:.76rem;color:var(--ink-soft)}.adult-result-copy .result-data{margin:7px 0}.big-go{width:62px!important;height:62px!important;border-radius:50%!important;font-size:1.35rem!important;padding:0!important}
 .achievement-pop{display:flex;justify-content:center;gap:10px;margin:2px auto 8px}.achievement-pop span{width:58px;height:58px;border-radius:50%;display:grid;place-items:center;background:#fff5c9;font-size:2rem;box-shadow:0 9px 22px rgba(145,112,33,.16);animation:feedbackPop .5s cubic-bezier(.2,1.6,.4,1)}
+
+
+/* 0.4.1 · Lumina/Lumi contextual states */
+.mascot-big,.profile-mini img,.lumi-mini img,.activity-icon img,.scene-bubble img,.memory-rings img,.empty-book img,.result-lumi{object-fit:contain}
+.mascot-big{max-height:310px}
+.lumi-mini img,.profile-mini img,.activity-icon img,.scene-bubble img,.memory-rings img{filter:drop-shadow(0 8px 10px rgba(79,101,81,.13))}
+.activity-icon{overflow:visible}
+.activity-icon img{width:78px;height:78px;transform:translateY(-2px)}
+.scene-bubble img{width:68px;height:68px;flex:0 0 auto}
+.lumi-mini{overflow:visible}
+.lumi-mini img{width:48px;height:48px}
+.result-lumi{width:min(190px,44vw);max-height:210px;margin:0 auto -26px;position:relative;z-index:4;filter:drop-shadow(0 16px 18px rgba(66,93,72,.18));animation:victoryHop .76s cubic-bezier(.2,1.45,.35,1) both}
+@keyframes victoryHop{0%{transform:translateY(24px) scale(.72);opacity:0}60%{transform:translateY(-8px) scale(1.06);opacity:1}100%{transform:translateY(0) scale(1);opacity:1}}
+@media(max-width:430px){.activity-icon img{width:68px;height:68px}.scene-bubble img{width:58px;height:58px}.lumi-mini img{width:42px;height:42px}.result-lumi{width:min(160px,46vw);margin-bottom:-20px}}

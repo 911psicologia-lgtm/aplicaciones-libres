@@ -1,5 +1,12 @@
 # CHANGELOG
 
+## 0.4.1
+- Integradas cuatro variantes provisionales de Lumi a partir de los assets suministrados.
+- Estados: `guide`, `thinking`, `cheer` y `victory`.
+- Cambio contextual de pose en onboarding, recomendación, actividades, aciertos/errores y resultados.
+- Normalización PNG con transparencia y reducción de tamaño para web.
+- Cache PWA actualizada con los cuatro nuevos assets.
+
 ## 0.4.0
 - Ampliación pedagógica hasta N/T/D.
 - Más vocabulario combinatorio en M/P/S/L y nuevos bancos N/T/D.

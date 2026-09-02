@@ -3,9 +3,18 @@
   const O=A+'objects/';
   const skill=(id,label,group,order,prereqs=[])=>({id,label,group,order,prereqs});
   window.EMILIA_CONTENT={
-    version:4.0,
+    version:4.1,
     title:'Emilia · El Bosque de las Palabras',
-    mascot:{name:'Lumi',src:A+'characters/lumi.svg'},
+    mascot:{
+      name:'Lumi',
+      src:A+'characters/lumi_guide.png',
+      variants:{
+        guide:A+'characters/lumi_guide.png',
+        thinking:A+'characters/lumi_thinking.png',
+        cheer:A+'characters/lumi_cheer.png',
+        victory:A+'characters/lumi_victory.png'
+      }
+    },
     skills:[
       skill('hear_vowels','Escucha vocales','Escucha',1),
       skill('vowel_symbols','Reconoce vocales','Letras',2,[{skill:'hear_vowels',score:35}]),

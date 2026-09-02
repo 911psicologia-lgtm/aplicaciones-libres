@@ -1,8 +1,16 @@
-# Emilia · El Bosque de las Palabras — Prototipo 0.4.0
+# Emilia · El Bosque de las Palabras — Prototipo 0.4.1
 
 Iteración de arquitectura pedagógica y experiencia previa a la integración del nuevo paquete de assets.
 
-## Novedades 0.4.0
+## Novedades 0.4.1
+- Integración provisional de cuatro variantes visuales nuevas de Lumi mientras llega el paquete completo de assets.
+- Estados contextuales: **guía**, **pensando**, **felicitación** y **victoria**.
+- Lumi cambia de expresión según el momento: bienvenida/acompañamiento, pregunta o búsqueda, acierto y cierre de misión.
+- Las cuatro imágenes fueron normalizadas para uso en app: fondo transparente, recorte, tamaño optimizado y caché PWA.
+- El sistema usa `mascot.variants`, de modo que futuros personajes/poses pueden sustituirse sin alterar el motor pedagógico.
+- Se conserva `lumi.svg` solo como fallback técnico.
+
+## Base heredada de 0.4.0
 - Ruta ampliada: Vocales → M → P → S → L → N → T → D.
 - Banco de combinaciones ampliado con palabras construidas solo con familias ya introducidas: mamá, mimo, mima, papá, puma, pipa, mapa, sapo, sopa, suma, masa, lupa, Lola, loma, lima, pala, nido, mano, mono, tina, toma, pato, lata, dado, dedo y lado, entre otras.
 - Dos nuevos formatos de juego: **burbujas sonoras** y **completar la sílaba faltante**.
