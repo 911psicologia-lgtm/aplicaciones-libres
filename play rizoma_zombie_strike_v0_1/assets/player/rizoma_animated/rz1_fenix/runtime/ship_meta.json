@@ -1,0 +1,94 @@
+{
+  "id": "rz1",
+  "name": "F\u00e9nix RZ-1",
+  "unlockWorld": 0,
+  "canvas": [
+    512,
+    512
+  ],
+  "anchor": {
+    "x": 0.5,
+    "y": 0.52
+  },
+  "visualScale": 1.0,
+  "suggestedHitboxScale": 0.44,
+  "engineEmitters": [
+    {
+      "x": 0.36,
+      "y": 0.82,
+      "color": [
+        80,
+        180,
+        255
+      ]
+    },
+    {
+      "x": 0.64,
+      "y": 0.82,
+      "color": [
+        80,
+        180,
+        255
+      ]
+    },
+    {
+      "x": 0.22,
+      "y": 0.78,
+      "color": [
+        80,
+        180,
+        255
+      ]
+    },
+    {
+      "x": 0.78,
+      "y": 0.78,
+      "color": [
+        80,
+        180,
+        255
+      ]
+    }
+  ],
+  "weaponHardpoints": [
+    {
+      "x": 0.5,
+      "y": 0.2,
+      "color": [
+        180,
+        220,
+        255
+      ]
+    },
+    {
+      "x": 0.32,
+      "y": 0.55,
+      "color": [
+        180,
+        220,
+        255
+      ]
+    },
+    {
+      "x": 0.68,
+      "y": 0.55,
+      "color": [
+        180,
+        220,
+        255
+      ]
+    }
+  ],
+  "specialOrigin": {
+    "x": 0.5,
+    "y": 0.18
+  },
+  "animationFrames": {
+    "engine": 6,
+    "fire": 4,
+    "hit": 4,
+    "shield": 6,
+    "special": 8
+  },
+  "notes": "Canonical Rizoma DNA. Quad electric-blue engines, orange piping, gunmetal hull."
+}

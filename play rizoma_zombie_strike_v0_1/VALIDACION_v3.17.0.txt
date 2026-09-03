@@ -1,0 +1,26 @@
+RIZOMA ZOMBIE STRIKE v3.17.0 — VALIDACIÓN
+
+PASS  node --check js/game.js
+PASS  node --check sw.js
+PASS  manifest.json válido · version 3.17.0
+PASS  assets explícitos auditados: 682 referencias · 0 faltantes
+PASS  6 ship_meta.json válidos con coordenadas normalizadas
+PASS  6 cascos runtime PNG integrados
+PASS  engine overlay 6 frames por nave integrado
+PASS  fire overlay 4 frames por nave integrado
+PASS  shield overlay 6 frames por nave integrado
+PASS  special overlay 8 frames por nave integrado
+PASS  hardpoint principal leído desde ship_meta.json
+PASS  specialOrigin leído desde ship_meta.json
+PASS  hangar usa artwork hero de Naves Rizoma propias
+PASS  video introductorio integrado: assets/video/intro_general.mp4
+PASS  cinemática inicial saltables y una vez por perfil
+PASS  desbloqueo Rizoma preservado: base / M4 / M8 / M12 / M16 / M20
+PASS  Hangar: scroll vertical táctil reforzado
+PASS  DOMINIO/FLOTA: scroll horizontal táctil reforzado
+PASS  DOMINIO: apertura inmediata por pointerdown preservada
+PASS  Tienda: panel ancho, scroll vertical táctil, descripciones minimizadas
+PASS  Tienda: recomendación por pulso amarillo sin etiqueta RECOMENDADO
+PASS  Guardián Vinculado: duración 12 segundos
+PASS  Flota, DOMINIO, reliquias y progresión preservados
+PASS  Mundo 21 no creado

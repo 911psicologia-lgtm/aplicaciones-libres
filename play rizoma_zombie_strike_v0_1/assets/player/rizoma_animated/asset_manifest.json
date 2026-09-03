@@ -1,0 +1,3823 @@
+{
+  "packageVersion": "1.0.0",
+  "targetGame": "Rizoma Zombie Strike",
+  "targetGameVersion": "v3.16.0+",
+  "shipCount": 6,
+  "ships": [
+    {
+      "id": "rz1",
+      "name": "F\u00e9nix RZ-1",
+      "unlockWorld": 0,
+      "folder": "rz1_fenix"
+    },
+    {
+      "id": "rz4",
+      "name": "Mantis RZ-4",
+      "unlockWorld": 4,
+      "folder": "rz4_mantis"
+    },
+    {
+      "id": "rz8",
+      "name": "N\u00e9bula RZ-8",
+      "unlockWorld": 8,
+      "folder": "rz8_nebula"
+    },
+    {
+      "id": "rz12",
+      "name": "Basti\u00f3n RZ-12",
+      "unlockWorld": 12,
+      "folder": "rz12_bastion"
+    },
+    {
+      "id": "rz16",
+      "name": "Hydra RZ-16",
+      "unlockWorld": 16,
+      "folder": "rz16_hydra"
+    },
+    {
+      "id": "rz20",
+      "name": "Rizoma Prime RZ-20",
+      "unlockWorld": 20,
+      "folder": "rz20_prime"
+    }
+  ],
+  "files": [
+    {
+      "path": "rz1_fenix/runtime/ship_base.png",
+      "ship": "rz1",
+      "category": "runtime_base",
+      "dimensions": [
+        512,
+        512
+      ],
+      "format": "PNG",
+      "transparent": true,
+      "frameIndex": null,
+      "animationName": null
+    },
+    {
+      "path": "rz1_fenix/runtime/ship_bank_left.png",
+      "ship": "rz1",
+      "category": "runtime_bank",
+      "dimensions": [
+        512,
+        512
+      ],
+      "format": "PNG",
+      "transparent": true,
+      "frameIndex": null,
+      "animationName": null
+    },
+    {
+      "path": "rz1_fenix/runtime/ship_bank_right.png",
+      "ship": "rz1",
+      "category": "runtime_bank",
+      "dimensions": [
+        512,
+        512
+      ],
+      "format": "PNG",
+      "transparent": true,
+      "frameIndex": null,
+      "animationName": null
+    },
+    {
+      "path": "rz1_fenix/animation/engine_01.png",
+      "ship": "rz1",
+      "category": "animation_engine",
+      "dimensions": [
+        512,
+        512
+      ],
+      "format": "PNG",
+      "transparent": true,
+      "frameIndex": 1,
+      "animationName": "engine"
+    },
+    {
+      "path": "rz1_fenix/animation/engine_02.png",
+      "ship": "rz1",
+      "category": "animation_engine",
+      "dimensions": [
+        512,
+        512
+      ],
+      "format": "PNG",
+      "transparent": true,
+      "frameIndex": 2,
+      "animationName": "engine"
+    },
+    {
+      "path": "rz1_fenix/animation/engine_03.png",
+      "ship": "rz1",
+      "category": "animation_engine",
+      "dimensions": [
+        512,
+        512
+      ],
+      "format": "PNG",
+      "transparent": true,
+      "frameIndex": 3,
+      "animationName": "engine"
+    },
+    {
+      "path": "rz1_fenix/animation/engine_04.png",
+      "ship": "rz1",
+      "category": "animation_engine",
+      "dimensions": [
+        512,
+        512
+      ],
+      "format": "PNG",
+      "transparent": true,
+      "frameIndex": 4,
+      "animationName": "engine"
+    },
+    {
+      "path": "rz1_fenix/animation/engine_05.png",
+      "ship": "rz1",
+      "category": "animation_engine",
+      "dimensions": [
+        512,
+        512
+      ],
+      "format": "PNG",
+      "transparent": true,
+      "frameIndex": 5,
+      "animationName": "engine"
+    },
+    {
+      "path": "rz1_fenix/animation/engine_06.png",
+      "ship": "rz1",
+      "category": "animation_engine",
+      "dimensions": [
+        512,
+        512
+      ],
+      "format": "PNG",
+      "transparent": true,
+      "frameIndex": 6,
+      "animationName": "engine"
+    },
+    {
+      "path": "rz1_fenix/animation/fire_01.png",
+      "ship": "rz1",
+      "category": "animation_fire",
+      "dimensions": [
+        512,
+        512
+      ],
+      "format": "PNG",
+      "transparent": true,
+      "frameIndex": 1,
+      "animationName": "fire"
+    },
+    {
+      "path": "rz1_fenix/animation/fire_02.png",
+      "ship": "rz1",
+      "category": "animation_fire",
+      "dimensions": [
+        512,
+        512
+      ],
+      "format": "PNG",
+      "transparent": true,
+      "frameIndex": 2,
+      "animationName": "fire"
+    },
+    {
+      "path": "rz1_fenix/animation/fire_03.png",
+      "ship": "rz1",
+      "category": "animation_fire",
+      "dimensions": [
+        512,
+        512
+      ],
+      "format": "PNG",
+      "transparent": true,
+      "frameIndex": 3,
+      "animationName": "fire"
+    },
+    {
+      "path": "rz1_fenix/animation/fire_04.png",
+      "ship": "rz1",
+      "category": "animation_fire",
+      "dimensions": [
+        512,
+        512
+      ],
+      "format": "PNG",
+      "transparent": true,
+      "frameIndex": 4,
+      "animationName": "fire"
+    },
+    {
+      "path": "rz1_fenix/animation/hit_01.png",
+      "ship": "rz1",
+      "category": "animation_hit",
+      "dimensions": [
+        512,
+        512
+      ],
+      "format": "PNG",
+      "transparent": true,
+      "frameIndex": 1,
+      "animationName": "hit"
+    },
+    {
+      "path": "rz1_fenix/animation/hit_02.png",
+      "ship": "rz1",
+      "category": "animation_hit",
+      "dimensions": [
+        512,
+        512
+      ],
+      "format": "PNG",
+      "transparent": true,
+      "frameIndex": 2,
+      "animationName": "hit"
+    },
+    {
+      "path": "rz1_fenix/animation/hit_03.png",
+      "ship": "rz1",
+      "category": "animation_hit",
+      "dimensions": [
+        512,
+        512
+      ],
+      "format": "PNG",
+      "transparent": true,
+      "frameIndex": 3,
+      "animationName": "hit"
+    },
+    {
+      "path": "rz1_fenix/animation/hit_04.png",
+      "ship": "rz1",
+      "category": "animation_hit",
+      "dimensions": [
+        512,
+        512
+      ],
+      "format": "PNG",
+      "transparent": true,
+      "frameIndex": 4,
+      "animationName": "hit"
+    },
+    {
+      "path": "rz1_fenix/animation/shield_01.png",
+      "ship": "rz1",
+      "category": "animation_shield",
+      "dimensions": [
+        512,
+        512
+      ],
+      "format": "PNG",
+      "transparent": true,
+      "frameIndex": 1,
+      "animationName": "shield"
+    },
+    {
+      "path": "rz1_fenix/animation/shield_02.png",
+      "ship": "rz1",
+      "category": "animation_shield",
+      "dimensions": [
+        512,
+        512
+      ],
+      "format": "PNG",
+      "transparent": true,
+      "frameIndex": 2,
+      "animationName": "shield"
+    },
+    {
+      "path": "rz1_fenix/animation/shield_03.png",
+      "ship": "rz1",
+      "category": "animation_shield",
+      "dimensions": [
+        512,
+        512
+      ],
+      "format": "PNG",
+      "transparent": true,
+      "frameIndex": 3,
+      "animationName": "shield"
+    },
+    {
+      "path": "rz1_fenix/animation/shield_04.png",
+      "ship": "rz1",
+      "category": "animation_shield",
+      "dimensions": [
+        512,
+        512
+      ],
+      "format": "PNG",
+      "transparent": true,
+      "frameIndex": 4,
+      "animationName": "shield"
+    },
+    {
+      "path": "rz1_fenix/animation/shield_05.png",
+      "ship": "rz1",
+      "category": "animation_shield",
+      "dimensions": [
+        512,
+        512
+      ],
+      "format": "PNG",
+      "transparent": true,
+      "frameIndex": 5,
+      "animationName": "shield"
+    },
+    {
+      "path": "rz1_fenix/animation/shield_06.png",
+      "ship": "rz1",
+      "category": "animation_shield",
+      "dimensions": [
+        512,
+        512
+      ],
+      "format": "PNG",
+      "transparent": true,
+      "frameIndex": 6,
+      "animationName": "shield"
+    },
+    {
+      "path": "rz1_fenix/animation/special_01.png",
+      "ship": "rz1",
+      "category": "animation_special",
+      "dimensions": [
+        512,
+        512
+      ],
+      "format": "PNG",
+      "transparent": true,
+      "frameIndex": 1,
+      "animationName": "special"
+    },
+    {
+      "path": "rz1_fenix/animation/special_02.png",
+      "ship": "rz1",
+      "category": "animation_special",
+      "dimensions": [
+        512,
+        512
+      ],
+      "format": "PNG",
+      "transparent": true,
+      "frameIndex": 2,
+      "animationName": "special"
+    },
+    {
+      "path": "rz1_fenix/animation/special_03.png",
+      "ship": "rz1",
+      "category": "animation_special",
+      "dimensions": [
+        512,
+        512
+      ],
+      "format": "PNG",
+      "transparent": true,
+      "frameIndex": 3,
+      "animationName": "special"
+    },
+    {
+      "path": "rz1_fenix/animation/special_04.png",
+      "ship": "rz1",
+      "category": "animation_special",
+      "dimensions": [
+        512,
+        512
+      ],
+      "format": "PNG",
+      "transparent": true,
+      "frameIndex": 4,
+      "animationName": "special"
+    },
+    {
+      "path": "rz1_fenix/animation/special_05.png",
+      "ship": "rz1",
+      "category": "animation_special",
+      "dimensions": [
+        512,
+        512
+      ],
+      "format": "PNG",
+      "transparent": true,
+      "frameIndex": 5,
+      "animationName": "special"
+    },
+    {
+      "path": "rz1_fenix/animation/special_06.png",
+      "ship": "rz1",
+      "category": "animation_special",
+      "dimensions": [
+        512,
+        512
+      ],
+      "format": "PNG",
+      "transparent": true,
+      "frameIndex": 6,
+      "animationName": "special"
+    },
+    {
+      "path": "rz1_fenix/animation/special_07.png",
+      "ship": "rz1",
+      "category": "animation_special",
+      "dimensions": [
+        512,
+        512
+      ],
+      "format": "PNG",
+      "transparent": true,
+      "frameIndex": 7,
+      "animationName": "special"
+    },
+    {
+      "path": "rz1_fenix/animation/special_08.png",
+      "ship": "rz1",
+      "category": "animation_special",
+      "dimensions": [
+        512,
+        512
+      ],
+      "format": "PNG",
+      "transparent": true,
+      "frameIndex": 8,
+      "animationName": "special"
+    },
+    {
+      "path": "rz1_fenix/vfx/trident_charge_01.png",
+      "ship": "rz1",
+      "category": "vfx_trident_charge",
+      "dimensions": [
+        512,
+        512
+      ],
+      "format": "PNG",
+      "transparent": true,
+      "frameIndex": 1,
+      "animationName": "trident_charge"
+    },
+    {
+      "path": "rz1_fenix/vfx/trident_charge_02.png",
+      "ship": "rz1",
+      "category": "vfx_trident_charge",
+      "dimensions": [
+        512,
+        512
+      ],
+      "format": "PNG",
+      "transparent": true,
+      "frameIndex": 2,
+      "animationName": "trident_charge"
+    },
+    {
+      "path": "rz1_fenix/vfx/trident_charge_03.png",
+      "ship": "rz1",
+      "category": "vfx_trident_charge",
+      "dimensions": [
+        512,
+        512
+      ],
+      "format": "PNG",
+      "transparent": true,
+      "frameIndex": 3,
+      "animationName": "trident_charge"
+    },
+    {
+      "path": "rz1_fenix/vfx/trident_charge_04.png",
+      "ship": "rz1",
+      "category": "vfx_trident_charge",
+      "dimensions": [
+        512,
+        512
+      ],
+      "format": "PNG",
+      "transparent": true,
+      "frameIndex": 4,
+      "animationName": "trident_charge"
+    },
+    {
+      "path": "rz1_fenix/vfx/trident_beam_01.png",
+      "ship": "rz1",
+      "category": "vfx_trident_beam",
+      "dimensions": [
+        512,
+        512
+      ],
+      "format": "PNG",
+      "transparent": true,
+      "frameIndex": 1,
+      "animationName": "trident_beam"
+    },
+    {
+      "path": "rz1_fenix/vfx/trident_beam_02.png",
+      "ship": "rz1",
+      "category": "vfx_trident_beam",
+      "dimensions": [
+        512,
+        512
+      ],
+      "format": "PNG",
+      "transparent": true,
+      "frameIndex": 2,
+      "animationName": "trident_beam"
+    },
+    {
+      "path": "rz1_fenix/vfx/trident_beam_03.png",
+      "ship": "rz1",
+      "category": "vfx_trident_beam",
+      "dimensions": [
+        512,
+        512
+      ],
+      "format": "PNG",
+      "transparent": true,
+      "frameIndex": 3,
+      "animationName": "trident_beam"
+    },
+    {
+      "path": "rz1_fenix/vfx/trident_beam_04.png",
+      "ship": "rz1",
+      "category": "vfx_trident_beam",
+      "dimensions": [
+        512,
+        512
+      ],
+      "format": "PNG",
+      "transparent": true,
+      "frameIndex": 4,
+      "animationName": "trident_beam"
+    },
+    {
+      "path": "rz1_fenix/vfx/trident_beam_05.png",
+      "ship": "rz1",
+      "category": "vfx_trident_beam",
+      "dimensions": [
+        512,
+        512
+      ],
+      "format": "PNG",
+      "transparent": true,
+      "frameIndex": 5,
+      "animationName": "trident_beam"
+    },
+    {
+      "path": "rz1_fenix/vfx/trident_beam_06.png",
+      "ship": "rz1",
+      "category": "vfx_trident_beam",
+      "dimensions": [
+        512,
+        512
+      ],
+      "format": "PNG",
+      "transparent": true,
+      "frameIndex": 6,
+      "animationName": "trident_beam"
+    },
+    {
+      "path": "rz1_fenix/hangar/hangar_hero.webp",
+      "ship": "rz1",
+      "category": "hangar_hero",
+      "dimensions": [
+        1280,
+        720
+      ],
+      "format": "WebP",
+      "transparent": false,
+      "frameIndex": null,
+      "animationName": null
+    },
+    {
+      "path": "rz1_fenix/hangar/hangar_thumb.webp",
+      "ship": "rz1",
+      "category": "hangar_thumb",
+      "dimensions": [
+        512,
+        512
+      ],
+      "format": "WebP",
+      "transparent": false,
+      "frameIndex": null,
+      "animationName": null
+    },
+    {
+      "path": "rz1_fenix/hangar/hangar_card.webp",
+      "ship": "rz1",
+      "category": "hangar_card",
+      "dimensions": [
+        640,
+        360
+      ],
+      "format": "WebP",
+      "transparent": false,
+      "frameIndex": null,
+      "animationName": null
+    },
+    {
+      "path": "rz1_fenix/runtime/ship_meta.json",
+      "ship": "rz1",
+      "category": "runtime_meta",
+      "dimensions": [
+        null
+      ],
+      "format": "JSON",
+      "transparent": false,
+      "frameIndex": null,
+      "animationName": null
+    },
+    {
+      "path": "rz4_mantis/runtime/ship_base.png",
+      "ship": "rz4",
+      "category": "runtime_base",
+      "dimensions": [
+        512,
+        512
+      ],
+      "format": "PNG",
+      "transparent": true,
+      "frameIndex": null,
+      "animationName": null
+    },
+    {
+      "path": "rz4_mantis/runtime/ship_bank_left.png",
+      "ship": "rz4",
+      "category": "runtime_bank",
+      "dimensions": [
+        512,
+        512
+      ],
+      "format": "PNG",
+      "transparent": true,
+      "frameIndex": null,
+      "animationName": null
+    },
+    {
+      "path": "rz4_mantis/runtime/ship_bank_right.png",
+      "ship": "rz4",
+      "category": "runtime_bank",
+      "dimensions": [
+        512,
+        512
+      ],
+      "format": "PNG",
+      "transparent": true,
+      "frameIndex": null,
+      "animationName": null
+    },
+    {
+      "path": "rz4_mantis/animation/engine_01.png",
+      "ship": "rz4",
+      "category": "animation_engine",
+      "dimensions": [
+        512,
+        512
+      ],
+      "format": "PNG",
+      "transparent": true,
+      "frameIndex": 1,
+      "animationName": "engine"
+    },
+    {
+      "path": "rz4_mantis/animation/engine_02.png",
+      "ship": "rz4",
+      "category": "animation_engine",
+      "dimensions": [
+        512,
+        512
+      ],
+      "format": "PNG",
+      "transparent": true,
+      "frameIndex": 2,
+      "animationName": "engine"
+    },
+    {
+      "path": "rz4_mantis/animation/engine_03.png",
+      "ship": "rz4",
+      "category": "animation_engine",
+      "dimensions": [
+        512,
+        512
+      ],
+      "format": "PNG",
+      "transparent": true,
+      "frameIndex": 3,
+      "animationName": "engine"
+    },
+    {
+      "path": "rz4_mantis/animation/engine_04.png",
+      "ship": "rz4",
+      "category": "animation_engine",
+      "dimensions": [
+        512,
+        512
+      ],
+      "format": "PNG",
+      "transparent": true,
+      "frameIndex": 4,
+      "animationName": "engine"
+    },
+    {
+      "path": "rz4_mantis/animation/engine_05.png",
+      "ship": "rz4",
+      "category": "animation_engine",
+      "dimensions": [
+        512,
+        512
+      ],
+      "format": "PNG",
+      "transparent": true,
+      "frameIndex": 5,
+      "animationName": "engine"
+    },
+    {
+      "path": "rz4_mantis/animation/engine_06.png",
+      "ship": "rz4",
+      "category": "animation_engine",
+      "dimensions": [
+        512,
+        512
+      ],
+      "format": "PNG",
+      "transparent": true,
+      "frameIndex": 6,
+      "animationName": "engine"
+    },
+    {
+      "path": "rz4_mantis/animation/fire_01.png",
+      "ship": "rz4",
+      "category": "animation_fire",
+      "dimensions": [
+        512,
+        512
+      ],
+      "format": "PNG",
+      "transparent": true,
+      "frameIndex": 1,
+      "animationName": "fire"
+    },
+    {
+      "path": "rz4_mantis/animation/fire_02.png",
+      "ship": "rz4",
+      "category": "animation_fire",
+      "dimensions": [
+        512,
+        512
+      ],
+      "format": "PNG",
+      "transparent": true,
+      "frameIndex": 2,
+      "animationName": "fire"
+    },
+    {
+      "path": "rz4_mantis/animation/fire_03.png",
+      "ship": "rz4",
+      "category": "animation_fire",
+      "dimensions": [
+        512,
+        512
+      ],
+      "format": "PNG",
+      "transparent": true,
+      "frameIndex": 3,
+      "animationName": "fire"
+    },
+    {
+      "path": "rz4_mantis/animation/fire_04.png",
+      "ship": "rz4",
+      "category": "animation_fire",
+      "dimensions": [
+        512,
+        512
+      ],
+      "format": "PNG",
+      "transparent": true,
+      "frameIndex": 4,
+      "animationName": "fire"
+    },
+    {
+      "path": "rz4_mantis/animation/hit_01.png",
+      "ship": "rz4",
+      "category": "animation_hit",
+      "dimensions": [
+        512,
+        512
+      ],
+      "format": "PNG",
+      "transparent": true,
+      "frameIndex": 1,
+      "animationName": "hit"
+    },
+    {
+      "path": "rz4_mantis/animation/hit_02.png",
+      "ship": "rz4",
+      "category": "animation_hit",
+      "dimensions": [
+        512,
+        512
+      ],
+      "format": "PNG",
+      "transparent": true,
+      "frameIndex": 2,
+      "animationName": "hit"
+    },
+    {
+      "path": "rz4_mantis/animation/hit_03.png",
+      "ship": "rz4",
+      "category": "animation_hit",
+      "dimensions": [
+        512,
+        512
+      ],
+      "format": "PNG",
+      "transparent": true,
+      "frameIndex": 3,
+      "animationName": "hit"
+    },
+    {
+      "path": "rz4_mantis/animation/hit_04.png",
+      "ship": "rz4",
+      "category": "animation_hit",
+      "dimensions": [
+        512,
+        512
+      ],
+      "format": "PNG",
+      "transparent": true,
+      "frameIndex": 4,
+      "animationName": "hit"
+    },
+    {
+      "path": "rz4_mantis/animation/shield_01.png",
+      "ship": "rz4",
+      "category": "animation_shield",
+      "dimensions": [
+        512,
+        512
+      ],
+      "format": "PNG",
+      "transparent": true,
+      "frameIndex": 1,
+      "animationName": "shield"
+    },
+    {
+      "path": "rz4_mantis/animation/shield_02.png",
+      "ship": "rz4",
+      "category": "animation_shield",
+      "dimensions": [
+        512,
+        512
+      ],
+      "format": "PNG",
+      "transparent": true,
+      "frameIndex": 2,
+      "animationName": "shield"
+    },
+    {
+      "path": "rz4_mantis/animation/shield_03.png",
+      "ship": "rz4",
+      "category": "animation_shield",
+      "dimensions": [
+        512,
+        512
+      ],
+      "format": "PNG",
+      "transparent": true,
+      "frameIndex": 3,
+      "animationName": "shield"
+    },
+    {
+      "path": "rz4_mantis/animation/shield_04.png",
+      "ship": "rz4",
+      "category": "animation_shield",
+      "dimensions": [
+        512,
+        512
+      ],
+      "format": "PNG",
+      "transparent": true,
+      "frameIndex": 4,
+      "animationName": "shield"
+    },
+    {
+      "path": "rz4_mantis/animation/shield_05.png",
+      "ship": "rz4",
+      "category": "animation_shield",
+      "dimensions": [
+        512,
+        512
+      ],
+      "format": "PNG",
+      "transparent": true,
+      "frameIndex": 5,
+      "animationName": "shield"
+    },
+    {
+      "path": "rz4_mantis/animation/shield_06.png",
+      "ship": "rz4",
+      "category": "animation_shield",
+      "dimensions": [
+        512,
+        512
+      ],
+      "format": "PNG",
+      "transparent": true,
+      "frameIndex": 6,
+      "animationName": "shield"
+    },
+    {
+      "path": "rz4_mantis/animation/special_01.png",
+      "ship": "rz4",
+      "category": "animation_special",
+      "dimensions": [
+        512,
+        512
+      ],
+      "format": "PNG",
+      "transparent": true,
+      "frameIndex": 1,
+      "animationName": "special"
+    },
+    {
+      "path": "rz4_mantis/animation/special_02.png",
+      "ship": "rz4",
+      "category": "animation_special",
+      "dimensions": [
+        512,
+        512
+      ],
+      "format": "PNG",
+      "transparent": true,
+      "frameIndex": 2,
+      "animationName": "special"
+    },
+    {
+      "path": "rz4_mantis/animation/special_03.png",
+      "ship": "rz4",
+      "category": "animation_special",
+      "dimensions": [
+        512,
+        512
+      ],
+      "format": "PNG",
+      "transparent": true,
+      "frameIndex": 3,
+      "animationName": "special"
+    },
+    {
+      "path": "rz4_mantis/animation/special_04.png",
+      "ship": "rz4",
+      "category": "animation_special",
+      "dimensions": [
+        512,
+        512
+      ],
+      "format": "PNG",
+      "transparent": true,
+      "frameIndex": 4,
+      "animationName": "special"
+    },
+    {
+      "path": "rz4_mantis/animation/special_05.png",
+      "ship": "rz4",
+      "category": "animation_special",
+      "dimensions": [
+        512,
+        512
+      ],
+      "format": "PNG",
+      "transparent": true,
+      "frameIndex": 5,
+      "animationName": "special"
+    },
+    {
+      "path": "rz4_mantis/animation/special_06.png",
+      "ship": "rz4",
+      "category": "animation_special",
+      "dimensions": [
+        512,
+        512
+      ],
+      "format": "PNG",
+      "transparent": true,
+      "frameIndex": 6,
+      "animationName": "special"
+    },
+    {
+      "path": "rz4_mantis/animation/special_07.png",
+      "ship": "rz4",
+      "category": "animation_special",
+      "dimensions": [
+        512,
+        512
+      ],
+      "format": "PNG",
+      "transparent": true,
+      "frameIndex": 7,
+      "animationName": "special"
+    },
+    {
+      "path": "rz4_mantis/animation/special_08.png",
+      "ship": "rz4",
+      "category": "animation_special",
+      "dimensions": [
+        512,
+        512
+      ],
+      "format": "PNG",
+      "transparent": true,
+      "frameIndex": 8,
+      "animationName": "special"
+    },
+    {
+      "path": "rz4_mantis/vfx/vector_cut_01.png",
+      "ship": "rz4",
+      "category": "vfx_vector_cut",
+      "dimensions": [
+        512,
+        512
+      ],
+      "format": "PNG",
+      "transparent": true,
+      "frameIndex": 1,
+      "animationName": "vector_cut"
+    },
+    {
+      "path": "rz4_mantis/vfx/vector_cut_02.png",
+      "ship": "rz4",
+      "category": "vfx_vector_cut",
+      "dimensions": [
+        512,
+        512
+      ],
+      "format": "PNG",
+      "transparent": true,
+      "frameIndex": 2,
+      "animationName": "vector_cut"
+    },
+    {
+      "path": "rz4_mantis/vfx/vector_cut_03.png",
+      "ship": "rz4",
+      "category": "vfx_vector_cut",
+      "dimensions": [
+        512,
+        512
+      ],
+      "format": "PNG",
+      "transparent": true,
+      "frameIndex": 3,
+      "animationName": "vector_cut"
+    },
+    {
+      "path": "rz4_mantis/vfx/vector_cut_04.png",
+      "ship": "rz4",
+      "category": "vfx_vector_cut",
+      "dimensions": [
+        512,
+        512
+      ],
+      "format": "PNG",
+      "transparent": true,
+      "frameIndex": 4,
+      "animationName": "vector_cut"
+    },
+    {
+      "path": "rz4_mantis/vfx/vector_cut_05.png",
+      "ship": "rz4",
+      "category": "vfx_vector_cut",
+      "dimensions": [
+        512,
+        512
+      ],
+      "format": "PNG",
+      "transparent": true,
+      "frameIndex": 5,
+      "animationName": "vector_cut"
+    },
+    {
+      "path": "rz4_mantis/vfx/vector_cut_06.png",
+      "ship": "rz4",
+      "category": "vfx_vector_cut",
+      "dimensions": [
+        512,
+        512
+      ],
+      "format": "PNG",
+      "transparent": true,
+      "frameIndex": 6,
+      "animationName": "vector_cut"
+    },
+    {
+      "path": "rz4_mantis/vfx/vector_arc_01.png",
+      "ship": "rz4",
+      "category": "vfx_vector_arc",
+      "dimensions": [
+        512,
+        512
+      ],
+      "format": "PNG",
+      "transparent": true,
+      "frameIndex": 1,
+      "animationName": "vector_arc"
+    },
+    {
+      "path": "rz4_mantis/vfx/vector_arc_02.png",
+      "ship": "rz4",
+      "category": "vfx_vector_arc",
+      "dimensions": [
+        512,
+        512
+      ],
+      "format": "PNG",
+      "transparent": true,
+      "frameIndex": 2,
+      "animationName": "vector_arc"
+    },
+    {
+      "path": "rz4_mantis/vfx/vector_arc_03.png",
+      "ship": "rz4",
+      "category": "vfx_vector_arc",
+      "dimensions": [
+        512,
+        512
+      ],
+      "format": "PNG",
+      "transparent": true,
+      "frameIndex": 3,
+      "animationName": "vector_arc"
+    },
+    {
+      "path": "rz4_mantis/vfx/vector_arc_04.png",
+      "ship": "rz4",
+      "category": "vfx_vector_arc",
+      "dimensions": [
+        512,
+        512
+      ],
+      "format": "PNG",
+      "transparent": true,
+      "frameIndex": 4,
+      "animationName": "vector_arc"
+    },
+    {
+      "path": "rz4_mantis/hangar/hangar_hero.webp",
+      "ship": "rz4",
+      "category": "hangar_hero",
+      "dimensions": [
+        1280,
+        720
+      ],
+      "format": "WebP",
+      "transparent": false,
+      "frameIndex": null,
+      "animationName": null
+    },
+    {
+      "path": "rz4_mantis/hangar/hangar_thumb.webp",
+      "ship": "rz4",
+      "category": "hangar_thumb",
+      "dimensions": [
+        512,
+        512
+      ],
+      "format": "WebP",
+      "transparent": false,
+      "frameIndex": null,
+      "animationName": null
+    },
+    {
+      "path": "rz4_mantis/hangar/hangar_card.webp",
+      "ship": "rz4",
+      "category": "hangar_card",
+      "dimensions": [
+        640,
+        360
+      ],
+      "format": "WebP",
+      "transparent": false,
+      "frameIndex": null,
+      "animationName": null
+    },
+    {
+      "path": "rz4_mantis/runtime/ship_meta.json",
+      "ship": "rz4",
+      "category": "runtime_meta",
+      "dimensions": [
+        null
+      ],
+      "format": "JSON",
+      "transparent": false,
+      "frameIndex": null,
+      "animationName": null
+    },
+    {
+      "path": "rz8_nebula/runtime/ship_base.png",
+      "ship": "rz8",
+      "category": "runtime_base",
+      "dimensions": [
+        512,
+        512
+      ],
+      "format": "PNG",
+      "transparent": true,
+      "frameIndex": null,
+      "animationName": null
+    },
+    {
+      "path": "rz8_nebula/runtime/ship_bank_left.png",
+      "ship": "rz8",
+      "category": "runtime_bank",
+      "dimensions": [
+        512,
+        512
+      ],
+      "format": "PNG",
+      "transparent": true,
+      "frameIndex": null,
+      "animationName": null
+    },
+    {
+      "path": "rz8_nebula/runtime/ship_bank_right.png",
+      "ship": "rz8",
+      "category": "runtime_bank",
+      "dimensions": [
+        512,
+        512
+      ],
+      "format": "PNG",
+      "transparent": true,
+      "frameIndex": null,
+      "animationName": null
+    },
+    {
+      "path": "rz8_nebula/animation/engine_01.png",
+      "ship": "rz8",
+      "category": "animation_engine",
+      "dimensions": [
+        512,
+        512
+      ],
+      "format": "PNG",
+      "transparent": true,
+      "frameIndex": 1,
+      "animationName": "engine"
+    },
+    {
+      "path": "rz8_nebula/animation/engine_02.png",
+      "ship": "rz8",
+      "category": "animation_engine",
+      "dimensions": [
+        512,
+        512
+      ],
+      "format": "PNG",
+      "transparent": true,
+      "frameIndex": 2,
+      "animationName": "engine"
+    },
+    {
+      "path": "rz8_nebula/animation/engine_03.png",
+      "ship": "rz8",
+      "category": "animation_engine",
+      "dimensions": [
+        512,
+        512
+      ],
+      "format": "PNG",
+      "transparent": true,
+      "frameIndex": 3,
+      "animationName": "engine"
+    },
+    {
+      "path": "rz8_nebula/animation/engine_04.png",
+      "ship": "rz8",
+      "category": "animation_engine",
+      "dimensions": [
+        512,
+        512
+      ],
+      "format": "PNG",
+      "transparent": true,
+      "frameIndex": 4,
+      "animationName": "engine"
+    },
+    {
+      "path": "rz8_nebula/animation/engine_05.png",
+      "ship": "rz8",
+      "category": "animation_engine",
+      "dimensions": [
+        512,
+        512
+      ],
+      "format": "PNG",
+      "transparent": true,
+      "frameIndex": 5,
+      "animationName": "engine"
+    },
+    {
+      "path": "rz8_nebula/animation/engine_06.png",
+      "ship": "rz8",
+      "category": "animation_engine",
+      "dimensions": [
+        512,
+        512
+      ],
+      "format": "PNG",
+      "transparent": true,
+      "frameIndex": 6,
+      "animationName": "engine"
+    },
+    {
+      "path": "rz8_nebula/animation/fire_01.png",
+      "ship": "rz8",
+      "category": "animation_fire",
+      "dimensions": [
+        512,
+        512
+      ],
+      "format": "PNG",
+      "transparent": true,
+      "frameIndex": 1,
+      "animationName": "fire"
+    },
+    {
+      "path": "rz8_nebula/animation/fire_02.png",
+      "ship": "rz8",
+      "category": "animation_fire",
+      "dimensions": [
+        512,
+        512
+      ],
+      "format": "PNG",
+      "transparent": true,
+      "frameIndex": 2,
+      "animationName": "fire"
+    },
+    {
+      "path": "rz8_nebula/animation/fire_03.png",
+      "ship": "rz8",
+      "category": "animation_fire",
+      "dimensions": [
+        512,
+        512
+      ],
+      "format": "PNG",
+      "transparent": true,
+      "frameIndex": 3,
+      "animationName": "fire"
+    },
+    {
+      "path": "rz8_nebula/animation/fire_04.png",
+      "ship": "rz8",
+      "category": "animation_fire",
+      "dimensions": [
+        512,
+        512
+      ],
+      "format": "PNG",
+      "transparent": true,
+      "frameIndex": 4,
+      "animationName": "fire"
+    },
+    {
+      "path": "rz8_nebula/animation/hit_01.png",
+      "ship": "rz8",
+      "category": "animation_hit",
+      "dimensions": [
+        512,
+        512
+      ],
+      "format": "PNG",
+      "transparent": true,
+      "frameIndex": 1,
+      "animationName": "hit"
+    },
+    {
+      "path": "rz8_nebula/animation/hit_02.png",
+      "ship": "rz8",
+      "category": "animation_hit",
+      "dimensions": [
+        512,
+        512
+      ],
+      "format": "PNG",
+      "transparent": true,
+      "frameIndex": 2,
+      "animationName": "hit"
+    },
+    {
+      "path": "rz8_nebula/animation/hit_03.png",
+      "ship": "rz8",
+      "category": "animation_hit",
+      "dimensions": [
+        512,
+        512
+      ],
+      "format": "PNG",
+      "transparent": true,
+      "frameIndex": 3,
+      "animationName": "hit"
+    },
+    {
+      "path": "rz8_nebula/animation/hit_04.png",
+      "ship": "rz8",
+      "category": "animation_hit",
+      "dimensions": [
+        512,
+        512
+      ],
+      "format": "PNG",
+      "transparent": true,
+      "frameIndex": 4,
+      "animationName": "hit"
+    },
+    {
+      "path": "rz8_nebula/animation/shield_01.png",
+      "ship": "rz8",
+      "category": "animation_shield",
+      "dimensions": [
+        512,
+        512
+      ],
+      "format": "PNG",
+      "transparent": true,
+      "frameIndex": 1,
+      "animationName": "shield"
+    },
+    {
+      "path": "rz8_nebula/animation/shield_02.png",
+      "ship": "rz8",
+      "category": "animation_shield",
+      "dimensions": [
+        512,
+        512
+      ],
+      "format": "PNG",
+      "transparent": true,
+      "frameIndex": 2,
+      "animationName": "shield"
+    },
+    {
+      "path": "rz8_nebula/animation/shield_03.png",
+      "ship": "rz8",
+      "category": "animation_shield",
+      "dimensions": [
+        512,
+        512
+      ],
+      "format": "PNG",
+      "transparent": true,
+      "frameIndex": 3,
+      "animationName": "shield"
+    },
+    {
+      "path": "rz8_nebula/animation/shield_04.png",
+      "ship": "rz8",
+      "category": "animation_shield",
+      "dimensions": [
+        512,
+        512
+      ],
+      "format": "PNG",
+      "transparent": true,
+      "frameIndex": 4,
+      "animationName": "shield"
+    },
+    {
+      "path": "rz8_nebula/animation/shield_05.png",
+      "ship": "rz8",
+      "category": "animation_shield",
+      "dimensions": [
+        512,
+        512
+      ],
+      "format": "PNG",
+      "transparent": true,
+      "frameIndex": 5,
+      "animationName": "shield"
+    },
+    {
+      "path": "rz8_nebula/animation/shield_06.png",
+      "ship": "rz8",
+      "category": "animation_shield",
+      "dimensions": [
+        512,
+        512
+      ],
+      "format": "PNG",
+      "transparent": true,
+      "frameIndex": 6,
+      "animationName": "shield"
+    },
+    {
+      "path": "rz8_nebula/animation/special_01.png",
+      "ship": "rz8",
+      "category": "animation_special",
+      "dimensions": [
+        512,
+        512
+      ],
+      "format": "PNG",
+      "transparent": true,
+      "frameIndex": 1,
+      "animationName": "special"
+    },
+    {
+      "path": "rz8_nebula/animation/special_02.png",
+      "ship": "rz8",
+      "category": "animation_special",
+      "dimensions": [
+        512,
+        512
+      ],
+      "format": "PNG",
+      "transparent": true,
+      "frameIndex": 2,
+      "animationName": "special"
+    },
+    {
+      "path": "rz8_nebula/animation/special_03.png",
+      "ship": "rz8",
+      "category": "animation_special",
+      "dimensions": [
+        512,
+        512
+      ],
+      "format": "PNG",
+      "transparent": true,
+      "frameIndex": 3,
+      "animationName": "special"
+    },
+    {
+      "path": "rz8_nebula/animation/special_04.png",
+      "ship": "rz8",
+      "category": "animation_special",
+      "dimensions": [
+        512,
+        512
+      ],
+      "format": "PNG",
+      "transparent": true,
+      "frameIndex": 4,
+      "animationName": "special"
+    },
+    {
+      "path": "rz8_nebula/animation/special_05.png",
+      "ship": "rz8",
+      "category": "animation_special",
+      "dimensions": [
+        512,
+        512
+      ],
+      "format": "PNG",
+      "transparent": true,
+      "frameIndex": 5,
+      "animationName": "special"
+    },
+    {
+      "path": "rz8_nebula/animation/special_06.png",
+      "ship": "rz8",
+      "category": "animation_special",
+      "dimensions": [
+        512,
+        512
+      ],
+      "format": "PNG",
+      "transparent": true,
+      "frameIndex": 6,
+      "animationName": "special"
+    },
+    {
+      "path": "rz8_nebula/animation/special_07.png",
+      "ship": "rz8",
+      "category": "animation_special",
+      "dimensions": [
+        512,
+        512
+      ],
+      "format": "PNG",
+      "transparent": true,
+      "frameIndex": 7,
+      "animationName": "special"
+    },
+    {
+      "path": "rz8_nebula/animation/special_08.png",
+      "ship": "rz8",
+      "category": "animation_special",
+      "dimensions": [
+        512,
+        512
+      ],
+      "format": "PNG",
+      "transparent": true,
+      "frameIndex": 8,
+      "animationName": "special"
+    },
+    {
+      "path": "rz8_nebula/vfx/drone_link_01.png",
+      "ship": "rz8",
+      "category": "vfx_drone_link",
+      "dimensions": [
+        512,
+        512
+      ],
+      "format": "PNG",
+      "transparent": true,
+      "frameIndex": 1,
+      "animationName": "drone_link"
+    },
+    {
+      "path": "rz8_nebula/vfx/drone_link_02.png",
+      "ship": "rz8",
+      "category": "vfx_drone_link",
+      "dimensions": [
+        512,
+        512
+      ],
+      "format": "PNG",
+      "transparent": true,
+      "frameIndex": 2,
+      "animationName": "drone_link"
+    },
+    {
+      "path": "rz8_nebula/vfx/drone_link_03.png",
+      "ship": "rz8",
+      "category": "vfx_drone_link",
+      "dimensions": [
+        512,
+        512
+      ],
+      "format": "PNG",
+      "transparent": true,
+      "frameIndex": 3,
+      "animationName": "drone_link"
+    },
+    {
+      "path": "rz8_nebula/vfx/drone_link_04.png",
+      "ship": "rz8",
+      "category": "vfx_drone_link",
+      "dimensions": [
+        512,
+        512
+      ],
+      "format": "PNG",
+      "transparent": true,
+      "frameIndex": 4,
+      "animationName": "drone_link"
+    },
+    {
+      "path": "rz8_nebula/vfx/drone_link_05.png",
+      "ship": "rz8",
+      "category": "vfx_drone_link",
+      "dimensions": [
+        512,
+        512
+      ],
+      "format": "PNG",
+      "transparent": true,
+      "frameIndex": 5,
+      "animationName": "drone_link"
+    },
+    {
+      "path": "rz8_nebula/vfx/drone_link_06.png",
+      "ship": "rz8",
+      "category": "vfx_drone_link",
+      "dimensions": [
+        512,
+        512
+      ],
+      "format": "PNG",
+      "transparent": true,
+      "frameIndex": 6,
+      "animationName": "drone_link"
+    },
+    {
+      "path": "rz8_nebula/vfx/nebula_pulse_01.png",
+      "ship": "rz8",
+      "category": "vfx_nebula_pulse",
+      "dimensions": [
+        512,
+        512
+      ],
+      "format": "PNG",
+      "transparent": true,
+      "frameIndex": 1,
+      "animationName": "nebula_pulse"
+    },
+    {
+      "path": "rz8_nebula/vfx/nebula_pulse_02.png",
+      "ship": "rz8",
+      "category": "vfx_nebula_pulse",
+      "dimensions": [
+        512,
+        512
+      ],
+      "format": "PNG",
+      "transparent": true,
+      "frameIndex": 2,
+      "animationName": "nebula_pulse"
+    },
+    {
+      "path": "rz8_nebula/vfx/nebula_pulse_03.png",
+      "ship": "rz8",
+      "category": "vfx_nebula_pulse",
+      "dimensions": [
+        512,
+        512
+      ],
+      "format": "PNG",
+      "transparent": true,
+      "frameIndex": 3,
+      "animationName": "nebula_pulse"
+    },
+    {
+      "path": "rz8_nebula/vfx/nebula_pulse_04.png",
+      "ship": "rz8",
+      "category": "vfx_nebula_pulse",
+      "dimensions": [
+        512,
+        512
+      ],
+      "format": "PNG",
+      "transparent": true,
+      "frameIndex": 4,
+      "animationName": "nebula_pulse"
+    },
+    {
+      "path": "rz8_nebula/vfx/nebula_pulse_05.png",
+      "ship": "rz8",
+      "category": "vfx_nebula_pulse",
+      "dimensions": [
+        512,
+        512
+      ],
+      "format": "PNG",
+      "transparent": true,
+      "frameIndex": 5,
+      "animationName": "nebula_pulse"
+    },
+    {
+      "path": "rz8_nebula/vfx/nebula_pulse_06.png",
+      "ship": "rz8",
+      "category": "vfx_nebula_pulse",
+      "dimensions": [
+        512,
+        512
+      ],
+      "format": "PNG",
+      "transparent": true,
+      "frameIndex": 6,
+      "animationName": "nebula_pulse"
+    },
+    {
+      "path": "rz8_nebula/hangar/hangar_hero.webp",
+      "ship": "rz8",
+      "category": "hangar_hero",
+      "dimensions": [
+        1280,
+        720
+      ],
+      "format": "WebP",
+      "transparent": false,
+      "frameIndex": null,
+      "animationName": null
+    },
+    {
+      "path": "rz8_nebula/hangar/hangar_thumb.webp",
+      "ship": "rz8",
+      "category": "hangar_thumb",
+      "dimensions": [
+        512,
+        512
+      ],
+      "format": "WebP",
+      "transparent": false,
+      "frameIndex": null,
+      "animationName": null
+    },
+    {
+      "path": "rz8_nebula/hangar/hangar_card.webp",
+      "ship": "rz8",
+      "category": "hangar_card",
+      "dimensions": [
+        640,
+        360
+      ],
+      "format": "WebP",
+      "transparent": false,
+      "frameIndex": null,
+      "animationName": null
+    },
+    {
+      "path": "rz8_nebula/runtime/ship_meta.json",
+      "ship": "rz8",
+      "category": "runtime_meta",
+      "dimensions": [
+        null
+      ],
+      "format": "JSON",
+      "transparent": false,
+      "frameIndex": null,
+      "animationName": null
+    },
+    {
+      "path": "rz12_bastion/runtime/ship_base.png",
+      "ship": "rz12",
+      "category": "runtime_base",
+      "dimensions": [
+        512,
+        512
+      ],
+      "format": "PNG",
+      "transparent": true,
+      "frameIndex": null,
+      "animationName": null
+    },
+    {
+      "path": "rz12_bastion/runtime/ship_bank_left.png",
+      "ship": "rz12",
+      "category": "runtime_bank",
+      "dimensions": [
+        512,
+        512
+      ],
+      "format": "PNG",
+      "transparent": true,
+      "frameIndex": null,
+      "animationName": null
+    },
+    {
+      "path": "rz12_bastion/runtime/ship_bank_right.png",
+      "ship": "rz12",
+      "category": "runtime_bank",
+      "dimensions": [
+        512,
+        512
+      ],
+      "format": "PNG",
+      "transparent": true,
+      "frameIndex": null,
+      "animationName": null
+    },
+    {
+      "path": "rz12_bastion/animation/engine_01.png",
+      "ship": "rz12",
+      "category": "animation_engine",
+      "dimensions": [
+        512,
+        512
+      ],
+      "format": "PNG",
+      "transparent": true,
+      "frameIndex": 1,
+      "animationName": "engine"
+    },
+    {
+      "path": "rz12_bastion/animation/engine_02.png",
+      "ship": "rz12",
+      "category": "animation_engine",
+      "dimensions": [
+        512,
+        512
+      ],
+      "format": "PNG",
+      "transparent": true,
+      "frameIndex": 2,
+      "animationName": "engine"
+    },
+    {
+      "path": "rz12_bastion/animation/engine_03.png",
+      "ship": "rz12",
+      "category": "animation_engine",
+      "dimensions": [
+        512,
+        512
+      ],
+      "format": "PNG",
+      "transparent": true,
+      "frameIndex": 3,
+      "animationName": "engine"
+    },
+    {
+      "path": "rz12_bastion/animation/engine_04.png",
+      "ship": "rz12",
+      "category": "animation_engine",
+      "dimensions": [
+        512,
+        512
+      ],
+      "format": "PNG",
+      "transparent": true,
+      "frameIndex": 4,
+      "animationName": "engine"
+    },
+    {
+      "path": "rz12_bastion/animation/engine_05.png",
+      "ship": "rz12",
+      "category": "animation_engine",
+      "dimensions": [
+        512,
+        512
+      ],
+      "format": "PNG",
+      "transparent": true,
+      "frameIndex": 5,
+      "animationName": "engine"
+    },
+    {
+      "path": "rz12_bastion/animation/engine_06.png",
+      "ship": "rz12",
+      "category": "animation_engine",
+      "dimensions": [
+        512,
+        512
+      ],
+      "format": "PNG",
+      "transparent": true,
+      "frameIndex": 6,
+      "animationName": "engine"
+    },
+    {
+      "path": "rz12_bastion/animation/fire_01.png",
+      "ship": "rz12",
+      "category": "animation_fire",
+      "dimensions": [
+        512,
+        512
+      ],
+      "format": "PNG",
+      "transparent": true,
+      "frameIndex": 1,
+      "animationName": "fire"
+    },
+    {
+      "path": "rz12_bastion/animation/fire_02.png",
+      "ship": "rz12",
+      "category": "animation_fire",
+      "dimensions": [
+        512,
+        512
+      ],
+      "format": "PNG",
+      "transparent": true,
+      "frameIndex": 2,
+      "animationName": "fire"
+    },
+    {
+      "path": "rz12_bastion/animation/fire_03.png",
+      "ship": "rz12",
+      "category": "animation_fire",
+      "dimensions": [
+        512,
+        512
+      ],
+      "format": "PNG",
+      "transparent": true,
+      "frameIndex": 3,
+      "animationName": "fire"
+    },
+    {
+      "path": "rz12_bastion/animation/fire_04.png",
+      "ship": "rz12",
+      "category": "animation_fire",
+      "dimensions": [
+        512,
+        512
+      ],
+      "format": "PNG",
+      "transparent": true,
+      "frameIndex": 4,
+      "animationName": "fire"
+    },
+    {
+      "path": "rz12_bastion/animation/hit_01.png",
+      "ship": "rz12",
+      "category": "animation_hit",
+      "dimensions": [
+        512,
+        512
+      ],
+      "format": "PNG",
+      "transparent": true,
+      "frameIndex": 1,
+      "animationName": "hit"
+    },
+    {
+      "path": "rz12_bastion/animation/hit_02.png",
+      "ship": "rz12",
+      "category": "animation_hit",
+      "dimensions": [
+        512,
+        512
+      ],
+      "format": "PNG",
+      "transparent": true,
+      "frameIndex": 2,
+      "animationName": "hit"
+    },
+    {
+      "path": "rz12_bastion/animation/hit_03.png",
+      "ship": "rz12",
+      "category": "animation_hit",
+      "dimensions": [
+        512,
+        512
+      ],
+      "format": "PNG",
+      "transparent": true,
+      "frameIndex": 3,
+      "animationName": "hit"
+    },
+    {
+      "path": "rz12_bastion/animation/hit_04.png",
+      "ship": "rz12",
+      "category": "animation_hit",
+      "dimensions": [
+        512,
+        512
+      ],
+      "format": "PNG",
+      "transparent": true,
+      "frameIndex": 4,
+      "animationName": "hit"
+    },
+    {
+      "path": "rz12_bastion/animation/shield_01.png",
+      "ship": "rz12",
+      "category": "animation_shield",
+      "dimensions": [
+        512,
+        512
+      ],
+      "format": "PNG",
+      "transparent": true,
+      "frameIndex": 1,
+      "animationName": "shield"
+    },
+    {
+      "path": "rz12_bastion/animation/shield_02.png",
+      "ship": "rz12",
+      "category": "animation_shield",
+      "dimensions": [
+        512,
+        512
+      ],
+      "format": "PNG",
+      "transparent": true,
+      "frameIndex": 2,
+      "animationName": "shield"
+    },
+    {
+      "path": "rz12_bastion/animation/shield_03.png",
+      "ship": "rz12",
+      "category": "animation_shield",
+      "dimensions": [
+        512,
+        512
+      ],
+      "format": "PNG",
+      "transparent": true,
+      "frameIndex": 3,
+      "animationName": "shield"
+    },
+    {
+      "path": "rz12_bastion/animation/shield_04.png",
+      "ship": "rz12",
+      "category": "animation_shield",
+      "dimensions": [
+        512,
+        512
+      ],
+      "format": "PNG",
+      "transparent": true,
+      "frameIndex": 4,
+      "animationName": "shield"
+    },
+    {
+      "path": "rz12_bastion/animation/shield_05.png",
+      "ship": "rz12",
+      "category": "animation_shield",
+      "dimensions": [
+        512,
+        512
+      ],
+      "format": "PNG",
+      "transparent": true,
+      "frameIndex": 5,
+      "animationName": "shield"
+    },
+    {
+      "path": "rz12_bastion/animation/shield_06.png",
+      "ship": "rz12",
+      "category": "animation_shield",
+      "dimensions": [
+        512,
+        512
+      ],
+      "format": "PNG",
+      "transparent": true,
+      "frameIndex": 6,
+      "animationName": "shield"
+    },
+    {
+      "path": "rz12_bastion/animation/special_01.png",
+      "ship": "rz12",
+      "category": "animation_special",
+      "dimensions": [
+        512,
+        512
+      ],
+      "format": "PNG",
+      "transparent": true,
+      "frameIndex": 1,
+      "animationName": "special"
+    },
+    {
+      "path": "rz12_bastion/animation/special_02.png",
+      "ship": "rz12",
+      "category": "animation_special",
+      "dimensions": [
+        512,
+        512
+      ],
+      "format": "PNG",
+      "transparent": true,
+      "frameIndex": 2,
+      "animationName": "special"
+    },
+    {
+      "path": "rz12_bastion/animation/special_03.png",
+      "ship": "rz12",
+      "category": "animation_special",
+      "dimensions": [
+        512,
+        512
+      ],
+      "format": "PNG",
+      "transparent": true,
+      "frameIndex": 3,
+      "animationName": "special"
+    },
+    {
+      "path": "rz12_bastion/animation/special_04.png",
+      "ship": "rz12",
+      "category": "animation_special",
+      "dimensions": [
+        512,
+        512
+      ],
+      "format": "PNG",
+      "transparent": true,
+      "frameIndex": 4,
+      "animationName": "special"
+    },
+    {
+      "path": "rz12_bastion/animation/special_05.png",
+      "ship": "rz12",
+      "category": "animation_special",
+      "dimensions": [
+        512,
+        512
+      ],
+      "format": "PNG",
+      "transparent": true,
+      "frameIndex": 5,
+      "animationName": "special"
+    },
+    {
+      "path": "rz12_bastion/animation/special_06.png",
+      "ship": "rz12",
+      "category": "animation_special",
+      "dimensions": [
+        512,
+        512
+      ],
+      "format": "PNG",
+      "transparent": true,
+      "frameIndex": 6,
+      "animationName": "special"
+    },
+    {
+      "path": "rz12_bastion/animation/special_07.png",
+      "ship": "rz12",
+      "category": "animation_special",
+      "dimensions": [
+        512,
+        512
+      ],
+      "format": "PNG",
+      "transparent": true,
+      "frameIndex": 7,
+      "animationName": "special"
+    },
+    {
+      "path": "rz12_bastion/animation/special_08.png",
+      "ship": "rz12",
+      "category": "animation_special",
+      "dimensions": [
+        512,
+        512
+      ],
+      "format": "PNG",
+      "transparent": true,
+      "frameIndex": 8,
+      "animationName": "special"
+    },
+    {
+      "path": "rz12_bastion/vfx/aegis_charge_01.png",
+      "ship": "rz12",
+      "category": "vfx_aegis_charge",
+      "dimensions": [
+        512,
+        512
+      ],
+      "format": "PNG",
+      "transparent": true,
+      "frameIndex": 1,
+      "animationName": "aegis_charge"
+    },
+    {
+      "path": "rz12_bastion/vfx/aegis_charge_02.png",
+      "ship": "rz12",
+      "category": "vfx_aegis_charge",
+      "dimensions": [
+        512,
+        512
+      ],
+      "format": "PNG",
+      "transparent": true,
+      "frameIndex": 2,
+      "animationName": "aegis_charge"
+    },
+    {
+      "path": "rz12_bastion/vfx/aegis_charge_03.png",
+      "ship": "rz12",
+      "category": "vfx_aegis_charge",
+      "dimensions": [
+        512,
+        512
+      ],
+      "format": "PNG",
+      "transparent": true,
+      "frameIndex": 3,
+      "animationName": "aegis_charge"
+    },
+    {
+      "path": "rz12_bastion/vfx/aegis_charge_04.png",
+      "ship": "rz12",
+      "category": "vfx_aegis_charge",
+      "dimensions": [
+        512,
+        512
+      ],
+      "format": "PNG",
+      "transparent": true,
+      "frameIndex": 4,
+      "animationName": "aegis_charge"
+    },
+    {
+      "path": "rz12_bastion/vfx/aegis_field_01.png",
+      "ship": "rz12",
+      "category": "vfx_aegis_field",
+      "dimensions": [
+        512,
+        512
+      ],
+      "format": "PNG",
+      "transparent": true,
+      "frameIndex": 1,
+      "animationName": "aegis_field"
+    },
+    {
+      "path": "rz12_bastion/vfx/aegis_field_02.png",
+      "ship": "rz12",
+      "category": "vfx_aegis_field",
+      "dimensions": [
+        512,
+        512
+      ],
+      "format": "PNG",
+      "transparent": true,
+      "frameIndex": 2,
+      "animationName": "aegis_field"
+    },
+    {
+      "path": "rz12_bastion/vfx/aegis_field_03.png",
+      "ship": "rz12",
+      "category": "vfx_aegis_field",
+      "dimensions": [
+        512,
+        512
+      ],
+      "format": "PNG",
+      "transparent": true,
+      "frameIndex": 3,
+      "animationName": "aegis_field"
+    },
+    {
+      "path": "rz12_bastion/vfx/aegis_field_04.png",
+      "ship": "rz12",
+      "category": "vfx_aegis_field",
+      "dimensions": [
+        512,
+        512
+      ],
+      "format": "PNG",
+      "transparent": true,
+      "frameIndex": 4,
+      "animationName": "aegis_field"
+    },
+    {
+      "path": "rz12_bastion/vfx/aegis_field_05.png",
+      "ship": "rz12",
+      "category": "vfx_aegis_field",
+      "dimensions": [
+        512,
+        512
+      ],
+      "format": "PNG",
+      "transparent": true,
+      "frameIndex": 5,
+      "animationName": "aegis_field"
+    },
+    {
+      "path": "rz12_bastion/vfx/aegis_field_06.png",
+      "ship": "rz12",
+      "category": "vfx_aegis_field",
+      "dimensions": [
+        512,
+        512
+      ],
+      "format": "PNG",
+      "transparent": true,
+      "frameIndex": 6,
+      "animationName": "aegis_field"
+    },
+    {
+      "path": "rz12_bastion/vfx/aegis_field_07.png",
+      "ship": "rz12",
+      "category": "vfx_aegis_field",
+      "dimensions": [
+        512,
+        512
+      ],
+      "format": "PNG",
+      "transparent": true,
+      "frameIndex": 7,
+      "animationName": "aegis_field"
+    },
+    {
+      "path": "rz12_bastion/vfx/aegis_field_08.png",
+      "ship": "rz12",
+      "category": "vfx_aegis_field",
+      "dimensions": [
+        512,
+        512
+      ],
+      "format": "PNG",
+      "transparent": true,
+      "frameIndex": 8,
+      "animationName": "aegis_field"
+    },
+    {
+      "path": "rz12_bastion/hangar/hangar_hero.webp",
+      "ship": "rz12",
+      "category": "hangar_hero",
+      "dimensions": [
+        1280,
+        720
+      ],
+      "format": "WebP",
+      "transparent": false,
+      "frameIndex": null,
+      "animationName": null
+    },
+    {
+      "path": "rz12_bastion/hangar/hangar_thumb.webp",
+      "ship": "rz12",
+      "category": "hangar_thumb",
+      "dimensions": [
+        512,
+        512
+      ],
+      "format": "WebP",
+      "transparent": false,
+      "frameIndex": null,
+      "animationName": null
+    },
+    {
+      "path": "rz12_bastion/hangar/hangar_card.webp",
+      "ship": "rz12",
+      "category": "hangar_card",
+      "dimensions": [
+        640,
+        360
+      ],
+      "format": "WebP",
+      "transparent": false,
+      "frameIndex": null,
+      "animationName": null
+    },
+    {
+      "path": "rz12_bastion/runtime/ship_meta.json",
+      "ship": "rz12",
+      "category": "runtime_meta",
+      "dimensions": [
+        null
+      ],
+      "format": "JSON",
+      "transparent": false,
+      "frameIndex": null,
+      "animationName": null
+    },
+    {
+      "path": "rz16_hydra/runtime/ship_base.png",
+      "ship": "rz16",
+      "category": "runtime_base",
+      "dimensions": [
+        512,
+        512
+      ],
+      "format": "PNG",
+      "transparent": true,
+      "frameIndex": null,
+      "animationName": null
+    },
+    {
+      "path": "rz16_hydra/runtime/ship_bank_left.png",
+      "ship": "rz16",
+      "category": "runtime_bank",
+      "dimensions": [
+        512,
+        512
+      ],
+      "format": "PNG",
+      "transparent": true,
+      "frameIndex": null,
+      "animationName": null
+    },
+    {
+      "path": "rz16_hydra/runtime/ship_bank_right.png",
+      "ship": "rz16",
+      "category": "runtime_bank",
+      "dimensions": [
+        512,
+        512
+      ],
+      "format": "PNG",
+      "transparent": true,
+      "frameIndex": null,
+      "animationName": null
+    },
+    {
+      "path": "rz16_hydra/animation/engine_01.png",
+      "ship": "rz16",
+      "category": "animation_engine",
+      "dimensions": [
+        512,
+        512
+      ],
+      "format": "PNG",
+      "transparent": true,
+      "frameIndex": 1,
+      "animationName": "engine"
+    },
+    {
+      "path": "rz16_hydra/animation/engine_02.png",
+      "ship": "rz16",
+      "category": "animation_engine",
+      "dimensions": [
+        512,
+        512
+      ],
+      "format": "PNG",
+      "transparent": true,
+      "frameIndex": 2,
+      "animationName": "engine"
+    },
+    {
+      "path": "rz16_hydra/animation/engine_03.png",
+      "ship": "rz16",
+      "category": "animation_engine",
+      "dimensions": [
+        512,
+        512
+      ],
+      "format": "PNG",
+      "transparent": true,
+      "frameIndex": 3,
+      "animationName": "engine"
+    },
+    {
+      "path": "rz16_hydra/animation/engine_04.png",
+      "ship": "rz16",
+      "category": "animation_engine",
+      "dimensions": [
+        512,
+        512
+      ],
+      "format": "PNG",
+      "transparent": true,
+      "frameIndex": 4,
+      "animationName": "engine"
+    },
+    {
+      "path": "rz16_hydra/animation/engine_05.png",
+      "ship": "rz16",
+      "category": "animation_engine",
+      "dimensions": [
+        512,
+        512
+      ],
+      "format": "PNG",
+      "transparent": true,
+      "frameIndex": 5,
+      "animationName": "engine"
+    },
+    {
+      "path": "rz16_hydra/animation/engine_06.png",
+      "ship": "rz16",
+      "category": "animation_engine",
+      "dimensions": [
+        512,
+        512
+      ],
+      "format": "PNG",
+      "transparent": true,
+      "frameIndex": 6,
+      "animationName": "engine"
+    },
+    {
+      "path": "rz16_hydra/animation/fire_01.png",
+      "ship": "rz16",
+      "category": "animation_fire",
+      "dimensions": [
+        512,
+        512
+      ],
+      "format": "PNG",
+      "transparent": true,
+      "frameIndex": 1,
+      "animationName": "fire"
+    },
+    {
+      "path": "rz16_hydra/animation/fire_02.png",
+      "ship": "rz16",
+      "category": "animation_fire",
+      "dimensions": [
+        512,
+        512
+      ],
+      "format": "PNG",
+      "transparent": true,
+      "frameIndex": 2,
+      "animationName": "fire"
+    },
+    {
+      "path": "rz16_hydra/animation/fire_03.png",
+      "ship": "rz16",
+      "category": "animation_fire",
+      "dimensions": [
+        512,
+        512
+      ],
+      "format": "PNG",
+      "transparent": true,
+      "frameIndex": 3,
+      "animationName": "fire"
+    },
+    {
+      "path": "rz16_hydra/animation/fire_04.png",
+      "ship": "rz16",
+      "category": "animation_fire",
+      "dimensions": [
+        512,
+        512
+      ],
+      "format": "PNG",
+      "transparent": true,
+      "frameIndex": 4,
+      "animationName": "fire"
+    },
+    {
+      "path": "rz16_hydra/animation/hit_01.png",
+      "ship": "rz16",
+      "category": "animation_hit",
+      "dimensions": [
+        512,
+        512
+      ],
+      "format": "PNG",
+      "transparent": true,
+      "frameIndex": 1,
+      "animationName": "hit"
+    },
+    {
+      "path": "rz16_hydra/animation/hit_02.png",
+      "ship": "rz16",
+      "category": "animation_hit",
+      "dimensions": [
+        512,
+        512
+      ],
+      "format": "PNG",
+      "transparent": true,
+      "frameIndex": 2,
+      "animationName": "hit"
+    },
+    {
+      "path": "rz16_hydra/animation/hit_03.png",
+      "ship": "rz16",
+      "category": "animation_hit",
+      "dimensions": [
+        512,
+        512
+      ],
+      "format": "PNG",
+      "transparent": true,
+      "frameIndex": 3,
+      "animationName": "hit"
+    },
+    {
+      "path": "rz16_hydra/animation/hit_04.png",
+      "ship": "rz16",
+      "category": "animation_hit",
+      "dimensions": [
+        512,
+        512
+      ],
+      "format": "PNG",
+      "transparent": true,
+      "frameIndex": 4,
+      "animationName": "hit"
+    },
+    {
+      "path": "rz16_hydra/animation/shield_01.png",
+      "ship": "rz16",
+      "category": "animation_shield",
+      "dimensions": [
+        512,
+        512
+      ],
+      "format": "PNG",
+      "transparent": true,
+      "frameIndex": 1,
+      "animationName": "shield"
+    },
+    {
+      "path": "rz16_hydra/animation/shield_02.png",
+      "ship": "rz16",
+      "category": "animation_shield",
+      "dimensions": [
+        512,
+        512
+      ],
+      "format": "PNG",
+      "transparent": true,
+      "frameIndex": 2,
+      "animationName": "shield"
+    },
+    {
+      "path": "rz16_hydra/animation/shield_03.png",
+      "ship": "rz16",
+      "category": "animation_shield",
+      "dimensions": [
+        512,
+        512
+      ],
+      "format": "PNG",
+      "transparent": true,
+      "frameIndex": 3,
+      "animationName": "shield"
+    },
+    {
+      "path": "rz16_hydra/animation/shield_04.png",
+      "ship": "rz16",
+      "category": "animation_shield",
+      "dimensions": [
+        512,
+        512
+      ],
+      "format": "PNG",
+      "transparent": true,
+      "frameIndex": 4,
+      "animationName": "shield"
+    },
+    {
+      "path": "rz16_hydra/animation/shield_05.png",
+      "ship": "rz16",
+      "category": "animation_shield",
+      "dimensions": [
+        512,
+        512
+      ],
+      "format": "PNG",
+      "transparent": true,
+      "frameIndex": 5,
+      "animationName": "shield"
+    },
+    {
+      "path": "rz16_hydra/animation/shield_06.png",
+      "ship": "rz16",
+      "category": "animation_shield",
+      "dimensions": [
+        512,
+        512
+      ],
+      "format": "PNG",
+      "transparent": true,
+      "frameIndex": 6,
+      "animationName": "shield"
+    },
+    {
+      "path": "rz16_hydra/animation/special_01.png",
+      "ship": "rz16",
+      "category": "animation_special",
+      "dimensions": [
+        512,
+        512
+      ],
+      "format": "PNG",
+      "transparent": true,
+      "frameIndex": 1,
+      "animationName": "special"
+    },
+    {
+      "path": "rz16_hydra/animation/special_02.png",
+      "ship": "rz16",
+      "category": "animation_special",
+      "dimensions": [
+        512,
+        512
+      ],
+      "format": "PNG",
+      "transparent": true,
+      "frameIndex": 2,
+      "animationName": "special"
+    },
+    {
+      "path": "rz16_hydra/animation/special_03.png",
+      "ship": "rz16",
+      "category": "animation_special",
+      "dimensions": [
+        512,
+        512
+      ],
+      "format": "PNG",
+      "transparent": true,
+      "frameIndex": 3,
+      "animationName": "special"
+    },
+    {
+      "path": "rz16_hydra/animation/special_04.png",
+      "ship": "rz16",
+      "category": "animation_special",
+      "dimensions": [
+        512,
+        512
+      ],
+      "format": "PNG",
+      "transparent": true,
+      "frameIndex": 4,
+      "animationName": "special"
+    },
+    {
+      "path": "rz16_hydra/animation/special_05.png",
+      "ship": "rz16",
+      "category": "animation_special",
+      "dimensions": [
+        512,
+        512
+      ],
+      "format": "PNG",
+      "transparent": true,
+      "frameIndex": 5,
+      "animationName": "special"
+    },
+    {
+      "path": "rz16_hydra/animation/special_06.png",
+      "ship": "rz16",
+      "category": "animation_special",
+      "dimensions": [
+        512,
+        512
+      ],
+      "format": "PNG",
+      "transparent": true,
+      "frameIndex": 6,
+      "animationName": "special"
+    },
+    {
+      "path": "rz16_hydra/animation/special_07.png",
+      "ship": "rz16",
+      "category": "animation_special",
+      "dimensions": [
+        512,
+        512
+      ],
+      "format": "PNG",
+      "transparent": true,
+      "frameIndex": 7,
+      "animationName": "special"
+    },
+    {
+      "path": "rz16_hydra/animation/special_08.png",
+      "ship": "rz16",
+      "category": "animation_special",
+      "dimensions": [
+        512,
+        512
+      ],
+      "format": "PNG",
+      "transparent": true,
+      "frameIndex": 8,
+      "animationName": "special"
+    },
+    {
+      "path": "rz16_hydra/vfx/polyvolley_01.png",
+      "ship": "rz16",
+      "category": "vfx_polyvolley",
+      "dimensions": [
+        512,
+        512
+      ],
+      "format": "PNG",
+      "transparent": true,
+      "frameIndex": 1,
+      "animationName": "polyvolley"
+    },
+    {
+      "path": "rz16_hydra/vfx/polyvolley_02.png",
+      "ship": "rz16",
+      "category": "vfx_polyvolley",
+      "dimensions": [
+        512,
+        512
+      ],
+      "format": "PNG",
+      "transparent": true,
+      "frameIndex": 2,
+      "animationName": "polyvolley"
+    },
+    {
+      "path": "rz16_hydra/vfx/polyvolley_03.png",
+      "ship": "rz16",
+      "category": "vfx_polyvolley",
+      "dimensions": [
+        512,
+        512
+      ],
+      "format": "PNG",
+      "transparent": true,
+      "frameIndex": 3,
+      "animationName": "polyvolley"
+    },
+    {
+      "path": "rz16_hydra/vfx/polyvolley_04.png",
+      "ship": "rz16",
+      "category": "vfx_polyvolley",
+      "dimensions": [
+        512,
+        512
+      ],
+      "format": "PNG",
+      "transparent": true,
+      "frameIndex": 4,
+      "animationName": "polyvolley"
+    },
+    {
+      "path": "rz16_hydra/vfx/polyvolley_05.png",
+      "ship": "rz16",
+      "category": "vfx_polyvolley",
+      "dimensions": [
+        512,
+        512
+      ],
+      "format": "PNG",
+      "transparent": true,
+      "frameIndex": 5,
+      "animationName": "polyvolley"
+    },
+    {
+      "path": "rz16_hydra/vfx/polyvolley_06.png",
+      "ship": "rz16",
+      "category": "vfx_polyvolley",
+      "dimensions": [
+        512,
+        512
+      ],
+      "format": "PNG",
+      "transparent": true,
+      "frameIndex": 6,
+      "animationName": "polyvolley"
+    },
+    {
+      "path": "rz16_hydra/vfx/hydra_sidebeam_01.png",
+      "ship": "rz16",
+      "category": "vfx_hydra_sidebeam",
+      "dimensions": [
+        512,
+        512
+      ],
+      "format": "PNG",
+      "transparent": true,
+      "frameIndex": 1,
+      "animationName": "hydra_sidebeam"
+    },
+    {
+      "path": "rz16_hydra/vfx/hydra_sidebeam_02.png",
+      "ship": "rz16",
+      "category": "vfx_hydra_sidebeam",
+      "dimensions": [
+        512,
+        512
+      ],
+      "format": "PNG",
+      "transparent": true,
+      "frameIndex": 2,
+      "animationName": "hydra_sidebeam"
+    },
+    {
+      "path": "rz16_hydra/vfx/hydra_sidebeam_03.png",
+      "ship": "rz16",
+      "category": "vfx_hydra_sidebeam",
+      "dimensions": [
+        512,
+        512
+      ],
+      "format": "PNG",
+      "transparent": true,
+      "frameIndex": 3,
+      "animationName": "hydra_sidebeam"
+    },
+    {
+      "path": "rz16_hydra/vfx/hydra_sidebeam_04.png",
+      "ship": "rz16",
+      "category": "vfx_hydra_sidebeam",
+      "dimensions": [
+        512,
+        512
+      ],
+      "format": "PNG",
+      "transparent": true,
+      "frameIndex": 4,
+      "animationName": "hydra_sidebeam"
+    },
+    {
+      "path": "rz16_hydra/hangar/hangar_hero.webp",
+      "ship": "rz16",
+      "category": "hangar_hero",
+      "dimensions": [
+        1280,
+        720
+      ],
+      "format": "WebP",
+      "transparent": false,
+      "frameIndex": null,
+      "animationName": null
+    },
+    {
+      "path": "rz16_hydra/hangar/hangar_thumb.webp",
+      "ship": "rz16",
+      "category": "hangar_thumb",
+      "dimensions": [
+        512,
+        512
+      ],
+      "format": "WebP",
+      "transparent": false,
+      "frameIndex": null,
+      "animationName": null
+    },
+    {
+      "path": "rz16_hydra/hangar/hangar_card.webp",
+      "ship": "rz16",
+      "category": "hangar_card",
+      "dimensions": [
+        640,
+        360
+      ],
+      "format": "WebP",
+      "transparent": false,
+      "frameIndex": null,
+      "animationName": null
+    },
+    {
+      "path": "rz16_hydra/runtime/ship_meta.json",
+      "ship": "rz16",
+      "category": "runtime_meta",
+      "dimensions": [
+        null
+      ],
+      "format": "JSON",
+      "transparent": false,
+      "frameIndex": null,
+      "animationName": null
+    },
+    {
+      "path": "rz20_prime/runtime/ship_base.png",
+      "ship": "rz20",
+      "category": "runtime_base",
+      "dimensions": [
+        512,
+        512
+      ],
+      "format": "PNG",
+      "transparent": true,
+      "frameIndex": null,
+      "animationName": null
+    },
+    {
+      "path": "rz20_prime/runtime/ship_bank_left.png",
+      "ship": "rz20",
+      "category": "runtime_bank",
+      "dimensions": [
+        512,
+        512
+      ],
+      "format": "PNG",
+      "transparent": true,
+      "frameIndex": null,
+      "animationName": null
+    },
+    {
+      "path": "rz20_prime/runtime/ship_bank_right.png",
+      "ship": "rz20",
+      "category": "runtime_bank",
+      "dimensions": [
+        512,
+        512
+      ],
+      "format": "PNG",
+      "transparent": true,
+      "frameIndex": null,
+      "animationName": null
+    },
+    {
+      "path": "rz20_prime/animation/engine_01.png",
+      "ship": "rz20",
+      "category": "animation_engine",
+      "dimensions": [
+        512,
+        512
+      ],
+      "format": "PNG",
+      "transparent": true,
+      "frameIndex": 1,
+      "animationName": "engine"
+    },
+    {
+      "path": "rz20_prime/animation/engine_02.png",
+      "ship": "rz20",
+      "category": "animation_engine",
+      "dimensions": [
+        512,
+        512
+      ],
+      "format": "PNG",
+      "transparent": true,
+      "frameIndex": 2,
+      "animationName": "engine"
+    },
+    {
+      "path": "rz20_prime/animation/engine_03.png",
+      "ship": "rz20",
+      "category": "animation_engine",
+      "dimensions": [
+        512,
+        512
+      ],
+      "format": "PNG",
+      "transparent": true,
+      "frameIndex": 3,
+      "animationName": "engine"
+    },
+    {
+      "path": "rz20_prime/animation/engine_04.png",
+      "ship": "rz20",
+      "category": "animation_engine",
+      "dimensions": [
+        512,
+        512
+      ],
+      "format": "PNG",
+      "transparent": true,
+      "frameIndex": 4,
+      "animationName": "engine"
+    },
+    {
+      "path": "rz20_prime/animation/engine_05.png",
+      "ship": "rz20",
+      "category": "animation_engine",
+      "dimensions": [
+        512,
+        512
+      ],
+      "format": "PNG",
+      "transparent": true,
+      "frameIndex": 5,
+      "animationName": "engine"
+    },
+    {
+      "path": "rz20_prime/animation/engine_06.png",
+      "ship": "rz20",
+      "category": "animation_engine",
+      "dimensions": [
+        512,
+        512
+      ],
+      "format": "PNG",
+      "transparent": true,
+      "frameIndex": 6,
+      "animationName": "engine"
+    },
+    {
+      "path": "rz20_prime/animation/fire_01.png",
+      "ship": "rz20",
+      "category": "animation_fire",
+      "dimensions": [
+        512,
+        512
+      ],
+      "format": "PNG",
+      "transparent": true,
+      "frameIndex": 1,
+      "animationName": "fire"
+    },
+    {
+      "path": "rz20_prime/animation/fire_02.png",
+      "ship": "rz20",
+      "category": "animation_fire",
+      "dimensions": [
+        512,
+        512
+      ],
+      "format": "PNG",
+      "transparent": true,
+      "frameIndex": 2,
+      "animationName": "fire"
+    },
+    {
+      "path": "rz20_prime/animation/fire_03.png",
+      "ship": "rz20",
+      "category": "animation_fire",
+      "dimensions": [
+        512,
+        512
+      ],
+      "format": "PNG",
+      "transparent": true,
+      "frameIndex": 3,
+      "animationName": "fire"
+    },
+    {
+      "path": "rz20_prime/animation/fire_04.png",
+      "ship": "rz20",
+      "category": "animation_fire",
+      "dimensions": [
+        512,
+        512
+      ],
+      "format": "PNG",
+      "transparent": true,
+      "frameIndex": 4,
+      "animationName": "fire"
+    },
+    {
+      "path": "rz20_prime/animation/hit_01.png",
+      "ship": "rz20",
+      "category": "animation_hit",
+      "dimensions": [
+        512,
+        512
+      ],
+      "format": "PNG",
+      "transparent": true,
+      "frameIndex": 1,
+      "animationName": "hit"
+    },
+    {
+      "path": "rz20_prime/animation/hit_02.png",
+      "ship": "rz20",
+      "category": "animation_hit",
+      "dimensions": [
+        512,
+        512
+      ],
+      "format": "PNG",
+      "transparent": true,
+      "frameIndex": 2,
+      "animationName": "hit"
+    },
+    {
+      "path": "rz20_prime/animation/hit_03.png",
+      "ship": "rz20",
+      "category": "animation_hit",
+      "dimensions": [
+        512,
+        512
+      ],
+      "format": "PNG",
+      "transparent": true,
+      "frameIndex": 3,
+      "animationName": "hit"
+    },
+    {
+      "path": "rz20_prime/animation/hit_04.png",
+      "ship": "rz20",
+      "category": "animation_hit",
+      "dimensions": [
+        512,
+        512
+      ],
+      "format": "PNG",
+      "transparent": true,
+      "frameIndex": 4,
+      "animationName": "hit"
+    },
+    {
+      "path": "rz20_prime/animation/shield_01.png",
+      "ship": "rz20",
+      "category": "animation_shield",
+      "dimensions": [
+        512,
+        512
+      ],
+      "format": "PNG",
+      "transparent": true,
+      "frameIndex": 1,
+      "animationName": "shield"
+    },
+    {
+      "path": "rz20_prime/animation/shield_02.png",
+      "ship": "rz20",
+      "category": "animation_shield",
+      "dimensions": [
+        512,
+        512
+      ],
+      "format": "PNG",
+      "transparent": true,
+      "frameIndex": 2,
+      "animationName": "shield"
+    },
+    {
+      "path": "rz20_prime/animation/shield_03.png",
+      "ship": "rz20",
+      "category": "animation_shield",
+      "dimensions": [
+        512,
+        512
+      ],
+      "format": "PNG",
+      "transparent": true,
+      "frameIndex": 3,
+      "animationName": "shield"
+    },
+    {
+      "path": "rz20_prime/animation/shield_04.png",
+      "ship": "rz20",
+      "category": "animation_shield",
+      "dimensions": [
+        512,
+        512
+      ],
+      "format": "PNG",
+      "transparent": true,
+      "frameIndex": 4,
+      "animationName": "shield"
+    },
+    {
+      "path": "rz20_prime/animation/shield_05.png",
+      "ship": "rz20",
+      "category": "animation_shield",
+      "dimensions": [
+        512,
+        512
+      ],
+      "format": "PNG",
+      "transparent": true,
+      "frameIndex": 5,
+      "animationName": "shield"
+    },
+    {
+      "path": "rz20_prime/animation/shield_06.png",
+      "ship": "rz20",
+      "category": "animation_shield",
+      "dimensions": [
+        512,
+        512
+      ],
+      "format": "PNG",
+      "transparent": true,
+      "frameIndex": 6,
+      "animationName": "shield"
+    },
+    {
+      "path": "rz20_prime/animation/special_01.png",
+      "ship": "rz20",
+      "category": "animation_special",
+      "dimensions": [
+        512,
+        512
+      ],
+      "format": "PNG",
+      "transparent": true,
+      "frameIndex": 1,
+      "animationName": "special"
+    },
+    {
+      "path": "rz20_prime/animation/special_02.png",
+      "ship": "rz20",
+      "category": "animation_special",
+      "dimensions": [
+        512,
+        512
+      ],
+      "format": "PNG",
+      "transparent": true,
+      "frameIndex": 2,
+      "animationName": "special"
+    },
+    {
+      "path": "rz20_prime/animation/special_03.png",
+      "ship": "rz20",
+      "category": "animation_special",
+      "dimensions": [
+        512,
+        512
+      ],
+      "format": "PNG",
+      "transparent": true,
+      "frameIndex": 3,
+      "animationName": "special"
+    },
+    {
+      "path": "rz20_prime/animation/special_04.png",
+      "ship": "rz20",
+      "category": "animation_special",
+      "dimensions": [
+        512,
+        512
+      ],
+      "format": "PNG",
+      "transparent": true,
+      "frameIndex": 4,
+      "animationName": "special"
+    },
+    {
+      "path": "rz20_prime/animation/special_05.png",
+      "ship": "rz20",
+      "category": "animation_special",
+      "dimensions": [
+        512,
+        512
+      ],
+      "format": "PNG",
+      "transparent": true,
+      "frameIndex": 5,
+      "animationName": "special"
+    },
+    {
+      "path": "rz20_prime/animation/special_06.png",
+      "ship": "rz20",
+      "category": "animation_special",
+      "dimensions": [
+        512,
+        512
+      ],
+      "format": "PNG",
+      "transparent": true,
+      "frameIndex": 6,
+      "animationName": "special"
+    },
+    {
+      "path": "rz20_prime/animation/special_07.png",
+      "ship": "rz20",
+      "category": "animation_special",
+      "dimensions": [
+        512,
+        512
+      ],
+      "format": "PNG",
+      "transparent": true,
+      "frameIndex": 7,
+      "animationName": "special"
+    },
+    {
+      "path": "rz20_prime/animation/special_08.png",
+      "ship": "rz20",
+      "category": "animation_special",
+      "dimensions": [
+        512,
+        512
+      ],
+      "format": "PNG",
+      "transparent": true,
+      "frameIndex": 8,
+      "animationName": "special"
+    },
+    {
+      "path": "rz20_prime/vfx/hyperlaser_01.png",
+      "ship": "rz20",
+      "category": "vfx_hyperlaser",
+      "dimensions": [
+        512,
+        512
+      ],
+      "format": "PNG",
+      "transparent": true,
+      "frameIndex": 1,
+      "animationName": "hyperlaser"
+    },
+    {
+      "path": "rz20_prime/vfx/hyperlaser_02.png",
+      "ship": "rz20",
+      "category": "vfx_hyperlaser",
+      "dimensions": [
+        512,
+        512
+      ],
+      "format": "PNG",
+      "transparent": true,
+      "frameIndex": 2,
+      "animationName": "hyperlaser"
+    },
+    {
+      "path": "rz20_prime/vfx/hyperlaser_03.png",
+      "ship": "rz20",
+      "category": "vfx_hyperlaser",
+      "dimensions": [
+        512,
+        512
+      ],
+      "format": "PNG",
+      "transparent": true,
+      "frameIndex": 3,
+      "animationName": "hyperlaser"
+    },
+    {
+      "path": "rz20_prime/vfx/hyperlaser_04.png",
+      "ship": "rz20",
+      "category": "vfx_hyperlaser",
+      "dimensions": [
+        512,
+        512
+      ],
+      "format": "PNG",
+      "transparent": true,
+      "frameIndex": 4,
+      "animationName": "hyperlaser"
+    },
+    {
+      "path": "rz20_prime/vfx/hyperlaser_05.png",
+      "ship": "rz20",
+      "category": "vfx_hyperlaser",
+      "dimensions": [
+        512,
+        512
+      ],
+      "format": "PNG",
+      "transparent": true,
+      "frameIndex": 5,
+      "animationName": "hyperlaser"
+    },
+    {
+      "path": "rz20_prime/vfx/hyperlaser_06.png",
+      "ship": "rz20",
+      "category": "vfx_hyperlaser",
+      "dimensions": [
+        512,
+        512
+      ],
+      "format": "PNG",
+      "transparent": true,
+      "frameIndex": 6,
+      "animationName": "hyperlaser"
+    },
+    {
+      "path": "rz20_prime/vfx/synaptic_chain_01.png",
+      "ship": "rz20",
+      "category": "vfx_synaptic_chain",
+      "dimensions": [
+        512,
+        512
+      ],
+      "format": "PNG",
+      "transparent": true,
+      "frameIndex": 1,
+      "animationName": "synaptic_chain"
+    },
+    {
+      "path": "rz20_prime/vfx/synaptic_chain_02.png",
+      "ship": "rz20",
+      "category": "vfx_synaptic_chain",
+      "dimensions": [
+        512,
+        512
+      ],
+      "format": "PNG",
+      "transparent": true,
+      "frameIndex": 2,
+      "animationName": "synaptic_chain"
+    },
+    {
+      "path": "rz20_prime/vfx/synaptic_chain_03.png",
+      "ship": "rz20",
+      "category": "vfx_synaptic_chain",
+      "dimensions": [
+        512,
+        512
+      ],
+      "format": "PNG",
+      "transparent": true,
+      "frameIndex": 3,
+      "animationName": "synaptic_chain"
+    },
+    {
+      "path": "rz20_prime/vfx/synaptic_chain_04.png",
+      "ship": "rz20",
+      "category": "vfx_synaptic_chain",
+      "dimensions": [
+        512,
+        512
+      ],
+      "format": "PNG",
+      "transparent": true,
+      "frameIndex": 4,
+      "animationName": "synaptic_chain"
+    },
+    {
+      "path": "rz20_prime/vfx/synaptic_chain_05.png",
+      "ship": "rz20",
+      "category": "vfx_synaptic_chain",
+      "dimensions": [
+        512,
+        512
+      ],
+      "format": "PNG",
+      "transparent": true,
+      "frameIndex": 5,
+      "animationName": "synaptic_chain"
+    },
+    {
+      "path": "rz20_prime/vfx/synaptic_chain_06.png",
+      "ship": "rz20",
+      "category": "vfx_synaptic_chain",
+      "dimensions": [
+        512,
+        512
+      ],
+      "format": "PNG",
+      "transparent": true,
+      "frameIndex": 6,
+      "animationName": "synaptic_chain"
+    },
+    {
+      "path": "rz20_prime/vfx/defensive_nova_01.png",
+      "ship": "rz20",
+      "category": "vfx_defensive_nova",
+      "dimensions": [
+        512,
+        512
+      ],
+      "format": "PNG",
+      "transparent": true,
+      "frameIndex": 1,
+      "animationName": "defensive_nova"
+    },
+    {
+      "path": "rz20_prime/vfx/defensive_nova_02.png",
+      "ship": "rz20",
+      "category": "vfx_defensive_nova",
+      "dimensions": [
+        512,
+        512
+      ],
+      "format": "PNG",
+      "transparent": true,
+      "frameIndex": 2,
+      "animationName": "defensive_nova"
+    },
+    {
+      "path": "rz20_prime/vfx/defensive_nova_03.png",
+      "ship": "rz20",
+      "category": "vfx_defensive_nova",
+      "dimensions": [
+        512,
+        512
+      ],
+      "format": "PNG",
+      "transparent": true,
+      "frameIndex": 3,
+      "animationName": "defensive_nova"
+    },
+    {
+      "path": "rz20_prime/vfx/defensive_nova_04.png",
+      "ship": "rz20",
+      "category": "vfx_defensive_nova",
+      "dimensions": [
+        512,
+        512
+      ],
+      "format": "PNG",
+      "transparent": true,
+      "frameIndex": 4,
+      "animationName": "defensive_nova"
+    },
+    {
+      "path": "rz20_prime/vfx/defensive_nova_05.png",
+      "ship": "rz20",
+      "category": "vfx_defensive_nova",
+      "dimensions": [
+        512,
+        512
+      ],
+      "format": "PNG",
+      "transparent": true,
+      "frameIndex": 5,
+      "animationName": "defensive_nova"
+    },
+    {
+      "path": "rz20_prime/vfx/defensive_nova_06.png",
+      "ship": "rz20",
+      "category": "vfx_defensive_nova",
+      "dimensions": [
+        512,
+        512
+      ],
+      "format": "PNG",
+      "transparent": true,
+      "frameIndex": 6,
+      "animationName": "defensive_nova"
+    },
+    {
+      "path": "rz20_prime/vfx/defensive_nova_07.png",
+      "ship": "rz20",
+      "category": "vfx_defensive_nova",
+      "dimensions": [
+        512,
+        512
+      ],
+      "format": "PNG",
+      "transparent": true,
+      "frameIndex": 7,
+      "animationName": "defensive_nova"
+    },
+    {
+      "path": "rz20_prime/vfx/defensive_nova_08.png",
+      "ship": "rz20",
+      "category": "vfx_defensive_nova",
+      "dimensions": [
+        512,
+        512
+      ],
+      "format": "PNG",
+      "transparent": true,
+      "frameIndex": 8,
+      "animationName": "defensive_nova"
+    },
+    {
+      "path": "rz20_prime/hangar/hangar_hero.webp",
+      "ship": "rz20",
+      "category": "hangar_hero",
+      "dimensions": [
+        1280,
+        720
+      ],
+      "format": "WebP",
+      "transparent": false,
+      "frameIndex": null,
+      "animationName": null
+    },
+    {
+      "path": "rz20_prime/hangar/hangar_thumb.webp",
+      "ship": "rz20",
+      "category": "hangar_thumb",
+      "dimensions": [
+        512,
+        512
+      ],
+      "format": "WebP",
+      "transparent": false,
+      "frameIndex": null,
+      "animationName": null
+    },
+    {
+      "path": "rz20_prime/hangar/hangar_card.webp",
+      "ship": "rz20",
+      "category": "hangar_card",
+      "dimensions": [
+        640,
+        360
+      ],
+      "format": "WebP",
+      "transparent": false,
+      "frameIndex": null,
+      "animationName": null
+    },
+    {
+      "path": "rz20_prime/runtime/ship_meta.json",
+      "ship": "rz20",
+      "category": "runtime_meta",
+      "dimensions": [
+        null
+      ],
+      "format": "JSON",
+      "transparent": false,
+      "frameIndex": null,
+      "animationName": null
+    },
+    {
+      "path": "rz8_nebula/drones/nebula_drone_left.png",
+      "ship": "rz8",
+      "category": "drone",
+      "dimensions": [
+        256,
+        256
+      ],
+      "format": "PNG",
+      "transparent": true,
+      "frameIndex": null,
+      "animationName": null
+    },
+    {
+      "path": "rz8_nebula/drones/nebula_drone_right.png",
+      "ship": "rz8",
+      "category": "drone",
+      "dimensions": [
+        256,
+        256
+      ],
+      "format": "PNG",
+      "transparent": true,
+      "frameIndex": null,
+      "animationName": null
+    },
+    {
+      "path": "rz8_nebula/drones/drone_engine_01.png",
+      "ship": "rz8",
+      "category": "drone_engine",
+      "dimensions": [
+        256,
+        256
+      ],
+      "format": "PNG",
+      "transparent": true,
+      "frameIndex": 1,
+      "animationName": "drone_engine"
+    },
+    {
+      "path": "rz8_nebula/drones/drone_engine_02.png",
+      "ship": "rz8",
+      "category": "drone_engine",
+      "dimensions": [
+        256,
+        256
+      ],
+      "format": "PNG",
+      "transparent": true,
+      "frameIndex": 2,
+      "animationName": "drone_engine"
+    },
+    {
+      "path": "rz8_nebula/drones/drone_engine_03.png",
+      "ship": "rz8",
+      "category": "drone_engine",
+      "dimensions": [
+        256,
+        256
+      ],
+      "format": "PNG",
+      "transparent": true,
+      "frameIndex": 3,
+      "animationName": "drone_engine"
+    },
+    {
+      "path": "rz8_nebula/drones/drone_engine_04.png",
+      "ship": "rz8",
+      "category": "drone_engine",
+      "dimensions": [
+        256,
+        256
+      ],
+      "format": "PNG",
+      "transparent": true,
+      "frameIndex": 4,
+      "animationName": "drone_engine"
+    },
+    {
+      "path": "contact_sheet.webp",
+      "ship": "all",
+      "category": "contact_sheet",
+      "dimensions": [
+        1920,
+        1080
+      ],
+      "format": "WebP",
+      "transparent": false,
+      "frameIndex": null,
+      "animationName": null
+    }
+  ]
+}

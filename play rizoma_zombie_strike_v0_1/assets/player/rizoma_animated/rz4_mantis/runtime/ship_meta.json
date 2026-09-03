@@ -1,0 +1,76 @@
+{
+  "id": "rz4",
+  "name": "Mantis RZ-4",
+  "unlockWorld": 4,
+  "canvas": [
+    512,
+    512
+  ],
+  "anchor": {
+    "x": 0.5,
+    "y": 0.52
+  },
+  "visualScale": 1.0,
+  "suggestedHitboxScale": 0.44,
+  "engineEmitters": [
+    {
+      "x": 0.4,
+      "y": 0.84,
+      "color": [
+        80,
+        255,
+        200
+      ]
+    },
+    {
+      "x": 0.6,
+      "y": 0.84,
+      "color": [
+        80,
+        255,
+        200
+      ]
+    }
+  ],
+  "weaponHardpoints": [
+    {
+      "x": 0.5,
+      "y": 0.18,
+      "color": [
+        140,
+        255,
+        220
+      ]
+    },
+    {
+      "x": 0.28,
+      "y": 0.4,
+      "color": [
+        140,
+        255,
+        220
+      ]
+    },
+    {
+      "x": 0.72,
+      "y": 0.4,
+      "color": [
+        140,
+        255,
+        220
+      ]
+    }
+  ],
+  "specialOrigin": {
+    "x": 0.5,
+    "y": 0.2
+  },
+  "animationFrames": {
+    "engine": 6,
+    "fire": 4,
+    "hit": 4,
+    "shield": 6,
+    "special": 8
+  },
+  "notes": "Interceptor. Narrow bifurcated nose, angular leaf-wings, twin energy blades."
+}

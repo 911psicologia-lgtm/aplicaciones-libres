@@ -1,0 +1,139 @@
+{
+  "id": "rz20",
+  "name": "Rizoma Prime RZ-20",
+  "unlockWorld": 20,
+  "canvas": [
+    512,
+    512
+  ],
+  "anchor": {
+    "x": 0.5,
+    "y": 0.52
+  },
+  "visualScale": 1.0,
+  "suggestedHitboxScale": 0.44,
+  "engineEmitters": [
+    {
+      "x": 0.3,
+      "y": 0.82,
+      "color": [
+        140,
+        230,
+        255
+      ]
+    },
+    {
+      "x": 0.5,
+      "y": 0.84,
+      "color": [
+        140,
+        230,
+        255
+      ]
+    },
+    {
+      "x": 0.7,
+      "y": 0.82,
+      "color": [
+        140,
+        230,
+        255
+      ]
+    },
+    {
+      "x": 0.38,
+      "y": 0.86,
+      "color": [
+        140,
+        230,
+        255
+      ]
+    },
+    {
+      "x": 0.62,
+      "y": 0.86,
+      "color": [
+        140,
+        230,
+        255
+      ]
+    }
+  ],
+  "weaponHardpoints": [
+    {
+      "x": 0.5,
+      "y": 0.16,
+      "color": [
+        180,
+        230,
+        255
+      ]
+    },
+    {
+      "x": 0.32,
+      "y": 0.36,
+      "color": [
+        180,
+        230,
+        255
+      ]
+    },
+    {
+      "x": 0.68,
+      "y": 0.36,
+      "color": [
+        180,
+        230,
+        255
+      ]
+    },
+    {
+      "x": 0.26,
+      "y": 0.55,
+      "color": [
+        180,
+        230,
+        255
+      ]
+    },
+    {
+      "x": 0.74,
+      "y": 0.55,
+      "color": [
+        180,
+        230,
+        255
+      ]
+    },
+    {
+      "x": 0.42,
+      "y": 0.48,
+      "color": [
+        180,
+        230,
+        255
+      ]
+    },
+    {
+      "x": 0.58,
+      "y": 0.48,
+      "color": [
+        180,
+        230,
+        255
+      ]
+    }
+  ],
+  "specialOrigin": {
+    "x": 0.5,
+    "y": 0.18
+  },
+  "animationFrames": {
+    "engine": 6,
+    "fire": 4,
+    "hit": 4,
+    "shield": 6,
+    "special": 8
+  },
+  "notes": "Master ship. Hexagonal core, six energy nodes, clean complex wings, heir of F\u00e9nix."
+}

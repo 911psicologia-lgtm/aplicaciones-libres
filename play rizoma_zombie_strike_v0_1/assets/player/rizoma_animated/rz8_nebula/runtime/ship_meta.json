@@ -1,0 +1,76 @@
+{
+  "id": "rz8",
+  "name": "N\u00e9bula RZ-8",
+  "unlockWorld": 8,
+  "canvas": [
+    512,
+    512
+  ],
+  "anchor": {
+    "x": 0.5,
+    "y": 0.52
+  },
+  "visualScale": 1.0,
+  "suggestedHitboxScale": 0.44,
+  "engineEmitters": [
+    {
+      "x": 0.4,
+      "y": 0.78,
+      "color": [
+        120,
+        220,
+        255
+      ]
+    },
+    {
+      "x": 0.6,
+      "y": 0.78,
+      "color": [
+        120,
+        220,
+        255
+      ]
+    }
+  ],
+  "weaponHardpoints": [
+    {
+      "x": 0.5,
+      "y": 0.25,
+      "color": [
+        160,
+        230,
+        255
+      ]
+    },
+    {
+      "x": 0.18,
+      "y": 0.55,
+      "color": [
+        160,
+        230,
+        255
+      ]
+    },
+    {
+      "x": 0.82,
+      "y": 0.55,
+      "color": [
+        160,
+        230,
+        255
+      ]
+    }
+  ],
+  "specialOrigin": {
+    "x": 0.5,
+    "y": 0.3
+  },
+  "animationFrames": {
+    "engine": 6,
+    "fire": 4,
+    "hit": 4,
+    "shield": 6,
+    "special": 8
+  },
+  "notes": "Area control. Crescent wings, detachable drone pods at wingtips, iridescent cyan core."
+}

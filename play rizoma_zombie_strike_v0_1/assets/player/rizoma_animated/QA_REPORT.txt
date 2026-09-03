@@ -1,0 +1,65 @@
+======================================================================
+RIZOMA SHIP ASSETS — QA REPORT
+======================================================================
+
+Validation performed on the final package contents.
+
+CHECK 1: All 6 ship folders present
+  RESULT: PASS — All 6 ship folders exist.
+
+CHECK 2: Required subfolders per ship
+  RESULT: PASS — All ships have runtime/animation/vfx/hangar.
+
+CHECK 3: Nébula has drones/ folder
+  RESULT: PASS
+
+CHECK 4: PNG validity + transparency + dimensions
+  RESULT: PASS — 266 PNGs validated.
+
+CHECK 5: Animation frame counts (engine=6, fire=4, hit=4, shield=6, special=8)
+  RESULT: PASS — All animation sequences have correct frame counts.
+
+CHECK 6: VFX frame counts per ship
+  RESULT: PASS — All VFX sequences have correct frame counts.
+
+CHECK 7: Nébula drones (left, right, 4 engine frames)
+  RESULT: PASS
+
+CHECK 8: Prime has 3 VFX specials (hyperlaser, synaptic_chain, defensive_nova)
+  RESULT: PASS
+
+CHECK 9: ship_meta.json valid JSON per ship
+  RESULT: PASS — All 6 meta files valid with required fields.
+
+CHECK 10: asset_manifest.json valid + complete
+  RESULT: PASS — 291 files listed.
+
+CHECK 11: Hangar assets (hero/thumb/card) per ship
+  RESULT: PASS — All 18 hangar files present.
+
+CHECK 12: contact_sheet.webp (1920×1080)
+  RESULT: PASS
+
+CHECK 13: PNG transparency (corner alpha = 0)
+  RESULT: PASS — 266 PNGs checked, all corners transparent.
+
+======================================================================
+SUMMARY
+======================================================================
+  [PASS]  CHECK 1: All 6 ship folders present
+  [PASS]  CHECK 2: Required subfolders per ship
+  [PASS]  CHECK 3: Nébula has drones/ folder
+  [PASS]  CHECK 4: PNG validity + transparency + dimensions
+  [PASS]  CHECK 5: Animation frame counts
+  [PASS]  CHECK 6: VFX frame counts
+  [PASS]  CHECK 7: Nébula drones
+  [PASS]  CHECK 8: Prime 3 VFX specials
+  [PASS]  CHECK 9: ship_meta.json valid
+  [PASS]  CHECK 10: asset_manifest.json valid + complete
+  [PASS]  CHECK 11: Hangar assets per ship
+  [PASS]  CHECK 12: contact_sheet.webp
+  [PASS]  CHECK 13: PNG transparency
+
+Total: 13/13 checks passed.
+
+OVERALL: PASS — Package ready for integration.
