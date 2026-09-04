@@ -2079,7 +2079,7 @@ body.fx-auto-critical.game-mode .domain-btn .domain-glyph{animation:none!importa
 @media(max-height:520px) and (orientation:landscape){.tactical-hangar-shell{padding:8px 10px}.tactical-hangar-grid{grid-template-columns:1fr 1fr}.hangar-bay-panel{min-height:300px}.tactical-ship-visual{height:145px}.tactical-ship-visual img{max-height:120px}.tactical-prepared-badges{display:none}.hangar-choice-grid{grid-template-columns:repeat(2,minmax(0,1fr))}.hangar-choice-card{min-height:92px}.hangar-choice-art{height:64px}.hangar-choice-art img{max-height:58px}.hangar-loadout-section{padding:9px;margin-top:9px}.guardian-loadout-section{display:none}}
 
 
-/* v3.17.0 · assets Rizoma animados + UX táctil reparada + intro de video */
+/* v3.18.0 · assets Rizoma animados + intro general + microintro cinematográfica M1 */
 #screenHangar.screen{overflow-y:auto!important;overflow-x:hidden!important;touch-action:pan-y!important;overscroll-behavior-y:contain!important;-webkit-overflow-scrolling:touch!important}
 #screenHangar .tactical-hangar-shell{min-height:max-content!important;height:auto!important;overflow:visible!important}
 #screenHangar .hangar-loadout-section,#screenHangar .hangar-choice-grid,#screenHangar .hangar-guardian-strip{touch-action:pan-y!important}

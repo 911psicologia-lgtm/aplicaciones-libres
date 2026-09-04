@@ -1,7 +1,7 @@
 (() => {
   'use strict';
 
-  const VERSION = '3.17.0';
+  const VERSION = '3.18.0';
   // v3.9.0: añade gobernador visual adaptativo y refuerza legibilidad sin alterar lógica de combate.
   // v3.16.0: balance 5C individual de Flota de Conquista + Hangar Táctico reconstruido con comparador, recomendaciones y presets persistentes.
   // v3.8.0: pule Flota de Conquista: HUD de firma, selector seguro, loadout para próxima salida y lectura táctica.
@@ -544,7 +544,7 @@
     if(!p.rizomaShips[p.activeRizomaShip])p.activeRizomaShip='rz1';
   }
 
-  // v3.17.0 · assets animados Rizoma + intro de video + UX táctil reparada.
+  // v3.18.0 · añade microintro cinematográfica del Mundo 1 sobre la infraestructura de video existente.
   // 5C se conserva: afinación individual de la Flota de Conquista.
   // Cada casco conserva una función, una ventaja y una renuncia; la resonancia Rizoma complementa, no borra, esa identidad.
   const CONQUEST_FLEET = [
@@ -1612,6 +1612,8 @@
       bossShips: {},
       activeBossShip: null,
       activeDomainForm: 'rizoma',
+      introVideoSeen: false,
+      worldIntroVideosSeen: {},
       rizomaShips: { rz1:{id:'rz1',world:1,unlockedAt:'base'} },
       activeRizomaShip: 'rz1',
       conquestFleet: {},
@@ -1736,6 +1738,8 @@
       p.hangarFocus = HANGAR_PART_INFO[p.hangarFocus] ? p.hangarFocus : 'engine';
       p.sagaTwoCompletedAt = p.sagaTwoCompletedAt || null;
       p.sagaThreeSignalDetected = !!p.sagaThreeSignalDetected;
+      p.introVideoSeen = !!p.introVideoSeen;
+      p.worldIntroVideosSeen = (p.worldIntroVideosSeen && typeof p.worldIntroVideosSeen === 'object') ? p.worldIntroVideosSeen : {};
       // v2.0.0: migración progresiva W9/W10 sin obligar a repetir mundos ya completados.
       if (p.completedMaps.includes(8)) p.unlockedMap = Math.max(p.unlockedMap, 9);
       if (p.completedMaps.includes(9)) p.unlockedMap = Math.max(p.unlockedMap, 10);
@@ -11981,13 +11985,47 @@
     try { AudioFX.tone(190 + step*35, .055, 'triangle', .012, 45); } catch(_) {}
   }
 
-  function playGameIntroVideo(onDone){
+  function playProfileCinematicVideo({src,seenCheck,markSeen,onDone}){
     const p=currentProfile();
-    if(!els.gameIntroOverlay||!els.gameIntroVideo||p?.introVideoSeen){onDone?.();return;}
-    const finish=()=>{els.gameIntroVideo.pause();els.gameIntroOverlay.classList.add('hidden');document.body.classList.remove('intro-video-open');if(p){p.introVideoSeen=true;saveState();}onDone?.();};
+    if(!els.gameIntroOverlay||!els.gameIntroVideo||!src||seenCheck?.(p)){onDone?.();return;}
+    let done=false;
+    const video=els.gameIntroVideo;
+    const finish=()=>{
+      if(done)return;done=true;
+      try{video.pause();}catch(_){}
+      video.onended=null;video.onerror=null;
+      els.gameIntroOverlay.classList.add('hidden');document.body.classList.remove('intro-video-open');
+      try{markSeen?.(p);if(p)saveState();}catch(_){}
+      onDone?.();
+    };
     els.gameIntroOverlay.classList.remove('hidden');document.body.classList.add('intro-video-open');
-    els.gameIntroVideo.currentTime=0;els.gameIntroVideo.muted=false;els.gameIntroVideo.play().catch(()=>{els.gameIntroVideo.muted=true;els.gameIntroVideo.play().catch(()=>finish());});
-    els.gameIntroVideo.onended=finish;els.btnGameIntroSkip.onclick=finish;
+    video.onended=finish;video.onerror=finish;els.btnGameIntroSkip.onclick=finish;
+    if(video.getAttribute('src')!==src){video.setAttribute('src',src);try{video.load();}catch(_){}}
+    try{video.currentTime=0;}catch(_){}
+    video.muted=false;
+    const attempt=video.play();
+    if(attempt?.catch)attempt.catch(()=>{video.muted=true;const retry=video.play();if(retry?.catch)retry.catch(()=>finish());});
+  }
+
+  function playGameIntroVideo(onDone){
+    playProfileCinematicVideo({
+      src:'assets/video/intro_general.mp4',
+      seenCheck:p=>!!p?.introVideoSeen,
+      markSeen:p=>{if(p)p.introVideoSeen=true;},
+      onDone
+    });
+  }
+
+  function playWorldIntroVideo(world,onDone){
+    const w=Math.max(1,Math.min(MAPS.length,Number(world)||1));
+    const src=w===1?'assets/video/world_01_intro.mp4':null;
+    if(!src){onDone?.();return;}
+    playProfileCinematicVideo({
+      src,
+      seenCheck:p=>!!p?.worldIntroVideosSeen?.[w],
+      markSeen:p=>{if(p){p.worldIntroVideosSeen=p.worldIntroVideosSeen&&typeof p.worldIntroVideosSeen==='object'?p.worldIntroVideosSeen:{};p.worldIntroVideosSeen[w]=true;}},
+      onDone
+    });
   }
 
   function showStorySequence(seq, onDone) {
@@ -12022,7 +12060,10 @@
     requestLandscapeExperience({userGesture:true,source:'campaign-start'});
     const pp=currentProfile();reconcileCampaignProgress(pp,{clearStaleSave:true});
     pp.unlockedMap=Math.max(pp.unlockedMap||1,Math.min(MAPS.length,mapIndex+1));saveState();
-    if (mapIndex === 0 && getPlayMode() === 'story') playGameIntroVideo(() => game.start(0));
+    if (mapIndex === 0 && getPlayMode() === 'story') {
+      const enterWorldOne=()=>playWorldIntroVideo(1,()=>game.start(0));
+      playGameIntroVideo(enterWorldOne);
+    }
     else if(mapIndex===13&&getPlayMode()==='story')game.start(13);
     else if(mapIndex===14&&getPlayMode()==='story')game.start(14);
     else if(mapIndex===15&&getPlayMode()==='story')game.start(15);

@@ -1,0 +1,12 @@
+OK	version	3.18.0
+OK	js/game.js syntax	node --check
+OK	sw.js syntax	node --check
+OK	manifest JSON	valid
+OK	general intro	assets/video/intro_general.mp4
+OK	world 1 intro	assets/video/world_01_intro.mp4
+OK	world 1 intro duration	5.041667 s
+OK	world 1 intro codec	H.264
+OK	world 1 intro resolution	1248x704
+OK	persistence	worldIntroVideosSeen
+OK	sequence	general intro -> M1 intro -> gameplay
+OK	static story	remains disabled
