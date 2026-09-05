@@ -3,32 +3,42 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no">
-  <meta name="theme-color" content="#030711">
-  <title>Starfall Frontier</title>
-  <link rel="manifest" href="manifest.webmanifest">
+  <meta name="theme-color" content="#08111c">
+  <title>Starfall Frontier v0.3.1</title>
   <link rel="stylesheet" href="css/main.css">
 </head>
 <body>
 <div id="app">
   <canvas id="game"></canvas>
 
-  <div class="hud" id="hud">
-    <span id="hudLeft">PILOTO</span>
-    <span id="hudCenter">SECTOR 1</span>
-    <span id="hudRight">0 · 5▲</span>
+  <div class="hud" id="hud" aria-live="polite">
+    <div class="hud-row top">
+      <span id="hudPilot">PILOTO</span>
+      <span id="hudStage">SECTOR 1 · OLEADA 1</span>
+      <span id="hudScore">0 pts</span>
+    </div>
+    <div class="hud-row bottom">
+      <div class="life-wrap">
+        <span id="hudLives" class="lives"></span>
+        <div class="hpbar"><div id="hpFill"></div></div>
+      </div>
+      <span id="hudPower">—</span>
+      <span id="hudCheck">CP 1</span>
+    </div>
   </div>
+
   <div class="center-msg" id="centerMsg"></div>
   <div class="controls-tag" id="controlsTag">ARRASTRA / ← → · AUTO-FUEGO · P PAUSA</div>
   <button class="pause-btn" id="pauseBtn">PAUSA</button>
 
   <section class="screen active" id="splash">
-    <div class="panel">
+    <div class="panel wide">
       <div class="brand">
         <div class="eyebrow">VERTICAL COMBAT PROTOCOL</div>
         <h1>STARFALL<br>FRONTIER</h1>
-        <div class="sub">DEEP SPACE DEFENSE</div>
+        <div class="sub">INTENSIFIED SECTOR BUILD · v0.3.1</div>
       </div>
-      <div class="status" id="assetStatus">Cargando sistemas...</div>
+      <div class="status" id="assetStatus">Sistemas listos. Esta versión incluye checkpoint, mini-jefes, recompensas activables y meteoros defensores.</div>
       <div class="save-preview" id="savePreview"></div>
       <div class="row">
         <button id="newGameBtn">Nueva misión</button>
@@ -38,14 +48,14 @@
         <button id="hangarBtn">Hangar</button>
         <button id="rankingBtn">Ranking</button>
       </div>
-      <div class="footer-note">COMBAT ACCELERATION BUILD · v0.2.0</div>
+      <p class="small">Mejoras centrales: disparos enemigos menos arcade, poderes con iconos distintivos, meteoros giratorios destructibles, mini-jefes por sector, rachas y recuperación por checkpoint.</p>
     </div>
   </section>
 
   <section class="screen" id="login">
     <div class="panel">
       <div class="section-title">Identificación de piloto</div>
-      <p class="small">Ingresa tu indicativo. El prototipo guarda progreso, nave equipada y ranking local.</p>
+      <p class="small">El juego guarda tu sector, oleada, puntuación, nave y checkpoint local.</p>
       <div class="row"><input id="pilotName" maxlength="18" placeholder="PILOTO" autocomplete="off"></div>
       <div class="row">
         <button id="launchBtn">Lanzar</button>
@@ -55,9 +65,9 @@
   </section>
 
   <section class="screen" id="hangar">
-    <div class="panel">
+    <div class="panel wide">
       <div class="section-title">Hangar de combate</div>
-      <p class="small">Tres chasis iniciales con identidades distintas. Las estadísticas y desbloqueos están desacoplados en configuración para escalar nuevas versiones.</p>
+      <p class="small">Tres naves iniciales. El chasis cambia velocidad, cadencia, vida base y daño.</p>
       <div class="ship-grid" id="shipGrid"></div>
       <div class="row"><button data-back="splash">Volver</button></div>
     </div>
@@ -102,9 +112,8 @@
 <script src="js/assets.js"></script>
 <script src="js/storage.js"></script>
 <script src="js/audio.js"></script>
-<script src="js/input.js"></script>
-<script src="js/game.js"></script>
 <script src="js/ui.js"></script>
+<script src="js/game.js"></script>
 <script src="js/main.js"></script>
 </body>
 </html>

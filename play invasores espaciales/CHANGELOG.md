@@ -1,33 +1,18 @@
 # Changelog
 
-## v0.2.0 — Combat Acceleration
+## v0.3.1 — Visual Combat Pass
 
-### Rendimiento
-- VFX activos migrados de sprites PNG escalados por frame a render procedural ligero.
-- EMP con presupuesto de destrucción visual limitado.
-- Caché LRU de sprites reescalados.
-- Colisiones críticas sin creación repetitiva de cajas temporales.
-- Presupuesto adaptativo de partículas según frame time.
-- DPR adaptativo según área de pantalla.
-- PNG conceptuales de VFX diferidos de la precarga inicial.
-
-### Jugabilidad
-- Cadencia, proyectiles, scroll y movimiento general acelerados.
-- Formación inicial 9×5.
-- Hasta 9 columnas en orientación vertical y 14 en horizontal, según progresión.
-- Filas más próximas y columnas compactas.
-- Barrido lateral de formación normalizado también para pantallas anchas.
-- Subconjunto de invasores con desplazamiento diagonal local.
-- Guardián de formación desde nivel 2, con HP escalable, movimiento propio y disparo múltiple.
-- Cada quinto nivel conserva la formación; el jefe sectorial aparece después de destruirla.
-- Transición entre sectores reducida.
-- Powerups descienden más rápido.
-
-### Audio
-- Firma sonora independiente para Dispersión, Plasma, Misiles, Escudo, Cadena y EMP.
-- Sonido específico para lanzamiento periódico de misiles.
-
-### Balance
-- Aumento gradual de frecuencia y velocidad de disparo enemigo.
-- Obstáculos continúan siendo secundarios: se aceleran con el nivel, pero su máximo visible permanece limitado.
-- Límite de balas y partículas explícito en configuración.
+- Integración de sprites reales aprobados para jugador y enemigos.
+- Integración de fondos verticales reales por sector.
+- Integración de meteoros defensores reales recortados desde la hoja de assets.
+- Disparo enemigo reformulado: sólo la primera línea disponible de cada columna dispara de forma ordinaria.
+- Apuntado parcial hacia el jugador para reducir la sensación de patrones rígidos de arcade clásico.
+- Cooldowns de ataque por entidad; se elimina la dependencia principal de probabilidades por frame.
+- Buzos zigzag con disparo dirigido durante el descenso.
+- Patrones separados para guardianes, mini-jefes y jefe.
+- Nuevas estelas y formas para plasma/pernos/lanzas enemigas.
+- Nuevos sonidos: boss-shot, mini-boss-shot, critical y combo.
+- Nuevo feedback de racha `DOMINIO` a 15 bajas encadenadas.
+- Vida crítica con alerta visual y sonora.
+- Balance: formación ligeramente más rápida y 22% de unidades con oscilación diagonal local.
+- Meteoros defensores con resistencia base aumentada.

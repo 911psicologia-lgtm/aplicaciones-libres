@@ -1,59 +1,54 @@
-# STARFALL FRONTIER — Combat Acceleration Build v0.2.0
+# STARFALL FRONTIER — v0.3.1 Visual Combat Pass
 
-Segunda versión funcional del prototipo multiarchivo. Esta iteración se concentra en **velocidad, densidad de combate, movilidad enemiga y estabilidad de los poderes** sin cambiar el lenguaje visual aprobado.
+Iteración de balance fino y mejora visual construida sobre v0.3.0.
 
-## Cambios principales de v0.2.0
+## Qué cambia
 
-1. **Combate acelerado**: mayor velocidad de la formación, desplazamiento del jugador, proyectiles, scroll del fondo, disparos enemigos y transición entre sectores.
-2. **Formaciones densas**: el nivel 1 pasa a una base de 9×5 invasores; la matriz crece progresivamente hasta 12×8 según nivel y relación de pantalla.
-3. **Separación reducida**: las columnas y filas se compactaron y la formación ocupa aproximadamente 82 % del ancho útil en móvil, dejando margen real para desplazarse de lado a lado.
-4. **Movimiento colectivo + movimiento local**: toda la formación barre horizontalmente el campo mientras una proporción controlada de unidades ejecuta oscilaciones diagonales sin romper la lectura de la fila.
-5. **Guardián de formación**: desde el nivel 2 aparece una entidad élite mediana detrás de la primera línea. Tiene más HP, trayectoria propia y patrón de disparo múltiple.
-6. **Jefe sectorial sin vaciar el nivel**: cada quinto nivel comienza con formación + guardián; al destruirla aparece el jefe mayor. El jefe ya no sustituye por completo a los invasores normales.
-7. **Poderes optimizados**: plasma, escudo, EMP, cadena, activación de dispersión y lanzamiento de misiles ahora usan VFX procedurales ligeros en Canvas. Se eliminó el reescalado de PNG grandes en cada frame.
-8. **EMP seguro**: la destrucción masiva usa un presupuesto limitado de partículas para impedir congelamientos cuando afecta decenas de enemigos simultáneamente.
-9. **Audio específico por poder**: dispersión, plasma, misiles, escudo, cadena y EMP tienen firmas sonoras sintetizadas independientes.
-10. **Caché de sprites + VFX diferidos**: naves, enemigos y obstáculos reutilizan versiones reescaladas en memoria; los PNG conceptuales de poderes permanecen en el proyecto pero ya no se precargan ni se reescalan durante el combate.
-11. **Colisiones sin basura temporal**: las comprobaciones críticas ya no crean rectángulos temporales por cada bala/enemigo, reduciendo presión del recolector de memoria durante dispersión y alta cadencia.
-12. **Presupuesto adaptativo de partículas**: si el frame time empeora, el motor reduce automáticamente VFX secundarios antes de afectar la simulación.
-13. **DPR adaptativo**: el canvas limita resolución interna según el área de pantalla para equilibrar nitidez y rendimiento en PC, tablet y móvil.
+- Se integran **assets reales aprobados** para las tres naves, siete clases visuales de enemigos, meteoros defensores y tres fondos verticales.
+- Los enemigos normales siguen en formación compacta, pero ahora los disparos salen prioritariamente desde la **línea frontal** de cada columna, evitando el aspecto de “lluvia arcade” desde todas las filas.
+- Los disparos enemigos pasan a ser **orbes, pernos de plasma y lanzas energéticas** con estela y trayectoria parcialmente dirigida al jugador.
+- Los **buzos en zigzag** se desprenden de las primeras filas, descienden con curva lateral y disparan durante la aproximación.
+- Guardianes, mini-jefes y jefes usan patrones distintos y tiempos de ataque controlados por cooldown, no por probabilidad por frame.
+- Los **meteoros defensores** permanecen en su posición, giran sobre sí mismos, muestran resistencia y bloquean fuego de ambos bandos. Si reciben suficiente daño se destruyen y pueden liberar premio.
+- Se conserva el sistema de **checkpoint por oleada**, barra de vida, corazones, vida crítica y vidas extra.
+- Los **pods de premio** estacionarios deben abrirse a tiros; el contenido después baja y parpadea con un icono distintivo.
+- Feedback de combate: `BONUS`, `RACHA x5`, `AMAZING`, `DOMINIO`, `CHECKPOINT`, `VIDA CRÍTICA` y `SECTOR LIMPIO`.
+- Sonidos diferenciados para poderes, disparos de mini-jefe, disparos de jefe, rachas, vida crítica, vida extra y checkpoint.
+- Fondos espaciales reales con desplazamiento lento y capa de estrellas para sensación de profundidad sin recargar el centro de juego.
+
+## Progresión de un sector
+
+1. Oleadas compactas de invasores.
+2. Guardianes intermedios desde oleadas tempranas.
+3. **Mini-jefe** en la oleada 3.
+4. Oleada 5: avanzada + mini-jefe.
+5. Tras limpiar la avanzada aparece una **horda final** de atacantes en picado.
+6. Finalmente entra el **jefe sectorial**.
+7. Al vencerlo: recuperación parcial, vida adicional y siguiente sector.
+
+## Rendimiento
+
+Los assets de gameplay fueron recortados y reducidos antes de integrarse para evitar reescalados de hojas completas. Los efectos de poder siguen siendo procedurales y ligeros; los PNG grandes de concepto no se procesan cada frame.
+
+## Controles
+
+- PC: flechas o WASD.
+- Mouse / pantalla táctil: arrastre directo.
+- Pausa: tecla `P` o botón en pantalla.
 
 ## Estructura
 
-- `index.html`: interfaz y pantallas.
-- `css/main.css`: sistema visual responsive.
-- `js/config.js`: naves, desbloqueos, densidad, velocidad, guardián, jefes, poderes y obstáculos.
-- `js/assets.js`: precarga, caché cuantizada de sprites y render reutilizable.
-- `js/storage.js`: guardado, ranking y migración de datos.
-- `js/audio.js`: audio sintético y firmas sonoras de cada poder.
-- `js/input.js`: teclado, puntero/touch y gamepad.
-- `js/game.js`: simulación, formación, colisiones, guardián, jefe, poderes, obstáculos y render.
-- `js/ui.js`: pantallas, HUD, hangar, ranking y pausa.
-- `js/main.js`: bootstrap.
-- `assets/`: recursos visuales separados por dominio.
-- `legacy/`: versiones anteriores para trazabilidad y rollback.
-- `tests/smoke-node.js`: prueba de lógica, densidad, guardián, jefe, poderes y límites de objetos.
-
-## Balance inicial v0.2
-
-- Nivel 1: **45 invasores (9×5)**.
-- Nivel 2: formación densa + **Guardián**.
-- Nivel 5: formación + guardián + **jefe sectorial posterior**.
-- Nivel 10: hasta **73 entidades de formación** en el perfil de prueba (incluido guardián).
-- Límite de balas propias: 54.
-- Límite de balas enemigas: 128.
-- Límite base de partículas: 230, con reducción adaptativa.
-
-## Prueba incluida
-
-Desde la raíz del proyecto:
-
-```bash
-node tests/smoke-node.js
-```
-
-La prueba verifica formación compacta, movimiento lateral/diagonal, guardián, jefe pendiente, EMP masivo sin tormenta de partículas, VFX procedurales y límites de objetos bajo 420 frames simulados de combate intenso.
-
-## Escalabilidad siguiente
-
-La arquitectura permite incorporar después, sin volver al HTML monolítico: familias alienígenas por mundo, varios guardianes especializados, jefes únicos, patrones de escuadrón, spritesheets animados, música por sector, economía de hangar, árbol de mejoras y empaquetado Android/PWA.
+- `index.html`
+- `css/main.css`
+- `js/config.js`
+- `js/assets.js`
+- `js/storage.js`
+- `js/audio.js`
+- `js/ui.js`
+- `js/game.js`
+- `js/main.js`
+- `assets/ships/`
+- `assets/enemies/`
+- `assets/obstacles/`
+- `assets/backgrounds/`
+- `tests/smoke-node.js`

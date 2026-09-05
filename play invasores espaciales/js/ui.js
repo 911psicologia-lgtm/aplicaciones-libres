@@ -1,136 +1,59 @@
-
 window.SF = window.SF || {};
-SF.UI = class {
-  constructor(game){
-    this.game=game;this.game.setUI(this);
-    this.screens=[...document.querySelectorAll('.screen')];
-    this.hud=document.getElementById('hud');
-    this.hudLeft=document.getElementById('hudLeft');
-    this.hudCenter=document.getElementById('hudCenter');
-    this.hudRight=document.getElementById('hudRight');
-    this.centerMsg=document.getElementById('centerMsg');
-    this.controlsTag=document.getElementById('controlsTag');
-    this.pauseBtn=document.getElementById('pauseBtn');
-    this.pauseOverlay=document.getElementById('pauseOverlay');
-    this.pauseStats=document.getElementById('pauseStats');
-    this.msgTimer=null;
-    this.bind();
-    this.refreshRanking();
-    this.refreshHangar();
-    this.refreshSavePreview();
-    this.refreshLoadInfo();
-  }
-
-  bind(){
-    document.getElementById('newGameBtn').onclick=()=>{SF.Audio.unlock();this.showScreen('login');};
-    document.getElementById('continueBtn').onclick=()=>{
-      SF.Audio.unlock();
-      if(SF.Storage.loadGame())this.game.start({fromSave:true});
-      else this.showScreen('load');
-    };
-    document.getElementById('hangarBtn').onclick=()=>this.showScreen('hangar');
-    document.getElementById('rankingBtn').onclick=()=>this.showScreen('ranking');
-    document.getElementById('launchBtn').onclick=()=>{
-      const name=document.getElementById('pilotName').value.trim()||'PILOTO';
-      this.game.start({player:name,fromSave:false});
-    };
-    document.getElementById('pilotName').addEventListener('keydown',e=>{
-      if(e.key==='Enter')document.getElementById('launchBtn').click();
-    });
-    document.getElementById('resumeSaveBtn').onclick=()=>{
-      if(SF.Storage.loadGame())this.game.start({fromSave:true});
-      else this.message('NO HAY GUARDADO',700);
-    };
-    document.getElementById('deleteSaveBtn').onclick=()=>{SF.Storage.deleteGame();this.refreshSavePreview();this.refreshLoadInfo();};
-    document.getElementById('clearRankingBtn').onclick=()=>{SF.Storage.clearRank();this.refreshRanking();this.refreshHangar();};
-    document.querySelectorAll('[data-back]').forEach(b=>b.onclick=()=>this.showScreen(b.dataset.back));
-    this.pauseBtn.onclick=()=>this.game.togglePause();
-    document.getElementById('resumeBtn').onclick=()=>this.game.togglePause();
-    document.getElementById('exitBtn').onclick=()=>{
-      this.game.save();this.game.mode='menu';this.game.paused=false;this.setPause(false,this.game);this.showScreen('splash');
-    };
-    document.getElementById('splash').addEventListener('pointerdown',()=>SF.Audio.unlock(),{once:true});
-  }
-
-  showScreen(id){
-    this.screens.forEach(s=>s.classList.toggle('active',s.id===id));
-    this.hud.style.display='none';
-    this.controlsTag.style.display='none';
-    this.pauseBtn.style.display='none';
-    this.pauseOverlay.classList.remove('on');
-    if(id==='ranking')this.refreshRanking();
-    if(id==='hangar')this.refreshHangar();
-    if(id==='load')this.refreshLoadInfo();
-    if(id==='splash')this.refreshSavePreview();
-  }
-
-  showGame(){
-    this.screens.forEach(s=>s.classList.remove('active'));
-    this.hud.style.display='flex';
-    this.controlsTag.style.display='block';
-    this.pauseBtn.style.display='block';
-    this.pauseOverlay.classList.remove('on');
-  }
-
-  updateHud(l,c,r){this.hudLeft.textContent=l;this.hudCenter.textContent=c;this.hudRight.textContent=r;}
-
-  message(txt,ms=900){
-    clearTimeout(this.msgTimer);
-    if(!txt){this.centerMsg.style.display='none';return;}
-    this.centerMsg.textContent=txt;this.centerMsg.style.display='block';
-    if(ms>0)this.msgTimer=setTimeout(()=>this.centerMsg.style.display='none',ms);
-  }
-
-  setPause(on,game){
-    this.pauseOverlay.classList.toggle('on',on);
-    this.pauseBtn.textContent=on?'REANUDAR':'PAUSA';
-    if(on){
-      this.pauseStats.innerHTML=`Piloto: ${game.playerName}<br>Nave: ${game.ship?.name||game.shipId}<br>Sector: ${game.wave}<br>Puntos: ${Math.floor(game.score)}<br>Vidas: ${game.lives}`;
-    }
-  }
-
-  refreshSavePreview(){
-    const box=document.getElementById('savePreview'),s=SF.Storage.loadGame();
-    const btn=document.getElementById('continueBtn');
-    btn.disabled=!s;
-    if(!s){box.style.display='none';return;}
-    box.style.display='block';
-    box.textContent=`GUARDADO · ${s.player} · Sector ${s.wave} · ${s.score} pts · ${s.lives} vidas`;
-  }
-
-  refreshLoadInfo(){
-    const box=document.getElementById('loadInfo'),s=SF.Storage.loadGame();
-    box.innerHTML=s?`
-      <div class="rank-row"><span>Piloto</span><strong>${s.player}</strong></div>
-      <div class="rank-row"><span>Sector</span><strong>${s.wave}</strong></div>
-      <div class="rank-row"><span>Puntos</span><strong>${s.score}</strong></div>
-      <div class="rank-row"><span>Vidas</span><strong>${s.lives}</strong></div>
-    `:`<div class="rank-row"><span>No hay partida guardada</span><strong>—</strong></div>`;
-    document.getElementById('resumeSaveBtn').disabled=!s;
-  }
-
-  refreshRanking(){
-    const box=document.getElementById('rankingList'),arr=SF.Storage.getRank();
-    box.innerHTML=arr.length?arr.map((r,i)=>`<div class="rank-row"><span>${i+1}. ${this.escape(r.name)}</span><strong>${r.score} · N${r.wave}</strong></div>`).join('')
-      :'<div class="rank-row"><span>SIN REGISTROS</span><strong>—</strong></div>';
-  }
-
-  refreshHangar(){
-    const box=document.getElementById('shipGrid'),best=SF.Storage.bestScore(),selected=SF.Storage.getShip();
-    box.innerHTML=SF.Config.ships.map(s=>{
-      const ok=best>=s.unlock;
-      const img=SF.Assets.manifest[s.asset];
-      return `<article class="ship-card ${ok?'':'locked'}">
-        <img src="${img}" alt="${s.name}">
-        <div>
+(function(NS){
+  const UI = {
+    els: {},
+    init(){
+      const ids = ['hud','hudPilot','hudStage','hudScore','hudLives','hpFill','hudPower','hudCheck','centerMsg','controlsTag','pauseBtn','pauseOverlay','pauseStats','assetStatus','savePreview','pilotName','shipGrid','rankingList','loadInfo'];
+      ids.forEach(id => UI.els[id] = document.getElementById(id));
+      document.querySelectorAll('[data-back]').forEach(btn => btn.addEventListener('click', ()=>UI.showScreen(btn.dataset.back)));
+    },
+    showScreen(id){
+      document.querySelectorAll('.screen').forEach(s=>s.classList.toggle('active', s.id===id));
+    },
+    hideScreens(){ document.querySelectorAll('.screen').forEach(s=>s.classList.remove('active')); },
+    showHud(show){ UI.els.hud.style.display = show ? 'block' : 'none'; UI.els.controlsTag.style.display = show ? 'block' : 'none'; UI.els.pauseBtn.style.display = show ? 'inline-flex' : 'none'; },
+    flashMsg(text, ms=900){
+      const el = UI.els.centerMsg; el.textContent = text; el.style.display='block';
+      clearTimeout(UI._msgT); UI._msgT = setTimeout(()=>{ el.style.display='none'; }, ms);
+    },
+    setStatus(text){ UI.els.assetStatus.textContent = text; },
+    renderSavePreview(data){
+      const el = UI.els.savePreview; if(!data){ el.innerHTML = '<div class="save-row"><span>Sin progreso guardado</span></div>'; return; }
+      el.innerHTML = [
+        ['Piloto', data.player], ['Sector', data.sector], ['Oleada', data.wave], ['Puntaje', data.score], ['Checkpoint', data.checkpointWave]
+      ].map(([a,b])=>`<div class="save-row"><span>${a}</span><strong>${b}</strong></div>`).join('');
+    },
+    renderHangar(ships, selectedId, bestScore=0){
+      UI.els.shipGrid.innerHTML = ships.map(s=>{
+        const locked = bestScore < s.unlock;
+        return `<div class="ship-card ${locked?'locked':''}">
+          <div class="ship-illus" style="--ship-color:${s.color};--ship-accent:${s.accent}"></div>
           <h3>${s.name}</h3>
-          <p>${s.desc}<br>VEL ${Math.round(s.speed*100)} · CD ${s.fireCd} ms · HP ${s.hp}</p>
-        </div>
-        <button data-ship="${s.id}" ${ok?'':'disabled'}>${ok?(selected===s.id?'✓ EQUIPADA':'ELEGIR'):`REQ. ${s.unlock} PTS`}</button>
-      </article>`;
-    }).join('');
-    box.querySelectorAll('[data-ship]').forEach(btn=>btn.onclick=()=>{SF.Storage.setShip(btn.dataset.ship);this.refreshHangar();});
-  }
-
-  escape(s=''){return String(s).replace(/[&<>"']/g,m=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#039;'}[m]));}
-};
+          <div class="ship-stats">${s.desc}<br>Velocidad: ${Math.round(s.speed)} · Cadencia: ${s.fireRate.toFixed(2)}s · Daño: ${s.damage.toFixed(2)}</div>
+          <div class="row"><button data-ship="${s.id}" ${locked?'disabled':''}>${selectedId===s.id?'Equipada':locked?`Bloq. ${s.unlock}`:'Equipar'}</button></div>
+        </div>`;
+      }).join('');
+    },
+    renderRanking(items){
+      UI.els.rankingList.innerHTML = items.length ? items.map((r,i)=>`<div class="list-item"><span>#${i+1} ${r.name}</span><span>${r.score} · S${r.sector}-O${r.wave}</span></div>`).join('') : '<div class="list-item"><span>Sin registros</span></div>';
+    },
+    renderLoadInfo(data){
+      UI.els.loadInfo.innerHTML = data ? [`Piloto: ${data.player}`, `Sector ${data.sector} · Oleada ${data.wave}`, `Puntaje: ${data.score}`, `Vidas: ${data.lives}`, `Checkpoint: oleada ${data.checkpointWave}`].map(v=>`<div class="list-item"><span>${v}</span></div>`).join('') : '<div class="list-item"><span>No existe partida guardada</span></div>';
+    },
+    renderHud(state){
+      UI.els.hudPilot.textContent = `${state.player} · ${state.ship.name}`;
+      UI.els.hudStage.textContent = `SECTOR ${state.sector} · OLEADA ${state.wave}${state.phaseName?` · ${state.phaseName}`:''}`;
+      UI.els.hudScore.textContent = `${state.score} pts`;
+      UI.els.hudPower.textContent = state.activePowerText || 'SIN PODER';
+      UI.els.hudCheck.textContent = `CP ${state.checkpointWave || state.wave}`;
+      const hpPct = Math.max(0, Math.min(1, state.hp / state.maxHp));
+      UI.els.hpFill.style.width = `${hpPct*100}%`;
+      UI.els.hudLives.innerHTML = Array.from({length: state.lives}, (_,i)=>`<span class="life-heart ${state.hp<=Math.max(2,Math.ceil(state.maxHp*.25)) && i===state.lives-1?'low':''}">❤</span>`).join('');
+    },
+    renderPause(state){
+      UI.els.pauseOverlay.style.display = state.paused ? 'flex' : 'none';
+      UI.els.pauseStats.innerHTML = `Piloto: <strong>${state.player}</strong><br>Sector ${state.sector} · Oleada ${state.wave}<br>Puntaje: ${state.score}<br>Vidas: ${state.lives} · Vida: ${state.hp}/${state.maxHp}`;
+    }
+  };
+  NS.ui = UI;
+})(window.SF);
