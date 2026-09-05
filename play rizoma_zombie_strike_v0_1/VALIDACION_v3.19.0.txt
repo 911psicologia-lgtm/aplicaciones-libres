@@ -1,0 +1,10 @@
+VALIDACIÓN v3.19.0
+- Reemplazo de assets player/rizoma_animated: OK
+- Naves con assets nuevos: rz1_fenix(45), rz4_mantis(45), rz8_nebula(53), rz12_bastion(47), rz16_hydra(45), rz20_prime(55)
+- Intro general presente (assets/video/intro_general.mp4): OK
+- Microintro Mundo 1 presente (assets/video/world_01_intro.mp4): OK
+- Actualización de versión a 3.19.0: OK
+- Caché PWA renovable (sw.js): OK
+- manifest.json actualizado: OK
+- node --check js/game.js: OK
+- node --check sw.js: OK

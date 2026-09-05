@@ -1,0 +1,7 @@
+VALIDACIÓN v3.20.0
+- node --check js/game.js: OK
+- node --check sw.js: OK
+- Cierre robusto DOMINIO / FLOTA / Compra Exprés: IMPLEMENTADO
+- Tarjeta RIZOMA con asset real en DOMINIO: IMPLEMENTADO
+- Guardián aliado con mayor escala y FX: IMPLEMENTADO
+- ZIP verificado con unzip -t: OK
