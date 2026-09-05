@@ -1,4 +1,4 @@
-const CACHE_NAME = 'rizoma-zombie-strike-v3-18-0';
+const CACHE_NAME = 'rizoma-zombie-strike-v3-20-0';
 self.addEventListener('install', event => {
   self.skipWaiting();
 });
@@ -9,6 +9,6 @@ self.addEventListener('activate', event => {
       .then(() => self.clients.claim())
   );
 });
-// v3.18.0: el SW renueva caché para incorporar la microintro cinematográfica del Mundo 1
+// v3.20.0: el SW renueva caché para incorporar la microintro cinematográfica del Mundo 1
 // principal para evitar que una versión antigua del juego quede congelada en caché.
 self.addEventListener('fetch', () => {});

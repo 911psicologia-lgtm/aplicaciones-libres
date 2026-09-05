@@ -1,5 +1,5 @@
 ======================================================================
-RIZOMA SHIP ASSETS — QA REPORT
+RIZOMA SHIP ASSETS V2 — QA REPORT
 ======================================================================
 
 Validation performed on the final package contents.
@@ -8,7 +8,7 @@ CHECK 1: All 6 ship folders present
   RESULT: PASS — All 6 ship folders exist.
 
 CHECK 2: Required subfolders per ship
-  RESULT: PASS — All ships have runtime/animation/vfx/hangar.
+  RESULT: PASS
 
 CHECK 3: Nébula has drones/ folder
   RESULT: PASS
@@ -16,26 +16,26 @@ CHECK 3: Nébula has drones/ folder
 CHECK 4: PNG validity + transparency + dimensions
   RESULT: PASS — 266 PNGs validated.
 
-CHECK 5: Animation frame counts (engine=6, fire=4, hit=4, shield=6, special=8)
-  RESULT: PASS — All animation sequences have correct frame counts.
+CHECK 5: Animation frame counts
+  RESULT: PASS
 
 CHECK 6: VFX frame counts per ship
-  RESULT: PASS — All VFX sequences have correct frame counts.
-
-CHECK 7: Nébula drones (left, right, 4 engine frames)
   RESULT: PASS
 
-CHECK 8: Prime has 3 VFX specials (hyperlaser, synaptic_chain, defensive_nova)
+CHECK 7: Nébula drones
   RESULT: PASS
 
-CHECK 9: ship_meta.json valid JSON per ship
-  RESULT: PASS — All 6 meta files valid with required fields.
+CHECK 8: Prime has 3 VFX specials
+  RESULT: PASS
+
+CHECK 9: ship_meta.json valid per ship
+  RESULT: PASS
 
 CHECK 10: asset_manifest.json valid + complete
   RESULT: PASS — 291 files listed.
 
-CHECK 11: Hangar assets (hero/thumb/card) per ship
-  RESULT: PASS — All 18 hangar files present.
+CHECK 11: Hangar assets per ship
+  RESULT: PASS
 
 CHECK 12: contact_sheet.webp (1920×1080)
   RESULT: PASS
@@ -46,19 +46,19 @@ CHECK 13: PNG transparency (corner alpha = 0)
 ======================================================================
 SUMMARY
 ======================================================================
-  [PASS]  CHECK 1: All 6 ship folders present
-  [PASS]  CHECK 2: Required subfolders per ship
-  [PASS]  CHECK 3: Nébula has drones/ folder
-  [PASS]  CHECK 4: PNG validity + transparency + dimensions
-  [PASS]  CHECK 5: Animation frame counts
-  [PASS]  CHECK 6: VFX frame counts
-  [PASS]  CHECK 7: Nébula drones
-  [PASS]  CHECK 8: Prime 3 VFX specials
-  [PASS]  CHECK 9: ship_meta.json valid
-  [PASS]  CHECK 10: asset_manifest.json valid + complete
-  [PASS]  CHECK 11: Hangar assets per ship
-  [PASS]  CHECK 12: contact_sheet.webp
-  [PASS]  CHECK 13: PNG transparency
+  [PASS]  CHECK 1
+  [PASS]  CHECK 2
+  [PASS]  CHECK 3
+  [PASS]  CHECK 4
+  [PASS]  CHECK 5
+  [PASS]  CHECK 6
+  [PASS]  CHECK 7
+  [PASS]  CHECK 8
+  [PASS]  CHECK 9
+  [PASS]  CHECK 10
+  [PASS]  CHECK 11
+  [PASS]  CHECK 12
+  [PASS]  CHECK 13
 
 Total: 13/13 checks passed.
 

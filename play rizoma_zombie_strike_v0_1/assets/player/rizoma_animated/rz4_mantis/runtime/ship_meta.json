@@ -2,6 +2,7 @@
   "id": "rz4",
   "name": "Mantis RZ-4",
   "unlockWorld": 4,
+  "notes": "Interceptor. Narrow dart silhouette, twin chin cannons, turquoise plasma engines.",
   "canvas": [
     512,
     512
@@ -14,8 +15,8 @@
   "suggestedHitboxScale": 0.44,
   "engineEmitters": [
     {
-      "x": 0.4,
-      "y": 0.84,
+      "x": 0.44,
+      "y": 0.8,
       "color": [
         80,
         255,
@@ -23,8 +24,8 @@
       ]
     },
     {
-      "x": 0.6,
-      "y": 0.84,
+      "x": 0.56,
+      "y": 0.8,
       "color": [
         80,
         255,
@@ -34,8 +35,8 @@
   ],
   "weaponHardpoints": [
     {
-      "x": 0.5,
-      "y": 0.18,
+      "x": 0.46,
+      "y": 0.22,
       "color": [
         140,
         255,
@@ -43,8 +44,8 @@
       ]
     },
     {
-      "x": 0.28,
-      "y": 0.4,
+      "x": 0.54,
+      "y": 0.22,
       "color": [
         140,
         255,
@@ -52,8 +53,17 @@
       ]
     },
     {
-      "x": 0.72,
-      "y": 0.4,
+      "x": 0.3,
+      "y": 0.55,
+      "color": [
+        140,
+        255,
+        220
+      ]
+    },
+    {
+      "x": 0.7,
+      "y": 0.55,
       "color": [
         140,
         255,
@@ -71,6 +81,5 @@
     "hit": 4,
     "shield": 6,
     "special": 8
-  },
-  "notes": "Interceptor. Narrow bifurcated nose, angular leaf-wings, twin energy blades."
+  }
 }

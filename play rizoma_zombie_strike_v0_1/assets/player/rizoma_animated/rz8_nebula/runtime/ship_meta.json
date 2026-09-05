@@ -2,6 +2,7 @@
   "id": "rz8",
   "name": "N\u00e9bula RZ-8",
   "unlockWorld": 8,
+  "notes": "Area control. Crescent wings, detachable wingtip drones, central cyan core.",
   "canvas": [
     512,
     512
@@ -25,6 +26,24 @@
     {
       "x": 0.6,
       "y": 0.78,
+      "color": [
+        120,
+        220,
+        255
+      ]
+    },
+    {
+      "x": 0.18,
+      "y": 0.55,
+      "color": [
+        120,
+        220,
+        255
+      ]
+    },
+    {
+      "x": 0.82,
+      "y": 0.55,
       "color": [
         120,
         220,
@@ -71,6 +90,5 @@
     "hit": 4,
     "shield": 6,
     "special": 8
-  },
-  "notes": "Area control. Crescent wings, detachable drone pods at wingtips, iridescent cyan core."
+  }
 }

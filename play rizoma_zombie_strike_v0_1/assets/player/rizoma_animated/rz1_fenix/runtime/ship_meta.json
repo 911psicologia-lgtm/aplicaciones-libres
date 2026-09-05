@@ -2,6 +2,7 @@
   "id": "rz1",
   "name": "F\u00e9nix RZ-1",
   "unlockWorld": 0,
+  "notes": "Canonical Rizoma DNA. Quad electric-blue engines, orange piping, gunmetal hull.",
   "canvas": [
     512,
     512
@@ -14,8 +15,8 @@
   "suggestedHitboxScale": 0.44,
   "engineEmitters": [
     {
-      "x": 0.36,
-      "y": 0.82,
+      "x": 0.42,
+      "y": 0.8,
       "color": [
         80,
         180,
@@ -23,8 +24,8 @@
       ]
     },
     {
-      "x": 0.64,
-      "y": 0.82,
+      "x": 0.58,
+      "y": 0.8,
       "color": [
         80,
         180,
@@ -53,7 +54,7 @@
   "weaponHardpoints": [
     {
       "x": 0.5,
-      "y": 0.2,
+      "y": 0.22,
       "color": [
         180,
         220,
@@ -89,6 +90,5 @@
     "hit": 4,
     "shield": 6,
     "special": 8
-  },
-  "notes": "Canonical Rizoma DNA. Quad electric-blue engines, orange piping, gunmetal hull."
+  }
 }

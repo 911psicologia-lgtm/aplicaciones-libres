@@ -5,10 +5,11 @@
 This package contains the complete animated asset set for the **6 Rizoma ships**
 of *Rizoma Zombie Strike* (target game version `v3.16.0+`).
 
-The ships share a single bio-tech DNA — metallic/ceramic surfaces, electric-blue
-or ship-themed engine plasma, energy cores, hardpoint markers — but each one has
-a unique silhouette designed for instant recognition at mobile sprite sizes
-(~64-90 px on screen).
+The 6 ships share the canonical Rizoma DNA — semi-realistic concept-art style
+with smooth cylindrical gradients, mechanical greebling, energy cores, and
+visible engine plasma — matching the visual style of the Fénix RZ-1 reference
+image. Each ship has a unique silhouette designed for instant recognition at
+mobile sprite sizes (~64-90 px on screen).
 
 ## Ships Included
 
@@ -93,23 +94,22 @@ abilities. See `asset_manifest.json` for the full frame list per ship.
 - Animation frames MUST be composited on top of `ship_base.png` (or the
   current banked variant). They are not standalone.
 
-## Visual Coherence
+## Visual Style
 
-All 6 ships are rendered with the same material/lighting model:
-- Horizontal metallic gradient (light center, darker edges)
-- Top-light bevel on every polygon
-- Energy-core glow per ship palette
-- Stroke + panel-line detailing
-- Consistent 3/4 perspective from top-down
+All 6 ships are rendered in a **semi-realistic concept-art style** matching
+the canonical Fénix RZ-1 reference:
 
-This ensures the family reads as a single civilization's tech tree while
-remaining instantly distinguishable in silhouette.
+- Smooth cylindrical volumetric gradients (no hard black outlines)
+- Mechanical greebling: panel lines, cooling vents, exhaust channels, rivets
+- Strong specular highlights on top-facing edges
+- Soft ambient occlusion in crevices
+- Engine bloom casting colored light onto surrounding hull
+- Per-ship color palette and silhouette but unified rendering technique
 
 ## File Formats & Optimization
 
 - **PNG** for all transparent runtime/animation/VFX/drone assets.
 - **WebP** (quality 88-92) for hangar art and contact sheet (opaque scenes).
-- Total package size targets the 25-45 MB range.
 
 ## Quality Assurance
 

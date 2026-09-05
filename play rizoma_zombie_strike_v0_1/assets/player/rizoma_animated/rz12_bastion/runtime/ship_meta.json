@@ -2,6 +2,7 @@
   "id": "rz12",
   "name": "Basti\u00f3n RZ-12",
   "unlockWorld": 12,
+  "notes": "Defense. Wide armored fuselage, twin hex shield generators, three amber engines.",
   "canvas": [
     512,
     512
@@ -14,8 +15,8 @@
   "suggestedHitboxScale": 0.44,
   "engineEmitters": [
     {
-      "x": 0.32,
-      "y": 0.84,
+      "x": 0.42,
+      "y": 0.82,
       "color": [
         255,
         180,
@@ -23,8 +24,8 @@
       ]
     },
     {
-      "x": 0.68,
-      "y": 0.84,
+      "x": 0.58,
+      "y": 0.82,
       "color": [
         255,
         180,
@@ -33,7 +34,7 @@
     },
     {
       "x": 0.5,
-      "y": 0.88,
+      "y": 0.84,
       "color": [
         255,
         180,
@@ -43,8 +44,17 @@
   ],
   "weaponHardpoints": [
     {
-      "x": 0.5,
-      "y": 0.22,
+      "x": 0.46,
+      "y": 0.18,
+      "color": [
+        255,
+        200,
+        100
+      ]
+    },
+    {
+      "x": 0.54,
+      "y": 0.18,
       "color": [
         255,
         200,
@@ -98,6 +108,5 @@
     "hit": 4,
     "shield": 6,
     "special": 8
-  },
-  "notes": "Defense. Wide armored fuselage, overlapping panels, twin shield generators."
+  }
 }

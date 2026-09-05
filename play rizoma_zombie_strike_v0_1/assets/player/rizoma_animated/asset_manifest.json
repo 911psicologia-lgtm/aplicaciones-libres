@@ -3,6 +3,7 @@
   "targetGame": "Rizoma Zombie Strike",
   "targetGameVersion": "v3.16.0+",
   "shipCount": 6,
+  "renderStyle": "AI-generated semi-realistic concept art matching the canonical F\u00e9nix RZ-1 reference",
   "ships": [
     {
       "id": "rz1",
@@ -44,7 +45,7 @@
   "files": [
     {
       "path": "rz1_fenix/runtime/ship_base.png",
-      "ship": "rz1",
+      "ship": "rz1_fenix",
       "category": "runtime_base",
       "dimensions": [
         512,
@@ -57,7 +58,7 @@
     },
     {
       "path": "rz1_fenix/runtime/ship_bank_left.png",
-      "ship": "rz1",
+      "ship": "rz1_fenix",
       "category": "runtime_bank",
       "dimensions": [
         512,
@@ -70,7 +71,7 @@
     },
     {
       "path": "rz1_fenix/runtime/ship_bank_right.png",
-      "ship": "rz1",
+      "ship": "rz1_fenix",
       "category": "runtime_bank",
       "dimensions": [
         512,
@@ -82,8 +83,20 @@
       "animationName": null
     },
     {
+      "path": "rz1_fenix/runtime/ship_meta.json",
+      "ship": "rz1_fenix",
+      "category": "runtime_meta",
+      "dimensions": [
+        null
+      ],
+      "format": "JSON",
+      "transparent": false,
+      "frameIndex": null,
+      "animationName": null
+    },
+    {
       "path": "rz1_fenix/animation/engine_01.png",
-      "ship": "rz1",
+      "ship": "rz1_fenix",
       "category": "animation_engine",
       "dimensions": [
         512,
@@ -96,7 +109,7 @@
     },
     {
       "path": "rz1_fenix/animation/engine_02.png",
-      "ship": "rz1",
+      "ship": "rz1_fenix",
       "category": "animation_engine",
       "dimensions": [
         512,
@@ -109,7 +122,7 @@
     },
     {
       "path": "rz1_fenix/animation/engine_03.png",
-      "ship": "rz1",
+      "ship": "rz1_fenix",
       "category": "animation_engine",
       "dimensions": [
         512,
@@ -122,7 +135,7 @@
     },
     {
       "path": "rz1_fenix/animation/engine_04.png",
-      "ship": "rz1",
+      "ship": "rz1_fenix",
       "category": "animation_engine",
       "dimensions": [
         512,
@@ -135,7 +148,7 @@
     },
     {
       "path": "rz1_fenix/animation/engine_05.png",
-      "ship": "rz1",
+      "ship": "rz1_fenix",
       "category": "animation_engine",
       "dimensions": [
         512,
@@ -148,7 +161,7 @@
     },
     {
       "path": "rz1_fenix/animation/engine_06.png",
-      "ship": "rz1",
+      "ship": "rz1_fenix",
       "category": "animation_engine",
       "dimensions": [
         512,
@@ -161,7 +174,7 @@
     },
     {
       "path": "rz1_fenix/animation/fire_01.png",
-      "ship": "rz1",
+      "ship": "rz1_fenix",
       "category": "animation_fire",
       "dimensions": [
         512,
@@ -174,7 +187,7 @@
     },
     {
       "path": "rz1_fenix/animation/fire_02.png",
-      "ship": "rz1",
+      "ship": "rz1_fenix",
       "category": "animation_fire",
       "dimensions": [
         512,
@@ -187,7 +200,7 @@
     },
     {
       "path": "rz1_fenix/animation/fire_03.png",
-      "ship": "rz1",
+      "ship": "rz1_fenix",
       "category": "animation_fire",
       "dimensions": [
         512,
@@ -200,7 +213,7 @@
     },
     {
       "path": "rz1_fenix/animation/fire_04.png",
-      "ship": "rz1",
+      "ship": "rz1_fenix",
       "category": "animation_fire",
       "dimensions": [
         512,
@@ -213,7 +226,7 @@
     },
     {
       "path": "rz1_fenix/animation/hit_01.png",
-      "ship": "rz1",
+      "ship": "rz1_fenix",
       "category": "animation_hit",
       "dimensions": [
         512,
@@ -226,7 +239,7 @@
     },
     {
       "path": "rz1_fenix/animation/hit_02.png",
-      "ship": "rz1",
+      "ship": "rz1_fenix",
       "category": "animation_hit",
       "dimensions": [
         512,
@@ -239,7 +252,7 @@
     },
     {
       "path": "rz1_fenix/animation/hit_03.png",
-      "ship": "rz1",
+      "ship": "rz1_fenix",
       "category": "animation_hit",
       "dimensions": [
         512,
@@ -252,7 +265,7 @@
     },
     {
       "path": "rz1_fenix/animation/hit_04.png",
-      "ship": "rz1",
+      "ship": "rz1_fenix",
       "category": "animation_hit",
       "dimensions": [
         512,
@@ -265,7 +278,7 @@
     },
     {
       "path": "rz1_fenix/animation/shield_01.png",
-      "ship": "rz1",
+      "ship": "rz1_fenix",
       "category": "animation_shield",
       "dimensions": [
         512,
@@ -278,7 +291,7 @@
     },
     {
       "path": "rz1_fenix/animation/shield_02.png",
-      "ship": "rz1",
+      "ship": "rz1_fenix",
       "category": "animation_shield",
       "dimensions": [
         512,
@@ -291,7 +304,7 @@
     },
     {
       "path": "rz1_fenix/animation/shield_03.png",
-      "ship": "rz1",
+      "ship": "rz1_fenix",
       "category": "animation_shield",
       "dimensions": [
         512,
@@ -304,7 +317,7 @@
     },
     {
       "path": "rz1_fenix/animation/shield_04.png",
-      "ship": "rz1",
+      "ship": "rz1_fenix",
       "category": "animation_shield",
       "dimensions": [
         512,
@@ -317,7 +330,7 @@
     },
     {
       "path": "rz1_fenix/animation/shield_05.png",
-      "ship": "rz1",
+      "ship": "rz1_fenix",
       "category": "animation_shield",
       "dimensions": [
         512,
@@ -330,7 +343,7 @@
     },
     {
       "path": "rz1_fenix/animation/shield_06.png",
-      "ship": "rz1",
+      "ship": "rz1_fenix",
       "category": "animation_shield",
       "dimensions": [
         512,
@@ -343,7 +356,7 @@
     },
     {
       "path": "rz1_fenix/animation/special_01.png",
-      "ship": "rz1",
+      "ship": "rz1_fenix",
       "category": "animation_special",
       "dimensions": [
         512,
@@ -356,7 +369,7 @@
     },
     {
       "path": "rz1_fenix/animation/special_02.png",
-      "ship": "rz1",
+      "ship": "rz1_fenix",
       "category": "animation_special",
       "dimensions": [
         512,
@@ -369,7 +382,7 @@
     },
     {
       "path": "rz1_fenix/animation/special_03.png",
-      "ship": "rz1",
+      "ship": "rz1_fenix",
       "category": "animation_special",
       "dimensions": [
         512,
@@ -382,7 +395,7 @@
     },
     {
       "path": "rz1_fenix/animation/special_04.png",
-      "ship": "rz1",
+      "ship": "rz1_fenix",
       "category": "animation_special",
       "dimensions": [
         512,
@@ -395,7 +408,7 @@
     },
     {
       "path": "rz1_fenix/animation/special_05.png",
-      "ship": "rz1",
+      "ship": "rz1_fenix",
       "category": "animation_special",
       "dimensions": [
         512,
@@ -408,7 +421,7 @@
     },
     {
       "path": "rz1_fenix/animation/special_06.png",
-      "ship": "rz1",
+      "ship": "rz1_fenix",
       "category": "animation_special",
       "dimensions": [
         512,
@@ -421,7 +434,7 @@
     },
     {
       "path": "rz1_fenix/animation/special_07.png",
-      "ship": "rz1",
+      "ship": "rz1_fenix",
       "category": "animation_special",
       "dimensions": [
         512,
@@ -434,7 +447,7 @@
     },
     {
       "path": "rz1_fenix/animation/special_08.png",
-      "ship": "rz1",
+      "ship": "rz1_fenix",
       "category": "animation_special",
       "dimensions": [
         512,
@@ -447,7 +460,7 @@
     },
     {
       "path": "rz1_fenix/vfx/trident_charge_01.png",
-      "ship": "rz1",
+      "ship": "rz1_fenix",
       "category": "vfx_trident_charge",
       "dimensions": [
         512,
@@ -460,7 +473,7 @@
     },
     {
       "path": "rz1_fenix/vfx/trident_charge_02.png",
-      "ship": "rz1",
+      "ship": "rz1_fenix",
       "category": "vfx_trident_charge",
       "dimensions": [
         512,
@@ -473,7 +486,7 @@
     },
     {
       "path": "rz1_fenix/vfx/trident_charge_03.png",
-      "ship": "rz1",
+      "ship": "rz1_fenix",
       "category": "vfx_trident_charge",
       "dimensions": [
         512,
@@ -486,7 +499,7 @@
     },
     {
       "path": "rz1_fenix/vfx/trident_charge_04.png",
-      "ship": "rz1",
+      "ship": "rz1_fenix",
       "category": "vfx_trident_charge",
       "dimensions": [
         512,
@@ -499,7 +512,7 @@
     },
     {
       "path": "rz1_fenix/vfx/trident_beam_01.png",
-      "ship": "rz1",
+      "ship": "rz1_fenix",
       "category": "vfx_trident_beam",
       "dimensions": [
         512,
@@ -512,7 +525,7 @@
     },
     {
       "path": "rz1_fenix/vfx/trident_beam_02.png",
-      "ship": "rz1",
+      "ship": "rz1_fenix",
       "category": "vfx_trident_beam",
       "dimensions": [
         512,
@@ -525,7 +538,7 @@
     },
     {
       "path": "rz1_fenix/vfx/trident_beam_03.png",
-      "ship": "rz1",
+      "ship": "rz1_fenix",
       "category": "vfx_trident_beam",
       "dimensions": [
         512,
@@ -538,7 +551,7 @@
     },
     {
       "path": "rz1_fenix/vfx/trident_beam_04.png",
-      "ship": "rz1",
+      "ship": "rz1_fenix",
       "category": "vfx_trident_beam",
       "dimensions": [
         512,
@@ -551,7 +564,7 @@
     },
     {
       "path": "rz1_fenix/vfx/trident_beam_05.png",
-      "ship": "rz1",
+      "ship": "rz1_fenix",
       "category": "vfx_trident_beam",
       "dimensions": [
         512,
@@ -564,7 +577,7 @@
     },
     {
       "path": "rz1_fenix/vfx/trident_beam_06.png",
-      "ship": "rz1",
+      "ship": "rz1_fenix",
       "category": "vfx_trident_beam",
       "dimensions": [
         512,
@@ -577,7 +590,7 @@
     },
     {
       "path": "rz1_fenix/hangar/hangar_hero.webp",
-      "ship": "rz1",
+      "ship": "rz1_fenix",
       "category": "hangar_hero",
       "dimensions": [
         1280,
@@ -590,7 +603,7 @@
     },
     {
       "path": "rz1_fenix/hangar/hangar_thumb.webp",
-      "ship": "rz1",
+      "ship": "rz1_fenix",
       "category": "hangar_thumb",
       "dimensions": [
         512,
@@ -603,7 +616,7 @@
     },
     {
       "path": "rz1_fenix/hangar/hangar_card.webp",
-      "ship": "rz1",
+      "ship": "rz1_fenix",
       "category": "hangar_card",
       "dimensions": [
         640,
@@ -615,20 +628,8 @@
       "animationName": null
     },
     {
-      "path": "rz1_fenix/runtime/ship_meta.json",
-      "ship": "rz1",
-      "category": "runtime_meta",
-      "dimensions": [
-        null
-      ],
-      "format": "JSON",
-      "transparent": false,
-      "frameIndex": null,
-      "animationName": null
-    },
-    {
       "path": "rz4_mantis/runtime/ship_base.png",
-      "ship": "rz4",
+      "ship": "rz4_mantis",
       "category": "runtime_base",
       "dimensions": [
         512,
@@ -641,7 +642,7 @@
     },
     {
       "path": "rz4_mantis/runtime/ship_bank_left.png",
-      "ship": "rz4",
+      "ship": "rz4_mantis",
       "category": "runtime_bank",
       "dimensions": [
         512,
@@ -654,7 +655,7 @@
     },
     {
       "path": "rz4_mantis/runtime/ship_bank_right.png",
-      "ship": "rz4",
+      "ship": "rz4_mantis",
       "category": "runtime_bank",
       "dimensions": [
         512,
@@ -666,8 +667,20 @@
       "animationName": null
     },
     {
+      "path": "rz4_mantis/runtime/ship_meta.json",
+      "ship": "rz4_mantis",
+      "category": "runtime_meta",
+      "dimensions": [
+        null
+      ],
+      "format": "JSON",
+      "transparent": false,
+      "frameIndex": null,
+      "animationName": null
+    },
+    {
       "path": "rz4_mantis/animation/engine_01.png",
-      "ship": "rz4",
+      "ship": "rz4_mantis",
       "category": "animation_engine",
       "dimensions": [
         512,
@@ -680,7 +693,7 @@
     },
     {
       "path": "rz4_mantis/animation/engine_02.png",
-      "ship": "rz4",
+      "ship": "rz4_mantis",
       "category": "animation_engine",
       "dimensions": [
         512,
@@ -693,7 +706,7 @@
     },
     {
       "path": "rz4_mantis/animation/engine_03.png",
-      "ship": "rz4",
+      "ship": "rz4_mantis",
       "category": "animation_engine",
       "dimensions": [
         512,
@@ -706,7 +719,7 @@
     },
     {
       "path": "rz4_mantis/animation/engine_04.png",
-      "ship": "rz4",
+      "ship": "rz4_mantis",
       "category": "animation_engine",
       "dimensions": [
         512,
@@ -719,7 +732,7 @@
     },
     {
       "path": "rz4_mantis/animation/engine_05.png",
-      "ship": "rz4",
+      "ship": "rz4_mantis",
       "category": "animation_engine",
       "dimensions": [
         512,
@@ -732,7 +745,7 @@
     },
     {
       "path": "rz4_mantis/animation/engine_06.png",
-      "ship": "rz4",
+      "ship": "rz4_mantis",
       "category": "animation_engine",
       "dimensions": [
         512,
@@ -745,7 +758,7 @@
     },
     {
       "path": "rz4_mantis/animation/fire_01.png",
-      "ship": "rz4",
+      "ship": "rz4_mantis",
       "category": "animation_fire",
       "dimensions": [
         512,
@@ -758,7 +771,7 @@
     },
     {
       "path": "rz4_mantis/animation/fire_02.png",
-      "ship": "rz4",
+      "ship": "rz4_mantis",
       "category": "animation_fire",
       "dimensions": [
         512,
@@ -771,7 +784,7 @@
     },
     {
       "path": "rz4_mantis/animation/fire_03.png",
-      "ship": "rz4",
+      "ship": "rz4_mantis",
       "category": "animation_fire",
       "dimensions": [
         512,
@@ -784,7 +797,7 @@
     },
     {
       "path": "rz4_mantis/animation/fire_04.png",
-      "ship": "rz4",
+      "ship": "rz4_mantis",
       "category": "animation_fire",
       "dimensions": [
         512,
@@ -797,7 +810,7 @@
     },
     {
       "path": "rz4_mantis/animation/hit_01.png",
-      "ship": "rz4",
+      "ship": "rz4_mantis",
       "category": "animation_hit",
       "dimensions": [
         512,
@@ -810,7 +823,7 @@
     },
     {
       "path": "rz4_mantis/animation/hit_02.png",
-      "ship": "rz4",
+      "ship": "rz4_mantis",
       "category": "animation_hit",
       "dimensions": [
         512,
@@ -823,7 +836,7 @@
     },
     {
       "path": "rz4_mantis/animation/hit_03.png",
-      "ship": "rz4",
+      "ship": "rz4_mantis",
       "category": "animation_hit",
       "dimensions": [
         512,
@@ -836,7 +849,7 @@
     },
     {
       "path": "rz4_mantis/animation/hit_04.png",
-      "ship": "rz4",
+      "ship": "rz4_mantis",
       "category": "animation_hit",
       "dimensions": [
         512,
@@ -849,7 +862,7 @@
     },
     {
       "path": "rz4_mantis/animation/shield_01.png",
-      "ship": "rz4",
+      "ship": "rz4_mantis",
       "category": "animation_shield",
       "dimensions": [
         512,
@@ -862,7 +875,7 @@
     },
     {
       "path": "rz4_mantis/animation/shield_02.png",
-      "ship": "rz4",
+      "ship": "rz4_mantis",
       "category": "animation_shield",
       "dimensions": [
         512,
@@ -875,7 +888,7 @@
     },
     {
       "path": "rz4_mantis/animation/shield_03.png",
-      "ship": "rz4",
+      "ship": "rz4_mantis",
       "category": "animation_shield",
       "dimensions": [
         512,
@@ -888,7 +901,7 @@
     },
     {
       "path": "rz4_mantis/animation/shield_04.png",
-      "ship": "rz4",
+      "ship": "rz4_mantis",
       "category": "animation_shield",
       "dimensions": [
         512,
@@ -901,7 +914,7 @@
     },
     {
       "path": "rz4_mantis/animation/shield_05.png",
-      "ship": "rz4",
+      "ship": "rz4_mantis",
       "category": "animation_shield",
       "dimensions": [
         512,
@@ -914,7 +927,7 @@
     },
     {
       "path": "rz4_mantis/animation/shield_06.png",
-      "ship": "rz4",
+      "ship": "rz4_mantis",
       "category": "animation_shield",
       "dimensions": [
         512,
@@ -927,7 +940,7 @@
     },
     {
       "path": "rz4_mantis/animation/special_01.png",
-      "ship": "rz4",
+      "ship": "rz4_mantis",
       "category": "animation_special",
       "dimensions": [
         512,
@@ -940,7 +953,7 @@
     },
     {
       "path": "rz4_mantis/animation/special_02.png",
-      "ship": "rz4",
+      "ship": "rz4_mantis",
       "category": "animation_special",
       "dimensions": [
         512,
@@ -953,7 +966,7 @@
     },
     {
       "path": "rz4_mantis/animation/special_03.png",
-      "ship": "rz4",
+      "ship": "rz4_mantis",
       "category": "animation_special",
       "dimensions": [
         512,
@@ -966,7 +979,7 @@
     },
     {
       "path": "rz4_mantis/animation/special_04.png",
-      "ship": "rz4",
+      "ship": "rz4_mantis",
       "category": "animation_special",
       "dimensions": [
         512,
@@ -979,7 +992,7 @@
     },
     {
       "path": "rz4_mantis/animation/special_05.png",
-      "ship": "rz4",
+      "ship": "rz4_mantis",
       "category": "animation_special",
       "dimensions": [
         512,
@@ -992,7 +1005,7 @@
     },
     {
       "path": "rz4_mantis/animation/special_06.png",
-      "ship": "rz4",
+      "ship": "rz4_mantis",
       "category": "animation_special",
       "dimensions": [
         512,
@@ -1005,7 +1018,7 @@
     },
     {
       "path": "rz4_mantis/animation/special_07.png",
-      "ship": "rz4",
+      "ship": "rz4_mantis",
       "category": "animation_special",
       "dimensions": [
         512,
@@ -1018,7 +1031,7 @@
     },
     {
       "path": "rz4_mantis/animation/special_08.png",
-      "ship": "rz4",
+      "ship": "rz4_mantis",
       "category": "animation_special",
       "dimensions": [
         512,
@@ -1031,7 +1044,7 @@
     },
     {
       "path": "rz4_mantis/vfx/vector_cut_01.png",
-      "ship": "rz4",
+      "ship": "rz4_mantis",
       "category": "vfx_vector_cut",
       "dimensions": [
         512,
@@ -1044,7 +1057,7 @@
     },
     {
       "path": "rz4_mantis/vfx/vector_cut_02.png",
-      "ship": "rz4",
+      "ship": "rz4_mantis",
       "category": "vfx_vector_cut",
       "dimensions": [
         512,
@@ -1057,7 +1070,7 @@
     },
     {
       "path": "rz4_mantis/vfx/vector_cut_03.png",
-      "ship": "rz4",
+      "ship": "rz4_mantis",
       "category": "vfx_vector_cut",
       "dimensions": [
         512,
@@ -1070,7 +1083,7 @@
     },
     {
       "path": "rz4_mantis/vfx/vector_cut_04.png",
-      "ship": "rz4",
+      "ship": "rz4_mantis",
       "category": "vfx_vector_cut",
       "dimensions": [
         512,
@@ -1083,7 +1096,7 @@
     },
     {
       "path": "rz4_mantis/vfx/vector_cut_05.png",
-      "ship": "rz4",
+      "ship": "rz4_mantis",
       "category": "vfx_vector_cut",
       "dimensions": [
         512,
@@ -1096,7 +1109,7 @@
     },
     {
       "path": "rz4_mantis/vfx/vector_cut_06.png",
-      "ship": "rz4",
+      "ship": "rz4_mantis",
       "category": "vfx_vector_cut",
       "dimensions": [
         512,
@@ -1109,7 +1122,7 @@
     },
     {
       "path": "rz4_mantis/vfx/vector_arc_01.png",
-      "ship": "rz4",
+      "ship": "rz4_mantis",
       "category": "vfx_vector_arc",
       "dimensions": [
         512,
@@ -1122,7 +1135,7 @@
     },
     {
       "path": "rz4_mantis/vfx/vector_arc_02.png",
-      "ship": "rz4",
+      "ship": "rz4_mantis",
       "category": "vfx_vector_arc",
       "dimensions": [
         512,
@@ -1135,7 +1148,7 @@
     },
     {
       "path": "rz4_mantis/vfx/vector_arc_03.png",
-      "ship": "rz4",
+      "ship": "rz4_mantis",
       "category": "vfx_vector_arc",
       "dimensions": [
         512,
@@ -1148,7 +1161,7 @@
     },
     {
       "path": "rz4_mantis/vfx/vector_arc_04.png",
-      "ship": "rz4",
+      "ship": "rz4_mantis",
       "category": "vfx_vector_arc",
       "dimensions": [
         512,
@@ -1161,7 +1174,7 @@
     },
     {
       "path": "rz4_mantis/hangar/hangar_hero.webp",
-      "ship": "rz4",
+      "ship": "rz4_mantis",
       "category": "hangar_hero",
       "dimensions": [
         1280,
@@ -1174,7 +1187,7 @@
     },
     {
       "path": "rz4_mantis/hangar/hangar_thumb.webp",
-      "ship": "rz4",
+      "ship": "rz4_mantis",
       "category": "hangar_thumb",
       "dimensions": [
         512,
@@ -1187,7 +1200,7 @@
     },
     {
       "path": "rz4_mantis/hangar/hangar_card.webp",
-      "ship": "rz4",
+      "ship": "rz4_mantis",
       "category": "hangar_card",
       "dimensions": [
         640,
@@ -1199,20 +1212,8 @@
       "animationName": null
     },
     {
-      "path": "rz4_mantis/runtime/ship_meta.json",
-      "ship": "rz4",
-      "category": "runtime_meta",
-      "dimensions": [
-        null
-      ],
-      "format": "JSON",
-      "transparent": false,
-      "frameIndex": null,
-      "animationName": null
-    },
-    {
       "path": "rz8_nebula/runtime/ship_base.png",
-      "ship": "rz8",
+      "ship": "rz8_nebula",
       "category": "runtime_base",
       "dimensions": [
         512,
@@ -1225,7 +1226,7 @@
     },
     {
       "path": "rz8_nebula/runtime/ship_bank_left.png",
-      "ship": "rz8",
+      "ship": "rz8_nebula",
       "category": "runtime_bank",
       "dimensions": [
         512,
@@ -1238,7 +1239,7 @@
     },
     {
       "path": "rz8_nebula/runtime/ship_bank_right.png",
-      "ship": "rz8",
+      "ship": "rz8_nebula",
       "category": "runtime_bank",
       "dimensions": [
         512,
@@ -1250,8 +1251,20 @@
       "animationName": null
     },
     {
+      "path": "rz8_nebula/runtime/ship_meta.json",
+      "ship": "rz8_nebula",
+      "category": "runtime_meta",
+      "dimensions": [
+        null
+      ],
+      "format": "JSON",
+      "transparent": false,
+      "frameIndex": null,
+      "animationName": null
+    },
+    {
       "path": "rz8_nebula/animation/engine_01.png",
-      "ship": "rz8",
+      "ship": "rz8_nebula",
       "category": "animation_engine",
       "dimensions": [
         512,
@@ -1264,7 +1277,7 @@
     },
     {
       "path": "rz8_nebula/animation/engine_02.png",
-      "ship": "rz8",
+      "ship": "rz8_nebula",
       "category": "animation_engine",
       "dimensions": [
         512,
@@ -1277,7 +1290,7 @@
     },
     {
       "path": "rz8_nebula/animation/engine_03.png",
-      "ship": "rz8",
+      "ship": "rz8_nebula",
       "category": "animation_engine",
       "dimensions": [
         512,
@@ -1290,7 +1303,7 @@
     },
     {
       "path": "rz8_nebula/animation/engine_04.png",
-      "ship": "rz8",
+      "ship": "rz8_nebula",
       "category": "animation_engine",
       "dimensions": [
         512,
@@ -1303,7 +1316,7 @@
     },
     {
       "path": "rz8_nebula/animation/engine_05.png",
-      "ship": "rz8",
+      "ship": "rz8_nebula",
       "category": "animation_engine",
       "dimensions": [
         512,
@@ -1316,7 +1329,7 @@
     },
     {
       "path": "rz8_nebula/animation/engine_06.png",
-      "ship": "rz8",
+      "ship": "rz8_nebula",
       "category": "animation_engine",
       "dimensions": [
         512,
@@ -1329,7 +1342,7 @@
     },
     {
       "path": "rz8_nebula/animation/fire_01.png",
-      "ship": "rz8",
+      "ship": "rz8_nebula",
       "category": "animation_fire",
       "dimensions": [
         512,
@@ -1342,7 +1355,7 @@
     },
     {
       "path": "rz8_nebula/animation/fire_02.png",
-      "ship": "rz8",
+      "ship": "rz8_nebula",
       "category": "animation_fire",
       "dimensions": [
         512,
@@ -1355,7 +1368,7 @@
     },
     {
       "path": "rz8_nebula/animation/fire_03.png",
-      "ship": "rz8",
+      "ship": "rz8_nebula",
       "category": "animation_fire",
       "dimensions": [
         512,
@@ -1368,7 +1381,7 @@
     },
     {
       "path": "rz8_nebula/animation/fire_04.png",
-      "ship": "rz8",
+      "ship": "rz8_nebula",
       "category": "animation_fire",
       "dimensions": [
         512,
@@ -1381,7 +1394,7 @@
     },
     {
       "path": "rz8_nebula/animation/hit_01.png",
-      "ship": "rz8",
+      "ship": "rz8_nebula",
       "category": "animation_hit",
       "dimensions": [
         512,
@@ -1394,7 +1407,7 @@
     },
     {
       "path": "rz8_nebula/animation/hit_02.png",
-      "ship": "rz8",
+      "ship": "rz8_nebula",
       "category": "animation_hit",
       "dimensions": [
         512,
@@ -1407,7 +1420,7 @@
     },
     {
       "path": "rz8_nebula/animation/hit_03.png",
-      "ship": "rz8",
+      "ship": "rz8_nebula",
       "category": "animation_hit",
       "dimensions": [
         512,
@@ -1420,7 +1433,7 @@
     },
     {
       "path": "rz8_nebula/animation/hit_04.png",
-      "ship": "rz8",
+      "ship": "rz8_nebula",
       "category": "animation_hit",
       "dimensions": [
         512,
@@ -1433,7 +1446,7 @@
     },
     {
       "path": "rz8_nebula/animation/shield_01.png",
-      "ship": "rz8",
+      "ship": "rz8_nebula",
       "category": "animation_shield",
       "dimensions": [
         512,
@@ -1446,7 +1459,7 @@
     },
     {
       "path": "rz8_nebula/animation/shield_02.png",
-      "ship": "rz8",
+      "ship": "rz8_nebula",
       "category": "animation_shield",
       "dimensions": [
         512,
@@ -1459,7 +1472,7 @@
     },
     {
       "path": "rz8_nebula/animation/shield_03.png",
-      "ship": "rz8",
+      "ship": "rz8_nebula",
       "category": "animation_shield",
       "dimensions": [
         512,
@@ -1472,7 +1485,7 @@
     },
     {
       "path": "rz8_nebula/animation/shield_04.png",
-      "ship": "rz8",
+      "ship": "rz8_nebula",
       "category": "animation_shield",
       "dimensions": [
         512,
@@ -1485,7 +1498,7 @@
     },
     {
       "path": "rz8_nebula/animation/shield_05.png",
-      "ship": "rz8",
+      "ship": "rz8_nebula",
       "category": "animation_shield",
       "dimensions": [
         512,
@@ -1498,7 +1511,7 @@
     },
     {
       "path": "rz8_nebula/animation/shield_06.png",
-      "ship": "rz8",
+      "ship": "rz8_nebula",
       "category": "animation_shield",
       "dimensions": [
         512,
@@ -1511,7 +1524,7 @@
     },
     {
       "path": "rz8_nebula/animation/special_01.png",
-      "ship": "rz8",
+      "ship": "rz8_nebula",
       "category": "animation_special",
       "dimensions": [
         512,
@@ -1524,7 +1537,7 @@
     },
     {
       "path": "rz8_nebula/animation/special_02.png",
-      "ship": "rz8",
+      "ship": "rz8_nebula",
       "category": "animation_special",
       "dimensions": [
         512,
@@ -1537,7 +1550,7 @@
     },
     {
       "path": "rz8_nebula/animation/special_03.png",
-      "ship": "rz8",
+      "ship": "rz8_nebula",
       "category": "animation_special",
       "dimensions": [
         512,
@@ -1550,7 +1563,7 @@
     },
     {
       "path": "rz8_nebula/animation/special_04.png",
-      "ship": "rz8",
+      "ship": "rz8_nebula",
       "category": "animation_special",
       "dimensions": [
         512,
@@ -1563,7 +1576,7 @@
     },
     {
       "path": "rz8_nebula/animation/special_05.png",
-      "ship": "rz8",
+      "ship": "rz8_nebula",
       "category": "animation_special",
       "dimensions": [
         512,
@@ -1576,7 +1589,7 @@
     },
     {
       "path": "rz8_nebula/animation/special_06.png",
-      "ship": "rz8",
+      "ship": "rz8_nebula",
       "category": "animation_special",
       "dimensions": [
         512,
@@ -1589,7 +1602,7 @@
     },
     {
       "path": "rz8_nebula/animation/special_07.png",
-      "ship": "rz8",
+      "ship": "rz8_nebula",
       "category": "animation_special",
       "dimensions": [
         512,
@@ -1602,7 +1615,7 @@
     },
     {
       "path": "rz8_nebula/animation/special_08.png",
-      "ship": "rz8",
+      "ship": "rz8_nebula",
       "category": "animation_special",
       "dimensions": [
         512,
@@ -1615,7 +1628,7 @@
     },
     {
       "path": "rz8_nebula/vfx/drone_link_01.png",
-      "ship": "rz8",
+      "ship": "rz8_nebula",
       "category": "vfx_drone_link",
       "dimensions": [
         512,
@@ -1628,7 +1641,7 @@
     },
     {
       "path": "rz8_nebula/vfx/drone_link_02.png",
-      "ship": "rz8",
+      "ship": "rz8_nebula",
       "category": "vfx_drone_link",
       "dimensions": [
         512,
@@ -1641,7 +1654,7 @@
     },
     {
       "path": "rz8_nebula/vfx/drone_link_03.png",
-      "ship": "rz8",
+      "ship": "rz8_nebula",
       "category": "vfx_drone_link",
       "dimensions": [
         512,
@@ -1654,7 +1667,7 @@
     },
     {
       "path": "rz8_nebula/vfx/drone_link_04.png",
-      "ship": "rz8",
+      "ship": "rz8_nebula",
       "category": "vfx_drone_link",
       "dimensions": [
         512,
@@ -1667,7 +1680,7 @@
     },
     {
       "path": "rz8_nebula/vfx/drone_link_05.png",
-      "ship": "rz8",
+      "ship": "rz8_nebula",
       "category": "vfx_drone_link",
       "dimensions": [
         512,
@@ -1680,7 +1693,7 @@
     },
     {
       "path": "rz8_nebula/vfx/drone_link_06.png",
-      "ship": "rz8",
+      "ship": "rz8_nebula",
       "category": "vfx_drone_link",
       "dimensions": [
         512,
@@ -1693,7 +1706,7 @@
     },
     {
       "path": "rz8_nebula/vfx/nebula_pulse_01.png",
-      "ship": "rz8",
+      "ship": "rz8_nebula",
       "category": "vfx_nebula_pulse",
       "dimensions": [
         512,
@@ -1706,7 +1719,7 @@
     },
     {
       "path": "rz8_nebula/vfx/nebula_pulse_02.png",
-      "ship": "rz8",
+      "ship": "rz8_nebula",
       "category": "vfx_nebula_pulse",
       "dimensions": [
         512,
@@ -1719,7 +1732,7 @@
     },
     {
       "path": "rz8_nebula/vfx/nebula_pulse_03.png",
-      "ship": "rz8",
+      "ship": "rz8_nebula",
       "category": "vfx_nebula_pulse",
       "dimensions": [
         512,
@@ -1732,7 +1745,7 @@
     },
     {
       "path": "rz8_nebula/vfx/nebula_pulse_04.png",
-      "ship": "rz8",
+      "ship": "rz8_nebula",
       "category": "vfx_nebula_pulse",
       "dimensions": [
         512,
@@ -1745,7 +1758,7 @@
     },
     {
       "path": "rz8_nebula/vfx/nebula_pulse_05.png",
-      "ship": "rz8",
+      "ship": "rz8_nebula",
       "category": "vfx_nebula_pulse",
       "dimensions": [
         512,
@@ -1758,7 +1771,7 @@
     },
     {
       "path": "rz8_nebula/vfx/nebula_pulse_06.png",
-      "ship": "rz8",
+      "ship": "rz8_nebula",
       "category": "vfx_nebula_pulse",
       "dimensions": [
         512,
@@ -1771,7 +1784,7 @@
     },
     {
       "path": "rz8_nebula/hangar/hangar_hero.webp",
-      "ship": "rz8",
+      "ship": "rz8_nebula",
       "category": "hangar_hero",
       "dimensions": [
         1280,
@@ -1784,7 +1797,7 @@
     },
     {
       "path": "rz8_nebula/hangar/hangar_thumb.webp",
-      "ship": "rz8",
+      "ship": "rz8_nebula",
       "category": "hangar_thumb",
       "dimensions": [
         512,
@@ -1797,7 +1810,7 @@
     },
     {
       "path": "rz8_nebula/hangar/hangar_card.webp",
-      "ship": "rz8",
+      "ship": "rz8_nebula",
       "category": "hangar_card",
       "dimensions": [
         640,
@@ -1809,20 +1822,8 @@
       "animationName": null
     },
     {
-      "path": "rz8_nebula/runtime/ship_meta.json",
-      "ship": "rz8",
-      "category": "runtime_meta",
-      "dimensions": [
-        null
-      ],
-      "format": "JSON",
-      "transparent": false,
-      "frameIndex": null,
-      "animationName": null
-    },
-    {
       "path": "rz12_bastion/runtime/ship_base.png",
-      "ship": "rz12",
+      "ship": "rz12_bastion",
       "category": "runtime_base",
       "dimensions": [
         512,
@@ -1835,7 +1836,7 @@
     },
     {
       "path": "rz12_bastion/runtime/ship_bank_left.png",
-      "ship": "rz12",
+      "ship": "rz12_bastion",
       "category": "runtime_bank",
       "dimensions": [
         512,
@@ -1848,7 +1849,7 @@
     },
     {
       "path": "rz12_bastion/runtime/ship_bank_right.png",
-      "ship": "rz12",
+      "ship": "rz12_bastion",
       "category": "runtime_bank",
       "dimensions": [
         512,
@@ -1860,8 +1861,20 @@
       "animationName": null
     },
     {
+      "path": "rz12_bastion/runtime/ship_meta.json",
+      "ship": "rz12_bastion",
+      "category": "runtime_meta",
+      "dimensions": [
+        null
+      ],
+      "format": "JSON",
+      "transparent": false,
+      "frameIndex": null,
+      "animationName": null
+    },
+    {
       "path": "rz12_bastion/animation/engine_01.png",
-      "ship": "rz12",
+      "ship": "rz12_bastion",
       "category": "animation_engine",
       "dimensions": [
         512,
@@ -1874,7 +1887,7 @@
     },
     {
       "path": "rz12_bastion/animation/engine_02.png",
-      "ship": "rz12",
+      "ship": "rz12_bastion",
       "category": "animation_engine",
       "dimensions": [
         512,
@@ -1887,7 +1900,7 @@
     },
     {
       "path": "rz12_bastion/animation/engine_03.png",
-      "ship": "rz12",
+      "ship": "rz12_bastion",
       "category": "animation_engine",
       "dimensions": [
         512,
@@ -1900,7 +1913,7 @@
     },
     {
       "path": "rz12_bastion/animation/engine_04.png",
-      "ship": "rz12",
+      "ship": "rz12_bastion",
       "category": "animation_engine",
       "dimensions": [
         512,
@@ -1913,7 +1926,7 @@
     },
     {
       "path": "rz12_bastion/animation/engine_05.png",
-      "ship": "rz12",
+      "ship": "rz12_bastion",
       "category": "animation_engine",
       "dimensions": [
         512,
@@ -1926,7 +1939,7 @@
     },
     {
       "path": "rz12_bastion/animation/engine_06.png",
-      "ship": "rz12",
+      "ship": "rz12_bastion",
       "category": "animation_engine",
       "dimensions": [
         512,
@@ -1939,7 +1952,7 @@
     },
     {
       "path": "rz12_bastion/animation/fire_01.png",
-      "ship": "rz12",
+      "ship": "rz12_bastion",
       "category": "animation_fire",
       "dimensions": [
         512,
@@ -1952,7 +1965,7 @@
     },
     {
       "path": "rz12_bastion/animation/fire_02.png",
-      "ship": "rz12",
+      "ship": "rz12_bastion",
       "category": "animation_fire",
       "dimensions": [
         512,
@@ -1965,7 +1978,7 @@
     },
     {
       "path": "rz12_bastion/animation/fire_03.png",
-      "ship": "rz12",
+      "ship": "rz12_bastion",
       "category": "animation_fire",
       "dimensions": [
         512,
@@ -1978,7 +1991,7 @@
     },
     {
       "path": "rz12_bastion/animation/fire_04.png",
-      "ship": "rz12",
+      "ship": "rz12_bastion",
       "category": "animation_fire",
       "dimensions": [
         512,
@@ -1991,7 +2004,7 @@
     },
     {
       "path": "rz12_bastion/animation/hit_01.png",
-      "ship": "rz12",
+      "ship": "rz12_bastion",
       "category": "animation_hit",
       "dimensions": [
         512,
@@ -2004,7 +2017,7 @@
     },
     {
       "path": "rz12_bastion/animation/hit_02.png",
-      "ship": "rz12",
+      "ship": "rz12_bastion",
       "category": "animation_hit",
       "dimensions": [
         512,
@@ -2017,7 +2030,7 @@
     },
     {
       "path": "rz12_bastion/animation/hit_03.png",
-      "ship": "rz12",
+      "ship": "rz12_bastion",
       "category": "animation_hit",
       "dimensions": [
         512,
@@ -2030,7 +2043,7 @@
     },
     {
       "path": "rz12_bastion/animation/hit_04.png",
-      "ship": "rz12",
+      "ship": "rz12_bastion",
       "category": "animation_hit",
       "dimensions": [
         512,
@@ -2043,7 +2056,7 @@
     },
     {
       "path": "rz12_bastion/animation/shield_01.png",
-      "ship": "rz12",
+      "ship": "rz12_bastion",
       "category": "animation_shield",
       "dimensions": [
         512,
@@ -2056,7 +2069,7 @@
     },
     {
       "path": "rz12_bastion/animation/shield_02.png",
-      "ship": "rz12",
+      "ship": "rz12_bastion",
       "category": "animation_shield",
       "dimensions": [
         512,
@@ -2069,7 +2082,7 @@
     },
     {
       "path": "rz12_bastion/animation/shield_03.png",
-      "ship": "rz12",
+      "ship": "rz12_bastion",
       "category": "animation_shield",
       "dimensions": [
         512,
@@ -2082,7 +2095,7 @@
     },
     {
       "path": "rz12_bastion/animation/shield_04.png",
-      "ship": "rz12",
+      "ship": "rz12_bastion",
       "category": "animation_shield",
       "dimensions": [
         512,
@@ -2095,7 +2108,7 @@
     },
     {
       "path": "rz12_bastion/animation/shield_05.png",
-      "ship": "rz12",
+      "ship": "rz12_bastion",
       "category": "animation_shield",
       "dimensions": [
         512,
@@ -2108,7 +2121,7 @@
     },
     {
       "path": "rz12_bastion/animation/shield_06.png",
-      "ship": "rz12",
+      "ship": "rz12_bastion",
       "category": "animation_shield",
       "dimensions": [
         512,
@@ -2121,7 +2134,7 @@
     },
     {
       "path": "rz12_bastion/animation/special_01.png",
-      "ship": "rz12",
+      "ship": "rz12_bastion",
       "category": "animation_special",
       "dimensions": [
         512,
@@ -2134,7 +2147,7 @@
     },
     {
       "path": "rz12_bastion/animation/special_02.png",
-      "ship": "rz12",
+      "ship": "rz12_bastion",
       "category": "animation_special",
       "dimensions": [
         512,
@@ -2147,7 +2160,7 @@
     },
     {
       "path": "rz12_bastion/animation/special_03.png",
-      "ship": "rz12",
+      "ship": "rz12_bastion",
       "category": "animation_special",
       "dimensions": [
         512,
@@ -2160,7 +2173,7 @@
     },
     {
       "path": "rz12_bastion/animation/special_04.png",
-      "ship": "rz12",
+      "ship": "rz12_bastion",
       "category": "animation_special",
       "dimensions": [
         512,
@@ -2173,7 +2186,7 @@
     },
     {
       "path": "rz12_bastion/animation/special_05.png",
-      "ship": "rz12",
+      "ship": "rz12_bastion",
       "category": "animation_special",
       "dimensions": [
         512,
@@ -2186,7 +2199,7 @@
     },
     {
       "path": "rz12_bastion/animation/special_06.png",
-      "ship": "rz12",
+      "ship": "rz12_bastion",
       "category": "animation_special",
       "dimensions": [
         512,
@@ -2199,7 +2212,7 @@
     },
     {
       "path": "rz12_bastion/animation/special_07.png",
-      "ship": "rz12",
+      "ship": "rz12_bastion",
       "category": "animation_special",
       "dimensions": [
         512,
@@ -2212,7 +2225,7 @@
     },
     {
       "path": "rz12_bastion/animation/special_08.png",
-      "ship": "rz12",
+      "ship": "rz12_bastion",
       "category": "animation_special",
       "dimensions": [
         512,
@@ -2225,7 +2238,7 @@
     },
     {
       "path": "rz12_bastion/vfx/aegis_charge_01.png",
-      "ship": "rz12",
+      "ship": "rz12_bastion",
       "category": "vfx_aegis_charge",
       "dimensions": [
         512,
@@ -2238,7 +2251,7 @@
     },
     {
       "path": "rz12_bastion/vfx/aegis_charge_02.png",
-      "ship": "rz12",
+      "ship": "rz12_bastion",
       "category": "vfx_aegis_charge",
       "dimensions": [
         512,
@@ -2251,7 +2264,7 @@
     },
     {
       "path": "rz12_bastion/vfx/aegis_charge_03.png",
-      "ship": "rz12",
+      "ship": "rz12_bastion",
       "category": "vfx_aegis_charge",
       "dimensions": [
         512,
@@ -2264,7 +2277,7 @@
     },
     {
       "path": "rz12_bastion/vfx/aegis_charge_04.png",
-      "ship": "rz12",
+      "ship": "rz12_bastion",
       "category": "vfx_aegis_charge",
       "dimensions": [
         512,
@@ -2277,7 +2290,7 @@
     },
     {
       "path": "rz12_bastion/vfx/aegis_field_01.png",
-      "ship": "rz12",
+      "ship": "rz12_bastion",
       "category": "vfx_aegis_field",
       "dimensions": [
         512,
@@ -2290,7 +2303,7 @@
     },
     {
       "path": "rz12_bastion/vfx/aegis_field_02.png",
-      "ship": "rz12",
+      "ship": "rz12_bastion",
       "category": "vfx_aegis_field",
       "dimensions": [
         512,
@@ -2303,7 +2316,7 @@
     },
     {
       "path": "rz12_bastion/vfx/aegis_field_03.png",
-      "ship": "rz12",
+      "ship": "rz12_bastion",
       "category": "vfx_aegis_field",
       "dimensions": [
         512,
@@ -2316,7 +2329,7 @@
     },
     {
       "path": "rz12_bastion/vfx/aegis_field_04.png",
-      "ship": "rz12",
+      "ship": "rz12_bastion",
       "category": "vfx_aegis_field",
       "dimensions": [
         512,
@@ -2329,7 +2342,7 @@
     },
     {
       "path": "rz12_bastion/vfx/aegis_field_05.png",
-      "ship": "rz12",
+      "ship": "rz12_bastion",
       "category": "vfx_aegis_field",
       "dimensions": [
         512,
@@ -2342,7 +2355,7 @@
     },
     {
       "path": "rz12_bastion/vfx/aegis_field_06.png",
-      "ship": "rz12",
+      "ship": "rz12_bastion",
       "category": "vfx_aegis_field",
       "dimensions": [
         512,
@@ -2355,7 +2368,7 @@
     },
     {
       "path": "rz12_bastion/vfx/aegis_field_07.png",
-      "ship": "rz12",
+      "ship": "rz12_bastion",
       "category": "vfx_aegis_field",
       "dimensions": [
         512,
@@ -2368,7 +2381,7 @@
     },
     {
       "path": "rz12_bastion/vfx/aegis_field_08.png",
-      "ship": "rz12",
+      "ship": "rz12_bastion",
       "category": "vfx_aegis_field",
       "dimensions": [
         512,
@@ -2381,7 +2394,7 @@
     },
     {
       "path": "rz12_bastion/hangar/hangar_hero.webp",
-      "ship": "rz12",
+      "ship": "rz12_bastion",
       "category": "hangar_hero",
       "dimensions": [
         1280,
@@ -2394,7 +2407,7 @@
     },
     {
       "path": "rz12_bastion/hangar/hangar_thumb.webp",
-      "ship": "rz12",
+      "ship": "rz12_bastion",
       "category": "hangar_thumb",
       "dimensions": [
         512,
@@ -2407,7 +2420,7 @@
     },
     {
       "path": "rz12_bastion/hangar/hangar_card.webp",
-      "ship": "rz12",
+      "ship": "rz12_bastion",
       "category": "hangar_card",
       "dimensions": [
         640,
@@ -2419,20 +2432,8 @@
       "animationName": null
     },
     {
-      "path": "rz12_bastion/runtime/ship_meta.json",
-      "ship": "rz12",
-      "category": "runtime_meta",
-      "dimensions": [
-        null
-      ],
-      "format": "JSON",
-      "transparent": false,
-      "frameIndex": null,
-      "animationName": null
-    },
-    {
       "path": "rz16_hydra/runtime/ship_base.png",
-      "ship": "rz16",
+      "ship": "rz16_hydra",
       "category": "runtime_base",
       "dimensions": [
         512,
@@ -2445,7 +2446,7 @@
     },
     {
       "path": "rz16_hydra/runtime/ship_bank_left.png",
-      "ship": "rz16",
+      "ship": "rz16_hydra",
       "category": "runtime_bank",
       "dimensions": [
         512,
@@ -2458,7 +2459,7 @@
     },
     {
       "path": "rz16_hydra/runtime/ship_bank_right.png",
-      "ship": "rz16",
+      "ship": "rz16_hydra",
       "category": "runtime_bank",
       "dimensions": [
         512,
@@ -2470,8 +2471,20 @@
       "animationName": null
     },
     {
+      "path": "rz16_hydra/runtime/ship_meta.json",
+      "ship": "rz16_hydra",
+      "category": "runtime_meta",
+      "dimensions": [
+        null
+      ],
+      "format": "JSON",
+      "transparent": false,
+      "frameIndex": null,
+      "animationName": null
+    },
+    {
       "path": "rz16_hydra/animation/engine_01.png",
-      "ship": "rz16",
+      "ship": "rz16_hydra",
       "category": "animation_engine",
       "dimensions": [
         512,
@@ -2484,7 +2497,7 @@
     },
     {
       "path": "rz16_hydra/animation/engine_02.png",
-      "ship": "rz16",
+      "ship": "rz16_hydra",
       "category": "animation_engine",
       "dimensions": [
         512,
@@ -2497,7 +2510,7 @@
     },
     {
       "path": "rz16_hydra/animation/engine_03.png",
-      "ship": "rz16",
+      "ship": "rz16_hydra",
       "category": "animation_engine",
       "dimensions": [
         512,
@@ -2510,7 +2523,7 @@
     },
     {
       "path": "rz16_hydra/animation/engine_04.png",
-      "ship": "rz16",
+      "ship": "rz16_hydra",
       "category": "animation_engine",
       "dimensions": [
         512,
@@ -2523,7 +2536,7 @@
     },
     {
       "path": "rz16_hydra/animation/engine_05.png",
-      "ship": "rz16",
+      "ship": "rz16_hydra",
       "category": "animation_engine",
       "dimensions": [
         512,
@@ -2536,7 +2549,7 @@
     },
     {
       "path": "rz16_hydra/animation/engine_06.png",
-      "ship": "rz16",
+      "ship": "rz16_hydra",
       "category": "animation_engine",
       "dimensions": [
         512,
@@ -2549,7 +2562,7 @@
     },
     {
       "path": "rz16_hydra/animation/fire_01.png",
-      "ship": "rz16",
+      "ship": "rz16_hydra",
       "category": "animation_fire",
       "dimensions": [
         512,
@@ -2562,7 +2575,7 @@
     },
     {
       "path": "rz16_hydra/animation/fire_02.png",
-      "ship": "rz16",
+      "ship": "rz16_hydra",
       "category": "animation_fire",
       "dimensions": [
         512,
@@ -2575,7 +2588,7 @@
     },
     {
       "path": "rz16_hydra/animation/fire_03.png",
-      "ship": "rz16",
+      "ship": "rz16_hydra",
       "category": "animation_fire",
       "dimensions": [
         512,
@@ -2588,7 +2601,7 @@
     },
     {
       "path": "rz16_hydra/animation/fire_04.png",
-      "ship": "rz16",
+      "ship": "rz16_hydra",
       "category": "animation_fire",
       "dimensions": [
         512,
@@ -2601,7 +2614,7 @@
     },
     {
       "path": "rz16_hydra/animation/hit_01.png",
-      "ship": "rz16",
+      "ship": "rz16_hydra",
       "category": "animation_hit",
       "dimensions": [
         512,
@@ -2614,7 +2627,7 @@
     },
     {
       "path": "rz16_hydra/animation/hit_02.png",
-      "ship": "rz16",
+      "ship": "rz16_hydra",
       "category": "animation_hit",
       "dimensions": [
         512,
@@ -2627,7 +2640,7 @@
     },
     {
       "path": "rz16_hydra/animation/hit_03.png",
-      "ship": "rz16",
+      "ship": "rz16_hydra",
       "category": "animation_hit",
       "dimensions": [
         512,
@@ -2640,7 +2653,7 @@
     },
     {
       "path": "rz16_hydra/animation/hit_04.png",
-      "ship": "rz16",
+      "ship": "rz16_hydra",
       "category": "animation_hit",
       "dimensions": [
         512,
@@ -2653,7 +2666,7 @@
     },
     {
       "path": "rz16_hydra/animation/shield_01.png",
-      "ship": "rz16",
+      "ship": "rz16_hydra",
       "category": "animation_shield",
       "dimensions": [
         512,
@@ -2666,7 +2679,7 @@
     },
     {
       "path": "rz16_hydra/animation/shield_02.png",
-      "ship": "rz16",
+      "ship": "rz16_hydra",
       "category": "animation_shield",
       "dimensions": [
         512,
@@ -2679,7 +2692,7 @@
     },
     {
       "path": "rz16_hydra/animation/shield_03.png",
-      "ship": "rz16",
+      "ship": "rz16_hydra",
       "category": "animation_shield",
       "dimensions": [
         512,
@@ -2692,7 +2705,7 @@
     },
     {
       "path": "rz16_hydra/animation/shield_04.png",
-      "ship": "rz16",
+      "ship": "rz16_hydra",
       "category": "animation_shield",
       "dimensions": [
         512,
@@ -2705,7 +2718,7 @@
     },
     {
       "path": "rz16_hydra/animation/shield_05.png",
-      "ship": "rz16",
+      "ship": "rz16_hydra",
       "category": "animation_shield",
       "dimensions": [
         512,
@@ -2718,7 +2731,7 @@
     },
     {
       "path": "rz16_hydra/animation/shield_06.png",
-      "ship": "rz16",
+      "ship": "rz16_hydra",
       "category": "animation_shield",
       "dimensions": [
         512,
@@ -2731,7 +2744,7 @@
     },
     {
       "path": "rz16_hydra/animation/special_01.png",
-      "ship": "rz16",
+      "ship": "rz16_hydra",
       "category": "animation_special",
       "dimensions": [
         512,
@@ -2744,7 +2757,7 @@
     },
     {
       "path": "rz16_hydra/animation/special_02.png",
-      "ship": "rz16",
+      "ship": "rz16_hydra",
       "category": "animation_special",
       "dimensions": [
         512,
@@ -2757,7 +2770,7 @@
     },
     {
       "path": "rz16_hydra/animation/special_03.png",
-      "ship": "rz16",
+      "ship": "rz16_hydra",
       "category": "animation_special",
       "dimensions": [
         512,
@@ -2770,7 +2783,7 @@
     },
     {
       "path": "rz16_hydra/animation/special_04.png",
-      "ship": "rz16",
+      "ship": "rz16_hydra",
       "category": "animation_special",
       "dimensions": [
         512,
@@ -2783,7 +2796,7 @@
     },
     {
       "path": "rz16_hydra/animation/special_05.png",
-      "ship": "rz16",
+      "ship": "rz16_hydra",
       "category": "animation_special",
       "dimensions": [
         512,
@@ -2796,7 +2809,7 @@
     },
     {
       "path": "rz16_hydra/animation/special_06.png",
-      "ship": "rz16",
+      "ship": "rz16_hydra",
       "category": "animation_special",
       "dimensions": [
         512,
@@ -2809,7 +2822,7 @@
     },
     {
       "path": "rz16_hydra/animation/special_07.png",
-      "ship": "rz16",
+      "ship": "rz16_hydra",
       "category": "animation_special",
       "dimensions": [
         512,
@@ -2822,7 +2835,7 @@
     },
     {
       "path": "rz16_hydra/animation/special_08.png",
-      "ship": "rz16",
+      "ship": "rz16_hydra",
       "category": "animation_special",
       "dimensions": [
         512,
@@ -2835,7 +2848,7 @@
     },
     {
       "path": "rz16_hydra/vfx/polyvolley_01.png",
-      "ship": "rz16",
+      "ship": "rz16_hydra",
       "category": "vfx_polyvolley",
       "dimensions": [
         512,
@@ -2848,7 +2861,7 @@
     },
     {
       "path": "rz16_hydra/vfx/polyvolley_02.png",
-      "ship": "rz16",
+      "ship": "rz16_hydra",
       "category": "vfx_polyvolley",
       "dimensions": [
         512,
@@ -2861,7 +2874,7 @@
     },
     {
       "path": "rz16_hydra/vfx/polyvolley_03.png",
-      "ship": "rz16",
+      "ship": "rz16_hydra",
       "category": "vfx_polyvolley",
       "dimensions": [
         512,
@@ -2874,7 +2887,7 @@
     },
     {
       "path": "rz16_hydra/vfx/polyvolley_04.png",
-      "ship": "rz16",
+      "ship": "rz16_hydra",
       "category": "vfx_polyvolley",
       "dimensions": [
         512,
@@ -2887,7 +2900,7 @@
     },
     {
       "path": "rz16_hydra/vfx/polyvolley_05.png",
-      "ship": "rz16",
+      "ship": "rz16_hydra",
       "category": "vfx_polyvolley",
       "dimensions": [
         512,
@@ -2900,7 +2913,7 @@
     },
     {
       "path": "rz16_hydra/vfx/polyvolley_06.png",
-      "ship": "rz16",
+      "ship": "rz16_hydra",
       "category": "vfx_polyvolley",
       "dimensions": [
         512,
@@ -2913,7 +2926,7 @@
     },
     {
       "path": "rz16_hydra/vfx/hydra_sidebeam_01.png",
-      "ship": "rz16",
+      "ship": "rz16_hydra",
       "category": "vfx_hydra_sidebeam",
       "dimensions": [
         512,
@@ -2926,7 +2939,7 @@
     },
     {
       "path": "rz16_hydra/vfx/hydra_sidebeam_02.png",
-      "ship": "rz16",
+      "ship": "rz16_hydra",
       "category": "vfx_hydra_sidebeam",
       "dimensions": [
         512,
@@ -2939,7 +2952,7 @@
     },
     {
       "path": "rz16_hydra/vfx/hydra_sidebeam_03.png",
-      "ship": "rz16",
+      "ship": "rz16_hydra",
       "category": "vfx_hydra_sidebeam",
       "dimensions": [
         512,
@@ -2952,7 +2965,7 @@
     },
     {
       "path": "rz16_hydra/vfx/hydra_sidebeam_04.png",
-      "ship": "rz16",
+      "ship": "rz16_hydra",
       "category": "vfx_hydra_sidebeam",
       "dimensions": [
         512,
@@ -2965,7 +2978,7 @@
     },
     {
       "path": "rz16_hydra/hangar/hangar_hero.webp",
-      "ship": "rz16",
+      "ship": "rz16_hydra",
       "category": "hangar_hero",
       "dimensions": [
         1280,
@@ -2978,7 +2991,7 @@
     },
     {
       "path": "rz16_hydra/hangar/hangar_thumb.webp",
-      "ship": "rz16",
+      "ship": "rz16_hydra",
       "category": "hangar_thumb",
       "dimensions": [
         512,
@@ -2991,7 +3004,7 @@
     },
     {
       "path": "rz16_hydra/hangar/hangar_card.webp",
-      "ship": "rz16",
+      "ship": "rz16_hydra",
       "category": "hangar_card",
       "dimensions": [
         640,
@@ -3003,20 +3016,8 @@
       "animationName": null
     },
     {
-      "path": "rz16_hydra/runtime/ship_meta.json",
-      "ship": "rz16",
-      "category": "runtime_meta",
-      "dimensions": [
-        null
-      ],
-      "format": "JSON",
-      "transparent": false,
-      "frameIndex": null,
-      "animationName": null
-    },
-    {
       "path": "rz20_prime/runtime/ship_base.png",
-      "ship": "rz20",
+      "ship": "rz20_prime",
       "category": "runtime_base",
       "dimensions": [
         512,
@@ -3029,7 +3030,7 @@
     },
     {
       "path": "rz20_prime/runtime/ship_bank_left.png",
-      "ship": "rz20",
+      "ship": "rz20_prime",
       "category": "runtime_bank",
       "dimensions": [
         512,
@@ -3042,7 +3043,7 @@
     },
     {
       "path": "rz20_prime/runtime/ship_bank_right.png",
-      "ship": "rz20",
+      "ship": "rz20_prime",
       "category": "runtime_bank",
       "dimensions": [
         512,
@@ -3054,8 +3055,20 @@
       "animationName": null
     },
     {
+      "path": "rz20_prime/runtime/ship_meta.json",
+      "ship": "rz20_prime",
+      "category": "runtime_meta",
+      "dimensions": [
+        null
+      ],
+      "format": "JSON",
+      "transparent": false,
+      "frameIndex": null,
+      "animationName": null
+    },
+    {
       "path": "rz20_prime/animation/engine_01.png",
-      "ship": "rz20",
+      "ship": "rz20_prime",
       "category": "animation_engine",
       "dimensions": [
         512,
@@ -3068,7 +3081,7 @@
     },
     {
       "path": "rz20_prime/animation/engine_02.png",
-      "ship": "rz20",
+      "ship": "rz20_prime",
       "category": "animation_engine",
       "dimensions": [
         512,
@@ -3081,7 +3094,7 @@
     },
     {
       "path": "rz20_prime/animation/engine_03.png",
-      "ship": "rz20",
+      "ship": "rz20_prime",
       "category": "animation_engine",
       "dimensions": [
         512,
@@ -3094,7 +3107,7 @@
     },
     {
       "path": "rz20_prime/animation/engine_04.png",
-      "ship": "rz20",
+      "ship": "rz20_prime",
       "category": "animation_engine",
       "dimensions": [
         512,
@@ -3107,7 +3120,7 @@
     },
     {
       "path": "rz20_prime/animation/engine_05.png",
-      "ship": "rz20",
+      "ship": "rz20_prime",
       "category": "animation_engine",
       "dimensions": [
         512,
@@ -3120,7 +3133,7 @@
     },
     {
       "path": "rz20_prime/animation/engine_06.png",
-      "ship": "rz20",
+      "ship": "rz20_prime",
       "category": "animation_engine",
       "dimensions": [
         512,
@@ -3133,7 +3146,7 @@
     },
     {
       "path": "rz20_prime/animation/fire_01.png",
-      "ship": "rz20",
+      "ship": "rz20_prime",
       "category": "animation_fire",
       "dimensions": [
         512,
@@ -3146,7 +3159,7 @@
     },
     {
       "path": "rz20_prime/animation/fire_02.png",
-      "ship": "rz20",
+      "ship": "rz20_prime",
       "category": "animation_fire",
       "dimensions": [
         512,
@@ -3159,7 +3172,7 @@
     },
     {
       "path": "rz20_prime/animation/fire_03.png",
-      "ship": "rz20",
+      "ship": "rz20_prime",
       "category": "animation_fire",
       "dimensions": [
         512,
@@ -3172,7 +3185,7 @@
     },
     {
       "path": "rz20_prime/animation/fire_04.png",
-      "ship": "rz20",
+      "ship": "rz20_prime",
       "category": "animation_fire",
       "dimensions": [
         512,
@@ -3185,7 +3198,7 @@
     },
     {
       "path": "rz20_prime/animation/hit_01.png",
-      "ship": "rz20",
+      "ship": "rz20_prime",
       "category": "animation_hit",
       "dimensions": [
         512,
@@ -3198,7 +3211,7 @@
     },
     {
       "path": "rz20_prime/animation/hit_02.png",
-      "ship": "rz20",
+      "ship": "rz20_prime",
       "category": "animation_hit",
       "dimensions": [
         512,
@@ -3211,7 +3224,7 @@
     },
     {
       "path": "rz20_prime/animation/hit_03.png",
-      "ship": "rz20",
+      "ship": "rz20_prime",
       "category": "animation_hit",
       "dimensions": [
         512,
@@ -3224,7 +3237,7 @@
     },
     {
       "path": "rz20_prime/animation/hit_04.png",
-      "ship": "rz20",
+      "ship": "rz20_prime",
       "category": "animation_hit",
       "dimensions": [
         512,
@@ -3237,7 +3250,7 @@
     },
     {
       "path": "rz20_prime/animation/shield_01.png",
-      "ship": "rz20",
+      "ship": "rz20_prime",
       "category": "animation_shield",
       "dimensions": [
         512,
@@ -3250,7 +3263,7 @@
     },
     {
       "path": "rz20_prime/animation/shield_02.png",
-      "ship": "rz20",
+      "ship": "rz20_prime",
       "category": "animation_shield",
       "dimensions": [
         512,
@@ -3263,7 +3276,7 @@
     },
     {
       "path": "rz20_prime/animation/shield_03.png",
-      "ship": "rz20",
+      "ship": "rz20_prime",
       "category": "animation_shield",
       "dimensions": [
         512,
@@ -3276,7 +3289,7 @@
     },
     {
       "path": "rz20_prime/animation/shield_04.png",
-      "ship": "rz20",
+      "ship": "rz20_prime",
       "category": "animation_shield",
       "dimensions": [
         512,
@@ -3289,7 +3302,7 @@
     },
     {
       "path": "rz20_prime/animation/shield_05.png",
-      "ship": "rz20",
+      "ship": "rz20_prime",
       "category": "animation_shield",
       "dimensions": [
         512,
@@ -3302,7 +3315,7 @@
     },
     {
       "path": "rz20_prime/animation/shield_06.png",
-      "ship": "rz20",
+      "ship": "rz20_prime",
       "category": "animation_shield",
       "dimensions": [
         512,
@@ -3315,7 +3328,7 @@
     },
     {
       "path": "rz20_prime/animation/special_01.png",
-      "ship": "rz20",
+      "ship": "rz20_prime",
       "category": "animation_special",
       "dimensions": [
         512,
@@ -3328,7 +3341,7 @@
     },
     {
       "path": "rz20_prime/animation/special_02.png",
-      "ship": "rz20",
+      "ship": "rz20_prime",
       "category": "animation_special",
       "dimensions": [
         512,
@@ -3341,7 +3354,7 @@
     },
     {
       "path": "rz20_prime/animation/special_03.png",
-      "ship": "rz20",
+      "ship": "rz20_prime",
       "category": "animation_special",
       "dimensions": [
         512,
@@ -3354,7 +3367,7 @@
     },
     {
       "path": "rz20_prime/animation/special_04.png",
-      "ship": "rz20",
+      "ship": "rz20_prime",
       "category": "animation_special",
       "dimensions": [
         512,
@@ -3367,7 +3380,7 @@
     },
     {
       "path": "rz20_prime/animation/special_05.png",
-      "ship": "rz20",
+      "ship": "rz20_prime",
       "category": "animation_special",
       "dimensions": [
         512,
@@ -3380,7 +3393,7 @@
     },
     {
       "path": "rz20_prime/animation/special_06.png",
-      "ship": "rz20",
+      "ship": "rz20_prime",
       "category": "animation_special",
       "dimensions": [
         512,
@@ -3393,7 +3406,7 @@
     },
     {
       "path": "rz20_prime/animation/special_07.png",
-      "ship": "rz20",
+      "ship": "rz20_prime",
       "category": "animation_special",
       "dimensions": [
         512,
@@ -3406,7 +3419,7 @@
     },
     {
       "path": "rz20_prime/animation/special_08.png",
-      "ship": "rz20",
+      "ship": "rz20_prime",
       "category": "animation_special",
       "dimensions": [
         512,
@@ -3419,7 +3432,7 @@
     },
     {
       "path": "rz20_prime/vfx/hyperlaser_01.png",
-      "ship": "rz20",
+      "ship": "rz20_prime",
       "category": "vfx_hyperlaser",
       "dimensions": [
         512,
@@ -3432,7 +3445,7 @@
     },
     {
       "path": "rz20_prime/vfx/hyperlaser_02.png",
-      "ship": "rz20",
+      "ship": "rz20_prime",
       "category": "vfx_hyperlaser",
       "dimensions": [
         512,
@@ -3445,7 +3458,7 @@
     },
     {
       "path": "rz20_prime/vfx/hyperlaser_03.png",
-      "ship": "rz20",
+      "ship": "rz20_prime",
       "category": "vfx_hyperlaser",
       "dimensions": [
         512,
@@ -3458,7 +3471,7 @@
     },
     {
       "path": "rz20_prime/vfx/hyperlaser_04.png",
-      "ship": "rz20",
+      "ship": "rz20_prime",
       "category": "vfx_hyperlaser",
       "dimensions": [
         512,
@@ -3471,7 +3484,7 @@
     },
     {
       "path": "rz20_prime/vfx/hyperlaser_05.png",
-      "ship": "rz20",
+      "ship": "rz20_prime",
       "category": "vfx_hyperlaser",
       "dimensions": [
         512,
@@ -3484,7 +3497,7 @@
     },
     {
       "path": "rz20_prime/vfx/hyperlaser_06.png",
-      "ship": "rz20",
+      "ship": "rz20_prime",
       "category": "vfx_hyperlaser",
       "dimensions": [
         512,
@@ -3497,7 +3510,7 @@
     },
     {
       "path": "rz20_prime/vfx/synaptic_chain_01.png",
-      "ship": "rz20",
+      "ship": "rz20_prime",
       "category": "vfx_synaptic_chain",
       "dimensions": [
         512,
@@ -3510,7 +3523,7 @@
     },
     {
       "path": "rz20_prime/vfx/synaptic_chain_02.png",
-      "ship": "rz20",
+      "ship": "rz20_prime",
       "category": "vfx_synaptic_chain",
       "dimensions": [
         512,
@@ -3523,7 +3536,7 @@
     },
     {
       "path": "rz20_prime/vfx/synaptic_chain_03.png",
-      "ship": "rz20",
+      "ship": "rz20_prime",
       "category": "vfx_synaptic_chain",
       "dimensions": [
         512,
@@ -3536,7 +3549,7 @@
     },
     {
       "path": "rz20_prime/vfx/synaptic_chain_04.png",
-      "ship": "rz20",
+      "ship": "rz20_prime",
       "category": "vfx_synaptic_chain",
       "dimensions": [
         512,
@@ -3549,7 +3562,7 @@
     },
     {
       "path": "rz20_prime/vfx/synaptic_chain_05.png",
-      "ship": "rz20",
+      "ship": "rz20_prime",
       "category": "vfx_synaptic_chain",
       "dimensions": [
         512,
@@ -3562,7 +3575,7 @@
     },
     {
       "path": "rz20_prime/vfx/synaptic_chain_06.png",
-      "ship": "rz20",
+      "ship": "rz20_prime",
       "category": "vfx_synaptic_chain",
       "dimensions": [
         512,
@@ -3575,7 +3588,7 @@
     },
     {
       "path": "rz20_prime/vfx/defensive_nova_01.png",
-      "ship": "rz20",
+      "ship": "rz20_prime",
       "category": "vfx_defensive_nova",
       "dimensions": [
         512,
@@ -3588,7 +3601,7 @@
     },
     {
       "path": "rz20_prime/vfx/defensive_nova_02.png",
-      "ship": "rz20",
+      "ship": "rz20_prime",
       "category": "vfx_defensive_nova",
       "dimensions": [
         512,
@@ -3601,7 +3614,7 @@
     },
     {
       "path": "rz20_prime/vfx/defensive_nova_03.png",
-      "ship": "rz20",
+      "ship": "rz20_prime",
       "category": "vfx_defensive_nova",
       "dimensions": [
         512,
@@ -3614,7 +3627,7 @@
     },
     {
       "path": "rz20_prime/vfx/defensive_nova_04.png",
-      "ship": "rz20",
+      "ship": "rz20_prime",
       "category": "vfx_defensive_nova",
       "dimensions": [
         512,
@@ -3627,7 +3640,7 @@
     },
     {
       "path": "rz20_prime/vfx/defensive_nova_05.png",
-      "ship": "rz20",
+      "ship": "rz20_prime",
       "category": "vfx_defensive_nova",
       "dimensions": [
         512,
@@ -3640,7 +3653,7 @@
     },
     {
       "path": "rz20_prime/vfx/defensive_nova_06.png",
-      "ship": "rz20",
+      "ship": "rz20_prime",
       "category": "vfx_defensive_nova",
       "dimensions": [
         512,
@@ -3653,7 +3666,7 @@
     },
     {
       "path": "rz20_prime/vfx/defensive_nova_07.png",
-      "ship": "rz20",
+      "ship": "rz20_prime",
       "category": "vfx_defensive_nova",
       "dimensions": [
         512,
@@ -3666,7 +3679,7 @@
     },
     {
       "path": "rz20_prime/vfx/defensive_nova_08.png",
-      "ship": "rz20",
+      "ship": "rz20_prime",
       "category": "vfx_defensive_nova",
       "dimensions": [
         512,
@@ -3679,7 +3692,7 @@
     },
     {
       "path": "rz20_prime/hangar/hangar_hero.webp",
-      "ship": "rz20",
+      "ship": "rz20_prime",
       "category": "hangar_hero",
       "dimensions": [
         1280,
@@ -3692,7 +3705,7 @@
     },
     {
       "path": "rz20_prime/hangar/hangar_thumb.webp",
-      "ship": "rz20",
+      "ship": "rz20_prime",
       "category": "hangar_thumb",
       "dimensions": [
         512,
@@ -3705,7 +3718,7 @@
     },
     {
       "path": "rz20_prime/hangar/hangar_card.webp",
-      "ship": "rz20",
+      "ship": "rz20_prime",
       "category": "hangar_card",
       "dimensions": [
         640,
@@ -3717,20 +3730,8 @@
       "animationName": null
     },
     {
-      "path": "rz20_prime/runtime/ship_meta.json",
-      "ship": "rz20",
-      "category": "runtime_meta",
-      "dimensions": [
-        null
-      ],
-      "format": "JSON",
-      "transparent": false,
-      "frameIndex": null,
-      "animationName": null
-    },
-    {
       "path": "rz8_nebula/drones/nebula_drone_left.png",
-      "ship": "rz8",
+      "ship": "rz8_nebula",
       "category": "drone",
       "dimensions": [
         256,
@@ -3743,7 +3744,7 @@
     },
     {
       "path": "rz8_nebula/drones/nebula_drone_right.png",
-      "ship": "rz8",
+      "ship": "rz8_nebula",
       "category": "drone",
       "dimensions": [
         256,
@@ -3756,7 +3757,7 @@
     },
     {
       "path": "rz8_nebula/drones/drone_engine_01.png",
-      "ship": "rz8",
+      "ship": "rz8_nebula",
       "category": "drone_engine",
       "dimensions": [
         256,
@@ -3769,7 +3770,7 @@
     },
     {
       "path": "rz8_nebula/drones/drone_engine_02.png",
-      "ship": "rz8",
+      "ship": "rz8_nebula",
       "category": "drone_engine",
       "dimensions": [
         256,
@@ -3782,7 +3783,7 @@
     },
     {
       "path": "rz8_nebula/drones/drone_engine_03.png",
-      "ship": "rz8",
+      "ship": "rz8_nebula",
       "category": "drone_engine",
       "dimensions": [
         256,
@@ -3795,7 +3796,7 @@
     },
     {
       "path": "rz8_nebula/drones/drone_engine_04.png",
-      "ship": "rz8",
+      "ship": "rz8_nebula",
       "category": "drone_engine",
       "dimensions": [
         256,
