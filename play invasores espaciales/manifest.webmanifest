@@ -1,0 +1,9 @@
+{
+  "name":"Starfall Frontier",
+  "short_name":"Starfall",
+  "start_url":"./",
+  "display":"standalone",
+  "background_color":"#02040a",
+  "theme_color":"#030711",
+  "orientation":"any"
+}
