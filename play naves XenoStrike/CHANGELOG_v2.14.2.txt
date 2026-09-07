@@ -1,0 +1,49 @@
+SWARM//RIFT — INSECTA SIEGE v2.14.2
+VISUAL EVOLUTION DNA / ADAPTIVE HANGAR
+
+BASE
+- Continuación incremental y conservadora de v2.14.1.
+- Capítulo I permanece en 10 mundos; NO se iniciaron Mundos 11–20.
+- Se conservan los bosses biofieles, CHASE, Boss Rush, Commander Convergence, Tenientes, Wave Objectives, Combat Director, Reward Ledger, checkpoints, Music Director, responsive y PWA.
+
+EVOLUCIÓN VISUAL DE PODERES
+- Las ramas A/B ya no quedan únicamente en estadísticas: reciben ADN visual propio durante el combate.
+- Rama A: geometría más precisa, espina luminosa y lectura de concentración.
+- Rama B: dobles estelas/eco y lectura de distribución/cobertura.
+- Rango VI ASCENDIDO: halo adicional y activación reforzada.
+- Rango VII OMEGA: halo de mayor intensidad, pulsos blanco/dorado y señal visual inequívoca.
+- El ADN visual se aplica a proyectiles, auras alrededor de la nave, minas Rift, Tesla, Resonancia y VFX de activación.
+- HUD, cola y Hangar muestran rango, rama y estado ↑/Ω de forma compacta.
+
+DIRECTOR ADAPTATIVO DE DROPS
+- El selector de poderes ahora pondera el contexto en vez de elegir de forma casi plana.
+- Prioriza poderes útiles para el mundo actual, piezas que completan combos y poderes con margen real de progresión.
+- Penaliza duplicados inmediatos y redundancia excesiva con la cola ya llena.
+- Mantiene el presupuesto de densidad de v2.14.1 (7 Normal / 8 Difícil): se mejora la calidad del drop sin inflar todavía más la pantalla.
+
+NUEVOS MÓDULOS DE HANGAR
+- NÚCLEO DE SINERGIA Σ (3 niveles): +3% de daño por combo activo y por nivel, hasta 3 combos contabilizados.
+- RECICLADOR DE EXCESO ♻ (4 niveles): convierte poderes que no caben en activos/cola en créditos + XP; cada nivel aumenta el valor de reciclaje y recupera una fracción de shield.
+- Las recomendaciones SMART del Hangar incorporan ambos módulos.
+
+GESTIÓN DE SATURACIÓN
+- Si activos y reserva están completos, recoger un nuevo poder ya no lo desperdicia: se recicla de manera visible y útil.
+- Esto permite mantener 4–5 poderes activos y hasta 7 en cola sin castigar al jugador por una pantalla rica en drops.
+- El HUD de combos muestra hasta dos sinergias activas, el excedente y el bonus Σ cuando existe Núcleo de Sinergia.
+
+COMPATIBILIDAD / GUARDADOS
+- META y RUN pasan a v2.14.2.
+- Migración inmediata desde META/RUN v2.14.1, además de las cadenas históricas ya existentes.
+- Corregida explícitamente la migración de RUN v2.14.1, que debía ser consultada antes de v2.14.0.
+
+PWA / CACHÉ
+- Service Worker actualizado a swarm-rift-v2.14.2.
+- Cache busting de game.js, CSS y powers_hangar actualizado a 2142.
+- Los sprites biofieles de bosses continúan con av=2137 porque sus archivos no fueron sustituidos en esta versión.
+
+VALIDACIÓN
+- node --check js/game.js
+- node --check sw.js
+- Auditoría estructural de 10 mundos, 24 poderes, 18 ramas, 10 bosses x 5 estados, sistemas cerrados, migraciones y recursos PWA.
+- Smoke HTTP de recursos críticos.
+- Prueba interactiva automatizada limitada por el entorno del contenedor: Chromium bloquea navegación localhost por política administrativa; no se declara falsamente como PASS.

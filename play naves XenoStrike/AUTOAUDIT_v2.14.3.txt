@@ -1,0 +1,103 @@
+SWARM//RIFT v2.14.3 — AUTOAUDIT
+=======================================
+RESULTADO: 98/98 PASS
+Mundos: 10 | Poderes: 26 | Combos: 23 | Ramas: 20 | PWA: 347 recursos / 0 faltantes
+
+[PASS] node --check js/game.js — PASS
+[PASS] node --check sw.js — PASS
+[PASS] VERSION 2.14.3
+[PASS] META key v2143
+[PASS] RUN key v2143
+[PASS] META migration v2142
+[PASS] RUN migration v2142
+[PASS] 10 mundos activos — 10
+[PASS] Capítulo II no iniciado
+[PASS] Arquitectura 20 mundos solo planificada
+[PASS] 26 poderes totales — 26
+[PASS] Poder nuevo ionweb
+[PASS] Icono asset ionweb
+[PASS] Poder nuevo orbitblade
+[PASS] Icono asset orbitblade
+[PASS] Malla iónica tiene pulso real
+[PASS] Cuchillas orbitales tienen daño real
+[PASS] Cuchillas visibles en drawShip
+[PASS] Malla visible en aura
+[PASS] 23 combos totales — 23
+[PASS] Combo ionweb+tesla
+[PASS] Combo gravity+ionweb
+[PASS] Combo orbitblade+overdrive
+[PASS] Combo orbitblade+resinwall
+[PASS] 20 poderes con ramas A/B — 20
+[PASS] Rama A/B Malla
+[PASS] Rama A/B Cuchillas
+[PASS] Rangos hasta VII
+[PASS] Doctrina adaptive
+[PASS] Doctrina assault
+[PASS] Doctrina control
+[PASS] Doctrina sustain
+[PASS] Doctrina fusion
+[PASS] Política reserva smart
+[PASS] Política reserva conserve
+[PASS] Política reserva boss
+[PASS] Doctrina Fusión +2%/combo literal
+[PASS] Sostén reduce daño entrante
+[PASS] Pestaña Σ FUSIONES
+[PASS] Controles doctrine/policy interactivos
+[PASS] Maestría persistente META
+[PASS] Maestría niveles I-IV
+[PASS] Anti-farming por run
+[PASS] Sobrecarga de fusión
+[PASS] HUD muestra Sobrecarga
+[PASS] Historial anti-repetición 3 drops
+[PASS] Drop director pondera doctrina
+[PASS] Drop director pondera combos
+[PASS] Fragmentos ponderados
+[PASS] Densidad Normal 7 / Difícil 8
+[PASS] 4 activos base / 5 máximo
+[PASS] 5 cola base / 7 máximo
+[PASS] Stock persistente 3–5
+[PASS] Reciclador exceso preservado
+[PASS] Núcleo de Sinergia preservado
+[PASS] Sistema Boss Rush
+[PASS] Sistema CHASE BONUS
+[PASS] Sistema Commander Convergence
+[PASS] Sistema Tenientes
+[PASS] Sistema Combat Director
+[PASS] Sistema Wave Objectives
+[PASS] Sistema Reward Ledger
+[PASS] Sistema Checkpoint boss
+[PASS] Sistema Disparo automático
+[PASS] Sistema Control directo sin joystick
+[PASS] Sistema Responsive coarse/touch
+[PASS] Sistema PWA registro
+[PASS] Tres fases de boss
+[PASS] Music playlists mundos
+[PASS] Music playlists bosses
+[PASS] Crossfade preservado
+[PASS] Boss anim imperatrix 5 estados — 5/5
+[PASS] Boss anim atlas 5 estados — 5/5
+[PASS] Boss anim cortex 5 estados — 5/5
+[PASS] Boss anim vela 5 estados — 5/5
+[PASS] Boss anim regina 5 estados — 5/5
+[PASS] Boss anim colossus 5 estados — 5/5
+[PASS] Boss anim sanguina 5 estados — 5/5
+[PASS] Boss anim architect 5 estados — 5/5
+[PASS] Boss anim auralis 5 estados — 5/5
+[PASS] Boss anim resonator 5 estados — 5/5
+[PASS] Boss final asset boss_colossus_hop_final.png
+[PASS] Boss final asset boss_sanguina_prime_final.png
+[PASS] Boss final asset boss_architect_zero_final.png
+[PASS] Boss final asset boss_auralis_final.png
+[PASS] Boss final asset boss_resonator_omega_final.png
+[PASS] Boss 6–10 final assets referenciados
+[PASS] Boss cache bust 2137 preservado
+[PASS] SW cache v2.14.3
+[PASS] index CSS cache 2143
+[PASS] index JS cache 2143
+[PASS] powers cache 2143
+[PASS] SW ASSETS parseable — 347
+[PASS] PWA resources 0 faltantes — []
+[PASS] PWA incluye iconos nuevos
+[PASS] Documento README.txt
+[PASS] Documento CHANGELOG_v2.14.3.txt
+[PASS] Documento HANGAR_FUSION_v2.14.3.txt

@@ -1,13 +1,13 @@
-# 0.4.5 · Integración de assets
+# CHANGELOG · v0.7.0
 
-- Integración del paquete visual completo recibido.
-- Conservación estricta de las cuatro imágenes actuales de Lumina.
-- Conversión de assets ilustrados a WebP optimizado.
-- Fondos específicos para Vocales, M, P, S, L, N, T y D.
-- Nuevos assets en selección de palabras y refuerzo de vocabulario.
-- Nuevos assets de interfaz para escuchar, libro, bosque y zona adulta.
-- Logros visuales con estrella, cofre, árbol y medalla.
-- Semillas/brotes/luciérnagas visuales en mapa y resultados.
-- Nuevas actividades de palabra inicial para N, T y D.
-- Caché PWA `emilia-bosque-v0.4.5-assets`.
-- Auditoría semántica de assets: `mesa` y `lola` no se activan como estímulos por problemas detectados.
+- Añadido tercer sendero **Bosque de los Secretos**.
+- Nuevas misiones: Ñ, CH, QU, RR, CE/CI, GE/GI y cierre mixto.
+- Nueva mecánica `patternIntro` con ejemplos auditivos tocables.
+- Trazado táctil de Ñ por partes.
+- 20 nuevas habilidades pedagógicas (74–93).
+- Nuevo vocabulario y nuevas frases/historias.
+- Nuevos repasos espaciados y logros.
+- Home actualizado de 2 a 3 senderos.
+- Persistencia actualizada a `emilia.reader.v7` con migración desde v6.
+- Caché PWA regenerada como `emilia-bosque-v0.7.0` con 112 recursos runtime y navegación con actualización de red + fallback offline.
+- Lumina preservada sin cambios.

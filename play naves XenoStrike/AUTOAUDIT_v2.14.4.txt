@@ -1,0 +1,121 @@
+SWARM//RIFT v2.14.4 AUTOAUDIT
+RESULTADO: 117/117 PASS
+PWA: 347 recursos / 0 faltantes
+
+PASS · VERSION 2.14.4
+PASS · META key v2144
+PASS · RUN key v2144
+PASS · META migration v2143
+PASS · RUN migration v2143
+PASS · hasSave v2143
+PASS · index JS bust 2144
+PASS · index CSS bust 2144
+PASS · SW cache v2.14.4
+PASS · SW JS bust 2144
+PASS · SW CSS bust 2144
+PASS · Boss 1 IMPERATRIX VESPA
+PASS · Boss 2 ATLAS VERDE
+PASS · Boss 3 CORTEX RAZOR
+PASS · Boss 4 VELA NOCTIS
+PASS · Boss 5 REGINA FERRUM
+PASS · Boss 6 COLOSSUS HOP
+PASS · Boss 7 SANGUINA PRIME
+PASS · Boss 8 ARCHITECT ZERO
+PASS · Boss 9 AURALIS
+PASS · Boss 10 RESONATOR OMEGA
+PASS · Boss final asset colossus
+PASS · colossus anim idle
+PASS · colossus anim attack
+PASS · colossus anim hurt
+PASS · colossus anim phase
+PASS · colossus anim death
+PASS · Boss final asset sanguina
+PASS · sanguina anim idle
+PASS · sanguina anim attack
+PASS · sanguina anim hurt
+PASS · sanguina anim phase
+PASS · sanguina anim death
+PASS · Boss final asset architect
+PASS · architect anim idle
+PASS · architect anim attack
+PASS · architect anim hurt
+PASS · architect anim phase
+PASS · architect anim death
+PASS · Boss final asset auralis
+PASS · auralis anim idle
+PASS · auralis anim attack
+PASS · auralis anim hurt
+PASS · auralis anim phase
+PASS · auralis anim death
+PASS · Boss final asset resonator
+PASS · resonator anim idle
+PASS · resonator anim attack
+PASS · resonator anim hurt
+PASS · resonator anim phase
+PASS · resonator anim death
+PASS · Signature IMPACTO COLOSSUS
+PASS · Signature SIFÓN HEMÁTICO
+PASS · Signature JAULA DE RESINA
+PASS · Signature CRUZ PRISMÁTICA
+PASS · Signature ONDA OMEGA
+PASS · Power ionweb
+PASS · Power orbitblade
+PASS · Power phase
+PASS · Power nanites
+PASS · Power riftmine
+PASS · Power echo
+PASS · Power nova
+PASS · 26-power status
+PASS · 23 combos status
+PASS · A/B branches
+PASS · Ranks VI/VII
+PASS · 5 doctrines
+PASS · 3 reserve policies
+PASS · Fusion mastery
+PASS · Overflow upgrade
+PASS · Overflow activation
+PASS · Overflow persistence
+PASS · Overflow HUD
+PASS · Fusion tier function
+PASS · Fusion cascade tier 2
+PASS · Fusion apex tier 3
+PASS · Fusion escalation
+PASS · Boss counter matrix
+PASS · Counter sector 1
+PASS · Counter sector 2
+PASS · Counter sector 3
+PASS · Counter sector 4
+PASS · Counter sector 5
+PASS · Counter sector 6
+PASS · Counter sector 7
+PASS · Counter sector 8
+PASS · Counter sector 9
+PASS · Counter sector 10
+PASS · Boss counter damage cap 9%
+PASS · Counter smart score
+PASS · Counter briefing card
+PASS · Counter HUD
+PASS · Adaptive VFX budget
+PASS · Particle hard cap
+PASS · Responsive multirow active powers
+PASS · Responsive queue reposition
+PASS · Auto-fire
+PASS · Direct touch
+PASS · No joystick gameplay
+PASS · Boss Rush
+PASS · Grand Boss Rush
+PASS · CHASE
+PASS · Commander Convergence
+PASS · Lieutenants
+PASS · Combat Director
+PASS · Wave Objectives
+PASS · Reward Ledger
+PASS · Boss checkpoint
+PASS · Music Director
+PASS · Crossfade
+PASS · PWA registration
+PASS · SW asset list parse · 347 resources
+PASS · PWA resources exist · missing=0
+PASS · Chapter II false status
+PASS · No active app=2143 cache bust
+PASS · No active SW cache 2.14.3

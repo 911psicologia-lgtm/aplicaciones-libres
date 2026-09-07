@@ -2115,3 +2115,49 @@ body.game-mode .hud-actions .domain-btn,body.game-mode .hud-actions .fleet-quick
 .domain-close,.fleet-close,.tactical-close{position:relative;z-index:9;pointer-events:auto!important;touch-action:manipulation!important}
 .domain-form-list,.fleet-quick-list{padding-bottom:12px!important;scrollbar-width:thin}
 @media(max-width:900px){.domain-panel{width:96vw!important}.fleet-panel{width:96vw!important}}
+
+
+/* v3.22.0 · UX táctica compacta, cierre anti-click-through y Hangar DOMINIO ampliado */
+.tactical-shop-overlay{
+  position:fixed!important;inset:0!important;left:0!important;right:0!important;top:0!important;bottom:0!important;
+  width:100vw!important;height:100dvh!important;display:grid!important;place-items:start center!important;
+  padding:max(64px,calc(54px + var(--safe-top))) 12px 14px!important;
+  background:rgba(1,7,11,.50)!important;backdrop-filter:blur(5px)!important;pointer-events:auto!important;
+  overflow:hidden!important;touch-action:manipulation!important;z-index:75!important;
+}
+.tactical-shop-overlay.hidden{display:none!important}
+.tactical-shop-panel{
+  width:min(1040px,96vw)!important;max-height:min(330px,62dvh)!important;overflow:hidden!important;
+  border-radius:20px!important;padding:10px 12px 9px!important;background:linear-gradient(180deg,rgba(4,18,22,.985),rgba(4,10,16,.985))!important;
+  border:1px solid rgba(119,242,217,.28)!important;box-shadow:0 22px 70px rgba(0,0,0,.58)!important;
+}
+.tactical-shop-head{position:relative!important;top:auto!important;display:flex!important;align-items:center!important;margin:0 0 6px!important;padding:0 44px 4px 0!important;background:transparent!important;min-height:42px!important}
+.tactical-shop-head h3{font-size:.98rem!important;margin:0!important}.tactical-shop-head .eyebrow{font-size:.54rem!important}.tactical-shop-head small{font-size:.60rem!important}
+.tactical-close{position:absolute!important;right:0!important;top:0!important;width:38px!important;height:38px!important;border-radius:12px!important;border:1px solid rgba(255,255,255,.22)!important;background:rgba(8,23,28,.98)!important;color:#f5fffc!important;font-size:1.35rem!important;font-weight:900!important;display:grid!important;place-items:center!important;z-index:50!important;pointer-events:auto!important;touch-action:manipulation!important;box-shadow:0 5px 18px rgba(0,0,0,.34)!important}
+.tactical-wallet{display:flex!important;gap:5px!important;flex-wrap:nowrap!important;margin:0 0 6px!important;overflow:hidden!important}.tactical-wallet span{padding:4px 7px!important;font-size:.60rem!important;white-space:nowrap!important}
+.tactical-advisor{display:none!important}
+.tactical-shop-rail{position:relative;display:grid;grid-template-columns:34px minmax(0,1fr) 34px;gap:5px;align-items:stretch;min-width:0}
+.tactical-shop-grid{display:flex!important;grid-template-columns:none!important;gap:7px!important;overflow-x:auto!important;overflow-y:hidden!important;scroll-snap-type:x proximity!important;scrollbar-width:thin!important;touch-action:pan-x!important;-webkit-overflow-scrolling:touch!important;padding:2px 1px 9px!important;min-width:0!important}
+.tactical-offer{flex:0 0 190px!important;min-height:126px!important;max-height:126px!important;display:grid!important;grid-template-columns:38px minmax(0,1fr)!important;grid-template-rows:auto 1fr!important;gap:6px!important;padding:8px!important;border-radius:14px!important;scroll-snap-align:start!important;overflow:hidden!important}
+.tactical-offer-icon{width:38px!important;height:38px!important;border-radius:12px!important;font-size:1.20rem!important}.tactical-offer-title{font-size:.71rem!important;line-height:1.08!important;padding:0!important;white-space:normal!important}.tactical-offer-desc{font-size:.51rem!important;line-height:1.15!important;margin:1px 0 4px!important;display:-webkit-box!important;-webkit-line-clamp:2!important;-webkit-box-orient:vertical!important;overflow:hidden!important}
+.tactical-costs{grid-column:1/-1;display:flex!important;gap:4px!important;flex-wrap:nowrap!important;align-self:end!important}.tactical-buy{flex:1 1 0!important;min-width:0!important;padding:5px 3px!important;font-size:.53rem!important;white-space:nowrap!important}
+.tactical-rail-arrow{border:1px solid rgba(131,234,255,.20);background:rgba(255,255,255,.045);color:#e8fffa;border-radius:12px;font-size:1.55rem;font-weight:800;cursor:pointer;touch-action:manipulation;display:grid;place-items:center}.tactical-rail-arrow:hover{border-color:#83eaff;background:rgba(131,234,255,.10)}
+.tactical-shop-footer{position:static!important;margin:2px 0 0!important;padding:5px 0 0!important;background:transparent!important}.tactical-shop-footer small{font-size:.52rem!important;opacity:.52!important}.tactical-start{display:none!important}
+.domain-form-list{gap:8px!important}.domain-form-card{flex:0 0 132px!important;max-width:132px!important;min-height:126px!important;grid-template-rows:58px auto auto 1fr!important}.domain-form-card.rizoma-own-card{border-color:color-mix(in srgb,var(--domain-color) 30%,rgba(255,255,255,.12));background:linear-gradient(180deg,color-mix(in srgb,var(--domain-color) 7%,rgba(255,255,255,.02)),rgba(255,255,255,.02))}.domain-card-kicker{font-size:.37rem!important;letter-spacing:.08em!important;text-transform:uppercase!important;color:var(--domain-color)!important;opacity:.78!important}.domain-form-card.rizoma-own-card .domain-thumb img{transform:scale(1.10)}
+@media(max-width:760px){
+  .tactical-shop-overlay{padding:max(54px,calc(46px + var(--safe-top))) 6px 8px!important}.tactical-shop-panel{width:98vw!important;max-height:min(286px,68dvh)!important;padding:8px!important;border-radius:15px!important}.tactical-shop-head{min-height:38px!important;padding-right:42px!important}.tactical-shop-head h3{font-size:.84rem!important}.tactical-shop-head small{font-size:.52rem!important}.tactical-close{width:36px!important;height:36px!important;right:0!important;top:0!important}.tactical-shop-rail{grid-template-columns:30px minmax(0,1fr) 30px!important}.tactical-offer{flex-basis:158px!important;min-height:116px!important;max-height:116px!important;padding:6px!important;grid-template-columns:32px minmax(0,1fr)!important}.tactical-offer-icon{width:32px!important;height:32px!important;font-size:1rem!important}.tactical-offer-title{font-size:.62rem!important}.tactical-offer-desc{font-size:.46rem!important;-webkit-line-clamp:1!important}.tactical-buy{font-size:.46rem!important;padding:4px 2px!important}.tactical-wallet span{font-size:.52rem!important;padding:3px 5px!important}.tactical-shop-footer{display:none!important}
+  .domain-panel{width:97vw!important;max-height:72dvh!important}.domain-form-card{flex-basis:112px!important;max-width:112px!important;min-height:108px!important;grid-template-rows:46px auto auto 1fr!important}.domain-thumb{height:46px!important}.domain-form-card strong{font-size:.56rem!important}.domain-form-card small{font-size:.42rem!important}
+}
+
+
+/* v3.23.0 · identidad táctica de Guardianes en Hangar */
+.hangar-guardian-chip span{min-width:0}.hangar-guardian-chip small{display:block;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;max-width:220px}.hangar-guardian-chip.active{box-shadow:0 0 0 1px var(--guardian) inset,0 0 18px color-mix(in srgb,var(--guardian) 20%,transparent)}
+@media(max-width:720px){.hangar-guardian-chip small{max-width:150px}}
+
+
+/* v3.25.0 · Maestría Rizomática: recompensa visual compacta por habilidad */
+.mastery-pill{--mastery:0%;position:relative;overflow:hidden;border-color:rgba(255,213,106,.30)!important;background:linear-gradient(90deg,rgba(255,213,106,.13) var(--mastery),rgba(3,17,19,.72) var(--mastery))!important;transition:background .18s ease,border-color .18s ease,box-shadow .18s ease}
+.mastery-pill strong{min-width:34px;text-align:center}.mastery-pill span{filter:drop-shadow(0 0 5px rgba(255,213,106,.45))}
+.mastery-pill.surge{border-color:#ffd56a!important;box-shadow:0 0 18px rgba(255,213,106,.28),inset 0 0 16px rgba(255,213,106,.12);animation:masterySurgePulse .72s ease-in-out infinite alternate}
+@keyframes masterySurgePulse{from{transform:translateY(0)}to{transform:translateY(-1px);filter:brightness(1.16)}}
+@media(max-width:720px){.mastery-pill{padding:0 7px!important}.mastery-pill strong{min-width:27px;font-size:.72rem}.mastery-pill span{font-size:.75rem}}

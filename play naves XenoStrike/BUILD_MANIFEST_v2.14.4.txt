@@ -1,0 +1,16 @@
+SWARM//RIFT — INSECTA SIEGE
+BUILD MANIFEST v2.14.4
+
+Base: v2.14.3 Doctrine / Fusion Mastery / Arsenal
+Build: v2.14.4 Overflow / Counter Matrix / Fusion Apex
+Chapter I worlds: 10
+Chapter II started: NO
+Powers: 26
+Combos/fusions: 23
+PWA resources: 347
+Autoaudit: 117/117 PASS
+HTTP smoke: 9/9 PASS
+Files in complete package: 543
+
+Critical content SHA-256 is stored in CONTENT_SHA256_v2.14.4.txt.
+See CHANGELOG_v2.14.4.txt and VALIDACION_v2.14.4.txt.

@@ -9,9 +9,9 @@
   <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
   <meta name="apple-mobile-web-app-capable" content="yes" />
   <meta name="apple-mobile-web-app-title" content="Zombie Strike" />
-  <script>if(location.protocol !== "file:"){const m=document.createElement("link");m.rel="manifest";m.href="manifest.json?v=3.20.0";document.head.appendChild(m);}</script>
+  <script>if(location.protocol !== "file:"){const m=document.createElement("link");m.rel="manifest";m.href="manifest.json?v=3.26.0";document.head.appendChild(m);}</script>
   <link rel="icon" href="assets/icon.svg" type="image/svg+xml" />
-  <title>Rizoma Zombie Strike — Saga II completa · v3.20.0</title>
+  <title>Rizoma Zombie Strike — Saga II completa · v3.26.0</title>
   <link rel="preload" as="image" href="assets/ui/intro_poster_mobile.webp" media="(max-width: 1200px)" fetchpriority="high" />
   <link rel="preload" as="image" href="assets/boss2/sigil_w1.svg" />
   <link rel="preload" as="image" href="assets/boss2/sigil_w2.svg" />
@@ -36,7 +36,7 @@
         <span class="brand-mark">⬢</span>
         <div>
           <strong>Rizoma Zombie Strike</strong>
-          <small>Mundos 1–20 · Hangar táctico · 6 Naves Rizoma · Flota de Conquista · Saga II consolidada · v3.20.0</small>
+          <small>Mundos 1–20 · Hangar táctico · 6 Naves Rizoma · Flota de Conquista · Saga II consolidada · v3.26.0</small>
         </div>
       </div>
       <button id="btnSettings" class="icon-btn" title="Ajustes" aria-label="Ajustes">⚙</button>
@@ -389,6 +389,7 @@
           <div class="hud-pill score-pill"><span>⭐</span><strong id="hudScore">0</strong></div>
           <div class="hud-pill coins-pill"><span>🪙</span><strong id="hudCoins">0</strong></div>
           <div class="hud-pill boss-approach" id="hudBossApproach" title="Progreso hacia el jefe"><span id="hudBossSigil" class="hud-boss-sigil"></span><strong id="hudBossPercent">0%</strong></div>
+          <div class="hud-pill mastery-pill" id="hudMastery" title="Maestría Rizomática"><span>⚡</span><strong id="hudMasteryValue">0%</strong></div>
           <div class="hud-pill lives-pill" title="Vidas disponibles"><span>❤️</span><strong id="hudLives">0</strong></div>
         </div>
         <div class="hud-actions" aria-label="Acciones rápidas de combate">
@@ -448,7 +449,11 @@
             </div>
             <div id="tacticalWallet" class="tactical-wallet"></div>
             <div id="tacticalAdvisor" class="tactical-advisor"></div>
-            <div id="tacticalShopGrid" class="tactical-shop-grid"></div>
+            <div class="tactical-shop-rail">
+              <button id="btnTacticalPrev" class="tactical-rail-arrow tactical-rail-prev" type="button" aria-label="Opciones anteriores">‹</button>
+              <div id="tacticalShopGrid" class="tactical-shop-grid"></div>
+              <button id="btnTacticalNext" class="tactical-rail-arrow tactical-rail-next" type="button" aria-label="Más opciones">›</button>
+            </div>
             <div class="tactical-shop-footer">
               <small>Mientras compras, el combate permanece pausado. Al cerrar, la misión se reanuda.</small>
               <button id="btnTacticalContinue" class="primary-btn tactical-start">Cerrar compras</button>
@@ -458,11 +463,11 @@
         <div id="domainOverlay" class="domain-overlay hidden" aria-live="polite">
           <div class="domain-panel" role="dialog" aria-modal="true" aria-label="Protocolo DOMINIO">
             <div class="domain-panel-head">
-              <div><p class="eyebrow">PROTOCOLO DOMINIO</p><h3>Forma de combate</h3></div>
+              <div><p class="eyebrow">PROTOCOLO DOMINIO</p><h3>Nave / forma de combate</h3></div>
               <button id="btnDomainClose" class="domain-close" aria-label="Cerrar DOMINIO">×</button>
             </div>
             <div id="domainFormList" class="domain-form-list"></div>
-            <small class="domain-hint">Toca una forma para cambiar. Vida, escudo y poderes se conservan.</small>
+            <small id="domainHint" class="domain-hint">Desliza para elegir nave Rizoma o forma de Guardián. Vida, escudo y poderes se conservan.</small>
           </div>
         </div>
         <div id="fleetOverlay" class="fleet-overlay hidden" aria-live="polite">

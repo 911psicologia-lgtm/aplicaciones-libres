@@ -1,0 +1,47 @@
+SWARM//RIFT — INSECTA SIEGE v2.14.3
+VALIDACIÓN TÉCNICA
+====================================
+
+RESULTADOS EJECUTADOS
+- node --check js/game.js: PASS.
+- node --check sw.js: PASS.
+- Autoauditoría estructural: 98/98 PASS.
+- Mundos activos: 10/10.
+- Poderes: 26.
+- Combos: 23.
+- Poderes con ramas A/B: 20.
+- Bosses 1–10: directorio y sistemas preservados.
+- Bosses 6–10: assets finales v2.13.7 preservados y referenciados.
+- Animación bosses: 10/10 con idle, attack, hurt, phase y death presentes.
+- Service Worker: swarm-rift-v2.14.3.
+- PWA: 347 recursos declarados / 0 rutas faltantes.
+- Cache busting app/powers: 2143.
+- Cache busting bosses: 2137, deliberadamente preservado porque esos assets no cambiaron.
+- Migración META/RUN desde v2.14.2: presente.
+
+SMOKE RUNTIME NODE + DOM/CANVAS STUB
+- Evaluación completa de game.js: PASS sin ReferenceError de inicialización.
+- Estado expuesto: VERSION 2.14.3, 26 poderes, 23 combos, 20 ramas, Capítulo II false.
+- Smoke funcional de Malla Iónica y Cuchillas Orbitales: PASS; updatePowers ejecutó ambos efectos sobre una amenaza simulada.
+- Catálogo Σ FUSIONES: PASS (25 tarjetas en escenario de prueba).
+- Doctrina FUSIÓN y política JEFE: PASS en runtime de prueba.
+- Slots base observados: 4 activos / 5 en cola.
+
+SMOKE HTTP LOCAL
+8/8 recursos críticos devolvieron HTTP 200:
+- index.html
+- js/game.js?v=2143
+- sw.js
+- ion_web.png?av=2143
+- orbit_blades.png?av=2143
+- boss_resonator_omega_final.png?av=2137
+- boss_anim/auralis/attack.png?av=2137
+- boss_10_end_of_stars.mp3
+
+LIMITACIÓN DE VALIDACIÓN
+Chromium headless está instalado en el contenedor, pero una ejecución --dump-dom no concluyó dentro de 20 segundos y produjo errores del entorno DBus/UPower. Por ello NO se marca como aprobada una sesión visual real de navegador. La validación confirmada comprende sintaxis, carga runtime con DOM/Canvas simulado, lógica funcional de las nuevas habilidades, integridad de rutas PWA y disponibilidad HTTP. Se recomienda una partida breve en navegador/dispositivo real para balance fino, legibilidad y sensación táctil.
+
+La integridad del ZIP final se verifica después del empaquetado y se entrega junto al SHA-256 externo.
+
+ZIP FINAL
+- Prueba unzip -t del paquete completo: PASS (sin errores de integridad).

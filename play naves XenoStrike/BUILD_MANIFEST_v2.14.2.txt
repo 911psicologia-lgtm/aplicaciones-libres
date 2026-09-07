@@ -1,0 +1,6 @@
+SWARM//RIFT v2.14.2
+Files before packaging: 527
+Uncompressed bytes before packaging: 176496153
+PWA resources: 345
+Audit: 61/61 PASS
+Node syntax: game.js PASS · sw.js PASS

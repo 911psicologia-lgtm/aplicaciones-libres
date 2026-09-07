@@ -53,9 +53,25 @@ window.SF = window.SF || {};
     checkpoint(){ sequence([()=>tone(490,.07,'triangle',.02,1.05), ()=>tone(620,.09,'triangle',.024,1.02)], 80); },
     wave(){ sequence([()=>tone(390,.06,'square',.02,1),()=>tone(520,.06,'square',.022,1),()=>tone(650,.08,'square',.024,1)],75); },
     miniboss(){ sequence([()=>tone(210,.1,'sawtooth',.032,.8),()=>tone(160,.12,'triangle',.028,.64)],95); },
-    minibossShot(){ sequence([()=>tone(290,.045,'sawtooth',.018,1.28),()=>noise(.035,.009,1500)],38); },
+    minibossShot(style=0){ if(style===1) sequence([()=>tone(420,.045,'square',.018,1.45),()=>tone(610,.05,'triangle',.014,.82)],42); else if(style===2) sequence([()=>tone(180,.06,'sawtooth',.02,.76),()=>noise(.05,.012,980)],48); else sequence([()=>tone(290,.045,'sawtooth',.018,1.28),()=>noise(.035,.009,1500)],38); },
     boss(){ sequence([()=>tone(160,.1,'sawtooth',.034,.75),()=>tone(120,.12,'triangle',.03,.62),()=>noise(.08,.025,700)],85); },
-    bossShot(){ sequence([()=>tone(190,.05,'square',.02,.82),()=>tone(245,.045,'sawtooth',.016,1.12)],44); },
+    bossShot(pattern='nova',ph=0){
+      if(pattern==='lancer') sequence([()=>tone(250+ph*35,.045,'square',.022,1.6),()=>tone(510,.06,'triangle',.018,.72)],42);
+      else if(pattern==='brood') sequence([()=>tone(135,.07,'sawtooth',.024,.7),()=>noise(.055,.015,950)],45);
+      else if(pattern==='gravity') sequence([()=>tone(88,.11,'sine',.03,.58),()=>tone(176,.08,'triangle',.018,.72)],65);
+      else sequence([()=>tone(190,.05,'square',.02,.82),()=>tone(245,.045,'sawtooth',.016,1.12)],44);
+    },
+    bossResurrect(){ sequence([()=>tone(120,.16,'sawtooth',.03,1.8),()=>tone(260,.15,'triangle',.028,1.5),()=>noise(.12,.02,1200)],90); },
+    bossReward(){ sequence([()=>tone(360,.08,'sine',.022,1.15),()=>tone(540,.08,'triangle',.024,1.08),()=>tone(760,.12,'sine',.024,1.02)],72); },
+    relicAttach(kind='spread'){ const base={spread:620,shield:480,chain:700,missile:390,overdrive:820,heal:560,life:920}[kind]||600; sequence([()=>tone(base,.05,'triangle',.024,1.12),()=>tone(base*1.28,.08,'sine',.025,1.03)],58); },
+    sentinelShield(){ sequence([()=>tone(360,.05,'triangle',.016,1.08),()=>tone(500,.08,'sine',.014,1.04)],55); },
+    reanimator(){ sequence([()=>tone(170,.08,'sawtooth',.019,1.45),()=>tone(310,.10,'triangle',.018,1.3)],72); },
+    breeder(){ sequence([()=>tone(120,.055,'sawtooth',.017,.84),()=>noise(.045,.01,1100)],42); },
+    coreExpose(){ sequence([()=>tone(690,.05,'sine',.02,1.18),()=>tone(920,.08,'triangle',.022,1.04)],58); },
+    weaponEvolve(tier=2){ const f=tier>=3?980:760; sequence([()=>tone(f,.06,'triangle',.024,1.1),()=>tone(f*1.24,.09,'sine',.025,1.02),()=>noise(.05,.009,1800)],62); },
+    sniperCharge(){ sequence([()=>tone(460,.055,'sine',.013,1.4),()=>tone(620,.055,'triangle',.012,1.22)],70); },
+    bossPhase(n=2){ const f=n>=3?250:210; sequence([()=>tone(f,.08,'sawtooth',.028,.78),()=>tone(f*1.35,.09,'triangle',.024,1.02),()=>noise(.06,.018,900)],75); },
+    waveClear(perfect=false){ const f=perfect?820:640; sequence([()=>tone(f,.055,'triangle',.02,1.08),()=>tone(f*1.18,.075,'sine',.022,1.04)],65); },
     critical(){ sequence([()=>tone(920,.055,'square',.018,.75),()=>tone(760,.055,'square',.018,.75)],90); },
     combo(n=5){ const f=n>=10?980:760; sequence([()=>tone(f,.045,'triangle',.02,1.08),()=>tone(f*1.22,.06,'triangle',.02,1.04)],52); },
     extraLife(){ sequence([()=>tone(760,.06,'sine',.024,1.1),()=>tone(960,.08,'sine',.024,1.05)],75); }

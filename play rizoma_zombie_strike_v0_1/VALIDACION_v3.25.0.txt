@@ -1,0 +1,11 @@
+VALIDACIÓN v3.25.0
+- node --check js/game.js: OK
+- node --check sw.js: OK
+- manifest.json: OK
+- VERSION interno: 3.25.0
+- HUD Maestría: presente
+- Maestría save/load: presente
+- Reintento reinicia Maestría operativa: presente
+- Recompensas por near-miss / amenazas / bajas / horda limpia: presente
+- Preparación por Maestría antes del Guardián: presente
+- Assets literales faltantes: 0

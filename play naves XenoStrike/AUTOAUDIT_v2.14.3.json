@@ -1,0 +1,506 @@
+{
+  "version": "2.14.3",
+  "passed": 98,
+  "total": 98,
+  "all_passed": true,
+  "counts": {
+    "worlds": 10,
+    "powers": 26,
+    "combos": 23,
+    "branches": 20,
+    "pwa_resources": 347,
+    "pwa_missing": 0
+  },
+  "checks": [
+    {
+      "name": "node --check js/game.js",
+      "pass": true,
+      "detail": "PASS"
+    },
+    {
+      "name": "node --check sw.js",
+      "pass": true,
+      "detail": "PASS"
+    },
+    {
+      "name": "VERSION 2.14.3",
+      "pass": true,
+      "detail": ""
+    },
+    {
+      "name": "META key v2143",
+      "pass": true,
+      "detail": ""
+    },
+    {
+      "name": "RUN key v2143",
+      "pass": true,
+      "detail": ""
+    },
+    {
+      "name": "META migration v2142",
+      "pass": true,
+      "detail": ""
+    },
+    {
+      "name": "RUN migration v2142",
+      "pass": true,
+      "detail": ""
+    },
+    {
+      "name": "10 mundos activos",
+      "pass": true,
+      "detail": "10"
+    },
+    {
+      "name": "Capítulo II no iniciado",
+      "pass": true,
+      "detail": ""
+    },
+    {
+      "name": "Arquitectura 20 mundos solo planificada",
+      "pass": true,
+      "detail": ""
+    },
+    {
+      "name": "26 poderes totales",
+      "pass": true,
+      "detail": "26"
+    },
+    {
+      "name": "Poder nuevo ionweb",
+      "pass": true,
+      "detail": ""
+    },
+    {
+      "name": "Icono asset ionweb",
+      "pass": true,
+      "detail": ""
+    },
+    {
+      "name": "Poder nuevo orbitblade",
+      "pass": true,
+      "detail": ""
+    },
+    {
+      "name": "Icono asset orbitblade",
+      "pass": true,
+      "detail": ""
+    },
+    {
+      "name": "Malla iónica tiene pulso real",
+      "pass": true,
+      "detail": ""
+    },
+    {
+      "name": "Cuchillas orbitales tienen daño real",
+      "pass": true,
+      "detail": ""
+    },
+    {
+      "name": "Cuchillas visibles en drawShip",
+      "pass": true,
+      "detail": ""
+    },
+    {
+      "name": "Malla visible en aura",
+      "pass": true,
+      "detail": ""
+    },
+    {
+      "name": "23 combos totales",
+      "pass": true,
+      "detail": "23"
+    },
+    {
+      "name": "Combo ionweb+tesla",
+      "pass": true,
+      "detail": ""
+    },
+    {
+      "name": "Combo gravity+ionweb",
+      "pass": true,
+      "detail": ""
+    },
+    {
+      "name": "Combo orbitblade+overdrive",
+      "pass": true,
+      "detail": ""
+    },
+    {
+      "name": "Combo orbitblade+resinwall",
+      "pass": true,
+      "detail": ""
+    },
+    {
+      "name": "20 poderes con ramas A/B",
+      "pass": true,
+      "detail": "20"
+    },
+    {
+      "name": "Rama A/B Malla",
+      "pass": true,
+      "detail": ""
+    },
+    {
+      "name": "Rama A/B Cuchillas",
+      "pass": true,
+      "detail": ""
+    },
+    {
+      "name": "Rangos hasta VII",
+      "pass": true,
+      "detail": ""
+    },
+    {
+      "name": "Doctrina adaptive",
+      "pass": true,
+      "detail": ""
+    },
+    {
+      "name": "Doctrina assault",
+      "pass": true,
+      "detail": ""
+    },
+    {
+      "name": "Doctrina control",
+      "pass": true,
+      "detail": ""
+    },
+    {
+      "name": "Doctrina sustain",
+      "pass": true,
+      "detail": ""
+    },
+    {
+      "name": "Doctrina fusion",
+      "pass": true,
+      "detail": ""
+    },
+    {
+      "name": "Política reserva smart",
+      "pass": true,
+      "detail": ""
+    },
+    {
+      "name": "Política reserva conserve",
+      "pass": true,
+      "detail": ""
+    },
+    {
+      "name": "Política reserva boss",
+      "pass": true,
+      "detail": ""
+    },
+    {
+      "name": "Doctrina Fusión +2%/combo literal",
+      "pass": true,
+      "detail": ""
+    },
+    {
+      "name": "Sostén reduce daño entrante",
+      "pass": true,
+      "detail": ""
+    },
+    {
+      "name": "Pestaña Σ FUSIONES",
+      "pass": true,
+      "detail": ""
+    },
+    {
+      "name": "Controles doctrine/policy interactivos",
+      "pass": true,
+      "detail": ""
+    },
+    {
+      "name": "Maestría persistente META",
+      "pass": true,
+      "detail": ""
+    },
+    {
+      "name": "Maestría niveles I-IV",
+      "pass": true,
+      "detail": ""
+    },
+    {
+      "name": "Anti-farming por run",
+      "pass": true,
+      "detail": ""
+    },
+    {
+      "name": "Sobrecarga de fusión",
+      "pass": true,
+      "detail": ""
+    },
+    {
+      "name": "HUD muestra Sobrecarga",
+      "pass": true,
+      "detail": ""
+    },
+    {
+      "name": "Historial anti-repetición 3 drops",
+      "pass": true,
+      "detail": ""
+    },
+    {
+      "name": "Drop director pondera doctrina",
+      "pass": true,
+      "detail": ""
+    },
+    {
+      "name": "Drop director pondera combos",
+      "pass": true,
+      "detail": ""
+    },
+    {
+      "name": "Fragmentos ponderados",
+      "pass": true,
+      "detail": ""
+    },
+    {
+      "name": "Densidad Normal 7 / Difícil 8",
+      "pass": true,
+      "detail": ""
+    },
+    {
+      "name": "4 activos base / 5 máximo",
+      "pass": true,
+      "detail": ""
+    },
+    {
+      "name": "5 cola base / 7 máximo",
+      "pass": true,
+      "detail": ""
+    },
+    {
+      "name": "Stock persistente 3–5",
+      "pass": true,
+      "detail": ""
+    },
+    {
+      "name": "Reciclador exceso preservado",
+      "pass": true,
+      "detail": ""
+    },
+    {
+      "name": "Núcleo de Sinergia preservado",
+      "pass": true,
+      "detail": ""
+    },
+    {
+      "name": "Sistema Boss Rush",
+      "pass": true,
+      "detail": ""
+    },
+    {
+      "name": "Sistema CHASE BONUS",
+      "pass": true,
+      "detail": ""
+    },
+    {
+      "name": "Sistema Commander Convergence",
+      "pass": true,
+      "detail": ""
+    },
+    {
+      "name": "Sistema Tenientes",
+      "pass": true,
+      "detail": ""
+    },
+    {
+      "name": "Sistema Combat Director",
+      "pass": true,
+      "detail": ""
+    },
+    {
+      "name": "Sistema Wave Objectives",
+      "pass": true,
+      "detail": ""
+    },
+    {
+      "name": "Sistema Reward Ledger",
+      "pass": true,
+      "detail": ""
+    },
+    {
+      "name": "Sistema Checkpoint boss",
+      "pass": true,
+      "detail": ""
+    },
+    {
+      "name": "Sistema Disparo automático",
+      "pass": true,
+      "detail": ""
+    },
+    {
+      "name": "Sistema Control directo sin joystick",
+      "pass": true,
+      "detail": ""
+    },
+    {
+      "name": "Sistema Responsive coarse/touch",
+      "pass": true,
+      "detail": ""
+    },
+    {
+      "name": "Sistema PWA registro",
+      "pass": true,
+      "detail": ""
+    },
+    {
+      "name": "Tres fases de boss",
+      "pass": true,
+      "detail": ""
+    },
+    {
+      "name": "Music playlists mundos",
+      "pass": true,
+      "detail": ""
+    },
+    {
+      "name": "Music playlists bosses",
+      "pass": true,
+      "detail": ""
+    },
+    {
+      "name": "Crossfade preservado",
+      "pass": true,
+      "detail": ""
+    },
+    {
+      "name": "Boss anim imperatrix 5 estados",
+      "pass": true,
+      "detail": "5/5"
+    },
+    {
+      "name": "Boss anim atlas 5 estados",
+      "pass": true,
+      "detail": "5/5"
+    },
+    {
+      "name": "Boss anim cortex 5 estados",
+      "pass": true,
+      "detail": "5/5"
+    },
+    {
+      "name": "Boss anim vela 5 estados",
+      "pass": true,
+      "detail": "5/5"
+    },
+    {
+      "name": "Boss anim regina 5 estados",
+      "pass": true,
+      "detail": "5/5"
+    },
+    {
+      "name": "Boss anim colossus 5 estados",
+      "pass": true,
+      "detail": "5/5"
+    },
+    {
+      "name": "Boss anim sanguina 5 estados",
+      "pass": true,
+      "detail": "5/5"
+    },
+    {
+      "name": "Boss anim architect 5 estados",
+      "pass": true,
+      "detail": "5/5"
+    },
+    {
+      "name": "Boss anim auralis 5 estados",
+      "pass": true,
+      "detail": "5/5"
+    },
+    {
+      "name": "Boss anim resonator 5 estados",
+      "pass": true,
+      "detail": "5/5"
+    },
+    {
+      "name": "Boss final asset boss_colossus_hop_final.png",
+      "pass": true,
+      "detail": ""
+    },
+    {
+      "name": "Boss final asset boss_sanguina_prime_final.png",
+      "pass": true,
+      "detail": ""
+    },
+    {
+      "name": "Boss final asset boss_architect_zero_final.png",
+      "pass": true,
+      "detail": ""
+    },
+    {
+      "name": "Boss final asset boss_auralis_final.png",
+      "pass": true,
+      "detail": ""
+    },
+    {
+      "name": "Boss final asset boss_resonator_omega_final.png",
+      "pass": true,
+      "detail": ""
+    },
+    {
+      "name": "Boss 6–10 final assets referenciados",
+      "pass": true,
+      "detail": ""
+    },
+    {
+      "name": "Boss cache bust 2137 preservado",
+      "pass": true,
+      "detail": ""
+    },
+    {
+      "name": "SW cache v2.14.3",
+      "pass": true,
+      "detail": ""
+    },
+    {
+      "name": "index CSS cache 2143",
+      "pass": true,
+      "detail": ""
+    },
+    {
+      "name": "index JS cache 2143",
+      "pass": true,
+      "detail": ""
+    },
+    {
+      "name": "powers cache 2143",
+      "pass": true,
+      "detail": ""
+    },
+    {
+      "name": "SW ASSETS parseable",
+      "pass": true,
+      "detail": "347"
+    },
+    {
+      "name": "PWA resources 0 faltantes",
+      "pass": true,
+      "detail": "[]"
+    },
+    {
+      "name": "PWA incluye iconos nuevos",
+      "pass": true,
+      "detail": ""
+    },
+    {
+      "name": "Documento README.txt",
+      "pass": true,
+      "detail": ""
+    },
+    {
+      "name": "Documento CHANGELOG_v2.14.3.txt",
+      "pass": true,
+      "detail": ""
+    },
+    {
+      "name": "Documento HANGAR_FUSION_v2.14.3.txt",
+      "pass": true,
+      "detail": ""
+    }
+  ]
+}

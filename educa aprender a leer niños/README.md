@@ -1,24 +1,24 @@
-# Emilia · El Bosque de las Palabras — Prototipo 0.4.5 Assets
+# Emilia · El Bosque de las Palabras · v0.7.0
 
-Esta versión parte de 0.4.4 e integra el paquete `emilia_assets.zip` sin sustituir las cuatro imágenes actuales de Lumina/Lumi.
+Versión **Sendero de los Secretos**. Amplía la alfabetización con patrones ortográficos frecuentes del español sin convertirlos en una lista memorística.
 
-## Cambios principales
-- Fondos ilustrados reales para el mapa, cada misión, Mi libro y zona adulta.
-- Mapa con assets 3D de letras M/P/S/L/N/T/D.
-- Nuevas imágenes de mamá, papá, sapo, lupa, nido, taza, dado y otros estímulos.
-- Nuevas actividades visuales iniciales para N, T y D.
-- Botones de escucha, bosque, libro y adulto con assets propios.
-- Semillas, brotes, luciérnagas, estrella, cofre y medalla integrados en progresión y resultados.
-- Refuerzo visual de palabras construidas mediante ilustraciones cuando existe un asset semánticamente correcto.
-- Assets optimizados a WebP para reducir el peso del paquete.
-- Service Worker actualizado para uso offline.
+## Novedades
+- Tercer sendero del mapa: **Ñ → CH → QU → RR → CE/CI → GE/GI → Bosque de Secretos**.
+- Nueva actividad `patternIntro`: el patrón aparece grande, Lumi lo explica y cada palabra-ejemplo puede escucharse individualmente.
+- La **Ñ** incorpora trazado táctil por segmentos, incluida la virgulilla.
+- CH se trabaja como combinación de dos letras con un sonido propio.
+- QU se presenta solo en **QUE/QUI**, explicando de forma infantil que en esas sílabas la U no suena.
+- R/RR se introduce después de la R inicial fuerte: se contrasta **pero / perro** para distinguir una R suave entre vocales y RR fuerte.
+- CE/CI y GE/GI se introducen como cambios de sonido, después de CA/CO/CU y GA/GO/GU.
+- Nuevo vocabulario: niño, niña, año, moño, leche, noche, techo, mucho, queso, quita, quema, quiso, perro, carro, torre, burro, cena, cine, cero, cima, gema, gel y gigante.
+- Nuevos repasos espaciados, logros y cuatro historias de dos frases.
+- El mapa ahora tiene **tres senderos** y abre automáticamente el que corresponde a la recomendación actual.
+
+## Criterio pedagógico
+Las reglas especiales se presentan primero mediante **palabras reales y escucha**, después mediante selección/completado, construcción de palabras y finalmente frases. No se evalúa al niño por leer una explicación escrita.
+
+## PWA
+Mantiene instalación y actualización por HTTPS. El estado migra automáticamente desde `emilia.reader.v6` y anteriores.
 
 ## Lumina
-Las cuatro imágenes de Lumina de 0.4.4 se mantienen byte por byte. Las variantes de Lumi del ZIP recibido fueron ignoradas deliberadamente.
-
-## Calidad de assets
-Ver `ASSET_AUDIT.md` para dos archivos recibidos que permanecen en la biblioteca pero no se utilizan pedagógicamente por problemas semánticos/textuales.
-
-## Ejecución
-- Puede abrirse localmente para pruebas básicas.
-- Para instalación PWA y actualización, publicar por HTTPS (por ejemplo, Cloudflare Pages).
+Las cuatro variantes de Lumina se preservan sin modificaciones.

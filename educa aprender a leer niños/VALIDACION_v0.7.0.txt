@@ -1,0 +1,46 @@
+EMILIA · EL BOSQUE DE LAS PALABRAS v0.7.0 — VALIDACIÓN ESTÁTICA
+
+RESULTADO GENERAL: OK
+
+1. CONTENIDO
+- Habilidades: 93
+- Mundos: 22
+- Misiones: 22
+- Senderos del mapa: 3
+- Mundos del Sendero de los Secretos: 7
+- Repasos espaciados: 24
+- Logros: 16
+- Historias: 14
+- Nuevos patrones: Ñ, CH, QU, R/RR, CE/CI, GE/GI
+
+2. MOTOR PEDAGÓGICO
+- patternIntro con ejemplos auditivos individuales: OK
+- Ñ con trazado por segmentos y virgulilla: OK
+- R suave / RR fuerte contrastadas dentro de palabra: OK
+- CE/CI introducidas después de CA/CO/CU: OK
+- GE/GI introducidas después de GA/GO/GU: OK
+- QU limitado a QUE/QUI en esta etapa: OK
+- CH tratado como patrón de dos letras: OK
+- Repaso espaciado para nuevos patrones: OK
+
+3. MIGRACIÓN
+- Store actual: emilia.reader.v7
+- Migración desde emilia.reader.v6 y anteriores: OK (prueba automatizada)
+- Recomendación tras completar v0.6 con prerrequisitos: forest_enye: OK
+
+4. PWA
+- Cache: emilia-bosque-v0.7.0
+- Recursos runtime precacheados: 112
+- Referencias faltantes: 0
+- Navegación: red primero + fallback offline: OK por inspección
+
+5. LUMINA — PRESERVADA
+- lumi_guide.png: bf23716aa9235071e0bd40e65282ca591883ef11216a910faf4608a4b1fcaf91
+- lumi_thinking.png: be27fff9b5ea182c2c9b81928cfa670ea44cebd8330a7215456c80a4c3e5b356
+- lumi_cheer.png: 7b390c7a8f4554851380fb64ef2ef107c7c9e702b8ce2f29e8cd286abe1bcf71
+- lumi_victory.png: 95e825d56ab05c35f177fb6ba64f39956db13b8d581cecbd0e4b737a4fb7ae42
+
+Los cuatro PNG son idénticos byte a byte a v0.6.0.
+
+6. LIMITACIÓN
+Validación sintáctica, estructural, de referencias, migración y lógica estática. No se atribuye una sesión completa jugada manualmente en navegador/tableta en esta pasada.

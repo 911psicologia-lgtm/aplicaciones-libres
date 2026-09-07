@@ -1,0 +1,14 @@
+VALIDACIÓN v3.23.0
+- node --check js/game.js: OK
+- node --check sw.js: OK
+- manifest.json: OK
+- Mundos: 20
+- Perfiles Guardianes Vinculados: 20
+- Movilidad exclusiva M16-M19: OK
+- Naves Rizoma con ship_meta.json: 6/6
+- Intro general: OK
+- Microintro M1: OK
+- Referencias literales de assets: 683
+- Assets faltantes: 0
+- IDs HTML duplicados: 0
+- unzip -t: OK

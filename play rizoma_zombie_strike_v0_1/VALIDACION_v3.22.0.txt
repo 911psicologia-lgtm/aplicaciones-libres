@@ -1,0 +1,19 @@
+VALIDACIÓN v3.22.0
+
+PASS  node --check js/game.js
+PASS  node --check sw.js
+PASS  manifest.json válido
+PASS  versión/caché 3.22.0
+PASS  20 mundos (5 base + 15 extensiones M6-M20)
+PASS  referencias explícitas de assets: 683 / faltantes: 0
+PASS  IDs HTML duplicados: 0
+PASS  6 Naves Rizoma con ship_base.png y ship_meta.json válidos
+PASS  intro general presente
+PASS  microintro Mundo 1 presente
+PASS  carrusel horizontal Compra Exprés + flechas
+PASS  X y tap externo con protección anti-click-through
+PASS  DOMINIO muestra todas las Naves Rizoma desbloqueadas
+PASS  Guardián Vinculado: prioridad de amenazas + persecución + intercepción + embestida + drenaje
+PASS  +10% densidad adicional en director Adrenalina y presión de esbirros del Guardián
+
+NOTA: no se contabiliza smoke test Chromium headless; el entorno de Chromium del contenedor presenta limitaciones de zygote/DBus. La validación se realizó con sintaxis, estructura, referencias y contratos de ejecución estáticos.

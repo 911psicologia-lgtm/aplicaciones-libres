@@ -1,0 +1,328 @@
+{
+  "version": "2.14.2",
+  "passed": 61,
+  "total": 61,
+  "checks": [
+    {
+      "name": "node --check js/game.js",
+      "pass": true,
+      "detail": "PASS"
+    },
+    {
+      "name": "node --check sw.js",
+      "pass": true,
+      "detail": "PASS"
+    },
+    {
+      "name": "VERSION 2.14.2",
+      "pass": true,
+      "detail": "2.14.2"
+    },
+    {
+      "name": "META key v2142",
+      "pass": true,
+      "detail": "swarm_rift_meta_v2142"
+    },
+    {
+      "name": "RUN key v2142",
+      "pass": true,
+      "detail": "swarm_rift_run_v2142"
+    },
+    {
+      "name": "META migration v2141",
+      "pass": true,
+      "detail": "immediate prior meta"
+    },
+    {
+      "name": "RUN migration v2141",
+      "pass": true,
+      "detail": "load + hasSave"
+    },
+    {
+      "name": "Service Worker v2.14.2",
+      "pass": true,
+      "detail": "swarm-rift-v2.14.2"
+    },
+    {
+      "name": "index cache bust 2142",
+      "pass": true,
+      "detail": "JS/CSS 2142"
+    },
+    {
+      "name": "power asset bust 2142",
+      "pass": true,
+      "detail": "powers_hangar av=2142"
+    },
+    {
+      "name": "10 worlds active",
+      "pass": true,
+      "detail": "10"
+    },
+    {
+      "name": "Chapter II not started",
+      "pass": true,
+      "detail": "diagnostic false + 10 SECTORS"
+    },
+    {
+      "name": "24 powers",
+      "pass": true,
+      "detail": "24"
+    },
+    {
+      "name": "18 A/B branch powers",
+      "pass": true,
+      "detail": "18"
+    },
+    {
+      "name": "4 active powers base",
+      "pass": true,
+      "detail": "4"
+    },
+    {
+      "name": "5 active powers max",
+      "pass": true,
+      "detail": "4+1"
+    },
+    {
+      "name": "5 queue base",
+      "pass": true,
+      "detail": "5"
+    },
+    {
+      "name": "7 queue max",
+      "pass": true,
+      "detail": "5+2"
+    },
+    {
+      "name": "drop budget 7/8",
+      "pass": true,
+      "detail": "Normal 7 / Hard 8"
+    },
+    {
+      "name": "adaptive drop director",
+      "pass": true,
+      "detail": "context-weighted"
+    },
+    {
+      "name": "world-focus drop weighting",
+      "pass": true,
+      "detail": "world focus"
+    },
+    {
+      "name": "combo completion weighting",
+      "pass": true,
+      "detail": "combo-aware"
+    },
+    {
+      "name": "visual DNA helper",
+      "pass": true,
+      "detail": "branch/rank visual metadata"
+    },
+    {
+      "name": "visual rank tags",
+      "pass": true,
+      "detail": "A/B + VI/VII"
+    },
+    {
+      "name": "Ascended/Omega VFX",
+      "pass": true,
+      "detail": "VI/VII visual escalation"
+    },
+    {
+      "name": "synergy upgrade",
+      "pass": true,
+      "detail": "Núcleo de sinergia Σ"
+    },
+    {
+      "name": "recycler upgrade",
+      "pass": true,
+      "detail": "Reciclador de exceso ♻"
+    },
+    {
+      "name": "overflow pickup recycle",
+      "pass": true,
+      "detail": "active+queue overflow conversion"
+    },
+    {
+      "name": "Hangar diagnostic v2142",
+      "pass": true,
+      "detail": "runtime status hook"
+    },
+    {
+      "name": "10 boss animation definitions",
+      "pass": true,
+      "detail": "10"
+    },
+    {
+      "name": "10 bosses x 5 state sprite files",
+      "pass": true,
+      "detail": "50/50"
+    },
+    {
+      "name": "M6 Colossus 5 animation states",
+      "pass": true,
+      "detail": "idle,attack,hurt,phase,death"
+    },
+    {
+      "name": "M7 Sanguina 5 animation states",
+      "pass": true,
+      "detail": "idle,attack,hurt,phase,death"
+    },
+    {
+      "name": "M8 Architect 5 animation states",
+      "pass": true,
+      "detail": "idle,attack,hurt,phase,death"
+    },
+    {
+      "name": "M9 Auralis 5 animation states",
+      "pass": true,
+      "detail": "idle,attack,hurt,phase,death"
+    },
+    {
+      "name": "M10 Resonator 5 animation states",
+      "pass": true,
+      "detail": "idle,attack,hurt,phase,death"
+    },
+    {
+      "name": "bosses 6–10 final assets present",
+      "pass": true,
+      "detail": "5/5 final assets referenced"
+    },
+    {
+      "name": "signature IMPACTO COLOSSUS",
+      "pass": true,
+      "detail": "IMPACTO COLOSSUS"
+    },
+    {
+      "name": "signature SIFÓN HEMÁTICO",
+      "pass": true,
+      "detail": "SIFÓN HEMÁTICO"
+    },
+    {
+      "name": "signature JAULA DE RESINA",
+      "pass": true,
+      "detail": "JAULA DE RESINA"
+    },
+    {
+      "name": "signature CRUZ PRISMÁTICA",
+      "pass": true,
+      "detail": "CRUZ PRISMÁTICA"
+    },
+    {
+      "name": "signature ONDA OMEGA",
+      "pass": true,
+      "detail": "ONDA OMEGA"
+    },
+    {
+      "name": "boss three-phase logic",
+      "pass": true,
+      "detail": "phase 1/2/3 paths present"
+    },
+    {
+      "name": "boss asset fallback visible",
+      "pass": true,
+      "detail": "non-silent fallback"
+    },
+    {
+      "name": "CHASE separate mode",
+      "pass": true,
+      "detail": "menu mode"
+    },
+    {
+      "name": "CHASE X/Y + reticle",
+      "pass": true,
+      "detail": "rear-view free movement"
+    },
+    {
+      "name": "CHASE physical shootable powers",
+      "pass": true,
+      "detail": "physical pickups"
+    },
+    {
+      "name": "Boss Rush",
+      "pass": true,
+      "detail": "preserved"
+    },
+    {
+      "name": "Commander Convergence",
+      "pass": true,
+      "detail": "preserved"
+    },
+    {
+      "name": "Lieutenants",
+      "pass": true,
+      "detail": "preserved"
+    },
+    {
+      "name": "Wave Objectives",
+      "pass": true,
+      "detail": "preserved"
+    },
+    {
+      "name": "Combat Director",
+      "pass": true,
+      "detail": "preserved"
+    },
+    {
+      "name": "Reward Ledger",
+      "pass": true,
+      "detail": "preserved"
+    },
+    {
+      "name": "boss checkpoint 50%",
+      "pass": true,
+      "detail": "50%"
+    },
+    {
+      "name": "responsive profiles",
+      "pass": true,
+      "detail": "4 profiles"
+    },
+    {
+      "name": "Music Director playlists",
+      "pass": true,
+      "detail": "world+boss playlists/fade/resume"
+    },
+    {
+      "name": "PWA manifest link",
+      "pass": true,
+      "detail": "manifest.json"
+    },
+    {
+      "name": "PWA service worker registration",
+      "pass": true,
+      "detail": "sw.js"
+    },
+    {
+      "name": "PWA asset list parsed",
+      "pass": true,
+      "detail": "345"
+    },
+    {
+      "name": "PWA resources all present",
+      "pass": true,
+      "detail": "345 resources · 0 missing"
+    },
+    {
+      "name": "HTTP smoke critical resources",
+      "pass": true,
+      "detail": "{'index.html': 200, 'js/game.js?v=2142': 200, 'sw.js': 200, 'assets/powers_hangar/phase_lance.png?av=2142': 200, 'assets/boss_final_v2137/boss_auralis_final.png?av=2137': 200, 'assets/boss_anim/resonator/attack.png?av=2137': 200, 'assets/music/boss_10_end_of_stars.mp3': 200}"
+    }
+  ],
+  "details": {
+    "pwa_assets_count": 345,
+    "pwa_missing": [],
+    "http_smoke": {
+      "index.html": 200,
+      "js/game.js?v=2142": 200,
+      "sw.js": 200,
+      "assets/powers_hangar/phase_lance.png?av=2142": 200,
+      "assets/boss_final_v2137/boss_auralis_final.png?av=2137": 200,
+      "assets/boss_anim/resonator/attack.png?av=2137": 200,
+      "assets/music/boss_10_end_of_stars.mp3": 200
+    }
+  },
+  "limitations": [
+    "Chromium headless está instalado, pero la política administrativa del entorno bloquea la navegación tanto a localhost como a file:// (ERR_BLOCKED_BY_ADMINISTRATOR). Por ello no se marca una prueba interactiva automatizada como PASS; la validación realizada es sintáctica, estructural, de recursos y smoke HTTP."
+  ]
+}

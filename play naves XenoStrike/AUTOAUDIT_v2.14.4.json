@@ -1,0 +1,595 @@
+{
+  "version": "2.14.4",
+  "passed": 117,
+  "total": 117,
+  "failed": [],
+  "checks": [
+    {
+      "name": "VERSION 2.14.4",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "META key v2144",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "RUN key v2144",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "META migration v2143",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "RUN migration v2143",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "hasSave v2143",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "index JS bust 2144",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "index CSS bust 2144",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "SW cache v2.14.4",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "SW JS bust 2144",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "SW CSS bust 2144",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "Boss 1 IMPERATRIX VESPA",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "Boss 2 ATLAS VERDE",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "Boss 3 CORTEX RAZOR",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "Boss 4 VELA NOCTIS",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "Boss 5 REGINA FERRUM",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "Boss 6 COLOSSUS HOP",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "Boss 7 SANGUINA PRIME",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "Boss 8 ARCHITECT ZERO",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "Boss 9 AURALIS",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "Boss 10 RESONATOR OMEGA",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "Boss final asset colossus",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "colossus anim idle",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "colossus anim attack",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "colossus anim hurt",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "colossus anim phase",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "colossus anim death",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "Boss final asset sanguina",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "sanguina anim idle",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "sanguina anim attack",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "sanguina anim hurt",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "sanguina anim phase",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "sanguina anim death",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "Boss final asset architect",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "architect anim idle",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "architect anim attack",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "architect anim hurt",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "architect anim phase",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "architect anim death",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "Boss final asset auralis",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "auralis anim idle",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "auralis anim attack",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "auralis anim hurt",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "auralis anim phase",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "auralis anim death",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "Boss final asset resonator",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "resonator anim idle",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "resonator anim attack",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "resonator anim hurt",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "resonator anim phase",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "resonator anim death",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "Signature IMPACTO COLOSSUS",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "Signature SIFÓN HEMÁTICO",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "Signature JAULA DE RESINA",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "Signature CRUZ PRISMÁTICA",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "Signature ONDA OMEGA",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "Power ionweb",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "Power orbitblade",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "Power phase",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "Power nanites",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "Power riftmine",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "Power echo",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "Power nova",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "26-power status",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "23 combos status",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "A/B branches",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "Ranks VI/VII",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "5 doctrines",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "3 reserve policies",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "Fusion mastery",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "Overflow upgrade",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "Overflow activation",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "Overflow persistence",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "Overflow HUD",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "Fusion tier function",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "Fusion cascade tier 2",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "Fusion apex tier 3",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "Fusion escalation",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "Boss counter matrix",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "Counter sector 1",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "Counter sector 2",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "Counter sector 3",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "Counter sector 4",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "Counter sector 5",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "Counter sector 6",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "Counter sector 7",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "Counter sector 8",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "Counter sector 9",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "Counter sector 10",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "Boss counter damage cap 9%",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "Counter smart score",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "Counter briefing card",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "Counter HUD",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "Adaptive VFX budget",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "Particle hard cap",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "Responsive multirow active powers",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "Responsive queue reposition",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "Auto-fire",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "Direct touch",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "No joystick gameplay",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "Boss Rush",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "Grand Boss Rush",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "CHASE",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "Commander Convergence",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "Lieutenants",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "Combat Director",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "Wave Objectives",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "Reward Ledger",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "Boss checkpoint",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "Music Director",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "Crossfade",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "PWA registration",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "SW asset list parse",
+      "ok": true,
+      "detail": "347 resources"
+    },
+    {
+      "name": "PWA resources exist",
+      "ok": true,
+      "detail": "missing=0"
+    },
+    {
+      "name": "Chapter II false status",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "No active app=2143 cache bust",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "No active SW cache 2.14.3",
+      "ok": true,
+      "detail": ""
+    }
+  ],
+  "pwa_assets": 347,
+  "pwa_missing": []
+}

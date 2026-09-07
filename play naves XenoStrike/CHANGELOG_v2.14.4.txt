@@ -1,0 +1,86 @@
+SWARM//RIFT — INSECTA SIEGE
+CHANGELOG v2.14.4 · OVERFLOW / COUNTER MATRIX / FUSION APEX
+Base incremental: v2.14.3 Doctrine / Fusion Mastery / Arsenal
+
+ALCANCE
+- Continuación incremental y conservadora del Capítulo I.
+- No se iniciaron Mundos 11–20 ni se reconstruyeron sistemas cerrados.
+- Se preservan los 10 mundos, 10 bosses, bosses 6–10 biofieles, Boss Rush, CHASE, Commander Convergence, Wave Objectives, Combat Director, Reward Ledger, Music Director, responsive, PWA, checkpoints y migraciones históricas.
+
+1. REACTOR DE SOBREFlUJO / OVERFLOW
+- Nueva evolución persistente de Hangar: Reactor de sobreflujo, niveles I–III.
+- Cuando los slots activos y la cola están llenos, un nuevo power puede convertirse en un slot ACTIVO TEMPORAL en lugar de perderse.
+- Escala aproximada por nivel: 45%, 55% y 65% de la duración natural del poder.
+- El overflow se identifica en el HUD con tratamiento visual propio y símbolo ⚡.
+- Solo existe un overflow adicional a la vez; si ya está ocupado, vuelve a operar el Reciclador de Exceso.
+- El estado de overflow se guarda y restaura en checkpoints/run save.
+- El Hangar SMART pondera Reactor de sobreflujo con mayor prioridad en sectores avanzados.
+
+2. ESCALADA DE FUSIÓN Σ
+- La antigua Sobrecarga Σ deja de ser binaria y pasa a tres escalones dinámicos:
+  · 3 combos: FUSIÓN Σ.
+  · 4 combos: CASCADA Σ.
+  · 5+ combos: ÁPICE Σ.
+- La activación puede escalar durante la misma ventana temporal si se completa una fusión adicional.
+- El multiplicador de daño aumenta con el nivel de sobrecarga y conserva la contribución del Núcleo de Sinergia.
+- El HUD muestra el nivel real de la sobrecarga activa.
+
+3. MATRIZ DE CONTRAMEDIDAS DE BOSSES
+- Cada uno de los 10 bosses tiene ahora una tríada táctica de powers recomendados.
+- La matriz NO vuelve obligatoria una build: funciona como ventaja opcional de preparación.
+- Mientras el boss está activo, cada contramedida equipada aporta +3% de daño contra el boss, con máximo +9%.
+- El Director adaptativo de drops pondera contramedidas según sector y cercanía al boss.
+- El Hangar SMART añade un briefing de contramedidas antes de las recomendaciones comprables.
+- El HUD informa cuántas contramedidas están activas.
+
+Matriz por sector:
+01 · RUPTURA DE ENJAMBRE: Ráfaga / Twin / Escudo.
+02 · CONTROL DE CAPARAZÓN: Ácido / Cryo / Rail.
+03 · CORTE DE ALCANCE: Rail / Misiles / Lanza Fásica.
+04 · FIJACIÓN NOCTURNA: Tesla / Malla Iónica / Magnetismo.
+05 · COLAPSO DE FORJA: Bioarma / Nanitas / Misiles.
+06 · ANCLA CINÉTICA: Gravedad / Mina Rift / Lanza Fásica.
+07 · ANTI-SIFÓN: Escudo / Nanitas / Muro de Resina.
+08 · BRECHA COLONIAL: Ácido / Bioarma / Cuchillas Orbitales.
+09 · INTERCEPCIÓN PRISMÁTICA: Malla Iónica / Tesla / Rail.
+10 · DESFASE ARMÓNICO: Lanza Fásica / Nova / Escudo.
+
+4. PRESUPUESTO VFX ADAPTATIVO
+- Se añadió un presupuesto dinámico de partículas que responde a la carga visual real y al tamaño de pantalla.
+- Las explosiones conservan su identidad, pero reducen automáticamente densidad cuando el número de partículas aumenta.
+- Se añadió hard cap de 900 partículas para evitar acumulación indefinida.
+- Objetivo: mantener espectáculo en desktop sin penalizar de forma innecesaria móviles/tabletas durante builds con 5–6 powers visibles.
+
+5. HUD DE POWERS RESPONSIVE
+- El HUD inferior de powers activos ya no presupone una única fila.
+- Puede reorganizar 4–6 powers activos en varias filas según el ancho disponible.
+- La cola se recoloca dinámicamente por encima de las filas activas.
+- La barra de combos/fusiones se desplaza para no invadir la reserva en pantallas compactas.
+- El overflow temporal se integra visualmente sin ocultar los powers permanentes.
+
+6. HANGAR SMART MÁS CONTEXTUAL
+- El scoring SMART incorpora las contramedidas específicas del boss del sector.
+- Las recomendaciones preboss/boss elevan la prioridad de powers que cubren la matriz táctica.
+- Se conserva el peso de doctrina, combos potenciales, rangos, stock y estado activo/cola.
+- Se incorpora briefing táctico informativo sin convertirlo en una compra falsa.
+
+7. GUARDADOS / CACHE / PWA
+- VERSION actualizada a 2.14.4.
+- Nuevas claves META/RUN v2144.
+- Migración explícita desde META/RUN v2.14.3 antes de cadenas históricas anteriores.
+- Service Worker actualizado a swarm-rift-v2.14.4.
+- Cache busting de app/powers actualizado a 2144.
+- Assets biofieles de bosses 6–10 mantienen av=2137 deliberadamente porque no fueron reemplazados en esta iteración.
+
+VALIDACIÓN RESUMIDA
+- node --check js/game.js: PASS.
+- node --check sw.js: PASS.
+- Runtime DOM/Canvas simulado: PASS.
+- Test funcional Overflow/Fusión/Contramedidas/VFX: PASS.
+- Autoauditoría v2.14.4: 117/117 PASS.
+- PWA: 347 recursos, 0 faltantes.
+- Smoke HTTP: 9/9 recursos críticos HTTP 200.
+- Capítulo II: no iniciado.
+
+LIMITACIÓN REAL
+La validación automatizada cubre sintaxis, runtime simulado, funciones nuevas, estructura, assets, PWA, migraciones y servicio HTTP. El balance fino de densidad VFX, legibilidad de 5–6 powers y sensación de la Matriz de Contramedidas debe terminar de ajustarse mediante partida real en PC/tableta/celular; no se declara una prueba visual de navegador real que no se haya ejecutado.

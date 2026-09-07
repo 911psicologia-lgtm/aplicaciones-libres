@@ -1,14 +1,14 @@
 (function(){
-  const KEY='emilia.reader.v4';
-  const PREV=['emilia.reader.v3','emilia.reader.v2','emilia.reader.v1'];
+  const KEY='emilia.reader.v7';
+  const PREV=['emilia.reader.v6','emilia.reader.v5','emilia.reader.v4','emilia.reader.v3','emilia.reader.v2','emilia.reader.v1'];
   const LEGACY='emilia.v3';
   const REGISTRY='emilia.reader.profiles.v1';
   function uid(){return 'kid_'+Math.random().toString(36).slice(2,9)+'_'+Date.now().toString(36);}
   function base(){
     return {
-      version:4.0,
+      version:7.0,
       profile:{id:'',name:'',mascot:'lumi',remember:true},
-      mastery:{},history:[],completedMissions:[],achievements:[],seeds:0,sessions:0,
+      mastery:{},history:[],completedMissions:[],achievements:[],seeds:0,treasureStars:0,sessions:0,
       lastMission:'forest_vowels',lastStory:'',activeSession:null,
       settings:{screenLimit:15,voiceRate:.66,listeningPace:'slow',repeatShortAudio:false,sound:true,reducedMotion:false},
       growth:{stage:0,plants:0,fireflies:0},legacy:null,createdAt:Date.now(),updatedAt:Date.now()
@@ -16,7 +16,7 @@
   }
   function mergeState(raw){
     const b=base(),s=Object.assign({},b,raw||{}),priorVersion=Number((raw&&raw.version)||0);
-    s.version=4.0;s.profile=Object.assign({},b.profile,(raw&&raw.profile)||{});
+    s.version=7.0;s.profile=Object.assign({},b.profile,(raw&&raw.profile)||{});
     s.mastery=(raw&&raw.mastery)||{};s.history=Array.isArray(raw&&raw.history)?raw.history:[];
     s.completedMissions=Array.isArray(raw&&raw.completedMissions)?raw.completedMissions:[];s.achievements=Array.isArray(raw&&raw.achievements)?raw.achievements:[];
     s.settings=Object.assign({},b.settings,(raw&&raw.settings)||{});s.growth=Object.assign({},b.growth,(raw&&raw.growth)||{});

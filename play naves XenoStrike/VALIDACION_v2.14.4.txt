@@ -1,0 +1,76 @@
+SWARM//RIFT — INSECTA SIEGE v2.14.4
+VALIDACIÓN DE BUILD
+
+VERSIÓN
+- VERSION runtime: 2.14.4 · PASS
+- Service Worker cache: swarm-rift-v2.14.4 · PASS
+- index.js cache bust: v=2144 · PASS
+- index.css cache bust: v=2144 · PASS
+- META v2144 + migración v2143 · PASS
+- RUN v2144 + migración v2143 · PASS
+
+SINTAXIS
+- node --check js/game.js · PASS
+- node --check sw.js · PASS
+
+RUNTIME SIMULADO
+- Inicialización JS con DOM/Canvas simulado · PASS
+- VERSION reportada 2.14.4 · PASS
+- 26 powers · PASS
+- 23 combos/fusiones · PASS
+- 10 mundos preservados · PASS
+- Boss Rush preservado · PASS
+- CHASE preservado · PASS
+- PWA preservado · PASS
+- Capítulo II desactivado · PASS
+
+TEST FUNCIONAL ESPECÍFICO v2.14.4
+- Reactor de sobreflujo nivel III: activa slot temporal · PASS
+- Overflow de prueba: power gravity, 5 activos, duración reducida · PASS
+- Fusión con 5 combos: ÁPICE Σ tier 3 · PASS
+- Multiplicador base de ÁPICE Σ probado: 1.18 · PASS
+- Sector 6 con 3 contramedidas activas: +9% contra boss · PASS
+- Contramedida sector 6: ANCLA CINÉTICA · PASS
+- Presupuesto VFX bajo carga de prueba: 0.52 · PASS
+- Briefing SMART de contramedidas presente · PASS
+
+AUTOAUDITORÍA
+- 117/117 comprobaciones · PASS
+- Bosses 1–10 presentes · PASS
+- Assets finales bosses 6–10 · PASS
+- idle/attack/hurt/phase/death bosses 6–10 · PASS
+- ataques signature 6–10 · PASS
+- Hangar, doctrinas y políticas de reserva · PASS
+- Reactor de sobreflujo + persistencia · PASS
+- FUSIÓN Σ / CASCADA Σ / ÁPICE Σ · PASS
+- Matriz de contramedidas sectores 1–10 · PASS
+- VFX adaptativo + hard cap · PASS
+- HUD responsive multirrow · PASS
+- Auto-fire · PASS
+- control táctil directo mediante Pointer Events · PASS
+- joystick de gameplay deshabilitado visualmente / control directo preservado · PASS
+- Boss Rush / Grand Boss Rush / CHASE · PASS
+- Commander Convergence / Tenientes · PASS
+- Combat Director / Wave Objectives · PASS
+- Reward Ledger / boss checkpoint · PASS
+- Music Director / fades entre repertorios · PASS
+- registro PWA · PASS
+
+PWA
+- 347 recursos declarados · PASS
+- 0 recursos faltantes · PASS
+
+SMOKE HTTP LOCAL
+- index.html · 200
+- js/game.js?v=2144 · 200
+- sw.js · 200
+- ion_web.png?av=2144 · 200
+- orbit_blades.png?av=2144 · 200
+- boss_colossus_hop_final.png?av=2137 · 200
+- boss_anim/auralis/attack.png?av=2137 · 200
+- boss_10_end_of_stars.mp3 · 200
+- manifest.json · 200
+RESULTADO: 9/9 PASS
+
+LIMITACIÓN
+No se marca como aprobada una sesión visual automatizada en navegador real. La build sí fue sometida a validación sintáctica, runtime simulado, test funcional dirigido, auditoría estática, verificación PWA y servidor HTTP local. El ajuste fino de balance y legibilidad debe confirmarse jugando en dispositivos reales.

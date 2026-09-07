@@ -1,0 +1,23 @@
+SWARM//RIFT v2.14.3 — BUILD MANIFEST
+=========================================
+Version: 2.14.3
+Base incremental: v2.14.2
+Chapter I: 10 worlds
+Chapter II: not started
+
+cd1aaca9a8adf2cfa04dfdf9d240d48a785be6bf865cabc64cedd643f53b93a4  index.html  (2561 bytes)
+a1d563f0b97e20bccac956d1a89162eff823609ce89699e3bf1fad84121c155c  js/game.js  (470600 bytes)
+8f28c39be0a78e1892e471cffd195fb804cfdc9d04962d9ec0da590576739aa6  css/game.css  (5669 bytes)
+27563490c8ea535badb58335f2abf57cc894b3339963c3ee8f40c8518b6c6e4a  sw.js  (15078 bytes)
+a7d8910f677fc3b6ab6b2a23e12abbbb07da9200855104f2b23afdfe570bba13  manifest.json  (529 bytes)
+4f92e378541b66f5cf77abb48c0b7fe6f7013d0d1508581a7d85519be85442d0  README.txt  (2340 bytes)
+b56ce1b998724a40db1b4d291440050ac7ee8f55c8f579f921e8761972a9ea87  CHANGELOG_v2.14.3.txt  (4087 bytes)
+755a4e35700391277fe1dc893eed35b9bc281659191c0368b30d47385c47a944  HANGAR_FUSION_v2.14.3.txt  (1111 bytes)
+630882a4f857df00cd64f7cb621c9b1a06015c4a85e429d982ff7d3f43252255  AUTOAUDIT_v2.14.3.json  (9557 bytes)
+0b9462f88f8b005c19106deac8c8827f32fe2019a275a73d8b995745eb2348bc  assets/powers_hangar/ion_web.png  (12739 bytes)
+335230c7c579c09e1a72e775c86bfd920b92a5c20b218ef71230fe227b406005  assets/powers_hangar/orbit_blades.png  (11325 bytes)
+79670a6ccf74cb8f35f5607fa90bfc69fb67d50c9aed987f9cc9a518acd8f38f  assets/boss_final_v2137/boss_colossus_hop_final.png  (1650714 bytes)
+f18f2f0108b3110bd7c95dc426ac363cfa2f46c93e9901a130a6379242396e07  assets/boss_final_v2137/boss_sanguina_prime_final.png  (2140623 bytes)
+5dac1fea3b4f0342fa91a9837d5c27c04ab3c4a6acc69d4fcf17f430c80cc782  assets/boss_final_v2137/boss_architect_zero_final.png  (2564130 bytes)
+579d499907b8e9f921a6892d547cfbfa158e59e7f9babb64cda39ab9f4ad4192  assets/boss_final_v2137/boss_auralis_final.png  (2106250 bytes)
+335258cdb3376f63db8ff737455b74c03595b41fafe7188d32663637f24ce181  assets/boss_final_v2137/boss_resonator_omega_final.png  (2737186 bytes)

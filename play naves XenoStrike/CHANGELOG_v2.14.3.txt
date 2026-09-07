@@ -1,0 +1,74 @@
+SWARM//RIFT — INSECTA SIEGE
+CHANGELOG v2.14.3 — DOCTRINE / FUSION MASTERY / ARSENAL
+=============================================================
+
+BASE
+- Desarrollo incremental sobre v2.14.2 Visual Evolution DNA / Adaptive Hangar.
+- Capítulo I permanece en 10 mundos. No se implementan Mundos 11–20.
+- Se preservan guardados y migración directa desde META/RUN v2.14.2.
+
+ARSENAL
+- Poderes totales: 26.
+- Nuevo: MALLA IÓNICA. Pulsa una red alrededor de la nave, daña, ralentiza amenazas y puede disipar proyectiles enemigos.
+- Nuevo: CUCHILLAS ORBITALES. Hojas visibles alrededor de la nave que cortan objetivos próximos en intervalos periódicos.
+- Ambos poderes poseen iconos propios, VFX de combate, Rangos I–VII y ramas evolutivas A/B.
+- MALLA IÓNICA: Rama A amplía radio; Rama B acelera el pulso.
+- CUCHILLAS ORBITALES: Rama A añade capacidad ofensiva; Rama B acelera el intervalo de corte.
+
+FUSIONES
+- 4 combos nuevos: RED DE TORMENTA, MALLA SINGULAR, MOLINO RIFT y CORONA BASTIÓN.
+- Total de combos: 23.
+- Nueva MAESTRÍA DE FUSIONES persistente por combo, niveles I–IV.
+- Para evitar farmeo artificial, cada combo suma como máximo una activación de maestría por run.
+- Los niveles de maestría aportan un bonus agregado moderado cuando esos combos están activos.
+- Nueva SOBRECARGA DE FUSIÓN: al alcanzar 3+ combos activos se dispara una ventana temporal de daño, cadencia y recuperación parcial de shield; posee cooldown y escala con Núcleo de Sinergia.
+
+HANGAR
+- Nueva pestaña Σ FUSIONES.
+- 5 doctrinas seleccionables y persistentes:
+  · ADAPTATIVA: director sin penalización.
+  · ASALTO: +6% daño, -6% duración.
+  · CONTROL: +12% duración, -3% daño.
+  · SOSTÉN: -7% daño recibido, -4% daño infligido.
+  · FUSIÓN: +2% daño por combo activo y prioridad a completar sinergias.
+- 3 políticas persistentes de reserva:
+  · SMART: despliegue cuando exista un slot libre.
+  · CONSERVAR: espera oleada 2+, frenesí, jefe o integridad baja.
+  · JEFE: prioriza antesala/frenesí/combate de jefe.
+- La pestaña FUSIONES incluye códice de maestría con progreso y siguiente umbral.
+- Capacidad de stock de cada poder ahora escala de 3 a 5 mediante Bastidor de Reserva.
+
+DIRECTOR / DROPS
+- Historial antirrepetición de los últimos 3 drops de poder.
+- El Director pondera foco del mundo, doctrina elegida, combos completables, rango, presencia activa/cola y necesidad táctica.
+- Los Fragmentos de Evolución eligen candidatos de forma ponderada y útil, en lugar de escoger uniformemente al azar.
+- Se mantiene la densidad 7 drops por sector en Normal y 8 en Difícil para no saturar más la legibilidad.
+
+HUD / UX
+- Indicador visible de SOBRECARGA DE FUSIÓN con tiempo restante y bonus.
+- Poderes activos conservan rango, rama y estado Ascendido/Omega.
+- Cola responsive en múltiples filas.
+- Se mantienen 4 activos base / 5 máximo y 5 en cola base / 7 máximo.
+- Dos nuevos iconos específicos en assets/powers_hangar.
+
+BALANCE / CONSISTENCIA
+- El multiplicador global de doctrina/sinergia/fusión se aplica de forma consistente al daño principal.
+- La doctrina FUSIÓN aplica literalmente +2% por combo activo, sin una penalización base oculta.
+- La política SOSTÉN reduce el daño entrante antes de repartirlo entre shield e integridad.
+
+SISTEMAS PRESERVADOS
+- 10 mundos / 10 bosses.
+- Bosses 6–10 biofieles con assets finales v2.13.7.
+- 5 estados animados por boss: idle / attack / hurt / phase / death.
+- Ataques signature, tres fases, Tenientes, Commander Convergence.
+- Combat Director, Wave Objectives, Reward Ledger y checkpoint de boss.
+- Boss Rush y CHASE BONUS permanecen modos separados.
+- Music Director, playlists ambientales/de boss, fades/crossfades y continuidad.
+- Controles directos: auto-fire, mouse sin clic sostenido, touch directo, sin joystick y sin DASH.
+- Responsive, PWA y guardados históricos.
+
+CACHE / PWA
+- VERSION: 2.14.3.
+- Service Worker: swarm-rift-v2.14.3.
+- Cache busting de game.js, CSS y powers_hangar: 2143.
+- Boss assets mantienen av=2137 porque no fueron reemplazados en esta iteración.

@@ -1,0 +1,58 @@
+SWARM//RIFT — INSECTA SIEGE v2.14.2 · VALIDACIÓN
+================================================================
+
+RESULTADO GENERAL
+- AUTOAUDITORÍA: 61/61 PASS.
+- node --check js/game.js: PASS.
+- node --check sw.js: PASS.
+- Recursos declarados por PWA: 345.
+- Recursos PWA faltantes: 0.
+- Smoke HTTP crítico: 7/7 HTTP 200.
+- Archivos del proyecto antes de empaquetar: 525.
+- Tamaño sin comprimir: 176493310 bytes.
+
+VALIDACIÓN FUNCIONAL ESTRUCTURAL
+- VERSION 2.14.2: PASS.
+- META/RUN v2142: PASS.
+- Migración inmediata META y RUN desde v2.14.1: PASS.
+- 10 mundos activos / Capítulo II no iniciado: PASS.
+- 24 poderes: PASS.
+- 18 poderes con ramas A/B: PASS.
+- 4 activos base / 5 máximo: PASS.
+- 5 reservas base / 7 máximo: PASS.
+- Densidad de drops 7 Normal / 8 Difícil: PASS.
+- Director adaptativo de drops: PASS.
+- ADN visual A/B + VI Ascendido + VII Omega: PASS.
+- Núcleo de Sinergia Σ: PASS.
+- Reciclador de Exceso ♻: PASS.
+- Conversión de pickups por overflow: PASS.
+- 10 definiciones de boss animado: PASS.
+- 50/50 sprite sheets de estados idle/attack/hurt/phase/death: PASS.
+- Assets finales bosses 6–10 referenciados y presentes: PASS.
+- IMPACTO COLOSSUS / SIFÓN HEMÁTICO / JAULA DE RESINA / CRUZ PRISMÁTICA / ONDA OMEGA: PASS.
+- Tres fases de boss: PASS.
+- Fallback de asset con error visible: PASS.
+- CHASE separado desde menú: PASS.
+- CHASE X/Y, retícula y powers físicos: PASS.
+- Boss Rush: PASS.
+- Commander Convergence / Tenientes: PASS.
+- Wave Objectives / Combat Director: PASS.
+- Reward Ledger: PASS.
+- checkpoint de boss 50%: PASS.
+- MOBILE_PORTRAIT / MOBILE_LANDSCAPE / TABLET / DESKTOP: PASS.
+- Music Director con playlists de mundo y boss, fade y continuidad temporal: PASS.
+- manifest + Service Worker: PASS.
+- Cache Service Worker swarm-rift-v2.14.2: PASS.
+- Cache busting 2142 para JS/CSS y powers_hangar: PASS.
+
+SMOKE HTTP
+- index.html: HTTP 200
+- js/game.js?v=2142: HTTP 200
+- sw.js: HTTP 200
+- assets/powers_hangar/phase_lance.png?av=2142: HTTP 200
+- assets/boss_final_v2137/boss_auralis_final.png?av=2137: HTTP 200
+- assets/boss_anim/resonator/attack.png?av=2137: HTTP 200
+- assets/music/boss_10_end_of_stars.mp3: HTTP 200
+
+LIMITACIÓN REAL DEL ENTORNO
+Chromium headless está instalado, pero el entorno bloquea por política administrativa la navegación tanto a localhost como a file:// con ERR_BLOCKED_BY_ADMINISTRATOR. Por ello no se declara una sesión interactiva automatizada completa como PASS. Esta build sí fue validada mediante sintaxis Node, auditoría estructural, existencia de recursos, integridad PWA y smoke HTTP. Se recomienda una pasada manual final en teléfono/tableta/desktop para balance visual y sensación de juego, no porque exista un fallo estructural detectado.

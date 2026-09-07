@@ -1,0 +1,17 @@
+VALIDACIÓN v3.26.0
+- node --check js/game.js: OK
+- node --check sw.js: OK
+- manifest.json parseable: OK
+- manifest version 3.26.0: OK
+- mundos assets 1–20 presentes: OK
+- ship_meta.json válidos: 6/6
+- naves Rizoma ship_base presentes: 6/6
+- referencias literales de assets: 683
+- referencias literales faltantes: 0
+- intro general presente: OK
+- microintro Mundo 1 presente: OK
+- Director de Flujo Adaptativo: IMPLEMENTADO
+- Contratos Estampida/Turba/Acoso/Frenesí: IMPLEMENTADOS
+- Soporte táctico contextual: IMPLEMENTADO
+- Reserva pre-Guardián por Maestría: IMPLEMENTADA
+- unzip -t: OK

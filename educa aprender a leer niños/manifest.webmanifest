@@ -1,7 +1,7 @@
 {
   "name": "Emilia · El Bosque de las Palabras",
   "short_name": "Emilia",
-  "description": "Aventura de alfabetización inicial con progresión por habilidades y repaso espaciado.",
+  "description": "Aventura infantil de alfabetización en tres senderos: sonidos, letras, sílabas, palabras, frases, cuentos, trazado y patrones especiales del español.",
   "start_url": "./index.html",
   "scope": "./",
   "display": "standalone",

@@ -1,54 +1,76 @@
-# STARFALL FRONTIER — v0.3.1 Visual Combat Pass
+# STARFALL FRONTIER — v0.3.6
 
-Iteración de balance fino y mejora visual construida sobre v0.3.0.
+**Enemy Ecology & Weapon Evolution Build**
 
-## Qué cambia
+Esta iteración continúa la línea jugable de v0.3.5: combate vertical rápido, formaciones densas pero legibles, responsive real para celular/tablet/PC, checkpoints, vidas largas, obstáculos tácticos, guardianes, subjefes, jefes por fases y recompensas de jefe que se adhieren automáticamente a la nave.
 
-- Se integran **assets reales aprobados** para las tres naves, siete clases visuales de enemigos, meteoros defensores y tres fondos verticales.
-- Los enemigos normales siguen en formación compacta, pero ahora los disparos salen prioritariamente desde la **línea frontal** de cada columna, evitando el aspecto de “lluvia arcade” desde todas las filas.
-- Los disparos enemigos pasan a ser **orbes, pernos de plasma y lanzas energéticas** con estela y trayectoria parcialmente dirigida al jugador.
-- Los **buzos en zigzag** se desprenden de las primeras filas, descienden con curva lateral y disparan durante la aproximación.
-- Guardianes, mini-jefes y jefes usan patrones distintos y tiempos de ataque controlados por cooldown, no por probabilidad por frame.
-- Los **meteoros defensores** permanecen en su posición, giran sobre sí mismos, muestran resistencia y bloquean fuego de ambos bandos. Si reciben suficiente daño se destruyen y pueden liberar premio.
-- Se conserva el sistema de **checkpoint por oleada**, barra de vida, corazones, vida crítica y vidas extra.
-- Los **pods de premio** estacionarios deben abrirse a tiros; el contenido después baja y parpadea con un icono distintivo.
-- Feedback de combate: `BONUS`, `RACHA x5`, `AMAZING`, `DOMINIO`, `CHECKPOINT`, `VIDA CRÍTICA` y `SECTOR LIMPIO`.
-- Sonidos diferenciados para poderes, disparos de mini-jefe, disparos de jefe, rachas, vida crítica, vida extra y checkpoint.
-- Fondos espaciales reales con desplazamiento lento y capa de estrellas para sensación de profundidad sin recargar el centro de juego.
+## Cambios centrales v0.3.6
 
-## Progresión de un sector
+### 1. Ecología enemiga: la formación ya no es una masa homogénea
 
-1. Oleadas compactas de invasores.
-2. Guardianes intermedios desde oleadas tempranas.
-3. **Mini-jefe** en la oleada 3.
-4. Oleada 5: avanzada + mini-jefe.
-5. Tras limpiar la avanzada aparece una **horda final** de atacantes en picado.
-6. Finalmente entra el **jefe sectorial**.
-7. Al vencerlo: recuperación parcial, vida adicional y siguiente sector.
+Se incorporaron tres funciones enemigas nuevas dentro de la propia formación:
 
-## Rendimiento
+- **Sentinel**: proyecta un campo defensivo sobre enemigos cercanos. Los disparos del jugador pueden agotar el campo y abrir temporalmente la formación.
+- **Reanimator**: puede reconstruir una unidad ordinaria destruida. La unidad reaparece mediante una transición visual desde el reanimador hasta su posición original.
+- **Breeder**: genera drones de ataque de manera limitada. Los drones descienden, disparan y abandonan el campo sin convertir la pantalla en saturación permanente.
 
-Los assets de gameplay fueron recortados y reducidos antes de integrarse para evitar reescalados de hojas completas. Los efectos de poder siguen siendo procedurales y ligeros; los PNG grandes de concepto no se procesan cada frame.
+Los tres emplean assets ya existentes, pero con tratamiento visual, núcleos, auras y microanimaciones diferentes. También poseen sonidos y disparos propios.
 
-## Controles
+### 2. Formaciones con geometría variable
 
-- PC: flechas o WASD.
-- Mouse / pantalla táctil: arrastre directo.
-- Pausa: tecla `P` o botón en pantalla.
+Las oleadas alternan entre patrones **block, chevron, split, wave y stagger**. Esto cambia la forma de leer huecos y blancos sin romper el sistema de columnas ni la estabilidad responsive.
 
-## Estructura
+### 3. Jefes con ventanas de vulnerabilidad
 
-- `index.html`
-- `css/main.css`
-- `js/config.js`
-- `js/assets.js`
-- `js/storage.js`
-- `js/audio.js`
-- `js/ui.js`
-- `js/game.js`
-- `js/main.js`
-- `assets/ships/`
-- `assets/enemies/`
-- `assets/obstacles/`
-- `assets/backgrounds/`
-- `tests/smoke-node.js`
+Los jefes conservan sus tres fases e identidades de disparo, pero ahora abren periódicamente un **núcleo vulnerable**. Durante esa ventana el daño recibido aumenta y el núcleo se ilumina con una animación específica. Los cambios de fase también fuerzan una apertura prolongada del núcleo para premiar el buen posicionamiento.
+
+### 4. Evolución real de armas mediante reliquias de jefe
+
+Cada reliquia absorbida sigue aplicando su mejora permanente, pero además incrementa un nivel de evolución del sistema correspondiente. Al acumular suficientes reliquias se activan los niveles **II** y **III**.
+
+Ejemplos:
+
+- **Dispersión II / III**: pasa de tres trayectorias a cinco y luego a una configuración de siete proyectiles con un núcleo frontal reforzado.
+- **Misiles II / III**: ganan corrección de trayectoria y, en nivel III, mayor frecuencia y daño.
+- **Cadena II / III**: aumenta la probabilidad y el daño de los saltos eléctricos.
+- **Escudo II / III**: al activarse limpia proyectiles cercanos; en nivel III también genera una descarga defensiva contra enemigos próximos.
+- **Overdrive II / III**: reduce progresivamente el intervalo de disparo mientras el poder está activo.
+
+### 5. Recompensa de jefe más cinematográfica
+
+Los tres núcleos liberados por el jefe ya no salen inmediatamente hacia la nave. Primero **orbitan el punto de destrucción**, se separan, trazan una estela y luego aceleran hacia el jugador. Al adherirse, permanecen unos instantes orbitando la nave como confirmación visual antes de integrarse al sistema.
+
+Durante esta secuencia el combate se congela de manera segura: no aparecen nuevos disparos ni ataques mientras se absorben las reliquias.
+
+### 6. Correcciones y mejoras de estabilidad
+
+- La horda previa al jefe tiene ahora una trayectoria propia y ya no depende de datos de incursión que podían quedar sin inicializar.
+- Los atacantes especiales de la ecología no son seleccionados como buzos zigzag, evitando que pierdan temporalmente su función táctica.
+- El máximo de vidas por sector respeta las ampliaciones obtenidas mediante reliquias.
+- Se mantiene el límite de dos meteoros defensores para evitar que el escenario se vuelva invasivo.
+- El cargador de assets elimina rutas duplicadas antes de precargar imágenes.
+- En la fase de absorción de jefe se eliminan amenazas residuales para proteger la transición audiovisual.
+
+## Arquitectura
+
+- `index.html` — portada mínima, HUD y overlays.
+- `css/main.css` — responsive PC/tablet/celular.
+- `js/config.js` — balance, perfiles, ecología, evolución y jefes.
+- `js/assets.js` — precarga y mapeo de sprites.
+- `js/audio.js` — firmas de audio por poder, enemigo y jefe.
+- `js/storage.js` — guardado, ranking y nave.
+- `js/ui.js` — HUD, menú, pausa y Game Over.
+- `js/game.js` — simulación, formaciones, IA, poderes, colisiones y render.
+- `tests/` — smoke tests sintácticos, responsive y runtime.
+
+## Pruebas
+
+Desde la raíz del proyecto:
+
+```bash
+node tests/smoke-node.js
+node tests/responsive-smoke.js
+node tests/runtime-smoke.js
+node tests/ecology-smoke.js
+```
+

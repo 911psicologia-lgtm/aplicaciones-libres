@@ -1,0 +1,68 @@
+SWARM//RIFT — INSECTA SIEGE v2.14.2 · AUTOAUDITORÍA
+==================================================================
+PASS 61/61
+
+[PASS] node --check js/game.js · PASS
+[PASS] node --check sw.js · PASS
+[PASS] VERSION 2.14.2 · 2.14.2
+[PASS] META key v2142 · swarm_rift_meta_v2142
+[PASS] RUN key v2142 · swarm_rift_run_v2142
+[PASS] META migration v2141 · immediate prior meta
+[PASS] RUN migration v2141 · load + hasSave
+[PASS] Service Worker v2.14.2 · swarm-rift-v2.14.2
+[PASS] index cache bust 2142 · JS/CSS 2142
+[PASS] power asset bust 2142 · powers_hangar av=2142
+[PASS] 10 worlds active · 10
+[PASS] Chapter II not started · diagnostic false + 10 SECTORS
+[PASS] 24 powers · 24
+[PASS] 18 A/B branch powers · 18
+[PASS] 4 active powers base · 4
+[PASS] 5 active powers max · 4+1
+[PASS] 5 queue base · 5
+[PASS] 7 queue max · 5+2
+[PASS] drop budget 7/8 · Normal 7 / Hard 8
+[PASS] adaptive drop director · context-weighted
+[PASS] world-focus drop weighting · world focus
+[PASS] combo completion weighting · combo-aware
+[PASS] visual DNA helper · branch/rank visual metadata
+[PASS] visual rank tags · A/B + VI/VII
+[PASS] Ascended/Omega VFX · VI/VII visual escalation
+[PASS] synergy upgrade · Núcleo de sinergia Σ
+[PASS] recycler upgrade · Reciclador de exceso ♻
+[PASS] overflow pickup recycle · active+queue overflow conversion
+[PASS] Hangar diagnostic v2142 · runtime status hook
+[PASS] 10 boss animation definitions · 10
+[PASS] 10 bosses x 5 state sprite files · 50/50
+[PASS] M6 Colossus 5 animation states · idle,attack,hurt,phase,death
+[PASS] M7 Sanguina 5 animation states · idle,attack,hurt,phase,death
+[PASS] M8 Architect 5 animation states · idle,attack,hurt,phase,death
+[PASS] M9 Auralis 5 animation states · idle,attack,hurt,phase,death
+[PASS] M10 Resonator 5 animation states · idle,attack,hurt,phase,death
+[PASS] bosses 6–10 final assets present · 5/5 final assets referenced
+[PASS] signature IMPACTO COLOSSUS · IMPACTO COLOSSUS
+[PASS] signature SIFÓN HEMÁTICO · SIFÓN HEMÁTICO
+[PASS] signature JAULA DE RESINA · JAULA DE RESINA
+[PASS] signature CRUZ PRISMÁTICA · CRUZ PRISMÁTICA
+[PASS] signature ONDA OMEGA · ONDA OMEGA
+[PASS] boss three-phase logic · phase 1/2/3 paths present
+[PASS] boss asset fallback visible · non-silent fallback
+[PASS] CHASE separate mode · menu mode
+[PASS] CHASE X/Y + reticle · rear-view free movement
+[PASS] CHASE physical shootable powers · physical pickups
+[PASS] Boss Rush · preserved
+[PASS] Commander Convergence · preserved
+[PASS] Lieutenants · preserved
+[PASS] Wave Objectives · preserved
+[PASS] Combat Director · preserved
+[PASS] Reward Ledger · preserved
+[PASS] boss checkpoint 50% · 50%
+[PASS] responsive profiles · 4 profiles
+[PASS] Music Director playlists · world+boss playlists/fade/resume
+[PASS] PWA manifest link · manifest.json
+[PASS] PWA service worker registration · sw.js
+[PASS] PWA asset list parsed · 345
+[PASS] PWA resources all present · 345 resources · 0 missing
+[PASS] HTTP smoke critical resources · {'index.html': 200, 'js/game.js?v=2142': 200, 'sw.js': 200, 'assets/powers_hangar/phase_lance.png?av=2142': 200, 'assets/boss_final_v2137/boss_auralis_final.png?av=2137': 200, 'assets/boss_anim/resonator/attack.png?av=2137': 200, 'assets/music/boss_10_end_of_stars.mp3': 200}
+
+LIMITACIONES REALES
+- Chromium headless está instalado, pero la política administrativa del entorno bloquea la navegación tanto a localhost como a file:// (ERR_BLOCKED_BY_ADMINISTRATOR). Por ello no se marca una prueba interactiva automatizada como PASS; la validación realizada es sintáctica, estructural, de recursos y smoke HTTP.

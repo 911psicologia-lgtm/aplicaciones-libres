@@ -1,0 +1,18 @@
+VALIDACIÓN v3.21.0
+- Versión game.js: 3.21.0
+- node --check js/game.js: OK
+- node --check sw.js: OK
+- manifest.json válido: OK
+- 20 carpetas world1...world20 presentes: OK
+- referencias explícitas de assets: 683
+- referencias explícitas faltantes: 0
+- seis Naves Rizoma con ship_base.png + ship_meta.json: OK
+- Guardian HP/Shield resistencia +40% vs v3.20: OK
+- movilidad de Guardianes x1.40: OK
+- telegráfico/proyectiles de poder x1.40 visual: OK
+- Director ESTAMPIDA/TURBA/ACOSO/FRENESÍ: OK
+- soporte adicional de poderes y drops: OK
+- nave visual +5% teléfono / +20% PC-tablet, hitbox intacta: OK
+- Guardián Vinculado con Eco Mejorado del poder de nave: OK
+- intro general y microintro M1 conservadas: OK
+- unzip -t: OK

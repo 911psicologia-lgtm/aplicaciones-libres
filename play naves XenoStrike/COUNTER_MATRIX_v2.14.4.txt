@@ -1,0 +1,13 @@
+SWARM//RIFT v2.14.4 · MATRIZ DE CONTRAMEDIDAS
+01 IMPERATRIX VESPA · RUPTURA DE ENJAMBRE · burst / twin / shield
+02 ATLAS VERDE · CONTROL DE CAPARAZÓN · acid / cryo / rail
+03 CORTEX RAZOR · CORTE DE ALCANCE · rail / missile / phase
+04 VELA NOCTIS · FIJACIÓN NOCTURNA · tesla / ionweb / magnet
+05 REGINA FERRUM · COLAPSO DE FORJA · bio / nanites / missile
+06 COLOSSUS HOP · ANCLA CINÉTICA · gravity / riftmine / phase
+07 SANGUINA PRIME · ANTI-SIFÓN · shield / nanites / resinwall
+08 ARCHITECT ZERO · BRECHA COLONIAL · acid / bio / orbitblade
+09 AURALIS · INTERCEPCIÓN PRISMÁTICA · ionweb / tesla / rail
+10 RESONATOR OMEGA · DESFASE ARMÓNICO · phase / nova / shield
+
+Mecánica: +3% de daño contra el boss por contramedida activa, máximo +9%. Es una ventaja opcional, no un requisito de victoria.

@@ -1,0 +1,25 @@
+SWARM//RIFT v2.14.3 — HANGAR / FUSIONES
+=======================================
+
+DOCTRINAS
+ADAPTATIVA  — director equilibrado.
+ASALTO      — potencia daño directo a costa de duración.
+CONTROL     — aumenta duración y prioriza control de área.
+SOSTÉN      — reduce daño recibido y prioriza defensa/recuperación.
+FUSIÓN      — aumenta daño por combo activo y busca piezas complementarias.
+
+POLÍTICAS DE RESERVA
+SMART       — usa stock persistente si hay espacio activo.
+CONSERVAR   — retiene stock al inicio y lo libera bajo presión.
+JEFE        — concentra stock para antesala, frenesí y boss.
+
+MAESTRÍA DE COMBOS
+Niveles: I / II / III / IV.
+Umbrales acumulados: 2 / 6 / 12 / 20 runs con activación.
+La misma fusión no puede incrementar maestría dos veces en una misma run.
+El códice Σ FUSIONES muestra activaciones y distancia al siguiente nivel.
+
+SOBRECARGA DE FUSIÓN
+Se activa al cruzar el umbral de 3 combos simultáneos si el cooldown está libre.
+Efectos: bonus temporal de daño, +cadencia y pulso parcial de shield.
+Duración y bonus escalan con Núcleo de Sinergia.

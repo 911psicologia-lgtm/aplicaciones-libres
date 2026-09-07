@@ -1,0 +1,12 @@
+VALIDACIÓN v3.24.0
+- node --check js/game.js: OK
+- node --check sw.js: OK
+- manifest.json: válido
+- ship_meta.json: 6/6 válidos
+- referencias literales de assets: 676
+- assets faltantes: 0
+- sistema Microenjambres de continuidad: presente
+- microenemigos excluidos de progresión: OK
+- microenemigos sin drops tácticos aleatorios: OK
+- piso de enemigos diferenciado PC/tablet/móvil: OK
+- continuidad durante Guardián con piso reducido: OK
