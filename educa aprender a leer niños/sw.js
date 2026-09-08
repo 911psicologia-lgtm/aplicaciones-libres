@@ -1,4 +1,4 @@
-const CACHE='emilia-bosque-v0.7.2-ui';
+const CACHE='emilia-bosque-v0.7.3-prelector';
 const ASSETS=[
   "./",
   "./assets/animals/arana.webp",

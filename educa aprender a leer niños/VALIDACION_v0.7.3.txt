@@ -1,0 +1,36 @@
+EMILIA · EL BOSQUE DE LAS PALABRAS v0.7.3 — AUTOAUDITORÍA
+
+[OK] JavaScript: 10 archivos sin errores de sintaxis.
+[OK] Manifest JSON válido. display=fullscreen; override=['fullscreen', 'standalone', 'minimal-ui']; start_url=./index.html?v=0.7.3
+[OK] CSS: llaves balanceadas en todos los archivos.
+[OK] Service Worker: cache=emilia-bosque-v0.7.3-prelector; 187 referencias; faltantes=0.
+[OK] Assets literales: 169 referencias; faltantes=0.
+[OK] cabecera compacta de iconos
+[OK] contador de semillas retirado del home
+[OK] huellitas entre mundos
+[OK] ruta anterior de rayas ocultada
+[OK] acciones rápidas en una línea
+[OK] repaso con llamada visual
+[OK] actualización solo cuando existe nueva versión
+[OK] instalación PWA condicionada a beforeinstallprompt
+[OK] fullscreen solicitado desde gesto
+[OK] resultado con botones horizontales
+[OK] trazado no se cierra automáticamente
+[OK] check de trazado no bloqueante
+
+VALIDACIÓN DE PRESERVACIÓN
+[OK] Assets heredados: 170 comparados; modificados=0; faltantes=0.
+[OK] lumi_guide.png: bf23716aa9235071e0bd40e65282ca591883ef11216a910faf4608a4b1fcaf91
+[OK] lumi_thinking.png: be27fff9b5ea182c2c9b81928cfa670ea44cebd8330a7215456c80a4c3e5b356
+[OK] lumi_cheer.png: 7b390c7a8f4554851380fb64ef2ef107c7c9e702b8ce2f29e8cd286abe1bcf71
+[OK] lumi_victory.png: 95e825d56ab05c35f177fb6ba64f39956db13b8d581cecbd0e4b737a4fb7ae42
+
+LIMITACIÓN DE LA AUTOAUDITORÍA
+- Se intentó una captura automatizada con Chromium headless en viewport móvil, pero el proceso no completó en este contenedor. No se atribuye una prueba visual automatizada completa.
+- Sí se realizaron validaciones sintácticas, estructurales, de PWA, referencias, preservación de assets y reglas del trazado.
+
+RUTA DE HUELLITAS
+[OK] Sendero 1: 9 mundos; 41 huellitas generadas.
+[OK] Sendero 2: 6 mundos; 27 huellitas generadas.
+[OK] Sendero 3: 7 mundos; 34 huellitas generadas.
+[OK] Contenido: 22 mundos; 22 misiones; 18 historias; versión 7.3.

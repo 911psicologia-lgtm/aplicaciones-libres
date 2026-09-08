@@ -129,7 +129,7 @@
       const path=strokeLength(strokes);
       // “Completar” manual aparece tras cualquier intento real. No deja al niño atrapado.
       const canComplete=path>=18||strokes.length>=2||flat.length>=8;
-      // Autocompletar sí exige TODOS los tramos esenciales. Evita que D/P se den por hechas con solo el palito.
+      // Umbral fuerte: indica visualmente que el recorrido ya es suficiente, pero NO cierra la actividad.
       const perSegmentMin=segs.length===1?.48:.42;
       const allSegments=segmentCoverage.every(v=>v>=perSegmentMin);
       const autoComplete=allSegments&&coverage>=.52&&(path>=60||flat.length>=18);
@@ -148,7 +148,7 @@
       if(!drawing||done)return;drawing=false;
       const tail=pointsFromEvent(e,canvas);if(tail.length)current.push(...tail);
       if(current.length)strokes.push(current.slice());current=[];try{canvas.releasePointerCapture(e.pointerId);}catch(_){ }
-      const pr=progress();onProgress&&onProgress(pr);if(pr.autoComplete)finish(pr.coverage,{manual:false,segments:pr.segmentCoverage});e.preventDefault();
+      const pr=progress();onProgress&&onProgress(pr);e.preventDefault();
     }
     canvas.addEventListener('pointerdown',begin,{passive:false});canvas.addEventListener('pointermove',move,{passive:false});canvas.addEventListener('pointerup',end,{passive:false});canvas.addEventListener('pointercancel',end,{passive:false});
     resize();window.addEventListener('resize',resize,{once:true});
@@ -193,14 +193,14 @@
       const ratio=letterEvidence.reduce((a,b)=>a+b,0)/Math.max(1,letterEvidence.length),touched=letterEvidence.filter(v=>v>=.28).length;
       // Manual: tras un intento real, sin obligar a “pintar” la palabra.
       const canComplete=(path>=32&&touched>=Math.min(2,letters.length))||span>=.28||strokes.length>=3;
-      // Automático: debe haber evidencia en casi todas las letras y desplazamiento a lo largo de la palabra.
-      const required=Math.max(1,letters.length-1),autoComplete=touched>=required&&span>=.48&&path>=Math.max(60,r.width*.18);
+      // Umbral fuerte: evidencia suficiente en casi todas las letras. Solo enciende el check; el niño puede seguir escribiendo.
+      const required=Math.max(1,Math.ceil(letters.length*.75)),autoComplete=touched>=required&&span>=.56&&path>=Math.max(70,r.width*.22);
       return{ratio,span,path,strokes:strokes.length,letters:letterEvidence,canComplete,autoComplete};
     }
     function finish(ratio,manual){if(done)return;done=true;onComplete&&onComplete(ratio,{manual:!!manual,strokes:strokes.length});}
     function begin(e){if(done)return;drawing=true;current=pointsFromEvent(e,canvas);try{canvas.setPointerCapture(e.pointerId);}catch(_){ }e.preventDefault();}
     function move(e){if(!drawing||done)return;const pts=pointsFromEvent(e,canvas);if(!pts.length)return;const seq=[...current.slice(-1),...pts];ctx.strokeStyle='#4fa66d';ctx.lineWidth=17;ctx.lineCap='round';ctx.lineJoin='round';ctx.beginPath();seq.forEach((p,i)=>i?ctx.lineTo(p.x,p.y):ctx.moveTo(p.x,p.y));ctx.stroke();current.push(...pts);e.preventDefault();}
-    function end(e){if(!drawing||done)return;drawing=false;const tail=pointsFromEvent(e,canvas);if(tail.length)current.push(...tail);if(current.length)strokes.push(current.slice());current=[];try{canvas.releasePointerCapture(e.pointerId);}catch(_){ }const pr=progress();onProgress&&onProgress(pr);if(pr.autoComplete)finish(pr.ratio,false);e.preventDefault();}
+    function end(e){if(!drawing||done)return;drawing=false;const tail=pointsFromEvent(e,canvas);if(tail.length)current.push(...tail);if(current.length)strokes.push(current.slice());current=[];try{canvas.releasePointerCapture(e.pointerId);}catch(_){ }const pr=progress();onProgress&&onProgress(pr);e.preventDefault();}
     canvas.addEventListener('pointerdown',begin,{passive:false});canvas.addEventListener('pointermove',move,{passive:false});canvas.addEventListener('pointerup',end,{passive:false});canvas.addEventListener('pointercancel',end,{passive:false});
     resize();window.addEventListener('resize',resize,{once:true});
     return{

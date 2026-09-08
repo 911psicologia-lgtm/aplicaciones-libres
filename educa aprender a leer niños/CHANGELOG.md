@@ -1,17 +1,33 @@
-# CHANGELOG · v0.7.1 · Assets integrados
+# CHANGELOG · v0.7.3 · Interfaz prelectora
 
-- Integración del paquete Z.AI para Nuevos Senderos y Bosque de los Secretos.
-- 75 assets incorporados a la biblioteca runtime; 58 conectados activamente a la experiencia actual.
-- Conversión PNG→WebP para mantener la PWA ligera.
-- Nuevos fondos específicos para R, C, B, F, G, Gran Jardín, Ñ, CH, QU, RR, CE/CI, GE/GI y Bosque de Secretos.
-- Fondo del Gran Jardín saneado para retirar un elemento UI incrustado.
-- `wordArt` ampliado con objetos, animales y personajes nuevos.
-- PatternIntro enriquecido con ejemplos visuales cuando existe un asset fiable.
-- B ahora usa BOTA como estímulo visual directo; F usa FOCA; G incorpora búsqueda visual de GATO.
-- Historias actualizadas con foto, beso, cine, queso, gema y personajes nuevos.
-- Cuatro historias añadidas: La leche, El perro y el carro, La rana y la cama, La niña lee.
-- Logros del Sendero de los Secretos conectados con los nuevos tesoros/insignias.
-- Mapa cambia de fondo según sendero: bosque inicial, Gran Jardín y Bosque de Secretos.
-- `noche.png` y `remo.png` se conservan como recursos secundarios por ambigüedad pedagógica.
-- Lumina se conserva exactamente sin modificaciones.
-- Cache PWA regenerada como `emilia-bosque-v0.7.1-assets`.
+## Fase 1 · Cabecera y densidad visual
+- Cabecera convertida a una única fila de iconos.
+- Eliminados del home los bloques permanentes “Ruta lectora”, “Tu bosque lector” y contador de semillas.
+- `1/3` reducido a indicador compacto.
+- Información pedagógica del siguiente paso pasa a un panel `i` bajo demanda.
+
+## Fase 2 · Ruta entre mundos
+- Retirada la ruta de rayas/flechas de v0.7.2.
+- Nueva ruta de huellitas humanas pequeñas, alternadas y ligeramente curvas.
+- Estados: recorrido superado, tramo actual animado y tramo futuro atenuado.
+- Siguiente mundo conserva pulso y guía de Lumi.
+
+## Fase 3 · Acciones + PWA
+- Continuar, Lumi recomienda y repaso en una sola línea visual.
+- Repaso pendiente titila.
+- Instalar PWA: icono superior, solo si `beforeinstallprompt` está disponible.
+- Actualizar PWA: oculto salvo actualización real; estado de atención y actualización.
+- `display: fullscreen` + `display_override` en manifest.
+- Solicitud segura de Fullscreen API desde gestos del usuario.
+
+## Fase 4 · Trazado
+- Se elimina el cierre automático al alcanzar el umbral de cobertura.
+- Check interno indica “suficiente” sin bloquear el canvas.
+- El niño puede continuar la palabra/letra y decide cuándo pulsar Completar.
+- Se mantiene la salida tolerante para que un reconocimiento imperfecto no atrape al niño.
+
+## Fase 5 · Fin de aventura
+- Resultado comprimido y predominantemente icónico.
+- Botones circulares en una sola fila: anterior, mapa, libro, repetir.
+- El siguiente mundo es un orbe grande independiente con flecha.
+- Se elimina el apilamiento vertical de navegación visto en móvil.

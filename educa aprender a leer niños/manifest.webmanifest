@@ -2,9 +2,9 @@
   "name": "Emilia · El Bosque de las Palabras",
   "short_name": "Emilia",
   "description": "Aventura infantil de alfabetización en tres senderos con mundos ilustrados, sonidos, letras, sílabas, palabras, frases, cuentos, trazado y patrones especiales del español.",
-  "start_url": "./index.html",
+  "start_url": "./index.html?v=0.7.3",
   "scope": "./",
-  "display": "standalone",
+  "display": "fullscreen",
   "background_color": "#f7f0df",
   "theme_color": "#57a773",
   "lang": "es",
@@ -28,5 +28,10 @@
       "purpose": "maskable"
     }
   ],
-  "id": "./"
+  "id": "./",
+  "display_override": [
+    "fullscreen",
+    "standalone",
+    "minimal-ui"
+  ]
 }

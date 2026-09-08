@@ -6,11 +6,12 @@
     EmiliaVoice.stop&&EmiliaVoice.stop();
     const map={onboarding:EmiliaScreens.onboarding,home:EmiliaScreens.home,book:EmiliaScreens.book,practice:EmiliaScreens.practice,treasures:EmiliaScreens.treasures,gate:EmiliaScreens.gate,adult:EmiliaScreens.adult};
     (map[screen]||EmiliaScreens.home)();
+    bindPWABar();syncPWAControls();
   }
   function persistSession(){if(session)EmiliaStore.saveActiveSession(session);}
-  function startMission(id){const m=EmiliaEngine.missionById(id);if(!EmiliaEngine.isUnlocked(m)){toast('Ese lugar todavía está dormido.');return;}session=EmiliaEngine.buildSession(m);persistSession();EmiliaScreens.activity(session);}
-  function startPractice(){session=EmiliaEngine.buildPracticeSession();persistSession();EmiliaScreens.activity(session);}
-  function resumeSession(){const saved=EmiliaStore.get().activeSession;if(!saved){go('home');return;}session=saved;EmiliaScreens.activity(session);}
+  function startMission(id){tryFullscreen();const m=EmiliaEngine.missionById(id);if(!EmiliaEngine.isUnlocked(m)){toast('Ese lugar todavía está dormido.');return;}session=EmiliaEngine.buildSession(m);persistSession();EmiliaScreens.activity(session);}
+  function startPractice(){tryFullscreen();session=EmiliaEngine.buildPracticeSession();persistSession();EmiliaScreens.activity(session);}
+  function resumeSession(){tryFullscreen();const saved=EmiliaStore.get().activeSession;if(!saved){go('home');return;}session=saved;EmiliaScreens.activity(session);}
   function exitMission(){EmiliaVoice.stop&&EmiliaVoice.stop();persistSession();go('home');}
   function saveAndExitUser(){EmiliaVoice.stop&&EmiliaVoice.stop();persistSession();EmiliaStore.logoutToPicker();session=null;go('onboarding');setTimeout(()=>EmiliaVoice.speak('Sesión guardada. Toca tu nombre cuando quieras continuar.',{kind:'instruction',repeat:false}),120);}
   function previousActivity(){if(!session)return go('home');if(session.index<=0){exitMission();return;}session.index--;session.replayIndex=session.index;persistSession();EmiliaScreens.activity(session);}
@@ -96,13 +97,13 @@
   function showWordTrace(q,done){
     const card=document.querySelector('.activity-card');if(!card||!q.word){done();return;}
     const lower=String(q.word).toLocaleLowerCase('es'),art=(EMILIA_CONTENT.wordArt||{})[lower]||'',listen=(EMILIA_CONTENT.ui||{}).listen||'';
-    card.innerHTML=`<div class="word-trace-stage"><div class="word-trace-heading"><div class="activity-icon"><img src="${EMILIA_CONTENT.mascot.src}" alt=""></div>${art?`<img class="word-reward-art" src="${art}" alt="">`:''}</div><div class="word-visual small lowercase-word">${EmiliaScreens.esc(lower)}</div><button class="listen-orb small attention" id="wordTraceAudio" aria-label="Escuchar instrucción">${listen?`<img class="ui-listen-icon" src="${listen}" alt="">`:'<span>♪</span>'}</button><div class="word-trace-shell"><canvas id="wordTraceCanvas" class="trace-canvas" aria-label="Escribir ${EmiliaScreens.esc(lower)} con el dedo"></canvas></div><div id="feedback"></div><div class="simple-trace-actions"><button class="trace-reset" id="wordTraceAgain" aria-label="Borrar y volver a intentar">↺</button><button class="btn btn-primary trace-main-action" id="wordTraceAction" disabled>✓ Completar</button></div></div>`;
+    card.innerHTML=`<div class="word-trace-stage"><div class="word-trace-heading"><div class="activity-icon"><img src="${EMILIA_CONTENT.mascot.src}" alt=""></div>${art?`<img class="word-reward-art" src="${art}" alt="">`:''}</div><div class="word-visual small lowercase-word">${EmiliaScreens.esc(lower)}</div><button class="listen-orb small attention" id="wordTraceAudio" aria-label="Escuchar instrucción">${listen?`<img class="ui-listen-icon" src="${listen}" alt="">`:'<span>♪</span>'}</button><div class="word-trace-shell"><canvas id="wordTraceCanvas" class="trace-canvas" aria-label="Escribir ${EmiliaScreens.esc(lower)} con el dedo"></canvas><div class="trace-ready-indicator" id="wordTraceReady" hidden>✓</div></div><div id="feedback"></div><div class="simple-trace-actions"><button class="trace-reset" id="wordTraceAgain" aria-label="Borrar y volver a intentar">↺</button><button class="btn btn-primary trace-main-action" id="wordTraceAction" disabled>✓ Completar</button></div></div>`;
     const say=()=>learningAudio(`Escribe ${lower} con tu dedo. Puedes levantar el dedo entre letras.`,{button:document.getElementById('wordTraceAudio'),kind:'instruction',repeat:false,listeningText:'👂',readyText:'✍'});document.getElementById('wordTraceAudio').onclick=say;say();
-    const c=document.getElementById('wordTraceCanvas'),action=document.getElementById('wordTraceAction'),again=document.getElementById('wordTraceAgain');let completed=false,logged=false,tr=null;
+    const c=document.getElementById('wordTraceCanvas'),action=document.getElementById('wordTraceAction'),again=document.getElementById('wordTraceAgain'),ready=document.getElementById('wordTraceReady');let completed=false,logged=false,tr=null;
     const complete=(cov,meta={})=>{if(completed)return;completed=true;if(!logged){logged=true;EmiliaStore.event('word_trace_complete',{word:q.word,skill:q.skill,coverage:Math.round((cov||0)*100),manual:!!meta.manual});}EmiliaVoice.tone('ok');feedback(true,'');action.disabled=false;action.textContent='➜';action.setAttribute('aria-label','Siguiente');action.classList.add('is-next');action.parentElement&&action.parentElement.classList.add('next-ready');again.disabled=true;again.style.display='none';setTimeout(()=>EmiliaVoice.speak('Muy bien. Toca la flecha para seguir.',{kind:'instruction',repeat:false}),150);};
-    const progress=pr=>{if(!completed&&action)action.disabled=!pr.canComplete;};
+    const progress=pr=>{if(completed)return;if(action)action.disabled=!pr.canComplete;if(ready){ready.hidden=!pr.autoComplete;ready.classList.toggle('on',!!pr.autoComplete);}};
     tr=EmiliaTracing.startWord(c,q.word,complete,progress);
-    again.onclick=()=>{if(completed)return;completed=false;logged=false;action.textContent='✓ Completar';action.setAttribute('aria-label','Completar');action.classList.remove('is-next');action.parentElement&&action.parentElement.classList.remove('next-ready');action.disabled=true;again.style.display='';tr.reset();};
+    again.onclick=()=>{if(completed)return;completed=false;logged=false;if(ready){ready.hidden=true;ready.classList.remove('on');}action.textContent='✓ Completar';action.setAttribute('aria-label','Completar');action.classList.remove('is-next');action.parentElement&&action.parentElement.classList.remove('next-ready');action.disabled=true;again.style.display='';tr.reset();};
     action.onclick=()=>{if(completed){done();return;}tr.forceComplete();};
   }
 
@@ -150,11 +151,11 @@
       document.querySelectorAll('.trail-stone').forEach(btn=>btn.onclick=async()=>{if(btn.disabled)return;const v=btn.dataset.sound;btn.classList.add('lit');await learningAudio((q.sayPrefix||'')+v,{kind:'syllable',repeat:false,lockSelector:'.trail-stone',button:null,listeningText:'👂',readyText:'●'});touched.add(v);EmiliaStore.event('exposure',{skill:q.skill,value:v});if(touched.size===q.items.length){next.disabled=false;rewardBurst('star');EmiliaVoice.tone('ok');}});next.onclick=()=>nextAfter(100);
     }
     if(q.type==='trace'){
-      const canvas=document.getElementById('traceCanvas'),again=document.getElementById('traceAgain'),action=document.getElementById('traceAction'),audio=document.getElementById('speakQ'),say=()=>playInstruction(q,{button:audio,lockSelector:'#traceAction'});if(audio)audio.onclick=say;say();let tracer=null,completed=false,logged=false;
+      const canvas=document.getElementById('traceCanvas'),again=document.getElementById('traceAgain'),action=document.getElementById('traceAction'),ready=document.getElementById('traceReady'),audio=document.getElementById('speakQ'),say=()=>playInstruction(q,{button:audio,lockSelector:'#traceAction'});if(audio)audio.onclick=say;say();let tracer=null,completed=false,logged=false;
       const complete=(coverage,meta={})=>{if(completed)return;completed=true;if(!logged){logged=true;EmiliaStore.event('trace_complete',{skill:q.skill,letter:q.letter,coverage:Math.round((coverage||0)*100),manual:!!meta.manual,segments:meta.segments||[]});}EmiliaVoice.tone('ok');feedback(true);action.disabled=false;action.textContent='➜';action.setAttribute('aria-label','Siguiente');action.classList.add('is-next');action.parentElement&&action.parentElement.classList.add('next-ready');again.disabled=true;again.style.display='none';setTimeout(()=>EmiliaVoice.speak('Muy bien. Toca la flecha para seguir.',{kind:'instruction',repeat:false}),150);};
-      const progress=pr=>{if(!completed&&action)action.disabled=!pr.canComplete;};
+      const progress=pr=>{if(completed)return;if(action)action.disabled=!pr.canComplete;if(ready){ready.hidden=!pr.autoComplete;ready.classList.toggle('on',!!pr.autoComplete);}};
       if(canvas)tracer=EmiliaTracing.start(canvas,q.letter,complete,progress);
-      if(again)again.onclick=()=>{if(completed)return;completed=false;logged=false;action.textContent='✓ Completar';action.setAttribute('aria-label','Completar');action.classList.remove('is-next');action.parentElement&&action.parentElement.classList.remove('next-ready');action.disabled=true;again.style.display='';tracer&&tracer.reset();};
+      if(again)again.onclick=()=>{if(completed)return;completed=false;logged=false;if(ready){ready.hidden=true;ready.classList.remove('on');}action.textContent='✓ Completar';action.setAttribute('aria-label','Completar');action.classList.remove('is-next');action.parentElement&&action.parentElement.classList.remove('next-ready');action.disabled=true;again.style.display='';tracer&&tracer.reset();};
       if(action)action.onclick=()=>{if(completed)nextAfter(90);else tracer&&tracer.forceComplete();};
     }
     if(q.type==='wordReveal'){
@@ -179,28 +180,36 @@
   function openStory(id){storyContext={listened:false,storyId:id};EmiliaScreens.book(id);}
   function exportProgress(){const blob=new Blob([EmiliaStore.exportJSON()],{type:'application/json'}),u=URL.createObjectURL(blob),a=document.createElement('a');a.href=u;a.download='emilia_bosque_v7_'+new Date().toISOString().slice(0,10)+'.json';a.click();setTimeout(()=>URL.revokeObjectURL(u),1000);toast('Copia exportada.');}
   function importProgress(file){if(!file)return;const r=new FileReader();r.onload=()=>{try{EmiliaStore.importJSON(r.result);toast('Progreso restaurado.');setTimeout(()=>go('adult'),400);}catch(e){toast('No pude importar ese archivo.');}};r.readAsText(file);}
-  let deferredInstall=null,swRegistration=null,reloadingForSW=false;
-  function setPWAButton(id,show){const b=document.getElementById(id);if(b)b.hidden=!show;const bar=document.getElementById('pwaBar');if(bar){const any=[...bar.querySelectorAll('button')].some(x=>!x.hidden);bar.hidden=!any;}}
+  let deferredInstall=null,swRegistration=null,reloadingForSW=false,installAvailable=false,updateReady=false;
+  function setPWAButton(id,show){const b=document.getElementById(id);if(b)b.hidden=!show;}
+  function syncPWAControls(){setPWAButton('pwaInstallBtn',installAvailable);setPWAButton('pwaUpdateBtn',updateReady);const u=document.getElementById('pwaUpdateBtn');if(u){u.classList.toggle('update-ready',updateReady);u.classList.remove('updating');}}
   function bindPWABar(){
     const install=document.getElementById('pwaInstallBtn'),update=document.getElementById('pwaUpdateBtn');
-    if(install&&!install.dataset.bound){install.dataset.bound='1';install.onclick=async()=>{if(!deferredInstall){toast('Abre la app desde un navegador compatible para instalarla.');return;}deferredInstall.prompt();try{await deferredInstall.userChoice;}catch(_){ }deferredInstall=null;setPWAButton('pwaInstallBtn',false);};}
-    if(update&&!update.dataset.bound){update.dataset.bound='1';update.onclick=async()=>{if(!swRegistration){toast('La actualización funciona cuando la app está instalada o publicada.');return;}if(swRegistration.waiting){update.disabled=true;update.textContent='Actualizando…';swRegistration.waiting.postMessage({type:'SKIP_WAITING'});return;}update.disabled=true;update.textContent='Buscando…';try{await swRegistration.update();setTimeout(()=>{if(swRegistration.waiting){update.textContent='Actualizar app';update.disabled=false;setPWAButton('pwaUpdateBtn',true);}else{update.textContent='Actualizar app';update.disabled=false;toast('Ya tienes la versión más reciente.');}},700);}catch(_){update.textContent='Actualizar app';update.disabled=false;toast('No pude buscar actualización.');}};}
+    if(install&&!install.dataset.bound){install.dataset.bound='1';install.onclick=async()=>{if(!deferredInstall)return;try{deferredInstall.prompt();await deferredInstall.userChoice;}catch(_){ }deferredInstall=null;installAvailable=false;syncPWAControls();};}
+    if(update&&!update.dataset.bound){update.dataset.bound='1';update.onclick=async()=>{if(!swRegistration||!updateReady)return;update.disabled=true;update.classList.add('updating');try{if(swRegistration.waiting){swRegistration.waiting.postMessage({type:'SKIP_WAITING'});return;}await swRegistration.update();if(swRegistration.waiting){swRegistration.waiting.postMessage({type:'SKIP_WAITING'});return;}updateReady=false;syncPWAControls();update.disabled=false;}catch(_){update.disabled=false;update.classList.remove('updating');toast('No pude actualizar ahora.');}};}
   }
   function watchRegistration(reg){
-    swRegistration=reg;bindPWABar();setPWAButton('pwaUpdateBtn',true);
-    reg.addEventListener('updatefound',()=>{const w=reg.installing;if(!w)return;w.addEventListener('statechange',()=>{if(w.state==='installed'&&navigator.serviceWorker.controller)setPWAButton('pwaUpdateBtn',true);});});
+    swRegistration=reg;updateReady=!!reg.waiting;bindPWABar();syncPWAControls();
+    reg.addEventListener('updatefound',()=>{const w=reg.installing;if(!w)return;w.addEventListener('statechange',()=>{if(w.state==='installed'&&navigator.serviceWorker.controller){updateReady=true;syncPWAControls();}});});
     reg.update().catch(()=>{});
   }
+  async function tryFullscreen(){
+    if(window.matchMedia&&window.matchMedia('(display-mode: fullscreen)').matches)return true;
+    if(window.matchMedia&&window.matchMedia('(display-mode: standalone)').matches)return true;
+    if(window.navigator.standalone)return true;
+    const el=document.documentElement;try{if(!document.fullscreenElement&&el.requestFullscreen){await el.requestFullscreen({navigationUI:'hide'});return true;}if(el.webkitRequestFullscreen){el.webkitRequestFullscreen();return true;}}catch(_){ }return false;
+  }
   function setupPWA(){
-    bindPWABar();
-    window.addEventListener('beforeinstallprompt',e=>{e.preventDefault();deferredInstall=e;setPWAButton('pwaInstallBtn',true);});
-    window.addEventListener('appinstalled',()=>{deferredInstall=null;setPWAButton('pwaInstallBtn',false);toast('App instalada.');});
+    bindPWABar();syncPWAControls();
+    window.addEventListener('beforeinstallprompt',e=>{e.preventDefault();deferredInstall=e;installAvailable=true;syncPWAControls();});
+    window.addEventListener('appinstalled',()=>{deferredInstall=null;installAvailable=false;syncPWAControls();});
     if('serviceWorker' in navigator&&location.protocol!=='file:'){
       navigator.serviceWorker.addEventListener('controllerchange',()=>{if(reloadingForSW)return;reloadingForSW=true;location.reload();});
       navigator.serviceWorker.register('sw.js').then(watchRegistration).catch(()=>{});
     }
   }
+  function refreshPWAControls(){bindPWABar();syncPWAControls();}
   function boot(){const s=EmiliaStore.get();setupPWA();if(s.profile.name)go('home');else go('onboarding');}
-  window.EmiliaApp={go,startMission,startPractice,resumeSession,exitMission,saveAndExitUser,previousActivity,bindActivity,toast,playStory,askComprehension,openStory,exportProgress,importProgress,learningAudio,rewardBurst};
+  window.EmiliaApp={go,startMission,startPractice,resumeSession,exitMission,saveAndExitUser,previousActivity,bindActivity,toast,playStory,askComprehension,openStory,exportProgress,importProgress,learningAudio,rewardBurst,tryFullscreen,refreshPWAControls};
   if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',boot);else boot();
 })();

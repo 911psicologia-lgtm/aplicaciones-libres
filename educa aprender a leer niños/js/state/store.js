@@ -6,7 +6,7 @@
   function uid(){return 'kid_'+Math.random().toString(36).slice(2,9)+'_'+Date.now().toString(36);}
   function base(){
     return {
-      version:7.1,
+      version:7.3,
       profile:{id:'',name:'',mascot:'lumi',remember:true},
       mastery:{},history:[],completedMissions:[],achievements:[],seeds:0,treasureStars:0,sessions:0,
       lastMission:'forest_vowels',lastStory:'',activeSession:null,
@@ -16,7 +16,7 @@
   }
   function mergeState(raw){
     const b=base(),s=Object.assign({},b,raw||{}),priorVersion=Number((raw&&raw.version)||0);
-    s.version=7.1;s.profile=Object.assign({},b.profile,(raw&&raw.profile)||{});
+    s.version=7.3;s.profile=Object.assign({},b.profile,(raw&&raw.profile)||{});
     s.mastery=(raw&&raw.mastery)||{};s.history=Array.isArray(raw&&raw.history)?raw.history:[];
     s.completedMissions=Array.isArray(raw&&raw.completedMissions)?raw.completedMissions:[];s.achievements=Array.isArray(raw&&raw.achievements)?raw.achievements:[];
     s.settings=Object.assign({},b.settings,(raw&&raw.settings)||{});s.growth=Object.assign({},b.growth,(raw&&raw.growth)||{});
