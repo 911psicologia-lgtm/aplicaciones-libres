@@ -1,24 +1,18 @@
-# Emilia · El Bosque de las Palabras · v0.7.0
+# Emilia · El Bosque de las Palabras · v0.7.1
 
-Versión **Sendero de los Secretos**. Amplía la alfabetización con patrones ortográficos frecuentes del español sin convertirlos en una lista memorística.
+Versión de integración visual sobre v0.7.0. Conserva la progresión de 93 habilidades y 22 misiones, integra los nuevos assets Z.AI y amplía el libro a 18 historias.
 
-## Novedades
-- Tercer sendero del mapa: **Ñ → CH → QU → RR → CE/CI → GE/GI → Bosque de Secretos**.
-- Nueva actividad `patternIntro`: el patrón aparece grande, Lumi lo explica y cada palabra-ejemplo puede escucharse individualmente.
-- La **Ñ** incorpora trazado táctil por segmentos, incluida la virgulilla.
-- CH se trabaja como combinación de dos letras con un sonido propio.
-- QU se presenta solo en **QUE/QUI**, explicando de forma infantil que en esas sílabas la U no suena.
-- R/RR se introduce después de la R inicial fuerte: se contrasta **pero / perro** para distinguir una R suave entre vocales y RR fuerte.
-- CE/CI y GE/GI se introducen como cambios de sonido, después de CA/CO/CU y GA/GO/GU.
-- Nuevo vocabulario: niño, niña, año, moño, leche, noche, techo, mucho, queso, quita, quema, quiso, perro, carro, torre, burro, cena, cine, cero, cima, gema, gel y gigante.
-- Nuevos repasos espaciados, logros y cuatro historias de dos frases.
-- El mapa ahora tiene **tres senderos** y abre automáticamente el que corresponde a la recomendación actual.
+## Probar localmente
+Abra `index.html`. El juego base funciona sin servidor. Para instalación PWA, actualización y service worker, publicar por HTTPS (por ejemplo Cloudflare Pages).
 
-## Criterio pedagógico
-Las reglas especiales se presentan primero mediante **palabras reales y escucha**, después mediante selección/completado, construcción de palabras y finalmente frases. No se evalúa al niño por leer una explicación escrita.
+## Integración visual
+- Nuevos fondos para los mundos R/C/B/F/G y los patrones Ñ/CH/QU/RR/CE-CI/GE-GI.
+- Nuevos animales, objetos, personajes y escenas para apoyar reconocimiento de palabras y comprensión.
+- Los ejemplos de patrones pueden mostrar imagen, palabra y audio.
+- Lumina no fue sustituida ni modificada.
 
-## PWA
-Mantiene instalación y actualización por HTTPS. El estado migra automáticamente desde `emilia.reader.v6` y anteriores.
+## Datos
+El progreso sigue guardándose localmente bajo `emilia.reader.v7`, por lo que actualizar desde v0.7.0 no obliga a reiniciar perfiles.
 
-## Lumina
-Las cuatro variantes de Lumina se preservan sin modificaciones.
+## Auditoría
+Ver `ASSET_AUDIT.md` y `VALIDACION_v0.7.1.txt`.

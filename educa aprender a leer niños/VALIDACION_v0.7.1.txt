@@ -1,0 +1,62 @@
+EMILIA · EL BOSQUE DE LAS PALABRAS v0.7.1 — VALIDACIÓN DE INTEGRACIÓN DE ASSETS
+Fecha: 2026-09-07
+
+RESULTADO GENERAL: OK
+
+1. BASE Y VERSIONADO
+- Base funcional: v0.7.0 Sendero de los Secretos.
+- Versión de contenido: 7.1.
+- Store persistente: emilia.reader.v7 (se preserva para no perder progreso).
+- Cache PWA: emilia-bosque-v0.7.1-assets.
+
+2. PAQUETE Z.AI RECIBIDO
+- Total fuente declarado: 82 archivos / 60.35 MB.
+- Contact sheets: 7 (solo auditoría, no runtime).
+- Assets utilizables incorporados a la biblioteca runtime: 75.
+- Assets nuevos activamente referenciados por la experiencia actual: 58.
+- Assets nuevos disponibles para expansiones posteriores: 17.
+- Conversión runtime: WebP para reducir peso de descarga manteniendo los PNG/manifest fuente como referencia externa.
+
+3. AUDITORÍA VISUAL
+- fondo_gran_jardin_lector: saneado antes de integrar por contener un pequeño artefacto tipo UI en el borde superior.
+- objects/noche: conservado en biblioteca, no usado como estímulo léxico directo por ambigüedad visual.
+- objects/remo: conservado en biblioteca, no usado como estímulo léxico directo porque representa una escena de barca/animal y no un remo aislado.
+- characters/gigante_amable: reservado para contexto/escenas; no se usa como prueba aislada de reconocimiento por escala ambigua.
+- Resto del paquete revisado como coherente y ampliamente aprovechable para uso pedagógico.
+
+4. INTEGRACIÓN PEDAGÓGICA
+- Fondos nuevos asignados a R, C, B, F, G, Ñ, CH, QU, RR, CE/CI, GE/GI, Gran Jardín y Bosque de los Secretos.
+- patternIntro admite imagen + palabra + audio.
+- Ejemplos visuales integrados en Ñ, CH, QU, RR, CE/CI y GE/GI.
+- Nuevos assets aplicados a reconocimiento de palabra, historias, logros y recompensas.
+- Se añadieron 4 microhistorias apoyadas en escenas nuevas.
+
+5. CONTENIDO FINAL
+- Habilidades: 93.
+- Mundos: 22.
+- Misiones: 22.
+- Repasos: 24.
+- Logros: 16.
+- Historias: 18.
+
+6. LUMINA — PRESERVACIÓN OBLIGATORIA
+SHA-256 verificados:
+- lumi_guide.png    bf23716aa9235071e0bd40e65282ca591883ef11216a910faf4608a4b1fcaf91
+- lumi_thinking.png be27fff9b5ea182c2c9b81928cfa670ea44cebd8330a7215456c80a4c3e5b356
+- lumi_cheer.png    7b390c7a8f4554851380fb64ef2ef107c7c9e702b8ce2f29e8cd286abe1bcf71
+- lumi_victory.png  95e825d56ab05c35f177fb6ba64f39956db13b8d581cecbd0e4b737a4fb7ae42
+Resultado: las cuatro variantes permanecen byte por byte sin modificación respecto a la base recibida.
+
+7. VALIDACIÓN TÉCNICA
+- JavaScript: todos los archivos pasan node --check.
+- manifest.webmanifest: JSON válido.
+- assets/catalog.json: JSON válido.
+- ASSETS_ZAI_MANIFEST.json: JSON válido.
+- Imágenes verificadas con Pillow: 154 / 154 válidas; 0 corruptas.
+- Referencias directas de assets encontradas en data/content.js: 135; faltantes: 0.
+- Referencias precache/runtime del Service Worker: 186; faltantes: 0.
+- Catálogo final de assets: 170 archivos.
+- Integridad de Lumina: OK.
+
+8. LIMITACIÓN DE QA
+La validación realizada es sintáctica, estructural, de integridad, referencias, imágenes y lógica de integración. No se atribuye a esta pasada una sesión completa jugada manualmente en navegador/tableta dentro de este entorno.

@@ -1,4 +1,58 @@
 {
+  "assets/animals/arana.webp": {
+    "bytes": 39314,
+    "sha256": "f398c7a5a36d26c60d1ac2e21b6fe13b3e745b08ae67e6fdea6e226e9a1ee1ec",
+    "size": [
+      640,
+      640
+    ],
+    "mode": "RGBA"
+  },
+  "assets/animals/burro.webp": {
+    "bytes": 46602,
+    "sha256": "9a6e5cb7ddde14de4b7772e24dc017e3191ea930230f3c2de96327c8060f6685",
+    "size": [
+      640,
+      640
+    ],
+    "mode": "RGBA"
+  },
+  "assets/animals/foca.webp": {
+    "bytes": 41144,
+    "sha256": "26c217f093e5286519c0adaa5b54257063752779f52c4758408ddb9cc01e9616",
+    "size": [
+      640,
+      640
+    ],
+    "mode": "RGBA"
+  },
+  "assets/animals/gallina.webp": {
+    "bytes": 31030,
+    "sha256": "4b2aa16d14b2121d485db2cfa04ee220843a42d365cce4e89fdc1114dc107c7f",
+    "size": [
+      640,
+      640
+    ],
+    "mode": "RGBA"
+  },
+  "assets/animals/gato.webp": {
+    "bytes": 47174,
+    "sha256": "c710c1c1261a237be65e47b0186b177479ab16c5b0727d3c8ca552a358ed9d28",
+    "size": [
+      640,
+      640
+    ],
+    "mode": "RGBA"
+  },
+  "assets/animals/gusano.webp": {
+    "bytes": 30390,
+    "sha256": "f188bfd2e3993c525d68c6ae9cdc5fdc3f54d29aa322ef414d5c0fe627f3ac32",
+    "size": [
+      640,
+      640
+    ],
+    "mode": "RGBA"
+  },
   "assets/animals/mariposa.webp": {
     "bytes": 91060,
     "sha256": "5252234cc8ee9de77bbd0bbfbfdcbdcb058f0d15468ae46d24235b478f73c174",
@@ -35,6 +89,15 @@
     ],
     "mode": "RGBA"
   },
+  "assets/animals/perro.webp": {
+    "bytes": 53406,
+    "sha256": "f3f4829d2bcf10b36e3ff2d803a8b18c5009e88ad82f563342763180a1616431",
+    "size": [
+      640,
+      640
+    ],
+    "mode": "RGBA"
+  },
   "assets/animals/pez.webp": {
     "bytes": 38064,
     "sha256": "93661603464830ea451227a7c0e42d89675c91a1cbb5131bf82864cfaccbd5c7",
@@ -54,8 +117,8 @@
     "mode": "RGBA"
   },
   "assets/animals/rana.webp": {
-    "bytes": 55448,
-    "sha256": "fa1f0b6ed6d6c3e34cf3447d96b1d367861f76b0fbee774083003959465fd812",
+    "bytes": 42166,
+    "sha256": "f059d3ba5f22193410e156b30163cc31911689f5fc60f129f9830ce55a5d54d1",
     "size": [
       640,
       640
@@ -71,9 +134,44 @@
     ],
     "mode": "RGBA"
   },
+  "assets/audio/README.txt": {
+    "bytes": 439,
+    "sha256": "a0370551826a8393a20882684ffd2dac6b5ace752d95555e2d1d7ae23f844e41"
+  },
+  "assets/catalog.json": {
+    "bytes": 18460,
+    "sha256": "01d475cad0d25b47dbd9df16678c53bc9d1ff522e189fe2623568adb649bd13a"
+  },
+  "assets/characters/abuela_cuentacuentos.webp": {
+    "bytes": 49856,
+    "sha256": "0938f1f57584bd6705013d3200c63eb5b61721f04fed6eaf10b33dad1c03440f",
+    "size": [
+      640,
+      640
+    ],
+    "mode": "RGBA"
+  },
+  "assets/characters/chico.webp": {
+    "bytes": 49642,
+    "sha256": "8301e3f9546995b2f0b0c20b2a45a1c9d6d939d14419fa6a4db04d385723758c",
+    "size": [
+      640,
+      640
+    ],
+    "mode": "RGBA"
+  },
   "assets/characters/dami.webp": {
     "bytes": 33342,
     "sha256": "5753b3dc0a6fbd5e5bd0f8aed9835edf519a97175c3b15b034195d0a47b9bbfe",
+    "size": [
+      640,
+      640
+    ],
+    "mode": "RGBA"
+  },
+  "assets/characters/gigante_amable.webp": {
+    "bytes": 35390,
+    "sha256": "b5554bf6c8865ee1a1fcae6db7557bb53b82becab258aa6d5944d31658b6b399",
     "size": [
       640,
       640
@@ -156,6 +254,24 @@
     ],
     "mode": "RGBA"
   },
+  "assets/characters/nina.webp": {
+    "bytes": 37044,
+    "sha256": "d85365c1db20c4b24b0a58e394d34f3d07ff649a3f8efa2f77c600622a10aa60",
+    "size": [
+      640,
+      640
+    ],
+    "mode": "RGBA"
+  },
+  "assets/characters/nino.webp": {
+    "bytes": 31742,
+    "sha256": "22c7e1b36319633cedc2c02aa9bddb9bd1865dcd10796bc28eb64a5060c1c946",
+    "size": [
+      640,
+      640
+    ],
+    "mode": "RGBA"
+  },
   "assets/characters/papa.webp": {
     "bytes": 58180,
     "sha256": "b621211b1a80d49b06f718d87521d12efe6912bb23bb4053e94e5677c19694f9",
@@ -183,9 +299,45 @@
     ],
     "mode": "RGBA"
   },
+  "assets/extras/cofre_palabras.webp": {
+    "bytes": 51496,
+    "sha256": "c9386de2e705b53d095ed49f7cec2bb2402f0d9a60973e5d6b8220b11402c83d",
+    "size": [
+      640,
+      640
+    ],
+    "mode": "RGBA"
+  },
   "assets/extras/cofre_semillas.webp": {
     "bytes": 59556,
     "sha256": "b54ec6eda2c40fe16528464a8e91b93f0deb13bc389c76cf4c603751d0ee8a1c",
+    "size": [
+      640,
+      640
+    ],
+    "mode": "RGBA"
+  },
+  "assets/extras/corona_logro.webp": {
+    "bytes": 44160,
+    "sha256": "83a35deaa85b2c016fe2aeb628b6b5be70006e8a12ba883c7eb218737ddecf3b",
+    "size": [
+      640,
+      640
+    ],
+    "mode": "RGBA"
+  },
+  "assets/extras/cristal_magico.webp": {
+    "bytes": 34040,
+    "sha256": "b06e75ad0f297a0aa5540cb961631721e6f3027b08ca6d593ac9167a7571cec9",
+    "size": [
+      640,
+      640
+    ],
+    "mode": "RGBA"
+  },
+  "assets/extras/estrella_confite.webp": {
+    "bytes": 22804,
+    "sha256": "14a5000cc5f09c3eff8d0ff822807e3b5b790880f968d9ddfb8d6c5605dbe62e",
     "size": [
       640,
       640
@@ -255,9 +407,72 @@
     ],
     "mode": "RGBA"
   },
+  "assets/extras/insignia_sendero_secretos.webp": {
+    "bytes": 53548,
+    "sha256": "0b3ea86acc6e86f470a4cb60a90bd4b231b4a9f53fbb3c826ba5a4602fe9f082",
+    "size": [
+      640,
+      640
+    ],
+    "mode": "RGBA"
+  },
+  "assets/extras/llave_secreta.webp": {
+    "bytes": 28670,
+    "sha256": "3c427ec42a036511f65846bd25fd3bb3213f8bdb0e42aa4ed50d4a01b7ad76e8",
+    "size": [
+      640,
+      640
+    ],
+    "mode": "RGBA"
+  },
+  "assets/extras/luciernaga_extra.webp": {
+    "bytes": 33034,
+    "sha256": "6f1ac38626d7496964e9306366679118578d11c098d8998b84125f2cc137c176",
+    "size": [
+      640,
+      640
+    ],
+    "mode": "RGBA"
+  },
   "assets/extras/medalla.webp": {
     "bytes": 39418,
     "sha256": "33ecc98bab83dbf465ce11526a5be95503fc2f7b3f8e007db6a5c5f4fb818404",
+    "size": [
+      640,
+      640
+    ],
+    "mode": "RGBA"
+  },
+  "assets/extras/medalla_patrones.webp": {
+    "bytes": 47406,
+    "sha256": "9912bf71773f3313ebd4af677a075efb6de482764d354d88d1bb4423aed4b7d6",
+    "size": [
+      640,
+      640
+    ],
+    "mode": "RGBA"
+  },
+  "assets/extras/pergamino_patron.webp": {
+    "bytes": 28592,
+    "sha256": "db952f352acdd1bd4f62089ef3dd46ace86620b09f1ffaacb1a7f9f94b1a9188",
+    "size": [
+      640,
+      640
+    ],
+    "mode": "RGBA"
+  },
+  "assets/extras/puerta_secreta.webp": {
+    "bytes": 23302,
+    "sha256": "77af36588a1dc32a42f331c2cf9c202aa5421c0f7cf0de25082b797c17761e41",
+    "size": [
+      640,
+      640
+    ],
+    "mode": "RGBA"
+  },
+  "assets/extras/tesoro_secreto.webp": {
+    "bytes": 61146,
+    "sha256": "e6792d2b74833fcaf4384bdc0e140246112ba48008cbd8cb01b4fc23d19b14a6",
     "size": [
       640,
       640
@@ -394,6 +609,51 @@
     ],
     "mode": "RGBA"
   },
+  "assets/objects/banana.webp": {
+    "bytes": 16324,
+    "sha256": "5ec23d78b99748cab330f579d90f68097749de41ecb99d6ab751e33070dfbb9f",
+    "size": [
+      640,
+      640
+    ],
+    "mode": "RGBA"
+  },
+  "assets/objects/bata.webp": {
+    "bytes": 25162,
+    "sha256": "35a5fb77bae2ccbfdb87ef6efba1d66df05e3fc7ee3a5486a9804c1c16979861",
+    "size": [
+      640,
+      640
+    ],
+    "mode": "RGBA"
+  },
+  "assets/objects/beso.webp": {
+    "bytes": 58962,
+    "sha256": "3045ef8ed36536e8601004643fe637b36fda3d48fd909124d38308fa59eaa2d7",
+    "size": [
+      640,
+      640
+    ],
+    "mode": "RGBA"
+  },
+  "assets/objects/bola.webp": {
+    "bytes": 28386,
+    "sha256": "0802141261f8305f7599bcb5abe232e37fdd7088c345ad1715b604d5e3736695",
+    "size": [
+      640,
+      640
+    ],
+    "mode": "RGBA"
+  },
+  "assets/objects/bota.webp": {
+    "bytes": 42848,
+    "sha256": "c31b1743f6ee12ddb3a1fae47ed3343920239fb0a7945055f1b5729884682200",
+    "size": [
+      640,
+      640
+    ],
+    "mode": "RGBA"
+  },
   "assets/objects/brote.webp": {
     "bytes": 53720,
     "sha256": "2d17d121351431084b48c9a5443b2c5d57272cecdd46a79d629b4649fd7bc57c",
@@ -404,8 +664,89 @@
     "mode": "RGBA"
   },
   "assets/objects/cama.webp": {
-    "bytes": 39368,
-    "sha256": "1b038a4f7f7cd2de51e32c026fe342ca6ffd11cf3791130d3ab8474d005b4af1",
+    "bytes": 31920,
+    "sha256": "9082c3a8667f2c8c3c55007e1ab1c82f4c5b986b90e20818118ca7d21a8b206b",
+    "size": [
+      640,
+      640
+    ],
+    "mode": "RGBA"
+  },
+  "assets/objects/campana.webp": {
+    "bytes": 30264,
+    "sha256": "962fc69babaf010b67fd8064bb5b273036243bfe7cbb74794b5a62d2f1116a76",
+    "size": [
+      640,
+      640
+    ],
+    "mode": "RGBA"
+  },
+  "assets/objects/carro.webp": {
+    "bytes": 45666,
+    "sha256": "f2c14f81da20aa96747da920dcc7326c07c3e0b35ccf9981135c91fcde2adacb",
+    "size": [
+      640,
+      640
+    ],
+    "mode": "RGBA"
+  },
+  "assets/objects/casa.webp": {
+    "bytes": 26298,
+    "sha256": "563f0149409cafa265eb68661c60baa2455aff221b1867b3639cd6bc51f56156",
+    "size": [
+      640,
+      640
+    ],
+    "mode": "RGBA"
+  },
+  "assets/objects/cena.webp": {
+    "bytes": 33920,
+    "sha256": "3a3207c781731228c41a13d22fd24c9fddaf4272e6d8d0730193c0ab136c8195",
+    "size": [
+      640,
+      640
+    ],
+    "mode": "RGBA"
+  },
+  "assets/objects/cero.webp": {
+    "bytes": 31552,
+    "sha256": "cfafb92d9b70e8e89a4c1691c83efe7cdfec5d0559eb0553e5443850b461664b",
+    "size": [
+      640,
+      640
+    ],
+    "mode": "RGBA"
+  },
+  "assets/objects/cima.webp": {
+    "bytes": 55792,
+    "sha256": "9e4bc5e559f91ce5f3cdced611405e883cb1cf9269e89024300ef09b5a0524f3",
+    "size": [
+      640,
+      640
+    ],
+    "mode": "RGBA"
+  },
+  "assets/objects/cine.webp": {
+    "bytes": 41622,
+    "sha256": "29b9d6ea553279fe1d89656e8fbbc3edf7dbd3ff2f7f2c36cc0408f02fc3394a",
+    "size": [
+      640,
+      640
+    ],
+    "mode": "RGBA"
+  },
+  "assets/objects/coco.webp": {
+    "bytes": 62318,
+    "sha256": "b20ca87bef5fd89cf060ef08c292cf8e98a037a93f878144d49d48ba863985dc",
+    "size": [
+      640,
+      640
+    ],
+    "mode": "RGBA"
+  },
+  "assets/objects/cuna.webp": {
+    "bytes": 45600,
+    "sha256": "8340e15c6e8048475770ff3d77d8240c91dcf1e871a5ae37a88c6a44d0817a1a",
     "size": [
       640,
       640
@@ -448,9 +789,63 @@
     ],
     "mode": "RGBA"
   },
+  "assets/objects/foto.webp": {
+    "bytes": 31164,
+    "sha256": "bf547738cb9f0d765a21e4711e28d56be97fd9448881fff5ecb0f9e58835aed7",
+    "size": [
+      640,
+      640
+    ],
+    "mode": "RGBA"
+  },
+  "assets/objects/gel.webp": {
+    "bytes": 19492,
+    "sha256": "c881961effc44df96b80a627a56e3d4420959f990b5bc261f2209cbe10e5d251",
+    "size": [
+      640,
+      640
+    ],
+    "mode": "RGBA"
+  },
+  "assets/objects/gema.webp": {
+    "bytes": 35680,
+    "sha256": "92a26018936dd882b17a2281e2aa34a74fb7e759f2a60b2c3f32992177ce5a82",
+    "size": [
+      640,
+      640
+    ],
+    "mode": "RGBA"
+  },
+  "assets/objects/globo.webp": {
+    "bytes": 21756,
+    "sha256": "3c20d30d43ff88abef1acbeda2aac9eb665a08f97a74f221d05510bfd72b474a",
+    "size": [
+      640,
+      640
+    ],
+    "mode": "RGBA"
+  },
+  "assets/objects/guitarra.webp": {
+    "bytes": 33662,
+    "sha256": "c8399b9321360d740e8375f10d410465f0e85230d4a3a300edc45e85995585ff",
+    "size": [
+      640,
+      640
+    ],
+    "mode": "RGBA"
+  },
   "assets/objects/hoja.webp": {
     "bytes": 71906,
     "sha256": "b70c45a4d7e1e03fa64f86c55fee337685c6e8876a905439c88f215ebfbbfd24",
+    "size": [
+      640,
+      640
+    ],
+    "mode": "RGBA"
+  },
+  "assets/objects/leche.webp": {
+    "bytes": 15048,
+    "sha256": "e2126b264e02246109e402b5642e7b03002ed6f7099d4c387ff6865f2c4a1e70",
     "size": [
       640,
       640
@@ -531,9 +926,27 @@
     "bytes": 522,
     "sha256": "0f5161e21a945ed6c7d9e9caa11ee4604ba3241d1ce527d6044fefc3de82c453"
   },
+  "assets/objects/moño.webp": {
+    "bytes": 28854,
+    "sha256": "dedaba9489b6f1213fe15627691899089b9abd81ca34eb47f1012550b3aba1ee",
+    "size": [
+      640,
+      640
+    ],
+    "mode": "RGBA"
+  },
   "assets/objects/nido.webp": {
     "bytes": 121892,
     "sha256": "4b19ea75f8413555ff9d9344818aff7d7a7e2b6d8d5a1c54188613044578bfdb",
+    "size": [
+      640,
+      640
+    ],
+    "mode": "RGBA"
+  },
+  "assets/objects/noche.webp": {
+    "bytes": 24394,
+    "sha256": "93bfc708dd695f670871d1ae2e5084237e11a2368ece2ea1573bb8af2b6d144c",
     "size": [
       640,
       640
@@ -629,6 +1042,42 @@
     "bytes": 711,
     "sha256": "c6e47b5cc484a8726f50c8c9bd5b269e15e6fdf705b1d7ca76379670c38a924f"
   },
+  "assets/objects/queso.webp": {
+    "bytes": 18224,
+    "sha256": "7abf8ed37a16bd097ff1771f09b5af55fa74a914c181926ec240d453c4556ab7",
+    "size": [
+      640,
+      640
+    ],
+    "mode": "RGBA"
+  },
+  "assets/objects/queso_porcion.webp": {
+    "bytes": 17614,
+    "sha256": "fd22927c49c4f9700ba43cf7cafed1eff2f31585faf14c340b868dfe55f3631d",
+    "size": [
+      640,
+      640
+    ],
+    "mode": "RGBA"
+  },
+  "assets/objects/rama.webp": {
+    "bytes": 15040,
+    "sha256": "7c3cd5b8f9f250f75b68e3b76b1b1910ba2877b92fce00e28ce0e2be5f6d6dc8",
+    "size": [
+      640,
+      640
+    ],
+    "mode": "RGBA"
+  },
+  "assets/objects/remo.webp": {
+    "bytes": 42176,
+    "sha256": "dbf35af01ce825dc3032354923db908d90315fdfa5daef4d444abbaa79389f05",
+    "size": [
+      640,
+      640
+    ],
+    "mode": "RGBA"
+  },
   "assets/objects/sapo.svg": {
     "bytes": 657,
     "sha256": "a43261b54b9fc7281e12ab338827305211aa5d729fcd2fb16e8fd75085abd38b"
@@ -673,9 +1122,117 @@
     ],
     "mode": "RGBA"
   },
+  "assets/objects/torre.webp": {
+    "bytes": 38762,
+    "sha256": "34a737546f70c596d4d0eda4d27b6a7d79f1610b3e212345f1cd460abf68d801",
+    "size": [
+      640,
+      640
+    ],
+    "mode": "RGBA"
+  },
+  "assets/scenes/chico_con_leche.webp": {
+    "bytes": 40960,
+    "sha256": "e0adddfc09756ece5bd3ede13a7c54e68eaeb367ae13f0218c76a23581e991c5",
+    "size": [
+      640,
+      640
+    ],
+    "mode": "RGBA"
+  },
+  "assets/scenes/cine_familiar.webp": {
+    "bytes": 59002,
+    "sha256": "27a4201b58a48d185dadb96faba7da1bf12fd02f976e2640d48ca5c8bdb2c935",
+    "size": [
+      640,
+      640
+    ],
+    "mode": "RGBA"
+  },
+  "assets/scenes/gigante_con_gema.webp": {
+    "bytes": 38380,
+    "sha256": "77c4b12992f18c2f3f26ca1ad9ea4ac7f98ce458ca3ec4cff9ce69884a5e2706",
+    "size": [
+      640,
+      640
+    ],
+    "mode": "RGBA"
+  },
+  "assets/scenes/nina_con_mono.webp": {
+    "bytes": 56070,
+    "sha256": "d1b42a6f2eb3ab83e11abf6829b4d53ee46bec4d49445cd08bfe832c939dc990",
+    "size": [
+      640,
+      640
+    ],
+    "mode": "RGBA"
+  },
+  "assets/scenes/nina_con_moño.webp": {
+    "bytes": 41976,
+    "sha256": "b847eacd2e4e7852bfa6a83ada3cb221e462672020ad2f6d280f7ca0c8389645",
+    "size": [
+      640,
+      640
+    ],
+    "mode": "RGBA"
+  },
+  "assets/scenes/nina_lee.webp": {
+    "bytes": 40474,
+    "sha256": "8d758cda1f7ce3e1987d24fc5b214563e23b168155111f089dc7f7822f223847",
+    "size": [
+      640,
+      640
+    ],
+    "mode": "RGBA"
+  },
+  "assets/scenes/nino_con_queso.webp": {
+    "bytes": 40452,
+    "sha256": "997f73beb089133ff526a39aca8c6e5d2d74991827985835a6f8062ea77b8207",
+    "size": [
+      640,
+      640
+    ],
+    "mode": "RGBA"
+  },
+  "assets/scenes/nino_lee.webp": {
+    "bytes": 39904,
+    "sha256": "28d617b6c08292d1e3f2a60b0d0784e99116b645caa5216cc2b9ad708f0984a7",
+    "size": [
+      640,
+      640
+    ],
+    "mode": "RGBA"
+  },
+  "assets/scenes/perro_con_carro.webp": {
+    "bytes": 40064,
+    "sha256": "ce9714e296f2316d4a6134b3ba933f19b752f53ab1dc1e7d7ce55a78cc3c844b",
+    "size": [
+      640,
+      640
+    ],
+    "mode": "RGBA"
+  },
+  "assets/scenes/rana_en_cama.webp": {
+    "bytes": 46210,
+    "sha256": "f6596a6e928eba3bfb6443650d53fac7477c8750d9dd58bb4dc91d81c3dc067f",
+    "size": [
+      640,
+      640
+    ],
+    "mode": "RGBA"
+  },
   "assets/worlds/fondo_bosque_principal.webp": {
     "bytes": 94848,
     "sha256": "bc82c30822e24e13101c0505df81b7844a012ad8ba6c719264fbdb8c56c76ef1",
+    "size": [
+      1344,
+      768
+    ],
+    "mode": "RGB"
+  },
+  "assets/worlds/fondo_bosque_secretos.webp": {
+    "bytes": 116342,
+    "sha256": "a09b9b7db7ed788386bb356f0b2b37232619bd565baad40fdeb596b98cccd08b",
     "size": [
       1344,
       768
@@ -703,6 +1260,15 @@
   "assets/worlds/fondo_duna_d.webp": {
     "bytes": 124524,
     "sha256": "2dbc91d3cd905e133a6d56cbe411479a8db0127e0ba48c9e80984d26cc7bb05c",
+    "size": [
+      1344,
+      768
+    ],
+    "mode": "RGB"
+  },
+  "assets/worlds/fondo_gran_jardin_lector.webp": {
+    "bytes": 150054,
+    "sha256": "d1a32d0ce38d6f31962958467f1faf9f893358f268f27a51817a30b033b23973",
     "size": [
       1344,
       768
@@ -748,6 +1314,105 @@
   "assets/worlds/fondo_panel_logros.webp": {
     "bytes": 78708,
     "sha256": "1ce20604a9933f6c192372a71930a5cd4c73ea0e418eeb5bfe7c5a099c1e420f",
+    "size": [
+      1344,
+      768
+    ],
+    "mode": "RGB"
+  },
+  "assets/worlds/fondo_sendero_b.webp": {
+    "bytes": 43148,
+    "sha256": "ce51fac72a2d84801f81012aac782a9e65d8b0d5aff51757e07492de9ac11626",
+    "size": [
+      1344,
+      768
+    ],
+    "mode": "RGB"
+  },
+  "assets/worlds/fondo_sendero_c.webp": {
+    "bytes": 143178,
+    "sha256": "fb40d2b0ff839adde52cccf46554bec5cfee83fa1baac6a5f994ab55a0809c79",
+    "size": [
+      1344,
+      768
+    ],
+    "mode": "RGB"
+  },
+  "assets/worlds/fondo_sendero_ceci.webp": {
+    "bytes": 64754,
+    "sha256": "f4f43a3a4da84c24003ff5785d9b5f587cb32df7d799fd6e1a59482cad9ba078",
+    "size": [
+      1344,
+      768
+    ],
+    "mode": "RGB"
+  },
+  "assets/worlds/fondo_sendero_ch.webp": {
+    "bytes": 155530,
+    "sha256": "817d94285d4ec4d9d44a872eefed55648bcb0a5995fa5ef56874e9155160ea15",
+    "size": [
+      1344,
+      768
+    ],
+    "mode": "RGB"
+  },
+  "assets/worlds/fondo_sendero_enye.webp": {
+    "bytes": 72546,
+    "sha256": "441539394e96dff5b2fc7f74c7bfe72e0e9cbfe18933c0ab924f610579444507",
+    "size": [
+      1344,
+      768
+    ],
+    "mode": "RGB"
+  },
+  "assets/worlds/fondo_sendero_f.webp": {
+    "bytes": 82218,
+    "sha256": "857d43f61b0f4c5552640009bb34b6f08a26be1187a5f570851d56d1fb1e368d",
+    "size": [
+      1344,
+      768
+    ],
+    "mode": "RGB"
+  },
+  "assets/worlds/fondo_sendero_g.webp": {
+    "bytes": 123246,
+    "sha256": "ad196fd6e00a180e33bb9628b576e31ea4fc9965487f31f761554db18228fe15",
+    "size": [
+      1344,
+      768
+    ],
+    "mode": "RGB"
+  },
+  "assets/worlds/fondo_sendero_gegi.webp": {
+    "bytes": 95844,
+    "sha256": "a3c8b55ef6ade306e03286dcc17d6b17b206239cd7df7ca2b906e77cea5b38b7",
+    "size": [
+      1344,
+      768
+    ],
+    "mode": "RGB"
+  },
+  "assets/worlds/fondo_sendero_qu.webp": {
+    "bytes": 100008,
+    "sha256": "5d53b9fd73781372da12cc03ed681c2798de790d89f3ad12194b583a736b62e6",
+    "size": [
+      1344,
+      768
+    ],
+    "mode": "RGB"
+  },
+  "assets/worlds/fondo_sendero_r.webp": {
+    "bytes": 134406,
+    "sha256": "bbaa827f36000d398dc9d6130e68cb445804d60c977f4a81895837ef0dbca995",
+    "size": [
+      1344,
+      768
+    ],
+    "mode": "RGB"
+  },
+  "assets/worlds/fondo_sendero_rr.webp": {
+    "bytes": 77594,
+    "sha256": "e87be4f0e39958e68d59c7985c6f78a43fc3db5815ababe4d858c5d3ba7e38e6",
     "size": [
       1344,
       768

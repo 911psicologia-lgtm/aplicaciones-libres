@@ -1,0 +1,908 @@
+{
+  "project": "Emilia · El Bosque de las Palabras",
+  "description": "Paquete completo de assets visuales para la app infantil de alfabetización inicial. Ilustración de cuento semi-realista, cálida y amigable, lista para lectura inicial en español.",
+  "style": {
+    "type": "Children's storybook illustration",
+    "look": "Semi-realistic, soft 3D-rendered volume, warm friendly luminous, clean silhouettes",
+    "audience": "Niños y niñas de 4 a 7 años",
+    "colors": "Natural soft cheerful colors, warm palette",
+    "constraints": [
+      "Sin texto incrustado en las imágenes",
+      "Sin marcas de agua",
+      "Sin hiperrealismo ni anime",
+      "Sin fondos recargados en assets individuales",
+      "Línea visual coherente entre todos los assets"
+    ]
+  },
+  "technical": {
+    "individual_assets": {
+      "format": "PNG",
+      "size": "1024x1024",
+      "background": "transparente (RGBA)"
+    },
+    "world_backgrounds": {
+      "format": "PNG",
+      "size": "1344x768",
+      "background": "no transparente (RGB)"
+    }
+  },
+  "mascote_note": "NO se incluye ni se modifica a Lumina/Lumi. La mascota principal ya existe en la app y no debe ser reemplazada.",
+  "folders": {
+    "worlds": {
+      "description": "Fondos horizontales de los mundos/senderos del bosque. 1344x768, sin transparencia, listos para superponer UI.",
+      "count": 13
+    },
+    "characters": {
+      "description": "Personajes infantiles amigables. PNG 1024x1024 con fondo transparente.",
+      "count": 5
+    },
+    "animals": {
+      "description": "Animales tiernos y reconocibles. PNG 1024x1024 con fondo transparente.",
+      "count": 8
+    },
+    "objects": {
+      "description": "Objetos individuales claros y pedagógicos. PNG 1024x1024 con fondo transparente. Algunos son mini-escenas (beso, cena, cine, cima, noche).",
+      "count": 28
+    },
+    "scenes": {
+      "description": "Mini-escenas con composición clara para representar palabras o frases cortas. PNG 1024x1024 con fondo transparente.",
+      "count": 10
+    },
+    "extras": {
+      "description": "Elementos extra: tesoros, insignias, llaves, cristales, medallas, etc. PNG 1024x1024 con fondo transparente.",
+      "count": 11
+    },
+    "contact_sheets": {
+      "description": "Hojas de contacto visuales por carpeta y una vista general.",
+      "count": 7
+    }
+  },
+  "assets": [
+    {
+      "folder": "worlds",
+      "file": "fondo_bosque_secretos.png",
+      "path": "assets/worlds/fondo_bosque_secretos.png",
+      "size_bytes": 146983,
+      "dimensions": "1344x768",
+      "mode": "RGB",
+      "transparency": "opaque",
+      "md5": "20cb3c3628fffa8cdc3ec4b507322678",
+      "note": "Bosque mágico final para patrones especiales."
+    },
+    {
+      "folder": "worlds",
+      "file": "fondo_gran_jardin_lector.png",
+      "path": "assets/worlds/fondo_gran_jardin_lector.png",
+      "size_bytes": 183272,
+      "dimensions": "1344x768",
+      "mode": "RGB",
+      "transparency": "opaque",
+      "md5": "fbe8da1052c3da99aaa63c03c62e504f",
+      "note": "Gran jardín de lectura."
+    },
+    {
+      "folder": "worlds",
+      "file": "fondo_sendero_b.png",
+      "path": "assets/worlds/fondo_sendero_b.png",
+      "size_bytes": 67675,
+      "dimensions": "1344x768",
+      "mode": "RGB",
+      "transparency": "opaque",
+      "md5": "fc600b170f35f115bb4fc320c58436e0",
+      "note": "Zona del bosque dedicada a la B."
+    },
+    {
+      "folder": "worlds",
+      "file": "fondo_sendero_c.png",
+      "path": "assets/worlds/fondo_sendero_c.png",
+      "size_bytes": 164039,
+      "dimensions": "1344x768",
+      "mode": "RGB",
+      "transparency": "opaque",
+      "md5": "d6135b28c678dbd160bb88bcbae17dea",
+      "note": "Zona del bosque dedicada a la C (CA, CO, CU)."
+    },
+    {
+      "folder": "worlds",
+      "file": "fondo_sendero_ceci.png",
+      "path": "assets/worlds/fondo_sendero_ceci.png",
+      "size_bytes": 97486,
+      "dimensions": "1344x768",
+      "mode": "RGB",
+      "transparency": "opaque",
+      "md5": "7a9b0aec1de22f92946d807505121994",
+      "note": "Zona para CE/CI (cena, cine, cielo)."
+    },
+    {
+      "folder": "worlds",
+      "file": "fondo_sendero_ch.png",
+      "path": "assets/worlds/fondo_sendero_ch.png",
+      "size_bytes": 177977,
+      "dimensions": "1344x768",
+      "mode": "RGB",
+      "transparency": "opaque",
+      "md5": "0da502d07aedd7a0a2c617d9bfd06eb8",
+      "note": "Sendero secreto para CH."
+    },
+    {
+      "folder": "worlds",
+      "file": "fondo_sendero_enye.png",
+      "path": "assets/worlds/fondo_sendero_enye.png",
+      "size_bytes": 96761,
+      "dimensions": "1344x768",
+      "mode": "RGB",
+      "transparency": "opaque",
+      "md5": "ae9ea4e566cae08d5aa3f2e9aa5bea9a",
+      "note": "Zona encantada dedicada a la Ñ."
+    },
+    {
+      "folder": "worlds",
+      "file": "fondo_sendero_f.png",
+      "path": "assets/worlds/fondo_sendero_f.png",
+      "size_bytes": 110884,
+      "dimensions": "1344x768",
+      "mode": "RGB",
+      "transparency": "opaque",
+      "md5": "8ace9130f922ee49ea1cd265cf060fdb",
+      "note": "Zona del bosque dedicada a la F."
+    },
+    {
+      "folder": "worlds",
+      "file": "fondo_sendero_g.png",
+      "path": "assets/worlds/fondo_sendero_g.png",
+      "size_bytes": 152849,
+      "dimensions": "1344x768",
+      "mode": "RGB",
+      "transparency": "opaque",
+      "md5": "8184ab4f0b19e4947cc58210ef880f2d",
+      "note": "Zona del bosque dedicada a la G."
+    },
+    {
+      "folder": "worlds",
+      "file": "fondo_sendero_gegi.png",
+      "path": "assets/worlds/fondo_sendero_gegi.png",
+      "size_bytes": 120252,
+      "dimensions": "1344x768",
+      "mode": "RGB",
+      "transparency": "opaque",
+      "md5": "c550b5dc2987395bcc57e8d7a091d2f0",
+      "note": "Zona para GE/GI (gemas, hojas)."
+    },
+    {
+      "folder": "worlds",
+      "file": "fondo_sendero_qu.png",
+      "path": "assets/worlds/fondo_sendero_qu.png",
+      "size_bytes": 129023,
+      "dimensions": "1344x768",
+      "mode": "RGB",
+      "transparency": "opaque",
+      "md5": "7bd23dbbb1833a51035fe75422009dd6",
+      "note": "Zona para QU (queso, quema, quita)."
+    },
+    {
+      "folder": "worlds",
+      "file": "fondo_sendero_r.png",
+      "path": "assets/worlds/fondo_sendero_r.png",
+      "size_bytes": 161237,
+      "dimensions": "1344x768",
+      "mode": "RGB",
+      "transparency": "opaque",
+      "md5": "7e0777c0220d6e359e8e0cb1a1745b68",
+      "note": "Zona cálida del bosque dedicada a la R."
+    },
+    {
+      "folder": "worlds",
+      "file": "fondo_sendero_rr.png",
+      "path": "assets/worlds/fondo_sendero_rr.png",
+      "size_bytes": 112249,
+      "dimensions": "1344x768",
+      "mode": "RGB",
+      "transparency": "opaque",
+      "md5": "31405295d889baa89347f7ed43bbda9f",
+      "note": "Zona para RR."
+    },
+    {
+      "folder": "characters",
+      "file": "abuela_cuentacuentos.png",
+      "path": "assets/characters/abuela_cuentacuentos.png",
+      "size_bytes": 1088809,
+      "dimensions": "1024x1024",
+      "mode": "RGBA",
+      "transparency": "transparent",
+      "md5": "d67319f5c0fa1837ad89bf5fc31faecf"
+    },
+    {
+      "folder": "characters",
+      "file": "chico.png",
+      "path": "assets/characters/chico.png",
+      "size_bytes": 1138771,
+      "dimensions": "1024x1024",
+      "mode": "RGBA",
+      "transparency": "transparent",
+      "md5": "f59fd37deac86484492ea2097e2a7b61"
+    },
+    {
+      "folder": "characters",
+      "file": "gigante_amable.png",
+      "path": "assets/characters/gigante_amable.png",
+      "size_bytes": 799665,
+      "dimensions": "1024x1024",
+      "mode": "RGBA",
+      "transparency": "transparent",
+      "md5": "9aae39b1419a7ec1bd7ed5429dc97409"
+    },
+    {
+      "folder": "characters",
+      "file": "nina.png",
+      "path": "assets/characters/nina.png",
+      "size_bytes": 945570,
+      "dimensions": "1024x1024",
+      "mode": "RGBA",
+      "transparency": "transparent",
+      "md5": "c08624dc248647147ec14d8bc6f931ea"
+    },
+    {
+      "folder": "characters",
+      "file": "nino.png",
+      "path": "assets/characters/nino.png",
+      "size_bytes": 793875,
+      "dimensions": "1024x1024",
+      "mode": "RGBA",
+      "transparency": "transparent",
+      "md5": "7b945d19b7aa2833a14ad8927397b8f6"
+    },
+    {
+      "folder": "animals",
+      "file": "arana.png",
+      "path": "assets/animals/arana.png",
+      "size_bytes": 829319,
+      "dimensions": "1024x1024",
+      "mode": "RGBA",
+      "transparency": "transparent",
+      "md5": "ba4a8e976ff56e1f5459200f2d6e4863"
+    },
+    {
+      "folder": "animals",
+      "file": "burro.png",
+      "path": "assets/animals/burro.png",
+      "size_bytes": 841020,
+      "dimensions": "1024x1024",
+      "mode": "RGBA",
+      "transparency": "transparent",
+      "md5": "73db96efd77718744d919b8f2df2d888"
+    },
+    {
+      "folder": "animals",
+      "file": "foca.png",
+      "path": "assets/animals/foca.png",
+      "size_bytes": 924389,
+      "dimensions": "1024x1024",
+      "mode": "RGBA",
+      "transparency": "transparent",
+      "md5": "e687bc6b706dbe3e2d3783b39d448935"
+    },
+    {
+      "folder": "animals",
+      "file": "gallina.png",
+      "path": "assets/animals/gallina.png",
+      "size_bytes": 740156,
+      "dimensions": "1024x1024",
+      "mode": "RGBA",
+      "transparency": "transparent",
+      "md5": "de1a6f512bfc9191a903b80ef20f79d7"
+    },
+    {
+      "folder": "animals",
+      "file": "gato.png",
+      "path": "assets/animals/gato.png",
+      "size_bytes": 1075600,
+      "dimensions": "1024x1024",
+      "mode": "RGBA",
+      "transparency": "transparent",
+      "md5": "846360322bad24af00f3fdecf63d4e8e"
+    },
+    {
+      "folder": "animals",
+      "file": "gusano.png",
+      "path": "assets/animals/gusano.png",
+      "size_bytes": 708737,
+      "dimensions": "1024x1024",
+      "mode": "RGBA",
+      "transparency": "transparent",
+      "md5": "f75b537b57cc7761bba734a07d1dc514"
+    },
+    {
+      "folder": "animals",
+      "file": "perro.png",
+      "path": "assets/animals/perro.png",
+      "size_bytes": 1167137,
+      "dimensions": "1024x1024",
+      "mode": "RGBA",
+      "transparency": "transparent",
+      "md5": "fcd7dc1deec59009cdf2a5a88f1e6338"
+    },
+    {
+      "folder": "animals",
+      "file": "rana.png",
+      "path": "assets/animals/rana.png",
+      "size_bytes": 1041212,
+      "dimensions": "1024x1024",
+      "mode": "RGBA",
+      "transparency": "transparent",
+      "md5": "25640bad3107aa7bc7b979bc80016609"
+    },
+    {
+      "folder": "objects",
+      "file": "banana.png",
+      "path": "assets/objects/banana.png",
+      "size_bytes": 473531,
+      "dimensions": "1024x1024",
+      "mode": "RGBA",
+      "transparency": "transparent",
+      "md5": "f937b2a528b159dac8e7892d4f76044a"
+    },
+    {
+      "folder": "objects",
+      "file": "bata.png",
+      "path": "assets/objects/bata.png",
+      "size_bytes": 473961,
+      "dimensions": "1024x1024",
+      "mode": "RGBA",
+      "transparency": "transparent",
+      "md5": "1d2881aae1346dffade943478aff12c9"
+    },
+    {
+      "folder": "objects",
+      "file": "beso.png",
+      "path": "assets/objects/beso.png",
+      "size_bytes": 1146998,
+      "dimensions": "1024x1024",
+      "mode": "RGBA",
+      "transparency": "transparent",
+      "md5": "1b0ff4096f5917e7c03f81f0a46b2c3b",
+      "note": "Mini-escena tierna e infantil de un beso familiar."
+    },
+    {
+      "folder": "objects",
+      "file": "bola.png",
+      "path": "assets/objects/bola.png",
+      "size_bytes": 726171,
+      "dimensions": "1024x1024",
+      "mode": "RGBA",
+      "transparency": "transparent",
+      "md5": "74ec3914560df82054d0f6e096fff2c8"
+    },
+    {
+      "folder": "objects",
+      "file": "bota.png",
+      "path": "assets/objects/bota.png",
+      "size_bytes": 919610,
+      "dimensions": "1024x1024",
+      "mode": "RGBA",
+      "transparency": "transparent",
+      "md5": "4cd07c56b22dfe36071f08795794c672"
+    },
+    {
+      "folder": "objects",
+      "file": "cama.png",
+      "path": "assets/objects/cama.png",
+      "size_bytes": 764412,
+      "dimensions": "1024x1024",
+      "mode": "RGBA",
+      "transparency": "transparent",
+      "md5": "7914785d29778525f0969626749c5552"
+    },
+    {
+      "folder": "objects",
+      "file": "campana.png",
+      "path": "assets/objects/campana.png",
+      "size_bytes": 751480,
+      "dimensions": "1024x1024",
+      "mode": "RGBA",
+      "transparency": "transparent",
+      "md5": "e2d5f97f1f49c95c5b8519fc42c51396"
+    },
+    {
+      "folder": "objects",
+      "file": "carro.png",
+      "path": "assets/objects/carro.png",
+      "size_bytes": 994025,
+      "dimensions": "1024x1024",
+      "mode": "RGBA",
+      "transparency": "transparent",
+      "md5": "2ea5f5b4d9c31856cead5caf1eda2ad8"
+    },
+    {
+      "folder": "objects",
+      "file": "casa.png",
+      "path": "assets/objects/casa.png",
+      "size_bytes": 734462,
+      "dimensions": "1024x1024",
+      "mode": "RGBA",
+      "transparency": "transparent",
+      "md5": "d73021be616470edb84193eb2654794a"
+    },
+    {
+      "folder": "objects",
+      "file": "cena.png",
+      "path": "assets/objects/cena.png",
+      "size_bytes": 790879,
+      "dimensions": "1024x1024",
+      "mode": "RGBA",
+      "transparency": "transparent",
+      "md5": "2ce34efbc960d7260d30c4c2e46cf7ae",
+      "note": "Mini-escena de cena (plato servido)."
+    },
+    {
+      "folder": "objects",
+      "file": "cero.png",
+      "path": "assets/objects/cero.png",
+      "size_bytes": 808485,
+      "dimensions": "1024x1024",
+      "mode": "RGBA",
+      "transparency": "transparent",
+      "md5": "ec2aedf9f3c74919ec8dd4793a29a033",
+      "note": "Representación visual del número cero como objeto didáctico (sin texto)."
+    },
+    {
+      "folder": "objects",
+      "file": "cima.png",
+      "path": "assets/objects/cima.png",
+      "size_bytes": 1211641,
+      "dimensions": "1024x1024",
+      "mode": "RGBA",
+      "transparency": "transparent",
+      "md5": "9cac97619d6c41c0cc5a01be380e89e9",
+      "note": "Mini-escena de la cima de una montaña."
+    },
+    {
+      "folder": "objects",
+      "file": "cine.png",
+      "path": "assets/objects/cine.png",
+      "size_bytes": 809391,
+      "dimensions": "1024x1024",
+      "mode": "RGBA",
+      "transparency": "transparent",
+      "md5": "cca0efca44072b179e250b54226f6b92",
+      "note": "Mini-escena de cine (claqueta + palomitas)."
+    },
+    {
+      "folder": "objects",
+      "file": "coco.png",
+      "path": "assets/objects/coco.png",
+      "size_bytes": 1196299,
+      "dimensions": "1024x1024",
+      "mode": "RGBA",
+      "transparency": "transparent",
+      "md5": "770336fd74469c3622851bc51f9513fe"
+    },
+    {
+      "folder": "objects",
+      "file": "cuna.png",
+      "path": "assets/objects/cuna.png",
+      "size_bytes": 784705,
+      "dimensions": "1024x1024",
+      "mode": "RGBA",
+      "transparency": "transparent",
+      "md5": "719a1c99ef89f013c6fb1e8a5020c580"
+    },
+    {
+      "folder": "objects",
+      "file": "foto.png",
+      "path": "assets/objects/foto.png",
+      "size_bytes": 704190,
+      "dimensions": "1024x1024",
+      "mode": "RGBA",
+      "transparency": "transparent",
+      "md5": "2f5da6530661479f26b517f4082eec8d"
+    },
+    {
+      "folder": "objects",
+      "file": "gel.png",
+      "path": "assets/objects/gel.png",
+      "size_bytes": 505658,
+      "dimensions": "1024x1024",
+      "mode": "RGBA",
+      "transparency": "transparent",
+      "md5": "2097287a701b77551d503845d1d83047"
+    },
+    {
+      "folder": "objects",
+      "file": "gema.png",
+      "path": "assets/objects/gema.png",
+      "size_bytes": 965052,
+      "dimensions": "1024x1024",
+      "mode": "RGBA",
+      "transparency": "transparent",
+      "md5": "64da0ae925e3113e0cffeb800908fbf4"
+    },
+    {
+      "folder": "objects",
+      "file": "globo.png",
+      "path": "assets/objects/globo.png",
+      "size_bytes": 683244,
+      "dimensions": "1024x1024",
+      "mode": "RGBA",
+      "transparency": "transparent",
+      "md5": "a1553165a7b7b77c0f14951397bec3ba"
+    },
+    {
+      "folder": "objects",
+      "file": "guitarra.png",
+      "path": "assets/objects/guitarra.png",
+      "size_bytes": 742746,
+      "dimensions": "1024x1024",
+      "mode": "RGBA",
+      "transparency": "transparent",
+      "md5": "f8062989a56d47d593baa2c0780ec13e"
+    },
+    {
+      "folder": "objects",
+      "file": "leche.png",
+      "path": "assets/objects/leche.png",
+      "size_bytes": 371211,
+      "dimensions": "1024x1024",
+      "mode": "RGBA",
+      "transparency": "transparent",
+      "md5": "804be3790106ae4fcf21f5824c68ecc7"
+    },
+    {
+      "folder": "objects",
+      "file": "moño.png",
+      "path": "assets/objects/moño.png",
+      "size_bytes": 745538,
+      "dimensions": "1024x1024",
+      "mode": "RGBA",
+      "transparency": "transparent",
+      "md5": "945f1488ea93d90d44eef729f65fdba8"
+    },
+    {
+      "folder": "objects",
+      "file": "noche.png",
+      "path": "assets/objects/noche.png",
+      "size_bytes": 636945,
+      "dimensions": "1024x1024",
+      "mode": "RGBA",
+      "transparency": "transparent",
+      "md5": "898f36037d5909daad5f292a9429f5df",
+      "note": "Mini-escena de noche con luna y estrellas."
+    },
+    {
+      "folder": "objects",
+      "file": "queso.png",
+      "path": "assets/objects/queso.png",
+      "size_bytes": 507468,
+      "dimensions": "1024x1024",
+      "mode": "RGBA",
+      "transparency": "transparent",
+      "md5": "02aacd929ce4b1933e5b089bf9b40d96"
+    },
+    {
+      "folder": "objects",
+      "file": "queso_porcion.png",
+      "path": "assets/objects/queso_porcion.png",
+      "size_bytes": 461882,
+      "dimensions": "1024x1024",
+      "mode": "RGBA",
+      "transparency": "transparent",
+      "md5": "be4c222bc8212026398e941ebc724a72",
+      "note": "Variante de queso (porción)."
+    },
+    {
+      "folder": "objects",
+      "file": "rama.png",
+      "path": "assets/objects/rama.png",
+      "size_bytes": 284217,
+      "dimensions": "1024x1024",
+      "mode": "RGBA",
+      "transparency": "transparent",
+      "md5": "7930a8971200e2b341c17ff1a613897a"
+    },
+    {
+      "folder": "objects",
+      "file": "remo.png",
+      "path": "assets/objects/remo.png",
+      "size_bytes": 869528,
+      "dimensions": "1024x1024",
+      "mode": "RGBA",
+      "transparency": "transparent",
+      "md5": "38517909d53f0f1854bead2e322c64b3"
+    },
+    {
+      "folder": "objects",
+      "file": "torre.png",
+      "path": "assets/objects/torre.png",
+      "size_bytes": 897365,
+      "dimensions": "1024x1024",
+      "mode": "RGBA",
+      "transparency": "transparent",
+      "md5": "4f4d8b8f756626b4ce13b805c76a5947"
+    },
+    {
+      "folder": "scenes",
+      "file": "chico_con_leche.png",
+      "path": "assets/scenes/chico_con_leche.png",
+      "size_bytes": 955392,
+      "dimensions": "1024x1024",
+      "mode": "RGBA",
+      "transparency": "transparent",
+      "md5": "33a19b79a387ce53acdbd8b77ee6e7c9"
+    },
+    {
+      "folder": "scenes",
+      "file": "cine_familiar.png",
+      "path": "assets/scenes/cine_familiar.png",
+      "size_bytes": 1232635,
+      "dimensions": "1024x1024",
+      "mode": "RGBA",
+      "transparency": "transparent",
+      "md5": "85de790e060c0a028bf68d55d87b51ca"
+    },
+    {
+      "folder": "scenes",
+      "file": "gigante_con_gema.png",
+      "path": "assets/scenes/gigante_con_gema.png",
+      "size_bytes": 909306,
+      "dimensions": "1024x1024",
+      "mode": "RGBA",
+      "transparency": "transparent",
+      "md5": "21b396de0be42b7e80b7b6b905513bcf"
+    },
+    {
+      "folder": "scenes",
+      "file": "nina_con_mono.png",
+      "path": "assets/scenes/nina_con_mono.png",
+      "size_bytes": 1114565,
+      "dimensions": "1024x1024",
+      "mode": "RGBA",
+      "transparency": "transparent",
+      "md5": "506fb9888061ebbc812667bd3e34ebbf"
+    },
+    {
+      "folder": "scenes",
+      "file": "nina_con_moño.png",
+      "path": "assets/scenes/nina_con_moño.png",
+      "size_bytes": 1024204,
+      "dimensions": "1024x1024",
+      "mode": "RGBA",
+      "transparency": "transparent",
+      "md5": "1a8c1a0c114755d5ed96343717dfabaa"
+    },
+    {
+      "folder": "scenes",
+      "file": "nina_lee.png",
+      "path": "assets/scenes/nina_lee.png",
+      "size_bytes": 962551,
+      "dimensions": "1024x1024",
+      "mode": "RGBA",
+      "transparency": "transparent",
+      "md5": "7e3d6eed7ad9b44f77d5353a177d63a4"
+    },
+    {
+      "folder": "scenes",
+      "file": "nino_con_queso.png",
+      "path": "assets/scenes/nino_con_queso.png",
+      "size_bytes": 1001100,
+      "dimensions": "1024x1024",
+      "mode": "RGBA",
+      "transparency": "transparent",
+      "md5": "e273b9a92e91852a0fb928c306d1f816"
+    },
+    {
+      "folder": "scenes",
+      "file": "nino_lee.png",
+      "path": "assets/scenes/nino_lee.png",
+      "size_bytes": 950820,
+      "dimensions": "1024x1024",
+      "mode": "RGBA",
+      "transparency": "transparent",
+      "md5": "9db661740ac569011b326c5850d2065a"
+    },
+    {
+      "folder": "scenes",
+      "file": "perro_con_carro.png",
+      "path": "assets/scenes/perro_con_carro.png",
+      "size_bytes": 912833,
+      "dimensions": "1024x1024",
+      "mode": "RGBA",
+      "transparency": "transparent",
+      "md5": "afb1ceb23ef79dab8e19d5e83569c255"
+    },
+    {
+      "folder": "scenes",
+      "file": "rana_en_cama.png",
+      "path": "assets/scenes/rana_en_cama.png",
+      "size_bytes": 725770,
+      "dimensions": "1024x1024",
+      "mode": "RGBA",
+      "transparency": "transparent",
+      "md5": "bfa3ad5f99e71f899e4360fb6d944893"
+    },
+    {
+      "folder": "extras",
+      "file": "cofre_palabras.png",
+      "path": "assets/extras/cofre_palabras.png",
+      "size_bytes": 1056336,
+      "dimensions": "1024x1024",
+      "mode": "RGBA",
+      "transparency": "transparent",
+      "md5": "185e7df0679896a111af309323cd3754"
+    },
+    {
+      "folder": "extras",
+      "file": "corona_logro.png",
+      "path": "assets/extras/corona_logro.png",
+      "size_bytes": 927260,
+      "dimensions": "1024x1024",
+      "mode": "RGBA",
+      "transparency": "transparent",
+      "md5": "05ca664891cb91e76d2bd4b7828c45b0"
+    },
+    {
+      "folder": "extras",
+      "file": "cristal_magico.png",
+      "path": "assets/extras/cristal_magico.png",
+      "size_bytes": 756405,
+      "dimensions": "1024x1024",
+      "mode": "RGBA",
+      "transparency": "transparent",
+      "md5": "2f0f4095e5265b8e6dcf760e93633105"
+    },
+    {
+      "folder": "extras",
+      "file": "estrella_confite.png",
+      "path": "assets/extras/estrella_confite.png",
+      "size_bytes": 611281,
+      "dimensions": "1024x1024",
+      "mode": "RGBA",
+      "transparency": "transparent",
+      "md5": "df4fe558af0c4d78cd81e4ea17c1e591"
+    },
+    {
+      "folder": "extras",
+      "file": "insignia_sendero_secretos.png",
+      "path": "assets/extras/insignia_sendero_secretos.png",
+      "size_bytes": 1038509,
+      "dimensions": "1024x1024",
+      "mode": "RGBA",
+      "transparency": "transparent",
+      "md5": "1a7195e44325bd764db8a635c403a171"
+    },
+    {
+      "folder": "extras",
+      "file": "llave_secreta.png",
+      "path": "assets/extras/llave_secreta.png",
+      "size_bytes": 683687,
+      "dimensions": "1024x1024",
+      "mode": "RGBA",
+      "transparency": "transparent",
+      "md5": "8b3c8861b18a7e809db06df82ae01c1c"
+    },
+    {
+      "folder": "extras",
+      "file": "luciernaga_extra.png",
+      "path": "assets/extras/luciernaga_extra.png",
+      "size_bytes": 807191,
+      "dimensions": "1024x1024",
+      "mode": "RGBA",
+      "transparency": "transparent",
+      "md5": "3c9413824688da3a2c9719ff56b84745"
+    },
+    {
+      "folder": "extras",
+      "file": "medalla_patrones.png",
+      "path": "assets/extras/medalla_patrones.png",
+      "size_bytes": 1037730,
+      "dimensions": "1024x1024",
+      "mode": "RGBA",
+      "transparency": "transparent",
+      "md5": "177aa9fae56fd59fa8ee44d10826701d"
+    },
+    {
+      "folder": "extras",
+      "file": "pergamino_patron.png",
+      "path": "assets/extras/pergamino_patron.png",
+      "size_bytes": 848056,
+      "dimensions": "1024x1024",
+      "mode": "RGBA",
+      "transparency": "transparent",
+      "md5": "60604aca3e2b69244d14eadbc3605c27"
+    },
+    {
+      "folder": "extras",
+      "file": "puerta_secreta.png",
+      "path": "assets/extras/puerta_secreta.png",
+      "size_bytes": 532070,
+      "dimensions": "1024x1024",
+      "mode": "RGBA",
+      "transparency": "transparent",
+      "md5": "e8acac252f276927b75f044d31e2fa51"
+    },
+    {
+      "folder": "extras",
+      "file": "tesoro_secreto.png",
+      "path": "assets/extras/tesoro_secreto.png",
+      "size_bytes": 1171070,
+      "dimensions": "1024x1024",
+      "mode": "RGBA",
+      "transparency": "transparent",
+      "md5": "db6a94d79166faa3325c5f5e7054742d"
+    },
+    {
+      "folder": "contact_sheets",
+      "file": "contact_sheet_animals.png",
+      "path": "assets/contact_sheets/contact_sheet_animals.png",
+      "size_bytes": 751184,
+      "dimensions": "1696x830",
+      "mode": "RGB",
+      "transparency": "opaque",
+      "md5": "fa6edda1ceac04dc604b64d95c09191d"
+    },
+    {
+      "folder": "contact_sheets",
+      "file": "contact_sheet_characters.png",
+      "path": "assets/contact_sheets/contact_sheet_characters.png",
+      "size_bytes": 499007,
+      "dimensions": "1696x458",
+      "mode": "RGB",
+      "transparency": "opaque",
+      "md5": "8a8466f34eb3e06d0ac34dab70419cb2"
+    },
+    {
+      "folder": "contact_sheets",
+      "file": "contact_sheet_extras.png",
+      "path": "assets/contact_sheets/contact_sheet_extras.png",
+      "size_bytes": 965519,
+      "dimensions": "1696x1202",
+      "mode": "RGB",
+      "transparency": "opaque",
+      "md5": "f67e01531c44e0e7381b20ae0702e38e"
+    },
+    {
+      "folder": "contact_sheets",
+      "file": "contact_sheet_objects.png",
+      "path": "assets/contact_sheets/contact_sheet_objects.png",
+      "size_bytes": 2137363,
+      "dimensions": "1696x2318",
+      "mode": "RGB",
+      "transparency": "opaque",
+      "md5": "d2f345017e3c0d195ee4dabe17364af9"
+    },
+    {
+      "folder": "contact_sheets",
+      "file": "contact_sheet_overview.png",
+      "path": "assets/contact_sheets/contact_sheet_overview.png",
+      "size_bytes": 2338255,
+      "dimensions": "1696x1966",
+      "mode": "RGB",
+      "transparency": "opaque",
+      "md5": "d9c83cf7b17a0025cbbb3adad330548c"
+    },
+    {
+      "folder": "contact_sheets",
+      "file": "contact_sheet_scenes.png",
+      "path": "assets/contact_sheets/contact_sheet_scenes.png",
+      "size_bytes": 1058553,
+      "dimensions": "1696x830",
+      "mode": "RGB",
+      "transparency": "opaque",
+      "md5": "97168171d6819414a2dc0c8d64846914"
+    },
+    {
+      "folder": "contact_sheets",
+      "file": "contact_sheet_worlds.png",
+      "path": "assets/contact_sheets/contact_sheet_worlds.png",
+      "size_bytes": 1495205,
+      "dimensions": "1696x1202",
+      "mode": "RGB",
+      "transparency": "opaque",
+      "md5": "b23f6cfd983d74359525253487e62a40"
+    }
+  ],
+  "totals": {
+    "files": 82,
+    "bytes": 63279898,
+    "kb": 61796.8,
+    "mb": 60.35
+  }
+}

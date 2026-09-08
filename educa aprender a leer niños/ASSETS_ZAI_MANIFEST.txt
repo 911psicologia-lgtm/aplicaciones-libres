@@ -1,0 +1,131 @@
+Emilia · El Bosque de las Palabras
+MANIFEST DE ASSETS VISUALES
+============================================================
+
+Total de archivos: 82
+Tamaño total: 60.35 MB
+
+
+============================================================
+CARPETA /worlds
+Fondos horizontales de los mundos/senderos del bosque. 1344x768, sin transparencia, listos para superponer UI.
+Archivos: 13
+============================================================
+  fondo_bosque_secretos.png           1344x768     opaque           146983 B  // Bosque mágico final para patrones especiales.
+  fondo_gran_jardin_lector.png        1344x768     opaque           183272 B  // Gran jardín de lectura.
+  fondo_sendero_b.png                 1344x768     opaque            67675 B  // Zona del bosque dedicada a la B.
+  fondo_sendero_c.png                 1344x768     opaque           164039 B  // Zona del bosque dedicada a la C (CA, CO, CU).
+  fondo_sendero_ceci.png              1344x768     opaque            97486 B  // Zona para CE/CI (cena, cine, cielo).
+  fondo_sendero_ch.png                1344x768     opaque           177977 B  // Sendero secreto para CH.
+  fondo_sendero_enye.png              1344x768     opaque            96761 B  // Zona encantada dedicada a la Ñ.
+  fondo_sendero_f.png                 1344x768     opaque           110884 B  // Zona del bosque dedicada a la F.
+  fondo_sendero_g.png                 1344x768     opaque           152849 B  // Zona del bosque dedicada a la G.
+  fondo_sendero_gegi.png              1344x768     opaque           120252 B  // Zona para GE/GI (gemas, hojas).
+  fondo_sendero_qu.png                1344x768     opaque           129023 B  // Zona para QU (queso, quema, quita).
+  fondo_sendero_r.png                 1344x768     opaque           161237 B  // Zona cálida del bosque dedicada a la R.
+  fondo_sendero_rr.png                1344x768     opaque           112249 B  // Zona para RR.
+
+============================================================
+CARPETA /characters
+Personajes infantiles amigables. PNG 1024x1024 con fondo transparente.
+Archivos: 5
+============================================================
+  abuela_cuentacuentos.png            1024x1024    transparent     1088809 B
+  chico.png                           1024x1024    transparent     1138771 B
+  gigante_amable.png                  1024x1024    transparent      799665 B
+  nina.png                            1024x1024    transparent      945570 B
+  nino.png                            1024x1024    transparent      793875 B
+
+============================================================
+CARPETA /animals
+Animales tiernos y reconocibles. PNG 1024x1024 con fondo transparente.
+Archivos: 8
+============================================================
+  arana.png                           1024x1024    transparent      829319 B
+  burro.png                           1024x1024    transparent      841020 B
+  foca.png                            1024x1024    transparent      924389 B
+  gallina.png                         1024x1024    transparent      740156 B
+  gato.png                            1024x1024    transparent     1075600 B
+  gusano.png                          1024x1024    transparent      708737 B
+  perro.png                           1024x1024    transparent     1167137 B
+  rana.png                            1024x1024    transparent     1041212 B
+
+============================================================
+CARPETA /objects
+Objetos individuales claros y pedagógicos. PNG 1024x1024 con fondo transparente. Algunos son mini-escenas (beso, cena, cine, cima, noche).
+Archivos: 28
+============================================================
+  banana.png                          1024x1024    transparent      473531 B
+  bata.png                            1024x1024    transparent      473961 B
+  beso.png                            1024x1024    transparent     1146998 B  // Mini-escena tierna e infantil de un beso familiar.
+  bola.png                            1024x1024    transparent      726171 B
+  bota.png                            1024x1024    transparent      919610 B
+  cama.png                            1024x1024    transparent      764412 B
+  campana.png                         1024x1024    transparent      751480 B
+  carro.png                           1024x1024    transparent      994025 B
+  casa.png                            1024x1024    transparent      734462 B
+  cena.png                            1024x1024    transparent      790879 B  // Mini-escena de cena (plato servido).
+  cero.png                            1024x1024    transparent      808485 B  // Representación visual del número cero como objeto didáctico (sin texto).
+  cima.png                            1024x1024    transparent     1211641 B  // Mini-escena de la cima de una montaña.
+  cine.png                            1024x1024    transparent      809391 B  // Mini-escena de cine (claqueta + palomitas).
+  coco.png                            1024x1024    transparent     1196299 B
+  cuna.png                            1024x1024    transparent      784705 B
+  foto.png                            1024x1024    transparent      704190 B
+  gel.png                             1024x1024    transparent      505658 B
+  gema.png                            1024x1024    transparent      965052 B
+  globo.png                           1024x1024    transparent      683244 B
+  guitarra.png                        1024x1024    transparent      742746 B
+  leche.png                           1024x1024    transparent      371211 B
+  moño.png                            1024x1024    transparent      745538 B
+  noche.png                           1024x1024    transparent      636945 B  // Mini-escena de noche con luna y estrellas.
+  queso.png                           1024x1024    transparent      507468 B
+  queso_porcion.png                   1024x1024    transparent      461882 B  // Variante de queso (porción).
+  rama.png                            1024x1024    transparent      284217 B
+  remo.png                            1024x1024    transparent      869528 B
+  torre.png                           1024x1024    transparent      897365 B
+
+============================================================
+CARPETA /scenes
+Mini-escenas con composición clara para representar palabras o frases cortas. PNG 1024x1024 con fondo transparente.
+Archivos: 10
+============================================================
+  chico_con_leche.png                 1024x1024    transparent      955392 B
+  cine_familiar.png                   1024x1024    transparent     1232635 B
+  gigante_con_gema.png                1024x1024    transparent      909306 B
+  nina_con_mono.png                   1024x1024    transparent     1114565 B
+  nina_con_moño.png                   1024x1024    transparent     1024204 B
+  nina_lee.png                        1024x1024    transparent      962551 B
+  nino_con_queso.png                  1024x1024    transparent     1001100 B
+  nino_lee.png                        1024x1024    transparent      950820 B
+  perro_con_carro.png                 1024x1024    transparent      912833 B
+  rana_en_cama.png                    1024x1024    transparent      725770 B
+
+============================================================
+CARPETA /extras
+Elementos extra: tesoros, insignias, llaves, cristales, medallas, etc. PNG 1024x1024 con fondo transparente.
+Archivos: 11
+============================================================
+  cofre_palabras.png                  1024x1024    transparent     1056336 B
+  corona_logro.png                    1024x1024    transparent      927260 B
+  cristal_magico.png                  1024x1024    transparent      756405 B
+  estrella_confite.png                1024x1024    transparent      611281 B
+  insignia_sendero_secretos.png       1024x1024    transparent     1038509 B
+  llave_secreta.png                   1024x1024    transparent      683687 B
+  luciernaga_extra.png                1024x1024    transparent      807191 B
+  medalla_patrones.png                1024x1024    transparent     1037730 B
+  pergamino_patron.png                1024x1024    transparent      848056 B
+  puerta_secreta.png                  1024x1024    transparent      532070 B
+  tesoro_secreto.png                  1024x1024    transparent     1171070 B
+
+============================================================
+CARPETA /contact_sheets
+Hojas de contacto visuales por carpeta y una vista general.
+Archivos: 7
+============================================================
+  contact_sheet_animals.png           1696x830     opaque           751184 B
+  contact_sheet_characters.png        1696x458     opaque           499007 B
+  contact_sheet_extras.png            1696x1202    opaque           965519 B
+  contact_sheet_objects.png           1696x2318    opaque          2137363 B
+  contact_sheet_overview.png          1696x1966    opaque          2338255 B
+  contact_sheet_scenes.png            1696x830     opaque          1058553 B
+  contact_sheet_worlds.png            1696x1202    opaque          1495205 B

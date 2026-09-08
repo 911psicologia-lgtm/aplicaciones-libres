@@ -1,0 +1,15 @@
+const fs=require('fs'),vm=require('vm'),path=require('path');
+const root=path.resolve(__dirname,'..'); let now=0; const noop=()=>{}; const grad={addColorStop:noop};
+const ctx=new Proxy({createLinearGradient:()=>({...grad}),createRadialGradient:()=>({...grad}),measureText:t=>({width:String(t).length*7}),setTransform:noop,clearRect:noop,fillRect:noop,strokeRect:noop,beginPath:noop,closePath:noop,moveTo:noop,lineTo:noop,arc:noop,ellipse:noop,fill:noop,stroke:noop,save:noop,restore:noop,translate:noop,rotate:noop,scale:noop,setLineDash:noop,drawImage:noop,roundRect:noop,fillText:noop,quadraticCurveTo:noop},{get:(o,k)=>k in o?o[k]:0,set:(o,k,v)=>(o[k]=v,true)});
+const canvas={width:0,height:0,style:{},getContext:()=>ctx,getBoundingClientRect:()=>({left:0,top:0}),addEventListener:noop,setPointerCapture:noop,releasePointerCapture:noop};
+const sandbox={console,Math,Date,performance:{now:()=>now},requestAnimationFrame:noop,setTimeout:noop,clearTimeout:noop,innerWidth:390,innerHeight:844,devicePixelRatio:2,window:null,document:{hidden:false,addEventListener:noop}};
+sandbox.window=sandbox;sandbox.window.SF={};sandbox.addEventListener=noop;vm.createContext(sandbox);
+vm.runInContext(fs.readFileSync(path.join(root,'js/config.js'),'utf8'),sandbox); const SF=sandbox.window.SF; const nopProxy=new Proxy({}, {get:()=>noop});
+SF.ui={...nopProxy,showHud:noop,hideScreens:noop,renderGameOver:noop,flashMsg:noop,renderPause:noop,renderHud:noop};
+SF.storage={saveGame:noop,loadRanking:()=>[],saveRanking:noop,loadGame:()=>null,clearGame:noop}; SF.audio=nopProxy; SF.assets={getBackground:()=>null,getShip:()=>null,getEnemy:()=>null,getObstacle:()=>null};
+vm.runInContext(fs.readFileSync(path.join(root,'js/game.js'),'utf8'),sandbox); SF.game.init(canvas); SF.game.startNew('SYS','vanguard'); const G=SF.game.state;
+G.combo=6; now+=16; SF.game.loop(now); if(!G.objective?.done) throw new Error('combo objective did not complete');
+G.activePowers.spread=now+5000; G.activePowers.overdrive=now+5000; now+=16; SF.game.loop(now); if(G.fusion?.id!=='nova'||G.fusion.until<=now) throw new Error('nova fusion did not activate');
+G.activePowers.drone=now+5000; G.droneLastShot=0; const before=G.playerBullets.length; for(let i=0;i<40;i++){now+=16;SF.game.loop(now);} if(G.droneLastShot<=0) throw new Error('ally drone did not fire'); if(G.playerBullets.length<before) throw new Error('unexpected projectile regression');
+if(!G.sectorMutator) throw new Error('sector mutator not initialized');
+console.log('V0.3.8 RUNTIME SYSTEMS OK',{objective:G.objective.id,fusion:G.fusion.id,droneLastShot:G.droneLastShot,mutator:G.sectorMutator.id});

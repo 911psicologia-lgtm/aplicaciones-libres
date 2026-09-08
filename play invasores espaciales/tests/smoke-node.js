@@ -12,7 +12,7 @@ const sandbox={window:{SF:{}},performance:{now:()=>0},console}; sandbox.window.w
 vm.createContext(sandbox);
 vm.runInContext(fs.readFileSync(path.join(root,'js/config.js'),'utf8'),sandbox);
 const C=sandbox.window.SF.config;
-if(C.VERSION!=='0.3.6') throw new Error('Wrong version');
+if(C.VERSION!=='0.3.9.1') throw new Error('Wrong version');
 if(C.wave.startCols<10||C.wave.startRows<6) throw new Error('Formation too sparse');
 if(C.obstacles.maxCount>2) throw new Error('Obstacles became invasive');
 const assetFiles=[];
@@ -21,11 +21,11 @@ if(assetFiles.length<17) throw new Error('Insufficient integrated assets: '+asse
 if(!C.responsive?.desktop||C.responsive.desktop.cols<18) throw new Error('Desktop density profile missing');
 if(C.progression.restartLives<3) throw new Error('Checkpoint restart lives invalid');
 if(C.progression.maxLives<5) throw new Error('Max lives cap missing');
-if(!C.combatDirector||!C.rewards||!C.tutorial||!C.enemyEcology||!C.weaponEvolution||!C.bossCore||!C.formationPatterns) throw new Error('v0.3.6 systems missing');
+if(!C.combatDirector||!C.rewards||!C.tutorial||!C.enemyEcology||!C.weaponEvolution||!C.bossCore||!C.formationPatterns) throw new Error('v0.3.9.1 systems missing');
 if(C.ships.find(s=>s.id==='specter').hitbox>=1) throw new Error('Specter identity missing');
 
 const gameText=fs.readFileSync(path.join(root,'js/game.js'),'utf8');
-for(const token of ['directorState','bossPhaseIndex','renderTelegraphs','shiftGameClocks','awardWaveClear','findSentinelProtector','spawnRevivedEnemy','spawnBreederDrone','openBossCore','weaponTier','renderAttachedRelics']) if(!gameText.includes(token)) throw new Error('Missing v0.3.6 gameplay system: '+token);
+for(const token of ['directorState','bossPhaseIndex','renderTelegraphs','shiftGameClocks','awardWaveClear','findSentinelProtector','spawnRevivedEnemy','spawnBreederDrone','openBossCore','weaponTier','renderAttachedRelics']) if(!gameText.includes(token)) throw new Error('Missing v0.3.9.1 gameplay system: '+token);
 const htmlText=fs.readFileSync(path.join(root,'index.html'),'utf8');
 if(!htmlText.includes('id="hudCombo"')) throw new Error('Combo HUD missing');
 

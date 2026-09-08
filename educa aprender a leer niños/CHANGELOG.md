@@ -1,13 +1,17 @@
-# CHANGELOG · v0.7.0
+# CHANGELOG · v0.7.1 · Assets integrados
 
-- Añadido tercer sendero **Bosque de los Secretos**.
-- Nuevas misiones: Ñ, CH, QU, RR, CE/CI, GE/GI y cierre mixto.
-- Nueva mecánica `patternIntro` con ejemplos auditivos tocables.
-- Trazado táctil de Ñ por partes.
-- 20 nuevas habilidades pedagógicas (74–93).
-- Nuevo vocabulario y nuevas frases/historias.
-- Nuevos repasos espaciados y logros.
-- Home actualizado de 2 a 3 senderos.
-- Persistencia actualizada a `emilia.reader.v7` con migración desde v6.
-- Caché PWA regenerada como `emilia-bosque-v0.7.0` con 112 recursos runtime y navegación con actualización de red + fallback offline.
-- Lumina preservada sin cambios.
+- Integración del paquete Z.AI para Nuevos Senderos y Bosque de los Secretos.
+- 75 assets incorporados a la biblioteca runtime; 58 conectados activamente a la experiencia actual.
+- Conversión PNG→WebP para mantener la PWA ligera.
+- Nuevos fondos específicos para R, C, B, F, G, Gran Jardín, Ñ, CH, QU, RR, CE/CI, GE/GI y Bosque de Secretos.
+- Fondo del Gran Jardín saneado para retirar un elemento UI incrustado.
+- `wordArt` ampliado con objetos, animales y personajes nuevos.
+- PatternIntro enriquecido con ejemplos visuales cuando existe un asset fiable.
+- B ahora usa BOTA como estímulo visual directo; F usa FOCA; G incorpora búsqueda visual de GATO.
+- Historias actualizadas con foto, beso, cine, queso, gema y personajes nuevos.
+- Cuatro historias añadidas: La leche, El perro y el carro, La rana y la cama, La niña lee.
+- Logros del Sendero de los Secretos conectados con los nuevos tesoros/insignias.
+- Mapa cambia de fondo según sendero: bosque inicial, Gran Jardín y Bosque de Secretos.
+- `noche.png` y `remo.png` se conservan como recursos secundarios por ambigüedad pedagógica.
+- Lumina se conserva exactamente sin modificaciones.
+- Cache PWA regenerada como `emilia-bosque-v0.7.1-assets`.

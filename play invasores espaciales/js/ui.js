@@ -3,7 +3,7 @@ window.SF = window.SF || {};
   const UI = {
     els: {},
     init(){
-      const ids = ['hud','hudPilot','hudStage','hudScore','hudLives','hpFill','hudPower','hudCombo','hudEvo','hudCheck','centerMsg','controlsTag','pauseBtn','pauseOverlay','pauseStats','gameOverOverlay','gameOverStats','assetStatus','savePreview','pilotName','splashPilot','menuSaveHint','menuShipLabel','shipGrid','rankingList','loadInfo'];
+      const ids = ['hud','hudPilot','hudStage','hudScore','hudLives','hpFill','hudPower','hudCombo','hudEvo','hudCheck','hudObjective','hudFusion','hudMutator','centerMsg','controlsTag','pauseBtn','pauseOverlay','pauseStats','gameOverOverlay','gameOverStats','assetStatus','savePreview','pilotName','splashPilot','menuSaveHint','menuShipLabel','shipGrid','rankingList','loadInfo'];
       ids.forEach(id => UI.els[id] = document.getElementById(id));
       document.querySelectorAll('[data-back]').forEach(btn => btn.addEventListener('click', ()=>UI.showScreen(btn.dataset.back)));
     },
@@ -60,6 +60,9 @@ window.SF = window.SF || {};
         UI.els.hudCombo.classList.toggle('critical', state.combo>=15);
       }
       UI.els.hudCheck.textContent = `CP ${state.checkpointWave || state.wave}`;
+      if(UI.els.hudObjective) UI.els.hudObjective.textContent=state.objectiveText||'OBJ —';
+      if(UI.els.hudFusion) UI.els.hudFusion.textContent=state.fusionText||'';
+      if(UI.els.hudMutator) UI.els.hudMutator.textContent=state.mutatorName||'';
       const hpPct = Math.max(0, Math.min(1, state.hp / state.maxHp));
       UI.els.hpFill.style.width = `${hpPct*100}%`;
       UI.els.hudLives.innerHTML = Array.from({length: state.lives}, (_,i)=>`<span class="life-heart ${state.hp<=Math.max(2,Math.ceil(state.maxHp*.25)) && i===state.lives-1?'low':''}">❤</span>`).join('');

@@ -6,9 +6,10 @@
   const L=A+'letters/';
   const W=A+'worlds/';
   const X=A+'extras/';
+  const SC=A+'scenes/';
   const skill=(id,label,group,order,prereqs=[])=>({id,label,group,order,prereqs});
   window.EMILIA_CONTENT={
-    version:7.0,
+    version:7.1,
     title:'Emilia · El Bosque de las Palabras',
     mascot:{
       name:'Lumi',
@@ -19,6 +20,11 @@
         cheer:A+'characters/lumi_cheer.png',
         victory:A+'characters/lumi_victory.png'
       }
+    },
+    chapterMapArt:{
+      1:W+'fondo_bosque_principal.webp',
+      2:W+'fondo_gran_jardin_lector.webp',
+      3:W+'fondo_bosque_secretos.webp'
     },
     ui:{
       listen:X+'icono_escuchar.webp',
@@ -33,7 +39,15 @@
       firefly:O+'luciernaga.webp',
       star:X+'estrella_logro.webp',
       medal:X+'medalla.webp',
-      chest:X+'cofre_semillas.webp'
+      chest:X+'cofre_semillas.webp',
+      secretChest:X+'cofre_palabras.webp',
+      secretStar:X+'estrella_confite.webp',
+      secretMedal:X+'medalla_patrones.webp',
+      secretBadge:X+'insignia_sendero_secretos.webp',
+      secretKey:X+'llave_secreta.webp',
+      secretDoor:X+'puerta_secreta.webp',
+      secretScroll:X+'pergamino_patron.webp',
+      secretTreasure:X+'tesoro_secreto.webp'
     },
     letterArt:{
       a:L+'vocal_a.webp',e:L+'vocal_e.webp',i:L+'vocal_i.webp',o:L+'vocal_o.webp',u:L+'vocal_u.webp',
@@ -46,7 +60,12 @@
       'dedo':O+'dedo.webp','pelota':O+'pelota.webp','luna':O+'luna.webp','taza':O+'taza.webp','mapa':O+'mapa.webp',
       'pipa':O+'pipa.webp','tito':C+'tito.webp','nana':C+'nana.webp','dami':C+'dami.webp','nene':C+'nene.webp',
       'sol':O+'sol.webp','flor':O+'flor.webp','libro':O+'libro.webp','rana':AN+'rana.webp','cama':O+'cama.webp','brote':O+'brote.webp',
-      'niño':C+'nene.webp','niña':C+'lola.webp'
+      'niño':C+'nino.webp','niña':C+'nina.webp','rama':O+'rama.webp','casa':O+'casa.webp','coco':O+'coco.webp','cuna':O+'cuna.webp',
+      'bota':O+'bota.webp','bata':O+'bata.webp','beso':O+'beso.webp','bola':O+'bola.webp','banana':O+'banana.webp',
+      'foto':O+'foto.webp','foca':AN+'foca.webp','gato':AN+'gato.webp','gusano':AN+'gusano.webp',
+      'leche':O+'leche.webp','moño':O+'moño.webp','queso':O+'queso.webp','perro':AN+'perro.webp','burro':AN+'burro.webp',
+      'carro':O+'carro.webp','torre':O+'torre.webp','cena':O+'cena.webp','cine':O+'cine.webp','cero':O+'cero.webp',
+      'cima':O+'cima.webp','gema':O+'gema.webp','gel':O+'gel.webp','gigante':C+'gigante_amable.webp','chico':C+'chico.webp'
     },
     skills:[
       skill('hear_vowels','Escucha vocales','Escucha',1),
@@ -153,19 +172,19 @@
       {id:'forest_t',chapter:1,letter:'T',name:'Torre de T',short:'T',x:70,y:20,art:W+'fondo_torre_t.webp',letterArt:L+'letra_t.webp',stone:O+'piedra_t.webp'},
       {id:'forest_d',chapter:1,letter:'D',name:'Domo de D',short:'D',x:48,y:10,art:W+'fondo_duna_d.webp',letterArt:L+'letra_d.webp',stone:O+'piedra_d.webp'},
       {id:'forest_mix',chapter:1,letter:'★',name:'Jardín de Palabras',short:'Palabras',x:80,y:8,art:W+'fondo_mi_libro.webp'},
-      {id:'forest_r',chapter:2,letter:'R',name:'Río de la R',short:'R',x:23,y:77,art:W+'fondo_laguna_s.webp',stone:O+'piedra_d.webp'},
-      {id:'forest_c',chapter:2,letter:'C',name:'Casa de CA·CO·CU',short:'C',x:72,y:64,art:W+'fondo_casa_m.webp',stone:O+'piedra_d.webp'},
-      {id:'forest_b',chapter:2,letter:'B',name:'Bosquecito de B',short:'B',x:28,y:50,art:W+'fondo_bosque_principal.webp',stone:O+'piedra_d.webp'},
-      {id:'forest_f',chapter:2,letter:'F',name:'Flor de la F',short:'F',x:70,y:37,art:W+'fondo_ladera_l.webp',stone:O+'piedra_d.webp'},
-      {id:'forest_g',chapter:2,letter:'G',name:'Gruta de GA·GO·GU',short:'G',x:30,y:23,art:W+'fondo_torre_t.webp',stone:O+'piedra_d.webp'},
-      {id:'forest_expand',chapter:2,letter:'✦',name:'Gran Jardín Lector',short:'Historias',x:70,y:10,art:W+'fondo_mi_libro.webp'},
-      {id:'forest_enye',chapter:3,letter:'Ñ',name:'Nube de la Ñ',short:'Ñ',x:24,y:78,art:W+'fondo_nido_n.webp',stone:O+'piedra_n.webp'},
-      {id:'forest_ch',chapter:3,letter:'CH',name:'Choza de CH',short:'CH',x:73,y:66,art:W+'fondo_casa_m.webp',stone:O+'piedra_s.webp'},
-      {id:'forest_qu',chapter:3,letter:'QU',name:'Puente de QU',short:'QU',x:28,y:53,art:W+'fondo_casa_p.webp',stone:O+'piedra_p.webp'},
-      {id:'forest_rr',chapter:3,letter:'RR',name:'Carrera de RR',short:'RR',x:72,y:40,art:W+'fondo_laguna_s.webp',stone:O+'piedra_d.webp'},
-      {id:'forest_ceci',chapter:3,letter:'CE·CI',name:'Claro de CE · CI',short:'CE·CI',x:28,y:28,art:W+'fondo_sendero_vocales.webp',stone:O+'piedra_s.webp'},
-      {id:'forest_gegi',chapter:3,letter:'GE·GI',name:'Gruta de GE · GI',short:'GE·GI',x:72,y:17,art:W+'fondo_torre_t.webp',stone:O+'piedra_d.webp'},
-      {id:'forest_secrets',chapter:3,letter:'★',name:'Bosque de Secretos',short:'Secretos',x:48,y:7,art:W+'fondo_mi_libro.webp'}
+      {id:'forest_r',chapter:2,letter:'R',name:'Río de la R',short:'R',x:23,y:77,art:W+'fondo_sendero_r.webp',stone:O+'piedra_d.webp'},
+      {id:'forest_c',chapter:2,letter:'C',name:'Casa de CA·CO·CU',short:'C',x:72,y:64,art:W+'fondo_sendero_c.webp',stone:O+'piedra_d.webp'},
+      {id:'forest_b',chapter:2,letter:'B',name:'Bosquecito de B',short:'B',x:28,y:50,art:W+'fondo_sendero_b.webp',stone:O+'piedra_d.webp'},
+      {id:'forest_f',chapter:2,letter:'F',name:'Flor de la F',short:'F',x:70,y:37,art:W+'fondo_sendero_f.webp',stone:O+'piedra_d.webp'},
+      {id:'forest_g',chapter:2,letter:'G',name:'Gruta de GA·GO·GU',short:'G',x:30,y:23,art:W+'fondo_sendero_g.webp',stone:O+'piedra_d.webp'},
+      {id:'forest_expand',chapter:2,letter:'✦',name:'Gran Jardín Lector',short:'Historias',x:70,y:10,art:W+'fondo_gran_jardin_lector.webp'},
+      {id:'forest_enye',chapter:3,letter:'Ñ',name:'Nube de la Ñ',short:'Ñ',x:24,y:78,art:W+'fondo_sendero_enye.webp',stone:O+'piedra_n.webp'},
+      {id:'forest_ch',chapter:3,letter:'CH',name:'Choza de CH',short:'CH',x:73,y:66,art:W+'fondo_sendero_ch.webp',stone:O+'piedra_s.webp'},
+      {id:'forest_qu',chapter:3,letter:'QU',name:'Puente de QU',short:'QU',x:28,y:53,art:W+'fondo_sendero_qu.webp',stone:O+'piedra_p.webp'},
+      {id:'forest_rr',chapter:3,letter:'RR',name:'Carrera de RR',short:'RR',x:72,y:40,art:W+'fondo_sendero_rr.webp',stone:O+'piedra_d.webp'},
+      {id:'forest_ceci',chapter:3,letter:'CE·CI',name:'Claro de CE · CI',short:'CE·CI',x:28,y:28,art:W+'fondo_sendero_ceci.webp',stone:O+'piedra_s.webp'},
+      {id:'forest_gegi',chapter:3,letter:'GE·GI',name:'Gruta de GE · GI',short:'GE·GI',x:72,y:17,art:W+'fondo_sendero_gegi.webp',stone:O+'piedra_d.webp'},
+      {id:'forest_secrets',chapter:3,letter:'★',name:'Bosque de Secretos',short:'Secretos',x:48,y:7,art:W+'fondo_bosque_secretos.webp'}
     ],
     missions:[
       {
@@ -364,7 +383,7 @@
         skillIds:['hear_b','b_symbol','b_family','blend_b','word_bota'],
         activities:[
           {id:'b_symbol',type:'symbolPick',skill:'hear_b',prompt:'Escucha BOTA. ¿Con qué letra empieza?',voicePrompt:'Escucha: bota. ¿Con qué letra empieza?',say:'bota',audioKind:'word',options:['b','p','d'],answer:'b',coach:'BOTA empieza con B.'},
-          {id:'b_find',type:'picturePick',variant:true,skill:'hear_b',prompt:'Busca una palabra que empiece con B',voicePrompt:'Busca una palabra que empiece con B.',targetLetter:'B',options:[{value:'brote',src:O+'brote.webp'},{value:'rana',src:AN+'rana.webp'},{value:'flor',src:O+'flor.webp'}],answer:'brote',coach:'BROTE empieza con B.'},
+          {id:'b_find',type:'picturePick',variant:true,skill:'hear_b',prompt:'Busca una palabra que empiece con B',voicePrompt:'Busca una palabra que empiece con B.',targetLetter:'B',options:[{value:'bota',src:O+'bota.webp'},{value:'rana',src:AN+'rana.webp'},{value:'foca',src:AN+'foca.webp'}],answer:'bota',coach:'BOTA empieza con B.'},
           {id:'b_trace',type:'trace',assess:false,skill:'b_symbol',letter:'b',prompt:'Une los puntos de la B',say:'Esta es la B, como en bota.',audioKind:'instruction'},
           {id:'b_trail',type:'syllableTrail',assess:false,skill:'b_family',prompt:'Haz sonar las piedras de B',items:['ba','be','bi','bo','bu']},
           {id:'b_family',type:'soundBubbles',skill:'b_family',prompt:'Atrapa la sílaba',say:'bo',options:['ba','be','bo','bu'],answer:'bo',coach:'Escucha BO.'},
@@ -380,7 +399,7 @@
         id:'forest_f',order:13,world:'Nuevos senderos',title:'La flor de la F',subtitle:'Escucha F, juega con FA·FE·FI·FO·FU y construye nuevas palabras.',letter:'F',masteryTarget:60,requires:[{mission:'forest_b'},{skill:'b_family',score:48}],
         skillIds:['hear_f','f_symbol','f_family','blend_f','word_foto'],
         activities:[
-          {id:'f_hunt',type:'picturePick',skill:'hear_f',prompt:'Busca una palabra que empiece con F',voicePrompt:'Busca una palabra que empiece con F.',targetLetter:'F',options:[{value:'flor',src:O+'flor.webp'},{value:'rana',src:AN+'rana.webp'},{value:'cama',src:O+'cama.webp'}],answer:'flor',coach:'FLOR empieza con F.'},
+          {id:'f_hunt',type:'picturePick',skill:'hear_f',prompt:'Busca una palabra que empiece con F',voicePrompt:'Busca una palabra que empiece con F.',targetLetter:'F',options:[{value:'foca',src:AN+'foca.webp'},{value:'rana',src:AN+'rana.webp'},{value:'cama',src:O+'cama.webp'}],answer:'foca',coach:'FOCA empieza con F.'},
           {id:'f_symbol',type:'symbolPick',skill:'f_symbol',prompt:'Escucha FOTO. ¿Con qué letra empieza?',voicePrompt:'Escucha: foto. ¿Con qué letra empieza?',say:'foto',audioKind:'word',options:['f','t','r'],answer:'f',coach:'FOTO empieza con F.'},
           {id:'f_trace',type:'trace',assess:false,skill:'f_symbol',letter:'f',prompt:'Une los puntos de la F',say:'Esta es la F, como en foto.',audioKind:'instruction'},
           {id:'f_trail',type:'syllableTrail',assess:false,skill:'f_family',prompt:'Haz sonar las piedras de F',items:['fa','fe','fi','fo','fu']},
@@ -397,6 +416,7 @@
         id:'forest_g',order:14,world:'Nuevos senderos',title:'La gruta de GA · GO · GU',subtitle:'Primero aprendemos G en GA, GO y GU. GE, GI y GUE, GUI llegarán después.',letter:'G',masteryTarget:60,requires:[{mission:'forest_f'},{skill:'f_family',score:48}],
         skillIds:['hear_g','g_symbol','g_family','blend_g','word_gato'],
         activities:[
+          {id:'g_hunt',type:'picturePick',skill:'hear_g',prompt:'Busca una palabra que empiece con G',voicePrompt:'Busca una palabra que empiece con G.',targetLetter:'G',options:[{value:'gato',src:AN+'gato.webp'},{value:'foca',src:AN+'foca.webp'},{value:'cama',src:O+'cama.webp'}],answer:'gato',coach:'GATO empieza con G.'},
           {id:'g_symbol',type:'symbolPick',skill:'hear_g',prompt:'Escucha GATO. ¿Con qué letra empieza?',voicePrompt:'Escucha: gato. ¿Con qué letra empieza?',say:'gato',audioKind:'word',options:['g','c','d'],answer:'g',coach:'GATO empieza con G.'},
           {id:'g_symbol2',type:'symbolPick',skill:'g_symbol',prompt:'Busca la G',voicePrompt:'Busca la G.',options:['c','g','b'],answer:'g',coach:'Esta es la G.'},
           {id:'g_trace',type:'trace',assess:false,skill:'g_symbol',letter:'g',prompt:'Une los puntos de la G',say:'Esta es la G, como en gato.',audioKind:'instruction'},
@@ -429,7 +449,7 @@
         id:'forest_enye',order:16,world:'Bosque de los Secretos',title:'La nube de la Ñ',subtitle:'Descubre la Ñ, escucha NIÑO y NIÑA y forma palabras con su sonido.',letter:'Ñ',masteryTarget:58,requires:[{mission:'forest_expand'},{skill:'advanced_words',score:38}],
         skillIds:['hear_enye','enye_symbol','enye_family','blend_enye','word_nino'],
         activities:[
-          {id:'enye_intro',type:'patternIntro',assess:false,skill:'hear_enye',pattern:'Ñ',prompt:'La Ñ tiene una rayita encima',voicePrompt:'La eñe tiene una rayita encima. Escucha niño y niña.',examples:[{label:'niño',say:'niño'},{label:'niña',say:'niña'}]},
+          {id:'enye_intro',type:'patternIntro',assess:false,skill:'hear_enye',pattern:'Ñ',prompt:'La Ñ tiene una rayita encima',voicePrompt:'La eñe tiene una rayita encima. Escucha niño y niña.',examples:[{label:'niño',say:'niño',src:C+'nino.webp'},{label:'niña',say:'niña',src:C+'nina.webp'},{label:'moño',say:'moño',src:O+'moño.webp'}]},
           {id:'enye_symbol',type:'symbolPick',skill:'enye_symbol',prompt:'Busca la Ñ',voicePrompt:'Busca la eñe.',options:['n','ñ','m'],answer:'ñ',coach:'Esta es la Ñ.'},
           {id:'enye_trace',type:'trace',assess:false,skill:'enye_symbol',letter:'ñ',prompt:'Sigue la Ñ con tu dedo',say:'Esta es la eñe, como en niño.',audioKind:'instruction'},
           {id:'enye_trail',type:'syllableTrail',assess:false,skill:'enye_family',prompt:'Haz sonar la Ñ',items:['ña','ñe','ñi','ño','ñu']},
@@ -445,7 +465,7 @@
         id:'forest_ch',order:17,world:'Bosque de los Secretos',title:'La choza de CH',subtitle:'Dos letras se juntan para crear un sonido nuevo: CH.',letter:'CH',masteryTarget:58,requires:[{mission:'forest_enye'},{skill:'word_nino',score:40}],
         skillIds:['ch_pattern','blend_ch','word_leche'],
         activities:[
-          {id:'ch_intro',type:'patternIntro',assess:false,skill:'ch_pattern',pattern:'CH',prompt:'C y H juntas hacen CH',voicePrompt:'C y H juntas hacen CH. Escucha leche, noche y chico.',examples:[{label:'leche',say:'leche'},{label:'noche',say:'noche'},{label:'chico',say:'chico'}]},
+          {id:'ch_intro',type:'patternIntro',assess:false,skill:'ch_pattern',pattern:'CH',prompt:'C y H juntas hacen CH',voicePrompt:'C y H juntas hacen CH. Escucha leche, noche y chico.',examples:[{label:'leche',say:'leche',src:O+'leche.webp'},{label:'chico',say:'chico',src:C+'chico.webp'},{label:'noche',say:'noche'}]},
           {id:'ch_sound',type:'soundBubbles',skill:'ch_pattern',prompt:'Escucha y toca',say:'che',options:['che','ce','se'],answer:'che',coach:'Escucha CHE.'},
           {id:'ch_missing',type:'missingPart',skill:'ch_pattern',prompt:'Completa leche',say:'leche',word:'leche',display:['le','__'],options:['che','ce','se'],answer:'che',coach:'LE y después CHE.'},
           {id:'ch_leche',type:'build',skill:'blend_ch',prompt:'Construye leche',say:'leche',parts:['le','che'],answerParts:['le','che'],word:'leche',coach:'LE y después CHE.'},
@@ -459,7 +479,7 @@
         id:'forest_qu',order:18,world:'Bosque de los Secretos',title:'El puente de QU',subtitle:'Descubre QUE y QUI: la Q camina junto a la U.',letter:'QU',masteryTarget:58,requires:[{mission:'forest_ch'},{skill:'word_leche',score:40}],
         skillIds:['qu_pattern','blend_qu','word_queso'],
         activities:[
-          {id:'qu_intro',type:'patternIntro',assess:false,skill:'qu_pattern',pattern:'QU',prompt:'Q y U viajan juntas',voicePrompt:'Para escribir QUE y QUI usamos Q y U juntas. En estas sílabas, la U no suena. Escucha queso y quita.',examples:[{label:'queso',say:'queso'},{label:'quita',say:'quita'}]},
+          {id:'qu_intro',type:'patternIntro',assess:false,skill:'qu_pattern',pattern:'QU',prompt:'Q y U viajan juntas',voicePrompt:'Para escribir QUE y QUI usamos Q y U juntas. En estas sílabas, la U no suena. Escucha queso y quita.',examples:[{label:'queso',say:'queso',src:O+'queso.webp'},{label:'quita',say:'quita'}]},
           {id:'qu_sound',type:'soundBubbles',skill:'qu_pattern',prompt:'Escucha y toca',say:'que',options:['que','ce','ge'],answer:'que',coach:'Escucha QUE.'},
           {id:'qu_missing',type:'missingPart',skill:'qu_pattern',prompt:'Completa queso',say:'queso',word:'queso',display:['__','so'],options:['que','ce','ge'],answer:'que',coach:'QUESO empieza por QUE.'},
           {id:'qu_queso',type:'build',skill:'blend_qu',prompt:'Construye queso',say:'queso',parts:['que','so'],answerParts:['que','so'],word:'queso',coach:'QUE y después SO.'},
@@ -473,7 +493,7 @@
         id:'forest_rr',order:19,world:'Bosque de los Secretos',title:'La carrera de RR',subtitle:'La R fuerte también aparece dentro de las palabras: allí puede escribirse RR.',letter:'RR',masteryTarget:60,requires:[{mission:'forest_qu'},{skill:'word_queso',score:40},{skill:'r_family',score:45}],
         skillIds:['rr_pattern','word_perro'],
         activities:[
-          {id:'rr_intro',type:'patternIntro',assess:false,skill:'rr_pattern',pattern:'R · RR',prompt:'Una R suave y dos R fuertes dentro de palabra',voicePrompt:'Dentro de una palabra, una sola erre puede sonar suave, como en pero. Dos erres hacen el sonido fuerte, como en perro.',examples:[{label:'pero',say:'pero'},{label:'perro',say:'perro'},{label:'caro',say:'caro'},{label:'carro',say:'carro'}]},
+          {id:'rr_intro',type:'patternIntro',assess:false,skill:'rr_pattern',pattern:'R · RR',prompt:'Una R suave y dos R fuertes dentro de palabra',voicePrompt:'Dentro de una palabra, una sola erre puede sonar suave, como en pero. Dos erres hacen el sonido fuerte, como en perro.',examples:[{label:'pero',say:'pero'},{label:'perro',say:'perro',src:AN+'perro.webp'},{label:'caro',say:'caro'},{label:'carro',say:'carro',src:O+'carro.webp'}]},
           {id:'rr_soft',type:'listenPick',skill:'rr_pattern',prompt:'Escucha y busca pero',voicePrompt:'Escucha pero. Busca la palabra pero.',say:'pero',audioKind:'word',options:['pero','perro','pelo'],answer:'pero',coach:'PERO lleva una sola R entre vocales.'},
           {id:'rr_listen',type:'listenPick',skill:'rr_pattern',prompt:'Escucha y busca perro',voicePrompt:'Escucha perro. Busca la palabra perro.',say:'perro',audioKind:'word',options:['pero','perro','pelo'],answer:'perro',coach:'PERRO lleva dos erres.'},
           {id:'rr_missing',type:'missingPart',skill:'rr_pattern',prompt:'Completa perro',say:'perro',word:'perro',display:['pe','__','o'],options:['rr','r','l'],answer:'rr',coach:'Dentro de PERRO van dos R.'},
@@ -488,7 +508,7 @@
         id:'forest_ceci',order:20,world:'Bosque de los Secretos',title:'El claro de CE y CI',subtitle:'La C cambia de sonido cuando se encuentra con E o I.',letter:'CE·CI',masteryTarget:60,requires:[{mission:'forest_rr'},{skill:'word_perro',score:40},{skill:'c_family',score:45}],
         skillIds:['c_soft','word_cine'],
         activities:[
-          {id:'ceci_intro',type:'patternIntro',assess:false,skill:'c_soft',pattern:'CE · CI',prompt:'La C cambia con E e I',voicePrompt:'Con E e I, la C suena como S. Escucha cena y cine.',examples:[{label:'cena',say:'cena'},{label:'cine',say:'cine'},{label:'cero',say:'cero'}]},
+          {id:'ceci_intro',type:'patternIntro',assess:false,skill:'c_soft',pattern:'CE · CI',prompt:'La C cambia con E e I',voicePrompt:'Con E e I, la C suena como S. Escucha cena y cine.',examples:[{label:'cena',say:'cena',src:O+'cena.webp'},{label:'cine',say:'cine',src:O+'cine.webp'},{label:'cero',say:'cero',src:O+'cero.webp'}]},
           {id:'ce_missing',type:'missingPart',skill:'c_soft',prompt:'Completa cena',say:'cena',word:'cena',display:['__','na'],options:['ce','se','ge'],answer:'ce',coach:'CENA empieza por CE.'},
           {id:'ci_missing',type:'missingPart',skill:'c_soft',prompt:'Completa cine',say:'cine',word:'cine',display:['__','ne'],options:['ci','si','gi'],answer:'ci',coach:'CINE empieza por CI.'},
           {id:'ce_cena',type:'build',skill:'word_cine',prompt:'Construye cena',say:'cena',parts:['ce','na'],answerParts:['ce','na'],word:'cena',coach:'CE y después NA.'},
@@ -502,7 +522,7 @@
         id:'forest_gegi',order:21,world:'Bosque de los Secretos',title:'La gruta de GE y GI',subtitle:'La G también cambia de sonido cuando se encuentra con E o I.',letter:'GE·GI',masteryTarget:60,requires:[{mission:'forest_ceci'},{skill:'word_cine',score:40},{skill:'g_family',score:45}],
         skillIds:['g_soft','word_gema'],
         activities:[
-          {id:'gegi_intro',type:'patternIntro',assess:false,skill:'g_soft',pattern:'GE · GI',prompt:'La G cambia con E e I',voicePrompt:'Con E e I, la G cambia de sonido. Escucha gema y gigante.',examples:[{label:'gema',say:'gema'},{label:'gigante',say:'gigante'},{label:'gel',say:'gel'}]},
+          {id:'gegi_intro',type:'patternIntro',assess:false,skill:'g_soft',pattern:'GE · GI',prompt:'La G cambia con E e I',voicePrompt:'Con E e I, la G cambia de sonido. Escucha gema y gigante.',examples:[{label:'gema',say:'gema',src:O+'gema.webp'},{label:'gigante',say:'gigante',src:C+'gigante_amable.webp'},{label:'gel',say:'gel',src:O+'gel.webp'}]},
           {id:'ge_missing',type:'missingPart',skill:'g_soft',prompt:'Completa gema',say:'gema',word:'gema',display:['__','ma'],options:['ge','gue','ce'],answer:'ge',coach:'GEMA empieza por GE.'},
           {id:'gi_missing',type:'missingPart',skill:'g_soft',prompt:'Completa gigante',say:'gigante',word:'gigante',display:['__','gante'],options:['gi','gui','ci'],answer:'gi',coach:'GIGANTE empieza por GI.'},
           {id:'ge_gema',type:'build',skill:'word_gema',prompt:'Construye gema',say:'gema',parts:['ge','ma'],answerParts:['ge','ma'],word:'gema',coach:'GE y después MA.'},
@@ -514,7 +534,7 @@
         id:'forest_secrets',order:22,world:'Bosque de los Secretos',title:'El bosque de los secretos',subtitle:'Mezcla Ñ, CH, QU, RR, CE·CI y GE·GI dentro de palabras y frases.',letter:'★',masteryTarget:62,requires:[{mission:'forest_gegi'},{skill:'word_gema',score:40},{skill:'word_perro',score:40}],
         skillIds:['secret_words','secret_sentence','secret_comprehension'],minAssessed:5,maxAssessed:8,
         activities:[
-          {id:'secret_intro',type:'patternIntro',assess:false,skill:'secret_words',pattern:'★',prompt:'Seis secretos ya viven en tu bosque',voicePrompt:'Ya conoces varios secretos. Escucha con atención y elige cómo se escriben.',examples:[{label:'niño',say:'niño'},{label:'leche',say:'leche'},{label:'queso',say:'queso'},{label:'perro',say:'perro'},{label:'cine',say:'cine'},{label:'gema',say:'gema'}]},
+          {id:'secret_intro',type:'patternIntro',assess:false,skill:'secret_words',pattern:'★',prompt:'Seis secretos ya viven en tu bosque',voicePrompt:'Ya conoces varios secretos. Escucha con atención y elige cómo se escriben.',examples:[{label:'niño',say:'niño',src:C+'nino.webp'},{label:'leche',say:'leche',src:O+'leche.webp'},{label:'queso',say:'queso',src:O+'queso.webp'},{label:'perro',say:'perro',src:AN+'perro.webp'},{label:'cine',say:'cine',src:O+'cine.webp'},{label:'gema',say:'gema',src:O+'gema.webp'}]},
           {id:'secret_nino',type:'missingPart',skill:'secret_words',prompt:'Completa niño',say:'niño',word:'niño',display:['ni','__'],options:['ño','no','lo'],answer:'ño',coach:'NIÑO termina en ÑO.'},
           {id:'secret_leche',type:'missingPart',variant:true,skill:'secret_words',prompt:'Completa leche',say:'leche',word:'leche',display:['le','__'],options:['che','ce','se'],answer:'che',coach:'LECHE termina en CHE.'},
           {id:'secret_queso',type:'missingPart',variant:true,skill:'secret_words',prompt:'Completa queso',say:'queso',word:'queso',display:['__','so'],options:['que','ce','ge'],answer:'que',coach:'QUESO empieza por QUE.'},
@@ -569,10 +589,10 @@
       {id:'new_letters_5',icon:'✨',art:X+'estrella_logro.webp',name:'Cinco letras nuevas'},
       {id:'forest_expand',icon:'🏅',art:X+'medalla.webp',name:'Gran jardín lector'},
       {id:'stories_6',icon:'📚',art:X+'icono_libro.webp',name:'Seis cuentos leídos'},
-      {id:'enye_done',icon:'Ñ',art:X+'estrella_logro.webp',name:'Amigo de la Ñ'},
-      {id:'patterns_3',icon:'✦',art:X+'cofre_semillas.webp',name:'Tres secretos descubiertos'},
-      {id:'secret_forest',icon:'★',art:X+'medalla.webp',name:'Guardián de los secretos'},
-      {id:'stories_10',icon:'📚',art:X+'icono_libro.webp',name:'Diez historias leídas'}
+      {id:'enye_done',icon:'Ñ',art:X+'estrella_confite.webp',name:'Amigo de la Ñ'},
+      {id:'patterns_3',icon:'✦',art:X+'cofre_palabras.webp',name:'Tres secretos descubiertos'},
+      {id:'secret_forest',icon:'★',art:X+'insignia_sendero_secretos.webp',name:'Guardián de los secretos'},
+      {id:'stories_10',icon:'📚',art:X+'medalla_patrones.webp',name:'Diez historias leídas'}
     ],
     stories:[
       {id:'story_mp',title:'Mamá y papá',requires:[{skill:'word_mama',score:35},{skill:'word_papa',score:35}],art:C+'mama.webp',art2:C+'papa.webp',text:'Mamá mima a papá.',words:['Mamá','mima','a','papá.'],skill:'sentence_mp',comprehension:{prompt:'¿A quién mima mamá?',options:['A papá','Al sapo','A Lola'],answer:'A papá'}},
@@ -582,13 +602,17 @@
       {id:'story_pato',title:'El pato',requires:[{skill:'t_family',score:45},{skill:'d_family',score:40}],art:AN+'pato.webp',text:'El pato nada.',words:['El','pato','nada.'],skill:'sentence_build',comprehensionSkill:'comprehension_2',comprehension:{prompt:'¿Qué hace el pato?',options:['Nada','Toma sopa','Usa la lupa'],answer:'Nada'}},
       {id:'story_nana',title:'Nana y Tito',requires:[{skill:'sentence_build',score:30}],art:C+'nana.webp',art2:C+'tito.webp',text:'Nana mima a Tito.',words:['Nana','mima','a','Tito.'],skill:'sentence_build',comprehensionSkill:'comprehension_2',comprehension:{prompt:'¿A quién mima Nana?',options:['A Tito','Al pato','Al sapo'],answer:'A Tito'}},
       {id:'story_rana',title:'La rana',requires:[{skill:'word_rana',score:35},{skill:'t_family',score:35}],art:AN+'rana.webp',text:'La rana salta.',words:['La','rana','salta.'],skill:'advanced_sentence',comprehensionSkill:'advanced_comprehension',comprehension:{prompt:'¿Quién salta?',options:['La rana','El pato','Lola'],answer:'La rana'}},
-      {id:'story_cama',title:'La cama',requires:[{skill:'word_cama',score:35},{skill:'l_family',score:35}],art:O+'cama.webp',art2:C+'lola.webp',text:'Lola usa la cama.',words:['Lola','usa','la','cama.'],skill:'advanced_sentence',comprehensionSkill:'advanced_comprehension',comprehension:{prompt:'¿Qué usa Lola?',options:['La cama','La lupa','La sopa'],answer:'La cama'}},
-      {id:'story_beso',title:'Un beso',requires:[{skill:'word_bota',score:35},{skill:'d_family',score:35}],art:C+'mama.webp',text:'Mamá da un beso.',words:['Mamá','da','un','beso.'],skill:'advanced_sentence',comprehensionSkill:'advanced_comprehension',comprehension:{prompt:'¿Qué da mamá?',options:['Un beso','Una lupa','Un dado'],answer:'Un beso'}},
-      {id:'story_foto',title:'La foto',requires:[{skill:'word_foto',score:35},{skill:'t_family',score:35}],art:C+'tito.webp',text:'Tito toma la foto.',words:['Tito','toma','la','foto.'],skill:'advanced_sentence',comprehensionSkill:'advanced_comprehension',comprehension:{prompt:'¿Qué toma Tito?',options:['La foto','La sopa','La lupa'],answer:'La foto'}},
-      {id:'story_nina_queso',title:'La niña y el queso',requires:[{skill:'word_nino',score:35},{skill:'word_queso',score:35}],art:C+'lola.webp',text:'La niña come queso. Mamá toma sopa.',words:['La','niña','come','queso.','Mamá','toma','sopa.'],skill:'secret_sentence',comprehensionSkill:'secret_comprehension',comprehension:{prompt:'¿Qué come la niña?',options:['Queso','Sopa','Una lupa'],answer:'Queso'}},
+      {id:'story_cama',title:'La cama',requires:[{skill:'word_cama',score:35},{skill:'l_family',score:35}],art:O+'cama.webp',art2:C+'nina.webp',text:'Lola usa la cama.',words:['Lola','usa','la','cama.'],skill:'advanced_sentence',comprehensionSkill:'advanced_comprehension',comprehension:{prompt:'¿Qué usa Lola?',options:['La cama','La lupa','La sopa'],answer:'La cama'}},
+      {id:'story_beso',title:'Un beso',requires:[{skill:'word_bota',score:35},{skill:'d_family',score:35}],art:O+'beso.webp',text:'Mamá da un beso.',words:['Mamá','da','un','beso.'],skill:'advanced_sentence',comprehensionSkill:'advanced_comprehension',comprehension:{prompt:'¿Qué da mamá?',options:['Un beso','Una lupa','Un dado'],answer:'Un beso'}},
+      {id:'story_foto',title:'La foto',requires:[{skill:'word_foto',score:35},{skill:'t_family',score:35}],art:O+'foto.webp',art2:C+'tito.webp',text:'Tito toma la foto.',words:['Tito','toma','la','foto.'],skill:'advanced_sentence',comprehensionSkill:'advanced_comprehension',comprehension:{prompt:'¿Qué toma Tito?',options:['La foto','La sopa','La lupa'],answer:'La foto'}},
+      {id:'story_nina_queso',title:'La niña y el queso',requires:[{skill:'word_nino',score:35},{skill:'word_queso',score:35}],art:C+'nina.webp',art2:O+'queso.webp',text:'La niña come queso. Mamá toma sopa.',words:['La','niña','come','queso.','Mamá','toma','sopa.'],skill:'secret_sentence',comprehensionSkill:'secret_comprehension',comprehension:{prompt:'¿Qué come la niña?',options:['Queso','Sopa','Una lupa'],answer:'Queso'}},
       {id:'story_noche',title:'La noche',requires:[{skill:'word_leche',score:35},{skill:'secret_sentence',score:25}],art:O+'luna.webp',text:'La noche es linda. Tito sale.',words:['La','noche','es','linda.','Tito','sale.'],skill:'secret_sentence',comprehensionSkill:'secret_comprehension',comprehension:{prompt:'¿Cómo es la noche?',options:['Linda','Una sopa','Un dado'],answer:'Linda'}},
-      {id:'story_cine',title:'El cine',requires:[{skill:'word_cine',score:35},{skill:'secret_sentence',score:25}],art:C+'tito.webp',text:'Tito sale del cine. Mamá lo saluda.',words:['Tito','sale','del','cine.','Mamá','lo','saluda.'],skill:'secret_sentence',comprehensionSkill:'secret_comprehension',comprehension:{prompt:'¿De dónde sale Tito?',options:['Del cine','De la cama','Del nido'],answer:'Del cine'}},
-      {id:'story_gema',title:'La gema',requires:[{skill:'word_gema',score:35},{skill:'secret_sentence',score:25}],art:X+'estrella_logro.webp',text:'La gema es lila. Lola la toma.',words:['La','gema','es','lila.','Lola','la','toma.'],skill:'secret_sentence',comprehensionSkill:'secret_comprehension',comprehension:{prompt:'¿Quién toma la gema?',options:['Lola','Tito','Papá'],answer:'Lola'}}
+      {id:'story_cine',title:'El cine',requires:[{skill:'word_cine',score:35},{skill:'secret_sentence',score:25}],art:SC+'cine_familiar.webp',text:'Tito sale del cine. Mamá lo saluda.',words:['Tito','sale','del','cine.','Mamá','lo','saluda.'],skill:'secret_sentence',comprehensionSkill:'secret_comprehension',comprehension:{prompt:'¿De dónde sale Tito?',options:['Del cine','De la cama','Del nido'],answer:'Del cine'}},
+      {id:'story_gema',title:'La gema',requires:[{skill:'word_gema',score:35},{skill:'secret_sentence',score:25}],art:O+'gema.webp',art2:C+'lola.webp',text:'La gema es lila. Lola la toma.',words:['La','gema','es','lila.','Lola','la','toma.'],skill:'secret_sentence',comprehensionSkill:'secret_comprehension',comprehension:{prompt:'¿Quién toma la gema?',options:['Lola','Tito','Papá'],answer:'Lola'}},
+      {id:'story_leche',title:'La leche',requires:[{skill:'word_leche',score:35},{skill:'secret_sentence',score:25}],art:SC+'chico_con_leche.webp',text:'El chico toma leche.',words:['El','chico','toma','leche.'],skill:'secret_sentence',comprehensionSkill:'secret_comprehension',comprehension:{prompt:'¿Qué toma el chico?',options:['Leche','Queso','Sopa'],answer:'Leche'}},
+      {id:'story_perro_carro',title:'El perro y el carro',requires:[{skill:'word_perro',score:35},{skill:'advanced_sentence',score:25}],art:SC+'perro_con_carro.webp',text:'El perro toca el carro.',words:['El','perro','toca','el','carro.'],skill:'secret_sentence',comprehensionSkill:'secret_comprehension',comprehension:{prompt:'¿Qué toca el perro?',options:['El carro','La cama','El queso'],answer:'El carro'}},
+      {id:'story_rana_cama',title:'La rana y la cama',requires:[{skill:'word_rana',score:35},{skill:'word_cama',score:35}],art:SC+'rana_en_cama.webp',text:'La rana salta a la cama.',words:['La','rana','salta','a','la','cama.'],skill:'advanced_sentence',comprehensionSkill:'advanced_comprehension',comprehension:{prompt:'¿A dónde salta la rana?',options:['A la cama','Al cine','Al carro'],answer:'A la cama'}},
+      {id:'story_nina_lee',title:'La niña lee',requires:[{skill:'word_nino',score:35},{skill:'secret_sentence',score:20}],art:SC+'nina_lee.webp',text:'La niña lee.',words:['La','niña','lee.'],skill:'secret_sentence',comprehensionSkill:'secret_comprehension',comprehension:{prompt:'¿Qué hace la niña?',options:['Lee','Salta','Toma sopa'],answer:'Lee'}}
     ]
   };
 })();

@@ -175,3 +175,83 @@
 .map-page-mark>span{display:flex;flex-direction:column;line-height:1.05;min-width:92px}.map-page-mark strong{font-size:.95rem}.map-page-mark small{font-size:.66rem;font-weight:800;color:var(--ink-soft);white-space:nowrap}.world-map.chapter-3 .trail-line{left:49%;height:78%;transform:rotate(4deg)}
 .pattern-intro{display:flex;flex-direction:column;align-items:center;gap:12px;width:100%}.pattern-symbol{display:flex;align-items:center;justify-content:center;min-width:150px;min-height:92px;padding:12px 22px;border-radius:30px;background:linear-gradient(145deg,#fff8d8,#fff);box-shadow:0 12px 30px rgba(72,100,71,.14);font-size:clamp(2.35rem,9vw,4.2rem);font-weight:1000;letter-spacing:.04em;color:var(--leaf-dark);border:3px solid rgba(239,183,70,.4)}.pattern-examples{display:flex;gap:10px;flex-wrap:wrap;justify-content:center;width:100%}.pattern-example{min-width:105px;min-height:62px;border:0;border-radius:22px;background:#fff;box-shadow:var(--shadow-soft);padding:9px 12px;display:flex;align-items:center;justify-content:center;gap:7px;font-size:1.25rem;font-weight:950;color:var(--ink);cursor:pointer;transition:transform .15s,box-shadow .15s,background .15s}.pattern-example:active{transform:scale(.96)}.pattern-example.heard{background:#eff9ee;box-shadow:0 0 0 3px rgba(87,167,115,.25),var(--shadow-soft)}.pattern-example .ui-listen-icon{width:28px;height:28px}.pattern-next{width:92px!important;height:92px!important;border-radius:50%!important;padding:0!important;font-size:2.35rem!important;box-shadow:0 10px 26px rgba(47,134,82,.3)!important}.pattern-next:not(:disabled){animation:nextPulse 1.15s ease-in-out infinite}.pattern-next:disabled{opacity:.32}
 @media(max-width:600px){.pattern-symbol{min-width:128px;min-height:78px}.pattern-examples{gap:8px}.pattern-example{min-width:92px;min-height:58px;font-size:1.12rem}.map-page-mark>span{min-width:80px}.map-page-mark small{font-size:.6rem}}
+
+/* v0.7.1 · integración visual Z.AI para Nuevos Senderos y Bosque de los Secretos */
+.pattern-example.with-art{min-width:116px;min-height:104px;flex-direction:column;padding:8px 9px;gap:4px}
+.pattern-example-art{width:62px;height:62px;object-fit:contain;filter:drop-shadow(0 4px 7px rgba(55,73,61,.12))}
+.pattern-example.with-art span{font-size:1rem;line-height:1}
+.pattern-example.with-art .ui-listen-icon{position:absolute;right:6px;bottom:6px;width:24px;height:24px}
+.pattern-example{position:relative}
+.chapter-2 .map-art,.chapter-3 .map-art{filter:saturate(.94) brightness(1.02)}
+.chapter-3 .map-art{filter:saturate(.9) brightness(.96)}
+.mission-backdrop img{width:100%;height:100%;object-fit:cover;object-position:center;opacity:.88;filter:saturate(.94)}
+.activity-card{backdrop-filter:blur(7px)}
+@media(max-width:600px){
+  .pattern-example.with-art{min-width:94px;min-height:92px}
+  .pattern-example-art{width:52px;height:52px}
+  .pattern-example.with-art span{font-size:.9rem}
+}
+
+/* v0.7.2 · navegación visual infantil y sendero conectado */
+.trail-line{display:none}
+.trail-route{position:absolute;inset:0;z-index:1;pointer-events:none;overflow:visible}
+.trail-base,.trail-progress{fill:none;stroke-linecap:round;stroke-linejoin:round}
+.trail-base{stroke:rgba(255,255,255,.78);stroke-width:2.2;stroke-dasharray:4.5 4.5;filter:drop-shadow(0 2px 3px rgba(39,68,48,.12))}
+.trail-progress{stroke:rgba(87,167,115,.98);stroke-width:3;filter:drop-shadow(0 1px 2px rgba(39,68,48,.2))}
+.trail-stop{fill:#fffdf8;stroke:rgba(255,255,255,.95);stroke-width:1.1;filter:drop-shadow(0 2px 3px rgba(39,68,48,.14))}
+.trail-stop.done{fill:#57a773}
+.trail-stop.recommended{fill:#f5c451}
+.trail-order{font-size:3.25px;font-weight:1000;fill:#2f5039;paint-order:stroke;stroke:#fff;stroke-width:.7px;letter-spacing:-.02em}
+.trail-order.recommended{fill:#7a5a10}
+.trail-hint{position:absolute;left:12px;bottom:12px;z-index:4;display:flex;align-items:center;gap:7px;padding:7px 10px;border-radius:999px;background:rgba(255,255,255,.84);box-shadow:var(--shadow-soft);backdrop-filter:blur(8px);color:var(--leaf-dark)}
+.trail-hint span{width:22px;height:22px;border-radius:50%;display:grid;place-items:center;background:rgba(87,167,115,.12);font-size:.95rem;font-weight:1000}
+.trail-hint small{font-size:.62rem;font-weight:1000;text-transform:uppercase;letter-spacing:.06em}
+.map-node{min-width:96px}
+.node-ring{position:relative;z-index:1}
+.node-order{position:absolute;left:14px;top:-8px;min-width:24px;height:24px;padding:0 6px;border-radius:999px;background:#fff;border:2px solid rgba(87,167,115,.25);box-shadow:var(--shadow-soft);display:grid;place-items:center;font-size:.68rem;font-weight:1000;color:var(--leaf-dark);z-index:5}
+.node-next{position:absolute;right:10px;bottom:30px;width:24px;height:24px;border-radius:50%;display:grid;place-items:center;background:#f5c451;color:#fff;box-shadow:var(--shadow-soft);font-size:.78rem;font-weight:1000;z-index:4}
+.map-node.done .node-order{background:#ecf7ed}
+.map-node.recommended .node-order{background:#fff7df;border-color:rgba(245,196,81,.45)}
+.next-card{grid-template-columns:48px minmax(0,1fr) auto;padding:11px 12px}
+.next-go{min-width:54px;padding:11px 14px}
+.result-shell{gap:0}
+.result-plant{width:min(215px,56vw);margin:0 auto 2px}
+.result-card.compact-result{padding:18px 16px;display:flex;flex-direction:column;gap:10px}
+.result-summary-row{display:flex;align-items:center;justify-content:center;gap:10px;flex-wrap:wrap}
+.result-badge{padding:7px 10px;border-radius:999px;background:rgba(87,167,115,.12);color:var(--leaf-dark);font-size:.72rem;font-weight:1000;text-transform:uppercase;letter-spacing:.06em}
+.result-data{margin:0;display:flex;align-items:center;justify-content:center;gap:6px;flex-wrap:wrap;font-size:.95rem}
+.result-data strong{font-size:1.15rem}
+.result-data span{color:var(--ink-soft);font-weight:900}
+.result-mini-chips{display:flex;align-items:center;justify-content:center;gap:8px;flex-wrap:wrap}
+.mini-chip{display:inline-flex;align-items:center;justify-content:center;gap:6px;min-height:36px;padding:7px 11px;border-radius:999px;background:#f5f8f4;color:var(--ink-soft);font-size:.74rem;font-weight:1000;box-shadow:var(--shadow-soft)}
+.mini-chip.review{background:#fff3d8;color:#725b23}
+.mini-chip.adaptive{background:#ebf7ee;color:var(--leaf-dark)}
+.mini-chip.treasure{background:#fff5d4;color:#735c21}
+.mini-chip img{width:20px;height:20px;object-fit:contain}
+.mini-chip strong{font-size:.98rem}
+.achievement-pop.compact{margin:0 auto 2px}
+.next-up.compact{display:grid;grid-template-columns:56px minmax(0,1fr);align-items:center;gap:10px;margin:0;padding:11px 12px}
+.next-up-icon{width:52px;height:52px;border-radius:17px;background:rgba(255,255,255,.9);display:grid;place-items:center;box-shadow:var(--shadow-soft)}
+.next-up-icon img{width:34px;height:34px;object-fit:contain}
+.next-up-icon span{font-size:1.2rem;font-weight:1000;color:var(--leaf-dark)}
+.next-up-copy{display:flex;flex-direction:column;text-align:left;min-width:0}
+.next-up-copy strong{font-size:.94rem;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.result-actions.bubbles{display:flex;justify-content:center;gap:10px;flex-wrap:wrap;margin-top:2px}
+.nav-bubble{width:60px;height:60px;border:0;border-radius:50%;background:rgba(255,255,255,.94);box-shadow:var(--shadow-soft);display:grid;place-items:center;color:var(--leaf-dark);cursor:pointer;transition:transform .15s ease,box-shadow .18s ease}
+.nav-bubble img{width:31px;height:31px;object-fit:contain}
+.nav-bubble span{font-size:1.55rem;font-weight:1000;line-height:1}
+.nav-bubble.primary{background:linear-gradient(135deg,var(--leaf),var(--aqua));color:#fff;box-shadow:0 12px 24px rgba(66,138,92,.26)}
+.nav-bubble:active{transform:scale(.95)}
+@media(max-width:600px){
+  .map-node{min-width:82px}
+  .node-order{left:12px;top:-6px;min-width:22px;height:22px;font-size:.64rem}
+  .node-next{right:7px;bottom:28px;width:22px;height:22px}
+  .trail-hint{left:9px;bottom:9px;padding:6px 8px}
+  .trail-hint small{font-size:.56rem}
+  .result-card.compact-result{padding:16px 12px}
+  .result-plant{width:min(180px,48vw)}
+  .next-up.compact{grid-template-columns:50px minmax(0,1fr);padding:10px}
+  .next-up-icon{width:46px;height:46px}
+  .nav-bubble{width:56px;height:56px}
+  .nav-bubble img{width:28px;height:28px}
+}

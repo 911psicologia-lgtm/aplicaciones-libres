@@ -1,22 +1,30 @@
 # Changelog
 
-## v0.3.6 — Enemy Ecology & Weapon Evolution
+## v0.3.9.1 — Full Architecture Restoration + Boss Power Identity
 
-- Añadidos enemigos especiales **Sentinel, Reanimator y Breeder** dentro de la formación.
-- Sentinel incorpora campo defensivo compartido, ruptura y recarga.
-- Reanimator puede recuperar una unidad ordinaria destruida mediante animación de retorno.
-- Breeder genera drones de ataque con límite específico por dispositivo.
-- Añadidos patrones de formación: block, chevron, split, wave y stagger.
-- Añadidas ventanas de **núcleo expuesto** en jefes con multiplicador de daño.
-- Las transiciones de fase de jefe fuerzan una ventana de vulnerabilidad visible.
-- Implementado sistema persistente de **niveles de reliquia**.
-- Dispersión, misiles, cadena, escudo y overdrive evolucionan a niveles II y III.
-- Misiles de nivel II+ incorporan corrección de trayectoria.
-- Escudo de nivel II+ produce pulso defensivo al activarse.
-- Las recompensas de jefe orbitan el punto de muerte antes de viajar a la nave.
-- Las reliquias recién adheridas orbitan temporalmente la nave como confirmación visual.
-- La fase de absorción bloquea nuevos ataques y proyectiles residuales.
-- Corregida la lógica de la horda final para que use una trayectoria independiente y estable.
-- Los enemigos especiales ya no pueden ser extraídos de la formación como buzos normales.
-- Mejorado el límite de vidas para respetar aumentos permanentes.
-- Optimizada la precarga de assets evitando URLs duplicadas.
+### Corrección estructural
+- Restaurada íntegramente la arquitectura multiarchivo de v0.3.8.
+- Restaurados todos los módulos JS, CSS, assets de naves, enemigos, meteoros y fondos.
+- Restaurada la batería completa de pruebas.
+- Conservada la corrección crítica de transición jefe -> recompensa -> siguiente sector.
+
+### Subjefes
+- ARACHNID: `RED DE CAZA`.
+- LEVIATHAN: `DOBLE SINGULARIDAD`.
+- DREADNOUGHT: `BATERÍA TRIDENTE`.
+- Cada patrón combina proyectiles diferentes y posee audio/halo propio.
+
+### Jefes
+- NÚCLEO NOVA: `CORONA HELIOS`.
+- ARCONTE LANZA: `JUICIO AXIAL`.
+- MADRE ENJAMBRE: `SEMILLA DEVORADORA`.
+- DEVORADOR GRAVÍTICO: `HORIZONTE ROTO`.
+- FÉNIX SINTÉTICO: `ALAS DE RENACIMIENTO`.
+- Ataques aumentan en complejidad por fase y se anuncian brevemente en HUD/barra de jefe.
+- Mejoradas las firmas sonoras por identidad.
+
+### Conservado
+- Resurrecciones de jefes seleccionados.
+- Reliquias que orbitan al jefe muerto, viajan a la nave y se adhieren automáticamente.
+- Evolución permanente de poderes.
+- Responsive móvil/tablet/PC, checkpoints, vidas, mutadores, objetivos, fusiones y dron aliado.

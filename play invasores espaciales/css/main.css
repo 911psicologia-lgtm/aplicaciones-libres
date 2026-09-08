@@ -173,3 +173,16 @@ input{flex:1;padding:12px 13px;border-radius:14px;border:1px solid var(--line);b
 /* v0.3.6 — evolución permanente discreta */
 .evo-badge{font-size:10px;color:#b5c8ff;letter-spacing:.35px;opacity:.78;white-space:nowrap}
 @media(max-width:600px){.evo-badge{display:none}}
+
+/* v0.3.9.1 — objetivos, fusiones y mutadores discretos */
+.hud-row.tactical{min-height:18px;margin-top:2px;font-size:10px;color:#9fc7d8;opacity:.88}
+#hudObjective{font-weight:700;color:#a8ffd1;white-space:nowrap}
+#hudFusion{font-weight:800;color:#ffd889;letter-spacing:.35px;text-align:center;white-space:nowrap}
+#hudMutator{color:#b6a9ff;text-align:right;white-space:nowrap}
+@media(max-width:600px){
+  .hud-row.tactical{font-size:8px;display:grid;grid-template-columns:1fr auto;gap:4px 8px;min-height:14px}
+  #hudObjective{overflow:hidden;text-overflow:ellipsis}
+  #hudFusion{grid-column:2;text-align:right;max-width:38vw;overflow:hidden;text-overflow:ellipsis}
+  #hudMutator{display:none}
+}
+@media(max-height:650px) and (orientation:landscape){.hud-row.tactical{display:none}}

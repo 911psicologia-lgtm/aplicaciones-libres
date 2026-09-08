@@ -7,8 +7,8 @@ window.SF = window.SF || {};
       G.init(document.getElementById('game'));
       bindUi();
       main.refreshPanels();
-      UI.setStatus('v0.3.6 · preparando combate');
-      NS.assets.loadAll().then(()=>UI.setStatus('v0.3.6 · listo'));
+      UI.setStatus('v0.3.9.1 · preparando combate');
+      NS.assets.loadAll().then(()=>UI.setStatus('v0.3.9.1 · listo'));
       requestAnimationFrame(G.loop);
     },
     refreshPanels(){
