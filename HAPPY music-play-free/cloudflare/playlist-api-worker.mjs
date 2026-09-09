@@ -41,11 +41,13 @@ async function fetchJson(url) {
 
 async function fromDataApi(list, key) {
   let title = '';
+  let podcastStatus = '';
   try {
     const p = new URL('https://www.googleapis.com/youtube/v3/playlists');
-    p.searchParams.set('part','snippet'); p.searchParams.set('id',list); p.searchParams.set('key',key);
+    p.searchParams.set('part','snippet,status'); p.searchParams.set('id',list); p.searchParams.set('key',key);
     const d = await fetchJson(p);
     title = d.items?.[0]?.snippet?.title || '';
+    podcastStatus = d.items?.[0]?.status?.podcastStatus || '';
   } catch (err) {
     // A playlist can still be readable through playlistItems even when title lookup fails.
     console.log('playlist title lookup', err.message);
@@ -80,7 +82,7 @@ async function fromDataApi(list, key) {
     pageToken = items.length < MAX_ITEMS ? (d.nextPageToken || '') : '';
   } while (pageToken);
 
-  return {ok:true, playlistId:list, title, items, count:items.length, source:'youtube-data-api'};
+  return {ok:true, playlistId:list, title, podcastStatus, items, count:items.length, source:'youtube-data-api'};
 }
 
 function decodeHtml(s='') { return s.replace(/&amp;/g,'&').replace(/&quot;/g,'"').replace(/&#39;/g,"'").replace(/&lt;/g,'<').replace(/&gt;/g,'>'); }
@@ -103,7 +105,7 @@ async function fromPublicPage(list) {
   const meta=html.match(/<meta\s+name="title"\s+content="([^"]*)"/i)||html.match(/<title>([^<]*)<\/title>/i);
   const title=meta?decodeHtml(meta[1]).replace(/\s*-\s*YouTube\s*$/i,'').trim():'';
   const items=extractPublicPage(html);
-  return {ok:true,playlistId:list,title,items,count:items.length,source:'youtube-public-page'};
+  return {ok:true,playlistId:list,title,podcastStatus:'',items,count:items.length,source:'youtube-public-page'};
 }
 
 async function handlePlaylist(request, env) {

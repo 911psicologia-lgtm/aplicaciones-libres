@@ -1,11 +1,11 @@
-const BUILD = '2026.09.02-r10.7-song-scope-adaptive-sound';
-const CACHE = 'mpf-r10.7-song-scope-adaptive-sound';
+const BUILD = '2026.09.09-r10.9-queue-podcast-resume';
+const CACHE = 'mpf-r10.9-queue-podcast-resume';
 const CORE = [
   './',
   './index.html',
-  './styles.css?v=r10.7-song-scope-adaptive-sound',
-  './app.js?v=r10.7-song-scope-adaptive-sound',
-  './manifest.webmanifest?v=r10.7-song-scope-adaptive-sound',
+  './styles.css?v=r10.9-queue-podcast-resume',
+  './app.js?v=r10.9-queue-podcast-resume',
+  './manifest.webmanifest?v=r10.9-queue-podcast-resume',
   './version.json',
   './icons/icon-192.png',
   './icons/icon-512.png',

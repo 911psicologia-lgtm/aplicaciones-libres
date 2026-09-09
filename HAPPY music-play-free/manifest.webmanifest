@@ -2,7 +2,7 @@
   "id": "./",
   "name": "MUSIC PLAY · HAPPY",
   "short_name": "MUSIC PLAY",
-  "description": "Biblioteca musical minimalista, local e híbrida: archivos, enlaces y playlists.",
+  "description": "Biblioteca musical y de podcasts, local e híbrida: archivos, enlaces, playlists y colecciones.",
   "start_url": "./?source=pwa",
   "scope": "./",
   "display": "standalone",

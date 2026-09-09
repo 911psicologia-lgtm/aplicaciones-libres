@@ -1,3 +1,3 @@
 MUSIC PLAY · HAPPY
-Build: 2026.09.02-r10.7-song-scope-adaptive-sound
-R10.7: reproducción por selección/categorías + Sonido Adaptativo local por ritmo.
+Build: 2026.09.09-r10.9-queue-podcast-resume
+R10.9: Cola visible y administrable + continuar episodios de podcast + salto 15/30 s + velocidad 1×–2× + Recovery v4.
