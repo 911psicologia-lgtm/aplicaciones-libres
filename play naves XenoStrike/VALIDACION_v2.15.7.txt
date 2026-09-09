@@ -1,0 +1,23 @@
+SWARM//RIFT — Insecta Siege v2.15.7
+VALIDACIÓN DE BUILD
+==================================
+
+- node --check js/game.js: PASS
+- node --check sw.js: PASS
+- FEATURE_TEST_v2.15.7: PASS (35/35 checks)
+- DEVICE_PROFILE_TEST_v2.15.7: PASS (HIGH / MID / LITE)
+- Asset Streamer:
+  * arranque CH2 lazy: PASS
+  * menú ligero: PASS
+  * núcleo de mundo bajo demanda: PASS
+  * boss bajo demanda: PASS
+  * desalojo de mundo obsoleto: PASS
+  * liberación al volver a Capítulo I: PASS
+  * migración v2.15.6 -> v2.15.7: PASS
+- PWA ASSETS: 560 referencias / 0 faltantes
+- HTTP smoke: 13/13 HTTP 200
+- Assets CH2 distribuidos: 210/210 SHA-256 correctos contra ASSET_MANIFEST_CH2_ZAI.json
+- 20 PNG master de backgrounds permanecen fuera de distribución; se conservan sus 20 WEBP runtime 1920x1080.
+
+LIMITACIÓN REAL
+- No se realizó una sesión prolongada en dispositivo físico. La liberación exacta de memoria decodificada es decisión del navegador/OS; la build sí evita asignar src y decodificar indiscriminadamente todos los recursos CH2 al inicio.

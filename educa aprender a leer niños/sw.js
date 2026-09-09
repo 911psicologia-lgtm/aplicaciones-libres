@@ -1,4 +1,4 @@
-const CACHE='emilia-bosque-v0.8.2-story-assets';
+const CACHE='emilia-bosque-v0.8.6-adaptive-reading';
 const ASSETS=[
   "./",
   "./assets/animals/arana.webp",
@@ -183,6 +183,7 @@ const ASSETS=[
   "./js/audio/voice.js",
   "./js/learning/engine.js",
   "./js/learning/mastery.js",
+  "./js/learning/reading-adapt.js",
   "./js/learning/scheduler.js",
   "./js/learning/tracing.js",
   "./js/screens/renderers.js",

@@ -1,0 +1,25 @@
+SWARM//RIFT — Insecta Siege v2.15.7
+BUILD MANIFEST
+==================================
+Version: 2.15.7
+Feature: ASSET RESIDENCY STREAMER / CH2 LAZY DECODE
+Save keys: swarm_rift_meta_v2157 / swarm_rift_run_v2157
+PWA cache: swarm-rift-v2.15.7
+App cache-bust: 2157
+CH2 cache-bust: 2157
+
+Validaciones nuevas:
+- FEATURE_TEST_v2.15.7.json
+- DEVICE_PROFILE_TEST_v2.15.7.json
+- AUTOAUDIT_v2.15.7.txt / .json
+- HTTP_SMOKE_v2.15.7.txt
+- VALIDACION_v2.15.7.txt
+- CONTENT_SHA256_v2.15.7.txt
+- CHANGELOG_v2.15.7.txt
+
+Distribución CH2 runtime:
+- 10 pares de backgrounds WEBP
+- 10 familias (minor / medium / major / mini + animaciones)
+- 10 bosses con idle / attack / hurt / phase / death
+- 210 archivos del manifiesto de producción presentes y hash-correctos
+- 20 PNG master de backgrounds no runtime omitidos deliberadamente

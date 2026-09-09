@@ -1,4 +1,4 @@
-const CACHE_NAME = 'rizoma-zombie-strike-v3-26-0';
+const CACHE_NAME = 'rizoma-zombie-strike-v3-34-0';
 self.addEventListener('install', event => {
   self.skipWaiting();
 });
@@ -9,6 +9,6 @@ self.addEventListener('activate', event => {
       .then(() => self.clients.claim())
   );
 });
-// v3.26.0: Director de Flujo Adaptativo, contratos de presión y soporte táctico contextual
+// v3.34.0: firma visual de impacto por Nave Rizoma con VFX reales; conserva identidad/build v3.33, curva M1–M20 y sistemas v3.32
 // principal para evitar que una versión antigua del juego quede congelada en caché.
 self.addEventListener('fetch', () => {});

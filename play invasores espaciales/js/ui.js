@@ -5,7 +5,7 @@ window.SF = window.SF || {};
     init(){
       const ids = ['hud','hudPilot','hudStage','hudScore','hudLives','hpFill','hudPower','hudCombo','hudEvo','hudCheck','hudObjective','hudFusion','hudMutator','centerMsg','controlsTag','pauseBtn','pauseOverlay','pauseStats','gameOverOverlay','gameOverStats','assetStatus','savePreview','pilotName','splashPilot','menuSaveHint','menuShipLabel','shipGrid','rankingList','loadInfo'];
       ids.forEach(id => UI.els[id] = document.getElementById(id));
-      document.querySelectorAll('[data-back]').forEach(btn => btn.addEventListener('click', ()=>UI.showScreen(btn.dataset.back)));
+      document.querySelectorAll('[data-back]').forEach(btn => btn.addEventListener('click', ()=>{ NS.audio?.ensure?.(); NS.audio?.ui?.('back'); UI.showScreen(btn.dataset.back); }));
     },
     showScreen(id){
       document.querySelectorAll('.screen').forEach(s=>s.classList.toggle('active', s.id===id));
@@ -50,7 +50,7 @@ window.SF = window.SF || {};
     },
     renderHud(state){
       UI.els.hudPilot.textContent = `${state.player} · ${state.ship.name}`;
-      UI.els.hudStage.textContent = `SECTOR ${state.sector} · OLEADA ${state.wave}${state.phaseName?` · ${state.phaseName}`:''}`;
+      UI.els.hudStage.textContent = state.sectorName ? `MUNDO ${state.sector} · ${state.sectorName} · O${state.wave}${state.phaseName?` · ${state.phaseName}`:''}` : `SECTOR ${state.sector} · OLEADA ${state.wave}${state.phaseName?` · ${state.phaseName}`:''}`;
       UI.els.hudScore.textContent = `${state.score} pts`;
       UI.els.hudPower.textContent = state.activePowerText || 'SIN PODER';
       if(UI.els.hudEvo) UI.els.hudEvo.textContent=state.evolutionText||'EVO —';

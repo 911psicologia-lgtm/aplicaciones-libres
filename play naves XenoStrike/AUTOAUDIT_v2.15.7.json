@@ -1,0 +1,40 @@
+{
+  "version": "2.15.7",
+  "ok": true,
+  "passed": 21,
+  "total": 21,
+  "checks": {
+    "version_2157": true,
+    "save_keys_2157": true,
+    "migrate_2156": true,
+    "cache_2157": true,
+    "index_bust_2157": true,
+    "ch2_bust_2157": true,
+    "no_eager_ch2_src": true,
+    "stream_registry": true,
+    "stream_current_world": true,
+    "stream_boss_preboss": true,
+    "stream_boss_spawn": true,
+    "stream_rift_ally": true,
+    "stream_menu": true,
+    "stream_lite_rule": true,
+    "stream_recovery_rule": true,
+    "stream_stale_guard": true,
+    "feature_test": true,
+    "device_test": true,
+    "pwa_560_zero_missing": true,
+    "ch2_210_hash_match": true,
+    "http_smoke_13": true
+  },
+  "pwa": {
+    "refs": 560,
+    "missing": []
+  },
+  "ch2": {
+    "manifest_total": 230,
+    "distributed": 210,
+    "sha_match": 210,
+    "missing_masters": 20,
+    "bad": []
+  }
+}

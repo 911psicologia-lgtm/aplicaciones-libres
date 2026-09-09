@@ -125,7 +125,7 @@
     EmiliaApp.refreshPWAControls&&EmiliaApp.refreshPWAControls();
   }
   function activity(session){
-    const q=session.activities[session.index],pct=Math.round(100*session.index/session.activities.length),review=q.review?'<div class="review-kicker">↻</div>':'',streakPips=session.streak?((session.streak-1)%3)+1:0;
+    const q=session.activities[session.index],pct=Math.round(100*session.index/session.activities.length),review=q.review?`<div class="review-kicker ${q.adaptiveReading?'adaptive':''}">${q.adaptiveReading?'👂↻':'↻'}</div>`:'',streakPips=session.streak?((session.streak-1)%3)+1:0;
     const lumiState=activityMascot(q),world=worldFor(session.missionId),worldBg=world&&world.art?world.art:'assets/worlds/fondo_bosque_principal.webp';
     let center='';
     const audioCore=`<button class="listen-orb attention" id="speakQ" aria-label="Escuchar instrucción">${listenGlyph()}</button><div class="listen-status listening" id="listenStatus">👂</div>`;
@@ -174,17 +174,160 @@
   function book(storyId){
     const unlocked=EmiliaEngine.unlockedStories(),st=storyId?unlocked.find(x=>x.id===storyId):EmiliaEngine.recommendedStory();
     if(!st){
-      set(`<main class="screen book-screen"><div class="screen-inner"><div class="adult-head"><button class="btn btn-secondary btn-icon" id="bookBack">←</button><div><div class="eyebrow">Mi libro</div><h1 class="h2">Las páginas están creciendo</h1></div></div><section class="card empty-book"><img src="${mascot('thinking')}" data-lumi data-lumi-base="thinking" alt=""><h2>Aún falta descubrir algunas palabras.</h2><p class="muted">Cuando conozcas nuevas letras, aparecerán más historias.</p><button class="btn btn-primary" id="bookAdventure">Volver a la aventura</button></section></div></main>`);
+      set(`<main class="screen book-screen"><div class="screen-inner"><div class="adult-head"><button class="btn btn-secondary btn-icon" id="bookBack">←</button><div><div class="eyebrow">Mi libro</div><h1 class="h2">Las páginas están creciendo</h1></div></div><section class="card empty-book"><img src="${mascot('thinking')}" data-lumi data-lumi-base="thinking" alt=""><h2>Aún falta descubrir algunas palabras.</h2><p class="muted">Cuando conozcas M y P, aparecerá aquí la primera página.</p><button class="btn btn-primary" id="bookAdventure">Volver a la aventura</button></section></div></main>`);
       document.getElementById('bookBack').onclick=()=>EmiliaApp.go('home');document.getElementById('bookAdventure').onclick=()=>EmiliaApp.go('home');return;
     }
     const focusStory=st.kind==='audioFocus';
-    const sceneAssets=(st.scene||[]),sceneSay=(st.sceneSay||[]);
-    const storyScene=st.background?`<div class="story-scene" style="background-image:linear-gradient(180deg,rgba(255,255,255,.02),rgba(255,255,255,.12)),url('${esc(st.background)}')">${sceneAssets.map((src,i)=>`<button class="story-scene-piece piece-${i}" ${sceneSay[i]?`data-say="${esc(sceneSay[i])}" aria-label="Escuchar ${esc(sceneSay[i])}"`:'tabindex="-1"'}><img src="${esc(src)}" alt=""></button>`).join('')}</div>`:'';
-    const fallbackArt=!storyScene?`<div class="story-art-group"><img class="story-art" src="${esc(st.art)}" alt="Ilustración de la historia">${st.art2?`<img class="story-art story-art-secondary" src="${esc(st.art2)}" alt="">`:''}</div>`:'';
-    const storyBody=focusStory?`<div class="story-focus-scene">${storyScene||`<img class="story-focus-art" src="${esc(st.art)}" alt="">`}<div class="story-focus-tokens">${(st.focusTokens||[]).map(v=>`<button class="story-focus-token" data-say="${esc(v)}">${esc(String(v).toUpperCase())}</button>`).join('')}</div><p class="story-focus-note adult-readable">${esc(st.text)}</p></div>`:`${storyScene||fallbackArt}<div class="story-text">${st.words.map((w,i)=>`<span class="story-word" data-w="${i}">${esc(w)}</span>`).join(' ')}</div>`;
-    const tip=focusStory?'Escucha el cuento. Después toca las vocales grandes para oírlas otra vez.':st.kind==='decodable'?'Intenta leerla. También puedes tocar cualquier palabra para escucharla.':'Primero puedes intentar leerla tú. Si necesitas ayuda, Lumi puede modelarla.';
-    set(`<main class="screen book-screen"><div class="screen-inner"><div class="adult-head"><button class="btn btn-secondary btn-icon" id="bookBack">←</button><div><div class="eyebrow">Mi libro · ${unlocked.length} ${unlocked.length===1?'página':'páginas'}</div><h1 class="h2">${esc(st.title)}</h1></div><span></span></div>${unlocked.length>1?`<div class="story-tabs">${unlocked.map(x=>`<button class="story-tab ${x.id===st.id?'active':''}" data-story="${x.id}">${esc(x.title)}</button>`).join('')}</div>`:''}<section class="card book-page ${focusStory?'audio-focus-story':''}">${storyBody}<p class="book-tip">${tip}</p><div class="book-actions"><button class="btn btn-primary" id="storyIRead" ${focusStory?'disabled':''}>${focusStory?'✓ Ya escuché':'Yo la intento'}</button><button class="btn btn-secondary with-icon" id="storyListen"><img src="${ui('listen')}" alt="">${focusStory?'Escuchar cuento':'Escuchar modelo'}</button></div><div class="story-listen-status" id="storyListenStatus">${focusStory?'Lumi te cuenta una historia corta.':'Lumi puede leer palabra por palabra y después la frase completa.'}</div><div id="bookFeedback"></div></section></div></main>`);
-    document.getElementById('bookBack').onclick=()=>EmiliaApp.go('home');document.getElementById('storyListen').onclick=()=>EmiliaApp.playStory(st);document.getElementById('storyIRead').onclick=()=>EmiliaApp.askComprehension(st);document.querySelectorAll('.story-tab').forEach(b=>b.onclick=()=>EmiliaApp.openStory(b.dataset.story));document.querySelectorAll('.story-focus-token').forEach(b=>b.onclick=()=>EmiliaVoice.speak(b.dataset.say,{kind:'phoneme',repeat:false}));document.querySelectorAll('.story-scene-piece[data-say]').forEach(b=>{b.onclick=()=>{EmiliaVoice.speak(b.dataset.say,{kind:'word',repeat:false});b.classList.add('speaking');setTimeout(()=>b.classList.remove('speaking'),320);};});document.querySelectorAll('.story-word').forEach(b=>{b.setAttribute('role','button');b.setAttribute('tabindex','0');const say=()=>{const clean=(b.textContent||'').replace(/[.,!?¡¿]/g,'');if(clean)EmiliaVoice.speak(clean,{kind:'word',repeat:false});b.classList.add('tapped');setTimeout(()=>b.classList.remove('tapped'),260);};b.onclick=say;b.onkeydown=e=>{if(e.key==='Enter'||e.key===' '){e.preventDefault();say();}};});
+    const splitSentences=text=>{
+      const src=String(text||'').trim();
+      if(!src)return [];
+      const m=src.match(/[^.!?¡¿]+[.!?]?/g)||[src];
+      return m.map(x=>x.trim()).filter(Boolean);
+    };
+    const pageTexts=focusStory&&Array.isArray(st.sentences)&&st.sentences.length?st.sentences:splitSentences(st.text);
+    const pages=(pageTexts.length?pageTexts:[st.text]).map((sentence,i)=>({index:i,text:String(sentence||'').trim(),words:String(sentence||'').trim().split(/\s+/).filter(Boolean)}));
+    const sceneAssets=(st.scene||[]),sceneSay=(st.sceneSay||[]),microInteractions=Array.isArray(st.microInteractions)?st.microInteractions:[];
+    const storyScene=st.background?`<div class="story-scene story-scene-v2 pieces-${sceneAssets.length}" data-piece-count="${sceneAssets.length}" style="background-image:linear-gradient(180deg,rgba(255,255,255,.01),rgba(255,255,255,.08)),url('${esc(st.background)}')">${sceneAssets.map((src,i)=>`<button class="story-scene-piece piece-${i}" data-piece-index="${i}" ${sceneSay[i]?`data-say="${esc(sceneSay[i])}" aria-label="Escuchar ${esc(sceneSay[i])}"`:'tabindex="-1"'}><img src="${esc(src)}" alt=""></button>`).join('')}<span class="story-scene-glow" aria-hidden="true"></span></div>`:'';
+    const fallbackArt=!storyScene?`<div class="story-art-group story-art-group-v2"><img class="story-art" src="${esc(st.art)}" alt="Ilustración de la historia">${st.art2?`<img class="story-art story-art-secondary" src="${esc(st.art2)}" alt="">`:''}</div>`:'';
+    const focusTokens=focusStory?`<div class="story-focus-tokens compact">${(st.focusTokens||[]).map(v=>`<button class="story-focus-token" data-say="${esc(v)}">${esc(String(v).toUpperCase())}</button>`).join('')}</div>`:'';
+    const pagePanels=pages.map((pg,i)=>`<div class="story-page-panel ${i===0?'active':''}" data-page="${i}" data-text="${esc(pg.text)}" ${i===0?'':'hidden'}><div class="story-text story-text-page">${pg.words.map((w,j)=>`<span class="story-word" data-w="${j}">${esc(w)}</span>`).join(' ')}</div></div>`).join('');
+    const dots=pages.map((_,i)=>`<button class="story-page-dot ${i===0?'active':''}" data-page-jump="${i}" aria-label="Página ${i+1}">${i+1}</button>`).join('');
+    set(`<main class="screen book-screen story-reader-v2"><div class="screen-inner story-reader-shell"><div class="story-topbar"><button class="story-top-icon" id="bookBack" aria-label="Volver">←</button><div class="story-title-mini"><small>Mi libro</small><strong>${esc(st.title)}</strong></div><button class="story-top-icon listen" id="storyListen" data-page="0" aria-label="Escuchar esta página">${listenGlyph()}</button></div>${unlocked.length>1?`<div class="story-tabs compact-tabs">${unlocked.map(x=>`<button class="story-tab ${x.id===st.id?'active':''}" data-story="${x.id}">${esc(x.title)}</button>`).join('')}</div>`:''}<section class="card book-page story-book-card">${storyScene||fallbackArt}${focusTokens}<div class="story-page-stack">${pagePanels}</div><div class="story-micro" id="storyMicro" hidden></div><div class="story-page-nav"><button class="story-nav-btn prev" id="storyPrev" disabled aria-label="Página anterior">←</button><div class="story-page-dots" id="storyDots">${dots}</div><button class="story-nav-btn next" id="storyNext" aria-label="Página siguiente">➜</button></div><div class="story-listen-status visual" id="storyListenStatus">👂</div><div id="bookFeedback"></div></section></div></main>`);
+    let pageIndex=0,microPromptTimer=null,microArmed=null,microDrag=null;
+    const total=pages.length,microDone=new Set(),microAttempts={};
+    const normalizeStoryWord=value=>String(value||'').toLocaleLowerCase('es').normalize('NFD').replace(/[\u0300-\u036f]/g,'').replace(/[^a-zñ0-9]+/g,' ').trim();
+    const currentMicro=()=>microInteractions[pageIndex]||null;
+    const findScenePiece=label=>{
+      const key=normalizeStoryWord(label);
+      return Array.from(document.querySelectorAll('.story-scene-piece[data-say]')).find(el=>normalizeStoryWord(el.dataset.say)===key)||null;
+    };
+    const findFocusToken=label=>{
+      const key=normalizeStoryWord(label);
+      return Array.from(document.querySelectorAll('.story-focus-token[data-say]')).find(el=>normalizeStoryWord(el.dataset.say)===key)||null;
+    };
+    const clearMicroClasses=()=>{
+      document.querySelectorAll('.story-scene-piece,.story-focus-token').forEach(el=>{el.classList.remove('story-micro-target','story-micro-receiver','story-micro-armed','story-micro-success','story-micro-hint');if(el.classList.contains('story-scene-piece')){el.onpointerdown=null;el.onpointermove=null;el.onpointerup=null;el.onpointercancel=null;}});
+      if(microDrag&&microDrag.ghost)microDrag.ghost.remove();microDrag=null;microArmed=null;
+    };
+    const setNextForMicro=()=>{
+      const next=document.getElementById('storyNext'),mi=currentMicro(),done=!mi||microDone.has(pageIndex);
+      if(next){next.disabled=!done;next.classList.toggle('micro-locked',!done);next.classList.toggle('micro-ready',!!mi&&done);next.classList.toggle('attention',!!mi&&done);}
+      document.querySelectorAll('.story-page-dot').forEach((dot,i)=>{dot.disabled=!!mi&&!done&&i>pageIndex;});
+    };
+    const completeMicro=()=>{
+      const mi=currentMicro();if(!mi||microDone.has(pageIndex))return;
+      microDone.add(pageIndex);clearTimeout(microPromptTimer);microArmed=null;
+      const box=document.getElementById('storyMicro');if(box){box.classList.remove('hint');box.classList.add('done');box.innerHTML='<span class="story-micro-check">✓</span>';}
+      const target=mi.type==='token'?findFocusToken(mi.target):findScenePiece(mi.target),receiver=mi.receiver?findScenePiece(mi.receiver):null;
+      if(target)target.classList.add('story-micro-success');if(receiver)receiver.classList.add('story-micro-success');
+      setNextForMicro();EmiliaVoice.tone('ok');EmiliaApp.rewardBurst('star');
+      const microMeta=window.EmiliaReadingAdapt?EmiliaReadingAdapt.noteMicroComplete(st.id,pageIndex+1,st.skill,{target:mi.target,receiver:mi.receiver||null,type:mi.type,attempts:microAttempts[pageIndex]||0,audioFocus:focusStory}):null;
+      EmiliaStore.event('story_micro_complete',{storyId:st.id,page:pageIndex+1,type:mi.type,target:mi.target,receiver:mi.receiver||null,assisted:!!(microMeta&&microMeta.assisted),attempts:microAttempts[pageIndex]||0});
+      setTimeout(()=>{const next=document.getElementById('storyNext');if(next)next.classList.add('attention');},180);
+    };
+    const missMicro=()=>{
+      const mi=currentMicro();if(!mi||microDone.has(pageIndex))return;
+      microAttempts[pageIndex]=(microAttempts[pageIndex]||0)+1;if(window.EmiliaReadingAdapt)EmiliaReadingAdapt.noteMicroMiss(st.id,pageIndex+1,st.skill,mi.target);
+      const target=mi.type==='token'?findFocusToken(mi.target):findScenePiece(mi.target);if(target){target.classList.add('story-micro-hint');setTimeout(()=>target.classList.remove('story-micro-hint'),720);}
+      const box=document.getElementById('storyMicro');if(box)box.classList.add('hint');
+      if(microAttempts[pageIndex]>=2){clearTimeout(microPromptTimer);microPromptTimer=setTimeout(()=>EmiliaVoice.speak('Mira bien. '+mi.prompt,{kind:'instruction',repeat:false}),120);}
+    };
+    const renderMicroInteraction=idx=>{
+      clearTimeout(microPromptTimer);clearMicroClasses();
+      const box=document.getElementById('storyMicro'),mi=microInteractions[idx]||null;
+      if(!box)return;
+      box.classList.remove('done','hint');
+      if(!mi){box.hidden=true;box.innerHTML='';setNextForMicro();return;}
+      box.hidden=false;
+      const done=microDone.has(idx),gesture=mi.type==='move'?'↔':'☝';
+      box.innerHTML=done?'<span class="story-micro-check">✓</span>':`<button class="story-micro-listen" id="storyMicroListen" aria-label="Escuchar indicación">♪</button><span class="story-micro-gesture">${gesture}</span><strong class="adult-readable">${esc(mi.prompt)}</strong>`;
+      if(done){box.classList.add('done');setNextForMicro();return;}
+      const target=mi.type==='token'?findFocusToken(mi.target):findScenePiece(mi.target),receiver=mi.receiver?findScenePiece(mi.receiver):null;
+      if(target)target.classList.add('story-micro-target');if(receiver)receiver.classList.add('story-micro-receiver');
+      const sayPrompt=()=>EmiliaVoice.speak(mi.prompt,{kind:'instruction',repeat:false});const lb=document.getElementById('storyMicroListen');if(lb)lb.onclick=sayPrompt;
+      microPromptTimer=setTimeout(sayPrompt,720);setNextForMicro();
+    };
+    const handleMicroTap=(kind,label,el)=>{
+      const mi=currentMicro();if(!mi||microDone.has(pageIndex))return false;
+      const key=normalizeStoryWord(label),targetKey=normalizeStoryWord(mi.target),receiverKey=normalizeStoryWord(mi.receiver||'');
+      if(mi.type==='token'){
+        if(kind==='token'&&key===targetKey){completeMicro();return true;}missMicro();return false;
+      }
+      if(mi.type==='tap'){
+        if(kind==='piece'&&key===targetKey){completeMicro();return true;}missMicro();return false;
+      }
+      if(mi.type==='move'){
+        if(kind!=='piece'){missMicro();return false;}
+        if(!microArmed&&key===targetKey){microArmed=targetKey;if(el)el.classList.add('story-micro-armed');const receiver=findScenePiece(mi.receiver);if(receiver)receiver.classList.add('story-micro-receiver');EmiliaVoice.speak('Ahora toca a '+mi.receiver+'.',{kind:'instruction',repeat:false});return true;}
+        if(microArmed===targetKey&&key===receiverKey){completeMicro();return true;}
+        if(key===targetKey){return true;}missMicro();return false;
+      }
+      return false;
+    };
+    const bindMicroDrag=()=>{
+      const mi=currentMicro();if(!mi||mi.type!=='move'||microDone.has(pageIndex))return;
+      const target=findScenePiece(mi.target),receiver=findScenePiece(mi.receiver);if(!target||!receiver)return;
+      target.onpointerdown=e=>{
+        if(e.pointerType==='mouse'&&e.button!==0)return;
+        const startX=e.clientX,startY=e.clientY;let moved=false;const ghost=target.cloneNode(true);ghost.className='story-drag-ghost';document.body.appendChild(ghost);const rect=target.getBoundingClientRect();ghost.style.width=rect.width+'px';ghost.style.height=rect.height+'px';ghost.style.left=(e.clientX-rect.width/2)+'px';ghost.style.top=(e.clientY-rect.height/2)+'px';microDrag={ghost,target,receiver,startX,startY,moved:false};
+        try{target.setPointerCapture(e.pointerId);}catch(_){}
+        target.onpointermove=ev=>{if(!microDrag)return;const dx=ev.clientX-startX,dy=ev.clientY-startY;if(Math.hypot(dx,dy)>8)moved=true;microDrag.moved=moved;ghost.style.left=(ev.clientX-rect.width/2)+'px';ghost.style.top=(ev.clientY-rect.height/2)+'px';};
+        target.onpointerup=ev=>{if(!microDrag)return;const rr=receiver.getBoundingClientRect(),hit=ev.clientX>=rr.left&&ev.clientX<=rr.right&&ev.clientY>=rr.top&&ev.clientY<=rr.bottom,wasMoved=microDrag.moved;ghost.remove();microDrag=null;target.onpointermove=null;target.onpointerup=null;if(wasMoved){if(hit)completeMicro();else missMicro();}else handleMicroTap('piece',target.dataset.say,target);};
+        target.onpointercancel=()=>{if(microDrag&&microDrag.ghost)microDrag.ghost.remove();microDrag=null;target.onpointermove=null;target.onpointerup=null;};
+      };
+    };
+    const focusSceneForPage=idx=>{
+      const scene=document.querySelector('.story-scene-v2');
+      if(!scene)return;
+      const page=pages[idx]||pages[0]||{text:''};
+      const tokens=new Set(normalizeStoryWord(page.text).split(/\s+/).filter(Boolean));
+      const pieces=Array.from(scene.querySelectorAll('.story-scene-piece'));
+      let active=[];
+      pieces.forEach((piece,i)=>{
+        const label=normalizeStoryWord(piece.dataset.say||'');
+        const labelTokens=label.split(/\s+/).filter(Boolean);
+        const on=labelTokens.length>0&&labelTokens.every(w=>tokens.has(w));
+        piece.classList.toggle('story-focus-active',on);
+        piece.classList.remove('story-focus-muted');
+        if(on)active.push(i);
+      });
+      const hasFocus=active.length>0;
+      pieces.forEach(piece=>piece.classList.toggle('story-focus-muted',hasFocus&&!piece.classList.contains('story-focus-active')));
+      scene.classList.toggle('has-focus',hasFocus);
+      scene.classList.toggle('focus-single',active.length===1);
+      scene.classList.toggle('focus-multiple',active.length>1);
+      for(let i=0;i<4;i++)scene.classList.toggle(`focus-piece-${i}`,active.includes(i));
+      scene.dataset.focusCount=String(active.length);
+      scene.classList.remove('story-page-shift');
+      void scene.offsetWidth;
+      scene.classList.add('story-page-shift');
+      setTimeout(()=>scene.classList.remove('story-page-shift'),460);
+    };
+    const updatePage=idx=>{
+      pageIndex=Math.max(0,Math.min(total-1,idx));
+      document.querySelectorAll('.story-page-panel').forEach((el,i)=>{const on=i===pageIndex;el.hidden=!on;el.classList.toggle('active',on);});
+      document.querySelectorAll('.story-page-dot').forEach((el,i)=>el.classList.toggle('active',i===pageIndex));
+      const prev=document.getElementById('storyPrev'),next=document.getElementById('storyNext'),listen=document.getElementById('storyListen'),status=document.getElementById('storyListenStatus');
+      if(prev)prev.disabled=pageIndex===0;
+      if(next){next.textContent=pageIndex===total-1?'?':'➜';next.setAttribute('aria-label',pageIndex===total-1?'Responder una pregunta':'Página siguiente');next.classList.toggle('question',pageIndex===total-1);}
+      if(listen)listen.dataset.page=String(pageIndex);
+      focusSceneForPage(pageIndex);renderMicroInteraction(pageIndex);bindMicroDrag();
+      if(status)status.textContent=focusStory?'👂 Toca para escuchar esta parte':'👆 Toca una palabra o personaje si necesitas ayuda';
+      document.getElementById('bookFeedback').innerHTML='';
+      if(window.EmiliaReadingAdapt)EmiliaReadingAdapt.beginPage(st.id,pageIndex+1,(pages[pageIndex]||{}).text||'',st.skill,{audioFocus:focusStory});
+      EmiliaStore.event('story_page',{storyId:st.id,page:pageIndex+1,total});
+      window.scrollTo({top:0,behavior:'smooth'});
+    };
+    document.getElementById('bookBack').onclick=()=>EmiliaApp.go('home');
+    document.getElementById('storyListen').onclick=()=>EmiliaApp.playStory(st,pageIndex);
+    document.getElementById('storyPrev').onclick=()=>updatePage(pageIndex-1);
+    document.getElementById('storyNext').onclick=()=>{if(pageIndex<total-1){updatePage(pageIndex+1);EmiliaVoice.tone('ok');}else EmiliaApp.askComprehension(st);};
+    document.querySelectorAll('.story-page-dot').forEach(b=>b.onclick=()=>updatePage(Number(b.dataset.pageJump)||0));
+    document.querySelectorAll('.story-tab').forEach(b=>b.onclick=()=>EmiliaApp.openStory(b.dataset.story));
+    document.querySelectorAll('.story-focus-token').forEach(b=>b.onclick=()=>{EmiliaVoice.speak(b.dataset.say,{kind:'phoneme',repeat:false});handleMicroTap('token',b.dataset.say,b);});
+    document.querySelectorAll('.story-scene-piece[data-say]').forEach(b=>{b.onclick=()=>{if(currentMicro()&&currentMicro().type==='move'&&!microDone.has(pageIndex))return;EmiliaVoice.speak(b.dataset.say,{kind:'word',repeat:false});handleMicroTap('piece',b.dataset.say,b);b.classList.add('speaking');setTimeout(()=>b.classList.remove('speaking'),360);};});
+    document.querySelectorAll('.story-word').forEach(b=>{b.setAttribute('role','button');b.setAttribute('tabindex','0');const say=()=>{const clean=(b.textContent||'').replace(/[.,!?¡¿]/g,'');if(clean){if(window.EmiliaReadingAdapt)EmiliaReadingAdapt.noteWordHelp(st.id,pageIndex+1,clean,st.skill);EmiliaVoice.speak(clean,{kind:'word',repeat:false});}b.classList.add('tapped');setTimeout(()=>b.classList.remove('tapped'),280);};b.onclick=say;b.onkeydown=e=>{if(e.key==='Enter'||e.key===' '){e.preventDefault();say();}};});
+    updatePage(0);
   }
   function practice(){
     const s=EmiliaStore.get(),due=EmiliaScheduler.dueCount(),weak=EmiliaScheduler.weakestTaught(3),mix=EmiliaEngine.missionById('forest_mix'),mixReady=EmiliaEngine.isUnlocked(mix);
@@ -202,10 +345,10 @@
     document.getElementById('gateBack').onclick=()=>EmiliaApp.go('home');document.getElementById('gateOk').onclick=()=>{if(parseInt(document.getElementById('gateInput').value,10)===window.__adultAnswer)EmiliaApp.go('adult');else EmiliaApp.toast('La respuesta no coincide.');};
   }
   function adult(){
-    const s=EmiliaStore.get(),sum=EmiliaMastery.summary(),answers=s.history.filter(x=>x.type==='answer'),ok=answers.filter(x=>x.ok).length,acc=answers.length?Math.round(ok*100/answers.length):0,rec=EmiliaEngine.recommendedMission(),due=EmiliaScheduler.dueCount();
+    const s=EmiliaStore.get(),sum=EmiliaMastery.summary(),answers=s.history.filter(x=>x.type==='answer'),ok=answers.filter(x=>x.ok).length,acc=answers.length?Math.round(ok*100/answers.length):0,rec=EmiliaEngine.recommendedMission(),due=EmiliaScheduler.dueCount(),readingNeeds=window.EmiliaReadingAdapt?EmiliaReadingAdapt.adultSummary(5):[];
     const cons=sum.filter(x=>x.status==='consolidated'),dev=sum.filter(x=>x.status==='developing'),prac=sum.filter(x=>x.status==='practice'),seen=sum.filter(x=>x.total>0);
-    const nextText=due?`Hay ${due} ${due===1?'habilidad programada':'habilidades programadas'} para recuperación. Conviene hacer primero “Semillas que vuelven” y después continuar con ${rec.title}.`:`La siguiente experiencia sugerida es ${rec.title}.`;
-    set(`<main class="screen adult"><div class="screen-inner"><div class="adult-head"><div><div class="eyebrow">Acompañamiento adulto</div><h1 class="h2">Progreso de ${esc(s.profile.name)}</h1></div><button class="btn btn-secondary btn-icon" id="adultBack">×</button></div><div class="adult-grid"><div class="card stat"><strong>${s.sessions||0}</strong><span>sesiones</span></div><div class="card stat"><strong>${acc}%</strong><span>aciertos observados</span></div><div class="card stat"><strong>${s.treasureStars||0}</strong><span>estrellas de tesoro</span></div><div class="card stat"><strong>${due}</strong><span>por recuperar</span></div></div><section class="card recommendation-card"><div class="micro-label">Próximo paso sugerido</div><h2>${esc(rec.title)}</h2><p>${esc(nextText)}</p><button class="btn btn-primary" id="adultRecGo">Abrir sugerencia</button></section><section class="card section-card"><div class="section-title-row"><div><h2 class="adult-section-title">Mapa de habilidades</h2><p class="muted">El porcentaje combina precisión, independencia y cantidad de evidencia. Es seguimiento educativo, no evaluación diagnóstica.</p></div></div>${seen.length?sum.filter(x=>x.total>0).map(r=>`<div class="skill-row"><span>${esc(r.label)}</span><div class="progress"><span style="width:${r.score}%"></span></div><span>${r.score}%</span><small class="status-chip ${r.status}">${r.status==='consolidated'?'Consolidada':r.status==='developing'?'En desarrollo':'Practicar'}</small></div>`).join(''):'<div class="empty-state">Todavía no hay respuestas registradas.</div>'}</section><section class="card section-card"><h2 class="adult-section-title">Lectura rápida del progreso</h2><div class="adult-insights"><div><strong>${cons.length}</strong><span>habilidades consolidadas</span></div><div><strong>${dev.length}</strong><span>en desarrollo</span></div><div><strong>${prac.length}</strong><span>requieren más práctica</span></div></div></section><section class="card section-card audio-settings"><h2 class="adult-section-title">Escucha y voz</h2><p class="muted">El modo lento está pensado para que el niño alcance a oír el sonido completo antes de responder. La reproducción automática es única para no volver tediosa la actividad. El niño puede repetirla cuando quiera.</p><div class="audio-setting-row"><label for="paceSelect"><strong>Ritmo de escucha</strong><small>Puede cambiarse sin perder progreso.</small></label><select id="paceSelect"><option value="verySlow" ${s.settings.listeningPace==='verySlow'?'selected':''}>Muy lento</option><option value="slow" ${!s.settings.listeningPace||s.settings.listeningPace==='slow'?'selected':''}>Lento recomendado</option><option value="normal" ${s.settings.listeningPace==='normal'?'selected':''}>Normal</option></select></div><label class="toggle-row"><span><strong>Repetir sonidos cortos</strong><small>Opcional: reproduce dos veces vocales y sílabas. Recomendado solo si el niño lo necesita.</small></span><input type="checkbox" id="repeatAudio" ${s.settings.repeatShortAudio===true?'checked':''}></label><div class="audio-test-grid"><button class="btn btn-secondary" id="testVoice">♪ Probar MA · ME · MI · MO · MU</button><button class="btn btn-secondary" id="testVowels">♪ Probar vocales</button><button class="btn btn-secondary" id="testInstruction">♪ Probar consigna</button></div><div class="audio-source-box" id="audioSourceBox"><strong>Diagnóstico de audio</strong><small id="audioSourceInfo">Cargando…</small></div><div class="listen-status ready" id="adultVoiceStatus">Configuración lista</div></section><section class="card section-card pedagogy-note"><h2 class="adult-section-title">Decisiones de esta etapa</h2><p class="muted"><strong>C:</strong> por ahora se trabajan CA, CO y CU. CE y CI se incorporarán después porque en el español colombiano comparten sonido con S. <strong>G:</strong> por ahora se trabajan GA, GO y GU; GE, GI y GUE/GUI se reservan para una etapa posterior. Así evitamos presentar reglas ortográficas diferentes como si fueran una sola familia.</p></section><section class="card section-card"><h2 class="adult-section-title">Datos y privacidad</h2><p class="muted">Todo permanece en este dispositivo. La copia JSON permite trasladar o restaurar el progreso.</p><div class="adult-actions"><button class="btn btn-secondary" id="exportBtn">Exportar JSON</button><label class="btn btn-secondary" for="importFile">Importar JSON</label><input id="importFile" type="file" accept="application/json,.json" hidden><button class="btn btn-ghost" id="resetBtn">Reiniciar</button></div></section></div></main>`);
+    const nextText=due?`Hay ${due} ${due===1?'elemento listo':'elementos listos'} para recuperación. Conviene hacer primero “Semillas que vuelven” y después continuar con ${rec.title}.`:`La siguiente experiencia sugerida es ${rec.title}.`;
+    set(`<main class="screen adult"><div class="screen-inner"><div class="adult-head"><div><div class="eyebrow">Acompañamiento adulto</div><h1 class="h2">Progreso de ${esc(s.profile.name)}</h1></div><button class="btn btn-secondary btn-icon" id="adultBack">×</button></div><div class="adult-grid"><div class="card stat"><strong>${s.sessions||0}</strong><span>sesiones</span></div><div class="card stat"><strong>${acc}%</strong><span>aciertos observados</span></div><div class="card stat"><strong>${s.treasureStars||0}</strong><span>estrellas de tesoro</span></div><div class="card stat"><strong>${due}</strong><span>por recuperar</span></div></div><section class="card recommendation-card"><div class="micro-label">Próximo paso sugerido</div><h2>${esc(rec.title)}</h2><p>${esc(nextText)}</p><button class="btn btn-primary" id="adultRecGo">Abrir sugerencia</button></section><section class="card section-card"><div class="section-title-row"><div><h2 class="adult-section-title">Mapa de habilidades</h2><p class="muted">El porcentaje combina precisión, independencia y cantidad de evidencia. Es seguimiento educativo, no evaluación diagnóstica.</p></div></div>${seen.length?sum.filter(x=>x.total>0).map(r=>`<div class="skill-row"><span>${esc(r.label)}</span><div class="progress"><span style="width:${r.score}%"></span></div><span>${r.score}%</span><small class="status-chip ${r.status}">${r.status==='consolidated'?'Consolidada':r.status==='developing'?'En desarrollo':'Practicar'}</small></div>`).join(''):'<div class="empty-state">Todavía no hay respuestas registradas.</div>'}</section>${readingNeeds.length?`<section class="card section-card reading-support-card"><h2 class="adult-section-title">Apoyos de lectura observados</h2><p class="muted">Estas señales no bajan por sí solas una habilidad. Sirven para elegir palabras que conviene recuperar en una práctica breve.</p><div class="reading-support-list">${readingNeeds.map(r=>`<div class="reading-support-row"><strong>${esc(r.word)}</strong><span>${r.helps?`${r.helps} ${r.helps===1?'ayuda':'ayudas'}`:'modelo escuchado'}${r.recovered?` · ${r.recovered} recuperación${r.recovered===1?'':'es'} independiente${r.recovered===1?'':'s'}`:''}</span></div>`).join('')}</div></section>`:''}<section class="card section-card"><h2 class="adult-section-title">Lectura rápida del progreso</h2><div class="adult-insights"><div><strong>${cons.length}</strong><span>habilidades consolidadas</span></div><div><strong>${dev.length}</strong><span>en desarrollo</span></div><div><strong>${prac.length}</strong><span>requieren más práctica</span></div></div></section><section class="card section-card audio-settings"><h2 class="adult-section-title">Escucha y voz</h2><p class="muted">El modo lento está pensado para que el niño alcance a oír el sonido completo antes de responder. La reproducción automática es única para no volver tediosa la actividad. El niño puede repetirla cuando quiera.</p><div class="audio-setting-row"><label for="paceSelect"><strong>Ritmo de escucha</strong><small>Puede cambiarse sin perder progreso.</small></label><select id="paceSelect"><option value="verySlow" ${s.settings.listeningPace==='verySlow'?'selected':''}>Muy lento</option><option value="slow" ${!s.settings.listeningPace||s.settings.listeningPace==='slow'?'selected':''}>Lento recomendado</option><option value="normal" ${s.settings.listeningPace==='normal'?'selected':''}>Normal</option></select></div><label class="toggle-row"><span><strong>Repetir sonidos cortos</strong><small>Opcional: reproduce dos veces vocales y sílabas. Recomendado solo si el niño lo necesita.</small></span><input type="checkbox" id="repeatAudio" ${s.settings.repeatShortAudio===true?'checked':''}></label><div class="audio-test-grid"><button class="btn btn-secondary" id="testVoice">♪ Probar MA · ME · MI · MO · MU</button><button class="btn btn-secondary" id="testVowels">♪ Probar vocales</button><button class="btn btn-secondary" id="testInstruction">♪ Probar consigna</button></div><div class="audio-source-box" id="audioSourceBox"><strong>Diagnóstico de audio</strong><small id="audioSourceInfo">Cargando…</small></div><div class="listen-status ready" id="adultVoiceStatus">Configuración lista</div></section><section class="card section-card pedagogy-note"><h2 class="adult-section-title">Decisiones de esta etapa</h2><p class="muted"><strong>C:</strong> por ahora se trabajan CA, CO y CU. CE y CI se incorporarán después porque en el español colombiano comparten sonido con S. <strong>G:</strong> por ahora se trabajan GA, GO y GU; GE, GI y GUE/GUI se reservan para una etapa posterior. Así evitamos presentar reglas ortográficas diferentes como si fueran una sola familia.</p></section><section class="card section-card"><h2 class="adult-section-title">Datos y privacidad</h2><p class="muted">Todo permanece en este dispositivo. La copia JSON permite trasladar o restaurar el progreso.</p><div class="adult-actions"><button class="btn btn-secondary" id="exportBtn">Exportar JSON</button><label class="btn btn-secondary" for="importFile">Importar JSON</label><input id="importFile" type="file" accept="application/json,.json" hidden><button class="btn btn-ghost" id="resetBtn">Reiniciar</button></div></section></div></main>`);
     document.getElementById('adultBack').onclick=()=>EmiliaApp.go('home');document.getElementById('adultRecGo').onclick=()=>{if(due)EmiliaApp.startPractice();else EmiliaApp.startMission(rec.id);};document.getElementById('exportBtn').onclick=()=>EmiliaApp.exportProgress();const pace=document.getElementById('paceSelect');if(pace)pace.onchange=()=>{s.settings.listeningPace=pace.value;EmiliaStore.save();EmiliaApp.toast('Ritmo de voz actualizado.');};const repeat=document.getElementById('repeatAudio');if(repeat)repeat.onchange=()=>{s.settings.repeatShortAudio=repeat.checked;EmiliaStore.save();};const st=document.getElementById('adultVoiceStatus');const setAudioStatus=msg=>{if(st)st.textContent=msg;};const runAudioTest=async(btn,items,opts={})=>{if(!btn)return;btn.disabled=true;setAudioStatus('👂 Escucha la prueba…');await EmiliaVoice.sequence(items,Object.assign({kind:'instruction',repeat:false,pauseMs:240},opts));setAudioStatus('Prueba terminada');btn.disabled=false;};const tv=document.getElementById('testVoice');if(tv)tv.onclick=()=>runAudioTest(tv,['ma','me','mi','mo','mu'],{kind:'syllable',pauseMs:220});const tvw=document.getElementById('testVowels');if(tvw)tvw.onclick=()=>runAudioTest(tvw,['vocal a','vocal e','vocal i','vocal o','vocal u'],{kind:'instruction',pauseMs:260});const ti=document.getElementById('testInstruction');if(ti)ti.onclick=()=>runAudioTest(ti,['Escucha a. Tócala.','Escucha mi. Toca esa sílaba.'],{kind:'instruction',pauseMs:420});const audioInfo=document.getElementById('audioSourceInfo');(async()=>{try{const voice=(EmiliaVoice.describeVoice&&EmiliaVoice.describeVoice())||{name:'voz no disponible',lang:'es'};let ready=0,total=0;if(window.EmiliaAudioBank&&EmiliaAudioBank.probeAll){const res=await EmiliaAudioBank.probeAll();ready=res.filter(x=>x[1]).length;total=res.length;}if(audioInfo)audioInfo.textContent=`Voz: ${voice.name} (${voice.lang}) · Clips locales listos: ${ready}/${total}`;}catch(e){if(audioInfo)audioInfo.textContent='No fue posible leer el diagnóstico de audio.';}})();document.getElementById('importFile').onchange=e=>EmiliaApp.importProgress(e.target.files[0]);document.getElementById('resetBtn').onclick=()=>{if(confirm('¿Reiniciar el progreso de este prototipo?')){EmiliaStore.resetProgress();EmiliaApp.go('home');}};
   }
   window.EmiliaScreens={onboarding,home,activity,result,book,practice,treasures,gate,adult,esc,mascot,setMascotState,resetMascots,flashMascot};

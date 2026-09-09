@@ -1,0 +1,29 @@
+SWARM//RIFT — Insecta Siege v2.15.6
+BUILD MANIFEST
+==============
+
+Version: 2.15.6
+Build: DEVICE PROFILER / JANK-AWARE FRAME PACER
+Save keys: swarm_rift_meta_v2156 / swarm_rift_run_v2156
+PWA cache: swarm-rift-v2.15.6
+App cache-bust: 2156
+Files in build directory: 623
+Uncompressed build size: 225M
+
+VALIDATION ARTIFACTS
+- FEATURE_TEST_v2.15.6.txt
+- DEVICE_PROFILE_TEST_v2.15.6.txt
+- AUTOAUDIT_v2.15.6.txt / .json
+- HTTP_SMOKE_v2.15.6.txt
+- VALIDACION_v2.15.6.txt
+- CONTENT_SHA256_v2.15.6.txt
+- CHANGELOG_v2.15.6.txt
+
+RUNTIME CONTENT
+- 20 worlds.
+- 20 animated bosses.
+- Micro-Swarm Director world 1+.
+- RIFT ALLY world 11+ / 10 s.
+- Last Chance 5 s / manual rescue.
+- Family Combat Grammar / Coordinated Maneuvers / Adaptive Counterplay.
+- Performance Governor with device profiling, jank telemetry and adaptive internal resolution.

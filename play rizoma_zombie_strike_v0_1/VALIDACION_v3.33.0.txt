@@ -1,0 +1,63 @@
+RIZOMA ZOMBIE STRIKE v3.33.0
+VALIDACIÓN TÉCNICA
+============================================================
+[OK] VERSION game.js 3.33.0
+[OK] manifest 3.33.0
+[OK] sw cache v3-33-0
+[OK] index v3.33.0
+[OK] 20 filas curva dificultad :: M1=11200; M5=19500; M10=38900; M15=77800; M20=155500
+[OK] hitos HP intactos
+[OK] sin Mundo 21 jugable
+[OK] 6 ship_meta válidos :: rz1_fenix, rz4_mantis, rz8_nebula, rz12_bastion, rz16_hydra, rz20_prime
+[OK] assets base preservados byte a byte :: 840 archivos; missing=0 changed=0 added=0
+[OK] referencias literales de assets sin faltantes :: 799 referencias; missing=0
+[OK] IDs HTML duplicados = 0
+[OK] RIFT ALLY presente
+[OK] Última Oportunidad presente
+[OK] Tractor presente
+[OK] Taller presente
+[OK] DOMINIO presente
+[OK] Hangar presente
+[OK] Intro general presente
+[OK] Microintro M1 presente
+[OK] metadata táctica 6 Naves
+[OK] badge táctico Rizoma presente
+[OK] badge se oculta fuera de Nave Rizoma
+[OK] recarga especial legible
+[OK] telegráfico usa assets reales special_*
+[OK] telegráfico no altera cooldown
+[OK] VFX especiales reales preservados
+[OK] Memoria de Expediciones registra nave
+[OK] Colección muestra nave archivada
+[OK] Pausa muestra nave y etapa
+[OK] Resultado muestra nave y etapa
+[OK] Hangar muestra arquetipo/verbo/CD base
+[OK] badge se recoloca durante boss
+[OK] RIFT mantiene 10 s
+[OK] Guardián mantiene ≈12 s
+[OK] Última Oportunidad mantiene 5 s
+[OK] Tractor progresivo preservado
+[OK] Bajo rendimiento v3.32 preservado
+[OK] Háptica v3.32 preservada
+
+TOTAL 38/38 OK
+
+SINTAXIS / FORMATO
+------------------------------------------------------------
+[OK] node --check js/game.js
+[OK] node --check sw.js
+[OK] manifest.json parseable como JSON válido
+
+INTEGRIDAD
+------------------------------------------------------------
+[OK] Base exclusiva v3.32.0 verificada por SHA-256.
+[OK] 840 assets heredados preservados byte a byte.
+[OK] 799 referencias literales de assets auditadas; faltantes = 0.
+[OK] Curva M1–M20 y hitos de HP sin cambios.
+[OK] No se alteraron RIFT, Guardián Vinculado, Última Oportunidad ni Tractor.
+
+PRUEBA DE NAVEGADOR / DISPOSITIVO
+------------------------------------------------------------
+[NO DECLARADA] No se afirma smoke test visual real ni prueba física Android/iOS.
+La entrega se valida mediante sintaxis, estructura, integridad de assets, referencias,
+versionado y comprobación del ZIP final.

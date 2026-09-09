@@ -1,0 +1,13 @@
+VALIDACIÓN v3.28.0
+- node --check js/game.js: OK
+- node --check sw.js: OK
+- manifest.json versión 3.28.0: OK
+- Mundos: 20/20
+- ship_meta.json: 6/6 válidos
+- referencias explícitas de assets: 792
+- assets faltantes: 0
+- banking izquierda/derecha: IMPLEMENTADO
+- hit animation 4 frames: IMPLEMENTADO
+- VFX exclusivos de las 6 Naves Rizoma: IMPLEMENTADO
+- drones Nébula con sprites reales + motor: IMPLEMENTADO
+- hitbox separada del tamaño visual: CONSERVADA

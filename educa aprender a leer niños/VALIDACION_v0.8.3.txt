@@ -1,0 +1,23 @@
+EMILIA · EL BOSQUE DE LAS PALABRAS v0.8.3 — AUTOAUDITORÍA
+
+[OK] Manifest PWA válido. start_url=./index.html?v=0.8.3 display=fullscreen
+[OK] Service Worker. cache=emilia-bosque-v0.8.3-story-pages; referencias=224; faltantes=0
+[OK] CSS balanceado: 1047 aperturas / 1047 cierres
+[OK] Cuentos: 23; páginas narrativas resultantes: 40
+[OK] Referencias story assets faltantes: 0
+[OK] Assets modificados frente a v0.8.2: 0
+[OK] JavaScript validado con node --check.
+[OK] Cuentos escénicos con fondo: 11
+
+Páginas por cuento escénico:
+- Las vocales van al parque: 3 página(s), 1 elemento(s) tocable(s) de escena
+- Mimi ama a mamá: 2 página(s), 2 elemento(s) tocable(s) de escena
+- Papá ama a mamá: 2 página(s), 2 elemento(s) tocable(s) de escena
+- Susi amasa: 2 página(s), 2 elemento(s) tocable(s) de escena
+- Lola usa la lupa: 2 página(s), 2 elemento(s) tocable(s) de escena
+- Nana ama la luna: 2 página(s), 2 elemento(s) tocable(s) de escena
+- Tito toma sopa: 2 página(s), 2 elemento(s) tocable(s) de escena
+- El dado de Tito: 2 página(s), 2 elemento(s) tocable(s) de escena
+- El nido: 1 página(s), 2 elemento(s) tocable(s) de escena
+- El picnic: 3 página(s), 3 elemento(s) tocable(s) de escena
+- El jardín de palabras: 3 página(s), 3 elemento(s) tocable(s) de escena

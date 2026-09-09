@@ -1,0 +1,53 @@
+RIZOMA ZOMBIE STRIKE v3.32.0
+VALIDACIÓN TÉCNICA
+============================================================
+[OK] VERSION game.js 3.32.0
+[OK] manifest 3.32.0
+[OK] sw cache v3-32-0
+[OK] index v3.32.0
+[OK] 20 filas curva dificultad :: [('1', '11200'), ('2', '12900'), ('19', '135400'), ('20', '155500')]
+[OK] hitos HP intactos :: {1: 11200, 5: 19500, 10: 38900, 15: 77800, 20: 155500}
+[OK] sin Mundo 21 jugable
+[OK] 6 ship_meta válidos :: rz1_fenix,rz4_mantis,rz8_nebula,rz12_bastion,rz16_hydra,rz20_prime
+[OK] assets base preservados byte a byte :: 840 archivos; missing=0 changed=0
+[OK] referencias literales de assets sin faltantes :: 799 referencias; missing=0
+[OK] IDs HTML duplicados = 0 :: []
+[OK] RIFT ALLY presente
+[OK] Última Oportunidad presente
+[OK] Tractor presente
+[OK] Taller presente
+[OK] DOMINIO presente
+[OK] Hangar presente
+[OK] Intro general presente
+[OK] Microintro M1 presente
+[OK] toggle háptica presente
+[OK] háptica opt-in por defecto
+[OK] badge táctico aliado presente
+[OK] RIFT y Guardián mantienen duración
+[OK] modo bajo rendimiento no reduce pickups esenciales
+[OK] modo bajo rendimiento no reduce proyectiles esenciales
+[OK] modo bajo rendimiento reduce FX
+[OK] ARIA controles críticos
+[OK] tractor v3.31 preservado
+
+TOTAL 28/28 OK
+
+SINTAXIS / FORMATO
+------------------------------------------------------------
+[OK] node --check js/game.js
+[OK] node --check sw.js
+[OK] manifest.json parseable como JSON válido
+
+PRUEBA DE NAVEGADOR
+------------------------------------------------------------
+[NO DECLARADA] Chromium headless fue ejecutado con timeout controlado.
+El proceso terminó por timeout (exit 124), sin generar DOM ni captura.
+El stderr volvió a mostrar fallos del subsistema DBus/zygote del entorno.
+Por ello no se afirma smoke test visual real ni prueba física Android/iOS.
+
+ALCANCE DE INTEGRIDAD
+------------------------------------------------------------
+[OK] 840 assets heredados de v3.31.0 preservados byte a byte.
+[OK] 799 referencias literales de assets auditadas; faltantes = 0.
+[OK] No se modificó la curva M1-M20 ni sus hitos de HP.
+[OK] No se alteraron las duraciones de RIFT ALLY / Guardián Vinculado / Última Oportunidad.

@@ -1,0 +1,49 @@
+SWARM//RIFT — Insecta Siege v2.15.7
+ASSET RESIDENCY STREAMER / CH2 LAZY DECODE
+===========================================
+
+OBJETIVO
+- Reducir memoria gráfica, decodificación simultánea y presión de arranque del Capítulo II sin quitar contenido, enemigos, animaciones ni reglas de combate.
+
+NUEVO
+1. ASSET RESIDENCY STREAMER para Mundos 11–20
+   - Los fondos, familias animadas y bosses CH2 ya no reciben src todos al iniciar la aplicación.
+   - El mundo actual carga su fondo de antesala + familia completa solo cuando se entra al sector.
+   - El paquete de boss (fondo de arena + cinco estados) se activa en la antesala/spawn del jefe.
+   - RIFT ALLY puede cargar bajo demanda el boss CH2 elegido aleatoriamente.
+
+2. Ventana de residencia adaptativa
+   - HIGH / MID: mantiene el mundo actual y precarga el siguiente durante tiempo ocioso.
+   - LITE o RECOVERY: evita la precarga del siguiente para minimizar memoria/picos de decodificación.
+   - Los mundos CH2 antiguos se desalojan al avanzar; si vuelven a necesitarse como RIFT ALLY se recargan desde caché.
+   - Al regresar a Mundos 1–10 se libera la residencia CH2.
+
+3. Menú ligero
+   - Al navegar por Mundos 11–20 el menú solo prepara el fondo de antesala y la base del boss, no toda la familia ni las hojas de animación.
+
+4. Protección contra precargas obsoletas
+   - Una precarga programada del mundo siguiente se cancela lógicamente si el jugador cambia de sector antes de que se ejecute.
+   - La precarga nunca cambia el identificador del mundo actual.
+
+5. Cache bust CH2 / app 2157
+   - Rutas CH2 runtime usan av=2157.
+   - Service Worker: swarm-rift-v2.15.7.
+   - App shell: ?v=2157.
+
+PRESERVADO
+- 20 mundos / 20 bosses animados.
+- Micro-Swarm Director desde Mundo 1, mínimo 4 minis, sin sumar kills de wave.
+- Curva de dificultad sin depender principalmente de HP.
+- Family Combat Grammar, Coordinated Maneuvers y Adaptive Counterplay.
+- RIFT ALLY aleatorio desde Mundo 11 durante 10 s.
+- Última Oportunidad de 5 s con rescate manual y sin compra automática.
+- Performance Governor, Device Profiler y Jank-Aware Frame Pacer.
+- Boss Rush, Grand Boss Rush, Commander Convergence, CHASE, Hangar, poderes, fusiones, checkpoints, saves y PWA.
+
+SAVE
+- swarm_rift_meta_v2157 / swarm_rift_run_v2157.
+- Migración explícita desde v2.15.6 y cadena previa conservada.
+
+NOTA DE EFICIENCIA
+- Antes: ~190 recursos gráficos CH2 recibían src durante el arranque.
+- Ahora: el menú usa aproximadamente 2 recursos CH2; un sector usa ~13 recursos de núcleo; el boss añade ~6. HIGH/MID pueden mantener también el núcleo del siguiente mundo. La liberación real de memoria decodificada depende del navegador, pero se evita la carga/decodificación simultánea indiscriminada.

@@ -1,0 +1,144 @@
+{
+  "world_id": 1,
+  "world_label": "Mundo 01",
+  "sector_name": "Nebulosa Roja",
+  "family_theme": "Familia inspirada en Xenomorfo Escarlata",
+  "boss": {
+    "name": "Xenomorfo Escarlata",
+    "phases": 3,
+    "can_revive": false,
+    "signature_attacks": [
+      "disparo principal único",
+      "ataque de área",
+      "ataque invocador o de control",
+      "fase núcleo abierto"
+    ],
+    "reward_relics": 3
+  },
+  "carryover": [],
+  "production_status": "concept-board + integration manifest",
+  "assets": {
+    "minions": [
+      {
+        "id": "world_01_minion_swarmer",
+        "role": "swarmer",
+        "base_png": "minions/world_01_minion_swarmer.png",
+        "elite_png": "minions/world_01_minion_swarmer_elite.png",
+        "sheet": "minions/world_01_minion_swarmer_sheet.png"
+      },
+      {
+        "id": "world_01_minion_stinger",
+        "role": "stinger",
+        "base_png": "minions/world_01_minion_stinger.png",
+        "elite_png": "minions/world_01_minion_stinger_elite.png",
+        "sheet": "minions/world_01_minion_stinger_sheet.png"
+      },
+      {
+        "id": "world_01_minion_hunter",
+        "role": "hunter",
+        "base_png": "minions/world_01_minion_hunter.png",
+        "elite_png": "minions/world_01_minion_hunter_elite.png",
+        "sheet": "minions/world_01_minion_hunter_sheet.png"
+      },
+      {
+        "id": "world_01_minion_sentinel",
+        "role": "sentinel",
+        "base_png": "minions/world_01_minion_sentinel.png",
+        "elite_png": "minions/world_01_minion_sentinel_elite.png",
+        "sheet": "minions/world_01_minion_sentinel_sheet.png"
+      },
+      {
+        "id": "world_01_minion_spitter",
+        "role": "spitter",
+        "base_png": "minions/world_01_minion_spitter.png",
+        "elite_png": "minions/world_01_minion_spitter_elite.png",
+        "sheet": "minions/world_01_minion_spitter_sheet.png"
+      },
+      {
+        "id": "world_01_minion_phantom_revenant",
+        "role": "phantom_revenant",
+        "base_png": "minions/world_01_minion_phantom_revenant.png",
+        "elite_png": "minions/world_01_minion_phantom_revenant_elite.png",
+        "sheet": "minions/world_01_minion_phantom_revenant_sheet.png"
+      }
+    ],
+    "subbosses": [
+      {
+        "id": "world_01_subboss_a",
+        "base_png": "subbosses/world_01_subboss_a.png",
+        "sheet": "subbosses/world_01_subboss_a_sheet.png"
+      },
+      {
+        "id": "world_01_subboss_b",
+        "base_png": "subbosses/world_01_subboss_b.png",
+        "sheet": "subbosses/world_01_subboss_b_sheet.png"
+      }
+    ],
+    "boss": {
+      "base_png": "boss/world_01_boss_xenomorfo_escarlata.png",
+      "phase_sheet": "boss/world_01_boss_xenomorfo_escarlata_phases_sheet.png",
+      "open_core": "boss/world_01_boss_xenomorfo_escarlata_open_core.png",
+      "death_sheet": "boss/world_01_boss_xenomorfo_escarlata_death_sheet.png",
+      "relic_sheet": "boss/world_01_boss_xenomorfo_escarlata_relic_sheet.png"
+    },
+    "projectiles": [
+      "projectiles/world_01_projectile_01_sheet.png",
+      "projectiles/world_01_projectile_02_sheet.png",
+      "projectiles/world_01_projectile_03_sheet.png",
+      "projectiles/world_01_projectile_04_sheet.png",
+      "projectiles/world_01_projectile_05_sheet.png"
+    ],
+    "powerups": [
+      "powerups/world_01_powerup_burst.png",
+      "powerups/world_01_powerup_laser.png",
+      "powerups/world_01_powerup_missile.png",
+      "powerups/world_01_powerup_shield.png",
+      "powerups/world_01_powerup_drone.png",
+      "powerups/world_01_powerup_emp.png",
+      "powerups/world_01_powerup_magnet.png",
+      "powerups/world_01_powerup_repair.png",
+      "powerups/world_01_powerup_overshield.png",
+      "powerups/world_01_powerup_multiplier.png"
+    ],
+    "obstacles": [
+      {
+        "source": "meteoro giratorio",
+        "asset": "obstacles/world_01_obstacle_01_meteoro_giratorio.png"
+      },
+      {
+        "source": "roca defensora fracturada",
+        "asset": "obstacles/world_01_obstacle_02_roca_defensora_fracturada.png"
+      },
+      {
+        "source": "microasteroide lento",
+        "asset": "obstacles/world_01_obstacle_03_microasteroide_lento.png"
+      }
+    ],
+    "backgrounds": [
+      {
+        "type": "base",
+        "asset": "backgrounds/world_01_background_base.png"
+      },
+      {
+        "type": "intense",
+        "asset": "backgrounds/world_01_background_intense.png"
+      },
+      {
+        "type": "boss",
+        "asset": "backgrounds/world_01_background_boss.png"
+      }
+    ]
+  },
+  "waves": {
+    "screen_1": "new family base enemies",
+    "screen_2": "20% carryover + new specialist",
+    "screen_3": "higher density + subboss + inherited enemies",
+    "boss_screen": "boss phases and reward relic"
+  },
+  "mobile_readability": [
+    "silhouette-first",
+    "high contrast core",
+    "no micro-detail below 48px",
+    "transparent sprites"
+  ]
+}

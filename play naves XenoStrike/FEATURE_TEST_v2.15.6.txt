@@ -1,0 +1,119 @@
+{
+  "ok": true,
+  "checks": {
+    "version": true,
+    "worlds": true,
+    "bosses": true,
+    "ch2Families": true,
+    "microSwarm": true,
+    "playDefinitions": true,
+    "telegraphRoles": true,
+    "playExecution": true,
+    "noHpInflation": true,
+    "formationBreak": true,
+    "royalCommand": true,
+    "criticalRelief": true,
+    "riftAlly": true,
+    "lastChance": true,
+    "difficultyCurve": true,
+    "saveMigration2152": true,
+    "adaptiveBehaviorRead": true,
+    "adaptiveLaneBias": true,
+    "unpredictableRelief": true,
+    "saveMigration2153": true,
+    "saveMigration2154": true,
+    "saveMigration2155": true,
+    "performanceRecovery": true,
+    "performanceRestores": true,
+    "microFloorUnderLoad": true,
+    "deviceProfiler": true,
+    "dynamicInternalResolution": true,
+    "jankAwareFramePacer": true
+  },
+  "world16": {
+    "active": true,
+    "surge": true,
+    "guard": true,
+    "cloak": true,
+    "play": "VELO DE PINZA"
+  },
+  "world20": {
+    "play": "CERCO IMPERIAL",
+    "guard": 1.45
+  },
+  "counterplay": {
+    "breaks": 0,
+    "scoreGain": 922
+  },
+  "migration": {
+    "migrationSeen": true,
+    "migrationLoaded": true,
+    "sector": 19,
+    "mig2154OK": true
+  },
+  "performance": {
+    "device": {
+      "class": "MID",
+      "score": 1,
+      "hardwareConcurrency": 4,
+      "deviceMemory": 4,
+      "coarse": false,
+      "nativeDpr": 2,
+      "pixelLoad": 3686400,
+      "dprCap": 1.7
+    },
+    "fullDpr": 1.7,
+    "slow": {
+      "tier": "RECOVERY",
+      "fps": 25,
+      "frameMs": 39.99,
+      "p95Ms": 40,
+      "jank25": 1,
+      "jank33": 1,
+      "enemyFactor": 0.88,
+      "microFactor": 0.64,
+      "ambientFactor": 0.48,
+      "vfxFactor": 0.54,
+      "particleCap": 520,
+      "renderScale": 0.78,
+      "effectiveDpr": 1.33,
+      "renderResizes": 0,
+      "transitions": 2
+    },
+    "fast": {
+      "tier": "FULL",
+      "fps": 62.5,
+      "frameMs": 16,
+      "p95Ms": 16,
+      "jank25": 0,
+      "jank33": 0,
+      "enemyFactor": 1,
+      "microFactor": 1,
+      "ambientFactor": 1,
+      "vfxFactor": 1,
+      "particleCap": 900,
+      "renderScale": 1,
+      "effectiveDpr": 1.7,
+      "renderResizes": 0,
+      "transitions": 4
+    },
+    "jank": {
+      "tier": "RECOVERY",
+      "fps": 48.5,
+      "frameMs": 20.62,
+      "p95Ms": 42,
+      "jank25": 0.2,
+      "jank33": 0.2,
+      "enemyFactor": 0.88,
+      "microFactor": 0.64,
+      "ambientFactor": 0.48,
+      "vfxFactor": 0.54,
+      "particleCap": 520,
+      "renderScale": 0.78,
+      "effectiveDpr": 1.33,
+      "renderResizes": 0,
+      "transitions": 5
+    },
+    "slowMicro": 6
+  }
+}

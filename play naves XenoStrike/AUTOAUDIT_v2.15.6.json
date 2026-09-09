@@ -1,0 +1,57 @@
+{
+  "version": "2.15.6",
+  "checks": {
+    "version_2156": true,
+    "save_keys_2156": true,
+    "migration_2155": true,
+    "device_profiler": true,
+    "jank_telemetry": true,
+    "dynamic_resolution": true,
+    "micro_floor": true,
+    "micro_no_wave_kills": true,
+    "rift_ally": true,
+    "last_chance": true,
+    "worlds_20": true,
+    "cache_2156": true,
+    "index_bust_2156": true,
+    "status_hook": true,
+    "pwa_assets_all_present": true,
+    "ch2_present_hashes_ok": true,
+    "ch2_expected_omitted_masters": true
+  },
+  "passed": 17,
+  "total": 17,
+  "ok": true,
+  "pwa": {
+    "asset_refs": 560,
+    "missing": []
+  },
+  "ch2": {
+    "manifest_total": 230,
+    "distributed_verified": 210,
+    "hash_mismatches": [],
+    "omitted_count": 20,
+    "omitted": [
+      "assets_ch2/backgrounds/w11_antechamber.png",
+      "assets_ch2/backgrounds/w11_boss.png",
+      "assets_ch2/backgrounds/w12_antechamber.png",
+      "assets_ch2/backgrounds/w12_boss.png",
+      "assets_ch2/backgrounds/w13_antechamber.png",
+      "assets_ch2/backgrounds/w13_boss.png",
+      "assets_ch2/backgrounds/w14_antechamber.png",
+      "assets_ch2/backgrounds/w14_boss.png",
+      "assets_ch2/backgrounds/w15_antechamber.png",
+      "assets_ch2/backgrounds/w15_boss.png",
+      "assets_ch2/backgrounds/w16_antechamber.png",
+      "assets_ch2/backgrounds/w16_boss.png",
+      "assets_ch2/backgrounds/w17_antechamber.png",
+      "assets_ch2/backgrounds/w17_boss.png",
+      "assets_ch2/backgrounds/w18_antechamber.png",
+      "assets_ch2/backgrounds/w18_boss.png",
+      "assets_ch2/backgrounds/w19_antechamber.png",
+      "assets_ch2/backgrounds/w19_boss.png",
+      "assets_ch2/backgrounds/w20_antechamber.png",
+      "assets_ch2/backgrounds/w20_boss.png"
+    ]
+  }
+}

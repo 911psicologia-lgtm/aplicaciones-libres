@@ -1,0 +1,13 @@
+EMILIA · EL BOSQUE DE LAS PALABRAS v0.8.5 — AUTOAUDITORÍA
+
+[OK] 23 cuentos cargados.
+[OK] 24 microinteracciones narrativas configuradas en el primer sendero.
+[OK] Cada microinteracción corresponde a una página real del cuento.
+[OK] Todos los targets y receptores existen en la escena o en los tokens de vocales.
+[OK] Tipos implementados: tocar, tocar vocal y mover objeto.
+[OK] “El dado de Tito” permite arrastrar el dado a Nana o tocar dado → Nana.
+[OK] Dos intentos fallidos producen pista auditiva suave; no afectan dominio ni puntuación.
+[OK] Sintaxis JavaScript verificada con node --check.
+[OK] CSS balanceado: 1127 aperturas / 1127 cierres.
+[OK] Service Worker: 224 referencias, 0 faltantes.
+[OK] Assets existentes: 208 archivos. No se añadieron assets para esta fase.

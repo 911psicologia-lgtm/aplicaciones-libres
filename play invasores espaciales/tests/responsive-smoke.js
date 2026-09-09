@@ -68,11 +68,11 @@ const html=fs.readFileSync(path.join(root,'index.html'),'utf8');
 for(const id of ['splashPilot','newGameBtn','continueBtn','rankingBtn','hangarBtn','gameOverOverlay']) if(!html.includes(`id="${id}"`)) throw new Error(`missing ${id}`);
 for(const rel of ['assets/backgrounds/nebula.webp','assets/ships/vanguard.png','assets/enemies/swarm_shell.png','assets/obstacles/meteor_defender_a.png']) if(!fs.existsSync(path.join(root,rel))) throw new Error(`missing asset ${rel}`);
 
-// v0.3.9.1 structural systems
-if(C.VERSION!=='0.3.9.1') throw new Error('responsive test wrong version');
+// v0.4.5 structural systems
+if(C.VERSION!=='0.4.5') throw new Error('responsive test wrong version');
 if(C.combatDirector.gunnerTelegraphMsMobile<=C.combatDirector.gunnerTelegraphMsDesktop) throw new Error('mobile telegraph should be longer');
 if(C.rewards.mobileMagnetRadius<C.rewards.desktopMagnetRadius) throw new Error('mobile magnet should not be weaker');
-if(!C.enemyEcology||!C.weaponEvolution||!C.bossCore) throw new Error('v0.3.9.1 systems config missing');
-console.log('v0.3.9.1 director/ecology/evolution config: PASS');
+if(!C.enemyEcology||!C.weaponEvolution||!C.bossCore) throw new Error('v0.4.5 systems config missing');
+console.log('v0.4.5 director/ecology/evolution config: PASS');
 
 console.log('responsive smoke: PASS');

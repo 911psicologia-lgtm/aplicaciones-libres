@@ -106,10 +106,10 @@
       const ok=val===q.answer;markAttempt(q);
       if(ok){
         btn.classList.add('ok');EmiliaVoice.tone('ok');feedback(true);
-        if(!replay){EmiliaMastery.record(q.skill,true,prior>0,{review:q.review});s.hits++;if(prior===0){s.independentHits++;registerSuccess(true);}else registerMiss();}
+        if(!replay){EmiliaMastery.record(q.skill,true,prior>0,{review:q.review});if(q.adaptiveReading&&window.EmiliaReadingAdapt)EmiliaReadingAdapt.noteReviewResult(q.sourceWord||q.answer,q.skill,true,prior>0);s.hits++;if(prior===0){s.independentHits++;registerSuccess(true);}else registerMiss();}
         nextAfter(260);
       }else{
-        btn.classList.add('bad');EmiliaVoice.tone('bad');feedback(false);registerMiss();if(!replay){EmiliaMastery.record(q.skill,false,false,{review:q.review});s.errors++;}
+        btn.classList.add('bad');EmiliaVoice.tone('bad');feedback(false);registerMiss();if(!replay){EmiliaMastery.record(q.skill,false,false,{review:q.review});if(q.adaptiveReading&&window.EmiliaReadingAdapt)EmiliaReadingAdapt.noteReviewResult(q.sourceWord||q.answer,q.skill,false,false);s.errors++;}
         const count=attemptsFor(q);setTimeout(async()=>{all.forEach(x=>{x.classList.remove('bad');x.disabled=false;});if(count>=2){all.forEach(x=>{if(x.dataset.answer===q.answer)x.classList.add('reveal');else x.disabled=true;});await EmiliaVoice.speak('Mira la pista.',{kind:'instruction',repeat:false});}await speakQ();},300);
       }
     });
@@ -206,29 +206,41 @@
     }
   }
 
-  async function playStory(st){
-    storyContext={listened:true,storyId:st.id};const btn=document.getElementById('storyListen'),tryBtn=document.getElementById('storyIRead');if(btn){btn.disabled=true;btn.textContent='👂 Escuchando…';}if(tryBtn)tryBtn.disabled=true;const status=document.getElementById('storyListenStatus');
+  async function playStory(st,pageIndex=0){
+    storyContext={listened:true,storyId:st.id};
+    const btn=document.getElementById('storyListen'),status=document.getElementById('storyListenStatus');
+    const panel=document.querySelector(`.story-page-panel[data-page="${pageIndex}"]`)||document.querySelector('.story-page-panel.active');
+    const pageText=panel?String(panel.dataset.text||'').trim():String(st.text||'').trim();
+    if(window.EmiliaReadingAdapt)EmiliaReadingAdapt.notePageModel(st.id,pageIndex+1,pageText,st.skill,{audioFocus:st.kind==='audioFocus'});
+    if(btn){btn.disabled=true;btn.classList.add('speaking');}
     if(st.kind==='audioFocus'){
-      if(status)status.textContent='Escucha el cuento y mira las vocales.';
-      const parts=st.sentences||[st.text];
-      document.querySelectorAll('.story-focus-token').forEach(x=>x.classList.remove('active'));
-      for(let i=0;i<parts.length;i++){await EmiliaVoice.speak(parts[i],{kind:'sentence',repeat:false});await wait(320);}
-      if(status)status.textContent='Ahora puedes tocar cada vocal para escucharla.';
+      if(status)status.textContent='👂 Escuchando…';
+      await EmiliaVoice.speak(pageText,{kind:'sentence',repeat:false});
+      if(status)status.textContent='👆 Toca una vocal para escucharla';
     }else{
-      const spans=[...document.querySelectorAll('.story-word')];spans.forEach(x=>x.classList.remove('active'));
-      if(status)status.textContent='Lumi lee despacio, palabra por palabra.';
-      for(let i=0;i<st.words.length;i++){
-        spans.forEach(x=>x.classList.remove('active'));if(spans[i])spans[i].classList.add('active');
-        const clean=String(st.words[i]).replace(/[.,!?¡¿]/g,'');await EmiliaVoice.speak(clean,{kind:'word',repeat:false});await wait(210);
+      const spans=panel?[...panel.querySelectorAll('.story-word')]:[];
+      spans.forEach(x=>x.classList.remove('active'));
+      if(status)status.textContent='👂 Lumi lee esta frase';
+      for(let i=0;i<spans.length;i++){
+        spans.forEach(x=>x.classList.remove('active'));
+        if(spans[i])spans[i].classList.add('active');
+        const clean=String(spans[i].textContent||'').replace(/[.,!?¡¿]/g,'');
+        if(clean)await EmiliaVoice.speak(clean,{kind:'word',repeat:false});
+        await wait(180);
       }
-      spans.forEach(x=>x.classList.remove('active'));if(status)status.textContent='Ahora escucha la frase completa.';await wait(360);await EmiliaVoice.speak(st.text,{kind:'sentence',repeat:false});
+      spans.forEach(x=>x.classList.remove('active'));
+      if(status)status.textContent='👂 Ahora escucha la frase';
+      await wait(260);
+      if(pageText)await EmiliaVoice.speak(pageText,{kind:'sentence',repeat:false});
+      if(status)status.textContent='👆 Toca una palabra si necesitas ayuda';
     }
-    if(btn){btn.disabled=false;btn.textContent='♪ Escuchar otra vez';}if(tryBtn)tryBtn.disabled=false;EmiliaStore.event('story_model',{storyId:st.id});
+    if(btn){btn.disabled=false;btn.classList.remove('speaking');}
+    EmiliaStore.event('story_model',{storyId:st.id,page:pageIndex+1});
   }
   function askComprehension(st){
     const box=document.getElementById('bookFeedback');storyContext.storyId=st.id;box.innerHTML=`<div class="feedback-box coach comp-box"><button class="listen-orb tiny" id="compListen" aria-label="Escuchar pregunta">♪</button><strong>${st.comprehension.prompt}</strong><div class="activity-actions">${st.comprehension.options.map(o=>`<button class="btn btn-secondary comp-opt" data-a="${EmiliaScreens.esc(o)}">${EmiliaScreens.esc(o)}</button>`).join('')}</div></div>`;
     const sayPrompt=()=>EmiliaVoice.speak(st.comprehension.prompt,{kind:'instruction',repeat:false});const lb=document.getElementById('compListen');if(lb)lb.onclick=sayPrompt;sayPrompt();
-    document.querySelectorAll('.comp-opt').forEach(b=>b.onclick=async()=>{document.querySelectorAll('.comp-opt').forEach(x=>x.disabled=true);await EmiliaVoice.speak(b.dataset.a,{kind:/^[a-záéíóúñ]$/i.test(String(b.dataset.a))?'phoneme':'word',repeat:false});if(b.dataset.a===st.comprehension.answer){EmiliaVoice.tone('ok');box.innerHTML='<div class="feedback-visual">✓</div>';EmiliaApp.rewardBurst('star');EmiliaMastery.record(st.comprehensionSkill||'comprehension_1',true,storyContext.listened,{story:st.id});EmiliaStore.event('story_complete',{storyId:st.id,listenedFirst:storyContext.listened});const ss=EmiliaStore.get(),count=new Set((ss.history||[]).filter(e=>e.type==='story_complete').map(e=>e.storyId)).size;if(count>=3&&!(ss.achievements||[]).includes('stories_3')){ss.achievements.push('stories_3');EmiliaStore.save();rewardBurst('medal');}}else{EmiliaVoice.tone('bad');EmiliaMastery.record(st.comprehensionSkill||'comprehension_1',false,storyContext.listened,{story:st.id});EmiliaApp.toast('Escucha otra vez y vuelve a intentar.');setTimeout(()=>askComprehension(st),420);}});
+    document.querySelectorAll('.comp-opt').forEach(b=>b.onclick=async()=>{document.querySelectorAll('.comp-opt').forEach(x=>x.disabled=true);await EmiliaVoice.speak(b.dataset.a,{kind:/^[a-záéíóúñ]$/i.test(String(b.dataset.a))?'phoneme':'word',repeat:false});if(b.dataset.a===st.comprehension.answer){EmiliaVoice.tone('ok');box.innerHTML='<div class="feedback-visual">✓</div>';EmiliaApp.rewardBurst('star');EmiliaMastery.record(st.comprehensionSkill||'comprehension_1',true,storyContext.listened,{story:st.id});EmiliaStore.event('story_complete',{storyId:st.id,listenedFirst:storyContext.listened});if(window.EmiliaReadingAdapt)EmiliaReadingAdapt.noteStoryComplete(st.id);const ss=EmiliaStore.get(),count=new Set((ss.history||[]).filter(e=>e.type==='story_complete').map(e=>e.storyId)).size;if(count>=3&&!(ss.achievements||[]).includes('stories_3')){ss.achievements.push('stories_3');EmiliaStore.save();rewardBurst('medal');}}else{EmiliaVoice.tone('bad');EmiliaMastery.record(st.comprehensionSkill||'comprehension_1',false,storyContext.listened,{story:st.id});EmiliaApp.toast('Escucha otra vez y vuelve a intentar.');setTimeout(()=>askComprehension(st),420);}});
   }
   function openStory(id){storyContext={listened:false,storyId:id};EmiliaScreens.book(id);}
   function exportProgress(){const blob=new Blob([EmiliaStore.exportJSON()],{type:'application/json'}),u=URL.createObjectURL(blob),a=document.createElement('a');a.href=u;a.download='emilia_bosque_v7_'+new Date().toISOString().slice(0,10)+'.json';a.click();setTimeout(()=>URL.revokeObjectURL(u),1000);toast('Copia exportada.');}

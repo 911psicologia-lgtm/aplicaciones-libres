@@ -1,0 +1,147 @@
+{
+  "world_id": 3,
+  "world_label": "Mundo 03",
+  "sector_name": "Vacío Bioluminiscente",
+  "family_theme": "Familia inspirada en Nébula Sintética",
+  "boss": {
+    "name": "Nébula Sintética",
+    "phases": 3,
+    "can_revive": false,
+    "signature_attacks": [
+      "disparo principal único",
+      "ataque de área",
+      "ataque invocador o de control",
+      "fase núcleo abierto"
+    ],
+    "reward_relics": 3
+  },
+  "carryover": [
+    "20% de esbirros menores heredados del mundo anterior",
+    "1 subtipo especial heredado del mundo anterior"
+  ],
+  "production_status": "concept-board + integration manifest",
+  "assets": {
+    "minions": [
+      {
+        "id": "world_03_minion_swarmer",
+        "role": "swarmer",
+        "base_png": "minions/world_03_minion_swarmer.png",
+        "elite_png": "minions/world_03_minion_swarmer_elite.png",
+        "sheet": "minions/world_03_minion_swarmer_sheet.png"
+      },
+      {
+        "id": "world_03_minion_stinger",
+        "role": "stinger",
+        "base_png": "minions/world_03_minion_stinger.png",
+        "elite_png": "minions/world_03_minion_stinger_elite.png",
+        "sheet": "minions/world_03_minion_stinger_sheet.png"
+      },
+      {
+        "id": "world_03_minion_hunter",
+        "role": "hunter",
+        "base_png": "minions/world_03_minion_hunter.png",
+        "elite_png": "minions/world_03_minion_hunter_elite.png",
+        "sheet": "minions/world_03_minion_hunter_sheet.png"
+      },
+      {
+        "id": "world_03_minion_sentinel",
+        "role": "sentinel",
+        "base_png": "minions/world_03_minion_sentinel.png",
+        "elite_png": "minions/world_03_minion_sentinel_elite.png",
+        "sheet": "minions/world_03_minion_sentinel_sheet.png"
+      },
+      {
+        "id": "world_03_minion_spitter",
+        "role": "spitter",
+        "base_png": "minions/world_03_minion_spitter.png",
+        "elite_png": "minions/world_03_minion_spitter_elite.png",
+        "sheet": "minions/world_03_minion_spitter_sheet.png"
+      },
+      {
+        "id": "world_03_minion_phantom_revenant",
+        "role": "phantom_revenant",
+        "base_png": "minions/world_03_minion_phantom_revenant.png",
+        "elite_png": "minions/world_03_minion_phantom_revenant_elite.png",
+        "sheet": "minions/world_03_minion_phantom_revenant_sheet.png"
+      }
+    ],
+    "subbosses": [
+      {
+        "id": "world_03_subboss_a",
+        "base_png": "subbosses/world_03_subboss_a.png",
+        "sheet": "subbosses/world_03_subboss_a_sheet.png"
+      },
+      {
+        "id": "world_03_subboss_b",
+        "base_png": "subbosses/world_03_subboss_b.png",
+        "sheet": "subbosses/world_03_subboss_b_sheet.png"
+      }
+    ],
+    "boss": {
+      "base_png": "boss/world_03_boss_nebula_sintetica.png",
+      "phase_sheet": "boss/world_03_boss_nebula_sintetica_phases_sheet.png",
+      "open_core": "boss/world_03_boss_nebula_sintetica_open_core.png",
+      "death_sheet": "boss/world_03_boss_nebula_sintetica_death_sheet.png",
+      "relic_sheet": "boss/world_03_boss_nebula_sintetica_relic_sheet.png"
+    },
+    "projectiles": [
+      "projectiles/world_03_projectile_01_sheet.png",
+      "projectiles/world_03_projectile_02_sheet.png",
+      "projectiles/world_03_projectile_03_sheet.png",
+      "projectiles/world_03_projectile_04_sheet.png",
+      "projectiles/world_03_projectile_05_sheet.png"
+    ],
+    "powerups": [
+      "powerups/world_03_powerup_burst.png",
+      "powerups/world_03_powerup_laser.png",
+      "powerups/world_03_powerup_missile.png",
+      "powerups/world_03_powerup_shield.png",
+      "powerups/world_03_powerup_drone.png",
+      "powerups/world_03_powerup_emp.png",
+      "powerups/world_03_powerup_magnet.png",
+      "powerups/world_03_powerup_repair.png",
+      "powerups/world_03_powerup_overshield.png",
+      "powerups/world_03_powerup_multiplier.png"
+    ],
+    "obstacles": [
+      {
+        "source": "restos alienígenas orgánicos",
+        "asset": "obstacles/world_03_obstacle_01_restos_alienigenas_organicos.png"
+      },
+      {
+        "source": "espina flotante",
+        "asset": "obstacles/world_03_obstacle_02_espina_flotante.png"
+      },
+      {
+        "source": "cápsula biotecnológica",
+        "asset": "obstacles/world_03_obstacle_03_capsula_biotecnologica.png"
+      }
+    ],
+    "backgrounds": [
+      {
+        "type": "base",
+        "asset": "backgrounds/world_03_background_base.png"
+      },
+      {
+        "type": "intense",
+        "asset": "backgrounds/world_03_background_intense.png"
+      },
+      {
+        "type": "boss",
+        "asset": "backgrounds/world_03_background_boss.png"
+      }
+    ]
+  },
+  "waves": {
+    "screen_1": "new family base enemies",
+    "screen_2": "20% carryover + new specialist",
+    "screen_3": "higher density + subboss + inherited enemies",
+    "boss_screen": "boss phases and reward relic"
+  },
+  "mobile_readability": [
+    "silhouette-first",
+    "high contrast core",
+    "no micro-detail below 48px",
+    "transparent sprites"
+  ]
+}

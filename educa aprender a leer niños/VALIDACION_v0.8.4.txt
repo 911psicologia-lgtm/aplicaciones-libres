@@ -1,0 +1,44 @@
+EMILIA · EL BOSQUE DE LAS PALABRAS v0.8.4 — AUTOAUDITORÍA
+
+[OK] JavaScript verificado con node --check.
+[OK] Service Worker: 224 referencias, 0 faltantes.
+[OK] CSS balanceado: 1089 aperturas / 1089 cierres.
+[OK] 208 assets heredados: 0 modificados, 0 faltantes, 0 nuevos.
+[OK] Escenas ampliadas para incluir actores/objetos antes ausentes.
+[OK] El foco visual se calcula por coincidencia de palabras completas en la frase actual.
+
+story_vowels_park
+  página 1: A, E, I, O y U fueron al parque de diversiones. -> foco: escena neutra
+  página 2: A abrió la puerta. E entró primero. I invitó a O. U usó un aro. -> foco: escena neutra
+  página 3: Al final, las cinco vocales volvieron juntas. -> foco: escena neutra
+story_m_world
+  página 1: Mimi ama a mamá. -> foco: Mimi, mamá
+  página 2: Mamá mima a Mimi. -> foco: Mimi, mamá
+story_p_world
+  página 1: Papá ama a mamá. -> foco: mamá, papá
+  página 2: Mamá ama a papá. -> foco: mamá, papá
+story_s_world
+  página 1: Mamá amasa masa. -> foco: mamá, masa
+  página 2: Susi amasa. -> foco: Susi
+story_l_world
+  página 1: Lola usa la lupa. -> foco: Lola, lupa
+  página 2: Lola ama a mamá. -> foco: Lola
+story_n_world
+  página 1: Nana usa una lupa. -> foco: Nana, lupa
+  página 2: Nana ama la luna. -> foco: Nana, luna
+story_t_world
+  página 1: Tito toma sopa. -> foco: Tito, sopa
+  página 2: Tito salta. -> foco: Tito
+story_d_world
+  página 1: Tito da un dado a Nana. -> foco: Tito, Nana, dado
+  página 2: Nana toma el dado. -> foco: Nana, dado
+story_ntd
+  página 1: Tito nota el nido. -> foco: nido, Tito
+story_picnic
+  página 1: Mamá pone sopa. -> foco: mamá
+  página 2: Papá toma pan. -> foco: papá
+  página 3: Lola toma limonada. -> foco: Lola, limonada
+story_garden_first
+  página 1: Tito toma un mapa. -> foco: Tito, mapa
+  página 2: Lola nota una paloma. -> foco: Lola, paloma
+  página 3: La paloma pasa. -> foco: paloma

@@ -1,0 +1,22 @@
+SWARM//RIFT v2.15.7 AUTOAUDIT — 21/21 PASS
+- version_2157: PASS
+- save_keys_2157: PASS
+- migrate_2156: PASS
+- cache_2157: PASS
+- index_bust_2157: PASS
+- ch2_bust_2157: PASS
+- no_eager_ch2_src: PASS
+- stream_registry: PASS
+- stream_current_world: PASS
+- stream_boss_preboss: PASS
+- stream_boss_spawn: PASS
+- stream_rift_ally: PASS
+- stream_menu: PASS
+- stream_lite_rule: PASS
+- stream_recovery_rule: PASS
+- stream_stale_guard: PASS
+- feature_test: PASS
+- device_test: PASS
+- pwa_560_zero_missing: PASS
+- ch2_210_hash_match: PASS
+- http_smoke_13: PASS

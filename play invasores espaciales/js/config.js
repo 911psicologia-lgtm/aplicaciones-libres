@@ -3,7 +3,7 @@ window.SF.config = {
   SAVE_KEY: 'sf3_save',
   RANK_KEY: 'sf3_rank',
   SHIP_KEY: 'sf3_ship',
-  VERSION: '0.3.9.1',
+  VERSION: '0.4.8',
   ships: [
     { id: 'vanguard', name: 'Vanguard', unlock: 0, speed: 430, fireRate: 0.14, hp: 10, damage: 1, armor:1, hitbox:.92, powerDuration:1.15, magnet:1.18, color: '#7ee6ff', accent: '#ffc867', desc: 'Equilibrada · poderes +15% · buen magnetismo · 10 HP' },
     { id: 'warden', name: 'Warden', unlock: 2500, speed: 380, fireRate: 0.12, hp: 14, damage: 1.18, armor:.82, hitbox:1.02, powerDuration:.95, magnet:1, color: '#ff9375', accent: '#ffe08a', desc: 'Blindada · recibe 18% menos daño · golpe fuerte · 14 HP' },
@@ -21,11 +21,25 @@ window.SF.config = {
     drone: { label: 'DRON ALIADO', color: '#7fffd4', icon: 'drone' }
   },
   sectors: [
-    { name: 'Nebulosa Índigo', bg: ['#070b1a','#1e1b48','#422683'], fog: '#6f5cff' },
-    { name: 'Órbita Verde', bg: ['#07131a','#0d4654','#15a2a4'], fog: '#56f1bd' },
-    { name: 'Falla Carmesí', bg: ['#1a0907','#5e190d','#f95f2d'], fog: '#ff9557' },
-    { name: 'Anomalía Dorada', bg: ['#160f05','#54351d','#f8b44d'], fog: '#ffe07f' }
+    { name: 'Nebulosa Roja', bg: ['#16070c','#4b0d1c','#9a1733'], fog: '#ff4968' },
+    { name: 'Anillo de Titanio', bg: ['#07110c','#24321a','#5f6722'], fog: '#a8ff55' },
+    { name: 'Vacío Bioluminiscente', bg: ['#031019','#072f48','#155b7d'], fog: '#4ad8ff' },
+    { name: 'Cinturón Abisal', bg: ['#0b0615','#26104b','#562277'], fog: '#d260ff' },
+    { name: 'Sector Leviatán', bg: ['#02121b','#07384b','#0c6573'], fog: '#58e6ff' }
   ],
+
+  worldFamilies: {
+    enabled: true,
+    maxIntegratedWorld: 5,
+    // Integra la nueva familia sin destruir los assets originales de alta calidad.
+    currentRatioByWave: {1:.46,2:.58,3:.68,4:.62},
+    carryoverRatio: .20,
+    legacyRatioFloor: .18,
+    bossOverlayAlpha: .34,
+    subbossOverlayAlpha: .42,
+    backgroundOverlayAlpha: .22,
+    projectileSpriteAlpha: .82
+  },
   wave: {
     startCols: 10,
     startRows: 6,
@@ -48,9 +62,9 @@ window.SF.config = {
     spinRange: [0.4, 1.2]
   },
   progression: {
-    wavesPerSector: 5,
+    wavesPerSector: 4,
     miniBossWave: 3,
-    bossWave: 5,
+    bossWave: 4,
     extraLifeEvery: 9000,
     checkpointEveryWave: true,
     restartLives: 3,
@@ -58,11 +72,11 @@ window.SF.config = {
     maxLives: 6
   },
   responsive: {
-    mobilePortrait:   { maxWidth: 520,  cols: 9,  rows: 5, targetWidth: .82, enemyMin: 22, enemyMax: 34, gapX: 3, gapY: 4, playerH: 58 },
-    tabletPortrait:   { maxWidth: 900,  cols: 13, rows: 6, targetWidth: .90, enemyMin: 24, enemyMax: 42, gapX: 4, gapY: 5, playerH: 66 },
-    tabletLandscape:  { maxWidth: 1100, cols: 14, rows: 6, targetWidth: .86, enemyMin: 28, enemyMax: 48, gapX: 5, gapY: 5, playerH: 68 },
-    desktop:          { maxWidth: 1800, cols: 18, rows: 6, targetWidth: .80, enemyMin: 40, enemyMax: 62, gapX: 7, gapY: 6, playerH: 80 },
-    wideDesktop:      { maxWidth: 9999, cols: 20, rows: 6, targetWidth: .76, enemyMin: 42, enemyMax: 70, gapX: 8, gapY: 6, playerH: 86 }
+    mobilePortrait:   { maxWidth: 520,  cols: 10, rows: 5, targetWidth: .88, enemyMin: 22, enemyMax: 38, gapX: 2.5, gapY: 3.5, playerH: 60 },
+    tabletPortrait:   { maxWidth: 900,  cols: 13, rows: 6, targetWidth: .92, enemyMin: 24, enemyMax: 45, gapX: 4, gapY: 4.5, playerH: 68 },
+    tabletLandscape:  { maxWidth: 1100, cols: 15, rows: 6, targetWidth: .88, enemyMin: 28, enemyMax: 50, gapX: 4.5, gapY: 5, playerH: 70 },
+    desktop:          { maxWidth: 1800, cols: 18, rows: 6, targetWidth: .84, enemyMin: 40, enemyMax: 66, gapX: 6, gapY: 5.5, playerH: 82 },
+    wideDesktop:      { maxWidth: 9999, cols: 20, rows: 6, targetWidth: .80, enemyMin: 42, enemyMax: 74, gapX: 7, gapY: 5.5, playerH: 88 }
   },
   formation: {
     mobileSpeedMultiplier: .62,
@@ -89,6 +103,27 @@ window.SF.config = {
     waveClearBase: 220,
     perfectWaveBonus: 320,
     sectorClearBase: 1000
+  },
+  difficultyCurve: {
+    // Curva W01–05: inicia accesible, escala de forma visible y reserva la mayor presión para W04–05.
+    worlds: [
+      {hp:.90,speed:.92,fireCd:1.10,subbossHp:.90,bossHp:.90,bossFireCd:1.10,eliteChance:.72},
+      {hp:.98,speed:.98,fireCd:1.04,subbossHp:.98,bossHp:.98,bossFireCd:1.04,eliteChance:.88},
+      {hp:1.06,speed:1.03,fireCd:1.00,subbossHp:1.08,bossHp:1.08,bossFireCd:1.00,eliteChance:1.00},
+      {hp:1.14,speed:1.07,fireCd:.96,subbossHp:1.18,bossHp:1.18,bossFireCd:.95,eliteChance:1.12},
+      {hp:1.22,speed:1.11,fireCd:.92,subbossHp:1.28,bossHp:1.30,bossFireCd:.90,eliteChance:1.24}
+    ],
+    waves: {
+      1:{hp:.88,speed:.92,fireCd:1.12,eliteMul:.70},
+      2:{hp:1.00,speed:1.00,fireCd:1.03,eliteMul:1.00},
+      3:{hp:1.10,speed:1.05,fireCd:.96,eliteMul:1.15},
+      4:{hp:1.00,speed:1.00,fireCd:1.00,eliteMul:1.00}
+    },
+    mobileEnemyHpMul:.94,
+    mobileBossHpMul:.96,
+    mobileFireCdMul:1.06,
+    lowHpGraceFireCdMul:1.12,
+    lowHpGraceSpeedMul:.94
   },
   rewards: {
     mobileMagnetRadius: 120,

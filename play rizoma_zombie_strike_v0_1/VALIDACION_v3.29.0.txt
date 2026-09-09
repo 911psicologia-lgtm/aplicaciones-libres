@@ -1,0 +1,17 @@
+VALIDACIÓN v3.29.0
+
+- node --check js/game.js: OK
+- node --check sw.js: OK
+- versión JS / manifest / service worker: 3.29.0 OK
+- mundos: 20/20
+- curva explícita: 20/20 y HP boss monotónico OK
+- RIFT ALLY: desde M11, pool sólo de bosses anteriores derrotados, selección aleatoria, 10s, minibarra propia OK
+- Última Oportunidad: daño mortal interceptado, reloj real 5s, pantalla roja, carrito parpadeante, uso/compra manual OK
+- compra automática durante Última Oportunidad: NO
+- 6 ship_meta.json Rizoma válidos: OK
+- referencias explícitas de assets JS: 792
+- assets faltantes: 0
+- IDs HTML duplicados: 0
+- tabla CURVA_DIFICULTAD_v3.29.0.csv: 20 filas OK
+
+Nota de QA: se intentó realizar un smoke test headless Chromium en viewport desktop y móvil, pero el entorno de ejecución bloqueó por política administrativa la navegación tanto a localhost como a file://. Por ello no se afirma un smoke visual/browser real en esta entrega; la validación realizada es estática, sintáctica, estructural y de integridad de archivos.

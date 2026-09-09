@@ -1,0 +1,21 @@
+SWARM//RIFT v2.15.6 AUTOAUDIT — 17/17 PASS
+- version_2156: PASS
+- save_keys_2156: PASS
+- migration_2155: PASS
+- device_profiler: PASS
+- jank_telemetry: PASS
+- dynamic_resolution: PASS
+- micro_floor: PASS
+- micro_no_wave_kills: PASS
+- rift_ally: PASS
+- last_chance: PASS
+- worlds_20: PASS
+- cache_2156: PASS
+- index_bust_2156: PASS
+- status_hook: PASS
+- pwa_assets_all_present: PASS
+- ch2_present_hashes_ok: PASS
+- ch2_expected_omitted_masters: PASS
+- PWA refs: 560 / missing: 0
+- CH2 hashes: 210/210 verified / mismatches: 0
+- CH2 omitted production PNG masters: 20

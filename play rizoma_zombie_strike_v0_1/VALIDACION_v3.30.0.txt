@@ -1,0 +1,18 @@
+VALIDACIÓN RIZOMA ZOMBIE STRIKE v3.30.0
+- node --check js/game.js: OK
+- node --check sw.js: OK
+- manifest 3.30.0: OK
+- service worker 3.30.0: OK
+- curva M1-M20: OK
+- boss HP monotónico: OK
+- tractor progresivo: OK
+- recogidas manuales protegidas: OK
+- 8 reajustes tácticos: OK
+- Vida Extra Taller: OK
+- Bahía de reactivación: OK
+- RIFT ALLY preservado: OK
+- Última oportunidad preservada: OK
+- assets faltantes: OK
+- Referencias explícitas de assets: 799
+- Assets faltantes: 0
+- Chromium headless del entorno no completó un smoke visual dentro del tiempo disponible; no se declara prueba visual de navegador.

@@ -1,0 +1,4680 @@
+{
+ "project": "Starfall Frontier",
+ "version": "audio_pack_v1",
+ "format": "OGG Vorbis 44.1 kHz",
+ "total_files": 449,
+ "worlds": [
+  {
+   "world": 1,
+   "folder": "world_01",
+   "sector": "Nebulosa Roja",
+   "boss": "Xenomorfo Escarlata",
+   "family": "Xenomorfos carmines",
+   "boss_signature": "ACECHO ESCARLATA",
+   "can_revive": false
+  },
+  {
+   "world": 2,
+   "folder": "world_02",
+   "sector": "Anillo de Titanio",
+   "boss": "Yautja Prime",
+   "family": "Cazadores titan",
+   "boss_signature": "CACERIA PRIME",
+   "can_revive": false
+  },
+  {
+   "world": 3,
+   "folder": "world_03",
+   "sector": "Vacio Bioluminiscente",
+   "boss": "Nebula Sintetica",
+   "family": "Plankton sintetico",
+   "boss_signature": "CORO BIOLUMINISCENTE",
+   "can_revive": false
+  },
+  {
+   "world": 4,
+   "folder": "world_04",
+   "sector": "Cinturon Abisal",
+   "boss": "Arachnid Matriarca",
+   "family": "Aracnidos abisales",
+   "boss_signature": "TELARANA MATRIARCA",
+   "can_revive": false
+  },
+  {
+   "world": 5,
+   "folder": "world_05",
+   "sector": "Sector Leviatan",
+   "boss": "Leviathan Omega",
+   "family": "Colosos oceano",
+   "boss_signature": "MAREA OMEGA",
+   "can_revive": false
+  },
+  {
+   "world": 6,
+   "folder": "world_06",
+   "sector": "Fortaleza Carbon",
+   "boss": "Dreadnought Rex",
+   "family": "Blindados de asedio",
+   "boss_signature": "PROTOCOLO DE ASEDIO",
+   "can_revive": true
+  },
+  {
+   "world": 7,
+   "folder": "world_07",
+   "sector": "Cementerio Orbital",
+   "boss": "Necro Swarm",
+   "family": "Enjambres necro",
+   "boss_signature": "RITO NECRO",
+   "can_revive": false
+  },
+  {
+   "world": 8,
+   "folder": "world_08",
+   "sector": "Grieta Cristalina",
+   "boss": "Prism Warden",
+   "family": "Cristal imperio",
+   "boss_signature": "REFRACCION IMPERIAL",
+   "can_revive": false
+  },
+  {
+   "world": 9,
+   "folder": "world_09",
+   "sector": "Campo Magmatico",
+   "boss": "Molten Core Tyrant",
+   "family": "Tiranos de magma",
+   "boss_signature": "ERUPCION TIRANA",
+   "can_revive": false
+  },
+  {
+   "world": 10,
+   "folder": "world_10",
+   "sector": "Sombra Cuantica",
+   "boss": "Phantom Dominion",
+   "family": "Fantasmas cuanticos",
+   "boss_signature": "COLAPSO CUANTICO",
+   "can_revive": true
+  },
+  {
+   "world": 11,
+   "folder": "world_11",
+   "sector": "Marea Gravitatoria",
+   "boss": "Gravity Devourer",
+   "family": "Devoradores de marea",
+   "boss_signature": "HORIZONTE GRAVITICO",
+   "can_revive": false
+  },
+  {
+   "world": 12,
+   "folder": "world_12",
+   "sector": "Cupula de Ceniza",
+   "boss": "Ashen Overmind",
+   "family": "Mentes de ceniza",
+   "boss_signature": "CENIZA MENTAL",
+   "can_revive": false
+  },
+  {
+   "world": 13,
+   "folder": "world_13",
+   "sector": "Jardin Toxico",
+   "boss": "Spore Empress",
+   "family": "Flora esporica",
+   "boss_signature": "FLORACION TOXICA",
+   "can_revive": false
+  },
+  {
+   "world": 14,
+   "folder": "world_14",
+   "sector": "Ruinas del Imperio",
+   "boss": "Ancient Sentinel King",
+   "family": "Sentinelas antiguos",
+   "boss_signature": "DECRETO ANCESTRAL",
+   "can_revive": false
+  },
+  {
+   "world": 15,
+   "folder": "world_15",
+   "sector": "Talleres del Vacio",
+   "boss": "Mecha Brood Sovereign",
+   "family": "Cria mecanica",
+   "boss_signature": "FORJA SOBERANA",
+   "can_revive": true
+  },
+  {
+   "world": 16,
+   "folder": "world_16",
+   "sector": "Tormenta Ionica",
+   "boss": "Ion Archon",
+   "family": "Arcontes de ion",
+   "boss_signature": "TEMPESTAD ARCONTE",
+   "can_revive": false
+  },
+  {
+   "world": 17,
+   "folder": "world_17",
+   "sector": "Oceano de Antimateria",
+   "boss": "Abyssal Rift Queen",
+   "family": "Reinas de fisura",
+   "boss_signature": "MAREJADA ABISAL",
+   "can_revive": false
+  },
+  {
+   "world": 18,
+   "folder": "world_18",
+   "sector": "Pira Solar",
+   "boss": "Phoenix Singularity",
+   "family": "Fenix solares",
+   "boss_signature": "RENACER SOLAR",
+   "can_revive": true
+  },
+  {
+   "world": 19,
+   "folder": "world_19",
+   "sector": "Convergencia de Portales",
+   "boss": "Multiform Nexus",
+   "family": "Nexus multiforme",
+   "boss_signature": "CONVERGENCIA MULTIFORME",
+   "can_revive": false
+  },
+  {
+   "world": 20,
+   "folder": "world_20",
+   "sector": "Frontera Final",
+   "boss": "Starfall Overlord",
+   "family": "Señor de la caida",
+   "boss_signature": "STARFALL ABSOLUTO",
+   "can_revive": true
+  }
+ ],
+ "files": [
+  {
+   "path": "global/fx/fx_enemy_destroyed.ogg",
+   "category": "fx",
+   "world": null,
+   "loop": false,
+   "duration_target": "0.5s",
+   "duration_real": 0.5,
+   "usage": "enemigo destruido",
+   "sonic_identity": "pop brillante con dispersión"
+  },
+  {
+   "path": "global/fx/fx_explosion_boss.ogg",
+   "category": "fx",
+   "world": null,
+   "loop": false,
+   "duration_target": "2.8s",
+   "duration_real": 2.8,
+   "usage": "explosión de jefe",
+   "sonic_identity": "detonación colosal con cola profunda"
+  },
+  {
+   "path": "global/fx/fx_explosion_medium.ogg",
+   "category": "fx",
+   "world": null,
+   "loop": false,
+   "duration_target": "1.4s",
+   "duration_real": 1.4,
+   "usage": "explosión media",
+   "sonic_identity": "boom con cola de escombros"
+  },
+  {
+   "path": "global/fx/fx_explosion_small.ogg",
+   "category": "fx",
+   "world": null,
+   "loop": false,
+   "duration_target": "0.7s",
+   "duration_real": 0.7,
+   "usage": "explosión pequeña",
+   "sonic_identity": "crack y boom compacto"
+  },
+  {
+   "path": "global/fx/fx_hit_armored.ogg",
+   "category": "fx",
+   "world": null,
+   "loop": false,
+   "duration_target": "0.26s",
+   "duration_real": 0.26,
+   "usage": "impacto en blindaje",
+   "sonic_identity": "clang metálico denso"
+  },
+  {
+   "path": "global/fx/fx_hit_small.ogg",
+   "category": "fx",
+   "world": null,
+   "loop": false,
+   "duration_target": "0.12s",
+   "duration_real": 0.12,
+   "usage": "impacto ligero",
+   "sonic_identity": "tick con crunch breve"
+  },
+  {
+   "path": "global/fx/fx_subboss_destroyed.ogg",
+   "category": "fx",
+   "world": null,
+   "loop": false,
+   "duration_target": "2.0s",
+   "duration_real": 2.0,
+   "usage": "subjefe destruido",
+   "sonic_identity": "detonación amplia con chirrido de núcleo"
+  },
+  {
+   "path": "global/obstacles/obstacle_alien_wreck_hum.ogg",
+   "category": "obstacle",
+   "world": null,
+   "loop": true,
+   "duration_target": "4.5s loop",
+   "duration_real": 3.5,
+   "usage": "zumbido de naufragio alienígena",
+   "sonic_identity": "hum siniestro con chirridos lejanos"
+  },
+  {
+   "path": "global/obstacles/obstacle_debris_break.ogg",
+   "category": "obstacle",
+   "world": null,
+   "loop": false,
+   "duration_target": "0.8s",
+   "duration_real": 0.8,
+   "usage": "chatarra destruida",
+   "sonic_identity": "estallido metálico con revuelo"
+  },
+  {
+   "path": "global/obstacles/obstacle_debris_passby.ogg",
+   "category": "obstacle",
+   "world": null,
+   "loop": false,
+   "duration_target": "1.0s",
+   "duration_real": 1.0,
+   "usage": "chatarra pasa cerca",
+   "sonic_identity": "traqueteo metálico cruzando"
+  },
+  {
+   "path": "global/obstacles/obstacle_meteor_break.ogg",
+   "category": "obstacle",
+   "world": null,
+   "loop": false,
+   "duration_target": "0.95s",
+   "duration_real": 0.95,
+   "usage": "meteoro destruido",
+   "sonic_identity": "fractura de roca con derrumbe"
+  },
+  {
+   "path": "global/obstacles/obstacle_meteor_passby.ogg",
+   "category": "obstacle",
+   "world": null,
+   "loop": false,
+   "duration_target": "1.2s",
+   "duration_real": 1.2,
+   "usage": "meteoro pasa cerca",
+   "sonic_identity": "doppler grave de roca ardiente"
+  },
+  {
+   "path": "global/player/defense/player_shield_break.ogg",
+   "category": "player_defense",
+   "world": null,
+   "loop": false,
+   "duration_target": "0.85s",
+   "duration_real": 0.85,
+   "usage": "escudo destruido",
+   "sonic_identity": "estallido vítreo con caída grave"
+  },
+  {
+   "path": "global/player/defense/player_shield_hit.ogg",
+   "category": "player_defense",
+   "world": null,
+   "loop": false,
+   "duration_target": "0.28s",
+   "duration_real": 0.28,
+   "usage": "escudo recibe golpe",
+   "sonic_identity": "clang amortiguado con anillo de energía"
+  },
+  {
+   "path": "global/player/defense/player_shield_on.ogg",
+   "category": "player_defense",
+   "world": null,
+   "loop": false,
+   "duration_target": "0.5s",
+   "duration_real": 0.5,
+   "usage": "escudo activado",
+   "sonic_identity": "cierre de energía con destello"
+  },
+  {
+   "path": "global/player/movement/player_engine_loop_heavy.ogg",
+   "category": "player_movement",
+   "world": null,
+   "loop": true,
+   "duration_target": "4.0s loop",
+   "duration_real": 3.2,
+   "usage": "propulsión pesada en loop",
+   "sonic_identity": "rugido grave blindado con presión"
+  },
+  {
+   "path": "global/player/movement/player_engine_loop_light.ogg",
+   "category": "player_movement",
+   "world": null,
+   "loop": true,
+   "duration_target": "4.0s loop",
+   "duration_real": 3.2,
+   "usage": "propulsión ligera en loop",
+   "sonic_identity": "thrum aéreo estable, vuelo ágil"
+  },
+  {
+   "path": "global/player/powers/player_extra_life.ogg",
+   "category": "player_power",
+   "world": null,
+   "loop": false,
+   "duration_target": "1.0s",
+   "duration_real": 1.0,
+   "usage": "vida extra",
+   "sonic_identity": "triunfo ascendente con destellos"
+  },
+  {
+   "path": "global/player/powers/player_magnet_on.ogg",
+   "category": "player_power",
+   "world": null,
+   "loop": false,
+   "duration_target": "0.7s",
+   "duration_real": 0.7,
+   "usage": "imán activado",
+   "sonic_identity": "ascenso magnético con vaivén"
+  },
+  {
+   "path": "global/player/powers/player_multiplier_on.ogg",
+   "category": "player_power",
+   "world": null,
+   "loop": false,
+   "duration_target": "0.6s",
+   "duration_real": 0.6,
+   "usage": "multiplicador activado",
+   "sonic_identity": "arpegio rápido ascendente con remate"
+  },
+  {
+   "path": "global/player/powers/player_powerup_pickup.ogg",
+   "category": "player_power",
+   "world": null,
+   "loop": false,
+   "duration_target": "0.4s",
+   "duration_real": 0.4,
+   "usage": "recoger power-up",
+   "sonic_identity": "recocción brillante de dos notas"
+  },
+  {
+   "path": "global/player/powers/player_relic_attach.ogg",
+   "category": "player_power",
+   "world": null,
+   "loop": false,
+   "duration_target": "0.9s",
+   "duration_real": 0.9,
+   "usage": "reliquia adherida a la nave",
+   "sonic_identity": "acople cristalino con bloom resonante"
+  },
+  {
+   "path": "global/player/powers/player_repair_pickup.ogg",
+   "category": "player_power",
+   "world": null,
+   "loop": false,
+   "duration_target": "0.55s",
+   "duration_real": 0.55,
+   "usage": "reparación recogida",
+   "sonic_identity": "campana cálida de restauración"
+  },
+  {
+   "path": "global/player/weapons/player_emp_burst.ogg",
+   "category": "player_weapon",
+   "world": null,
+   "loop": false,
+   "duration_target": "1.1s",
+   "duration_real": 1.1,
+   "usage": "explosión EMP",
+   "sonic_identity": "pulso grave con crepitar eléctrico"
+  },
+  {
+   "path": "global/player/weapons/player_shot_basic.ogg",
+   "category": "player_weapon",
+   "world": null,
+   "loop": false,
+   "duration_target": "0.16s",
+   "duration_real": 0.16,
+   "usage": "disparo básico",
+   "sonic_identity": "zap limpio descendente, neón frío"
+  },
+  {
+   "path": "global/player/weapons/player_shot_drone.ogg",
+   "category": "player_weapon",
+   "world": null,
+   "loop": false,
+   "duration_target": "0.2s",
+   "duration_real": 0.2,
+   "usage": "disparo de dron aliado",
+   "sonic_identity": "blip doble suave, alegre"
+  },
+  {
+   "path": "global/player/weapons/player_shot_laser.ogg",
+   "category": "player_weapon",
+   "world": null,
+   "loop": false,
+   "duration_target": "0.45s",
+   "duration_real": 0.45,
+   "usage": "láser",
+   "sonic_identity": "haz anillado sostenido con chisporroteo"
+  },
+  {
+   "path": "global/player/weapons/player_shot_missile.ogg",
+   "category": "player_weapon",
+   "world": null,
+   "loop": false,
+   "duration_target": "0.9s",
+   "duration_real": 0.9,
+   "usage": "misil teledirigido",
+   "sonic_identity": "lanazmiento con silbido y rugido de aire"
+  },
+  {
+   "path": "global/player/weapons/player_shot_rapid.ogg",
+   "category": "player_weapon",
+   "world": null,
+   "loop": false,
+   "duration_target": "0.085s",
+   "duration_real": 0.085,
+   "usage": "disparo rápido",
+   "sonic_identity": "tick agudo seco, ráfaga"
+  },
+  {
+   "path": "global/stingers/stinger_amazing.ogg",
+   "category": "stinger",
+   "world": null,
+   "loop": false,
+   "duration_target": "1.8s",
+   "duration_real": 1.8,
+   "usage": "racha legendaria / combo enorme",
+   "sonic_identity": "riser épico con impacto luminoso"
+  },
+  {
+   "path": "global/stingers/stinger_bonus.ogg",
+   "category": "stinger",
+   "world": null,
+   "loop": false,
+   "duration_target": "1.0s",
+   "duration_real": 1.0,
+   "usage": "racha de bonus",
+   "sonic_identity": "cascada cromática ascendente"
+  },
+  {
+   "path": "global/stingers/stinger_boss_alert.ogg",
+   "category": "stinger",
+   "world": null,
+   "loop": false,
+   "duration_target": "1.6s",
+   "duration_real": 1.6,
+   "usage": "alerta de jefe",
+   "sonic_identity": "trompa amenazante con doble golpe y rumor"
+  },
+  {
+   "path": "global/stingers/stinger_powerup.ogg",
+   "category": "stinger",
+   "world": null,
+   "loop": false,
+   "duration_target": "1.0s",
+   "duration_real": 1.0,
+   "usage": "power-up activado",
+   "sonic_identity": "zap eléctrico con blip ascendente"
+  },
+  {
+   "path": "global/stingers/stinger_sector_clear.ogg",
+   "category": "stinger",
+   "world": null,
+   "loop": false,
+   "duration_target": "2.0s",
+   "duration_real": 2.0,
+   "usage": "sector completado",
+   "sonic_identity": "resolución luminosa con cola espacial"
+  },
+  {
+   "path": "global/ui/ui_back.ogg",
+   "category": "ui",
+   "world": null,
+   "loop": false,
+   "duration_target": "0.16s",
+   "duration_real": 0.16,
+   "usage": "volver atrás",
+   "sonic_identity": "blip doble descendente"
+  },
+  {
+   "path": "global/ui/ui_checkpoint.ogg",
+   "category": "ui",
+   "world": null,
+   "loop": false,
+   "duration_target": "0.8s",
+   "duration_real": 0.8,
+   "usage": "checkpoint alcanzado",
+   "sonic_identity": "campana de logro con destello"
+  },
+  {
+   "path": "global/ui/ui_click_confirm.ogg",
+   "category": "ui",
+   "world": null,
+   "loop": false,
+   "duration_target": "0.14s",
+   "duration_real": 0.14,
+   "usage": "confirmar acción",
+   "sonic_identity": "blip doble ascendente preciso"
+  },
+  {
+   "path": "global/ui/ui_game_over.ogg",
+   "category": "ui",
+   "world": null,
+   "loop": false,
+   "duration_target": "1.2s",
+   "duration_real": 1.2,
+   "usage": "derrota",
+   "sonic_identity": "motivo menor descendente con golpe grave"
+  },
+  {
+   "path": "global/ui/ui_hover.ogg",
+   "category": "ui",
+   "world": null,
+   "loop": false,
+   "duration_target": "0.08s",
+   "duration_real": 0.08,
+   "usage": "hover de botón",
+   "sonic_identity": "tick mínimo cristalino"
+  },
+  {
+   "path": "global/ui/ui_menu_open.ogg",
+   "category": "ui",
+   "world": null,
+   "loop": false,
+   "duration_target": "0.6s",
+   "duration_real": 0.6,
+   "usage": "abrir menú",
+   "sonic_identity": "sci-fi limpio, barrido ascendente etéreo"
+  },
+  {
+   "path": "global/ui/ui_pause.ogg",
+   "category": "ui",
+   "world": null,
+   "loop": false,
+   "duration_target": "0.28s",
+   "duration_real": 0.28,
+   "usage": "pausar partida",
+   "sonic_identity": "doble pulso grave suave"
+  },
+  {
+   "path": "global/ui/ui_resume.ogg",
+   "category": "ui",
+   "world": null,
+   "loop": false,
+   "duration_target": "0.28s",
+   "duration_real": 0.28,
+   "usage": "reanudar partida",
+   "sonic_identity": "doble barrido ascendente"
+  },
+  {
+   "path": "global/ui/ui_victory.ogg",
+   "category": "ui",
+   "world": null,
+   "loop": false,
+   "duration_target": "1.2s",
+   "duration_real": 1.2,
+   "usage": "victoria",
+   "sonic_identity": "fanfarria de arpegio mayor brillante"
+  },
+  {
+   "path": "global/ui/ui_warning_low_health.ogg",
+   "category": "ui",
+   "world": null,
+   "loop": false,
+   "duration_target": "0.7s",
+   "duration_real": 0.7,
+   "usage": "alarma de vida baja",
+   "sonic_identity": "alarma triple urgente"
+  },
+  {
+   "path": "world_01/ambience/world_01_ambience_loop.ogg",
+   "category": "ambience",
+   "world": 1,
+   "loop": true,
+   "duration_target": "33s loop",
+   "duration_real": 31.492,
+   "usage": "atmósfera continua del sector",
+   "sonic_identity": "Organico acechante: sub-pulsos cardiacos, hiss acido, chirridos carmines"
+  },
+  {
+   "path": "world_01/boss/world_01_boss_attack_control.ogg",
+   "category": "boss",
+   "world": 1,
+   "loop": false,
+   "duration_target": "1.33s",
+   "duration_real": 1.325,
+   "usage": "campo de control/invocación",
+   "sonic_identity": "Xenomorfo Escarlata — Organico acechante: sub-pulsos cardiacos, hiss acido, chirridos carmines"
+  },
+  {
+   "path": "world_01/boss/world_01_boss_attack_primary.ogg",
+   "category": "boss",
+   "world": 1,
+   "loop": false,
+   "duration_target": "1.20s",
+   "duration_real": 1.2,
+   "usage": "ataque firma del jefe",
+   "sonic_identity": "Xenomorfo Escarlata — Organico acechante: sub-pulsos cardiacos, hiss acido, chirridos carmines"
+  },
+  {
+   "path": "world_01/boss/world_01_boss_attack_secondary.ogg",
+   "category": "boss",
+   "world": 1,
+   "loop": false,
+   "duration_target": "1.26s",
+   "duration_real": 1.257,
+   "usage": "ataque de área en abanico",
+   "sonic_identity": "Xenomorfo Escarlata — Organico acechante: sub-pulsos cardiacos, hiss acido, chirridos carmines"
+  },
+  {
+   "path": "world_01/boss/world_01_boss_death.ogg",
+   "category": "boss",
+   "world": 1,
+   "loop": false,
+   "duration_target": "5.00s",
+   "duration_real": 5.002,
+   "usage": "jefe derrotado, colapso en varias etapas",
+   "sonic_identity": "Xenomorfo Escarlata — Organico acechante: sub-pulsos cardiacos, hiss acido, chirridos carmines"
+  },
+  {
+   "path": "world_01/boss/world_01_boss_intro.ogg",
+   "category": "boss",
+   "world": 1,
+   "loop": false,
+   "duration_target": "2.88s",
+   "duration_real": 2.884,
+   "usage": "llegada del jefe con motivo propio",
+   "sonic_identity": "Xenomorfo Escarlata — Organico acechante: sub-pulsos cardiacos, hiss acido, chirridos carmines"
+  },
+  {
+   "path": "world_01/boss/world_01_boss_phase_shift.ogg",
+   "category": "boss",
+   "world": 1,
+   "loop": false,
+   "duration_target": "2.29s",
+   "duration_real": 2.291,
+   "usage": "cambio de fase del jefe",
+   "sonic_identity": "Xenomorfo Escarlata — Organico acechante: sub-pulsos cardiacos, hiss acido, chirridos carmines"
+  },
+  {
+   "path": "world_01/minions/world_01_minion_hunter_attack.ogg",
+   "category": "minion",
+   "world": 1,
+   "loop": false,
+   "duration_target": "0.75s",
+   "duration_real": 0.748,
+   "usage": "cazador embiste en zigzag",
+   "sonic_identity": "Organico acechante: sub-pulsos cardiacos, hiss acido, chirridos carmines"
+  },
+  {
+   "path": "world_01/minions/world_01_minion_phantom_attack.ogg",
+   "category": "minion",
+   "world": 1,
+   "loop": false,
+   "duration_target": "0.84s",
+   "duration_real": 0.844,
+   "usage": "fantasma se desfasea/camufla",
+   "sonic_identity": "Organico acechante: sub-pulsos cardiacos, hiss acido, chirridos carmines"
+  },
+  {
+   "path": "world_01/minions/world_01_minion_sentinel_attack.ogg",
+   "category": "minion",
+   "world": 1,
+   "loop": false,
+   "duration_target": "0.79s",
+   "duration_real": 0.793,
+   "usage": "centinela activa escudo",
+   "sonic_identity": "Organico acechante: sub-pulsos cardiacos, hiss acido, chirridos carmines"
+  },
+  {
+   "path": "world_01/minions/world_01_minion_spitter_attack.ogg",
+   "category": "minion",
+   "world": 1,
+   "loop": false,
+   "duration_target": "0.42s",
+   "duration_real": 0.421,
+   "usage": "escupidor lanza plasma/baba",
+   "sonic_identity": "Organico acechante: sub-pulsos cardiacos, hiss acido, chirridos carmines"
+  },
+  {
+   "path": "world_01/minions/world_01_minion_stinger_attack.ogg",
+   "category": "minion",
+   "world": 1,
+   "loop": false,
+   "duration_target": "0.44s",
+   "duration_real": 0.443,
+   "usage": "aguijón carga y dispara",
+   "sonic_identity": "Organico acechante: sub-pulsos cardiacos, hiss acido, chirridos carmines"
+  },
+  {
+   "path": "world_01/minions/world_01_minion_swarmer_attack.ogg",
+   "category": "minion",
+   "world": 1,
+   "loop": false,
+   "duration_target": "0.40s",
+   "duration_real": 0.405,
+   "usage": "enjambre rápido ataca",
+   "sonic_identity": "Organico acechante: sub-pulsos cardiacos, hiss acido, chirridos carmines"
+  },
+  {
+   "path": "world_01/relic/world_01_relic_release.ogg",
+   "category": "relic",
+   "world": 1,
+   "loop": false,
+   "duration_target": "2.52s",
+   "duration_real": 2.52,
+   "usage": "reliquia sale del jefe y se transfiere a la nave",
+   "sonic_identity": "Organico acechante: sub-pulsos cardiacos, hiss acido, chirridos carmines"
+  },
+  {
+   "path": "world_01/subboss_a/world_01_subboss_a_attack.ogg",
+   "category": "subboss_a",
+   "world": 1,
+   "loop": false,
+   "duration_target": "1.10s",
+   "duration_real": 1.102,
+   "usage": "abanico/ráfaga radial del subjefe A",
+   "sonic_identity": "Organico acechante: sub-pulsos cardiacos, hiss acido, chirridos carmines"
+  },
+  {
+   "path": "world_01/subboss_a/world_01_subboss_a_death.ogg",
+   "category": "subboss_a",
+   "world": 1,
+   "loop": false,
+   "duration_target": "2.65s",
+   "duration_real": 2.651,
+   "usage": "subjefe A destruido",
+   "sonic_identity": "Organico acechante: sub-pulsos cardiacos, hiss acido, chirridos carmines"
+  },
+  {
+   "path": "world_01/subboss_a/world_01_subboss_a_intro.ogg",
+   "category": "subboss_a",
+   "world": 1,
+   "loop": false,
+   "duration_target": "1.97s",
+   "duration_real": 1.972,
+   "usage": "aparece el subjefe ofensivo",
+   "sonic_identity": "Organico acechante: sub-pulsos cardiacos, hiss acido, chirridos carmines"
+  },
+  {
+   "path": "world_01/subboss_b/world_01_subboss_b_attack.ogg",
+   "category": "subboss_b",
+   "world": 1,
+   "loop": false,
+   "duration_target": "1.03s",
+   "duration_real": 1.033,
+   "usage": "invocación/buscadores del subjefe B",
+   "sonic_identity": "Organico acechante: sub-pulsos cardiacos, hiss acido, chirridos carmines"
+  },
+  {
+   "path": "world_01/subboss_b/world_01_subboss_b_death.ogg",
+   "category": "subboss_b",
+   "world": 1,
+   "loop": false,
+   "duration_target": "2.85s",
+   "duration_real": 2.851,
+   "usage": "subjefe B destruido (implosión)",
+   "sonic_identity": "Organico acechante: sub-pulsos cardiacos, hiss acido, chirridos carmines"
+  },
+  {
+   "path": "world_01/subboss_b/world_01_subboss_b_intro.ogg",
+   "category": "subboss_b",
+   "world": 1,
+   "loop": false,
+   "duration_target": "1.72s",
+   "duration_real": 1.725,
+   "usage": "aparece el subjefe táctico",
+   "sonic_identity": "Organico acechante: sub-pulsos cardiacos, hiss acido, chirridos carmines"
+  },
+  {
+   "path": "world_02/ambience/world_02_ambience_loop.ogg",
+   "category": "ambience",
+   "world": 2,
+   "loop": true,
+   "duration_target": "30s loop",
+   "duration_real": 28.159,
+   "usage": "atmósfera continua del sector",
+   "sonic_identity": "Caza tecnologica: clicks de camuflaje, sonar, trinos de vision termica"
+  },
+  {
+   "path": "world_02/boss/world_02_boss_attack_control.ogg",
+   "category": "boss",
+   "world": 2,
+   "loop": false,
+   "duration_target": "1.64s",
+   "duration_real": 1.642,
+   "usage": "campo de control/invocación",
+   "sonic_identity": "Yautja Prime — Caza tecnologica: clicks de camuflaje, sonar, trinos de vision termica"
+  },
+  {
+   "path": "world_02/boss/world_02_boss_attack_primary.ogg",
+   "category": "boss",
+   "world": 2,
+   "loop": false,
+   "duration_target": "1.10s",
+   "duration_real": 1.1,
+   "usage": "ataque firma del jefe",
+   "sonic_identity": "Yautja Prime — Caza tecnologica: clicks de camuflaje, sonar, trinos de vision termica"
+  },
+  {
+   "path": "world_02/boss/world_02_boss_attack_secondary.ogg",
+   "category": "boss",
+   "world": 2,
+   "loop": false,
+   "duration_target": "1.24s",
+   "duration_real": 1.24,
+   "usage": "ataque de área en abanico",
+   "sonic_identity": "Yautja Prime — Caza tecnologica: clicks de camuflaje, sonar, trinos de vision termica"
+  },
+  {
+   "path": "world_02/boss/world_02_boss_death.ogg",
+   "category": "boss",
+   "world": 2,
+   "loop": false,
+   "duration_target": "5.36s",
+   "duration_real": 5.358,
+   "usage": "jefe derrotado, colapso en varias etapas",
+   "sonic_identity": "Yautja Prime — Caza tecnologica: clicks de camuflaje, sonar, trinos de vision termica"
+  },
+  {
+   "path": "world_02/boss/world_02_boss_intro.ogg",
+   "category": "boss",
+   "world": 2,
+   "loop": false,
+   "duration_target": "3.29s",
+   "duration_real": 3.287,
+   "usage": "llegada del jefe con motivo propio",
+   "sonic_identity": "Yautja Prime — Caza tecnologica: clicks de camuflaje, sonar, trinos de vision termica"
+  },
+  {
+   "path": "world_02/boss/world_02_boss_phase_shift.ogg",
+   "category": "boss",
+   "world": 2,
+   "loop": false,
+   "duration_target": "2.02s",
+   "duration_real": 2.024,
+   "usage": "cambio de fase del jefe",
+   "sonic_identity": "Yautja Prime — Caza tecnologica: clicks de camuflaje, sonar, trinos de vision termica"
+  },
+  {
+   "path": "world_02/minions/world_02_minion_hunter_attack.ogg",
+   "category": "minion",
+   "world": 2,
+   "loop": false,
+   "duration_target": "0.77s",
+   "duration_real": 0.766,
+   "usage": "cazador embiste en zigzag",
+   "sonic_identity": "Caza tecnologica: clicks de camuflaje, sonar, trinos de vision termica"
+  },
+  {
+   "path": "world_02/minions/world_02_minion_phantom_attack.ogg",
+   "category": "minion",
+   "world": 2,
+   "loop": false,
+   "duration_target": "0.88s",
+   "duration_real": 0.88,
+   "usage": "fantasma se desfasea/camufla",
+   "sonic_identity": "Caza tecnologica: clicks de camuflaje, sonar, trinos de vision termica"
+  },
+  {
+   "path": "world_02/minions/world_02_minion_sentinel_attack.ogg",
+   "category": "minion",
+   "world": 2,
+   "loop": false,
+   "duration_target": "0.77s",
+   "duration_real": 0.768,
+   "usage": "centinela activa escudo",
+   "sonic_identity": "Caza tecnologica: clicks de camuflaje, sonar, trinos de vision termica"
+  },
+  {
+   "path": "world_02/minions/world_02_minion_spitter_attack.ogg",
+   "category": "minion",
+   "world": 2,
+   "loop": false,
+   "duration_target": "0.51s",
+   "duration_real": 0.514,
+   "usage": "escupidor lanza plasma/baba",
+   "sonic_identity": "Caza tecnologica: clicks de camuflaje, sonar, trinos de vision termica"
+  },
+  {
+   "path": "world_02/minions/world_02_minion_stinger_attack.ogg",
+   "category": "minion",
+   "world": 2,
+   "loop": false,
+   "duration_target": "0.44s",
+   "duration_real": 0.445,
+   "usage": "aguijón carga y dispara",
+   "sonic_identity": "Caza tecnologica: clicks de camuflaje, sonar, trinos de vision termica"
+  },
+  {
+   "path": "world_02/minions/world_02_minion_swarmer_attack.ogg",
+   "category": "minion",
+   "world": 2,
+   "loop": false,
+   "duration_target": "0.37s",
+   "duration_real": 0.367,
+   "usage": "enjambre rápido ataca",
+   "sonic_identity": "Caza tecnologica: clicks de camuflaje, sonar, trinos de vision termica"
+  },
+  {
+   "path": "world_02/relic/world_02_relic_release.ogg",
+   "category": "relic",
+   "world": 2,
+   "loop": false,
+   "duration_target": "2.24s",
+   "duration_real": 2.242,
+   "usage": "reliquia sale del jefe y se transfiere a la nave",
+   "sonic_identity": "Caza tecnologica: clicks de camuflaje, sonar, trinos de vision termica"
+  },
+  {
+   "path": "world_02/subboss_a/world_02_subboss_a_attack.ogg",
+   "category": "subboss_a",
+   "world": 2,
+   "loop": false,
+   "duration_target": "1.08s",
+   "duration_real": 1.078,
+   "usage": "abanico/ráfaga radial del subjefe A",
+   "sonic_identity": "Caza tecnologica: clicks de camuflaje, sonar, trinos de vision termica"
+  },
+  {
+   "path": "world_02/subboss_a/world_02_subboss_a_death.ogg",
+   "category": "subboss_a",
+   "world": 2,
+   "loop": false,
+   "duration_target": "3.13s",
+   "duration_real": 3.13,
+   "usage": "subjefe A destruido",
+   "sonic_identity": "Caza tecnologica: clicks de camuflaje, sonar, trinos de vision termica"
+  },
+  {
+   "path": "world_02/subboss_a/world_02_subboss_a_intro.ogg",
+   "category": "subboss_a",
+   "world": 2,
+   "loop": false,
+   "duration_target": "1.77s",
+   "duration_real": 1.773,
+   "usage": "aparece el subjefe ofensivo",
+   "sonic_identity": "Caza tecnologica: clicks de camuflaje, sonar, trinos de vision termica"
+  },
+  {
+   "path": "world_02/subboss_b/world_02_subboss_b_attack.ogg",
+   "category": "subboss_b",
+   "world": 2,
+   "loop": false,
+   "duration_target": "1.10s",
+   "duration_real": 1.096,
+   "usage": "invocación/buscadores del subjefe B",
+   "sonic_identity": "Caza tecnologica: clicks de camuflaje, sonar, trinos de vision termica"
+  },
+  {
+   "path": "world_02/subboss_b/world_02_subboss_b_death.ogg",
+   "category": "subboss_b",
+   "world": 2,
+   "loop": false,
+   "duration_target": "3.09s",
+   "duration_real": 3.087,
+   "usage": "subjefe B destruido (implosión)",
+   "sonic_identity": "Caza tecnologica: clicks de camuflaje, sonar, trinos de vision termica"
+  },
+  {
+   "path": "world_02/subboss_b/world_02_subboss_b_intro.ogg",
+   "category": "subboss_b",
+   "world": 2,
+   "loop": false,
+   "duration_target": "2.30s",
+   "duration_real": 2.298,
+   "usage": "aparece el subjefe táctico",
+   "sonic_identity": "Caza tecnologica: clicks de camuflaje, sonar, trinos de vision termica"
+  },
+  {
+   "path": "world_03/ambience/world_03_ambience_loop.ogg",
+   "category": "ambience",
+   "world": 3,
+   "loop": true,
+   "duration_target": "34s loop",
+   "duration_real": 32.873,
+   "usage": "atmósfera continua del sector",
+   "sonic_identity": "Coros luminosos: campanas de FM, coro sintetico, destellos planctonicos"
+  },
+  {
+   "path": "world_03/boss/world_03_boss_attack_control.ogg",
+   "category": "boss",
+   "world": 3,
+   "loop": false,
+   "duration_target": "1.39s",
+   "duration_real": 1.389,
+   "usage": "campo de control/invocación",
+   "sonic_identity": "Nebula Sintetica — Coros luminosos: campanas de FM, coro sintetico, destellos planctonicos"
+  },
+  {
+   "path": "world_03/boss/world_03_boss_attack_primary.ogg",
+   "category": "boss",
+   "world": 3,
+   "loop": false,
+   "duration_target": "1.60s",
+   "duration_real": 1.6,
+   "usage": "ataque firma del jefe",
+   "sonic_identity": "Nebula Sintetica — Coros luminosos: campanas de FM, coro sintetico, destellos planctonicos"
+  },
+  {
+   "path": "world_03/boss/world_03_boss_attack_secondary.ogg",
+   "category": "boss",
+   "world": 3,
+   "loop": false,
+   "duration_target": "1.48s",
+   "duration_real": 1.479,
+   "usage": "ataque de área en abanico",
+   "sonic_identity": "Nebula Sintetica — Coros luminosos: campanas de FM, coro sintetico, destellos planctonicos"
+  },
+  {
+   "path": "world_03/boss/world_03_boss_death.ogg",
+   "category": "boss",
+   "world": 3,
+   "loop": false,
+   "duration_target": "4.85s",
+   "duration_real": 4.85,
+   "usage": "jefe derrotado, colapso en varias etapas",
+   "sonic_identity": "Nebula Sintetica — Coros luminosos: campanas de FM, coro sintetico, destellos planctonicos"
+  },
+  {
+   "path": "world_03/boss/world_03_boss_intro.ogg",
+   "category": "boss",
+   "world": 3,
+   "loop": false,
+   "duration_target": "3.07s",
+   "duration_real": 3.072,
+   "usage": "llegada del jefe con motivo propio",
+   "sonic_identity": "Nebula Sintetica — Coros luminosos: campanas de FM, coro sintetico, destellos planctonicos"
+  },
+  {
+   "path": "world_03/boss/world_03_boss_phase_shift.ogg",
+   "category": "boss",
+   "world": 3,
+   "loop": false,
+   "duration_target": "2.00s",
+   "duration_real": 2.005,
+   "usage": "cambio de fase del jefe",
+   "sonic_identity": "Nebula Sintetica — Coros luminosos: campanas de FM, coro sintetico, destellos planctonicos"
+  },
+  {
+   "path": "world_03/minions/world_03_minion_hunter_attack.ogg",
+   "category": "minion",
+   "world": 3,
+   "loop": false,
+   "duration_target": "0.72s",
+   "duration_real": 0.723,
+   "usage": "cazador embiste en zigzag",
+   "sonic_identity": "Coros luminosos: campanas de FM, coro sintetico, destellos planctonicos"
+  },
+  {
+   "path": "world_03/minions/world_03_minion_phantom_attack.ogg",
+   "category": "minion",
+   "world": 3,
+   "loop": false,
+   "duration_target": "0.89s",
+   "duration_real": 0.891,
+   "usage": "fantasma se desfasea/camufla",
+   "sonic_identity": "Coros luminosos: campanas de FM, coro sintetico, destellos planctonicos"
+  },
+  {
+   "path": "world_03/minions/world_03_minion_sentinel_attack.ogg",
+   "category": "minion",
+   "world": 3,
+   "loop": false,
+   "duration_target": "0.73s",
+   "duration_real": 0.727,
+   "usage": "centinela activa escudo",
+   "sonic_identity": "Coros luminosos: campanas de FM, coro sintetico, destellos planctonicos"
+  },
+  {
+   "path": "world_03/minions/world_03_minion_spitter_attack.ogg",
+   "category": "minion",
+   "world": 3,
+   "loop": false,
+   "duration_target": "0.48s",
+   "duration_real": 0.484,
+   "usage": "escupidor lanza plasma/baba",
+   "sonic_identity": "Coros luminosos: campanas de FM, coro sintetico, destellos planctonicos"
+  },
+  {
+   "path": "world_03/minions/world_03_minion_stinger_attack.ogg",
+   "category": "minion",
+   "world": 3,
+   "loop": false,
+   "duration_target": "0.55s",
+   "duration_real": 0.553,
+   "usage": "aguijón carga y dispara",
+   "sonic_identity": "Coros luminosos: campanas de FM, coro sintetico, destellos planctonicos"
+  },
+  {
+   "path": "world_03/minions/world_03_minion_swarmer_attack.ogg",
+   "category": "minion",
+   "world": 3,
+   "loop": false,
+   "duration_target": "0.38s",
+   "duration_real": 0.378,
+   "usage": "enjambre rápido ataca",
+   "sonic_identity": "Coros luminosos: campanas de FM, coro sintetico, destellos planctonicos"
+  },
+  {
+   "path": "world_03/relic/world_03_relic_release.ogg",
+   "category": "relic",
+   "world": 3,
+   "loop": false,
+   "duration_target": "3.12s",
+   "duration_real": 3.115,
+   "usage": "reliquia sale del jefe y se transfiere a la nave",
+   "sonic_identity": "Coros luminosos: campanas de FM, coro sintetico, destellos planctonicos"
+  },
+  {
+   "path": "world_03/subboss_a/world_03_subboss_a_attack.ogg",
+   "category": "subboss_a",
+   "world": 3,
+   "loop": false,
+   "duration_target": "0.96s",
+   "duration_real": 0.962,
+   "usage": "abanico/ráfaga radial del subjefe A",
+   "sonic_identity": "Coros luminosos: campanas de FM, coro sintetico, destellos planctonicos"
+  },
+  {
+   "path": "world_03/subboss_a/world_03_subboss_a_death.ogg",
+   "category": "subboss_a",
+   "world": 3,
+   "loop": false,
+   "duration_target": "3.36s",
+   "duration_real": 3.362,
+   "usage": "subjefe A destruido",
+   "sonic_identity": "Coros luminosos: campanas de FM, coro sintetico, destellos planctonicos"
+  },
+  {
+   "path": "world_03/subboss_a/world_03_subboss_a_intro.ogg",
+   "category": "subboss_a",
+   "world": 3,
+   "loop": false,
+   "duration_target": "1.67s",
+   "duration_real": 1.672,
+   "usage": "aparece el subjefe ofensivo",
+   "sonic_identity": "Coros luminosos: campanas de FM, coro sintetico, destellos planctonicos"
+  },
+  {
+   "path": "world_03/subboss_b/world_03_subboss_b_attack.ogg",
+   "category": "subboss_b",
+   "world": 3,
+   "loop": false,
+   "duration_target": "1.16s",
+   "duration_real": 1.155,
+   "usage": "invocación/buscadores del subjefe B",
+   "sonic_identity": "Coros luminosos: campanas de FM, coro sintetico, destellos planctonicos"
+  },
+  {
+   "path": "world_03/subboss_b/world_03_subboss_b_death.ogg",
+   "category": "subboss_b",
+   "world": 3,
+   "loop": false,
+   "duration_target": "2.84s",
+   "duration_real": 2.839,
+   "usage": "subjefe B destruido (implosión)",
+   "sonic_identity": "Coros luminosos: campanas de FM, coro sintetico, destellos planctonicos"
+  },
+  {
+   "path": "world_03/subboss_b/world_03_subboss_b_intro.ogg",
+   "category": "subboss_b",
+   "world": 3,
+   "loop": false,
+   "duration_target": "2.13s",
+   "duration_real": 2.13,
+   "usage": "aparece el subjefe táctico",
+   "sonic_identity": "Coros luminosos: campanas de FM, coro sintetico, destellos planctonicos"
+  },
+  {
+   "path": "world_04/ambience/world_04_ambience_loop.ogg",
+   "category": "ambience",
+   "world": 4,
+   "loop": true,
+   "duration_target": "35s loop",
+   "duration_real": 33.587,
+   "usage": "atmósfera continua del sector",
+   "sonic_identity": "Aracnido abisal: clicks de queliceros, tension de telarana, presion violeta"
+  },
+  {
+   "path": "world_04/boss/world_04_boss_attack_control.ogg",
+   "category": "boss",
+   "world": 4,
+   "loop": false,
+   "duration_target": "1.44s",
+   "duration_real": 1.438,
+   "usage": "campo de control/invocación",
+   "sonic_identity": "Arachnid Matriarca — Aracnido abisal: clicks de queliceros, tension de telarana, presion violeta"
+  },
+  {
+   "path": "world_04/boss/world_04_boss_attack_primary.ogg",
+   "category": "boss",
+   "world": 4,
+   "loop": false,
+   "duration_target": "1.30s",
+   "duration_real": 1.3,
+   "usage": "ataque firma del jefe",
+   "sonic_identity": "Arachnid Matriarca — Aracnido abisal: clicks de queliceros, tension de telarana, presion violeta"
+  },
+  {
+   "path": "world_04/boss/world_04_boss_attack_secondary.ogg",
+   "category": "boss",
+   "world": 4,
+   "loop": false,
+   "duration_target": "1.57s",
+   "duration_real": 1.573,
+   "usage": "ataque de área en abanico",
+   "sonic_identity": "Arachnid Matriarca — Aracnido abisal: clicks de queliceros, tension de telarana, presion violeta"
+  },
+  {
+   "path": "world_04/boss/world_04_boss_death.ogg",
+   "category": "boss",
+   "world": 4,
+   "loop": false,
+   "duration_target": "4.47s",
+   "duration_real": 4.467,
+   "usage": "jefe derrotado, colapso en varias etapas",
+   "sonic_identity": "Arachnid Matriarca — Aracnido abisal: clicks de queliceros, tension de telarana, presion violeta"
+  },
+  {
+   "path": "world_04/boss/world_04_boss_intro.ogg",
+   "category": "boss",
+   "world": 4,
+   "loop": false,
+   "duration_target": "3.31s",
+   "duration_real": 3.315,
+   "usage": "llegada del jefe con motivo propio",
+   "sonic_identity": "Arachnid Matriarca — Aracnido abisal: clicks de queliceros, tension de telarana, presion violeta"
+  },
+  {
+   "path": "world_04/boss/world_04_boss_phase_shift.ogg",
+   "category": "boss",
+   "world": 4,
+   "loop": false,
+   "duration_target": "2.00s",
+   "duration_real": 2.004,
+   "usage": "cambio de fase del jefe",
+   "sonic_identity": "Arachnid Matriarca — Aracnido abisal: clicks de queliceros, tension de telarana, presion violeta"
+  },
+  {
+   "path": "world_04/minions/world_04_minion_hunter_attack.ogg",
+   "category": "minion",
+   "world": 4,
+   "loop": false,
+   "duration_target": "0.68s",
+   "duration_real": 0.678,
+   "usage": "cazador embiste en zigzag",
+   "sonic_identity": "Aracnido abisal: clicks de queliceros, tension de telarana, presion violeta"
+  },
+  {
+   "path": "world_04/minions/world_04_minion_phantom_attack.ogg",
+   "category": "minion",
+   "world": 4,
+   "loop": false,
+   "duration_target": "0.77s",
+   "duration_real": 0.775,
+   "usage": "fantasma se desfasea/camufla",
+   "sonic_identity": "Aracnido abisal: clicks de queliceros, tension de telarana, presion violeta"
+  },
+  {
+   "path": "world_04/minions/world_04_minion_sentinel_attack.ogg",
+   "category": "minion",
+   "world": 4,
+   "loop": false,
+   "duration_target": "0.62s",
+   "duration_real": 0.621,
+   "usage": "centinela activa escudo",
+   "sonic_identity": "Aracnido abisal: clicks de queliceros, tension de telarana, presion violeta"
+  },
+  {
+   "path": "world_04/minions/world_04_minion_spitter_attack.ogg",
+   "category": "minion",
+   "world": 4,
+   "loop": false,
+   "duration_target": "0.61s",
+   "duration_real": 0.606,
+   "usage": "escupidor lanza plasma/baba",
+   "sonic_identity": "Aracnido abisal: clicks de queliceros, tension de telarana, presion violeta"
+  },
+  {
+   "path": "world_04/minions/world_04_minion_stinger_attack.ogg",
+   "category": "minion",
+   "world": 4,
+   "loop": false,
+   "duration_target": "0.44s",
+   "duration_real": 0.439,
+   "usage": "aguijón carga y dispara",
+   "sonic_identity": "Aracnido abisal: clicks de queliceros, tension de telarana, presion violeta"
+  },
+  {
+   "path": "world_04/minions/world_04_minion_swarmer_attack.ogg",
+   "category": "minion",
+   "world": 4,
+   "loop": false,
+   "duration_target": "0.43s",
+   "duration_real": 0.428,
+   "usage": "enjambre rápido ataca",
+   "sonic_identity": "Aracnido abisal: clicks de queliceros, tension de telarana, presion violeta"
+  },
+  {
+   "path": "world_04/relic/world_04_relic_release.ogg",
+   "category": "relic",
+   "world": 4,
+   "loop": false,
+   "duration_target": "2.89s",
+   "duration_real": 2.89,
+   "usage": "reliquia sale del jefe y se transfiere a la nave",
+   "sonic_identity": "Aracnido abisal: clicks de queliceros, tension de telarana, presion violeta"
+  },
+  {
+   "path": "world_04/subboss_a/world_04_subboss_a_attack.ogg",
+   "category": "subboss_a",
+   "world": 4,
+   "loop": false,
+   "duration_target": "1.14s",
+   "duration_real": 1.136,
+   "usage": "abanico/ráfaga radial del subjefe A",
+   "sonic_identity": "Aracnido abisal: clicks de queliceros, tension de telarana, presion violeta"
+  },
+  {
+   "path": "world_04/subboss_a/world_04_subboss_a_death.ogg",
+   "category": "subboss_a",
+   "world": 4,
+   "loop": false,
+   "duration_target": "3.05s",
+   "duration_real": 3.049,
+   "usage": "subjefe A destruido",
+   "sonic_identity": "Aracnido abisal: clicks de queliceros, tension de telarana, presion violeta"
+  },
+  {
+   "path": "world_04/subboss_a/world_04_subboss_a_intro.ogg",
+   "category": "subboss_a",
+   "world": 4,
+   "loop": false,
+   "duration_target": "2.20s",
+   "duration_real": 2.204,
+   "usage": "aparece el subjefe ofensivo",
+   "sonic_identity": "Aracnido abisal: clicks de queliceros, tension de telarana, presion violeta"
+  },
+  {
+   "path": "world_04/subboss_b/world_04_subboss_b_attack.ogg",
+   "category": "subboss_b",
+   "world": 4,
+   "loop": false,
+   "duration_target": "1.02s",
+   "duration_real": 1.022,
+   "usage": "invocación/buscadores del subjefe B",
+   "sonic_identity": "Aracnido abisal: clicks de queliceros, tension de telarana, presion violeta"
+  },
+  {
+   "path": "world_04/subboss_b/world_04_subboss_b_death.ogg",
+   "category": "subboss_b",
+   "world": 4,
+   "loop": false,
+   "duration_target": "2.78s",
+   "duration_real": 2.779,
+   "usage": "subjefe B destruido (implosión)",
+   "sonic_identity": "Aracnido abisal: clicks de queliceros, tension de telarana, presion violeta"
+  },
+  {
+   "path": "world_04/subboss_b/world_04_subboss_b_intro.ogg",
+   "category": "subboss_b",
+   "world": 4,
+   "loop": false,
+   "duration_target": "1.75s",
+   "duration_real": 1.746,
+   "usage": "aparece el subjefe táctico",
+   "sonic_identity": "Aracnido abisal: clicks de queliceros, tension de telarana, presion violeta"
+  },
+  {
+   "path": "world_05/ambience/world_05_ambience_loop.ogg",
+   "category": "ambience",
+   "world": 5,
+   "loop": true,
+   "duration_target": "34s loop",
+   "duration_real": 32.884,
+   "usage": "atmósfera continua del sector",
+   "sonic_identity": "Leviatan abisal: gemidos de ballena espacial, marea, presion oceanica"
+  },
+  {
+   "path": "world_05/boss/world_05_boss_attack_control.ogg",
+   "category": "boss",
+   "world": 5,
+   "loop": false,
+   "duration_target": "1.78s",
+   "duration_real": 1.778,
+   "usage": "campo de control/invocación",
+   "sonic_identity": "Leviathan Omega — Leviatan abisal: gemidos de ballena espacial, marea, presion oceanica"
+  },
+  {
+   "path": "world_05/boss/world_05_boss_attack_primary.ogg",
+   "category": "boss",
+   "world": 5,
+   "loop": false,
+   "duration_target": "1.80s",
+   "duration_real": 1.8,
+   "usage": "ataque firma del jefe",
+   "sonic_identity": "Leviathan Omega — Leviatan abisal: gemidos de ballena espacial, marea, presion oceanica"
+  },
+  {
+   "path": "world_05/boss/world_05_boss_attack_secondary.ogg",
+   "category": "boss",
+   "world": 5,
+   "loop": false,
+   "duration_target": "1.47s",
+   "duration_real": 1.468,
+   "usage": "ataque de área en abanico",
+   "sonic_identity": "Leviathan Omega — Leviatan abisal: gemidos de ballena espacial, marea, presion oceanica"
+  },
+  {
+   "path": "world_05/boss/world_05_boss_death.ogg",
+   "category": "boss",
+   "world": 5,
+   "loop": false,
+   "duration_target": "5.21s",
+   "duration_real": 5.213,
+   "usage": "jefe derrotado, colapso en varias etapas",
+   "sonic_identity": "Leviathan Omega — Leviatan abisal: gemidos de ballena espacial, marea, presion oceanica"
+  },
+  {
+   "path": "world_05/boss/world_05_boss_intro.ogg",
+   "category": "boss",
+   "world": 5,
+   "loop": false,
+   "duration_target": "3.54s",
+   "duration_real": 3.543,
+   "usage": "llegada del jefe con motivo propio",
+   "sonic_identity": "Leviathan Omega — Leviatan abisal: gemidos de ballena espacial, marea, presion oceanica"
+  },
+  {
+   "path": "world_05/boss/world_05_boss_phase_shift.ogg",
+   "category": "boss",
+   "world": 5,
+   "loop": false,
+   "duration_target": "1.71s",
+   "duration_real": 1.711,
+   "usage": "cambio de fase del jefe",
+   "sonic_identity": "Leviathan Omega — Leviatan abisal: gemidos de ballena espacial, marea, presion oceanica"
+  },
+  {
+   "path": "world_05/minions/world_05_minion_hunter_attack.ogg",
+   "category": "minion",
+   "world": 5,
+   "loop": false,
+   "duration_target": "0.75s",
+   "duration_real": 0.754,
+   "usage": "cazador embiste en zigzag",
+   "sonic_identity": "Leviatan abisal: gemidos de ballena espacial, marea, presion oceanica"
+  },
+  {
+   "path": "world_05/minions/world_05_minion_phantom_attack.ogg",
+   "category": "minion",
+   "world": 5,
+   "loop": false,
+   "duration_target": "0.77s",
+   "duration_real": 0.766,
+   "usage": "fantasma se desfasea/camufla",
+   "sonic_identity": "Leviatan abisal: gemidos de ballena espacial, marea, presion oceanica"
+  },
+  {
+   "path": "world_05/minions/world_05_minion_sentinel_attack.ogg",
+   "category": "minion",
+   "world": 5,
+   "loop": false,
+   "duration_target": "0.72s",
+   "duration_real": 0.715,
+   "usage": "centinela activa escudo",
+   "sonic_identity": "Leviatan abisal: gemidos de ballena espacial, marea, presion oceanica"
+  },
+  {
+   "path": "world_05/minions/world_05_minion_spitter_attack.ogg",
+   "category": "minion",
+   "world": 5,
+   "loop": false,
+   "duration_target": "0.58s",
+   "duration_real": 0.576,
+   "usage": "escupidor lanza plasma/baba",
+   "sonic_identity": "Leviatan abisal: gemidos de ballena espacial, marea, presion oceanica"
+  },
+  {
+   "path": "world_05/minions/world_05_minion_stinger_attack.ogg",
+   "category": "minion",
+   "world": 5,
+   "loop": false,
+   "duration_target": "0.51s",
+   "duration_real": 0.511,
+   "usage": "aguijón carga y dispara",
+   "sonic_identity": "Leviatan abisal: gemidos de ballena espacial, marea, presion oceanica"
+  },
+  {
+   "path": "world_05/minions/world_05_minion_swarmer_attack.ogg",
+   "category": "minion",
+   "world": 5,
+   "loop": false,
+   "duration_target": "0.38s",
+   "duration_real": 0.383,
+   "usage": "enjambre rápido ataca",
+   "sonic_identity": "Leviatan abisal: gemidos de ballena espacial, marea, presion oceanica"
+  },
+  {
+   "path": "world_05/relic/world_05_relic_release.ogg",
+   "category": "relic",
+   "world": 5,
+   "loop": false,
+   "duration_target": "2.55s",
+   "duration_real": 2.552,
+   "usage": "reliquia sale del jefe y se transfiere a la nave",
+   "sonic_identity": "Leviatan abisal: gemidos de ballena espacial, marea, presion oceanica"
+  },
+  {
+   "path": "world_05/subboss_a/world_05_subboss_a_attack.ogg",
+   "category": "subboss_a",
+   "world": 5,
+   "loop": false,
+   "duration_target": "1.04s",
+   "duration_real": 1.042,
+   "usage": "abanico/ráfaga radial del subjefe A",
+   "sonic_identity": "Leviatan abisal: gemidos de ballena espacial, marea, presion oceanica"
+  },
+  {
+   "path": "world_05/subboss_a/world_05_subboss_a_death.ogg",
+   "category": "subboss_a",
+   "world": 5,
+   "loop": false,
+   "duration_target": "3.16s",
+   "duration_real": 3.163,
+   "usage": "subjefe A destruido",
+   "sonic_identity": "Leviatan abisal: gemidos de ballena espacial, marea, presion oceanica"
+  },
+  {
+   "path": "world_05/subboss_a/world_05_subboss_a_intro.ogg",
+   "category": "subboss_a",
+   "world": 5,
+   "loop": false,
+   "duration_target": "2.27s",
+   "duration_real": 2.267,
+   "usage": "aparece el subjefe ofensivo",
+   "sonic_identity": "Leviatan abisal: gemidos de ballena espacial, marea, presion oceanica"
+  },
+  {
+   "path": "world_05/subboss_b/world_05_subboss_b_attack.ogg",
+   "category": "subboss_b",
+   "world": 5,
+   "loop": false,
+   "duration_target": "1.23s",
+   "duration_real": 1.226,
+   "usage": "invocación/buscadores del subjefe B",
+   "sonic_identity": "Leviatan abisal: gemidos de ballena espacial, marea, presion oceanica"
+  },
+  {
+   "path": "world_05/subboss_b/world_05_subboss_b_death.ogg",
+   "category": "subboss_b",
+   "world": 5,
+   "loop": false,
+   "duration_target": "3.15s",
+   "duration_real": 3.149,
+   "usage": "subjefe B destruido (implosión)",
+   "sonic_identity": "Leviatan abisal: gemidos de ballena espacial, marea, presion oceanica"
+  },
+  {
+   "path": "world_05/subboss_b/world_05_subboss_b_intro.ogg",
+   "category": "subboss_b",
+   "world": 5,
+   "loop": false,
+   "duration_target": "2.17s",
+   "duration_real": 2.169,
+   "usage": "aparece el subjefe táctico",
+   "sonic_identity": "Leviatan abisal: gemidos de ballena espacial, marea, presion oceanica"
+  },
+  {
+   "path": "world_06/ambience/world_06_ambience_loop.ogg",
+   "category": "ambience",
+   "world": 6,
+   "loop": true,
+   "duration_target": "37s loop",
+   "duration_real": 35.061,
+   "usage": "atmósfera continua del sector",
+   "sonic_identity": "Asedio industrial: pistones, columnas de haz, acero estresado"
+  },
+  {
+   "path": "world_06/boss/world_06_boss_attack_control.ogg",
+   "category": "boss",
+   "world": 6,
+   "loop": false,
+   "duration_target": "1.33s",
+   "duration_real": 1.333,
+   "usage": "campo de control/invocación",
+   "sonic_identity": "Dreadnought Rex — Asedio industrial: pistones, columnas de haz, acero estresado"
+  },
+  {
+   "path": "world_06/boss/world_06_boss_attack_primary.ogg",
+   "category": "boss",
+   "world": 6,
+   "loop": false,
+   "duration_target": "2.20s",
+   "duration_real": 2.2,
+   "usage": "ataque firma del jefe",
+   "sonic_identity": "Dreadnought Rex — Asedio industrial: pistones, columnas de haz, acero estresado"
+  },
+  {
+   "path": "world_06/boss/world_06_boss_attack_secondary.ogg",
+   "category": "boss",
+   "world": 6,
+   "loop": false,
+   "duration_target": "1.33s",
+   "duration_real": 1.331,
+   "usage": "ataque de área en abanico",
+   "sonic_identity": "Dreadnought Rex — Asedio industrial: pistones, columnas de haz, acero estresado"
+  },
+  {
+   "path": "world_06/boss/world_06_boss_death.ogg",
+   "category": "boss",
+   "world": 6,
+   "loop": false,
+   "duration_target": "4.22s",
+   "duration_real": 4.219,
+   "usage": "jefe derrotado, colapso en varias etapas",
+   "sonic_identity": "Dreadnought Rex — Asedio industrial: pistones, columnas de haz, acero estresado"
+  },
+  {
+   "path": "world_06/boss/world_06_boss_intro.ogg",
+   "category": "boss",
+   "world": 6,
+   "loop": false,
+   "duration_target": "3.53s",
+   "duration_real": 3.525,
+   "usage": "llegada del jefe con motivo propio",
+   "sonic_identity": "Dreadnought Rex — Asedio industrial: pistones, columnas de haz, acero estresado"
+  },
+  {
+   "path": "world_06/boss/world_06_boss_phase_shift.ogg",
+   "category": "boss",
+   "world": 6,
+   "loop": false,
+   "duration_target": "1.79s",
+   "duration_real": 1.791,
+   "usage": "cambio de fase del jefe",
+   "sonic_identity": "Dreadnought Rex — Asedio industrial: pistones, columnas de haz, acero estresado"
+  },
+  {
+   "path": "world_06/boss/world_06_boss_revive.ogg",
+   "category": "boss",
+   "world": 6,
+   "loop": false,
+   "duration_target": "3.05s",
+   "duration_real": 3.049,
+   "usage": "el jefe renace/muta a nueva fase",
+   "sonic_identity": "Dreadnought Rex renace — Asedio industrial: pistones, columnas de haz, acero estresado"
+  },
+  {
+   "path": "world_06/minions/world_06_minion_hunter_attack.ogg",
+   "category": "minion",
+   "world": 6,
+   "loop": false,
+   "duration_target": "0.60s",
+   "duration_real": 0.599,
+   "usage": "cazador embiste en zigzag",
+   "sonic_identity": "Asedio industrial: pistones, columnas de haz, acero estresado"
+  },
+  {
+   "path": "world_06/minions/world_06_minion_phantom_attack.ogg",
+   "category": "minion",
+   "world": 6,
+   "loop": false,
+   "duration_target": "0.66s",
+   "duration_real": 0.663,
+   "usage": "fantasma se desfasea/camufla",
+   "sonic_identity": "Asedio industrial: pistones, columnas de haz, acero estresado"
+  },
+  {
+   "path": "world_06/minions/world_06_minion_sentinel_attack.ogg",
+   "category": "minion",
+   "world": 6,
+   "loop": false,
+   "duration_target": "0.79s",
+   "duration_real": 0.794,
+   "usage": "centinela activa escudo",
+   "sonic_identity": "Asedio industrial: pistones, columnas de haz, acero estresado"
+  },
+  {
+   "path": "world_06/minions/world_06_minion_spitter_attack.ogg",
+   "category": "minion",
+   "world": 6,
+   "loop": false,
+   "duration_target": "0.64s",
+   "duration_real": 0.64,
+   "usage": "escupidor lanza plasma/baba",
+   "sonic_identity": "Asedio industrial: pistones, columnas de haz, acero estresado"
+  },
+  {
+   "path": "world_06/minions/world_06_minion_stinger_attack.ogg",
+   "category": "minion",
+   "world": 6,
+   "loop": false,
+   "duration_target": "0.54s",
+   "duration_real": 0.54,
+   "usage": "aguijón carga y dispara",
+   "sonic_identity": "Asedio industrial: pistones, columnas de haz, acero estresado"
+  },
+  {
+   "path": "world_06/minions/world_06_minion_swarmer_attack.ogg",
+   "category": "minion",
+   "world": 6,
+   "loop": false,
+   "duration_target": "0.49s",
+   "duration_real": 0.49,
+   "usage": "enjambre rápido ataca",
+   "sonic_identity": "Asedio industrial: pistones, columnas de haz, acero estresado"
+  },
+  {
+   "path": "world_06/relic/world_06_relic_release.ogg",
+   "category": "relic",
+   "world": 6,
+   "loop": false,
+   "duration_target": "2.58s",
+   "duration_real": 2.577,
+   "usage": "reliquia sale del jefe y se transfiere a la nave",
+   "sonic_identity": "Asedio industrial: pistones, columnas de haz, acero estresado"
+  },
+  {
+   "path": "world_06/subboss_a/world_06_subboss_a_attack.ogg",
+   "category": "subboss_a",
+   "world": 6,
+   "loop": false,
+   "duration_target": "1.30s",
+   "duration_real": 1.295,
+   "usage": "abanico/ráfaga radial del subjefe A",
+   "sonic_identity": "Asedio industrial: pistones, columnas de haz, acero estresado"
+  },
+  {
+   "path": "world_06/subboss_a/world_06_subboss_a_death.ogg",
+   "category": "subboss_a",
+   "world": 6,
+   "loop": false,
+   "duration_target": "3.35s",
+   "duration_real": 3.352,
+   "usage": "subjefe A destruido",
+   "sonic_identity": "Asedio industrial: pistones, columnas de haz, acero estresado"
+  },
+  {
+   "path": "world_06/subboss_a/world_06_subboss_a_intro.ogg",
+   "category": "subboss_a",
+   "world": 6,
+   "loop": false,
+   "duration_target": "1.65s",
+   "duration_real": 1.65,
+   "usage": "aparece el subjefe ofensivo",
+   "sonic_identity": "Asedio industrial: pistones, columnas de haz, acero estresado"
+  },
+  {
+   "path": "world_06/subboss_b/world_06_subboss_b_attack.ogg",
+   "category": "subboss_b",
+   "world": 6,
+   "loop": false,
+   "duration_target": "0.91s",
+   "duration_real": 0.909,
+   "usage": "invocación/buscadores del subjefe B",
+   "sonic_identity": "Asedio industrial: pistones, columnas de haz, acero estresado"
+  },
+  {
+   "path": "world_06/subboss_b/world_06_subboss_b_death.ogg",
+   "category": "subboss_b",
+   "world": 6,
+   "loop": false,
+   "duration_target": "3.29s",
+   "duration_real": 3.293,
+   "usage": "subjefe B destruido (implosión)",
+   "sonic_identity": "Asedio industrial: pistones, columnas de haz, acero estresado"
+  },
+  {
+   "path": "world_06/subboss_b/world_06_subboss_b_intro.ogg",
+   "category": "subboss_b",
+   "world": 6,
+   "loop": false,
+   "duration_target": "2.16s",
+   "duration_real": 2.162,
+   "usage": "aparece el subjefe táctico",
+   "sonic_identity": "Asedio industrial: pistones, columnas de haz, acero estresado"
+  },
+  {
+   "path": "world_07/ambience/world_07_ambience_loop.ogg",
+   "category": "ambience",
+   "world": 7,
+   "loop": true,
+   "duration_target": "31s loop",
+   "duration_real": 29.721,
+   "usage": "atmósfera continua del sector",
+   "sonic_identity": "Necro orbital: campanas funerarias, viento hueco, zumbido de enjambre"
+  },
+  {
+   "path": "world_07/boss/world_07_boss_attack_control.ogg",
+   "category": "boss",
+   "world": 7,
+   "loop": false,
+   "duration_target": "1.52s",
+   "duration_real": 1.519,
+   "usage": "campo de control/invocación",
+   "sonic_identity": "Necro Swarm — Necro orbital: campanas funerarias, viento hueco, zumbido de enjambre"
+  },
+  {
+   "path": "world_07/boss/world_07_boss_attack_primary.ogg",
+   "category": "boss",
+   "world": 7,
+   "loop": false,
+   "duration_target": "1.50s",
+   "duration_real": 1.5,
+   "usage": "ataque firma del jefe",
+   "sonic_identity": "Necro Swarm — Necro orbital: campanas funerarias, viento hueco, zumbido de enjambre"
+  },
+  {
+   "path": "world_07/boss/world_07_boss_attack_secondary.ogg",
+   "category": "boss",
+   "world": 7,
+   "loop": false,
+   "duration_target": "1.30s",
+   "duration_real": 1.302,
+   "usage": "ataque de área en abanico",
+   "sonic_identity": "Necro Swarm — Necro orbital: campanas funerarias, viento hueco, zumbido de enjambre"
+  },
+  {
+   "path": "world_07/boss/world_07_boss_death.ogg",
+   "category": "boss",
+   "world": 7,
+   "loop": false,
+   "duration_target": "4.83s",
+   "duration_real": 4.832,
+   "usage": "jefe derrotado, colapso en varias etapas",
+   "sonic_identity": "Necro Swarm — Necro orbital: campanas funerarias, viento hueco, zumbido de enjambre"
+  },
+  {
+   "path": "world_07/boss/world_07_boss_intro.ogg",
+   "category": "boss",
+   "world": 7,
+   "loop": false,
+   "duration_target": "3.24s",
+   "duration_real": 3.243,
+   "usage": "llegada del jefe con motivo propio",
+   "sonic_identity": "Necro Swarm — Necro orbital: campanas funerarias, viento hueco, zumbido de enjambre"
+  },
+  {
+   "path": "world_07/boss/world_07_boss_phase_shift.ogg",
+   "category": "boss",
+   "world": 7,
+   "loop": false,
+   "duration_target": "2.27s",
+   "duration_real": 2.273,
+   "usage": "cambio de fase del jefe",
+   "sonic_identity": "Necro Swarm — Necro orbital: campanas funerarias, viento hueco, zumbido de enjambre"
+  },
+  {
+   "path": "world_07/minions/world_07_minion_hunter_attack.ogg",
+   "category": "minion",
+   "world": 7,
+   "loop": false,
+   "duration_target": "0.66s",
+   "duration_real": 0.655,
+   "usage": "cazador embiste en zigzag",
+   "sonic_identity": "Necro orbital: campanas funerarias, viento hueco, zumbido de enjambre"
+  },
+  {
+   "path": "world_07/minions/world_07_minion_phantom_attack.ogg",
+   "category": "minion",
+   "world": 7,
+   "loop": false,
+   "duration_target": "0.81s",
+   "duration_real": 0.806,
+   "usage": "fantasma se desfasea/camufla",
+   "sonic_identity": "Necro orbital: campanas funerarias, viento hueco, zumbido de enjambre"
+  },
+  {
+   "path": "world_07/minions/world_07_minion_sentinel_attack.ogg",
+   "category": "minion",
+   "world": 7,
+   "loop": false,
+   "duration_target": "0.69s",
+   "duration_real": 0.69,
+   "usage": "centinela activa escudo",
+   "sonic_identity": "Necro orbital: campanas funerarias, viento hueco, zumbido de enjambre"
+  },
+  {
+   "path": "world_07/minions/world_07_minion_spitter_attack.ogg",
+   "category": "minion",
+   "world": 7,
+   "loop": false,
+   "duration_target": "0.42s",
+   "duration_real": 0.415,
+   "usage": "escupidor lanza plasma/baba",
+   "sonic_identity": "Necro orbital: campanas funerarias, viento hueco, zumbido de enjambre"
+  },
+  {
+   "path": "world_07/minions/world_07_minion_stinger_attack.ogg",
+   "category": "minion",
+   "world": 7,
+   "loop": false,
+   "duration_target": "0.48s",
+   "duration_real": 0.48,
+   "usage": "aguijón carga y dispara",
+   "sonic_identity": "Necro orbital: campanas funerarias, viento hueco, zumbido de enjambre"
+  },
+  {
+   "path": "world_07/minions/world_07_minion_swarmer_attack.ogg",
+   "category": "minion",
+   "world": 7,
+   "loop": false,
+   "duration_target": "0.49s",
+   "duration_real": 0.489,
+   "usage": "enjambre rápido ataca",
+   "sonic_identity": "Necro orbital: campanas funerarias, viento hueco, zumbido de enjambre"
+  },
+  {
+   "path": "world_07/relic/world_07_relic_release.ogg",
+   "category": "relic",
+   "world": 7,
+   "loop": false,
+   "duration_target": "2.36s",
+   "duration_real": 2.359,
+   "usage": "reliquia sale del jefe y se transfiere a la nave",
+   "sonic_identity": "Necro orbital: campanas funerarias, viento hueco, zumbido de enjambre"
+  },
+  {
+   "path": "world_07/subboss_a/world_07_subboss_a_attack.ogg",
+   "category": "subboss_a",
+   "world": 7,
+   "loop": false,
+   "duration_target": "1.00s",
+   "duration_real": 1.005,
+   "usage": "abanico/ráfaga radial del subjefe A",
+   "sonic_identity": "Necro orbital: campanas funerarias, viento hueco, zumbido de enjambre"
+  },
+  {
+   "path": "world_07/subboss_a/world_07_subboss_a_death.ogg",
+   "category": "subboss_a",
+   "world": 7,
+   "loop": false,
+   "duration_target": "3.07s",
+   "duration_real": 3.065,
+   "usage": "subjefe A destruido",
+   "sonic_identity": "Necro orbital: campanas funerarias, viento hueco, zumbido de enjambre"
+  },
+  {
+   "path": "world_07/subboss_a/world_07_subboss_a_intro.ogg",
+   "category": "subboss_a",
+   "world": 7,
+   "loop": false,
+   "duration_target": "2.06s",
+   "duration_real": 2.06,
+   "usage": "aparece el subjefe ofensivo",
+   "sonic_identity": "Necro orbital: campanas funerarias, viento hueco, zumbido de enjambre"
+  },
+  {
+   "path": "world_07/subboss_b/world_07_subboss_b_attack.ogg",
+   "category": "subboss_b",
+   "world": 7,
+   "loop": false,
+   "duration_target": "1.28s",
+   "duration_real": 1.276,
+   "usage": "invocación/buscadores del subjefe B",
+   "sonic_identity": "Necro orbital: campanas funerarias, viento hueco, zumbido de enjambre"
+  },
+  {
+   "path": "world_07/subboss_b/world_07_subboss_b_death.ogg",
+   "category": "subboss_b",
+   "world": 7,
+   "loop": false,
+   "duration_target": "3.26s",
+   "duration_real": 3.256,
+   "usage": "subjefe B destruido (implosión)",
+   "sonic_identity": "Necro orbital: campanas funerarias, viento hueco, zumbido de enjambre"
+  },
+  {
+   "path": "world_07/subboss_b/world_07_subboss_b_intro.ogg",
+   "category": "subboss_b",
+   "world": 7,
+   "loop": false,
+   "duration_target": "1.80s",
+   "duration_real": 1.795,
+   "usage": "aparece el subjefe táctico",
+   "sonic_identity": "Necro orbital: campanas funerarias, viento hueco, zumbido de enjambre"
+  },
+  {
+   "path": "world_08/ambience/world_08_ambience_loop.ogg",
+   "category": "ambience",
+   "world": 8,
+   "loop": true,
+   "duration_target": "32s loop",
+   "duration_real": 30.811,
+   "usage": "atmósfera continua del sector",
+   "sonic_identity": "Prisma imperial: armónicos de cristal, arpegios refractados, vidrio tenso"
+  },
+  {
+   "path": "world_08/boss/world_08_boss_attack_control.ogg",
+   "category": "boss",
+   "world": 8,
+   "loop": false,
+   "duration_target": "1.40s",
+   "duration_real": 1.4,
+   "usage": "campo de control/invocación",
+   "sonic_identity": "Prism Warden — Prisma imperial: armónicos de cristal, arpegios refractados, vidrio tenso"
+  },
+  {
+   "path": "world_08/boss/world_08_boss_attack_primary.ogg",
+   "category": "boss",
+   "world": 8,
+   "loop": false,
+   "duration_target": "1.20s",
+   "duration_real": 1.2,
+   "usage": "ataque firma del jefe",
+   "sonic_identity": "Prism Warden — Prisma imperial: armónicos de cristal, arpegios refractados, vidrio tenso"
+  },
+  {
+   "path": "world_08/boss/world_08_boss_attack_secondary.ogg",
+   "category": "boss",
+   "world": 8,
+   "loop": false,
+   "duration_target": "1.35s",
+   "duration_real": 1.347,
+   "usage": "ataque de área en abanico",
+   "sonic_identity": "Prism Warden — Prisma imperial: armónicos de cristal, arpegios refractados, vidrio tenso"
+  },
+  {
+   "path": "world_08/boss/world_08_boss_death.ogg",
+   "category": "boss",
+   "world": 8,
+   "loop": false,
+   "duration_target": "5.47s",
+   "duration_real": 5.475,
+   "usage": "jefe derrotado, colapso en varias etapas",
+   "sonic_identity": "Prism Warden — Prisma imperial: armónicos de cristal, arpegios refractados, vidrio tenso"
+  },
+  {
+   "path": "world_08/boss/world_08_boss_intro.ogg",
+   "category": "boss",
+   "world": 8,
+   "loop": false,
+   "duration_target": "3.31s",
+   "duration_real": 3.311,
+   "usage": "llegada del jefe con motivo propio",
+   "sonic_identity": "Prism Warden — Prisma imperial: armónicos de cristal, arpegios refractados, vidrio tenso"
+  },
+  {
+   "path": "world_08/boss/world_08_boss_phase_shift.ogg",
+   "category": "boss",
+   "world": 8,
+   "loop": false,
+   "duration_target": "2.36s",
+   "duration_real": 2.362,
+   "usage": "cambio de fase del jefe",
+   "sonic_identity": "Prism Warden — Prisma imperial: armónicos de cristal, arpegios refractados, vidrio tenso"
+  },
+  {
+   "path": "world_08/minions/world_08_minion_hunter_attack.ogg",
+   "category": "minion",
+   "world": 8,
+   "loop": false,
+   "duration_target": "0.56s",
+   "duration_real": 0.556,
+   "usage": "cazador embiste en zigzag",
+   "sonic_identity": "Prisma imperial: armónicos de cristal, arpegios refractados, vidrio tenso"
+  },
+  {
+   "path": "world_08/minions/world_08_minion_phantom_attack.ogg",
+   "category": "minion",
+   "world": 8,
+   "loop": false,
+   "duration_target": "0.70s",
+   "duration_real": 0.702,
+   "usage": "fantasma se desfasea/camufla",
+   "sonic_identity": "Prisma imperial: armónicos de cristal, arpegios refractados, vidrio tenso"
+  },
+  {
+   "path": "world_08/minions/world_08_minion_sentinel_attack.ogg",
+   "category": "minion",
+   "world": 8,
+   "loop": false,
+   "duration_target": "0.76s",
+   "duration_real": 0.76,
+   "usage": "centinela activa escudo",
+   "sonic_identity": "Prisma imperial: armónicos de cristal, arpegios refractados, vidrio tenso"
+  },
+  {
+   "path": "world_08/minions/world_08_minion_spitter_attack.ogg",
+   "category": "minion",
+   "world": 8,
+   "loop": false,
+   "duration_target": "0.45s",
+   "duration_real": 0.449,
+   "usage": "escupidor lanza plasma/baba",
+   "sonic_identity": "Prisma imperial: armónicos de cristal, arpegios refractados, vidrio tenso"
+  },
+  {
+   "path": "world_08/minions/world_08_minion_stinger_attack.ogg",
+   "category": "minion",
+   "world": 8,
+   "loop": false,
+   "duration_target": "0.42s",
+   "duration_real": 0.424,
+   "usage": "aguijón carga y dispara",
+   "sonic_identity": "Prisma imperial: armónicos de cristal, arpegios refractados, vidrio tenso"
+  },
+  {
+   "path": "world_08/minions/world_08_minion_swarmer_attack.ogg",
+   "category": "minion",
+   "world": 8,
+   "loop": false,
+   "duration_target": "0.49s",
+   "duration_real": 0.49,
+   "usage": "enjambre rápido ataca",
+   "sonic_identity": "Prisma imperial: armónicos de cristal, arpegios refractados, vidrio tenso"
+  },
+  {
+   "path": "world_08/relic/world_08_relic_release.ogg",
+   "category": "relic",
+   "world": 8,
+   "loop": false,
+   "duration_target": "3.08s",
+   "duration_real": 3.082,
+   "usage": "reliquia sale del jefe y se transfiere a la nave",
+   "sonic_identity": "Prisma imperial: armónicos de cristal, arpegios refractados, vidrio tenso"
+  },
+  {
+   "path": "world_08/subboss_a/world_08_subboss_a_attack.ogg",
+   "category": "subboss_a",
+   "world": 8,
+   "loop": false,
+   "duration_target": "1.19s",
+   "duration_real": 1.194,
+   "usage": "abanico/ráfaga radial del subjefe A",
+   "sonic_identity": "Prisma imperial: armónicos de cristal, arpegios refractados, vidrio tenso"
+  },
+  {
+   "path": "world_08/subboss_a/world_08_subboss_a_death.ogg",
+   "category": "subboss_a",
+   "world": 8,
+   "loop": false,
+   "duration_target": "2.65s",
+   "duration_real": 2.653,
+   "usage": "subjefe A destruido",
+   "sonic_identity": "Prisma imperial: armónicos de cristal, arpegios refractados, vidrio tenso"
+  },
+  {
+   "path": "world_08/subboss_a/world_08_subboss_a_intro.ogg",
+   "category": "subboss_a",
+   "world": 8,
+   "loop": false,
+   "duration_target": "2.04s",
+   "duration_real": 2.038,
+   "usage": "aparece el subjefe ofensivo",
+   "sonic_identity": "Prisma imperial: armónicos de cristal, arpegios refractados, vidrio tenso"
+  },
+  {
+   "path": "world_08/subboss_b/world_08_subboss_b_attack.ogg",
+   "category": "subboss_b",
+   "world": 8,
+   "loop": false,
+   "duration_target": "1.09s",
+   "duration_real": 1.095,
+   "usage": "invocación/buscadores del subjefe B",
+   "sonic_identity": "Prisma imperial: armónicos de cristal, arpegios refractados, vidrio tenso"
+  },
+  {
+   "path": "world_08/subboss_b/world_08_subboss_b_death.ogg",
+   "category": "subboss_b",
+   "world": 8,
+   "loop": false,
+   "duration_target": "3.18s",
+   "duration_real": 3.185,
+   "usage": "subjefe B destruido (implosión)",
+   "sonic_identity": "Prisma imperial: armónicos de cristal, arpegios refractados, vidrio tenso"
+  },
+  {
+   "path": "world_08/subboss_b/world_08_subboss_b_intro.ogg",
+   "category": "subboss_b",
+   "world": 8,
+   "loop": false,
+   "duration_target": "2.30s",
+   "duration_real": 2.296,
+   "usage": "aparece el subjefe táctico",
+   "sonic_identity": "Prisma imperial: armónicos de cristal, arpegios refractados, vidrio tenso"
+  },
+  {
+   "path": "world_09/ambience/world_09_ambience_loop.ogg",
+   "category": "ambience",
+   "world": 9,
+   "loop": true,
+   "duration_target": "35s loop",
+   "duration_real": 33.125,
+   "usage": "atmósfera continua del sector",
+   "sonic_identity": "Magma tirano: burbujeo ardiente, rugidos de fusion, crujido termico"
+  },
+  {
+   "path": "world_09/boss/world_09_boss_attack_control.ogg",
+   "category": "boss",
+   "world": 9,
+   "loop": false,
+   "duration_target": "1.40s",
+   "duration_real": 1.404,
+   "usage": "campo de control/invocación",
+   "sonic_identity": "Molten Core Tyrant — Magma tirano: burbujeo ardiente, rugidos de fusion, crujido termico"
+  },
+  {
+   "path": "world_09/boss/world_09_boss_attack_primary.ogg",
+   "category": "boss",
+   "world": 9,
+   "loop": false,
+   "duration_target": "1.50s",
+   "duration_real": 1.5,
+   "usage": "ataque firma del jefe",
+   "sonic_identity": "Molten Core Tyrant — Magma tirano: burbujeo ardiente, rugidos de fusion, crujido termico"
+  },
+  {
+   "path": "world_09/boss/world_09_boss_attack_secondary.ogg",
+   "category": "boss",
+   "world": 9,
+   "loop": false,
+   "duration_target": "1.21s",
+   "duration_real": 1.212,
+   "usage": "ataque de área en abanico",
+   "sonic_identity": "Molten Core Tyrant — Magma tirano: burbujeo ardiente, rugidos de fusion, crujido termico"
+  },
+  {
+   "path": "world_09/boss/world_09_boss_death.ogg",
+   "category": "boss",
+   "world": 9,
+   "loop": false,
+   "duration_target": "4.52s",
+   "duration_real": 4.522,
+   "usage": "jefe derrotado, colapso en varias etapas",
+   "sonic_identity": "Molten Core Tyrant — Magma tirano: burbujeo ardiente, rugidos de fusion, crujido termico"
+  },
+  {
+   "path": "world_09/boss/world_09_boss_intro.ogg",
+   "category": "boss",
+   "world": 9,
+   "loop": false,
+   "duration_target": "2.80s",
+   "duration_real": 2.797,
+   "usage": "llegada del jefe con motivo propio",
+   "sonic_identity": "Molten Core Tyrant — Magma tirano: burbujeo ardiente, rugidos de fusion, crujido termico"
+  },
+  {
+   "path": "world_09/boss/world_09_boss_phase_shift.ogg",
+   "category": "boss",
+   "world": 9,
+   "loop": false,
+   "duration_target": "2.03s",
+   "duration_real": 2.031,
+   "usage": "cambio de fase del jefe",
+   "sonic_identity": "Molten Core Tyrant — Magma tirano: burbujeo ardiente, rugidos de fusion, crujido termico"
+  },
+  {
+   "path": "world_09/minions/world_09_minion_hunter_attack.ogg",
+   "category": "minion",
+   "world": 9,
+   "loop": false,
+   "duration_target": "0.75s",
+   "duration_real": 0.75,
+   "usage": "cazador embiste en zigzag",
+   "sonic_identity": "Magma tirano: burbujeo ardiente, rugidos de fusion, crujido termico"
+  },
+  {
+   "path": "world_09/minions/world_09_minion_phantom_attack.ogg",
+   "category": "minion",
+   "world": 9,
+   "loop": false,
+   "duration_target": "0.64s",
+   "duration_real": 0.636,
+   "usage": "fantasma se desfasea/camufla",
+   "sonic_identity": "Magma tirano: burbujeo ardiente, rugidos de fusion, crujido termico"
+  },
+  {
+   "path": "world_09/minions/world_09_minion_sentinel_attack.ogg",
+   "category": "minion",
+   "world": 9,
+   "loop": false,
+   "duration_target": "0.56s",
+   "duration_real": 0.563,
+   "usage": "centinela activa escudo",
+   "sonic_identity": "Magma tirano: burbujeo ardiente, rugidos de fusion, crujido termico"
+  },
+  {
+   "path": "world_09/minions/world_09_minion_spitter_attack.ogg",
+   "category": "minion",
+   "world": 9,
+   "loop": false,
+   "duration_target": "0.43s",
+   "duration_real": 0.428,
+   "usage": "escupidor lanza plasma/baba",
+   "sonic_identity": "Magma tirano: burbujeo ardiente, rugidos de fusion, crujido termico"
+  },
+  {
+   "path": "world_09/minions/world_09_minion_stinger_attack.ogg",
+   "category": "minion",
+   "world": 9,
+   "loop": false,
+   "duration_target": "0.57s",
+   "duration_real": 0.569,
+   "usage": "aguijón carga y dispara",
+   "sonic_identity": "Magma tirano: burbujeo ardiente, rugidos de fusion, crujido termico"
+  },
+  {
+   "path": "world_09/minions/world_09_minion_swarmer_attack.ogg",
+   "category": "minion",
+   "world": 9,
+   "loop": false,
+   "duration_target": "0.44s",
+   "duration_real": 0.443,
+   "usage": "enjambre rápido ataca",
+   "sonic_identity": "Magma tirano: burbujeo ardiente, rugidos de fusion, crujido termico"
+  },
+  {
+   "path": "world_09/relic/world_09_relic_release.ogg",
+   "category": "relic",
+   "world": 9,
+   "loop": false,
+   "duration_target": "2.20s",
+   "duration_real": 2.204,
+   "usage": "reliquia sale del jefe y se transfiere a la nave",
+   "sonic_identity": "Magma tirano: burbujeo ardiente, rugidos de fusion, crujido termico"
+  },
+  {
+   "path": "world_09/subboss_a/world_09_subboss_a_attack.ogg",
+   "category": "subboss_a",
+   "world": 9,
+   "loop": false,
+   "duration_target": "0.97s",
+   "duration_real": 0.972,
+   "usage": "abanico/ráfaga radial del subjefe A",
+   "sonic_identity": "Magma tirano: burbujeo ardiente, rugidos de fusion, crujido termico"
+  },
+  {
+   "path": "world_09/subboss_a/world_09_subboss_a_death.ogg",
+   "category": "subboss_a",
+   "world": 9,
+   "loop": false,
+   "duration_target": "3.36s",
+   "duration_real": 3.355,
+   "usage": "subjefe A destruido",
+   "sonic_identity": "Magma tirano: burbujeo ardiente, rugidos de fusion, crujido termico"
+  },
+  {
+   "path": "world_09/subboss_a/world_09_subboss_a_intro.ogg",
+   "category": "subboss_a",
+   "world": 9,
+   "loop": false,
+   "duration_target": "1.68s",
+   "duration_real": 1.684,
+   "usage": "aparece el subjefe ofensivo",
+   "sonic_identity": "Magma tirano: burbujeo ardiente, rugidos de fusion, crujido termico"
+  },
+  {
+   "path": "world_09/subboss_b/world_09_subboss_b_attack.ogg",
+   "category": "subboss_b",
+   "world": 9,
+   "loop": false,
+   "duration_target": "1.23s",
+   "duration_real": 1.231,
+   "usage": "invocación/buscadores del subjefe B",
+   "sonic_identity": "Magma tirano: burbujeo ardiente, rugidos de fusion, crujido termico"
+  },
+  {
+   "path": "world_09/subboss_b/world_09_subboss_b_death.ogg",
+   "category": "subboss_b",
+   "world": 9,
+   "loop": false,
+   "duration_target": "3.30s",
+   "duration_real": 3.296,
+   "usage": "subjefe B destruido (implosión)",
+   "sonic_identity": "Magma tirano: burbujeo ardiente, rugidos de fusion, crujido termico"
+  },
+  {
+   "path": "world_09/subboss_b/world_09_subboss_b_intro.ogg",
+   "category": "subboss_b",
+   "world": 9,
+   "loop": false,
+   "duration_target": "2.06s",
+   "duration_real": 2.063,
+   "usage": "aparece el subjefe táctico",
+   "sonic_identity": "Magma tirano: burbujeo ardiente, rugidos de fusion, crujido termico"
+  },
+  {
+   "path": "world_10/ambience/world_10_ambience_loop.ogg",
+   "category": "ambience",
+   "world": 10,
+   "loop": true,
+   "duration_target": "36s loop",
+   "duration_real": 34.81,
+   "usage": "atmósfera continua del sector",
+   "sonic_identity": "Cuanto-fantasma: susurros invertidos, glitches, teleportos, silencio tenso"
+  },
+  {
+   "path": "world_10/boss/world_10_boss_attack_control.ogg",
+   "category": "boss",
+   "world": 10,
+   "loop": false,
+   "duration_target": "1.42s",
+   "duration_real": 1.419,
+   "usage": "campo de control/invocación",
+   "sonic_identity": "Phantom Dominion — Cuanto-fantasma: susurros invertidos, glitches, teleportos, silencio tenso"
+  },
+  {
+   "path": "world_10/boss/world_10_boss_attack_primary.ogg",
+   "category": "boss",
+   "world": 10,
+   "loop": false,
+   "duration_target": "1.00s",
+   "duration_real": 1.0,
+   "usage": "ataque firma del jefe",
+   "sonic_identity": "Phantom Dominion — Cuanto-fantasma: susurros invertidos, glitches, teleportos, silencio tenso"
+  },
+  {
+   "path": "world_10/boss/world_10_boss_attack_secondary.ogg",
+   "category": "boss",
+   "world": 10,
+   "loop": false,
+   "duration_target": "1.45s",
+   "duration_real": 1.454,
+   "usage": "ataque de área en abanico",
+   "sonic_identity": "Phantom Dominion — Cuanto-fantasma: susurros invertidos, glitches, teleportos, silencio tenso"
+  },
+  {
+   "path": "world_10/boss/world_10_boss_death.ogg",
+   "category": "boss",
+   "world": 10,
+   "loop": false,
+   "duration_target": "4.21s",
+   "duration_real": 4.208,
+   "usage": "jefe derrotado, colapso en varias etapas",
+   "sonic_identity": "Phantom Dominion — Cuanto-fantasma: susurros invertidos, glitches, teleportos, silencio tenso"
+  },
+  {
+   "path": "world_10/boss/world_10_boss_intro.ogg",
+   "category": "boss",
+   "world": 10,
+   "loop": false,
+   "duration_target": "3.66s",
+   "duration_real": 3.656,
+   "usage": "llegada del jefe con motivo propio",
+   "sonic_identity": "Phantom Dominion — Cuanto-fantasma: susurros invertidos, glitches, teleportos, silencio tenso"
+  },
+  {
+   "path": "world_10/boss/world_10_boss_phase_shift.ogg",
+   "category": "boss",
+   "world": 10,
+   "loop": false,
+   "duration_target": "2.00s",
+   "duration_real": 1.998,
+   "usage": "cambio de fase del jefe",
+   "sonic_identity": "Phantom Dominion — Cuanto-fantasma: susurros invertidos, glitches, teleportos, silencio tenso"
+  },
+  {
+   "path": "world_10/boss/world_10_boss_revive.ogg",
+   "category": "boss",
+   "world": 10,
+   "loop": false,
+   "duration_target": "2.68s",
+   "duration_real": 2.681,
+   "usage": "el jefe renace/muta a nueva fase",
+   "sonic_identity": "Phantom Dominion renace — Cuanto-fantasma: susurros invertidos, glitches, teleportos, silencio tenso"
+  },
+  {
+   "path": "world_10/minions/world_10_minion_hunter_attack.ogg",
+   "category": "minion",
+   "world": 10,
+   "loop": false,
+   "duration_target": "0.70s",
+   "duration_real": 0.696,
+   "usage": "cazador embiste en zigzag",
+   "sonic_identity": "Cuanto-fantasma: susurros invertidos, glitches, teleportos, silencio tenso"
+  },
+  {
+   "path": "world_10/minions/world_10_minion_phantom_attack.ogg",
+   "category": "minion",
+   "world": 10,
+   "loop": false,
+   "duration_target": "0.70s",
+   "duration_real": 0.703,
+   "usage": "fantasma se desfasea/camufla",
+   "sonic_identity": "Cuanto-fantasma: susurros invertidos, glitches, teleportos, silencio tenso"
+  },
+  {
+   "path": "world_10/minions/world_10_minion_sentinel_attack.ogg",
+   "category": "minion",
+   "world": 10,
+   "loop": false,
+   "duration_target": "0.63s",
+   "duration_real": 0.633,
+   "usage": "centinela activa escudo",
+   "sonic_identity": "Cuanto-fantasma: susurros invertidos, glitches, teleportos, silencio tenso"
+  },
+  {
+   "path": "world_10/minions/world_10_minion_spitter_attack.ogg",
+   "category": "minion",
+   "world": 10,
+   "loop": false,
+   "duration_target": "0.45s",
+   "duration_real": 0.449,
+   "usage": "escupidor lanza plasma/baba",
+   "sonic_identity": "Cuanto-fantasma: susurros invertidos, glitches, teleportos, silencio tenso"
+  },
+  {
+   "path": "world_10/minions/world_10_minion_stinger_attack.ogg",
+   "category": "minion",
+   "world": 10,
+   "loop": false,
+   "duration_target": "0.43s",
+   "duration_real": 0.427,
+   "usage": "aguijón carga y dispara",
+   "sonic_identity": "Cuanto-fantasma: susurros invertidos, glitches, teleportos, silencio tenso"
+  },
+  {
+   "path": "world_10/minions/world_10_minion_swarmer_attack.ogg",
+   "category": "minion",
+   "world": 10,
+   "loop": false,
+   "duration_target": "0.37s",
+   "duration_real": 0.373,
+   "usage": "enjambre rápido ataca",
+   "sonic_identity": "Cuanto-fantasma: susurros invertidos, glitches, teleportos, silencio tenso"
+  },
+  {
+   "path": "world_10/relic/world_10_relic_release.ogg",
+   "category": "relic",
+   "world": 10,
+   "loop": false,
+   "duration_target": "2.39s",
+   "duration_real": 2.392,
+   "usage": "reliquia sale del jefe y se transfiere a la nave",
+   "sonic_identity": "Cuanto-fantasma: susurros invertidos, glitches, teleportos, silencio tenso"
+  },
+  {
+   "path": "world_10/subboss_a/world_10_subboss_a_attack.ogg",
+   "category": "subboss_a",
+   "world": 10,
+   "loop": false,
+   "duration_target": "1.29s",
+   "duration_real": 1.29,
+   "usage": "abanico/ráfaga radial del subjefe A",
+   "sonic_identity": "Cuanto-fantasma: susurros invertidos, glitches, teleportos, silencio tenso"
+  },
+  {
+   "path": "world_10/subboss_a/world_10_subboss_a_death.ogg",
+   "category": "subboss_a",
+   "world": 10,
+   "loop": false,
+   "duration_target": "3.33s",
+   "duration_real": 3.33,
+   "usage": "subjefe A destruido",
+   "sonic_identity": "Cuanto-fantasma: susurros invertidos, glitches, teleportos, silencio tenso"
+  },
+  {
+   "path": "world_10/subboss_a/world_10_subboss_a_intro.ogg",
+   "category": "subboss_a",
+   "world": 10,
+   "loop": false,
+   "duration_target": "2.00s",
+   "duration_real": 1.995,
+   "usage": "aparece el subjefe ofensivo",
+   "sonic_identity": "Cuanto-fantasma: susurros invertidos, glitches, teleportos, silencio tenso"
+  },
+  {
+   "path": "world_10/subboss_b/world_10_subboss_b_attack.ogg",
+   "category": "subboss_b",
+   "world": 10,
+   "loop": false,
+   "duration_target": "1.23s",
+   "duration_real": 1.23,
+   "usage": "invocación/buscadores del subjefe B",
+   "sonic_identity": "Cuanto-fantasma: susurros invertidos, glitches, teleportos, silencio tenso"
+  },
+  {
+   "path": "world_10/subboss_b/world_10_subboss_b_death.ogg",
+   "category": "subboss_b",
+   "world": 10,
+   "loop": false,
+   "duration_target": "2.86s",
+   "duration_real": 2.861,
+   "usage": "subjefe B destruido (implosión)",
+   "sonic_identity": "Cuanto-fantasma: susurros invertidos, glitches, teleportos, silencio tenso"
+  },
+  {
+   "path": "world_10/subboss_b/world_10_subboss_b_intro.ogg",
+   "category": "subboss_b",
+   "world": 10,
+   "loop": false,
+   "duration_target": "2.05s",
+   "duration_real": 2.051,
+   "usage": "aparece el subjefe táctico",
+   "sonic_identity": "Cuanto-fantasma: susurros invertidos, glitches, teleportos, silencio tenso"
+  },
+  {
+   "path": "world_11/ambience/world_11_ambience_loop.ogg",
+   "category": "ambience",
+   "world": 11,
+   "loop": true,
+   "duration_target": "37s loop",
+   "duration_real": 35.19,
+   "usage": "atmósfera continua del sector",
+   "sonic_identity": "Gravedad: pozos que tragan tono, pulsos de marea, presion de masas"
+  },
+  {
+   "path": "world_11/boss/world_11_boss_attack_control.ogg",
+   "category": "boss",
+   "world": 11,
+   "loop": false,
+   "duration_target": "1.21s",
+   "duration_real": 1.21,
+   "usage": "campo de control/invocación",
+   "sonic_identity": "Gravity Devourer — Gravedad: pozos que tragan tono, pulsos de marea, presion de masas"
+  },
+  {
+   "path": "world_11/boss/world_11_boss_attack_primary.ogg",
+   "category": "boss",
+   "world": 11,
+   "loop": false,
+   "duration_target": "1.80s",
+   "duration_real": 1.8,
+   "usage": "ataque firma del jefe",
+   "sonic_identity": "Gravity Devourer — Gravedad: pozos que tragan tono, pulsos de marea, presion de masas"
+  },
+  {
+   "path": "world_11/boss/world_11_boss_attack_secondary.ogg",
+   "category": "boss",
+   "world": 11,
+   "loop": false,
+   "duration_target": "1.15s",
+   "duration_real": 1.155,
+   "usage": "ataque de área en abanico",
+   "sonic_identity": "Gravity Devourer — Gravedad: pozos que tragan tono, pulsos de marea, presion de masas"
+  },
+  {
+   "path": "world_11/boss/world_11_boss_death.ogg",
+   "category": "boss",
+   "world": 11,
+   "loop": false,
+   "duration_target": "4.93s",
+   "duration_real": 4.928,
+   "usage": "jefe derrotado, colapso en varias etapas",
+   "sonic_identity": "Gravity Devourer — Gravedad: pozos que tragan tono, pulsos de marea, presion de masas"
+  },
+  {
+   "path": "world_11/boss/world_11_boss_intro.ogg",
+   "category": "boss",
+   "world": 11,
+   "loop": false,
+   "duration_target": "3.68s",
+   "duration_real": 3.68,
+   "usage": "llegada del jefe con motivo propio",
+   "sonic_identity": "Gravity Devourer — Gravedad: pozos que tragan tono, pulsos de marea, presion de masas"
+  },
+  {
+   "path": "world_11/boss/world_11_boss_phase_shift.ogg",
+   "category": "boss",
+   "world": 11,
+   "loop": false,
+   "duration_target": "2.39s",
+   "duration_real": 2.391,
+   "usage": "cambio de fase del jefe",
+   "sonic_identity": "Gravity Devourer — Gravedad: pozos que tragan tono, pulsos de marea, presion de masas"
+  },
+  {
+   "path": "world_11/minions/world_11_minion_hunter_attack.ogg",
+   "category": "minion",
+   "world": 11,
+   "loop": false,
+   "duration_target": "0.68s",
+   "duration_real": 0.679,
+   "usage": "cazador embiste en zigzag",
+   "sonic_identity": "Gravedad: pozos que tragan tono, pulsos de marea, presion de masas"
+  },
+  {
+   "path": "world_11/minions/world_11_minion_phantom_attack.ogg",
+   "category": "minion",
+   "world": 11,
+   "loop": false,
+   "duration_target": "0.94s",
+   "duration_real": 0.944,
+   "usage": "fantasma se desfasea/camufla",
+   "sonic_identity": "Gravedad: pozos que tragan tono, pulsos de marea, presion de masas"
+  },
+  {
+   "path": "world_11/minions/world_11_minion_sentinel_attack.ogg",
+   "category": "minion",
+   "world": 11,
+   "loop": false,
+   "duration_target": "0.70s",
+   "duration_real": 0.705,
+   "usage": "centinela activa escudo",
+   "sonic_identity": "Gravedad: pozos que tragan tono, pulsos de marea, presion de masas"
+  },
+  {
+   "path": "world_11/minions/world_11_minion_spitter_attack.ogg",
+   "category": "minion",
+   "world": 11,
+   "loop": false,
+   "duration_target": "0.46s",
+   "duration_real": 0.457,
+   "usage": "escupidor lanza plasma/baba",
+   "sonic_identity": "Gravedad: pozos que tragan tono, pulsos de marea, presion de masas"
+  },
+  {
+   "path": "world_11/minions/world_11_minion_stinger_attack.ogg",
+   "category": "minion",
+   "world": 11,
+   "loop": false,
+   "duration_target": "0.54s",
+   "duration_real": 0.544,
+   "usage": "aguijón carga y dispara",
+   "sonic_identity": "Gravedad: pozos que tragan tono, pulsos de marea, presion de masas"
+  },
+  {
+   "path": "world_11/minions/world_11_minion_swarmer_attack.ogg",
+   "category": "minion",
+   "world": 11,
+   "loop": false,
+   "duration_target": "0.36s",
+   "duration_real": 0.358,
+   "usage": "enjambre rápido ataca",
+   "sonic_identity": "Gravedad: pozos que tragan tono, pulsos de marea, presion de masas"
+  },
+  {
+   "path": "world_11/relic/world_11_relic_release.ogg",
+   "category": "relic",
+   "world": 11,
+   "loop": false,
+   "duration_target": "2.93s",
+   "duration_real": 2.928,
+   "usage": "reliquia sale del jefe y se transfiere a la nave",
+   "sonic_identity": "Gravedad: pozos que tragan tono, pulsos de marea, presion de masas"
+  },
+  {
+   "path": "world_11/subboss_a/world_11_subboss_a_attack.ogg",
+   "category": "subboss_a",
+   "world": 11,
+   "loop": false,
+   "duration_target": "0.98s",
+   "duration_real": 0.976,
+   "usage": "abanico/ráfaga radial del subjefe A",
+   "sonic_identity": "Gravedad: pozos que tragan tono, pulsos de marea, presion de masas"
+  },
+  {
+   "path": "world_11/subboss_a/world_11_subboss_a_death.ogg",
+   "category": "subboss_a",
+   "world": 11,
+   "loop": false,
+   "duration_target": "2.86s",
+   "duration_real": 2.858,
+   "usage": "subjefe A destruido",
+   "sonic_identity": "Gravedad: pozos que tragan tono, pulsos de marea, presion de masas"
+  },
+  {
+   "path": "world_11/subboss_a/world_11_subboss_a_intro.ogg",
+   "category": "subboss_a",
+   "world": 11,
+   "loop": false,
+   "duration_target": "1.72s",
+   "duration_real": 1.716,
+   "usage": "aparece el subjefe ofensivo",
+   "sonic_identity": "Gravedad: pozos que tragan tono, pulsos de marea, presion de masas"
+  },
+  {
+   "path": "world_11/subboss_b/world_11_subboss_b_attack.ogg",
+   "category": "subboss_b",
+   "world": 11,
+   "loop": false,
+   "duration_target": "1.21s",
+   "duration_real": 1.213,
+   "usage": "invocación/buscadores del subjefe B",
+   "sonic_identity": "Gravedad: pozos que tragan tono, pulsos de marea, presion de masas"
+  },
+  {
+   "path": "world_11/subboss_b/world_11_subboss_b_death.ogg",
+   "category": "subboss_b",
+   "world": 11,
+   "loop": false,
+   "duration_target": "2.67s",
+   "duration_real": 2.675,
+   "usage": "subjefe B destruido (implosión)",
+   "sonic_identity": "Gravedad: pozos que tragan tono, pulsos de marea, presion de masas"
+  },
+  {
+   "path": "world_11/subboss_b/world_11_subboss_b_intro.ogg",
+   "category": "subboss_b",
+   "world": 11,
+   "loop": false,
+   "duration_target": "2.05s",
+   "duration_real": 2.052,
+   "usage": "aparece el subjefe táctico",
+   "sonic_identity": "Gravedad: pozos que tragan tono, pulsos de marea, presion de masas"
+  },
+  {
+   "path": "world_12/ambience/world_12_ambience_loop.ogg",
+   "category": "ambience",
+   "world": 12,
+   "loop": true,
+   "duration_target": "29s loop",
+   "duration_real": 27.306,
+   "usage": "atmósfera continua del sector",
+   "sonic_identity": "Ceniza mental: viento de pavesas, drone opresivo, golpes mermados"
+  },
+  {
+   "path": "world_12/boss/world_12_boss_attack_control.ogg",
+   "category": "boss",
+   "world": 12,
+   "loop": false,
+   "duration_target": "1.68s",
+   "duration_real": 1.684,
+   "usage": "campo de control/invocación",
+   "sonic_identity": "Ashen Overmind — Ceniza mental: viento de pavesas, drone opresivo, golpes mermados"
+  },
+  {
+   "path": "world_12/boss/world_12_boss_attack_primary.ogg",
+   "category": "boss",
+   "world": 12,
+   "loop": false,
+   "duration_target": "1.70s",
+   "duration_real": 1.7,
+   "usage": "ataque firma del jefe",
+   "sonic_identity": "Ashen Overmind — Ceniza mental: viento de pavesas, drone opresivo, golpes mermados"
+  },
+  {
+   "path": "world_12/boss/world_12_boss_attack_secondary.ogg",
+   "category": "boss",
+   "world": 12,
+   "loop": false,
+   "duration_target": "1.51s",
+   "duration_real": 1.506,
+   "usage": "ataque de área en abanico",
+   "sonic_identity": "Ashen Overmind — Ceniza mental: viento de pavesas, drone opresivo, golpes mermados"
+  },
+  {
+   "path": "world_12/boss/world_12_boss_death.ogg",
+   "category": "boss",
+   "world": 12,
+   "loop": false,
+   "duration_target": "4.47s",
+   "duration_real": 4.472,
+   "usage": "jefe derrotado, colapso en varias etapas",
+   "sonic_identity": "Ashen Overmind — Ceniza mental: viento de pavesas, drone opresivo, golpes mermados"
+  },
+  {
+   "path": "world_12/boss/world_12_boss_intro.ogg",
+   "category": "boss",
+   "world": 12,
+   "loop": false,
+   "duration_target": "2.90s",
+   "duration_real": 2.896,
+   "usage": "llegada del jefe con motivo propio",
+   "sonic_identity": "Ashen Overmind — Ceniza mental: viento de pavesas, drone opresivo, golpes mermados"
+  },
+  {
+   "path": "world_12/boss/world_12_boss_phase_shift.ogg",
+   "category": "boss",
+   "world": 12,
+   "loop": false,
+   "duration_target": "1.96s",
+   "duration_real": 1.962,
+   "usage": "cambio de fase del jefe",
+   "sonic_identity": "Ashen Overmind — Ceniza mental: viento de pavesas, drone opresivo, golpes mermados"
+  },
+  {
+   "path": "world_12/minions/world_12_minion_hunter_attack.ogg",
+   "category": "minion",
+   "world": 12,
+   "loop": false,
+   "duration_target": "0.78s",
+   "duration_real": 0.782,
+   "usage": "cazador embiste en zigzag",
+   "sonic_identity": "Ceniza mental: viento de pavesas, drone opresivo, golpes mermados"
+  },
+  {
+   "path": "world_12/minions/world_12_minion_phantom_attack.ogg",
+   "category": "minion",
+   "world": 12,
+   "loop": false,
+   "duration_target": "0.91s",
+   "duration_real": 0.908,
+   "usage": "fantasma se desfasea/camufla",
+   "sonic_identity": "Ceniza mental: viento de pavesas, drone opresivo, golpes mermados"
+  },
+  {
+   "path": "world_12/minions/world_12_minion_sentinel_attack.ogg",
+   "category": "minion",
+   "world": 12,
+   "loop": false,
+   "duration_target": "0.72s",
+   "duration_real": 0.721,
+   "usage": "centinela activa escudo",
+   "sonic_identity": "Ceniza mental: viento de pavesas, drone opresivo, golpes mermados"
+  },
+  {
+   "path": "world_12/minions/world_12_minion_spitter_attack.ogg",
+   "category": "minion",
+   "world": 12,
+   "loop": false,
+   "duration_target": "0.50s",
+   "duration_real": 0.5,
+   "usage": "escupidor lanza plasma/baba",
+   "sonic_identity": "Ceniza mental: viento de pavesas, drone opresivo, golpes mermados"
+  },
+  {
+   "path": "world_12/minions/world_12_minion_stinger_attack.ogg",
+   "category": "minion",
+   "world": 12,
+   "loop": false,
+   "duration_target": "0.44s",
+   "duration_real": 0.438,
+   "usage": "aguijón carga y dispara",
+   "sonic_identity": "Ceniza mental: viento de pavesas, drone opresivo, golpes mermados"
+  },
+  {
+   "path": "world_12/minions/world_12_minion_swarmer_attack.ogg",
+   "category": "minion",
+   "world": 12,
+   "loop": false,
+   "duration_target": "0.37s",
+   "duration_real": 0.373,
+   "usage": "enjambre rápido ataca",
+   "sonic_identity": "Ceniza mental: viento de pavesas, drone opresivo, golpes mermados"
+  },
+  {
+   "path": "world_12/relic/world_12_relic_release.ogg",
+   "category": "relic",
+   "world": 12,
+   "loop": false,
+   "duration_target": "2.48s",
+   "duration_real": 2.485,
+   "usage": "reliquia sale del jefe y se transfiere a la nave",
+   "sonic_identity": "Ceniza mental: viento de pavesas, drone opresivo, golpes mermados"
+  },
+  {
+   "path": "world_12/subboss_a/world_12_subboss_a_attack.ogg",
+   "category": "subboss_a",
+   "world": 12,
+   "loop": false,
+   "duration_target": "1.24s",
+   "duration_real": 1.245,
+   "usage": "abanico/ráfaga radial del subjefe A",
+   "sonic_identity": "Ceniza mental: viento de pavesas, drone opresivo, golpes mermados"
+  },
+  {
+   "path": "world_12/subboss_a/world_12_subboss_a_death.ogg",
+   "category": "subboss_a",
+   "world": 12,
+   "loop": false,
+   "duration_target": "3.32s",
+   "duration_real": 3.317,
+   "usage": "subjefe A destruido",
+   "sonic_identity": "Ceniza mental: viento de pavesas, drone opresivo, golpes mermados"
+  },
+  {
+   "path": "world_12/subboss_a/world_12_subboss_a_intro.ogg",
+   "category": "subboss_a",
+   "world": 12,
+   "loop": false,
+   "duration_target": "2.12s",
+   "duration_real": 2.119,
+   "usage": "aparece el subjefe ofensivo",
+   "sonic_identity": "Ceniza mental: viento de pavesas, drone opresivo, golpes mermados"
+  },
+  {
+   "path": "world_12/subboss_b/world_12_subboss_b_attack.ogg",
+   "category": "subboss_b",
+   "world": 12,
+   "loop": false,
+   "duration_target": "0.96s",
+   "duration_real": 0.955,
+   "usage": "invocación/buscadores del subjefe B",
+   "sonic_identity": "Ceniza mental: viento de pavesas, drone opresivo, golpes mermados"
+  },
+  {
+   "path": "world_12/subboss_b/world_12_subboss_b_death.ogg",
+   "category": "subboss_b",
+   "world": 12,
+   "loop": false,
+   "duration_target": "3.34s",
+   "duration_real": 3.34,
+   "usage": "subjefe B destruido (implosión)",
+   "sonic_identity": "Ceniza mental: viento de pavesas, drone opresivo, golpes mermados"
+  },
+  {
+   "path": "world_12/subboss_b/world_12_subboss_b_intro.ogg",
+   "category": "subboss_b",
+   "world": 12,
+   "loop": false,
+   "duration_target": "2.04s",
+   "duration_real": 2.038,
+   "usage": "aparece el subjefe táctico",
+   "sonic_identity": "Ceniza mental: viento de pavesas, drone opresivo, golpes mermados"
+  },
+  {
+   "path": "world_13/ambience/world_13_ambience_loop.ogg",
+   "category": "ambience",
+   "world": 13,
+   "loop": true,
+   "duration_target": "37s loop",
+   "duration_real": 35.897,
+   "usage": "atmósfera continua del sector",
+   "sonic_identity": "Esporas toxicas: burbujeo humedo, estallidos de espora, savia acida"
+  },
+  {
+   "path": "world_13/boss/world_13_boss_attack_control.ogg",
+   "category": "boss",
+   "world": 13,
+   "loop": false,
+   "duration_target": "1.38s",
+   "duration_real": 1.376,
+   "usage": "campo de control/invocación",
+   "sonic_identity": "Spore Empress — Esporas toxicas: burbujeo humedo, estallidos de espora, savia acida"
+  },
+  {
+   "path": "world_13/boss/world_13_boss_attack_primary.ogg",
+   "category": "boss",
+   "world": 13,
+   "loop": false,
+   "duration_target": "1.40s",
+   "duration_real": 1.4,
+   "usage": "ataque firma del jefe",
+   "sonic_identity": "Spore Empress — Esporas toxicas: burbujeo humedo, estallidos de espora, savia acida"
+  },
+  {
+   "path": "world_13/boss/world_13_boss_attack_secondary.ogg",
+   "category": "boss",
+   "world": 13,
+   "loop": false,
+   "duration_target": "1.42s",
+   "duration_real": 1.424,
+   "usage": "ataque de área en abanico",
+   "sonic_identity": "Spore Empress — Esporas toxicas: burbujeo humedo, estallidos de espora, savia acida"
+  },
+  {
+   "path": "world_13/boss/world_13_boss_death.ogg",
+   "category": "boss",
+   "world": 13,
+   "loop": false,
+   "duration_target": "5.50s",
+   "duration_real": 5.498,
+   "usage": "jefe derrotado, colapso en varias etapas",
+   "sonic_identity": "Spore Empress — Esporas toxicas: burbujeo humedo, estallidos de espora, savia acida"
+  },
+  {
+   "path": "world_13/boss/world_13_boss_intro.ogg",
+   "category": "boss",
+   "world": 13,
+   "loop": false,
+   "duration_target": "2.72s",
+   "duration_real": 2.723,
+   "usage": "llegada del jefe con motivo propio",
+   "sonic_identity": "Spore Empress — Esporas toxicas: burbujeo humedo, estallidos de espora, savia acida"
+  },
+  {
+   "path": "world_13/boss/world_13_boss_phase_shift.ogg",
+   "category": "boss",
+   "world": 13,
+   "loop": false,
+   "duration_target": "1.65s",
+   "duration_real": 1.647,
+   "usage": "cambio de fase del jefe",
+   "sonic_identity": "Spore Empress — Esporas toxicas: burbujeo humedo, estallidos de espora, savia acida"
+  },
+  {
+   "path": "world_13/minions/world_13_minion_hunter_attack.ogg",
+   "category": "minion",
+   "world": 13,
+   "loop": false,
+   "duration_target": "0.59s",
+   "duration_real": 0.593,
+   "usage": "cazador embiste en zigzag",
+   "sonic_identity": "Esporas toxicas: burbujeo humedo, estallidos de espora, savia acida"
+  },
+  {
+   "path": "world_13/minions/world_13_minion_phantom_attack.ogg",
+   "category": "minion",
+   "world": 13,
+   "loop": false,
+   "duration_target": "0.95s",
+   "duration_real": 0.948,
+   "usage": "fantasma se desfasea/camufla",
+   "sonic_identity": "Esporas toxicas: burbujeo humedo, estallidos de espora, savia acida"
+  },
+  {
+   "path": "world_13/minions/world_13_minion_sentinel_attack.ogg",
+   "category": "minion",
+   "world": 13,
+   "loop": false,
+   "duration_target": "0.76s",
+   "duration_real": 0.756,
+   "usage": "centinela activa escudo",
+   "sonic_identity": "Esporas toxicas: burbujeo humedo, estallidos de espora, savia acida"
+  },
+  {
+   "path": "world_13/minions/world_13_minion_spitter_attack.ogg",
+   "category": "minion",
+   "world": 13,
+   "loop": false,
+   "duration_target": "0.41s",
+   "duration_real": 0.408,
+   "usage": "escupidor lanza plasma/baba",
+   "sonic_identity": "Esporas toxicas: burbujeo humedo, estallidos de espora, savia acida"
+  },
+  {
+   "path": "world_13/minions/world_13_minion_stinger_attack.ogg",
+   "category": "minion",
+   "world": 13,
+   "loop": false,
+   "duration_target": "0.60s",
+   "duration_real": 0.596,
+   "usage": "aguijón carga y dispara",
+   "sonic_identity": "Esporas toxicas: burbujeo humedo, estallidos de espora, savia acida"
+  },
+  {
+   "path": "world_13/minions/world_13_minion_swarmer_attack.ogg",
+   "category": "minion",
+   "world": 13,
+   "loop": false,
+   "duration_target": "0.40s",
+   "duration_real": 0.404,
+   "usage": "enjambre rápido ataca",
+   "sonic_identity": "Esporas toxicas: burbujeo humedo, estallidos de espora, savia acida"
+  },
+  {
+   "path": "world_13/relic/world_13_relic_release.ogg",
+   "category": "relic",
+   "world": 13,
+   "loop": false,
+   "duration_target": "2.95s",
+   "duration_real": 2.948,
+   "usage": "reliquia sale del jefe y se transfiere a la nave",
+   "sonic_identity": "Esporas toxicas: burbujeo humedo, estallidos de espora, savia acida"
+  },
+  {
+   "path": "world_13/subboss_a/world_13_subboss_a_attack.ogg",
+   "category": "subboss_a",
+   "world": 13,
+   "loop": false,
+   "duration_target": "1.06s",
+   "duration_real": 1.061,
+   "usage": "abanico/ráfaga radial del subjefe A",
+   "sonic_identity": "Esporas toxicas: burbujeo humedo, estallidos de espora, savia acida"
+  },
+  {
+   "path": "world_13/subboss_a/world_13_subboss_a_death.ogg",
+   "category": "subboss_a",
+   "world": 13,
+   "loop": false,
+   "duration_target": "2.92s",
+   "duration_real": 2.918,
+   "usage": "subjefe A destruido",
+   "sonic_identity": "Esporas toxicas: burbujeo humedo, estallidos de espora, savia acida"
+  },
+  {
+   "path": "world_13/subboss_a/world_13_subboss_a_intro.ogg",
+   "category": "subboss_a",
+   "world": 13,
+   "loop": false,
+   "duration_target": "1.97s",
+   "duration_real": 1.974,
+   "usage": "aparece el subjefe ofensivo",
+   "sonic_identity": "Esporas toxicas: burbujeo humedo, estallidos de espora, savia acida"
+  },
+  {
+   "path": "world_13/subboss_b/world_13_subboss_b_attack.ogg",
+   "category": "subboss_b",
+   "world": 13,
+   "loop": false,
+   "duration_target": "0.91s",
+   "duration_real": 0.906,
+   "usage": "invocación/buscadores del subjefe B",
+   "sonic_identity": "Esporas toxicas: burbujeo humedo, estallidos de espora, savia acida"
+  },
+  {
+   "path": "world_13/subboss_b/world_13_subboss_b_death.ogg",
+   "category": "subboss_b",
+   "world": 13,
+   "loop": false,
+   "duration_target": "3.02s",
+   "duration_real": 3.02,
+   "usage": "subjefe B destruido (implosión)",
+   "sonic_identity": "Esporas toxicas: burbujeo humedo, estallidos de espora, savia acida"
+  },
+  {
+   "path": "world_13/subboss_b/world_13_subboss_b_intro.ogg",
+   "category": "subboss_b",
+   "world": 13,
+   "loop": false,
+   "duration_target": "1.81s",
+   "duration_real": 1.806,
+   "usage": "aparece el subjefe táctico",
+   "sonic_identity": "Esporas toxicas: burbujeo humedo, estallidos de espora, savia acida"
+  },
+  {
+   "path": "world_14/ambience/world_14_ambience_loop.ogg",
+   "category": "ambience",
+   "world": 14,
+   "loop": true,
+   "duration_target": "36s loop",
+   "duration_real": 34.037,
+   "usage": "atmósfera continua del sector",
+   "sonic_identity": "Imperial ancestral: gongs de bronce, coro de templo, relojeria sagrada"
+  },
+  {
+   "path": "world_14/boss/world_14_boss_attack_control.ogg",
+   "category": "boss",
+   "world": 14,
+   "loop": false,
+   "duration_target": "1.48s",
+   "duration_real": 1.485,
+   "usage": "campo de control/invocación",
+   "sonic_identity": "Ancient Sentinel King — Imperial ancestral: gongs de bronce, coro de templo, relojeria sagrada"
+  },
+  {
+   "path": "world_14/boss/world_14_boss_attack_primary.ogg",
+   "category": "boss",
+   "world": 14,
+   "loop": false,
+   "duration_target": "1.80s",
+   "duration_real": 1.8,
+   "usage": "ataque firma del jefe",
+   "sonic_identity": "Ancient Sentinel King — Imperial ancestral: gongs de bronce, coro de templo, relojeria sagrada"
+  },
+  {
+   "path": "world_14/boss/world_14_boss_attack_secondary.ogg",
+   "category": "boss",
+   "world": 14,
+   "loop": false,
+   "duration_target": "1.42s",
+   "duration_real": 1.422,
+   "usage": "ataque de área en abanico",
+   "sonic_identity": "Ancient Sentinel King — Imperial ancestral: gongs de bronce, coro de templo, relojeria sagrada"
+  },
+  {
+   "path": "world_14/boss/world_14_boss_death.ogg",
+   "category": "boss",
+   "world": 14,
+   "loop": false,
+   "duration_target": "4.78s",
+   "duration_real": 4.781,
+   "usage": "jefe derrotado, colapso en varias etapas",
+   "sonic_identity": "Ancient Sentinel King — Imperial ancestral: gongs de bronce, coro de templo, relojeria sagrada"
+  },
+  {
+   "path": "world_14/boss/world_14_boss_intro.ogg",
+   "category": "boss",
+   "world": 14,
+   "loop": false,
+   "duration_target": "3.25s",
+   "duration_real": 3.255,
+   "usage": "llegada del jefe con motivo propio",
+   "sonic_identity": "Ancient Sentinel King — Imperial ancestral: gongs de bronce, coro de templo, relojeria sagrada"
+  },
+  {
+   "path": "world_14/boss/world_14_boss_phase_shift.ogg",
+   "category": "boss",
+   "world": 14,
+   "loop": false,
+   "duration_target": "1.95s",
+   "duration_real": 1.951,
+   "usage": "cambio de fase del jefe",
+   "sonic_identity": "Ancient Sentinel King — Imperial ancestral: gongs de bronce, coro de templo, relojeria sagrada"
+  },
+  {
+   "path": "world_14/minions/world_14_minion_hunter_attack.ogg",
+   "category": "minion",
+   "world": 14,
+   "loop": false,
+   "duration_target": "0.57s",
+   "duration_real": 0.571,
+   "usage": "cazador embiste en zigzag",
+   "sonic_identity": "Imperial ancestral: gongs de bronce, coro de templo, relojeria sagrada"
+  },
+  {
+   "path": "world_14/minions/world_14_minion_phantom_attack.ogg",
+   "category": "minion",
+   "world": 14,
+   "loop": false,
+   "duration_target": "0.89s",
+   "duration_real": 0.889,
+   "usage": "fantasma se desfasea/camufla",
+   "sonic_identity": "Imperial ancestral: gongs de bronce, coro de templo, relojeria sagrada"
+  },
+  {
+   "path": "world_14/minions/world_14_minion_sentinel_attack.ogg",
+   "category": "minion",
+   "world": 14,
+   "loop": false,
+   "duration_target": "0.55s",
+   "duration_real": 0.554,
+   "usage": "centinela activa escudo",
+   "sonic_identity": "Imperial ancestral: gongs de bronce, coro de templo, relojeria sagrada"
+  },
+  {
+   "path": "world_14/minions/world_14_minion_spitter_attack.ogg",
+   "category": "minion",
+   "world": 14,
+   "loop": false,
+   "duration_target": "0.49s",
+   "duration_real": 0.492,
+   "usage": "escupidor lanza plasma/baba",
+   "sonic_identity": "Imperial ancestral: gongs de bronce, coro de templo, relojeria sagrada"
+  },
+  {
+   "path": "world_14/minions/world_14_minion_stinger_attack.ogg",
+   "category": "minion",
+   "world": 14,
+   "loop": false,
+   "duration_target": "0.54s",
+   "duration_real": 0.538,
+   "usage": "aguijón carga y dispara",
+   "sonic_identity": "Imperial ancestral: gongs de bronce, coro de templo, relojeria sagrada"
+  },
+  {
+   "path": "world_14/minions/world_14_minion_swarmer_attack.ogg",
+   "category": "minion",
+   "world": 14,
+   "loop": false,
+   "duration_target": "0.42s",
+   "duration_real": 0.419,
+   "usage": "enjambre rápido ataca",
+   "sonic_identity": "Imperial ancestral: gongs de bronce, coro de templo, relojeria sagrada"
+  },
+  {
+   "path": "world_14/relic/world_14_relic_release.ogg",
+   "category": "relic",
+   "world": 14,
+   "loop": false,
+   "duration_target": "2.49s",
+   "duration_real": 2.494,
+   "usage": "reliquia sale del jefe y se transfiere a la nave",
+   "sonic_identity": "Imperial ancestral: gongs de bronce, coro de templo, relojeria sagrada"
+  },
+  {
+   "path": "world_14/subboss_a/world_14_subboss_a_attack.ogg",
+   "category": "subboss_a",
+   "world": 14,
+   "loop": false,
+   "duration_target": "1.11s",
+   "duration_real": 1.112,
+   "usage": "abanico/ráfaga radial del subjefe A",
+   "sonic_identity": "Imperial ancestral: gongs de bronce, coro de templo, relojeria sagrada"
+  },
+  {
+   "path": "world_14/subboss_a/world_14_subboss_a_death.ogg",
+   "category": "subboss_a",
+   "world": 14,
+   "loop": false,
+   "duration_target": "2.69s",
+   "duration_real": 2.695,
+   "usage": "subjefe A destruido",
+   "sonic_identity": "Imperial ancestral: gongs de bronce, coro de templo, relojeria sagrada"
+  },
+  {
+   "path": "world_14/subboss_a/world_14_subboss_a_intro.ogg",
+   "category": "subboss_a",
+   "world": 14,
+   "loop": false,
+   "duration_target": "1.91s",
+   "duration_real": 1.911,
+   "usage": "aparece el subjefe ofensivo",
+   "sonic_identity": "Imperial ancestral: gongs de bronce, coro de templo, relojeria sagrada"
+  },
+  {
+   "path": "world_14/subboss_b/world_14_subboss_b_attack.ogg",
+   "category": "subboss_b",
+   "world": 14,
+   "loop": false,
+   "duration_target": "1.24s",
+   "duration_real": 1.243,
+   "usage": "invocación/buscadores del subjefe B",
+   "sonic_identity": "Imperial ancestral: gongs de bronce, coro de templo, relojeria sagrada"
+  },
+  {
+   "path": "world_14/subboss_b/world_14_subboss_b_death.ogg",
+   "category": "subboss_b",
+   "world": 14,
+   "loop": false,
+   "duration_target": "3.29s",
+   "duration_real": 3.286,
+   "usage": "subjefe B destruido (implosión)",
+   "sonic_identity": "Imperial ancestral: gongs de bronce, coro de templo, relojeria sagrada"
+  },
+  {
+   "path": "world_14/subboss_b/world_14_subboss_b_intro.ogg",
+   "category": "subboss_b",
+   "world": 14,
+   "loop": false,
+   "duration_target": "2.26s",
+   "duration_real": 2.258,
+   "usage": "aparece el subjefe táctico",
+   "sonic_identity": "Imperial ancestral: gongs de bronce, coro de templo, relojeria sagrada"
+  },
+  {
+   "path": "world_15/ambience/world_15_ambience_loop.ogg",
+   "category": "ambience",
+   "world": 15,
+   "loop": true,
+   "duration_target": "30s loop",
+   "duration_real": 28.16,
+   "usage": "atmósfera continua del sector",
+   "sonic_identity": "Forja del vacio: sierras, servos, nacimiento de maquinaria, neon humedo"
+  },
+  {
+   "path": "world_15/boss/world_15_boss_attack_control.ogg",
+   "category": "boss",
+   "world": 15,
+   "loop": false,
+   "duration_target": "1.65s",
+   "duration_real": 1.647,
+   "usage": "campo de control/invocación",
+   "sonic_identity": "Mecha Brood Sovereign — Forja del vacio: sierras, servos, nacimiento de maquinaria, neon humedo"
+  },
+  {
+   "path": "world_15/boss/world_15_boss_attack_primary.ogg",
+   "category": "boss",
+   "world": 15,
+   "loop": false,
+   "duration_target": "1.60s",
+   "duration_real": 1.6,
+   "usage": "ataque firma del jefe",
+   "sonic_identity": "Mecha Brood Sovereign — Forja del vacio: sierras, servos, nacimiento de maquinaria, neon humedo"
+  },
+  {
+   "path": "world_15/boss/world_15_boss_attack_secondary.ogg",
+   "category": "boss",
+   "world": 15,
+   "loop": false,
+   "duration_target": "1.51s",
+   "duration_real": 1.507,
+   "usage": "ataque de área en abanico",
+   "sonic_identity": "Mecha Brood Sovereign — Forja del vacio: sierras, servos, nacimiento de maquinaria, neon humedo"
+  },
+  {
+   "path": "world_15/boss/world_15_boss_death.ogg",
+   "category": "boss",
+   "world": 15,
+   "loop": false,
+   "duration_target": "4.81s",
+   "duration_real": 4.808,
+   "usage": "jefe derrotado, colapso en varias etapas",
+   "sonic_identity": "Mecha Brood Sovereign — Forja del vacio: sierras, servos, nacimiento de maquinaria, neon humedo"
+  },
+  {
+   "path": "world_15/boss/world_15_boss_intro.ogg",
+   "category": "boss",
+   "world": 15,
+   "loop": false,
+   "duration_target": "3.14s",
+   "duration_real": 3.144,
+   "usage": "llegada del jefe con motivo propio",
+   "sonic_identity": "Mecha Brood Sovereign — Forja del vacio: sierras, servos, nacimiento de maquinaria, neon humedo"
+  },
+  {
+   "path": "world_15/boss/world_15_boss_phase_shift.ogg",
+   "category": "boss",
+   "world": 15,
+   "loop": false,
+   "duration_target": "1.82s",
+   "duration_real": 1.816,
+   "usage": "cambio de fase del jefe",
+   "sonic_identity": "Mecha Brood Sovereign — Forja del vacio: sierras, servos, nacimiento de maquinaria, neon humedo"
+  },
+  {
+   "path": "world_15/boss/world_15_boss_revive.ogg",
+   "category": "boss",
+   "world": 15,
+   "loop": false,
+   "duration_target": "2.63s",
+   "duration_real": 2.631,
+   "usage": "el jefe renace/muta a nueva fase",
+   "sonic_identity": "Mecha Brood Sovereign renace — Forja del vacio: sierras, servos, nacimiento de maquinaria, neon humedo"
+  },
+  {
+   "path": "world_15/minions/world_15_minion_hunter_attack.ogg",
+   "category": "minion",
+   "world": 15,
+   "loop": false,
+   "duration_target": "0.75s",
+   "duration_real": 0.751,
+   "usage": "cazador embiste en zigzag",
+   "sonic_identity": "Forja del vacio: sierras, servos, nacimiento de maquinaria, neon humedo"
+  },
+  {
+   "path": "world_15/minions/world_15_minion_phantom_attack.ogg",
+   "category": "minion",
+   "world": 15,
+   "loop": false,
+   "duration_target": "0.66s",
+   "duration_real": 0.663,
+   "usage": "fantasma se desfasea/camufla",
+   "sonic_identity": "Forja del vacio: sierras, servos, nacimiento de maquinaria, neon humedo"
+  },
+  {
+   "path": "world_15/minions/world_15_minion_sentinel_attack.ogg",
+   "category": "minion",
+   "world": 15,
+   "loop": false,
+   "duration_target": "0.65s",
+   "duration_real": 0.651,
+   "usage": "centinela activa escudo",
+   "sonic_identity": "Forja del vacio: sierras, servos, nacimiento de maquinaria, neon humedo"
+  },
+  {
+   "path": "world_15/minions/world_15_minion_spitter_attack.ogg",
+   "category": "minion",
+   "world": 15,
+   "loop": false,
+   "duration_target": "0.51s",
+   "duration_real": 0.509,
+   "usage": "escupidor lanza plasma/baba",
+   "sonic_identity": "Forja del vacio: sierras, servos, nacimiento de maquinaria, neon humedo"
+  },
+  {
+   "path": "world_15/minions/world_15_minion_stinger_attack.ogg",
+   "category": "minion",
+   "world": 15,
+   "loop": false,
+   "duration_target": "0.54s",
+   "duration_real": 0.544,
+   "usage": "aguijón carga y dispara",
+   "sonic_identity": "Forja del vacio: sierras, servos, nacimiento de maquinaria, neon humedo"
+  },
+  {
+   "path": "world_15/minions/world_15_minion_swarmer_attack.ogg",
+   "category": "minion",
+   "world": 15,
+   "loop": false,
+   "duration_target": "0.49s",
+   "duration_real": 0.488,
+   "usage": "enjambre rápido ataca",
+   "sonic_identity": "Forja del vacio: sierras, servos, nacimiento de maquinaria, neon humedo"
+  },
+  {
+   "path": "world_15/relic/world_15_relic_release.ogg",
+   "category": "relic",
+   "world": 15,
+   "loop": false,
+   "duration_target": "2.48s",
+   "duration_real": 2.476,
+   "usage": "reliquia sale del jefe y se transfiere a la nave",
+   "sonic_identity": "Forja del vacio: sierras, servos, nacimiento de maquinaria, neon humedo"
+  },
+  {
+   "path": "world_15/subboss_a/world_15_subboss_a_attack.ogg",
+   "category": "subboss_a",
+   "world": 15,
+   "loop": false,
+   "duration_target": "0.92s",
+   "duration_real": 0.923,
+   "usage": "abanico/ráfaga radial del subjefe A",
+   "sonic_identity": "Forja del vacio: sierras, servos, nacimiento de maquinaria, neon humedo"
+  },
+  {
+   "path": "world_15/subboss_a/world_15_subboss_a_death.ogg",
+   "category": "subboss_a",
+   "world": 15,
+   "loop": false,
+   "duration_target": "2.84s",
+   "duration_real": 2.837,
+   "usage": "subjefe A destruido",
+   "sonic_identity": "Forja del vacio: sierras, servos, nacimiento de maquinaria, neon humedo"
+  },
+  {
+   "path": "world_15/subboss_a/world_15_subboss_a_intro.ogg",
+   "category": "subboss_a",
+   "world": 15,
+   "loop": false,
+   "duration_target": "1.99s",
+   "duration_real": 1.99,
+   "usage": "aparece el subjefe ofensivo",
+   "sonic_identity": "Forja del vacio: sierras, servos, nacimiento de maquinaria, neon humedo"
+  },
+  {
+   "path": "world_15/subboss_b/world_15_subboss_b_attack.ogg",
+   "category": "subboss_b",
+   "world": 15,
+   "loop": false,
+   "duration_target": "1.27s",
+   "duration_real": 1.27,
+   "usage": "invocación/buscadores del subjefe B",
+   "sonic_identity": "Forja del vacio: sierras, servos, nacimiento de maquinaria, neon humedo"
+  },
+  {
+   "path": "world_15/subboss_b/world_15_subboss_b_death.ogg",
+   "category": "subboss_b",
+   "world": 15,
+   "loop": false,
+   "duration_target": "2.67s",
+   "duration_real": 2.672,
+   "usage": "subjefe B destruido (implosión)",
+   "sonic_identity": "Forja del vacio: sierras, servos, nacimiento de maquinaria, neon humedo"
+  },
+  {
+   "path": "world_15/subboss_b/world_15_subboss_b_intro.ogg",
+   "category": "subboss_b",
+   "world": 15,
+   "loop": false,
+   "duration_target": "2.17s",
+   "duration_real": 2.166,
+   "usage": "aparece el subjefe táctico",
+   "sonic_identity": "Forja del vacio: sierras, servos, nacimiento de maquinaria, neon humedo"
+  },
+  {
+   "path": "world_16/ambience/world_16_ambience_loop.ogg",
+   "category": "ambience",
+   "world": 16,
+   "loop": true,
+   "duration_target": "37s loop",
+   "duration_real": 35.358,
+   "usage": "atmósfera continua del sector",
+   "sonic_identity": "Tormenta ionica: arcos electricos, zumbido tesla, truenos brillantes"
+  },
+  {
+   "path": "world_16/boss/world_16_boss_attack_control.ogg",
+   "category": "boss",
+   "world": 16,
+   "loop": false,
+   "duration_target": "1.73s",
+   "duration_real": 1.732,
+   "usage": "campo de control/invocación",
+   "sonic_identity": "Ion Archon — Tormenta ionica: arcos electricos, zumbido tesla, truenos brillantes"
+  },
+  {
+   "path": "world_16/boss/world_16_boss_attack_primary.ogg",
+   "category": "boss",
+   "world": 16,
+   "loop": false,
+   "duration_target": "1.30s",
+   "duration_real": 1.3,
+   "usage": "ataque firma del jefe",
+   "sonic_identity": "Ion Archon — Tormenta ionica: arcos electricos, zumbido tesla, truenos brillantes"
+  },
+  {
+   "path": "world_16/boss/world_16_boss_attack_secondary.ogg",
+   "category": "boss",
+   "world": 16,
+   "loop": false,
+   "duration_target": "1.24s",
+   "duration_real": 1.243,
+   "usage": "ataque de área en abanico",
+   "sonic_identity": "Ion Archon — Tormenta ionica: arcos electricos, zumbido tesla, truenos brillantes"
+  },
+  {
+   "path": "world_16/boss/world_16_boss_death.ogg",
+   "category": "boss",
+   "world": 16,
+   "loop": false,
+   "duration_target": "5.16s",
+   "duration_real": 5.163,
+   "usage": "jefe derrotado, colapso en varias etapas",
+   "sonic_identity": "Ion Archon — Tormenta ionica: arcos electricos, zumbido tesla, truenos brillantes"
+  },
+  {
+   "path": "world_16/boss/world_16_boss_intro.ogg",
+   "category": "boss",
+   "world": 16,
+   "loop": false,
+   "duration_target": "3.62s",
+   "duration_real": 3.622,
+   "usage": "llegada del jefe con motivo propio",
+   "sonic_identity": "Ion Archon — Tormenta ionica: arcos electricos, zumbido tesla, truenos brillantes"
+  },
+  {
+   "path": "world_16/boss/world_16_boss_phase_shift.ogg",
+   "category": "boss",
+   "world": 16,
+   "loop": false,
+   "duration_target": "2.16s",
+   "duration_real": 2.156,
+   "usage": "cambio de fase del jefe",
+   "sonic_identity": "Ion Archon — Tormenta ionica: arcos electricos, zumbido tesla, truenos brillantes"
+  },
+  {
+   "path": "world_16/minions/world_16_minion_hunter_attack.ogg",
+   "category": "minion",
+   "world": 16,
+   "loop": false,
+   "duration_target": "0.57s",
+   "duration_real": 0.566,
+   "usage": "cazador embiste en zigzag",
+   "sonic_identity": "Tormenta ionica: arcos electricos, zumbido tesla, truenos brillantes"
+  },
+  {
+   "path": "world_16/minions/world_16_minion_phantom_attack.ogg",
+   "category": "minion",
+   "world": 16,
+   "loop": false,
+   "duration_target": "0.68s",
+   "duration_real": 0.679,
+   "usage": "fantasma se desfasea/camufla",
+   "sonic_identity": "Tormenta ionica: arcos electricos, zumbido tesla, truenos brillantes"
+  },
+  {
+   "path": "world_16/minions/world_16_minion_sentinel_attack.ogg",
+   "category": "minion",
+   "world": 16,
+   "loop": false,
+   "duration_target": "0.73s",
+   "duration_real": 0.731,
+   "usage": "centinela activa escudo",
+   "sonic_identity": "Tormenta ionica: arcos electricos, zumbido tesla, truenos brillantes"
+  },
+  {
+   "path": "world_16/minions/world_16_minion_spitter_attack.ogg",
+   "category": "minion",
+   "world": 16,
+   "loop": false,
+   "duration_target": "0.47s",
+   "duration_real": 0.473,
+   "usage": "escupidor lanza plasma/baba",
+   "sonic_identity": "Tormenta ionica: arcos electricos, zumbido tesla, truenos brillantes"
+  },
+  {
+   "path": "world_16/minions/world_16_minion_stinger_attack.ogg",
+   "category": "minion",
+   "world": 16,
+   "loop": false,
+   "duration_target": "0.52s",
+   "duration_real": 0.524,
+   "usage": "aguijón carga y dispara",
+   "sonic_identity": "Tormenta ionica: arcos electricos, zumbido tesla, truenos brillantes"
+  },
+  {
+   "path": "world_16/minions/world_16_minion_swarmer_attack.ogg",
+   "category": "minion",
+   "world": 16,
+   "loop": false,
+   "duration_target": "0.35s",
+   "duration_real": 0.354,
+   "usage": "enjambre rápido ataca",
+   "sonic_identity": "Tormenta ionica: arcos electricos, zumbido tesla, truenos brillantes"
+  },
+  {
+   "path": "world_16/relic/world_16_relic_release.ogg",
+   "category": "relic",
+   "world": 16,
+   "loop": false,
+   "duration_target": "2.25s",
+   "duration_real": 2.252,
+   "usage": "reliquia sale del jefe y se transfiere a la nave",
+   "sonic_identity": "Tormenta ionica: arcos electricos, zumbido tesla, truenos brillantes"
+  },
+  {
+   "path": "world_16/subboss_a/world_16_subboss_a_attack.ogg",
+   "category": "subboss_a",
+   "world": 16,
+   "loop": false,
+   "duration_target": "1.07s",
+   "duration_real": 1.067,
+   "usage": "abanico/ráfaga radial del subjefe A",
+   "sonic_identity": "Tormenta ionica: arcos electricos, zumbido tesla, truenos brillantes"
+  },
+  {
+   "path": "world_16/subboss_a/world_16_subboss_a_death.ogg",
+   "category": "subboss_a",
+   "world": 16,
+   "loop": false,
+   "duration_target": "2.88s",
+   "duration_real": 2.882,
+   "usage": "subjefe A destruido",
+   "sonic_identity": "Tormenta ionica: arcos electricos, zumbido tesla, truenos brillantes"
+  },
+  {
+   "path": "world_16/subboss_a/world_16_subboss_a_intro.ogg",
+   "category": "subboss_a",
+   "world": 16,
+   "loop": false,
+   "duration_target": "1.76s",
+   "duration_real": 1.758,
+   "usage": "aparece el subjefe ofensivo",
+   "sonic_identity": "Tormenta ionica: arcos electricos, zumbido tesla, truenos brillantes"
+  },
+  {
+   "path": "world_16/subboss_b/world_16_subboss_b_attack.ogg",
+   "category": "subboss_b",
+   "world": 16,
+   "loop": false,
+   "duration_target": "1.03s",
+   "duration_real": 1.034,
+   "usage": "invocación/buscadores del subjefe B",
+   "sonic_identity": "Tormenta ionica: arcos electricos, zumbido tesla, truenos brillantes"
+  },
+  {
+   "path": "world_16/subboss_b/world_16_subboss_b_death.ogg",
+   "category": "subboss_b",
+   "world": 16,
+   "loop": false,
+   "duration_target": "3.15s",
+   "duration_real": 3.15,
+   "usage": "subjefe B destruido (implosión)",
+   "sonic_identity": "Tormenta ionica: arcos electricos, zumbido tesla, truenos brillantes"
+  },
+  {
+   "path": "world_16/subboss_b/world_16_subboss_b_intro.ogg",
+   "category": "subboss_b",
+   "world": 16,
+   "loop": false,
+   "duration_target": "2.12s",
+   "duration_real": 2.118,
+   "usage": "aparece el subjefe táctico",
+   "sonic_identity": "Tormenta ionica: arcos electricos, zumbido tesla, truenos brillantes"
+  },
+  {
+   "path": "world_17/ambience/world_17_ambience_loop.ogg",
+   "category": "ambience",
+   "world": 17,
+   "loop": true,
+   "duration_target": "27s loop",
+   "duration_real": 25.657,
+   "usage": "atmósfera continua del sector",
+   "sonic_identity": "Antimateria abisal: cantos invertidos, presion de fosa, energia azulada"
+  },
+  {
+   "path": "world_17/boss/world_17_boss_attack_control.ogg",
+   "category": "boss",
+   "world": 17,
+   "loop": false,
+   "duration_target": "1.35s",
+   "duration_real": 1.35,
+   "usage": "campo de control/invocación",
+   "sonic_identity": "Abyssal Rift Queen — Antimateria abisal: cantos invertidos, presion de fosa, energia azulada"
+  },
+  {
+   "path": "world_17/boss/world_17_boss_attack_primary.ogg",
+   "category": "boss",
+   "world": 17,
+   "loop": false,
+   "duration_target": "1.90s",
+   "duration_real": 1.9,
+   "usage": "ataque firma del jefe",
+   "sonic_identity": "Abyssal Rift Queen — Antimateria abisal: cantos invertidos, presion de fosa, energia azulada"
+  },
+  {
+   "path": "world_17/boss/world_17_boss_attack_secondary.ogg",
+   "category": "boss",
+   "world": 17,
+   "loop": false,
+   "duration_target": "1.12s",
+   "duration_real": 1.118,
+   "usage": "ataque de área en abanico",
+   "sonic_identity": "Abyssal Rift Queen — Antimateria abisal: cantos invertidos, presion de fosa, energia azulada"
+  },
+  {
+   "path": "world_17/boss/world_17_boss_death.ogg",
+   "category": "boss",
+   "world": 17,
+   "loop": false,
+   "duration_target": "4.27s",
+   "duration_real": 4.274,
+   "usage": "jefe derrotado, colapso en varias etapas",
+   "sonic_identity": "Abyssal Rift Queen — Antimateria abisal: cantos invertidos, presion de fosa, energia azulada"
+  },
+  {
+   "path": "world_17/boss/world_17_boss_intro.ogg",
+   "category": "boss",
+   "world": 17,
+   "loop": false,
+   "duration_target": "2.91s",
+   "duration_real": 2.912,
+   "usage": "llegada del jefe con motivo propio",
+   "sonic_identity": "Abyssal Rift Queen — Antimateria abisal: cantos invertidos, presion de fosa, energia azulada"
+  },
+  {
+   "path": "world_17/boss/world_17_boss_phase_shift.ogg",
+   "category": "boss",
+   "world": 17,
+   "loop": false,
+   "duration_target": "2.28s",
+   "duration_real": 2.276,
+   "usage": "cambio de fase del jefe",
+   "sonic_identity": "Abyssal Rift Queen — Antimateria abisal: cantos invertidos, presion de fosa, energia azulada"
+  },
+  {
+   "path": "world_17/minions/world_17_minion_hunter_attack.ogg",
+   "category": "minion",
+   "world": 17,
+   "loop": false,
+   "duration_target": "0.68s",
+   "duration_real": 0.679,
+   "usage": "cazador embiste en zigzag",
+   "sonic_identity": "Antimateria abisal: cantos invertidos, presion de fosa, energia azulada"
+  },
+  {
+   "path": "world_17/minions/world_17_minion_phantom_attack.ogg",
+   "category": "minion",
+   "world": 17,
+   "loop": false,
+   "duration_target": "0.94s",
+   "duration_real": 0.944,
+   "usage": "fantasma se desfasea/camufla",
+   "sonic_identity": "Antimateria abisal: cantos invertidos, presion de fosa, energia azulada"
+  },
+  {
+   "path": "world_17/minions/world_17_minion_sentinel_attack.ogg",
+   "category": "minion",
+   "world": 17,
+   "loop": false,
+   "duration_target": "0.59s",
+   "duration_real": 0.591,
+   "usage": "centinela activa escudo",
+   "sonic_identity": "Antimateria abisal: cantos invertidos, presion de fosa, energia azulada"
+  },
+  {
+   "path": "world_17/minions/world_17_minion_spitter_attack.ogg",
+   "category": "minion",
+   "world": 17,
+   "loop": false,
+   "duration_target": "0.47s",
+   "duration_real": 0.469,
+   "usage": "escupidor lanza plasma/baba",
+   "sonic_identity": "Antimateria abisal: cantos invertidos, presion de fosa, energia azulada"
+  },
+  {
+   "path": "world_17/minions/world_17_minion_stinger_attack.ogg",
+   "category": "minion",
+   "world": 17,
+   "loop": false,
+   "duration_target": "0.53s",
+   "duration_real": 0.528,
+   "usage": "aguijón carga y dispara",
+   "sonic_identity": "Antimateria abisal: cantos invertidos, presion de fosa, energia azulada"
+  },
+  {
+   "path": "world_17/minions/world_17_minion_swarmer_attack.ogg",
+   "category": "minion",
+   "world": 17,
+   "loop": false,
+   "duration_target": "0.46s",
+   "duration_real": 0.462,
+   "usage": "enjambre rápido ataca",
+   "sonic_identity": "Antimateria abisal: cantos invertidos, presion de fosa, energia azulada"
+  },
+  {
+   "path": "world_17/relic/world_17_relic_release.ogg",
+   "category": "relic",
+   "world": 17,
+   "loop": false,
+   "duration_target": "2.68s",
+   "duration_real": 2.681,
+   "usage": "reliquia sale del jefe y se transfiere a la nave",
+   "sonic_identity": "Antimateria abisal: cantos invertidos, presion de fosa, energia azulada"
+  },
+  {
+   "path": "world_17/subboss_a/world_17_subboss_a_attack.ogg",
+   "category": "subboss_a",
+   "world": 17,
+   "loop": false,
+   "duration_target": "0.95s",
+   "duration_real": 0.947,
+   "usage": "abanico/ráfaga radial del subjefe A",
+   "sonic_identity": "Antimateria abisal: cantos invertidos, presion de fosa, energia azulada"
+  },
+  {
+   "path": "world_17/subboss_a/world_17_subboss_a_death.ogg",
+   "category": "subboss_a",
+   "world": 17,
+   "loop": false,
+   "duration_target": "2.65s",
+   "duration_real": 2.655,
+   "usage": "subjefe A destruido",
+   "sonic_identity": "Antimateria abisal: cantos invertidos, presion de fosa, energia azulada"
+  },
+  {
+   "path": "world_17/subboss_a/world_17_subboss_a_intro.ogg",
+   "category": "subboss_a",
+   "world": 17,
+   "loop": false,
+   "duration_target": "1.71s",
+   "duration_real": 1.711,
+   "usage": "aparece el subjefe ofensivo",
+   "sonic_identity": "Antimateria abisal: cantos invertidos, presion de fosa, energia azulada"
+  },
+  {
+   "path": "world_17/subboss_b/world_17_subboss_b_attack.ogg",
+   "category": "subboss_b",
+   "world": 17,
+   "loop": false,
+   "duration_target": "1.21s",
+   "duration_real": 1.209,
+   "usage": "invocación/buscadores del subjefe B",
+   "sonic_identity": "Antimateria abisal: cantos invertidos, presion de fosa, energia azulada"
+  },
+  {
+   "path": "world_17/subboss_b/world_17_subboss_b_death.ogg",
+   "category": "subboss_b",
+   "world": 17,
+   "loop": false,
+   "duration_target": "3.01s",
+   "duration_real": 3.011,
+   "usage": "subjefe B destruido (implosión)",
+   "sonic_identity": "Antimateria abisal: cantos invertidos, presion de fosa, energia azulada"
+  },
+  {
+   "path": "world_17/subboss_b/world_17_subboss_b_intro.ogg",
+   "category": "subboss_b",
+   "world": 17,
+   "loop": false,
+   "duration_target": "2.01s",
+   "duration_real": 2.009,
+   "usage": "aparece el subjefe táctico",
+   "sonic_identity": "Antimateria abisal: cantos invertidos, presion de fosa, energia azulada"
+  },
+  {
+   "path": "world_18/ambience/world_18_ambience_loop.ogg",
+   "category": "ambience",
+   "world": 18,
+   "loop": true,
+   "duration_target": "33s loop",
+   "duration_real": 31.59,
+   "usage": "atmósfera continua del sector",
+   "sonic_identity": "Pira solar: rugido de corona, campanas de plasma, ala de fuego ascendente"
+  },
+  {
+   "path": "world_18/boss/world_18_boss_attack_control.ogg",
+   "category": "boss",
+   "world": 18,
+   "loop": false,
+   "duration_target": "1.50s",
+   "duration_real": 1.502,
+   "usage": "campo de control/invocación",
+   "sonic_identity": "Phoenix Singularity — Pira solar: rugido de corona, campanas de plasma, ala de fuego ascendente"
+  },
+  {
+   "path": "world_18/boss/world_18_boss_attack_primary.ogg",
+   "category": "boss",
+   "world": 18,
+   "loop": false,
+   "duration_target": "1.50s",
+   "duration_real": 1.5,
+   "usage": "ataque firma del jefe",
+   "sonic_identity": "Phoenix Singularity — Pira solar: rugido de corona, campanas de plasma, ala de fuego ascendente"
+  },
+  {
+   "path": "world_18/boss/world_18_boss_attack_secondary.ogg",
+   "category": "boss",
+   "world": 18,
+   "loop": false,
+   "duration_target": "1.28s",
+   "duration_real": 1.276,
+   "usage": "ataque de área en abanico",
+   "sonic_identity": "Phoenix Singularity — Pira solar: rugido de corona, campanas de plasma, ala de fuego ascendente"
+  },
+  {
+   "path": "world_18/boss/world_18_boss_death.ogg",
+   "category": "boss",
+   "world": 18,
+   "loop": false,
+   "duration_target": "4.78s",
+   "duration_real": 4.783,
+   "usage": "jefe derrotado, colapso en varias etapas",
+   "sonic_identity": "Phoenix Singularity — Pira solar: rugido de corona, campanas de plasma, ala de fuego ascendente"
+  },
+  {
+   "path": "world_18/boss/world_18_boss_intro.ogg",
+   "category": "boss",
+   "world": 18,
+   "loop": false,
+   "duration_target": "3.47s",
+   "duration_real": 3.47,
+   "usage": "llegada del jefe con motivo propio",
+   "sonic_identity": "Phoenix Singularity — Pira solar: rugido de corona, campanas de plasma, ala de fuego ascendente"
+  },
+  {
+   "path": "world_18/boss/world_18_boss_phase_shift.ogg",
+   "category": "boss",
+   "world": 18,
+   "loop": false,
+   "duration_target": "1.83s",
+   "duration_real": 1.835,
+   "usage": "cambio de fase del jefe",
+   "sonic_identity": "Phoenix Singularity — Pira solar: rugido de corona, campanas de plasma, ala de fuego ascendente"
+  },
+  {
+   "path": "world_18/boss/world_18_boss_revive.ogg",
+   "category": "boss",
+   "world": 18,
+   "loop": false,
+   "duration_target": "3.32s",
+   "duration_real": 3.323,
+   "usage": "el jefe renace/muta a nueva fase",
+   "sonic_identity": "Phoenix Singularity renace — Pira solar: rugido de corona, campanas de plasma, ala de fuego ascendente"
+  },
+  {
+   "path": "world_18/minions/world_18_minion_hunter_attack.ogg",
+   "category": "minion",
+   "world": 18,
+   "loop": false,
+   "duration_target": "0.78s",
+   "duration_real": 0.779,
+   "usage": "cazador embiste en zigzag",
+   "sonic_identity": "Pira solar: rugido de corona, campanas de plasma, ala de fuego ascendente"
+  },
+  {
+   "path": "world_18/minions/world_18_minion_phantom_attack.ogg",
+   "category": "minion",
+   "world": 18,
+   "loop": false,
+   "duration_target": "0.84s",
+   "duration_real": 0.839,
+   "usage": "fantasma se desfasea/camufla",
+   "sonic_identity": "Pira solar: rugido de corona, campanas de plasma, ala de fuego ascendente"
+  },
+  {
+   "path": "world_18/minions/world_18_minion_sentinel_attack.ogg",
+   "category": "minion",
+   "world": 18,
+   "loop": false,
+   "duration_target": "0.72s",
+   "duration_real": 0.721,
+   "usage": "centinela activa escudo",
+   "sonic_identity": "Pira solar: rugido de corona, campanas de plasma, ala de fuego ascendente"
+  },
+  {
+   "path": "world_18/minions/world_18_minion_spitter_attack.ogg",
+   "category": "minion",
+   "world": 18,
+   "loop": false,
+   "duration_target": "0.44s",
+   "duration_real": 0.436,
+   "usage": "escupidor lanza plasma/baba",
+   "sonic_identity": "Pira solar: rugido de corona, campanas de plasma, ala de fuego ascendente"
+  },
+  {
+   "path": "world_18/minions/world_18_minion_stinger_attack.ogg",
+   "category": "minion",
+   "world": 18,
+   "loop": false,
+   "duration_target": "0.47s",
+   "duration_real": 0.475,
+   "usage": "aguijón carga y dispara",
+   "sonic_identity": "Pira solar: rugido de corona, campanas de plasma, ala de fuego ascendente"
+  },
+  {
+   "path": "world_18/minions/world_18_minion_swarmer_attack.ogg",
+   "category": "minion",
+   "world": 18,
+   "loop": false,
+   "duration_target": "0.43s",
+   "duration_real": 0.428,
+   "usage": "enjambre rápido ataca",
+   "sonic_identity": "Pira solar: rugido de corona, campanas de plasma, ala de fuego ascendente"
+  },
+  {
+   "path": "world_18/relic/world_18_relic_release.ogg",
+   "category": "relic",
+   "world": 18,
+   "loop": false,
+   "duration_target": "2.26s",
+   "duration_real": 2.26,
+   "usage": "reliquia sale del jefe y se transfiere a la nave",
+   "sonic_identity": "Pira solar: rugido de corona, campanas de plasma, ala de fuego ascendente"
+  },
+  {
+   "path": "world_18/subboss_a/world_18_subboss_a_attack.ogg",
+   "category": "subboss_a",
+   "world": 18,
+   "loop": false,
+   "duration_target": "1.13s",
+   "duration_real": 1.135,
+   "usage": "abanico/ráfaga radial del subjefe A",
+   "sonic_identity": "Pira solar: rugido de corona, campanas de plasma, ala de fuego ascendente"
+  },
+  {
+   "path": "world_18/subboss_a/world_18_subboss_a_death.ogg",
+   "category": "subboss_a",
+   "world": 18,
+   "loop": false,
+   "duration_target": "3.03s",
+   "duration_real": 3.027,
+   "usage": "subjefe A destruido",
+   "sonic_identity": "Pira solar: rugido de corona, campanas de plasma, ala de fuego ascendente"
+  },
+  {
+   "path": "world_18/subboss_a/world_18_subboss_a_intro.ogg",
+   "category": "subboss_a",
+   "world": 18,
+   "loop": false,
+   "duration_target": "1.98s",
+   "duration_real": 1.983,
+   "usage": "aparece el subjefe ofensivo",
+   "sonic_identity": "Pira solar: rugido de corona, campanas de plasma, ala de fuego ascendente"
+  },
+  {
+   "path": "world_18/subboss_b/world_18_subboss_b_attack.ogg",
+   "category": "subboss_b",
+   "world": 18,
+   "loop": false,
+   "duration_target": "1.10s",
+   "duration_real": 1.099,
+   "usage": "invocación/buscadores del subjefe B",
+   "sonic_identity": "Pira solar: rugido de corona, campanas de plasma, ala de fuego ascendente"
+  },
+  {
+   "path": "world_18/subboss_b/world_18_subboss_b_death.ogg",
+   "category": "subboss_b",
+   "world": 18,
+   "loop": false,
+   "duration_target": "3.09s",
+   "duration_real": 3.088,
+   "usage": "subjefe B destruido (implosión)",
+   "sonic_identity": "Pira solar: rugido de corona, campanas de plasma, ala de fuego ascendente"
+  },
+  {
+   "path": "world_18/subboss_b/world_18_subboss_b_intro.ogg",
+   "category": "subboss_b",
+   "world": 18,
+   "loop": false,
+   "duration_target": "1.64s",
+   "duration_real": 1.638,
+   "usage": "aparece el subjefe táctico",
+   "sonic_identity": "Pira solar: rugido de corona, campanas de plasma, ala de fuego ascendente"
+  },
+  {
+   "path": "world_19/ambience/world_19_ambience_loop.ogg",
+   "category": "ambience",
+   "world": 19,
+   "loop": true,
+   "duration_target": "37s loop",
+   "duration_real": 35.458,
+   "usage": "atmósfera continua del sector",
+   "sonic_identity": "Portales: barridos dimensionales, espejos de eco, cristal y glitch"
+  },
+  {
+   "path": "world_19/boss/world_19_boss_attack_control.ogg",
+   "category": "boss",
+   "world": 19,
+   "loop": false,
+   "duration_target": "1.80s",
+   "duration_real": 1.797,
+   "usage": "campo de control/invocación",
+   "sonic_identity": "Multiform Nexus — Portales: barridos dimensionales, espejos de eco, cristal y glitch"
+  },
+  {
+   "path": "world_19/boss/world_19_boss_attack_primary.ogg",
+   "category": "boss",
+   "world": 19,
+   "loop": false,
+   "duration_target": "1.40s",
+   "duration_real": 1.4,
+   "usage": "ataque firma del jefe",
+   "sonic_identity": "Multiform Nexus — Portales: barridos dimensionales, espejos de eco, cristal y glitch"
+  },
+  {
+   "path": "world_19/boss/world_19_boss_attack_secondary.ogg",
+   "category": "boss",
+   "world": 19,
+   "loop": false,
+   "duration_target": "1.60s",
+   "duration_real": 1.595,
+   "usage": "ataque de área en abanico",
+   "sonic_identity": "Multiform Nexus — Portales: barridos dimensionales, espejos de eco, cristal y glitch"
+  },
+  {
+   "path": "world_19/boss/world_19_boss_death.ogg",
+   "category": "boss",
+   "world": 19,
+   "loop": false,
+   "duration_target": "5.28s",
+   "duration_real": 5.275,
+   "usage": "jefe derrotado, colapso en varias etapas",
+   "sonic_identity": "Multiform Nexus — Portales: barridos dimensionales, espejos de eco, cristal y glitch"
+  },
+  {
+   "path": "world_19/boss/world_19_boss_intro.ogg",
+   "category": "boss",
+   "world": 19,
+   "loop": false,
+   "duration_target": "3.31s",
+   "duration_real": 3.313,
+   "usage": "llegada del jefe con motivo propio",
+   "sonic_identity": "Multiform Nexus — Portales: barridos dimensionales, espejos de eco, cristal y glitch"
+  },
+  {
+   "path": "world_19/boss/world_19_boss_phase_shift.ogg",
+   "category": "boss",
+   "world": 19,
+   "loop": false,
+   "duration_target": "2.31s",
+   "duration_real": 2.314,
+   "usage": "cambio de fase del jefe",
+   "sonic_identity": "Multiform Nexus — Portales: barridos dimensionales, espejos de eco, cristal y glitch"
+  },
+  {
+   "path": "world_19/minions/world_19_minion_hunter_attack.ogg",
+   "category": "minion",
+   "world": 19,
+   "loop": false,
+   "duration_target": "0.74s",
+   "duration_real": 0.742,
+   "usage": "cazador embiste en zigzag",
+   "sonic_identity": "Portales: barridos dimensionales, espejos de eco, cristal y glitch"
+  },
+  {
+   "path": "world_19/minions/world_19_minion_phantom_attack.ogg",
+   "category": "minion",
+   "world": 19,
+   "loop": false,
+   "duration_target": "0.92s",
+   "duration_real": 0.919,
+   "usage": "fantasma se desfasea/camufla",
+   "sonic_identity": "Portales: barridos dimensionales, espejos de eco, cristal y glitch"
+  },
+  {
+   "path": "world_19/minions/world_19_minion_sentinel_attack.ogg",
+   "category": "minion",
+   "world": 19,
+   "loop": false,
+   "duration_target": "0.55s",
+   "duration_real": 0.552,
+   "usage": "centinela activa escudo",
+   "sonic_identity": "Portales: barridos dimensionales, espejos de eco, cristal y glitch"
+  },
+  {
+   "path": "world_19/minions/world_19_minion_spitter_attack.ogg",
+   "category": "minion",
+   "world": 19,
+   "loop": false,
+   "duration_target": "0.49s",
+   "duration_real": 0.492,
+   "usage": "escupidor lanza plasma/baba",
+   "sonic_identity": "Portales: barridos dimensionales, espejos de eco, cristal y glitch"
+  },
+  {
+   "path": "world_19/minions/world_19_minion_stinger_attack.ogg",
+   "category": "minion",
+   "world": 19,
+   "loop": false,
+   "duration_target": "0.56s",
+   "duration_real": 0.557,
+   "usage": "aguijón carga y dispara",
+   "sonic_identity": "Portales: barridos dimensionales, espejos de eco, cristal y glitch"
+  },
+  {
+   "path": "world_19/minions/world_19_minion_swarmer_attack.ogg",
+   "category": "minion",
+   "world": 19,
+   "loop": false,
+   "duration_target": "0.45s",
+   "duration_real": 0.455,
+   "usage": "enjambre rápido ataca",
+   "sonic_identity": "Portales: barridos dimensionales, espejos de eco, cristal y glitch"
+  },
+  {
+   "path": "world_19/relic/world_19_relic_release.ogg",
+   "category": "relic",
+   "world": 19,
+   "loop": false,
+   "duration_target": "2.45s",
+   "duration_real": 2.453,
+   "usage": "reliquia sale del jefe y se transfiere a la nave",
+   "sonic_identity": "Portales: barridos dimensionales, espejos de eco, cristal y glitch"
+  },
+  {
+   "path": "world_19/subboss_a/world_19_subboss_a_attack.ogg",
+   "category": "subboss_a",
+   "world": 19,
+   "loop": false,
+   "duration_target": "0.99s",
+   "duration_real": 0.992,
+   "usage": "abanico/ráfaga radial del subjefe A",
+   "sonic_identity": "Portales: barridos dimensionales, espejos de eco, cristal y glitch"
+  },
+  {
+   "path": "world_19/subboss_a/world_19_subboss_a_death.ogg",
+   "category": "subboss_a",
+   "world": 19,
+   "loop": false,
+   "duration_target": "2.87s",
+   "duration_real": 2.865,
+   "usage": "subjefe A destruido",
+   "sonic_identity": "Portales: barridos dimensionales, espejos de eco, cristal y glitch"
+  },
+  {
+   "path": "world_19/subboss_a/world_19_subboss_a_intro.ogg",
+   "category": "subboss_a",
+   "world": 19,
+   "loop": false,
+   "duration_target": "2.22s",
+   "duration_real": 2.224,
+   "usage": "aparece el subjefe ofensivo",
+   "sonic_identity": "Portales: barridos dimensionales, espejos de eco, cristal y glitch"
+  },
+  {
+   "path": "world_19/subboss_b/world_19_subboss_b_attack.ogg",
+   "category": "subboss_b",
+   "world": 19,
+   "loop": false,
+   "duration_target": "1.01s",
+   "duration_real": 1.011,
+   "usage": "invocación/buscadores del subjefe B",
+   "sonic_identity": "Portales: barridos dimensionales, espejos de eco, cristal y glitch"
+  },
+  {
+   "path": "world_19/subboss_b/world_19_subboss_b_death.ogg",
+   "category": "subboss_b",
+   "world": 19,
+   "loop": false,
+   "duration_target": "3.12s",
+   "duration_real": 3.118,
+   "usage": "subjefe B destruido (implosión)",
+   "sonic_identity": "Portales: barridos dimensionales, espejos de eco, cristal y glitch"
+  },
+  {
+   "path": "world_19/subboss_b/world_19_subboss_b_intro.ogg",
+   "category": "subboss_b",
+   "world": 19,
+   "loop": false,
+   "duration_target": "1.83s",
+   "duration_real": 1.825,
+   "usage": "aparece el subjefe táctico",
+   "sonic_identity": "Portales: barridos dimensionales, espejos de eco, cristal y glitch"
+  },
+  {
+   "path": "world_20/ambience/world_20_ambience_loop.ogg",
+   "category": "ambience",
+   "world": 20,
+   "loop": true,
+   "duration_target": "32s loop",
+   "duration_real": 30.08,
+   "usage": "atmósfera continua del sector",
+   "sonic_identity": "Apoteosis: coro oscuro, meteoros caidos, sub-grave apocaliptico"
+  },
+  {
+   "path": "world_20/boss/world_20_boss_attack_control.ogg",
+   "category": "boss",
+   "world": 20,
+   "loop": false,
+   "duration_target": "1.72s",
+   "duration_real": 1.723,
+   "usage": "campo de control/invocación",
+   "sonic_identity": "Starfall Overlord — Apoteosis: coro oscuro, meteoros caidos, sub-grave apocaliptico"
+  },
+  {
+   "path": "world_20/boss/world_20_boss_attack_primary.ogg",
+   "category": "boss",
+   "world": 20,
+   "loop": false,
+   "duration_target": "2.20s",
+   "duration_real": 2.2,
+   "usage": "ataque firma del jefe",
+   "sonic_identity": "Starfall Overlord — Apoteosis: coro oscuro, meteoros caidos, sub-grave apocaliptico"
+  },
+  {
+   "path": "world_20/boss/world_20_boss_attack_secondary.ogg",
+   "category": "boss",
+   "world": 20,
+   "loop": false,
+   "duration_target": "1.41s",
+   "duration_real": 1.405,
+   "usage": "ataque de área en abanico",
+   "sonic_identity": "Starfall Overlord — Apoteosis: coro oscuro, meteoros caidos, sub-grave apocaliptico"
+  },
+  {
+   "path": "world_20/boss/world_20_boss_death.ogg",
+   "category": "boss",
+   "world": 20,
+   "loop": false,
+   "duration_target": "4.36s",
+   "duration_real": 4.361,
+   "usage": "jefe derrotado, colapso en varias etapas",
+   "sonic_identity": "Starfall Overlord — Apoteosis: coro oscuro, meteoros caidos, sub-grave apocaliptico"
+  },
+  {
+   "path": "world_20/boss/world_20_boss_intro.ogg",
+   "category": "boss",
+   "world": 20,
+   "loop": false,
+   "duration_target": "2.87s",
+   "duration_real": 2.867,
+   "usage": "llegada del jefe con motivo propio",
+   "sonic_identity": "Starfall Overlord — Apoteosis: coro oscuro, meteoros caidos, sub-grave apocaliptico"
+  },
+  {
+   "path": "world_20/boss/world_20_boss_phase_shift.ogg",
+   "category": "boss",
+   "world": 20,
+   "loop": false,
+   "duration_target": "2.12s",
+   "duration_real": 2.121,
+   "usage": "cambio de fase del jefe",
+   "sonic_identity": "Starfall Overlord — Apoteosis: coro oscuro, meteoros caidos, sub-grave apocaliptico"
+  },
+  {
+   "path": "world_20/boss/world_20_boss_revive.ogg",
+   "category": "boss",
+   "world": 20,
+   "loop": false,
+   "duration_target": "3.25s",
+   "duration_real": 3.255,
+   "usage": "el jefe renace/muta a nueva fase",
+   "sonic_identity": "Starfall Overlord renace — Apoteosis: coro oscuro, meteoros caidos, sub-grave apocaliptico"
+  },
+  {
+   "path": "world_20/minions/world_20_minion_hunter_attack.ogg",
+   "category": "minion",
+   "world": 20,
+   "loop": false,
+   "duration_target": "0.77s",
+   "duration_real": 0.773,
+   "usage": "cazador embiste en zigzag",
+   "sonic_identity": "Apoteosis: coro oscuro, meteoros caidos, sub-grave apocaliptico"
+  },
+  {
+   "path": "world_20/minions/world_20_minion_phantom_attack.ogg",
+   "category": "minion",
+   "world": 20,
+   "loop": false,
+   "duration_target": "0.89s",
+   "duration_real": 0.888,
+   "usage": "fantasma se desfasea/camufla",
+   "sonic_identity": "Apoteosis: coro oscuro, meteoros caidos, sub-grave apocaliptico"
+  },
+  {
+   "path": "world_20/minions/world_20_minion_sentinel_attack.ogg",
+   "category": "minion",
+   "world": 20,
+   "loop": false,
+   "duration_target": "0.79s",
+   "duration_real": 0.791,
+   "usage": "centinela activa escudo",
+   "sonic_identity": "Apoteosis: coro oscuro, meteoros caidos, sub-grave apocaliptico"
+  },
+  {
+   "path": "world_20/minions/world_20_minion_spitter_attack.ogg",
+   "category": "minion",
+   "world": 20,
+   "loop": false,
+   "duration_target": "0.56s",
+   "duration_real": 0.557,
+   "usage": "escupidor lanza plasma/baba",
+   "sonic_identity": "Apoteosis: coro oscuro, meteoros caidos, sub-grave apocaliptico"
+  },
+  {
+   "path": "world_20/minions/world_20_minion_stinger_attack.ogg",
+   "category": "minion",
+   "world": 20,
+   "loop": false,
+   "duration_target": "0.47s",
+   "duration_real": 0.473,
+   "usage": "aguijón carga y dispara",
+   "sonic_identity": "Apoteosis: coro oscuro, meteoros caidos, sub-grave apocaliptico"
+  },
+  {
+   "path": "world_20/minions/world_20_minion_swarmer_attack.ogg",
+   "category": "minion",
+   "world": 20,
+   "loop": false,
+   "duration_target": "0.49s",
+   "duration_real": 0.488,
+   "usage": "enjambre rápido ataca",
+   "sonic_identity": "Apoteosis: coro oscuro, meteoros caidos, sub-grave apocaliptico"
+  },
+  {
+   "path": "world_20/relic/world_20_relic_release.ogg",
+   "category": "relic",
+   "world": 20,
+   "loop": false,
+   "duration_target": "2.75s",
+   "duration_real": 2.746,
+   "usage": "reliquia sale del jefe y se transfiere a la nave",
+   "sonic_identity": "Apoteosis: coro oscuro, meteoros caidos, sub-grave apocaliptico"
+  },
+  {
+   "path": "world_20/subboss_a/world_20_subboss_a_attack.ogg",
+   "category": "subboss_a",
+   "world": 20,
+   "loop": false,
+   "duration_target": "0.95s",
+   "duration_real": 0.946,
+   "usage": "abanico/ráfaga radial del subjefe A",
+   "sonic_identity": "Apoteosis: coro oscuro, meteoros caidos, sub-grave apocaliptico"
+  },
+  {
+   "path": "world_20/subboss_a/world_20_subboss_a_death.ogg",
+   "category": "subboss_a",
+   "world": 20,
+   "loop": false,
+   "duration_target": "2.85s",
+   "duration_real": 2.847,
+   "usage": "subjefe A destruido",
+   "sonic_identity": "Apoteosis: coro oscuro, meteoros caidos, sub-grave apocaliptico"
+  },
+  {
+   "path": "world_20/subboss_a/world_20_subboss_a_intro.ogg",
+   "category": "subboss_a",
+   "world": 20,
+   "loop": false,
+   "duration_target": "2.28s",
+   "duration_real": 2.283,
+   "usage": "aparece el subjefe ofensivo",
+   "sonic_identity": "Apoteosis: coro oscuro, meteoros caidos, sub-grave apocaliptico"
+  },
+  {
+   "path": "world_20/subboss_b/world_20_subboss_b_attack.ogg",
+   "category": "subboss_b",
+   "world": 20,
+   "loop": false,
+   "duration_target": "1.28s",
+   "duration_real": 1.282,
+   "usage": "invocación/buscadores del subjefe B",
+   "sonic_identity": "Apoteosis: coro oscuro, meteoros caidos, sub-grave apocaliptico"
+  },
+  {
+   "path": "world_20/subboss_b/world_20_subboss_b_death.ogg",
+   "category": "subboss_b",
+   "world": 20,
+   "loop": false,
+   "duration_target": "2.99s",
+   "duration_real": 2.991,
+   "usage": "subjefe B destruido (implosión)",
+   "sonic_identity": "Apoteosis: coro oscuro, meteoros caidos, sub-grave apocaliptico"
+  },
+  {
+   "path": "world_20/subboss_b/world_20_subboss_b_intro.ogg",
+   "category": "subboss_b",
+   "world": 20,
+   "loop": false,
+   "duration_target": "1.92s",
+   "duration_real": 1.925,
+   "usage": "aparece el subjefe táctico",
+   "sonic_identity": "Apoteosis: coro oscuro, meteoros caidos, sub-grave apocaliptico"
+  }
+ ]
+}

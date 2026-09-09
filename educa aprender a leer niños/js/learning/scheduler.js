@@ -12,23 +12,27 @@
       return (ma.lastSeen||0)-(mb.lastSeen||0);
     });
   }
-  function dueCount(){return candidates([]).length;}
+  function adaptiveReviews(excludeSkills,max=2){return window.EmiliaReadingAdapt?EmiliaReadingAdapt.reviewActivities(max,excludeSkills||[]):[];}
+  function dueCount(){const regular=candidates([]).length,reading=window.EmiliaReadingAdapt?EmiliaReadingAdapt.weakCount():0;return regular+reading;}
   function injectReviews(mission,max=2){
-    const due=candidates(mission.skillIds).slice(0,max).map(cloneActivity);
-    return due;
+    const adaptive=adaptiveReviews(mission.skillIds,Math.min(1,max));
+    const blocked=(mission.skillIds||[]).concat(adaptive.map(a=>a.skill));
+    const due=candidates(blocked).slice(0,Math.max(0,max-adaptive.length)).map(cloneActivity);
+    return adaptive.concat(due);
   }
   function weakestTaught(max=5){
     return EmiliaMastery.summary().filter(r=>r.total>0).sort((a,b)=>a.score-b.score).slice(0,max);
   }
   function practiceActivities(max=5){
+    const out=[],seen=new Set();
+    for(const a of adaptiveReviews([],Math.min(2,max))){out.push(a);seen.add(a.skill);if(out.length>=max)return out;}
     let pool=candidates([]);
     if(!pool.length){
       const ids=new Set(weakestTaught(max).map(x=>x.id));
       pool=EMILIA_CONTENT.reviewActivities.filter(a=>ids.has(a.skill));
     }
-    const seen=new Set(),out=[];
     for(const a of pool){if(seen.has(a.skill))continue;seen.add(a.skill);out.push(cloneActivity(a));if(out.length>=max)break;}
     return out;
   }
-  window.EmiliaScheduler={candidates,dueCount,injectReviews,practiceActivities,weakestTaught};
+  window.EmiliaScheduler={candidates,dueCount,injectReviews,practiceActivities,weakestTaught,adaptiveReviews};
 })();

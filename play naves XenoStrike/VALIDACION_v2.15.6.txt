@@ -1,0 +1,30 @@
+SWARM//RIFT — Insecta Siege v2.15.6
+VALIDACIÓN REALIZADA
+====================
+
+- node --check js/game.js: PASS
+- node --check sw.js: PASS
+- FEATURE_TEST_v2.15.6: PASS
+  * 20 mundos / 20 bosses / 10 familias CH2.
+  * Micro-Swarm sin progreso artificial de wave.
+  * maniobras coordinadas y ruptura táctica.
+  * RIFT ALLY y Última Oportunidad preservados.
+  * dificultad sin HP sponge.
+  * migraciones v2.15.2, v2.15.3, v2.15.4 y v2.15.5.
+  * Governor entra en RECOVERY y vuelve a FULL.
+  * DEVICE PROFILER, DPR adaptativo y jank-aware frame pacing.
+- DEVICE_PROFILE_TEST_v2.15.6: PASS
+  * perfil sintético HIGH desktop.
+  * perfil sintético MID tablet.
+  * perfil sintético LITE móvil.
+  * los tres reducen resolución interna en RECOVERY sin bajar de DPR 0.85.
+- AUTOAUDIT_v2.15.6: 17/17 PASS.
+- PWA: 560 referencias verificadas, 0 archivos faltantes.
+- HTTP_SMOKE_v2.15.6: 13/13 HTTP 200.
+- Assets CH2 distribuidos: 210/210 SHA-256 correctos.
+- Manifiesto Z.AI original: 230 assets; se omiten solamente 20 PNG master de backgrounds no usados por runtime, conservando sus WEBP 1920x1080.
+
+LIMITACIONES REALES
+- No se realizó una sesión humana prolongada en teléfono/tableta físicos.
+- Chromium headless del contenedor no pudo usarse como validación visual fiable por limitaciones del entorno (DBus/zygote/carga de target); por tanto NO se contabiliza como PASS.
+- Los umbrales HIGH/MID/LITE y FULL/BALANCED/RECOVERY son autoajustables en sesión, pero conviene afinar sus valores tras pruebas físicas en varios dispositivos reales.

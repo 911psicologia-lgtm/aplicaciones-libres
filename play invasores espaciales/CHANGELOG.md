@@ -1,22 +1,26 @@
-# Changelog — v0.4.3 FULL
+# STARFALL FRONTIER v0.4.8 — BALANCE CURVE PASS
 
-## Audio Pack Integration
-- Integrados 449 OGG del paquete `STARFALL_FRONTIER_AUDIO_PACK_v1`.
-- Añadido `js/audio.js` como gestor central de sonido.
-- Ambientes únicos por mundo con loop.
-- Sonidos de esbirros por familia y rol.
-- Sonidos exclusivos de Subjefe A y B: intro, ataque y muerte.
-- Jefes: intro, ataque primario/secundario/control, cambio de fase, muerte y resurrección selectiva.
-- Reliquias: liberación del jefe + adhesión a la nave.
-- Armas y poderes del jugador conectados a sus SFX reales.
-- Escudo con activación, impacto y rotura diferenciados.
-- Motor ligero/pesado según nave.
-- UI, stingers, checkpoints, Game Over y victoria conectados.
-- Obstáculos con sonidos de paso y destrucción.
+## Balance de mundos
+- W01: entrada accesible y menor densidad efectiva de élites.
+- W02: dificultad casi neutra respecto al tronco estable.
+- W03: incremento moderado de resistencia y velocidad.
+- W04: presión alta, subjefes más resistentes y cadencia superior.
+- W05: máxima dificultad del bloque actual, con jefes y subjefes claramente más exigentes.
 
-## Rendimiento y estabilidad
-- Carga diferida del audio.
-- Precalentamiento únicamente del mundo activo.
-- Límite de polifonía y cooldown por sonido.
-- Pausa/reanudación sincronizada con ambiente y motor.
-- Fallback silencioso en caso de archivo de audio no disponible.
+## Balance de oleadas
+- Oleada 1: HP y velocidad reducidos para lectura inicial.
+- Oleada 2: dificultad estándar con primera presión táctica.
+- Oleada 3: resistencia y velocidad aumentadas antes del jefe.
+- Oleada 4: jefe, con curva propia separada.
+
+## Accesibilidad dinámica
+- En móvil: ligera reducción de HP enemigo/jefe y cadencia más espaciosa.
+- Con HP crítico: movimiento enemigo y cadencia reciben un alivio discreto.
+- El sistema de élites ahora se gradúa por mundo/oleada en vez de aparecer con una presión casi uniforme.
+
+## Sistemas preservados
+- Assets realistas W01–05.
+- Audio completo.
+- Checkpoints, vidas y Game Over.
+- Boss transition watchdog.
+- Fusiones, reliquias, mutadores, subjefes y ecología enemiga.

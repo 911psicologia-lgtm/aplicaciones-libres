@@ -6,20 +6,20 @@
   function uid(){return 'kid_'+Math.random().toString(36).slice(2,9)+'_'+Date.now().toString(36);}
   function base(){
     return {
-      version:7.3,
+      version:7.4,
       profile:{id:'',name:'',mascot:'lumi',remember:true},
       mastery:{},history:[],completedMissions:[],achievements:[],seeds:0,treasureStars:0,sessions:0,
       lastMission:'forest_vowels',lastStory:'',activeSession:null,
       settings:{screenLimit:15,voiceRate:.66,listeningPace:'slow',repeatShortAudio:false,sound:true,reducedMotion:false},
-      growth:{stage:0,plants:0,fireflies:0},legacy:null,createdAt:Date.now(),updatedAt:Date.now()
+      growth:{stage:0,plants:0,fireflies:0},readingSupport:{version:1,words:{},pages:{},skills:{},stories:{}},legacy:null,createdAt:Date.now(),updatedAt:Date.now()
     };
   }
   function mergeState(raw){
     const b=base(),s=Object.assign({},b,raw||{}),priorVersion=Number((raw&&raw.version)||0);
-    s.version=7.3;s.profile=Object.assign({},b.profile,(raw&&raw.profile)||{});
+    s.version=7.4;s.profile=Object.assign({},b.profile,(raw&&raw.profile)||{});
     s.mastery=(raw&&raw.mastery)||{};s.history=Array.isArray(raw&&raw.history)?raw.history:[];
     s.completedMissions=Array.isArray(raw&&raw.completedMissions)?raw.completedMissions:[];s.achievements=Array.isArray(raw&&raw.achievements)?raw.achievements:[];
-    s.settings=Object.assign({},b.settings,(raw&&raw.settings)||{});s.growth=Object.assign({},b.growth,(raw&&raw.growth)||{});
+    s.settings=Object.assign({},b.settings,(raw&&raw.settings)||{});s.growth=Object.assign({},b.growth,(raw&&raw.growth)||{});s.readingSupport=Object.assign({},b.readingSupport,(raw&&raw.readingSupport)||{});s.readingSupport.words=Object.assign({},b.readingSupport.words,((raw&&raw.readingSupport)||{}).words||{});s.readingSupport.pages=Object.assign({},b.readingSupport.pages,((raw&&raw.readingSupport)||{}).pages||{});s.readingSupport.skills=Object.assign({},b.readingSupport.skills,((raw&&raw.readingSupport)||{}).skills||{});s.readingSupport.stories=Object.assign({},b.readingSupport.stories,((raw&&raw.readingSupport)||{}).stories||{});
     if(priorVersion<3.2&&s.settings.repeatShortAudio===true)s.settings.repeatShortAudio=false;
     if(!('activeSession' in s))s.activeSession=null;
     s.updatedAt=Date.now();return s;

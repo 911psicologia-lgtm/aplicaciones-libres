@@ -1,0 +1,98 @@
+{
+  "ok": true,
+  "results": [
+    {
+      "name": "desktop-high",
+      "device": {
+        "class": "HIGH",
+        "score": 4,
+        "hardwareConcurrency": 16,
+        "deviceMemory": 16,
+        "coarse": false,
+        "nativeDpr": 1,
+        "pixelLoad": 2073600,
+        "dprCap": 2
+      },
+      "fullDpr": 1,
+      "recovery": {
+        "tier": "RECOVERY",
+        "fps": 25,
+        "frameMs": 39.99,
+        "p95Ms": 40,
+        "jank25": 1,
+        "jank33": 1,
+        "enemyFactor": 0.88,
+        "microFactor": 0.64,
+        "ambientFactor": 0.48,
+        "vfxFactor": 0.54,
+        "particleCap": 520,
+        "renderScale": 0.78,
+        "effectiveDpr": 0.85,
+        "renderResizes": 0,
+        "transitions": 2
+      }
+    },
+    {
+      "name": "tablet-mid",
+      "device": {
+        "class": "MID",
+        "score": 1,
+        "hardwareConcurrency": 4,
+        "deviceMemory": 4,
+        "coarse": false,
+        "nativeDpr": 2,
+        "pixelLoad": 3686400,
+        "dprCap": 1.7
+      },
+      "fullDpr": 1.7,
+      "recovery": {
+        "tier": "RECOVERY",
+        "fps": 25,
+        "frameMs": 39.99,
+        "p95Ms": 40,
+        "jank25": 1,
+        "jank33": 1,
+        "enemyFactor": 0.88,
+        "microFactor": 0.64,
+        "ambientFactor": 0.48,
+        "vfxFactor": 0.54,
+        "particleCap": 520,
+        "renderScale": 0.78,
+        "effectiveDpr": 1.33,
+        "renderResizes": 0,
+        "transitions": 2
+      }
+    },
+    {
+      "name": "mobile-lite",
+      "device": {
+        "class": "LITE",
+        "score": -4,
+        "hardwareConcurrency": 2,
+        "deviceMemory": 2,
+        "coarse": true,
+        "nativeDpr": 3,
+        "pixelLoad": 2962440,
+        "dprCap": 1.4
+      },
+      "fullDpr": 1.4,
+      "recovery": {
+        "tier": "RECOVERY",
+        "fps": 25,
+        "frameMs": 39.99,
+        "p95Ms": 40,
+        "jank25": 1,
+        "jank33": 1,
+        "enemyFactor": 0.88,
+        "microFactor": 0.64,
+        "ambientFactor": 0.48,
+        "vfxFactor": 0.54,
+        "particleCap": 520,
+        "renderScale": 0.78,
+        "effectiveDpr": 1.09,
+        "renderResizes": 0,
+        "transitions": 2
+      }
+    }
+  ]
+}

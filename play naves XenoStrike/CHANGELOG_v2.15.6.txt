@@ -1,0 +1,50 @@
+SWARM//RIFT — Insecta Siege v2.15.6
+DEVICE PROFILER / JANK-AWARE FRAME PACER
+========================================
+
+OBJETIVO
+- Evolucionar v2.15.5 para mejorar estabilidad real en desktop, tablet y móvil sin reducir primero la jugabilidad.
+
+NUEVO
+1. DEVICE PROFILER de sesión
+   - Clasifica de forma aproximada el dispositivo como HIGH / MID / LITE.
+   - Usa hardwareConcurrency, deviceMemory cuando existe, DPR, carga de píxeles y puntero táctil/coarse.
+   - No guarda perfil del usuario ni persiste datos fuera de la sesión.
+
+2. Resolución interna adaptativa
+   - FULL: renderScale 1.00.
+   - BALANCED: renderScale 0.90.
+   - RECOVERY: renderScale 0.78.
+   - El canvas conserva el mismo tamaño CSS; cambia únicamente la resolución interna/DPR efectivo.
+   - Piso de DPR: 0.85.
+   - Cap inicial aproximado: HIGH 2.0 / MID 1.7 / LITE 1.4.
+
+3. JANK-AWARE FRAME PACER
+   - Añade ventana de 120 frames.
+   - Mide p95 de frame-time y proporción de frames >25 ms y >33 ms.
+   - El Governor puede reaccionar a microtirones sostenidos aunque el FPS promedio todavía parezca aceptable.
+   - Recuperación con histéresis para evitar oscilaciones continuas FULL/BALANCED/RECOVERY.
+
+4. Ajuste de estrellas y decoración por clase/tier
+   - Reduce carga puramente cosmética en LITE/BALANCED/RECOVERY.
+   - Conserva enemigos, proyectiles, telegraphs, HUD, bosses y mecánicas críticas.
+
+5. Visibility/resize hardening
+   - Reinicia la referencia temporal al regresar de segundo plano o cambiar resolución/orientación.
+   - Evita que un resize o retorno de pestaña se interprete como un frame gigantesco y degrade el Governor falsamente.
+
+PRESERVADO
+- 20 mundos y 20 bosses animados.
+- Micro-Swarm Director desde Mundo 1, mínimo 4 minis bajo carga y sin sumar kills de wave.
+- Curva de dificultad sin inflación principal por HP.
+- Family Combat Grammar y Coordinated Maneuvers.
+- Adaptive Counterplay desde Mundo 16.
+- RIFT ALLY aleatorio desde Mundo 11, 10 segundos.
+- Última Oportunidad de 5 segundos y rescate manual.
+- Boss Rush, Grand Boss Rush, Commander Convergence, CHASE, Hangar, poderes, fusiones, checkpoints, saves y PWA.
+
+SAVE / PWA
+- Nuevas claves: swarm_rift_meta_v2156 / swarm_rift_run_v2156.
+- Migración explícita desde v2.15.5 y cadena previa conservada.
+- Cache PWA: swarm-rift-v2.15.6.
+- Cache bust app shell: 2156.

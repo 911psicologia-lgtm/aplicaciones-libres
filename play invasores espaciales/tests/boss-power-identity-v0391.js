@@ -5,7 +5,7 @@ const root = path.resolve(__dirname,'..');
 const ctx = {window:{},console}; vm.createContext(ctx);
 vm.runInContext(fs.readFileSync(path.join(root,'js/config.js'),'utf8'),ctx);
 const C = ctx.window.SF.config;
-if(C.VERSION!=='0.3.9.1') throw new Error('Wrong v0.3.9.1 version');
+if(C.VERSION!=='0.4.5') throw new Error('Wrong v0.4.5 version');
 const subs=C.subBossIdentity.patterns;
 const bosses=C.bossIdentity.patterns;
 if(subs.length!==3 || subs.some(x=>!x.signature)) throw new Error('Subboss signatures missing');
@@ -20,4 +20,4 @@ const assets=[
   'assets/backgrounds/nebula.webp','assets/obstacles/meteor_defender_a.png'
 ];
 for(const rel of assets) if(!fs.existsSync(path.join(root,rel))) throw new Error('Missing preserved asset '+rel);
-console.log('BOSS POWER IDENTITY v0.3.9.1 OK',{subbosses:subs.map(x=>x.signature),bosses:bosses.map(x=>x.signature),assets:assets.length});
+console.log('BOSS POWER IDENTITY v0.4.5 OK',{subbosses:subs.map(x=>x.signature),bosses:bosses.map(x=>x.signature),assets:assets.length});

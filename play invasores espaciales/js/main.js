@@ -7,8 +7,8 @@ window.SF = window.SF || {};
       G.init(document.getElementById('game'));
       bindUi();
       main.refreshPanels();
-      UI.setStatus('v0.3.9.1 · preparando combate');
-      NS.assets.loadAll().then(()=>UI.setStatus('v0.3.9.1 · listo'));
+      UI.setStatus('v0.4.5 · visuales originales + familias W01–05 integradas');
+      NS.assets.loadAll().then(()=>UI.setStatus('v0.4.5 · tronco visual preservado · W01–05 listos · audio integrado'));
       requestAnimationFrame(G.loop);
     },
     refreshPanels(){
@@ -33,6 +33,7 @@ window.SF = window.SF || {};
   function launchNew(){
     const input=document.getElementById('splashPilot');
     const name=((input?.value)||'PILOTO').trim().slice(0,18)||'PILOTO';
+    NS.audio?.ensure?.(); NS.audio?.ui?.('confirm');
     G.startNew(name,S.loadShip());
     UI.showHud(true);
   }
@@ -42,12 +43,12 @@ window.SF = window.SF || {};
     document.getElementById('splashPilot')?.addEventListener('keydown',e=>{ if(e.key==='Enter') launchNew(); });
     document.getElementById('continueBtn')?.addEventListener('click',()=>{
       const save=S.loadGame(); if(!save) return;
-      G.continueFromSave(save); UI.showHud(true);
+      NS.audio?.ensure?.(); NS.audio?.ui?.('confirm'); G.continueFromSave(save); UI.showHud(true);
     });
-    document.getElementById('hangarBtn')?.addEventListener('click',()=>{ main.refreshPanels(); UI.showScreen('hangar'); });
-    document.getElementById('rankingBtn')?.addEventListener('click',()=>{ UI.renderRanking(S.loadRanking()); UI.showScreen('ranking'); });
+    document.getElementById('hangarBtn')?.addEventListener('click',()=>{ NS.audio?.ensure?.(); NS.audio?.ui?.('menu'); main.refreshPanels(); UI.showScreen('hangar'); });
+    document.getElementById('rankingBtn')?.addEventListener('click',()=>{ NS.audio?.ensure?.(); NS.audio?.ui?.('menu'); UI.renderRanking(S.loadRanking()); UI.showScreen('ranking'); });
     document.getElementById('resumeSaveBtn')?.addEventListener('click',()=>{
-      const save=S.loadGame(); if(!save) return; G.continueFromSave(save); UI.showHud(true);
+      const save=S.loadGame(); if(!save) return; NS.audio?.ensure?.(); NS.audio?.ui?.('confirm'); G.continueFromSave(save); UI.showHud(true);
     });
     document.getElementById('deleteSaveBtn')?.addEventListener('click',()=>{ S.clearGame(); main.refreshPanels(); });
     document.getElementById('clearRankingBtn')?.addEventListener('click',()=>{ S.clearRanking(); main.refreshPanels(); UI.showScreen('ranking'); });

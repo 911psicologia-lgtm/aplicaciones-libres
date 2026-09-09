@@ -9,9 +9,9 @@
   <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
   <meta name="apple-mobile-web-app-capable" content="yes" />
   <meta name="apple-mobile-web-app-title" content="Zombie Strike" />
-  <script>if(location.protocol !== "file:"){const m=document.createElement("link");m.rel="manifest";m.href="manifest.json?v=3.26.0";document.head.appendChild(m);}</script>
+  <script>if(location.protocol !== "file:"){const m=document.createElement("link");m.rel="manifest";m.href="manifest.json?v=3.34.0";document.head.appendChild(m);}</script>
   <link rel="icon" href="assets/icon.svg" type="image/svg+xml" />
-  <title>Rizoma Zombie Strike — Saga II completa · v3.26.0</title>
+  <title>Rizoma Zombie Strike — Saga II completa · v3.34.0</title>
   <link rel="preload" as="image" href="assets/ui/intro_poster_mobile.webp" media="(max-width: 1200px)" fetchpriority="high" />
   <link rel="preload" as="image" href="assets/boss2/sigil_w1.svg" />
   <link rel="preload" as="image" href="assets/boss2/sigil_w2.svg" />
@@ -36,7 +36,7 @@
         <span class="brand-mark">⬢</span>
         <div>
           <strong>Rizoma Zombie Strike</strong>
-          <small>Mundos 1–20 · Hangar táctico · 6 Naves Rizoma · Flota de Conquista · Saga II consolidada · v3.26.0</small>
+          <small>Mundos 1–20 · Hangar táctico · 6 Naves Rizoma · Flota de Conquista · Saga II consolidada · v3.34.0</small>
         </div>
       </div>
       <button id="btnSettings" class="icon-btn" title="Ajustes" aria-label="Ajustes">⚙</button>
@@ -381,6 +381,9 @@
       <section id="screenGame" class="screen game-screen">
         <canvas id="gameCanvas" width="1280" height="720" aria-label="Zona de juego"></canvas>
         <div class="game-vignette"></div>
+        <div id="lastChanceOverlay" class="last-chance-overlay hidden" aria-live="assertive">
+          <div class="last-chance-copy"><strong>⚠ VAS A MORIR</strong><span><b id="lastChanceTimer">5.0</b>s</span><small>Rescate manual: usa una Vida Extra. No hay compra automática.</small><button id="btnLastChanceRescue" class="last-chance-rescue-btn" type="button">🛒 ABRIR RESCATE</button></div>
+        </div>
         <div id="hud" class="hud">
           <div class="hud-pill danger"><span>❤️</span><strong id="hudHp">0</strong></div>
           <div class="hud-pill shield"><span>🛡️</span><strong id="hudShield">0</strong></div>
@@ -396,10 +399,17 @@
           <button id="btnDomain" class="domain-btn hidden" type="button" title="Protocolo DOMINIO" aria-label="Abrir Protocolo DOMINIO"><span class="domain-glyph">◇</span><strong class="domain-label">DOMINIO</strong><small id="domainCount">0</small></button>
           <button id="btnFleet" class="fleet-quick-btn hidden" type="button" title="Flota de Conquista" aria-label="Abrir Flota de Conquista"><span class="fleet-glyph">✦</span><strong>FLOTA</strong><small id="fleetQuickStatus">BASE</small></button>
           <button id="btnGuardianInvoke" class="guardian-invoke-btn hidden" type="button" title="Invocar Guardián" aria-label="Invocar Guardián seleccionado. Mantén pulsado para cambiar."><span class="guardian-glyph">◆</span><strong>GUARDIÁN</strong><small id="guardianInvokeStatus">LISTO</small></button>
-          <button id="btnTacticalCart" class="tactical-cart" type="button" title="Compra Exprés"><span class="cart-glyph">🛒</span><strong id="tacticalCartCount">0</strong></button>
+          <button id="btnRiftAlly" class="rift-ally-btn hidden" type="button" title="RIFT ALLY" aria-label="Invocar aleatoriamente un boss derrotado durante 10 segundos"><span class="rift-glyph">☣</span><strong>RIFT</strong><small id="riftAllyStatus">LISTO</small></button>
+          <button id="btnTacticalCart" class="tactical-cart" type="button" title="Taller RIZOMA" aria-label="Abrir Taller RIZOMA"><span class="cart-glyph">🛒</span><strong id="tacticalCartCount">0</strong></button>
           <button id="btnFullscreen" class="hud-icon-btn" type="button" title="Pantalla completa" aria-label="Pantalla completa" aria-pressed="false">⛶</button>
           <button id="btnMusicQuick" class="music-quick-btn" type="button" title="Silenciar música de fondo" aria-label="Silenciar música de fondo" aria-pressed="true"><span class="music-note-glyph" aria-hidden="true">♫</span></button>
-          <button id="btnPause" class="pause-btn" type="button" title="Pausa">⏸</button>
+          <button id="btnPause" class="pause-btn" type="button" title="Pausa" aria-label="Pausar juego">⏸</button>
+        </div>
+        <div id="rizomaTacticBadge" class="rizoma-tactic-badge hidden" role="status" aria-live="polite" aria-hidden="true">
+          <span id="rizomaTacticCode" class="rizoma-tactic-code">RZ-1</span><div><strong id="rizomaTacticRole">FRONTAL</strong><small id="rizomaTacticStage">E1 · PERFORAR</small></div><b id="rizomaTacticStatus">LISTO</b><i aria-hidden="true"></i>
+        </div>
+        <div id="allyTacticBadge" class="ally-tactic-badge hidden" role="status" aria-live="polite">
+          <span id="allyTacticSource" class="ally-tactic-source">GUARDIÁN</span><strong id="allyTacticRole">CAZADOR</strong><small id="allyTacticTime">10s</small><i aria-hidden="true"></i>
         </div>
         <div id="bossBar" class="boss-bar hidden">
           <span id="bossName">Jefe</span>
@@ -438,11 +448,11 @@
           </div>
         </div>
         <div id="tacticalShopOverlay" class="tactical-shop-overlay hidden" aria-live="polite">
-          <div class="tactical-shop-panel">
+          <div class="tactical-shop-panel" role="dialog" aria-modal="true" aria-label="Taller RIZOMA">
             <div class="tactical-shop-head">
               <div>
-                <p class="eyebrow">PREPARACIÓN TÁCTICA · JUEGO EN PAUSA</p>
-                <h3 id="tacticalShopTitle">Compra Exprés</h3>
+                <p class="eyebrow">TALLER RIZOMA · JUEGO EN PAUSA</p>
+                <h3 id="tacticalShopTitle">Taller de combate</h3>
                 <small id="tacticalShopLimit">0/0 compras</small>
               </div>
               <button id="btnTacticalClose" class="tactical-close" aria-label="Cerrar">×</button>
@@ -455,7 +465,7 @@
               <button id="btnTacticalNext" class="tactical-rail-arrow tactical-rail-next" type="button" aria-label="Más opciones">›</button>
             </div>
             <div class="tactical-shop-footer">
-              <small>Mientras compras, el combate permanece pausado. Al cerrar, la misión se reanuda.</small>
+              <small>Reajustes directos y suministros. El combate permanece pausado hasta cerrar.</small>
               <button id="btnTacticalContinue" class="primary-btn tactical-start">Cerrar compras</button>
             </div>
           </div>
@@ -531,13 +541,14 @@
             <p class="eyebrow">Ajustes</p>
             <h2>Preferencias</h2>
           </div>
-          <button id="btnCloseSettings" class="icon-btn">×</button>
+          <button id="btnCloseSettings" class="icon-btn" type="button" aria-label="Cerrar ajustes">×</button>
         </div>
         <label class="switch-row"><span>Sonido</span><input id="toggleSound" type="checkbox" /></label>
         <label class="switch-row"><span>Música</span><input id="toggleMusic" type="checkbox" /></label>
         <label class="switch-row"><span>Vibración visual</span><input id="toggleShake" type="checkbox" /></label>
         <label class="switch-row"><span>Reducir animaciones</span><input id="toggleReduced" type="checkbox" /></label>
-        <label class="switch-row"><span>Modo bajo rendimiento</span><input id="toggleLowPerformance" type="checkbox" /></label>
+        <label class="switch-row"><span>Respuesta háptica <small>móvil compatible</small></span><input id="toggleHaptics" type="checkbox" /></label>
+        <label class="switch-row"><span>Modo bajo rendimiento <small>reduce FX, no dificultad</small></span><input id="toggleLowPerformance" type="checkbox" /></label>
         <button id="btnExportBackup" class="soft-btn wide">Exportar backup JSON</button>
         <button id="btnExportRankingSettings" class="soft-btn wide">Exportar ranking JSON</button>
         <button id="btnCopyAIPrompt" class="soft-btn wide">Copiar prompt para analizar partida con IA</button>
@@ -548,6 +559,6 @@
     </div>
   </div>
 
-  <script src="js/game.js?v=3.16.0"></script>
+  <script src="js/game.js?v=3.34.0"></script>
 </body>
 </html>

@@ -1,0 +1,95 @@
+RIZOMA ZOMBIE STRIKE v3.31.0
+VALIDACION TECNICA
+============================================================
+
+BASE
+------------------------------------------------------------
+[OK] Base única v3.30.0 verificada.
+[OK] SHA-256 base coincide exactamente:
+     d65419882a2ff8abb8298bf36f7059d8bd5312e3656eb574c70be5b8110c6416
+[OK] No se usaron versiones anteriores como fuente.
+
+SINTAXIS / FORMATO
+------------------------------------------------------------
+[OK] node --check js/game.js
+[OK] node --check sw.js
+[OK] manifest.json parseable como JSON válido
+
+VERSIONADO
+------------------------------------------------------------
+[OK] js/game.js = 3.31.0
+[OK] manifest.json = 3.31.0
+[OK] sw.js cache = rizoma-zombie-strike-v3-31-0
+[OK] index.html referencias/título = 3.31.0
+
+CAMPAÑA / DIFICULTAD
+------------------------------------------------------------
+[OK] 20 mundos presentes: 5 mapas iniciales + 15 extensiones = 20
+[OK] No existe Mundo 21 jugable
+[OK] Curva M1-M20 heredada presente: 20 filas
+[OK] Hitos HP Guardianes conservados:
+     M1  = 11.200
+     M5  = 19.500
+     M10 = 38.900
+     M15 = 77.800
+     M20 = 155.500
+
+NAVES / ASSETS
+------------------------------------------------------------
+[OK] 6 ship_meta.json válidos:
+     rz1_fenix
+     rz4_mantis
+     rz8_nebula
+     rz12_bastion
+     rz16_hydra
+     rz20_prime
+[OK] assets/ preservados byte a byte frente a v3.30.0: 840 archivos
+[OK] Referencias explícitas auditadas: 799
+[OK] Assets literales faltantes: 0
+[OK] Archivos preexistentes eliminados: 0
+
+HTML / SISTEMAS OBLIGATORIOS
+------------------------------------------------------------
+[OK] IDs HTML duplicados: 0
+[OK] RIFT ALLY presente
+[OK] Última Oportunidad presente
+[OK] Tractor presente
+[OK] Taller RIZOMA presente
+[OK] DOMINIO presente
+[OK] Hangar presente
+[OK] Intro general presente
+[OK] Microintro Mundo 1 presente
+
+UX v3.31.0
+------------------------------------------------------------
+[OK] Cierre X / toque exterior / Escape cubierto en overlays principales
+[OK] Protección anti-click-through conservada
+[OK] Bloqueo de scroll de fondo sincronizado con Taller/DOMINIO/Flota
+[OK] Scroll horizontal por touch/flechas/rueda-trackpad reforzado
+[OK] DOMINIO muestra separación NAVES RIZOMA / FORMAS GUARDIÁN
+[OK] Taller compacta texto y diferencia REAJUSTE / SUMINISTRO / VIDA EXTRA
+[OK] Última Oportunidad incorpora acceso táctil directo a rescate
+[OK] Tractor mantiene mecánica y limita únicamente haces visuales simultáneos
+[OK] Controles móviles prioritarios ampliados a 40–44 px cuando es viable
+
+AUDITORIA ESTATICA AUTOMATIZADA
+------------------------------------------------------------
+[OK] 24/24 controles internos superados
+
+PRUEBA DE NAVEGADOR
+------------------------------------------------------------
+[NO DECLARADA] Se intentó ejecutar Chromium headless desde servidor local.
+El proceso no completó la captura/carga dentro del entorno y quedó bloqueado
+con mensajes del subsistema DBus/zygote. No se obtuvo evidencia suficiente
+para afirmar un smoke test visual de navegador.
+
+[NO DECLARADA] No hubo prueba física real en Android/iOS.
+
+Esta limitación no afecta los controles sintácticos, estructurales ni de
+integridad anteriores, pero debe verificarse la experiencia táctil final en
+hardware real antes de considerar cerrada la optimización móvil.
+
+EMPAQUETADO
+------------------------------------------------------------
+[OK] El artefacto final se comprueba con `unzip -t`: sin errores de datos comprimidos.
+[OK] Se genera un SHA-256 externo compañero del ZIP final.

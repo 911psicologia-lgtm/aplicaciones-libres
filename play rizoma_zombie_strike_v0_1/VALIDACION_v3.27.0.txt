@@ -1,0 +1,13 @@
+VALIDACIÓN v3.27.0
+- node --check js/game.js: OK
+- node --check sw.js: OK
+- manifest.json válido: OK
+- VERSION interno = 3.27.0: OK
+- catálogo Guardianes M1–M20: 20/20
+- ship_meta.json: 6/6 válidos
+- assets literales faltantes: 0
+- intro general: OK
+- microintro M1: OK
+- Ruptura de fase: IMPLEMENTADA
+- Telegráficos tácticos: IMPLEMENTADOS
+- Mazo anti-repetición: IMPLEMENTADO

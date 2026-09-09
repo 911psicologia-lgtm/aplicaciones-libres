@@ -1,0 +1,67 @@
+RIZOMA ZOMBIE STRIKE v3.34.0
+VALIDACIÓN TÉCNICA
+============================================================
+[OK] VERSION game.js 3.34.0
+[OK] manifest 3.34.0
+[OK] sw cache v3-34-0
+[OK] index v3.34.0
+[OK] 20 filas curva dificultad :: M1=11200; M5=19500; M10=38900; M15=77800; M20=155500
+[OK] hitos HP intactos
+[OK] sin Mundo 21 jugable
+[OK] 6 ship_meta válidos :: rz12_bastion, rz16_hydra, rz1_fenix, rz20_prime, rz4_mantis, rz8_nebula
+[OK] assets base preservados byte a byte :: 840 archivos; missing=0 changed=0
+[OK] referencias literales de assets sin faltantes :: 799 referencias; missing=0
+[OK] IDs HTML duplicados = 0
+[OK] RIFT ALLY presente
+[OK] RIFT mantiene 10 s
+[OK] Guardián Vinculado mantiene 12 s
+[OK] Última Oportunidad mantiene 5 s
+[OK] Tractor progresivo preservado
+[OK] Taller RIZOMA preservado
+[OK] DOMINIO preservado
+[OK] Hangar preservado
+[OK] metadata táctica 6 Naves preservada
+[OK] badge táctico Rizoma preservado
+[OK] telegráfico de especial preservado
+[OK] config de impacto 6 Naves
+[OK] VFX real rz1TridentCharge
+[OK] VFX real rz4VectorArc
+[OK] VFX real rz8DroneLink
+[OK] VFX real rz12AegisCharge
+[OK] VFX real rz16HydraSidebeam
+[OK] VFX real rz20Hyperlaser
+[OK] VFX real rz20SynapticChain
+[OK] VFX real rz20DefensiveNova
+[OK] renderer sprite presente
+[OK] feedback invocado tras impacto
+[OK] feedback no altera daño
+[OK] throttle adaptativo
+[OK] control por carga de partículas
+[OK] modo bajo rendimiento respetado
+[OK] movimiento reducido respetado
+[OK] nave origen viaja con proyectil
+[OK] modo Prime viaja con proyectil
+[OK] Fénix comunica perforación
+[OK] Nébula comunica control
+[OK] Bastión comunica Aegis
+[OK] Hydra comunica saturación
+[OK] Prime Sinapsis enlaza solo visualmente
+[OK] damageEnemy preservado byte a byte
+[OK] Háptica v3.32 preservada
+[OK] Bajo rendimiento v3.32 preservado
+[OK] node --check js/game.js
+[OK] node --check sw.js
+[OK] manifest.json JSON válido
+
+TOTAL 51/51 OK
+
+EMPAQUETADO
+------------------------------------------------------------
+[OK] unzip -t del ZIP final
+[OK] SHA-256 final generado como archivo companion
+
+PRUEBA DE NAVEGADOR / DISPOSITIVO
+------------------------------------------------------------
+[NO DECLARADA] No se afirma smoke test visual real ni prueba física Android/iOS.
+La entrega se valida mediante sintaxis, estructura, integridad de assets, referencias,
+preservación de reglas y comprobación del ZIP final.

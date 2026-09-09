@@ -1,18 +1,14 @@
-# Emilia · El Bosque de las Palabras · v0.8.2
+# Emilia · El Bosque de las Palabras · v0.8.6
 
-Versión de **profundización lectora**. No amplía el alfabeto: desarrolla con mayor riqueza los mundos ya existentes, especialmente **Domo de D**, **Jardín de Palabras** y la biblioteca de cuentos.
+Versión de **lectura adaptativa local**. Mantiene las microinteracciones de los cuentos y añade un registro educativo discreto de ayudas solicitadas, modelos escuchados, errores y recuperaciones independientes.
 
-## Ejes de esta versión
+## Novedad principal
+- tocar una palabra del cuento se registra como solicitud de ayuda, no como error;
+- pedir que Lumi modele una página se registra por separado;
+- las microinteracciones distinguen resolución directa y resolución con apoyo;
+- “Semillas que vuelven” puede crear repasos auditivos breves con las palabras que realmente necesitaron ayuda;
+- una recuperación correcta e independiente reduce progresivamente la prioridad de esa palabra;
+- el panel adulto muestra hasta cinco apoyos de lectura observados;
+- toda la información permanece en el dispositivo y viaja dentro de la copia JSON del perfil.
 
-- Cuentos progresivos desde escucha/reconocimiento hasta lectura de frases cortas.
-- Nuevo cuento auditivo **Las vocales van al parque** después de completar el Claro de las Vocales.
-- Microcuentos específicos para M, P, S, L, N, T y D, además del cuento auditivo de vocales, picnic y Jardín de Palabras.
-- Nueva actividad `gapFill`: tocar o arrastrar letras/palabras a un espacio vacío.
-- Domo de D profundizado con completación de DADO y una frase con D.
-- Jardín de Palabras profundizado con completación de MAPA y frases cortas.
-- Las elecciones de imágenes, palabras, sílabas y letras pertinentes ahora se pronuncian al seleccionarlas.
-- Memoria palabra-imagen con audio al descubrir cada tarjeta.
-- Preguntas de comprensión narradas y opciones pronunciadas al tocarlas.
-- Se mantiene la lógica de trazado, PWA, perfiles, progreso local y el sistema visual de Lumi.
-
-Ver `RUTA_CUENTOS_v0.8.2.md` y `VALIDACION_v0.8.2.txt`.
+No se interpreta este registro como diagnóstico ni como calificación de la niña. Es una señal pedagógica para seleccionar el siguiente repaso.

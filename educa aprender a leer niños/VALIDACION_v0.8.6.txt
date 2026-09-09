@@ -1,0 +1,33 @@
+EMILIA · EL BOSQUE DE LAS PALABRAS v0.8.6 — AUTOAUDITORÍA
+
+Lectura adaptativa local:
+- Nuevo registro readingSupport para palabras, páginas, habilidades e historias.
+- Tocar una palabra del cuento se registra como ayuda, no como error.
+- Solicitar el modelo de Lumi se registra por separado; audioFocus no se penaliza.
+- Las microinteracciones distinguen resolución independiente y con apoyo.
+- Semillas que vuelven puede crear hasta 2 repasos auditivos con palabras que necesitaron apoyo.
+- Las recuperaciones independientes reducen la prioridad de la palabra.
+- Panel adulto muestra señales de apoyo sin presentarlas como diagnóstico.
+
+[OK] content_version=True
+[OK] index_version=True
+[OK] manifest_version=True
+[OK] sw_version=True
+[OK] reading_module_cached=True
+[OK] reading_module_loaded=True
+[OK] Service Worker referencias=224 faltantes=0
+[OK] CSS aperturas=1183 cierres=1183
+[OK] assets heredados comparados=208 modificados=0
+[OK] assets nuevos=0
+[OK] assets eliminados=0
+
+Lumi preservada byte por byte:
+[OK] lumi_guide.png sha256=bf23716aa9235071e0bd40e65282ca591883ef11216a910faf4608a4b1fcaf91
+[OK] lumi_thinking.png sha256=be27fff9b5ea182c2c9b81928cfa670ea44cebd8330a7215456c80a4c3e5b356
+[OK] lumi_cheer.png sha256=7b390c7a8f4554851380fb64ef2ef107c7c9e702b8ce2f29e8cd286abe1bcf71
+[OK] lumi_victory.png sha256=95e825d56ab05c35f177fb6ba64f39956db13b8d581cecbd0e4b737a4fb7ae42
+
+Smoke test funcional ejecutado:
+[OK] dos solicitudes de ayuda sobre “lupa” generan un repaso adaptativo.
+[OK] dos recuperaciones independientes retiran “lupa” de la prioridad inmediata.
+[OK] el apoyo se evalúa por visita de página: una ayuda anterior no marca para siempre la microinteracción como asistida.

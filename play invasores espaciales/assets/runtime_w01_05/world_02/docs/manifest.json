@@ -1,0 +1,147 @@
+{
+  "world_id": 2,
+  "world_label": "Mundo 02",
+  "sector_name": "Anillo de Titanio",
+  "family_theme": "Familia inspirada en Yautja Prime",
+  "boss": {
+    "name": "Yautja Prime",
+    "phases": 3,
+    "can_revive": false,
+    "signature_attacks": [
+      "disparo principal único",
+      "ataque de área",
+      "ataque invocador o de control",
+      "fase núcleo abierto"
+    ],
+    "reward_relics": 3
+  },
+  "carryover": [
+    "20% de esbirros menores heredados del mundo anterior",
+    "1 subtipo especial heredado del mundo anterior"
+  ],
+  "production_status": "concept-board + integration manifest",
+  "assets": {
+    "minions": [
+      {
+        "id": "world_02_minion_swarmer",
+        "role": "swarmer",
+        "base_png": "minions/world_02_minion_swarmer.png",
+        "elite_png": "minions/world_02_minion_swarmer_elite.png",
+        "sheet": "minions/world_02_minion_swarmer_sheet.png"
+      },
+      {
+        "id": "world_02_minion_stinger",
+        "role": "stinger",
+        "base_png": "minions/world_02_minion_stinger.png",
+        "elite_png": "minions/world_02_minion_stinger_elite.png",
+        "sheet": "minions/world_02_minion_stinger_sheet.png"
+      },
+      {
+        "id": "world_02_minion_hunter",
+        "role": "hunter",
+        "base_png": "minions/world_02_minion_hunter.png",
+        "elite_png": "minions/world_02_minion_hunter_elite.png",
+        "sheet": "minions/world_02_minion_hunter_sheet.png"
+      },
+      {
+        "id": "world_02_minion_sentinel",
+        "role": "sentinel",
+        "base_png": "minions/world_02_minion_sentinel.png",
+        "elite_png": "minions/world_02_minion_sentinel_elite.png",
+        "sheet": "minions/world_02_minion_sentinel_sheet.png"
+      },
+      {
+        "id": "world_02_minion_spitter",
+        "role": "spitter",
+        "base_png": "minions/world_02_minion_spitter.png",
+        "elite_png": "minions/world_02_minion_spitter_elite.png",
+        "sheet": "minions/world_02_minion_spitter_sheet.png"
+      },
+      {
+        "id": "world_02_minion_phantom_revenant",
+        "role": "phantom_revenant",
+        "base_png": "minions/world_02_minion_phantom_revenant.png",
+        "elite_png": "minions/world_02_minion_phantom_revenant_elite.png",
+        "sheet": "minions/world_02_minion_phantom_revenant_sheet.png"
+      }
+    ],
+    "subbosses": [
+      {
+        "id": "world_02_subboss_a",
+        "base_png": "subbosses/world_02_subboss_a.png",
+        "sheet": "subbosses/world_02_subboss_a_sheet.png"
+      },
+      {
+        "id": "world_02_subboss_b",
+        "base_png": "subbosses/world_02_subboss_b.png",
+        "sheet": "subbosses/world_02_subboss_b_sheet.png"
+      }
+    ],
+    "boss": {
+      "base_png": "boss/world_02_boss_yautja_prime.png",
+      "phase_sheet": "boss/world_02_boss_yautja_prime_phases_sheet.png",
+      "open_core": "boss/world_02_boss_yautja_prime_open_core.png",
+      "death_sheet": "boss/world_02_boss_yautja_prime_death_sheet.png",
+      "relic_sheet": "boss/world_02_boss_yautja_prime_relic_sheet.png"
+    },
+    "projectiles": [
+      "projectiles/world_02_projectile_01_sheet.png",
+      "projectiles/world_02_projectile_02_sheet.png",
+      "projectiles/world_02_projectile_03_sheet.png",
+      "projectiles/world_02_projectile_04_sheet.png",
+      "projectiles/world_02_projectile_05_sheet.png"
+    ],
+    "powerups": [
+      "powerups/world_02_powerup_burst.png",
+      "powerups/world_02_powerup_laser.png",
+      "powerups/world_02_powerup_missile.png",
+      "powerups/world_02_powerup_shield.png",
+      "powerups/world_02_powerup_drone.png",
+      "powerups/world_02_powerup_emp.png",
+      "powerups/world_02_powerup_magnet.png",
+      "powerups/world_02_powerup_repair.png",
+      "powerups/world_02_powerup_overshield.png",
+      "powerups/world_02_powerup_multiplier.png"
+    ],
+    "obstacles": [
+      {
+        "source": "basura espacial humana",
+        "asset": "obstacles/world_02_obstacle_01_basura_espacial_humana.png"
+      },
+      {
+        "source": "fragmento de satélite",
+        "asset": "obstacles/world_02_obstacle_02_fragmento_de_satelite.png"
+      },
+      {
+        "source": "placa de casco",
+        "asset": "obstacles/world_02_obstacle_03_placa_de_casco.png"
+      }
+    ],
+    "backgrounds": [
+      {
+        "type": "base",
+        "asset": "backgrounds/world_02_background_base.png"
+      },
+      {
+        "type": "intense",
+        "asset": "backgrounds/world_02_background_intense.png"
+      },
+      {
+        "type": "boss",
+        "asset": "backgrounds/world_02_background_boss.png"
+      }
+    ]
+  },
+  "waves": {
+    "screen_1": "new family base enemies",
+    "screen_2": "20% carryover + new specialist",
+    "screen_3": "higher density + subboss + inherited enemies",
+    "boss_screen": "boss phases and reward relic"
+  },
+  "mobile_readability": [
+    "silhouette-first",
+    "high contrast core",
+    "no micro-detail below 48px",
+    "transparent sprites"
+  ]
+}
