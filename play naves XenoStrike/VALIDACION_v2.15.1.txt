@@ -1,0 +1,16 @@
+SWARM//RIFT — VALIDACIÓN v2.15.1
+================================
+AUTOAUDIT: 32/32 PASS
+node --check js/game.js: PASS
+node --check sw.js: PASS
+Feature test v2.15.1: PASS
+Runtime smoke v2.15.1: PASS
+Mundos: 20
+Boss configs animados: 20
+Micro-Swarm: Mundo 1+, 4–10, 8 formaciones, continuidad forzada, no wave kills
+Adaptive Pressure: PASS; no altera HP enemigo
+RIFT ALLY: Mundo 11+, aleatorio, 10 s, 10 firmas CH2
+Última Oportunidad: 5 s, rescate manual, sin compra automática, aliado continúa
+Migración de guardado v2.15.0 -> v2.15.1: PASS
+CH2 distribución: 210/210 assets presentes coinciden con SHA-256 del manifiesto fuente
+PWA: 560 referencias, 0 recursos faltantes

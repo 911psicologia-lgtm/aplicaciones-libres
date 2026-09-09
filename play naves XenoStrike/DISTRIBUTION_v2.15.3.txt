@@ -1,0 +1,5 @@
+SWARM//RIFT v2.15.3 — DISTRIBUCIÓN
+=================================
+Build completa funcional incremental sobre v2.15.2.
+Incluye código, PWA, audio, assets 1–20, assets CH2 runtime, bosses animados, familias, fondos WEBP y herramientas de QA.
+Los 20 PNG master CH2 de backgrounds no se distribuyen porque el runtime utiliza los WEBP 1920x1080 y así se evita duplicar ~69 MB sin beneficio funcional.

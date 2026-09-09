@@ -1,4 +1,4 @@
-const CACHE='emilia-bosque-v0.8.1-microcuentos';
+const CACHE='emilia-bosque-v0.8.2-story-assets';
 const ASSETS=[
   "./",
   "./assets/animals/arana.webp",
@@ -187,7 +187,43 @@ const ASSETS=[
   "./js/learning/tracing.js",
   "./js/screens/renderers.js",
   "./js/state/store.js",
-  "./manifest.webmanifest"
+  "./manifest.webmanifest",
+  "./assets/story/backgrounds/fondo_cocina_hogar.webp",
+  "./assets/story/backgrounds/fondo_domo_d.webp",
+  "./assets/story/backgrounds/fondo_jardin_palabras.webp",
+  "./assets/story/backgrounds/fondo_lupa_exploracion.webp",
+  "./assets/story/backgrounds/fondo_masa_mesa.webp",
+  "./assets/story/backgrounds/fondo_noche_luna.webp",
+  "./assets/story/backgrounds/fondo_parque_vocales.webp",
+  "./assets/story/backgrounds/fondo_picnic.webp",
+  "./assets/story/characters/lola.webp",
+  "./assets/story/characters/mama.webp",
+  "./assets/story/characters/mimi.webp",
+  "./assets/story/characters/nana.webp",
+  "./assets/story/characters/paloma.webp",
+  "./assets/story/characters/papa.webp",
+  "./assets/story/characters/sapo.webp",
+  "./assets/story/characters/susi.webp",
+  "./assets/story/characters/tito.webp",
+  "./assets/story/manifest_source.json",
+  "./assets/story/props/cofre_pequeno.webp",
+  "./assets/story/props/dado.webp",
+  "./assets/story/props/estrella_premio.webp",
+  "./assets/story/props/limonada.webp",
+  "./assets/story/props/luna.webp",
+  "./assets/story/props/lupa.webp",
+  "./assets/story/props/mano.webp",
+  "./assets/story/props/mapa.webp",
+  "./assets/story/props/masa.webp",
+  "./assets/story/props/mesa.webp",
+  "./assets/story/props/mono.webp",
+  "./assets/story/props/nido.webp",
+  "./assets/story/props/paloma_objeto.webp",
+  "./assets/story/props/pan.webp",
+  "./assets/story/props/pino.webp",
+  "./assets/story/props/rama.webp",
+  "./assets/story/props/sopa.webp",
+  "./assets/story/props/taza.webp"
 ];
 
 self.addEventListener('install',e=>e.waitUntil(caches.open(CACHE).then(c=>c.addAll(ASSETS))));

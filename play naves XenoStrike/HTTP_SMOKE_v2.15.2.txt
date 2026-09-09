@@ -1,0 +1,15 @@
+SWARM//RIFT v2.15.2 HTTP SMOKE — 13/13 HTTP 200
+================================================
+200 /
+200 /index.html
+200 /js/game.js?v=2152
+200 /css/game.css?v=2152
+200 /sw.js
+200 /manifest.json
+200 /assets_ch2/backgrounds/w11_antechamber.webp?av=2151
+200 /assets_ch2/backgrounds/w20_boss.webp?av=2151
+200 /assets_ch2/bosses/scarab_imperator/idle.png?av=2151
+200 /assets_ch2/bosses/apis_imperia/death.png?av=2151
+200 /assets_ch2/enemies/w11/mini_idle.png?av=2151
+200 /assets_ch2/enemies/w20/major_attack.png?av=2151
+200 /assets/music/boss_01_nucleo_meteorico.mp3

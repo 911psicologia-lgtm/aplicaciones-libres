@@ -1,0 +1,11 @@
+SWARM//RIFT — Insecta Siege v2.15.4
+ADAPTIVE COUNTERPLAY DIRECTOR
+
+- Nuevo aprendizaje táctico de sesión desde Mundo 16.
+- El Director observa únicamente la distribución vertical del jugador durante la partida actual: superior / centro / inferior.
+- Si detecta un hábito suficientemente estable, algunas maniobras coordinadas sesgan parcialmente su corredor hacia esa zona.
+- Si el jugador cambia de zona con frecuencia, se clasifica como IMPREDECIBLE y el sesgo adaptativo se desactiva.
+- El sistema NO se persiste entre sesiones, NO modifica HP, daño, cadencia ni velocidad de proyectiles.
+- Todas las jugadas conservan telegraph visual completo; cuando hay adaptación se marca LECTURA TÁCTICA / ADAPT.
+- Se mantienen Micro-Swarm 1–20, Family Combat Grammar, Coordinated Maneuvers, RIFT ALLY 10 s y Última Oportunidad 5 s.
+- Migración explícita de saves v2.15.3 -> v2.15.4.

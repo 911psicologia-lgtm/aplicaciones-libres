@@ -1,0 +1,27 @@
+SWARM//RIFT — VALIDACIÓN v2.15.2
+=================================
+
+Resultado: 46/46 controles PASS
+
+Sintaxis
+- node --check js/game.js: PASS
+- node --check sw.js: PASS
+
+Pruebas funcionales
+- FEATURE_TEST_v2.15.2: PASS
+- RUNTIME_SMOKE_v2.15.2: PASS
+- REGRESSION v2.15.1: PASS
+
+Contenido
+- Mundos: 20
+- Bosses animados: 20
+- Gramáticas tácticas CH2: 10
+- Recursos PWA: 560 / faltantes: 0
+- Assets CH2 de distribución verificados contra SHA-256 Z.AI: 210/210
+- Masters PNG de backgrounds omitidos deliberadamente: 20 (runtime WEBP conservado)
+
+HTTP
+- 13/13 rutas representativas: HTTP 200
+
+Limitación real
+- Se intentó una ejecución Chromium headless adicional, pero el proceso del navegador del contenedor no finalizó por limitaciones del entorno (DBus/zygote). No se contabiliza como fallo de la aplicación. La prueba visual prolongada en dispositivo físico/táctil sigue pendiente.

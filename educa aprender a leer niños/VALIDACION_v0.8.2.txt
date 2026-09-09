@@ -1,0 +1,14 @@
+EMILIA · EL BOSQUE DE LAS PALABRAS v0.8.2 — AUTOAUDITORÍA
+
+[OK] Sintaxis JavaScript verificada con node --check.
+[OK] Referencias de assets de contenido: 151; faltantes: 0.
+[OK] Service Worker: 224 referencias; faltantes: 0.
+[OK] Manifest PWA válido. start_url=./index.html?v=0.8.2
+[OK] CSS balanceado: 1029 aperturas / 1029 cierres.
+[OK] Assets narrativos: 8 fondos + 9 personajes + 18 props.
+[OK] 11 cuentos del primer sendero con fondo + escena visual.
+[OK] Domo de la D usa el nuevo fondo narrativo.
+[OK] Jardín de Palabras usa el nuevo fondo narrativo.
+[OK] Personajes/props narrativos son interactivos por audio.
+[OK] Lumi preservada byte por byte respecto de v0.8.1.
+[OK] Assets narrativos optimizados: 2.94 MB.

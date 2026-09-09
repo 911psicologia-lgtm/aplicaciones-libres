@@ -1,0 +1,28 @@
+SWARM//RIFT — BUILD MANIFEST v2.15.1
+====================================
+Version: 2.15.1
+Build line: v2.15.0 FULL FUNCTIONAL -> v2.15.1 CONTINUITY / RIFT ALLY REFINED
+Files in distribution tree: 572
+Directories: 61
+Uncompressed bytes: 233301000
+
+CORE
+- index.html
+- css/game.css
+- js/game.js
+- sw.js
+- manifest.json
+
+CHAPTER II DISTRIBUTION
+- Files under assets_ch2: 211 (210 runtime assets + ASSET_MANIFEST.json)
+- Boss files: 70
+- Enemy files: 120
+- Runtime background WEBP: 20
+- Source master PNG backgrounds intentionally omitted: 20
+
+VALIDATION
+- AUTOAUDIT_v2.15.1.txt/json: 32/32 PASS
+- FEATURE_TEST_v2.15.1.txt: PASS
+- RUNTIME_SMOKE_v2.15.1.txt: PASS
+- HTTP_SMOKE_v2.15.1.txt: 12/12 HTTP 200
+- VALIDACION_v2.15.1.txt

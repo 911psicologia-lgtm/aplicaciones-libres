@@ -1,0 +1,43 @@
+SWARM//RIFT — Insecta Siege v2.15.3
+COORDINATED MANEUVERS / PACK TACTICS
+============================================================
+Base incremental: v2.15.2 FAMILY COMBAT GRAMMAR
+
+NUEVO — FAMILY COMBO DIRECTOR
+- Mundos 11–20 reciben una jugada coordinada propia.
+- La maniobra solo puede iniciarse cuando coinciden en pantalla: 1 mayor + 1 medio + al menos 2 menores.
+- Roles reales durante la jugada:
+  * MAYOR = cobertura / ancla táctica.
+  * MEDIO = ruptura y apertura de corredor.
+  * MENORES = cierre de salidas / pinza.
+- Telegraph visible antes de la ejecución: banda de corredor + marcadores de unidades + aviso.
+- La jugada es breve y tiene cooldown; no añade HP máximo a los enemigos.
+- Mundos 16–20 usan la variante avanzada con mayor coordinación, más miembros menores y cadencia algo más exigente.
+
+JUGADAS POR MUNDO
+11 ÓRBITA DE CERCO
+12 TRIDENTE VENENOSO
+13 YUNQUE Y TENAZA
+14 CONSTELACIÓN DE CAZA
+15 EMBUDO CÁUSTICO
+16 VELO DE PINZA
+17 CRUZ ESPEJO
+18 EMBUDO DE FOSA
+19 MALLA RAZOR
+20 CERCO IMPERIAL
+
+CONTRAJUEGO
+- Destruir el MEDIO o MAYOR que participa en una maniobra la rompe inmediatamente.
+- FORMACIÓN ROTA concede feedback y un pequeño bonus de puntuación.
+- Si el jugador está por debajo de 30% HP o en gracia de recuperación, el Director aplaza nuevas maniobras.
+- Las maniobras se cancelan al comenzar jefe/antesala, Última Oportunidad o al abandonar campaña normal.
+
+PRESERVADO
+- Micro-Swarm Director desde Mundo 1; minis no cuentan como kills de wave.
+- FAMILY COMBAT GRAMMAR v2.15.2 y enjambres reactivos de boss.
+- RIFT ALLY aleatorio desde Mundo 11, 10 segundos.
+- Última oportunidad: 5 segundos, rescate manual, sin compra automática.
+- 20 mundos, 20 bosses animados, CHASE, Boss Rush, Hangar, poderes/fusiones, checkpoints, saves y PWA.
+
+SAVE
+- Nuevas claves v2.15.3 con migración explícita desde v2.15.2 y anteriores.

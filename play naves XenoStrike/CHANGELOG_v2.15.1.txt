@@ -1,0 +1,60 @@
+SWARM//RIFT — INSECTA SIEGE v2.15.1
+CONTINUITY / ADAPTIVE PRESSURE / RIFT ALLY REFINEMENT
+=====================================================
+
+Base incremental: v2.15.0 FULL FUNCTIONAL
+
+1. MICRO-SWARM DIRECTOR 2.0 — MUNDOS 1–20
+- Mantiene la pantalla activa desde Mundo 1 con micro-enjambres de 4–10 unidades.
+- Ocho patrones: line, block, wedge, ribbon, scatter, double, arc y cross.
+- Nuevo detector de vacío de acción: si no hay amenaza significativa durante ~1.65 s,
+  puede forzar un micro-enjambre sin interferir con el objetivo principal.
+- Los minis siguen SIN incrementar G.kills ni completar artificialmente la oleada.
+- HP de mini limitado a <=19; continúan siendo enemigos de destrucción rápida.
+- Zumbido de entrada muy leve.
+- Micro-streak separado; a 6 bajas rápidas puede otorgar un pequeño bonus de score
+  (MICRO-SWEEP), nunca progreso de wave.
+- Targeting automático mantiene prioridad por amenazas reales.
+
+2. DIFICULTAD ADAPTATIVA 2.0 — SIN HP INFLADO
+- Se conserva BALANCE_CURVE 1–20 con crecimiento moderado de HP.
+- adaptivePressure() modifica cadencia y población activa según estado de la partida.
+- Estados: ALIVIO, CONTENCIÓN, NEUTRA, PRESIÓN y ASCENSO.
+- Jugador crítico o recién rescatado: disminuye temporalmente la presión.
+- Jugador con desempeño limpio: aumenta modestamente densidad/cadencia.
+- No se aplica multiplicador adaptativo a HP enemigo.
+
+3. RIFT ALLY ☣ REFINADO
+- Sigue disponible desde Mundo 11.
+- Selección aleatoria entre bosses derrotados; el jugador no elige el aliado.
+- Duración fija: 10 s con minibarra.
+- Mundos 11–20 reciben ataques aliados de identidad propia:
+  W11 ÓRBITA KHEPRI
+  W12 PICA VECTORIAL
+  W13 TENAZA REGICIDA
+  W14 CONSTELACIÓN LÚMEN
+  W15 DESTILACIÓN CÁUSTICA
+  W16 VELO HIPNÓTICO
+  W17 FRACTURA MIMÉTICA
+  W18 VÓRTICE DE FOSA
+  W19 PINZA ELECTROFÁGICA
+  W20 DOMINIO DE LA COLMENA
+- Tooltip superior informa pool/estado/carga.
+
+4. ÚLTIMA OPORTUNIDAD — COHERENCIA TÁCTICA
+- Conserva interceptación del daño mortal y cuenta regresiva de 5 s.
+- Pantalla roja, aviso ⚠ VAS A MORIR y carrito parpadeante.
+- Nunca hay compra automática.
+- Vida Extra se consume únicamente por acción explícita del usuario.
+- Si RIFT ALLY ya estaba activo al entrar en Última Oportunidad, continúa combatiendo.
+- Rescate exitoso otorga 5.5 s de alivio táctico adaptativo.
+
+5. COMPATIBILIDAD / PWA
+- VERSION: 2.15.1
+- Migración automática de meta/run desde claves v2.15.0.
+- Cache bust de app/assets CH2: 2151.
+- Service Worker: swarm-rift-v2.15.1.
+
+6. DISTRIBUCIÓN CH2
+- Se mantienen todos los sprites/animaciones runtime CH2 y los 20 fondos WEBP 1920x1080.
+- Los 20 PNG master de backgrounds no se distribuyen porque no son requeridos en runtime.

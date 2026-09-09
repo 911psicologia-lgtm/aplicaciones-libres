@@ -1,0 +1,53 @@
+SWARM//RIFT v2.15.2 FEATURE TEST
+================================
+{
+  "ok": true,
+  "checks": {
+    "version": true,
+    "worlds": true,
+    "bosses": true,
+    "ch2Families": true,
+    "microSwarm": true,
+    "familyGrammars": true,
+    "majorCoordination": true,
+    "guardReduction": true,
+    "mediumCorridor": true,
+    "bossReactiveCampaign": true,
+    "bossReactiveDisabledBossRush": true,
+    "riftAlly": true,
+    "lastChance": true,
+    "difficultyCurve": true,
+    "saveMigration2151": true
+  },
+  "grammarIds": [
+    "ORBITAL_GUARD",
+    "VENOM_LANCE",
+    "MANDIBLE_WALL",
+    "LUMEN_CONSTELLATION",
+    "CAUSTIC_SCREEN",
+    "VEIL_CIRCLE",
+    "MIRAGE_SPLIT",
+    "PIT_HUNT",
+    "RAZOR_CHAIN",
+    "ROYAL_HIVE"
+  ],
+  "major": {
+    "escorts": 3,
+    "familyCalls": 2,
+    "guardRatio": 0.78
+  },
+  "medium": {
+    "corridorT": 0.9,
+    "surgeT": 0.34
+  },
+  "bossReactive": {
+    "campaign": 4,
+    "bossRush": 0
+  },
+  "riftPool": 19,
+  "migration": {
+    "migrationSeen": true,
+    "migrationLoaded": true,
+    "sector": 11
+  }
+}

@@ -1,0 +1,44 @@
+SWARM//RIFT v2.15.3 AUTOAUDIT
+================================
+RESULTADO: 40/40 PASS
+
+PASS  version_2_15_3
+PASS  save_key_meta_2153
+PASS  save_key_run_2153
+PASS  migration_2152_meta
+PASS  migration_2152_run
+PASS  combo_play_definitions
+PASS  play_w11
+PASS  play_w12
+PASS  play_w13
+PASS  play_w14
+PASS  play_w15
+PASS  play_w16
+PASS  play_w17
+PASS  play_w18
+PASS  play_w19
+PASS  play_w20
+PASS  advanced_from_16
+PASS  family_maneuver_update
+PASS  family_maneuver_draw
+PASS  formation_break_hook
+PASS  critical_hp_relief
+PASS  micro_swarm_preserved
+PASS  rift_ally_preserved
+PASS  last_chance_preserved
+PASS  sw_cache_2153
+PASS  index_game_bust_2153
+PASS  index_css_bust_2153
+PASS  feature_test
+PASS  runtime_smoke
+PASS  regression_2152
+PASS  runtime_regression_2152
+PASS  pwa_560
+PASS  pwa_missing_0
+PASS  ch2_hash_210
+PASS  ch2_hash_bad_0
+PASS  ch2_missing_runtime_0
+PASS  ch2_omitted_masters_20
+PASS  http_13_13
+PASS  node_game_syntax
+PASS  node_sw_syntax

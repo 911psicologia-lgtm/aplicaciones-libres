@@ -1,0 +1,59 @@
+{
+  "version": "2.15.5",
+  "name": "PERFORMANCE / THREAT BUDGET GOVERNOR",
+  "node_checks": {
+    "node_game": true,
+    "node_sw": true,
+    "feature_v2155": true
+  },
+  "static": {
+    "version_2155": true,
+    "cache_2155": true,
+    "index_bust_2155": true,
+    "perf_governor": true,
+    "three_tiers": true,
+    "micro_floor": true,
+    "max_alive_governed": true,
+    "particle_governed": true,
+    "ambient_governed": true,
+    "no_damage_perf": true,
+    "save_migration_2154": true,
+    "rift_ally_preserved": true,
+    "last_chance_preserved": true,
+    "adaptive_counterplay_preserved": true
+  },
+  "pwa": {
+    "refs": 560,
+    "missing": 0,
+    "missing_items": []
+  },
+  "ch2": {
+    "manifest_total": 230,
+    "distributed": 210,
+    "sha_ok": 210,
+    "sha_bad": [],
+    "omitted": 20,
+    "omitted_paths": [
+      "assets_ch2/backgrounds/w11_antechamber.png",
+      "assets_ch2/backgrounds/w11_boss.png",
+      "assets_ch2/backgrounds/w12_antechamber.png",
+      "assets_ch2/backgrounds/w12_boss.png",
+      "assets_ch2/backgrounds/w13_antechamber.png",
+      "assets_ch2/backgrounds/w13_boss.png",
+      "assets_ch2/backgrounds/w14_antechamber.png",
+      "assets_ch2/backgrounds/w14_boss.png",
+      "assets_ch2/backgrounds/w15_antechamber.png",
+      "assets_ch2/backgrounds/w15_boss.png",
+      "assets_ch2/backgrounds/w16_antechamber.png",
+      "assets_ch2/backgrounds/w16_boss.png",
+      "assets_ch2/backgrounds/w17_antechamber.png",
+      "assets_ch2/backgrounds/w17_boss.png",
+      "assets_ch2/backgrounds/w18_antechamber.png",
+      "assets_ch2/backgrounds/w18_boss.png",
+      "assets_ch2/backgrounds/w19_antechamber.png",
+      "assets_ch2/backgrounds/w19_boss.png",
+      "assets_ch2/backgrounds/w20_antechamber.png",
+      "assets_ch2/backgrounds/w20_boss.png"
+    ]
+  }
+}

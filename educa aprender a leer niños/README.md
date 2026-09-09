@@ -1,4 +1,4 @@
-# Emilia · El Bosque de las Palabras · v0.8.1
+# Emilia · El Bosque de las Palabras · v0.8.2
 
 Versión de **profundización lectora**. No amplía el alfabeto: desarrolla con mayor riqueza los mundos ya existentes, especialmente **Domo de D**, **Jardín de Palabras** y la biblioteca de cuentos.
 
@@ -15,4 +15,4 @@ Versión de **profundización lectora**. No amplía el alfabeto: desarrolla con 
 - Preguntas de comprensión narradas y opciones pronunciadas al tocarlas.
 - Se mantiene la lógica de trazado, PWA, perfiles, progreso local y el sistema visual de Lumi.
 
-Ver `RUTA_CUENTOS_v0.8.1.md` y `VALIDACION_v0.8.1.txt`.
+Ver `RUTA_CUENTOS_v0.8.2.md` y `VALIDACION_v0.8.2.txt`.

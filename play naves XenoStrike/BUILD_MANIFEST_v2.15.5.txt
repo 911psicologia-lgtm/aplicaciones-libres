@@ -1,0 +1,22 @@
+SWARM//RIFT — Insecta Siege v2.15.5
+BUILD MANIFEST — PERFORMANCE / THREAT BUDGET GOVERNOR
+================================================================
+
+Files: 612
+Uncompressed bytes: 233623911
+
+Core:
+- VERSION: 2.15.5
+- Save keys: swarm_rift_meta_v2155 / swarm_rift_run_v2155
+- PWA cache: swarm-rift-v2.15.5
+- Worlds: 20
+- Performance tiers: FULL / BALANCED / RECOVERY
+- Micro-Swarm minimum under load: 4
+- HP/damage scaling by governor: NONE
+
+Validation artifacts:
+- FEATURE_TEST_v2.15.5.txt
+- AUTOAUDIT_v2.15.5.json
+- VALIDACION_v2.15.5.txt
+- HTTP_SMOKE_v2.15.5.txt
+- CHANGELOG_v2.15.5.txt

@@ -1,0 +1,3 @@
+SWARM//RIFT v2.15.4 — ADAPTIVE COUNTERPLAY
+Base: v2.15.3 COORDINATED MANEUVERS
+Files preserved; gameplay patch limited to app/version/cache/migration and adaptive counterplay logic.

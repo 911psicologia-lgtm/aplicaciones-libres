@@ -1,0 +1,38 @@
+SWARM//RIFT v2.15.3 — VALIDACIÓN
+=================================
+
+Código
+- node --check js/game.js: PASS
+- node --check sw.js: PASS
+
+Funcional
+- FEATURE_TEST_v2.15.3: PASS
+- RUNTIME_SMOKE_v2.15.3: PASS
+- Regresión de sistemas v2.15.2 sobre v2.15.3: PASS
+
+Family Combo Director
+- 10 jugadas coordinadas, Mundos 11–20: PASS
+- Mundos avanzados 16–20: PASS
+- Requisito de roles mayor + medio + 2 menores: PASS
+- Telegraph antes de la ejecución: PASS
+- Mayor cubre / medio rompe corredor / menores sellan salidas: PASS
+- Ruptura de formación al eliminar núcleo medio/mayor: PASS
+- Sin incremento de maxHP durante la jugada: PASS
+- Alivio automático si HP del jugador <30%: PASS
+
+Sistemas preservados
+- Micro-Swarm desde Mundo 1, no suma kills de wave: PASS
+- RIFT ALLY aleatorio 10 s desde Mundo 11: PASS
+- Última oportunidad 5 s, manual y sin compra automática: PASS
+- Curva de dificultad con inflación HP limitada: PASS
+- 20 mundos / 20 bosses animados: PASS
+- Migración de save v2.15.2 -> v2.15.3: PASS
+
+Recursos
+- Service worker: 560 recursos declarados / 0 faltantes
+- CH2 distribuido: 210/210 archivos presentes con SHA-256 original correcto
+- 20 PNG master de backgrounds continúan omitidos por ser masters no usados en runtime
+- HTTP smoke: 13/13 HTTP 200
+
+Limitación real
+- No se realizó sesión prolongada de juego táctil en dispositivo físico real. Las validaciones de código, runtime simulado, recursos, HTTP y regresión sí fueron ejecutadas.

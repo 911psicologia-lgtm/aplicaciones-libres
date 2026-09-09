@@ -1,0 +1,63 @@
+SWARM//RIFT v2.15.2 RUNTIME SMOKE
+=================================
+{
+  "ok": true,
+  "checks": {
+    "version": true,
+    "worlds": true,
+    "bosses": true,
+    "familyCombat": true,
+    "micro": true,
+    "rift": true,
+    "lastChance": true,
+    "bossAnim": true,
+    "chase": true,
+    "pwa": true
+  },
+  "status": {
+    "version": "2.15.2",
+    "worlds": 20,
+    "bosses": 20,
+    "familyCombat": {
+      "enabled": true,
+      "fromWorld": 11,
+      "grammars": 10,
+      "current": null,
+      "label": null,
+      "familyCalls": 0,
+      "bossResponses": 0,
+      "minorEscort": true,
+      "mediumCorridors": true,
+      "majorCalls": true,
+      "bossReactiveSwarm": false
+    },
+    "microSwarm": {
+      "enabled": true,
+      "fromWorld": 1,
+      "count": [
+        4,
+        10
+      ],
+      "countsForWave": false
+    },
+    "difficulty": {
+      "hpInflationLimited": true,
+      "adaptive": {
+        "cadence": 1,
+        "alive": 1,
+        "label": "NEUTRA"
+      }
+    },
+    "riftAlly": {
+      "enabled": false,
+      "duration": 10
+    },
+    "lastChance": {
+      "manual": true,
+      "seconds": 5,
+      "autoPurchase": false
+    },
+    "pwa": true
+  },
+  "bossAnimated": 20
+}

@@ -1,0 +1,169 @@
+{
+  "version": "2.15.1",
+  "project": "SWARM//RIFT — Insecta Siege",
+  "checks_total": 32,
+  "checks_passed": 32,
+  "checks_failed": 0,
+  "checks": [
+    {
+      "name": "node --check js/game.js",
+      "ok": true,
+      "detail": "PASS"
+    },
+    {
+      "name": "node --check sw.js",
+      "ok": true,
+      "detail": "PASS"
+    },
+    {
+      "name": "JSON parse manifest.json",
+      "ok": true,
+      "detail": "PASS"
+    },
+    {
+      "name": "JSON parse ASSET_MANIFEST_CH2_ZAI.json",
+      "ok": true,
+      "detail": "PASS"
+    },
+    {
+      "name": "JSON parse assets_ch2/ASSET_MANIFEST.json",
+      "ok": true,
+      "detail": "PASS"
+    },
+    {
+      "name": "VERSION 2.15.1",
+      "ok": true,
+      "detail": "PASS"
+    },
+    {
+      "name": "20 sector definitions",
+      "ok": true,
+      "detail": "found 20"
+    },
+    {
+      "name": "20 boss animation configs",
+      "ok": true,
+      "detail": "PASS"
+    },
+    {
+      "name": "Micro-Swarm from World 1",
+      "ok": true,
+      "detail": "PASS"
+    },
+    {
+      "name": "Micro-Swarm 8 formations",
+      "ok": true,
+      "detail": "PASS"
+    },
+    {
+      "name": "Forced action continuity",
+      "ok": true,
+      "detail": "PASS"
+    },
+    {
+      "name": "Micro-Swarm no wave kill",
+      "ok": true,
+      "detail": "PASS"
+    },
+    {
+      "name": "Micro-Swarm low buzz",
+      "ok": true,
+      "detail": "PASS"
+    },
+    {
+      "name": "Adaptive difficulty no HP modifier",
+      "ok": true,
+      "detail": "PASS"
+    },
+    {
+      "name": "RIFT ALLY from World 11",
+      "ok": true,
+      "detail": "PASS"
+    },
+    {
+      "name": "RIFT ALLY fixed 10 s",
+      "ok": true,
+      "detail": "PASS"
+    },
+    {
+      "name": "10 CH2 ally signatures",
+      "ok": true,
+      "detail": "PASS"
+    },
+    {
+      "name": "Last Chance 5 seconds",
+      "ok": true,
+      "detail": "PASS"
+    },
+    {
+      "name": "Last Chance manual only",
+      "ok": true,
+      "detail": "PASS"
+    },
+    {
+      "name": "Last Chance ally continues",
+      "ok": true,
+      "detail": "PASS"
+    },
+    {
+      "name": "Rescue tactical relief",
+      "ok": true,
+      "detail": "PASS"
+    },
+    {
+      "name": "Migration meta v2.15.0",
+      "ok": true,
+      "detail": "PASS"
+    },
+    {
+      "name": "Migration run v2.15.0",
+      "ok": true,
+      "detail": "PASS"
+    },
+    {
+      "name": "CH2 source manifest count",
+      "ok": true,
+      "detail": "230 source assets"
+    },
+    {
+      "name": "Runtime distribution intentionally omits only PNG masters",
+      "ok": true,
+      "detail": "20 master PNGs omitted · WEBP runtime retained"
+    },
+    {
+      "name": "Distributed CH2 hashes valid",
+      "ok": true,
+      "detail": "210/210 distributed assets match source hashes"
+    },
+    {
+      "name": "PWA asset list parse",
+      "ok": true,
+      "detail": "560 refs"
+    },
+    {
+      "name": "PWA resources present",
+      "ok": true,
+      "detail": "560 refs · 0 missing"
+    },
+    {
+      "name": "feature_test_v2151",
+      "ok": true,
+      "detail": "PASS"
+    },
+    {
+      "name": "runtime_smoke_v2151",
+      "ok": true,
+      "detail": "PASS"
+    },
+    {
+      "name": "App cache bust 2151",
+      "ok": true,
+      "detail": "PASS"
+    },
+    {
+      "name": "Service Worker cache v2.15.1",
+      "ok": true,
+      "detail": "PASS"
+    }
+  ]
+}

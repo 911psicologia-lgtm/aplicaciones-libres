@@ -1,4 +1,4 @@
-# Ruta de microcuentos · v0.8.1
+# Ruta de microcuentos · v0.8.2
 
 La biblioteca inicial se organiza por progresión de grafemas y no por vocabulario arbitrario.
 

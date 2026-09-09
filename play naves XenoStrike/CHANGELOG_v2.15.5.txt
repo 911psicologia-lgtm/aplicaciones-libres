@@ -1,0 +1,16 @@
+SWARM//RIFT — Insecta Siege v2.15.5
+PERFORMANCE / THREAT BUDGET GOVERNOR
+====================================
+
+- Nuevo governor adaptativo de rendimiento con niveles FULL, BALANCED y RECOVERY.
+- Mide frame-time de sesión mediante EMA y responde solo tras degradación sostenida.
+- Bajo carga reduce primero partículas, VFX ambientales y props secundarios.
+- Si la presión persiste reduce moderadamente micro-densidad y máximo de enemigos simultáneos.
+- El Micro-Swarm Director mantiene un mínimo de 4 unidades: nunca se elimina la continuidad ambiental.
+- No cambia HP enemigo, HP de bosses, daño, cadencia de armas del jugador, kills de wave ni recompensas.
+- Las maniobras familiares se aplazan solo en RECOVERY cuando la escena ya está muy cargada; no se eliminan del sistema.
+- El sistema vuelve automáticamente a FULL tras varios segundos de estabilidad.
+- Estado de diagnóstico disponible mediante __SWARM_V2155_STATUS() y dentro de __SWARM_ENCOUNTER_STATUS().
+- Se conserva Adaptive Counterplay v2.15.4, Family Combat Grammar, Micro-Swarm, RIFT ALLY y Última Oportunidad.
+- Migración explícita de saves v2.15.4 -> v2.15.5.
+- Cache PWA actualizado a swarm-rift-v2.15.5 y cache-bust app shell a 2155.

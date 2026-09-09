@@ -1,0 +1,33 @@
+SWARM//RIFT — BUILD MANIFEST v2.15.2
+====================================
+Version: 2.15.2
+Build line: v2.15.1 CONTINUITY / RIFT ALLY REFINED -> v2.15.2 FAMILY COMBAT GRAMMAR
+Files in distribution tree (before checksum docs): 582
+Directories: 60
+Uncompressed bytes: 233343891
+
+CORE
+- index.html
+- css/game.css
+- js/game.js
+- sw.js
+- manifest.json
+
+FAMILY COMBAT
+- 10 unique doctrines, Worlds 11–20
+- minors escort/protect
+- mediums open tactical corridors
+- majors call micro escorts + family signature behavior
+- CH2 bosses call reactive micro swarms in campaign only
+
+VALIDATION
+- AUTOAUDIT_v2.15.2.txt/json: 46/46 PASS
+- FEATURE_TEST_v2.15.2.txt: PASS
+- RUNTIME_SMOKE_v2.15.2.txt: PASS
+- REGRESSION_v2.15.1_on_v2.15.2.txt: PASS
+- HTTP_SMOKE_v2.15.2.txt: 13/13 HTTP 200
+
+FINAL TREE
+- Files: 586
+- Directories: 60
+- Uncompressed bytes: 233471413

@@ -1,0 +1,36 @@
+SWARM//RIFT — Insecta Siege v2.15.5
+PERFORMANCE / THREAT BUDGET GOVERNOR — VALIDACIÓN
+================================================================
+
+IMPLEMENTACIÓN
+- Governor de rendimiento en 3 niveles: FULL / BALANCED / RECOVERY.
+- Prioridad de degradación: VFX y ambiente -> micro-densidad -> enemigos simultáneos.
+- Micro-Swarm conserva mínimo de 4 unidades para evitar pantallas desiertas.
+- No modifica HP, daño, reglas de kills, RIFT ALLY, Última Oportunidad ni bosses.
+- Recuperación automática a FULL después de estabilidad sostenida.
+- Telemetría de sesión disponible en __SWARM_V2155_STATUS y __SWARM_ENCOUNTER_STATUS.
+- Migración explícita de saves v2.15.4 -> v2.15.5.
+
+VALIDACIONES
+- node_game: PASS
+- node_sw: PASS
+- feature_v2155: PASS
+- version_2155: PASS
+- cache_2155: PASS
+- index_bust_2155: PASS
+- perf_governor: PASS
+- three_tiers: PASS
+- micro_floor: PASS
+- max_alive_governed: PASS
+- particle_governed: PASS
+- ambient_governed: PASS
+- no_damage_perf: PASS
+- save_migration_2154: PASS
+- rift_ally_preserved: PASS
+- last_chance_preserved: PASS
+- adaptive_counterplay_preserved: PASS
+- PWA refs: 560 / missing: 0
+- CH2 manifest: 210/210 hashes distribuidos correctos; omitidos intencionales: 20
+
+LIMITACIÓN REAL
+- No sustituye una sesión prolongada en teléfono/tableta físicos; la validación aquí es estructural, runtime VM, recursos, HTTP y empaquetado.

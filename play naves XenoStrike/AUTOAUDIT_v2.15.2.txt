@@ -1,0 +1,48 @@
+SWARM//RIFT v2.15.2 AUTOAUDIT — 46/46 PASS
+
+[PASS] node --check js/game.js — PASS
+[PASS] node --check sw.js — PASS
+[PASS] JSON parse manifest.json — PASS
+[PASS] JSON parse ASSET_MANIFEST_CH2_ZAI.json — PASS
+[PASS] JSON parse assets_ch2/ASSET_MANIFEST.json — PASS
+[PASS] VERSION 2.15.2 — PASS
+[PASS] App cache bust 2152 — PASS
+[PASS] Service Worker cache v2.15.2 — PASS
+[PASS] 20 sector definitions — >=20 sector objects
+[PASS] 20 boss animation configs — PASS
+[PASS] 10 CH2 family assets — PASS
+[PASS] 10 family combat grammars — 10 doctrines
+[PASS] 10 unique doctrine IDs — PASS
+[PASS] Minor escort logic — PASS
+[PASS] Medium corridor logic — PASS
+[PASS] Major coordinator logic — PASS
+[PASS] Family micro escorts do not count wave kills — PASS
+[PASS] Boss-reactive swarm campaign only — PASS
+[PASS] Boss Rush excludes family boss swarm — PASS
+[PASS] Commander load moderates reactive swarm — PASS
+[PASS] Family guard is temporary damage reduction — PASS
+[PASS] Family guard does not inflate max HP — PASS
+[PASS] Visual tactic pulse — PASS
+[PASS] Veil is readable, not fully invisible — PASS
+[PASS] Single Micro-Swarm buzz implementation — PASS
+[PASS] Micro-Swarm from World 1 — PASS
+[PASS] Forced screen continuity — PASS
+[PASS] Micro-Swarm no wave kill — PASS
+[PASS] Adaptive difficulty remains HP-light — PASS
+[PASS] RIFT ALLY preserved — PASS
+[PASS] Last Chance preserved — PASS
+[PASS] Migration meta v2.15.1 — PASS
+[PASS] Migration run v2.15.1 — PASS
+[PASS] Migration test v2.15.1 — PASS
+[PASS] CH2 source manifest count — 230 source assets
+[PASS] Runtime omits only PNG master backgrounds — 20 master PNG omitted
+[PASS] Distributed CH2 hashes valid — 210/210 distributed assets
+[PASS] PWA asset list parse — 560 refs
+[PASS] PWA resources present — 0 missing
+[PASS] feature_test_v2152 — PASS
+[PASS] runtime_smoke_v2152 — PASS
+[PASS] v2.15.1 regression suite — PASS
+[PASS] HTTP representative smoke — 13/13 HTTP 200
+[PASS] 20 bosses remain animated — PASS
+[PASS] CHASE preserved — PASS
+[PASS] PWA preserved — PASS

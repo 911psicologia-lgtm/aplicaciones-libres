@@ -1,0 +1,6 @@
+SWARM//RIFT v2.15.2 — DISTRIBUTION NOTES
+========================================
+Complete playable distribution.
+Chapter II runtime includes 210 Z.AI assets verified by SHA-256.
+The 20 source-only 1920x1080 PNG background masters remain intentionally excluded to keep the build smaller; the 20 required 1920x1080 WEBP runtime backgrounds are included.
+No gameplay sprite, boss animation, enemy tier, sound, music, save logic, PWA resource, or executable source needed by the app was removed.

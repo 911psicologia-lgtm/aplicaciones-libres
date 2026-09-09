@@ -1,0 +1,15 @@
+{
+  "ok": true,
+  "checks": {
+    "game_js_syntax": true,
+    "sw_js_syntax": true,
+    "feature_test_v2154": true,
+    "version_2154": true,
+    "cache_2154": true,
+    "migration_2153_meta": true,
+    "migration_2153_run": true,
+    "adaptive_counterplay": true,
+    "unpredictable_relief": true,
+    "telegraph_preserved": true
+  }
+}

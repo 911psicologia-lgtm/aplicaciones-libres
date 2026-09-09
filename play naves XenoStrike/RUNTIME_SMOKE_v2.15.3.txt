@@ -1,0 +1,70 @@
+{
+  "ok": true,
+  "checks": {
+    "version": true,
+    "worlds": true,
+    "bosses": true,
+    "plays": true,
+    "advanced": true,
+    "roles": true,
+    "telegraph": true,
+    "noHp": true,
+    "micro": true,
+    "rift": true,
+    "lastChance": true,
+    "bossAnim": true,
+    "backCompat": true,
+    "pwa": true
+  },
+  "status": {
+    "version": "2.15.3",
+    "worlds": 20,
+    "bosses": 20,
+    "familyCombat": {
+      "enabled": true,
+      "grammars": 10,
+      "comboPlays": 10,
+      "fromWorld": 11,
+      "advancedFromWorld": 16,
+      "currentGrammar": null,
+      "currentPlay": null,
+      "plays": 0,
+      "breaks": 0,
+      "telegraphed": true,
+      "requiresRoles": [
+        "major",
+        "medium",
+        "minor",
+        "minor"
+      ],
+      "hpInflation": false
+    },
+    "microSwarm": {
+      "enabled": true,
+      "fromWorld": 1,
+      "count": [
+        4,
+        10
+      ],
+      "countsForWave": false
+    },
+    "difficulty": {
+      "hpInflationLimited": true,
+      "adaptive": {
+        "cadence": 1,
+        "alive": 1,
+        "label": "NEUTRA"
+      }
+    },
+    "riftAlly": {
+      "enabled": false,
+      "duration": 10
+    },
+    "lastChance": {
+      "manual": true,
+      "seconds": 5,
+      "autoPurchase": false
+    },
+    "pwa": true
+  }
+}

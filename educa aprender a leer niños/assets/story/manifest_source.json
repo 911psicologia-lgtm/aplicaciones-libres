@@ -1,0 +1,405 @@
+{
+  "paquete": "emilia_story_assets",
+  "app": "Emilia · El Bosque de las Palabras",
+  "version": "1.0.0",
+  "fecha_generacion": "2026-09-09",
+  "publico_objetivo": "Niñas y niños de 5 a 7 años",
+  "plataformas": [
+    "móvil",
+    "tablet"
+  ],
+  "estilo": {
+    "descripcion": "Ilustración infantil 3D suave tipo plastilina/peluche, cálida, tierna y no saturada",
+    "paleta": "pasteles cálidos: cremas, verdes suaves, rosados, amarillos miel",
+    "reglas": [
+      "sin texto en las imágenes",
+      "fondos despejados",
+      "objetos de lectura rápida",
+      "coherencia entre assets"
+    ]
+  },
+  "conteo": {
+    "backgrounds": 8,
+    "characters": 9,
+    "props": 18,
+    "preview": 4
+  },
+  "backgrounds": [
+    {
+      "nombre": "fondo_parque_vocales",
+      "archivo": "fondo_parque_vocales.webp",
+      "ruta": "emilia_story_assets/backgrounds/fondo_parque_vocales.webp",
+      "ancho": 1920,
+      "alto": 1080,
+      "formato": "WebP",
+      "peso_kb": 197.9,
+      "descripcion": "Parque de diversiones infantil"
+    },
+    {
+      "nombre": "fondo_picnic",
+      "archivo": "fondo_picnic.webp",
+      "ruta": "emilia_story_assets/backgrounds/fondo_picnic.webp",
+      "ancho": 1920,
+      "alto": 1080,
+      "formato": "WebP",
+      "peso_kb": 207.2,
+      "descripcion": "Picnic en el césped"
+    },
+    {
+      "nombre": "fondo_cocina_hogar",
+      "archivo": "fondo_cocina_hogar.webp",
+      "ruta": "emilia_story_assets/backgrounds/fondo_cocina_hogar.webp",
+      "ancho": 1920,
+      "alto": 1080,
+      "formato": "WebP",
+      "peso_kb": 119.6,
+      "descripcion": "Cocina / comedor del hogar"
+    },
+    {
+      "nombre": "fondo_masa_mesa",
+      "archivo": "fondo_masa_mesa.webp",
+      "ruta": "emilia_story_assets/backgrounds/fondo_masa_mesa.webp",
+      "ancho": 1920,
+      "alto": 1080,
+      "formato": "WebP",
+      "peso_kb": 111.1,
+      "descripcion": "Mesa para amasar"
+    },
+    {
+      "nombre": "fondo_noche_luna",
+      "archivo": "fondo_noche_luna.webp",
+      "ruta": "emilia_story_assets/backgrounds/fondo_noche_luna.webp",
+      "ancho": 1920,
+      "alto": 1080,
+      "formato": "WebP",
+      "peso_kb": 95.4,
+      "descripcion": "Noche serena con luna"
+    },
+    {
+      "nombre": "fondo_lupa_exploracion",
+      "archivo": "fondo_lupa_exploracion.webp",
+      "ruta": "emilia_story_assets/backgrounds/fondo_lupa_exploracion.webp",
+      "ancho": 1920,
+      "alto": 1080,
+      "formato": "WebP",
+      "peso_kb": 252.3,
+      "descripcion": "Sendero de exploración"
+    },
+    {
+      "nombre": "fondo_domo_d",
+      "archivo": "fondo_domo_d.webp",
+      "ruta": "emilia_story_assets/backgrounds/fondo_domo_d.webp",
+      "ancho": 1920,
+      "alto": 1080,
+      "formato": "WebP",
+      "peso_kb": 222.1,
+      "descripcion": "Interior del Domo de la D"
+    },
+    {
+      "nombre": "fondo_jardin_palabras",
+      "archivo": "fondo_jardin_palabras.webp",
+      "ruta": "emilia_story_assets/backgrounds/fondo_jardin_palabras.webp",
+      "ancho": 1920,
+      "alto": 1080,
+      "formato": "WebP",
+      "peso_kb": 202.2,
+      "descripcion": "Jardín mágico lector"
+    }
+  ],
+  "characters": [
+    {
+      "nombre": "mama",
+      "archivo": "mama.png",
+      "ruta": "emilia_story_assets/characters/mama.png",
+      "ancho": 1024,
+      "alto": 1024,
+      "formato": "PNG (fondo transparente)",
+      "peso_kb": 861.8,
+      "descripcion": "Mamá"
+    },
+    {
+      "nombre": "papa",
+      "archivo": "papa.png",
+      "ruta": "emilia_story_assets/characters/papa.png",
+      "ancho": 1024,
+      "alto": 1024,
+      "formato": "PNG (fondo transparente)",
+      "peso_kb": 674.6,
+      "descripcion": "Papá"
+    },
+    {
+      "nombre": "mimi",
+      "archivo": "mimi.png",
+      "ruta": "emilia_story_assets/characters/mimi.png",
+      "ancho": 1024,
+      "alto": 1024,
+      "formato": "PNG (fondo transparente)",
+      "peso_kb": 558.1,
+      "descripcion": "Mimi · gatita"
+    },
+    {
+      "nombre": "susi",
+      "archivo": "susi.png",
+      "ruta": "emilia_story_assets/characters/susi.png",
+      "ancho": 1024,
+      "alto": 1024,
+      "formato": "PNG (fondo transparente)",
+      "peso_kb": 903.0,
+      "descripcion": "Susi · osita"
+    },
+    {
+      "nombre": "lola",
+      "archivo": "lola.png",
+      "ruta": "emilia_story_assets/characters/lola.png",
+      "ancho": 1024,
+      "alto": 1024,
+      "formato": "PNG (fondo transparente)",
+      "peso_kb": 509.9,
+      "descripcion": "Lola · coneja"
+    },
+    {
+      "nombre": "nana",
+      "archivo": "nana.png",
+      "ruta": "emilia_story_assets/characters/nana.png",
+      "ancho": 1024,
+      "alto": 1024,
+      "formato": "PNG (fondo transparente)",
+      "peso_kb": 771.5,
+      "descripcion": "Nana · ovejita abuela"
+    },
+    {
+      "nombre": "tito",
+      "archivo": "tito.png",
+      "ruta": "emilia_story_assets/characters/tito.png",
+      "ancho": 1024,
+      "alto": 1024,
+      "formato": "PNG (fondo transparente)",
+      "peso_kb": 1046.8,
+      "descripcion": "Tito · osito"
+    },
+    {
+      "nombre": "paloma",
+      "archivo": "paloma.png",
+      "ruta": "emilia_story_assets/characters/paloma.png",
+      "ancho": 1024,
+      "alto": 1024,
+      "formato": "PNG (fondo transparente)",
+      "peso_kb": 504.7,
+      "descripcion": "Paloma · palomita"
+    },
+    {
+      "nombre": "sapo",
+      "archivo": "sapo.png",
+      "ruta": "emilia_story_assets/characters/sapo.png",
+      "ancho": 1024,
+      "alto": 1024,
+      "formato": "PNG (fondo transparente)",
+      "peso_kb": 708.1,
+      "descripcion": "Sapo · saperito"
+    }
+  ],
+  "props": [
+    {
+      "nombre": "lupa",
+      "archivo": "lupa.png",
+      "ruta": "emilia_story_assets/props/lupa.png",
+      "ancho": 1024,
+      "alto": 1024,
+      "formato": "PNG (fondo transparente)",
+      "peso_kb": 333.1,
+      "descripcion": "Lupa"
+    },
+    {
+      "nombre": "luna",
+      "archivo": "luna.png",
+      "ruta": "emilia_story_assets/props/luna.png",
+      "ancho": 1024,
+      "alto": 1024,
+      "formato": "PNG (fondo transparente)",
+      "peso_kb": 531.1,
+      "descripcion": "Luna"
+    },
+    {
+      "nombre": "sopa",
+      "archivo": "sopa.png",
+      "ruta": "emilia_story_assets/props/sopa.png",
+      "ancho": 1024,
+      "alto": 1024,
+      "formato": "PNG (fondo transparente)",
+      "peso_kb": 263.2,
+      "descripcion": "Sopa"
+    },
+    {
+      "nombre": "masa",
+      "archivo": "masa.png",
+      "ruta": "emilia_story_assets/props/masa.png",
+      "ancho": 1024,
+      "alto": 1024,
+      "formato": "PNG (fondo transparente)",
+      "peso_kb": 607.8,
+      "descripcion": "Masa"
+    },
+    {
+      "nombre": "mesa",
+      "archivo": "mesa.png",
+      "ruta": "emilia_story_assets/props/mesa.png",
+      "ancho": 1024,
+      "alto": 1024,
+      "formato": "PNG (fondo transparente)",
+      "peso_kb": 344.9,
+      "descripcion": "Mesa"
+    },
+    {
+      "nombre": "dado",
+      "archivo": "dado.png",
+      "ruta": "emilia_story_assets/props/dado.png",
+      "ancho": 1024,
+      "alto": 1024,
+      "formato": "PNG (fondo transparente)",
+      "peso_kb": 474.8,
+      "descripcion": "Dado"
+    },
+    {
+      "nombre": "nido",
+      "archivo": "nido.png",
+      "ruta": "emilia_story_assets/props/nido.png",
+      "ancho": 1024,
+      "alto": 1024,
+      "formato": "PNG (fondo transparente)",
+      "peso_kb": 753.5,
+      "descripcion": "Nido"
+    },
+    {
+      "nombre": "mapa",
+      "archivo": "mapa.png",
+      "ruta": "emilia_story_assets/props/mapa.png",
+      "ancho": 1024,
+      "alto": 1024,
+      "formato": "PNG (fondo transparente)",
+      "peso_kb": 657.2,
+      "descripcion": "Mapa"
+    },
+    {
+      "nombre": "rama",
+      "archivo": "rama.png",
+      "ruta": "emilia_story_assets/props/rama.png",
+      "ancho": 1024,
+      "alto": 1024,
+      "formato": "PNG (fondo transparente)",
+      "peso_kb": 220.9,
+      "descripcion": "Rama"
+    },
+    {
+      "nombre": "taza",
+      "archivo": "taza.png",
+      "ruta": "emilia_story_assets/props/taza.png",
+      "ancho": 1024,
+      "alto": 1024,
+      "formato": "PNG (fondo transparente)",
+      "peso_kb": 351.4,
+      "descripcion": "Taza"
+    },
+    {
+      "nombre": "pan",
+      "archivo": "pan.png",
+      "ruta": "emilia_story_assets/props/pan.png",
+      "ancho": 1024,
+      "alto": 1024,
+      "formato": "PNG (fondo transparente)",
+      "peso_kb": 915.8,
+      "descripcion": "Pan"
+    },
+    {
+      "nombre": "paloma_objeto",
+      "archivo": "paloma_objeto.png",
+      "ruta": "emilia_story_assets/props/paloma_objeto.png",
+      "ancho": 1024,
+      "alto": 1024,
+      "formato": "PNG (fondo transparente)",
+      "peso_kb": 401.0,
+      "descripcion": "Paloma de madera"
+    },
+    {
+      "nombre": "pino",
+      "archivo": "pino.png",
+      "ruta": "emilia_story_assets/props/pino.png",
+      "ancho": 1024,
+      "alto": 1024,
+      "formato": "PNG (fondo transparente)",
+      "peso_kb": 326.5,
+      "descripcion": "Pino"
+    },
+    {
+      "nombre": "mano",
+      "archivo": "mano.png",
+      "ruta": "emilia_story_assets/props/mano.png",
+      "ancho": 1024,
+      "alto": 1024,
+      "formato": "PNG (fondo transparente)",
+      "peso_kb": 247.8,
+      "descripcion": "Mano"
+    },
+    {
+      "nombre": "mono",
+      "archivo": "mono.png",
+      "ruta": "emilia_story_assets/props/mono.png",
+      "ancho": 1024,
+      "alto": 1024,
+      "formato": "PNG (fondo transparente)",
+      "peso_kb": 1004.6,
+      "descripcion": "Mono"
+    },
+    {
+      "nombre": "limonada",
+      "archivo": "limonada.png",
+      "ruta": "emilia_story_assets/props/limonada.png",
+      "ancho": 1024,
+      "alto": 1024,
+      "formato": "PNG (fondo transparente)",
+      "peso_kb": 425.6,
+      "descripcion": "Limonada"
+    },
+    {
+      "nombre": "cofre_pequeno",
+      "archivo": "cofre_pequeno.png",
+      "ruta": "emilia_story_assets/props/cofre_pequeno.png",
+      "ancho": 1024,
+      "alto": 1024,
+      "formato": "PNG (fondo transparente)",
+      "peso_kb": 631.6,
+      "descripcion": "Cofre pequeño"
+    },
+    {
+      "nombre": "estrella_premio",
+      "archivo": "estrella_premio.png",
+      "ruta": "emilia_story_assets/props/estrella_premio.png",
+      "ancho": 1024,
+      "alto": 1024,
+      "formato": "PNG (fondo transparente)",
+      "peso_kb": 300.3,
+      "descripcion": "Estrella premio"
+    }
+  ],
+  "preview": [
+    {
+      "archivo": "hoja_contacto_fondos.png",
+      "ruta": "emilia_story_assets/preview/hoja_contacto_fondos.png",
+      "peso_kb": 2014.6
+    },
+    {
+      "archivo": "hoja_contacto_general.png",
+      "ruta": "emilia_story_assets/preview/hoja_contacto_general.png",
+      "peso_kb": 1596.9
+    },
+    {
+      "archivo": "hoja_contacto_personajes.png",
+      "ruta": "emilia_story_assets/preview/hoja_contacto_personajes.png",
+      "peso_kb": 594.9
+    },
+    {
+      "archivo": "hoja_contacto_props.png",
+      "ruta": "emilia_story_assets/preview/hoja_contacto_props.png",
+      "peso_kb": 364.2
+    }
+  ]
+}

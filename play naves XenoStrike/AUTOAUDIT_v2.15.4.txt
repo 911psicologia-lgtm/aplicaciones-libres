@@ -1,0 +1,45 @@
+{
+  "ok": true,
+  "checks": {
+    "version": true,
+    "worlds": true,
+    "bosses": true,
+    "ch2Families": true,
+    "microSwarm": true,
+    "playDefinitions": true,
+    "telegraphRoles": true,
+    "playExecution": true,
+    "noHpInflation": true,
+    "formationBreak": true,
+    "royalCommand": true,
+    "criticalRelief": true,
+    "riftAlly": true,
+    "lastChance": true,
+    "difficultyCurve": true,
+    "saveMigration2152": true,
+    "adaptiveBehaviorRead": true,
+    "adaptiveLaneBias": true,
+    "unpredictableRelief": true,
+    "saveMigration2153": true
+  },
+  "world16": {
+    "active": true,
+    "surge": true,
+    "guard": true,
+    "cloak": true,
+    "play": "VELO DE PINZA"
+  },
+  "world20": {
+    "play": "CERCO IMPERIAL",
+    "guard": 1.45
+  },
+  "counterplay": {
+    "breaks": 0,
+    "scoreGain": 922
+  },
+  "migration": {
+    "migrationSeen": true,
+    "migrationLoaded": true,
+    "sector": 17
+  }
+}

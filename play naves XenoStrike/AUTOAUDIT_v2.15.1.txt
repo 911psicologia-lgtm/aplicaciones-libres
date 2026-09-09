@@ -1,0 +1,34 @@
+SWARM//RIFT v2.15.1 AUTOAUDIT — 32/32 PASS
+
+[PASS] node --check js/game.js — PASS
+[PASS] node --check sw.js — PASS
+[PASS] JSON parse manifest.json — PASS
+[PASS] JSON parse ASSET_MANIFEST_CH2_ZAI.json — PASS
+[PASS] JSON parse assets_ch2/ASSET_MANIFEST.json — PASS
+[PASS] VERSION 2.15.1 — PASS
+[PASS] 20 sector definitions — found 20
+[PASS] 20 boss animation configs — PASS
+[PASS] Micro-Swarm from World 1 — PASS
+[PASS] Micro-Swarm 8 formations — PASS
+[PASS] Forced action continuity — PASS
+[PASS] Micro-Swarm no wave kill — PASS
+[PASS] Micro-Swarm low buzz — PASS
+[PASS] Adaptive difficulty no HP modifier — PASS
+[PASS] RIFT ALLY from World 11 — PASS
+[PASS] RIFT ALLY fixed 10 s — PASS
+[PASS] 10 CH2 ally signatures — PASS
+[PASS] Last Chance 5 seconds — PASS
+[PASS] Last Chance manual only — PASS
+[PASS] Last Chance ally continues — PASS
+[PASS] Rescue tactical relief — PASS
+[PASS] Migration meta v2.15.0 — PASS
+[PASS] Migration run v2.15.0 — PASS
+[PASS] CH2 source manifest count — 230 source assets
+[PASS] Runtime distribution intentionally omits only PNG masters — 20 master PNGs omitted · WEBP runtime retained
+[PASS] Distributed CH2 hashes valid — 210/210 distributed assets match source hashes
+[PASS] PWA asset list parse — 560 refs
+[PASS] PWA resources present — 560 refs · 0 missing
+[PASS] feature_test_v2151 — PASS
+[PASS] runtime_smoke_v2151 — PASS
+[PASS] App cache bust 2151 — PASS
+[PASS] Service Worker cache v2.15.1 — PASS

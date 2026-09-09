@@ -1,0 +1,71 @@
+{
+  "ok": true,
+  "checks": {
+    "version": true,
+    "worlds": true,
+    "bosses": true,
+    "chapterII": true,
+    "micro": true,
+    "rift": true,
+    "lastChance": true,
+    "bossAnim": true,
+    "chase": true,
+    "pwa": true
+  },
+  "status": {
+    "version": "2.15.1",
+    "worlds": 20,
+    "bosses": 20,
+    "chapterII": {
+      "active": true,
+      "assets": 10,
+      "backgroundPairs": 10
+    },
+    "microSwarm": {
+      "enabled": true,
+      "fromWorld": 1,
+      "count": [
+        4,
+        10
+      ],
+      "formations": 8,
+      "bursts": 0,
+      "kills": 0,
+      "actionGap": 0,
+      "countsForWave": false,
+      "forcedContinuity": true
+    },
+    "difficulty": {
+      "hpInflationLimited": true,
+      "adaptive": {
+        "cadence": 1,
+        "alive": 1,
+        "label": "NEUTRA"
+      },
+      "balance": {
+        "enemyHp": 0.92,
+        "enemyDmg": 0.9,
+        "bossHp": 1.04,
+        "pressure": 1,
+        "maxAlive": 0.94,
+        "reward": 0.96
+      }
+    },
+    "riftAlly": {
+      "enabled": false,
+      "duration": 10,
+      "signature": null,
+      "ch2Signatures": 10
+    },
+    "lastChance": {
+      "active": false,
+      "time": 0,
+      "manualLifeRescue": true,
+      "autoPurchase": false,
+      "allyContinues": true,
+      "recoveryGrace": 0
+    },
+    "pwa": true
+  },
+  "bossAnimated": 20
+}

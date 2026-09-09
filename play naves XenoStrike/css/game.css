@@ -60,10 +60,14 @@ body:not(.require-landscape) #rotateGate{display:none!important}
 .music-btn[data-music-state="JEFE"] img{filter:invert(1) brightness(1.65) drop-shadow(0 0 5px rgba(255,190,80,.95));animation-duration:.58s}
 .music-btn[data-music-state="JEFE · REINTENTO"]{border-color:rgba(255,115,136,.72);box-shadow:0 0 14px rgba(255,90,112,.30)}
 
-/* v2.15.0 · RIFT ALLY + rescate crítico */
+/* v2.15.1 · RIFT ALLY + rescate crítico + continuidad */
 .ally-btn{border-color:rgba(159,230,255,.62)!important;color:#bdf5ff!important;text-shadow:0 0 8px rgba(110,230,255,.72);box-shadow:0 0 12px rgba(85,220,255,.16),inset 0 0 10px rgba(90,220,255,.08)!important}
 .ally-btn.ally-active{animation:riftAllyPulse .72s ease-in-out infinite;border-color:rgba(166,255,95,.88)!important;color:#d9ffae!important}
 .ally-btn.ally-spent{opacity:.42;filter:grayscale(.85);box-shadow:none!important}
 #shopBtn.rescue-alert{animation:rescueCartBlink .42s steps(2,end) infinite!important;border-color:#ff526f!important;background:rgba(105,0,20,.82)!important;color:#fff!important;box-shadow:0 0 22px rgba(255,48,82,.86),inset 0 0 14px rgba(255,255,255,.12)!important}
 @keyframes riftAllyPulse{0%,100%{transform:scale(1);box-shadow:0 0 10px rgba(110,230,255,.22)}50%{transform:scale(1.08);box-shadow:0 0 21px rgba(166,255,95,.58)}}
 @keyframes rescueCartBlink{0%,45%{transform:scale(1);opacity:1}46%,100%{transform:scale(1.14);opacity:.42}}
+
+/* v2.15.1 · feedback táctico refinado */
+.ally-btn:not(.ally-spent):not(.ally-active){animation:riftReadyBreath 2.4s ease-in-out infinite}
+@keyframes riftReadyBreath{0%,100%{box-shadow:0 0 9px rgba(85,220,255,.12),inset 0 0 8px rgba(90,220,255,.05)}50%{box-shadow:0 0 16px rgba(85,220,255,.28),inset 0 0 12px rgba(90,220,255,.10)}}

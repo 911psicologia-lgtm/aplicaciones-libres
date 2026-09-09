@@ -1,15 +1,17 @@
-# CHANGELOG · v0.8.1 · Microcuentos por mundo y progresión decodificable
+# CHANGELOG · v0.8.2 · Cuentos escénicos Z.AI
 
-## Cambios principales
-- Se añadió un microcuento específico tras completar M, P, S, L, N, T y D.
-- Los primeros cuentos se construyen solo con grafemas ya enseñados en ese momento.
-- Al terminar un mundo que abre un cuento, aparece un libro con estrella en la pantalla de resultado.
-- En el libro, cada palabra de un cuento decodificable puede tocarse para escucharla.
-- Se añadieron ejercicios de completar espacios en M, P, S, L, N y T, además de los ya existentes en D y Jardín.
-- Los espacios pueden resolverse tocando y también arrastrando; se añadió arrastre táctil por puntero para tablet/celular.
-- Se corrigió la progresión de NIDO: en N se usa como ejemplo oral de sonido inicial, pero su construcción completa pasa al Domo de la D, cuando DO ya ha sido enseñado.
-- El mundo N trabaja ahora MANO, MONO, LUNA y NANA como lectura decodificable.
-- Las rutas silábicas de S y L usan también la metáfora visual de gemas.
+## Integración visual
+- Integrados los 8 fondos narrativos del paquete Z.AI.
+- Integrados 9 personajes y 18 props optimizados para móvil/tablet.
+- Los microcuentos de Vocales, M, P, S, L, N, T, D, Picnic y Jardín de Palabras ahora usan escenas compuestas con fondo + personajes/objetos.
+- Domo de la D usa el nuevo `fondo_domo_d.webp` durante la misión.
+- Jardín de Palabras usa el nuevo `fondo_jardin_palabras.webp` durante la misión.
+- Los textos del cuento siguen siendo interactivos: cada palabra se puede tocar para oírla.
 
-## Criterio pedagógico
-La ruta inicial queda organizada como: sonido inicial → grafema → sílabas → palabra → completar → microcuento. La complejidad narrativa aumenta de una frase muy breve a dos o tres frases al llegar al Jardín de Palabras.
+## Rendimiento
+- PNG de personajes/props convertidos a WebP optimizado con transparencia preservada.
+- Assets fuente documentados dentro de `assets/story/manifest_source.json`.
+
+## Seguridad
+- Lumi no fue modificada.
+- No se alteró el sistema de progreso ni los prerequisitos pedagógicos.

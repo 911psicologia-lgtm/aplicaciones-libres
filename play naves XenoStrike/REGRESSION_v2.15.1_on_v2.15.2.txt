@@ -1,0 +1,81 @@
+SWARM//RIFT v2.15.2 REGRESSION — v2.15.1 systems
+=================================================
+{
+  "ok": true,
+  "checks": {
+    "microSwarm": true,
+    "forcedContinuity": true,
+    "riftAlly": true,
+    "ch2Signature": true,
+    "lastChanceWarning": true,
+    "lastChanceManualRescue": true,
+    "difficultyCurve": true,
+    "worlds": true,
+    "bossAnimations": true,
+    "ch2Families": true
+  },
+  "micro": {
+    "spawned": 6,
+    "formation": "line",
+    "waveKills": 10,
+    "microKills": 1,
+    "bursts": 2
+  },
+  "rift": {
+    "pool": 19,
+    "ally": {
+      "sector": 18,
+      "time": 10,
+      "name": "PIT EMPEROR",
+      "signature": "VÓRTICE DE FOSA"
+    }
+  },
+  "lastChance": {
+    "warningOK": true,
+    "rescueOK": true,
+    "hp": 20,
+    "lifeStock": 0,
+    "grace": 0
+  },
+  "curve": {
+    "w1": {
+      "enemyHp": 0.92,
+      "enemyDmg": 0.9,
+      "bossHp": 1.04,
+      "pressure": 1,
+      "maxAlive": 0.94,
+      "reward": 0.96
+    },
+    "w10": {
+      "enemyHp": 1.05,
+      "enemyDmg": 1.17,
+      "bossHp": 1.14,
+      "pressure": 1.27,
+      "maxAlive": 1.14,
+      "reward": 1.23
+    },
+    "w20": {
+      "enemyHp": 1.1,
+      "enemyDmg": 1.47,
+      "bossHp": 1.24,
+      "pressure": 1.57,
+      "maxAlive": 1.24,
+      "reward": 1.64
+    },
+    "tempo20": {
+      "speed": 1.318,
+      "formation": 0.829,
+      "microCadence": 0.7270000000000001
+    },
+    "adaptHigh": {
+      "cadence": 0.94,
+      "alive": 1.06,
+      "label": "ASCENSO"
+    },
+    "adaptLow": {
+      "cadence": 1.14,
+      "alive": 0.9,
+      "label": "ALIVIO"
+    }
+  }
+}

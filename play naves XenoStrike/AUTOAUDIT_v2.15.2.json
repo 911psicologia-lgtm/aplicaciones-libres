@@ -1,0 +1,238 @@
+{
+  "version": "2.15.2",
+  "passed": 46,
+  "total": 46,
+  "ok": true,
+  "checks": [
+    {
+      "name": "node --check js/game.js",
+      "ok": true,
+      "detail": "PASS"
+    },
+    {
+      "name": "node --check sw.js",
+      "ok": true,
+      "detail": "PASS"
+    },
+    {
+      "name": "JSON parse manifest.json",
+      "ok": true,
+      "detail": "PASS"
+    },
+    {
+      "name": "JSON parse ASSET_MANIFEST_CH2_ZAI.json",
+      "ok": true,
+      "detail": "PASS"
+    },
+    {
+      "name": "JSON parse assets_ch2/ASSET_MANIFEST.json",
+      "ok": true,
+      "detail": "PASS"
+    },
+    {
+      "name": "VERSION 2.15.2",
+      "ok": true,
+      "detail": "PASS"
+    },
+    {
+      "name": "App cache bust 2152",
+      "ok": true,
+      "detail": "PASS"
+    },
+    {
+      "name": "Service Worker cache v2.15.2",
+      "ok": true,
+      "detail": "PASS"
+    },
+    {
+      "name": "20 sector definitions",
+      "ok": true,
+      "detail": ">=20 sector objects"
+    },
+    {
+      "name": "20 boss animation configs",
+      "ok": true,
+      "detail": "PASS"
+    },
+    {
+      "name": "10 CH2 family assets",
+      "ok": true,
+      "detail": "PASS"
+    },
+    {
+      "name": "10 family combat grammars",
+      "ok": true,
+      "detail": "10 doctrines"
+    },
+    {
+      "name": "10 unique doctrine IDs",
+      "ok": true,
+      "detail": "PASS"
+    },
+    {
+      "name": "Minor escort logic",
+      "ok": true,
+      "detail": "PASS"
+    },
+    {
+      "name": "Medium corridor logic",
+      "ok": true,
+      "detail": "PASS"
+    },
+    {
+      "name": "Major coordinator logic",
+      "ok": true,
+      "detail": "PASS"
+    },
+    {
+      "name": "Family micro escorts do not count wave kills",
+      "ok": true,
+      "detail": "PASS"
+    },
+    {
+      "name": "Boss-reactive swarm campaign only",
+      "ok": true,
+      "detail": "PASS"
+    },
+    {
+      "name": "Boss Rush excludes family boss swarm",
+      "ok": true,
+      "detail": "PASS"
+    },
+    {
+      "name": "Commander load moderates reactive swarm",
+      "ok": true,
+      "detail": "PASS"
+    },
+    {
+      "name": "Family guard is temporary damage reduction",
+      "ok": true,
+      "detail": "PASS"
+    },
+    {
+      "name": "Family guard does not inflate max HP",
+      "ok": true,
+      "detail": "PASS"
+    },
+    {
+      "name": "Visual tactic pulse",
+      "ok": true,
+      "detail": "PASS"
+    },
+    {
+      "name": "Veil is readable, not fully invisible",
+      "ok": true,
+      "detail": "PASS"
+    },
+    {
+      "name": "Single Micro-Swarm buzz implementation",
+      "ok": true,
+      "detail": "PASS"
+    },
+    {
+      "name": "Micro-Swarm from World 1",
+      "ok": true,
+      "detail": "PASS"
+    },
+    {
+      "name": "Forced screen continuity",
+      "ok": true,
+      "detail": "PASS"
+    },
+    {
+      "name": "Micro-Swarm no wave kill",
+      "ok": true,
+      "detail": "PASS"
+    },
+    {
+      "name": "Adaptive difficulty remains HP-light",
+      "ok": true,
+      "detail": "PASS"
+    },
+    {
+      "name": "RIFT ALLY preserved",
+      "ok": true,
+      "detail": "PASS"
+    },
+    {
+      "name": "Last Chance preserved",
+      "ok": true,
+      "detail": "PASS"
+    },
+    {
+      "name": "Migration meta v2.15.1",
+      "ok": true,
+      "detail": "PASS"
+    },
+    {
+      "name": "Migration run v2.15.1",
+      "ok": true,
+      "detail": "PASS"
+    },
+    {
+      "name": "Migration test v2.15.1",
+      "ok": true,
+      "detail": "PASS"
+    },
+    {
+      "name": "CH2 source manifest count",
+      "ok": true,
+      "detail": "230 source assets"
+    },
+    {
+      "name": "Runtime omits only PNG master backgrounds",
+      "ok": true,
+      "detail": "20 master PNG omitted"
+    },
+    {
+      "name": "Distributed CH2 hashes valid",
+      "ok": true,
+      "detail": "210/210 distributed assets"
+    },
+    {
+      "name": "PWA asset list parse",
+      "ok": true,
+      "detail": "560 refs"
+    },
+    {
+      "name": "PWA resources present",
+      "ok": true,
+      "detail": "0 missing"
+    },
+    {
+      "name": "feature_test_v2152",
+      "ok": true,
+      "detail": "PASS"
+    },
+    {
+      "name": "runtime_smoke_v2152",
+      "ok": true,
+      "detail": "PASS"
+    },
+    {
+      "name": "v2.15.1 regression suite",
+      "ok": true,
+      "detail": "PASS"
+    },
+    {
+      "name": "HTTP representative smoke",
+      "ok": true,
+      "detail": "13/13 HTTP 200"
+    },
+    {
+      "name": "20 bosses remain animated",
+      "ok": true,
+      "detail": "PASS"
+    },
+    {
+      "name": "CHASE preserved",
+      "ok": true,
+      "detail": "PASS"
+    },
+    {
+      "name": "PWA preserved",
+      "ok": true,
+      "detail": "PASS"
+    }
+  ]
+}

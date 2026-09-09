@@ -1,0 +1,44 @@
+SWARM//RIFT — Insecta Siege v2.15.2
+FAMILY COMBAT GRAMMAR
+========================================
+
+BASE
+- Evolución incremental desde v2.15.1 CONTINUITY / RIFT ALLY REFINED.
+- No se reconstruyó el proyecto ni se reemplazaron sistemas cerrados.
+- Migración explícita de meta y run-save v2.15.1 -> v2.15.2.
+
+NUEVO · GRAMÁTICA DE COMBATE DE FAMILIAS (MUNDOS 11–20)
+- 10 doctrinas tácticas únicas, una por mundo/familia.
+- Menores: escolta, pantalla, flanqueo, órbita, velo, señuelo, cadena o emboscada según familia.
+- Medios: maniobras de corredor; irrumpen, separan carriles, tejen trayectorias o conducen al jugador hacia zonas de presión.
+- Mayores: coordinadores de familia; convocan 3–5 micro-escoltas no contabilizadas como bajas de oleada y activan su habilidad de doctrina.
+- Bosses CH2: convocan enjambres reactivos de 3–5 minis según fase, solamente en campaña. Boss Rush y Training preservan su lógica sin hordas añadidas.
+- La carga de Commander Convergence reduce en 1 el tamaño del enjambre reactivo para evitar saturación injusta.
+
+DOCTRINAS
+11 · GUARDIA ORBITAL — escoltas orbitales + pulso gravitatorio.
+12 · LANZA VENENOSA — flanqueo + irrupción vectorial + triple dardo.
+13 · MURO DE MANDÍBULAS — pantalla protectora + brace defensivo temporal.
+14 · CONSTELACIÓN LÚMEN — órbitas coordinadas + baliza que repara parcialmente aliados.
+15 · PANTALLA CÁUSTICA — pantalla + corredores de presión + destilación en abanico.
+16 · CÍRCULO DEL VELO — tejido evasivo + camuflaje temporal + pulso de eclipse.
+17 · FRACTURA MIMÉTICA — señuelos + ruptura de carril + refracción en abanico.
+18 · CACERÍA DE FOSA — emboscada + conducción del jugador + vórtice de reagrupación.
+19 · CADENA ELECTROFÁGICA — cadenas de proximidad + barrido + descargas entre miembros.
+20 · DOMINIO DE COLMENA — escolta real + corredores + mando defensivo y salvas.
+
+LECTURA VISUAL
+- Pulso circular breve cuando una unidad activa doctrina.
+- Halo dorado discreto durante protección de familia.
+- VEILS usa transparencia moderada, nunca invisibilidad completa.
+
+BALANCE
+- No se añadió inflación de HP para producir esta dificultad.
+- El aumento proviene de coordinación, carriles, formaciones y sincronización.
+- Micro-escoltas siguen usando microSwarm=true: no incrementan G.kills ni desbloquean artificialmente oleadas.
+
+PRESERVADO
+- Micro-Swarm Director desde Mundo 1.
+- RIFT ALLY ☣ desde Mundo 11, aleatorio, 10 s.
+- Última Oportunidad 5 s, rescate manual, sin compra automática.
+- 20 mundos, 20 bosses animados, CHASE, Boss Rush, Commander Convergence, Wave Objectives, Hangar, poderes, checkpoints, saves y PWA.
